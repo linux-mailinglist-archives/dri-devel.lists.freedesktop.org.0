@@ -2,59 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C601A42CB96
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Oct 2021 22:49:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3068942CBA4
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Oct 2021 22:49:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D54E46EB1C;
-	Wed, 13 Oct 2021 20:49:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A0DA16EB24;
+	Wed, 13 Oct 2021 20:49:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
  [66.111.4.229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 721EE6EB1F;
- Wed, 13 Oct 2021 20:49:08 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id CB875581176;
- Wed, 13 Oct 2021 16:49:07 -0400 (EDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 73E146EB23;
+ Wed, 13 Oct 2021 20:49:11 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailnew.nyi.internal (Postfix) with ESMTP id D8913581178;
+ Wed, 13 Oct 2021 16:49:10 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Wed, 13 Oct 2021 16:49:07 -0400
+ by compute6.internal (MEProxy); Wed, 13 Oct 2021 16:49:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=u92.eu; h=from
  :to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=LhomnjUlqNsoF
- aXjW53m6Qq/8PoE2SUei4fpnPBAfNQ=; b=iKG4y+A2JqVVm8l28icjhk+M5e4hq
- LJQggHCk+5NORH5OjIjccbN1vx5rv8MsqOzL+PB7NKpttadlv5XeTS8cqH52C0Bg
- H9jp1j/hxvvUzWd3Tt8tYb4B89ykM/a1lIwrtrjtsF7E3cxMmOOoJHM9iTjYJ8kN
- GbnpbFDO72G9j8uU8FSf1ocOBagaQJw8gkNBey6Lpem9j9MbLeNtUlWz/l77gC6F
- q0354BhzR6/SOCeH3jUY/SSL5tVhBi9ETH+j1MOojhLza7c0HIIWJoa6w0xciioK
- inQNzqqaTVghoQtJ963logLvtk6dhmV+o7zIwRanoK3mELhwGXlG3GLsQ==
+ :mime-version:content-transfer-encoding; s=fm3; bh=1GQDtrRIicUub
+ XM4IWgOJW9q6Bt3kzDCmFE/H911f9o=; b=X3XvcuQLO6/iEs0vtpvScF/DMfPNl
+ kna4Ix6PvsNbV19cL87zvfzMqH2KgG3lxpQWhSolJotcNaqVbFoOFfPmGHPASYVI
+ okBDs9zDrJOs4gIx25Z/yZZM+tTGgOlaHs8AkW7ZaNVfmkD4u//WFjij8wO6mCJx
+ TNpsmfrd6CrWE1kjF6okGI4czyF+PyKeQyENUJWZLrEwGCjnBeoMd8j22NrzIBZV
+ Z8MYyvzxC24XZktBuGtD8KITxNs+2/Ig45OtP9qnrBg+iBDLiYeQ/QJ9tSQqne3W
+ vYLUrDafsfho/kyr9db1WS7R/MDwm7iderc3Qqvczrrrti6dUqzmLXsyA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=LhomnjUlqNsoFaXjW53m6Qq/8PoE2SUei4fpnPBAfNQ=; b=IxYvdkPL
- SWFoZepDfvqBA3c/3x8UkOogDOaKWjj1MxqM9m7WN6cqsXqyNemMCMelM79zBe3U
- X2QE4ZUkEVdr9RMUKxyrRGiZF1m2l9ZxueAyyHVDOudNaNxc/tT02AlE98Z2k3xK
- qrbP5jUhm2yg4DHMJb4X04svrL5OAuluvfwmOsGTxv5elU6TT8lSY4ofEbT4OUFm
- JfPyA9EO1k291HVETcYzowhRc8Qt1fdz8EC/aFIbMcmUTsU3oOItf7gtLVx+u4dk
- E9NNT2gjrzFg56tdPW4pVuBHrq/eQ1BTp39AaSQIAOHlT+OnSHtN3+8CHH51UMjL
- ZHyJPzqweKa3Nw==
-X-ME-Sender: <xms:Q0ZnYT-39_C__Sx_jPUL5qkfY3T4JTrxvBoh7FKAutn-RqbxFmJDTQ>
- <xme:Q0ZnYfu7JQAo2jNfz5kdJdvc36XxmwTKPQF_PtleEWA7_uMwyHFzE9pe3CakSLX5c
- H3YnB9uFEywjePR3g>
-X-ME-Received: <xmr:Q0ZnYRDkuON6OqZf6cp8kTqEHP0t4o0jWno3e3aoBvNwWD-ksIOeBto1FRPwFlR5a-BA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrvddutddgudehvdcutefuodetggdotefrod
+ fm1; bh=1GQDtrRIicUubXM4IWgOJW9q6Bt3kzDCmFE/H911f9o=; b=LxN8ObR0
+ iQ9glnzWet8sGca9TB66AecyeQBL/uTIWdGYwJebfFqlGZVujO4PlhJQaGngJVAf
+ zWEFkb7BYYiP9oyXlxCm60BBBt/JSB86ZEqgdzz+Oddx6AM0rp9Qiu4rJjvqNoTF
+ 6ORaiQrQj0nUPBd+z0PEnL/ECaruJJcyKPXsz0QvymlHUaG00PKOliNk7uj65D1h
+ zIqgmC9VmFksjRWPNVPYR40w3CiozziflI/WpBCK1zWDdj9w8SO8u3M2wYgHEnXb
+ 1yaTMQAUeGb8OU4E7UVNRtFpxxz+ex55B3VEyE5d2upu7v6AAR7ZcoUDCzZGAeuG
+ XPOSEMzkdnvVnw==
+X-ME-Sender: <xms:RkZnYVU0o5tFIkgYA6r0RbwXjxhn860fXEwpNwCtUcXioKjvMHiHdQ>
+ <xme:RkZnYVnC0yHt-d7G8ItGIZ-2JKf0qcDPbnTMb0D92AGxrBNQsB6RnD_WKE5xRV1QE
+ VF4J2j6RUt-efKf3g>
+X-ME-Received: <xmr:RkZnYRYOMveaJxSLZM4lAkuNCLvQBstrM1pVKE7fbIW2KAcLK-qnX3GqvJQ-roTIGqRl>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrvddutddgudehtdcutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
  necuuegrihhlohhuthemuceftddtnecunecujfgurhephffvufffkffojghfggfgsedtke
  ertdertddtnecuhfhrohhmpefhvghrnhgrnhguohcutfgrmhhoshcuoehgrhgvvghnfhho
  ohesuhelvddrvghuqeenucggtffrrghtthgvrhhnpeekleekjedtheejheekfefggeevvd
- fgueegffeuveduhfehueegkeeijedvvdejfeenucevlhhushhtvghrufhiiigvpedtnecu
+ fgueegffeuveduhfehueegkeeijedvvdejfeenucevlhhushhtvghrufhiiigvpedunecu
  rfgrrhgrmhepmhgrihhlfhhrohhmpehgrhgvvghnfhhoohesuhelvddrvghu
-X-ME-Proxy: <xmx:Q0ZnYffmQnZVn1JvuEPmGUydNjkVHSVJesUescsEej-0ArySfaKprg>
- <xmx:Q0ZnYYMF9s_cft9AyxBGn5iYijjWuJAVB1SDGiN6Kfu5z4jfdkpWyw>
- <xmx:Q0ZnYRmnXsS1Ya9XFnQdTa0ogt1cFJ7suvEimJZeXxjzE2HHWysV7A>
- <xmx:Q0ZnYXqzy_GM6XKmByBcj9UnJVyl8tLz9joqCT4-er2unQuqAwTODA>
+X-ME-Proxy: <xmx:RkZnYYUvI44Ufog4bhdJ_nmAYymx4QuieJMICxlC4U_w2-_g2D-osA>
+ <xmx:RkZnYfl9jIJUTUsU3adWeBOpB3Bvpp266iDzNNya9UYDuujIj72f4Q>
+ <xmx:RkZnYVf1cV-8TQm1KA3yzfTfANvUrOPTjOnwQpePtVS3tmKGNBonYA>
+ <xmx:RkZnYYg7p-KkpJeBdoCbAlGT1FUfsMevHAOUZ6fnVYI-uWxbMMfGHQ>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 13 Oct 2021 16:49:05 -0400 (EDT)
+ 13 Oct 2021 16:49:08 -0400 (EDT)
 From: Fernando Ramos <greenfoo@u92.eu>
 To: dri-devel@lists.freedesktop.org
 Cc: linux-kernel@vger.kernel.org, sean@poorly.run, linux-doc@vger.kernel.org,
@@ -62,10 +62,10 @@ Cc: linux-kernel@vger.kernel.org, sean@poorly.run, linux-doc@vger.kernel.org,
  linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
  nouveau@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
  linux-tegra@vger.kernel.org
-Subject: [PATCH v4 05/20] drm/vmwgfx: cleanup: drm_modeset_lock_all() -->
+Subject: [PATCH v4 06/20] drm/tegra: cleanup: drm_modeset_lock_all() -->
  DRM_MODESET_LOCK_ALL_BEGIN()
-Date: Wed, 13 Oct 2021 22:48:31 +0200
-Message-Id: <20211013204846.90026-6-greenfoo@u92.eu>
+Date: Wed, 13 Oct 2021 22:48:32 +0200
+Message-Id: <20211013204846.90026-7-greenfoo@u92.eu>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211013204846.90026-1-greenfoo@u92.eu>
 References: <20211013204846.90026-1-greenfoo@u92.eu>
@@ -92,128 +92,137 @@ DRM_MODESET_LOCK_ALL_END()
 
 Signed-off-by: Fernando Ramos <greenfoo@u92.eu>
 Reviewed-by: Sean Paul <sean@poorly.run>
+Reported-by: kernel test robot <lkp@intel.com>
 ---
- drivers/gpu/drm/vmwgfx/vmwgfx_ioctl.c | 11 +++++++----
- drivers/gpu/drm/vmwgfx/vmwgfx_kms.c   | 12 ++++++++----
- 2 files changed, 15 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/tegra/dsi.c  |  6 ++++--
+ drivers/gpu/drm/tegra/hdmi.c |  6 ++++--
+ drivers/gpu/drm/tegra/sor.c  | 11 +++++++----
+ 3 files changed, 15 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ioctl.c b/drivers/gpu/drm/vmwgfx/vmwgfx_ioctl.c
-index 28af34ab6ed6..7df35c6f1458 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_ioctl.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ioctl.c
-@@ -28,6 +28,7 @@
- #include "vmwgfx_drv.h"
- #include "vmwgfx_devcaps.h"
- #include <drm/vmwgfx_drm.h>
-+#include <drm/drm_drv.h>
- #include "vmwgfx_kms.h"
- 
- int vmw_getparam_ioctl(struct drm_device *dev, void *data,
-@@ -172,6 +173,7 @@ int vmw_present_ioctl(struct drm_device *dev, void *data,
- 	struct drm_vmw_rect __user *clips_ptr;
- 	struct drm_vmw_rect *clips = NULL;
- 	struct drm_framebuffer *fb;
-+	struct drm_modeset_acquire_ctx ctx;
- 	struct vmw_framebuffer *vfb;
- 	struct vmw_resource *res;
- 	uint32_t num_clips;
-@@ -203,7 +205,7 @@ int vmw_present_ioctl(struct drm_device *dev, void *data,
- 		goto out_no_copy;
- 	}
- 
--	drm_modeset_lock_all(dev);
-+	DRM_MODESET_LOCK_ALL_BEGIN(dev, ctx, 0, ret);
- 
- 	fb = drm_framebuffer_lookup(dev, file_priv, arg->fb_id);
- 	if (!fb) {
-@@ -231,7 +233,7 @@ int vmw_present_ioctl(struct drm_device *dev, void *data,
- out_no_surface:
- 	drm_framebuffer_put(fb);
- out_no_fb:
--	drm_modeset_unlock_all(dev);
-+	DRM_MODESET_LOCK_ALL_END(dev, ctx, ret);
- out_no_copy:
- 	kfree(clips);
- out_clips:
-@@ -250,6 +252,7 @@ int vmw_present_readback_ioctl(struct drm_device *dev, void *data,
- 	struct drm_vmw_rect __user *clips_ptr;
- 	struct drm_vmw_rect *clips = NULL;
- 	struct drm_framebuffer *fb;
-+	struct drm_modeset_acquire_ctx ctx;
- 	struct vmw_framebuffer *vfb;
- 	uint32_t num_clips;
- 	int ret;
-@@ -280,7 +283,7 @@ int vmw_present_readback_ioctl(struct drm_device *dev, void *data,
- 		goto out_no_copy;
- 	}
- 
--	drm_modeset_lock_all(dev);
-+	DRM_MODESET_LOCK_ALL_BEGIN(dev, ctx, 0, ret);
- 
- 	fb = drm_framebuffer_lookup(dev, file_priv, arg->fb_id);
- 	if (!fb) {
-@@ -303,7 +306,7 @@ int vmw_present_readback_ioctl(struct drm_device *dev, void *data,
- out_no_ttm_lock:
- 	drm_framebuffer_put(fb);
- out_no_fb:
--	drm_modeset_unlock_all(dev);
-+	DRM_MODESET_LOCK_ALL_END(dev, ctx, ret);
- out_no_copy:
- 	kfree(clips);
- out_clips:
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-index 74fa41909213..268095cb8c84 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-@@ -33,6 +33,7 @@
- #include <drm/drm_rect.h>
- #include <drm/drm_sysfs.h>
- #include <drm/drm_vblank.h>
+diff --git a/drivers/gpu/drm/tegra/dsi.c b/drivers/gpu/drm/tegra/dsi.c
+index f46d377f0c30..28050c188c1c 100644
+--- a/drivers/gpu/drm/tegra/dsi.c
++++ b/drivers/gpu/drm/tegra/dsi.c
+@@ -23,6 +23,7 @@
+ #include <drm/drm_mipi_dsi.h>
+ #include <drm/drm_panel.h>
+ #include <drm/drm_simple_kms_helper.h>
 +#include <drm/drm_drv.h>
  
- #include "vmwgfx_kms.h"
- 
-@@ -243,15 +244,17 @@ void vmw_kms_legacy_hotspot_clear(struct vmw_private *dev_priv)
- 	struct drm_device *dev = &dev_priv->drm;
- 	struct vmw_display_unit *du;
- 	struct drm_crtc *crtc;
+ #include "dc.h"
+ #include "drm.h"
+@@ -202,10 +203,11 @@ static int tegra_dsi_show_regs(struct seq_file *s, void *data)
+ 	struct tegra_dsi *dsi = node->info_ent->data;
+ 	struct drm_crtc *crtc = dsi->output.encoder.crtc;
+ 	struct drm_device *drm = node->minor->dev;
 +	struct drm_modeset_acquire_ctx ctx;
-+	int ret;
+ 	unsigned int i;
+ 	int err = 0;
  
--	drm_modeset_lock_all(dev);
-+	DRM_MODESET_LOCK_ALL_BEGIN(dev, ctx, 0, ret);
- 	drm_for_each_crtc(crtc, dev) {
- 		du = vmw_crtc_to_du(crtc);
+-	drm_modeset_lock_all(drm);
++	DRM_MODESET_LOCK_ALL_BEGIN(drm, ctx, 0, err);
  
- 		du->hotspot_x = 0;
- 		du->hotspot_y = 0;
+ 	if (!crtc || !crtc->state->active) {
+ 		err = -EBUSY;
+@@ -220,7 +222,7 @@ static int tegra_dsi_show_regs(struct seq_file *s, void *data)
  	}
--	drm_modeset_unlock_all(dev);
-+	DRM_MODESET_LOCK_ALL_END(dev, ctx, ret);
+ 
+ unlock:
+-	drm_modeset_unlock_all(drm);
++	DRM_MODESET_LOCK_ALL_END(drm, ctx, err);
+ 	return err;
  }
  
- void vmw_kms_cursor_post_execbuf(struct vmw_private *dev_priv)
-@@ -1012,9 +1015,10 @@ static int vmw_framebuffer_bo_dirty(struct drm_framebuffer *framebuffer,
- 	struct vmw_framebuffer_bo *vfbd =
- 		vmw_framebuffer_to_vfbd(framebuffer);
- 	struct drm_clip_rect norect;
+diff --git a/drivers/gpu/drm/tegra/hdmi.c b/drivers/gpu/drm/tegra/hdmi.c
+index e5d2a4026028..a62de7f92414 100644
+--- a/drivers/gpu/drm/tegra/hdmi.c
++++ b/drivers/gpu/drm/tegra/hdmi.c
+@@ -22,6 +22,7 @@
+ #include <drm/drm_fourcc.h>
+ #include <drm/drm_probe_helper.h>
+ #include <drm/drm_simple_kms_helper.h>
++#include <drm/drm_drv.h>
+ 
+ #include "hda.h"
+ #include "hdmi.h"
+@@ -1031,10 +1032,11 @@ static int tegra_hdmi_show_regs(struct seq_file *s, void *data)
+ 	struct tegra_hdmi *hdmi = node->info_ent->data;
+ 	struct drm_crtc *crtc = hdmi->output.encoder.crtc;
+ 	struct drm_device *drm = node->minor->dev;
 +	struct drm_modeset_acquire_ctx ctx;
- 	int ret, increment = 1;
+ 	unsigned int i;
+ 	int err = 0;
  
--	drm_modeset_lock_all(&dev_priv->drm);
-+	DRM_MODESET_LOCK_ALL_BEGIN((&dev_priv->drm), ctx, 0, ret);
+-	drm_modeset_lock_all(drm);
++	DRM_MODESET_LOCK_ALL_BEGIN(drm, ctx, 0, err);
  
- 	if (!num_clips) {
- 		num_clips = 1;
-@@ -1040,7 +1044,7 @@ static int vmw_framebuffer_bo_dirty(struct drm_framebuffer *framebuffer,
+ 	if (!crtc || !crtc->state->active) {
+ 		err = -EBUSY;
+@@ -1049,7 +1051,7 @@ static int tegra_hdmi_show_regs(struct seq_file *s, void *data)
+ 	}
  
- 	vmw_cmd_flush(dev_priv, false);
- 
--	drm_modeset_unlock_all(&dev_priv->drm);
-+	DRM_MODESET_LOCK_ALL_END((&dev_priv->drm), ctx, ret);
- 
- 	return ret;
+ unlock:
+-	drm_modeset_unlock_all(drm);
++	DRM_MODESET_LOCK_ALL_END(drm, ctx, err);
+ 	return err;
  }
+ 
+diff --git a/drivers/gpu/drm/tegra/sor.c b/drivers/gpu/drm/tegra/sor.c
+index 0ea320c1092b..3d1c8b3d1358 100644
+--- a/drivers/gpu/drm/tegra/sor.c
++++ b/drivers/gpu/drm/tegra/sor.c
+@@ -23,6 +23,7 @@
+ #include <drm/drm_panel.h>
+ #include <drm/drm_scdc_helper.h>
+ #include <drm/drm_simple_kms_helper.h>
++#include <drm/drm_drv.h>
+ 
+ #include "dc.h"
+ #include "dp.h"
+@@ -1490,10 +1491,11 @@ static int tegra_sor_show_crc(struct seq_file *s, void *data)
+ 	struct tegra_sor *sor = node->info_ent->data;
+ 	struct drm_crtc *crtc = sor->output.encoder.crtc;
+ 	struct drm_device *drm = node->minor->dev;
++	struct drm_modeset_acquire_ctx ctx;
+ 	int err = 0;
+ 	u32 value;
+ 
+-	drm_modeset_lock_all(drm);
++	DRM_MODESET_LOCK_ALL_BEGIN(drm, ctx, 0, err);
+ 
+ 	if (!crtc || !crtc->state->active) {
+ 		err = -EBUSY;
+@@ -1522,7 +1524,7 @@ static int tegra_sor_show_crc(struct seq_file *s, void *data)
+ 	seq_printf(s, "%08x\n", value);
+ 
+ unlock:
+-	drm_modeset_unlock_all(drm);
++	DRM_MODESET_LOCK_ALL_END(drm, ctx, err);
+ 	return err;
+ }
+ 
+@@ -1652,10 +1654,11 @@ static int tegra_sor_show_regs(struct seq_file *s, void *data)
+ 	struct tegra_sor *sor = node->info_ent->data;
+ 	struct drm_crtc *crtc = sor->output.encoder.crtc;
+ 	struct drm_device *drm = node->minor->dev;
++	struct drm_modeset_acquire_ctx ctx;
+ 	unsigned int i;
+ 	int err = 0;
+ 
+-	drm_modeset_lock_all(drm);
++	DRM_MODESET_LOCK_ALL_BEGIN(drm, ctx, 0, err);
+ 
+ 	if (!crtc || !crtc->state->active) {
+ 		err = -EBUSY;
+@@ -1670,7 +1673,7 @@ static int tegra_sor_show_regs(struct seq_file *s, void *data)
+ 	}
+ 
+ unlock:
+-	drm_modeset_unlock_all(drm);
++	DRM_MODESET_LOCK_ALL_END(drm, ctx, err);
+ 	return err;
+ }
+ 
 -- 
 2.33.0
 
