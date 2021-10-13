@@ -1,111 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37A5442C7BB
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Oct 2021 19:36:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 914C142C5CA
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Oct 2021 18:04:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 519C76E0F2;
-	Wed, 13 Oct 2021 17:35:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 63E016E9FE;
+	Wed, 13 Oct 2021 16:04:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com
- [IPv6:2607:f8b0:4864:20::530])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 968256E054
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Oct 2021 15:46:10 +0000 (UTC)
-Received: by mail-pg1-x530.google.com with SMTP id d23so2699077pgh.8
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Oct 2021 08:46:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=5P0ocxXM0vPODGkh8na4Mfy39/EYyFv4GMRrvhNNOUo=;
- b=gfAizaxTiwRe31oPHuSEfCuoU3UyNzjvSGFjRtR0+20ybGnOJHR2SNvIUYXuMY2xpD
- gjbOwicFvptk+HxbA9gztDS/NFb/B9PCmms4ywTb+W6ZfybGlSGnqIF9BrEyW3lnzugF
- 1xOsRizGgXSxqW3rE2o7H3pOyE6LnVUrXJS6JM8CS2LKu70yomZ+jIXvV9GC/9hEoAdh
- pZgLdZj46NdkkNldf1y6Zal4VF0OHZO5HByoWBC8S5+MsG5/UJx0h6V+EfRdjNyAV2md
- QHEhpyLmWUQN/xdLKYedMbdiT11toyum2MbaAnr8R6GfEwVc/Pi4akUF4ElQql0esd+K
- tzhQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=5P0ocxXM0vPODGkh8na4Mfy39/EYyFv4GMRrvhNNOUo=;
- b=4aqcJRE7lwZGSSlCX46y1Hsg/bv+1F9fU0xG3h3951q0WGjqqYBSPJC9Db907wsJ9U
- jLEhqmWgC03TaJPiQv7X2kVBjtMOrLIaJKqy1bOAC0b9xnrv+fiVCH4iMSAEkywNab7O
- hW3N398AePxT6JNhbHvXpLCxOWyJqlglbpV4yjemvBa3DPOCQnn53XaKxplA78iVy3NS
- E8CzSyCsvpdS7limyLuFkOGoWhYSKAO4p23xGXAh7Yb7AMb4iABqcYZWtjPXBm2ivkf7
- XelClZa8J8Q6m6F6u8Pk8BhyX1wOx96nJ50XE806ghxS2drThQkODSgZQki/CuPiBiX3
- aGtw==
-X-Gm-Message-State: AOAM530pVeA1uIy7YjWQzFLTnSCizaPrTqk07XJx0J3DUPnsyX7nLJbm
- w5hz38vwL+Xsb2J56GBxTjfGKg==
-X-Google-Smtp-Source: ABdhPJxOS97EPwZsGm56NgXmycC48sC/ZWo8Q8DTT9IZBXIVEcdfskLSNijWrQkjT1bVWFJiZLyKew==
-X-Received: by 2002:aa7:949c:0:b0:44c:a0df:2c7f with SMTP id
- z28-20020aa7949c000000b0044ca0df2c7fmr128668pfk.34.1634139970091; 
- Wed, 13 Oct 2021 08:46:10 -0700 (PDT)
-Received: from p14s (S0106889e681aac74.cg.shawcable.net. [68.147.0.187])
- by smtp.gmail.com with ESMTPSA id x27sm2452841pfo.90.2021.10.13.08.46.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 13 Oct 2021 08:46:09 -0700 (PDT)
-Date: Wed, 13 Oct 2021 09:46:04 -0600
-From: Mathieu Poirier <mathieu.poirier@linaro.org>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: linux-kernel@vger.kernel.org, Jeff Dike <jdike@addtoit.com>,
- Richard Weinberger <richard@nod.at>,
- Anton Ivanov <anton.ivanov@cambridgegreys.com>,
- Jason Wang <jasowang@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Jens Axboe <axboe@kernel.dk>,
- Marcel Holtmann <marcel@holtmann.org>,
- Johan Hedberg <johan.hedberg@gmail.com>,
- Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
- Matt Mackall <mpm@selenic.com>, Herbert Xu <herbert@gondor.apana.org.au>,
- Amit Shah <amit@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Gonglei <arei.gonglei@huawei.com>, "David S. Miller" <davem@davemloft.net>,
- Sudeep Holla <sudeep.holla@arm.com>,
- Cristian Marussi <cristian.marussi@arm.com>,
- "Enrico Weigelt, metux IT consult" <info@metux.net>,
- Viresh Kumar <vireshk@kernel.org>,
- Linus Walleij <linus.walleij@linaro.org>,
- Bartosz Golaszewski <brgl@bgdev.pl>,
- David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
- Daniel Vetter <daniel@ffwll.ch>, Jie Deng <jie.deng@intel.com>,
- Jean-Philippe Brucker <jean-philippe@linaro.org>,
- Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
- Jakub Kicinski <kuba@kernel.org>,
- Johannes Berg <johannes@sipsolutions.net>,
- Kalle Valo <kvalo@codeaurora.org>, Dan Williams <dan.j.williams@intel.com>,
- Vishal Verma <vishal.l.verma@intel.com>,
- Dave Jiang <dave.jiang@intel.com>, Ira Weiny <ira.weiny@intel.com>,
- Ohad Ben-Cohen <ohad@wizery.com>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- "James E.J. Bottomley" <jejb@linux.ibm.com>,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- David Hildenbrand <david@redhat.com>,
- Vivek Goyal <vgoyal@redhat.com>, Miklos Szeredi <miklos@szeredi.hu>,
- Eric Van Hensbergen <ericvh@gmail.com>,
- Latchesar Ionkov <lucho@ionkov.net>,
- Dominique Martinet <asmadeus@codewreck.org>,
- Stefano Garzarella <sgarzare@redhat.com>,
- Anton Yakovlev <anton.yakovlev@opensynergy.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- linux-um@lists.infradead.org, virtualization@lists.linux-foundation.org,
- linux-block@vger.kernel.org, linux-bluetooth@vger.kernel.org,
- linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-gpio@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-i2c@vger.kernel.org, iommu@lists.linux-foundation.org,
- netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
- nvdimm@lists.linux.dev, linux-remoteproc@vger.kernel.org,
- linux-scsi@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- v9fs-developer@lists.sourceforge.net, kvm@vger.kernel.org,
- alsa-devel@alsa-project.org
-Subject: Re: [PATCH RFC] virtio: wrap config->reset calls
-Message-ID: <20211013154604.GB4135908@p14s>
-References: <20211013105226.20225-1-mst@redhat.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 256006E054;
+ Wed, 13 Oct 2021 16:04:20 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10136"; a="227359317"
+X-IronPort-AV: E=Sophos;i="5.85,371,1624345200"; d="scan'208";a="227359317"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Oct 2021 09:02:50 -0700
+X-IronPort-AV: E=Sophos;i="5.85,371,1624345200"; d="scan'208";a="480861296"
+Received: from lvoronov-mobl.ger.corp.intel.com (HELO [10.213.252.151])
+ ([10.213.252.151])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Oct 2021 09:02:48 -0700
+Subject: Re: [PATCH] drm/i915: Handle Intel igfx + Intel dgfx hybrid graphics
+ setup
+To: Daniel Vetter <daniel@ffwll.ch>,
+ =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
+Cc: Intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Matthew Auld <matthew.auld@intel.com>
+References: <20211005113135.768295-1-tvrtko.ursulin@linux.intel.com>
+ <3aa70cb9-c28b-b85d-eac0-b3f5cca5bf73@linux.intel.com>
+ <YWbLz35BuRZlSDFg@phenom.ffwll.local>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+Message-ID: <71d9b4c1-bafc-57ac-c594-f1c2ad25a332@linux.intel.com>
+Date: Wed, 13 Oct 2021 17:02:46 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211013105226.20225-1-mst@redhat.com>
-X-Mailman-Approved-At: Wed, 13 Oct 2021 17:35:42 +0000
+In-Reply-To: <YWbLz35BuRZlSDFg@phenom.ffwll.local>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -121,56 +58,121 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Oct 13, 2021 at 06:55:31AM -0400, Michael S. Tsirkin wrote:
-> This will enable cleanups down the road.
-> The idea is to disable cbs, then add "flush_queued_cbs" callback
-> as a parameter, this way drivers can flush any work
-> queued after callbacks have been disabled.
-> 
-> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> ---
->  arch/um/drivers/virt-pci.c                 | 2 +-
->  drivers/block/virtio_blk.c                 | 4 ++--
->  drivers/bluetooth/virtio_bt.c              | 2 +-
->  drivers/char/hw_random/virtio-rng.c        | 2 +-
->  drivers/char/virtio_console.c              | 4 ++--
->  drivers/crypto/virtio/virtio_crypto_core.c | 8 ++++----
->  drivers/firmware/arm_scmi/virtio.c         | 2 +-
->  drivers/gpio/gpio-virtio.c                 | 2 +-
->  drivers/gpu/drm/virtio/virtgpu_kms.c       | 2 +-
->  drivers/i2c/busses/i2c-virtio.c            | 2 +-
->  drivers/iommu/virtio-iommu.c               | 2 +-
->  drivers/net/caif/caif_virtio.c             | 2 +-
->  drivers/net/virtio_net.c                   | 4 ++--
->  drivers/net/wireless/mac80211_hwsim.c      | 2 +-
->  drivers/nvdimm/virtio_pmem.c               | 2 +-
->  drivers/rpmsg/virtio_rpmsg_bus.c           | 2 +-
->  drivers/scsi/virtio_scsi.c                 | 2 +-
->  drivers/virtio/virtio.c                    | 5 +++++
->  drivers/virtio/virtio_balloon.c            | 2 +-
->  drivers/virtio/virtio_input.c              | 2 +-
->  drivers/virtio/virtio_mem.c                | 2 +-
->  fs/fuse/virtio_fs.c                        | 4 ++--
->  include/linux/virtio.h                     | 1 +
->  net/9p/trans_virtio.c                      | 2 +-
->  net/vmw_vsock/virtio_transport.c           | 4 ++--
->  sound/virtio/virtio_card.c                 | 4 ++--
->  26 files changed, 39 insertions(+), 33 deletions(-)
-> 
->  static struct virtio_driver virtio_pmem_driver = {
-> diff --git a/drivers/rpmsg/virtio_rpmsg_bus.c b/drivers/rpmsg/virtio_rpmsg_bus.c
-> index 8e49a3bacfc7..6a11952822df 100644
-> --- a/drivers/rpmsg/virtio_rpmsg_bus.c
-> +++ b/drivers/rpmsg/virtio_rpmsg_bus.c
-> @@ -1015,7 +1015,7 @@ static void rpmsg_remove(struct virtio_device *vdev)
->  	size_t total_buf_space = vrp->num_bufs * vrp->buf_size;
->  	int ret;
->  
-> -	vdev->config->reset(vdev);
-> +	virtio_reset_device(vdev);
-> 
 
-Reviewed-by: Mathieu Poirier <mathieu.poirier@linaro.org>
+On 13/10/2021 13:06, Daniel Vetter wrote:
+> On Tue, Oct 05, 2021 at 03:05:25PM +0200, Thomas Hellström wrote:
+>> Hi, Tvrtko,
+>>
+>> On 10/5/21 13:31, Tvrtko Ursulin wrote:
+>>> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>>>
+>>> In short this makes i915 work for hybrid setups (DRI_PRIME=1 with Mesa)
+>>> when rendering is done on Intel dgfx and scanout/composition on Intel
+>>> igfx.
+>>>
+>>> Before this patch the driver was not quite ready for that setup, mainly
+>>> because it was able to emit a semaphore wait between the two GPUs, which
+>>> results in deadlocks because semaphore target location in HWSP is neither
+>>> shared between the two, nor mapped in both GGTT spaces.
+>>>
+>>> To fix it the patch adds an additional check to a couple of relevant code
+>>> paths in order to prevent using semaphores for inter-engine
+>>> synchronisation when relevant objects are not in the same GGTT space.
+>>>
+>>> v2:
+>>>    * Avoid adding rq->i915. (Chris)
+>>>
+>>> v3:
+>>>    * Use GGTT which describes the limit more precisely.
+>>>
+>>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>>> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+>>> Cc: Matthew Auld <matthew.auld@intel.com>
+>>> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+>>
+>> An IMO pretty important bugfix. I read up a bit on the previous discussion
+>> on this, and from what I understand the other two options were
+>>
+>> 1) Ripping out the semaphore code,
+>> 2) Consider dma-fences from other instances of the same driver as foreign.
+>>
+>> For imported dma-bufs we do 2), but particularly with lmem and p2p that's a
+>> more straightforward decision.
+>>
+>> I don't think 1) is a reasonable approach to fix this bug, (but perhaps as a
+>> general cleanup?), and for 2) yes I guess we might end up doing that, unless
+>> we find some real benefits in treating same-driver-separate-device
+>> dma-fences as local, but for this particular bug, IMO this is a reasonable
+>> fix.
+> 
+> The foreign dma-fences have uapi impact, which Tvrtko shrugged off as
+> "it's a good idea", and not it's really just not. So we still need to that
+> this properly.
 
->  	ret = device_for_each_child(&vdev->dev, NULL, rpmsg_remove_device);
->  	if (ret)
+I always said lets merge the fix and discuss it. Fix only improved one 
+fail and did not introduce any new issues you are worried about. They 
+were all already there.
+
+So lets start the discussion why it is not a good idea to extend the 
+concept of priority inheritance in the hybrid case?
+
+Today we can have high priority compositor waiting for client rendering, 
+or even I915_PRIORITY_DISPLAY which I _think_ somehow ties into page 
+flips with full screen stuff, and with igpu we do priority inheritance 
+in those cases. Why it is a bad idea to do the same in the hybrid setup?
+
+Regards,
+
+Tvrtko
+
+> 
+>> Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> 
+> But I'm also ok with just merging this as-is so the situation doesn't
+> become too entertaining.
+> -Daniel
+> 
+>>
+>>
+>>
+>>
+>>
+>>> ---
+>>>    drivers/gpu/drm/i915/i915_request.c | 12 +++++++++++-
+>>>    1 file changed, 11 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
+>>> index 79da5eca60af..4f189982f67e 100644
+>>> --- a/drivers/gpu/drm/i915/i915_request.c
+>>> +++ b/drivers/gpu/drm/i915/i915_request.c
+>>> @@ -1145,6 +1145,12 @@ __emit_semaphore_wait(struct i915_request *to,
+>>>    	return 0;
+>>>    }
+>>> +static bool
+>>> +can_use_semaphore_wait(struct i915_request *to, struct i915_request *from)
+>>> +{
+>>> +	return to->engine->gt->ggtt == from->engine->gt->ggtt;
+>>> +}
+>>> +
+>>>    static int
+>>>    emit_semaphore_wait(struct i915_request *to,
+>>>    		    struct i915_request *from,
+>>> @@ -1153,6 +1159,9 @@ emit_semaphore_wait(struct i915_request *to,
+>>>    	const intel_engine_mask_t mask = READ_ONCE(from->engine)->mask;
+>>>    	struct i915_sw_fence *wait = &to->submit;
+>>> +	if (!can_use_semaphore_wait(to, from))
+>>> +		goto await_fence;
+>>> +
+>>>    	if (!intel_context_use_semaphores(to->context))
+>>>    		goto await_fence;
+>>> @@ -1256,7 +1265,8 @@ __i915_request_await_execution(struct i915_request *to,
+>>>    	 * immediate execution, and so we must wait until it reaches the
+>>>    	 * active slot.
+>>>    	 */
+>>> -	if (intel_engine_has_semaphores(to->engine) &&
+>>> +	if (can_use_semaphore_wait(to, from) &&
+>>> +	    intel_engine_has_semaphores(to->engine) &&
+>>>    	    !i915_request_has_initial_breadcrumb(to)) {
+>>>    		err = __emit_semaphore_wait(to, from, from->fence.seqno - 1);
+>>>    		if (err < 0)
+> 
