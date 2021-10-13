@@ -1,23 +1,23 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52CA342CC44
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Oct 2021 22:56:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FA5B42CC57
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Oct 2021 22:56:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C87A6EB79;
-	Wed, 13 Oct 2021 20:56:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A5FD46EB89;
+	Wed, 13 Oct 2021 20:56:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3FEBD6EB6B;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B1AC06EB6B;
  Wed, 13 Oct 2021 20:55:57 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10136"; a="214690371"
-X-IronPort-AV: E=Sophos;i="5.85,371,1624345200"; d="scan'208";a="214690371"
+X-IronPort-AV: E=McAfee;i="6200,9189,10136"; a="214690372"
+X-IronPort-AV: E=Sophos;i="5.85,371,1624345200"; d="scan'208";a="214690372"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Oct 2021 13:47:18 -0700
-X-IronPort-AV: E=Sophos;i="5.85,371,1624345200"; d="scan'208";a="524782675"
+ 13 Oct 2021 13:47:19 -0700
+X-IronPort-AV: E=Sophos;i="5.85,371,1624345200"; d="scan'208";a="524782681"
 Received: from jons-linux-dev-box.fm.intel.com ([10.1.27.20])
  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  13 Oct 2021 13:47:18 -0700
@@ -25,10 +25,13 @@ From: Matthew Brost <matthew.brost@intel.com>
 To: <intel-gfx@lists.freedesktop.org>,
 	<dri-devel@lists.freedesktop.org>
 Cc: <john.c.harrison@intel.com>
-Subject: [PATCH 00/25] Parallel submission aka multi-bb execbuf
-Date: Wed, 13 Oct 2021 13:42:06 -0700
-Message-Id: <20211013204231.19287-1-matthew.brost@intel.com>
+Subject: [PATCH 01/25] drm/i915/guc: Move GuC guc_id allocation under
+ submission state sub-struct
+Date: Wed, 13 Oct 2021 13:42:07 -0700
+Message-Id: <20211013204231.19287-2-matthew.brost@intel.com>
 X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20211013204231.19287-1-matthew.brost@intel.com>
+References: <20211013204231.19287-1-matthew.brost@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -46,105 +49,251 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As discussed in [1] we are introducing a new parallel submission uAPI
-for the i915 which allows more than 1 BB to be submitted in an execbuf
-IOCTL. This is the implemenation for both GuC and execlists.
+Move guc_id allocation under submission state sub-struct as a future
+patch will reuse the spin lock as a global submission state lock. Moving
+this into sub-struct makes ownership of fields / lock clear.
 
-In addition to selftests in the series, an IGT is available implemented
-in the first 4 patches [2].
-
-The execbuf IOCTL changes have been done in a single large patch (#21)
-as all the changes flow together and I believe a single patch will be
-better if some one has to lookup this change in the future. Can split in
-a series of smaller patches if desired.
-
-This code is available in a public [3] repo for UMD teams to test there
-code on.
-
-v2: Drop complicated state machine to block in kernel if no guc_ids
-available, perma-pin parallel contexts, reworker execbuf IOCTL to be a
-series of loops inside the IOCTL rather than 1 large one on the outside,
-address Daniel Vetter's comments
-v3: Address John Harrison's comments, add a couple of patches which fix
-bugs found internally
-v4: Address John Harrison's latest round of comments
+v2:
+ (Docs)
+  - Add comment for submission_state sub-structure
+v3:
+ (John Harrison)
+  - Fixup a few comments
 
 Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+Reviewed-by: John Harrison <John.C.Harrison@Intel.com>
+---
+ drivers/gpu/drm/i915/gt/intel_context_types.h |  6 +--
+ drivers/gpu/drm/i915/gt/uc/intel_guc.h        | 28 +++++++----
+ .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 48 ++++++++++---------
+ 3 files changed, 47 insertions(+), 35 deletions(-)
 
-[1] https://patchwork.freedesktop.org/series/92028/
-[2] https://patchwork.freedesktop.org/series/93071/
-[3] https://gitlab.freedesktop.org/mbrost/mbrost-drm-intel/-/tree/drm-intel-parallel
-
-Matthew Brost (25):
-  drm/i915/guc: Move GuC guc_id allocation under submission state
-    sub-struct
-  drm/i915/guc: Take GT PM ref when deregistering context
-  drm/i915/guc: Take engine PM when a context is pinned with GuC
-    submission
-  drm/i915/guc: Don't call switch_to_kernel_context with GuC submission
-  drm/i915: Add logical engine mapping
-  drm/i915: Expose logical engine instance to user
-  drm/i915/guc: Introduce context parent-child relationship
-  drm/i915/guc: Add multi-lrc context registration
-  drm/i915/guc: Ensure GuC schedule operations do not operate on child
-    contexts
-  drm/i915/guc: Assign contexts in parent-child relationship consecutive
-    guc_ids
-  drm/i915/guc: Implement parallel context pin / unpin functions
-  drm/i915/guc: Implement multi-lrc submission
-  drm/i915/guc: Insert submit fences between requests in parent-child
-    relationship
-  drm/i915/guc: Implement multi-lrc reset
-  drm/i915/guc: Update debugfs for GuC multi-lrc
-  drm/i915/guc: Connect UAPI to GuC multi-lrc interface
-  drm/i915/doc: Update parallel submit doc to point to i915_drm.h
-  drm/i915/guc: Add basic GuC multi-lrc selftest
-  drm/i915/guc: Implement no mid batch preemption for multi-lrc
-  drm/i915: Multi-BB execbuf
-  drm/i915/guc: Handle errors in multi-lrc requests
-  drm/i915: Make request conflict tracking understand parallel submits
-  drm/i915: Update I915_GEM_BUSY IOCTL to understand composite fences
-  drm/i915: Enable multi-bb execbuf
-  drm/i915/execlists: Weak parallel submission support for execlists
-
- Documentation/gpu/rfc/i915_parallel_execbuf.h |  122 --
- Documentation/gpu/rfc/i915_scheduler.rst      |    4 +-
- drivers/gpu/drm/i915/gem/i915_gem_busy.c      |   57 +-
- drivers/gpu/drm/i915/gem/i915_gem_context.c   |  227 ++-
- .../gpu/drm/i915/gem/i915_gem_context_types.h |   16 +-
- .../gpu/drm/i915/gem/i915_gem_execbuffer.c    |  786 ++++++---
- drivers/gpu/drm/i915/gt/intel_context.c       |   50 +-
- drivers/gpu/drm/i915/gt/intel_context.h       |   54 +-
- drivers/gpu/drm/i915/gt/intel_context_types.h |   73 +-
- drivers/gpu/drm/i915/gt/intel_engine.h        |   12 +-
- drivers/gpu/drm/i915/gt/intel_engine_cs.c     |   66 +-
- drivers/gpu/drm/i915/gt/intel_engine_pm.c     |   13 +
- drivers/gpu/drm/i915/gt/intel_engine_pm.h     |   37 +
- drivers/gpu/drm/i915/gt/intel_engine_types.h  |    7 +
- .../drm/i915/gt/intel_execlists_submission.c  |   63 +-
- drivers/gpu/drm/i915/gt/intel_gt_pm.h         |   14 +
- drivers/gpu/drm/i915/gt/intel_lrc.c           |    7 +
- drivers/gpu/drm/i915/gt/selftest_execlists.c  |   12 +-
- .../gpu/drm/i915/gt/uc/abi/guc_actions_abi.h  |    1 +
- drivers/gpu/drm/i915/gt/uc/intel_guc.c        |   29 +
- drivers/gpu/drm/i915/gt/uc/intel_guc.h        |   54 +-
- drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c    |    2 +-
- drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c     |   24 +-
- drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h   |   34 +-
- .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 1452 ++++++++++++++---
- .../drm/i915/gt/uc/selftest_guc_multi_lrc.c   |  179 ++
- drivers/gpu/drm/i915/i915_query.c             |    2 +
- drivers/gpu/drm/i915/i915_request.c           |  143 +-
- drivers/gpu/drm/i915/i915_request.h           |   23 +
- drivers/gpu/drm/i915/i915_vma.c               |   21 +-
- drivers/gpu/drm/i915/i915_vma.h               |   13 +-
- drivers/gpu/drm/i915/intel_wakeref.h          |   12 +
- .../drm/i915/selftests/i915_live_selftests.h  |    1 +
- include/uapi/drm/i915_drm.h                   |  139 +-
- 34 files changed, 3056 insertions(+), 693 deletions(-)
- delete mode 100644 Documentation/gpu/rfc/i915_parallel_execbuf.h
- create mode 100644 drivers/gpu/drm/i915/gt/uc/selftest_guc_multi_lrc.c
-
+diff --git a/drivers/gpu/drm/i915/gt/intel_context_types.h b/drivers/gpu/drm/i915/gt/intel_context_types.h
+index 12252c411159..e7e3984aab78 100644
+--- a/drivers/gpu/drm/i915/gt/intel_context_types.h
++++ b/drivers/gpu/drm/i915/gt/intel_context_types.h
+@@ -197,18 +197,18 @@ struct intel_context {
+ 	struct {
+ 		/**
+ 		 * @id: handle which is used to uniquely identify this context
+-		 * with the GuC, protected by guc->contexts_lock
++		 * with the GuC, protected by guc->submission_state.lock
+ 		 */
+ 		u16 id;
+ 		/**
+ 		 * @ref: the number of references to the guc_id, when
+ 		 * transitioning in and out of zero protected by
+-		 * guc->contexts_lock
++		 * guc->submission_state.lock
+ 		 */
+ 		atomic_t ref;
+ 		/**
+ 		 * @link: in guc->guc_id_list when the guc_id has no refs but is
+-		 * still valid, protected by guc->contexts_lock
++		 * still valid, protected by guc->submission_state.lock
+ 		 */
+ 		struct list_head link;
+ 	} guc_id;
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
+index 5dd174babf7a..82e248c2290c 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc.h
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
+@@ -71,16 +71,26 @@ struct intel_guc {
+ 	} interrupts;
+ 
+ 	/**
+-	 * @contexts_lock: protects guc_ids, guc_id_list, ce->guc_id.id, and
+-	 * ce->guc_id.ref when transitioning in and out of zero
++	 * @submission_state: sub-structure for submission state protected by
++	 * single lock
+ 	 */
+-	spinlock_t contexts_lock;
+-	/** @guc_ids: used to allocate unique ce->guc_id.id values */
+-	struct ida guc_ids;
+-	/**
+-	 * @guc_id_list: list of intel_context with valid guc_ids but no refs
+-	 */
+-	struct list_head guc_id_list;
++	struct {
++		/**
++		 * @lock: protects everything in submission_state,
++		 * ce->guc_id.id, and ce->guc_id.ref when transitioning in and
++		 * out of zero
++		 */
++		spinlock_t lock;
++		/**
++		 * @guc_ids: used to allocate new guc_ids
++		 */
++		struct ida guc_ids;
++		/**
++		 * @guc_id_list: list of intel_context with valid guc_ids but no
++		 * refs
++		 */
++		struct list_head guc_id_list;
++	} submission_state;
+ 
+ 	/**
+ 	 * @submission_supported: tracks whether we support GuC submission on
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+index ba0de35f6323..b2646b088c7f 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+@@ -68,14 +68,14 @@
+  * fence is used to stall all requests associated with this guc_id until the
+  * corresponding G2H returns indicating the guc_id has been deregistered.
+  *
+- * guc_ids:
++ * submission_state.guc_ids:
+  * Unique number associated with private GuC context data passed in during
+  * context registration / submission / deregistration. 64k available. Simple ida
+  * is used for allocation.
+  *
+  * Stealing guc_ids:
+  * If no guc_ids are available they can be stolen from another context at
+- * request creation time if that context is unpinned. If a guc_id can't be found
++ * request creation time if that context is unpinned. If a guc_id an't be found
+  * we punt this problem to the user as we believe this is near impossible to hit
+  * during normal use cases.
+  *
+@@ -89,7 +89,7 @@
+  * sched_engine can be submitting at a time. Currently only one sched_engine is
+  * used for all of GuC submission but that could change in the future.
+  *
+- * guc->contexts_lock
++ * guc->submission_state.lock
+  * Protects guc_id allocation for the given GuC, i.e. only one context can be
+  * doing guc_id allocation operations at a time for each GuC in the system.
+  *
+@@ -103,7 +103,7 @@
+  *
+  * Lock ordering rules:
+  * sched_engine->lock -> ce->guc_state.lock
+- * guc->contexts_lock -> ce->guc_state.lock
++ * guc->submission_state.lock -> ce->guc_state.lock
+  *
+  * Reset races:
+  * When a full GT reset is triggered it is assumed that some G2H responses to
+@@ -1148,9 +1148,9 @@ int intel_guc_submission_init(struct intel_guc *guc)
+ 
+ 	xa_init_flags(&guc->context_lookup, XA_FLAGS_LOCK_IRQ);
+ 
+-	spin_lock_init(&guc->contexts_lock);
+-	INIT_LIST_HEAD(&guc->guc_id_list);
+-	ida_init(&guc->guc_ids);
++	spin_lock_init(&guc->submission_state.lock);
++	INIT_LIST_HEAD(&guc->submission_state.guc_id_list);
++	ida_init(&guc->submission_state.guc_ids);
+ 
+ 	return 0;
+ }
+@@ -1215,7 +1215,7 @@ static void guc_submit_request(struct i915_request *rq)
+ 
+ static int new_guc_id(struct intel_guc *guc)
+ {
+-	return ida_simple_get(&guc->guc_ids, 0,
++	return ida_simple_get(&guc->submission_state.guc_ids, 0,
+ 			      GUC_MAX_LRC_DESCRIPTORS, GFP_KERNEL |
+ 			      __GFP_RETRY_MAYFAIL | __GFP_NOWARN);
+ }
+@@ -1223,7 +1223,8 @@ static int new_guc_id(struct intel_guc *guc)
+ static void __release_guc_id(struct intel_guc *guc, struct intel_context *ce)
+ {
+ 	if (!context_guc_id_invalid(ce)) {
+-		ida_simple_remove(&guc->guc_ids, ce->guc_id.id);
++		ida_simple_remove(&guc->submission_state.guc_ids,
++				  ce->guc_id.id);
+ 		reset_lrc_desc(guc, ce->guc_id.id);
+ 		set_context_guc_id_invalid(ce);
+ 	}
+@@ -1235,9 +1236,9 @@ static void release_guc_id(struct intel_guc *guc, struct intel_context *ce)
+ {
+ 	unsigned long flags;
+ 
+-	spin_lock_irqsave(&guc->contexts_lock, flags);
++	spin_lock_irqsave(&guc->submission_state.lock, flags);
+ 	__release_guc_id(guc, ce);
+-	spin_unlock_irqrestore(&guc->contexts_lock, flags);
++	spin_unlock_irqrestore(&guc->submission_state.lock, flags);
+ }
+ 
+ static int steal_guc_id(struct intel_guc *guc)
+@@ -1245,10 +1246,10 @@ static int steal_guc_id(struct intel_guc *guc)
+ 	struct intel_context *ce;
+ 	int guc_id;
+ 
+-	lockdep_assert_held(&guc->contexts_lock);
++	lockdep_assert_held(&guc->submission_state.lock);
+ 
+-	if (!list_empty(&guc->guc_id_list)) {
+-		ce = list_first_entry(&guc->guc_id_list,
++	if (!list_empty(&guc->submission_state.guc_id_list)) {
++		ce = list_first_entry(&guc->submission_state.guc_id_list,
+ 				      struct intel_context,
+ 				      guc_id.link);
+ 
+@@ -1273,7 +1274,7 @@ static int assign_guc_id(struct intel_guc *guc, u16 *out)
+ {
+ 	int ret;
+ 
+-	lockdep_assert_held(&guc->contexts_lock);
++	lockdep_assert_held(&guc->submission_state.lock);
+ 
+ 	ret = new_guc_id(guc);
+ 	if (unlikely(ret < 0)) {
+@@ -1295,7 +1296,7 @@ static int pin_guc_id(struct intel_guc *guc, struct intel_context *ce)
+ 	GEM_BUG_ON(atomic_read(&ce->guc_id.ref));
+ 
+ try_again:
+-	spin_lock_irqsave(&guc->contexts_lock, flags);
++	spin_lock_irqsave(&guc->submission_state.lock, flags);
+ 
+ 	might_lock(&ce->guc_state.lock);
+ 
+@@ -1310,7 +1311,7 @@ static int pin_guc_id(struct intel_guc *guc, struct intel_context *ce)
+ 	atomic_inc(&ce->guc_id.ref);
+ 
+ out_unlock:
+-	spin_unlock_irqrestore(&guc->contexts_lock, flags);
++	spin_unlock_irqrestore(&guc->submission_state.lock, flags);
+ 
+ 	/*
+ 	 * -EAGAIN indicates no guc_id are available, let's retire any
+@@ -1346,11 +1347,12 @@ static void unpin_guc_id(struct intel_guc *guc, struct intel_context *ce)
+ 	if (unlikely(context_guc_id_invalid(ce)))
+ 		return;
+ 
+-	spin_lock_irqsave(&guc->contexts_lock, flags);
++	spin_lock_irqsave(&guc->submission_state.lock, flags);
+ 	if (!context_guc_id_invalid(ce) && list_empty(&ce->guc_id.link) &&
+ 	    !atomic_read(&ce->guc_id.ref))
+-		list_add_tail(&ce->guc_id.link, &guc->guc_id_list);
+-	spin_unlock_irqrestore(&guc->contexts_lock, flags);
++		list_add_tail(&ce->guc_id.link,
++			      &guc->submission_state.guc_id_list);
++	spin_unlock_irqrestore(&guc->submission_state.lock, flags);
+ }
+ 
+ static int __guc_action_register_context(struct intel_guc *guc,
+@@ -1921,16 +1923,16 @@ static void guc_context_destroy(struct kref *kref)
+ 	 * returns indicating this context has been deregistered the guc_id is
+ 	 * returned to the pool of available guc_id.
+ 	 */
+-	spin_lock_irqsave(&guc->contexts_lock, flags);
++	spin_lock_irqsave(&guc->submission_state.lock, flags);
+ 	if (context_guc_id_invalid(ce)) {
+-		spin_unlock_irqrestore(&guc->contexts_lock, flags);
++		spin_unlock_irqrestore(&guc->submission_state.lock, flags);
+ 		__guc_context_destroy(ce);
+ 		return;
+ 	}
+ 
+ 	if (!list_empty(&ce->guc_id.link))
+ 		list_del_init(&ce->guc_id.link);
+-	spin_unlock_irqrestore(&guc->contexts_lock, flags);
++	spin_unlock_irqrestore(&guc->submission_state.lock, flags);
+ 
+ 	/* Seal race with Reset */
+ 	spin_lock_irqsave(&ce->guc_state.lock, flags);
 -- 
 2.32.0
 
