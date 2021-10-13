@@ -1,60 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3001242CBB6
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Oct 2021 22:49:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E8B442CBC8
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Oct 2021 22:49:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DBB636EB2B;
-	Wed, 13 Oct 2021 20:49:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 30F876EB2C;
+	Wed, 13 Oct 2021 20:49:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
  [66.111.4.229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 48D726EB11;
- Wed, 13 Oct 2021 20:49:17 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id B2168581177;
- Wed, 13 Oct 2021 16:49:16 -0400 (EDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 12C886EB2C;
+ Wed, 13 Oct 2021 20:49:20 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 73255581178;
+ Wed, 13 Oct 2021 16:49:19 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute6.internal (MEProxy); Wed, 13 Oct 2021 16:49:16 -0400
+ by compute5.internal (MEProxy); Wed, 13 Oct 2021 16:49:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=u92.eu; h=from
  :to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=tV21AlKtqri50
- 0YbxSxq8PDRfHz0hVriLhJ462dbiyE=; b=UX9eNdxZleHBzpvFaS11SFJu0yk3D
- ayhCYo823tccFDWrJM8ccJMJha3Nub71VCD6n/cw3KoiDLu7JvU9iRSiR6TDOEmN
- H80RNSZsuXrDwzi3+j5ETPhmTXCkPTdjVi73yg2C3Xgi4C06atdXH8HVvoYARKNV
- 6PNO3YQofPld8feHrnCxKfbvcOG9EVBot6bTi12Ftr5x+Pc+hqgeURiz3URTtGyh
- oaVis1dMOb8tMqdD6wHjYfq+maOjrkX5W0rtL5A4GKxBS2551jROJ/3Oyx+R9YKU
- 2quHelH/0VvNxyhiLdjuOeIhTToW6nWXs79tSGSyG4EX9UlUdyVqKEbbQ==
+ :mime-version:content-transfer-encoding; s=fm3; bh=42TrVQEBS+T0u
+ aTdbmpol3CTMIgV752tP7jigQFe0eQ=; b=jAC6WEzKPYI2fHJxTKU/Td9YDZjFe
+ r0Q/9jMycLZpTV1Ox14zOEDKFVeMJJL7oSPd0DBJ7iiB8gpTyiNtl4kSxQ91rMjs
+ R+i/aPykdwx3HY13SzkvNn77ZvZd6JOqu5H9HOrXBHRdhX5Gxin/nCSVO+1C/hh/
+ zSdbNlWq0Es7NqFzYRws9wNFiu4qjIXyWEIimClDzbgtF2cSxgdITgBgZxChwOu1
+ IonVoIE5JgGCZSJXjBDP4WaC4EuZplptFOHdIkY6asGSfL9E0O/ZJSrA6gB6xOOs
+ hxZk/A3NjuVoQ+bnTSzIKm1kb5aoemb9l0IZK64P1ipP213eHQ9K+CNgg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=tV21AlKtqri500YbxSxq8PDRfHz0hVriLhJ462dbiyE=; b=M+bAR029
- l4tVEnd0RfJX1rJsjGclP3m0jDTiSLsfeaLBXRkDHHsemzFYUMS7UJQLuvNuLZS7
- 44euz0bTjYqPa2GTwkzfoZN83l9LLj2UhwvS52HqxJaHaT8mb6jz4eUqHYyS/ml2
- nKlpNX/eHDpaUxLnPC+S9VvCFAVRC/XsLo0LSWdnC9SzUztDHNnNyDOO/A2Lg/Mi
- W3DixpINJ3c0jHGPjN01T1bF460NWyV2o5vKAxDqllgDjACVeJkM6wJb6Fyw/iRx
- 5vrUd2sLytRRXI9r1Ql74U19B+UX8YVb5tDIwtzCNFKtpE1WA4LQ+x3bxwgxKkZZ
- 3rS3CVdyk9IKVA==
-X-ME-Sender: <xms:TEZnYR82SpdWob_2FrkFhI10ixKhlkjPv3g70CFaOF5h4UJtKHrU8g>
- <xme:TEZnYVsBwyVWnAU0Q6pGdwmEhhkAuZxBGJJgjScwlD7BdMDmblygtkTKtnUqORBT-
- p8jVK1C-gd18tOoNg>
-X-ME-Received: <xmr:TEZnYfCtg2hTBQBEGbco5RP1Dpep6evDCi7Aknvu8Qym4QnAWAjniBiy_qh57yNvdVNs>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrvddutddgudehtdcutefuodetggdotefrod
+ fm1; bh=42TrVQEBS+T0uaTdbmpol3CTMIgV752tP7jigQFe0eQ=; b=Dn59sFJa
+ OxLushapHvJBvI1kxZwJ5W3QkRaQvAmcz01oURoF27ww1AaanLrxC3uKlpJ2Pz5h
+ uRgkz5sEM6YLgpf8fNV5fd+PtGu/5ajWmYbqId9y+Zsyc8v6vSwNxy0a+nZHa7s+
+ njBwvzRKmQS6iI7Gpb22Zkebvsx8yf67PLXik2u6rwALbsNX5911L/0x4THjWYZk
+ P8o/mDvmJ8jZA7FWr2kPEBJ0UYS+Sh4u4xjD53ZqaN0x8K1ukiv95pHh/HCXQUeS
+ v56VqgJG2eFILsl3OIOaXuqiriiWLXjhWzi1QxrJkVvEUOrQzm6km3befezDfdBC
+ 5wYCrvgV+ZO5BQ==
+X-ME-Sender: <xms:T0ZnYU6zLVTQTD26Oeb6ueLHaEwWVqmS3rx7Ny5ffjNUc4wM0jU0Kw>
+ <xme:T0ZnYV6Iax4V7wYhDA1o7XiL_uek_VMvIjH9oSQDsZJD6QtMCDYEGxsm7klcssu6y
+ zdwvRJImsWxgRUe3w>
+X-ME-Received: <xmr:T0ZnYTfcVcI_Hzm8WTIvlfZG4kkV9J_HOQndtKSkwWUEML12uxEsdEkPxLSfH3mLiLbk>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrvddutddgudehudcutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
  necuuegrihhlohhuthemuceftddtnecunecujfgurhephffvufffkffojghfggfgsedtke
  ertdertddtnecuhfhrohhmpefhvghrnhgrnhguohcutfgrmhhoshcuoehgrhgvvghnfhho
  ohesuhelvddrvghuqeenucggtffrrghtthgvrhhnpeekleekjedtheejheekfefggeevvd
- fgueegffeuveduhfehueegkeeijedvvdejfeenucevlhhushhtvghrufhiiigvpedvnecu
+ fgueegffeuveduhfehueegkeeijedvvdejfeenucevlhhushhtvghrufhiiigvpeefnecu
  rfgrrhgrmhepmhgrihhlfhhrohhmpehgrhgvvghnfhhoohesuhelvddrvghu
-X-ME-Proxy: <xmx:TEZnYVcbeowe3hNo8hFMdwG6Qa6BRWgWCaD-BrshpiXQ7y7OmjnQwA>
- <xmx:TEZnYWOSBWfcVc-pP7AvXFwSRDzsAxbQXDrCn6F1N1Bxx8CrGVX7xQ>
- <xmx:TEZnYXniDi2ZPiXd-af2RyG_j6Djya1n2tWd2HDFPtad8cwM8c2zLQ>
- <xmx:TEZnYdq_uL_NzyceeQf_RjIiH-A_be709dNs4cPRh2YtFF5MqtQDrQ>
+X-ME-Proxy: <xmx:T0ZnYZKZ_9sj_WdSvvb1-FXmmJJjtTVk6DHP-W4E36FwTbG1l0TKxg>
+ <xmx:T0ZnYYJTqbr01lCp-LctzgSeH4Uonar40WuELQ4LSBOyz56CyxRlnA>
+ <xmx:T0ZnYaz23dNISKLnwe_jWfxs8KuqVdqxPPn5ogb0WSBguKu3xOVRGQ>
+ <xmx:T0ZnYdVCVk5zd1wU3rt7ZUIaa-Xv5eAOs25JvJzsIOH-HDQuB-5fIg>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 13 Oct 2021 16:49:14 -0400 (EDT)
+ 13 Oct 2021 16:49:16 -0400 (EDT)
 From: Fernando Ramos <greenfoo@u92.eu>
 To: dri-devel@lists.freedesktop.org
 Cc: linux-kernel@vger.kernel.org, sean@poorly.run, linux-doc@vger.kernel.org,
@@ -62,10 +62,10 @@ Cc: linux-kernel@vger.kernel.org, sean@poorly.run, linux-doc@vger.kernel.org,
  linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
  nouveau@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
  linux-tegra@vger.kernel.org
-Subject: [PATCH v4 08/20] drm/radeon: cleanup: drm_modeset_lock_all() -->
+Subject: [PATCH v4 09/20] drm/omapdrm: cleanup: drm_modeset_lock_all() -->
  DRM_MODESET_LOCK_ALL_BEGIN()
-Date: Wed, 13 Oct 2021 22:48:34 +0200
-Message-Id: <20211013204846.90026-9-greenfoo@u92.eu>
+Date: Wed, 13 Oct 2021 22:48:35 +0200
+Message-Id: <20211013204846.90026-10-greenfoo@u92.eu>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211013204846.90026-1-greenfoo@u92.eu>
 References: <20211013204846.90026-1-greenfoo@u92.eu>
@@ -91,116 +91,44 @@ drm_modeset_lock_all() with DRM_MODESET_LOCK_ALL_BEGIN() and
 DRM_MODESET_LOCK_ALL_END()
 
 Signed-off-by: Fernando Ramos <greenfoo@u92.eu>
+Reviewed-by: Sean Paul <sean@poorly.run>
 ---
- drivers/gpu/drm/radeon/radeon_device.c | 21 +++++++++++++++------
- drivers/gpu/drm/radeon/radeon_dp_mst.c | 10 ++++++----
- 2 files changed, 21 insertions(+), 10 deletions(-)
+ drivers/gpu/drm/omapdrm/omap_fb.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/radeon/radeon_device.c b/drivers/gpu/drm/radeon/radeon_device.c
-index 4f0fbf667431..7e31e5ce7f61 100644
---- a/drivers/gpu/drm/radeon/radeon_device.c
-+++ b/drivers/gpu/drm/radeon/radeon_device.c
-@@ -37,6 +37,7 @@
- #include <drm/drm_cache.h>
- #include <drm/drm_crtc_helper.h>
- #include <drm/drm_device.h>
-+#include <drm/drm_drv.h>
- #include <drm/drm_file.h>
- #include <drm/drm_probe_helper.h>
- #include <drm/radeon_drm.h>
-@@ -1559,7 +1560,8 @@ int radeon_suspend_kms(struct drm_device *dev, bool suspend,
- 	struct pci_dev *pdev;
- 	struct drm_crtc *crtc;
- 	struct drm_connector *connector;
--	int i, r;
-+	struct drm_modeset_acquire_ctx ctx;
-+	int i, r, ret;
- 
- 	if (dev == NULL || dev->dev_private == NULL) {
- 		return -ENODEV;
-@@ -1573,12 +1575,15 @@ int radeon_suspend_kms(struct drm_device *dev, bool suspend,
- 
- 	drm_kms_helper_poll_disable(dev);
- 
--	drm_modeset_lock_all(dev);
-+	DRM_MODESET_LOCK_ALL_BEGIN(dev, ctx, 0, ret);
- 	/* turn off display hw */
- 	list_for_each_entry(connector, &dev->mode_config.connector_list, head) {
- 		drm_helper_connector_dpms(connector, DRM_MODE_DPMS_OFF);
- 	}
--	drm_modeset_unlock_all(dev);
-+	DRM_MODESET_LOCK_ALL_END(dev, ctx, ret);
-+
-+	if (ret)
-+		return ret;
- 
- 	/* unpin the front buffers and cursors */
- 	list_for_each_entry(crtc, &dev->mode_config.crtc_list, head) {
-@@ -1663,7 +1668,8 @@ int radeon_resume_kms(struct drm_device *dev, bool resume, bool fbcon)
- 	struct radeon_device *rdev = dev->dev_private;
- 	struct pci_dev *pdev = to_pci_dev(dev->dev);
- 	struct drm_crtc *crtc;
--	int r;
-+	struct drm_modeset_acquire_ctx ctx;
-+	int r, ret;
- 
- 	if (dev->switch_power_state == DRM_SWITCH_POWER_OFF)
- 		return 0;
-@@ -1741,11 +1747,14 @@ int radeon_resume_kms(struct drm_device *dev, bool resume, bool fbcon)
- 	if (fbcon) {
- 		drm_helper_resume_force_mode(dev);
- 		/* turn on display hw */
--		drm_modeset_lock_all(dev);
-+		DRM_MODESET_LOCK_ALL_BEGIN(dev, ctx, 0, ret);
- 		list_for_each_entry(connector, &dev->mode_config.connector_list, head) {
- 			drm_helper_connector_dpms(connector, DRM_MODE_DPMS_ON);
- 		}
--		drm_modeset_unlock_all(dev);
-+		DRM_MODESET_LOCK_ALL_END(dev, ctx, ret);
-+
-+		if (ret)
-+			return ret;
- 	}
- 
- 	drm_kms_helper_poll_enable(dev);
-diff --git a/drivers/gpu/drm/radeon/radeon_dp_mst.c b/drivers/gpu/drm/radeon/radeon_dp_mst.c
-index ec867fa880a4..3f83ee75b100 100644
---- a/drivers/gpu/drm/radeon/radeon_dp_mst.c
-+++ b/drivers/gpu/drm/radeon/radeon_dp_mst.c
-@@ -4,6 +4,7 @@
- #include <drm/drm_fb_helper.h>
- #include <drm/drm_file.h>
- #include <drm/drm_probe_helper.h>
+diff --git a/drivers/gpu/drm/omapdrm/omap_fb.c b/drivers/gpu/drm/omapdrm/omap_fb.c
+index 190afc564914..fa7636c13c19 100644
+--- a/drivers/gpu/drm/omapdrm/omap_fb.c
++++ b/drivers/gpu/drm/omapdrm/omap_fb.c
+@@ -9,6 +9,7 @@
+ #include <drm/drm_modeset_helper.h>
+ #include <drm/drm_fourcc.h>
+ #include <drm/drm_gem_framebuffer_helper.h>
 +#include <drm/drm_drv.h>
  
- #include "atom.h"
- #include "ni_reg.h"
-@@ -737,11 +738,12 @@ static int radeon_debugfs_mst_info_show(struct seq_file *m, void *unused)
- 	struct radeon_device *rdev = (struct radeon_device *)m->private;
- 	struct drm_device *dev = rdev->ddev;
- 	struct drm_connector *connector;
+ #include "omap_dmm_tiler.h"
+ #include "omap_drv.h"
+@@ -62,15 +63,17 @@ static int omap_framebuffer_dirty(struct drm_framebuffer *fb,
+ 				  unsigned num_clips)
+ {
+ 	struct drm_crtc *crtc;
 +	struct drm_modeset_acquire_ctx ctx;
- 	struct radeon_connector *radeon_connector;
- 	struct radeon_connector_atom_dig *dig_connector;
--	int i;
-+	int i, ret;
++	int ret;
  
--	drm_modeset_lock_all(dev);
-+	DRM_MODESET_LOCK_ALL_BEGIN(dev, ctx, 0, ret);
- 	list_for_each_entry(connector, &dev->mode_config.connector_list, head) {
- 		if (connector->connector_type != DRM_MODE_CONNECTOR_DisplayPort)
- 			continue;
-@@ -759,8 +761,8 @@ static int radeon_debugfs_mst_info_show(struct seq_file *m, void *unused)
- 				   radeon_connector->cur_stream_attribs[i].fe,
- 				   radeon_connector->cur_stream_attribs[i].slots);
- 	}
--	drm_modeset_unlock_all(dev);
+-	drm_modeset_lock_all(fb->dev);
++	DRM_MODESET_LOCK_ALL_BEGIN(fb->dev, ctx, 0, ret);
+ 
+ 	drm_for_each_crtc(crtc, fb->dev)
+ 		omap_crtc_flush(crtc);
+ 
+-	drm_modeset_unlock_all(fb->dev);
++	DRM_MODESET_LOCK_ALL_END(fb->dev, ctx, ret);
+ 
 -	return 0;
-+	DRM_MODESET_LOCK_ALL_END(dev, ctx, ret);
 +	return ret;
  }
  
- DEFINE_SHOW_ATTRIBUTE(radeon_debugfs_mst_info);
+ static const struct drm_framebuffer_funcs omap_framebuffer_funcs = {
 -- 
 2.33.0
 
