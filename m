@@ -2,35 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24DFC42CF39
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Oct 2021 01:37:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC3C842CF3A
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Oct 2021 01:37:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0621A6E03B;
-	Wed, 13 Oct 2021 23:37:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B3626E0C9;
+	Wed, 13 Oct 2021 23:37:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BBE0F6E03B
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Oct 2021 23:36:59 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10136"; a="250992221"
-X-IronPort-AV: E=Sophos;i="5.85,371,1624345200"; d="scan'208";a="250992221"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E665B6E0C9
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Oct 2021 23:37:12 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10136"; a="250992245"
+X-IronPort-AV: E=Sophos;i="5.85,371,1624345200"; d="scan'208";a="250992245"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Oct 2021 16:36:59 -0700
-X-IronPort-AV: E=Sophos;i="5.85,371,1624345200"; d="scan'208";a="659743876"
+ 13 Oct 2021 16:37:12 -0700
+X-IronPort-AV: E=Sophos;i="5.85,371,1624345200"; d="scan'208";a="659743908"
 Received: from thollida-mobl.amr.corp.intel.com (HELO
  achrisan-desk3.intel.com) ([10.212.111.141])
  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Oct 2021 16:36:58 -0700
+ 13 Oct 2021 16:37:07 -0700
 From: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
 To: dri-devel@lists.freedesktop.org,
 	anitha.chrisanthus@intel.com
 Cc: sam@ravnborg.org,
 	edmund.j.dea@intel.com
-Subject: [PATCH v3 1/7] drm/kmb: Work around for higher system clock
-Date: Wed, 13 Oct 2021 16:36:26 -0700
-Message-Id: <20211013233632.471892-1-anitha.chrisanthus@intel.com>
+Subject: [PATCH v3 2/7] drm/kmb: Limit supported mode to 1080p
+Date: Wed, 13 Oct 2021 16:36:27 -0700
+Message-Id: <20211013233632.471892-2-anitha.chrisanthus@intel.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20211013233632.471892-1-anitha.chrisanthus@intel.com>
+References: <20211013233632.471892-1-anitha.chrisanthus@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -48,44 +50,99 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use a different value for system clock offset in the
-ppl/llp ratio calculations for clocks higher than 500 Mhz.
+KMB only supports single resolution(1080p), this commit checks for
+1920x1080x60 or 1920x1080x59 in crtc_mode_valid.
+Also, modes with vfp < 4 are not supported in KMB display. This change
+prunes display modes with vfp < 4.
 
-Fixes: 98521f4d4b4c ("drm/kmb: Mipi DSI part of the display driver")
+v2: added vfp check
+
+Fixes: 7f7b96a8a0a1 ("drm/kmb: Add support for KeemBay Display")
 Signed-off-by: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
+Signed-off-by: Edmund Dea <edmund.j.dea@intel.com>
 ---
- drivers/gpu/drm/kmb/kmb_dsi.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/kmb/kmb_crtc.c | 34 ++++++++++++++++++++++++++++++++++
+ drivers/gpu/drm/kmb/kmb_drv.h  | 13 ++++++++++---
+ 2 files changed, 44 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/kmb/kmb_dsi.c b/drivers/gpu/drm/kmb/kmb_dsi.c
-index 1793cd31b117..86e8e7943e89 100644
---- a/drivers/gpu/drm/kmb/kmb_dsi.c
-+++ b/drivers/gpu/drm/kmb/kmb_dsi.c
-@@ -482,6 +482,10 @@ static u32 mipi_tx_fg_section_cfg(struct kmb_dsi *kmb_dsi,
- 	return 0;
+diff --git a/drivers/gpu/drm/kmb/kmb_crtc.c b/drivers/gpu/drm/kmb/kmb_crtc.c
+index 44327bc629ca..08a45e813db7 100644
+--- a/drivers/gpu/drm/kmb/kmb_crtc.c
++++ b/drivers/gpu/drm/kmb/kmb_crtc.c
+@@ -185,11 +185,45 @@ static void kmb_crtc_atomic_flush(struct drm_crtc *crtc,
+ 	spin_unlock_irq(&crtc->dev->event_lock);
  }
  
-+#define CLK_DIFF_LOW 50
-+#define CLK_DIFF_HI 60
-+#define SYSCLK_500  500
++static enum drm_mode_status
++		kmb_crtc_mode_valid(struct drm_crtc *crtc,
++				    const struct drm_display_mode *mode)
++{
++	int refresh;
++	struct drm_device *dev = crtc->dev;
++	int vfp = mode->vsync_start - mode->vdisplay;
 +
- static void mipi_tx_fg_cfg_regs(struct kmb_dsi *kmb_dsi, u8 frame_gen,
- 				struct mipi_tx_frame_timing_cfg *fg_cfg)
- {
-@@ -492,7 +496,12 @@ static void mipi_tx_fg_cfg_regs(struct kmb_dsi *kmb_dsi, u8 frame_gen,
- 	/* 500 Mhz system clock minus 50 to account for the difference in
- 	 * MIPI clock speed in RTL tests
- 	 */
--	sysclk = kmb_dsi->sys_clk_mhz - 50;
-+	if (kmb_dsi->sys_clk_mhz == SYSCLK_500) {
-+		sysclk = kmb_dsi->sys_clk_mhz - CLK_DIFF_LOW;
-+	} else {
-+		/* 700 Mhz clk*/
-+		sysclk = kmb_dsi->sys_clk_mhz - CLK_DIFF_HI;
++	if (mode->vdisplay < KMB_CRTC_MAX_HEIGHT) {
++		drm_dbg(dev, "height = %d less than %d",
++			mode->vdisplay, KMB_CRTC_MAX_HEIGHT);
++		return MODE_BAD_VVALUE;
 +	}
++	if (mode->hdisplay < KMB_CRTC_MAX_WIDTH) {
++		drm_dbg(dev, "width = %d less than %d",
++			mode->hdisplay, KMB_CRTC_MAX_WIDTH);
++		return MODE_BAD_HVALUE;
++	}
++	refresh = drm_mode_vrefresh(mode);
++	if (refresh < KMB_MIN_VREFRESH || refresh > KMB_MAX_VREFRESH) {
++		drm_dbg(dev, "refresh = %d less than %d or greater than %d",
++			refresh, KMB_MIN_VREFRESH, KMB_MAX_VREFRESH);
++		return MODE_BAD;
++	}
++
++	if (vfp < KMB_CRTC_MIN_VFP) {
++		drm_dbg(dev, "vfp = %d less than %d", vfp, KMB_CRTC_MIN_VFP);
++		return MODE_BAD;
++	}
++
++	return MODE_OK;
++}
++
+ static const struct drm_crtc_helper_funcs kmb_crtc_helper_funcs = {
+ 	.atomic_begin = kmb_crtc_atomic_begin,
+ 	.atomic_enable = kmb_crtc_atomic_enable,
+ 	.atomic_disable = kmb_crtc_atomic_disable,
+ 	.atomic_flush = kmb_crtc_atomic_flush,
++	.mode_valid = kmb_crtc_mode_valid,
+ };
  
- 	/* PPL-Pixel Packing Layer, LLP-Low Level Protocol
- 	 * Frame genartor timing parameters are clocked on the system clock,
+ int kmb_setup_crtc(struct drm_device *drm)
+diff --git a/drivers/gpu/drm/kmb/kmb_drv.h b/drivers/gpu/drm/kmb/kmb_drv.h
+index 69a62e2d03ff..d297218869e8 100644
+--- a/drivers/gpu/drm/kmb/kmb_drv.h
++++ b/drivers/gpu/drm/kmb/kmb_drv.h
+@@ -18,13 +18,20 @@
+ 
+ #define DRIVER_DATE			"20210223"
+ #define DRIVER_MAJOR			1
+-#define DRIVER_MINOR			1
+-
++#define DRIVER_MINOR			2
++
++/* Platform definitions */
++#define KMB_CRTC_MIN_VFP		4
++#define KMB_CRTC_MAX_WIDTH		1920 /* max width in pixels */
++#define KMB_CRTC_MAX_HEIGHT		1080 /* max height in pixels */
++#define KMB_CRTC_MIN_WIDTH		1920
++#define KMB_CRTC_MIN_HEIGHT		1080
+ #define KMB_FB_MAX_WIDTH		1920
+ #define KMB_FB_MAX_HEIGHT		1080
+ #define KMB_FB_MIN_WIDTH		1
+ #define KMB_FB_MIN_HEIGHT		1
+-
++#define KMB_MIN_VREFRESH		59    /*vertical refresh in Hz */
++#define KMB_MAX_VREFRESH		60    /*vertical refresh in Hz */
+ #define KMB_LCD_DEFAULT_CLK		200000000
+ #define KMB_SYS_CLK_MHZ			500
+ 
 -- 
 2.25.1
 
