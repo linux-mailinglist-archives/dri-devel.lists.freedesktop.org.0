@@ -1,37 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1044F42CC5D
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Oct 2021 22:57:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D6E542CB58
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Oct 2021 22:49:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8262B6EBA1;
-	Wed, 13 Oct 2021 20:56:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 668866EB09;
+	Wed, 13 Oct 2021 20:48:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E0C16EB6C;
- Wed, 13 Oct 2021 20:56:00 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10136"; a="214690408"
-X-IronPort-AV: E=Sophos;i="5.85,371,1624345200"; d="scan'208";a="214690408"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Oct 2021 13:47:23 -0700
-X-IronPort-AV: E=Sophos;i="5.85,371,1624345200"; d="scan'208";a="524782807"
-Received: from jons-linux-dev-box.fm.intel.com ([10.1.27.20])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Oct 2021 13:47:23 -0700
-From: Matthew Brost <matthew.brost@intel.com>
-To: <intel-gfx@lists.freedesktop.org>,
-	<dri-devel@lists.freedesktop.org>
-Cc: <john.c.harrison@intel.com>
-Subject: [PATCH 25/25] drm/i915/execlists: Weak parallel submission support
- for execlists
-Date: Wed, 13 Oct 2021 13:42:31 -0700
-Message-Id: <20211013204231.19287-26-matthew.brost@intel.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20211013204231.19287-1-matthew.brost@intel.com>
-References: <20211013204231.19287-1-matthew.brost@intel.com>
+Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
+ [66.111.4.229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D28E6EB09;
+ Wed, 13 Oct 2021 20:48:53 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
+ by mailnew.nyi.internal (Postfix) with ESMTP id D8351581176;
+ Wed, 13 Oct 2021 16:48:52 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute2.internal (MEProxy); Wed, 13 Oct 2021 16:48:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=u92.eu; h=from
+ :to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding; s=fm3; bh=K+ngjCbNvg5biFXc4iBRazvtWT
+ DSOI4XVs1u0aTjJbw=; b=Tvjc1tOnjj3zGJw0lJZ80K3vhPCpmQ4oICUTkyXtHN
+ d7S1dTjM0HnRfgzQAGPwFDs9wkg/mNeRZq9Je/IyIvnILR5i8vUw0FDq7i8kdoXV
+ 8OHXQb6b0gaPZooAr41EXUe6kdR/u2VNxZ1tb16g76/ABq36qxZzcvpzyFsH0Nvy
+ 1v/g/4w7KD7gxDOjBICloby6BV/tSrE9+92QC/XD5Y2FsVwGd1M6M0a6rPleh2Dh
+ XUEbfzqDWq6wqv3Q26I5gIBkYyfR06Y5/UMcqxiWJWL7MHEHqqwUAz4tmEiGb0HN
+ rG9pP9UfmgTfvnZumPqlt+SruCihex0E4PYas5mlL+Eg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=K+ngjCbNvg5biFXc4
+ iBRazvtWTDSOI4XVs1u0aTjJbw=; b=OT0uXg/paNJS3IjRzXVsRS3ataNv4/0v8
+ iujH8IUrJogzX5gw5E1nzExfP/VmXpNF2YvQ4+Thm826+TxyEGUmrfG1bAWQvb6l
+ 5H1VXUXQgY2+GHvB4DzYN4tR4QMzddEJIpYRdFJ9XQa99otYc7hzGyeRSEumFnzQ
+ 66O0UA3Vsh7wKat3UHns2X0lStQvL+7yCZMmCtqWClFLfykwHR2pOrFEUjOpUDHi
+ wjCuGJbmQznTkg2+Eu4Lb9VbAXetiym8lqt9C0K1e5dgqdQbbrZYNEO3TJwNP+DE
+ v6wBXVOZWsFW0vo1ryZqbaFMdjcEOq4l3VzjXDxlSsVe3q+0KcF6g==
+X-ME-Sender: <xms:NEZnYaCj1HzF6opwzNRsaxopnIaizVToTfF_GQ_o2D9sy-jd4jnNQw>
+ <xme:NEZnYUiHARGY_-ZTWQ0rdC32Utq73HPHz7K1iaBLzSCii3qxCQqV0HGOrWtliaw7D
+ PkFT2duxEkBraCMjQ>
+X-ME-Received: <xmr:NEZnYdmh8boRq2KjNANujOFlMBrPY-6cbIDRh3M1u5jy8UEs33e2CLP4vLorS2dzgluD>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrvddutddgudehudcutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecunecujfgurhephffvufffkffoggfgsedtkeertd
+ ertddtnecuhfhrohhmpefhvghrnhgrnhguohcutfgrmhhoshcuoehgrhgvvghnfhhoohes
+ uhelvddrvghuqeenucggtffrrghtthgvrhhnpeegtdehgeduteehkeeugedtuedugfffhe
+ fguedtudefvddtgeevudeuleegkeeitdenucffohhmrghinhepkhgvrhhnvghlrdhorhhg
+ necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepghhrvg
+ gvnhhfohhosehuledvrdgvuh
+X-ME-Proxy: <xmx:NEZnYYxLOlfgjCsN1mknSxUY6OhEw46SW-6i569oRrbxhEE8YwYWFg>
+ <xmx:NEZnYfS2Bc0lpW3Gb6nLbgi9EIH56SRdvdvEwM6YhPe2zSRll0cEpQ>
+ <xmx:NEZnYTa6pC95ZCv7oO6YlghtPySmIb7yOZAu8Z0w90Q8ryfcN3GZ4A>
+ <xmx:NEZnYU9n6XIbyHQQuIU_I61tKhKiUR7mz1O7X6E3BPRW9P_35jNWyQ>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 13 Oct 2021 16:48:49 -0400 (EDT)
+From: Fernando Ramos <greenfoo@u92.eu>
+To: dri-devel@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org, sean@poorly.run, linux-doc@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+ linux-tegra@vger.kernel.org
+Subject: [PATCH v4 00/20] drm: cleanup: Use DRM_MODESET_LOCK_ALL_* helpers
+Date: Wed, 13 Oct 2021 22:48:26 +0200
+Message-Id: <20211013204846.90026-1-greenfoo@u92.eu>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -49,180 +83,132 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-A weak implementation of parallel submission (multi-bb execbuf IOCTL) for
-execlists. Doing as little as possible to support this interface for
-execlists - basically just passing submit fences between each request
-generated and virtual engines are not allowed. This is on par with what
-is there for the existing (hopefully soon deprecated) bonding interface.
+Hi all,
 
-We perma-pin these execlists contexts to align with GuC implementation.
+One of the things in the DRM TODO list ("Documentation/gpu/todo.rst") was to
+"use DRM_MODESET_LOCAL_ALL_* helpers instead of boilerplate". That's what this
+patch series is about.
 
-Signed-off-by: Matthew Brost <matthew.brost@intel.com>
----
- drivers/gpu/drm/i915/gem/i915_gem_context.c   | 10 ++--
- drivers/gpu/drm/i915/gt/intel_context.c       |  4 +-
- .../drm/i915/gt/intel_execlists_submission.c  | 56 ++++++++++++++++++-
- drivers/gpu/drm/i915/gt/intel_lrc.c           |  2 +
- .../gpu/drm/i915/gt/uc/intel_guc_submission.c |  2 -
- 5 files changed, 64 insertions(+), 10 deletions(-)
+You will find two types of changes here:
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-index 66c7f3c0d08b..c1436f21b271 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-@@ -570,10 +570,6 @@ set_proto_ctx_engines_parallel_submit(struct i915_user_extension __user *base,
- 	struct intel_engine_cs **siblings = NULL;
- 	intel_engine_mask_t prev_mask;
- 
--	/* FIXME: This is NIY for execlists */
--	if (!(intel_uc_uses_guc_submission(&i915->gt.uc)))
--		return -ENODEV;
--
- 	if (get_user(slot, &ext->engine_index))
- 		return -EFAULT;
- 
-@@ -583,6 +579,12 @@ set_proto_ctx_engines_parallel_submit(struct i915_user_extension __user *base,
- 	if (get_user(num_siblings, &ext->num_siblings))
- 		return -EFAULT;
- 
-+	if (!intel_uc_uses_guc_submission(&i915->gt.uc) && num_siblings != 1) {
-+		drm_dbg(&i915->drm, "Only 1 sibling (%d) supported in non-GuC mode\n",
-+			num_siblings);
-+		return -EINVAL;
-+	}
-+
- 	if (slot >= set->num_engines) {
- 		drm_dbg(&i915->drm, "Invalid placement value, %d >= %d\n",
- 			slot, set->num_engines);
-diff --git a/drivers/gpu/drm/i915/gt/intel_context.c b/drivers/gpu/drm/i915/gt/intel_context.c
-index 5634d14052bc..1bec92e1d8e6 100644
---- a/drivers/gpu/drm/i915/gt/intel_context.c
-+++ b/drivers/gpu/drm/i915/gt/intel_context.c
-@@ -79,7 +79,8 @@ static int intel_context_active_acquire(struct intel_context *ce)
- 
- 	__i915_active_acquire(&ce->active);
- 
--	if (intel_context_is_barrier(ce) || intel_engine_uses_guc(ce->engine))
-+	if (intel_context_is_barrier(ce) || intel_engine_uses_guc(ce->engine) ||
-+	    intel_context_is_parallel(ce))
- 		return 0;
- 
- 	/* Preallocate tracking nodes */
-@@ -563,7 +564,6 @@ void intel_context_bind_parent_child(struct intel_context *parent,
- 	 * Callers responsibility to validate that this function is used
- 	 * correctly but we use GEM_BUG_ON here ensure that they do.
- 	 */
--	GEM_BUG_ON(!intel_engine_uses_guc(parent->engine));
- 	GEM_BUG_ON(intel_context_is_pinned(parent));
- 	GEM_BUG_ON(intel_context_is_child(parent));
- 	GEM_BUG_ON(intel_context_is_pinned(child));
-diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-index bedb80057046..8cd986bdf26c 100644
---- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-+++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-@@ -927,8 +927,7 @@ static void execlists_submit_ports(struct intel_engine_cs *engine)
- 
- static bool ctx_single_port_submission(const struct intel_context *ce)
- {
--	return (IS_ENABLED(CONFIG_DRM_I915_GVT) &&
--		intel_context_force_single_submission(ce));
-+	return intel_context_force_single_submission(ce);
- }
- 
- static bool can_merge_ctx(const struct intel_context *prev,
-@@ -2598,6 +2597,58 @@ static void execlists_context_cancel_request(struct intel_context *ce,
- 				      current->comm);
- }
- 
-+static struct intel_context *
-+execlists_create_parallel(struct intel_engine_cs **engines,
-+			  unsigned int num_siblings,
-+			  unsigned int width)
-+{
-+	struct intel_engine_cs **siblings = NULL;
-+	struct intel_context *parent = NULL, *ce, *err;
-+	int i, j;
-+
-+	GEM_BUG_ON(num_siblings != 1);
-+
-+	siblings = kmalloc_array(num_siblings,
-+				 sizeof(*siblings),
-+				 GFP_KERNEL);
-+	if (!siblings)
-+		return ERR_PTR(-ENOMEM);
-+
-+	for (i = 0; i < width; ++i) {
-+		for (j = 0; j < num_siblings; ++j)
-+			siblings[j] = engines[i * num_siblings + j];
-+
-+		ce = intel_context_create(siblings[0]);
-+		if (!ce) {
-+			err = ERR_PTR(-ENOMEM);
-+			goto unwind;
-+		}
-+
-+		if (i == 0)
-+			parent = ce;
-+		else
-+			intel_context_bind_parent_child(parent, ce);
-+	}
-+
-+	parent->parallel.fence_context = dma_fence_context_alloc(1);
-+
-+	intel_context_set_nopreempt(parent);
-+	intel_context_set_single_submission(parent);
-+	for_each_child(parent, ce) {
-+		intel_context_set_nopreempt(ce);
-+		intel_context_set_single_submission(ce);
-+	}
-+
-+	kfree(siblings);
-+	return parent;
-+
-+unwind:
-+	if (parent)
-+		intel_context_put(parent);
-+	kfree(siblings);
-+	return err;
-+}
-+
- static const struct intel_context_ops execlists_context_ops = {
- 	.flags = COPS_HAS_INFLIGHT,
- 
-@@ -2616,6 +2667,7 @@ static const struct intel_context_ops execlists_context_ops = {
- 	.reset = lrc_reset,
- 	.destroy = lrc_destroy,
- 
-+	.create_parallel = execlists_create_parallel,
- 	.create_virtual = execlists_create_virtual,
- };
- 
-diff --git a/drivers/gpu/drm/i915/gt/intel_lrc.c b/drivers/gpu/drm/i915/gt/intel_lrc.c
-index 57339d5c1fc8..8137d0aabf99 100644
---- a/drivers/gpu/drm/i915/gt/intel_lrc.c
-+++ b/drivers/gpu/drm/i915/gt/intel_lrc.c
-@@ -1065,6 +1065,8 @@ lrc_pin(struct intel_context *ce,
- 
- void lrc_unpin(struct intel_context *ce)
- {
-+	if (unlikely(ce->parallel.last_rq))
-+		i915_request_put(ce->parallel.last_rq);
- 	check_redzone((void *)ce->lrc_reg_state - LRC_STATE_OFFSET,
- 		      ce->engine);
- }
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-index 80d8ce68ff59..c4f735863e95 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-@@ -2966,8 +2966,6 @@ static void guc_parent_context_unpin(struct intel_context *ce)
- 	GEM_BUG_ON(!intel_context_is_parent(ce));
- 	GEM_BUG_ON(!intel_engine_is_virtual(ce->engine));
- 
--	if (ce->parallel.last_rq)
--		i915_request_put(ce->parallel.last_rq);
- 	unpin_guc_id(guc, ce);
- 	lrc_unpin(ce);
- }
+  - Replacing "drm_modeset_lock_all_ctx()" (and surrounding boilerplate) with
+    "DRM_MODESET_LOCK_ALL_BEGIN()/END()" in the remaining places (as it has
+    already been done in previous commits such as b7ea04d2)
+
+  - Replacing "drm_modeset_lock_all()" with "DRM_MODESET_LOCK_ALL_BEGIN()/END()"
+    in the remaining places (as it has already been done in previous commits
+    such as 57037094)
+    
+Most of the changes are straight forward, except for a few cases in the "amd"
+and "i915" drivers where some extra dancing was needed to overcome the
+limitation that the DRM_MODESET_LOCK_ALL_BEGIN()/END() macros can only be used
+once inside the same function (the reason being that the macro expansion
+includes *labels*, and you can not have two labels named the same inside one
+function)
+
+Notice that, even after this patch series, some places remain where
+"drm_modeset_lock_all()" and "drm_modeset_lock_all_ctx()" are still present,
+all inside drm core (which makes sense), except for two (in "amd" and "i915")
+which cannot be replaced due to the way they are being used.
+
+Changes in v2:
+  - Fix commit message typo
+  - Use the value returned by DRM_MODESET_LOCK_ALL_END when possible
+  - Split drm/i915 patch into two simpler ones
+  - Remove drm_modeset_(un)lock_all()
+  - Fix build problems in non-x86 platforms
+
+Changes in v3:
+  - Fix in drm/i915 driver to make sure global context is no longer used
+  - Fix in drm/amdgpu driver to make sure global context is no longer used
+  - Split amdgpu driver to make it easier to understand
+  - Remove acquire_ctx from drm_mode_config 
+  - Rebase on top of drm-tip
+  - WARNING: There is some discussion going on regarding whether the new macros
+    should be used (or not) in the i915 driver, as a different set of functions
+    has been proposed in the past (see here:
+    https://lore.kernel.org/dri-devel/YVriZxCeipBUgc8O@intel.com/).
+    In that case I will need to create a v4 where i915 files are left unchanged.
+    Let me know your thoughts regarding this.
+
+Changes in v4:
+  - Fix missing "Signed-off-by" in one commit
+  - No extra comments received in one week
+  - Rebase on top of drm-tip
+
+Fernando Ramos (20):
+  drm: cleanup: drm_modeset_lock_all_ctx() -->
+    DRM_MODESET_LOCK_ALL_BEGIN()
+  drm/i915: cleanup: drm_modeset_lock_all_ctx() -->
+    DRM_MODESET_LOCK_ALL_BEGIN()
+  drm/msm: cleanup: drm_modeset_lock_all_ctx() -->
+    DRM_MODESET_LOCK_ALL_BEGIN()
+  drm: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+  drm/vmwgfx: cleanup: drm_modeset_lock_all() -->
+    DRM_MODESET_LOCK_ALL_BEGIN()
+  drm/tegra: cleanup: drm_modeset_lock_all() -->
+    DRM_MODESET_LOCK_ALL_BEGIN()
+  drm/shmobile: cleanup: drm_modeset_lock_all() -->
+    DRM_MODESET_LOCK_ALL_BEGIN()
+  drm/radeon: cleanup: drm_modeset_lock_all() -->
+    DRM_MODESET_LOCK_ALL_BEGIN()
+  drm/omapdrm: cleanup: drm_modeset_lock_all() -->
+    DRM_MODESET_LOCK_ALL_BEGIN()
+  drm/nouveau: cleanup: drm_modeset_lock_all() -->
+    DRM_MODESET_LOCK_ALL_BEGIN()
+  drm/msm: cleanup: drm_modeset_lock_all() -->
+    DRM_MODESET_LOCK_ALL_BEGIN()
+  drm/i915: cleanup: drm_modeset_lock_all() -->
+    DRM_MODESET_LOCK_ALL_BEGIN()
+  drm/i915: cleanup: drm_modeset_lock_all() -->
+    DRM_MODESET_LOCK_ALL_BEGIN() [part 2]
+  drm/i915: cleanup: drm_modeset_lock_all() -->
+    DRM_MODESET_LOCK_ALL_BEGIN() [part 3]
+  drm/gma500: cleanup: drm_modeset_lock_all() -->
+    DRM_MODESET_LOCK_ALL_BEGIN()
+  drm/amd: cleanup: drm_modeset_lock_all() -->
+    DRM_MODESET_LOCK_ALL_BEGIN()
+  drm/amd: cleanup: drm_modeset_lock_all() -->
+    DRM_MODESET_LOCK_ALL_BEGIN() [part 2]
+  drm/amd: cleanup: drm_modeset_lock_all() -->
+    DRM_MODESET_LOCK_ALL_BEGIN() [part 3]
+  drm: cleanup: remove drm_modeset_(un)lock_all()
+  drm: cleanup: remove acquire_ctx from drm_mode_config
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu_display.c   | 21 +++--
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 58 ++++++------
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h |  3 +-
+ .../amd/display/amdgpu_dm/amdgpu_dm_debugfs.c | 25 ++---
+ drivers/gpu/drm/drm_client_modeset.c          | 14 ++-
+ drivers/gpu/drm/drm_crtc_helper.c             | 18 ++--
+ drivers/gpu/drm/drm_fb_helper.c               | 10 +-
+ drivers/gpu/drm/drm_framebuffer.c             |  6 +-
+ drivers/gpu/drm/drm_modeset_lock.c            | 94 +------------------
+ drivers/gpu/drm/gma500/psb_device.c           | 18 ++--
+ drivers/gpu/drm/i915/display/intel_audio.c    | 16 ++--
+ drivers/gpu/drm/i915/display/intel_display.c  | 25 ++---
+ .../drm/i915/display/intel_display_debugfs.c  | 46 +++++----
+ drivers/gpu/drm/i915/display/intel_overlay.c  | 46 ++++-----
+ drivers/gpu/drm/i915/display/intel_pipe_crc.c |  7 +-
+ drivers/gpu/drm/i915/i915_drv.c               | 13 ++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c      | 10 +-
+ .../gpu/drm/msm/disp/msm_disp_snapshot_util.c | 12 +--
+ drivers/gpu/drm/nouveau/dispnv50/disp.c       | 15 ++-
+ drivers/gpu/drm/omapdrm/omap_fb.c             |  9 +-
+ drivers/gpu/drm/radeon/radeon_device.c        | 21 +++--
+ drivers/gpu/drm/radeon/radeon_dp_mst.c        | 10 +-
+ drivers/gpu/drm/shmobile/shmob_drm_drv.c      |  6 +-
+ drivers/gpu/drm/tegra/dsi.c                   |  6 +-
+ drivers/gpu/drm/tegra/hdmi.c                  |  6 +-
+ drivers/gpu/drm/tegra/sor.c                   | 11 ++-
+ drivers/gpu/drm/vmwgfx/vmwgfx_ioctl.c         | 11 ++-
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.c           | 12 ++-
+ include/drm/drm_mode_config.h                 | 10 --
+ include/drm/drm_modeset_lock.h                |  2 -
+ 30 files changed, 272 insertions(+), 289 deletions(-)
+
+
+base-commit: 3fdfa1de4774903b9cb4fb308102b5a2d762d829
 -- 
-2.32.0
+2.33.0
 
