@@ -1,67 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2501342BF84
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Oct 2021 14:06:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C15042BF87
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Oct 2021 14:07:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 027816EA3A;
-	Wed, 13 Oct 2021 12:06:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D3516EA39;
+	Wed, 13 Oct 2021 12:06:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
- [IPv6:2a00:1450:4864:20::42f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 66B766EA3A
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Oct 2021 12:06:43 +0000 (UTC)
-Received: by mail-wr1-x42f.google.com with SMTP id v17so7518165wrv.9
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Oct 2021 05:06:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=8XJTZuu/jXne9p86DSFieGiZxBS0gOLK7dAm+S4G6+o=;
- b=QLe8+3g18BAb/AhKMuXjgtJ6+Nm7krg+7EGBBii3/TIuReOBmKUv2LP8QfMTXg8J10
- crcfKhd/36o0t3eqqs7JqXSfDJ2jqG1qde1tyIWOuBEUIWVjNC23tOuCNrgt5f9cb+KJ
- IFPt6wvn+TZqBmqNDY3JXb8IIid2DS2XcNjjE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=8XJTZuu/jXne9p86DSFieGiZxBS0gOLK7dAm+S4G6+o=;
- b=IooU40FbLqk3Gt/p6Dk6BcLvvvnjTFJJxMcGuie3DAWsj/tei0n505sKcRdbTwXhW9
- H9NOmmFZNWp7siERqfA/QpZn8lzu4FElW61sZ/YdzXNVWWkKcSPTLk2WsobjHF4/15ei
- bbQEjoNSm3Dg19my5+uOpOFKKioB4e5AT+4vnim2bROKO3hNvHV7eYFtfT6LNRqvckDc
- opjMrPa12D+hE1Vu1as7sh4EWnmZHNI1PKt/rpUEpt2+J0E3nKbn2eknFC1RFpJGBhBc
- B/kcC2C4PKzTDMXbJA9qDAAZvJm8vFMXCh7I3p1vkGNiWDBHPATC090NRkENw7nFEsrY
- Pd+w==
-X-Gm-Message-State: AOAM531RwKaQOLd+f3INJzI8sMd11/2srpvdnDEoG+6+S1ux/OnW/vrq
- 7/yECP0nve3N9pFunZlQyLu9ig==
-X-Google-Smtp-Source: ABdhPJzKqx5goqP3brbEuD8a1FINfN86M7xGQbS8A9T56TtbStIE8kHLrcjjOKf3+zmnxfHIndoVPg==
-X-Received: by 2002:a7b:c350:: with SMTP id l16mr12112517wmj.151.1634126801887; 
- Wed, 13 Oct 2021 05:06:41 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id f18sm13493444wrg.3.2021.10.13.05.06.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 13 Oct 2021 05:06:41 -0700 (PDT)
-Date: Wed, 13 Oct 2021 14:06:39 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Matthew Auld <matthew.auld@intel.com>
-Subject: Re: [PATCH] drm/i915: Handle Intel igfx + Intel dgfx hybrid graphics
- setup
-Message-ID: <YWbLz35BuRZlSDFg@phenom.ffwll.local>
-References: <20211005113135.768295-1-tvrtko.ursulin@linux.intel.com>
- <3aa70cb9-c28b-b85d-eac0-b3f5cca5bf73@linux.intel.com>
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E9816EA35;
+ Wed, 13 Oct 2021 12:06:58 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10135"; a="208209725"
+X-IronPort-AV: E=Sophos;i="5.85,370,1624345200"; d="scan'208";a="208209725"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Oct 2021 05:06:57 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.85,370,1624345200"; d="scan'208";a="570809847"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
+ by fmsmga002.fm.intel.com with SMTP; 13 Oct 2021 05:06:54 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Wed, 13 Oct 2021 15:06:53 +0300
+Date: Wed, 13 Oct 2021 15:06:53 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Sean Paul <seanpaul@chromium.org>, Fernando Ramos <greenfoo@u92.eu>
+Subject: Re: [PATCH 1/4] drm: Introduce drm_modeset_lock_ctx_retry()
+Message-ID: <YWbL3Z0UNZLMLC59@intel.com>
+References: <20210715184954.7794-1-ville.syrjala@linux.intel.com>
+ <20210715184954.7794-2-ville.syrjala@linux.intel.com>
+ <YPbTUf9KfiZ5GnFz@phenom.ffwll.local> <YVriZxCeipBUgc8O@intel.com>
+ <YWbKM9Fo5OHGafAY@phenom.ffwll.local>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <3aa70cb9-c28b-b85d-eac0-b3f5cca5bf73@linux.intel.com>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+In-Reply-To: <YWbKM9Fo5OHGafAY@phenom.ffwll.local>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,106 +55,157 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 05, 2021 at 03:05:25PM +0200, Thomas Hellström wrote:
-> Hi, Tvrtko,
+On Wed, Oct 13, 2021 at 01:59:47PM +0200, Daniel Vetter wrote:
+> On Mon, Oct 04, 2021 at 02:15:51PM +0300, Ville Syrjälä wrote:
+> > On Tue, Jul 20, 2021 at 03:44:49PM +0200, Daniel Vetter wrote:
+> > > On Thu, Jul 15, 2021 at 09:49:51PM +0300, Ville Syrjala wrote:
+> > > > From: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> > > > 
+> > > > Quite a few places are hand rolling the modeset lock backoff dance.
+> > > > Let's suck that into a helper macro that is easier to use without
+> > > > forgetting some steps.
+> > > > 
+> > > > The main downside is probably that the implementation of
+> > > > drm_with_modeset_lock_ctx() is a bit harder to read than a hand
+> > > > rolled version on account of being split across three functions,
+> > > > but the actual code using it ends up being much simpler.
+> > > > 
+> > > > Cc: Sean Paul <seanpaul@chromium.org>
+> > > > Cc: Daniel Vetter <daniel@ffwll.ch>
+> > > > Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> > > > ---
+> > > >  drivers/gpu/drm/drm_modeset_lock.c | 44 ++++++++++++++++++++++++++++++
+> > > >  include/drm/drm_modeset_lock.h     | 20 ++++++++++++++
+> > > >  2 files changed, 64 insertions(+)
+> > > > 
+> > > > diff --git a/drivers/gpu/drm/drm_modeset_lock.c b/drivers/gpu/drm/drm_modeset_lock.c
+> > > > index fcfe1a03c4a1..083df96632e8 100644
+> > > > --- a/drivers/gpu/drm/drm_modeset_lock.c
+> > > > +++ b/drivers/gpu/drm/drm_modeset_lock.c
+> > > > @@ -425,3 +425,47 @@ int drm_modeset_lock_all_ctx(struct drm_device *dev,
+> > > >  	return 0;
+> > > >  }
+> > > >  EXPORT_SYMBOL(drm_modeset_lock_all_ctx);
+> > > > +
+> > > > +void _drm_modeset_lock_begin(struct drm_modeset_acquire_ctx *ctx,
+> > > > +			     struct drm_atomic_state *state,
+> > > > +			     unsigned int flags, int *ret)
+> > > > +{
+> > > > +	drm_modeset_acquire_init(ctx, flags);
+> > > > +
+> > > > +	if (state)
+> > > > +		state->acquire_ctx = ctx;
+> > > > +
+> > > > +	*ret = -EDEADLK;
+> > > > +}
+> > > > +EXPORT_SYMBOL(_drm_modeset_lock_begin);
+> > > > +
+> > > > +bool _drm_modeset_lock_loop(int *ret)
+> > > > +{
+> > > > +	if (*ret == -EDEADLK) {
+> > > > +		*ret = 0;
+> > > > +		return true;
+> > > > +	}
+> > > > +
+> > > > +	return false;
+> > > > +}
+> > > > +EXPORT_SYMBOL(_drm_modeset_lock_loop);
+> > > > +
+> > > > +void _drm_modeset_lock_end(struct drm_modeset_acquire_ctx *ctx,
+> > > > +			   struct drm_atomic_state *state,
+> > > > +			   int *ret)
+> > > > +{
+> > > > +	if (*ret == -EDEADLK) {
+> > > > +		if (state)
+> > > > +			drm_atomic_state_clear(state);
+> > > > +
+> > > > +		*ret = drm_modeset_backoff(ctx);
+> > > > +		if (*ret == 0) {
+> > > > +			*ret = -EDEADLK;
+> > > > +			return;
+> > > > +		}
+> > > > +	}
+> > > > +
+> > > > +	drm_modeset_drop_locks(ctx);
+> > > > +	drm_modeset_acquire_fini(ctx);
+> > > > +}
+> > > > +EXPORT_SYMBOL(_drm_modeset_lock_end);
+> > > > diff --git a/include/drm/drm_modeset_lock.h b/include/drm/drm_modeset_lock.h
+> > > > index aafd07388eb7..5eaad2533de5 100644
+> > > > --- a/include/drm/drm_modeset_lock.h
+> > > > +++ b/include/drm/drm_modeset_lock.h
+> > > > @@ -26,6 +26,7 @@
+> > > >  
+> > > >  #include <linux/ww_mutex.h>
+> > > >  
+> > > > +struct drm_atomic_state;
+> > > >  struct drm_modeset_lock;
+> > > >  
+> > > >  /**
+> > > > @@ -203,4 +204,23 @@ modeset_lock_fail:							\
+> > > >  	if (!drm_drv_uses_atomic_modeset(dev))				\
+> > > >  		mutex_unlock(&dev->mode_config.mutex);
+> > > >  
+> > > > +void _drm_modeset_lock_begin(struct drm_modeset_acquire_ctx *ctx,
+> > > > +			     struct drm_atomic_state *state,
+> > > > +			     unsigned int flags,
+> > > > +			     int *ret);
+> > > > +bool _drm_modeset_lock_loop(int *ret);
+> > > > +void _drm_modeset_lock_end(struct drm_modeset_acquire_ctx *ctx,
+> > > > +			   struct drm_atomic_state *state,
+> > > > +			   int *ret);
+> > > > +
+> > > > +/*
+> > > > + * Note that one must always use "continue" rather than
+> > > > + * "break" or "return" to handle errors within the
+> > > > + * drm_modeset_lock_ctx_retry() block.
+> > > 
+> > > I'm not sold on loop macros with these kind of restrictions, C just isn't
+> > > a great language for these. That's why e.g. drm_connector_iter doesn't
+> > > give you a macro, but only the begin/next/end function calls explicitly.
+> > 
+> > We already use this pattern extensively in i915. Gem ww ctx has one,
+> > power domains/pps/etc. use a similar things. It makes the code pretty nice,
+> > with the slight caveat that an accidental 'break' can ruin your day. But
+> > so can an accidental return with other constructs (and we even had that
+> > happen a few times with the connector iterators), so not a dealbreaker
+> > IMO.
+> > 
+> > So if we don't want this drm wide I guess I can propose this just for
+> > i915 since it fits in perfectly there.
 > 
-> On 10/5/21 13:31, Tvrtko Ursulin wrote:
-> > From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-> > 
-> > In short this makes i915 work for hybrid setups (DRI_PRIME=1 with Mesa)
-> > when rendering is done on Intel dgfx and scanout/composition on Intel
-> > igfx.
-> > 
-> > Before this patch the driver was not quite ready for that setup, mainly
-> > because it was able to emit a semaphore wait between the two GPUs, which
-> > results in deadlocks because semaphore target location in HWSP is neither
-> > shared between the two, nor mapped in both GGTT spaces.
-> > 
-> > To fix it the patch adds an additional check to a couple of relevant code
-> > paths in order to prevent using semaphores for inter-engine
-> > synchronisation when relevant objects are not in the same GGTT space.
-> > 
-> > v2:
-> >   * Avoid adding rq->i915. (Chris)
-> > 
-> > v3:
-> >   * Use GGTT which describes the limit more precisely.
-> > 
-> > Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-> > Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> > Cc: Matthew Auld <matthew.auld@intel.com>
-> > Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> 
-> An IMO pretty important bugfix. I read up a bit on the previous discussion
-> on this, and from what I understand the other two options were
-> 
-> 1) Ripping out the semaphore code,
-> 2) Consider dma-fences from other instances of the same driver as foreign.
-> 
-> For imported dma-bufs we do 2), but particularly with lmem and p2p that's a
-> more straightforward decision.
-> 
-> I don't think 1) is a reasonable approach to fix this bug, (but perhaps as a
-> general cleanup?), and for 2) yes I guess we might end up doing that, unless
-> we find some real benefits in treating same-driver-separate-device
-> dma-fences as local, but for this particular bug, IMO this is a reasonable
-> fix.
+> Well I don't like them for i915 either.
 
-The foreign dma-fences have uapi impact, which Tvrtko shrugged off as
-"it's a good idea", and not it's really just not. So we still need to that
-this properly.
-
-> Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-
-But I'm also ok with just merging this as-is so the situation doesn't
-become too entertaining.
--Daniel
+I think you're a bit alone in that. Most people seem pretty happy
+with this style since it makes the code very readable.
 
 > 
+> And yes C is dangerous, but also C is verbose. I think one lesson from igt
+> is that too many magic block constructs are bad, it's just not how C
+> works. Definitely not in the kernel, where "oops I got it wrong because it
+> was too clever" is bad.
 > 
-> 
-> 
-> 
-> > ---
-> >   drivers/gpu/drm/i915/i915_request.c | 12 +++++++++++-
-> >   1 file changed, 11 insertions(+), 1 deletion(-)
+> > > Yes the macro we have is also not nice, but at least it's a screaming
+> > > macro since it's all uppercase, so options are all a bit sucky. Which
+> > > leads me to think we have a bit a https://xkcd.com/927/ situation going
+> > > on.
+> > > 
+> > > I think minimally we should have one way to do this.
 > > 
-> > diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
-> > index 79da5eca60af..4f189982f67e 100644
-> > --- a/drivers/gpu/drm/i915/i915_request.c
-> > +++ b/drivers/gpu/drm/i915/i915_request.c
-> > @@ -1145,6 +1145,12 @@ __emit_semaphore_wait(struct i915_request *to,
-> >   	return 0;
-> >   }
-> > +static bool
-> > +can_use_semaphore_wait(struct i915_request *to, struct i915_request *from)
-> > +{
-> > +	return to->engine->gt->ggtt == from->engine->gt->ggtt;
-> > +}
-> > +
-> >   static int
-> >   emit_semaphore_wait(struct i915_request *to,
-> >   		    struct i915_request *from,
-> > @@ -1153,6 +1159,9 @@ emit_semaphore_wait(struct i915_request *to,
-> >   	const intel_engine_mask_t mask = READ_ONCE(from->engine)->mask;
-> >   	struct i915_sw_fence *wait = &to->submit;
-> > +	if (!can_use_semaphore_wait(to, from))
-> > +		goto await_fence;
-> > +
-> >   	if (!intel_context_use_semaphores(to->context))
-> >   		goto await_fence;
-> > @@ -1256,7 +1265,8 @@ __i915_request_await_execution(struct i915_request *to,
-> >   	 * immediate execution, and so we must wait until it reaches the
-> >   	 * active slot.
-> >   	 */
-> > -	if (intel_engine_has_semaphores(to->engine) &&
-> > +	if (can_use_semaphore_wait(to, from) &&
-> > +	    intel_engine_has_semaphores(to->engine) &&
-> >   	    !i915_request_has_initial_breadcrumb(to)) {
-> >   		err = __emit_semaphore_wait(to, from, from->fence.seqno - 1);
-> >   		if (err < 0)
+> > Well, there is no one way atm. All you can do is hand roll all the
+> > boilerplate (and likely get it slightly wrong) if you don't want
+> > lock_all.
+> > 
+> > The current macros only help with lock_all, and IMO the hidden gotos
+> > are even uglier than a hidden for loop. Fernando already hit a case
+> > where he couldn't use the macros twice due to conflicting goto
+> > labels. With this for loop thing I think it would have just worked(tm).
+> 
+> I'm totally ok with repainting the shed, I just don't want some 80s
+> multicolor flash show.
+
+You have a better idea in mind?
 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Ville Syrjälä
+Intel
