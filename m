@@ -1,62 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B242842C203
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Oct 2021 16:01:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 04F8042C20F
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Oct 2021 16:04:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 721B06E0E5;
-	Wed, 13 Oct 2021 14:01:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D4546E0AF;
+	Wed, 13 Oct 2021 14:04:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
- [IPv6:2a00:1450:4864:20::42e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF6AC6E0AF
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Oct 2021 14:01:03 +0000 (UTC)
-Received: by mail-wr1-x42e.google.com with SMTP id o20so8827124wro.3
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Oct 2021 07:01:03 -0700 (PDT)
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
+ [IPv6:2a00:1450:4864:20::42c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A3AF6E087
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Oct 2021 14:04:51 +0000 (UTC)
+Received: by mail-wr1-x42c.google.com with SMTP id g25so8862997wrb.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Oct 2021 07:04:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:content-transfer-encoding:in-reply-to;
- bh=duTCzgptpNJ+o10/NlFFu5GiCtCaCcv9Wt7ZKE1aTws=;
- b=kywCb8xw4c2Sh30v8UZKwoQNFX64Z95I5h0hPgIidwYvpcFzR/M+L4pnY7BJFwiZRx
- OnEYW2scLX+LkQbUAdCycFEBJCq8A/0ZsS8AaEl8ApTfVcHOpsrF5QEWgI2mPcEj8nPH
- XVHNf7VDA2/bBCH6efrlwL7rZ+EJGKLZlFq0E=
+ bh=8arhVRVJMM/h5+bGfd41jsxKdQFpqyddyEDa37EQIQ8=;
+ b=TdCz2jiMPVNPGmXy1MfLiPR+cHK0cAYyfdkweSUyxLdb93OAoNSp0t1ewpI4zSMeA4
+ dY+WsqKuPpowLcQY8W1qL29R4MwcY94W6g+eSpWuF0gRLqmpYRYUzqlCTVe16cJh3/Vh
+ pN1WbuyNHLBMLwTZsjyNQusxAOeMxNvF0NWu4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=duTCzgptpNJ+o10/NlFFu5GiCtCaCcv9Wt7ZKE1aTws=;
- b=UB4CTX89T2uDRkWxD62VOd75D6/fNHpNTs+npLUFGMjVG5oJd9Y2MsqW9M1nGc5Pin
- n22ygOZNLI60J/gR+b9YK9/OcA6LZkz2zLOH2Tqkv5DRwyQ/b1/Dy1S+SgXASgLvCiNw
- bgS0pPyHBgV7nuct8kd1pLSP5asKH519hZ28LYKeG0B8t76An1pq0r5hW/DDFyRf2jNs
- aLZL1bs1uMRBByV7pW0MOINwXUxSs5vOSXJZikJRgiRG9ot5/cm+cvGiCDkIFMb8wv/R
- ZjwgWYog9ZwNf4fFpSWxBH+E9r9c6CC3B3XdhBfquIs1oi2v9XwWl1ijy6KlibxADUrQ
- 0rpQ==
-X-Gm-Message-State: AOAM530l0s/2TAjyLsRm7eoPtWLf/cDEvUJHoKYDOPKA4UhL9BgJS2zd
- eCPf0fuHpL/BrLsaflv/Y+L5yQ==
-X-Google-Smtp-Source: ABdhPJwy1brVHZowG0hFFAQP+mBnwlV5jCG0vw9itvH4larjBmdhMJVPDbHvGwWCG7pMKew74onGkA==
-X-Received: by 2002:adf:e292:: with SMTP id v18mr15761967wri.369.1634133661577; 
- Wed, 13 Oct 2021 07:01:01 -0700 (PDT)
+ bh=8arhVRVJMM/h5+bGfd41jsxKdQFpqyddyEDa37EQIQ8=;
+ b=c0cDqyE7M+kzFhEIVsxxwjxAcuGCFwwFFgjhcC9ztgf2HzR3sUa8VXPntfpUYqNxRX
+ QtnZoUb544xgLlbHK+ye28EJZ9nydfZlsdQcQXt7RzdkDAIxjMKNFnNf54dPAV6lVsjQ
+ LEeNuPsltyYpI45Pr4WlLKyVW5qiSxp7u7Oo/aWRZPedc9oHiGghHR3UzmxrHZ3U5oiR
+ GV0wR94EcxLOEd7Rr6cWe7AxacNIaki0iaM/qjj+RD9X/6kV3Vw5JyNgZNldmrk3bXhr
+ 9Fl32P4XXhcmALtBquLs598T7vo8rKYYo8lK+2QsY1AKouuI0obYsQijqjFx9TzPvCE8
+ nOzA==
+X-Gm-Message-State: AOAM530Nnp/yEz6rnLDKP3RGstpOKiPl3b7y7PZ0cRxDs1IFCgX0b1bo
+ e9qb35mfU73W4bn9Uk7NwfzNrg==
+X-Google-Smtp-Source: ABdhPJygRDKWOSNpd6ZdotmTHdQYpKRtkoIUvlMILRACpq5gJocRd+rbfydJiSsRbGMYRPk3kb970w==
+X-Received: by 2002:a05:600c:378a:: with SMTP id
+ o10mr12659347wmr.77.1634133888765; 
+ Wed, 13 Oct 2021 07:04:48 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id a2sm13754617wru.82.2021.10.13.07.01.00
+ by smtp.gmail.com with ESMTPSA id c132sm5643138wma.22.2021.10.13.07.04.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 13 Oct 2021 07:01:00 -0700 (PDT)
-Date: Wed, 13 Oct 2021 16:00:59 +0200
+ Wed, 13 Oct 2021 07:04:48 -0700 (PDT)
+Date: Wed, 13 Oct 2021 16:04:46 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [Intel-gfx] [PATCH] drm/i915: Use dma_resv_iter for waiting in
- i915_gem_object_wait_reservation.
-Message-ID: <YWbmm6UqJ8JDa9WD@phenom.ffwll.local>
-References: <20211013111817.1886880-1-maarten.lankhorst@linux.intel.com>
- <20211013123203.1953276-1-maarten.lankhorst@linux.intel.com>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
+Cc: linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ daniel@ffwll.ch, tvrtko.ursulin@linux.intel.com
+Subject: Re: [PATCH 03/28] dma-buf: add dma_resv selftest v3
+Message-ID: <YWbnfhU+4bHKluhf@phenom.ffwll.local>
+References: <20211005113742.1101-1-christian.koenig@amd.com>
+ <20211005113742.1101-4-christian.koenig@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20211013123203.1953276-1-maarten.lankhorst@linux.intel.com>
+In-Reply-To: <20211005113742.1101-4-christian.koenig@amd.com>
 X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,289 +75,341 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Oct 13, 2021 at 02:32:03PM +0200, Maarten Lankhorst wrote:
-> No memory should be allocated when calling i915_gem_object_wait,
-> because it may be called to idle a BO when evicting memory.
+On Tue, Oct 05, 2021 at 01:37:17PM +0200, Christian König wrote:
+> Just exercising a very minor subset of the functionality, but already
+> proven useful.
 > 
-> Fix this by using dma_resv_iter helpers to call
-> i915_gem_object_wait_fence() on each fence, which cleans up the code a lot.
-> Also remove dma_resv_prune, it's questionably.
+> v2: add missing locking
+> v3: some more cleanup and consolidation, add unlocked test as well
 > 
-> This will result in the following lockdep splat.
-> 
-> <4> [83.538517] ======================================================
-> <4> [83.538520] WARNING: possible circular locking dependency detected
-> <4> [83.538522] 5.15.0-rc5-CI-Trybot_8062+ #1 Not tainted
-> <4> [83.538525] ------------------------------------------------------
-> <4> [83.538527] gem_render_line/5242 is trying to acquire lock:
-> <4> [83.538530] ffffffff8275b1e0 (fs_reclaim){+.+.}-{0:0}, at: __kmalloc_track_caller+0x56/0x270
-> <4> [83.538538]
-> but task is already holding lock:
-> <4> [83.538540] ffff88813471d1e0 (&vm->mutex/1){+.+.}-{3:3}, at: i915_vma_pin_ww+0x1c7/0x970 [i915]
-> <4> [83.538638]
-> which lock already depends on the new lock.
-> <4> [83.538642]
-> the existing dependency chain (in reverse order) is:
-> <4> [83.538645]
-> -> #1 (&vm->mutex/1){+.+.}-{3:3}:
-> <4> [83.538649]        lock_acquire+0xd3/0x310
-> <4> [83.538654]        i915_gem_shrinker_taints_mutex+0x2d/0x50 [i915]
-> <4> [83.538730]        i915_address_space_init+0xf5/0x1b0 [i915]
-> <4> [83.538794]        ppgtt_init+0x55/0x70 [i915]
-> <4> [83.538856]        gen8_ppgtt_create+0x44/0x5d0 [i915]
-> <4> [83.538912]        i915_ppgtt_create+0x28/0xf0 [i915]
-> <4> [83.538971]        intel_gt_init+0x130/0x3b0 [i915]
-> <4> [83.539029]        i915_gem_init+0x14b/0x220 [i915]
-> <4> [83.539100]        i915_driver_probe+0x97e/0xdd0 [i915]
-> <4> [83.539149]        i915_pci_probe+0x43/0x1d0 [i915]
-> <4> [83.539197]        pci_device_probe+0x9b/0x110
-> <4> [83.539201]        really_probe+0x1b0/0x3b0
-> <4> [83.539205]        __driver_probe_device+0xf6/0x170
-> <4> [83.539208]        driver_probe_device+0x1a/0x90
-> <4> [83.539210]        __driver_attach+0x93/0x160
-> <4> [83.539213]        bus_for_each_dev+0x72/0xc0
-> <4> [83.539216]        bus_add_driver+0x14b/0x1f0
-> <4> [83.539220]        driver_register+0x66/0xb0
-> <4> [83.539222]        hdmi_get_spk_alloc+0x1f/0x50 [snd_hda_codec_hdmi]
-> <4> [83.539227]        do_one_initcall+0x53/0x2e0
-> <4> [83.539230]        do_init_module+0x55/0x200
-> <4> [83.539234]        load_module+0x2700/0x2980
-> <4> [83.539237]        __do_sys_finit_module+0xaa/0x110
-> <4> [83.539241]        do_syscall_64+0x37/0xb0
-> <4> [83.539244]        entry_SYSCALL_64_after_hwframe+0x44/0xae
-> <4> [83.539247]
-> -> #0 (fs_reclaim){+.+.}-{0:0}:
-> <4> [83.539251]        validate_chain+0xb37/0x1e70
-> <4> [83.539254]        __lock_acquire+0x5a1/0xb70
-> <4> [83.539258]        lock_acquire+0xd3/0x310
-> <4> [83.539260]        fs_reclaim_acquire+0x9d/0xd0
-> <4> [83.539264]        __kmalloc_track_caller+0x56/0x270
-> <4> [83.539267]        krealloc+0x48/0xa0
-> <4> [83.539270]        dma_resv_get_fences+0x1c3/0x280
-> <4> [83.539274]        i915_gem_object_wait+0x1ff/0x410 [i915]
-> <4> [83.539342]        i915_gem_evict_for_node+0x16b/0x440 [i915]
-> <4> [83.539412]        i915_gem_gtt_reserve+0xff/0x130 [i915]
-> <4> [83.539482]        i915_vma_pin_ww+0x765/0x970 [i915]
-> <4> [83.539556]        eb_validate_vmas+0x6fe/0x8e0 [i915]
-> <4> [83.539626]        i915_gem_do_execbuffer+0x9a6/0x20a0 [i915]
-> <4> [83.539693]        i915_gem_execbuffer2_ioctl+0x11f/0x2c0 [i915]
-> <4> [83.539759]        drm_ioctl_kernel+0xac/0x140
-> <4> [83.539763]        drm_ioctl+0x201/0x3d0
-> <4> [83.539766]        __x64_sys_ioctl+0x6a/0xa0
-> <4> [83.539769]        do_syscall_64+0x37/0xb0
-> <4> [83.539772]        entry_SYSCALL_64_after_hwframe+0x44/0xae
-> <4> [83.539775]
-> other info that might help us debug this:
-> <4> [83.539778]  Possible unsafe locking scenario:
-> <4> [83.539781]        CPU0                    CPU1
-> <4> [83.539783]        ----                    ----
-> <4> [83.539785]   lock(&vm->mutex/1);
-> <4> [83.539788]                                lock(fs_reclaim);
-> <4> [83.539791]                                lock(&vm->mutex/1);
-> <4> [83.539794]   lock(fs_reclaim);
-> <4> [83.539796]
->  *** DEADLOCK ***
-> <4> [83.539799] 3 locks held by gem_render_line/5242:
-> <4> [83.539802]  #0: ffffc90000d4bbf0 (reservation_ww_class_acquire){+.+.}-{0:0}, at: i915_gem_do_execbuffer+0x8e5/0x20a0 [i915]
-> <4> [83.539870]  #1: ffff88811e48bae8 (reservation_ww_class_mutex){+.+.}-{3:3}, at: eb_validate_vmas+0x81/0x8e0 [i915]
-> <4> [83.539936]  #2: ffff88813471d1e0 (&vm->mutex/1){+.+.}-{3:3}, at: i915_vma_pin_ww+0x1c7/0x970 [i915]
-> <4> [83.540011]
-> stack backtrace:
-> <4> [83.540014] CPU: 2 PID: 5242 Comm: gem_render_line Not tainted 5.15.0-rc5-CI-Trybot_8062+ #1
-> <4> [83.540019] Hardware name: Intel(R) Client Systems NUC11TNHi3/NUC11TNBi3, BIOS TNTGL357.0038.2020.1124.1648 11/24/2020
-> <4> [83.540023] Call Trace:
-> <4> [83.540026]  dump_stack_lvl+0x56/0x7b
-> <4> [83.540030]  check_noncircular+0x12e/0x150
-> <4> [83.540034]  ? _raw_spin_unlock_irqrestore+0x50/0x60
-> <4> [83.540038]  validate_chain+0xb37/0x1e70
-> <4> [83.540042]  __lock_acquire+0x5a1/0xb70
-> <4> [83.540046]  lock_acquire+0xd3/0x310
-> <4> [83.540049]  ? __kmalloc_track_caller+0x56/0x270
-> <4> [83.540052]  ? find_held_lock+0x2d/0x90
-> <4> [83.540055]  ? dma_resv_get_fences+0x1c3/0x280
-> <4> [83.540058]  fs_reclaim_acquire+0x9d/0xd0
-> <4> [83.540061]  ? __kmalloc_track_caller+0x56/0x270
-> <4> [83.540064]  __kmalloc_track_caller+0x56/0x270
-> <4> [83.540067]  krealloc+0x48/0xa0
-> <4> [83.540070]  dma_resv_get_fences+0x1c3/0x280
-> <4> [83.540074]  i915_gem_object_wait+0x1ff/0x410 [i915]
-> <4> [83.540143]  i915_gem_evict_for_node+0x16b/0x440 [i915]
-> <4> [83.540212]  i915_gem_gtt_reserve+0xff/0x130 [i915]
-> <4> [83.540281]  i915_vma_pin_ww+0x765/0x970 [i915]
-> <4> [83.540354]  eb_validate_vmas+0x6fe/0x8e0 [i915]
-> <4> [83.540420]  i915_gem_do_execbuffer+0x9a6/0x20a0 [i915]
-> <4> [83.540485]  ? lockdep_hardirqs_on+0xbf/0x130
-> <4> [83.540490]  ? __lock_acquire+0x5c0/0xb70
-> <4> [83.540495]  i915_gem_execbuffer2_ioctl+0x11f/0x2c0 [i915]
-> <4> [83.540559]  ? i915_gem_do_execbuffer+0x20a0/0x20a0 [i915]
-> <4> [83.540622]  drm_ioctl_kernel+0xac/0x140
-> <4> [83.540625]  drm_ioctl+0x201/0x3d0
-> <4> [83.540628]  ? i915_gem_do_execbuffer+0x20a0/0x20a0 [i915]
-> <4> [83.540691]  __x64_sys_ioctl+0x6a/0xa0
-> <4> [83.540694]  do_syscall_64+0x37/0xb0
-> <4> [83.540697]  entry_SYSCALL_64_after_hwframe+0x44/0xae
-> <4> [83.540700] RIP: 0033:0x7fc314edc50b
-> Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Signed-off-by: Christian König <christian.koenig@amd.com>
 
-Yay for ditching i915/dma_resv_utils.c while we're at it!
+Yeah this is great, since if we then get some specific bug later on it's
+going to be very easy to add the unit test for the precise bug hopefully.
+
+I scrolled through, looks correct.
 
 Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
 > ---
->  drivers/gpu/drm/i915/Makefile                |  1 -
->  drivers/gpu/drm/i915/dma_resv_utils.c        | 17 ------
->  drivers/gpu/drm/i915/dma_resv_utils.h        | 13 -----
->  drivers/gpu/drm/i915/gem/i915_gem_shrinker.c |  1 -
->  drivers/gpu/drm/i915/gem/i915_gem_wait.c     | 56 +++-----------------
->  5 files changed, 8 insertions(+), 80 deletions(-)
->  delete mode 100644 drivers/gpu/drm/i915/dma_resv_utils.c
->  delete mode 100644 drivers/gpu/drm/i915/dma_resv_utils.h
+>  drivers/dma-buf/Makefile      |   3 +-
+>  drivers/dma-buf/selftests.h   |   1 +
+>  drivers/dma-buf/st-dma-resv.c | 282 ++++++++++++++++++++++++++++++++++
+>  3 files changed, 285 insertions(+), 1 deletion(-)
+>  create mode 100644 drivers/dma-buf/st-dma-resv.c
 > 
-> diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
-> index 21b05ed0e4e8..88bb326d9031 100644
-> --- a/drivers/gpu/drm/i915/Makefile
-> +++ b/drivers/gpu/drm/i915/Makefile
-> @@ -58,7 +58,6 @@ i915-y += i915_drv.o \
+> diff --git a/drivers/dma-buf/Makefile b/drivers/dma-buf/Makefile
+> index 1ef021273a06..511805dbeb75 100644
+> --- a/drivers/dma-buf/Makefile
+> +++ b/drivers/dma-buf/Makefile
+> @@ -11,6 +11,7 @@ obj-$(CONFIG_DMABUF_SYSFS_STATS) += dma-buf-sysfs-stats.o
+>  dmabuf_selftests-y := \
+>  	selftest.o \
+>  	st-dma-fence.o \
+> -	st-dma-fence-chain.o
+> +	st-dma-fence-chain.o \
+> +	st-dma-resv.o
 >  
->  # core library code
->  i915-y += \
-> -	dma_resv_utils.o \
->  	i915_memcpy.o \
->  	i915_mm.o \
->  	i915_sw_fence.o \
-> diff --git a/drivers/gpu/drm/i915/dma_resv_utils.c b/drivers/gpu/drm/i915/dma_resv_utils.c
-> deleted file mode 100644
-> index 7df91b7e4ca8..000000000000
-> --- a/drivers/gpu/drm/i915/dma_resv_utils.c
-> +++ /dev/null
-> @@ -1,17 +0,0 @@
-> -// SPDX-License-Identifier: MIT
-> -/*
-> - * Copyright © 2020 Intel Corporation
-> - */
-> -
-> -#include <linux/dma-resv.h>
-> -
-> -#include "dma_resv_utils.h"
-> -
-> -void dma_resv_prune(struct dma_resv *resv)
-> -{
-> -	if (dma_resv_trylock(resv)) {
-> -		if (dma_resv_test_signaled(resv, true))
-> -			dma_resv_add_excl_fence(resv, NULL);
-> -		dma_resv_unlock(resv);
-> -	}
-> -}
-> diff --git a/drivers/gpu/drm/i915/dma_resv_utils.h b/drivers/gpu/drm/i915/dma_resv_utils.h
-> deleted file mode 100644
-> index b9d8fb5f8367..000000000000
-> --- a/drivers/gpu/drm/i915/dma_resv_utils.h
-> +++ /dev/null
-> @@ -1,13 +0,0 @@
-> -/* SPDX-License-Identifier: MIT */
-> -/*
-> - * Copyright © 2020 Intel Corporation
-> - */
-> -
-> -#ifndef DMA_RESV_UTILS_H
-> -#define DMA_RESV_UTILS_H
-> -
-> -struct dma_resv;
-> -
-> -void dma_resv_prune(struct dma_resv *resv);
-> -
-> -#endif /* DMA_RESV_UTILS_H */
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c b/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
-> index c80e6c1d2bcb..5375f3f9f016 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
-> @@ -15,7 +15,6 @@
->  
->  #include "gt/intel_gt_requests.h"
->  
-> -#include "dma_resv_utils.h"
->  #include "i915_trace.h"
->  
->  static bool swap_available(void)
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_wait.c b/drivers/gpu/drm/i915/gem/i915_gem_wait.c
-> index f909aaa09d9c..e59304a76b2c 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_wait.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_wait.c
-> @@ -10,7 +10,6 @@
->  
->  #include "gt/intel_engine.h"
->  
-> -#include "dma_resv_utils.h"
->  #include "i915_gem_ioctls.h"
->  #include "i915_gem_object.h"
->  
-> @@ -37,56 +36,17 @@ i915_gem_object_wait_reservation(struct dma_resv *resv,
->  				 unsigned int flags,
->  				 long timeout)
->  {
-> -	struct dma_fence *excl;
-> -	bool prune_fences = false;
-> -
-> -	if (flags & I915_WAIT_ALL) {
-> -		struct dma_fence **shared;
-> -		unsigned int count, i;
-> -		int ret;
+>  obj-$(CONFIG_DMABUF_SELFTESTS)	+= dmabuf_selftests.o
+> diff --git a/drivers/dma-buf/selftests.h b/drivers/dma-buf/selftests.h
+> index bc8cea67bf1e..97d73aaa31da 100644
+> --- a/drivers/dma-buf/selftests.h
+> +++ b/drivers/dma-buf/selftests.h
+> @@ -12,3 +12,4 @@
+>  selftest(sanitycheck, __sanitycheck__) /* keep first (igt selfcheck) */
+>  selftest(dma_fence, dma_fence)
+>  selftest(dma_fence_chain, dma_fence_chain)
+> +selftest(dma_resv, dma_resv)
+> diff --git a/drivers/dma-buf/st-dma-resv.c b/drivers/dma-buf/st-dma-resv.c
+> new file mode 100644
+> index 000000000000..50d3791ccb8c
+> --- /dev/null
+> +++ b/drivers/dma-buf/st-dma-resv.c
+> @@ -0,0 +1,282 @@
+> +/* SPDX-License-Identifier: MIT */
+> +
+> +/*
+> +* Copyright © 2019 Intel Corporation
+> +* Copyright © 2021 Advanced Micro Devices, Inc.
+> +*/
+> +
+> +#include <linux/slab.h>
+> +#include <linux/spinlock.h>
+> +#include <linux/dma-resv.h>
+> +
+> +#include "selftest.h"
+> +
+> +static struct spinlock fence_lock;
+> +
+> +static const char *fence_name(struct dma_fence *f)
+> +{
+> +	return "selftest";
+> +}
+> +
+> +static const struct dma_fence_ops fence_ops = {
+> +	.get_driver_name = fence_name,
+> +	.get_timeline_name = fence_name,
+> +};
+> +
+> +static struct dma_fence *alloc_fence(void)
+> +{
+> +	struct dma_fence *f;
+> +
+> +	f = kmalloc(sizeof(*f), GFP_KERNEL);
+> +	if (!f)
+> +		return NULL;
+> +
+> +	dma_fence_init(f, &fence_ops, &fence_lock, 0, 0);
+> +	return f;
+> +}
+> +
+> +static int sanitycheck(void *arg)
+> +{
+> +	struct dma_resv resv;
+> +	struct dma_fence *f;
+> +	int r;
+> +
+> +	f = alloc_fence();
+> +	if (!f)
+> +		return -ENOMEM;
+> +
+> +	dma_fence_signal(f);
+> +	dma_fence_put(f);
+> +
+> +	dma_resv_init(&resv);
+> +	r = dma_resv_lock(&resv, NULL);
+> +	if (r)
+> +		pr_err("Resv locking failed\n");
+> +	else
+> +		dma_resv_unlock(&resv);
+> +	dma_resv_fini(&resv);
+> +	return r;
+> +}
+> +
+> +static int test_signaling(void *arg, bool shared)
+> +{
+> +	struct dma_resv resv;
+> +	struct dma_fence *f;
+> +	int r;
+> +
+> +	f = alloc_fence();
+> +	if (!f)
+> +		return -ENOMEM;
+> +
+> +	dma_resv_init(&resv);
+> +	r = dma_resv_lock(&resv, NULL);
+> +	if (r) {
+> +		pr_err("Resv locking failed\n");
+> +		goto err_free;
+> +	}
+> +
+> +	if (shared) {
+> +		r = dma_resv_reserve_shared(&resv, 1);
+> +		if (r) {
+> +			pr_err("Resv shared slot allocation failed\n");
+> +			goto err_unlock;
+> +		}
+> +
+> +		dma_resv_add_shared_fence(&resv, f);
+> +	} else {
+> +		dma_resv_add_excl_fence(&resv, f);
+> +	}
+> +
+> +	if (dma_resv_test_signaled(&resv, shared)) {
+> +		pr_err("Resv unexpectedly signaled\n");
+> +		r = -EINVAL;
+> +		goto err_unlock;
+> +	}
+> +	dma_fence_signal(f);
+> +	if (!dma_resv_test_signaled(&resv, shared)) {
+> +		pr_err("Resv not reporting signaled\n");
+> +		r = -EINVAL;
+> +		goto err_unlock;
+> +	}
+> +err_unlock:
+> +	dma_resv_unlock(&resv);
+> +err_free:
+> +	dma_resv_fini(&resv);
+> +	dma_fence_put(f);
+> +	return r;
+> +}
+> +
+> +static int test_excl_signaling(void *arg)
+> +{
+> +	return test_signaling(arg, false);
+> +}
+> +
+> +static int test_shared_signaling(void *arg)
+> +{
+> +	return test_signaling(arg, true);
+> +}
+> +
+> +static int test_for_each(void *arg, bool shared)
+> +{
 > +	struct dma_resv_iter cursor;
-> +	struct dma_fence *fence;
->  
-> -		ret = dma_resv_get_fences(resv, &excl, &count, &shared);
-> -		if (ret)
-> -			return ret;
-> -
-> -		for (i = 0; i < count; i++) {
-> -			timeout = i915_gem_object_wait_fence(shared[i],
-> -							     flags, timeout);
-> -			if (timeout < 0)
-> -				break;
-> +	dma_resv_iter_begin(&cursor, resv, flags & I915_WAIT_ALL);
+> +	struct dma_fence *f, *fence;
+> +	struct dma_resv resv;
+> +	int r;
+> +
+> +	f = alloc_fence();
+> +	if (!f)
+> +		return -ENOMEM;
+> +
+> +	dma_resv_init(&resv);
+> +	r = dma_resv_lock(&resv, NULL);
+> +	if (r) {
+> +		pr_err("Resv locking failed\n");
+> +		goto err_free;
+> +	}
+> +
+> +	if (shared) {
+> +		r = dma_resv_reserve_shared(&resv, 1);
+> +		if (r) {
+> +			pr_err("Resv shared slot allocation failed\n");
+> +			goto err_unlock;
+> +		}
+> +
+> +		dma_resv_add_shared_fence(&resv, f);
+> +	} else {
+> +		dma_resv_add_excl_fence(&resv, f);
+> +	}
+> +
+> +	r = -ENOENT;
+> +	dma_resv_for_each_fence(&cursor, &resv, shared, fence) {
+> +		if (!r) {
+> +			pr_err("More than one fence found\n");
+> +			r = -EINVAL;
+> +			goto err_unlock;
+> +		}
+> +		if (f != fence) {
+> +			pr_err("Unexpected fence\n");
+> +			r = -EINVAL;
+> +			goto err_unlock;
+> +		}
+> +		if (dma_resv_iter_is_exclusive(&cursor) != !shared) {
+> +			pr_err("Unexpected fence usage\n");
+> +			r = -EINVAL;
+> +			goto err_unlock;
+> +		}
+> +		r = 0;
+> +	}
+> +	if (r) {
+> +		pr_err("No fence found\n");
+> +		goto err_unlock;
+> +	}
+> +	dma_fence_signal(f);
+> +err_unlock:
+> +	dma_resv_unlock(&resv);
+> +err_free:
+> +	dma_resv_fini(&resv);
+> +	dma_fence_put(f);
+> +	return r;
+> +}
+> +
+> +static int test_excl_for_each(void *arg)
+> +{
+> +	return test_for_each(arg, false);
+> +}
+> +
+> +static int test_shared_for_each(void *arg)
+> +{
+> +	return test_for_each(arg, false);
+> +}
+> +
+> +static int test_for_each_unlocked(void *arg, bool shared)
+> +{
+> +	struct dma_resv_iter cursor;
+> +	struct dma_fence *f, *fence;
+> +	struct dma_resv resv;
+> +	int r;
+> +
+> +	f = alloc_fence();
+> +	if (!f)
+> +		return -ENOMEM;
+> +
+> +	dma_resv_init(&resv);
+> +	r = dma_resv_lock(&resv, NULL);
+> +	if (r) {
+> +		pr_err("Resv locking failed\n");
+> +		goto err_free;
+> +	}
+> +
+> +	if (shared) {
+> +		r = dma_resv_reserve_shared(&resv, 1);
+> +		if (r) {
+> +			pr_err("Resv shared slot allocation failed\n");
+> +			dma_resv_unlock(&resv);
+> +			goto err_free;
+> +		}
+> +
+> +		dma_resv_add_shared_fence(&resv, f);
+> +	} else {
+> +		dma_resv_add_excl_fence(&resv, f);
+> +	}
+> +	dma_resv_unlock(&resv);
+> +
+> +	r = -ENOENT;
+> +	dma_resv_iter_begin(&cursor, &resv, shared);
 > +	dma_resv_for_each_fence_unlocked(&cursor, fence) {
->  
-> -			dma_fence_put(shared[i]);
-> -		}
-> -
-> -		for (; i < count; i++)
-> -			dma_fence_put(shared[i]);
-> -		kfree(shared);
-> -
-> -		/*
-> -		 * If both shared fences and an exclusive fence exist,
-> -		 * then by construction the shared fences must be later
-> -		 * than the exclusive fence. If we successfully wait for
-> -		 * all the shared fences, we know that the exclusive fence
-> -		 * must all be signaled. If all the shared fences are
-> -		 * signaled, we can prune the array and recover the
-> -		 * floating references on the fences/requests.
-> -		 */
-> -		prune_fences = count && timeout >= 0;
-> -	} else {
-> -		excl = dma_resv_get_excl_unlocked(resv);
-> +		timeout = i915_gem_object_wait_fence(fence, flags, timeout);
-> +		if (timeout <= 0)
-> +			break;
->  	}
-> -
-> -	if (excl && timeout >= 0)
-> -		timeout = i915_gem_object_wait_fence(excl, flags, timeout);
-> -
-> -	dma_fence_put(excl);
-> -
-> -	/*
-> -	 * Opportunistically prune the fences iff we know they have *all* been
-> -	 * signaled.
-> -	 */
-> -	if (prune_fences)
-> -		dma_resv_prune(resv);
+> +		if (!r) {
+> +			dma_resv_iter_end(&cursor);
+> +			pr_err("More than one fence found\n");
+> +			r = -EINVAL;
+> +			goto err_free;
+> +		}
+> +		if (f != fence) {
+> +			dma_resv_iter_end(&cursor);
+> +			pr_err("Unexpected fence\n");
+> +			r = -EINVAL;
+> +			goto err_free;
+> +		}
+> +		if (dma_resv_iter_is_exclusive(&cursor) != !shared) {
+> +			dma_resv_iter_end(&cursor);
+> +			pr_err("Unexpected fence usage\n");
+> +			r = -EINVAL;
+> +			goto err_free;
+> +		}
+> +		r = 0;
+> +	}
 > +	dma_resv_iter_end(&cursor);
->  
->  	return timeout;
->  }
+> +	if (r) {
+> +		pr_err("No fence found\n");
+> +		goto err_free;
+> +	}
+> +	dma_fence_signal(f);
+> +err_free:
+> +	dma_resv_fini(&resv);
+> +	dma_fence_put(f);
+> +	return r;
+> +}
+> +
+> +static int test_excl_for_each_unlocked(void *arg)
+> +{
+> +	return test_for_each_unlocked(arg, false);
+> +}
+> +
+> +static int test_shared_for_each_unlocked(void *arg)
+> +{
+> +	return test_for_each_unlocked(arg, true);
+> +}
+> +
+> +int dma_resv(void)
+> +{
+> +	static const struct subtest tests[] = {
+> +		SUBTEST(sanitycheck),
+> +		SUBTEST(test_excl_signaling),
+> +		SUBTEST(test_shared_signaling),
+> +		SUBTEST(test_excl_for_each),
+> +		SUBTEST(test_shared_for_each),
+> +		SUBTEST(test_excl_for_each_unlocked),
+> +		SUBTEST(test_shared_for_each_unlocked),
+> +	};
+> +
+> +	spin_lock_init(&fence_lock);
+> +	return subtests(tests, NULL);
+> +}
 > -- 
-> 2.33.0
+> 2.25.1
 > 
 
 -- 
