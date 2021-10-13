@@ -1,63 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DF6B42C885
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Oct 2021 20:18:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E255B42C8B0
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Oct 2021 20:28:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 31C4C6EA2D;
-	Wed, 13 Oct 2021 18:18:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D6C689192;
+	Wed, 13 Oct 2021 18:28:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
- [IPv6:2a00:1450:4864:20::129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E009A6EA2D
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Oct 2021 18:18:52 +0000 (UTC)
-Received: by mail-lf1-x129.google.com with SMTP id u21so12493823lff.8
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Oct 2021 11:18:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=sNgBMY1EYvAR4tAnZyZ3ch4hUWrBZvBwo5YqamtcXbc=;
- b=FLFFNc84r4BMCEfdbEVcu+vA1YqaU1yTAF3MB3CyIi2oAF4K35vmpoLfydHizp5GtW
- XsmUKpfWI+o9cK2VOWCTmeolIxGgR+keIoZxSQ9+GmZFRC/AngIkBnOmo2/uuoY2VXGP
- T4dzUVDYE0CltRxbXI/P9x0/NFPSKOiFTYkmU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=sNgBMY1EYvAR4tAnZyZ3ch4hUWrBZvBwo5YqamtcXbc=;
- b=1e4hXqL/MnEpCM8Ai5Wn7cu0QUbI2m+6KPsuzWfA/vr+QV/tTlTe7wpgaJNalHO+wa
- uLNlBLZX4yGVpRoAIXSA/kTvjJISz32eqcmVm5VO8fXdZT0Sf4IxqML1ngO08txC6SyS
- haf56FetX/67Xri4RsoG4QHGfwtdq7WQL4TXTChs0EOt5vi1RfhrqLtnvyfd3riMr8vk
- Udu951SiMEK4/2T7v1Igmeq1yHQtbRMSEAeFgRNd4W87j8pCFxm2K5oFCkvTlmYZNjOm
- dcUtgMwhh0oERdoOS0cQwEBRM0h0R98rI3TJrrp2SHgFjlPxl3umbdtpfldc7yQNrYfT
- 09ig==
-X-Gm-Message-State: AOAM533Oxp/ab/YON+LyB5zJlQ0wvtIUKRWi3HrFkqiwyGchn0BmKfsj
- EQClUqo3PJBXpBOGELfFOZ7IRKWG7Z/Oltag2xr8oA==
-X-Google-Smtp-Source: ABdhPJwoX+C04YhsDhO8yVn8Dr+86X4h0AQku4VB7IDCxSx/48LOe1M/zOnFx8J4gSxpHrsZxH05TDajeJhGuoz0T0U=
-X-Received: by 2002:a05:6512:1024:: with SMTP id
- r4mr519678lfr.369.1634149130936; 
- Wed, 13 Oct 2021 11:18:50 -0700 (PDT)
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D15B189192;
+ Wed, 13 Oct 2021 18:28:49 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10136"; a="214444009"
+X-IronPort-AV: E=Sophos;i="5.85,371,1624345200"; d="scan'208";a="214444009"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Oct 2021 11:28:49 -0700
+X-IronPort-AV: E=Sophos;i="5.85,371,1624345200"; d="scan'208";a="441753205"
+Received: from jons-linux-dev-box.fm.intel.com (HELO jons-linux-dev-box)
+ ([10.1.27.20])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Oct 2021 11:28:49 -0700
+Date: Wed, 13 Oct 2021 11:24:05 -0700
+From: Matthew Brost <matthew.brost@intel.com>
+To: John Harrison <john.c.harrison@intel.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ daniele.ceraolospurio@intel.com
+Subject: Re: [PATCH 12/26] drm/i915/guc: Implement multi-lrc submission
+Message-ID: <20211013182405.GA32759@jons-linux-dev-box>
+References: <20211004220637.14746-1-matthew.brost@intel.com>
+ <20211004220637.14746-13-matthew.brost@intel.com>
+ <2eea93a0-a752-bfae-b267-9d7d1b9ba61c@intel.com>
 MIME-Version: 1.0
-References: <20210929194012.3433306-1-markyacoub@chromium.org>
- <20211001203434.GY2515@art_vandelay>
-In-Reply-To: <20211001203434.GY2515@art_vandelay>
-From: Mark Yacoub <markyacoub@chromium.org>
-Date: Wed, 13 Oct 2021 14:18:40 -0400
-Message-ID: <CAJUqKUqCkYffX2Pr5sT1OTB2NOHPbz5g9udQRSGV_BoSyr=u9A@mail.gmail.com>
-Subject: Re: [PATCH 1/2] drm: Add Gamma and Degamma LUT sizes props to
- drm_crtc to validate.
-To: Sean Paul <sean@poorly.run>
-Cc: Maling list - DRI developers <dri-devel@lists.freedesktop.org>, 
- amd-gfx list <amd-gfx@lists.freedesktop.org>, Sean Paul <seanpaul@chromium.org>,
- "Siqueira, Rodrigo" <Rodrigo.Siqueira@amd.com>,
- Anson Jacob <anson.jacob@amd.com>, Mark Yacoub <markyacoub@google.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, 
- Matthias Brugger <matthias.bgg@gmail.com>, linux-mediatek@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2eea93a0-a752-bfae-b267-9d7d1b9ba61c@intel.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,237 +52,651 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 1, 2021 at 4:34 PM Sean Paul <sean@poorly.run> wrote:
->
-> On Wed, Sep 29, 2021 at 03:39:25PM -0400, Mark Yacoub wrote:
-> > From: Mark Yacoub <markyacoub@google.com>
-> >
-> > [Why]
-> > 1. drm_atomic_helper_check doesn't check for the LUT sizes of either Gamma
-> > or Degamma props in the new CRTC state, allowing any invalid size to
-> > be passed on.
-> > 2. Each driver has its own LUT size, which could also be different for
-> > legacy users.
-> >
-> > [How]
-> > 1. Create |degamma_lut_size| and |gamma_lut_size| to save the LUT sizes
-> > assigned by the driver when it's initializing its color and CTM
-> > management.
-> > 2. Create drm_atomic_helper_check_crtc which is called by
-> > drm_atomic_helper_check to check the LUT sizes saved in drm_crtc that
-> > they match the sizes in the new CRTC state.
-> >
->
-> Did you consider extending drm_color_lut_check() with the size checks?
-renamed it to be specific to channels. It's HW specific so i thought
-of keeping it a separate check if the driver chooses to check it.
-Removed the LUT size check that intel uses though.
->
-> > Fixes: igt@kms_color@pipe-A-invalid-gamma-lut-sizes on MTK
-> > Tested on Zork(amdgpu) and Jacuzzi(mediatek)
-> >
-> > Signed-off-by: Mark Yacoub<markyacoub@chromium.org>
->
-> nit: missing a space between name and email
->
->
+On Fri, Oct 08, 2021 at 10:20:24AM -0700, John Harrison wrote:
+> On 10/4/2021 15:06, Matthew Brost wrote:
+> > Implement multi-lrc submission via a single workqueue entry and single
+> > H2G. The workqueue entry contains an updated tail value for each
+> > request, of all the contexts in the multi-lrc submission, and updates
+> > these values simultaneously. As such, the tasklet and bypass path have
+> > been updated to coalesce requests into a single submission.
+> > 
+> > v2:
+> >   (John Harrison)
+> >    - s/wqe/wqi
+> >    - Use FIELD_PREP macros
+> >    - Add GEM_BUG_ONs ensures length fits within field
+> >    - Add comment / white space to intel_guc_write_barrier
+> >   (Kernel test robot)
+> >    - Make need_tasklet a static function
+> > 
+> > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
 > > ---
-> >  drivers/gpu/drm/drm_atomic_helper.c | 56 +++++++++++++++++++++++++++++
-> >  drivers/gpu/drm/drm_color_mgmt.c    |  2 ++
-> >  include/drm/drm_atomic_helper.h     |  1 +
-> >  include/drm/drm_crtc.h              | 11 ++++++
-> >  4 files changed, 70 insertions(+)
-> >
-> > diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
-> > index 2c0c6ec928200..265b9747250d1 100644
-> > --- a/drivers/gpu/drm/drm_atomic_helper.c
-> > +++ b/drivers/gpu/drm/drm_atomic_helper.c
-> > @@ -930,6 +930,58 @@ drm_atomic_helper_check_planes(struct drm_device *dev,
-> >  }
-> >  EXPORT_SYMBOL(drm_atomic_helper_check_planes);
-> >
-> > +/**
-> > + * drm_atomic_helper_check_planes - validate state object for CRTC changes
->
-> Ctrl+c/Ctrl+v error here
->
-> > + * @state: the driver state object
-> > + *
-> > + * Check the CRTC state object such as the Gamma/Degamma LUT sizes if the new
->
-> Are there missing words between "object" and "such"?
->
-not really. I was thinking of how to reword it without being too
-verbose and nothing sounded good.
-I mean I'm checking the object, such as the LUT which is part of this object.
-> > + * state holds them.
-> > + *
-> > + * RETURNS:
-> > + * Zero for success or -errno
-> > + */
-> > +int drm_atomic_helper_check_crtc(struct drm_atomic_state *state)
->
-> drm_atomic_helper_check_crtcs to be consistent with
-> drm_atomic_helper_check_planes
->
+> >   drivers/gpu/drm/i915/gt/uc/intel_guc.c        |  26 ++
+> >   drivers/gpu/drm/i915/gt/uc/intel_guc.h        |   8 +
+> >   drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c     |  24 +-
+> >   drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h   |  23 +-
+> >   .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 319 ++++++++++++++++--
+> >   drivers/gpu/drm/i915/i915_request.h           |   8 +
+> >   6 files changed, 335 insertions(+), 73 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
+> > index 8f8182bf7c11..7191e8439290 100644
+> > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc.c
+> > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
+> > @@ -756,3 +756,29 @@ void intel_guc_load_status(struct intel_guc *guc, struct drm_printer *p)
+> >   		}
+> >   	}
+> >   }
+> > +
+> > +void intel_guc_write_barrier(struct intel_guc *guc)
 > > +{
-> > +     struct drm_crtc *crtc;
-> > +     struct drm_crtc_state *new_crtc_state;
-> > +     int i;
+> > +	struct intel_gt *gt = guc_to_gt(guc);
 > > +
-> > +     for_each_new_crtc_in_state (state, crtc, new_crtc_state, i) {
->
-> no space before (
->
-> > +             if (new_crtc_state->gamma_lut) {
->
-> Perhaps gate these with a check of state->color_mgmt_changed first?
-done .  did it for each check so you can easily expand in the future
-and squeeze in more things around those checks as it loops the CRTC
-states.
->
-> > +                     uint64_t supported_lut_size = crtc->gamma_lut_size;
-> > +                     uint32_t supported_legacy_lut_size = crtc->gamma_size;
-> > +                     uint32_t new_state_lut_size =
-> > +                             drm_color_lut_size(new_crtc_state->gamma_lut);
->
-> nit: new_state_lut_size and supported_lut_size can be pulled out to top level scope
-> to avoid re-instantiation on each iteration
->
-CRTC is an iterator, so it changes within the loop.
+> > +	if (i915_gem_object_is_lmem(guc->ct.vma->obj)) {
+> > +		/*
+> > +		 * Ensure intel_uncore_write_fw can be used rather than
+> > +		 * intel_uncore_write.
+> > +		 */
+> > +		GEM_BUG_ON(guc->send_regs.fw_domains);
 > > +
-> > +                     if (new_state_lut_size != supported_lut_size &&
-> > +                         new_state_lut_size != supported_legacy_lut_size) {
->
-> According to the docbook, "If drivers support multiple LUT sizes then they
-> should publish the largest size, and sub-sample smaller sized LUTs". So
-> should this check be > instead of != ?
->
-so IGT tests see it differently, they check for a very specific size,
-rather than a range. so if the legacy size is 256 and regular is 1024,
-1000 isn't a valid size.
-> > +                             DRM_DEBUG_DRIVER(
->
-> drm_dbg_state() is probably more appropriate
->
-> > +                                     "Invalid Gamma LUT size. Should be %u (or %u for legacy) but got %u.\n",
-> > +                                     supported_lut_size,
-> > +                                     supported_legacy_lut_size,
-> > +                                     new_state_lut_size);
-> > +                             return -EINVAL;
-> > +                     }
-> > +             }
-> > +
-> > +             if (new_crtc_state->degamma_lut) {
-> > +                     uint32_t new_state_lut_size =
-> > +                             drm_color_lut_size(new_crtc_state->degamma_lut);
-> > +                     uint64_t supported_lut_size = crtc->degamma_lut_size;
-> > +
-> > +                     if (new_state_lut_size != supported_lut_size) {
-> > +                             DRM_DEBUG_DRIVER(
->
-> drm_dbg_state()
->
-> > +                                     "Invalid Degamma LUT size. Should be %u but got %u.\n",
-> > +                                     supported_lut_size, new_state_lut_size);
-> > +                             return -EINVAL;
-> > +                     }
-> > +             }
-> > +     }
-> > +
-> > +     return 0;
+> > +		/*
+> > +		 * This register is used by the i915 and GuC for MMIO based
+> > +		 * communication. Once we are in this code CTBs are the only
+> > +		 * method the i915 uses to communicate with the GuC so it is
+> > +		 * safe to write to this register (a value of 0 is NOP for MMIO
+> > +		 * communication). If we ever start mixing CTBs and MMIOs a new
+> > +		 * register will have to be chosen.
+> > +		 */
+> Hmm, missed it before but this comment is very CTB centric and the barrier
+> function is now being used for parallel submission work queues. Seems like
+> an extra comment should be added to cover that case. Just something simple
+> about WQ usage is also guaranteed to be post CTB switch over.
+> 
+
+Sure.
+
+> > +		intel_uncore_write_fw(gt->uncore, GEN11_SOFT_SCRATCH(0), 0);
+> > +	} else {
+> > +		/* wmb() sufficient for a barrier if in smem */
+> > +		wmb();
+> > +	}
 > > +}
-> > +EXPORT_SYMBOL(drm_atomic_helper_check_crtc);
+> > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
+> > index a9f4ec972bfb..147f39cc0f2f 100644
+> > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc.h
+> > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
+> > @@ -46,6 +46,12 @@ struct intel_guc {
+> >   	 * submitted until the stalled request is processed.
+> >   	 */
+> >   	struct i915_request *stalled_request;
+> > +	enum {
+> > +		STALL_NONE,
+> > +		STALL_REGISTER_CONTEXT,
+> > +		STALL_MOVE_LRC_TAIL,
+> > +		STALL_ADD_REQUEST,
+> > +	} submission_stall_reason;
+> >   	/* intel_guc_recv interrupt related state */
+> >   	/** @irq_lock: protects GuC irq state */
+> > @@ -361,4 +367,6 @@ void intel_guc_submission_cancel_requests(struct intel_guc *guc);
+> >   void intel_guc_load_status(struct intel_guc *guc, struct drm_printer *p);
+> > +void intel_guc_write_barrier(struct intel_guc *guc);
 > > +
-> >  /**
-> >   * drm_atomic_helper_check - validate state object
-> >   * @dev: DRM device
-> > @@ -975,6 +1027,10 @@ int drm_atomic_helper_check(struct drm_device *dev,
-> >       if (ret)
-> >               return ret;
-> >
-> > +     ret = drm_atomic_helper_check_crtc(state);
-> > +     if (ret)
-> > +             return ret;
+> >   #endif
+> > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+> > index 20c710a74498..10d1878d2826 100644
+> > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+> > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+> > @@ -377,28 +377,6 @@ static u32 ct_get_next_fence(struct intel_guc_ct *ct)
+> >   	return ++ct->requests.last_fence;
+> >   }
+> > -static void write_barrier(struct intel_guc_ct *ct)
+> > -{
+> > -	struct intel_guc *guc = ct_to_guc(ct);
+> > -	struct intel_gt *gt = guc_to_gt(guc);
+> > -
+> > -	if (i915_gem_object_is_lmem(guc->ct.vma->obj)) {
+> > -		GEM_BUG_ON(guc->send_regs.fw_domains);
+> > -		/*
+> > -		 * This register is used by the i915 and GuC for MMIO based
+> > -		 * communication. Once we are in this code CTBs are the only
+> > -		 * method the i915 uses to communicate with the GuC so it is
+> > -		 * safe to write to this register (a value of 0 is NOP for MMIO
+> > -		 * communication). If we ever start mixing CTBs and MMIOs a new
+> > -		 * register will have to be chosen.
+> > -		 */
+> > -		intel_uncore_write_fw(gt->uncore, GEN11_SOFT_SCRATCH(0), 0);
+> > -	} else {
+> > -		/* wmb() sufficient for a barrier if in smem */
+> > -		wmb();
+> > -	}
+> > -}
+> > -
+> >   static int ct_write(struct intel_guc_ct *ct,
+> >   		    const u32 *action,
+> >   		    u32 len /* in dwords */,
+> > @@ -468,7 +446,7 @@ static int ct_write(struct intel_guc_ct *ct,
+> >   	 * make sure H2G buffer update and LRC tail update (if this triggering a
+> >   	 * submission) are visible before updating the descriptor tail
+> >   	 */
+> > -	write_barrier(ct);
+> > +	intel_guc_write_barrier(ct_to_guc(ct));
+> >   	/* update local copies */
+> >   	ctb->tail = tail;
+> > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
+> > index 0eeb2a9feeed..a00eeddc1449 100644
+> > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
+> > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
+> > @@ -58,19 +58,16 @@
+> >   #define WQ_STATUS_CMD_ERROR		3
+> >   #define WQ_STATUS_ENGINE_ID_NOT_USED	4
+> >   #define WQ_STATUS_SUSPENDED_FROM_RESET	5
+> > -#define WQ_TYPE_SHIFT			0
+> > -#define   WQ_TYPE_BATCH_BUF		(0x1 << WQ_TYPE_SHIFT)
+> > -#define   WQ_TYPE_PSEUDO		(0x2 << WQ_TYPE_SHIFT)
+> > -#define   WQ_TYPE_INORDER		(0x3 << WQ_TYPE_SHIFT)
+> > -#define   WQ_TYPE_NOOP			(0x4 << WQ_TYPE_SHIFT)
+> > -#define WQ_TARGET_SHIFT			10
+> > -#define WQ_LEN_SHIFT			16
+> > -#define WQ_NO_WCFLUSH_WAIT		(1 << 27)
+> > -#define WQ_PRESENT_WORKLOAD		(1 << 28)
+> > -
+> > -#define WQ_RING_TAIL_SHIFT		20
+> > -#define WQ_RING_TAIL_MAX		0x7FF	/* 2^11 QWords */
+> > -#define WQ_RING_TAIL_MASK		(WQ_RING_TAIL_MAX << WQ_RING_TAIL_SHIFT)
+> > +#define WQ_TYPE_BATCH_BUF		0x1
+> > +#define WQ_TYPE_PSEUDO			0x2
+> > +#define WQ_TYPE_INORDER			0x3
+> > +#define WQ_TYPE_NOOP			0x4
+> > +#define WQ_TYPE_MULTI_LRC		0x5
+> > +#define WQ_TYPE_MASK			GENMASK(7, 0)
+> > +#define WQ_LEN_MASK			GENMASK(26, 16)
 > > +
-> >       if (state->legacy_cursor_update)
-> >               state->async_update = !drm_atomic_helper_async_check(dev, state);
-> >
-> > diff --git a/drivers/gpu/drm/drm_color_mgmt.c b/drivers/gpu/drm/drm_color_mgmt.c
-> > index bb14f488c8f6c..72a1b628e7cdd 100644
-> > --- a/drivers/gpu/drm/drm_color_mgmt.c
-> > +++ b/drivers/gpu/drm/drm_color_mgmt.c
-> > @@ -166,6 +166,7 @@ void drm_crtc_enable_color_mgmt(struct drm_crtc *crtc,
-> >       struct drm_mode_config *config = &dev->mode_config;
-> >
-> >       if (degamma_lut_size) {
-> > +             crtc->degamma_lut_size = degamma_lut_size;
-> >               drm_object_attach_property(&crtc->base,
-> >                                          config->degamma_lut_property, 0);
-> >               drm_object_attach_property(&crtc->base,
-> > @@ -178,6 +179,7 @@ void drm_crtc_enable_color_mgmt(struct drm_crtc *crtc,
-> >                                          config->ctm_property, 0);
-> >
-> >       if (gamma_lut_size) {
-> > +             crtc->gamma_lut_size = gamma_lut_size;
-> >               drm_object_attach_property(&crtc->base,
-> >                                          config->gamma_lut_property, 0);
-> >               drm_object_attach_property(&crtc->base,
-> > diff --git a/include/drm/drm_atomic_helper.h b/include/drm/drm_atomic_helper.h
-> > index 4045e2507e11c..3eda13622ca1e 100644
-> > --- a/include/drm/drm_atomic_helper.h
-> > +++ b/include/drm/drm_atomic_helper.h
-> > @@ -38,6 +38,7 @@ struct drm_atomic_state;
-> >  struct drm_private_obj;
-> >  struct drm_private_state;
-> >
-> > +int drm_atomic_helper_check_crtc(struct drm_atomic_state *state);
-> >  int drm_atomic_helper_check_modeset(struct drm_device *dev,
-> >                               struct drm_atomic_state *state);
-> >  int drm_atomic_helper_check_plane_state(struct drm_plane_state *plane_state,
-> > diff --git a/include/drm/drm_crtc.h b/include/drm/drm_crtc.h
-> > index 13eeba2a750af..c602be2cafca9 100644
-> > --- a/include/drm/drm_crtc.h
-> > +++ b/include/drm/drm_crtc.h
-> > @@ -1072,6 +1072,17 @@ struct drm_crtc {
-> >       /** @funcs: CRTC control functions */
-> >       const struct drm_crtc_funcs *funcs;
-> >
-> > +     /**
-> > +      * @degamma_lut_size: Size of degamma LUT.
-> > +      */
-> > +     uint32_t degamma_lut_size;
+> > +#define WQ_GUC_ID_MASK			GENMASK(15, 0)
+> > +#define WQ_RING_TAIL_MASK		GENMASK(28, 18)
+> Other option for documenting WQ and WQI would be at the top of this block of
+> definitions. I believe there is a one line comment of 'work queue item
+> header definitions' but none of these defines actually use the WQI
+> abbreviation. And some description of what the work queue is, how it is
+> used, etc. would be good.
+>
+
+Will add something here but again plan on updating the GuC kernel doc
+with all the multi-lrc details including WQ / WQI. 
+ 
+> >   #define GUC_STAGE_DESC_ATTR_ACTIVE	BIT(0)
+> >   #define GUC_STAGE_DESC_ATTR_PENDING_DB	BIT(1)
+> > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > index 031b1bf5ba91..1610120e31a1 100644
+> > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > @@ -399,6 +399,29 @@ __get_process_desc(struct intel_context *ce)
+> >   		   LRC_STATE_OFFSET) / sizeof(u32)));
+> >   }
+> > +static u32 *get_wq_pointer(struct guc_process_desc *desc,
+> > +			   struct intel_context *ce,
+> > +			   u32 wqi_size)
+> > +{
+> > +	/*
+> > +	 * Check for space in work queue. Caching a value of head pointer in
+> > +	 * intel_context structure in order reduce the number accesses to shared
+> > +	 * GPU memory which may be across a PCIe bus.
+> > +	 */
+> > +#define AVAILABLE_SPACE	\
+> > +	CIRC_SPACE(ce->parallel.guc.wqi_tail, ce->parallel.guc.wqi_head, WQ_SIZE)
+> > +	if (wqi_size > AVAILABLE_SPACE) {
+> > +		ce->parallel.guc.wqi_head = READ_ONCE(desc->head);
 > > +
-> > +     /**
-> > +      * @gamma_lut_size: Size of Gamma LUT. Not used by legacy userspace such as
-> > +      * X, which doesn't support large lut sizes.
-> > +      */
-> > +     uint32_t gamma_lut_size;
+> > +		if (wqi_size > AVAILABLE_SPACE)
+> > +			return NULL;
+> > +	}
+> > +#undef AVAILABLE_SPACE
 > > +
->
-> Above, you're checking
->
-> if (new_state_lut_size != gamma_size && new_state_lut_size != gamma_lut_size)
->         fail;
->
-> doesn't that imply that gamma_size and gamma_lut_size must always be equal? If
-> so, perhaps turf this new state and rename degamma_lut_size to degamma_size to
-> be consistent.
->
-> De-duping this and initializing crtc->gamma_size in the initialization would
-> mean the if (crtc->gamma_size) check in drm_crtc_supports_legacy_check() is no
-> longer useful (and possibly other similar checks), so some care will need to be
-> taken to avoid regression. I think the effort is worthwhile to avoid introducing
-> new state.
->
->
->
-> >       /**
-> >        * @gamma_size: Size of legacy gamma ramp reported to userspace. Set up
-> >        * by calling drm_mode_crtc_set_gamma_size().
-> > --
-> > 2.33.0.685.g46640cef36-goog
-> >
->
-> --
-> Sean Paul, Software Engineer, Google / Chromium OS
+> > +	return ((u32 *)__get_process_desc(ce)) +
+> > +		((WQ_OFFSET + ce->parallel.guc.wqi_tail) / sizeof(u32));
+> > +}
+> > +
+> >   static struct guc_lrc_desc *__get_lrc_desc(struct intel_guc *guc, u32 index)
+> >   {
+> >   	struct guc_lrc_desc *base = guc->lrc_desc_pool_vaddr;
+> > @@ -558,10 +581,10 @@ int intel_guc_wait_for_idle(struct intel_guc *guc, long timeout)
+> >   static int guc_lrc_desc_pin(struct intel_context *ce, bool loop);
+> > -static int guc_add_request(struct intel_guc *guc, struct i915_request *rq)
+> > +static int __guc_add_request(struct intel_guc *guc, struct i915_request *rq)
+> >   {
+> >   	int err = 0;
+> > -	struct intel_context *ce = rq->context;
+> > +	struct intel_context *ce = request_to_scheduling_context(rq);
+> >   	u32 action[3];
+> >   	int len = 0;
+> >   	u32 g2h_len_dw = 0;
+> > @@ -582,26 +605,17 @@ static int guc_add_request(struct intel_guc *guc, struct i915_request *rq)
+> >   	GEM_BUG_ON(!atomic_read(&ce->guc_id.ref));
+> >   	GEM_BUG_ON(context_guc_id_invalid(ce));
+> > -	/*
+> > -	 * Corner case where the GuC firmware was blown away and reloaded while
+> > -	 * this context was pinned.
+> > -	 */
+> > -	if (unlikely(!lrc_desc_registered(guc, ce->guc_id.id))) {
+> > -		err = guc_lrc_desc_pin(ce, false);
+> > -		if (unlikely(err))
+> > -			return err;
+> > -	}
+> > -
+> >   	spin_lock(&ce->guc_state.lock);
+> >   	/*
+> >   	 * The request / context will be run on the hardware when scheduling
+> > -	 * gets enabled in the unblock.
+> > +	 * gets enabled in the unblock. For multi-lrc we still submit the
+> > +	 * context to move the LRC tails.
+> >   	 */
+> > -	if (unlikely(context_blocked(ce)))
+> > +	if (unlikely(context_blocked(ce) && !intel_context_is_parent(ce)))
+> >   		goto out;
+> > -	enabled = context_enabled(ce);
+> > +	enabled = context_enabled(ce) || context_blocked(ce);
+> >   	if (!enabled) {
+> >   		action[len++] = INTEL_GUC_ACTION_SCHED_CONTEXT_MODE_SET;
+> > @@ -620,6 +634,18 @@ static int guc_add_request(struct intel_guc *guc, struct i915_request *rq)
+> >   		trace_intel_context_sched_enable(ce);
+> >   		atomic_inc(&guc->outstanding_submission_g2h);
+> >   		set_context_enabled(ce);
+> > +
+> > +		/*
+> > +		 * Without multi-lrc KMD does the submission step (moving the
+> > +		 * lrc tail) so enabling scheduling is sufficient to submit the
+> > +		 * context. This isn't the case in multi-lrc submission as the
+> > +		 * GuC needs to move the tails, hence the need for another H2G
+> > +		 * to submit a multi-lrc context after enabling scheduling.
+> > +		 */
+> > +		if (intel_context_is_parent(ce)) {
+> > +			action[0] = INTEL_GUC_ACTION_SCHED_CONTEXT;
+> > +			err = intel_guc_send_nb(guc, action, len - 1, 0);
+> > +		}
+> >   	} else if (!enabled) {
+> >   		clr_context_pending_enable(ce);
+> >   		intel_context_put(ce);
+> > @@ -632,6 +658,18 @@ static int guc_add_request(struct intel_guc *guc, struct i915_request *rq)
+> >   	return err;
+> >   }
+> > +static int guc_add_request(struct intel_guc *guc, struct i915_request *rq)
+> > +{
+> > +	int ret = __guc_add_request(guc, rq);
+> > +
+> > +	if (unlikely(ret == -EBUSY)) {
+> > +		guc->stalled_request = rq;
+> > +		guc->submission_stall_reason = STALL_ADD_REQUEST;
+> > +	}
+> > +
+> > +	return ret;
+> > +}
+> > +
+> >   static inline void guc_set_lrc_tail(struct i915_request *rq)
+> >   {
+> >   	rq->context->lrc_reg_state[CTX_RING_TAIL] =
+> > @@ -643,6 +681,134 @@ static inline int rq_prio(const struct i915_request *rq)
+> >   	return rq->sched.attr.priority;
+> >   }
+> > +static bool is_multi_lrc_rq(struct i915_request *rq)
+> > +{
+> > +	return intel_context_is_child(rq->context) ||
+> > +		intel_context_is_parent(rq->context);
+> > +}
+> > +
+> > +static bool can_merge_rq(struct i915_request *rq,
+> > +			 struct i915_request *last)
+> > +{
+> > +	return request_to_scheduling_context(rq) ==
+> > +		request_to_scheduling_context(last);
+> > +}
+> > +
+> > +static u32 wq_space_until_wrap(struct intel_context *ce)
+> > +{
+> > +	return (WQ_SIZE - ce->parallel.guc.wqi_tail);
+> > +}
+> > +
+> > +static void write_wqi(struct guc_process_desc *desc,
+> > +		      struct intel_context *ce,
+> > +		      u32 wqi_size)
+> > +{
+> > +	/*
+> > +	 * Ensure WQI are visible before updating tail
+> > +	 */
+> > +	intel_guc_write_barrier(ce_to_guc(ce));
+> > +
+> > +	ce->parallel.guc.wqi_tail = (ce->parallel.guc.wqi_tail + wqi_size) &
+> > +		(WQ_SIZE - 1);
+> This relies on WQ_SIZE being a power of two, right? Is it possible to add a
+> BUILD_BUG_ON to ensure that?
+> 
+
+Yep.
+
+> > +	WRITE_ONCE(desc->tail, ce->parallel.guc.wqi_tail);
+> > +}
+> > +
+> > +static int guc_wq_noop_append(struct intel_context *ce)
+> > +{
+> > +	struct guc_process_desc *desc = __get_process_desc(ce);
+> > +	u32 *wqi = get_wq_pointer(desc, ce, wq_space_until_wrap(ce));
+> > +	u32 len_dw = wq_space_until_wrap(ce) / sizeof(u32) - 1;
+> > +
+> > +	if (!wqi)
+> > +		return -EBUSY;
+> > +
+> > +	GEM_BUG_ON(!FIELD_FIT(WQ_LEN_MASK, len_dw));
+> > +
+> > +	*wqi = FIELD_PREP(WQ_TYPE_MASK, WQ_TYPE_NOOP) |
+> > +		FIELD_PREP(WQ_LEN_MASK, len_dw);
+> > +	ce->parallel.guc.wqi_tail = 0;
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static int __guc_wq_item_append(struct i915_request *rq)
+> > +{
+> > +	struct intel_context *ce = request_to_scheduling_context(rq);
+> > +	struct intel_context *child;
+> > +	struct guc_process_desc *desc = __get_process_desc(ce);
+> > +	unsigned int wqi_size = (ce->parallel.number_children + 4) *
+> > +		sizeof(u32);
+> > +	u32 *wqi;
+> > +	u32 len_dw = (wqi_size / sizeof(u32)) - 1;
+> > +	int ret;
+> > +
+> > +	/* Ensure context is in correct state updating work queue */
+> > +	GEM_BUG_ON(!atomic_read(&ce->guc_id.ref));
+> > +	GEM_BUG_ON(context_guc_id_invalid(ce));
+> > +	GEM_BUG_ON(context_wait_for_deregister_to_register(ce));
+> > +	GEM_BUG_ON(!lrc_desc_registered(ce_to_guc(ce), ce->guc_id.id));
+> > +
+> > +	/* Insert NOOP if this work queue item will wrap the tail pointer. */
+> > +	if (wqi_size > wq_space_until_wrap(ce)) {
+> > +		ret = guc_wq_noop_append(ce);
+> > +		if (ret)
+> > +			return ret;
+> > +	}
+> > +
+> > +	wqi = get_wq_pointer(desc, ce, wqi_size);
+> > +	if (!wqi)
+> > +		return -EBUSY;
+> > +
+> > +	GEM_BUG_ON(!FIELD_FIT(WQ_LEN_MASK, len_dw));
+> > +
+> > +	*wqi++ = FIELD_PREP(WQ_TYPE_MASK, WQ_TYPE_MULTI_LRC) |
+> > +		FIELD_PREP(WQ_LEN_MASK, len_dw);
+> > +	*wqi++ = ce->lrc.lrca;
+> > +	*wqi++ = FIELD_PREP(WQ_GUC_ID_MASK, ce->guc_id.id) |
+> > +	       FIELD_PREP(WQ_RING_TAIL_MASK, ce->ring->tail / sizeof(u64));
+> > +	*wqi++ = 0;	/* fence_id */
+> > +	for_each_child(ce, child)
+> > +		*wqi++ = child->ring->tail / sizeof(u64);
+> > +
+> > +	write_wqi(desc, ce, wqi_size);
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static int guc_wq_item_append(struct intel_guc *guc,
+> > +			      struct i915_request *rq)
+> > +{
+> > +	struct intel_context *ce = request_to_scheduling_context(rq);
+> > +	int ret = 0;
+> > +
+> > +	if (likely(!intel_context_is_banned(ce))) {
+> > +		ret = __guc_wq_item_append(rq);
+> > +
+> > +		if (unlikely(ret == -EBUSY)) {
+> > +			guc->stalled_request = rq;
+> > +			guc->submission_stall_reason = STALL_MOVE_LRC_TAIL;
+> > +		}
+> > +	}
+> > +
+> > +	return ret;
+> > +}
+> > +
+> > +static bool multi_lrc_submit(struct i915_request *rq)
+> > +{
+> > +	struct intel_context *ce = request_to_scheduling_context(rq);
+> > +
+> > +	intel_ring_set_tail(rq->ring, rq->tail);
+> > +
+> > +	/*
+> > +	 * We expect the front end (execbuf IOCTL) to set this flag on the last
+> > +	 * request generated from a multi-BB submission. This indicates to the
+> > +	 * backend (GuC interface) that we should submit this context thus
+> > +	 * submitting all the requests generated in parallel.
+> > +	 */
+> > +	return test_bit(I915_FENCE_FLAG_SUBMIT_PARALLEL, &rq->fence.flags) ||
+> FYI: Apparently the test_bit/set_bit/etc helpers are intended for use on
+> arbitrary sized bitfields. As in, they do all sorts of complicated atomic
+> operations to work on 164 bit words and such like. For single word flags,
+> the guidance is to just use 'if(word & BIT(bit))' instead.
+> 
+
+I get that but currently everywhere in the code uses
+set_bit/clear_bit/test_bit on the rq->fence.flags. IMO is better to
+stick to that convention for now rip of all of these helpers in a single
+patch later. I'd rather not have a hodgepodge of styles in the code.
+
+I can an AR to clean up rq->fence.flags everywhere in the code in a
+follow up.
+
+Matt
+
+> John.
+> 
+> > +		intel_context_is_banned(ce);
+> > +}
+> > +
+> >   static int guc_dequeue_one_context(struct intel_guc *guc)
+> >   {
+> >   	struct i915_sched_engine * const sched_engine = guc->sched_engine;
+> > @@ -656,7 +822,17 @@ static int guc_dequeue_one_context(struct intel_guc *guc)
+> >   	if (guc->stalled_request) {
+> >   		submit = true;
+> >   		last = guc->stalled_request;
+> > -		goto resubmit;
+> > +
+> > +		switch (guc->submission_stall_reason) {
+> > +		case STALL_REGISTER_CONTEXT:
+> > +			goto register_context;
+> > +		case STALL_MOVE_LRC_TAIL:
+> > +			goto move_lrc_tail;
+> > +		case STALL_ADD_REQUEST:
+> > +			goto add_request;
+> > +		default:
+> > +			MISSING_CASE(guc->submission_stall_reason);
+> > +		}
+> >   	}
+> >   	while ((rb = rb_first_cached(&sched_engine->queue))) {
+> > @@ -664,8 +840,8 @@ static int guc_dequeue_one_context(struct intel_guc *guc)
+> >   		struct i915_request *rq, *rn;
+> >   		priolist_for_each_request_consume(rq, rn, p) {
+> > -			if (last && rq->context != last->context)
+> > -				goto done;
+> > +			if (last && !can_merge_rq(rq, last))
+> > +				goto register_context;
+> >   			list_del_init(&rq->sched.link);
+> > @@ -673,33 +849,84 @@ static int guc_dequeue_one_context(struct intel_guc *guc)
+> >   			trace_i915_request_in(rq, 0);
+> >   			last = rq;
+> > -			submit = true;
+> > +
+> > +			if (is_multi_lrc_rq(rq)) {
+> > +				/*
+> > +				 * We need to coalesce all multi-lrc requests in
+> > +				 * a relationship into a single H2G. We are
+> > +				 * guaranteed that all of these requests will be
+> > +				 * submitted sequentially.
+> > +				 */
+> > +				if (multi_lrc_submit(rq)) {
+> > +					submit = true;
+> > +					goto register_context;
+> > +				}
+> > +			} else {
+> > +				submit = true;
+> > +			}
+> >   		}
+> >   		rb_erase_cached(&p->node, &sched_engine->queue);
+> >   		i915_priolist_free(p);
+> >   	}
+> > -done:
+> > +
+> > +register_context:
+> >   	if (submit) {
+> > -		guc_set_lrc_tail(last);
+> > -resubmit:
+> > +		struct intel_context *ce = request_to_scheduling_context(last);
+> > +
+> > +		if (unlikely(!lrc_desc_registered(guc, ce->guc_id.id) &&
+> > +			     !intel_context_is_banned(ce))) {
+> > +			ret = guc_lrc_desc_pin(ce, false);
+> > +			if (unlikely(ret == -EPIPE)) {
+> > +				goto deadlk;
+> > +			} else if (ret == -EBUSY) {
+> > +				guc->stalled_request = last;
+> > +				guc->submission_stall_reason =
+> > +					STALL_REGISTER_CONTEXT;
+> > +				goto schedule_tasklet;
+> > +			} else if (ret != 0) {
+> > +				GEM_WARN_ON(ret);	/* Unexpected */
+> > +				goto deadlk;
+> > +			}
+> > +		}
+> > +
+> > +move_lrc_tail:
+> > +		if (is_multi_lrc_rq(last)) {
+> > +			ret = guc_wq_item_append(guc, last);
+> > +			if (ret == -EBUSY) {
+> > +				goto schedule_tasklet;
+> > +			} else if (ret != 0) {
+> > +				GEM_WARN_ON(ret);	/* Unexpected */
+> > +				goto deadlk;
+> > +			}
+> > +		} else {
+> > +			guc_set_lrc_tail(last);
+> > +		}
+> > +
+> > +add_request:
+> >   		ret = guc_add_request(guc, last);
+> > -		if (unlikely(ret == -EPIPE))
+> > +		if (unlikely(ret == -EPIPE)) {
+> > +			goto deadlk;
+> > +		} else if (ret == -EBUSY) {
+> > +			goto schedule_tasklet;
+> > +		} else if (ret != 0) {
+> > +			GEM_WARN_ON(ret);	/* Unexpected */
+> >   			goto deadlk;
+> > -		else if (ret == -EBUSY) {
+> > -			tasklet_schedule(&sched_engine->tasklet);
+> > -			guc->stalled_request = last;
+> > -			return false;
+> >   		}
+> >   	}
+> >   	guc->stalled_request = NULL;
+> > +	guc->submission_stall_reason = STALL_NONE;
+> >   	return submit;
+> >   deadlk:
+> >   	sched_engine->tasklet.callback = NULL;
+> >   	tasklet_disable_nosync(&sched_engine->tasklet);
+> >   	return false;
+> > +
+> > +schedule_tasklet:
+> > +	tasklet_schedule(&sched_engine->tasklet);
+> > +	return false;
+> >   }
+> >   static void guc_submission_tasklet(struct tasklet_struct *t)
+> > @@ -1255,10 +1482,16 @@ static int guc_bypass_tasklet_submit(struct intel_guc *guc,
+> >   	trace_i915_request_in(rq, 0);
+> > -	guc_set_lrc_tail(rq);
+> > -	ret = guc_add_request(guc, rq);
+> > -	if (ret == -EBUSY)
+> > -		guc->stalled_request = rq;
+> > +	if (is_multi_lrc_rq(rq)) {
+> > +		if (multi_lrc_submit(rq)) {
+> > +			ret = guc_wq_item_append(guc, rq);
+> > +			if (!ret)
+> > +				ret = guc_add_request(guc, rq);
+> > +		}
+> > +	} else {
+> > +		guc_set_lrc_tail(rq);
+> > +		ret = guc_add_request(guc, rq);
+> > +	}
+> >   	if (unlikely(ret == -EPIPE))
+> >   		disable_submission(guc);
+> > @@ -1266,6 +1499,16 @@ static int guc_bypass_tasklet_submit(struct intel_guc *guc,
+> >   	return ret;
+> >   }
+> > +static bool need_tasklet(struct intel_guc *guc, struct i915_request *rq)
+> > +{
+> > +	struct i915_sched_engine *sched_engine = rq->engine->sched_engine;
+> > +	struct intel_context *ce = request_to_scheduling_context(rq);
+> > +
+> > +	return submission_disabled(guc) || guc->stalled_request ||
+> > +		!i915_sched_engine_is_empty(sched_engine) ||
+> > +		!lrc_desc_registered(guc, ce->guc_id.id);
+> > +}
+> > +
+> >   static void guc_submit_request(struct i915_request *rq)
+> >   {
+> >   	struct i915_sched_engine *sched_engine = rq->engine->sched_engine;
+> > @@ -1275,8 +1518,7 @@ static void guc_submit_request(struct i915_request *rq)
+> >   	/* Will be called from irq-context when using foreign fences. */
+> >   	spin_lock_irqsave(&sched_engine->lock, flags);
+> > -	if (submission_disabled(guc) || guc->stalled_request ||
+> > -	    !i915_sched_engine_is_empty(sched_engine))
+> > +	if (need_tasklet(guc, rq))
+> >   		queue_request(sched_engine, rq, rq_prio(rq));
+> >   	else if (guc_bypass_tasklet_submit(guc, rq) == -EBUSY)
+> >   		tasklet_hi_schedule(&sched_engine->tasklet);
+> > @@ -2258,9 +2500,10 @@ static inline bool new_guc_prio_higher(u8 old_guc_prio, u8 new_guc_prio)
+> >   static void add_to_context(struct i915_request *rq)
+> >   {
+> > -	struct intel_context *ce = rq->context;
+> > +	struct intel_context *ce = request_to_scheduling_context(rq);
+> >   	u8 new_guc_prio = map_i915_prio_to_guc_prio(rq_prio(rq));
+> > +	GEM_BUG_ON(intel_context_is_child(ce));
+> >   	GEM_BUG_ON(rq->guc_prio == GUC_PRIO_FINI);
+> >   	spin_lock(&ce->guc_state.lock);
+> > @@ -2293,7 +2536,9 @@ static void guc_prio_fini(struct i915_request *rq, struct intel_context *ce)
+> >   static void remove_from_context(struct i915_request *rq)
+> >   {
+> > -	struct intel_context *ce = rq->context;
+> > +	struct intel_context *ce = request_to_scheduling_context(rq);
+> > +
+> > +	GEM_BUG_ON(intel_context_is_child(ce));
+> >   	spin_lock_irq(&ce->guc_state.lock);
+> > @@ -2712,7 +2957,7 @@ static void guc_init_breadcrumbs(struct intel_engine_cs *engine)
+> >   static void guc_bump_inflight_request_prio(struct i915_request *rq,
+> >   					   int prio)
+> >   {
+> > -	struct intel_context *ce = rq->context;
+> > +	struct intel_context *ce = request_to_scheduling_context(rq);
+> >   	u8 new_guc_prio = map_i915_prio_to_guc_prio(prio);
+> >   	/* Short circuit function */
+> > @@ -2735,7 +2980,7 @@ static void guc_bump_inflight_request_prio(struct i915_request *rq,
+> >   static void guc_retire_inflight_request_prio(struct i915_request *rq)
+> >   {
+> > -	struct intel_context *ce = rq->context;
+> > +	struct intel_context *ce = request_to_scheduling_context(rq);
+> >   	spin_lock(&ce->guc_state.lock);
+> >   	guc_prio_fini(rq, ce);
+> > diff --git a/drivers/gpu/drm/i915/i915_request.h b/drivers/gpu/drm/i915/i915_request.h
+> > index 7bd9ed20623e..8950785e55d6 100644
+> > --- a/drivers/gpu/drm/i915/i915_request.h
+> > +++ b/drivers/gpu/drm/i915/i915_request.h
+> > @@ -139,6 +139,14 @@ enum {
+> >   	 * the GPU. Here we track such boost requests on a per-request basis.
+> >   	 */
+> >   	I915_FENCE_FLAG_BOOST,
+> > +
+> > +	/*
+> > +	 * I915_FENCE_FLAG_SUBMIT_PARALLEL - request with a context in a
+> > +	 * parent-child relationship (parallel submission, multi-lrc) should
+> > +	 * trigger a submission to the GuC rather than just moving the context
+> > +	 * tail.
+> > +	 */
+> > +	I915_FENCE_FLAG_SUBMIT_PARALLEL,
+> >   };
+> >   /**
+> 
