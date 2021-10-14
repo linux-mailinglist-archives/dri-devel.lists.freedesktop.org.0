@@ -1,66 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80CE242DAE4
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Oct 2021 15:54:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C9A542DAEA
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Oct 2021 15:56:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 78B6B6EA9D;
-	Thu, 14 Oct 2021 13:54:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B429F6EB0C;
+	Thu, 14 Oct 2021 13:56:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
- [IPv6:2a00:1450:4864:20::12c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E46D6EA9D
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Oct 2021 13:54:13 +0000 (UTC)
-Received: by mail-lf1-x12c.google.com with SMTP id u21so24177441lff.8
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Oct 2021 06:54:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=X6cikJ4JX7npLghbX3IpSU36kokTCPk8W0b/girvHqE=;
- b=ZqPfRtzKM0rBjePxXwju7rbbAD39j1MRRbfxJ7Tu2ETwOruKGwNbXSuwBI050X8b9g
- GPNB5zvcZ1DL1zUFd3HVOgTKvi1AnpmgDQkjJqfYgpAkixXWX1QTsG1hfMzHDn6Z+WKW
- I/gYzrZTD5iTgqKmGPvz1FOAebtHehBnHmklDkAzIWpgOd38AoiInDDwStEt7rBHsa8v
- UZPEdlqn562iqOewx3IJgxkRxA0WWqMAQ/fcdABaW/odedtu5FTFQS+TeAYoK6Q9OFAV
- 1WW0qZtKjko8a195d28yOWN7BBvAzZgB78EyT3lLxyMRYjiEwACzswrbbQ5HojPon01e
- hK/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=X6cikJ4JX7npLghbX3IpSU36kokTCPk8W0b/girvHqE=;
- b=HMxpcN9BTS8LLRZVAtlb8bjBpB/myqWt9QzgUT+y9Lmu8NFO0PI3eMLYSkC84Lmi/h
- da44cGheowZ4fIhZAQ2uxGdwRPyg+oG77ZLZ0J7Xa185avEcplt7HOMZSZxh1CSeGwnW
- fzLP1clZfTwJZRKIf31SnauyG2JlCbNfbnGoikXLFKGM4HEkjkw4lwGXatRO1+1bM8c3
- u9ejOB6fM8CSSB1hqKpnTS69MbM68Z9d6UM+HGn98y5up5yns4TG0MJrWLf4lUmnmZyU
- UQdb9/9Dtf+AmKxsmc1oKrQfXJlM551vizU0wkv+GuNaoJq9x8gwM2SRPcchnWr9sl3w
- s3lg==
-X-Gm-Message-State: AOAM530j0FZCmy+xLWZl9MnEuBjW4upQbOjjNM68T9AKKbodH+MRyh2Y
- cQJdtTFf/VEDiM2KDQcjAGxU4A==
-X-Google-Smtp-Source: ABdhPJw3MTnPZ61G5M+z7XwzXDjHGnFQMA4O5Zs+/aWNq+CTwWr/BHPtD0/NQ3saH14kqILOEzwQuQ==
-X-Received: by 2002:a19:c1d2:: with SMTP id r201mr5163713lff.364.1634219651955; 
- Thu, 14 Oct 2021 06:54:11 -0700 (PDT)
-Received: from eriador.lan ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id p6sm233032lfs.109.2021.10.14.06.54.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 Oct 2021 06:54:11 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Andy Gross <agross@kernel.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <abhinavk@codeaurora.org>, Rob Herring <robh+dt@kernel.org>
-Cc: Jonathan Marek <jonathan@marek.ca>, Stephen Boyd <sboyd@kernel.org>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
- Amit Pundir <amit.pundir@linaro.org>
-Subject: Revert "arm64: dts: qcom: sm8250: remove bus clock from the mdss node
- for sm8250 target"
-Date: Thu, 14 Oct 2021 16:54:10 +0300
-Message-Id: <20211014135410.4136412-1-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.33.0
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 004516EB0C;
+ Thu, 14 Oct 2021 13:56:45 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10136"; a="214843918"
+X-IronPort-AV: E=Sophos;i="5.85,372,1624345200"; d="scan'208";a="214843918"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Oct 2021 06:56:44 -0700
+X-IronPort-AV: E=Sophos;i="5.85,372,1624345200"; d="scan'208";a="525058503"
+Received: from ebarkhuy-mobl2.ger.corp.intel.com (HELO [10.213.193.241])
+ ([10.213.193.241])
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Oct 2021 06:56:43 -0700
+Subject: Re: [Intel-gfx] [PATCH] drm/i915: Use dma_resv_iter for waiting in
+ i915_gem_object_wait_reservation.
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+References: <20211013104123.1877827-1-maarten.lankhorst@linux.intel.com>
+ <8625e3ca-57f8-e387-1742-808e3599786f@linux.intel.com>
+ <c3888f2f-8f30-68f6-2c69-961035c7573a@linux.intel.com>
+ <2e438a2b-290d-6519-c73e-6747c9d7db50@linux.intel.com>
+ <87224679-f1b0-8164-c5bd-29d596235a4a@linux.intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+Message-ID: <0ddf31af-c13e-3436-253d-8f1c076bd844@linux.intel.com>
+Date: Thu, 14 Oct 2021 14:56:41 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
+In-Reply-To: <87224679-f1b0-8164-c5bd-29d596235a4a@linux.intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -77,44 +60,147 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Amit Pundir <amit.pundir@linaro.org>
 
-This reverts commit 001ce9785c0674d913531345e86222c965fc8bf4.
+On 14/10/2021 14:45, Maarten Lankhorst wrote:
+> Op 14-10-2021 om 15:25 schreef Tvrtko Ursulin:
+>>
+>> On 14/10/2021 13:05, Maarten Lankhorst wrote:
+>>> Op 14-10-2021 om 10:37 schreef Tvrtko Ursulin:
+>>>>
+>>>> On 13/10/2021 11:41, Maarten Lankhorst wrote:
+>>>>> No memory should be allocated when calling i915_gem_object_wait,
+>>>>> because it may be called to idle a BO when evicting memory.
+>>>>>
+>>>>> Fix this by using dma_resv_iter helpers to call
+>>>>> i915_gem_object_wait_fence() on each fence, which cleans up the code a lot.
+>>>>> Also remove dma_resv_prune, it's questionably.
+>>>>>
+>>>>> This will result in the following lockdep splat.
+>>>>
+>>>> <snip>
+>>>>
+>>>>> @@ -37,56 +36,17 @@ i915_gem_object_wait_reservation(struct dma_resv *resv,
+>>>>>                      unsigned int flags,
+>>>>>                      long timeout)
+>>>>>     {
+>>>>> -    struct dma_fence *excl;
+>>>>> -    bool prune_fences = false;
+>>>>> -
+>>>>> -    if (flags & I915_WAIT_ALL) {
+>>>>> -        struct dma_fence **shared;
+>>>>> -        unsigned int count, i;
+>>>>> -        int ret;
+>>>>> +    struct dma_resv_iter cursor;
+>>>>> +    struct dma_fence *fence;
+>>>>>     -        ret = dma_resv_get_fences(resv, &excl, &count, &shared);
+>>>>> -        if (ret)
+>>>>> -            return ret;
+>>>>> -
+>>>>> -        for (i = 0; i < count; i++) {
+>>>>> -            timeout = i915_gem_object_wait_fence(shared[i],
+>>>>> -                                 flags, timeout);
+>>>>> -            if (timeout < 0)
+>>>>> -                break;
+>>>>> +    dma_resv_iter_begin(&cursor, resv, flags & I915_WAIT_ALL);
+>>>>> +    dma_resv_for_each_fence_unlocked(&cursor, fence) {
+>>>>>     -            dma_fence_put(shared[i]);
+>>>>> -        }
+>>>>> -
+>>>>> -        for (; i < count; i++)
+>>>>> -            dma_fence_put(shared[i]);
+>>>>> -        kfree(shared);
+>>>>> -
+>>>>> -        /*
+>>>>> -         * If both shared fences and an exclusive fence exist,
+>>>>> -         * then by construction the shared fences must be later
+>>>>> -         * than the exclusive fence. If we successfully wait for
+>>>>> -         * all the shared fences, we know that the exclusive fence
+>>>>> -         * must all be signaled. If all the shared fences are
+>>>>> -         * signaled, we can prune the array and recover the
+>>>>> -         * floating references on the fences/requests.
+>>>>> -         */
+>>>>> -        prune_fences = count && timeout >= 0;
+>>>>> -    } else {
+>>>>> -        excl = dma_resv_get_excl_unlocked(resv);
+>>>>> +        timeout = i915_gem_object_wait_fence(fence, flags, timeout);
+>>>>> +        if (timeout <= 0)
+>>>>> +            break;
+>>>>
+>>>> You have another change in behaviour here, well a bug really. When userspace passes in zero timeout you fail to report activity in other than the first fence.
+>>>
+>>> Hmm, not necessarily, passing 0 to i915_gem_object_wait_fence timeout = 0 is a special case and means test only. It will return 1 on success.
+>>
+>> I tried to enumerate the whole chain here. All for timeout == 0. Please double check I did not make a mistake somewhere since there are many return code inversions here.
+>>
+>> As building blocks for the whole "game" we have:
+>>
+>> 1. dma_fence_default_wait, it returns for states:
+>>      
+>>      not signaled -> 0
+>>      signaled -> 1
+>>
+>> 2. i915_request_wait
+>>
+>>      not signaled -> -ETIME
+>>      signaled -> 0
+>>
+>> Then i915_gem_object_wait_fence builds on top of it and has therefore these possible outputs:
+>>
+>>      signaled -> 0
+>>      not signaled:
+>>          i915 path -> -ETIME
+>>          ext fence -> 0
+>>
+>> So this looks a like problem already with 0 for signaled and not signaled. Unless it is by design that the return value does not want to report external fences? But it is not documented and it still waits on them so odd.
+>>
+>> Then in i915_gem_object_wait_reservation we have a loop:
+>>
+>>          for (i = 0; i < count; i++) {
+>>              timeout = i915_gem_object_wait_fence(shared[i],
+>>                                   flags, timeout);
+>>              if (timeout < 0)
+>>                  break;
+>>
+>> So short circuit happens only for i915 fences, by virtue of no negative return codes otherwise.
+>>
+>> If we focus for i915 fences only for a moment. It means it keeps skipping signaled to check if any is not, therefore returning -ETIME if any is not signaled. i915_gem_object_wait passes the negative return on.
+>>
+>> With your patch you have:
+>>
+>> +        timeout = i915_gem_object_wait_fence(fence, flags, timeout);
+>> +        if (timeout <= 0)
+>> +            break;
+>>
+>> Which means you break on first signaled fence (i915 or external), therefore missing to report any possible subsequent  unsignaled fences. So gem_wait ioctl breaks unless I am missing something.
+> 
+> You're cc'd on a mail I sent to König regarding this.
+> "Re: [PATCH 20/28] drm/i915: use new iterator in i915_gem_object_wait_reservation"
+> 5accca25-8ac3-47ca-ee56-8b33c208fc80@linux.intel.com
+> 
+> 
+> timeout = 0 is a special case, fence_wait should return 1 if signaled, or 0 if waiting. Not -ETIME, as i915 does currently.
+> 
+> This means our i915_fence_wait() handler is currently very wrong too, needs to be fixed. It returns 0 if timeout = 0 even
+> if signaled.
+> 
+> I think it cancels the fail in our gem_object_wait, but more consistency is definitely needed first.
+> 
+> I think it's best to keep the current semantics for i915_reuest_wait, but make it a wrapper around a
+> fixed i915_request_wait_timeout(), which would have the correct return semantics.
 
-This upstream commit broke AOSP (post Android 12 merge) build
-on RB5. The device either silently crashes into USB crash mode
-after android boot animation or we see a blank blue screen
-with following dpu errors in dmesg:
+Okay you are opening up a new issue here. What I am saying is don't break gem_wait. :) Christian's patch did not have the "<=" bug, it simply preserved the existing behaviour.
 
-[  T444] hw recovery is not complete for ctl:3
-[  T444] [drm:dpu_encoder_phys_vid_prepare_for_kickoff:539] [dpu error]enc31 intf1 ctl 3 reset failure: -22
-[  T444] [drm:dpu_encoder_phys_vid_wait_for_commit_done:513] [dpu error]vblank timeout
-[  T444] [drm:dpu_kms_wait_for_commit_done:454] [dpu error]wait for commit done returned -110
-[    C7] [drm:dpu_encoder_frame_done_timeout:2127] [dpu error]enc31 frame done timeout
-[  T444] [drm:dpu_encoder_phys_vid_wait_for_commit_done:513] [dpu error]vblank timeout
-[  T444] [drm:dpu_kms_wait_for_commit_done:454] [dpu error]wait for commit done returned -110
+Then for the fence->wait() issue you raise, comment is lacking:
 
-Signed-off-by: Amit Pundir <amit.pundir@linaro.org>
----
- arch/arm64/boot/dts/qcom/sm8250.dtsi | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+	 * Must return -ERESTARTSYS if the wait is intr = true and the wait was
+	 * interrupted, and remaining jiffies if fence has signaled, or 0 if wait
+	 * timed out. Can also return other error values on custom implementations,
+	 * which should be treated as if the fence is signaled. For example a hardware
+	 * lockup could be reported like that.
 
-diff --git a/arch/arm64/boot/dts/qcom/sm8250.dtsi b/arch/arm64/boot/dts/qcom/sm8250.dtsi
-index 8c15d9fed08f..d12e4cbfc852 100644
---- a/arch/arm64/boot/dts/qcom/sm8250.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sm8250.dtsi
-@@ -2590,9 +2590,10 @@
- 			power-domains = <&dispcc MDSS_GDSC>;
- 
- 			clocks = <&dispcc DISP_CC_MDSS_AHB_CLK>,
-+				 <&gcc GCC_DISP_HF_AXI_CLK>,
- 				 <&gcc GCC_DISP_SF_AXI_CLK>,
- 				 <&dispcc DISP_CC_MDSS_MDP_CLK>;
--			clock-names = "iface", "nrt_bus", "core";
-+			clock-names = "iface", "bus", "nrt_bus", "core";
- 
- 			assigned-clocks = <&dispcc DISP_CC_MDSS_MDP_CLK>;
- 			assigned-clock-rates = <460000000>;
--- 
-cgit v1.2.1
+No mention of the timeout == 0 special case so that needs to be fixed as well. Plenty of issues to work on.
+
+Regards,
+
+Tvrtko
 
