@@ -2,77 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E74D42DE15
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Oct 2021 17:26:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C22AD42DE17
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Oct 2021 17:26:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 69B7A6EB34;
-	Thu, 14 Oct 2021 15:26:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6CE696EB4E;
+	Thu, 14 Oct 2021 15:26:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
- [IPv6:2a00:1450:4864:20::434])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC3826EA83
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Oct 2021 15:26:14 +0000 (UTC)
-Received: by mail-wr1-x434.google.com with SMTP id m22so20866550wrb.0
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Oct 2021 08:26:14 -0700 (PDT)
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
+ [IPv6:2a00:1450:4864:20::435])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA3966EB34
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Oct 2021 15:26:15 +0000 (UTC)
+Received: by mail-wr1-x435.google.com with SMTP id e12so20715362wra.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Oct 2021 08:26:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=baylibre-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=A/UD6kbf9y3kSEH44o5tSIzBUQ67nK53eX5Y59IgtSs=;
- b=P34HjUhkjjM7vHhJKe0dRgGSZQwPHY3HN79wqaabHjRWRd+kHcF17ph1dTmh7ycAWH
- iZ7oVA90oPTWqC1KdA9viHiCyOhltk1TVWZvo50LTQu80LGqKdmu/CCLAJl9VJbqtfKl
- RFBJv2jedAvS0H1zJ6Nn8Lbw3C2Jn3IEFVVmXuVH7P4RDk71AibN37Vv5BYGmh7wRTzV
- Mr20QvCgR+bQO/Y3Dft+qrMhucxN82Kz5K+j/BgFW/9y99+GfgBfrcrCRU9BXzsGhdZT
- uXWgFzRAZ4TZzQI/zn21GytScKK0+erWt+Gec5iSeS2hwD4PqqRbySscZWKcLi712OQ/
- qaKQ==
+ bh=TQyJyeyxugDyeCUhn5i4YMOhGyD1g0TIMIamYKTURg8=;
+ b=aUp3lJkhPh7AP+vd/IxIyLZ9pww2/86fdh30VMRPWAjOPgcYeMdPzrsxZP6sBE00E8
+ pGgzyLGLmp7zVQ9cUv4mpduzaEXvlUsIaRQ5JV5NYw5sBZgTNhtsBPU8cWCoubF4OfIc
+ We6escDBTXR7ecjOqAG4gkw4+7NGQRUo4+QsAzHDndGtbN1dr1o8V2Z1KEESagi+16Rl
+ 5fOOUoFuqRymwJctDz1xKKLZDd4T60MPavnGIjCNluwnnSLQII3vOnjSlAbJt3b7KJll
+ vQmOM1DfYTWxh5JoOgbb+9xIQpmPQaoVZxhIPK6kR3U8HplWUWWagcbLKHRnB6FdBF16
+ 6gJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=A/UD6kbf9y3kSEH44o5tSIzBUQ67nK53eX5Y59IgtSs=;
- b=mzqWuvvhlShE8OGWfYbDXK5Afm3UrGJm9EQGv2InNOpWQ/9CBroXmx+fPdjNqeI0uJ
- xg0PY6Yb1qFVXBuY1FcBuUq7sVG8gauQkg5iJmqiravL+Ok/JFXDkON9BxeQdF9iO6Dj
- mkf9OblyfJPNyHqcWVDdHL/7eyXgF6Wl/iunPtt3HSMZTHXdFzHbB88H1gKT9O7iViiD
- y6OTnIAWwWaQUuIpGsBQcXadZ2yyz4mYHlJDzavdHmnfPYU1vbKRzK752NRLTdiB/1Qj
- 25P5fD4VAUN7tHxjXniwXF0cTN90//TcxxEc/eq1xE77USMiFjC2N9sz0qyR9QQlb+M/
- QzwA==
-X-Gm-Message-State: AOAM532QcOpiEb5TFjXNoPuxQocMx+3HLplgPuqhrch9qC/5XSlg5fDE
- z4mZWNElbkHoepHbwLsFtB6sww==
-X-Google-Smtp-Source: ABdhPJywinMYzalRdTjhe2vVBQGXKB18TTNLcJD2odD6MDV+5cF2gn9oPeCZXQYmsrzhWIjkyZo93w==
-X-Received: by 2002:a5d:47cd:: with SMTP id o13mr7565708wrc.85.1634225173222; 
- Thu, 14 Oct 2021 08:26:13 -0700 (PDT)
+ bh=TQyJyeyxugDyeCUhn5i4YMOhGyD1g0TIMIamYKTURg8=;
+ b=nzxKJS9v+S2fAziG5uO3wmCEQ+5tFPaPzEVt+d6V9Y1bQtLA2cWajIz5ZKEtdpxyLa
+ 8DpLiCISoJntS25ZhykLOUNScE6dfi8FlQKmhSGbWTuJw0McziwWXLjeqPxAniqdCFzB
+ B0SRZCPRRzKXce6kZ/enFHfjMcxPzvE1HEeW6kRUkR4bYvHnzbDz5VRFfXNPh9s07Rfl
+ 8Iqt/4F8g3hQK28RDAlCQYVCAAep5ynsxzfHEYCesDqw3aDkvZeFrfXVsNp/dtW2tiD5
+ /esKDGktGgfIuZRmV5xqSYrLl89e8rw1/uw6p8WksAnRnsKncBFBQ0QjKFnKke94iSuE
+ rRMA==
+X-Gm-Message-State: AOAM533JLszCUxSG5dV+DvIVojyPnbcgo3ZIZoX7dqtBAvMT345lClIa
+ TrVo0uZn1FSzh2UXZrUmT5ueag==
+X-Google-Smtp-Source: ABdhPJxnLyE8e0XkabFsMCNQvlY0H++PdbAFZrHOuqQqMKmsmbK8aX172SuBdkcJX2Cj9DFX3GNU8g==
+X-Received: by 2002:adf:bb93:: with SMTP id q19mr7638741wrg.423.1634225174291; 
+ Thu, 14 Oct 2021 08:26:14 -0700 (PDT)
 Received: from localhost.localdomain ([2001:861:44c0:66c0:209b:8400:2b80:b4ae])
- by smtp.gmail.com with ESMTPSA id k22sm2626790wrd.59.2021.10.14.08.26.12
+ by smtp.gmail.com with ESMTPSA id k22sm2626790wrd.59.2021.10.14.08.26.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 Oct 2021 08:26:12 -0700 (PDT)
+ Thu, 14 Oct 2021 08:26:13 -0700 (PDT)
 From: Neil Armstrong <narmstrong@baylibre.com>
-To: daniel@ffwll.ch, Laurent.pinchart@ideasonboard.com, robert.foss@linaro.org,
- jonas@kwiboo.se, jernej.skrabec@gmail.com
+To: daniel@ffwll.ch,
+	Laurent.pinchart@ideasonboard.com
 Cc: martin.blumenstingl@googlemail.com, dri-devel@lists.freedesktop.org,
  linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
  linux-kernel@vger.kernel.org, Neil Armstrong <narmstrong@baylibre.com>
-Subject: [PATCH 1/7] drm/bridge: display-connector: implement bus fmts
- callbacks
-Date: Thu, 14 Oct 2021 17:26:00 +0200
-Message-Id: <20211014152606.2289528-2-narmstrong@baylibre.com>
+Subject: [PATCH 2/7] drm/meson: remove useless recursive components matching
+Date: Thu, 14 Oct 2021 17:26:01 +0200
+Message-Id: <20211014152606.2289528-3-narmstrong@baylibre.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211014152606.2289528-1-narmstrong@baylibre.com>
 References: <20211014152606.2289528-1-narmstrong@baylibre.com>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5079; h=from:subject;
- bh=07kqi5zzzSZI3ElecWIOO/HwkZFn9DMBCe+0pRu8cJA=;
- b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBhaEt/t/370Lg/hnQqBrBvL/wtk59MM3tbZ0rvz/5N
- eMloI7WJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCYWhLfwAKCRB33NvayMhJ0UqrD/
- 4v4xuQX0SlQs0w6df5xkrKK/+gkk4YbBZ86Cfd7zw4s3Iwr4XOZJmp0p73OxA7CoEnLAz1E+NBnBw4
- iD+c7wE2ll2b/naUYgoLFwgdehJsLhVIv3iM2N+vdYuM4CqO0xsP1i59FwwAaDK1dVY1l3X5SgeVKv
- B+s666HTrJYnUzsU608Qo52PD6vFsI3zz0uP8a3hNWxgYDHnJiP4Ms2o+oQTjnXjI41LfWf2ptx379
- m3btHxQqgICP0eZsDuyKxbyjiOtoe3c+Sh3ZgpQPyK9o/9cOO2olu9gcMU1d8PY7NqW2nUA5ledYbH
- kQZf6H6JRGZUP6hvDbuVJ2seoAEaBumNUVMEQU9Nq6Fq7kQ/bP2ppJmycLdtuwVN6wS4I439Zxk4JU
- rNTYocHgjs9tJV5U2fLPqzM0r9EfOuY8fHmo9kkBKlFbX0CkZ/e/cWbjI50StsiMf5U33VMefWCKmF
- IqrAGtc8z9MG6HPzfivQinyzxZKZdTB0EOFR7o4R+khNww7zAEqcIZMm8JezS1LHv6MlVqFRNQ0UAf
- z+AGRjKvZjlrUiqgqbqbrvXfvTxw+njfv3hhe3IMk9jWefaYZmj5C5pbLvjUFhR27/UrxYKuE4c9z5
- HNOpnHDAQtcXBn9xcklCTs+nGlR4AO8oQXwX4Y4U/7FPzFAF0QsIFXf3h1Og==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3111; h=from:subject;
+ bh=hBDX9bpPEmClmGilczb0BvjIpqS0+aaehaCml/3nEUs=;
+ b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBhaEt/6ArrByBlXtYa4Vcu1Celjod/sPgyacJsGSYf
+ F+mjdc+JAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCYWhLfwAKCRB33NvayMhJ0UhTD/
+ sH5NZJVQx2YWy6sRmd61nqnsAGOSLvKNLmGt8xiRmm0Zb6ckWoeM30vuE14uVqqzR5ikE4cAk/T3jF
+ 7/r1O/KwZkOPSCzUIFpNFuzUPkO2d0DjdyTSbkZFUEmBLmAwGFio3y6BQu8Pa4pURJP0FgXWNVYVye
+ aT5CTX2lGsSJseYDx5JYNt6U71cmF9f78gV4+1PrRmu8s1rto3ltR/8K7WvWcURGAm8ordgWepmS5E
+ 7dj0ZYEWUvKWJLZFePsoHZwXUGBcrSLd4N6AP285F8+1dD7pULchywDPVlue6vJwlfVy+QUJUvwu3j
+ iXKQNRu2FzqliPbcwmbtkymy6kUvBdRKp3WPoRpPZgAdlEzZMklGMm0UiUFICCyKNt8Cwd9a9mYNGu
+ fuOllgCaOoC/cdInuHDEQP3wZdS+m1dlbdFzVPhcYOqSDgtbVGa17Y9DBms8ypC0KWUmIh3TopYHun
+ o3mNZ3G5AOzbil+PIl+oFEef6n9t/9w55rU9m1638cRpZOJknrxAdP8NWUDkV3//J6Ynq4UzVEcWbl
+ H+4OkvqyX+UchzQ+NrfCQssWeD3aF6Vn+17AML3/MN48tFNupMUCvq106yYJeucpiIlDpfx805qymA
+ hXLGWVK/F9bG9qFrA6ImJQW6Otdxc+H9TRc2JpYtS+iSrdbcW7dw6ohCHb/Q==
 X-Developer-Key: i=narmstrong@baylibre.com; a=openpgp;
  fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
 Content-Transfer-Encoding: 8bit
@@ -91,134 +90,104 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since this bridge is tied to the connector, it acts like a passthrough,
-so concerning the output & input bus formats, either pass the bus formats from the
-previous bridge or return fallback data like done in the bridge function:
-drm_atomic_bridge_chain_select_bus_fmts() & select_bus_fmt_recursive.
-
-This permits avoiding skipping the negociation if the remaining bridge chain has
-all the bits in place.
-
-Without this bus fmt negociation breaks on drm/meson HDMI pipeline when attaching
-dw-hdmi with DRM_BRIDGE_ATTACH_NO_CONNECTOR, because the last bridge of the
-display-connector doesn't implement buf fmt callbacks and MEDIA_BUS_FMT_FIXED
-is used leading to select an unsupported default bus format from dw-hdmi.
+The initial design was recursive to cover all port/endpoints, but only the first layer
+of endpoints should be covered by the components list.
+This also breaks the MIPI-DSI init/bridge attach sequence, thus only parse the
+first endpoints instead of recursing.
 
 Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
 ---
- drivers/gpu/drm/bridge/display-connector.c | 88 ++++++++++++++++++++++
- 1 file changed, 88 insertions(+)
+ drivers/gpu/drm/meson/meson_drv.c | 62 +++++++++++--------------------
+ 1 file changed, 21 insertions(+), 41 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/display-connector.c b/drivers/gpu/drm/bridge/display-connector.c
-index 05eb759da6fc..9697ac173157 100644
---- a/drivers/gpu/drm/bridge/display-connector.c
-+++ b/drivers/gpu/drm/bridge/display-connector.c
-@@ -14,6 +14,7 @@
- #include <linux/regulator/consumer.h>
- 
- #include <drm/drm_bridge.h>
-+#include <drm/drm_atomic_helper.h>
- #include <drm/drm_edid.h>
- 
- struct display_connector {
-@@ -87,10 +88,97 @@ static struct edid *display_connector_get_edid(struct drm_bridge *bridge,
- 	return drm_get_edid(connector, conn->bridge.ddc);
+diff --git a/drivers/gpu/drm/meson/meson_drv.c b/drivers/gpu/drm/meson/meson_drv.c
+index bc0d60df04ae..b53606d8825f 100644
+--- a/drivers/gpu/drm/meson/meson_drv.c
++++ b/drivers/gpu/drm/meson/meson_drv.c
+@@ -427,46 +427,6 @@ static int compare_of(struct device *dev, void *data)
+ 	return dev->of_node == data;
  }
  
-+/*
-+ * Since this bridge is tied to the connector, it acts like a passthrough,
-+ * so concerning the output bus formats, either pass the bus formats from the
-+ * previous bridge or return fallback data like done in the bridge function:
-+ * drm_atomic_bridge_chain_select_bus_fmts().
-+ * This permits avoiding skipping the negociation if the bridge chain has all
-+ * bits in place.
-+ */
-+static u32 *display_connector_get_output_bus_fmts(struct drm_bridge *bridge,
-+					struct drm_bridge_state *bridge_state,
-+					struct drm_crtc_state *crtc_state,
-+					struct drm_connector_state *conn_state,
-+					unsigned int *num_output_fmts)
-+{
-+	struct drm_bridge *prev_bridge = drm_bridge_get_prev_bridge(bridge);
-+	struct drm_bridge_state *prev_bridge_state;
-+
-+	if (!prev_bridge || !prev_bridge->funcs->atomic_get_output_bus_fmts) {
-+		struct drm_connector *conn = conn_state->connector;
-+		u32 *out_bus_fmts;
-+
-+		*num_output_fmts = 1;
-+		out_bus_fmts = kmalloc(sizeof(*out_bus_fmts), GFP_KERNEL);
-+		if (!out_bus_fmts)
-+			return NULL;
-+
-+		if (conn->display_info.num_bus_formats &&
-+		    conn->display_info.bus_formats)
-+			out_bus_fmts[0] = conn->display_info.bus_formats[0];
-+		else
-+			out_bus_fmts[0] = MEDIA_BUS_FMT_FIXED;
-+
-+		return out_bus_fmts;
-+	}
-+
-+	prev_bridge_state = drm_atomic_get_new_bridge_state(crtc_state->state,
-+							    prev_bridge);
-+
-+	return prev_bridge->funcs->atomic_get_output_bus_fmts(prev_bridge, prev_bridge_state,
-+							      crtc_state, conn_state,
-+							      num_output_fmts);
-+}
-+
-+/*
-+ * Since this bridge is tied to the connector, it acts like a passthrough,
-+ * so concerning the input bus formats, either pass the bus formats from the
-+ * previous bridge or return fallback data like done in the bridge function:
-+ * select_bus_fmt_recursive() when atomic_get_input_bus_fmts is not supported.
-+ * This permits avoiding skipping the negociation if the bridge chain has all
-+ * bits in place.
-+ */
-+static u32 *display_connector_get_input_bus_fmts(struct drm_bridge *bridge,
-+					struct drm_bridge_state *bridge_state,
-+					struct drm_crtc_state *crtc_state,
-+					struct drm_connector_state *conn_state,
-+					u32 output_fmt,
-+					unsigned int *num_input_fmts)
-+{
-+	struct drm_bridge *prev_bridge = drm_bridge_get_prev_bridge(bridge);
-+	struct drm_bridge_state *prev_bridge_state;
-+
-+	if (!prev_bridge || !prev_bridge->funcs->atomic_get_input_bus_fmts) {
-+		u32 *in_bus_fmts;
-+
-+		*num_input_fmts = 1;
-+		in_bus_fmts = kmalloc(sizeof(*in_bus_fmts), GFP_KERNEL);
-+		if (!in_bus_fmts)
-+			return NULL;
-+
-+		in_bus_fmts[0] = MEDIA_BUS_FMT_FIXED;
-+
-+		return in_bus_fmts;
-+	}
-+
-+	prev_bridge_state = drm_atomic_get_new_bridge_state(crtc_state->state,
-+							    prev_bridge);
-+
-+	return prev_bridge->funcs->atomic_get_input_bus_fmts(prev_bridge, prev_bridge_state,
-+							     crtc_state, conn_state, output_fmt,
-+							     num_input_fmts);
-+}
-+
- static const struct drm_bridge_funcs display_connector_bridge_funcs = {
- 	.attach = display_connector_attach,
- 	.detect = display_connector_detect,
- 	.get_edid = display_connector_get_edid,
-+	.atomic_get_output_bus_fmts = display_connector_get_output_bus_fmts,
-+	.atomic_get_input_bus_fmts = display_connector_get_input_bus_fmts,
-+	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
-+	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
-+	.atomic_reset = drm_atomic_helper_bridge_reset,
- };
+-/* Possible connectors nodes to ignore */
+-static const struct of_device_id connectors_match[] = {
+-	{ .compatible = "composite-video-connector" },
+-	{ .compatible = "svideo-connector" },
+-	{ .compatible = "hdmi-connector" },
+-	{ .compatible = "dvi-connector" },
+-	{}
+-};
+-
+-static int meson_probe_remote(struct platform_device *pdev,
+-			      struct component_match **match,
+-			      struct device_node *parent,
+-			      struct device_node *remote)
+-{
+-	struct device_node *ep, *remote_node;
+-	int count = 1;
+-
+-	/* If node is a connector, return and do not add to match table */
+-	if (of_match_node(connectors_match, remote))
+-		return 1;
+-
+-	component_match_add(&pdev->dev, match, compare_of, remote);
+-
+-	for_each_endpoint_of_node(remote, ep) {
+-		remote_node = of_graph_get_remote_port_parent(ep);
+-		if (!remote_node ||
+-		    remote_node == parent || /* Ignore parent endpoint */
+-		    !of_device_is_available(remote_node)) {
+-			of_node_put(remote_node);
+-			continue;
+-		}
+-
+-		count += meson_probe_remote(pdev, match, remote, remote_node);
+-
+-		of_node_put(remote_node);
+-	}
+-
+-	return count;
+-}
+-
+ static void meson_drv_shutdown(struct platform_device *pdev)
+ {
+ 	struct meson_drm *priv = dev_get_drvdata(&pdev->dev);
+@@ -478,6 +438,13 @@ static void meson_drv_shutdown(struct platform_device *pdev)
+ 	drm_atomic_helper_shutdown(priv->drm);
+ }
  
- static irqreturn_t display_connector_hpd_irq(int irq, void *arg)
++/* Possible connectors nodes to ignore */
++static const struct of_device_id connectors_match[] = {
++	{ .compatible = "composite-video-connector" },
++	{ .compatible = "svideo-connector" },
++	{}
++};
++
+ static int meson_drv_probe(struct platform_device *pdev)
+ {
+ 	struct component_match *match = NULL;
+@@ -492,8 +459,21 @@ static int meson_drv_probe(struct platform_device *pdev)
+ 			continue;
+ 		}
+ 
+-		count += meson_probe_remote(pdev, &match, np, remote);
++		/* If an analog connector is detected, count it as an output */
++		if (of_match_node(connectors_match, remote)) {
++			++count;
++			of_node_put(remote);
++			continue;
++		}
++
++		DRM_DEBUG_DRIVER("parent %pOF remote match add %pOF parent %s\n",
++				  np, remote, dev_name(&pdev->dev));
++
++		component_match_add(&pdev->dev, &match, compare_of, remote);
++
+ 		of_node_put(remote);
++
++		++count;
+ 	}
+ 
+ 	if (count && !match)
 -- 
 2.25.1
 
