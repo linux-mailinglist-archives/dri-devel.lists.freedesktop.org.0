@@ -2,44 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4BAB42D8C7
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Oct 2021 14:04:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 833B642D8CA
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Oct 2021 14:05:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BAE9F6E117;
-	Thu, 14 Oct 2021 12:04:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ADC306E0F5;
+	Thu, 14 Oct 2021 12:04:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 203666E106;
- Thu, 14 Oct 2021 12:04:27 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10136"; a="225118953"
-X-IronPort-AV: E=Sophos;i="5.85,372,1624345200"; d="scan'208";a="225118953"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Oct 2021 05:04:22 -0700
-X-IronPort-AV: E=Sophos;i="5.85,372,1624345200"; d="scan'208";a="481235432"
-Received: from thanners-mobl.ger.corp.intel.com (HELO [10.252.62.140])
- ([10.252.62.140])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Oct 2021 05:04:20 -0700
-Subject: Re: [PATCH 20/28] drm/i915: use new iterator in
- i915_gem_object_wait_reservation
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org, intel-gfx@lists.freedesktop.org
-Cc: daniel@ffwll.ch, tvrtko.ursulin@linux.intel.com
-References: <20211005113742.1101-1-christian.koenig@amd.com>
- <20211005113742.1101-21-christian.koenig@amd.com>
-From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Message-ID: <5accca25-8ac3-47ca-ee56-8b33c208fc80@linux.intel.com>
-Date: Thu, 14 Oct 2021 14:04:26 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.14.0
+Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
+ [66.111.4.224])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C011B6E0D4;
+ Thu, 14 Oct 2021 12:04:57 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 3F73958120C;
+ Thu, 14 Oct 2021 08:04:55 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute6.internal (MEProxy); Thu, 14 Oct 2021 08:04:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:mime-version:content-type; s=
+ fm1; bh=Uh24z7bVsAqGdsdIS/zzNltMJCYGqOV6lvilCrBse8c=; b=iBQZLJ0Q
+ Ti1NLMl72q1WAjwAtHg6fypTb3cm/OVMKaUhlpXl6XVZtk6BGG69gXjNSOO/41iq
+ AG/AzRxmUCBhW9Oz1fG/zSgdXsIdsGUN6by4ui5ldSbaAxTpxm+4gDi0aYXAuT2M
+ LvvkOoduSYt5aXSmwRKnrA1Ls0sOvkV6IwkkR+qNuB4H/wPEzfEhXL4a4reScdym
+ C2QOXNBpee0b8h0QeTpTcd9wpqttFfSkSJ5k0u56QTZdd6zvJxMyeTy1hbAi576g
+ MIL3ZwmWBUQ3n6l6m4h0RAxIFmmBnaxYxmLorVNqCAZ7kqDd08CjiIe/ePCP9gn1
+ Ulrqy0cZwqXwlg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:message-id
+ :mime-version:subject:to:x-me-proxy:x-me-proxy:x-me-sender
+ :x-me-sender:x-sasl-enc; s=fm1; bh=Uh24z7bVsAqGdsdIS/zzNltMJCYGq
+ OV6lvilCrBse8c=; b=GWcwD/dqZQMvluqHThIaTpuwP4I5KLVXzjqpb6bgScUlW
+ mc9ldRM1V5mtJqnEoPqpb8lDhRKmkd2FSXLqo4Rmwgay7KQ/r03xilkQIe0Tkz9G
+ ee5uME5UJoMBhHgxLt4w4jIqfqpdi+g7TlhGudejX5pG4/UU/bYwG/a+pOtOw+91
+ 3Rkhn9HF8IER7G6ZwFV23ifXUrCGFUClZ8dz+iyvAIrATLxdKZ0X0obQ9aBwnHjx
+ n3RLVpASHEaqbwq+epP9WwAgraUP1s8FRtp3SbB7qVWdtSKOmeRqsa+Q1CGn7aDI
+ +N+LWUQRl1C34XqR/6kVh5g0ZHKGGkMDs5Lg8OTDg==
+X-ME-Sender: <xms:5hxoYfENBxZk5WTWLrjBOmHqFWy4nsFPRq_rQ8wRU3SRA3szHSG17w>
+ <xme:5hxoYcWRqdf-kYMe7gesUpoAjpSwS26ovnGH7XSvmuDM7zU5ZUwMIhjvYHRGa8Tyd
+ tS7emKq9O19rn2cU7c>
+X-ME-Received: <xmr:5hxoYRJnJlvEh5AKiuviNIrmB4gT2PXo-PTzDjY-EcLa_USHbuvmhNL_vXGtISblQ9qs5vvKIlqo0oZsENuWDyR5MUZzKVVzg4xOMMzG>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrvdduvddggeejucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfggtggusehgtderredttddunecuhfhrohhmpeforgigihhmvgcu
+ tfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrthhtvg
+ hrnhephfehtefggeekteffueeileekfeegteetfffggfekleehkeffvedvgedtieetvddu
+ necuffhomhgrihhnpehfrhgvvgguvghskhhtohhprdhorhhgnecuvehluhhsthgvrhfuih
+ iivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordht
+ vggthh
+X-ME-Proxy: <xmx:5hxoYdF6bzUgJnWqgIswntz5_i3_VN2pRTSER0Ul0lPiDtujzI-Cnw>
+ <xmx:5hxoYVXVvpuRIn8VJSuminl0cf7llB9nPRLrt0pTN8pxRFIffWo-uA>
+ <xmx:5hxoYYPPLaV4V18im-Yh4YGgAOOEp174lqdGeaU5L7UgdMGxrekx-w>
+ <xmx:5xxoYdTxDJR6jOD_6LlGWBSPOK8DIMLdUeZbYbSr0MDzrNKdmQytFA>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 14 Oct 2021 08:04:54 -0400 (EDT)
+Date: Thu, 14 Oct 2021 14:04:52 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, dim-tools@lists.freedesktop.org
+Subject: [PULL] drm-misc-next
+Message-ID: <20211014120452.2wicnt6hobu3kbwb@gilmour>
 MIME-Version: 1.0
-In-Reply-To: <20211005113742.1101-21-christian.koenig@amd.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="jtnximq3qa7yoe3l"
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,117 +86,243 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Op 05-10-2021 om 13:37 schreef Christian König:
-> Simplifying the code a bit.
->
-> Signed-off-by: Christian König <christian.koenig@amd.com>
-> ---
->  drivers/gpu/drm/i915/gem/i915_gem_wait.c | 51 +++++-------------------
->  1 file changed, 9 insertions(+), 42 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_wait.c b/drivers/gpu/drm/i915/gem/i915_gem_wait.c
-> index f909aaa09d9c..a13193db1dba 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_wait.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_wait.c
-> @@ -37,55 +37,22 @@ i915_gem_object_wait_reservation(struct dma_resv *resv,
->  				 unsigned int flags,
->  				 long timeout)
->  {
-> -	struct dma_fence *excl;
-> -	bool prune_fences = false;
-> -
-> -	if (flags & I915_WAIT_ALL) {
-> -		struct dma_fence **shared;
-> -		unsigned int count, i;
-> -		int ret;
-> +	struct dma_resv_iter cursor;
-> +	struct dma_fence *fence;
->  
-> -		ret = dma_resv_get_fences(resv, &excl, &count, &shared);
-> -		if (ret)
-> -			return ret;
-> -
-> -		for (i = 0; i < count; i++) {
-> -			timeout = i915_gem_object_wait_fence(shared[i],
-> -							     flags, timeout);
-> -			if (timeout < 0)
-> -				break;
-> -
-> -			dma_fence_put(shared[i]);
-> -		}
-> -
-> -		for (; i < count; i++)
-> -			dma_fence_put(shared[i]);
-> -		kfree(shared);
-> -
-> -		/*
-> -		 * If both shared fences and an exclusive fence exist,
-> -		 * then by construction the shared fences must be later
-> -		 * than the exclusive fence. If we successfully wait for
-> -		 * all the shared fences, we know that the exclusive fence
-> -		 * must all be signaled. If all the shared fences are
-> -		 * signaled, we can prune the array and recover the
-> -		 * floating references on the fences/requests.
-> -		 */
-> -		prune_fences = count && timeout >= 0;
-> -	} else {
-> -		excl = dma_resv_get_excl_unlocked(resv);
-> +	dma_resv_iter_begin(&cursor, resv, flags & I915_WAIT_ALL);
-> +	dma_resv_for_each_fence_unlocked(&cursor, fence) {
-> +		timeout = i915_gem_object_wait_fence(fence, flags, timeout);
-> +		if (timeout < 0)
-> +			break;
->  	}
-> -
-> -	if (excl && timeout >= 0)
-> -		timeout = i915_gem_object_wait_fence(excl, flags, timeout);
-> -
-> -	dma_fence_put(excl);
-> +	dma_resv_iter_end(&cursor);
->  
->  	/*
->  	 * Opportunistically prune the fences iff we know they have *all* been
->  	 * signaled.
->  	 */
-> -	if (prune_fences)
-> +	if (timeout > 0)
->  		dma_resv_prune(resv);
->  
->  	return timeout;
 
-When replying to tvrtko about correctness of the conversion, I just now noticed a logic bug here, the same logic bug also affects dma_resv_wait_timeout.
+--jtnximq3qa7yoe3l
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-long dma_resv_wait_timeout(struct dma_resv *obj, bool wait_all, bool intr,
-			   unsigned long timeout)
-{
-	long ret = timeout ? timeout : 1;
-	struct dma_resv_iter cursor;
-	struct dma_fence *fence;
+Hi Dave, Daniel,
 
-	dma_resv_iter_begin(&cursor, obj, wait_all);
-	dma_resv_for_each_fence_unlocked(&cursor, fence) {
+Here's this week drm-misc-next PR
 
-		ret = dma_fence_wait_timeout(fence, intr, ret);
-		if (ret <= 0) {
-			dma_resv_iter_end(&cursor);
-			return ret;
-		}
-	}
-	dma_resv_iter_end(&cursor);
+Maxime
 
-	return ret;
-}
+drm-misc-next-2021-10-14:
+drm-misc-next for 5.16:
 
-It fails to handle the case correctly when timeout = 0, I think the original code probably did.
-dma_fence_wait_timeout should be called with timeout = 0 explicitly.
+UAPI Changes:
 
-Fixed code for inner loop:
-ret = dma_fence_wait_timeout(fence, intr, timeout);
-if (ret <= 0) break;
-if (timeout) timeout = ret;
+Cross-subsystem Changes:
 
-This bug also affects i915_gem_object_wait_reservation, so the whole series might need to be
-respinned, or at least checked, if more wait conversions are affected.
+Core Changes:
+  - fbdev: Fix double-free, Remove unused scrolling acceleration
+  - locking: improve logging for contented locks without backoff
+  - dma-buf: Add dma_resv_for_each_fence iterator, and conversion of
+    users
 
-~Maarten
+Driver Changes:
+  - nouveau: Various code style improvements
+  - bridge: HPD improvements for lt9611uxc, eDP aux-bus support for
+    ps8640, lvds-codec data-mapping selection support
+  - panels: Vivax TPC-9150, Innolux G070Y2-T02, LOGIC Technologies
+    LTTD800480070-L2RT, Sharp LS060T1SX01,
+The following changes since commit 9962601ca5719050906915c3c33a63744ac7b15c:
 
+  drm/bridge: dw-hdmi-cec: Make use of the helper function devm_add_action_=
+or_reset() (2021-10-06 11:21:46 +0200)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-next-2021-10-14
+
+for you to fetch changes up to b3ec8cdf457e5e63d396fe1346cc788cf7c1b578:
+
+  fbdev: Garbage collect fbdev scrolling acceleration, part 1 (from TODO li=
+st) (2021-10-13 15:29:23 +0200)
+
+----------------------------------------------------------------
+drm-misc-next for 5.16:
+
+UAPI Changes:
+
+Cross-subsystem Changes:
+
+Core Changes:
+  - fbdev: Fix double-free, Remove unused scrolling acceleration
+  - locking: improve logging for contented locks without backoff
+  - dma-buf: Add dma_resv_for_each_fence iterator, and conversion of
+    users
+
+Driver Changes:
+  - nouveau: Various code style improvements
+  - bridge: HPD improvements for lt9611uxc, eDP aux-bus support for
+    ps8640, lvds-codec data-mapping selection support
+  - panels: Vivax TPC-9150, Innolux G070Y2-T02, LOGIC Technologies
+    LTTD800480070-L2RT, Sharp LS060T1SX01,
+
+----------------------------------------------------------------
+Alex Xu (Hello71) (1):
+      drm/plane-helper: fix uninitialized variable reference
+
+Amos Kong (1):
+      drm/ttm_bo_api: update the description for @placement and @sg
+
+Christian K=F6nig (7):
+      dma-buf: add dma_resv_for_each_fence v3
+      dma-buf: use the new iterator in dma_buf_debug_show
+      dma-buf: use the new iterator in dma_resv_poll
+      drm/ttm: use the new iterator in ttm_bo_flush_all_fences
+      drm/scheduler: use new iterator in drm_sched_job_add_implicit_depende=
+ncies v2
+      drm/i915: use the new iterator in i915_request_await_object v2
+      drm: use new iterator in drm_gem_fence_array_add_implicit v3
+
+Claudio Suarez (1):
+      fbdev: Garbage collect fbdev scrolling acceleration, part 1 (from TOD=
+O list)
+
+Dan Carpenter (1):
+      drm/v3d: fix copy_from_user() error codes
+
+David Heidelberg (1):
+      dt-bindings: display: simple: hardware can use ddc-i2c-bus
+
+Dmitry Baryshkov (5):
+      drm/bridge/lontium-lt9611uxc: fix provided connector suport
+      dt-bindings: add bindings for the Sharp LS060T1SX01 panel
+      drm/panel: Add support for Sharp LS060T1SX01 panel
+      dt-bindings: add bindings for the Sharp LS060T1SX01 panel
+      drm/panel: Add support for Sharp LS060T1SX01 panel
+
+Guido G=FCnther (5):
+      drm/bridge: nwl-dsi: Add atomic_get_input_bus_fmts
+      drm/panel: mantix: Add media bus format
+      drm/panel: st7703: Add media bus format
+      drm: mxsfb: Print failed bus format in hex
+      drm: mxsfb: Set fallback bus format when the bridge doesn't provide o=
+ne
+
+Jani Nikula (1):
+      drm/locking: add backtrace for locking contended locks without backoff
+
+Jing Xiangfeng (1):
+      drm/virtio: fix the missed drm_gem_object_put() in virtio_gpu_user_fr=
+amebuffer_create()
+
+Karol Herbst (1):
+      drm/nouveau/mmu/gp100: remove unused variable
+
+Lee Jones (1):
+      drm/nouveau/nouveau_bo: Remove unused variables 'dev'
+
+Luo penghao (2):
+      drm/nouveau/mmu: drop unneeded assignment in the nvkm_uvmm_mthd_page()
+      drm/nouveau/mmu/gp100-: drop unneeded assignment in the if condition.
+
+Marek Vasut (3):
+      drm/bridge: ti-sn65dsi83: Implement .detach callback
+      dt-bindings: display: bridge: lvds-codec: Document LVDS data mapping =
+select
+      drm/bridge: lvds-codec: Add support for LVDS data mapping select
+
+Nikola Pavlica (2):
+      dt-bindings: add vendor prefix for Vivax
+      dt-bindings: display: simple: Add Vivax TPC-9150 panel
+
+Oleksij Rempel (1):
+      dt-bindings: display: simple: add Innolux G070Y2-T02 panel
+
+Philip Chen (1):
+      dt-bindings: drm/bridge: ps8640: Add aux-bus child
+
+Randy Dunlap (1):
+      drm/connector: fix all kernel-doc warnings
+
+Sam Ravnborg (2):
+      Revert "drm/panel: Add support for Sharp LS060T1SX01 panel"
+      Revert "dt-bindings: add bindings for the Sharp LS060T1SX01 panel"
+
+Simon Ser (1):
+      drm/connector: refer to CTA-861-G in the "content type" prop docs
+
+S=F8ren Andersen (1):
+      drm/panel: panel-simple: add LOGIC Technologies LTTD800480070-L2RT pa=
+nel
+
+Tvrtko Ursulin (1):
+      dma-resv: Fix dma_resv_get_fences and dma_resv_copy_fences after conv=
+ersion
+
+Uwe Kleine-K=F6nig (1):
+      drm/panel: s6e63m0: Make s6e63m0_remove() return void
+
+Yang Yingliang (1):
+      drm/nouveau/gem: remove redundant semi-colon
+
+Zheyu Ma (1):
+      fbdev: fbmem: Fix double free of 'fb_info->pixmap.addr'
+
+yong yiran (1):
+      drm/nouveau/nvenc: remove duplicate include in base.c
+
+ .../bindings/display/bridge/lvds-codec.yaml        |  33 +-
+ .../devicetree/bindings/display/bridge/ps8640.yaml |  19 +-
+ .../bindings/display/panel/panel-simple.yaml       |   5 +
+ .../bindings/display/panel/sharp,ls060t1sx01.yaml  |  56 +++
+ .../devicetree/bindings/vendor-prefixes.yaml       |   2 +
+ Documentation/gpu/todo.rst                         |  13 +-
+ drivers/dma-buf/dma-buf.c                          |  60 +--
+ drivers/dma-buf/dma-resv.c                         |  69 ++-
+ drivers/gpu/drm/Kconfig                            |  15 +
+ drivers/gpu/drm/bridge/lontium-lt9611uxc.c         |   9 +-
+ drivers/gpu/drm/bridge/lvds-codec.c                |  76 ++-
+ drivers/gpu/drm/bridge/nwl-dsi.c                   |  35 ++
+ drivers/gpu/drm/bridge/ti-sn65dsi83.c              |  17 +-
+ drivers/gpu/drm/drm_connector.c                    |  32 +-
+ drivers/gpu/drm/drm_gem.c                          |  26 +-
+ drivers/gpu/drm/drm_modeset_lock.c                 |  49 +-
+ drivers/gpu/drm/drm_plane_helper.c                 |   1 -
+ drivers/gpu/drm/i915/i915_request.c                |  34 +-
+ drivers/gpu/drm/mxsfb/mxsfb_kms.c                  |   8 +-
+ drivers/gpu/drm/nouveau/nouveau_bo.c               |   4 -
+ drivers/gpu/drm/nouveau/nouveau_gem.c              |   2 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/nvenc/base.c   |   1 -
+ drivers/gpu/drm/nouveau/nvkm/subdev/mmu/uvmm.c     |   2 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmmgp100.c |   4 +-
+ drivers/gpu/drm/panel/Kconfig                      |  10 +
+ drivers/gpu/drm/panel/Makefile                     |   1 +
+ drivers/gpu/drm/panel/panel-mantix-mlaf057we51.c   |   9 +
+ drivers/gpu/drm/panel/panel-samsung-s6e63m0-dsi.c  |   3 +-
+ drivers/gpu/drm/panel/panel-samsung-s6e63m0-spi.c  |   3 +-
+ drivers/gpu/drm/panel/panel-samsung-s6e63m0.c      |   4 +-
+ drivers/gpu/drm/panel/panel-samsung-s6e63m0.h      |   2 +-
+ drivers/gpu/drm/panel/panel-sharp-ls060t1sx01.c    | 333 ++++++++++++++
+ drivers/gpu/drm/panel/panel-simple.c               |  35 ++
+ drivers/gpu/drm/panel/panel-sitronix-st7703.c      |   8 +
+ drivers/gpu/drm/scheduler/sched_main.c             |  26 +-
+ drivers/gpu/drm/ttm/ttm_bo.c                       |  16 +-
+ drivers/gpu/drm/v3d/v3d_gem.c                      |  13 +-
+ drivers/gpu/drm/virtio/virtgpu_display.c           |   4 +-
+ drivers/video/fbdev/core/bitblit.c                 |  16 -
+ drivers/video/fbdev/core/fbcon.c                   | 509 +----------------=
+----
+ drivers/video/fbdev/core/fbcon.h                   |  59 ---
+ drivers/video/fbdev/core/fbcon_ccw.c               |  28 +-
+ drivers/video/fbdev/core/fbcon_cw.c                |  28 +-
+ drivers/video/fbdev/core/fbcon_rotate.h            |   9 -
+ drivers/video/fbdev/core/fbcon_ud.c                |  37 +-
+ drivers/video/fbdev/core/fbmem.c                   |   5 +-
+ drivers/video/fbdev/core/tileblit.c                |  16 -
+ drivers/video/fbdev/skeletonfb.c                   |  12 +-
+ include/drm/drm_modeset_lock.h                     |   8 +
+ include/drm/ttm/ttm_bo_api.h                       |   6 +-
+ include/linux/dma-resv.h                           |  25 +-
+ include/linux/fb.h                                 |   2 +-
+ 52 files changed, 939 insertions(+), 860 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/sharp,l=
+s060t1sx01.yaml
+ create mode 100644 drivers/gpu/drm/panel/panel-sharp-ls060t1sx01.c
+
+--jtnximq3qa7yoe3l
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYWgc5AAKCRDj7w1vZxhR
+xZH8AP9kIk2dD1Yy8eyrfq0AS1gkEmfPJ540ZoyaxK9SPJfeNQEAhFpkpihAd21a
+QStZq6VWo2hEjvZ+U5g8dbuzJmqU+AM=
+=sTZm
+-----END PGP SIGNATURE-----
+
+--jtnximq3qa7yoe3l--
