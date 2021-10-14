@@ -2,109 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEE8342D52F
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Oct 2021 10:36:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEF9A42D541
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Oct 2021 10:37:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 882956EC2D;
-	Thu, 14 Oct 2021 08:36:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 21B4B6EC2E;
+	Thu, 14 Oct 2021 08:37:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
- [IPv6:2a00:1450:4864:20::42f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A800B6EC2D
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Oct 2021 08:36:34 +0000 (UTC)
-Received: by mail-wr1-x42f.google.com with SMTP id i12so16897900wrb.7
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Oct 2021 01:36:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=cfakvhen/wxw5fHdRu0DEuLT5DMfJlXe2a/johLjqxo=;
- b=h40uJnzRy4bIKfqfvwm3i/kik60+Kgx2sfXbHxmv0MsZax7HkeDmryc9yctryM7xlU
- 37bg2VuoZWdH4kTXGosC95Fa3QYJayYirIbI/UeFVNH/Nzn2/7/VodB6g1hiMuG9zp+p
- egl0Br7pM5vnKxSuUDa7BUq17cmPH9MsIYOosVtDeEDQMUaCZ6h+AWD2esXOH1LRk+zZ
- X2uV1Nn3ulaudun/4f5AT6jS5oilV0myDq9ozSQAqUnytF1YgcEInQmj+cCLjl5OgT5o
- 004n5bwSXge4iP3a4skCS8avlQccw5QvPN8BVpAjam8zZmlkvShcDVpQvgmxjplGDMKz
- pkRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=cfakvhen/wxw5fHdRu0DEuLT5DMfJlXe2a/johLjqxo=;
- b=d11OIqj7AabC/lhDJNXNdc6OUJBFTiGtMWvRxqfT7dOvDc9orK15BRTcu4nMvpOkBP
- sUAimRQST1F4IU85ZheuPxQgF6dwo9deX56H5URpCJvVMqaYtaTeD6cKwPt9n60PyD1z
- /KI7k88wqoWpWNpr/cAFNpydUX1zGPIP7jZgjWeHgeOBrNIHPR3DrVOCJHbWDh4G1xan
- 57D+lqN2Xs2gL+ihUrfdY3JXwakpQGz9T46PCTPzOqFfRBjK6acpJ/Vwxo0eine1eY7e
- DJV9kmpBuH3K/vX3KJRuOky9TZb8kM+yItJgNm7/+KtjKrAjFMn/ag+t5L8g33ryF9b/
- nbbQ==
-X-Gm-Message-State: AOAM533YcOvQXs3x5XnXQ2oEI/vVZYaijKKnYgdFWON8Q6LGobafumEc
- 2Gkk2kcVmNeIM1E4SnjIs73Kow==
-X-Google-Smtp-Source: ABdhPJzpVg8OIER+zTALG2ilasSHxD7bC/dTlVAeWBUDgRwrRvN9DCthCd2lRX0ZyZDpw2FTk6Hq6g==
-X-Received: by 2002:a5d:59a9:: with SMTP id p9mr5151873wrr.386.1634200593067; 
- Thu, 14 Oct 2021 01:36:33 -0700 (PDT)
-Received: from myrica (cpc92880-cmbg19-2-0-cust679.5-4.cable.virginm.net.
- [82.27.106.168])
- by smtp.gmail.com with ESMTPSA id r4sm2299114wrz.58.2021.10.14.01.36.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 Oct 2021 01:36:32 -0700 (PDT)
-Date: Thu, 14 Oct 2021 09:36:09 +0100
-From: Jean-Philippe Brucker <jean-philippe@linaro.org>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: linux-kernel@vger.kernel.org, Jeff Dike <jdike@addtoit.com>,
- Richard Weinberger <richard@nod.at>,
- Anton Ivanov <anton.ivanov@cambridgegreys.com>,
- Jason Wang <jasowang@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Jens Axboe <axboe@kernel.dk>,
- Marcel Holtmann <marcel@holtmann.org>,
- Johan Hedberg <johan.hedberg@gmail.com>,
- Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
- Matt Mackall <mpm@selenic.com>, Herbert Xu <herbert@gondor.apana.org.au>,
- Amit Shah <amit@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Gonglei <arei.gonglei@huawei.com>, "David S. Miller" <davem@davemloft.net>,
- Sudeep Holla <sudeep.holla@arm.com>,
- Cristian Marussi <cristian.marussi@arm.com>,
- "Enrico Weigelt, metux IT consult" <info@metux.net>,
- Viresh Kumar <vireshk@kernel.org>,
- Linus Walleij <linus.walleij@linaro.org>,
- Bartosz Golaszewski <brgl@bgdev.pl>,
- David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
- Daniel Vetter <daniel@ffwll.ch>, Jie Deng <jie.deng@intel.com>,
- Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
- Jakub Kicinski <kuba@kernel.org>,
- Johannes Berg <johannes@sipsolutions.net>,
- Kalle Valo <kvalo@codeaurora.org>, Dan Williams <dan.j.williams@intel.com>,
- Vishal Verma <vishal.l.verma@intel.com>,
- Dave Jiang <dave.jiang@intel.com>, Ira Weiny <ira.weiny@intel.com>,
- Ohad Ben-Cohen <ohad@wizery.com>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Mathieu Poirier <mathieu.poirier@linaro.org>,
- "James E.J. Bottomley" <jejb@linux.ibm.com>,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- David Hildenbrand <david@redhat.com>,
- Vivek Goyal <vgoyal@redhat.com>, Miklos Szeredi <miklos@szeredi.hu>,
- Eric Van Hensbergen <ericvh@gmail.com>,
- Latchesar Ionkov <lucho@ionkov.net>,
- Dominique Martinet <asmadeus@codewreck.org>,
- Stefano Garzarella <sgarzare@redhat.com>,
- Anton Yakovlev <anton.yakovlev@opensynergy.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- linux-um@lists.infradead.org, virtualization@lists.linux-foundation.org,
- linux-block@vger.kernel.org, linux-bluetooth@vger.kernel.org,
- linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-gpio@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-i2c@vger.kernel.org, iommu@lists.linux-foundation.org,
- netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
- nvdimm@lists.linux.dev, linux-remoteproc@vger.kernel.org,
- linux-scsi@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- v9fs-developer@lists.sourceforge.net, kvm@vger.kernel.org,
- alsa-devel@alsa-project.org
-Subject: Re: [PATCH RFC] virtio: wrap config->reset calls
-Message-ID: <YWfr+Z0wgpQ48yC5@myrica>
-References: <20211013105226.20225-1-mst@redhat.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F2D36EC2E;
+ Thu, 14 Oct 2021 08:37:51 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10136"; a="227528763"
+X-IronPort-AV: E=Sophos;i="5.85,372,1624345200"; d="scan'208";a="227528763"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Oct 2021 01:37:50 -0700
+X-IronPort-AV: E=Sophos;i="5.85,372,1624345200"; d="scan'208";a="524981280"
+Received: from ebarkhuy-mobl2.ger.corp.intel.com (HELO [10.213.193.241])
+ ([10.213.193.241])
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Oct 2021 01:37:49 -0700
+Subject: Re: [Intel-gfx] [PATCH] drm/i915: Use dma_resv_iter for waiting in
+ i915_gem_object_wait_reservation.
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
+References: <20211013104123.1877827-1-maarten.lankhorst@linux.intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+Message-ID: <8625e3ca-57f8-e387-1742-808e3599786f@linux.intel.com>
+Date: Thu, 14 Oct 2021 09:37:48 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211013105226.20225-1-mst@redhat.com>
+In-Reply-To: <20211013104123.1877827-1-maarten.lankhorst@linux.intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -120,15 +54,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Oct 13, 2021 at 06:55:31AM -0400, Michael S. Tsirkin wrote:
-> This will enable cleanups down the road.
-> The idea is to disable cbs, then add "flush_queued_cbs" callback
-> as a parameter, this way drivers can flush any work
-> queued after callbacks have been disabled.
+
+On 13/10/2021 11:41, Maarten Lankhorst wrote:
+> No memory should be allocated when calling i915_gem_object_wait,
+> because it may be called to idle a BO when evicting memory.
 > 
-> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> ---
+> Fix this by using dma_resv_iter helpers to call
+> i915_gem_object_wait_fence() on each fence, which cleans up the code a lot.
+> Also remove dma_resv_prune, it's questionably.
+> 
+> This will result in the following lockdep splat.
 
->  drivers/iommu/virtio-iommu.c               | 2 +-
+<snip>
 
-Reviewed-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
+> @@ -37,56 +36,17 @@ i915_gem_object_wait_reservation(struct dma_resv *resv,
+>   				 unsigned int flags,
+>   				 long timeout)
+>   {
+> -	struct dma_fence *excl;
+> -	bool prune_fences = false;
+> -
+> -	if (flags & I915_WAIT_ALL) {
+> -		struct dma_fence **shared;
+> -		unsigned int count, i;
+> -		int ret;
+> +	struct dma_resv_iter cursor;
+> +	struct dma_fence *fence;
+>   
+> -		ret = dma_resv_get_fences(resv, &excl, &count, &shared);
+> -		if (ret)
+> -			return ret;
+> -
+> -		for (i = 0; i < count; i++) {
+> -			timeout = i915_gem_object_wait_fence(shared[i],
+> -							     flags, timeout);
+> -			if (timeout < 0)
+> -				break;
+> +	dma_resv_iter_begin(&cursor, resv, flags & I915_WAIT_ALL);
+> +	dma_resv_for_each_fence_unlocked(&cursor, fence) {
+>   
+> -			dma_fence_put(shared[i]);
+> -		}
+> -
+> -		for (; i < count; i++)
+> -			dma_fence_put(shared[i]);
+> -		kfree(shared);
+> -
+> -		/*
+> -		 * If both shared fences and an exclusive fence exist,
+> -		 * then by construction the shared fences must be later
+> -		 * than the exclusive fence. If we successfully wait for
+> -		 * all the shared fences, we know that the exclusive fence
+> -		 * must all be signaled. If all the shared fences are
+> -		 * signaled, we can prune the array and recover the
+> -		 * floating references on the fences/requests.
+> -		 */
+> -		prune_fences = count && timeout >= 0;
+> -	} else {
+> -		excl = dma_resv_get_excl_unlocked(resv);
+> +		timeout = i915_gem_object_wait_fence(fence, flags, timeout);
+> +		if (timeout <= 0)
+> +			break;
+
+You have another change in behaviour here, well a bug really. When 
+userspace passes in zero timeout you fail to report activity in other 
+than the first fence.
+
+Regards,
+
+Tvrtko
