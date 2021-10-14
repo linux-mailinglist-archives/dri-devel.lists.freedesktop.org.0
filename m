@@ -1,65 +1,82 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68E3342D9C0
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Oct 2021 15:08:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 796C142DA14
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Oct 2021 15:15:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D62346E882;
-	Thu, 14 Oct 2021 13:08:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 26A228921B;
+	Thu, 14 Oct 2021 13:15:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A7096E17E
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Oct 2021 13:08:24 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id AB50A1FD33;
- Thu, 14 Oct 2021 13:08:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1634216902; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=UnMhzxYojByyLRzAMZ6RpIM35OXpPQBIfD+frz88bHE=;
- b=gviUgw4Ne5km/oQx7JTTfXFCBwU9qVODaxXsHteo+tHdT+3mu1bOiK7nMrfRr6uqmFaenV
- A9IP/UC9pZenwAs61P/gAMXVKbI/ZSOA6rwIOhrft6V1SnOziEMfllgx+braNPRl0mMgxr
- i5bxP4nM5a6acBrauw3hl6hkD4scXCo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1634216902;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=UnMhzxYojByyLRzAMZ6RpIM35OXpPQBIfD+frz88bHE=;
- b=MCLTt3AIxbvz4QjaneGXOPTRGk6GTHPyJhziu58x47V0R4yX+JVNRRY5a49sajUWBhP9fY
- iNAFT4jY/9H2ppDw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8824413D8A;
- Thu, 14 Oct 2021 13:08:22 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id sSmDH8YraGF0UQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Thu, 14 Oct 2021 13:08:22 +0000
-Message-ID: <b182a5b4-84d2-44a1-165f-728e9e8046e5@suse.de>
-Date: Thu, 14 Oct 2021 15:08:21 +0200
+Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com
+ [IPv6:2a00:1450:4864:20::534])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E7198921B
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Oct 2021 13:15:40 +0000 (UTC)
+Received: by mail-ed1-x534.google.com with SMTP id z20so24283953edc.13
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Oct 2021 06:15:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=n3coqaAceHJmnxKZE3WcweM+H54H9PXa64FROviQwXc=;
+ b=El2+XBVQkWyKVVqfjDtms+WPXec59LVoF9Pf8yShT7XK5ZewdTTfkJtKF6n9BMAOnh
+ xE+RyWgdVKeVBZHxmpH3EjfA/gk532DsStDuneZqqZmt2h9Z8rMvcA4+oungAReQnI/M
+ cOhTYZdw2Hv/P5I1HevX/LXnxxgfOKqpQOjF4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=n3coqaAceHJmnxKZE3WcweM+H54H9PXa64FROviQwXc=;
+ b=jnzZz+ZD2r70uiVCURM6SrBkBT8HjHSlmQKxnSftKLoFGIW/Kl1GV+8DRZhvCLyY1t
+ 2u+AEDimmbvcY2XdEmqCKAGp9DKI+M2mOwZelS6T0mDWKU1RT7af4/FHblJKMWS1dzlV
+ KmqPEBMkR4dKHVhlLQh2On27s0PU6/wCBKXAL0LEVkunlSVjdGxnBR+MxZ822Ur8BKLA
+ ZZYKSabaNXue+8Nr9ZPstCTh7DuxlOqvLyyBLrjZiADO95b/u9TNGstOAgWBMy2W9TGc
+ nZovD9/c2Nc35XA/LgsvYGUUHCZhTU05OBbEfvTYbLiTUNMHT0h5TJzkcKbPIcQk2+cg
+ kpgA==
+X-Gm-Message-State: AOAM532DtD65+ScPeSKgV30ZzdwyLpY5qn+PJ7KP/A42H2/6u8dWmLLn
+ pTULfpei9/JPxh5U0fSnWH+t8g==
+X-Google-Smtp-Source: ABdhPJwaIZ5XypQBVAQgZvHYvCim3hFp2xl5auLuEofoHJo2bGDB2ux2yDxpl/4ObTBsYJH65/W+BQ==
+X-Received: by 2002:a17:906:c248:: with SMTP id
+ bl8mr3728279ejb.360.1634217338674; 
+ Thu, 14 Oct 2021 06:15:38 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id j22sm1924170ejt.11.2021.10.14.06.15.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 14 Oct 2021 06:15:38 -0700 (PDT)
+Date: Thu, 14 Oct 2021 15:15:36 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Maxime Ripard <maxime@cerno.tech>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>,
+ Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+ Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>
+Subject: Re: Regression with mainline kernel on rpi4
+Message-ID: <YWgteNaNeaS9uWDe@phenom.ffwll.local>
+Mail-Followup-To: Maxime Ripard <maxime@cerno.tech>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+ Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>
+References: <CAHk-=wi=8Wp31FSyOH5A8KY+7f3dSuP62zUpvTtyvENm1Hh7xA@mail.gmail.com>
+ <CADVatmNZB6yjS6zXqUcY4xsUTyX3pa6VysB6RmT1CGV5LXer6g@mail.gmail.com>
+ <CAHk-=wh+y=C5hVhE1X=AvZz+OM5Yp8eLHYGth31pfoJVF7UKKQ@mail.gmail.com>
+ <CADVatmPDeSxeY3GTZyC6+G0N76su0E6Y3LF_h6BOcBf5QAtjvg@mail.gmail.com>
+ <CAHk-=whASMriPYRdH8kxC_UwObBtwHbPvf7rb58sUEZZyaFxJg@mail.gmail.com>
+ <20210924133022.waqgtr5xjjxigong@gilmour>
+ <CAKMK7uFxO-ss86k483VJQJiHwcAYxNwD06xSEZStn+fWiRJ6iw@mail.gmail.com>
+ <20210928083446.cfji7hmndt6a5nop@gilmour>
+ <YVWBP5ZJInH/wt1P@phenom.ffwll.local>
+ <20211013150103.p3rea3ny3rjmohtd@gilmour>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.2
-Subject: Re: [PATCH v3 7/7] drm/kmb: Enable support for framebuffer console
-Content-Language: en-US
-To: Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
- dri-devel@lists.freedesktop.org
-Cc: sam@ravnborg.org, edmund.j.dea@intel.com
-References: <20211013233632.471892-1-anitha.chrisanthus@intel.com>
- <20211013233632.471892-7-anitha.chrisanthus@intel.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20211013233632.471892-7-anitha.chrisanthus@intel.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------0zwKV97qx1aaoDbCPtBby6uR"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211013150103.p3rea3ny3rjmohtd@gilmour>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,90 +92,115 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------0zwKV97qx1aaoDbCPtBby6uR
-Content-Type: multipart/mixed; boundary="------------d43ROBy6b0igkVFqJ2hQyPfd";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
- dri-devel@lists.freedesktop.org
-Cc: sam@ravnborg.org, edmund.j.dea@intel.com
-Message-ID: <b182a5b4-84d2-44a1-165f-728e9e8046e5@suse.de>
-Subject: Re: [PATCH v3 7/7] drm/kmb: Enable support for framebuffer console
-References: <20211013233632.471892-1-anitha.chrisanthus@intel.com>
- <20211013233632.471892-7-anitha.chrisanthus@intel.com>
-In-Reply-To: <20211013233632.471892-7-anitha.chrisanthus@intel.com>
+On Wed, Oct 13, 2021 at 05:01:03PM +0200, Maxime Ripard wrote:
+> On Thu, Sep 30, 2021 at 11:19:59AM +0200, Daniel Vetter wrote:
+> > On Tue, Sep 28, 2021 at 10:34:46AM +0200, Maxime Ripard wrote:
+> > > Hi Daniel,
+> > > 
+> > > On Sat, Sep 25, 2021 at 12:50:17AM +0200, Daniel Vetter wrote:
+> > > > On Fri, Sep 24, 2021 at 3:30 PM Maxime Ripard <maxime@cerno.tech> wrote:
+> > > > >
+> > > > > On Wed, Sep 22, 2021 at 01:25:21PM -0700, Linus Torvalds wrote:
+> > > > > > On Wed, Sep 22, 2021 at 1:19 PM Sudip Mukherjee
+> > > > > > <sudipm.mukherjee@gmail.com> wrote:
+> > > > > > >
+> > > > > > > I added some debugs to print the addresses, and I am getting:
+> > > > > > > [   38.813809] sudip crtc 0000000000000000
+> > > > > > >
+> > > > > > > This is from struct drm_crtc *crtc = connector->state->crtc;
+> > > > > >
+> > > > > > Yeah, that was my personal suspicion, because while the line number
+> > > > > > implied "crtc->state" being NULL, the drm data structure documentation
+> > > > > > and other drivers both imply that "crtc" was the more likely one.
+> > > > > >
+> > > > > > I suspect a simple
+> > > > > >
+> > > > > >         if (!crtc)
+> > > > > >                 return;
+> > > > > >
+> > > > > > in vc4_hdmi_set_n_cts() is at least part of the fix for this all, but
+> > > > > > I didn't check if there is possibly something else that needs to be
+> > > > > > done too.
+> > > > >
+> > > > > Thanks for the decode_stacktrace.sh and the follow-up
+> > > > >
+> > > > > Yeah, it looks like we have several things wrong here:
+> > > > >
+> > > > >   * we only check that connector->state is set, and not
+> > > > >     connector->state->crtc indeed.
+> > > > >
+> > > > >   * We also check only in startup(), so at open() and not later on when
+> > > > >     the sound streaming actually start. This has been there for a while,
+> > > > >     so I guess it's never really been causing a practical issue before.
+> > > > 
+> > > > You also have no locking
+> > > 
+> > > Indeed. Do we just need locking to prevent a concurrent audio setup and
+> > > modeset, or do you have another corner case in mind?
+> > > 
+> > > Also, generally, what locks should we make sure we have locked when
+> > > accessing the connector and CRTC state? drm_mode_config.connection_mutex
+> > > and drm_mode_config.mutex, respectively?
+> > > 
+> > > > plus looking at ->state objects outside of atomic commit machinery
+> > > > makes no sense because you're not actually in sync with the hw state.
+> > > > Relevant bits need to be copied over at commit time, protected by some
+> > > > spinlock (and that spinlock also needs to be held over whatever other
+> > > > stuff you're setting to make sure we don't get a funny out-of-sync
+> > > > state anywhere).
+> > > 
+> > > If we already have a lock protecting against having both an ASoC and KMS
+> > > function running, it's not clear to me what the spinlock would prevent
+> > > here?
+> > 
+> > Replicating the irc chat here. With
+> > 
+> > commit 6c5ed5ae353cdf156f9ac4db17e15db56b4de880
+> > Author: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> > Date:   Thu Apr 6 20:55:20 2017 +0200
+> > 
+> >     drm/atomic: Acquire connection_mutex lock in drm_helper_probe_single_connector_modes, v4.
+> > 
+> > this is already taken care of for drivers and should be all good from a
+> > locking pov.
+> 
+> So, if I understand this properly, this superseeds your comment on the
+> spinlock for the hw state, but not the comment that we need some locking
+> to synchronize between the audio and KMS path (and CEC?). Right?
 
---------------d43ROBy6b0igkVFqJ2hQyPfd
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Other way round. There's 3 things involved here:
+1. kms output probe code
+2. kms atomic commit code
+3. calls from asoc side
 
-SGkNCg0KQW0gMTQuMTAuMjEgdW0gMDE6MzYgc2NocmllYiBBbml0aGEgQ2hyaXNhbnRodXM6
-DQo+IEVuYWJsZSBzdXBwb3J0IGZvciBmYmNvbiAoZnJhbWVidWZmZXIgY29uc29sZSkuDQo+
-IFRoZSB1c2VyIGNhbiBpbml0aWFsaXplIGZiY29uIGJ5IGxvYWRpbmcga21iLWRybSB3aXRo
-IHRoZSBwYXJhbWV0ZXINCj4gY29uc29sZT0xLg0KPiANCj4gdjI6IGFkZGVkIG1pc3Npbmcg
-c3RhdGljIGNsa19lbmFibGUNCj4gDQo+IFNpZ25lZC1vZmYtYnk6IEVkbXVuZCBEZWEgPGVk
-bXVuZC5qLmRlYUBpbnRlbC5jb20+DQo+IFNpZ25lZC1vZmYtYnk6IEFuaXRoYSBDaHJpc2Fu
-dGh1cyA8YW5pdGhhLmNocmlzYW50aHVzQGludGVsLmNvbT4NCj4gLS0tDQo+ICAgZHJpdmVy
-cy9ncHUvZHJtL2ttYi9rbWJfZHJ2LmMgfCAxMSArKysrKysrKysrKw0KPiAgIDEgZmlsZSBj
-aGFuZ2VkLCAxMSBpbnNlcnRpb25zKCspDQo+IA0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9n
-cHUvZHJtL2ttYi9rbWJfZHJ2LmMgYi9kcml2ZXJzL2dwdS9kcm0va21iL2ttYl9kcnYuYw0K
-PiBpbmRleCA5NjFhYzZmYjVmY2YuLmI0ZTY2ZWFjNjNiNSAxMDA2NDQNCj4gLS0tIGEvZHJp
-dmVycy9ncHUvZHJtL2ttYi9rbWJfZHJ2LmMNCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2tt
-Yi9rbWJfZHJ2LmMNCj4gQEAgLTUsNiArNSw3IEBADQo+ICAgDQo+ICAgI2luY2x1ZGUgPGxp
-bnV4L2Nsay5oPg0KPiAgICNpbmNsdWRlIDxsaW51eC9tb2R1bGUuaD4NCj4gKyNpbmNsdWRl
-IDxsaW51eC9tb2R1bGVwYXJhbS5oPg0KPiAgICNpbmNsdWRlIDxsaW51eC9vZl9ncmFwaC5o
-Pg0KPiAgICNpbmNsdWRlIDxsaW51eC9vZl9wbGF0Zm9ybS5oPg0KPiAgICNpbmNsdWRlIDxs
-aW51eC9vZl9yZXNlcnZlZF9tZW0uaD4NCj4gQEAgLTE1LDYgKzE2LDcgQEANCj4gICANCj4g
-ICAjaW5jbHVkZSA8ZHJtL2RybV9hdG9taWNfaGVscGVyLmg+DQo+ICAgI2luY2x1ZGUgPGRy
-bS9kcm1fZHJ2Lmg+DQo+ICsjaW5jbHVkZSA8ZHJtL2RybV9mYl9oZWxwZXIuaD4NCj4gICAj
-aW5jbHVkZSA8ZHJtL2RybV9nZW1fY21hX2hlbHBlci5oPg0KPiAgICNpbmNsdWRlIDxkcm0v
-ZHJtX2dlbV9mcmFtZWJ1ZmZlcl9oZWxwZXIuaD4NCj4gICAjaW5jbHVkZSA8ZHJtL2RybV9w
-cm9iZV9oZWxwZXIuaD4NCj4gQEAgLTI0LDYgKzI2LDEyIEBADQo+ICAgI2luY2x1ZGUgImtt
-Yl9kc2kuaCINCj4gICAjaW5jbHVkZSAia21iX3JlZ3MuaCINCj4gICANCj4gKy8qIE1vZHVs
-ZSBQYXJhbWV0ZXJzICovDQo+ICtzdGF0aWMgYm9vbCBjb25zb2xlOw0KPiArbW9kdWxlX3Bh
-cmFtKGNvbnNvbGUsIGJvb2wsIDA0MDApOw0KPiArTU9EVUxFX1BBUk1fREVTQyhjb25zb2xl
-LA0KPiArCQkgIkVuYWJsZSBmcmFtZWJ1ZmZlciBjb25zb2xlIHN1cHBvcnQgKDA9ZGlzYWJs
-ZSBbZGVmYXVsdF0sIDE9b24pIik7DQo+ICsNCj4gICBzdGF0aWMgaW50IGttYl9kaXNwbGF5
-X2Nsa19lbmFibGUoc3RydWN0IGttYl9kcm1fcHJpdmF0ZSAqa21iKQ0KPiAgIHsNCj4gICAJ
-aW50IHJldCA9IDA7DQo+IEBAIC01NTksNiArNTY3LDkgQEAgc3RhdGljIGludCBrbWJfcHJv
-YmUoc3RydWN0IHBsYXRmb3JtX2RldmljZSAqcGRldikNCj4gICAJaWYgKHJldCkNCj4gICAJ
-CWdvdG8gZXJyX3JlZ2lzdGVyOw0KPiAgIA0KPiArCWlmIChjb25zb2xlKQ0KPiArCQlkcm1f
-ZmJkZXZfZ2VuZXJpY19zZXR1cCgma21iLT5kcm0sIDMyKTsNCg0KVGhlIHVzZSBvZiB0aGUg
-ZmluYWwgcGFyYW1ldGVyIGlzIHNvbWV3aGF0IGNvbmZ1c2luZyBhbmQgc2hvdWxkIHByb2Jh
-Ymx5IA0KYmUgMC4gSXQncyB0aGUgbnVtYmVyIG9mIGJpdHMgcGVyIHBpeGVsLiAzMiBpcyB0
-aGUgZGVmYXVsdC4gQnV0IHRoZSANCnByZWZlcnJlZCB3YXkgb2Ygc2VsZWN0aW5nIGNvbG9y
-IG1vZGUgaXMgdmlhIA0KZGV2LT5tb2RlX2NvbmZpZy5wcmVmZXJyZWRfZGVwdGgsIHdoaWNo
-IGlzIHRoZSBjb2xvciBkZXB0aCAoMjQhKS4gU28gDQptYXliZSByYXRoZXIgc2V0IHByZWZl
-cnJlZF9kZXB0aCB0byAyNCBhbmQgbGV0IHRoZSBmYmRldiBoZWxwZXIgZmlndXJlIA0Kb3V0
-IHRoZSBkZXRhaWxzLg0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQo+ICsNCj4gICAJcmV0
-dXJuIDA7DQo+ICAgDQo+ICAgIGVycl9yZWdpc3RlcjoNCj4gDQoNCi0tIA0KVGhvbWFzIFpp
-bW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29s
-dXRpb25zIEdlcm1hbnkgR21iSA0KTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBH
-ZXJtYW55DQooSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpDQpHZXNjaMOkZnRzZsO8aHJlcjog
-RmVsaXggSW1lbmTDtnJmZmVyDQo=
+The above referenced commit makes sure 1&2 are synchronized. The problem
+is that 2&3 are not synchonronized, and from 3, no matter how much locking
+you have, you cannot look at kms state. I.e. not allowed to look at
+crtc->state for example, irrespective of whether you're holding
+drm_modeset_lock or not. This is because the atomic nonblocking commit is
+done without holding any locks, protection is purely down to ownership
+rules of state structures and ordering (through drm_crtc_commit) of
+in-flight nonblocking atomic commits.
 
---------------d43ROBy6b0igkVFqJ2hQyPfd--
+That's why you need a sperate lock _and_ copy state, so taht 2&3 stay in
+sync.
 
---------------0zwKV97qx1aaoDbCPtBby6uR
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+In practice you only care about modeset changes from 2 vs anything from 3,
+and most userspace does modeset atomic commits as blocking commits, which
+means you won't notice that your locking has gaps.
 
------BEGIN PGP SIGNATURE-----
+btw same problem exists between atomic and (vblank) irq handler. There you
+need a irqsafe spinlock and you also have to copy (because the irq handler
+just cannot access ->state in any safe way, because it doesn't own that
+structure).
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmFoK8UFAwAAAAAACgkQlh/E3EQov+Ah
-ZxAAoWQ2iUVrjXlSOi7KdV/g1RNe8oyfCTj06VasaQXmVPlqXBJMDKEyiAqkUWi16fQXwQK56eT3
-sCEcEjk+w7lFydOtEGDvO91pbrpVze/fYw1BP+PakMP/MC17Fhz+rjm6KSx/KBx+e58UkCQ47I7p
-HOtwSYTglyDtsbSthuFwR2Fb9i1etqV6jYchHUNGCUmC9aWXqVsXZt/IVOnn/aNPbZXgDX3BdoMk
-gX8GaM10GGdHbM0MQuzxcE6ZacqloCNaS6gWSkn06pnpXblDKal3wMFfkq7Hu0JrRY4XUPUkX0oe
-dk7h5qIzTaKHo3fFHH7YlVkFWUmtpX54F39306KzW366KL6Qxr6k3hqzEshhdFuQFYzR+gakvZK0
-s2U5nifDmyiGiW4zP08TOSIAp2I4tImv404yLrzhKCW+v3bNh+n54kJN6qevtTdWGUn1obkAFnlA
-PkrBRqbFBx0i9mLvRBzd8gpogcKJbuqScK/ec2KES7bF0jtciih6gvm+Lm76QRP7uTc9nVZfEvB3
-ti2i5MFOBG1AShrpBj+BeKxeUP+0ToTYkQUjIDDNtKWuZ9+zi4kpng/Ysqpy47ocVy0WdEYvb38S
-nC0L2918qjqFodTL3W3+450GbFomlilgC9RqnswsPp7U/5Zgk9VnSFp8kOsLBBz1IUI9FByCxHgG
-070=
-=Xh6R
------END PGP SIGNATURE-----
+This is maybe a bit the confusing thing with atomic commit: ->state isn't
+protected by locks, but through ownership rules. Only for atomic check is
+->state protected by locks, but once we're committed we switch over to
+ownership rules for protection. swap_states() is that point of no return.
 
---------------0zwKV97qx1aaoDbCPtBby6uR--
+Cheers, Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
