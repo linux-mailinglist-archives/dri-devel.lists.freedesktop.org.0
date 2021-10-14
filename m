@@ -2,81 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 796C142DA14
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Oct 2021 15:15:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CE2542DA1C
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Oct 2021 15:16:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 26A228921B;
-	Thu, 14 Oct 2021 13:15:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 06F3E6E170;
+	Thu, 14 Oct 2021 13:16:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com
- [IPv6:2a00:1450:4864:20::534])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E7198921B
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Oct 2021 13:15:40 +0000 (UTC)
-Received: by mail-ed1-x534.google.com with SMTP id z20so24283953edc.13
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Oct 2021 06:15:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=n3coqaAceHJmnxKZE3WcweM+H54H9PXa64FROviQwXc=;
- b=El2+XBVQkWyKVVqfjDtms+WPXec59LVoF9Pf8yShT7XK5ZewdTTfkJtKF6n9BMAOnh
- xE+RyWgdVKeVBZHxmpH3EjfA/gk532DsStDuneZqqZmt2h9Z8rMvcA4+oungAReQnI/M
- cOhTYZdw2Hv/P5I1HevX/LXnxxgfOKqpQOjF4=
+Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com
+ [IPv6:2a00:1450:4864:20::52a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 051096E170
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Oct 2021 13:16:05 +0000 (UTC)
+Received: by mail-ed1-x52a.google.com with SMTP id g10so24317266edj.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Oct 2021 06:16:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=TsvcIBNVKTgjmPZB5Gf6j5UfC5pBkdmi0U+t87Lf5YM=;
+ b=PG3oGNqdwHG44ug1fLat7ZoW1nHHzAZl65IRj9UhFMZklOOopdjpd+t5rgFNBTIOHW
+ CqxAmlmpldtJC8oN7GLzZeMO4ALihGfHmSu8158nRdiU95XBaDGzw0aGEfGbzCbx/ozq
+ rvqUqgtcrcb0m3nAVDuKjpF1nhAwJyEX5jDsU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=n3coqaAceHJmnxKZE3WcweM+H54H9PXa64FROviQwXc=;
- b=jnzZz+ZD2r70uiVCURM6SrBkBT8HjHSlmQKxnSftKLoFGIW/Kl1GV+8DRZhvCLyY1t
- 2u+AEDimmbvcY2XdEmqCKAGp9DKI+M2mOwZelS6T0mDWKU1RT7af4/FHblJKMWS1dzlV
- KmqPEBMkR4dKHVhlLQh2On27s0PU6/wCBKXAL0LEVkunlSVjdGxnBR+MxZ822Ur8BKLA
- ZZYKSabaNXue+8Nr9ZPstCTh7DuxlOqvLyyBLrjZiADO95b/u9TNGstOAgWBMy2W9TGc
- nZovD9/c2Nc35XA/LgsvYGUUHCZhTU05OBbEfvTYbLiTUNMHT0h5TJzkcKbPIcQk2+cg
- kpgA==
-X-Gm-Message-State: AOAM532DtD65+ScPeSKgV30ZzdwyLpY5qn+PJ7KP/A42H2/6u8dWmLLn
- pTULfpei9/JPxh5U0fSnWH+t8g==
-X-Google-Smtp-Source: ABdhPJwaIZ5XypQBVAQgZvHYvCim3hFp2xl5auLuEofoHJo2bGDB2ux2yDxpl/4ObTBsYJH65/W+BQ==
-X-Received: by 2002:a17:906:c248:: with SMTP id
- bl8mr3728279ejb.360.1634217338674; 
- Thu, 14 Oct 2021 06:15:38 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id j22sm1924170ejt.11.2021.10.14.06.15.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 Oct 2021 06:15:38 -0700 (PDT)
-Date: Thu, 14 Oct 2021 15:15:36 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Maxime Ripard <maxime@cerno.tech>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
- Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
- Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- linux-kernel <linux-kernel@vger.kernel.org>
-Subject: Re: Regression with mainline kernel on rpi4
-Message-ID: <YWgteNaNeaS9uWDe@phenom.ffwll.local>
-Mail-Followup-To: Maxime Ripard <maxime@cerno.tech>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
- Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- linux-kernel <linux-kernel@vger.kernel.org>
-References: <CAHk-=wi=8Wp31FSyOH5A8KY+7f3dSuP62zUpvTtyvENm1Hh7xA@mail.gmail.com>
- <CADVatmNZB6yjS6zXqUcY4xsUTyX3pa6VysB6RmT1CGV5LXer6g@mail.gmail.com>
- <CAHk-=wh+y=C5hVhE1X=AvZz+OM5Yp8eLHYGth31pfoJVF7UKKQ@mail.gmail.com>
- <CADVatmPDeSxeY3GTZyC6+G0N76su0E6Y3LF_h6BOcBf5QAtjvg@mail.gmail.com>
- <CAHk-=whASMriPYRdH8kxC_UwObBtwHbPvf7rb58sUEZZyaFxJg@mail.gmail.com>
- <20210924133022.waqgtr5xjjxigong@gilmour>
- <CAKMK7uFxO-ss86k483VJQJiHwcAYxNwD06xSEZStn+fWiRJ6iw@mail.gmail.com>
- <20210928083446.cfji7hmndt6a5nop@gilmour>
- <YVWBP5ZJInH/wt1P@phenom.ffwll.local>
- <20211013150103.p3rea3ny3rjmohtd@gilmour>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=TsvcIBNVKTgjmPZB5Gf6j5UfC5pBkdmi0U+t87Lf5YM=;
+ b=tRQ4BP2uP3HlEuN/XvOUmDvGu1NGR+DFHLlXZi6xu8iPKM1YH1bJQ8K3YxCvEtfahu
+ YSS/jXZYSb/yoWJ96bFLctBTz1BhF5owa7CTX6yphi2504hAGERuGW4zLjgzmEUntc3V
+ U2nPXGZnMO6EDgEykqtlU6Q63nsv6eMSavyA0RjJF9WM1teXaQlgADmYZ08wSeWZxqxy
+ zvGn4kxncdNXzJ2TtVZh7lZQ1uPHlx+mXor/Vk4C7rctKBU693Rh8GkDTncEhY2kwP7a
+ CiLodAB/5pZgr5aQ/Xdwhg1SvpZJ3q7zcOAasPhAXLual7JzYKSFomcC0ms8SYbrpo33
+ RRIA==
+X-Gm-Message-State: AOAM531Dxmn4G6jbnVG9PZB+X8V7TX6lUNDDgiDkyidC6n0ZjlHbdGUW
+ sxSvuz7A33nAWC1Cr2TRFHrpNZUYs91NyMrEn1MmCA==
+X-Google-Smtp-Source: ABdhPJw0ksYAX9uZ2RzpKe3zb9bUehD5MwSvppC5pf+cWRTCgC4eWFFfdFXbKc6FJGfV0Uruy/7Hug864ulDvQC/+HM=
+X-Received: by 2002:a17:906:1815:: with SMTP id
+ v21mr3899500eje.218.1634217361716; 
+ Thu, 14 Oct 2021 06:16:01 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211013150103.p3rea3ny3rjmohtd@gilmour>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+References: <CAMty3ZBKZaGCJ18GmnDO3hPrTT9hQSJfDLGc-M0+KV8MyFwVXQ@mail.gmail.com>
+ <09edd742-bed6-bd29-0e73-02b63d31df32@gmail.com>
+ <YWBJfkoiXy6aBUjQ@pendragon.ideasonboard.com>
+In-Reply-To: <YWBJfkoiXy6aBUjQ@pendragon.ideasonboard.com>
+From: Jagan Teki <jagan@amarulasolutions.com>
+Date: Thu, 14 Oct 2021 18:45:50 +0530
+Message-ID: <CAMty3ZD7eFi4o7ZXNtjShoLd5yj3wn85Fm6ZNL89=QpWj44KPw@mail.gmail.com>
+Subject: Re: DSI Bridge switching
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Neil Armstrong <narmstrong@baylibre.com>,
+ Robert Foss <robert.foss@linaro.org>, 
+ Maxime Ripard <maxime@cerno.tech>, dri-devel <dri-devel@lists.freedesktop.org>,
+ Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
+ Andrzej Hajda <andrzej.hajda@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,115 +70,87 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Oct 13, 2021 at 05:01:03PM +0200, Maxime Ripard wrote:
-> On Thu, Sep 30, 2021 at 11:19:59AM +0200, Daniel Vetter wrote:
-> > On Tue, Sep 28, 2021 at 10:34:46AM +0200, Maxime Ripard wrote:
-> > > Hi Daniel,
-> > > 
-> > > On Sat, Sep 25, 2021 at 12:50:17AM +0200, Daniel Vetter wrote:
-> > > > On Fri, Sep 24, 2021 at 3:30 PM Maxime Ripard <maxime@cerno.tech> wrote:
-> > > > >
-> > > > > On Wed, Sep 22, 2021 at 01:25:21PM -0700, Linus Torvalds wrote:
-> > > > > > On Wed, Sep 22, 2021 at 1:19 PM Sudip Mukherjee
-> > > > > > <sudipm.mukherjee@gmail.com> wrote:
-> > > > > > >
-> > > > > > > I added some debugs to print the addresses, and I am getting:
-> > > > > > > [   38.813809] sudip crtc 0000000000000000
-> > > > > > >
-> > > > > > > This is from struct drm_crtc *crtc = connector->state->crtc;
-> > > > > >
-> > > > > > Yeah, that was my personal suspicion, because while the line number
-> > > > > > implied "crtc->state" being NULL, the drm data structure documentation
-> > > > > > and other drivers both imply that "crtc" was the more likely one.
-> > > > > >
-> > > > > > I suspect a simple
-> > > > > >
-> > > > > >         if (!crtc)
-> > > > > >                 return;
-> > > > > >
-> > > > > > in vc4_hdmi_set_n_cts() is at least part of the fix for this all, but
-> > > > > > I didn't check if there is possibly something else that needs to be
-> > > > > > done too.
-> > > > >
-> > > > > Thanks for the decode_stacktrace.sh and the follow-up
-> > > > >
-> > > > > Yeah, it looks like we have several things wrong here:
-> > > > >
-> > > > >   * we only check that connector->state is set, and not
-> > > > >     connector->state->crtc indeed.
-> > > > >
-> > > > >   * We also check only in startup(), so at open() and not later on when
-> > > > >     the sound streaming actually start. This has been there for a while,
-> > > > >     so I guess it's never really been causing a practical issue before.
-> > > > 
-> > > > You also have no locking
-> > > 
-> > > Indeed. Do we just need locking to prevent a concurrent audio setup and
-> > > modeset, or do you have another corner case in mind?
-> > > 
-> > > Also, generally, what locks should we make sure we have locked when
-> > > accessing the connector and CRTC state? drm_mode_config.connection_mutex
-> > > and drm_mode_config.mutex, respectively?
-> > > 
-> > > > plus looking at ->state objects outside of atomic commit machinery
-> > > > makes no sense because you're not actually in sync with the hw state.
-> > > > Relevant bits need to be copied over at commit time, protected by some
-> > > > spinlock (and that spinlock also needs to be held over whatever other
-> > > > stuff you're setting to make sure we don't get a funny out-of-sync
-> > > > state anywhere).
-> > > 
-> > > If we already have a lock protecting against having both an ASoC and KMS
-> > > function running, it's not clear to me what the spinlock would prevent
-> > > here?
-> > 
-> > Replicating the irc chat here. With
-> > 
-> > commit 6c5ed5ae353cdf156f9ac4db17e15db56b4de880
-> > Author: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> > Date:   Thu Apr 6 20:55:20 2017 +0200
-> > 
-> >     drm/atomic: Acquire connection_mutex lock in drm_helper_probe_single_connector_modes, v4.
-> > 
-> > this is already taken care of for drivers and should be all good from a
-> > locking pov.
-> 
-> So, if I understand this properly, this superseeds your comment on the
-> spinlock for the hw state, but not the comment that we need some locking
-> to synchronize between the audio and KMS path (and CEC?). Right?
+Hi Laurent,
 
-Other way round. There's 3 things involved here:
-1. kms output probe code
-2. kms atomic commit code
-3. calls from asoc side
+On Fri, Oct 8, 2021 at 7:07 PM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> Hello,
+>
+> On Fri, Oct 08, 2021 at 03:27:43PM +0200, Andrzej Hajda wrote:
+> > Hi,
+> >
+> > Removed my invalid email (I will update files next week).
+> >
+> > On 08.10.2021 13:14, Jagan Teki wrote:
+> > > Hi,
+> > >
+> > > I think this seems to be a known use case for industrial these days with i.mx8m.
+> > >
+> > > The host DSI would configure with two bridges one for DSI to LVDS
+> > > (SN65DSI83) and another for DSI to HDMI Out (ADV7535). Technically we
+> > > can use only one bridge at a time as host DSI support single out port.
+> > > So we can have two separate device tree files for LVDS and HDMI and
+> > > load them static.
+> > >
+> > > But, one of the use cases is to support both of them in single dts, and
+> > > - Turn On LVDS (default)
+> > > - Turn Off LVDS then Turn On HDMI when cable plug-in
+> >
+> > Are you sure it will work from hardware PoV? Do you have some demuxer?
+> > isolation of pins?
+>
+> It may be in the category of "you shouldn't do this, but it actually
+> works". I've seen the same being done with two CSI-2 camera sensors
+> connected to the same receiver, with one of them being held in reset at
+> all times.
 
-The above referenced commit makes sure 1&2 are synchronized. The problem
-is that 2&3 are not synchonronized, and from 3, no matter how much locking
-you have, you cannot look at kms state. I.e. not allowed to look at
-crtc->state for example, irrespective of whether you're holding
-drm_modeset_lock or not. This is because the atomic nonblocking commit is
-done without holding any locks, protection is purely down to ownership
-rules of state structures and ordering (through drm_crtc_commit) of
-in-flight nonblocking atomic commits.
+Yes. Here the design has 2 MIPI D-PHY switches. Each switch take 2
+input data lanes and 1 clock lane from SoC and produces 4 data lanes
+and 2 clock lanes and from switch output 2 lanes and 1 clock are
+inputting to HDMI bridge and other 2 lanes and 1 clock is inputting to
+LVDS. So 1st pair of 1st switch and 1st pair of 2nd switch goes to
+HDMI and 2nd pair of 1st switch and 2nd pair of 2nd switch does to
+LVDS.
 
-That's why you need a sperate lock _and_ copy state, so taht 2&3 stay in
-sync.
+However, routing of these lanes are controlled by SEL, OE GPIO pins.
+So at a time we can access only single bridge.
 
-In practice you only care about modeset changes from 2 vs anything from 3,
-and most userspace does modeset atomic commits as blocking commits, which
-means you won't notice that your locking has gaps.
+>
+> > > The HDMI event can be detected via some HDMI-INT GPIO on-board design.
+> > >
+> > > The possible solution, I'm thinking of adding LVDS on port 1, HDMI on
+> > > port 2 in the DSI host node, and trying to attach the respective
+> > > bridge based on HDMI-INT like repeating the bridge attachment cycle
+> > > based on the HDMI-INT.
+> >
+> > I think more appropriate would be to share the same port, but provide
+> > two endpoints inside this port - we have two hardware sharing the same
+> > physical port.
+>
+> That sounds like the correct DT description to me.
+>
+> > > Can it be possible to do bridge attachment at runtime? something like
+> > > a bridge hotplug event? or any other possible solutions?
+> > >
+> > > Any suggestions?
+> >
+> > Practically it is possible, see exynos_dsi + panels, or exynos_dsi +
+> > some toshiba bridge - panel and bridge are dynamically 'plugged' and
+> > 'unplugged' from exynos_drm, but they do not use bridge chain for this
+> > and some other reasons. (un|re|)plugging should be performed of course
+> > when pipeline is off (connector disconnected). I am not sure about
+> > bridges added to bridge chain - you need to inspect all opses to ensure
+> > it can be done safely.
+> >
+> > And the main issue: Daniel does not like it :)
+>
+> Neither do I :-) Could it be handled with two DRM connectors that are
+> mutually exclusive ?
 
-btw same problem exists between atomic and (vblank) irq handler. There you
-need a irqsafe spinlock and you also have to copy (because the irq handler
-just cannot access ->state in any safe way, because it doesn't own that
-structure).
+How about adding lvds-connector, hdmi-connector on the pipeline and
+select them based on the switch SEL GPIO? does it make sense to do
+this implementation via display-connector.c
 
-This is maybe a bit the confusing thing with atomic commit: ->state isn't
-protected by locks, but through ownership rules. Only for atomic check is
-->state protected by locks, but once we're committed we switch over to
-ownership rules for protection. swap_states() is that point of no return.
-
-Cheers, Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Thanks,
+Jagan.
