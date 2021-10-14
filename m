@@ -2,50 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2648842E1B4
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Oct 2021 20:54:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F4B542E1C6
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Oct 2021 21:00:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C95E36E8A1;
-	Thu, 14 Oct 2021 18:54:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 77F576E1E8;
+	Thu, 14 Oct 2021 19:00:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.smtp.larsendata.com (mx2.smtp.larsendata.com
- [91.221.196.228])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B5AC6E8A1
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Oct 2021 18:54:43 +0000 (UTC)
-Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
- by mx2.smtp.larsendata.com (Halon) with ESMTPS
- id 35c7f8f9-2d20-11ec-ac3c-0050568cd888;
- Thu, 14 Oct 2021 18:54:50 +0000 (UTC)
-Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
- [80.162.45.141])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: sam@ravnborg.org)
- by mail01.mxhotel.dk (Postfix) with ESMTPSA id 147BE194B57;
- Thu, 14 Oct 2021 20:54:49 +0200 (CEST)
-Date: Thu, 14 Oct 2021 20:54:39 +0200
-X-Report-Abuse-To: abuse@mxhotel.dk
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: Andrzej Hajda <a.hajda@samsung.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Robert Foss <robert.foss@linaro.org>, Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Tomi Valkeinen <tomi.valkeinen@ti.com>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- dri-devel@lists.freedesktop.org, kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH] drm/bridge: display-connector: fix an uninitialized
- pointer in probe()
-Message-ID: <YWh8712wPWRWXfJx@ravnborg.org>
-References: <20211013080825.GE6010@kili>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 330F16E1E8;
+ Thu, 14 Oct 2021 19:00:42 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10137"; a="228052419"
+X-IronPort-AV: E=Sophos;i="5.85,373,1624345200"; d="scan'208";a="228052419"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Oct 2021 12:00:41 -0700
+X-IronPort-AV: E=Sophos;i="5.85,373,1624345200"; d="scan'208";a="660106353"
+Received: from jons-linux-dev-box.fm.intel.com (HELO jons-linux-dev-box)
+ ([10.1.27.20])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Oct 2021 12:00:41 -0700
+Date: Thu, 14 Oct 2021 11:55:57 -0700
+From: Matthew Brost <matthew.brost@intel.com>
+To: John Harrison <john.c.harrison@intel.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 25/25] drm/i915/execlists: Weak parallel submission
+ support for execlists
+Message-ID: <20211014185557.GA32818@jons-linux-dev-box>
+References: <20211014172005.27155-1-matthew.brost@intel.com>
+ <20211014172005.27155-26-matthew.brost@intel.com>
+ <aaeff236-b06f-6b43-8adc-45f8531e5433@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211013080825.GE6010@kili>
+In-Reply-To: <aaeff236-b06f-6b43-8adc-45f8531e5433@intel.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,16 +52,190 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dan,
-
-On Wed, Oct 13, 2021 at 11:08:25AM +0300, Dan Carpenter wrote:
-> The "label" pointer is used for debug output.  The code assumes that it
-> is either NULL or valid, but it is never set to NULL.  It is either
-> valid or uninitialized.
+On Thu, Oct 14, 2021 at 11:42:41AM -0700, John Harrison wrote:
+> On 10/14/2021 10:20, Matthew Brost wrote:
+> > A weak implementation of parallel submission (multi-bb execbuf IOCTL) for
+> > execlists. Doing as little as possible to support this interface for
+> > execlists - basically just passing submit fences between each request
+> > generated and virtual engines are not allowed. This is on par with what
+> > is there for the existing (hopefully soon deprecated) bonding interface.
+> > 
+> > We perma-pin these execlists contexts to align with GuC implementation.
+> > 
+> > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> > ---
+> >   drivers/gpu/drm/i915/gem/i915_gem_context.c   | 10 ++--
+> >   drivers/gpu/drm/i915/gt/intel_context.c       |  4 +-
+> >   .../drm/i915/gt/intel_execlists_submission.c  | 56 ++++++++++++++++++-
+> >   drivers/gpu/drm/i915/gt/intel_lrc.c           |  2 +
+> >   .../gpu/drm/i915/gt/uc/intel_guc_submission.c |  2 -
+> >   5 files changed, 64 insertions(+), 10 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> > index fb33d0322960..35e87a7d0ea9 100644
+> > --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> > +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> > @@ -570,10 +570,6 @@ set_proto_ctx_engines_parallel_submit(struct i915_user_extension __user *base,
+> >   	struct intel_engine_cs **siblings = NULL;
+> >   	intel_engine_mask_t prev_mask;
+> > -	/* FIXME: This is NIY for execlists */
+> > -	if (!(intel_uc_uses_guc_submission(&i915->gt.uc)))
+> > -		return -ENODEV;
+> > -
+> >   	if (get_user(slot, &ext->engine_index))
+> >   		return -EFAULT;
+> > @@ -583,6 +579,12 @@ set_proto_ctx_engines_parallel_submit(struct i915_user_extension __user *base,
+> >   	if (get_user(num_siblings, &ext->num_siblings))
+> >   		return -EFAULT;
+> > +	if (!intel_uc_uses_guc_submission(&i915->gt.uc) && num_siblings != 1) {
+> > +		drm_dbg(&i915->drm, "Only 1 sibling (%d) supported in non-GuC mode\n",
+> > +			num_siblings);
+> > +		return -EINVAL;
+> > +	}
+> > +
+> >   	if (slot >= set->num_engines) {
+> >   		drm_dbg(&i915->drm, "Invalid placement value, %d >= %d\n",
+> >   			slot, set->num_engines);
+> > diff --git a/drivers/gpu/drm/i915/gt/intel_context.c b/drivers/gpu/drm/i915/gt/intel_context.c
+> > index 5634d14052bc..1bec92e1d8e6 100644
+> > --- a/drivers/gpu/drm/i915/gt/intel_context.c
+> > +++ b/drivers/gpu/drm/i915/gt/intel_context.c
+> > @@ -79,7 +79,8 @@ static int intel_context_active_acquire(struct intel_context *ce)
+> >   	__i915_active_acquire(&ce->active);
+> > -	if (intel_context_is_barrier(ce) || intel_engine_uses_guc(ce->engine))
+> > +	if (intel_context_is_barrier(ce) || intel_engine_uses_guc(ce->engine) ||
+> > +	    intel_context_is_parallel(ce))
+> >   		return 0;
+> >   	/* Preallocate tracking nodes */
+> > @@ -563,7 +564,6 @@ void intel_context_bind_parent_child(struct intel_context *parent,
+> >   	 * Callers responsibility to validate that this function is used
+> >   	 * correctly but we use GEM_BUG_ON here ensure that they do.
+> >   	 */
+> > -	GEM_BUG_ON(!intel_engine_uses_guc(parent->engine));
+> >   	GEM_BUG_ON(intel_context_is_pinned(parent));
+> >   	GEM_BUG_ON(intel_context_is_child(parent));
+> >   	GEM_BUG_ON(intel_context_is_pinned(child));
+> > diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> > index bedb80057046..8cd986bdf26c 100644
+> > --- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> > +++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> > @@ -927,8 +927,7 @@ static void execlists_submit_ports(struct intel_engine_cs *engine)
+> >   static bool ctx_single_port_submission(const struct intel_context *ce)
+> >   {
+> > -	return (IS_ENABLED(CONFIG_DRM_I915_GVT) &&
+> > -		intel_context_force_single_submission(ce));
+> > +	return intel_context_force_single_submission(ce);
+> Does this change not affect all execlist operation rather than just parallel
+> submission?
 > 
-> Fixes: 0c275c30176b ("drm/bridge: Add bridge driver for display connectors")
-> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
-Thanks, applied to drm-misc-next.
-It was IMO not urgent.
 
-	Sam
+I don't think so. The only place that sets single submission was in the
+GVT code. I think was an optimization so this would just compile out if
+GVT wasn't built.
+
+> >   }
+> >   static bool can_merge_ctx(const struct intel_context *prev,
+> > @@ -2598,6 +2597,58 @@ static void execlists_context_cancel_request(struct intel_context *ce,
+> >   				      current->comm);
+> >   }
+> > +static struct intel_context *
+> > +execlists_create_parallel(struct intel_engine_cs **engines,
+> > +			  unsigned int num_siblings,
+> > +			  unsigned int width)
+> > +{
+> > +	struct intel_engine_cs **siblings = NULL;
+> > +	struct intel_context *parent = NULL, *ce, *err;
+> > +	int i, j;
+> > +
+> > +	GEM_BUG_ON(num_siblings != 1);
+> > +
+> > +	siblings = kmalloc_array(num_siblings,
+> > +				 sizeof(*siblings),
+> > +				 GFP_KERNEL);
+> > +	if (!siblings)
+> > +		return ERR_PTR(-ENOMEM);
+> > +
+> > +	for (i = 0; i < width; ++i) {
+> > +		for (j = 0; j < num_siblings; ++j)
+> > +			siblings[j] = engines[i * num_siblings + j];
+> What is the purpose of this array? The only usage that I can see is
+> siblings[0] on the line below. The rest of the entries never seem to be
+> used. So you could just replace that with 'engines[i * num_siblings]' and
+> drop the siblings array itself completely?
+> 
+
+Yes, this can be dropped as num_siblings must be 1. I think this was
+copied and pasted from the GuC code where num_siblings could be more
+than 1. Will fixup in a standalone patch after we merge the GuC parallel
+submission.
+
+Matt
+
+> John.
+> 
+> 
+> > +
+> > +		ce = intel_context_create(siblings[0]);
+> > +		if (!ce) {
+> > +			err = ERR_PTR(-ENOMEM);
+> > +			goto unwind;
+> > +		}
+> > +
+> > +		if (i == 0)
+> > +			parent = ce;
+> > +		else
+> > +			intel_context_bind_parent_child(parent, ce);
+> > +	}
+> > +
+> > +	parent->parallel.fence_context = dma_fence_context_alloc(1);
+> > +
+> > +	intel_context_set_nopreempt(parent);
+> > +	intel_context_set_single_submission(parent);
+> > +	for_each_child(parent, ce) {
+> > +		intel_context_set_nopreempt(ce);
+> > +		intel_context_set_single_submission(ce);
+> > +	}
+> > +
+> > +	kfree(siblings);
+> > +	return parent;
+> > +
+> > +unwind:
+> > +	if (parent)
+> > +		intel_context_put(parent);
+> > +	kfree(siblings);
+> > +	return err;
+> > +}
+> > +
+> >   static const struct intel_context_ops execlists_context_ops = {
+> >   	.flags = COPS_HAS_INFLIGHT,
+> > @@ -2616,6 +2667,7 @@ static const struct intel_context_ops execlists_context_ops = {
+> >   	.reset = lrc_reset,
+> >   	.destroy = lrc_destroy,
+> > +	.create_parallel = execlists_create_parallel,
+> >   	.create_virtual = execlists_create_virtual,
+> >   };
+> > diff --git a/drivers/gpu/drm/i915/gt/intel_lrc.c b/drivers/gpu/drm/i915/gt/intel_lrc.c
+> > index 56156cf18c41..70f4b309522d 100644
+> > --- a/drivers/gpu/drm/i915/gt/intel_lrc.c
+> > +++ b/drivers/gpu/drm/i915/gt/intel_lrc.c
+> > @@ -1065,6 +1065,8 @@ lrc_pin(struct intel_context *ce,
+> >   void lrc_unpin(struct intel_context *ce)
+> >   {
+> > +	if (unlikely(ce->parallel.last_rq))
+> > +		i915_request_put(ce->parallel.last_rq);
+> >   	check_redzone((void *)ce->lrc_reg_state - LRC_STATE_OFFSET,
+> >   		      ce->engine);
+> >   }
+> > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > index d7710debcd47..145ffe265305 100644
+> > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > @@ -2960,8 +2960,6 @@ static void guc_parent_context_unpin(struct intel_context *ce)
+> >   	GEM_BUG_ON(!intel_context_is_parent(ce));
+> >   	GEM_BUG_ON(!intel_engine_is_virtual(ce->engine));
+> > -	if (ce->parallel.last_rq)
+> > -		i915_request_put(ce->parallel.last_rq);
+> >   	unpin_guc_id(guc, ce);
+> >   	lrc_unpin(ce);
+> >   }
+> 
