@@ -1,72 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBD7042DBE4
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Oct 2021 16:40:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4800842DC11
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Oct 2021 16:52:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 072C16EB39;
-	Thu, 14 Oct 2021 14:40:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C31216E174;
+	Thu, 14 Oct 2021 14:52:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
- [IPv6:2a00:1450:4864:20::12b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B47366EB39
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Oct 2021 14:40:42 +0000 (UTC)
-Received: by mail-lf1-x12b.google.com with SMTP id y15so28113805lfk.7
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Oct 2021 07:40:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=9wbp9KOUy7rHKUYRK00W3K4pTYPodLpBmDmb0LNYv6w=;
- b=f7MXAuTx9bn2gNLP/aO38Pd2bfkSysU7A7gKPmce4ppe1+/yiSwn2cDiPV0FZYQBFJ
- Gn0FNgEvtPvflf7BheuFe6yFgNm47gHsT3vJJ8SpNBBwb86Mgr+HPki1/BT/fLTa3PEK
- ItiB7ZtD9Y5BGWkGvcual3HFwqPkUbyhuB8wKnrifNlNKG1fNQXWJd78ZcBneBRghI8F
- 1OZrNP3PXMWEAS+hoFko7a0qeTuKxi0ecvdtRQkLBpoYajDTKUwxT74PviC8L9b9TaK3
- 42wR8+U3jfaB/lWloXk/XUKzH3H56kmTxOPgZm00RbqfTjxV2+UzlMA9a+UAso9PIbYs
- 7S/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=9wbp9KOUy7rHKUYRK00W3K4pTYPodLpBmDmb0LNYv6w=;
- b=tx+sfvzFAkT9S9tzGnfcqMNGe3kcVOIpoBVjXRuLi8s0zniJGKiuq0Ql4vCjAU+QZJ
- hMyzEVVF9imvdL0YzMM759KEZOQ9e1yHFm8ZttqneTd3ni2Xhd4Tean5EuZVjOEnd4f/
- J9puwyXtIwaSkMSie6okOyYnVOvDj+1B+YMoCLnP/emHjodhQk7BVdJ+ZAv3f4lRePWd
- W1WpWNGFM191TJ9KITLHAuW752AUziIy1nWJ0hjNcowLF1+4n6LhkXMlTTza7cRl80se
- 9SH6SUpUhsv4dvvYeenqeUhz1q79W4ZfKEiFm4DTunUdWsqjfjD9UaO1KktgAsVDzxhF
- AluQ==
-X-Gm-Message-State: AOAM533UfBoyVh/ZDhLyNNpjLf2wCXfN7fnwJGC5LbrmGIaeo6E9SP8U
- GN8bVdXdUDbhmRF9/rSlI0YhqA==
-X-Google-Smtp-Source: ABdhPJybcJWcnhARDvZgxRm2W6SWKxtKCG5q9v/za/z6bPhWE6ws2lTwIVMjjNO3OR/7lY/mXXdpeQ==
-X-Received: by 2002:a05:651c:249:: with SMTP id
- x9mr6495739ljn.257.1634222440832; 
- Thu, 14 Oct 2021 07:40:40 -0700 (PDT)
-Received: from [192.168.1.211] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id s4sm241673lfs.235.2021.10.14.07.40.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 14 Oct 2021 07:40:40 -0700 (PDT)
-Subject: Re: [PATCH v2 02/11] drm/msm/disp/dpu1: Add support for DSC
-To: Vinod Koul <vkoul@kernel.org>, Rob Clark <robdclark@gmail.com>
-Cc: linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <bjorn.andersson@linaro.org>, David Airlie
- <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Jonathan Marek <jonathan@marek.ca>, Abhinav Kumar <abhinavk@codeaurora.org>,
- Jeffrey Hugo <jeffrey.l.hugo@gmail.com>,
- Sumit Semwal <sumit.semwal@linaro.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
-References: <20211007070900.456044-1-vkoul@kernel.org>
- <20211007070900.456044-3-vkoul@kernel.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Message-ID: <c9c77691-f6e8-576c-7e2d-a87295b13ba7@linaro.org>
-Date: Thu, 14 Oct 2021 17:40:39 +0300
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF8196E174
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Oct 2021 14:52:22 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: kholk11) with ESMTPSA id 1E93B1F44D01
+Subject: Re: [PATCH v6 06/16] soc: mediatek: add mtk-mmsys support for mt8195
+ vdosys1
+To: "Nancy.Lin" <nancy.lin@mediatek.com>, CK Hu <ck.hu@mediatek.com>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ "jason-jh . lin" <jason-jh.lin@mediatek.com>,
+ Yongqiang Niu <yongqiang.niu@mediatek.com>, dri-devel@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ singo.chang@mediatek.com, srv_heupstream@mediatek.com
+References: <20211004062140.29803-1-nancy.lin@mediatek.com>
+ <20211004062140.29803-7-nancy.lin@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Message-ID: <c6dd417c-a575-8054-9d10-d56d925ec6bc@collabora.com>
+Date: Thu, 14 Oct 2021 16:52:18 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20211007070900.456044-3-vkoul@kernel.org>
+In-Reply-To: <20211004062140.29803-7-nancy.lin@mediatek.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -83,418 +54,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 07/10/2021 10:08, Vinod Koul wrote:
-> Display Stream Compression (DSC) is one of the hw blocks in dpu, so add
-> support by adding hw blocks for DSC
+> Add mt8195 vdosys1 clock driver name and routing table to
+> the driver data of mtk-mmsys.
 > 
-> Signed-off-by: Vinod Koul <vkoul@kernel.org>
+> Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
 > ---
-> Changes since
-> v1:
->   - remove unused variable lp
->   - Update copyright year
-> RFC:
->   - Drop unused enums
+>   drivers/soc/mediatek/mt8195-mmsys.h    | 136 +++++++++++++++++++++++++
+>   drivers/soc/mediatek/mtk-mmsys.c       |  10 ++
+>   include/linux/soc/mediatek/mtk-mmsys.h |   2 +
+>   3 files changed, 148 insertions(+)
 > 
->   drivers/gpu/drm/msm/Makefile                  |   1 +
->   .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    |  13 ++
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c    | 210 ++++++++++++++++++
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.h    |  77 +++++++
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h   |  13 ++
->   5 files changed, 314 insertions(+)
->   create mode 100644 drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c
->   create mode 100644 drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.h
-> 
-> diff --git a/drivers/gpu/drm/msm/Makefile b/drivers/gpu/drm/msm/Makefile
-> index 904535eda0c4..46c05e401d04 100644
-> --- a/drivers/gpu/drm/msm/Makefile
-> +++ b/drivers/gpu/drm/msm/Makefile
-> @@ -60,6 +60,7 @@ msm-y := \
->   	disp/dpu1/dpu_formats.o \
->   	disp/dpu1/dpu_hw_catalog.o \
->   	disp/dpu1/dpu_hw_ctl.o \
-> +	disp/dpu1/dpu_hw_dsc.o \
->   	disp/dpu1/dpu_hw_interrupts.o \
->   	disp/dpu1/dpu_hw_intf.o \
->   	disp/dpu1/dpu_hw_lm.o \
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-> index d2a945a27cfa..699c378814b1 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-> @@ -553,6 +553,16 @@ struct dpu_merge_3d_cfg  {
->   	const struct dpu_merge_3d_sub_blks *sblk;
->   };
+> diff --git a/drivers/soc/mediatek/mt8195-mmsys.h b/drivers/soc/mediatek/mt8195-mmsys.h
+> index 0c97a5f016c1..f19ec72c1243 100644
+> --- a/drivers/soc/mediatek/mt8195-mmsys.h
+> +++ b/drivers/soc/mediatek/mt8195-mmsys.h
+> @@ -59,6 +59,70 @@
+>   #define MT8195_SOUT_DSC_WRAP1_OUT_TO_SINA_VIRTUAL0		(2 << 16)
+>   #define MT8195_SOUT_DSC_WRAP1_OUT_TO_VPP_MERGE			(3 << 16)
 >   
-> +/**
-> + * struct dpu_dsc_cfg - information of DSC blocks
-> + * @id                 enum identifying this block
-> + * @base               register offset of this block
-> + * @features           bit mask identifying sub-blocks/features
-> + */
-> +struct dpu_dsc_cfg {
-> +	DPU_HW_BLK_INFO;
-> +};
-> +
->   /**
->    * struct dpu_intf_cfg - information of timing engine blocks
->    * @id                 enum identifying this block
-> @@ -757,6 +767,9 @@ struct dpu_mdss_cfg {
->   	u32 merge_3d_count;
->   	const struct dpu_merge_3d_cfg *merge_3d;
->   
-> +	u32 dsc_count;
-> +	struct dpu_dsc_cfg *dsc;
-> +
->   	u32 intf_count;
->   	const struct dpu_intf_cfg *intf;
->   
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c
-> new file mode 100644
-> index 000000000000..09682c4832ba
-> --- /dev/null
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c
-> @@ -0,0 +1,210 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Copyright (c) 2020-2021, Linaro Limited
-> + */
-> +
-> +#include "dpu_kms.h"
-> +#include "dpu_hw_catalog.h"
-> +#include "dpu_hwio.h"
-> +#include "dpu_hw_mdss.h"
-> +#include "dpu_hw_dsc.h"
-> +
-> +#define DSC_COMMON_MODE	                0x000
-> +#define DSC_ENC                         0X004
-> +#define DSC_PICTURE                     0x008
-> +#define DSC_SLICE                       0x00C
-> +#define DSC_CHUNK_SIZE                  0x010
-> +#define DSC_DELAY                       0x014
-> +#define DSC_SCALE_INITIAL               0x018
-> +#define DSC_SCALE_DEC_INTERVAL          0x01C
-> +#define DSC_SCALE_INC_INTERVAL          0x020
-> +#define DSC_FIRST_LINE_BPG_OFFSET       0x024
-> +#define DSC_BPG_OFFSET                  0x028
-> +#define DSC_DSC_OFFSET                  0x02C
-> +#define DSC_FLATNESS                    0x030
-> +#define DSC_RC_MODEL_SIZE               0x034
-> +#define DSC_RC                          0x038
-> +#define DSC_RC_BUF_THRESH               0x03C
-> +#define DSC_RANGE_MIN_QP                0x074
-> +#define DSC_RANGE_MAX_QP                0x0B0
-> +#define DSC_RANGE_BPG_OFFSET            0x0EC
-> +
-> +static void dpu_hw_dsc_disable(struct dpu_hw_dsc *dsc)
-> +{
-> +	struct dpu_hw_blk_reg_map *c = &dsc->hw;
-> +
-> +	DPU_REG_WRITE(c, DSC_COMMON_MODE, 0);
-> +}
-> +
-> +static void dpu_hw_dsc_config(struct dpu_hw_dsc *hw_dsc,
-> +			      struct msm_display_dsc_config *dsc, u32 mode)
-> +{
-> +	struct dpu_hw_blk_reg_map *c = &hw_dsc->hw;
-> +	u32 data, lsb, bpp;
-> +	u32 initial_lines = dsc->initial_lines;
-> +	bool is_cmd_mode = !(mode & BIT(2));
+> +#define MT8195_VDO1_VPP_MERGE0_P0_SEL_IN			0xf04
+> +#define MT8195_VPP_MERGE0_P0_SEL_IN_FROM_MDP_RDMA0		(1 << 0)
 
-DSC_MODE_VIDEO
+There is no bitshifting action here: this is simply 1.
 
 > +
-> +	DPU_REG_WRITE(c, DSC_COMMON_MODE, mode);
-> +
-> +	if (is_cmd_mode)
-> +		initial_lines += 1;
-> +
-> +	data = (initial_lines << 20);
-> +	data |= ((dsc->slice_last_group_size - 1) << 18);
-> +	/* bpp is 6.4 format, 4 LSBs bits are for fractional part */
-> +	data |= dsc->drm->bits_per_pixel << 12;
-> +	lsb = dsc->drm->bits_per_pixel % 4;
-> +	bpp = dsc->drm->bits_per_pixel / 4;
-> +	bpp *= 4;
-> +	bpp <<= 4;
-> +	bpp |= lsb;
-> +
-> +	data |= bpp << 8;
-> +	data |= (dsc->drm->block_pred_enable << 7);
-> +	data |= (dsc->drm->line_buf_depth << 3);
-> +	data |= (dsc->drm->simple_422 << 2);
-> +	data |= (dsc->drm->convert_rgb << 1);
-> +	data |= dsc->drm->bits_per_component;
-> +
-> +	DPU_REG_WRITE(c, DSC_ENC, data);
-> +
-> +	data = dsc->drm->pic_width << 16;
-> +	data |= dsc->drm->pic_height;
-> +	DPU_REG_WRITE(c, DSC_PICTURE, data);
-> +
-> +	data = dsc->drm->slice_width << 16;
-> +	data |= dsc->drm->slice_height;
-> +	DPU_REG_WRITE(c, DSC_SLICE, data);
-> +
-> +	data = dsc->drm->slice_chunk_size << 16;
-> +	DPU_REG_WRITE(c, DSC_CHUNK_SIZE, data);
-> +
-> +	data = dsc->drm->initial_dec_delay << 16;
-> +	data |= dsc->drm->initial_xmit_delay;
-> +	DPU_REG_WRITE(c, DSC_DELAY, data);
-> +
-> +	data = dsc->drm->initial_scale_value;
-> +	DPU_REG_WRITE(c, DSC_SCALE_INITIAL, data);
-> +
-> +	data = dsc->drm->scale_decrement_interval;
-> +	DPU_REG_WRITE(c, DSC_SCALE_DEC_INTERVAL, data);
-> +
-> +	data = dsc->drm->scale_increment_interval;
-> +	DPU_REG_WRITE(c, DSC_SCALE_INC_INTERVAL, data);
-> +
-> +	data = dsc->drm->first_line_bpg_offset;
-> +	DPU_REG_WRITE(c, DSC_FIRST_LINE_BPG_OFFSET, data);
-> +
-> +	data = dsc->drm->nfl_bpg_offset << 16;
-> +	data |= dsc->drm->slice_bpg_offset;
-> +	DPU_REG_WRITE(c, DSC_BPG_OFFSET, data);
-> +
-> +	data = dsc->drm->initial_offset << 16;
-> +	data |= dsc->drm->final_offset;
-> +	DPU_REG_WRITE(c, DSC_DSC_OFFSET, data);
-> +
-> +	data = dsc->det_thresh_flatness << 10;
-> +	data |= dsc->drm->flatness_max_qp << 5;
-> +	data |= dsc->drm->flatness_min_qp;
-> +	DPU_REG_WRITE(c, DSC_FLATNESS, data);
-> +
-> +	data = dsc->drm->rc_model_size;
-> +	DPU_REG_WRITE(c, DSC_RC_MODEL_SIZE, data);
-> +
-> +	data = dsc->drm->rc_tgt_offset_low << 18;
-> +	data |= dsc->drm->rc_tgt_offset_high << 14;
-> +	data |= dsc->drm->rc_quant_incr_limit1 << 9;
-> +	data |= dsc->drm->rc_quant_incr_limit0 << 4;
-> +	data |= dsc->drm->rc_edge_factor;
-> +	DPU_REG_WRITE(c, DSC_RC, data);
-> +}
-> +
-> +static void dpu_hw_dsc_config_thresh(struct dpu_hw_dsc *hw_dsc,
-> +				     struct msm_display_dsc_config *dsc)
+> +#define MT8195_VDO1_VPP_MERGE0_P1_SEL_IN			0xf08
+> +#define MT8195_VPP_MERGE0_P1_SEL_IN_FROM_MDP_RDMA1		(1 << 0)
 
-I thought that it might make sense to pass just 
-drm_dsc_rc_range_parameters here, but it's a matter of personal 
-preference. I won't insist on doing that.
+Same here.
 
-> +{
-> +	struct drm_dsc_rc_range_parameters *rc = dsc->drm->rc_range_params;
-> +	struct dpu_hw_blk_reg_map *c = &hw_dsc->hw;
-> +	u32 off;
-> +	int i;
 > +
-> +	off = DSC_RC_BUF_THRESH;
-> +	for (i = 0; i < DSC_NUM_BUF_RANGES - 1 ; i++) {
-> +		DPU_REG_WRITE(c, off, dsc->drm->rc_buf_thresh[i]);
-> +		off += 4;
-> +	}
-> +
-> +	off = DSC_RANGE_MIN_QP;
-> +	for (i = 0; i < DSC_NUM_BUF_RANGES; i++) {
-> +		DPU_REG_WRITE(c, off, rc[i].range_min_qp);
-> +		off += 4;
-> +	}
-> +
-> +	off = DSC_RANGE_MAX_QP;
-> +	for (i = 0; i < 15; i++) {
-> +		DPU_REG_WRITE(c, off, rc[i].range_max_qp);
-> +		off += 4;
-> +	}
-> +
-> +	off = DSC_RANGE_BPG_OFFSET;
-> +	for (i = 0; i < 15; i++) {
-> +		DPU_REG_WRITE(c, off, rc[i].range_bpg_offset);
-> +		off += 4;
-> +	}
-> +}
-> +
-> +static struct dpu_dsc_cfg *_dsc_offset(enum dpu_dsc dsc,
-> +				       struct dpu_mdss_cfg *m,
-> +				       void __iomem *addr,
-> +				       struct dpu_hw_blk_reg_map *b)
-> +{
-> +	int i;
-> +
-> +	for (i = 0; i < m->dsc_count; i++) {
-> +		if (dsc == m->dsc[i].id) {
-> +			b->base_off = addr;
-> +			b->blk_off = m->dsc[i].base;
-> +			b->length = m->dsc[i].len;
-> +			b->hwversion = m->hwversion;
-> +			b->log_mask = DPU_DBG_MASK_DSC;
-> +			return &m->dsc[i];
-> +		}
-> +	}
-> +
-> +	return NULL;
-> +}
-> +
-> +static void _setup_dsc_ops(struct dpu_hw_dsc_ops *ops,
-> +			   unsigned long cap)
-> +{
-> +	ops->dsc_disable = dpu_hw_dsc_disable;
-> +	ops->dsc_config = dpu_hw_dsc_config;
-> +	ops->dsc_config_thresh = dpu_hw_dsc_config_thresh;
-> +};
-> +
-> +struct dpu_hw_dsc *dpu_hw_dsc_init(enum dpu_dsc idx, void __iomem *addr,
-> +				   struct dpu_mdss_cfg *m)
-> +{
-> +	struct dpu_hw_dsc *c;
-> +	struct dpu_dsc_cfg *cfg;
-> +
-> +	c = kzalloc(sizeof(*c), GFP_KERNEL);
-> +	if (!c)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	cfg = _dsc_offset(idx, m, addr, &c->hw);
-> +	if (IS_ERR_OR_NULL(cfg)) {
-> +		kfree(c);
-> +		return ERR_PTR(-EINVAL);
-> +	}
-> +
-> +	c->idx = idx;
-> +	c->caps = cfg;
-> +	_setup_dsc_ops(&c->ops, c->caps->features);
-> +
-> +	return c;
-> +}
-> +
-> +void dpu_hw_dsc_destroy(struct dpu_hw_dsc *dsc)
-> +{
-> +	kfree(dsc);
-> +}
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.h
-> new file mode 100644
-> index 000000000000..648c9e4d8749
-> --- /dev/null
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.h
-> @@ -0,0 +1,77 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +/* Copyright (c) 2020-2021, Linaro Limited */
-> +
-> +#ifndef _DPU_HW_DSC_H
-> +#define _DPU_HW_DSC_H
-> +
-> +#include <drm/drm_dsc.h>
-> +
-> +#define DSC_MODE_SPLIT_PANEL            BIT(0)
-> +#define DSC_MODE_MULTIPLEX              BIT(1)
-> +#define DSC_MODE_VIDEO                  BIT(2)
-> +
-> +struct dpu_hw_dsc;
-> +
-> +/**
-> + * struct dpu_hw_dsc_ops - interface to the dsc hardware driver functions
-> + * Assumption is these functions will be called after clocks are enabled
-> + */
-> +struct dpu_hw_dsc_ops {
-> +	/**
-> +	 * dsc_disable - disable dsc
-> +	 * @hw_dsc: Pointer to dsc context
-> +	 */
-> +	void (*dsc_disable)(struct dpu_hw_dsc *hw_dsc);
-> +
-> +	/**
-> +	 * dsc_config - configures dsc encoder
-> +	 * @hw_dsc: Pointer to dsc context
-> +	 * @dsc: panel dsc parameters
-> +	 * @mode: dsc topology mode to be set
-> +	 */
-> +	void (*dsc_config)(struct dpu_hw_dsc *hw_dsc,
-> +			   struct msm_display_dsc_config *dsc, u32 mode);
-> +
-> +	/**
-> +	 * dsc_config_thresh - programs panel thresholds
-> +	 * @hw_dsc: Pointer to dsc context
-> +	 * @dsc: panel dsc parameters
-> +	 */
-> +	void (*dsc_config_thresh)(struct dpu_hw_dsc *hw_dsc,
-> +				  struct msm_display_dsc_config *dsc);
-> +};
-> +
-> +struct dpu_hw_dsc {
-> +	struct dpu_hw_blk base;
-> +	struct dpu_hw_blk_reg_map hw;
-> +
-> +	/* dsc */
-> +	enum dpu_dsc idx;
-> +	const struct dpu_dsc_cfg *caps;
-> +
-> +	/* ops */
-> +	struct dpu_hw_dsc_ops ops;
-> +};
-> +
-> +/**
-> + * dpu_hw_dsc_init - initializes the dsc block for the passed dsc idx.
-> + * @idx:  DSC index for which driver object is required
-> + * @addr: Mapped register io address of MDP
-> + * @m:    Pointer to mdss catalog data
-> + * Returns: Error code or allocated dpu_hw_dsc context
-> + */
-> +struct dpu_hw_dsc *dpu_hw_dsc_init(enum dpu_dsc idx, void __iomem *addr,
-> +				   struct dpu_mdss_cfg *m);
-> +
-> +/**
-> + * dpu_hw_dsc_destroy - destroys dsc driver context
-> + * @dsc:   Pointer to dsc driver context returned by dpu_hw_dsc_init
-> + */
-> +void dpu_hw_dsc_destroy(struct dpu_hw_dsc *dsc);
-> +
-> +static inline struct dpu_hw_dsc *to_dpu_hw_dsc(struct dpu_hw_blk *hw)
-> +{
-> +	return container_of(hw, struct dpu_hw_dsc, base);
-> +}
-> +
-> +#endif /* _DPU_HW_DSC_H */
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
-> index bb9ceadeb0bb..b0ce8cb97d22 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
-> @@ -97,6 +97,7 @@ enum dpu_hw_blk_type {
->   	DPU_HW_BLK_WB,
->   	DPU_HW_BLK_DSPP,
->   	DPU_HW_BLK_MERGE_3D,
-> +	DPU_HW_BLK_DSC,
->   	DPU_HW_BLK_MAX,
->   };
->   
-> @@ -176,6 +177,17 @@ enum dpu_ctl {
->   	CTL_MAX
->   };
->   
-> +enum dpu_dsc {
-> +	DSC_NONE = 0,
-> +	DSC_0,
-> +	DSC_1,
-> +	DSC_2,
-> +	DSC_3,
-> +	DSC_4,
-> +	DSC_5,
-> +	DSC_MAX
-> +};
-> +
->   enum dpu_pingpong {
->   	PINGPONG_0 = 1,
->   	PINGPONG_1,
-> @@ -437,5 +449,6 @@ struct dpu_mdss_color {
->   #define DPU_DBG_MASK_VBIF     (1 << 8)
->   #define DPU_DBG_MASK_ROT      (1 << 9)
->   #define DPU_DBG_MASK_DSPP     (1 << 10)
-> +#define DPU_DBG_MASK_DSC      (1 << 11)
->   
->   #endif  /* _DPU_HW_MDSS_H */
-> 
+> +#define MT8195_VDO1_DISP_DPI1_SEL_IN				0xf10
+> +#define MT8195_DISP_DPI1_SEL_IN_FROM_VPP_MERGE4_MOUT		(0 << 0)
 
+And this is 0.
 
--- 
-With best wishes
-Dmitry
+> +
+> +#define MT8195_VDO1_DISP_DP_INTF0_SEL_IN			0xf14
+> +#define MT8195_DISP_DP_INTF0_SEL_IN_FROM_VPP_MERGE4_MOUT	(0 << 0)
+> +
+> +#define MT8195_VDO1_MERGE4_SOUT_SEL				0xf18
+> +#define MT8195_MERGE4_SOUT_TO_DPI1_SEL				(2 << 0)
+
+This is simply 0x2...
+
+> +#define MT8195_MERGE4_SOUT_TO_DP_INTF0_SEL			(3 << 0)
+
+...and this is 0x3.
+
+There are other occurrences of the same logic, so please fix them all.
+
+Regards,
+- Angelo
+
