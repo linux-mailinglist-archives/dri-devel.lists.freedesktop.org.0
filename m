@@ -1,48 +1,84 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01EBD42D3A6
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Oct 2021 09:30:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3695742D3F3
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Oct 2021 09:41:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D1FF6EC23;
-	Thu, 14 Oct 2021 07:30:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D9DAA6E13C;
+	Thu, 14 Oct 2021 07:41:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 01D166EC21;
- Thu, 14 Oct 2021 07:30:14 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10136"; a="226390679"
-X-IronPort-AV: E=Sophos;i="5.85,371,1624345200"; d="scan'208";a="226390679"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Oct 2021 00:30:14 -0700
-X-IronPort-AV: E=Sophos;i="5.85,371,1624345200"; d="scan'208";a="524954614"
-Received: from ebarkhuy-mobl2.ger.corp.intel.com (HELO [10.213.193.241])
- ([10.213.193.241])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Oct 2021 00:30:12 -0700
-Subject: Re: [Intel-gfx] [PATCH] drm/i915: Use dma_resv_iter for waiting in
- i915_gem_object_wait_reservation.
-To: Daniel Vetter <daniel@ffwll.ch>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-References: <20211013111817.1886880-1-maarten.lankhorst@linux.intel.com>
- <20211013123203.1953276-1-maarten.lankhorst@linux.intel.com>
- <YWbmm6UqJ8JDa9WD@phenom.ffwll.local>
- <b7434459-de5c-3e8c-c94b-61f189e138e7@linux.intel.com>
- <YWcGlzGBCbbO3sK+@phenom.ffwll.local>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-Message-ID: <9d924a86-c411-c977-08f8-3bfd5790ad93@linux.intel.com>
-Date: Thu, 14 Oct 2021 08:30:10 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com
+ [64.147.123.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D94BA6E13C
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Oct 2021 07:41:16 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailnew.west.internal (Postfix) with ESMTP id DB77C2B00428;
+ Thu, 14 Oct 2021 03:41:13 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute5.internal (MEProxy); Thu, 14 Oct 2021 03:41:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=fYpD+qQEFt3q5FXg58C9+/ADaWw
+ 2/calmEftlemO734=; b=AXup7XZLYKVCtNOzfzNjU7yb2/0WmSG6hABwAdvBPeN
+ rNWWAwa2BoM92FPcHDsdHZZNgDCdsT0e9b7BADGC6B/F16grsedsfq1jd3cGBw0S
+ pHlnLmeNJfpwHNbns2KKAIrymgSA6H52le+gW0Zk2emZzsTVO4725zLuA/LTL+aD
+ svNrNbTcsrHVmOm29TWjxHe0ZRW5d8r33AYPFbCO84m/aor2c8SaJf2PgWOZ1lZe
+ oa/g5zaYTcpGkyzKe0HTq0akLXTJvWDZ3gDfNa9q4kpCimEKukHvf/QFIBf3ZPAy
+ eS9lY2CXV0YVouHCjdnb0FTMSroptpFl/WDw4RCaopQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=fYpD+q
+ QEFt3q5FXg58C9+/ADaWw2/calmEftlemO734=; b=ShYTk4Z/I7O8D5DUKuQ36J
+ 49PXfXi4kRn0YhcKMI6M1BIzRHUG0bihojLfaYSKE//byVcRyCyOVIvjZx4lNFkP
+ lbW616OCrAqO7M97qIdZB3KbnkbTHhr92MSwB4B4wKNPHFh6vx4W9zTSc9ncXbHq
+ VYOs0N31MF2u/ixJe/EvxyXEKTn7jIac+hccCODzsWEAtPh+OTrjJyIe9p35h+/x
+ 7fyL+BNClX1ws+CHGG6Ds7wo3VyU3GT0MVJ5XFDYrXuv4d/w/FoSjD8FEeDx5O23
+ 9hzo3eikRYnRMQ4rXMq9csHvpTTcB+TGxEMLbt+ep1iFQRmHXmN+jANz0WZ7vcfA
+ ==
+X-ME-Sender: <xms:GN9nYZMTwXYtfzaNlcAxxEhG9S0ZQPdqpCEq9gv069pdjJiSrSwJDA>
+ <xme:GN9nYb-DRdX23QiZkYDzhemb1ShF6yLle0TkPerg9LNXKMjwJSeonDMg_BnNPWy99
+ IF2Z5Dvtc9vAQRKiv4>
+X-ME-Received: <xmr:GN9nYYQKa1Dd0I8ntXyoCe_y4LQKIdK-oBDXKTPs-44vaG70wgyVJ8gr5X68bNVpQ9A2rUWkNFQFtMrot7Wc7koHFkPGM_MVbBL3vIvB>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrvdduuddgudduiecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
+ mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+ htthgvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheei
+ heegudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ hmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:GN9nYVt-mddnaVGxwwFln2YUMd6WPbacG1FYbZmgUFMFN07izlrHCA>
+ <xmx:GN9nYRdTCFbw0sk5gqDRb0Z_xKVs7TM8Ba9F27SKcf6ls4UosU0B_g>
+ <xmx:GN9nYR2nTCjFB2hZjL5TsLDoxeWAqQL_qMMh66bcIGkNUQ8OC8BOyA>
+ <xmx:Gd9nYR27fqzPdRK1-0VhQQGMq0WN9PHAKqlStLofj0b89wge1mVdCf2m3hg>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 14 Oct 2021 03:41:11 -0400 (EDT)
+Date: Thu, 14 Oct 2021 09:41:10 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Alexander Stein <alexander.stein@ew.tq-group.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>, Andrzej Hajda <a.hajda@samsung.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Robert Foss <robert.foss@linaro.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH v2 3/4] dt-bindings: drm/bridge: ti-sn65dsi83: Add vcc
+ supply bindings
+Message-ID: <20211014074110.ym6mzugde2m5ak22@gilmour>
+References: <20211012064843.298104-1-alexander.stein@ew.tq-group.com>
+ <20211012064843.298104-4-alexander.stein@ew.tq-group.com>
+ <20211013074722.7y7ug3eri4euknza@gilmour>
+ <YWao69+QEK8Fhi/x@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-In-Reply-To: <YWcGlzGBCbbO3sK+@phenom.ffwll.local>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="2vu6g5pb2tsus6jk"
+Content-Disposition: inline
+In-Reply-To: <YWao69+QEK8Fhi/x@pendragon.ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,360 +95,88 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 13/10/2021 17:17, Daniel Vetter wrote:
-> On Wed, Oct 13, 2021 at 04:37:03PM +0100, Tvrtko Ursulin wrote:
->>
->> On 13/10/2021 15:00, Daniel Vetter wrote:
->>> On Wed, Oct 13, 2021 at 02:32:03PM +0200, Maarten Lankhorst wrote:
->>>> No memory should be allocated when calling i915_gem_object_wait,
->>>> because it may be called to idle a BO when evicting memory.
->>>>
->>>> Fix this by using dma_resv_iter helpers to call
->>>> i915_gem_object_wait_fence() on each fence, which cleans up the code a lot.
->>>> Also remove dma_resv_prune, it's questionably.
->>>>
->>>> This will result in the following lockdep splat.
->>>>
->>>> <4> [83.538517] ======================================================
->>>> <4> [83.538520] WARNING: possible circular locking dependency detected
->>>> <4> [83.538522] 5.15.0-rc5-CI-Trybot_8062+ #1 Not tainted
->>>> <4> [83.538525] ------------------------------------------------------
->>>> <4> [83.538527] gem_render_line/5242 is trying to acquire lock:
->>>> <4> [83.538530] ffffffff8275b1e0 (fs_reclaim){+.+.}-{0:0}, at: __kmalloc_track_caller+0x56/0x270
->>>> <4> [83.538538]
->>>> but task is already holding lock:
->>>> <4> [83.538540] ffff88813471d1e0 (&vm->mutex/1){+.+.}-{3:3}, at: i915_vma_pin_ww+0x1c7/0x970 [i915]
->>>> <4> [83.538638]
->>>> which lock already depends on the new lock.
->>>> <4> [83.538642]
->>>> the existing dependency chain (in reverse order) is:
->>>> <4> [83.538645]
->>>> -> #1 (&vm->mutex/1){+.+.}-{3:3}:
->>>> <4> [83.538649]        lock_acquire+0xd3/0x310
->>>> <4> [83.538654]        i915_gem_shrinker_taints_mutex+0x2d/0x50 [i915]
->>>> <4> [83.538730]        i915_address_space_init+0xf5/0x1b0 [i915]
->>>> <4> [83.538794]        ppgtt_init+0x55/0x70 [i915]
->>>> <4> [83.538856]        gen8_ppgtt_create+0x44/0x5d0 [i915]
->>>> <4> [83.538912]        i915_ppgtt_create+0x28/0xf0 [i915]
->>>> <4> [83.538971]        intel_gt_init+0x130/0x3b0 [i915]
->>>> <4> [83.539029]        i915_gem_init+0x14b/0x220 [i915]
->>>> <4> [83.539100]        i915_driver_probe+0x97e/0xdd0 [i915]
->>>> <4> [83.539149]        i915_pci_probe+0x43/0x1d0 [i915]
->>>> <4> [83.539197]        pci_device_probe+0x9b/0x110
->>>> <4> [83.539201]        really_probe+0x1b0/0x3b0
->>>> <4> [83.539205]        __driver_probe_device+0xf6/0x170
->>>> <4> [83.539208]        driver_probe_device+0x1a/0x90
->>>> <4> [83.539210]        __driver_attach+0x93/0x160
->>>> <4> [83.539213]        bus_for_each_dev+0x72/0xc0
->>>> <4> [83.539216]        bus_add_driver+0x14b/0x1f0
->>>> <4> [83.539220]        driver_register+0x66/0xb0
->>>> <4> [83.539222]        hdmi_get_spk_alloc+0x1f/0x50 [snd_hda_codec_hdmi]
->>>> <4> [83.539227]        do_one_initcall+0x53/0x2e0
->>>> <4> [83.539230]        do_init_module+0x55/0x200
->>>> <4> [83.539234]        load_module+0x2700/0x2980
->>>> <4> [83.539237]        __do_sys_finit_module+0xaa/0x110
->>>> <4> [83.539241]        do_syscall_64+0x37/0xb0
->>>> <4> [83.539244]        entry_SYSCALL_64_after_hwframe+0x44/0xae
->>>> <4> [83.539247]
->>>> -> #0 (fs_reclaim){+.+.}-{0:0}:
->>>> <4> [83.539251]        validate_chain+0xb37/0x1e70
->>>> <4> [83.539254]        __lock_acquire+0x5a1/0xb70
->>>> <4> [83.539258]        lock_acquire+0xd3/0x310
->>>> <4> [83.539260]        fs_reclaim_acquire+0x9d/0xd0
->>>> <4> [83.539264]        __kmalloc_track_caller+0x56/0x270
->>>> <4> [83.539267]        krealloc+0x48/0xa0
->>>> <4> [83.539270]        dma_resv_get_fences+0x1c3/0x280
->>>> <4> [83.539274]        i915_gem_object_wait+0x1ff/0x410 [i915]
->>>> <4> [83.539342]        i915_gem_evict_for_node+0x16b/0x440 [i915]
+--2vu6g5pb2tsus6jk
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Btw this looks like an impossible call stack? At least I don't see the 
-one calling the other.
+On Wed, Oct 13, 2021 at 12:37:47PM +0300, Laurent Pinchart wrote:
+> Hi Maxime,
+>=20
+> On Wed, Oct 13, 2021 at 09:47:22AM +0200, Maxime Ripard wrote:
+> > On Tue, Oct 12, 2021 at 08:48:42AM +0200, Alexander Stein wrote:
+> > > Add a VCC regulator which needs to be enabled before the EN pin is
+> > > released.
+> > >=20
+> > > Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+> > > Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+> > > ---
+> > >  .../devicetree/bindings/display/bridge/ti,sn65dsi83.yaml     | 5 +++=
+++
+> > >  1 file changed, 5 insertions(+)
+> > >=20
+> > > diff --git a/Documentation/devicetree/bindings/display/bridge/ti,sn65=
+dsi83.yaml b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.=
+yaml
+> > > index a5779bf17849..49ace6f312d5 100644
+> > > --- a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.y=
+aml
+> > > +++ b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.y=
+aml
+> > > @@ -32,6 +32,9 @@ properties:
+> > >      maxItems: 1
+> > >      description: GPIO specifier for bridge_en pin (active high).
+> > > =20
+> > > +  vcc-supply:
+> > > +    description: A 1.8V power supply (see regulator/regulator.yaml).
+> > > +
+> > >    ports:
+> > >      $ref: /schemas/graph.yaml#/properties/ports
+> > > =20
+> > > @@ -93,6 +96,7 @@ properties:
+> > >  required:
+> > >    - compatible
+> > >    - reg
+> > > +  - vcc-supply
+> >=20
+> > This isn't a backward-compatible change. All the previous users of that
+> > binding will now require a vcc-supply property even though it was
+> > working fine for them before.
+> >=20
+> > You handle that nicely in the code, but you can't make that new property
+> > required.
+>=20
+> We can't make it required in the driver, but can't we make it required
+> in the bindings ? This indicates that all new DTs need to set the
+> property. We also need to mass-patch the in-tree DTs to avoid validation
+> failures, but apart from that, I don't see any issue.
 
->>>> <4> [83.539412]        i915_gem_gtt_reserve+0xff/0x130 [i915]
->>>> <4> [83.539482]        i915_vma_pin_ww+0x765/0x970 [i915]
->>>> <4> [83.539556]        eb_validate_vmas+0x6fe/0x8e0 [i915]
->>>> <4> [83.539626]        i915_gem_do_execbuffer+0x9a6/0x20a0 [i915]
->>>> <4> [83.539693]        i915_gem_execbuffer2_ioctl+0x11f/0x2c0 [i915]
->>>> <4> [83.539759]        drm_ioctl_kernel+0xac/0x140
->>>> <4> [83.539763]        drm_ioctl+0x201/0x3d0
->>>> <4> [83.539766]        __x64_sys_ioctl+0x6a/0xa0
->>>> <4> [83.539769]        do_syscall_64+0x37/0xb0
->>>> <4> [83.539772]        entry_SYSCALL_64_after_hwframe+0x44/0xae
->>>> <4> [83.539775]
->>>> other info that might help us debug this:
->>>> <4> [83.539778]  Possible unsafe locking scenario:
->>>> <4> [83.539781]        CPU0                    CPU1
->>>> <4> [83.539783]        ----                    ----
->>>> <4> [83.539785]   lock(&vm->mutex/1);
->>>> <4> [83.539788]                                lock(fs_reclaim);
->>>> <4> [83.539791]                                lock(&vm->mutex/1);
->>>> <4> [83.539794]   lock(fs_reclaim);
->>>> <4> [83.539796]
->>>>    *** DEADLOCK ***
->>>> <4> [83.539799] 3 locks held by gem_render_line/5242:
->>>> <4> [83.539802]  #0: ffffc90000d4bbf0 (reservation_ww_class_acquire){+.+.}-{0:0}, at: i915_gem_do_execbuffer+0x8e5/0x20a0 [i915]
->>>> <4> [83.539870]  #1: ffff88811e48bae8 (reservation_ww_class_mutex){+.+.}-{3:3}, at: eb_validate_vmas+0x81/0x8e0 [i915]
->>>> <4> [83.539936]  #2: ffff88813471d1e0 (&vm->mutex/1){+.+.}-{3:3}, at: i915_vma_pin_ww+0x1c7/0x970 [i915]
->>>> <4> [83.540011]
->>>> stack backtrace:
->>>> <4> [83.540014] CPU: 2 PID: 5242 Comm: gem_render_line Not tainted 5.15.0-rc5-CI-Trybot_8062+ #1
->>>> <4> [83.540019] Hardware name: Intel(R) Client Systems NUC11TNHi3/NUC11TNBi3, BIOS TNTGL357.0038.2020.1124.1648 11/24/2020
->>>> <4> [83.540023] Call Trace:
->>>> <4> [83.540026]  dump_stack_lvl+0x56/0x7b
->>>> <4> [83.540030]  check_noncircular+0x12e/0x150
->>>> <4> [83.540034]  ? _raw_spin_unlock_irqrestore+0x50/0x60
->>>> <4> [83.540038]  validate_chain+0xb37/0x1e70
->>>> <4> [83.540042]  __lock_acquire+0x5a1/0xb70
->>>> <4> [83.540046]  lock_acquire+0xd3/0x310
->>>> <4> [83.540049]  ? __kmalloc_track_caller+0x56/0x270
->>>> <4> [83.540052]  ? find_held_lock+0x2d/0x90
->>>> <4> [83.540055]  ? dma_resv_get_fences+0x1c3/0x280
->>>> <4> [83.540058]  fs_reclaim_acquire+0x9d/0xd0
->>>> <4> [83.540061]  ? __kmalloc_track_caller+0x56/0x270
->>>> <4> [83.540064]  __kmalloc_track_caller+0x56/0x270
->>>> <4> [83.540067]  krealloc+0x48/0xa0
->>>> <4> [83.540070]  dma_resv_get_fences+0x1c3/0x280
->>>> <4> [83.540074]  i915_gem_object_wait+0x1ff/0x410 [i915]
->>>> <4> [83.540143]  i915_gem_evict_for_node+0x16b/0x440 [i915]
->>>> <4> [83.540212]  i915_gem_gtt_reserve+0xff/0x130 [i915]
->>>> <4> [83.540281]  i915_vma_pin_ww+0x765/0x970 [i915]
->>>> <4> [83.540354]  eb_validate_vmas+0x6fe/0x8e0 [i915]
->>>> <4> [83.540420]  i915_gem_do_execbuffer+0x9a6/0x20a0 [i915]
->>>> <4> [83.540485]  ? lockdep_hardirqs_on+0xbf/0x130
->>>> <4> [83.540490]  ? __lock_acquire+0x5c0/0xb70
->>>> <4> [83.540495]  i915_gem_execbuffer2_ioctl+0x11f/0x2c0 [i915]
->>>> <4> [83.540559]  ? i915_gem_do_execbuffer+0x20a0/0x20a0 [i915]
->>>> <4> [83.540622]  drm_ioctl_kernel+0xac/0x140
->>>> <4> [83.540625]  drm_ioctl+0x201/0x3d0
->>>> <4> [83.540628]  ? i915_gem_do_execbuffer+0x20a0/0x20a0 [i915]
->>>> <4> [83.540691]  __x64_sys_ioctl+0x6a/0xa0
->>>> <4> [83.540694]  do_syscall_64+0x37/0xb0
->>>> <4> [83.540697]  entry_SYSCALL_64_after_hwframe+0x44/0xae
->>>> <4> [83.540700] RIP: 0033:0x7fc314edc50b
->>>> Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
->>>
->>> Yay for ditching i915/dma_resv_utils.c while we're at it!
->>>
->>> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
->>
->> When Christian sent this patch I've raised one possibly important difference
->> difference (from msg id
->> e0954bdd-2183-f662-8192-c44f931c602b@linux.intel.com):
->>
->> """
->> Converting this one could be problematic. It's the wait ioctl which used to
->> grab an atomic snapshot and wait for that rendering to complete. With this
->> change I think it has the potential to run forever keeps catching new
->> activity against the same object.
->>
->> I am not sure whether or not the difference is relevant for how userspace
->> uses it but I think needs discussion.
->>
->> Hm actually there are internal callers as well, and at least some of those
->> have the object locked. Would a wider refactoring to separate those into
->> buckets (locked vs unlocked) make sense?
-> 
-> Ah yeah that would indeed be good to record in the commit message.
-> 
->> """
->>
->> I don't have sufficient knowledge on how userspace might be using gem_wait
->> to call whether it is a problem or not, or how big. Thoughts?
-> 
-> I don't think it matters. We have discussed possible issues in this area a
-> lot recently, especially when applications try to wreak with the
-> compositor. And the only way which would be airtight here is:
-> 
-> - userspace needs to grab the snapshot, the proposal in the room is
->    Jason's dma-buf fence export ioctl.
-> 
-> - userspace must only do explicit sync with buffers it gets from untrusted
->    clients, using the snapshot it got.
+I guess we'd need to clarify what the schemas are here for.
 
-I do not understand what you mean with the second point since it seems 
-just the opposite to me.
+We've been using them for two things: define the bindings, and make
+sure that the users of a binding actually follow it.
 
-Explicit wait = gem_wait? Isn't then the very problem with this change 
-that userspace can no longer safely use gem_wait if the buffer came from 
-outside? Or even if it exported it and still wants to render to it.
+The second part makes it very tempting to also cram "and make sure they
+follow our best practices" in there. We never had the discussion about
+whether that's ok or not, and I think the schemas syntax falls a bit
+short there since I don't think we can make the difference between a
+warning and an error that would make it work.
 
-> Trying to solve this in the kernel in each ioctl is a whack-a-mole thing
-> which has gaps.
+However, if we're talking about the binding itself, then no, you can't
+introduce a new property. Since it was acceptable in the past, it still
+needs to be acceptable going forward.
 
-This sounds beside the point since the discussion is about whether new 
-holes should be opened, not random ones closed.
+Maxime
 
-> The other thing is that we have interruptible waits, so if we include the
-> restarting then any snapshot taking the kernel does wont work even in
-> individual ioctls.
+--2vu6g5pb2tsus6jk
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Yes restarting is the issue which worries me here.
+-----BEGIN PGP SIGNATURE-----
 
-Possibly the patch could simply break out on 2nd restart and that would 
-kind of align with the current implementation.
+iHQEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYWffFgAKCRDj7w1vZxhR
+xeanAPjg/sDPbHy0fQ+Frfi5Ua8lhsMXTAwUoANmHT7G619yAP0eoUl7NpfwS9BH
+9SR3BGTPf8SfjN+eeTIoHH0KmekmCA==
+=wuEw
+-----END PGP SIGNATURE-----
 
-Second point from my original email - I suspect some callers can use the 
-locked iterator but did not know the display code paths to be sure. If 
-they can, I think we should break of a second helper and explicitly use 
-the right one. That also solves the whole restarting conundrum for the 
-locked callers.
-
-Regards,
-
-Tvrtko
-
-> -Daniel
-> 
->> Regards,
->>
->> Tvrtko
->>
->>>
->>>> ---
->>>>    drivers/gpu/drm/i915/Makefile                |  1 -
->>>>    drivers/gpu/drm/i915/dma_resv_utils.c        | 17 ------
->>>>    drivers/gpu/drm/i915/dma_resv_utils.h        | 13 -----
->>>>    drivers/gpu/drm/i915/gem/i915_gem_shrinker.c |  1 -
->>>>    drivers/gpu/drm/i915/gem/i915_gem_wait.c     | 56 +++-----------------
->>>>    5 files changed, 8 insertions(+), 80 deletions(-)
->>>>    delete mode 100644 drivers/gpu/drm/i915/dma_resv_utils.c
->>>>    delete mode 100644 drivers/gpu/drm/i915/dma_resv_utils.h
->>>>
->>>> diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
->>>> index 21b05ed0e4e8..88bb326d9031 100644
->>>> --- a/drivers/gpu/drm/i915/Makefile
->>>> +++ b/drivers/gpu/drm/i915/Makefile
->>>> @@ -58,7 +58,6 @@ i915-y += i915_drv.o \
->>>>    # core library code
->>>>    i915-y += \
->>>> -	dma_resv_utils.o \
->>>>    	i915_memcpy.o \
->>>>    	i915_mm.o \
->>>>    	i915_sw_fence.o \
->>>> diff --git a/drivers/gpu/drm/i915/dma_resv_utils.c b/drivers/gpu/drm/i915/dma_resv_utils.c
->>>> deleted file mode 100644
->>>> index 7df91b7e4ca8..000000000000
->>>> --- a/drivers/gpu/drm/i915/dma_resv_utils.c
->>>> +++ /dev/null
->>>> @@ -1,17 +0,0 @@
->>>> -// SPDX-License-Identifier: MIT
->>>> -/*
->>>> - * Copyright © 2020 Intel Corporation
->>>> - */
->>>> -
->>>> -#include <linux/dma-resv.h>
->>>> -
->>>> -#include "dma_resv_utils.h"
->>>> -
->>>> -void dma_resv_prune(struct dma_resv *resv)
->>>> -{
->>>> -	if (dma_resv_trylock(resv)) {
->>>> -		if (dma_resv_test_signaled(resv, true))
->>>> -			dma_resv_add_excl_fence(resv, NULL);
->>>> -		dma_resv_unlock(resv);
->>>> -	}
->>>> -}
->>>> diff --git a/drivers/gpu/drm/i915/dma_resv_utils.h b/drivers/gpu/drm/i915/dma_resv_utils.h
->>>> deleted file mode 100644
->>>> index b9d8fb5f8367..000000000000
->>>> --- a/drivers/gpu/drm/i915/dma_resv_utils.h
->>>> +++ /dev/null
->>>> @@ -1,13 +0,0 @@
->>>> -/* SPDX-License-Identifier: MIT */
->>>> -/*
->>>> - * Copyright © 2020 Intel Corporation
->>>> - */
->>>> -
->>>> -#ifndef DMA_RESV_UTILS_H
->>>> -#define DMA_RESV_UTILS_H
->>>> -
->>>> -struct dma_resv;
->>>> -
->>>> -void dma_resv_prune(struct dma_resv *resv);
->>>> -
->>>> -#endif /* DMA_RESV_UTILS_H */
->>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c b/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
->>>> index c80e6c1d2bcb..5375f3f9f016 100644
->>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
->>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
->>>> @@ -15,7 +15,6 @@
->>>>    #include "gt/intel_gt_requests.h"
->>>> -#include "dma_resv_utils.h"
->>>>    #include "i915_trace.h"
->>>>    static bool swap_available(void)
->>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_wait.c b/drivers/gpu/drm/i915/gem/i915_gem_wait.c
->>>> index f909aaa09d9c..e59304a76b2c 100644
->>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_wait.c
->>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_wait.c
->>>> @@ -10,7 +10,6 @@
->>>>    #include "gt/intel_engine.h"
->>>> -#include "dma_resv_utils.h"
->>>>    #include "i915_gem_ioctls.h"
->>>>    #include "i915_gem_object.h"
->>>> @@ -37,56 +36,17 @@ i915_gem_object_wait_reservation(struct dma_resv *resv,
->>>>    				 unsigned int flags,
->>>>    				 long timeout)
->>>>    {
->>>> -	struct dma_fence *excl;
->>>> -	bool prune_fences = false;
->>>> -
->>>> -	if (flags & I915_WAIT_ALL) {
->>>> -		struct dma_fence **shared;
->>>> -		unsigned int count, i;
->>>> -		int ret;
->>>> +	struct dma_resv_iter cursor;
->>>> +	struct dma_fence *fence;
->>>> -		ret = dma_resv_get_fences(resv, &excl, &count, &shared);
->>>> -		if (ret)
->>>> -			return ret;
->>>> -
->>>> -		for (i = 0; i < count; i++) {
->>>> -			timeout = i915_gem_object_wait_fence(shared[i],
->>>> -							     flags, timeout);
->>>> -			if (timeout < 0)
->>>> -				break;
->>>> +	dma_resv_iter_begin(&cursor, resv, flags & I915_WAIT_ALL);
->>>> +	dma_resv_for_each_fence_unlocked(&cursor, fence) {
->>>> -			dma_fence_put(shared[i]);
->>>> -		}
->>>> -
->>>> -		for (; i < count; i++)
->>>> -			dma_fence_put(shared[i]);
->>>> -		kfree(shared);
->>>> -
->>>> -		/*
->>>> -		 * If both shared fences and an exclusive fence exist,
->>>> -		 * then by construction the shared fences must be later
->>>> -		 * than the exclusive fence. If we successfully wait for
->>>> -		 * all the shared fences, we know that the exclusive fence
->>>> -		 * must all be signaled. If all the shared fences are
->>>> -		 * signaled, we can prune the array and recover the
->>>> -		 * floating references on the fences/requests.
->>>> -		 */
->>>> -		prune_fences = count && timeout >= 0;
->>>> -	} else {
->>>> -		excl = dma_resv_get_excl_unlocked(resv);
->>>> +		timeout = i915_gem_object_wait_fence(fence, flags, timeout);
->>>> +		if (timeout <= 0)
->>>> +			break;
->>>>    	}
->>>> -
->>>> -	if (excl && timeout >= 0)
->>>> -		timeout = i915_gem_object_wait_fence(excl, flags, timeout);
->>>> -
->>>> -	dma_fence_put(excl);
->>>> -
->>>> -	/*
->>>> -	 * Opportunistically prune the fences iff we know they have *all* been
->>>> -	 * signaled.
->>>> -	 */
->>>> -	if (prune_fences)
->>>> -		dma_resv_prune(resv);
->>>> +	dma_resv_iter_end(&cursor);
->>>>    	return timeout;
->>>>    }
->>>> -- 
->>>> 2.33.0
->>>>
->>>
-> 
+--2vu6g5pb2tsus6jk--
