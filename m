@@ -2,22 +2,22 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4ED642E071
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Oct 2021 19:49:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7BAD42E06F
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Oct 2021 19:49:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A0BB46E99F;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 07A6F6E899;
 	Thu, 14 Oct 2021 17:49:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 50A4F6E811;
- Thu, 14 Oct 2021 17:49:04 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10137"; a="225208225"
-X-IronPort-AV: E=Sophos;i="5.85,373,1624345200"; d="scan'208";a="225208225"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 478E36E811;
+ Thu, 14 Oct 2021 17:49:03 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10137"; a="225208226"
+X-IronPort-AV: E=Sophos;i="5.85,373,1624345200"; d="scan'208";a="225208226"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Oct 2021 10:25:01 -0700
-X-IronPort-AV: E=Sophos;i="5.85,373,1624345200"; d="scan'208";a="481360401"
+ 14 Oct 2021 10:25:02 -0700
+X-IronPort-AV: E=Sophos;i="5.85,373,1624345200"; d="scan'208";a="481360406"
 Received: from jons-linux-dev-box.fm.intel.com ([10.1.27.20])
  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  14 Oct 2021 10:24:59 -0700
@@ -25,10 +25,9 @@ From: Matthew Brost <matthew.brost@intel.com>
 To: <intel-gfx@lists.freedesktop.org>,
 	<dri-devel@lists.freedesktop.org>
 Cc: <john.c.harrison@intel.com>
-Subject: [PATCH 04/25] drm/i915/guc: Don't call switch_to_kernel_context with
- GuC submission
-Date: Thu, 14 Oct 2021 10:19:44 -0700
-Message-Id: <20211014172005.27155-5-matthew.brost@intel.com>
+Subject: [PATCH 05/25] drm/i915: Add logical engine mapping
+Date: Thu, 14 Oct 2021 10:19:45 -0700
+Message-Id: <20211014172005.27155-6-matthew.brost@intel.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20211014172005.27155-1-matthew.brost@intel.com>
 References: <20211014172005.27155-1-matthew.brost@intel.com>
@@ -49,50 +48,219 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Calling switch_to_kernel_context isn't needed if the engine PM reference
-is taken while all user contexts are pinned as if don't have PM ref that
-guarantees that all user contexts scheduling is disabled. By not calling
-switch_to_kernel_context we save on issuing a request to the engine.
+Add logical engine mapping. This is required for split-frame, as
+workloads need to be placed on engines in a logically contiguous manner.
 
 v2:
  (Daniel Vetter)
-  - Add FIXME comment about pushing switch_to_kernel_context to backend
+  - Add kernel doc for new fields
 v3:
+ (Tvrtko)
+  - Update comment for new logical_mask field
+v4:
  (John Harrison)
-  - Update commit message
-  - Fix workding comment
+  - Update comment for new logical_mask field
 
 Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 Reviewed-by: John Harrison <John.C.Harrison@Intel.com>
 ---
- drivers/gpu/drm/i915/gt/intel_engine_pm.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c     | 60 ++++++++++++++++---
+ drivers/gpu/drm/i915/gt/intel_engine_types.h  |  7 +++
+ .../drm/i915/gt/intel_execlists_submission.c  |  1 +
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c    |  2 +-
+ .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 21 +------
+ 5 files changed, 62 insertions(+), 29 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_engine_pm.c b/drivers/gpu/drm/i915/gt/intel_engine_pm.c
-index dacd62773735..a1334b48dde7 100644
---- a/drivers/gpu/drm/i915/gt/intel_engine_pm.c
-+++ b/drivers/gpu/drm/i915/gt/intel_engine_pm.c
-@@ -162,6 +162,19 @@ static bool switch_to_kernel_context(struct intel_engine_cs *engine)
- 	unsigned long flags;
- 	bool result = true;
+diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+index 2ae57e4656a3..2eb798ad068b 100644
+--- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
++++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+@@ -290,7 +290,8 @@ static void nop_irq_handler(struct intel_engine_cs *engine, u16 iir)
+ 	GEM_DEBUG_WARN_ON(iir);
+ }
  
-+	/*
-+	 * This is execlist specific behaviour intended to ensure the GPU is
-+	 * idle by switching to a known 'safe' context. With GuC submission, the
-+	 * same idle guarantee is achieved by other means (disabling
-+	 * scheduling). Further, switching to a 'safe' context has no effect
-+	 * with GuC submission as the scheduler can just switch back again.
-+	 *
-+	 * FIXME: Move this backend scheduler specific behaviour into the
-+	 * scheduler backend.
-+	 */
-+	if (intel_engine_uses_guc(engine))
-+		return true;
+-static int intel_engine_setup(struct intel_gt *gt, enum intel_engine_id id)
++static int intel_engine_setup(struct intel_gt *gt, enum intel_engine_id id,
++			      u8 logical_instance)
+ {
+ 	const struct engine_info *info = &intel_engines[id];
+ 	struct drm_i915_private *i915 = gt->i915;
+@@ -335,6 +336,7 @@ static int intel_engine_setup(struct intel_gt *gt, enum intel_engine_id id)
+ 
+ 	engine->class = info->class;
+ 	engine->instance = info->instance;
++	engine->logical_mask = BIT(logical_instance);
+ 	__sprint_engine_name(engine);
+ 
+ 	engine->props.heartbeat_interval_ms =
+@@ -588,6 +590,37 @@ static intel_engine_mask_t init_engine_mask(struct intel_gt *gt)
+ 	return info->engine_mask;
+ }
+ 
++static void populate_logical_ids(struct intel_gt *gt, u8 *logical_ids,
++				 u8 class, const u8 *map, u8 num_instances)
++{
++	int i, j;
++	u8 current_logical_id = 0;
 +
- 	/* GPU is pointing to the void, as good as in the kernel context. */
- 	if (intel_gt_is_wedged(engine->gt))
- 		return true;
++	for (j = 0; j < num_instances; ++j) {
++		for (i = 0; i < ARRAY_SIZE(intel_engines); ++i) {
++			if (!HAS_ENGINE(gt, i) ||
++			    intel_engines[i].class != class)
++				continue;
++
++			if (intel_engines[i].instance == map[j]) {
++				logical_ids[intel_engines[i].instance] =
++					current_logical_id++;
++				break;
++			}
++		}
++	}
++}
++
++static void setup_logical_ids(struct intel_gt *gt, u8 *logical_ids, u8 class)
++{
++	int i;
++	u8 map[MAX_ENGINE_INSTANCE + 1];
++
++	for (i = 0; i < MAX_ENGINE_INSTANCE + 1; ++i)
++		map[i] = i;
++	populate_logical_ids(gt, logical_ids, class, map, ARRAY_SIZE(map));
++}
++
+ /**
+  * intel_engines_init_mmio() - allocate and prepare the Engine Command Streamers
+  * @gt: pointer to struct intel_gt
+@@ -599,7 +632,8 @@ int intel_engines_init_mmio(struct intel_gt *gt)
+ 	struct drm_i915_private *i915 = gt->i915;
+ 	const unsigned int engine_mask = init_engine_mask(gt);
+ 	unsigned int mask = 0;
+-	unsigned int i;
++	unsigned int i, class;
++	u8 logical_ids[MAX_ENGINE_INSTANCE + 1];
+ 	int err;
+ 
+ 	drm_WARN_ON(&i915->drm, engine_mask == 0);
+@@ -609,15 +643,23 @@ int intel_engines_init_mmio(struct intel_gt *gt)
+ 	if (i915_inject_probe_failure(i915))
+ 		return -ENODEV;
+ 
+-	for (i = 0; i < ARRAY_SIZE(intel_engines); i++) {
+-		if (!HAS_ENGINE(gt, i))
+-			continue;
++	for (class = 0; class < MAX_ENGINE_CLASS + 1; ++class) {
++		setup_logical_ids(gt, logical_ids, class);
+ 
+-		err = intel_engine_setup(gt, i);
+-		if (err)
+-			goto cleanup;
++		for (i = 0; i < ARRAY_SIZE(intel_engines); ++i) {
++			u8 instance = intel_engines[i].instance;
++
++			if (intel_engines[i].class != class ||
++			    !HAS_ENGINE(gt, i))
++				continue;
+ 
+-		mask |= BIT(i);
++			err = intel_engine_setup(gt, i,
++						 logical_ids[instance]);
++			if (err)
++				goto cleanup;
++
++			mask |= BIT(i);
++		}
+ 	}
+ 
+ 	/*
+diff --git a/drivers/gpu/drm/i915/gt/intel_engine_types.h b/drivers/gpu/drm/i915/gt/intel_engine_types.h
+index 9167ce52487c..e0f773585c29 100644
+--- a/drivers/gpu/drm/i915/gt/intel_engine_types.h
++++ b/drivers/gpu/drm/i915/gt/intel_engine_types.h
+@@ -269,6 +269,13 @@ struct intel_engine_cs {
+ 	unsigned int guc_id;
+ 
+ 	intel_engine_mask_t mask;
++	/**
++	 * @logical_mask: logical mask of engine, reported to user space via
++	 * query IOCTL and used to communicate with the GuC in logical space.
++	 * The logical instance of a physical engine can change based on product
++	 * and fusing.
++	 */
++	intel_engine_mask_t logical_mask;
+ 
+ 	u8 class;
+ 	u8 instance;
+diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+index 73a79c2acd3a..43a74b216efb 100644
+--- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
++++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+@@ -3877,6 +3877,7 @@ execlists_create_virtual(struct intel_engine_cs **siblings, unsigned int count)
+ 
+ 		ve->siblings[ve->num_siblings++] = sibling;
+ 		ve->base.mask |= sibling->mask;
++		ve->base.logical_mask |= sibling->logical_mask;
+ 
+ 		/*
+ 		 * All physical engines must be compatible for their emission
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
+index 2c6ea64af7ec..621c893a009f 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
+@@ -176,7 +176,7 @@ static void guc_mapping_table_init(struct intel_gt *gt,
+ 	for_each_engine(engine, gt, id) {
+ 		u8 guc_class = engine_class_to_guc_class(engine->class);
+ 
+-		system_info->mapping_table[guc_class][engine->instance] =
++		system_info->mapping_table[guc_class][ilog2(engine->logical_mask)] =
+ 			engine->instance;
+ 	}
+ }
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+index 795cc071d05d..fd6594bc1b96 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+@@ -1423,23 +1423,6 @@ static int deregister_context(struct intel_context *ce, u32 guc_id)
+ 	return __guc_action_deregister_context(guc, guc_id);
+ }
+ 
+-static intel_engine_mask_t adjust_engine_mask(u8 class, intel_engine_mask_t mask)
+-{
+-	switch (class) {
+-	case RENDER_CLASS:
+-		return mask >> RCS0;
+-	case VIDEO_ENHANCEMENT_CLASS:
+-		return mask >> VECS0;
+-	case VIDEO_DECODE_CLASS:
+-		return mask >> VCS0;
+-	case COPY_ENGINE_CLASS:
+-		return mask >> BCS0;
+-	default:
+-		MISSING_CASE(class);
+-		return 0;
+-	}
+-}
+-
+ static void guc_context_policy_init(struct intel_engine_cs *engine,
+ 				    struct guc_lrc_desc *desc)
+ {
+@@ -1481,8 +1464,7 @@ static int guc_lrc_desc_pin(struct intel_context *ce, bool loop)
+ 
+ 	desc = __get_lrc_desc(guc, desc_idx);
+ 	desc->engine_class = engine_class_to_guc_class(engine->class);
+-	desc->engine_submit_mask = adjust_engine_mask(engine->class,
+-						      engine->mask);
++	desc->engine_submit_mask = engine->logical_mask;
+ 	desc->hw_context_desc = ce->lrc.lrca;
+ 	desc->priority = ce->guc_state.prio;
+ 	desc->context_flags = CONTEXT_REGISTRATION_FLAG_KMD;
+@@ -3271,6 +3253,7 @@ guc_create_virtual(struct intel_engine_cs **siblings, unsigned int count)
+ 		}
+ 
+ 		ve->base.mask |= sibling->mask;
++		ve->base.logical_mask |= sibling->logical_mask;
+ 
+ 		if (n != 0 && ve->base.class != sibling->class) {
+ 			DRM_DEBUG("invalid mixing of engine class, sibling %d, already %d\n",
 -- 
 2.32.0
 
