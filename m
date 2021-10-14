@@ -1,71 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC5A942DAA7
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Oct 2021 15:42:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F5DF42DAAE
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Oct 2021 15:44:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CAB5E6E893;
-	Thu, 14 Oct 2021 13:41:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C7B5F6E878;
+	Thu, 14 Oct 2021 13:44:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
- [IPv6:2a00:1450:4864:20::12b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 727F36E878
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Oct 2021 13:41:55 +0000 (UTC)
-Received: by mail-lf1-x12b.google.com with SMTP id x27so26949678lfa.9
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Oct 2021 06:41:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=2CXI/xEY/thPw45jl914tzVQCXxJgkaEiaihZoAS5NE=;
- b=JA9o2/acP9W4J3FcprsPhCKgkj/E2UWV2pDJVHkJ4lkrWNaeoh+JRjCZbki3h+3XPd
- DbXNtiBzwzSLL6Atqf4pFvF8umlMMAg93LCe7Z6PzewCP0XkOJIF4u+hVueTZIylzA9y
- jZLVpurJWuIR/uHVzy1uNGx4pMJGYu880UTbeCk/74vh4+jCHLft0YGpnO72PZg3VWhU
- cXsthfPZb25UyO6GhevPL6xzVlPMngF2KGH3AHGRajfDhOLon7WhB2RjjdNc0CQsL+tK
- eCEnIbSBobhJzE47zLXdWSXZG2Rkdgv7WJtJsnOWkBnWSmnnUfTKqLgIA4fAJ6QDmMcU
- CWGg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=2CXI/xEY/thPw45jl914tzVQCXxJgkaEiaihZoAS5NE=;
- b=z8kV7Bsd9AgDaU2wWWmNGi8dvYfCFI5KP89/s7UI9N9T45TbMP6V+dg889+rU0myMd
- yOXvduVQyT71hsz84DNFYbhUQfrs6a3s4OZtCkmqlPKo248AgWAgMcrCNyrzvTgsABtc
- CKK2a9nK/g/Jq096uTaCJMMCi6jRHt7kbR5WjhGez+9yGOSiOPBGTlQfZkISEurqKcvW
- Ml6Abe3QD3pRT7B7iCMzSqGDca2voVT5rarjS5ZzHLfW0szZkNGO1xE5p2qanre7S5X4
- /h079opV6dc58/yKCNkHjtjs/PcxTpaGDs9uKumGqoP0wv8xgMAAtOx1WmYTSksQ4uCI
- gc+Q==
-X-Gm-Message-State: AOAM531ew9wZXyDsHHI93aK2P3RcWkn08Fw7GAuYgAouEyS9FTd0sOhI
- 0bz1WUD/XFtKf+nxiJL669Yvng==
-X-Google-Smtp-Source: ABdhPJwNNzCdzIL3xC+3e0+2YM3M3EDJLzSESCYU1w2R/ttjrblskkCcmL8BpX2Fc3Y174MuzJXojw==
-X-Received: by 2002:ac2:5fea:: with SMTP id s10mr5299971lfg.652.1634218911792; 
- Thu, 14 Oct 2021 06:41:51 -0700 (PDT)
-Received: from [192.168.1.211] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id i13sm231739lfb.45.2021.10.14.06.41.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 14 Oct 2021 06:41:51 -0700 (PDT)
-Subject: Re: [PATCH v2 06/11] drm/msm/disp/dpu1: Don't use DSC with mode_3d
-To: Vinod Koul <vkoul@kernel.org>, Rob Clark <robdclark@gmail.com>
-Cc: linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <bjorn.andersson@linaro.org>, David Airlie
- <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Jonathan Marek <jonathan@marek.ca>, Abhinav Kumar <abhinavk@codeaurora.org>,
- Jeffrey Hugo <jeffrey.l.hugo@gmail.com>,
- Sumit Semwal <sumit.semwal@linaro.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
-References: <20211007070900.456044-1-vkoul@kernel.org>
- <20211007070900.456044-7-vkoul@kernel.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Message-ID: <11becace-7b44-6141-5a8b-1bd6d0673243@linaro.org>
-Date: Thu, 14 Oct 2021 16:41:50 +0300
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D4456E878
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Oct 2021 13:44:47 +0000 (UTC)
+Received: from [IPv6:2a02:810a:880:f54:d539:cc83:9c4a:6738] (unknown
+ [IPv6:2a02:810a:880:f54:d539:cc83:9c4a:6738])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: dafna)
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 424E11F44C6D;
+ Thu, 14 Oct 2021 14:44:45 +0100 (BST)
+Subject: Re: [PATCH v7, 03/15] media: mtk-vcodec: Refactor vcodec pm interface
+To: Yunfei Dong <yunfei.dong@mediatek.com>,
+ Alexandre Courbot <acourbot@chromium.org>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>, Tzung-Bi Shih
+ <tzungbi@chromium.org>, Tiffany Lin <tiffany.lin@mediatek.com>,
+ Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
+ <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ Tomasz Figa <tfiga@google.com>
+Cc: Hsin-Yi Wang <hsinyi@chromium.org>, Fritz Koenig <frkoenig@chromium.org>, 
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Daniel Vetter <daniel@ffwll.ch>, dri-devel
+ <dri-devel@lists.freedesktop.org>, Irui Wang <irui.wang@mediatek.com>,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ srv_heupstream@mediatek.com, linux-mediatek@lists.infradead.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ Tzung-Bi Shih <tzungbi@google.com>
+References: <20211011070247.792-1-yunfei.dong@mediatek.com>
+ <20211011070247.792-4-yunfei.dong@mediatek.com>
+From: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Message-ID: <6f3e94fe-8e02-e79d-858d-620a057b87f2@collabora.com>
+Date: Thu, 14 Oct 2021 15:44:42 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20211007070900.456044-7-vkoul@kernel.org>
+In-Reply-To: <20211011070247.792-4-yunfei.dong@mediatek.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -82,123 +64,163 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 07/10/2021 10:08, Vinod Koul wrote:
-> We cannot enable mode_3d when we are using the DSC. So pass
-> configuration to detect DSC is enabled and not enable mode_3d
-> when we are using DSC
+
+
+On 11.10.21 09:02, Yunfei Dong wrote:
+> Using the needed param for pm init/release function and remove unused
+> param mtkdev in 'struct mtk_vcodec_pm'.
 > 
-> We add a helper dpu_encoder_helper_get_dsc_mode() to detect dsc
-> enabled and pass this to .setup_intf_cfg()
-> 
-> Signed-off-by: Vinod Koul <vkoul@kernel.org>
+
+I see that there is a lot of code duplication between mtk_vcodec_release_dec_pm.c and mtk_vcodec_release_enc_pm.c
+I think if you bother to factor the decoder you should do the same factor to the encoder, but actually the much better thing to do
+is to unify all code duplication between these two files, just for example of identical functions:
+
+mtk_vcodec_enc/dec_clock_on/off
+mtk_vcodec_release_enc_pm
+mtk_vcodec_init_dec_pm
+
+In addition, the function mtk_vcodec_dec_pw_on can be remove since it only calls pm_runtime_resume_and_get.
+It would be much better to call pm_runtime_resume_and_get directly and not hide it in a different function
+
+Thanks,
+Dafna
+
+> Reviewed-by: Tzung-Bi Shih <tzungbi@google.com>
+> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
 > ---
-> Changes since
-> v1:
->   - Move this patch from 7 to 6
->   - Update the changelog
->   - Make dsc as int and store the DSC indices
+>   .../platform/mtk-vcodec/mtk_vcodec_dec_drv.c  |  6 ++---
+>   .../platform/mtk-vcodec/mtk_vcodec_dec_pm.c   | 22 ++++++++-----------
+>   .../platform/mtk-vcodec/mtk_vcodec_dec_pm.h   |  5 +++--
+>   .../platform/mtk-vcodec/mtk_vcodec_drv.h      |  1 -
+>   .../platform/mtk-vcodec/mtk_vcodec_enc_pm.c   |  1 -
+>   5 files changed, 15 insertions(+), 20 deletions(-)
 > 
->   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h     | 11 +++++++++++
->   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c |  2 ++
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c           |  5 +++--
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h           |  2 ++
->   4 files changed, 18 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-> index e7270eb6b84b..fca07ed03317 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-> @@ -332,6 +332,17 @@ static inline enum dpu_3d_blend_mode dpu_encoder_helper_get_3d_blend_mode(
->   	return BLEND_3D_NONE;
->   }
+> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
+> index 8db9cdc66043..dd749d41c75a 100644
+> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
+> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
+> @@ -249,7 +249,7 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
+>   	if (IS_ERR(dev->fw_handler))
+>   		return PTR_ERR(dev->fw_handler);
 >   
-> +static inline bool dpu_encoder_helper_get_dsc_mode(struct dpu_encoder_phys *phys_enc)
-> +{
-> +	struct drm_encoder *drm_enc = phys_enc->parent;
-> +	struct msm_drm_private *priv = drm_enc->dev->dev_private;
-> +
-> +	if (priv->dsc)
-> +		return BIT(0) | BIT(1); /* Hardcoding for 2 DSC topology */
-
-Please use defined values here rater than just BIT().
-
-> +
-> +	return 0;
-> +}
-> +
->   /**
->    * dpu_encoder_helper_split_config - split display configuration helper function
->    *	This helper function may be used by physical encoders to configure
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-> index aa01698d6b25..8e5c0911734c 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-> @@ -70,6 +70,8 @@ static void _dpu_encoder_phys_cmd_update_intf_cfg(
->   	intf_cfg.intf_mode_sel = DPU_CTL_MODE_SEL_CMD;
->   	intf_cfg.stream_sel = cmd_enc->stream_sel;
->   	intf_cfg.mode_3d = dpu_encoder_helper_get_3d_blend_mode(phys_enc);
-> +	intf_cfg.dsc = dpu_encoder_helper_get_dsc_mode(phys_enc);
-> +
->   	ctl->ops.setup_intf_cfg(ctl, &intf_cfg);
->   }
+> -	ret = mtk_vcodec_init_dec_pm(dev);
+> +	ret = mtk_vcodec_init_dec_pm(dev->plat_dev, &dev->pm);
+>   	if (ret < 0) {
+>   		dev_err(&pdev->dev, "Failed to get mt vcodec clock source");
+>   		goto err_dec_pm;
+> @@ -379,7 +379,7 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
+>   err_dec_alloc:
+>   	v4l2_device_unregister(&dev->v4l2_dev);
+>   err_res:
+> -	mtk_vcodec_release_dec_pm(dev);
+> +	mtk_vcodec_release_dec_pm(&dev->pm);
+>   err_dec_pm:
+>   	mtk_vcodec_fw_release(dev->fw_handler);
+>   	return ret;
+> @@ -422,7 +422,7 @@ static int mtk_vcodec_dec_remove(struct platform_device *pdev)
+>   		video_unregister_device(dev->vfd_dec);
 >   
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-> index 64740ddb983e..3c79bd9c2fe5 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-> @@ -118,7 +118,7 @@ static u32 dpu_hw_ctl_get_pending_flush(struct dpu_hw_ctl *ctx)
->   	return ctx->pending_flush_mask;
+>   	v4l2_device_unregister(&dev->v4l2_dev);
+> -	mtk_vcodec_release_dec_pm(dev);
+> +	mtk_vcodec_release_dec_pm(&dev->pm);
+>   	mtk_vcodec_fw_release(dev->fw_handler);
+>   	return 0;
 >   }
+> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c
+> index 6038db96f71c..20bd157a855c 100644
+> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c
+> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c
+> @@ -13,18 +13,15 @@
+>   #include "mtk_vcodec_dec_pm.h"
+>   #include "mtk_vcodec_util.h"
 >   
-> -static inline void dpu_hw_ctl_trigger_flush_v1(struct dpu_hw_ctl *ctx)
-> +static void dpu_hw_ctl_trigger_flush_v1(struct dpu_hw_ctl *ctx)
+> -int mtk_vcodec_init_dec_pm(struct mtk_vcodec_dev *mtkdev)
+> +int mtk_vcodec_init_dec_pm(struct platform_device *pdev,
+> +	struct mtk_vcodec_pm *pm)
 >   {
+>   	struct device_node *node;
+> -	struct platform_device *pdev;
+> -	struct mtk_vcodec_pm *pm;
+> +	struct platform_device *larb_pdev;
+>   	struct mtk_vcodec_clk *dec_clk;
+>   	struct mtk_vcodec_clk_info *clk_info;
+>   	int i = 0, ret = 0;
 >   
->   	if (ctx->pending_flush_mask & BIT(MERGE_3D_IDX))
-> @@ -519,7 +519,8 @@ static void dpu_hw_ctl_intf_cfg(struct dpu_hw_ctl *ctx,
->   
->   	intf_cfg |= (cfg->intf & 0xF) << 4;
->   
-> -	if (cfg->mode_3d) {
-> +	/* In DSC we can't set merge, so check for dsc too */
-> +	if (cfg->mode_3d && !cfg->dsc) {
-
-The more I think about this hunk, the more I'm unsure about it.
-Downstream has the following topoligies defined:
-  * @SDE_RM_TOPOLOGY_DUALPIPE_3DMERGE_DSC: 2 LM, 2 PP, 3DMux, 1 DSC, 1 
-INTF/WB
-  * @SDE_RM_TOPOLOGY_QUADPIPE_3DMERGE_DSC  4 LM, 4 PP, 3DMux, 3 DSC, 2 INTF
-
-While the latter is not supported on sdm845, the former one should be 
-(by the hardware). So in the driver I think we should make sure that 
-mode_3d does not get set rather than disallowing it here.
-
->   		intf_cfg |= BIT(19);
->   		intf_cfg |= (cfg->mode_3d - 0x1) << 20;
+> -	pdev = mtkdev->plat_dev;
+> -	pm = &mtkdev->pm;
+> -	pm->mtkdev = mtkdev;
+>   	dec_clk = &pm->vdec_clk;
+>   	node = of_parse_phandle(pdev->dev.of_node, "mediatek,larb", 0);
+>   	if (!node) {
+> @@ -32,13 +29,12 @@ int mtk_vcodec_init_dec_pm(struct mtk_vcodec_dev *mtkdev)
+>   		return -1;
 >   	}
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
-> index 806c171e5df2..5dfac5994bd4 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
-> @@ -39,6 +39,7 @@ struct dpu_hw_stage_cfg {
->    * @mode_3d:               3d mux configuration
->    * @merge_3d:              3d merge block used
->    * @intf_mode_sel:         Interface mode, cmd / vid
-> + * @dsc:                   DSC BIT masks
->    * @stream_sel:            Stream selection for multi-stream interfaces
->    */
->   struct dpu_hw_intf_cfg {
-> @@ -46,6 +47,7 @@ struct dpu_hw_intf_cfg {
->   	enum dpu_3d_blend_mode mode_3d;
->   	enum dpu_merge_3d merge_3d;
->   	enum dpu_ctl_mode_sel intf_mode_sel;
-> +	unsigned int dsc;
->   	int stream_sel;
+>   
+> -	pdev = of_find_device_by_node(node);
+> +	larb_pdev = of_find_device_by_node(node);
+>   	of_node_put(node);
+> -	if (WARN_ON(!pdev)) {
+> +	if (WARN_ON(!larb_pdev)) {
+>   		return -1;
+>   	}
+> -	pm->larbvdec = &pdev->dev;
+> -	pdev = mtkdev->plat_dev;
+> +	pm->larbvdec = &larb_pdev->dev;
+>   	pm->dev = &pdev->dev;
+>   
+>   	dec_clk->clk_num =
+> @@ -82,10 +78,10 @@ int mtk_vcodec_init_dec_pm(struct mtk_vcodec_dev *mtkdev)
+>   	return ret;
+>   }
+>   
+> -void mtk_vcodec_release_dec_pm(struct mtk_vcodec_dev *dev)
+> +void mtk_vcodec_release_dec_pm(struct mtk_vcodec_pm *pm)
+>   {
+> -	pm_runtime_disable(dev->pm.dev);
+> -	put_device(dev->pm.larbvdec);
+> +	pm_runtime_disable(pm->dev);
+> +	put_device(pm->larbvdec);
+>   }
+>   
+>   int mtk_vcodec_dec_pw_on(struct mtk_vcodec_pm *pm)
+> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.h b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.h
+> index 280aeaefdb65..a3df6aef6cb9 100644
+> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.h
+> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.h
+> @@ -9,8 +9,9 @@
+>   
+>   #include "mtk_vcodec_drv.h"
+>   
+> -int mtk_vcodec_init_dec_pm(struct mtk_vcodec_dev *dev);
+> -void mtk_vcodec_release_dec_pm(struct mtk_vcodec_dev *dev);
+> +int mtk_vcodec_init_dec_pm(struct platform_device *pdev,
+> +	struct mtk_vcodec_pm *pm);
+> +void mtk_vcodec_release_dec_pm(struct mtk_vcodec_pm *pm);
+>   
+>   int mtk_vcodec_dec_pw_on(struct mtk_vcodec_pm *pm);
+>   void mtk_vcodec_dec_pw_off(struct mtk_vcodec_pm *pm);
+> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h b/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
+> index 3b1e5e3a450e..973b0b3649c6 100644
+> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
+> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
+> @@ -195,7 +195,6 @@ struct mtk_vcodec_pm {
+>   	struct mtk_vcodec_clk	venc_clk;
+>   	struct device	*larbvenc;
+>   	struct device	*dev;
+> -	struct mtk_vcodec_dev	*mtkdev;
 >   };
 >   
+>   /**
+> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.c
+> index 1b2e4930ed27..0c8c8f86788c 100644
+> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.c
+> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.c
+> @@ -26,7 +26,6 @@ int mtk_vcodec_init_enc_pm(struct mtk_vcodec_dev *mtkdev)
+>   	pdev = mtkdev->plat_dev;
+>   	pm = &mtkdev->pm;
+>   	memset(pm, 0, sizeof(struct mtk_vcodec_pm));
+> -	pm->mtkdev = mtkdev;
+>   	pm->dev = &pdev->dev;
+>   	dev = &pdev->dev;
+>   	enc_clk = &pm->venc_clk;
 > 
-
-
--- 
-With best wishes
-Dmitry
