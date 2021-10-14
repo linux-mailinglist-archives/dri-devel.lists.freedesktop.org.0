@@ -1,75 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1634A42DE77
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Oct 2021 17:42:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2362B42DE82
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Oct 2021 17:43:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 91C2E6E17D;
-	Thu, 14 Oct 2021 15:42:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B57FD6E183;
+	Thu, 14 Oct 2021 15:43:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com
- [IPv6:2607:f8b0:4864:20::22c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6602F6E183
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Oct 2021 15:42:22 +0000 (UTC)
-Received: by mail-oi1-x22c.google.com with SMTP id g125so8974963oif.9
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Oct 2021 08:42:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kali.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=ibfKdmBbKs8YG5Js109buSon4Qmub7UDY394dDMAH4w=;
- b=KgheEG/UXv0HI/BNZQhaEAEJT9Z5nbSCPmo6ZGo9h0lo6G4uzkobeo3/v8zD4qCRFJ
- Bncmx5JHh/YIxusm6Qxj3lv9L85DmKu7ugYRDBh7RUHkxSjJBFGlFnEOjie6fuoKTQ0d
- WB2zu+ZkQe7/aRf6vvTdQvxSKgiYNmod4P5d4b8L4wG0b+/kfQS/jfcvRyfaXKOvH+rq
- C5BtswYfDNrJo9f3tP+2CCGM0AfTCt/ZNvhS9nnHHWfst9u5eQM7mAeCNJhyKZpTU0dE
- CgKDdEqRRbDGGRRamKiZZ6bjUDoS8TJ88LuxVlyWWvmFYGnlaKOCpxXJB3qw4OQ2PwnE
- R/AA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=ibfKdmBbKs8YG5Js109buSon4Qmub7UDY394dDMAH4w=;
- b=5a/XN0EMgg8GZFlb2Jc4nUl4npXwIRCT4hUmcUXT79dNfHOjkWVRwmSE7kRC1LxWRV
- W9ckZ5EmD6EZG1l8Hs+UTjuk+GczoFP00mmHjHNkAviYe9WWKkSivdsq8PfIVcovVnoj
- Yf78Zj0CGii1qcAOlSbJBsJNaE3d0TLx9I+annfJMlly7b3q/C7XF/EtJ4+PuaqZOo/8
- Iic4wmSOU2QjLufkS/XATY37iys6YIIyqwiKNrxBotMmGrHuMGdpU2xHql1BkW+Fs0Yy
- 5BGZB/ENreCQUMncRV63ATeIarb3TS+ZIK4TY66YcxAxnfTXmNQamqsnC5ajo20Wj23d
- GLzg==
-X-Gm-Message-State: AOAM531xSLQklnR3eb/dN/xjORKibsflwMpFdqizviywWp7InZsY47nY
- ZLoJyLmQhJrG/8oBrbR0XWfWOg==
-X-Google-Smtp-Source: ABdhPJxI/fQjmhOiApXHpCZCw74jpPRDxZuw3p2+huSdF08a3MhSWCMRvxGCNobnB5MlHlo8kOIukg==
-X-Received: by 2002:a54:401a:: with SMTP id x26mr4514908oie.117.1634226141500; 
- Thu, 14 Oct 2021 08:42:21 -0700 (PDT)
-Received: from [192.168.11.48] (cpe-173-173-107-246.satx.res.rr.com.
- [173.173.107.246])
- by smtp.gmail.com with ESMTPSA id m13sm497647oou.25.2021.10.14.08.42.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 14 Oct 2021 08:42:21 -0700 (PDT)
-Message-ID: <298400eb-fe8d-6a92-6ff4-6188a8f3161a@kali.org>
-Date: Thu, 14 Oct 2021 10:42:19 -0500
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F3206E183;
+ Thu, 14 Oct 2021 15:43:33 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10137"; a="227600638"
+X-IronPort-AV: E=Sophos;i="5.85,372,1624345200"; d="scan'208";a="227600638"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Oct 2021 08:43:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.85,372,1624345200"; d="scan'208";a="626843138"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
+ by fmsmga001.fm.intel.com with SMTP; 14 Oct 2021 08:43:29 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Thu, 14 Oct 2021 18:43:28 +0300
+Date: Thu, 14 Oct 2021 18:43:28 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Jani Nikula <jani.nikula@intel.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 2/3] drm/dp: reuse the 8b/10b link training delay helpers
+Message-ID: <YWhQIAh5f8cUjVbc@intel.com>
+References: <20211014150059.28957-1-jani.nikula@intel.com>
+ <20211014150059.28957-2-jani.nikula@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.2.0
-Subject: Re: Revert "arm64: dts: qcom: sm8250: remove bus clock from the mdss
- node for sm8250 target"
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Andy Gross <agross@kernel.org>, Bjorn Andersson
- <bjorn.andersson@linaro.org>, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>, Abhinav Kumar <abhinavk@codeaurora.org>,
- Rob Herring <robh+dt@kernel.org>
-Cc: Jonathan Marek <jonathan@marek.ca>, Stephen Boyd <sboyd@kernel.org>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
- Amit Pundir <amit.pundir@linaro.org>
-References: <20211014135410.4136412-1-dmitry.baryshkov@linaro.org>
-From: Steev Klimaszewski <steev@kali.org>
-In-Reply-To: <20211014135410.4136412-1-dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20211014150059.28957-2-jani.nikula@intel.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,51 +52,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, Oct 14, 2021 at 06:00:58PM +0300, Jani Nikula wrote:
+> Reuse the 8b/10b link training delay helpers. Functionally this skips
+> the check for invalid values for DPCD 1.4 and later at clock recovery
+> delay (as it's a fixed delay and bypasses the rd_interval) but the same
+> value will be checked and invalid values reported at channel
+> equalization.
+> 
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 
-On 10/14/21 8:54 AM, Dmitry Baryshkov wrote:
-> From: Amit Pundir <amit.pundir@linaro.org>
->
-> This reverts commit 001ce9785c0674d913531345e86222c965fc8bf4.
->
-> This upstream commit broke AOSP (post Android 12 merge) build
-> on RB5. The device either silently crashes into USB crash mode
-> after android boot animation or we see a blank blue screen
-> with following dpu errors in dmesg:
->
-> [  T444] hw recovery is not complete for ctl:3
-> [  T444] [drm:dpu_encoder_phys_vid_prepare_for_kickoff:539] [dpu error]enc31 intf1 ctl 3 reset failure: -22
-> [  T444] [drm:dpu_encoder_phys_vid_wait_for_commit_done:513] [dpu error]vblank timeout
-> [  T444] [drm:dpu_kms_wait_for_commit_done:454] [dpu error]wait for commit done returned -110
-> [    C7] [drm:dpu_encoder_frame_done_timeout:2127] [dpu error]enc31 frame done timeout
-> [  T444] [drm:dpu_encoder_phys_vid_wait_for_commit_done:513] [dpu error]vblank timeout
-> [  T444] [drm:dpu_kms_wait_for_commit_done:454] [dpu error]wait for commit done returned -110
->
-> Signed-off-by: Amit Pundir <amit.pundir@linaro.org>
+Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+
 > ---
->   arch/arm64/boot/dts/qcom/sm8250.dtsi | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/arch/arm64/boot/dts/qcom/sm8250.dtsi b/arch/arm64/boot/dts/qcom/sm8250.dtsi
-> index 8c15d9fed08f..d12e4cbfc852 100644
-> --- a/arch/arm64/boot/dts/qcom/sm8250.dtsi
-> +++ b/arch/arm64/boot/dts/qcom/sm8250.dtsi
-> @@ -2590,9 +2590,10 @@
->   			power-domains = <&dispcc MDSS_GDSC>;
->   
->   			clocks = <&dispcc DISP_CC_MDSS_AHB_CLK>,
-> +				 <&gcc GCC_DISP_HF_AXI_CLK>,
->   				 <&gcc GCC_DISP_SF_AXI_CLK>,
->   				 <&dispcc DISP_CC_MDSS_MDP_CLK>;
-> -			clock-names = "iface", "nrt_bus", "core";
-> +			clock-names = "iface", "bus", "nrt_bus", "core";
->   
->   			assigned-clocks = <&dispcc DISP_CC_MDSS_MDP_CLK>;
->   			assigned-clock-rates = <460000000>;
+>  drivers/gpu/drm/drm_dp_helper.c | 30 ++++++++++--------------------
+>  1 file changed, 10 insertions(+), 20 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_dp_helper.c b/drivers/gpu/drm/drm_dp_helper.c
+> index f7ebf5974fa7..ada0a1ff262d 100644
+> --- a/drivers/gpu/drm/drm_dp_helper.c
+> +++ b/drivers/gpu/drm/drm_dp_helper.c
+> @@ -284,35 +284,25 @@ EXPORT_SYMBOL(drm_dp_read_channel_eq_delay);
+>  void drm_dp_link_train_clock_recovery_delay(const struct drm_dp_aux *aux,
+>  					    const u8 dpcd[DP_RECEIVER_CAP_SIZE])
+>  {
+> -	unsigned long rd_interval = dpcd[DP_TRAINING_AUX_RD_INTERVAL] &
+> -					 DP_TRAINING_AUX_RD_MASK;
+> +	u8 rd_interval = dpcd[DP_TRAINING_AUX_RD_INTERVAL] &
+> +		DP_TRAINING_AUX_RD_MASK;
+> +	int delay_us;
+>  
+> -	if (rd_interval > 4)
+> -		drm_dbg_kms(aux->drm_dev, "%s: AUX interval %lu, out of range (max 4)\n",
+> -			    aux->name, rd_interval);
+> -
+> -	if (rd_interval == 0 || dpcd[DP_DPCD_REV] >= DP_DPCD_REV_14)
+> -		rd_interval = 100;
+> +	if (dpcd[DP_DPCD_REV] >= DP_DPCD_REV_14)
+> +		delay_us = 100;
+>  	else
+> -		rd_interval *= 4 * USEC_PER_MSEC;
+> +		delay_us = __8b10b_clock_recovery_delay_us(aux, rd_interval);
+>  
+> -	usleep_range(rd_interval, rd_interval * 2);
+> +	usleep_range(delay_us, delay_us * 2);
+>  }
+>  EXPORT_SYMBOL(drm_dp_link_train_clock_recovery_delay);
+>  
+>  static void __drm_dp_link_train_channel_eq_delay(const struct drm_dp_aux *aux,
+> -						 unsigned long rd_interval)
+> +						 u8 rd_interval)
+>  {
+> -	if (rd_interval > 4)
+> -		drm_dbg_kms(aux->drm_dev, "%s: AUX interval %lu, out of range (max 4)\n",
+> -			    aux->name, rd_interval);
+> -
+> -	if (rd_interval == 0)
+> -		rd_interval = 400;
+> -	else
+> -		rd_interval *= 4 * USEC_PER_MSEC;
+> +	int delay_us = __8b10b_channel_eq_delay_us(aux, rd_interval);
+>  
+> -	usleep_range(rd_interval, rd_interval * 2);
+> +	usleep_range(delay_us, delay_us * 2);
+>  }
+>  
+>  void drm_dp_link_train_channel_eq_delay(const struct drm_dp_aux *aux,
+> -- 
+> 2.30.2
 
-
-Is this the correct fix for the issue?Â  I see those same messages on the 
-Lenovo Yoga C630 every so often as well as the blue screen, however I 
-see them on both 5.14 (which does not have the related commit to this), 
-and in 5.15-rcX, which does.Â  Or does this just revert it enough that it 
-doesn't occur as often?
-
+-- 
+Ville Syrjälä
+Intel
