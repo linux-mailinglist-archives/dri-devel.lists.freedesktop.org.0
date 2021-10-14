@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E72D942D43A
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Oct 2021 09:55:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C63C642D486
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Oct 2021 10:06:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB8BD6EC24;
-	Thu, 14 Oct 2021 07:55:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B644F6EC27;
+	Thu, 14 Oct 2021 08:06:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from msg-6.mailo.com (ip-16.mailobj.net [213.182.54.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CAA116EC1B
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Oct 2021 07:55:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=net-c.es; s=mailo;
- t=1634198139; bh=NvIQzVqd/GbpamO8zguMVDNB0+/9Ki8Lp9TKBqvC8fk=;
- h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
- MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To;
- b=fZEEVhL9ATC15vZvTD0yxCW++M68t5sfOybawi8Q3DiQY4s66jmafDTy3GUn2eyAD
- hXdn+mZ4CCtY5WWe9UOIQZTVnsMCpGRQSiFIG2Lb8TebYojbOua4teC3Rz8Dmx0oAD
- HKwlS9E7P1qzU3jbTZ6wDJYXMyaoq9Gipwwspbfg=
-Received: by b-6.in.mailobj.net [192.168.90.16] with ESMTP
- via ip-206.mailobj.net [213.182.55.206]
- Thu, 14 Oct 2021 09:55:39 +0200 (CEST)
-X-EA-Auth: Q2ps4BrUfH7UqRFJFUbN3Ff5Ra5egmYeO06NFd/MKn250WCX5f++ZGkJQgmyH9NxcqM9ayG1Ku4i920cLIniXtoGZh81meNr
-Date: Thu, 14 Oct 2021 09:55:36 +0200
-From: Claudio Suarez <cssk@net-c.es>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Daniel Vetter <daniel@ffwll.ch>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] fbdev: Garbage collect fbdev scrolling acceleration,
- part 1 (from TODO list)
-Message-ID: <YWfieCF7ptwG/SMt@gineta.localdomain>
-References: <YVXTYqszZix9TxjJ@gineta.localdomain>
- <246e4210-e73a-af6d-b16d-589d9dec3be1@suse.de>
- <YVcDrJqo4KMIf6Ft@gineta.localdomain>
- <e1e1a4c9-231d-a14e-17d9-094771b1c262@suse.de>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <e1e1a4c9-231d-a14e-17d9-094771b1c262@suse.de>
+X-Greylist: delayed 971 seconds by postgrey-1.36 at gabe;
+ Thu, 14 Oct 2021 03:19:00 UTC
+Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [63.217.80.70])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F59F6E06B;
+ Thu, 14 Oct 2021 03:19:00 +0000 (UTC)
+Received: from mse-fl2.zte.com.cn (unknown [10.30.14.239])
+ by Forcepoint Email with ESMTPS id 6587413936FE2D11075C;
+ Thu, 14 Oct 2021 11:02:47 +0800 (CST)
+Received: from xaxapp01.zte.com.cn ([10.88.40.50])
+ by mse-fl2.zte.com.cn with SMTP id 19E32aWZ071795;
+ Thu, 14 Oct 2021 11:02:36 +0800 (GMT-8)
+ (envelope-from luo.penghao@zte.com.cn)
+Received: from mapi (xaxapp02[null]) by mapi (Zmail) with MAPI id mid31;
+ Thu, 14 Oct 2021 11:02:36 +0800 (CST)
+Date: Thu, 14 Oct 2021 11:02:36 +0800 (CST)
+X-Zmail-TransId: 2afa61679dcc0ad1360d
+X-Mailer: Zmail v1.0
+Message-ID: <202110141102364478237@zte.com.cn>
+In-Reply-To: <20211012131836.4e17a031@canb.auug.org.au>
+References: 20211012131836.4e17a031@canb.auug.org.au
+Mime-Version: 1.0
+From: <luo.penghao@zte.com.cn>
+To: <sfr@canb.auug.org.au>
+Cc: <daniel.vetter@ffwll.ch>, <intel-gfx@lists.freedesktop.org>,
+ <dri-devel@lists.freedesktop.org>, <kherbst@redhat.com>,
+ <linux-kernel@vger.kernel.org>, <linux-next@vger.kernel.org>
+Subject: =?UTF-8?B?UmU6bGludXgtbmV4dDogYnVpbGQgZmFpbHVyZSBhZnRlciBtZXJnZSBvZiB0aGUgZHJtLW1pc2MgdHJlZQ==?=
+Content-Type: multipart/mixed;
+	boundary="=====_001_next====="
+X-MAIL: mse-fl2.zte.com.cn 19E32aWZ071795
+X-Mailman-Approved-At: Thu, 14 Oct 2021 08:06:36 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,1154 +55,106 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Oct 13, 2021 at 04:08:02PM +0200, Thomas Zimmermann wrote:
-> Hi
-> 
-> Am 01.10.21 um 14:48 schrieb Claudio Suarez:
-> > On Fri, Oct 01, 2021 at 10:21:44AM +0200, Thomas Zimmermann wrote:
-> > > Hi
-> > > 
-> > > Am 30.09.21 um 17:10 schrieb Claudio:
-> > > > Scroll acceleration is disabled in fbcon by hard-wiring
-> > > > p->scrollmode = SCROLL_REDRAW. Remove the obsolete code in fbcon.c
-> > > > and fbdev/core/
-> > > > 
-> > > > Signed-off-by: Claudio Suarez <cssk@net-c.es>
-> > > > ---
-> > > > 
-> > > > - This is a task in the TODO list Documentation/gpu/todo.rst
-> > > > - The contact in the task is Daniel Vetter. He is/you are in copy.
-> > > > - To ease the things and saving time, I did a patch. It is included in this
-> > > >     message. I can redo it if there is something wrong.
-> > > > - I tested it in some configurations.
-> > > > 
-> > > > My plan for new patches in this task:
-> > > > - A buch of patches to remove code from drivers: fb_copyarea and related.
-> > > > - Simplify the code around fbcon_ops as much as possible to remove the hooks
-> > > >     as the TODO suggests.
-> > > > - Remove fb_copyarea in headers and exported symbols: cfb_copyarea, etc. This
-> > > >     must be done when all the drivers are changed.
-> > > > 
-> > > > I think that the correct list to ask questions about this
-> > > > is linux-fbdev@vger.kernel.org . Is it correct ?
-> > > > My question: I can develop the new changes. I can test in two computers/two
-> > > > drivers. Is there a way to test the rest of the patches ? I have not hardware
-> > > > to test them. Is anyone helping with this? Only regression tests are needed.
-> > > > I can test other patches in return.
-> > > > 
-> > > > Thank you.
-> > > > Claudio Suarez.
-> > > > 
-> > > > Patch follows:
-> > > > 
-> > > >    Documentation/gpu/todo.rst              |  13 +-
-> > > >    drivers/video/fbdev/core/bitblit.c      |  16 -
-> > > >    drivers/video/fbdev/core/fbcon.c        | 509 ++------------------------------
-> > > >    drivers/video/fbdev/core/fbcon.h        |  59 ----
-> > > >    drivers/video/fbdev/core/fbcon_ccw.c    |  28 +-
-> > > >    drivers/video/fbdev/core/fbcon_cw.c     |  28 +-
-> > > >    drivers/video/fbdev/core/fbcon_rotate.h |   9 -
-> > > >    drivers/video/fbdev/core/fbcon_ud.c     |  37 +--
-> > > >    drivers/video/fbdev/core/tileblit.c     |  16 -
-> > > >    drivers/video/fbdev/skeletonfb.c        |  12 +-
-> > > >    include/linux/fb.h                      |   2 +-
-> > > >    11 files changed, 51 insertions(+), 678 deletions(-)
-> > > 
-> > > Nice stats :)
-> > > 
-> > > I looked through it and it looks good. Maybe double-check that everything
-> > > still builds.
-> > > 
-> > > Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-> > > 
-> > 
-> > Yes, it still builds :)
-> > I had built with some different .config options, including
-> > allyesconfig, allno, some randoms and debian default config. I tested
-> > some .config options related to fbdev. I spent time running some kernels
-> > with different parameters and everything was ok.
-> > Today, I've just applied the patch to source from two gits: Linus
-> > rc and drm. Both have built ok.
-> > I think that I did enough tests to ensure it works fine. This code is going
-> > to run in many computers, mine included!
-> > Of course, if you or anyone is worried about something specific, please,
-> > tell me and I can check and re-check it. I don't want to miss something
-> > important.
-> > 
-> > Thank you!
-> 
-> I added the patch to drm-misc-next.
-
-Great!
-
-Then I start to work in the second phase of removing unnecessary code
-from every driver, which depends on this one.
-
-Thanks a lot!
-
-Best regards,
-Claudio Suarez
 
 
-> 
-> Best regards
-> Thomas
-> 
-> > 
-> > Best regards
-> > Claudio Suarez
-> > 
-> > > Best regards
-> > > Thomas
-> > > 
-> > > > 
-> > > > diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-> > > > index 12e61869939e..bb1e04bbf4fb 100644
-> > > > --- a/Documentation/gpu/todo.rst
-> > > > +++ b/Documentation/gpu/todo.rst
-> > > > @@ -314,16 +314,19 @@ Level: Advanced
-> > > >    Garbage collect fbdev scrolling acceleration
-> > > >    --------------------------------------------
-> > > > -Scroll acceleration is disabled in fbcon by hard-wiring p->scrollmode =
-> > > > -SCROLL_REDRAW. There's a ton of code this will allow us to remove:
-> > > > +Scroll acceleration has been disabled in fbcon. Now it works as the old
-> > > > +SCROLL_REDRAW mode. A ton of code was removed in fbcon.c and the hook bmove was
-> > > > +removed from fbcon_ops.
-> > > > +Remaining tasks:
-> > > > -- lots of code in fbcon.c
-> > > > -
-> > > > -- a bunch of the hooks in fbcon_ops, maybe the remaining hooks could be called
-> > > > +- a bunch of the hooks in fbcon_ops could be removed or simplified by calling
-> > > >      directly instead of the function table (with a switch on p->rotate)
-> > > >    - fb_copyarea is unused after this, and can be deleted from all drivers
-> > > > +- after that, fb_copyarea can be deleted from fb_ops in include/linux/fb.h as
-> > > > +  well as cfb_copyarea
-> > > > +
-> > > >    Note that not all acceleration code can be deleted, since clearing and cursor
-> > > >    support is still accelerated, which might be good candidates for further
-> > > >    deletion projects.
-> > > > diff --git a/drivers/video/fbdev/core/bitblit.c b/drivers/video/fbdev/core/bitblit.c
-> > > > index f98e8f298bc1..01fae2c96965 100644
-> > > > --- a/drivers/video/fbdev/core/bitblit.c
-> > > > +++ b/drivers/video/fbdev/core/bitblit.c
-> > > > @@ -43,21 +43,6 @@ static void update_attr(u8 *dst, u8 *src, int attribute,
-> > > >    	}
-> > > >    }
-> > > > -static void bit_bmove(struct vc_data *vc, struct fb_info *info, int sy,
-> > > > -		      int sx, int dy, int dx, int height, int width)
-> > > > -{
-> > > > -	struct fb_copyarea area;
-> > > > -
-> > > > -	area.sx = sx * vc->vc_font.width;
-> > > > -	area.sy = sy * vc->vc_font.height;
-> > > > -	area.dx = dx * vc->vc_font.width;
-> > > > -	area.dy = dy * vc->vc_font.height;
-> > > > -	area.height = height * vc->vc_font.height;
-> > > > -	area.width = width * vc->vc_font.width;
-> > > > -
-> > > > -	info->fbops->fb_copyarea(info, &area);
-> > > > -}
-> > > > -
-> > > >    static void bit_clear(struct vc_data *vc, struct fb_info *info, int sy,
-> > > >    		      int sx, int height, int width)
-> > > >    {
-> > > > @@ -393,7 +378,6 @@ static int bit_update_start(struct fb_info *info)
-> > > >    void fbcon_set_bitops(struct fbcon_ops *ops)
-> > > >    {
-> > > > -	ops->bmove = bit_bmove;
-> > > >    	ops->clear = bit_clear;
-> > > >    	ops->putcs = bit_putcs;
-> > > >    	ops->clear_margins = bit_clear_margins;
-> > > > diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
-> > > > index 22bb3892f6bd..99ecd9a6d844 100644
-> > > > --- a/drivers/video/fbdev/core/fbcon.c
-> > > > +++ b/drivers/video/fbdev/core/fbcon.c
-> > > > @@ -173,8 +173,6 @@ static void fbcon_putcs(struct vc_data *vc, const unsigned short *s,
-> > > >    			int count, int ypos, int xpos);
-> > > >    static void fbcon_clear_margins(struct vc_data *vc, int bottom_only);
-> > > >    static void fbcon_cursor(struct vc_data *vc, int mode);
-> > > > -static void fbcon_bmove(struct vc_data *vc, int sy, int sx, int dy, int dx,
-> > > > -			int height, int width);
-> > > >    static int fbcon_switch(struct vc_data *vc);
-> > > >    static int fbcon_blank(struct vc_data *vc, int blank, int mode_switch);
-> > > >    static void fbcon_set_palette(struct vc_data *vc, const unsigned char *table);
-> > > > @@ -182,16 +180,8 @@ static void fbcon_set_palette(struct vc_data *vc, const unsigned char *table);
-> > > >    /*
-> > > >     *  Internal routines
-> > > >     */
-> > > > -static __inline__ void ywrap_up(struct vc_data *vc, int count);
-> > > > -static __inline__ void ywrap_down(struct vc_data *vc, int count);
-> > > > -static __inline__ void ypan_up(struct vc_data *vc, int count);
-> > > > -static __inline__ void ypan_down(struct vc_data *vc, int count);
-> > > > -static void fbcon_bmove_rec(struct vc_data *vc, struct fbcon_display *p, int sy, int sx,
-> > > > -			    int dy, int dx, int height, int width, u_int y_break);
-> > > >    static void fbcon_set_disp(struct fb_info *info, struct fb_var_screeninfo *var,
-> > > >    			   int unit);
-> > > > -static void fbcon_redraw_move(struct vc_data *vc, struct fbcon_display *p,
-> > > > -			      int line, int count, int dy);
-> > > >    static void fbcon_modechanged(struct fb_info *info);
-> > > >    static void fbcon_set_all_vcs(struct fb_info *info);
-> > > >    static void fbcon_start(void);
-> > > > @@ -1135,14 +1125,6 @@ static void fbcon_init(struct vc_data *vc, int init)
-> > > >    	ops->graphics = 0;
-> > > > -	/*
-> > > > -	 * No more hw acceleration for fbcon.
-> > > > -	 *
-> > > > -	 * FIXME: Garbage collect all the now dead code after sufficient time
-> > > > -	 * has passed.
-> > > > -	 */
-> > > > -	p->scrollmode = SCROLL_REDRAW;
-> > > > -
-> > > >    	/*
-> > > >    	 *  ++guenther: console.c:vc_allocate() relies on initializing
-> > > >    	 *  vc_{cols,rows}, but we must not set those if we are only
-> > > > @@ -1229,14 +1211,13 @@ static void fbcon_deinit(struct vc_data *vc)
-> > > >     *  This system is now divided into two levels because of complications
-> > > >     *  caused by hardware scrolling. Top level functions:
-> > > >     *
-> > > > - *	fbcon_bmove(), fbcon_clear(), fbcon_putc(), fbcon_clear_margins()
-> > > > + *	fbcon_clear(), fbcon_putc(), fbcon_clear_margins()
-> > > >     *
-> > > >     *  handles y values in range [0, scr_height-1] that correspond to real
-> > > >     *  screen positions. y_wrap shift means that first line of bitmap may be
-> > > >     *  anywhere on this display. These functions convert lineoffsets to
-> > > >     *  bitmap offsets and deal with the wrap-around case by splitting blits.
-> > > >     *
-> > > > - *	fbcon_bmove_physical_8()    -- These functions fast implementations
-> > > >     *	fbcon_clear_physical_8()    -- of original fbcon_XXX fns.
-> > > >     *	fbcon_putc_physical_8()	    -- (font width != 8) may be added later
-> > > >     *
-> > > > @@ -1409,224 +1390,6 @@ static void fbcon_set_disp(struct fb_info *info, struct fb_var_screeninfo *var,
-> > > >    	}
-> > > >    }
-> > > > -static __inline__ void ywrap_up(struct vc_data *vc, int count)
-> > > > -{
-> > > > -	struct fb_info *info = registered_fb[con2fb_map[vc->vc_num]];
-> > > > -	struct fbcon_ops *ops = info->fbcon_par;
-> > > > -	struct fbcon_display *p = &fb_display[vc->vc_num];
-> > > > -	
-> > > > -	p->yscroll += count;
-> > > > -	if (p->yscroll >= p->vrows)	/* Deal with wrap */
-> > > > -		p->yscroll -= p->vrows;
-> > > > -	ops->var.xoffset = 0;
-> > > > -	ops->var.yoffset = p->yscroll * vc->vc_font.height;
-> > > > -	ops->var.vmode |= FB_VMODE_YWRAP;
-> > > > -	ops->update_start(info);
-> > > > -	scrollback_max += count;
-> > > > -	if (scrollback_max > scrollback_phys_max)
-> > > > -		scrollback_max = scrollback_phys_max;
-> > > > -	scrollback_current = 0;
-> > > > -}
-> > > > -
-> > > > -static __inline__ void ywrap_down(struct vc_data *vc, int count)
-> > > > -{
-> > > > -	struct fb_info *info = registered_fb[con2fb_map[vc->vc_num]];
-> > > > -	struct fbcon_ops *ops = info->fbcon_par;
-> > > > -	struct fbcon_display *p = &fb_display[vc->vc_num];
-> > > > -	
-> > > > -	p->yscroll -= count;
-> > > > -	if (p->yscroll < 0)	/* Deal with wrap */
-> > > > -		p->yscroll += p->vrows;
-> > > > -	ops->var.xoffset = 0;
-> > > > -	ops->var.yoffset = p->yscroll * vc->vc_font.height;
-> > > > -	ops->var.vmode |= FB_VMODE_YWRAP;
-> > > > -	ops->update_start(info);
-> > > > -	scrollback_max -= count;
-> > > > -	if (scrollback_max < 0)
-> > > > -		scrollback_max = 0;
-> > > > -	scrollback_current = 0;
-> > > > -}
-> > > > -
-> > > > -static __inline__ void ypan_up(struct vc_data *vc, int count)
-> > > > -{
-> > > > -	struct fb_info *info = registered_fb[con2fb_map[vc->vc_num]];
-> > > > -	struct fbcon_display *p = &fb_display[vc->vc_num];
-> > > > -	struct fbcon_ops *ops = info->fbcon_par;
-> > > > -
-> > > > -	p->yscroll += count;
-> > > > -	if (p->yscroll > p->vrows - vc->vc_rows) {
-> > > > -		ops->bmove(vc, info, p->vrows - vc->vc_rows,
-> > > > -			    0, 0, 0, vc->vc_rows, vc->vc_cols);
-> > > > -		p->yscroll -= p->vrows - vc->vc_rows;
-> > > > -	}
-> > > > -
-> > > > -	ops->var.xoffset = 0;
-> > > > -	ops->var.yoffset = p->yscroll * vc->vc_font.height;
-> > > > -	ops->var.vmode &= ~FB_VMODE_YWRAP;
-> > > > -	ops->update_start(info);
-> > > > -	fbcon_clear_margins(vc, 1);
-> > > > -	scrollback_max += count;
-> > > > -	if (scrollback_max > scrollback_phys_max)
-> > > > -		scrollback_max = scrollback_phys_max;
-> > > > -	scrollback_current = 0;
-> > > > -}
-> > > > -
-> > > > -static __inline__ void ypan_up_redraw(struct vc_data *vc, int t, int count)
-> > > > -{
-> > > > -	struct fb_info *info = registered_fb[con2fb_map[vc->vc_num]];
-> > > > -	struct fbcon_ops *ops = info->fbcon_par;
-> > > > -	struct fbcon_display *p = &fb_display[vc->vc_num];
-> > > > -
-> > > > -	p->yscroll += count;
-> > > > -
-> > > > -	if (p->yscroll > p->vrows - vc->vc_rows) {
-> > > > -		p->yscroll -= p->vrows - vc->vc_rows;
-> > > > -		fbcon_redraw_move(vc, p, t + count, vc->vc_rows - count, t);
-> > > > -	}
-> > > > -
-> > > > -	ops->var.xoffset = 0;
-> > > > -	ops->var.yoffset = p->yscroll * vc->vc_font.height;
-> > > > -	ops->var.vmode &= ~FB_VMODE_YWRAP;
-> > > > -	ops->update_start(info);
-> > > > -	fbcon_clear_margins(vc, 1);
-> > > > -	scrollback_max += count;
-> > > > -	if (scrollback_max > scrollback_phys_max)
-> > > > -		scrollback_max = scrollback_phys_max;
-> > > > -	scrollback_current = 0;
-> > > > -}
-> > > > -
-> > > > -static __inline__ void ypan_down(struct vc_data *vc, int count)
-> > > > -{
-> > > > -	struct fb_info *info = registered_fb[con2fb_map[vc->vc_num]];
-> > > > -	struct fbcon_display *p = &fb_display[vc->vc_num];
-> > > > -	struct fbcon_ops *ops = info->fbcon_par;
-> > > > -	
-> > > > -	p->yscroll -= count;
-> > > > -	if (p->yscroll < 0) {
-> > > > -		ops->bmove(vc, info, 0, 0, p->vrows - vc->vc_rows,
-> > > > -			    0, vc->vc_rows, vc->vc_cols);
-> > > > -		p->yscroll += p->vrows - vc->vc_rows;
-> > > > -	}
-> > > > -
-> > > > -	ops->var.xoffset = 0;
-> > > > -	ops->var.yoffset = p->yscroll * vc->vc_font.height;
-> > > > -	ops->var.vmode &= ~FB_VMODE_YWRAP;
-> > > > -	ops->update_start(info);
-> > > > -	fbcon_clear_margins(vc, 1);
-> > > > -	scrollback_max -= count;
-> > > > -	if (scrollback_max < 0)
-> > > > -		scrollback_max = 0;
-> > > > -	scrollback_current = 0;
-> > > > -}
-> > > > -
-> > > > -static __inline__ void ypan_down_redraw(struct vc_data *vc, int t, int count)
-> > > > -{
-> > > > -	struct fb_info *info = registered_fb[con2fb_map[vc->vc_num]];
-> > > > -	struct fbcon_ops *ops = info->fbcon_par;
-> > > > -	struct fbcon_display *p = &fb_display[vc->vc_num];
-> > > > -
-> > > > -	p->yscroll -= count;
-> > > > -
-> > > > -	if (p->yscroll < 0) {
-> > > > -		p->yscroll += p->vrows - vc->vc_rows;
-> > > > -		fbcon_redraw_move(vc, p, t, vc->vc_rows - count, t + count);
-> > > > -	}
-> > > > -
-> > > > -	ops->var.xoffset = 0;
-> > > > -	ops->var.yoffset = p->yscroll * vc->vc_font.height;
-> > > > -	ops->var.vmode &= ~FB_VMODE_YWRAP;
-> > > > -	ops->update_start(info);
-> > > > -	fbcon_clear_margins(vc, 1);
-> > > > -	scrollback_max -= count;
-> > > > -	if (scrollback_max < 0)
-> > > > -		scrollback_max = 0;
-> > > > -	scrollback_current = 0;
-> > > > -}
-> > > > -
-> > > > -static void fbcon_redraw_move(struct vc_data *vc, struct fbcon_display *p,
-> > > > -			      int line, int count, int dy)
-> > > > -{
-> > > > -	unsigned short *s = (unsigned short *)
-> > > > -		(vc->vc_origin + vc->vc_size_row * line);
-> > > > -
-> > > > -	while (count--) {
-> > > > -		unsigned short *start = s;
-> > > > -		unsigned short *le = advance_row(s, 1);
-> > > > -		unsigned short c;
-> > > > -		int x = 0;
-> > > > -		unsigned short attr = 1;
-> > > > -
-> > > > -		do {
-> > > > -			c = scr_readw(s);
-> > > > -			if (attr != (c & 0xff00)) {
-> > > > -				attr = c & 0xff00;
-> > > > -				if (s > start) {
-> > > > -					fbcon_putcs(vc, start, s - start,
-> > > > -						    dy, x);
-> > > > -					x += s - start;
-> > > > -					start = s;
-> > > > -				}
-> > > > -			}
-> > > > -			console_conditional_schedule();
-> > > > -			s++;
-> > > > -		} while (s < le);
-> > > > -		if (s > start)
-> > > > -			fbcon_putcs(vc, start, s - start, dy, x);
-> > > > -		console_conditional_schedule();
-> > > > -		dy++;
-> > > > -	}
-> > > > -}
-> > > > -
-> > > > -static void fbcon_redraw_blit(struct vc_data *vc, struct fb_info *info,
-> > > > -			struct fbcon_display *p, int line, int count, int ycount)
-> > > > -{
-> > > > -	int offset = ycount * vc->vc_cols;
-> > > > -	unsigned short *d = (unsigned short *)
-> > > > -	    (vc->vc_origin + vc->vc_size_row * line);
-> > > > -	unsigned short *s = d + offset;
-> > > > -	struct fbcon_ops *ops = info->fbcon_par;
-> > > > -
-> > > > -	while (count--) {
-> > > > -		unsigned short *start = s;
-> > > > -		unsigned short *le = advance_row(s, 1);
-> > > > -		unsigned short c;
-> > > > -		int x = 0;
-> > > > -
-> > > > -		do {
-> > > > -			c = scr_readw(s);
-> > > > -
-> > > > -			if (c == scr_readw(d)) {
-> > > > -				if (s > start) {
-> > > > -					ops->bmove(vc, info, line + ycount, x,
-> > > > -						   line, x, 1, s-start);
-> > > > -					x += s - start + 1;
-> > > > -					start = s + 1;
-> > > > -				} else {
-> > > > -					x++;
-> > > > -					start++;
-> > > > -				}
-> > > > -			}
-> > > > -
-> > > > -			scr_writew(c, d);
-> > > > -			console_conditional_schedule();
-> > > > -			s++;
-> > > > -			d++;
-> > > > -		} while (s < le);
-> > > > -		if (s > start)
-> > > > -			ops->bmove(vc, info, line + ycount, x, line, x, 1,
-> > > > -				   s-start);
-> > > > -		console_conditional_schedule();
-> > > > -		if (ycount > 0)
-> > > > -			line++;
-> > > > -		else {
-> > > > -			line--;
-> > > > -			/* NOTE: We subtract two lines from these pointers */
-> > > > -			s -= vc->vc_size_row;
-> > > > -			d -= vc->vc_size_row;
-> > > > -		}
-> > > > -	}
-> > > > -}
-> > > > -
-> > > >    static void fbcon_redraw(struct vc_data *vc, struct fbcon_display *p,
-> > > >    			 int line, int count, int offset)
-> > > >    {
-> > > > @@ -1687,7 +1450,6 @@ static bool fbcon_scroll(struct vc_data *vc, unsigned int t, unsigned int b,
-> > > >    {
-> > > >    	struct fb_info *info = registered_fb[con2fb_map[vc->vc_num]];
-> > > >    	struct fbcon_display *p = &fb_display[vc->vc_num];
-> > > > -	int scroll_partial = info->flags & FBINFO_PARTIAL_PAN_OK;
-> > > >    	if (fbcon_is_inactive(vc, info))
-> > > >    		return true;
-> > > > @@ -1704,249 +1466,32 @@ static bool fbcon_scroll(struct vc_data *vc, unsigned int t, unsigned int b,
-> > > >    	case SM_UP:
-> > > >    		if (count > vc->vc_rows)	/* Maximum realistic size */
-> > > >    			count = vc->vc_rows;
-> > > > -		if (logo_shown >= 0)
-> > > > -			goto redraw_up;
-> > > > -		switch (p->scrollmode) {
-> > > > -		case SCROLL_MOVE:
-> > > > -			fbcon_redraw_blit(vc, info, p, t, b - t - count,
-> > > > -				     count);
-> > > > -			fbcon_clear(vc, b - count, 0, count, vc->vc_cols);
-> > > > -			scr_memsetw((unsigned short *) (vc->vc_origin +
-> > > > -							vc->vc_size_row *
-> > > > -							(b - count)),
-> > > > -				    vc->vc_video_erase_char,
-> > > > -				    vc->vc_size_row * count);
-> > > > -			return true;
-> > > > -
-> > > > -		case SCROLL_WRAP_MOVE:
-> > > > -			if (b - t - count > 3 * vc->vc_rows >> 2) {
-> > > > -				if (t > 0)
-> > > > -					fbcon_bmove(vc, 0, 0, count, 0, t,
-> > > > -						    vc->vc_cols);
-> > > > -				ywrap_up(vc, count);
-> > > > -				if (vc->vc_rows - b > 0)
-> > > > -					fbcon_bmove(vc, b - count, 0, b, 0,
-> > > > -						    vc->vc_rows - b,
-> > > > -						    vc->vc_cols);
-> > > > -			} else if (info->flags & FBINFO_READS_FAST)
-> > > > -				fbcon_bmove(vc, t + count, 0, t, 0,
-> > > > -					    b - t - count, vc->vc_cols);
-> > > > -			else
-> > > > -				goto redraw_up;
-> > > > -			fbcon_clear(vc, b - count, 0, count, vc->vc_cols);
-> > > > -			break;
-> > > > -
-> > > > -		case SCROLL_PAN_REDRAW:
-> > > > -			if ((p->yscroll + count <=
-> > > > -			     2 * (p->vrows - vc->vc_rows))
-> > > > -			    && ((!scroll_partial && (b - t == vc->vc_rows))
-> > > > -				|| (scroll_partial
-> > > > -				    && (b - t - count >
-> > > > -					3 * vc->vc_rows >> 2)))) {
-> > > > -				if (t > 0)
-> > > > -					fbcon_redraw_move(vc, p, 0, t, count);
-> > > > -				ypan_up_redraw(vc, t, count);
-> > > > -				if (vc->vc_rows - b > 0)
-> > > > -					fbcon_redraw_move(vc, p, b,
-> > > > -							  vc->vc_rows - b, b);
-> > > > -			} else
-> > > > -				fbcon_redraw_move(vc, p, t + count, b - t - count, t);
-> > > > -			fbcon_clear(vc, b - count, 0, count, vc->vc_cols);
-> > > > -			break;
-> > > > -
-> > > > -		case SCROLL_PAN_MOVE:
-> > > > -			if ((p->yscroll + count <=
-> > > > -			     2 * (p->vrows - vc->vc_rows))
-> > > > -			    && ((!scroll_partial && (b - t == vc->vc_rows))
-> > > > -				|| (scroll_partial
-> > > > -				    && (b - t - count >
-> > > > -					3 * vc->vc_rows >> 2)))) {
-> > > > -				if (t > 0)
-> > > > -					fbcon_bmove(vc, 0, 0, count, 0, t,
-> > > > -						    vc->vc_cols);
-> > > > -				ypan_up(vc, count);
-> > > > -				if (vc->vc_rows - b > 0)
-> > > > -					fbcon_bmove(vc, b - count, 0, b, 0,
-> > > > -						    vc->vc_rows - b,
-> > > > -						    vc->vc_cols);
-> > > > -			} else if (info->flags & FBINFO_READS_FAST)
-> > > > -				fbcon_bmove(vc, t + count, 0, t, 0,
-> > > > -					    b - t - count, vc->vc_cols);
-> > > > -			else
-> > > > -				goto redraw_up;
-> > > > -			fbcon_clear(vc, b - count, 0, count, vc->vc_cols);
-> > > > -			break;
-> > > > -
-> > > > -		case SCROLL_REDRAW:
-> > > > -		      redraw_up:
-> > > > -			fbcon_redraw(vc, p, t, b - t - count,
-> > > > -				     count * vc->vc_cols);
-> > > > -			fbcon_clear(vc, b - count, 0, count, vc->vc_cols);
-> > > > -			scr_memsetw((unsigned short *) (vc->vc_origin +
-> > > > -							vc->vc_size_row *
-> > > > -							(b - count)),
-> > > > -				    vc->vc_video_erase_char,
-> > > > -				    vc->vc_size_row * count);
-> > > > -			return true;
-> > > > -		}
-> > > > -		break;
-> > > > +		fbcon_redraw(vc, p, t, b - t - count,
-> > > > +			     count * vc->vc_cols);
-> > > > +		fbcon_clear(vc, b - count, 0, count, vc->vc_cols);
-> > > > +		scr_memsetw((unsigned short *) (vc->vc_origin +
-> > > > +						vc->vc_size_row *
-> > > > +						(b - count)),
-> > > > +			    vc->vc_video_erase_char,
-> > > > +			    vc->vc_size_row * count);
-> > > > +		return true;
-> > > >    	case SM_DOWN:
-> > > >    		if (count > vc->vc_rows)	/* Maximum realistic size */
-> > > >    			count = vc->vc_rows;
-> > > > -		if (logo_shown >= 0)
-> > > > -			goto redraw_down;
-> > > > -		switch (p->scrollmode) {
-> > > > -		case SCROLL_MOVE:
-> > > > -			fbcon_redraw_blit(vc, info, p, b - 1, b - t - count,
-> > > > -				     -count);
-> > > > -			fbcon_clear(vc, t, 0, count, vc->vc_cols);
-> > > > -			scr_memsetw((unsigned short *) (vc->vc_origin +
-> > > > -							vc->vc_size_row *
-> > > > -							t),
-> > > > -				    vc->vc_video_erase_char,
-> > > > -				    vc->vc_size_row * count);
-> > > > -			return true;
-> > > > -
-> > > > -		case SCROLL_WRAP_MOVE:
-> > > > -			if (b - t - count > 3 * vc->vc_rows >> 2) {
-> > > > -				if (vc->vc_rows - b > 0)
-> > > > -					fbcon_bmove(vc, b, 0, b - count, 0,
-> > > > -						    vc->vc_rows - b,
-> > > > -						    vc->vc_cols);
-> > > > -				ywrap_down(vc, count);
-> > > > -				if (t > 0)
-> > > > -					fbcon_bmove(vc, count, 0, 0, 0, t,
-> > > > -						    vc->vc_cols);
-> > > > -			} else if (info->flags & FBINFO_READS_FAST)
-> > > > -				fbcon_bmove(vc, t, 0, t + count, 0,
-> > > > -					    b - t - count, vc->vc_cols);
-> > > > -			else
-> > > > -				goto redraw_down;
-> > > > -			fbcon_clear(vc, t, 0, count, vc->vc_cols);
-> > > > -			break;
-> > > > -
-> > > > -		case SCROLL_PAN_MOVE:
-> > > > -			if ((count - p->yscroll <= p->vrows - vc->vc_rows)
-> > > > -			    && ((!scroll_partial && (b - t == vc->vc_rows))
-> > > > -				|| (scroll_partial
-> > > > -				    && (b - t - count >
-> > > > -					3 * vc->vc_rows >> 2)))) {
-> > > > -				if (vc->vc_rows - b > 0)
-> > > > -					fbcon_bmove(vc, b, 0, b - count, 0,
-> > > > -						    vc->vc_rows - b,
-> > > > -						    vc->vc_cols);
-> > > > -				ypan_down(vc, count);
-> > > > -				if (t > 0)
-> > > > -					fbcon_bmove(vc, count, 0, 0, 0, t,
-> > > > -						    vc->vc_cols);
-> > > > -			} else if (info->flags & FBINFO_READS_FAST)
-> > > > -				fbcon_bmove(vc, t, 0, t + count, 0,
-> > > > -					    b - t - count, vc->vc_cols);
-> > > > -			else
-> > > > -				goto redraw_down;
-> > > > -			fbcon_clear(vc, t, 0, count, vc->vc_cols);
-> > > > -			break;
-> > > > -
-> > > > -		case SCROLL_PAN_REDRAW:
-> > > > -			if ((count - p->yscroll <= p->vrows - vc->vc_rows)
-> > > > -			    && ((!scroll_partial && (b - t == vc->vc_rows))
-> > > > -				|| (scroll_partial
-> > > > -				    && (b - t - count >
-> > > > -					3 * vc->vc_rows >> 2)))) {
-> > > > -				if (vc->vc_rows - b > 0)
-> > > > -					fbcon_redraw_move(vc, p, b, vc->vc_rows - b,
-> > > > -							  b - count);
-> > > > -				ypan_down_redraw(vc, t, count);
-> > > > -				if (t > 0)
-> > > > -					fbcon_redraw_move(vc, p, count, t, 0);
-> > > > -			} else
-> > > > -				fbcon_redraw_move(vc, p, t, b - t - count, t + count);
-> > > > -			fbcon_clear(vc, t, 0, count, vc->vc_cols);
-> > > > -			break;
-> > > > -
-> > > > -		case SCROLL_REDRAW:
-> > > > -		      redraw_down:
-> > > > -			fbcon_redraw(vc, p, b - 1, b - t - count,
-> > > > -				     -count * vc->vc_cols);
-> > > > -			fbcon_clear(vc, t, 0, count, vc->vc_cols);
-> > > > -			scr_memsetw((unsigned short *) (vc->vc_origin +
-> > > > -							vc->vc_size_row *
-> > > > -							t),
-> > > > -				    vc->vc_video_erase_char,
-> > > > -				    vc->vc_size_row * count);
-> > > > -			return true;
-> > > > -		}
-> > > > +		fbcon_redraw(vc, p, b - 1, b - t - count,
-> > > > +			     -count * vc->vc_cols);
-> > > > +		fbcon_clear(vc, t, 0, count, vc->vc_cols);
-> > > > +		scr_memsetw((unsigned short *) (vc->vc_origin +
-> > > > +						vc->vc_size_row *
-> > > > +						t),
-> > > > +			    vc->vc_video_erase_char,
-> > > > +			    vc->vc_size_row * count);
-> > > > +		return true;
-> > > >    	}
-> > > >    	return false;
-> > > >    }
-> > > > -
-> > > > -static void fbcon_bmove(struct vc_data *vc, int sy, int sx, int dy, int dx,
-> > > > -			int height, int width)
-> > > > -{
-> > > > -	struct fb_info *info = registered_fb[con2fb_map[vc->vc_num]];
-> > > > -	struct fbcon_display *p = &fb_display[vc->vc_num];
-> > > > -	
-> > > > -	if (fbcon_is_inactive(vc, info))
-> > > > -		return;
-> > > > -
-> > > > -	if (!width || !height)
-> > > > -		return;
-> > > > -
-> > > > -	/*  Split blits that cross physical y_wrap case.
-> > > > -	 *  Pathological case involves 4 blits, better to use recursive
-> > > > -	 *  code rather than unrolled case
-> > > > -	 *
-> > > > -	 *  Recursive invocations don't need to erase the cursor over and
-> > > > -	 *  over again, so we use fbcon_bmove_rec()
-> > > > -	 */
-> > > > -	fbcon_bmove_rec(vc, p, sy, sx, dy, dx, height, width,
-> > > > -			p->vrows - p->yscroll);
-> > > > -}
-> > > > -
-> > > > -static void fbcon_bmove_rec(struct vc_data *vc, struct fbcon_display *p, int sy, int sx,
-> > > > -			    int dy, int dx, int height, int width, u_int y_break)
-> > > > -{
-> > > > -	struct fb_info *info = registered_fb[con2fb_map[vc->vc_num]];
-> > > > -	struct fbcon_ops *ops = info->fbcon_par;
-> > > > -	u_int b;
-> > > > -
-> > > > -	if (sy < y_break && sy + height > y_break) {
-> > > > -		b = y_break - sy;
-> > > > -		if (dy < sy) {	/* Avoid trashing self */
-> > > > -			fbcon_bmove_rec(vc, p, sy, sx, dy, dx, b, width,
-> > > > -					y_break);
-> > > > -			fbcon_bmove_rec(vc, p, sy + b, sx, dy + b, dx,
-> > > > -					height - b, width, y_break);
-> > > > -		} else {
-> > > > -			fbcon_bmove_rec(vc, p, sy + b, sx, dy + b, dx,
-> > > > -					height - b, width, y_break);
-> > > > -			fbcon_bmove_rec(vc, p, sy, sx, dy, dx, b, width,
-> > > > -					y_break);
-> > > > -		}
-> > > > -		return;
-> > > > -	}
-> > > > -
-> > > > -	if (dy < y_break && dy + height > y_break) {
-> > > > -		b = y_break - dy;
-> > > > -		if (dy < sy) {	/* Avoid trashing self */
-> > > > -			fbcon_bmove_rec(vc, p, sy, sx, dy, dx, b, width,
-> > > > -					y_break);
-> > > > -			fbcon_bmove_rec(vc, p, sy + b, sx, dy + b, dx,
-> > > > -					height - b, width, y_break);
-> > > > -		} else {
-> > > > -			fbcon_bmove_rec(vc, p, sy + b, sx, dy + b, dx,
-> > > > -					height - b, width, y_break);
-> > > > -			fbcon_bmove_rec(vc, p, sy, sx, dy, dx, b, width,
-> > > > -					y_break);
-> > > > -		}
-> > > > -		return;
-> > > > -	}
-> > > > -	ops->bmove(vc, info, real_y(p, sy), sx, real_y(p, dy), dx,
-> > > > -		   height, width);
-> > > > -}
-> > > > -
-> > > >    static void updatescrollmode(struct fbcon_display *p,
-> > > >    					struct fb_info *info,
-> > > >    					struct vc_data *vc)
-> > > > @@ -2119,21 +1664,7 @@ static int fbcon_switch(struct vc_data *vc)
-> > > >    	updatescrollmode(p, info, vc);
-> > > > -	switch (p->scrollmode) {
-> > > > -	case SCROLL_WRAP_MOVE:
-> > > > -		scrollback_phys_max = p->vrows - vc->vc_rows;
-> > > > -		break;
-> > > > -	case SCROLL_PAN_MOVE:
-> > > > -	case SCROLL_PAN_REDRAW:
-> > > > -		scrollback_phys_max = p->vrows - 2 * vc->vc_rows;
-> > > > -		if (scrollback_phys_max < 0)
-> > > > -			scrollback_phys_max = 0;
-> > > > -		break;
-> > > > -	default:
-> > > > -		scrollback_phys_max = 0;
-> > > > -		break;
-> > > > -	}
-> > > > -
-> > > > +	scrollback_phys_max = 0;
-> > > >    	scrollback_max = 0;
-> > > >    	scrollback_current = 0;
-> > > > diff --git a/drivers/video/fbdev/core/fbcon.h b/drivers/video/fbdev/core/fbcon.h
-> > > > index 9315b360c898..a00603b4451a 100644
-> > > > --- a/drivers/video/fbdev/core/fbcon.h
-> > > > +++ b/drivers/video/fbdev/core/fbcon.h
-> > > > @@ -29,7 +29,6 @@ struct fbcon_display {
-> > > >        /* Filled in by the low-level console driver */
-> > > >        const u_char *fontdata;
-> > > >        int userfont;                   /* != 0 if fontdata kmalloc()ed */
-> > > > -    u_short scrollmode;             /* Scroll Method */
-> > > >        u_short inverse;                /* != 0 text black on white as default */
-> > > >        short yscroll;                  /* Hardware scrolling */
-> > > >        int vrows;                      /* number of virtual rows */
-> > > > @@ -52,8 +51,6 @@ struct fbcon_display {
-> > > >    };
-> > > >    struct fbcon_ops {
-> > > > -	void (*bmove)(struct vc_data *vc, struct fb_info *info, int sy,
-> > > > -		      int sx, int dy, int dx, int height, int width);
-> > > >    	void (*clear)(struct vc_data *vc, struct fb_info *info, int sy,
-> > > >    		      int sx, int height, int width);
-> > > >    	void (*putcs)(struct vc_data *vc, struct fb_info *info,
-> > > > @@ -152,62 +149,6 @@ static inline int attr_col_ec(int shift, struct vc_data *vc,
-> > > >    #define attr_bgcol_ec(bgshift, vc, info) attr_col_ec(bgshift, vc, info, 0)
-> > > >    #define attr_fgcol_ec(fgshift, vc, info) attr_col_ec(fgshift, vc, info, 1)
-> > > > -    /*
-> > > > -     *  Scroll Method
-> > > > -     */
-> > > > -
-> > > > -/* There are several methods fbcon can use to move text around the screen:
-> > > > - *
-> > > > - *                     Operation   Pan    Wrap
-> > > > - *---------------------------------------------
-> > > > - * SCROLL_MOVE         copyarea    No     No
-> > > > - * SCROLL_PAN_MOVE     copyarea    Yes    No
-> > > > - * SCROLL_WRAP_MOVE    copyarea    No     Yes
-> > > > - * SCROLL_REDRAW       imageblit   No     No
-> > > > - * SCROLL_PAN_REDRAW   imageblit   Yes    No
-> > > > - * SCROLL_WRAP_REDRAW  imageblit   No     Yes
-> > > > - *
-> > > > - * (SCROLL_WRAP_REDRAW is not implemented yet)
-> > > > - *
-> > > > - * In general, fbcon will choose the best scrolling
-> > > > - * method based on the rule below:
-> > > > - *
-> > > > - * Pan/Wrap > accel imageblit > accel copyarea >
-> > > > - * soft imageblit > (soft copyarea)
-> > > > - *
-> > > > - * Exception to the rule: Pan + accel copyarea is
-> > > > - * preferred over Pan + accel imageblit.
-> > > > - *
-> > > > - * The above is typical for PCI/AGP cards. Unless
-> > > > - * overridden, fbcon will never use soft copyarea.
-> > > > - *
-> > > > - * If you need to override the above rule, set the
-> > > > - * appropriate flags in fb_info->flags.  For example,
-> > > > - * to prefer copyarea over imageblit, set
-> > > > - * FBINFO_READS_FAST.
-> > > > - *
-> > > > - * Other notes:
-> > > > - * + use the hardware engine to move the text
-> > > > - *    (hw-accelerated copyarea() and fillrect())
-> > > > - * + use hardware-supported panning on a large virtual screen
-> > > > - * + amifb can not only pan, but also wrap the display by N lines
-> > > > - *    (i.e. visible line i = physical line (i+N) % yres).
-> > > > - * + read what's already rendered on the screen and
-> > > > - *     write it in a different place (this is cfb_copyarea())
-> > > > - * + re-render the text to the screen
-> > > > - *
-> > > > - * Whether to use wrapping or panning can only be figured out at
-> > > > - * runtime (when we know whether our font height is a multiple
-> > > > - * of the pan/wrap step)
-> > > > - *
-> > > > - */
-> > > > -
-> > > > -#define SCROLL_MOVE	   0x001
-> > > > -#define SCROLL_PAN_MOVE	   0x002
-> > > > -#define SCROLL_WRAP_MOVE   0x003
-> > > > -#define SCROLL_REDRAW	   0x004
-> > > > -#define SCROLL_PAN_REDRAW  0x005
-> > > > -
-> > > >    #ifdef CONFIG_FB_TILEBLITTING
-> > > >    extern void fbcon_set_tileops(struct vc_data *vc, struct fb_info *info);
-> > > >    #endif
-> > > > diff --git a/drivers/video/fbdev/core/fbcon_ccw.c b/drivers/video/fbdev/core/fbcon_ccw.c
-> > > > index 9cd2c4b05c32..ffa78936eaab 100644
-> > > > --- a/drivers/video/fbdev/core/fbcon_ccw.c
-> > > > +++ b/drivers/video/fbdev/core/fbcon_ccw.c
-> > > > @@ -59,31 +59,12 @@ static void ccw_update_attr(u8 *dst, u8 *src, int attribute,
-> > > >    	}
-> > > >    }
-> > > > -
-> > > > -static void ccw_bmove(struct vc_data *vc, struct fb_info *info, int sy,
-> > > > -		     int sx, int dy, int dx, int height, int width)
-> > > > -{
-> > > > -	struct fbcon_ops *ops = info->fbcon_par;
-> > > > -	struct fb_copyarea area;
-> > > > -	u32 vyres = GETVYRES(ops->p->scrollmode, info);
-> > > > -
-> > > > -	area.sx = sy * vc->vc_font.height;
-> > > > -	area.sy = vyres - ((sx + width) * vc->vc_font.width);
-> > > > -	area.dx = dy * vc->vc_font.height;
-> > > > -	area.dy = vyres - ((dx + width) * vc->vc_font.width);
-> > > > -	area.width = height * vc->vc_font.height;
-> > > > -	area.height  = width * vc->vc_font.width;
-> > > > -
-> > > > -	info->fbops->fb_copyarea(info, &area);
-> > > > -}
-> > > > -
-> > > >    static void ccw_clear(struct vc_data *vc, struct fb_info *info, int sy,
-> > > >    		     int sx, int height, int width)
-> > > >    {
-> > > > -	struct fbcon_ops *ops = info->fbcon_par;
-> > > >    	struct fb_fillrect region;
-> > > >    	int bgshift = (vc->vc_hi_font_mask) ? 13 : 12;
-> > > > -	u32 vyres = GETVYRES(ops->p->scrollmode, info);
-> > > > +	u32 vyres = info->var.yres;
-> > > >    	region.color = attr_bgcol_ec(bgshift,vc,info);
-> > > >    	region.dx = sy * vc->vc_font.height;
-> > > > @@ -140,7 +121,7 @@ static void ccw_putcs(struct vc_data *vc, struct fb_info *info,
-> > > >    	u32 cnt, pitch, size;
-> > > >    	u32 attribute = get_attribute(info, scr_readw(s));
-> > > >    	u8 *dst, *buf = NULL;
-> > > > -	u32 vyres = GETVYRES(ops->p->scrollmode, info);
-> > > > +	u32 vyres = info->var.yres;
-> > > >    	if (!ops->fontbuffer)
-> > > >    		return;
-> > > > @@ -229,7 +210,7 @@ static void ccw_cursor(struct vc_data *vc, struct fb_info *info, int mode,
-> > > >    	int attribute, use_sw = vc->vc_cursor_type & CUR_SW;
-> > > >    	int err = 1, dx, dy;
-> > > >    	char *src;
-> > > > -	u32 vyres = GETVYRES(ops->p->scrollmode, info);
-> > > > +	u32 vyres = info->var.yres;
-> > > >    	if (!ops->fontbuffer)
-> > > >    		return;
-> > > > @@ -387,7 +368,7 @@ static int ccw_update_start(struct fb_info *info)
-> > > >    {
-> > > >    	struct fbcon_ops *ops = info->fbcon_par;
-> > > >    	u32 yoffset;
-> > > > -	u32 vyres = GETVYRES(ops->p->scrollmode, info);
-> > > > +	u32 vyres = info->var.yres;
-> > > >    	int err;
-> > > >    	yoffset = (vyres - info->var.yres) - ops->var.xoffset;
-> > > > @@ -402,7 +383,6 @@ static int ccw_update_start(struct fb_info *info)
-> > > >    void fbcon_rotate_ccw(struct fbcon_ops *ops)
-> > > >    {
-> > > > -	ops->bmove = ccw_bmove;
-> > > >    	ops->clear = ccw_clear;
-> > > >    	ops->putcs = ccw_putcs;
-> > > >    	ops->clear_margins = ccw_clear_margins;
-> > > > diff --git a/drivers/video/fbdev/core/fbcon_cw.c b/drivers/video/fbdev/core/fbcon_cw.c
-> > > > index 88d89fad3f05..92e5b7fb51ee 100644
-> > > > --- a/drivers/video/fbdev/core/fbcon_cw.c
-> > > > +++ b/drivers/video/fbdev/core/fbcon_cw.c
-> > > > @@ -44,31 +44,12 @@ static void cw_update_attr(u8 *dst, u8 *src, int attribute,
-> > > >    	}
-> > > >    }
-> > > > -
-> > > > -static void cw_bmove(struct vc_data *vc, struct fb_info *info, int sy,
-> > > > -		     int sx, int dy, int dx, int height, int width)
-> > > > -{
-> > > > -	struct fbcon_ops *ops = info->fbcon_par;
-> > > > -	struct fb_copyarea area;
-> > > > -	u32 vxres = GETVXRES(ops->p->scrollmode, info);
-> > > > -
-> > > > -	area.sx = vxres - ((sy + height) * vc->vc_font.height);
-> > > > -	area.sy = sx * vc->vc_font.width;
-> > > > -	area.dx = vxres - ((dy + height) * vc->vc_font.height);
-> > > > -	area.dy = dx * vc->vc_font.width;
-> > > > -	area.width = height * vc->vc_font.height;
-> > > > -	area.height  = width * vc->vc_font.width;
-> > > > -
-> > > > -	info->fbops->fb_copyarea(info, &area);
-> > > > -}
-> > > > -
-> > > >    static void cw_clear(struct vc_data *vc, struct fb_info *info, int sy,
-> > > >    		     int sx, int height, int width)
-> > > >    {
-> > > > -	struct fbcon_ops *ops = info->fbcon_par;
-> > > >    	struct fb_fillrect region;
-> > > >    	int bgshift = (vc->vc_hi_font_mask) ? 13 : 12;
-> > > > -	u32 vxres = GETVXRES(ops->p->scrollmode, info);
-> > > > +	u32 vxres = info->var.xres;
-> > > >    	region.color = attr_bgcol_ec(bgshift,vc,info);
-> > > >    	region.dx = vxres - ((sy + height) * vc->vc_font.height);
-> > > > @@ -125,7 +106,7 @@ static void cw_putcs(struct vc_data *vc, struct fb_info *info,
-> > > >    	u32 cnt, pitch, size;
-> > > >    	u32 attribute = get_attribute(info, scr_readw(s));
-> > > >    	u8 *dst, *buf = NULL;
-> > > > -	u32 vxres = GETVXRES(ops->p->scrollmode, info);
-> > > > +	u32 vxres = info->var.xres;
-> > > >    	if (!ops->fontbuffer)
-> > > >    		return;
-> > > > @@ -212,7 +193,7 @@ static void cw_cursor(struct vc_data *vc, struct fb_info *info, int mode,
-> > > >    	int attribute, use_sw = vc->vc_cursor_type & CUR_SW;
-> > > >    	int err = 1, dx, dy;
-> > > >    	char *src;
-> > > > -	u32 vxres = GETVXRES(ops->p->scrollmode, info);
-> > > > +	u32 vxres = info->var.xres;
-> > > >    	if (!ops->fontbuffer)
-> > > >    		return;
-> > > > @@ -369,7 +350,7 @@ static void cw_cursor(struct vc_data *vc, struct fb_info *info, int mode,
-> > > >    static int cw_update_start(struct fb_info *info)
-> > > >    {
-> > > >    	struct fbcon_ops *ops = info->fbcon_par;
-> > > > -	u32 vxres = GETVXRES(ops->p->scrollmode, info);
-> > > > +	u32 vxres = info->var.xres;
-> > > >    	u32 xoffset;
-> > > >    	int err;
-> > > > @@ -385,7 +366,6 @@ static int cw_update_start(struct fb_info *info)
-> > > >    void fbcon_rotate_cw(struct fbcon_ops *ops)
-> > > >    {
-> > > > -	ops->bmove = cw_bmove;
-> > > >    	ops->clear = cw_clear;
-> > > >    	ops->putcs = cw_putcs;
-> > > >    	ops->clear_margins = cw_clear_margins;
-> > > > diff --git a/drivers/video/fbdev/core/fbcon_rotate.h b/drivers/video/fbdev/core/fbcon_rotate.h
-> > > > index e233444cda66..b528b2e54283 100644
-> > > > --- a/drivers/video/fbdev/core/fbcon_rotate.h
-> > > > +++ b/drivers/video/fbdev/core/fbcon_rotate.h
-> > > > @@ -11,15 +11,6 @@
-> > > >    #ifndef _FBCON_ROTATE_H
-> > > >    #define _FBCON_ROTATE_H
-> > > > -#define GETVYRES(s,i) ({                           \
-> > > > -        (s == SCROLL_REDRAW || s == SCROLL_MOVE) ? \
-> > > > -        (i)->var.yres : (i)->var.yres_virtual; })
-> > > > -
-> > > > -#define GETVXRES(s,i) ({                           \
-> > > > -        (s == SCROLL_REDRAW || s == SCROLL_MOVE || !(i)->fix.xpanstep) ? \
-> > > > -        (i)->var.xres : (i)->var.xres_virtual; })
-> > > > -
-> > > > -
-> > > >    static inline int pattern_test_bit(u32 x, u32 y, u32 pitch, const char *pat)
-> > > >    {
-> > > >    	u32 tmp = (y * pitch) + x, index = tmp / 8,  bit = tmp % 8;
-> > > > diff --git a/drivers/video/fbdev/core/fbcon_ud.c b/drivers/video/fbdev/core/fbcon_ud.c
-> > > > index 8d5e66b1bdfb..09619bd8e021 100644
-> > > > --- a/drivers/video/fbdev/core/fbcon_ud.c
-> > > > +++ b/drivers/video/fbdev/core/fbcon_ud.c
-> > > > @@ -44,33 +44,13 @@ static void ud_update_attr(u8 *dst, u8 *src, int attribute,
-> > > >    	}
-> > > >    }
-> > > > -
-> > > > -static void ud_bmove(struct vc_data *vc, struct fb_info *info, int sy,
-> > > > -		     int sx, int dy, int dx, int height, int width)
-> > > > -{
-> > > > -	struct fbcon_ops *ops = info->fbcon_par;
-> > > > -	struct fb_copyarea area;
-> > > > -	u32 vyres = GETVYRES(ops->p->scrollmode, info);
-> > > > -	u32 vxres = GETVXRES(ops->p->scrollmode, info);
-> > > > -
-> > > > -	area.sy = vyres - ((sy + height) * vc->vc_font.height);
-> > > > -	area.sx = vxres - ((sx + width) * vc->vc_font.width);
-> > > > -	area.dy = vyres - ((dy + height) * vc->vc_font.height);
-> > > > -	area.dx = vxres - ((dx + width) * vc->vc_font.width);
-> > > > -	area.height = height * vc->vc_font.height;
-> > > > -	area.width  = width * vc->vc_font.width;
-> > > > -
-> > > > -	info->fbops->fb_copyarea(info, &area);
-> > > > -}
-> > > > -
-> > > >    static void ud_clear(struct vc_data *vc, struct fb_info *info, int sy,
-> > > >    		     int sx, int height, int width)
-> > > >    {
-> > > > -	struct fbcon_ops *ops = info->fbcon_par;
-> > > >    	struct fb_fillrect region;
-> > > >    	int bgshift = (vc->vc_hi_font_mask) ? 13 : 12;
-> > > > -	u32 vyres = GETVYRES(ops->p->scrollmode, info);
-> > > > -	u32 vxres = GETVXRES(ops->p->scrollmode, info);
-> > > > +	u32 vyres = info->var.yres;
-> > > > +	u32 vxres = info->var.xres;
-> > > >    	region.color = attr_bgcol_ec(bgshift,vc,info);
-> > > >    	region.dy = vyres - ((sy + height) * vc->vc_font.height);
-> > > > @@ -162,8 +142,8 @@ static void ud_putcs(struct vc_data *vc, struct fb_info *info,
-> > > >    	u32 mod = vc->vc_font.width % 8, cnt, pitch, size;
-> > > >    	u32 attribute = get_attribute(info, scr_readw(s));
-> > > >    	u8 *dst, *buf = NULL;
-> > > > -	u32 vyres = GETVYRES(ops->p->scrollmode, info);
-> > > > -	u32 vxres = GETVXRES(ops->p->scrollmode, info);
-> > > > +	u32 vyres = info->var.yres;
-> > > > +	u32 vxres = info->var.xres;
-> > > >    	if (!ops->fontbuffer)
-> > > >    		return;
-> > > > @@ -259,8 +239,8 @@ static void ud_cursor(struct vc_data *vc, struct fb_info *info, int mode,
-> > > >    	int attribute, use_sw = vc->vc_cursor_type & CUR_SW;
-> > > >    	int err = 1, dx, dy;
-> > > >    	char *src;
-> > > > -	u32 vyres = GETVYRES(ops->p->scrollmode, info);
-> > > > -	u32 vxres = GETVXRES(ops->p->scrollmode, info);
-> > > > +	u32 vyres = info->var.yres;
-> > > > +	u32 vxres = info->var.xres;
-> > > >    	if (!ops->fontbuffer)
-> > > >    		return;
-> > > > @@ -410,8 +390,8 @@ static int ud_update_start(struct fb_info *info)
-> > > >    {
-> > > >    	struct fbcon_ops *ops = info->fbcon_par;
-> > > >    	int xoffset, yoffset;
-> > > > -	u32 vyres = GETVYRES(ops->p->scrollmode, info);
-> > > > -	u32 vxres = GETVXRES(ops->p->scrollmode, info);
-> > > > +	u32 vyres = info->var.yres;
-> > > > +	u32 vxres = info->var.xres;
-> > > >    	int err;
-> > > >    	xoffset = vxres - info->var.xres - ops->var.xoffset;
-> > > > @@ -429,7 +409,6 @@ static int ud_update_start(struct fb_info *info)
-> > > >    void fbcon_rotate_ud(struct fbcon_ops *ops)
-> > > >    {
-> > > > -	ops->bmove = ud_bmove;
-> > > >    	ops->clear = ud_clear;
-> > > >    	ops->putcs = ud_putcs;
-> > > >    	ops->clear_margins = ud_clear_margins;
-> > > > diff --git a/drivers/video/fbdev/core/tileblit.c b/drivers/video/fbdev/core/tileblit.c
-> > > > index 2768eff247ba..72af95053bcb 100644
-> > > > --- a/drivers/video/fbdev/core/tileblit.c
-> > > > +++ b/drivers/video/fbdev/core/tileblit.c
-> > > > @@ -16,21 +16,6 @@
-> > > >    #include <asm/types.h>
-> > > >    #include "fbcon.h"
-> > > > -static void tile_bmove(struct vc_data *vc, struct fb_info *info, int sy,
-> > > > -		       int sx, int dy, int dx, int height, int width)
-> > > > -{
-> > > > -	struct fb_tilearea area;
-> > > > -
-> > > > -	area.sx = sx;
-> > > > -	area.sy = sy;
-> > > > -	area.dx = dx;
-> > > > -	area.dy = dy;
-> > > > -	area.height = height;
-> > > > -	area.width = width;
-> > > > -
-> > > > -	info->tileops->fb_tilecopy(info, &area);
-> > > > -}
-> > > > -
-> > > >    static void tile_clear(struct vc_data *vc, struct fb_info *info, int sy,
-> > > >    		       int sx, int height, int width)
-> > > >    {
-> > > > @@ -133,7 +118,6 @@ void fbcon_set_tileops(struct vc_data *vc, struct fb_info *info)
-> > > >    	struct fb_tilemap map;
-> > > >    	struct fbcon_ops *ops = info->fbcon_par;
-> > > > -	ops->bmove = tile_bmove;
-> > > >    	ops->clear = tile_clear;
-> > > >    	ops->putcs = tile_putcs;
-> > > >    	ops->clear_margins = tile_clear_margins;
-> > > > diff --git a/drivers/video/fbdev/skeletonfb.c b/drivers/video/fbdev/skeletonfb.c
-> > > > index bcacfb6934fa..0fe922f726e9 100644
-> > > > --- a/drivers/video/fbdev/skeletonfb.c
-> > > > +++ b/drivers/video/fbdev/skeletonfb.c
-> > > > @@ -505,15 +505,15 @@ void xxxfb_fillrect(struct fb_info *p, const struct fb_fillrect *region)
-> > > >    }
-> > > >    /**
-> > > > - *      xxxfb_copyarea - REQUIRED function. Can use generic routines if
-> > > > - *                       non acclerated hardware and packed pixel based.
-> > > > + *      xxxfb_copyarea - OBSOLETE function.
-> > > >     *                       Copies one area of the screen to another area.
-> > > > + *                       Will be deleted in a future version
-> > > >     *
-> > > >     *      @info: frame buffer structure that represents a single frame buffer
-> > > >     *      @area: Structure providing the data to copy the framebuffer contents
-> > > >     *	       from one region to another.
-> > > >     *
-> > > > - *      This drawing operation copies a rectangular area from one area of the
-> > > > + *      This drawing operation copied a rectangular area from one area of the
-> > > >     *	screen to another area.
-> > > >     */
-> > > >    void xxxfb_copyarea(struct fb_info *p, const struct fb_copyarea *area)
-> > > > @@ -645,9 +645,9 @@ static const struct fb_ops xxxfb_ops = {
-> > > >    	.fb_setcolreg	= xxxfb_setcolreg,
-> > > >    	.fb_blank	= xxxfb_blank,
-> > > >    	.fb_pan_display	= xxxfb_pan_display,
-> > > > -	.fb_fillrect	= xxxfb_fillrect, 	/* Needed !!! */
-> > > > -	.fb_copyarea	= xxxfb_copyarea,	/* Needed !!! */
-> > > > -	.fb_imageblit	= xxxfb_imageblit,	/* Needed !!! */
-> > > > +	.fb_fillrect	= xxxfb_fillrect,	/* Needed !!!   */
-> > > > +	.fb_copyarea	= xxxfb_copyarea,	/* Obsolete     */
-> > > > +	.fb_imageblit	= xxxfb_imageblit,	/* Needed !!!   */
-> > > >    	.fb_cursor	= xxxfb_cursor,		/* Optional !!! */
-> > > >    	.fb_sync	= xxxfb_sync,
-> > > >    	.fb_ioctl	= xxxfb_ioctl,
-> > > > diff --git a/include/linux/fb.h b/include/linux/fb.h
-> > > > index 5950f8f5dc74..6f3db99ab990 100644
-> > > > --- a/include/linux/fb.h
-> > > > +++ b/include/linux/fb.h
-> > > > @@ -262,7 +262,7 @@ struct fb_ops {
-> > > >    	/* Draws a rectangle */
-> > > >    	void (*fb_fillrect) (struct fb_info *info, const struct fb_fillrect *rect);
-> > > > -	/* Copy data from area to another */
-> > > > +	/* Copy data from area to another. Obsolete. */
-> > > >    	void (*fb_copyarea) (struct fb_info *info, const struct fb_copyarea *region);
-> > > >    	/* Draws a image to the display */
-> > > >    	void (*fb_imageblit) (struct fb_info *info, const struct fb_image *image);
-> > > > 
-> > > > 
-> > > > 
-> > > 
-> > > -- 
-> > > Thomas Zimmermann
-> > > Graphics Driver Developer
-> > > SUSE Software Solutions Germany GmbH
-> > > Maxfeldstr. 5, 90409 Nürnberg, Germany
-> > > (HRB 36809, AG Nürnberg)
-> > > Geschäftsführer: Felix Imendörffer
-> > 
-> > 
-> > 
-> > 
-> > 
-> > 
-> 
-> -- 
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Maxfeldstr. 5, 90409 Nürnberg, Germany
-> (HRB 36809, AG Nürnberg)
-> Geschäftsführer: Felix Imendörffer
+--=====_001_next=====
+Content-Type: multipart/related;
+	boundary="=====_002_next====="
 
 
+--=====_002_next=====
+Content-Type: multipart/alternative;
+	boundary="=====_003_next====="
 
 
+--=====_003_next=====
+Content-Type: text/plain;
+	charset="UTF-8"
+Content-Transfer-Encoding: base64 
+
+SGksDQoNCg0KDQpJIHJldmlldyB0aGUgY29kZS4NCg0KDQpJdCBzZWVtcyBJIGZvcmdldCB0byBk
+ZWxldGUgdGhlIGRlZmluaXRpb24gb2YgdGhlIHZhcmlhYmxlICJpbnN0IixJJ20gc3J5IGZvciB0
+aGF0LjogKA0KDQoNCkknbGwgc3VibWl0IGFub3RoZXIgcGF0Y2ggc29vbi4NCg0KDQoNCg0KDQoN
+Cj4gSGkgYWxsLD4gPiBBZnRlciBtZXJnaW5nIHRoZSBkcm0tbWlzYyB0cmVlLCB0b2RheSdzIGxp
+bnV4LW5leHQgYnVpbGQgKHg4Nl82ND4gYWxsbW9kY29uZmlnKSBmYWlsZWQgbGlrZSB0aGlzOj4g
+PiBkcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9udmttL3N1YmRldi9tbXUvdm1tZ3AxMDAuYzogSW4g
+ZnVuY3Rpb24gJ2dwMTAwX3ZtbV9mYXVsdF9jYW5jZWwnOj4gZHJpdmVycy9ncHUvZHJtL25vdXZl
+YXUvbnZrbS9zdWJkZXYvbW11L3ZtbWdwMTAwLmM6NDkxOjY6IGVycm9yOiB1bnVzZWQgdmFyaWFi
+bGUgJ2luc3QnIFstV2Vycm9yPXVudXNlZC12YXJpYWJsZV0+ICAgNDkxIHwgIHUzMiBpbnN0LCBh
+cGVyOz4gICAgICAgfCAgICAgIF5+fn4+IGNjMTogYWxsIHdhcm5pbmdzIGJlaW5nIHRyZWF0ZWQg
+YXMgZXJyb3JzPiA+IENhdXNlZCBieSBjb21taXQ+ID4gICA0MDQwNDZjZjQ4MDUgKCJkcm0vbm91
+dmVhdS9tbXUvZ3AxMDAtOiBkcm9wIHVubmVlZGVkIGFzc2lnbm1lbnQgaW4gdGhlIGlmIGNvbmRp
+dGlvbi4iKT4+IEkgaGF2ZSB1c2VkIHRoZSBkcm0tbWlzYyB0cmVlIGZyb20gbmV4dC0yMDIxMTAx
+MSBmb3IgdG9kYXkuPiA+IC0tID4gQ2hlZXJzLD4gU3RlcGhlbiBSb3Rod2VsbA==
+
+
+--=====_003_next=====
+Content-Type: text/html ;
+	charset="UTF-8"
+Content-Transfer-Encoding: base64
+
+PGRpdiBjbGFzcz0iemNvbnRlbnRSb3ciPjxwIHN0eWxlPSJmb250LXNpemU6MTRweDtmb250LWZh
+bWlseTrlvq7ova/pm4Xpu5EsTWljcm9zb2Z0IFlhSGVpOyI+PHNwYW4gc3R5bGU9ImJhY2tncm91
+bmQtY29sb3I6IHJnYigyNTUsIDI1NSwgMjU1KTsgZm9udC1mYW1pbHk6IEFyaWFsLCBIZWx2ZXRp
+Y2EsICZxdW90O01pY3Jvc29mdCBZYWhlaSZxdW90Oywgc2Fucy1zZXJpZjsiPkhpLDwvc3Bhbj48
+YnI+PC9wPjxwIHN0eWxlPSJib3gtc2l6aW5nOiBib3JkZXItYm94OyBvdXRsaW5lOiAwcHg7IGZv
+bnQtZmFtaWx5OiBBcmlhbCwgSGVsdmV0aWNhLCAmcXVvdDtNaWNyb3NvZnQgWWFoZWkmcXVvdDss
+IHNhbnMtc2VyaWY7IG1hcmdpbi10b3A6IDBweDsgbWFyZ2luLWJvdHRvbTogMHB4OyBwYWRkaW5n
+OiAwcHg7IHdoaXRlLXNwYWNlOiBub3JtYWw7IG1pbi1oZWlnaHQ6IDE0cHg7IGJhY2tncm91bmQt
+Y29sb3I6IHJnYigyNTUsIDI1NSwgMjU1KTsgbGluZS1oZWlnaHQ6IG5vcm1hbDsiPkkgcmV2aWV3
+IHRoZSBjb2RlLjwvcD48cCBzdHlsZT0iYm94LXNpemluZzogYm9yZGVyLWJveDsgb3V0bGluZTog
+MHB4OyBmb250LWZhbWlseTogQXJpYWwsIEhlbHZldGljYSwgJnF1b3Q7TWljcm9zb2Z0IFlhaGVp
+JnF1b3Q7LCBzYW5zLXNlcmlmOyBtYXJnaW4tdG9wOiAwcHg7IG1hcmdpbi1ib3R0b206IDBweDsg
+cGFkZGluZzogMHB4OyB3aGl0ZS1zcGFjZTogbm9ybWFsOyBtaW4taGVpZ2h0OiAxNHB4OyBiYWNr
+Z3JvdW5kLWNvbG9yOiByZ2IoMjU1LCAyNTUsIDI1NSk7IGxpbmUtaGVpZ2h0OiBub3JtYWw7Ij5J
+dCBzZWVtcyBJIGZvcmdldCB0byBkZWxldGUgdGhlIGRlZmluaXRpb24gb2YgdGhlIHZhcmlhYmxl
+ICJpbnN0IixJJ20gc3J5IGZvciB0aGF0LjogKDwvcD48cCBzdHlsZT0iYm94LXNpemluZzogYm9y
+ZGVyLWJveDsgb3V0bGluZTogMHB4OyBmb250LWZhbWlseTogQXJpYWwsIEhlbHZldGljYSwgJnF1
+b3Q7TWljcm9zb2Z0IFlhaGVpJnF1b3Q7LCBzYW5zLXNlcmlmOyBtYXJnaW4tdG9wOiAwcHg7IG1h
+cmdpbi1ib3R0b206IDBweDsgcGFkZGluZzogMHB4OyB3aGl0ZS1zcGFjZTogbm9ybWFsOyBtaW4t
+aGVpZ2h0OiAxNHB4OyBiYWNrZ3JvdW5kLWNvbG9yOiByZ2IoMjU1LCAyNTUsIDI1NSk7IGxpbmUt
+aGVpZ2h0OiBub3JtYWw7Ij5JJ2xsIHN1Ym1pdCBhbm90aGVyIHBhdGNoIHNvb24uPC9wPjxwIHN0
+eWxlPSJib3gtc2l6aW5nOiBib3JkZXItYm94OyBvdXRsaW5lOiAwcHg7IGZvbnQtZmFtaWx5OiBB
+cmlhbCwgSGVsdmV0aWNhLCAmcXVvdDtNaWNyb3NvZnQgWWFoZWkmcXVvdDssIHNhbnMtc2VyaWY7
+IG1hcmdpbi10b3A6IDBweDsgbWFyZ2luLWJvdHRvbTogMHB4OyBwYWRkaW5nOiAwcHg7IHdoaXRl
+LXNwYWNlOiBub3JtYWw7IG1pbi1oZWlnaHQ6IDE0cHg7IGJhY2tncm91bmQtY29sb3I6IHJnYigy
+NTUsIDI1NSwgMjU1KTsgbGluZS1oZWlnaHQ6IG5vcm1hbDsiPjxicj48L3A+PHAgc3R5bGU9ImZv
+bnQtc2l6ZToxNHB4O2ZvbnQtZmFtaWx5OuW+rui9r+mbhem7kSxNaWNyb3NvZnQgWWFIZWk7Ij4m
+Z3Q7IEhpJm5ic3A7YWxsLDxiciBzdHlsZT0id2hpdGUtc3BhY2U6IG5vcm1hbDsiPiZndDsmbmJz
+cDs8YnIgc3R5bGU9IndoaXRlLXNwYWNlOiBub3JtYWw7Ij4mZ3Q7IEFmdGVyJm5ic3A7bWVyZ2lu
+ZyZuYnNwO3RoZSZuYnNwO2RybS1taXNjJm5ic3A7dHJlZSwmbmJzcDt0b2RheSdzJm5ic3A7bGlu
+dXgtbmV4dCZuYnNwO2J1aWxkJm5ic3A7KHg4Nl82NDxiciBzdHlsZT0id2hpdGUtc3BhY2U6IG5v
+cm1hbDsiPiZndDsgYWxsbW9kY29uZmlnKSZuYnNwO2ZhaWxlZCZuYnNwO2xpa2UmbmJzcDt0aGlz
+OjxiciBzdHlsZT0id2hpdGUtc3BhY2U6IG5vcm1hbDsiPiZndDsmbmJzcDs8YnIgc3R5bGU9Indo
+aXRlLXNwYWNlOiBub3JtYWw7Ij4mZ3Q7IGRyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L252a20vc3Vi
+ZGV2L21tdS92bW1ncDEwMC5jOiZuYnNwO0luJm5ic3A7ZnVuY3Rpb24mbmJzcDsnZ3AxMDBfdm1t
+X2ZhdWx0X2NhbmNlbCc6PGJyIHN0eWxlPSJ3aGl0ZS1zcGFjZTogbm9ybWFsOyI+Jmd0OyBkcml2
+ZXJzL2dwdS9kcm0vbm91dmVhdS9udmttL3N1YmRldi9tbXUvdm1tZ3AxMDAuYzo0OTE6NjombmJz
+cDtlcnJvcjombmJzcDt1bnVzZWQmbmJzcDt2YXJpYWJsZSZuYnNwOydpbnN0JyZuYnNwO1stV2Vy
+cm9yPXVudXNlZC12YXJpYWJsZV08YnIgc3R5bGU9IndoaXRlLXNwYWNlOiBub3JtYWw7Ij4mZ3Q7
+Jm5ic3A7ICZuYnNwOzQ5MSZuYnNwO3wmbmJzcDsmbmJzcDt1MzImbmJzcDtpbnN0LCZuYnNwO2Fw
+ZXI7PGJyIHN0eWxlPSJ3aGl0ZS1zcGFjZTogbm9ybWFsOyI+Jmd0OyZuYnNwOyAmbmJzcDsgJm5i
+c3A7ICZuYnNwO3wmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDtefn5+PGJyIHN0
+eWxlPSJ3aGl0ZS1zcGFjZTogbm9ybWFsOyI+Jmd0OyBjYzE6Jm5ic3A7YWxsJm5ic3A7d2Fybmlu
+Z3MmbmJzcDtiZWluZyZuYnNwO3RyZWF0ZWQmbmJzcDthcyZuYnNwO2Vycm9yczxiciBzdHlsZT0i
+d2hpdGUtc3BhY2U6IG5vcm1hbDsiPiZndDsmbmJzcDs8YnIgc3R5bGU9IndoaXRlLXNwYWNlOiBu
+b3JtYWw7Ij4mZ3Q7IENhdXNlZCZuYnNwO2J5Jm5ic3A7Y29tbWl0PGJyIHN0eWxlPSJ3aGl0ZS1z
+cGFjZTogbm9ybWFsOyI+Jmd0OyZuYnNwOzxiciBzdHlsZT0id2hpdGUtc3BhY2U6IG5vcm1hbDsi
+PiZndDsmbmJzcDsgJm5ic3A7NDA0MDQ2Y2Y0ODA1Jm5ic3A7KCJkcm0vbm91dmVhdS9tbXUvZ3Ax
+MDAtOiZuYnNwO2Ryb3AmbmJzcDt1bm5lZWRlZCZuYnNwO2Fzc2lnbm1lbnQmbmJzcDtpbiZuYnNw
+O3RoZSZuYnNwO2lmJm5ic3A7Y29uZGl0aW9uLiIpPGJyIHN0eWxlPSJ3aGl0ZS1zcGFjZTogbm9y
+bWFsOyI+Jmd0OzxiciBzdHlsZT0id2hpdGUtc3BhY2U6IG5vcm1hbDsiPiZndDsgSSZuYnNwO2hh
+dmUmbmJzcDt1c2VkJm5ic3A7dGhlJm5ic3A7ZHJtLW1pc2MmbmJzcDt0cmVlJm5ic3A7ZnJvbSZu
+YnNwO25leHQtMjAyMTEwMTEmbmJzcDtmb3ImbmJzcDt0b2RheS48YnIgc3R5bGU9IndoaXRlLXNw
+YWNlOiBub3JtYWw7Ij4mZ3Q7Jm5ic3A7PGJyIHN0eWxlPSJ3aGl0ZS1zcGFjZTogbm9ybWFsOyI+
+Jmd0OyAtLSZuYnNwOzxiciBzdHlsZT0id2hpdGUtc3BhY2U6IG5vcm1hbDsiPiZndDsgQ2hlZXJz
+LDxiciBzdHlsZT0id2hpdGUtc3BhY2U6IG5vcm1hbDsiPiZndDsgU3RlcGhlbiZuYnNwO1JvdGh3
+ZWxsPC9wPjwvZGl2Pg==
+
+
+--=====_003_next=====--
+
+--=====_002_next=====--
+
+--=====_001_next=====--
 
