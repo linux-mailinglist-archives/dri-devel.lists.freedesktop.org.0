@@ -1,61 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E115A42D6E5
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Oct 2021 12:24:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C28742D6E6
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Oct 2021 12:24:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 311E16EC63;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D6906EC62;
 	Thu, 14 Oct 2021 10:24:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com
- [IPv6:2607:f8b0:4864:20::1029])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 76C706EC1C;
- Thu, 14 Oct 2021 08:51:51 +0000 (UTC)
-Received: by mail-pj1-x1029.google.com with SMTP id
- pf6-20020a17090b1d8600b0019fa884ab85so6395388pjb.5; 
- Thu, 14 Oct 2021 01:51:51 -0700 (PDT)
+Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com
+ [IPv6:2607:f8b0:4864:20::52d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D472E6EC1C;
+ Thu, 14 Oct 2021 08:51:54 +0000 (UTC)
+Received: by mail-pg1-x52d.google.com with SMTP id 133so4901558pgb.1;
+ Thu, 14 Oct 2021 01:51:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=FgQE+ym8i4wvHWS0EZRm4kYtX72BhEPEpt+mmgJQWzU=;
- b=Xs81szH6fvLJX08xpQvV2HVvRNkf8u3FuPzmn2p0CBDrrCQroTNy8XhTl9hVDXGQy5
- IAHOUEoId4sejVliRXRIhdhcmZHsQ8teSZflYqrXY/swUAu3xULh7EagfkRZI+hArOJc
- XAB3RQnemN2oZBhgos3tuwpgF5wKItJjBVriyG5V3OvystJ1kR0RbRk9JSzhgN0Aj/2M
- WZMV3WW7Q7PgoS8jL9QLd8kxv9FIAUrE1zVzjCNCzblqujSs02jVGBb8ekfnCpYAS4Ax
- frLMHrv0i5Tb1suOsGY7Qe4F4iX6C1kSLBRPVDA+zwrhzfmfG2oLf8uaC4XbPrzui0hP
- w66A==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=6jgDb3M3io+rP9GTtHizhwp9IylxMtBAssaQYLzeYCg=;
+ b=OmQyXPE9dw0hzwqg//r4eNt027bVJ817n1HlHeR8D+ABNRYfheM/cZtGq4pfc2+hMI
+ PYVznm7LYSbm9UklHIi/sEeBRJTnzJsyiLXIO8zv/Roz3WZNCxCGnBU905yPMutb8k9R
+ f7mciwRHZD4dhca3G24oL1l0Kd7nhxcExgQ+gjKwukBoKzmKDTrkAEPY7sBiqS8i/STl
+ Nif3TwwV7/xVo+NOq6oUrwtVr3cRtE7B9BvTMl6CVvoLF154lrcmmc14kmg5kXByGpyy
+ 273GQXDHh52cHxpp7pe8/BuGaOwD9EZsq8kRcjx5CO0PVxtubgeBCjs1+CgOJo6hkCOD
+ zkdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=FgQE+ym8i4wvHWS0EZRm4kYtX72BhEPEpt+mmgJQWzU=;
- b=gD/oGWfM88JxS61UvSDhZcVkjhX4ygju1QP3xoxTzaWbAEc18UAuxbGKRf2mxmh339
- D3gs6/GCOPOm4eHgyZy1YgB/LiFJVqp7t2kx3LbOMoTHgve4/DVDWfkvzqzlcCzXm+aC
- WDaU1j/cM2gPKs8ssQEY8s3YfEWvwnO5PV3FUWbrwoZcOJhKDp26hs4Ci7frKkte1dru
- E93QxarX3S2kLAMc0DfJLCNP/Xv6qamq2HPZK+Q+Bum3Dl12PScfMBP4VE3qjjayLk42
- XtMCBmsqPo5aZSAJL32mQC0Yg+dTEC7ftTVHAbwSxbYg6OH8skwPk4kVcVr+6GiFQ2wa
- DxUA==
-X-Gm-Message-State: AOAM530cDGviu1kaQnkqWF3aYVi2Xt3Wweh4DuVtAdrDGCBm3+CELzMZ
- NjV9Q0qxguy+0h2isqmK8N8=
-X-Google-Smtp-Source: ABdhPJwxkwYvjtbetBrfk3EiM9oyFNUKrizOjVUXebdeDgAtZiGtoNhstxuwbMKuXEBYpxETOypi9w==
-X-Received: by 2002:a17:90b:4c0d:: with SMTP id
- na13mr4851292pjb.232.1634201510946; 
- Thu, 14 Oct 2021 01:51:50 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=6jgDb3M3io+rP9GTtHizhwp9IylxMtBAssaQYLzeYCg=;
+ b=jLFB6cMIu65m+mMqshzbuk/xiqLpyz4/qmRHzTPi70A8NMwnPFDNBJ/89blWzKZXnt
+ sMQYVTuDoUr4x1DEiPamrSDVAtdHUNkOfiX1Lvn6KZjyNMZKLb25gGst9DT3wdkimBy9
+ UTfTvHq5rrLFeUDCHOSlw4x8LOPmWFymiCOkretpSxlba0MgU6aN3UgKMLZuRgXvGly6
+ w+GqBUlH3F+750QTG/PsdV80365jzgPyuO2t8llAPTwNTdokiE1dF1mczpZe9ojzeJf0
+ tSzxSGMzq6mo4fCm9rvDq9nmcKqovnSMV3eNW8LXMVn4k87sAMH/bc8C4OFtKD2x4voO
+ 6yOA==
+X-Gm-Message-State: AOAM533kNIKxsXI5UoIRZDz7IJOq25pC4iUHFh6dGMMdkKLw2zr8fjl7
+ ZiLKa4hI9DwnampTO2CrGZw=
+X-Google-Smtp-Source: ABdhPJzVBS9jlVx01prr+6mCQWcsDOQkJBwL744a4eCFZpRrUT9Bc3LUdRP3EHSUtoB7JNU9cBnrrw==
+X-Received: by 2002:a62:5209:0:b0:44c:68a7:3a61 with SMTP id
+ g9-20020a625209000000b0044c68a73a61mr4181502pfb.83.1634201514511; 
+ Thu, 14 Oct 2021 01:51:54 -0700 (PDT)
 Received: from localhost.localdomain ([8.47.15.154])
- by smtp.gmail.com with ESMTPSA id i2sm7968082pjt.19.2021.10.14.01.51.47
+ by smtp.gmail.com with ESMTPSA id i2sm7968082pjt.19.2021.10.14.01.51.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 Oct 2021 01:51:50 -0700 (PDT)
+ Thu, 14 Oct 2021 01:51:54 -0700 (PDT)
 From: Yanteng Si <siyanteng01@gmail.com>
 X-Google-Original-From: Yanteng Si <siyanteng@loongson.cn>
 To: robdclark@gmail.com, sean@poorly.run, airlied@linux.ie, daniel@ffwll.ch
 Cc: Yanteng Si <siyanteng@loongson.cn>, linux-arm-msm@vger.kernel.org,
  dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
-Subject: [PATCH 0/2] drm/msm: fix build error
-Date: Thu, 14 Oct 2021 16:51:32 +0800
-Message-Id: <cover.1634200323.git.siyanteng@loongson.cn>
+Subject: [PATCH 1/2] drm/msm: Fix missing include files in msm_gem.c
+Date: Thu, 14 Oct 2021 16:51:33 +0800
+Message-Id: <15f30165e94574e4cd7c4da9f9c6fd1e320d4d8e.1634200323.git.siyanteng@loongson.cn>
 X-Mailer: git-send-email 2.27.0
+In-Reply-To: <cover.1634200323.git.siyanteng@loongson.cn>
+References: <cover.1634200323.git.siyanteng@loongson.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Thu, 14 Oct 2021 10:24:16 +0000
@@ -75,19 +76,25 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Include linux/vmalloc.h to fix below errors:
+error: implicit declaration of function 'vmap'
 
-error: implicit declaration of function 'vmap';
-error: implicit declaration of function 'register_vmap_purge_notifier'
-error: implicit declaration of function 'unregister_vmap_purge_notifier'
+Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+---
+ drivers/gpu/drm/msm/msm_gem.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Yanteng Si (2):
-  drm/msm: Fix missing include files in msm_gem.c
-  drm/msm: Fix missing include files in msm_gem_shrinker.c
-
- drivers/gpu/drm/msm/msm_gem.c          | 1 +
- drivers/gpu/drm/msm/msm_gem_shrinker.c | 2 ++
- 2 files changed, 3 insertions(+)
-
+diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
+index 40a9863f5951..198caa9c22e4 100644
+--- a/drivers/gpu/drm/msm/msm_gem.c
++++ b/drivers/gpu/drm/msm/msm_gem.c
+@@ -5,6 +5,7 @@
+  */
+ 
+ #include <linux/dma-map-ops.h>
++#include <linux/vmalloc.h>
+ #include <linux/spinlock.h>
+ #include <linux/shmem_fs.h>
+ #include <linux/dma-buf.h>
 -- 
 2.27.0
 
