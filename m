@@ -1,62 +1,124 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 900C542E290
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Oct 2021 22:17:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B38FB42E2AA
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Oct 2021 22:21:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5EC2B6E8C5;
-	Thu, 14 Oct 2021 20:17:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D7E676EC3A;
+	Thu, 14 Oct 2021 20:21:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com
- [IPv6:2a00:1450:4864:20::530])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2068D6E8C5
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Oct 2021 20:17:10 +0000 (UTC)
-Received: by mail-ed1-x530.google.com with SMTP id r18so28985982edv.12
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Oct 2021 13:17:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=hz3FTkKSu5Q5zo1apLh9LR0ZicgX3zkIsQYog4sUJBk=;
- b=rRR0EdVvF2N9jzcEBIVahBJI7Lj97eJ6c/pb54Gd1naTZM7drzPitAYacZirJE4Z9/
- +sRyEEkj7XDR5Ok63Z8qZnviAqJf2VcYe79/qQ/DU3b7EU0K+JQ9m4cPWYiIjnQUcPvR
- G+SPOPJQ/8QRHMgS+4VNaUMn4bfBboeJQSgCI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=hz3FTkKSu5Q5zo1apLh9LR0ZicgX3zkIsQYog4sUJBk=;
- b=XQKLrOpvlkSuFwLjO4h7Z33SGCRtYI2cuUp92hUHlGHIz9p0PkYipdNyH/XOLpg2J5
- 8EmMv5iwevcDve49EpOldx+TA2U+PSpoiDM4Kwkk2Qyhd+P0meadcgShan7ZTVukmzmI
- PQfTxKf/BbeauVPPHY5IaUZmD1pNDvK2hnkJPq/vPJquedr+eH1xVLNpn219wJo6hpMG
- sl+6LmRMMM791yu3Tj+04VS1UhnSbrikHVmTTac+yWgDy/CGhVWCNNqhmZfwn/YobmZc
- mkWpL/Mv0XgdTpQDp/jprckd/88O+hqPnI+sPdtlxd00FJkMFyNRzTZg0k0gJV+O+UEJ
- VioA==
-X-Gm-Message-State: AOAM533UigBeTY/M/D3g1n3Ful5ovzfxbVFcPA/s6TEUAf8qIE9yK9hz
- 1wPQNstcKfTxi126OM1gZ/O2Eg==
-X-Google-Smtp-Source: ABdhPJy+Cmj++7BbyCQQ+JGtj3bhtnDV3NuS+eXp099Z0XKaFQtFG3bFtbRsRX8jyEOrN1HU8818Fw==
-X-Received: by 2002:a17:906:46db:: with SMTP id
- k27mr1472840ejs.436.1634242628321; 
- Thu, 14 Oct 2021 13:17:08 -0700 (PDT)
-Received: from localhost.localdomain (mob-109-119-250-124.net.vodafone.it.
- [109.119.250.124])
- by smtp.gmail.com with ESMTPSA id w18sm4258097edc.4.2021.10.14.13.17.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 Oct 2021 13:17:07 -0700 (PDT)
-From: Michael Trimarchi <michael@amarulasolutions.com>
-To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [RFC PATCH] drm/panel: ilitek-ili9881d: add support for Wanchanglong
- W552946ABA panel
-Date: Thu, 14 Oct 2021 22:17:05 +0200
-Message-Id: <20211014201705.218608-1-michael@amarulasolutions.com>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10on2056.outbound.protection.outlook.com [40.107.92.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF5D16EC3A
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Oct 2021 20:21:31 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=KDBWNSVcBUOIimv5Cwg8qWW9J5ADfkr4mANUGEeoDlv47Whd0uPMukX7nmEi+N7WBIN01DQwgFAraoPlEwBO7FfjEnDyxtgfGOxIzH98iQPCBWUGpz86eC8Otm95s0vXtt0Pjljb5FBKK1IiSkFHJHilat0a904dFOW0yvtmHd6l9jsivisJsgbM5zpNQatfFV9pt5CmN+gbi1kMvWPh5+EMMqzHxW5e4SdtbGRJpP8N6HC1GpmWunI05A3piKK6ycyTSFfISc+qKuuNAaVgSEJELGdc5cJ9pyWlhXOCFRq3zM8a9QWCZO/hwbZgY/q86560oed2A44PI4H7nKTO0A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ZCi+5Xr6mvzHp9B3WR4Z/WM04gpya5oK1A1sE0189xE=;
+ b=jH0Fw9dxRV9/rCNaKhErMzvQcKF0zyQcREnNoA6KHJoL7Zym4gul1sw1sjxBAn6r7xDqMDKSDZ1IMum8p1QNZ1vrSzWpEhDxduhTXa7yh2Tl8amBtb5QJi3D9GHCJ06Wvv43zjJvZAZgUDrq0OhZgGkufqKKrB6tsuvZO7mocRNuaMn4CtIIu1PCZQHGfLX7x13hZdZILMzUI/AgEFViuaHjA9/mnRKNbxQvywevP5LEYf42H1Tz4ZEua6urlvmaQDI0GC8q3BzMsENkr9chdZWF352XdOZit716VOh3NCku5NxrOW7RsfzZZCC6FJ6UMHObMJwG5g6W5CYGp5fWRw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZCi+5Xr6mvzHp9B3WR4Z/WM04gpya5oK1A1sE0189xE=;
+ b=S8S18VG3i59wkurs7HGWpbI/Rv7JiZMDw8yXgrY/3PwJt6XrPBjkcMEYsRQSi1eGTtMM3MaNCyCJLPJ1IETm45WUx+menpWxVJEQi+sz2ZWk7P/X1f5anjsdkpDM/gFhaF0PD9y3VqU6nGyU2fy9+2UemKTxI7Cpu8+BvXvgvdw=
+Authentication-Results: amd.com; dkim=none (message not signed)
+ header.d=none;amd.com; dmarc=none action=none header.from=amd.com;
+Received: from MW3PR12MB4554.namprd12.prod.outlook.com (2603:10b6:303:55::21)
+ by MW3PR12MB4538.namprd12.prod.outlook.com (2603:10b6:303:55::15)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4587.19; Thu, 14 Oct
+ 2021 20:21:28 +0000
+Received: from MW3PR12MB4554.namprd12.prod.outlook.com
+ ([fe80::700d:46f0:61ab:9c1c]) by MW3PR12MB4554.namprd12.prod.outlook.com
+ ([fe80::700d:46f0:61ab:9c1c%9]) with mapi id 15.20.4608.016; Thu, 14 Oct 2021
+ 20:21:28 +0000
+Subject: Re: [PATCH] drm: Update MST First Link Slot Information Based on
+ Encoding Format
+To: Lyude Paul <lyude@redhat.com>, Jerry.Zuo@amd.com,
+ dri-devel@lists.freedesktop.org
+Cc: Harry.Wentland@amd.com, Wayne.Lin@amd.com, Nicholas.Kazlauskas@amd.com
+References: <5e463fbc3d633eea1078e838ba5be0065ffbeb1e.camel@redhat.com>
+ <20211012215848.1507023-1-Bhawanpreet.Lakha@amd.com>
+ <3fbf786ee687e57cab02d71c745d01fb39819cba.camel@redhat.com>
+From: Bhawanpreet Lakha <Bhawanpreet.lakha@amd.com>
+Message-ID: <d9a43511-3435-0efc-d8a2-24c035b0ec74@amd.com>
+Date: Thu, 14 Oct 2021 16:21:24 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
+In-Reply-To: <3fbf786ee687e57cab02d71c745d01fb39819cba.camel@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-ClientProxiedBy: YT1PR01CA0123.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:2c::32) To MW3PR12MB4554.namprd12.prod.outlook.com
+ (2603:10b6:303:55::21)
+MIME-Version: 1.0
+Received: from [IPv6:2607:fea8:9dd:3f70::28d8] (2607:fea8:9dd:3f70::28d8) by
+ YT1PR01CA0123.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:2c::32) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4608.15 via Frontend Transport; Thu, 14 Oct 2021 20:21:26 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 09180522-9ad3-4adc-c483-08d98f5033b3
+X-MS-TrafficTypeDiagnostic: MW3PR12MB4538:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <MW3PR12MB453827389697F2F0F7D8A05AF9B89@MW3PR12MB4538.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5516;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: q7YPbr2rE8G3cf9UYeV6mD79L0Tr0GO7tJLCRSQca4n6h6NdYVkcc2A5Kqk5pq7tS1uJu+HVM6HBJSqSx8zWQZdL2EwRAbY9xJd0KfksULOYWJHbgJgXQniveD5c/FXWZCVWT0iebolrLF9jPSq+K+qnASqu/LRDXVefaB+eSxHPoHbFHGj6vHxxdv3VRiwRnel8WVGGesZW6hCvSbGOomC1T518/CSsKd2bnTFY2LjnuuZTLoQJBSR/nbCs6pJqRdyqVxEEzZMik4LWKk2Zxga5GnUhuIFudhfFPXEyggdervHbXK2TFaDtGqZ1XKZMvm8s49F6pmmFt8wEAujxiovVIthTNBN4BmkRAXH8D8RfaQSmm4PAmI2pEo1JIy0lZzupb3kJKaC8fTVzrB5eGQKCZATx0cDhIDkIpm88cjBFxjzqxhdZm20JAOV/k3qM5favvjnLY7sYFTWll6Yn78kELlO167v2Uw8n4UtFZXc0mOV+v9fkXQlPO+Y+bBqyjqZrcE5iyk/BoPC0QDGwSzD3wmzT+RIkr5PdLuyfJkjRO0BqtLS7qWbMGGQ6r3mtv5q5zOODrxdklBHuo/grxOWGs3LuvMw5yo6LY/bdHE2KM9Cf+n8YcBcioV1u6QxRY8hcUl7p8JmZjmQa2mRyrlvX8w5OgPqcigN1JO/lrC82UFHM0Wb6aOObNpiBJUXle1AkQcOWaOXp30ZaHKpOANcjA9XDSh4WYYVnEos/UnQ=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MW3PR12MB4554.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(86362001)(66946007)(4001150100001)(30864003)(15650500001)(8676002)(316002)(186003)(6486002)(66556008)(66476007)(2906002)(4326008)(83380400001)(8936002)(53546011)(5660300002)(38100700002)(2616005)(508600001)(36756003)(31686004)(31696002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cWR4WGxudm8xd2pNR3BaL0NrY2MvNDgzWHNzcDE1M2hUZWRDM0pzYUNvT09Y?=
+ =?utf-8?B?WEE5NlAwZDBCVVZXTG1SaG9XSERuMkhtNFY4Wm9oRm90Zk4vcUhHdjVsUHdS?=
+ =?utf-8?B?WDFrWmdZRFZnSFp0ODExa2NmakovVlR4a3c1RDJoSDg2TFdQaUw3WVJic0VB?=
+ =?utf-8?B?YTFzNGhBNVU1aW5yRWFscWZibm9sQzNaZWpHTlptdE9pYXlabHZIR2loNFdl?=
+ =?utf-8?B?WFhvdmJNd3hFNUZ1MjFBMVVhRlJidHlnL1ZXblQzTE90N2hGbUtlOG9TVEpK?=
+ =?utf-8?B?SzRJTGJzWEJSQk02WEU2ZzczZDNqbnNpRmhZTm1XVU4yR3FYSXVldnZ2VGY3?=
+ =?utf-8?B?eFVYZ05ydk0xS2trWVFZQ0t2cERkVC94TFhpakhybFZwVFRNcExRRTR0MWNl?=
+ =?utf-8?B?RzdZemRuVFM3WDc2cmRtOEJHVjlXelY0aXpPMW1DNkdwZW92cEpDcDZ3MUl2?=
+ =?utf-8?B?WUNUYm53WFB5aHNBZU1YaG5oanVLRVNTV2JuaG5YbEVRRGhZVStFV3ExTnky?=
+ =?utf-8?B?VWxZM1p3WTVDV3N6cWNDbFhlRXlaeTdpYmFGSXIvd1hNU3VWZ1ZaejFxSjJM?=
+ =?utf-8?B?dUJoYzhKZGtvS0lZQWU3TytFVyt6MDA3Mmh2SmVDM2NleWxQQW1SelRLMkpH?=
+ =?utf-8?B?VkowYktlSHlNdXU4RXVJekJWNEo5bkdqL1BKdWZ6SG1LSUNKY0dVQkZxZDdz?=
+ =?utf-8?B?Wk1CTDZjUUszUHYrVWcrNitvVEE2aEVxTmU4K2gvUm56aVQ4SGpsc0t4R0h6?=
+ =?utf-8?B?dzF0blQzR09DeTRITE1JMVUzUFA0NWIzRlFCS1JWWmphUXZpcUk1UU9GUExu?=
+ =?utf-8?B?ell4S2xuY1pwdjNiZ2djV1k1MmVMVm1BSkgzcW1CMTlLTVo0TlIwTWZZT29m?=
+ =?utf-8?B?c0pHS3V6SU9iK0MvY2FudjJ1bHd0RllMVTAzYWp2elVQRjNMdjNHTTY0cVJq?=
+ =?utf-8?B?aUV3b2REUzlXRytuWWxxNFEwaENIT2hNTkoxeGZMRVJUeXNpTk90aHBIMXEw?=
+ =?utf-8?B?SEJOZzZhNlc1S2puWmdIUkhHNGlUd05rWm9ma2pndk9BT3dDT0d1aDJ1ajdE?=
+ =?utf-8?B?TmczYXpvWlhnVjVuSzQwdnVrbWV2cU5HdnVnQ1E1YkVQUGxuWEdYWEhROEhu?=
+ =?utf-8?B?azVub211N3gxcmpQaTBENENlRlJlNFBmcmhVcW1GaTRETkRYYzhDRVJhYWxC?=
+ =?utf-8?B?S2pabUdWUnJhS3R2SSs4RkNCNk5IRTdSMVVOOWV6YjZRWFlOZ29FcmhBNmdw?=
+ =?utf-8?B?dUpiRlJnaEppK2pjRXhoZ0N5V0Y1T3loTE1STG9PRHRNeUtxNVhjYzJyM2VF?=
+ =?utf-8?B?Y3VuR3lLNUdkeUI0VTZ1dFFjMjJwb1NralkrUTlOT2xIMGlpYzJLZzhycmJ6?=
+ =?utf-8?B?aXdINFFuRzFhdE1WeEs5a0g3NGRUTVlmWklBZDJiVTJ0K0ZjV1h6cWJPdGsz?=
+ =?utf-8?B?NEVWZHBxaXh0Nm5jQk1LQWJ3N0hzcVdaamRLNEtFSDREMFZDbC9oRzZIUHVj?=
+ =?utf-8?B?YnVNQlU1U2VvWkt1SlBqcGxrdnVVcTY3YklIMFVGd0JGM3hJZGlHWXhJVmNK?=
+ =?utf-8?B?YmhNazF1ckRLaFAzSjZNWVo3eGdvNEMySE9JMGs0TnpzNmRRQmZEdVNlVWpI?=
+ =?utf-8?B?S0tmN3dqdldmYU51eHRMWHhlRkh6OVlSQ0kxcStPUC9RalFSQW41ZnpNM0tE?=
+ =?utf-8?B?SXhKcDgyWklrbVZ6QUNtdCtPaUg0eVRIM253K1VybXYvNzJUYzBNbm8vZzdp?=
+ =?utf-8?B?N3M4QVJIT1h2czJ2MTBKRUdHb2xmVjdFQUVwbjlUSnk1OGpvUmdHbjZ6Q3dQ?=
+ =?utf-8?B?R3ZHYkJxSDJxQnZpeUtQZz09?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 09180522-9ad3-4adc-c483-08d98f5033b3
+X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4554.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Oct 2021 20:21:27.8933 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: qKjrCW8HwgdZ8ktT4Ky70zknEHRRzk1O6MlmhJIqke0wVNcHQHE5TP6LGqfW0i/V
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR12MB4538
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,305 +134,302 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-W552946ABA is a panel by Wanchanglong. This panel utilizes the Ilitek ILI9881D
-controller.
 
-Add this panel's initialzation sequence and timing to ILI9881D driver.
-Tested on px30-evb v11
+On 2021-10-13 6:25 p.m., Lyude Paul wrote:
+> Some comments below (also, sorry again for the mixup on the last review!)
+>
+> On Tue, 2021-10-12 at 17:58 -0400, Bhawanpreet Lakha wrote:
+>> 8b/10b encoding format requires to reserve the first slot for
+>> recording metadata. Real data transmission starts from the second slot,
+>> with a total of available 63 slots available.
+>>
+>> In 128b/132b encoding format, metadata is transmitted separately
+>> in LLCP packet before MTP. Real data transmission starts from
+>> the first slot, with a total of 64 slots available.
+>>
+>> v2:
+>> * Remove get_mst_link_encoding_cap
+>> * Move total/start slots to mst_state, and copy it to mst_mgr in
+>> atomic_check
+>>
+>> Signed-off-by: Fangzhi Zuo <Jerry.Zuo@amd.com>
+>> Signed-off-by: Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>
+>> ---
+>>   .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 28 +++++++++++++++
+>>   drivers/gpu/drm/drm_dp_mst_topology.c         | 35 +++++++++++++++----
+>>   include/drm/drm_dp_mst_helper.h               | 13 +++++++
+>>   3 files changed, 69 insertions(+), 7 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+>> b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+>> index 5020f2d36fe1..4ad50eb0091a 100644
+>> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+>> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+>> @@ -10612,6 +10612,8 @@ static int amdgpu_dm_atomic_check(struct drm_device
+>> *dev,
+>>   #if defined(CONFIG_DRM_AMD_DC_DCN)
+>>          struct dsc_mst_fairness_vars vars[MAX_PIPES];
+>>   #endif
+>> +       struct drm_dp_mst_topology_state *mst_state;
+>> +       struct drm_dp_mst_topology_mgr *mgr;
+>>   
+>>          trace_amdgpu_dm_atomic_check_begin(state);
+>>   
+>> @@ -10819,6 +10821,32 @@ static int amdgpu_dm_atomic_check(struct drm_device
+>> *dev,
+>>                  lock_and_validation_needed = true;
+>>          }
+>>   
+>> +#if defined(CONFIG_DRM_AMD_DC_DCN)
+>> +       for_each_new_mst_mgr_in_state(state, mgr, mst_state, i) {
+>> +               struct amdgpu_dm_connector *aconnector;
+>> +               struct drm_connector *connector;
+>> +               struct drm_connector_list_iter iter;
+>> +               u8 link_coding_cap;
+>> +
+>> +               if (!mgr->mst_state )
+>> +                       continue;
+> extraneous space
+>
+>> +
+>> +               drm_connector_list_iter_begin(dev, &iter);
+>> +               drm_for_each_connector_iter(connector, &iter) {
+>> +                       int id = connector->index;
+>> +
+>> +                       if (id == mst_state->mgr->conn_base_id) {
+>> +                               aconnector =
+>> to_amdgpu_dm_connector(connector);
+>> +                               link_coding_cap =
+>> dc_link_dp_mst_decide_link_encoding_format(aconnector->dc_link);
+>> +                               drm_dp_mst_update_coding_cap(mst_state,
+>> link_coding_cap);
+>> +
+>> +                               break;
+>> +                       }
+>> +               }
+>> +               drm_connector_list_iter_end(&iter);
+>> +
+>> +       }
+>> +#endif
+>>          /**
+>>           * Streams and planes are reset when there are changes that affect
+>>           * bandwidth. Anything that affects bandwidth needs to go through
+>> diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c
+>> b/drivers/gpu/drm/drm_dp_mst_topology.c
+>> index ad0795afc21c..fb5c47c4cb2e 100644
+>> --- a/drivers/gpu/drm/drm_dp_mst_topology.c
+>> +++ b/drivers/gpu/drm/drm_dp_mst_topology.c
+>> @@ -3368,7 +3368,7 @@ int drm_dp_update_payload_part1(struct
+>> drm_dp_mst_topology_mgr *mgr)
+>>          struct drm_dp_payload req_payload;
+>>          struct drm_dp_mst_port *port;
+>>          int i, j;
+>> -       int cur_slots = 1;
+>> +       int cur_slots = mgr->start_slot;
+>>          bool skip;
+>>   
+>>          mutex_lock(&mgr->payload_lock);
+>> @@ -4321,7 +4321,7 @@ int drm_dp_find_vcpi_slots(struct
+>> drm_dp_mst_topology_mgr *mgr,
+>>          num_slots = DIV_ROUND_UP(pbn, mgr->pbn_div);
+>>   
+>>          /* max. time slots - one slot for MTP header */
+>> -       if (num_slots > 63)
+>> +       if (num_slots > mgr->total_avail_slots)
+>>                  return -ENOSPC;
+> For reasons I will explain a little further in this email, we might want to
+> drop this…
+>
+>>          return num_slots;
+>>   }
+>> @@ -4333,7 +4333,7 @@ static int drm_dp_init_vcpi(struct
+>> drm_dp_mst_topology_mgr *mgr,
+>>          int ret;
+>>   
+>>          /* max. time slots - one slot for MTP header */
+>> -       if (slots > 63)
+>> +       if (slots > mgr->total_avail_slots)
+> …and this
+>
+>>                  return -ENOSPC;
+>>   
+>>          vcpi->pbn = pbn;
+>> @@ -4507,6 +4507,18 @@ int drm_dp_atomic_release_vcpi_slots(struct
+>> drm_atomic_state *state,
+>>   }
+>>   EXPORT_SYMBOL(drm_dp_atomic_release_vcpi_slots);
+>>   
+>> +void drm_dp_mst_update_coding_cap(struct drm_dp_mst_topology_state
+>> *mst_state, uint8_t link_coding_cap)
+> Need some kdocs here
+>
+>> +{
+>> +       if (link_coding_cap == DP_CAP_ANSI_128B132B) {
+>> +               mst_state->total_avail_slots = 64;
+>> +               mst_state->start_slot = 0;
+>> +       }
+>> +
+>> +       DRM_DEBUG_KMS("%s coding format on mgr 0x%p\n",
+>> +                       (link_coding_cap == DP_CAP_ANSI_128B132B) ?
+>> "128b/132b":"8b/10b", mst_state->mgr);
+> need to fix indenting here, and wrap this to 100 chars
+>
+>> +}
+>> +EXPORT_SYMBOL(drm_dp_mst_update_coding_cap);
+>> +
+>>   /**
+>>    * drm_dp_mst_allocate_vcpi() - Allocate a virtual channel
+>>    * @mgr: manager for this port
+>> @@ -4538,8 +4550,8 @@ bool drm_dp_mst_allocate_vcpi(struct
+>> drm_dp_mst_topology_mgr *mgr,
+>>   
+>>          ret = drm_dp_init_vcpi(mgr, &port->vcpi, pbn, slots);
+>>          if (ret) {
+>> -               drm_dbg_kms(mgr->dev, "failed to init vcpi slots=%d max=63
+>> ret=%d\n",
+>> -                           DIV_ROUND_UP(pbn, mgr->pbn_div), ret);
+>> +               drm_dbg_kms(mgr->dev, "failed to init vcpi slots=%d max=%d
+>> ret=%d\n",
+>> +                           DIV_ROUND_UP(pbn, mgr->pbn_div), mgr-
+>>> total_avail_slots, ret);
+>>                  drm_dp_mst_topology_put_port(port);
+>>                  goto out;
+>>          }
+>> @@ -5226,7 +5238,7 @@ drm_dp_mst_atomic_check_vcpi_alloc_limit(struct
+>> drm_dp_mst_topology_mgr *mgr,
+>>                                           struct drm_dp_mst_topology_state
+>> *mst_state)
+>>   {
+>>          struct drm_dp_vcpi_allocation *vcpi;
+>> -       int avail_slots = 63, payload_count = 0;
+>> +       int avail_slots = mgr->total_avail_slots, payload_count = 0;
+>>   
+>>          list_for_each_entry(vcpi, &mst_state->vcpis, next) {
+>>                  /* Releasing VCPI is always OK-even if the port is gone */
+>> @@ -5255,7 +5267,7 @@ drm_dp_mst_atomic_check_vcpi_alloc_limit(struct
+>> drm_dp_mst_topology_mgr *mgr,
+>>                  }
+>>          }
+>>          drm_dbg_atomic(mgr->dev, "[MST MGR:%p] mst state %p VCPI avail=%d
+>> used=%d\n",
+>> -                      mgr, mst_state, avail_slots, 63 - avail_slots);
+>> +                      mgr, mst_state, avail_slots, mgr->total_avail_slots -
+>> avail_slots);
+>>   
+>>          return 0;
+>>   }
+>> @@ -5421,6 +5433,10 @@ int drm_dp_mst_atomic_check(struct drm_atomic_state
+>> *state)
+>>                          break;
+>>   
+>>                  mutex_lock(&mgr->lock);
+>> +
+>> +               mgr->start_slot = mst_state->start_slot;
+>> +               mgr->total_avail_slots = mst_state->total_avail_slots;
+>> +
+> this isn't correct - atomic checks aren't allowed to mutate anything besides
+> the atomic state structure that we're checking since we don't know whether or
+> not the display state is going to be committed when checking it. If we're
+> storing state in mgr, that state needs to be written to mgr during the atomic
+> commit instead of the atomic check.
+>
+> ...but, coming back to this MST code after being gone for a while, I think it
+> might be time for us to stop worrying about the non-atomic state. Especially
+> since there's only one driver using it; the legacy radeon.ko; and right now
+> the plan is either to just drop MST support on radeon.ko or move the MST code
+> it uses into radeon.ko.Which brings me to say - I think we can drop some of
+> the hunks I mentioned above (e.g. the changes to drm_dp_init_vcpi and
+> drm_dp_find_vcpi_slots I mentioned above). We can then just update the kdocs
+> for these functions in a separate patch to clarify that now in addition to
+> being deprecated, these functions are just broken and will eventually be
+> removed.
+>
+> So - doing that allows us to get rid of mgr->total_avail_slots and mgr-
+>> start_slot entirely, just set the slot info in the atomic state during atomic
+> check, and then just rely on the atomic state for
+> drm_dp_atomic_find_vcpi_slots() and friends. Which seems much simpler to me,
+> does this sound alrght with you?
 
-Signed-off-by: Michael Trimarchi <michael@amarulasolutions.com>
----
- drivers/gpu/drm/panel/panel-ilitek-ili9881c.c | 238 +++++++++++++++++-
- 1 file changed, 237 insertions(+), 1 deletion(-)
+Thanks for the response,
 
-diff --git a/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c b/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c
-index 0145129d7c66..cf53b43e0907 100644
---- a/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c
-+++ b/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c
-@@ -42,6 +42,7 @@ struct ili9881c_desc {
- 	const struct ili9881c_instr *init;
- 	const size_t init_length;
- 	const struct drm_display_mode *mode;
-+	const unsigned long mode_flags;
- };
- 
- struct ili9881c {
-@@ -453,6 +454,213 @@ static const struct ili9881c_instr k101_im2byl02_init[] = {
- 	ILI9881C_COMMAND_INSTR(0xD3, 0x3F), /* VN0 */
- };
- 
-+static const struct ili9881c_instr w552946ab_init[] = {
-+	ILI9881C_SWITCH_PAGE_INSTR(3),
-+	ILI9881C_COMMAND_INSTR(0x01, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x02, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x03, 0x53),
-+	ILI9881C_COMMAND_INSTR(0x04, 0x53),
-+	ILI9881C_COMMAND_INSTR(0x05, 0x13),
-+	ILI9881C_COMMAND_INSTR(0x06, 0x04),
-+	ILI9881C_COMMAND_INSTR(0x07, 0x02),
-+	ILI9881C_COMMAND_INSTR(0x08, 0x02),
-+	ILI9881C_COMMAND_INSTR(0x09, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x0A, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x0B, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x0C, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x0D, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x0E, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x0F, 0x00),
-+
-+	ILI9881C_COMMAND_INSTR(0x10, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x11, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x12, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x13, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x14, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x15, 0x08),
-+	ILI9881C_COMMAND_INSTR(0x16, 0x10),
-+	ILI9881C_COMMAND_INSTR(0x17, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x18, 0x08),
-+	ILI9881C_COMMAND_INSTR(0x19, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x1A, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x1B, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x1C, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x1D, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x1E, 0xC0),
-+	ILI9881C_COMMAND_INSTR(0x1F, 0x80),
-+
-+	ILI9881C_COMMAND_INSTR(0x20, 0x02),
-+	ILI9881C_COMMAND_INSTR(0x21, 0x09),
-+	ILI9881C_COMMAND_INSTR(0x22, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x23, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x24, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x25, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x26, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x27, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x28, 0x55),
-+	ILI9881C_COMMAND_INSTR(0x29, 0x03),
-+	ILI9881C_COMMAND_INSTR(0x2A, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x2B, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x2C, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x2D, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x2E, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x2F, 0x00),
-+
-+	ILI9881C_COMMAND_INSTR(0x30, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x31, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x32, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x33, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x34, 0x04),
-+	ILI9881C_COMMAND_INSTR(0x35, 0x05),
-+	ILI9881C_COMMAND_INSTR(0x36, 0x05),
-+	ILI9881C_COMMAND_INSTR(0x37, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x38, 0x3C),
-+	ILI9881C_COMMAND_INSTR(0x39, 0x35),
-+	ILI9881C_COMMAND_INSTR(0x3A, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x3B, 0x40),
-+	ILI9881C_COMMAND_INSTR(0x3C, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x3D, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x3E, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x3F, 0x00),
-+
-+	ILI9881C_COMMAND_INSTR(0x40, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x41, 0x88),
-+	ILI9881C_COMMAND_INSTR(0x42, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x43, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x44, 0x1F),
-+
-+	ILI9881C_COMMAND_INSTR(0x50, 0x01),
-+	ILI9881C_COMMAND_INSTR(0x51, 0x23),
-+	ILI9881C_COMMAND_INSTR(0x52, 0x45),
-+	ILI9881C_COMMAND_INSTR(0x53, 0x67),
-+	ILI9881C_COMMAND_INSTR(0x54, 0x89),
-+	ILI9881C_COMMAND_INSTR(0x55, 0xaB),
-+	ILI9881C_COMMAND_INSTR(0x56, 0x01),
-+	ILI9881C_COMMAND_INSTR(0x57, 0x23),
-+	ILI9881C_COMMAND_INSTR(0x58, 0x45),
-+	ILI9881C_COMMAND_INSTR(0x59, 0x67),
-+	ILI9881C_COMMAND_INSTR(0x5A, 0x89),
-+	ILI9881C_COMMAND_INSTR(0x5B, 0xAB),
-+	ILI9881C_COMMAND_INSTR(0x5C, 0xCD),
-+	ILI9881C_COMMAND_INSTR(0x5D, 0xEF),
-+	ILI9881C_COMMAND_INSTR(0x5E, 0x03),
-+	ILI9881C_COMMAND_INSTR(0x5F, 0x14),
-+
-+	ILI9881C_COMMAND_INSTR(0x60, 0x15),
-+	ILI9881C_COMMAND_INSTR(0x61, 0x0C),
-+	ILI9881C_COMMAND_INSTR(0x62, 0x0D),
-+	ILI9881C_COMMAND_INSTR(0x63, 0x0E),
-+	ILI9881C_COMMAND_INSTR(0x64, 0x0F),
-+	ILI9881C_COMMAND_INSTR(0x65, 0x10),
-+	ILI9881C_COMMAND_INSTR(0x66, 0x11),
-+	ILI9881C_COMMAND_INSTR(0x67, 0x08),
-+	ILI9881C_COMMAND_INSTR(0x68, 0x02),
-+	ILI9881C_COMMAND_INSTR(0x69, 0x0A),
-+	ILI9881C_COMMAND_INSTR(0x6A, 0x02),
-+	ILI9881C_COMMAND_INSTR(0x6B, 0x02),
-+	ILI9881C_COMMAND_INSTR(0x6C, 0x02),
-+	ILI9881C_COMMAND_INSTR(0x6D, 0x02),
-+	ILI9881C_COMMAND_INSTR(0x6E, 0x02),
-+	ILI9881C_COMMAND_INSTR(0x6F, 0x02),
-+
-+	ILI9881C_COMMAND_INSTR(0x70, 0x02),
-+	ILI9881C_COMMAND_INSTR(0x71, 0x02),
-+	ILI9881C_COMMAND_INSTR(0x72, 0x06),
-+	ILI9881C_COMMAND_INSTR(0x73, 0x02),
-+	ILI9881C_COMMAND_INSTR(0x74, 0x02),
-+	ILI9881C_COMMAND_INSTR(0x75, 0x14),
-+	ILI9881C_COMMAND_INSTR(0x76, 0x15),
-+	ILI9881C_COMMAND_INSTR(0x77, 0x0F),
-+	ILI9881C_COMMAND_INSTR(0x78, 0x0E),
-+	ILI9881C_COMMAND_INSTR(0x79, 0x0D),
-+	ILI9881C_COMMAND_INSTR(0x7A, 0x0C),
-+	ILI9881C_COMMAND_INSTR(0x7B, 0x11),
-+	ILI9881C_COMMAND_INSTR(0x7C, 0x10),
-+	ILI9881C_COMMAND_INSTR(0x7D, 0x06),
-+	ILI9881C_COMMAND_INSTR(0x7E, 0x02),
-+	ILI9881C_COMMAND_INSTR(0x7F, 0x0A),
-+
-+	ILI9881C_COMMAND_INSTR(0x80, 0x02),
-+	ILI9881C_COMMAND_INSTR(0x81, 0x02),
-+	ILI9881C_COMMAND_INSTR(0x82, 0x02),
-+	ILI9881C_COMMAND_INSTR(0x83, 0x02),
-+	ILI9881C_COMMAND_INSTR(0x84, 0x02),
-+	ILI9881C_COMMAND_INSTR(0x85, 0x02),
-+	ILI9881C_COMMAND_INSTR(0x86, 0x02),
-+	ILI9881C_COMMAND_INSTR(0x87, 0x02),
-+	ILI9881C_COMMAND_INSTR(0x88, 0x08),
-+	ILI9881C_COMMAND_INSTR(0x89, 0x02),
-+	ILI9881C_COMMAND_INSTR(0x8A, 0x02),
-+
-+	ILI9881C_SWITCH_PAGE_INSTR(4),
-+	ILI9881C_COMMAND_INSTR(0x00, 0x80),
-+	ILI9881C_COMMAND_INSTR(0x70, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x71, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x66, 0xFE),
-+	ILI9881C_COMMAND_INSTR(0x82, 0x15),
-+	ILI9881C_COMMAND_INSTR(0x84, 0x15),
-+	ILI9881C_COMMAND_INSTR(0x85, 0x15),
-+	ILI9881C_COMMAND_INSTR(0x3a, 0x24),
-+	ILI9881C_COMMAND_INSTR(0x32, 0xAC),
-+	ILI9881C_COMMAND_INSTR(0x8C, 0x80),
-+	ILI9881C_COMMAND_INSTR(0x3C, 0xF5),
-+	ILI9881C_COMMAND_INSTR(0x88, 0x33),
-+
-+	ILI9881C_SWITCH_PAGE_INSTR(1),
-+	ILI9881C_COMMAND_INSTR(0x22, 0x0A),
-+	ILI9881C_COMMAND_INSTR(0x31, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x53, 0x78),
-+	ILI9881C_COMMAND_INSTR(0x50, 0x5B),
-+	ILI9881C_COMMAND_INSTR(0x51, 0x5B),
-+	ILI9881C_COMMAND_INSTR(0x60, 0x20),
-+	ILI9881C_COMMAND_INSTR(0x61, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x62, 0x0D),
-+	ILI9881C_COMMAND_INSTR(0x63, 0x00),
-+
-+	ILI9881C_COMMAND_INSTR(0xA0, 0x00),
-+	ILI9881C_COMMAND_INSTR(0xA1, 0x10),
-+	ILI9881C_COMMAND_INSTR(0xA2, 0x1C),
-+	ILI9881C_COMMAND_INSTR(0xA3, 0x13),
-+	ILI9881C_COMMAND_INSTR(0xA4, 0x15),
-+	ILI9881C_COMMAND_INSTR(0xA5, 0x26),
-+	ILI9881C_COMMAND_INSTR(0xA6, 0x1A),
-+	ILI9881C_COMMAND_INSTR(0xA7, 0x1D),
-+	ILI9881C_COMMAND_INSTR(0xA8, 0x67),
-+	ILI9881C_COMMAND_INSTR(0xA9, 0x1C),
-+	ILI9881C_COMMAND_INSTR(0xAA, 0x29),
-+	ILI9881C_COMMAND_INSTR(0xAB, 0x5B),
-+	ILI9881C_COMMAND_INSTR(0xAC, 0x26),
-+	ILI9881C_COMMAND_INSTR(0xAD, 0x28),
-+	ILI9881C_COMMAND_INSTR(0xAE, 0x5C),
-+	ILI9881C_COMMAND_INSTR(0xAF, 0x30),
-+	ILI9881C_COMMAND_INSTR(0xB0, 0x31),
-+	ILI9881C_COMMAND_INSTR(0xB1, 0x2E),
-+	ILI9881C_COMMAND_INSTR(0xB2, 0x32),
-+	ILI9881C_COMMAND_INSTR(0xB3, 0x00),
-+
-+	ILI9881C_COMMAND_INSTR(0xC0, 0x00),
-+	ILI9881C_COMMAND_INSTR(0xC1, 0x10),
-+	ILI9881C_COMMAND_INSTR(0xC2, 0x1C),
-+	ILI9881C_COMMAND_INSTR(0xC3, 0x13),
-+	ILI9881C_COMMAND_INSTR(0xC4, 0x15),
-+	ILI9881C_COMMAND_INSTR(0xC5, 0x26),
-+	ILI9881C_COMMAND_INSTR(0xC6, 0x1A),
-+	ILI9881C_COMMAND_INSTR(0xC7, 0x1D),
-+	ILI9881C_COMMAND_INSTR(0xC8, 0x67),
-+	ILI9881C_COMMAND_INSTR(0xC9, 0x1C),
-+	ILI9881C_COMMAND_INSTR(0xCA, 0x29),
-+	ILI9881C_COMMAND_INSTR(0xCB, 0x5B),
-+	ILI9881C_COMMAND_INSTR(0xCC, 0x26),
-+	ILI9881C_COMMAND_INSTR(0xCD, 0x28),
-+	ILI9881C_COMMAND_INSTR(0xCE, 0x5C),
-+	ILI9881C_COMMAND_INSTR(0xCF, 0x30),
-+	ILI9881C_COMMAND_INSTR(0xD0, 0x31),
-+	ILI9881C_COMMAND_INSTR(0xD1, 0x2E),
-+	ILI9881C_COMMAND_INSTR(0xD2, 0x32),
-+	ILI9881C_COMMAND_INSTR(0xD3, 0x00),
-+	ILI9881C_SWITCH_PAGE_INSTR(0),
-+};
-+
- static inline struct ili9881c *panel_to_ili9881c(struct drm_panel *panel)
- {
- 	return container_of(panel, struct ili9881c, panel);
-@@ -603,6 +811,23 @@ static const struct drm_display_mode k101_im2byl02_default_mode = {
- 	.height_mm	= 217,
- };
- 
-+static const struct drm_display_mode w552946aba_default_mode = {
-+	.clock		= 64000,
-+
-+	.hdisplay	= 720,
-+	.hsync_start	= 720 + 40,
-+	.hsync_end	= 720 + 40 + 10,
-+	.htotal		= 720 + 40 + 10 + 40,
-+
-+	.vdisplay	= 1280,
-+	.vsync_start	= 1280 + 22,
-+	.vsync_end	= 1280 + 22 + 4,
-+	.vtotal		= 1280 + 22 + 4 + 11,
-+
-+	.width_mm	= 68,
-+	.height_mm	= 121,
-+};
-+
- static int ili9881c_get_modes(struct drm_panel *panel,
- 			      struct drm_connector *connector)
- {
-@@ -670,7 +895,7 @@ static int ili9881c_dsi_probe(struct mipi_dsi_device *dsi)
- 
- 	drm_panel_add(&ctx->panel);
- 
--	dsi->mode_flags = MIPI_DSI_MODE_VIDEO_SYNC_PULSE;
-+	dsi->mode_flags = ctx->desc->mode_flags;
- 	dsi->format = MIPI_DSI_FMT_RGB888;
- 	dsi->lanes = 4;
- 
-@@ -691,17 +916,28 @@ static const struct ili9881c_desc lhr050h41_desc = {
- 	.init = lhr050h41_init,
- 	.init_length = ARRAY_SIZE(lhr050h41_init),
- 	.mode = &lhr050h41_default_mode,
-+	.mode_flags = MIPI_DSI_MODE_VIDEO_SYNC_PULSE,
- };
- 
- static const struct ili9881c_desc k101_im2byl02_desc = {
- 	.init = k101_im2byl02_init,
- 	.init_length = ARRAY_SIZE(k101_im2byl02_init),
- 	.mode = &k101_im2byl02_default_mode,
-+	.mode_flags = MIPI_DSI_MODE_VIDEO_SYNC_PULSE,
-+};
-+
-+static const struct ili9881c_desc w552946aba_desc = {
-+	.init = w552946ab_init,
-+	.init_length = ARRAY_SIZE(w552946ab_init),
-+	.mode = &w552946aba_default_mode,
-+	.mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
-+		      MIPI_DSI_MODE_LPM | MIPI_DSI_MODE_EOT_PACKET,
- };
- 
- static const struct of_device_id ili9881c_of_match[] = {
- 	{ .compatible = "bananapi,lhr050h41", .data = &lhr050h41_desc },
- 	{ .compatible = "feixin,k101-im2byl02", .data = &k101_im2byl02_desc },
-+	{ .compatible = "wanchanglong,w552946aba", .data = &w552946aba_desc },
- 	{ }
- };
- MODULE_DEVICE_TABLE(of, ili9881c_of_match);
--- 
-2.25.1
+That function is per port (drm_dp_atomic_find_vcpi_slots) so not sure 
+how that will work, maybe I don't understand what you mean?
 
+Also we only need to check this inside 
+drm_dp_mst_atomic_check_vcpi_alloc_limit(), which doesn't have a state, 
+so we still need to have this on the mgr somehow.
+
+I was thinking we could add the slots(or some DP version indicator) 
+inside the drm_connector, and add a parameter to 
+drm_dp_mst_atomic_check_vcpi_alloc_limit(int slots) and call it with 
+this info via drm_dp_mst_atomic_check().
+
+
+Bhawan
+
+>
+>>                  ret = drm_dp_mst_atomic_check_mstb_bw_limit(mgr-
+>>> mst_primary,
+>>                                                              mst_state);
+>>                  mutex_unlock(&mgr->lock);
+>> @@ -5527,11 +5543,16 @@ int drm_dp_mst_topology_mgr_init(struct
+>> drm_dp_mst_topology_mgr *mgr,
+>>          if (!mgr->proposed_vcpis)
+>>                  return -ENOMEM;
+>>          set_bit(0, &mgr->payload_mask);
+>> +       mgr->total_avail_slots = 63;
+>> +       mgr->start_slot = 1;
+>>   
+>>          mst_state = kzalloc(sizeof(*mst_state), GFP_KERNEL);
+>>          if (mst_state == NULL)
+>>                  return -ENOMEM;
+>>   
+>> +       mst_state->total_avail_slots = 63;
+>> +       mst_state->start_slot = 1;
+>> +
+>>          mst_state->mgr = mgr;
+>>          INIT_LIST_HEAD(&mst_state->vcpis);
+>>   
+>> diff --git a/include/drm/drm_dp_mst_helper.h
+>> b/include/drm/drm_dp_mst_helper.h
+>> index ddb9231d0309..f8152dfb34ed 100644
+>> --- a/include/drm/drm_dp_mst_helper.h
+>> +++ b/include/drm/drm_dp_mst_helper.h
+>> @@ -554,6 +554,8 @@ struct drm_dp_mst_topology_state {
+>>          struct drm_private_state base;
+>>          struct list_head vcpis;
+>>          struct drm_dp_mst_topology_mgr *mgr;
+>> +       u8 total_avail_slots;
+>> +       u8 start_slot;
+>>   };
+>>   
+>>   #define to_dp_mst_topology_mgr(x) container_of(x, struct
+>> drm_dp_mst_topology_mgr, base)
+>> @@ -661,6 +663,16 @@ struct drm_dp_mst_topology_mgr {
+>>           */
+>>          int pbn_div;
+>>   
+>> +       /**
+>> +        * @total_avail_slots: 63 for 8b/10b, 64 for 128/132b
+>> +        */
+>> +       u8 total_avail_slots;
+>> +
+>> +       /**
+>> +        * @start_slot: 1 for 8b/10b, 0 for 128/132b
+>> +        */
+>> +       u8 start_slot;
+>> +
+>>          /**
+>>           * @funcs: Atomic helper callbacks
+>>           */
+>> @@ -806,6 +818,7 @@ int drm_dp_mst_get_vcpi_slots(struct
+>> drm_dp_mst_topology_mgr *mgr, struct drm_dp
+>>   
+>>   void drm_dp_mst_reset_vcpi_slots(struct drm_dp_mst_topology_mgr *mgr,
+>> struct drm_dp_mst_port *port);
+>>   
+>> +void drm_dp_mst_update_coding_cap(struct drm_dp_mst_topology_state
+>> *mst_state, uint8_t link_coding_cap);
+>>   
+>>   void drm_dp_mst_deallocate_vcpi(struct drm_dp_mst_topology_mgr *mgr,
+>>                                  struct drm_dp_mst_port *port);
