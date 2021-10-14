@@ -1,42 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F4B542E1C6
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Oct 2021 21:00:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 268E242E1CC
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Oct 2021 21:01:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 77F576E1E8;
-	Thu, 14 Oct 2021 19:00:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CEF9E6E1E9;
+	Thu, 14 Oct 2021 19:01:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 330F16E1E8;
- Thu, 14 Oct 2021 19:00:42 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10137"; a="228052419"
-X-IronPort-AV: E=Sophos;i="5.85,373,1624345200"; d="scan'208";a="228052419"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Oct 2021 12:00:41 -0700
-X-IronPort-AV: E=Sophos;i="5.85,373,1624345200"; d="scan'208";a="660106353"
-Received: from jons-linux-dev-box.fm.intel.com (HELO jons-linux-dev-box)
- ([10.1.27.20])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Oct 2021 12:00:41 -0700
-Date: Thu, 14 Oct 2021 11:55:57 -0700
-From: Matthew Brost <matthew.brost@intel.com>
-To: John Harrison <john.c.harrison@intel.com>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 25/25] drm/i915/execlists: Weak parallel submission
- support for execlists
-Message-ID: <20211014185557.GA32818@jons-linux-dev-box>
-References: <20211014172005.27155-1-matthew.brost@intel.com>
- <20211014172005.27155-26-matthew.brost@intel.com>
- <aaeff236-b06f-6b43-8adc-45f8531e5433@intel.com>
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com
+ [IPv6:2607:f8b0:4864:20::102a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 650626E8AA
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Oct 2021 19:01:25 +0000 (UTC)
+Received: by mail-pj1-x102a.google.com with SMTP id
+ k23-20020a17090a591700b001976d2db364so5485071pji.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Oct 2021 12:01:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=intel-com.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=3lxPCfnRN1pVZCKXw+dPxQ+TEoXLlYUHXoOMaDAY9JY=;
+ b=znOijpGsqyIV/LrTXkLB2IgQNxqApgMz6qnz4fsbZ391wxVpJFRcuaopZfjROr+pE1
+ 6qlWaoSS5n4g9vKjm3ZnzUGXP47SF1hqpZX7k3lVBRBZffHAUn8q9KeJZnptR9LU0Nws
+ FcIDkwvm3EfoOjxn89JWINzElALz8diSKGPAcoCv02CSzC9PuA93c61qJaEvtqPsIeMW
+ 1L2kRh4Q1ic+Lx9xkQgW4MP5RXHKFQW+Xh8IEzvokBgR4xee3GGKcf2A+kaxbfyv3vMT
+ 9JcCRz9bu1k6grqH4IWRQBtuGNNQsNG2wOGFmlch6YbW8A9GgheKvFxlHcNzACdtnAs3
+ j4jw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=3lxPCfnRN1pVZCKXw+dPxQ+TEoXLlYUHXoOMaDAY9JY=;
+ b=s5Rv+Fcn4r4KhQWRgwScwEoFbSth5AE5OA/KRAWakrOX9Eo1ZlNZQytT+z0Wx0k4c2
+ /5Ym15ejbyg5NuanUWG8p0z4QnBIhbeZYweksHmEpG6NZ1YnhEA/MgF+Pwb64oEeLtUJ
+ sExhvUU/Gl5CHWNxlunxSgDq9nUJeGOevLoBBjlGdOO5yeWSE86BwrA5v0E2LIA5+k8g
+ 7Cp2TFl2pX332BpjBob6Bn5v6rzfjCtYXSPFM/LH/4KPEIQZRDLiVPEE02DshGSWEN2b
+ K2WApG5gZUTbZFJACFC56jltvRRckLAoQpIumF0+7uE9M/bmPGY+MLbQgfu3MR7jJPoJ
+ TroA==
+X-Gm-Message-State: AOAM531XBgfB7CjE8NiF4AnhKygHe3sUOOg+kLYT+zMQI2mYAOQlMy+H
+ XBaq75sn0XCMcNMlaHRd3CMhxk3N/sUmz53MtxfD3A==
+X-Google-Smtp-Source: ABdhPJxCgGkWzKHyVqrmEOVmd1w9TLUS+nlQWIxOo1mRfzxINIImPWmsFKQDhXF3LgH7DgfDwo2el8Sf5cWsxs7zCaw=
+X-Received: by 2002:a17:902:8a97:b0:13e:6e77:af59 with SMTP id
+ p23-20020a1709028a9700b0013e6e77af59mr6572559plo.4.1634238084797; Thu, 14 Oct
+ 2021 12:01:24 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aaeff236-b06f-6b43-8adc-45f8531e5433@intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+References: <20211014153928.16805-1-alex.sierra@amd.com>
+ <20211014153928.16805-3-alex.sierra@amd.com>
+ <20211014170634.GV2744544@nvidia.com> <YWh6PL7nvh4DqXCI@casper.infradead.org>
+In-Reply-To: <YWh6PL7nvh4DqXCI@casper.infradead.org>
+From: Dan Williams <dan.j.williams@intel.com>
+Date: Thu, 14 Oct 2021 12:01:14 -0700
+Message-ID: <CAPcyv4hBdSwdtG6Hnx9mDsRXiPMyhNH=4hDuv8JZ+U+Jj4RUWg@mail.gmail.com>
+Subject: Re: [PATCH v1 2/2] mm: remove extra ZONE_DEVICE struct page refcount
+To: Matthew Wilcox <willy@infradead.org>
+Cc: Jason Gunthorpe <jgg@nvidia.com>, Alex Sierra <alex.sierra@amd.com>, 
+ Andrew Morton <akpm@linux-foundation.org>, "Kuehling,
+ Felix" <Felix.Kuehling@amd.com>, 
+ Linux MM <linux-mm@kvack.org>, Ralph Campbell <rcampbell@nvidia.com>, 
+ linux-ext4 <linux-ext4@vger.kernel.org>, linux-xfs <linux-xfs@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, 
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Christoph Hellwig <hch@lst.de>, 
+ =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>, 
+ Alistair Popple <apopple@nvidia.com>, Vishal Verma <vishal.l.verma@intel.com>, 
+ Dave Jiang <dave.jiang@intel.com>, Linux NVDIMM <nvdimm@lists.linux.dev>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,190 +80,136 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 14, 2021 at 11:42:41AM -0700, John Harrison wrote:
-> On 10/14/2021 10:20, Matthew Brost wrote:
-> > A weak implementation of parallel submission (multi-bb execbuf IOCTL) for
-> > execlists. Doing as little as possible to support this interface for
-> > execlists - basically just passing submit fences between each request
-> > generated and virtual engines are not allowed. This is on par with what
-> > is there for the existing (hopefully soon deprecated) bonding interface.
-> > 
-> > We perma-pin these execlists contexts to align with GuC implementation.
-> > 
-> > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> > ---
-> >   drivers/gpu/drm/i915/gem/i915_gem_context.c   | 10 ++--
-> >   drivers/gpu/drm/i915/gt/intel_context.c       |  4 +-
-> >   .../drm/i915/gt/intel_execlists_submission.c  | 56 ++++++++++++++++++-
-> >   drivers/gpu/drm/i915/gt/intel_lrc.c           |  2 +
-> >   .../gpu/drm/i915/gt/uc/intel_guc_submission.c |  2 -
-> >   5 files changed, 64 insertions(+), 10 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> > index fb33d0322960..35e87a7d0ea9 100644
-> > --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> > +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> > @@ -570,10 +570,6 @@ set_proto_ctx_engines_parallel_submit(struct i915_user_extension __user *base,
-> >   	struct intel_engine_cs **siblings = NULL;
-> >   	intel_engine_mask_t prev_mask;
-> > -	/* FIXME: This is NIY for execlists */
-> > -	if (!(intel_uc_uses_guc_submission(&i915->gt.uc)))
-> > -		return -ENODEV;
-> > -
-> >   	if (get_user(slot, &ext->engine_index))
-> >   		return -EFAULT;
-> > @@ -583,6 +579,12 @@ set_proto_ctx_engines_parallel_submit(struct i915_user_extension __user *base,
-> >   	if (get_user(num_siblings, &ext->num_siblings))
-> >   		return -EFAULT;
-> > +	if (!intel_uc_uses_guc_submission(&i915->gt.uc) && num_siblings != 1) {
-> > +		drm_dbg(&i915->drm, "Only 1 sibling (%d) supported in non-GuC mode\n",
-> > +			num_siblings);
-> > +		return -EINVAL;
-> > +	}
-> > +
-> >   	if (slot >= set->num_engines) {
-> >   		drm_dbg(&i915->drm, "Invalid placement value, %d >= %d\n",
-> >   			slot, set->num_engines);
-> > diff --git a/drivers/gpu/drm/i915/gt/intel_context.c b/drivers/gpu/drm/i915/gt/intel_context.c
-> > index 5634d14052bc..1bec92e1d8e6 100644
-> > --- a/drivers/gpu/drm/i915/gt/intel_context.c
-> > +++ b/drivers/gpu/drm/i915/gt/intel_context.c
-> > @@ -79,7 +79,8 @@ static int intel_context_active_acquire(struct intel_context *ce)
-> >   	__i915_active_acquire(&ce->active);
-> > -	if (intel_context_is_barrier(ce) || intel_engine_uses_guc(ce->engine))
-> > +	if (intel_context_is_barrier(ce) || intel_engine_uses_guc(ce->engine) ||
-> > +	    intel_context_is_parallel(ce))
-> >   		return 0;
-> >   	/* Preallocate tracking nodes */
-> > @@ -563,7 +564,6 @@ void intel_context_bind_parent_child(struct intel_context *parent,
-> >   	 * Callers responsibility to validate that this function is used
-> >   	 * correctly but we use GEM_BUG_ON here ensure that they do.
-> >   	 */
-> > -	GEM_BUG_ON(!intel_engine_uses_guc(parent->engine));
-> >   	GEM_BUG_ON(intel_context_is_pinned(parent));
-> >   	GEM_BUG_ON(intel_context_is_child(parent));
-> >   	GEM_BUG_ON(intel_context_is_pinned(child));
-> > diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-> > index bedb80057046..8cd986bdf26c 100644
-> > --- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-> > +++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-> > @@ -927,8 +927,7 @@ static void execlists_submit_ports(struct intel_engine_cs *engine)
-> >   static bool ctx_single_port_submission(const struct intel_context *ce)
-> >   {
-> > -	return (IS_ENABLED(CONFIG_DRM_I915_GVT) &&
-> > -		intel_context_force_single_submission(ce));
-> > +	return intel_context_force_single_submission(ce);
-> Does this change not affect all execlist operation rather than just parallel
-> submission?
-> 
+On Thu, Oct 14, 2021 at 11:45 AM Matthew Wilcox <willy@infradead.org> wrote:
+>
+>
+> It would probably help if you cc'd Dan on this.
 
-I don't think so. The only place that sets single submission was in the
-GVT code. I think was an optimization so this would just compile out if
-GVT wasn't built.
+Thanks.
 
-> >   }
-> >   static bool can_merge_ctx(const struct intel_context *prev,
-> > @@ -2598,6 +2597,58 @@ static void execlists_context_cancel_request(struct intel_context *ce,
-> >   				      current->comm);
-> >   }
-> > +static struct intel_context *
-> > +execlists_create_parallel(struct intel_engine_cs **engines,
-> > +			  unsigned int num_siblings,
-> > +			  unsigned int width)
-> > +{
-> > +	struct intel_engine_cs **siblings = NULL;
-> > +	struct intel_context *parent = NULL, *ce, *err;
-> > +	int i, j;
-> > +
-> > +	GEM_BUG_ON(num_siblings != 1);
-> > +
-> > +	siblings = kmalloc_array(num_siblings,
-> > +				 sizeof(*siblings),
-> > +				 GFP_KERNEL);
-> > +	if (!siblings)
-> > +		return ERR_PTR(-ENOMEM);
-> > +
-> > +	for (i = 0; i < width; ++i) {
-> > +		for (j = 0; j < num_siblings; ++j)
-> > +			siblings[j] = engines[i * num_siblings + j];
-> What is the purpose of this array? The only usage that I can see is
-> siblings[0] on the line below. The rest of the entries never seem to be
-> used. So you could just replace that with 'engines[i * num_siblings]' and
-> drop the siblings array itself completely?
-> 
+[..]
+>
+> On Thu, Oct 14, 2021 at 02:06:34PM -0300, Jason Gunthorpe wrote:
+> > On Thu, Oct 14, 2021 at 10:39:28AM -0500, Alex Sierra wrote:
+> > > From: Ralph Campbell <rcampbell@nvidia.com>
+> > >
+> > > ZONE_DEVICE struct pages have an extra reference count that complicates the
+> > > code for put_page() and several places in the kernel that need to check the
+> > > reference count to see that a page is not being used (gup, compaction,
+> > > migration, etc.). Clean up the code so the reference count doesn't need to
+> > > be treated specially for ZONE_DEVICE.
+> > >
+> > > Signed-off-by: Ralph Campbell <rcampbell@nvidia.com>
+> > > Signed-off-by: Alex Sierra <alex.sierra@amd.com>
+> > > Reviewed-by: Christoph Hellwig <hch@lst.de>
+> > > ---
+> > > v2:
+> > > AS: merged this patch in linux 5.11 version
+> > >
+> > > v5:
+> > > AS: add condition at try_grab_page to check for the zone device type, while
+> > > page ref counter is checked less/equal to zero. In case of device zone, pages
+> > > ref counter are initialized to zero.
+> > >
+> > > v7:
+> > > AS: fix condition at try_grab_page added at v5, is invalid. It supposed
+> > > to fix xfstests/generic/413 test, however, there's a known issue on
+> > > this test where DAX mapped area DIO to non-DAX expect to fail.
+> > > https://patchwork.kernel.org/project/fstests/patch/1489463960-3579-1-git-send-email-xzhou@redhat.com
+> > > This condition was removed after rebase over patch series
+> > > https://lore.kernel.org/r/20210813044133.1536842-4-jhubbard@nvidia.com
+> > > ---
+> > >  arch/powerpc/kvm/book3s_hv_uvmem.c     |  2 +-
+> > >  drivers/gpu/drm/nouveau/nouveau_dmem.c |  2 +-
+> > >  fs/dax.c                               |  4 +-
+> > >  include/linux/dax.h                    |  2 +-
+> > >  include/linux/memremap.h               |  7 +--
+> > >  include/linux/mm.h                     | 11 ----
+> > >  lib/test_hmm.c                         |  2 +-
+> > >  mm/internal.h                          |  8 +++
+> > >  mm/memcontrol.c                        |  6 +--
+> > >  mm/memremap.c                          | 69 +++++++-------------------
+> > >  mm/migrate.c                           |  5 --
+> > >  mm/page_alloc.c                        |  3 ++
+> > >  mm/swap.c                              | 45 ++---------------
+> > >  13 files changed, 46 insertions(+), 120 deletions(-)
+> >
+> > Has anyone tested this with FSDAX? Does get_user_pages() on fsdax
+> > backed memory still work?
+> >
+> > What refcount value does the struct pages have when they are installed
+> > in the PTEs? Remember a 0 refcount will make all the get_user_pages()
+> > fail.
+> >
+> > I'm looking at the call path starting in ext4_punch_hole() and I would
+> > expect to see something manipulating the page ref count before
+> > the ext4_break_layouts() call path gets to the dax_page_unused() test.
+> >
+> > All I see is we go into unmap_mapping_pages() - that would normally
+> > put back the page references held by PTEs but insert_pfn() has this:
+> >
+> >       if (pfn_t_devmap(pfn))
+> >               entry = pte_mkdevmap(pfn_t_pte(pfn, prot));
+> >
+> > And:
+> >
+> > static inline pte_t pte_mkdevmap(pte_t pte)
+> > {
+> >       return pte_set_flags(pte, _PAGE_SPECIAL|_PAGE_DEVMAP);
+> > }
+> >
+> > Which interacts with vm_normal_page():
+> >
+> >               if (pte_devmap(pte))
+> >                       return NULL;
+> >
+> > To disable that refcounting?
+> >
+> > So... I have a feeling this will have PTEs pointing to 0 refcount
+> > pages? Unless FSDAX is !pte_devmap which is not the case, right?
+> >
+> > This seems further confirmed by this comment:
+> >
+> >       /*
+> >        * If we race get_user_pages_fast() here either we'll see the
+> >        * elevated page count in the iteration and wait, or
+> >        * get_user_pages_fast() will see that the page it took a reference
+> >        * against is no longer mapped in the page tables and bail to the
+> >        * get_user_pages() slow path.  The slow path is protected by
+> >        * pte_lock() and pmd_lock(). New references are not taken without
+> >        * holding those locks, and unmap_mapping_pages() will not zero the
+> >        * pte or pmd without holding the respective lock, so we are
+> >        * guaranteed to either see new references or prevent new
+> >        * references from being established.
+> >        */
+> >
+> > Which seems to explain this scheme relies on unmap_mapping_pages() to
+> > fence GUP_fast, not on GUP_fast observing 0 refcounts when it should
+> > stop.
+> >
+> > This seems like it would be properly fixed by using normal page
+> > refcounting for PTEs - ie stop using special for these pages?
+> >
+> > Does anyone know why devmap is pte_special anyhow?
 
-Yes, this can be dropped as num_siblings must be 1. I think this was
-copied and pasted from the GuC code where num_siblings could be more
-than 1. Will fixup in a standalone patch after we merge the GuC parallel
-submission.
+It does not need to be special as mentioned here:
 
-Matt
+https://lore.kernel.org/all/CAPcyv4iFeVDVPn6uc=aKsyUvkiu3-fK-N16iJVZQ3N8oT00hWA@mail.gmail.com/
 
-> John.
-> 
-> 
-> > +
-> > +		ce = intel_context_create(siblings[0]);
-> > +		if (!ce) {
-> > +			err = ERR_PTR(-ENOMEM);
-> > +			goto unwind;
-> > +		}
-> > +
-> > +		if (i == 0)
-> > +			parent = ce;
-> > +		else
-> > +			intel_context_bind_parent_child(parent, ce);
-> > +	}
-> > +
-> > +	parent->parallel.fence_context = dma_fence_context_alloc(1);
-> > +
-> > +	intel_context_set_nopreempt(parent);
-> > +	intel_context_set_single_submission(parent);
-> > +	for_each_child(parent, ce) {
-> > +		intel_context_set_nopreempt(ce);
-> > +		intel_context_set_single_submission(ce);
-> > +	}
-> > +
-> > +	kfree(siblings);
-> > +	return parent;
-> > +
-> > +unwind:
-> > +	if (parent)
-> > +		intel_context_put(parent);
-> > +	kfree(siblings);
-> > +	return err;
-> > +}
-> > +
-> >   static const struct intel_context_ops execlists_context_ops = {
-> >   	.flags = COPS_HAS_INFLIGHT,
-> > @@ -2616,6 +2667,7 @@ static const struct intel_context_ops execlists_context_ops = {
-> >   	.reset = lrc_reset,
-> >   	.destroy = lrc_destroy,
-> > +	.create_parallel = execlists_create_parallel,
-> >   	.create_virtual = execlists_create_virtual,
-> >   };
-> > diff --git a/drivers/gpu/drm/i915/gt/intel_lrc.c b/drivers/gpu/drm/i915/gt/intel_lrc.c
-> > index 56156cf18c41..70f4b309522d 100644
-> > --- a/drivers/gpu/drm/i915/gt/intel_lrc.c
-> > +++ b/drivers/gpu/drm/i915/gt/intel_lrc.c
-> > @@ -1065,6 +1065,8 @@ lrc_pin(struct intel_context *ce,
-> >   void lrc_unpin(struct intel_context *ce)
-> >   {
-> > +	if (unlikely(ce->parallel.last_rq))
-> > +		i915_request_put(ce->parallel.last_rq);
-> >   	check_redzone((void *)ce->lrc_reg_state - LRC_STATE_OFFSET,
-> >   		      ce->engine);
-> >   }
-> > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> > index d7710debcd47..145ffe265305 100644
-> > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> > @@ -2960,8 +2960,6 @@ static void guc_parent_context_unpin(struct intel_context *ce)
-> >   	GEM_BUG_ON(!intel_context_is_parent(ce));
-> >   	GEM_BUG_ON(!intel_engine_is_virtual(ce->engine));
-> > -	if (ce->parallel.last_rq)
-> > -		i915_request_put(ce->parallel.last_rq);
-> >   	unpin_guc_id(guc, ce);
-> >   	lrc_unpin(ce);
-> >   }
-> 
+The refcount dependencies also go away after this...
+
+https://lore.kernel.org/all/161604050866.1463742.7759521510383551055.stgit@dwillia2-desk3.amr.corp.intel.com/
+
+...but you can see that patches 1 and 2 in that series depend on being
+able to guarantee that all mappings are invalidated when the undelying
+device that owns the pgmap goes away.
+
+For that to happen there needs to be communication back to the FS for
+device-gone / failure events. That work is in progress via this
+series:
+
+https://lore.kernel.org/all/20210924130959.2695749-1-ruansy.fnst@fujitsu.com/
+
+So there's a path to unwind this awkwardness, but it needs some
+dominoes to fall first as far as I can see. My current focus is
+getting Shiyang's series unblocked.
