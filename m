@@ -1,33 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A71A042E05D
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Oct 2021 19:47:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 356F742E059
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Oct 2021 19:47:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 34C456E88E;
-	Thu, 14 Oct 2021 17:47:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 17BED6E1B7;
+	Thu, 14 Oct 2021 17:47:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6928F6E817;
- Thu, 14 Oct 2021 17:47:44 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10137"; a="291231650"
-X-IronPort-AV: E=Sophos;i="5.85,373,1624345200"; d="scan'208";a="291231650"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA1506E1B7;
+ Thu, 14 Oct 2021 17:47:43 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10137"; a="291231651"
+X-IronPort-AV: E=Sophos;i="5.85,373,1624345200"; d="scan'208";a="291231651"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  14 Oct 2021 10:25:04 -0700
-X-IronPort-AV: E=Sophos;i="5.85,373,1624345200"; d="scan'208";a="481360479"
+X-IronPort-AV: E=Sophos;i="5.85,373,1624345200"; d="scan'208";a="481360485"
 Received: from jons-linux-dev-box.fm.intel.com ([10.1.27.20])
  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Oct 2021 10:25:01 -0700
+ 14 Oct 2021 10:25:02 -0700
 From: Matthew Brost <matthew.brost@intel.com>
 To: <intel-gfx@lists.freedesktop.org>,
 	<dri-devel@lists.freedesktop.org>
 Cc: <john.c.harrison@intel.com>
-Subject: [PATCH 21/25] drm/i915/guc: Handle errors in multi-lrc requests
-Date: Thu, 14 Oct 2021 10:20:01 -0700
-Message-Id: <20211014172005.27155-22-matthew.brost@intel.com>
+Subject: [PATCH 22/25] drm/i915: Make request conflict tracking understand
+ parallel submits
+Date: Thu, 14 Oct 2021 10:20:02 -0700
+Message-Id: <20211014172005.27155-23-matthew.brost@intel.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20211014172005.27155-1-matthew.brost@intel.com>
 References: <20211014172005.27155-1-matthew.brost@intel.com>
@@ -48,129 +49,103 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If an error occurs in the front end when multi-lrc requests are getting
-generated we need to skip these in the backend but we still need to
-emit the breadcrumbs seqno. An issues arises because with multi-lrc
-breadcrumbs there is a handshake between the parent and children to make
-forward progress. If all the requests are not present this handshake
-doesn't work. To work around this, if multi-lrc request has an error we
-skip the handshake but still emit the breadcrumbs seqno.
+If an object in the excl or shared slot is a composite fence from a
+parallel submit and the current request in the conflict tracking is from
+the same parallel context there is no need to enforce ordering as the
+ordering is already implicit. Make the request conflict tracking
+understand this by comparing a parallel submit's parent context and
+skipping conflict insertion if the values match.
 
 v2:
  (John Harrison)
-  - Add comment explaining the skipping of the handshake logic
-  - Fix typos in the commit message
-v3:
- (John Harrison)
-  - Fix up some comments about the math to NOP the ring
+  - Reword commit message
 
 Signed-off-by: Matthew Brost <matthew.brost@intel.com>
 Reviewed-by: John Harrison <John.C.Harrison@Intel.com>
 ---
- .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 69 ++++++++++++++++++-
- 1 file changed, 66 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/i915/i915_request.c | 43 +++++++++++++++++++----------
+ 1 file changed, 29 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-index 361fab2cae99..d7710debcd47 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-@@ -4070,8 +4070,8 @@ static int emit_bb_start_child_no_preempt_mid_batch(struct i915_request *rq,
+diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
+index 8bdf9f2f9b90..820a1f38b271 100644
+--- a/drivers/gpu/drm/i915/i915_request.c
++++ b/drivers/gpu/drm/i915/i915_request.c
+@@ -1335,6 +1335,25 @@ i915_request_await_external(struct i915_request *rq, struct dma_fence *fence)
+ 	return err;
  }
  
- static u32 *
--emit_fini_breadcrumb_parent_no_preempt_mid_batch(struct i915_request *rq,
--						 u32 *cs)
-+__emit_fini_breadcrumb_parent_no_preempt_mid_batch(struct i915_request *rq,
-+						   u32 *cs)
- {
- 	struct intel_context *ce = rq->context;
- 	u8 i;
-@@ -4099,6 +4099,45 @@ emit_fini_breadcrumb_parent_no_preempt_mid_batch(struct i915_request *rq,
- 				  get_children_go_addr(ce),
- 				  0);
++static inline bool is_parallel_rq(struct i915_request *rq)
++{
++	return intel_context_is_parallel(rq->context);
++}
++
++static inline struct intel_context *request_to_parent(struct i915_request *rq)
++{
++	return intel_context_to_parent(rq->context);
++}
++
++static bool is_same_parallel_context(struct i915_request *to,
++				     struct i915_request *from)
++{
++	if (is_parallel_rq(to))
++		return request_to_parent(to) == request_to_parent(from);
++
++	return false;
++}
++
+ int
+ i915_request_await_execution(struct i915_request *rq,
+ 			     struct dma_fence *fence)
+@@ -1366,11 +1385,14 @@ i915_request_await_execution(struct i915_request *rq,
+ 		 * want to run our callback in all cases.
+ 		 */
  
-+	return cs;
-+}
-+
-+/*
-+ * If this true, a submission of multi-lrc requests had an error and the
-+ * requests need to be skipped. The front end (execuf IOCTL) should've called
-+ * i915_request_skip which squashes the BB but we still need to emit the fini
-+ * breadrcrumbs seqno write. At this point we don't know how many of the
-+ * requests in the multi-lrc submission were generated so we can't do the
-+ * handshake between the parent and children (e.g. if 4 requests should be
-+ * generated but 2nd hit an error only 1 would be seen by the GuC backend).
-+ * Simply skip the handshake, but still emit the breadcrumbd seqno, if an error
-+ * has occurred on any of the requests in submission / relationship.
-+ */
-+static inline bool skip_handshake(struct i915_request *rq)
-+{
-+	return test_bit(I915_FENCE_FLAG_SKIP_PARALLEL, &rq->fence.flags);
-+}
-+
-+static u32 *
-+emit_fini_breadcrumb_parent_no_preempt_mid_batch(struct i915_request *rq,
-+						 u32 *cs)
-+{
-+	struct intel_context *ce = rq->context;
-+
-+	GEM_BUG_ON(!intel_context_is_parent(ce));
-+
-+	if (unlikely(skip_handshake(rq))) {
-+		/*
-+		 * NOP everything in __emit_fini_breadcrumb_parent_no_preempt_mid_batch,
-+		 * the -6 comes from the length of the emits below.
-+		 */
-+		memset(cs, 0, sizeof(u32) *
-+		       (ce->engine->emit_fini_breadcrumb_dw - 6));
-+		cs += ce->engine->emit_fini_breadcrumb_dw - 6;
-+	} else {
-+		cs = __emit_fini_breadcrumb_parent_no_preempt_mid_batch(rq, cs);
-+	}
-+
- 	/* Emit fini breadcrumb */
- 	cs = gen8_emit_ggtt_write(cs,
- 				  rq->fence.seqno,
-@@ -4115,7 +4154,8 @@ emit_fini_breadcrumb_parent_no_preempt_mid_batch(struct i915_request *rq,
+-		if (dma_fence_is_i915(fence))
++		if (dma_fence_is_i915(fence)) {
++			if (is_same_parallel_context(rq, to_request(fence)))
++				continue;
+ 			ret = __i915_request_await_execution(rq,
+ 							     to_request(fence));
+-		else
++		} else {
+ 			ret = i915_request_await_external(rq, fence);
++		}
+ 		if (ret < 0)
+ 			return ret;
+ 	} while (--nchild);
+@@ -1471,10 +1493,13 @@ i915_request_await_dma_fence(struct i915_request *rq, struct dma_fence *fence)
+ 						 fence))
+ 			continue;
+ 
+-		if (dma_fence_is_i915(fence))
++		if (dma_fence_is_i915(fence)) {
++			if (is_same_parallel_context(rq, to_request(fence)))
++				continue;
+ 			ret = i915_request_await_request(rq, to_request(fence));
+-		else
++		} else {
+ 			ret = i915_request_await_external(rq, fence);
++		}
+ 		if (ret < 0)
+ 			return ret;
+ 
+@@ -1525,16 +1550,6 @@ i915_request_await_object(struct i915_request *to,
+ 	return ret;
  }
  
- static u32 *
--emit_fini_breadcrumb_child_no_preempt_mid_batch(struct i915_request *rq, u32 *cs)
-+__emit_fini_breadcrumb_child_no_preempt_mid_batch(struct i915_request *rq,
-+						  u32 *cs)
- {
- 	struct intel_context *ce = rq->context;
- 	struct intel_context *parent = intel_context_to_parent(ce);
-@@ -4142,6 +4182,29 @@ emit_fini_breadcrumb_child_no_preempt_mid_batch(struct i915_request *rq, u32 *cs
- 	*cs++ = get_children_go_addr(parent);
- 	*cs++ = 0;
- 
-+	return cs;
-+}
-+
-+static u32 *
-+emit_fini_breadcrumb_child_no_preempt_mid_batch(struct i915_request *rq,
-+						u32 *cs)
-+{
-+	struct intel_context *ce = rq->context;
-+
-+	GEM_BUG_ON(!intel_context_is_child(ce));
-+
-+	if (unlikely(skip_handshake(rq))) {
-+		/*
-+		 * NOP everything in __emit_fini_breadcrumb_child_no_preempt_mid_batch,
-+		 * the -6 comes from the length of the emits below.
-+		 */
-+		memset(cs, 0, sizeof(u32) *
-+		       (ce->engine->emit_fini_breadcrumb_dw - 6));
-+		cs += ce->engine->emit_fini_breadcrumb_dw - 6;
-+	} else {
-+		cs = __emit_fini_breadcrumb_child_no_preempt_mid_batch(rq, cs);
-+	}
-+
- 	/* Emit fini breadcrumb */
- 	cs = gen8_emit_ggtt_write(cs,
- 				  rq->fence.seqno,
+-static inline bool is_parallel_rq(struct i915_request *rq)
+-{
+-	return intel_context_is_parallel(rq->context);
+-}
+-
+-static inline struct intel_context *request_to_parent(struct i915_request *rq)
+-{
+-	return intel_context_to_parent(rq->context);
+-}
+-
+ static struct i915_request *
+ __i915_request_ensure_parallel_ordering(struct i915_request *rq,
+ 					struct intel_timeline *timeline)
 -- 
 2.32.0
 
