@@ -1,52 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A46B42DB1D
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Oct 2021 16:07:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0065142DB35
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Oct 2021 16:11:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B67E6EB11;
-	Thu, 14 Oct 2021 14:06:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1DBF66EB18;
+	Thu, 14 Oct 2021 14:11:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
- [IPv6:2a00:1450:4864:20::129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5DC7C6EB11
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Oct 2021 14:06:57 +0000 (UTC)
-Received: by mail-lf1-x129.google.com with SMTP id y15so27614112lfk.7
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Oct 2021 07:06:57 -0700 (PDT)
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
+ [IPv6:2a00:1450:4864:20::130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 62F6F6EB18
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Oct 2021 14:11:42 +0000 (UTC)
+Received: by mail-lf1-x130.google.com with SMTP id x27so27345173lfa.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Oct 2021 07:11:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=NmsJjrVQJSlytBdvRLJ3ylqzzRy6zWoqsrRac2baw+c=;
- b=sb7T7XzNrVtwl4mRGWO4qD1nEdPKy7Kx1pkV2JH/REWHrjss75eGRBgsiRxcUq70Ao
- puQfNnsGz8tgygFBblTZcnT/TfI3yPsuZQFtJDZGRVqsNtXpAOSuI+pJMbJPu7l5ilV7
- A09cLsg/I4Q1NYjIqXx+ea4pyz9bWDfko1Pg04XELVMJ8rxjos5O97yIhYjaKfXB+xDL
- YQtmmszU1/L43CHRHa98ZKfGkIKXxNbzFtlLhy7IRGdbfy5XZqd+MIMHsIQN1xutcjVY
- Azh+cVR3qkIeHjmarxZ/RyeptC0WO27fpFKhsKCLHVyGFYXBSj0IcBgtoFWzF7OuFqxt
- Y4tg==
+ bh=Dz1BtAV2YCICCCENmgsdfWY3o4zWzERdcu0Eo2dtfD4=;
+ b=jpg5ZXbRALieaGk/qsz3ib4Lb8BrDMsMRt2rh7a8I3Caa5BeKM5Ni6G6xGOocUp6+k
+ tLUdE5/mtv/6NfcBOxm/OUeRgrsXJeU508glRrOyIR7Q5+8a1mElSMMKqQy/WLWEoA5s
+ e2PMgdDEHWjCPe40GR/WAs1pIEdBzCwnCWlNnTEij7a3klzlEts4s+F3CrCSgLsP1Ffl
+ bOX5isL4l3wl5XzbIJPIJJD4VwiYDQgaNfv0XFKLJHoT2gohsjrtJzhYu8h8xDWLzz96
+ OEG/3XaYB/ByuuQfcgV5QqQsA3QKJTWifFuSKQoNuZDPsvsb0NbeXxqaUMYIHk5+4bev
+ SwJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=NmsJjrVQJSlytBdvRLJ3ylqzzRy6zWoqsrRac2baw+c=;
- b=TMhmW2I5nYjynujTYVYkkm6OQM5uPi61/sbL62/1j06KdmSwhg8OVZzZbF8hr8M9ML
- 983otFIF4mszp/9wOxb0PtV0y4gx4xuXpVrJYv+sOJSmvSI6nDoGWlCvUme/AUaylDdv
- uq8eIaaCWC3okW3aWLRJznKUdDUaOdUh7ZDq64HFcIjGncYcoznCBxN+ajLB/ocm0OIc
- e0I7iIQuYiAkMtvdJ6xQ2OR5swUZyzC8fTJlP8NNYjaUdIHvK/5hVEmnmYb40WUQf+cw
- D7TrsfQE1npTQAPmTTAej3C367JdZ5Ampw8w3ci1sqLcBYZkdlgB9pGpV2cVIsEU11wz
- sU/A==
-X-Gm-Message-State: AOAM530taPVFff/0H7k9K4BqvEO8WcaeRRG0QaDsYFFyGkBZ0eCc4ylm
- n7gx97U/rZvjYO2UzOcf8cfqrA==
-X-Google-Smtp-Source: ABdhPJyxK3AwQzRzBtxFgS1FXOW7JElIYl5Bz3tyIwNYJjqtzC/ecfpq6sVRYwHf92Tb20np6K9jIQ==
-X-Received: by 2002:a2e:9e15:: with SMTP id e21mr6291412ljk.351.1634220415573; 
- Thu, 14 Oct 2021 07:06:55 -0700 (PDT)
+ bh=Dz1BtAV2YCICCCENmgsdfWY3o4zWzERdcu0Eo2dtfD4=;
+ b=XPkh/k9qERW6zp+3ZC9pVTK2ZrxrbQ5oSwoMYm0vUZf5wNMECelVVL68GMy6phOani
+ pqnWPWf0xP8qemBvsnfNOfE+z0GtMJjS9DSuJ+83Qk/8J8E7y3gAIsKfay6gxU298d2U
+ Uynscu+5Ig790Eqn2FoMZ5NmtaMwLKSaGO3bDMOJ3jWo7vVqZkTSkhJE5vl3sKQG+z+y
+ K7XM/j7/BoTD6Kns3CZhypKbIx952CHVsluJXwi8hksKwqXAvBY+YxNSndoLa/sRFWdN
+ 6tSIVNkQVNv9qBaU//0ogd8Nx2d/rwQQ2+pdEj07AB32rOCbrDbZura05GFgxNMDrDA5
+ WkQg==
+X-Gm-Message-State: AOAM530oXTO8bHKfJURWN7Mt9vkO4pK22k5itxNLIzRDAqQUg8kzyL0e
+ 8RlwsP81MG5Ezk3m7T7+nofKSQ==
+X-Google-Smtp-Source: ABdhPJz1I3MiQCqr6HR734lVC8G1ofaoeGqwLziOfnKGPQRfM6TphExVPw35yrt4mBmr+c3DHfRPGw==
+X-Received: by 2002:a2e:1f12:: with SMTP id f18mr6183857ljf.464.1634220699569; 
+ Thu, 14 Oct 2021 07:11:39 -0700 (PDT)
 Received: from [192.168.1.211] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id d6sm234448lfi.137.2021.10.14.07.06.54
+ by smtp.gmail.com with ESMTPSA id l5sm182509lje.33.2021.10.14.07.11.38
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 14 Oct 2021 07:06:54 -0700 (PDT)
-Subject: Re: [PATCH v2 07/11] drm/msm/disp/dpu1: Add DSC support in hw_ctl
+ Thu, 14 Oct 2021 07:11:39 -0700 (PDT)
+Subject: Re: [PATCH v2 04/11] drm/msm/disp/dpu1: Add DSC support in RM
 To: Vinod Koul <vkoul@kernel.org>, Rob Clark <robdclark@gmail.com>
 Cc: linux-arm-msm@vger.kernel.org,
  Bjorn Andersson <bjorn.andersson@linaro.org>, David Airlie
@@ -56,14 +56,14 @@ Cc: linux-arm-msm@vger.kernel.org,
  Sumit Semwal <sumit.semwal@linaro.org>, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
 References: <20211007070900.456044-1-vkoul@kernel.org>
- <20211007070900.456044-8-vkoul@kernel.org>
+ <20211007070900.456044-5-vkoul@kernel.org>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Message-ID: <f5f6162c-7ed0-2964-7cf9-0bb894c8b4f5@linaro.org>
-Date: Thu, 14 Oct 2021 17:06:53 +0300
+Message-ID: <d249d880-1137-d5cc-6d96-83a730f7de29@linaro.org>
+Date: Thu, 14 Oct 2021 17:11:38 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <20211007070900.456044-8-vkoul@kernel.org>
+In-Reply-To: <20211007070900.456044-5-vkoul@kernel.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
@@ -83,84 +83,171 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 07/10/2021 10:08, Vinod Koul wrote:
-> Later gens of hardware have DSC bits moved to hw_ctl, so configure these
-> bits so that DSC would work there as well
+> This add the bits in RM to enable the DSC blocks
 > 
 > Signed-off-by: Vinod Koul <vkoul@kernel.org>
 > ---
 > Changes since
 > v1:
->   - Move this patch from 6 to 7 due to dependency on 6th one
->   - Use DSC indices for programming DSC registers and program only on non
->     null indices
+>   - Add _dpu_rm_reserve_dsc() function which checks if DSC is enabled
+>   - Fix to use dsc_blks
 > 
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c | 12 ++++++++++--
->   1 file changed, 10 insertions(+), 2 deletions(-)
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h |  1 +
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c  | 61 +++++++++++++++++++++++++
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h  |  1 +
+>   3 files changed, 63 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-> index 3c79bd9c2fe5..8ea9d8dce3f7 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-> @@ -25,6 +25,8 @@
->   #define   CTL_MERGE_3D_ACTIVE           0x0E4
->   #define   CTL_INTF_ACTIVE               0x0F4
->   #define   CTL_MERGE_3D_FLUSH            0x100
-> +#define   CTL_DSC_ACTIVE                0x0E8
-> +#define   CTL_DSC_FLUSH                0x104
->   #define   CTL_INTF_FLUSH                0x110
->   #define   CTL_INTF_MASTER               0x134
->   #define   CTL_FETCH_PIPE_ACTIVE         0x0FC
-> @@ -34,6 +36,7 @@
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
+> index 323a6bce9e64..da646817585d 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
+> @@ -159,6 +159,7 @@ struct dpu_global_state {
+>   	uint32_t ctl_to_enc_id[CTL_MAX - CTL_0];
+>   	uint32_t intf_to_enc_id[INTF_MAX - INTF_0];
+>   	uint32_t dspp_to_enc_id[DSPP_MAX - DSPP_0];
+> +	uint32_t dsc_to_enc_id[DSC_MAX - DSC_0];
+>   };
 >   
->   #define DPU_REG_RESET_TIMEOUT_US        2000
->   #define  MERGE_3D_IDX   23
-> +#define  DSC_IDX        22
->   #define  INTF_IDX       31
->   #define CTL_INVALID_BIT                 0xffff
+>   struct dpu_global_state
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+> index f9c83d6e427a..95bdabc16280 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+> @@ -11,6 +11,7 @@
+>   #include "dpu_hw_intf.h"
+>   #include "dpu_hw_dspp.h"
+>   #include "dpu_hw_merge3d.h"
+> +#include "dpu_hw_dsc.h"
+>   #include "dpu_encoder.h"
+>   #include "dpu_trace.h"
 >   
-> @@ -120,7 +123,6 @@ static u32 dpu_hw_ctl_get_pending_flush(struct dpu_hw_ctl *ctx)
->   
->   static void dpu_hw_ctl_trigger_flush_v1(struct dpu_hw_ctl *ctx)
->   {
-> -
->   	if (ctx->pending_flush_mask & BIT(MERGE_3D_IDX))
->   		DPU_REG_WRITE(&ctx->hw, CTL_MERGE_3D_FLUSH,
->   				ctx->pending_merge_3d_flush_mask);
-> @@ -128,7 +130,6 @@ static void dpu_hw_ctl_trigger_flush_v1(struct dpu_hw_ctl *ctx)
->   		DPU_REG_WRITE(&ctx->hw, CTL_INTF_FLUSH,
->   				ctx->pending_intf_flush_mask);
->   
-> -	DPU_REG_WRITE(&ctx->hw, CTL_FLUSH, ctx->pending_flush_mask);
-
-This would break non-DSC case.
-
->   }
->   
->   static inline void dpu_hw_ctl_trigger_flush(struct dpu_hw_ctl *ctx)
-> @@ -498,6 +499,9 @@ static void dpu_hw_ctl_intf_cfg_v1(struct dpu_hw_ctl *ctx,
->   	u32 intf_active = 0;
->   	u32 mode_sel = 0;
->   
-> +	if (cfg->dsc)
-> +		DPU_REG_WRITE(&ctx->hw, CTL_DSC_FLUSH, cfg->dsc);
+> @@ -75,6 +76,14 @@ int dpu_rm_destroy(struct dpu_rm *rm)
+>   			dpu_hw_intf_destroy(hw);
+>   		}
+>   	}
+> +	for (i = 0; i < ARRAY_SIZE(rm->dsc_blks); i++) {
+> +		struct dpu_hw_dsc *hw;
 > +
->   	if (cfg->intf_mode_sel == DPU_CTL_MODE_SEL_CMD)
->   		mode_sel |= BIT(17);
->   
-> @@ -509,6 +513,10 @@ static void dpu_hw_ctl_intf_cfg_v1(struct dpu_hw_ctl *ctx,
->   	if (cfg->merge_3d)
->   		DPU_REG_WRITE(c, CTL_MERGE_3D_ACTIVE,
->   			      BIT(cfg->merge_3d - MERGE_3D_0));
-> +	if (cfg->dsc) {
-> +		DPU_REG_WRITE(&ctx->hw, CTL_FLUSH, ctx->pending_flush_mask |  BIT(DSC_IDX));
-
-Why?
-
-> +		DPU_REG_WRITE(c, CTL_DSC_ACTIVE, cfg->dsc);
+> +		if (rm->dsc_blks[i]) {
+> +			hw = to_dpu_hw_dsc(rm->dsc_blks[i]);
+> +			dpu_hw_dsc_destroy(hw);
+> +		}
 > +	}
+>   
+>   	return 0;
+>   }
+> @@ -221,6 +230,19 @@ int dpu_rm_init(struct dpu_rm *rm,
+>   		rm->dspp_blks[dspp->id - DSPP_0] = &hw->base;
+>   	}
+>   
+> +	for (i = 0; i < cat->dsc_count; i++) {
+> +		struct dpu_hw_dsc *hw;
+> +		const struct dpu_dsc_cfg *dsc = &cat->dsc[i];
+> +
+> +		hw = dpu_hw_dsc_init(dsc->id, mmio, cat);
+> +		if (IS_ERR_OR_NULL(hw)) {
+> +			rc = PTR_ERR(hw);
+> +			DPU_ERROR("failed dsc object creation: err %d\n", rc);
+> +			goto fail;
+> +		}
+> +		rm->dsc_blks[dsc->id - DSC_0] = &hw->base;
+> +	}
+> +
+>   	return 0;
+>   
+>   fail:
+> @@ -476,6 +498,7 @@ static int _dpu_rm_reserve_intf(
+>   	}
+>   
+>   	global_state->intf_to_enc_id[idx] = enc_id;
+> +
+>   	return 0;
 >   }
 >   
->   static void dpu_hw_ctl_intf_cfg(struct dpu_hw_ctl *ctx,
+> @@ -500,6 +523,33 @@ static int _dpu_rm_reserve_intf_related_hw(
+>   	return ret;
+>   }
+>   
+> +static int _dpu_rm_reserve_dsc(struct dpu_rm *rm,
+> +			       struct dpu_global_state *global_state,
+> +			       struct drm_encoder *enc)
+> +{
+> +	struct msm_drm_private *priv;
+> +
+> +	priv = enc->dev->dev_private;
+> +
+> +	if (!priv)
+> +		return -EIO;
+> +
+> +	/* check if DSC is supported */
+> +	if (!priv->dsc)
+> +		return 0;
+> +
+> +	/* check if DSC 0 & 1 and allocated or not */
+> +	if (global_state->dsc_to_enc_id[0] || global_state->dsc_to_enc_id[1]) {
+> +		DPU_ERROR("DSC 0|1 is already allocated\n");
+> +		return -EIO;
+> +	}
+> +
+> +	global_state->dsc_to_enc_id[0] = enc->base.id;
+> +	global_state->dsc_to_enc_id[1] = enc->base.id;
+
+Still hardcoding DSC_0 and DSC_1.
+
+Could you please add num_dsc to the topology and allocate the requested 
+amount of DSC blocks? Otherwise this would break for the DSI + DP case.
+
+> +
+> +	return 0;
+> +}
+> +
+>   static int _dpu_rm_make_reservation(
+>   		struct dpu_rm *rm,
+>   		struct dpu_global_state *global_state,
+> @@ -526,6 +576,10 @@ static int _dpu_rm_make_reservation(
+>   	if (ret)
+>   		return ret;
+>   
+> +	ret  = _dpu_rm_reserve_dsc(rm, global_state, enc);
+> +	if (ret)
+> +		return ret;
+> +
+>   	return ret;
+>   }
+>   
+> @@ -567,6 +621,8 @@ void dpu_rm_release(struct dpu_global_state *global_state,
+>   		ARRAY_SIZE(global_state->ctl_to_enc_id), enc->base.id);
+>   	_dpu_rm_clear_mapping(global_state->intf_to_enc_id,
+>   		ARRAY_SIZE(global_state->intf_to_enc_id), enc->base.id);
+> +	_dpu_rm_clear_mapping(global_state->dsc_to_enc_id,
+> +		ARRAY_SIZE(global_state->dsc_to_enc_id), enc->base.id);
+>   }
+>   
+>   int dpu_rm_reserve(
+> @@ -640,6 +696,11 @@ int dpu_rm_get_assigned_resources(struct dpu_rm *rm,
+>   		hw_to_enc_id = global_state->dspp_to_enc_id;
+>   		max_blks = ARRAY_SIZE(rm->dspp_blks);
+>   		break;
+> +	case DPU_HW_BLK_DSC:
+> +		hw_blks = rm->dsc_blks;
+> +		hw_to_enc_id = global_state->dsc_to_enc_id;
+> +		max_blks = ARRAY_SIZE(rm->dsc_blks);
+> +		break;
+>   	default:
+>   		DPU_ERROR("blk type %d not managed by rm\n", type);
+>   		return 0;
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
+> index 1f12c8d5b8aa..278d2a510b80 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
+> @@ -30,6 +30,7 @@ struct dpu_rm {
+>   	struct dpu_hw_blk *intf_blks[INTF_MAX - INTF_0];
+>   	struct dpu_hw_blk *dspp_blks[DSPP_MAX - DSPP_0];
+>   	struct dpu_hw_blk *merge_3d_blks[MERGE_3D_MAX - MERGE_3D_0];
+> +	struct dpu_hw_blk *dsc_blks[DSC_MAX - DSC_0];
+>   
+>   	uint32_t lm_max_width;
+>   };
 > 
 
 
