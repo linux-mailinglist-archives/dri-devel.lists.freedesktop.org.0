@@ -2,143 +2,117 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA86842E003
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Oct 2021 19:24:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38A5B42DFEE
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Oct 2021 19:06:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF5FF6E0C2;
-	Thu, 14 Oct 2021 17:24:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A4486E1B4;
+	Thu, 14 Oct 2021 17:06:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D49BC6E0C2;
- Thu, 14 Oct 2021 17:24:22 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10137"; a="207851563"
-X-IronPort-AV: E=Sophos;i="5.85,373,1624345200"; d="scan'208";a="207851563"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Oct 2021 09:56:28 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.85,372,1624345200"; d="scan'208";a="461258556"
-Received: from orsmsx606.amr.corp.intel.com ([10.22.229.19])
- by orsmga002.jf.intel.com with ESMTP; 14 Oct 2021 09:56:27 -0700
-Received: from orsmsx602.amr.corp.intel.com (10.22.229.15) by
- ORSMSX606.amr.corp.intel.com (10.22.229.19) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Thu, 14 Oct 2021 09:56:27 -0700
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12 via Frontend Transport; Thu, 14 Oct 2021 09:56:27 -0700
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.101)
- by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2242.12; Thu, 14 Oct 2021 09:56:27 -0700
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2044.outbound.protection.outlook.com [40.107.220.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0AD466E1B4;
+ Thu, 14 Oct 2021 17:06:38 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hesnqhG8jtRov9VIgEOLvrnVj7HigQz7saPa+7h5ubWw23wFyvcSdue+kNFrElnFv2Dh4FWPD1yC4FZXzHFyL45mHVboIcS2FiUZlUe3q6GsPIgVyYAJUVjcn733T+ElusEd8mOlm/kig4QY+FNEQexJ88YH+YdU4Q1a02F1JfWuIGilzUaRGY9Oj5nOM82blRXLdbji44XaHQ+vtG49089Ph4I3JRe4UXbk1ESgK1Md4kcjrC1p8Sz6guX7IpbruhD0fjS2laXCcbb8Ee6bvyecRzG7mb9Ror8d/3lAFeXsuVToOcmbi37hBVOvg4vlZiAD5FLOr1X2Vct9l58GuQ==
+ b=Oa+GBbwMF3YZT1ZvR43nB0m3AphHYF6FG0I7/jFNX2aZKWcbcb/gQ65LVAMzrH5rSeovCAnj58xeFO9g6EtPv5GIbi1d/BskfjALUt6kuGrHew9Dn7MDnS62xqmOq9tqJ+lrVER9Fn/5ln5oBmd/e/ssjDNut9ySIei7zf4Q7rugTMG3QVLAKDRdIEsxLOX6x6lC2t86z+vFLW/IVV1+BicGde+NLeensS7ARKdceBZMF7JOA2ta3eWgcJMfY5mitkPT8AjWP4p60VFSolzeDEbGrlo66BA8Juz9DV8U8FVlcVQSfKdDsZV9ssi84X5zZRZs1loxwymnUU16oP8TDQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8dZuD8swQr2eAnbdxygaFk8hXu0CZJE/yob+PUrwS4o=;
- b=c6pwro1Y4qDpg8JtW8oNA9HGgjaGC+7vMndzqXN42wBPUwnk+5PEXUrQ+1x5weeMXao5HRuEavfMqpsuAaDnqG4WbH3T83agI0pz8BZLalTjWy+0iUCJxuWB6/7yK3qATf4cTezAhHWt55zH0qTuVVagHWGLSBZ+k815Esg77FQoooRVUX7pu/82cdiPgav7OUO2vcISXS34WJDXBE+3s4cK3eCGgTzedL/N+xa+AUYdwiRiSNQxrrOqRjBrieRF33OWVi8eRtFXTatDWwicwtB0aMM59qlfwXpUBrmA3YWrw94VtTuSV3O4Y+dzTGXzvDdRbvT5QzBT34BtnV7yrQ==
+ bh=s1rFXrxB+epYZ/KH+r27A/8S6iW7EtjjrbKRH3annzE=;
+ b=fo9a1a45JXu2BG6ZpFqSxxIpqo7rzMGJG88zkTHsnUwCpKkUDVeCAyTzhCSNJxJi20/brlF93v/iR+X0CftsqT5xWdzTKDY8dQUYEm8jqFi3CvPJVlslwEP7IhmFQXnlk4dTpuGdWj7gY9Hm1doADBGOZleFDQZqxhtGlq74JkU+M68h6Fmh69nGwAMv4AntT0cfWj/sOjD2CX9wCh38ckbEPG9RVssbm/R9DZ4lOWjZN41JOccErPjXFLqzFVj6cpE3CeV4tq3Tp86pALsGBtrbteW/Kpufm1KA1mVxrPRyuZD3+fuhWszTRfjhRGG0gguYzvR0S+tc7TMBdshUmw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
- s=selector2-intel-onmicrosoft-com;
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8dZuD8swQr2eAnbdxygaFk8hXu0CZJE/yob+PUrwS4o=;
- b=T1r5OBFJ0d6l9HnaHdYdJT8VBZqld6BZxjy8Nalr72EImo0JkQY7GZB3YXIDHKGYG5kQiJAjAiQ0lZn4ckJLaoP8ZyM9RsAVHo1gdBc+vXdmSCU+RVT3iaisub4SvQQ91DR7ioVSAbjmBYbj1OmI8a1deisoZU4D0Mj+nTfYye0=
-Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
- header.d=none; lists.freedesktop.org;
- dmarc=none action=none header.from=intel.com;
-Received: from PH0PR11MB5642.namprd11.prod.outlook.com (2603:10b6:510:e5::13)
- by PH0PR11MB5579.namprd11.prod.outlook.com (2603:10b6:510:e6::10)
+ bh=s1rFXrxB+epYZ/KH+r27A/8S6iW7EtjjrbKRH3annzE=;
+ b=lFHPx8VUyaIh3eTy/czwGBxS/HEsYuYzqHTeAxjuntim9E43wd5mXgKJWZYvTaOzamfvpBc+L1xxNzfAN/Omll13nBSSic17+4YDQplaM3YHgLC8MaebQdNkhLcZP8vP5qIdzjIztYo4bw5YCrrLVLgEIU6XI5PCGX7foN7vtdnCvFCQtGXsdNZ/3eut1ssP+W+RqCXKnEBcE2WP09AsI4VUPEtA7TmWIuGMZAF8GNhuk4XHZRxuLAKbAY7OMbQTC9Xsgvknql/Rl2n9FMR2Hvbxij4ph1sMzuQXGFzHpzDRS5GoGJcVodihGewaeeYtwVx/JiflnqqSEM5MVyoShg==
+Authentication-Results: amd.com; dkim=none (message not signed)
+ header.d=none;amd.com; dmarc=none action=none header.from=nvidia.com;
+Received: from BL0PR12MB5506.namprd12.prod.outlook.com (2603:10b6:208:1cb::22)
+ by BL1PR12MB5142.namprd12.prod.outlook.com (2603:10b6:208:312::22)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4608.16; Thu, 14 Oct
- 2021 16:56:20 +0000
-Received: from PH0PR11MB5642.namprd11.prod.outlook.com
- ([fe80::880d:1a54:ca07:738a]) by PH0PR11MB5642.namprd11.prod.outlook.com
- ([fe80::880d:1a54:ca07:738a%8]) with mapi id 15.20.4587.026; Thu, 14 Oct 2021
- 16:56:20 +0000
-Subject: Re: [PATCH 11/25] drm/i915/guc: Implement parallel context pin /
- unpin functions
-To: Matthew Brost <matthew.brost@intel.com>,
- <intel-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
-References: <20211013204231.19287-1-matthew.brost@intel.com>
- <20211013204231.19287-12-matthew.brost@intel.com>
-From: John Harrison <john.c.harrison@intel.com>
-Message-ID: <6fcd4009-8c74-da3c-cdb9-e6b8301fb596@intel.com>
-Date: Thu, 14 Oct 2021 09:56:18 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.14.0
-In-Reply-To: <20211013204231.19287-12-matthew.brost@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-GB
-X-ClientProxiedBy: MWHPR11CA0018.namprd11.prod.outlook.com
- (2603:10b6:301:1::28) To PH0PR11MB5642.namprd11.prod.outlook.com
- (2603:10b6:510:e5::13)
+ 2021 17:06:36 +0000
+Received: from BL0PR12MB5506.namprd12.prod.outlook.com
+ ([fe80::e8af:232:915e:2f95]) by BL0PR12MB5506.namprd12.prod.outlook.com
+ ([fe80::e8af:232:915e:2f95%6]) with mapi id 15.20.4608.017; Thu, 14 Oct 2021
+ 17:06:36 +0000
+Date: Thu, 14 Oct 2021 14:06:34 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Alex Sierra <alex.sierra@amd.com>
+Cc: akpm@linux-foundation.org, Felix.Kuehling@amd.com, linux-mm@kvack.org,
+ rcampbell@nvidia.com, linux-ext4@vger.kernel.org,
+ linux-xfs@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, hch@lst.de, jglisse@redhat.com,
+ apopple@nvidia.com, willy@infradead.org
+Subject: Re: [PATCH v1 2/2] mm: remove extra ZONE_DEVICE struct page refcount
+Message-ID: <20211014170634.GV2744544@nvidia.com>
+References: <20211014153928.16805-1-alex.sierra@amd.com>
+ <20211014153928.16805-3-alex.sierra@amd.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211014153928.16805-3-alex.sierra@amd.com>
+X-ClientProxiedBy: BL1PR13CA0125.namprd13.prod.outlook.com
+ (2603:10b6:208:2bb::10) To BL0PR12MB5506.namprd12.prod.outlook.com
+ (2603:10b6:208:1cb::22)
 MIME-Version: 1.0
-Received: from [192.168.1.106] (73.157.192.58) by
- MWHPR11CA0018.namprd11.prod.outlook.com (2603:10b6:301:1::28) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4608.15 via Frontend Transport; Thu, 14 Oct 2021 16:56:20 +0000
+Received: from mlx.ziepe.ca (142.162.113.129) by
+ BL1PR13CA0125.namprd13.prod.outlook.com (2603:10b6:208:2bb::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4628.9 via Frontend
+ Transport; Thu, 14 Oct 2021 17:06:35 +0000
+Received: from jgg by mlx with local (Exim 4.94)	(envelope-from
+ <jgg@nvidia.com>)	id 1mb4Be-00EzE9-Hk; Thu, 14 Oct 2021 14:06:34 -0300
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c77bac2a-d052-47b2-f73e-08d98f338c00
-X-MS-TrafficTypeDiagnostic: PH0PR11MB5579:
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Office365-Filtering-Correlation-Id: a1dbd519-48a6-474c-19de-08d98f34facf
+X-MS-TrafficTypeDiagnostic: BL1PR12MB5142:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <PH0PR11MB5579CCF9967E53FCABAFD015BDB89@PH0PR11MB5579.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1186;
+X-Microsoft-Antispam-PRVS: <BL1PR12MB5142ED13AA4DEEAEA0B57BEDC2B89@BL1PR12MB5142.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: GK9BU+HdKM3o1DSIVH1FC6Ttz9WLAWRN0RSSxEamehuTmEgSvzYevkuWXIRC0jdV+YUUmXI3hRIJbGYXjxQCL2gk1laAhYBh21VJdKYf+jv/2d/aD8UqUVC6wRC9JqnuJte2ZsuFgl+CYGMHHcENfBx5keqkiY2cfX/bfijDCtowSc0ExLqk3aH3ekUjfTVqdyUC6a8tW5AJZiab8bT7dvlklZLrmZF0LMmNIYxFlbC37i2jSLQr8jnfUn/pFpkefJ5ZqOBXa3ACPawGwGSkkEqzl4TQnbijzHCELc2DqQZTzIngnQxHkEB6jmsyM3Y6WftT/Q3AI+jo+/FDXK1bzDnGlwz5tskNQzp2h8GY+WKVB8SF0Fapq/B6ZHHp/mfCHkKTIyAb83C2pvO2i6UiXmTeSUV+2E62sHvm5KylBQKSuWdceTYH3xJhQz9ZqOpZyhZNdew7LH1VsSXvJbDaZ/Rql3Jna7947AfNYN0GC0GJV+q/YUEUfKJXvyrtmLB+no5ERYEreL4oUntyQ2PfUIamfkf+u/M/VWTXazd9QQ8KOKIUOb04HxhxPzAMVg5aR/jviN8bF6JXSjXCWibMrYsBLJR6qrTb3jaPl/zvooM64eks9vR8KwqNWp2FbSl2maX4bbyF3zE+uaejwaI9INVf7r418dmHwFpoUhin6dwwI1tEBZ/4v/wEHUa/AxtlTkzprQEnNZRccxpHzZ1n18e2fCuSxEVmV+R26uC8Tyt2ZywRV6FCb8VVxFt/rEZ7
+X-Microsoft-Antispam-Message-Info: vMDGvKMFxbZAdA44gNyp4J5vog7a9SHspy2Vi1D7GgFhwZDjjOaTD9mhNVVutCMIcDfCEKqAiOwTQJSs2DXy5qP935PMv/4px9R0md2MPoYclpJp4M3Mkko4K4rz25lgzrcJTZduL8bPxHLZb/MffuObUAGj3+evdYJdjwlu0nBIiVkWhRriS0t1o52Mo5KRcUKhqtsc/jXBUzgibo8B1np0DgdluzEXiOzc4dY6Kle6g7wStIw+8Vw84NS17ZkNg9WGsm+bDIZeUbNpfEjrQLMTdU140CTrpRtajSFFxXoxkGtj/SwCIjHAO64w9bR390SD2uUG1cHVONjcoB3J8dvreaZ9WPkXtwMcDoWUELl+C2s+82QWD/DYI3UiJKWw/QhkLzsinE58YluwxCS9M38mWbJVyEhnacT3XZsqUaOpQ7dAWz2No2Ew80DtTQTyf2pCSSWzn2lEo/XAjjiB3RZnw0PRutUUAJSSs8J6jg2p+cVbz1EmDLo8SoKq0ykOmezcN7VFvTUGonL6CPzAUk3yH750jZx97zHaV6TpVDGKvLLKkAhZfz8lY1fNKHXChjx6MfE87SfuQrAui6T2IhZEZv5mAaSIJP6uApFsJYxWACtTgsxi8PzEFXNahS7txcZjdBOPhVZCn6PSJSpX18amsKh22o78Qo8KU8Zkiz/rwpaNQYI/+XkwvXpglmU5wf8h3DOoh+Cjtq9dIJ0SyVi/VCXC6Bz3bHQ07nUnMm/uYudRmpFqIN/LvxPCpWZU//TSxUny1K/xoTHrj/txyA==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH0PR11MB5642.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(366004)(2616005)(5660300002)(31696002)(8676002)(86362001)(956004)(316002)(16576012)(450100002)(6486002)(8936002)(66556008)(82960400001)(66476007)(26005)(53546011)(66946007)(38100700002)(2906002)(186003)(36756003)(508600001)(31686004)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
+ IPV:NLI; SFV:NSPM; H:BL0PR12MB5506.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(2906002)(66946007)(316002)(66556008)(186003)(38100700002)(508600001)(26005)(83380400001)(5660300002)(8936002)(66476007)(4326008)(1076003)(2616005)(86362001)(6916009)(8676002)(36756003)(426003)(7416002)(33656002)(966005)(9786002)(9746002);
+ DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MWZPWVN3L3R2bkJjaUo2eFA1NmZkVmV1eDNXY3laVmo4YVUyOHlwakYyUGFt?=
- =?utf-8?B?d1F3VnpCVms2OHRNN215UG1ZTGljN25sY0FJNjNuclYrVFFEY0pBczEvTUh6?=
- =?utf-8?B?TnNOcDl0NHJKZnN1b2NGSm1DT3JvbSthNlBsQkNUZUUybEpreVkxRk15b2I2?=
- =?utf-8?B?bENtTFZZMklRbEtLdTB6T1lJc3hWVjFDQi9PNGdtY0xCSkJ1clIveHhUVXJC?=
- =?utf-8?B?MGtYRksvaWlrK3JhSUFLWUMxS1lDWXJRMktqdVJ5cU9oLytzLzlZNFprUVV6?=
- =?utf-8?B?Z2RQRENIZXhPdWtFeXZoMjAzdWNEMEVlZEdhL3lOcldpcktUYTh2SnBYZkd5?=
- =?utf-8?B?MlZRRDFIRURWYm5sZXFtbU5KQ0pSWkRtdGswcjJZT1ZPeGhuRUZDc0tUR29x?=
- =?utf-8?B?SjU3ZmYvSzJJRUE3QlZsR2RYU2tMVUk3ZkJ2SUt2cUtoMGZmU2g2M3N2TXo1?=
- =?utf-8?B?Wjk4YmVEdEx2NkkxYVdhU2xvWHNEY00waFBjWFpLb0F6elU3MnhDcTJuZjhP?=
- =?utf-8?B?V2s1UDRxRkFuSTJrcFUwaVRNNS91OEJucFdzejV6bVhlbjY5ZzZYSXA0NDQ2?=
- =?utf-8?B?dG5HYWVnR0VWVU1jdmR2enQxNWVxYmw4alhKZm9DQVpwVUx4TWtaMDVlYktH?=
- =?utf-8?B?dlR1ckhhU0drcTMveGRwcWc1dVV3UnkvYWRwdGhtckpkTjhzMnhYRy85YlE5?=
- =?utf-8?B?bVdEVmQ0TEVUbHNodldVMFBaM3ViOG5BK1lDaWRHS3NiZDBjd29aUDJYOXpM?=
- =?utf-8?B?T2NLQ3BhSUtDWURiUmhPK2dzYTBaMGRDaUdSR2ExQmhIc1V5dllrTTNyb0ZC?=
- =?utf-8?B?cHVNVUVkYUFzMjV1STh4ZHBFNytuaFhMalFDN2lGTWUzV2JmS2xWRWtKRDRY?=
- =?utf-8?B?dW1nUzdIOFdJSVh1RHZYUUkzZUMwcWs5RHhyaHZUYkdCaEkvT2pXU29YdzRL?=
- =?utf-8?B?bks4VkZ3OUt6SjJvUmNYRXRhVjlGSXJvWWxNY1p0ZU1IdzFKSG14UXFkWkVC?=
- =?utf-8?B?SkExdi90ajY4bUFCNkkyeTFLdUZma0ZmZVh5TTJuRmlZT0wzaDdkRUJYVlF3?=
- =?utf-8?B?a21JdEFaQkF3TldBc2JIYlZiTDFPb1FQWFBoYkpkTnRlbVM3aTdkaEp3WWdp?=
- =?utf-8?B?bHdpNjdqSXY5aE9yb2F4azdackQ3YUNSMnRiZTJ4Rk1BQmZ4U3JydU1hOTVS?=
- =?utf-8?B?aUxCRmNway9LZG1MZ2VuaHZOa1k0d1JZc3R0c2hpeG16WjJya1JBN3J6TlFH?=
- =?utf-8?B?Z0Q5ZW42OFFxbDd6QUI1UldMbVpIa1FjSkJ0czg5Unc4cVFyQVhXVlNBNkpw?=
- =?utf-8?B?aUY4RlozUHdUa0VFUVRZR2c3TE5SVWVkZzdNYjZNT05rTDVHaGp4NjBCNW5C?=
- =?utf-8?B?aCt3eHVsQ3lCUlBpTWdkR0RxbS81cllsK0ozbE5pQkNIdjM0Wmo4VnpscS81?=
- =?utf-8?B?NldkMitjQ1JOWjhwWUZMMSswbjhEMW1odlFQcC9SNCtsSEN1OTBnVW4zeFly?=
- =?utf-8?B?VWgwSjlGRlhtMU42VG4zaDRXQlBqYzZZZGFyOUhibFE3MVZIYmQvQnZyc1Jy?=
- =?utf-8?B?aHIzTVNHcjh6NXFJZDI5TjRuWlo1emF6Tjd3TVdFU3pnNkpXTmxvQUhPaWNw?=
- =?utf-8?B?UVdUbTh5U1FlUzdKKzVwRFFsSDZUdVZWOE5iS0dIaTM4TUZaOG1hWGRMYjB1?=
- =?utf-8?B?c00wc21CUWo3c1NGRlpoQmg2TEZjT2U3ZUtOd01YRFA5VnUxcTlBK0lOd2VP?=
- =?utf-8?Q?WVT3zf8XqXjeGF7P0DR0fgGos9QlWZpwKvGIQ0f?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: c77bac2a-d052-47b2-f73e-08d98f338c00
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5642.namprd11.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?0GT9uMNkCgm2BQ97o8kEJ2VDmJI+sIIAAgzWhgSkbQDJ+GIQ0FaOyT0+UMmu?=
+ =?us-ascii?Q?EuERtEG5lKM9y/EA/saS3Fuf9fj7XI/+4UCaot79XuU0l1aPNBXYrHe1d4Be?=
+ =?us-ascii?Q?C7JmmQf+PeyjLdgsRpYLog/BkUz4Ze24EZxrvxia2xvsc14KFH4XoFyqpobG?=
+ =?us-ascii?Q?pQJrqehqj0sUTx9Hhmrp5fz5r7BHqfw5ptQyW69GCYPXJ8XRYZNscO4GUFBU?=
+ =?us-ascii?Q?EEk5jA6/x6UrftlGJ49CDGTu4U4d0jorKO9MFL9FufQODfChBaNTCfmTzlVX?=
+ =?us-ascii?Q?sQjLrRo0R+n87R5LMpuMnm6NQiVpfeK/Moubm/m3ZUplqL45bzqHfnbc6uvs?=
+ =?us-ascii?Q?eS//EMuRjoeN0T9K/x31zkLr1ugWWHPDJ7jIeXD7/3G2NdxQ9zgbMdn/Fkrr?=
+ =?us-ascii?Q?t57FRNMbxnSAE3p/TCN8l40bF1c2fEFVLjMW+KmIOqNTfxVxvQFs1F7OyHxd?=
+ =?us-ascii?Q?C7gsuZtb8b2CjfxqNHUwKMDCdgffXrLaWkUURwUE1eo7TzH+0f3IR52m0yFi?=
+ =?us-ascii?Q?+ZqosW6CYcCOb1dx7YgWsBAT7wMPUgSm8Gt0H5HcwcOExWJYI/5ibVyvoGg3?=
+ =?us-ascii?Q?iGQwIlHUrb7UH7l9tHHEsj9wRn3Ax9Jo6zVAoCPb8OWF9ArhA71NCSt19fNr?=
+ =?us-ascii?Q?qtmP8uqOO2IeRnsKFKO+4d6Lj2H4yDYoimH/4Log0aBDhlVYrhvXHtvsz9xI?=
+ =?us-ascii?Q?6jK1B+v3kbNRgCNv5T6pgX02Wc308dDiep169tjascGDzRqbesbNwpqwhWo3?=
+ =?us-ascii?Q?NsQqOFvsl5XQSssPiX3W+Pd3/Al+3BXyNuReB/8tmWJGgaz3hoiVZah8z+lw?=
+ =?us-ascii?Q?eN1zFcbgwNfu0BZbn4XXmgC4GzGcTBJH7WAKEZZGSpkMmTCO1WK99HJagCnt?=
+ =?us-ascii?Q?z/tU5mv3ndFY+0gPE37uxv/HTdNY8mYMpL7EeNxhQ+jxGlS6CqdMe3D1fTTC?=
+ =?us-ascii?Q?TmLgvdwle+GWKk+I61VE3UrnJuccp9CqfvpFi4gYF8jxQU7nRGW9zwNOEcTb?=
+ =?us-ascii?Q?zFx3ck/Iyp2KFgpO1Jb0ntwmCEeoc6ahRbcPdyfG3PNpk68oq3DflwJFFCa5?=
+ =?us-ascii?Q?saAxS9BJI9Ts86uJZ3ESBiYvnSdKqr4SX3zahEQX3gtoDFqdXSQfQpeaUO5M?=
+ =?us-ascii?Q?BAJK+qWgIMbitZ1ocq4elvoj5udSe/86/AwjDz8OB1WjXmhSt/+3UtYzSaKy?=
+ =?us-ascii?Q?UpG3i2cyXpFtwY4v8EDhQVNOU9O6vh6+Eqp+fZ4cGjS7bwOxna5LW0/61Gdm?=
+ =?us-ascii?Q?0oJEsvnxLdeAoNVb2aJSuj6ToCghfYJi3toJxruj25NLP2kMWyV3YU87XHeH?=
+ =?us-ascii?Q?OWPLc9DqpxaasmoIqud9l7ms?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a1dbd519-48a6-474c-19de-08d98f34facf
+X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB5506.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Oct 2021 16:56:20.6535 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Oct 2021 17:06:36.0634 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: np0+DD53Yg0g2ab9jiFLyHBHKMEa4AKATJN0GjJZj41+TA/VulP47sSpMxCCYOU7MyJ/wXIIjoMUfCGX4T6QRdx3n4oplAmPh91yDutMjy0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB5579
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-UserPrincipalName: KoAZX63yIQHlEcekjS6wt3SUuJ4LaGHrIzM5iDD4uB2EUqvXx07C6FhyAFM66fVN
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5142
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -154,103 +128,127 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/13/2021 13:42, Matthew Brost wrote:
-> Parallel contexts are perma-pinned by the upper layers which makes the
-> backend implementation rather simple. The parent pins the guc_id and
-> children increment the parent's pin count on pin to ensure all the
-> contexts are unpinned before we disable scheduling with the GuC / or
-> deregister the context.
->
-> v2:
->   (Daniel Vetter)
->    - Perma-pin parallel contexts
->
-> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-Reviewed-by: John Harrison <John.C.Harrison@Intel.com>
-
+On Thu, Oct 14, 2021 at 10:39:28AM -0500, Alex Sierra wrote:
+> From: Ralph Campbell <rcampbell@nvidia.com>
+> 
+> ZONE_DEVICE struct pages have an extra reference count that complicates the
+> code for put_page() and several places in the kernel that need to check the
+> reference count to see that a page is not being used (gup, compaction,
+> migration, etc.). Clean up the code so the reference count doesn't need to
+> be treated specially for ZONE_DEVICE.
+> 
+> Signed-off-by: Ralph Campbell <rcampbell@nvidia.com>
+> Signed-off-by: Alex Sierra <alex.sierra@amd.com>
+> Reviewed-by: Christoph Hellwig <hch@lst.de>
 > ---
->   .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 70 +++++++++++++++++++
->   1 file changed, 70 insertions(+)
->
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> index c4d7a5c3b558..9fc40e3c1794 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> @@ -2585,6 +2585,76 @@ static const struct intel_context_ops virtual_guc_context_ops = {
->   	.get_sibling = guc_virtual_get_sibling,
->   };
->   
-> +/* Future patches will use this function */
-> +__maybe_unused
-> +static int guc_parent_context_pin(struct intel_context *ce, void *vaddr)
-> +{
-> +	struct intel_engine_cs *engine = guc_virtual_get_sibling(ce->engine, 0);
-> +	struct intel_guc *guc = ce_to_guc(ce);
-> +	int ret;
-> +
-> +	GEM_BUG_ON(!intel_context_is_parent(ce));
-> +	GEM_BUG_ON(!intel_engine_is_virtual(ce->engine));
-> +
-> +	ret = pin_guc_id(guc, ce);
-> +	if (unlikely(ret < 0))
-> +		return ret;
-> +
-> +	return __guc_context_pin(ce, engine, vaddr);
-> +}
-> +
-> +/* Future patches will use this function */
-> +__maybe_unused
-> +static int guc_child_context_pin(struct intel_context *ce, void *vaddr)
-> +{
-> +	struct intel_engine_cs *engine = guc_virtual_get_sibling(ce->engine, 0);
-> +
-> +	GEM_BUG_ON(!intel_context_is_child(ce));
-> +	GEM_BUG_ON(!intel_engine_is_virtual(ce->engine));
-> +
-> +	__intel_context_pin(ce->parallel.parent);
-> +	return __guc_context_pin(ce, engine, vaddr);
-> +}
-> +
-> +/* Future patches will use this function */
-> +__maybe_unused
-> +static void guc_parent_context_unpin(struct intel_context *ce)
-> +{
-> +	struct intel_guc *guc = ce_to_guc(ce);
-> +
-> +	GEM_BUG_ON(context_enabled(ce));
-> +	GEM_BUG_ON(intel_context_is_barrier(ce));
-> +	GEM_BUG_ON(!intel_context_is_parent(ce));
-> +	GEM_BUG_ON(!intel_engine_is_virtual(ce->engine));
-> +
-> +	unpin_guc_id(guc, ce);
-> +	lrc_unpin(ce);
-> +}
-> +
-> +/* Future patches will use this function */
-> +__maybe_unused
-> +static void guc_child_context_unpin(struct intel_context *ce)
-> +{
-> +	GEM_BUG_ON(context_enabled(ce));
-> +	GEM_BUG_ON(intel_context_is_barrier(ce));
-> +	GEM_BUG_ON(!intel_context_is_child(ce));
-> +	GEM_BUG_ON(!intel_engine_is_virtual(ce->engine));
-> +
-> +	lrc_unpin(ce);
-> +}
-> +
-> +/* Future patches will use this function */
-> +__maybe_unused
-> +static void guc_child_context_post_unpin(struct intel_context *ce)
-> +{
-> +	GEM_BUG_ON(!intel_context_is_child(ce));
-> +	GEM_BUG_ON(!intel_context_is_pinned(ce->parallel.parent));
-> +	GEM_BUG_ON(!intel_engine_is_virtual(ce->engine));
-> +
-> +	lrc_post_unpin(ce);
-> +	intel_context_unpin(ce->parallel.parent);
-> +}
-> +
->   static bool
->   guc_irq_enable_breadcrumbs(struct intel_breadcrumbs *b)
->   {
+> v2:
+> AS: merged this patch in linux 5.11 version
+> 
+> v5:
+> AS: add condition at try_grab_page to check for the zone device type, while
+> page ref counter is checked less/equal to zero. In case of device zone, pages
+> ref counter are initialized to zero.
+> 
+> v7:
+> AS: fix condition at try_grab_page added at v5, is invalid. It supposed
+> to fix xfstests/generic/413 test, however, there's a known issue on
+> this test where DAX mapped area DIO to non-DAX expect to fail.
+> https://patchwork.kernel.org/project/fstests/patch/1489463960-3579-1-git-send-email-xzhou@redhat.com
+> This condition was removed after rebase over patch series
+> https://lore.kernel.org/r/20210813044133.1536842-4-jhubbard@nvidia.com
+> ---
+>  arch/powerpc/kvm/book3s_hv_uvmem.c     |  2 +-
+>  drivers/gpu/drm/nouveau/nouveau_dmem.c |  2 +-
+>  fs/dax.c                               |  4 +-
+>  include/linux/dax.h                    |  2 +-
+>  include/linux/memremap.h               |  7 +--
+>  include/linux/mm.h                     | 11 ----
+>  lib/test_hmm.c                         |  2 +-
+>  mm/internal.h                          |  8 +++
+>  mm/memcontrol.c                        |  6 +--
+>  mm/memremap.c                          | 69 +++++++-------------------
+>  mm/migrate.c                           |  5 --
+>  mm/page_alloc.c                        |  3 ++
+>  mm/swap.c                              | 45 ++---------------
+>  13 files changed, 46 insertions(+), 120 deletions(-)
 
+Has anyone tested this with FSDAX? Does get_user_pages() on fsdax
+backed memory still work?
+
+What refcount value does the struct pages have when they are installed
+in the PTEs? Remember a 0 refcount will make all the get_user_pages()
+fail.
+
+I'm looking at the call path starting in ext4_punch_hole() and I would
+expect to see something manipulating the page ref count before
+the ext4_break_layouts() call path gets to the dax_page_unused() test.
+
+All I see is we go into unmap_mapping_pages() - that would normally
+put back the page references held by PTEs but insert_pfn() has this:
+
+	if (pfn_t_devmap(pfn))
+		entry = pte_mkdevmap(pfn_t_pte(pfn, prot));
+
+And:
+
+static inline pte_t pte_mkdevmap(pte_t pte)
+{
+	return pte_set_flags(pte, _PAGE_SPECIAL|_PAGE_DEVMAP);
+}
+
+Which interacts with vm_normal_page():
+
+		if (pte_devmap(pte))
+			return NULL;
+
+To disable that refcounting?
+
+So... I have a feeling this will have PTEs pointing to 0 refcount
+pages? Unless FSDAX is !pte_devmap which is not the case, right?
+
+This seems further confirmed by this comment:
+
+	/*
+	 * If we race get_user_pages_fast() here either we'll see the
+	 * elevated page count in the iteration and wait, or
+	 * get_user_pages_fast() will see that the page it took a reference
+	 * against is no longer mapped in the page tables and bail to the
+	 * get_user_pages() slow path.  The slow path is protected by
+	 * pte_lock() and pmd_lock(). New references are not taken without
+	 * holding those locks, and unmap_mapping_pages() will not zero the
+	 * pte or pmd without holding the respective lock, so we are
+	 * guaranteed to either see new references or prevent new
+	 * references from being established.
+	 */
+
+Which seems to explain this scheme relies on unmap_mapping_pages() to
+fence GUP_fast, not on GUP_fast observing 0 refcounts when it should
+stop.
+
+This seems like it would be properly fixed by using normal page
+refcounting for PTEs - ie stop using special for these pages?
+
+Does anyone know why devmap is pte_special anyhow?
+
+> +void free_zone_device_page(struct page *page)
+> +{
+> +	switch (page->pgmap->type) {
+> +	case MEMORY_DEVICE_PRIVATE:
+> +		free_device_page(page);
+> +		return;
+> +	case MEMORY_DEVICE_FS_DAX:
+> +		/* notify page idle */
+> +		wake_up_var(&page->_refcount);
+> +		return;
+
+It is not for this series, but I wonder if we should just always call
+ops->page_free and have free_device_page() logic in that callback for
+the non-fs-dax cases?
+
+For instance where is the mem_cgroup_charge() call to pair with the
+mem_cgroup_uncharge() in free_device_page()?
+
+Isn't cgroup charging (or not) the responsibility of the "allocator"
+eg the pgmap_ops owner?
+
+Jason
