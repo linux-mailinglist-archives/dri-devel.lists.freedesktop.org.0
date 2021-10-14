@@ -2,22 +2,22 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEC4E42E075
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Oct 2021 19:49:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FAB942E051
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Oct 2021 19:46:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 313B16E811;
-	Thu, 14 Oct 2021 17:49:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A9546E877;
+	Thu, 14 Oct 2021 17:46:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 52A6B6E845;
- Thu, 14 Oct 2021 17:49:04 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10137"; a="225208231"
-X-IronPort-AV: E=Sophos;i="5.85,373,1624345200"; d="scan'208";a="225208231"
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 155276E1B6;
+ Thu, 14 Oct 2021 17:46:16 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10137"; a="228030820"
+X-IronPort-AV: E=Sophos;i="5.85,373,1624345200"; d="scan'208";a="228030820"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  14 Oct 2021 10:25:03 -0700
-X-IronPort-AV: E=Sophos;i="5.85,373,1624345200"; d="scan'208";a="481360449"
+X-IronPort-AV: E=Sophos;i="5.85,373,1624345200"; d="scan'208";a="481360452"
 Received: from jons-linux-dev-box.fm.intel.com ([10.1.27.20])
  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  14 Oct 2021 10:25:00 -0700
@@ -25,9 +25,9 @@ From: Matthew Brost <matthew.brost@intel.com>
 To: <intel-gfx@lists.freedesktop.org>,
 	<dri-devel@lists.freedesktop.org>
 Cc: <john.c.harrison@intel.com>
-Subject: [PATCH 14/25] drm/i915/guc: Implement multi-lrc reset
-Date: Thu, 14 Oct 2021 10:19:54 -0700
-Message-Id: <20211014172005.27155-15-matthew.brost@intel.com>
+Subject: [PATCH 15/25] drm/i915/guc: Update debugfs for GuC multi-lrc
+Date: Thu, 14 Oct 2021 10:19:55 -0700
+Message-Id: <20211014172005.27155-16-matthew.brost@intel.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20211014172005.27155-1-matthew.brost@intel.com>
 References: <20211014172005.27155-1-matthew.brost@intel.com>
@@ -48,212 +48,91 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Update context and full GPU reset to work with multi-lrc. The idea is
-parent context tracks all the active requests inflight for itself and
-its children. The parent context owns the reset replaying / canceling
-requests as needed.
+Display the workqueue status in debugfs for GuC contexts that are in
+parent-child relationship.
 
 v2:
  (John Harrison)
-  - Simply loop in find active request
-  - Add comments to find ative request / reset loop
-v3:
- (John Harrison)
-  - s/its'/its/g
-  - Fix comment when searching for active request
-  - Reorder if state in __guc_reset_context
-v4:
- (Kernel test robot)
-  - Delete ununsed is_multi_lrc function
+  - Output number children in debugfs
 
-Reviewed-by: John Harrison <John.C.Harrison@Intel.com>
 Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+Reviewed-by: John Harrison <John.C.Harrison@Intel.com>
 ---
- drivers/gpu/drm/i915/gt/intel_context.c       | 15 ++++-
- .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 64 +++++++++++++------
- 2 files changed, 58 insertions(+), 21 deletions(-)
+ .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 52 ++++++++++++++-----
+ 1 file changed, 38 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_context.c b/drivers/gpu/drm/i915/gt/intel_context.c
-index 79f321c6c008..6aab60584ee5 100644
---- a/drivers/gpu/drm/i915/gt/intel_context.c
-+++ b/drivers/gpu/drm/i915/gt/intel_context.c
-@@ -529,20 +529,29 @@ struct i915_request *intel_context_create_request(struct intel_context *ce)
- 
- struct i915_request *intel_context_find_active_request(struct intel_context *ce)
- {
-+	struct intel_context *parent = intel_context_to_parent(ce);
- 	struct i915_request *rq, *active = NULL;
- 	unsigned long flags;
- 
- 	GEM_BUG_ON(!intel_engine_uses_guc(ce->engine));
- 
--	spin_lock_irqsave(&ce->guc_state.lock, flags);
--	list_for_each_entry_reverse(rq, &ce->guc_state.requests,
-+	/*
-+	 * We search the parent list to find an active request on the submitted
-+	 * context. The parent list contains the requests for all the contexts
-+	 * in the relationship so we have to do a compare of each request's
-+	 * context.
-+	 */
-+	spin_lock_irqsave(&parent->guc_state.lock, flags);
-+	list_for_each_entry_reverse(rq, &parent->guc_state.requests,
- 				    sched.link) {
-+		if (rq->context != ce)
-+			continue;
- 		if (i915_request_completed(rq))
- 			break;
- 
- 		active = rq;
- 	}
--	spin_unlock_irqrestore(&ce->guc_state.lock, flags);
-+	spin_unlock_irqrestore(&parent->guc_state.lock, flags);
- 
- 	return active;
- }
 diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-index ebb64fb50396..112b5e6fe39d 100644
+index 112b5e6fe39d..938dc34e8d3a 100644
 --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
 +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-@@ -1217,10 +1217,15 @@ __unwind_incomplete_requests(struct intel_context *ce)
+@@ -3702,6 +3702,25 @@ static inline void guc_log_context_priority(struct drm_printer *p,
+ 	drm_printf(p, "\n");
+ }
  
- static void __guc_reset_context(struct intel_context *ce, bool stalled)
++static inline void guc_log_context(struct drm_printer *p,
++				   struct intel_context *ce)
++{
++	drm_printf(p, "GuC lrc descriptor %u:\n", ce->guc_id.id);
++	drm_printf(p, "\tHW Context Desc: 0x%08x\n", ce->lrc.lrca);
++	drm_printf(p, "\t\tLRC Head: Internal %u, Memory %u\n",
++		   ce->ring->head,
++		   ce->lrc_reg_state[CTX_RING_HEAD]);
++	drm_printf(p, "\t\tLRC Tail: Internal %u, Memory %u\n",
++		   ce->ring->tail,
++		   ce->lrc_reg_state[CTX_RING_TAIL]);
++	drm_printf(p, "\t\tContext Pin Count: %u\n",
++		   atomic_read(&ce->pin_count));
++	drm_printf(p, "\t\tGuC ID Ref Count: %u\n",
++		   atomic_read(&ce->guc_id.ref));
++	drm_printf(p, "\t\tSchedule State: 0x%x\n\n",
++		   ce->guc_state.sched_state);
++}
++
+ void intel_guc_submission_print_context_info(struct intel_guc *guc,
+ 					     struct drm_printer *p)
  {
-+	bool local_stalled;
- 	struct i915_request *rq;
- 	unsigned long flags;
- 	u32 head;
-+	int i, number_children = ce->parallel.number_children;
- 	bool skip = false;
-+	struct intel_context *parent = ce;
+@@ -3711,22 +3730,27 @@ void intel_guc_submission_print_context_info(struct intel_guc *guc,
+ 
+ 	xa_lock_irqsave(&guc->context_lookup, flags);
+ 	xa_for_each(&guc->context_lookup, index, ce) {
+-		drm_printf(p, "GuC lrc descriptor %u:\n", ce->guc_id.id);
+-		drm_printf(p, "\tHW Context Desc: 0x%08x\n", ce->lrc.lrca);
+-		drm_printf(p, "\t\tLRC Head: Internal %u, Memory %u\n",
+-			   ce->ring->head,
+-			   ce->lrc_reg_state[CTX_RING_HEAD]);
+-		drm_printf(p, "\t\tLRC Tail: Internal %u, Memory %u\n",
+-			   ce->ring->tail,
+-			   ce->lrc_reg_state[CTX_RING_TAIL]);
+-		drm_printf(p, "\t\tContext Pin Count: %u\n",
+-			   atomic_read(&ce->pin_count));
+-		drm_printf(p, "\t\tGuC ID Ref Count: %u\n",
+-			   atomic_read(&ce->guc_id.ref));
+-		drm_printf(p, "\t\tSchedule State: 0x%x\n\n",
+-			   ce->guc_state.sched_state);
++		GEM_BUG_ON(intel_context_is_child(ce));
+ 
++		guc_log_context(p, ce);
+ 		guc_log_context_priority(p, ce);
 +
-+	GEM_BUG_ON(intel_context_is_child(ce));
- 
- 	intel_context_get(ce);
- 
-@@ -1246,25 +1251,38 @@ static void __guc_reset_context(struct intel_context *ce, bool stalled)
- 	if (unlikely(skip))
- 		goto out_put;
- 
--	rq = intel_context_find_active_request(ce);
--	if (!rq) {
--		head = ce->ring->tail;
--		stalled = false;
--		goto out_replay;
--	}
-+	/*
-+	 * For each context in the relationship find the hanging request
-+	 * resetting each context / request as needed
-+	 */
-+	for (i = 0; i < number_children + 1; ++i) {
-+		if (!intel_context_is_pinned(ce))
-+			goto next_context;
++		if (intel_context_is_parent(ce)) {
++			struct guc_process_desc *desc = __get_process_desc(ce);
++			struct intel_context *child;
 +
-+		local_stalled = false;
-+		rq = intel_context_find_active_request(ce);
-+		if (!rq) {
-+			head = ce->ring->tail;
-+			goto out_replay;
++			drm_printf(p, "\t\tNumber children: %u\n",
++				   ce->parallel.number_children);
++			drm_printf(p, "\t\tWQI Head: %u\n",
++				   READ_ONCE(desc->head));
++			drm_printf(p, "\t\tWQI Tail: %u\n",
++				   READ_ONCE(desc->tail));
++			drm_printf(p, "\t\tWQI Status: %u\n\n",
++				   READ_ONCE(desc->wq_status));
++
++			for_each_child(ce, child)
++				guc_log_context(p, child);
 +		}
- 
--	if (!i915_request_started(rq))
--		stalled = false;
-+		if (i915_request_started(rq))
-+			local_stalled = true;
- 
--	GEM_BUG_ON(i915_active_is_idle(&ce->active));
--	head = intel_ring_wrap(ce->ring, rq->head);
--	__i915_request_reset(rq, stalled);
-+		GEM_BUG_ON(i915_active_is_idle(&ce->active));
-+		head = intel_ring_wrap(ce->ring, rq->head);
- 
-+		__i915_request_reset(rq, local_stalled && stalled);
- out_replay:
--	guc_reset_state(ce, head, stalled);
--	__unwind_incomplete_requests(ce);
-+		guc_reset_state(ce, head, local_stalled && stalled);
-+next_context:
-+		if (i != number_children)
-+			ce = list_next_entry(ce, parallel.child_link);
-+	}
-+
-+	__unwind_incomplete_requests(parent);
- out_put:
--	intel_context_put(ce);
-+	intel_context_put(parent);
- }
- 
- void intel_guc_submission_reset(struct intel_guc *guc, bool stalled)
-@@ -1285,7 +1303,8 @@ void intel_guc_submission_reset(struct intel_guc *guc, bool stalled)
- 
- 		xa_unlock(&guc->context_lookup);
- 
--		if (intel_context_is_pinned(ce))
-+		if (intel_context_is_pinned(ce) &&
-+		    !intel_context_is_child(ce))
- 			__guc_reset_context(ce, stalled);
- 
- 		intel_context_put(ce);
-@@ -1377,7 +1396,8 @@ void intel_guc_submission_cancel_requests(struct intel_guc *guc)
- 
- 		xa_unlock(&guc->context_lookup);
- 
--		if (intel_context_is_pinned(ce))
-+		if (intel_context_is_pinned(ce) &&
-+		    !intel_context_is_child(ce))
- 			guc_cancel_context_requests(ce);
- 
- 		intel_context_put(ce);
-@@ -2070,6 +2090,8 @@ static struct i915_sw_fence *guc_context_block(struct intel_context *ce)
- 	u16 guc_id;
- 	bool enabled;
- 
-+	GEM_BUG_ON(intel_context_is_child(ce));
-+
- 	spin_lock_irqsave(&ce->guc_state.lock, flags);
- 
- 	incr_context_blocked(ce);
-@@ -2124,6 +2146,7 @@ static void guc_context_unblock(struct intel_context *ce)
- 	bool enable;
- 
- 	GEM_BUG_ON(context_enabled(ce));
-+	GEM_BUG_ON(intel_context_is_child(ce));
- 
- 	spin_lock_irqsave(&ce->guc_state.lock, flags);
- 
-@@ -2150,11 +2173,14 @@ static void guc_context_unblock(struct intel_context *ce)
- static void guc_context_cancel_request(struct intel_context *ce,
- 				       struct i915_request *rq)
- {
-+	struct intel_context *block_context =
-+		request_to_scheduling_context(rq);
-+
- 	if (i915_sw_fence_signaled(&rq->submit)) {
- 		struct i915_sw_fence *fence;
- 
- 		intel_context_get(ce);
--		fence = guc_context_block(ce);
-+		fence = guc_context_block(block_context);
- 		i915_sw_fence_wait(fence);
- 		if (!i915_request_completed(rq)) {
- 			__i915_request_skip(rq);
-@@ -2168,7 +2194,7 @@ static void guc_context_cancel_request(struct intel_context *ce,
- 		 */
- 		flush_work(&ce_to_guc(ce)->ct.requests.worker);
- 
--		guc_context_unblock(ce);
-+		guc_context_unblock(block_context);
- 		intel_context_put(ce);
  	}
+ 	xa_unlock_irqrestore(&guc->context_lookup, flags);
  }
-@@ -2194,6 +2220,8 @@ static void guc_context_ban(struct intel_context *ce, struct i915_request *rq)
- 	intel_wakeref_t wakeref;
- 	unsigned long flags;
- 
-+	GEM_BUG_ON(intel_context_is_child(ce));
-+
- 	guc_flush_submissions(guc);
- 
- 	spin_lock_irqsave(&ce->guc_state.lock, flags);
 -- 
 2.32.0
 
