@@ -2,27 +2,27 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E54B42F076
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Oct 2021 14:21:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 075AE42F071
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Oct 2021 14:21:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E7BD6ED29;
-	Fri, 15 Oct 2021 12:21:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 09CD86ED25;
+	Fri, 15 Oct 2021 12:20:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from msg-2.mailo.com (msg-2.mailo.com [213.182.54.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CDFA26ED1A;
- Fri, 15 Oct 2021 12:21:03 +0000 (UTC)
+Received: from msg-6.mailo.com (ip-16.mailobj.net [213.182.54.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA9F66ED16;
+ Fri, 15 Oct 2021 12:20:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=net-c.es; s=mailo;
- t=1634297970; bh=N1FC6bbFpWwj5uck3C6Zh9AXCf70UfpiuPwfacUawG4=;
+ t=1634297970; bh=0RCef2c/0z8Xou8hnnbMAxQ5ccP8Kcw0a2QdzLGngUY=;
  h=X-EA-Auth:From:To:Cc:Subject:Date:Message-Id:X-Mailer:In-Reply-To:
  References:MIME-Version:Content-Transfer-Encoding;
- b=b5GSVJXu1M47i0XuKr2lf45n+A+YLGz0uB8u1fCSlBu9vyz4DQSiFkZUKGj2jm8AT
- IOnQt/oYKVuS7pC4kBDpMtdaRHFdocNShMrl0+iN8NPFogizUwnMILf/cKQ4QpFfgJ
- 5QKbqAPhpz8gWq4l3ptP+1AUAAZn1Yu4cspYsfc8=
+ b=N2A4cnBQdM/+ag5iVAEqFQrQW5X170ALpzQm6Ri9QKnmQnU/yF2pdfumlRvwx7qKU
+ oTPKQeMhar6bliCaK41MBZ2Bv/WUESMpw0sdRW7jpNwTfgYfchjEUmurFQc//cgkQq
+ PGNgI0RAlg8glxbE11VB22fNnSRzKs1B6ehWlrKk=
 Received: by b-3.in.mailobj.net [192.168.90.13] with ESMTP
  via ip-206.mailobj.net [213.182.55.206]
- Fri, 15 Oct 2021 13:38:57 +0200 (CEST)
-X-EA-Auth: 93gjOteriWQVrMLinGDZbUCnYpqwcWRv7A9321LKmsIYPvgkBNCRrAUQiwjp/Drc+D6Zq8283vMUQFeFFp6iUfX6WR92ELHE
+ Fri, 15 Oct 2021 13:38:59 +0200 (CEST)
+X-EA-Auth: oQJsqlKKU+Ee2xFaVThnqrBkDGJDLzAYqbWMI2GZs2IdBiEvZ4TEnMSj9XRtXYK6c1OAOLv0ERJ4V6YIrD5VNTQjnQ1NCtR4
 From: Claudio Suarez <cssk@net-c.es>
 To: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  linux-tegra@vger.kernel.org, intel-gfx@lists.freedesktop.org,
@@ -47,10 +47,10 @@ To: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  Robert Foss <robert.foss@linaro.org>, Ben Skeggs <bskeggs@redhat.com>,
  nouveau@lists.freedesktop.org
 Cc: Claudio Suarez <cssk@net-c.es>
-Subject: [PATCH 13/15] drm/bridge: replace drm_detect_hdmi_monitor() with
+Subject: [PATCH 14/15] drm/nouveau: replace drm_detect_hdmi_monitor() with
  drm_display_info.is_hdmi
-Date: Fri, 15 Oct 2021 13:37:11 +0200
-Message-Id: <20211015113713.630119-14-cssk@net-c.es>
+Date: Fri, 15 Oct 2021 13:37:12 +0200
+Message-Id: <20211015113713.630119-15-cssk@net-c.es>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211015113713.630119-1-cssk@net-c.es>
 References: <20211015113713.630119-1-cssk@net-c.es>
@@ -74,54 +74,96 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Once EDID is parsed, the monitor HDMI support information is available
 through drm_display_info.is_hdmi. Retriving the same information with
 drm_detect_hdmi_monitor() is less efficient. Change to
-drm_display_info.is_hdmi where possible
+drm_display_info.is_hdmi
 
 Signed-off-by: Claudio Suarez <cssk@net-c.es>
 ---
- drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 2 +-
- drivers/gpu/drm/bridge/sii902x.c             | 2 +-
- drivers/gpu/drm/bridge/synopsys/dw-hdmi.c    | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/nouveau/dispnv50/disp.c     | 4 ++--
+ drivers/gpu/drm/nouveau/dispnv50/head.c     | 8 +-------
+ drivers/gpu/drm/nouveau/nouveau_connector.c | 2 +-
+ drivers/gpu/drm/nouveau/nouveau_connector.h | 6 ++++++
+ 4 files changed, 10 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-index 76555ae64e9c..f6891280a58d 100644
---- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-+++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-@@ -617,7 +617,7 @@ static struct edid *adv7511_get_edid(struct adv7511 *adv7511,
- 		__adv7511_power_off(adv7511);
+diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/nouveau/dispnv50/disp.c
+index d7b9f7f8c9e3..fadd58b015d6 100644
+--- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
++++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
+@@ -844,7 +844,7 @@ nv50_hdmi_enable(struct drm_encoder *encoder, struct nouveau_crtc *nv_crtc,
+ 	int ret;
+ 	int size;
  
- 	adv7511_set_config_csc(adv7511, connector, adv7511->rgb,
--			       drm_detect_hdmi_monitor(edid));
-+			       connector->display_info.is_hdmi);
+-	if (!drm_detect_hdmi_monitor(nv_connector->edid))
++	if (nouveau_connector_is_hdmi_monitor(&nv_connector->base))
+ 		return;
  
- 	cec_s_phys_addr_from_edid(adv7511->cec_adap, edid);
+ 	hdmi = &nv_connector->base.display_info.hdmi;
+@@ -1745,7 +1745,7 @@ nv50_sor_atomic_enable(struct drm_encoder *encoder, struct drm_atomic_state *sta
+ 			 */
+ 			if (mode->clock >= 165000 &&
+ 			    nv_encoder->dcb->duallink_possible &&
+-			    !drm_detect_hdmi_monitor(nv_connector->edid))
++			    !nouveau_connector_is_hdmi_monitor(&nv_connector->base))
+ 				proto = NV507D_SOR_SET_CONTROL_PROTOCOL_DUAL_TMDS;
+ 		} else {
+ 			proto = NV507D_SOR_SET_CONTROL_PROTOCOL_SINGLE_TMDS_B;
+diff --git a/drivers/gpu/drm/nouveau/dispnv50/head.c b/drivers/gpu/drm/nouveau/dispnv50/head.c
+index d66f97280282..0a138bfb8f32 100644
+--- a/drivers/gpu/drm/nouveau/dispnv50/head.c
++++ b/drivers/gpu/drm/nouveau/dispnv50/head.c
+@@ -127,14 +127,8 @@ nv50_head_atomic_check_view(struct nv50_head_atom *armh,
+ 	struct drm_display_mode *omode = &asyh->state.adjusted_mode;
+ 	struct drm_display_mode *umode = &asyh->state.mode;
+ 	int mode = asyc->scaler.mode;
+-	struct edid *edid;
+ 	int umode_vdisplay, omode_hdisplay, omode_vdisplay;
  
-diff --git a/drivers/gpu/drm/bridge/sii902x.c b/drivers/gpu/drm/bridge/sii902x.c
-index 89558e581530..5719be0a03c7 100644
---- a/drivers/gpu/drm/bridge/sii902x.c
-+++ b/drivers/gpu/drm/bridge/sii902x.c
-@@ -283,7 +283,7 @@ static int sii902x_get_modes(struct drm_connector *connector)
- 	edid = drm_get_edid(connector, sii902x->i2cmux->adapter[0]);
- 	drm_connector_update_edid_property(connector, edid);
- 	if (edid) {
--		if (drm_detect_hdmi_monitor(edid))
-+		if (connector->display_info.is_hdmi)
- 			output_mode = SII902X_SYS_CTRL_OUTPUT_HDMI;
+-	if (connector->edid_blob_ptr)
+-		edid = (struct edid *)connector->edid_blob_ptr->data;
+-	else
+-		edid = NULL;
+-
+ 	if (!asyc->scaler.full) {
+ 		if (mode == DRM_MODE_SCALE_NONE)
+ 			omode = umode;
+@@ -162,7 +156,7 @@ nv50_head_atomic_check_view(struct nv50_head_atom *armh,
+ 	 */
+ 	if ((asyc->scaler.underscan.mode == UNDERSCAN_ON ||
+ 	    (asyc->scaler.underscan.mode == UNDERSCAN_AUTO &&
+-	     drm_detect_hdmi_monitor(edid)))) {
++	     nouveau_connector_is_hdmi_monitor(connector)))) {
+ 		u32 bX = asyc->scaler.underscan.hborder;
+ 		u32 bY = asyc->scaler.underscan.vborder;
+ 		u32 r = (asyh->view.oH << 19) / asyh->view.oW;
+diff --git a/drivers/gpu/drm/nouveau/nouveau_connector.c b/drivers/gpu/drm/nouveau/nouveau_connector.c
+index 22b83a6577eb..211543373b72 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_connector.c
++++ b/drivers/gpu/drm/nouveau/nouveau_connector.c
+@@ -1010,7 +1010,7 @@ get_tmds_link_bandwidth(struct drm_connector *connector)
+ 	unsigned duallink_scale =
+ 		nouveau_duallink && nv_encoder->dcb->duallink_possible ? 2 : 1;
  
- 		num = drm_add_edid_modes(connector, edid);
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-index f08d0fded61f..33f0afb6b646 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-@@ -2359,7 +2359,7 @@ static struct edid *dw_hdmi_get_edid(struct dw_hdmi *hdmi,
- 	dev_dbg(hdmi->dev, "got edid: width[%d] x height[%d]\n",
- 		edid->width_cm, edid->height_cm);
+-	if (drm_detect_hdmi_monitor(nv_connector->edid)) {
++	if (nouveau_connector_is_hdmi_monitor(connector)) {
+ 		info = &nv_connector->base.display_info;
+ 		duallink_scale = 1;
+ 	}
+diff --git a/drivers/gpu/drm/nouveau/nouveau_connector.h b/drivers/gpu/drm/nouveau/nouveau_connector.h
+index 40f90e353540..299f3a3b2331 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_connector.h
++++ b/drivers/gpu/drm/nouveau/nouveau_connector.h
+@@ -167,6 +167,12 @@ nouveau_connector_is_mst(struct drm_connector *connector)
+ 	return encoder->encoder_type == DRM_MODE_ENCODER_DPMST;
+ }
  
--	hdmi->sink_is_hdmi = drm_detect_hdmi_monitor(edid);
-+	hdmi->sink_is_hdmi = connector->display_info.is_hdmi;
- 	hdmi->sink_has_audio = drm_detect_monitor_audio(edid);
- 
- 	return edid;
++static inline bool
++nouveau_connector_is_hdmi_monitor(struct drm_connector *connector)
++{
++	return connector->display_info.is_hdmi;
++}
++
+ #define nouveau_for_each_non_mst_connector_iter(connector, iter) \
+ 	drm_for_each_connector_iter(connector, iter) \
+ 		for_each_if(!nouveau_connector_is_mst(connector))
 -- 
 2.33.0
 
