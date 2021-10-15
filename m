@@ -1,32 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46AA442F849
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Oct 2021 18:34:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CF8242F848
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Oct 2021 18:34:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0635A6ED85;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 63F176ED8A;
 	Fri, 15 Oct 2021 16:34:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-4323.proton.ch (mail-4323.proton.ch [185.70.43.23])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 466636EDA3
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Oct 2021 16:33:53 +0000 (UTC)
-Date: Fri, 15 Oct 2021 16:33:43 +0000
+Received: from mail-4317.proton.ch (mail-4317.proton.ch [185.70.43.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 830966ED8A
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Oct 2021 16:33:55 +0000 (UTC)
+Date: Fri, 15 Oct 2021 16:33:44 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail; t=1634315631;
- bh=XLIJ55ALy/8LCOy7rJgXHOmSSFsu4ET0domvXc9V4Dg=;
+ s=protonmail; t=1634315633;
+ bh=CnvreGlcEPa564fSRV4zjlMRLFUjbxEgCnXwMFyXIk0=;
  h=Date:To:From:Reply-To:Subject:In-Reply-To:References:From;
- b=zBy5gvoudi+M4pgSf0t+jx4GL1Yw9q2Q0+BYvo91gPYlKPTYKjVsWTcgAu7L24fPA
- 0iWlSKoAAsakpghGNuOyD/Nbr1J5+w+UWgvu80o8e4jxXustongN6jd42l8bivpihO
- xbvIdvhzL0WR5rduZllwcFltDcMskbc9a7HfrnDcIgw803IIsj14uxmo0yoDQrGzzq
- eDjcdsZc7lwKXmwiY5u2mIfWCsY1xpO6qkweTYkus7RwRlbvODh7WAoT2Bgkr2ID6g
- ttGgzvF5JK1KvWED4F/S6Cb3ZvFq5RR3Nw5CR3LxAJmP5p74VM3XYpuX5LCtqRa4YF
- 8nOJgOpnnmVcA==
+ b=BKC9Jq1ZOcXvZXG2vxG1aYAhvlokXn5ILNkbaK8IjQq7/OZ6WbWkCSK1ZFEskMNkT
+ qyoVZg6hiIsAuiz9uofBuarbX6TM90CQnWheX/rao6n6VOPrh7lm4OHqivfy750ZYC
+ 6TFuCik0HKrgvLdv5KjDdbSFiZwsO1r+0cWI6lnEIPCAbPL0cSUntBVdOeqwPWwCAm
+ HdGglogZhj6ykVx48osklVWpl2VkvN1zuQq3p4YguNCRB6lbE/AxGIbZEqCId5zJ9Q
+ mFD40K0MqBw8ta0WSgfAX/mpN6kXv7b895LlWyihVc6hN3Sf2n9w9jpmFw3mOUceaE
+ OmGeTwDphojEA==
 To: dri-devel@lists.freedesktop.org
 From: Simon Ser <contact@emersion.fr>
-Subject: [PATCH v3 3/6] drm/connector: use drm_sysfs_connector_hotplug_event
-Message-ID: <20211015163336.95188-4-contact@emersion.fr>
+Subject: [PATCH v3 4/6] amdgpu: use drm_kms_helper_connector_hotplug_event
+Message-ID: <20211015163336.95188-5-contact@emersion.fr>
 In-Reply-To: <20211015163336.95188-1-contact@emersion.fr>
 References: <20211015163336.95188-1-contact@emersion.fr>
 MIME-Version: 1.0
@@ -53,30 +53,82 @@ Reply-To: Simon Ser <contact@emersion.fr>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In drm_connector_register, use drm_sysfs_connector_hotplug_event
-instead of drm_sysfs_hotplug_event, because the hotplug event
-only updates a single connector.
+When updating a single connector, use
+drm_kms_helper_connector_hotplug_event instead of
+drm_kms_helper_hotplug_event.
 
 Signed-off-by: Simon Ser <contact@emersion.fr>
 ---
- drivers/gpu/drm/drm_connector.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c         | 8 ++++----
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c | 4 ++--
+ 2 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connecto=
-r.c
-index ec3973e8963c..a50c82bc2b2f 100644
---- a/drivers/gpu/drm/drm_connector.c
-+++ b/drivers/gpu/drm/drm_connector.c
-@@ -547,7 +547,7 @@ int drm_connector_register(struct drm_connector *connec=
-tor)
- =09connector->registration_state =3D DRM_CONNECTOR_REGISTERED;
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gp=
+u/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index 9b1fc54555ee..c261e57d9a22 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -2652,7 +2652,7 @@ static void handle_hpd_irq(void *param)
+ =09=09drm_modeset_unlock_all(dev);
 =20
- =09/* Let userspace know we have a new connector */
--=09drm_sysfs_hotplug_event(connector->dev);
-+=09drm_sysfs_connector_hotplug_event(connector);
+ =09=09if (aconnector->base.force =3D=3D DRM_FORCE_UNSPECIFIED)
+-=09=09=09drm_kms_helper_hotplug_event(dev);
++=09=09=09drm_kms_helper_connector_hotplug_event(connector);
 =20
- =09if (connector->privacy_screen)
- =09=09drm_privacy_screen_register_notifier(connector->privacy_screen,
+ =09} else if (dc_link_detect(aconnector->dc_link, DETECT_REASON_HPD)) {
+ =09=09if (new_connection_type =3D=3D dc_connection_none &&
+@@ -2666,7 +2666,7 @@ static void handle_hpd_irq(void *param)
+ =09=09drm_modeset_unlock_all(dev);
+=20
+ =09=09if (aconnector->base.force =3D=3D DRM_FORCE_UNSPECIFIED)
+-=09=09=09drm_kms_helper_hotplug_event(dev);
++=09=09=09drm_kms_helper_connector_hotplug_event(connector);
+ =09}
+ =09mutex_unlock(&aconnector->hpd_lock);
+=20
+@@ -2833,7 +2833,7 @@ static void handle_hpd_rx_irq(void *param)
+ =09=09=09dm_restore_drm_connector_state(dev, connector);
+ =09=09=09drm_modeset_unlock_all(dev);
+=20
+-=09=09=09drm_kms_helper_hotplug_event(dev);
++=09=09=09drm_kms_helper_connector_hotplug_event(connector);
+ =09=09} else if (dc_link_detect(dc_link, DETECT_REASON_HPDRX)) {
+=20
+ =09=09=09if (aconnector->fake_enable)
+@@ -2846,7 +2846,7 @@ static void handle_hpd_rx_irq(void *param)
+ =09=09=09dm_restore_drm_connector_state(dev, connector);
+ =09=09=09drm_modeset_unlock_all(dev);
+=20
+-=09=09=09drm_kms_helper_hotplug_event(dev);
++=09=09=09drm_kms_helper_connector_hotplug_event(connector);
+ =09=09}
+ =09}
+ #ifdef CONFIG_DRM_AMD_DC_HDCP
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c b/dr=
+ivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
+index 87daa78a32b8..23e789855d17 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
+@@ -1241,7 +1241,7 @@ static ssize_t trigger_hotplug(struct file *f, const =
+char __user *buf,
+ =09=09dm_restore_drm_connector_state(dev, connector);
+ =09=09drm_modeset_unlock_all(dev);
+=20
+-=09=09drm_kms_helper_hotplug_event(dev);
++=09=09drm_kms_helper_connector_hotplug_event(connector);
+ =09} else if (param[0] =3D=3D 0) {
+ =09=09if (!aconnector->dc_link)
+ =09=09=09goto unlock;
+@@ -1263,7 +1263,7 @@ static ssize_t trigger_hotplug(struct file *f, const =
+char __user *buf,
+ =09=09dm_restore_drm_connector_state(dev, connector);
+ =09=09drm_modeset_unlock_all(dev);
+=20
+-=09=09drm_kms_helper_hotplug_event(dev);
++=09=09drm_kms_helper_connector_hotplug_event(connector);
+ =09}
+=20
+ unlock:
 --=20
 2.33.1
 
