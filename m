@@ -1,61 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC5E242F805
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Oct 2021 18:21:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AD9B42F845
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Oct 2021 18:33:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E9C1E6E054;
-	Fri, 15 Oct 2021 16:21:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C58DC6E514;
+	Fri, 15 Oct 2021 16:33:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C6D36E054
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Oct 2021 16:21:25 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 24F2A6109E
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Oct 2021 16:21:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1634314885;
- bh=z0VMHYGv4k9YfLpE9FUSGVn3TrO3Twply7c7zgpVmYM=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=J6WxXOGI05KDKCcMlAcj6PkNDAZRgenVWkTidMhwoD3JNTz/4l51EERh5Ql1ZSJpj
- BbHXZvif3Y2gIy8npj+nEwwpC4iH9jXA+7X6nBWvHtWo3FA5Re2BU3Gw+OHqxb4Ihu
- MjbChxxUI5SnJkj8X4h78uz8Lan/JnmbKUTSNM65fO6nU8rNG1Vmeu/QJoYZQgVcMb
- CexyF34RQoOQiSJuK+q00/JxapoJ3X9lV7FBcS/BSlxwEHkvP94K0v/4b4Gj5lX88F
- siBr2i5g4cd21v++Pfceo+bb/ofBufDtCzga5cQiXB7M1Eb29Rm1529svUV4SJ0X3H
- wr9CZNQCkOeaQ==
-Received: by mail-ed1-f46.google.com with SMTP id i20so39337766edj.10
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Oct 2021 09:21:25 -0700 (PDT)
-X-Gm-Message-State: AOAM531iTLGk+2aB8iA0tsekH0jNbxSE+clG9UD1I1mt+Oik3iBNMhq3
- MZ5K32HDjOdE+0QBAMCEFSF627TEk7OzkltYDg==
-X-Google-Smtp-Source: ABdhPJx6achLWZwzx6ovEoDXmzSv+wCsdnSRUuajZYLhkxDFusi9eOjTSSXm7nZir+rTOgxfNjDkLV4a3hqmrLpqCmU=
-X-Received: by 2002:a50:ef10:: with SMTP id m16mr15859060eds.224.1634314883576; 
- Fri, 15 Oct 2021 09:21:23 -0700 (PDT)
+Received: from mail-40136.proton.ch (mail-40136.proton.ch [185.70.40.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B476F6EDAC
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Oct 2021 16:33:49 +0000 (UTC)
+Date: Fri, 15 Oct 2021 16:33:39 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail; t=1634315627;
+ bh=iz8tfN2svdtF6KSSfSoVoVZ29qbGEbFnbC+v/Fx70h8=;
+ h=Date:To:From:Reply-To:Subject:From;
+ b=SkeNRxsO79EQOvQWkTYiu/bmDFpNztqSFp2GKcUv5EHq770j9+AYyndkTokrAYEys
+ sqlblwXvRa5heHzYZI+xn9mLgTQ+opSo5IIhZIl4fuIYW1CGeOOV6CTxr25blGGi+C
+ /YtNhnVCyNF/JrIC9eAnVC1hl73w4/uZLQ5cGKtBRA7M3QcASB50sPa5W9z+rmX8Rw
+ sqmO5lsfOgLUHFHaQ4ckcqtp81Sg2qQRrXGWO4ndipP1km1LJFz2x+3HT2tmD7QqIE
+ 0jVWTV4aHneOVAy2i/2QiyV+CIw16j+rS6vIKY/HFWeYukeVGqtNBDRFOEsPVXg+KP
+ ykJclbCWnH/Hw==
+To: dri-devel@lists.freedesktop.org
+From: Simon Ser <contact@emersion.fr>
+Subject: [PATCH v3 0/6] drm: add per-connector hotplug events
+Message-ID: <20211015163336.95188-1-contact@emersion.fr>
 MIME-Version: 1.0
-References: <20211004062140.29803-1-nancy.lin@mediatek.com>
- <20211004062140.29803-3-nancy.lin@mediatek.com>
-In-Reply-To: <20211004062140.29803-3-nancy.lin@mediatek.com>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Sat, 16 Oct 2021 00:21:12 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_-3KBXyBvMW8zC1fukkDFGczcP6t+CjRbvGh6uQtOSnTA@mail.gmail.com>
-Message-ID: <CAAOTY_-3KBXyBvMW8zC1fukkDFGczcP6t+CjRbvGh6uQtOSnTA@mail.gmail.com>
-Subject: Re: [PATCH v6 02/16] dt-bindings: mediatek: add vdosys1 MERGE
- property for mt8195
-To: "Nancy.Lin" <nancy.lin@mediatek.com>
-Cc: CK Hu <ck.hu@mediatek.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
- Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@linux.ie>, 
- Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, 
- Matthias Brugger <matthias.bgg@gmail.com>,
- "jason-jh . lin" <jason-jh.lin@mediatek.com>, 
- Yongqiang Niu <yongqiang.niu@mediatek.com>, 
- DRI Development <dri-devel@lists.freedesktop.org>, 
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- DTML <devicetree@vger.kernel.org>, 
- linux-kernel <linux-kernel@vger.kernel.org>, 
- Linux ARM <linux-arm-kernel@lists.infradead.org>, singo.chang@mediatek.com, 
- srv_heupstream <srv_heupstream@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+ DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
+ autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+ mailout.protonmail.ch
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,46 +47,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: Simon Ser <contact@emersion.fr>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Nancy:
+When a uevent only updates a single connector, add a CONNECTOR property
+to the uevent. This allows user-space to ignore other connectors when
+handling the uevent. This is purely an optimization, drivers can still
+send a uevent without the CONNECTOR property.
 
-Nancy.Lin <nancy.lin@mediatek.com> =E6=96=BC 2021=E5=B9=B410=E6=9C=884=E6=
-=97=A5 =E9=80=B1=E4=B8=80 =E4=B8=8B=E5=8D=882:21=E5=AF=AB=E9=81=93=EF=BC=9A
->
-> MT8195 vdosys1 merge1 to merge4 have HW mute function.
-> Add MERGE additional mute property description.
+The CONNECTOR property is already set when sending HDCP property update
+uevents, see drm_sysfs_connector_status_event.
 
-Reviewed-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+This has been tested with a wlroots patch [1].
 
->
-> Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
-> ---
->  .../devicetree/bindings/display/mediatek/mediatek,merge.yaml  | 4 ++++
->  1 file changed, 4 insertions(+)
->
-> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,=
-merge.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,me=
-rge.yaml
-> index 6007e00679a8..d7d0eda813d1 100644
-> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,merge.y=
-aml
-> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,merge.y=
-aml
-> @@ -54,6 +54,10 @@ properties:
->        command to SMI to speed up the data rate.
->      type: boolean
->
-> +  mediatek,merge-mute:
-> +    description: Support mute function. Mute the content of merge output=
-.
-> +    type: boolean
-> +
->    mediatek,gce-client-reg:
->      description:
->        The register of client driver can be configured by gce with 4 argu=
-ments
-> --
-> 2.18.0
->
+amdgpu and the probe-helper has been updated to use these new fine-grained
+uevents.
+
+Changes in v3: rebase
+
+[1]: https://github.com/swaywm/wlroots/pull/2959
+
+Simon Ser (6):
+  drm/sysfs: introduce drm_sysfs_connector_hotplug_event
+  drm/probe-helper: add drm_kms_helper_connector_hotplug_event
+  drm/connector: use drm_sysfs_connector_hotplug_event
+  amdgpu: use drm_kms_helper_connector_hotplug_event
+  drm/probe-helper: use drm_kms_helper_connector_hotplug_event
+  i915/display/dp: send a more fine-grained link-status uevent
+
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  8 ++--
+ .../amd/display/amdgpu_dm/amdgpu_dm_debugfs.c |  4 +-
+ drivers/gpu/drm/drm_connector.c               |  2 +-
+ drivers/gpu/drm/drm_probe_helper.c            | 43 +++++++++++++++++--
+ drivers/gpu/drm/drm_sysfs.c                   | 25 +++++++++++
+ drivers/gpu/drm/i915/display/intel_dp.c       |  2 +
+ include/drm/drm_probe_helper.h                |  1 +
+ include/drm/drm_sysfs.h                       |  1 +
+ 8 files changed, 75 insertions(+), 11 deletions(-)
+
+
+base-commit: f6632721cd6231e1bf28b5317dcc7543e43359f7
+--=20
+2.33.1
+
+
