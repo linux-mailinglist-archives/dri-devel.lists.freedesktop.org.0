@@ -1,88 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E59E42E5B1
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Oct 2021 03:02:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EFFB942E60D
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Oct 2021 03:18:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E2606ECBB;
-	Fri, 15 Oct 2021 01:02:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 47D996ECB3;
+	Fri, 15 Oct 2021 01:18:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
- [IPv6:2a00:1450:4864:20::130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 987D76ECBB
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Oct 2021 01:02:14 +0000 (UTC)
-Received: by mail-lf1-x130.google.com with SMTP id u21so31375914lff.8
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Oct 2021 18:02:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=mv5Z6Sdks/z0PRafNWu7V1r7LCkQQrDbmE+ZfMmHLqw=;
- b=H60RnvlX2azwNGf02ab1Oyj8wVvv7xw4MWUErTGrxY7uhb1rctVozCIO8sCS81VzVS
- hOZVQcmidgo6srorYYEKXtrCX+uka5RufIHO9FB8YjYtosAd1tV7yduYszwn7XqHY8T3
- P2XSvit2SOy5d04RRrtHtjjy0pTszcQ+avWKslDagv90QnM8kxz9GqKKNEWsuZkwk0oG
- RI0hyWIS7l6XKbWqVyVn0ypJq/EzThrBHBqQNDqP1p+HoYYDahsR4SOJzmb7tEtGttAs
- Wv2t95lbRv4BVqh+KbIj7b+IMF63pQ6o3e7MjI+Qa1vL14XEfbtvpEfBnM3DX3ZKeOzd
- j7Xw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=mv5Z6Sdks/z0PRafNWu7V1r7LCkQQrDbmE+ZfMmHLqw=;
- b=iTttYAmdcCEGtXwVnbrwvgJ4/ZzoaxNejG4v9UEdmfPxxKLycrmCgQ8TRXdNCIcnPX
- sOkQq/a1j6/2hrh8OWgzPzrqTBr1lOClHh0wIyAAaeSZ9PjCwhKpwV6yiBiK50BJhHcX
- aJmCIAZ5g97/6PPvwT/OU//64Y01TyU8YPxH9GNsFUCSto9uNp3Pf9c8bu8wsdmJ0TUU
- m9gJh9qeSfo29K5Tm0KnBQxVnHc3rjtuqn5qneSY8QrVKCGm9hqiDLwi8Uk0P+5dq2MG
- ok3OhwfkCPZVh4E33IahwhpKXDVB4tVV7hYYyC8d3jVc8Sd66+++tF8+9y7Tap1ea+/G
- vCBA==
-X-Gm-Message-State: AOAM532i8hKonxcdFrf0Fqyc7pPuaQflufpd8s4Xh4azLiKlvMt+DaUX
- 9cvBrXigEUGOjnSDDrl+kAc=
-X-Google-Smtp-Source: ABdhPJwI0m+5o/4/ErJJ6urO1/gJpgb5iHK/zkQpI7uZEJJsVGNazonwuMOVf2cdk0laSZAgpG/4Tw==
-X-Received: by 2002:ac2:443b:: with SMTP id w27mr8198374lfl.63.1634259732934; 
- Thu, 14 Oct 2021 18:02:12 -0700 (PDT)
-Received: from [192.168.2.145] (79-139-176-16.dynamic.spd-mgts.ru.
- [79.139.176.16])
- by smtp.googlemail.com with ESMTPSA id x145sm357902lff.155.2021.10.14.18.02.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 14 Oct 2021 18:02:12 -0700 (PDT)
-Subject: Re: [PATCH v12 05/35] dt-bindings: clock: tegra-car: Document new
- clock sub-nodes
-To: Stephen Boyd <sboyd@kernel.org>, Adrian Hunter <adrian.hunter@intel.com>, 
- Jonathan Hunter <jonathanh@nvidia.com>, Lee Jones <lee.jones@linaro.org>, 
- Michael Turquette <mturquette@baylibre.com>,
- Mikko Perttunen <mperttunen@nvidia.com>, Nishanth Menon <nm@ti.com>,
- Peter Chen <peter.chen@kernel.org>,
- Peter De Schrijver <pdeschrijver@nvidia.com>,
- Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
- Ulf Hansson <ulf.hansson@linaro.org>,
- =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
- Viresh Kumar <vireshk@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-pwm@vger.kernel.org,
- linux-mmc@vger.kernel.org, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
- Mark Brown <broonie@kernel.org>, Vignesh Raghavendra <vigneshr@ti.com>,
- Richard Weinberger <richard@nod.at>,
- Miquel Raynal <miquel.raynal@bootlin.com>, Lucas Stach <dev@lynxeye.de>,
- Stefan Agner <stefan@agner.ch>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- David Heidelberg <david@ixit.cz>
-References: <20210920181145.19543-1-digetx@gmail.com>
- <20210920181145.19543-6-digetx@gmail.com>
- <163425700766.1688384.4481739110941660602@swboyd.mtv.corp.google.com>
- <4090acf8-c8af-d98c-2121-9fd105365e55@gmail.com>
- <163425874534.1688384.5636050222516713710@swboyd.mtv.corp.google.com>
-From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <97b2e36d-b380-8565-8409-3884ab4ca11e@gmail.com>
-Date: Fri, 15 Oct 2021 04:02:11 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E44836E0AC;
+ Fri, 15 Oct 2021 01:18:42 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10137"; a="214761947"
+X-IronPort-AV: E=Sophos;i="5.85,374,1624345200"; d="scan'208";a="214761947"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Oct 2021 18:18:38 -0700
+X-IronPort-AV: E=Sophos;i="5.85,374,1624345200"; d="scan'208";a="717917628"
+Received: from orsosgc001.jf.intel.com ([10.165.21.154])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Oct 2021 18:18:38 -0700
+From: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Cc: john.c.harrison@intel.com, Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ daniel.vetter@ffwll.ch, Matthew Brost <matthew.brost@intel.com>
+Subject: [PATCH 1/2] drm/i915/pmu: Add a name to the execlists stats
+Date: Thu, 14 Oct 2021 18:18:32 -0700
+Message-Id: <20211015011833.59054-1-umesh.nerlige.ramappa@intel.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <163425874534.1688384.5636050222516713710@swboyd.mtv.corp.google.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -99,48 +47,203 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-15.10.2021 03:45, Stephen Boyd пишет:
-> Quoting Dmitry Osipenko (2021-10-14 17:43:49)
->> 15.10.2021 03:16, Stephen Boyd пишет:
->>> Quoting Dmitry Osipenko (2021-09-20 11:11:15)
->>>> diff --git a/Documentation/devicetree/bindings/clock/nvidia,tegra20-car.yaml b/Documentation/devicetree/bindings/clock/nvidia,tegra20-car.yaml
->>>> index 459d2a525393..f832abb7f11a 100644
->>>> --- a/Documentation/devicetree/bindings/clock/nvidia,tegra20-car.yaml
->>>> +++ b/Documentation/devicetree/bindings/clock/nvidia,tegra20-car.yaml
->>>> @@ -42,6 +42,36 @@ properties:
->>>>    "#reset-cells":
->>>>      const: 1
->>>>  
->>>> +patternProperties:
->>>> +  "^(sclk)|(pll-[cem])$":
->>>> +    type: object
->>>> +    properties:
->>>> +      compatible:
->>>> +        enum:
->>>> +          - nvidia,tegra20-sclk
->>>> +          - nvidia,tegra30-sclk
->>>> +          - nvidia,tegra30-pllc
->>>> +          - nvidia,tegra30-plle
->>>> +          - nvidia,tegra30-pllm
->>>> +
->>>> +      operating-points-v2: true
->>>> +
->>>> +      clocks:
->>>> +        items:
->>>> +          - description: node's clock
->>>> +
->>>> +      power-domains:
->>>> +        maxItems: 1
->>>> +        description: phandle to the core SoC power domain
->>>
->>> Is this done to associate the power domain with a particular clk? And an
->>> OPP table with a particular clk?
->>
->> Yes
->>
-> 
-> Ok. Can Ulf/Viresh review this patch series?
+In preparation for GuC pmu stats, add a name to the execlists stats
+structure so that it can be differentiated from the GuC stats.
 
-They already did, please see v13 [1].
+Signed-off-by: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
+---
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c    | 14 +++---
+ drivers/gpu/drm/i915/gt/intel_engine_stats.h | 33 +++++++------
+ drivers/gpu/drm/i915/gt/intel_engine_types.h | 52 +++++++++++---------
+ 3 files changed, 53 insertions(+), 46 deletions(-)
 
-[1] https://lore.kernel.org/lkml/20210926224058.1252-1-digetx@gmail.com/
+diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+index 2ae57e4656a3..38436f4b5706 100644
+--- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
++++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+@@ -361,7 +361,7 @@ static int intel_engine_setup(struct intel_gt *gt, enum intel_engine_id id)
+ 		DRIVER_CAPS(i915)->has_logical_contexts = true;
+ 
+ 	ewma__engine_latency_init(&engine->latency);
+-	seqcount_init(&engine->stats.lock);
++	seqcount_init(&engine->stats.execlists.lock);
+ 
+ 	ATOMIC_INIT_NOTIFIER_HEAD(&engine->context_status_notifier);
+ 
+@@ -1876,15 +1876,16 @@ void intel_engine_dump(struct intel_engine_cs *engine,
+ static ktime_t __intel_engine_get_busy_time(struct intel_engine_cs *engine,
+ 					    ktime_t *now)
+ {
+-	ktime_t total = engine->stats.total;
++	struct intel_engine_execlists_stats *stats = &engine->stats.execlists;
++	ktime_t total = stats->total;
+ 
+ 	/*
+ 	 * If the engine is executing something at the moment
+ 	 * add it to the total.
+ 	 */
+ 	*now = ktime_get();
+-	if (READ_ONCE(engine->stats.active))
+-		total = ktime_add(total, ktime_sub(*now, engine->stats.start));
++	if (READ_ONCE(stats->active))
++		total = ktime_add(total, ktime_sub(*now, stats->start));
+ 
+ 	return total;
+ }
+@@ -1898,13 +1899,14 @@ static ktime_t __intel_engine_get_busy_time(struct intel_engine_cs *engine,
+  */
+ ktime_t intel_engine_get_busy_time(struct intel_engine_cs *engine, ktime_t *now)
+ {
++	struct intel_engine_execlists_stats *stats = &engine->stats.execlists;
+ 	unsigned int seq;
+ 	ktime_t total;
+ 
+ 	do {
+-		seq = read_seqcount_begin(&engine->stats.lock);
++		seq = read_seqcount_begin(&stats->lock);
+ 		total = __intel_engine_get_busy_time(engine, now);
+-	} while (read_seqcount_retry(&engine->stats.lock, seq));
++	} while (read_seqcount_retry(&stats->lock, seq));
+ 
+ 	return total;
+ }
+diff --git a/drivers/gpu/drm/i915/gt/intel_engine_stats.h b/drivers/gpu/drm/i915/gt/intel_engine_stats.h
+index 24fbdd94351a..8e762d683e50 100644
+--- a/drivers/gpu/drm/i915/gt/intel_engine_stats.h
++++ b/drivers/gpu/drm/i915/gt/intel_engine_stats.h
+@@ -15,45 +15,46 @@
+ 
+ static inline void intel_engine_context_in(struct intel_engine_cs *engine)
+ {
++	struct intel_engine_execlists_stats *stats = &engine->stats.execlists;
+ 	unsigned long flags;
+ 
+-	if (engine->stats.active) {
+-		engine->stats.active++;
++	if (stats->active) {
++		stats->active++;
+ 		return;
+ 	}
+ 
+ 	/* The writer is serialised; but the pmu reader may be from hardirq */
+ 	local_irq_save(flags);
+-	write_seqcount_begin(&engine->stats.lock);
++	write_seqcount_begin(&stats->lock);
+ 
+-	engine->stats.start = ktime_get();
+-	engine->stats.active++;
++	stats->start = ktime_get();
++	stats->active++;
+ 
+-	write_seqcount_end(&engine->stats.lock);
++	write_seqcount_end(&stats->lock);
+ 	local_irq_restore(flags);
+ 
+-	GEM_BUG_ON(!engine->stats.active);
++	GEM_BUG_ON(!stats->active);
+ }
+ 
+ static inline void intel_engine_context_out(struct intel_engine_cs *engine)
+ {
++	struct intel_engine_execlists_stats *stats = &engine->stats.execlists;
+ 	unsigned long flags;
+ 
+-	GEM_BUG_ON(!engine->stats.active);
+-	if (engine->stats.active > 1) {
+-		engine->stats.active--;
++	GEM_BUG_ON(!stats->active);
++	if (stats->active > 1) {
++		stats->active--;
+ 		return;
+ 	}
+ 
+ 	local_irq_save(flags);
+-	write_seqcount_begin(&engine->stats.lock);
++	write_seqcount_begin(&stats->lock);
+ 
+-	engine->stats.active--;
+-	engine->stats.total =
+-		ktime_add(engine->stats.total,
+-			  ktime_sub(ktime_get(), engine->stats.start));
++	stats->active--;
++	stats->total = ktime_add(stats->total,
++				 ktime_sub(ktime_get(), stats->start));
+ 
+-	write_seqcount_end(&engine->stats.lock);
++	write_seqcount_end(&stats->lock);
+ 	local_irq_restore(flags);
+ }
+ 
+diff --git a/drivers/gpu/drm/i915/gt/intel_engine_types.h b/drivers/gpu/drm/i915/gt/intel_engine_types.h
+index 9167ce52487c..b820a2c1124e 100644
+--- a/drivers/gpu/drm/i915/gt/intel_engine_types.h
++++ b/drivers/gpu/drm/i915/gt/intel_engine_types.h
+@@ -257,6 +257,33 @@ struct intel_engine_execlists {
+ 
+ #define INTEL_ENGINE_CS_MAX_NAME 8
+ 
++struct intel_engine_execlists_stats {
++	/**
++	 * @active: Number of contexts currently scheduled in.
++	 */
++	unsigned int active;
++
++	/**
++	 * @lock: Lock protecting the below fields.
++	 */
++	seqcount_t lock;
++
++	/**
++	 * @total: Total time this engine was busy.
++	 *
++	 * Accumulated time not counting the most recent block in cases where
++	 * engine is currently busy (active > 0).
++	 */
++	ktime_t total;
++
++	/**
++	 * @start: Timestamp of the last idle to active transition.
++	 *
++	 * Idle is defined as active == 0, active is active > 0.
++	 */
++	ktime_t start;
++};
++
+ struct intel_engine_cs {
+ 	struct drm_i915_private *i915;
+ 	struct intel_gt *gt;
+@@ -481,30 +508,7 @@ struct intel_engine_cs {
+ 	u32 (*get_cmd_length_mask)(u32 cmd_header);
+ 
+ 	struct {
+-		/**
+-		 * @active: Number of contexts currently scheduled in.
+-		 */
+-		unsigned int active;
+-
+-		/**
+-		 * @lock: Lock protecting the below fields.
+-		 */
+-		seqcount_t lock;
+-
+-		/**
+-		 * @total: Total time this engine was busy.
+-		 *
+-		 * Accumulated time not counting the most recent block in cases
+-		 * where engine is currently busy (active > 0).
+-		 */
+-		ktime_t total;
+-
+-		/**
+-		 * @start: Timestamp of the last idle to active transition.
+-		 *
+-		 * Idle is defined as active == 0, active is active > 0.
+-		 */
+-		ktime_t start;
++		struct intel_engine_execlists_stats execlists;
+ 
+ 		/**
+ 		 * @rps: Utilisation at last RPS sampling.
+-- 
+2.20.1
+
