@@ -1,41 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1859142FD21
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Oct 2021 22:57:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2783842FD23
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Oct 2021 22:58:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5BD486EDF5;
-	Fri, 15 Oct 2021 20:57:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F05156EDFF;
+	Fri, 15 Oct 2021 20:58:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.smtp.larsendata.com (mx1.smtp.larsendata.com
- [91.221.196.215])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B24E26EDF5
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Oct 2021 20:56:59 +0000 (UTC)
-Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
- by mx1.smtp.larsendata.com (Halon) with ESMTPS
- id 7018a882-2dfa-11ec-9c3f-0050568c148b;
- Fri, 15 Oct 2021 20:56:58 +0000 (UTC)
-Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
- [80.162.45.141])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: sam@ravnborg.org)
- by mail01.mxhotel.dk (Postfix) with ESMTPSA id 7EEDE194B3E;
- Fri, 15 Oct 2021 22:57:05 +0200 (CEST)
-Date: Fri, 15 Oct 2021 22:56:55 +0200
-X-Report-Abuse-To: abuse@mxhotel.dk
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Bryant Mairs <bryant@mai.rs>
-Cc: dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] drm: panel-orientation-quirks: Add quirk for Aya Neo 2021
-Message-ID: <YWnrFx+vfIutc5wR@ravnborg.org>
-References: <20211001221618.29765-1-bryant@mai.rs>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ADB5F6EDFD;
+ Fri, 15 Oct 2021 20:58:39 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 70B8D611C8;
+ Fri, 15 Oct 2021 20:58:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1634331519;
+ bh=dnhU3wtRX7bT2bq9tiHUtMnhaK6NX1drdYaHmI6czC0=;
+ h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+ b=ewbBplKerg8taL0KlCahYh9/akFDTqPSg8vTR4ISXNdghQktA/zMYhJvetI3SSTiR
+ nRFx/RgiIqr5mEs0S4NMswOamMCkK1Xrw4y6ItMFpbm3ndUUtpYYsTYg7Tj2GtZuLk
+ gQjuPc8tHPyxZp+r3aeyIVgLkxuMHWS1I0vyUIBsEPxsIuxshpUrjymKaaCvcNQdDZ
+ NHCAv25DiuKpbGyhu3vnxzmU8pBYJ86WnvzKRNPwGajeSQLLm9EEd8ytO0SY+wS/YS
+ GhtCeXHRng3Ce+b9n2pPCkvFqjfVWpCexuBypvwU7zkL01Bd/lV8pQbeS91oxsEArz
+ RrOqzqfRfNtTw==
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211001221618.29765-1-bryant@mai.rs>
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20211014214221.4173287-1-dmitry.baryshkov@linaro.org>
+References: <20211014214221.4173287-1-dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH] ARM: dts: qcom-apq8064: stop using legacy clock names for
+ HDMI
+From: Stephen Boyd <sboyd@kernel.org>
+Cc: Jonathan Marek <jonathan@marek.ca>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
+To: Abhinav Kumar <abhinavk@codeaurora.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>
+Date: Fri, 15 Oct 2021 13:58:38 -0700
+Message-ID: <163433151821.1688384.7720591539857708126@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.9.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,14 +57,11 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Bryant,
+Quoting Dmitry Baryshkov (2021-10-14 14:42:21)
+> Stop using legacy clock names (with _clk suffix) for HDMI and HDMI PHY
+> device tree nodes.
+>=20
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
 
-On Fri, Oct 01, 2021 at 03:16:18PM -0700, Bryant Mairs wrote:
-> Signed-off-by: Bryant Mairs <bryant@mai.rs>
-
-Patch looks fine, but I do not accept empty changelogs.
-
-At a minimum describe in the changelog what device benefit from this
-quirk.
-
-	Sam
+Reviewed-by: Stephen Boyd <swboyd@chromium.org>
