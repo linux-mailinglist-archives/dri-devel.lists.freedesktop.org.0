@@ -2,64 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC7BB42FEFC
-	for <lists+dri-devel@lfdr.de>; Sat, 16 Oct 2021 01:44:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E02242FF00
+	for <lists+dri-devel@lfdr.de>; Sat, 16 Oct 2021 01:47:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C0F66EE0C;
-	Fri, 15 Oct 2021 23:44:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C3A9B6E3F9;
+	Fri, 15 Oct 2021 23:47:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F5246E3F9
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Oct 2021 23:44:37 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1634341477; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=jJ/9pFPB6gmJ0baQgefAhJuGAxI+QH/7x+kb0x64v+I=;
- b=uKFSAPXahBAYtY2KUo95QUOBH2oHmYi/ElXQTFv+aGJFWuiP7F2Oi4crkTcJxbPm4H73LyJO
- GOwR174c2AGbPStvrjPXi5ZDVxfAS6bnP91LxCJW3cByS3CLFehLVog5ecJm4eLBEZtaHpjf
- MYJSD/nqZSDdrt1qvL/OowTyBC8=
-X-Mailgun-Sending-Ip: 69.72.43.7
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n02.prod.us-west-2.postgun.com with SMTP id
- 616a1264f3e5b80f1fdd50f8 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 15 Oct 2021 23:44:36
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 6CA4FC43618; Fri, 15 Oct 2021 23:44:36 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
- URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
- (No client certificate requested) (Authenticated sender: abhinavk)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 909C7C4338F;
- Fri, 15 Oct 2021 23:44:35 +0000 (UTC)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC1B36E3F9;
+ Fri, 15 Oct 2021 23:47:15 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10138"; a="208119185"
+X-IronPort-AV: E=Sophos;i="5.85,376,1624345200"; d="scan'208";a="208119185"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Oct 2021 16:47:15 -0700
+X-IronPort-AV: E=Sophos;i="5.85,376,1624345200"; d="scan'208";a="481876928"
+Received: from orsosgc001.jf.intel.com ([10.165.21.154])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Oct 2021 16:47:15 -0700
+From: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Cc: john.c.harrison@intel.com, Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ daniel.vetter@ffwll.ch, Matthew Brost <matthew.brost@intel.com>
+Subject: [PATCH 1/2] drm/i915/pmu: Add a name to the execlists stats
+Date: Fri, 15 Oct 2021 16:47:04 -0700
+Message-Id: <20211015234705.12392-1-umesh.nerlige.ramappa@intel.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date: Fri, 15 Oct 2021 16:44:35 -0700
-From: abhinavk@codeaurora.org
-To: Bjorn Andersson <bjorn.andersson@linaro.org>
-Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, David
- Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, Kuogee Hsieh
- <khsieh@codeaurora.org>, Stephen Boyd <swboyd@chromium.org>, Dmitry
- Baryshkov <dmitry.baryshkov@linaro.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [Freedreno] [PATCH] drm/msm/dp: Only create debugfs for PRIMARY
- minor
-In-Reply-To: <20211015231307.1784165-1-bjorn.andersson@linaro.org>
-References: <20211015231307.1784165-1-bjorn.andersson@linaro.org>
-Message-ID: <48f35ef1f90bc7c23599e98a5c1e2c09@codeaurora.org>
-X-Sender: abhinavk@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,61 +47,204 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-10-15 16:13, Bjorn Andersson wrote:
-> dpu_kms_debugfs_init() and hence dp_debug_get() gets invoked for each
-> minor being registered. But dp_debug_get() will allocate a new struct
-> dp_debug for each call and this will be associated as dp->debug.
-> 
-> As such dp_debug will create debugfs files in both the PRIMARY and the
-> RENDER minor's debugfs directory, but only the last reference will be
-> remembered.
-> 
-> The only use of this reference today is in the cleanup path in
-> dp_display_deinit_sub_modules() and the dp_debug_private object does
-> outlive the debugfs entries in either case, so there doesn't seem to be
-> any adverse effects of this, but per the code the current behavior is
-> unexpected, so change it to only create dp_debug for the PRIMARY minor.
-> 
+In preparation for GuC pmu stats, add a name to the execlists stats
+structure so that it can be differentiated from the GuC stats.
 
-If i understand correctly, today because of this, we get redundant 
-debugfs nodes right?
+Signed-off-by: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
+Acked-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+---
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c    | 14 +++---
+ drivers/gpu/drm/i915/gt/intel_engine_stats.h | 33 +++++++------
+ drivers/gpu/drm/i915/gt/intel_engine_types.h | 52 +++++++++++---------
+ 3 files changed, 53 insertions(+), 46 deletions(-)
 
-/sys/kernel/debug/dri/<minor_x>/dp_debug
-/sys/kernel/debug/dri/<minor_y>/dp_debug
+diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+index 2ae57e4656a3..38436f4b5706 100644
+--- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
++++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+@@ -361,7 +361,7 @@ static int intel_engine_setup(struct intel_gt *gt, enum intel_engine_id id)
+ 		DRIVER_CAPS(i915)->has_logical_contexts = true;
+ 
+ 	ewma__engine_latency_init(&engine->latency);
+-	seqcount_init(&engine->stats.lock);
++	seqcount_init(&engine->stats.execlists.lock);
+ 
+ 	ATOMIC_INIT_NOTIFIER_HEAD(&engine->context_status_notifier);
+ 
+@@ -1876,15 +1876,16 @@ void intel_engine_dump(struct intel_engine_cs *engine,
+ static ktime_t __intel_engine_get_busy_time(struct intel_engine_cs *engine,
+ 					    ktime_t *now)
+ {
+-	ktime_t total = engine->stats.total;
++	struct intel_engine_execlists_stats *stats = &engine->stats.execlists;
++	ktime_t total = stats->total;
+ 
+ 	/*
+ 	 * If the engine is executing something at the moment
+ 	 * add it to the total.
+ 	 */
+ 	*now = ktime_get();
+-	if (READ_ONCE(engine->stats.active))
+-		total = ktime_add(total, ktime_sub(*now, engine->stats.start));
++	if (READ_ONCE(stats->active))
++		total = ktime_add(total, ktime_sub(*now, stats->start));
+ 
+ 	return total;
+ }
+@@ -1898,13 +1899,14 @@ static ktime_t __intel_engine_get_busy_time(struct intel_engine_cs *engine,
+  */
+ ktime_t intel_engine_get_busy_time(struct intel_engine_cs *engine, ktime_t *now)
+ {
++	struct intel_engine_execlists_stats *stats = &engine->stats.execlists;
+ 	unsigned int seq;
+ 	ktime_t total;
+ 
+ 	do {
+-		seq = read_seqcount_begin(&engine->stats.lock);
++		seq = read_seqcount_begin(&stats->lock);
+ 		total = __intel_engine_get_busy_time(engine, now);
+-	} while (read_seqcount_retry(&engine->stats.lock, seq));
++	} while (read_seqcount_retry(&stats->lock, seq));
+ 
+ 	return total;
+ }
+diff --git a/drivers/gpu/drm/i915/gt/intel_engine_stats.h b/drivers/gpu/drm/i915/gt/intel_engine_stats.h
+index 24fbdd94351a..8e762d683e50 100644
+--- a/drivers/gpu/drm/i915/gt/intel_engine_stats.h
++++ b/drivers/gpu/drm/i915/gt/intel_engine_stats.h
+@@ -15,45 +15,46 @@
+ 
+ static inline void intel_engine_context_in(struct intel_engine_cs *engine)
+ {
++	struct intel_engine_execlists_stats *stats = &engine->stats.execlists;
+ 	unsigned long flags;
+ 
+-	if (engine->stats.active) {
+-		engine->stats.active++;
++	if (stats->active) {
++		stats->active++;
+ 		return;
+ 	}
+ 
+ 	/* The writer is serialised; but the pmu reader may be from hardirq */
+ 	local_irq_save(flags);
+-	write_seqcount_begin(&engine->stats.lock);
++	write_seqcount_begin(&stats->lock);
+ 
+-	engine->stats.start = ktime_get();
+-	engine->stats.active++;
++	stats->start = ktime_get();
++	stats->active++;
+ 
+-	write_seqcount_end(&engine->stats.lock);
++	write_seqcount_end(&stats->lock);
+ 	local_irq_restore(flags);
+ 
+-	GEM_BUG_ON(!engine->stats.active);
++	GEM_BUG_ON(!stats->active);
+ }
+ 
+ static inline void intel_engine_context_out(struct intel_engine_cs *engine)
+ {
++	struct intel_engine_execlists_stats *stats = &engine->stats.execlists;
+ 	unsigned long flags;
+ 
+-	GEM_BUG_ON(!engine->stats.active);
+-	if (engine->stats.active > 1) {
+-		engine->stats.active--;
++	GEM_BUG_ON(!stats->active);
++	if (stats->active > 1) {
++		stats->active--;
+ 		return;
+ 	}
+ 
+ 	local_irq_save(flags);
+-	write_seqcount_begin(&engine->stats.lock);
++	write_seqcount_begin(&stats->lock);
+ 
+-	engine->stats.active--;
+-	engine->stats.total =
+-		ktime_add(engine->stats.total,
+-			  ktime_sub(ktime_get(), engine->stats.start));
++	stats->active--;
++	stats->total = ktime_add(stats->total,
++				 ktime_sub(ktime_get(), stats->start));
+ 
+-	write_seqcount_end(&engine->stats.lock);
++	write_seqcount_end(&stats->lock);
+ 	local_irq_restore(flags);
+ }
+ 
+diff --git a/drivers/gpu/drm/i915/gt/intel_engine_types.h b/drivers/gpu/drm/i915/gt/intel_engine_types.h
+index 9167ce52487c..b820a2c1124e 100644
+--- a/drivers/gpu/drm/i915/gt/intel_engine_types.h
++++ b/drivers/gpu/drm/i915/gt/intel_engine_types.h
+@@ -257,6 +257,33 @@ struct intel_engine_execlists {
+ 
+ #define INTEL_ENGINE_CS_MAX_NAME 8
+ 
++struct intel_engine_execlists_stats {
++	/**
++	 * @active: Number of contexts currently scheduled in.
++	 */
++	unsigned int active;
++
++	/**
++	 * @lock: Lock protecting the below fields.
++	 */
++	seqcount_t lock;
++
++	/**
++	 * @total: Total time this engine was busy.
++	 *
++	 * Accumulated time not counting the most recent block in cases where
++	 * engine is currently busy (active > 0).
++	 */
++	ktime_t total;
++
++	/**
++	 * @start: Timestamp of the last idle to active transition.
++	 *
++	 * Idle is defined as active == 0, active is active > 0.
++	 */
++	ktime_t start;
++};
++
+ struct intel_engine_cs {
+ 	struct drm_i915_private *i915;
+ 	struct intel_gt *gt;
+@@ -481,30 +508,7 @@ struct intel_engine_cs {
+ 	u32 (*get_cmd_length_mask)(u32 cmd_header);
+ 
+ 	struct {
+-		/**
+-		 * @active: Number of contexts currently scheduled in.
+-		 */
+-		unsigned int active;
+-
+-		/**
+-		 * @lock: Lock protecting the below fields.
+-		 */
+-		seqcount_t lock;
+-
+-		/**
+-		 * @total: Total time this engine was busy.
+-		 *
+-		 * Accumulated time not counting the most recent block in cases
+-		 * where engine is currently busy (active > 0).
+-		 */
+-		ktime_t total;
+-
+-		/**
+-		 * @start: Timestamp of the last idle to active transition.
+-		 *
+-		 * Idle is defined as active == 0, active is active > 0.
+-		 */
+-		ktime_t start;
++		struct intel_engine_execlists_stats execlists;
+ 
+ 		/**
+ 		 * @rps: Utilisation at last RPS sampling.
+-- 
+2.20.1
 
-Both of these will hold the same information as they are for the same DP 
-controller right?
-In that case, this is true even for the other DPU kms information too.
-
-Why not move this check one level up to dpu_kms_debugfs_init?
-
-> Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-> ---
->  drivers/gpu/drm/msm/dp/dp_display.c | 5 +++++
->  1 file changed, 5 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c
-> b/drivers/gpu/drm/msm/dp/dp_display.c
-> index 3aa67c53dbc0..06773b58bb60 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_display.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> @@ -10,6 +10,7 @@
->  #include <linux/component.h>
->  #include <linux/of_irq.h>
->  #include <linux/delay.h>
-> +#include <drm/drm_file.h>
->  #include <drm/drm_panel.h>
-> 
->  #include "msm_drv.h"
-> @@ -1463,6 +1464,10 @@ void msm_dp_debugfs_init(struct msm_dp
-> *dp_display, struct drm_minor *minor)
->  	dp = container_of(dp_display, struct dp_display_private, dp_display);
->  	dev = &dp->pdev->dev;
-> 
-> +	/* Only create one set of debugfs per DP instance */
-> +	if (minor->type != DRM_MINOR_PRIMARY)
-> +		return;
-> +
->  	dp->debug = dp_debug_get(dev, dp->panel, dp->usbpd,
->  					dp->link, dp->dp_display.connector,
->  					minor);
