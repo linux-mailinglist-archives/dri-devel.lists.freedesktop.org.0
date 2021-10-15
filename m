@@ -1,49 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20F4942ECA0
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Oct 2021 10:41:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D247C42EC9D
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Oct 2021 10:41:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 44CC76E8F1;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 106086E29D;
 	Fri, 15 Oct 2021 08:40:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CBC256E29D
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Oct 2021 08:40:56 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1252F6E23F
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Oct 2021 08:40:57 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 64F9A21A65;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 8BCCD21A66;
  Fri, 15 Oct 2021 08:40:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1634287255; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZHb4FktbkDSNUnXgBWGwJ2b3rCnFpJjncQOmBTQVCIU=;
- b=M+329a1BUTKUnjTPR3l/waY6BksT2qxzx8CrAcBpgJegtC6v8/VX3wyC2nIkLDHm8c9Vpt
- nB3jXbgRfX5WNQQwCMJiJa9E1CB+6RCbBzbIurRPrsSyMxS22hO/So/0TaYQmPLUGZIwJ1
- +g6Vlb38wPRyQL3koW0d44obn9bjn24=
+ bh=izQ7/Niglej56bO/Ez3Dbgcv2dhtVBnoNmhEthMUpuc=;
+ b=CGb2t3Fu808CUiXCW8s2c9E5U8zpwG0RqW+eQDr/jlBnRz/6tesLFkfJFd10hJ4U17JUaw
+ ziTeb2lFtn9fPuKfA+f+ESacPDhJffPWeV+qGKAHIov8otM/MxRCXc8AslsD80ZbnBtvCw
+ QgSlGv57GSWkxJdS8yzCBg3+nFxKuZY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1634287255;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZHb4FktbkDSNUnXgBWGwJ2b3rCnFpJjncQOmBTQVCIU=;
- b=BnR+KlA5tBCjPA5RcHV0sEhbvmJgZbhRRlfoiOFJ+NWxtuBB7t9+mXvHcmvU6fFQ8Ceyit
- L1Xe4R85tr+uZADA==
+ bh=izQ7/Niglej56bO/Ez3Dbgcv2dhtVBnoNmhEthMUpuc=;
+ b=OjoRcszKoqsyPGcEwZeQ5uOvlM06Bb/PlexnyGJjR2/qa/EAkGij53/qtItiki+p1giSmB
+ 5SPNgdrDYxB90YCg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 42F0713EE2;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 68B4313B87;
  Fri, 15 Oct 2021 08:40:55 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id aEVhD5c+aWHBGQAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id mMeRGJc+aWHBGQAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Fri, 15 Oct 2021 08:40:55 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: patrik.r.jakobsson@gmail.com,
@@ -51,9 +51,9 @@ To: patrik.r.jakobsson@gmail.com,
 	daniel@ffwll.ch
 Cc: dri-devel@lists.freedesktop.org,
 	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v3 02/10] drm/gma500: Use to_gtt_range() everywhere
-Date: Fri, 15 Oct 2021 10:40:45 +0200
-Message-Id: <20211015084053.13708-3-tzimmermann@suse.de>
+Subject: [PATCH v3 03/10] drm/gma500: Reimplement psb_gem_create()
+Date: Fri, 15 Oct 2021 10:40:46 +0200
+Message-Id: <20211015084053.13708-4-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211015084053.13708-1-tzimmermann@suse.de>
 References: <20211015084053.13708-1-tzimmermann@suse.de>
@@ -74,70 +74,152 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Convert upcasts from struct drm_gem_object to struct gtt_range to
-to_gtt_range(). Some places used container_of() directly.
+Implement psb_gem_create() for general use. Create the GEM handle in
+psb_gem_create_dumb(). Allows to use psb_gem_create() for creating all
+of the GEM objects.
+
+While at it, clean-up drm_gem_dumb_create() to make it more readable.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Acked-by: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
 ---
- drivers/gpu/drm/gma500/gem.c         | 4 ++--
- drivers/gpu/drm/gma500/gma_display.c | 7 +++----
- 2 files changed, 5 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/gma500/gem.c | 93 ++++++++++++++++++++++--------------
+ drivers/gpu/drm/gma500/gem.h |  4 +-
+ 2 files changed, 59 insertions(+), 38 deletions(-)
 
 diff --git a/drivers/gpu/drm/gma500/gem.c b/drivers/gpu/drm/gma500/gem.c
-index a41990dbcc0e..b52908313ee5 100644
+index b52908313ee5..0c094d4e3f1c 100644
 --- a/drivers/gpu/drm/gma500/gem.c
 +++ b/drivers/gpu/drm/gma500/gem.c
-@@ -117,7 +117,7 @@ static vm_fault_t psb_gem_fault(struct vm_fault *vmf);
+@@ -175,45 +175,36 @@ struct gtt_range *psb_gtt_alloc_range(struct drm_device *dev, int len,
+ 	return NULL;
+ }
  
- static void psb_gem_free_object(struct drm_gem_object *obj)
+-int psb_gem_create(struct drm_file *file, struct drm_device *dev, u64 size,
+-		   u32 *handlep, int stolen, u32 align)
++struct gtt_range *
++psb_gem_create(struct drm_device *dev, u64 size, const char *name, bool stolen, u32 align)
  {
--	struct gtt_range *gtt = container_of(obj, struct gtt_range, gem);
-+	struct gtt_range *gtt = to_gtt_range(obj);
+-	struct gtt_range *r;
++	struct gtt_range *gt;
++	struct drm_gem_object *obj;
+ 	int ret;
+-	u32 handle;
  
- 	/* Remove the list map if one is present */
- 	drm_gem_free_mmap_offset(obj);
-@@ -267,7 +267,7 @@ static vm_fault_t psb_gem_fault(struct vm_fault *vmf)
- 	dev = obj->dev;
- 	dev_priv = to_drm_psb_private(dev);
+ 	size = roundup(size, PAGE_SIZE);
  
--	r = container_of(obj, struct gtt_range, gem);	/* Get the gtt range */
-+	r = to_gtt_range(obj);
- 
- 	/* Make sure we don't parallel update on a fault, nor move or remove
- 	   something from beneath our feet */
-diff --git a/drivers/gpu/drm/gma500/gma_display.c b/drivers/gpu/drm/gma500/gma_display.c
-index ecf8153416ac..8285358fac01 100644
---- a/drivers/gpu/drm/gma500/gma_display.c
-+++ b/drivers/gpu/drm/gma500/gma_display.c
-@@ -349,8 +349,7 @@ int gma_crtc_cursor_set(struct drm_crtc *crtc,
- 
- 		/* Unpin the old GEM object */
- 		if (gma_crtc->cursor_obj) {
--			gt = container_of(gma_crtc->cursor_obj,
--					  struct gtt_range, gem);
-+			gt = to_gtt_range(gma_crtc->cursor_obj);
- 			psb_gtt_unpin(gt);
- 			drm_gem_object_put(gma_crtc->cursor_obj);
- 			gma_crtc->cursor_obj = NULL;
-@@ -376,7 +375,7 @@ int gma_crtc_cursor_set(struct drm_crtc *crtc,
- 		goto unref_cursor;
+-	/* Allocate our object - for now a direct gtt range which is not
+-	   stolen memory backed */
+-	r = psb_gtt_alloc_range(dev, size, "gem", 0, PAGE_SIZE);
+-	if (r == NULL) {
++	gt = psb_gtt_alloc_range(dev, size, name, stolen, align);
++	if (!gt) {
+ 		dev_err(dev->dev, "no memory for %lld byte GEM object\n", size);
+-		return -ENOSPC;
++		return ERR_PTR(-ENOSPC);
  	}
+-	r->gem.funcs = &psb_gem_object_funcs;
+-	/* Initialize the extra goodies GEM needs to do all the hard work */
+-	if (drm_gem_object_init(dev, &r->gem, size) != 0) {
+-		psb_gtt_free_range(dev, r);
+-		/* GEM doesn't give an error code so use -ENOMEM */
+-		dev_err(dev->dev, "GEM init failed for %lld\n", size);
+-		return -ENOMEM;
+-	}
+-	/* Limit the object to 32bit mappings */
+-	mapping_set_gfp_mask(r->gem.filp->f_mapping, GFP_KERNEL | __GFP_DMA32);
+-	/* Give the object a handle so we can carry it more easily */
+-	ret = drm_gem_handle_create(file, &r->gem, &handle);
+-	if (ret) {
+-		dev_err(dev->dev, "GEM handle failed for %p, %lld\n",
+-							&r->gem, size);
+-		drm_gem_object_release(&r->gem);
+-		psb_gtt_free_range(dev, r);
+-		return ret;
+-	}
+-	/* We have the initial and handle reference but need only one now */
+-	drm_gem_object_put(&r->gem);
+-	*handlep = handle;
+-	return 0;
++	obj = &gt->gem;
++
++	obj->funcs = &psb_gem_object_funcs;
++
++	ret = drm_gem_object_init(dev, obj, size);
++	if (ret)
++		goto err_psb_gtt_free_range;
++
++	/* Limit the object to 32-bit mappings */
++	mapping_set_gfp_mask(obj->filp->f_mapping, GFP_KERNEL | __GFP_DMA32);
++
++	return gt;
++
++err_psb_gtt_free_range:
++	psb_gtt_free_range(dev, gt);
++	return ERR_PTR(ret);
+ }
  
--	gt = container_of(obj, struct gtt_range, gem);
-+	gt = to_gtt_range(obj);
+ /**
+@@ -229,10 +220,40 @@ int psb_gem_create(struct drm_file *file, struct drm_device *dev, u64 size,
+ int psb_gem_dumb_create(struct drm_file *file, struct drm_device *dev,
+ 			struct drm_mode_create_dumb *args)
+ {
+-	args->pitch = ALIGN(args->width * ((args->bpp + 7) / 8), 64);
+-	args->size = args->pitch * args->height;
+-	return psb_gem_create(file, dev, args->size, &args->handle, 0,
+-			      PAGE_SIZE);
++	size_t pitch, size;
++	struct gtt_range *gt;
++	struct drm_gem_object *obj;
++	u32 handle;
++	int ret;
++
++	pitch = args->width * DIV_ROUND_UP(args->bpp, 8);
++	pitch = ALIGN(pitch, 64);
++
++	size = pitch * args->height;
++	size = roundup(size, PAGE_SIZE);
++	if (!size)
++		return -EINVAL;
++
++	gt = psb_gem_create(dev, size, "gem", false, PAGE_SIZE);
++	if (IS_ERR(gt))
++		return PTR_ERR(gt);
++	obj = &gt->gem;
++
++	ret = drm_gem_handle_create(file, obj, &handle);
++	if (ret)
++		goto err_drm_gem_object_put;
++
++	drm_gem_object_put(obj);
++
++	args->pitch = pitch;
++	args->size = size;
++	args->handle = handle;
++
++	return 0;
++
++err_drm_gem_object_put:
++	drm_gem_object_put(obj);
++	return ret;
+ }
  
- 	/* Pin the memory into the GTT */
- 	ret = psb_gtt_pin(gt);
-@@ -426,7 +425,7 @@ int gma_crtc_cursor_set(struct drm_crtc *crtc,
+ /**
+diff --git a/drivers/gpu/drm/gma500/gem.h b/drivers/gpu/drm/gma500/gem.h
+index 275494aedd4c..ad76127dc719 100644
+--- a/drivers/gpu/drm/gma500/gem.h
++++ b/drivers/gpu/drm/gma500/gem.h
+@@ -14,8 +14,8 @@ struct drm_device;
  
- 	/* unpin the old bo */
- 	if (gma_crtc->cursor_obj) {
--		gt = container_of(gma_crtc->cursor_obj, struct gtt_range, gem);
-+		gt = to_gtt_range(gma_crtc->cursor_obj);
- 		psb_gtt_unpin(gt);
- 		drm_gem_object_put(gma_crtc->cursor_obj);
- 	}
+ extern const struct drm_gem_object_funcs psb_gem_object_funcs;
+ 
+-extern int psb_gem_create(struct drm_file *file, struct drm_device *dev,
+-			  u64 size, u32 *handlep, int stolen, u32 align);
++struct gtt_range *
++psb_gem_create(struct drm_device *dev, u64 size, const char *name, bool stolen, u32 align);
+ 
+ struct gtt_range *psb_gtt_alloc_range(struct drm_device *dev, int len, const char *name,
+ 				      int backed, u32 align);
 -- 
 2.33.0
 
