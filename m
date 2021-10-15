@@ -1,29 +1,28 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F0DC42E8CE
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Oct 2021 08:17:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B6C642E8D2
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Oct 2021 08:17:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 653D96ECCB;
-	Fri, 15 Oct 2021 06:16:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 32EA76ECCC;
+	Fri, 15 Oct 2021 06:17:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9DACA6ECCB
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Oct 2021 06:16:55 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 5D3AD61090;
- Fri, 15 Oct 2021 06:16:53 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 414F86ECCC
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Oct 2021 06:17:33 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 0779861090;
+ Fri, 15 Oct 2021 06:17:30 +0000 (UTC)
 From: Huacai Chen <chenhuacai@loongson.cn>
 To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  Bjorn Helgaas <bhelgaas@google.com>
 Cc: linux-pci@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Xuefeng Li <lixuefeng@loongson.cn>, Huacai Chen <chenhuacai@gmail.com>,
  Huacai Chen <chenhuacai@loongson.cn>
-Subject: [PATCH V7 02/11] PCI/VGA: Move vga_arb_integrated_gpu() earlier in
- file
-Date: Fri, 15 Oct 2021 14:15:03 +0800
-Message-Id: <20211015061512.2941859-3-chenhuacai@loongson.cn>
+Subject: [PATCH V7 03/11] PCI/VGA: Split out vga_arb_update_default_device()
+Date: Fri, 15 Oct 2021 14:15:04 +0800
+Message-Id: <20211015061512.2941859-4-chenhuacai@loongson.cn>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20211015061512.2941859-1-chenhuacai@loongson.cn>
 References: <20211015061512.2941859-1-chenhuacai@loongson.cn>
@@ -44,61 +43,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Move vga_arb_integrated_gpu() earlier in file to prepare for future patch.
-No functional change intended.
+This patch is the first step of the rework: If there's no default VGA
+device, and we find a VGA device that owns the legacy VGA resources, we
+make that device the default. Split this logic out from vga_arbiter_add_
+pci_device() into a new function, vga_arb_update_default_device().
 
 Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
 Signed-off-by: Bjorn Helgaas <bhelgaas@google.com>
 ---
- drivers/gpu/vga/vgaarb.c | 28 ++++++++++++++--------------
- 1 file changed, 14 insertions(+), 14 deletions(-)
+ drivers/gpu/vga/vgaarb.c | 25 ++++++++++++++++---------
+ 1 file changed, 16 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/gpu/vga/vgaarb.c b/drivers/gpu/vga/vgaarb.c
-index 6a5169d8578f..29e725ebaa43 100644
+index 29e725ebaa43..f8f95244d499 100644
 --- a/drivers/gpu/vga/vgaarb.c
 +++ b/drivers/gpu/vga/vgaarb.c
-@@ -565,6 +565,20 @@ void vga_put(struct pci_dev *pdev, unsigned int rsrc)
+@@ -579,6 +579,21 @@ static bool vga_arb_integrated_gpu(struct device *dev)
  }
- EXPORT_SYMBOL(vga_put);
+ #endif
  
-+#if defined(CONFIG_ACPI)
-+static bool vga_arb_integrated_gpu(struct device *dev)
++static void vga_arb_update_default_device(struct vga_device *vgadev)
 +{
-+	struct acpi_device *adev = ACPI_COMPANION(dev);
++	struct pci_dev *pdev = vgadev->pdev;
 +
-+	return adev && !strcmp(acpi_device_hid(adev), ACPI_VIDEO_HID);
++	/*
++	 * If we don't have a default VGA device yet, and this device owns
++	 * the legacy VGA resources, make it the default.
++	 */
++	if (!vga_default_device() &&
++	    ((vgadev->owns & VGA_RSRC_LEGACY_MASK) == VGA_RSRC_LEGACY_MASK)) {
++		vgaarb_info(&pdev->dev, "setting as boot VGA device\n");
++		vga_set_default_device(pdev);
++	}
 +}
-+#else
-+static bool vga_arb_integrated_gpu(struct device *dev)
-+{
-+	return false;
-+}
-+#endif
 +
  /*
   * Rules for using a bridge to control a VGA descendant decoding: if a bridge
   * has only one VGA descendant then it can be used to control the VGA routing
-@@ -1430,20 +1444,6 @@ static struct miscdevice vga_arb_device = {
- 	MISC_DYNAMIC_MINOR, "vga_arbiter", &vga_arb_device_fops
- };
+@@ -706,15 +721,7 @@ static bool vga_arbiter_add_pci_device(struct pci_dev *pdev)
+ 		bus = bus->parent;
+ 	}
  
--#if defined(CONFIG_ACPI)
--static bool vga_arb_integrated_gpu(struct device *dev)
--{
--	struct acpi_device *adev = ACPI_COMPANION(dev);
+-	/* Deal with VGA default device. Use first enabled one
+-	 * by default if arch doesn't have it's own hook
+-	 */
+-	if (!vga_default_device() &&
+-	    ((vgadev->owns & VGA_RSRC_LEGACY_MASK) == VGA_RSRC_LEGACY_MASK)) {
+-		vgaarb_info(&pdev->dev, "setting as boot VGA device\n");
+-		vga_set_default_device(pdev);
+-	}
 -
--	return adev && !strcmp(acpi_device_hid(adev), ACPI_VIDEO_HID);
--}
--#else
--static bool vga_arb_integrated_gpu(struct device *dev)
--{
--	return false;
--}
--#endif
--
- static void __init vga_arb_select_default_device(void)
- {
- 	struct pci_dev *pdev, *found = NULL;
++	vga_arb_update_default_device(vgadev);
+ 	vga_arbiter_check_bridge_sharing(vgadev);
+ 
+ 	/* Add to the list */
 -- 
 2.27.0
 
