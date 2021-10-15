@@ -1,39 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD63D42F428
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Oct 2021 15:47:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 15CD342F433
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Oct 2021 15:49:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B47E6ED65;
-	Fri, 15 Oct 2021 13:47:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA5576E2EF;
+	Fri, 15 Oct 2021 13:49:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C2C0588C07
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Oct 2021 13:47:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
- s=20170329; 
- h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date;
- bh=efKAtlmYggIp5/MGcRZxUjTZmUepgUuaKpetxmlwKGs=; 
- b=qAUDLPghuO/I2MfyNv/MxnH6vBHtxy0YDeVCZr6P+ePT9ElYuULZfVWb50jk3MgbRmPXtfhycYTlcZxO+feQmdCYCPZB/Sum2qGrlc2q1fG699Q5avDZFBxBc/OxCybx6Lbka15F1QeqCq9gQHkTwrzs4ziscefRH+1aN570IcxDLtxlYWu5d9Y4yq3e3DdK0I1et6JYqtKyKEKTSHEEOHSdQwj5q/VWsd1W9p6L4gxHGKSdIme5/1uXnzlvYSf95oZnFMgVJR/Gqv7+nOnicaK0Mzt9ynVMNHD7XewS3x2HuxqwYZiLCx83zQyhj9PB1rYJfEicw1nJTBQ9tGzwkg==;
-Received: from a95-92-181-29.cpe.netcabo.pt ([95.92.181.29]
- helo=mail.igalia.com) by fanzine.igalia.com with esmtpsa 
- (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
- id 1mbNYF-0005Nr-SN; Fri, 15 Oct 2021 15:47:12 +0200
-Date: Fri, 15 Oct 2021 14:46:59 +0100
-From: Melissa Wen <mwen@igalia.com>
-To: Yang Li <yang.lee@linux.alibaba.com>
-Cc: airlied@linux.ie, daniel@ffwll.ch, emma@anholt.net,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH -next] drm/v3d: nullify pointer se with a NULL
-Message-ID: <20211015134631.l76ai6mdxzrflnv6@mail.igalia.com>
-References: <1634282081-72255-1-git-send-email-yang.lee@linux.alibaba.com>
+Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com
+ [209.85.210.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 38D786E2EF
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Oct 2021 13:49:23 +0000 (UTC)
+Received: by mail-ot1-f46.google.com with SMTP id
+ e59-20020a9d01c1000000b00552c91a99f7so3570598ote.6
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Oct 2021 06:49:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=Emypu18e0IXK8TFQk7ooPj168yx7xW+uYOA6VkCV8JE=;
+ b=YWi7JMVKOQLCxwe9LRHFtWyoSvlcsYyn233z5mx4gALPuYLascppIuJBcA2W4FNoE3
+ JcveBKUnl4SwCga8Mhv2KDtM9ojZpa0nuixgHDrkw/MrVzP0f7OrxD0WfTrjXuiwndP9
+ mKImZBvvjFhyLKdW1edwbfDTdoGzRaqR3Ot951EzOBK2a+OuLQuOF2eLTCISy4evONGV
+ l8Wsb8+madq7I6RliabKRUv9sqX1gsg1Ae5tuJYlx+AQId1wWKfmO0rRAr7SPAOYaTxe
+ cO45LkQt93pq7zrO+JdZ7lRygf7YvNLCHMR5Ll0DPrKKLLWkfFWPdMalOQn9yg9mUWrr
+ 5QHQ==
+X-Gm-Message-State: AOAM533yqB7BJqSsxCa0VyLM6yHvQML753dL/AvJrcORkYF9+nronLlS
+ nC+z7c5FPeaWV0xgkl2IqQ==
+X-Google-Smtp-Source: ABdhPJxUclsuv2sYJlz+mVj3QUqsf0dR1i3duEqsYs1RlI/V8CQynEpT+T1LpMNFTS8H1xYbHJ7fjQ==
+X-Received: by 2002:a9d:19e3:: with SMTP id k90mr7958187otk.99.1634305762209; 
+ Fri, 15 Oct 2021 06:49:22 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net.
+ [66.90.148.213])
+ by smtp.gmail.com with ESMTPSA id p14sm967286oov.0.2021.10.15.06.49.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 15 Oct 2021 06:49:21 -0700 (PDT)
+Received: (nullmailer pid 1423603 invoked by uid 1000);
+ Fri, 15 Oct 2021 13:49:20 -0000
+Date: Fri, 15 Oct 2021 08:49:20 -0500
+From: Rob Herring <robh@kernel.org>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: airlied@linux.ie, seanpaul@chromium.org, robh+dt@kernel.org,
+ devicetree@vger.kernel.org, daniel@ffwll.ch, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH] dt-bindings: display/bridge: ptn3460: Convert to YAML
+ binding
+Message-ID: <YWmG4KddWr4lo6kY@robh.at.kernel.org>
+References: <20211007075822.62411-1-angelogioacchino.delregno@collabora.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="sy5z73mtirs5p2lh"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1634282081-72255-1-git-send-email-yang.lee@linux.alibaba.com>
+In-Reply-To: <20211007075822.62411-1-angelogioacchino.delregno@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,79 +68,16 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---sy5z73mtirs5p2lh
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On 10/15, Yang Li wrote:
-> Currently a plain integer is being used to nullify the pointer
-> struct v3d_submit_ext *se. Use NULL instead. Cleans up sparse
-> warnings:
-> drivers/gpu/drm/v3d/v3d_gem.c:777:53: warning: Using plain integer as
-> NULL pointer
-> drivers/gpu/drm/v3d/v3d_gem.c:1010:45: warning: Using plain integer as
-> NULL pointer
->=20
-> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-> Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
+On Thu, 07 Oct 2021 09:58:22 +0200, AngeloGioacchino Del Regno wrote:
+> Convert the NXP PTN3460 eDP to LVDS bridge documentation to YAML.
+> 
+> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 > ---
->  drivers/gpu/drm/v3d/v3d_gem.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/v3d/v3d_gem.c b/drivers/gpu/drm/v3d/v3d_gem.c
-> index e47ae40..c7ed2e1 100644
-> --- a/drivers/gpu/drm/v3d/v3d_gem.c
-> +++ b/drivers/gpu/drm/v3d/v3d_gem.c
-> @@ -774,7 +774,7 @@ void v3d_job_put(struct v3d_job *job)
-> =20
->  	if (args->flags & DRM_V3D_SUBMIT_CL_FLUSH_CACHE) {
->  		ret =3D v3d_job_init(v3d, file_priv, (void *)&clean_job, sizeof(*clean=
-_job),
-> -				   v3d_job_free, 0, 0, V3D_CACHE_CLEAN);
-> +				   v3d_job_free, 0, NULL, V3D_CACHE_CLEAN);
->  		if (ret)
->  			goto fail;
-> =20
-> @@ -1007,7 +1007,7 @@ void v3d_job_put(struct v3d_job *job)
->  		goto fail;
-> =20
->  	ret =3D v3d_job_init(v3d, file_priv, (void *)&clean_job, sizeof(*clean_=
-job),
-> -			   v3d_job_free, 0, 0, V3D_CACHE_CLEAN);
-> +			   v3d_job_free, 0, NULL, V3D_CACHE_CLEAN);
->  	if (ret)
->  		goto fail;
+>  .../bindings/display/bridge/nxp,ptn3460.yaml  | 106 ++++++++++++++++++
+>  .../bindings/display/bridge/ptn3460.txt       |  39 -------
+>  2 files changed, 106 insertions(+), 39 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/display/bridge/nxp,ptn3460.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/display/bridge/ptn3460.txt
+> 
 
-Thanks,=20
-
-Reviewed-by: Melissa Wen <mwen@igalia.com>
-
-and I'll apply do drm-misc-next.
-> =20
-> --=20
-> 1.8.3.1
->=20
-
---sy5z73mtirs5p2lh
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEd8WOo/JViG+Tu+XIwqF3j0dLehwFAmFphlMACgkQwqF3j0dL
-ehwpLA//ULEGEdPpO2KNeJZPMQ71+SAI2FQnmyKY121P8rjTPstiV+xOaDt2OUPx
-CdlXExjTTAn+sZgmjTQ0YPzif29asr53RPSj8A9lun4OEaKxh7aUt9Z2g4eT7mZd
-RFUqssYPVa/YcZQLYnEgWXaKHLTITDlku0gtIdpJJ1b6//q/lwq7QbFXHHynmqqI
-Fdf0bIcj4Ar6e8en5x1zD/JpTMu6CayyLFbLXcrcoJjLPen7bdHyuidQHs9wG+16
-wSGUM+/JoTjFe6/GGqha1EyWqWPALk5n7qpvcZXsEBXdjyS15JAIb34BjbBsCJKQ
-/fmDrDX0ZaI17WGbC0WPVdrISSG8awqZZtMfagxPqHs5nGr2fUGCAzd0vbFWVqyw
-pAjGa9n4eOczw3fGF/d15ovq7uSf3nIHOR8oAPQ76bvQ9z3PkAiLu7XsM33FVQ0f
-J0h9drUBpwm2wkNw7GxAETiQYejH0IFW94gOIlPNMmPHIfNXgU2LWYKn49lqNx91
-V720+IDbcSvlDnGGe8sPa8HhzX0e5QuiuVgMWg0ZGeEPv3F3j5w0HOBcNwYdPp6n
-+1gTfspWGQgJf2RkJ8PRcv8JphxwLfblqvtbnfrz7GMKV7pN1K+rwWUVDuF2O2Dq
-CNruvovZySRN6RTqonspjL04r30LAXKQg/Br0vTCe3teH2pN9ek=
-=sQ+y
------END PGP SIGNATURE-----
-
---sy5z73mtirs5p2lh--
+Reviewed-by: Rob Herring <robh@kernel.org>
