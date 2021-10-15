@@ -1,62 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9911B42FB5F
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Oct 2021 20:45:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 96E0142FB61
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Oct 2021 20:45:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41C616EDF9;
-	Fri, 15 Oct 2021 18:45:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BDF1F6EDF7;
+	Fri, 15 Oct 2021 18:45:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from msg-1.mailo.com (msg-1.mailo.com [213.182.54.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4266C6EDF1;
- Fri, 15 Oct 2021 18:44:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=net-c.es; s=mailo;
- t=1634323490; bh=GH6/gUCiShU+F5SqmxsR4+La/OM2Q/v8Xu77xbZRtEI=;
- h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
- MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To;
- b=iS4Bu/dr4YsBsd4N3foSlzvu2+8B1KjImGHH0E7aCxLtA8G3qywnAvJtd24Fi/vQe
- gQWmJ7Dzs4IfVYLYObWC1Xc4gS8atxgQO6O2HEIOGUFHuwIS5iXfkeuEUx4usSreLp
- Qd/7etR7d+27siL13nnD/vntfKFtUGTvbHaB5anE=
-Received: by b-1.in.mailobj.net [192.168.90.11] with ESMTP
- via ip-206.mailobj.net [213.182.55.206]
- Fri, 15 Oct 2021 20:44:50 +0200 (CEST)
-X-EA-Auth: T0JFquBunFvgzGD4hDlMVaBd6t9O7J/bYpv2pxbJaZ0EDxqUCUY8D5LdZVbpM/ygJIFdRwSik6v8XCP0wRcT3NhVaxr9JWRH
-Date: Fri, 15 Oct 2021 20:44:47 +0200
-From: Claudio Suarez <cssk@net-c.es>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-tegra@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2190D6EDF1;
+ Fri, 15 Oct 2021 18:45:18 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10138"; a="288830853"
+X-IronPort-AV: E=Sophos;i="5.85,376,1624345200"; d="scan'208";a="288830853"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Oct 2021 11:45:17 -0700
+X-IronPort-AV: E=Sophos;i="5.85,376,1624345200"; d="scan'208";a="525520763"
+Received: from bouhlelx-mobl.amr.corp.intel.com (HELO intel.com)
+ ([10.209.144.97])
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Oct 2021 11:45:15 -0700
+Date: Fri, 15 Oct 2021 14:45:13 -0400
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Pan Xinhui <Xinhui.Pan@amd.com>, Emma Anholt <emma@anholt.net>,
- Maxime Ripard <mripard@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
- Jingoo Han <jingoohan1@gmail.com>, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, Chen-Yu Tsai <wens@csie.org>,
- Sandy Huang <hjc@rock-chips.com>, heiko@sntech.de,
- Neil Armstrong <narmstrong@baylibre.com>,
- Robert Foss <robert.foss@linaro.org>,
- Ben Skeggs <bskeggs@redhat.com>, nouveau@lists.freedesktop.org
-Subject: Re: [Intel-gfx] [PATCH 15/15] drm/i915: replace
- drm_detect_hdmi_monitor() with drm_display_info.is_hdmi
-Message-ID: <YWnMH/V1wRrAyYR9@gineta.localdomain>
-References: <20211015113713.630119-1-cssk@net-c.es>
- <20211015113713.630119-16-cssk@net-c.es> <87a6jav4n3.fsf@intel.com>
- <YWl7D9Qnt/Ysk2JI@intel.com> <874k9iuxit.fsf@intel.com>
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, dim-tools@lists.freedesktop.org
+Subject: [PULL] drm-intel-next
+Message-ID: <YWnMORrixyw90O3/@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <874k9iuxit.fsf@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,65 +52,186 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 15, 2021 at 06:18:34PM +0300, Jani Nikula wrote:
-> On Fri, 15 Oct 2021, Ville Syrjälä <ville.syrjala@linux.intel.com> wrote:
-> > On Fri, Oct 15, 2021 at 03:44:48PM +0300, Jani Nikula wrote:
-> >> On Fri, 15 Oct 2021, Claudio Suarez <cssk@net-c.es> wrote:
-> >> > Once EDID is parsed, the monitor HDMI support information is available
-> >> > through drm_display_info.is_hdmi. Retriving the same information with
-> >> > drm_detect_hdmi_monitor() is less efficient. Change to
-> >> > drm_display_info.is_hdmi where possible.
-> >> >
-> >> > This is a TODO task in Documentation/gpu/todo.rst
-> >> >
-> >> > Signed-off-by: Claudio Suarez <cssk@net-c.es>
-> >> > ---
-> >> >  drivers/gpu/drm/i915/display/intel_connector.c | 5 +++++
-> >> >  drivers/gpu/drm/i915/display/intel_connector.h | 1 +
-> >> >  drivers/gpu/drm/i915/display/intel_hdmi.c      | 2 +-
-> >> >  drivers/gpu/drm/i915/display/intel_sdvo.c      | 3 ++-
-> >> >  4 files changed, 9 insertions(+), 2 deletions(-)
-> >> >
-> >> > diff --git a/drivers/gpu/drm/i915/display/intel_connector.c b/drivers/gpu/drm/i915/display/intel_connector.c
-> >> > index 9bed1ccecea0..3346b55df6e1 100644
-> >> > --- a/drivers/gpu/drm/i915/display/intel_connector.c
-> >> > +++ b/drivers/gpu/drm/i915/display/intel_connector.c
-> >> > @@ -213,6 +213,11 @@ int intel_ddc_get_modes(struct drm_connector *connector,
-> >> >  	return ret;
-> >> >  }
-> >> >  
-> >> > +bool intel_connector_is_hdmi_monitor(struct drm_connector *connector)
-> >> > +{
-> >> > +	return connector->display_info.is_hdmi;
-> >> > +}
-> >> > +
-> >> 
-> >> A helper like this belongs in drm, not i915. Seems useful in other
-> >> drivers too.
-> >
-> > Not sure it's actually helpful for i915. We end up having to root around
-> > in the display_info in a lot of places anyway. So a helper for single
-> > boolean seems a bit out of place perhaps.
-> 
-> *shrug*
-> 
-> Maybe it's just my frustration at the lack of interfaces and poking
-> around in the depths of nested structs and pointer chasing that's coming
-> through. You just need to change so many things if you want to later
-> refactor where "is hdmi" comes from and is stored.
-> 
-> Anyway, if a helper is being added like in this series, I think it
-> should be one helper in drm, not redundant copies in multiple
-> drivers. Or we should not have the helper(s) at all. One or the other,
-> not the worst of both worlds.
+Hi Dave and Daniel,
 
-Thank you all for your comments :)
-The big work here was to figure out which drm_detect_hdmi_monitor() can be
-replaced. Changing a helper isn't a problem.
-I'll send a new patch in a few hours.
+Here goes drm-intel-next-2021-10-15:
 
-BR
-Claudio Suarez.
+Likely the last one towards 5.15.
 
+UAPI Changes:
 
+- No Functional change, but a clarification around I915_TILING values (Matt).
 
+Driver Changes:
+
+- Changes around async flip VT-d w/a (Ville)
+- Delete bogus NULL check in intel_ddi_encoder_destroy (Dan)
+- DP link training improvements and DP per-lane driver settings (Ville)
+- Free the returned object of acpi_evaluate_dsm (Zenghui)
+- Fixes and improvements around DP's UHBR and MST (Jani)
+- refactor plane config + pin out (Dave)
+- remove unused include in intel_dsi_vbt.c (Lucas)
+- some code clean up (Lucas, Jani)
+- gracefully disable dual eDP (Jani)
+- Remove memory frequency calculation (Jose)
+- Fix oops on platforms w/o hpd support (Ville)
+- Clean up PXP Kconfig info (Rodrigo)
+
+Thanks,
+Rodrigo.
+
+The following changes since commit 1176d15f0f6e556d54ced510ac4a91694960332b:
+
+  Merge tag 'drm-intel-gt-next-2021-10-08' of git://anongit.freedesktop.org/drm/drm-intel into drm-next (2021-10-11 18:09:39 +1000)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-next-2021-10-15
+
+for you to fetch changes up to c974cf01b248c6f4220bfadd57cce74058453aea:
+
+  drm/i915: Clean up PXP Kconfig info. (2021-10-15 14:22:11 -0400)
+
+----------------------------------------------------------------
+UAPI Changes:
+
+- No Functional change, but a clarification around I915_TILING values (Matt).
+
+Driver Changes:
+
+- Changes around async flip VT-d w/a (Ville)
+- Delete bogus NULL check in intel_ddi_encoder_destroy (Dan)
+- DP link training improvements and DP per-lane driver settings (Ville)
+- Free the returned object of acpi_evaluate_dsm (Zenghui)
+- Fixes and improvements around DP's UHBR and MST (Jani)
+- refactor plane config + pin out (Dave)
+- remove unused include in intel_dsi_vbt.c (Lucas)
+- some code clean up (Lucas, Jani)
+- gracefully disable dual eDP (Jani)
+- Remove memory frequency calculation (Jose)
+- Fix oops on platforms w/o hpd support (Ville)
+- Clean up PXP Kconfig info (Rodrigo)
+
+----------------------------------------------------------------
+Dan Carpenter (1):
+      drm/i915/tc: Delete bogus NULL check in intel_ddi_encoder_destroy()
+
+Dave Airlie (5):
+      drm/i915/display: move plane prepare/cleanup to intel_atomic_plane.c
+      drm/i915/display: let intel_plane_uses_fence be used from other places.
+      drm/i915/display: refactor out initial plane config for crtcs
+      drm/i915/display: refactor initial plane config to a separate file
+      drm/i915/display: move pin/unpin fb/plane code to a new file.
+
+Jani Nikula (9):
+      drm/i915/dg2: fix snps buf trans for uhbr
+      drm/i915/dp: take LTTPR into account in 128b/132b rates
+      drm/i915/mst: abstract intel_dp_mst_source_support()
+      drm/i915/dp: abstract intel_dp_lane_max_vswing_reached()
+      drm/i915/dg2: update link training for 128b/132b
+      drm/i915: split out vlv sideband to a separate file
+      drm/i915/bios: gracefully disable dual eDP for now
+      drm/i915: split out intel_pcode.[ch] to separate file
+      drm/i915: rename intel_sideband.[ch] to intel_sbi.[ch]
+
+José Roberto de Souza (1):
+      drm/i915: Remove memory frequency calculation
+
+Lucas De Marchi (1):
+      drm/i915/display: remove unused intel-mid.h include
+
+Matt Roper (1):
+      drm/i915/uapi: Add comment clarifying purpose of I915_TILING_* values
+
+Rodrigo Vivi (2):
+      Merge drm/drm-next into drm-intel-next
+      drm/i915: Clean up PXP Kconfig info.
+
+Ville Syrjälä (14):
+      drm/i915: Extend the async flip VT-d w/a to skl/bxt
+      drm/i195: Make the async flip VT-d workaround dynamic
+      drm/i915: Tweak the DP "max vswing reached?" condition
+      drm/i915: Show LTTPR in the TPS debug print
+      drm/i915: Print the DP vswing adjustment request
+      drm/i915: Pimp link training debug prints
+      drm/i915: Call intel_dp_dump_link_status() for CR failures
+      drm/i915: Remove pointless extra namespace from dkl/snps buf trans structs
+      drm/i915: Shrink {icl_mg,tgl_dkl}_phy_ddi_buf_trans
+      drm/i915: Use standard form terminating condition for lane for loops
+      drm/i915: Remove dead DKL_TX_LOADGEN_SHARING_PMD_DISABLE stuff
+      drm/i915: Extract icl_combo_phy_loadgen_select()
+      drm/i915: Add all per-lane register definitions for icl combo phy
+      drm/i915: Fix oops on platforms w/o hpd support
+
+Zenghui Yu (1):
+      drm/i915: Free the returned object of acpi_evaluate_dsm()
+
+ drivers/gpu/drm/i915/Kconfig                       |  10 +-
+ drivers/gpu/drm/i915/Makefile                      |   6 +-
+ drivers/gpu/drm/i915/display/g4x_dp.c              |   4 +-
+ drivers/gpu/drm/i915/display/g4x_hdmi.c            |   2 +-
+ drivers/gpu/drm/i915/display/icl_dsi.c             |  14 +-
+ drivers/gpu/drm/i915/display/intel_acpi.c          |   7 +-
+ drivers/gpu/drm/i915/display/intel_atomic_plane.c  | 209 ++++++
+ drivers/gpu/drm/i915/display/intel_bios.c          |  47 ++
+ drivers/gpu/drm/i915/display/intel_bw.c            |   2 +-
+ drivers/gpu/drm/i915/display/intel_cdclk.c         |   3 +-
+ drivers/gpu/drm/i915/display/intel_combo_phy.c     |   8 +-
+ drivers/gpu/drm/i915/display/intel_cursor.c        |   2 +-
+ drivers/gpu/drm/i915/display/intel_ddi.c           |  76 +-
+ drivers/gpu/drm/i915/display/intel_ddi_buf_trans.c |   4 +-
+ drivers/gpu/drm/i915/display/intel_ddi_buf_trans.h |  18 +-
+ drivers/gpu/drm/i915/display/intel_display.c       | 784 ++-------------------
+ drivers/gpu/drm/i915/display/intel_display.h       |  15 +-
+ .../gpu/drm/i915/display/intel_display_debugfs.c   |   6 +-
+ drivers/gpu/drm/i915/display/intel_display_power.c |   6 +-
+ drivers/gpu/drm/i915/display/intel_display_types.h |   1 -
+ drivers/gpu/drm/i915/display/intel_dp.c            |  29 +-
+ .../gpu/drm/i915/display/intel_dp_link_training.c  | 352 ++++++---
+ .../gpu/drm/i915/display/intel_dp_link_training.h  |   1 +
+ drivers/gpu/drm/i915/display/intel_dp_mst.c        |  15 +-
+ drivers/gpu/drm/i915/display/intel_dp_mst.h        |   4 +-
+ drivers/gpu/drm/i915/display/intel_dpio_phy.c      |   5 +-
+ drivers/gpu/drm/i915/display/intel_dpll.c          |   2 +-
+ drivers/gpu/drm/i915/display/intel_dsi_vbt.c       |   3 +-
+ drivers/gpu/drm/i915/display/intel_fb_pin.c        | 274 +++++++
+ drivers/gpu/drm/i915/display/intel_fb_pin.h        |  28 +
+ drivers/gpu/drm/i915/display/intel_fbdev.c         |   1 +
+ drivers/gpu/drm/i915/display/intel_fdi.c           |   2 +-
+ drivers/gpu/drm/i915/display/intel_hdcp.c          |   6 +-
+ drivers/gpu/drm/i915/display/intel_hotplug.c       |   2 +-
+ drivers/gpu/drm/i915/display/intel_plane_initial.c | 283 ++++++++
+ drivers/gpu/drm/i915/display/intel_plane_initial.h |  13 +
+ drivers/gpu/drm/i915/display/intel_snps_phy.c      |   6 +-
+ drivers/gpu/drm/i915/display/vlv_dsi.c             |   2 +-
+ drivers/gpu/drm/i915/display/vlv_dsi_pll.c         |   2 +-
+ drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c      |   3 +-
+ drivers/gpu/drm/i915/gt/intel_llc.c                |   2 +-
+ drivers/gpu/drm/i915/gt/intel_rc6.c                |   2 +-
+ drivers/gpu/drm/i915/gt/intel_rps.c                |   3 +-
+ drivers/gpu/drm/i915/i915_debugfs.c                |   1 -
+ drivers/gpu/drm/i915/i915_drv.c                    |   2 +-
+ drivers/gpu/drm/i915/i915_reg.h                    |  24 +-
+ drivers/gpu/drm/i915/i915_sysfs.c                  |   1 -
+ drivers/gpu/drm/i915/intel_dram.c                  |  32 +-
+ drivers/gpu/drm/i915/intel_pcode.c                 | 235 ++++++
+ drivers/gpu/drm/i915/intel_pcode.h                 |  26 +
+ drivers/gpu/drm/i915/intel_pm.c                    |  17 +-
+ drivers/gpu/drm/i915/intel_sbi.c                   |  73 ++
+ drivers/gpu/drm/i915/intel_sbi.h                   |  23 +
+ drivers/gpu/drm/i915/intel_sideband.c              | 577 ---------------
+ drivers/gpu/drm/i915/vlv_sideband.c                | 266 +++++++
+ .../drm/i915/{intel_sideband.h => vlv_sideband.h}  |  34 +-
+ include/uapi/drm/i915_drm.h                        |   6 +
+ 57 files changed, 1974 insertions(+), 1607 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/display/intel_fb_pin.c
+ create mode 100644 drivers/gpu/drm/i915/display/intel_fb_pin.h
+ create mode 100644 drivers/gpu/drm/i915/display/intel_plane_initial.c
+ create mode 100644 drivers/gpu/drm/i915/display/intel_plane_initial.h
+ create mode 100644 drivers/gpu/drm/i915/intel_pcode.c
+ create mode 100644 drivers/gpu/drm/i915/intel_pcode.h
+ create mode 100644 drivers/gpu/drm/i915/intel_sbi.c
+ create mode 100644 drivers/gpu/drm/i915/intel_sbi.h
+ delete mode 100644 drivers/gpu/drm/i915/intel_sideband.c
+ create mode 100644 drivers/gpu/drm/i915/vlv_sideband.c
+ rename drivers/gpu/drm/i915/{intel_sideband.h => vlv_sideband.h} (77%)
