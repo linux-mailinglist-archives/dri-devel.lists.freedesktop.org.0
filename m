@@ -1,63 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05DCC42FE93
-	for <lists+dri-devel@lfdr.de>; Sat, 16 Oct 2021 01:11:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 80B1842FE9C
+	for <lists+dri-devel@lfdr.de>; Sat, 16 Oct 2021 01:15:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E7F66EE06;
-	Fri, 15 Oct 2021 23:11:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 693386E402;
+	Fri, 15 Oct 2021 23:15:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x336.google.com (mail-ot1-x336.google.com
- [IPv6:2607:f8b0:4864:20::336])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 541946EE06
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Oct 2021 23:11:19 +0000 (UTC)
-Received: by mail-ot1-x336.google.com with SMTP id
- 34-20020a9d0325000000b00552cae0decbso4629556otv.0
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Oct 2021 16:11:19 -0700 (PDT)
+Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com
+ [IPv6:2607:f8b0:4864:20::235])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 47A976E402
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Oct 2021 23:15:15 +0000 (UTC)
+Received: by mail-oi1-x235.google.com with SMTP id v77so10893112oie.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Oct 2021 16:15:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=HUmZDgtmuXy7pQJ38Tzw5qxbkrp4xNejQK3lDNZjLFg=;
- b=vkr6f/Hnqm9g23KalLp7H/Lvpczy/LuFqXn7egw6IF25H2KapElTrVg3Oqh1ajaUZY
- ulzMIZfZog772rpAe5L1W7zbyXfyvIJ+b8YfW/EWJ/n7Ono02IFwDP58Tl7GGuhp3RNn
- a/IUG0Fj6kytSJpwHC6E9t/JWfxDXMxBV5F3XYTdPqwAWsIsIor7koJ8WK5B5Pv3jmSU
- rOOEO8VcI2OecCLlM/twc+zcaPYuWkg+Q9q13hisWtswSTJK5QRvsD7VxwS6nNUcSIgB
- pipXe5b7SwCtu69ZrAhp/LhgXR6gPTNVPqedmym1S5l34I4IvmgPInmbyuYxoH28qvkF
- O1fw==
+ bh=uXYWsPfuH0QgJqlDjcLAxj0Du9PAVf3q0Y+T8Yx4Cuw=;
+ b=MuDTWdz5HqEUzUdrw4R7qtYDW+TxRgUrPAvZpiCSF263TvWJxafk3AlTAvaD5Z6IXn
+ nPKlQEYt+90K0Hvy9Nlst82T4VDubkB3ox4/4ztd7yr/g2pIVNncZz7GYQ/kaZjdM5xv
+ KAXumhrO6aDacfHZqUMTclvHhutTjHccyHsbFqbFCgXMdVy2sSUCJrfxs3yMakX0Pz8X
+ nlLxTFJw+kYr2WI0QIQ+xf7V8CilsmRwXwO2YR18bC5xosgthynFasKu4jSkk1NL5gA1
+ FIFOq6HQkk5l/G3YegzRM9tAMV2XKP+Poy817imiQqJT0YMaD+Y2u4PNDv9Eci2wkT0q
+ u3pA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=HUmZDgtmuXy7pQJ38Tzw5qxbkrp4xNejQK3lDNZjLFg=;
- b=8FYdg5HAZArnPRS32z32oameQUgMtiCZkKRqouK+VqgOZ/r7ydNRIkyixa5YNQMKJP
- IWkoYMhij2crclVshjpP00q7fNLP7OiVimAegfWotiyULIYbTlWzqm3DW+Xi5d1eLS1H
- N96HbWrNAKcg3JxuwQnHp7UbpwcJb7DI3jl+CcmxB3oyE2OQIbeslso5TG3zStLTk4ou
- ykfXOgH/QBITo4qbnXdD4ojdmunDxaCkDzMuZk9jlovcDi2GcRItoasB1Fjtxnl84E5G
- GL2eUNugdJhQKDmyZFItj1dYhJ11lGXMfTCUUk92Ie2zuWdevQezuX0/tdzDFPTj2Fx6
- fyvg==
-X-Gm-Message-State: AOAM533PGU5fXBIm3iyUZWmPRuGEzGblZshcQMDrohdxA9nJaqJPU+4Z
- 2hGx2Si7hJgPe2/PBr4zlMOCRg==
-X-Google-Smtp-Source: ABdhPJzF/3yWadmmoHsXojqWAjiA8AD4RF0snFNDRgkCZDIdsm7bW/taSm0djFzOBF5ICbjuMjL3OA==
-X-Received: by 2002:a9d:a61:: with SMTP id 88mr10612502otg.152.1634339478519; 
- Fri, 15 Oct 2021 16:11:18 -0700 (PDT)
+ bh=uXYWsPfuH0QgJqlDjcLAxj0Du9PAVf3q0Y+T8Yx4Cuw=;
+ b=qMmdKPMGlt1T4ymv8dgx6kUcXhaM45mrkyx8Oxg3DgGSKLZyJNWCZ4Kc3ijzdYXjaM
+ iC9he1tK5pZBtKWlGZLKRhnClWAb4luRDq2Pq3a3GNer8QmHbYn7k1/lHMGg5/6Po4PH
+ NKvm0dDPMr+SbOOv7wMGsAPwSLMQBo+FjlXakO5FFMXB3f/YOocwNlzrRQOHjOsroUtH
+ V3oG5+dd2zyLUtKF8+vHkLLRC5u/nVGqqHj9DhCteYm/w3ZFWi+iuUxuxYYLQ+cB9KX4
+ JwKUOV5SVHhvnGO1Qyp5fhwKWHw3Fggn+PLKLbsZKz5TqICXPn5+KhHJ1nS88FN1o6ZI
+ P3Ww==
+X-Gm-Message-State: AOAM5311p5dXg6+q9N7ML45HzfP8otfY0sJzjMm0bJzKDEyNsgkee6xt
+ UeI6C4lsnGlJmrcRhT3i7f15CA==
+X-Google-Smtp-Source: ABdhPJybatynBim0Q4iy4WA6q9z9IPCf+URhtUCNqWaZ+GGrTzTWhQCFjcWK4Zj3+6lRr1iUnMAsDw==
+X-Received: by 2002:a54:4618:: with SMTP id p24mr10397616oip.134.1634339714369; 
+ Fri, 15 Oct 2021 16:15:14 -0700 (PDT)
 Received: from localhost.localdomain ([2600:1700:a0:3dc8:205:1bff:fec0:b9b3])
  by smtp.gmail.com with ESMTPSA id
- 103sm1527969otj.44.2021.10.15.16.11.17
+ 2sm1495462oil.37.2021.10.15.16.15.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 Oct 2021 16:11:18 -0700 (PDT)
+ Fri, 15 Oct 2021 16:15:13 -0700 (PDT)
 From: Bjorn Andersson <bjorn.andersson@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Kuogee Hsieh <khsieh@codeaurora.org>, Stephen Boyd <swboyd@chromium.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Abhinav Kumar <abhinavk@codeaurora.org>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/msm/dp: Only create debugfs for PRIMARY minor
-Date: Fri, 15 Oct 2021 16:13:07 -0700
-Message-Id: <20211015231307.1784165-1-bjorn.andersson@linaro.org>
+To: Rob Clark <robdclark@gmail.com>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Abhinav Kumar <abhinavk@codeaurora.org>,
+ Stephen Boyd <swboyd@chromium.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/msm/dp: Move debugfs files into subdirectory
+Date: Fri, 15 Oct 2021 16:17:02 -0700
+Message-Id: <20211015231702.1784254-1-bjorn.andersson@linaro.org>
 X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -76,48 +77,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-dpu_kms_debugfs_init() and hence dp_debug_get() gets invoked for each
-minor being registered. But dp_debug_get() will allocate a new struct
-dp_debug for each call and this will be associated as dp->debug.
+In the cleanup path of the MSM DP driver the DP driver's debugfs files
+are destroyed by invoking debugfs_remove_recursive() on debug->root,
+which during initialization has been set to minor->debugfs_root.
 
-As such dp_debug will create debugfs files in both the PRIMARY and the
-RENDER minor's debugfs directory, but only the last reference will be
-remembered.
+To allow cleaning up the DP driver's debugfs files either each dentry
+needs to be kept track of or the files needs to be put in a subdirectory
+which can be removed in one go.
 
-The only use of this reference today is in the cleanup path in
-dp_display_deinit_sub_modules() and the dp_debug_private object does
-outlive the debugfs entries in either case, so there doesn't seem to be
-any adverse effects of this, but per the code the current behavior is
-unexpected, so change it to only create dp_debug for the PRIMARY minor.
+By choosing to put the debugfs files in a subdirectory, based on the
+name of the associated connector this also solves the problem that these
+names would collide as support for multiple DP instances are introduced.
+
+One alternative solution to the problem with colliding file names would
+have been to put keep track of the individual files and put them under
+the connector's debugfs directory. But while the drm_connector has been
+allocated, its associated debugfs directory has not been created at the
+time of initialization of the dp_debug.
 
 Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
 ---
- drivers/gpu/drm/msm/dp/dp_display.c | 5 +++++
- 1 file changed, 5 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index 3aa67c53dbc0..06773b58bb60 100644
---- a/drivers/gpu/drm/msm/dp/dp_display.c
-+++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -10,6 +10,7 @@
- #include <linux/component.h>
- #include <linux/of_irq.h>
- #include <linux/delay.h>
-+#include <drm/drm_file.h>
- #include <drm/drm_panel.h>
+This depends on
+https://lore.kernel.org/linux-arm-msm/20211010030435.4000642-1-bjorn.andersson@linaro.org/
+reducing the connector from a double pointer.
+
+ drivers/gpu/drm/msm/dp/dp_debug.c | 15 +++++++++------
+ 1 file changed, 9 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/gpu/drm/msm/dp/dp_debug.c b/drivers/gpu/drm/msm/dp/dp_debug.c
+index da4323556ef3..67da4c69eca1 100644
+--- a/drivers/gpu/drm/msm/dp/dp_debug.c
++++ b/drivers/gpu/drm/msm/dp/dp_debug.c
+@@ -210,26 +210,29 @@ static const struct file_operations test_active_fops = {
+ static int dp_debug_init(struct dp_debug *dp_debug, struct drm_minor *minor)
+ {
+ 	int rc = 0;
++	char path[64];
+ 	struct dp_debug_private *debug = container_of(dp_debug,
+ 			struct dp_debug_private, dp_debug);
  
- #include "msm_drv.h"
-@@ -1463,6 +1464,10 @@ void msm_dp_debugfs_init(struct msm_dp *dp_display, struct drm_minor *minor)
- 	dp = container_of(dp_display, struct dp_display_private, dp_display);
- 	dev = &dp->pdev->dev;
- 
-+	/* Only create one set of debugfs per DP instance */
-+	if (minor->type != DRM_MINOR_PRIMARY)
-+		return;
+-	debugfs_create_file("dp_debug", 0444, minor->debugfs_root,
++	snprintf(path, sizeof(path), "msm_dp-%s", debug->connector->name);
 +
- 	dp->debug = dp_debug_get(dev, dp->panel, dp->usbpd,
- 					dp->link, dp->dp_display.connector,
- 					minor);
++	debug->root = debugfs_create_dir(path, minor->debugfs_root);
++
++	debugfs_create_file("dp_debug", 0444, debug->root,
+ 			debug, &dp_debug_fops);
+ 
+ 	debugfs_create_file("msm_dp_test_active", 0444,
+-			minor->debugfs_root,
++			debug->root,
+ 			debug, &test_active_fops);
+ 
+ 	debugfs_create_file("msm_dp_test_data", 0444,
+-			minor->debugfs_root,
++			debug->root,
+ 			debug, &dp_test_data_fops);
+ 
+ 	debugfs_create_file("msm_dp_test_type", 0444,
+-			minor->debugfs_root,
++			debug->root,
+ 			debug, &dp_test_type_fops);
+ 
+-	debug->root = minor->debugfs_root;
+-
+ 	return rc;
+ }
+ 
 -- 
 2.29.2
 
