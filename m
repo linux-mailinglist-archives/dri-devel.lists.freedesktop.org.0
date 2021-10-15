@@ -2,77 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F0C842ECF0
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Oct 2021 10:57:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2502A42ED98
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Oct 2021 11:27:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E543D8984D;
-	Fri, 15 Oct 2021 08:57:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 87E9B6ED09;
+	Fri, 15 Oct 2021 09:26:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 179E86ED01;
- Fri, 15 Oct 2021 08:57:16 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+Received: from gandalf.ozlabs.org (gandalf.ozlabs.org
+ [IPv6:2404:9400:2:0:216:3eff:fee2:21ea])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 658786ED06
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Oct 2021 09:26:56 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 7E2EF21A5C;
- Fri, 15 Oct 2021 08:57:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
- t=1634288234; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=1gJCQ4LKq38Wz8fQyxCuZehL+Con9ahBr+7Hnu4iI6I=;
- b=F/r+O+h+iiCGNp8KwZBMENDfACFkFv6d6ZqDw/HzgdY9FPQsFXmjr+XBgfDafwPyPlvjLr
- cv1FM7lLUVEWR36EcsyHyQ4/LTSrBYa7POxhrGK3rXJyDCpUpr9q4dPgIMYfvdbQU29mw8
- kQN/FeVyFSq8LWEm86jsroGvst3aKdA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
- s=susede2_ed25519; t=1634288234;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=1gJCQ4LKq38Wz8fQyxCuZehL+Con9ahBr+7Hnu4iI6I=;
- b=8Ac48pcXCsDs029dgkoosGntR8ftiitK/LY3GrjgF0Qb8QXn6VhOzoPZ4SoP4O2j0PCm8p
- 3Q5Gbqe5LNpgwkCg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3098F13B87;
- Fri, 15 Oct 2021 08:57:14 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id CuQlC2pCaWHeIgAAMHmgww
- (envelope-from <vbabka@suse.cz>); Fri, 15 Oct 2021 08:57:14 +0000
-Message-ID: <6abd9213-19a9-6d58-cedc-2414386d2d81@suse.cz>
-Date: Fri, 15 Oct 2021 10:57:13 +0200
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4HW1B30QRsz4xR9;
+ Fri, 15 Oct 2021 20:26:49 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=201702; t=1634290012;
+ bh=xl0h0ehAPbQXQoQuuUp7RGzzyhb5d9ztn2d3GE74Wjs=;
+ h=Date:From:To:Cc:Subject:From;
+ b=bA+KmpzGZSqV/9vXYWF8PRZvTIbOFj4L6qXMHG1rQ5ERg1ajrO8ea3ymi9CLpSbaG
+ faBpHJfomvbbxG1Nwd6TTQyvJd3NRgisKlUsGpDnTUOEIMHc+RVccSf4Tek+kOkZEa
+ vz/juFVpep+LoYcqp8ctuQP37UAx0yD822EbTt3MSTmiwsBR/xnIGSWSpxEd/6S8aO
+ UZ2niUXbeHg4zpaQ9RlNZycTdWCaB2z/K4qrRHOSKf7l+fMgsrxd8K6wQKHrFtkCHr
+ 2WqtsCpeT2mjlBWW3W0OlW/yQBSc+rTq7qG0Zg9KBfzX1foXM7jfGn5p4Flu4FMQP2
+ x99eI359eH9QA==
+Date: Fri, 15 Oct 2021 20:26:48 +1100
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>, Intel Graphics
+ <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>
+Cc: Jani Nikula <jani.nikula@intel.com>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, Linux Next Mailing List
+ <linux-next@vger.kernel.org>
+Subject: linux-next: build failure after merge of the drm-misc tree
+Message-ID: <20211015202648.258445ef@canb.auug.org.au>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v3] lib/stackdepot: allow optional init and stack_table
- allocation by kvmalloc()
-Content-Language: en-US
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- kasan-dev@googlegroups.com, Dmitry Vyukov <dvyukov@google.com>,
- Marco Elver <elver@google.com>, Vijayanand Jitta <vjitta@codeaurora.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Andrey Ryabinin <ryabinin.a.a@gmail.com>,
- Alexander Potapenko <glider@google.com>,
- Andrey Konovalov <andreyknvl@gmail.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Oliver Glitta
- <glittao@gmail.com>, Imran Khan <imran.f.khan@oracle.com>,
- Mike Rapoport <rppt@kernel.org>, kernel test robot <oliver.sang@intel.com>
-References: <20211012090621.1357-1-vbabka@suse.cz>
- <20211013073005.11351-1-vbabka@suse.cz>
-From: Vlastimil Babka <vbabka@suse.cz>
-In-Reply-To: <20211013073005.11351-1-vbabka@suse.cz>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; boundary="Sig_/tYZFJ6chdxiLHwqx9EJihw_";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,117 +56,115 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/13/21 09:30, Vlastimil Babka wrote:
-> Currently, enabling CONFIG_STACKDEPOT means its stack_table will be allocated
-> from memblock, even if stack depot ends up not actually used. The default size
-> of stack_table is 4MB on 32-bit, 8MB on 64-bit.
-> 
-> This is fine for use-cases such as KASAN which is also a config option and
-> has overhead on its own. But it's an issue for functionality that has to be
-> actually enabled on boot (page_owner) or depends on hardware (GPU drivers)
-> and thus the memory might be wasted. This was raised as an issue [1] when
-> attempting to add stackdepot support for SLUB's debug object tracking
-> functionality. It's common to build kernels with CONFIG_SLUB_DEBUG and enable
-> slub_debug on boot only when needed, or create only specific kmem caches with
-> debugging for testing purposes.
-> 
-> It would thus be more efficient if stackdepot's table was allocated only when
-> actually going to be used. This patch thus makes the allocation (and whole
-> stack_depot_init() call) optional:
-> 
-> - Add a CONFIG_STACKDEPOT_ALWAYS_INIT flag to keep using the current
->   well-defined point of allocation as part of mem_init(). Make CONFIG_KASAN
->   select this flag.
-> - Other users have to call stack_depot_init() as part of their own init when
->   it's determined that stack depot will actually be used. This may depend on
->   both config and runtime conditions. Convert current users which are
->   page_owner and several in the DRM subsystem. Same will be done for SLUB
->   later.
-> - Because the init might now be called after the boot-time memblock allocation
->   has given all memory to the buddy allocator, change stack_depot_init() to
->   allocate stack_table with kvmalloc() when memblock is no longer available.
->   Also handle allocation failure by disabling stackdepot (could have
->   theoretically happened even with memblock allocation previously), and don't
->   unnecessarily align the memblock allocation to its own size anymore.
-> 
-> [1] https://lore.kernel.org/all/CAMuHMdW=eoVzM1Re5FVoEN87nKfiLmM2+Ah7eNu2KXEhCvbZyA@mail.gmail.com/
-...
-> ---
-> Changes in v3:
-> - stack_depot_init_mutex made static and moved inside stack_depot_init()
->   Reported-by: kernel test robot <lkp@intel.com>
-> - use !stack_table condition instead of stack_table == NULL
->   reported by checkpatch on freedesktop.org patchwork
+--Sig_/tYZFJ6chdxiLHwqx9EJihw_
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-The last change above was missing because I forgot git commit --amend before
-git format-patch. More importantly there was a bot report for FLATMEM. Please
-add this fixup. Thanks.
+Hi all,
 
-----8<----
-From a971a1670491f8fbbaab579eef3c756a5263af95 Mon Sep 17 00:00:00 2001
-From: Vlastimil Babka <vbabka@suse.cz>
-Date: Thu, 7 Oct 2021 10:49:09 +0200
-Subject: [PATCH] lib/stackdepot: allow optional init and stack_table
- allocation by kvmalloc() - fixup
+After merging the drm-misc tree, today's linux-next build (arm
+multi_v7_defconfig) failed like this:
 
-On FLATMEM, we call page_ext_init_flatmem_late() just before kmem_cache_init()
-which means stack_depot_init() (called by page owner init) will not recognize
-properly it should use kvmalloc() and not memblock_alloc(). memblock_alloc()
-will also not issue a warning and return a block memory that can be invalid and
-cause kernel page fault when saving stacks, as reported by the kernel test
-robot [1].
+drivers/gpu/drm/drm_modeset_lock.c:111:29: error: conflicting types for '__=
+stack_depot_save'
+  111 | static depot_stack_handle_t __stack_depot_save(void)
+      |                             ^~~~~~~~~~~~~~~~~~
+In file included from include/linux/page_ext.h:7,
+                 from include/linux/mm.h:25,
+                 from include/linux/kallsyms.h:13,
+                 from include/linux/bpf.h:20,
+                 from include/linux/bpf-cgroup.h:5,
+                 from include/linux/cgroup-defs.h:22,
+                 from include/linux/cgroup.h:28,
+                 from include/linux/memcontrol.h:13,
+                 from include/linux/swap.h:9,
+                 from include/linux/suspend.h:5,
+                 from include/linux/regulator/consumer.h:35,
+                 from include/linux/i2c.h:18,
+                 from include/drm/drm_crtc.h:28,
+                 from include/drm/drm_atomic.h:31,
+                 from drivers/gpu/drm/drm_modeset_lock.c:24:
+include/linux/stackdepot.h:18:22: note: previous declaration of '__stack_de=
+pot_save' was here
+   18 | depot_stack_handle_t __stack_depot_save(unsigned long *entries,
+      |                      ^~~~~~~~~~~~~~~~~~
 
-Fix this by moving page_ext_init_flatmem_late() below kmem_cache_init() so that
-slab_is_available() is true during stack_depot_init(). SPARSEMEM doesn't have
-this issue, as it doesn't do page_ext_init_flatmem_late(), but a different
-page_ext_init() even later in the boot process.
+Caused by commit
 
-Thanks to Mike Rapoport for pointing out the FLATMEM init ordering issue.
+  cd06ab2fd48f ("drm/locking: add backtrace for locking contended locks wit=
+hout backoff")
 
-While at it, also actually resolve a checkpatch warning in stack_depot_init()
-from DRM CI, which was supposed to be in the original patch already.
+This may only have been revealed because of another fix I have had to
+apply today.
 
-[1] https://lore.kernel.org/all/20211014085450.GC18719@xsang-OptiPlex-9020/
+I have applied the following patch for today.
 
-Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
-Reported-by: kernel test robot <oliver.sang@intel.com>
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+Date: Fri, 15 Oct 2021 20:17:52 +1100
+Subject: [PATCH] drm/locking: fix for name conflict
+
+Fixes: cd06ab2fd48f ("drm/locking: add backtrace for locking contended lock=
+s without backoff")
+Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
 ---
- init/main.c      | 7 +++++--
- lib/stackdepot.c | 2 +-
- 2 files changed, 6 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/drm_modeset_lock.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/init/main.c b/init/main.c
-index ca2765c8e45c..0ab632f681c5 100644
---- a/init/main.c
-+++ b/init/main.c
-@@ -845,9 +845,12 @@ static void __init mm_init(void)
- 	stack_depot_early_init();
- 	mem_init();
- 	mem_init_print_info();
--	/* page_owner must be initialized after buddy is ready */
--	page_ext_init_flatmem_late();
- 	kmem_cache_init();
-+	/*
-+	 * page_owner must be initialized after buddy is ready, and also after
-+	 * slab is ready so that stack_depot_init() works properly
-+	 */
-+	page_ext_init_flatmem_late();
- 	kmemleak_init();
- 	pgtable_init();
- 	debug_objects_mem_init();
-diff --git a/lib/stackdepot.c b/lib/stackdepot.c
-index 049d7d025d78..1f8ea6d0899b 100644
---- a/lib/stackdepot.c
-+++ b/lib/stackdepot.c
-@@ -172,7 +172,7 @@ __ref int stack_depot_init(void)
- 	static DEFINE_MUTEX(stack_depot_init_mutex);
- 
- 	mutex_lock(&stack_depot_init_mutex);
--	if (!stack_depot_disable && stack_table == NULL) {
-+	if (!stack_depot_disable && !stack_table) {
- 		size_t size = (STACK_HASH_SIZE * sizeof(struct stack_record *));
- 		int i;
- 
--- 
+diff --git a/drivers/gpu/drm/drm_modeset_lock.c b/drivers/gpu/drm/drm_modes=
+et_lock.c
+index 4d32b61fa1fd..ee36dd20900d 100644
+--- a/drivers/gpu/drm/drm_modeset_lock.c
++++ b/drivers/gpu/drm/drm_modeset_lock.c
+@@ -79,7 +79,7 @@
+ static DEFINE_WW_CLASS(crtc_ww_class);
+=20
+ #if IS_ENABLED(CONFIG_DRM_DEBUG_MODESET_LOCK)
+-static noinline depot_stack_handle_t __stack_depot_save(void)
++static noinline depot_stack_handle_t __drm_stack_depot_save(void)
+ {
+ 	unsigned long entries[8];
+ 	unsigned int n;
+@@ -108,7 +108,7 @@ static void __stack_depot_print(depot_stack_handle_t st=
+ack_depot)
+ 	kfree(buf);
+ }
+ #else /* CONFIG_DRM_DEBUG_MODESET_LOCK */
+-static depot_stack_handle_t __stack_depot_save(void)
++static depot_stack_handle_t __drm_stack_depot_save(void)
+ {
+ 	return 0;
+ }
+@@ -317,7 +317,7 @@ static inline int modeset_lock(struct drm_modeset_lock =
+*lock,
+ 		ret =3D 0;
+ 	} else if (ret =3D=3D -EDEADLK) {
+ 		ctx->contended =3D lock;
+-		ctx->stack_depot =3D __stack_depot_save();
++		ctx->stack_depot =3D __drm_stack_depot_save();
+ 	}
+=20
+ 	return ret;
+--=20
 2.33.0
 
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_/tYZFJ6chdxiLHwqx9EJihw_
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmFpSVgACgkQAVBC80lX
+0Gw7Kgf/ZuKzlxTQSDLKFDfn6/O5S38xFR4DSOjqJwWETTSS1gTN1tdS/1TxVI/G
+y6+7Y5jDRBuMaxCVAFETuImKwexIXsoh6um+iVJaXW90a7PDK737ldIACmqMurmr
+Q+BeiAjZ8+NA1amrOv/nhiMOPWL+cW2v8OHj4t4MWZYB9HspgtkRia6qlLBQcttZ
+pA33MK0v3gZFZ/KCfIFqFe6AD01LDvhepOrMuOC0mnBw6a2dktAEh/wuMN+KqExf
+k2M/wUEwgyQjB8Y9OH0aJDmmHnTbPIJ+WZZ030zyX1oMPhN2dqq9jw8E29HqryjI
+Y8+MtBPX2O2Df9cT9zQdLlKmDFx2Vg==
+=4IfR
+-----END PGP SIGNATURE-----
+
+--Sig_/tYZFJ6chdxiLHwqx9EJihw_--
