@@ -2,41 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96E0142FB61
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Oct 2021 20:45:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B58642FBD6
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Oct 2021 21:15:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BDF1F6EDF7;
-	Fri, 15 Oct 2021 18:45:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BCC3B6EDDD;
+	Fri, 15 Oct 2021 19:15:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2190D6EDF1;
- Fri, 15 Oct 2021 18:45:18 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10138"; a="288830853"
-X-IronPort-AV: E=Sophos;i="5.85,376,1624345200"; d="scan'208";a="288830853"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Oct 2021 11:45:17 -0700
-X-IronPort-AV: E=Sophos;i="5.85,376,1624345200"; d="scan'208";a="525520763"
-Received: from bouhlelx-mobl.amr.corp.intel.com (HELO intel.com)
- ([10.209.144.97])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Oct 2021 11:45:15 -0700
-Date: Fri, 15 Oct 2021 14:45:13 -0400
-From: Rodrigo Vivi <rodrigo.vivi@intel.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, dim-tools@lists.freedesktop.org
-Subject: [PULL] drm-intel-next
-Message-ID: <YWnMORrixyw90O3/@intel.com>
+Received: from mx2.smtp.larsendata.com (mx2.smtp.larsendata.com
+ [91.221.196.228])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 76DEB6E2E6
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Oct 2021 19:15:30 +0000 (UTC)
+Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
+ by mx2.smtp.larsendata.com (Halon) with ESMTPS
+ id 471a0289-2dec-11ec-ac3c-0050568cd888;
+ Fri, 15 Oct 2021 19:15:37 +0000 (UTC)
+Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
+ [80.162.45.141])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: sam@ravnborg.org)
+ by mail01.mxhotel.dk (Postfix) with ESMTPSA id AFC12194B3E;
+ Fri, 15 Oct 2021 21:15:35 +0200 (CEST)
+Date: Fri, 15 Oct 2021 21:15:26 +0200
+X-Report-Abuse-To: abuse@mxhotel.dk
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Michael Trimarchi <michael@amarulasolutions.com>
+Cc: Thierry Reding <thierry.reding@gmail.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH] drm/panel: ilitek-ili9881d: add support for
+ Wanchanglong W552946ABA panel
+Message-ID: <YWnTTjkfjOq7K6MM@ravnborg.org>
+References: <20211014201705.218608-1-michael@amarulasolutions.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20211014201705.218608-1-michael@amarulasolutions.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,186 +54,311 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave and Daniel,
+Hi Michael,
 
-Here goes drm-intel-next-2021-10-15:
+> Add this panel's initialzation sequence and timing to ILI9881D driver.
+> Tested on px30-evb v11
+Patch looks good, but we need the vendor and the compatible documented.
 
-Likely the last one towards 5.15.
+> 
+> Signed-off-by: Michael Trimarchi <michael@amarulasolutions.com>
+> ---
+>  drivers/gpu/drm/panel/panel-ilitek-ili9881c.c | 238 +++++++++++++++++-
+>  1 file changed, 237 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c b/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c
+> index 0145129d7c66..cf53b43e0907 100644
+> --- a/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c
+> +++ b/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c
+> @@ -42,6 +42,7 @@ struct ili9881c_desc {
+>  	const struct ili9881c_instr *init;
+>  	const size_t init_length;
+>  	const struct drm_display_mode *mode;
+> +	const unsigned long mode_flags;
+>  };
+>  
+>  struct ili9881c {
+> @@ -453,6 +454,213 @@ static const struct ili9881c_instr k101_im2byl02_init[] = {
+>  	ILI9881C_COMMAND_INSTR(0xD3, 0x3F), /* VN0 */
+>  };
+>
 
-UAPI Changes:
+If you by any chance could comment a little on what goes on that would
+be nice.
+> +static const struct ili9881c_instr w552946ab_init[] = {
+> +	ILI9881C_SWITCH_PAGE_INSTR(3),
+> +	ILI9881C_COMMAND_INSTR(0x01, 0x00),
+> +	ILI9881C_COMMAND_INSTR(0x02, 0x00),
+> +	ILI9881C_COMMAND_INSTR(0x03, 0x53),
+> +	ILI9881C_COMMAND_INSTR(0x04, 0x53),
+> +	ILI9881C_COMMAND_INSTR(0x05, 0x13),
+> +	ILI9881C_COMMAND_INSTR(0x06, 0x04),
+> +	ILI9881C_COMMAND_INSTR(0x07, 0x02),
+> +	ILI9881C_COMMAND_INSTR(0x08, 0x02),
+> +	ILI9881C_COMMAND_INSTR(0x09, 0x00),
+> +	ILI9881C_COMMAND_INSTR(0x0A, 0x00),
+> +	ILI9881C_COMMAND_INSTR(0x0B, 0x00),
+> +	ILI9881C_COMMAND_INSTR(0x0C, 0x00),
+> +	ILI9881C_COMMAND_INSTR(0x0D, 0x00),
+> +	ILI9881C_COMMAND_INSTR(0x0E, 0x00),
+> +	ILI9881C_COMMAND_INSTR(0x0F, 0x00),
+> +
+> +	ILI9881C_COMMAND_INSTR(0x10, 0x00),
+> +	ILI9881C_COMMAND_INSTR(0x11, 0x00),
+> +	ILI9881C_COMMAND_INSTR(0x12, 0x00),
+> +	ILI9881C_COMMAND_INSTR(0x13, 0x00),
+> +	ILI9881C_COMMAND_INSTR(0x14, 0x00),
+> +	ILI9881C_COMMAND_INSTR(0x15, 0x08),
+> +	ILI9881C_COMMAND_INSTR(0x16, 0x10),
+> +	ILI9881C_COMMAND_INSTR(0x17, 0x00),
+> +	ILI9881C_COMMAND_INSTR(0x18, 0x08),
+> +	ILI9881C_COMMAND_INSTR(0x19, 0x00),
+> +	ILI9881C_COMMAND_INSTR(0x1A, 0x00),
+> +	ILI9881C_COMMAND_INSTR(0x1B, 0x00),
+> +	ILI9881C_COMMAND_INSTR(0x1C, 0x00),
+> +	ILI9881C_COMMAND_INSTR(0x1D, 0x00),
+> +	ILI9881C_COMMAND_INSTR(0x1E, 0xC0),
+> +	ILI9881C_COMMAND_INSTR(0x1F, 0x80),
+> +
+> +	ILI9881C_COMMAND_INSTR(0x20, 0x02),
+> +	ILI9881C_COMMAND_INSTR(0x21, 0x09),
+> +	ILI9881C_COMMAND_INSTR(0x22, 0x00),
+> +	ILI9881C_COMMAND_INSTR(0x23, 0x00),
+> +	ILI9881C_COMMAND_INSTR(0x24, 0x00),
+> +	ILI9881C_COMMAND_INSTR(0x25, 0x00),
+> +	ILI9881C_COMMAND_INSTR(0x26, 0x00),
+> +	ILI9881C_COMMAND_INSTR(0x27, 0x00),
+> +	ILI9881C_COMMAND_INSTR(0x28, 0x55),
+> +	ILI9881C_COMMAND_INSTR(0x29, 0x03),
+> +	ILI9881C_COMMAND_INSTR(0x2A, 0x00),
+> +	ILI9881C_COMMAND_INSTR(0x2B, 0x00),
+> +	ILI9881C_COMMAND_INSTR(0x2C, 0x00),
+> +	ILI9881C_COMMAND_INSTR(0x2D, 0x00),
+> +	ILI9881C_COMMAND_INSTR(0x2E, 0x00),
+> +	ILI9881C_COMMAND_INSTR(0x2F, 0x00),
+> +
+> +	ILI9881C_COMMAND_INSTR(0x30, 0x00),
+> +	ILI9881C_COMMAND_INSTR(0x31, 0x00),
+> +	ILI9881C_COMMAND_INSTR(0x32, 0x00),
+> +	ILI9881C_COMMAND_INSTR(0x33, 0x00),
+> +	ILI9881C_COMMAND_INSTR(0x34, 0x04),
+> +	ILI9881C_COMMAND_INSTR(0x35, 0x05),
+> +	ILI9881C_COMMAND_INSTR(0x36, 0x05),
+> +	ILI9881C_COMMAND_INSTR(0x37, 0x00),
+> +	ILI9881C_COMMAND_INSTR(0x38, 0x3C),
+> +	ILI9881C_COMMAND_INSTR(0x39, 0x35),
+> +	ILI9881C_COMMAND_INSTR(0x3A, 0x00),
+> +	ILI9881C_COMMAND_INSTR(0x3B, 0x40),
+> +	ILI9881C_COMMAND_INSTR(0x3C, 0x00),
+> +	ILI9881C_COMMAND_INSTR(0x3D, 0x00),
+> +	ILI9881C_COMMAND_INSTR(0x3E, 0x00),
+> +	ILI9881C_COMMAND_INSTR(0x3F, 0x00),
+> +
+> +	ILI9881C_COMMAND_INSTR(0x40, 0x00),
+> +	ILI9881C_COMMAND_INSTR(0x41, 0x88),
+> +	ILI9881C_COMMAND_INSTR(0x42, 0x00),
+> +	ILI9881C_COMMAND_INSTR(0x43, 0x00),
+> +	ILI9881C_COMMAND_INSTR(0x44, 0x1F),
+> +
+> +	ILI9881C_COMMAND_INSTR(0x50, 0x01),
+> +	ILI9881C_COMMAND_INSTR(0x51, 0x23),
+> +	ILI9881C_COMMAND_INSTR(0x52, 0x45),
+> +	ILI9881C_COMMAND_INSTR(0x53, 0x67),
+> +	ILI9881C_COMMAND_INSTR(0x54, 0x89),
+> +	ILI9881C_COMMAND_INSTR(0x55, 0xaB),
+> +	ILI9881C_COMMAND_INSTR(0x56, 0x01),
+> +	ILI9881C_COMMAND_INSTR(0x57, 0x23),
+> +	ILI9881C_COMMAND_INSTR(0x58, 0x45),
+> +	ILI9881C_COMMAND_INSTR(0x59, 0x67),
+> +	ILI9881C_COMMAND_INSTR(0x5A, 0x89),
+> +	ILI9881C_COMMAND_INSTR(0x5B, 0xAB),
+> +	ILI9881C_COMMAND_INSTR(0x5C, 0xCD),
+> +	ILI9881C_COMMAND_INSTR(0x5D, 0xEF),
+> +	ILI9881C_COMMAND_INSTR(0x5E, 0x03),
+> +	ILI9881C_COMMAND_INSTR(0x5F, 0x14),
+> +
+> +	ILI9881C_COMMAND_INSTR(0x60, 0x15),
+> +	ILI9881C_COMMAND_INSTR(0x61, 0x0C),
+> +	ILI9881C_COMMAND_INSTR(0x62, 0x0D),
+> +	ILI9881C_COMMAND_INSTR(0x63, 0x0E),
+> +	ILI9881C_COMMAND_INSTR(0x64, 0x0F),
+> +	ILI9881C_COMMAND_INSTR(0x65, 0x10),
+> +	ILI9881C_COMMAND_INSTR(0x66, 0x11),
+> +	ILI9881C_COMMAND_INSTR(0x67, 0x08),
+> +	ILI9881C_COMMAND_INSTR(0x68, 0x02),
+> +	ILI9881C_COMMAND_INSTR(0x69, 0x0A),
+> +	ILI9881C_COMMAND_INSTR(0x6A, 0x02),
+> +	ILI9881C_COMMAND_INSTR(0x6B, 0x02),
+> +	ILI9881C_COMMAND_INSTR(0x6C, 0x02),
+> +	ILI9881C_COMMAND_INSTR(0x6D, 0x02),
+> +	ILI9881C_COMMAND_INSTR(0x6E, 0x02),
+> +	ILI9881C_COMMAND_INSTR(0x6F, 0x02),
+> +
+> +	ILI9881C_COMMAND_INSTR(0x70, 0x02),
+> +	ILI9881C_COMMAND_INSTR(0x71, 0x02),
+> +	ILI9881C_COMMAND_INSTR(0x72, 0x06),
+> +	ILI9881C_COMMAND_INSTR(0x73, 0x02),
+> +	ILI9881C_COMMAND_INSTR(0x74, 0x02),
+> +	ILI9881C_COMMAND_INSTR(0x75, 0x14),
+> +	ILI9881C_COMMAND_INSTR(0x76, 0x15),
+> +	ILI9881C_COMMAND_INSTR(0x77, 0x0F),
+> +	ILI9881C_COMMAND_INSTR(0x78, 0x0E),
+> +	ILI9881C_COMMAND_INSTR(0x79, 0x0D),
+> +	ILI9881C_COMMAND_INSTR(0x7A, 0x0C),
+> +	ILI9881C_COMMAND_INSTR(0x7B, 0x11),
+> +	ILI9881C_COMMAND_INSTR(0x7C, 0x10),
+> +	ILI9881C_COMMAND_INSTR(0x7D, 0x06),
+> +	ILI9881C_COMMAND_INSTR(0x7E, 0x02),
+> +	ILI9881C_COMMAND_INSTR(0x7F, 0x0A),
+> +
+> +	ILI9881C_COMMAND_INSTR(0x80, 0x02),
+> +	ILI9881C_COMMAND_INSTR(0x81, 0x02),
+> +	ILI9881C_COMMAND_INSTR(0x82, 0x02),
+> +	ILI9881C_COMMAND_INSTR(0x83, 0x02),
+> +	ILI9881C_COMMAND_INSTR(0x84, 0x02),
+> +	ILI9881C_COMMAND_INSTR(0x85, 0x02),
+> +	ILI9881C_COMMAND_INSTR(0x86, 0x02),
+> +	ILI9881C_COMMAND_INSTR(0x87, 0x02),
+> +	ILI9881C_COMMAND_INSTR(0x88, 0x08),
+> +	ILI9881C_COMMAND_INSTR(0x89, 0x02),
+> +	ILI9881C_COMMAND_INSTR(0x8A, 0x02),
+> +
+> +	ILI9881C_SWITCH_PAGE_INSTR(4),
+> +	ILI9881C_COMMAND_INSTR(0x00, 0x80),
+> +	ILI9881C_COMMAND_INSTR(0x70, 0x00),
+> +	ILI9881C_COMMAND_INSTR(0x71, 0x00),
+> +	ILI9881C_COMMAND_INSTR(0x66, 0xFE),
+> +	ILI9881C_COMMAND_INSTR(0x82, 0x15),
+> +	ILI9881C_COMMAND_INSTR(0x84, 0x15),
+> +	ILI9881C_COMMAND_INSTR(0x85, 0x15),
+> +	ILI9881C_COMMAND_INSTR(0x3a, 0x24),
+> +	ILI9881C_COMMAND_INSTR(0x32, 0xAC),
+> +	ILI9881C_COMMAND_INSTR(0x8C, 0x80),
+> +	ILI9881C_COMMAND_INSTR(0x3C, 0xF5),
+> +	ILI9881C_COMMAND_INSTR(0x88, 0x33),
+> +
+> +	ILI9881C_SWITCH_PAGE_INSTR(1),
+> +	ILI9881C_COMMAND_INSTR(0x22, 0x0A),
+> +	ILI9881C_COMMAND_INSTR(0x31, 0x00),
+> +	ILI9881C_COMMAND_INSTR(0x53, 0x78),
+> +	ILI9881C_COMMAND_INSTR(0x50, 0x5B),
+> +	ILI9881C_COMMAND_INSTR(0x51, 0x5B),
+> +	ILI9881C_COMMAND_INSTR(0x60, 0x20),
+> +	ILI9881C_COMMAND_INSTR(0x61, 0x00),
+> +	ILI9881C_COMMAND_INSTR(0x62, 0x0D),
+> +	ILI9881C_COMMAND_INSTR(0x63, 0x00),
+> +
+> +	ILI9881C_COMMAND_INSTR(0xA0, 0x00),
+> +	ILI9881C_COMMAND_INSTR(0xA1, 0x10),
+> +	ILI9881C_COMMAND_INSTR(0xA2, 0x1C),
+> +	ILI9881C_COMMAND_INSTR(0xA3, 0x13),
+> +	ILI9881C_COMMAND_INSTR(0xA4, 0x15),
+> +	ILI9881C_COMMAND_INSTR(0xA5, 0x26),
+> +	ILI9881C_COMMAND_INSTR(0xA6, 0x1A),
+> +	ILI9881C_COMMAND_INSTR(0xA7, 0x1D),
+> +	ILI9881C_COMMAND_INSTR(0xA8, 0x67),
+> +	ILI9881C_COMMAND_INSTR(0xA9, 0x1C),
+> +	ILI9881C_COMMAND_INSTR(0xAA, 0x29),
+> +	ILI9881C_COMMAND_INSTR(0xAB, 0x5B),
+> +	ILI9881C_COMMAND_INSTR(0xAC, 0x26),
+> +	ILI9881C_COMMAND_INSTR(0xAD, 0x28),
+> +	ILI9881C_COMMAND_INSTR(0xAE, 0x5C),
+> +	ILI9881C_COMMAND_INSTR(0xAF, 0x30),
+> +	ILI9881C_COMMAND_INSTR(0xB0, 0x31),
+> +	ILI9881C_COMMAND_INSTR(0xB1, 0x2E),
+> +	ILI9881C_COMMAND_INSTR(0xB2, 0x32),
+> +	ILI9881C_COMMAND_INSTR(0xB3, 0x00),
+> +
+> +	ILI9881C_COMMAND_INSTR(0xC0, 0x00),
+> +	ILI9881C_COMMAND_INSTR(0xC1, 0x10),
+> +	ILI9881C_COMMAND_INSTR(0xC2, 0x1C),
+> +	ILI9881C_COMMAND_INSTR(0xC3, 0x13),
+> +	ILI9881C_COMMAND_INSTR(0xC4, 0x15),
+> +	ILI9881C_COMMAND_INSTR(0xC5, 0x26),
+> +	ILI9881C_COMMAND_INSTR(0xC6, 0x1A),
+> +	ILI9881C_COMMAND_INSTR(0xC7, 0x1D),
+> +	ILI9881C_COMMAND_INSTR(0xC8, 0x67),
+> +	ILI9881C_COMMAND_INSTR(0xC9, 0x1C),
+> +	ILI9881C_COMMAND_INSTR(0xCA, 0x29),
+> +	ILI9881C_COMMAND_INSTR(0xCB, 0x5B),
+> +	ILI9881C_COMMAND_INSTR(0xCC, 0x26),
+> +	ILI9881C_COMMAND_INSTR(0xCD, 0x28),
+> +	ILI9881C_COMMAND_INSTR(0xCE, 0x5C),
+> +	ILI9881C_COMMAND_INSTR(0xCF, 0x30),
+> +	ILI9881C_COMMAND_INSTR(0xD0, 0x31),
+> +	ILI9881C_COMMAND_INSTR(0xD1, 0x2E),
+> +	ILI9881C_COMMAND_INSTR(0xD2, 0x32),
+> +	ILI9881C_COMMAND_INSTR(0xD3, 0x00),
+> +	ILI9881C_SWITCH_PAGE_INSTR(0),
+> +};
+> +
+>  static inline struct ili9881c *panel_to_ili9881c(struct drm_panel *panel)
+>  {
+>  	return container_of(panel, struct ili9881c, panel);
+> @@ -603,6 +811,23 @@ static const struct drm_display_mode k101_im2byl02_default_mode = {
+>  	.height_mm	= 217,
+>  };
+>  
+> +static const struct drm_display_mode w552946aba_default_mode = {
+> +	.clock		= 64000,
+> +
+> +	.hdisplay	= 720,
+> +	.hsync_start	= 720 + 40,
+> +	.hsync_end	= 720 + 40 + 10,
+> +	.htotal		= 720 + 40 + 10 + 40,
+> +
+> +	.vdisplay	= 1280,
+> +	.vsync_start	= 1280 + 22,
+> +	.vsync_end	= 1280 + 22 + 4,
+> +	.vtotal		= 1280 + 22 + 4 + 11,
+> +
+> +	.width_mm	= 68,
+> +	.height_mm	= 121,
+> +};
+> +
+>  static int ili9881c_get_modes(struct drm_panel *panel,
+>  			      struct drm_connector *connector)
+>  {
+> @@ -670,7 +895,7 @@ static int ili9881c_dsi_probe(struct mipi_dsi_device *dsi)
+>  
+>  	drm_panel_add(&ctx->panel);
+>  
+> -	dsi->mode_flags = MIPI_DSI_MODE_VIDEO_SYNC_PULSE;
+> +	dsi->mode_flags = ctx->desc->mode_flags;
+>  	dsi->format = MIPI_DSI_FMT_RGB888;
+>  	dsi->lanes = 4;
+>  
+> @@ -691,17 +916,28 @@ static const struct ili9881c_desc lhr050h41_desc = {
+>  	.init = lhr050h41_init,
+>  	.init_length = ARRAY_SIZE(lhr050h41_init),
+>  	.mode = &lhr050h41_default_mode,
+> +	.mode_flags = MIPI_DSI_MODE_VIDEO_SYNC_PULSE,
+>  };
+>  
+>  static const struct ili9881c_desc k101_im2byl02_desc = {
+>  	.init = k101_im2byl02_init,
+>  	.init_length = ARRAY_SIZE(k101_im2byl02_init),
+>  	.mode = &k101_im2byl02_default_mode,
+> +	.mode_flags = MIPI_DSI_MODE_VIDEO_SYNC_PULSE,
+> +};
+> +
+> +static const struct ili9881c_desc w552946aba_desc = {
+> +	.init = w552946ab_init,
+> +	.init_length = ARRAY_SIZE(w552946ab_init),
+> +	.mode = &w552946aba_default_mode,
+> +	.mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
+> +		      MIPI_DSI_MODE_LPM | MIPI_DSI_MODE_EOT_PACKET,
+>  };
+>  
+>  static const struct of_device_id ili9881c_of_match[] = {
+>  	{ .compatible = "bananapi,lhr050h41", .data = &lhr050h41_desc },
+>  	{ .compatible = "feixin,k101-im2byl02", .data = &k101_im2byl02_desc },
+> +	{ .compatible = "wanchanglong,w552946aba", .data = &w552946aba_desc },
 
-- No Functional change, but a clarification around I915_TILING values (Matt).
+wanchanglong - must be included in Documentation/devicetree/bindings/vendor-prefixes.yaml
 
-Driver Changes:
+w552946aba must be documented in a panel DT schema.
+I assume adding it to Documentation/devicetree/bindings/display/panel/ilitek,ili9881c.yaml
+will do the trick.
 
-- Changes around async flip VT-d w/a (Ville)
-- Delete bogus NULL check in intel_ddi_encoder_destroy (Dan)
-- DP link training improvements and DP per-lane driver settings (Ville)
-- Free the returned object of acpi_evaluate_dsm (Zenghui)
-- Fixes and improvements around DP's UHBR and MST (Jani)
-- refactor plane config + pin out (Dave)
-- remove unused include in intel_dsi_vbt.c (Lucas)
-- some code clean up (Lucas, Jani)
-- gracefully disable dual eDP (Jani)
-- Remove memory frequency calculation (Jose)
-- Fix oops on platforms w/o hpd support (Ville)
-- Clean up PXP Kconfig info (Rodrigo)
-
-Thanks,
-Rodrigo.
-
-The following changes since commit 1176d15f0f6e556d54ced510ac4a91694960332b:
-
-  Merge tag 'drm-intel-gt-next-2021-10-08' of git://anongit.freedesktop.org/drm/drm-intel into drm-next (2021-10-11 18:09:39 +1000)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-next-2021-10-15
-
-for you to fetch changes up to c974cf01b248c6f4220bfadd57cce74058453aea:
-
-  drm/i915: Clean up PXP Kconfig info. (2021-10-15 14:22:11 -0400)
-
-----------------------------------------------------------------
-UAPI Changes:
-
-- No Functional change, but a clarification around I915_TILING values (Matt).
-
-Driver Changes:
-
-- Changes around async flip VT-d w/a (Ville)
-- Delete bogus NULL check in intel_ddi_encoder_destroy (Dan)
-- DP link training improvements and DP per-lane driver settings (Ville)
-- Free the returned object of acpi_evaluate_dsm (Zenghui)
-- Fixes and improvements around DP's UHBR and MST (Jani)
-- refactor plane config + pin out (Dave)
-- remove unused include in intel_dsi_vbt.c (Lucas)
-- some code clean up (Lucas, Jani)
-- gracefully disable dual eDP (Jani)
-- Remove memory frequency calculation (Jose)
-- Fix oops on platforms w/o hpd support (Ville)
-- Clean up PXP Kconfig info (Rodrigo)
-
-----------------------------------------------------------------
-Dan Carpenter (1):
-      drm/i915/tc: Delete bogus NULL check in intel_ddi_encoder_destroy()
-
-Dave Airlie (5):
-      drm/i915/display: move plane prepare/cleanup to intel_atomic_plane.c
-      drm/i915/display: let intel_plane_uses_fence be used from other places.
-      drm/i915/display: refactor out initial plane config for crtcs
-      drm/i915/display: refactor initial plane config to a separate file
-      drm/i915/display: move pin/unpin fb/plane code to a new file.
-
-Jani Nikula (9):
-      drm/i915/dg2: fix snps buf trans for uhbr
-      drm/i915/dp: take LTTPR into account in 128b/132b rates
-      drm/i915/mst: abstract intel_dp_mst_source_support()
-      drm/i915/dp: abstract intel_dp_lane_max_vswing_reached()
-      drm/i915/dg2: update link training for 128b/132b
-      drm/i915: split out vlv sideband to a separate file
-      drm/i915/bios: gracefully disable dual eDP for now
-      drm/i915: split out intel_pcode.[ch] to separate file
-      drm/i915: rename intel_sideband.[ch] to intel_sbi.[ch]
-
-José Roberto de Souza (1):
-      drm/i915: Remove memory frequency calculation
-
-Lucas De Marchi (1):
-      drm/i915/display: remove unused intel-mid.h include
-
-Matt Roper (1):
-      drm/i915/uapi: Add comment clarifying purpose of I915_TILING_* values
-
-Rodrigo Vivi (2):
-      Merge drm/drm-next into drm-intel-next
-      drm/i915: Clean up PXP Kconfig info.
-
-Ville Syrjälä (14):
-      drm/i915: Extend the async flip VT-d w/a to skl/bxt
-      drm/i195: Make the async flip VT-d workaround dynamic
-      drm/i915: Tweak the DP "max vswing reached?" condition
-      drm/i915: Show LTTPR in the TPS debug print
-      drm/i915: Print the DP vswing adjustment request
-      drm/i915: Pimp link training debug prints
-      drm/i915: Call intel_dp_dump_link_status() for CR failures
-      drm/i915: Remove pointless extra namespace from dkl/snps buf trans structs
-      drm/i915: Shrink {icl_mg,tgl_dkl}_phy_ddi_buf_trans
-      drm/i915: Use standard form terminating condition for lane for loops
-      drm/i915: Remove dead DKL_TX_LOADGEN_SHARING_PMD_DISABLE stuff
-      drm/i915: Extract icl_combo_phy_loadgen_select()
-      drm/i915: Add all per-lane register definitions for icl combo phy
-      drm/i915: Fix oops on platforms w/o hpd support
-
-Zenghui Yu (1):
-      drm/i915: Free the returned object of acpi_evaluate_dsm()
-
- drivers/gpu/drm/i915/Kconfig                       |  10 +-
- drivers/gpu/drm/i915/Makefile                      |   6 +-
- drivers/gpu/drm/i915/display/g4x_dp.c              |   4 +-
- drivers/gpu/drm/i915/display/g4x_hdmi.c            |   2 +-
- drivers/gpu/drm/i915/display/icl_dsi.c             |  14 +-
- drivers/gpu/drm/i915/display/intel_acpi.c          |   7 +-
- drivers/gpu/drm/i915/display/intel_atomic_plane.c  | 209 ++++++
- drivers/gpu/drm/i915/display/intel_bios.c          |  47 ++
- drivers/gpu/drm/i915/display/intel_bw.c            |   2 +-
- drivers/gpu/drm/i915/display/intel_cdclk.c         |   3 +-
- drivers/gpu/drm/i915/display/intel_combo_phy.c     |   8 +-
- drivers/gpu/drm/i915/display/intel_cursor.c        |   2 +-
- drivers/gpu/drm/i915/display/intel_ddi.c           |  76 +-
- drivers/gpu/drm/i915/display/intel_ddi_buf_trans.c |   4 +-
- drivers/gpu/drm/i915/display/intel_ddi_buf_trans.h |  18 +-
- drivers/gpu/drm/i915/display/intel_display.c       | 784 ++-------------------
- drivers/gpu/drm/i915/display/intel_display.h       |  15 +-
- .../gpu/drm/i915/display/intel_display_debugfs.c   |   6 +-
- drivers/gpu/drm/i915/display/intel_display_power.c |   6 +-
- drivers/gpu/drm/i915/display/intel_display_types.h |   1 -
- drivers/gpu/drm/i915/display/intel_dp.c            |  29 +-
- .../gpu/drm/i915/display/intel_dp_link_training.c  | 352 ++++++---
- .../gpu/drm/i915/display/intel_dp_link_training.h  |   1 +
- drivers/gpu/drm/i915/display/intel_dp_mst.c        |  15 +-
- drivers/gpu/drm/i915/display/intel_dp_mst.h        |   4 +-
- drivers/gpu/drm/i915/display/intel_dpio_phy.c      |   5 +-
- drivers/gpu/drm/i915/display/intel_dpll.c          |   2 +-
- drivers/gpu/drm/i915/display/intel_dsi_vbt.c       |   3 +-
- drivers/gpu/drm/i915/display/intel_fb_pin.c        | 274 +++++++
- drivers/gpu/drm/i915/display/intel_fb_pin.h        |  28 +
- drivers/gpu/drm/i915/display/intel_fbdev.c         |   1 +
- drivers/gpu/drm/i915/display/intel_fdi.c           |   2 +-
- drivers/gpu/drm/i915/display/intel_hdcp.c          |   6 +-
- drivers/gpu/drm/i915/display/intel_hotplug.c       |   2 +-
- drivers/gpu/drm/i915/display/intel_plane_initial.c | 283 ++++++++
- drivers/gpu/drm/i915/display/intel_plane_initial.h |  13 +
- drivers/gpu/drm/i915/display/intel_snps_phy.c      |   6 +-
- drivers/gpu/drm/i915/display/vlv_dsi.c             |   2 +-
- drivers/gpu/drm/i915/display/vlv_dsi_pll.c         |   2 +-
- drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c      |   3 +-
- drivers/gpu/drm/i915/gt/intel_llc.c                |   2 +-
- drivers/gpu/drm/i915/gt/intel_rc6.c                |   2 +-
- drivers/gpu/drm/i915/gt/intel_rps.c                |   3 +-
- drivers/gpu/drm/i915/i915_debugfs.c                |   1 -
- drivers/gpu/drm/i915/i915_drv.c                    |   2 +-
- drivers/gpu/drm/i915/i915_reg.h                    |  24 +-
- drivers/gpu/drm/i915/i915_sysfs.c                  |   1 -
- drivers/gpu/drm/i915/intel_dram.c                  |  32 +-
- drivers/gpu/drm/i915/intel_pcode.c                 | 235 ++++++
- drivers/gpu/drm/i915/intel_pcode.h                 |  26 +
- drivers/gpu/drm/i915/intel_pm.c                    |  17 +-
- drivers/gpu/drm/i915/intel_sbi.c                   |  73 ++
- drivers/gpu/drm/i915/intel_sbi.h                   |  23 +
- drivers/gpu/drm/i915/intel_sideband.c              | 577 ---------------
- drivers/gpu/drm/i915/vlv_sideband.c                | 266 +++++++
- .../drm/i915/{intel_sideband.h => vlv_sideband.h}  |  34 +-
- include/uapi/drm/i915_drm.h                        |   6 +
- 57 files changed, 1974 insertions(+), 1607 deletions(-)
- create mode 100644 drivers/gpu/drm/i915/display/intel_fb_pin.c
- create mode 100644 drivers/gpu/drm/i915/display/intel_fb_pin.h
- create mode 100644 drivers/gpu/drm/i915/display/intel_plane_initial.c
- create mode 100644 drivers/gpu/drm/i915/display/intel_plane_initial.h
- create mode 100644 drivers/gpu/drm/i915/intel_pcode.c
- create mode 100644 drivers/gpu/drm/i915/intel_pcode.h
- create mode 100644 drivers/gpu/drm/i915/intel_sbi.c
- create mode 100644 drivers/gpu/drm/i915/intel_sbi.h
- delete mode 100644 drivers/gpu/drm/i915/intel_sideband.c
- create mode 100644 drivers/gpu/drm/i915/vlv_sideband.c
- rename drivers/gpu/drm/i915/{intel_sideband.h => vlv_sideband.h} (77%)
+	Sam
