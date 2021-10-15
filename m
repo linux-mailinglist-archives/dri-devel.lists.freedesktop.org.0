@@ -2,32 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 196F142F844
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Oct 2021 18:33:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD22542F847
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Oct 2021 18:34:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5DDB76E329;
-	Fri, 15 Oct 2021 16:33:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D0A76EDAC;
+	Fri, 15 Oct 2021 16:33:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-4022.proton.ch (mail-4022.proton.ch [185.70.40.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 608026E329
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Oct 2021 16:33:50 +0000 (UTC)
-Date: Fri, 15 Oct 2021 16:33:45 +0000
+Received: from mail-4317.proton.ch (mail-4317.proton.ch [185.70.43.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E6656E329
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Oct 2021 16:33:51 +0000 (UTC)
+Date: Fri, 15 Oct 2021 16:33:46 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail; t=1634315628;
- bh=aPO+eW2W5skbHtCOR+vFJXQIAh0kKiUACv5iHW3hLww=;
+ s=protonmail; t=1634315629;
+ bh=aCE9y3qSThbD2y1rUgyiT7Irei9XmhQaPbaufThP6Ts=;
  h=Date:To:From:Reply-To:Subject:In-Reply-To:References:From;
- b=Ca+EuksK387XK2ccd7YBKnUbk/lKfl934A83CGrqObPhbLOQcxNGPtnKPzr2S+hmD
- NWw4XFm1EjjZQv15+ZVnueb0AUvHOPNeItxMlumGlTdRAxl/o8EKffpcFMwaAYx8Ql
- yHcG+Nh9O4taJeObaekXO7pdQilSqPk5gq3qJK1xEGgigfnWnvYsA0pyAOu67JDLcc
- cQ9WrTXG0lI06chfVnUDUo6UAWUj+usx+xQvUkzZI3v/z/FCSESVxj5EgJXLZXHHNC
- D9jiOlt02ys4enBtfQRIW+JyCOOHIFkrEzjfkyyxPtHTSbE5kQ48WzVipyZjLfiHSQ
- 6F55NWK2l34FA==
+ b=sdojlnRfrUoIgvW0m2HrNGXri+4wnDGX1wD/1ynwXxydobs190m/sKTymhFzi/Y92
+ uMBtKN7IMc3vlCX15b1018sQMoMv2rwspV8ZXJUG4wAPt9Vbtx9uBjaSj9JIZcid88
+ fszyX27hNP6t+aLqmPgx2lHnHFoOZS2t6s7xoe6A3U6lWbGOocayjfhy9Fx4yi1kNC
+ XzulrxnjYCx0AtzHDjdGIWP1AAj1w4VVA+mzHXT478NW1r/pM72nj1tgF0rwI2YWTM
+ LAX76650Ky6Nj6Q12PkbzPfj2SKk79dkMV6+KC3mIy+eToGYQsCL//UIOaymS1MaRI
+ 0ZoVAgWFubHPA==
 To: dri-devel@lists.freedesktop.org
 From: Simon Ser <contact@emersion.fr>
-Subject: [PATCH v3 5/6] drm/probe-helper: use
- drm_kms_helper_connector_hotplug_event
-Message-ID: <20211015163336.95188-6-contact@emersion.fr>
+Subject: [PATCH v3 6/6] i915/display/dp: send a more fine-grained link-status
+ uevent
+Message-ID: <20211015163336.95188-7-contact@emersion.fr>
 In-Reply-To: <20211015163336.95188-1-contact@emersion.fr>
 References: <20211015163336.95188-1-contact@emersion.fr>
 MIME-Version: 1.0
@@ -54,60 +54,31 @@ Reply-To: Simon Ser <contact@emersion.fr>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If an hotplug event only updates a single connector, use
-drm_kms_helper_connector_hotplug_event instead of
-drm_kms_helper_hotplug_event.
+When link-status changes, send a hotplug uevent which contains the
+connector and property ID. That way, user-space can more easily
+figure out that only the link-status property of this connector has
+been updated.
 
 Signed-off-by: Simon Ser <contact@emersion.fr>
 ---
- drivers/gpu/drm/drm_probe_helper.c | 20 ++++++++++++++++----
- 1 file changed, 16 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/i915/display/intel_dp.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_probe=
-_helper.c
-index 3aef3b188c99..6049dc92324b 100644
---- a/drivers/gpu/drm/drm_probe_helper.c
-+++ b/drivers/gpu/drm/drm_probe_helper.c
-@@ -927,7 +927,7 @@ EXPORT_SYMBOL(drm_connector_helper_hpd_irq_event);
-  */
- bool drm_helper_hpd_irq_event(struct drm_device *dev)
- {
--=09struct drm_connector *connector;
-+=09struct drm_connector *connector, *changed_connector =3D NULL;
- =09struct drm_connector_list_iter conn_iter;
- =09bool changed =3D false;
+diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915=
+/display/intel_dp.c
+index 04175f359fd6..afbe34b6e5be 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp.c
++++ b/drivers/gpu/drm/i915/display/intel_dp.c
+@@ -5264,6 +5264,8 @@ static void intel_dp_modeset_retry_work_fn(struct wor=
+k_struct *work)
+ =09mutex_unlock(&connector->dev->mode_config.mutex);
+ =09/* Send Hotplug uevent so userspace can reprobe */
+ =09drm_kms_helper_hotplug_event(connector->dev);
++=09drm_sysfs_connector_status_event(connector,
++=09=09=09=09=09 connector->dev->mode_config.link_status_property);
+ }
 =20
-@@ -941,15 +941,27 @@ bool drm_helper_hpd_irq_event(struct drm_device *dev)
- =09=09if (!(connector->polled & DRM_CONNECTOR_POLL_HPD))
- =09=09=09continue;
-=20
--=09=09if (check_connector_changed(connector))
-+=09=09if (check_connector_changed(connector)) {
-+=09=09=09if (changed) {
-+=09=09=09=09if (changed_connector)
-+=09=09=09=09=09drm_connector_put(changed_connector);
-+=09=09=09=09changed_connector =3D NULL;
-+=09=09=09} else {
-+=09=09=09=09drm_connector_get(connector);
-+=09=09=09=09changed_connector =3D connector;
-+=09=09=09}
-+
- =09=09=09changed =3D true;
-+=09=09}
- =09}
- =09drm_connector_list_iter_end(&conn_iter);
- =09mutex_unlock(&dev->mode_config.mutex);
-=20
--=09if (changed) {
-+=09if (changed_connector) {
-+=09=09drm_kms_helper_connector_hotplug_event(changed_connector);
-+=09=09drm_connector_put(changed_connector);
-+=09} else if (changed) {
- =09=09drm_kms_helper_hotplug_event(dev);
--=09=09DRM_DEBUG_KMS("Sent hotplug event\n");
- =09}
-=20
- =09return changed;
+ bool
 --=20
 2.33.1
 
