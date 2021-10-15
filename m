@@ -2,63 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29E3C42E858
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Oct 2021 07:17:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C11642E8BF
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Oct 2021 08:15:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9CE976ECCD;
-	Fri, 15 Oct 2021 05:17:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E3AA6E220;
+	Fri, 15 Oct 2021 06:15:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com
- [IPv6:2a00:1450:4864:20::530])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 944B16E220;
- Fri, 15 Oct 2021 05:17:53 +0000 (UTC)
-Received: by mail-ed1-x530.google.com with SMTP id t16so33171516eds.9;
- Thu, 14 Oct 2021 22:17:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=IY0VDzzBP/Ta/+EbEWrnfIeYI/gKNtDErU5o48aI9tU=;
- b=ghmufCpFSZTrwm1H++YTPAHtceSg1c7+k5d5bhNCWTjwA8rOKTCPq0sKZUKL9Fmys0
- a3oTpe4bLSc1yIxWMZfcTvYpPSrDJDKpOrXQ83Ne+G3LC6Jr4JKft+rZn11wUucTEi1p
- 1syrJcLxQ89XNNgpG9BMlZtbSkvST1Gk89O9sbsB1T/lXRPb9HFNAjDfgJHgJbAJhZlk
- nL6wSxKXPHAmQ8stHpfyhjhy56QQ5q2gNhfeAav+5rR8JfAFIPqf5x38pXNpaQgXLM8I
- PJNT6U/CAl24rTrmXwiHJVLd1fGMw8gOeVBv+mF+TytFDEtvOoZZkU0U3fUEVuJzOG0z
- SChQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=IY0VDzzBP/Ta/+EbEWrnfIeYI/gKNtDErU5o48aI9tU=;
- b=gtJqOAodBSnMk/N9cI34mh/rLZjR/j3EqNpYqo2f7z1+JWVwyBxTrKny6xohnXjNxR
- zx17BKXnXLp7Ztx4jpVgEXksy9rfqGdOcVzutZgwOihoeavpp6OdS6NgH2sNbyY3rAju
- zr8ajUH9jeIFCCSjqF/D2WoEcnTx4Co3u31u417V97T9BgY7KqnB9aqcRKYN4zV/Z3m8
- VzqkAyxXe+X1kmZQjDY3KbMuJAS7EmDEuiK/kUqlC5lFf86VcerfrulY0c6Kf7yKfuUk
- jUGLDevrU8aGt5p3wnUxNUNWPuURwL0Ee40AxFuqqyvykd5OBXUek+f2CRUl6AGfpeHg
- jL+Q==
-X-Gm-Message-State: AOAM532eF5aMOVjWsKi/HyMJ2EzavW+E0gxzbsDIQFsyn/qx+4Fn/sDm
- OkhhYdDTosE5/KzX+Tqwdyb7/9p2VPtceJD3MnU=
-X-Google-Smtp-Source: ABdhPJw9/RH6fccv0J/pir5ytqRVb5bsqqdJtiC2IIaQAskMYkm18UnxljhJJkJzBzNhx1meTeBUSmlc7pWdmR+2G9Q=
-X-Received: by 2002:a17:907:2156:: with SMTP id
- rk22mr4344953ejb.64.1634275072068; 
- Thu, 14 Oct 2021 22:17:52 -0700 (PDT)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A0196E220
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Oct 2021 06:15:40 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 12C4761090;
+ Fri, 15 Oct 2021 06:15:37 +0000 (UTC)
+From: Huacai Chen <chenhuacai@loongson.cn>
+To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Bjorn Helgaas <bhelgaas@google.com>
+Cc: linux-pci@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Xuefeng Li <lixuefeng@loongson.cn>, Huacai Chen <chenhuacai@gmail.com>,
+ Huacai Chen <chenhuacai@loongson.cn>
+Subject: [PATCH V7 00/11] PCI/VGA: Rework default VGA device selection
+Date: Fri, 15 Oct 2021 14:15:01 +0800
+Message-Id: <20211015061512.2941859-1-chenhuacai@loongson.cn>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-References: <8ac9a968-64d8-44ae-a9ae-863c21524fce@linux.intel.com>
-In-Reply-To: <8ac9a968-64d8-44ae-a9ae-863c21524fce@linux.intel.com>
-From: Dave Airlie <airlied@gmail.com>
-Date: Fri, 15 Oct 2021 15:17:40 +1000
-Message-ID: <CAPM=9tzcrtHqLtKVrpOp9nPxY5+owxz372pQ=ZhXq9tWn_nOmw@mail.gmail.com>
-Subject: Re: [PULL] drm-misc-fixes
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Jani Nikula <jani.nikula@linux.intel.com>, 
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Sean Paul <sean@poorly.run>, dri-devel <dri-devel@lists.freedesktop.org>, 
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>, 
- "DRM maintainer tools announcements, discussion,
- and development" <dim-tools@lists.freedesktop.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,14 +41,86 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> - Respun clock fixes for vc4/hdmi.
+My original work is at [1].
 
-I was uneasy with these patches due to the number and size of them at
-this point in the cycle. Is there any major problem leaving them until
-next? I think fixes needs a hard reset and rebase to rc6 when it's
-tagged.
+Current default VGA device selection fails in some cases:
 
-If these are super-urgent fixes then I'd rather they come in a topic
-branch I can give to Linus separately.
+  - On BMC system, the AST2500 bridge [1a03:1150] does not implement
+    PCI_BRIDGE_CTL_VGA [1].  This is perfectly legal but means the
+    legacy VGA resources won't reach downstream devices unless they're
+    included in the usual bridge windows.
 
-Dave.
+  - vga_arb_select_default_device() will set a device below such a
+    bridge as the default VGA device as long as it has PCI_COMMAND_IO
+    and PCI_COMMAND_MEMORY enabled.
+
+  - vga_arbiter_add_pci_device() is called for every VGA device,
+    either at boot-time or at hot-add time, and it will also set the
+    device as the default VGA device, but ONLY if all bridges leading
+    to it implement PCI_BRIDGE_CTL_VGA.
+
+  - This difference between vga_arb_select_default_device() and
+    vga_arbiter_add_pci_device() means that a device below an AST2500
+    or similar bridge can only be set as the default if it is
+    enumerated before vga_arb_device_init().
+
+  - On ACPI-based systems, PCI devices are enumerated by acpi_init(),
+    which runs before vga_arb_device_init().
+
+  - On non-ACPI systems, like on MIPS system, they are enumerated by
+    pcibios_init(), which typically runs *after*
+    vga_arb_device_init().
+
+So I made vga_arb_update_default_device() to replace the current vga_
+arb_select_default_device(), which will be call from vga_arbiter_add_
+pci_device(), set the default device even if it does not own the VGA
+resources because an upstream bridge doesn't implement PCI_BRIDGE_CTL_
+VGA. And the default VGA device is updated if a better one is found
+(device with legacy resources enabled is better, device owns the
+firmware framebuffer is even better).
+
+Bjorn do some rework and extension in V2. It moves the VGA arbiter to
+the PCI subsystem, fixes a few nits, and breaks a few pieces to make
+the main patch a little smaller.
+
+V3 rewrite the commit log of the last patch (which is also summarized
+by Bjorn).
+
+V4 split the last patch to two steps.
+
+V5 split Patch-9 again and sort the patches.
+
+V6 split Patch-5 again and sort the patches again.
+
+V7 stop moving vgaarb to drivers/pci because it cause new problems.
+
+All comments welcome!
+
+[1] https://lore.kernel.org/dri-devel/20210705100503.1120643-1-chenhuacai@loongson.cn/
+
+Huacai Chen (8):
+  PCI/VGA: Prefer vga_default_device()
+  PCI/VGA: Move vga_arb_integrated_gpu() earlier in file
+  PCI/VGA: Split out vga_arb_update_default_device()
+  PCI/VGA: Prefer VGA device with legacy I/O enabled
+  PCI/VGA: Prefer VGA device belongs to integrated GPU
+  PCI/VGA: Prefer VGA device owns the firmware framebuffer
+  PCI/VGA: Remove vga_arb_select_default_device()
+  PCI/VGA: Log bridge control messages when adding devices
+
+Bjorn Helgaas (3):
+  PCI/VGA: Remove empty vga_arb_device_card_gone()
+  PCI/VGA: Use unsigned format string to print lock counts
+  PCI/VGA: Replace full MIT license text with SPDX identifier
+
+Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
+Signed-off-by: Bjorn Helgaas <bhelgaas@google.com> 
+---
+ drivers/gpu/vga/Kconfig           |  19 ---
+ drivers/gpu/vga/Makefile          |   1 -
+ drivers/pci/Kconfig               |  19 +++
+ drivers/pci/Makefile              |   1 +
+ 4 files changed, 126 insertions(+), 183 deletions(-)
+--
+2.27.0
+
