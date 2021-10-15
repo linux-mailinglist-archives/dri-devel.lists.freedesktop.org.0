@@ -1,43 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 876F442EA86
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Oct 2021 09:49:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3077542EA8E
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Oct 2021 09:50:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D2B56E20F;
-	Fri, 15 Oct 2021 07:49:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC0C36ECF4;
+	Fri, 15 Oct 2021 07:50:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F7BE6E20F
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Oct 2021 07:49:49 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: kholk11) with ESMTPSA id 517831F42233
-Subject: Re: [PATCH v6 14/16] drm/mediatek: add ovl_adaptor support for MT8195
-To: "Nancy.Lin" <nancy.lin@mediatek.com>, CK Hu <ck.hu@mediatek.com>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- "jason-jh . lin" <jason-jh.lin@mediatek.com>,
- Yongqiang Niu <yongqiang.niu@mediatek.com>, dri-devel@lists.freedesktop.org,
- linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- singo.chang@mediatek.com, srv_heupstream@mediatek.com
-References: <20211004062140.29803-1-nancy.lin@mediatek.com>
- <20211004062140.29803-15-nancy.lin@mediatek.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Message-ID: <8a7c0988-b07c-7972-d85e-065b30ec8a1b@collabora.com>
-Date: Fri, 15 Oct 2021 09:49:44 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
+ [IPv6:2a00:1450:4864:20::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE9056ECF4
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Oct 2021 07:50:19 +0000 (UTC)
+Received: by mail-lf1-x133.google.com with SMTP id y26so38197612lfa.11
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Oct 2021 00:50:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:in-reply-to:references
+ :mime-version; bh=8UcXyUJOJyHLZcL7XHiMxsZihSQMsZ/mdQO2yul5dEc=;
+ b=eifC28c72AnknZ7WhAusrcrd/VhMLpW497syZCwTvCZ4Ph60Z1lz6hJezrq9Jm23V8
+ SSIw85PuuehqO/M/lECcfMnqbz09lO0pTmNic7RO1WK31/wkBd+ePh2ALuT00t81idSm
+ p56uRp6KSnFoC2kyCrkjikikPKgRYKtm1CmyR3Xg3iTF0LlELcv+qHMzn1urRggMfN8P
+ VyJpJY4W2/MU8dq6g7ps5sXzIUKkvFLeLeDkis1UeRZLRT1PqNnFZd51lAimzTHTCQJA
+ 1QqH7O9UOASKC2sEmsHaHmz38op1/EVRMpcqwP+ts3o/CiW3GHHPGg+1M1KSKf8OxHxp
+ VFGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version;
+ bh=8UcXyUJOJyHLZcL7XHiMxsZihSQMsZ/mdQO2yul5dEc=;
+ b=Ctr+UIkyTRQZgX/c8k4m61cjVBL6I8gS2vupjJBwHvt8yeBD8T4+E4bruCmU3I12FC
+ AQUxgqdiogXpmAxUfsVWuzNnvmwiI/kffDsWIalEs4p1R8HJf+fCe+0ayd8Cx1lBrkcq
+ RbF+TMf2yv/scmxN3XS/9yG2SGbcJbWxRMK+PApy4Le+Px2vGiAJIEIHZT9qmjkR3nKL
+ tHaoI7Fttw8M7d+sf7oAmZVnOtn0A9bwi82HjqpTkr0FFu+EU3vaxyduWL0uSTWpVmYq
+ R9DZNGZ9YLLezjSxQMvNbe8qFbtqJoQ3tzSZHAkbTYEHtPoNKSUcfeicofv2RLxUtHG0
+ AEIQ==
+X-Gm-Message-State: AOAM5331XNPkxNz920LFAyCRgSBcKln/RPmDO9iDGSsYD8EjHUv3z3Cm
+ IXTA8e/H1xxS3vsejcV6pwE=
+X-Google-Smtp-Source: ABdhPJxqFThpEyPbTIk3Sq6VOSC0Qhbs6TZaIL40B5CP2nxSXe77vKzWg6xzxp6NVDub5ZZEpDu5Vg==
+X-Received: by 2002:a05:6512:3107:: with SMTP id
+ n7mr10359250lfb.179.1634284218156; 
+ Fri, 15 Oct 2021 00:50:18 -0700 (PDT)
+Received: from eldfell ([194.136.85.206])
+ by smtp.gmail.com with ESMTPSA id f8sm433989lfq.168.2021.10.15.00.50.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 15 Oct 2021 00:50:17 -0700 (PDT)
+Date: Fri, 15 Oct 2021 10:50:14 +0300
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Subject: Re: [RFC v1 3/6] drm: Add a capability flag to support additional
+ flip completion signalling
+Message-ID: <20211015105014.0375d196@eldfell>
+In-Reply-To: <6a78da70ffab4b35b0e78a1e6570cb59@intel.com>
+References: <20210913233529.3194401-1-vivek.kasireddy@intel.com>
+ <20210913233529.3194401-4-vivek.kasireddy@intel.com>
+ <20211014124402.46f95ebc@eldfell>
+ <6a78da70ffab4b35b0e78a1e6570cb59@intel.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20211004062140.29803-15-nancy.lin@mediatek.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; boundary="Sig_/aKAOnXrgXsR.o/YY7kC30HL";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,591 +76,179 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> Add ovl_adaptor driver for MT8195.
-> Ovl_adaptor is an encapsulated module and designed for simplified
-> DRM control flow. This module is composed of 8 RDMAs, 4 MERGEs and
-> an ETHDR. Two RDMAs merge into one layer, so this module support 4
-> layers.
-> 
-> Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
-> ---
->   drivers/gpu/drm/mediatek/Makefile             |   1 +
->   drivers/gpu/drm/mediatek/mtk_disp_drv.h       |  16 +
->   .../gpu/drm/mediatek/mtk_disp_ovl_adaptor.c   | 498 ++++++++++++++++++
->   drivers/gpu/drm/mediatek/mtk_drm_drv.h        |   1 +
->   4 files changed, 516 insertions(+)
->   create mode 100644 drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c
-> 
-> diff --git a/drivers/gpu/drm/mediatek/Makefile b/drivers/gpu/drm/mediatek/Makefile
-> index fb158a1e7f06..3abd27d7c91d 100644
-> --- a/drivers/gpu/drm/mediatek/Makefile
-> +++ b/drivers/gpu/drm/mediatek/Makefile
-> @@ -6,6 +6,7 @@ mediatek-drm-y := mtk_disp_aal.o \
->   		  mtk_disp_gamma.o \
->   		  mtk_disp_merge.o \
->   		  mtk_disp_ovl.o \
-> +		  mtk_disp_ovl_adaptor.o \
->   		  mtk_disp_rdma.o \
->   		  mtk_drm_crtc.o \
->   		  mtk_drm_ddp_comp.o \
-> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_drv.h b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-> index 2446ad0a4977..6a4f4c42aedb 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-> +++ b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-> @@ -113,6 +113,22 @@ void mtk_rdma_enable_vblank(struct device *dev,
->   			    void *vblank_cb_data);
->   void mtk_rdma_disable_vblank(struct device *dev);
->   
-> +int mtk_ovl_adaptor_clk_enable(struct device *dev);
-> +void mtk_ovl_adaptor_clk_disable(struct device *dev);
-> +void mtk_ovl_adaptor_config(struct device *dev, unsigned int w,
-> +			    unsigned int h, unsigned int vrefresh,
-> +			    unsigned int bpc, struct cmdq_pkt *cmdq_pkt);
-> +void mtk_ovl_adaptor_layer_config(struct device *dev, unsigned int idx,
-> +				  struct mtk_plane_state *state,
-> +				  struct cmdq_pkt *cmdq_pkt);
-> +void mtk_ovl_adaptor_enable_vblank(struct device *dev,
-> +				   void (*vblank_cb)(void *),
-> +				   void *vblank_cb_data);
-> +void mtk_ovl_adaptor_disable_vblank(struct device *dev);
-> +void mtk_ovl_adaptor_start(struct device *dev);
-> +void mtk_ovl_adaptor_stop(struct device *dev);
-> +unsigned int mtk_ovl_adaptor_layer_nr(struct device *dev);
-> +
->   int mtk_mdp_rdma_clk_enable(struct device *dev);
->   void mtk_mdp_rdma_clk_disable(struct device *dev);
->   void mtk_mdp_rdma_start(struct device *dev, struct cmdq_pkt *cmdq_pkt);
-> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c b/drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c
-> new file mode 100644
-> index 000000000000..bfb5a9d29c26
-> --- /dev/null
-> +++ b/drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c
-> @@ -0,0 +1,498 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Copyright (c) 2021 MediaTek Inc.
-> + */
-> +
-> +#include <drm/drm_fourcc.h>
-> +#include <drm/drm_of.h>
-> +#include <linux/clk.h>
-> +#include <linux/component.h>
-> +#include <linux/of_device.h>
-> +#include <linux/of_address.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/pm_runtime.h>
-> +#include <linux/reset.h>
-> +#include <linux/soc/mediatek/mtk-mmsys.h>
-> +#include <linux/soc/mediatek/mtk-cmdq.h>
-> +
-> +#include "mtk_drm_drv.h"
-> +#include "mtk_drm_crtc.h"
-> +#include "mtk_drm_ddp_comp.h"
-> +#include "mtk_disp_drv.h"
-> +#include "mtk_ethdr.h"
-> +
-> +#define MTK_OVL_ADAPTOR_RDMA_MAX_WIDTH 1920
-> +#define MTK_OVL_ADAPTOR_LAYER_NUM 4
-> +
-> +enum mtk_ovl_adaptor_comp_type {
-> +	OVL_ADAPTOR_TYPE_RDMA = 0,
-> +	OVL_ADAPTOR_TYPE_MERGE,
-> +	OVL_ADAPTOR_TYPE_ETHDR,
-> +	OVL_ADAPTOR_TYPE_NUM,
-> +};
-> +
-> +enum mtk_ovl_adaptor_comp_id {
-> +	OVL_ADAPTOR_MDP_RDMA0,
-> +	OVL_ADAPTOR_MDP_RDMA1,
-> +	OVL_ADAPTOR_MDP_RDMA2,
-> +	OVL_ADAPTOR_MDP_RDMA3,
-> +	OVL_ADAPTOR_MDP_RDMA4,
-> +	OVL_ADAPTOR_MDP_RDMA5,
-> +	OVL_ADAPTOR_MDP_RDMA6,
-> +	OVL_ADAPTOR_MDP_RDMA7,
-> +	OVL_ADAPTOR_MERGE0,
-> +	OVL_ADAPTOR_MERGE1,
-> +	OVL_ADAPTOR_MERGE2,
-> +	OVL_ADAPTOR_MERGE3,
-> +	OVL_ADAPTOR_ETHDR0,
-> +	OVL_ADAPTOR_ID_MAX
-> +};
-> +
-> +struct ovl_adaptor_comp_match {
-> +	enum mtk_ovl_adaptor_comp_type type;
-> +	int alias_id;
-> +};
-> +
-> +struct mtk_disp_ovl_adaptor {
-> +	struct device *ovl_adaptor_comp[OVL_ADAPTOR_ID_MAX];
-> +	struct device *mmsys_dev;
-> +};
-> +
-> +static const char * const ovl_adaptor_comp_str[] = {
-> +	"OVL_ADAPTOR_MDP_RDMA0",
-> +	"OVL_ADAPTOR_MDP_RDMA1",
-> +	"OVL_ADAPTOR_MDP_RDMA2",
-> +	"OVL_ADAPTOR_MDP_RDMA3",
-> +	"OVL_ADAPTOR_MDP_RDMA4",
-> +	"OVL_ADAPTOR_MDP_RDMA5",
-> +	"OVL_ADAPTOR_MDP_RDMA6",
-> +	"OVL_ADAPTOR_MDP_RDMA7",
-> +	"OVL_ADAPTOR_MERGE0",
-> +	"OVL_ADAPTOR_MERGE1",
-> +	"OVL_ADAPTOR_MERGE2",
-> +	"OVL_ADAPTOR_MERGE3",
-> +	"OVL_ADAPTOR_ETHDR",
-> +	"OVL_ADAPTOR_ID_MAX"
-> +};
-> +
-> +static const char * const private_comp_stem[OVL_ADAPTOR_TYPE_NUM] = {
-> +	[OVL_ADAPTOR_TYPE_RDMA] = "vdo1_rdma",
-> +	[OVL_ADAPTOR_TYPE_MERGE] = "merge",
-> +	[OVL_ADAPTOR_TYPE_ETHDR] = "ethdr",
-> +};
-> +
-> +static const struct ovl_adaptor_comp_match comp_matches[OVL_ADAPTOR_ID_MAX] = {
-> +	[OVL_ADAPTOR_MDP_RDMA0] =	{ OVL_ADAPTOR_TYPE_RDMA, 0 },
-> +	[OVL_ADAPTOR_MDP_RDMA1] =	{ OVL_ADAPTOR_TYPE_RDMA, 1 },
-> +	[OVL_ADAPTOR_MDP_RDMA2] =	{ OVL_ADAPTOR_TYPE_RDMA, 2 },
-> +	[OVL_ADAPTOR_MDP_RDMA3] =	{ OVL_ADAPTOR_TYPE_RDMA, 3 },
-> +	[OVL_ADAPTOR_MDP_RDMA4] =	{ OVL_ADAPTOR_TYPE_RDMA, 4 },
-> +	[OVL_ADAPTOR_MDP_RDMA5] =	{ OVL_ADAPTOR_TYPE_RDMA, 5 },
-> +	[OVL_ADAPTOR_MDP_RDMA6] =	{ OVL_ADAPTOR_TYPE_RDMA, 6 },
-> +	[OVL_ADAPTOR_MDP_RDMA7] =	{ OVL_ADAPTOR_TYPE_RDMA, 7 },
-> +	[OVL_ADAPTOR_MERGE0] =	{ OVL_ADAPTOR_TYPE_MERGE, 1 },
-> +	[OVL_ADAPTOR_MERGE1] =	{ OVL_ADAPTOR_TYPE_MERGE, 2 },
-> +	[OVL_ADAPTOR_MERGE2] =	{ OVL_ADAPTOR_TYPE_MERGE, 3 },
-> +	[OVL_ADAPTOR_MERGE3] =	{ OVL_ADAPTOR_TYPE_MERGE, 4 },
-> +	[OVL_ADAPTOR_ETHDR0] =	{ OVL_ADAPTOR_TYPE_ETHDR, 0 },
-> +};
+--Sig_/aKAOnXrgXsR.o/YY7kC30HL
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-nit: can you please fix the indentation here?
+On Fri, 15 Oct 2021 03:37:01 +0000
+"Kasireddy, Vivek" <vivek.kasireddy@intel.com> wrote:
 
-> +
-> +void mtk_ovl_adaptor_layer_config(struct device *dev, unsigned int idx,
-> +				  struct mtk_plane_state *state,
-> +				  struct cmdq_pkt *cmdq_pkt)
-> +{
-> +	struct mtk_disp_ovl_adaptor *ovl_adaptor = dev_get_drvdata(dev);
-> +	struct mtk_plane_pending_state *pending = &state->pending;
-> +	struct mtk_mdp_rdma_cfg rdma_config = {0};
-> +	struct device *rdma_l;
-> +	struct device *rdma_r;
-> +	struct device *merge;
-> +	struct device *ethdr;
-> +	const struct drm_format_info *fmt_info = drm_format_info(pending->format);
-> +	bool use_dual_pipe = false;
-> +	unsigned int l_w = 0;
-> +	unsigned int r_w = 0;
-> +
-> +	dev_dbg(dev, "%s+ idx:%d, enable:%d, fmt:0x%x\n", __func__, idx,
-> +		pending->enable, pending->format);
-> +	dev_dbg(dev, "addr 0x%lx, fb w:%d, {%d,%d,%d,%d}\n",
-> +		pending->addr, (pending->pitch / fmt_info->cpp[0]),
-> +		pending->x, pending->y, pending->width, pending->height);
-> +
-> +	rdma_l = ovl_adaptor->ovl_adaptor_comp[OVL_ADAPTOR_MDP_RDMA0 + 2 * idx];
-> +	rdma_r = ovl_adaptor->ovl_adaptor_comp[OVL_ADAPTOR_MDP_RDMA0 + 2 * idx + 1];
-> +	merge = ovl_adaptor->ovl_adaptor_comp[OVL_ADAPTOR_MERGE0 + idx];
-> +	ethdr = ovl_adaptor->ovl_adaptor_comp[OVL_ADAPTOR_ETHDR0];
-> +
-> +	if (!pending->enable) {
-> +		mtk_merge_disable(merge, cmdq_pkt);
-> +		mtk_mdp_rdma_stop(rdma_l, cmdq_pkt);
-> +		mtk_mdp_rdma_stop(rdma_r, cmdq_pkt);
-> +		mtk_ethdr_layer_config(ethdr, idx, state, cmdq_pkt);
-> +		return;
-> +	}
-> +
-> +	/* ETHDR is in 1T2P domain, width needs to be 2 pixels align */
-> +	pending->width = ALIGN_DOWN(pending->width, 2);
-> +
-> +	if (pending->width > MTK_OVL_ADAPTOR_RDMA_MAX_WIDTH)
-> +		use_dual_pipe = true;
-> +
-> +	if (use_dual_pipe) {
-> +		l_w = (pending->width / 2) + ((pending->width / 2) % 2);
-> +		r_w = pending->width - l_w;
-> +	} else {
-> +		l_w = pending->width;
-> +	}
-> +	mtk_merge_advance_config(merge, l_w, r_w, pending->height, 0, 0, cmdq_pkt);
-> +	mtk_mmsys_ddp_config(ovl_adaptor->mmsys_dev, MMSYS_CONFIG_MERGE_ASYNC_WIDTH,
-> +			     idx, pending->width / 2, cmdq_pkt);
-> +	mtk_mmsys_ddp_config(ovl_adaptor->mmsys_dev, MMSYS_CONFIG_MERGE_ASYNC_HEIGHT,
-> +			     idx, pending->height, cmdq_pkt);
-> +
-> +	rdma_config.width = l_w;
-> +	rdma_config.height = pending->height;
-> +	rdma_config.addr0 = pending->addr;
-> +	rdma_config.pitch = pending->pitch;
-> +	rdma_config.fmt = pending->format;
-> +	mtk_mdp_rdma_config(rdma_l, &rdma_config, cmdq_pkt);
-> +
-> +	if (use_dual_pipe) {
-> +		rdma_config.x_left = l_w;
-> +		rdma_config.width = r_w;
-> +		mtk_mdp_rdma_config(rdma_r, &rdma_config, cmdq_pkt);
-> +	}
-> +
-> +	mtk_merge_enable(merge, cmdq_pkt);
-> +	mtk_merge_unmute(merge, cmdq_pkt);
-> +
-> +	mtk_mdp_rdma_start(rdma_l, cmdq_pkt);
-> +	if (use_dual_pipe)
-> +		mtk_mdp_rdma_start(rdma_r, cmdq_pkt);
-> +	else
-> +		mtk_mdp_rdma_stop(rdma_r, cmdq_pkt);
-> +
-> +	mtk_ethdr_layer_config(ethdr, idx, state, cmdq_pkt);
-> +}
-> +
-> +void mtk_ovl_adaptor_config(struct device *dev, unsigned int w,
-> +			    unsigned int h, unsigned int vrefresh,
-> +			    unsigned int bpc, struct cmdq_pkt *cmdq_pkt)
-> +{
-> +	struct mtk_disp_ovl_adaptor *ovl_adaptor = dev_get_drvdata(dev);
-> +
-> +	mtk_ethdr_config(ovl_adaptor->ovl_adaptor_comp[OVL_ADAPTOR_ETHDR0], w, h,
-> +			 vrefresh, bpc, cmdq_pkt);
-> +}
-> +
-> +void mtk_ovl_adaptor_start(struct device *dev)
-> +{
-> +	struct mtk_disp_ovl_adaptor *ovl_adaptor = dev_get_drvdata(dev);
-> +
-> +	mtk_ethdr_start(ovl_adaptor->ovl_adaptor_comp[OVL_ADAPTOR_ETHDR0]);
-> +}
-> +
-> +void mtk_ovl_adaptor_stop(struct device *dev)
-> +{
-> +	struct mtk_disp_ovl_adaptor *ovl_adaptor = dev_get_drvdata(dev);
-> +	struct device *rdma_l;
-> +	struct device *rdma_r;
-> +	struct device *merge;
-> +	u32 i;
-> +
-> +	for (i = 0; i < MTK_OVL_ADAPTOR_LAYER_NUM; i++) {
-> +		rdma_l = ovl_adaptor->ovl_adaptor_comp[OVL_ADAPTOR_MDP_RDMA0 + 2 * i];
-> +		rdma_r = ovl_adaptor->ovl_adaptor_comp[OVL_ADAPTOR_MDP_RDMA0 + 2 * i + 1];
-> +		merge = ovl_adaptor->ovl_adaptor_comp[OVL_ADAPTOR_MERGE0 + i];
-> +
-> +		mtk_mdp_rdma_stop(rdma_l, NULL);
-> +		mtk_mdp_rdma_stop(rdma_r, NULL);
-> +		mtk_merge_stop(merge);
-> +	}
-> +
-> +	mtk_ethdr_stop(ovl_adaptor->ovl_adaptor_comp[OVL_ADAPTOR_ETHDR0]);
-> +}
-> +
-> +int mtk_ovl_adaptor_clk_enable(struct device *dev)
-> +{
-> +	struct mtk_disp_ovl_adaptor *ovl_adaptor = dev_get_drvdata(dev);
-> +	struct device *comp;
-> +	int ret;
-> +	int i;
-> +
-> +	for (i = OVL_ADAPTOR_MDP_RDMA0; i < OVL_ADAPTOR_ID_MAX; i++) {
-> +		comp = ovl_adaptor->ovl_adaptor_comp[i];
-> +
-> +		if (i < OVL_ADAPTOR_MERGE0)
-> +			ret = mtk_mdp_rdma_clk_enable(comp);
-> +		else if (i < OVL_ADAPTOR_ETHDR0)
-> +			ret = mtk_merge_clk_enable(comp);
-> +		else
-> +			ret = mtk_ethdr_clk_enable(comp);
-> +		if (ret) {
-> +			dev_err(dev,
-> +				"Failed to enable clock %d, err %d-%s\n",
-> +				i, ret, ovl_adaptor_comp_str[i]);
-> +			goto clk_err;
-> +		}
-> +	}
-> +
-> +	return ret;
-> +
-> +clk_err:
-> +	while (--i >= 0) {
-> +		comp = ovl_adaptor->ovl_adaptor_comp[i];
-> +		if (i < OVL_ADAPTOR_MERGE0)
-> +			mtk_mdp_rdma_clk_disable(comp);
-> +		else if (i < OVL_ADAPTOR_ETHDR0)
-> +			mtk_merge_clk_disable(comp);
-> +		else
-> +			mtk_ethdr_clk_disable(comp);
-> +	}
-> +	return ret;
-> +}
-> +
-> +void mtk_ovl_adaptor_clk_disable(struct device *dev)
-> +{
-> +	struct mtk_disp_ovl_adaptor *ovl_adaptor = dev_get_drvdata(dev);
-> +	struct device *comp;
-> +	int i;
-> +
-> +	for (i = OVL_ADAPTOR_MDP_RDMA0; i < OVL_ADAPTOR_ID_MAX; i++) {
-> +		comp = ovl_adaptor->ovl_adaptor_comp[i];
-> +
-> +		if (i < OVL_ADAPTOR_MERGE0)
-> +			mtk_mdp_rdma_clk_disable(comp);
-> +		else if (i < OVL_ADAPTOR_ETHDR0)
-> +			mtk_merge_clk_disable(comp);
-> +		else
-> +			mtk_ethdr_clk_disable(comp);
-> +	}
-> +}
-> +
-> +unsigned int mtk_ovl_adaptor_layer_nr(struct device *dev)
-> +{
-> +	return MTK_OVL_ADAPTOR_LAYER_NUM;
-> +}
-> +
-> +void mtk_ovl_adaptor_enable_vblank(struct device *dev, void (*vblank_cb)(void *),
-> +				   void *vblank_cb_data)
-> +{
-> +	struct mtk_disp_ovl_adaptor *ovl_adaptor = dev_get_drvdata(dev);
-> +
-> +	mtk_ethdr_enable_vblank(ovl_adaptor->ovl_adaptor_comp[OVL_ADAPTOR_ETHDR0],
-> +				vblank_cb, vblank_cb_data);
-> +}
-> +
-> +void mtk_ovl_adaptor_disable_vblank(struct device *dev)
-> +{
-> +	struct mtk_disp_ovl_adaptor *ovl_adaptor = dev_get_drvdata(dev);
-> +
-> +	mtk_ethdr_disable_vblank(ovl_adaptor->ovl_adaptor_comp[OVL_ADAPTOR_ETHDR0]);
-> +}
-> +
-> +static int ovl_adaptor_comp_get_id(struct device *dev, struct device_node *node,
-> +				   enum mtk_ovl_adaptor_comp_type type)
-> +{
-> +	int alias_id = of_alias_get_id(node, private_comp_stem[type]);
-> +	int ret;
-> +	int i;
-> +
-> +	for (i = 0; i < ARRAY_SIZE(comp_matches); i++)
-> +		if (comp_matches[i].type == type &&
-> +		    comp_matches[i].alias_id == alias_id)
-> +			return i;
-> +
-> +	dev_err(dev, "Failed to get id. type: %d, alias: %d\n", type, alias_id);
-> +	return -EINVAL;
-> +}
-> +
-> +static const struct of_device_id mtk_ovl_adaptor_comp_dt_ids[] = {
-> +	{
-> +		.compatible = "mediatek,mt8195-vdo1-rdma",
-> +		.data = (void *)OVL_ADAPTOR_TYPE_RDMA,
-> +	}, {
-> +		.compatible = "mediatek,mt8195-disp-merge",
-> +		.data = (void *)OVL_ADAPTOR_TYPE_MERGE,
-> +	}, {
-> +		.compatible = "mediatek,mt8195-disp-ethdr",
-> +		.data = (void *)OVL_ADAPTOR_TYPE_ETHDR,
-> +	},
-> +	{},
-> +};
-> +
-> +static int compare_of(struct device *dev, void *data)
-> +{
-> +	return dev->of_node == data;
-> +}
-> +
-> +static int ovl_adaptor_comp_init(struct device *dev, struct component_match **match)
-> +{
-> +	struct mtk_disp_ovl_adaptor *priv = dev_get_drvdata(dev);
-> +	struct device_node *node, *parent;
-> +	struct platform_device *comp_pdev;
-> +	int i, ret;
-> +
-> +	parent = dev->parent->parent->of_node->parent;
-> +
-> +	for_each_child_of_node(parent, node) {
-> +		const struct of_device_id *of_id;
-> +		enum mtk_ovl_adaptor_comp_type type;
-> +		int id;
-> +
-> +		of_id = of_match_node(mtk_ovl_adaptor_comp_dt_ids, node);
-> +		if (!of_id)
-> +			continue;
-> +
-> +		if (!of_device_is_available(node)) {
-> +			dev_info(dev, "Skipping disabled component %pOF\n",
-> +				 node);
+> Hi Pekka,
+> Thank you for reviewing this patch.
+> =20
 
-This looks like being a debugging print, use dev_dbg please.
+Hi Vivek!
 
-> +			continue;
-> +		}
-> +
-> +		type = (enum mtk_ovl_adaptor_comp_type)of_id->data;
-> +		id = ovl_adaptor_comp_get_id(dev, node, type);
-> +		if (id < 0) {
-> +			dev_warn(dev, "Skipping unknown component %pOF\n",
-> +				 node);
-> +			continue;
-> +		}
-> +
-> +		comp_pdev = of_find_device_by_node(node);
-> +		if (!comp_pdev) {
-> +			dev_warn(dev, "can't find platform device of node:%s\n",
-> +				 node->name);
-> +			return -ENODEV;
-> +		}
-> +		priv->ovl_adaptor_comp[id] = &comp_pdev->dev;
-> +
-> +		drm_of_component_match_add(dev, match, compare_of, node);
-> +		dev_info(dev, "Adding component match for %pOF\n", node);
+> > On Mon, 13 Sep 2021 16:35:26 -0700
+> > Vivek Kasireddy <vivek.kasireddy@intel.com> wrote:
+> >  =20
+> > > If a driver supports this capability, it means that there would be an
+> > > additional signalling mechanism for a page flip completion in addition
+> > > to out_fence or DRM_MODE_PAGE_FLIP_EVENT.
+> > >
+> > > This capability may only be relevant for Virtual KMS drivers and is c=
+urrently
+> > > used only by virtio-gpu. Also, it can provide a potential solution fo=
+r:
+> > > https://gitlab.freedesktop.org/wayland/weston/-/issues/514
+> > >
+> > > Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
+> > > ---
+> > >  drivers/gpu/drm/drm_ioctl.c   | 3 +++
+> > >  include/drm/drm_mode_config.h | 8 ++++++++
+> > >  include/uapi/drm/drm.h        | 1 +
+> > >  3 files changed, 12 insertions(+)
+> > >
+> > > diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
+> > > index 8b8744dcf691..8a420844f8bc 100644
+> > > --- a/drivers/gpu/drm/drm_ioctl.c
+> > > +++ b/drivers/gpu/drm/drm_ioctl.c
+> > > @@ -302,6 +302,9 @@ static int drm_getcap(struct drm_device *dev, voi=
+d *data, struct =20
+> > drm_file *file_ =20
+> > >  	case DRM_CAP_CRTC_IN_VBLANK_EVENT:
+> > >  		req->value =3D 1;
+> > >  		break;
+> > > +	case DRM_CAP_RELEASE_FENCE:
+> > > +		req->value =3D dev->mode_config.release_fence;
+> > > +		break; =20
+> >=20
+> > Hi Vivek,
+> >=20
+> > is this actually necessary?
+> >=20
+> > I would think that userspace figures out the existence of the release
+> > fence capability by seeing that the KMS property "RELEASE_FENCE_PTR"
+> > either exists or not. =20
+> [Vivek] Yeah, that makes sense. However, in order for the userspace to no=
+t see
+> this property, we'd have to prevent drm core from exposing it; which mean=
+s we
+> need to check dev->mode_config.release_fence before attaching the property
+> to the crtc.
 
-...and this is another debugging print, imo.
+Kernel implementation details, I don't bother with those personally. ;-)
 
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int mtk_disp_ovl_adaptor_comp_bind(struct device *dev, struct device *master,
-> +					  void *data)
-> +{
-> +	return 0;
-> +}
-> +
-> +static void mtk_disp_ovl_adaptor_comp_unbind(struct device *dev, struct device *master,
-> +					     void *data)
-> +{
-> +}
-> +
-> +static const struct component_ops mtk_disp_ovl_adaptor_comp_ops = {
-> +	.bind	= mtk_disp_ovl_adaptor_comp_bind,
-> +	.unbind = mtk_disp_ovl_adaptor_comp_unbind,
-> +};
-> +
-> +static int mtk_disp_ovl_adaptor_master_bind(struct device *dev)
-> +{
-> +	struct mtk_disp_ovl_adaptor *priv = dev_get_drvdata(dev);
-> +
-> +	dev_info(dev, "%s-%d", __func__, __LINE__);
+Sounds right.
 
-Printing the line number here isn't giving any valuable information, as this
-function is almost a one-liner... plus, this is a debug print and, as such,
-you should either use dev_dbg instead or simply remove it: if anything needs
-debugging of this part, you'll probably want to use ftrace anyway, so I don't
-really see the need of having this print in place.
+> >=20
+> > However, would we not need a client cap instead?
+> >=20
+> > If a KMS driver knows that userspace is aware of "RELEASE_FENCE_PTR"
+> > and will use it when necessary, then the KMS driver can send the
+> > pageflip completion without waiting for the host OS to signal the old
+> > buffer as free for re-use. =20
+> [Vivek] Right, the KMS driver can just look at whether the release_fence =
+was
+> added by the userspace (in the atomic commit) to determine whether it nee=
+ds
+> to wait for the old fb.
 
-> +
-> +	component_bind_all(dev, priv->mmsys_dev);
-> +	return 0;
-> +}
-> +
-> +static void mtk_disp_ovl_adaptor_master_unbind(struct device *dev)
-> +{
-> +}
-> +
-> +static const struct component_master_ops mtk_disp_ovl_adaptor_master_ops = {
-> +	.bind		= mtk_disp_ovl_adaptor_master_bind,
-> +	.unbind		= mtk_disp_ovl_adaptor_master_unbind,
-> +};
-> +
-> +static int mtk_disp_ovl_adaptor_check_comp(struct device *dev)
-> +{
-> +	struct device_node *node;
-> +
-> +	for_each_child_of_node(dev->parent->parent->of_node->parent, node) {
-> +		const struct of_device_id *of_id;
-> +		struct platform_device *comp_pdev;
-> +		enum mtk_ovl_adaptor_comp_type type;
-> +		int id;
-> +
-> +		of_id = of_match_node(mtk_ovl_adaptor_comp_dt_ids, node);
-> +		if (!of_id)
-> +			continue;
-> +
-> +		if (!of_device_is_available(node))
-> +			continue;
-> +
-> +		type = (enum mtk_ovl_adaptor_comp_type)of_id->data;
-> +
-> +		id = ovl_adaptor_comp_get_id(dev, node, type);
-> +		if (id < 0)
-> +			continue;
-> +
-> +		comp_pdev = of_find_device_by_node(node);
-> +		if (!comp_pdev)
-> +			return -EPROBE_DEFER;
-> +
-> +		if (!platform_get_drvdata(comp_pdev))
-> +			return -EPROBE_DEFER;
-> +	}
-> +	return 0;
-> +}
-> +
-> +static int mtk_disp_ovl_adaptor_probe(struct platform_device *pdev)
-> +{
-> +	struct mtk_disp_ovl_adaptor *priv;
-> +	struct device *dev = &pdev->dev;
-> +	struct component_match *match = NULL;
-> +	int ret;
-> +
-> +	dev_info(dev, "%s+\n", __func__);
+You could do it that way, but is it a good idea? I'm not sure.
 
-If you want to know when you're hitting a function, you should use ftrace
-instead of a print. Please remove this message.
+> > If the KMS driver does not know that userspace can handle pageflip
+> > completing "too early", then it has no choice but to wait until the old
+> > buffer is really free before signalling pageflip completion.
+> >=20
+> > Wouldn't that make sense? =20
+> [Vivek] Yes; DRM_CAP_RELEASE_FENCE may not be necessary to
+> implement the behavior you suggest which makes sense.
+>=20
+> >=20
+> >=20
+> > Otherwise, this proposal sounds fine to me. =20
+> [Vivek] Did you get a chance to review the Weston MR:
+> https://gitlab.freedesktop.org/wayland/weston/-/merge_requests/668
+>=20
+> Could you please take a look?
 
-> +
-> +	ret = mtk_disp_ovl_adaptor_check_comp(dev);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-> +	if (!priv)
-> +		return -ENOMEM;
-> +
-> +	priv->mmsys_dev = pdev->dev.platform_data;
-> +
-> +	platform_set_drvdata(pdev, priv);
-> +
-> +	ret = ovl_adaptor_comp_init(dev, &match);
-> +	if (ret) {
-> +		dev_notice(dev, "ovl_adaptor comp init fail\n");
-> +		return ret;
-> +	}
-> +	component_master_add_with_match(dev, &mtk_disp_ovl_adaptor_master_ops, match);
-> +
-> +	pm_runtime_enable(dev);
-> +
-> +	ret = component_add(dev, &mtk_disp_ovl_adaptor_comp_ops);
-> +	if (ret != 0) {
-> +		pm_runtime_disable(dev);
-> +		dev_err(dev, "Failed to add component: %d\n", ret);
-> +	}
-> +
-> +	dev_info(dev, "%s-\n", __func__);
+Unfortunately I cannot promise any timely feedback on that, I try to
+concentrate on CM&HDR. However, I'm not the only Weston reviewer, I
+hope.
 
-Also remove this one.
 
-> +	return ret;
-> +}
-> +
-> +static int mtk_disp_ovl_adaptor_remove(struct platform_device *pdev)
-> +{
-> +	component_del(&pdev->dev, &mtk_disp_ovl_adaptor_comp_ops);
-> +	pm_runtime_disable(&pdev->dev);
-> +	return 0;
-> +}
-> +
-> +struct platform_driver mtk_disp_ovl_adaptor_driver = {
-> +	.probe = mtk_disp_ovl_adaptor_probe,
-> +	.remove = mtk_disp_ovl_adaptor_remove,
-> +	.driver = {
-> +			.name = "mediatek-disp-ovl-adaptor",
-> +			.owner = THIS_MODULE,
-> +		},
+Thanks,
+pq
 
-Please fix indentation:
-	.driver = {
-			.......
-	},
+>=20
+> Thanks,
+> Vivek
+>=20
+> >=20
+> >=20
+> > Thanks,
+> > pq
+> >=20
+> >  =20
+> > >  	default:
+> > >  		return -EINVAL;
+> > >  	}
+> > > diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_con=
+fig.h
+> > > index 12b964540069..944bebf359d7 100644
+> > > --- a/include/drm/drm_mode_config.h
+> > > +++ b/include/drm/drm_mode_config.h
+> > > @@ -935,6 +935,14 @@ struct drm_mode_config {
+> > >  	 */
+> > >  	bool normalize_zpos;
+> > >
+> > > +	/**
+> > > +	 * @release_fence:
+> > > +	 *
+> > > +	 * If this option is set, it means there would be an additional sig=
+nalling
+> > > +	 * mechanism for a page flip completion.
+> > > +	 */
+> > > +	bool release_fence;
+> > > +
+> > >  	/**
+> > >  	 * @modifiers_property: Plane property to list support modifier/for=
+mat
+> > >  	 * combination.
+> > > diff --git a/include/uapi/drm/drm.h b/include/uapi/drm/drm.h
+> > > index 3b810b53ba8b..8b8985f65581 100644
+> > > --- a/include/uapi/drm/drm.h
+> > > +++ b/include/uapi/drm/drm.h
+> > > @@ -767,6 +767,7 @@ struct drm_gem_open {
+> > >   * Documentation/gpu/drm-mm.rst, section "DRM Sync Objects".
+> > >   */
+> > >  #define DRM_CAP_SYNCOBJ_TIMELINE	0x14
+> > > +#define DRM_CAP_RELEASE_FENCE		0x15
+> > >
+> > >  /* DRM_IOCTL_GET_CAP ioctl argument type */
+> > >  struct drm_get_cap { =20
+>=20
 
-Regards,
-- Angelo
+
+--Sig_/aKAOnXrgXsR.o/YY7kC30HL
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmFpMrYACgkQI1/ltBGq
+qqeWkw/+NPApyoQX0fMQS0fY/UF63FZGx299hHZJtspJlgHzhxJZBHUAxcH9rSUG
+ldXFDB03ogv0s6/rWNeNRtYIUKjNQUGkZrcVrFF5iyIQpG3XMP079mfjvX78vlKH
+CdusHAQecuntqtD7JnIOD8i9tMvqYtbGof8dltOP3A4oCXfp4JcdXZ6YxI2YLqTc
+VC3ykZ2Q9iHp9vYQITJuJj7/LrQokmoS4WvCIJq78AANeflH2vi+Cm/YlXZmGTOm
+1PzO95FTXzNAncEz4yyJwZCFYEiIN1+11zVR+Q6Br4BSeqpUalxeCxjZZR2YHkJl
+27GXgqu1yufFkAwBgbt/W8BNbv7G6Zz4fwQa+KjybgHyXKM1taDr5cwVmj5wckJl
+ybph6tPihjp8cOhy4I1fIC6uYU5Z/d2j5YcKwY5+3oPRcduVMWbpc4eNM9Ub8ASP
+TlZL0+JscALicnNqrQKMleED8V/0bXVWFXQwN8lL5p6/vru+2rgmgCXPj/dOvVPZ
+7Qhj1XvnIQxpvpWfa8zWmLr89RC32o+vb1YQGJM7jUS8H8mSGMMI+1JRLIyY1jVI
+99rvZUVP9DXUf7ZkQnDuIIgL7hvGodBaZjD6gGl/HkFmWodutl6rn4IiopYMIjcH
+N3Z18qs1bL9gWPASXK1+Swd1FoEOZDMSLDjrFzWcIM6A4ZoIMIM=
+=lNWJ
+-----END PGP SIGNATURE-----
+
+--Sig_/aKAOnXrgXsR.o/YY7kC30HL--
