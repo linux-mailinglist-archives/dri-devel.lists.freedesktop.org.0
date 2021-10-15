@@ -2,61 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E66F642FC4E
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Oct 2021 21:40:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2D4B42FC3F
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Oct 2021 21:37:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B4EDC89D39;
-	Fri, 15 Oct 2021 19:40:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A603E6ED8E;
+	Fri, 15 Oct 2021 19:37:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 365 seconds by postgrey-1.36 at gabe;
- Fri, 15 Oct 2021 19:40:27 UTC
-Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
- [199.106.114.38])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2BAEB89D39
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Oct 2021 19:40:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1634326827; x=1665862827;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=G3CergfSL80+EprYcKGxfPUrJsbcAnhbDOz2wsIr4UA=;
- b=kRVSRXV4NWKFsQH09SKnkl//Likx+4lj+HBBotm+GGAl2MTTXa4TbIPF
- Z5MaTZJfdet90FBpqxSP82jER9GHq7AQrLWzuss2jwm/AoeaU8FBmt6vY
- ny/onrqGI+8WCbM4xvG0FkVfBIGLlQOGEFcQ8Sy+ZY1J1yhAGcEIpP5qW g=;
-Received: from unknown (HELO ironmsg01-sd.qualcomm.com) ([10.53.140.141])
- by alexa-out-sd-01.qualcomm.com with ESMTP; 15 Oct 2021 12:34:22 -0700
-X-QCInternal: smtphost
-Received: from nasanex01b.na.qualcomm.com ([10.46.141.250])
- by ironmsg01-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Oct 2021 12:34:21 -0700
-Received: from [10.110.46.218] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.922.7; Fri, 15 Oct 2021
- 12:34:21 -0700
-Message-ID: <1f3f3047-327e-15dd-3179-d012edfc1865@quicinc.com>
-Date: Fri, 15 Oct 2021 12:34:20 -0700
+Received: from mx2.smtp.larsendata.com (mx2.smtp.larsendata.com
+ [91.221.196.228])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 336E76ED8E
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Oct 2021 19:37:08 +0000 (UTC)
+Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
+ by mx2.smtp.larsendata.com (Halon) with ESMTPS
+ id 4cbe97a8-2def-11ec-ac3c-0050568cd888;
+ Fri, 15 Oct 2021 19:37:14 +0000 (UTC)
+Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
+ [80.162.45.141])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: sam@ravnborg.org)
+ by mail01.mxhotel.dk (Postfix) with ESMTPSA id B7410194B3E;
+ Fri, 15 Oct 2021 21:37:13 +0200 (CEST)
+Date: Fri, 15 Oct 2021 21:37:04 +0200
+X-Report-Abuse-To: abuse@mxhotel.dk
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Simon Ser <contact@emersion.fr>
+Cc: dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v3 1/6] drm/sysfs: introduce
+ drm_sysfs_connector_hotplug_event
+Message-ID: <YWnYYNLL+Sg6JXYL@ravnborg.org>
+References: <20211015163336.95188-1-contact@emersion.fr>
+ <20211015163336.95188-2-contact@emersion.fr>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.0
-Subject: Re: [bug report] drm/msm: dsi: Handle dual-channel for 6G as well
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Jessica Zhang
- <jesszhan@codeaurora.org>
-CC: Dan Carpenter <dan.carpenter@oracle.com>, Sean Paul
- <seanpaul@chromium.org>, "open list:DRM DRIVER FOR MSM ADRENO GPU"
- <linux-arm-msm@vger.kernel.org>, "open list:DRM DRIVER FOR MSM ADRENO GPU"
- <dri-devel@lists.freedesktop.org>
-References: <20211001123115.GE2283@kili>
- <144b8ba5-82db-fc90-1d0f-5a8e2ce45c90@codeaurora.org>
- <CAA8EJpoDfWRT48J=G5-VQcHC6Zg8D-0VujjnjQyvHD0PQ=SoKQ@mail.gmail.com>
-From: Jessica Zhang <quic_jesszhan@quicinc.com>
-In-Reply-To: <CAA8EJpoDfWRT48J=G5-VQcHC6Zg8D-0VujjnjQyvHD0PQ=SoKQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211015163336.95188-2-contact@emersion.fr>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,71 +53,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hey Dmitry,
+Hi Simon,
 
-On 10/15/2021 11:24 AM, Dmitry Baryshkov wrote:
-> On Fri, 15 Oct 2021 at 04:43, Jessica Zhang <jesszhan@codeaurora.org> wrote:
->> Hey Dan,
->>
->> On 10/1/2021 5:31 AM, Dan Carpenter wrote:
->>> Hello Sean Paul,
->>>
->>> The patch a6bcddbc2ee1: "drm/msm: dsi: Handle dual-channel for 6G as
->>> well" from Jul 25, 2018, leads to the following
->>> Smatch static checker warning:
->>>
->>>        drivers/gpu/drm/msm/dsi/dsi_host.c:729 dsi_calc_clk_rate_6g()
->>>        warn: wrong type for 'msm_host->esc_clk_rate' (should be 'ulong')
->>>
->>> drivers/gpu/drm/msm/dsi/dsi_host.c
->>>       721 int dsi_calc_clk_rate_6g(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
->>>       722 {
->>>       723         if (!msm_host->mode) {
->>>       724                 pr_err("%s: mode not set\n", __func__);
->>>       725                 return -EINVAL;
->>>       726         }
->>>       727
->>>       728         dsi_calc_pclk(msm_host, is_bonded_dsi);
->>> --> 729         msm_host->esc_clk_rate = clk_get_rate(msm_host->esc_clk);
->>>                   ^^^^^^^^^^^^^^^^^^^^^^
->>> I don't know why Smatch is suddenly warning about ancient msm code, but
->>> clock rates should be unsigned long.  (I don't remember why).
->>>
->>>       730         return 0;
->>>       731 }
->> I'm unable to recreate the warning with Smatch. After running
->> build_kernel_data.sh, I ran `<path to smatch>/smatch_scripts/kchecker
->> drivers/gpu/drm/msm/dsi/dsi_host.c` and got the following output:
->>
->> CHECK scripts/mod/empty.c
->> CALL scripts/checksyscalls.sh
->> CALL scripts/atomic/check-atomics.sh
->> CHECK arch/arm64/kernel/vdso/vgettimeofday.c
->> CC drivers/gpu/drm/msm/dsi/dsi_host.o
->> CHECK drivers/gpu/drm/msm/dsi/dsi_host.c
->> drivers/gpu/drm/msm/dsi/dsi_host.c:2380 msm_dsi_host_power_on() warn:
->> missing error code 'ret'
->>
->> Is there a specific .config you're using (that's not the default
->> mainline defconfig)? If so, can you please share it?
-> Are you running your checks with ARM32 or ARM64 in mind?
-> Note, esc_clk_rate is u32, while clk_get_rate()'s returns unsigned long.
-> It would make sense to change all three clocks rates in msm_dsi_host
-> struct (and several places where they are used) to unsigned long.
+On Fri, Oct 15, 2021 at 04:33:41PM +0000, Simon Ser wrote:
+> This function sends a hotplug uevent with a CONNECTOR property.
 
-Thanks for the response. I'm aware of what's causing this issue and how 
-to fix it, but I want to also be able to recreate the warning locally 
-with Smatch.
+A little late feedback.
 
-Thanks,
+	Sam
 
-Jessica Zhang
+> 
+> Signed-off-by: Simon Ser <contact@emersion.fr>
+> ---
+>  drivers/gpu/drm/drm_sysfs.c | 25 +++++++++++++++++++++++++
+>  include/drm/drm_sysfs.h     |  1 +
+>  2 files changed, 26 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/drm_sysfs.c b/drivers/gpu/drm/drm_sysfs.c
+> index 76ff6ec3421b..430e00b16eec 100644
+> --- a/drivers/gpu/drm/drm_sysfs.c
+> +++ b/drivers/gpu/drm/drm_sysfs.c
+> @@ -409,6 +409,31 @@ void drm_sysfs_hotplug_event(struct drm_device *dev)
+>  }
+>  EXPORT_SYMBOL(drm_sysfs_hotplug_event);
+>  
+> +/**
+> + * drm_sysfs_connector_hotplug_event - generate a DRM uevent for any connector
+> + * change
+> + * @connector: connector which has changed
+> + *
+> + * Send a uevent for the DRM connector specified by @connector. This will send
+> + * a uevent with the properties HOTPLUG=1 and CONNECTOR.
+> + */
+> +void drm_sysfs_connector_hotplug_event(struct drm_connector *connector)
+> +{
+> +	struct drm_device *dev = connector->dev;
+> +	char hotplug_str[] = "HOTPLUG=1", conn_id[21];
+> +	char *envp[] = { hotplug_str, conn_id, NULL };
+> +
+> +	snprintf(conn_id, sizeof(conn_id),
+> +		 "CONNECTOR=%u", connector->base.id);
+We have add_uevent_var() that seems a better choice than handrolling
+snprintf here.
 
->> Thanks,
->>
->> Jessica Zhang
->>
->>> regards,
->>> dan carpenter
->
->
+	Sam
+
+> +
+> +	drm_dbg_kms(connector->dev,
+> +		    "[CONNECTOR:%d:%s] generating connector hotplug event\n",
+> +		    connector->base.id, connector->name);
+> +
+> +	kobject_uevent_env(&dev->primary->kdev->kobj, KOBJ_CHANGE, envp);
+> +}
+> +EXPORT_SYMBOL(drm_sysfs_connector_hotplug_event);
+> +
+>  /**
+>   * drm_sysfs_connector_status_event - generate a DRM uevent for connector
+>   * property status change
+> diff --git a/include/drm/drm_sysfs.h b/include/drm/drm_sysfs.h
+> index d454ef617b2c..6273cac44e47 100644
+> --- a/include/drm/drm_sysfs.h
+> +++ b/include/drm/drm_sysfs.h
+> @@ -11,6 +11,7 @@ int drm_class_device_register(struct device *dev);
+>  void drm_class_device_unregister(struct device *dev);
+>  
+>  void drm_sysfs_hotplug_event(struct drm_device *dev);
+> +void drm_sysfs_connector_hotplug_event(struct drm_connector *connector);
+>  void drm_sysfs_connector_status_event(struct drm_connector *connector,
+>  				      struct drm_property *property);
+>  #endif
+> -- 
+> 2.33.1
+> 
