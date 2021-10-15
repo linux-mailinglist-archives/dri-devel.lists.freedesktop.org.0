@@ -1,33 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DC1542E9CB
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Oct 2021 09:14:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C3B842EA0B
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Oct 2021 09:26:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 685F66E1F8;
-	Fri, 15 Oct 2021 07:14:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1753A6ECDE;
+	Fri, 15 Oct 2021 07:25:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out30-132.freemail.mail.aliyun.com
- (out30-132.freemail.mail.aliyun.com [115.124.30.132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 119176E1F8
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Oct 2021 07:14:47 +0000 (UTC)
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R831e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=e01e04423; MF=yang.lee@linux.alibaba.com;
- NM=1; PH=DS; RN=6; SR=0; TI=SMTPD_---0Us6A02c_1634282083; 
-Received: from
- j63c13417.sqa.eu95.tbsite.net(mailfrom:yang.lee@linux.alibaba.com
- fp:SMTPD_---0Us6A02c_1634282083) by smtp.aliyun-inc.com(127.0.0.1);
- Fri, 15 Oct 2021 15:14:44 +0800
-From: Yang Li <yang.lee@linux.alibaba.com>
-To: airlied@linux.ie
-Cc: daniel@ffwll.ch, emma@anholt.net, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Yang Li <yang.lee@linux.alibaba.com>
-Subject: [PATCH -next] drm/v3d: nullify pointer se with a NULL
-Date: Fri, 15 Oct 2021 15:14:41 +0800
-Message-Id: <1634282081-72255-1-git-send-email-yang.lee@linux.alibaba.com>
-X-Mailer: git-send-email 1.8.3.1
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 78F416ECDE
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Oct 2021 07:25:52 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id B964D2196A;
+ Fri, 15 Oct 2021 07:25:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1634282750; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=FEUUj27ulbDb32bD7R86ZKoDCUryGDfUhfzXbUX6ovM=;
+ b=QilGaD0R+0+dE64k3ABlWIr9a24y6W2so8eZl6ljaof+ASJKMEH5xpc+I9VmFkvr0Gw0KN
+ XV//wkgndh+cDg5vtuSsvxf49pkjiVRSqkp1WV+qTy6ZhVnE7sVeGFkIQpNzfIcJ8DC24T
+ NaeSGqmXbUJC+ZpWdoWrQQi/9i5RF6E=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1634282750;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=FEUUj27ulbDb32bD7R86ZKoDCUryGDfUhfzXbUX6ovM=;
+ b=nBFknW5JJEDEfV2ixMSQlUQI3eRMPPPQmjD0p5G7PHdNfg9KZ+TsK8kmyFrCPijcsdDcqJ
+ PxfWTn53Obh3jyCA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8B9A613B52;
+ Fri, 15 Oct 2021 07:25:50 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id Z+rsIP4saWFHagAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Fri, 15 Oct 2021 07:25:50 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: airlied@redhat.com,
+	daniel@ffwll.ch,
+	ainux.wang@gmail.com
+Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Chuck Lever III <chuck.lever@oracle.com>,
+ Kim Phillips <kim.phillips@amd.com>
+Subject: [PATCH] Revert "drm/ast: Zero is missing in detect function"
+Date: Fri, 15 Oct 2021 09:25:46 +0200
+Message-Id: <20211015072546.3705-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.33.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,42 +69,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently a plain integer is being used to nullify the pointer
-struct v3d_submit_ext *se. Use NULL instead. Cleans up sparse
-warnings:
-drivers/gpu/drm/v3d/v3d_gem.c:777:53: warning: Using plain integer as
-NULL pointer
-drivers/gpu/drm/v3d/v3d_gem.c:1010:45: warning: Using plain integer as
-NULL pointer
+Commit 572994bf18ff ("drm/ast: Zero is missing in detect function")
+prevents some systems from booting. Seen on Supermicro Super
+Server/X10SRL-F, BIOS 3.3 10/28/2020 . There's further a bug that
+results in
 
-Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
+  KASAN: use-after-free in enqueue_timer+0x4f/0x1e0
+
+which is also triggered by commit
+572994bf18ff ("drm/ast: Zero is missing in detect function").
+
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Fixes: 572994bf18ff ("drm/ast: Zero is missing in detect function")
+Reported-by: Chuck Lever III <chuck.lever@oracle.com>
+Reported-by: Kim Phillips <kim.phillips@amd.com>
+Cc: Ainux.Wang <ainux.wang@gmail.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Dave Airlie <airlied@redhat.com>
+Cc: dri-devel@lists.freedesktop.org
+Link: https://lore.kernel.org/dri-devel/A194B6CE-AF77-422D-A92F-292ABD83BCCE@oracle.com/
 ---
- drivers/gpu/drm/v3d/v3d_gem.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/ast/ast_mode.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/v3d/v3d_gem.c b/drivers/gpu/drm/v3d/v3d_gem.c
-index e47ae40..c7ed2e1 100644
---- a/drivers/gpu/drm/v3d/v3d_gem.c
-+++ b/drivers/gpu/drm/v3d/v3d_gem.c
-@@ -774,7 +774,7 @@ void v3d_job_put(struct v3d_job *job)
+diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
+index 6bfaefa01818..ea64944ad4ca 100644
+--- a/drivers/gpu/drm/ast/ast_mode.c
++++ b/drivers/gpu/drm/ast/ast_mode.c
+@@ -1306,7 +1306,7 @@ static enum drm_connector_status ast_connector_detect(struct drm_connector
+ 	int r;
  
- 	if (args->flags & DRM_V3D_SUBMIT_CL_FLUSH_CACHE) {
- 		ret = v3d_job_init(v3d, file_priv, (void *)&clean_job, sizeof(*clean_job),
--				   v3d_job_free, 0, 0, V3D_CACHE_CLEAN);
-+				   v3d_job_free, 0, NULL, V3D_CACHE_CLEAN);
- 		if (ret)
- 			goto fail;
+ 	r = ast_get_modes(connector);
+-	if (r <= 0)
++	if (r < 0)
+ 		return connector_status_disconnected;
  
-@@ -1007,7 +1007,7 @@ void v3d_job_put(struct v3d_job *job)
- 		goto fail;
- 
- 	ret = v3d_job_init(v3d, file_priv, (void *)&clean_job, sizeof(*clean_job),
--			   v3d_job_free, 0, 0, V3D_CACHE_CLEAN);
-+			   v3d_job_free, 0, NULL, V3D_CACHE_CLEAN);
- 	if (ret)
- 		goto fail;
- 
+ 	return connector_status_connected;
 -- 
-1.8.3.1
+2.33.0
 
