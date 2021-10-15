@@ -2,42 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD22542F847
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Oct 2021 18:34:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B098B42F972
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Oct 2021 18:58:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D0A76EDAC;
-	Fri, 15 Oct 2021 16:33:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 55D1B6E321;
+	Fri, 15 Oct 2021 16:58:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-4317.proton.ch (mail-4317.proton.ch [185.70.43.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E6656E329
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Oct 2021 16:33:51 +0000 (UTC)
-Date: Fri, 15 Oct 2021 16:33:46 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail; t=1634315629;
- bh=aCE9y3qSThbD2y1rUgyiT7Irei9XmhQaPbaufThP6Ts=;
- h=Date:To:From:Reply-To:Subject:In-Reply-To:References:From;
- b=sdojlnRfrUoIgvW0m2HrNGXri+4wnDGX1wD/1ynwXxydobs190m/sKTymhFzi/Y92
- uMBtKN7IMc3vlCX15b1018sQMoMv2rwspV8ZXJUG4wAPt9Vbtx9uBjaSj9JIZcid88
- fszyX27hNP6t+aLqmPgx2lHnHFoOZS2t6s7xoe6A3U6lWbGOocayjfhy9Fx4yi1kNC
- XzulrxnjYCx0AtzHDjdGIWP1AAj1w4VVA+mzHXT478NW1r/pM72nj1tgF0rwI2YWTM
- LAX76650Ky6Nj6Q12PkbzPfj2SKk79dkMV6+KC3mIy+eToGYQsCL//UIOaymS1MaRI
- 0ZoVAgWFubHPA==
-To: dri-devel@lists.freedesktop.org
-From: Simon Ser <contact@emersion.fr>
-Subject: [PATCH v3 6/6] i915/display/dp: send a more fine-grained link-status
- uevent
-Message-ID: <20211015163336.95188-7-contact@emersion.fr>
-In-Reply-To: <20211015163336.95188-1-contact@emersion.fr>
-References: <20211015163336.95188-1-contact@emersion.fr>
+Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 71D2C6E321
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Oct 2021 16:58:37 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1634317119; h=Content-Transfer-Encoding: Content-Type:
+ In-Reply-To: From: References: Cc: To: Subject: MIME-Version: Date:
+ Message-ID: Sender; bh=TrqNbyZdpVw/Mi6Z9sthRB8/EwE94DsqqqHrEgm4mXU=;
+ b=KymFMbMSIwlha0GiMHGA9dENBDgm/24K38x5zL8OTiFBEQkYiaySWkUbZb0Pwv7w/Ty9Hj/+
+ zafku5LlaLNbHpI6t8xWPgYhu5cjs7S724HvGitrICxk+ijNMUfvpmkuEJhf5zjzM5wpdm43
+ zJmnyy5ele1Nf8xhVYPeX936SGg=
+X-Mailgun-Sending-Ip: 198.61.254.9
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n05.prod.us-west-2.postgun.com with SMTP id
+ 6169b338f3e5b80f1f306db8 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 15 Oct 2021 16:58:32
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 4D4C0C43617; Fri, 15 Oct 2021 16:58:32 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+ NICE_REPLY_A,SPF_FAIL,URIBL_BLOCKED autolearn=no autolearn_force=no
+ version=3.4.0
+Received: from [192.168.1.3] (cpe-70-95-175-72.san.res.rr.com [70.95.175.72])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128
+ bits)) (No client certificate requested)
+ (Authenticated sender: jesszhan)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 47FE0C43460;
+ Fri, 15 Oct 2021 16:58:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.codeaurora.org 47FE0C43460
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=fail smtp.mailfrom=codeaurora.org
+Message-ID: <deb238d3-ae52-0964-aae8-9dc0e5631c5b@codeaurora.org>
+Date: Fri, 15 Oct 2021 09:58:30 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
- DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
- autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
- mailout.protonmail.ch
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.0
+Subject: Re: [bug report] drm/msm: dsi: Handle dual-channel for 6G as well
+Content-Language: en-US
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: seanpaul@chromium.org, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+References: <20211001123115.GE2283@kili>
+ <144b8ba5-82db-fc90-1d0f-5a8e2ce45c90@codeaurora.org>
+ <20211015081241.GZ2083@kadam>
+From: Jessica Zhang <jesszhan@codeaurora.org>
+In-Reply-To: <20211015081241.GZ2083@kadam>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,36 +76,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Simon Ser <contact@emersion.fr>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When link-status changes, send a hotplug uevent which contains the
-connector and property ID. That way, user-space can more easily
-figure out that only the link-status property of this connector has
-been updated.
 
-Signed-off-by: Simon Ser <contact@emersion.fr>
----
- drivers/gpu/drm/i915/display/intel_dp.c | 2 ++
- 1 file changed, 2 insertions(+)
+On 10/15/2021 1:12 AM, Dan Carpenter wrote:
+> On Thu, Oct 14, 2021 at 06:43:22PM -0700, Jessica Zhang wrote:
+>> Hey Dan,
+>>
+>> On 10/1/2021 5:31 AM, Dan Carpenter wrote:
+>>> Hello Sean Paul,
+>>>
+>>> The patch a6bcddbc2ee1: "drm/msm: dsi: Handle dual-channel for 6G as
+>>> well" from Jul 25, 2018, leads to the following
+>>> Smatch static checker warning:
+>>>
+>>> 	drivers/gpu/drm/msm/dsi/dsi_host.c:729 dsi_calc_clk_rate_6g()
+>>> 	warn: wrong type for 'msm_host->esc_clk_rate' (should be 'ulong')
+>>>
+>>> drivers/gpu/drm/msm/dsi/dsi_host.c
+>>>       721 int dsi_calc_clk_rate_6g(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
+>>>       722 {
+>>>       723         if (!msm_host->mode) {
+>>>       724                 pr_err("%s: mode not set\n", __func__);
+>>>       725                 return -EINVAL;
+>>>       726         }
+>>>       727
+>>>       728         dsi_calc_pclk(msm_host, is_bonded_dsi);
+>>> --> 729         msm_host->esc_clk_rate = clk_get_rate(msm_host->esc_clk);
+>>>                   ^^^^^^^^^^^^^^^^^^^^^^
+>>> I don't know why Smatch is suddenly warning about ancient msm code, but
+>>> clock rates should be unsigned long.  (I don't remember why).
+>>>
+>>>       730         return 0;
+>>>       731 }
+>> I'm unable to recreate the warning with Smatch. After running
+>> build_kernel_data.sh, I ran `<path to smatch>/smatch_scripts/kchecker
+>> drivers/gpu/drm/msm/dsi/dsi_host.c` and got the following output:
+>>
+>> CHECK scripts/mod/empty.c
+>> CALL scripts/checksyscalls.sh
+>> CALL scripts/atomic/check-atomics.sh
+>> CHECK arch/arm64/kernel/vdso/vgettimeofday.c
+>> CC drivers/gpu/drm/msm/dsi/dsi_host.o
+>> CHECK drivers/gpu/drm/msm/dsi/dsi_host.c
+>> drivers/gpu/drm/msm/dsi/dsi_host.c:2380 msm_dsi_host_power_on() warn:
+>> missing error code 'ret'
+>>
+>> Is there a specific .config you're using (that's not the default mainline
+>> defconfig)? If so, can you please share it?
+> Oh, sorry.  I never published this Smatch check.  It generates 236
+> warnings and I'm not sure the rules here about where clk has to be
+> unsigned long so I can't publish it...  I think someone told me that it
+> has to be unsigned long?
 
-diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915=
-/display/intel_dp.c
-index 04175f359fd6..afbe34b6e5be 100644
---- a/drivers/gpu/drm/i915/display/intel_dp.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp.c
-@@ -5264,6 +5264,8 @@ static void intel_dp_modeset_retry_work_fn(struct wor=
-k_struct *work)
- =09mutex_unlock(&connector->dev->mode_config.mutex);
- =09/* Send Hotplug uevent so userspace can reprobe */
- =09drm_kms_helper_hotplug_event(connector->dev);
-+=09drm_sysfs_connector_status_event(connector,
-+=09=09=09=09=09 connector->dev->mode_config.link_status_property);
- }
-=20
- bool
---=20
-2.33.1
+Can you share which Smatch script (+ any command line options) you used 
+to generate this warning? Just want to make sure I'm able to properly 
+recreate this warning with Smatch on my end.
 
+Thanks,
 
+Jessica Zhang
+
+> regards,
+> dan carpenter
+>
