@@ -2,69 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C769942FA0A
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Oct 2021 19:22:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD1C642FAC9
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Oct 2021 20:13:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D9CA6E8F8;
-	Fri, 15 Oct 2021 17:22:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D6D566E095;
+	Fri, 15 Oct 2021 18:13:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x331.google.com (mail-ot1-x331.google.com
- [IPv6:2607:f8b0:4864:20::331])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 23C106E8F8
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Oct 2021 17:22:32 +0000 (UTC)
-Received: by mail-ot1-x331.google.com with SMTP id
- g62-20020a9d2dc4000000b0054752cfbc59so13801011otb.1
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Oct 2021 10:22:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=8GXf6iIkeLSmbnCwp/TnDsH3fwbQUD1XiOH8muSbIdM=;
- b=AzlT/VF3vNrvaXMA6yupvoTzvJVIPoxbKtPfW8YnVJaJ6TvF75GPEm8I4v8TBAuHwD
- xXYMe3/F5qzdc2toQmMpBJSi9ufh/kCygFWvbceu3OB5hvfjZenyOaoDv/DaCxg8Pr5b
- b3A+1O8vmB3bA6FY9c4XPjwoTNYLEvt4DEKLfLyVisJRLl/sj4+qjBYAS4JL+Aje633l
- UJ6BvkSmhvdUJYWiRgjmsebeqbbwUFMELtCNLmRyjheSv8M6Sq2bsWw1onXUQEIWWN++
- 693DPX65oIdROYAMmDNG8DTq/cOg5xD9+/IHzoeqmtl72bYa+FJHBSrFOwpyxe+bKkmY
- g5Fg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=8GXf6iIkeLSmbnCwp/TnDsH3fwbQUD1XiOH8muSbIdM=;
- b=FQKZt2lNq5tI3mN8WDyylffviBA4GkHVSjqCyhxz4sGyqLNDhGkMK/CfTsw8YURx3w
- mfuHKElfD9FS5niNdXTQ2iAvBpGhjpmB3zecad8TWsKzqI3No04Luraloa6y08CC50cc
- WGPzjShZm0Z+QPuAQNUoURGgf2aCDZik21IqOhS/aatctnFcmAT5h/QGSVT2dyzM6kZk
- synMB/L10VSKIyOnanCLF/a4yC7FWzDF7YeOLUqBY0evKChh+sWx/6VNyuPXffJ7JHIf
- ztg1eokpzXn37g60LHB+W1jpb0bRHZXAUCM9V0oCxw79kvKEX9C+GpvFQT+J8x16MZDN
- Awqw==
-X-Gm-Message-State: AOAM532HtAQI8hNEUAvj76BI7rHuUe/AiP7PjTfeapzXXrRU/JvpofrB
- jg/zYa7INPKhOpFQQrgNgCANag==
-X-Google-Smtp-Source: ABdhPJw43C2jPHke2r6UygEFoXfBVXJc2rkJUM25RFmbv18wSheOEBVNo3sZzMCBhf8p+nKZSpfNiQ==
-X-Received: by 2002:a05:6830:2805:: with SMTP id
- w5mr9028837otu.248.1634318549944; 
- Fri, 15 Oct 2021 10:22:29 -0700 (PDT)
-Received: from builder.lan ([2600:1700:a0:3dc8:3697:f6ff:fe85:aac9])
- by smtp.gmail.com with ESMTPSA id s206sm1289635oia.33.2021.10.15.10.22.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 Oct 2021 10:22:29 -0700 (PDT)
-From: Bjorn Andersson <bjorn.andersson@linaro.org>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
- linux-kernel@vger.kernel.org
-Cc: dmaengine@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-gpio@vger.kernel.org,
- freedreno@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- linux-amlogic@lists.infradead.org, linux-remoteproc@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, netdev@vger.kernel.org,
- linux-iio@vger.kernel.org, linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH 0/9] treewide: simplify getting .driver_data
-Date: Fri, 15 Oct 2021 12:22:20 -0500
-Message-Id: <163431847249.251657.9669509178222541492.b4-ty@linaro.org>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20210920090522.23784-1-wsa+renesas@sang-engineering.com>
-References: <20210920090522.23784-1-wsa+renesas@sang-engineering.com>
+Received: from mx1.smtp.larsendata.com (mx1.smtp.larsendata.com
+ [91.221.196.215])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 70F736E095
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Oct 2021 18:13:25 +0000 (UTC)
+Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
+ by mx1.smtp.larsendata.com (Halon) with ESMTPS
+ id 9571a653-2de3-11ec-9c3f-0050568c148b;
+ Fri, 15 Oct 2021 18:13:22 +0000 (UTC)
+Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
+ [80.162.45.141])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: sam@ravnborg.org)
+ by mail01.mxhotel.dk (Postfix) with ESMTPSA id 51FD9194B53;
+ Fri, 15 Oct 2021 20:13:29 +0200 (CEST)
+Date: Fri, 15 Oct 2021 20:13:19 +0200
+X-Report-Abuse-To: abuse@mxhotel.dk
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Neil Armstrong <narmstrong@baylibre.com>
+Cc: daniel@ffwll.ch, Laurent.pinchart@ideasonboard.com,
+ martin.blumenstingl@googlemail.com, dri-devel@lists.freedesktop.org,
+ linux-amlogic@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 3/6] drm/meson: split out encoder from meson_dw_hdmi
+Message-ID: <YWnEv2B26/3XWH/O@ravnborg.org>
+References: <20211015141107.2430800-1-narmstrong@baylibre.com>
+ <20211015141107.2430800-4-narmstrong@baylibre.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211015141107.2430800-4-narmstrong@baylibre.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,38 +55,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 20 Sep 2021 11:05:12 +0200, Wolfram Sang wrote:
-> I got tired of fixing this in Renesas drivers manually, so I took the big
-> hammer. Remove this cumbersome code pattern which got copy-pasted too much
-> already:
+Hi Neil,
+
+On Fri, Oct 15, 2021 at 04:11:04PM +0200, Neil Armstrong wrote:
+> This moves all the non-DW-HDMI code where it should be:
+> an encoder in the drm/meson core driver.
 > 
-> -	struct platform_device *pdev = to_platform_device(dev);
-> -	struct ep93xx_keypad *keypad = platform_get_drvdata(pdev);
-> +	struct ep93xx_keypad *keypad = dev_get_drvdata(dev);
+> The bridge functions are copied as-is, except:
+> - the encoder init uses the simple kms helper
+> - the mode_set has been moved to atomic_enable()
+> - debug prints are converted to dev_debg()
 > 
-> [...]
+> For now the bridge attach flags is 0, DRM_BRIDGE_ATTACH_NO_CONNECTOR
+> will be handled later.
+> 
+> The meson dw-hdmi glue is slighly fixed to live without the
+> encoder in the same driver.
+> 
+> Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
 
-Applied, thanks!
+Looks good,
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
 
-[1/9] dmaengine: stm32-dmamux: simplify getting .driver_data
-      (no commit info)
-[2/9] firmware: meson: simplify getting .driver_data
-      (no commit info)
-[3/9] gpio: xilinx: simplify getting .driver_data
-      (no commit info)
-[4/9] drm/msm: simplify getting .driver_data
-      (no commit info)
-[5/9] drm/panfrost: simplify getting .driver_data
-      (no commit info)
-[6/9] iio: common: cros_ec_sensors: simplify getting .driver_data
-      (no commit info)
-[7/9] net: mdio: mdio-bcm-iproc: simplify getting .driver_data
-      (no commit info)
-[8/9] platform: chrome: cros_ec_sensorhub: simplify getting .driver_data
-      (no commit info)
-[9/9] remoteproc: omap_remoteproc: simplify getting .driver_data
-      commit: c34bfafd7c6ce8bdb5205aa990973b6ec7a6557c
+With this I have covered this nice series. I am happy to see one more
+display driver that embraces fully the chained bridge approach.
 
-Best regards,
--- 
-Bjorn Andersson <bjorn.andersson@linaro.org>
+	Sam
