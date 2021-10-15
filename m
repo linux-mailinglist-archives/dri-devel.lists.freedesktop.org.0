@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA07142FE6A
-	for <lists+dri-devel@lfdr.de>; Sat, 16 Oct 2021 00:53:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BE5842FE6D
+	for <lists+dri-devel@lfdr.de>; Sat, 16 Oct 2021 00:55:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C10C6EE04;
-	Fri, 15 Oct 2021 22:53:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 415CA6EE05;
+	Fri, 15 Oct 2021 22:55:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D967E6EE04
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Oct 2021 22:53:50 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 8F8CC6120C
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Oct 2021 22:53:50 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 202756EE05
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Oct 2021 22:55:45 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id E89FD6120F
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Oct 2021 22:55:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1634338430;
- bh=mzyo8gb5UoDMPvVGD26anMekXxWvcx0zpvAz7M32y0k=;
+ s=k20201202; t=1634338544;
+ bh=QFrbOJ9emmloUTb7aFTI03SM1FGHHHHA9Ak3RoPMPAs=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=QrMxU27P6nKpykakJIc3O7+dFh2CZCXL/+7ObWPWzTY7rQG4xh8stx7EHzmMrFojQ
- BbSf7QzmdrDkXQcmro0VWldo5uuRM5wekPOCbBOagzk5VoeSg7TbfNCc79C9XLtqYv
- bK3yJOHn57sT6KJ+mpM2p1JGZgQLnbP+EioQd1RLtGIXTs+g88u8BHP3F/6N9dEDRE
- BwN/OCDkhX6twTKxMM476Ur/3GM+DWcb4gcJ1mZbMiVJx6B4w1ydH5K9VydS1VEn32
- ozDTVG+F1d1dvXaD/8/hLspNA3g+oOu0Itb0kdspy2hua+YZYvtefkjawQJVij6mTT
- jOElWwCg7JPDQ==
+ b=LyBR3tXK21FGRE7ZePFU9Ts7IMx5H1yx2IN1e5f+r9C81khbwY3fAesj+enjma41v
+ b3UbKBYq09tPobUiGOT3UXFShcrc4aVCkwInI6SXh0MjRcVCea7hFDU82N3GXMgCGi
+ xx2MKg2vceKrBL0HUnHlnDa0vxeeHn3y4X0YH+MdM2+WVMGOkpN7EoTS311a0OJ56E
+ K9XE8NuFiGIhooclrNxXmEioCg5hhbdIGWWfqhdx/lwQBDIVYtA4/OxT0Naoa5/12/
+ D9Coza55LCQGYvDoWFnnC2xT5J/fQil6++F66RMzGlAZ1A3pBBSVv8UisccGwZ/XmA
+ bvYIMi37WebQA==
 Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 8C6BD60E4A; Fri, 15 Oct 2021 22:53:50 +0000 (UTC)
+ id E56C060F46; Fri, 15 Oct 2021 22:55:44 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 214029] [bisected] [amdgpu] Several memory leaks in amdgpu and
  ttm
-Date: Fri, 15 Oct 2021 22:53:50 +0000
+Date: Fri, 15 Oct 2021 22:55:44 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -45,8 +45,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-214029-2300-KGKerI4ijg@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: attachments.isobsolete attachments.created
+Message-ID: <bug-214029-2300-usgrE6lW6a@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-214029-2300@https.bugzilla.kernel.org/>
 References: <bug-214029-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -71,12 +71,17 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D214029
 
---- Comment #17 from Erhard F. (erhard_f@mailbox.org) ---
-v5.15-rc5 is still affected.
+Erhard F. (erhard_f@mailbox.org) changed:
 
-However I reverted d02117f8efaa5fbc37437df1ae955a147a2a424a on top of v5.15=
--rc5
-and can confirm this fixes the leak.
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+ Attachment #298893|0                           |1
+        is obsolete|                            |
+
+--- Comment #18 from Erhard F. (erhard_f@mailbox.org) ---
+Created attachment 299219
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D299219&action=3Dedit
+kernel .config (kernel 5.15-rc5, AMD FX-8370)
 
 --=20
 You may reply to this email to add a comment.
