@@ -1,43 +1,84 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B91242FCBA
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Oct 2021 22:03:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C09DF42FCC3
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Oct 2021 22:04:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A94DA6E25B;
-	Fri, 15 Oct 2021 20:03:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 51FEB6E3B2;
+	Fri, 15 Oct 2021 20:04:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.smtp.larsendata.com (mx2.smtp.larsendata.com
- [91.221.196.228])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 036956E25B
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Oct 2021 20:03:20 +0000 (UTC)
-Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
- by mx2.smtp.larsendata.com (Halon) with ESMTPS
- id f678bbef-2df2-11ec-ac3c-0050568cd888;
- Fri, 15 Oct 2021 20:03:28 +0000 (UTC)
-Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
- [80.162.45.141])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: sam@ravnborg.org)
- by mail01.mxhotel.dk (Postfix) with ESMTPSA id 07238194B53;
- Fri, 15 Oct 2021 22:03:26 +0200 (CEST)
-Date: Fri, 15 Oct 2021 22:03:17 +0200
-X-Report-Abuse-To: abuse@mxhotel.dk
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Simon Ser <contact@emersion.fr>
-Cc: dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v3 5/6] drm/probe-helper: use
- drm_kms_helper_connector_hotplug_event
-Message-ID: <YWnehSIgW1YOrOba@ravnborg.org>
-References: <20211015163336.95188-1-contact@emersion.fr>
- <20211015163336.95188-6-contact@emersion.fr>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4313A6E3B2
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Oct 2021 20:04:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1634328268;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=XQYGQgJLmprZZplQ2mb6rTHEMIyDSsn3oC/c17JJjpY=;
+ b=JJJ2Qmsvls2oJehObrD5Nbl6UlBXX4rT/uyoKgj8sZTj9Co7a475aoSKdxw17a+QzFDbp/
+ seNc8fZFAZHDr5VAxqDiNUtzVi7SAiYPF34V5pECf8B63x+6bV/p2GlDIDCJSuEPXx2uyx
+ jTk0G5SLoH1KngxUc8Wldm09bD96cB4=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-373-nnQEeCMgOs6YJrB67GOvkw-1; Fri, 15 Oct 2021 16:04:26 -0400
+X-MC-Unique: nnQEeCMgOs6YJrB67GOvkw-1
+Received: by mail-qt1-f197.google.com with SMTP id
+ 13-20020ac8560d000000b0029f69548889so7442874qtr.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Oct 2021 13:04:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:organization:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=XQYGQgJLmprZZplQ2mb6rTHEMIyDSsn3oC/c17JJjpY=;
+ b=WehsSowvO4AXjd2yINlunhJbREGh3grT4l/iUJJVHVrBTL52Pxe8z374mTR1AWkdYx
+ 85sL83O7xVHjbP4prSOshwBn6b+gOg7VpgYyKN7lHP9uY9HLZ9Xq4IWM0iiYb4rBGPza
+ a/9NwfT3mJsI8VLaMkYVpfx1YoKJQLfVA5KTpWFHaZMUuO6yEgFQles5sWAr8V7qWfGb
+ Tquo16lEef08lJbCHFjcqiKNDDyr1vNn7qplwFzZDR2Oq3ozbISWnMeSbZit8a8/1PNJ
+ jOL6sqrT7psFIROjf/v4haUq711wcrGWXjkCvvR6UnWi84LWgY0+Bd5ZzeyxDoW2xFUw
+ VxhA==
+X-Gm-Message-State: AOAM53371uXOkgBXO8ML59zS+0/1pg5WH3qikbFzcfNcCzu2XfSBC448
+ vddE3uqZXykihP2RbeQ1ud7amkQZnP+MA56vcfBLuj6oR7RXGOXAlnddnqXn24NnNg3pPM2pV7/
+ ApIciaQGuwvnXyyE4dzFsOgyxH7PF
+X-Received: by 2002:a05:622a:1051:: with SMTP id
+ f17mr15391278qte.65.1634328266099; 
+ Fri, 15 Oct 2021 13:04:26 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzFQkQx4zVujDp0NTBQ//6q9zcAoGdUt8d27Ls3++C2ToSHoEIcZVl29b2dUFT3hd3zG+y+Hw==
+X-Received: by 2002:a05:622a:1051:: with SMTP id
+ f17mr15391246qte.65.1634328265862; 
+ Fri, 15 Oct 2021 13:04:25 -0700 (PDT)
+Received: from [192.168.8.206] (pool-96-230-249-157.bstnma.fios.verizon.net.
+ [96.230.249.157])
+ by smtp.gmail.com with ESMTPSA id l4sm3018663qke.107.2021.10.15.13.04.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 15 Oct 2021 13:04:25 -0700 (PDT)
+Message-ID: <57b116bf5d90459fac4ce605aeab9b25afca92e6.camel@redhat.com>
+Subject: Re: [PATCH] drm: Update MST First Link Slot Information Based on
+ Encoding Format
+From: Lyude Paul <lyude@redhat.com>
+To: Bhawanpreet Lakha <Bhawanpreet.lakha@amd.com>, Jerry.Zuo@amd.com, 
+ dri-devel@lists.freedesktop.org
+Cc: Harry.Wentland@amd.com, Wayne.Lin@amd.com, Nicholas.Kazlauskas@amd.com
+Date: Fri, 15 Oct 2021 16:04:24 -0400
+In-Reply-To: <d9a43511-3435-0efc-d8a2-24c035b0ec74@amd.com>
+References: <5e463fbc3d633eea1078e838ba5be0065ffbeb1e.camel@redhat.com>
+ <20211012215848.1507023-1-Bhawanpreet.Lakha@amd.com>
+ <3fbf786ee687e57cab02d71c745d01fb39819cba.camel@redhat.com>
+ <d9a43511-3435-0efc-d8a2-24c035b0ec74@amd.com>
+Organization: Red Hat
+User-Agent: Evolution 3.40.4 (3.40.4-2.fc34)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211015163336.95188-6-contact@emersion.fr>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,84 +94,134 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Simon,
+[snip]
 
-On Fri, Oct 15, 2021 at 04:33:45PM +0000, Simon Ser wrote:
-> If an hotplug event only updates a single connector, use
-> drm_kms_helper_connector_hotplug_event instead of
-> drm_kms_helper_hotplug_event.
+On Thu, 2021-10-14 at 16:21 -0400, Bhawanpreet Lakha wrote:
 > 
-> Signed-off-by: Simon Ser <contact@emersion.fr>
-> ---
->  drivers/gpu/drm/drm_probe_helper.c | 20 ++++++++++++++++----
->  1 file changed, 16 insertions(+), 4 deletions(-)
+> Thanks for the response,
 > 
-> diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_probe_helper.c
-> index 3aef3b188c99..6049dc92324b 100644
-> --- a/drivers/gpu/drm/drm_probe_helper.c
-> +++ b/drivers/gpu/drm/drm_probe_helper.c
-> @@ -927,7 +927,7 @@ EXPORT_SYMBOL(drm_connector_helper_hpd_irq_event);
->   */
->  bool drm_helper_hpd_irq_event(struct drm_device *dev)
->  {
-> -	struct drm_connector *connector;
-> +	struct drm_connector *connector, *changed_connector = NULL;
->  	struct drm_connector_list_iter conn_iter;
->  	bool changed = false;
->  
-> @@ -941,15 +941,27 @@ bool drm_helper_hpd_irq_event(struct drm_device *dev)
->  		if (!(connector->polled & DRM_CONNECTOR_POLL_HPD))
->  			continue;
->  
-> -		if (check_connector_changed(connector))
-> +		if (check_connector_changed(connector)) {
-> +			if (changed) {
-> +				if (changed_connector)
-> +					drm_connector_put(changed_connector);
-> +				changed_connector = NULL;
-> +			} else {
-> +				drm_connector_get(connector);
-> +				changed_connector = connector;
-> +			}
-This code is a little confusing to read.
+> That function is per port (drm_dp_atomic_find_vcpi_slots) so not sure 
+> how that will work, maybe I don't understand what you mean?
 
-In case we have only one connector with a change we hit the else part.
-What we really want to find out is if we have one or more connectors
-with a change.
-We could do something like:
+Yeah - drm_dp_atomic_find_vcpi_slots() is just one part of the atomic helpers
+though, we can always add more. JFYI, the main atomic check function for MST
+is drm_dp_mst_atomic_check(). So we'd probably just want to add something into
+drm_dp_mst_topology_state that handles making sure we go through
+drm_dp_vcpi_allocation struct and recalculates everything in it. We might also
+want to add an atomic helper to set the new starting slot and slot count in
+the atomic state, then go through the current atomic topology state and ensure
+that we add any CRTCs that would need full modesets as a result of that info
+changing.
 
-	struct drm_connector *changed_connector = NULL;
-	int changes = 0;
+> 
+> Also we only need to check this inside 
+> drm_dp_mst_atomic_check_vcpi_alloc_limit(), which doesn't have a state, 
+> so we still need to have this on the mgr somehow.
 
+It does, we pass drm_dp_mst_topology_state to it. So we could just add these
+fields there.
 
-	...
+> 
+> I was thinking we could add the slots(or some DP version indicator) 
+> inside the drm_connector, and add a parameter to 
+> drm_dp_mst_atomic_check_vcpi_alloc_limit(int slots) and call it with 
+> this info via drm_dp_mst_atomic_check().
 
-	/* Find if we have one or more changed connectors */
-	drm_for_each_connector_iter(connector, &conn_iter) {
-		if (!(connector->polled & DRM_CONNECTOR_POLL_HPD))
-			continue;
+So before I continue: I should note that some of the code in MST goes against
+what I'm about to say, in particular a lot of the payload updating functions
+in MST that keep their payload state outside of drm_dp_mst_topology_state and
+friends, but that's because some of this code is old and needs to be updated
+anyway (and some of it was actually just being kept around because we were
+worried about breaking radeon.ko, the only driver relying on behavior from the
+non-atomic paths in our topology helper). Also - I'm not sure what your prior
+experience is with modesetting in the linux kernel so my apologies if I'm
+explaining anything you already understand here.
 
-		if (check_connector_changed(connector)) {
-			if (!changes) {
-				changed_connector = connector;
-				drm_connector_get(changed_connector);
-			}
+Anyway-drm_connector wouldn't be the right place to put it because it's not
+part of the atomic state. The reason we have atomic modesetting in the first
+place is so that we can come up with a new display state, and then have the
+kernel verify the configurations in that new state and potentially reject it
+if we tried to program something that wouldn't have worked in hardware. As
+well, having it in drm_connector would mean that it wouldn't be safe to access
+unless we've somehow locked the drm_connector. drm_connector_state would be
+'safe' to have this data in, but considering that we already have a private
+atomic state object for MST (drm_dp_mst_topology_state) it doesn't make much
+sense to keep MST info elsewhere.
 
-			changes++;
-		}
-	}
-	drm_connector_list_iter_end(&conn_iter);
-	mutex_unlock(&dev->mode_config.mutex);
+> 
+> 
+> Bhawan
+> 
+> > 
+> > >                  ret = drm_dp_mst_atomic_check_mstb_bw_limit(mgr-
+> > > > mst_primary,
+> > >                                                              mst_state);
+> > >                  mutex_unlock(&mgr->lock);
+> > > @@ -5527,11 +5543,16 @@ int drm_dp_mst_topology_mgr_init(struct
+> > > drm_dp_mst_topology_mgr *mgr,
+> > >          if (!mgr->proposed_vcpis)
+> > >                  return -ENOMEM;
+> > >          set_bit(0, &mgr->payload_mask);
+> > > +       mgr->total_avail_slots = 63;
+> > > +       mgr->start_slot = 1;
+> > >   
+> > >          mst_state = kzalloc(sizeof(*mst_state), GFP_KERNEL);
+> > >          if (mst_state == NULL)
+> > >                  return -ENOMEM;
+> > >   
+> > > +       mst_state->total_avail_slots = 63;
+> > > +       mst_state->start_slot = 1;
+> > > +
+> > >          mst_state->mgr = mgr;
+> > >          INIT_LIST_HEAD(&mst_state->vcpis);
+> > >   
+> > > diff --git a/include/drm/drm_dp_mst_helper.h
+> > > b/include/drm/drm_dp_mst_helper.h
+> > > index ddb9231d0309..f8152dfb34ed 100644
+> > > --- a/include/drm/drm_dp_mst_helper.h
+> > > +++ b/include/drm/drm_dp_mst_helper.h
+> > > @@ -554,6 +554,8 @@ struct drm_dp_mst_topology_state {
+> > >          struct drm_private_state base;
+> > >          struct list_head vcpis;
+> > >          struct drm_dp_mst_topology_mgr *mgr;
+> > > +       u8 total_avail_slots;
+> > > +       u8 start_slot;
+> > >   };
+> > >   
+> > >   #define to_dp_mst_topology_mgr(x) container_of(x, struct
+> > > drm_dp_mst_topology_mgr, base)
+> > > @@ -661,6 +663,16 @@ struct drm_dp_mst_topology_mgr {
+> > >           */
+> > >          int pbn_div;
+> > >   
+> > > +       /**
+> > > +        * @total_avail_slots: 63 for 8b/10b, 64 for 128/132b
+> > > +        */
+> > > +       u8 total_avail_slots;
+> > > +
+> > > +       /**
+> > > +        * @start_slot: 1 for 8b/10b, 0 for 128/132b
+> > > +        */
+> > > +       u8 start_slot;
+> > > +
+> > >          /**
+> > >           * @funcs: Atomic helper callbacks
+> > >           */
+> > > @@ -806,6 +818,7 @@ int drm_dp_mst_get_vcpi_slots(struct
+> > > drm_dp_mst_topology_mgr *mgr, struct drm_dp
+> > >   
+> > >   void drm_dp_mst_reset_vcpi_slots(struct drm_dp_mst_topology_mgr *mgr,
+> > > struct drm_dp_mst_port *port);
+> > >   
+> > > +void drm_dp_mst_update_coding_cap(struct drm_dp_mst_topology_state
+> > > *mst_state, uint8_t link_coding_cap);
+> > >   
+> > >   void drm_dp_mst_deallocate_vcpi(struct drm_dp_mst_topology_mgr *mgr,
+> > >                                  struct drm_dp_mst_port *port);
+> 
 
-	if (changes == 1)
-		drm_kms_helper_connector_hotplug_event(changed_connector);
-	else if (changes > 1)
-		drm_kms_helper_hotplug_event(dev);
+-- 
+Cheers,
+ Lyude Paul (she/her)
+ Software Engineer at Red Hat
 
-	if (changed_connector)
-		drm_connector_put(changed_connector);
-
-
-Maybe the only reason why I think this is better is bc I wrote it?!?
-
-	Sam
