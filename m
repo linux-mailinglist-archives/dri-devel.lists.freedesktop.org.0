@@ -1,131 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62DD743037D
-	for <lists+dri-devel@lfdr.de>; Sat, 16 Oct 2021 17:45:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 13EA8430394
+	for <lists+dri-devel@lfdr.de>; Sat, 16 Oct 2021 18:09:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03FB36E441;
-	Sat, 16 Oct 2021 15:44:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0237C6E446;
+	Sat, 16 Oct 2021 16:09:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2043.outbound.protection.outlook.com [40.107.220.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 231496E441;
- Sat, 16 Oct 2021 15:44:55 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=emtktXHgfLLcDLO1BVl6nyfZ58DFTy2Q5IQJPiHY6SfyjdHgNzsJhYgI2L++BqheP9rb/qIFNBGE17GSdw+467wPGHeQcHWofruu1EoP9zSNyH7LHBQLUIorvPjJlXGAMp01LWvI5mHJjugjQ3BdSGNLNG/vS/cXhPFNBDMf6uk9tXtvPvgp1UbitGtTVXw+1DahBR0DMzHDQsBnRIwKSzeJQG1scJqAk0os1TjIXve/Q1rCkSEcp2OUGpS8kXnGDvR7rjBKxRJaq6jEKSoJHFxm3+RAEjZQicXw1QlO7HF+Ale19sfeA8RXuz0bU4j+RvVfyB7LTZSp2xg3qmMN4Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mP7alHt7lGE7S4IKYV7N8ijY50jHACds0EOkTDZ7MUY=;
- b=e/llNOIJamiFgCqRpmPT7eGlUZLrsrniC4ON9X/BFKy7FEOCVWS+c+Q5ouAFeJg0WAdarEAyvDxXeeXhKCmM188NQMQ4dEE+6ktbxBGmmuNY2+1P3vymc4zfLhO6dUefeDD1IyDF5aLrSg+UDr86VJUHrUZX2xaPn6l7xjos6VL+El7q8T9SH1Q/L9liL6KE3lp5CpxX8zXdslpLvNiDYcxYmgm8JgmqX4tuAyEiUhbsFtNQM8ySX61Roau+yVgVxhYcRKP//ey5yp6KE1NIQ/H14KuHqSzp6FutVANoRWMpkjl/RDWrj1eTfj4fRe3MflwtI46KmYwOhxLQ6gglHA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mP7alHt7lGE7S4IKYV7N8ijY50jHACds0EOkTDZ7MUY=;
- b=mDhuLRwIs3lE9xO9o9MlQfzZ4dC+4bQoq7TIfyOXe96JE+97uMLzOQ0VTR/QPyqEuyDzc6AODRVT9u5Ep9FjVRPu4Oajw5NF2eZ/zV8i4WEQy53jkTShsTEevIxOgjo7OBNDvCwwNI/xWQuBPjA5WjonCfTnUXIoX5tXpQe7MTeIHK0c09xgHt6u6UGH10q1g/mCpYsQyAoWkOsY7vRP8KmD/9Y+dH12Qa8VRf4iI2znRNyJ80ANx4nRmRmfBLGSKIuFXZSdYDmRUiCQfXK757jcpI492z+OO71y9zxg+3NrFnSlsLYvP97QjX3xxnWW/qC3B40Ee97LVanoQU7FnA==
-Authentication-Results: intel.com; dkim=none (message not signed)
- header.d=none;intel.com; dmarc=none action=none header.from=nvidia.com;
-Received: from BL0PR12MB5506.namprd12.prod.outlook.com (2603:10b6:208:1cb::22)
- by BL1PR12MB5109.namprd12.prod.outlook.com (2603:10b6:208:309::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4608.15; Sat, 16 Oct
- 2021 15:44:52 +0000
-Received: from BL0PR12MB5506.namprd12.prod.outlook.com
- ([fe80::e8af:232:915e:2f95]) by BL0PR12MB5506.namprd12.prod.outlook.com
- ([fe80::e8af:232:915e:2f95%6]) with mapi id 15.20.4608.018; Sat, 16 Oct 2021
- 15:44:51 +0000
-Date: Sat, 16 Oct 2021 12:44:50 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Dan Williams <dan.j.williams@intel.com>
-Cc: Matthew Wilcox <willy@infradead.org>, Alex Sierra <alex.sierra@amd.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- "Kuehling, Felix" <Felix.Kuehling@amd.com>, Linux MM <linux-mm@kvack.org>,
- Ralph Campbell <rcampbell@nvidia.com>,
- linux-ext4 <linux-ext4@vger.kernel.org>,
- linux-xfs <linux-xfs@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Christoph Hellwig <hch@lst.de>,
- =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
- Alistair Popple <apopple@nvidia.com>,
- Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>,
- Linux NVDIMM <nvdimm@lists.linux.dev>
-Subject: Re: [PATCH v1 2/2] mm: remove extra ZONE_DEVICE struct page refcount
-Message-ID: <20211016154450.GJ2744544@nvidia.com>
-References: <20211014153928.16805-1-alex.sierra@amd.com>
- <20211014153928.16805-3-alex.sierra@amd.com>
- <20211014170634.GV2744544@nvidia.com>
- <YWh6PL7nvh4DqXCI@casper.infradead.org>
- <CAPcyv4hBdSwdtG6Hnx9mDsRXiPMyhNH=4hDuv8JZ+U+Jj4RUWg@mail.gmail.com>
- <20211014230606.GZ2744544@nvidia.com>
- <CAPcyv4hC4qxbO46hp=XBpDaVbeh=qdY6TgvacXRprQ55Qwe-Dg@mail.gmail.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAPcyv4hC4qxbO46hp=XBpDaVbeh=qdY6TgvacXRprQ55Qwe-Dg@mail.gmail.com>
-X-ClientProxiedBy: BL1PR13CA0186.namprd13.prod.outlook.com
- (2603:10b6:208:2be::11) To BL0PR12MB5506.namprd12.prod.outlook.com
- (2603:10b6:208:1cb::22)
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com
+ [IPv6:2a00:1450:4864:20::334])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E0D8F6E442
+ for <dri-devel@lists.freedesktop.org>; Sat, 16 Oct 2021 16:09:02 +0000 (UTC)
+Received: by mail-wm1-x334.google.com with SMTP id
+ n40-20020a05600c3ba800b0030da2439b21so5598657wms.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 16 Oct 2021 09:09:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=YwrD7acOnOmUz8kuzOsdw05t0ErwSAGixf9d/VE1/Tg=;
+ b=zMcWvhGfKX1dbtPtzdAyYPn3nIZhS1uqiQ8m6NhzvTzDv/8odNazih8Jtp1DhIKBFl
+ SLu7C3cO67L7z6JfbKvHnMFNCMEr+CfRLzngfbV4s+b9j8WncaC7czFZMlPAr/VRNdKf
+ btl5Agc6fd7LEp7LRpfK1CzXPu9y62l7Y2PacqExVQKNchEEp8CqqbPyN1ruSk0FZ4ab
+ JhuY7rmhu00oK9EiDfEyu4MPMtxs4XyPmHirSImAfiowVfEE33/194wm71w/Pc/nzUSR
+ XB65/S3+Qm5XFJQfaNFFzeHutQWNeOs4WLLZ4vNP6qLSh6pm36JXy2HD3xhz64VWVawO
+ i/9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=YwrD7acOnOmUz8kuzOsdw05t0ErwSAGixf9d/VE1/Tg=;
+ b=SgBhi1EWJm6Y3jfNmOhCTaGs51qTAy+nbE6Oxo6kCdyNx2ZQhnsGZuvVN1wzDlaLeu
+ pyHdZMBq/DdVoXx+N4479LDuRz3QdwmWnOV1RpFcYH0CpuEwmm9ZDCbghrT7uMY83hCq
+ VmlRKTxWj2l3i/U3C1CA0T0x+w7ow2oXzypfCRVb0BmcANEX/WYHuxK73rGQOjwFT2bT
+ xl3Z+D486xR6wnNnDgnkNkuOs5ngydyDOyElMJI5o0di0mMm6305lRGzdbUYHEi5pOpb
+ kQcwswMiaHSii+SOszEAPk27f9FmuMBeE83/QBeKQBTu7Y5/1AfiElSrAtZkvgyXDwmQ
+ mbHA==
+X-Gm-Message-State: AOAM533D41SCskP8bG6FPzXh5WyHsd+HZqT7at1XCs63o/nqJWlJqbUU
+ pdLBYERyc3X4uS4ADbamaBg4Tw==
+X-Google-Smtp-Source: ABdhPJwi/rrSzXlVlH1Tk5NoyfM+ZKFQY/2OeC/C/rVDmiC2Txrtbl2kzlCG5czTNBYQ/5oBB2Cx+w==
+X-Received: by 2002:a05:600c:1c10:: with SMTP id
+ j16mr19481180wms.28.1634400541218; 
+ Sat, 16 Oct 2021 09:09:01 -0700 (PDT)
+Received: from [192.168.0.30]
+ (cpc78119-cwma10-2-0-cust590.7-3.cable.virginm.net. [81.96.50.79])
+ by smtp.gmail.com with ESMTPSA id z1sm7731018wrt.94.2021.10.16.09.09.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 16 Oct 2021 09:09:00 -0700 (PDT)
+Message-ID: <0b15a2b6-1fd1-1e52-4896-e588272b25d3@linaro.org>
+Date: Sat, 16 Oct 2021 17:08:59 +0100
 MIME-Version: 1.0
-Received: from mlx.ziepe.ca (142.162.113.129) by
- BL1PR13CA0186.namprd13.prod.outlook.com (2603:10b6:208:2be::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4628.8 via Frontend
- Transport; Sat, 16 Oct 2021 15:44:51 +0000
-Received: from jgg by mlx with local (Exim 4.94)	(envelope-from
- <jgg@nvidia.com>)	id 1mblre-00Fhn7-Dg; Sat, 16 Oct 2021 12:44:50 -0300
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: b131a182-074f-4683-708c-08d990bbe43f
-X-MS-TrafficTypeDiagnostic: BL1PR12MB5109:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BL1PR12MB5109A7D71E44A395FA9B54BDC2BA9@BL1PR12MB5109.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: mK2mvOP8CdOXUKmEM3NpDLF9N4zqXPf7mgiDCl80UV19xrCbYyC7eHstCcfhuNpvaU6heMFf6Es5buivbLmwA2S3vnyr/srlAGzzWXiAyIFEHQAeRpihwzEAqjUCItavW/jrdDht74pqb+vAQVMkEIMkWzcR/KU8ux1P653STU4NnXmyxwp6SDJBTTFo92EYtTNdH9DzNsPDHPe5OwgexWQGR4nBOQphmKtXFCMIzxid0lNGCyKroD16ZMFak8Wo6NmHFuCHC//GunDdSf7XqJEKut0YmSY0gFJYmMH2w+A4Kky6iDFq0QbnrHmXXmFeRDl16datJXMIuR3bKvikUMuUJcnfYMCTR47CvEbBiojolPQva+JbeRIzM4GzwWLQiq8eCE6hrKLLZxk3PgOS3gPgPAihPw0VnXE8Hg0vUNKxjOfHLC8LuURHMp10TKexth8FyZGJqajW5rSE5k8UVvk7XbAOQswZrmW+XslbaNUL4gmye9OrXDw19ztyqU7fB0cMsW5XjcXZ5tpicFV0iLntwfdbzL/lV6Y1oGH1yJeXNHq0LyzAhw4pcDL/PIFXAobdaEAgx4h8TdZpz5z1Tv6Sk8ftPKWeyUR8qoUbHi4RXxgRfTGTbuJSJ6T7h2k1TCTu2ZTHfLrhPA2J3yGOnBQRdjpO5Kh3yTBoyQeLZxAwvj9OluFF4rFCcGd8pnLsqdR+5WOALkDqtdbfm4u4RMjO2U8hd9jYeonWyAGjZF19y/zy6cUI0GJDX579G88ilnOfaxhglI1VizycX8YBcA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BL0PR12MB5506.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(36756003)(9786002)(9746002)(508600001)(33656002)(2616005)(426003)(86362001)(6916009)(2906002)(66946007)(186003)(1076003)(54906003)(966005)(5660300002)(53546011)(8676002)(83380400001)(26005)(66556008)(66476007)(7416002)(316002)(4326008)(8936002)(38100700002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?FM+pxeW5NI1+xF17nhWK2LD+hf9d2pwGS1Sick2NwoyQe7tidb6dyhGtcJgg?=
- =?us-ascii?Q?Vg7TqpasGNDH02U2F9TZEtRcoctUtEiMzibYZMFy6I7+EPYY4+iM/B5VKhMy?=
- =?us-ascii?Q?xUtNGtOnUhZePCiV924jBtwjarSbVhiIiY1HMiXVNX59ASF55NLmqjzv6afi?=
- =?us-ascii?Q?77pO7kEcnT6d7GB12LpQ0sEd+Vs6oUBVc0tCgJ3NC0EwrsQPfV4gXVC15BGi?=
- =?us-ascii?Q?4evHdQ6JJUDrLsiLJ3Coi7czCKfbJooqvT9scNN8kt7LjplAWIGtFEDfT+RR?=
- =?us-ascii?Q?k9hZRVetJlXzQXS/gYLgQxCD9wCnU2bZkndIufP/HRH2vnhmfi7eetg45fZG?=
- =?us-ascii?Q?IXxcJ/pCdPnqYLet6OwkAinyyKhMAwbAs119CidNkKmKeIVd86kekqYoy/Os?=
- =?us-ascii?Q?1DrrC4b5w9IDAns1ZaTrVfc9lkTSUu9wWXX7ymnLU4mEDxdJlOxCCI+BTi9b?=
- =?us-ascii?Q?WDDK9M2LhLebloqDqU5zMOhtD0+k7Z1JKmOPxzUbk/Q41UKudN5/Gz2VIh0j?=
- =?us-ascii?Q?thUQOY+9VrvglywroWFkkBTjPtqzTNB5s8b7iiVgWMVDDObztB4xtoVTG37T?=
- =?us-ascii?Q?IKlMSDysFwhgpEO8FFEskepyiZoRXpAVu2ZVjVfckxZwlzRpiBkjo+5kfy6v?=
- =?us-ascii?Q?5s5kwTN60vjVCDoJ2ln/+qCOXUudfw6Q1sEPp10jA9TrhfFpv2KhUMkCW3/4?=
- =?us-ascii?Q?1u+o1avYMY+jmEorvo3hk4Yseji+zw64o0D2S+r0WF5r4YOBdqQo5s1DiZpd?=
- =?us-ascii?Q?wY+MOKybAdQ0MtMVPPnZ3P1Hhvda9WYto/J9qdPogZ5020RgEYQ75eRCwT86?=
- =?us-ascii?Q?Wu/BQl8FNJxBTKljqGrkgBzakFVOswHMOXw4AxLO8d0t8/uyYxaC5fiGv9j6?=
- =?us-ascii?Q?722HWiPDK/Qwyvtl4ZVgOaXfENPIlDNOqyDqRTB0l8N2InLMIjIt7okY/ON9?=
- =?us-ascii?Q?ges5oGEb0wGyvOZEcK5JiBW7sG5wpinKj1CpoC1Dg7g+mUZ6UQfKOsHua1Lx?=
- =?us-ascii?Q?meR9lkRt8XP3sm2t0TuRae/hY/ysngB8D/LwMy0GOdMpHIZzP9dV0naKwntZ?=
- =?us-ascii?Q?qqNSaicRvfKdFProyLAM+zTwKk2OwuBgLWpzlHMByVitzNLcoCHFSLzU9XwO?=
- =?us-ascii?Q?LDisH3uRg8Jc7WwlSZY3+exjDVylOqOagPquEy9XLFXoCa/KEfFDmYLsXHet?=
- =?us-ascii?Q?gWwCeD8q38vbSor6jGlt8auZpW4aNKTEJhNBq2bz+2Oatn5GFKj/krUR1eue?=
- =?us-ascii?Q?HHRLmOAWj6Nn8raemlSyfhwhnQeeU0RR9YKGe7GHHW0c/UTOOcJzBkU7X9BA?=
- =?us-ascii?Q?YCuX1OCUQgThRWnyCj1N+pMU?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b131a182-074f-4683-708c-08d990bbe43f
-X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB5506.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Oct 2021 15:44:51.3527 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: fp4d+vNK2vfiM460k1DqVSIviIAy4HVhZT2o6KrigNg5CZ2zxU9pCZQP2xmbGBZi
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5109
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH 2/2] drm/msm/devfreq: Add 1ms delay before clamping freq
+Content-Language: en-US
+To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Jordan Crouse <jordan@cosmicpenguin.net>, Rob Clark
+ <robdclark@chromium.org>, Sean Paul <sean@poorly.run>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ linux-kernel@vger.kernel.org
+References: <20210927230455.1066297-1-robdclark@gmail.com>
+ <vFWu4k2fr7YZdUamZdttf2XTTm05kYAza_JI_jGvD28ZV19dUqZmoWkqsf3Bgw_kAbQj87uGiMS0F0O7wtXtEw==@protonmail.internalid>
+ <20210927230455.1066297-2-robdclark@gmail.com>
+From: Caleb Connolly <caleb.connolly@linaro.org>
+In-Reply-To: <20210927230455.1066297-2-robdclark@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -141,129 +84,150 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 14, 2021 at 06:37:35PM -0700, Dan Williams wrote:
-> On Thu, Oct 14, 2021 at 4:06 PM Jason Gunthorpe <jgg@nvidia.com> wrote:
-> >
-> > On Thu, Oct 14, 2021 at 12:01:14PM -0700, Dan Williams wrote:
-> > > > > Does anyone know why devmap is pte_special anyhow?
-> > >
-> > > It does not need to be special as mentioned here:
-> > >
-> > > https://lore.kernel.org/all/CAPcyv4iFeVDVPn6uc=aKsyUvkiu3-fK-N16iJVZQ3N8oT00hWA@mail.gmail.com/
-> >
-> > I added a remark there
-> >
-> > Not special means more to me, it means devmap should do the refcounts
-> > properly like normal memory pages.
-> >
-> > It means vm_normal_page should return !NULL and it means insert_page,
-> > not insert_pfn should be used to install them in the PTE. VMAs should
-> > not be MIXED MAP, but normal struct page maps.
-> >
-> > I think this change alone would fix all the refcount problems
-> > everwhere in DAX and devmap.
-> >
-> > > The refcount dependencies also go away after this...
-> > >
-> > > https://lore.kernel.org/all/161604050866.1463742.7759521510383551055.stgit@dwillia2-desk3.amr.corp.intel.com/
-> > >
-> > > ...but you can see that patches 1 and 2 in that series depend on being
-> > > able to guarantee that all mappings are invalidated when the undelying
-> > > device that owns the pgmap goes away.
-> >
-> > If I have put everything together right this is because of what I
-> > pointed to here. FS-DAX is installing 0 refcount pages into PTEs and
-> > expecting that to work sanely.
-> >
-> > This means the page map cannot be removed until all the PTEs are fully
-> > flushed, which buggily doesn't happen because of the missing unplug.
-> >
-> > However, this is all because nobody incrd a refcount to represent the
-> > reference in the PTE and since this ment that 0 refcount pages were
-> > wrongly stuffed into PTEs then devmap used the refcount == 1 hack to
-> > unbreak GUP?
-> >
-> > So.. Is there some reason why devmap pages are trying so hard to avoid
-> > sane refcounting???
->
-> I wouldn't put it that way. It's more that the original sin of
-> ZONE_DEVICE that sought to reuse the lru field space, by never having
-> a zero recount, then got layered upon and calcified in malignant ways.
-> In the meantime surrounding infrastructure got decrustified. Work like
-> the 'struct page' cleanup among other things, made it clearer and
-> clearer over time that the original design choice needed to be fixed.
 
-So, there used to be some reason, but with the current code
-arrangement it is not the case? This is why it looks so strange when
-reading it..
+On 28/09/2021 00:04, Rob Clark wrote:
+> From: Rob Clark <robdclark@chromium.org>
+> 
+> Add a short delay before clamping to idle frequency on active->idle
+> transition.  It takes ~0.5ms to increase the freq again on the next
+> idle->active transition, so this helps avoid extra freq transitions
+> on workloads that bounce between CPU and GPU.
+> 
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> ---
+> Note that this sort of re-introduces the theoretical race solved
+> by [1].. but that should not be a problem with something along the
+> lines of [2].
+> 
+> [1] https://patchwork.freedesktop.org/patch/455910/?series=95111&rev=1
+> [2] https://patchwork.freedesktop.org/patch/455928/?series=95119&rev=1
+> 
+>   drivers/gpu/drm/msm/msm_gpu.h         |  7 +++++
+>   drivers/gpu/drm/msm/msm_gpu_devfreq.c | 38 +++++++++++++++++++++------
+>   2 files changed, 37 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gpu.h
+> index 32a859307e81..2fcb6c195865 100644
+> --- a/drivers/gpu/drm/msm/msm_gpu.h
+> +++ b/drivers/gpu/drm/msm/msm_gpu.h
+> @@ -120,6 +120,13 @@ struct msm_gpu_devfreq {
+>   	 * it is inactive.
+>   	 */
+>   	unsigned long idle_freq;
+> +
+> +	/**
+> +	 * idle_work:
+> +	 *
+> +	 * Used to delay clamping to idle freq on active->idle transition.
+> +	 */
+> +	struct msm_hrtimer_work idle_work;
+>   };
+> 
+>   struct msm_gpu {
+> diff --git a/drivers/gpu/drm/msm/msm_gpu_devfreq.c b/drivers/gpu/drm/msm/msm_gpu_devfreq.c
+> index 15b64f35c0f6..36e1930ee26d 100644
+> --- a/drivers/gpu/drm/msm/msm_gpu_devfreq.c
+> +++ b/drivers/gpu/drm/msm/msm_gpu_devfreq.c
+> @@ -96,8 +96,12 @@ static struct devfreq_dev_profile msm_devfreq_profile = {
+>   	.get_cur_freq = msm_devfreq_get_cur_freq,
+>   };
+> 
+> +static void msm_devfreq_idle_work(struct kthread_work *work);
+> +
+>   void msm_devfreq_init(struct msm_gpu *gpu)
+>   {
+> +	struct msm_gpu_devfreq *df = &gpu->devfreq;
+> +
+>   	/* We need target support to do devfreq */
+>   	if (!gpu->funcs->gpu_busy)
+>   		return;
+> @@ -113,25 +117,27 @@ void msm_devfreq_init(struct msm_gpu *gpu)
+>   	msm_devfreq_profile.freq_table = NULL;
+>   	msm_devfreq_profile.max_state = 0;
+> 
+> -	gpu->devfreq.devfreq = devm_devfreq_add_device(&gpu->pdev->dev,
+> +	df->devfreq = devm_devfreq_add_device(&gpu->pdev->dev,
+>   			&msm_devfreq_profile, DEVFREQ_GOV_SIMPLE_ONDEMAND,
+>   			NULL);
+> 
+> -	if (IS_ERR(gpu->devfreq.devfreq)) {
+> +	if (IS_ERR(df->devfreq)) {
+>   		DRM_DEV_ERROR(&gpu->pdev->dev, "Couldn't initialize GPU devfreq\n");
+> -		gpu->devfreq.devfreq = NULL;
+> +		df->devfreq = NULL;
+>   		return;
+>   	}
+> 
+> -	devfreq_suspend_device(gpu->devfreq.devfreq);
+> +	devfreq_suspend_device(df->devfreq);
+> 
+> -	gpu->cooling = of_devfreq_cooling_register(gpu->pdev->dev.of_node,
+> -			gpu->devfreq.devfreq);
+> +	gpu->cooling = of_devfreq_cooling_register(gpu->pdev->dev.of_node, df->devfreq);
+>   	if (IS_ERR(gpu->cooling)) {
+>   		DRM_DEV_ERROR(&gpu->pdev->dev,
+>   				"Couldn't register GPU cooling device\n");
+>   		gpu->cooling = NULL;
+>   	}
+> +
+> +	msm_hrtimer_work_init(&df->idle_work, gpu->worker, msm_devfreq_idle_work,
+> +			      CLOCK_MONOTONIC, HRTIMER_MODE_REL);
+>   }
+> 
+>   void msm_devfreq_cleanup(struct msm_gpu *gpu)
+> @@ -179,6 +185,11 @@ void msm_devfreq_active(struct msm_gpu *gpu)
+>   	unsigned int idle_time;
+>   	unsigned long target_freq = df->idle_freq;
+> 
+> +	/*
+> +	 * Cancel any pending transition to idle frequency:
+> +	 */
+> +	hrtimer_cancel(&df->idle_work.timer);
+> +
+>   	/*
+>   	 * Hold devfreq lock to synchronize with get_dev_status()/
+>   	 * target() callbacks
+> @@ -209,9 +220,12 @@ void msm_devfreq_active(struct msm_gpu *gpu)
+>   	mutex_unlock(&df->devfreq->lock);
+>   }
+> 
+> -void msm_devfreq_idle(struct msm_gpu *gpu)
+> +
+> +static void msm_devfreq_idle_work(struct kthread_work *work)
+>   {
+> -	struct msm_gpu_devfreq *df = &gpu->devfreq;
+> +	struct msm_gpu_devfreq *df = container_of(work,
+> +			struct msm_gpu_devfreq, idle_work.work);
+> +	struct msm_gpu *gpu = container_of(df, struct msm_gpu, devfreq);
+>   	unsigned long idle_freq, target_freq = 0;
+> 
+>   	/*
+> @@ -229,3 +243,11 @@ void msm_devfreq_idle(struct msm_gpu *gpu)
+> 
+>   	mutex_unlock(&df->devfreq->lock);
+>   }
+> +
+> +void msm_devfreq_idle(struct msm_gpu *gpu)
+> +{
+> +	struct msm_gpu_devfreq *df = &gpu->devfreq;
+> +
+> +	msm_hrtimer_queue_work(&df->idle_work, ms_to_ktime(1),
+> +			       HRTIMER_MODE_ABS);
+> +}
+> --
+> 2.31.1
+> 
 
-AFIACT we are good on the LRU stuff now? Eg release_pages() does not
-use page->lru for is_zone_device_page()?
+Hi Rob,
 
-> The MIXED_MAP and insert_pfn were a holdover from page-less DAX, but
-> now that we have page-available DAX, yes, we can skip the FS
-> notification and just rely on typical refcounting and hanging until
-> the FS has a chance to uninstall the PTEs. You're right, the FS
-> notification is an improvement to the conversion, not a requirement.
+I tested this patch on the OnePlus 6, with it I'm still able to reproduce the crash introduced by
+("drm/msm: Devfreq tuning").
 
-It all sounds so simple. I looked at this for a good long time and the
-first major roadblock is huge pages.
+Adjusting the delay from 1ms to 5ms seems to help, at least from some very basic testing.
 
-The mm side is designed around THP which puts a single high order page
-into the PUD/PMD such that the mm only has to juggle one page. This a
-very sane and reasonable thing to do.
+Perhaps the increased power reliability of the external power supply on dev boards is helping to mask the issue (hence 
+why it's harder to reproduce on db845c).
 
-DAX is stuffing arrays of 4k pages into the PUD/PMDs. Aligning with
-THP would make using normal refconting much simpler. I looked at
-teaching the mm core to deal with page arrays - it is certainly
-doable, but it is quite inefficient and ugly mm code.
-
-So, can we fix DAX and TTM - the only uses of PUD/PMDs I could find?
-
-Joao has a series that does this to device-dax:
-
-https://lore.kernel.org/all/20210827145819.16471-1-joao.m.martins@oracle.com/
-
-TTM is kind of broken already but does have a struct page, and it is
-probably already a high order one. Maybe it is OK? I will ask Thomas
-
-That leaves FSDAX. Can this be fixed? I know nothing of filesystems or
-fsdax to guess. Sounds like folios to me ..
-
-Assuming changing FSDAX is hard.. How would DAX people feel about just
-deleting the PUD/PMD support until it can be done with compound pages?
-
-Doing so would allow fixing the lifecycle, cleaning up gup and
-basically delete a huge wack of slow DAX and devmap specific code from
-the mm. It also opens the door to removing the PTE flag and thus
-allowing DAX on more architectures.
-
-> However, there still needs to be something in the gup-fast path to
-> indicate that GUP_LONGTERM is not possible because the PTE
-> represents
-
-It looks easy now:
-
-1) We know the pfn has a struct page * because it isn't pfn special
-
-2) We can get a valid ref on the struct page *:
-
-      head = try_grab_compound_head(page, 1, flags);
-
-   Holding a ref ensures that head->pgmap is valid.
-
-3) Then check the page type directly:
-
-     if ((flags & FOLL_LONGTERM) && is_zone_device_page(head))
-
-   This tells us we can access the ZONE_DEVICE struct in the union
-
-4) Ask what the pgmap owner wants to do:
-
-    if (head->pgmap->deny_foll_longterm)
-          return FAIL
-
-Cost is only paied if FOLL_LONGTERM is given
-
-Thanks,
-Jason
+-- 
+Kind Regards,
+Caleb (they/them)
