@@ -2,62 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 655D943015E
-	for <lists+dri-devel@lfdr.de>; Sat, 16 Oct 2021 10:58:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 282CC4301B7
+	for <lists+dri-devel@lfdr.de>; Sat, 16 Oct 2021 12:03:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B7C66E422;
-	Sat, 16 Oct 2021 08:58:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F1A46E42A;
+	Sat, 16 Oct 2021 10:03:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from msg-1.mailo.com (msg-1.mailo.com [213.182.54.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 844206E41B;
- Sat, 16 Oct 2021 08:58:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=net-c.es; s=mailo;
- t=1634374693; bh=9IL8gtMx9v+2OPAAge0RErzrh08ys/P7bdTcb4UTPyc=;
- h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
- MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To;
- b=MoYnQZ5L6Ax0/fqJMIwGZCAaXd+RW/7hsqN7Ru2uyoWj8IQKyGyQt87jaZGxhKhF+
- RctnOXYKQjlXfB+3BNI9Dje/aQ7GoBOvzDDIAWxFg8zcvim3fw5K1HxLeVx6jfxIbN
- RIizUInJ4bkCf1hQdJdE2jWovuRx5ozpyfFHXVEs=
-Received: by b-2.in.mailobj.net [192.168.90.12] with ESMTP
- via ip-206.mailobj.net [213.182.55.206]
- Sat, 16 Oct 2021 10:58:13 +0200 (CEST)
-X-EA-Auth: A5rfGmpIBDyFxLfMHpfhudehUSSxmDiQm2TxkL/eXbGqty570ZAWa8gGp3kSB+GyiaCfMVhAZa4NwN7QqTApIj+sGlxqqx7d
-Date: Sat, 16 Oct 2021 10:58:10 +0200
-From: Claudio Suarez <cssk@net-c.es>
-To: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-tegra@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+Received: from mx2.smtp.larsendata.com (mx2.smtp.larsendata.com
+ [91.221.196.228])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 871D06E40F
+ for <dri-devel@lists.freedesktop.org>; Sat, 16 Oct 2021 10:03:33 +0000 (UTC)
+Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
+ by mx2.smtp.larsendata.com (Halon) with ESMTPS
+ id 5664acc6-2e68-11ec-ac3c-0050568cd888;
+ Sat, 16 Oct 2021 10:03:40 +0000 (UTC)
+Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
+ [80.162.45.141])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: sam@ravnborg.org)
+ by mail01.mxhotel.dk (Postfix) with ESMTPSA id ABD69194B4E;
+ Sat, 16 Oct 2021 12:03:35 +0200 (CEST)
+Date: Sat, 16 Oct 2021 12:03:26 +0200
+X-Report-Abuse-To: abuse@mxhotel.dk
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Maxime Ripard <maxime@cerno.tech>
+Cc: Andrzej Hajda <a.hajda@samsung.com>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ David Airlie <airlied@linux.ie>, Jonas Karlman <jonas@kwiboo.se>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Pan Xinhui <Xinhui.Pan@amd.com>, Emma Anholt <emma@anholt.net>,
- Maxime Ripard <mripard@kernel.org>,
  Thierry Reding <thierry.reding@gmail.com>,
- Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
- Jingoo Han <jingoohan1@gmail.com>, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, Chen-Yu Tsai <wens@csie.org>,
- Sandy Huang <hjc@rock-chips.com>, heiko@sntech.de,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
  Neil Armstrong <narmstrong@baylibre.com>,
  Robert Foss <robert.foss@linaro.org>,
- Ben Skeggs <bskeggs@redhat.com>, nouveau@lists.freedesktop.org
-Subject: Re: [Freedreno] [PATCH 01/15] gpu/drm: make drm_add_edid_modes()
- consistent when updating connector->display_info
-Message-ID: <YWqUIiUmVoGg+dl+@gineta.localdomain>
-References: <20211015113713.630119-1-cssk@net-c.es>
- <20211015113713.630119-2-cssk@net-c.es>
- <YWluAX6LA2DupE+E@intel.com> <YWnVVoCipTXxx8NW@gineta.localdomain>
- <YWnXierh4TSXpDMc@intel.com> <YWqMX+EOjk++HPOe@gineta.localdomain>
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Sean Paul <sean@poorly.run>, freedreno@lists.freedesktop.org,
+ Kyungmin Park <kyungmin.park@samsung.com>, linux-kernel@vger.kernel.org,
+ Xinliang Liu <xinliang.liu@linaro.org>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Tian Tao <tiantao6@hisilicon.com>, Inki Dae <inki.dae@samsung.com>,
+ linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org,
+ John Stultz <john.stultz@linaro.org>, Chen Feng <puck.chen@hisilicon.com>,
+ Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+ Joonyoung Shim <jy0922.shim@samsung.com>
+Subject: Re: [PATCH v4 00/24] drm/bridge: Make panel and bridge probe order
+ consistent
+Message-ID: <YWqjbr8gMuHfWNz5@ravnborg.org>
+References: <20210910101218.1632297-1-maxime@cerno.tech>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <YWqMX+EOjk++HPOe@gineta.localdomain>
+In-Reply-To: <20210910101218.1632297-1-maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,112 +71,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Oct 16, 2021 at 10:25:03AM +0200, Claudio Suarez wrote:
-> On Fri, Oct 15, 2021 at 10:33:29PM +0300, Ville Syrjälä wrote:
-> > On Fri, Oct 15, 2021 at 09:24:06PM +0200, Claudio Suarez wrote:
-> > > On Fri, Oct 15, 2021 at 03:03:13PM +0300, Ville Syrjälä wrote:
-> > > > On Fri, Oct 15, 2021 at 01:36:59PM +0200, Claudio Suarez wrote:
-> > > > > According to the documentation, drm_add_edid_modes
-> > > > > "... Also fills out the &drm_display_info structure and ELD in @connector
-> > > > > with any information which can be derived from the edid."
-> > > > > 
-> > > > > drm_add_edid_modes accepts a struct edid *edid parameter which may have a
-> > > > > value or may be null. When it is not null, connector->display_info and
-> > > > > connector->eld are updated according to the edid. When edid=NULL, only
-> > > > > connector->eld is reset. Reset connector->display_info to be consistent
-> > > > > and accurate.
-> > > > > 
-> > > > > Signed-off-by: Claudio Suarez <cssk@net-c.es>
-> > > > > ---
-> > > > >  drivers/gpu/drm/drm_edid.c | 2 ++
-> > > > >  1 file changed, 2 insertions(+)
-> > > > > 
-> > > > > diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-> > > > > index 6325877c5fd6..6cbe09b2357c 100644
-> > > > > --- a/drivers/gpu/drm/drm_edid.c
-> > > > > +++ b/drivers/gpu/drm/drm_edid.c
-> > > > > @@ -5358,10 +5358,12 @@ int drm_add_edid_modes(struct drm_connector *connector, struct edid *edid)
-> > > > >  
-> > > > >  	if (edid == NULL) {
-> > > > >  		clear_eld(connector);
-> > > > > +		drm_reset_display_info(connector);
-> > > > >  		return 0;
-> > > > >  	}
-> > > > >  	if (!drm_edid_is_valid(edid)) {
-> > > > >  		clear_eld(connector);
-> > > > > +		drm_reset_display_info(connector);
-> > > > 
-> > > > Looks easier if you pull both of those out from these branches and
-> > > > just call them unconditionally at the start.
-> > > 
-> > > After looking at the full code, I am not sure. This is the code:
-> > > ==================
-> > > int drm_add_edid_modes(struct drm_connector *connector, struct edid *edid)
-> > > {
-> > >         int num_modes = 0;
-> > >         u32 quirks;
-> > > 
-> > >         if (edid == NULL) {
-> > >                 clear_eld(connector);
-> > >                 drm_reset_display_info(connector); <--- added by me
-> > >                 return 0;
-> > >         }
-> > >         if (!drm_edid_is_valid(edid)) {
-> > >                 clear_eld(connector);
-> > >                 drm_reset_display_info(connector); <--- added by me
-> > >                 drm_warn(connector->dev, "%s: EDID invalid.\n",
-> > >                          connector->name);
-> > >                 return 0;
-> > >         }
-> > > 
-> > >         drm_edid_to_eld(connector, edid);
-> > > 
-> > >         quirks = drm_add_display_info(connector, edid);
-> > > 	etc...
-> > > =================
-> > > 
-> > > If we move those out of these branches and edid != NULL, we are executing an
-> > > unnecessary clear_eld(connector) and an unnecessary drm_reset_display_info(connector)
-> > > because the fields will be set in the next drm_edid_to_eld(connector, edid) and
-> > > drm_add_display_info(connector, edid)
-> > > 
-> > > Do we want this ?
-> > 
-> > Seems fine by me. And maybe we could nuke the second
-> > drm_reset_display_info() from deeper inside drm_add_display_info()?
-> > Not sure if drm_add_display_info() still has to be able to operate
-> > standalone or not.
-> > 
-> > Hmm. Another option is to just move all these NULL/invalid edid
-> > checks into drm_edid_to_eld() and drm_add_display_info().
-> 
-> I was thinking about this. We can use a boolean variable:
-> ===============
->         bool edid_is_invalid;
-> 
->         edid_is_invalid = !drm_edid_is_valid(edid);
-> 
->         if (edid == NULL || edid_is_invalid) {
->                 clear_eld(connector);
->                 drm_reset_display_info(connector);
->                 if (edid_is_invalid)
->                          drm_warn(connector->dev, "%s: EDID invalid.\n",
->                                   connector->name);
->                 return 0;
->         }
-> 
->         drm_edid_to_eld(connector, edid);
-> ...
-> ===============
-> Internally, drm_edid_is_valid() handles NULL pointers properly.
-> It is a quite elegant solution with a small change in the original
-> design, and it improves this part in the way you pointed out.
+Hi Maxime,
 
-I'll send a patch with this idea and we can talk about the new code.
-Thanks!
+>   drm/bridge: adv7533: Switch to devm MIPI-DSI helpers
+>   drm/bridge: adv7511: Register and attach our DSI device at probe
+>   drm/bridge: anx7625: Switch to devm MIPI-DSI helpers
+>   drm/bridge: anx7625: Register and attach our DSI device at probe
+>   drm/bridge: lt8912b: Switch to devm MIPI-DSI helpers
+>   drm/bridge: lt8912b: Register and attach our DSI device at probe
+>   drm/bridge: lt9611: Switch to devm MIPI-DSI helpers
+>   drm/bridge: lt9611: Register and attach our DSI device at probe
+>   drm/bridge: lt9611uxc: Switch to devm MIPI-DSI helpers
+>   drm/bridge: lt9611uxc: Register and attach our DSI device at probe
+>   drm/bridge: ps8640: Switch to devm MIPI-DSI helpers
+>   drm/bridge: ps8640: Register and attach our DSI device at probe
 
-Best regards,
-Claudio Suarez.
+All the above are:
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
 
+Will try to look at sn65dsi83 and tc358775 later today.
 
+I assume kirin and exynos is already covered.
+
+	Sam
 
