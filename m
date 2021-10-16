@@ -1,28 +1,28 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93F4C430494
-	for <lists+dri-devel@lfdr.de>; Sat, 16 Oct 2021 21:18:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D0564304BA
+	for <lists+dri-devel@lfdr.de>; Sat, 16 Oct 2021 21:18:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 501026E4D0;
-	Sat, 16 Oct 2021 19:18:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F3D096E50D;
+	Sat, 16 Oct 2021 19:18:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from msg-6.mailo.com (ip-16.mailobj.net [213.182.54.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5FD976E4BB;
- Sat, 16 Oct 2021 19:17:58 +0000 (UTC)
+Received: from msg-1.mailo.com (msg-1.mailo.com [213.182.54.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 150336E4DD;
+ Sat, 16 Oct 2021 19:18:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=net-c.es; s=mailo;
- t=1634409811; bh=elbQ/Rfa9XPzohbQeT5mZjhN0nLEuIl5gnGjqEs1gGI=;
+ t=1634409817; bh=ZmCRcmXfOn4brch3sFsuOuXp9yHp219e3PYR0mVapZM=;
  h=X-EA-Auth:From:To:Cc:Subject:Date:Message-Id:X-Mailer:In-Reply-To:
  References:MIME-Version:Content-Transfer-Encoding;
- b=Wv4KWakJEEi1FpcwiMHapHmS4+IOWMOiT/Dv0KkNgEsnxvUUei8U5pkKFi8AIy+jz
- py5WIpMH+LhY5KB4nh4yAfgdKQF5BtqsBqqtB0qu/xsZKfjKPDZk322guiW2gvWncE
- mq3ndwuwBjF4Y7Qcul6iFq9eT3O8aRchrjQK2xjg=
+ b=rljxmyj0IrzWjJEZhtHkuZ5kKfyDeKlD2uPtd0sZ5b8xYuXy8yFNMSY/sTJFdIciy
+ cTJ4G5MWFK7WsnC/M+h+OE4jDJn4o60mSnKW5stzmme9KeLcYpvtJeUEc3jYjLJJFU
+ nE6iF+Zlu+eDNaM/eM2d5hgF8uPwvXCSYczoFeq8=
 Received: by b-2.in.mailobj.net [192.168.90.12] with ESMTP
  via ip-206.mailobj.net [213.182.55.206]
- Sat, 16 Oct 2021 20:43:12 +0200 (CEST)
-X-EA-Auth: vkwKJpPXa2OLsI9IwSACtfiCMsxGY2D0/cYhho0HTQjGA3DEQz5kh6h9sL3wD0XRs4JskABokd/8VqmRRUz9s0z2Jkoo49fK
+ Sat, 16 Oct 2021 20:43:34 +0200 (CEST)
+X-EA-Auth: IbIiNW/0NCb1fjsuAO9oo//00h6X9/vtgHnLMRK0Dh+QuhMgo9s3GIoWiwDVwcp8NHt0WzykDFkyFO31LEaRnzjiuVzewoCp
 From: Claudio Suarez <cssk@net-c.es>
 To: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  linux-tegra@vger.kernel.org, intel-gfx@lists.freedesktop.org,
@@ -45,10 +45,10 @@ To: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  Robert Foss <robert.foss@linaro.org>, Ben Skeggs <bskeggs@redhat.com>,
  nouveau@lists.freedesktop.org, ville.syrjala@linux.intel.com
 Cc: Claudio Suarez <cssk@net-c.es>
-Subject: [PATCH v2 07/13] drm/msm: replace drm_detect_hdmi_monitor() with
+Subject: [PATCH v2 08/13] drm/sun4i: replace drm_detect_hdmi_monitor() with
  drm_display_info.is_hdmi
-Date: Sat, 16 Oct 2021 20:42:20 +0200
-Message-Id: <20211016184226.3862-8-cssk@net-c.es>
+Date: Sat, 16 Oct 2021 20:42:21 +0200
+Message-Id: <20211016184226.3862-9-cssk@net-c.es>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211016184226.3862-1-cssk@net-c.es>
 References: <20211016184226.3862-1-cssk@net-c.es>
@@ -76,23 +76,27 @@ drm_display_info.is_hdmi
 
 Signed-off-by: Claudio Suarez <cssk@net-c.es>
 ---
- drivers/gpu/drm/msm/hdmi/hdmi_connector.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/hdmi/hdmi_connector.c b/drivers/gpu/drm/msm/hdmi/hdmi_connector.c
-index 58707a1f3878..07585092f919 100644
---- a/drivers/gpu/drm/msm/hdmi/hdmi_connector.c
-+++ b/drivers/gpu/drm/msm/hdmi/hdmi_connector.c
-@@ -364,8 +364,8 @@ static int msm_hdmi_connector_get_modes(struct drm_connector *connector)
+diff --git a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
+index 2f2c9f0a1071..f57bedbbeeb8 100644
+--- a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
++++ b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
+@@ -215,11 +215,11 @@ static int sun4i_hdmi_get_modes(struct drm_connector *connector)
+ 	if (!edid)
+ 		return 0;
  
- 	hdmi_write(hdmi, REG_HDMI_CTRL, hdmi_ctrl);
+-	hdmi->hdmi_monitor = drm_detect_hdmi_monitor(edid);
++	drm_connector_update_edid_property(connector, edid);
++	hdmi->hdmi_monitor = connector->display_info.is_hdmi;
+ 	DRM_DEBUG_DRIVER("Monitor is %s monitor\n",
+ 			 hdmi->hdmi_monitor ? "an HDMI" : "a DVI");
  
--	hdmi->hdmi_mode = drm_detect_hdmi_monitor(edid);
- 	drm_connector_update_edid_property(connector, edid);
-+	hdmi->hdmi_mode = connector->display_info.is_hdmi;
- 
- 	if (edid) {
- 		ret = drm_add_edid_modes(connector, edid);
+-	drm_connector_update_edid_property(connector, edid);
+ 	cec_s_phys_addr_from_edid(hdmi->cec_adap, edid);
+ 	ret = drm_add_edid_modes(connector, edid);
+ 	kfree(edid);
 -- 
 2.33.0
 
