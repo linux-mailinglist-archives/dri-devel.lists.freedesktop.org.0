@@ -1,58 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 703C4430514
-	for <lists+dri-devel@lfdr.de>; Sat, 16 Oct 2021 23:39:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 48EE843053D
+	for <lists+dri-devel@lfdr.de>; Sun, 17 Oct 2021 00:17:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ABC956E53C;
-	Sat, 16 Oct 2021 21:39:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E0A66E200;
+	Sat, 16 Oct 2021 22:16:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com
- [IPv6:2a00:1450:4864:20::231])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A0E66E53C
- for <dri-devel@lists.freedesktop.org>; Sat, 16 Oct 2021 21:39:40 +0000 (UTC)
-Received: by mail-lj1-x231.google.com with SMTP id d13so869840ljg.0
- for <dri-devel@lists.freedesktop.org>; Sat, 16 Oct 2021 14:39:40 -0700 (PDT)
+Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com
+ [IPv6:2607:f8b0:4864:20::22b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA5506E200
+ for <dri-devel@lists.freedesktop.org>; Sat, 16 Oct 2021 22:16:55 +0000 (UTC)
+Received: by mail-oi1-x22b.google.com with SMTP id y207so18667755oia.11
+ for <dri-devel@lists.freedesktop.org>; Sat, 16 Oct 2021 15:16:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=OBwBRqq5KQLrzhnPrQyO7xvIoaonE0SA/KfYyvQuktY=;
- b=fnDRmuSVvZUC0Bq3G5tOZPhOKcWBiCGa580G3rDOfQarsXaEnwsgrlMIt6aKFgIz6v
- UAz/NJbRZSdbRzQEqi8gx53n7q0shgOT+WY5dUPtGX82ks9tk2RJSMMjn8XShAbBpXq0
- pjI2ZmwhVRw8fqvoqvF2/VHBsuU/SG2yFjdJhk0niZtWzchC9ZnApGaUT6JeDoTXfXua
- uh4vrRcZw2G6rnuq49pT8JDylRV8f5eYPTWHZnU1WQFVmQFU5nIz6yktXNlW9ub4k1wm
- qRzfiroNp4S33Yg8T6YercIfF+svvAq89G7UFWUc9XTvp2yjrc0wmMdsUZ8tbtuoKQO1
- vfFA==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=9ujg6PKfSs2XOzYYHdPfFh++V/EwomxD0QVcYgfLZXo=;
+ b=bWLopzPXV0sZJ2LSwu41r+EPZMlLquM8s17awzNbFsWQAvNQP3ysIA6BjXqDaOvT07
+ FoPsOPzBGSkErL9hZs5bUhmBVFlFlw0BEXx1y6vSadNWxyp0syScVEP7xfzYUiKYUcb2
+ XMHDLAonIuvWwiVjsNMWyOc1aNN8Ew1DwZqg79F5xfAFZ5N7w7l68UJ2HoUyDsuXRDGB
+ uTwKq6tDfoTcNb69w6wKA1shhumJFyxEWUfGqJZ+QvJMa7dD5DFIHzkgVlm1sWqtPVyX
+ mDQif9GoD6HwjyWYozcLLiaQQoSKGclDteZbep0MPD7RzQaxsLgAwke+Zm1v0563lals
+ d9eg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=OBwBRqq5KQLrzhnPrQyO7xvIoaonE0SA/KfYyvQuktY=;
- b=HzRPvp2l43hH9rHrZvXSAYdV73NAKAAjqWLfqvkC0kgGGFVtajrV3Fvp8LR7uvBUaj
- kEDtox576/9WTXfKWM85ojjtaScl6NF908667mhgZB6i/5P2eNYcY4gaUKHtxqMHr4Bm
- iYJV3Gj49UoKqwYj8ChDs3oyMWkU+OA3u+e+gfc10wmdJUY6MlRD1BhKhLb0DO5xZzTc
- Xns+RP3n3/50tFXJk/5224OW5DjJaL36ms7nBTNLxxatQlBi1midiI1kanf0sBZ0aTNB
- dRJ2oMjz9TWqsvISWo5gxwpb2emNFPK9uImOPZIH7SAa1wM8aK0YtwM8FA4XNWIW+tfQ
- l4lg==
-X-Gm-Message-State: AOAM53015QVhnbeFRQ3diweRlKgNwC4cNOUkV+pxZnhWoIRMaXdu07hm
- 6EZ1wozSW5lt64KHT2hiVtglUiY6i3cRyMt0CWNyIg==
-X-Google-Smtp-Source: ABdhPJyKg7Z2wgWoVDp54rrpuJ9WmwwBRUK/pqgHffh4MtKO6JmMkclwQP3cAUNum5VdkmqofosC5QHxHCS/1E8HKJ4=
-X-Received: by 2002:a05:651c:111:: with SMTP id
- a17mr20973513ljb.145.1634420378697; 
- Sat, 16 Oct 2021 14:39:38 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=9ujg6PKfSs2XOzYYHdPfFh++V/EwomxD0QVcYgfLZXo=;
+ b=q94jymH77Y9HX16cZoJZyHoAsYG8+ubgrI4m9xvjtcZIc4FSDGK4DT101OS/jmAKVa
+ V2DzNt1QqW42Tw63/OWc+eQMsUeVTNUj1wIBJc71pTtxDUZI/ss8Puwzs2n5T0TvkkF3
+ vY+S+fqvJgd4OsQuKRqf6wHuKytDQIfhM17A4qRRcngIj46689JAdGCf3B3n+eU+x62V
+ 235b4N4IfOOYZY0cZtu/wIgUx9Pd51nQ+7RwfF462g55JUv/kQRPXym8vaI+vE15Pq+W
+ lfeqfT2S9ELaxkXBspK3Ve5xL+kXLJFXpCE9CoC61YTNPJWpaHhXHU8BYV8AGQeRQTq/
+ SebA==
+X-Gm-Message-State: AOAM531K38gw/9oW6dSzDEpQXXBSDeQUZ5/9Fnh1ZzsyjDrrGcVXb9NX
+ vn8Wn+ndiFrgG/kKRRMN/kXboQ==
+X-Google-Smtp-Source: ABdhPJx7Ixjt5pToz+8Du+Kf33f+u70q+ZoT74guovCjf5YAM7lolr8SqhxQm3rOVRMfvryCj1ruRQ==
+X-Received: by 2002:aca:5dc5:: with SMTP id
+ r188mr22884478oib.160.1634422615143; 
+ Sat, 16 Oct 2021 15:16:55 -0700 (PDT)
+Received: from localhost.localdomain ([2600:1700:a0:3dc8:205:1bff:fec0:b9b3])
+ by smtp.gmail.com with ESMTPSA id
+ d15sm1747058oic.32.2021.10.16.15.16.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 16 Oct 2021 15:16:54 -0700 (PDT)
+From: Bjorn Andersson <bjorn.andersson@linaro.org>
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Abhinav Kumar <abhinavk@codeaurora.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Kalyan Thota <kalyan_t@codeaurora.org>,
+ Kuogee Hsieh <khsieh@codeaurora.org>
+Cc: Rob Herring <robh+dt@kernel.org>, Stephen Boyd <swboyd@chromium.org>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v5 0/5] drm/msm/dp: Support multiple DP instances and add
+ sc8180x
+Date: Sat, 16 Oct 2021 15:18:36 -0700
+Message-Id: <20211016221843.2167329-1-bjorn.andersson@linaro.org>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-References: <20211016210402.171595-1-marex@denx.de>
-In-Reply-To: <20211016210402.171595-1-marex@denx.de>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Sat, 16 Oct 2021 23:39:26 +0200
-Message-ID: <CACRpkdYcpdD5_ag_M94RTQjkVzLPtQaZP612VU+1F9L_e5_xjw@mail.gmail.com>
-Subject: Re: [PATCH] drm/bridge: ti-sn65dsi83: Optimize reset line toggling
-To: Marek Vasut <marex@denx.de>
-Cc: "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Robert Foss <robert.foss@linaro.org>, Sam Ravnborg <sam@ravnborg.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,30 +79,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Oct 16, 2021 at 11:04 PM Marek Vasut <marex@denx.de> wrote:
+The current implementation supports a single DP instance and the DPU code will
+only match it against INTF_DP instance 0. These patches extends this to allow
+multiple DP instances and support for matching against DP instances beyond 0.
 
-> Current code always sets reset line low in .pre_enable callback and
-> holds it low for 10ms. This is sub-optimal and increases the time
-> between enablement of the DSI83 and valid LVDS clock.
->
-> Rework the reset handling such that the reset line is held low for 10ms
-> both in probe() of the driver and .disable callback, which guarantees
-> that the reset line was always held low for more than 10ms and therefore
-> the reset line timing requirement is satisfied. Furthermore, move the
-> reset handling into .enable callback so the entire DSI83 initialization
-> is now in one place.
->
-> This reduces DSI83 enablement delay by up to 10ms.
->
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: Linus Walleij <linus.walleij@linaro.org>
-> Cc: Robert Foss <robert.foss@linaro.org>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: dri-devel@lists.freedesktop.org
+With that in place add SC8180x DP and eDP controllers.
 
-This looks good to me.
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+Bjorn Andersson (7):
+  drm/msm/dp: Remove global g_dp_display variable
+  drm/msm/dp: Modify prototype of encoder based API
+  drm/msm/dp: Allow specifying connector_type per controller
+  drm/msm/dp: Allow attaching a drm_panel
+  drm/msm/dp: Support up to 3 DP controllers
+  dt-bindings: msm/dp: Add SC8180x compatibles
+  drm/msm/dp: Add sc8180x DP controllers
 
-Yours,
-Linus Walleij
+ .../bindings/display/msm/dp-controller.yaml   |   2 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c   |  23 +--
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    |   8 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |  66 ++++----
+ .../gpu/drm/msm/disp/msm_disp_snapshot_util.c |   8 +-
+ drivers/gpu/drm/msm/dp/dp_display.c           | 153 ++++++++++--------
+ drivers/gpu/drm/msm/dp/dp_display.h           |   2 +
+ drivers/gpu/drm/msm/dp/dp_drm.c               |  13 +-
+ drivers/gpu/drm/msm/dp/dp_parser.c            |  30 +++-
+ drivers/gpu/drm/msm/dp/dp_parser.h            |   3 +-
+ drivers/gpu/drm/msm/msm_drv.h                 |   9 +-
+ 11 files changed, 205 insertions(+), 112 deletions(-)
+
+-- 
+2.29.2
+
