@@ -2,65 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DAFB4301FB
-	for <lists+dri-devel@lfdr.de>; Sat, 16 Oct 2021 12:22:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE238430257
+	for <lists+dri-devel@lfdr.de>; Sat, 16 Oct 2021 13:16:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F7F36E437;
-	Sat, 16 Oct 2021 10:22:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C4B889F97;
+	Sat, 16 Oct 2021 11:16:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com
- [IPv6:2a00:1450:4864:20::52e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 58BB06E430
- for <dri-devel@lists.freedesktop.org>; Sat, 16 Oct 2021 10:22:43 +0000 (UTC)
-Received: by mail-ed1-x52e.google.com with SMTP id g10so48458238edj.1
- for <dri-devel@lists.freedesktop.org>; Sat, 16 Oct 2021 03:22:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=jQxWHRxLlS8GB+mEPe7uBuP6Wvk6JtWdqezPMx1FAp8=;
- b=ZbrmSQysVOsDCgQE0R6U3t3cdzYpfABmpvw7lgZv+AatxUb2dgxqNNEbUwa4mFm2jC
- gKg/7phFpRe61dVUCU+eX8qf9CQ6OPy+jbszZFR/hc7uwNgJ9n1YeRljudbcmN0YR2uf
- 9y81QaVInw28J2Rppwrr+MTcRq5lI6+W6y1uw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=jQxWHRxLlS8GB+mEPe7uBuP6Wvk6JtWdqezPMx1FAp8=;
- b=KIxVaWXmw0tU+p0XsN8OfyZqsh+b+4AGwdMFJ1sUBudlqW/2tFfdXhzRtWC+r3GAmH
- +nu2LG2bgxlJDAlrGSQqd156bhvILdHKkKplZ74kZH6mBgxQ1zwk0oOMn35qBxxCV+5d
- ZwXEX5CXcoToHwoNXkF3G7Xk5eQw42uPeR3Pu+yxTfIUt/L+1Vcp/0+8L+rwnfz6DKjM
- kha53EIWnJzATJQuziOOzK9FK+v7OpDsLPHssnGTcLHngPHmljL7IDOcHSfu4Yea+CBl
- QINLfh0Z24WeB8HVTH4egwwg4I6QjD6IbNMiKl+v+QbaD5euMlfyjnvcGNBeTcwImif4
- bXuQ==
-X-Gm-Message-State: AOAM530J/lAUqSX1LiBTci+/Tei2BvhXgdqnzGy+bFX1fi+7AMIqGcGo
- DFf/UCUtH7Y5A/zYhFN65N6R9Q==
-X-Google-Smtp-Source: ABdhPJyo2efIjAHZdjigTFM3MOKnWgRMrDKspLEdjzUqBqA8mceLmTZXTMTW7XJRpja34WkdXfZSIA==
-X-Received: by 2002:a17:907:6297:: with SMTP id
- nd23mr14071082ejc.62.1634379761781; 
- Sat, 16 Oct 2021 03:22:41 -0700 (PDT)
-Received: from panicking.lan (93-46-124-24.ip107.fastwebnet.it. [93.46.124.24])
- by smtp.gmail.com with ESMTPSA id la1sm6117361ejc.48.2021.10.16.03.22.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 16 Oct 2021 03:22:41 -0700 (PDT)
-From: Michael Trimarchi <michael@amarulasolutions.com>
-To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- David Airlie <airlied@linux.ie>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Rob Herring <robh+dt@kernel.org>,
- =?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>
-Cc: devicetree@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 5/5] drm/bridge: dw-mipi-dsi: Fix dsi registration during drm
- probing
-Date: Sat, 16 Oct 2021 10:22:32 +0000
-Message-Id: <20211016102232.202119-6-michael@amarulasolutions.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211016102232.202119-1-michael@amarulasolutions.com>
-References: <20211016102232.202119-1-michael@amarulasolutions.com>
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B8E789F55;
+ Sat, 16 Oct 2021 11:16:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1634382974;
+ bh=Mhw02uk6pyAcd09twynYEmpbbHs67NvOvVZTeh65TQ4=;
+ h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
+ b=gZKhnmBON9Gg/8BxGCv+oJ0/ws3frGh32IR7U1a57EisAnv8FCzFeeJTFTx3MWZM/
+ 2sH7hqesKMUlxkAcOudVEHnoPMis1JirRIEzbJV3Q8mBb7FYtKKz4ffG7UdhZ7MAza
+ +hbJES3Y107oPh93XQzE9fpAcLZMaVIjaWJAPt/w=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from titan ([79.150.72.99]) by mail.gmx.net (mrgmx004
+ [212.227.17.184]) with ESMTPSA (Nemesis) id 1M59C2-1mcnbF3JzA-001B53; Sat, 16
+ Oct 2021 13:16:14 +0200
+Date: Sat, 16 Oct 2021 13:16:02 +0200
+From: Len Baker <len.baker@gmx.com>
+To: Daniel Vetter <daniel@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Len Baker <len.baker@gmx.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ David Airlie <airlied@linux.ie>, Kees Cook <keescook@chromium.org>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-hardening@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/i915: Prefer struct_size over open coded arithmetic
+Message-ID: <20211016111602.GA1996@titan>
+References: <20211003104258.18550-1-len.baker@gmx.com>
+ <20211011092304.GA5790@titan> <87k0ihxj56.fsf@intel.com>
+ <YWbIQmD1TGikpRm2@phenom.ffwll.local>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YWbIQmD1TGikpRm2@phenom.ffwll.local>
+X-Provags-ID: V03:K1:1BclTLkTU4amNua8fYN+IZPFm5F/GQXpWS5ysQ60YisVJ8xWdDC
+ /wVNME45XYCO+L/RtZkhQg+PaCqrNbdrnQk4MkAVhNTVKSgB5ks64M+aOQgyg6YJn8xsTzx
+ JPiLFzk4L4VDgWJj5ALAUEwzp9ZEFhM7SuKklT5w+M0uQztnaqPmNSb/sOJdVJGGvGv3JJg
+ m0Vmj7TgIZV0yRFK77RsQ==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:LRQAcnKjBVU=:CUIE1tkUtt8DmHc2DvoXn6
+ CfLCNr20xEgnmwtw/fouwwD9ZLjaaJ4wI5EmfE09iOZ/JrfiNmIOw4uHDWU4vQ9Dxj0ypcI32
+ f2hdSYmXl+i7l824ntWiRLjoFDXR5dot5yqquTPykvH/vJcpSZAmrh0MDsaRHqD6YPd52qJVN
+ izixixj4LjseACXWnd63uhDkIH0sqEqwr4/YII0+J9iBy6RehHRuEwLNTBSh1k7uyCpWKFrBP
+ aZ+pVc3/biTOFiabHA4a80KFCFFPukHPRN6n4KdJXhhVpuASYVDQ1UYKX7pAjJcwR2I7t7THu
+ GLyqdKYrX+q6MZMfQFPwHxqxQBRXkMOhIa9gVxThhWD8A8jY56q5mIjidg45soCI69P1hverj
+ RzQSRVlrCbJpcEvgtDTh4c5B0/ihZp66scW2EkFWcGU+IV7q/MuoQNfrA1GDazKcP7tJ4+ket
+ ZVDM74wwlBNIvyX+xr2sYlV8b08X7dmV64J7fPCm19qk37ak2k5AOA1/fX2wOOWZIcAk5CqrV
+ UGWwFLH2G8vHYFY83YD8goXQJQy6uGM5jCJncxaVSDNEwfd7my6QWLPxM092RSsKZWH+n97Zs
+ aThhPzumI/2XtV5zMqkUER3AU4W9NoQc5YlZ5LAfENHyUXDQGwUPFdKFDT63plQHQUe0xghd2
+ gKYivo+p1wzDtKggurJbRN79ZfzfKH0f2QS/aY2KOn8DJ3u60ONFt8pMg0Xp++Bsfz8qQ35j5
+ x+A3DBhXI9l979SF46JtLVczOih6ojMF+RRzNc3txb/bihWfy8Kk4UPJIeN0aEt7TowXfVckL
+ jW0AxF7EJXTtd5v/rFCVq9f3SOpTS6G10G0c49WiEqVmEn6ELYR78ohT+DYriDQ++SI99dBNM
+ 0Q067/K0q0FFLPwtfiBUPk8tfcgjkNHSjnQ66K2BcAX9QMboYyEyKCJJHehdu6qGHecghJuJG
+ xYVrSymPAVB+xZ5tfS7y6pOBB2U9zQNPp5IYmSvbj5IX+r+u/tfzNpOen9LOqf10avjZDZesv
+ 1JHQneqHXsgZbBLIoAdkpRzuEYOncjmzTxdTl22TnAUBBkzhJXcH5JS0Z0lzA+aZ4m/4ZESkK
+ 1+MBTEdSQVCW1k=
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,94 +80,100 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The dsi registration is implemented in rockchip platform driver.
-The attach can be called before the probe is terminated and therefore
-we need to be sure that corresponding entry during attach is valid
+Hi Daniel and Jani,
 
-Signed-off-by: Michael Trimarchi <michael@amarulasolutions.com>
----
- drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c   |  8 +++++++-
- drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c | 12 ++++++++----
- include/drm/bridge/dw_mipi_dsi.h                |  2 +-
- 3 files changed, 16 insertions(+), 6 deletions(-)
+On Wed, Oct 13, 2021 at 01:51:30PM +0200, Daniel Vetter wrote:
+> On Wed, Oct 13, 2021 at 02:24:05PM +0300, Jani Nikula wrote:
+> > On Mon, 11 Oct 2021, Len Baker <len.baker@gmx.com> wrote:
+> > > Hi,
+> > >
+> > > On Sun, Oct 03, 2021 at 12:42:58PM +0200, Len Baker wrote:
+> > >> As noted in the "Deprecated Interfaces, Language Features, Attribut=
+es,
+> > >> and Conventions" documentation [1], size calculations (especially
+> > >> multiplication) should not be performed in memory allocator (or sim=
+ilar)
+> > >> function arguments due to the risk of them overflowing. This could =
+lead
+> > >> to values wrapping around and a smaller allocation being made than =
+the
+> > >> caller was expecting. Using those allocations could lead to linear
+> > >> overflows of heap memory and other misbehaviors.
+> > >>
+> > >> In this case these are not actually dynamic sizes: all the operands
+> > >> involved in the calculation are constant values. However it is bett=
+er to
+> > >> refactor them anyway, just to keep the open-coded math idiom out of
+> > >> code.
+> > >>
+> > >> So, add at the end of the struct i915_syncmap a union with two flex=
+ible
+> > >> array members (these arrays share the same memory layout). This is
+> > >> possible using the new DECLARE_FLEX_ARRAY macro. And then, use the
+> > >> struct_size() helper to do the arithmetic instead of the argument
+> > >> "size + count * size" in the kmalloc and kzalloc() functions.
+> > >>
+> > >> Also, take the opportunity to refactor the __sync_seqno and __sync_=
+child
+> > >> making them more readable.
+> > >>
+> > >> This code was detected with the help of Coccinelle and audited and =
+fixed
+> > >> manually.
+> > >>
+> > >> [1] https://www.kernel.org/doc/html/latest/process/deprecated.html#=
+open-coded-arithmetic-in-allocator-arguments
+> > >>
+> > >> Signed-off-by: Len Baker <len.baker@gmx.com>
+> > >> ---
+> > >>  drivers/gpu/drm/i915/i915_syncmap.c | 12 ++++++++----
+> > >>  1 file changed, 8 insertions(+), 4 deletions(-)
+> > >
+> > > I received a mail telling that this patch doesn't build:
+> > >
+> > > =3D=3D Series Details =3D=3D
+> > >
+> > > Series: drm/i915: Prefer struct_size over open coded arithmetic
+> > > URL   : https://patchwork.freedesktop.org/series/95408/
+> > > State : failure
+> > >
+> > > But it builds without error against linux-next (tag next-20211001). =
+Against
+> > > which tree and branch do I need to build?
+> >
+> > drm-tip [1]. It's a sort of linux-next for graphics. I think there are
+> > still some branches that don't feed to linux-next.
+>
+> Yeah we need to get gt-next in linux-next asap. Joonas promised to send
+> out his patch to make that happen in dim.
+> -Daniel
 
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-index e44e18a0112a..44b211be15fc 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-@@ -362,8 +362,14 @@ static int dw_mipi_dsi_host_attach(struct mipi_dsi_host *host,
- 		dsi->device_found = true;
- 	}
- 
-+	/*
-+	 * NOTE: the dsi registration is implemented in
-+	 * platform driver, that to say dsi would be exist after
-+	 * probe is terminated. The call is done before the end of probe
-+	 * so we need to pass the dsi to the platform driver.
-+	 */
- 	if (pdata->host_ops && pdata->host_ops->attach) {
--		ret = pdata->host_ops->attach(pdata->priv_data, device);
-+		ret = pdata->host_ops->attach(pdata->priv_data, device, dsi);
- 		if (ret < 0)
- 			return ret;
- 	}
-diff --git a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c b/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
-index a2262bee5aa4..32ddc8642ec1 100644
---- a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
-+++ b/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
-@@ -997,7 +997,8 @@ static const struct component_ops dw_mipi_dsi_rockchip_ops = {
- };
- 
- static int dw_mipi_dsi_rockchip_host_attach(void *priv_data,
--					    struct mipi_dsi_device *device)
-+					    struct mipi_dsi_device *device,
-+					    struct dw_mipi_dsi *dmd)
- {
- 	struct dw_mipi_dsi_rockchip *dsi = priv_data;
- 	struct device *second;
-@@ -1005,6 +1006,8 @@ static int dw_mipi_dsi_rockchip_host_attach(void *priv_data,
- 
- 	mutex_lock(&dsi->usage_mutex);
- 
-+	dsi->dmd = dmd;
-+
- 	if (dsi->usage_mode != DW_DSI_USAGE_IDLE) {
- 		DRM_DEV_ERROR(dsi->dev, "dsi controller already in use\n");
- 		mutex_unlock(&dsi->usage_mutex);
-@@ -1280,6 +1283,7 @@ static int dw_mipi_dsi_rockchip_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
- 	struct device_node *np = dev->of_node;
-+	struct dw_mipi_dsi *dmd;
- 	struct dw_mipi_dsi_rockchip *dsi;
- 	struct phy_provider *phy_provider;
- 	struct resource *res;
-@@ -1391,9 +1395,9 @@ static int dw_mipi_dsi_rockchip_probe(struct platform_device *pdev)
- 	if (IS_ERR(phy_provider))
- 		return PTR_ERR(phy_provider);
- 
--	dsi->dmd = dw_mipi_dsi_probe(pdev, &dsi->pdata);
--	if (IS_ERR(dsi->dmd)) {
--		ret = PTR_ERR(dsi->dmd);
-+	dmd = dw_mipi_dsi_probe(pdev, &dsi->pdata);
-+	if (IS_ERR(dmd)) {
-+		ret = PTR_ERR(dmd);
- 		if (ret != -EPROBE_DEFER)
- 			DRM_DEV_ERROR(dev,
- 				      "Failed to probe dw_mipi_dsi: %d\n", ret);
-diff --git a/include/drm/bridge/dw_mipi_dsi.h b/include/drm/bridge/dw_mipi_dsi.h
-index bda8aa7c2280..cf81f19806ad 100644
---- a/include/drm/bridge/dw_mipi_dsi.h
-+++ b/include/drm/bridge/dw_mipi_dsi.h
-@@ -41,7 +41,7 @@ struct dw_mipi_dsi_phy_ops {
- 
- struct dw_mipi_dsi_host_ops {
- 	int (*attach)(void *priv_data,
--		      struct mipi_dsi_device *dsi);
-+		      struct mipi_dsi_device *dsi, struct dw_mipi_dsi *dmd);
- 	int (*detach)(void *priv_data,
- 		      struct mipi_dsi_device *dsi);
- };
--- 
-2.25.1
+Is there a possibility that you give an "Acked-by" tag? And then this patc=
+h
+goes to the mainline through the Kees' tree or Gustavo's tree?
 
+Or is it better to wait for drm-tip to update?
+
+Regards,
+Len
+
+>
+> >
+> > BR,
+> > Jani.
+> >
+> >
+> > [1] https://cgit.freedesktop.org/drm/drm-tip
+> >
+> >
+> > >
+> > > Regards,
+> > > Len
+> >
+> > --
+> > Jani Nikula, Intel Open Source Graphics Center
+>
+> --
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
