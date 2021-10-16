@@ -1,47 +1,151 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EB12430460
-	for <lists+dri-devel@lfdr.de>; Sat, 16 Oct 2021 20:48:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1730B4304CC
+	for <lists+dri-devel@lfdr.de>; Sat, 16 Oct 2021 21:36:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE5196E492;
-	Sat, 16 Oct 2021 18:47:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 382806E4A1;
+	Sat, 16 Oct 2021 19:35:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.smtp.larsendata.com (mx2.smtp.larsendata.com
- [91.221.196.228])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB61D6E492
- for <dri-devel@lists.freedesktop.org>; Sat, 16 Oct 2021 18:47:55 +0000 (UTC)
-Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
- by mx2.smtp.larsendata.com (Halon) with ESMTPS
- id 97ace47f-2eb1-11ec-ac3c-0050568cd888;
- Sat, 16 Oct 2021 18:48:03 +0000 (UTC)
-Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
- [80.162.45.141])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: sam@ravnborg.org)
- by mail01.mxhotel.dk (Postfix) with ESMTPSA id D055F194B3E;
- Sat, 16 Oct 2021 20:47:58 +0200 (CEST)
-Date: Sat, 16 Oct 2021 20:47:49 +0200
-X-Report-Abuse-To: abuse@mxhotel.dk
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Yassine Oudjana <y.oudjana@protonmail.com>
-Cc: Thierry Reding <thierry.reding@gmail.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, phone-devel@vger.kernel.org,
- ~postmarketos/upstreaming@lists.sr.ht, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] drm/panel: Add driver for LG.Philips SW43101 DSI
- video mode panel
-Message-ID: <YWseVeCuPUizVyOu@ravnborg.org>
-References: <20210909043904.12982-1-y.oudjana@protonmail.com>
- <20210909043904.12982-2-y.oudjana@protonmail.com>
-MIME-Version: 1.0
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com
+ [205.220.177.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 17D396E4A1
+ for <dri-devel@lists.freedesktop.org>; Sat, 16 Oct 2021 19:35:54 +0000 (UTC)
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 19GGYCt6011778; 
+ Sat, 16 Oct 2021 19:35:51 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=corp-2021-07-09;
+ bh=8HnDcriX97/oN8tkLHkWDvBJxcl+0HykSL2aM4xCB6Y=;
+ b=A5XfYGUlL+0MNb4lNWFqGe3ukSYxWt3m3oGfpXUydsxi8ednxGMskkRExjJidbJZ8zuO
+ n9Fxxnl0fB3y9oQjyLdChd4JDejyl0L91K7GpmLRd6LVG6/RiMq6nYsHsyKN34VtOfgM
+ 6p3Ej3IHMzudyIXbUn2fFuCfA40+VJ1Uu9I4fJItIeHSHa4ZiiHNy8Q/Up7AxDB+JKjq
+ w4kh7X8krU+FPUvjtIVkWtCKDN3MEIYkk0ImedABpP5rv+Z+0wN5xN2dtW1H8dylujPf
+ eibTqdaOJ07etSXQVgKcIfU+jhUactyIJYSyptjTfpzTm5ikUhE2C02gWDL9is37N/G4 WQ== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by mx0b-00069f02.pphosted.com with ESMTP id 3bqqm498ak-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Sat, 16 Oct 2021 19:35:50 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 19GJUdWm155867;
+ Sat, 16 Oct 2021 19:35:50 GMT
+Received: from nam12-mw2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12lp2042.outbound.protection.outlook.com [104.47.66.42])
+ by aserp3030.oracle.com with ESMTP id 3bqmsbck08-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Sat, 16 Oct 2021 19:35:49 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=J1WJAyomWJyMx+mq5uKljd+jCo5tHOdm5dirT2Kk2f2vH6so2eVybc+TBlmtD4LZubzGeKVyx8PTw8HrGqzbXWrYbb/QZjknngnYd4dDb2DB1Mz2mVrQPg3xml6mZn2aFbIYHhI/wOLM/fcvKSX9R5Fbe+dPjkpxH5AlRMIZlAwV53TlYacIg5wvnVowt7/CgF1pEnpFMc3xbAFDMlYEAe5o4SZ8QjiUpYTuml6sbt0Tdb/MSPiYINjVc4EBlQswGB5SsgiCYXSKbPEP+IubMoEmTN7jkfA2YbmyZeT6ynExT7ErnFNX9rvJo/6HtFsnT6lavEmcFi4YrpDAMVcwZw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8HnDcriX97/oN8tkLHkWDvBJxcl+0HykSL2aM4xCB6Y=;
+ b=c/jZ3rytXLPULPUt/EQw3S9QDT81Z9k/z1JjeBlJPd5CBfAyoVwdlZ5IrWqGgr0V0JRatwDmpZGKi3reDRF1n/2MERDjV6RCI9y4XPfeXgG7/E5JPTJGK2JCQXeuRlU1xOmM5Tb+WuYDxmCbCRqVKBXz89AzuyANzMZ8p/ZrOcw4l3+JxiSThznd0wJ16AedrSufzwUy1SDetoULLXpPJOc66gwUM2ttZGpfaDHG7BR619l9TarYrwXgvVAGrS9CTmk6I3FPG9QVSl0p3MX6IB71rPxGr7kDHWjqJMe2klpcrwI/4MPX/+XKtGsQKxq4L3OuhY+gLLIt+nySmuYcDA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8HnDcriX97/oN8tkLHkWDvBJxcl+0HykSL2aM4xCB6Y=;
+ b=VSO10tcbuGkp70a+iah3+ckPDUpvM2zPWYJqvdT9RHOUWQllOGzpy9e6BwzGWcWV/qlcnhPSg3g2WEjZYHBL/TuYW40j7n/nhun05BaUVSEY5/Gyasx16Aa9WzEl91oxqPKLWj4q1mR8Z5VJou1OuELzKsHcITEnH7HKTrjXgc8=
+Authentication-Results: quicinc.com; dkim=none (message not signed)
+ header.d=none;quicinc.com; dmarc=none action=none header.from=oracle.com;
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by CO1PR10MB4466.namprd10.prod.outlook.com
+ (2603:10b6:303:9b::10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4608.16; Sat, 16 Oct
+ 2021 19:35:48 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::d409:11b5:5eb2:6be9]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::d409:11b5:5eb2:6be9%5]) with mapi id 15.20.4608.018; Sat, 16 Oct 2021
+ 19:35:48 +0000
+Date: Sat, 16 Oct 2021 22:35:15 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Jessica Zhang <quic_jesszhan@quicinc.com>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Jessica Zhang <jesszhan@codeaurora.org>, Sean Paul <seanpaul@chromium.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>
+Subject: Re: [bug report] drm/msm: dsi: Handle dual-channel for 6G as well
+Message-ID: <20211016193515.GA2083@kadam>
+References: <20211001123115.GE2283@kili>
+ <144b8ba5-82db-fc90-1d0f-5a8e2ce45c90@codeaurora.org>
+ <CAA8EJpoDfWRT48J=G5-VQcHC6Zg8D-0VujjnjQyvHD0PQ=SoKQ@mail.gmail.com>
+ <1f3f3047-327e-15dd-3179-d012edfc1865@quicinc.com>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210909043904.12982-2-y.oudjana@protonmail.com>
+In-Reply-To: <1f3f3047-327e-15dd-3179-d012edfc1865@quicinc.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-ClientProxiedBy: JNAP275CA0018.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4c::23)
+ To MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28)
+MIME-Version: 1.0
+Received: from kadam (62.8.83.22) by JNAP275CA0018.ZAFP275.PROD.OUTLOOK.COM
+ (2603:1086:0:4c::23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4608.15 via Frontend
+ Transport; Sat, 16 Oct 2021 19:35:38 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 879a6d71-77ee-4577-71ac-08d990dc2740
+X-MS-TrafficTypeDiagnostic: CO1PR10MB4466:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <CO1PR10MB4466AB874D383CFF0700B5D58EBA9@CO1PR10MB4466.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 2TZlTj2Q+Cn7ZyDjknlxDroZO54PAyUWUFKe8AZvv0PvDFLfUcEPORHzrMpQrIcZ3AE9pbf4kMHYGnMGCybRlcS/GDi3vW5HmaTvc0v6ZuDCyFy+yJ1cZ7yCwvCPMIJyqgvQXQNsYIkw6aVizZdUS5XIPtGEjAuGx/b6x3mzdbOnJ9TgWqiNWhbNZ0vNeBFJDTIpiOVv+nfmnPcL9GhCwBDMVx3RZvwatdB3qlMCgYNHoQEOWHdm5JhS1QnxasIzZ957sDPOIADFE4zCvB1ObLtrjlQcGfbuYk2cw5TwVTK8v3jh4ImSUtdrh3qLVJ2AVoXI3/fU3iL/2Wk7eFaCjn9WhODc3dpfPrz0J5yjfl7LXC6iNcqBOD2Lr36hap4trRjDTgnQMwvlCDwl/Y9x8UevGWcgDXrFKMDEWiPeu0AihQJRu3+bhwClDey/2ARw/8RU2ihXP8M8tksI9fuZStskDw9U2Zyc3QD5hqc3SDzfUq2nP3RjNQPDwmJwrD2rGGKwrLY34GMPze+/WLCZ8La8EWgBVNb3G232i4TFF/OOvt47LfmGbEzCfTTVpbjqz1GD0ZPQibjwU7FlHspUiG5i+mQx71x6uf6PDZXxZ/EZGtw1kuBv9qHJyzhaEDQTPX8QknVcr68F2dWdEi2mE93IYqlG1IZvaIxicRCbH9edh/Lv1pX4AmK4al/hM0Fi6PxH0g9LW/AJgefeySLqxA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MWHPR1001MB2365.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(366004)(33716001)(26005)(52116002)(55016002)(8676002)(6916009)(83380400001)(316002)(4326008)(38350700002)(38100700002)(86362001)(9686003)(1076003)(54906003)(9576002)(6666004)(66476007)(8936002)(2906002)(956004)(33656002)(44832011)(508600001)(66946007)(6496006)(5660300002)(186003)(53546011)(66556008);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?JtZEPS16/mfYCQcjkYTKENrfFkkq2EL6qo/zLU7HdZq44BAcDRJPCnLKEwIq?=
+ =?us-ascii?Q?5EuVJmmfhE67B4VFqxw149yD0dbray3rGz06iPRCXNjquA9zvdny7gOJ8vB8?=
+ =?us-ascii?Q?YYQEKz50tXQplYUxAT0zjsEjQm2iFnyrkAsmf49DXQ82IT4PZH/7ocjJjKO7?=
+ =?us-ascii?Q?UOE9X2ZR/odCHJItfKrcTtcORK5612yYbijFvsrWYAy3RqGGDk/Dle0kdt4e?=
+ =?us-ascii?Q?ThN2hG0IaGo0UKZ0O0vBCvnYR9KRxiTezImIkuclgM9v708EdBrINpJFHujQ?=
+ =?us-ascii?Q?DVVyT4uC6LLOXQvSJuaMsaScL74ww7ZmOUZGuWbgk5+syaiSRAtkLIR+Jw4m?=
+ =?us-ascii?Q?gfoajmuFvoJk6+7oxhRZhFDHoxJ8yiJRcjD+KCtFdF2beq4mSEM+fef0NFB+?=
+ =?us-ascii?Q?63hopEAu+GKJobLIIRSTsKTHHv5cHKZKQ6/60whHflJvBJsO3yigYgliJV/8?=
+ =?us-ascii?Q?t2pO1XxevCPxtY36xgFP8rJdgXNJO+6g/c0AFn1uKXiEy6SEM1jekdy4pmX6?=
+ =?us-ascii?Q?cZrSHbBrxBz/yUiGKcCzu7mbjl/396nBpysHa2qTMrldu79ghSPLwujhIKjR?=
+ =?us-ascii?Q?zGR5wwSKJfeE7lUBi3Fliy5B4p/aOk3vDhrKZM2AUgVZtn5ILKdKAX6Mh7wP?=
+ =?us-ascii?Q?kQUp6+EAT+9cHtHv3v7DUJzbzKJ7zPLEl2LFkhQ/+sLY8JTvbqxmRnuxQNm1?=
+ =?us-ascii?Q?XAdWh3P6A9giVAeQh7Xp9VJh20Px9sWqDVUqbSXJppZe2mRnPRORQciF8BlD?=
+ =?us-ascii?Q?3V0hxqvXDOxkak5aELCsX+cKRcApIpjbToM5s44FA9mYDVhE9pA1qdmJsKYM?=
+ =?us-ascii?Q?Z9cgaesT/j6F0z4szKwBPPi4XWE/gdNqYZk+y7AP0vpoNm0dRqtsb4A+q7tT?=
+ =?us-ascii?Q?EBWEZa55Xz8YBqBiG+QD8taS57mrvm8/M5r7vsYOmAMrFrRQt/Wt48St19iH?=
+ =?us-ascii?Q?hfLLSHDQaR1Nhl52iNtemxdB1OZoV1hRbdtODM7xlKYyr/6RlflPoRfOJH2F?=
+ =?us-ascii?Q?zL7jSNjDhdjq6MW6dyPlHIIpSg/OOUEDOFT1ZExNVGrF7SQowjZmxsLgSpHG?=
+ =?us-ascii?Q?9AOxqMUDU0ChoLzyte/9O06l112BduS5PWkJGd2+tOo47ffCBT1/tcrbZdn6?=
+ =?us-ascii?Q?rsoEHuazGc6qry+wTOCwHBpgYpeFenACLo2Heq3OmWugDJN+kpvXtnXcpQEw?=
+ =?us-ascii?Q?4GdRTZpMfIDMgNT5dIyDf78qqU2JiGK6kYul/BAi3esJ5Uag7FoIItTKsDMg?=
+ =?us-ascii?Q?Irz+d5Zb1KqiHOnDyY3PidMX/QYt3Si70JCt/GyCrwI6Jl0BeaBL5KRGl2Ks?=
+ =?us-ascii?Q?7Jvcy68B/fab7IHTP599N/JD?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 879a6d71-77ee-4577-71ac-08d990dc2740
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Oct 2021 19:35:48.1841 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: hclaJGiE0wHtJqS37zXHaIr6PKTA6JCi+yRtPHiC8fIFwfxngOniUz9qHP/+rGRyTQBxHH2g6rRCRAlxGBsEsVObKun5LAmNJp9xkJDeRiU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR10MB4466
+X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10139
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+ adultscore=0 malwarescore=0
+ phishscore=0 mlxlogscore=999 bulkscore=0 suspectscore=0 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2109230001
+ definitions=main-2110160132
+X-Proofpoint-GUID: -PeFvE-G1QB2GOYF6mewwx-kRVJ7EwW7
+X-Proofpoint-ORIG-GUID: -PeFvE-G1QB2GOYF6mewwx-kRVJ7EwW7
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,463 +161,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Yassine,
-
-Sorry for the late response - have been away from kernel stuff for some
-months.
-
-A few comments in the following - mostly backlight related.
-Please fix and resend.
-
-Note: bindings comes before the panel driver - as we cannot apply a
-panel driver for an unknown binding.
-
-	Sam
-
-On Thu, Sep 09, 2021 at 04:40:02AM +0000, Yassine Oudjana wrote:
-> Add a driver for the LG.Philips SW43101 FHD (1080x1920) OLED DSI video mode panel.
-> This driver has been generated using linux-mdss-dsi-panel-driver-generator.
+On Fri, Oct 15, 2021 at 12:34:20PM -0700, Jessica Zhang wrote:
+> Hey Dmitry,
 > 
-> Signed-off-by: Yassine Oudjana <y.oudjana@protonmail.com>
-> ---
-> Changes since v1:
->  - Add regulator support.
->  - Add MAINTAINERS entry.
+> On 10/15/2021 11:24 AM, Dmitry Baryshkov wrote:
+> > On Fri, 15 Oct 2021 at 04:43, Jessica Zhang <jesszhan@codeaurora.org> wrote:
+> > > Hey Dan,
+> > > 
+> > > On 10/1/2021 5:31 AM, Dan Carpenter wrote:
+> > > > Hello Sean Paul,
+> > > > 
+> > > > The patch a6bcddbc2ee1: "drm/msm: dsi: Handle dual-channel for 6G as
+> > > > well" from Jul 25, 2018, leads to the following
+> > > > Smatch static checker warning:
+> > > > 
+> > > >        drivers/gpu/drm/msm/dsi/dsi_host.c:729 dsi_calc_clk_rate_6g()
+> > > >        warn: wrong type for 'msm_host->esc_clk_rate' (should be 'ulong')
+> > > > 
+> > > > drivers/gpu/drm/msm/dsi/dsi_host.c
+> > > >       721 int dsi_calc_clk_rate_6g(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
+> > > >       722 {
+> > > >       723         if (!msm_host->mode) {
+> > > >       724                 pr_err("%s: mode not set\n", __func__);
+> > > >       725                 return -EINVAL;
+> > > >       726         }
+> > > >       727
+> > > >       728         dsi_calc_pclk(msm_host, is_bonded_dsi);
+> > > > --> 729         msm_host->esc_clk_rate = clk_get_rate(msm_host->esc_clk);
+> > > >                   ^^^^^^^^^^^^^^^^^^^^^^
+> > > > I don't know why Smatch is suddenly warning about ancient msm code, but
+> > > > clock rates should be unsigned long.  (I don't remember why).
+> > > > 
+> > > >       730         return 0;
+> > > >       731 }
+> > > I'm unable to recreate the warning with Smatch. After running
+> > > build_kernel_data.sh, I ran `<path to smatch>/smatch_scripts/kchecker
+> > > drivers/gpu/drm/msm/dsi/dsi_host.c` and got the following output:
+> > > 
+> > > CHECK scripts/mod/empty.c
+> > > CALL scripts/checksyscalls.sh
+> > > CALL scripts/atomic/check-atomics.sh
+> > > CHECK arch/arm64/kernel/vdso/vgettimeofday.c
+> > > CC drivers/gpu/drm/msm/dsi/dsi_host.o
+> > > CHECK drivers/gpu/drm/msm/dsi/dsi_host.c
+> > > drivers/gpu/drm/msm/dsi/dsi_host.c:2380 msm_dsi_host_power_on() warn:
+> > > missing error code 'ret'
+> > > 
+> > > Is there a specific .config you're using (that's not the default
+> > > mainline defconfig)? If so, can you please share it?
+> > Are you running your checks with ARM32 or ARM64 in mind?
+> > Note, esc_clk_rate is u32, while clk_get_rate()'s returns unsigned long.
+> > It would make sense to change all three clocks rates in msm_dsi_host
+> > struct (and several places where they are used) to unsigned long.
 > 
->  MAINTAINERS                                   |   5 +
->  drivers/gpu/drm/panel/Kconfig                 |  10 +
->  drivers/gpu/drm/panel/Makefile                |   1 +
->  .../gpu/drm/panel/panel-lgphilips-sw43101.c   | 363 ++++++++++++++++++
->  4 files changed, 379 insertions(+)
->  create mode 100644 drivers/gpu/drm/panel/panel-lgphilips-sw43101.c
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index f58dad1a1922..46431e8ad373 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -5899,6 +5899,11 @@ S:	Orphan / Obsolete
->  F:	drivers/gpu/drm/i810/
->  F:	include/uapi/drm/i810_drm.h
->  
-> +DRM DRIVER FOR LG.PHILIPS SW43101 PANEL
-> +M:	Yassine Oudjana <y.oudjana@protonmail.com>
-> +S:	Maintained
-> +F:	drivers/gpu/drm/panel/panel-lgphilips-sw43101.c
-> +
->  DRM DRIVER FOR LVDS PANELS
->  M:	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->  L:	dri-devel@lists.freedesktop.org
-> diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
-> index beb581b96ecd..d8741c35bbfc 100644
-> --- a/drivers/gpu/drm/panel/Kconfig
-> +++ b/drivers/gpu/drm/panel/Kconfig
-> @@ -226,6 +226,16 @@ config DRM_PANEL_SAMSUNG_LD9040
->  	depends on OF && SPI
->  	select VIDEOMODE_HELPERS
->  
-> +config DRM_PANEL_LGPHILIPS_SW43101
-> +	tristate "LG.Philips SW43101 DSI video mode panel"
-> +	depends on OF
-> +	depends on DRM_MIPI_DSI
-> +	depends on BACKLIGHT_CLASS_DEVICE
-> +	help
-> +	  Say Y here if you want to enable support for the LG.Philips SW43101 FHD
-> +	  (1080x1920) OLED DSI video mode panel found on the Xiaomi Mi Note 2.
-> +	  To compile this driver as a module, choose M here.
-> +
->  config DRM_PANEL_LG_LB035Q02
->  	tristate "LG LB035Q024573 RGB panel"
->  	depends on GPIOLIB && OF && SPI
-> diff --git a/drivers/gpu/drm/panel/Makefile b/drivers/gpu/drm/panel/Makefile
-> index c8132050bcec..e79143ad14dd 100644
-> --- a/drivers/gpu/drm/panel/Makefile
-> +++ b/drivers/gpu/drm/panel/Makefile
-> @@ -20,6 +20,7 @@ obj-$(CONFIG_DRM_PANEL_KHADAS_TS050) += panel-khadas-ts050.o
->  obj-$(CONFIG_DRM_PANEL_KINGDISPLAY_KD097D04) += panel-kingdisplay-kd097d04.o
->  obj-$(CONFIG_DRM_PANEL_LEADTEK_LTK050H3146W) += panel-leadtek-ltk050h3146w.o
->  obj-$(CONFIG_DRM_PANEL_LEADTEK_LTK500HD1829) += panel-leadtek-ltk500hd1829.o
-> +obj-$(CONFIG_DRM_PANEL_LGPHILIPS_SW43101) += panel-lgphilips-sw43101.o
->  obj-$(CONFIG_DRM_PANEL_LG_LB035Q02) += panel-lg-lb035q02.o
->  obj-$(CONFIG_DRM_PANEL_LG_LG4573) += panel-lg-lg4573.o
->  obj-$(CONFIG_DRM_PANEL_NEC_NL8048HL11) += panel-nec-nl8048hl11.o
-> diff --git a/drivers/gpu/drm/panel/panel-lgphilips-sw43101.c b/drivers/gpu/drm/panel/panel-lgphilips-sw43101.c
-> new file mode 100644
-> index 000000000000..b7adf1d4a8ab
-> --- /dev/null
-> +++ b/drivers/gpu/drm/panel/panel-lgphilips-sw43101.c
-> @@ -0,0 +1,363 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * LG.Philips SW43101 OLED Panel driver
-> + * Generated with linux-mdss-dsi-panel-driver-generator
-> + *
-> + * Copyright (c) 2020 Yassine Oudjana <y.oudjana@protonmail.com>
-> + */
-> +
-> +#include <linux/backlight.h>
-> +#include <linux/delay.h>
-> +#include <linux/gpio/consumer.h>
-> +#include <linux/module.h>
-> +#include <linux/of.h>
-> +#include <linux/regulator/consumer.h>
-> +
-> +#include <video/mipi_display.h>
-> +
-> +#include <drm/drm_mipi_dsi.h>
-> +#include <drm/drm_modes.h>
-> +#include <drm/drm_panel.h>
-> +
-> +static const char * const regulator_names[] = {
-> +	"vdd",
-> +	"avdd",
-> +	"elvdd",
-> +	"elvss",
-> +};
-> +
-> +struct sw43101_device {
-> +	struct drm_panel panel;
-> +	struct mipi_dsi_device *dsi;
-> +	struct gpio_desc *reset_gpio;
-> +	struct regulator_bulk_data supplies[ARRAY_SIZE(regulator_names)];
-> +	bool prepared;
-> +};
-> +
-> +static inline
-> +struct sw43101_device *to_sw43101_device(struct drm_panel *panel)
-> +{
-> +	return container_of(panel, struct sw43101_device, panel);
-> +}
-> +
-> +#define dsi_dcs_write_seq(dsi, seq...) do {				\
-> +		static const u8 d[] = { seq };				\
-> +		int ret;						\
-> +		ret = mipi_dsi_dcs_write_buffer(dsi, d, ARRAY_SIZE(d));	\
-> +		if (ret < 0)						\
-> +			return ret;					\
-> +	} while (0)
-> +
-> +static void sw43101_reset(struct sw43101_device *ctx)
-> +{
-> +	gpiod_set_value_cansleep(ctx->reset_gpio, 0);
-> +	usleep_range(10000, 11000);
-> +	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
-> +	usleep_range(1000, 2000);
-> +	gpiod_set_value_cansleep(ctx->reset_gpio, 0);
-> +	msleep(20);
-> +}
-> +
-> +static int sw43101_on(struct sw43101_device *ctx)
-> +{
-> +	struct mipi_dsi_device *dsi = ctx->dsi;
-> +	struct device *dev = &dsi->dev;
-> +	int ret;
-> +
-> +	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
-> +
-> +	dsi_dcs_write_seq(dsi, 0xb0, 0x5a);
-> +	usleep_range(1000, 2000);
-> +	dsi_dcs_write_seq(dsi, 0xb2, 0x13, 0x12, 0x40, 0xd0, 0xff, 0xff, 0x15);
-> +	dsi_dcs_write_seq(dsi, 0xe3, 0x01);
-> +	usleep_range(1000, 2000);
-> +	dsi_dcs_write_seq(dsi, 0xf3, 0x03, 0x00, 0x00);
-> +
-> +	ret = mipi_dsi_dcs_set_display_brightness(dsi, 0x0020);
-> +	if (ret < 0) {
-> +		dev_err(dev, "Failed to set display brightness: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	dsi_dcs_write_seq(dsi, MIPI_DCS_WRITE_CONTROL_DISPLAY, 0x20);
-> +	dsi_dcs_write_seq(dsi, MIPI_DCS_WRITE_POWER_SAVE, 0x00);
-> +	dsi_dcs_write_seq(dsi, 0xb0, 0x00);
-> +	usleep_range(1000, 2000);
-> +
-> +	ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
-> +	if (ret < 0) {
-> +		dev_err(dev, "Failed to exit sleep mode: %d\n", ret);
-> +		return ret;
-> +	}
-> +	msleep(120);
-> +
-> +	ret = mipi_dsi_dcs_set_display_on(dsi);
-> +	if (ret < 0) {
-> +		dev_err(dev, "Failed to set display on: %d\n", ret);
-> +		return ret;
-> +	}
-> +	msleep(20);
-> +
-> +	return 0;
-> +}
-> +
-> +static int sw43101_off(struct sw43101_device *ctx)
-> +{
-> +	struct mipi_dsi_device *dsi = ctx->dsi;
-> +	struct device *dev = &dsi->dev;
-> +	int ret;
-> +
-> +	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
-> +
-> +	ret = mipi_dsi_dcs_set_display_off(dsi);
-> +	if (ret < 0) {
-> +		dev_err(dev, "Failed to set display off: %d\n", ret);
-> +		return ret;
-> +	}
-> +	usleep_range(2000, 3000);
-> +
-> +	ret = mipi_dsi_dcs_enter_sleep_mode(dsi);
-> +	if (ret < 0) {
-> +		dev_err(dev, "Failed to enter sleep mode: %d\n", ret);
-> +		return ret;
-> +	}
-> +	msleep(128);
-> +
-> +	return 0;
-> +}
-> +
-> +static int sw43101_prepare(struct drm_panel *panel)
-> +{
-> +	struct sw43101_device *ctx = to_sw43101_device(panel);
-> +	struct device *dev = &ctx->dsi->dev;
-> +	int ret;
-> +
-> +	if (ctx->prepared)
-> +		return 0;
-> +
-> +	ret = regulator_bulk_enable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
-> +	if (ret < 0) {
-> +		dev_err(dev, "Failed to enable regulators: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	sw43101_reset(ctx);
-> +
-> +	ret = sw43101_on(ctx);
-> +	if (ret < 0) {
-> +		dev_err(dev, "Failed to initialize panel: %d\n", ret);
-> +		gpiod_set_value_cansleep(ctx->reset_gpio, 1);
-> +		return ret;
-> +	}
-> +
-> +	ctx->prepared = true;
-> +	return 0;
-> +}
-> +
-> +static int sw43101_unprepare(struct drm_panel *panel)
-> +{
-> +	struct sw43101_device *ctx = to_sw43101_device(panel);
-> +	struct device *dev = &ctx->dsi->dev;
-> +	int ret;
-> +
-> +	if (!ctx->prepared)
-> +		return 0;
-> +
-> +	ret = sw43101_off(ctx);
-> +	if (ret < 0)
-> +		dev_err(dev, "Failed to un-initialize panel: %d\n", ret);
-> +
-> +	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
-> +
-> +	ret = regulator_bulk_disable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
-> +	if (ret < 0) {
-> +		dev_err(dev, "Failed to disable regulators: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	ctx->prepared = false;
-> +	return 0;
-> +}
-> +
-> +static const struct drm_display_mode sw43101_mode = {
-> +	.clock = (1080 + 56 + 8 + 60) * (1920 + 40 + 8 + 48) * 58 / 1000,
-> +	.hdisplay = 1080,
-> +	.hsync_start = 1080 + 56,
-> +	.hsync_end = 1080 + 56 + 8,
-> +	.htotal = 1080 + 56 + 8 + 60,
-> +	.vdisplay = 1920,
-> +	.vsync_start = 1920 + 40,
-> +	.vsync_end = 1920 + 40 + 8,
-> +	.vtotal = 1920 + 40 + 8 + 48,
-> +	.width_mm = 71,
-> +	.height_mm = 126,
-> +};
-> +
-> +static int sw43101_get_modes(struct drm_panel *panel,
-> +				     struct drm_connector *connector)
-> +{
-> +	struct drm_display_mode *mode;
-> +
-> +	mode = drm_mode_duplicate(connector->dev, &sw43101_mode);
-> +	if (!mode)
-> +		return -ENOMEM;
-> +
-> +	drm_mode_set_name(mode);
-> +
-> +	mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
-> +	connector->display_info.width_mm = mode->width_mm;
-> +	connector->display_info.height_mm = mode->height_mm;
-> +	drm_mode_probed_add(connector, mode);
-> +
-> +	return 1;
-> +}
-> +
-> +static const struct drm_panel_funcs sw43101_panel_funcs = {
-> +	.prepare = sw43101_prepare,
-> +	.unprepare = sw43101_unprepare,
-> +	.get_modes = sw43101_get_modes,
-> +};
-> +
-> +static int sw43101_bl_update_status(struct backlight_device *bl)
-> +{
-> +	struct mipi_dsi_device *dsi = bl_get_data(bl);
-> +	u16 brightness = bl->props.brightness;
-Use backlight_get_brightness() here.
-> +	int ret;
-> +
-> +	if (bl->props.power != FB_BLANK_UNBLANK ||
-> +	    bl->props.fb_blank != FB_BLANK_UNBLANK ||
-> +	    bl->props.state & (BL_CORE_SUSPENDED | BL_CORE_FBBLANK))
-> +		brightness = 0;
-And drop this part - as this is already done in
-backlight_get_brightness().
-> +
-> +	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
-> +
-> +	ret = mipi_dsi_dcs_set_display_brightness(dsi, brightness);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
-> +
-> +	return 0;
-> +}
-> +
-> +static int sw43101_bl_get_brightness(struct backlight_device *bl)
-> +{
-> +	struct mipi_dsi_device *dsi = bl_get_data(bl);
-> +	u16 brightness = bl->props.brightness;
-Use backlight_get_brightness() here.
+> Thanks for the response. I'm aware of what's causing this issue and how to
+> fix it, but I want to also be able to recreate the warning locally with
+> Smatch.
 
-> +	int ret;
-> +
-> +	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
-> +
-> +	ret = mipi_dsi_dcs_get_display_brightness(dsi, &brightness);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
-> +
-> +	return brightness & 0xff;
-Why is the "& 0xff" needed? Can you not trust the HW?
+No, sorry, I haven't published that check.  It's just something I have
+locally.
 
-> +}
-> +
-> +static const struct backlight_ops sw43101_bl_ops = {
-> +	.update_status = sw43101_bl_update_status,
-> +	.get_brightness = sw43101_bl_get_brightness,
-> +};
-> +
-> +static struct backlight_device *
-> +sw43101_create_backlight(struct mipi_dsi_device *dsi)
-> +{
-> +	struct device *dev = &dsi->dev;
-> +	struct backlight_properties props = {
-const
+Btw, I will be offline for the next two weeks...
 
-> +		.type = BACKLIGHT_RAW,
-> +		.brightness = 255,
-> +		.max_brightness = 255,
-> +	};
-> +
-> +	return devm_backlight_device_register(dev, dev_name(dev), dev, dsi,
-> +					      &sw43101_bl_ops, &props);
-> +}
-> +
-> +static int sw43101_probe(struct mipi_dsi_device *dsi)
-> +{
-> +	struct device *dev = &dsi->dev;
-> +	struct sw43101_device *ctx;
-> +	size_t i;
-> +	int ret;
-> +
-> +	ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
-> +	if (!ctx)
-> +		return -ENOMEM;
-> +
-> +	ctx->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
-> +	if (IS_ERR(ctx->reset_gpio))
-> +		return dev_err_probe(dev, PTR_ERR(ctx->reset_gpio),
-> +				     "Failed to get reset-gpios\n");
-> +
-> +	for (i = 0; i < ARRAY_SIZE(ctx->supplies); ++i)
-> +		ctx->supplies[i].supply = regulator_names[i];
-> +
-> +	ret = devm_regulator_bulk_get(&dsi->dev, ARRAY_SIZE(ctx->supplies),
-> +				      ctx->supplies);
-> +	if (ret < 0) {
-> +		dev_err(&dsi->dev, "Failed to get regulators\n");
-> +		return ret;
-> +	}
-> +
-> +	ctx->dsi = dsi;
-> +	mipi_dsi_set_drvdata(dsi, ctx);
-> +
-> +	dsi->lanes = 4;
-> +	dsi->format = MIPI_DSI_FMT_RGB888;
-> +	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_CLOCK_NON_CONTINUOUS;
-> +
-> +	drm_panel_init(&ctx->panel, dev, &sw43101_panel_funcs,
-> +		       DRM_MODE_CONNECTOR_DSI);
-> +
-> +	ctx->panel.backlight = sw43101_create_backlight(dsi);
-> +	if (IS_ERR(ctx->panel.backlight))
-> +		return dev_err_probe(dev, PTR_ERR(ctx->panel.backlight),
-> +				     "Failed to create backlight\n");
-> +
-> +	drm_panel_add(&ctx->panel);
-> +
-> +	ret = mipi_dsi_attach(dsi);
-> +	if (ret < 0) {
-> +		dev_err(dev, "Failed to attach to DSI host: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int sw43101_remove(struct mipi_dsi_device *dsi)
-> +{
-> +	struct sw43101_device *ctx = mipi_dsi_get_drvdata(dsi);
-> +	int ret;
-> +
-> +	ret = mipi_dsi_detach(dsi);
-> +	if (ret < 0)
-> +		dev_err(&dsi->dev, "Failed to detach from DSI host: %d\n", ret);
-> +
-> +	drm_panel_remove(&ctx->panel);
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct of_device_id sw43101_of_match[] = {
-> +	{ .compatible = "lgphilips,sw43101" },
-> +	{ /* sentinel */ }
-> +};
-> +MODULE_DEVICE_TABLE(of, sw43101_of_match);
-> +
-> +static struct mipi_dsi_driver sw43101_driver = {
-> +	.probe = sw43101_probe,
-> +	.remove = sw43101_remove,
-> +	.driver = {
-> +		.name = "panel-lgphilips-sw43101",
-> +		.of_match_table = sw43101_of_match,
-> +	},
-> +};
-> +module_mipi_dsi_driver(sw43101_driver);
-> +
-> +MODULE_AUTHOR("Yassine Oudjana <y.oudjana@protonmail.com>");
-> +MODULE_DESCRIPTION("LG.Philips SW43101 DSI video mode panel driver");
-> +MODULE_LICENSE("GPL v2");
-> -- 
-> 2.33.0
-> 
+regards,
+dan carpenter
+
+
