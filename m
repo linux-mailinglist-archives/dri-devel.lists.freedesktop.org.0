@@ -1,61 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F4214301C5
-	for <lists+dri-devel@lfdr.de>; Sat, 16 Oct 2021 12:16:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 74BEF4301F0
+	for <lists+dri-devel@lfdr.de>; Sat, 16 Oct 2021 12:22:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E1BA6E42C;
-	Sat, 16 Oct 2021 10:16:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E17006E429;
+	Sat, 16 Oct 2021 10:22:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from msg-4.mailo.com (ip-15.mailobj.net [213.182.54.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B29F06E429;
- Sat, 16 Oct 2021 10:15:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=net-c.es; s=mailo;
- t=1634379354; bh=zqWX1gJTKZ5q18uqa5c3Zf7qkP/A+CGNlGSRL6MHo7E=;
- h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
- MIME-Version:Content-Type:In-Reply-To;
- b=sMf3huKcgBE4f9Qx46mnqxxW0kG/4lohTFqKS0NtZxNeWRKEMyEaEtphj4CMJ+lgy
- /yujIldahtXxN2v73vppnv9iR+b7D3zue7w+NHiEgHvg8SjPPoR/slscBcmeAG2zbg
- QcfsijBw/h/KFQfk1ZZF+RMG9rE7rwfK3oj+PkBY=
-Received: by b-3.in.mailobj.net [192.168.90.13] with ESMTP
- via ip-206.mailobj.net [213.182.55.206]
- Sat, 16 Oct 2021 12:15:54 +0200 (CEST)
-X-EA-Auth: yKCNRkwyeIQN4zIZhVP/t5GZ4LXBCXpTe707pgk8CcqdT5Z8+L4zajcnVM6jjzg+UKc0YJNBMB/9WGFbSHtL4/w+9RPySOhn
-Date: Sat, 16 Oct 2021 12:15:51 +0200
-From: Claudio Suarez <cssk@net-c.es>
-To: Harry Wentland <harry.wentland@amd.com>
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-tegra@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com
+ [IPv6:2a00:1450:4864:20::536])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 21E256E429
+ for <dri-devel@lists.freedesktop.org>; Sat, 16 Oct 2021 10:22:36 +0000 (UTC)
+Received: by mail-ed1-x536.google.com with SMTP id a25so48336144edx.8
+ for <dri-devel@lists.freedesktop.org>; Sat, 16 Oct 2021 03:22:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=PPwi9bv3AwLXQNt+5z8klYHbS6PLiM3Ne2X045V+1Mo=;
+ b=eujFLhEc8Z2MlCySf5/p04gtBbRyIbpBNBoczlmQ4zPvDnwLUAjNuFH7G5o5e6C0q5
+ 70Q9vPenbyrUOejoUCF+ZllglN19cEZTwEMdxz6ubscCWbPSqJ/SFT3uwvIO+OYkv2Nr
+ uHAdqa8IYB2UX0fSNWeTf0XrquN27i1/gnniM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=PPwi9bv3AwLXQNt+5z8klYHbS6PLiM3Ne2X045V+1Mo=;
+ b=Zlcn/MaRlHvqYxssGxG3/oKwlCnN4vWN0HSWWESh//ojLABt0+oRjf6IwI7TDnOWYr
+ zp1iFfLJ66P4jwrIckG9Pp1tpTFOtZxjGqlOePn3Plpl1Ft2Ojskd4foaPMQLVYN/0un
+ TXPc8IaSUEPtO/n1FPwBwFXjsMLg1wMXrZ9P9RMpo1BVlqnmVaCfkt8z3PNTVF4R6lpz
+ GpmmU2zv9iT0xGrBYg/tqm/Q2JDZzCZJWc7atRCiGKB6KPE5IdAhi3ZHp3Kobz1Yg4RI
+ 8poBY6Km6gQPR25LPh5jo1n/7qRncJLfbp+KJuAGFYR21SJjwCRhoAcOHd4PaOXMGJmc
+ 1qTQ==
+X-Gm-Message-State: AOAM533wStIwD0pCV5b6LxhQ/qSGh7Hc1nP6OaZhdtiaRqDoTle8RRSk
+ egTzFMPDSep/iH9ip2FaS2XkNE8rIp1IZM7d
+X-Google-Smtp-Source: ABdhPJzE3izz+NFWNjpYJ6wjjvut2arrelK7aHCUq303rPRV7bZXYq++e0FMe+EqdwFTd7rYPQb7gg==
+X-Received: by 2002:a17:907:7803:: with SMTP id
+ la3mr14082680ejc.235.1634379754545; 
+ Sat, 16 Oct 2021 03:22:34 -0700 (PDT)
+Received: from panicking.lan (93-46-124-24.ip107.fastwebnet.it. [93.46.124.24])
+ by smtp.gmail.com with ESMTPSA id la1sm6117361ejc.48.2021.10.16.03.22.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 16 Oct 2021 03:22:33 -0700 (PDT)
+From: Michael Trimarchi <michael@amarulasolutions.com>
+To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ David Airlie <airlied@linux.ie>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Pan Xinhui <Xinhui.Pan@amd.com>, Emma Anholt <emma@anholt.net>,
- Maxime Ripard <mripard@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
- Jingoo Han <jingoohan1@gmail.com>, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, Chen-Yu Tsai <wens@csie.org>,
- Sandy Huang <hjc@rock-chips.com>, heiko@sntech.de,
- Neil Armstrong <narmstrong@baylibre.com>,
- Robert Foss <robert.foss@linaro.org>,
- Ben Skeggs <bskeggs@redhat.com>, nouveau@lists.freedesktop.org
-Subject: Re: [PATCH 02/15] drm/amdgpu: use drm_* functions instead of
- duplicated code in amdgpu driver
-Message-ID: <YWqmVwGQvosagb0s@gineta.localdomain>
-References: <20211015113713.630119-1-cssk@net-c.es>
- <20211015113713.630119-3-cssk@net-c.es>
- <62a3ee8d-9439-9275-4e71-876b865b9a7d@amd.com>
+ Rob Herring <robh+dt@kernel.org>,
+ =?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>
+Cc: devicetree@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 0/5] Add support for Wanchanglong panel used in px30-evb v11
+Date: Sat, 16 Oct 2021 10:22:27 +0000
+Message-Id: <20211016102232.202119-1-michael@amarulasolutions.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <62a3ee8d-9439-9275-4e71-876b865b9a7d@amd.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,46 +73,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 15, 2021 at 11:14:54AM -0400, Harry Wentland wrote:
-> 
-> 
-> On 2021-10-15 07:37, Claudio Suarez wrote:
-> > a) Once EDID is parsed, the monitor HDMI support information is available
-> > through drm_display_info.is_hdmi. The amdgpu driver still calls
-> > drm_detect_hdmi_monitor() to retrieve the same information, which
-> > is less efficient. Change to drm_display_info.is_hdmi
-> > 
-> > This is a TODO task in Documentation/gpu/todo.rst
-> > 
-> > b) drm_display_info is updated by drm_get_edid() or
-> > drm_connector_update_edid_property(). In the amdgpu driver it is almost
-> > always updated when the edid is read in amdgpu_connector_get_edid(),
-> > but not always.  Change amdgpu_connector_get_edid() and
-> > amdgpu_connector_free_edid() to keep drm_display_info updated. This allows a)
-> > to work properly.
-> > 
-> > c) Use drm_edid_get_monitor_name() instead of duplicating the code that
-> > parses the EDID in dm_helpers_parse_edid_caps()
-> > 
-> > Also, remove the unused "struct dc_context *ctx" parameter in
-> > dm_helpers_parse_edid_caps()
-> > 
-> 
-> Thanks for this work.
-> 
-> The fact that you listed three separate changes in this commit
-> is a clear indication that this patch should be three separate
-> patches instead. Separating the functional bits from the straight
-> refactor will help with bisection if this leads to a regression.
-> 
-> All changes look reasonable to me, though. With this patch split
-> into three patches in the sequence (b), (c), then (a) this is
-> Reviewed-by: Harry Wentland <harry.wentland@amd.com>
+This patch series add support for W552946ABA panel. This panel is used
+in px30-evb v11. All the patches can be applied on top of drm-fixes
+branch. The last patch is suppose to fix a race when the panel is built
+in. Tested on px30 evb
 
-Ok, thanks. I'll send three patches.
+Michael Trimarchi (5):
+  dt-bindings: vendor-prefix: add Wanchanglong Electronics Technology
+  drm/panel: ilitek-ili9881d: add support for Wanchanglong W552946ABA
+    panel
+  dt-bindings: ili9881c: add compatible string for Wanchanglong
+    w552946aba
+  drm/panel: ilitek-ili9881c: Make gpio-reset optional
+  drm/bridge: dw-mipi-dsi: Fix dsi registration during drm probing
 
-BR
-Claudio Suarez
+ .../display/panel/ilitek,ili9881c.yaml        |   2 +-
+ .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
+ drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c |   8 +-
+ drivers/gpu/drm/panel/panel-ilitek-ili9881c.c | 240 +++++++++++++++++-
+ .../gpu/drm/rockchip/dw-mipi-dsi-rockchip.c   |  12 +-
+ include/drm/bridge/dw_mipi_dsi.h              |   2 +-
+ 6 files changed, 257 insertions(+), 9 deletions(-)
 
-
+-- 
+2.25.1
 
