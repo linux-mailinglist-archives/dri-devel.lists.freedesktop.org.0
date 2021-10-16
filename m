@@ -2,27 +2,27 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33D56430487
-	for <lists+dri-devel@lfdr.de>; Sat, 16 Oct 2021 21:18:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0212543047C
+	for <lists+dri-devel@lfdr.de>; Sat, 16 Oct 2021 21:17:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E8036E4CB;
-	Sat, 16 Oct 2021 19:17:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D749F6E4A5;
+	Sat, 16 Oct 2021 19:17:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from msg-4.mailo.com (ip-15.mailobj.net [213.182.54.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B34B06E4C7;
- Sat, 16 Oct 2021 19:17:47 +0000 (UTC)
+Received: from msg-1.mailo.com (msg-1.mailo.com [213.182.54.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A184C6E4AE;
+ Sat, 16 Oct 2021 19:17:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=net-c.es; s=mailo;
- t=1634409871; bh=0RqSfZcuztAsxl5Z9RHnZDIQ5/yjlTF9rwDwZXErkHI=;
+ t=1634409871; bh=N1FC6bbFpWwj5uck3C6Zh9AXCf70UfpiuPwfacUawG4=;
  h=X-EA-Auth:From:To:Cc:Subject:Date:Message-Id:X-Mailer:In-Reply-To:
  References:MIME-Version:Content-Transfer-Encoding;
- b=ZCgrYOitJZsZiafikNq3WaeugEqpq2c6XZlni/NaTXPV8pCY+zVFzv33NQUTaoCk7
- YPwo6ex/Fwoy4V4dnQTo8RgJBRUaoDeE0570uSUGjKzSlN/B3+yWZ/F07XWbz3ETi9
- 1AMfIa7b4i10PpLngdJ7yz45wQ+5qgAbikUwo4Wc=
+ b=FLOaxtDKxrOCwaN2JUieLWpNeRShro/11cgee3OVr3lIP5s4CTt9MXuXvaYj36UA5
+ 0/snJ6pYPwHtaIjUJxCOJuz26rFBNFNrGOBnOdHR0Um1T1AxOWFJaDGavf3Rx2BWIZ
+ h5DYJy1YTumxpWNOlRIaRqlUzRA6RKfyZ482Ph9w=
 Received: by b-2.in.mailobj.net [192.168.90.12] with ESMTP
  via ip-206.mailobj.net [213.182.55.206]
- Sat, 16 Oct 2021 20:43:39 +0200 (CEST)
-X-EA-Auth: 9/Hi3rB7gPKc4A6pFTpO+Z2b0pAuw594QHWU1ZGnbgjfalfvWhbx8LUFwRPhQu3YABda12T+CMRmuQi+hM8tubExkPX4GVNe
+ Sat, 16 Oct 2021 20:43:41 +0200 (CEST)
+X-EA-Auth: 1mwmR8XS1gsbmKJszXM4LJ28aURnXGIiZWNfGxwQ0dQwNiPmg9b5MpRHrpcm8447xbI+VC+IOpuWtCLJ5eqq3Zopng2hk4C8
 From: Claudio Suarez <cssk@net-c.es>
 To: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  linux-tegra@vger.kernel.org, intel-gfx@lists.freedesktop.org,
@@ -45,10 +45,10 @@ To: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  Robert Foss <robert.foss@linaro.org>, Ben Skeggs <bskeggs@redhat.com>,
  nouveau@lists.freedesktop.org, ville.syrjala@linux.intel.com
 Cc: Claudio Suarez <cssk@net-c.es>
-Subject: [PATCH v2 10/13] drm/rockchip: replace drm_detect_hdmi_monitor() with
+Subject: [PATCH v2 11/13] drm/bridge: replace drm_detect_hdmi_monitor() with
  drm_display_info.is_hdmi
-Date: Sat, 16 Oct 2021 20:42:23 +0200
-Message-Id: <20211016184226.3862-11-cssk@net-c.es>
+Date: Sat, 16 Oct 2021 20:42:24 +0200
+Message-Id: <20211016184226.3862-12-cssk@net-c.es>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211016184226.3862-1-cssk@net-c.es>
 References: <20211016184226.3862-1-cssk@net-c.es>
@@ -72,44 +72,54 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Once EDID is parsed, the monitor HDMI support information is available
 through drm_display_info.is_hdmi. Retriving the same information with
 drm_detect_hdmi_monitor() is less efficient. Change to
-drm_display_info.is_hdmi
+drm_display_info.is_hdmi where possible
 
 Signed-off-by: Claudio Suarez <cssk@net-c.es>
 ---
- drivers/gpu/drm/rockchip/inno_hdmi.c   | 4 ++--
- drivers/gpu/drm/rockchip/rk3066_hdmi.c | 2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 2 +-
+ drivers/gpu/drm/bridge/sii902x.c             | 2 +-
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi.c    | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/rockchip/inno_hdmi.c b/drivers/gpu/drm/rockchip/inno_hdmi.c
-index 7afdc54eb3ec..d479f230833e 100644
---- a/drivers/gpu/drm/rockchip/inno_hdmi.c
-+++ b/drivers/gpu/drm/rockchip/inno_hdmi.c
-@@ -553,9 +553,9 @@ static int inno_hdmi_connector_get_modes(struct drm_connector *connector)
+diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+index 76555ae64e9c..f6891280a58d 100644
+--- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
++++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+@@ -617,7 +617,7 @@ static struct edid *adv7511_get_edid(struct adv7511 *adv7511,
+ 		__adv7511_power_off(adv7511);
  
- 	edid = drm_get_edid(connector, hdmi->ddc);
- 	if (edid) {
--		hdmi->hdmi_data.sink_is_hdmi = drm_detect_hdmi_monitor(edid);
--		hdmi->hdmi_data.sink_has_audio = drm_detect_monitor_audio(edid);
- 		drm_connector_update_edid_property(connector, edid);
-+		hdmi->hdmi_data.sink_is_hdmi = connector->display_info.is_hdmi;
-+		hdmi->hdmi_data.sink_has_audio = drm_detect_monitor_audio(edid);
- 		ret = drm_add_edid_modes(connector, edid);
- 		kfree(edid);
- 	}
-diff --git a/drivers/gpu/drm/rockchip/rk3066_hdmi.c b/drivers/gpu/drm/rockchip/rk3066_hdmi.c
-index 1c546c3a8998..03aaae39cf61 100644
---- a/drivers/gpu/drm/rockchip/rk3066_hdmi.c
-+++ b/drivers/gpu/drm/rockchip/rk3066_hdmi.c
-@@ -472,8 +472,8 @@ static int rk3066_hdmi_connector_get_modes(struct drm_connector *connector)
+ 	adv7511_set_config_csc(adv7511, connector, adv7511->rgb,
+-			       drm_detect_hdmi_monitor(edid));
++			       connector->display_info.is_hdmi);
  
- 	edid = drm_get_edid(connector, hdmi->ddc);
+ 	cec_s_phys_addr_from_edid(adv7511->cec_adap, edid);
+ 
+diff --git a/drivers/gpu/drm/bridge/sii902x.c b/drivers/gpu/drm/bridge/sii902x.c
+index 89558e581530..5719be0a03c7 100644
+--- a/drivers/gpu/drm/bridge/sii902x.c
++++ b/drivers/gpu/drm/bridge/sii902x.c
+@@ -283,7 +283,7 @@ static int sii902x_get_modes(struct drm_connector *connector)
+ 	edid = drm_get_edid(connector, sii902x->i2cmux->adapter[0]);
+ 	drm_connector_update_edid_property(connector, edid);
  	if (edid) {
--		hdmi->hdmi_data.sink_is_hdmi = drm_detect_hdmi_monitor(edid);
- 		drm_connector_update_edid_property(connector, edid);
-+		hdmi->hdmi_data.sink_is_hdmi = connector->display_info.is_hdmi;
- 		ret = drm_add_edid_modes(connector, edid);
- 		kfree(edid);
- 	}
+-		if (drm_detect_hdmi_monitor(edid))
++		if (connector->display_info.is_hdmi)
+ 			output_mode = SII902X_SYS_CTRL_OUTPUT_HDMI;
+ 
+ 		num = drm_add_edid_modes(connector, edid);
+diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+index f08d0fded61f..33f0afb6b646 100644
+--- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
++++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+@@ -2359,7 +2359,7 @@ static struct edid *dw_hdmi_get_edid(struct dw_hdmi *hdmi,
+ 	dev_dbg(hdmi->dev, "got edid: width[%d] x height[%d]\n",
+ 		edid->width_cm, edid->height_cm);
+ 
+-	hdmi->sink_is_hdmi = drm_detect_hdmi_monitor(edid);
++	hdmi->sink_is_hdmi = connector->display_info.is_hdmi;
+ 	hdmi->sink_has_audio = drm_detect_monitor_audio(edid);
+ 
+ 	return edid;
 -- 
 2.33.0
 
