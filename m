@@ -1,28 +1,28 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D950B4304A4
-	for <lists+dri-devel@lfdr.de>; Sat, 16 Oct 2021 21:18:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 33D56430487
+	for <lists+dri-devel@lfdr.de>; Sat, 16 Oct 2021 21:18:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 68CEB6E4CF;
-	Sat, 16 Oct 2021 19:18:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E8036E4CB;
+	Sat, 16 Oct 2021 19:17:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from msg-1.mailo.com (msg-1.mailo.com [213.182.54.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ADD016E4E3;
- Sat, 16 Oct 2021 19:18:10 +0000 (UTC)
+Received: from msg-4.mailo.com (ip-15.mailobj.net [213.182.54.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B34B06E4C7;
+ Sat, 16 Oct 2021 19:17:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=net-c.es; s=mailo;
- t=1634409817; bh=rwTF5+9x+ye/AXjZbx/MNNkZB6C1fknU5OsMIO6dc6Y=;
+ t=1634409871; bh=0RqSfZcuztAsxl5Z9RHnZDIQ5/yjlTF9rwDwZXErkHI=;
  h=X-EA-Auth:From:To:Cc:Subject:Date:Message-Id:X-Mailer:In-Reply-To:
  References:MIME-Version:Content-Transfer-Encoding;
- b=Er32Ekk9v/dXLgySNTU+obfJQJHRSRXFSUKDkHVgR2uKII367FeMcWBDYGQY37pOc
- MHe6bXDyqBrmlKC4zb9bv4D0jhczax5iTAFzzll+NRBMo7GaWd47a4ZBhJk8uUUHs9
- qNQRCzAMyT8nI8xdQP30FAyW+Vp5evDsj9tSdjKk=
+ b=ZCgrYOitJZsZiafikNq3WaeugEqpq2c6XZlni/NaTXPV8pCY+zVFzv33NQUTaoCk7
+ YPwo6ex/Fwoy4V4dnQTo8RgJBRUaoDeE0570uSUGjKzSlN/B3+yWZ/F07XWbz3ETi9
+ 1AMfIa7b4i10PpLngdJ7yz45wQ+5qgAbikUwo4Wc=
 Received: by b-2.in.mailobj.net [192.168.90.12] with ESMTP
  via ip-206.mailobj.net [213.182.55.206]
- Sat, 16 Oct 2021 20:43:36 +0200 (CEST)
-X-EA-Auth: WnARczOEgryUYsklIfGx/VsanIDi9S5emLUlMK7j8vIvK1XEHEj1/ZNQZczjPJ8se8LRy+w+9hCoGHaCadzpH3mkgC1RbRvf
+ Sat, 16 Oct 2021 20:43:39 +0200 (CEST)
+X-EA-Auth: 9/Hi3rB7gPKc4A6pFTpO+Z2b0pAuw594QHWU1ZGnbgjfalfvWhbx8LUFwRPhQu3YABda12T+CMRmuQi+hM8tubExkPX4GVNe
 From: Claudio Suarez <cssk@net-c.es>
 To: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  linux-tegra@vger.kernel.org, intel-gfx@lists.freedesktop.org,
@@ -45,10 +45,10 @@ To: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  Robert Foss <robert.foss@linaro.org>, Ben Skeggs <bskeggs@redhat.com>,
  nouveau@lists.freedesktop.org, ville.syrjala@linux.intel.com
 Cc: Claudio Suarez <cssk@net-c.es>
-Subject: [PATCH v2 09/13] drm/sti: replace drm_detect_hdmi_monitor() with
+Subject: [PATCH v2 10/13] drm/rockchip: replace drm_detect_hdmi_monitor() with
  drm_display_info.is_hdmi
-Date: Sat, 16 Oct 2021 20:42:22 +0200
-Message-Id: <20211016184226.3862-10-cssk@net-c.es>
+Date: Sat, 16 Oct 2021 20:42:23 +0200
+Message-Id: <20211016184226.3862-11-cssk@net-c.es>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211016184226.3862-1-cssk@net-c.es>
 References: <20211016184226.3862-1-cssk@net-c.es>
@@ -76,34 +76,40 @@ drm_display_info.is_hdmi
 
 Signed-off-by: Claudio Suarez <cssk@net-c.es>
 ---
- drivers/gpu/drm/sti/sti_hdmi.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/rockchip/inno_hdmi.c   | 4 ++--
+ drivers/gpu/drm/rockchip/rk3066_hdmi.c | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/sti/sti_hdmi.c b/drivers/gpu/drm/sti/sti_hdmi.c
-index f3ace11209dd..3f8b04a1407e 100644
---- a/drivers/gpu/drm/sti/sti_hdmi.c
-+++ b/drivers/gpu/drm/sti/sti_hdmi.c
-@@ -984,14 +984,16 @@ static int sti_hdmi_connector_get_modes(struct drm_connector *connector)
- 	if (!edid)
- 		goto fail;
+diff --git a/drivers/gpu/drm/rockchip/inno_hdmi.c b/drivers/gpu/drm/rockchip/inno_hdmi.c
+index 7afdc54eb3ec..d479f230833e 100644
+--- a/drivers/gpu/drm/rockchip/inno_hdmi.c
++++ b/drivers/gpu/drm/rockchip/inno_hdmi.c
+@@ -553,9 +553,9 @@ static int inno_hdmi_connector_get_modes(struct drm_connector *connector)
  
--	hdmi->hdmi_monitor = drm_detect_hdmi_monitor(edid);
--	DRM_DEBUG_KMS("%s : %dx%d cm\n",
--		      (hdmi->hdmi_monitor ? "hdmi monitor" : "dvi monitor"),
--		      edid->width_cm, edid->height_cm);
- 	cec_notifier_set_phys_addr_from_edid(hdmi->notifier, edid);
+ 	edid = drm_get_edid(connector, hdmi->ddc);
+ 	if (edid) {
+-		hdmi->hdmi_data.sink_is_hdmi = drm_detect_hdmi_monitor(edid);
+-		hdmi->hdmi_data.sink_has_audio = drm_detect_monitor_audio(edid);
+ 		drm_connector_update_edid_property(connector, edid);
++		hdmi->hdmi_data.sink_is_hdmi = connector->display_info.is_hdmi;
++		hdmi->hdmi_data.sink_has_audio = drm_detect_monitor_audio(edid);
+ 		ret = drm_add_edid_modes(connector, edid);
+ 		kfree(edid);
+ 	}
+diff --git a/drivers/gpu/drm/rockchip/rk3066_hdmi.c b/drivers/gpu/drm/rockchip/rk3066_hdmi.c
+index 1c546c3a8998..03aaae39cf61 100644
+--- a/drivers/gpu/drm/rockchip/rk3066_hdmi.c
++++ b/drivers/gpu/drm/rockchip/rk3066_hdmi.c
+@@ -472,8 +472,8 @@ static int rk3066_hdmi_connector_get_modes(struct drm_connector *connector)
  
- 	count = drm_add_edid_modes(connector, edid);
-+
-+	/* This updates connector->display_info */
- 	drm_connector_update_edid_property(connector, edid);
-+	hdmi->hdmi_monitor = connector->display_info.is_hdmi;
-+	DRM_DEBUG_KMS("%s : %dx%d cm\n",
-+		      (hdmi->hdmi_monitor ? "hdmi monitor" : "dvi monitor"),
-+		      edid->width_cm, edid->height_cm);
- 
- 	kfree(edid);
- 	return count;
+ 	edid = drm_get_edid(connector, hdmi->ddc);
+ 	if (edid) {
+-		hdmi->hdmi_data.sink_is_hdmi = drm_detect_hdmi_monitor(edid);
+ 		drm_connector_update_edid_property(connector, edid);
++		hdmi->hdmi_data.sink_is_hdmi = connector->display_info.is_hdmi;
+ 		ret = drm_add_edid_modes(connector, edid);
+ 		kfree(edid);
+ 	}
 -- 
 2.33.0
 
