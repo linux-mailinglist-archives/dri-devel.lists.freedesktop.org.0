@@ -2,27 +2,27 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8A41430478
-	for <lists+dri-devel@lfdr.de>; Sat, 16 Oct 2021 21:17:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82BA04304A5
+	for <lists+dri-devel@lfdr.de>; Sat, 16 Oct 2021 21:18:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 276156E4B3;
-	Sat, 16 Oct 2021 19:17:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2AFF06E4AF;
+	Sat, 16 Oct 2021 19:18:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from msg-2.mailo.com (msg-2.mailo.com [213.182.54.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 492BA6E4A5;
- Sat, 16 Oct 2021 19:17:24 +0000 (UTC)
+Received: from msg-4.mailo.com (ip-15.mailobj.net [213.182.54.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 882236E4E3;
+ Sat, 16 Oct 2021 19:18:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=net-c.es; s=mailo;
- t=1634409786; bh=6xsMxrnlNAEGEZg8rndfdmRmdX7OzFdxIK93N1Vj41A=;
+ t=1634409788; bh=fAZBlXdW20V7B6rubts4j3AhP0Cl8xUukv0+rRfZYFI=;
  h=X-EA-Auth:From:To:Cc:Subject:Date:Message-Id:X-Mailer:In-Reply-To:
  References:MIME-Version:Content-Transfer-Encoding;
- b=PC2arG0iCmgN9npSiZyfe1uXZp3wuUf7cXpxdOml6WnORNv9CU98c7+me5rp2BPB5
- qPSbk04EHsbYLMo9aM8PaHZ0q6XdZ2GUH85nQUQdFIna0N3VovbJ/7auPhuwReg1DT
- remxd9D7jwfIcXwupesqoA5854muAhoQy4CCVKm8=
+ b=ZM7Y0GmRm9+RsKEclLVGSTr/d/ZgqfZ5Kof6c/2+cRS0MIvU35pa1Vxk9+YRlMRpb
+ H8Wt6jC/NRjVTtyNtKOL8gu0XNzjuEV2NEJtqajxhx9xwjBK1JLBFSmtzktqWu8gm2
+ r/C+VTX3W2AUZRU+FNfWbTbkMNspw3z5iX1ifdfY=
 Received: by b-2.in.mailobj.net [192.168.90.12] with ESMTP
  via ip-206.mailobj.net [213.182.55.206]
- Sat, 16 Oct 2021 20:43:06 +0200 (CEST)
-X-EA-Auth: zdke9kpqLbMJIvo6khoMzB9zFloV/UNCB4tBlpT2RLT4oBLt+Cye6DSWBrqSv1I5fHSGkM4ym6zzQ6PnR7B/mDnuah9YPqjU
+ Sat, 16 Oct 2021 20:43:08 +0200 (CEST)
+X-EA-Auth: bMa72/rpZ8KA+zrHRU52NItHoBU81sC/gUx2aRv8jn8f9cT532jMh/ja7ZdIluXsIxxgfgWkRfj77mZEvqU0+BT6X67qVtWf
 From: Claudio Suarez <cssk@net-c.es>
 To: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  linux-tegra@vger.kernel.org, intel-gfx@lists.freedesktop.org,
@@ -45,10 +45,10 @@ To: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  Robert Foss <robert.foss@linaro.org>, Ben Skeggs <bskeggs@redhat.com>,
  nouveau@lists.freedesktop.org, ville.syrjala@linux.intel.com
 Cc: Claudio Suarez <cssk@net-c.es>
-Subject: [PATCH v2 04/13] drm/tegra: replace drm_detect_hdmi_monitor() with
+Subject: [PATCH v2 05/13] drm/gma500: replace drm_detect_hdmi_monitor() with
  drm_display_info.is_hdmi
-Date: Sat, 16 Oct 2021 20:42:17 +0200
-Message-Id: <20211016184226.3862-5-cssk@net-c.es>
+Date: Sat, 16 Oct 2021 20:42:18 +0200
+Message-Id: <20211016184226.3862-6-cssk@net-c.es>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211016184226.3862-1-cssk@net-c.es>
 References: <20211016184226.3862-1-cssk@net-c.es>
@@ -76,29 +76,48 @@ drm_display_info.is_hdmi
 
 Signed-off-by: Claudio Suarez <cssk@net-c.es>
 ---
- drivers/gpu/drm/tegra/hdmi.c | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+ drivers/gpu/drm/gma500/cdv_intel_hdmi.c | 3 ++-
+ drivers/gpu/drm/gma500/psb_intel_sdvo.c | 6 ++++--
+ 2 files changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/tegra/hdmi.c b/drivers/gpu/drm/tegra/hdmi.c
-index e5d2a4026028..21571221b49b 100644
---- a/drivers/gpu/drm/tegra/hdmi.c
-+++ b/drivers/gpu/drm/tegra/hdmi.c
-@@ -831,14 +831,10 @@ static void tegra_hdmi_setup_tmds(struct tegra_hdmi *hdmi,
+diff --git a/drivers/gpu/drm/gma500/cdv_intel_hdmi.c b/drivers/gpu/drm/gma500/cdv_intel_hdmi.c
+index e525689f84f0..d9db5d52d52e 100644
+--- a/drivers/gpu/drm/gma500/cdv_intel_hdmi.c
++++ b/drivers/gpu/drm/gma500/cdv_intel_hdmi.c
+@@ -130,6 +130,7 @@ static enum drm_connector_status cdv_hdmi_detect(
+ 	struct edid *edid = NULL;
+ 	enum drm_connector_status status = connector_status_disconnected;
  
- static bool tegra_output_is_hdmi(struct tegra_output *output)
- {
--	struct edid *edid;
--
- 	if (!output->connector.edid_blob_ptr)
- 		return false;
++	/* This updates connector->display_info */
+ 	edid = drm_get_edid(connector, &gma_encoder->i2c_bus->adapter);
  
--	edid = (struct edid *)output->connector.edid_blob_ptr->data;
--
--	return drm_detect_hdmi_monitor(edid);
-+	return output->connector.display_info.is_hdmi;
- }
- 
- static enum drm_connector_status
+ 	hdmi_priv->has_hdmi_sink = false;
+@@ -138,7 +139,7 @@ static enum drm_connector_status cdv_hdmi_detect(
+ 		if (edid->input & DRM_EDID_INPUT_DIGITAL) {
+ 			status = connector_status_connected;
+ 			hdmi_priv->has_hdmi_sink =
+-						drm_detect_hdmi_monitor(edid);
++						connector->display_info.is_hdmi;
+ 			hdmi_priv->has_hdmi_audio =
+ 						drm_detect_monitor_audio(edid);
+ 		}
+diff --git a/drivers/gpu/drm/gma500/psb_intel_sdvo.c b/drivers/gpu/drm/gma500/psb_intel_sdvo.c
+index 355da2856389..5ef49d17de98 100644
+--- a/drivers/gpu/drm/gma500/psb_intel_sdvo.c
++++ b/drivers/gpu/drm/gma500/psb_intel_sdvo.c
+@@ -1266,8 +1266,10 @@ psb_intel_sdvo_hdmi_sink_detect(struct drm_connector *connector)
+ 		if (edid->input & DRM_EDID_INPUT_DIGITAL) {
+ 			status = connector_status_connected;
+ 			if (psb_intel_sdvo->is_hdmi) {
+-				psb_intel_sdvo->has_hdmi_monitor = drm_detect_hdmi_monitor(edid);
+-				psb_intel_sdvo->has_hdmi_audio = drm_detect_monitor_audio(edid);
++				psb_intel_sdvo->has_hdmi_monitor =
++						connector->display_info.is_hdmi;
++				psb_intel_sdvo->has_hdmi_audio =
++						drm_detect_monitor_audio(edid);
+ 			}
+ 		} else
+ 			status = connector_status_disconnected;
 -- 
 2.33.0
 
