@@ -1,50 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B3974305B2
-	for <lists+dri-devel@lfdr.de>; Sun, 17 Oct 2021 02:12:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 453AE4305D9
+	for <lists+dri-devel@lfdr.de>; Sun, 17 Oct 2021 03:30:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC51E6E8E7;
-	Sun, 17 Oct 2021 00:12:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7E9C6E57E;
+	Sun, 17 Oct 2021 01:30:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8641A6E8E7
- for <dri-devel@lists.freedesktop.org>; Sun, 17 Oct 2021 00:12:22 +0000 (UTC)
-Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz [89.176.112.137])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 4189083209;
- Sun, 17 Oct 2021 02:12:20 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1634429540;
- bh=1NwdYw1Kty3P/bmZ6Fjrh2EVp6bVutiM8C9BBm3FkS4=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=EAgcUqJdB/DAyUmIue9tut9eZm47aKRJfzwAFXq/MygwuLx/YD0F2dmKj5IKX8LmG
- yOYGBo0urOoSay1v1gUYUDYm8EOCrADkMKCkKCmuwCJ5EUiOs77hnk6Ibj7b3UI7a7
- V9CT7F/9VAE1KFK8KFY2tHdWT6qpqKgM9Z4TUC2kFajH+u8NLEk09bTfG2BEaIXD7Q
- oM5qm8CWa1CST5GYwG/oUcOWEYLLZnR/il1wQ/HGhwVxXmiimEl3CnyENiSRCcEEnY
- xHZ5msHouwi0XwGQN7habTSFTiG3mpiyvACGszz6n4H1D3Mj4egxW/p6Iw9Cm4uROz
- Zz8+PNAE3ADXA==
-From: Marek Vasut <marex@denx.de>
-To: dri-devel@lists.freedesktop.org
-Cc: Marek Vasut <marex@denx.de>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Rob Herring <robh+dt@kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
- devicetree@vger.kernel.org
-Subject: [PATCH v5 2/2] drm/bridge: lvds-codec: Add support for pixel data
- sampling edge select
-Date: Sun, 17 Oct 2021 02:12:04 +0200
-Message-Id: <20211017001204.299940-2-marex@denx.de>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20211017001204.299940-1-marex@denx.de>
-References: <20211017001204.299940-1-marex@denx.de>
+Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com
+ [IPv6:2607:f8b0:4864:20::334])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B86D6E57E
+ for <dri-devel@lists.freedesktop.org>; Sun, 17 Oct 2021 01:30:10 +0000 (UTC)
+Received: by mail-ot1-x334.google.com with SMTP id
+ b4-20020a9d7544000000b00552ab826e3aso786611otl.4
+ for <dri-devel@lists.freedesktop.org>; Sat, 16 Oct 2021 18:30:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+ :subject:to:cc;
+ bh=ubDJVQq78uVYhJbYvgkSAR8BkeRUeNLoFmCL9We36F0=;
+ b=flYkLHhlsDBt7e3MlODNLUfbSjUku5qphnfo9uSFkDOvVTyMIbxeq1/Hq9T6WyHtvg
+ XJO/07qz87PhIw/OmVM1eQ+/AkpkXbeyxhk/sQGsNfActPTAz4bUJuD5rXjt9MGYxaGJ
+ 80bs7G6KMq3j5xCfoFO+v1KZos7l6gKi2rAWQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:in-reply-to:references:from
+ :user-agent:date:message-id:subject:to:cc;
+ bh=ubDJVQq78uVYhJbYvgkSAR8BkeRUeNLoFmCL9We36F0=;
+ b=WF2pLWlccJ98DwXixWyzs3NHjPkMXzWfHt6F1nO87+LP9H/X69RW2KJ1c96lgs+1+h
+ X9/Cath5/wt1Otv++KEL3LRQrKZ/dceQbXPejXipX9ijtqpNHDI/Wz8ev7PQwN/mpflp
+ bjngs1syOtPJsZK1Gm9bxIwL+lqNT1P+lSEL205z/ZuHy3Ngu3EjGxsjLpMIvwubZMaR
+ VNky4a1dhcgs0WKVIS1jUCpaDHca/yXZE/sxabiqb6Zgx86PpKK5yLmGjuGiqG1OARk2
+ CQsWrTZbjuTABmSQj72lJuhkum3IAB3KhOF61jvJUDfjqmIusVHw23uO8pRiCi9aehIu
+ mgCg==
+X-Gm-Message-State: AOAM533aYFbnUbisAes5BcElWN72rKPIew5ammFr3NkZ+HMCb8fQE5zg
+ lEvkTtoMwxzVfa31lyAJRuOiN1+NCLzY1VmgMoNW/g==
+X-Google-Smtp-Source: ABdhPJwr06h9bD3MmzMdWkXAGp+iEIqQozkRjbdPwjgtYY8VoqiNVHLEO5C2EDLfQSqnSUcnH8rKmBifxGT81/0YlVc=
+X-Received: by 2002:a05:6830:4187:: with SMTP id
+ r7mr9420950otu.126.1634434209334; 
+ Sat, 16 Oct 2021 18:30:09 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Sat, 16 Oct 2021 20:30:08 -0500
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: clamav-milter 0.103.2 at phobos.denx.de
-X-Virus-Status: Clean
+In-Reply-To: <20211016221843.2167329-4-bjorn.andersson@linaro.org>
+References: <20211016221843.2167329-1-bjorn.andersson@linaro.org>
+ <20211016221843.2167329-4-bjorn.andersson@linaro.org>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.9.1
+Date: Sat, 16 Oct 2021 20:30:08 -0500
+Message-ID: <CAE-0n52t0UF8usgvb5=8c9wdb_r+WKt7oNDncaVY=x8WZkVUWA@mail.gmail.com>
+Subject: Re: [PATCH v5 3/7] drm/msm/dp: Allow specifying connector_type per
+ controller
+To: Abhinav Kumar <abhinavk@codeaurora.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, 
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Kalyan Thota <kalyan_t@codeaurora.org>, 
+ Kuogee Hsieh <khsieh@codeaurora.org>, Rob Clark <robdclark@gmail.com>,
+ Sean Paul <sean@poorly.run>
+Cc: Rob Herring <robh+dt@kernel.org>, linux-arm-msm@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,76 +78,16 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The OnSemi FIN3385 Parallel-to-LVDS encoder has a dedicated input line to
-select input pixel data sampling edge. Add DT property "pclk-sample", not
-the same as the one used by display timings but rather the same as used by
-media, and configure bus flags based on this DT property.
+Quoting Bjorn Andersson (2021-10-16 15:18:39)
+> As the following patches introduced support for multiple DP blocks in a
+> platform and some of those block might be eDP it becomes useful to be
+> able to specify the connector type per block.
+>
+> Although there's only a single block at this point, the array of descs
+> and the search in dp_display_get_desc() are introduced here to simplify
+> the next patch, that does introduce support for multiple DP blocks.
+>
+> Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+> ---
 
-Signed-off-by: Marek Vasut <marex@denx.de>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Rob Herring <robh+dt@kernel.org>
-Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: devicetree@vger.kernel.org
-To: dri-devel@lists.freedesktop.org
----
-V2: - Limit the pixelclk-active to encoders only
-    - Update DT binding document
-V3: - Determine whether this is encoder from connector, i.e.
-      lvds_codec->connector_type == DRM_MODE_CONNECTOR_LVDS
-V4: - Switch to pclk-sample. Note that the value of this is inverted,
-      so all the existing users of pixelclk-active using previous
-      previous version of this patch must be reworked
-V5: Rebase on recent linux-next
----
- drivers/gpu/drm/bridge/lvds-codec.c | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
-
-diff --git a/drivers/gpu/drm/bridge/lvds-codec.c b/drivers/gpu/drm/bridge/lvds-codec.c
-index f991842a161f..702ea803a743 100644
---- a/drivers/gpu/drm/bridge/lvds-codec.c
-+++ b/drivers/gpu/drm/bridge/lvds-codec.c
-@@ -21,6 +21,7 @@ struct lvds_codec {
- 	struct device *dev;
- 	struct drm_bridge bridge;
- 	struct drm_bridge *panel_bridge;
-+	struct drm_bridge_timings timings;
- 	struct regulator *vcc;
- 	struct gpio_desc *powerdown_gpio;
- 	u32 connector_type;
-@@ -119,6 +120,7 @@ static int lvds_codec_probe(struct platform_device *pdev)
- 	struct device_node *bus_node;
- 	struct drm_panel *panel;
- 	struct lvds_codec *lvds_codec;
-+	u32 val;
- 	int ret;
- 
- 	lvds_codec = devm_kzalloc(dev, sizeof(*lvds_codec), GFP_KERNEL);
-@@ -187,12 +189,25 @@ static int lvds_codec_probe(struct platform_device *pdev)
- 		}
- 	}
- 
-+	/*
-+	 * Encoder might sample data on different clock edge than the display,
-+	 * for example OnSemi FIN3385 has a dedicated strapping pin to select
-+	 * the sampling edge.
-+	 */
-+	if (lvds_codec->connector_type == DRM_MODE_CONNECTOR_LVDS &&
-+	    !of_property_read_u32(dev->of_node, "pclk-sample", &val)) {
-+		lvds_codec->timings.input_bus_flags = val ?
-+			DRM_BUS_FLAG_PIXDATA_SAMPLE_POSEDGE :
-+			DRM_BUS_FLAG_PIXDATA_SAMPLE_NEGEDGE;
-+	}
-+
- 	/*
- 	 * The panel_bridge bridge is attached to the panel's of_node,
- 	 * but we need a bridge attached to our of_node for our user
- 	 * to look up.
- 	 */
- 	lvds_codec->bridge.of_node = dev->of_node;
-+	lvds_codec->bridge.timings = &lvds_codec->timings;
- 	drm_bridge_add(&lvds_codec->bridge);
- 
- 	platform_set_drvdata(pdev, lvds_codec);
--- 
-2.33.0
-
+Reviewed-by: Stephen Boyd <swboyd@chromium.org>
