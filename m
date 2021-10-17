@@ -1,43 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B76F430B32
-	for <lists+dri-devel@lfdr.de>; Sun, 17 Oct 2021 19:24:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CCC05430B38
+	for <lists+dri-devel@lfdr.de>; Sun, 17 Oct 2021 19:30:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D4BF96E81B;
-	Sun, 17 Oct 2021 17:24:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BFF776E81C;
+	Sun, 17 Oct 2021 17:29:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.smtp.larsendata.com (mx2.smtp.larsendata.com
- [91.221.196.228])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2DA326E81B
- for <dri-devel@lists.freedesktop.org>; Sun, 17 Oct 2021 17:24:03 +0000 (UTC)
-Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
- by mx2.smtp.larsendata.com (Halon) with ESMTPS
- id 0bb457bc-2f6f-11ec-ac3c-0050568cd888;
- Sun, 17 Oct 2021 17:24:12 +0000 (UTC)
-Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
- [80.162.45.141])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 869536E81C
+ for <dri-devel@lists.freedesktop.org>; Sun, 17 Oct 2021 17:29:54 +0000 (UTC)
+Received: from [IPv6:::1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
  (No client certificate requested)
- (Authenticated sender: sam@ravnborg.org)
- by mail01.mxhotel.dk (Postfix) with ESMTPSA id 2B4FF194B1A;
- Sun, 17 Oct 2021 19:24:10 +0200 (CEST)
-Date: Sun, 17 Oct 2021 19:24:00 +0200
-X-Report-Abuse-To: abuse@mxhotel.dk
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Dan Johansen <strit@manjaro.org>
-Cc: thierry.reding@gmail.com, airlied@linux.ie, daniel@ffwll.ch,
- dri-devel@lists.freedesktop.org, Marius Gripsgard <marius@ubports.com>
-Subject: Re: [PATCH] drm/panel:Adjust sync values for Feixin K101-IM2BYL02
- panel
-Message-ID: <YWxcMPo9PzsIsMRZ@ravnborg.org>
-References: <20210818214818.298089-1-strit@manjaro.org>
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id E19DA8314C;
+ Sun, 17 Oct 2021 19:29:51 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1634491792;
+ bh=ztI9DlbJeKj95yM+25uJ2nJ30rAN4QzeA0XZQ8yKiuY=;
+ h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+ b=c4L0G7K+fb1Vyfpjod8Bw4y4S3arcXagiOQ8sDY5PvNxzFBjl7+a6uqUS4S9hwM7d
+ 61kPk7W9cJhKDYJLlM7HASZ5KOCmI4hLBq/CcVbTsMeqz6rljoWZ2z2QsO5DlRFw7p
+ sGSEdZW0/t2ZcTPQYosrn3sg3dpJqMVgou9Tb55OqKHw0aNS+aXtjbx/KTfZwsw40x
+ 7t+z5/VEZzBezH2hC+jt8SKbTYQhmfqpdStU/N94jegH/e0sqx8FthDYYjmavTeMRi
+ ePXFxAm/fp6ce46n6ftdkOrGuaktlYsr5lHYh+H3tFo1NShXbp82YpPtJ1xuWmDCKV
+ u0tzahHhPuTfA==
+Subject: Re: [PATCH v5 2/2] drm/bridge: lvds-codec: Add support for pixel data
+ sampling edge select
+To: Sam Ravnborg <sam@ravnborg.org>
+Cc: dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org
+References: <20211017001204.299940-1-marex@denx.de>
+ <20211017001204.299940-2-marex@denx.de> <YWxUB9y3qFzkfRR0@ravnborg.org>
+From: Marek Vasut <marex@denx.de>
+Message-ID: <075913ae-e5a0-3a9e-c928-55cae99ab0e5@denx.de>
+Date: Sun, 17 Oct 2021 19:29:51 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210818214818.298089-1-strit@manjaro.org>
+In-Reply-To: <YWxUB9y3qFzkfRR0@ravnborg.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.2 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,54 +63,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dan,
+On 10/17/21 6:49 PM, Sam Ravnborg wrote:
 
-On Wed, Aug 18, 2021 at 11:48:18PM +0200, Dan Johansen wrote:
-> This adjusts sync values according to the datasheet
+[...]
+
+>> +	/*
+>> +	 * Encoder might sample data on different clock edge than the display,
+>> +	 * for example OnSemi FIN3385 has a dedicated strapping pin to select
+>> +	 * the sampling edge.
+>> +	 */
+>> +	if (lvds_codec->connector_type == DRM_MODE_CONNECTOR_LVDS &&
+>> +	    !of_property_read_u32(dev->of_node, "pclk-sample", &val)) {
+>> +		lvds_codec->timings.input_bus_flags = val ?
+>> +			DRM_BUS_FLAG_PIXDATA_SAMPLE_POSEDGE :
+>> +			DRM_BUS_FLAG_PIXDATA_SAMPLE_NEGEDGE;
+>> +	}
+>> +
+>>   	/*
+>>   	 * The panel_bridge bridge is attached to the panel's of_node,
+>>   	 * but we need a bridge attached to our of_node for our user
+>>   	 * to look up.
+>>   	 */
+>>   	lvds_codec->bridge.of_node = dev->of_node;
+>> +	lvds_codec->bridge.timings = &lvds_codec->timings;
+> I do not understand how this will work. The only field that is set is timings.input_bus_flags
+> but any user will see bridge.timings is set and will think this is all
+> timing info.
 > 
-> Fixes: 	1c243751c095bb95e2795f076ea7a0bcdd60a93a ("drm/panel: ilitek-ili9881c: add support for Feixin K101-IM2BYL02 panel")
-> Co-developed-by: Marius Gripsgard <marius@ubports.com>
-> Signed-off-by: Dan Johansen <strit@manjaro.org>
+> Maybe I just misses something obvious?
 
-Sorry for not picking this up sooner - I have been away for a while.
+Is there anything else in those timings that should be set ? See
+include/drm/drm_bridge.h around line 640
 
-The patch is now applied to drm-misc-fixes and will show up in the
-upstream kernel in 1-2 week from now.
-I updated the subject and the fixes tag while applying.
-
-The Co-developed-by: is supposed to be paired with a Signed-off-by:
-by the same person. Something to do right next time.
-
-	Sam
-
-> ---
->  drivers/gpu/drm/panel/panel-ilitek-ili9881c.c | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c b/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c
-> index 0145129d7c66..534dd7414d42 100644
-> --- a/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c
-> +++ b/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c
-> @@ -590,14 +590,14 @@ static const struct drm_display_mode k101_im2byl02_default_mode = {
->  	.clock		= 69700,
->  
->  	.hdisplay	= 800,
-> -	.hsync_start	= 800 + 6,
-> -	.hsync_end	= 800 + 6 + 15,
-> -	.htotal		= 800 + 6 + 15 + 16,
-> +	.hsync_start	= 800 + 52,
-> +	.hsync_end	= 800 + 52 + 8,
-> +	.htotal		= 800 + 52 + 8 + 48,
->  
->  	.vdisplay	= 1280,
-> -	.vsync_start	= 1280 + 8,
-> -	.vsync_end	= 1280 + 8 + 48,
-> -	.vtotal		= 1280 + 8 + 48 + 52,
-> +	.vsync_start	= 1280 + 16,
-> +	.vsync_end	= 1280 + 16 + 6,
-> +	.vtotal		= 1280 + 16 + 6 + 15,
->  
->  	.width_mm	= 135,
->  	.height_mm	= 217,
-> -- 
-> 2.32.0
+setup_time_ps/hold_time_ps/dual_link isn't supported by this driver, so 
+it is 0 or false anyway, i.e. no change.
