@@ -1,69 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61C4E430A16
-	for <lists+dri-devel@lfdr.de>; Sun, 17 Oct 2021 17:31:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 85793430A41
+	for <lists+dri-devel@lfdr.de>; Sun, 17 Oct 2021 17:37:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 27A266E7D0;
-	Sun, 17 Oct 2021 15:31:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EAB016E7D5;
+	Sun, 17 Oct 2021 15:37:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32f.google.com (mail-ot1-x32f.google.com
- [IPv6:2607:f8b0:4864:20::32f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9417D6E7D0
- for <dri-devel@lists.freedesktop.org>; Sun, 17 Oct 2021 15:31:24 +0000 (UTC)
-Received: by mail-ot1-x32f.google.com with SMTP id
- v2-20020a05683018c200b0054e3acddd91so2071712ote.8
- for <dri-devel@lists.freedesktop.org>; Sun, 17 Oct 2021 08:31:24 -0700 (PDT)
+Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com
+ [IPv6:2607:f8b0:4864:20::334])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C697C6E7D5
+ for <dri-devel@lists.freedesktop.org>; Sun, 17 Oct 2021 15:37:39 +0000 (UTC)
+Received: by mail-ot1-x334.google.com with SMTP id
+ 34-20020a9d0325000000b00552cae0decbso1069318otv.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 17 Oct 2021 08:37:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=UFaKtGf2M9rTkoqS110bHbqzZ66MK1yJ16chK4hVUHA=;
- b=mt6U3RUy7HLlyDHFkboOEOzbsWq0i9ZreASbV2vwjoNHFyicMTfLYJYfXGc7eKC+F1
- KEEwJkVCm0gYvzxTQpqJ27h3mnYtEvGV0eQJ66+tMiL3ZKi6bsh8Ul7g2Uc4+L8RLUlY
- Q7EbesvEeUL7GOvPtp6653yrCshgL9uxpo7Zlk6sRITsDgMviKwlPISITpXDDHazBLlS
- 9ne3CvZaDZdk0Rhurj5V2C59VT+Fm98co8zvutGfD3OyLf7H6UvlG7tGaUSrh7GoMc/3
- LSlpswI8ofcsZVpUbTc2WMwXQe+EbYKcmJEczdBRoeQTdhnKZwvLCbqjL9z5mSwuVG5O
- HBvg==
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=rhJ3MYQxq7jBWrI9qP0fXJvJ7nX/eTAbsnjrRWMMFSk=;
+ b=GCtnrjiizXGVQMZOGAeOU0DNHpUUeMzYqWIJgqJFXZilHvYermpet4Oe9/jxnwO/iM
+ 4AgFbFnGJgxGQrpM7uMVA7pcW3n1CuvoeMXHkG88JRLEceU/B3oYL/oW3AmFLDlz5prj
+ D8+xbpnJUEAFBp17G9Tkg5RfTvbgkAKzlbkg8HqpTiTY4UTUd6X80mzqa/TiqLo8AorA
+ h5Cy5X2Ud8IwTR4zH1E6bQdLrOJ9v0/ISUK+G+0RPz4lSiDa4hodJ8GhxshaqkOF7GS/
+ 5t1GsAKrm78wm0P7jvhXir9dNQ1veHeLvZDcWzcNL1UobHtrRlKjdmymivH38WPtiRqB
+ wBZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=UFaKtGf2M9rTkoqS110bHbqzZ66MK1yJ16chK4hVUHA=;
- b=INq85+satnrCY3axq6dw+DzZh7O5FICzLghfe3/KJHgPDHO6KaEMES6dEA5LSk19R2
- kotC22v6pHib2GfIoD4WWcIzPhJkHin6gSrIjCJrUO+316Q+mohIwrgI6AsqEwFyPoLw
- LuSPh4Io0QeM6VVx8brPce9m167IHOMJoVdVrBoizzr7dwA/p3k2amkJ53B8LP7cR8fy
- evUtH5PDaX3M7lDqHR0y/sjL7bcDwcBMdDCjrKsQleUunjm2inQr+dD82lrs7r1olTUe
- lFmo68ti7sM/dVU2zjlxX1Gif3GR0QQRnehlzqJ09KGAYJxG34O5pX4wMVDcfVzvd8/r
- xU+g==
-X-Gm-Message-State: AOAM5332qx4wQlsZmOJcLIcXvxDooZGBwxtfLS4Hj6KbVYoStnV+/7g9
- fdsuZMS85qc93x3mz2soNZZclw==
-X-Google-Smtp-Source: ABdhPJx3t/WpHKaJrg4yiVHwANKcQgG6EiyHAfCgVoeXcxw7Yg7y22Tb3Iwq2db5P9DTjKT6eQs7hg==
-X-Received: by 2002:a9d:714b:: with SMTP id y11mr19170547otj.289.1634484683795; 
- Sun, 17 Oct 2021 08:31:23 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=rhJ3MYQxq7jBWrI9qP0fXJvJ7nX/eTAbsnjrRWMMFSk=;
+ b=CO9yiKS4iKsn04//ngCD4fcJl7qR4HP1Eg6b784lkaJZnCZkxQ87olhF3d33ASqeiR
+ k+23Hr79vBUYCtZcIAZdyf+k94euB3qA00/6LRoFOb/QVGTUQzN1PPpKaNHpJOZW9fkl
+ hiRafybPM4bfGshD+8AV+UkVcUPbzxPpXEKzKOMkFbzX3hsMGTKBYx7crLfRWYAPnb82
+ XxBZsvy5SRmzKKjDKz/WiEvEsLJ4oeIQDeaCUqqO7sMKdm/C+0wNbZm4g50IRzwcoN/V
+ lfLuAIPfTWjYylOQzwPYd2rSUVG4JZPGX5B+elKKuvaKj1QvNnlZX5jRclqyDnZzBjiy
+ Lamg==
+X-Gm-Message-State: AOAM533WoNMCwGo3C1kqoz+OOKE3AbhEUTFpZ/5RK1Jn0By5exymkSDp
+ I7ICCqIPUQd0ILsxIWDvkMlEQg==
+X-Google-Smtp-Source: ABdhPJwjycxtRcae2uuxEEliyOr1THEo6rI+dgHveXyCqMO2SaAU+kA94jDbKXV5kLu7kDuNKnwebw==
+X-Received: by 2002:a05:6830:95:: with SMTP id
+ a21mr18534612oto.43.1634485059006; 
+ Sun, 17 Oct 2021 08:37:39 -0700 (PDT)
 Received: from builder.lan ([2600:1700:a0:3dc8:3697:f6ff:fe85:aac9])
- by smtp.gmail.com with ESMTPSA id x6sm2565698otp.49.2021.10.17.08.31.23
+ by smtp.gmail.com with ESMTPSA id bp21sm2290370oib.31.2021.10.17.08.37.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 17 Oct 2021 08:31:23 -0700 (PDT)
+ Sun, 17 Oct 2021 08:37:38 -0700 (PDT)
+Date: Sun, 17 Oct 2021 10:37:36 -0500
 From: Bjorn Andersson <bjorn.andersson@linaro.org>
-To: Sean Paul <sean@poorly.run>, Rob Clark <robdclark@gmail.com>,
- Abhinav Kumar <abhinavk@codeaurora.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Daniel Vetter <daniel@ffwll.ch>, linux-arm-msm@vger.kernel.org,
- Stephen Boyd <sboyd@kernel.org>, Jonathan Marek <jonathan@marek.ca>,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org
-Subject: Re: (subset) [PATCH] ARM: dts: qcom-apq8064: stop using legacy clock
- names for HDMI
-Date: Sun, 17 Oct 2021 10:31:09 -0500
-Message-Id: <163448466185.410927.11756419943796079115.b4-ty@linaro.org>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20211014214221.4173287-1-dmitry.baryshkov@linaro.org>
-References: <20211014214221.4173287-1-dmitry.baryshkov@linaro.org>
+To: Stephen Boyd <swboyd@chromium.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Rob Clark <robdclark@gmail.com>
+Cc: Abhinav Kumar <abhinavk@codeaurora.org>,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
+ Kalyan Thota <kalyan_t@codeaurora.org>,
+ Kuogee Hsieh <khsieh@codeaurora.org>, Sean Paul <sean@poorly.run>,
+ Rob Herring <robh+dt@kernel.org>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 7/7] drm/msm/dp: Add sc8180x DP controllers
+Message-ID: <YWxDQInQD8ZDa1IB@builder.lan>
+References: <20211016221843.2167329-1-bjorn.andersson@linaro.org>
+ <20211016221843.2167329-8-bjorn.andersson@linaro.org>
+ <CAE-0n53R79HOoBsuLXVkVhYotFam8k4mWZqWnaiJcqcr7w522w@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAE-0n53R79HOoBsuLXVkVhYotFam8k4mWZqWnaiJcqcr7w522w@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,17 +83,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 15 Oct 2021 00:42:21 +0300, Dmitry Baryshkov wrote:
-> Stop using legacy clock names (with _clk suffix) for HDMI and HDMI PHY
-> device tree nodes.
+On Sat 16 Oct 20:32 CDT 2021, Stephen Boyd wrote:
+
+> Quoting Bjorn Andersson (2021-10-16 15:18:43)
+> > The sc8180x has 2 DP and 1 eDP controllers, add support for these to the
+> > DP driver.
+> >
+> > Link: https://lore.kernel.org/linux-arm-msm/20210725042436.3967173-7-bjorn.andersson@linaro.org/
 > 
-> 
+> BTW, was the link intentional?
 
-Applied, thanks!
+No, I didn't intend for this Link to go upstream, just forgot to clean
+it out as I was sending out the patches.
 
-[1/1] ARM: dts: qcom-apq8064: stop using legacy clock names for HDMI
-      commit: 03d4e43fc5beded1aa67c12b7c7e6932ae9a40cc
+@Rob, @Dmitry, can you drop this as you apply the patch, or would you
+prefer a resend?
 
-Best regards,
--- 
-Bjorn Andersson <bjorn.andersson@linaro.org>
+Thanks,
+Bjorn
