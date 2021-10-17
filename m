@@ -1,55 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76BFA4305E4
-	for <lists+dri-devel@lfdr.de>; Sun, 17 Oct 2021 03:31:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 141E44305E8
+	for <lists+dri-devel@lfdr.de>; Sun, 17 Oct 2021 03:32:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EFFBD6E910;
-	Sun, 17 Oct 2021 01:31:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B53CE6E56D;
+	Sun, 17 Oct 2021 01:32:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x330.google.com (mail-ot1-x330.google.com
- [IPv6:2607:f8b0:4864:20::330])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B4FAD6E90F
- for <dri-devel@lists.freedesktop.org>; Sun, 17 Oct 2021 01:31:54 +0000 (UTC)
-Received: by mail-ot1-x330.google.com with SMTP id
- s18-20020a0568301e1200b0054e77a16651so122590otr.7
- for <dri-devel@lists.freedesktop.org>; Sat, 16 Oct 2021 18:31:54 -0700 (PDT)
+Received: from mail-oi1-x22f.google.com (mail-oi1-x22f.google.com
+ [IPv6:2607:f8b0:4864:20::22f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9DE556E56D
+ for <dri-devel@lists.freedesktop.org>; Sun, 17 Oct 2021 01:32:23 +0000 (UTC)
+Received: by mail-oi1-x22f.google.com with SMTP id z126so19074954oiz.12
+ for <dri-devel@lists.freedesktop.org>; Sat, 16 Oct 2021 18:32:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:in-reply-to:references:from:user-agent:date:message-id
  :subject:to:cc;
- bh=Mf0Mwk4Nvj9HUEe3bQ6ZCswhorXqyTpELHryvN43LX0=;
- b=ktf+x61/yH16k3GIVUn9Uco046qC1qV6GoQrHIzfWAt5dEvcyFOVtXj5zvIJHepK1u
- Sg1WH8QkUmDWekxPMe/PsUq59SULVXtWX3eR5H0oM9F3SOGMRG0tLQi8L8GUt3MTWL+p
- v67sCkR29toFeJxP+Xsq2HjrMpOz5ZQIWJ+0Q=
+ bh=2wy87Ngcu7gVRUKvzaxFI3AG8ttBjWS13MSfr80Tlnw=;
+ b=Yz2U+KS+8IlSi/BJ9Aa0q6OomQhz9T99n2XyNvmu8tLFnrxR7oWndK9jZGw2pvVYxd
+ zzfe0BKVkv0bWf/kocXFO8C7+cxvQq5UVc2fkF32ONIXJupUWROCG2whGlpy+K50kCXh
+ Rzjx6cBP7z48rwQlRDLo6WSsQYYRbhsSYdNp8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:in-reply-to:references:from
  :user-agent:date:message-id:subject:to:cc;
- bh=Mf0Mwk4Nvj9HUEe3bQ6ZCswhorXqyTpELHryvN43LX0=;
- b=zUtpA+PHz1NXmg/qNUW4H+/pzApzA7hMVAtKmJjuZoLSSUQgwbGG3ASY0f3Iv7PXA/
- PcZ5c1tBVuJZiANuYJIreZzb3Q/G/p/1R3CZ1f0MXk2PhSlUNOTA4/EyfjMhWOb/tcy8
- wniPJbv7Qm6XThfZ0vxRmk5dSw9PT0DcOdhEQVwvEdsVVJyiM4IGprSP6rALPA7PUTkw
- lzK9HuiOW3SSaFe5FdfFRi67VvyB2tAgp/5re7y+vtcR7I4/8OkX/0W01t1tGgMXz7wu
- eTzR2FZ9bCvqnF57dKrSOx28gKyDeXnKUEgXEkQoojHF3rXVVxHKfe4ismsj9GIYXheE
- aH6Q==
-X-Gm-Message-State: AOAM532wh+ZjLvcdtJmiIECJEd+muT8BRIn/DuLNR47ku+PoisX+3vdB
- dDsK+rzKbvqm8N6a2nrl4Xh1FBiU6GLfiggwawEN1Q==
-X-Google-Smtp-Source: ABdhPJzzZYs3G7Cs5Kx0YRYBhZZYkqRuo62R0Tx74imA+M7M9wHiZ5oWBZcO2tUw6r5JwbttYUQ1DUTJaey7RPOEM34=
-X-Received: by 2002:a05:6830:1c2e:: with SMTP id
- f14mr14737706ote.159.1634434314051; 
- Sat, 16 Oct 2021 18:31:54 -0700 (PDT)
+ bh=2wy87Ngcu7gVRUKvzaxFI3AG8ttBjWS13MSfr80Tlnw=;
+ b=1sTW6NTMumWsRIesP6gPSDRbK0Wb9RwYeOs38hx0h473wzFHqxlU+iu53Ptwz3y7pg
+ UPaClk8U3z8UyDzJDofFyZ3lmso+4UGp2lRgUQYgh9vd/zhZMTFON8N6IzT3Q2ojcDQz
+ pyHM9bWeQq7b51+QC4QCW6+9MN/v3MgHtMmjatEOULyVqZbyRnxRN8kHiFeIMOIwqVez
+ jMYd5awn6qpMy+NdQgX72BPuHwHJSj/CtMh/NunTdfJYgiVYqWN+vgVfpTQ/2I7m3HjL
+ DP+35L+gFvxKFmy4en+cQuKulwlTYdlRER+59I0CnIp5Ke2LkcVM//acOHREWK6ijN9Y
+ W7DA==
+X-Gm-Message-State: AOAM532ruwcmIsX1yzKiGx6hXcFl66K8w7LBhRgw/ZFmJZ6c0ZVNfHtY
+ hlBAeN4ulhFAkjXiPQFbajMYmaGvaIcoXjopaDvFjw==
+X-Google-Smtp-Source: ABdhPJy9TGOZNQrC0+Gt3LlttQmcsoNpL5AXVWWKf1RKVOfK+qDdiu0E74boUW3aoYhS7g527dvN6POC4ocGd8TjeKw=
+X-Received: by 2002:a05:6808:23c2:: with SMTP id
+ bq2mr8370296oib.32.1634434342991; 
+ Sat, 16 Oct 2021 18:32:22 -0700 (PDT)
 Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Sat, 16 Oct 2021 20:31:53 -0500
+ HTTPREST; Sat, 16 Oct 2021 20:32:22 -0500
 MIME-Version: 1.0
 In-Reply-To: <20211016221843.2167329-8-bjorn.andersson@linaro.org>
 References: <20211016221843.2167329-1-bjorn.andersson@linaro.org>
  <20211016221843.2167329-8-bjorn.andersson@linaro.org>
 From: Stephen Boyd <swboyd@chromium.org>
 User-Agent: alot/0.9.1
-Date: Sat, 16 Oct 2021 20:31:53 -0500
-Message-ID: <CAE-0n515j1xqZqQUky2eom_Jq9E7rHOHPastZ7Xp2zGbv0ypCQ@mail.gmail.com>
+Date: Sat, 16 Oct 2021 20:32:22 -0500
+Message-ID: <CAE-0n53R79HOoBsuLXVkVhYotFam8k4mWZqWnaiJcqcr7w522w@mail.gmail.com>
 Subject: Re: [PATCH v5 7/7] drm/msm/dp: Add sc8180x DP controllers
 To: Abhinav Kumar <abhinavk@codeaurora.org>,
  Bjorn Andersson <bjorn.andersson@linaro.org>, 
@@ -82,7 +81,5 @@ Quoting Bjorn Andersson (2021-10-16 15:18:43)
 > DP driver.
 >
 > Link: https://lore.kernel.org/linux-arm-msm/20210725042436.3967173-7-bjorn.andersson@linaro.org/
-> Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-> ---
 
-Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+BTW, was the link intentional?
