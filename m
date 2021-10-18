@@ -2,31 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C31943126B
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Oct 2021 10:47:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93927431271
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Oct 2021 10:47:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE2CA6E99B;
-	Mon, 18 Oct 2021 08:47:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E2A846E863;
+	Mon, 18 Oct 2021 08:47:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-4317.proton.ch (mail-4317.proton.ch [185.70.43.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 340626E99C
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Oct 2021 08:47:17 +0000 (UTC)
-Date: Mon, 18 Oct 2021 08:47:09 +0000
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9CB1289DA6
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Oct 2021 08:47:35 +0000 (UTC)
+Date: Mon, 18 Oct 2021 08:47:25 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail; t=1634546835;
- bh=QrB3JVww2LcGdYZwo1winnzyb1QAWcpPcUmttB08llg=;
- h=Date:To:From:Reply-To:Subject:From;
- b=sVUracSIsJJ5Slhvkwvbjsa9kyKJTo22NTPuuqgUEgmF7My56asIHjndmHzvtXbJK
- WF7W/MkyBdl+8hsYw8NZzdlPbJ5d4gcV+WgiP+94dZxR11pKw5K+QQeAD3P6SkYC3l
- wB+fGnu15KCNDLmpV6J7+WltKLHiIzq26QuLFdFm7KeuBcWfwtXDyv/x//t8Sy1+Ju
- DPS6aUYLy9PjHUEiftfttIiw+W4iSQrVoPARI584e0nyl5SiOmC7Ke+cVjNzeG0p/p
- L8i84z8cDUYT3NyC+bh17WNnc+8lQyt5FOlScH9trUL+cqq9F+FdtaM0uFzddU8gy/
- J4pR6UK6eU++g==
+ s=protonmail; t=1634546853;
+ bh=FLiBIxB5ERncQvVQfq90RgTp8lZtwv3T5LHXkh2ltJg=;
+ h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
+ b=fkGe2v2k7gozYgHUHMtARzIepdGyWYjM/KBeVC/V+qM3o0SNNS+ZH8lT/LwUYkX9Y
+ XuJAth+5YhnhUqz34My+exhb5zCpz74wPJJFtboilYuPV/TCW37/5Pl6zUPjeVpbxR
+ 4Va/Q+Z0lo7Fdyg3EFrRE4UMIXUwxz0D4JArW8Wpo4kH5hZ45nfrtq+ZLFIqsnZXuq
+ 3w/YRl0vzs8/asuRwOrSozI319+RfaOnhtVlVAvM6BiJ2Crdo+Q+B9RZaB4nzlhUqg
+ erWuulFE9nWw28Xreecq/jBehCAhotamDSviyeyEXMEQJczqOS4fsYjLePv0adqPOU
+ H///KoV05TEvw==
 To: dri-devel@lists.freedesktop.org
 From: Simon Ser <contact@emersion.fr>
-Subject: [PATCH v4 0/6] drm: add per-connector hotplug events
-Message-ID: <20211018084707.32253-1-contact@emersion.fr>
+Cc: Sam Ravnborg <sam@ravnborg.org>, Harry Wentland <harry.wentland@amd.com>
+Subject: [PATCH v4 1/6] drm/sysfs: introduce drm_sysfs_connector_hotplug_event
+Message-ID: <20211018084707.32253-2-contact@emersion.fr>
+In-Reply-To: <20211018084707.32253-1-contact@emersion.fr>
+References: <20211018084707.32253-1-contact@emersion.fr>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
@@ -51,41 +54,66 @@ Reply-To: Simon Ser <contact@emersion.fr>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When a uevent only updates a single connector, add a CONNECTOR property
-to the uevent. This allows user-space to ignore other connectors when
-handling the uevent. This is purely an optimization, drivers can still
-send a uevent without the CONNECTOR property.
+This function sends a hotplug uevent with a CONNECTOR property.
 
-The CONNECTOR property is already set when sending HDCP property update
-uevents, see drm_sysfs_connector_status_event.
+Signed-off-by: Simon Ser <contact@emersion.fr>
+Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+Acked-by: Harry Wentland <harry.wentland@amd.com>
+---
+ drivers/gpu/drm/drm_sysfs.c | 25 +++++++++++++++++++++++++
+ include/drm/drm_sysfs.h     |  1 +
+ 2 files changed, 26 insertions(+)
 
-This has been tested with a wlroots patch [1].
-
-amdgpu and the probe-helper has been updated to use these new fine-grained
-uevents.
-
-Changes in v4: address comments from Ville, Maxime and Sam.
-
-Simon Ser (6):
-  drm/sysfs: introduce drm_sysfs_connector_hotplug_event
-  drm/probe-helper: add drm_kms_helper_connector_hotplug_event
-  drm/connector: use drm_sysfs_connector_hotplug_event
-  amdgpu: use drm_kms_helper_connector_hotplug_event
-  drm/probe-helper: use drm_kms_helper_connector_hotplug_event
-  i915/display/dp: send a more fine-grained link-status uevent
-
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  8 ++--
- .../amd/display/amdgpu_dm/amdgpu_dm_debugfs.c |  4 +-
- drivers/gpu/drm/drm_connector.c               |  2 +-
- drivers/gpu/drm/drm_probe_helper.c            | 48 +++++++++++++++----
- drivers/gpu/drm/drm_sysfs.c                   | 25 ++++++++++
- drivers/gpu/drm/i915/display/intel_dp.c       |  2 +-
- include/drm/drm_probe_helper.h                |  1 +
- include/drm/drm_sysfs.h                       |  1 +
- 8 files changed, 75 insertions(+), 16 deletions(-)
-
-
-base-commit: f6632721cd6231e1bf28b5317dcc7543e43359f7
+diff --git a/drivers/gpu/drm/drm_sysfs.c b/drivers/gpu/drm/drm_sysfs.c
+index 76ff6ec3421b..430e00b16eec 100644
+--- a/drivers/gpu/drm/drm_sysfs.c
++++ b/drivers/gpu/drm/drm_sysfs.c
+@@ -409,6 +409,31 @@ void drm_sysfs_hotplug_event(struct drm_device *dev)
+ }
+ EXPORT_SYMBOL(drm_sysfs_hotplug_event);
+=20
++/**
++ * drm_sysfs_connector_hotplug_event - generate a DRM uevent for any conne=
+ctor
++ * change
++ * @connector: connector which has changed
++ *
++ * Send a uevent for the DRM connector specified by @connector. This will =
+send
++ * a uevent with the properties HOTPLUG=3D1 and CONNECTOR.
++ */
++void drm_sysfs_connector_hotplug_event(struct drm_connector *connector)
++{
++=09struct drm_device *dev =3D connector->dev;
++=09char hotplug_str[] =3D "HOTPLUG=3D1", conn_id[21];
++=09char *envp[] =3D { hotplug_str, conn_id, NULL };
++
++=09snprintf(conn_id, sizeof(conn_id),
++=09=09 "CONNECTOR=3D%u", connector->base.id);
++
++=09drm_dbg_kms(connector->dev,
++=09=09    "[CONNECTOR:%d:%s] generating connector hotplug event\n",
++=09=09    connector->base.id, connector->name);
++
++=09kobject_uevent_env(&dev->primary->kdev->kobj, KOBJ_CHANGE, envp);
++}
++EXPORT_SYMBOL(drm_sysfs_connector_hotplug_event);
++
+ /**
+  * drm_sysfs_connector_status_event - generate a DRM uevent for connector
+  * property status change
+diff --git a/include/drm/drm_sysfs.h b/include/drm/drm_sysfs.h
+index d454ef617b2c..6273cac44e47 100644
+--- a/include/drm/drm_sysfs.h
++++ b/include/drm/drm_sysfs.h
+@@ -11,6 +11,7 @@ int drm_class_device_register(struct device *dev);
+ void drm_class_device_unregister(struct device *dev);
+=20
+ void drm_sysfs_hotplug_event(struct drm_device *dev);
++void drm_sysfs_connector_hotplug_event(struct drm_connector *connector);
+ void drm_sysfs_connector_status_event(struct drm_connector *connector,
+ =09=09=09=09      struct drm_property *property);
+ #endif
 --=20
 2.33.1
 
