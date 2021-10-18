@@ -2,43 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F698431272
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Oct 2021 10:47:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A47B431279
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Oct 2021 10:51:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8113A6E99E;
-	Mon, 18 Oct 2021 08:47:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BCAA66E99A;
+	Mon, 18 Oct 2021 08:51:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-40136.proton.ch (mail-40136.proton.ch [185.70.40.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 805BC6E863
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Oct 2021 08:47:40 +0000 (UTC)
-Date: Mon, 18 Oct 2021 08:47:31 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail; t=1634546858;
- bh=AqZrLz2VN/83fP01hhtFuIxcRXjNQUIEhxswPOHOGis=;
- h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
- b=d71doQL5A42fl/CdgmBYCVjleamLp5nXyrGaQjXzAAAogJvKpBMzAXfW5lFreU/VN
- fIBa8vBXX0eQRWaWpjx3dUofA+IzGDMq3sp85iL91r0DGVI6vTscDbmzJyMOUH+jRj
- 3NHMTjRE0MHcpr9zOlugkweQmu8snTUX6pJDfuX4hoOj9TNQZbzf1RBU3AhIGFU3Yr
- SOvCf51RCLAkQQo8yMcbxkn3wPjLYn3skLBqSIf6qnip0eYJYUVMxDGH17+RPsGQVM
- WMF0CnvsQvN5lrfGDcGJz9bKVT9rpsAz6eWPFR/Z6N1m3qmfR4hYkrytXM9sBRNl5W
- Hh8ioN5D7fNHQ==
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 784D86E99A;
+ Mon, 18 Oct 2021 08:51:26 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10140"; a="208307094"
+X-IronPort-AV: E=Sophos;i="5.85,381,1624345200"; d="scan'208";a="208307094"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Oct 2021 01:51:26 -0700
+X-IronPort-AV: E=Sophos;i="5.85,381,1624345200"; d="scan'208";a="493501959"
+Received: from foboril-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.249.44.188])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Oct 2021 01:51:21 -0700
+From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org
-From: Simon Ser <contact@emersion.fr>
-Cc: Ville Syrjala <ville.syrjala@linux.intel.com>
-Subject: [PATCH v4 6/6] i915/display/dp: send a more fine-grained link-status
- uevent
-Message-ID: <20211018084707.32253-7-contact@emersion.fr>
-In-Reply-To: <20211018084707.32253-1-contact@emersion.fr>
-References: <20211018084707.32253-1-contact@emersion.fr>
+Cc: intel-gfx@lists.freedesktop.org, jani.nikula@intel.com,
+ Stephen Rothwell <sfr@canb.auug.org.au>, Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH] drm/locking: fix __stack_depot_* name conflict
+Date: Mon, 18 Oct 2021 11:51:13 +0300
+Message-Id: <20211018085113.27033-1-jani.nikula@intel.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
- DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
- autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
- mailout.protonmail.ch
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,38 +45,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Simon Ser <contact@emersion.fr>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When link-status changes, send a hotplug uevent which contains the
-connector ID. That way, user-space can more easily figure out that
-only this connector has been updated.
+From: Stephen Rothwell <sfr@canb.auug.org.au>
 
-Changes in v4: avoid sending two uevents (Ville)
+Commit cd06ab2fd48f ("drm/locking: add backtrace for locking contended
+locks without backoff") added functions named __stack_depot_* in drm
+which conflict with stack depot. Rename to __drm_stack_depot_*.
 
-Signed-off-by: Simon Ser <contact@emersion.fr>
-Cc: Ville Syrjala <ville.syrjala@linux.intel.com>
+v2 by Jani:
+- Also rename __stack_depot_print
+
+References: https://lore.kernel.org/r/20211015202648.258445ef@canb.auug.org.au
+Fixes: cd06ab2fd48f ("drm/locking: add backtrace for locking contended locks without backoff")
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
+Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/i915/display/intel_dp.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/drm_modeset_lock.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915=
-/display/intel_dp.c
-index 04175f359fd6..8b81a709d33b 100644
---- a/drivers/gpu/drm/i915/display/intel_dp.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp.c
-@@ -5263,7 +5263,7 @@ static void intel_dp_modeset_retry_work_fn(struct wor=
-k_struct *work)
- =09=09=09=09=09       DRM_MODE_LINK_STATUS_BAD);
- =09mutex_unlock(&connector->dev->mode_config.mutex);
- =09/* Send Hotplug uevent so userspace can reprobe */
--=09drm_kms_helper_hotplug_event(connector->dev);
-+=09drm_kms_helper_connector_hotplug_event(connector);
+diff --git a/drivers/gpu/drm/drm_modeset_lock.c b/drivers/gpu/drm/drm_modeset_lock.c
+index 4d32b61fa1fd..c97323365675 100644
+--- a/drivers/gpu/drm/drm_modeset_lock.c
++++ b/drivers/gpu/drm/drm_modeset_lock.c
+@@ -79,7 +79,7 @@
+ static DEFINE_WW_CLASS(crtc_ww_class);
+ 
+ #if IS_ENABLED(CONFIG_DRM_DEBUG_MODESET_LOCK)
+-static noinline depot_stack_handle_t __stack_depot_save(void)
++static noinline depot_stack_handle_t __drm_stack_depot_save(void)
+ {
+ 	unsigned long entries[8];
+ 	unsigned int n;
+@@ -89,7 +89,7 @@ static noinline depot_stack_handle_t __stack_depot_save(void)
+ 	return stack_depot_save(entries, n, GFP_NOWAIT | __GFP_NOWARN);
  }
-=20
- bool
---=20
-2.33.1
-
+ 
+-static void __stack_depot_print(depot_stack_handle_t stack_depot)
++static void __drm_stack_depot_print(depot_stack_handle_t stack_depot)
+ {
+ 	struct drm_printer p = drm_debug_printer("drm_modeset_lock");
+ 	unsigned long *entries;
+@@ -108,11 +108,11 @@ static void __stack_depot_print(depot_stack_handle_t stack_depot)
+ 	kfree(buf);
+ }
+ #else /* CONFIG_DRM_DEBUG_MODESET_LOCK */
+-static depot_stack_handle_t __stack_depot_save(void)
++static depot_stack_handle_t __drm_stack_depot_save(void)
+ {
+ 	return 0;
+ }
+-static void __stack_depot_print(depot_stack_handle_t stack_depot)
++static void __drm_stack_depot_print(depot_stack_handle_t stack_depot)
+ {
+ }
+ #endif /* CONFIG_DRM_DEBUG_MODESET_LOCK */
+@@ -266,7 +266,7 @@ EXPORT_SYMBOL(drm_modeset_acquire_fini);
+ void drm_modeset_drop_locks(struct drm_modeset_acquire_ctx *ctx)
+ {
+ 	if (WARN_ON(ctx->contended))
+-		__stack_depot_print(ctx->stack_depot);
++		__drm_stack_depot_print(ctx->stack_depot);
+ 
+ 	while (!list_empty(&ctx->locked)) {
+ 		struct drm_modeset_lock *lock;
+@@ -286,7 +286,7 @@ static inline int modeset_lock(struct drm_modeset_lock *lock,
+ 	int ret;
+ 
+ 	if (WARN_ON(ctx->contended))
+-		__stack_depot_print(ctx->stack_depot);
++		__drm_stack_depot_print(ctx->stack_depot);
+ 
+ 	if (ctx->trylock_only) {
+ 		lockdep_assert_held(&ctx->ww_ctx);
+@@ -317,7 +317,7 @@ static inline int modeset_lock(struct drm_modeset_lock *lock,
+ 		ret = 0;
+ 	} else if (ret == -EDEADLK) {
+ 		ctx->contended = lock;
+-		ctx->stack_depot = __stack_depot_save();
++		ctx->stack_depot = __drm_stack_depot_save();
+ 	}
+ 
+ 	return ret;
+-- 
+2.30.2
 
