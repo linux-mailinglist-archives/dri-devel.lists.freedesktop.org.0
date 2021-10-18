@@ -2,29 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21DCC43200D
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Oct 2021 16:40:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5086343200E
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Oct 2021 16:40:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7FA9F6E048;
-	Mon, 18 Oct 2021 14:40:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB5026E0E5;
+	Mon, 18 Oct 2021 14:40:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C9E86E048
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Oct 2021 14:40:01 +0000 (UTC)
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 51CC16E0E5
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Oct 2021 14:40:09 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: kholk11) with ESMTPSA id 5C73D1F42DD3
+ (Authenticated sender: kholk11) with ESMTPSA id B4ADE1F42DD3
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 To: robh+dt@kernel.org
 Cc: a.hajda@samsung.com, daniel@ffwll.ch, airlied@linux.ie,
  dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Rob Herring <robh@kernel.org>
-Subject: [PATCH v2] dt-bindings: display/bridge: tc358767: Convert to YAML
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Subject: [PATCH v2] dt-bindings: display/bridge: tc358764: Convert to YAML
  binding
-Date: Mon, 18 Oct 2021 16:39:51 +0200
-Message-Id: <20211018143951.878143-1-angelogioacchino.delregno@collabora.com>
+Date: Mon, 18 Oct 2021 16:40:03 +0200
+Message-Id: <20211018144003.878345-1-angelogioacchino.delregno@collabora.com>
 X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -43,126 +43,104 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Convert the Toshiba TC358767 txt documentation to YAML.
+Convert the Toshiba TC358764 txt documentation to YAML.
 
 Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Reviewed-by: Rob Herring <robh@kernel.org>
 ---
- .../display/bridge/toshiba,tc358767.txt       |  54 --------
- .../display/bridge/toshiba,tc358767.yaml      | 118 ++++++++++++++++++
- 2 files changed, 118 insertions(+), 54 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/display/bridge/toshiba,tc358767.txt
- create mode 100644 Documentation/devicetree/bindings/display/bridge/toshiba,tc358767.yaml
+Note: dtbs_check on exynos5250-arndale.dts will give some warnings after
+      applying this patch: since the preferred way is to have 'ports',
+      this warning was ignored.
+      I have no Exynos5250 board, so the dts fix is left to someone who
+      is able to test on the real hw.
 
-diff --git a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358767.txt b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358767.txt
+ .../display/bridge/toshiba,tc358764.txt       | 35 -------
+ .../display/bridge/toshiba,tc358764.yaml      | 94 +++++++++++++++++++
+ 2 files changed, 94 insertions(+), 35 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/display/bridge/toshiba,tc358764.txt
+ create mode 100644 Documentation/devicetree/bindings/display/bridge/toshiba,tc358764.yaml
+
+diff --git a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358764.txt b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358764.txt
 deleted file mode 100644
-index 583c5e9dbe6b..000000000000
---- a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358767.txt
+index 8f9abf28a8fa..000000000000
+--- a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358764.txt
 +++ /dev/null
-@@ -1,54 +0,0 @@
--Toshiba TC358767 eDP bridge bindings
+@@ -1,35 +0,0 @@
+-TC358764 MIPI-DSI to LVDS panel bridge
 -
 -Required properties:
-- - compatible: "toshiba,tc358767"
-- - reg: i2c address of the bridge, 0x68 or 0x0f, depending on bootstrap pins
-- - clock-names: should be "ref"
-- - clocks: OF device-tree clock specification for refclk input. The reference
--   clock rate must be 13 MHz, 19.2 MHz, 26 MHz, or 38.4 MHz.
+-  - compatible: "toshiba,tc358764"
+-  - reg: the virtual channel number of a DSI peripheral
+-  - vddc-supply: core voltage supply, 1.2V
+-  - vddio-supply: I/O voltage supply, 1.8V or 3.3V
+-  - vddlvds-supply: LVDS1/2 voltage supply, 3.3V
+-  - reset-gpios: a GPIO spec for the reset pin
 -
--Optional properties:
-- - shutdown-gpios: OF device-tree gpio specification for SD pin
--                   (active high shutdown input)
-- - reset-gpios: OF device-tree gpio specification for RSTX pin
--                (active low system reset)
-- - toshiba,hpd-pin: TC358767 GPIO pin number to which HPD is connected to (0 or 1)
-- - ports: the ports node can contain video interface port nodes to connect
--   to a DPI/DSI source and to an eDP/DP sink according to [1][2]:
--    - port@0: DSI input port
--    - port@1: DPI input port
--    - port@2: eDP/DP output port
+-The device node can contain following 'port' child nodes,
+-according to the OF graph bindings defined in [1]:
+-  0: DSI Input, not required, if the bridge is DSI controlled
+-  1: LVDS Output, mandatory
 -
--[1]: Documentation/devicetree/bindings/graph.txt
--[2]: Documentation/devicetree/bindings/media/video-interfaces.txt
+-[1]: Documentation/devicetree/bindings/media/video-interfaces.txt
 -
 -Example:
--	edp-bridge@68 {
--		compatible = "toshiba,tc358767";
--		reg = <0x68>;
--		shutdown-gpios = <&gpio3 23 GPIO_ACTIVE_HIGH>;
--		reset-gpios = <&gpio3 24 GPIO_ACTIVE_LOW>;
--		clock-names = "ref";
--		clocks = <&edp_refclk>;
 -
--		ports {
--			#address-cells = <1>;
--			#size-cells = <0>;
--
--			port@1 {
--				reg = <1>;
--
--				bridge_in: endpoint {
--					remote-endpoint = <&dpi_out>;
--				};
--			};
--
--			port@2 {
--				reg = <2>;
--
--				bridge_out: endpoint {
--					remote-endpoint = <&panel_in>;
--				};
+-	bridge@0 {
+-		reg = <0>;
+-		compatible = "toshiba,tc358764";
+-		vddc-supply = <&vcc_1v2_reg>;
+-		vddio-supply = <&vcc_1v8_reg>;
+-		vddlvds-supply = <&vcc_3v3_reg>;
+-		reset-gpios = <&gpd1 6 GPIO_ACTIVE_LOW>;
+-		#address-cells = <1>;
+-		#size-cells = <0>;
+-		port@1 {
+-			reg = <1>;
+-			lvds_ep: endpoint {
+-				remote-endpoint = <&panel_ep>;
 -			};
 -		};
 -	};
-diff --git a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358767.yaml b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358767.yaml
+diff --git a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358764.yaml b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358764.yaml
 new file mode 100644
-index 000000000000..b2692f0e971b
+index 000000000000..815eedb9094f
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358767.yaml
-@@ -0,0 +1,118 @@
++++ b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358764.yaml
+@@ -0,0 +1,94 @@
 +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 +%YAML 1.2
 +---
-+$id: http://devicetree.org/schemas/display/bridge/toshiba,tc358767.yaml#
++$id: http://devicetree.org/schemas/display/bridge/toshiba,tc358764.yaml#
 +$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+title: Toshiba TC358767 MIPI-DSI or MIPI-DPI to DP/eDP bridge
++title: Toshiba TC358764 MIPI-DSI to LVDS bridge
 +
 +maintainers:
-+  - Tomi Valkeinen <tomi.valkeinen@ti.com>
++  - Andrzej Hajda <a.hajda@samsung.com>
++
++description: |
++  The TC358764 is bridge device which converts MIPI DSI or MIPI DPI to DP/eDP.
 +
 +properties:
 +  compatible:
 +    enum:
-+      - toshiba,tc358767
++      - toshiba,tc358764
 +
 +  reg:
-+    description: I2C address of the bridge
-+    enum: [0x68, 0x0f]
-+
-+  clocks:
-+    description:
-+      Reference clock input. The reference clock rate must be 13MHz, 19.2MHz,
-+      26MHz, or 38.4MHz.
++    description: Virtual channel number of a DSI peripheral
 +    maxItems: 1
-+
-+  clock-names:
-+    const: ref
 +
 +  reset-gpios:
-+    description: GPIO connected to the RSTX signal.
++    description: GPIO connected to the reset pin.
 +    maxItems: 1
 +
-+  shutdown-gpios:
-+    description: GPIO connected to the SD signal.
-+    maxItems: 1
++  vddc-supply:
++    description: Core voltage supply, 1.2V
 +
-+  toshiba,hpd-pin:
-+    $ref: "/schemas/types.yaml#/definitions/uint32"
-+    description: TC356767 GPIO pin number to which HPD is connected
-+    enum:
-+      - 0
-+      - 1
++  vddio-supply:
++    description: I/O voltage supply, 1.8V or 3.3V
++
++  vddlvds-supply:
++    description: LVDS1/2 voltage supply, 3.3V
 +
 +  ports:
 +    $ref: /schemas/graph.yaml#/properties/ports
@@ -171,31 +149,22 @@ index 000000000000..b2692f0e971b
 +      port@0:
 +        $ref: /schemas/graph.yaml#/properties/port
 +        description:
-+          Video port for MIPI DSI input
++          Video port for MIPI DSI input, if the bridge DSI controlled
 +
 +      port@1:
 +        $ref: /schemas/graph.yaml#/properties/port
 +        description:
-+          Video port for MIPI DPI input
++          Video port for LVDS output (panel or connector).
 +
-+      port@2:
-+        $ref: /schemas/graph.yaml#/properties/port
-+        description:
-+          Video port for DP/eDP output (panel or connector).
-+
-+    oneOf:
-+      - required:
-+          - port@0
-+      - required:
-+          - port@1
 +    required:
-+      - port@2
++      - port@1
 +
 +required:
 +  - compatible
 +  - reg
-+  - clock-names
-+  - clocks
++  - vddc-supply
++  - vddio-supply
++  - vddlvds-supply
 +  - ports
 +
 +additionalProperties: false
@@ -208,13 +177,13 @@ index 000000000000..b2692f0e971b
 +      #address-cells = <1>;
 +      #size-cells = <0>;
 +
-+      bridge@68 {
-+        compatible = "toshiba,tc358767";
-+        reg = <0x68>;
-+        clock-names = "ref";
-+        clocks = <&edp_refclk>;
-+        reset-gpios = <&gpio3 24 GPIO_ACTIVE_LOW>;
-+        shutdown-gpios = <&gpio3 23 GPIO_ACTIVE_HIGH>;
++      bridge@0 {
++        compatible = "toshiba,tc358764";
++        reg = <0>;
++        vddc-supply = <&vcc_1v2_reg>;
++        vddio-supply = <&vcc_1v8_reg>;
++        vddlvds-supply = <&vcc_3v3_reg>;
++        reset-gpios = <&gpd1 6 GPIO_ACTIVE_LOW>;
 +
 +        ports {
 +          #address-cells = <1>;
@@ -222,15 +191,8 @@ index 000000000000..b2692f0e971b
 +
 +          port@1 {
 +            reg = <1>;
-+            bridge_in: endpoint {
-+              remote-endpoint = <&dpi_out>;
-+            };
-+          };
-+
-+          port@2 {
-+            reg = <2>;
-+            bridge_out: endpoint {
-+              remote-endpoint = <&panel_in>;
++            lvds_ep: endpoint {
++              remote-endpoint = <&panel_ep>;
 +            };
 +          };
 +        };
