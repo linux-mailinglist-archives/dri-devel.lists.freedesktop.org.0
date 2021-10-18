@@ -2,53 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADE08431404
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Oct 2021 12:02:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DF4543140E
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Oct 2021 12:04:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 37D716E9CB;
-	Mon, 18 Oct 2021 10:02:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5BF5B6E9CC;
+	Mon, 18 Oct 2021 10:04:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD34D6E9CB
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Oct 2021 10:02:43 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F9496E9CC
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Oct 2021 10:04:40 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 7CB9A1FD6D;
- Mon, 18 Oct 2021 10:02:41 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id F0D961FD6D;
+ Mon, 18 Oct 2021 10:04:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1634551361; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1634551478; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=4LE2XnoDd93shSdXnFcB5mdAxtyex8WZOGCV661COJQ=;
- b=qkaIxHgdf9rNQ6p7t2UyQgmjt4nOBjLTK+YjGf7iJOJ6K5XtdLTkyfv6pEzrco2nu3wtr7
- ZP9yUguZ4CPANy1LlDirZCzoQulMBkziPX5XJjn+2fmCV58zKeq0qxD3fzLovgoIIMTzQz
- xFSucLP+NrmhZvRfiOH545Ng5pamHgA=
+ bh=9SO6/e1pGjpZVghTITM/5NtebYb4B66r1ZebYoFwOPk=;
+ b=UZR/HLa70oC/5d0kw4WaoNcfx7LOw0NfqgroUQ+FQVKKQw1gBCe7xIrIXIPS5Yzadvf2Cv
+ hTyTIT+qBKXOpG/FqZFJME+r6Lt0jnfU/pV2O9P99OePKLV73kGwvK/r08iM9LUxoOOVNv
+ C9nKfUf041frLn+mkXsr6r+WoDtAukk=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1634551361;
+ s=susede2_ed25519; t=1634551478;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=4LE2XnoDd93shSdXnFcB5mdAxtyex8WZOGCV661COJQ=;
- b=gdxufcHDp6xAV6EKnuzBDuAxjGxCABVtEVUW4yE5hSsuY6PT9X6jMCxGPmKZw8XUhHQsVH
- dXlqAu2Xrdi+vEAA==
+ bh=9SO6/e1pGjpZVghTITM/5NtebYb4B66r1ZebYoFwOPk=;
+ b=pWoAQmsg3q9KpEFB/t1ZxH/uDeUE2tUR3oz/pHamFyplV/ftdWGryHAGdPNXHKsmifdL+b
+ g6GRXbudTJROqUDQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 34F1C13CC9;
- Mon, 18 Oct 2021 10:02:41 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B6E7313CC9;
+ Mon, 18 Oct 2021 10:04:37 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id tIO6C0FGbWH+YwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Mon, 18 Oct 2021 10:02:41 +0000
-Message-ID: <87f347bf-801f-7fba-bb52-009367cd30a0@suse.de>
-Date: Mon, 18 Oct 2021 12:02:40 +0200
+ by imap2.suse-dmz.suse.de with ESMTPSA id brKsK7VGbWGGZQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Mon, 18 Oct 2021 10:04:37 +0000
+Message-ID: <c48d311b-26c9-7d0e-69f9-364f39abb209@suse.de>
+Date: Mon, 18 Oct 2021 12:04:37 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.2.0
-Subject: Re: [PATCH 1/6] drm: vkms: Replace the deprecated drm_mode_config_init
+Subject: Re: [PATCH 3/6] drm: vkms: Replace hardcoded value of
+ `vkms_composer.map` to DRM_FORMAT_MAX_PLANES
 Content-Language: en-US
 To: Igor Matheus Andrade Torrente <igormtorrente@gmail.com>,
  rodrigosiqueiramelo@gmail.com, melissa.srw@gmail.com
@@ -57,12 +58,12 @@ Cc: hamohammed.sa@gmail.com, daniel@ffwll.ch, airlied@linux.ie,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  lkcamp@lists.libreplanetbr.org
 References: <20211005201637.58563-1-igormtorrente@gmail.com>
- <20211005201637.58563-2-igormtorrente@gmail.com>
+ <20211005201637.58563-4-igormtorrente@gmail.com>
 From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20211005201637.58563-2-igormtorrente@gmail.com>
+In-Reply-To: <20211005201637.58563-4-igormtorrente@gmail.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="------------BIiV4QcdVMhZMoK9nuGx1JYL"
+ boundary="------------zghGq0Fej4rJyWjPLcfDw5U4"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,8 +80,8 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------BIiV4QcdVMhZMoK9nuGx1JYL
-Content-Type: multipart/mixed; boundary="------------AjdwBHD0ODWd46YzR8rEggoa";
+--------------zghGq0Fej4rJyWjPLcfDw5U4
+Content-Type: multipart/mixed; boundary="------------6j0uD9DZedw4PHIHEqDv8xZc";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: Igor Matheus Andrade Torrente <igormtorrente@gmail.com>,
@@ -89,65 +90,65 @@ Cc: hamohammed.sa@gmail.com, daniel@ffwll.ch, airlied@linux.ie,
  contact@emersion.fr, leandro.ribeiro@collabora.com,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  lkcamp@lists.libreplanetbr.org
-Message-ID: <87f347bf-801f-7fba-bb52-009367cd30a0@suse.de>
-Subject: Re: [PATCH 1/6] drm: vkms: Replace the deprecated
- drm_mode_config_init
+Message-ID: <c48d311b-26c9-7d0e-69f9-364f39abb209@suse.de>
+Subject: Re: [PATCH 3/6] drm: vkms: Replace hardcoded value of
+ `vkms_composer.map` to DRM_FORMAT_MAX_PLANES
 References: <20211005201637.58563-1-igormtorrente@gmail.com>
- <20211005201637.58563-2-igormtorrente@gmail.com>
-In-Reply-To: <20211005201637.58563-2-igormtorrente@gmail.com>
+ <20211005201637.58563-4-igormtorrente@gmail.com>
+In-Reply-To: <20211005201637.58563-4-igormtorrente@gmail.com>
 
---------------AjdwBHD0ODWd46YzR8rEggoa
+--------------6j0uD9DZedw4PHIHEqDv8xZc
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: base64
 
 SGkNCg0KQW0gMDUuMTAuMjEgdW0gMjI6MTYgc2NocmllYiBJZ29yIE1hdGhldXMgQW5kcmFk
-ZSBUb3JyZW50ZToNCj4gVGhlIGBkcm1fbW9kZV9jb25maWdfaW5pdGAgd2FzIGRlcHJlY2F0
-ZWQgc2luY2UgYzNiNzkwZSBjb21taXQsIGFuZCBpdCdzDQo+IGJlaW5nIHJlcGxhY2VkIGJ5
-IHRoZSBgZHJtbV9tb2RlX2NvbmZpZ19pbml0YC4NCj4gDQo+IFNpZ25lZC1vZmYtYnk6IEln
-b3IgTWF0aGV1cyBBbmRyYWRlIFRvcnJlbnRlIDxpZ29ybXRvcnJlbnRlQGdtYWlsLmNvbT4N
-Cj4gLS0tDQo+ICAgZHJpdmVycy9ncHUvZHJtL3ZrbXMvdmttc19kcnYuYyB8IDUgKysrKy0N
-Cj4gICAxIGZpbGUgY2hhbmdlZCwgNCBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pDQo+
-IA0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3ZrbXMvdmttc19kcnYuYyBiL2Ry
-aXZlcnMvZ3B1L2RybS92a21zL3ZrbXNfZHJ2LmMNCj4gaW5kZXggMGZmZTVmMGUzM2Y3Li44
-Mjg4Njg5MjA0OTQgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS92a21zL3ZrbXNf
-ZHJ2LmMNCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3ZrbXMvdmttc19kcnYuYw0KPiBAQCAt
-MTQwLDggKzE0MCwxMSBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IGRybV9tb2RlX2NvbmZpZ19o
-ZWxwZXJfZnVuY3Mgdmttc19tb2RlX2NvbmZpZ19oZWxwZXJzID0gew0KPiAgIHN0YXRpYyBp
-bnQgdmttc19tb2Rlc2V0X2luaXQoc3RydWN0IHZrbXNfZGV2aWNlICp2a21zZGV2KQ0KPiAg
-IHsNCj4gICAJc3RydWN0IGRybV9kZXZpY2UgKmRldiA9ICZ2a21zZGV2LT5kcm07DQo+ICsJ
-aW50IHJldCA9IGRybW1fbW9kZV9jb25maWdfaW5pdChkZXYpOw0KPiArDQo+ICsJaWYgKHJl
-dCA8IDApDQo+ICsJCXJldHVybiByZXQ7DQoNClRoZSBzdHlsZSBsb29rcyBhd2t3YXJkIElN
-SE8uIFJhdGhlciB1c2UNCg0KICBpbnQgcmV0DQoNCiAgcmV0ID0gZHJtbV9tb2RlX2NvbmZp
-Z19pbml0KCkNCiAgaWYgKHJldCkNCiAgICAgcmV0dXJuIHJldDsNCg0KPiAgIA0KPiAtCWRy
-bV9tb2RlX2NvbmZpZ19pbml0KGRldik7DQo+ICAgCWRldi0+bW9kZV9jb25maWcuZnVuY3Mg
-PSAmdmttc19tb2RlX2Z1bmNzOw0KPiAgIAlkZXYtPm1vZGVfY29uZmlnLm1pbl93aWR0aCA9
-IFhSRVNfTUlOOw0KPiAgIAlkZXYtPm1vZGVfY29uZmlnLm1pbl9oZWlnaHQgPSBZUkVTX01J
-TjsNCj4gDQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZl
-bG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KTWF4ZmVsZHN0
-ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBHZXJtYW55DQooSFJCIDM2ODA5LCBBRyBOw7xybmJl
-cmcpDQpHZXNjaMOkZnRzZsO8aHJlcjogRmVsaXggSW1lbmTDtnJmZmVyDQo=
+ZSBUb3JyZW50ZToNCj4gVGhlIGBtYXBgIHZlY3RvciBhdCBgdmttc19jb21wb3NlcmAgdXNl
+cyBhIGhhcmRjb2RlZCB2YWx1ZSB0byBkZWZpbmUgaXRzDQo+IHNpemUuDQo+IA0KPiBJZiBz
+b21lZGF5IHRoZSBtYXhpbXVtIG51bWJlciBvZiBwbGFuZXMgaW5jcmVhc2VzLCB0aGlzIGhh
+cmRjb2RlZCB2YWx1ZQ0KPiBjYW4gYmUgYSBwcm9ibGVtLg0KPiANCj4gVGhpcyB2YWx1ZSBp
+cyBiZWluZyByZXBsYWNlZCB3aXRoIHRoZSBEUk1fRk9STUFUX01BWF9QTEFORVMgbWFjcm8u
+DQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBJZ29yIE1hdGhldXMgQW5kcmFkZSBUb3JyZW50ZSA8
+aWdvcm10b3JyZW50ZUBnbWFpbC5jb20+DQo+IC0tLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS92
+a21zL3ZrbXNfZHJ2LmggfCAyICstDQo+ICAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9u
+KCspLCAxIGRlbGV0aW9uKC0pDQo+IA0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJt
+L3ZrbXMvdmttc19kcnYuaCBiL2RyaXZlcnMvZ3B1L2RybS92a21zL3ZrbXNfZHJ2LmgNCj4g
+aW5kZXggZDQ4YzIzZDQwY2U1Li42NGU2Mjk5M2IwNmYgMTAwNjQ0DQo+IC0tLSBhL2RyaXZl
+cnMvZ3B1L2RybS92a21zL3ZrbXNfZHJ2LmgNCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3Zr
+bXMvdmttc19kcnYuaA0KPiBAQCAtMjgsNyArMjgsNyBAQCBzdHJ1Y3Qgdmttc193cml0ZWJh
+Y2tfam9iIHsNCj4gICBzdHJ1Y3Qgdmttc19jb21wb3NlciB7DQo+ICAgCXN0cnVjdCBkcm1f
+ZnJhbWVidWZmZXIgZmI7DQo+ICAgCXN0cnVjdCBkcm1fcmVjdCBzcmMsIGRzdDsNCj4gLQlz
+dHJ1Y3QgZG1hX2J1Zl9tYXAgbWFwWzRdOw0KPiArCXN0cnVjdCBkbWFfYnVmX21hcCBtYXBb
+RFJNX0ZPUk1BVF9NQVhfUExBTkVTXTsNCg0KSSBzdXNwZWN0IHRoYXQgSSBzaW1wbHkgbWlz
+c2VkIHRoaXMgaW5zdGFuY2Ugd2hpbGUgaW50cm9kdWNpbmcgDQpEUk1fRk9STUFUX01BWF9Q
+TEFORVMuIFRoYW5rcyBmb3IgZml4aW5nLg0KDQpBY2tlZC1ieTogVGhvbWFzIFppbW1lcm1h
+bm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+DQoNCj4gICAJdW5zaWduZWQgaW50IG9mZnNldDsN
+Cj4gICAJdW5zaWduZWQgaW50IHBpdGNoOw0KPiAgIAl1bnNpZ25lZCBpbnQgY3BwOw0KPiAN
+Cg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0K
+U1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpNYXhmZWxkc3RyLiA1LCA5
+MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkNCihIUkIgMzY4MDksIEFHIE7DvHJuYmVyZykNCkdl
+c2Now6RmdHNmw7xocmVyOiBGZWxpeCBJbWVuZMO2cmZmZXINCg==
 
---------------AjdwBHD0ODWd46YzR8rEggoa--
+--------------6j0uD9DZedw4PHIHEqDv8xZc--
 
---------------BIiV4QcdVMhZMoK9nuGx1JYL
+--------------zghGq0Fej4rJyWjPLcfDw5U4
 Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmFtRkAFAwAAAAAACgkQlh/E3EQov+Dh
-HQ//YLBjCwEKcI6OxzPyUqGSxNmlKi8XR1TOPzGKT1rnTXzDdsBjdBWeaKc2qeJk5cnzWnr4HzY3
-Y/zOT/Vl3vV4MHc7x1rMtj11CaKEK6oXd42pwHAzDHRAcaHtvkK8Lyr+we7sHiFCpOrcNSxU1CYV
-R+q2VfL53QfLs24WdhQX3fZGoDcUiwYBVIFde4C9MdCb8PmTi/Bw1jGBmA+NUkSlfreQ4LG9y2GL
-7rZsCGiyUmDoBLzaX4ysLpiReNkRub/s4sdiZ6Lk8owpWq/KjIy/ii8D9vhVKvD32yj3WM1V7cOu
-harXm+FpSsTBFZuKwGxkW7cE1p9aPDgvU8bTPN8mgVLq++Bq29S7IE4aoWH4tG77CA5s/22HN6Xp
-Ivpr3+GupbRGxHPpxXVdKgKpZTIqcDl+cq8GuxlQtt3oyxTHO2I2Ab0Ig4kHqQrN0UEIEZ7VtBP3
-La+BMnfYKhFKt8BzrPajGeFEjlRWnclEXQ55sAYDLkxo46+czOwSwgO7+TD416sif3HAv9gtWVnT
-+y3igEPG2wCY7LMDQD4Vh20SJtLGBcDNpEhB57b3udCwjiLu6b4NxHIASX69rw7IRBncnEwNrCSc
-6wN7ZrqrsUU0ri21azrCT7BcsAlotOQIjMa/EPH120IXl6iuFAmZ1v+wp8QhvYDVK+k5eZcVOkIw
-26w=
-=ft9+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmFtRrUFAwAAAAAACgkQlh/E3EQov+Bx
+1g/7BEeB0q/QiRLZNNeknFPCAFs9R6BHV/kp1AvAppmkTuDnOrxfHwRHQzFbBSicXDjfyQm83k57
+NYCHM8u6ejvubSyfLMz6vzjMQeC/06s5SyUyk+30bkZp5Vndt6RWmBysceTr76bGf8KWSJSS2ivv
+9ybFtrpTtUDw6RUAekJaiKnd0SLkl9OsLlWt5uJjH4Gbu8Qu9OekQONal+werrGNRMVOzs8/rmxp
+1BWb8AbcdixW2Y6WuEP4gsWFQSucC6eG1XhRGDWIugYQ9SZUBFuEtzFtaFr6HqlEw1shrZS+BPKZ
+Z84btVm9tB3NQQChKDRSqHotY0jLt9kBb5wNyYEkXF94Xsd6y8giQIfSIPU60uuiElhemDHTPJBE
+jqLfW5XB1xYaQx2nCg8E08qjT6ggBqO/7AiuM0QsAuFvrEUzR35vv6W7HRHCmcEgOvBvuFGqW9O4
+GMeTYBplkTtI4F2QndCFa5jt/mfV5kgjtWL+Y6F/DWweFv0Q4Zl4N1F/ppCgC6bl3rWQDQ9f994k
+S57wuGLWVfbX4P3UVbIuNFfleBlN9hQckXRjr2gGGhAPEp9eJObT6EQH5C6grZPeMbovNdCi1odx
+gHZ12nyaS+kuNapH+93rdQ16QbRJPJlmtclC1sW6Qgr2lFVMQYZOAa8Cm4f6O1LmT7tAobfTutdc
+H+4=
+=VuBj
 -----END PGP SIGNATURE-----
 
---------------BIiV4QcdVMhZMoK9nuGx1JYL--
+--------------zghGq0Fej4rJyWjPLcfDw5U4--
