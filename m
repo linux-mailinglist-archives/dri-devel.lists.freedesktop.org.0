@@ -1,86 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B171C4322A8
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Oct 2021 17:20:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 853A04322EA
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Oct 2021 17:31:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A31D76E0AF;
-	Mon, 18 Oct 2021 15:20:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3AC666E0CF;
+	Mon, 18 Oct 2021 15:31:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
- [66.111.4.230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D3A456E0AF
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Oct 2021 15:20:19 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id E47375810A6;
- Mon, 18 Oct 2021 11:20:16 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Mon, 18 Oct 2021 11:20:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=EyaSCcSd+xkZIq0q3vy9VAx4Zhl
- OAxHSAzuNLYnTy54=; b=aGdjyzXdcMn1qq8ptCW43yyVEhpBdtfv95GDcJDnp0e
- k2yC2u0MYTYLlm4XfUHXqOZQq7vLjcJ0/K35Xb/LOxenym1duuIz50oJbKvbJUXO
- iqgxVI19XV5nfmU3v1Ozj595zVE91Tu/U0lCSdQZfer/6BHjehbI85AxwQ3vFUDt
- qgpQBGulvI6IamCrBozB6CRYwvsHrDlPAu12W7IPCIE3ea4I37bporDUsgTYIiKm
- B/+bLthWLppGYHx2EoEARl4OoqRH917khoham3fPOksXIrAbB0wfkyRCJ+i8kqsd
- nslAiZYcIi33BEwXyhmnGEmU8TNtJB5QNpvUI0zS8wA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=EyaSCc
- Sd+xkZIq0q3vy9VAx4ZhlOAxHSAzuNLYnTy54=; b=IFKjHm67pYLYLcCPyZ8/lC
- 0YdqAADonjmO+vqV+2wu1j2rW7lrZWanN1cvLCvHmWNDov6M4Q6bt42Ige4XAjgW
- QEyEaOQU5ZQ1xKYO9Eag8v5C5SOyg3VhX+F39rIydoUArx2P013Nau8YuCdOiIxX
- ZEz1NzRe0pKV1inCPET2TtvHE1WczlmUfuAZZVbRVSHO12iSF6ydjdbBOSgM3XcR
- j58HVv0NAoamsLX8ImirpTGX7PEYHFKTWY8yFKn3Ab7glWdKAgl252iD5UtdvHJ8
- FYwCgdTia+lnCC+q3g+Ww2MJvhnORDH8Fq9slXZhvzKAwsl1m11YI38RzVw3d1FA
- ==
-X-ME-Sender: <xms:r5BtYbd-R0yw152bhvFxz8zN215yvazpRTtolVXsgzQiyVJdXq7TXg>
- <xme:r5BtYRN684DwNJDrTbaFrMkWNSHZeXBELHGwKf6T5WJTnR31JsuusdQb7sjHdlB3S
- kTVotbJXmTlfVAa0aQ>
-X-ME-Received: <xmr:r5BtYUhkPKJaTr7VdWJXxQuq0bfs3Kk8klw0_xp1Ut7Oq7cnxWxnApl_KkF4AD0rRkyEs8xAc0-S6qA24aFQ-DqXl7cwCShhCtMcmmaO>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrvddvtddgkeehucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
- gedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
- grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:r5BtYc_OEn2ieAj9600-Pf6YyCFZ13-yZscDZTOBX0PcRqUUS5XMJQ>
- <xmx:r5BtYXvM54vY8bCY04o_tAEEanG5_6NuS0TiGw4mcvPAJjp4svV3dw>
- <xmx:r5BtYbEus3_VFofZ_T1gOd7y-qwhQRTBxCfcpYojlaTmdDQD3kWc7w>
- <xmx:sJBtYbFPpplDYizxYBIk4oN3pv5QXLrv3V1En76ELbkBwC6KFh1c0g>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 18 Oct 2021 11:20:15 -0400 (EDT)
-Date: Mon, 18 Oct 2021 17:20:13 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Alexander Stein <alexander.stein@ew.tq-group.com>,
+Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com
+ [IPv6:2607:f8b0:4864:20::534])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 565C56E0CF;
+ Mon, 18 Oct 2021 15:31:47 +0000 (UTC)
+Received: by mail-pg1-x534.google.com with SMTP id t7so2173457pgl.9;
+ Mon, 18 Oct 2021 08:31:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=5nAxUhiohFw8E/dLvkWEsSUAVxjPg+HfNNJoup320RQ=;
+ b=Iw6xvvAIMSZXU1rGcGv1/MP6RkbVOHaOhHmf+XbrgHD7Byo3eOutTpfKGdTE7py/mO
+ ekobRUrT8gXzEhSpjhgIxGvjNXJY8K9jvO6+pfdFpYjuvalzf1cx1cissMgwXqOddXzE
+ Okgb2N4Pz5L9ySBd6Brjy5UryC19FCKDFBaPJncV/3Zfm5qv8fbnjNfR868PTNm//aHy
+ T2KOb6AEhJItapcMBfYW17DvKxd0XbpNLCnGL+gIWK3x60uc852f3n5pewOupNxKgTvl
+ 99EjlD28hvO/cozcl3zqRAy6GtiVCXxe3wOC/CTiDLK01GkUzrs7ym5O64mtkvcC5RRx
+ LTEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=5nAxUhiohFw8E/dLvkWEsSUAVxjPg+HfNNJoup320RQ=;
+ b=LkBQRWkuWAwEpIgutrn5oXEwIHUEf/dawITe9aVjlQJETXOj8+hbuNJmRmfTrdbOdb
+ 3FYDeYdPbl16qAWxnxHIsyP8J5+093lQsR/vxQ7F2pg0JwEQwjKKsDbXgN6eBKC+HAiD
+ kOkPdRtwGM0aXyu42wX5UPoDg8pLvv7g7FKcXTGIcNErTgGib9H/G35eW9oVvCqWYmHR
+ ff+Vmm3RE5sLFujo3Hus07VavBN4O0tKla/tIXM/cRXy1+HeP8kZa2vy7eSiJiNoZcnX
+ dDrp2W/NIeWus7Tyz2F/Nh5tQjOHLHyyOT0a1lyPP+meVF07nF2AiAveg3GscE+iFEK0
+ J1Jw==
+X-Gm-Message-State: AOAM532cjY9C4plNe9xAhFElPRo35Kw2H+iqRbmbnl7lr2HWHBvMP8iT
+ YN/EU/l7ZpnwSyaMI3feq8itAsDqseo=
+X-Google-Smtp-Source: ABdhPJzx/67tRE7LZ74Xr3oWGr/dThMTUbbmMp7W2dP0iGjeZmkTK0a9FWEAz1ZK3N+YjdfeXd8HJA==
+X-Received: by 2002:a62:7688:0:b0:44d:186d:c4bd with SMTP id
+ r130-20020a627688000000b0044d186dc4bdmr29641892pfc.71.1634571106220; 
+ Mon, 18 Oct 2021 08:31:46 -0700 (PDT)
+Received: from localhost (c-73-25-156-94.hsd1.or.comcast.net. [73.25.156.94])
+ by smtp.gmail.com with ESMTPSA id
+ c27sm14233262pgb.89.2021.10.18.08.31.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 18 Oct 2021 08:31:44 -0700 (PDT)
+From: Rob Clark <robdclark@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Caleb Connolly <caleb.connolly@linaro.org>,
+ John Stultz <john.stultz@linaro.org>, Rob Clark <robdclark@chromium.org>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>, Andrzej Hajda <a.hajda@samsung.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Robert Foss <robert.foss@linaro.org>, Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: [PATCH v2 3/4] dt-bindings: drm/bridge: ti-sn65dsi83: Add vcc
- supply bindings
-Message-ID: <20211018152013.e3kmbm2lszb652gi@gilmour>
-References: <20211012064843.298104-1-alexander.stein@ew.tq-group.com>
- <20211012064843.298104-4-alexander.stein@ew.tq-group.com>
- <20211013074722.7y7ug3eri4euknza@gilmour>
- <YWao69+QEK8Fhi/x@pendragon.ideasonboard.com>
- <20211014074110.ym6mzugde2m5ak22@gilmour>
- <YWo6U1juhMsHnQYU@pendragon.ideasonboard.com>
+ Jordan Crouse <jordan@cosmicpenguin.net>,
+ Akhil P Oommen <akhilpo@codeaurora.org>,
+ Jonathan Marek <jonathan@marek.ca>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
+ Sharat Masetty <smasetty@codeaurora.org>,
+ Douglas Anderson <dianders@chromium.org>,
+ linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH] drm/msm/devfreq: Restrict idle clamping to a618 for now
+Date: Mon, 18 Oct 2021 08:36:25 -0700
+Message-Id: <20211018153627.2787882-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="bt6qxqknmq2wi7rm"
-Content-Disposition: inline
-In-Reply-To: <YWo6U1juhMsHnQYU@pendragon.ideasonboard.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,122 +83,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: Rob Clark <robdclark@chromium.org>
 
---bt6qxqknmq2wi7rm
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Until we better understand the stability issues caused by frequent
+frequency changes, lets limit them to a618.
 
-On Sat, Oct 16, 2021 at 05:34:59AM +0300, Laurent Pinchart wrote:
-> On Thu, Oct 14, 2021 at 09:41:10AM +0200, Maxime Ripard wrote:
-> > On Wed, Oct 13, 2021 at 12:37:47PM +0300, Laurent Pinchart wrote:
-> > > On Wed, Oct 13, 2021 at 09:47:22AM +0200, Maxime Ripard wrote:
-> > > > On Tue, Oct 12, 2021 at 08:48:42AM +0200, Alexander Stein wrote:
-> > > > > Add a VCC regulator which needs to be enabled before the EN pin is
-> > > > > released.
-> > > > >=20
-> > > > > Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
-> > > > > Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-> > > > > ---
-> > > > >  .../devicetree/bindings/display/bridge/ti,sn65dsi83.yaml     | 5=
- +++++
-> > > > >  1 file changed, 5 insertions(+)
-> > > > >=20
-> > > > > diff --git a/Documentation/devicetree/bindings/display/bridge/ti,=
-sn65dsi83.yaml b/Documentation/devicetree/bindings/display/bridge/ti,sn65ds=
-i83.yaml
-> > > > > index a5779bf17849..49ace6f312d5 100644
-> > > > > --- a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi=
-83.yaml
-> > > > > +++ b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi=
-83.yaml
-> > > > > @@ -32,6 +32,9 @@ properties:
-> > > > >      maxItems: 1
-> > > > >      description: GPIO specifier for bridge_en pin (active high).
-> > > > > =20
-> > > > > +  vcc-supply:
-> > > > > +    description: A 1.8V power supply (see regulator/regulator.ya=
-ml).
-> > > > > +
-> > > > >    ports:
-> > > > >      $ref: /schemas/graph.yaml#/properties/ports
-> > > > > =20
-> > > > > @@ -93,6 +96,7 @@ properties:
-> > > > >  required:
-> > > > >    - compatible
-> > > > >    - reg
-> > > > > +  - vcc-supply
-> > > >=20
-> > > > This isn't a backward-compatible change. All the previous users of =
-that
-> > > > binding will now require a vcc-supply property even though it was
-> > > > working fine for them before.
-> > > >=20
-> > > > You handle that nicely in the code, but you can't make that new pro=
-perty
-> > > > required.
-> > >=20
-> > > We can't make it required in the driver, but can't we make it required
-> > > in the bindings ? This indicates that all new DTs need to set the
-> > > property. We also need to mass-patch the in-tree DTs to avoid validat=
-ion
-> > > failures, but apart from that, I don't see any issue.
-> >=20
-> > I guess we'd need to clarify what the schemas are here for.
-> >=20
-> > We've been using them for two things: define the bindings, and make
-> > sure that the users of a binding actually follow it.
-> >=20
-> > The second part makes it very tempting to also cram "and make sure they
-> > follow our best practices" in there. We never had the discussion about
-> > whether that's ok or not, and I think the schemas syntax falls a bit
-> > short there since I don't think we can make the difference between a
-> > warning and an error that would make it work.
-> >=20
-> > However, if we're talking about the binding itself, then no, you can't
-> > introduce a new property.
->=20
-> I assume you mean "a new required property" here.
->=20
-> > Since it was acceptable in the past, it still needs to be acceptable
-> > going forward.
->=20
-> I think that's a matter of definition. The way I see it (but I could be
-> mistaken), we're essentially versioning DT bindings without actually
-> saying so, with the latest version being the visible one, and drivers
-> having to preserve backward compatibility with new versions. We could
-> also see it in different ways of course.
+Signed-off-by: Rob Clark <robdclark@chromium.org>
+---
+Caleb/John, I think this should help as a workaround for the power
+instability issues on a630.. could you give it a try?
 
-I disagree. A binding is essentially a contract on how the OS is
-supposed to interpret whatever comes from the DT. If we do what you
-suggest, then we lose all documentation of older versions we still need
-to support at the OS level. And relying on all developers to look
-through the entire history to figure it out is a sure way to screw
-things up :)
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 7 +++++++
+ drivers/gpu/drm/msm/msm_gpu.h         | 4 ++++
+ drivers/gpu/drm/msm/msm_gpu_devfreq.c | 3 ++-
+ 3 files changed, 13 insertions(+), 1 deletion(-)
 
-The use of deprecated indicates that we actually want to document the
-old versions.
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+index 33da25b81615..267a880811d6 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+@@ -1838,6 +1838,13 @@ struct msm_gpu *a6xx_gpu_init(struct drm_device *dev)
+ 			adreno_cmp_rev(ADRENO_REV(6, 3, 5, ANY_ID), info->rev)))
+ 		adreno_gpu->base.hw_apriv = true;
+ 
++	/*
++	 * For now only clamp to idle freq for devices where this is known not
++	 * to cause power supply issues:
++	 */
++	if (info && (info->revn == 618))
++		gpu->clamp_to_idle = true;
++
+ 	a6xx_llc_slices_init(pdev, a6xx_gpu);
+ 
+ 	ret = a6xx_set_supported_hw(&pdev->dev, config->rev);
+diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gpu.h
+index 59870095ea41..59cdd00b69d0 100644
+--- a/drivers/gpu/drm/msm/msm_gpu.h
++++ b/drivers/gpu/drm/msm/msm_gpu.h
+@@ -210,6 +210,10 @@ struct msm_gpu {
+ 	uint32_t suspend_count;
+ 
+ 	struct msm_gpu_state *crashstate;
++
++	/* Enable clamping to idle freq when inactive: */
++	bool clamp_to_idle;
++
+ 	/* True if the hardware supports expanded apriv (a650 and newer) */
+ 	bool hw_apriv;
+ 
+diff --git a/drivers/gpu/drm/msm/msm_gpu_devfreq.c b/drivers/gpu/drm/msm/msm_gpu_devfreq.c
+index d32b729b4616..8b7473f69cb8 100644
+--- a/drivers/gpu/drm/msm/msm_gpu_devfreq.c
++++ b/drivers/gpu/drm/msm/msm_gpu_devfreq.c
+@@ -214,7 +214,8 @@ static void msm_devfreq_idle_work(struct kthread_work *work)
+ 
+ 	idle_freq = get_freq(gpu);
+ 
+-	msm_devfreq_target(&gpu->pdev->dev, &target_freq, 0);
++	if (gpu->clamp_to_idle)
++		msm_devfreq_target(&gpu->pdev->dev, &target_freq, 0);
+ 
+ 	df->idle_time = ktime_get();
+ 	df->idle_freq = idle_freq;
+-- 
+2.31.1
 
-> What's important is in my opinion to make sure that new DTs will do
-> the right thing, and if we don't make this property required, we can't
-> check that. DT authors wouldn't know if the property is optional due
-> to backward compatibility only but highly recommended, or really
-> optional.
-
-Add a comment saying that this should really be added, but we can't
-because it was missing it was in the original binding?
-
-Maxime
-
---bt6qxqknmq2wi7rm
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYW2QrQAKCRDj7w1vZxhR
-xc6DAQDyDpfvofZuF+nO9Zn7bkg9TdSoXtA6JgfUMPTQthtzmQD+NVIgOvQ0Z+s/
-t39N7mUQdu/J8x2atBwq/fyAtGU5IwU=
-=kSEg
------END PGP SIGNATURE-----
-
---bt6qxqknmq2wi7rm--
