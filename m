@@ -2,67 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23F95431248
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Oct 2021 10:41:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BFD7431249
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Oct 2021 10:41:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 00FA06E98E;
-	Mon, 18 Oct 2021 08:41:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 231116E991;
+	Mon, 18 Oct 2021 08:41:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com
- [IPv6:2607:f8b0:4864:20::102e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 638EC6E98E;
- Mon, 18 Oct 2021 08:41:46 +0000 (UTC)
-Received: by mail-pj1-x102e.google.com with SMTP id
- ls14-20020a17090b350e00b001a00e2251c8so11976470pjb.4; 
- Mon, 18 Oct 2021 01:41:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Wk6+rEeyV7eHbPWMKJo+Qpq+GwDxADSGhPjQYfKUne4=;
- b=jNiTi0cZOC9M6uQg94kZkSGn3OrAQrSu6r8SRssg//sn5P432teZU28/v9RIqdlD5O
- FDWwyESEa70tNVGhVeOGe1F5ZAIPJMKiX3P8jEiAbSyNM54IpSQyb9dk/vAcEJfMnrXj
- zNBHvhXgy/rMAPIBLXv/ABA4B+bVuAeA++cRSW1P7RugxMH24Vge6lJz1VOLhc25s/ls
- VIhydhuQ9C6tIKMxlUDIXZlJS9KBy1EfKYZ4K+ty6vz1zM3zC2/vlB6YVxPLlFVR9BvY
- h9NoAYponSEiN1Y8aUWWDEsWN+dvWZ48Asm2fHwd/sSG6AwymDCbgiQEDz9h6JfhgJtQ
- irfA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Wk6+rEeyV7eHbPWMKJo+Qpq+GwDxADSGhPjQYfKUne4=;
- b=TXbOwVeafBkDZp8a07qS5g92QX2vlFzduBrm0dUqTmJIdJgF0D43azZoIPCIvhq516
- szVGB8Kv2rmxXDJ5rIXZv8UCdzho8O1U72dMVvL/BcGka6UiUCvd6SSOiNTor5CnAR8K
- IGXXGwLODyEtD4cmSpz7v+gqI5n3RhQYGQCURzIBQI1eNCStKwpau9wzMi5BdmGSZwMu
- 7730JXpvmIK7r6qCV0tCqinLKQxmk/Gkq36sTczoQrMqtb+sGXI8aWsmvncWEPNZMFKn
- ybO/CuRcSON2VCUb2m5RBPUKIvzN5cqdqv3YDg30gRw+Ngu0239qhT628jam/GmFVJLJ
- k/ew==
-X-Gm-Message-State: AOAM533rj6Y/mC1wCyJtA54s5Leup7cuIHT3vQZV8qRM6N146HRabeAS
- vMTWGpC/PMk8QTvbDo+8DpQ=
-X-Google-Smtp-Source: ABdhPJxXMPda9FOWVgG87Ibowe+I2Ff21yuG8uqATHh+NbcQaB8zGsEBOfKggffCbibaCL4IiPlIdQ==
-X-Received: by 2002:a17:90a:b117:: with SMTP id
- z23mr46490695pjq.74.1634546506085; 
- Mon, 18 Oct 2021 01:41:46 -0700 (PDT)
-Received: from localhost.localdomain ([193.203.214.57])
- by smtp.gmail.com with ESMTPSA id il17sm12642508pjb.52.2021.10.18.01.41.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Oct 2021 01:41:45 -0700 (PDT)
-From: luo penghao <cgel.zte@gmail.com>
-X-Google-Original-From: luo penghao <luo.penghao@zte.com.cn>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Stephen Rothwell <sfr@canb.auug.org.au>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, luo penghao <luo.penghao@zte.com.cn>,
- Zeal Robot <zealci@zte.com.cn>
-Subject: [PATCH linux-next] drm/i915/display: Remove unused variable and
- corresponding assignment
-Date: Mon, 18 Oct 2021 08:41:40 +0000
-Message-Id: <20211018084140.851583-1-luo.penghao@zte.com.cn>
-X-Mailer: git-send-email 2.25.1
+Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com
+ [64.147.123.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9542A6E991;
+ Mon, 18 Oct 2021 08:41:51 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailout.west.internal (Postfix) with ESMTP id F28233200E8E;
+ Mon, 18 Oct 2021 04:41:50 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute6.internal (MEProxy); Mon, 18 Oct 2021 04:41:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=NuxYKvOyWduzc0gjAk/aabJvFPe
+ VUu1WatQDsIsbc50=; b=lwplPaXANULAyw028wF0+LUHtuGataWUdFM/ySv5Inz
+ MaMrMhuaog5TMwwR8LCK0AuJ3azF2VXAEsBtm6rdAAJWAwQiysqD5wIYFeMd13pO
+ cRd4mD/txFmQaa2IXzNRGAJ8vYMCSewZlrpdSamzw03W6mSugoRqcgt+XrRDDtWU
+ vbz6dz+yu3N9ecJkcvXFoWUe6jgGRrS+yTAxzR+A8oXUDz/oPJx7VroVGh9APfvg
+ SR+hSFcdOdGLiOYUg21RxWhetWU7oGk2rL5yNvLCAoAfKtGOE9vIZnsu5VT7WOUK
+ hqN8JihyvQyDzpL5kdkNIDy2cCx3GIBJR97zZpBg6eQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=NuxYKv
+ OyWduzc0gjAk/aabJvFPeVUu1WatQDsIsbc50=; b=cBHqFm04ov+OhlNzvhOOKK
+ 3vHqyZDnDuuThaYp91mlH+AIWp0iR7MaJbP5NtxlBIDob1kfyt48ASLEW0ij85ko
+ 9NcXtg6pxmMdTdfc04F9ah1Ry95HEDsvnMWVRyjel9CV1jQuOKtrQqA7fcGkLh2B
+ Im398OaEjPr6fpb+uF2jlBBIWZ/z2jIlvPv18zwfoLX2WTaeHK3sZ62XqRTpBffd
+ ehoeK6+oeg+94bOEhp/f1tD+1FYSk5FwpEA58bxgQdpk9a0sGes1Pwa/RI0YSpHk
+ TAsoFIlta6blsEka8P8VWLGVIgRzaYRFy8CQ6nuCaEOo/euXzs5qOGZq8U9oGm2w
+ ==
+X-ME-Sender: <xms:TTNtYZSLQ0JjpXwSQVv_TWEBAc-Zw_A_SbeBY5WE7_c1Ha3EiW0SVQ>
+ <xme:TTNtYSyCjzJW31jxgwtAQDj-Pl45CiOWDej91vqwDkRI8NOQ0gD9Z6n4Iaoteq2hb
+ iVkCpoEUWFchMohi6c>
+X-ME-Received: <xmr:TTNtYe1M_pWNLwvbVbRM8wz_YjOhsTcRFnGFmI2edmaR3sXkFUC_ljiKQM1zOZ6YrxpU4JUY7RuDGqENIpXldyGna5dFYIRwNXgXRoCM>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrvddvtddgtdehucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddunecuhfhrohhmpeforgigihhm
+ vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+ htvghrnhepuddvudfhkeekhefgffetffelgffftdehffduffegveetffehueeivddvjedv
+ gfevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+ grgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:TTNtYRAbwwsi78ovZ6W3FblO0okl_P1RwNekaLdqz_CqCbedZirxQQ>
+ <xmx:TTNtYSiqZltLGGg7D-VSMJHAyX6fJMolO-Rfa_lqxxmdHpBcwm0KJw>
+ <xmx:TTNtYVr_XDU-13VXwLvVsj193GnLQknVQHWec0e0hIccRCLlGpE6yw>
+ <xmx:TjNtYae4B9j2JAG2sE-HLDZIYMNmT5PZjSsYgH8DLZGHDLtDBcqlIw>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 18 Oct 2021 04:41:49 -0400 (EDT)
+Date: Mon, 18 Oct 2021 10:41:47 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Jani Nikula <jani.nikula@intel.com>
+Cc: intel-gfx@lists.freedesktop.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel@lists.freedesktop.org, ville.syrjala@linux.intel.com
+Subject: Re: [PATCH 1/3] drm/dp: add helpers to read link training delays
+Message-ID: <20211018084147.iuexgyykyrrx2ykw@gilmour>
+References: <20211014150059.28957-1-jani.nikula@intel.com>
+ <871r4muxds.fsf@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="mucs4vrm2uxzg2uc"
+Content-Disposition: inline
+In-Reply-To: <871r4muxds.fsf@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,41 +87,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Variable is not used in functions, and its assignment is redundant too.
-So it should be deleted.
 
-The clang_analyzer complains as follows:
+--mucs4vrm2uxzg2uc
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-drivers/gpu/drm/i915/display/vlv_dsi.c:143:2 warning:
+Hi Jani,
 
-Value stored to 'data' is never read.
+On Fri, Oct 15, 2021 at 06:21:35PM +0300, Jani Nikula wrote:
+> On Thu, 14 Oct 2021, Jani Nikula <jani.nikula@intel.com> wrote:
+> > The link training delays are different and/or available in different
+> > DPCD offsets depending on:
+> >
+> > - Clock recovery vs. channel equalization
+> > - DPRX vs. LTTPR
+> > - 128b/132b vs. 8b/10b
+> > - DPCD 1.4+ vs. earlier
+> >
+> > Add helpers to get the correct delays in us, reading DPCD if
+> > necessary. This is more straightforward than trying to retrofit the
+> > existing helpers to take 128b/132b into account.
+> >
+> > Having to pass in the DPCD receiver cap field seems unavoidable, because
+> > reading it involves checking the revision and reading extended receiver
+> > cap. So unfortunately the interface is mixed cached and read as needed.
+> >
+> > v2: Remove delay_us < 0 check and the whole local var (Ville)
+> >
+> > Cc: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+> > Reviewed-by: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+> > Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+>=20
+> Maarten, Maxime, Thomas -
+>=20
+> Ack on the first two patches in this series?
+>=20
+> Should we merge them via a topic branch to both drm-misc-next and
+> drm-intel-next, or is it fine to merge them all via drm-intel-next? We
+> might be at a point in the development cycle that it takes a while to
+> get the branches in sync again.
 
-Reported-by: Zeal Robot <zealci@zte.com.cn>
-Signed-off-by: luo penghao <luo.penghao@zte.com.cn>
----
- drivers/gpu/drm/i915/display/vlv_dsi.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+I guess the easiest would be to send a PR so that we can merge it in the
+two branches then.
 
-diff --git a/drivers/gpu/drm/i915/display/vlv_dsi.c b/drivers/gpu/drm/i915/display/vlv_dsi.c
-index 081b772..634de91 100644
---- a/drivers/gpu/drm/i915/display/vlv_dsi.c
-+++ b/drivers/gpu/drm/i915/display/vlv_dsi.c
-@@ -131,7 +131,7 @@ static ssize_t intel_dsi_host_transfer(struct mipi_dsi_host *host,
- 	enum port port = intel_dsi_host->port;
- 	struct mipi_dsi_packet packet;
- 	ssize_t ret;
--	const u8 *header, *data;
-+	const u8 *header;
- 	i915_reg_t data_reg, ctrl_reg;
- 	u32 data_mask, ctrl_mask;
- 
-@@ -140,7 +140,6 @@ static ssize_t intel_dsi_host_transfer(struct mipi_dsi_host *host,
- 		return ret;
- 
- 	header = packet.header;
--	data = packet.payload;
- 
- 	if (msg->flags & MIPI_DSI_MSG_USE_LPM) {
- 		data_reg = MIPI_LP_GEN_DATA(port);
--- 
-2.15.2
+Maxime
+
+--mucs4vrm2uxzg2uc
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYW0zSwAKCRDj7w1vZxhR
+xfC8AQCCLDrkZi9cHM+CqFCgQN7LbdiaolKM2bJXXMJVyjaUIQEA2aPR8E0Rq6ml
+LTma9nItvfaF+3kfqd2dcQubi456JAQ=
+=hxmm
+-----END PGP SIGNATURE-----
+
+--mucs4vrm2uxzg2uc--
