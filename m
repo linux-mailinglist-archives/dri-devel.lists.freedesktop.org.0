@@ -2,48 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4AF443129E
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Oct 2021 10:57:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58DFE4312C2
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Oct 2021 11:10:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 17DFF6E9A5;
-	Mon, 18 Oct 2021 08:57:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A38226E9A3;
+	Mon, 18 Oct 2021 09:10:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E1AE6E9A5;
- Mon, 18 Oct 2021 08:57:17 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10140"; a="291675427"
-X-IronPort-AV: E=Sophos;i="5.85,381,1624345200"; d="scan'208";a="291675427"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Oct 2021 01:57:11 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.85,381,1624345200"; d="scan'208";a="443325319"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
- by orsmga006.jf.intel.com with SMTP; 18 Oct 2021 01:57:06 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Mon, 18 Oct 2021 11:57:06 +0300
-Date: Mon, 18 Oct 2021 11:57:06 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: luo penghao <cgel.zte@gmail.com>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Stephen Rothwell <sfr@canb.auug.org.au>,
+Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com
+ [IPv6:2607:f8b0:4864:20::52b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 07A706E9A3;
+ Mon, 18 Oct 2021 09:10:02 +0000 (UTC)
+Received: by mail-pg1-x52b.google.com with SMTP id f5so15447057pgc.12;
+ Mon, 18 Oct 2021 02:10:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=xioT+koXIxebA9dspAm78A75nR8cRoqI0SF6RXcJ5RI=;
+ b=ndajlqSWHaZlQB94T2zSV/2oF/POlNDLh4sHSMX1VYoaQK/DcxxIWZFMkEaPEihcRu
+ a4sKtBIXRAyK0ThUKX4iC6iMspSo0DiGCa+PzyeLeALzknBHQCrPXFTfhs9BYRgZ8VyS
+ OCk2W4IvZjSYg8PDOmUAnKFRcuz1D2vzBl25x9gxB2+YrpZDkoYINcoq0KMwNv1B7Ol/
+ 0A3KGhemmwPlt1eAKIwW/fF0aeIDpIIucf5b51XGIJ0HaZnva7LeaYs9NuLJYW06KswI
+ gqbhPm7/QEqP+NB0lU4WWjY5e3g77FWwN0Jtk6HoY/70jjZk/+j76z6DZzH0b3qKGTCr
+ y4fw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=xioT+koXIxebA9dspAm78A75nR8cRoqI0SF6RXcJ5RI=;
+ b=6J6N4ytYiG7MzxfPb5Wpe0/+NOgffLoRlHEOi01e7Qm09Yjv3GfR2xKYx2f70CwApr
+ hPeaI4dYKHtrB1n2PhSpH/NOchFtZcY+B/U2pr+4qQiiaFU4FjofGqpRZZng6NRHDmD0
+ lDywLwOPktIi0bimyOD/5C4lBj1vpz/oFQvpjdKzOrS3q4Skdz2RGcrXalBA82AxLf0k
+ 7J7A3E5YVmE2XcvbNMqIf2O053QuFCjrSpRHB3exVfCDzxK5uZTp/DSq3O9botFFDu9G
+ F8eKY4jrdSIKA2TOY0GJmQhb8PrdkMyjn85QrIezOxzG0zua2mjviBjusNys/wx1y1l5
+ PvCQ==
+X-Gm-Message-State: AOAM5315RaPoMHMNfWivYAVOpQts2LbABDXHYANtMwilR/9HzsM3HWQQ
+ hDLlMDBuYVr5fJyrc9NHeBWjGGqLYto=
+X-Google-Smtp-Source: ABdhPJzPhb9/VAhFuUK1JCWy5DyAO3aciKsybxFH6aVt3H8C6TeL3QHPzDv/I7RJYRUD3IewBK+1uw==
+X-Received: by 2002:a63:e516:: with SMTP id r22mr22994185pgh.197.1634548201705; 
+ Mon, 18 Oct 2021 02:10:01 -0700 (PDT)
+Received: from localhost.localdomain ([193.203.214.57])
+ by smtp.gmail.com with ESMTPSA id j198sm12264705pgc.4.2021.10.18.02.09.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 18 Oct 2021 02:10:01 -0700 (PDT)
+From: luo penghao <cgel.zte@gmail.com>
+X-Google-Original-From: luo penghao <luo.penghao@zte.com.cn>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Stephen Rothwell <sfr@canb.auug.org.au>,
  intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, luo penghao <luo.penghao@zte.com.cn>,
+ linux-kernel@vger.kernel.org, penghao luo <luo.penghao@zte.com.cn>,
  Zeal Robot <zealci@zte.com.cn>
-Subject: Re: [PATCH linux-next] drm/i915/display: Remove unused variable and
- its assignment.
-Message-ID: <YW024pwrV7fLgV/2@intel.com>
-References: <20211018084331.851975-1-luo.penghao@zte.com.cn>
+Subject: [PATCH linux-next] drm/i915: Remove redundant assignments
+Date: Mon, 18 Oct 2021 09:09:55 +0000
+Message-Id: <20211018090955.857276-1-luo.penghao@zte.com.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20211018084331.851975-1-luo.penghao@zte.com.cn>
-X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,58 +76,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Oct 18, 2021 at 08:43:31AM +0000, luo penghao wrote:
-> Variable is not used in functions, and its assignment is redundant too.
-> So it should be deleted.
-> 
-> The clang_analyzer complains as follows:
-> 
-> drivers/gpu/drm/i915/display/intel_dpll.c:1653:2 warning:
-> Value stored to 'bestm1' is never read.
-> 
-> drivers/gpu/drm/i915/display/intel_dpll.c:1651:2 warning:
-> Value stored to 'bestn' is never read.
-> 
-> Reported-by: Zeal Robot <zealci@zte.com.cn>
-> Signed-off-by: luo penghao <luo.penghao@zte.com.cn>
-> ---
->  drivers/gpu/drm/i915/display/intel_dpll.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/display/intel_dpll.c b/drivers/gpu/drm/i915/display/intel_dpll.c
-> index b84ed4a..28b1616 100644
-> --- a/drivers/gpu/drm/i915/display/intel_dpll.c
-> +++ b/drivers/gpu/drm/i915/display/intel_dpll.c
-> @@ -1644,13 +1644,11 @@ static void chv_prepare_pll(const struct intel_crtc_state *crtc_state)
->  	enum pipe pipe = crtc->pipe;
->  	enum dpio_channel port = vlv_pipe_to_channel(pipe);
->  	u32 loopfilter, tribuf_calcntr;
-> -	u32 bestn, bestm1, bestm2, bestp1, bestp2, bestm2_frac;
-> +	u32 bestm2, bestp1, bestp2, bestm2_frac;
->  	u32 dpio_val;
->  	int vco;
->  
-> -	bestn = crtc_state->dpll.n;
+From: penghao luo <luo.penghao@zte.com.cn>
 
-This one we could use. For some reason we hardcode it to
-1 now, which is correct for our use cases but I don't really
-see a reason to hardcode it here. We are supposed to calculate
-it correctly after all, and chv_crtc_clock_get() also just blindly
-reads it out.
+The assignment of variables will be overwritten later, so the
+assignment here is meaningless.
 
->  	bestm2_frac = crtc_state->dpll.m2 & 0x3fffff;
-> -	bestm1 = crtc_state->dpll.m1;
+The clang_analyzer complains as follows:
 
-This one is a bit trickier since I don't think the spec even
-gives us other values. But we could assert that it's correct.
+drivers/gpu/drm/i915/gem/i915_gem_userptr.c:291: warning:
 
-Some something along these lines I think would be best:
-+ drm_WARN_ON(&dev_priv->drm, bestm1 != 2);
-  vlv_dpio_write(dev_priv, pipe, CHV_PLL_DW1(port),
-                 DPIO_CHV_M1_DIV_BY_2 |
-- 		 1 << DPIO_CHV_N_DIV_SHIFT);
-+ 		 bestn << DPIO_CHV_N_DIV_SHIFT);
+Although the value stored to 'ret' is used in the enclosing expression,
+the value is never actually read from 'retÃ¢â‚¬â„¢.
 
+Reported-by: Zeal Robot <zealci@zte.com.cn>
+Signed-off-by: penghao luo <luo.penghao@zte.com.cn>
+---
+ drivers/gpu/drm/i915/gem/i915_gem_userptr.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_userptr.c b/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
+index 8ea0fa6..f6f944d 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
+@@ -288,7 +288,7 @@ int i915_gem_object_userptr_submit_init(struct drm_i915_gem_object *obj)
+ 	if (!i915_gem_object_is_readonly(obj))
+ 		gup_flags |= FOLL_WRITE;
+ 
+-	pinned = ret = 0;
++	pinned = 0;
+ 	while (pinned < num_pages) {
+ 		ret = pin_user_pages_fast(obj->userptr.ptr + pinned * PAGE_SIZE,
+ 					  num_pages - pinned, gup_flags,
 -- 
-Ville Syrjälä
-Intel
+2.15.2
+
+
