@@ -2,72 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 853A04322EA
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Oct 2021 17:31:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 161E7432355
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Oct 2021 17:50:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3AC666E0CF;
-	Mon, 18 Oct 2021 15:31:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F2836E440;
+	Mon, 18 Oct 2021 15:50:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com
- [IPv6:2607:f8b0:4864:20::534])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 565C56E0CF;
- Mon, 18 Oct 2021 15:31:47 +0000 (UTC)
-Received: by mail-pg1-x534.google.com with SMTP id t7so2173457pgl.9;
- Mon, 18 Oct 2021 08:31:47 -0700 (PDT)
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
+ [IPv6:2a00:1450:4864:20::330])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1616D6E438;
+ Mon, 18 Oct 2021 15:50:30 +0000 (UTC)
+Received: by mail-wm1-x330.google.com with SMTP id g2so9165333wme.4;
+ Mon, 18 Oct 2021 08:50:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=5nAxUhiohFw8E/dLvkWEsSUAVxjPg+HfNNJoup320RQ=;
- b=Iw6xvvAIMSZXU1rGcGv1/MP6RkbVOHaOhHmf+XbrgHD7Byo3eOutTpfKGdTE7py/mO
- ekobRUrT8gXzEhSpjhgIxGvjNXJY8K9jvO6+pfdFpYjuvalzf1cx1cissMgwXqOddXzE
- Okgb2N4Pz5L9ySBd6Brjy5UryC19FCKDFBaPJncV/3Zfm5qv8fbnjNfR868PTNm//aHy
- T2KOb6AEhJItapcMBfYW17DvKxd0XbpNLCnGL+gIWK3x60uc852f3n5pewOupNxKgTvl
- 99EjlD28hvO/cozcl3zqRAy6GtiVCXxe3wOC/CTiDLK01GkUzrs7ym5O64mtkvcC5RRx
- LTEA==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=04HQg1igT3y085lM4epZO712BVwT6WH3aqTbKIYu7jw=;
+ b=lYjder3BqrUfwzd7MZypFzevH+f7lIHJmyhkDyUnUORjNOS51uP4BiEQiOua26lb+B
+ t9igwOD8J1VUuzhJoSCCJZ+hUEj/Wf1E8Z/s3PAoIDpvN8MC6oHPUL6oYg/SqRTD1+1M
+ DNt6atvsTa2qi/er/ul9fRhw9k9e4yfMbsNuLdZ3X/CRHERywVBPDBrt9IbLzcD4juZ2
+ QJwgjRhfpwlDRFE0JXUogx3KozXz6kSCXhbM68xkpJJ5PGe/Omu92eJ9sHkPl64M9lt4
+ tm0K5uSZ1D0uwElK+dhKun64cRkDecsJ+OkmlEgQ/xTJ8PO/ci47/ksLb9PuI+lafMju
+ gDaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=5nAxUhiohFw8E/dLvkWEsSUAVxjPg+HfNNJoup320RQ=;
- b=LkBQRWkuWAwEpIgutrn5oXEwIHUEf/dawITe9aVjlQJETXOj8+hbuNJmRmfTrdbOdb
- 3FYDeYdPbl16qAWxnxHIsyP8J5+093lQsR/vxQ7F2pg0JwEQwjKKsDbXgN6eBKC+HAiD
- kOkPdRtwGM0aXyu42wX5UPoDg8pLvv7g7FKcXTGIcNErTgGib9H/G35eW9oVvCqWYmHR
- ff+Vmm3RE5sLFujo3Hus07VavBN4O0tKla/tIXM/cRXy1+HeP8kZa2vy7eSiJiNoZcnX
- dDrp2W/NIeWus7Tyz2F/Nh5tQjOHLHyyOT0a1lyPP+meVF07nF2AiAveg3GscE+iFEK0
- J1Jw==
-X-Gm-Message-State: AOAM532cjY9C4plNe9xAhFElPRo35Kw2H+iqRbmbnl7lr2HWHBvMP8iT
- YN/EU/l7ZpnwSyaMI3feq8itAsDqseo=
-X-Google-Smtp-Source: ABdhPJzx/67tRE7LZ74Xr3oWGr/dThMTUbbmMp7W2dP0iGjeZmkTK0a9FWEAz1ZK3N+YjdfeXd8HJA==
-X-Received: by 2002:a62:7688:0:b0:44d:186d:c4bd with SMTP id
- r130-20020a627688000000b0044d186dc4bdmr29641892pfc.71.1634571106220; 
- Mon, 18 Oct 2021 08:31:46 -0700 (PDT)
-Received: from localhost (c-73-25-156-94.hsd1.or.comcast.net. [73.25.156.94])
- by smtp.gmail.com with ESMTPSA id
- c27sm14233262pgb.89.2021.10.18.08.31.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Oct 2021 08:31:44 -0700 (PDT)
-From: Rob Clark <robdclark@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Caleb Connolly <caleb.connolly@linaro.org>,
- John Stultz <john.stultz@linaro.org>, Rob Clark <robdclark@chromium.org>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Jordan Crouse <jordan@cosmicpenguin.net>,
- Akhil P Oommen <akhilpo@codeaurora.org>,
- Jonathan Marek <jonathan@marek.ca>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
- Sharat Masetty <smasetty@codeaurora.org>,
- Douglas Anderson <dianders@chromium.org>,
- linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH] drm/msm/devfreq: Restrict idle clamping to a618 for now
-Date: Mon, 18 Oct 2021 08:36:25 -0700
-Message-Id: <20211018153627.2787882-1-robdclark@gmail.com>
-X-Mailer: git-send-email 2.31.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=04HQg1igT3y085lM4epZO712BVwT6WH3aqTbKIYu7jw=;
+ b=iAc5ENWX8AzcVLnH5CY5UlH/t0IsVMazACVTrBJpbQ1YixkQVIIWJkLlR6fKlUy6nh
+ dkX4Kw3/DYo1J1aq3tH9lVGbqb1DGyLewQDzhUy9VmljMOLuzjF8SGYgZ0tiW+aVUdeK
+ 1yd5FQP09kbZuOli2uRrdfzNQN9zmVpRJjwdOFqx0aHRb0H6j2l8fWoQp0m+r55TtwjI
+ ZMQtmvFwIilwqcGJnAJhSNfOaX0j+5b9wUw2C8uN3rSI4LMLAjgXDdqOlUacg1LLUW8/
+ cYCDM3T5piDD0RF5bVMrjAyIX+SgF/I3WULR+xSV+iK6/92PDwyguAtLBZ8hF68u/2K3
+ uF6g==
+X-Gm-Message-State: AOAM531rKsBqOONg3I59QU+HhB7Z+rSxXIi0G7pW6hQwTlv5FfExGMn9
+ XUaScQ9FlFYk4YN55McqanCPdGt92JwUez0zGlo=
+X-Google-Smtp-Source: ABdhPJygaWphYzwppUv6zCyL7pzBwLfl14v09zV1z2AwmiwVZVCRs/QEw0ZgVywEb6GF6/dSb33i+jlMmSjD/dwr4Hk=
+X-Received: by 2002:a1c:ac03:: with SMTP id v3mr32300015wme.127.1634572228379; 
+ Mon, 18 Oct 2021 08:50:28 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210910101218.1632297-1-maxime@cerno.tech>
+ <CALAqxLUqdkxXogmPhPgHv4Bgx-4b3mxe12LzzvWb07pLSnb2kA@mail.gmail.com>
+ <CALAqxLUYb=ge4AZZzmk71Qr-92vnnE6sJxwCNUdEz4=VDKr1kg@mail.gmail.com>
+ <CALAqxLX7oK6DeoCPZhMTpHKCihSYq7KZDrt5UKb46=ZBbJd9fA@mail.gmail.com>
+ <CAF6AEGuJgrYrg7FXpVj8P_qf73CXb4=0KysSYQaobJuheDeUSA@mail.gmail.com>
+ <YXiZIuao6wNch7j-D3ZktdSR3_IRAQ3oSeL8sLCCX8lEhwsoWaouE6_eV6C2Zv9r2_dww_Mtal18UBJfc4fz4g==@protonmail.internalid>
+ <CAMi1Hd0sUUFvNzYwt29af9d99o1-x+LiXBPCrQ8=9H0tHvxVHg@mail.gmail.com>
+ <b57fbc24-9ef3-a57b-17d4-2cb33fb409d4@linaro.org>
+ <20211013141629.qfeqwsyi5yobzjca@gilmour>
+ <CAF6AEGu2CyQA6XZ=r4c9Z0tiiPUxyhTf0OAu3v6w0oswJ3567w@mail.gmail.com>
+ <20211018123452.efwx5varmxihsv6n@gilmour>
+In-Reply-To: <20211018123452.efwx5varmxihsv6n@gilmour>
+From: Rob Clark <robdclark@gmail.com>
+Date: Mon, 18 Oct 2021 08:55:06 -0700
+Message-ID: <CAF6AEGvXWzV2c4PZ-QbUUmn=cgXXtH_CSRC+uaPsp4+jRKmwVw@mail.gmail.com>
+Subject: Re: [Freedreno] [PATCH v4 00/24] drm/bridge: Make panel and bridge
+ probe order consistent
+To: Maxime Ripard <maxime@cerno.tech>
+Cc: Caleb Connolly <caleb.connolly@linaro.org>,
+ Amit Pundir <amit.pundir@linaro.org>, 
+ John Stultz <john.stultz@linaro.org>, Andrzej Hajda <a.hajda@samsung.com>, 
+ Sam Ravnborg <sam@ravnborg.org>, Daniel Vetter <daniel.vetter@intel.com>, 
+ David Airlie <airlied@linux.ie>, Jonas Karlman <jonas@kwiboo.se>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Thierry Reding <thierry.reding@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ Neil Armstrong <narmstrong@baylibre.com>, Robert Foss <robert.foss@linaro.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Sean Paul <sean@poorly.run>, 
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <freedreno@lists.freedesktop.org>,
+ Kyungmin Park <kyungmin.park@samsung.com>, 
+ lkml <linux-kernel@vger.kernel.org>, Xinliang Liu <xinliang.liu@linaro.org>, 
+ Seung-Woo Kim <sw0312.kim@samsung.com>, Tian Tao <tiantao6@hisilicon.com>, 
+ Inki Dae <inki.dae@samsung.com>, 
+ Linux Samsung SOC <linux-samsung-soc@vger.kernel.org>, 
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, 
+ Chen Feng <puck.chen@hisilicon.com>,
+ Xinwei Kong <kong.kongxinwei@hisilicon.com>, 
+ Joonyoung Shim <jy0922.shim@samsung.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,68 +97,93 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Clark <robdclark@chromium.org>
+On Mon, Oct 18, 2021 at 5:34 AM Maxime Ripard <maxime@cerno.tech> wrote:
+>
+> Hi Rob,
+>
+> On Wed, Oct 13, 2021 at 05:16:58PM -0700, Rob Clark wrote:
+> > On Wed, Oct 13, 2021 at 7:16 AM Maxime Ripard <maxime@cerno.tech> wrote:
+> > >
+> > > Hi Caleb,
+> > >
+> > > On Thu, Sep 30, 2021 at 09:20:52PM +0100, Caleb Connolly wrote:
+> > > > Hi,
+> > > >
+> > > > On 30/09/2021 20:49, Amit Pundir wrote:
+> > > > > On Thu, 30 Sept 2021 at 04:50, Rob Clark <robdclark@gmail.com> wrote:
+> > > > > >
+> > > > > > On Wed, Sep 29, 2021 at 2:51 PM John Stultz <john.stultz@linaro.org> wrote:
+> > > > > > >
+> > > > > > > On Wed, Sep 29, 2021 at 2:32 PM John Stultz <john.stultz@linaro.org> wrote:
+> > > > > > > > On Wed, Sep 29, 2021 at 2:27 PM John Stultz <john.stultz@linaro.org> wrote:
+> > > > > > > > > On Fri, Sep 10, 2021 at 3:12 AM Maxime Ripard <maxime@cerno.tech> wrote:
+> > > > > > > > > > The best practice to avoid those issues is to register its functions only after
+> > > > > > > > > > all its dependencies are live. We also shouldn't wait any longer than we should
+> > > > > > > > > > to play nice with the other components that are waiting for us, so in our case
+> > > > > > > > > > that would mean moving the DSI device registration to the bridge probe.
+> > > > > > > > > >
+> > > > > > > > > > I also had a look at all the DSI hosts, and it seems that exynos, kirin and msm
+> > > > > > > > > > would be affected by this and wouldn't probe anymore after those changes.
+> > > > > > > > > > Exynos and kirin seems to be simple enough for a mechanical change (that still
+> > > > > > > > > > requires to be tested), but the changes in msm seemed to be far more important
+> > > > > > > > > > and I wasn't confortable doing them.
+> > > > > > > > >
+> > > > > > > > >
+> > > > > > > > > Hey Maxime,
+> > > > > > > > >    Sorry for taking so long to get to this, but now that plumbers is
+> > > > > > > > > over I've had a chance to check it out on kirin
+> > > > > > > > >
+> > > > > > > > > Rob Clark pointed me to his branch with some fixups here:
+> > > > > > > > >     https://gitlab.freedesktop.org/robclark/msm/-/commits/for-mripard/bridge-rework
+> > > > > > > > >
+> > > > > > > > > But trying to boot hikey with that, I see the following loop indefinitely:
+> > > > > > > > > [    4.632132] adv7511 2-0039: supply avdd not found, using dummy regulator
+> > > > > > > > > [    4.638961] adv7511 2-0039: supply dvdd not found, using dummy regulator
+> > > > > > > > > [    4.645741] adv7511 2-0039: supply pvdd not found, using dummy regulator
+> > > > > > > > > [    4.652483] adv7511 2-0039: supply a2vdd not found, using dummy regulator
+> > > > > > > > > [    4.659342] adv7511 2-0039: supply v3p3 not found, using dummy regulator
+> > > > > > > > > [    4.666086] adv7511 2-0039: supply v1p2 not found, using dummy regulator
+> > > > > > > > > [    4.681898] adv7511 2-0039: failed to find dsi host
+> > > > > > > >
+> > > > > > > > I just realized Rob's tree is missing the kirin patch. My apologies!
+> > > > > > > > I'll retest and let you know.
+> > > > > > >
+> > > > > > > Ok, just retested including the kirin patch and unfortunately I'm
+> > > > > > > still seeing the same thing.  :(
+> > > > > > >
+> > > > > > > Will dig a bit and let you know when I find more.
+> > > > > >
+> > > > > > Did you have a chance to test it on anything using drm/msm with DSI
+> > > > > > panels?  That would at least confirm that I didn't miss anything in
+> > > > > > the drm/msm patch to swap the dsi-host vs bridge ordering..
+> > > > >
+> > > > > Hi, smoke tested
+> > > > > https://gitlab.freedesktop.org/robclark/msm/-/commits/for-mripard/bridge-rework
+> > > > > on Pocophone F1 (sdm845 / A630) with v5.15-rc3. I see no obvious
+> > > > > regressions in my limited testing so far including video (youtube)
+> > > > > playback.
+> > > > Tested on the OnePlus 6 too booting AOSP, works fine. This *fixes*
+> > > > FBDEV_EMULATION (so we can get a working framebuffer console) which was
+> > > > otherwise broken on 5.15.
+> > > >
+> > > > However it spits out some warnings during boot: https://p.calebs.dev/gucysowyna.yaml
+> > >
+> > > Thanks for testing. It looks like the runtime_pm ordering between the
+> > > msm devices changed a bit with the conversion Rob did.
+> > >
+> > > Rob, do you know what could be going on?
+> > >
+> >
+> > Not entirely sure.. I didn't see that first splat, but maybe I was
+> > missing some debug config? (The 2nd one is kind of "normal", I think
+> > related to bootloader leaving the display on)
+>
+> So do you feel like this is a blocker or do you expect it to be fixed
+> sometime down the road?
 
-Until we better understand the stability issues caused by frequent
-frequency changes, lets limit them to a618.
+No
 
-Signed-off-by: Rob Clark <robdclark@chromium.org>
----
-Caleb/John, I think this should help as a workaround for the power
-instability issues on a630.. could you give it a try?
+I can try and take a look at the 2nd splat, but shouldn't block your series
 
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 7 +++++++
- drivers/gpu/drm/msm/msm_gpu.h         | 4 ++++
- drivers/gpu/drm/msm/msm_gpu_devfreq.c | 3 ++-
- 3 files changed, 13 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-index 33da25b81615..267a880811d6 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-@@ -1838,6 +1838,13 @@ struct msm_gpu *a6xx_gpu_init(struct drm_device *dev)
- 			adreno_cmp_rev(ADRENO_REV(6, 3, 5, ANY_ID), info->rev)))
- 		adreno_gpu->base.hw_apriv = true;
- 
-+	/*
-+	 * For now only clamp to idle freq for devices where this is known not
-+	 * to cause power supply issues:
-+	 */
-+	if (info && (info->revn == 618))
-+		gpu->clamp_to_idle = true;
-+
- 	a6xx_llc_slices_init(pdev, a6xx_gpu);
- 
- 	ret = a6xx_set_supported_hw(&pdev->dev, config->rev);
-diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gpu.h
-index 59870095ea41..59cdd00b69d0 100644
---- a/drivers/gpu/drm/msm/msm_gpu.h
-+++ b/drivers/gpu/drm/msm/msm_gpu.h
-@@ -210,6 +210,10 @@ struct msm_gpu {
- 	uint32_t suspend_count;
- 
- 	struct msm_gpu_state *crashstate;
-+
-+	/* Enable clamping to idle freq when inactive: */
-+	bool clamp_to_idle;
-+
- 	/* True if the hardware supports expanded apriv (a650 and newer) */
- 	bool hw_apriv;
- 
-diff --git a/drivers/gpu/drm/msm/msm_gpu_devfreq.c b/drivers/gpu/drm/msm/msm_gpu_devfreq.c
-index d32b729b4616..8b7473f69cb8 100644
---- a/drivers/gpu/drm/msm/msm_gpu_devfreq.c
-+++ b/drivers/gpu/drm/msm/msm_gpu_devfreq.c
-@@ -214,7 +214,8 @@ static void msm_devfreq_idle_work(struct kthread_work *work)
- 
- 	idle_freq = get_freq(gpu);
- 
--	msm_devfreq_target(&gpu->pdev->dev, &target_freq, 0);
-+	if (gpu->clamp_to_idle)
-+		msm_devfreq_target(&gpu->pdev->dev, &target_freq, 0);
- 
- 	df->idle_time = ktime_get();
- 	df->idle_freq = idle_freq;
--- 
-2.31.1
-
+BR,
+-R
