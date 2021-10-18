@@ -2,54 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10EC8431911
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Oct 2021 14:27:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55DC3431912
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Oct 2021 14:28:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F22F89E1D;
-	Mon, 18 Oct 2021 12:27:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 036986E9F8;
+	Mon, 18 Oct 2021 12:28:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
- [IPv6:2a00:1450:4864:20::12e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1307E89993
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Oct 2021 12:27:51 +0000 (UTC)
-Received: by mail-lf1-x12e.google.com with SMTP id r19so66140451lfe.10
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Oct 2021 05:27:50 -0700 (PDT)
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
+ [IPv6:2a00:1450:4864:20::132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18C1C6E9F8
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Oct 2021 12:28:12 +0000 (UTC)
+Received: by mail-lf1-x132.google.com with SMTP id z11so65939079lfj.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Oct 2021 05:28:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=J4xZ1V6sIJIJ+Q/+6nMHIf3uvE26NRi8/JwSl7yOBJU=;
- b=majwWu1UtAv73DgCB7y6V1IwGwIcHs+gQpglnNQ8dnvbVQol41PmOUgxJZ2hRLm8hm
- qI1DwlAuoCCNdaw/Yvc6DULF+zQ4FiAEIsuHGYagkerk2mCKmdOj6FMFMjgsq+5bM39O
- 9HoPDFAmKWA4HoFKuloUK46Kmadc5ZuxnOr2mJzr6EeMQKn6FCVmr9FH6FYxYxEsIEAj
- VkV0Rpy/A0h91gtJ+oQ5Taajo48SYm8aNZ7aCEAIUHkJxopaX5DRO0WBoBy1Jiwn6hEg
- iQMDZIucgfN+rDnFFTfDUehTDVSFIbdv0+pn42xE8r4YLcONTBpWkhDDIYxLiUgWCk6G
- Uv6A==
+ :cc; bh=W9VlG8LGJhpspTJ92iqk8QtHmSU10LWNgHHo1tK097I=;
+ b=Exa1R4qoNeMoyIx99VVTRtG7+5SRLxAh4H4yZZ52YpmEJSDL86F/KDzViYf/LzNJxg
+ j3hUkk2F9bjbepODWrGrn+uRXPyAPId+K3BTEJSwQUYFLJDUzqFiYB1nNUKsgFwPrq65
+ fbqB7TZzrSCWyfyF+a3POmsCgSbufPYbHewkacpK7Y2U8ykbYpm55Q9VTX+sDZ+Lnt7Z
+ 5fzfZjVB7ibfixwzmc/kMsdC3HUzMY7dwaT1gzNOyLJQqzqxsrUZ8Orwo0nsmDR35owk
+ iNrrcYVzQ8uy/MEu2y2WSZHbsZFNeD1RwuY20B3MH705UcAEUlm+Km/iHJanodlPTvIZ
+ li+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=J4xZ1V6sIJIJ+Q/+6nMHIf3uvE26NRi8/JwSl7yOBJU=;
- b=xIG00rBLNXF7BMKid0mBmuaV0WeFQMQ+E01L9vD5d+1WFHhwqYZ/1RucK2/waOS7gR
- 0a7ECcVtdjzi/5kNRRLzlvfl4Jmjgtw1DdwMouxmE2qStCDYM8TA+t2Q62ECgln5D6Lx
- yTFF6frlFSKIojxTff8pDsinyjQAM+8m1fHtkg7E/TB1aHA8EXoHeApYDdALijGU32kd
- xPk2VZ35hybKq6CUZLtkgRQyZphDwqLn3ibi0SW8FoPSTFJG/Hqqi0TcOkfAZvMRrwsa
- Yj2cgdy8U6Rm4yFxEH/z1ktL/QRIKkpCXZvA/JvjWsL8HlCuN4P4JJUKtdrh+B2rsjsA
- m5OA==
-X-Gm-Message-State: AOAM530rmBUSVLSBSjL0a6W09kFNUuHJ9DtWhqqUCpxNFSe9Qn6Gmhmf
- uNbqiWjlgcmH485cXC1c3KjsV4tFhRxTWLG8Grc=
-X-Google-Smtp-Source: ABdhPJy0LEgxuDkEB1cwtxJ9Ahfr7L4kih4ay2YWrm7OyAGRjGuJZXe/X8FRQbTHGg/WLgaUDYrOKZOLlmGLdB23wX0=
-X-Received: by 2002:a05:6512:3401:: with SMTP id
- i1mr16762970lfr.336.1634560069242; 
- Mon, 18 Oct 2021 05:27:49 -0700 (PDT)
+ bh=W9VlG8LGJhpspTJ92iqk8QtHmSU10LWNgHHo1tK097I=;
+ b=mQNZGW1Bce+/HG/OF17axphwGfqicmoDov/WTSnDrD1GKhX65AN/Zkg3KzhW1mwm5I
+ 5QguUIC0uiC/Ale8z3a+R56Mzq3n/nHEqpa2mYpJ7cIDA7Pc6JXF2h6LJt2Y2xrWQTsz
+ T8qOvMvFLXat2h4Jhqi35J1RZGljuoN27tYKT8yGOeQOAhKpxBWxiXIZ/f59Lyu7WTpt
+ qk9Pr525TFrCl1rEK8ppCcmTB7+En1hhxN7gvpviQWPpLIpRceVBdmIR2fMf8vtfpT4D
+ SY8y4EOskeXU/31LpCwPBrn/3+BRKiXxUl17tgwtiGuMy8/jJTqztT3cWG478VCEaGFe
+ MqOA==
+X-Gm-Message-State: AOAM530IPHqtH0cmADihYdA3QvA11GQUE2LuQ//Mmm7fqqQgd/J1uYdX
+ Hbwi9wRyYWuzxSp1Dw911iqfkmQdwq97SClxuIk=
+X-Google-Smtp-Source: ABdhPJxV9xONuGaCNTwbSzw/gfOoC0Agbvt1RScpItbjNeNbojQcyrr17poRDxQ4L3PU+SvHdAkNnt4RTiBsSz6q2NY=
+X-Received: by 2002:ac2:4f02:: with SMTP id k2mr24952328lfr.635.1634560090295; 
+ Mon, 18 Oct 2021 05:28:10 -0700 (PDT)
 MIME-Version: 1.0
 References: <20211015084053.13708-1-tzimmermann@suse.de>
- <20211015084053.13708-8-tzimmermann@suse.de>
-In-Reply-To: <20211015084053.13708-8-tzimmermann@suse.de>
+ <20211015084053.13708-10-tzimmermann@suse.de>
+In-Reply-To: <20211015084053.13708-10-tzimmermann@suse.de>
 From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-Date: Mon, 18 Oct 2021 14:27:38 +0200
-Message-ID: <CAMeQTsZgjF77eoM8qytB-OUmgQ_QXLzuVgfgmiBOk0RbPm8Z_Q@mail.gmail.com>
-Subject: Re: [PATCH v3 07/10] drm/gma500: Inline psb_gtt_{alloc, free}_range()
- into rsp callers
+Date: Mon, 18 Oct 2021 14:27:59 +0200
+Message-ID: <CAMeQTsaGZ4zhA0SwqudXV=TZXRN9xiM56j9iYX+6y82uFqT_aQ@mail.gmail.com>
+Subject: Re: [PATCH v3 09/10] drm/gma500: Rewrite GTT page insert/remove
+ without struct gtt_range
 To: Thomas Zimmermann <tzimmermann@suse.de>
 Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, 
  dri-devel <dri-devel@lists.freedesktop.org>
@@ -71,236 +70,242 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Fri, Oct 15, 2021 at 10:40 AM Thomas Zimmermann <tzimmermann@suse.de> wrote:
 >
-> psb_gtt_alloc_range() allocates struct gtt_range, create the GTT resource
-> and performs some half-baked initialization. Inline the function into its
-> only caller psb_gem_create(). For creating the GTT resource, introduce a
-> new helper, psb_gtt_alloc_resource() that hides the details of the GTT.
+> struct gtt_range represents a GEM object and should not be used for GTT
+> setup. Change psb_gtt_insert() and psb_gtt_remove() to receive all
+> necessary parameters from their caller. This also eliminates possible
+> failure from psb_gtt_insert().
 >
-> For psb_gtt_free_range(), inline the function into its only caller
-> psb_gem_free_object(). While at it, remove the explicit invocation of
-> drm_gem_free_mmap_offset(). The mmap offset is already released by
-> drm_gem_object_release().
+> There's one exception in psb_gtt_restore(), which requires an upcast
+> from struct resource to struct gtt_range when restoring the GTT after
+> hibernation. A possible solution would track the GEM objects that need
+> restoration separately from the GTT resource.
+>
+> Rename the functions to psb_gtt_insert_pages() and psb_gtt_remove_pages()
+> to reflect their similarity to MMU interfaces.
 >
 > v3:
->         * replace offset[static 1] with pointer notation (Patrik)
+>         * restore the comments about locking rules (Patrik)
 >
+
+That should be the last of them. Nice cleanups! Thanks.
 
 Acked-by: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
 
 
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
->  drivers/gpu/drm/gma500/gem.c | 94 ++++++++++++------------------------
->  drivers/gpu/drm/gma500/gtt.c | 27 +++++++++++
->  drivers/gpu/drm/gma500/gtt.h |  6 +++
->  3 files changed, 65 insertions(+), 62 deletions(-)
+>  drivers/gpu/drm/gma500/gem.c | 12 ++---
+>  drivers/gpu/drm/gma500/gtt.c | 93 ++++++++++++++----------------------
+>  drivers/gpu/drm/gma500/gtt.h |  5 +-
+>  3 files changed, 44 insertions(+), 66 deletions(-)
 >
 > diff --git a/drivers/gpu/drm/gma500/gem.c b/drivers/gpu/drm/gma500/gem.c
-> index 37b61334ade2..425d183c76ca 100644
+> index def26d9ce89d..c93d09e1921e 100644
 > --- a/drivers/gpu/drm/gma500/gem.c
 > +++ b/drivers/gpu/drm/gma500/gem.c
-> @@ -91,30 +91,22 @@ void psb_gem_unpin(struct gtt_range *gt)
+> @@ -23,12 +23,12 @@
+>
+>  int psb_gem_pin(struct gtt_range *gt)
+>  {
+> -       int ret = 0;
+>         struct drm_device *dev = gt->gem.dev;
+>         struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
+>         u32 gpu_base = dev_priv->gtt.gatt_start;
+>         struct page **pages;
+>         unsigned int npages;
+> +       int ret;
+>
+>         mutex_lock(&dev_priv->gtt_mutex);
+>
+> @@ -45,10 +45,7 @@ int psb_gem_pin(struct gtt_range *gt)
+>
+>         set_pages_array_wc(pages, npages);
+>
+> -       ret = psb_gtt_insert(dev, gt);
+> -       if (ret)
+> -               goto err_drm_gem_put_pages;
+> -
+> +       psb_gtt_insert_pages(dev_priv, &gt->resource, pages);
+>         psb_mmu_insert_pages(psb_mmu_get_default_pd(dev_priv->mmu), pages,
+>                              (gpu_base + gt->offset), npages, 0, 0,
+>                              PSB_MMU_CACHED_MEMORY);
+> @@ -62,8 +59,6 @@ int psb_gem_pin(struct gtt_range *gt)
+>
+>         return 0;
+>
+> -err_drm_gem_put_pages:
+> -       drm_gem_put_pages(&gt->gem, pages, true, false);
+>  err_mutex_unlock:
 >         mutex_unlock(&dev_priv->gtt_mutex);
->  }
+>         return ret;
+> @@ -86,13 +81,14 @@ void psb_gem_unpin(struct gtt_range *gt)
 >
-> -static void psb_gtt_free_range(struct drm_device *dev, struct gtt_range *gt)
-> -{
-> -       /* Undo the mmap pin if we are destroying the object */
-> -       if (gt->mmapping) {
-> -               psb_gem_unpin(gt);
-> -               gt->mmapping = 0;
-> -       }
-> -       WARN_ON(gt->in_gart && !gt->stolen);
-> -       release_resource(&gt->resource);
-> -       kfree(gt);
-> -}
-> -
->  static vm_fault_t psb_gem_fault(struct vm_fault *vmf);
+>         psb_mmu_remove_pages(psb_mmu_get_default_pd(dev_priv->mmu),
+>                                      (gpu_base + gt->offset), gt->npage, 0, 0);
+> -       psb_gtt_remove(dev, gt);
+> +       psb_gtt_remove_pages(dev_priv, &gt->resource);
 >
->  static void psb_gem_free_object(struct drm_gem_object *obj)
->  {
-> -       struct gtt_range *gtt = to_gtt_range(obj);
-> +       struct gtt_range *gt = to_gtt_range(obj);
+>         /* Reset caching flags */
+>         set_pages_array_wb(gt->pages, gt->npage);
 >
-> -       /* Remove the list map if one is present */
-> -       drm_gem_free_mmap_offset(obj);
->         drm_gem_object_release(obj);
+>         drm_gem_put_pages(&gt->gem, gt->pages, true, false);
+>         gt->pages = NULL;
+> +       gt->npage = 0;
 >
-> -       /* This must occur last as it frees up the memory of the GEM object */
-> -       psb_gtt_free_range(obj->dev, gtt);
-> +       /* Undo the mmap pin if we are destroying the object */
-> +       if (gt->mmapping)
-> +               psb_gem_unpin(gt);
-> +
-> +       WARN_ON(gt->in_gart && !gt->stolen);
-> +
-> +       release_resource(&gt->resource);
-> +       kfree(gt);
->  }
->
->  static const struct vm_operations_struct psb_gem_vm_ops = {
-> @@ -128,59 +120,35 @@ static const struct drm_gem_object_funcs psb_gem_object_funcs = {
->         .vm_ops = &psb_gem_vm_ops,
->  };
->
-> -static struct gtt_range *psb_gtt_alloc_range(struct drm_device *dev, int len,
-> -                                            const char *name, int backed, u32 align)
-> -{
-> -       struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
-> -       struct gtt_range *gt;
-> -       struct resource *r = dev_priv->gtt_mem;
-> -       int ret;
-> -       unsigned long start, end;
-> -
-> -       if (backed) {
-> -               /* The start of the GTT is the stolen pages */
-> -               start = r->start;
-> -               end = r->start + dev_priv->gtt.stolen_size - 1;
-> -       } else {
-> -               /* The rest we will use for GEM backed objects */
-> -               start = r->start + dev_priv->gtt.stolen_size;
-> -               end = r->end;
-> -       }
-> -
-> -       gt = kzalloc(sizeof(struct gtt_range), GFP_KERNEL);
-> -       if (gt == NULL)
-> -               return NULL;
-> -       gt->resource.name = name;
-> -       gt->stolen = backed;
-> -       gt->in_gart = backed;
-> -       /* Ensure this is set for non GEM objects */
-> -       gt->gem.dev = dev;
-> -       ret = allocate_resource(dev_priv->gtt_mem, &gt->resource,
-> -                               len, start, end, align, NULL, NULL);
-> -       if (ret == 0) {
-> -               gt->offset = gt->resource.start - r->start;
-> -               return gt;
-> -       }
-> -       kfree(gt);
-> -       return NULL;
-> -}
-> -
->  struct gtt_range *
->  psb_gem_create(struct drm_device *dev, u64 size, const char *name, bool stolen, u32 align)
->  {
-> +       struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
->         struct gtt_range *gt;
->         struct drm_gem_object *obj;
->         int ret;
->
->         size = roundup(size, PAGE_SIZE);
->
-> -       gt = psb_gtt_alloc_range(dev, size, name, stolen, align);
-> -       if (!gt) {
-> -               dev_err(dev->dev, "no memory for %lld byte GEM object\n", size);
-> -               return ERR_PTR(-ENOSPC);
-> -       }
-> +       gt = kzalloc(sizeof(*gt), GFP_KERNEL);
-> +       if (!gt)
-> +               return ERR_PTR(-ENOMEM);
->         obj = &gt->gem;
->
-> +       /* GTT resource */
-> +
-> +       ret = psb_gtt_allocate_resource(dev_priv, &gt->resource, name, size, align, stolen,
-> +                                       &gt->offset);
-> +       if (ret)
-> +               goto err_kfree;
-> +
-> +       if (stolen) {
-> +               gt->stolen = true;
-> +               gt->in_gart = 1;
-> +       }
-> +
-> +       /* GEM object */
-> +
->         obj->funcs = &psb_gem_object_funcs;
->
->         if (stolen) {
-> @@ -188,7 +156,7 @@ psb_gem_create(struct drm_device *dev, u64 size, const char *name, bool stolen,
->         } else {
->                 ret = drm_gem_object_init(dev, obj, size);
->                 if (ret)
-> -                       goto err_psb_gtt_free_range;
-> +                       goto err_release_resource;
->
->                 /* Limit the object to 32-bit mappings */
->                 mapping_set_gfp_mask(obj->filp->f_mapping, GFP_KERNEL | __GFP_DMA32);
-> @@ -196,8 +164,10 @@ psb_gem_create(struct drm_device *dev, u64 size, const char *name, bool stolen,
->
->         return gt;
->
-> -err_psb_gtt_free_range:
-> -       psb_gtt_free_range(dev, gt);
-> +err_release_resource:
-> +       release_resource(&gt->resource);
-> +err_kfree:
-> +       kfree(gt);
->         return ERR_PTR(ret);
->  }
->
+>  out:
+>         mutex_unlock(&dev_priv->gtt_mutex);
 > diff --git a/drivers/gpu/drm/gma500/gtt.c b/drivers/gpu/drm/gma500/gtt.c
-> index 0aacf7122e32..d00ca065f3d3 100644
+> index 3a716a970a8a..0d70f63c3267 100644
 > --- a/drivers/gpu/drm/gma500/gtt.c
 > +++ b/drivers/gpu/drm/gma500/gtt.c
-> @@ -18,6 +18,33 @@
->   *     GTT resource allocator - manage page mappings in GTT space
->   */
+> @@ -66,85 +66,61 @@ static inline uint32_t psb_gtt_mask_pte(uint32_t pfn, int type)
+>         return (pfn << PAGE_SHIFT) | mask;
+>  }
 >
-> +int psb_gtt_allocate_resource(struct drm_psb_private *pdev, struct resource *res,
-> +                             const char *name, resource_size_t size, resource_size_t align,
-> +                             bool stolen, u32 *offset)
-> +{
-> +       struct resource *root = pdev->gtt_mem;
-> +       resource_size_t start, end;
-> +       int ret;
+> -/**
+> - *     psb_gtt_entry           -       find the GTT entries for a gtt_range
+> - *     @dev: our DRM device
+> - *     @r: our GTT range
+> - *
+> - *     Given a gtt_range object return the GTT offset of the page table
+> - *     entries for this gtt_range
+> - */
+> -static u32 __iomem *psb_gtt_entry(struct drm_device *dev, struct gtt_range *r)
+> +static u32 __iomem *psb_gtt_entry(struct drm_psb_private *pdev, const struct resource *res)
+>  {
+> -       struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
+> -       unsigned long offset;
+> -
+> -       offset = r->resource.start - dev_priv->gtt_mem->start;
+> +       unsigned long offset = res->start - pdev->gtt_mem->start;
+>
+> -       return dev_priv->gtt_map + (offset >> PAGE_SHIFT);
+> +       return pdev->gtt_map + (offset >> PAGE_SHIFT);
+>  }
+>
+> -/**
+> - *     psb_gtt_insert  -       put an object into the GTT
+> - *     @dev: our DRM device
+> - *     @r: our GTT range
+> - *
+> - *     Take our preallocated GTT range and insert the GEM object into
+> - *     the GTT. This is protected via the gtt mutex which the caller
+> - *     must hold.
+> +/*
+> + * Take our preallocated GTT range and insert the GEM object into
+> + * the GTT. This is protected via the gtt mutex which the caller
+> + * must hold.
+>   */
+> -int psb_gtt_insert(struct drm_device *dev, struct gtt_range *r)
+> +void psb_gtt_insert_pages(struct drm_psb_private *pdev, const struct resource *res,
+> +                         struct page **pages)
+>  {
+> +       resource_size_t npages, i;
+>         u32 __iomem *gtt_slot;
+>         u32 pte;
+> -       int i;
+>
+> -       if (r->pages == NULL) {
+> -               WARN_ON(1);
+> -               return -EINVAL;
+> -       }
+> -
+> -       WARN_ON(r->stolen);     /* refcount these maybe ? */
+> +       /* Write our page entries into the GTT itself */
+>
+> -       gtt_slot = psb_gtt_entry(dev, r);
+> +       npages = resource_size(res) >> PAGE_SHIFT;
+> +       gtt_slot = psb_gtt_entry(pdev, res);
+>
+> -       /* Write our page entries into the GTT itself */
+> -       for (i = 0; i < r->npage; i++) {
+> -               pte = psb_gtt_mask_pte(page_to_pfn(r->pages[i]),
+> -                                      PSB_MMU_CACHED_MEMORY);
+> -               iowrite32(pte, gtt_slot++);
+> +       for (i = 0; i < npages; ++i, ++gtt_slot) {
+> +               pte = psb_gtt_mask_pte(page_to_pfn(pages[i]), PSB_MMU_CACHED_MEMORY);
+> +               iowrite32(pte, gtt_slot);
+>         }
+>
+>         /* Make sure all the entries are set before we return */
+>         ioread32(gtt_slot - 1);
+> -
+> -       return 0;
+>  }
+>
+> -/**
+> - *     psb_gtt_remove  -       remove an object from the GTT
+> - *     @dev: our DRM device
+> - *     @r: our GTT range
+> - *
+> - *     Remove a preallocated GTT range from the GTT. Overwrite all the
+> - *     page table entries with the dummy page. This is protected via the gtt
+> - *     mutex which the caller must hold.
+> +/*
+> + * Remove a preallocated GTT range from the GTT. Overwrite all the
+> + * page table entries with the dummy page. This is protected via the gtt
+> + * mutex which the caller must hold.
+>   */
+> -void psb_gtt_remove(struct drm_device *dev, struct gtt_range *r)
+> +void psb_gtt_remove_pages(struct drm_psb_private *pdev, const struct resource *res)
+>  {
+> -       struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
+> +       resource_size_t npages, i;
+>         u32 __iomem *gtt_slot;
+>         u32 pte;
+> -       int i;
+>
+> -       WARN_ON(r->stolen);
+> +       /* Install scratch page for the resource */
 > +
-> +       if (stolen) {
-> +               /* The start of the GTT is backed by stolen pages. */
-> +               start = root->start;
-> +               end = root->start + pdev->gtt.stolen_size - 1;
-> +       } else {
-> +               /* The rest is backed by system pages. */
-> +               start = root->start + pdev->gtt.stolen_size;
-> +               end = root->end;
-> +       }
+> +       pte = psb_gtt_mask_pte(page_to_pfn(pdev->scratch_page), PSB_MMU_CACHED_MEMORY);
+>
+> -       gtt_slot = psb_gtt_entry(dev, r);
+> -       pte = psb_gtt_mask_pte(page_to_pfn(dev_priv->scratch_page),
+> -                              PSB_MMU_CACHED_MEMORY);
+> +       npages = resource_size(res) >> PAGE_SHIFT;
+> +       gtt_slot = psb_gtt_entry(pdev, res);
+>
+> -       for (i = 0; i < r->npage; i++)
+> -               iowrite32(pte, gtt_slot++);
+> +       for (i = 0; i < npages; ++i, ++gtt_slot)
+> +               iowrite32(pte, gtt_slot);
 > +
-> +       res->name = name;
-> +       ret = allocate_resource(root, res, size, start, end, align, NULL, NULL);
-> +       if (ret)
-> +               return ret;
-> +       *offset = res->start - root->start;
-> +
-> +       return 0;
-> +}
-> +
->  /**
->   *     psb_gtt_mask_pte        -       generate GTT pte entry
->   *     @pfn: page number to encode
+> +       /* Make sure all the entries are set before we return */
+>         ioread32(gtt_slot - 1);
+>  }
+>
+> @@ -334,9 +310,14 @@ int psb_gtt_restore(struct drm_device *dev)
+>         psb_gtt_init(dev, 1);
+>
+>         while (r != NULL) {
+> +               /*
+> +                * TODO: GTT restoration needs a refactoring, so that we don't have to touch
+> +                *       struct gtt_range here. The type represents a GEM object and is not
+> +                *       related to the GTT itself.
+> +                */
+>                 range = container_of(r, struct gtt_range, resource);
+>                 if (range->pages) {
+> -                       psb_gtt_insert(dev, range);
+> +                       psb_gtt_insert_pages(dev_priv, &range->resource, range->pages);
+>                         size += range->resource.end - range->resource.start;
+>                         restored++;
+>                 }
 > diff --git a/drivers/gpu/drm/gma500/gtt.h b/drivers/gpu/drm/gma500/gtt.h
-> index 36162b545570..6f3808e29059 100644
+> index ddb4f3af93f7..b967dcf6bef1 100644
 > --- a/drivers/gpu/drm/gma500/gtt.h
 > +++ b/drivers/gpu/drm/gma500/gtt.h
-> @@ -10,6 +10,8 @@
+> @@ -49,7 +49,8 @@ int psb_gtt_allocate_resource(struct drm_psb_private *pdev, struct resource *res
+>                               const char *name, resource_size_t size, resource_size_t align,
+>                               bool stolen, u32 *offset);
 >
->  #include <drm/drm_gem.h>
+> -int psb_gtt_insert(struct drm_device *dev, struct gtt_range *r);
+> -void psb_gtt_remove(struct drm_device *dev, struct gtt_range *r);
+> +void psb_gtt_insert_pages(struct drm_psb_private *pdev, const struct resource *res,
+> +                         struct page **pages);
+> +void psb_gtt_remove_pages(struct drm_psb_private *pdev, const struct resource *res);
 >
-> +struct drm_psb_private;
-> +
->  /* This wants cleaning up with respect to the psb_dev and un-needed stuff */
->  struct psb_gtt {
->         uint32_t gatt_start;
-> @@ -43,6 +45,10 @@ struct gtt_range {
->
->  extern int psb_gtt_restore(struct drm_device *dev);
->
-> +int psb_gtt_allocate_resource(struct drm_psb_private *pdev, struct resource *res,
-> +                             const char *name, resource_size_t size, resource_size_t align,
-> +                             bool stolen, u32 *offset);
-> +
->  int psb_gtt_insert(struct drm_device *dev, struct gtt_range *r, int resume);
->  void psb_gtt_remove(struct drm_device *dev, struct gtt_range *r);
->
+>  #endif
 > --
 > 2.33.0
 >
