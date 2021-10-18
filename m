@@ -1,51 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6F59431077
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Oct 2021 08:25:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id ECBD34310B5
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Oct 2021 08:40:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 202406E7D4;
-	Mon, 18 Oct 2021 06:25:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 70BB26E088;
+	Mon, 18 Oct 2021 06:40:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF0AE6E7D4
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Oct 2021 06:25:11 +0000 (UTC)
-X-UUID: 4abdf5926bd348d49b111988a4e947ab-20211018
-X-UUID: 4abdf5926bd348d49b111988a4e947ab-20211018
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
- (envelope-from <guangming.cao@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 164250816; Mon, 18 Oct 2021 14:25:04 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.2.792.15; Mon, 18 Oct 2021 14:25:03 +0800
-Received: from mszswglt01.gcn.mediatek.inc (10.16.20.20) by
- mtkcas11.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.0.1497.2 via Frontend Transport; Mon, 18 Oct 2021 14:25:02 +0800
-From: <guangming.cao@mediatek.com>
-To: <daniel@ffwll.ch>
-CC: <Brian.Starkey@arm.com>, <benjamin.gaignard@linaro.org>,
- <christian.koenig@amd.com>, <dri-devel@lists.freedesktop.org>,
- <guangming.cao@mediatek.com>, <hridya@google.com>, <isaacm@codeaurora.org>,
- <john.stultz@linaro.org>, <labbott@redhat.com>,
- <linaro-mm-sig@lists.linaro.org>, <linux-arm-kernel@lists.infradead.org>,
- <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
- <linux-mediatek@lists.infradead.org>, <lmark@codeaurora.org>,
- <matthias.bgg@gmail.com>, <sspatil@google.com>, <sumit.semwal@linaro.org>,
- <wsd_upstream@mediatek.com>, Guangming Cao <Guangming.Cao@mediatek.com>
-Subject: Re: [PATCH] dma-buf: Add support for mapping buffers with DMA
- attributes
-Date: Mon, 18 Oct 2021 14:25:04 +0800
-Message-ID: <20211018062504.116652-1-guangming.cao@mediatek.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <YS4kx3thdJOu3uHX@phenom.ffwll.local>
-References: <YS4kx3thdJOu3uHX@phenom.ffwll.local>
+Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com
+ [IPv6:2a00:1450:4864:20::531])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA8DC6E088
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Oct 2021 06:40:18 +0000 (UTC)
+Received: by mail-ed1-x531.google.com with SMTP id r18so66762667edv.12
+ for <dri-devel@lists.freedesktop.org>; Sun, 17 Oct 2021 23:40:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=monstr-eu.20210112.gappssmtp.com; s=20210112;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=5/7hBCmpfW9MTjUXgrKdtGWjkgtU8/we8OWRfC8+kMU=;
+ b=jGCiFWIozFtWDE1T+9nxnGqjF2A1pX0+KZyJP2RLpI1vI6tRTql9ktYE+xvnk/+nVT
+ i54qqTOQ8UiOV/6Djx6Ye/m4JtiqqiamvXTRLztf9jzVUnpfGpV1Ws/rwnWQb7B4yxKB
+ o4sjyaGPbV8qTNWy0JTp9g9vY4Tfg0cPTepWFBmMcluYYGabrGcUAkxIRSGLfWis0DfA
+ mtNNqgM6xE+fU9Q1IuONkj74QTkmrfagz4ASHP086615rpO9S1SwknxKofRDQieBsKgh
+ H6Uq1xO14mKNaLR1Zshuql0Tyh8a1C3QmyYImRYCZkn02zfFbSKqndXljCavVNIqwSIj
+ mP8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=5/7hBCmpfW9MTjUXgrKdtGWjkgtU8/we8OWRfC8+kMU=;
+ b=I02lSfTPHM+jt8OZnDyKErI0DwN9Ky1rX+vKJqoEq5pBYOaN4zmNrfPslnaxs+HAHr
+ sbosPYBACmMd1XHeDIj23ErQLI17u3a3nLzHJaK+kHG0bnsNkQOqVwDIYmIgjk/px/+B
+ ecS+ecZJBeZ0USNnMzrMZNy6jhkiPEH/R6TYLf2pse8nhLQlKaHpYRRqocxCsO9VRblo
+ xJR/mKAC1kJuBp6W5ggjHEhjBVTuaKBCYPOM6isOMSlaV5dyA/vh4vHberzzLdo+at/9
+ PJkyJNtl5sAlme5PfcgbqP9iTmObJljUUJw/cp825fJjyoLpzNm3Ar/KyyxTf3ION3rY
+ 8Ghw==
+X-Gm-Message-State: AOAM532O3v86XF190KJNOGKwdW32yLsgw07dbdPS+7zbxqiGirjB2oAq
+ s7nKqHJRldoLe3urydGSlx/yXw==
+X-Google-Smtp-Source: ABdhPJwpfA0BoEQhv6pd4Op8P97mbX7msngKe6mKU3AEA7gl3+/5yuT20iGp771CluTA50hpKXe3qw==
+X-Received: by 2002:a17:906:6bce:: with SMTP id
+ t14mr27276140ejs.546.1634539216960; 
+ Sun, 17 Oct 2021 23:40:16 -0700 (PDT)
+Received: from localhost ([2a02:768:2307:40d6:f666:9af6:3fed:e53b])
+ by smtp.gmail.com with ESMTPSA id j22sm8253013ejt.11.2021.10.17.23.40.16
+ (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+ Sun, 17 Oct 2021 23:40:16 -0700 (PDT)
+From: Michal Simek <michal.simek@xilinx.com>
+To: linux-kernel@vger.kernel.org, monstr@monstr.eu, michal.simek@xilinx.com,
+ git@xilinx.com
+Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
+ Hyun Kwon <hyun.kwon@xilinx.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Rob Herring <robh+dt@kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org
+Subject: [PATCH] dt-bindings: display: xilinx: Fix example with psgtr
+Date: Mon, 18 Oct 2021 08:40:12 +0200
+Message-Id: <a291be294dea6e580ad9acd436742a48b7cd00a2.1634539210.git.michal.simek@xilinx.com>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK: N
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,150 +77,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Guangming Cao <Guangming.Cao@mediatek.com>
+Commit cea0f76a483d ("dt-bindings: phy: Add DT bindings for Xilinx ZynqMP
+PSGTR PHY") clearly defines #phy-cells as 4. In past 5 cells were used by
+it never went to upstream. That's why fix example by using only 4 cells
+instead of 5.
 
-On Tue, 2021-08-31 at 14:47 +0200, Daniel Vetter wrote:
-> On Mon, Aug 30, 2021 at 10:39:11AM +0800, guangming.cao@mediatek.com
-> wrote:
-> > From: Guangming Cao <Guangming.Cao@mediatek.com>
-> > 
-> > When mapping the memory represented by a dma-buf into a device's
-> > address space, it might be desireable to map the memory with
-> > certain DMA attributes. Thus, introduce the dma_mapping_attrs
-> > field in the dma_buf_attachment structure so that when
-> > the memory is mapped with dma_buf_map_attachment, it is mapped
-> > with the desired DMA attributes.
-> > 
-> > Signed-off-by: Isaac J. Manjarres <isaacm@codeaurora.org>
-> > Signed-off-by: Sandeep Patil <sspatil@google.com>
-> > Signed-off-by: Guangming Cao <Guangming.Cao@mediatek.com>
-> 
-> Can you pls include the code that's going to use this here too?
-> 
-> At a glance all the attributes you might want to set are supposed to
-> be
-> under the control of the exporter, not the importer.
-> -Daniel
-> 
-Hi Daniel,
+Fixes: e7c7970a678d ("dt-bindings: display: xlnx: Add ZynqMP DP subsystem bindings")
+Signed-off-by: Michal Simek <michal.simek@xilinx.com>
+---
 
-Sorry for the late. Currently I couldn't upload the coding going to use
-this part because of some miscellaneous reasons.
+ .../devicetree/bindings/display/xlnx/xlnx,zynqmp-dpsub.yaml   | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Just as I said in commit message, for dma_heap, users can't skip cache
-sync or other opetrations when map iova[dma_buf_map_attachment] by
-fill (struct dma_buf_attachment).dma_map_attrs, it's not dma_map_attrs
-expected(link: 
-https://github.com/torvalds/linux/blob/master/Documentation/core-api/dma-attributes.rst#dma_attr_skip_cpu_sync
-).
+diff --git a/Documentation/devicetree/bindings/display/xlnx/xlnx,zynqmp-dpsub.yaml b/Documentation/devicetree/bindings/display/xlnx/xlnx,zynqmp-dpsub.yaml
+index d88bd93f4b80..10ec78ca1c65 100644
+--- a/Documentation/devicetree/bindings/display/xlnx/xlnx,zynqmp-dpsub.yaml
++++ b/Documentation/devicetree/bindings/display/xlnx/xlnx,zynqmp-dpsub.yaml
+@@ -160,8 +160,8 @@ examples:
+                <&xlnx_dpdma 2>,
+                <&xlnx_dpdma 3>;
+ 
+-        phys = <&psgtr 1 PHY_TYPE_DP 0 3 27000000>,
+-               <&psgtr 0 PHY_TYPE_DP 1 3 27000000>;
++        phys = <&psgtr 1 PHY_TYPE_DP 0 3>,
++               <&psgtr 0 PHY_TYPE_DP 1 3>;
+ 
+         phy-names = "dp-phy0", "dp-phy1";
+     };
+-- 
+2.33.1
 
-Correspondingly, if they use dma_buf to map iova[dma_buf_map_attrs],
-they will not meet this issue. So, I think it's a design flaw for
-dma_heap.
-
-BRs!
-Guangming
-> > ---
-> >  drivers/dma-buf/heaps/cma_heap.c    | 6 ++++--
-> >  drivers/dma-buf/heaps/system_heap.c | 6 ++++--
-> >  include/linux/dma-buf.h             | 3 +++
-> >  3 files changed, 11 insertions(+), 4 deletions(-)
-> > 
-> > diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-
-> > buf/heaps/cma_heap.c
-> > index 0c05b79870f9..2c9feb3bfc3e 100644
-> > --- a/drivers/dma-buf/heaps/cma_heap.c
-> > +++ b/drivers/dma-buf/heaps/cma_heap.c
-> > @@ -99,9 +99,10 @@ static struct sg_table
-> > *cma_heap_map_dma_buf(struct dma_buf_attachment *attachme
-> >  {
-> >     struct dma_heap_attachment *a = attachment->priv;
-> >     struct sg_table *table = &a->table;
-> > +   int attrs = attachment->dma_map_attrs;
-> >     int ret;
-> >  
-> > -   ret = dma_map_sgtable(attachment->dev, table, direction, 0);
-> > +   ret = dma_map_sgtable(attachment->dev, table, direction,
-> > attrs);
-> >     if (ret)
-> >             return ERR_PTR(-ENOMEM);
-> >     a->mapped = true;
-> > @@ -113,9 +114,10 @@ static void cma_heap_unmap_dma_buf(struct
-> > dma_buf_attachment *attachment,
-> >                                enum dma_data_direction direction)
-> >  {
-> >     struct dma_heap_attachment *a = attachment->priv;
-> > +   int attrs = attachment->dma_map_attrs;
-> >  
-> >     a->mapped = false;
-> > -   dma_unmap_sgtable(attachment->dev, table, direction, 0);
-> > +   dma_unmap_sgtable(attachment->dev, table, direction, attrs);
-> >  }
-> >  
-> >  static int cma_heap_dma_buf_begin_cpu_access(struct dma_buf
-> > *dmabuf,
-> > diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-
-> > buf/heaps/system_heap.c
-> > index 23a7e74ef966..fc7b1e02988e 100644
-> > --- a/drivers/dma-buf/heaps/system_heap.c
-> > +++ b/drivers/dma-buf/heaps/system_heap.c
-> > @@ -130,9 +130,10 @@ static struct sg_table
-> > *system_heap_map_dma_buf(struct dma_buf_attachment *attac
-> >  {
-> >     struct dma_heap_attachment *a = attachment->priv;
-> >     struct sg_table *table = a->table;
-> > +   int attrs = attachment->dma_map_attrs;
-> >     int ret;
-> >  
-> > -   ret = dma_map_sgtable(attachment->dev, table, direction, 0);
-> > +   ret = dma_map_sgtable(attachment->dev, table, direction,
-> > attrs);
-> >     if (ret)
-> >             return ERR_PTR(ret);
-> >  
-> > @@ -145,9 +146,10 @@ static void system_heap_unmap_dma_buf(struct
-> > dma_buf_attachment *attachment,
-> >                                   enum dma_data_direction
-> > direction)
-> >  {
-> >     struct dma_heap_attachment *a = attachment->priv;
-> > +   int attrs = attachment->dma_map_attrs;
-> >  
-> >     a->mapped = false;
-> > -   dma_unmap_sgtable(attachment->dev, table, direction, 0);
-> > +   dma_unmap_sgtable(attachment->dev, table, direction, attrs);
-> >  }
-> >  
-> >  static int system_heap_dma_buf_begin_cpu_access(struct dma_buf
-> > *dmabuf,
-> > diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-> > index efdc56b9d95f..4d650731766e 100644
-> > --- a/include/linux/dma-buf.h
-> > +++ b/include/linux/dma-buf.h
-> > @@ -379,6 +379,8 @@ struct dma_buf_attach_ops {
-> >   * @importer_ops: importer operations for this attachment, if
-> > provided
-> >   * dma_buf_map/unmap_attachment() must be called with the dma_resv
-> > lock held.
-> >   * @importer_priv: importer specific attachment data.
-> > + * @dma_map_attrs: DMA attributes to be used when the exporter
-> > maps the buffer
-> > + * through dma_buf_map_attachment.
-> >   *
-> >   * This structure holds the attachment information between the
-> > dma_buf buffer
-> >   * and its user device(s). The list contains one attachment struct
-> > per device
-> > @@ -399,6 +401,7 @@ struct dma_buf_attachment {
-> >     const struct dma_buf_attach_ops *importer_ops;
-> >     void *importer_priv;
-> >     void *priv;
-> > +   unsigned long dma_map_attrs;
-> >  };
-> >  
-> >  /**
-> > -- 
-> > 2.17.1
-> > 
-> 
-> 
