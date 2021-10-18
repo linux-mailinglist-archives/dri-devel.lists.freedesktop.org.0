@@ -1,74 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20C28431F86
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Oct 2021 16:28:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C625431F90
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Oct 2021 16:29:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC4186E056;
-	Mon, 18 Oct 2021 14:28:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1DB966EA12;
+	Mon, 18 Oct 2021 14:28:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
- [IPv6:2a00:1450:4864:20::42a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B5A66E056
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Oct 2021 14:28:46 +0000 (UTC)
-Received: by mail-wr1-x42a.google.com with SMTP id i12so41686104wrb.7
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Oct 2021 07:28:46 -0700 (PDT)
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com
+ [IPv6:2a00:1450:4864:20::332])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F7196E0A8
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Oct 2021 14:28:47 +0000 (UTC)
+Received: by mail-wm1-x332.google.com with SMTP id o24so1527326wms.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Oct 2021 07:28:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=baylibre-com.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=XyYaNMyG0h2GRFSHh3MvaiQhHBrpmc1k1spDZIbhBKw=;
- b=0/NGh/p3sVcXxesecSYKBMn+eToUPj771KYfsNeQCDLhfvuEUJ5FP1n91Fc0PZIifD
- glWKqHP+V0kSU4kSqmrZPGYo96bTVrA70NoDVbsln11HONolpEu553ByvveFwRB8c/Fw
- bQwrsEvm+Qbx7sXQhU+2T6fDsNzNCMexYfeC/aJAxKoRWyuLI36YhQrS15aZv83JTxx1
- w6tTRbbqZ4QciTX8PjRykKnc1tBKLYm06iFTOjExWzDkvLrdfXvfpMh7+ZPZRMUDJLgC
- NmPVgavhPxE3MtmgK5I7VCgIIbjkVwiXqs8C/KrkrJ8wcsy6gus0sFGar9CncJpOHePM
- uDtA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=jHztITnDF4fFQXSKxud+QNz8Jtqj0NJjpDNYvgJfDX8=;
+ b=a75bCI54fwhIwi6iZBBIUBOxKcoSSV0MXSYc+y1b39wdrWdh92RsRkKHhkx/2lOioN
+ NUrd6JMCWMYONmkG7r4RxW0akwa8sd5rnt60p/WCFZozGLxjW3tKtJI3X0SDWMlqC4j8
+ GdQJs84k/L93E9LPe8IqA2id9EcqcweUNJKHx82dr9DhWbp0kxq/VRLYq78pDSHl+ro6
+ uN0Z9qtazeYNbjPxGZzvaqMhEJ5vH3UvTSk2tXo3bEg7wC30bhJ7ZXBILjuDefnD+Gpq
+ YXxZPRFeGBQkmeV3Ixjg89V4Wr8/9OX/WXv+tQdwAzpYmoo19DJUCABCp+KUCZLipBtL
+ wWvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=XyYaNMyG0h2GRFSHh3MvaiQhHBrpmc1k1spDZIbhBKw=;
- b=3O1XIvXrVWS4D9bCL3UdHKraESRoDkiaYlFwf8oBZvgswRI4EJjZPDU6qssjRptc6P
- V2TEzDwTBiAawQKZk2rtqABaWGeuVz6ZcwmwYhRiq7ZcGO5pxPXf4ylzG4NrFJfKWsX+
- FYuXHfgMbfDNWAGf/l4mOwrZBNEeRUvy7ji0uwiVrkmNgcNJUnWqd3F6IS2ZV4NHViZ/
- ypUK1DJwq2pu9BQp2So88jjyp2tkYF/hjYPvL4zRXQEF/ghwS5ni+vnSRvxyJ76yVcC0
- 6egZYkMZ4mM8ECU7gNLJwtR1npeIc4KXCEY0dYith4Fb8XO3CROQUSIE/7vfBvd500N2
- I26g==
-X-Gm-Message-State: AOAM530HoYE7SeKalCQ0qBHamTF59NgvjhNJ06oOnuEUGKfTL1vwiupI
- +b65wRC8gy0SF2d2HrJi6WgOOQ==
-X-Google-Smtp-Source: ABdhPJyViJMpa/W4XVDOttFAuL4XjTh4Xpqfxmvfmp+8DIEc+cUbvjdyhyeeVlkoab278Zr8gTsD5w==
-X-Received: by 2002:adf:a29c:: with SMTP id s28mr34700738wra.116.1634567324983; 
- Mon, 18 Oct 2021 07:28:44 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=jHztITnDF4fFQXSKxud+QNz8Jtqj0NJjpDNYvgJfDX8=;
+ b=yuL0xVXHv4sd4ww2TCTBlUOfW7syvg70A+/7frrRy6PKT4zjURxlgEK/PWmoqmGVZ1
+ tTU5RHcJkrd91RMn9YmqAmuXX7hZYIEKoY7EITK2Og91PYFxYJV9WSkSfXPsK55DnuWt
+ G60XAl7zsdkzGLcQNwzXjyqdh3UTNbck8udN7M4QTsoXB9O+YnFubmjLikep2Doq7OZy
+ GSBXAimly/pEARe/Miny5QGIDleIr/ipos+hpxvdp0hemS1Q8wnuoMXCOd+3EgEMquAS
+ gDaqf1stfdyGJkBKXAOl2ioDYUFB8RdnV3tLVa4nzNWjDE/zmQ20bk6TkUqzD7yH8e17
+ 5P1g==
+X-Gm-Message-State: AOAM532XDiOtQsUKEcjgV22icMWOhg2Fl7JwYWR0GTA7LVCp1sbGqqeC
+ Zi7Sv7iCPAkI/32T5jghx0/OFg==
+X-Google-Smtp-Source: ABdhPJyUNbZdGJGYbv9xfyRTzLs3LcBStntNkLkja8uWayfJChDiCc4fbZiJlRd1tOqhu1H9OGuY7Q==
+X-Received: by 2002:a05:600c:cc:: with SMTP id
+ u12mr1446004wmm.46.1634567325978; 
+ Mon, 18 Oct 2021 07:28:45 -0700 (PDT)
 Received: from localhost.localdomain ([2001:861:44c0:66c0:2dd7:d5eb:6e87:f924])
- by smtp.gmail.com with ESMTPSA id b3sm12908495wrp.52.2021.10.18.07.28.44
+ by smtp.gmail.com with ESMTPSA id b3sm12908495wrp.52.2021.10.18.07.28.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Oct 2021 07:28:44 -0700 (PDT)
+ Mon, 18 Oct 2021 07:28:45 -0700 (PDT)
 From: Neil Armstrong <narmstrong@baylibre.com>
 To: tomba@kernel.org
 Cc: linux-omap@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, khilman@baylibre.com,
- Neil Armstrong <narmstrong@baylibre.com>
-Subject: [PATCH v6 0/9] drm/omap: Add virtual-planes support
-Date: Mon, 18 Oct 2021 16:28:33 +0200
-Message-Id: <20211018142842.2511200-1-narmstrong@baylibre.com>
+ Neil Armstrong <narmstrong@baylibre.com>, Benoit Parrot <bparrot@ti.com>
+Subject: [PATCH v6 1/9] drm/omap: add sanity plane state check
+Date: Mon, 18 Oct 2021 16:28:34 +0200
+Message-Id: <20211018142842.2511200-2-narmstrong@baylibre.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20211018142842.2511200-1-narmstrong@baylibre.com>
+References: <20211018142842.2511200-1-narmstrong@baylibre.com>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3506; h=from:subject;
- bh=UU6BPOlg4iHte6Z0SQwKO9S7iu4F/v+orl4BrCXP76I=;
- b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBhbYSDvJh2P7dCncuXx9XXB5XZq1TOiLt4NlmqYdL7
- ZjqbziiJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCYW2EgwAKCRB33NvayMhJ0UZ3D/
- 9IMt2RQ0aOt34ulcoQ3whtM/uULj4rGoYkjO8z6elwcZ1GMJlJMIPMPYSFffDsJMN7inPkjX2FLlhN
- 9FB+qHap9O4b4Yne5iHd7IFO97kn8z5vDH3NmOChUJB/mDmJ+ZLnEvxPZ1OwvIJuPc+14rrdPS2+hT
- GyF7OVExSePxnqmgOOSI+1hsm0oIQe8+dWF1xD78Tw2YUmbBfOrF5iLOvL2x1rfu+lb9ZqPDctiaO0
- ckTDgwZINvQWk2BD2lKHgNc68Uvg7d5GiL2wGEJjk53XNTfn+932d0AQnG4yxAVujJAwIZzYW9Fqyl
- eQjjFuJ11R+BzXIJbWtTZfw3ehOtw1zm15MaHLOO331wO+08FqoJB8rlaEPlEcEAxjqOn7N8zQKdvQ
- O39d44UazaVdyf3omKzzQZmumTZ+RpkkmDfCoKguSkygj317BKTeP4k6NMVMvg1HZ+8uvB7PFrazya
- WM/MCfgagiwsrXZ3Q5jc8v5ZC4/ZdRIndefdyycRg3V4fH4NrdpVZulVE7yy0qHiqX15LJTTBo2XHP
- nhGmhOMp1jpkZHvkdB+EYPJjbs91puNu6DmWp1qnXcd5UJZonA4o15BARunAtlO+tfkDvzYcT1nLNm
- fCuGkQi+EwkcgXN/nEWNPI7J9SwvjtVmaBYjgIoaHwyTMuC7iDpHlheYTjVw==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1849; h=from:subject;
+ bh=jRkIww6GJd5Wg+RgwNKRyh7OLNc3fS8CQvhWZ54HJl0=;
+ b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBhbYSFq/A8B8ssl6yiFVlKdW61NXQ3l6SuPbdR8b6q
+ ZKp4TeGJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCYW2EhQAKCRB33NvayMhJ0QgoD/
+ 0Y1G67QzeQnlWqz4y6rQyfTlmnlBQghuyus96kzr6X2utUqn2CCy0rJ9L4kqsuuFqHrruLjF2XBPcb
+ JacJ0DIMHTX0WGr/RBWIxTyqlEE10Zg7uV/VTVBHmgE2bOCWNgMqRK3lFvdIr3IzNlt5EGlajO26rz
+ gs2FwZdhTtneTdZUgUxIV2m7lSCLWgBuLjUw6lUzDJo4vw3R/3Hr8iGVGGvfG6SiGGC7M+drWWNxPi
+ RoRYmryEINz3U1ywpQDrXP8SAJiZosCPNDyjCzn0HJxh1jZbOAW4vUw2YnbiZlw4qIcqvs0+3Ydlfs
+ JP1Xjl68doj6DwP+PFEsGFrr9p4MpWfSmKdcZ9xq2lZJSOOVhZ1EqxE1bjKX8t7+zN8Jz2tgaWO9XY
+ FxjXp8awUzmnEdJCKDZA862mFjykRKxKsP0mwTOsDkSt3jgv5F8yVnoUDUcRrDklqx1ludUPywsrp3
+ bUYtEUceq922sYSFFAqh2xGwmhtenxQKFWvf+z8HnSKWb9zJfh5pI0W64P8DrQR4mgJduDvb0lcfCy
+ XfnLnBSRkkwwwZF3vczcvn9kijPmlpJOLdUvvbGq0cix7niwxmb67CpkfCp6JLamn48z0M6zc+HHLz
+ BEudz0ht0gXv2v8TZjyrwJGwJslJnq/p89npsqExjha6xb4KdjTNG6M9JMxA==
 X-Developer-Key: i=narmstrong@baylibre.com; a=openpgp;
  fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
 Content-Transfer-Encoding: 8bit
@@ -87,81 +90,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patchset is the follow-up the v4 patchset from Benoit Parrot at [1].
+Call drm_atomic_helper_check_plane_state() from the plane
+atomic_check() callback in order to add plane state sanity
+checking.
 
-This patch series adds virtual-plane support to omapdrm driver to allow the use
-of display wider than 2048 pixels.
+It will permit filtering out totally bad scaling factors, even
+if the real check are done later in the atomic commit.
 
-In order to do so we introduce the concept of hw_overlay which can then be
-dynamically allocated to a plane. When the requested output width exceed what
-be supported by one overlay a second is then allocated if possible to handle
-display wider then 2048.
+Signed-off-by: Benoit Parrot <bparrot@ti.com>
+Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
+---
+ drivers/gpu/drm/omapdrm/omap_plane.c | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-This series replaces an earlier series which was DT based and using statically
-allocated resources.
-
-This implementation is inspired from the work done in msm/disp/mdp5
-driver.
-
-Changes since v5 at [2]:
-- Patch 1: renamed width/height_fp to max_width/height
-- Patch 2: no changes
-- Patch 3: removed possible_crtcs stuff,
-	added cleanup on failure to allocate,
-	removed name in omap_plane struct & plane_id_to_name in omap_plane.c,
-	switched all omap_plane->name to plane->name or omap_plane->id
-- Patch 4: aligned omap_plane_atomic_duplicate_state the the crtc style
-- Patch 5: removed glob_obj_lock & reformated global state declaration in omap_drv.h
-- Patch 6: moved drm_atomic_helper_check_plane_state() from atomic_check() in separate commit,
-	removed zpos change, updated debug messages to be useful,
-	renamed omap_overlay_disable() to omap_overlay_update_state(),
-	added useful comments for omap_overlay_assign() & omap_overlay_update_state(),
-	simplified omap_overlay_assign() & omap_overlay_update_state() for actual use-cases,
-	refactored omap_plane_atomic_check() changes to be cleaner & simpler
-- Patch 7: no changes (except possible_crtcs print removal)
-- Patch 8: Reformated omap_plane_atomic_check() & omap_overlay_assign() changes to match previous patches layout 
-
-Changes since v4 at [1]:
-- rebased on v5.15-rc2
-- adapted to drm_atomic_get_new/old_plane_state()
-- tested on Beagle-x15
-- checked for non-regression on Beagle-x15
-- removed unused "state" variable in omap_global_state
-
-[1] https://lore.kernel.org/all/20181012201703.29065-1-bparrot@ti.com/
-[2] https://lore.kernel.org/all/20210923070701.145377-1-narmstrong@baylibre.com/
-
-Benoit Parrot (8):
-  drm/omap: Add ability to check if requested plane modes can be
-    supported
-  drm/omap: Add ovl checking funcs to dispc_ops
-  drm/omap: introduce omap_hw_overlay
-  drm/omap: omap_plane: subclass drm_plane_state
-  drm/omap: Add global state as a private atomic object
-  drm/omap: dynamically assign hw overlays to planes
-  drm/omap: add plane_atomic_print_state support
-  drm/omap: Add a 'right overlay' to plane state
-
-Neil Armstrong (1):
-  drm/omap: add sanity plane state check
-
- drivers/gpu/drm/omapdrm/Makefile       |   1 +
- drivers/gpu/drm/omapdrm/dss/dispc.c    |  31 ++-
- drivers/gpu/drm/omapdrm/dss/dss.h      |   5 +
- drivers/gpu/drm/omapdrm/omap_drv.c     | 189 ++++++++++++-
- drivers/gpu/drm/omapdrm/omap_drv.h     |  24 ++
- drivers/gpu/drm/omapdrm/omap_fb.c      |  33 ++-
- drivers/gpu/drm/omapdrm/omap_fb.h      |   4 +-
- drivers/gpu/drm/omapdrm/omap_overlay.c | 212 +++++++++++++++
- drivers/gpu/drm/omapdrm/omap_overlay.h |  35 +++
- drivers/gpu/drm/omapdrm/omap_plane.c   | 354 +++++++++++++++++++++----
- drivers/gpu/drm/omapdrm/omap_plane.h   |   1 +
- 11 files changed, 830 insertions(+), 59 deletions(-)
- create mode 100644 drivers/gpu/drm/omapdrm/omap_overlay.c
- create mode 100644 drivers/gpu/drm/omapdrm/omap_overlay.h
-
-
-base-commit: e4e737bb5c170df6135a127739a9e6148ee3da82
+diff --git a/drivers/gpu/drm/omapdrm/omap_plane.c b/drivers/gpu/drm/omapdrm/omap_plane.c
+index 512af976b7e9..c3de4f339387 100644
+--- a/drivers/gpu/drm/omapdrm/omap_plane.c
++++ b/drivers/gpu/drm/omapdrm/omap_plane.c
+@@ -104,12 +104,15 @@ static void omap_plane_atomic_disable(struct drm_plane *plane,
+ 	dispc_ovl_enable(priv->dispc, omap_plane->id, false);
+ }
+ 
++#define FRAC_16_16(mult, div)    (((mult) << 16) / (div))
++
+ static int omap_plane_atomic_check(struct drm_plane *plane,
+ 				   struct drm_atomic_state *state)
+ {
+ 	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state,
+ 										 plane);
+ 	struct drm_crtc_state *crtc_state;
++	int ret;
+ 
+ 	if (!new_plane_state->fb)
+ 		return 0;
+@@ -127,6 +130,18 @@ static int omap_plane_atomic_check(struct drm_plane *plane,
+ 	if (!crtc_state->enable)
+ 		return 0;
+ 
++	/*
++	 * Note: these are just sanity checks to filter out totally bad scaling
++	 * factors. The real limits must be calculated case by case, and
++	 * unfortunately we currently do those checks only at the commit
++	 * phase in dispc.
++	 */
++	ret = drm_atomic_helper_check_plane_state(new_plane_state, crtc_state,
++						  FRAC_16_16(1, 8), FRAC_16_16(8, 1),
++						  true, true);
++	if (ret)
++		return ret;
++
+ 	if (new_plane_state->crtc_x < 0 || new_plane_state->crtc_y < 0)
+ 		return -EINVAL;
+ 
 -- 
 2.25.1
 
