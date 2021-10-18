@@ -2,78 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C3FC432520
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Oct 2021 19:33:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA429432547
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Oct 2021 19:41:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E6956EA27;
-	Mon, 18 Oct 2021 17:33:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E481C6E0D7;
+	Mon, 18 Oct 2021 17:41:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
- [IPv6:2a00:1450:4864:20::429])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A0AB6EA27
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Oct 2021 17:33:41 +0000 (UTC)
-Received: by mail-wr1-x429.google.com with SMTP id u18so42945225wrg.5
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Oct 2021 10:33:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=rC/hLNrxKboWrLVaDMklS7HEEU6bUXhMqtNh39WY+UE=;
- b=ah07nRlqopbTXRyZyr14fX2esaI6ry80CfTbZPLGsNidfYq3PUrTRosgXKm/11VEqL
- Sd2wYy+zZpVerDvvz3ns2S7Y318B/E2p5paJ8rKguqMMq4ABPimTJs50hePALFHQ/zDH
- kuGsxV2aX2ayWX1J3mz1XYsEWLOIakXk0j69IsfhV9PDLr9JNFM3Kcbt7qHJBHOhCMCg
- rgH5A8hBqi0Tzz41jxRjIYc+CcEdnG9DQHFgwQDY6n12Bk7mJSLZoJV/TzEifl/nnc+w
- wqyfLz93DBjiq/88MkRYrsISeFQEWh7t1ZLu6KuuU0tQDXERBeBKuEeROeDvuCb3ZTGu
- Eo3g==
+Received: from mail-ua1-x933.google.com (mail-ua1-x933.google.com
+ [IPv6:2607:f8b0:4864:20::933])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A55126E0D7
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Oct 2021 17:41:39 +0000 (UTC)
+Received: by mail-ua1-x933.google.com with SMTP id i15so6720912uap.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Oct 2021 10:41:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=Ym5/eMT1XXXvSklsHO74skF3/hJuEqIN4dprBSaCf9E=;
+ b=S4LHb3XCWbgzPV1akDqvFcodPhbfy611oLMG82tVycdZo0BmqWwRxucM9O6PCwk2Xg
+ CgaUvFH6nqqWPbEE8C4YvmRp1gQx9baSyVj5SYtwL6L2R6tdxI0Z5MEVhaef5pU3XgSS
+ Au2O0MMMc6EbTHVozrr9dlMkbSSPhP4aAYSZUqahaBjBhoJGVXFiLo+r8VdIYXSmpTy3
+ Sbk05KX4tcskHXTeVZk8bqpd5/JsFEIqzEcsIlgGO0rxPdgFbCCoaqSEAyiy+so1aeai
+ +Q5Ezc37uIg3hU0wb5skrAVTk4joDWHcLnMLUt2yti1kqeFqK9U+a5Mqri/DvzWSIU6Y
+ w2yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=rC/hLNrxKboWrLVaDMklS7HEEU6bUXhMqtNh39WY+UE=;
- b=w0IW/dV2dA1oNodKRF+MW8I9zdspz/gXLC1zAu7LFr22Uo2YVu9Z8/0/24ahRb403X
- wteYyISfxl9ymUSiaSdJChv/ym55yf2ETrtyMT2sqJEtsu7WZEQyiOEcl42KIGztqMys
- E/mkUnsEJ74IhgGQn9f9iHEIaw3Y9Zso6r5/UPltnrjNeCVWl/eHrX+fsiwmPJscb9dX
- 6gUiTga4+3VghiYLJSJLMI0EUMmCPQzTq5tio4aO3GZ3Yb+mv10PHqsUs6Rz/lAqRDOX
- qGkaCqKN+9B0QKIQznez5p8CkzCoWYwf8dJgwNTkt03kxl7xzhR6zrT4PyuQZOxyhyJU
- mlWw==
-X-Gm-Message-State: AOAM533mF0Q/lDkpyoeL6W2WNb9jNrRibwQBhmXFH6V06dpi0G54Psxv
- sOSdDr4VX/LnShDOXyBMU+eXBA==
-X-Google-Smtp-Source: ABdhPJzTofO8JworMFPCFBKd0dnbRO1NBjt4FTsjxc0YxtMZ2929zmD3/Ot6adQDm2boDaCVAp/n8g==
-X-Received: by 2002:a5d:4002:: with SMTP id n2mr144182wrp.420.1634578419759;
- Mon, 18 Oct 2021 10:33:39 -0700 (PDT)
-Received: from [192.168.0.30]
- (cpc78119-cwma10-2-0-cust590.7-3.cable.virginm.net. [81.96.50.79])
- by smtp.gmail.com with ESMTPSA id g25sm12989366wrc.88.2021.10.18.10.33.38
+ bh=Ym5/eMT1XXXvSklsHO74skF3/hJuEqIN4dprBSaCf9E=;
+ b=44hCXQPQgcxUHFG0KjqxMbaYCeaEarGsYk/opPeM86r4NK7Bc3GJzks59KtHvuRYVH
+ tRPocu4lSYRhkbCpUgmo60rAwVKf+eLtanhrv/bTj/YScSlYP6usEICx7iNYKVWW8vM0
+ AzxKKd6EmdXloB/4OuYFhQgUDOA7FyAe7crNnTExe85580y3VvrFhJvyRbl/cZmBTayX
+ 7Mf5Eg6qJQG07EA7TEBzpzYKSlC5z5HaMcTcDRgGtXt5eJk1u7sTDy5AHt8e4qvBz+Oj
+ 0vFTfABHb+H1CIQ8HLWEb63Uso2OHzlgOkcDhIaEezfLuQb3dK6HKUabErQzDf+w4SGM
+ 5ltA==
+X-Gm-Message-State: AOAM5333l75tpe6c20q1e7MHuAOgsbUbhVzUTrzDOk0bUCv20F9Lq5bg
+ s8kuQRDdh0CpcrFRKnh9Vzo=
+X-Google-Smtp-Source: ABdhPJwVkrreUNrGZzlSHYfbkvZbdSX0JaYjnA2yIhwcsIUKdKY5FMZ3Kghll63h1r/k2LwK5KlAWQ==
+X-Received: by 2002:a9f:36f0:: with SMTP id p103mr27833626uap.42.1634578898653; 
+ Mon, 18 Oct 2021 10:41:38 -0700 (PDT)
+Received: from ?IPv6:2804:431:c7f4:b20b:2ce0:3c04:a56a:40cc?
+ ([2804:431:c7f4:b20b:2ce0:3c04:a56a:40cc])
+ by smtp.gmail.com with ESMTPSA id 45sm9295409uaq.8.2021.10.18.10.41.36
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 18 Oct 2021 10:33:39 -0700 (PDT)
-Message-ID: <5c460ee3-9079-02a7-e674-a4dde5815f0d@linaro.org>
-Date: Mon, 18 Oct 2021 18:33:36 +0100
+ Mon, 18 Oct 2021 10:41:38 -0700 (PDT)
+Subject: Re: [PATCH 5/6] drm: vkms: Prepare `vkms_wb_encoder_atomic_check` to
+ accept multiple formats
+To: Thomas Zimmermann <tzimmermann@suse.de>, rodrigosiqueiramelo@gmail.com,
+ melissa.srw@gmail.com
+Cc: hamohammed.sa@gmail.com, daniel@ffwll.ch, airlied@linux.ie,
+ contact@emersion.fr, leandro.ribeiro@collabora.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ lkcamp@lists.libreplanetbr.org
+References: <20211005201637.58563-1-igormtorrente@gmail.com>
+ <20211005201637.58563-6-igormtorrente@gmail.com>
+ <5507450a-eb69-b24c-9f43-a1780dafbfa9@suse.de>
+From: Igor Matheus Andrade Torrente <igormtorrente@gmail.com>
+Message-ID: <e9cbdad7-416a-65fe-eb50-1cbb42a01e7b@gmail.com>
+Date: Mon, 18 Oct 2021 14:41:33 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH] drm/msm/devfreq: Restrict idle clamping to a618 for now
+In-Reply-To: <5507450a-eb69-b24c-9f43-a1780dafbfa9@suse.de>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-To: John Stultz <john.stultz@linaro.org>, Rob Clark <robdclark@gmail.com>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <freedreno@lists.freedesktop.org>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Rob Clark <robdclark@chromium.org>, Sean Paul <sean@poorly.run>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Jordan Crouse <jordan@cosmicpenguin.net>,
- Akhil P Oommen <akhilpo@codeaurora.org>, Jonathan Marek <jonathan@marek.ca>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
- Sharat Masetty <smasetty@codeaurora.org>,
- Douglas Anderson <dianders@chromium.org>,
- open list <linux-kernel@vger.kernel.org>,
- Amit Pundir <amit.pundir@linaro.org>
-References: <20211018153627.2787882-1-robdclark@gmail.com>
- <CALAqxLU=O2yaJ=ZOtg0S-zX4KyirbXNx+0iF3EJ9d4=rVL6Z=Q@mail.gmail.com>
-From: Caleb Connolly <caleb.connolly@linaro.org>
-In-Reply-To: <CALAqxLU=O2yaJ=ZOtg0S-zX4KyirbXNx+0iF3EJ9d4=rVL6Z=Q@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,41 +83,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi all,
+Hello,
 
-On 18/10/2021 17:42, John Stultz wrote:
-> On Mon, Oct 18, 2021 at 8:31 AM Rob Clark <robdclark@gmail.com> wrote:
+On 10/18/21 7:14 AM, Thomas Zimmermann wrote:
+> Hi
+> 
+> Am 05.10.21 um 22:16 schrieb Igor Matheus Andrade Torrente:
+>> Currently, the vkms atomic check only goes through the first position of
+>> the `vkms_wb_formats` vector.
 >>
->> From: Rob Clark <robdclark@chromium.org>
+>> This change prepares the atomic_check to check the entire vector.
 >>
->> Until we better understand the stability issues caused by frequent
->> frequency changes, lets limit them to a618.
->>
->> Signed-off-by: Rob Clark <robdclark@chromium.org>
+>> Signed-off-by: Igor Matheus Andrade Torrente <igormtorrente@gmail.com>
 >> ---
->> Caleb/John, I think this should help as a workaround for the power
->> instability issues on a630.. could you give it a try?
+>>   drivers/gpu/drm/vkms/vkms_writeback.c | 11 ++++++++++-
+>>   1 file changed, 10 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/vkms/vkms_writeback.c 
+>> b/drivers/gpu/drm/vkms/vkms_writeback.c
+>> index 5a3e12f105dc..56978f499203 100644
+>> --- a/drivers/gpu/drm/vkms/vkms_writeback.c
+>> +++ b/drivers/gpu/drm/vkms/vkms_writeback.c
+>> @@ -30,6 +30,8 @@ static int vkms_wb_encoder_atomic_check(struct 
+>> drm_encoder *encoder,
+>>   {
+>>       struct drm_framebuffer *fb;
+>>       const struct drm_display_mode *mode = &crtc_state->mode;
+>> +    bool format_supported = false;
+>> +    int i;
+>>       if (!conn_state->writeback_job || !conn_state->writeback_job->fb)
+>>           return 0;
+>> @@ -41,7 +43,14 @@ static int vkms_wb_encoder_atomic_check(struct 
+>> drm_encoder *encoder,
+>>           return -EINVAL;
+>>       }
+>> -    if (fb->format->format != vkms_wb_formats[0]) {
+>> +    for (i = 0; i < ARRAY_SIZE(vkms_wb_formats); i++) {
+>> +        if (fb->format->format == vkms_wb_formats[i]) {
+>> +            format_supported = true;
+>> +            break;
+>> +        }
+>> +    }
 > 
-> While I hit it fairly often, I can't reliably reproduce the crash, but
-> in limited testing this seems ok to me.
-> I've not hit the crash so far, nor seen any other negative side
-> effects over 5.14.
-> 
-> So for what that's worth:
-> Tested-by: John Stultz <john.stultz@linaro.org>
-> 
-> Caleb has better luck tripping this issue right away, so they can
-> hopefully provide a more assured response.
-This prevents the crash on the OnePlus 6 as the frequency can no longer go to zero.
+> At a minimum, this loop should be in a helper function. But more 
+> generally, I'm surprised that this isn't already covered by the DRM's 
+> atomic helpers.
 
-I would like to find a better solution that still allows proper idling on a630, but that can wait for 5.16.
+Ok, I can wrap it in a new function.
 
-Tested-by: Caleb Connolly <caleb.connolly@linaro.org>
-> 
-> thanks
-> -john
-> 
+AFAIK the DRM doesn't cover it. But I may be wrong...
 
--- 
-Kind Regards,
-Caleb (they/them)
+> 
+> Best regards
+> Thomas
+> 
+>> +
+>> +    if (!format_supported) {
+>>           DRM_DEBUG_KMS("Invalid pixel format %p4cc\n",
+>>                     &fb->format->format);
+>>           return -EINVAL;
+>>
+> 
