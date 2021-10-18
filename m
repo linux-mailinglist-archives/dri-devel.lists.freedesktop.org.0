@@ -2,46 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33C6843127C
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Oct 2021 10:52:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4AF443129E
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Oct 2021 10:57:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA1BB6E9A2;
-	Mon, 18 Oct 2021 08:52:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 17DFF6E9A5;
+	Mon, 18 Oct 2021 08:57:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-4018.proton.ch (mail-4018.proton.ch [185.70.40.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 21B036E9A2
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Oct 2021 08:52:10 +0000 (UTC)
-Date: Mon, 18 Oct 2021 08:52:07 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail; t=1634547128;
- bh=rGANSEBcEK+EYmPU+ascz7nuylCMdy6N/CxVqmQGpgc=;
- h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
- b=UiK486HL6nZCXA/w7pH4PdK1MC67e+UOGL+ryYC2TR5a14u5WkiyAz+63rs9mQd5r
- 6Ai0/jRsu2sCSOCD5uMeQ6tGVytrBBtzEf8UHZzEH7og3cg7jffyPNwBjm59FyXKq9
- p7JnvRdu2u/PeUgCyHIM6BuPcPJQhsOTvKPiwqjTizXR2CSVb10Kc6mhdVwBVISEqM
- O1KyIfOCuzdv717ek26CY0RmLP80KiS5gu6XBt76MGo3Wzw1UDSHFfBQDbgmJGlfZk
- PntCQKrJovMrUHyKPSKKZTK2P+OtP5gPzM0z8/TJFTJUS0GUlNzZjvYY/wAOIe7wr0
- azH7hWHP0KqNA==
-To: Pekka Paalanen <ppaalanen@gmail.com>
-From: Simon Ser <contact@emersion.fr>
-Cc: dri-devel@lists.freedesktop.org, Hans de Goede <hdegoede@redhat.com>,
- Dennis Filder <d.filder@web.de>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <seanpaul@chromium.org>
-Subject: Re: [PATCH RFC 2/2] drm: introduce CLOSEFB IOCTL
-Message-ID: <vxzI1Ass5g8-VxDSTf4hR5wCFywlZCHq05IoyykdFnr8lpaxtDjld_MVECB6LFwo06Rc0xZzYDyTpjfFKg2fZZc22Ol37k74-OKRqJxnz2I=@emersion.fr>
-In-Reply-To: <20211008102911.3bafa4f2@eldfell>
-References: <20211007131507.149734-1-contact@emersion.fr>
- <20211007131507.149734-2-contact@emersion.fr>
- <20211008102911.3bafa4f2@eldfell>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E1AE6E9A5;
+ Mon, 18 Oct 2021 08:57:17 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10140"; a="291675427"
+X-IronPort-AV: E=Sophos;i="5.85,381,1624345200"; d="scan'208";a="291675427"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Oct 2021 01:57:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.85,381,1624345200"; d="scan'208";a="443325319"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
+ by orsmga006.jf.intel.com with SMTP; 18 Oct 2021 01:57:06 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Mon, 18 Oct 2021 11:57:06 +0300
+Date: Mon, 18 Oct 2021 11:57:06 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: luo penghao <cgel.zte@gmail.com>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Stephen Rothwell <sfr@canb.auug.org.au>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, luo penghao <luo.penghao@zte.com.cn>,
+ Zeal Robot <zealci@zte.com.cn>
+Subject: Re: [PATCH linux-next] drm/i915/display: Remove unused variable and
+ its assignment.
+Message-ID: <YW024pwrV7fLgV/2@intel.com>
+References: <20211018084331.851975-1-luo.penghao@zte.com.cn>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
- DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
- autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
- mailout.protonmail.ch
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20211018084331.851975-1-luo.penghao@zte.com.cn>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,23 +56,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Simon Ser <contact@emersion.fr>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thanks for having a look at this patch, Pekka!
+On Mon, Oct 18, 2021 at 08:43:31AM +0000, luo penghao wrote:
+> Variable is not used in functions, and its assignment is redundant too.
+> So it should be deleted.
+> 
+> The clang_analyzer complains as follows:
+> 
+> drivers/gpu/drm/i915/display/intel_dpll.c:1653:2 warning:
+> Value stored to 'bestm1' is never read.
+> 
+> drivers/gpu/drm/i915/display/intel_dpll.c:1651:2 warning:
+> Value stored to 'bestn' is never read.
+> 
+> Reported-by: Zeal Robot <zealci@zte.com.cn>
+> Signed-off-by: luo penghao <luo.penghao@zte.com.cn>
+> ---
+>  drivers/gpu/drm/i915/display/intel_dpll.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/display/intel_dpll.c b/drivers/gpu/drm/i915/display/intel_dpll.c
+> index b84ed4a..28b1616 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dpll.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dpll.c
+> @@ -1644,13 +1644,11 @@ static void chv_prepare_pll(const struct intel_crtc_state *crtc_state)
+>  	enum pipe pipe = crtc->pipe;
+>  	enum dpio_channel port = vlv_pipe_to_channel(pipe);
+>  	u32 loopfilter, tribuf_calcntr;
+> -	u32 bestn, bestm1, bestm2, bestp1, bestp2, bestm2_frac;
+> +	u32 bestm2, bestp1, bestp2, bestm2_frac;
+>  	u32 dpio_val;
+>  	int vco;
+>  
+> -	bestn = crtc_state->dpll.n;
 
-On Friday, October 8th, 2021 at 09:29, Pekka Paalanen <ppaalanen@gmail.com>=
- wrote:
+This one we could use. For some reason we hardcode it to
+1 now, which is correct for our use cases but I don't really
+see a reason to hardcode it here. We are supposed to calculate
+it correctly after all, and chv_crtc_clock_get() also just blindly
+reads it out.
 
-> > +#define DRM_IOCTL_MODE_CLOSEFB=09=09DRM_IOWR(0xCF, unsigned int)
->
-> Should it have a structure with 'flags' for future-proofing?
->
-> ISTR some rule of thumb that everything new must have 'flags' field
-> enforced to be zero just in case. I only now saw that RMFB cannot have
-> flags.
+>  	bestm2_frac = crtc_state->dpll.m2 & 0x3fffff;
+> -	bestm1 = crtc_state->dpll.m1;
 
-I wonder. I don't mind adding a struct with flags or padding, not sure what=
- the
-policy is for the DRM subsystem.
+This one is a bit trickier since I don't think the spec even
+gives us other values. But we could assert that it's correct.
+
+Some something along these lines I think would be best:
++ drm_WARN_ON(&dev_priv->drm, bestm1 != 2);
+  vlv_dpio_write(dev_priv, pipe, CHV_PLL_DW1(port),
+                 DPIO_CHV_M1_DIV_BY_2 |
+- 		 1 << DPIO_CHV_N_DIV_SHIFT);
++ 		 bestn << DPIO_CHV_N_DIV_SHIFT);
+
+-- 
+Ville Syrjälä
+Intel
