@@ -1,44 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B747431E13
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Oct 2021 15:55:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A0722431E26
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Oct 2021 15:56:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C555E6E0C6;
-	Mon, 18 Oct 2021 13:55:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 208B66E053;
+	Mon, 18 Oct 2021 13:56:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 65F236E0C6
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Oct 2021 13:55:27 +0000 (UTC)
-Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.56])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4HXyyW1K8yzZcJQ;
- Mon, 18 Oct 2021 21:53:39 +0800 (CST)
-Received: from kwepemm600001.china.huawei.com (7.193.23.3) by
- dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.15; Mon, 18 Oct 2021 21:55:23 +0800
-Received: from huawei.com (10.175.104.82) by kwepemm600001.china.huawei.com
- (7.193.23.3) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.15; Mon, 18 Oct
- 2021 21:55:22 +0800
-From: Wang Hai <wanghai38@huawei.com>
-To: <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <airlied@linux.ie>, <daniel@ffwll.ch>,
- <sam@ravnborg.org>
-CC: <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH] drm: fix null-ptr-deref in drm_minor_alloc_release
-Date: Mon, 18 Oct 2021 21:54:28 +0800
-Message-ID: <20211018135428.3971329-1-wanghai38@huawei.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
+ [IPv6:2a00:1450:4864:20::432])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 90BF86E053
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Oct 2021 13:56:30 +0000 (UTC)
+Received: by mail-wr1-x432.google.com with SMTP id m22so41776375wrb.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Oct 2021 06:56:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=CQAjLnOximuKx0DmQIAeiOi/1ZXjfKn8epi/lvIk+Ss=;
+ b=K5RE5oGLDAAciVB5NngQtXHbhlTGPi89aes19DUwmRHdMAnubtOr/N9ewroaDcLGwJ
+ qrhvz5jkbJ16LQlX5BNfY9dBY6K9Zz+/NkbAuUPcJSoSKr8IxyU2oSDDWmLhCTKar+53
+ fzUb7UHFoBIX1uRmBu74SC1mddispQ7ZJk4blw90WCLh7DF1ltyzHaeORmNyJ72NvWZs
+ pOJpWQ6nQyfIym6APt/S/u2V3CRqNWqWZFG70AM1jEVrz5pGQoULPT/VBGEmBqWDkxPc
+ HNPc1yNWrY6TWZ29wUFdBhHRQqPzs7DezJfkJAMI9u3RiZb+uf8dl2RJTrcgZnycuvVy
+ BQRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=CQAjLnOximuKx0DmQIAeiOi/1ZXjfKn8epi/lvIk+Ss=;
+ b=Xf0fyezJoUiZ+EZs+b4wC4PbdRaVznW4VWX7RSEidYnYdnZU0XTHUTHMSPEWG8umCx
+ ClpJgeQ4iPPuMdVvLlbem7lcKIZB/k0gFaOn3sZEmiWUBkJYWuz2n7LYpWj1Dd7c4eEH
+ ce9BoETgn3e34MJFvHG9Aow7LVLZGmyE53v1wmifivPukmDPK3LcOxHAU9CFEnw2Fakt
+ REFfr/ZnEmeX2UZhRrnpZzv4wFgRTEmdsah1ES1PQoScP0Z7CUR9HOfQ+woEBQqfl5AJ
+ RljWyHpvuV97KXLoBiDhbzdA4er75eTXJ5SQzqdiI9SxCvAHu4x1RGchrS4B44O5CxNt
+ fLxQ==
+X-Gm-Message-State: AOAM531DX5oEjCPANZ8hHOEaQt0Z+5D6E5cJ1VkqD8dkgoeQfbhnz9iq
+ UciCOHM60gV+2IO+X6SD3iA=
+X-Google-Smtp-Source: ABdhPJyLUikatPx9OZjnogCBKUsuSLMUC/VnUCNtU7OWVGgkrh+ihrhMGLmZ9Y11RvP4AUEpO2g0WA==
+X-Received: by 2002:a5d:6d8c:: with SMTP id l12mr35594570wrs.80.1634565389010; 
+ Mon, 18 Oct 2021 06:56:29 -0700 (PDT)
+Received: from localhost ([217.111.27.204])
+ by smtp.gmail.com with ESMTPSA id f15sm12504747wrt.38.2021.10.18.06.56.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 18 Oct 2021 06:56:27 -0700 (PDT)
+Date: Mon, 18 Oct 2021 15:56:26 +0200
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Mikko Perttunen <mperttunen@nvidia.com>,
+ Arnd Bergmann <arnd@arndb.de>, dri-devel@lists.freedesktop.org,
+ linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/tegra: mark nvdec_writel as inline
+Message-ID: <YW19CoGje1xPjJtV@orome.fritz.box>
+References: <20211013144109.2191071-1-arnd@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.175.104.82]
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
- kwepemm600001.china.huawei.com (7.193.23.3)
-X-CFilter-Loop: Reflected
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="n9hwELlB4KqoDSQy"
+Content-Disposition: inline
+In-Reply-To: <20211013144109.2191071-1-arnd@kernel.org>
+User-Agent: Mutt/2.1.3 (987dde4c) (2021-09-10)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,71 +77,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-I got a null-ptr-deref report:
 
-BUG: kernel NULL pointer dereference, address: 0000000000000030
-...
-RIP: 0010:kobject_put+0x2a/0x180
-...
-Call Trace:
- put_device+0x25/0x30
- drm_minor_alloc_release.cold+0x45/0x7f [drm]
- drm_managed_release+0x158/0x2d0 [drm]
- drm_dev_init+0x3a7/0x4a0 [drm]
- __devm_drm_dev_alloc+0x55/0xd0 [drm]
- mi0283qt_probe+0x8a/0x2b5 [mi0283qt]
- spi_probe+0xeb/0x130
-...
- entry_SYSCALL_64_after_hwframe+0x44/0xae
+--n9hwELlB4KqoDSQy
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-If drm_sysfs_minor_alloc() fails in drm_minor_alloc(), minor->kdev will
-point to PTR_ERR(...) instead of NULL. This will result in null-ptr-deref
-when put_device(minor->kdev) is called.
+On Wed, Oct 13, 2021 at 04:40:58PM +0200, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+>=20
+> Without CONFIG_IOMMU_API, the nvdec_writel() function is
+> unused, causing a warning:
+>=20
+> drivers/gpu/drm/tegra/nvdec.c:48:13: error: 'nvdec_writel' defined but no=
+t used [-Werror=3Dunused-function]
+>    48 | static void nvdec_writel(struct nvdec *nvdec, u32 value, unsigned=
+ int offset)
+>       |             ^~~~~~~~~~~~
+>=20
+> As this is a trivial wrapper around an inline function, mark
+> it as inline itself, which avoids the warning as well.
+>=20
+> Fixes: e76599df354d ("drm/tegra: Add NVDEC driver")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+>  drivers/gpu/drm/tegra/nvdec.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 
-drm_dev_init()
-	drm_minor_alloc()
-		drm_sysfs_minor_alloc(); // fail, minor->kdev = PTR_ERR(...)
-	drm_managed_release()
-		drm_minor_alloc_release()
-			put_device(minor->kdev); // access non-existent kdev
+Applied, thanks.
 
-Define a temp variable and assign it to minor->kdev if the temp variable
-is not PTR_ERR.
+Thierry
 
-Fixes: f96306f9892b ("drm: manage drm_minor cleanup with drmm_")
-Reported-by: Hulk Robot <hulkci@huawei.com>
-Signed-off-by: Wang Hai <wanghai38@huawei.com>
----
- drivers/gpu/drm/drm_drv.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+--n9hwELlB4KqoDSQy
+Content-Type: application/pgp-signature; name="signature.asc"
 
-diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
-index b3a1636d1b98..b302536edbce 100644
---- a/drivers/gpu/drm/drm_drv.c
-+++ b/drivers/gpu/drm/drm_drv.c
-@@ -112,6 +112,7 @@ static int drm_minor_alloc(struct drm_device *dev, unsigned int type)
- {
- 	struct drm_minor *minor;
- 	unsigned long flags;
-+	struct device *kdev;
- 	int r;
- 
- 	minor = drmm_kzalloc(dev, sizeof(*minor), GFP_KERNEL);
-@@ -140,9 +141,11 @@ static int drm_minor_alloc(struct drm_device *dev, unsigned int type)
- 	if (r)
- 		return r;
- 
--	minor->kdev = drm_sysfs_minor_alloc(minor);
--	if (IS_ERR(minor->kdev))
--		return PTR_ERR(minor->kdev);
-+	kdev = drm_sysfs_minor_alloc(minor);
-+	if (IS_ERR(kdev))
-+		return PTR_ERR(kdev);
-+
-+	minor->kdev = kdev;
- 
- 	*drm_minor_get_slot(dev, type) = minor;
- 	return 0;
--- 
-2.25.1
+-----BEGIN PGP SIGNATURE-----
 
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmFtfQgACgkQ3SOs138+
+s6Gxtw//ZYz6Ut60RhlZ8WZy7EAs9vKEl0kYn1NyVnKCTcfVa10K9Xmn0FEJbaKm
+gXu1RSB0V+SKrA0IJdTEuMHI+yjDngiwNU+CcsXlnjQc+kbtO65ekeXytE1B+DQq
+oA05PTjFChGcMNai4Zpq2s1nuWVByJHeXGDjIQAkdfccojm3GpkV97a9fJvyYUuM
+WOtk2OKc+hsHkBmQsVD0L3BSBPtz/VaJKLje2+E/LeQxZo5bZPkmMkUHE/PpNEc8
+GSSxiDJLnhs7kCuw64YXmQHfiupEsBXSA2iFW/vhGrlS0LPGbec5ZFZqN18C/JRz
+bJQLX6jn4hPtmlS4cLVz3UIfsDfC0mWLTh+pOUn0HpOQbea+FNA2l3r16tjil8Wm
+ehUgxd3AWWDkRFj/1jels5FBZgFf8zX3glqsF39BhHzcTiW/sS80aRP2oK8t8dF6
+ayO+bdb4xFQFcME7dME6OHHgV9xQRioATkP4E8ErTfl7CfUM8pKZ91q+C1fRBSr1
+5F9YUF/X80QElBMaQ6JQbaUmi//mfQ0gLU++5Vs33UXaRfF3QJY++X7LMZ4xIbgP
+IwrYjjMK9zhPWBAin0PGAc/sF6puSqOk1poU7tKlZCJ4vY1phhLT+iZiI2/OrUxq
+D3LaibgtcLJyRlGZdD5qgt+agSSjyK+b7KlseDLvisjUg48Ldo4=
+=nP4o
+-----END PGP SIGNATURE-----
+
+--n9hwELlB4KqoDSQy--
