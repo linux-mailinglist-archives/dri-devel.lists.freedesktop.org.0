@@ -1,35 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5DB2431F74
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Oct 2021 16:24:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CDA53431F77
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Oct 2021 16:26:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B39D6E062;
-	Mon, 18 Oct 2021 14:24:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 16C4B6E083;
+	Mon, 18 Oct 2021 14:26:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD57B6E062
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Oct 2021 14:24:42 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 7A48860F8F
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Oct 2021 14:24:42 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B23E6E083
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Oct 2021 14:26:06 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 3152060F8F
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Oct 2021 14:26:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1634567082;
- bh=UkFbRdl5fSp98RrjcNdM942TMBZ1yl+OeQVDGs/ECSM=;
+ s=k20201202; t=1634567166;
+ bh=+p5dZbQQTjOuqgcOLYzKHftYa3UiOvxSfwlMvPflDcA=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=llIn4pPTSaHyDSEtFWvguRWAikd7qL9bBXOo3846e7vgfsyXonOnugqIuDRS4ylm8
- 2IIAYm/jel4bkhLKwYM1jgIbbcONipcfkYAqTMHMG4qNz9wj8/14N2TmeyNvAckKsY
- osS5vIKCjS7KV+ey7qsy00MtgXKnyIm0XHbbmEda+2e9mdid56NLk59fMDnnQim4WJ
- jI59Qs5k27UCgIo0IhGBL8bQiEQzqgZrVsIDoWwZc4EYlYypohHTWwlBGgATftTwTG
- 7CAUhdW9QJ2IQ5+pjTrtrHek4SLD5wbMNd6SuWHJRYOddwtK2Aikk2Rq41ZwKn6Ple
- hOGcA8w+fG6Zw==
+ b=XYKku9wUtcfZ5wRg8pAICgKlBKf9YCOIJJNSDAvRMZL1c304DD86wcxB9egVVY0he
+ YaqdZe/MwsHh6rzrqeu8d3TLJfU8m/psPqfHSSVkYyKBIpKNNYJBGn+YlrODm8348U
+ Jza+RN1V5MXiRJwyXqNCYFzrxmHpcTLKry2BZC0p0mT3aWkBejV0JY//FZcjulf62s
+ kuNPuYQ2yd3a0XJO18hEkD4dkt9Jg1CS+u5fs8eO4MDfEbUsxbFD2CZN9NwkEK/RRe
+ kjJcjmfZNrkL1bgT4NHIGoySkYOADEjspf8fcjDUpz423cHW51QZLN0SUceFXqML4h
+ w/CcfRZc8kFhQ==
 Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 6B6E6610CD; Mon, 18 Oct 2021 14:24:42 +0000 (UTC)
+ id 2E1D9610CD; Mon, 18 Oct 2021 14:26:06 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 205649] Daisy Chain (MST) Session Crash after Screen Lock Resume
-Date: Mon, 18 Oct 2021 14:24:42 +0000
+Date: Mon, 18 Oct 2021 14:26:06 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -44,8 +44,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-205649-2300-GGpb1wXiWm@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: cf_kernel_version
+Message-ID: <bug-205649-2300-dMNxe6FOJM@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-205649-2300@https.bugzilla.kernel.org/>
 References: <bug-205649-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -70,12 +70,12 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D205649
 
---- Comment #5 from Michael Rauch (michael@rauch.be) ---
-Created attachment 299241
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D299241&action=3Dedit
-error messages with kernel 5.13
+Michael Rauch (michael@rauch.be) changed:
 
-I still get errors and kernel freeze.
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+     Kernel Version|5.3, 5.4, 5.5-rc3, 5.9-rc7  |5.3, 5.4, 5.5-rc3, 5.9-rc7,
+                   |                            |5.13
 
 --=20
 You may reply to this email to add a comment.
