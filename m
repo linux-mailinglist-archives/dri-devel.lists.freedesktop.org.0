@@ -1,45 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE306432882
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Oct 2021 22:35:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC208432892
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Oct 2021 22:43:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 477E16E07D;
-	Mon, 18 Oct 2021 20:35:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF1946EA5A;
+	Mon, 18 Oct 2021 20:43:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9010D6E07D;
- Mon, 18 Oct 2021 20:35:16 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10141"; a="314556992"
-X-IronPort-AV: E=Sophos;i="5.85,382,1624345200"; d="scan'208";a="314556992"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Oct 2021 13:35:16 -0700
-X-IronPort-AV: E=Sophos;i="5.85,382,1624345200"; d="scan'208";a="443600452"
-Received: from unerlige-desk.amr.corp.intel.com (HELO
- unerlige-ril-10.165.21.208) ([10.165.21.208])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Oct 2021 13:35:15 -0700
-Date: Mon, 18 Oct 2021 13:35:15 -0700
-From: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- john.c.harrison@intel.com, daniel.vetter@ffwll.ch,
- Matthew Brost <matthew.brost@intel.com>
-Subject: Re: [PATCH 2/2] drm/i915/pmu: Connect engine busyness stats from GuC
- to pmu
-Message-ID: <20211018203515.GB10100@unerlige-ril-10.165.21.208>
-References: <20211015234705.12392-1-umesh.nerlige.ramappa@intel.com>
- <20211015234705.12392-2-umesh.nerlige.ramappa@intel.com>
- <2a31b713-e8ea-524b-f37c-976791a2ccc4@linux.intel.com>
- <20211018183544.GA10100@unerlige-ril-10.165.21.208>
+Received: from mail-io1-xd30.google.com (mail-io1-xd30.google.com
+ [IPv6:2607:f8b0:4864:20::d30])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE42E6EA63
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Oct 2021 20:43:11 +0000 (UTC)
+Received: by mail-io1-xd30.google.com with SMTP id h196so17876300iof.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Oct 2021 13:43:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=NEzkQ9AMimvLzS0zxjsiIV7V37hJ+OdttYyqIoFNqLU=;
+ b=RYeZX0qbLYX5B/8w8AGyG/PUKn2mi5CkbqHMQZ1HVTrpYucMxBIwaC5K23Da2IDRs/
+ P0sSsMh0AGfFbKC5g9VZ5RnOIi/a/K9ODJGGKjhT2z/iCgJSgW0kL4ed1S4Ziua06sIg
+ hd4V5LQ/y2btPOQrWgZy+7ZGx4QNReKC8RBbQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=NEzkQ9AMimvLzS0zxjsiIV7V37hJ+OdttYyqIoFNqLU=;
+ b=0Tn0wM8v45lQ6Sgfnocf7Ba1UPwEgZy4K+jU+8rar+iEtpMzwYTx0iCiCJ6HodA067
+ HmcnQAjH8vfg9OJmKtmO5WvJsBlHU4lneyx+qkN8o2/9HbG9e4yEHcF/7w1TesaaRfgX
+ K6p24ggBuM5IKEif4Ii+uPUYIpK1jwNaio0KW72e+HMppaStiFsqanjFpB9ER5kjZh7a
+ BnQbFfVdev+6rUNgB7GIc8K4/2uRLjevutEkzQosl/FWv/+Kp+LPqKOdR5DwJ6Cq17Fr
+ hI1pGMJ6KhNiSzHn7S/e8L4sszG2H0lJ16lrO2OyQYXiGcoBz/19hQkcC124IGgXPjt4
+ Kx/w==
+X-Gm-Message-State: AOAM533vcSYlnMtrmkEMVCC2IbqvVqcyKrsSkAQ35eU8gK9kjHYSs5cS
+ ZN9sNmsoLrIeQa41M+qaUG9H0jlqDYRk3w==
+X-Google-Smtp-Source: ABdhPJybKksPd3ogTngru/p0hxjOK/uVBRQtPaZKSxDvlufPHzKvpjW6N8ILaRtyuslwu5T6VkVhdA==
+X-Received: by 2002:a05:6602:2c88:: with SMTP id
+ i8mr16293996iow.48.1634589790850; 
+ Mon, 18 Oct 2021 13:43:10 -0700 (PDT)
+Received: from mail-il1-f172.google.com (mail-il1-f172.google.com.
+ [209.85.166.172])
+ by smtp.gmail.com with ESMTPSA id j3sm7687712ilu.15.2021.10.18.13.43.10
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 18 Oct 2021 13:43:10 -0700 (PDT)
+Received: by mail-il1-f172.google.com with SMTP id a8so16215756ilj.10
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Oct 2021 13:43:10 -0700 (PDT)
+X-Received: by 2002:a05:6e02:15cb:: with SMTP id
+ q11mr15819434ilu.180.1634589789692; 
+ Mon, 18 Oct 2021 13:43:09 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20211018183544.GA10100@unerlige-ril-10.165.21.208>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+References: <20211016095644.1.I9d81c3b44f350707b5373d00524af77c4aae862b@changeid>
+In-Reply-To: <20211016095644.1.I9d81c3b44f350707b5373d00524af77c4aae862b@changeid>
+From: Doug Anderson <dianders@chromium.org>
+Date: Mon, 18 Oct 2021 13:42:58 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=V7+MzyjsLKE87c=8bkFiRbQkGoM4Jfm8jcsJBG0aYAWw@mail.gmail.com>
+Message-ID: <CAD=FV=V7+MzyjsLKE87c=8bkFiRbQkGoM4Jfm8jcsJBG0aYAWw@mail.gmail.com>
+Subject: Re: [PATCH 1/2] drm/bridge: parade-ps8640: Enable runtime power
+ management
+To: Philip Chen <philipchen@chromium.org>
+Cc: LKML <linux-kernel@vger.kernel.org>, Stephen Boyd <swboyd@chromium.org>, 
+ Andrzej Hajda <a.hajda@samsung.com>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@linux.ie>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Neil Armstrong <narmstrong@baylibre.com>, Robert Foss <robert.foss@linaro.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,163 +82,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Oct 18, 2021 at 11:35:44AM -0700, Umesh Nerlige Ramappa wrote:
->On Mon, Oct 18, 2021 at 08:58:01AM +0100, Tvrtko Ursulin wrote:
->>
->>
->>On 16/10/2021 00:47, Umesh Nerlige Ramappa wrote:
->>>With GuC handling scheduling, i915 is not aware of the time that a
->>>context is scheduled in and out of the engine. Since i915 pmu relies on
->>>this info to provide engine busyness to the user, GuC shares this info
->>>with i915 for all engines using shared memory. For each engine, this
->>>info contains:
->>>
->>>- total busyness: total time that the context was running (total)
->>>- id: id of the running context (id)
->>>- start timestamp: timestamp when the context started running (start)
->>>
->>>At the time (now) of sampling the engine busyness, if the id is valid
->>>(!= ~0), and start is non-zero, then the context is considered to be
->>>active and the engine busyness is calculated using the below equation
->>>
->>>	engine busyness = total + (now - start)
->>>
->>>All times are obtained from the gt clock base. For inactive contexts,
->>>engine busyness is just equal to the total.
->>>
->>>The start and total values provided by GuC are 32 bits and wrap around
->>>in a few minutes. Since perf pmu provides busyness as 64 bit
->>>monotonically increasing values, there is a need for this implementation
->>>to account for overflows and extend the time to 64 bits before returning
->>>busyness to the user. In order to do that, a worker runs periodically at
->>>frequency = 1/8th the time it takes for the timestamp to wrap. As an
->>>example, that would be once in 27 seconds for a gt clock frequency of
->>>19.2 MHz.
->>>
->>>Note:
->>>There might be an overaccounting of busyness due to the fact that GuC
->>>may be updating the total and start values while kmd is reading them.
->>>(i.e kmd may read the updated total and the stale start). In such a
->>>case, user may see higher busyness value followed by smaller ones which
->>>would eventually catch up to the higher value.
->>>
->>>v2: (Tvrtko)
->>>- Include details in commit message
->>>- Move intel engine busyness function into execlist code
->>>- Use union inside engine->stats
->>>- Use natural type for ping delay jiffies
->>>- Drop active_work condition checks
->>>- Use for_each_engine if iterating all engines
->>>- Drop seq locking, use spinlock at guc level to update engine stats
->>>- Document worker specific details
->>>
->>>v3: (Tvrtko/Umesh)
->>>- Demarcate guc and execlist stat objects with comments
->>>- Document known over-accounting issue in commit
->>>- Provide a consistent view of guc state
->>>- Add hooks to gt park/unpark for guc busyness
->>>- Stop/start worker in gt park/unpark path
->>>- Drop inline
->>>- Move spinlock and worker inits to guc initialization
->>>- Drop helpers that are called only once
->>>
->>>v4: (Tvrtko/Matt/Umesh)
->>>- Drop addressed opens from commit message
->>>- Get runtime pm in ping, remove from the park path
->>>- Use cancel_delayed_work_sync in disable_submission path
->>>- Update stats during reset prepare
->>>- Skip ping if reset in progress
->>>- Explicitly name execlists and guc stats objects
->>>- Since disable_submission is called from many places, move resetting
->>>  stats to intel_guc_submission_reset_prepare
->>>
->>>v5: (Tvrtko)
->>>- Add a trylock helper that does not sleep and synchronize PMU event
->>>  callbacks and worker with gt reset
->>>
->>>v6: (CI BAT failures)
->>>- DUTs using execlist submission failed to boot since __gt_unpark is
->>>  called during i915 load. This ends up calling the guc busyness unpark
->>>  hook and results in kiskstarting an uninitialized worker. Let
->>>  park/unpark hooks check if guc submission has been initialized.
->>>- drop cant_sleep() from trylock hepler since rcu_read_lock takes care
->>>  of that.
->>>
->>>v7: (CI) Fix igt@i915_selftest@live@gt_engines
->>>- For guc mode of submission the engine busyness is derived from gt time
->>>  domain. Use gt time elapsed as reference in the selftest.
->>>- Increase busyness calculation to 10ms duration to ensure batch runs
->>>  longer and falls within the busyness tolerances in selftest.
->>
->>[snip]
->>
->>>diff --git a/drivers/gpu/drm/i915/gt/selftest_engine_pm.c b/drivers/gpu/drm/i915/gt/selftest_engine_pm.c
->>>index 75569666105d..24358bef6691 100644
->>>--- a/drivers/gpu/drm/i915/gt/selftest_engine_pm.c
->>>+++ b/drivers/gpu/drm/i915/gt/selftest_engine_pm.c
->>>@@ -234,6 +234,7 @@ static int live_engine_busy_stats(void *arg)
->>> 		struct i915_request *rq;
->>> 		ktime_t de, dt;
->>> 		ktime_t t[2];
->>>+		u32 gt_stamp;
->>> 		if (!intel_engine_supports_stats(engine))
->>> 			continue;
->>>@@ -251,10 +252,16 @@ static int live_engine_busy_stats(void *arg)
->>> 		ENGINE_TRACE(engine, "measuring idle time\n");
->>> 		preempt_disable();
->>> 		de = intel_engine_get_busy_time(engine, &t[0]);
->>>-		udelay(100);
->>>+		gt_stamp = intel_uncore_read(gt->uncore, GUCPMTIMESTAMP);
->>>+		udelay(10000);
->>> 		de = ktime_sub(intel_engine_get_busy_time(engine, &t[1]), de);
->>>+		gt_stamp = intel_uncore_read(gt->uncore, GUCPMTIMESTAMP) - gt_stamp;
->>> 		preempt_enable();
->>>-		dt = ktime_sub(t[1], t[0]);
->>>+
->>>+		dt = intel_engine_uses_guc(engine) ?
->>>+		     intel_gt_clock_interval_to_ns(engine->gt, gt_stamp) :
->>>+		     ktime_sub(t[1], t[0]);
->>
->>But this then shows the thing might not work for external callers 
->>like PMU who have no idea about GUCPMTIMESTAMP and cannot obtain it 
->>anyway.
->>
->>What is the root cause of the failure here, 100us or clock source? 
->>Is the granularity of GUCPMTIMESTAMP perhaps simply too coarse for 
->>100us test period? I forget what frequency it runs at.
->
->guc timestamp is ticking at 19.2 MHz in adlp/rkl (where I ran this).
->
->1)
->With 100us, often times I see that the batch has not yet started, so I 
->get busy time in the range 0 - 60 %. I increased the time such that 
->the batch runs long enough to make the scheduling time < 5%.
->
->2)
->I did a 100 runs on rkl/adlp. No failures on rkl.
+Hi,
 
-Sorry, my bad, RKL failed with 91% busyness always (checked it again 
-now). I think the first time I ran this, GuC was not enabled by default.
+On Sat, Oct 16, 2021 at 9:57 AM Philip Chen <philipchen@chromium.org> wrote:
+>
+> @@ -319,81 +345,70 @@ static void ps8640_bridge_poweron(struct ps8640 *ps_bridge)
+>          */
+>         msleep(200);
+>
+> -       ret = regmap_read_poll_timeout(map, PAGE2_GPIO_H, status,
+> -                                      status & PS_GPIO9, 20 * 1000, 200 * 1000);
+> -
+> -       if (ret < 0) {
+> -               DRM_ERROR("failed read PAGE2_GPIO_H: %d\n", ret);
+> -               goto err_regulators_disable;
+> -       }
 
-Regards,
-Umesh
+Above the "msleep(200)" I see a comment that says "and then check the
+MCU ready flag every 20ms". That probably refers to the code that
+you're moving here. Maybe change the comment above the "msleep(200);"
+to something like this if you like it:
 
-> On adlp, I saw one in 25 runs show 93%/94% busyness for rcs0 and fail 
->(expected is 95%).  For that I tried using the guc timestamp thinking 
->it would provide more accuracy. It did in my testing, but CI still 
->failed for rkl-guc (110% busyness!!), so now I just think we need to 
->tweak the expected busyness for guc.
->
->Is 1) acceptable?
->
->For 2) I am thinking of just changing the expected busyness to 90% 
->plus for guc mode OR should we just let it fail occassionally? 
->Thoughts?
->
->Thanks,
->Umesh
->
->>
->>Regards,
->>
->>Tvrtko
+/*
+ * Mystery 200 ms delay for the "MCU to be ready". It's unclear if
+ * this is truly necessary since the MCU will already signal that
+ * things are "good to go" by signaling HPD on "gpio 9". See
+ * ps8640_ensure_hpd(). For now we'll keep this mystery delay just in
+ * case.
+ */
+
+Other than that this looks good to me, which isn't really a surprise
+since I was involved in helping with / reviewing early versions of
+this change. In any case, I'm happy with:
+
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
