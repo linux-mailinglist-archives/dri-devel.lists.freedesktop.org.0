@@ -1,54 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E457E4329B1
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Oct 2021 00:18:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D1F14329CD
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Oct 2021 00:32:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F0AFB6E103;
-	Mon, 18 Oct 2021 22:18:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 055AF6EA49;
+	Mon, 18 Oct 2021 22:32:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A17236E103
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Oct 2021 22:18:14 +0000 (UTC)
-Received: from [IPv6:::1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 4164182051;
- Tue, 19 Oct 2021 00:18:12 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1634595492;
- bh=LH381WKcEJ4kjqt3z8TuPnPNDPdMSZcU4VwPzz5eqP0=;
- h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=bI8yTzyT5yJn/KRnImQyT+lt6Qhd6/+V8B/GYizs9jVf7XY3/6ndYBULJWbj4MEbE
- z8QP2w0aYBcmUkpkN3euf9ZbO7WaZ/9cRL53MGEyNg5n5NsDOqx4J72ppxcDR/lgGq
- g6Vwaq3MlwomfEsTxrgwLVipowTOvVULFWYGimyNYsQGKnLe77b1kfab2ls5EINSfJ
- oqWRCPTIL/CXDBNYpGKtE2E73MCft1Hg7DYalIXGo/I9oTJmhJXQH4KQ6W+DRAe9jo
- alJOqZ6ImLkmVRLBMH+HXea0YxCBEdZZWCxs2L7cZ3+ZKMMbJon6nR0npTtuQUPbAx
- u0fFVvMZGhV1Q==
-Subject: Re: [PATCH v5 1/2] dt-bindings: display: bridge: lvds-codec: Document
- pixel data sampling edge select
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
- Sam Ravnborg <sam@ravnborg.org>, devicetree@vger.kernel.org
-References: <20211017001204.299940-1-marex@denx.de>
- <YW24EbfbtJdMMDRV@pendragon.ideasonboard.com>
- <c34f8a7e-eec6-9373-0c52-f6546ad689a8@denx.de>
- <YW3Rw0hZmB6plu+V@pendragon.ideasonboard.com>
-From: Marek Vasut <marex@denx.de>
-Message-ID: <4f235f45-5c03-eaeb-69ac-3d801a1dd58c@denx.de>
-Date: Tue, 19 Oct 2021 00:18:11 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+Received: from mail-qt1-x82e.google.com (mail-qt1-x82e.google.com
+ [IPv6:2607:f8b0:4864:20::82e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F36156EA49
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Oct 2021 22:32:05 +0000 (UTC)
+Received: by mail-qt1-x82e.google.com with SMTP id n2so3323841qta.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Oct 2021 15:32:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=B+THCBm+Bptn3AcrYHmUbk69xNON+7lXvmVZMVyCP8o=;
+ b=qtDqlY1x9BHB63nIqbapHVBGHLAjMRgBvzThTZG8wtldzjEWVUFvplZhen7xrELRfY
+ mf57YDR7vtU0guUcF27Nl6v0jSOW/Xlzp5RFCzh9zbrGw09etc+4yTpT06wnrQpm8U5f
+ KjeMTIUqyvblv/FnQh/gxZwSk87StgGlnsRfUyBUiVZeM5YUt/FxYNeoPXidJZjPVhOK
+ MGFoNYcIqgv/Joiy7ltOXXKIy2AbRXLvkpyOFNHD+bWHid+0iZGWDjqAtt9n55cunjRB
+ noZ0RO0p6AL57Eld5Jkj2vObC9Xc/yvgdGMEoxSlfj0sgUd/Vzhg51XoktAMimJHkNK0
+ n8uQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=B+THCBm+Bptn3AcrYHmUbk69xNON+7lXvmVZMVyCP8o=;
+ b=AfCxPaq4EINjaMEjIWmoJAX8IgYvX+REGSNsmKRQ7ycqfZVDi9XrxiuUtNsNU5I73i
+ nfI39eCm6cXVU/zfweGwZUmXQFoJDTWN1z0Ona9BMyfWpTIw7a/Z23QjBkyJIz3QSJa1
+ mXpKgzrF1SrgKE4mOtqZu1fIV5SUiCcbb5PSxUndBqA4WoKYgw0COe1/qVWZ8HfKhrEo
+ tPV/mJR072NI1aesL8yLu3hw/LxgcGaLJqDedrfeFvcWKs6ElIKIxipIVnMz4/fIY9iP
+ xFTBUM6rcUQZ5lZwmOy8AI+S+1WZcIMBb7BuTacIYH1ItVJTdR5EqUd+MnwPwqT44z3i
+ Lnag==
+X-Gm-Message-State: AOAM530Q66DNzuQz1mxKLaNlre+aAFSfrRBNRcN9xRibbF4SThIqF9LA
+ VsDFhj07azqaznfblKNSc8E=
+X-Google-Smtp-Source: ABdhPJxJq+3CBhP7qsX6w7M8ztSNq5vLo64yqArtuFqWeASC27vVuJPkHApqYzJR7Up9TzXZ3oKc3w==
+X-Received: by 2002:a05:622a:1486:: with SMTP id
+ t6mr33500927qtx.319.1634596324923; 
+ Mon, 18 Oct 2021 15:32:04 -0700 (PDT)
+Received: from localhost.localdomain ([67.8.38.84])
+ by smtp.gmail.com with ESMTPSA id g1sm6986585qkd.89.2021.10.18.15.32.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 18 Oct 2021 15:32:04 -0700 (PDT)
+From: Julian Braha <julianbraha@gmail.com>
+To: sam@ravnborg.org, thierry.reding@gmail.com, airlied@linux.ie,
+ daniel@ffwll.ch, robh+dt@kernel.org
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org
+Subject: [PATCH] dt-bindings: panel-simple-dsi: add Tianma TL057FVXP01
+Date: Mon, 18 Oct 2021 18:31:49 -0400
+Message-Id: <20211018223149.23591-1-julianbraha@gmail.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-In-Reply-To: <YW3Rw0hZmB6plu+V@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.2 at phobos.denx.de
-X-Virus-Status: Clean
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,43 +72,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/18/21 9:57 PM, Laurent Pinchart wrote:
+Adds the bindings for the Tianma TL057FVXP01 DSI panel,
+found on the Motorola Moto G6.
 
-Hi,
+Signed-off-by: Julian Braha <julianbraha@gmail.com>
+---
+ .../devicetree/bindings/display/panel/panel-simple-dsi.yaml    | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
->>>> diff --git a/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml b/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
->>>> index 1faae3e323a4..708de84ac138 100644
->>>> --- a/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
->>>> +++ b/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
->>>> @@ -79,6 +79,14 @@ properties:
->>>>          - port@0
->>>>          - port@1
->>>>    
->>>> +  pclk-sample:
->>>> +    description:
->>>> +      Data sampling on rising or falling edge.
->>>> +    enum:
->>>> +      - 0  # Falling edge
->>>> +      - 1  # Rising edge
->>>> +    default: 0
->>>> +
->>>
->>> Shouldn't this be moved to the endpoint, the same way data-mapping is
->>> defined as an endpoint property ?
->>
->> The strapping is a chip property, not port property, so no.
-> 
-> For this particular chip that's true. I'm still not convinced overall.
-> For some cases it could be a per-port property
+diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
+index fbd71669248f..ed674b57a304 100644
+--- a/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
++++ b/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
+@@ -55,7 +55,8 @@ properties:
+       - samsung,sofef00
+         # Shangai Top Display Optoelectronics 7" TL070WSH30 1024x600 TFT LCD panel
+       - tdo,tl070wsh30
+-
++        # Tianma Micro-electronics TL057FVXP01 5.7" 2160x1080 LCD panel
++      - tianma,tl057fvxp01
+   reg:
+     maxItems: 1
+     description: DSI virtual channel
+-- 
+2.30.2
 
-Can you be more specific about "some cases" ?
-
-> , and moving it there for
-> lvds-codec too could allow implementing helpers to parse DT properties,
-> without much drawback for this particular use case as far as I can see.
-> It's hard to predict the future with certainty of course, so I won't
-> insist.
-
-The DT bindings and the OS drivers are separate thing, we really 
-shouldn't start bending DT bindings so that they would fit nicely with a 
-specific OS driver model.
