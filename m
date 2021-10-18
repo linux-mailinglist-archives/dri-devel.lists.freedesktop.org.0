@@ -1,61 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27A7B430FF6
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Oct 2021 07:51:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C6F59431077
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Oct 2021 08:25:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE0916E554;
-	Mon, 18 Oct 2021 05:51:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 202406E7D4;
+	Mon, 18 Oct 2021 06:25:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 087EC6E554
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Oct 2021 05:51:19 +0000 (UTC)
-X-UUID: bbf78101773a4328b280587da733c18a-20211018
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=yhPKT9JGcSipzpZ8293RvuLYovwLEGKCOAUKtozO6rM=; 
- b=VDCSu8XB3AaWZycbk/rWljazyBCTNTGis4tbhe2qUyo1TelDUi+koYGMAfhdsFMqcgNE0+r1cRyaMpYvJOSP1jtL+sfSltce46EzVB2xVDkk1KxvOH1oS1uU7x5R8XAsxUF6MVKRVK9l4qYlUt40Rx6bg+xoSrZh8dEgtROQyGE=;
-X-UUID: bbf78101773a4328b280587da733c18a-20211018
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF0AE6E7D4
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Oct 2021 06:25:11 +0000 (UTC)
+X-UUID: 4abdf5926bd348d49b111988a4e947ab-20211018
+X-UUID: 4abdf5926bd348d49b111988a4e947ab-20211018
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
  (envelope-from <guangming.cao@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 2103649548; Mon, 18 Oct 2021 13:51:13 +0800
+ with ESMTP id 164250816; Mon, 18 Oct 2021 14:25:04 +0800
 Received: from mtkcas11.mediatek.inc (172.21.101.40) by
  mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.2.792.15; Mon, 18 Oct 2021 13:51:13 +0800
-Received: from mszswglt01 (10.16.20.20) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Mon, 18 Oct 2021 13:51:12 +0800
-Message-ID: <cf6c92226ae36b437852b2d885599597df102250.camel@mediatek.com>
+ 15.2.792.15; Mon, 18 Oct 2021 14:25:03 +0800
+Received: from mszswglt01.gcn.mediatek.inc (10.16.20.20) by
+ mtkcas11.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.0.1497.2 via Frontend Transport; Mon, 18 Oct 2021 14:25:02 +0800
+From: <guangming.cao@mediatek.com>
+To: <daniel@ffwll.ch>
+CC: <Brian.Starkey@arm.com>, <benjamin.gaignard@linaro.org>,
+ <christian.koenig@amd.com>, <dri-devel@lists.freedesktop.org>,
+ <guangming.cao@mediatek.com>, <hridya@google.com>, <isaacm@codeaurora.org>,
+ <john.stultz@linaro.org>, <labbott@redhat.com>,
+ <linaro-mm-sig@lists.linaro.org>, <linux-arm-kernel@lists.infradead.org>,
+ <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
+ <linux-mediatek@lists.infradead.org>, <lmark@codeaurora.org>,
+ <matthias.bgg@gmail.com>, <sspatil@google.com>, <sumit.semwal@linaro.org>,
+ <wsd_upstream@mediatek.com>, Guangming Cao <Guangming.Cao@mediatek.com>
 Subject: Re: [PATCH] dma-buf: Add support for mapping buffers with DMA
  attributes
-From: Guangming.Cao <guangming.cao@mediatek.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-CC: Sumit Semwal <sumit.semwal@linaro.org>, Benjamin Gaignard
- <benjamin.gaignard@linaro.org>, Liam Mark <lmark@codeaurora.org>, "Laura
- Abbott" <labbott@redhat.com>, Brian Starkey <Brian.Starkey@arm.com>, "John
- Stultz" <john.stultz@linaro.org>, Christian =?ISO-8859-1?Q?K=F6nig?=
- <christian.koenig@amd.com>, Matthias Brugger <matthias.bgg@gmail.com>, "open
- list:DMA-BUF HEAPS FRAMEWORK" <linux-media@vger.kernel.org>, "open
- list:DMA-BUF HEAPS FRAMEWORK" <dri-devel@lists.freedesktop.org>, "moderated
- list:DMA-BUF HEAPS FRAMEWORK" <linaro-mm-sig@lists.linaro.org>, open list
- <linux-kernel@vger.kernel.org>, "moderated list:ARM/Mediatek SoC support"
- <linux-arm-kernel@lists.infradead.org>, "moderated list:ARM/Mediatek SoC
- support" <linux-mediatek@lists.infradead.org>, <wsd_upstream@mediatek.com>,
- <isaacm@codeaurora.org>, <sspatil@google.com>, <hridya@google.com>
-Date: Mon, 18 Oct 2021 13:51:15 +0800
+Date: Mon, 18 Oct 2021 14:25:04 +0800
+Message-ID: <20211018062504.116652-1-guangming.cao@mediatek.com>
+X-Mailer: git-send-email 2.17.1
 In-Reply-To: <YS4kx3thdJOu3uHX@phenom.ffwll.local>
-References: <20210830023911.4410-1-guangming.cao@mediatek.com>
- <YS4kx3thdJOu3uHX@phenom.ffwll.local>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+References: <YS4kx3thdJOu3uHX@phenom.ffwll.local>
 MIME-Version: 1.0
+Content-Type: text/plain
 X-MTK: N
-Content-Transfer-Encoding: base64
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,99 +61,150 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCAyMDIxLTA4LTMxIGF0IDE0OjQ3ICswMjAwLCBEYW5pZWwgVmV0dGVyIHdyb3RlOg0K
-PiBPbiBNb24sIEF1ZyAzMCwgMjAyMSBhdCAxMDozOToxMUFNICswODAwLCBndWFuZ21pbmcuY2Fv
-QG1lZGlhdGVrLmNvbQ0KPiB3cm90ZToNCj4gPiBGcm9tOiBHdWFuZ21pbmcgQ2FvIDxHdWFuZ21p
-bmcuQ2FvQG1lZGlhdGVrLmNvbT4NCj4gPiANCj4gPiBXaGVuIG1hcHBpbmcgdGhlIG1lbW9yeSBy
-ZXByZXNlbnRlZCBieSBhIGRtYS1idWYgaW50byBhIGRldmljZSdzDQo+ID4gYWRkcmVzcyBzcGFj
-ZSwgaXQgbWlnaHQgYmUgZGVzaXJlYWJsZSB0byBtYXAgdGhlIG1lbW9yeSB3aXRoDQo+ID4gY2Vy
-dGFpbiBETUEgYXR0cmlidXRlcy4gVGh1cywgaW50cm9kdWNlIHRoZSBkbWFfbWFwcGluZ19hdHRy
-cw0KPiA+IGZpZWxkIGluIHRoZSBkbWFfYnVmX2F0dGFjaG1lbnQgc3RydWN0dXJlIHNvIHRoYXQg
-d2hlbg0KPiA+IHRoZSBtZW1vcnkgaXMgbWFwcGVkIHdpdGggZG1hX2J1Zl9tYXBfYXR0YWNobWVu
-dCwgaXQgaXMgbWFwcGVkDQo+ID4gd2l0aCB0aGUgZGVzaXJlZCBETUEgYXR0cmlidXRlcy4NCj4g
-PiANCj4gPiBTaWduZWQtb2ZmLWJ5OiBJc2FhYyBKLiBNYW5qYXJyZXMgPGlzYWFjbUBjb2RlYXVy
-b3JhLm9yZz4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBTYW5kZWVwIFBhdGlsIDxzc3BhdGlsQGdvb2ds
-ZS5jb20+DQo+ID4gU2lnbmVkLW9mZi1ieTogR3VhbmdtaW5nIENhbyA8R3VhbmdtaW5nLkNhb0Bt
-ZWRpYXRlay5jb20+DQo+IA0KPiBDYW4geW91IHBscyBpbmNsdWRlIHRoZSBjb2RlIHRoYXQncyBn
-b2luZyB0byB1c2UgdGhpcyBoZXJlIHRvbz8NCj4gDQo+IEF0IGEgZ2xhbmNlIGFsbCB0aGUgYXR0
-cmlidXRlcyB5b3UgbWlnaHQgd2FudCB0byBzZXQgYXJlIHN1cHBvc2VkIHRvDQo+IGJlDQo+IHVu
-ZGVyIHRoZSBjb250cm9sIG9mIHRoZSBleHBvcnRlciwgbm90IHRoZSBpbXBvcnRlci4NCj4gLURh
-bmllbA0KPiANCkhpIERhbmllbCwNCg0KU29ycnkgZm9yIGxhdGUuIEN1cnJlbnRseSBJIGNvdWxk
-bid0IHVwbG9hZCB0aGUgY29kaW5nIGdvaW5nIHRvIHVzZQ0KdGhpcyBwYXJ0IGJlY2F1c2Ugb2Yg
-c29tZSBtaXNjZWxsYW5lb3VzIHJlYXNvbnMuDQoNCkp1c3QgYXMgSSBzYWlkIGluIGNvbW1pdCBt
-ZXNzYWdlLCBmb3IgZG1hX2hlYXAsIHVzZXJzIGNhbid0IHNraXAgY2FjaGUNCnN5bmMgb3Igb3Ro
-ZXIgb3BldHJhdGlvbnMgd2hlbiBtYXAgaW92YVtkbWFfYnVmX21hcF9hdHRhY2htZW50XSBieQ0K
-ZmlsbCAoc3RydWN0IGRtYV9idWZfYXR0YWNobWVudCkuZG1hX21hcF9hdHRycywgaXQncyBub3Qg
-ZG1hX21hcF9hdHRycw0KZXhwZWN0ZWQobGluazogDQpodHRwczovL2dpdGh1Yi5jb20vdG9ydmFs
-ZHMvbGludXgvYmxvYi9tYXN0ZXIvRG9jdW1lbnRhdGlvbi9jb3JlLWFwaS9kbWEtYXR0cmlidXRl
-cy5yc3QjZG1hX2F0dHJfc2tpcF9jcHVfc3luYw0KKS4NCg0KQ29ycmVzcG9uZGluZ2x5LCBpZiB0
-aGV5IHVzZSBkbWFfYnVmIHRvIG1hcCBpb3ZhW2RtYV9idWZfbWFwX2F0dHJzXSwNCnRoZXkgd2ls
-bCBub3QgbWVldCB0aGlzIGlzc3VlLiBTbywgSSB0aGluayBpdCdzIGEgZGVzaWduIGZsYXcgZm9y
-DQpkbWFfaGVhcC4NCg0KQlJzIQ0KR3VhbmdtaW5nDQo+ID4gLS0tDQo+ID4gIGRyaXZlcnMvZG1h
-LWJ1Zi9oZWFwcy9jbWFfaGVhcC5jICAgIHwgNiArKysrLS0NCj4gPiAgZHJpdmVycy9kbWEtYnVm
-L2hlYXBzL3N5c3RlbV9oZWFwLmMgfCA2ICsrKystLQ0KPiA+ICBpbmNsdWRlL2xpbnV4L2RtYS1i
-dWYuaCAgICAgICAgICAgICB8IDMgKysrDQo+ID4gIDMgZmlsZXMgY2hhbmdlZCwgMTEgaW5zZXJ0
-aW9ucygrKSwgNCBkZWxldGlvbnMoLSkNCj4gPiANCj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9k
-bWEtYnVmL2hlYXBzL2NtYV9oZWFwLmMgYi9kcml2ZXJzL2RtYS0NCj4gPiBidWYvaGVhcHMvY21h
-X2hlYXAuYw0KPiA+IGluZGV4IDBjMDViNzk4NzBmOS4uMmM5ZmViM2JmYzNlIDEwMDY0NA0KPiA+
-IC0tLSBhL2RyaXZlcnMvZG1hLWJ1Zi9oZWFwcy9jbWFfaGVhcC5jDQo+ID4gKysrIGIvZHJpdmVy
-cy9kbWEtYnVmL2hlYXBzL2NtYV9oZWFwLmMNCj4gPiBAQCAtOTksOSArOTksMTAgQEAgc3RhdGlj
-IHN0cnVjdCBzZ190YWJsZQ0KPiA+ICpjbWFfaGVhcF9tYXBfZG1hX2J1ZihzdHJ1Y3QgZG1hX2J1
-Zl9hdHRhY2htZW50ICphdHRhY2htZQ0KPiA+ICB7DQo+ID4gIAlzdHJ1Y3QgZG1hX2hlYXBfYXR0
-YWNobWVudCAqYSA9IGF0dGFjaG1lbnQtPnByaXY7DQo+ID4gIAlzdHJ1Y3Qgc2dfdGFibGUgKnRh
-YmxlID0gJmEtPnRhYmxlOw0KPiA+ICsJaW50IGF0dHJzID0gYXR0YWNobWVudC0+ZG1hX21hcF9h
-dHRyczsNCj4gPiAgCWludCByZXQ7DQo+ID4gIA0KPiA+IC0JcmV0ID0gZG1hX21hcF9zZ3RhYmxl
-KGF0dGFjaG1lbnQtPmRldiwgdGFibGUsIGRpcmVjdGlvbiwgMCk7DQo+ID4gKwlyZXQgPSBkbWFf
-bWFwX3NndGFibGUoYXR0YWNobWVudC0+ZGV2LCB0YWJsZSwgZGlyZWN0aW9uLA0KPiA+IGF0dHJz
-KTsNCj4gPiAgCWlmIChyZXQpDQo+ID4gIAkJcmV0dXJuIEVSUl9QVFIoLUVOT01FTSk7DQo+ID4g
-IAlhLT5tYXBwZWQgPSB0cnVlOw0KPiA+IEBAIC0xMTMsOSArMTE0LDEwIEBAIHN0YXRpYyB2b2lk
-IGNtYV9oZWFwX3VubWFwX2RtYV9idWYoc3RydWN0DQo+ID4gZG1hX2J1Zl9hdHRhY2htZW50ICph
-dHRhY2htZW50LA0KPiA+ICAJCQkJICAgZW51bSBkbWFfZGF0YV9kaXJlY3Rpb24gZGlyZWN0aW9u
-KQ0KPiA+ICB7DQo+ID4gIAlzdHJ1Y3QgZG1hX2hlYXBfYXR0YWNobWVudCAqYSA9IGF0dGFjaG1l
-bnQtPnByaXY7DQo+ID4gKwlpbnQgYXR0cnMgPSBhdHRhY2htZW50LT5kbWFfbWFwX2F0dHJzOw0K
-PiA+ICANCj4gPiAgCWEtPm1hcHBlZCA9IGZhbHNlOw0KPiA+IC0JZG1hX3VubWFwX3NndGFibGUo
-YXR0YWNobWVudC0+ZGV2LCB0YWJsZSwgZGlyZWN0aW9uLCAwKTsNCj4gPiArCWRtYV91bm1hcF9z
-Z3RhYmxlKGF0dGFjaG1lbnQtPmRldiwgdGFibGUsIGRpcmVjdGlvbiwgYXR0cnMpOw0KPiA+ICB9
-DQo+ID4gIA0KPiA+ICBzdGF0aWMgaW50IGNtYV9oZWFwX2RtYV9idWZfYmVnaW5fY3B1X2FjY2Vz
-cyhzdHJ1Y3QgZG1hX2J1Zg0KPiA+ICpkbWFidWYsDQo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMv
-ZG1hLWJ1Zi9oZWFwcy9zeXN0ZW1faGVhcC5jIGIvZHJpdmVycy9kbWEtDQo+ID4gYnVmL2hlYXBz
-L3N5c3RlbV9oZWFwLmMNCj4gPiBpbmRleCAyM2E3ZTc0ZWY5NjYuLmZjN2IxZTAyOTg4ZSAxMDA2
-NDQNCj4gPiAtLS0gYS9kcml2ZXJzL2RtYS1idWYvaGVhcHMvc3lzdGVtX2hlYXAuYw0KPiA+ICsr
-KyBiL2RyaXZlcnMvZG1hLWJ1Zi9oZWFwcy9zeXN0ZW1faGVhcC5jDQo+ID4gQEAgLTEzMCw5ICsx
-MzAsMTAgQEAgc3RhdGljIHN0cnVjdCBzZ190YWJsZQ0KPiA+ICpzeXN0ZW1faGVhcF9tYXBfZG1h
-X2J1ZihzdHJ1Y3QgZG1hX2J1Zl9hdHRhY2htZW50ICphdHRhYw0KPiA+ICB7DQo+ID4gIAlzdHJ1
-Y3QgZG1hX2hlYXBfYXR0YWNobWVudCAqYSA9IGF0dGFjaG1lbnQtPnByaXY7DQo+ID4gIAlzdHJ1
-Y3Qgc2dfdGFibGUgKnRhYmxlID0gYS0+dGFibGU7DQo+ID4gKwlpbnQgYXR0cnMgPSBhdHRhY2ht
-ZW50LT5kbWFfbWFwX2F0dHJzOw0KPiA+ICAJaW50IHJldDsNCj4gPiAgDQo+ID4gLQlyZXQgPSBk
-bWFfbWFwX3NndGFibGUoYXR0YWNobWVudC0+ZGV2LCB0YWJsZSwgZGlyZWN0aW9uLCAwKTsNCj4g
-PiArCXJldCA9IGRtYV9tYXBfc2d0YWJsZShhdHRhY2htZW50LT5kZXYsIHRhYmxlLCBkaXJlY3Rp
-b24sDQo+ID4gYXR0cnMpOw0KPiA+ICAJaWYgKHJldCkNCj4gPiAgCQlyZXR1cm4gRVJSX1BUUihy
-ZXQpOw0KPiA+ICANCj4gPiBAQCAtMTQ1LDkgKzE0NiwxMCBAQCBzdGF0aWMgdm9pZCBzeXN0ZW1f
-aGVhcF91bm1hcF9kbWFfYnVmKHN0cnVjdA0KPiA+IGRtYV9idWZfYXR0YWNobWVudCAqYXR0YWNo
-bWVudCwNCj4gPiAgCQkJCSAgICAgIGVudW0gZG1hX2RhdGFfZGlyZWN0aW9uDQo+ID4gZGlyZWN0
-aW9uKQ0KPiA+ICB7DQo+ID4gIAlzdHJ1Y3QgZG1hX2hlYXBfYXR0YWNobWVudCAqYSA9IGF0dGFj
-aG1lbnQtPnByaXY7DQo+ID4gKwlpbnQgYXR0cnMgPSBhdHRhY2htZW50LT5kbWFfbWFwX2F0dHJz
-Ow0KPiA+ICANCj4gPiAgCWEtPm1hcHBlZCA9IGZhbHNlOw0KPiA+IC0JZG1hX3VubWFwX3NndGFi
-bGUoYXR0YWNobWVudC0+ZGV2LCB0YWJsZSwgZGlyZWN0aW9uLCAwKTsNCj4gPiArCWRtYV91bm1h
-cF9zZ3RhYmxlKGF0dGFjaG1lbnQtPmRldiwgdGFibGUsIGRpcmVjdGlvbiwgYXR0cnMpOw0KPiA+
-ICB9DQo+ID4gIA0KPiA+ICBzdGF0aWMgaW50IHN5c3RlbV9oZWFwX2RtYV9idWZfYmVnaW5fY3B1
-X2FjY2VzcyhzdHJ1Y3QgZG1hX2J1Zg0KPiA+ICpkbWFidWYsDQo+ID4gZGlmZiAtLWdpdCBhL2lu
-Y2x1ZGUvbGludXgvZG1hLWJ1Zi5oIGIvaW5jbHVkZS9saW51eC9kbWEtYnVmLmgNCj4gPiBpbmRl
-eCBlZmRjNTZiOWQ5NWYuLjRkNjUwNzMxNzY2ZSAxMDA2NDQNCj4gPiAtLS0gYS9pbmNsdWRlL2xp
-bnV4L2RtYS1idWYuaA0KPiA+ICsrKyBiL2luY2x1ZGUvbGludXgvZG1hLWJ1Zi5oDQo+ID4gQEAg
-LTM3OSw2ICszNzksOCBAQCBzdHJ1Y3QgZG1hX2J1Zl9hdHRhY2hfb3BzIHsNCj4gPiAgICogQGlt
-cG9ydGVyX29wczogaW1wb3J0ZXIgb3BlcmF0aW9ucyBmb3IgdGhpcyBhdHRhY2htZW50LCBpZg0K
-PiA+IHByb3ZpZGVkDQo+ID4gICAqIGRtYV9idWZfbWFwL3VubWFwX2F0dGFjaG1lbnQoKSBtdXN0
-IGJlIGNhbGxlZCB3aXRoIHRoZSBkbWFfcmVzdg0KPiA+IGxvY2sgaGVsZC4NCj4gPiAgICogQGlt
-cG9ydGVyX3ByaXY6IGltcG9ydGVyIHNwZWNpZmljIGF0dGFjaG1lbnQgZGF0YS4NCj4gPiArICog
-QGRtYV9tYXBfYXR0cnM6IERNQSBhdHRyaWJ1dGVzIHRvIGJlIHVzZWQgd2hlbiB0aGUgZXhwb3J0
-ZXINCj4gPiBtYXBzIHRoZSBidWZmZXINCj4gPiArICogdGhyb3VnaCBkbWFfYnVmX21hcF9hdHRh
-Y2htZW50Lg0KPiA+ICAgKg0KPiA+ICAgKiBUaGlzIHN0cnVjdHVyZSBob2xkcyB0aGUgYXR0YWNo
-bWVudCBpbmZvcm1hdGlvbiBiZXR3ZWVuIHRoZQ0KPiA+IGRtYV9idWYgYnVmZmVyDQo+ID4gICAq
-IGFuZCBpdHMgdXNlciBkZXZpY2UocykuIFRoZSBsaXN0IGNvbnRhaW5zIG9uZSBhdHRhY2htZW50
-IHN0cnVjdA0KPiA+IHBlciBkZXZpY2UNCj4gPiBAQCAtMzk5LDYgKzQwMSw3IEBAIHN0cnVjdCBk
-bWFfYnVmX2F0dGFjaG1lbnQgew0KPiA+ICAJY29uc3Qgc3RydWN0IGRtYV9idWZfYXR0YWNoX29w
-cyAqaW1wb3J0ZXJfb3BzOw0KPiA+ICAJdm9pZCAqaW1wb3J0ZXJfcHJpdjsNCj4gPiAgCXZvaWQg
-KnByaXY7DQo+ID4gKwl1bnNpZ25lZCBsb25nIGRtYV9tYXBfYXR0cnM7DQo+ID4gIH07DQo+ID4g
-IA0KPiA+ICAvKioNCj4gPiAtLSANCj4gPiAyLjE3LjENCj4gPiANCj4gDQo+IA0K
+From: Guangming Cao <Guangming.Cao@mediatek.com>
 
+On Tue, 2021-08-31 at 14:47 +0200, Daniel Vetter wrote:
+> On Mon, Aug 30, 2021 at 10:39:11AM +0800, guangming.cao@mediatek.com
+> wrote:
+> > From: Guangming Cao <Guangming.Cao@mediatek.com>
+> > 
+> > When mapping the memory represented by a dma-buf into a device's
+> > address space, it might be desireable to map the memory with
+> > certain DMA attributes. Thus, introduce the dma_mapping_attrs
+> > field in the dma_buf_attachment structure so that when
+> > the memory is mapped with dma_buf_map_attachment, it is mapped
+> > with the desired DMA attributes.
+> > 
+> > Signed-off-by: Isaac J. Manjarres <isaacm@codeaurora.org>
+> > Signed-off-by: Sandeep Patil <sspatil@google.com>
+> > Signed-off-by: Guangming Cao <Guangming.Cao@mediatek.com>
+> 
+> Can you pls include the code that's going to use this here too?
+> 
+> At a glance all the attributes you might want to set are supposed to
+> be
+> under the control of the exporter, not the importer.
+> -Daniel
+> 
+Hi Daniel,
+
+Sorry for the late. Currently I couldn't upload the coding going to use
+this part because of some miscellaneous reasons.
+
+Just as I said in commit message, for dma_heap, users can't skip cache
+sync or other opetrations when map iova[dma_buf_map_attachment] by
+fill (struct dma_buf_attachment).dma_map_attrs, it's not dma_map_attrs
+expected(link: 
+https://github.com/torvalds/linux/blob/master/Documentation/core-api/dma-attributes.rst#dma_attr_skip_cpu_sync
+).
+
+Correspondingly, if they use dma_buf to map iova[dma_buf_map_attrs],
+they will not meet this issue. So, I think it's a design flaw for
+dma_heap.
+
+BRs!
+Guangming
+> > ---
+> >  drivers/dma-buf/heaps/cma_heap.c    | 6 ++++--
+> >  drivers/dma-buf/heaps/system_heap.c | 6 ++++--
+> >  include/linux/dma-buf.h             | 3 +++
+> >  3 files changed, 11 insertions(+), 4 deletions(-)
+> > 
+> > diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-
+> > buf/heaps/cma_heap.c
+> > index 0c05b79870f9..2c9feb3bfc3e 100644
+> > --- a/drivers/dma-buf/heaps/cma_heap.c
+> > +++ b/drivers/dma-buf/heaps/cma_heap.c
+> > @@ -99,9 +99,10 @@ static struct sg_table
+> > *cma_heap_map_dma_buf(struct dma_buf_attachment *attachme
+> >  {
+> >     struct dma_heap_attachment *a = attachment->priv;
+> >     struct sg_table *table = &a->table;
+> > +   int attrs = attachment->dma_map_attrs;
+> >     int ret;
+> >  
+> > -   ret = dma_map_sgtable(attachment->dev, table, direction, 0);
+> > +   ret = dma_map_sgtable(attachment->dev, table, direction,
+> > attrs);
+> >     if (ret)
+> >             return ERR_PTR(-ENOMEM);
+> >     a->mapped = true;
+> > @@ -113,9 +114,10 @@ static void cma_heap_unmap_dma_buf(struct
+> > dma_buf_attachment *attachment,
+> >                                enum dma_data_direction direction)
+> >  {
+> >     struct dma_heap_attachment *a = attachment->priv;
+> > +   int attrs = attachment->dma_map_attrs;
+> >  
+> >     a->mapped = false;
+> > -   dma_unmap_sgtable(attachment->dev, table, direction, 0);
+> > +   dma_unmap_sgtable(attachment->dev, table, direction, attrs);
+> >  }
+> >  
+> >  static int cma_heap_dma_buf_begin_cpu_access(struct dma_buf
+> > *dmabuf,
+> > diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-
+> > buf/heaps/system_heap.c
+> > index 23a7e74ef966..fc7b1e02988e 100644
+> > --- a/drivers/dma-buf/heaps/system_heap.c
+> > +++ b/drivers/dma-buf/heaps/system_heap.c
+> > @@ -130,9 +130,10 @@ static struct sg_table
+> > *system_heap_map_dma_buf(struct dma_buf_attachment *attac
+> >  {
+> >     struct dma_heap_attachment *a = attachment->priv;
+> >     struct sg_table *table = a->table;
+> > +   int attrs = attachment->dma_map_attrs;
+> >     int ret;
+> >  
+> > -   ret = dma_map_sgtable(attachment->dev, table, direction, 0);
+> > +   ret = dma_map_sgtable(attachment->dev, table, direction,
+> > attrs);
+> >     if (ret)
+> >             return ERR_PTR(ret);
+> >  
+> > @@ -145,9 +146,10 @@ static void system_heap_unmap_dma_buf(struct
+> > dma_buf_attachment *attachment,
+> >                                   enum dma_data_direction
+> > direction)
+> >  {
+> >     struct dma_heap_attachment *a = attachment->priv;
+> > +   int attrs = attachment->dma_map_attrs;
+> >  
+> >     a->mapped = false;
+> > -   dma_unmap_sgtable(attachment->dev, table, direction, 0);
+> > +   dma_unmap_sgtable(attachment->dev, table, direction, attrs);
+> >  }
+> >  
+> >  static int system_heap_dma_buf_begin_cpu_access(struct dma_buf
+> > *dmabuf,
+> > diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+> > index efdc56b9d95f..4d650731766e 100644
+> > --- a/include/linux/dma-buf.h
+> > +++ b/include/linux/dma-buf.h
+> > @@ -379,6 +379,8 @@ struct dma_buf_attach_ops {
+> >   * @importer_ops: importer operations for this attachment, if
+> > provided
+> >   * dma_buf_map/unmap_attachment() must be called with the dma_resv
+> > lock held.
+> >   * @importer_priv: importer specific attachment data.
+> > + * @dma_map_attrs: DMA attributes to be used when the exporter
+> > maps the buffer
+> > + * through dma_buf_map_attachment.
+> >   *
+> >   * This structure holds the attachment information between the
+> > dma_buf buffer
+> >   * and its user device(s). The list contains one attachment struct
+> > per device
+> > @@ -399,6 +401,7 @@ struct dma_buf_attachment {
+> >     const struct dma_buf_attach_ops *importer_ops;
+> >     void *importer_priv;
+> >     void *priv;
+> > +   unsigned long dma_map_attrs;
+> >  };
+> >  
+> >  /**
+> > -- 
+> > 2.17.1
+> > 
+> 
+> 
