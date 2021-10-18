@@ -2,71 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72AD043263F
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Oct 2021 20:21:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 244D343264E
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Oct 2021 20:26:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 898556E0A5;
-	Mon, 18 Oct 2021 18:21:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E51D6E0F2;
+	Mon, 18 Oct 2021 18:26:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-x92e.google.com (mail-ua1-x92e.google.com
- [IPv6:2607:f8b0:4864:20::92e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7728F6E0A5
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Oct 2021 18:21:38 +0000 (UTC)
-Received: by mail-ua1-x92e.google.com with SMTP id q13so5599972uaq.2
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Oct 2021 11:21:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=lZDaJ6I97l+zgpuqXCY7HKN0+kSM7lYmy2Jajm6goGM=;
- b=q1R7VbyvwV8jMq0ZqNhoj0dNLW/yngbqdggMKb+Wm6DRZ2pRqp8nd2gQXjXQH58zm0
- x1GZoNG3/qMMHdPpBNS8OV+A7lgWbcFJe5V3oZFhFt3dIUs776ZflY22RQwZs4+V2N8w
- Uv+yBcA2WBH7VF2N8t9Y9teyPhSt7DU43HXpLlQAbwFj1+70WJpb0kr3L6wb0FOF6QXn
- yVE7CvNfWkZulbP2vuo5mus4MmS+uc1SmzSLrCyW3svG2M1SaIE08BohFEFI5fEyOxOs
- ev3fzkn/oa+iaovc9PaOHNG+28fz1SPjJXyAwMlOzLXv0YBopEZfhopXWtFi+Rc+lWnl
- HjOw==
+Received: from mail-qk1-x731.google.com (mail-qk1-x731.google.com
+ [IPv6:2607:f8b0:4864:20::731])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F1036E0F2
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Oct 2021 18:26:01 +0000 (UTC)
+Received: by mail-qk1-x731.google.com with SMTP id g20so3860756qka.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Oct 2021 11:26:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=VWav6NFcp7Imar+k++zv5L6bzbFiMGeoi4IbLNr1qXk=;
+ b=iulG1Hi/BWXnGHXIUJtE3Sch4DxTtHHGjYAbR7SgfDwl3Tc6og/olLkcCwEBbB2k6G
+ IfgEoidJStEKIbj2It5DifRzrECL7P9NI1viyq+lBosbBqcDaY1Cx5CKvpaCMMtwcLaK
+ LJk+g8GcJQ9MYUf7YDlnJqNpxqQtZJQQNHXot+kUflb9VL1jiqaRs9roMA774Pq07G8P
+ z6MQINCUTuDZeMIbiJyaMaqTsUS5Xe2aLaKTMnNU2nVECI+IUQvATxqyqgKryVcE6Odi
+ UPrSa/zR8XpvPyVh6RkKVjlgDcQlRQzheAMj9zSJ3nZtedo1kmeWigT4fsV71OfsmWN0
+ 6Uxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=lZDaJ6I97l+zgpuqXCY7HKN0+kSM7lYmy2Jajm6goGM=;
- b=N3Fus3irdCJf3vERI9xusVOR50+ETXvETwwv9z4O4hfJFQbrLI7A2MtHrcC+9pyv/X
- XGmFMFFBOyEoJR6TwybqV91a30XM1jRjp86jkBh3T0GMrFYuWQm9tu90FOBnpLeKz0sq
- nX0JpK+kwUBN9FmqXVh2DYHnrib9+bI9ZMtnQpjGNEFl/ow+rib19llG7uhYbYIpyDFC
- ho3G74Uj3Cy8Jrq7j9ugQkLyQwxOchN2xmq7lLxxAL3hKBkNdn5jJLEpERf4fxuVK2wS
- 71ulZ2Vn7wx2dZQcVpZvVn8yDVx0awDIGdaDPRxbw0/jSkurPhoPZSiy2wCsjDxmE4dm
- g2Fw==
-X-Gm-Message-State: AOAM532mFVXqDoM925/4TU2W5h23yMjS1ztUBuw3b5g3oyL4PskxP6Sg
- yPEiqpG4erinOveVdLjBLgU=
-X-Google-Smtp-Source: ABdhPJxczTrnCdY8VAkqDM1eNfTk/NiwWc/PeGLRzLa4qVrkYXoC2q7O3lKzF7nHEsJkoHqeA/7W6w==
-X-Received: by 2002:a67:7282:: with SMTP id n124mr28662890vsc.15.1634581297564; 
- Mon, 18 Oct 2021 11:21:37 -0700 (PDT)
-Received: from ?IPv6:2804:431:c7f4:b20b:2ce0:3c04:a56a:40cc?
- ([2804:431:c7f4:b20b:2ce0:3c04:a56a:40cc])
- by smtp.gmail.com with ESMTPSA id o40sm8655507vkf.3.2021.10.18.11.21.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 18 Oct 2021 11:21:36 -0700 (PDT)
-Subject: Re: [PATCH 1/6] drm: vkms: Replace the deprecated drm_mode_config_init
-To: Thomas Zimmermann <tzimmermann@suse.de>, rodrigosiqueiramelo@gmail.com,
- melissa.srw@gmail.com
-Cc: hamohammed.sa@gmail.com, daniel@ffwll.ch, airlied@linux.ie,
- contact@emersion.fr, leandro.ribeiro@collabora.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- lkcamp@lists.libreplanetbr.org
-References: <20211005201637.58563-1-igormtorrente@gmail.com>
- <20211005201637.58563-2-igormtorrente@gmail.com>
- <87f347bf-801f-7fba-bb52-009367cd30a0@suse.de>
-From: Igor Matheus Andrade Torrente <igormtorrente@gmail.com>
-Message-ID: <644a375d-18b4-e2c7-0e2a-6eb1471b4d07@gmail.com>
-Date: Mon, 18 Oct 2021 15:21:33 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=VWav6NFcp7Imar+k++zv5L6bzbFiMGeoi4IbLNr1qXk=;
+ b=10lmqPz6ZMxM4FmRvapxVUpg9CJWquY+fbbcG782y9y9g/ZNkVE6KCTQqn/cZsPalv
+ fMcucCPa50WASbU7z45macx+txwZ/oyChRobwyLwoeUOOKrMO9UN6++FCKm0i2L1Ezak
+ roqmUgupVfTaz3naRDy/QK7bW2VCtsuPXUXM5fPYEUYvSC2sr9dlR5n1fEtWfmyzUhh/
+ L2gOwQMVKW7bcQPepjiZEqSOlA7PS9iW0ya7XcOMbiFCY/0TLYGVVT1V5JJ3dqEw8/yE
+ ydl+5YrnumWAZ7/W0Hjafem6GxcJb0YrY1QaTLTxtb/Ywl5ru4oasKfX6AK+/KOuaRl5
+ iG+w==
+X-Gm-Message-State: AOAM5309U4rsLvu7W9alO7mrWyXUchYciVulZtWZBwkI1hNI+CCy6O62
+ oXGropDaPFp9PkBbRmAgqzkjsw==
+X-Google-Smtp-Source: ABdhPJx0w5FpmLsv0LfpzJkRgNCEFvSTyhRWvN2OZSonMTzVl3H3jB0V5GZKEdNIQJ2jOwLftPxV7g==
+X-Received: by 2002:a05:620a:2947:: with SMTP id
+ n7mr24141155qkp.60.1634581560548; 
+ Mon, 18 Oct 2021 11:26:00 -0700 (PDT)
+Received: from ziepe.ca
+ (hlfxns017vw-142-162-113-129.dhcp-dynamic.fibreop.ns.bellaliant.net.
+ [142.162.113.129])
+ by smtp.gmail.com with ESMTPSA id m195sm6853505qke.73.2021.10.18.11.25.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 18 Oct 2021 11:25:59 -0700 (PDT)
+Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
+ id 1mcXKh-00GLjg-2o; Mon, 18 Oct 2021 15:25:59 -0300
+Date: Mon, 18 Oct 2021 15:25:59 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Dan Williams <dan.j.williams@intel.com>
+Cc: Matthew Wilcox <willy@infradead.org>, Alex Sierra <alex.sierra@amd.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ "Kuehling, Felix" <Felix.Kuehling@amd.com>, Linux MM <linux-mm@kvack.org>,
+ Ralph Campbell <rcampbell@nvidia.com>,
+ linux-ext4 <linux-ext4@vger.kernel.org>,
+ linux-xfs <linux-xfs@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Christoph Hellwig <hch@lst.de>,
+ =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
+ Alistair Popple <apopple@nvidia.com>,
+ Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>,
+ Linux NVDIMM <nvdimm@lists.linux.dev>,
+ David Hildenbrand <david@redhat.com>,
+ Joao Martins <joao.m.martins@oracle.com>
+Subject: Re: [PATCH v1 2/2] mm: remove extra ZONE_DEVICE struct page refcount
+Message-ID: <20211018182559.GC3686969@ziepe.ca>
+References: <20211014153928.16805-1-alex.sierra@amd.com>
+ <20211014153928.16805-3-alex.sierra@amd.com>
+ <20211014170634.GV2744544@nvidia.com>
+ <YWh6PL7nvh4DqXCI@casper.infradead.org>
+ <CAPcyv4hBdSwdtG6Hnx9mDsRXiPMyhNH=4hDuv8JZ+U+Jj4RUWg@mail.gmail.com>
+ <20211014230606.GZ2744544@nvidia.com>
+ <CAPcyv4hC4qxbO46hp=XBpDaVbeh=qdY6TgvacXRprQ55Qwe-Dg@mail.gmail.com>
+ <20211016154450.GJ2744544@nvidia.com>
+ <CAPcyv4j0kHREAOG6_07E2foz6e4FP8D72mZXH6ivsiUBu_8c6g@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <87f347bf-801f-7fba-bb52-009367cd30a0@suse.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAPcyv4j0kHREAOG6_07E2foz6e4FP8D72mZXH6ivsiUBu_8c6g@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,48 +98,89 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
+On Sun, Oct 17, 2021 at 11:35:35AM -0700, Dan Williams wrote:
 
-On 10/18/21 7:02 AM, Thomas Zimmermann wrote:
-> Hi
+> > DAX is stuffing arrays of 4k pages into the PUD/PMDs. Aligning with
+> > THP would make using normal refconting much simpler. I looked at
+> > teaching the mm core to deal with page arrays - it is certainly
+> > doable, but it is quite inefficient and ugly mm code.
 > 
-> Am 05.10.21 um 22:16 schrieb Igor Matheus Andrade Torrente:
->> The `drm_mode_config_init` was deprecated since c3b790e commit, and it's
->> being replaced by the `drmm_mode_config_init`.
->>
->> Signed-off-by: Igor Matheus Andrade Torrente <igormtorrente@gmail.com>
->> ---
->>   drivers/gpu/drm/vkms/vkms_drv.c | 5 ++++-
->>   1 file changed, 4 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/vkms/vkms_drv.c 
->> b/drivers/gpu/drm/vkms/vkms_drv.c
->> index 0ffe5f0e33f7..828868920494 100644
->> --- a/drivers/gpu/drm/vkms/vkms_drv.c
->> +++ b/drivers/gpu/drm/vkms/vkms_drv.c
->> @@ -140,8 +140,11 @@ static const struct drm_mode_config_helper_funcs 
->> vkms_mode_config_helpers = {
->>   static int vkms_modeset_init(struct vkms_device *vkmsdev)
->>   {
->>       struct drm_device *dev = &vkmsdev->drm;
->> +    int ret = drmm_mode_config_init(dev);
->> +
->> +    if (ret < 0)
->> +        return ret;
-> 
-> The style looks awkward IMHO. Rather use
-I don't think it's awkward. But I don't mind change it anyway.
+> THP does not support PUD, and neither does FSDAX, so it's only PMDs we
+> need to worry about.
 
+device-dax uses PUD, along with TTM, they are the only places. I'm not
+sure TTM is a real place though.
+
+> > So, can we fix DAX and TTM - the only uses of PUD/PMDs I could find?
+> >
+> > Joao has a series that does this to device-dax:
+> >
+> > https://lore.kernel.org/all/20210827145819.16471-1-joao.m.martins@oracle.com/
 > 
->   int ret
+> That assumes there's never any need to fracture a huge page which
+> FSDAX could not support unless the filesystem was built with 2MB block
+> size.
+
+As I understand things, something like FSDAX post-folio should
+generate maximal compound pages for extents in the page cache that are
+physically contiguous.
+
+A high order folio can be placed in any lower order in the page
+tables, so we never have to fracture it, unless the underlying page
+are moved around - which requires an unmap_mapping_range() cycle..
+
+> > Assuming changing FSDAX is hard.. How would DAX people feel about just
+> > deleting the PUD/PMD support until it can be done with compound pages?
 > 
->   ret = drmm_mode_config_init()
->   if (ret)
->      return ret;
+> There are end users that would notice the PMD regression, and I think
+> FSDAX PMDs with proper compound page metadata is on the same order of
+> work as fixing the refcount.
+
+Hmm, I don't know.. I sketched out the refcount stuff and the code is
+OK but ugly and will add a conditional to some THP cases
+
+On the other hand, making THP unmap cases a bit slower is probably a
+net win compared to making put_page a bit slower.. Considering unmap
+is already quite heavy.
+
+> > 4) Ask what the pgmap owner wants to do:
+> >
+> >     if (head->pgmap->deny_foll_longterm)
+> >           return FAIL
 > 
->> -    drm_mode_config_init(dev);
->>       dev->mode_config.funcs = &vkms_mode_funcs;
->>       dev->mode_config.min_width = XRES_MIN;
->>       dev->mode_config.min_height = YRES_MIN;
->>
-> 
+> The pgmap itself does not know, but the "holder" could specify this
+> policy. 
+
+Here I imagine the thing that creates the pgmap would specify the
+policy it wants. In most cases the policy is tightly coupled to what
+the free function in the the provided dev_pagemap_ops does..
+
+> Which is in line with the 'dax_holder_ops' concept being introduced
+> for reverse mapping support. I.e. when the FS claims the dax-device
+> it can specify at that point that it wants to forbid longterm.
+
+Which is a reasonable refinment if we think there are cases where two
+nvdim users would want different things.
+
+Anyhow, I'm wondering on a way forward. There are many balls in the
+air, all linked:
+ - Joao's compound page support for device_dax and more
+ - Alex's DEVICE_COHERENT
+ - The refcount normalization
+ - Removing the pgmap test from GUP
+ - Removing the need for the PUD/PMD/PTE special bit
+ - Removing the need for the PUD/PMD/PTE devmap bit
+ - Remove PUD/PMD vma_is_special
+ - folios for fsdax
+ - shootdown for fsdax
+
+Frankly I'm leery to see more ZONE_DEVICE users crop up that depend on
+the current semantics as that will only make it even harder to fix..
+
+I think it would be good to see Joao's compound page support move
+ahead..
+
+So.. Does anyone want to work on finishing this patch series?? I can
+give some guidance on how I think it should work at least
+
+Jason
