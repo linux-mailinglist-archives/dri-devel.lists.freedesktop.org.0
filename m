@@ -2,65 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F6B843119C
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Oct 2021 09:53:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 622614311B0
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Oct 2021 09:58:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F0CA6E0A1;
-	Mon, 18 Oct 2021 07:53:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5CCB36E982;
+	Mon, 18 Oct 2021 07:58:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
- [IPv6:2a00:1450:4864:20::12c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0DB5C6E0A1
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Oct 2021 07:53:44 +0000 (UTC)
-Received: by mail-lf1-x12c.google.com with SMTP id t9so64827412lfd.1
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Oct 2021 00:53:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=bxVfna16cxYfDlVbnANGIk1HnqAlhaGCp7nH9Gcyq9c=;
- b=QyLwGECEiYP1tJgmurcHjGRXiqLiWofwug6J9SuebZVlwQz8UkoJoD6p9UARsKPksg
- PvCS4852EoKb7J2dgpT1n21mSVuS9nw/yGKFRgoaIFVKr8l9lMbnCGY+GkstLoQedYuF
- djCXmmzV2NmTnK8+h2RETDke0UdWle0a6I8a0U8dhETpFX1ncNPQhGYkmEx7wjZiiLtA
- GUGK2Mk184V+bkVl75e2X2ALndjYH9/jaEfhcPe272pQpNHA1yghoJYEd5GMHfkHLPb/
- fggGNtKoY+mKYJ3yLezM23G8438PvhM62289/RhY0iG1ro3arfvQneGQmGrNtFkIYROx
- VDKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=bxVfna16cxYfDlVbnANGIk1HnqAlhaGCp7nH9Gcyq9c=;
- b=veLX3QwDjoIOYhSHqrwmBl6iRHc6jj16l/Z4MyUAD7un/NUpY3F/LE/LmmQ4NJgu8v
- Asc22Sf8BKZO0uIHVre5vqVpoT8wAJilbtdCYVz8sph2i5frydRYFMLb2YNVlTR+pnUj
- 1ohYH0uWiJ09Pr2S7Z5qbDxGkkxLrLhCTii8ThNWjs6Atazww+L0VQcxsmS/a9MDnnkk
- RDpX4LbhJaLzp9nbl3lVu5HpwKeQKPAC0xLXyTOIvyzC9UdPNzjRTzHzmUlNJYYHRbfS
- 6izeGqwo15nQx9te7vyca+fS3Fk25+TqHhEQI4GxNa4AmecWLpbNt9W018dBgkXUiKoR
- X4dQ==
-X-Gm-Message-State: AOAM533fWN7USl7DA6MZdPU+stg6kRdvYpWImr98frz9qaAglOZJGltS
- BQ2n8eO2ZJD2Mup6+P57yBo=
-X-Google-Smtp-Source: ABdhPJwNxZP5kz/BgybStPT9EfAJaqXhusTVgcjXO5hDjCD2qbaxLsRU94qz33GF68bDyLtUOTV41g==
-X-Received: by 2002:a05:6512:31b:: with SMTP id
- t27mr28619056lfp.688.1634543622240; 
- Mon, 18 Oct 2021 00:53:42 -0700 (PDT)
-Received: from eldfell ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id h23sm1541000ljl.35.2021.10.18.00.53.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Oct 2021 00:53:41 -0700 (PDT)
-Date: Mon, 18 Oct 2021 10:53:33 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Igor Matheus Andrade Torrente <igormtorrente@gmail.com>
-Cc: rodrigosiqueiramelo@gmail.com, melissa.srw@gmail.com,
- hamohammed.sa@gmail.com, daniel@ffwll.ch, airlied@linux.ie,
- contact@emersion.fr, leandro.ribeiro@collabora.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- lkcamp@lists.libreplanetbr.org
-Subject: Re: [PATCH 0/6] Refactor the vkms to accept new formats
-Message-ID: <20211018105333.5f1bf9fe@eldfell>
-In-Reply-To: <20211005201637.58563-1-igormtorrente@gmail.com>
-References: <20211005201637.58563-1-igormtorrente@gmail.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 726526E981;
+ Mon, 18 Oct 2021 07:58:06 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10140"; a="208986409"
+X-IronPort-AV: E=Sophos;i="5.85,381,1624345200"; d="scan'208";a="208986409"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Oct 2021 00:58:04 -0700
+X-IronPort-AV: E=Sophos;i="5.85,381,1624345200"; d="scan'208";a="443961216"
+Received: from icdeacon-mobl.ger.corp.intel.com (HELO [10.213.254.147])
+ ([10.213.254.147])
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Oct 2021 00:58:03 -0700
+Subject: Re: [PATCH 2/2] drm/i915/pmu: Connect engine busyness stats from GuC
+ to pmu
+To: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: john.c.harrison@intel.com, daniel.vetter@ffwll.ch,
+ Matthew Brost <matthew.brost@intel.com>
+References: <20211015234705.12392-1-umesh.nerlige.ramappa@intel.com>
+ <20211015234705.12392-2-umesh.nerlige.ramappa@intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+Message-ID: <2a31b713-e8ea-524b-f37c-976791a2ccc4@linux.intel.com>
+Date: Mon, 18 Oct 2021 08:58:01 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/R_1IcPyF+kFhqCYh6Korsfw";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+In-Reply-To: <20211015234705.12392-2-umesh.nerlige.ramappa@intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,77 +56,130 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/R_1IcPyF+kFhqCYh6Korsfw
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-
-On Tue,  5 Oct 2021 17:16:31 -0300
-Igor Matheus Andrade Torrente <igormtorrente@gmail.com> wrote:
-
-> XRGB to ARGB behavior
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> During the development, I decided to always fill the alpha channel of
-> the output pixel whenever the conversion from a format without an alpha
-> channel to ARGB16161616 is necessary. Therefore, I ignore the value
-> received from the XRGB and overwrite the value with 0xFFFF.
->=20
-> My question is, is this behavior acceptable?
-
-Hi,
-
-that is the expected behaviour. X channel values must never affect
-anything on screen, hence they must never affect other channels'
-values. You are free to completely ignore X channel values, and if your
-output buffer has X channel, then you are free to write (or not write,
-unless for security reasons) whatever into it.
 
 
-Thanks,
-pq
+On 16/10/2021 00:47, Umesh Nerlige Ramappa wrote:
+> With GuC handling scheduling, i915 is not aware of the time that a
+> context is scheduled in and out of the engine. Since i915 pmu relies on
+> this info to provide engine busyness to the user, GuC shares this info
+> with i915 for all engines using shared memory. For each engine, this
+> info contains:
+> 
+> - total busyness: total time that the context was running (total)
+> - id: id of the running context (id)
+> - start timestamp: timestamp when the context started running (start)
+> 
+> At the time (now) of sampling the engine busyness, if the id is valid
+> (!= ~0), and start is non-zero, then the context is considered to be
+> active and the engine busyness is calculated using the below equation
+> 
+> 	engine busyness = total + (now - start)
+> 
+> All times are obtained from the gt clock base. For inactive contexts,
+> engine busyness is just equal to the total.
+> 
+> The start and total values provided by GuC are 32 bits and wrap around
+> in a few minutes. Since perf pmu provides busyness as 64 bit
+> monotonically increasing values, there is a need for this implementation
+> to account for overflows and extend the time to 64 bits before returning
+> busyness to the user. In order to do that, a worker runs periodically at
+> frequency = 1/8th the time it takes for the timestamp to wrap. As an
+> example, that would be once in 27 seconds for a gt clock frequency of
+> 19.2 MHz.
+> 
+> Note:
+> There might be an overaccounting of busyness due to the fact that GuC
+> may be updating the total and start values while kmd is reading them.
+> (i.e kmd may read the updated total and the stale start). In such a
+> case, user may see higher busyness value followed by smaller ones which
+> would eventually catch up to the higher value.
+> 
+> v2: (Tvrtko)
+> - Include details in commit message
+> - Move intel engine busyness function into execlist code
+> - Use union inside engine->stats
+> - Use natural type for ping delay jiffies
+> - Drop active_work condition checks
+> - Use for_each_engine if iterating all engines
+> - Drop seq locking, use spinlock at guc level to update engine stats
+> - Document worker specific details
+> 
+> v3: (Tvrtko/Umesh)
+> - Demarcate guc and execlist stat objects with comments
+> - Document known over-accounting issue in commit
+> - Provide a consistent view of guc state
+> - Add hooks to gt park/unpark for guc busyness
+> - Stop/start worker in gt park/unpark path
+> - Drop inline
+> - Move spinlock and worker inits to guc initialization
+> - Drop helpers that are called only once
+> 
+> v4: (Tvrtko/Matt/Umesh)
+> - Drop addressed opens from commit message
+> - Get runtime pm in ping, remove from the park path
+> - Use cancel_delayed_work_sync in disable_submission path
+> - Update stats during reset prepare
+> - Skip ping if reset in progress
+> - Explicitly name execlists and guc stats objects
+> - Since disable_submission is called from many places, move resetting
+>    stats to intel_guc_submission_reset_prepare
+> 
+> v5: (Tvrtko)
+> - Add a trylock helper that does not sleep and synchronize PMU event
+>    callbacks and worker with gt reset
+> 
+> v6: (CI BAT failures)
+> - DUTs using execlist submission failed to boot since __gt_unpark is
+>    called during i915 load. This ends up calling the guc busyness unpark
+>    hook and results in kiskstarting an uninitialized worker. Let
+>    park/unpark hooks check if guc submission has been initialized.
+> - drop cant_sleep() from trylock hepler since rcu_read_lock takes care
+>    of that.
+> 
+> v7: (CI) Fix igt@i915_selftest@live@gt_engines
+> - For guc mode of submission the engine busyness is derived from gt time
+>    domain. Use gt time elapsed as reference in the selftest.
+> - Increase busyness calculation to 10ms duration to ensure batch runs
+>    longer and falls within the busyness tolerances in selftest.
 
->=20
-> [1] https://lists.freedesktop.org/archives/igt-dev/2021-October/036125.ht=
-ml
->=20
-> Igor Matheus Andrade Torrente (6):
->   drm: vkms: Replace the deprecated drm_mode_config_init
->   drm: vkms: Alloc the compose frame using vzalloc
->   drm: vkms: Replace hardcoded value of `vkms_composer.map` to
->     DRM_FORMAT_MAX_PLANES
->   drm: vkms: Add fb information to `vkms_writeback_job`
->   drm: vkms: Prepare `vkms_wb_encoder_atomic_check` to accept multiple
->     formats
->   drm: vkms: Refactor the plane composer to accept new formats
->=20
->  drivers/gpu/drm/vkms/vkms_composer.c  | 275 ++++++++++++++------------
->  drivers/gpu/drm/vkms/vkms_drv.c       |   5 +-
->  drivers/gpu/drm/vkms/vkms_drv.h       |  12 +-
->  drivers/gpu/drm/vkms/vkms_formats.h   | 125 ++++++++++++
->  drivers/gpu/drm/vkms/vkms_writeback.c |  27 ++-
->  5 files changed, 304 insertions(+), 140 deletions(-)
->  create mode 100644 drivers/gpu/drm/vkms/vkms_formats.h
->=20
+[snip]
 
+>   
+> diff --git a/drivers/gpu/drm/i915/gt/selftest_engine_pm.c b/drivers/gpu/drm/i915/gt/selftest_engine_pm.c
+> index 75569666105d..24358bef6691 100644
+> --- a/drivers/gpu/drm/i915/gt/selftest_engine_pm.c
+> +++ b/drivers/gpu/drm/i915/gt/selftest_engine_pm.c
+> @@ -234,6 +234,7 @@ static int live_engine_busy_stats(void *arg)
+>   		struct i915_request *rq;
+>   		ktime_t de, dt;
+>   		ktime_t t[2];
+> +		u32 gt_stamp;
+>   
+>   		if (!intel_engine_supports_stats(engine))
+>   			continue;
+> @@ -251,10 +252,16 @@ static int live_engine_busy_stats(void *arg)
+>   		ENGINE_TRACE(engine, "measuring idle time\n");
+>   		preempt_disable();
+>   		de = intel_engine_get_busy_time(engine, &t[0]);
+> -		udelay(100);
+> +		gt_stamp = intel_uncore_read(gt->uncore, GUCPMTIMESTAMP);
+> +		udelay(10000);
+>   		de = ktime_sub(intel_engine_get_busy_time(engine, &t[1]), de);
+> +		gt_stamp = intel_uncore_read(gt->uncore, GUCPMTIMESTAMP) - gt_stamp;
+>   		preempt_enable();
+> -		dt = ktime_sub(t[1], t[0]);
+> +
+> +		dt = intel_engine_uses_guc(engine) ?
+> +		     intel_gt_clock_interval_to_ns(engine->gt, gt_stamp) :
+> +		     ktime_sub(t[1], t[0]);
 
---Sig_/R_1IcPyF+kFhqCYh6Korsfw
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+But this then shows the thing might not work for external callers like 
+PMU who have no idea about GUCPMTIMESTAMP and cannot obtain it anyway.
 
------BEGIN PGP SIGNATURE-----
+What is the root cause of the failure here, 100us or clock source? Is 
+the granularity of GUCPMTIMESTAMP perhaps simply too coarse for 100us 
+test period? I forget what frequency it runs at.
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmFtJ/0ACgkQI1/ltBGq
-qqf0HRAArta1tWtQSDyslMERLLK3UK0+yHfQBtIIII8mW2/1JMShM7dwdnB/CJGb
-7J+135bmSCr0WV1pm2LTSOjfSN5Z+9OZvdUgqY2/l7aWGRcK9jMfm6sndwI+PW1y
-WOXhpmkT0dKAjPMAKRKpnUSi9+msjEMqBc/vB4rWYciYNc3vhS1Mj5HWJTUT8FUg
-cCWSNUfzjCZ8zBWEvEQODJDUXK/XhND9OhFN83PYcDKcalSt1sA6waVDbi0IlH/S
-l7Qm2MwdGrF3KsHqwqciMHyo8i2B5+Ty1u4TBC7pB9NXv4U7jx6osfHhMThsnHRH
-ZMf17yMftnZMYgH3WSLGPoRswWwl/J6X72CbHhAz3TKrjDPkbNFxH1pLfSUeosLz
-3gRNgJ3noTSTV/0Zbd9AXX61R4MoyWoiW6+k0Sh4GQxu9drNkUrcXnvj3tsst5c6
-MFEiQoOeVoaSSrc1w3oJ1TS8HFpS831NLuSg2zG3H1OBSkEWLLU3Sc1fi3APYfzd
-xWHZFUUN9waAZhqqD3T50FTkgGyvCT+Y2Nim/PDdMZAL8IZq8ZTFB1vSrK+/sN91
-/YlJOvXvWVZW1BWvf/8jZTcLjxOGP+PVxj+wZypA1EhFNIE0MhMbsOsfjrOOYdE4
-y2T6KudEskkKtG9e9VzrGAI1c0MajORuqAtuaUOQJyAtDh5gUKo=
-=Xvh9
------END PGP SIGNATURE-----
+Regards,
 
---Sig_/R_1IcPyF+kFhqCYh6Korsfw--
+Tvrtko
