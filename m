@@ -2,43 +2,120 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B68004312EB
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Oct 2021 11:12:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 773B0431359
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Oct 2021 11:24:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B4806E9B8;
-	Mon, 18 Oct 2021 09:12:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3CE1C6E420;
+	Mon, 18 Oct 2021 09:24:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B60336E9B4;
- Mon, 18 Oct 2021 09:12:06 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10140"; a="215135688"
-X-IronPort-AV: E=Sophos;i="5.85,381,1624345200"; d="scan'208";a="215135688"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Oct 2021 02:12:06 -0700
-X-IronPort-AV: E=Sophos;i="5.85,381,1624345200"; d="scan'208";a="493509143"
-Received: from foboril-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.249.44.188])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Oct 2021 02:12:01 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: luo penghao <cgel.zte@gmail.com>
-Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Stephen Rothwell <sfr@canb.auug.org.au>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, luo penghao <luo.penghao@zte.com.cn>,
- Zeal Robot <zealci@zte.com.cn>, "Deak\, Imre" <imre.deak@intel.com>
-Subject: Re: [PATCH linux-next] drm/i915/display: Remove unused variable in
- the for loop.
-In-Reply-To: <20211018084449.852251-1-luo.penghao@zte.com.cn>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20211018084449.852251-1-luo.penghao@zte.com.cn>
-Date: Mon, 18 Oct 2021 12:11:58 +0300
-Message-ID: <87k0iau275.fsf@intel.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 39A7E6E420
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Oct 2021 09:24:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1634549056;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=tcERYHsACD8OiG9LERSlpQxmHuHdSGg0GMtHO86OE84=;
+ b=hrENfsHvHa7ijddrAdywkk3CuWIrpUjb8t1ZhjdgdWxvG7zkpMcArJoY4r5z5bw7Y/DNxK
+ VEoxtzf/n1bq0CK3lsmfYRYTl65M5vQ+Z6DxTcmxjNvptMdnTnT5AbDzZRUdaeEsyg9lIU
+ CeCeGeP22g33wF0BvoGcvDg6826Vsgk=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-492-yXJAncFdMY6C5UYO9aPxww-1; Mon, 18 Oct 2021 05:24:15 -0400
+X-MC-Unique: yXJAncFdMY6C5UYO9aPxww-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ u10-20020a50d94a000000b003dc51565894so7106069edj.21
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Oct 2021 02:24:15 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=tcERYHsACD8OiG9LERSlpQxmHuHdSGg0GMtHO86OE84=;
+ b=CI7J8fF2vJJh2ESQk0TrQ/6YzyiQGlzG6tCGjVB/aSH+b0sZEfFv2PFaIFbuca0ROb
+ 0mAEn0EtqtfN68ZbFGS/zmE3zf+iUBs39pqKwir+vMP3Z6zhX6AKLihMm01MuTnivDI/
+ SIBT5v1QdMd3wBdhf1RkMTZEqMtSFxOD7Qz921y2NekPC253g+IQdWzM4FXOIl9rSg+X
+ 4/dd/A6Cu3IVoxA3WUiDZT4D+h0SLfEjR4Jq+IjR6NRul3/c4Z8b3Z795TauvMz+FoeF
+ ZhKh7JjH8CccNCfRXmDY/X0v8q64rrDJQy1aVKHn5iwoCRdO1k29Ooka3ulXi3WN5zFD
+ +pTg==
+X-Gm-Message-State: AOAM532UrUnwaV4fvyR8qq3CZfE+5OVP3XYnw7CGMKZOqGEHBYwbN4zU
+ TRUNXze6v/4mudb7wLmleraX35M92OUWK6JCh6y8jQjKY3H/zQZA5jGevtczW/JVgHmftYo/HE5
+ KZeTQxcTUQTnYcgifHoKCPt0YpwWg
+X-Received: by 2002:a50:9d8e:: with SMTP id w14mr42193552ede.74.1634549054565; 
+ Mon, 18 Oct 2021 02:24:14 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxUJYrHxvUXjdPELjIDpPtrZ181C1I4vTJbRWD4jS3vqGv74zCzzGw5AmjDAdcPLpxevcG2mg==
+X-Received: by 2002:a50:9d8e:: with SMTP id w14mr42193472ede.74.1634549054384; 
+ Mon, 18 Oct 2021 02:24:14 -0700 (PDT)
+Received: from steredhat (host-79-34-250-211.business.telecomitalia.it.
+ [79.34.250.211])
+ by smtp.gmail.com with ESMTPSA id lm14sm8629911ejb.24.2021.10.18.02.24.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 18 Oct 2021 02:24:13 -0700 (PDT)
+Date: Mon, 18 Oct 2021 11:24:10 +0200
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: linux-kernel@vger.kernel.org, Jeff Dike <jdike@addtoit.com>,
+ Richard Weinberger <richard@nod.at>,
+ Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+ Jason Wang <jasowang@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Jens Axboe <axboe@kernel.dk>,
+ Marcel Holtmann <marcel@holtmann.org>,
+ Johan Hedberg <johan.hedberg@gmail.com>,
+ Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+ Matt Mackall <mpm@selenic.com>, Herbert Xu <herbert@gondor.apana.org.au>,
+ Amit Shah <amit@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Gonglei <arei.gonglei@huawei.com>, "David S. Miller" <davem@davemloft.net>,
+ Sudeep Holla <sudeep.holla@arm.com>,
+ Cristian Marussi <cristian.marussi@arm.com>,
+ "Enrico Weigelt, metux IT consult" <info@metux.net>,
+ Viresh Kumar <vireshk@kernel.org>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Bartosz Golaszewski <brgl@bgdev.pl>,
+ David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Jie Deng <jie.deng@intel.com>,
+ Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+ Jakub Kicinski <kuba@kernel.org>,
+ Johannes Berg <johannes@sipsolutions.net>,
+ Kalle Valo <kvalo@codeaurora.org>, Dan Williams <dan.j.williams@intel.com>,
+ Vishal Verma <vishal.l.verma@intel.com>,
+ Dave Jiang <dave.jiang@intel.com>, Ira Weiny <ira.weiny@intel.com>,
+ Ohad Ben-Cohen <ohad@wizery.com>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>,
+ "James E.J. Bottomley" <jejb@linux.ibm.com>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ David Hildenbrand <david@redhat.com>,
+ Vivek Goyal <vgoyal@redhat.com>, Miklos Szeredi <miklos@szeredi.hu>,
+ Eric Van Hensbergen <ericvh@gmail.com>,
+ Latchesar Ionkov <lucho@ionkov.net>,
+ Dominique Martinet <asmadeus@codewreck.org>,
+ Anton Yakovlev <anton.yakovlev@opensynergy.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ linux-um@lists.infradead.org, virtualization@lists.linux-foundation.org,
+ linux-block@vger.kernel.org, linux-bluetooth@vger.kernel.org,
+ linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-gpio@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-i2c@vger.kernel.org, iommu@lists.linux-foundation.org,
+ netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
+ nvdimm@lists.linux.dev, linux-remoteproc@vger.kernel.org,
+ linux-scsi@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ v9fs-developer@lists.sourceforge.net, kvm@vger.kernel.org,
+ alsa-devel@alsa-project.org
+Subject: Re: [PATCH RFC] virtio: wrap config->reset calls
+Message-ID: <20211018092410.t5hilzz7kbto2mhy@steredhat>
+References: <20211013105226.20225-1-mst@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+In-Reply-To: <20211013105226.20225-1-mst@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,65 +131,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 18 Oct 2021, luo penghao <cgel.zte@gmail.com> wrote:
-> Variable is not used in the loop, and its assignment is redundant too.
-> So it should be deleted.
+On Wed, Oct 13, 2021 at 06:55:31AM -0400, Michael S. Tsirkin wrote:
+>This will enable cleanups down the road.
+>The idea is to disable cbs, then add "flush_queued_cbs" callback
+>as a parameter, this way drivers can flush any work
+>queued after callbacks have been disabled.
 >
-> The clang_analyzer complains as follows:
->
-> drivers/gpu/drm/i915/display/intel_fb.c:1018:3 warning:
->
-> Value stored to 'cpp' is never read.
->
-> Reported-by: Zeal Robot <zealci@zte.com.cn>
-> Signed-off-by: luo penghao <luo.penghao@zte.com.cn>
-> ---
->  drivers/gpu/drm/i915/display/intel_fb.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/display/intel_fb.c b/drivers/gpu/drm/i915/display/intel_fb.c
-> index fa1f375..b9b6a7a 100644
-> --- a/drivers/gpu/drm/i915/display/intel_fb.c
-> +++ b/drivers/gpu/drm/i915/display/intel_fb.c
-> @@ -998,7 +998,7 @@ int intel_fill_fb_info(struct drm_i915_private *i915, struct intel_framebuffer *
->  	for (i = 0; i < num_planes; i++) {
->  		struct fb_plane_view_dims view_dims;
->  		unsigned int width, height;
-> -		unsigned int cpp, size;
-> +		unsigned int size;
->  		u32 offset;
->  		int x, y;
->  		int ret;
-> @@ -1015,7 +1015,7 @@ int intel_fill_fb_info(struct drm_i915_private *i915, struct intel_framebuffer *
->  				return -EINVAL;
->  		}
->  
-> -		cpp = fb->base.format->cpp[i];
-> +		fb->base.format->cpp[i];
+>Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+>---
+> arch/um/drivers/virt-pci.c                 | 2 +-
+> drivers/block/virtio_blk.c                 | 4 ++--
+> drivers/bluetooth/virtio_bt.c              | 2 +-
+> drivers/char/hw_random/virtio-rng.c        | 2 +-
+> drivers/char/virtio_console.c              | 4 ++--
+> drivers/crypto/virtio/virtio_crypto_core.c | 8 ++++----
+> drivers/firmware/arm_scmi/virtio.c         | 2 +-
+> drivers/gpio/gpio-virtio.c                 | 2 +-
+> drivers/gpu/drm/virtio/virtgpu_kms.c       | 2 +-
+> drivers/i2c/busses/i2c-virtio.c            | 2 +-
+> drivers/iommu/virtio-iommu.c               | 2 +-
+> drivers/net/caif/caif_virtio.c             | 2 +-
+> drivers/net/virtio_net.c                   | 4 ++--
+> drivers/net/wireless/mac80211_hwsim.c      | 2 +-
+> drivers/nvdimm/virtio_pmem.c               | 2 +-
+> drivers/rpmsg/virtio_rpmsg_bus.c           | 2 +-
+> drivers/scsi/virtio_scsi.c                 | 2 +-
+> drivers/virtio/virtio.c                    | 5 +++++
+> drivers/virtio/virtio_balloon.c            | 2 +-
+> drivers/virtio/virtio_input.c              | 2 +-
+> drivers/virtio/virtio_mem.c                | 2 +-
+> fs/fuse/virtio_fs.c                        | 4 ++--
+> include/linux/virtio.h                     | 1 +
+> net/9p/trans_virtio.c                      | 2 +-
+> net/vmw_vsock/virtio_transport.c           | 4 ++--
 
-Thanks for the report. However, this "fix" isn't any better than having
-the unused variable. It's obviously wrong.
+Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
 
-It would be useful to dig into the history of the function, and figure
-out when and why the variable became unused, and whether that caused an
-actual bug or whether this was just leftovers from some refactoring.
-
-So that's what I did. Some git blame and git log -p revealed commit
-d3c5e10b6059 ("drm/i915/intel_fb: Factor out
-convert_plane_offset_to_xy()") that moved the check that used the cpp
-variable to a separate function, and the local variable and the line
-above became unused and useless.
-
-That's the actually helpful part. It's easy to see and verify that the
-right fix is to just remove the line completely.
-
-BR,
-Jani.
-
-
->  		intel_fb_plane_dims(fb, i, &width, &height);
->  
->  		ret = convert_plane_offset_to_xy(fb, i, width, &x, &y);
-
--- 
-Jani Nikula, Intel Open Source Graphics Center
