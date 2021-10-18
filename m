@@ -1,88 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D91F54329F8
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Oct 2021 01:06:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F18C4329FE
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Oct 2021 01:08:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 74A516EA9A;
-	Mon, 18 Oct 2021 23:06:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C18E96EAA3;
+	Mon, 18 Oct 2021 23:08:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x82a.google.com (mail-qt1-x82a.google.com
- [IPv6:2607:f8b0:4864:20::82a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 71A0B6EAA0
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Oct 2021 23:06:17 +0000 (UTC)
-Received: by mail-qt1-x82a.google.com with SMTP id t16so16743786qto.5
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Oct 2021 16:06:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=t13jy1xQQB0gmrT1NW6zHUJeUfFTnWrh5vLufzqGSOo=;
- b=fs+pNVjSp3t08y/Qek5U1K5zYFVoFGvNZNYlFKrOzb5uFIcN616uN4ceFhbswCQe7X
- GUI/334ZkDOCYAG+JpNB9RdhrVATD0hQUjfxnS5ctmLY2ZenBoqQuwH76SRvkXdP3cM+
- Qj0Fbzxqk/1FraNlERd968zbnq2JTCiCQ5CDO3Q9WlBmC+057YzLvNhj4/rxypVAcP6J
- rQjumGXPcmEExt0Lzf/PYTPfWRlJ1vp+BUyWiM8N59qwmvNjm9ZC55jAARqDBFWT2HWZ
- 3jklaTYrhAgcwaVE5TpN3HHyWJ9JCIz/QYjAgjghO3lQCIQG8A268X/1sctoDSt10rLN
- uwfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=t13jy1xQQB0gmrT1NW6zHUJeUfFTnWrh5vLufzqGSOo=;
- b=FkphhZf0Q9XchnY3kA485gpdnRoPXxE8ZnTUJw0zansEaGBXUF6Imu7w50HfUnbTB3
- xPedsKS02WfrMFn9qtpKs/kiWPX9xe9yLcpCWpQ+sMkpTwVX9TXDjn77yu0yJ7PMS1vg
- iueGKgoSQ1XAy4XmXxDS+pMtWP4mEKvFr4eNreJvECOChhODSjiCzz1G0jWuCOgJHOgG
- +t+2K4d4vY5LtU1E8O8SYQDDkprKr4NwewqwWTLvRJ6Zj1ASnx2fFamKpJPoGxul8h8E
- 3DGtMqcjAD6M4TtpNjD8d4WrYlxOqVMYXFqLK6RhqfcK2bcYxN4B2BWk8C2DqJDux5Ct
- S/Ww==
-X-Gm-Message-State: AOAM532G2wWguVuRJ2THbBIbm+fqn9DFGPB3BvlaSybujQGEyPHYxgoO
- xrxoKGx4Ed9JaCBvOWCkbCAObA==
-X-Google-Smtp-Source: ABdhPJwMWFSkjHgN749nnHNdzV4ycZUrAg1Cl3jWHBuFmRmB/uqZm1f8+nVTShmwK2hP+IrC5sCFZQ==
-X-Received: by 2002:ac8:5755:: with SMTP id 21mr32075024qtx.353.1634598376340; 
- Mon, 18 Oct 2021 16:06:16 -0700 (PDT)
-Received: from ziepe.ca
- (hlfxns017vw-142-162-113-129.dhcp-dynamic.fibreop.ns.bellaliant.net.
- [142.162.113.129])
- by smtp.gmail.com with ESMTPSA id e16sm6723324qkl.108.2021.10.18.16.06.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Oct 2021 16:06:15 -0700 (PDT)
-Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
- id 1mcbhu-00GP5O-UW; Mon, 18 Oct 2021 20:06:14 -0300
-Date: Mon, 18 Oct 2021 20:06:14 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Dan Williams <dan.j.williams@intel.com>
-Cc: Matthew Wilcox <willy@infradead.org>, Alex Sierra <alex.sierra@amd.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- "Kuehling, Felix" <Felix.Kuehling@amd.com>, Linux MM <linux-mm@kvack.org>,
- Ralph Campbell <rcampbell@nvidia.com>,
- linux-ext4 <linux-ext4@vger.kernel.org>,
- linux-xfs <linux-xfs@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Christoph Hellwig <hch@lst.de>,
- =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
- Alistair Popple <apopple@nvidia.com>,
- Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>,
- Linux NVDIMM <nvdimm@lists.linux.dev>,
- David Hildenbrand <david@redhat.com>,
- Joao Martins <joao.m.martins@oracle.com>
-Subject: Re: [PATCH v1 2/2] mm: remove extra ZONE_DEVICE struct page refcount
-Message-ID: <20211018230614.GF3686969@ziepe.ca>
-References: <20211014153928.16805-3-alex.sierra@amd.com>
- <20211014170634.GV2744544@nvidia.com>
- <YWh6PL7nvh4DqXCI@casper.infradead.org>
- <CAPcyv4hBdSwdtG6Hnx9mDsRXiPMyhNH=4hDuv8JZ+U+Jj4RUWg@mail.gmail.com>
- <20211014230606.GZ2744544@nvidia.com>
- <CAPcyv4hC4qxbO46hp=XBpDaVbeh=qdY6TgvacXRprQ55Qwe-Dg@mail.gmail.com>
- <20211016154450.GJ2744544@nvidia.com>
- <CAPcyv4j0kHREAOG6_07E2foz6e4FP8D72mZXH6ivsiUBu_8c6g@mail.gmail.com>
- <20211018182559.GC3686969@ziepe.ca>
- <CAPcyv4jvZjeMcKLVuOEQ_gXRd87i3NUX5D=MmsJ++rWafnK-NQ@mail.gmail.com>
+Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0200B6EAA3
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Oct 2021 23:08:00 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1634598481; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=CHs2EnROtj+eI2bECiXGaoryEmZF7c86X9Ki3HRSSFs=;
+ b=SgQmRNFWDGeFwAhe9dQsrDVUEVV/ACDHfKq3KQg+TWNLdvqfv35QaddDqNqxy0tAqXX7MiI8
+ QsQZ2vl5gbrWUzyQPz9HNEa0OXN0mc8u9qAkA93kUBtV21h/3TfgUA25YqHILwch3FKR/wei
+ QfLCbi6LQTIK4WEle7PuCMhxxao=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n05.prod.us-east-1.postgun.com with SMTP id
+ 616dfe4e3416c2cb702e9cc6 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 18 Oct 2021 23:07:58
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 229D6C43619; Mon, 18 Oct 2021 23:07:58 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00
+ autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested) (Authenticated sender: abhinavk)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id ECA93C4338F;
+ Mon, 18 Oct 2021 23:07:56 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAPcyv4jvZjeMcKLVuOEQ_gXRd87i3NUX5D=MmsJ++rWafnK-NQ@mail.gmail.com>
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date: Mon, 18 Oct 2021 16:07:56 -0700
+From: abhinavk@codeaurora.org
+To: Bjorn Andersson <bjorn.andersson@linaro.org>
+Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, David
+ Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>, Kalyan Thota <kalyan_t@codeaurora.org>,
+ Kuogee Hsieh <khsieh@codeaurora.org>, Rob Herring <robh+dt@kernel.org>,
+ Stephen Boyd <swboyd@chromium.org>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [Freedreno] [PATCH v5 3/7] drm/msm/dp: Allow specifying
+ connector_type per controller
+In-Reply-To: <20211016221843.2167329-4-bjorn.andersson@linaro.org>
+References: <20211016221843.2167329-1-bjorn.andersson@linaro.org>
+ <20211016221843.2167329-4-bjorn.andersson@linaro.org>
+Message-ID: <94c1d92263498f83c39d3383cc122a05@codeaurora.org>
+X-Sender: abhinavk@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,118 +77,138 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Oct 18, 2021 at 12:37:30PM -0700, Dan Williams wrote:
-
-> > device-dax uses PUD, along with TTM, they are the only places. I'm not
-> > sure TTM is a real place though.
+On 2021-10-16 15:18, Bjorn Andersson wrote:
+> As the following patches introduced support for multiple DP blocks in a
+> platform and some of those block might be eDP it becomes useful to be
+> able to specify the connector type per block.
 > 
-> I was setting device-dax aside because it can use Joao's changes to
-> get compound-page support.
-
-Ideally, but that ideas in that patch series have been floating around
-for a long time now..
- 
-> > As I understand things, something like FSDAX post-folio should
-> > generate maximal compound pages for extents in the page cache that are
-> > physically contiguous.
-> >
-> > A high order folio can be placed in any lower order in the page
-> > tables, so we never have to fracture it, unless the underlying page
-> > are moved around - which requires an unmap_mapping_range() cycle..
+> Although there's only a single block at this point, the array of descs
+> and the search in dp_display_get_desc() are introduced here to simplify
+> the next patch, that does introduce support for multiple DP blocks.
 > 
-> That would be useful to disconnect the compound-page size from the
-> page-table-entry installed for the page. However, don't we need
-> typical compound page fracturing in the near term until folios move
-> ahead?
-
-I do not know, just mindful not to get ahead of Matthew
- 
-> > > There are end users that would notice the PMD regression, and I think
-> > > FSDAX PMDs with proper compound page metadata is on the same order of
-> > > work as fixing the refcount.
-> >
-> > Hmm, I don't know.. I sketched out the refcount stuff and the code is
-> > OK but ugly and will add a conditional to some THP cases
+> Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+Reviewed-by: Abhinav Kumar <abhinavk@codeaurora.org>
+> ---
 > 
-> That reminds me that there are several places that do:
+> Changes since v4:
+> - const the various struct msm_dp_desc instances
+> - unsigned the connector_type
 > 
-> pmd_devmap(pmd) || pmd_trans_huge(pmd)
-
-I haven't tried to look at this yet. I did check that the pte_devmap()
-flag can be deleted, but this is more tricky.
-
-We have pmd_huge(), pmd_large(), pmd_devmap(), pmd_trans_huge(),
-pmd_leaf(), at least
-
-and I couldn't tell you today the subtle differences between all of
-these things on every arch :\
-
-AFAIK there should only be three case:
- - pmd points to a pte table
- - pmd is in the special hugetlb format
- - pmd points at something described by struct page(s)
-
-> ...for the common cases where a THP and DEVMAP page are equivalent,
-> but there are a few places where those paths are not shared when the
-> THP path expects that the page came from the page allocator. So while
-> DEVMAP is not needed in GUP after this conversion, there still needs
-> to be an audit of when THP needs to be careful of DAX mappings.
-
-Yes, it is a tricky job to do the full work, but I think in the end,
-'pmd points at something described by struct page(s)' is enough for
-all code to use is_zone_device_page() instead of a PTE bit or VMA flag
-to drive its logic.
-
-> > Here I imagine the thing that creates the pgmap would specify the
-> > policy it wants. In most cases the policy is tightly coupled to what
-> > the free function in the the provided dev_pagemap_ops does..
 > 
-> The thing that creates the pgmap is the device-driver, and
-> device-driver does not implement truncate or reclaim. It's not until
-> the FS mounts that the pgmap needs to start enforcing pin lifetime
-> guarantees.
-
-I am explaining this wrong, the immediate need is really 'should
-foll_longterm fail fast-gup to the slow path' and something like the
-nvdimm driver can just set that to 1 and rely on VMA flags to control
-what the slow path does - as is today.
-
-It is not as elegant as more flags in the pgmap, but it would get the
-job done with minimal fuss.
-
-Might be nice to either rely fully on VMA flags or fully on pgmap
-holder flags for FOLL_LONGTERM?
-
-> > Anyhow, I'm wondering on a way forward. There are many balls in the
-> > air, all linked:
-> >  - Joao's compound page support for device_dax and more
-> >  - Alex's DEVICE_COHERENT
+> The references to DRM_MODE_CONNECTOR_DisplayPort in dp_debug.c, that 
+> was
+> highligted in the review of v4 has been removed in a separate patch.
 > 
-> I have not seen these patches.
-
-It is where this series came from. As DEVICE_COHERENT is focused on
-changing the migration code and, as I recall, the 1 == free thing
-complicated that enough that Christoph requested it be cleaned.
-
-> >  - The refcount normalization
-> >  - Removing the pgmap test from GUP
-> >  - Removing the need for the PUD/PMD/PTE special bit
-> >  - Removing the need for the PUD/PMD/PTE devmap bit
+>  drivers/gpu/drm/msm/dp/dp_display.c | 43 ++++++++++++++++++++++++++++-
+>  drivers/gpu/drm/msm/dp/dp_display.h |  1 +
+>  drivers/gpu/drm/msm/dp/dp_drm.c     |  2 +-
+>  3 files changed, 44 insertions(+), 2 deletions(-)
 > 
-> It's not clear that this anything but pure cleanup once the special
-> bit can be used for architectures that don't have devmap. Those same
-> archs presumably don't care about the THP collisions with DAX.
-
-I understood there was some community that was interested in DAX on
-other arches that don't have the PTE bits to spare, so this would be
-of interest to them?
-
-> Completing the DAX reflink work is in my near term goals and that
-> includes "shootdown for fsdax and removing the pgmap test from GUP",
-> but probably not in the order that "refcount normalization" folks
-> would prefer.
-
-Indeed, I don't think that will help many of the stuck items on the
-list move ahead.
-
-Jason
+> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c
+> b/drivers/gpu/drm/msm/dp/dp_display.c
+> index 5d3ee5ef07c2..6913970c8cf9 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_display.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+> @@ -115,8 +115,25 @@ struct dp_display_private {
+>  	struct dp_audio *audio;
+>  };
+> 
+> +struct msm_dp_desc {
+> +	phys_addr_t io_start;
+> +	unsigned int connector_type;
+> +};
+> +
+> +struct msm_dp_config {
+> +	const struct msm_dp_desc *descs;
+> +	size_t num_descs;
+> +};
+> +
+> +static const struct msm_dp_config sc7180_dp_cfg = {
+> +	.descs = (const struct msm_dp_desc[]) {
+> +		{ .io_start = 0x0ae90000, .connector_type = 
+> DRM_MODE_CONNECTOR_DisplayPort },
+> +	},
+> +	.num_descs = 1,
+> +};
+> +
+>  static const struct of_device_id dp_dt_match[] = {
+> -	{.compatible = "qcom,sc7180-dp"},
+> +	{ .compatible = "qcom,sc7180-dp", .data = &sc7180_dp_cfg },
+>  	{}
+>  };
+> 
+> @@ -1180,10 +1197,29 @@ int dp_display_request_irq(struct msm_dp 
+> *dp_display)
+>  	return 0;
+>  }
+> 
+> +static const struct msm_dp_desc *dp_display_get_desc(struct
+> platform_device *pdev)
+> +{
+> +	const struct msm_dp_config *cfg = 
+> of_device_get_match_data(&pdev->dev);
+> +	struct resource *res;
+> +	int i;
+> +
+> +	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> +	if (!res)
+> +		return NULL;
+> +
+> +	for (i = 0; i < cfg->num_descs; i++)
+> +		if (cfg->descs[i].io_start == res->start)
+> +			return &cfg->descs[i];
+> +
+> +	dev_err(&pdev->dev, "unknown displayport instance\n");
+> +	return NULL;
+> +}
+> +
+>  static int dp_display_probe(struct platform_device *pdev)
+>  {
+>  	int rc = 0;
+>  	struct dp_display_private *dp;
+> +	const struct msm_dp_desc *desc;
+> 
+>  	if (!pdev || !pdev->dev.of_node) {
+>  		DRM_ERROR("pdev not found\n");
+> @@ -1194,8 +1230,13 @@ static int dp_display_probe(struct 
+> platform_device *pdev)
+>  	if (!dp)
+>  		return -ENOMEM;
+> 
+> +	desc = dp_display_get_desc(pdev);
+> +	if (!desc)
+> +		return -EINVAL;
+> +
+>  	dp->pdev = pdev;
+>  	dp->name = "drm_dp";
+> +	dp->dp_display.connector_type = desc->connector_type;
+> 
+>  	rc = dp_init_sub_modules(dp);
+>  	if (rc) {
+> diff --git a/drivers/gpu/drm/msm/dp/dp_display.h
+> b/drivers/gpu/drm/msm/dp/dp_display.h
+> index 8b47cdabb67e..75fcabcfbbdd 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_display.h
+> +++ b/drivers/gpu/drm/msm/dp/dp_display.h
+> @@ -18,6 +18,7 @@ struct msm_dp {
+>  	bool is_connected;
+>  	bool audio_enabled;
+>  	bool power_on;
+> +	unsigned int connector_type;
+> 
+>  	hdmi_codec_plugged_cb plugged_cb;
+> 
+> diff --git a/drivers/gpu/drm/msm/dp/dp_drm.c 
+> b/drivers/gpu/drm/msm/dp/dp_drm.c
+> index 764f4b81017e..f33e31523f56 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_drm.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_drm.c
+> @@ -147,7 +147,7 @@ struct drm_connector *dp_drm_connector_init(struct
+> msm_dp *dp_display)
+> 
+>  	ret = drm_connector_init(dp_display->drm_dev, connector,
+>  			&dp_connector_funcs,
+> -			DRM_MODE_CONNECTOR_DisplayPort);
+> +			dp_display->connector_type);
+>  	if (ret)
+>  		return ERR_PTR(ret);
