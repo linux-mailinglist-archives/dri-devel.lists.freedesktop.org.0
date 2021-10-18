@@ -1,67 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DA7443125F
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Oct 2021 10:45:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D684431264
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Oct 2021 10:45:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E21C66E996;
-	Mon, 18 Oct 2021 08:44:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 037A26E997;
+	Mon, 18 Oct 2021 08:45:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com
- [IPv6:2607:f8b0:4864:20::52c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3DC126E996;
- Mon, 18 Oct 2021 08:44:55 +0000 (UTC)
-Received: by mail-pg1-x52c.google.com with SMTP id q5so15397028pgr.7;
- Mon, 18 Oct 2021 01:44:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=RLFGJuZJgWUVY4U6mJha8zCwNlw6HMzJ37ClSGBJiJ8=;
- b=S4aMvMzv4qhuo1RIfEwCgmVhgUT9qctduLgNd9z4RhiOANIRwFRKxr4KztDcd3CXLI
- zo4qSexhkzrDOUeWH/POgw6cZRfoZTqFwhZpPdG9Robo24DKJmz+WtR47yF+Yj27Z7FM
- ZiEAE3zUxW0w5GmF+sDhBU/YRB6aBQFOGzqKtBP2i9MY6nG6RIb/f4IzdPlnu4yUS+/p
- wqWLDLYidd209qo+aQfJ6J0AZDhQqdvTrXavn2LaZz1BRacTr/akIpOJ/Mm8WkG4vmXU
- a3ascL6Qd6apr5WjFgitmhOys+Bo79AMUBGxo2muCKXMREzJew+PRUDlZxi+LLu3s22l
- yMhg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=RLFGJuZJgWUVY4U6mJha8zCwNlw6HMzJ37ClSGBJiJ8=;
- b=PAYirLgts4juAi70A879BUL5tR5MKsJWm27tIHBp6tW+Fy16M0V4xUs/vZslIHLw1M
- nagSiyCCpnRcr4VXmxWxlaxkvFyiDJ4O2iyQ6zKM3uAnxKKkyMm0OOLkKgtpZSdPLNPA
- NNSBfwBWV3/CXtpGlSHfhul7lcH06RSsg8PU1qcghamKOlSQYDkkVroeziHn9aZef+NZ
- mqDYxFXzn1hSMLYp8F3doPk1Vv0zuM4DGd8jyAPk600jBSv3gNP3bHujkC0B04P6P8i9
- DxLD7bs7lbQ9acpSxBg4RKivxu70LAjyx5S4X5anApZ4Ff0fJVRYn0PDx/URCuEPtn7i
- 232w==
-X-Gm-Message-State: AOAM530YuVbgLH8z257LCNFpJZle6CKKwBM/KJTsqquIUYLm0wGjKxyX
- IVCr5GQnqEYAEOwTc+EwuEM=
-X-Google-Smtp-Source: ABdhPJyCH5ebeJ2zcvsojuYOfS6an39MajJegEfGG+qCyWV8nPF5MI+1ywJFCEFrBeo7Qe/ksxqLJw==
-X-Received: by 2002:a05:6a00:1148:b0:44d:2798:b08a with SMTP id
- b8-20020a056a00114800b0044d2798b08amr28522249pfm.2.1634546694934; 
- Mon, 18 Oct 2021 01:44:54 -0700 (PDT)
-Received: from localhost.localdomain ([193.203.214.57])
- by smtp.gmail.com with ESMTPSA id j6sm11961541pgq.0.2021.10.18.01.44.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Oct 2021 01:44:54 -0700 (PDT)
-From: luo penghao <cgel.zte@gmail.com>
-X-Google-Original-From: luo penghao <luo.penghao@zte.com.cn>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Stephen Rothwell <sfr@canb.auug.org.au>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, luo penghao <luo.penghao@zte.com.cn>,
- Zeal Robot <zealci@zte.com.cn>
-Subject: [PATCH linux-next] drm/i915/display: Remove unused variable in the
- for loop.
-Date: Mon, 18 Oct 2021 08:44:49 +0000
-Message-Id: <20211018084449.852251-1-luo.penghao@zte.com.cn>
-X-Mailer: git-send-email 2.25.1
+Received: from mail-4323.proton.ch (mail-4323.proton.ch [185.70.43.23])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F17C6E997
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Oct 2021 08:45:54 +0000 (UTC)
+Date: Mon, 18 Oct 2021 08:45:51 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail; t=1634546752;
+ bh=GxsgcId5Sw0Za4sYeKStskwVp9Dyj9SlMnDZAKBUjdk=;
+ h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
+ b=MsCAOreMNRRC7C5QcygebGwCCkLT/DXmFBxItpfQQpt0ditWYj0qvnZ+p/v90xhaI
+ oUCzGSQ3vw+HTobuKwejWujXE9fSNn1BiTL8snkjt5hzmTjlj+oeg4KuayDBuXqvzG
+ tof0Y2b6jq0D6j+UnLLvKwuK7Hf/WjTnRjX4MQLihe/mmFFfsCyoB/SCOzFbtkW8zt
+ 25j1Uwr4CJ/m9r2IbdDssp/eWcs4Lf+pIQgzMM0xnf9msQ90mXb1IkjNF8DbwEtoE7
+ fp4OZJHIH6/XvVuqSsJAjGKvMkuoE9RoXHcMhrmHqslYRuVwgNPeNBDeDQfVnnaM8E
+ mttOQAsOaWM6Q==
+To: Sam Ravnborg <sam@ravnborg.org>
+From: Simon Ser <contact@emersion.fr>
+Cc: dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v3 5/6] drm/probe-helper: use
+ drm_kms_helper_connector_hotplug_event
+Message-ID: <5MqPv-tuMML6L87dZ8hUeXQ9Ykf7D8GmhSmV9OLm0RFyS5cZyLM3sO-SQDbnuHcZYrK2OSyiyxuiDTefG9r_WanSV-EywsSHmmdhoKRu3qA=@emersion.fr>
+In-Reply-To: <YWnehSIgW1YOrOba@ravnborg.org>
+References: <20211015163336.95188-1-contact@emersion.fr>
+ <20211015163336.95188-6-contact@emersion.fr> <YWnehSIgW1YOrOba@ravnborg.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+ DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
+ autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+ mailout.protonmail.ch
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,47 +52,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: Simon Ser <contact@emersion.fr>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Variable is not used in the loop, and its assignment is redundant too.
-So it should be deleted.
+On Friday, October 15th, 2021 at 22:03, Sam Ravnborg <sam@ravnborg.org> wro=
+te:
 
-The clang_analyzer complains as follows:
+> This code is a little confusing to read.
+>
+> In case we have only one connector with a change we hit the else part.
+> What we really want to find out is if we have one or more connectors
+> with a change.
+> We could do something like:
+>
+> =09struct drm_connector *changed_connector =3D NULL;
+> =09int changes =3D 0;
+>
+>
+> =09...
+>
+> =09/* Find if we have one or more changed connectors */
+> =09drm_for_each_connector_iter(connector, &conn_iter) {
+> =09=09if (!(connector->polled & DRM_CONNECTOR_POLL_HPD))
+> =09=09=09continue;
+>
+> =09=09if (check_connector_changed(connector)) {
+> =09=09=09if (!changes) {
+> =09=09=09=09changed_connector =3D connector;
+> =09=09=09=09drm_connector_get(changed_connector);
+> =09=09=09}
+>
+> =09=09=09changes++;
+> =09=09}
+> =09}
+> =09drm_connector_list_iter_end(&conn_iter);
+> =09mutex_unlock(&dev->mode_config.mutex);
+>
+> =09if (changes =3D=3D 1)
+> =09=09drm_kms_helper_connector_hotplug_event(changed_connector);
+> =09else if (changes > 1)
+> =09=09drm_kms_helper_hotplug_event(dev);
+>
+> =09if (changed_connector)
+> =09=09drm_connector_put(changed_connector);
+>
+>
+> Maybe the only reason why I think this is better is bc I wrote it?!?
 
-drivers/gpu/drm/i915/display/intel_fb.c:1018:3 warning:
-
-Value stored to 'cpp' is never read.
-
-Reported-by: Zeal Robot <zealci@zte.com.cn>
-Signed-off-by: luo penghao <luo.penghao@zte.com.cn>
----
- drivers/gpu/drm/i915/display/intel_fb.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/display/intel_fb.c b/drivers/gpu/drm/i915/display/intel_fb.c
-index fa1f375..b9b6a7a 100644
---- a/drivers/gpu/drm/i915/display/intel_fb.c
-+++ b/drivers/gpu/drm/i915/display/intel_fb.c
-@@ -998,7 +998,7 @@ int intel_fill_fb_info(struct drm_i915_private *i915, struct intel_framebuffer *
- 	for (i = 0; i < num_planes; i++) {
- 		struct fb_plane_view_dims view_dims;
- 		unsigned int width, height;
--		unsigned int cpp, size;
-+		unsigned int size;
- 		u32 offset;
- 		int x, y;
- 		int ret;
-@@ -1015,7 +1015,7 @@ int intel_fill_fb_info(struct drm_i915_private *i915, struct intel_framebuffer *
- 				return -EINVAL;
- 		}
- 
--		cpp = fb->base.format->cpp[i];
-+		fb->base.format->cpp[i];
- 		intel_fb_plane_dims(fb, i, &width, &height);
- 
- 		ret = convert_plane_offset_to_xy(fb, i, width, &x, &y);
--- 
-2.15.2
-
-
+Ah, it's not just you, this version is much better. Thanks for the suggesti=
+on,
+will do that in the next version!
