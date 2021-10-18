@@ -1,46 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CC5A4313FA
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Oct 2021 12:01:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id ADE08431404
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Oct 2021 12:02:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C48196E9C9;
-	Mon, 18 Oct 2021 10:01:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 37D716E9CB;
+	Mon, 18 Oct 2021 10:02:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E28866E9C9;
- Mon, 18 Oct 2021 10:01:19 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10140"; a="208319091"
-X-IronPort-AV: E=Sophos;i="5.85,381,1624345200"; d="scan'208";a="208319091"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Oct 2021 03:00:11 -0700
-X-IronPort-AV: E=Sophos;i="5.85,381,1624345200"; d="scan'208";a="493521361"
-Received: from foboril-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.249.44.188])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Oct 2021 03:00:04 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Len Baker <len.baker@gmx.com>, Daniel Vetter <daniel@ffwll.ch>
-Cc: Len Baker <len.baker@gmx.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@linux.ie>,
- Kees Cook <keescook@chromium.org>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-hardening@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/i915: Prefer struct_size over open coded arithmetic
-In-Reply-To: <20211016111602.GA1996@titan>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20211003104258.18550-1-len.baker@gmx.com>
- <20211011092304.GA5790@titan> <87k0ihxj56.fsf@intel.com>
- <YWbIQmD1TGikpRm2@phenom.ffwll.local> <20211016111602.GA1996@titan>
-Date: Mon, 18 Oct 2021 13:00:01 +0300
-Message-ID: <877deatzz2.fsf@intel.com>
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD34D6E9CB
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Oct 2021 10:02:43 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 7CB9A1FD6D;
+ Mon, 18 Oct 2021 10:02:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1634551361; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=4LE2XnoDd93shSdXnFcB5mdAxtyex8WZOGCV661COJQ=;
+ b=qkaIxHgdf9rNQ6p7t2UyQgmjt4nOBjLTK+YjGf7iJOJ6K5XtdLTkyfv6pEzrco2nu3wtr7
+ ZP9yUguZ4CPANy1LlDirZCzoQulMBkziPX5XJjn+2fmCV58zKeq0qxD3fzLovgoIIMTzQz
+ xFSucLP+NrmhZvRfiOH545Ng5pamHgA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1634551361;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=4LE2XnoDd93shSdXnFcB5mdAxtyex8WZOGCV661COJQ=;
+ b=gdxufcHDp6xAV6EKnuzBDuAxjGxCABVtEVUW4yE5hSsuY6PT9X6jMCxGPmKZw8XUhHQsVH
+ dXlqAu2Xrdi+vEAA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 34F1C13CC9;
+ Mon, 18 Oct 2021 10:02:41 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id tIO6C0FGbWH+YwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Mon, 18 Oct 2021 10:02:41 +0000
+Message-ID: <87f347bf-801f-7fba-bb52-009367cd30a0@suse.de>
+Date: Mon, 18 Oct 2021 12:02:40 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH 1/6] drm: vkms: Replace the deprecated drm_mode_config_init
+Content-Language: en-US
+To: Igor Matheus Andrade Torrente <igormtorrente@gmail.com>,
+ rodrigosiqueiramelo@gmail.com, melissa.srw@gmail.com
+Cc: hamohammed.sa@gmail.com, daniel@ffwll.ch, airlied@linux.ie,
+ contact@emersion.fr, leandro.ribeiro@collabora.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ lkcamp@lists.libreplanetbr.org
+References: <20211005201637.58563-1-igormtorrente@gmail.com>
+ <20211005201637.58563-2-igormtorrente@gmail.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20211005201637.58563-2-igormtorrente@gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------BIiV4QcdVMhZMoK9nuGx1JYL"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,110 +78,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 16 Oct 2021, Len Baker <len.baker@gmx.com> wrote:
-> Hi Daniel and Jani,
->
-> On Wed, Oct 13, 2021 at 01:51:30PM +0200, Daniel Vetter wrote:
->> On Wed, Oct 13, 2021 at 02:24:05PM +0300, Jani Nikula wrote:
->> > On Mon, 11 Oct 2021, Len Baker <len.baker@gmx.com> wrote:
->> > > Hi,
->> > >
->> > > On Sun, Oct 03, 2021 at 12:42:58PM +0200, Len Baker wrote:
->> > >> As noted in the "Deprecated Interfaces, Language Features, Attributes,
->> > >> and Conventions" documentation [1], size calculations (especially
->> > >> multiplication) should not be performed in memory allocator (or similar)
->> > >> function arguments due to the risk of them overflowing. This could lead
->> > >> to values wrapping around and a smaller allocation being made than the
->> > >> caller was expecting. Using those allocations could lead to linear
->> > >> overflows of heap memory and other misbehaviors.
->> > >>
->> > >> In this case these are not actually dynamic sizes: all the operands
->> > >> involved in the calculation are constant values. However it is better to
->> > >> refactor them anyway, just to keep the open-coded math idiom out of
->> > >> code.
->> > >>
->> > >> So, add at the end of the struct i915_syncmap a union with two flexible
->> > >> array members (these arrays share the same memory layout). This is
->> > >> possible using the new DECLARE_FLEX_ARRAY macro. And then, use the
->> > >> struct_size() helper to do the arithmetic instead of the argument
->> > >> "size + count * size" in the kmalloc and kzalloc() functions.
->> > >>
->> > >> Also, take the opportunity to refactor the __sync_seqno and __sync_child
->> > >> making them more readable.
->> > >>
->> > >> This code was detected with the help of Coccinelle and audited and fixed
->> > >> manually.
->> > >>
->> > >> [1] https://www.kernel.org/doc/html/latest/process/deprecated.html#open-coded-arithmetic-in-allocator-arguments
->> > >>
->> > >> Signed-off-by: Len Baker <len.baker@gmx.com>
->> > >> ---
->> > >>  drivers/gpu/drm/i915/i915_syncmap.c | 12 ++++++++----
->> > >>  1 file changed, 8 insertions(+), 4 deletions(-)
->> > >
->> > > I received a mail telling that this patch doesn't build:
->> > >
->> > > == Series Details ==
->> > >
->> > > Series: drm/i915: Prefer struct_size over open coded arithmetic
->> > > URL   : https://patchwork.freedesktop.org/series/95408/
->> > > State : failure
->> > >
->> > > But it builds without error against linux-next (tag next-20211001). Against
->> > > which tree and branch do I need to build?
->> >
->> > drm-tip [1]. It's a sort of linux-next for graphics. I think there are
->> > still some branches that don't feed to linux-next.
->>
->> Yeah we need to get gt-next in linux-next asap. Joonas promised to send
->> out his patch to make that happen in dim.
->> -Daniel
->
-> Is there a possibility that you give an "Acked-by" tag? And then this patch
-> goes to the mainline through the Kees' tree or Gustavo's tree?
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------BIiV4QcdVMhZMoK9nuGx1JYL
+Content-Type: multipart/mixed; boundary="------------AjdwBHD0ODWd46YzR8rEggoa";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Igor Matheus Andrade Torrente <igormtorrente@gmail.com>,
+ rodrigosiqueiramelo@gmail.com, melissa.srw@gmail.com
+Cc: hamohammed.sa@gmail.com, daniel@ffwll.ch, airlied@linux.ie,
+ contact@emersion.fr, leandro.ribeiro@collabora.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ lkcamp@lists.libreplanetbr.org
+Message-ID: <87f347bf-801f-7fba-bb52-009367cd30a0@suse.de>
+Subject: Re: [PATCH 1/6] drm: vkms: Replace the deprecated
+ drm_mode_config_init
+References: <20211005201637.58563-1-igormtorrente@gmail.com>
+ <20211005201637.58563-2-igormtorrente@gmail.com>
+In-Reply-To: <20211005201637.58563-2-igormtorrente@gmail.com>
 
-If this does not apply to drm-intel-gt-next (or drm-tip), applying it to
-some other branch will just cause unnecessary conflicts later on. It's
-unnecessary extra work. It's not an urgent fix or anything, there is no
-reason to do that. So that's a NAK.
+--------------AjdwBHD0ODWd46YzR8rEggoa
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-> Or is it better to wait for drm-tip to update?
+SGkNCg0KQW0gMDUuMTAuMjEgdW0gMjI6MTYgc2NocmllYiBJZ29yIE1hdGhldXMgQW5kcmFk
+ZSBUb3JyZW50ZToNCj4gVGhlIGBkcm1fbW9kZV9jb25maWdfaW5pdGAgd2FzIGRlcHJlY2F0
+ZWQgc2luY2UgYzNiNzkwZSBjb21taXQsIGFuZCBpdCdzDQo+IGJlaW5nIHJlcGxhY2VkIGJ5
+IHRoZSBgZHJtbV9tb2RlX2NvbmZpZ19pbml0YC4NCj4gDQo+IFNpZ25lZC1vZmYtYnk6IEln
+b3IgTWF0aGV1cyBBbmRyYWRlIFRvcnJlbnRlIDxpZ29ybXRvcnJlbnRlQGdtYWlsLmNvbT4N
+Cj4gLS0tDQo+ICAgZHJpdmVycy9ncHUvZHJtL3ZrbXMvdmttc19kcnYuYyB8IDUgKysrKy0N
+Cj4gICAxIGZpbGUgY2hhbmdlZCwgNCBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pDQo+
+IA0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3ZrbXMvdmttc19kcnYuYyBiL2Ry
+aXZlcnMvZ3B1L2RybS92a21zL3ZrbXNfZHJ2LmMNCj4gaW5kZXggMGZmZTVmMGUzM2Y3Li44
+Mjg4Njg5MjA0OTQgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS92a21zL3ZrbXNf
+ZHJ2LmMNCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3ZrbXMvdmttc19kcnYuYw0KPiBAQCAt
+MTQwLDggKzE0MCwxMSBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IGRybV9tb2RlX2NvbmZpZ19o
+ZWxwZXJfZnVuY3Mgdmttc19tb2RlX2NvbmZpZ19oZWxwZXJzID0gew0KPiAgIHN0YXRpYyBp
+bnQgdmttc19tb2Rlc2V0X2luaXQoc3RydWN0IHZrbXNfZGV2aWNlICp2a21zZGV2KQ0KPiAg
+IHsNCj4gICAJc3RydWN0IGRybV9kZXZpY2UgKmRldiA9ICZ2a21zZGV2LT5kcm07DQo+ICsJ
+aW50IHJldCA9IGRybW1fbW9kZV9jb25maWdfaW5pdChkZXYpOw0KPiArDQo+ICsJaWYgKHJl
+dCA8IDApDQo+ICsJCXJldHVybiByZXQ7DQoNClRoZSBzdHlsZSBsb29rcyBhd2t3YXJkIElN
+SE8uIFJhdGhlciB1c2UNCg0KICBpbnQgcmV0DQoNCiAgcmV0ID0gZHJtbV9tb2RlX2NvbmZp
+Z19pbml0KCkNCiAgaWYgKHJldCkNCiAgICAgcmV0dXJuIHJldDsNCg0KPiAgIA0KPiAtCWRy
+bV9tb2RlX2NvbmZpZ19pbml0KGRldik7DQo+ICAgCWRldi0+bW9kZV9jb25maWcuZnVuY3Mg
+PSAmdmttc19tb2RlX2Z1bmNzOw0KPiAgIAlkZXYtPm1vZGVfY29uZmlnLm1pbl93aWR0aCA9
+IFhSRVNfTUlOOw0KPiAgIAlkZXYtPm1vZGVfY29uZmlnLm1pbl9oZWlnaHQgPSBZUkVTX01J
+TjsNCj4gDQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZl
+bG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KTWF4ZmVsZHN0
+ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBHZXJtYW55DQooSFJCIDM2ODA5LCBBRyBOw7xybmJl
+cmcpDQpHZXNjaMOkZnRzZsO8aHJlcjogRmVsaXggSW1lbmTDtnJmZmVyDQo=
 
-drm-tip is up to date, it's just that one of the branches that feed to
-it is (was?) not feeding to linux-next.
+--------------AjdwBHD0ODWd46YzR8rEggoa--
 
-If you're contributing to drm, please consider basing your patches on
-top of drm-tip.
+--------------BIiV4QcdVMhZMoK9nuGx1JYL
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
+-----BEGIN PGP SIGNATURE-----
 
-BR,
-Jani.
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmFtRkAFAwAAAAAACgkQlh/E3EQov+Dh
+HQ//YLBjCwEKcI6OxzPyUqGSxNmlKi8XR1TOPzGKT1rnTXzDdsBjdBWeaKc2qeJk5cnzWnr4HzY3
+Y/zOT/Vl3vV4MHc7x1rMtj11CaKEK6oXd42pwHAzDHRAcaHtvkK8Lyr+we7sHiFCpOrcNSxU1CYV
+R+q2VfL53QfLs24WdhQX3fZGoDcUiwYBVIFde4C9MdCb8PmTi/Bw1jGBmA+NUkSlfreQ4LG9y2GL
+7rZsCGiyUmDoBLzaX4ysLpiReNkRub/s4sdiZ6Lk8owpWq/KjIy/ii8D9vhVKvD32yj3WM1V7cOu
+harXm+FpSsTBFZuKwGxkW7cE1p9aPDgvU8bTPN8mgVLq++Bq29S7IE4aoWH4tG77CA5s/22HN6Xp
+Ivpr3+GupbRGxHPpxXVdKgKpZTIqcDl+cq8GuxlQtt3oyxTHO2I2Ab0Ig4kHqQrN0UEIEZ7VtBP3
+La+BMnfYKhFKt8BzrPajGeFEjlRWnclEXQ55sAYDLkxo46+czOwSwgO7+TD416sif3HAv9gtWVnT
++y3igEPG2wCY7LMDQD4Vh20SJtLGBcDNpEhB57b3udCwjiLu6b4NxHIASX69rw7IRBncnEwNrCSc
+6wN7ZrqrsUU0ri21azrCT7BcsAlotOQIjMa/EPH120IXl6iuFAmZ1v+wp8QhvYDVK+k5eZcVOkIw
+26w=
+=ft9+
+-----END PGP SIGNATURE-----
 
-
->
-> Regards,
-> Len
->
->>
->> >
->> > BR,
->> > Jani.
->> >
->> >
->> > [1] https://cgit.freedesktop.org/drm/drm-tip
->> >
->> >
->> > >
->> > > Regards,
->> > > Len
->> >
->> > --
->> > Jani Nikula, Intel Open Source Graphics Center
->>
->> --
->> Daniel Vetter
->> Software Engineer, Intel Corporation
->> http://blog.ffwll.ch
-
--- 
-Jani Nikula, Intel Open Source Graphics Center
+--------------BIiV4QcdVMhZMoK9nuGx1JYL--
