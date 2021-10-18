@@ -2,43 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D43C432683
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Oct 2021 20:35:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81A5C43267A
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Oct 2021 20:34:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D99ED6E0E8;
-	Mon, 18 Oct 2021 18:35:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6CF516EA5F;
+	Mon, 18 Oct 2021 18:34:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A73C6E0E8;
- Mon, 18 Oct 2021 18:35:50 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10141"; a="291807596"
-X-IronPort-AV: E=Sophos;i="5.85,382,1624345200"; d="scan'208";a="291807596"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Oct 2021 11:35:49 -0700
-X-IronPort-AV: E=Sophos;i="5.85,382,1624345200"; d="scan'208";a="573189490"
-Received: from unerlige-desk.amr.corp.intel.com (HELO
- unerlige-ril-10.165.21.208) ([10.165.21.208])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Oct 2021 11:35:49 -0700
-Date: Mon, 18 Oct 2021 11:35:44 -0700
-From: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- john.c.harrison@intel.com, daniel.vetter@ffwll.ch,
- Matthew Brost <matthew.brost@intel.com>
-Subject: Re: [PATCH 2/2] drm/i915/pmu: Connect engine busyness stats from GuC
- to pmu
-Message-ID: <20211018183544.GA10100@unerlige-ril-10.165.21.208>
-References: <20211015234705.12392-1-umesh.nerlige.ramappa@intel.com>
- <20211015234705.12392-2-umesh.nerlige.ramappa@intel.com>
- <2a31b713-e8ea-524b-f37c-976791a2ccc4@linux.intel.com>
+Received: from mail-oi1-x22a.google.com (mail-oi1-x22a.google.com
+ [IPv6:2607:f8b0:4864:20::22a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ADBA76EA65
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Oct 2021 18:34:30 +0000 (UTC)
+Received: by mail-oi1-x22a.google.com with SMTP id r6so1063519oiw.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Oct 2021 11:34:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=tKaMbG/HjQb1/sn/s5rHZFomdMxjFwW4dEMmTzlPHS8=;
+ b=yN/H6xPd86rnApymhFQ7SZ+78t8zzeTlEtB19Gx3zH0IOa4dPbQwLIRIQNZWtwER6B
+ CwNQeSs8aSPGiCcLbgXxlKofjNbexue2Wa7HzgsQBMJZiSj5QE/fYcW/zx6zWXp81K/z
+ HZCgN0yDcBV4adpjsuxpWsEaIwzLu+SZawX3fxx1kBBDMW+4ghExRu5an6pjh/6xWLcc
+ US2bDN/+VA26re2zGwmRVtn0tbIuHvC+7uToFpoVb3ppEfkMpJvo+1WbCPtQIitF+fZN
+ pyZlzBqnjrzaykZ2d9qf0ak0rgG+Pgzc6f+0eMYqTknVy+MTB8hv2peHKNC2lw3iPLPm
+ KnMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=tKaMbG/HjQb1/sn/s5rHZFomdMxjFwW4dEMmTzlPHS8=;
+ b=LN/Ycwb20UBgOjXAuwCB8JjpPfJcQ2QtEekpVG0M3HBc0jg0vEgqkg2PlMtSJJ/sb4
+ 2bnlGdqkBfNGvpARXxboU2j7mM2yePaz07BLujE2seFamhgaiAW7Y8HbQ55+Kdwv6fqP
+ NJRbZtKX9GyCzIofNGvBAMDvPtTu0dqye9DmlQfohj2JonGm063TkYhWbDEzGsmWMwwn
+ SxKbv/6axS4liHFvflo2msfdIsfsk40s5TkoUWH7zdKPg1sLoc+PTF8bXTSM8PQYxxEW
+ Nn1AmKORgcglOod7wOYi8ByBry2VwAvkMcOPwxel5+EG9+YRgglYQ4v3VZea+VS1EHUf
+ e1Sw==
+X-Gm-Message-State: AOAM531VGlO5rctBk1FwjfMN+B+K86ybShBEaTX1BnDRUHCQd/9c7lc5
+ EnWEMw+e/LMvHQqPazGY2KYxHQ==
+X-Google-Smtp-Source: ABdhPJzK20lcnPtdHXO77ypwnn+a88tKFbfx7sDYPV4ofif5vDe2lzQoPS9sWvyhKw8jWcUFjUIMTA==
+X-Received: by 2002:aca:b787:: with SMTP id h129mr484432oif.86.1634582069791; 
+ Mon, 18 Oct 2021 11:34:29 -0700 (PDT)
+Received: from ripper ([2600:1700:a0:3dc8:205:1bff:fec0:b9b3])
+ by smtp.gmail.com with ESMTPSA id o80sm3115568ota.68.2021.10.18.11.34.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 18 Oct 2021 11:34:29 -0700 (PDT)
+Date: Mon, 18 Oct 2021 11:36:16 -0700
+From: Bjorn Andersson <bjorn.andersson@linaro.org>
+To: abhinavk@codeaurora.org
+Cc: Rob Clark <robdclark@gmail.com>, Stephen Boyd <swboyd@chromium.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [Freedreno] [PATCH] drm/msm/dp: Move debugfs files into
+ subdirectory
+Message-ID: <YW2+oPIaVPO7QsqK@ripper>
+References: <20211015231702.1784254-1-bjorn.andersson@linaro.org>
+ <f72263e0d4c118653fff8b1341dc487b@codeaurora.org>
+ <YWxSWlRp+log+Trz@ripper>
+ <7a77045f4069a21305e5c3614a6739f0@codeaurora.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2a31b713-e8ea-524b-f37c-976791a2ccc4@linux.intel.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+In-Reply-To: <7a77045f4069a21305e5c3614a6739f0@codeaurora.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,153 +80,154 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Oct 18, 2021 at 08:58:01AM +0100, Tvrtko Ursulin wrote:
->
->
->On 16/10/2021 00:47, Umesh Nerlige Ramappa wrote:
->>With GuC handling scheduling, i915 is not aware of the time that a
->>context is scheduled in and out of the engine. Since i915 pmu relies on
->>this info to provide engine busyness to the user, GuC shares this info
->>with i915 for all engines using shared memory. For each engine, this
->>info contains:
->>
->>- total busyness: total time that the context was running (total)
->>- id: id of the running context (id)
->>- start timestamp: timestamp when the context started running (start)
->>
->>At the time (now) of sampling the engine busyness, if the id is valid
->>(!= ~0), and start is non-zero, then the context is considered to be
->>active and the engine busyness is calculated using the below equation
->>
->>	engine busyness = total + (now - start)
->>
->>All times are obtained from the gt clock base. For inactive contexts,
->>engine busyness is just equal to the total.
->>
->>The start and total values provided by GuC are 32 bits and wrap around
->>in a few minutes. Since perf pmu provides busyness as 64 bit
->>monotonically increasing values, there is a need for this implementation
->>to account for overflows and extend the time to 64 bits before returning
->>busyness to the user. In order to do that, a worker runs periodically at
->>frequency = 1/8th the time it takes for the timestamp to wrap. As an
->>example, that would be once in 27 seconds for a gt clock frequency of
->>19.2 MHz.
->>
->>Note:
->>There might be an overaccounting of busyness due to the fact that GuC
->>may be updating the total and start values while kmd is reading them.
->>(i.e kmd may read the updated total and the stale start). In such a
->>case, user may see higher busyness value followed by smaller ones which
->>would eventually catch up to the higher value.
->>
->>v2: (Tvrtko)
->>- Include details in commit message
->>- Move intel engine busyness function into execlist code
->>- Use union inside engine->stats
->>- Use natural type for ping delay jiffies
->>- Drop active_work condition checks
->>- Use for_each_engine if iterating all engines
->>- Drop seq locking, use spinlock at guc level to update engine stats
->>- Document worker specific details
->>
->>v3: (Tvrtko/Umesh)
->>- Demarcate guc and execlist stat objects with comments
->>- Document known over-accounting issue in commit
->>- Provide a consistent view of guc state
->>- Add hooks to gt park/unpark for guc busyness
->>- Stop/start worker in gt park/unpark path
->>- Drop inline
->>- Move spinlock and worker inits to guc initialization
->>- Drop helpers that are called only once
->>
->>v4: (Tvrtko/Matt/Umesh)
->>- Drop addressed opens from commit message
->>- Get runtime pm in ping, remove from the park path
->>- Use cancel_delayed_work_sync in disable_submission path
->>- Update stats during reset prepare
->>- Skip ping if reset in progress
->>- Explicitly name execlists and guc stats objects
->>- Since disable_submission is called from many places, move resetting
->>   stats to intel_guc_submission_reset_prepare
->>
->>v5: (Tvrtko)
->>- Add a trylock helper that does not sleep and synchronize PMU event
->>   callbacks and worker with gt reset
->>
->>v6: (CI BAT failures)
->>- DUTs using execlist submission failed to boot since __gt_unpark is
->>   called during i915 load. This ends up calling the guc busyness unpark
->>   hook and results in kiskstarting an uninitialized worker. Let
->>   park/unpark hooks check if guc submission has been initialized.
->>- drop cant_sleep() from trylock hepler since rcu_read_lock takes care
->>   of that.
->>
->>v7: (CI) Fix igt@i915_selftest@live@gt_engines
->>- For guc mode of submission the engine busyness is derived from gt time
->>   domain. Use gt time elapsed as reference in the selftest.
->>- Increase busyness calculation to 10ms duration to ensure batch runs
->>   longer and falls within the busyness tolerances in selftest.
->
->[snip]
->
->>diff --git a/drivers/gpu/drm/i915/gt/selftest_engine_pm.c b/drivers/gpu/drm/i915/gt/selftest_engine_pm.c
->>index 75569666105d..24358bef6691 100644
->>--- a/drivers/gpu/drm/i915/gt/selftest_engine_pm.c
->>+++ b/drivers/gpu/drm/i915/gt/selftest_engine_pm.c
->>@@ -234,6 +234,7 @@ static int live_engine_busy_stats(void *arg)
->>  		struct i915_request *rq;
->>  		ktime_t de, dt;
->>  		ktime_t t[2];
->>+		u32 gt_stamp;
->>  		if (!intel_engine_supports_stats(engine))
->>  			continue;
->>@@ -251,10 +252,16 @@ static int live_engine_busy_stats(void *arg)
->>  		ENGINE_TRACE(engine, "measuring idle time\n");
->>  		preempt_disable();
->>  		de = intel_engine_get_busy_time(engine, &t[0]);
->>-		udelay(100);
->>+		gt_stamp = intel_uncore_read(gt->uncore, GUCPMTIMESTAMP);
->>+		udelay(10000);
->>  		de = ktime_sub(intel_engine_get_busy_time(engine, &t[1]), de);
->>+		gt_stamp = intel_uncore_read(gt->uncore, GUCPMTIMESTAMP) - gt_stamp;
->>  		preempt_enable();
->>-		dt = ktime_sub(t[1], t[0]);
->>+
->>+		dt = intel_engine_uses_guc(engine) ?
->>+		     intel_gt_clock_interval_to_ns(engine->gt, gt_stamp) :
->>+		     ktime_sub(t[1], t[0]);
->
->But this then shows the thing might not work for external callers like 
->PMU who have no idea about GUCPMTIMESTAMP and cannot obtain it anyway.
->
->What is the root cause of the failure here, 100us or clock source? Is 
->the granularity of GUCPMTIMESTAMP perhaps simply too coarse for 100us 
->test period? I forget what frequency it runs at.
+On Mon 18 Oct 11:07 PDT 2021, abhinavk@codeaurora.org wrote:
 
-guc timestamp is ticking at 19.2 MHz in adlp/rkl (where I ran this).
+> Hi Bjorn
+> 
+> On 2021-10-17 09:42, Bjorn Andersson wrote:
+> > On Fri 15 Oct 16:53 PDT 2021, abhinavk@codeaurora.org wrote:
+> > 
+> > > On 2021-10-15 16:17, Bjorn Andersson wrote:
+> > > > In the cleanup path of the MSM DP driver the DP driver's debugfs files
+> > > > are destroyed by invoking debugfs_remove_recursive() on debug->root,
+> > > > which during initialization has been set to minor->debugfs_root.
+> > > >
+> > > > To allow cleaning up the DP driver's debugfs files either each dentry
+> > > > needs to be kept track of or the files needs to be put in a subdirectory
+> > > > which can be removed in one go.
+> > > >
+> > > > By choosing to put the debugfs files in a subdirectory, based on the
+> > > > name of the associated connector this also solves the problem that these
+> > > > names would collide as support for multiple DP instances are introduced.
+> > > >
+> > > > One alternative solution to the problem with colliding file names would
+> > > > have been to put keep track of the individual files and put them under
+> > > > the connector's debugfs directory. But while the drm_connector has been
+> > > > allocated, its associated debugfs directory has not been created at the
+> > > > time of initialization of the dp_debug.
+> > > >
+> > > > Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+> > > 
+> > > I have been thinking about this problem ever since multi-DP has been
+> > > posted
+> > > :)
+> > > Creating sub-directories seems right but at the moment it looks like
+> > > IGT
+> > > which
+> > > uses these debugfs nodes doesnt check sub-directories:
+> > > 
+> > > https://gitlab.freedesktop.org/drm/igt-gpu-tools/-/blob/master/tools/msm_dp_compliance.c#L215
+> > > 
+> > > It looks for the DP debugfs nodes under /sys/kernel/debug/dri/*/
+> > > 
+> > > We have to fix IGT too to be able to handle multi-DP cases. I will
+> > > try to
+> > > come up
+> > > with a proposal to address this.
+> > > 
+> > > Till then, can we go with the other solution to keep track of the
+> > > dentries?
+> > > 
+> > 
+> > I'm afraid I don't see what you're proposing.
+> > 
+> > Afaict we need one set of dp_test{type,active,data} per DP controller,
+> > so even doing this by keeping track of the dentries requires that we
+> > rename the files based on some identifier (id or connector name) - which
+> > will cause igt to break.
+> 
+> Yes, I also thought the same that there needs to be some identifier.
+> 
+> "To allow cleaning up the DP driver's debugfs files either each dentry
+> needs to be kept track of or the files needs to be put in a subdirectory
+> which can be removed in one go"
+> 
+> I guess I misunderstood your statement in the commit text thinking that you
+> had some other way to keep track of the dentries as it mentioned that
+> use a subdirectory OR keep track of each dentry.
+> 
 
-1)
-With 100us, often times I see that the batch has not yet started, so I 
-get busy time in the range 0 - 60 %. I increased the time such that the 
-batch runs long enough to make the scheduling time < 5%.
+No, I did write that code as well and then ditched it.
 
-2)
-I did a 100 runs on rkl/adlp. No failures on rkl. On adlp, I saw one in 
-25 runs show 93%/94% busyness for rcs0 and fail (expected is 95%). For 
-that I tried using the guc timestamp thinking it would provide more 
-accuracy. It did in my testing, but CI still failed for rkl-guc (110% 
-busyness!!), so now I just think we need to tweak the expected busyness 
-for guc.
+Unfortunately I don't think it would help you, because we still need to
+add some identifier to the file names and preferably we should add that
+to the single case as well to make things consistent.
 
-Is 1) acceptable?
+> > 
+> > As such, I think the practical path forward is that we merge the
+> > multi-DP series as currently proposed. This will not cause any issues on
+> > single-DP systems, but on multi-DP systems we will have warnings about
+> > duplicate debugfs entries in the kernel logs.
+> > 
+> > Then you can figure out how to rework igt to deal with the multiple DP
+> > instances and update the dp_debug interface accordingly.
+> > 
+> 
+> Fine with me, I will take care of this.
+> 
 
-For 2) I am thinking of just changing the expected busyness to 90% plus 
-for guc mode OR should we just let it fail occassionally? Thoughts?
+Cool, thanks.
 
-Thanks,
-Umesh
+Regards,
+Bjorn
 
->
->Regards,
->
->Tvrtko
+> > 
+> > Which also implies that we should hold this patch back. But if we go
+> > that path, I think we should fix dp_debug_deinit() so that it doesn't
+> > remove /sys/kernel/debug/dri/128 when the DP driver is unloaded.
+> Yes, lets hold this patch back till I fix multi-DP for IGT.
+> > 
+> > Regards,
+> > Bjorn
+> > 
+> > > > ---
+> > > >
+> > > > This depends on
+> > > > https://lore.kernel.org/linux-arm-msm/20211010030435.4000642-1-bjorn.andersson@linaro.org/
+> > > > reducing the connector from a double pointer.
+> > > >
+> > > >  drivers/gpu/drm/msm/dp/dp_debug.c | 15 +++++++++------
+> > > >  1 file changed, 9 insertions(+), 6 deletions(-)
+> > > >
+> > > > diff --git a/drivers/gpu/drm/msm/dp/dp_debug.c
+> > > > b/drivers/gpu/drm/msm/dp/dp_debug.c
+> > > > index da4323556ef3..67da4c69eca1 100644
+> > > > --- a/drivers/gpu/drm/msm/dp/dp_debug.c
+> > > > +++ b/drivers/gpu/drm/msm/dp/dp_debug.c
+> > > > @@ -210,26 +210,29 @@ static const struct file_operations
+> > > > test_active_fops = {
+> > > >  static int dp_debug_init(struct dp_debug *dp_debug, struct drm_minor
+> > > > *minor)
+> > > >  {
+> > > >  	int rc = 0;
+> > > > +	char path[64];
+> > > >  	struct dp_debug_private *debug = container_of(dp_debug,
+> > > >  			struct dp_debug_private, dp_debug);
+> > > >
+> > > > -	debugfs_create_file("dp_debug", 0444, minor->debugfs_root,
+> > > > +	snprintf(path, sizeof(path), "msm_dp-%s", debug->connector->name);
+> > > > +
+> > > > +	debug->root = debugfs_create_dir(path, minor->debugfs_root);
+> > > > +
+> > > > +	debugfs_create_file("dp_debug", 0444, debug->root,
+> > > >  			debug, &dp_debug_fops);
+> > > >
+> > > >  	debugfs_create_file("msm_dp_test_active", 0444,
+> > > > -			minor->debugfs_root,
+> > > > +			debug->root,
+> > > >  			debug, &test_active_fops);
+> > > >
+> > > >  	debugfs_create_file("msm_dp_test_data", 0444,
+> > > > -			minor->debugfs_root,
+> > > > +			debug->root,
+> > > >  			debug, &dp_test_data_fops);
+> > > >
+> > > >  	debugfs_create_file("msm_dp_test_type", 0444,
+> > > > -			minor->debugfs_root,
+> > > > +			debug->root,
+> > > >  			debug, &dp_test_type_fops);
+> > > >
+> > > > -	debug->root = minor->debugfs_root;
+> > > > -
+> > > >  	return rc;
+> > > >  }
