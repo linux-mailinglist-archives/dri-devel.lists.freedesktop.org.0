@@ -2,44 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D684431264
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Oct 2021 10:45:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDA8A431267
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Oct 2021 10:46:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 037A26E997;
-	Mon, 18 Oct 2021 08:45:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 550266E998;
+	Mon, 18 Oct 2021 08:46:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-4323.proton.ch (mail-4323.proton.ch [185.70.43.23])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F17C6E997
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Oct 2021 08:45:54 +0000 (UTC)
-Date: Mon, 18 Oct 2021 08:45:51 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail; t=1634546752;
- bh=GxsgcId5Sw0Za4sYeKStskwVp9Dyj9SlMnDZAKBUjdk=;
- h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
- b=MsCAOreMNRRC7C5QcygebGwCCkLT/DXmFBxItpfQQpt0ditWYj0qvnZ+p/v90xhaI
- oUCzGSQ3vw+HTobuKwejWujXE9fSNn1BiTL8snkjt5hzmTjlj+oeg4KuayDBuXqvzG
- tof0Y2b6jq0D6j+UnLLvKwuK7Hf/WjTnRjX4MQLihe/mmFFfsCyoB/SCOzFbtkW8zt
- 25j1Uwr4CJ/m9r2IbdDssp/eWcs4Lf+pIQgzMM0xnf9msQ90mXb1IkjNF8DbwEtoE7
- fp4OZJHIH6/XvVuqSsJAjGKvMkuoE9RoXHcMhrmHqslYRuVwgNPeNBDeDQfVnnaM8E
- mttOQAsOaWM6Q==
-To: Sam Ravnborg <sam@ravnborg.org>
-From: Simon Ser <contact@emersion.fr>
-Cc: dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v3 5/6] drm/probe-helper: use
- drm_kms_helper_connector_hotplug_event
-Message-ID: <5MqPv-tuMML6L87dZ8hUeXQ9Ykf7D8GmhSmV9OLm0RFyS5cZyLM3sO-SQDbnuHcZYrK2OSyiyxuiDTefG9r_WanSV-EywsSHmmdhoKRu3qA=@emersion.fr>
-In-Reply-To: <YWnehSIgW1YOrOba@ravnborg.org>
-References: <20211015163336.95188-1-contact@emersion.fr>
- <20211015163336.95188-6-contact@emersion.fr> <YWnehSIgW1YOrOba@ravnborg.org>
+Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com
+ [IPv6:2607:f8b0:4864:20::52b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 702C86E998
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Oct 2021 08:46:31 +0000 (UTC)
+Received: by mail-pg1-x52b.google.com with SMTP id j190so8666279pgd.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Oct 2021 01:46:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=g7PZP2ISph9TQ4xw8dB7G00aXCC5/0VQZsDe3MDN8ZE=;
+ b=P78sYk44DBNjIHNLAt4rwBJjCjmVPOLysvvJdmuHVotiJzsYuzVdBqU2Y+oXfuxCzi
+ Q2teeTgd7CJ8JDixb5tmsFM0B3lHWqmRtrvXv2eYAdHzS9olJ3LPc4Eo2hh4Br/AWkgW
+ p2PpLRc+5gnkqBLMd8JNnDqSSb5FAYVtOwndH+iBnngjJ+Whzjx6a/EyEpR0eb06wKX/
+ euajazvBJ2zubG1svWkzVcIgPBeqvu2QVU9vTPDKn88Uo1EiX7L9i1GzF0FOjH8/T1lf
+ KvfY69oveASkfWGhlQfWr2AabxIDRRtYK6k+234Ks66PBWJcqRGxiZJkWDOWrO62yQSB
+ 0Cjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=g7PZP2ISph9TQ4xw8dB7G00aXCC5/0VQZsDe3MDN8ZE=;
+ b=h/6LuONtmyukYI9+Xc42QVl3/NNd/KM3coP72Jn8aDwmybrs2IsgN+jnNPh/BxTfDh
+ CfaN19SafmXRxy5MdEdWGe4heFosnxsKarFNncspTOLAOKuG2i3qGSfO7colbCoeujpY
+ LqtTUJbAlmiAcmDWfrCw+8LwnikgH/4wZihQhe5ZMBYLoAMpvfBRuQFeffX2Y54x6wQq
+ olzTSl+Zm2RYmbNHC/N+KDG9EiUntZQ4oT24Yfg8nPed6mAFZzaC+57mCVCOYt51NPqC
+ nA7DuW6P6gsc656vZQF2cL1kxultBgPLAMBoGkndDVlVfcW5H4psI6xxIaJxHgpCuUsh
+ LqQA==
+X-Gm-Message-State: AOAM5330Yh/gX+aaILpB5OwVK1G8wYe84y30zTdcfzaaGFLJ0kK/Uvn8
+ T1rjbrpjxm/hjDKcgCkkNibdXLV2Me0=
+X-Google-Smtp-Source: ABdhPJwn4VzX/fLMC92QbpnUY1A5Gihe3g16vx7acyxaUHzD2HGDoydseq3EILrrlUgla9J4dB4zhA==
+X-Received: by 2002:aa7:90d2:0:b0:44c:e078:d6fb with SMTP id
+ k18-20020aa790d2000000b0044ce078d6fbmr27078896pfk.7.1634546791098; 
+ Mon, 18 Oct 2021 01:46:31 -0700 (PDT)
+Received: from localhost.localdomain ([193.203.214.57])
+ by smtp.gmail.com with ESMTPSA id kb10sm5249758pjb.18.2021.10.18.01.46.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 18 Oct 2021 01:46:30 -0700 (PDT)
+From: luo penghao <cgel.zte@gmail.com>
+X-Google-Original-From: luo penghao <luo.penghao@zte.com.cn>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Cc: luo penghao <luo.penghao@zte.com.cn>,
+	Zeal Robot <zealci@zte.com.cn>
+Subject: [PATCH linux-next] drm: Remove unused variable and its assignment.
+Date: Mon, 18 Oct 2021 08:46:25 +0000
+Message-Id: <20211018084625.852598-1-luo.penghao@zte.com.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
- DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
- autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
- mailout.protonmail.ch
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,54 +73,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Simon Ser <contact@emersion.fr>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Friday, October 15th, 2021 at 22:03, Sam Ravnborg <sam@ravnborg.org> wro=
-te:
+The assignment in these two places is meaningless, so it should be deleted.
 
-> This code is a little confusing to read.
->
-> In case we have only one connector with a change we hit the else part.
-> What we really want to find out is if we have one or more connectors
-> with a change.
-> We could do something like:
->
-> =09struct drm_connector *changed_connector =3D NULL;
-> =09int changes =3D 0;
->
->
-> =09...
->
-> =09/* Find if we have one or more changed connectors */
-> =09drm_for_each_connector_iter(connector, &conn_iter) {
-> =09=09if (!(connector->polled & DRM_CONNECTOR_POLL_HPD))
-> =09=09=09continue;
->
-> =09=09if (check_connector_changed(connector)) {
-> =09=09=09if (!changes) {
-> =09=09=09=09changed_connector =3D connector;
-> =09=09=09=09drm_connector_get(changed_connector);
-> =09=09=09}
->
-> =09=09=09changes++;
-> =09=09}
-> =09}
-> =09drm_connector_list_iter_end(&conn_iter);
-> =09mutex_unlock(&dev->mode_config.mutex);
->
-> =09if (changes =3D=3D 1)
-> =09=09drm_kms_helper_connector_hotplug_event(changed_connector);
-> =09else if (changes > 1)
-> =09=09drm_kms_helper_hotplug_event(dev);
->
-> =09if (changed_connector)
-> =09=09drm_connector_put(changed_connector);
->
->
-> Maybe the only reason why I think this is better is bc I wrote it?!?
+The clang_analyzer complains as follows:
 
-Ah, it's not just you, this version is much better. Thanks for the suggesti=
-on,
-will do that in the next version!
+drivers/gpu/drm/drm_crtc_helper.c:635:2 warning:
+Value stored to 'count' is never read.
+
+drivers/gpu/drm/drm_crtc_helper.c:681:2 warning:
+Value stored to 'count' is never read.
+
+Reported-by: Zeal Robot <zealci@zte.com.cn>
+Signed-off-by: luo penghao <luo.penghao@zte.com.cn>
+---
+ drivers/gpu/drm/drm_crtc_helper.c | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/drm_crtc_helper.c b/drivers/gpu/drm/drm_crtc_helper.c
+index bff9175..0e97e0a 100644
+--- a/drivers/gpu/drm/drm_crtc_helper.c
++++ b/drivers/gpu/drm/drm_crtc_helper.c
+@@ -632,7 +632,6 @@ int drm_crtc_helper_set_config(struct drm_mode_set *set,
+ 	}
+ 
+ 	/* a) traverse passed in connector list and get encoders for them */
+-	count = 0;
+ 	drm_connector_list_iter_begin(dev, &conn_iter);
+ 	drm_for_each_connector_iter(connector, &conn_iter) {
+ 		const struct drm_connector_helper_funcs *connector_funcs =
+@@ -678,7 +677,6 @@ int drm_crtc_helper_set_config(struct drm_mode_set *set,
+ 		goto fail;
+ 	}
+ 
+-	count = 0;
+ 	drm_connector_list_iter_begin(dev, &conn_iter);
+ 	drm_for_each_connector_iter(connector, &conn_iter) {
+ 		if (!connector->encoder)
+-- 
+2.15.2
+
+
+
