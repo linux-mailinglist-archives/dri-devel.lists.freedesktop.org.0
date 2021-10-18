@@ -1,76 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8D9A4327C9
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Oct 2021 21:37:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 805B44327CC
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Oct 2021 21:38:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6457F6EA60;
-	Mon, 18 Oct 2021 19:37:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0333B6EA61;
+	Mon, 18 Oct 2021 19:38:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com
- [IPv6:2607:f8b0:4864:20::1032])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE9056EA60
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Oct 2021 19:37:37 +0000 (UTC)
-Received: by mail-pj1-x1032.google.com with SMTP id
- ez7-20020a17090ae14700b001a132a1679bso245490pjb.0
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Oct 2021 12:37:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=intel-com.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=vcN/e9Q2mjWOnFTpFF8+nbpf301tV4lfvmN50Si5mpg=;
- b=38g+XN93W/PLq/Nexn/X8vXGCmM4WtMbeRf9TKHl4Ppsj4GJHBOwMyjyiCz98QBSLr
- o31EN+SyDgOHPAfxftOZxpOxuH0eJaSjfGbKMGZSg9P2ELIaE0VAakmTFBcqJ+aetP6t
- NjAiB5KnHHgXuv6B57ayt4SuV/hQ/UXGrFbevmi9ZnJherSgr4WK/Qe4Yd55rhHZKiQO
- I89WlzsDwvI5meoe80VV7ajAudpXN7A0WxmgFQuh+6HYUuoyP/0TkzoVGDMYzbivgVRG
- y7wjDezrYRE8vnELGW9ksbJQTPsu0kV9r79I12T5ISHLVcQDeo8mAqDDeoyMt+Lcuk3F
- MZJg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=vcN/e9Q2mjWOnFTpFF8+nbpf301tV4lfvmN50Si5mpg=;
- b=MGrCkDVdAivXwTw/fFiu39OO8Q2HWNgAijawE8cH9T4Lpc/Pot7nmbpUMUBH1oTJym
- ZQDRwbPM8vi40udVbcvfLQ4tpg2DYCtZNdoya1kTz1ERNVjIIdpc6EqRJ/mRLxbMIJnr
- jtD0em9U9wrVV4n0AZD4TSEsKtlMBZG5T9fFl7aKtqKQmUEHREk+CCD2ErLd9t4Hq09F
- 16/JUd88aiHU/hbGzV2O8fWaX+VaMAErNJyccmNOUtBNri3BYWbYnypLzqjjebUHyCwj
- 1M4dADugYww2ujRmjJ335r7q6ONKXN6CDLLR7FRmTd44re0/5YecmVSSp7blsp1mx7ii
- 70QQ==
-X-Gm-Message-State: AOAM533RHVmbbg0hUC6xSVATDLNQhnmaPmbn4rek2OTXXMKF32+UEMUf
- K1ydp8vSBbuPCvh5yRAwRRCG2n3tv7bTe5Hcnw0QGQ==
-X-Google-Smtp-Source: ABdhPJyFE9yWji3O4oSu/RuiAk4z6lxIzSSSytSMy4gnkcyUbGH1NVDJSqyiMSVcJ4yyecBDh5dF2zDhb6bddsIkbHE=
-X-Received: by 2002:a17:90b:350f:: with SMTP id
- ls15mr1002201pjb.220.1634585857145; 
- Mon, 18 Oct 2021 12:37:37 -0700 (PDT)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6ED1E6EA61
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Oct 2021 19:38:50 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 412EA6112D
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Oct 2021 19:38:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1634585930;
+ bh=+lafo2T6te+gWjhQBzL22he7ufSIIGdZoxOzENsqwDw=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=eGK0/TbLbnoujKvIEa7VC0lEMtD5yVvLFBOPN36A99fIZ7hmq0x98VGtd27xZH7Du
+ ATmX9rMY6Zt0qb+WTTG+dlMm+KKt6PGy6Luw0Kn8oWzUUb134EpgYPRs4YpjdIWnto
+ TnhfnoE1BSy87Md6OiSQoX/QIMWbCHiHVy2GUQ6i08Y+0DRCGItuhLx6jJXVafkxru
+ OoU3WyEuJT9WpfYfBrXasxPglRzW8TQaLiSYf5wtWVYj78AGV6Phqw7+IeItFFB7VT
+ Oo0QoKJ6YiMBdwKGmCPPboXW0p6oPbsFRuyVMkoMviZheBJ5rMjE9U2TLkAQhF/SGs
+ Oo7xETBNc90MQ==
+Received: by mail-ed1-f54.google.com with SMTP id y30so2687479edi.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Oct 2021 12:38:50 -0700 (PDT)
+X-Gm-Message-State: AOAM5325zTgUG7nC6ivf/X7WN4dhop/ayNByqVm3kL5QzbWPyhvV2V/7
+ W4VXFfzdzY1G1yR96sFTs7DeR0/KwFSiYboOAA==
+X-Google-Smtp-Source: ABdhPJzGdFAfWjzAMWuADPM5EPYzjfE9/sFvO9OlTDhrOb2mbL6H+KG2sXfvp8vOCsyn0d1W4fqaY0LBzO34Ejzirnc=
+X-Received: by 2002:a05:6402:1778:: with SMTP id
+ da24mr46194930edb.318.1634585925034; 
+ Mon, 18 Oct 2021 12:38:45 -0700 (PDT)
 MIME-Version: 1.0
-References: <20211014153928.16805-1-alex.sierra@amd.com>
- <20211014153928.16805-3-alex.sierra@amd.com>
- <20211014170634.GV2744544@nvidia.com> <YWh6PL7nvh4DqXCI@casper.infradead.org>
- <CAPcyv4hBdSwdtG6Hnx9mDsRXiPMyhNH=4hDuv8JZ+U+Jj4RUWg@mail.gmail.com>
- <20211014230606.GZ2744544@nvidia.com>
- <CAPcyv4hC4qxbO46hp=XBpDaVbeh=qdY6TgvacXRprQ55Qwe-Dg@mail.gmail.com>
- <20211016154450.GJ2744544@nvidia.com>
- <CAPcyv4j0kHREAOG6_07E2foz6e4FP8D72mZXH6ivsiUBu_8c6g@mail.gmail.com>
- <20211018182559.GC3686969@ziepe.ca>
-In-Reply-To: <20211018182559.GC3686969@ziepe.ca>
-From: Dan Williams <dan.j.williams@intel.com>
-Date: Mon, 18 Oct 2021 12:37:30 -0700
-Message-ID: <CAPcyv4jvZjeMcKLVuOEQ_gXRd87i3NUX5D=MmsJ++rWafnK-NQ@mail.gmail.com>
-Subject: Re: [PATCH v1 2/2] mm: remove extra ZONE_DEVICE struct page refcount
-To: Jason Gunthorpe <jgg@ziepe.ca>
-Cc: Matthew Wilcox <willy@infradead.org>, Alex Sierra <alex.sierra@amd.com>, 
- Andrew Morton <akpm@linux-foundation.org>, "Kuehling,
- Felix" <Felix.Kuehling@amd.com>, 
- Linux MM <linux-mm@kvack.org>, Ralph Campbell <rcampbell@nvidia.com>, 
- linux-ext4 <linux-ext4@vger.kernel.org>, linux-xfs <linux-xfs@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, 
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Christoph Hellwig <hch@lst.de>, 
- =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>, 
- Alistair Popple <apopple@nvidia.com>, Vishal Verma <vishal.l.verma@intel.com>, 
- Dave Jiang <dave.jiang@intel.com>, Linux NVDIMM <nvdimm@lists.linux.dev>, 
- David Hildenbrand <david@redhat.com>, Joao Martins <joao.m.martins@oracle.com>
+References: <20211011094624.3416029-1-msp@baylibre.com>
+ <20211011094624.3416029-3-msp@baylibre.com>
+ <YWTaJOXGgF2bHznv@robh.at.kernel.org> <20211018141908.fuevv2m66fw3xg36@blmsp>
+In-Reply-To: <20211018141908.fuevv2m66fw3xg36@blmsp>
+From: Rob Herring <robh@kernel.org>
+Date: Mon, 18 Oct 2021 14:38:33 -0500
+X-Gmail-Original-Message-ID: <CAL_Jsq+QwEPNEztD+yg-UO8gWf_X=E-n0_HMYJsGxteZAZparg@mail.gmail.com>
+Message-ID: <CAL_Jsq+QwEPNEztD+yg-UO8gWf_X=E-n0_HMYJsGxteZAZparg@mail.gmail.com>
+Subject: Re: [PATCH v4 2/7] dt-bindings: mediatek, dp: Add Display Port binding
+To: Markus Schneider-Pargmann <msp@baylibre.com>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>, 
+ Vinod Koul <vkoul@kernel.org>, Sam Ravnborg <sam@ravnborg.org>, 
+ dri-devel <dri-devel@lists.freedesktop.org>, 
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+ linux-phy@lists.infradead.org, devicetree@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -87,139 +66,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Oct 18, 2021 at 11:26 AM Jason Gunthorpe <jgg@ziepe.ca> wrote:
+On Mon, Oct 18, 2021 at 9:19 AM Markus Schneider-Pargmann
+<msp@baylibre.com> wrote:
 >
-> On Sun, Oct 17, 2021 at 11:35:35AM -0700, Dan Williams wrote:
+> Hi Rob,
 >
-> > > DAX is stuffing arrays of 4k pages into the PUD/PMDs. Aligning with
-> > > THP would make using normal refconting much simpler. I looked at
-> > > teaching the mm core to deal with page arrays - it is certainly
-> > > doable, but it is quite inefficient and ugly mm code.
-> >
-> > THP does not support PUD, and neither does FSDAX, so it's only PMDs we
-> > need to worry about.
->
-> device-dax uses PUD, along with TTM, they are the only places. I'm not
-> sure TTM is a real place though.
-
-I was setting device-dax aside because it can use Joao's changes to
-get compound-page support.
-
->
-> > > So, can we fix DAX and TTM - the only uses of PUD/PMDs I could find?
+> On Mon, Oct 11, 2021 at 07:43:16PM -0500, Rob Herring wrote:
+> > On Mon, Oct 11, 2021 at 11:46:19AM +0200, Markus Schneider-Pargmann wrote:
+> > > This controller is present on several mediatek hardware. Currently
+> > > mt8195 and mt8395 have this controller without a functional difference,
+> > > so only one compatible field is added.
 > > >
-> > > Joao has a series that does this to device-dax:
+> > > The controller can have two forms, as a normal display port and as an
+> > > embedded display port.
 > > >
-> > > https://lore.kernel.org/all/20210827145819.16471-1-joao.m.martins@oracle.com/
-> >
-> > That assumes there's never any need to fracture a huge page which
-> > FSDAX could not support unless the filesystem was built with 2MB block
-> > size.
->
-> As I understand things, something like FSDAX post-folio should
-> generate maximal compound pages for extents in the page cache that are
-> physically contiguous.
->
-> A high order folio can be placed in any lower order in the page
-> tables, so we never have to fracture it, unless the underlying page
-> are moved around - which requires an unmap_mapping_range() cycle..
-
-That would be useful to disconnect the compound-page size from the
-page-table-entry installed for the page. However, don't we need
-typical compound page fracturing in the near term until folios move
-ahead?
-
->
-> > > Assuming changing FSDAX is hard.. How would DAX people feel about just
-> > > deleting the PUD/PMD support until it can be done with compound pages?
-> >
-> > There are end users that would notice the PMD regression, and I think
-> > FSDAX PMDs with proper compound page metadata is on the same order of
-> > work as fixing the refcount.
->
-> Hmm, I don't know.. I sketched out the refcount stuff and the code is
-> OK but ugly and will add a conditional to some THP cases
-
-That reminds me that there are several places that do:
-
-pmd_devmap(pmd) || pmd_trans_huge(pmd)
-
-...for the common cases where a THP and DEVMAP page are equivalent,
-but there are a few places where those paths are not shared when the
-THP path expects that the page came from the page allocator. So while
-DEVMAP is not needed in GUP after this conversion, there still needs
-to be an audit of when THP needs to be careful of DAX mappings.
-
-> On the other hand, making THP unmap cases a bit slower is probably a
-> net win compared to making put_page a bit slower.. Considering unmap
-> is already quite heavy.
-
-FSDAX eventually learned how to replace 'struct page' with xarray for
-several paths, so "how hard could it be" (/famous last words) to
-replace xarray with 'struct page'? I think the end result will be
-cleaner, but yes, I expect some dragons in the conversion.
-
->
-> > > 4) Ask what the pgmap owner wants to do:
+> > > Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
+> > > ---
+> > >  .../display/mediatek/mediatek,dp.yaml         | 89 +++++++++++++++++++
+> > >  1 file changed, 89 insertions(+)
+> > >  create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml
 > > >
-> > >     if (head->pgmap->deny_foll_longterm)
-> > >           return FAIL
+> > > diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml
+> > > new file mode 100644
+> > > index 000000000000..f7a35962c23b
+> > > --- /dev/null
+> > > +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml
+> > > @@ -0,0 +1,89 @@
+> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > > +%YAML 1.2
+> > > +---
+> > > +$id: http://devicetree.org/schemas/display/mediatek/mediatek,dp.yaml#
+> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > +
+> > > +title: Mediatek Display Port Controller
+> > > +
+> > > +maintainers:
+> > > +  - CK Hu <ck.hu@mediatek.com>
+> > > +  - Jitao shi <jitao.shi@mediatek.com>
+> > > +
+> > > +description: |
+> > > +  Device tree bindings for the Mediatek (embedded) Display Port controller
+> > > +  present on some Mediatek SoCs.
+> > > +
+> > > +properties:
+> > > +  compatible:
+> > > +    enum:
+> > > +      - mediatek,mt8195-edp_tx
+> > > +      - mediatek,mt8195-dp_tx
 > >
-> > The pgmap itself does not know, but the "holder" could specify this
-> > policy.
+> > Are these blocks different?
 >
-> Here I imagine the thing that creates the pgmap would specify the
-> policy it wants. In most cases the policy is tightly coupled to what
-> the free function in the the provided dev_pagemap_ops does..
+> Good point, the registers of these blocks are described in its own
+> chapter each. Also I do need to distinguish between both in the driver.
+> Would you suggest making this distinction differently or keep it as two
+> compatibles?
 
-The thing that creates the pgmap is the device-driver, and
-device-driver does not implement truncate or reclaim. It's not until
-the FS mounts that the pgmap needs to start enforcing pin lifetime
-guarantees.
+If the registers are all the same, then it should be the same
+compatible. If you still need to distinguish, then you should have a
+panel or connector node that will let you do that.
 
->
-> > Which is in line with the 'dax_holder_ops' concept being introduced
-> > for reverse mapping support. I.e. when the FS claims the dax-device
-> > it can specify at that point that it wants to forbid longterm.
->
-> Which is a reasonable refinment if we think there are cases where two
-> nvdim users would want different things.
->
+Also, s/_/-/ in the compatible string.
 
-It's already the case that device-dax does not enforce transient pin lifetimes.
-
-> Anyhow, I'm wondering on a way forward. There are many balls in the
-> air, all linked:
->  - Joao's compound page support for device_dax and more
->  - Alex's DEVICE_COHERENT
-
-I have not seen these patches.
-
-/me notices no MAINTAINERS mention for include/linux/memremap.h
-
->  - The refcount normalization
->  - Removing the pgmap test from GUP
->  - Removing the need for the PUD/PMD/PTE special bit
->  - Removing the need for the PUD/PMD/PTE devmap bit
-
-It's not clear that this anything but pure cleanup once the special
-bit can be used for architectures that don't have devmap. Those same
-archs presumably don't care about the THP collisions with DAX.
-
->  - Remove PUD/PMD vma_is_special
->  - folios for fsdax
->  - shootdown for fsdax
->
-> Frankly I'm leery to see more ZONE_DEVICE users crop up that depend on
-> the current semantics as that will only make it even harder to fix..
->
-> I think it would be good to see Joao's compound page support move
-> ahead..
->
-> So.. Does anyone want to work on finishing this patch series?? I can
-> give some guidance on how I think it should work at least
-
-Completing the DAX reflink work is in my near term goals and that
-includes "shootdown for fsdax and removing the pgmap test from GUP",
-but probably not in the order that "refcount normalization" folks
-would prefer.
+Rob
