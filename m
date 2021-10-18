@@ -1,88 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 244D343264E
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Oct 2021 20:26:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D43C432683
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Oct 2021 20:35:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E51D6E0F2;
-	Mon, 18 Oct 2021 18:26:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D99ED6E0E8;
+	Mon, 18 Oct 2021 18:35:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x731.google.com (mail-qk1-x731.google.com
- [IPv6:2607:f8b0:4864:20::731])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F1036E0F2
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Oct 2021 18:26:01 +0000 (UTC)
-Received: by mail-qk1-x731.google.com with SMTP id g20so3860756qka.1
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Oct 2021 11:26:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=VWav6NFcp7Imar+k++zv5L6bzbFiMGeoi4IbLNr1qXk=;
- b=iulG1Hi/BWXnGHXIUJtE3Sch4DxTtHHGjYAbR7SgfDwl3Tc6og/olLkcCwEBbB2k6G
- IfgEoidJStEKIbj2It5DifRzrECL7P9NI1viyq+lBosbBqcDaY1Cx5CKvpaCMMtwcLaK
- LJk+g8GcJQ9MYUf7YDlnJqNpxqQtZJQQNHXot+kUflb9VL1jiqaRs9roMA774Pq07G8P
- z6MQINCUTuDZeMIbiJyaMaqTsUS5Xe2aLaKTMnNU2nVECI+IUQvATxqyqgKryVcE6Odi
- UPrSa/zR8XpvPyVh6RkKVjlgDcQlRQzheAMj9zSJ3nZtedo1kmeWigT4fsV71OfsmWN0
- 6Uxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=VWav6NFcp7Imar+k++zv5L6bzbFiMGeoi4IbLNr1qXk=;
- b=10lmqPz6ZMxM4FmRvapxVUpg9CJWquY+fbbcG782y9y9g/ZNkVE6KCTQqn/cZsPalv
- fMcucCPa50WASbU7z45macx+txwZ/oyChRobwyLwoeUOOKrMO9UN6++FCKm0i2L1Ezak
- roqmUgupVfTaz3naRDy/QK7bW2VCtsuPXUXM5fPYEUYvSC2sr9dlR5n1fEtWfmyzUhh/
- L2gOwQMVKW7bcQPepjiZEqSOlA7PS9iW0ya7XcOMbiFCY/0TLYGVVT1V5JJ3dqEw8/yE
- ydl+5YrnumWAZ7/W0Hjafem6GxcJb0YrY1QaTLTxtb/Ywl5ru4oasKfX6AK+/KOuaRl5
- iG+w==
-X-Gm-Message-State: AOAM5309U4rsLvu7W9alO7mrWyXUchYciVulZtWZBwkI1hNI+CCy6O62
- oXGropDaPFp9PkBbRmAgqzkjsw==
-X-Google-Smtp-Source: ABdhPJx0w5FpmLsv0LfpzJkRgNCEFvSTyhRWvN2OZSonMTzVl3H3jB0V5GZKEdNIQJ2jOwLftPxV7g==
-X-Received: by 2002:a05:620a:2947:: with SMTP id
- n7mr24141155qkp.60.1634581560548; 
- Mon, 18 Oct 2021 11:26:00 -0700 (PDT)
-Received: from ziepe.ca
- (hlfxns017vw-142-162-113-129.dhcp-dynamic.fibreop.ns.bellaliant.net.
- [142.162.113.129])
- by smtp.gmail.com with ESMTPSA id m195sm6853505qke.73.2021.10.18.11.25.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Oct 2021 11:25:59 -0700 (PDT)
-Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
- id 1mcXKh-00GLjg-2o; Mon, 18 Oct 2021 15:25:59 -0300
-Date: Mon, 18 Oct 2021 15:25:59 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Dan Williams <dan.j.williams@intel.com>
-Cc: Matthew Wilcox <willy@infradead.org>, Alex Sierra <alex.sierra@amd.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- "Kuehling, Felix" <Felix.Kuehling@amd.com>, Linux MM <linux-mm@kvack.org>,
- Ralph Campbell <rcampbell@nvidia.com>,
- linux-ext4 <linux-ext4@vger.kernel.org>,
- linux-xfs <linux-xfs@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Christoph Hellwig <hch@lst.de>,
- =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
- Alistair Popple <apopple@nvidia.com>,
- Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>,
- Linux NVDIMM <nvdimm@lists.linux.dev>,
- David Hildenbrand <david@redhat.com>,
- Joao Martins <joao.m.martins@oracle.com>
-Subject: Re: [PATCH v1 2/2] mm: remove extra ZONE_DEVICE struct page refcount
-Message-ID: <20211018182559.GC3686969@ziepe.ca>
-References: <20211014153928.16805-1-alex.sierra@amd.com>
- <20211014153928.16805-3-alex.sierra@amd.com>
- <20211014170634.GV2744544@nvidia.com>
- <YWh6PL7nvh4DqXCI@casper.infradead.org>
- <CAPcyv4hBdSwdtG6Hnx9mDsRXiPMyhNH=4hDuv8JZ+U+Jj4RUWg@mail.gmail.com>
- <20211014230606.GZ2744544@nvidia.com>
- <CAPcyv4hC4qxbO46hp=XBpDaVbeh=qdY6TgvacXRprQ55Qwe-Dg@mail.gmail.com>
- <20211016154450.GJ2744544@nvidia.com>
- <CAPcyv4j0kHREAOG6_07E2foz6e4FP8D72mZXH6ivsiUBu_8c6g@mail.gmail.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A73C6E0E8;
+ Mon, 18 Oct 2021 18:35:50 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10141"; a="291807596"
+X-IronPort-AV: E=Sophos;i="5.85,382,1624345200"; d="scan'208";a="291807596"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Oct 2021 11:35:49 -0700
+X-IronPort-AV: E=Sophos;i="5.85,382,1624345200"; d="scan'208";a="573189490"
+Received: from unerlige-desk.amr.corp.intel.com (HELO
+ unerlige-ril-10.165.21.208) ([10.165.21.208])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Oct 2021 11:35:49 -0700
+Date: Mon, 18 Oct 2021 11:35:44 -0700
+From: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ john.c.harrison@intel.com, daniel.vetter@ffwll.ch,
+ Matthew Brost <matthew.brost@intel.com>
+Subject: Re: [PATCH 2/2] drm/i915/pmu: Connect engine busyness stats from GuC
+ to pmu
+Message-ID: <20211018183544.GA10100@unerlige-ril-10.165.21.208>
+References: <20211015234705.12392-1-umesh.nerlige.ramappa@intel.com>
+ <20211015234705.12392-2-umesh.nerlige.ramappa@intel.com>
+ <2a31b713-e8ea-524b-f37c-976791a2ccc4@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Disposition: inline
-In-Reply-To: <CAPcyv4j0kHREAOG6_07E2foz6e4FP8D72mZXH6ivsiUBu_8c6g@mail.gmail.com>
+In-Reply-To: <2a31b713-e8ea-524b-f37c-976791a2ccc4@linux.intel.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,89 +54,153 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Oct 17, 2021 at 11:35:35AM -0700, Dan Williams wrote:
+On Mon, Oct 18, 2021 at 08:58:01AM +0100, Tvrtko Ursulin wrote:
+>
+>
+>On 16/10/2021 00:47, Umesh Nerlige Ramappa wrote:
+>>With GuC handling scheduling, i915 is not aware of the time that a
+>>context is scheduled in and out of the engine. Since i915 pmu relies on
+>>this info to provide engine busyness to the user, GuC shares this info
+>>with i915 for all engines using shared memory. For each engine, this
+>>info contains:
+>>
+>>- total busyness: total time that the context was running (total)
+>>- id: id of the running context (id)
+>>- start timestamp: timestamp when the context started running (start)
+>>
+>>At the time (now) of sampling the engine busyness, if the id is valid
+>>(!= ~0), and start is non-zero, then the context is considered to be
+>>active and the engine busyness is calculated using the below equation
+>>
+>>	engine busyness = total + (now - start)
+>>
+>>All times are obtained from the gt clock base. For inactive contexts,
+>>engine busyness is just equal to the total.
+>>
+>>The start and total values provided by GuC are 32 bits and wrap around
+>>in a few minutes. Since perf pmu provides busyness as 64 bit
+>>monotonically increasing values, there is a need for this implementation
+>>to account for overflows and extend the time to 64 bits before returning
+>>busyness to the user. In order to do that, a worker runs periodically at
+>>frequency = 1/8th the time it takes for the timestamp to wrap. As an
+>>example, that would be once in 27 seconds for a gt clock frequency of
+>>19.2 MHz.
+>>
+>>Note:
+>>There might be an overaccounting of busyness due to the fact that GuC
+>>may be updating the total and start values while kmd is reading them.
+>>(i.e kmd may read the updated total and the stale start). In such a
+>>case, user may see higher busyness value followed by smaller ones which
+>>would eventually catch up to the higher value.
+>>
+>>v2: (Tvrtko)
+>>- Include details in commit message
+>>- Move intel engine busyness function into execlist code
+>>- Use union inside engine->stats
+>>- Use natural type for ping delay jiffies
+>>- Drop active_work condition checks
+>>- Use for_each_engine if iterating all engines
+>>- Drop seq locking, use spinlock at guc level to update engine stats
+>>- Document worker specific details
+>>
+>>v3: (Tvrtko/Umesh)
+>>- Demarcate guc and execlist stat objects with comments
+>>- Document known over-accounting issue in commit
+>>- Provide a consistent view of guc state
+>>- Add hooks to gt park/unpark for guc busyness
+>>- Stop/start worker in gt park/unpark path
+>>- Drop inline
+>>- Move spinlock and worker inits to guc initialization
+>>- Drop helpers that are called only once
+>>
+>>v4: (Tvrtko/Matt/Umesh)
+>>- Drop addressed opens from commit message
+>>- Get runtime pm in ping, remove from the park path
+>>- Use cancel_delayed_work_sync in disable_submission path
+>>- Update stats during reset prepare
+>>- Skip ping if reset in progress
+>>- Explicitly name execlists and guc stats objects
+>>- Since disable_submission is called from many places, move resetting
+>>   stats to intel_guc_submission_reset_prepare
+>>
+>>v5: (Tvrtko)
+>>- Add a trylock helper that does not sleep and synchronize PMU event
+>>   callbacks and worker with gt reset
+>>
+>>v6: (CI BAT failures)
+>>- DUTs using execlist submission failed to boot since __gt_unpark is
+>>   called during i915 load. This ends up calling the guc busyness unpark
+>>   hook and results in kiskstarting an uninitialized worker. Let
+>>   park/unpark hooks check if guc submission has been initialized.
+>>- drop cant_sleep() from trylock hepler since rcu_read_lock takes care
+>>   of that.
+>>
+>>v7: (CI) Fix igt@i915_selftest@live@gt_engines
+>>- For guc mode of submission the engine busyness is derived from gt time
+>>   domain. Use gt time elapsed as reference in the selftest.
+>>- Increase busyness calculation to 10ms duration to ensure batch runs
+>>   longer and falls within the busyness tolerances in selftest.
+>
+>[snip]
+>
+>>diff --git a/drivers/gpu/drm/i915/gt/selftest_engine_pm.c b/drivers/gpu/drm/i915/gt/selftest_engine_pm.c
+>>index 75569666105d..24358bef6691 100644
+>>--- a/drivers/gpu/drm/i915/gt/selftest_engine_pm.c
+>>+++ b/drivers/gpu/drm/i915/gt/selftest_engine_pm.c
+>>@@ -234,6 +234,7 @@ static int live_engine_busy_stats(void *arg)
+>>  		struct i915_request *rq;
+>>  		ktime_t de, dt;
+>>  		ktime_t t[2];
+>>+		u32 gt_stamp;
+>>  		if (!intel_engine_supports_stats(engine))
+>>  			continue;
+>>@@ -251,10 +252,16 @@ static int live_engine_busy_stats(void *arg)
+>>  		ENGINE_TRACE(engine, "measuring idle time\n");
+>>  		preempt_disable();
+>>  		de = intel_engine_get_busy_time(engine, &t[0]);
+>>-		udelay(100);
+>>+		gt_stamp = intel_uncore_read(gt->uncore, GUCPMTIMESTAMP);
+>>+		udelay(10000);
+>>  		de = ktime_sub(intel_engine_get_busy_time(engine, &t[1]), de);
+>>+		gt_stamp = intel_uncore_read(gt->uncore, GUCPMTIMESTAMP) - gt_stamp;
+>>  		preempt_enable();
+>>-		dt = ktime_sub(t[1], t[0]);
+>>+
+>>+		dt = intel_engine_uses_guc(engine) ?
+>>+		     intel_gt_clock_interval_to_ns(engine->gt, gt_stamp) :
+>>+		     ktime_sub(t[1], t[0]);
+>
+>But this then shows the thing might not work for external callers like 
+>PMU who have no idea about GUCPMTIMESTAMP and cannot obtain it anyway.
+>
+>What is the root cause of the failure here, 100us or clock source? Is 
+>the granularity of GUCPMTIMESTAMP perhaps simply too coarse for 100us 
+>test period? I forget what frequency it runs at.
 
-> > DAX is stuffing arrays of 4k pages into the PUD/PMDs. Aligning with
-> > THP would make using normal refconting much simpler. I looked at
-> > teaching the mm core to deal with page arrays - it is certainly
-> > doable, but it is quite inefficient and ugly mm code.
-> 
-> THP does not support PUD, and neither does FSDAX, so it's only PMDs we
-> need to worry about.
+guc timestamp is ticking at 19.2 MHz in adlp/rkl (where I ran this).
 
-device-dax uses PUD, along with TTM, they are the only places. I'm not
-sure TTM is a real place though.
+1)
+With 100us, often times I see that the batch has not yet started, so I 
+get busy time in the range 0 - 60 %. I increased the time such that the 
+batch runs long enough to make the scheduling time < 5%.
 
-> > So, can we fix DAX and TTM - the only uses of PUD/PMDs I could find?
-> >
-> > Joao has a series that does this to device-dax:
-> >
-> > https://lore.kernel.org/all/20210827145819.16471-1-joao.m.martins@oracle.com/
-> 
-> That assumes there's never any need to fracture a huge page which
-> FSDAX could not support unless the filesystem was built with 2MB block
-> size.
+2)
+I did a 100 runs on rkl/adlp. No failures on rkl. On adlp, I saw one in 
+25 runs show 93%/94% busyness for rcs0 and fail (expected is 95%). For 
+that I tried using the guc timestamp thinking it would provide more 
+accuracy. It did in my testing, but CI still failed for rkl-guc (110% 
+busyness!!), so now I just think we need to tweak the expected busyness 
+for guc.
 
-As I understand things, something like FSDAX post-folio should
-generate maximal compound pages for extents in the page cache that are
-physically contiguous.
+Is 1) acceptable?
 
-A high order folio can be placed in any lower order in the page
-tables, so we never have to fracture it, unless the underlying page
-are moved around - which requires an unmap_mapping_range() cycle..
+For 2) I am thinking of just changing the expected busyness to 90% plus 
+for guc mode OR should we just let it fail occassionally? Thoughts?
 
-> > Assuming changing FSDAX is hard.. How would DAX people feel about just
-> > deleting the PUD/PMD support until it can be done with compound pages?
-> 
-> There are end users that would notice the PMD regression, and I think
-> FSDAX PMDs with proper compound page metadata is on the same order of
-> work as fixing the refcount.
+Thanks,
+Umesh
 
-Hmm, I don't know.. I sketched out the refcount stuff and the code is
-OK but ugly and will add a conditional to some THP cases
-
-On the other hand, making THP unmap cases a bit slower is probably a
-net win compared to making put_page a bit slower.. Considering unmap
-is already quite heavy.
-
-> > 4) Ask what the pgmap owner wants to do:
-> >
-> >     if (head->pgmap->deny_foll_longterm)
-> >           return FAIL
-> 
-> The pgmap itself does not know, but the "holder" could specify this
-> policy. 
-
-Here I imagine the thing that creates the pgmap would specify the
-policy it wants. In most cases the policy is tightly coupled to what
-the free function in the the provided dev_pagemap_ops does..
-
-> Which is in line with the 'dax_holder_ops' concept being introduced
-> for reverse mapping support. I.e. when the FS claims the dax-device
-> it can specify at that point that it wants to forbid longterm.
-
-Which is a reasonable refinment if we think there are cases where two
-nvdim users would want different things.
-
-Anyhow, I'm wondering on a way forward. There are many balls in the
-air, all linked:
- - Joao's compound page support for device_dax and more
- - Alex's DEVICE_COHERENT
- - The refcount normalization
- - Removing the pgmap test from GUP
- - Removing the need for the PUD/PMD/PTE special bit
- - Removing the need for the PUD/PMD/PTE devmap bit
- - Remove PUD/PMD vma_is_special
- - folios for fsdax
- - shootdown for fsdax
-
-Frankly I'm leery to see more ZONE_DEVICE users crop up that depend on
-the current semantics as that will only make it even harder to fix..
-
-I think it would be good to see Joao's compound page support move
-ahead..
-
-So.. Does anyone want to work on finishing this patch series?? I can
-give some guidance on how I think it should work at least
-
-Jason
+>
+>Regards,
+>
+>Tvrtko
