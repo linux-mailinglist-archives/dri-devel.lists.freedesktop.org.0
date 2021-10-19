@@ -1,49 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC82F433E24
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Oct 2021 20:10:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BE86433E2D
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Oct 2021 20:10:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 21B0289259;
-	Tue, 19 Oct 2021 18:09:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E56196E1BE;
+	Tue, 19 Oct 2021 18:10:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F09A89259;
- Tue, 19 Oct 2021 18:09:57 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10142"; a="208696114"
-X-IronPort-AV: E=Sophos;i="5.87,164,1631602800"; d="scan'208";a="208696114"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Oct 2021 11:09:57 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.87,164,1631602800"; d="scan'208";a="630077639"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
- by fmsmga001.fm.intel.com with SMTP; 19 Oct 2021 11:09:52 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Tue, 19 Oct 2021 21:09:52 +0300
-Date: Tue, 19 Oct 2021 21:09:52 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Lyude Paul <lyude@redhat.com>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- nouveau@lists.freedesktop.org, stable@vger.kernel.org,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Sean Paul <seanpaul@chromium.org>, open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v3 1/5] drm/i915: Add support for panels with VESA
- backlights with PWM enable/disable
-Message-ID: <YW8J8Nc7UJnISaVg@intel.com>
-References: <20211006024018.320394-1-lyude@redhat.com>
- <20211006024018.320394-2-lyude@redhat.com>
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com
+ [IPv6:2a00:1450:4864:20::329])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 116A96E1BE
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Oct 2021 18:10:45 +0000 (UTC)
+Received: by mail-wm1-x329.google.com with SMTP id
+ 63-20020a1c0042000000b0030d60716239so4465918wma.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Oct 2021 11:10:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=XkQbOoP/+0N5j4wytKxJfGYLSAuO1fbKKTQCyzqNEpc=;
+ b=ZAwL72nMvl8TZfTQepywrkwV7ioeJAUrEnyM2HrUBojS+OCkLHwmYwpHNbRIsSe5gI
+ P8UOh0ne0mxguVVlK/pF6AY8Jhjy+U8YpRBmmrYf6tAWPVEIJq8l4PWd4UH8dJg6IRWx
+ pM6B+9pfH8L7vnmRcoTgb7BoIu++BXvUPy1zlbbztIJgNtQD8X0FEd8j8iAylUV8zwUK
+ JTBQhMEmDw6X4D7N1NApqDNpCgNcHI/QWBwbYkdvYMHMB4gkxxXK984GMK1clGmk3ZdH
+ OoC7XJgno9aBIQdLpFV3ZB0NL09dAm8dFH7+CWd8ZNvS2eWKZDTUGK/0EDYu84UCdJvr
+ n3kw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=XkQbOoP/+0N5j4wytKxJfGYLSAuO1fbKKTQCyzqNEpc=;
+ b=gJyQFspskXbFD+YkClvMIQVPYjMINk3uoqBuuw/CUmIaXi0dZhiGxx2VOBUUkClp4q
+ XrkJILDcWM8KYI2XjFlaHNHsJGpj3WeJTy6uoklNu/qBW/oWKGIj9SGOIs0K1OPSJSQf
+ V+4vFbkLOy5bY/R89AbKppk1ij8q8yy50YMYk+UNuVoAy5Vy6Lol1JtPzsZL5hrSKMq1
+ lVv49YBB6YUcHaZvfSoO1+3ZCAL0FzUeuomAk6CfLnjWDAePDNdZVsrsDlgg0jlrb4dK
+ V/X//ukbzk9NspCxBTpiaizynSOwe0gPxpNc1HZnLPeM4C6Je9MUZ+FLBDuiclOWmQ4K
+ naEQ==
+X-Gm-Message-State: AOAM531tu6uGJL397RaFjp15of7K8tlwv13j7PV6S0WDi/MMcYR4TkQL
+ T9GyvWptQFcuWMzfDZpiQZs=
+X-Google-Smtp-Source: ABdhPJwDTK6c1LsA20fuK4Ogpi1SXUC1fvQIs3S0dKO9MfZhXz+PO+ZSWdQI8kQ/4/asgaInGjujKA==
+X-Received: by 2002:adf:bb81:: with SMTP id q1mr46649180wrg.119.1634667043622; 
+ Tue, 19 Oct 2021 11:10:43 -0700 (PDT)
+Received: from kista.localdomain (cpe-86-58-29-253.static.triera.net.
+ [86.58.29.253])
+ by smtp.gmail.com with ESMTPSA id 73sm2871763wmb.40.2021.10.19.11.10.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 19 Oct 2021 11:10:43 -0700 (PDT)
+From: Jernej Skrabec <jernej.skrabec@gmail.com>
+To: mripard@kernel.org,
+	wens@csie.org
+Cc: airlied@linux.ie, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>
+Subject: [PATCH] drm/sun4i: virtual CMA addresses are not needed
+Date: Tue, 19 Oct 2021 20:10:28 +0200
+Message-Id: <20211019181028.4190737-1-jernej.skrabec@gmail.com>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20211006024018.320394-2-lyude@redhat.com>
-X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,88 +74,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 05, 2021 at 10:40:14PM -0400, Lyude Paul wrote:
-> This simply adds proper support for panel backlights that can be controlled
-> via VESA's backlight control protocol, but which also require that we
-> enable and disable the backlight via PWM instead of via the DPCD interface.
-> We also enable this by default, in order to fix some people's backlights
-> that were broken by not having this enabled.
-> 
-> For reference, backlights that require this and use VESA's backlight
-> interface tend to be laptops with hybrid GPUs, but this very well may
-> change in the future.
-> 
-> Signed-off-by: Lyude Paul <lyude@redhat.com>
-> Link: https://gitlab.freedesktop.org/drm/intel/-/issues/3680
-> Fixes: fe7d52bccab6 ("drm/i915/dp: Don't use DPCD backlights that need PWM enable/disable")
-> Cc: <stable@vger.kernel.org> # v5.12+
-> ---
->  .../drm/i915/display/intel_dp_aux_backlight.c | 24 ++++++++++++++-----
->  1 file changed, 18 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
-> index 569d17b4d00f..594fdc7453ca 100644
-> --- a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
-> +++ b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
-> @@ -293,6 +293,10 @@ intel_dp_aux_vesa_enable_backlight(const struct intel_crtc_state *crtc_state,
->  	struct intel_panel *panel = &connector->panel;
->  	struct intel_dp *intel_dp = enc_to_intel_dp(connector->encoder);
->  
-> +	if (!panel->backlight.edp.vesa.info.aux_enable)
-> +		panel->backlight.pwm_funcs->enable(crtc_state, conn_state,
-> +						   panel->backlight.pwm_level_max);
+Driver never uses virtual address of DRM CMA buffers. Switch to CMA
+helpers which don't deal with virtual mapping.
 
-What't the story here with the non-inverted max vs. pontetially inverted
-0 in the counterpart?
+This was actually already the case before commit ad408c766cef
+("drm/sun4i: Use DRM_GEM_CMA_VMAP_DRIVER_OPS for GEM operations"),
+but only convenient macro at the time used helpers with virtual
+mapping.
 
-> +
->  	drm_edp_backlight_enable(&intel_dp->aux, &panel->backlight.edp.vesa.info, level);
->  }
->  
-> @@ -304,6 +308,10 @@ static void intel_dp_aux_vesa_disable_backlight(const struct drm_connector_state
->  	struct intel_dp *intel_dp = enc_to_intel_dp(connector->encoder);
->  
->  	drm_edp_backlight_disable(&intel_dp->aux, &panel->backlight.edp.vesa.info);
-> +
-> +	if (!panel->backlight.edp.vesa.info.aux_enable)
-> +		panel->backlight.pwm_funcs->disable(old_conn_state,
-> +						    intel_backlight_invert_pwm_level(connector, 0));
->  }
->  
->  static int intel_dp_aux_vesa_setup_backlight(struct intel_connector *connector, enum pipe pipe)
-> @@ -321,6 +329,15 @@ static int intel_dp_aux_vesa_setup_backlight(struct intel_connector *connector,
->  	if (ret < 0)
->  		return ret;
->  
-> +	if (!panel->backlight.edp.vesa.info.aux_enable) {
-> +		ret = panel->backlight.pwm_funcs->setup(connector, pipe);
-> +		if (ret < 0) {
-> +			drm_err(&i915->drm,
-> +				"Failed to setup PWM backlight controls for eDP backlight: %d\n",
-> +				ret);
-> +			return ret;
-> +		}
-> +	}
->  	panel->backlight.max = panel->backlight.edp.vesa.info.max;
->  	panel->backlight.min = 0;
->  	if (current_mode == DP_EDP_BACKLIGHT_CONTROL_MODE_DPCD) {
-> @@ -340,12 +357,7 @@ intel_dp_aux_supports_vesa_backlight(struct intel_connector *connector)
->  	struct intel_dp *intel_dp = intel_attached_dp(connector);
->  	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
->  
-> -	/* TODO: We currently only support AUX only backlight configurations, not backlights which
-> -	 * require a mix of PWM and AUX controls to work. In the mean time, these machines typically
-> -	 * work just fine using normal PWM controls anyway.
-> -	 */
-> -	if ((intel_dp->edp_dpcd[1] & DP_EDP_BACKLIGHT_AUX_ENABLE_CAP) &&
-> -	    drm_edp_backlight_supported(intel_dp->edp_dpcd)) {
-> +	if (drm_edp_backlight_supported(intel_dp->edp_dpcd)) {
->  		drm_dbg_kms(&i915->drm, "AUX Backlight Control Supported!\n");
->  		return true;
->  	}
-> -- 
-> 2.31.1
+Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+---
+ drivers/gpu/drm/sun4i/sun4i_drv.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/drivers/gpu/drm/sun4i/sun4i_drv.c b/drivers/gpu/drm/sun4i/sun4i_drv.c
+index 54dd562e294c..b630614b3d72 100644
+--- a/drivers/gpu/drm/sun4i/sun4i_drv.c
++++ b/drivers/gpu/drm/sun4i/sun4i_drv.c
+@@ -53,7 +53,7 @@ static const struct drm_driver sun4i_drv_driver = {
+ 	.minor			= 0,
+ 
+ 	/* GEM Operations */
+-	DRM_GEM_CMA_DRIVER_OPS_VMAP_WITH_DUMB_CREATE(drm_sun4i_gem_dumb_create),
++	DRM_GEM_CMA_DRIVER_OPS_WITH_DUMB_CREATE(drm_sun4i_gem_dumb_create),
+ };
+ 
+ static int sun4i_drv_bind(struct device *dev)
 -- 
-Ville Syrjälä
-Intel
+2.33.1
+
