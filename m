@@ -1,126 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53E75433C3C
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Oct 2021 18:30:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B01AD433C99
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Oct 2021 18:41:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 31F076E19C;
-	Tue, 19 Oct 2021 16:30:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3EEA26E116;
+	Tue, 19 Oct 2021 16:41:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2080.outbound.protection.outlook.com [40.107.93.80])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B65E76E198;
- Tue, 19 Oct 2021 16:30:50 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ELBwGwY6UzaeXepfjnkVhmxK5K9HkRqPB17jAUjlhLvk/Sq+sacqzz8/qI162rcbMFu3amyWrodaNWEuHxV1RbXvzmG61uqLkGWwf2Es4vHLtTQg5NSBtoTPgoReozDJg1kA77n/WhZ+5OuyukXMlGZINvZnqMiyqvyaExREBTgrW3b+LXzluubQLdjacY0W3YjtMuUbB5oH60C5/ws/JWaI46PcaLFtGFwsyvcO2sO+uNlzajHDrTf9TqqKwg4Xo1M2FsA2iDAXOejlT25ET5b1XubmCYYlb+XhbUyoeRRCWo5VSFe7yZ7gcMEQgA8+ynCxZUIYhQZyZ3zCi2FKrg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LxJ4PM3w+2xOxLtg73UaRmKeFxYV4e0IiJ1Ne9ariCY=;
- b=Mim6sYmx+E1WrVrJDCDxXm2+YEXqoe+gUAE7aC15Hsl5uAzNaYFTKy/XvIbRHgEejm/bQjhcbtIq3OHeujoiz0DDRykHZcFVtwKLph30hFTGNG4o87ooi5co/WTTgCEe9gnK+5ent51ecyePlC32mxazqOJs77Q+8MVEENE2d8YvzBS9105M4R3gZEYe+w3y/xPJMkt32Huy/itgQ03aqqu7kyfA9w8iz9F0Hb6NQ7Yk2v694/1y7jyPb99GVfl7MUcNVnnIFaE7u8vfIIDHjbfkEAn0rxLEqARxRZTOq/uZ6eSK+z41hwPy48Jsehp282YTQR9hsQZu2R0shSlRxQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LxJ4PM3w+2xOxLtg73UaRmKeFxYV4e0IiJ1Ne9ariCY=;
- b=vd0+fyga9CKYRU5tZG0ZYx6S9OJO627G1TuZi6R/SJfY+oqzRUewwQWfZQO1+qOikVWsABvWGuPo1Ri/G/V/jwlI2GPDXM/Jh0d5g5Kxi0ClL6B0eM2Y0vDMUXtK695kBrHM1L4ML2v0gQBeblE9+AytVZovKsCswhlFS4N3rVc=
-Authentication-Results: linux.intel.com; dkim=none (message not signed)
- header.d=none;linux.intel.com; dmarc=none action=none header.from=amd.com;
-Received: from DM5PR1201MB2491.namprd12.prod.outlook.com (2603:10b6:3:eb::23)
- by DM6PR12MB4265.namprd12.prod.outlook.com (2603:10b6:5:211::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4608.17; Tue, 19 Oct
- 2021 16:30:43 +0000
-Received: from DM5PR1201MB2491.namprd12.prod.outlook.com
- ([fe80::d153:3aa6:4677:e29]) by DM5PR1201MB2491.namprd12.prod.outlook.com
- ([fe80::d153:3aa6:4677:e29%7]) with mapi id 15.20.4608.018; Tue, 19 Oct 2021
- 16:30:43 +0000
-Subject: Re: [PATCH 12/28] drm/amdgpu: use new iterator in
- amdgpu_ttm_bo_eviction_valuable
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Cc: linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- tvrtko.ursulin@linux.intel.com
-References: <20211005113742.1101-1-christian.koenig@amd.com>
- <20211005113742.1101-13-christian.koenig@amd.com>
- <YWboMfLOIjl1l7tF@phenom.ffwll.local>
- <a0a926a7-13d0-b996-5f32-36aa6d74165e@gmail.com>
-From: Felix Kuehling <felix.kuehling@amd.com>
-Message-ID: <c18a4c91-93b4-79ed-0907-84adb29761d8@amd.com>
-Date: Tue, 19 Oct 2021 12:30:40 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
-In-Reply-To: <a0a926a7-13d0-b996-5f32-36aa6d74165e@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-ClientProxiedBy: YT1PR01CA0099.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:2c::8) To DM5PR1201MB2491.namprd12.prod.outlook.com
- (2603:10b6:3:eb::23)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4AF756E116
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Oct 2021 16:41:17 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 03E4261057
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Oct 2021 16:41:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1634661677;
+ bh=OlLlrSJRPHqLZ3jdGW67alelpz0SnuZhAJdBf72bk4g=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=otVMVoM8EuuZgbH1ENR5BuCTcVNCIIdnHu7ydYNrg+jNcRpBebX+H5EwLpyZ1CKH+
+ uqaqpBgsG65I5Oqft0SVZUqgolcCSsd92CQCH27wN0peHQxHGymZojbckAj9T0CEqX
+ w9PzMHuJKAbOuWWjdO8NF4DrQzssY8N7eMdcbZtxThNvbJGswp8LXC48k+Q94IJF/K
+ UB0ff6z8IpmmNE08eQ9FU2pb4sRoWQKybzYhpsypdb3sAJzX5mCYmPfwzKoWMfPM/t
+ z2av2r0x83HMNhhvTUNp4fJP5GTzgnQ1zVPweX0QzfGTfK75DxUs4WiglaYaRQ5Q93
+ WYn6w8/+EvdzA==
+Received: by mail-ed1-f53.google.com with SMTP id 5so14605745edw.7
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Oct 2021 09:41:16 -0700 (PDT)
+X-Gm-Message-State: AOAM530sQ9ocnmnqZVVVSYT8rijeDPSwDNVfN8LeTZelXXXMAhr6ibKT
+ iNnMf9PSjEgdeSxUgETJ2HcuKF6bcZXl8QuRDw==
+X-Google-Smtp-Source: ABdhPJwM+rDzx8ww34OXCf2M+FE05K5uvyfKkjsJHDwlIHPC6fgV8Y3C3y0DYP2UxjFKdR5O9LxdXSq1or3ro8WXy9M=
+X-Received: by 2002:a50:9d49:: with SMTP id j9mr54169345edk.39.1634661503620; 
+ Tue, 19 Oct 2021 09:38:23 -0700 (PDT)
 MIME-Version: 1.0
-Received: from [192.168.2.100] (142.118.126.231) by
- YT1PR01CA0099.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:2c::8) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4628.15 via Frontend Transport; Tue, 19 Oct 2021 16:30:42 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: b716448e-00af-488b-8bf8-08d9931dcb8d
-X-MS-TrafficTypeDiagnostic: DM6PR12MB4265:
-X-Microsoft-Antispam-PRVS: <DM6PR12MB4265ED10CED6FB0F5484D24692BD9@DM6PR12MB4265.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: u30dx3u18H3GfMtKoF1R5Ooc19TD9tCCaNh7s+I2awPPs2nzg7yYjWuyAOjjKW/roSq65I/E3L0o7Yutqc9T9hGJZnRZTLuWI2iIDRGOFXWN5SBfEiICTgdmyuGyvkLj7eD4WbkKauTPdNNlM9qWmGJN4giVXVC0pZSyIDGsbARCWay8kXur+J08k/8UUgMVtNLOe0K+KtQtHWONVSkpzFiO6Rmd58j6MEtIXBqiqYtaDc3zySyjtHxsjUzFjnZS9E9+azB/NqIvghs1rTSDrUbiZghxVwtku/Y0kEFmowIuE0/oqLuYP5G/rzHUhozxncysVzCF4vQh5jlHygt6VoYyDsJtpfZDgCBPv8DiZS19HeFORvrK8tgoIg+72cCqL7r3kjGkocnF//sZOEGVLskiK6F9YN+bi3CE369mntZxEqwnN7zsNZbZ2B8rqxCRbKNWxoqw3/VPXx6+iIf1VizZo/Hbh78t0fb7hGRS2XralVk8JHVCBqdIpV/yhzWJZiZqjogVInrtXpL+tpJGsoNVfInb5osueY1VHVpijU7HpYwY/TcPV3EqpjV6cunm8kstc+KE3ZD+opSunLDmQpWgoHbUoeZB0MNZDaca1AeDoEx4zjoG2AXvTGkvCot4ix5sqWMKddWSYeBwYQYFCdOusVgQzIX8fLE3TBAwUXA1L7ViOH5yyiA7UMrrjXemPy/GskGM5DRoKFknK8CQHDou8LTKDbAp6kGvbVzQ8F0MZ2hRYEm02ZD1xIKiTV3t
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM5PR1201MB2491.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(5660300002)(4001150100001)(66946007)(31686004)(4326008)(38100700002)(26005)(44832011)(6486002)(83380400001)(66476007)(66556008)(86362001)(8676002)(2616005)(31696002)(16576012)(316002)(8936002)(36756003)(508600001)(956004)(186003)(110136005)(2906002)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Ri9aaFpkZC9ZLzlDOTlOMlh6ZFRTL2JWcUtHM3VIWkh4UFRpRmlOdDRnVmk4?=
- =?utf-8?B?eWU1M0NlN3AxaU44UlQ3VGZJdWJLcXBmbTlRVmFETGVjbVh4aU9kYXQycTVq?=
- =?utf-8?B?QUYzQmJpRldUbnVSVENpYjg1djZmTDAwU05Gd0Q2UWQ1eGZkRkVKTnRrZCtx?=
- =?utf-8?B?dUpHcDdkNDYxKzFkR2ZqWDIra1dKMmFRSzE1ZlVUYTR3L0diQythQjdKVlpZ?=
- =?utf-8?B?UEcvN1U4akNtb2g3dndHMlV4OVQ3cHZiQ2ZIRjN4ODhqV1B2RVovRythTVpL?=
- =?utf-8?B?djlBUmZkQkZGVzFscDZ1bDhJS3VYMHhkZVlHYmZ4WmJudUZsUURVcGViQU1w?=
- =?utf-8?B?TjdYT3YzemZlRXZ6OFNlRmMrNDk2NlZVZVE1OFZYRHNGbkF1cC9qOWZocGdn?=
- =?utf-8?B?ZlRRYzFRbVMrS3hYSUNyNG9yYVROY2tWTGdZRnpGNU9Xcmo1N3gzNmlleUZS?=
- =?utf-8?B?azRwRFhlYnNGZjgzVTBNcTJPeEQ4THdlNThYZEk1eGJxaUF0SklXYVBPSnVC?=
- =?utf-8?B?NkFTbDR2TlVnSXZ6aWJ1WERKZ3dxM09Kd0FCTUYzZGRrM3FkRkFSQW9TQmI0?=
- =?utf-8?B?NlZhRmxmRC9kdDlwRUpLOTRyYVdTa0V5aC9uamVmeGlabGx3c2VUOXhiQ1dm?=
- =?utf-8?B?QUxPMmFlMUtzbFA0WDRVU0g2QmJLT0dGbDlEYTFVaGN1NnF3c1hhaGtiaEc0?=
- =?utf-8?B?WXhFd1dkVHBWYm1ENlVBMEU2R0F0UmJLcHhtNmpVRjEyY0FUaFk4Q2FTc1lm?=
- =?utf-8?B?VzdUSUFyOXhoc0ljbDdWMGx6c3dQSmlpQlUrRWJUT000Qmg3T1oweEoySko0?=
- =?utf-8?B?SFNXaVRyNzFQNUx0a0lWc2ZRYVNIMzZZWHdlaE1yYXcvWWd2WXZiWEY1WlJp?=
- =?utf-8?B?TUFHZStaMWFaL0RlcWJWQVF1TXhUdEdqSlNjM0FKelhZc0Z6VUZtMzE5QjRM?=
- =?utf-8?B?REpjOHBWdlNWd3ZORTdPSEh3Q1l2M2hTSFRZRGplVFpUbzBZWG5jQ1dJK2Ju?=
- =?utf-8?B?TmlOdmlpZHRHMEFiWGFiZXFhOEJ3YXJuazA5Z2hrOXhtMTZ2Y3lONjlCUDVm?=
- =?utf-8?B?SXlvNURqc1JMVEJLV3ZlK1dkbENHVmw3cWQ0anVKL24wbjFMNDFZMnNkcHNv?=
- =?utf-8?B?NUFnWUhPT2Ewb1Zxdk1xUVhXR3RpQWd0cmRjelFxLy9NNDR5eE8ydTdKMkhj?=
- =?utf-8?B?aTZkTi8zZ0JqUFN0Ymd0SHF1RWtXR1JBcXFvNlJ4elF2Um5ZTWhLQTJKT2p0?=
- =?utf-8?B?SkNyWjZSUlg3dXhnRWdyVU83ckN4MWpIUlFJZUhRSzVCOTlleTdpQ1pCYUNG?=
- =?utf-8?B?dnhuMXE4TkZvR3dhMXZoM0JXemd6MldLOERCbWJDMTFzNFU4enltbXNPaFhY?=
- =?utf-8?B?WmlrUjI4a09WNjFzTmVsQXE0WXVlZ3BuWnBDcWlseFpWR2E0c1lmY2c5RWRC?=
- =?utf-8?B?TzcvSmdJUUhwNFFWTDFib0R2VWRZckxnTWRpWis5Uk0yNUxQaFdKZytTeVBp?=
- =?utf-8?B?SmJqaDNaMXZHTHZWclk3OSswTG5vTVFSd0JrZi9uWG1KeDlwVzlhM3ZvRk0x?=
- =?utf-8?B?ajFac25tS3pJQ00zN3dkZm1NZkI4ajBCYzBhYWpuRzFnR2lKTHZoM1JFczVF?=
- =?utf-8?B?OEpMa2t5dUNGdjJtZ21kSlZvQ3FnVDZwSUdiOVRCdkRwYUhiRHlsbDVFbTBQ?=
- =?utf-8?B?VGQrS1Q2c2p3ZGJ6TjFBUmE3dUVJOXJ4T1hXemFzZW51SEtkM3AxRmM2UHZY?=
- =?utf-8?B?QmU0MjhMWCtReTVXMVhYenRlRmFjZkY0cWc3Z1ZSWjhVTEdhVVVGSGUzOC9o?=
- =?utf-8?B?Nk92TGs1dHZBQU9ab1FmQT09?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b716448e-00af-488b-8bf8-08d9931dcb8d
-X-MS-Exchange-CrossTenant-AuthSource: DM5PR1201MB2491.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Oct 2021 16:30:43.1380 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /3ftIQZ1VCKMHPMjp1yvaOElHNdUCAU6NFligJGhdmEb4DTDuUtuskRnjtdgVT07kKMMa8FpZViLR2gmJ28CWw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4265
+References: <20211004062140.29803-1-nancy.lin@mediatek.com>
+ <20211004062140.29803-12-nancy.lin@mediatek.com>
+In-Reply-To: <20211004062140.29803-12-nancy.lin@mediatek.com>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Wed, 20 Oct 2021 00:38:12 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_9sqVj4FAbrzpwYKoVhZ-o56-a3oqFmm0JQSAhCJpf5pA@mail.gmail.com>
+Message-ID: <CAAOTY_9sqVj4FAbrzpwYKoVhZ-o56-a3oqFmm0JQSAhCJpf5pA@mail.gmail.com>
+Subject: Re: [PATCH v6 11/16] drm/mediatek: add display MDP RDMA support for
+ MT8195
+To: "Nancy.Lin" <nancy.lin@mediatek.com>
+Cc: CK Hu <ck.hu@mediatek.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@linux.ie>, 
+ Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, 
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ "jason-jh . lin" <jason-jh.lin@mediatek.com>, 
+ Yongqiang Niu <yongqiang.niu@mediatek.com>, 
+ DRI Development <dri-devel@lists.freedesktop.org>, 
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ DTML <devicetree@vger.kernel.org>, 
+ linux-kernel <linux-kernel@vger.kernel.org>, 
+ Linux ARM <linux-arm-kernel@lists.infradead.org>, singo.chang@mediatek.com, 
+ srv_heupstream <srv_heupstream@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -136,75 +71,469 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 2021-10-19 um 7:36 a.m. schrieb Christian König:
-> Am 13.10.21 um 16:07 schrieb Daniel Vetter:
->> On Tue, Oct 05, 2021 at 01:37:26PM +0200, Christian König wrote:
->>> Simplifying the code a bit.
->>>
->>> Signed-off-by: Christian König <christian.koenig@amd.com>
->>> ---
->>>   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 14 ++++----------
->>>   1 file changed, 4 insertions(+), 10 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
->>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
->>> index e8d70b6e6737..722e3c9e8882 100644
->>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
->>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
->>> @@ -1345,10 +1345,9 @@ static bool
->>> amdgpu_ttm_bo_eviction_valuable(struct ttm_buffer_object *bo,
->>>                           const struct ttm_place *place)
->>>   {
->>>       unsigned long num_pages = bo->resource->num_pages;
->>> +    struct dma_resv_iter resv_cursor;
->>>       struct amdgpu_res_cursor cursor;
->>> -    struct dma_resv_list *flist;
->>>       struct dma_fence *f;
->>> -    int i;
->>>         /* Swapout? */
->>>       if (bo->resource->mem_type == TTM_PL_SYSTEM)
->>> @@ -1362,14 +1361,9 @@ static bool
->>> amdgpu_ttm_bo_eviction_valuable(struct ttm_buffer_object *bo,
->>>        * If true, then return false as any KFD process needs all its
->>> BOs to
->>>        * be resident to run successfully
->>>        */
->>> -    flist = dma_resv_shared_list(bo->base.resv);
->>> -    if (flist) {
->>> -        for (i = 0; i < flist->shared_count; ++i) {
->>> -            f = rcu_dereference_protected(flist->shared[i],
->>> -                dma_resv_held(bo->base.resv));
->>> -            if (amdkfd_fence_check_mm(f, current->mm))
->>> -                return false;
->>> -        }
->>> +    dma_resv_for_each_fence(&resv_cursor, bo->base.resv, true, f) {
->>                                 ^false?
->>
->> At least I'm not seeing the code look at the exclusive fence here.
->
-> Yes, but that's correct. We need to look at all potential fences.
+Hi, Nancy:
 
-amdkfd_fence_check_mm is only meaningful for KFD eviction fences, and
-they are always added as shared fences. I think setting all_fences =
-false would return only the exclusive fence.
+Nancy.Lin <nancy.lin@mediatek.com> =E6=96=BC 2021=E5=B9=B410=E6=9C=884=E6=
+=97=A5 =E9=80=B1=E4=B8=80 =E4=B8=8B=E5=8D=882:21=E5=AF=AB=E9=81=93=EF=BC=9A
+>
+> Add MDP_RDMA driver for MT8195. MDP_RDMA is the DMA engine of
+> the ovl_adaptor component.
+>
+> Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
+> ---
+>  drivers/gpu/drm/mediatek/Makefile       |   3 +-
+>  drivers/gpu/drm/mediatek/mtk_disp_drv.h |   7 +
+>  drivers/gpu/drm/mediatek/mtk_mdp_rdma.c | 305 ++++++++++++++++++++++++
+>  drivers/gpu/drm/mediatek/mtk_mdp_rdma.h |  19 ++
+>  4 files changed, 333 insertions(+), 1 deletion(-)
+>  create mode 100644 drivers/gpu/drm/mediatek/mtk_mdp_rdma.c
+>  create mode 100644 drivers/gpu/drm/mediatek/mtk_mdp_rdma.h
+>
+> diff --git a/drivers/gpu/drm/mediatek/Makefile b/drivers/gpu/drm/mediatek=
+/Makefile
+> index a38e88e82d12..6e604a933ed0 100644
+> --- a/drivers/gpu/drm/mediatek/Makefile
+> +++ b/drivers/gpu/drm/mediatek/Makefile
+> @@ -13,7 +13,8 @@ mediatek-drm-y :=3D mtk_disp_aal.o \
+>                   mtk_drm_gem.o \
+>                   mtk_drm_plane.o \
+>                   mtk_dsi.o \
+> -                 mtk_dpi.o
+> +                 mtk_dpi.o \
+> +                 mtk_mdp_rdma.o
+>
+>  obj-$(CONFIG_DRM_MEDIATEK) +=3D mediatek-drm.o
+>
+> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_drv.h b/drivers/gpu/drm/me=
+diatek/mtk_disp_drv.h
+> index a33b13fe2b6e..b3a372cab0bd 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_disp_drv.h
+> +++ b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
+> @@ -8,6 +8,7 @@
+>
+>  #include <linux/soc/mediatek/mtk-cmdq.h>
+>  #include "mtk_drm_plane.h"
+> +#include "mtk_mdp_rdma.h"
+>
+>  int mtk_aal_clk_enable(struct device *dev);
+>  void mtk_aal_clk_disable(struct device *dev);
+> @@ -106,4 +107,10 @@ void mtk_rdma_enable_vblank(struct device *dev,
+>                             void *vblank_cb_data);
+>  void mtk_rdma_disable_vblank(struct device *dev);
+>
+> +int mtk_mdp_rdma_clk_enable(struct device *dev);
+> +void mtk_mdp_rdma_clk_disable(struct device *dev);
+> +void mtk_mdp_rdma_start(struct device *dev, struct cmdq_pkt *cmdq_pkt);
+> +void mtk_mdp_rdma_stop(struct device *dev, struct cmdq_pkt *cmdq_pkt);
+> +void mtk_mdp_rdma_config(struct device *dev, struct mtk_mdp_rdma_cfg *cf=
+g,
+> +                        struct cmdq_pkt *cmdq_pkt);
+>  #endif
+> diff --git a/drivers/gpu/drm/mediatek/mtk_mdp_rdma.c b/drivers/gpu/drm/me=
+diatek/mtk_mdp_rdma.c
+> new file mode 100644
+> index 000000000000..d05b1ef976bc
+> --- /dev/null
+> +++ b/drivers/gpu/drm/mediatek/mtk_mdp_rdma.c
+> @@ -0,0 +1,305 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright (c) 2021 MediaTek Inc.
+> + */
+> +
+> +#include <drm/drm_fourcc.h>
+> +#include <linux/clk.h>
+> +#include <linux/component.h>
+> +#include <linux/of_address.h>
+> +#include <linux/of_device.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/pm_runtime.h>
+> +#include <linux/soc/mediatek/mtk-cmdq.h>
+> +
+> +#include "mtk_drm_drv.h"
+> +#include "mtk_disp_drv.h"
+
+Alphabetic order.
+
+> +#include "mtk_mdp_rdma.h"
+> +
+> +#define MDP_RDMA_EN                            0x000
+> +#define FLD_ROT_ENABLE                                 BIT(0)
+
+Use one 'tab' to replace 8 space.
+
+> +#define MDP_RDMA_RESET                         0x008
+> +#define MDP_RDMA_CON                           0x020
+> +#define FLD_OUTPUT_10B                                 BIT(5)
+> +#define FLD_SIMPLE_MODE                                BIT(4)
+> +#define MDP_RDMA_GMCIF_CON                     0x028
+> +#define FLD_COMMAND_DIV                                BIT(0)
+> +#define FLD_EXT_PREULTRA_EN                            BIT(3)
+> +#define FLD_RD_REQ_TYPE                                GENMASK(7, 4)
+> +#define VAL_RD_REQ_TYPE_BURST_8_ACCESS                 7
+> +#define FLD_ULTRA_EN                                   GENMASK(13, 12)
+> +#define VAL_ULTRA_EN_ENABLE                            1
+> +#define FLD_PRE_ULTRA_EN                               GENMASK(17, 16)
+> +#define VAL_PRE_ULTRA_EN_ENABLE                        1
+> +#define FLD_EXT_ULTRA_EN                               BIT(18)
+> +#define MDP_RDMA_SRC_CON                       0x030
+> +#define FLD_OUTPUT_ARGB                                BIT(25)
+> +#define FLD_BIT_NUMBER                                 GENMASK(19, 18)
+> +#define FLD_SWAP                                       BIT(14)
+> +#define FLD_UNIFORM_CONFIG                             BIT(17)
+> +#define RDMA_INPUT_10BIT                              BIT(18)
+> +#define FLD_SRC_FORMAT                                 GENMASK(3, 0)
+> +#define MDP_RDMA_COMP_CON                      0x038
+> +#define FLD_AFBC_EN                                    BIT(22)
+> +#define FLD_AFBC_YUV_TRANSFORM                         BIT(21)
+> +#define FLD_UFBDC_EN                                   BIT(12)
+> +#define MDP_RDMA_MF_BKGD_SIZE_IN_BYTE          0x060
+> +#define FLD_MF_BKGD_WB                                 GENMASK(22, 0)
+> +#define MDP_RDMA_MF_SRC_SIZE                   0x070
+> +#define FLD_MF_SRC_H                                   GENMASK(30, 16)
+> +#define FLD_MF_SRC_W                                   GENMASK(14, 0)
+> +#define MDP_RDMA_MF_CLIP_SIZE                  0x078
+> +#define FLD_MF_CLIP_H                                  GENMASK(30, 16)
+> +#define FLD_MF_CLIP_W                                  GENMASK(14, 0)
+> +#define MDP_RDMA_SRC_OFFSET_0                  0x118
+> +#define FLD_SRC_OFFSET_0                               GENMASK(31, 0)
+> +#define MDP_RDMA_TRANSFORM_0                   0x200
+> +#define FLD_INT_MATRIX_SEL                             GENMASK(27, 23)
+> +#define FLD_TRANS_EN                                   BIT(16)
+> +#define MDP_RDMA_SRC_BASE_0                    0xf00
+> +#define FLD_SRC_BASE_0                                 GENMASK(31, 0)
+> +
+> +#define RDMA_CSC_FULL709_TO_RGB                5
+> +
+> +enum rdma_format {
+> +       RDMA_INPUT_FORMAT_RGB565 =3D 0,
+> +       RDMA_INPUT_FORMAT_RGB888 =3D 1,
+> +       RDMA_INPUT_FORMAT_RGBA8888 =3D 2,
+> +       RDMA_INPUT_FORMAT_ARGB8888 =3D 3,
+> +       RDMA_INPUT_FORMAT_UYVY =3D 4,
+> +       RDMA_INPUT_FORMAT_YUY2 =3D 5,
+> +       RDMA_INPUT_FORMAT_Y8 =3D 7,
+> +       RDMA_INPUT_FORMAT_YV12 =3D 8,
+> +       RDMA_INPUT_FORMAT_UYVY_3PL =3D 9,
+> +       RDMA_INPUT_FORMAT_NV12 =3D 12,
+> +       RDMA_INPUT_FORMAT_UYVY_2PL =3D 13,
+> +       RDMA_INPUT_FORMAT_Y410 =3D 14
+> +};
+> +
+> +struct mtk_mdp_rdma {
+> +       void __iomem *regs;
+> +       struct clk *clk;
+> +       struct cmdq_client_reg          cmdq_reg;
+
+Align indent of members.
+
+> +};
+> +
+> +static unsigned int rdma_fmt_convert(unsigned int fmt)
+> +{
+> +       switch (fmt) {
+> +       default:
+> +       case DRM_FORMAT_RGB565:
+> +               return RDMA_INPUT_FORMAT_RGB565;
+> +       case DRM_FORMAT_BGR565:
+> +               return RDMA_INPUT_FORMAT_RGB565 | FLD_SWAP;
+> +       case DRM_FORMAT_RGB888:
+> +               return RDMA_INPUT_FORMAT_RGB888;
+> +       case DRM_FORMAT_BGR888:
+> +               return RDMA_INPUT_FORMAT_RGB888 | FLD_SWAP;
+> +       case DRM_FORMAT_RGBX8888:
+> +       case DRM_FORMAT_RGBA8888:
+> +               return RDMA_INPUT_FORMAT_ARGB8888;
+> +       case DRM_FORMAT_BGRX8888:
+> +       case DRM_FORMAT_BGRA8888:
+> +               return RDMA_INPUT_FORMAT_ARGB8888 | FLD_SWAP;
+> +       case DRM_FORMAT_XRGB8888:
+> +       case DRM_FORMAT_ARGB8888:
+> +               return RDMA_INPUT_FORMAT_RGBA8888;
+> +       case DRM_FORMAT_XBGR8888:
+> +       case DRM_FORMAT_ABGR8888:
+> +               return RDMA_INPUT_FORMAT_RGBA8888 | FLD_SWAP;
+> +       case DRM_FORMAT_ABGR2101010:
+> +               return RDMA_INPUT_FORMAT_RGBA8888 | FLD_SWAP | RDMA_INPUT=
+_10BIT;
+> +       case DRM_FORMAT_ARGB2101010:
+> +               return RDMA_INPUT_FORMAT_RGBA8888 | RDMA_INPUT_10BIT;
+> +       case DRM_FORMAT_RGBA1010102:
+> +               return RDMA_INPUT_FORMAT_ARGB8888 | FLD_SWAP | RDMA_INPUT=
+_10BIT;
+> +       case DRM_FORMAT_BGRA1010102:
+> +               return RDMA_INPUT_FORMAT_ARGB8888 | RDMA_INPUT_10BIT;
+> +       case DRM_FORMAT_UYVY:
+> +               return RDMA_INPUT_FORMAT_UYVY;
+> +       case DRM_FORMAT_YUYV:
+> +               return RDMA_INPUT_FORMAT_YUY2;
+> +       }
+> +}
+> +
+> +static void mtk_mdp_rdma_fifo_config(struct device *dev, struct cmdq_pkt=
+ *cmdq_pkt)
+> +{
+> +       struct mtk_mdp_rdma *priv =3D dev_get_drvdata(dev);
+> +
+> +       mtk_ddp_write_mask(cmdq_pkt, FLD_EXT_ULTRA_EN | VAL_PRE_ULTRA_EN_=
+ENABLE << 16 |
+> +                          VAL_ULTRA_EN_ENABLE << 12 | VAL_RD_REQ_TYPE_BU=
+RST_8_ACCESS << 4 |
+> +                          FLD_EXT_PREULTRA_EN | FLD_COMMAND_DIV, &priv->=
+cmdq_reg,
+> +                          priv->regs, MDP_RDMA_GMCIF_CON, FLD_EXT_ULTRA_=
+EN |
+> +                          FLD_PRE_ULTRA_EN | FLD_ULTRA_EN | FLD_RD_REQ_T=
+YPE |
+> +                          FLD_EXT_PREULTRA_EN | FLD_COMMAND_DIV);
+> +}
+> +
+> +void mtk_mdp_rdma_start(struct device *dev, struct cmdq_pkt *cmdq_pkt)
+> +{
+> +       struct mtk_mdp_rdma *priv =3D dev_get_drvdata(dev);
+> +
+> +       mtk_ddp_write_mask(cmdq_pkt, FLD_ROT_ENABLE, &priv->cmdq_reg,
+> +                          priv->regs, MDP_RDMA_EN, FLD_ROT_ENABLE);
+> +}
+> +
+> +void mtk_mdp_rdma_stop(struct device *dev, struct cmdq_pkt *cmdq_pkt)
+> +{
+> +       struct mtk_mdp_rdma *priv =3D dev_get_drvdata(dev);
+> +
+> +       mtk_ddp_write_mask(cmdq_pkt, 0, &priv->cmdq_reg,
+> +                          priv->regs, MDP_RDMA_EN, FLD_ROT_ENABLE);
+> +       mtk_ddp_write(cmdq_pkt, 1, &priv->cmdq_reg, priv->regs, MDP_RDMA_=
+RESET);
+> +       mtk_ddp_write(cmdq_pkt, 0, &priv->cmdq_reg, priv->regs, MDP_RDMA_=
+RESET);
+> +}
+> +
+> +void mtk_mdp_rdma_config(struct device *dev, struct mtk_mdp_rdma_cfg *cf=
+g,
+> +                        struct cmdq_pkt *cmdq_pkt)
+> +{
+> +       struct mtk_mdp_rdma *priv =3D dev_get_drvdata(dev);
+> +       const struct drm_format_info *fmt_info =3D drm_format_info(cfg->f=
+mt);
+> +       bool csc_enable =3D fmt_info->is_yuv ? true : false;
+> +       unsigned int src_pitch_y =3D cfg->pitch;
+> +       unsigned int bpp_y =3D fmt_info->cpp[0] * 8;
+> +       unsigned int offset_y =3D 0;
+> +
+> +       mtk_mdp_rdma_fifo_config(dev, cmdq_pkt);
+> +
+> +       mtk_ddp_write_mask(cmdq_pkt, FLD_UNIFORM_CONFIG, &priv->cmdq_reg,=
+ priv->regs,
+> +                          MDP_RDMA_SRC_CON, FLD_UNIFORM_CONFIG);
+> +       mtk_ddp_write_mask(cmdq_pkt, rdma_fmt_convert(cfg->fmt), &priv->c=
+mdq_reg, priv->regs,
+> +                          MDP_RDMA_SRC_CON, FLD_SWAP | FLD_SRC_FORMAT | =
+FLD_BIT_NUMBER);
+> +
+> +       if (!csc_enable && fmt_info->has_alpha)
+> +               mtk_ddp_write_mask(cmdq_pkt, FLD_OUTPUT_ARGB, &priv->cmdq=
+_reg,
+> +                                  priv->regs, MDP_RDMA_SRC_CON, FLD_OUTP=
+UT_ARGB);
+> +       else
+> +               mtk_ddp_write_mask(cmdq_pkt, 0, &priv->cmdq_reg, priv->re=
+gs,
+> +                                  MDP_RDMA_SRC_CON, FLD_OUTPUT_ARGB);
+> +
+> +       mtk_ddp_write_mask(cmdq_pkt, cfg->addr0, &priv->cmdq_reg, priv->r=
+egs,
+> +                          MDP_RDMA_SRC_BASE_0, FLD_SRC_BASE_0);
+> +
+> +       mtk_ddp_write_mask(cmdq_pkt, src_pitch_y, &priv->cmdq_reg, priv->=
+regs,
+> +                          MDP_RDMA_MF_BKGD_SIZE_IN_BYTE, FLD_MF_BKGD_WB)=
+;
+> +
+> +       mtk_ddp_write_mask(cmdq_pkt, 0, &priv->cmdq_reg, priv->regs, MDP_=
+RDMA_COMP_CON,
+> +                          FLD_AFBC_YUV_TRANSFORM | FLD_UFBDC_EN | FLD_AF=
+BC_EN);
+> +       mtk_ddp_write_mask(cmdq_pkt, FLD_OUTPUT_10B, &priv->cmdq_reg, pri=
+v->regs,
+> +                          MDP_RDMA_CON, FLD_OUTPUT_10B);
+> +       mtk_ddp_write_mask(cmdq_pkt, FLD_SIMPLE_MODE, &priv->cmdq_reg, pr=
+iv->regs,
+> +                          MDP_RDMA_CON, FLD_SIMPLE_MODE);
+> +       mtk_ddp_write_mask(cmdq_pkt, csc_enable << 16, &priv->cmdq_reg, p=
+riv->regs,
+> +                          MDP_RDMA_TRANSFORM_0, FLD_TRANS_EN);
+> +       mtk_ddp_write_mask(cmdq_pkt, RDMA_CSC_FULL709_TO_RGB << 23, &priv=
+->cmdq_reg, priv->regs,
+> +                          MDP_RDMA_TRANSFORM_0, FLD_INT_MATRIX_SEL);
+
+In mtk_plane_update_new_state(), new_state->color_encoding has the
+information that non-RBG color is BT601, BT709, or BT2020.
+
+> +
+> +       offset_y  =3D (cfg->x_left * bpp_y >> 3) + cfg->y_top * src_pitch=
+_y;
+
+Drop bpp_y, and
+
+offset_y  =3D cfg->x_left * fmt_info->cpp[0] + cfg->y_top * src_pitch_y;
+
+> +
+> +       mtk_ddp_write_mask(cmdq_pkt, offset_y, &priv->cmdq_reg, priv->reg=
+s,
+> +                          MDP_RDMA_SRC_OFFSET_0, FLD_SRC_OFFSET_0);
+> +       mtk_ddp_write_mask(cmdq_pkt, cfg->width, &priv->cmdq_reg, priv->r=
+egs,
+> +                          MDP_RDMA_MF_SRC_SIZE, FLD_MF_SRC_W);
+> +       mtk_ddp_write_mask(cmdq_pkt, cfg->height << 16, &priv->cmdq_reg, =
+priv->regs,
+> +                          MDP_RDMA_MF_SRC_SIZE, FLD_MF_SRC_H);
+> +       mtk_ddp_write_mask(cmdq_pkt, cfg->width, &priv->cmdq_reg, priv->r=
+egs,
+> +                          MDP_RDMA_MF_CLIP_SIZE, FLD_MF_CLIP_W);
+
+If x_left > 0, CLIP_W could still be set to width?
+
+> +       mtk_ddp_write_mask(cmdq_pkt, cfg->height << 16, &priv->cmdq_reg, =
+priv->regs,
+> +                          MDP_RDMA_MF_CLIP_SIZE, FLD_MF_CLIP_H);
+
+If y_top > 0, CLIP_H could still be set to height?
+
+> +}
+> +
+> +int mtk_mdp_rdma_clk_enable(struct device *dev)
+> +{
+> +       struct mtk_mdp_rdma *rdma =3D dev_get_drvdata(dev);
+> +
+> +       pm_runtime_get_sync(dev);
+
+Align with other sub driver, pm runtime control is in mtk_drm_crtc.c
+
+> +       clk_prepare_enable(rdma->clk);
+> +       return 0;
+> +}
+> +
+> +void mtk_mdp_rdma_clk_disable(struct device *dev)
+> +{
+> +       struct mtk_mdp_rdma *rdma =3D dev_get_drvdata(dev);
+> +
+> +       clk_disable_unprepare(rdma->clk);
+> +       pm_runtime_put(dev);
+
+Ditto.
 
 Regards,
-  Felix
+Chun-Kuang.
 
-
->
-> It's a design problem in KFD if you ask me, but that is a completely
-> different topic.
->
-> Christian.
->
->> -Daniel
->>
->>> +        if (amdkfd_fence_check_mm(f, current->mm))
->>> +            return false;
->>>       }
->>>         switch (bo->resource->mem_type) {
->>> -- 
->>> 2.25.1
->>>
+> +}
+> +
+> +static int mtk_mdp_rdma_bind(struct device *dev, struct device *master,
+> +                            void *data)
+> +{
+> +       return 0;
+> +}
+> +
+> +static void mtk_mdp_rdma_unbind(struct device *dev, struct device *maste=
+r,
+> +                               void *data)
+> +{
+> +}
+> +
+> +static const struct component_ops mtk_mdp_rdma_component_ops =3D {
+> +       .bind   =3D mtk_mdp_rdma_bind,
+> +       .unbind =3D mtk_mdp_rdma_unbind,
+> +};
+> +
+> +static int mtk_mdp_rdma_probe(struct platform_device *pdev)
+> +{
+> +       struct device *dev =3D &pdev->dev;
+> +       struct resource *res;
+> +       struct mtk_mdp_rdma *priv;
+> +       int ret =3D 0;
+> +
+> +       priv =3D devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+> +       if (!priv)
+> +               return -ENOMEM;
+> +
+> +       res =3D platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> +       priv->regs =3D devm_ioremap_resource(dev, res);
+> +       if (IS_ERR(priv->regs)) {
+> +               dev_err(dev, "failed to ioremap rdma\n");
+> +               return PTR_ERR(priv->regs);
+> +       }
+> +
+> +       priv->clk =3D devm_clk_get(dev, NULL);
+> +       if (IS_ERR(priv->clk)) {
+> +               dev_err(dev, "failed to get rdma clk\n");
+> +               return PTR_ERR(priv->clk);
+> +       }
+> +
+> +#if IS_REACHABLE(CONFIG_MTK_CMDQ)
+> +       ret =3D cmdq_dev_get_client_reg(dev, &priv->cmdq_reg, 0);
+> +       if (ret)
+> +               dev_dbg(dev, "get mediatek,gce-client-reg fail!\n");
+> +#endif
+> +       platform_set_drvdata(pdev, priv);
+> +
+> +       pm_runtime_enable(dev);
+> +
+> +       ret =3D component_add(dev, &mtk_mdp_rdma_component_ops);
+> +       if (ret !=3D 0) {
+> +               pm_runtime_disable(dev);
+> +               dev_err(dev, "Failed to add component: %d\n", ret);
+> +       }
+> +       return ret;
+> +}
+> +
+> +static int mtk_mdp_rdma_remove(struct platform_device *pdev)
+> +{
+> +       component_del(&pdev->dev, &mtk_mdp_rdma_component_ops);
+> +       pm_runtime_disable(&pdev->dev);
+> +       return 0;
+> +}
+> +
+> +static const struct of_device_id mtk_mdp_rdma_driver_dt_match[] =3D {
+> +       { .compatible =3D "mediatek,mt8195-vdo1-rdma", },
+> +       {},
+> +};
+> +MODULE_DEVICE_TABLE(of, mtk_mdp_rdma_driver_dt_match);
+> +
+> +struct platform_driver mtk_mdp_rdma_driver =3D {
+> +       .probe =3D mtk_mdp_rdma_probe,
+> +       .remove =3D mtk_mdp_rdma_remove,
+> +       .driver =3D {
+> +               .name =3D "mediatek-mdp-rdma",
+> +               .owner =3D THIS_MODULE,
+> +               .of_match_table =3D mtk_mdp_rdma_driver_dt_match,
+> +       },
+> +};
+> +module_platform_driver(mtk_mdp_rdma_driver);
+> diff --git a/drivers/gpu/drm/mediatek/mtk_mdp_rdma.h b/drivers/gpu/drm/me=
+diatek/mtk_mdp_rdma.h
+> new file mode 100644
+> index 000000000000..868e8ca40de3
+> --- /dev/null
+> +++ b/drivers/gpu/drm/mediatek/mtk_mdp_rdma.h
+> @@ -0,0 +1,19 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + * Copyright (c) 2021 MediaTek Inc.
+> + */
+> +
+> +#ifndef __MTK_MDP_RDMA_H__
+> +#define __MTK_MDP_RDMA_H__
+> +
+> +struct mtk_mdp_rdma_cfg {
+> +       unsigned int pitch;
+> +       unsigned int addr0;
+> +       unsigned int width;
+> +       unsigned int height;
+> +       unsigned int x_left;
+> +       unsigned int y_top;
+> +       int fmt;
+> +};
+> +
+> +#endif // __MTK_MDP_RDMA_H__
+> --
+> 2.18.0
 >
