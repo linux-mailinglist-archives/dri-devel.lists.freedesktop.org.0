@@ -1,50 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF12D43380A
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Oct 2021 16:08:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E50A343385D
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Oct 2021 16:25:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0BE716E882;
-	Tue, 19 Oct 2021 14:07:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B93306E160;
+	Tue, 19 Oct 2021 14:25:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 170FD6E882;
- Tue, 19 Oct 2021 14:07:56 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 244E6610A1;
- Tue, 19 Oct 2021 14:07:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1634652475;
- bh=SLWuDyENjrttrY/yKGmL/fqA3+noRXUboMcPH0sIE94=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=oM0gZvjxdIWCCSyTgbkEwXNW+yBmqzUXnDXgyeJJjaOCCn/R6Q6eA3foe5S6et5NX
- UJszBzdPoyg/4NYkWZDhqmzKmFrr57nTVwL8CIFDxL8YXFOK+IXn13c90B2wsmknki
- uKXjWuUnoHzxUgT7P0Edeenpbdr296O1YL8rNJCwxm8MOfDMN/rXkZUnOF86ycdREN
- kDbI91dUD3k30j9iSl+bsl7djiew/9IHBYXi5Xd3yH8zWOI+R0QsLn4C266WrqR5Qz
- ks7DrZZCqMb4tVV9yP1Rr8/aq1avdYa4/U73x2nLPGuY91uswYtISAwAyp4QX+mSMq
- w7Uak4Sgc0S0A==
-Date: Tue, 19 Oct 2021 19:37:51 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Rob Clark <robdclark@gmail.com>, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Jonathan Marek <jonathan@marek.ca>,
- Abhinav Kumar <abhinavk@codeaurora.org>,
- Jeffrey Hugo <jeffrey.l.hugo@gmail.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org
-Subject: Re: [PATCH v2 02/11] drm/msm/disp/dpu1: Add support for DSC
-Message-ID: <YW7RNz/9vd/XS0+O@matsya>
-References: <20211007070900.456044-1-vkoul@kernel.org>
- <20211007070900.456044-3-vkoul@kernel.org>
- <c9c77691-f6e8-576c-7e2d-a87295b13ba7@linaro.org>
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
+ [66.111.4.25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A31DE6E160
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Oct 2021 14:25:06 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailout.nyi.internal (Postfix) with ESMTP id D8A805C02C9;
+ Tue, 19 Oct 2021 10:25:05 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute1.internal (MEProxy); Tue, 19 Oct 2021 10:25:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mai.rs; h=from
+ :to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding; s=fm1; bh=af9E54i9xjq+Re1iYan+L+eAru
+ eMMBRZHZ34ABhfSVM=; b=ZSMhKGRoirTf6ZmcfFxbTGNgn7584G3uKhIvGPis/a
+ 4UcJpY3/cqfLsB2wg3iUvEUCSuKsXAlCB4kC8LKcYVWZOqEFsquG3XSo+mrEq530
+ xA16gyy/rXcHvDpo6r62wdZ6uJRRFEqOZo+I8bOzQbsEEBDs8tCTnhFF/OmtRvU3
+ o1LsVNz7xQzGraa9sWgoOWsuOZhsdqXKmTW68n/gzogLDq0j6bxjAZsfZtxsyf+3
+ vA6Lzp7W6UYNAf403CnuwTDJZV0piISZB2fjvUE0rouVGFW83/d7woL8pG/jcU8Q
+ NEsgbKO0oFxHu0FNDqXiIPlk/bbVmboNH8fPjcu2OnBA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=af9E54i9xjq+Re1iY
+ an+L+eArueMMBRZHZ34ABhfSVM=; b=RRhAcbFXuoAfuUIKq1on9NoXM8Zz35exO
+ euzqvFqo9bmCc2TmTz/QyxrGezWdVicFrlqn7a9w7wmva93JRfqojMwZX/j16X0h
+ Vr32FYwI1cNrEBIuY1OvUQFLpoGrL20PVLyHnjaH7CQBCn3K+l5Wf7uiidObOdGI
+ xblYuqexNCOO1Du9uNfzDIXlFPAj5HGJMQHZmlpYCzyOmzbx60zyup5UdGfSzlpF
+ 871D3OYtEWVSwEJaClyT/S3gWKxfJ5oTiWBluzLlt8OjzWNfgQdaNxCzeY42JTMQ
+ DVKrPuoesVJXQ23xxxffXTCJt4xoAXqrWQ9iQHihnxunK+WbLtTyQ==
+X-ME-Sender: <xms:QdVuYaqlzT8N_cGWazCmL0zs5og_ejHG_Jqb0CzLxo1YbaGUV3aVVQ>
+ <xme:QdVuYYphFFo4QEsoSrEZLp1lrHExasGfE6mCptyGy5RLe5d6StCLBlB3AW87hy7XC
+ uJ2-ppgUZ8a_4AVrw>
+X-ME-Received: <xmr:QdVuYfPb5zhCtn6G363IWwk6dowkvk8wuW46llobcgGQhujltBmtOOk8uAvH3iO4OzynfUXxlb710bv4vs7dGhviLNHH>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrvddvvddgjeduucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucdnkfhovfculdeitddmnecujfgurhephffvufffkf
+ foggfgsedtkeertdertddtnecuhfhrohhmpeeurhihrghnthcuofgrihhrshcuoegsrhih
+ rghnthesmhgrihdrrhhsqeenucggtffrrghtthgvrhhnpeejffeigfeivdettedutdefie
+ ehgeevuefhgfejgfefffevgeejjeevgfffveevffenucevlhhushhtvghrufhiiigvpedt
+ necurfgrrhgrmhepmhgrihhlfhhrohhmpegsrhihrghnthesmhgrihdrrhhs
+X-ME-Proxy: <xmx:QdVuYZ5kPE3tnd4tovV2HY52vq_HN0yEt7rbGPUE_7sT91MGcKmkxg>
+ <xmx:QdVuYZ6PCCdKSJ4pHOKXg_ofutOdkgSLRiI1si9FfDqKHtjYG9BQrQ>
+ <xmx:QdVuYZi2OzojzxaYK07eTD53hk4ZZewie5WwVddlE29kqZFpxZgtsCqkhw>
+ <xmx:QdVuYWhk6zYK6Frt6sgS36SnqUM-2RT7NKaaIPIJduCqQHxi-vwDKA>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 19 Oct 2021 10:25:05 -0400 (EDT)
+From: Bryant Mairs <bryant@mai.rs>
+To: dri-devel@lists.freedesktop.org
+Cc: Bryant Mairs <bryant@mai.rs>
+Subject: [PATCH v2] drm: panel-orientation-quirks: Add quirk for Aya Neo 2021
+Date: Tue, 19 Oct 2021 09:24:33 -0500
+Message-Id: <20211019142433.4295-1-bryant@mai.rs>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c9c77691-f6e8-576c-7e2d-a87295b13ba7@linaro.org>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,32 +78,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 14-10-21, 17:40, Dmitry Baryshkov wrote:
-> On 07/10/2021 10:08, Vinod Koul wrote:
+Fixes screen orientation for the Aya Neo 2021 handheld gaming console.
 
-> > +static void dpu_hw_dsc_config(struct dpu_hw_dsc *hw_dsc,
-> > +			      struct msm_display_dsc_config *dsc, u32 mode)
-> > +{
-> > +	struct dpu_hw_blk_reg_map *c = &hw_dsc->hw;
-> > +	u32 data, lsb, bpp;
-> > +	u32 initial_lines = dsc->initial_lines;
-> > +	bool is_cmd_mode = !(mode & BIT(2));
-> 
-> DSC_MODE_VIDEO
+Signed-off-by: Bryant Mairs <bryant@mai.rs>
+---
+ drivers/gpu/drm/drm_panel_orientation_quirks.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-Updated
-
-> > +static void dpu_hw_dsc_config_thresh(struct dpu_hw_dsc *hw_dsc,
-> > +				     struct msm_display_dsc_config *dsc)
-> 
-> I thought that it might make sense to pass just drm_dsc_rc_range_parameters
-> here, but it's a matter of personal preference. I won't insist on doing
-> that.
-
-This is called from encoder, so prefer not to have encoder invoke
-dsc->drm->rc_range_params
-
-So will keep this.
-
+diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+index f6bdec7fa925..30c17a76f49a 100644
+--- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
++++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+@@ -134,6 +134,12 @@ static const struct dmi_system_id orientation_data[] = {
+ 		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "T103HAF"),
+ 		},
+ 		.driver_data = (void *)&lcd800x1280_rightside_up,
++	}, {	/* AYA NEO 2021 */
++		.matches = {
++		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "AYADEVICE"),
++		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "AYA NEO 2021"),
++		},
++		.driver_data = (void *)&lcd800x1280_rightside_up,
+ 	}, {	/* GPD MicroPC (generic strings, also match on bios date) */
+ 		.matches = {
+ 		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "Default string"),
 -- 
-~Vinod
+2.31.1
+
