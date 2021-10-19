@@ -2,49 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C370433A6B
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Oct 2021 17:30:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86AE2433A97
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Oct 2021 17:34:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41A516EB3A;
-	Tue, 19 Oct 2021 15:30:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 31C336EC18;
+	Tue, 19 Oct 2021 15:34:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8888A6EB3A;
- Tue, 19 Oct 2021 15:30:45 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 89F6360FED;
- Tue, 19 Oct 2021 15:30:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1634657445;
- bh=CDJwRfp4lbsW4khYSdoqXRDI59oiFc/31cccykvgx9o=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=m3JYVas4tU9n5rzLCTrVyETOgE83I/9WfvnhWn41/NhigsgQIkenjqNTPRmpNjOTE
- O3nIp+hOzq/g6Vq/no3YHnzW18hA0MPrY6/5rWJwbjeexlwAkIWZqKuLqiB7XesQhT
- SOpJUVpBzOIxwJNCj7T+Ase1+ElhwuYJjFNlKFSnaNclfoqOtlrV3Sqn6AfmiBm6Et
- A/t7YXIG4r4AcVUFnqSzWE08gW+xm9KF8Lr8JZx4AX+0zRwHyN8DtN1K2lQh0aio6I
- grU0epgJxwRti3xS9ZM/x5GFL8ksLZ0sHXfke76SnEZlKKXrBX3JwHVQn3xpA0FpKy
- y/96wVWPJYY5Q==
-Date: Tue, 19 Oct 2021 21:00:40 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Rob Clark <robdclark@gmail.com>, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Jonathan Marek <jonathan@marek.ca>,
- Abhinav Kumar <abhinavk@codeaurora.org>,
- Jeffrey Hugo <jeffrey.l.hugo@gmail.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org
-Subject: Re: [PATCH v2 04/11] drm/msm/disp/dpu1: Add DSC support in RM
-Message-ID: <YW7koEt85EVMcUDs@matsya>
-References: <20211007070900.456044-1-vkoul@kernel.org>
- <20211007070900.456044-5-vkoul@kernel.org>
- <d249d880-1137-d5cc-6d96-83a730f7de29@linaro.org>
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BFD916EC16;
+ Tue, 19 Oct 2021 15:34:32 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10142"; a="215471486"
+X-IronPort-AV: E=Sophos;i="5.87,164,1631602800"; d="scan'208";a="215471486"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Oct 2021 08:34:32 -0700
+X-IronPort-AV: E=Sophos;i="5.87,164,1631602800"; d="scan'208";a="494152075"
+Received: from jsanz-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.251.211.239])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Oct 2021 08:34:28 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: Maxime Ripard <maxime@cerno.tech>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, dim-tools@lists.freedesktop.org,
+ Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: [PULL] topic/drm-dp-training-delay-helpers for drm-misc-next and
+ drm-intel-next
+In-Reply-To: <20211019134749.xjyydm6xdcfe6hkm@gilmour>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <878ryps5b6.fsf@intel.com>
+ <20211019134749.xjyydm6xdcfe6hkm@gilmour>
+Date: Tue, 19 Oct 2021 18:34:25 +0300
+Message-ID: <87zgr5owou.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d249d880-1137-d5cc-6d96-83a730f7de29@linaro.org>
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,46 +55,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 14-10-21, 17:11, Dmitry Baryshkov wrote:
-> On 07/10/2021 10:08, Vinod Koul wrote:
+On Tue, 19 Oct 2021, Maxime Ripard <maxime@cerno.tech> wrote:
+> On Tue, Oct 19, 2021 at 12:59:57PM +0300, Jani Nikula wrote:
+>> 
+>> Hi all -
+>> 
+>> These are the drm dp helpers for figuring out link training delays, to
+>> be pulled to both drm-misc-next and drm-intel-next.
+>> 
+>> 
+>> topic/drm-dp-training-delay-helpers-2021-10-19:
+>> Core Changes:
+>> - drm dp helpers for figuring out link training delays
+>
+> Merged into drm-misc-next, thanks!
 
-> > +static int _dpu_rm_reserve_dsc(struct dpu_rm *rm,
-> > +			       struct dpu_global_state *global_state,
-> > +			       struct drm_encoder *enc)
-> > +{
-> > +	struct msm_drm_private *priv;
-> > +
-> > +	priv = enc->dev->dev_private;
-> > +
-> > +	if (!priv)
-> > +		return -EIO;
-> > +
-> > +	/* check if DSC is supported */
-> > +	if (!priv->dsc)
-> > +		return 0;
-> > +
-> > +	/* check if DSC 0 & 1 and allocated or not */
-> > +	if (global_state->dsc_to_enc_id[0] || global_state->dsc_to_enc_id[1]) {
-> > +		DPU_ERROR("DSC 0|1 is already allocated\n");
-> > +		return -EIO;
-> > +	}
-> > +
-> > +	global_state->dsc_to_enc_id[0] = enc->base.id;
-> > +	global_state->dsc_to_enc_id[1] = enc->base.id;
-> 
-> Still hardcoding DSC_0 and DSC_1.
+And with that, also to drm-intel-next, thank you!
 
-Yes!
-
-> Could you please add num_dsc to the topology and allocate the requested
-> amount of DSC blocks? Otherwise this would break for the DSI + DP case.
-
-It wont as we check for dsc and dont proceed, so it cant make an impact
-in non dsc case.
-
-Nevertheless I agree with you, so I am making it based on dsc defined in
-topology. Do we need additional field for num_dsc in topology, num_enc
-should be it, right?
+BR,
+Jani.
 
 -- 
-~Vinod
+Jani Nikula, Intel Open Source Graphics Center
