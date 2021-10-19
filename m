@@ -1,88 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 052F2434037
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Oct 2021 23:11:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D3639434043
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Oct 2021 23:14:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C83486EB68;
-	Tue, 19 Oct 2021 21:11:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0629A6E041;
+	Tue, 19 Oct 2021 21:14:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com
- [IPv6:2a00:1450:4864:20::52e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C0746EB68
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Oct 2021 21:11:42 +0000 (UTC)
-Received: by mail-ed1-x52e.google.com with SMTP id z20so18272336edc.13
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Oct 2021 14:11:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to; bh=OwyRLUcszsyadBr824dsTniinvYZj7Tk0bJGgvItSRM=;
- b=UuFOxeYnA6bmCHsx6C3eM8RhW7dy8MiborwVIsDzXcWw30k69JKWDiVtNm6tzfQYNS
- jKiqu/iSWMz34Bs26vA6cuq5v9Mmweone0oANMssKmhBtWARTGXALWfHR+h8jbZ8pvcy
- 0krFAiUyPTdfBf/P4H/lPhWeu8aOt+4rtcYRs=
+Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com
+ [209.85.210.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D17E26E041
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Oct 2021 21:14:21 +0000 (UTC)
+Received: by mail-ot1-f44.google.com with SMTP id
+ b4-20020a9d7544000000b00552ab826e3aso3800327otl.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Oct 2021 14:14:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :content-transfer-encoding:in-reply-to;
- bh=OwyRLUcszsyadBr824dsTniinvYZj7Tk0bJGgvItSRM=;
- b=LXHgHLxHGtJdzt2zjgE4N9naiSo1RqmaUOGpf+O2j/ON2udjC+4rH054NYLwiOe9IF
- BKOMh1TMM3/Ca4JfblYtZ1BRRNj3NxCrjQDfsLnGenpfcJl5uewC7VQbUgq5ASciRnzM
- vNgR1vhYklpJijiRH1a9UGCgQH+M+McWo4lwyFQUl0q/Hc+rx6p/vQL5GLX2ZfTYOhmf
- JvPkIvzjFRwB2aYJCYX730SCXF4tCpWQxvQ9TCOrnd4x83/HaiJpYTruSesj/yjHs69L
- bW7X2Bpu8yR/y75h0Kf4JFyTAXncIVl6J0agR+m513+U/2pZo59fWImyQf4QzAjfsZsz
- eedQ==
-X-Gm-Message-State: AOAM530iw1sU0wCv1t7yocYzSlMOZwiQZf8BWRG7QIfIqe7OcMgoZKHY
- GPstlW+dp5bUK0poHaiU5fuMZBTIhhWRJQ==
-X-Google-Smtp-Source: ABdhPJxVcAFeCcFJ0BV5iO1FeaZa+XJFmc7PEYU7imdaPNyCQNJYbrUDecQv4qxDFiRydF4XQvCUaw==
-X-Received: by 2002:a05:6402:2787:: with SMTP id
- b7mr56873542ede.159.1634677899626; 
- Tue, 19 Oct 2021 14:11:39 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id q14sm92905edj.42.2021.10.19.14.11.38
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=rxPAMPXkEmgM/eAA416WKz8VLt+xRYrbLcupdEp4vW8=;
+ b=SKa50YmriCPqLAbxXdNeu0NE/4DoYBnurx/LqL88ztpqQfXPHAoASCr9pwPQNOCg88
+ tz5IVJPcR3zAa3/93qmK+N2CF06yLVnI3Fe9YSlMR7TKjmX6F/QSLlhCpoGVK29UZwxw
+ JI+uodb9lqsRU4yI0f8PXNriFMBPDIhHsSrED7b8SGVeh58ve7PSJHQ/ZHRHUM/SIa4Q
+ Rnkg1uOp+NqG2BWdMV3ZOUQPOMRoSkSxE3l5NVe4aC/eA+TeLfHqZuf4b1/htpjog94B
+ Y4A+7gj/tfa5kTvmJ/eDDagRXmbRv2tWE8WVNgB9durpthjADUgDcLvkLkclbsGSAjL1
+ dEgA==
+X-Gm-Message-State: AOAM5328pwSb2Mkr8S3DssHdcjnQvQmv0RTeGiNRNM9wJjLi7nQKN+Kl
+ JrBNipg2vJsyouppj7nEaQ==
+X-Google-Smtp-Source: ABdhPJxTXk3YUcoJAZL3ZeINf+u/Q3Yq2PVlqXzt2+/j9wNmWvCLUfqzzxMnUJzQRgmUZ1kDOP+upA==
+X-Received: by 2002:a05:6830:2316:: with SMTP id
+ u22mr7131795ote.239.1634678061020; 
+ Tue, 19 Oct 2021 14:14:21 -0700 (PDT)
+Received: from robh.at.kernel.org (rrcs-67-78-118-34.sw.biz.rr.com.
+ [67.78.118.34])
+ by smtp.gmail.com with ESMTPSA id bg16sm53542oib.14.2021.10.19.14.14.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Oct 2021 14:11:39 -0700 (PDT)
-Date: Tue, 19 Oct 2021 23:11:37 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
-Cc: guangming.cao@mediatek.com, Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <dri-devel@lists.freedesktop.org>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- open list <linux-kernel@vger.kernel.org>,
- "moderated list:ARM/Mediatek SoC support"
- <linux-arm-kernel@lists.infradead.org>, 
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- wsd_upstream@mediatek.com
-Subject: Re: [Linaro-mm-sig] [PATCH] dma-buf: add attachments empty check for
- dma_buf_release
-Message-ID: <YW80iakRm5jWjIUp@phenom.ffwll.local>
-Mail-Followup-To: Christian =?iso-8859-1?Q?K=F6nig?=
- <ckoenig.leichtzumerken@gmail.com>, 
- guangming.cao@mediatek.com, Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <dri-devel@lists.freedesktop.org>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- open list <linux-kernel@vger.kernel.org>,
- "moderated list:ARM/Mediatek SoC support"
- <linux-arm-kernel@lists.infradead.org>, 
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- wsd_upstream@mediatek.com
-References: <20211019122345.160555-1-guangming.cao@mediatek.com>
- <YW686sIZie4xRUQO@phenom.ffwll.local>
- <8cca7188-6484-d3a5-2b87-400f6500e742@gmail.com>
+ Tue, 19 Oct 2021 14:14:20 -0700 (PDT)
+Received: (nullmailer pid 852663 invoked by uid 1000);
+ Tue, 19 Oct 2021 21:14:18 -0000
+Date: Tue, 19 Oct 2021 16:14:18 -0500
+From: Rob Herring <robh@kernel.org>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: airlied@linux.ie, daniel@ffwll.ch, ajaykumar.rs@samsung.com,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: display/bridge: ps8622: Convert to YAML
+ binding
+Message-ID: <YW81KhW1lL4prPnU@robh.at.kernel.org>
+References: <20211007081930.84653-1-angelogioacchino.delregno@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <8cca7188-6484-d3a5-2b87-400f6500e742@gmail.com>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+In-Reply-To: <20211007081930.84653-1-angelogioacchino.delregno@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,99 +69,172 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 19, 2021 at 05:37:27PM +0200, Christian König wrote:
+On Thu, Oct 07, 2021 at 10:19:30AM +0200, AngeloGioacchino Del Regno wrote:
+> Convert the Parade PS8622 eDP/DP to LVDS bridge documentation to YAML.
 > 
+> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> ---
+>  .../display/bridge/parade,ps8622.yaml         | 102 ++++++++++++++++++
+>  .../bindings/display/bridge/ps8622.txt        |  31 ------
+>  2 files changed, 102 insertions(+), 31 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/display/bridge/parade,ps8622.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/display/bridge/ps8622.txt
 > 
-> Am 19.10.21 um 14:41 schrieb Daniel Vetter:
-> > On Tue, Oct 19, 2021 at 08:23:45PM +0800, guangming.cao@mediatek.com wrote:
-> > > From: Guangming Cao <Guangming.Cao@mediatek.com>
-> > > 
-> > > Since there is no mandatory inspection for attachments in dma_buf_release.
-> > > There will be a case that dma_buf already released but attachment is still
-> > > in use, which can points to the dmabuf, and it maybe cause
-> > > some unexpected issues.
-> > > 
-> > > With IOMMU, when this cases occurs, there will have IOMMU address
-> > > translation fault(s) followed by this warning,
-> > > I think it's useful for dma devices to debug issue.
-> > > 
-> > > Signed-off-by: Guangming Cao <Guangming.Cao@mediatek.com>
-> > This feels a lot like hand-rolling kobject debugging. If you want to do
-> > this then I think adding kobject debug support to
-> > dma_buf/dma_buf_attachment would be better than hand-rolling something
-> > bespoke here.
-> 
-> Well I would call that overkill.
+> diff --git a/Documentation/devicetree/bindings/display/bridge/parade,ps8622.yaml b/Documentation/devicetree/bindings/display/bridge/parade,ps8622.yaml
+> new file mode 100644
+> index 000000000000..dda9ceeac60c
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/bridge/parade,ps8622.yaml
+> @@ -0,0 +1,102 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/bridge/parade,ps8622.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Parade PS8622 eDP/DP to LVDS bridge
+> +
+> +maintainers:
+> +  - Ajay Kumar <ajaykumar.rs@samsung.com>
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - parade,ps8622
+> +      - parade,ps8625
+> +
+> +  reg:
+> +    description: I2C address of the bridge
+> +    maxItems: 1
+> +
+> +  lane-count:
+> +    $ref: "/schemas/types.yaml#/definitions/uint32"
+> +    description: Number of DP lanes to use
+> +    maxItems: 1
 
-I think if done right the object debug stuff should be able to give you a
-backtrace. Which might be useful if you have a dma-buf heaps design where
-you really have no clue why a buffer was allocated/attached without some
-hints.
+It's a uint32, so it's already 1 item.
 
-> > Also on the patch itself: You don't need the trylock. For correctly
-> > working code non one else can get at the dma-buf, so no locking needed to
-> > iterate through the attachment list. For incorrect code the kernel will be
-> > on fire pretty soon anyway, trying to do locking won't help :-) And
-> > without the trylock we can catch more bugs (e.g. if you also forgot to
-> > unlock and not just forgot to detach).
-> 
-> You also don't need the WARN(!list_empty...) because a few line below we
-> already have a "WARN_ON(!list_empty(&dmabuf->attachments));".
+I'd assume only 1, 2, or 4 lanes are valid, so 'enum: [ 1, 2, 4 ]'. Or 
+something similar.
 
-Yeah this patch here alone isn't really that useful I think. Maybe we
-could add the dmabuf->exp_name or so to that warning, but otherwise the
-info printed here isn't all that useful for debugging. Grabbing a
-backtrace of the allocator or attacher otoh should fairly immedialy point
-at the buggy code.
--Daniel
+> +
+> +  use-external-pwm:
+> +    type: boolean
+> +    description: Backlight controlled by an external PWM
+> +
+> +  sleep-gpios:
+> +    description: GPIO connected to the PD_ signal.
+> +    maxItems: 1
+> +
+> +  reset-gpios:
+> +    description: GPIO connected to the RST_ signal.
+> +    maxItems: 1
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +
+> +    properties:
+> +      port@0:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description:
+> +          Video port for LVDS output
+> +
+> +      port@1:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description:
+> +          Video port for eDP input
+> +
+> +    required:
+> +      - port@0
+> +      - port@1
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - sleep-gpios
+> +  - reset-gpios
+> +  - ports
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +
+> +    i2c1 {
 
-> 
-> Christian.
-> 
-> > -Daniel
-> > 
-> > > ---
-> > >   drivers/dma-buf/dma-buf.c | 23 +++++++++++++++++++++++
-> > >   1 file changed, 23 insertions(+)
-> > > 
-> > > diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> > > index 511fe0d217a0..672404857d6a 100644
-> > > --- a/drivers/dma-buf/dma-buf.c
-> > > +++ b/drivers/dma-buf/dma-buf.c
-> > > @@ -74,6 +74,29 @@ static void dma_buf_release(struct dentry *dentry)
-> > >   	 */
-> > >   	BUG_ON(dmabuf->cb_shared.active || dmabuf->cb_excl.active);
-> > > +	/* attachment check */
-> > > +	if (dma_resv_trylock(dmabuf->resv) && WARN(!list_empty(&dmabuf->attachments),
-> > > +	    "%s err, inode:%08lu size:%08zu name:%s exp_name:%s flags:0x%08x mode:0x%08x, %s\n",
-> > > +	    __func__, file_inode(dmabuf->file)->i_ino, dmabuf->size,
-> > > +	    dmabuf->name, dmabuf->exp_name,
-> > > +	    dmabuf->file->f_flags, dmabuf->file->f_mode,
-> > > +	    "Release dmabuf before detach all attachments, dump attach:\n")) {
-> > > +		int attach_cnt = 0;
-> > > +		dma_addr_t dma_addr;
-> > > +		struct dma_buf_attachment *attach_obj;
-> > > +		/* dump all attachment info */
-> > > +		list_for_each_entry(attach_obj, &dmabuf->attachments, node) {
-> > > +			dma_addr = (dma_addr_t)0;
-> > > +			if (attach_obj->sgt)
-> > > +				dma_addr = sg_dma_address(attach_obj->sgt->sgl);
-> > > +			pr_err("attach[%d]: dev:%s dma_addr:0x%-12lx\n",
-> > > +			       attach_cnt, dev_name(attach_obj->dev), dma_addr);
-> > > +			attach_cnt++;
-> > > +		}
-> > > +		pr_err("Total %d devices attached\n\n", attach_cnt);
-> > > +		dma_resv_unlock(dmabuf->resv);
-> > > +	}
-> > > +
-> > >   	dmabuf->ops->release(dmabuf);
-> > >   	if (dmabuf->resv == (struct dma_resv *)&dmabuf[1])
-> > > -- 
-> > > 2.17.1
-> > > 
-> 
+i2c {
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+> +      #address-cells = <1>;
+> +      #size-cells = <0>;
+> +
+> +      bridge@48 {
+> +        compatible = "parade,ps8622";
+> +        reg = <0x48>;
+> +        lane-count = <1>;
+> +        sleep-gpios = <&gpc3 5 GPIO_ACTIVE_HIGH>;
+> +        reset-gpios = <&gpy7 7 GPIO_ACTIVE_HIGH>;
+> +
+> +        ports {
+> +          #address-cells = <1>;
+> +          #size-cells = <0>;
+> +
+> +          port@0 {
+> +            reg = <0>;
+> +            bridge_out: endpoint {
+> +              remote-endpoint = <&panel_in>;
+> +            };
+> +          };
+> +
+> +          port@1 {
+> +            reg = <1>;
+> +            bridge_in: endpoint {
+> +              remote-endpoint = <&dp_out>;
+> +            };
+> +          };
+> +        };
+> +      };
+> +    };
+> +
+> +...
+> diff --git a/Documentation/devicetree/bindings/display/bridge/ps8622.txt b/Documentation/devicetree/bindings/display/bridge/ps8622.txt
+> deleted file mode 100644
+> index c989c3807f2b..000000000000
+> --- a/Documentation/devicetree/bindings/display/bridge/ps8622.txt
+> +++ /dev/null
+> @@ -1,31 +0,0 @@
+> -ps8622-bridge bindings
+> -
+> -Required properties:
+> -	- compatible: "parade,ps8622" or "parade,ps8625"
+> -	- reg: first i2c address of the bridge
+> -	- sleep-gpios: OF device-tree gpio specification for PD_ pin.
+> -	- reset-gpios: OF device-tree gpio specification for RST_ pin.
+> -
+> -Optional properties:
+> -	- lane-count: number of DP lanes to use
+> -	- use-external-pwm: backlight will be controlled by an external PWM
+> -	- video interfaces: Device node can contain video interface port
+> -			    nodes for panel according to [1].
+> -
+> -[1]: Documentation/devicetree/bindings/media/video-interfaces.txt
+> -
+> -Example:
+> -	lvds-bridge@48 {
+> -		compatible = "parade,ps8622";
+> -		reg = <0x48>;
+> -		sleep-gpios = <&gpc3 6 1 0 0>;
+> -		reset-gpios = <&gpc3 1 1 0 0>;
+> -		lane-count = <1>;
+> -		ports {
+> -			port@0 {
+> -				bridge_out: endpoint {
+> -					remote-endpoint = <&panel_in>;
+> -				};
+> -			};
+> -		};
+> -	};
+> -- 
+> 2.33.0
+> 
+> 
