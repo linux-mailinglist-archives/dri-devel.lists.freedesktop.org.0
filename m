@@ -2,68 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5C844331A0
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Oct 2021 10:55:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 080B54331C4
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Oct 2021 11:02:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B66796E8AC;
-	Tue, 19 Oct 2021 08:55:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E71EF6EB5C;
+	Tue, 19 Oct 2021 09:02:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com
- [IPv6:2607:f8b0:4864:20::1034])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 32E796E8AC
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Oct 2021 08:55:24 +0000 (UTC)
-Received: by mail-pj1-x1034.google.com with SMTP id
- ls18-20020a17090b351200b001a00250584aso1465936pjb.4
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Oct 2021 01:55:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=bfQpC7UQZpNqq1v0sLumWlo6NVzWJwEiwTHkqYg5h6A=;
- b=qDxz+misihGXlTA/r4pgSx5eCNWOMbtLHVRQQrxN6vBMhWa5g4a+oG6bivI5nm2mq1
- +nhWGUQM1E1mI3u6T/lsqhQO/MMB9iqvHPLz6UFsXK+gjiCRwA3/8Xz43VDFB1kKvxo4
- wIlF0Mop9np+pX0NkE2GBJGM2f0oPo48wkPgc5la+LtT8qUKlMTFqXsF/TDq2MfVt2f5
- cj81YfZ39cVUbVv+lSJCzuHWQcpkgGfoYfQKG2ln+6/bBHdzQYWID62+rzIiZKS9PyVj
- cTmEVqjy42Iz2FXw3CXdoBONf3EygmpT2FIuq7XV2nqOxQw6Z3VFMI76sUCeUaAB/c/r
- 0OLQ==
+Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com
+ [IPv6:2607:f8b0:4864:20::434])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 720F66EB5C;
+ Tue, 19 Oct 2021 09:02:45 +0000 (UTC)
+Received: by mail-pf1-x434.google.com with SMTP id o133so17039804pfg.7;
+ Tue, 19 Oct 2021 02:02:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=sW5kzqI2ZLlgm72jV9aPPdFKNC889wnGZx9L6y3GNDE=;
+ b=KQ6KKZrilTzlxQ5KkvqlvnbNQ/cJxM54GDqV4uxqzpBbCnSiHHjsgyu7ZqkvO12KPf
+ uXVbkuTWMPodLFMAAM4pzZApcjfjUIj3lcRn3R9nX8Wx7UNRtXUcHaD1Cy0ikOksTAsi
+ QB79kgXcaIdeJ2LEgdh+riEPU4/GUN98aUzchgmRJvakDLi89c6yVA2WpJ0cYxS6XA19
+ G94hjk/Ay8IcRUV/tQav7P/AQNxN5tE/E+Y+J4rOT8oWdAH+q2KVtkHVCgnS4EUhq6LI
+ uWt5500ppG1B5lgc+XqWt9oe6XbochwNDiCvhEXC5fmhErRKIobuJXptWKZybloQ18+C
+ P7Iw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=bfQpC7UQZpNqq1v0sLumWlo6NVzWJwEiwTHkqYg5h6A=;
- b=Q1+95O63pRW1RJcf7GzrU72YnJDFrxTIHjS0HFGPrO5VhCI1NGo6lHx5RyDTQlpvxK
- bACn6oOLwhk9I/4QovPBii6I8r8LdBI31ML7GyG+4/Su3YWgz29aCIjLy9somdnaihyJ
- MxD8iwfbwHKwRmrlRQXbiz7M81zaHsSMtykvOh9TPn92QC2NWqcI9Ciecuz6Tz/WJJ18
- X/eRPXhM1OEgqhQS/ToRXgP9CwZVY0LZ2yAg7W2vfSTRP9/gLzoaNyDd8nWzT/vk0+Lg
- 1m0MncI4Gz7pawgp2VWkBVuz+wEEHOEsoVoZCa9U3a3w+As9oPo+k8swelVxKoT6GeI2
- fMTg==
-X-Gm-Message-State: AOAM531wXHIvaLrFds5mBOtNwt/5ucWmeAk/8h2NY5/kfdWP9uvhSiH1
- +MB2T5/gc+jt73wMoeTjTTakvKfg2GEU1IoyK+H7wQ==
-X-Google-Smtp-Source: ABdhPJxsEa+yroDAhbHQrtQv2/06arqDDWoEpu77sno3nW/g9Vma85iKgTgN8MsdXKAY4s0Z2WIfTrOMJjqvUepGKS0=
-X-Received: by 2002:a17:90b:4c0d:: with SMTP id
- na13mr5042549pjb.232.1634633723777; 
- Tue, 19 Oct 2021 01:55:23 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=sW5kzqI2ZLlgm72jV9aPPdFKNC889wnGZx9L6y3GNDE=;
+ b=2Kyv2d6HrctKxpDHa0AlxFbL4vE+p4xT//gTIEpgoIYfymgzuMfUcv7T2xreWaYceL
+ W1tFJbcM6Sz4yMq2V6ZmgGH8VLxnj/UAolIt/F8SQ7zAm1pQ8NdTk4nkehwZdq19ZAFU
+ IxySK1U4R59kGEEi37TaD/PVLHlv7kBDT0h5uJlhDld+Ddk+IMC4QtblariomiqkDYoE
+ 30VI5ur8gQRtwYtgr9HBux3KbEaARjkIoBSi86PGiIOdByIPsA78zhOkL5XDWo7yR7xF
+ cPpc0fum7HJNDdOPSYFmIPo4PxvX6tKKdYQ87LmHx+woW2OMsytOcDB9Pf2PkvAnhIH+
+ a47g==
+X-Gm-Message-State: AOAM533S8wl4Lm70UCKluP3+42acGNH79naf5aIVWjedjJ7LXx4gkL5Q
+ JTD5YwzX1lCF65eWJ0klBjCm2kJU09E=
+X-Google-Smtp-Source: ABdhPJwUfkoqRsVd+CCYM8ak6IRF7IftK8GgqFupS44n7zlu7KDBI56oFbj2TEQOPZQoPwy/mwU7DQ==
+X-Received: by 2002:a63:8742:: with SMTP id i63mr16229969pge.328.1634634165079; 
+ Tue, 19 Oct 2021 02:02:45 -0700 (PDT)
+Received: from localhost.localdomain ([193.203.214.57])
+ by smtp.gmail.com with ESMTPSA id s2sm15184610pfw.30.2021.10.19.02.02.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 19 Oct 2021 02:02:44 -0700 (PDT)
+From: cgel.zte@gmail.com
+X-Google-Original-From: ran.jianping@zte.com.cn
+To: jani.nikula@linux.intel.com
+Cc: joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com, airlied@linux.ie,
+ daniel@ffwll.ch, matthew.auld@intel.com, thomas.hellstrom@linux.intel.com,
+ chris@chris-wilson.co.uk, maarten.lankhorst@linux.intel.com,
+ ran.jianping@zte.com.cn, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Zeal Robot <zealci@zte.com.cn>
+Subject: [PATCH] remove duplicate include in mock_region.c
+Date: Tue, 19 Oct 2021 09:02:05 +0000
+Message-Id: <20211019090205.1003458-1-ran.jianping@zte.com.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20211002233447.1105-1-digetx@gmail.com>
- <20211002233447.1105-3-digetx@gmail.com>
-In-Reply-To: <20211002233447.1105-3-digetx@gmail.com>
-From: Robert Foss <robert.foss@linaro.org>
-Date: Tue, 19 Oct 2021 10:55:12 +0200
-Message-ID: <CAG3jFyvtSU9ijnL7BwGEg09dgotT1H9Ox3A=Oi1GAAB1+SfoQg@mail.gmail.com>
-Subject: Re: [PATCH v1 2/5] drm/bridge: tc358768: Support pulse mode
-To: Dmitry Osipenko <digetx@gmail.com>
-Cc: Thierry Reding <thierry.reding@gmail.com>,
- Andrzej Hajda <a.hajda@samsung.com>, 
- Neil Armstrong <narmstrong@baylibre.com>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maxim Schwalm <maxim.schwalm@gmail.com>, 
- Andreas Westman Dorcsak <hedmoo@yahoo.com>,
- Peter Ujfalusi <peter.ujfalusi@ti.com>, 
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, 
- dri-devel <dri-devel@lists.freedesktop.org>, linux-tegra@vger.kernel.org, 
- linux-kernel <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,94 +75,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, 3 Oct 2021 at 01:35, Dmitry Osipenko <digetx@gmail.com> wrote:
->
-> Support pulse-mode synchronization which is supported and used by simple
-> DSI panels like Panasonic VVX10F004B00.
->
-> Tested-by: Andreas Westman Dorcsak <hedmoo@yahoo.com> # Asus TF700T
-> Tested-by: Maxim Schwalm <maxim.schwalm@gmail.com> #TF700T
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> ---
->  drivers/gpu/drm/bridge/tc358768.c | 66 ++++++++++++++++++++++---------
->  1 file changed, 48 insertions(+), 18 deletions(-)
->
-> diff --git a/drivers/gpu/drm/bridge/tc358768.c b/drivers/gpu/drm/bridge/tc358768.c
-> index 18ae6605a803..10ebd0621ad3 100644
-> --- a/drivers/gpu/drm/bridge/tc358768.c
-> +++ b/drivers/gpu/drm/bridge/tc358768.c
-> @@ -785,24 +785,54 @@ static void tc358768_bridge_pre_enable(struct drm_bridge *bridge)
->         /* START[0] */
->         tc358768_write(priv, TC358768_STARTCNTRL, 1);
->
-> -       /* Set event mode */
-> -       tc358768_write(priv, TC358768_DSI_EVENT, 1);
-> -
-> -       /* vsw (+ vbp) */
-> -       tc358768_write(priv, TC358768_DSI_VSW,
-> -                      mode->vtotal - mode->vsync_start);
-> -       /* vbp (not used in event mode) */
-> -       tc358768_write(priv, TC358768_DSI_VBPR, 0);
-> -       /* vact */
-> -       tc358768_write(priv, TC358768_DSI_VACT, mode->vdisplay);
-> -
-> -       /* (hsw + hbp) * byteclk * ndl / pclk */
-> -       val = (u32)div_u64((mode->htotal - mode->hsync_start) *
-> -                          ((u64)priv->dsiclk / 4) * priv->dsi_lanes,
-> -                          mode->clock * 1000);
-> -       tc358768_write(priv, TC358768_DSI_HSW, val);
-> -       /* hbp (not used in event mode) */
-> -       tc358768_write(priv, TC358768_DSI_HBPR, 0);
-> +       if (dsi_dev->mode_flags & MIPI_DSI_MODE_VIDEO_SYNC_PULSE) {
-> +               /* Set pulse mode */
-> +               tc358768_write(priv, TC358768_DSI_EVENT, 0);
-> +
-> +               /* vact */
-> +               tc358768_write(priv, TC358768_DSI_VACT, mode->vdisplay);
-> +
-> +               /* vsw */
-> +               tc358768_write(priv, TC358768_DSI_VSW,
-> +                              mode->vsync_end - mode->vsync_start);
-> +               /* vbp */
-> +               tc358768_write(priv, TC358768_DSI_VBPR,
-> +                              mode->vtotal - mode->vsync_end);
-> +
-> +               /* hsw * byteclk * ndl / pclk */
-> +               val = (u32)div_u64((mode->hsync_end - mode->hsync_start) *
-> +                                  ((u64)priv->dsiclk / 4) * priv->dsi_lanes,
-> +                                  mode->clock * 1000);
-> +               tc358768_write(priv, TC358768_DSI_HSW, val);
-> +
-> +               /* hbp * byteclk * ndl / pclk */
-> +               val = (u32)div_u64((mode->htotal - mode->hsync_end) *
-> +                                  ((u64)priv->dsiclk / 4) * priv->dsi_lanes,
-> +                                  mode->clock * 1000);
-> +               tc358768_write(priv, TC358768_DSI_HBPR, val);
-> +       } else {
-> +               /* Set event mode */
-> +               tc358768_write(priv, TC358768_DSI_EVENT, 1);
-> +
-> +               /* vact */
-> +               tc358768_write(priv, TC358768_DSI_VACT, mode->vdisplay);
-> +
-> +               /* vsw (+ vbp) */
-> +               tc358768_write(priv, TC358768_DSI_VSW,
-> +                              mode->vtotal - mode->vsync_start);
-> +               /* vbp (not used in event mode) */
-> +               tc358768_write(priv, TC358768_DSI_VBPR, 0);
-> +
-> +               /* (hsw + hbp) * byteclk * ndl / pclk */
-> +               val = (u32)div_u64((mode->htotal - mode->hsync_start) *
-> +                                  ((u64)priv->dsiclk / 4) * priv->dsi_lanes,
-> +                                  mode->clock * 1000);
-> +               tc358768_write(priv, TC358768_DSI_HSW, val);
-> +
-> +               /* hbp (not used in event mode) */
-> +               tc358768_write(priv, TC358768_DSI_HBPR, 0);
-> +       }
-> +
->         /* hact (bytes) */
->         tc358768_write(priv, TC358768_DSI_HACT, hact);
->
+From: Ran Jianping <ran.jianping@zte.com.cn>
 
-Reviewed-by: Robert Foss <robert.foss@linaro.org>
+'drm/ttm/ttm_placement.h' included in
+'drivers/gpu/drm/i915/selftests/mock_region.c' is duplicated.
+It is also included on the 9 line.
+
+Reported-by: Zeal Robot <zealci@zte.com.cn>
+Signed-off-by: Ran Jianping <ran.jianping@zte.com.cn>
+---
+ drivers/gpu/drm/i915/selftests/mock_region.c | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/i915/selftests/mock_region.c b/drivers/gpu/drm/i915/selftests/mock_region.c
+index efa86dffe3c6..75793008c4ef 100644
+--- a/drivers/gpu/drm/i915/selftests/mock_region.c
++++ b/drivers/gpu/drm/i915/selftests/mock_region.c
+@@ -6,8 +6,6 @@
+ #include <drm/ttm/ttm_placement.h>
+ #include <linux/scatterlist.h>
+ 
+-#include <drm/ttm/ttm_placement.h>
+-
+ #include "gem/i915_gem_region.h"
+ #include "intel_memory_region.h"
+ #include "intel_region_ttm.h"
+-- 
+2.25.1
+
