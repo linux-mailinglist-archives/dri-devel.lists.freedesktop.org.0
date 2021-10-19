@@ -2,42 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB4CF43361C
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Oct 2021 14:39:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89312433628
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Oct 2021 14:41:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9BF686E15C;
-	Tue, 19 Oct 2021 12:39:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 782646EC05;
+	Tue, 19 Oct 2021 12:41:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B18B16EC01;
- Tue, 19 Oct 2021 12:39:25 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10141"; a="228373796"
-X-IronPort-AV: E=Sophos;i="5.87,384,1631602800"; d="scan'208";a="228373796"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Oct 2021 05:39:25 -0700
-X-IronPort-AV: E=Sophos;i="5.87,384,1631602800"; d="scan'208";a="494077200"
-Received: from jsanz-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.251.211.239])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Oct 2021 05:39:22 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Maxime Ripard <maxime@cerno.tech>
-Cc: intel-gfx@lists.freedesktop.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
- ville.syrjala@linux.intel.com
-Subject: Re: [PATCH 1/3] drm/dp: add helpers to read link training delays
-In-Reply-To: <20211018084147.iuexgyykyrrx2ykw@gilmour>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20211014150059.28957-1-jani.nikula@intel.com>
- <871r4muxds.fsf@intel.com> <20211018084147.iuexgyykyrrx2ykw@gilmour>
-Date: Tue, 19 Oct 2021 15:39:20 +0300
-Message-ID: <875yttqjd3.fsf@intel.com>
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com
+ [IPv6:2a00:1450:4864:20::536])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B86DC6E171
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Oct 2021 12:41:18 +0000 (UTC)
+Received: by mail-ed1-x536.google.com with SMTP id r18so12504019edv.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Oct 2021 05:41:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=EHf1d6jYC47N493Pv/6pFABfQdMKx4e8O3xhKroDPbE=;
+ b=NyuJgkOEqVr2HgSuFzucrmFl6uCC47sSvbC4sO8TJI5tKjSPUp2CuXuUVzlYed/0Wd
+ UuwdEFSyvQRiZn4dT7Vi6Yr2OGeienXD0cr3JRJIZxso6VZBlHhPqR4DRBDUcM22HpyY
+ aTuV8ClK37PNqKNrFn6vFa4AlhIToFy9MbcfY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=EHf1d6jYC47N493Pv/6pFABfQdMKx4e8O3xhKroDPbE=;
+ b=49Bv+8iX1H71SLQ8/u7MH0mKs2cBvc51phq71oLzBox0ycowjLJJMFrOinLjAmeAZ8
+ 6YlUFE0svus64KjJUJRu/n9oCaqvlUINS178WFZlbKPAN49IT0bK89RyqBhWBdWke9do
+ tljNVoGNbVfjt2p0F6kKNbRPv9PuBbxsOpIM0g7PhSqAcBNudNUnsH7/l2vtx+u37CSk
+ 28OFoc2EMUV1svZJFRBEvRZ5BNXe1Qqwdog/1hy6kLLUW7tOdfz0WC1FnIZzY+PUXCCv
+ /7Ez6P2KCl1gAAIlHD3GEGHMqE0g5zMwkXbltbdk+1tLmsi0lDT/ejs0nrBCanDM9mRA
+ xOFw==
+X-Gm-Message-State: AOAM532xCRX5kRn+xUfwW8A0ZoMx0TH8PSqkBnWIOotABIUd4TuLoF3k
+ rPTV0qgeQxj+hkk9r/8VdQTp8V2tJVEfjg==
+X-Google-Smtp-Source: ABdhPJx6vSo6OufSaFH9rFLrzmjtgXdXhc8T6jVm1AlxqNyN88YtlQU+itfte1ctjSnqHOIrQwPvAg==
+X-Received: by 2002:a05:6402:84d:: with SMTP id
+ b13mr54514480edz.110.1634647277354; 
+ Tue, 19 Oct 2021 05:41:17 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id p23sm12148807edw.94.2021.10.19.05.41.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 19 Oct 2021 05:41:16 -0700 (PDT)
+Date: Tue, 19 Oct 2021 14:41:14 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: guangming.cao@mediatek.com
+Cc: Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <dri-devel@lists.freedesktop.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ "moderated list:ARM/Mediatek SoC support"
+ <linux-arm-kernel@lists.infradead.org>, 
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ wsd_upstream@mediatek.com
+Subject: Re: [PATCH] dma-buf: add attachments empty check for dma_buf_release
+Message-ID: <YW686sIZie4xRUQO@phenom.ffwll.local>
+Mail-Followup-To: guangming.cao@mediatek.com,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <dri-devel@lists.freedesktop.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ "moderated list:ARM/Mediatek SoC support"
+ <linux-arm-kernel@lists.infradead.org>, 
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ wsd_upstream@mediatek.com
+References: <20211019122345.160555-1-guangming.cao@mediatek.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211019122345.160555-1-guangming.cao@mediatek.com>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,52 +93,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 18 Oct 2021, Maxime Ripard <maxime@cerno.tech> wrote:
-> Hi Jani,
->
-> On Fri, Oct 15, 2021 at 06:21:35PM +0300, Jani Nikula wrote:
->> On Thu, 14 Oct 2021, Jani Nikula <jani.nikula@intel.com> wrote:
->> > The link training delays are different and/or available in different
->> > DPCD offsets depending on:
->> >
->> > - Clock recovery vs. channel equalization
->> > - DPRX vs. LTTPR
->> > - 128b/132b vs. 8b/10b
->> > - DPCD 1.4+ vs. earlier
->> >
->> > Add helpers to get the correct delays in us, reading DPCD if
->> > necessary. This is more straightforward than trying to retrofit the
->> > existing helpers to take 128b/132b into account.
->> >
->> > Having to pass in the DPCD receiver cap field seems unavoidable, becau=
-se
->> > reading it involves checking the revision and reading extended receiver
->> > cap. So unfortunately the interface is mixed cached and read as needed.
->> >
->> > v2: Remove delay_us < 0 check and the whole local var (Ville)
->> >
->> > Cc: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
->> > Reviewed-by: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
->> > Signed-off-by: Jani Nikula <jani.nikula@intel.com>
->>=20
->> Maarten, Maxime, Thomas -
->>=20
->> Ack on the first two patches in this series?
->>=20
->> Should we merge them via a topic branch to both drm-misc-next and
->> drm-intel-next, or is it fine to merge them all via drm-intel-next? We
->> might be at a point in the development cycle that it takes a while to
->> get the branches in sync again.
->
-> I guess the easiest would be to send a PR so that we can merge it in the
-> two branches then.
+On Tue, Oct 19, 2021 at 08:23:45PM +0800, guangming.cao@mediatek.com wrote:
+> From: Guangming Cao <Guangming.Cao@mediatek.com>
+> 
+> Since there is no mandatory inspection for attachments in dma_buf_release.
+> There will be a case that dma_buf already released but attachment is still
+> in use, which can points to the dmabuf, and it maybe cause
+> some unexpected issues.
+> 
+> With IOMMU, when this cases occurs, there will have IOMMU address
+> translation fault(s) followed by this warning,
+> I think it's useful for dma devices to debug issue.
+> 
+> Signed-off-by: Guangming Cao <Guangming.Cao@mediatek.com>
 
-Sent.
+This feels a lot like hand-rolling kobject debugging. If you want to do
+this then I think adding kobject debug support to
+dma_buf/dma_buf_attachment would be better than hand-rolling something
+bespoke here.
 
-https://lore.kernel.org/r/878ryps5b6.fsf@intel.com
+Also on the patch itself: You don't need the trylock. For correctly
+working code non one else can get at the dma-buf, so no locking needed to
+iterate through the attachment list. For incorrect code the kernel will be
+on fire pretty soon anyway, trying to do locking won't help :-) And
+without the trylock we can catch more bugs (e.g. if you also forgot to
+unlock and not just forgot to detach).
+-Daniel
 
-BR,
-Jani.
+> ---
+>  drivers/dma-buf/dma-buf.c | 23 +++++++++++++++++++++++
+>  1 file changed, 23 insertions(+)
+> 
+> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> index 511fe0d217a0..672404857d6a 100644
+> --- a/drivers/dma-buf/dma-buf.c
+> +++ b/drivers/dma-buf/dma-buf.c
+> @@ -74,6 +74,29 @@ static void dma_buf_release(struct dentry *dentry)
+>  	 */
+>  	BUG_ON(dmabuf->cb_shared.active || dmabuf->cb_excl.active);
+>  
+> +	/* attachment check */
+> +	if (dma_resv_trylock(dmabuf->resv) && WARN(!list_empty(&dmabuf->attachments),
+> +	    "%s err, inode:%08lu size:%08zu name:%s exp_name:%s flags:0x%08x mode:0x%08x, %s\n",
+> +	    __func__, file_inode(dmabuf->file)->i_ino, dmabuf->size,
+> +	    dmabuf->name, dmabuf->exp_name,
+> +	    dmabuf->file->f_flags, dmabuf->file->f_mode,
+> +	    "Release dmabuf before detach all attachments, dump attach:\n")) {
+> +		int attach_cnt = 0;
+> +		dma_addr_t dma_addr;
+> +		struct dma_buf_attachment *attach_obj;
+> +		/* dump all attachment info */
+> +		list_for_each_entry(attach_obj, &dmabuf->attachments, node) {
+> +			dma_addr = (dma_addr_t)0;
+> +			if (attach_obj->sgt)
+> +				dma_addr = sg_dma_address(attach_obj->sgt->sgl);
+> +			pr_err("attach[%d]: dev:%s dma_addr:0x%-12lx\n",
+> +			       attach_cnt, dev_name(attach_obj->dev), dma_addr);
+> +			attach_cnt++;
+> +		}
+> +		pr_err("Total %d devices attached\n\n", attach_cnt);
+> +		dma_resv_unlock(dmabuf->resv);
+> +	}
+> +
+>  	dmabuf->ops->release(dmabuf);
+>  
+>  	if (dmabuf->resv == (struct dma_resv *)&dmabuf[1])
+> -- 
+> 2.17.1
+> 
 
---=20
-Jani Nikula, Intel Open Source Graphics Center
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
