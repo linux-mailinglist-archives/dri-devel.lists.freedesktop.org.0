@@ -2,59 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 222F34335E6
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Oct 2021 14:27:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C91B443360D
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Oct 2021 14:35:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C47526EBA3;
-	Tue, 19 Oct 2021 12:27:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E61196E150;
+	Tue, 19 Oct 2021 12:35:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com
- [IPv6:2a00:1450:4864:20::52a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 27EB06EBA2
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Oct 2021 12:26:59 +0000 (UTC)
-Received: by mail-ed1-x52a.google.com with SMTP id y12so12696893eda.4
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Oct 2021 05:26:59 -0700 (PDT)
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com
+ [IPv6:2a00:1450:4864:20::52e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 965606E150
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Oct 2021 12:35:24 +0000 (UTC)
+Received: by mail-ed1-x52e.google.com with SMTP id ec8so12373221edb.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Oct 2021 05:35:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=nf4thv4NywmSrS6ss9EOuZ/0ID+ILkEBujPnF06oQFw=;
- b=UYw+uTCk12NwPXHydgoaWCucf1NQGj8Ee83kX76opDg7+PoUlYqo8gTkFWUdKL1r5Y
- V5DIk3d3ormOxEv3UQwdYoBsl4K6rOCTOmCEKKZIqVUfejHG4GclUSG+cPpYnV9ZK7QG
- hF8p59Jhvg/cDHt02xrQXwjkVoXeh1CsRDDu0=
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=skz9RisUW4S/qiDO+uHl0XaPBD9dUYYUERXYsjD/4Jg=;
+ b=EYB58TsgeqhilyH713MJ3zodt9ukU4z+13Cjbuwm4YVk7vx8NpePwcCF0EL8HztvCr
+ NRjLfLaGqefHdmYjcEoZaXa2RzhEC1q/YFs1IedmvQhh/2OIRNJmoRinBsr3hfOMIpzN
+ 03ef/Ei/kexXwevj5VRUJ6srg+9BlUZ4y5TY4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=nf4thv4NywmSrS6ss9EOuZ/0ID+ILkEBujPnF06oQFw=;
- b=nryUmKjNVDysUseOh2Pzgl1vRZd6KEU4wyHSfGmfoONT+0l8boTmruCspFqr9xLNdw
- AA9chlMRJ/UaJuUf5ZuiCCtIO75Q2ZpMaSszkBXAx8g1cLNs0AbT3xfYNJaI5/jAbJZd
- gNsWmYbVt3zCRc6Zp4G00+VI8BobQAf5CtjhqgllxIGoMo86ZQWHgMn4BGV31cYxf8JY
- 2m8VtCClpPH4MQVq+SwTfOpcAloKFhZPnn8l8deY7U7CXMuZ9iDH9MHRsAqVYuA9PS0S
- Lth0jPZHbqPk7WuFrcI77srwUVWa1ZJg1zKn1W63qqLB2n/ajjE/cCrBP34FGLp38W74
- 1b7A==
-X-Gm-Message-State: AOAM533ZGlDUSj5CgiS/H6zvNrDhpHaO/CfP9oDQ1L9T/JEGWQdthO46
- 89Eq3lSPsRrlCONNWss4j+bMOA==
-X-Google-Smtp-Source: ABdhPJwXHbUuvLALsKAY4PDc6rY/XZeEe4pvQz4KNLBuiilyfT81Bd92GDhxCfnksqslcEPkYrGWjQ==
-X-Received: by 2002:a17:906:2a0d:: with SMTP id
- j13mr35498816eje.545.1634646417598; 
- Tue, 19 Oct 2021 05:26:57 -0700 (PDT)
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=skz9RisUW4S/qiDO+uHl0XaPBD9dUYYUERXYsjD/4Jg=;
+ b=0cnrWFzQJM6hlI7VmWOUP8mBPtQMeB6w3N389FAN+rtMLlQ48lU0x6dbWxWXVHNJSe
+ yex3M66EDp/RbQwlxO59kiZ6fignb5T3o1wyb6iSnkrWAfyyD2HXrQMzZOBWm5/YaWlT
+ hPcVmyoKvT+BG5NDvvE80P8Q5a5s1x5gebhJvZz1G6KaQTWljvFQGHirrEa0Enb3iHxa
+ 9uv01KMGWxICLtrWsSAPALDEpmardbw0ZzUdGwzWSzczWCgR2NAa8QRJvt821KmpByCE
+ EKA+tRs/Tm6sAHvuOaUD798YMs3wYD3QOCjNlKAl/z712Mo+BR5GcodtjBYVLAaH+cxZ
+ SLQA==
+X-Gm-Message-State: AOAM533h+asJ+zq+oSoTRfJYhXFskOTAaHFs9/boiwwFXrl5ZKlbsq0P
+ HOonH9ETR++JIz8qmXdwpop2FtwB84LFQA==
+X-Google-Smtp-Source: ABdhPJw9uladzagSnhCYHCwYj86ixtI4IJrHlJKrumdHRZ8h0QGjNQ25iICfWD9ixZHu90eaj6pzHw==
+X-Received: by 2002:a17:906:6a2a:: with SMTP id
+ qw42mr36630634ejc.561.1634646923011; 
+ Tue, 19 Oct 2021 05:35:23 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id t18sm11727422edd.18.2021.10.19.05.26.56
+ by smtp.gmail.com with ESMTPSA id z19sm10158176ejw.44.2021.10.19.05.35.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Oct 2021 05:26:57 -0700 (PDT)
-Date: Tue, 19 Oct 2021 14:26:55 +0200
+ Tue, 19 Oct 2021 05:35:22 -0700 (PDT)
+Date: Tue, 19 Oct 2021 14:35:20 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: patrik.r.jakobsson@gmail.com, airlied@linux.ie, daniel@ffwll.ch,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] drm/gma500: Remove generic DRM drivers in probe function
-Message-ID: <YW65j25AgJA0x1dl@phenom.ffwll.local>
-References: <20211019080942.24356-1-tzimmermann@suse.de>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
+Cc: frattaroli.nicolas@gmail.com, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH] drm/scheduler: fix drm_sched_job_add_implicit_dependencies
+Message-ID: <YW67iLFQ7ttCT54O@phenom.ffwll.local>
+References: <20211019112706.27769-1-christian.koenig@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20211019080942.24356-1-tzimmermann@suse.de>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20211019112706.27769-1-christian.koenig@amd.com>
 X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,53 +72,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 19, 2021 at 10:09:42AM +0200, Thomas Zimmermann wrote:
-> Gma500 currently removes generic fbdev drivers, but ignores
-> generic DRM drivers. Use aperture helpers to remove all generic
-> graphics drivers before loading gma500. Makes gma500 compatible
-> with simpledrm.
+On Tue, Oct 19, 2021 at 01:27:06PM +0200, Christian König wrote:
+> Trivial fix since we now need to grab a reference to the fence we have
+> added. Previously the dma_resv function where doing that for us.
 > 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Signed-off-by: Christian König <christian.koenig@amd.com>
+> Fixes: 9c2ba265352a drm/scheduler: ("use new iterator in drm_sched_job_add_implicit_dependencies v2")
 
-Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Uh I completely missed checking for that. Did you review all other
+conversions you've pushed for this kind of bug?
+
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+
+Also
+
+Reported-by: Nicolas Frattaroli <frattaroli.nicolas@gmail.com> 
+References: https://lore.kernel.org/dri-devel/2023306.UmlnhvANQh@archbook/
+
+It's important to credit bug reporters! Also upgrade to t-b if Nicolas
+gets around to testing quickly.
+
+Cheers, Daniel
+
 > ---
->  drivers/gpu/drm/gma500/psb_drv.c | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
+>  drivers/gpu/drm/scheduler/sched_main.c | 3 +++
+>  1 file changed, 3 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/gma500/psb_drv.c b/drivers/gpu/drm/gma500/psb_drv.c
-> index 7a10bb39ef0b..7ea82d7ddfcc 100644
-> --- a/drivers/gpu/drm/gma500/psb_drv.c
-> +++ b/drivers/gpu/drm/gma500/psb_drv.c
-> @@ -19,6 +19,7 @@
->  #include <acpi/video.h>
-> 
->  #include <drm/drm.h>
-> +#include <drm/drm_aperture.h>
->  #include <drm/drm_drv.h>
->  #include <drm/drm_fb_helper.h>
->  #include <drm/drm_file.h>
-> @@ -448,6 +449,17 @@ static int psb_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
->  	struct drm_device *dev;
->  	int ret;
-> 
-> +	/*
-> +	 * We cannot yet easily find the framebuffer's location in memory. So
-> +	 * remove all framebuffers here.
-> +	 *
-> +	 * TODO: Refactor psb_driver_load() to map vdc_reg earlier. Then we
-> +	 *       might be able to read the framebuffer range from the device.
-> +	 */
-> +	ret = drm_aperture_remove_framebuffers(true, &driver);
-> +	if (ret)
-> +		return ret;
+> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+> index 5bc5f775abe1..94fe51b3caa2 100644
+> --- a/drivers/gpu/drm/scheduler/sched_main.c
+> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> @@ -707,6 +707,9 @@ int drm_sched_job_add_implicit_dependencies(struct drm_sched_job *job,
+>  		ret = drm_sched_job_add_dependency(job, fence);
+>  		if (ret)
+>  			return ret;
 > +
->  	ret = pcim_enable_device(pdev);
->  	if (ret)
->  		return ret;
-> 
-> base-commit: 762b53b56af425f89f892e99583dfd84c73d731c
-> --
-> 2.33.0
+> +		/* Make sure to grab an additional ref on the added fence */
+> +		dma_fence_get(fence);
+>  	}
+>  	return 0;
+>  }
+> -- 
+> 2.25.1
 > 
 
 -- 
