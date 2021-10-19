@@ -2,67 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B786433694
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Oct 2021 15:02:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C7704336AA
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Oct 2021 15:06:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D123898EA;
-	Tue, 19 Oct 2021 13:02:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C58C16E106;
+	Tue, 19 Oct 2021 13:06:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
- [IPv6:2a00:1450:4864:20::42d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F7B4898EA;
- Tue, 19 Oct 2021 13:02:30 +0000 (UTC)
-Received: by mail-wr1-x42d.google.com with SMTP id t2so47713757wrb.8;
- Tue, 19 Oct 2021 06:02:30 -0700 (PDT)
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
+ [IPv6:2a00:1450:4864:20::429])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BDC9B6E106
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Oct 2021 13:06:33 +0000 (UTC)
+Received: by mail-wr1-x429.google.com with SMTP id k7so47440615wrd.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Oct 2021 06:06:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=zoeKeQkU3KvxnJa2mZcZh7Nvtdmvi6KvvNHJWqgrlL8=;
- b=FSCLJ7rXFMRdh8Hphd/PqIDV+GZiMLqJSKAwavuZJNmFA/mMD9Ak0NQPQbbpgDDnNc
- fXKDZZ1y9N1+JUIR4tKmMmLZOZ3nnVtTcDn8tRKqQbKVIX6v7xwHeff2kEU7BiR1NA+g
- PQV/Nwg7i1nm+yqzXLYYhPVunq2dbEY0AuI+jw943gw1sg35lXKh2L/36UxV8SoLJa0l
- K7mBye1O98rGDeQKm4zm16bdddNgVXAXlKvqLPcxu1k1UlWpsV9KV5AmlNlydNp8OYDV
- FDoW/JXk8+BGNCmOWKNE8QMVSKSjFNSqd8lns9m6GnYyI4059eFsZI7tKciAzZzjQqyg
- 2RzQ==
+ bh=HTP0laOMyS+3LPZDWeQb93qbT0MYz1dc2AhvNQBBsfw=;
+ b=Pi5H+2S1Oa0Wo9ED0v3KPrgZ3TAo/lpLFLGWnUIQQT0lnJSBFU+kZqmZHJvufOwCTc
+ 6z6X6OA60bvgy3tFHQx6GxFfg5ziZdGOc30dxUw+dtotS8L3/8H8NUNOyjrWnRpCXn7D
+ b7nXyolWEsO2YLlOaLjUdCoDdsicpazWr5gXguCRRpYexuFRHNdgtBfH6Gl8/onIhRdN
+ 4psKMEsGaZCAoHNTUqmRw4MIh9Q1kw4dk6Nw0ZIOGSG6o90NKCWMN55ma61vCqyH9dlD
+ d5cnyBqbYHSnxfyb74nKnn6dOlvoQwoRyImWEP5wVjZjFj0mX3l25pzG2isCWMKTSYb6
+ jAJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-transfer-encoding
  :content-language;
- bh=zoeKeQkU3KvxnJa2mZcZh7Nvtdmvi6KvvNHJWqgrlL8=;
- b=VaxbO+GyTD3+3ZSUdDZcTF+s/918QH4pX3XmaI1o5MgVYSVueB7KJChs5riW1a2acU
- xgugmkPDOCexWyEpXiMfa/xCbnyg8JuF6+N6ApYMCMiCLqgc3MBNffodIW06rlNIVqph
- DNc79/FsXtYLPKcpcM0a0KT/0aJBNuwNiMBcVxvuLbhwkvo6bFEjzXAjAfoq9K6DwhSw
- junTHBaXPnVQ7I7yhI1EyeHJlDdtuGS/xnqQtaw+NasipSmHUAhb1cP66QXVxBRqmcP2
- E7BMYNzU5Loy2B/e3edJVYe4Z+APWeyXkyoJ/65Z4aP+Hj3D2g0B9EQG6iQaPGmIKzyn
- 0haQ==
-X-Gm-Message-State: AOAM533xSbejIq4y+i4DBvCwrPMhLJ3A3v1dpGNs7f1PaBnzllcK4/or
- fKCwDq+Vhr7sk9K8u2DTjeM=
-X-Google-Smtp-Source: ABdhPJwYkuZW66DOQ5LnvWYT8S9+EZRh5ym4fe7u61zzmk2TGTHLVlTipFq0g7dFHF62PBJ/0ELvHg==
-X-Received: by 2002:adf:a38d:: with SMTP id l13mr43616254wrb.103.1634648547710; 
- Tue, 19 Oct 2021 06:02:27 -0700 (PDT)
+ bh=HTP0laOMyS+3LPZDWeQb93qbT0MYz1dc2AhvNQBBsfw=;
+ b=Ej7PVcHNsFw6RXy/v6NM6myYdjbor4v3MNLC7DqqeDMbgQZS2TqL+yklReJGn2inCA
+ H0EhIKnbsBKoLplb1sm9XpEgFfttmmJlGdeXYAyiVYc1kjF740orhHInzudzBZiPzCv+
+ hRczVI2ZYlIllrTuQ4p5IvHa0ILzxwYLmf6QcqSBDr/8EfYZw79R0VBtYNG0dF8tH1Ma
+ 1qua9kRgU2HuScaoQI+rXhk774UXfXDokRvM3E1LFPx3WNuPJNDHhfpHmr269lqcu+fs
+ 5pwTc2XmyApjqKHHFNw4S6TquccECZCNwq8bGnfwaAH0WliaR+5kYdpeBbXvmoiMMbLc
+ LeLw==
+X-Gm-Message-State: AOAM531bKY5UbnIq1FBEnqT/hhSP6r3RGF7mfvWmP6dYkBTD6TluaEEv
+ K1PpsMihJ8YEtwSrTYl4pAjw8EC+OMA=
+X-Google-Smtp-Source: ABdhPJzDpD+UGjVCntZNDJIs7Tq8BFZHq/cJ+97w62Sb2OOICzTkebbUdyCDVA3t7iYzXmUbA8lrzQ==
+X-Received: by 2002:a5d:4481:: with SMTP id j1mr46016110wrq.6.1634648792342;
+ Tue, 19 Oct 2021 06:06:32 -0700 (PDT)
 Received: from ?IPv6:2a02:908:1252:fb60:f344:748e:38f7:c50?
  ([2a02:908:1252:fb60:f344:748e:38f7:c50])
- by smtp.gmail.com with ESMTPSA id t8sm15103147wrx.46.2021.10.19.06.02.26
+ by smtp.gmail.com with ESMTPSA id y191sm2646814wmc.36.2021.10.19.06.06.31
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 19 Oct 2021 06:02:27 -0700 (PDT)
-Subject: Re: [PATCH 24/28] drm: use new iterator in
- drm_gem_plane_helper_prepare_fb v2
+ Tue, 19 Oct 2021 06:06:31 -0700 (PDT)
+Subject: Re: [PATCH] drm/scheduler: fix drm_sched_job_add_implicit_dependencies
 To: Daniel Vetter <daniel@ffwll.ch>
-Cc: linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- tvrtko.ursulin@linux.intel.com
-References: <20211005113742.1101-1-christian.koenig@amd.com>
- <20211005113742.1101-25-christian.koenig@amd.com>
- <YWbr0/ey1rCbb0Yi@phenom.ffwll.local>
+Cc: frattaroli.nicolas@gmail.com, dri-devel@lists.freedesktop.org
+References: <20211019112706.27769-1-christian.koenig@amd.com>
+ <YW67iLFQ7ttCT54O@phenom.ffwll.local>
 From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <405b9df8-58fd-b8f2-cec2-acde69aa5633@gmail.com>
-Date: Tue, 19 Oct 2021 15:02:26 +0200
+Message-ID: <b60c6edd-f5ef-d814-cd6d-ae3186758203@gmail.com>
+Date: Tue, 19 Oct 2021 15:06:31 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <YWbr0/ey1rCbb0Yi@phenom.ffwll.local>
+In-Reply-To: <YW67iLFQ7ttCT54O@phenom.ffwll.local>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
@@ -81,69 +77,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 13.10.21 um 16:23 schrieb Daniel Vetter:
-> On Tue, Oct 05, 2021 at 01:37:38PM +0200, Christian König wrote:
->> Makes the handling a bit more complex, but avoids the use of
->> dma_resv_get_excl_unlocked().
->>
->> v2: improve coding and documentation
+
+
+Am 19.10.21 um 14:35 schrieb Daniel Vetter:
+> On Tue, Oct 19, 2021 at 01:27:06PM +0200, Christian König wrote:
+>> Trivial fix since we now need to grab a reference to the fence we have
+>> added. Previously the dma_resv function where doing that for us.
 >>
 >> Signed-off-by: Christian König <christian.koenig@amd.com>
->> ---
->>   drivers/gpu/drm/drm_gem_atomic_helper.c | 13 +++++++++++--
->>   1 file changed, 11 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/drm_gem_atomic_helper.c b/drivers/gpu/drm/drm_gem_atomic_helper.c
->> index e570398abd78..8534f78d4d6d 100644
->> --- a/drivers/gpu/drm/drm_gem_atomic_helper.c
->> +++ b/drivers/gpu/drm/drm_gem_atomic_helper.c
->> @@ -143,6 +143,7 @@
->>    */
->>   int drm_gem_plane_helper_prepare_fb(struct drm_plane *plane, struct drm_plane_state *state)
->>   {
->> +	struct dma_resv_iter cursor;
->>   	struct drm_gem_object *obj;
->>   	struct dma_fence *fence;
->>   
->> @@ -150,9 +151,17 @@ int drm_gem_plane_helper_prepare_fb(struct drm_plane *plane, struct drm_plane_st
->>   		return 0;
->>   
->>   	obj = drm_gem_fb_get_obj(state->fb, 0);
->> -	fence = dma_resv_get_excl_unlocked(obj->resv);
->> -	drm_atomic_set_fence_for_plane(state, fence);
->> +	dma_resv_iter_begin(&cursor, obj->resv, false);
->> +	dma_resv_for_each_fence_unlocked(&cursor, fence) {
->> +		/* TODO: We only use the first write fence here and need to fix
->> +		 * the drm_atomic_set_fence_for_plane() API to accept more than
->> +		 * one. */
-> I'm confused, right now there is only one write fence. So no need to
-> iterate, and also no need to add a TODO. If/when we add more write fences
-> then I think this needs to be revisited, and ofc then we do need to update
-> the set_fence helpers to carry an entire array of fences.
+>> Fixes: 9c2ba265352a drm/scheduler: ("use new iterator in drm_sched_job_add_implicit_dependencies v2")
+> Uh I completely missed checking for that. Did you review all other
+> conversions you've pushed for this kind of bug?
 
-Well could be that I misunderstood you, but in your last explanation it 
-sounded like the drm_atomic_set_fence_for_plane() function needs fixing 
-anyway because a plane could have multiple BOs.
+Yeah, currently double checking that.
 
-So in my understanding what we need is a 
-drm_atomic_add_dependency_for_plane() function which records that a 
-certain fence needs to be signaled before a flip.
+> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+>
+> Also
+>
+> Reported-by: Nicolas Frattaroli <frattaroli.nicolas@gmail.com>
+> References: https://lore.kernel.org/dri-devel/2023306.UmlnhvANQh@archbook/
+>
+> It's important to credit bug reporters! Also upgrade to t-b if Nicolas
+> gets around to testing quickly.
 
-Support for more than one write fence then comes totally naturally.
+Yeah, the credit part is certainly correct. I just usually ask people 
+before adding their mail address to kernel commits because of the spam 
+you get :)
 
+Cheers,
 Christian.
 
-> -Daniel
 >
+> Cheers, Daniel
+>
+>> ---
+>>   drivers/gpu/drm/scheduler/sched_main.c | 3 +++
+>>   1 file changed, 3 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+>> index 5bc5f775abe1..94fe51b3caa2 100644
+>> --- a/drivers/gpu/drm/scheduler/sched_main.c
+>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+>> @@ -707,6 +707,9 @@ int drm_sched_job_add_implicit_dependencies(struct drm_sched_job *job,
+>>   		ret = drm_sched_job_add_dependency(job, fence);
+>>   		if (ret)
+>>   			return ret;
+>> +
+>> +		/* Make sure to grab an additional ref on the added fence */
 >> +		dma_fence_get(fence);
->> +		break;
->> +	}
->> +	dma_resv_iter_end(&cursor);
->>   
->> +	drm_atomic_set_fence_for_plane(state, fence);
+>>   	}
 >>   	return 0;
 >>   }
->>   EXPORT_SYMBOL_GPL(drm_gem_plane_helper_prepare_fb);
 >> -- 
 >> 2.25.1
 >>
