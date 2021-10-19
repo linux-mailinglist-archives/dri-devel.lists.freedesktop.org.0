@@ -1,65 +1,81 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23B6A4336F8
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Oct 2021 15:25:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E3BE4337AE
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Oct 2021 15:48:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A96216E15D;
-	Tue, 19 Oct 2021 13:25:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E514D6E16D;
+	Tue, 19 Oct 2021 13:47:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com
- [IPv6:2a00:1450:4864:20::22a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DEC876E15D
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Oct 2021 13:25:41 +0000 (UTC)
-Received: by mail-lj1-x22a.google.com with SMTP id n7so6153742ljp.5
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Oct 2021 06:25:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=X1jY2Qqxt6YWhnV3gpCcJZNEFbKKuJn17k39miNOmnw=;
- b=ER4eL+lj7rSgFqe1k9f7NP0Xedp2lyl0DbOhg2ocq5ghDZs3wJsUNzd2AxfVUBWgOX
- CldSEyp9jJ6MJxTT9k8h7QtJbdUZcUgPiO8zchszYrX3RAdO0HjkSKlpNCSq4cnW81ev
- uSnFWz5geOsAnr6dyKG0WG9IumnTGkz4OS1Eu993pMLhZvyeLoCVsldmcPUP60gfaPIX
- rf84owpPqdP+abE7HMt5cdmlMnWIKksTXnntXMAZfNEbcqyT/rFFi5pL/pqooVIdAdNi
- X+T88fR/Z13PWJhjH4WTFf14Zj49wJ46wE4OvsHc6GvO8DZx3AbqpzhX3zQCvxFf0TP/
- RczQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=X1jY2Qqxt6YWhnV3gpCcJZNEFbKKuJn17k39miNOmnw=;
- b=NVL4p9TLytueQlB9d+FjLKBeNRlQI6Af0ft51HVwu/uQ4HSxzAM4pFhbF39e5vEG5/
- IOvHAPClsO07X2lvajd9k5jShvSuobjJsFk8rPgpZc6yX2GgnCYXXW8PvKbe89oYkCgv
- yon8MNQCCmLIap8v4ruFMZoSg2iWpX4JRMlqQtHVh/n8I3BPkFUv3hIyvzJoSOwzy/as
- uWUPk4h3TJtPDIgxSW3et1oHK/nXB63oHFPeYbYIpRkWR7U023qFF6rkvT5CN2V5ERS7
- m7RCumuDkTHxNxQXvI2gwYEXJvnEFd28OagsaZPkXJOEE+3uVlxjeb7kf6gvZ3AlGQKE
- QZAA==
-X-Gm-Message-State: AOAM530gMFlFtGsIPtNreeU7Gno2lAiqX6rxbT4op2MKeUqxhVDyETB7
- qK8GDTwRPUo8jhRh4/3cOYmk6tl/Rm0=
-X-Google-Smtp-Source: ABdhPJyEBGG7iDcVG31icdYRuoDVz7fUXzq7qVuT8pUeGj2UN5S1m4KOei5sbJ8rVY7PI/3BigmyhA==
-X-Received: by 2002:a2e:b603:: with SMTP id r3mr6838475ljn.14.1634649940193;
- Tue, 19 Oct 2021 06:25:40 -0700 (PDT)
-Received: from archbook.localnet (84-72-105-84.dclient.hispeed.ch.
- [84.72.105.84])
- by smtp.gmail.com with ESMTPSA id l11sm382318lfg.79.2021.10.19.06.25.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Oct 2021 06:25:39 -0700 (PDT)
-From: Nicolas Frattaroli <frattaroli.nicolas@gmail.com>
-To: Daniel Vetter <daniel@ffwll.ch>,
- Christian =?ISO-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
-Cc: dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] drm/scheduler: fix drm_sched_job_add_implicit_dependencies
-Date: Tue, 19 Oct 2021 15:25:38 +0200
-Message-ID: <1649107.a7JZP30qnB@archbook>
-In-Reply-To: <b60c6edd-f5ef-d814-cd6d-ae3186758203@gmail.com>
-References: <20211019112706.27769-1-christian.koenig@amd.com>
- <YW67iLFQ7ttCT54O@phenom.ffwll.local>
- <b60c6edd-f5ef-d814-cd6d-ae3186758203@gmail.com>
+Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
+ [66.111.4.230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B137D6E16D;
+ Tue, 19 Oct 2021 13:47:56 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.nyi.internal (Postfix) with ESMTP id E084C580A2F;
+ Tue, 19 Oct 2021 09:47:52 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Tue, 19 Oct 2021 09:47:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=1CqiKRK7ixf1hZLZuR94f9GfY2d
+ mSrTwONDsODObvOk=; b=bgRFaT5gzDBxJ8t3Tnn7Sf76prcDJckbpDV7++TpN6R
+ 5OUz8/ZoTDqjrgZMRCI741wp3FozEMfSjVL9TQ2oTlSTsOBESLrZ/eR6rzLetjWj
+ NANZPAt6eL8BWOTR6sHmVDwjEY/uW04jvCbziklujB3GhHHNAVgD7OpKmpfNK597
+ 33/9xJ8xy2sRybC9k1MlkdHP68dVZG5N1VeQ4ySRLJWodTD652ajthTWSQiIvJOV
+ 6/i658FTli/Sb1UyiUma4awtRZcNiYbFI92U3tagJcAk0uHOUKZXoquyzvhj9FlX
+ bpbqnxIoBlmhSK80ZZAv1Xk+04XFvkt89GwWN7Asoew==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=1CqiKR
+ K7ixf1hZLZuR94f9GfY2dmSrTwONDsODObvOk=; b=D2sSlzoUeHmNJ2ehromBqV
+ K719qIg1ZoyRhgOeIvimlEKzwNMMcmiRhIFZZmgtH0xUoqU5z9gptQ4h1b2bgapp
+ Xwu6GxbiW3j399P8Mw0Sq+y4Au7VOrhgMmMGxWHSvMPVPp/xA0hDjVjgsaLrDpI5
+ bNhNablZUEARpGarWzWlER36PpIHYFc3mJGA53fHEZrvtRddCT4IO1bUKJKEhOhB
+ sQpHEZIe/95YVqqyMJXTIRR9x8Demx8pJTXZ4m5CvMr5tqIMFPAcoWCH6Z4itqUB
+ Mh48Cwkr0l3Og8aE12yp3oK9UDjcsDHkSdJ3rxpiG4Ps/kiDaSqvRyGpIXb8D5PQ
+ ==
+X-ME-Sender: <xms:iMxuYVcczd4KAJThwz-fSYxr9TJvS7L4ccyOSFefA-hW5cZrCVinBg>
+ <xme:iMxuYTNX9f780oZq5ea-dQjwI7Wx6U_NYfnKBrCmVC5i_7WDo1OH5NwO1RVo7A_Af
+ Jn6xUsYeBTG7B5LTM8>
+X-ME-Received: <xmr:iMxuYehKMo8n1BaBNFkc5qDWBr3-7-eEeSNxUof8UgL3yJIs6iAmB5SBMk2ZkB83jICgRC3tKJjnWE47yFODahJpar-oLquhk2CI3vLN>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrvddvvddgieefucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
+ vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+ htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
+ gedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+ grgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:iMxuYe_AeaovKA-EjuX-_OmyfNXGTzSatwMBdL3Zw0U9b49CzBETPQ>
+ <xmx:iMxuYRukxVPGa-nQTbqTWOPXdK8Zz1LscgexlP8soYllPGcm1c5FcA>
+ <xmx:iMxuYdG9YXA6qH2NN8lXzK820nTOwB4BNVBdL8UAGxFcWDgnGFyPKg>
+ <xmx:iMxuYXL7zGUUCMuBo370vksRhqLfjq5rAQeaaJctZqvvQf-MjX96JQ>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 19 Oct 2021 09:47:51 -0400 (EDT)
+Date: Tue, 19 Oct 2021 15:47:49 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Jani Nikula <jani.nikula@intel.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ dim-tools@lists.freedesktop.org, Dave Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: [PULL] topic/drm-dp-training-delay-helpers for drm-misc-next and
+ drm-intel-next
+Message-ID: <20211019134749.xjyydm6xdcfe6hkm@gilmour>
+References: <878ryps5b6.fsf@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="7niyo5rqdpeforqc"
+Content-Disposition: inline
+In-Reply-To: <878ryps5b6.fsf@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,74 +91,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Dienstag, 19. Oktober 2021 15:06:31 CEST Christian K=F6nig wrote:
->=20
-> Am 19.10.21 um 14:35 schrieb Daniel Vetter:
-> > On Tue, Oct 19, 2021 at 01:27:06PM +0200, Christian K=F6nig wrote:
-> >> Trivial fix since we now need to grab a reference to the fence we have
-> >> added. Previously the dma_resv function where doing that for us.
-> >>
-> >> Signed-off-by: Christian K=F6nig <christian.koenig@amd.com>
-> >> Fixes: 9c2ba265352a drm/scheduler: ("use new iterator in drm_sched_job=
-_add_implicit_dependencies v2")
-> > Uh I completely missed checking for that. Did you review all other
-> > conversions you've pushed for this kind of bug?
->=20
-> Yeah, currently double checking that.
->=20
-> > Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> >
-> > Also
-> >
-> > Reported-by: Nicolas Frattaroli <frattaroli.nicolas@gmail.com>
-> > References: https://lore.kernel.org/dri-devel/2023306.UmlnhvANQh@archbo=
-ok/
-> >
-> > It's important to credit bug reporters! Also upgrade to t-b if Nicolas
-> > gets around to testing quickly.
->=20
-> Yeah, the credit part is certainly correct. I just usually ask people=20
-> before adding their mail address to kernel commits because of the spam=20
-> you get :)
->=20
-> Cheers,
-> Christian.
 
-No worries, I made this e-mail address specifically for kernel work due
-to this. I wouldn't even dare posting on public mailing lists with my
-regular e-mail address.
+--7niyo5rqdpeforqc
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Regards,
-Nicolas Frattaroli
-
+On Tue, Oct 19, 2021 at 12:59:57PM +0300, Jani Nikula wrote:
 >=20
-> >
-> > Cheers, Daniel
-> >
-> >> ---
-> >>   drivers/gpu/drm/scheduler/sched_main.c | 3 +++
-> >>   1 file changed, 3 insertions(+)
-> >>
-> >> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/=
-scheduler/sched_main.c
-> >> index 5bc5f775abe1..94fe51b3caa2 100644
-> >> --- a/drivers/gpu/drm/scheduler/sched_main.c
-> >> +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> >> @@ -707,6 +707,9 @@ int drm_sched_job_add_implicit_dependencies(struct=
- drm_sched_job *job,
-> >>   		ret =3D drm_sched_job_add_dependency(job, fence);
-> >>   		if (ret)
-> >>   			return ret;
-> >> +
-> >> +		/* Make sure to grab an additional ref on the added fence */
-> >> +		dma_fence_get(fence);
-> >>   	}
-> >>   	return 0;
-> >>   }
-> >>
+> Hi all -
+>=20
+> These are the drm dp helpers for figuring out link training delays, to
+> be pulled to both drm-misc-next and drm-intel-next.
 >=20
 >=20
+> topic/drm-dp-training-delay-helpers-2021-10-19:
+> Core Changes:
+> - drm dp helpers for figuring out link training delays
 
+Merged into drm-misc-next, thanks!
+Maxime
 
+--7niyo5rqdpeforqc
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
 
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYW7MhQAKCRDj7w1vZxhR
+xdpRAQCcaIzSi+Z73NtOUYhgEHF7u5ScRF/fK9rwxGDsC97W9AEA7ZRi7wo1Dgxh
+AC+3UWVlJh5NWIw4SUrJWp/JFYLsBQU=
+=0dOT
+-----END PGP SIGNATURE-----
+
+--7niyo5rqdpeforqc--
