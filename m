@@ -1,30 +1,30 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9CB5432EA0
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Oct 2021 08:53:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB6AD432EA5
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Oct 2021 08:53:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 100436E12E;
-	Tue, 19 Oct 2021 06:52:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 10D536E8A5;
+	Tue, 19 Oct 2021 06:53:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A9AD6E12E
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Oct 2021 06:52:54 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 302666E12E
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Oct 2021 06:52:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1634626375; x=1666162375;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=fCtuMRCgd/CVT3MfJ/Uq7+CQLaTtErXGb4KPPavX0qs=;
- b=IrO5cA20i8JiiJVg2EZzctH+SDAHpzVqKLwdWAKxcGWhfl9nR9p03vOL
- sjtms1ZGEq8cD5K3q9J44h63qgyB+31vVXAZmhA1XYULHAZpMA6EhL+iV
- ZkBUTPtYvvwZqE5gOrzpk80dIi+0nIibU9ApxzByL+Ihj1eQ5DbZHXbmM
- DQOtZAk8G7S0xT2Tjdk3UZH7FhOWgHM/p07gt9XQZdm2K/hjttFsVyU2k
- IndrLR3RbCYrobjdQpk81lccBPaYh2pswIXswmH57b0S5Ud5YPmBgZZOe
- ka0Gon3KMB9npvRyxnGEBY0stGh+a8t2QnaLSnxUOjzbAK6bZgriGxUrs A==;
-X-IronPort-AV: E=Sophos;i="5.85,383,1624312800"; d="scan'208";a="20119995"
+ t=1634626376; x=1666162376;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=LEsOShHi53FwhvjjCf5twbUdvETtYuAw3EERG3UwX5A=;
+ b=UDMxrO0nAnw7B8+kZvAZ6z3OeAQYwF8z7TQ0t3HOJHNzzbecc9oAJRxX
+ Z4ap3melHRnz0uFNWqrmeuLW78M11mkGj5JEslU/5JojzL+abUzr5+q+3
+ va11s9dnCmVGGKrW3NXsB9ogg72yJzjXvdBo8obfsP1Ck+v4QlYeQVlst
+ Hgq/F8DdtJ8/KTPJzbIvHGl32vypYKQTNSf6EqyA7GMFmJHS6he9fG+QN
+ hhWDp/lJWp0IOMyzgA0/ibZgmdVPGhe+ZL08RMGBloSWlmJQMBPV0M/z9
+ JrU/MtowkqyL0ieP/3TlNPBRHPAmGKZR8LczxJ7dRVzYJ9R8+iEcVOdcj w==;
+X-IronPort-AV: E=Sophos;i="5.85,383,1624312800"; d="scan'208";a="20119997"
 Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
  by mx1-pgp.tq-group.com with ESMTP; 19 Oct 2021 08:52:52 +0200
 Received: from mx1.tq-group.com ([192.168.6.7])
@@ -35,22 +35,22 @@ X-PGP-Universal: processed;
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
  t=1634626372; x=1666162372;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=fCtuMRCgd/CVT3MfJ/Uq7+CQLaTtErXGb4KPPavX0qs=;
- b=PtnlNEyN5Weg0uylRgB84Ectucyw0YKutOEwKfAqew0yXhBNev5E3u1T
- jDT3wr/rD9A4dBsZJIWrjV4y22RkHkdD+La4mv1VLDtx73qMVs20z4Ves
- j5fkEX0PHHfBjBtoEmq6UyK/tPIIHa4heGSLXthUy6F/s7+/9vWl6zAur
- /A1DPjur0F2vHjo9/GRpspo3t77CcfEbFpr5JuSYVTyv6mQgfNFtqL39+
- pt8z+Wz/3iI6xjL+eA+5MQoLojjVl11sUxqiIU8tWiihweTFkUP9J50u2
- QgE9WXBEr/QxfEtFmPaX4Ttg07Zj2Zq42loo0De+pEGkS7BxFV0l3WiB3 w==;
-X-IronPort-AV: E=Sophos;i="5.85,383,1624312800"; d="scan'208";a="20119994"
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=LEsOShHi53FwhvjjCf5twbUdvETtYuAw3EERG3UwX5A=;
+ b=HuYEUGluTbcDMagJYu21BPDNW1UC1AMYO9jpzLwH7M23bthPSTG2xtju
+ XSwnqgItG4KYD8gkxQ0nVTHNI1ogcYf7RvZDAJNY/4Ih6XYO5PT/RM5UB
+ BpeVHIyccTA7BX4p6uY68yq+c6urb22vNec3N/moNniZHXab2mG4K8NX9
+ W5AwXH9Lsrn8ZMTF9opp8wQeneXDrxpHwHU2V3ghZmrahCKQwojyTuSGC
+ xhuglY98k9y+GQ3wtYGStXy4nZ/CVGvddO45GJy2+BJmai64rBs7JSjak
+ GHFxz3/bnoNZB0MSV61FdZbeN7bCzE9wO+Hl2yl1+JX4jCnGMVR7xxSf2 w==;
+X-IronPort-AV: E=Sophos;i="5.85,383,1624312800"; d="scan'208";a="20119996"
 Received: from vtuxmail01.tq-net.de ([10.115.0.20])
  by mx1.tq-group.com with ESMTP; 19 Oct 2021 08:52:52 +0200
 Received: from steina-w.tq-net.de (unknown [10.123.49.12])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
- by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 1B827280065;
+ by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 53FF8280075;
  Tue, 19 Oct 2021 08:52:52 +0200 (CEST)
 From: Alexander Stein <alexander.stein@ew.tq-group.com>
 To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
@@ -59,12 +59,16 @@ To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  Robert Foss <robert.foss@linaro.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: Alexander Stein <alexander.stein@ew.tq-group.com>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org
-Subject: [PATCH v3 0/4] ti-sn65dsi83 patches
-Date: Tue, 19 Oct 2021 08:52:35 +0200
-Message-Id: <20211019065239.969988-1-alexander.stein@ew.tq-group.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ Alexander Stein <alexander.stein@ew.tq-group.com>
+Subject: [PATCH v3 1/4] dt-bindings: display: bridge: sn65dsi83: Make enable
+ GPIO optional
+Date: Tue, 19 Oct 2021 08:52:36 +0200
+Message-Id: <20211019065239.969988-2-alexander.stein@ew.tq-group.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20211019065239.969988-1-alexander.stein@ew.tq-group.com>
+References: <20211019065239.969988-1-alexander.stein@ew.tq-group.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -82,28 +86,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Changes in V3 of this set:
-* Do not require vcc-supply in bindings, making it purely optional
-* Move regulator enable/disable to sn65dsi83_atomic_pre_enable and
-  sn65dsi83_atomic_disable
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-Changes in V2 of this set:
-* Add patch from Laurent for fixing the binding regarding optional GPIO
-* Reorder patches so bindings are changed beforehand
-* Add small fixes from Sam's review
+The SN65DSI8x EN signal may be tied to VCC, or otherwise controlled by
+means not available to the kernel. Make the GPIO optional.
 
-Alexander Stein (3):
-  drm/bridge: ti-sn65dsi83: Make enable GPIO optional
-  dt-bindings: drm/bridge: ti-sn65dsi83: Add vcc supply bindings
-  drm/bridge: ti-sn65dsi83: Add vcc supply regulator support
+Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+---
+ .../devicetree/bindings/display/bridge/ti,sn65dsi83.yaml         | 1 -
+ 1 file changed, 1 deletion(-)
 
-Laurent Pinchart (1):
-  dt-bindings: display: bridge: sn65dsi83: Make enable GPIO optional
-
- .../bindings/display/bridge/ti,sn65dsi83.yaml |  5 ++++-
- drivers/gpu/drm/bridge/ti-sn65dsi83.c         | 21 ++++++++++++++++++-
- 2 files changed, 24 insertions(+), 2 deletions(-)
-
+diff --git a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.yaml b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.yaml
+index 07b20383cbca..a5779bf17849 100644
+--- a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.yaml
+@@ -93,7 +93,6 @@ properties:
+ required:
+   - compatible
+   - reg
+-  - enable-gpios
+   - ports
+ 
+ allOf:
 -- 
 2.25.1
 
