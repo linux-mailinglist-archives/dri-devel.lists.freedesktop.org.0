@@ -2,47 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 163F0433120
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Oct 2021 10:33:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00B8A433188
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Oct 2021 10:47:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A6BFE6EB53;
-	Tue, 19 Oct 2021 08:33:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 403F288F78;
+	Tue, 19 Oct 2021 08:47:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ADBF46EB53;
- Tue, 19 Oct 2021 08:33:49 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10141"; a="291923844"
-X-IronPort-AV: E=Sophos;i="5.85,383,1624345200"; d="scan'208";a="291923844"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Oct 2021 01:32:11 -0700
-X-IronPort-AV: E=Sophos;i="5.85,383,1624345200"; d="scan'208";a="444410470"
-Received: from smaji-mobl.ger.corp.intel.com (HELO [10.213.226.238])
- ([10.213.226.238])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Oct 2021 01:32:09 -0700
-Subject: Re: [PATCH 2/2] drm/i915/pmu: Connect engine busyness stats from GuC
- to pmu
-To: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- john.c.harrison@intel.com, daniel.vetter@ffwll.ch,
- Matthew Brost <matthew.brost@intel.com>
-References: <20211015234705.12392-1-umesh.nerlige.ramappa@intel.com>
- <20211015234705.12392-2-umesh.nerlige.ramappa@intel.com>
- <2a31b713-e8ea-524b-f37c-976791a2ccc4@linux.intel.com>
- <20211018183544.GA10100@unerlige-ril-10.165.21.208>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-Message-ID: <bbaa19bf-d25d-d9cd-8064-cec23ec58b3a@linux.intel.com>
-Date: Tue, 19 Oct 2021 09:32:07 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com
+ [IPv6:2607:f8b0:4864:20::1034])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2CD1388F78
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Oct 2021 08:47:40 +0000 (UTC)
+Received: by mail-pj1-x1034.google.com with SMTP id gn3so8640175pjb.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Oct 2021 01:47:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=znWZG2M98SQpNWFciGHdUDcSpYrmNay3HXZ/Xgvx0nQ=;
+ b=hEkwiTfRoPxhHXNChWGHFpjXsRoCzFgOhcDJVcFb2EUxBXvPL7YNM8vzDqEaxifEWt
+ XyRsaOLf513n3Hm4cwHeZ3PNg1jzY05CvpllA4duP87gf31xWcixHlMPT1KNTTUSklSo
+ TxKcopEN7uwFOndGqsIxBJvcAZsL0LPoc84zRBq28ske+f60EbSlDD7vieQOOA84dtO3
+ AjyF/oEsSWufzljc/T1xKLjQwfiPSEFkDlSg+HkfoMzQE6/ItzxefQSjo7m/1Kjsr2k9
+ iHKJK3rtoZp7ygnxscq++fK5OCElm4OJPbqnvGI92ogkFL9tHfMFSJc2Gt/gQh34Fzw0
+ 8PzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=znWZG2M98SQpNWFciGHdUDcSpYrmNay3HXZ/Xgvx0nQ=;
+ b=Kv81VEM5h8NuFZybBgUAr9lZDFebrY+gOunvYMEB/IiOfVY3VxFXwu5Eo3K/+ruRDU
+ llkmSmwIRdxxyh7Pyz8Y3+/fi+CAy6Nm62dDHDVgIfPdQNuE4E/G0sTgoKNnMtYl0qDs
+ FU8CWo73XyBFUjpENYWF61/FXlE7HYon5I0ynwlqEKryBg8/lxqzTSJt8tPBBBxFpZaZ
+ 48Dv+dwuE+0QKgPiIbXshwkpLykhBUz3b4NWG7wipiep+ulRm+p4xLXmMXeNebMhycGQ
+ g6Jm43wMwuEAg6KeOpAP/01gbkFNztsS7mpOB8/qUxzsJwNHzm7eJ+rLery0TzVyAl4v
+ fMiA==
+X-Gm-Message-State: AOAM532cgjz76/jFDJhrdJkBrvEB9SELT6x/PruLqlRtJpB9V5R7lt2D
+ UIct8OVxD4fSP+ifzXNFD18U9/PG4I4WkVidjegPgA==
+X-Google-Smtp-Source: ABdhPJwJ5xzkp1s6vmtXEwTN3PMELy5xyWA5fOFd8eRIT/kgvNpG/hpMer48La8Bi54Wv63ViFaFTb4JBmjnj9bdod0=
+X-Received: by 2002:a17:90b:4c0d:: with SMTP id
+ na13mr5003522pjb.232.1634633259748; 
+ Tue, 19 Oct 2021 01:47:39 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20211018183544.GA10100@unerlige-ril-10.165.21.208>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <20211002233447.1105-1-digetx@gmail.com>
+ <20211002233447.1105-2-digetx@gmail.com>
+In-Reply-To: <20211002233447.1105-2-digetx@gmail.com>
+From: Robert Foss <robert.foss@linaro.org>
+Date: Tue, 19 Oct 2021 10:47:28 +0200
+Message-ID: <CAG3jFyuYjCgUZWbksYvfw0iSOi-hTuFqvbwSamU+9HFG5MxHBQ@mail.gmail.com>
+Subject: Re: [PATCH v1 1/5] drm/bridge: tc358768: Enable reference clock
+To: Dmitry Osipenko <digetx@gmail.com>
+Cc: Thierry Reding <thierry.reding@gmail.com>,
+ Andrzej Hajda <a.hajda@samsung.com>, 
+ Neil Armstrong <narmstrong@baylibre.com>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maxim Schwalm <maxim.schwalm@gmail.com>, 
+ Andreas Westman Dorcsak <hedmoo@yahoo.com>,
+ Peter Ujfalusi <peter.ujfalusi@ti.com>, 
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, 
+ dri-devel <dri-devel@lists.freedesktop.org>, linux-tegra@vger.kernel.org, 
+ linux-kernel <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,174 +78,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hey Dmitry,
 
-On 18/10/2021 19:35, Umesh Nerlige Ramappa wrote:
-> On Mon, Oct 18, 2021 at 08:58:01AM +0100, Tvrtko Ursulin wrote:
->>
->>
->> On 16/10/2021 00:47, Umesh Nerlige Ramappa wrote:
->>> With GuC handling scheduling, i915 is not aware of the time that a
->>> context is scheduled in and out of the engine. Since i915 pmu relies on
->>> this info to provide engine busyness to the user, GuC shares this info
->>> with i915 for all engines using shared memory. For each engine, this
->>> info contains:
->>>
->>> - total busyness: total time that the context was running (total)
->>> - id: id of the running context (id)
->>> - start timestamp: timestamp when the context started running (start)
->>>
->>> At the time (now) of sampling the engine busyness, if the id is valid
->>> (!= ~0), and start is non-zero, then the context is considered to be
->>> active and the engine busyness is calculated using the below equation
->>>
->>>     engine busyness = total + (now - start)
->>>
->>> All times are obtained from the gt clock base. For inactive contexts,
->>> engine busyness is just equal to the total.
->>>
->>> The start and total values provided by GuC are 32 bits and wrap around
->>> in a few minutes. Since perf pmu provides busyness as 64 bit
->>> monotonically increasing values, there is a need for this implementation
->>> to account for overflows and extend the time to 64 bits before returning
->>> busyness to the user. In order to do that, a worker runs periodically at
->>> frequency = 1/8th the time it takes for the timestamp to wrap. As an
->>> example, that would be once in 27 seconds for a gt clock frequency of
->>> 19.2 MHz.
->>>
->>> Note:
->>> There might be an overaccounting of busyness due to the fact that GuC
->>> may be updating the total and start values while kmd is reading them.
->>> (i.e kmd may read the updated total and the stale start). In such a
->>> case, user may see higher busyness value followed by smaller ones which
->>> would eventually catch up to the higher value.
->>>
->>> v2: (Tvrtko)
->>> - Include details in commit message
->>> - Move intel engine busyness function into execlist code
->>> - Use union inside engine->stats
->>> - Use natural type for ping delay jiffies
->>> - Drop active_work condition checks
->>> - Use for_each_engine if iterating all engines
->>> - Drop seq locking, use spinlock at guc level to update engine stats
->>> - Document worker specific details
->>>
->>> v3: (Tvrtko/Umesh)
->>> - Demarcate guc and execlist stat objects with comments
->>> - Document known over-accounting issue in commit
->>> - Provide a consistent view of guc state
->>> - Add hooks to gt park/unpark for guc busyness
->>> - Stop/start worker in gt park/unpark path
->>> - Drop inline
->>> - Move spinlock and worker inits to guc initialization
->>> - Drop helpers that are called only once
->>>
->>> v4: (Tvrtko/Matt/Umesh)
->>> - Drop addressed opens from commit message
->>> - Get runtime pm in ping, remove from the park path
->>> - Use cancel_delayed_work_sync in disable_submission path
->>> - Update stats during reset prepare
->>> - Skip ping if reset in progress
->>> - Explicitly name execlists and guc stats objects
->>> - Since disable_submission is called from many places, move resetting
->>>   stats to intel_guc_submission_reset_prepare
->>>
->>> v5: (Tvrtko)
->>> - Add a trylock helper that does not sleep and synchronize PMU event
->>>   callbacks and worker with gt reset
->>>
->>> v6: (CI BAT failures)
->>> - DUTs using execlist submission failed to boot since __gt_unpark is
->>>   called during i915 load. This ends up calling the guc busyness unpark
->>>   hook and results in kiskstarting an uninitialized worker. Let
->>>   park/unpark hooks check if guc submission has been initialized.
->>> - drop cant_sleep() from trylock hepler since rcu_read_lock takes care
->>>   of that.
->>>
->>> v7: (CI) Fix igt@i915_selftest@live@gt_engines
->>> - For guc mode of submission the engine busyness is derived from gt time
->>>   domain. Use gt time elapsed as reference in the selftest.
->>> - Increase busyness calculation to 10ms duration to ensure batch runs
->>>   longer and falls within the busyness tolerances in selftest.
->>
->> [snip]
->>
->>> diff --git a/drivers/gpu/drm/i915/gt/selftest_engine_pm.c 
->>> b/drivers/gpu/drm/i915/gt/selftest_engine_pm.c
->>> index 75569666105d..24358bef6691 100644
->>> --- a/drivers/gpu/drm/i915/gt/selftest_engine_pm.c
->>> +++ b/drivers/gpu/drm/i915/gt/selftest_engine_pm.c
->>> @@ -234,6 +234,7 @@ static int live_engine_busy_stats(void *arg)
->>>          struct i915_request *rq;
->>>          ktime_t de, dt;
->>>          ktime_t t[2];
->>> +        u32 gt_stamp;
->>>          if (!intel_engine_supports_stats(engine))
->>>              continue;
->>> @@ -251,10 +252,16 @@ static int live_engine_busy_stats(void *arg)
->>>          ENGINE_TRACE(engine, "measuring idle time\n");
->>>          preempt_disable();
->>>          de = intel_engine_get_busy_time(engine, &t[0]);
->>> -        udelay(100);
->>> +        gt_stamp = intel_uncore_read(gt->uncore, GUCPMTIMESTAMP);
->>> +        udelay(10000);
->>>          de = ktime_sub(intel_engine_get_busy_time(engine, &t[1]), de);
->>> +        gt_stamp = intel_uncore_read(gt->uncore, GUCPMTIMESTAMP) - 
->>> gt_stamp;
->>>          preempt_enable();
->>> -        dt = ktime_sub(t[1], t[0]);
->>> +
->>> +        dt = intel_engine_uses_guc(engine) ?
->>> +             intel_gt_clock_interval_to_ns(engine->gt, gt_stamp) :
->>> +             ktime_sub(t[1], t[0]);
->>
->> But this then shows the thing might not work for external callers like 
->> PMU who have no idea about GUCPMTIMESTAMP and cannot obtain it anyway.
->>
->> What is the root cause of the failure here, 100us or clock source? Is 
->> the granularity of GUCPMTIMESTAMP perhaps simply too coarse for 100us 
->> test period? I forget what frequency it runs at.
-> 
-> guc timestamp is ticking at 19.2 MHz in adlp/rkl (where I ran this).
+Thanks for submitting this series.
 
-So ~52ns clock granularity, right?
+On Sun, 3 Oct 2021 at 01:35, Dmitry Osipenko <digetx@gmail.com> wrote:
+>
+> The driver assumes that reference clock is always-enabled, but this is
+> hardware-dependent and not true for ASUS Transformer TF700T. Make driver
+> enable / disable the reference clock.
+>
+> Tested-by: Andreas Westman Dorcsak <hedmoo@yahoo.com> # Asus TF700T
+> Tested-by: Maxim Schwalm <maxim.schwalm@gmail.com> #TF700T
+> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> ---
+>  drivers/gpu/drm/bridge/tc358768.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/bridge/tc358768.c b/drivers/gpu/drm/bridge/tc358768.c
+> index a3db532bbdd1..18ae6605a803 100644
+> --- a/drivers/gpu/drm/bridge/tc358768.c
+> +++ b/drivers/gpu/drm/bridge/tc358768.c
+> @@ -237,6 +237,10 @@ static void tc358768_hw_enable(struct tc358768_priv *priv)
+>         if (priv->enabled)
+>                 return;
+>
+> +       ret = clk_prepare_enable(priv->refclk);
+> +       if (ret < 0)
+> +               dev_err(priv->dev, "error enabling refclk (%d)\n", ret);
+> +
+>         ret = regulator_bulk_enable(ARRAY_SIZE(priv->supplies), priv->supplies);
+>         if (ret < 0)
+>                 dev_err(priv->dev, "error enabling regulators (%d)\n", ret);
+> @@ -274,6 +278,8 @@ static void tc358768_hw_disable(struct tc358768_priv *priv)
+>         if (ret < 0)
+>                 dev_err(priv->dev, "error disabling regulators (%d)\n", ret);
+>
+> +       clk_disable_unprepare(priv->refclk);
+> +
+>         priv->enabled = false;
+>  }
+>
 
-In which case 100us with +/- 52ns error should be max 0.05% error - is 
-this math correct?
-
-> 
-> 1)
-> With 100us, often times I see that the batch has not yet started, so I 
-> get busy time in the range 0 - 60 %. I increased the time such that the 
-> batch runs long enough to make the scheduling time < 5%.
-
-0-60% should not be possible since there is a igt_wait_for_spinner call 
-before measuring starts, which ensures spinner is executing on the GPU.
-
-I think we first need to understand where is this 0 - 60% problem coming 
-from because I don't think it is from batch not yet started.
-
-Regards,
-
-Tvrtko
-
-> 
-> 2)
-> I did a 100 runs on rkl/adlp. No failures on rkl. On adlp, I saw one in 
-> 25 runs show 93%/94% busyness for rcs0 and fail (expected is 95%). For 
-> that I tried using the guc timestamp thinking it would provide more 
-> accuracy. It did in my testing, but CI still failed for rkl-guc (110% 
-> busyness!!), so now I just think we need to tweak the expected busyness 
-> for guc.
-> 
-> Is 1) acceptable?
-> 
-> For 2) I am thinking of just changing the expected busyness to 90% plus 
-> for guc mode OR should we just let it fail occassionally? Thoughts?
-> 
-> Thanks,
-> Umesh
-> 
->>
->> Regards,
->>
->> Tvrtko
+Reviewed-by: Robert Foss <robert.foss@linaro.org>
