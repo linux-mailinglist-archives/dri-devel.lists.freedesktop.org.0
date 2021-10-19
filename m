@@ -2,57 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87E84433F5E
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Oct 2021 21:39:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77F1E433FD7
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Oct 2021 22:33:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3CF1E6E1ED;
-	Tue, 19 Oct 2021 19:39:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D6226E1B5;
+	Tue, 19 Oct 2021 20:33:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.smtp.larsendata.com (mx2.smtp.larsendata.com
- [91.221.196.228])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 87E126E1ED
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Oct 2021 19:39:22 +0000 (UTC)
-Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
- by mx2.smtp.larsendata.com (Halon) with ESMTPS
- id 474a6ca1-3114-11ec-ac3c-0050568cd888;
- Tue, 19 Oct 2021 19:39:30 +0000 (UTC)
-Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
- [80.162.45.141])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: sam@ravnborg.org)
- by mail01.mxhotel.dk (Postfix) with ESMTPSA id D49D1194B3C;
- Tue, 19 Oct 2021 21:39:25 +0200 (CEST)
-Date: Tue, 19 Oct 2021 21:39:15 +0200
-X-Report-Abuse-To: abuse@mxhotel.dk
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Maxime Ripard <maxime@cerno.tech>,
- Alexander Stein <alexander.stein@ew.tq-group.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>, Andrzej Hajda <a.hajda@samsung.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Robert Foss <robert.foss@linaro.org>, Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 3/4] dt-bindings: drm/bridge: ti-sn65dsi83: Add vcc
- supply bindings
-Message-ID: <YW8e43/rG7l5uraH@ravnborg.org>
-References: <20211012064843.298104-1-alexander.stein@ew.tq-group.com>
- <20211012064843.298104-4-alexander.stein@ew.tq-group.com>
- <20211013074722.7y7ug3eri4euknza@gilmour>
- <YWao69+QEK8Fhi/x@pendragon.ideasonboard.com>
- <20211014074110.ym6mzugde2m5ak22@gilmour>
- <YWo6U1juhMsHnQYU@pendragon.ideasonboard.com>
- <20211018152013.e3kmbm2lszb652gi@gilmour>
- <YW2zhFX9krzbHlpL@pendragon.ideasonboard.com>
- <20211019073728.7a3rmp3fz62rxh6w@gilmour>
- <YW6f8U2BC/6WQoVx@pendragon.ideasonboard.com>
+Received: from mail-ot1-x329.google.com (mail-ot1-x329.google.com
+ [IPv6:2607:f8b0:4864:20::329])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 52CA56E1B5;
+ Tue, 19 Oct 2021 20:33:32 +0000 (UTC)
+Received: by mail-ot1-x329.google.com with SMTP id
+ s18-20020a0568301e1200b0054e77a16651so5630883otr.7; 
+ Tue, 19 Oct 2021 13:33:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=DOqRh/1Ua7gaB2YIvupL83cX+ks/UH4oOCeOkubEg+I=;
+ b=QSxSD64FavqWcg0SCB8tgXGbDjsJOCFew8H88qS4b6OOiAdL2oRBvoVd+8JMND2d9M
+ sQQMburzQHky4ALFU5u/9isSpKrx8H6JSSmP1SFdTWF9NEbvc0G25h1N0vcyuC06YPXl
+ k6sO9GgOQpWeWj10j4KXuRbngWbqZkc8dCr1KloSLZAruMZrIOUWV/bmS6mx0drRNTpx
+ GglfYIxSk6hQI1aPpc3Sjvq7U5L5QTucwo14yQk4nhl6KH/C1/SP2xl6gWtF2+4Z2bJa
+ fLOYu3iv/tnyz23vMmDZ301p6qgolhx3P/4FtK1+MzC1PIyR1L1jTMS+2iVxzPUPwOBD
+ AkVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=DOqRh/1Ua7gaB2YIvupL83cX+ks/UH4oOCeOkubEg+I=;
+ b=kuHcsBr0fcapWOGbuU0zJZoC8XXI/vpyEOkKpxS871rPX4803P/L7J6g0tBZKtDJ61
+ qIITsFhGM5euXCUnYoF0qesqQkVdD1alA0FuQ1uoZCX2AdTPRAMwnZ1nePoiBbRoi3ST
+ qtnG0AxAdxldAnH91GwWOTPhkhRNOqWgMrojX33fauODUxqE+1MvzvXg6T/NCvu1wWLk
+ m8o+6xv7fSYgqzy7XpU5iYczQh9oLe+yVAllwXH7L8b59WQtWrbsy6pRpnDOLCEss51X
+ UmVLkMGEkd48G6s3C1p30CoZgBONXNUfAyGlPWAXw1pwxHbG8smlFLeG8l5mumLJj6sv
+ bPwA==
+X-Gm-Message-State: AOAM532Iw+cypeYclt45N2XMCkzOfws7O4c+ZSpMqjDL4o0AVJuCkVw8
+ ljZetP4MCPkwTVJ/dt99mOrngCdfwdGF36L/MCQ=
+X-Google-Smtp-Source: ABdhPJwbvBP3caz6rJULs5wo0+7q702H1t6nq5mSszwrMHFvV3psA+RHqSmLUNlp8fraE3I5E5R5j0u3z70DoRNKLak=
+X-Received: by 2002:a9d:718e:: with SMTP id o14mr7374367otj.299.1634675611573; 
+ Tue, 19 Oct 2021 13:33:31 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YW6f8U2BC/6WQoVx@pendragon.ideasonboard.com>
+References: <1634280441-4248-1-git-send-email-wangqing@vivo.com>
+In-Reply-To: <1634280441-4248-1-git-send-email-wangqing@vivo.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 19 Oct 2021 16:33:20 -0400
+Message-ID: <CADnq5_PVZ_nFA=adGMXyBsMHMVV6JhDYTDN9sk7rVuKsTZDfYw@mail.gmail.com>
+Subject: Re: [PATCH] amdgpu: replace snprintf in show functions with sysfs_emit
+To: Qing Wang <wangqing@vivo.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>, 
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, 
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, 
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,62 +72,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> > > 
-> > > That will not help validating that new DTs are compliant with the last
-> > > version of the bindings.
-> > > 
-> > > We have one tool, and two needs. The tool should be extended to cover
-> > > both, but today it can only support one. Which of these two is the most
-> > > important:
-> > > 
-> > > - Documentating old behaviour, to helper driver authors on other
-> > >   operating systems implement backward compatibility without having to
-> > >   look at the history ?
-> > > 
-> > > - Validating all new device trees to ensure they implement the latest
-> > >   recommended version of the bindings ?
-> > > 
-> > > I think the second one is much more frequent, and is also where most of
-> > > the issues will arise.
-> > 
-> > I understand the drive for the latter, but we shouldn't be dropping the
-> > former in the process, which has been what we've been doing for the last
-> > decade or so.
-> 
-> That point is debatable :-) I've repeatedly asked during review of DT
-> bindings for new properties to be made required, based on the above
-> rationale. This is the first time I see a push back.
-> 
-> I believe we need to address both of the above problems. In the very
-> short term, we have to pick which of the two we care about most, as we
-> can't have both yet. I have made my personal preference clear, but I'll
-> apply the official decision in further reviews. Maybe Rob could share
-> his point of view ?
+Applied.  thanks!
 
-The bindings are there to make sure the device trees are OK, and the
-bindings shall do their best to make sure the device trees are as
-correct as possible.
-
-This will break existing device trees when we realise something is
-not correct in bindings files.
-
-In such a case the ideal workflow would be to:
-1) Fix the device tree files so they match the new and more correct
-bindings
-2) Update the bindings with the latest fixes
-
-As we have different trees for device trees and for bindings this is a
-bit difficult at the moment. But the above would be the ideal ways of
-working IMO.
-
-Compare this to updating a header file in the kernel that results in new
-warnings/errors. The ways of working here is to fix the warnings/errors
-before adding the change to the header file. (For example when adding a
-must-check attribute).
-
-My take - but then I seldom checks the device tree files as keeping the
-bindings free of errors was the challenge in the past. Rob does a
-fantastic jobs to keep the kernel error free here and I assume focus may
-change to device trees soon.
-
-	Sam
+On Fri, Oct 15, 2021 at 2:48 AM Qing Wang <wangqing@vivo.com> wrote:
+>
+> show() must not use snprintf() when formatting the value to be
+> returned to user space.
+>
+> Fix the following coccicheck warning:
+> drivers/gpu/drm/amd/amdgpu/amdgpu_ucode.c:427:
+> WARNING: use scnprintf or sprintf.
+>
+> Signed-off-by: Qing Wang <wangqing@vivo.com>
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_ucode.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ucode.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ucode.c
+> index 2834981..faf4011 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ucode.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ucode.c
+> @@ -424,7 +424,7 @@ static ssize_t show_##name(struct device *dev,                              \
+>         struct drm_device *ddev = dev_get_drvdata(dev);                 \
+>         struct amdgpu_device *adev = drm_to_adev(ddev);                 \
+>                                                                         \
+> -       return snprintf(buf, PAGE_SIZE, "0x%08x\n", adev->field);       \
+> +       return sysfs_emit(buf, "0x%08x\n", adev->field);        \
+>  }                                                                      \
+>  static DEVICE_ATTR(name, mode, show_##name, NULL)
+>
+> --
+> 2.7.4
+>
