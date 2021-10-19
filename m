@@ -1,64 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 338744334A3
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Oct 2021 13:27:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 689114334C9
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Oct 2021 13:36:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C713F89276;
-	Tue, 19 Oct 2021 11:27:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0FD6B6E118;
+	Tue, 19 Oct 2021 11:36:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
- [IPv6:2a00:1450:4864:20::430])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D88D89276
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Oct 2021 11:27:09 +0000 (UTC)
-Received: by mail-wr1-x430.google.com with SMTP id u18so47291086wrg.5
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Oct 2021 04:27:09 -0700 (PDT)
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com
+ [IPv6:2a00:1450:4864:20::333])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E3B86E118;
+ Tue, 19 Oct 2021 11:36:29 +0000 (UTC)
+Received: by mail-wm1-x333.google.com with SMTP id v127so11582211wme.5;
+ Tue, 19 Oct 2021 04:36:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=9EMk4Y2s5N1nhLJBTb44zhoYF8ebvGOWpERzdxIsNFw=;
- b=l4vv22hCEVrD0ypGhy+TdvBKcUyubPDP8nJ+fBURwRejMGbdjcLqPkW8mAUOwb+l9C
- akgMKx/+ud3ORTVAkXR9jsiaFnnv1KYbqeoOGYDgr12ePfqhPUzUULqBluc/+ELHOe7/
- EaoRrDAnqLiuaQP+LeuVyYAeOtJYuO7XZcl764CjS5RizqY7r13z8GcU5e31kI5j0WlX
- 8qufjyx1PN7PvW5mkAhePuv9s5otiDVAWsr4o2iWxiJ1zJk4OBD1+U1a8ecJg5txIjHM
- tzkpef38uKQVkByUKq4jry6G+Oz47c2NzznIN1sK1iiRGTpHxf34JHUC5yRAdVkstlB6
- +NVw==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=M3LiI2dynM1nZYamguT3elJaAc7JLzbkcv2J5Oa0PxI=;
+ b=ax+//QLOzRzifYURKML/tpp9AHBIzuQk6Eb/IVxhDu6QdiTQJke+WQUPauvV2csBmx
+ vbPKIuyiSVuZi6DEux2yncqUbJPeYbXJ70zZjwlwYyLarry5WIdUU8oJqwwqBvTNXexF
+ Axa38j9hCiGDqxWXABvDM2kiU1Ht7FmAYx2MTyXhNOvHpHwXgdGarwrChwlX2XJmy4//
+ sbr/fsjx8QO11RqD2J+ip+sGz5dLM/exoR2UYnRdHdJ0MRCAVUSySKp1ZII/dOuSwhF5
+ IWnSJa0nEKe8FRJA8NX/x4JD6yuoUdjDA2p9o8gz3EflwgSJAY0PycNHbOD1aCwQ0PNM
+ I84Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=9EMk4Y2s5N1nhLJBTb44zhoYF8ebvGOWpERzdxIsNFw=;
- b=we7FMX9DRfQgeTs5khLeTV729eBDUUiigQ9zbIPgA4Um0PmLAYHt7LBIbSPTAnR+1Q
- nmY4mC+D/EMQFRABWMRg11YNC3Qci2h5O5Ap3RrL77K+sNQb9aPYpl1Kh1fkFZKB9gbQ
- 5yNL62ycQyILKJKVVRnkLTewyi6aV6aAHCv9odwUbYHKXES+L+xHtIjCAfloMwsX+AYn
- E2Fha0VHvguToQDsjtOJZ7v5+ITRJ3N3rZh/rYLpwKUcS1R3PQdq9OwXg2OTMoeC9TJA
- J6O/5qKZZc0LISInl3Kz6MM2GtfOaEKqUXGDmj1sm9nLd7mGtkcw1BT6JZGavM5wdptd
- Sq/g==
-X-Gm-Message-State: AOAM532hshKs1kuGvJZsK79C9rZIl9yhordATzWFBuE9lpQjAuwwJDgL
- wYPxHP2/xnqMJ903sFds5cY=
-X-Google-Smtp-Source: ABdhPJxPviCiF41UncIk3uIkeURtmwm0NYF7TmnVPId36BtpmTD5pYWdBsvxFLzxEGXYUhXtfFjtgw==
-X-Received: by 2002:a05:6000:15c6:: with SMTP id
- y6mr42390188wry.382.1634642827639; 
- Tue, 19 Oct 2021 04:27:07 -0700 (PDT)
-Received: from abel.fritz.box (p5b0ea1b5.dip0.t-ipconnect.de. [91.14.161.181])
- by smtp.gmail.com with ESMTPSA id
- a16sm14781891wrs.30.2021.10.19.04.27.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Oct 2021 04:27:07 -0700 (PDT)
-From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
- <christian.koenig@amd.com>
-To: frattaroli.nicolas@gmail.com
-Cc: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/scheduler: fix drm_sched_job_add_implicit_dependencies
-Date: Tue, 19 Oct 2021 13:27:06 +0200
-Message-Id: <20211019112706.27769-1-christian.koenig@amd.com>
-X-Mailer: git-send-email 2.25.1
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=M3LiI2dynM1nZYamguT3elJaAc7JLzbkcv2J5Oa0PxI=;
+ b=H1j6LgbiVJVqyJ1ILTtmtnj1Aj7wxlz4VljyjGrgKKvXpJo8qszQwHi1i74YqBxyb4
+ okxAYdW6lEH8YFqaf2+N+Vp0YhqGLoGExiGaU9qTO+VopT3VUiuZYILSMRQ/ymWOQg7p
+ vehh+yMWSQq2YH+3gjSttW+a+4V4XN1TseOgnewImRGBnkfZOrKtn2ImOo1MOf8YyzBx
+ gMsYbtrAVl8LzlxepuMgkZDS0VtAZ0uddMaBU6+RWROaoWmX5MEJXpLp2cswLBQszpK0
+ qin++2NW8pIYx5Ystunx/zR8GLmBHhlxhJ/i5/Cq3R624Iyzqhc7/5XN2VLoU/YlgPAw
+ RnrA==
+X-Gm-Message-State: AOAM531sb0c4/Tot2dmkTrgdxcpkW4sq6aRIf8NDfHS7Ige9zoEHnOY/
+ CtPJS2bvnImmJV8ag3kIgy0=
+X-Google-Smtp-Source: ABdhPJxKJUE9DPjZGw2RK07XvLt3WGtWLRzf2uHEQt87Ekn7KXR93fRKOrmLCyCNH19mhUgCaBWjQw==
+X-Received: by 2002:a7b:c8ce:: with SMTP id f14mr5228360wml.177.1634643387780; 
+ Tue, 19 Oct 2021 04:36:27 -0700 (PDT)
+Received: from ?IPv6:2a02:908:1252:fb60:f344:748e:38f7:c50?
+ ([2a02:908:1252:fb60:f344:748e:38f7:c50])
+ by smtp.gmail.com with ESMTPSA id c3sm13657502wrw.66.2021.10.19.04.36.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 19 Oct 2021 04:36:27 -0700 (PDT)
+Subject: Re: [PATCH 12/28] drm/amdgpu: use new iterator in
+ amdgpu_ttm_bo_eviction_valuable
+To: Daniel Vetter <daniel@ffwll.ch>
+Cc: linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ tvrtko.ursulin@linux.intel.com
+References: <20211005113742.1101-1-christian.koenig@amd.com>
+ <20211005113742.1101-13-christian.koenig@amd.com>
+ <YWboMfLOIjl1l7tF@phenom.ffwll.local>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <a0a926a7-13d0-b996-5f32-36aa6d74165e@gmail.com>
+Date: Tue, 19 Oct 2021 13:36:26 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <YWboMfLOIjl1l7tF@phenom.ffwll.local>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,29 +81,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Trivial fix since we now need to grab a reference to the fence we have
-added. Previously the dma_resv function where doing that for us.
+Am 13.10.21 um 16:07 schrieb Daniel Vetter:
+> On Tue, Oct 05, 2021 at 01:37:26PM +0200, Christian König wrote:
+>> Simplifying the code a bit.
+>>
+>> Signed-off-by: Christian König <christian.koenig@amd.com>
+>> ---
+>>   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 14 ++++----------
+>>   1 file changed, 4 insertions(+), 10 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+>> index e8d70b6e6737..722e3c9e8882 100644
+>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+>> @@ -1345,10 +1345,9 @@ static bool amdgpu_ttm_bo_eviction_valuable(struct ttm_buffer_object *bo,
+>>   					    const struct ttm_place *place)
+>>   {
+>>   	unsigned long num_pages = bo->resource->num_pages;
+>> +	struct dma_resv_iter resv_cursor;
+>>   	struct amdgpu_res_cursor cursor;
+>> -	struct dma_resv_list *flist;
+>>   	struct dma_fence *f;
+>> -	int i;
+>>   
+>>   	/* Swapout? */
+>>   	if (bo->resource->mem_type == TTM_PL_SYSTEM)
+>> @@ -1362,14 +1361,9 @@ static bool amdgpu_ttm_bo_eviction_valuable(struct ttm_buffer_object *bo,
+>>   	 * If true, then return false as any KFD process needs all its BOs to
+>>   	 * be resident to run successfully
+>>   	 */
+>> -	flist = dma_resv_shared_list(bo->base.resv);
+>> -	if (flist) {
+>> -		for (i = 0; i < flist->shared_count; ++i) {
+>> -			f = rcu_dereference_protected(flist->shared[i],
+>> -				dma_resv_held(bo->base.resv));
+>> -			if (amdkfd_fence_check_mm(f, current->mm))
+>> -				return false;
+>> -		}
+>> +	dma_resv_for_each_fence(&resv_cursor, bo->base.resv, true, f) {
+> 							    ^false?
+>
+> At least I'm not seeing the code look at the exclusive fence here.
 
-Signed-off-by: Christian König <christian.koenig@amd.com>
-Fixes: 9c2ba265352a drm/scheduler: ("use new iterator in drm_sched_job_add_implicit_dependencies v2")
----
- drivers/gpu/drm/scheduler/sched_main.c | 3 +++
- 1 file changed, 3 insertions(+)
+Yes, but that's correct. We need to look at all potential fences.
 
-diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-index 5bc5f775abe1..94fe51b3caa2 100644
---- a/drivers/gpu/drm/scheduler/sched_main.c
-+++ b/drivers/gpu/drm/scheduler/sched_main.c
-@@ -707,6 +707,9 @@ int drm_sched_job_add_implicit_dependencies(struct drm_sched_job *job,
- 		ret = drm_sched_job_add_dependency(job, fence);
- 		if (ret)
- 			return ret;
-+
-+		/* Make sure to grab an additional ref on the added fence */
-+		dma_fence_get(fence);
- 	}
- 	return 0;
- }
--- 
-2.25.1
+It's a design problem in KFD if you ask me, but that is a completely 
+different topic.
+
+Christian.
+
+> -Daniel
+>
+>> +		if (amdkfd_fence_check_mm(f, current->mm))
+>> +			return false;
+>>   	}
+>>   
+>>   	switch (bo->resource->mem_type) {
+>> -- 
+>> 2.25.1
+>>
 
