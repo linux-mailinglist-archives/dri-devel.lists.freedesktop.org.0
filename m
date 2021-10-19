@@ -2,41 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9E28433BED
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Oct 2021 18:18:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EA19433C1A
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Oct 2021 18:26:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 70D5C6E185;
-	Tue, 19 Oct 2021 16:18:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 526EE6E195;
+	Tue, 19 Oct 2021 16:26:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B81AF6E192;
- Tue, 19 Oct 2021 16:18:38 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10142"; a="292025377"
-X-IronPort-AV: E=Sophos;i="5.87,164,1631602800"; d="scan'208";a="292025377"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Oct 2021 09:13:36 -0700
-X-IronPort-AV: E=Sophos;i="5.87,164,1631602800"; d="scan'208";a="443951691"
-Received: from jsanz-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.251.211.239])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Oct 2021 09:13:34 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: dri-devel@lists.freedesktop.org,
-	intel-gfx@lists.freedesktop.org
-Cc: jani.nikula@intel.com,
-	ville.syrjala@linux.intel.com
-Subject: [PATCH 2/2] drm/i915/dp: use drm_dp_phy_name() for logging
-Date: Tue, 19 Oct 2021 19:13:22 +0300
-Message-Id: <20211019161322.11037-2-jani.nikula@intel.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20211019161322.11037-1-jani.nikula@intel.com>
-References: <20211019161322.11037-1-jani.nikula@intel.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D9D96E195;
+ Tue, 19 Oct 2021 16:26:04 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 9C08C61052;
+ Tue, 19 Oct 2021 16:26:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1634660764;
+ bh=JTD0yxhNiwoaimOyKxDh67eqXCwBhnj/uYevNf6Vv3Q=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=rfqMZQs6S02wfD8Lpp8XLsn1KTOo22eHxr2zRCkJ5Rx0usL24hdRRybMsoG+uo35G
+ ACfcoy2t3M3NjUr35CHgJ2dhLnDVvI8KJW3Ew2w0ykiySlRrcjRcGwAdxAsO1HEN7Y
+ 7/ufr5N2LivOQxB3UnL0WBKVuSLT+++WBLT62149x183uP05AXTO71mZ3mmina9P0N
+ 23Vh8IX9t3poHfgli5j8e41bzbF5AHqHrd8W7hP8MCPyjbHWyBQAyLjT2i4yL4aCJD
+ s22FNKlQ7QKgoM/YvdzwS8Zpw7uS8luNYqVf3YrScnBKWg8/d8ccVx72fdnoSP7kTG
+ EZ6vGSIJjBzdA==
+Date: Tue, 19 Oct 2021 21:55:59 +0530
+From: Vinod Koul <vkoul@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Rob Clark <robdclark@gmail.com>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Jonathan Marek <jonathan@marek.ca>,
+ Abhinav Kumar <abhinavk@codeaurora.org>,
+ Jeffrey Hugo <jeffrey.l.hugo@gmail.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>,
+ freedreno <freedreno@lists.freedesktop.org>
+Subject: Re: [PATCH v2 04/11] drm/msm/disp/dpu1: Add DSC support in RM
+Message-ID: <YW7xlyuIq1vh4Fg2@matsya>
+References: <20211007070900.456044-1-vkoul@kernel.org>
+ <20211007070900.456044-5-vkoul@kernel.org>
+ <d249d880-1137-d5cc-6d96-83a730f7de29@linaro.org>
+ <YW7koEt85EVMcUDs@matsya>
+ <CAA8EJprNTUrh66yqaOCoReWdwLcBc9LfMm=WNDi54o9nzd8RRA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAA8EJprNTUrh66yqaOCoReWdwLcBc9LfMm=WNDi54o9nzd8RRA@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,318 +64,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Drop the local intel_dp_phy_name() function, and replace with
-drm_dp_phy_name(). This lets us drop a number of local buffers.
+On 19-10-21, 18:52, Dmitry Baryshkov wrote:
+> On Tue, 19 Oct 2021 at 18:30, Vinod Koul <vkoul@kernel.org> wrote:
+> >
+> > On 14-10-21, 17:11, Dmitry Baryshkov wrote:
+> > > On 07/10/2021 10:08, Vinod Koul wrote:
+> >
+> > > > +static int _dpu_rm_reserve_dsc(struct dpu_rm *rm,
+> > > > +                          struct dpu_global_state *global_state,
+> > > > +                          struct drm_encoder *enc)
+> > > > +{
+> > > > +   struct msm_drm_private *priv;
+> > > > +
+> > > > +   priv = enc->dev->dev_private;
+> > > > +
+> > > > +   if (!priv)
+> > > > +           return -EIO;
+> > > > +
+> > > > +   /* check if DSC is supported */
+> > > > +   if (!priv->dsc)
+> > > > +           return 0;
+> > > > +
+> > > > +   /* check if DSC 0 & 1 and allocated or not */
+> > > > +   if (global_state->dsc_to_enc_id[0] || global_state->dsc_to_enc_id[1]) {
+> > > > +           DPU_ERROR("DSC 0|1 is already allocated\n");
+> > > > +           return -EIO;
+> > > > +   }
+> > > > +
+> > > > +   global_state->dsc_to_enc_id[0] = enc->base.id;
+> > > > +   global_state->dsc_to_enc_id[1] = enc->base.id;
+> > >
+> > > Still hardcoding DSC_0 and DSC_1.
+> >
+> > Yes!
+> >
+> > > Could you please add num_dsc to the topology and allocate the requested
+> > > amount of DSC blocks? Otherwise this would break for the DSI + DP case.
+> >
+> > It wont as we check for dsc and dont proceed, so it cant make an impact
+> > in non dsc case.
+> >
+> > Nevertheless I agree with you, so I am making it based on dsc defined in
+> > topology. Do we need additional field for num_dsc in topology, num_enc
+> > should be it, right?
+> 
+> I'd vote for the separate num_dsc.
 
-v2: Rebase
+Okay will update... will move up topology patch up in the order for that
+as well
 
-Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com> # v1
-Signed-off-by: Jani Nikula <jani.nikula@intel.com>
----
- .../drm/i915/display/intel_dp_link_training.c | 83 ++++++++-----------
- 1 file changed, 36 insertions(+), 47 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/display/intel_dp_link_training.c b/drivers/gpu/drm/i915/display/intel_dp_link_training.c
-index a72f2dc93718..81f93733fcc5 100644
---- a/drivers/gpu/drm/i915/display/intel_dp_link_training.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp_link_training.c
-@@ -37,17 +37,6 @@ static void intel_dp_reset_lttpr_count(struct intel_dp *intel_dp)
- 				    DP_LT_TUNABLE_PHY_REPEATER_FIELD_DATA_STRUCTURE_REV] = 0;
- }
- 
--static const char *intel_dp_phy_name(enum drm_dp_phy dp_phy,
--				     char *buf, size_t buf_size)
--{
--	if (dp_phy == DP_PHY_DPRX)
--		snprintf(buf, buf_size, "DPRX");
--	else
--		snprintf(buf, buf_size, "LTTPR %d", dp_phy - DP_PHY_LTTPR1 + 1);
--
--	return buf;
--}
--
- static u8 *intel_dp_lttpr_phy_caps(struct intel_dp *intel_dp,
- 				   enum drm_dp_phy dp_phy)
- {
-@@ -59,20 +48,19 @@ static void intel_dp_read_lttpr_phy_caps(struct intel_dp *intel_dp,
- {
- 	struct intel_encoder *encoder = &dp_to_dig_port(intel_dp)->base;
- 	u8 *phy_caps = intel_dp_lttpr_phy_caps(intel_dp, dp_phy);
--	char phy_name[10];
--
--	intel_dp_phy_name(dp_phy, phy_name, sizeof(phy_name));
- 
- 	if (drm_dp_read_lttpr_phy_caps(&intel_dp->aux, dp_phy, phy_caps) < 0) {
- 		drm_dbg_kms(&dp_to_i915(intel_dp)->drm,
- 			    "[ENCODER:%d:%s][%s] failed to read the PHY caps\n",
--			    encoder->base.base.id, encoder->base.name, phy_name);
-+			    encoder->base.base.id, encoder->base.name,
-+			    drm_dp_phy_name(dp_phy));
- 		return;
- 	}
- 
- 	drm_dbg_kms(&dp_to_i915(intel_dp)->drm,
- 		    "[ENCODER:%d:%s][%s] PHY capabilities: %*ph\n",
--		    encoder->base.base.id, encoder->base.name, phy_name,
-+		    encoder->base.base.id, encoder->base.name,
-+		    drm_dp_phy_name(dp_phy),
- 		    (int)sizeof(intel_dp->lttpr_phy_caps[0]),
- 		    phy_caps);
- }
-@@ -406,14 +394,13 @@ intel_dp_get_adjust_train(struct intel_dp *intel_dp,
- {
- 	struct intel_encoder *encoder = &dp_to_dig_port(intel_dp)->base;
- 	struct drm_i915_private *i915 = to_i915(encoder->base.dev);
--	char phy_name[10];
- 	int lane;
- 
- 	if (intel_dp_is_uhbr(crtc_state)) {
- 		drm_dbg_kms(&i915->drm, "[ENCODER:%d:%s][%s] 128b/132b, lanes: %d, "
- 			    "TX FFE request: " TRAIN_REQ_FMT "\n",
- 			    encoder->base.base.id, encoder->base.name,
--			    intel_dp_phy_name(dp_phy, phy_name, sizeof(phy_name)),
-+			    drm_dp_phy_name(dp_phy),
- 			    crtc_state->lane_count,
- 			    TRAIN_REQ_TX_FFE_ARGS(link_status));
- 	} else {
-@@ -421,7 +408,7 @@ intel_dp_get_adjust_train(struct intel_dp *intel_dp,
- 			    "vswing request: " TRAIN_REQ_FMT ", "
- 			    "pre-emphasis request: " TRAIN_REQ_FMT "\n",
- 			    encoder->base.base.id, encoder->base.name,
--			    intel_dp_phy_name(dp_phy, phy_name, sizeof(phy_name)),
-+			    drm_dp_phy_name(dp_phy),
- 			    crtc_state->lane_count,
- 			    TRAIN_REQ_VSWING_ARGS(link_status),
- 			    TRAIN_REQ_PREEMPH_ARGS(link_status));
-@@ -486,13 +473,12 @@ intel_dp_program_link_training_pattern(struct intel_dp *intel_dp,
- 	struct intel_encoder *encoder = &dp_to_dig_port(intel_dp)->base;
- 	struct drm_i915_private *i915 = to_i915(encoder->base.dev);
- 	u8 train_pat = intel_dp_training_pattern_symbol(dp_train_pat);
--	char phy_name[10];
- 
- 	if (train_pat != DP_TRAINING_PATTERN_DISABLE)
- 		drm_dbg_kms(&i915->drm,
- 			    "[ENCODER:%d:%s][%s] Using DP training pattern TPS%c\n",
- 			    encoder->base.base.id, encoder->base.name,
--			    intel_dp_phy_name(dp_phy, phy_name, sizeof(phy_name)),
-+			    drm_dp_phy_name(dp_phy),
- 			    dp_training_pattern_name(train_pat));
- 
- 	intel_dp->set_link_train(intel_dp, crtc_state, dp_train_pat);
-@@ -529,13 +515,12 @@ void intel_dp_set_signal_levels(struct intel_dp *intel_dp,
- {
- 	struct intel_encoder *encoder = &dp_to_dig_port(intel_dp)->base;
- 	struct drm_i915_private *i915 = to_i915(encoder->base.dev);
--	char phy_name[10];
- 
- 	if (intel_dp_is_uhbr(crtc_state)) {
- 		drm_dbg_kms(&i915->drm, "[ENCODER:%d:%s][%s] 128b/132b, lanes: %d, "
- 			    "TX FFE presets: " TRAIN_SET_FMT "\n",
- 			    encoder->base.base.id, encoder->base.name,
--			    intel_dp_phy_name(dp_phy, phy_name, sizeof(phy_name)),
-+			    drm_dp_phy_name(dp_phy),
- 			    crtc_state->lane_count,
- 			    TRAIN_SET_TX_FFE_ARGS(intel_dp->train_set));
- 	} else {
-@@ -543,7 +528,7 @@ void intel_dp_set_signal_levels(struct intel_dp *intel_dp,
- 			    "vswing levels: " TRAIN_SET_FMT ", "
- 			    "pre-emphasis levels: " TRAIN_SET_FMT "\n",
- 			    encoder->base.base.id, encoder->base.name,
--			    intel_dp_phy_name(dp_phy, phy_name, sizeof(phy_name)),
-+			    drm_dp_phy_name(dp_phy),
- 			    crtc_state->lane_count,
- 			    TRAIN_SET_VSWING_ARGS(intel_dp->train_set),
- 			    TRAIN_SET_PREEMPH_ARGS(intel_dp->train_set));
-@@ -715,12 +700,11 @@ intel_dp_dump_link_status(struct intel_dp *intel_dp, enum drm_dp_phy dp_phy,
- {
- 	struct intel_encoder *encoder = &dp_to_dig_port(intel_dp)->base;
- 	struct drm_i915_private *i915 = to_i915(encoder->base.dev);
--	char phy_name[10];
- 
- 	drm_dbg_kms(&i915->drm,
- 		    "[ENCODER:%d:%s][%s] ln0_1:0x%x ln2_3:0x%x align:0x%x sink:0x%x adj_req0_1:0x%x adj_req2_3:0x%x\n",
- 		    encoder->base.base.id, encoder->base.name,
--		    intel_dp_phy_name(dp_phy, phy_name, sizeof(phy_name)),
-+		    drm_dp_phy_name(dp_phy),
- 		    link_status[0], link_status[1], link_status[2],
- 		    link_status[3], link_status[4], link_status[5]);
- }
-@@ -740,21 +724,19 @@ intel_dp_link_training_clock_recovery(struct intel_dp *intel_dp,
- 	int voltage_tries, cr_tries, max_cr_tries;
- 	u8 link_status[DP_LINK_STATUS_SIZE];
- 	bool max_vswing_reached = false;
--	char phy_name[10];
- 	int delay_us;
- 
- 	delay_us = drm_dp_read_clock_recovery_delay(&intel_dp->aux,
- 						    intel_dp->dpcd, dp_phy,
- 						    intel_dp_is_uhbr(crtc_state));
- 
--	intel_dp_phy_name(dp_phy, phy_name, sizeof(phy_name));
--
- 	/* clock recovery */
- 	if (!intel_dp_reset_link_train(intel_dp, crtc_state, dp_phy,
- 				       DP_TRAINING_PATTERN_1 |
- 				       DP_LINK_SCRAMBLING_DISABLE)) {
- 		drm_err(&i915->drm, "[ENCODER:%d:%s][%s] Failed to enable link training\n",
--			encoder->base.base.id, encoder->base.name, phy_name);
-+			encoder->base.base.id, encoder->base.name,
-+			drm_dp_phy_name(dp_phy));
- 		return false;
- 	}
- 
-@@ -778,14 +760,16 @@ intel_dp_link_training_clock_recovery(struct intel_dp *intel_dp,
- 		if (drm_dp_dpcd_read_phy_link_status(&intel_dp->aux, dp_phy,
- 						     link_status) < 0) {
- 			drm_err(&i915->drm, "[ENCODER:%d:%s][%s] Failed to get link status\n",
--				encoder->base.base.id, encoder->base.name, phy_name);
-+				encoder->base.base.id, encoder->base.name,
-+				drm_dp_phy_name(dp_phy));
- 			return false;
- 		}
- 
- 		if (drm_dp_clock_recovery_ok(link_status, crtc_state->lane_count)) {
- 			drm_dbg_kms(&i915->drm,
- 				    "[ENCODER:%d:%s][%s] Clock recovery OK\n",
--				    encoder->base.base.id, encoder->base.name, phy_name);
-+				    encoder->base.base.id, encoder->base.name,
-+				    drm_dp_phy_name(dp_phy));
- 			return true;
- 		}
- 
-@@ -793,7 +777,8 @@ intel_dp_link_training_clock_recovery(struct intel_dp *intel_dp,
- 			intel_dp_dump_link_status(intel_dp, dp_phy, link_status);
- 			drm_dbg_kms(&i915->drm,
- 				    "[ENCODER:%d:%s][%s] Same voltage tried 5 times\n",
--				    encoder->base.base.id, encoder->base.name, phy_name);
-+				    encoder->base.base.id, encoder->base.name,
-+				    drm_dp_phy_name(dp_phy));
- 			return false;
- 		}
- 
-@@ -801,7 +786,8 @@ intel_dp_link_training_clock_recovery(struct intel_dp *intel_dp,
- 			intel_dp_dump_link_status(intel_dp, dp_phy, link_status);
- 			drm_dbg_kms(&i915->drm,
- 				    "[ENCODER:%d:%s][%s] Max Voltage Swing reached\n",
--				    encoder->base.base.id, encoder->base.name, phy_name);
-+				    encoder->base.base.id, encoder->base.name,
-+				    drm_dp_phy_name(dp_phy));
- 			return false;
- 		}
- 
-@@ -811,7 +797,8 @@ intel_dp_link_training_clock_recovery(struct intel_dp *intel_dp,
- 		if (!intel_dp_update_link_train(intel_dp, crtc_state, dp_phy)) {
- 			drm_err(&i915->drm,
- 				"[ENCODER:%d:%s][%s] Failed to update link training\n",
--				encoder->base.base.id, encoder->base.name, phy_name);
-+				encoder->base.base.id, encoder->base.name,
-+				drm_dp_phy_name(dp_phy));
- 			return false;
- 		}
- 
-@@ -829,7 +816,8 @@ intel_dp_link_training_clock_recovery(struct intel_dp *intel_dp,
- 	intel_dp_dump_link_status(intel_dp, dp_phy, link_status);
- 	drm_err(&i915->drm,
- 		"[ENCODER:%d:%s][%s] Failed clock recovery %d times, giving up!\n",
--		encoder->base.base.id, encoder->base.name, phy_name, max_cr_tries);
-+		encoder->base.base.id, encoder->base.name,
-+		drm_dp_phy_name(dp_phy), max_cr_tries);
- 
- 	return false;
- }
-@@ -907,15 +895,12 @@ intel_dp_link_training_channel_equalization(struct intel_dp *intel_dp,
- 	u32 training_pattern;
- 	u8 link_status[DP_LINK_STATUS_SIZE];
- 	bool channel_eq = false;
--	char phy_name[10];
- 	int delay_us;
- 
- 	delay_us = drm_dp_read_channel_eq_delay(&intel_dp->aux,
- 						intel_dp->dpcd, dp_phy,
- 						intel_dp_is_uhbr(crtc_state));
- 
--	intel_dp_phy_name(dp_phy, phy_name, sizeof(phy_name));
--
- 	training_pattern = intel_dp_training_pattern(intel_dp, crtc_state, dp_phy);
- 	/* Scrambling is disabled for TPS2/3 and enabled for TPS4 */
- 	if (training_pattern != DP_TRAINING_PATTERN_4)
-@@ -927,7 +912,7 @@ intel_dp_link_training_channel_equalization(struct intel_dp *intel_dp,
- 		drm_err(&i915->drm,
- 			"[ENCODER:%d:%s][%s] Failed to start channel equalization\n",
- 			encoder->base.base.id, encoder->base.name,
--			phy_name);
-+			drm_dp_phy_name(dp_phy));
- 		return false;
- 	}
- 
-@@ -938,7 +923,8 @@ intel_dp_link_training_channel_equalization(struct intel_dp *intel_dp,
- 						     link_status) < 0) {
- 			drm_err(&i915->drm,
- 				"[ENCODER:%d:%s][%s] Failed to get link status\n",
--				encoder->base.base.id, encoder->base.name, phy_name);
-+				encoder->base.base.id, encoder->base.name,
-+				drm_dp_phy_name(dp_phy));
- 			break;
- 		}
- 
-@@ -949,7 +935,8 @@ intel_dp_link_training_channel_equalization(struct intel_dp *intel_dp,
- 			drm_dbg_kms(&i915->drm,
- 				    "[ENCODER:%d:%s][%s] Clock recovery check failed, cannot "
- 				    "continue channel equalization\n",
--				    encoder->base.base.id, encoder->base.name, phy_name);
-+				    encoder->base.base.id, encoder->base.name,
-+				    drm_dp_phy_name(dp_phy));
- 			break;
- 		}
- 
-@@ -958,7 +945,8 @@ intel_dp_link_training_channel_equalization(struct intel_dp *intel_dp,
- 			channel_eq = true;
- 			drm_dbg_kms(&i915->drm,
- 				    "[ENCODER:%d:%s][%s] Channel EQ done. DP Training successful\n",
--				    encoder->base.base.id, encoder->base.name, phy_name);
-+				    encoder->base.base.id, encoder->base.name,
-+				    drm_dp_phy_name(dp_phy));
- 			break;
- 		}
- 
-@@ -968,7 +956,8 @@ intel_dp_link_training_channel_equalization(struct intel_dp *intel_dp,
- 		if (!intel_dp_update_link_train(intel_dp, crtc_state, dp_phy)) {
- 			drm_err(&i915->drm,
- 				"[ENCODER:%d:%s][%s] Failed to update link training\n",
--				encoder->base.base.id, encoder->base.name, phy_name);
-+				encoder->base.base.id, encoder->base.name,
-+				drm_dp_phy_name(dp_phy));
- 			break;
- 		}
- 	}
-@@ -978,7 +967,8 @@ intel_dp_link_training_channel_equalization(struct intel_dp *intel_dp,
- 		intel_dp_dump_link_status(intel_dp, dp_phy, link_status);
- 		drm_dbg_kms(&i915->drm,
- 			    "[ENCODER:%d:%s][%s] Channel equalization failed 5 times\n",
--			    encoder->base.base.id, encoder->base.name, phy_name);
-+			    encoder->base.base.id, encoder->base.name,
-+			    drm_dp_phy_name(dp_phy));
- 	}
- 
- 	return channel_eq;
-@@ -1026,7 +1016,6 @@ intel_dp_link_train_phy(struct intel_dp *intel_dp,
- {
- 	struct intel_connector *connector = intel_dp->attached_connector;
- 	struct intel_encoder *encoder = &dp_to_dig_port(intel_dp)->base;
--	char phy_name[10];
- 	bool ret = false;
- 
- 	if (!intel_dp_link_training_clock_recovery(intel_dp, crtc_state, dp_phy))
-@@ -1042,7 +1031,7 @@ intel_dp_link_train_phy(struct intel_dp *intel_dp,
- 		    "[CONNECTOR:%d:%s][ENCODER:%d:%s][%s] Link Training %s at link rate = %d, lane count = %d\n",
- 		    connector->base.base.id, connector->base.name,
- 		    encoder->base.base.id, encoder->base.name,
--		    intel_dp_phy_name(dp_phy, phy_name, sizeof(phy_name)),
-+		    drm_dp_phy_name(dp_phy),
- 		    ret ? "passed" : "failed",
- 		    crtc_state->port_clock, crtc_state->lane_count);
- 
 -- 
-2.30.2
-
+~Vinod
