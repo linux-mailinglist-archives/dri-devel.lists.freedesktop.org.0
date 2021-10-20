@@ -2,49 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC5464347CA
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Oct 2021 11:19:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9C6B4348B7
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Oct 2021 12:12:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 81CAA89FEC;
-	Wed, 20 Oct 2021 09:19:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC7C86E964;
+	Wed, 20 Oct 2021 10:12:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 663F789FEC;
- Wed, 20 Oct 2021 09:19:31 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 5CDDF61074;
- Wed, 20 Oct 2021 09:19:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1634721571;
- bh=lyuguw0XyKC7pblfSP/PKjf0tJ9Omz7vG2CSkCF9b/Y=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=GpfTbXlxvTLq3xEnQP+Mt5K79oLCsTz8gWGIsl0Bs3jXM1H0sbH/VBxXQmTdapqZJ
- ss4z/dkeFrhUx+tpjQmDQvkkDQfYy0AbS/gYWN8knXneehPld6hyAW+uL5GH5gAYPR
- ieVjo2Dz2AIa7UUy38tZOb0p8e/pLyFQ7TPcaHpkGL1NQQ2e2EHqWwZtrJNMDYZGvH
- sabCabEJDrySLq7HUGodzbr6Mq64EC9kxPYSKTDHZp5q47eMp3pgE4IbFfuY1bkMkd
- YuGbvZZJ9cuLbmC3ZvAHqTtddR4TDz97+VI2JqPx5+SLI4/w+jbW+fMtLRgoHrnp8B
- pM42Dau48lQ2w==
-Date: Wed, 20 Oct 2021 14:49:26 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Rob Clark <robdclark@gmail.com>, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Jonathan Marek <jonathan@marek.ca>,
- Abhinav Kumar <abhinavk@codeaurora.org>,
- Jeffrey Hugo <jeffrey.l.hugo@gmail.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org
-Subject: Re: [PATCH v2 07/11] drm/msm/disp/dpu1: Add DSC support in hw_ctl
-Message-ID: <YW/fHkaTcCbezKMT@matsya>
-References: <20211007070900.456044-1-vkoul@kernel.org>
- <20211007070900.456044-8-vkoul@kernel.org>
- <f5f6162c-7ed0-2964-7cf9-0bb894c8b4f5@linaro.org>
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
+ [IPv6:2a00:1450:4864:20::12c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BEE5A6E964
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Oct 2021 10:12:01 +0000 (UTC)
+Received: by mail-lf1-x12c.google.com with SMTP id x27so13932159lfa.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Oct 2021 03:12:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=o5vW3+1/Yb9DoK8RFz9pKj6hMdqBTflWtxCfKKNKjIM=;
+ b=ll8xtqZzt4j/xPMOFRixiOUUn0YawGc0VpIb27yrU/5xEc2mz9U7AIdXr9JuC/4fNY
+ Kbn29sUg9B/ceg0QlMmILfZwibgluYxemdn3/tXoz4Dw5IE6TN7mK0jE8ig9ytSmi1TD
+ B9KKbY+j3HXZ2uK17Bbu8IM6RLJZ9itwBOrR/m1obI+vU2upfUmChSjVnu3jV23pFVln
+ tu3XJxSWcEH411KfT9u797yh1Y966wFahCYFKbaZfy18abMmyS3l668wHNjfRiT3EDRP
+ eBonaGqc8zVkf8va7O2qG7bEAUjKvAceZJYfBNWVb4yTvPXvE5n1o1GAoYvJLyh7C2vT
+ jSGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=o5vW3+1/Yb9DoK8RFz9pKj6hMdqBTflWtxCfKKNKjIM=;
+ b=7MC3YAsEecMGWkq+9OthOwqu4j3Z3Ii93dmUU1eFuOoShybVE+76Gtp3RCkkLPgJ6o
+ lkERlaYK4+UUeXt+kwe0uOx0l4TQJRMD3m/5pbEYIeRAHKHnbdVHGCTc7O1Fg6Dpn+eV
+ cZB+WUhOWdFFNwGz7j9whgwr/8gsucApvOzYfU3vN+Z6Q9Uwrdl7RgksVI9abUbCeGBS
+ 9eI1nl1TrUkIMFH7wBCZUorAhT1wCY3qJM+GgsTpFdx8yJFpszuxHmXvrZLQsmcHccWX
+ jKVI1uf2GpmvWbz3RV2IdXsx5bKL3suWCwurRev9I0KvDVnXSv5YcQZB2Oi7VwaH80L/
+ hX+A==
+X-Gm-Message-State: AOAM530eZV4/H+GhgWxDhPMiwCYZccaJsU88dXsQ3IdNki6X6ZhT9Xs2
+ 3Arsz2n1TZUjAUJVVZRHx+J2fH473xGmKfUAfY0=
+X-Google-Smtp-Source: ABdhPJz0yOlCXwfArD9Mal5dBBBBtkMwEzgvgerdM1r51AASanzPqDKjABdfiE+rhkOn/dNQZ6rtdgQ7i2KZDFEoQ1s=
+X-Received: by 2002:ac2:4e85:: with SMTP id o5mr11286411lfr.105.1634724720016; 
+ Wed, 20 Oct 2021 03:12:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f5f6162c-7ed0-2964-7cf9-0bb894c8b4f5@linaro.org>
+References: <20210813145302.3933-1-kevin3.tang@gmail.com>
+ <20210813145302.3933-7-kevin3.tang@gmail.com>
+ <20210917154047.leojvqjqjj2sg34l@gilmour>
+ <CAFPSGXZbqh0f6kEoQaq_Nt677ksVS6QPdAa5==KVVAszSAuasw@mail.gmail.com>
+ <20210928092805.wbc4ev3ze7a7zgqr@gilmour>
+In-Reply-To: <20210928092805.wbc4ev3ze7a7zgqr@gilmour>
+From: Kevin Tang <kevin3.tang@gmail.com>
+Date: Wed, 20 Oct 2021 18:09:32 +0800
+Message-ID: <CAFPSGXZta-oJ7Hp3AyiGjpXr5e42g3r24Su6-L6HOwMR4QU5Zw@mail.gmail.com>
+Subject: Re: [PATCH v6 6/6] drm/sprd: add Unisoc's drm mipi dsi&dphy driver
+To: Maxime Ripard <maxime@cerno.tech>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Sean Paul <sean@poorly.run>, 
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>, 
+ Mark Rutland <mark.rutland@arm.com>, pony1.wu@gmail.com,
+ Orson Zhai <orsonzhai@gmail.com>, Chunyan Zhang <zhang.lyra@gmail.com>, 
+ "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>, 
+ ML dri-devel <dri-devel@lists.freedesktop.org>, devicetree@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,77 +78,241 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 14-10-21, 17:06, Dmitry Baryshkov wrote:
-> On 07/10/2021 10:08, Vinod Koul wrote:
-> > Later gens of hardware have DSC bits moved to hw_ctl, so configure these
-> > bits so that DSC would work there as well
-> > 
-> > Signed-off-by: Vinod Koul <vkoul@kernel.org>
-> > ---
-> > Changes since
-> > v1:
-> >   - Move this patch from 6 to 7 due to dependency on 6th one
-> >   - Use DSC indices for programming DSC registers and program only on non
-> >     null indices
-> > 
-> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c | 12 ++++++++++--
-> >   1 file changed, 10 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-> > index 3c79bd9c2fe5..8ea9d8dce3f7 100644
-> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-> > @@ -25,6 +25,8 @@
-> >   #define   CTL_MERGE_3D_ACTIVE           0x0E4
-> >   #define   CTL_INTF_ACTIVE               0x0F4
-> >   #define   CTL_MERGE_3D_FLUSH            0x100
-> > +#define   CTL_DSC_ACTIVE                0x0E8
-> > +#define   CTL_DSC_FLUSH                0x104
-> >   #define   CTL_INTF_FLUSH                0x110
-> >   #define   CTL_INTF_MASTER               0x134
-> >   #define   CTL_FETCH_PIPE_ACTIVE         0x0FC
-> > @@ -34,6 +36,7 @@
-> >   #define DPU_REG_RESET_TIMEOUT_US        2000
-> >   #define  MERGE_3D_IDX   23
-> > +#define  DSC_IDX        22
-> >   #define  INTF_IDX       31
-> >   #define CTL_INVALID_BIT                 0xffff
-> > @@ -120,7 +123,6 @@ static u32 dpu_hw_ctl_get_pending_flush(struct dpu_hw_ctl *ctx)
-> >   static void dpu_hw_ctl_trigger_flush_v1(struct dpu_hw_ctl *ctx)
-> >   {
-> > -
-> >   	if (ctx->pending_flush_mask & BIT(MERGE_3D_IDX))
-> >   		DPU_REG_WRITE(&ctx->hw, CTL_MERGE_3D_FLUSH,
-> >   				ctx->pending_merge_3d_flush_mask);
-> > @@ -128,7 +130,6 @@ static void dpu_hw_ctl_trigger_flush_v1(struct dpu_hw_ctl *ctx)
-> >   		DPU_REG_WRITE(&ctx->hw, CTL_INTF_FLUSH,
-> >   				ctx->pending_intf_flush_mask);
-> > -	DPU_REG_WRITE(&ctx->hw, CTL_FLUSH, ctx->pending_flush_mask);
-> 
-> This would break non-DSC case.
-
-This is a mistake, I have fixed it up now..
-
-> >   }
-> >   static inline void dpu_hw_ctl_trigger_flush(struct dpu_hw_ctl *ctx)
-> > @@ -498,6 +499,9 @@ static void dpu_hw_ctl_intf_cfg_v1(struct dpu_hw_ctl *ctx,
-> >   	u32 intf_active = 0;
-> >   	u32 mode_sel = 0;
-> > +	if (cfg->dsc)
-> > +		DPU_REG_WRITE(&ctx->hw, CTL_DSC_FLUSH, cfg->dsc);
-> > +
-> >   	if (cfg->intf_mode_sel == DPU_CTL_MODE_SEL_CMD)
-> >   		mode_sel |= BIT(17);
-> > @@ -509,6 +513,10 @@ static void dpu_hw_ctl_intf_cfg_v1(struct dpu_hw_ctl *ctx,
-> >   	if (cfg->merge_3d)
-> >   		DPU_REG_WRITE(c, CTL_MERGE_3D_ACTIVE,
-> >   			      BIT(cfg->merge_3d - MERGE_3D_0));
-> > +	if (cfg->dsc) {
-> > +		DPU_REG_WRITE(&ctx->hw, CTL_FLUSH, ctx->pending_flush_mask |  BIT(DSC_IDX));
-> 
-> Why?
-
-I have fixed it up to write only DSC_IDX
-
--- 
-~Vinod
+Maxime Ripard <maxime@cerno.tech> =E4=BA=8E2021=E5=B9=B49=E6=9C=8828=E6=97=
+=A5=E5=91=A8=E4=BA=8C =E4=B8=8B=E5=8D=885:28=E5=86=99=E9=81=93=EF=BC=9A
+>
+> On Sun, Sep 26, 2021 at 10:31:53PM +0800, Kevin Tang wrote:
+> > Maxime Ripard <maxime@cerno.tech> =E4=BA=8E2021=E5=B9=B49=E6=9C=8817=E6=
+=97=A5=E5=91=A8=E4=BA=94 =E4=B8=8B=E5=8D=8811:40=E5=86=99=E9=81=93=EF=BC=9A
+> > > > +static void sprd_dsi_encoder_mode_set(struct drm_encoder *encoder,
+> > > > +                              struct drm_display_mode *mode,
+> > > > +                              struct drm_display_mode *adj_mode)
+> > > > +{
+> > > > +     struct sprd_dsi *dsi =3D encoder_to_dsi(encoder);
+> > > > +
+> > > > +     drm_dbg(dsi->drm, "%s() set mode: %s\n", __func__, dsi->mode-=
+>name);
+> > > > +}
+> > >
+> > > You don't need that function?
+> > No need for now. need to delete it?
+>
+> Yes
+>
+> > > > +static int sprd_dsi_encoder_atomic_check(struct drm_encoder *encod=
+er,
+> > > > +                                 struct drm_crtc_state *crtc_state=
+,
+> > > > +                                 struct drm_connector_state *conn_=
+state)
+> > > > +{
+> > > > +     return 0;
+> > > > +}
+> > >
+> > > Ditto
+> >
+> > No need for now. need to delete it?
+>
+> Yep
+>
+> > > > +static int sprd_dsi_find_panel(struct sprd_dsi *dsi)
+> > > > +{
+> > > > +     struct device *dev =3D dsi->host.dev;
+> > > > +     struct device_node *child, *lcds_node;
+> > > > +     struct drm_panel *panel;
+> > > > +
+> > > > +     /* search /lcds child node first */
+> > > > +     lcds_node =3D of_find_node_by_path("/lcds");
+> > > > +     for_each_child_of_node(lcds_node, child) {
+> > > > +             panel =3D of_drm_find_panel(child);
+> > > > +             if (!IS_ERR(panel)) {
+> > > > +                     dsi->panel =3D panel;
+> > > > +                     return 0;
+> > > > +             }
+> > > > +     }
+> > > > +
+> > > > +     /*
+> > > > +      * If /lcds child node search failed, we search
+> > > > +      * the child of dsi host node.
+> > > > +      */
+> > > > +     for_each_child_of_node(dev->of_node, child) {
+> > > > +             panel =3D of_drm_find_panel(child);
+> > > > +             if (!IS_ERR(panel)) {
+> > > > +                     dsi->panel =3D panel;
+> > > > +                     return 0;
+> > > > +             }
+> > > > +     }
+> > > > +
+> > > > +     drm_err(dsi->drm, "of_drm_find_panel() failed\n");
+> > > > +     return -ENODEV;
+> > > > +}
+> > >
+> > > Just use devm_drm_of_get_bridge there
+> >
+> > We use drm_panel_init and drm_panel_add API to add panel, so here is a
+> > panel device, not a bridge.
+>
+> Like Sam said, the panel API is on its way out and is being superseded
+> by bridge_panels.
+hi maxime,
+If get a panel by devm_drm_of_get_bridge, how to use bridge api to access p=
+anel?
+it seems that pre_enable/enable still needs to be implemented, so we
+need to add drm_bridge_func,
+then move the panel-related operations in drm_encoder_helper_funcs to
+drm_bridge_funcs callback?
+>
+> > > > +static int sprd_dsi_host_init(struct sprd_dsi *dsi, struct device =
+*dev)
+> > > > +{
+> > > > +     int ret;
+> > > > +
+> > > > +     dsi->host.dev =3D dev;
+> > > > +     dsi->host.ops =3D &sprd_dsi_host_ops;
+> > > > +
+> > > > +     ret =3D mipi_dsi_host_register(&dsi->host);
+> > > > +     if (ret)
+> > > > +             drm_err(dsi->drm, "failed to register dsi host\n");
+> > > > +
+> > > > +     return ret;
+> > > > +}
+> > > >
+> > > > [...]
+> > > >
+> > > > +static int sprd_dsi_connector_init(struct drm_device *drm, struct =
+sprd_dsi *dsi)
+> > > > +{
+> > > > +     struct drm_encoder *encoder =3D &dsi->encoder;
+> > > > +     struct drm_connector *connector =3D &dsi->connector;
+> > > > +     int ret;
+> > > > +
+> > > > +     connector->polled =3D DRM_CONNECTOR_POLL_HPD;
+> > > > +
+> > > > +     ret =3D drm_connector_init(drm, connector,
+> > > > +                              &sprd_dsi_atomic_connector_funcs,
+> > > > +                              DRM_MODE_CONNECTOR_DSI);
+> > > > +     if (ret) {
+> > > > +             drm_err(drm, "drm_connector_init() failed\n");
+> > > > +             return ret;
+> > > > +     }
+> > > > +
+> > > > +     drm_connector_helper_add(connector,
+> > > > +                              &sprd_dsi_connector_helper_funcs);
+> > > > +
+> > > > +     drm_connector_attach_encoder(connector, encoder);
+> > > > +
+> > > > +     return 0;
+> > > > +}
+> > > > +
+> > > > +static int sprd_dsi_context_init(struct sprd_dsi *dsi,
+> > > > +                     struct device *dev)
+> > > > +{
+> > > > +     struct platform_device *pdev =3D to_platform_device(dev);
+> > > > +     struct dsi_context *ctx =3D &dsi->ctx;
+> > > > +     struct resource *res;
+> > > > +
+> > > > +     res =3D platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> > > > +     ctx->base =3D devm_ioremap(dev, res->start, resource_size(res=
+));
+> > > > +     if (!ctx->base) {
+> > > > +             drm_err(dsi->drm, "failed to map dsi host registers\n=
+");
+> > > > +             return -ENXIO;
+> > > > +     }
+> > > > +
+> > > > +     ctx->pll =3D devm_kzalloc(dev, sizeof(*ctx->pll), GFP_KERNEL)=
+;
+> > > > +     if (!ctx->pll)
+> > > > +             return -ENOMEM;
+> > > > +
+> > > > +     ctx->regmap =3D devm_regmap_init(dev, &regmap_tst_io, dsi, &b=
+yte_config);
+> > > > +     if (IS_ERR(ctx->regmap)) {
+> > > > +             drm_err(dsi->drm, "dphy regmap init failed\n");
+> > > > +             return PTR_ERR(ctx->regmap);
+> > > > +     }
+> > > > +
+> > > > +     ctx->data_hs2lp =3D 120;
+> > > > +     ctx->data_lp2hs =3D 500;
+> > > > +     ctx->clk_hs2lp =3D 4;
+> > > > +     ctx->clk_lp2hs =3D 15;
+> > > > +     ctx->max_rd_time =3D 6000;
+> > > > +     ctx->int0_mask =3D 0xffffffff;
+> > > > +     ctx->int1_mask =3D 0xffffffff;
+> > > > +     ctx->enabled =3D true;
+> > > > +
+> > > > +     return 0;
+> > > > +}
+> > > > +
+> > > > +static int sprd_dsi_bind(struct device *dev, struct device *master=
+, void *data)
+> > > > +{
+> > > > +     struct drm_device *drm =3D data;
+> > > > +     struct sprd_dsi *dsi;
+> > > > +     int ret;
+> > > > +
+> > > > +     dsi =3D sprd_dsi_encoder_init(drm, dev);
+> > > > +     if (IS_ERR(dsi))
+> > > > +             return PTR_ERR(dsi);
+> > > > +
+> > > > +     dsi->drm =3D drm;
+> > > > +     dev_set_drvdata(dev, dsi);
+> > > > +
+> > > > +     ret =3D sprd_dsi_connector_init(drm, dsi);
+> > > > +     if (ret)
+> > > > +             return ret;
+> > > > +
+> > > > +     ret =3D sprd_dsi_context_init(dsi, dev);
+> > > > +     if (ret)
+> > > > +             return ret;
+> > > > +
+> > > > +     ret =3D sprd_dsi_host_init(dsi, dev);
+> > > > +     if (ret)
+> > > > +             return ret;
+> > > > +
+> > > > +     return 0;
+> > > > +}
+> > > > +
+> > > > +static void sprd_dsi_unbind(struct device *dev,
+> > > > +                     struct device *master, void *data)
+> > > > +{
+> > > > +     struct sprd_dsi *dsi =3D dev_get_drvdata(dev);
+> > > > +
+> > > > +     mipi_dsi_host_unregister(&dsi->host);
+> > > > +}
+> > > > +
+> > > > +static const struct component_ops dsi_component_ops =3D {
+> > > > +     .bind   =3D sprd_dsi_bind,
+> > > > +     .unbind =3D sprd_dsi_unbind,
+> > > > +};
+> > > > +
+> > > > +static const struct of_device_id dsi_match_table[] =3D {
+> > > > +     { .compatible =3D "sprd,sharkl3-dsi-host" },
+> > > > +     { /* sentinel */ },
+> > > > +};
+> > > > +
+> > > > +static int sprd_dsi_probe(struct platform_device *pdev)
+> > > > +{
+> > > > +     return component_add(&pdev->dev, &dsi_component_ops);
+> > >
+> > > In order to prevent probe issues, you need to register you mipi_dsi_h=
+ost
+> > > here, see:
+> > > https://lore.kernel.org/dri-devel/20210910101218.1632297-3-maxime@cer=
+no.tech/
+> >
+> > We register mipi_dsi_hot on our panel driver, like this:
+> >
+> > 1092   ret =3D mipi_dsi_attach(slave);
+> > 1093   if (ret) {
+> > 1094   DRM_ERROR("failed to attach dsi panel to host\n");
+> > 1095   drm_panel_remove(&panel->base);
+> > 1096   return ret;
+> > 1097   }
+>
+> It's not about when you attach, but when you call
+> mipi_dsi_host_register. You're doing it in sprd_dsi_host_init that you
+> call in bind(), which is against the best practices and will create
+> probing issues in the future.
+>
+> Maxime
