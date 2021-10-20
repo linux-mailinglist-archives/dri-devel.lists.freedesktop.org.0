@@ -2,61 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6DBC4352C8
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Oct 2021 20:39:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 229C0435389
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Oct 2021 21:12:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A11D6E328;
-	Wed, 20 Oct 2021 18:39:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E572089A74;
+	Wed, 20 Oct 2021 19:12:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC2766E158
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Oct 2021 18:39:07 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1634755155; h=Content-Transfer-Encoding: MIME-Version:
- Message-Id: Date: Subject: Cc: To: From: Sender;
- bh=fMhK37NgLablZIXyn9LXXzethSwsYFf/HVVYPlJwWJA=;
- b=osUSJt71C+4GxENsnPOjZE2s1f2bbHpRIIlEdj1JgkiT8oIBSOFJvuV4xP5XwwTgoFfCOR5X
- WQgWUbJj6zIrbsvrX6Sb/iGuBbMxG/O3VwA+NgxXVUWFhR+4uQUbG75yxssGHuaA/n1zejjG
- cKE+9PIJQa2fKvPPnZTPFCqKGLM=
-X-Mailgun-Sending-Ip: 198.61.254.9
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n04.prod.us-west-2.postgun.com with SMTP id
- 61706239321f240051eaeead (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 20 Oct 2021 18:38:49
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id BF653C43616; Wed, 20 Oct 2021 18:38:49 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
- SPF_FAIL, 
- URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
-Received: from jesszhan-linux.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: jesszhan)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 777B3C4338F;
- Wed, 20 Oct 2021 18:38:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.codeaurora.org 777B3C4338F
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=fail smtp.mailfrom=codeaurora.org
-From: Jessica Zhang <jesszhan@codeaurora.org>
-To: freedreno@lists.freedesktop.org
-Cc: Jessica Zhang <jesszhan@codeaurora.org>, linux-arm-msm@vger.kernel.org,
- dan.carpenter@oracle.com, dri-devel@lists.freedesktop.org,
- dmitry.baryshkov@linaro.org, nganji@codeaurora.org,
- aravindh@codeaurora.org, abhinavk@codeaurora.org
-Subject: [PATCH] drm/msm: Fix potential NULL dereference in DPU
-Date: Wed, 20 Oct 2021 11:38:37 -0700
-Message-Id: <20211020183837.959-1-jesszhan@codeaurora.org>
-X-Mailer: git-send-email 2.33.0
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA55289CD3;
+ Wed, 20 Oct 2021 19:12:25 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10143"; a="292325545"
+X-IronPort-AV: E=Sophos;i="5.87,167,1631602800"; d="scan'208";a="292325545"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Oct 2021 12:12:25 -0700
+X-IronPort-AV: E=Sophos;i="5.87,167,1631602800"; d="scan'208";a="527190100"
+Received: from jons-linux-dev-box.fm.intel.com ([10.1.27.20])
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Oct 2021 12:12:25 -0700
+From: Matthew Brost <matthew.brost@intel.com>
+To: <intel-gfx@lists.freedesktop.org>,
+	<dri-devel@lists.freedesktop.org>
+Cc: <daniele.ceraolospurio@intel.com>, <thomas.hellstrom@linux.intel.com>,
+ <john.c.harrison@intel.com>
+Subject: [PATCH] drm/i915/guc: Fix recursive lock in GuC submission
+Date: Wed, 20 Oct 2021 12:07:35 -0700
+Message-Id: <20211020190735.14500-1-matthew.brost@intel.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -74,100 +47,125 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add NULL checks in KMS CRTC funcs to avoid potential NULL
-dereference.
+Use __release_guc_id (lock held) rather than release_guc_id (acquires
+lock), add lockdep annotations.
 
-Fixes: 25fdd5933e4c ("drm/msm: Add SDM845 DPU support")
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-Signed-off-by: Jessica Zhang <jesszhan@codeaurora.org>
+213.280129] i915: Running i915_perf_live_selftests/live_noa_gpr
+[ 213.283459] ============================================
+[ 213.283462] WARNING: possible recursive locking detected
+{{[ 213.283466] 5.15.0-rc6+ #18 Tainted: G U W }}
+[ 213.283470] --------------------------------------------
+[ 213.283472] kworker/u24:0/8 is trying to acquire lock:
+[ 213.283475] ffff8ffc4f6cc1e8 (&guc->submission_state.lock){....}-{2:2}, at: destroyed_worker_func+0x2df/0x350 [i915]
+{{[ 213.283618] }}
+{{ but task is already holding lock:}}
+[ 213.283621] ffff8ffc4f6cc1e8 (&guc->submission_state.lock){....}-{2:2}, at: destroyed_worker_func+0x4f/0x350 [i915]
+{{[ 213.283720] }}
+{{ other info that might help us debug this:}}
+[ 213.283724] Possible unsafe locking scenario:[ 213.283727] CPU0
+[ 213.283728] ----
+[ 213.283730] lock(&guc->submission_state.lock);
+[ 213.283734] lock(&guc->submission_state.lock);
+{{[ 213.283737] }}
+{{ *** DEADLOCK ***}}[ 213.283740] May be due to missing lock nesting notation[ 213.283744] 3 locks held by kworker/u24:0/8:
+[ 213.283747] #0: ffff8ffb80059d38 ((wq_completion)events_unbound){..}-{0:0}, at: process_one_work+0x1f3/0x550
+[ 213.283757] #1: ffffb509000e3e78 ((work_completion)(&guc->submission_state.destroyed_worker)){..}-{0:0}, at: process_one_work+0x1f3/0x550
+[ 213.283766] #2: ffff8ffc4f6cc1e8 (&guc->submission_state.lock){....}-{2:2}, at: destroyed_worker_func+0x4f/0x350 [i915]
+{{[ 213.283860] }}
+{{ stack backtrace:}}
+[ 213.283863] CPU: 8 PID: 8 Comm: kworker/u24:0 Tainted: G U W 5.15.0-rc6+ #18
+[ 213.283868] Hardware name: ASUS System Product Name/PRIME B560M-A AC, BIOS 0403 01/26/2021
+[ 213.283873] Workqueue: events_unbound destroyed_worker_func [i915]
+[ 213.283957] Call Trace:
+[ 213.283960] dump_stack_lvl+0x57/0x72
+[ 213.283966] __lock_acquire.cold+0x191/0x2d3
+[ 213.283972] lock_acquire+0xb5/0x2b0
+[ 213.283978] ? destroyed_worker_func+0x2df/0x350 [i915]
+[ 213.284059] ? destroyed_worker_func+0x2d7/0x350 [i915]
+[ 213.284139] ? lock_release+0xb9/0x280
+[ 213.284143] _raw_spin_lock_irqsave+0x48/0x60
+[ 213.284148] ? destroyed_worker_func+0x2df/0x350 [i915]
+[ 213.284226] destroyed_worker_func+0x2df/0x350 [i915]
+[ 213.284310] process_one_work+0x270/0x550
+[ 213.284315] worker_thread+0x52/0x3b0
+[ 213.284319] ? process_one_work+0x550/0x550
+[ 213.284322] kthread+0x135/0x160
+[ 213.284326] ? set_kthread_struct+0x40/0x40
+[ 213.284331] ret_from_fork+0x1f/0x30
+
+and a bit later in the trace:
+
+{{ 227.499864] do_raw_spin_lock+0x94/0xa0}}
+[ 227.499868] _raw_spin_lock_irqsave+0x50/0x60
+[ 227.499871] ? guc_flush_destroyed_contexts+0x4f/0xf0 [i915]
+[ 227.499995] guc_flush_destroyed_contexts+0x4f/0xf0 [i915]
+[ 227.500104] intel_guc_submission_reset_prepare+0x99/0x4b0 [i915]
+[ 227.500209] ? mark_held_locks+0x49/0x70
+[ 227.500212] intel_uc_reset_prepare+0x46/0x50 [i915]
+[ 227.500320] reset_prepare+0x78/0x90 [i915]
+[ 227.500412] __intel_gt_set_wedged.part.0+0x13/0xe0 [i915]
+[ 227.500485] intel_gt_set_wedged.part.0+0x54/0x100 [i915]
+[ 227.500556] intel_gt_set_wedged_on_fini+0x1a/0x30 [i915]
+[ 227.500622] intel_gt_driver_unregister+0x1e/0x60 [i915]
+[ 227.500694] i915_driver_remove+0x4a/0xf0 [i915]
+[ 227.500767] i915_pci_probe+0x84/0x170 [i915]
+[ 227.500838] local_pci_probe+0x42/0x80
+[ 227.500842] pci_device_probe+0xd9/0x190
+[ 227.500844] really_probe+0x1f2/0x3f0
+[ 227.500847] __driver_probe_device+0xfe/0x180
+[ 227.500848] driver_probe_device+0x1e/0x90
+[ 227.500850] __driver_attach+0xc4/0x1d0
+[ 227.500851] ? __device_attach_driver+0xe0/0xe0
+[ 227.500853] ? __device_attach_driver+0xe0/0xe0
+[ 227.500854] bus_for_each_dev+0x64/0x90
+[ 227.500856] bus_add_driver+0x12e/0x1f0
+[ 227.500857] driver_register+0x8f/0xe0
+[ 227.500859] i915_init+0x1d/0x8f [i915]
+[ 227.500934] ? 0xffffffffc144a000
+[ 227.500936] do_one_initcall+0x58/0x2d0
+[ 227.500938] ? rcu_read_lock_sched_held+0x3f/0x80
+[ 227.500940] ? kmem_cache_alloc_trace+0x238/0x2d0
+[ 227.500944] do_init_module+0x5c/0x270
+[ 227.500946] __do_sys_finit_module+0x95/0xe0
+[ 227.500949] do_syscall_64+0x38/0x90
+[ 227.500951] entry_SYSCALL_64_after_hwframe+0x44/0xae
+[ 227.500953] RIP: 0033:0x7ffa59d2ae0d
+[ 227.500954] Code: c8 0c 00 0f 05 eb a9 66 0f 1f 44 00 00 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d 3b 80 0c 00 f7 d8 64 89 01 48
+[ 227.500955] RSP: 002b:00007fff320bbf48 EFLAGS: 00000246 ORIG_RAX: 0000000000000139
+[ 227.500956] RAX: ffffffffffffffda RBX: 00000000022ea710 RCX: 00007ffa59d2ae0d
+[ 227.500957] RDX: 0000000000000000 RSI: 00000000022e1d90 RDI: 0000000000000004
+[ 227.500958] RBP: 0000000000000020 R08: 00007ffa59df3a60 R09: 0000000000000070
+[ 227.500958] R10: 00000000022e1d90 R11: 0000000000000246 R12: 00000000022e1d90
+[ 227.500959] R13: 00000000022e58e0 R14: 0000000000000043 R15: 00000000022e42c0
+
+Fixes: 1a52faed31311 ("drm/i915/guc: Take engine PM when a context is pinned with GuC submission")
+Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+Cc: stable@vger.kernel.org
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_core_irq.c      | 8 ++++++++
- drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c          | 5 +++++
- drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c        | 3 +++
- drivers/gpu/drm/msm/disp/msm_disp_snapshot_util.c | 3 +++
- drivers/gpu/drm/msm/msm_gpu.c                     | 3 +++
- 5 files changed, 22 insertions(+)
+ drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_irq.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_irq.c
-index d2457490930b..53d80572181e 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_irq.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_irq.c
-@@ -208,8 +208,16 @@ void dpu_core_irq_preinstall(struct dpu_kms *dpu_kms)
- 	dpu_kms->irq_obj.total_irqs = dpu_kms->hw_intr->total_irqs;
- 	dpu_kms->irq_obj.irq_cb_tbl = kcalloc(dpu_kms->irq_obj.total_irqs,
- 			sizeof(struct list_head), GFP_KERNEL);
-+
-+	if (!dpu_kms->irq_obj.irq_cb_tbl)
-+		return;
-+
- 	dpu_kms->irq_obj.irq_counts = kcalloc(dpu_kms->irq_obj.total_irqs,
- 			sizeof(atomic_t), GFP_KERNEL);
-+
-+	if (!dpu_kms->irq_obj.irq_counts)
-+		return;
-+
- 	for (i = 0; i < dpu_kms->irq_obj.total_irqs; i++) {
- 		INIT_LIST_HEAD(&dpu_kms->irq_obj.irq_cb_tbl[i]);
- 		atomic_set(&dpu_kms->irq_obj.irq_counts[i], 0);
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-index 768012243b44..0a1cad0cfcc0 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-@@ -921,6 +921,11 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+index d7710debcd47..ebe05b9b23f6 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+@@ -2373,6 +2373,7 @@ static inline void guc_lrc_desc_unpin(struct intel_context *ce)
+ 	unsigned long flags;
+ 	bool disabled;
  
- 	pstates = kzalloc(sizeof(*pstates) * DPU_STAGE_MAX * 4, GFP_KERNEL);
- 
-+	if (!pstates) {
-+		rc = -ENOMEM;
-+		goto end;
-+	}
-+
- 	if (!crtc_state->enable || !crtc_state->active) {
- 		DRM_DEBUG_ATOMIC("crtc%d -> enable %d, active %d, skip atomic_check\n",
- 				crtc->base.id, crtc_state->enable,
-diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c
-index c6b69afcbac8..09751b480db5 100644
---- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c
-+++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c
-@@ -92,6 +92,9 @@ static void mdp5_plane_reset(struct drm_plane *plane)
- 	kfree(to_mdp5_plane_state(plane->state));
- 	mdp5_state = kzalloc(sizeof(*mdp5_state), GFP_KERNEL);
- 
-+	if (!mdp5_state)
-+		return;
-+
- 	if (plane->type == DRM_PLANE_TYPE_PRIMARY)
- 		mdp5_state->base.zpos = STAGE_BASE;
- 	else
-diff --git a/drivers/gpu/drm/msm/disp/msm_disp_snapshot_util.c b/drivers/gpu/drm/msm/disp/msm_disp_snapshot_util.c
-index cabe15190ec1..71e209d07120 100644
---- a/drivers/gpu/drm/msm/disp/msm_disp_snapshot_util.c
-+++ b/drivers/gpu/drm/msm/disp/msm_disp_snapshot_util.c
-@@ -170,6 +170,9 @@ void msm_disp_snapshot_add_block(struct msm_disp_state *disp_state, u32 len,
- 
- 	new_blk = kzalloc(sizeof(struct msm_disp_state_block), GFP_KERNEL);
- 
-+	if (!new_blk)
-+		return;
-+
- 	va_start(va, fmt);
- 
- 	vaf.fmt = fmt;
-diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
-index 8a3a592da3a4..ddd23f3a4a99 100644
---- a/drivers/gpu/drm/msm/msm_gpu.c
-+++ b/drivers/gpu/drm/msm/msm_gpu.c
-@@ -296,6 +296,9 @@ static void msm_gpu_crashstate_capture(struct msm_gpu *gpu,
- 		state->bos = kcalloc(nr,
- 			sizeof(struct msm_gpu_state_bo), GFP_KERNEL);
- 
-+		if (!state->bos)
-+			return;
-+
- 		for (i = 0; i < submit->nr_bos; i++) {
- 			if (should_dump(submit, i)) {
- 				msm_gpu_crashstate_get_bo(state, submit->bos[i].obj,
++	lockdep_assert_held(&ce->submission_state.lock);
+ 	GEM_BUG_ON(!intel_gt_pm_is_awake(gt));
+ 	GEM_BUG_ON(!lrc_desc_registered(guc, ce->guc_id.id));
+ 	GEM_BUG_ON(ce != __get_context(guc, ce->guc_id.id));
+@@ -2388,7 +2389,7 @@ static inline void guc_lrc_desc_unpin(struct intel_context *ce)
+ 	}
+ 	spin_unlock_irqrestore(&ce->guc_state.lock, flags);
+ 	if (unlikely(disabled)) {
+-		release_guc_id(guc, ce);
++		__release_guc_id(guc, ce);
+ 		__guc_context_destroy(ce);
+ 		return;
+ 	}
 -- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
+2.32.0
 
