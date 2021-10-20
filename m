@@ -1,43 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C60C7435402
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Oct 2021 21:50:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E3C04435406
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Oct 2021 21:50:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6797F6E33F;
-	Wed, 20 Oct 2021 19:50:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A7EF56EA0B;
+	Wed, 20 Oct 2021 19:50:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com
- (mail-dm3nam07on2081.outbound.protection.outlook.com [40.107.95.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8EA0B6E33F;
- Wed, 20 Oct 2021 19:50:29 +0000 (UTC)
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2068.outbound.protection.outlook.com [40.107.223.68])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C8E316E3AA;
+ Wed, 20 Oct 2021 19:50:31 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PfLLIb+v+nndiusgMTfZfiqL4Qit+CuNWG3yWFEYxdwfm2b/SXVLR1Lo6fk2TZFI49y4amp3ESij+FoqSgkCvPLinnoA0FNQhcFD/UvlPev3uPh36g0uXqT1fkJGbHh91dZsbU7Z9f4gYKaIhFVxpIA8j69/Q9oAP1Rny2XsU2pbzF0EvLFlh4TAtAcxgHcamRFfzJ7PmrZhdX6/BOa9krrhF9RqfsLIlqRQbj/RzOY01RMR//wloOflvdRNDENjIBR2/w2Cc9o6num9qC7u4voEf4Y+WR1S2rOsIr1sVc9Zdm6CR7M4T/u9Kbh/WyYsgAoF2K9BhfaqGa4RrhnRAQ==
+ b=bI3B8MvVLmtvnE3b7Pllx4DFcY2131MbhIO/g3HjPNUz7FjzBkqsOBh5+31IIbunzTbHFklmZUNnAmxM0xoEDS3LVmT7rX3NMi6ek8xDVczZesmVmvTEF7XBUUdsZnTPKwOGNgN1SR58SIzwnxN8hLh7Ay5F3WgP+XtX6pr6bG0phMoORGkmbh5XIFQMllPjkR9OCopM1zcqhPqgbG43zJLqZXQ0tmywSY7ApLrmcg1/hprTJ3BVhBbCT+EFIDZ5OqtB8+bn/sUtRABirp1BpHEgu3Ib09mRDnj9D0l6KDs71xpTMzqzgSLcsLbgXBzhp1/XdLKnvhkLl6wGLVwElg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QnSax/d9XobcUqzl+54GaxHb3Ut1F6UCHpCd/r17VKA=;
- b=VQnYBn7o9sN74H8uMaZNP7EiuX+H66d+F/R5zRZP3VoRQ2rEmsRByiIvtdrvA+Elwukk0ZUc0MFis31OekS6HFw4dsjB59pVUYYDEPzyf/Qb5o5H4uaC2DbqTG96tcW4oYdHCaiLqJeoI4xXGkSqA0S+JI9PqyHMzDFNMASr/Cn7M2KkGQPcI1F0dehotEaHPzy3fFvVBrBn6+NCSJRWBvylB0RCGrOhL7aQechyXDuNWAH2QEv+6NpVuebEe0/aNvmJTdsNWFSdT060+DvYMcLqZhyrQzPhGqQYy4EyTZZUcsZ255DvvPjfsceDYREXKwG/8/QfiCn4EQZC6KPMwg==
+ bh=PVgJ8C258PC7rD+BIdhsr47aKUxzh7n4WfYvv8r1j+Q=;
+ b=Hv0ikP01InsX6Z8BasWbktFg5aMelNbHlv8mXxl+QfxmzGVoxLskZwXqi+yDMbMHUkkZJMQ4aSFEtGT5Wtfc1QmVZehMbuGS2uK/piYgDOwIrxA+miYDiIvgF+bw7DY5QLjjXf9RisvF7MK7u9tCnWmE/NwrYGXscDkWaxSOJDvqN22YXwVYhqoWH8ivJCjMBbF9PtWyXFM1nnjYlmKeeAjs0DGuwbYB/jGUC6uCga97wUvZoW4FlPRCoOShiTachrDpPjJKWaQOlB+XIaM55M/Pk6azxFKWk3G8m3alZMY33oZ5+j5K4D7r/6OY2BFhqivsx7BQzvZWAv7M0jUh4g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QnSax/d9XobcUqzl+54GaxHb3Ut1F6UCHpCd/r17VKA=;
- b=beA8wUpG1yBbDjKnlFWJ8CVqXhUNilDpQjMehd6x71oc99bWDjiEgtL8lmK/naFLWUbB1SBDGydrSVEk6uZMOYEXTsfGXz3kx5AQpUBD+feQmsjec4x7AZf511zfeVY0Ef2anXXRrh8wYSsJawVxfeQdSUvezHO29Z3t1vlE54k=
-Received: from MWHPR04CA0031.namprd04.prod.outlook.com (2603:10b6:300:ee::17)
- by CH0PR12MB5281.namprd12.prod.outlook.com (2603:10b6:610:d4::23)
+ bh=PVgJ8C258PC7rD+BIdhsr47aKUxzh7n4WfYvv8r1j+Q=;
+ b=R7/t2NpGQtII8Cd+JIdW+UDZOwO5G476fBNVBUsxUMQtcT+OhQiepM4jy19XLqsqUHCJVT/QY4VyzU59FJPUQywx4asVC+S3+6UOxiToumwODAaPUGO9H7msbSWlFoYISF9pYGksJShmNpk4j3ughn2mJRps2ytyH9QdXZTmOVg=
+Received: from MWHPR04CA0048.namprd04.prod.outlook.com (2603:10b6:300:ee::34)
+ by MN2PR12MB4287.namprd12.prod.outlook.com (2603:10b6:208:1dd::11)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4608.17; Wed, 20 Oct
- 2021 19:50:27 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4608.18; Wed, 20 Oct
+ 2021 19:50:28 +0000
 Received: from CO1NAM11FT026.eop-nam11.prod.protection.outlook.com
- (2603:10b6:300:ee:cafe::10) by MWHPR04CA0031.outlook.office365.com
- (2603:10b6:300:ee::17) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4628.16 via Frontend
- Transport; Wed, 20 Oct 2021 19:50:27 +0000
+ (2603:10b6:300:ee:cafe::5e) by MWHPR04CA0048.outlook.office365.com
+ (2603:10b6:300:ee::34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4628.15 via Frontend
+ Transport; Wed, 20 Oct 2021 19:50:28 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; lists.freedesktop.org; dkim=none (message not signed)
  header.d=none;lists.freedesktop.org; dmarc=pass action=none
@@ -49,14 +49,10 @@ Received: from SATLEXMB04.amd.com (165.204.84.17) by
  CO1NAM11FT026.mail.protection.outlook.com (10.13.175.67) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
  15.20.4628.16 via Frontend Transport; Wed, 20 Oct 2021 19:50:27 +0000
-Received: from SATLEXMB07.amd.com (10.181.41.45) by SATLEXMB04.amd.com
+Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.15; Wed, 20 Oct
  2021 14:50:25 -0500
-Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB07.amd.com
- (10.181.41.45) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.15; Wed, 20 Oct
- 2021 12:50:24 -0700
 Received: from blakha.ht.home (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server id 15.1.2308.15 via Frontend
  Transport; Wed, 20 Oct 2021 14:50:24 -0500
@@ -64,12 +60,10 @@ From: Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>
 To: <Jerry.Zuo@amd.com>, <dri-devel@lists.freedesktop.org>, <lyude@redhat.com>
 CC: <Harry.Wentland@amd.com>, <Wayne.Lin@amd.com>,
  <Nicholas.Kazlauskas@amd.com>, <Mikita.Lipski@amd.com>,
- <intel-gfx@lists.freedesktop.org>, Bhawanpreet Lakha
- <Bhawanpreet.Lakha@amd.com>
-Subject: [PATCH 2/4] drm: Update MST First Link Slot Information Based on
- Encoding Format
-Date: Wed, 20 Oct 2021 15:47:13 -0400
-Message-ID: <20211020194715.1107972-2-Bhawanpreet.Lakha@amd.com>
+ <intel-gfx@lists.freedesktop.org>
+Subject: [PATCH 3/4] drm/amd/display: Add DP 2.0 MST DC Support
+Date: Wed, 20 Oct 2021 15:47:14 -0400
+Message-ID: <20211020194715.1107972-3-Bhawanpreet.Lakha@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211020194715.1107972-1-Bhawanpreet.Lakha@amd.com>
 References: <20211020194715.1107972-1-Bhawanpreet.Lakha@amd.com>
@@ -78,28 +72,28 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: dc3d3c9f-ba1d-4d40-8dd2-08d99402dd44
-X-MS-TrafficTypeDiagnostic: CH0PR12MB5281:
-X-Microsoft-Antispam-PRVS: <CH0PR12MB5281D9238A5438857D63A547F9BE9@CH0PR12MB5281.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:393;
+X-MS-Office365-Filtering-Correlation-Id: 86181fbd-d9a9-4e00-cbe6-08d99402ddab
+X-MS-TrafficTypeDiagnostic: MN2PR12MB4287:
+X-Microsoft-Antispam-PRVS: <MN2PR12MB42875BEAD4B0E7D235AA0C84F9BE9@MN2PR12MB4287.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:13;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: KGtWSI/VgYQmvoXs9TiY6vcOvuakkkE+26bOZXjWjIh8NdSG0ANvIhXtN1PrEVyrigJh4r+W8W/FzmRWB2QbqwYBZQ5yumCucgeIReomY/K9/M6eIFlvzWubPnevbI2KGqWXF4eiAU1xqLORxaIeYzaZIFLOQoBMM9HL7fk5DWcXDbMEHxUmrk8QWjWBMNnctZaFuu3jrjGni4rmSBb52VRoYYbJ/Xhlp0BFi3hGq5h4YMJ1t6jaPRRB75xeXfCdFixswUbSkFK4AGVRwQkeImrY5723iOdB9sDCSox0Ajcc8x5dqaiGjn/csyWtkgketO4IfVWfumsBYdJfyhJFGVpuTfMEVuMosd1Jrv8QEqw2GafdLrjQnd8UioVVDStXLeH0zB5h0doJLpnZp0bHxiJRxR/gZA332WB4grhyO70fXlAAClA5jQy5xmswZExMwB1LQsoH0CF4OvbAMxHTBpdqo+XxrCDNSiLz0qE4PRU6U8cYTQvzhopyHAx8HHq83lCWK+mgvxuzZ3IDzldYESjJZjLUAoPMgToxIfd/SqMkPe9h/X4BCoDyx6vnvAMDwhe9HWeCcJn0a7JOB2J0T6gnwfgqh02Juuk8FMlNe7RNhJ36hKBXkfpqLeLK6DlU7jTsxgj7Ev4ZQW+b60JebVH91Evd41wevzV2TN7PuN59c+XDQ5YPyyB36D/JOfCVyan64jPoTffuQp3i4Y4vRxnTCqGxgSG+9HMY08rHww0=
+X-Microsoft-Antispam-Message-Info: HCoasUeT583/w47PbOnw0XrdPHnaV1V8l+ajS5F62hOf0Bk4E3gZwKfhyVxlvubZGQNuzMvRNp1rIBe3VhqUp0j0CoRekz+5H50d9vnaWUWvha1xzvFf3p8igS3PeCAdq0YH5lVTDoSKMftIgTK+i+1R6o0lME0DNeW/kmgZsqbvxxS5H7ZguaI1h8xzdYjZNTlcTmMOTg4bXEAc/RdctXaZAsY3edoOHcCKP6ZyP5H7KCw8aEdoxZgtB6QolM19sk4XpNXIEBfiwYFjMBBwqZ9AiXKj6xG3UYmuc8itcl3UUThrGSTh7pANsl25w3CDwJhyOBL1dGknhY+h7Z2ScUak7o9FFlNqVq9aBF9gYjWoFCCv1PqF2sRxsYk3nK0X2R0TmMN3K/GwAyCX6pFBmfmqSAULw3O4NDZxEwkcOuPgIusfkQmOoFyie0nYU/CWKXe8zDYo1XD5Hen1fu4SaTIq/cKtIhEdFfVoOTrjIbfUPPLhYZutl5AZ0gJLXJRe7J6lY1U4o5iizFGRHPwnz3catQlZxOIAhk3ss68sSe+JDPRhdlucZcH0/adIyCcslgl1c+GtzmuJXPMlEeYohBoQ6XpE5adLG0KEm7H4OY4287eAudyYzkfip9aFdAxJaj8BLa9V9CLJfmNtWgVwvLHOR2WACJp4VOz5UUJOonYjVsZceX6MCZdVAIFTtf+YHhmp18dt+3xgBveiGwgfJDHyzbvLf4WYtCEBmb49NKY=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(4636009)(46966006)(36840700001)(336012)(8936002)(82310400003)(426003)(86362001)(4326008)(8676002)(81166007)(508600001)(356005)(2616005)(2906002)(5660300002)(36756003)(316002)(15650500001)(54906003)(1076003)(36860700001)(110136005)(70206006)(70586007)(6666004)(83380400001)(186003)(26005)(47076005)(36900700001);
+ SFS:(4636009)(46966006)(36840700001)(70586007)(70206006)(186003)(36756003)(8936002)(86362001)(356005)(316002)(83380400001)(81166007)(6666004)(54906003)(5660300002)(2906002)(2616005)(508600001)(1076003)(8676002)(47076005)(110136005)(82310400003)(336012)(426003)(4326008)(26005)(30864003)(36860700001)(36900700001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Oct 2021 19:50:27.1199 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: dc3d3c9f-ba1d-4d40-8dd2-08d99402dd44
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Oct 2021 19:50:27.8035 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 86181fbd-d9a9-4e00-cbe6-08d99402ddab
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB04.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT026.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR12MB5281
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4287
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -115,229 +109,534 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-8b/10b encoding format requires to reserve the first slot for
-recording metadata. Real data transmission starts from the second slot,
-with a total of available 63 slots available.
+From: Fangzhi Zuo <Jerry.Zuo@amd.com>
 
-In 128b/132b encoding format, metadata is transmitted separately
-in LLCP packet before MTP. Real data transmission starts from
-the first slot, with a total of 64 slots available.
-
-v2:
-* Move total/start slots to mst_state, and copy it to mst_mgr in
-atomic_check
-
-v3:
-* Only keep the slot info on the mst_state
-* add a start_slot parameter to the payload function, to facilitate non
-  atomic drivers (this is a temporary workaround and should be removed when
-  we are moving out the non atomic driver helpers)
-
-v4:
-*fixed typo and formatting
-
-Signed-off-by: Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>
 Signed-off-by: Fangzhi Zuo <Jerry.Zuo@amd.com>
-Reviewed-by: Lyude Paul <lyude@redhat.com>
 ---
- .../amd/display/amdgpu_dm/amdgpu_dm_helpers.c |  2 +-
- drivers/gpu/drm/drm_dp_mst_topology.c         | 38 ++++++++++++++++---
- drivers/gpu/drm/i915/display/intel_dp_mst.c   |  4 +-
- drivers/gpu/drm/nouveau/dispnv50/disp.c       |  2 +-
- drivers/gpu/drm/radeon/radeon_dp_mst.c        |  4 +-
- include/drm/drm_dp_mst_helper.h               |  5 ++-
- 6 files changed, 43 insertions(+), 12 deletions(-)
+ drivers/gpu/drm/amd/display/dc/core/dc.c      |  14 +
+ drivers/gpu/drm/amd/display/dc/core/dc_link.c | 280 ++++++++++++++++++
+ .../gpu/drm/amd/display/dc/core/dc_link_dp.c  |  19 ++
+ drivers/gpu/drm/amd/display/dc/dc_link.h      |   7 +
+ drivers/gpu/drm/amd/display/dc/dc_stream.h    |  13 +
+ 5 files changed, 333 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-index ff0f91c93ba4..6169488e2011 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-@@ -251,7 +251,7 @@ bool dm_helpers_dp_mst_write_payload_allocation_table(
- 	}
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc.c b/drivers/gpu/drm/amd/display/dc/core/dc.c
+index 8be04be19124..935a50d6e933 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc.c
+@@ -2354,6 +2354,11 @@ static enum surface_update_type check_update_surfaces_for_stream(
+ 		if (stream_update->dsc_config)
+ 			su_flags->bits.dsc_changed = 1;
  
- 	/* It's OK for this to fail */
--	drm_dp_update_payload_part1(mst_mgr);
-+	drm_dp_update_payload_part1(mst_mgr, 1);
- 
- 	/* mst_mgr->->payloads are VC payload notify MST branch using DPCD or
- 	 * AUX message. The sequence is slot 1-63 allocated sequence for each
-diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_dp_mst_topology.c
-index 5ab3b3a46e89..82ee6791576c 100644
---- a/drivers/gpu/drm/drm_dp_mst_topology.c
-+++ b/drivers/gpu/drm/drm_dp_mst_topology.c
-@@ -3353,6 +3353,10 @@ static int drm_dp_destroy_payload_step2(struct drm_dp_mst_topology_mgr *mgr,
- /**
-  * drm_dp_update_payload_part1() - Execute payload update part 1
-  * @mgr: manager to use.
-+ * @start_slot: this is the cur slot
-+ *
-+ * NOTE: start_slot is a temporary workaround for non-atomic drivers,
-+ * this will be removed when non-atomic mst helpers are moved out of the helper
-  *
-  * This iterates over all proposed virtual channels, and tries to
-  * allocate space in the link for them. For 0->slots transitions,
-@@ -3360,15 +3364,15 @@ static int drm_dp_destroy_payload_step2(struct drm_dp_mst_topology_mgr *mgr,
-  * transitions, this writes the updated VCPIs and removes the
-  * remote VC payloads.
-  *
-- * after calling this the driver should generate ACT and payload
-+ *after calling this the driver should generate ACT and payload
-  * packets.
-  */
--int drm_dp_update_payload_part1(struct drm_dp_mst_topology_mgr *mgr)
-+int drm_dp_update_payload_part1(struct drm_dp_mst_topology_mgr *mgr, int start_slot)
- {
- 	struct drm_dp_payload req_payload;
- 	struct drm_dp_mst_port *port;
- 	int i, j;
--	int cur_slots = 1;
-+	int cur_slots = start_slot;
- 	bool skip;
- 
- 	mutex_lock(&mgr->payload_lock);
-@@ -4503,6 +4507,27 @@ int drm_dp_atomic_release_vcpi_slots(struct drm_atomic_state *state,
- }
- EXPORT_SYMBOL(drm_dp_atomic_release_vcpi_slots);
- 
-+/**
-+ * drm_dp_mst_update_slots() - updates the slot info depending on the DP ecoding format
-+ * @mst_state: mst_state to update
-+ * @link_encoding_cap: the ecoding format on the link
-+ */
-+void drm_dp_mst_update_slots(struct drm_dp_mst_topology_state *mst_state, uint8_t link_encoding_cap)
-+{
-+	if (link_encoding_cap == DP_CAP_ANSI_128B132B) {
-+		mst_state->total_avail_slots = 64;
-+		mst_state->start_slot = 0;
-+	} else {
-+		mst_state->total_avail_slots = 63;
-+		mst_state->start_slot = 1;
-+	}
++#if defined(CONFIG_DRM_AMD_DC_DCN)
++		if (stream_update->mst_bw_update)
++			su_flags->bits.mst_bw = 1;
++#endif
 +
-+	DRM_DEBUG_KMS("%s encoding format on mst_state 0x%p\n",
-+			(link_encoding_cap == DP_CAP_ANSI_128B132B) ? "128b/132b":"8b/10b",
-+			mst_state->mgr);
-+}
-+EXPORT_SYMBOL(drm_dp_mst_update_slots);
-+
- /**
-  * drm_dp_mst_allocate_vcpi() - Allocate a virtual channel
-  * @mgr: manager for this port
-@@ -5222,7 +5247,7 @@ drm_dp_mst_atomic_check_vcpi_alloc_limit(struct drm_dp_mst_topology_mgr *mgr,
- 					 struct drm_dp_mst_topology_state *mst_state)
- {
- 	struct drm_dp_vcpi_allocation *vcpi;
--	int avail_slots = 63, payload_count = 0;
-+	int avail_slots = mst_state->total_avail_slots, payload_count = 0;
+ 		if (su_flags->raw != 0)
+ 			overall_type = UPDATE_TYPE_FULL;
  
- 	list_for_each_entry(vcpi, &mst_state->vcpis, next) {
- 		/* Releasing VCPI is always OK-even if the port is gone */
-@@ -5251,7 +5276,7 @@ drm_dp_mst_atomic_check_vcpi_alloc_limit(struct drm_dp_mst_topology_mgr *mgr,
+@@ -2731,6 +2736,15 @@ static void commit_planes_do_stream_update(struct dc *dc,
+ 			if (stream_update->dsc_config)
+ 				dp_update_dsc_config(pipe_ctx);
+ 
++#if defined(CONFIG_DRM_AMD_DC_DCN)
++			if (stream_update->mst_bw_update) {
++				if (stream_update->mst_bw_update->is_increase)
++					dc_link_increase_mst_payload(pipe_ctx, stream_update->mst_bw_update->mst_stream_bw);
++				else
++					dc_link_reduce_mst_payload(pipe_ctx, stream_update->mst_bw_update->mst_stream_bw);
++			}
++#endif
++
+ 			if (stream_update->pending_test_pattern) {
+ 				dc_link_dp_set_test_pattern(stream->link,
+ 					stream->test_pattern.type,
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link.c b/drivers/gpu/drm/amd/display/dc/core/dc_link.c
+index e5d6cbd7ea78..b23972b6a27c 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc_link.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc_link.c
+@@ -3232,6 +3232,9 @@ static struct fixed31_32 get_pbn_from_timing(struct pipe_ctx *pipe_ctx)
+ static void update_mst_stream_alloc_table(
+ 	struct dc_link *link,
+ 	struct stream_encoder *stream_enc,
++#if defined(CONFIG_DRM_AMD_DC_DCN)
++	struct hpo_dp_stream_encoder *hpo_dp_stream_enc, // TODO: Rename stream_enc to dio_stream_enc?
++#endif
+ 	const struct dp_mst_stream_allocation_table *proposed_table)
+ {
+ 	struct link_mst_stream_allocation work_table[MAX_CONTROLLER_NUM] = { 0 };
+@@ -3267,6 +3270,9 @@ static void update_mst_stream_alloc_table(
+ 			work_table[i].slot_count =
+ 				proposed_table->stream_allocations[i].slot_count;
+ 			work_table[i].stream_enc = stream_enc;
++#if defined(CONFIG_DRM_AMD_DC_DCN)
++			work_table[i].hpo_dp_stream_enc = hpo_dp_stream_enc;
++#endif
  		}
  	}
- 	drm_dbg_atomic(mgr->dev, "[MST MGR:%p] mst state %p VCPI avail=%d used=%d\n",
--		       mgr, mst_state, avail_slots, 63 - avail_slots);
-+		       mgr, mst_state, avail_slots, mst_state->total_avail_slots - avail_slots);
  
- 	return 0;
- }
-@@ -5528,6 +5553,9 @@ int drm_dp_mst_topology_mgr_init(struct drm_dp_mst_topology_mgr *mgr,
- 	if (mst_state == NULL)
- 		return -ENOMEM;
- 
-+	mst_state->total_avail_slots = 63;
-+	mst_state->start_slot = 1;
-+
- 	mst_state->mgr = mgr;
- 	INIT_LIST_HEAD(&mst_state->vcpis);
- 
-diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-index b170e272bdee..d3a24189a12c 100644
---- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-@@ -368,7 +368,7 @@ static void intel_mst_disable_dp(struct intel_atomic_state *state,
- 
- 	drm_dp_mst_reset_vcpi_slots(&intel_dp->mst_mgr, connector->port);
- 
--	ret = drm_dp_update_payload_part1(&intel_dp->mst_mgr);
-+	ret = drm_dp_update_payload_part1(&intel_dp->mst_mgr, 1);
- 	if (ret) {
- 		drm_dbg_kms(&i915->drm, "failed to update payload %d\n", ret);
+@@ -3389,6 +3395,10 @@ enum dc_status dc_link_allocate_mst_payload(struct pipe_ctx *pipe_ctx)
+ 	struct dc_link *link = stream->link;
+ 	struct link_encoder *link_encoder = NULL;
+ 	struct stream_encoder *stream_encoder = pipe_ctx->stream_res.stream_enc;
++#if defined(CONFIG_DRM_AMD_DC_DCN)
++	struct hpo_dp_link_encoder *hpo_dp_link_encoder = link->hpo_dp_link_enc;
++	struct hpo_dp_stream_encoder *hpo_dp_stream_encoder = pipe_ctx->stream_res.hpo_dp_stream_enc;
++#endif
+ 	struct dp_mst_stream_allocation_table proposed_table = {0};
+ 	struct fixed31_32 avg_time_slots_per_mtp;
+ 	struct fixed31_32 pbn;
+@@ -3416,7 +3426,14 @@ enum dc_status dc_link_allocate_mst_payload(struct pipe_ctx *pipe_ctx)
+ 		&proposed_table,
+ 		true)) {
+ 		update_mst_stream_alloc_table(
++#if defined(CONFIG_DRM_AMD_DC_DCN)
++					link,
++					pipe_ctx->stream_res.stream_enc,
++					pipe_ctx->stream_res.hpo_dp_stream_enc,
++					&proposed_table);
++#else
+ 					link, pipe_ctx->stream_res.stream_enc, &proposed_table);
++#endif
  	}
-@@ -516,7 +516,7 @@ static void intel_mst_pre_enable_dp(struct intel_atomic_state *state,
+ 	else
+ 		DC_LOG_WARNING("Failed to update"
+@@ -3430,6 +3447,20 @@ enum dc_status dc_link_allocate_mst_payload(struct pipe_ctx *pipe_ctx)
+ 			link->mst_stream_alloc_table.stream_count);
  
- 	intel_dp->active_mst_links++;
+ 	for (i = 0; i < MAX_CONTROLLER_NUM; i++) {
++#if defined(CONFIG_DRM_AMD_DC_DCN)
++		DC_LOG_MST("stream_enc[%d]: %p      "
++		"stream[%d].hpo_dp_stream_enc: %p      "
++		"stream[%d].vcp_id: %d      "
++		"stream[%d].slot_count: %d\n",
++		i,
++		(void *) link->mst_stream_alloc_table.stream_allocations[i].stream_enc,
++		i,
++		(void *) link->mst_stream_alloc_table.stream_allocations[i].hpo_dp_stream_enc,
++		i,
++		link->mst_stream_alloc_table.stream_allocations[i].vcp_id,
++		i,
++		link->mst_stream_alloc_table.stream_allocations[i].slot_count);
++#else
+ 		DC_LOG_MST("stream_enc[%d]: %p      "
+ 		"stream[%d].vcp_id: %d      "
+ 		"stream[%d].slot_count: %d\n",
+@@ -3439,14 +3470,30 @@ enum dc_status dc_link_allocate_mst_payload(struct pipe_ctx *pipe_ctx)
+ 		link->mst_stream_alloc_table.stream_allocations[i].vcp_id,
+ 		i,
+ 		link->mst_stream_alloc_table.stream_allocations[i].slot_count);
++#endif
+ 	}
  
--	ret = drm_dp_update_payload_part1(&intel_dp->mst_mgr);
-+	ret = drm_dp_update_payload_part1(&intel_dp->mst_mgr, 1);
+ 	ASSERT(proposed_table.stream_count > 0);
  
- 	/*
- 	 * Before Gen 12 this is not done as part of
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-index f949767698fc..6c8c59c26dbf 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
-+++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-@@ -1413,7 +1413,7 @@ nv50_mstm_prepare(struct nv50_mstm *mstm)
- 	int ret;
+ 	/* program DP source TX for payload */
++#if defined(CONFIG_DRM_AMD_DC_DCN)
++	switch (dp_get_link_encoding_format(&link->cur_link_settings)) {
++	case DP_8b_10b_ENCODING:
++		link_encoder->funcs->update_mst_stream_allocation_table(
++			link_encoder,
++			&link->mst_stream_alloc_table);
++		break;
++	case DP_128b_132b_ENCODING:
++		hpo_dp_link_encoder->funcs->update_stream_allocation_table(
++				hpo_dp_link_encoder,
++				&link->mst_stream_alloc_table);
++		break;
++	}
++#else
+ 	link_encoder->funcs->update_mst_stream_allocation_table(
+ 		link_encoder,
+ 		&link->mst_stream_alloc_table);
++#endif
  
- 	NV_ATOMIC(drm, "%s: mstm prepare\n", mstm->outp->base.base.name);
--	ret = drm_dp_update_payload_part1(&mstm->mgr);
-+	ret = drm_dp_update_payload_part1(&mstm->mgr, 1);
+ 	/* send down message */
+ 	ret = dm_helpers_dp_mst_poll_for_allocation_change_trigger(
+@@ -3469,13 +3516,188 @@ enum dc_status dc_link_allocate_mst_payload(struct pipe_ctx *pipe_ctx)
+ 	pbn = get_pbn_from_timing(pipe_ctx);
+ 	avg_time_slots_per_mtp = dc_fixpt_div(pbn, pbn_per_slot);
  
- 	drm_for_each_encoder(encoder, mstm->outp->base.base.dev) {
- 		if (encoder->encoder_type == DRM_MODE_ENCODER_DPMST) {
-diff --git a/drivers/gpu/drm/radeon/radeon_dp_mst.c b/drivers/gpu/drm/radeon/radeon_dp_mst.c
-index ec867fa880a4..751c2c075e09 100644
---- a/drivers/gpu/drm/radeon/radeon_dp_mst.c
-+++ b/drivers/gpu/drm/radeon/radeon_dp_mst.c
-@@ -423,7 +423,7 @@ radeon_mst_encoder_dpms(struct drm_encoder *encoder, int mode)
- 		drm_dp_mst_allocate_vcpi(&radeon_connector->mst_port->mst_mgr,
- 					 radeon_connector->port,
- 					 mst_enc->pbn, slots);
--		drm_dp_update_payload_part1(&radeon_connector->mst_port->mst_mgr);
-+		drm_dp_update_payload_part1(&radeon_connector->mst_port->mst_mgr, 1);
++#if defined(CONFIG_DRM_AMD_DC_DCN)
++	switch (dp_get_link_encoding_format(&link->cur_link_settings)) {
++	case DP_8b_10b_ENCODING:
++		stream_encoder->funcs->set_throttled_vcp_size(
++			stream_encoder,
++			avg_time_slots_per_mtp);
++		break;
++	case DP_128b_132b_ENCODING:
++		hpo_dp_link_encoder->funcs->set_throttled_vcp_size(
++				hpo_dp_link_encoder,
++				hpo_dp_stream_encoder->inst,
++				avg_time_slots_per_mtp);
++		break;
++	}
++#else
+ 	stream_encoder->funcs->set_throttled_vcp_size(
+ 		stream_encoder,
+ 		avg_time_slots_per_mtp);
++#endif
++
++	return DC_OK;
++
++}
++
++#if defined(CONFIG_DRM_AMD_DC_DCN)
++enum dc_status dc_link_reduce_mst_payload(struct pipe_ctx *pipe_ctx, uint32_t bw_in_kbps)
++{
++	struct dc_stream_state *stream = pipe_ctx->stream;
++	struct dc_link *link = stream->link;
++	struct fixed31_32 avg_time_slots_per_mtp;
++	struct fixed31_32 pbn;
++	struct fixed31_32 pbn_per_slot;
++	struct link_encoder *link_encoder = link->link_enc;
++	struct stream_encoder *stream_encoder = pipe_ctx->stream_res.stream_enc;
++	struct dp_mst_stream_allocation_table proposed_table = {0};
++	uint8_t i;
++	enum act_return_status ret;
++	DC_LOGGER_INIT(link->ctx->logger);
++
++	/* decrease throttled vcp size */
++	pbn_per_slot = get_pbn_per_slot(stream);
++	pbn = get_pbn_from_bw_in_kbps(bw_in_kbps);
++	avg_time_slots_per_mtp = dc_fixpt_div(pbn, pbn_per_slot);
++
++	stream_encoder->funcs->set_throttled_vcp_size(
++				stream_encoder,
++				avg_time_slots_per_mtp);
++
++	/* send ALLOCATE_PAYLOAD sideband message with updated pbn */
++	dm_helpers_dp_mst_send_payload_allocation(
++			stream->ctx,
++			stream,
++			true);
++
++	/* notify immediate branch device table update */
++	if (dm_helpers_dp_mst_write_payload_allocation_table(
++			stream->ctx,
++			stream,
++			&proposed_table,
++			true)) {
++		/* update mst stream allocation table software state */
++		update_mst_stream_alloc_table(
++				link,
++				pipe_ctx->stream_res.stream_enc,
++				pipe_ctx->stream_res.hpo_dp_stream_enc,
++				&proposed_table);
++	} else {
++		DC_LOG_WARNING("Failed to update"
++				"MST allocation table for"
++				"pipe idx:%d\n",
++				pipe_ctx->pipe_idx);
++	}
++
++	DC_LOG_MST("%s  "
++			"stream_count: %d: \n ",
++			__func__,
++			link->mst_stream_alloc_table.stream_count);
++
++	for (i = 0; i < MAX_CONTROLLER_NUM; i++) {
++		DC_LOG_MST("stream_enc[%d]: %p      "
++				"stream[%d].vcp_id: %d      "
++				"stream[%d].slot_count: %d\n",
++				i,
++				(void *) link->mst_stream_alloc_table.stream_allocations[i].stream_enc,
++				i,
++				link->mst_stream_alloc_table.stream_allocations[i].vcp_id,
++				i,
++				link->mst_stream_alloc_table.stream_allocations[i].slot_count);
++	}
++
++	ASSERT(proposed_table.stream_count > 0);
++
++	/* update mst stream allocation table hardware state */
++	link_encoder->funcs->update_mst_stream_allocation_table(
++			link_encoder,
++			&link->mst_stream_alloc_table);
++
++	/* poll for immediate branch device ACT handled */
++	ret = dm_helpers_dp_mst_poll_for_allocation_change_trigger(
++			stream->ctx,
++			stream);
  
- 		radeon_dp_mst_set_be_cntl(primary, mst_enc,
- 					  radeon_connector->mst_port->hpd.hpd, true);
-@@ -452,7 +452,7 @@ radeon_mst_encoder_dpms(struct drm_encoder *encoder, int mode)
- 			return;
+ 	return DC_OK;
++}
++
++enum dc_status dc_link_increase_mst_payload(struct pipe_ctx *pipe_ctx, uint32_t bw_in_kbps)
++{
++	struct dc_stream_state *stream = pipe_ctx->stream;
++	struct dc_link *link = stream->link;
++	struct fixed31_32 avg_time_slots_per_mtp;
++	struct fixed31_32 pbn;
++	struct fixed31_32 pbn_per_slot;
++	struct link_encoder *link_encoder = link->link_enc;
++	struct stream_encoder *stream_encoder = pipe_ctx->stream_res.stream_enc;
++	struct dp_mst_stream_allocation_table proposed_table = {0};
++	uint8_t i;
++	enum act_return_status ret;
++	DC_LOGGER_INIT(link->ctx->logger);
++
++	/* notify immediate branch device table update */
++	if (dm_helpers_dp_mst_write_payload_allocation_table(
++				stream->ctx,
++				stream,
++				&proposed_table,
++				true)) {
++		/* update mst stream allocation table software state */
++		update_mst_stream_alloc_table(
++				link,
++				pipe_ctx->stream_res.stream_enc,
++				pipe_ctx->stream_res.hpo_dp_stream_enc,
++				&proposed_table);
++	}
++
++	DC_LOG_MST("%s  "
++			"stream_count: %d: \n ",
++			__func__,
++			link->mst_stream_alloc_table.stream_count);
++
++	for (i = 0; i < MAX_CONTROLLER_NUM; i++) {
++		DC_LOG_MST("stream_enc[%d]: %p      "
++				"stream[%d].vcp_id: %d      "
++				"stream[%d].slot_count: %d\n",
++				i,
++				(void *) link->mst_stream_alloc_table.stream_allocations[i].stream_enc,
++				i,
++				link->mst_stream_alloc_table.stream_allocations[i].vcp_id,
++				i,
++				link->mst_stream_alloc_table.stream_allocations[i].slot_count);
++	}
++
++	ASSERT(proposed_table.stream_count > 0);
++
++	/* update mst stream allocation table hardware state */
++	link_encoder->funcs->update_mst_stream_allocation_table(
++			link_encoder,
++			&link->mst_stream_alloc_table);
++
++	/* poll for immediate branch device ACT handled */
++	ret = dm_helpers_dp_mst_poll_for_allocation_change_trigger(
++			stream->ctx,
++			stream);
++
++	if (ret != ACT_LINK_LOST) {
++		/* send ALLOCATE_PAYLOAD sideband message with updated pbn */
++		dm_helpers_dp_mst_send_payload_allocation(
++				stream->ctx,
++				stream,
++				true);
++	}
++
++	/* increase throttled vcp size */
++	pbn = get_pbn_from_bw_in_kbps(bw_in_kbps);
++	pbn_per_slot = get_pbn_per_slot(stream);
++	avg_time_slots_per_mtp = dc_fixpt_div(pbn, pbn_per_slot);
++
++	stream_encoder->funcs->set_throttled_vcp_size(
++				stream_encoder,
++				avg_time_slots_per_mtp);
  
- 		drm_dp_mst_reset_vcpi_slots(&radeon_connector->mst_port->mst_mgr, mst_enc->port);
--		drm_dp_update_payload_part1(&radeon_connector->mst_port->mst_mgr);
-+		drm_dp_update_payload_part1(&radeon_connector->mst_port->mst_mgr, 1);
++	return DC_OK;
+ }
++#endif
  
- 		drm_dp_check_act_status(&radeon_connector->mst_port->mst_mgr);
- 		/* and this can also fail */
-diff --git a/include/drm/drm_dp_mst_helper.h b/include/drm/drm_dp_mst_helper.h
-index ddb9231d0309..78044ac5b59b 100644
---- a/include/drm/drm_dp_mst_helper.h
-+++ b/include/drm/drm_dp_mst_helper.h
-@@ -554,6 +554,8 @@ struct drm_dp_mst_topology_state {
- 	struct drm_private_state base;
- 	struct list_head vcpis;
- 	struct drm_dp_mst_topology_mgr *mgr;
-+	u8 total_avail_slots;
-+	u8 start_slot;
+ static enum dc_status deallocate_mst_payload(struct pipe_ctx *pipe_ctx)
+ {
+@@ -3483,6 +3705,10 @@ static enum dc_status deallocate_mst_payload(struct pipe_ctx *pipe_ctx)
+ 	struct dc_link *link = stream->link;
+ 	struct link_encoder *link_encoder = NULL;
+ 	struct stream_encoder *stream_encoder = pipe_ctx->stream_res.stream_enc;
++#if defined(CONFIG_DRM_AMD_DC_DCN)
++	struct hpo_dp_link_encoder *hpo_dp_link_encoder = link->hpo_dp_link_enc;
++	struct hpo_dp_stream_encoder *hpo_dp_stream_encoder = pipe_ctx->stream_res.hpo_dp_stream_enc;
++#endif
+ 	struct dp_mst_stream_allocation_table proposed_table = {0};
+ 	struct fixed31_32 avg_time_slots_per_mtp = dc_fixpt_from_int(0);
+ 	int i;
+@@ -3504,9 +3730,25 @@ static enum dc_status deallocate_mst_payload(struct pipe_ctx *pipe_ctx)
+ 	 */
+ 
+ 	/* slot X.Y */
++#if defined(CONFIG_DRM_AMD_DC_DCN)
++	switch (dp_get_link_encoding_format(&link->cur_link_settings)) {
++	case DP_8b_10b_ENCODING:
++		stream_encoder->funcs->set_throttled_vcp_size(
++			stream_encoder,
++			avg_time_slots_per_mtp);
++		break;
++	case DP_128b_132b_ENCODING:
++		hpo_dp_link_encoder->funcs->set_throttled_vcp_size(
++				hpo_dp_link_encoder,
++				hpo_dp_stream_encoder->inst,
++				avg_time_slots_per_mtp);
++		break;
++	}
++#else
+ 	stream_encoder->funcs->set_throttled_vcp_size(
+ 		stream_encoder,
+ 		avg_time_slots_per_mtp);
++#endif
+ 
+ 	/* TODO: which component is responsible for remove payload table? */
+ 	if (mst_mode) {
+@@ -3516,8 +3758,16 @@ static enum dc_status deallocate_mst_payload(struct pipe_ctx *pipe_ctx)
+ 				&proposed_table,
+ 				false)) {
+ 
++#if defined(CONFIG_DRM_AMD_DC_DCN)
++			update_mst_stream_alloc_table(
++						link,
++						pipe_ctx->stream_res.stream_enc,
++						pipe_ctx->stream_res.hpo_dp_stream_enc,
++						&proposed_table);
++#else
+ 			update_mst_stream_alloc_table(
+ 				link, pipe_ctx->stream_res.stream_enc, &proposed_table);
++#endif
+ 		}
+ 		else {
+ 				DC_LOG_WARNING("Failed to update"
+@@ -3533,6 +3783,20 @@ static enum dc_status deallocate_mst_payload(struct pipe_ctx *pipe_ctx)
+ 			link->mst_stream_alloc_table.stream_count);
+ 
+ 	for (i = 0; i < MAX_CONTROLLER_NUM; i++) {
++#if defined(CONFIG_DRM_AMD_DC_DCN)
++		DC_LOG_MST("stream_enc[%d]: %p      "
++		"stream[%d].hpo_dp_stream_enc: %p      "
++		"stream[%d].vcp_id: %d      "
++		"stream[%d].slot_count: %d\n",
++		i,
++		(void *) link->mst_stream_alloc_table.stream_allocations[i].stream_enc,
++		i,
++		(void *) link->mst_stream_alloc_table.stream_allocations[i].hpo_dp_stream_enc,
++		i,
++		link->mst_stream_alloc_table.stream_allocations[i].vcp_id,
++		i,
++		link->mst_stream_alloc_table.stream_allocations[i].slot_count);
++#else
+ 		DC_LOG_MST("stream_enc[%d]: %p      "
+ 		"stream[%d].vcp_id: %d      "
+ 		"stream[%d].slot_count: %d\n",
+@@ -3542,11 +3806,27 @@ static enum dc_status deallocate_mst_payload(struct pipe_ctx *pipe_ctx)
+ 		link->mst_stream_alloc_table.stream_allocations[i].vcp_id,
+ 		i,
+ 		link->mst_stream_alloc_table.stream_allocations[i].slot_count);
++#endif
+ 	}
+ 
++#if defined(CONFIG_DRM_AMD_DC_DCN)
++	switch (dp_get_link_encoding_format(&link->cur_link_settings)) {
++	case DP_8b_10b_ENCODING:
++		link_encoder->funcs->update_mst_stream_allocation_table(
++			link_encoder,
++			&link->mst_stream_alloc_table);
++		break;
++	case DP_128b_132b_ENCODING:
++		hpo_dp_link_encoder->funcs->update_stream_allocation_table(
++				hpo_dp_link_encoder,
++				&link->mst_stream_alloc_table);
++		break;
++	}
++#else
+ 	link_encoder->funcs->update_mst_stream_allocation_table(
+ 		link_encoder,
+ 		&link->mst_stream_alloc_table);
++#endif
+ 
+ 	if (mst_mode) {
+ 		dm_helpers_dp_mst_poll_for_allocation_change_trigger(
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c b/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
+index 296b0defcd1c..bb96e4e9ccfc 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
+@@ -5993,6 +5993,25 @@ enum dp_link_encoding dp_get_link_encoding_format(const struct dc_link_settings
+ }
+ 
+ #if defined(CONFIG_DRM_AMD_DC_DCN)
++enum dp_link_encoding dc_link_dp_mst_decide_link_encoding_format(const struct dc_link *link)
++{
++	struct dc_link_settings link_settings = {0};
++
++	if (!dc_is_dp_signal(link->connector_signal))
++		return DP_UNKNOWN_ENCODING;
++
++	if (link->preferred_link_setting.lane_count !=
++			LANE_COUNT_UNKNOWN &&
++			link->preferred_link_setting.link_rate !=
++					LINK_RATE_UNKNOWN) {
++		link_settings = link->preferred_link_setting;
++	} else {
++		decide_mst_link_settings(link, &link_settings);
++	}
++
++	return dp_get_link_encoding_format(&link_settings);
++}
++
+ // TODO - DP2.0 Link: Fix get_lane_status to handle LTTPR offset (SST and MST)
+ static void get_lane_status(
+ 	struct dc_link *link,
+diff --git a/drivers/gpu/drm/amd/display/dc/dc_link.h b/drivers/gpu/drm/amd/display/dc/dc_link.h
+index a73d64b1fd33..08815310d85b 100644
+--- a/drivers/gpu/drm/amd/display/dc/dc_link.h
++++ b/drivers/gpu/drm/amd/display/dc/dc_link.h
+@@ -295,6 +295,10 @@ enum dc_detect_reason {
+ bool dc_link_detect(struct dc_link *dc_link, enum dc_detect_reason reason);
+ bool dc_link_get_hpd_state(struct dc_link *dc_link);
+ enum dc_status dc_link_allocate_mst_payload(struct pipe_ctx *pipe_ctx);
++#if defined(CONFIG_DRM_AMD_DC_DCN)
++enum dc_status dc_link_reduce_mst_payload(struct pipe_ctx *pipe_ctx, uint32_t req_pbn);
++enum dc_status dc_link_increase_mst_payload(struct pipe_ctx *pipe_ctx, uint32_t req_pbn);
++#endif
+ 
+ /* Notify DC about DP RX Interrupt (aka Short Pulse Interrupt).
+  * Return:
+@@ -424,4 +428,7 @@ uint32_t dc_bandwidth_in_kbps_from_timing(
+ bool dc_link_is_fec_supported(const struct dc_link *link);
+ bool dc_link_should_enable_fec(const struct dc_link *link);
+ 
++#if defined(CONFIG_DRM_AMD_DC_DCN)
++enum dp_link_encoding dc_link_dp_mst_decide_link_encoding_format(const struct dc_link *link);
++#endif
+ #endif /* DC_LINK_H_ */
+diff --git a/drivers/gpu/drm/amd/display/dc/dc_stream.h b/drivers/gpu/drm/amd/display/dc/dc_stream.h
+index b8ebc1f09538..e37c4a10bfd5 100644
+--- a/drivers/gpu/drm/amd/display/dc/dc_stream.h
++++ b/drivers/gpu/drm/amd/display/dc/dc_stream.h
+@@ -115,6 +115,13 @@ struct periodic_interrupt_config {
+ 	int lines_offset;
  };
  
- #define to_dp_mst_topology_mgr(x) container_of(x, struct drm_dp_mst_topology_mgr, base)
-@@ -806,6 +808,7 @@ int drm_dp_mst_get_vcpi_slots(struct drm_dp_mst_topology_mgr *mgr, struct drm_dp
++#if defined(CONFIG_DRM_AMD_DC_DCN)
++struct dc_mst_stream_bw_update {
++	bool is_increase; // is bandwidth reduced or increased
++	uint32_t mst_stream_bw; // new mst bandwidth in kbps
++};
++#endif
++
+ union stream_update_flags {
+ 	struct {
+ 		uint32_t scaling:1;
+@@ -125,6 +132,9 @@ union stream_update_flags {
+ 		uint32_t gamut_remap:1;
+ 		uint32_t wb_update:1;
+ 		uint32_t dsc_changed : 1;
++#if defined(CONFIG_DRM_AMD_DC_DCN)
++		uint32_t mst_bw : 1;
++#endif
+ 	} bits;
  
- void drm_dp_mst_reset_vcpi_slots(struct drm_dp_mst_topology_mgr *mgr, struct drm_dp_mst_port *port);
+ 	uint32_t raw;
+@@ -278,6 +288,9 @@ struct dc_stream_update {
  
-+void drm_dp_mst_update_slots(struct drm_dp_mst_topology_state *mst_state, uint8_t link_encoding_cap);
+ 	struct dc_writeback_update *wb_update;
+ 	struct dc_dsc_config *dsc_config;
++#if defined(CONFIG_DRM_AMD_DC_DCN)
++	struct dc_mst_stream_bw_update *mst_bw_update;
++#endif
+ 	struct dc_transfer_func *func_shaper;
+ 	struct dc_3dlut *lut3d_func;
  
- void drm_dp_mst_deallocate_vcpi(struct drm_dp_mst_topology_mgr *mgr,
- 				struct drm_dp_mst_port *port);
-@@ -815,7 +818,7 @@ int drm_dp_find_vcpi_slots(struct drm_dp_mst_topology_mgr *mgr,
- 			   int pbn);
- 
- 
--int drm_dp_update_payload_part1(struct drm_dp_mst_topology_mgr *mgr);
-+int drm_dp_update_payload_part1(struct drm_dp_mst_topology_mgr *mgr, int start_slot);
- 
- 
- int drm_dp_update_payload_part2(struct drm_dp_mst_topology_mgr *mgr);
 -- 
 2.25.1
 
