@@ -1,50 +1,80 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A42A6434A97
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Oct 2021 13:53:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EF9F8434B50
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Oct 2021 14:39:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 413B36E98B;
-	Wed, 20 Oct 2021 11:53:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 038BE89503;
+	Wed, 20 Oct 2021 12:39:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 18D706E981;
- Wed, 20 Oct 2021 11:53:14 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 6AD9C610FF;
- Wed, 20 Oct 2021 11:53:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1634730793;
- bh=LPilRozXFzNZOz01IWQiBAPTdt+ygRCJKYug0spKdNQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=jvhn22dibhmZuoveod285NcYtaYI65jhGHLy4kXrkuPF+lOrVtlQjNFtJ0VXEAKgd
- 4yHPAa05ane+E/hdIOrkMcEP9oZsc50AZXny5UjwlzM+gJf2HdmqB3qH4Yn7fg7hk6
- lFhu+cOcz0rOiyijiAX3Uq2RK1nCaLHHT51hAHuT/PGz67DhHDUvF5pIyWHj9PjYJF
- Jj+83ZGrrpbzJWOPHmCyyG8Bno0Yj0DvfyXxDtsMDzSSVvc/l+VFwEQJ+ohOzOhJnX
- GEtYyyPldbZ+9r8a6DTPRe1cTjcF0vwJlGp/iaVVvBnkcGdqlt3GadBmBGmJM8Sbka
- wd/mj3iWVR/0Q==
-Date: Wed, 20 Oct 2021 17:23:10 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Rob Clark <robdclark@gmail.com>, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Jonathan Marek <jonathan@marek.ca>,
- Abhinav Kumar <abhinavk@codeaurora.org>,
- Jeffrey Hugo <jeffrey.l.hugo@gmail.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org
-Subject: Re: [PATCH v2 10/11] drm/msm/dsi: Add support for DSC configuration
-Message-ID: <YXADJjJ1y9Xp2Zlj@matsya>
-References: <20211007070900.456044-1-vkoul@kernel.org>
- <20211007070900.456044-11-vkoul@kernel.org>
- <785fe3bf-71fa-aabd-dadf-828b91396fba@linaro.org>
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com
+ [IPv6:2a00:1450:4864:20::32a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DCE6B89503
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Oct 2021 12:39:51 +0000 (UTC)
+Received: by mail-wm1-x32a.google.com with SMTP id
+ b189-20020a1c1bc6000000b0030da052dd4fso9910985wmb.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Oct 2021 05:39:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=lfqEwxQ0oeVce6XN/FotGcdbRwWTkZxc+4NzjkrPbLY=;
+ b=iLOOkhdfedcjdoYDlO1FDqiD2TfL5IoaiJJDviRSsHgdh2Z029yz03Ca3ocnHGjqlU
+ 31yNNCtO5Qz3I9r74gYFlgIKegt7gn0s85y3qgeTu+mozyKKVk9E2wlHSTJZkum4fyj+
+ R3shv/VMI3B0eapO4GtZOEbyZJnTeqtUNbmJVp8qbU7bP0VMy6IsanpsMaDXO4avwF78
+ WUc0THvvukidKtbe7S19w0G/9TnBiozXMVkBaD3X66OHUu70vYMlwZtQkQ8+mB94O5/7
+ Y/8MusDe8aeO8Flw1Ef57eEHghtFIDVi1q/r5Yd70riUb7ZKfXLo2tZ4y5nWy6QPyAHs
+ t7Xw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=lfqEwxQ0oeVce6XN/FotGcdbRwWTkZxc+4NzjkrPbLY=;
+ b=eKWewIgdLeZrI4xSlXnqjkxrSs8espamCODiPvh1GGPyNu4kH2XCaQYhmyMk44JXLm
+ ZuDEFtr5HWSMQlXNM+TOxLQXXatdZG+Ds8t2wXtWCacfEGyBifXpKOZCTYWz6uAQLGN4
+ S14QqO1RchD4L+Ai3EYXJ+9dmy3PtVcwX3kPwMdV0QpFvb4fpJCB+/7wUSCPiF8nZ0XV
+ IkTDmK/N4MjhpQ5K4ujdjxkTf1h9bDeniY1x+CKwaIqAqi62ah4twpyb6CoEg5bhdikO
+ GmRY1RkSMhNtOoh7AKmi45NGmMvH5+N9irwuO5axI2CQINBR5X5S4zYWqFTPEWgBhobV
+ nDcA==
+X-Gm-Message-State: AOAM530HqLvZEz81MCdapkK+JNFh47ruLAuGFzAgu9jz8A7zySfVvpf/
+ tyC5VjZy/FCNvwFG1cZpkoxNtA==
+X-Google-Smtp-Source: ABdhPJwl8Ts87hZRgxL1JkpipJUybRCLe/XlIvuoep4YqIHcPr/Gzp/nQxCIUNvKWJD2Q2HqcRVy1g==
+X-Received: by 2002:adf:aad7:: with SMTP id i23mr50717247wrc.209.1634733590344; 
+ Wed, 20 Oct 2021 05:39:50 -0700 (PDT)
+Received: from localhost.localdomain ([2001:861:44c0:66c0:d31f:1512:8915:e439])
+ by smtp.gmail.com with ESMTPSA id b19sm5342680wmj.9.2021.10.20.05.39.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 20 Oct 2021 05:39:49 -0700 (PDT)
+From: Neil Armstrong <narmstrong@baylibre.com>
+To: daniel@ffwll.ch,
+	Laurent.pinchart@ideasonboard.com,
+	sam@ravnborg.org
+Cc: martin.blumenstingl@googlemail.com, dri-devel@lists.freedesktop.org,
+ linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, Neil Armstrong <narmstrong@baylibre.com>
+Subject: [PATCH v3 0/6] drm/meson: rework encoders to pass ATTACH_NO_CONNECTOR
+Date: Wed, 20 Oct 2021 14:39:41 +0200
+Message-Id: <20211020123947.2585572-1-narmstrong@baylibre.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <785fe3bf-71fa-aabd-dadf-828b91396fba@linaro.org>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3018; h=from:subject;
+ bh=cWFwjmC/5GnLgzWGXoT3IdxliBahsmwbo6WyE42OGn4=;
+ b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBhcA31L8TQmWY5npZGtnPH7O5j5oqdb7wVGthRzvCV
+ gB+2cfSJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCYXAN9QAKCRB33NvayMhJ0eQuD/
+ 4gGveSkz1ZuRkc55e/MBJloENZ5rwdQTwFyWoCJuxIEdrOHIsJ9vSng549esl2i95cLc9fwTX9T8Gh
+ V8gDYqmJ2O+jdN/4tqEHNBfdXC5rKym0FNNW2gpUltewCoBqwVpl6vxVvUOGuT/Vtn/Sw+atD6ix4j
+ lcgu9Pxr8lXtLGfVJNAoQ69Z0Dt2Sz3AzYc+EGEpOCFZ38iSlwCMNwvo7LhFeQ2t2Kqa7nHAEX0jy3
+ PMDUrb3d9OOFJhpYnqg3+9S8hBqp+wX7rkdCEXyJueHDUPPenv7DdhPPPp9EH11HQolhBn8O7cm1zP
+ mZKeoI42V4nmK3hsjaq8Sj4ybNyZ2GjiYPJVnm0g6MhRMaj9BUN6Nh4IOQ76JqEVpYapWWRqY6EpVV
+ YEzLNl/NP8ylijWW7Ocxsd2L5IG1xQ+KxKQV5HOGlZgheIfsksftZsU0Ggus81xn+jR1Uzs6/l+v6l
+ 1/RC1jliV7ZzLdRb2ha2tBnwihSfLOve38RntsMmjXNzth6iCoBjBiYdJSDbEFF2foQ59wx5ZS5sPN
+ BG7vEhlXnd/HDHcbuW9dOC3uQ2JgoIygsHG2i6JEFzpmF1Z7Gw+0xTKLySzJo1rbg/eRIjLZAhyePp
+ fTMihTnnuRMgi1kPAIvaAymKLHL236RpPF6+2aybeXTpbdBkOxK563H+yMhQ==
+X-Developer-Key: i=narmstrong@baylibre.com; a=openpgp;
+ fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,119 +90,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 15-10-21, 02:18, Dmitry Baryshkov wrote:
-> On 07/10/2021 10:08, Vinod Koul wrote:
-> > When DSC is enabled, we need to configure DSI registers accordingly and
-> > configure the respective stream compression registers.
-> > 
-> > Add support to calculate the register setting based on DSC params and
-> > timing information and configure these registers.
-> > 
-> > Signed-off-by: Vinod Koul <vkoul@kernel.org>
-> > ---
-> >   drivers/gpu/drm/msm/dsi/dsi.xml.h  |  10 +++
-> >   drivers/gpu/drm/msm/dsi/dsi_host.c | 123 ++++++++++++++++++++++++++++-
-> >   2 files changed, 132 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/gpu/drm/msm/dsi/dsi.xml.h b/drivers/gpu/drm/msm/dsi/dsi.xml.h
-> > index 49b551ad1bff..c1c85df58c4b 100644
-> > --- a/drivers/gpu/drm/msm/dsi/dsi.xml.h
-> > +++ b/drivers/gpu/drm/msm/dsi/dsi.xml.h
-> > @@ -706,4 +706,14 @@ static inline uint32_t DSI_VERSION_MAJOR(uint32_t val)
-> >   #define REG_DSI_CPHY_MODE_CTRL					0x000002d4
-> > +#define REG_DSI_VIDEO_COMPRESSION_MODE_CTRL			0x0000029c
-> > +
-> > +#define REG_DSI_VIDEO_COMPRESSION_MODE_CTRL2			0x000002a0
-> > +
-> > +#define REG_DSI_COMMAND_COMPRESSION_MODE_CTRL			0x000002a4
-> > +
-> > +#define REG_DSI_COMMAND_COMPRESSION_MODE_CTRL2			0x000002a8
-> > +
-> > +#define REG_DSI_COMMAND_COMPRESSION_MODE_CTRL3			0x000002ac
-> > +
-> >   #endif /* DSI_XML */
-> > diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> > index ba24458c2e38..86e36a3e97b6 100644
-> > --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
-> > +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> > @@ -946,6 +946,26 @@ static void dsi_ctrl_config(struct msm_dsi_host *msm_host, bool enable,
-> >   		dsi_write(msm_host, REG_DSI_CPHY_MODE_CTRL, BIT(0));
-> >   }
-> > +static int dsi_dsc_update_pic_dim(struct msm_display_dsc_config *dsc,
-> > +				  int pic_width, int pic_height)
-> > +{
-> > +	if (!dsc || !pic_width || !pic_height) {
-> > +		pr_err("DSI: invalid input: pic_width: %d pic_height: %d\n", pic_width, pic_height);
-> > +		return -EINVAL;
-> > +	}
-> > +
-> > +	if ((pic_width % dsc->drm->slice_width) || (pic_height % dsc->drm->slice_height)) {
-> > +		pr_err("DSI: pic_dim %dx%d has to be multiple of slice %dx%d\n",
-> > +		       pic_width, pic_height, dsc->drm->slice_width, dsc->drm->slice_height);
-> > +		return -EINVAL;
-> > +	}
-> 
-> This should go to the mode_valid() callback for the dsi_bridge.
+This serie finnally reworks the drm/meson driver by extracting the encoders
+in their own file and moves to bridge-only callbacks.
 
-Done added a new callback for dsi_bridge to check the mode valid if DSC
-is enabled
+This permits passing the ATTACH_NO_CONNECTOR bridge attach flag and finally
+use the CVBS & HDMI display-connector driver.
 
-> 
-> > +
-> > +	dsc->drm->pic_width = pic_width;
-> > +	dsc->drm->pic_height = pic_height;
-> > +
-> > +	return 0;
-> > +}
-> > +
-> >   static void dsi_timing_setup(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
-> >   {
-> >   	struct drm_display_mode *mode = msm_host->mode;
-> > @@ -978,7 +998,72 @@ static void dsi_timing_setup(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
-> >   		hdisplay /= 2;
-> >   	}
-> > +	if (msm_host->dsc) {
-> > +		struct msm_display_dsc_config *dsc = msm_host->dsc;
-> > +
-> > +		/* update dsc params with timing params */
-> > +		dsi_dsc_update_pic_dim(dsc, mode->hdisplay, mode->vdisplay);
-> > +		DBG("Mode Width- %d x Height %d\n", dsc->drm->pic_width, dsc->drm->pic_height);
-> > +
-> > +		/* we do the calculations for dsc parameters here so that
-> > +		 * panel can use these parameters
-> > +		 */
-> > +		dsi_populate_dsc_params(dsc);
-> > +
-> > +		/* Divide the display by 3 but keep back/font porch and
-> > +		 * pulse width same
-> > +		 */
-> > +		h_total -= hdisplay;
-> > +		hdisplay /= 3;
-> > +		h_total += hdisplay;
-> > +		ha_end = ha_start + hdisplay;
-> > +	}
-> > +
-> >   	if (msm_host->mode_flags & MIPI_DSI_MODE_VIDEO) {
-> > +		if (msm_host->dsc) {
-> > +			struct msm_display_dsc_config *dsc = msm_host->dsc;
-> > +			u32 reg, intf_width, slice_per_intf;
-> > +			u32 total_bytes_per_intf;
-> > +
-> > +			/* first calculate dsc parameters and then program
-> > +			 * compress mode registers
-> > +			 */
-> > +			intf_width = hdisplay;
-> > +			slice_per_intf = DIV_ROUND_UP(intf_width, dsc->drm->slice_width);
-> > +
-> > +			/* If slice_count > slice_per_intf, then use 1
-> > +			 * This can happen during partial update
-> > +			 */
-> > +				dsc->drm->slice_count = 1;
-> 
-> Is the if() missing here? The indentpation and the comment seems unclear
-> about that.
+This will ease Martin Blumenstingl writing the HDMI transceiver driver for
+the older Meson8/8b SoCs, and sets the proper architecture for the work in
+progress MIPI-DSI support.
 
-yes, fixed that
+Finally, this serie will path the way to a removal of the device component
+and use the drmm memory management.
 
+Changes since v2 at [2]:
+ - patch 1: no changes
+ - patch 2: added martin's ack
+ - patch 3: moved ->enable & ->disable to atomic, added sam's & martin's acks
+ - patch 4: added martin's ack
+ - patch 5: added martin's ack
+ - patch 6: moved ->enable & ->disable to atomic, added martin's ack
+
+Changes since v1 at [1];
+ - patch 1: added sam's review tag, fixed include order, fixed doc wording
+ - patch 2: added sam's ack tag, switched to dev_dbg()
+ - patch 3: moved mode_set to atomic_enable, removed DRM_DEBUG, fixed include order
+ - patch 4: added sam's ack tag & applied to drm-misc-next
+ - patch 5 & 6: added sam's ack tag
+ - patch 7: added sam's review tag, stopped saving connector, moved mode_set to atomic_enable,
+ 	added missing atomic state callbacks, fixed include order, switched to dev_dbg/dev_err
+
+[1] https://lore.kernel.org/r/20211014152606.2289528-1-narmstrong@baylibre.com
+[2] https://lore.kernel.org/r/20211015141107.2430800-1-narmstrong@baylibre.com
+
+Neil Armstrong (6):
+  drm/bridge: display-connector: implement bus fmts callbacks
+  drm/meson: remove useless recursive components matching
+  drm/meson: split out encoder from meson_dw_hdmi
+  drm/meson: encoder_hdmi: switch to bridge
+    DRM_BRIDGE_ATTACH_NO_CONNECTOR
+  drm/meson: rename venc_cvbs to encoder_cvbs
+  drm/meson: encoder_cvbs: switch to bridge with ATTACH_NO_CONNECTOR
+
+ drivers/gpu/drm/bridge/display-connector.c    |  86 ++++
+ drivers/gpu/drm/meson/Kconfig                 |   2 +
+ drivers/gpu/drm/meson/Makefile                |   3 +-
+ drivers/gpu/drm/meson/meson_drv.c             |  71 ++-
+ drivers/gpu/drm/meson/meson_dw_hdmi.c         | 342 +-------------
+ drivers/gpu/drm/meson/meson_encoder_cvbs.c    | 284 +++++++++++
+ ...meson_venc_cvbs.h => meson_encoder_cvbs.h} |   2 +-
+ drivers/gpu/drm/meson/meson_encoder_hdmi.c    | 446 ++++++++++++++++++
+ drivers/gpu/drm/meson/meson_encoder_hdmi.h    |  12 +
+ drivers/gpu/drm/meson/meson_venc_cvbs.c       | 293 ------------
+ 10 files changed, 881 insertions(+), 660 deletions(-)
+ create mode 100644 drivers/gpu/drm/meson/meson_encoder_cvbs.c
+ rename drivers/gpu/drm/meson/{meson_venc_cvbs.h => meson_encoder_cvbs.h} (92%)
+ create mode 100644 drivers/gpu/drm/meson/meson_encoder_hdmi.c
+ create mode 100644 drivers/gpu/drm/meson/meson_encoder_hdmi.h
+ delete mode 100644 drivers/gpu/drm/meson/meson_venc_cvbs.c
+
+
+base-commit: f6632721cd6231e1bf28b5317dcc7543e43359f7
 -- 
-~Vinod
+2.25.1
+
