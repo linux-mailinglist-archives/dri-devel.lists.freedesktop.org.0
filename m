@@ -1,38 +1,131 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47BBD435592
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Oct 2021 23:52:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EFE9D43561A
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Oct 2021 00:48:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 439F989DF9;
-	Wed, 20 Oct 2021 21:52:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A6586EA1A;
+	Wed, 20 Oct 2021 22:48:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F2F7389DF9;
- Wed, 20 Oct 2021 21:52:34 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10143"; a="229159754"
-X-IronPort-AV: E=Sophos;i="5.87,167,1631602800"; d="scan'208";a="229159754"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Oct 2021 14:52:34 -0700
-X-IronPort-AV: E=Sophos;i="5.87,167,1631602800"; d="scan'208";a="463369018"
-Received: from jons-linux-dev-box.fm.intel.com ([10.1.27.20])
- by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Oct 2021 14:52:34 -0700
-From: Matthew Brost <matthew.brost@intel.com>
-To: <intel-gfx@lists.freedesktop.org>,
-	<dri-devel@lists.freedesktop.org>
-Cc: <tvrtko.ursulin@intel.com>, <daniele.ceraolospurio@intel.com>,
- <john.c.harrison@intel.com>
-Subject: [PATCH] drm/i915/execlists: Weak parallel submission support for
- execlists
-Date: Wed, 20 Oct 2021 14:47:51 -0700
-Message-Id: <20211020214751.34602-1-matthew.brost@intel.com>
-X-Mailer: git-send-email 2.32.0
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on2072.outbound.protection.outlook.com [40.107.237.72])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C1C86EA16;
+ Wed, 20 Oct 2021 22:48:30 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=F0cQXdErpPXpixwbjyKbi8ck+UWH8B9rGcL1J/dX+WT7K+92XNNGDxwPW7JjWCZ+x8uHo7VtmCmXla/scF1SJgraiiFI2z1QSxGYUX+VohjJZNgshES7KZvkY1ua3Y2jk05lz8QgslDnI8G+m2YvZ8F0uOBxaU0ltE4LyDndzzrnamBxwumZoBpnaPh1Hn4OcCfy0+FkOW0SgOgC9ZDxNcYlgx2JEwucyyvrHnD/EHZSf+GBKwwacntZGuICfUp2R2P/gGT76QQcTg23HxBElFIgBpDzuq5S/0kwLxdRzabmCznZpNyS+KAsSoELheLfoS4d3ILOSG/JfANDNvc8Sw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=6MRBuQUw+MiwNtx/pyd2IslHBxO+DIOutCOp8svui+0=;
+ b=JULd2oZh8TGpRRWpr+E+6PxhJNKlA0Qawhyu9s+jmFLHnpH+VHF1VQb41s6yj9Ln2pVGSBTkvzbtulvPvNUo+dNt22zRshl1Gf6LUtxet/IxULc5X9mFqijOP5K0prCsoapQnyTegcu5ATsnDw+Fwd2WNLRq4vLpjiBTuPJf6B8aG+DYFh6ZNjcL2sVTMGPFiML2VTJIm3O+9GtLW955jzjJ7QniohsUqLKffQX/3+/C6BsChCQh/FSUu+iPQSnYMdEFuHr2vbtlw+yj0R9kBE7TqHm5x7NQ5jfohAqweMewZFgqLvC3zeG4X5p4ZCx8ZUapEv6pSGD3EKdtsbwwnw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6MRBuQUw+MiwNtx/pyd2IslHBxO+DIOutCOp8svui+0=;
+ b=WcCSobfCo1iCa1sFgPPdac5g2FubCTnaswp5bqMPPGlBNUOvVv8v+z4hIcHoJQ97Uwn2cWXVALa5AtuFZ+9TUN0aR0jjL+L7Y24Kypme+XPWh6/Led6EeRjNEtGXrwE2ckR5IeWUSnX75tQKIpggJbEPeSs8gpqLp6+qluS15gk82LICqbvfccAIryK4nrbtP0qnbap8xzznN5PZ5RKv7bLEHV5qJ483SYtUhVVS8A4B5uQxvReNBPIgVjnkorwuWPxS/8kKyeTG2+Z7agCnJBXsCKdaQylGUHOPeV7cWY6xAS/jhkhajNiA8nvRkYnll+BKsjGFkoyZAWM+GYsLBg==
+Authentication-Results: linux.ie; dkim=none (message not signed)
+ header.d=none;linux.ie; dmarc=none action=none header.from=nvidia.com;
+Received: from BL0PR12MB5506.namprd12.prod.outlook.com (2603:10b6:208:1cb::22)
+ by BL1PR12MB5378.namprd12.prod.outlook.com (2603:10b6:208:31d::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4608.17; Wed, 20 Oct
+ 2021 22:48:28 +0000
+Received: from BL0PR12MB5506.namprd12.prod.outlook.com
+ ([fe80::e8af:232:915e:2f95]) by BL0PR12MB5506.namprd12.prod.outlook.com
+ ([fe80::e8af:232:915e:2f95%8]) with mapi id 15.20.4628.016; Wed, 20 Oct 2021
+ 22:48:28 +0000
+Date: Wed, 20 Oct 2021 19:48:26 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: David Airlie <airlied@linux.ie>, Tony Krowiak <akrowiak@linux.ibm.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Cornelia Huck <cohuck@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ Eric Farman <farman@linux.ibm.com>,
+ Harald Freudenberger <freude@linux.ibm.com>,
+ Vasily Gorbik <gor@linux.ibm.com>,
+ Heiko Carstens <hca@linux.ibm.com>, intel-gfx@lists.freedesktop.org,
+ intel-gvt-dev@lists.freedesktop.org,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Jason Herne <jjherne@linux.ibm.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ kvm@vger.kernel.org, Kirti Wankhede <kwankhede@nvidia.com>,
+ linux-doc@vger.kernel.org, linux-s390@vger.kernel.org,
+ Matthew Rosato <mjrosato@linux.ibm.com>,
+ Peter Oberparleiter <oberpar@linux.ibm.com>,
+ Halil Pasic <pasic@linux.ibm.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Vineeth Vijayan <vneethv@linux.ibm.com>,
+ Zhenyu Wang <zhenyuw@linux.intel.com>, Zhi Wang <zhi.a.wang@intel.com>
+Cc: Christoph Hellwig <hch@infradead.org>, Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH v3 00/10] Move vfio_ccw to the new mdev API
+Message-ID: <20211020224826.GA21930@nvidia.com>
+References: <0-v3-57c1502c62fd+2190-ccw_mdev_jgg@nvidia.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0-v3-57c1502c62fd+2190-ccw_mdev_jgg@nvidia.com>
+X-ClientProxiedBy: BL1PR13CA0327.namprd13.prod.outlook.com
+ (2603:10b6:208:2c1::32) To BL0PR12MB5506.namprd12.prod.outlook.com
+ (2603:10b6:208:1cb::22)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Received: from mlx.ziepe.ca (142.162.113.129) by
+ BL1PR13CA0327.namprd13.prod.outlook.com (2603:10b6:208:2c1::32) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4628.16 via Frontend
+ Transport; Wed, 20 Oct 2021 22:48:27 +0000
+Received: from jgg by mlx with local (Exim 4.94)	(envelope-from
+ <jgg@nvidia.com>)	id 1mdKNm-0005k7-K5; Wed, 20 Oct 2021 19:48:26 -0300
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: cde92296-29f4-4b41-e95b-08d9941bbb69
+X-MS-TrafficTypeDiagnostic: BL1PR12MB5378:
+X-Microsoft-Antispam-PRVS: <BL1PR12MB5378398A9381E73A43FA1325C2BE9@BL1PR12MB5378.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: AsPNrd62FsqjO078p6s5/3dfJJzcJxPWQql5coCq5SJwJ6Ub86nQ2QW4ptLYMQRovPfWpgBTmC33tAc8IjlD559XgDf4WMYAx19yZjLKQ0BQ0LH7+9NysYBrVk6UVYlUnGQAQAnTfraGulVRWGseeLPZJy+jrCb0aW/g6TdpeRtxl7cRRiVcI7Uxt1zJSSD1OdskLC0Ki4j/oNvj9FaLCmoKofeZAQhllLZ9cd74vb/PgK8rN1syjvYTu3877C9quGMde0hyE5LxQB/WFfyWcQHOo013Ak62NnCRwxSTFm+ooQXbUdwJi8w5yEzcbeuL+hpg6t8nBjT3DgCoYtkdU1yzl1Di00ArsnDCnPTbCI0vH8QvoiiELcPSvLA7TwvmVDqEOsrxL9rymNeFJssuCuzCS66JZ9Mn1wRt8WofRYrXA0AAEEt3ktKw5HQigpK6hstZvHPvxd9YlJsVHPmFSvjmToqk7/CipA3tj2tLQoIiP7m5aH6RXVgAc9ekN/wFzD2HQyX311wDLyqgOzBSmUQJ+YJQZECZ/NCTo7/I1Tu4hPImhw4Z5cO+9nf3zLdZ5nYemKOMTAjcANL+Q4pRvuKTljyfkUDPXgb7guLjqtE/wB1/RwYiLGAs05/zSNsUFCJEzitGhWtEO/1uw5FLVPpuJKS6a4YA/mrKd/c7sAxNPTaprfDrw7cCNGOGhJMppjOsYhw4pyzRRmTxg1h56s+FWTlZschTNpcdjgSakEX8GqHtOCICeZtnLJYAb2ybE239jgOo+8ULTlaJVT04teuF+3KSskstLUs551jJ7QYW6OVt9VzlCUO0g0U8jOzj
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BL0PR12MB5506.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(966005)(186003)(1076003)(8676002)(26005)(316002)(5660300002)(8936002)(508600001)(66476007)(38100700002)(86362001)(33656002)(9786002)(921005)(9746002)(426003)(110136005)(36756003)(54906003)(7416002)(66946007)(2616005)(2906002)(4326008)(66556008)(83380400001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?zqm1kabHFmHkVwxGcFLqEMThXh8cT8NO2VggsE9tcRoOJbzwaSBgk0RcFZsp?=
+ =?us-ascii?Q?VY2KEO4NbaAYjaD5ArPSMM2aj8M1F1hQrCI3HDPvZcReP0Z78R1mAufjTZoN?=
+ =?us-ascii?Q?PKdKaHMyPpg7b46hLc6zlM1Jupoe++k+FtrynAqKUparhRob2j2wz+S5Llde?=
+ =?us-ascii?Q?RHNs+JtD9HAnW3D9+IbWLHloEmlz+aCiH+9/npjIL6UZWHvtBIKHi13eJWyf?=
+ =?us-ascii?Q?INgqp5ii0+WMNH32fiyVVtB+uJ3nubCP///LFOKkW4vLHALA9BirLTjAYqf0?=
+ =?us-ascii?Q?hWuxf07z/3+Dbj+I4w9+O7ie5It1x8oojiBcOtyVDq4d+SlN2XX/sFtf6buq?=
+ =?us-ascii?Q?LsgV2VVFcVBxiib2XyLuRFGxylfXPmYxozfvhhuCalwi2n1yPDNZ517V4r6I?=
+ =?us-ascii?Q?M9HxKMLnwwkRIG4xbLT5MWCj1autQdsbt5Fjm1UfdidTl6aukuY/sxH80eIm?=
+ =?us-ascii?Q?dWxfqGXwXUEGJ6hm3Wo/zVw2dvpb5lNLZJPYiGW7Ii2e8prGEhIAz9hgbxKU?=
+ =?us-ascii?Q?4ofGYoI7xYjlHfSODo6ubGub6Tf+dnyuM0SSDTIjqmHECVz8AaoMKq167jeb?=
+ =?us-ascii?Q?e1mhQYWaRcLUBg5BVp3Hm+9LPY6RvZ8aPLOslElN3kam//7iPI1B2U10ZoKZ?=
+ =?us-ascii?Q?HIY42S+iyO0WOGrUy80ZaJE2hKVV/xrBMz5S1rTjU/+l3dCLStDZM03PqyZt?=
+ =?us-ascii?Q?r+K27kBDP9400NI85PAUxaTD+zjnIlWPLvgGclo2sOKdy6at/9ZzKOa20mmt?=
+ =?us-ascii?Q?diD5hspqeQtbGbJ+NRbMkKp7/chXVvS0Dywp9QMcETaqeA1NduTCmH7ndetc?=
+ =?us-ascii?Q?8mNKoGaDmrYoKB18BrOBWALEnkIpNyNeraVfdpe7W8BrZtZciXL2YXdFM75+?=
+ =?us-ascii?Q?S4v8tZJE0t73res7dKIOaoAT+dBrLWkB0hHeLnDwR9c1IMnivS0fCnlAM4yg?=
+ =?us-ascii?Q?uiMzme+fmY4v+90z68NYbzLdExs3qn5krTmVbp/ifGghBGf+/vPhY2msvavi?=
+ =?us-ascii?Q?tikI9LM5o6WyD+XEwshL2Rks2xe548phxpH6uzNTo33SxZ8L8U3RBjtwa5cd?=
+ =?us-ascii?Q?uqS9Puboj42M1kmkRY3eUQPKxwrBBqgJi/gWTOU5XRm7QCK8xEI5fU60cYHx?=
+ =?us-ascii?Q?XfxuhUlz+GoBcn2Pa7TGMaJpFfINXhAWDcyqYm+torjrgrUvpuTxKB9q4AGd?=
+ =?us-ascii?Q?Kvnn3uTpXf4dxKV9gQeg8AxIGNpc0YGTVm9/6ljAuPBmTVIbHEj9oe2cbuK2?=
+ =?us-ascii?Q?tDTM/WM5THxly+9WdXVHSmHX/h6j1G39XXGL6D22Rj9EWRqYBWH8uIQTlneQ?=
+ =?us-ascii?Q?bNpZRheye7lG7WqZtCyv9Alx?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: cde92296-29f4-4b41-e95b-08d9941bbb69
+X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB5506.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Oct 2021 22:48:28.3563 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: jgg@nvidia.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5378
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,172 +141,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-A weak implementation of parallel submission (multi-bb execbuf IOCTL) for
-execlists. Doing as little as possible to support this interface for
-execlists - basically just passing submit fences between each request
-generated and virtual engines are not allowed. This is on par with what
-is there for the existing (hopefully soon deprecated) bonding interface.
+On Fri, Oct 01, 2021 at 02:52:41PM -0300, Jason Gunthorpe wrote:
+> This addresses Cornelia's remark on the earlier patch that ccw has a
+> confusing lifecycle. While it doesn't seem like the original attempt was
+> functionally wrong, the result can be made better with a lot of further
+> work.
+> 
+> Reorganize the driver so that the mdev owns the private memory and
+> controls the lifecycle, not the css_driver. The memory associated with the
+> css_driver lifecycle is only the mdev_parent/mdev_type registration.
+> 
+> Along the way we change when the sch is quiescent or not to be linked to
+> the open/close_device lifetime of the vfio_device, which is sort of what
+> it was tring to do already, just not completely.
+> 
+> The troublesome racey lifecycle of the css_driver callbacks is made clear
+> with simple vfio_device refcounting so a callback is only delivered into a
+> registered vfio_device and has obvious correctness.
+> 
+> Move the only per-css_driver state, the "available instance" counter, into
+> the core code and share that logic with many of the other drivers. The
+> value is kept in the mdev_type memory.
+> 
+> This is on github: https://github.com/jgunthorpe/linux/commits/vfio_ccw
+> 
+> v3:
+>  - Rebase to Christoph's group work & rc3; use
+>    vfio_register_emulated_iommu_dev()
+>  - Remove GFP_DMA
+>  - Order mdev_unregister_driver() symmetrically with init
+>  - Rework what is considered a BROKEN event in fsm_close()
+>  - NOP both CCW_EVENT_OPEN/CLOSE
+>  - Documentation updates
+>  - Remane goto label to err_init vfio_ccw_mdev_probe()
+>  - Fix NULL pointer deref in mdev_device_create()
+> v2: https://lore.kernel.org/r/0-v2-7d3a384024cf+2060-ccw_mdev_jgg@nvidia.com
+>  - Clean up the lifecycle in ccw with 7 new patches
+>  - Rebase
+> v1: https://lore.kernel.org/all/7-v2-7667f42c9bad+935-vfio3_jgg@nvidia.com
+> 
+> Jason Gunthorpe (10):
+>   vfio/ccw: Remove unneeded GFP_DMA
+>   vfio/ccw: Use functions for alloc/free of the vfio_ccw_private
+>   vfio/ccw: Pass vfio_ccw_private not mdev_device to various functions
+>   vfio/ccw: Convert to use vfio_register_emulated_iommu_dev()
 
-We perma-pin these execlists contexts to align with GuC implementation.
+IBM folks, what do you want to do with this? I would like to go ahead
+with these patches so we can get closer to unblocking some of the VFIO
+core work.
 
-v2:
- (John Harrison)
-  - Drop siblings array as num_siblings must be 1
+These patches:
 
-Signed-off-by: Matthew Brost <matthew.brost@intel.com>
----
- drivers/gpu/drm/i915/gem/i915_gem_context.c   | 10 +++--
- drivers/gpu/drm/i915/gt/intel_context.c       |  4 +-
- .../drm/i915/gt/intel_execlists_submission.c  | 44 ++++++++++++++++++-
- drivers/gpu/drm/i915/gt/intel_lrc.c           |  2 +
- .../gpu/drm/i915/gt/uc/intel_guc_submission.c |  2 -
- 5 files changed, 52 insertions(+), 10 deletions(-)
+>   vfio/ccw: Make the FSM complete and synchronize it to the mdev
+>   vfio/mdev: Consolidate all the device_api sysfs into the core code
+>   vfio/mdev: Add mdev available instance checking to the core
+>   vfio/ccw: Remove private->mdev
+>   vfio: Export vfio_device_try_get()
+>   vfio/ccw: Move the lifecycle of the struct vfio_ccw_private to the
+>     mdev
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-index fb33d0322960..35e87a7d0ea9 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-@@ -570,10 +570,6 @@ set_proto_ctx_engines_parallel_submit(struct i915_user_extension __user *base,
- 	struct intel_engine_cs **siblings = NULL;
- 	intel_engine_mask_t prev_mask;
- 
--	/* FIXME: This is NIY for execlists */
--	if (!(intel_uc_uses_guc_submission(&i915->gt.uc)))
--		return -ENODEV;
--
- 	if (get_user(slot, &ext->engine_index))
- 		return -EFAULT;
- 
-@@ -583,6 +579,12 @@ set_proto_ctx_engines_parallel_submit(struct i915_user_extension __user *base,
- 	if (get_user(num_siblings, &ext->num_siblings))
- 		return -EFAULT;
- 
-+	if (!intel_uc_uses_guc_submission(&i915->gt.uc) && num_siblings != 1) {
-+		drm_dbg(&i915->drm, "Only 1 sibling (%d) supported in non-GuC mode\n",
-+			num_siblings);
-+		return -EINVAL;
-+	}
-+
- 	if (slot >= set->num_engines) {
- 		drm_dbg(&i915->drm, "Invalid placement value, %d >= %d\n",
- 			slot, set->num_engines);
-diff --git a/drivers/gpu/drm/i915/gt/intel_context.c b/drivers/gpu/drm/i915/gt/intel_context.c
-index 5634d14052bc..1bec92e1d8e6 100644
---- a/drivers/gpu/drm/i915/gt/intel_context.c
-+++ b/drivers/gpu/drm/i915/gt/intel_context.c
-@@ -79,7 +79,8 @@ static int intel_context_active_acquire(struct intel_context *ce)
- 
- 	__i915_active_acquire(&ce->active);
- 
--	if (intel_context_is_barrier(ce) || intel_engine_uses_guc(ce->engine))
-+	if (intel_context_is_barrier(ce) || intel_engine_uses_guc(ce->engine) ||
-+	    intel_context_is_parallel(ce))
- 		return 0;
- 
- 	/* Preallocate tracking nodes */
-@@ -563,7 +564,6 @@ void intel_context_bind_parent_child(struct intel_context *parent,
- 	 * Callers responsibility to validate that this function is used
- 	 * correctly but we use GEM_BUG_ON here ensure that they do.
- 	 */
--	GEM_BUG_ON(!intel_engine_uses_guc(parent->engine));
- 	GEM_BUG_ON(intel_context_is_pinned(parent));
- 	GEM_BUG_ON(intel_context_is_child(parent));
- 	GEM_BUG_ON(intel_context_is_pinned(child));
-diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-index bedb80057046..2865b422300d 100644
---- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-+++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-@@ -927,8 +927,7 @@ static void execlists_submit_ports(struct intel_engine_cs *engine)
- 
- static bool ctx_single_port_submission(const struct intel_context *ce)
- {
--	return (IS_ENABLED(CONFIG_DRM_I915_GVT) &&
--		intel_context_force_single_submission(ce));
-+	return intel_context_force_single_submission(ce);
- }
- 
- static bool can_merge_ctx(const struct intel_context *prev,
-@@ -2598,6 +2597,46 @@ static void execlists_context_cancel_request(struct intel_context *ce,
- 				      current->comm);
- }
- 
-+static struct intel_context *
-+execlists_create_parallel(struct intel_engine_cs **engines,
-+			  unsigned int num_siblings,
-+			  unsigned int width)
-+{
-+	struct intel_context *parent = NULL, *ce, *err;
-+	int i;
-+
-+	GEM_BUG_ON(num_siblings != 1);
-+
-+	for (i = 0; i < width; ++i) {
-+		ce = intel_context_create(engines[i]);
-+		if (!ce) {
-+			err = ERR_PTR(-ENOMEM);
-+			goto unwind;
-+		}
-+
-+		if (i == 0)
-+			parent = ce;
-+		else
-+			intel_context_bind_parent_child(parent, ce);
-+	}
-+
-+	parent->parallel.fence_context = dma_fence_context_alloc(1);
-+
-+	intel_context_set_nopreempt(parent);
-+	intel_context_set_single_submission(parent);
-+	for_each_child(parent, ce) {
-+		intel_context_set_nopreempt(ce);
-+		intel_context_set_single_submission(ce);
-+	}
-+
-+	return parent;
-+
-+unwind:
-+	if (parent)
-+		intel_context_put(parent);
-+	return err;
-+}
-+
- static const struct intel_context_ops execlists_context_ops = {
- 	.flags = COPS_HAS_INFLIGHT,
- 
-@@ -2616,6 +2655,7 @@ static const struct intel_context_ops execlists_context_ops = {
- 	.reset = lrc_reset,
- 	.destroy = lrc_destroy,
- 
-+	.create_parallel = execlists_create_parallel,
- 	.create_virtual = execlists_create_virtual,
- };
- 
-diff --git a/drivers/gpu/drm/i915/gt/intel_lrc.c b/drivers/gpu/drm/i915/gt/intel_lrc.c
-index 56156cf18c41..70f4b309522d 100644
---- a/drivers/gpu/drm/i915/gt/intel_lrc.c
-+++ b/drivers/gpu/drm/i915/gt/intel_lrc.c
-@@ -1065,6 +1065,8 @@ lrc_pin(struct intel_context *ce,
- 
- void lrc_unpin(struct intel_context *ce)
- {
-+	if (unlikely(ce->parallel.last_rq))
-+		i915_request_put(ce->parallel.last_rq);
- 	check_redzone((void *)ce->lrc_reg_state - LRC_STATE_OFFSET,
- 		      ce->engine);
- }
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-index 1341752dc70e..ddc9a97fcc8f 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-@@ -2961,8 +2961,6 @@ static void guc_parent_context_unpin(struct intel_context *ce)
- 	GEM_BUG_ON(!intel_context_is_parent(ce));
- 	GEM_BUG_ON(!intel_engine_is_virtual(ce->engine));
- 
--	if (ce->parallel.last_rq)
--		i915_request_put(ce->parallel.last_rq);
- 	unpin_guc_id(guc, ce);
- 	lrc_unpin(ce);
- }
--- 
-2.32.0
+Where made to show how to structure this more cleanly as Cornelia
+asked but are not essential and IBMers could test and fix to get this
+cleanup when time permits..
 
+Thoughts?
+
+Thanks,
+Jason
