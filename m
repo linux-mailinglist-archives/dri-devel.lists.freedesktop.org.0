@@ -1,55 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C543B434BF3
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Oct 2021 15:20:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C9BF0434BF0
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Oct 2021 15:19:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F5F289FC9;
-	Wed, 20 Oct 2021 13:19:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA8CA892E4;
+	Wed, 20 Oct 2021 13:19:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 76D55892E4
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 76DC6893A7
  for <dri-devel@lists.freedesktop.org>; Wed, 20 Oct 2021 13:19:44 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id A1C2F1FDA1;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id CBABF218D5;
  Wed, 20 Oct 2021 13:19:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1634735982; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=PSSae/s0vdP4zU6lEC9WIE3+NIdpDa/Xw7BPCyqUjbw=;
- b=XYtq/3rv83NMBk78bmsAyRRIR7PEyyWd5RwMQxJPALxwL2d17Prf56cVrFGpclWHIR8Ujf
- yPKQdaGpfY4kQpBPhHdEnDSMyibGAQoqdwWzOF9nBCMvbbk0A3M4YkRcYdfeOfxQhRBnoo
- NDX3kKL6lbUfhIOELKj9mRt+sMrf+EA=
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=uUhlnrtP8COpTEv6xu/kJJcfGWbIJrfzNGQ+EUOaE0c=;
+ b=fsN0t9Thnir4ZXft6Nu73x1MTD/IfuwRGss4iQtUmuWaNiyEpUoMwG/u9og2NP0Hopx+PC
+ 8OEB4YHpyOFFmgL5JEMci9KSTWeidevKfuKE5FYohTS5XlRt6m/5DpMcp1Tat+Uncnt8h6
+ 1D6F97vRSukOazE5tCUTbjQIarSYloY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1634735982;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=PSSae/s0vdP4zU6lEC9WIE3+NIdpDa/Xw7BPCyqUjbw=;
- b=dRTce8ogiKgtjvmoSumu42c07aZtGmMBJ358qYl8ZOJRUBu0mFBKY3DA7rC31VvVWGcZOf
- 4/faHkFNdYgZhdCQ==
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=uUhlnrtP8COpTEv6xu/kJJcfGWbIJrfzNGQ+EUOaE0c=;
+ b=cCsJObOC1UqbVbefTp5qSXx29pT8dorNfdjlT3TIvsj3uGRwQ9Xuxb7zlc9b30UBiwjJsR
+ tP/AZaeLUga01FAA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7DF8213B29;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A586E140A6;
  Wed, 20 Oct 2021 13:19:42 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id zWfNHW4XcGHsdwAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id SHJ4J24XcGHsdwAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Wed, 20 Oct 2021 13:19:42 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@linux.ie,
  daniel@ffwll.ch
 Cc: dri-devel@lists.freedesktop.org,
 	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 0/3] drm: Move several files from DRM core into modules
-Date: Wed, 20 Oct 2021 15:19:38 +0200
-Message-Id: <20211020131941.15367-1-tzimmermann@suse.de>
+Subject: [PATCH 1/3] drm: Build drm_irq.o only if CONFIG_DRM_LEGACY has been
+ set
+Date: Wed, 20 Oct 2021 15:19:39 +0200
+Message-Id: <20211020131941.15367-2-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.33.0
+In-Reply-To: <20211020131941.15367-1-tzimmermann@suse.de>
+References: <20211020131941.15367-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -67,28 +74,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Move a number of files into modules and behind config options.
+All code in drm_irq.o is for legacy UMs drivers. Only build and link
+the file if CONFIG_DRM_LEGACY has been enabled.
 
-So far, early boot graphics was provided by fbdev. With simpledrm, and
-possibly other generic DRM drivers, it's now possible to have general
-early-boot output with DRM. This requires the DRM core to be linked into
-the kernel binary image.
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+---
+ drivers/gpu/drm/Makefile  | 6 +++---
+ drivers/gpu/drm/drm_irq.c | 2 --
+ 2 files changed, 3 insertions(+), 5 deletions(-)
 
-The reduction in size here is only ~1%, but the patchset is part of a
-larger effort to reduce the size of the DRM core module.
-
-Thomas Zimmermann (3):
-  drm: Build drm_irq.o only if CONFIG_DRM_LEGACY has been set
-  drm: Link several object files into drm_kms_helper.ko
-  drm: Move GEM memory managers into modules
-
- drivers/gpu/drm/Kconfig                |  4 ++--
- drivers/gpu/drm/Makefile               | 26 +++++++++++++++-----------
- drivers/gpu/drm/drm_gem_cma_helper.c   |  4 ++++
- drivers/gpu/drm/drm_gem_shmem_helper.c |  4 ++++
- drivers/gpu/drm/drm_irq.c              |  2 --
- 5 files changed, 25 insertions(+), 15 deletions(-)
-
---
+diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+index 12997ca5670d..6f07609fa453 100644
+--- a/drivers/gpu/drm/Makefile
++++ b/drivers/gpu/drm/Makefile
+@@ -4,7 +4,7 @@
+ # Direct Rendering Infrastructure (DRI) in XFree86 4.1.0 and higher.
+ 
+ drm-y       :=	drm_aperture.o drm_auth.o drm_cache.o \
+-		drm_file.o drm_gem.o drm_ioctl.o drm_irq.o \
++		drm_file.o drm_gem.o drm_ioctl.o \
+ 		drm_drv.o \
+ 		drm_sysfs.o drm_hashtab.o drm_mm.o \
+ 		drm_crtc.o drm_fourcc.o drm_modes.o drm_edid.o drm_displayid.o \
+@@ -21,8 +21,8 @@ drm-y       :=	drm_aperture.o drm_auth.o drm_cache.o \
+ 		drm_managed.o drm_vblank_work.o
+ 
+ drm-$(CONFIG_DRM_LEGACY) += drm_agpsupport.o drm_bufs.o drm_context.o drm_dma.o \
+-			    drm_legacy_misc.o drm_lock.o drm_memory.o drm_scatter.o \
+-			    drm_vm.o
++			    drm_irq.o drm_legacy_misc.o drm_lock.o drm_memory.o \
++			    drm_scatter.o drm_vm.o
+ drm-$(CONFIG_DRM_LIB_RANDOM) += lib/drm_random.o
+ drm-$(CONFIG_COMPAT) += drm_ioc32.o
+ drm-$(CONFIG_DRM_GEM_CMA_HELPER) += drm_gem_cma_helper.o
+diff --git a/drivers/gpu/drm/drm_irq.c b/drivers/gpu/drm/drm_irq.c
+index 13e1d5c4ec82..d327638e15ee 100644
+--- a/drivers/gpu/drm/drm_irq.c
++++ b/drivers/gpu/drm/drm_irq.c
+@@ -66,7 +66,6 @@
+ 
+ #include "drm_internal.h"
+ 
+-#if IS_ENABLED(CONFIG_DRM_LEGACY)
+ static int drm_legacy_irq_install(struct drm_device *dev, int irq)
+ {
+ 	int ret;
+@@ -203,4 +202,3 @@ int drm_legacy_irq_control(struct drm_device *dev, void *data,
+ 		return -EINVAL;
+ 	}
+ }
+-#endif
+-- 
 2.33.0
 
