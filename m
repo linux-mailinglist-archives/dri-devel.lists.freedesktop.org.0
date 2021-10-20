@@ -2,63 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C667B43514D
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Oct 2021 19:32:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D7E9435182
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Oct 2021 19:41:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3244B6E32F;
-	Wed, 20 Oct 2021 17:32:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6DB3C6E334;
+	Wed, 20 Oct 2021 17:41:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
- [IPv6:2a00:1450:4864:20::331])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E0726E332
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Oct 2021 17:32:14 +0000 (UTC)
-Received: by mail-wm1-x331.google.com with SMTP id
- 186-20020a1c01c3000000b0030d8315b593so3319537wmb.5
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Oct 2021 10:32:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=YrgDnP3wdFz9gcP9oR8IYN86QnIwG+X3Dhw9uAX4bJo=;
- b=Hgwsqum26OUzhU5PRoJNPiEtRf5LTN+Fv4ciDqsXjYMxvtNby8qaUHUfS7yR6dtk+G
- Dl9x92uULpXTF1BiVPGo2Scyx9/mSMj+8IKdNkJZZmkY3Ip9FCF+M9Quuh4py07EWya3
- +Up4oOjSTQdvqSRG8aNSh4cq1Kf/bp6OMTRqjMSsElyXExX0MuDdEWFWfn2MitUJ8SM/
- nPzRzdpzy1c/6PRSDcvM55QhQXi8dqQtw6p4CPdUg/mfmTJ9oRF3OzHUPsiY0b0nGkrD
- tZVZkOu5ABWvDJfijvRd763XULwnC5vG+eyCXcuEHPUVq1cKOLWrCgsCRnybctkc2zPG
- N1Lw==
+Received: from mail-il1-x130.google.com (mail-il1-x130.google.com
+ [IPv6:2607:f8b0:4864:20::130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F8B96E334
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Oct 2021 17:41:05 +0000 (UTC)
+Received: by mail-il1-x130.google.com with SMTP id l7so9648652iln.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Oct 2021 10:41:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=09x1oRFaTKDmQrhlhOb9jy+N6hL8DwJNbTkF0zphjoE=;
+ b=mnQOVOqgdt1WuKAT8iYksqfZizblzHqHQ0ZpeyU/Tr7i35LtYOojJ16b518ll9ZQop
+ mSXIV/ojivDGtUBOWZKJAjqQpyiuL6uYQv8P1dwI4WVCWO4wf9sJhg+9F4yd4Opbq1HD
+ yzO3c7Ha5/V2RuTtNP0UfuMMt6qwM6HdXnzJ0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=YrgDnP3wdFz9gcP9oR8IYN86QnIwG+X3Dhw9uAX4bJo=;
- b=mAkPoOizdeXoXEAPQ0OT3/SqDdLNeh97uh08J2OFj2sPnAkN2GuMb2llFyH1+LW19G
- hHHsR3Wvvg3nf7Bgsga+BHlyJjgJyHV7xWqggimSAX2tZrvBonnN8Yjd3vs+1ID403Rm
- 1HkfgDGSc6T41M6hn/8psbzJPAtvjCx8boAHo7qf+pQt1sALgZZ/FA7a3vShjq+CCRwc
- SUzr3y+jF+Ms/hlrlyEvIG4zcM/UfPL5v3KSw+L4oHnarqUezgG+g/KBzxghmtyKlzuD
- WG6OqMzsXgTWNKgvQTKmmd68yDnL9SDAfLQ0B7zt1Go8RxiQXzOK/M+L6hR7n/iVMgqd
- f4mg==
-X-Gm-Message-State: AOAM532t6WfRNdKHQq4Hto1jGJOZXdbEdC3luy995RBm+kwuN2gqdefq
- uaNXsFmnIwzbdGtu1o72t47LxZRNU2c=
-X-Google-Smtp-Source: ABdhPJxsJsM7PMa8+Jqqhm7WHygRLvhV/DWxgPuX3xA0V2srzqfGBD/xJg5iU9KRsNJexdiNoiGB5g==
-X-Received: by 2002:a1c:4455:: with SMTP id r82mr689976wma.100.1634751132634; 
- Wed, 20 Oct 2021 10:32:12 -0700 (PDT)
-Received: from abel.fritz.box (p5b0ea1b5.dip0.t-ipconnect.de. [91.14.161.181])
- by smtp.gmail.com with ESMTPSA id
- d24sm2446662wmb.35.2021.10.20.10.32.11
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=09x1oRFaTKDmQrhlhOb9jy+N6hL8DwJNbTkF0zphjoE=;
+ b=EbRS2aIAtH4FYJKe3StWmbl2SkabQRdjVVxr7Y5aYmccTHyjT/sBTGQsrv/GV4oMzQ
+ nhjN+SfV8BPYA1qb2LAn1tER16zBH7lsSwssdiKQ3QFhVEOVQQukJEDnnbV1HEvqzLys
+ wgPYTIe8YypgOfPF8gW+FY3MRn5XEU60wjiiS0sHo1DtrWnqdBNXlj88SSXo4PkpOhwO
+ 99fM3uWV3beaTmKBPhwgpiPElM12nhPDnGs/qgIfiU1BQ7aiilx68eYcwLrYtS5t7C4U
+ oZHMdOSejaVXwR1xIcsQtvqDxA3upuJsLaYu3Pp6Ppg+hOuCCDcrMSEXJzYe9uB8dtC1
+ 7hlw==
+X-Gm-Message-State: AOAM531QIJBBnUF6HHxr6G2L0AsFCmLSPfpvosLnz6OxoSnaoKe/QWoN
+ ydsF5vcXWuA08gA2O3Q8woPeg17tiS8P5g==
+X-Google-Smtp-Source: ABdhPJwrENMFTL7plgMv5XCVtSpLsQ6IjgXK07MhfJhpWLPwXTO0ahP+pPhMz68U/bnCIpbnmiL9qQ==
+X-Received: by 2002:a92:c112:: with SMTP id p18mr301690ile.61.1634751663931;
+ Wed, 20 Oct 2021 10:41:03 -0700 (PDT)
+Received: from mail-io1-f43.google.com (mail-io1-f43.google.com.
+ [209.85.166.43])
+ by smtp.gmail.com with ESMTPSA id y12sm1552334iow.2.2021.10.20.10.41.03
  for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Oct 2021 10:32:12 -0700 (PDT)
-From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
- <christian.koenig@amd.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/ttm: fix memleak in ttm_transfered_destroy
-Date: Wed, 20 Oct 2021 19:32:11 +0200
-Message-Id: <20211020173211.2247-1-christian.koenig@amd.com>
-X-Mailer: git-send-email 2.25.1
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 20 Oct 2021 10:41:03 -0700 (PDT)
+Received: by mail-io1-f43.google.com with SMTP id z69so22517233iof.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Oct 2021 10:41:03 -0700 (PDT)
+X-Received: by 2002:a05:6638:2510:: with SMTP id
+ v16mr514672jat.68.1634751662770; 
+ Wed, 20 Oct 2021 10:41:02 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <1634732051-31282-1-git-send-email-quic_sbillaka@quicinc.com>
+ <1634732051-31282-3-git-send-email-quic_sbillaka@quicinc.com>
+In-Reply-To: <1634732051-31282-3-git-send-email-quic_sbillaka@quicinc.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Wed, 20 Oct 2021 10:40:51 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=U9==zFpYtiU1S=n+Ygy5Qa4xfA6GFMpHJUtkpjpNfcyw@mail.gmail.com>
+Message-ID: <CAD=FV=U9==zFpYtiU1S=n+Ygy5Qa4xfA6GFMpHJUtkpjpNfcyw@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] dt-bindings: Add SC7280 compatible string
+To: Sankeerth Billakanti <quic_sbillaka@quicinc.com>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>, 
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ freedreno <freedreno@lists.freedesktop.org>, 
+ LKML <linux-kernel@vger.kernel.org>, 
+ Sankeerth Billakanti <sbillaka@codeaurora.org>, Rob Clark <robdclark@gmail.com>,
+ Sean Paul <seanpaul@chromium.org>, Stephen Boyd <swboyd@chromium.org>, 
+ Kalyan Thota <kalyan_t@codeaurora.org>, Abhinav Kumar <abhinavk@codeaurora.org>,
+ Kuogee Hsieh <khsieh@codeaurora.org>,
+ Krishna Manikandan <mkrishn@codeaurora.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,26 +83,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We need to cleanup the fences for ghost objects as well.
+Hi,
 
-Signed-off-by: Christian König <christian.koenig@amd.com>
-CC: <stable@vger.kernel.org>
----
- drivers/gpu/drm/ttm/ttm_bo_util.c | 1 +
- 1 file changed, 1 insertion(+)
+On Wed, Oct 20, 2021 at 5:14 AM Sankeerth Billakanti
+<quic_sbillaka@quicinc.com> wrote:
+>
+> From: Sankeerth Billakanti <sbillaka@codeaurora.org>
+>
+> The Qualcomm SC7280 platform supports an eDP controller, add
+> compatible string for it to dp-controller.
+>
+> Signed-off-by: Sankeerth Billakanti <quic_sbillaka@quicinc.com>
+> ---
+>  Documentation/devicetree/bindings/display/msm/dp-controller.yaml | 1 +
+>  1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
-index 82af095f6b81..f37a8c53b35f 100644
---- a/drivers/gpu/drm/ttm/ttm_bo_util.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
-@@ -190,6 +190,7 @@ static void ttm_transfered_destroy(struct ttm_buffer_object *bo)
- 	struct ttm_transfer_obj *fbo;
- 
- 	fbo = container_of(bo, struct ttm_transfer_obj, base);
-+	dma_resv_fini(&fbo->base.base._resv);
- 	ttm_bo_put(fbo->bo);
- 	kfree(fbo);
- }
--- 
-2.25.1
+I think you ignored some of the feedback that was given on v1. Perhaps
+you could go back and re-read that feedback? See the replies to:
 
+https://lore.kernel.org/r/1628726882-27841-3-git-send-email-sbillaka@codeaurora.org/
+
+For one, ${SUBJECT} needs updating. It's probably as simple as adding
+the "msm/dp" tag, like:
+
+dt-bindings: msm/dp: Add SC7280 compatible string
+
+For another, Stephen requested that you add "sc7280-dp" too.
