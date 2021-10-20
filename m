@@ -1,154 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE449434A42
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Oct 2021 13:39:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A42A6434A97
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Oct 2021 13:53:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9DCDE6E249;
-	Wed, 20 Oct 2021 11:39:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 413B36E98B;
+	Wed, 20 Oct 2021 11:53:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0ECE86E249
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Oct 2021 11:39:15 +0000 (UTC)
-Received: from disco-boy.misterjones.org (disco-boy.misterjones.org
- [51.254.78.96])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 4BCC3611B0;
- Wed, 20 Oct 2021 11:39:15 +0000 (UTC)
-Received: from sofa.misterjones.org ([185.219.108.64] helo=why.misterjones.org)
- by disco-boy.misterjones.org with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <maz@kernel.org>)
- id 1md9w8-000Q93-UK; Wed, 20 Oct 2021 12:39:13 +0100
-Date: Wed, 20 Oct 2021 12:39:11 +0100
-Message-ID: <878ryoc4dc.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
- patrice.chotard@foss.st.com
-Cc: Rob Herring <robh+dt@kernel.org>,
- maxime coquelin <mcoquelin.stm32@gmail.com>,
- alexandre torgue <alexandre.torgue@foss.st.com>,
- michael turquette <mturquette@baylibre.com>, stephen boyd
- <sboyd@kernel.org>, herbert xu <herbert@gondor.apana.org.au>,
- "david s . miller" <davem@davemloft.net>, david airlie <airlied@linux.ie>,
- daniel vetter <daniel@ffwll.ch>, thierry reding <thierry.reding@gmail.com>,
- sam ravnborg <sam@ravnborg.org>, yannick fertre
- <yannick.fertre@foss.st.com>, philippe cornu <philippe.cornu@foss.st.com>,
- benjamin gaignard <benjamin.gaignard@linaro.org>,
- vinod koul <vkoul@kernel.org>, ohad ben-cohen <ohad@wizery.com>,
- bjorn andersson <bjorn.andersson@linaro.org>,
- baolin wang <baolin.wang7@gmail.com>, jonathan cameron <jic23@kernel.org>,
- lars-peter clausen <lars@metafoo.de>,
- olivier moysan <olivier.moysan@foss.st.com>,
- arnaud pouliquen <arnaud.pouliquen@foss.st.com>,
- Thomas Gleixner <tglx@linutronix.de>,
- Jassi Brar <jassisinghbrar@gmail.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Hugues Fruchet <hugues.fruchet@foss.st.com>,
- Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
- Lee Jones <lee.jones@linaro.org>,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
- Jakub Kicinski <kuba@kernel.org>,
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- Kishon Vijay Abraham I <kishon@ti.com>,
- Linus Walleij <linus.walleij@linaro.org>, Liam Girdwood
- <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Mathieu Poirier <mathieu.poirier@linaro.org>, Matt Mackall
- <mpm@selenic.com>, Alessandro Zummo <a.zummo@towertech.it>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J . Wysocki" <rafael@kernel.org>,
- Daniel Lezcano <daniel.lezcano@linaro.org>, Amit Kucheria
- <amitk@kernel.org>, Zhang Rui <rui.zhang@intel.com>,
- Wim Van Sebroeck <wim@linux-watchdog.org>, Guenter Roeck
- <linux@roeck-us.net>, Geert Uytterhoeven <geert+renesas@glider.be>,
- Viresh Kumar <viresh.kumar@linaro.org>,
- Ahmad Fatoum <a.fatoum@pengutronix.de>,
- Jagan Teki <jagan@amarulasolutions.com>, dillon min
- <dillon.minfei@gmail.com>, Marek Vasut <marex@denx.de>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sebastian Reichel <sre@kernel.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Paul Cercueil <paul@crapouillou.net>,
- Fabien Dessenne <fabien.dessenne@foss.st.com>,
- Christophe Roullier <christophe.roullier@foss.st.com>,
- Gabriel Fernandez <gabriel.fernandez@foss.st.com>,
- Lionel Debieve <lionel.debieve@foss.st.com>,
- Amelie Delaunay <amelie.delaunay@foss.st.com>,
- Pierre-Yves MORDRET <pierre-yves.mordret@foss.st.com>,
- Ludovic Barre <ludovic.barre@foss.st.com>,
- Christophe Kerello <christophe.kerello@foss.st.com>,
- pascal Paillet <p.paillet@foss.st.com>,
- Giuseppe Cavallaro <peppe.cavallaro@st.com>,
- Jose Abreu <joabreu@synopsys.com>, Le Ray <erwan.leray@foss.st.com>,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
- linux-crypto@vger.kernel.org, dri-devel@lists.freedesktop.org,
- dmaengine@vger.kernel.org, linux-remoteproc@vger.kernel.org,
- linux-i2c@vger.kernel.org, linux-iio@vger.kernel.org,
- alsa-devel@alsa-project.org, linux-media@vger.kernel.org,
- linux-mtd@lists.infradead.org, netdev@vger.kernel.org,
- linux-phy@lists.infradead.org, linux-gpio@vger.kernel.org,
- linux-rtc@vger.kernel.org, linux-serial@vger.kernel.org,
- linux-spi@vger.kernel.org, linux-pm@vger.kernel.org,
- linux-usb@vger.kernel.org, linux-watchdog@vger.kernel.org
-Subject: Re: dt-bindings: treewide: Update @st.com email address to
- @foss.st.com
-In-Reply-To: <22fb6f19-21eb-dcb5-fa31-bb243d4a7eaf@canonical.com>
-References: <20211020065000.21312-1-patrice.chotard@foss.st.com>
- <22fb6f19-21eb-dcb5-fa31-bb243d4a7eaf@canonical.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
- (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: krzysztof.kozlowski@canonical.com,
- patrice.chotard@foss.st.com, robh+dt@kernel.org, mcoquelin.stm32@gmail.com,
- alexandre.torgue@foss.st.com, mturquette@baylibre.com, sboyd@kernel.org,
- herbert@gondor.apana.org.au, davem@davemloft.net, airlied@linux.ie,
- daniel@ffwll.ch, thierry.reding@gmail.com, sam@ravnborg.org,
- yannick.fertre@foss.st.com, philippe.cornu@foss.st.com,
- benjamin.gaignard@linaro.org, vkoul@kernel.org, ohad@wizery.com,
- bjorn.andersson@linaro.org, baolin.wang7@gmail.com, jic23@kernel.org,
- lars@metafoo.de, olivier.moysan@foss.st.com, arnaud.pouliquen@foss.st.com,
- tglx@linutronix.de, jassisinghbrar@gmail.com, mchehab@kernel.org,
- hugues.fruchet@foss.st.com, fabrice.gasnier@foss.st.com, lee.jones@linaro.org,
- miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com, kuba@kernel.org,
- srinivas.kandagatla@linaro.org, kishon@ti.com, linus.walleij@linaro.org,
- lgirdwood@gmail.com, broonie@kernel.org, mathieu.poirier@linaro.org,
- mpm@selenic.com, a.zummo@towertech.i
- t, alexandre.belloni@bootlin.com, gregkh@linuxfoundation.org, rafael@kernel.org,
- daniel.lezcano@linaro.org, amitk@kernel.org, rui.zhang@intel.com,
- wim@linux-watchdog.org, linux@roeck-us.net, geert+renesas@glider.be,
- viresh.kumar@linaro.org, a.fatoum@pengutronix.de, jagan@amarulasolutions.com,
- dillon.minfei@gmail.com, marex@denx.de, laurent.pinchart@ideasonboard.com,
- sre@kernel.org, dmitry.torokhov@gmail.com, paul@crapouillou.net,
- fabien.dessenne@foss.st.com, christophe.roullier@foss.st.com,
- gabriel.fernandez@foss.st.com, lionel.debieve@foss.st.com,
- amelie.delaunay@foss.st.com, pierre-yves.mordret@foss.st.com,
- ludovic.barre@foss.st.com, christophe.kerello@foss.st.com,
- p.paillet@foss.st.com, peppe.cavallaro@st.com, joabreu@synopsys.com,
- erwan.leray@foss.st.com, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
- linux-crypto@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- dmaengine@vger.kernel.org, linux-remoteproc@vger.kernel.org,
- linux-i2c@vger.kernel.org, linux-iio@vger.kernel.org,
- alsa-devel@alsa-project.org, linux-media@vger.kernel.org,
- linux-mtd@lists.infradead.org, netdev@vger.kernel.org,
- linux-phy@lists.infradead.org, linux-gpio@vger.kernel.org,
- linux-rtc@vger.kernel.org, linux-serial@vger.kernel.org,
- linux-spi@vger.kernel.org, linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-watchdog@vger.kernel.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org);
- SAEximRunCond expanded to false
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18D706E981;
+ Wed, 20 Oct 2021 11:53:14 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 6AD9C610FF;
+ Wed, 20 Oct 2021 11:53:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1634730793;
+ bh=LPilRozXFzNZOz01IWQiBAPTdt+ygRCJKYug0spKdNQ=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=jvhn22dibhmZuoveod285NcYtaYI65jhGHLy4kXrkuPF+lOrVtlQjNFtJ0VXEAKgd
+ 4yHPAa05ane+E/hdIOrkMcEP9oZsc50AZXny5UjwlzM+gJf2HdmqB3qH4Yn7fg7hk6
+ lFhu+cOcz0rOiyijiAX3Uq2RK1nCaLHHT51hAHuT/PGz67DhHDUvF5pIyWHj9PjYJF
+ Jj+83ZGrrpbzJWOPHmCyyG8Bno0Yj0DvfyXxDtsMDzSSVvc/l+VFwEQJ+ohOzOhJnX
+ GEtYyyPldbZ+9r8a6DTPRe1cTjcF0vwJlGp/iaVVvBnkcGdqlt3GadBmBGmJM8Sbka
+ wd/mj3iWVR/0Q==
+Date: Wed, 20 Oct 2021 17:23:10 +0530
+From: Vinod Koul <vkoul@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Rob Clark <robdclark@gmail.com>, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Jonathan Marek <jonathan@marek.ca>,
+ Abhinav Kumar <abhinavk@codeaurora.org>,
+ Jeffrey Hugo <jeffrey.l.hugo@gmail.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org
+Subject: Re: [PATCH v2 10/11] drm/msm/dsi: Add support for DSC configuration
+Message-ID: <YXADJjJ1y9Xp2Zlj@matsya>
+References: <20211007070900.456044-1-vkoul@kernel.org>
+ <20211007070900.456044-11-vkoul@kernel.org>
+ <785fe3bf-71fa-aabd-dadf-828b91396fba@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <785fe3bf-71fa-aabd-dadf-828b91396fba@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -164,26 +60,119 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 20 Oct 2021 08:45:02 +0100,
-Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com> wrote:
-> 
-> On 20/10/2021 08:50, patrice.chotard@foss.st.com wrote:
-> > From: Patrice Chotard <patrice.chotard@foss.st.com>
+On 15-10-21, 02:18, Dmitry Baryshkov wrote:
+> On 07/10/2021 10:08, Vinod Koul wrote:
+> > When DSC is enabled, we need to configure DSI registers accordingly and
+> > configure the respective stream compression registers.
 > > 
-> > Not all @st.com email address are concerned, only people who have
-> > a specific @foss.st.com email will see their entry updated.
-> > For some people, who left the company, remove their email.
+> > Add support to calculate the register setting based on DSC params and
+> > timing information and configure these registers.
 > > 
+> > Signed-off-by: Vinod Koul <vkoul@kernel.org>
+> > ---
+> >   drivers/gpu/drm/msm/dsi/dsi.xml.h  |  10 +++
+> >   drivers/gpu/drm/msm/dsi/dsi_host.c | 123 ++++++++++++++++++++++++++++-
+> >   2 files changed, 132 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/gpu/drm/msm/dsi/dsi.xml.h b/drivers/gpu/drm/msm/dsi/dsi.xml.h
+> > index 49b551ad1bff..c1c85df58c4b 100644
+> > --- a/drivers/gpu/drm/msm/dsi/dsi.xml.h
+> > +++ b/drivers/gpu/drm/msm/dsi/dsi.xml.h
+> > @@ -706,4 +706,14 @@ static inline uint32_t DSI_VERSION_MAJOR(uint32_t val)
+> >   #define REG_DSI_CPHY_MODE_CTRL					0x000002d4
+> > +#define REG_DSI_VIDEO_COMPRESSION_MODE_CTRL			0x0000029c
+> > +
+> > +#define REG_DSI_VIDEO_COMPRESSION_MODE_CTRL2			0x000002a0
+> > +
+> > +#define REG_DSI_COMMAND_COMPRESSION_MODE_CTRL			0x000002a4
+> > +
+> > +#define REG_DSI_COMMAND_COMPRESSION_MODE_CTRL2			0x000002a8
+> > +
+> > +#define REG_DSI_COMMAND_COMPRESSION_MODE_CTRL3			0x000002ac
+> > +
+> >   #endif /* DSI_XML */
+> > diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
+> > index ba24458c2e38..86e36a3e97b6 100644
+> > --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
+> > +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
+> > @@ -946,6 +946,26 @@ static void dsi_ctrl_config(struct msm_dsi_host *msm_host, bool enable,
+> >   		dsi_write(msm_host, REG_DSI_CPHY_MODE_CTRL, BIT(0));
+> >   }
+> > +static int dsi_dsc_update_pic_dim(struct msm_display_dsc_config *dsc,
+> > +				  int pic_width, int pic_height)
+> > +{
+> > +	if (!dsc || !pic_width || !pic_height) {
+> > +		pr_err("DSI: invalid input: pic_width: %d pic_height: %d\n", pic_width, pic_height);
+> > +		return -EINVAL;
+> > +	}
+> > +
+> > +	if ((pic_width % dsc->drm->slice_width) || (pic_height % dsc->drm->slice_height)) {
+> > +		pr_err("DSI: pic_dim %dx%d has to be multiple of slice %dx%d\n",
+> > +		       pic_width, pic_height, dsc->drm->slice_width, dsc->drm->slice_height);
+> > +		return -EINVAL;
+> > +	}
 > 
-> Please split simple address change from maintainer updates (removal,
-> addition).
+> This should go to the mode_valid() callback for the dsi_bridge.
+
+Done added a new callback for dsi_bridge to check the mode valid if DSC
+is enabled
+
 > 
-> Also would be nice to see here explained *why* are you doing this.
+> > +
+> > +	dsc->drm->pic_width = pic_width;
+> > +	dsc->drm->pic_height = pic_height;
+> > +
+> > +	return 0;
+> > +}
+> > +
+> >   static void dsi_timing_setup(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
+> >   {
+> >   	struct drm_display_mode *mode = msm_host->mode;
+> > @@ -978,7 +998,72 @@ static void dsi_timing_setup(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
+> >   		hdisplay /= 2;
+> >   	}
+> > +	if (msm_host->dsc) {
+> > +		struct msm_display_dsc_config *dsc = msm_host->dsc;
+> > +
+> > +		/* update dsc params with timing params */
+> > +		dsi_dsc_update_pic_dim(dsc, mode->hdisplay, mode->vdisplay);
+> > +		DBG("Mode Width- %d x Height %d\n", dsc->drm->pic_width, dsc->drm->pic_height);
+> > +
+> > +		/* we do the calculations for dsc parameters here so that
+> > +		 * panel can use these parameters
+> > +		 */
+> > +		dsi_populate_dsc_params(dsc);
+> > +
+> > +		/* Divide the display by 3 but keep back/font porch and
+> > +		 * pulse width same
+> > +		 */
+> > +		h_total -= hdisplay;
+> > +		hdisplay /= 3;
+> > +		h_total += hdisplay;
+> > +		ha_end = ha_start + hdisplay;
+> > +	}
+> > +
+> >   	if (msm_host->mode_flags & MIPI_DSI_MODE_VIDEO) {
+> > +		if (msm_host->dsc) {
+> > +			struct msm_display_dsc_config *dsc = msm_host->dsc;
+> > +			u32 reg, intf_width, slice_per_intf;
+> > +			u32 total_bytes_per_intf;
+> > +
+> > +			/* first calculate dsc parameters and then program
+> > +			 * compress mode registers
+> > +			 */
+> > +			intf_width = hdisplay;
+> > +			slice_per_intf = DIV_ROUND_UP(intf_width, dsc->drm->slice_width);
+> > +
+> > +			/* If slice_count > slice_per_intf, then use 1
+> > +			 * This can happen during partial update
+> > +			 */
+> > +				dsc->drm->slice_count = 1;
+> 
+> Is the if() missing here? The indentpation and the comment seems unclear
+> about that.
 
-And why this can't be done with a single update to .mailmap, like
-anyone else does.
-
-	M.
+yes, fixed that
 
 -- 
-Without deviation from the norm, progress is not possible.
+~Vinod
