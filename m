@@ -2,67 +2,153 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9C6B4348B7
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Oct 2021 12:12:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE449434A42
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Oct 2021 13:39:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC7C86E964;
-	Wed, 20 Oct 2021 10:12:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9DCDE6E249;
+	Wed, 20 Oct 2021 11:39:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
- [IPv6:2a00:1450:4864:20::12c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BEE5A6E964
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Oct 2021 10:12:01 +0000 (UTC)
-Received: by mail-lf1-x12c.google.com with SMTP id x27so13932159lfa.9
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Oct 2021 03:12:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=o5vW3+1/Yb9DoK8RFz9pKj6hMdqBTflWtxCfKKNKjIM=;
- b=ll8xtqZzt4j/xPMOFRixiOUUn0YawGc0VpIb27yrU/5xEc2mz9U7AIdXr9JuC/4fNY
- Kbn29sUg9B/ceg0QlMmILfZwibgluYxemdn3/tXoz4Dw5IE6TN7mK0jE8ig9ytSmi1TD
- B9KKbY+j3HXZ2uK17Bbu8IM6RLJZ9itwBOrR/m1obI+vU2upfUmChSjVnu3jV23pFVln
- tu3XJxSWcEH411KfT9u797yh1Y966wFahCYFKbaZfy18abMmyS3l668wHNjfRiT3EDRP
- eBonaGqc8zVkf8va7O2qG7bEAUjKvAceZJYfBNWVb4yTvPXvE5n1o1GAoYvJLyh7C2vT
- jSGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=o5vW3+1/Yb9DoK8RFz9pKj6hMdqBTflWtxCfKKNKjIM=;
- b=7MC3YAsEecMGWkq+9OthOwqu4j3Z3Ii93dmUU1eFuOoShybVE+76Gtp3RCkkLPgJ6o
- lkERlaYK4+UUeXt+kwe0uOx0l4TQJRMD3m/5pbEYIeRAHKHnbdVHGCTc7O1Fg6Dpn+eV
- cZB+WUhOWdFFNwGz7j9whgwr/8gsucApvOzYfU3vN+Z6Q9Uwrdl7RgksVI9abUbCeGBS
- 9eI1nl1TrUkIMFH7wBCZUorAhT1wCY3qJM+GgsTpFdx8yJFpszuxHmXvrZLQsmcHccWX
- jKVI1uf2GpmvWbz3RV2IdXsx5bKL3suWCwurRev9I0KvDVnXSv5YcQZB2Oi7VwaH80L/
- hX+A==
-X-Gm-Message-State: AOAM530eZV4/H+GhgWxDhPMiwCYZccaJsU88dXsQ3IdNki6X6ZhT9Xs2
- 3Arsz2n1TZUjAUJVVZRHx+J2fH473xGmKfUAfY0=
-X-Google-Smtp-Source: ABdhPJz0yOlCXwfArD9Mal5dBBBBtkMwEzgvgerdM1r51AASanzPqDKjABdfiE+rhkOn/dNQZ6rtdgQ7i2KZDFEoQ1s=
-X-Received: by 2002:ac2:4e85:: with SMTP id o5mr11286411lfr.105.1634724720016; 
- Wed, 20 Oct 2021 03:12:00 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210813145302.3933-1-kevin3.tang@gmail.com>
- <20210813145302.3933-7-kevin3.tang@gmail.com>
- <20210917154047.leojvqjqjj2sg34l@gilmour>
- <CAFPSGXZbqh0f6kEoQaq_Nt677ksVS6QPdAa5==KVVAszSAuasw@mail.gmail.com>
- <20210928092805.wbc4ev3ze7a7zgqr@gilmour>
-In-Reply-To: <20210928092805.wbc4ev3ze7a7zgqr@gilmour>
-From: Kevin Tang <kevin3.tang@gmail.com>
-Date: Wed, 20 Oct 2021 18:09:32 +0800
-Message-ID: <CAFPSGXZta-oJ7Hp3AyiGjpXr5e42g3r24Su6-L6HOwMR4QU5Zw@mail.gmail.com>
-Subject: Re: [PATCH v6 6/6] drm/sprd: add Unisoc's drm mipi dsi&dphy driver
-To: Maxime Ripard <maxime@cerno.tech>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Sean Paul <sean@poorly.run>, 
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>, 
- Mark Rutland <mark.rutland@arm.com>, pony1.wu@gmail.com,
- Orson Zhai <orsonzhai@gmail.com>, Chunyan Zhang <zhang.lyra@gmail.com>, 
- "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>, 
- ML dri-devel <dri-devel@lists.freedesktop.org>, devicetree@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0ECE86E249
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Oct 2021 11:39:15 +0000 (UTC)
+Received: from disco-boy.misterjones.org (disco-boy.misterjones.org
+ [51.254.78.96])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 4BCC3611B0;
+ Wed, 20 Oct 2021 11:39:15 +0000 (UTC)
+Received: from sofa.misterjones.org ([185.219.108.64] helo=why.misterjones.org)
+ by disco-boy.misterjones.org with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <maz@kernel.org>)
+ id 1md9w8-000Q93-UK; Wed, 20 Oct 2021 12:39:13 +0100
+Date: Wed, 20 Oct 2021 12:39:11 +0100
+Message-ID: <878ryoc4dc.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+ patrice.chotard@foss.st.com
+Cc: Rob Herring <robh+dt@kernel.org>,
+ maxime coquelin <mcoquelin.stm32@gmail.com>,
+ alexandre torgue <alexandre.torgue@foss.st.com>,
+ michael turquette <mturquette@baylibre.com>, stephen boyd
+ <sboyd@kernel.org>, herbert xu <herbert@gondor.apana.org.au>,
+ "david s . miller" <davem@davemloft.net>, david airlie <airlied@linux.ie>,
+ daniel vetter <daniel@ffwll.ch>, thierry reding <thierry.reding@gmail.com>,
+ sam ravnborg <sam@ravnborg.org>, yannick fertre
+ <yannick.fertre@foss.st.com>, philippe cornu <philippe.cornu@foss.st.com>,
+ benjamin gaignard <benjamin.gaignard@linaro.org>,
+ vinod koul <vkoul@kernel.org>, ohad ben-cohen <ohad@wizery.com>,
+ bjorn andersson <bjorn.andersson@linaro.org>,
+ baolin wang <baolin.wang7@gmail.com>, jonathan cameron <jic23@kernel.org>,
+ lars-peter clausen <lars@metafoo.de>,
+ olivier moysan <olivier.moysan@foss.st.com>,
+ arnaud pouliquen <arnaud.pouliquen@foss.st.com>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Jassi Brar <jassisinghbrar@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Hugues Fruchet <hugues.fruchet@foss.st.com>,
+ Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
+ Lee Jones <lee.jones@linaro.org>,
+ Miquel Raynal <miquel.raynal@bootlin.com>,
+ Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Jakub Kicinski <kuba@kernel.org>,
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+ Kishon Vijay Abraham I <kishon@ti.com>,
+ Linus Walleij <linus.walleij@linaro.org>, Liam Girdwood
+ <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>, Matt Mackall
+ <mpm@selenic.com>, Alessandro Zummo <a.zummo@towertech.it>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J . Wysocki" <rafael@kernel.org>,
+ Daniel Lezcano <daniel.lezcano@linaro.org>, Amit Kucheria
+ <amitk@kernel.org>, Zhang Rui <rui.zhang@intel.com>,
+ Wim Van Sebroeck <wim@linux-watchdog.org>, Guenter Roeck
+ <linux@roeck-us.net>, Geert Uytterhoeven <geert+renesas@glider.be>,
+ Viresh Kumar <viresh.kumar@linaro.org>,
+ Ahmad Fatoum <a.fatoum@pengutronix.de>,
+ Jagan Teki <jagan@amarulasolutions.com>, dillon min
+ <dillon.minfei@gmail.com>, Marek Vasut <marex@denx.de>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sebastian Reichel <sre@kernel.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Paul Cercueil <paul@crapouillou.net>,
+ Fabien Dessenne <fabien.dessenne@foss.st.com>,
+ Christophe Roullier <christophe.roullier@foss.st.com>,
+ Gabriel Fernandez <gabriel.fernandez@foss.st.com>,
+ Lionel Debieve <lionel.debieve@foss.st.com>,
+ Amelie Delaunay <amelie.delaunay@foss.st.com>,
+ Pierre-Yves MORDRET <pierre-yves.mordret@foss.st.com>,
+ Ludovic Barre <ludovic.barre@foss.st.com>,
+ Christophe Kerello <christophe.kerello@foss.st.com>,
+ pascal Paillet <p.paillet@foss.st.com>,
+ Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+ Jose Abreu <joabreu@synopsys.com>, Le Ray <erwan.leray@foss.st.com>,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
+ linux-crypto@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ dmaengine@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+ linux-i2c@vger.kernel.org, linux-iio@vger.kernel.org,
+ alsa-devel@alsa-project.org, linux-media@vger.kernel.org,
+ linux-mtd@lists.infradead.org, netdev@vger.kernel.org,
+ linux-phy@lists.infradead.org, linux-gpio@vger.kernel.org,
+ linux-rtc@vger.kernel.org, linux-serial@vger.kernel.org,
+ linux-spi@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-usb@vger.kernel.org, linux-watchdog@vger.kernel.org
+Subject: Re: dt-bindings: treewide: Update @st.com email address to
+ @foss.st.com
+In-Reply-To: <22fb6f19-21eb-dcb5-fa31-bb243d4a7eaf@canonical.com>
+References: <20211020065000.21312-1-patrice.chotard@foss.st.com>
+ <22fb6f19-21eb-dcb5-fa31-bb243d4a7eaf@canonical.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: krzysztof.kozlowski@canonical.com,
+ patrice.chotard@foss.st.com, robh+dt@kernel.org, mcoquelin.stm32@gmail.com,
+ alexandre.torgue@foss.st.com, mturquette@baylibre.com, sboyd@kernel.org,
+ herbert@gondor.apana.org.au, davem@davemloft.net, airlied@linux.ie,
+ daniel@ffwll.ch, thierry.reding@gmail.com, sam@ravnborg.org,
+ yannick.fertre@foss.st.com, philippe.cornu@foss.st.com,
+ benjamin.gaignard@linaro.org, vkoul@kernel.org, ohad@wizery.com,
+ bjorn.andersson@linaro.org, baolin.wang7@gmail.com, jic23@kernel.org,
+ lars@metafoo.de, olivier.moysan@foss.st.com, arnaud.pouliquen@foss.st.com,
+ tglx@linutronix.de, jassisinghbrar@gmail.com, mchehab@kernel.org,
+ hugues.fruchet@foss.st.com, fabrice.gasnier@foss.st.com, lee.jones@linaro.org,
+ miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com, kuba@kernel.org,
+ srinivas.kandagatla@linaro.org, kishon@ti.com, linus.walleij@linaro.org,
+ lgirdwood@gmail.com, broonie@kernel.org, mathieu.poirier@linaro.org,
+ mpm@selenic.com, a.zummo@towertech.i
+ t, alexandre.belloni@bootlin.com, gregkh@linuxfoundation.org, rafael@kernel.org,
+ daniel.lezcano@linaro.org, amitk@kernel.org, rui.zhang@intel.com,
+ wim@linux-watchdog.org, linux@roeck-us.net, geert+renesas@glider.be,
+ viresh.kumar@linaro.org, a.fatoum@pengutronix.de, jagan@amarulasolutions.com,
+ dillon.minfei@gmail.com, marex@denx.de, laurent.pinchart@ideasonboard.com,
+ sre@kernel.org, dmitry.torokhov@gmail.com, paul@crapouillou.net,
+ fabien.dessenne@foss.st.com, christophe.roullier@foss.st.com,
+ gabriel.fernandez@foss.st.com, lionel.debieve@foss.st.com,
+ amelie.delaunay@foss.st.com, pierre-yves.mordret@foss.st.com,
+ ludovic.barre@foss.st.com, christophe.kerello@foss.st.com,
+ p.paillet@foss.st.com, peppe.cavallaro@st.com, joabreu@synopsys.com,
+ erwan.leray@foss.st.com, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
+ linux-crypto@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ dmaengine@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+ linux-i2c@vger.kernel.org, linux-iio@vger.kernel.org,
+ alsa-devel@alsa-project.org, linux-media@vger.kernel.org,
+ linux-mtd@lists.infradead.org, netdev@vger.kernel.org,
+ linux-phy@lists.infradead.org, linux-gpio@vger.kernel.org,
+ linux-rtc@vger.kernel.org, linux-serial@vger.kernel.org,
+ linux-spi@vger.kernel.org, linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-watchdog@vger.kernel.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org);
+ SAEximRunCond expanded to false
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,241 +164,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Maxime Ripard <maxime@cerno.tech> =E4=BA=8E2021=E5=B9=B49=E6=9C=8828=E6=97=
-=A5=E5=91=A8=E4=BA=8C =E4=B8=8B=E5=8D=885:28=E5=86=99=E9=81=93=EF=BC=9A
->
-> On Sun, Sep 26, 2021 at 10:31:53PM +0800, Kevin Tang wrote:
-> > Maxime Ripard <maxime@cerno.tech> =E4=BA=8E2021=E5=B9=B49=E6=9C=8817=E6=
-=97=A5=E5=91=A8=E4=BA=94 =E4=B8=8B=E5=8D=8811:40=E5=86=99=E9=81=93=EF=BC=9A
-> > > > +static void sprd_dsi_encoder_mode_set(struct drm_encoder *encoder,
-> > > > +                              struct drm_display_mode *mode,
-> > > > +                              struct drm_display_mode *adj_mode)
-> > > > +{
-> > > > +     struct sprd_dsi *dsi =3D encoder_to_dsi(encoder);
-> > > > +
-> > > > +     drm_dbg(dsi->drm, "%s() set mode: %s\n", __func__, dsi->mode-=
->name);
-> > > > +}
-> > >
-> > > You don't need that function?
-> > No need for now. need to delete it?
->
-> Yes
->
-> > > > +static int sprd_dsi_encoder_atomic_check(struct drm_encoder *encod=
-er,
-> > > > +                                 struct drm_crtc_state *crtc_state=
-,
-> > > > +                                 struct drm_connector_state *conn_=
-state)
-> > > > +{
-> > > > +     return 0;
-> > > > +}
-> > >
-> > > Ditto
-> >
-> > No need for now. need to delete it?
->
-> Yep
->
-> > > > +static int sprd_dsi_find_panel(struct sprd_dsi *dsi)
-> > > > +{
-> > > > +     struct device *dev =3D dsi->host.dev;
-> > > > +     struct device_node *child, *lcds_node;
-> > > > +     struct drm_panel *panel;
-> > > > +
-> > > > +     /* search /lcds child node first */
-> > > > +     lcds_node =3D of_find_node_by_path("/lcds");
-> > > > +     for_each_child_of_node(lcds_node, child) {
-> > > > +             panel =3D of_drm_find_panel(child);
-> > > > +             if (!IS_ERR(panel)) {
-> > > > +                     dsi->panel =3D panel;
-> > > > +                     return 0;
-> > > > +             }
-> > > > +     }
-> > > > +
-> > > > +     /*
-> > > > +      * If /lcds child node search failed, we search
-> > > > +      * the child of dsi host node.
-> > > > +      */
-> > > > +     for_each_child_of_node(dev->of_node, child) {
-> > > > +             panel =3D of_drm_find_panel(child);
-> > > > +             if (!IS_ERR(panel)) {
-> > > > +                     dsi->panel =3D panel;
-> > > > +                     return 0;
-> > > > +             }
-> > > > +     }
-> > > > +
-> > > > +     drm_err(dsi->drm, "of_drm_find_panel() failed\n");
-> > > > +     return -ENODEV;
-> > > > +}
-> > >
-> > > Just use devm_drm_of_get_bridge there
-> >
-> > We use drm_panel_init and drm_panel_add API to add panel, so here is a
-> > panel device, not a bridge.
->
-> Like Sam said, the panel API is on its way out and is being superseded
-> by bridge_panels.
-hi maxime,
-If get a panel by devm_drm_of_get_bridge, how to use bridge api to access p=
-anel?
-it seems that pre_enable/enable still needs to be implemented, so we
-need to add drm_bridge_func,
-then move the panel-related operations in drm_encoder_helper_funcs to
-drm_bridge_funcs callback?
->
-> > > > +static int sprd_dsi_host_init(struct sprd_dsi *dsi, struct device =
-*dev)
-> > > > +{
-> > > > +     int ret;
-> > > > +
-> > > > +     dsi->host.dev =3D dev;
-> > > > +     dsi->host.ops =3D &sprd_dsi_host_ops;
-> > > > +
-> > > > +     ret =3D mipi_dsi_host_register(&dsi->host);
-> > > > +     if (ret)
-> > > > +             drm_err(dsi->drm, "failed to register dsi host\n");
-> > > > +
-> > > > +     return ret;
-> > > > +}
-> > > >
-> > > > [...]
-> > > >
-> > > > +static int sprd_dsi_connector_init(struct drm_device *drm, struct =
-sprd_dsi *dsi)
-> > > > +{
-> > > > +     struct drm_encoder *encoder =3D &dsi->encoder;
-> > > > +     struct drm_connector *connector =3D &dsi->connector;
-> > > > +     int ret;
-> > > > +
-> > > > +     connector->polled =3D DRM_CONNECTOR_POLL_HPD;
-> > > > +
-> > > > +     ret =3D drm_connector_init(drm, connector,
-> > > > +                              &sprd_dsi_atomic_connector_funcs,
-> > > > +                              DRM_MODE_CONNECTOR_DSI);
-> > > > +     if (ret) {
-> > > > +             drm_err(drm, "drm_connector_init() failed\n");
-> > > > +             return ret;
-> > > > +     }
-> > > > +
-> > > > +     drm_connector_helper_add(connector,
-> > > > +                              &sprd_dsi_connector_helper_funcs);
-> > > > +
-> > > > +     drm_connector_attach_encoder(connector, encoder);
-> > > > +
-> > > > +     return 0;
-> > > > +}
-> > > > +
-> > > > +static int sprd_dsi_context_init(struct sprd_dsi *dsi,
-> > > > +                     struct device *dev)
-> > > > +{
-> > > > +     struct platform_device *pdev =3D to_platform_device(dev);
-> > > > +     struct dsi_context *ctx =3D &dsi->ctx;
-> > > > +     struct resource *res;
-> > > > +
-> > > > +     res =3D platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> > > > +     ctx->base =3D devm_ioremap(dev, res->start, resource_size(res=
-));
-> > > > +     if (!ctx->base) {
-> > > > +             drm_err(dsi->drm, "failed to map dsi host registers\n=
-");
-> > > > +             return -ENXIO;
-> > > > +     }
-> > > > +
-> > > > +     ctx->pll =3D devm_kzalloc(dev, sizeof(*ctx->pll), GFP_KERNEL)=
-;
-> > > > +     if (!ctx->pll)
-> > > > +             return -ENOMEM;
-> > > > +
-> > > > +     ctx->regmap =3D devm_regmap_init(dev, &regmap_tst_io, dsi, &b=
-yte_config);
-> > > > +     if (IS_ERR(ctx->regmap)) {
-> > > > +             drm_err(dsi->drm, "dphy regmap init failed\n");
-> > > > +             return PTR_ERR(ctx->regmap);
-> > > > +     }
-> > > > +
-> > > > +     ctx->data_hs2lp =3D 120;
-> > > > +     ctx->data_lp2hs =3D 500;
-> > > > +     ctx->clk_hs2lp =3D 4;
-> > > > +     ctx->clk_lp2hs =3D 15;
-> > > > +     ctx->max_rd_time =3D 6000;
-> > > > +     ctx->int0_mask =3D 0xffffffff;
-> > > > +     ctx->int1_mask =3D 0xffffffff;
-> > > > +     ctx->enabled =3D true;
-> > > > +
-> > > > +     return 0;
-> > > > +}
-> > > > +
-> > > > +static int sprd_dsi_bind(struct device *dev, struct device *master=
-, void *data)
-> > > > +{
-> > > > +     struct drm_device *drm =3D data;
-> > > > +     struct sprd_dsi *dsi;
-> > > > +     int ret;
-> > > > +
-> > > > +     dsi =3D sprd_dsi_encoder_init(drm, dev);
-> > > > +     if (IS_ERR(dsi))
-> > > > +             return PTR_ERR(dsi);
-> > > > +
-> > > > +     dsi->drm =3D drm;
-> > > > +     dev_set_drvdata(dev, dsi);
-> > > > +
-> > > > +     ret =3D sprd_dsi_connector_init(drm, dsi);
-> > > > +     if (ret)
-> > > > +             return ret;
-> > > > +
-> > > > +     ret =3D sprd_dsi_context_init(dsi, dev);
-> > > > +     if (ret)
-> > > > +             return ret;
-> > > > +
-> > > > +     ret =3D sprd_dsi_host_init(dsi, dev);
-> > > > +     if (ret)
-> > > > +             return ret;
-> > > > +
-> > > > +     return 0;
-> > > > +}
-> > > > +
-> > > > +static void sprd_dsi_unbind(struct device *dev,
-> > > > +                     struct device *master, void *data)
-> > > > +{
-> > > > +     struct sprd_dsi *dsi =3D dev_get_drvdata(dev);
-> > > > +
-> > > > +     mipi_dsi_host_unregister(&dsi->host);
-> > > > +}
-> > > > +
-> > > > +static const struct component_ops dsi_component_ops =3D {
-> > > > +     .bind   =3D sprd_dsi_bind,
-> > > > +     .unbind =3D sprd_dsi_unbind,
-> > > > +};
-> > > > +
-> > > > +static const struct of_device_id dsi_match_table[] =3D {
-> > > > +     { .compatible =3D "sprd,sharkl3-dsi-host" },
-> > > > +     { /* sentinel */ },
-> > > > +};
-> > > > +
-> > > > +static int sprd_dsi_probe(struct platform_device *pdev)
-> > > > +{
-> > > > +     return component_add(&pdev->dev, &dsi_component_ops);
-> > >
-> > > In order to prevent probe issues, you need to register you mipi_dsi_h=
-ost
-> > > here, see:
-> > > https://lore.kernel.org/dri-devel/20210910101218.1632297-3-maxime@cer=
-no.tech/
-> >
-> > We register mipi_dsi_hot on our panel driver, like this:
-> >
-> > 1092   ret =3D mipi_dsi_attach(slave);
-> > 1093   if (ret) {
-> > 1094   DRM_ERROR("failed to attach dsi panel to host\n");
-> > 1095   drm_panel_remove(&panel->base);
-> > 1096   return ret;
-> > 1097   }
->
-> It's not about when you attach, but when you call
-> mipi_dsi_host_register. You're doing it in sprd_dsi_host_init that you
-> call in bind(), which is against the best practices and will create
-> probing issues in the future.
->
-> Maxime
+On Wed, 20 Oct 2021 08:45:02 +0100,
+Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com> wrote:
+> 
+> On 20/10/2021 08:50, patrice.chotard@foss.st.com wrote:
+> > From: Patrice Chotard <patrice.chotard@foss.st.com>
+> > 
+> > Not all @st.com email address are concerned, only people who have
+> > a specific @foss.st.com email will see their entry updated.
+> > For some people, who left the company, remove their email.
+> > 
+> 
+> Please split simple address change from maintainer updates (removal,
+> addition).
+> 
+> Also would be nice to see here explained *why* are you doing this.
+
+And why this can't be done with a single update to .mailmap, like
+anyone else does.
+
+	M.
+
+-- 
+Without deviation from the norm, progress is not possible.
