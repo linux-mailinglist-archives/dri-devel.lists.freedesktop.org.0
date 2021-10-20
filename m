@@ -1,40 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A305C435A6F
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Oct 2021 07:45:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AB420435BA6
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Oct 2021 09:25:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE3D96EB4B;
-	Thu, 21 Oct 2021 05:45:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 37A476EB90;
+	Thu, 21 Oct 2021 07:25:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE33F6EB3E;
- Thu, 21 Oct 2021 05:45:09 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10143"; a="289793334"
-X-IronPort-AV: E=Sophos;i="5.87,168,1631602800"; d="scan'208";a="289793334"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Oct 2021 22:45:08 -0700
-X-IronPort-AV: E=Sophos;i="5.87,168,1631602800"; d="scan'208";a="632059356"
-Received: from mstribae-mobl1.ger.corp.intel.com (HELO [10.249.254.146])
- ([10.249.254.146])
- by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Oct 2021 22:45:07 -0700
-Message-ID: <7ba17b08f45009e16c5a383f1e43eaee4bc14718.camel@linux.intel.com>
-Subject: Re: [PATCH] drm/i915/selftests: Skip hangcheck selftest on DG1
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Matthew Brost <matthew.brost@intel.com>,
- intel-gfx@lists.freedesktop.org,  dri-devel@lists.freedesktop.org
-Cc: john.c.harrison@intel.com
-Date: Thu, 21 Oct 2021 07:45:05 +0200
-In-Reply-To: <20211011194031.16502-1-matthew.brost@intel.com>
-References: <20211011194031.16502-1-matthew.brost@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Greylist: delayed 363 seconds by postgrey-1.36 at gabe;
+ Wed, 20 Oct 2021 12:20:43 UTC
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A68D16E284;
+ Wed, 20 Oct 2021 12:20:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1634732444; x=1666268444;
+ h=from:to:cc:subject:date:message-id;
+ bh=xee9a9OQlfjI1byPU2DSnr6ScUFGZ5MBgkmQyIdABuM=;
+ b=CFLY6O3DnCmZiRojV7gYDr7ZdAq+4pwoy+jVeLuds/rD3637oF5rx9dv
+ UmKWBpU7EJAWu/ch2YB77BYE7zqGpDpTnvVcVw5khxwz/a/JENlNhUtWV
+ 6yr+UaT4tLl47Ck5oL4fzopJrv8mECQoEm6kmWaj8lSyzjNv4NLMxQYH2 M=;
+Received: from ironmsg07-lv.qualcomm.com ([10.47.202.151])
+ by alexa-out.qualcomm.com with ESMTP; 20 Oct 2021 05:14:39 -0700
+X-QCInternal: smtphost
+Received: from ironmsg01-blr.qualcomm.com ([10.86.208.130])
+ by ironmsg07-lv.qualcomm.com with ESMTP/TLS/AES256-SHA;
+ 20 Oct 2021 05:14:38 -0700
+X-QCInternal: smtphost
+Received: from sbillaka-linux.qualcomm.com ([10.204.66.13])
+ by ironmsg01-blr.qualcomm.com with ESMTP; 20 Oct 2021 17:44:21 +0530
+Received: by sbillaka-linux.qualcomm.com (Postfix, from userid 2305739)
+ id 6D8B520E28; Wed, 20 Oct 2021 17:44:20 +0530 (IST)
+From: Sankeerth Billakanti <quic_sbillaka@quicinc.com>
+To: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: Sankeerth Billakanti <quic_sbillaka@quicinc.com>, robdclark@gmail.com,
+ seanpaul@chromium.org, swboyd@chromium.org, kalyan_t@codeaurora.org,
+ abhinavk@codeaurora.org, dianders@chromium.org, khsieh@codeaurora.org,
+ mkrishn@codeaurora.org, sbillaka@codeaurora.org
+Subject: [PATCH v2 0/2] Add support for eDP on SC7280
+Date: Wed, 20 Oct 2021 17:44:09 +0530
+Message-Id: <1634732051-31282-1-git-send-email-quic_sbillaka@quicinc.com>
+X-Mailer: git-send-email 2.7.4
+X-Mailman-Approved-At: Thu, 21 Oct 2021 07:25:31 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,14 +60,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 2021-10-11 at 12:40 -0700, Matthew Brost wrote:
-> The hangcheck selftest blows on DG1 CI and aborts the BAT run.
-> Investigation is underway to root cause the failure but in the
-> meantime
-> disable to this test on DG1 to unblock CI.
-> 
-> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+This series will add eDP controller support for Qualcomm SC7280
+platform. These patches are baseline changes with which we can enable
+eDP display on sc7280. The sc7280 eDP controller can also support
+additional features such as which will be enabled in subsequent patch series.
 
-Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+	This is based on Bjorn's changes in the below mentioned series
+to support both eDP and DP programming through the same driver:
+https://patchwork.kernel.org/project/linux-arm-msm/list/?series=564841
 
+Summary of changes:
+
+Changes in V2:
+- Remove gpio programming from DP driver
+- Implemented code review comments
+
+Changes in V1:
+- Add support for eDP on SC7280 platform.
+- Add the new compatible string to documentation.
+
+Sankeerth Billakanti (2):
+  drm/msm/dp: Add support for SC7280 eDP
+  dt-bindings: Add SC7280 compatible string
+
+ .../bindings/display/msm/dp-controller.yaml          |  1 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c       |  4 ++--
+ drivers/gpu/drm/msm/dp/dp_ctrl.c                     | 20 ++++++++++++++++++--
+ drivers/gpu/drm/msm/dp/dp_display.c                  | 10 +++++++++-
+ 4 files changed, 30 insertions(+), 5 deletions(-)
+
+-- 
+The Qualcomm Innovatin Center, Inc. is a member of the Code Aurora Forum, a Linux Foundation Collaborative Project
 
