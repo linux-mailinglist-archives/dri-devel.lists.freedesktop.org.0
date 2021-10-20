@@ -1,29 +1,29 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FD5C435289
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Oct 2021 20:19:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A28243528D
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Oct 2021 20:19:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A0016E8F8;
-	Wed, 20 Oct 2021 18:19:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 73DB16E9EE;
+	Wed, 20 Oct 2021 18:19:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.smtp.larsendata.com (mx1.smtp.larsendata.com
- [91.221.196.215])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3DBD56E4F3
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Oct 2021 18:19:21 +0000 (UTC)
+Received: from mx2.smtp.larsendata.com (mx2.smtp.larsendata.com
+ [91.221.196.228])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C6976E8F8
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Oct 2021 18:19:22 +0000 (UTC)
 Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
- by mx1.smtp.larsendata.com (Halon) with ESMTPS
- id 4068f037-31d2-11ec-9c3f-0050568c148b;
- Wed, 20 Oct 2021 18:19:23 +0000 (UTC)
+ by mx2.smtp.larsendata.com (Halon) with ESMTPS
+ id 45a216f6-31d2-11ec-ac3c-0050568cd888;
+ Wed, 20 Oct 2021 18:19:32 +0000 (UTC)
 Received: from saturn.localdomain (80-162-45-141-cable.dk.customer.tdc.net
  [80.162.45.141])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
  (Authenticated sender: sam@ravnborg.org)
- by mail01.mxhotel.dk (Postfix) with ESMTPSA id A2910194B05;
- Wed, 20 Oct 2021 20:19:18 +0200 (CEST)
+ by mail01.mxhotel.dk (Postfix) with ESMTPSA id 4C2EA194B13;
+ Wed, 20 Oct 2021 20:19:19 +0200 (CEST)
 X-Report-Abuse-To: abuse@mxhotel.dk
 From: Sam Ravnborg <sam@ravnborg.org>
 To: dri-devel@lists.freedesktop.org
@@ -45,10 +45,9 @@ Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
  Robert Foss <robert.foss@linaro.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>,
  Maxime Ripard <maxime@cerno.tech>
-Subject: [PATCH v2 5/7] drm/mediatek: Drop chain_mode_fixup call in
- mode_valid()
-Date: Wed, 20 Oct 2021 20:18:59 +0200
-Message-Id: <20211020181901.2114645-6-sam@ravnborg.org>
+Subject: [PATCH v2 6/7] drm/bridge: Drop drm_bridge_chain_mode_fixup
+Date: Wed, 20 Oct 2021 20:19:00 +0200
+Message-Id: <20211020181901.2114645-7-sam@ravnborg.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211020181901.2114645-1-sam@ravnborg.org>
 References: <20211020181901.2114645-1-sam@ravnborg.org>
@@ -69,57 +68,84 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The mode_valid implementation had a call to
-drm_bridge_chain_mode_fixup() which would be wrong as the mode_valid is
-not allowed to change anything - only to validate the mode.
-
-As the next bridge is often/always a connector the call had no effect
-anyway. So drop it.
-
-From the git history I could see this call was included in the original
-version of the driver so there was no help there to find out why it was
-added in the first place. But a lot has changed since the initial driver
-were added and is seems safe to remove the call now.
+There are no users left of drm_bridge_chain_mode_fixup() and we
+do not want to have this function available, so drop it.
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
 Reviewed-by: Maxime Ripard <maxime@cerno.tech>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Cc: Philipp Zabel <p.zabel@pengutronix.de>
-Cc: Matthias Brugger <matthias.bgg@gmail.com>
-Cc: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Cc: linux-mediatek@lists.infradead.org
-Cc: linux-arm-kernel@lists.infradead.org
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Daniel Vetter <daniel@ffwll.ch>
 ---
- drivers/gpu/drm/mediatek/mtk_hdmi.c | 11 -----------
- 1 file changed, 11 deletions(-)
+ drivers/gpu/drm/drm_bridge.c | 37 ------------------------------------
+ include/drm/drm_bridge.h     |  3 ---
+ 2 files changed, 40 deletions(-)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi.c b/drivers/gpu/drm/mediatek/mtk_hdmi.c
-index 5838c44cbf6f..bade1cbd782d 100644
---- a/drivers/gpu/drm/mediatek/mtk_hdmi.c
-+++ b/drivers/gpu/drm/mediatek/mtk_hdmi.c
-@@ -1208,22 +1208,11 @@ static int mtk_hdmi_bridge_mode_valid(struct drm_bridge *bridge,
- 				      const struct drm_display_mode *mode)
- {
- 	struct mtk_hdmi *hdmi = hdmi_ctx_from_bridge(bridge);
--	struct drm_bridge *next_bridge;
+diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+index 7a57d6816105..57a864d9a87f 100644
+--- a/drivers/gpu/drm/drm_bridge.c
++++ b/drivers/gpu/drm/drm_bridge.c
+@@ -406,43 +406,6 @@ void drm_bridge_detach(struct drm_bridge *bridge)
+  *   needed, in order to gradually transition to the new model.
+  */
  
- 	dev_dbg(hdmi->dev, "xres=%d, yres=%d, refresh=%d, intl=%d clock=%d\n",
- 		mode->hdisplay, mode->vdisplay, drm_mode_vrefresh(mode),
- 		!!(mode->flags & DRM_MODE_FLAG_INTERLACE), mode->clock * 1000);
- 
--	next_bridge = drm_bridge_get_next_bridge(&hdmi->bridge);
--	if (next_bridge) {
--		struct drm_display_mode adjusted_mode;
+-/**
+- * drm_bridge_chain_mode_fixup - fixup proposed mode for all bridges in the
+- *				 encoder chain
+- * @bridge: bridge control structure
+- * @mode: desired mode to be set for the bridge
+- * @adjusted_mode: updated mode that works for this bridge
+- *
+- * Calls &drm_bridge_funcs.mode_fixup for all the bridges in the
+- * encoder chain, starting from the first bridge to the last.
+- *
+- * Note: the bridge passed should be the one closest to the encoder
+- *
+- * RETURNS:
+- * true on success, false on failure
+- */
+-bool drm_bridge_chain_mode_fixup(struct drm_bridge *bridge,
+-				 const struct drm_display_mode *mode,
+-				 struct drm_display_mode *adjusted_mode)
+-{
+-	struct drm_encoder *encoder;
 -
--		drm_mode_copy(&adjusted_mode, mode);
--		if (!drm_bridge_chain_mode_fixup(next_bridge, mode,
--						 &adjusted_mode))
--			return MODE_BAD;
+-	if (!bridge)
+-		return true;
+-
+-	encoder = bridge->encoder;
+-	list_for_each_entry_from(bridge, &encoder->bridge_chain, chain_node) {
+-		if (!bridge->funcs->mode_fixup)
+-			continue;
+-
+-		if (!bridge->funcs->mode_fixup(bridge, mode, adjusted_mode))
+-			return false;
 -	}
 -
- 	if (hdmi->conf->cea_modes_only && !drm_match_cea_mode(mode))
- 		return MODE_BAD;
+-	return true;
+-}
+-EXPORT_SYMBOL(drm_bridge_chain_mode_fixup);
+-
+ /**
+  * drm_bridge_chain_mode_valid - validate the mode against all bridges in the
+  *				 encoder chain.
+diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
+index f1eb71ff5379..c8d07bd27f63 100644
+--- a/include/drm/drm_bridge.h
++++ b/include/drm/drm_bridge.h
+@@ -837,9 +837,6 @@ drm_bridge_chain_get_first_bridge(struct drm_encoder *encoder)
+ #define drm_for_each_bridge_in_chain(encoder, bridge)			\
+ 	list_for_each_entry(bridge, &(encoder)->bridge_chain, chain_node)
  
+-bool drm_bridge_chain_mode_fixup(struct drm_bridge *bridge,
+-				 const struct drm_display_mode *mode,
+-				 struct drm_display_mode *adjusted_mode);
+ enum drm_mode_status
+ drm_bridge_chain_mode_valid(struct drm_bridge *bridge,
+ 			    const struct drm_display_info *info,
 -- 
 2.30.2
 
