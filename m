@@ -1,29 +1,29 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEC3A435287
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Oct 2021 20:19:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A2F27435288
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Oct 2021 20:19:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C5F9D6E3C4;
-	Wed, 20 Oct 2021 18:19:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A82306E514;
+	Wed, 20 Oct 2021 18:19:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx1.smtp.larsendata.com (mx1.smtp.larsendata.com
  [91.221.196.215])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 29F5D6E364
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Oct 2021 18:19:14 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5FDFC6E4F3
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Oct 2021 18:19:19 +0000 (UTC)
 Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
  by mx1.smtp.larsendata.com (Halon) with ESMTPS
- id 3c28bb8a-31d2-11ec-9c3f-0050568c148b;
- Wed, 20 Oct 2021 18:19:16 +0000 (UTC)
+ id 3f191319-31d2-11ec-9c3f-0050568c148b;
+ Wed, 20 Oct 2021 18:19:21 +0000 (UTC)
 Received: from saturn.localdomain (80-162-45-141-cable.dk.customer.tdc.net
  [80.162.45.141])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
  (Authenticated sender: sam@ravnborg.org)
- by mail01.mxhotel.dk (Postfix) with ESMTPSA id C5CEA194B05;
- Wed, 20 Oct 2021 20:19:10 +0200 (CEST)
+ by mail01.mxhotel.dk (Postfix) with ESMTPSA id 5E84F194B13;
+ Wed, 20 Oct 2021 20:19:16 +0200 (CEST)
 X-Report-Abuse-To: abuse@mxhotel.dk
 From: Sam Ravnborg <sam@ravnborg.org>
 To: dri-devel@lists.freedesktop.org
@@ -44,12 +44,10 @@ Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
  Philipp Zabel <p.zabel@pengutronix.de>,
  Robert Foss <robert.foss@linaro.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>,
- Maxime Ripard <maxime@cerno.tech>, Andrzej Hajda <a.hajda@samsung.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Subject: [PATCH v2 1/7] drm/bridge: ps8640: Use atomic variants of
- drm_bridge_funcs
-Date: Wed, 20 Oct 2021 20:18:55 +0200
-Message-Id: <20211020181901.2114645-2-sam@ravnborg.org>
+ Maxime Ripard <maxime@cerno.tech>, Andrzej Hajda <a.hajda@samsung.com>
+Subject: [PATCH v2 2/7] drm/bridge: Drop unused drm_bridge_chain functions
+Date: Wed, 20 Oct 2021 20:18:56 +0200
+Message-Id: <20211020181901.2114645-3-sam@ravnborg.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211020181901.2114645-1-sam@ravnborg.org>
 References: <20211020181901.2114645-1-sam@ravnborg.org>
@@ -70,84 +68,225 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The atomic variants of enable/disable in drm_bridge_funcs are the
-preferred operations - introduce these.
+The drm_bridge_chain_{pre_enable,enable,disable,post_disable} has no
+users left and we have atomic variants that should be used.
+Drop them so they do not gain new users.
 
-The ps8640 driver used the non-atomic variants of the drm_bridge_chain_pre_enable/
-drm_bridge_chain_post_disable - convert these to the atomic variants.
-
-v2:
-  - Added a few more people to cc: (Jitao, Enric, Philip) to increase
-    possibility to get test feedback
+Adjust a few comments to avoid references to the dropped functions.
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
 Reviewed-by: Maxime Ripard <maxime@cerno.tech>
-Cc: Jitao Shi <jitao.shi@mediatek.com>
-Cc: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-Cc: Philip Chen <philipchen@chromium.org>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
 Cc: Andrzej Hajda <a.hajda@samsung.com>
 Cc: Neil Armstrong <narmstrong@baylibre.com>
 Cc: Robert Foss <robert.foss@linaro.org>
-Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Cc: Jonas Karlman <jonas@kwiboo.se>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>
 ---
- drivers/gpu/drm/bridge/parade-ps8640.c | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/drm_bridge.c | 110 -----------------------------------
+ include/drm/drm_bridge.h     |  28 ---------
+ 2 files changed, 138 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/parade-ps8640.c b/drivers/gpu/drm/bridge/parade-ps8640.c
-index 3aaa90913bf8..0b620afe99c0 100644
---- a/drivers/gpu/drm/bridge/parade-ps8640.c
-+++ b/drivers/gpu/drm/bridge/parade-ps8640.c
-@@ -376,7 +376,8 @@ static void ps8640_bridge_poweroff(struct ps8640 *ps_bridge)
- 	ps_bridge->powered = false;
+diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+index c96847fc0ebc..7a57d6816105 100644
+--- a/drivers/gpu/drm/drm_bridge.c
++++ b/drivers/gpu/drm/drm_bridge.c
+@@ -485,61 +485,6 @@ drm_bridge_chain_mode_valid(struct drm_bridge *bridge,
  }
+ EXPORT_SYMBOL(drm_bridge_chain_mode_valid);
  
--static void ps8640_pre_enable(struct drm_bridge *bridge)
-+static void ps8640_atomic_pre_enable(struct drm_bridge *bridge,
-+				     struct drm_bridge_state *old_bridge_state)
- {
- 	struct ps8640 *ps_bridge = bridge_to_ps8640(bridge);
- 	int ret;
-@@ -388,7 +389,8 @@ static void ps8640_pre_enable(struct drm_bridge *bridge)
- 		ps8640_bridge_poweroff(ps_bridge);
+-/**
+- * drm_bridge_chain_disable - disables all bridges in the encoder chain
+- * @bridge: bridge control structure
+- *
+- * Calls &drm_bridge_funcs.disable op for all the bridges in the encoder
+- * chain, starting from the last bridge to the first. These are called before
+- * calling the encoder's prepare op.
+- *
+- * Note: the bridge passed should be the one closest to the encoder
+- */
+-void drm_bridge_chain_disable(struct drm_bridge *bridge)
+-{
+-	struct drm_encoder *encoder;
+-	struct drm_bridge *iter;
+-
+-	if (!bridge)
+-		return;
+-
+-	encoder = bridge->encoder;
+-	list_for_each_entry_reverse(iter, &encoder->bridge_chain, chain_node) {
+-		if (iter->funcs->disable)
+-			iter->funcs->disable(iter);
+-
+-		if (iter == bridge)
+-			break;
+-	}
+-}
+-EXPORT_SYMBOL(drm_bridge_chain_disable);
+-
+-/**
+- * drm_bridge_chain_post_disable - cleans up after disabling all bridges in the
+- *				   encoder chain
+- * @bridge: bridge control structure
+- *
+- * Calls &drm_bridge_funcs.post_disable op for all the bridges in the
+- * encoder chain, starting from the first bridge to the last. These are called
+- * after completing the encoder's prepare op.
+- *
+- * Note: the bridge passed should be the one closest to the encoder
+- */
+-void drm_bridge_chain_post_disable(struct drm_bridge *bridge)
+-{
+-	struct drm_encoder *encoder;
+-
+-	if (!bridge)
+-		return;
+-
+-	encoder = bridge->encoder;
+-	list_for_each_entry_from(bridge, &encoder->bridge_chain, chain_node) {
+-		if (bridge->funcs->post_disable)
+-			bridge->funcs->post_disable(bridge);
+-	}
+-}
+-EXPORT_SYMBOL(drm_bridge_chain_post_disable);
+-
+ /**
+  * drm_bridge_chain_mode_set - set proposed mode for all bridges in the
+  *			       encoder chain
+@@ -569,61 +514,6 @@ void drm_bridge_chain_mode_set(struct drm_bridge *bridge,
  }
+ EXPORT_SYMBOL(drm_bridge_chain_mode_set);
  
--static void ps8640_post_disable(struct drm_bridge *bridge)
-+static void ps8640_atomic_post_disable(struct drm_bridge *bridge,
-+				       struct drm_bridge_state *old_bridge_state)
- {
- 	struct ps8640 *ps_bridge = bridge_to_ps8640(bridge);
- 
-@@ -489,7 +491,7 @@ static struct edid *ps8640_bridge_get_edid(struct drm_bridge *bridge,
- 	 * EDID, for this chip, we need to do a full poweron, otherwise it will
- 	 * fail.
+-/**
+- * drm_bridge_chain_pre_enable - prepares for enabling all bridges in the
+- *				 encoder chain
+- * @bridge: bridge control structure
+- *
+- * Calls &drm_bridge_funcs.pre_enable op for all the bridges in the encoder
+- * chain, starting from the last bridge to the first. These are called
+- * before calling the encoder's commit op.
+- *
+- * Note: the bridge passed should be the one closest to the encoder
+- */
+-void drm_bridge_chain_pre_enable(struct drm_bridge *bridge)
+-{
+-	struct drm_encoder *encoder;
+-	struct drm_bridge *iter;
+-
+-	if (!bridge)
+-		return;
+-
+-	encoder = bridge->encoder;
+-	list_for_each_entry_reverse(iter, &encoder->bridge_chain, chain_node) {
+-		if (iter->funcs->pre_enable)
+-			iter->funcs->pre_enable(iter);
+-
+-		if (iter == bridge)
+-			break;
+-	}
+-}
+-EXPORT_SYMBOL(drm_bridge_chain_pre_enable);
+-
+-/**
+- * drm_bridge_chain_enable - enables all bridges in the encoder chain
+- * @bridge: bridge control structure
+- *
+- * Calls &drm_bridge_funcs.enable op for all the bridges in the encoder
+- * chain, starting from the first bridge to the last. These are called
+- * after completing the encoder's commit op.
+- *
+- * Note that the bridge passed should be the one closest to the encoder
+- */
+-void drm_bridge_chain_enable(struct drm_bridge *bridge)
+-{
+-	struct drm_encoder *encoder;
+-
+-	if (!bridge)
+-		return;
+-
+-	encoder = bridge->encoder;
+-	list_for_each_entry_from(bridge, &encoder->bridge_chain, chain_node) {
+-		if (bridge->funcs->enable)
+-			bridge->funcs->enable(bridge);
+-	}
+-}
+-EXPORT_SYMBOL(drm_bridge_chain_enable);
+-
+ /**
+  * drm_atomic_bridge_chain_disable - disables all bridges in the encoder chain
+  * @bridge: bridge control structure
+diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
+index 061d87313fac..f1eb71ff5379 100644
+--- a/include/drm/drm_bridge.h
++++ b/include/drm/drm_bridge.h
+@@ -297,12 +297,6 @@ struct drm_bridge_funcs {
+ 	 * not enable the display link feeding the next bridge in the chain (if
+ 	 * there is one) when this callback is called.
+ 	 *
+-	 * Note that this function will only be invoked in the context of an
+-	 * atomic commit. It will not be invoked from
+-	 * &drm_bridge_chain_pre_enable. It would be prudent to also provide an
+-	 * implementation of @pre_enable if you are expecting driver calls into
+-	 * &drm_bridge_chain_pre_enable.
+-	 *
+ 	 * The @atomic_pre_enable callback is optional.
  	 */
--	drm_bridge_chain_pre_enable(bridge);
-+	drm_atomic_bridge_chain_pre_enable(bridge, connector->state->state);
- 
- 	edid = drm_get_edid(connector,
- 			    ps_bridge->page[PAGE0_DP_CNTL]->adapter);
-@@ -499,7 +501,7 @@ static struct edid *ps8640_bridge_get_edid(struct drm_bridge *bridge,
- 	 * before, return the chip to its original power state.
+ 	void (*atomic_pre_enable)(struct drm_bridge *bridge,
+@@ -323,11 +317,6 @@ struct drm_bridge_funcs {
+ 	 * callback must enable the display link feeding the next bridge in the
+ 	 * chain if there is one.
+ 	 *
+-	 * Note that this function will only be invoked in the context of an
+-	 * atomic commit. It will not be invoked from &drm_bridge_chain_enable.
+-	 * It would be prudent to also provide an implementation of @enable if
+-	 * you are expecting driver calls into &drm_bridge_chain_enable.
+-	 *
+ 	 * The @atomic_enable callback is optional.
  	 */
- 	if (poweroff)
--		drm_bridge_chain_post_disable(bridge);
-+		drm_atomic_bridge_chain_post_disable(bridge, connector->state->state);
+ 	void (*atomic_enable)(struct drm_bridge *bridge,
+@@ -345,12 +334,6 @@ struct drm_bridge_funcs {
+ 	 * The bridge can assume that the display pipe (i.e. clocks and timing
+ 	 * signals) feeding it is still running when this callback is called.
+ 	 *
+-	 * Note that this function will only be invoked in the context of an
+-	 * atomic commit. It will not be invoked from
+-	 * &drm_bridge_chain_disable. It would be prudent to also provide an
+-	 * implementation of @disable if you are expecting driver calls into
+-	 * &drm_bridge_chain_disable.
+-	 *
+ 	 * The @atomic_disable callback is optional.
+ 	 */
+ 	void (*atomic_disable)(struct drm_bridge *bridge,
+@@ -370,13 +353,6 @@ struct drm_bridge_funcs {
+ 	 * signals) feeding it is no longer running when this callback is
+ 	 * called.
+ 	 *
+-	 * Note that this function will only be invoked in the context of an
+-	 * atomic commit. It will not be invoked from
+-	 * &drm_bridge_chain_post_disable.
+-	 * It would be prudent to also provide an implementation of
+-	 * @post_disable if you are expecting driver calls into
+-	 * &drm_bridge_chain_post_disable.
+-	 *
+ 	 * The @atomic_post_disable callback is optional.
+ 	 */
+ 	void (*atomic_post_disable)(struct drm_bridge *bridge,
+@@ -868,13 +844,9 @@ enum drm_mode_status
+ drm_bridge_chain_mode_valid(struct drm_bridge *bridge,
+ 			    const struct drm_display_info *info,
+ 			    const struct drm_display_mode *mode);
+-void drm_bridge_chain_disable(struct drm_bridge *bridge);
+-void drm_bridge_chain_post_disable(struct drm_bridge *bridge);
+ void drm_bridge_chain_mode_set(struct drm_bridge *bridge,
+ 			       const struct drm_display_mode *mode,
+ 			       const struct drm_display_mode *adjusted_mode);
+-void drm_bridge_chain_pre_enable(struct drm_bridge *bridge);
+-void drm_bridge_chain_enable(struct drm_bridge *bridge);
  
- 	return edid;
- }
-@@ -508,8 +510,8 @@ static const struct drm_bridge_funcs ps8640_bridge_funcs = {
- 	.attach = ps8640_bridge_attach,
- 	.detach = ps8640_bridge_detach,
- 	.get_edid = ps8640_bridge_get_edid,
--	.post_disable = ps8640_post_disable,
--	.pre_enable = ps8640_pre_enable,
-+	.atomic_post_disable = ps8640_atomic_post_disable,
-+	.atomic_pre_enable = ps8640_atomic_pre_enable,
- };
- 
- static int ps8640_probe(struct i2c_client *client)
+ int drm_atomic_bridge_chain_check(struct drm_bridge *bridge,
+ 				  struct drm_crtc_state *crtc_state,
 -- 
 2.30.2
 
