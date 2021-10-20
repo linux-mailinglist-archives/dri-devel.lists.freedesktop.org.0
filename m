@@ -1,36 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A871343479E
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Oct 2021 11:06:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC5464347CA
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Oct 2021 11:19:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA73E6E8DA;
-	Wed, 20 Oct 2021 09:06:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 81CAA89FEC;
+	Wed, 20 Oct 2021 09:19:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA9876E23F;
- Wed, 20 Oct 2021 09:06:43 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10142"; a="228607075"
-X-IronPort-AV: E=Sophos;i="5.87,166,1631602800"; d="scan'208";a="228607075"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Oct 2021 02:06:43 -0700
-X-IronPort-AV: E=Sophos;i="5.87,166,1631602800"; d="scan'208";a="463105214"
-Received: from lucas-s2600cw.jf.intel.com ([10.165.21.202])
- by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Oct 2021 02:06:43 -0700
-From: Lucas De Marchi <lucas.demarchi@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Chris Wilson <chris@chris-wilson.co.uk>, dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/i915/gem: stop using PAGE_KERNEL_IO
-Date: Wed, 20 Oct 2021 02:06:25 -0700
-Message-Id: <20211020090625.1037517-1-lucas.demarchi@intel.com>
-X-Mailer: git-send-email 2.33.1
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 663F789FEC;
+ Wed, 20 Oct 2021 09:19:31 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 5CDDF61074;
+ Wed, 20 Oct 2021 09:19:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1634721571;
+ bh=lyuguw0XyKC7pblfSP/PKjf0tJ9Omz7vG2CSkCF9b/Y=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=GpfTbXlxvTLq3xEnQP+Mt5K79oLCsTz8gWGIsl0Bs3jXM1H0sbH/VBxXQmTdapqZJ
+ ss4z/dkeFrhUx+tpjQmDQvkkDQfYy0AbS/gYWN8knXneehPld6hyAW+uL5GH5gAYPR
+ ieVjo2Dz2AIa7UUy38tZOb0p8e/pLyFQ7TPcaHpkGL1NQQ2e2EHqWwZtrJNMDYZGvH
+ sabCabEJDrySLq7HUGodzbr6Mq64EC9kxPYSKTDHZp5q47eMp3pgE4IbFfuY1bkMkd
+ YuGbvZZJ9cuLbmC3ZvAHqTtddR4TDz97+VI2JqPx5+SLI4/w+jbW+fMtLRgoHrnp8B
+ pM42Dau48lQ2w==
+Date: Wed, 20 Oct 2021 14:49:26 +0530
+From: Vinod Koul <vkoul@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Rob Clark <robdclark@gmail.com>, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Jonathan Marek <jonathan@marek.ca>,
+ Abhinav Kumar <abhinavk@codeaurora.org>,
+ Jeffrey Hugo <jeffrey.l.hugo@gmail.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org
+Subject: Re: [PATCH v2 07/11] drm/msm/disp/dpu1: Add DSC support in hw_ctl
+Message-ID: <YW/fHkaTcCbezKMT@matsya>
+References: <20211007070900.456044-1-vkoul@kernel.org>
+ <20211007070900.456044-8-vkoul@kernel.org>
+ <f5f6162c-7ed0-2964-7cf9-0bb894c8b4f5@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f5f6162c-7ed0-2964-7cf9-0bb894c8b4f5@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,54 +60,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-PAGE_KERNEL_IO is only defined for x86 and is the same as PAGE_KERNEL.
-Use the latter since that is also available on other archs, which should
-help us getting i915 there.
+On 14-10-21, 17:06, Dmitry Baryshkov wrote:
+> On 07/10/2021 10:08, Vinod Koul wrote:
+> > Later gens of hardware have DSC bits moved to hw_ctl, so configure these
+> > bits so that DSC would work there as well
+> > 
+> > Signed-off-by: Vinod Koul <vkoul@kernel.org>
+> > ---
+> > Changes since
+> > v1:
+> >   - Move this patch from 6 to 7 due to dependency on 6th one
+> >   - Use DSC indices for programming DSC registers and program only on non
+> >     null indices
+> > 
+> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c | 12 ++++++++++--
+> >   1 file changed, 10 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+> > index 3c79bd9c2fe5..8ea9d8dce3f7 100644
+> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+> > @@ -25,6 +25,8 @@
+> >   #define   CTL_MERGE_3D_ACTIVE           0x0E4
+> >   #define   CTL_INTF_ACTIVE               0x0F4
+> >   #define   CTL_MERGE_3D_FLUSH            0x100
+> > +#define   CTL_DSC_ACTIVE                0x0E8
+> > +#define   CTL_DSC_FLUSH                0x104
+> >   #define   CTL_INTF_FLUSH                0x110
+> >   #define   CTL_INTF_MASTER               0x134
+> >   #define   CTL_FETCH_PIPE_ACTIVE         0x0FC
+> > @@ -34,6 +36,7 @@
+> >   #define DPU_REG_RESET_TIMEOUT_US        2000
+> >   #define  MERGE_3D_IDX   23
+> > +#define  DSC_IDX        22
+> >   #define  INTF_IDX       31
+> >   #define CTL_INVALID_BIT                 0xffff
+> > @@ -120,7 +123,6 @@ static u32 dpu_hw_ctl_get_pending_flush(struct dpu_hw_ctl *ctx)
+> >   static void dpu_hw_ctl_trigger_flush_v1(struct dpu_hw_ctl *ctx)
+> >   {
+> > -
+> >   	if (ctx->pending_flush_mask & BIT(MERGE_3D_IDX))
+> >   		DPU_REG_WRITE(&ctx->hw, CTL_MERGE_3D_FLUSH,
+> >   				ctx->pending_merge_3d_flush_mask);
+> > @@ -128,7 +130,6 @@ static void dpu_hw_ctl_trigger_flush_v1(struct dpu_hw_ctl *ctx)
+> >   		DPU_REG_WRITE(&ctx->hw, CTL_INTF_FLUSH,
+> >   				ctx->pending_intf_flush_mask);
+> > -	DPU_REG_WRITE(&ctx->hw, CTL_FLUSH, ctx->pending_flush_mask);
+> 
+> This would break non-DSC case.
 
-This is the same that was done done in commit 80c33624e472 ("io-mapping:
-Fixup for different names of writecombine"). Later the commit
-80c33624e472 ("io-mapping: Fixup for different names of writecombine")
-added a "Fixes" tag to the first one, but that is actually fixing a
-separate issue:  the different names for pgprot_writecombine().
+This is a mistake, I have fixed it up now..
 
-Fast-forward today, it seems the only 2 archs that define
-pgprot_noncached_wc() are microblaze and powerpc. Microblaze has the
-same definition for pgprot_writecombine() since commit
-97ccedd793ac ("microblaze: Provide pgprot_device/writecombine macros for
-nommu"). Powerpc has 3 variants and all of them have the same behavior
-for pgprot_writecombine() and pgprot_noncached_wc(). From the commit message
-and linked issue, the fallback was needed for arm, but apparently today
-all the variants there also have pgprot_writecombine().
+> >   }
+> >   static inline void dpu_hw_ctl_trigger_flush(struct dpu_hw_ctl *ctx)
+> > @@ -498,6 +499,9 @@ static void dpu_hw_ctl_intf_cfg_v1(struct dpu_hw_ctl *ctx,
+> >   	u32 intf_active = 0;
+> >   	u32 mode_sel = 0;
+> > +	if (cfg->dsc)
+> > +		DPU_REG_WRITE(&ctx->hw, CTL_DSC_FLUSH, cfg->dsc);
+> > +
+> >   	if (cfg->intf_mode_sel == DPU_CTL_MODE_SEL_CMD)
+> >   		mode_sel |= BIT(17);
+> > @@ -509,6 +513,10 @@ static void dpu_hw_ctl_intf_cfg_v1(struct dpu_hw_ctl *ctx,
+> >   	if (cfg->merge_3d)
+> >   		DPU_REG_WRITE(c, CTL_MERGE_3D_ACTIVE,
+> >   			      BIT(cfg->merge_3d - MERGE_3D_0));
+> > +	if (cfg->dsc) {
+> > +		DPU_REG_WRITE(&ctx->hw, CTL_FLUSH, ctx->pending_flush_mask |  BIT(DSC_IDX));
+> 
+> Why?
 
-So, just use PAGE_KERNEL, and just use pgprot_writecombine().
+I have fixed it up to write only DSC_IDX
 
-Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
----
- drivers/gpu/drm/i915/gem/i915_gem_pages.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_pages.c b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
-index 8eb1c3a6fc9c..68fe1837ef54 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_pages.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
-@@ -289,7 +289,7 @@ static void *i915_gem_object_map_page(struct drm_i915_gem_object *obj,
- 		pgprot = PAGE_KERNEL;
- 		break;
- 	case I915_MAP_WC:
--		pgprot = pgprot_writecombine(PAGE_KERNEL_IO);
-+		pgprot = pgprot_writecombine(PAGE_KERNEL);
- 		break;
- 	}
- 
-@@ -333,7 +333,7 @@ static void *i915_gem_object_map_pfn(struct drm_i915_gem_object *obj,
- 	i = 0;
- 	for_each_sgt_daddr(addr, iter, obj->mm.pages)
- 		pfns[i++] = (iomap + addr) >> PAGE_SHIFT;
--	vaddr = vmap_pfn(pfns, n_pfn, pgprot_writecombine(PAGE_KERNEL_IO));
-+	vaddr = vmap_pfn(pfns, n_pfn, pgprot_writecombine(PAGE_KERNEL));
- 	if (pfns != stack)
- 		kvfree(pfns);
- 
 -- 
-2.33.1
-
+~Vinod
