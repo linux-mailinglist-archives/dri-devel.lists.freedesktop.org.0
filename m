@@ -2,48 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74A9C434589
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Oct 2021 08:52:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E49DB434595
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Oct 2021 08:57:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 077FF89FDD;
-	Wed, 20 Oct 2021 06:52:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 59FE66E217;
+	Wed, 20 Oct 2021 06:57:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6501389FDD
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Oct 2021 06:52:41 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10142"; a="289555461"
-X-IronPort-AV: E=Sophos;i="5.87,166,1631602800"; d="scan'208";a="289555461"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Oct 2021 23:52:40 -0700
-X-IronPort-AV: E=Sophos;i="5.87,166,1631602800"; d="scan'208";a="532536274"
-Received: from mmazarel-mobl1.ger.corp.intel.com (HELO [10.249.254.139])
- ([10.249.254.139])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Oct 2021 23:52:38 -0700
-Message-ID: <aa8138c8-f6dd-fa34-e8a1-d404300b84b4@linux.intel.com>
-Date: Wed, 20 Oct 2021 08:52:35 +0200
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A0DA6E216;
+ Wed, 20 Oct 2021 06:57:48 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3918960F9E;
+ Wed, 20 Oct 2021 06:57:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1634713068;
+ bh=FWddtQcYwrlzWTV77Jdm3QP9dowcs8BdUV9+ROkK/2s=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=iLeD8Jr2GXRILm+s50KwHvB3JIOerCkXUihSZmvhWu3vndyEtcMQNe7qCDd26EbVu
+ TJm+CNV2iOoAcbE2bEgNQl/pQGtjkvRJI68nUWnth/0uNqr+NdvyG3TzAkXL6qErlj
+ H5OXv777Cjq8etnHhFCbImz9sOSyMe5FdQ4fnIOApXzAGcrRsy1hgqhH9sG7/6Z+8V
+ QCA4XEsoom1UoeCFxkP+2Xu8Xqhtknfv/aoYxStQEXODWLgeYlLdkAl7IkLHoGkrbU
+ cZfdGR5frPH3+2zCWOjBoNnyEmjdB7vLcp9ZnUk51OiWwXmv78xMpPJmlDjTA5MLwC
+ ODvQ2l8p5GeNw==
+Date: Wed, 20 Oct 2021 12:27:43 +0530
+From: Vinod Koul <vkoul@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Rob Clark <robdclark@gmail.com>, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Jonathan Marek <jonathan@marek.ca>,
+ Abhinav Kumar <abhinavk@codeaurora.org>,
+ Jeffrey Hugo <jeffrey.l.hugo@gmail.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org
+Subject: Re: [PATCH v2 06/11] drm/msm/disp/dpu1: Don't use DSC with mode_3d
+Message-ID: <YW+957ZKnbf1g/89@matsya>
+References: <20211007070900.456044-1-vkoul@kernel.org>
+ <20211007070900.456044-7-vkoul@kernel.org>
+ <11becace-7b44-6141-5a8b-1bd6d0673243@linaro.org>
+ <35eb95c5-1c42-94d1-3f33-df029f753ab3@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH v2] drm/ttm: Do not put non-struct page memory into
- PUD/PMDs
-Content-Language: en-US
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Jason Gunthorpe <jgg@nvidia.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
- Huang Rui <ray.huang@amd.com>
-Cc: Dan Williams <dan.j.williams@intel.com>,
- Ralph Campbell <rcampbell@nvidia.com>,
- Roland Scheidegger <sroland@vmware.com>
-References: <0-v2-a44694790652+4ac-ttm_pmd_jgg@nvidia.com>
- <47182e81-39f2-1143-7654-fb31d171e4f3@linux.intel.com>
- <e88f42a3-7f04-25d9-5274-24a700df689f@amd.com>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
-In-Reply-To: <e88f42a3-7f04-25d9-5274-24a700df689f@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <35eb95c5-1c42-94d1-3f33-df029f753ab3@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,435 +62,138 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 14-10-21, 16:50, Dmitry Baryshkov wrote:
+> On 14/10/2021 16:41, Dmitry Baryshkov wrote:
+> > On 07/10/2021 10:08, Vinod Koul wrote:
+> > > We cannot enable mode_3d when we are using the DSC. So pass
+> > > configuration to detect DSC is enabled and not enable mode_3d
+> > > when we are using DSC
+> > > 
+> > > We add a helper dpu_encoder_helper_get_dsc_mode() to detect dsc
+> > > enabled and pass this to .setup_intf_cfg()
+> > > 
+> > > Signed-off-by: Vinod Koul <vkoul@kernel.org>
+> > > ---
+> > > Changes since
+> > > v1:
+> > > � - Move this patch from 7 to 6
+> > > � - Update the changelog
+> > > � - Make dsc as int and store the DSC indices
+> > > 
+> > > � drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h���� | 11 +++++++++++
+> > > � drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c |� 2 ++
+> > > � drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c���������� |� 5 +++--
+> > > � drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h���������� |� 2 ++
+> > > � 4 files changed, 18 insertions(+), 2 deletions(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
+> > > b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
+> > > index e7270eb6b84b..fca07ed03317 100644
+> > > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
+> > > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
+> > > @@ -332,6 +332,17 @@ static inline enum dpu_3d_blend_mode
+> > > dpu_encoder_helper_get_3d_blend_mode(
+> > > ����� return BLEND_3D_NONE;
+> > > � }
+> > > +static inline bool dpu_encoder_helper_get_dsc_mode(struct
+> > > dpu_encoder_phys *phys_enc)
+> > > +{
+> > > +��� struct drm_encoder *drm_enc = phys_enc->parent;
+> > > +��� struct msm_drm_private *priv = drm_enc->dev->dev_private;
+> > > +
+> > > +��� if (priv->dsc)
+> > > +������� return BIT(0) | BIT(1); /* Hardcoding for 2 DSC topology */
+> > 
+> > Please use defined values here rater than just BIT().
+> 
+> Ah, it's a list of DSC blocks used. So the function name is misleading (as
+> it's not a mode). I think we'd better pass DSC_n names here. What about
+> using an array for cfg->dsc?
 
-On 10/20/21 08:41, Christian König wrote:
-> Am 20.10.21 um 08:34 schrieb Thomas Hellström:
->>
->> On 10/20/21 01:27, Jason Gunthorpe wrote:
->>> PUD and PMD entries do not have a special bit.
->>>
->>> get_user_pages_fast() considers any page that passed pmd_huge() as
->>> usable:
->>>
->>>     if (unlikely(pmd_trans_huge(pmd) || pmd_huge(pmd) ||
->>>              pmd_devmap(pmd))) {
->>>
->>> And vmf_insert_pfn_pmd_prot() unconditionally sets
->>>
->>>     entry = pmd_mkhuge(pfn_t_pmd(pfn, prot));
->>>
->>> eg on x86 the page will be _PAGE_PRESENT | PAGE_PSE.
->>>
->>> As such gup_huge_pmd() will try to deref a struct page:
->>>
->>>     head = try_grab_compound_head(pmd_page(orig), refs, flags);
->>>
->>> and thus crash.
->>>
->>> Thomas further notices that the drivers are not expecting the struct 
->>> page
->>> to be used by anything - in particular the refcount incr above will 
->>> cause
->>> them to malfunction.
->>>
->>> Thus everything about this is not able to fully work correctly 
->>> considering
->>> GUP_fast. Delete it entirely. It can return someday along with a proper
->>> PMD/PUD_SPECIAL bit in the page table itself to gate GUP_fast.
->>>
->>> Fixes: 314b6580adc5 ("drm/ttm, drm/vmwgfx: Support huge TTM 
->>> pagefaults")
->>> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
->>> ---
->>>   drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c    |  2 +-
->>>   drivers/gpu/drm/nouveau/nouveau_gem.c      |  2 +-
->>>   drivers/gpu/drm/radeon/radeon_gem.c        |  2 +-
->>>   drivers/gpu/drm/ttm/ttm_bo_vm.c            | 94 
->>> +---------------------
->>>   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h        |  4 -
->>>   drivers/gpu/drm/vmwgfx/vmwgfx_page_dirty.c | 72 +----------------
->>>   drivers/gpu/drm/vmwgfx/vmwgfx_ttm_glue.c   |  3 -
->>>   include/drm/ttm/ttm_bo_api.h               |  3 +-
->>>   8 files changed, 7 insertions(+), 175 deletions(-)
->>>
->>> v2:
->>>   - Remove the entire thing as per Thomas's advice
->>> v1: 
->>> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.kernel.org%2Fr%2F0-v1-69e7da97f81f%2B21c-ttm_pmd_jgg%40nvidia.com&amp;data=04%7C01%7Cchristian.koenig%40amd.com%7Ce27350925989400d009c08d99393b14a%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637703084808329081%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=ElqvK%2FJWgGMSCzt91lEotVK2pCelchxp6WGRgHv0ojQ%3D&amp;reserved=0
->>>
->>> After this patch the only users of the vmf_insert_pfn_pud/pmd_prot() 
->>> functions
->>> are DAX and DAX always has a struct page. Eliminating this 
->>> non-working case
->>> will simplify trying to fix the refcounting on ZONE_DEVICE pages.
->>>
->>> Thanks,
->>> Jason
->>
->> I think the patch subject needs updating to reflect that we're 
->> disabling PUD/PMDs completely.
->> With that fixed,
->>
->> Reviewed-by: Thomas Hellström <thomas.helllstrom@linux.intel.com>
->
-> Yeah, agree. A commit message like "drop huge page faults, they don't 
-> work atm" would be rather helpful.
->
-> Apart from that Reviewed-by: Christian König 
-> <christian.koenig@amd.com> as well.
->
-> Regards,
-> Christian.
->
->>
->> Follow up question: If we resurrect this in the proper way (and in 
->> that case only for x86_64) is there something we need to pay 
->> particular attention to WRT the ZONE_DEVICE refcounting fixing you 
->> mention above?
->
-> Well, I think we certainly need some use case which really shows that 
-> this is faster to justify the added complexity.
+Yeah I can do better names.
 
-Fair enough, although to some extent this is about saving page-table 
-memory and being nice to the rest of the system as well. I guess in a 
-way similar to have TTM supporting huge page allocations in the first 
-place. But yeah I agree listing the benefits and weighing that against 
-the added complexity should be a prerequisite.
+> 
+> > 
+> > > +
+> > > +��� return 0;
+> > > +}
+> > > +
+> > > � /**
+> > > �� * dpu_encoder_helper_split_config - split display configuration
+> > > helper function
+> > > �� *��� This helper function may be used by physical encoders to
+> > > configure
+> > > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
+> > > b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
+> > > index aa01698d6b25..8e5c0911734c 100644
+> > > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
+> > > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
+> > > @@ -70,6 +70,8 @@ static void _dpu_encoder_phys_cmd_update_intf_cfg(
+> > > ����� intf_cfg.intf_mode_sel = DPU_CTL_MODE_SEL_CMD;
+> > > ����� intf_cfg.stream_sel = cmd_enc->stream_sel;
+> > > ����� intf_cfg.mode_3d = dpu_encoder_helper_get_3d_blend_mode(phys_enc);
+> > > +��� intf_cfg.dsc = dpu_encoder_helper_get_dsc_mode(phys_enc);
+> > > +
+> > > ����� ctl->ops.setup_intf_cfg(ctl, &intf_cfg);
+> > > � }
+> > > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+> > > b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+> > > index 64740ddb983e..3c79bd9c2fe5 100644
+> > > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+> > > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+> > > @@ -118,7 +118,7 @@ static u32 dpu_hw_ctl_get_pending_flush(struct
+> > > dpu_hw_ctl *ctx)
+> > > ����� return ctx->pending_flush_mask;
+> > > � }
+> > > -static inline void dpu_hw_ctl_trigger_flush_v1(struct dpu_hw_ctl *ctx)
+> > > +static void dpu_hw_ctl_trigger_flush_v1(struct dpu_hw_ctl *ctx)
+> > > � {
+> > > ����� if (ctx->pending_flush_mask & BIT(MERGE_3D_IDX))
+> > > @@ -519,7 +519,8 @@ static void dpu_hw_ctl_intf_cfg(struct
+> > > dpu_hw_ctl *ctx,
+> > > ����� intf_cfg |= (cfg->intf & 0xF) << 4;
+> > > -��� if (cfg->mode_3d) {
+> > > +��� /* In DSC we can't set merge, so check for dsc too */
+> > > +��� if (cfg->mode_3d && !cfg->dsc) {
+> > 
+> > The more I think about this hunk, the more I'm unsure about it.
+> > Downstream has the following topoligies defined:
+> >  �* @SDE_RM_TOPOLOGY_DUALPIPE_3DMERGE_DSC: 2 LM, 2 PP, 3DMux, 1 DSC, 1
+> > INTF/WB
+> >  �* @SDE_RM_TOPOLOGY_QUADPIPE_3DMERGE_DSC� 4 LM, 4 PP, 3DMux, 3 DSC, 2 INTF
+> > 
+> > While the latter is not supported on sdm845, the former one should be
+> > (by the hardware). So in the driver I think we should make sure that
+> > mode_3d does not get set rather than disallowing it here.
+> > 
+> > > ��������� intf_cfg |= BIT(19);
+> > > ��������� intf_cfg |= (cfg->mode_3d - 0x1) << 20;
+> > > ����� }
+> > > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
+> > > b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
+> > > index 806c171e5df2..5dfac5994bd4 100644
+> > > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
+> > > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
+> > > @@ -39,6 +39,7 @@ struct dpu_hw_stage_cfg {
+> > > �� * @mode_3d:�������������� 3d mux configuration
+> > > �� * @merge_3d:������������� 3d merge block used
+> > > �� * @intf_mode_sel:�������� Interface mode, cmd / vid
+> > > + * @dsc:������������������ DSC BIT masks
+> > > �� * @stream_sel:����������� Stream selection for multi-stream interfaces
+> > > �� */
+> > > � struct dpu_hw_intf_cfg {
+> > > @@ -46,6 +47,7 @@ struct dpu_hw_intf_cfg {
+> > > ����� enum dpu_3d_blend_mode mode_3d;
+> > > ����� enum dpu_merge_3d merge_3d;
+> > > ����� enum dpu_ctl_mode_sel intf_mode_sel;
+> > > +��� unsigned int dsc;
+> 
+> I think this should be:
+> enum dpu_dsc dsc[MAX_DSCS];
+> unsigned int num_dsc;
 
-But for us this is not top priority ATM.
+hmmm, how do we go about getting the num_dsc value here.
+dpu_encoder_phys does not know about that..
 
-/Thomas
-
->
-> Regards,
-> Christian.
->
->>
->> Thanks,
->>
->> Thomas
->>
->>
->>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c 
->>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
->>> index d6aa032890ee8b..a1e63ba4c54a59 100644
->>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
->>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
->>> @@ -61,7 +61,7 @@ static vm_fault_t amdgpu_gem_fault(struct vm_fault 
->>> *vmf)
->>>           }
->>>              ret = ttm_bo_vm_fault_reserved(vmf, 
->>> vmf->vma->vm_page_prot,
->>> -                        TTM_BO_VM_NUM_PREFAULT, 1);
->>> +                        TTM_BO_VM_NUM_PREFAULT);
->>>              drm_dev_exit(idx);
->>>       } else {
->>> diff --git a/drivers/gpu/drm/nouveau/nouveau_gem.c 
->>> b/drivers/gpu/drm/nouveau/nouveau_gem.c
->>> index 8c2ecc28272322..c89d5964148fd5 100644
->>> --- a/drivers/gpu/drm/nouveau/nouveau_gem.c
->>> +++ b/drivers/gpu/drm/nouveau/nouveau_gem.c
->>> @@ -56,7 +56,7 @@ static vm_fault_t nouveau_ttm_fault(struct 
->>> vm_fault *vmf)
->>>         nouveau_bo_del_io_reserve_lru(bo);
->>>       prot = vm_get_page_prot(vma->vm_flags);
->>> -    ret = ttm_bo_vm_fault_reserved(vmf, prot, 
->>> TTM_BO_VM_NUM_PREFAULT, 1);
->>> +    ret = ttm_bo_vm_fault_reserved(vmf, prot, TTM_BO_VM_NUM_PREFAULT);
->>>       nouveau_bo_add_io_reserve_lru(bo);
->>>       if (ret == VM_FAULT_RETRY && !(vmf->flags & 
->>> FAULT_FLAG_RETRY_NOWAIT))
->>>           return ret;
->>> diff --git a/drivers/gpu/drm/radeon/radeon_gem.c 
->>> b/drivers/gpu/drm/radeon/radeon_gem.c
->>> index 458f92a7088797..a36a4f2c76b097 100644
->>> --- a/drivers/gpu/drm/radeon/radeon_gem.c
->>> +++ b/drivers/gpu/drm/radeon/radeon_gem.c
->>> @@ -61,7 +61,7 @@ static vm_fault_t radeon_gem_fault(struct vm_fault 
->>> *vmf)
->>>           goto unlock_resv;
->>>         ret = ttm_bo_vm_fault_reserved(vmf, vmf->vma->vm_page_prot,
->>> -                       TTM_BO_VM_NUM_PREFAULT, 1);
->>> +                       TTM_BO_VM_NUM_PREFAULT);
->>>       if (ret == VM_FAULT_RETRY && !(vmf->flags & 
->>> FAULT_FLAG_RETRY_NOWAIT))
->>>           goto unlock_mclk;
->>>   diff --git a/drivers/gpu/drm/ttm/ttm_bo_vm.c 
->>> b/drivers/gpu/drm/ttm/ttm_bo_vm.c
->>> index f56be5bc0861ec..e5af7f9e94b273 100644
->>> --- a/drivers/gpu/drm/ttm/ttm_bo_vm.c
->>> +++ b/drivers/gpu/drm/ttm/ttm_bo_vm.c
->>> @@ -171,89 +171,6 @@ vm_fault_t ttm_bo_vm_reserve(struct 
->>> ttm_buffer_object *bo,
->>>   }
->>>   EXPORT_SYMBOL(ttm_bo_vm_reserve);
->>>   -#ifdef CONFIG_TRANSPARENT_HUGEPAGE
->>> -/**
->>> - * ttm_bo_vm_insert_huge - Insert a pfn for PUD or PMD faults
->>> - * @vmf: Fault data
->>> - * @bo: The buffer object
->>> - * @page_offset: Page offset from bo start
->>> - * @fault_page_size: The size of the fault in pages.
->>> - * @pgprot: The page protections.
->>> - * Does additional checking whether it's possible to insert a PUD 
->>> or PMD
->>> - * pfn and performs the insertion.
->>> - *
->>> - * Return: VM_FAULT_NOPAGE on successful insertion, 
->>> VM_FAULT_FALLBACK if
->>> - * a huge fault was not possible, or on insertion error.
->>> - */
->>> -static vm_fault_t ttm_bo_vm_insert_huge(struct vm_fault *vmf,
->>> -                    struct ttm_buffer_object *bo,
->>> -                    pgoff_t page_offset,
->>> -                    pgoff_t fault_page_size,
->>> -                    pgprot_t pgprot)
->>> -{
->>> -    pgoff_t i;
->>> -    vm_fault_t ret;
->>> -    unsigned long pfn;
->>> -    pfn_t pfnt;
->>> -    struct ttm_tt *ttm = bo->ttm;
->>> -    bool write = vmf->flags & FAULT_FLAG_WRITE;
->>> -
->>> -    /* Fault should not cross bo boundary. */
->>> -    page_offset &= ~(fault_page_size - 1);
->>> -    if (page_offset + fault_page_size > bo->resource->num_pages)
->>> -        goto out_fallback;
->>> -
->>> -    if (bo->resource->bus.is_iomem)
->>> -        pfn = ttm_bo_io_mem_pfn(bo, page_offset);
->>> -    else
->>> -        pfn = page_to_pfn(ttm->pages[page_offset]);
->>> -
->>> -    /* pfn must be fault_page_size aligned. */
->>> -    if ((pfn & (fault_page_size - 1)) != 0)
->>> -        goto out_fallback;
->>> -
->>> -    /* Check that memory is contiguous. */
->>> -    if (!bo->resource->bus.is_iomem) {
->>> -        for (i = 1; i < fault_page_size; ++i) {
->>> -            if (page_to_pfn(ttm->pages[page_offset + i]) != pfn + i)
->>> -                goto out_fallback;
->>> -        }
->>> -    } else if (bo->bdev->funcs->io_mem_pfn) {
->>> -        for (i = 1; i < fault_page_size; ++i) {
->>> -            if (ttm_bo_io_mem_pfn(bo, page_offset + i) != pfn + i)
->>> -                goto out_fallback;
->>> -        }
->>> -    }
->>> -
->>> -    pfnt = __pfn_to_pfn_t(pfn, PFN_DEV);
->>> -    if (fault_page_size == (HPAGE_PMD_SIZE >> PAGE_SHIFT))
->>> -        ret = vmf_insert_pfn_pmd_prot(vmf, pfnt, pgprot, write);
->>> -#ifdef CONFIG_HAVE_ARCH_TRANSPARENT_HUGEPAGE_PUD
->>> -    else if (fault_page_size == (HPAGE_PUD_SIZE >> PAGE_SHIFT))
->>> -        ret = vmf_insert_pfn_pud_prot(vmf, pfnt, pgprot, write);
->>> -#endif
->>> -    else
->>> -        WARN_ON_ONCE(ret = VM_FAULT_FALLBACK);
->>> -
->>> -    if (ret != VM_FAULT_NOPAGE)
->>> -        goto out_fallback;
->>> -
->>> -    return VM_FAULT_NOPAGE;
->>> -out_fallback:
->>> -    count_vm_event(THP_FAULT_FALLBACK);
->>> -    return VM_FAULT_FALLBACK;
->>> -}
->>> -#else
->>> -static vm_fault_t ttm_bo_vm_insert_huge(struct vm_fault *vmf,
->>> -                    struct ttm_buffer_object *bo,
->>> -                    pgoff_t page_offset,
->>> -                    pgoff_t fault_page_size,
->>> -                    pgprot_t pgprot)
->>> -{
->>> -    return VM_FAULT_FALLBACK;
->>> -}
->>> -#endif
->>> -
->>>   /**
->>>    * ttm_bo_vm_fault_reserved - TTM fault helper
->>>    * @vmf: The struct vm_fault given as argument to the fault callback
->>> @@ -261,7 +178,6 @@ static vm_fault_t ttm_bo_vm_insert_huge(struct 
->>> vm_fault *vmf,
->>>    * @num_prefault: Maximum number of prefault pages. The caller may 
->>> want to
->>>    * specify this based on madvice settings and the size of the GPU 
->>> object
->>>    * backed by the memory.
->>> - * @fault_page_size: The size of the fault in pages.
->>>    *
->>>    * This function inserts one or more page table entries pointing 
->>> to the
->>>    * memory backing the buffer object, and then returns a return code
->>> @@ -275,8 +191,7 @@ static vm_fault_t ttm_bo_vm_insert_huge(struct 
->>> vm_fault *vmf,
->>>    */
->>>   vm_fault_t ttm_bo_vm_fault_reserved(struct vm_fault *vmf,
->>>                       pgprot_t prot,
->>> -                    pgoff_t num_prefault,
->>> -                    pgoff_t fault_page_size)
->>> +                    pgoff_t num_prefault)
->>>   {
->>>       struct vm_area_struct *vma = vmf->vma;
->>>       struct ttm_buffer_object *bo = vma->vm_private_data;
->>> @@ -327,11 +242,6 @@ vm_fault_t ttm_bo_vm_fault_reserved(struct 
->>> vm_fault *vmf,
->>>           prot = pgprot_decrypted(prot);
->>>       }
->>>   -    /* We don't prefault on huge faults. Yet. */
->>> -    if (IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE) && fault_page_size 
->>> != 1)
->>> -        return ttm_bo_vm_insert_huge(vmf, bo, page_offset,
->>> -                         fault_page_size, prot);
->>> -
->>>       /*
->>>        * Speculatively prefault a number of pages. Only error on
->>>        * first page.
->>> @@ -429,7 +339,7 @@ vm_fault_t ttm_bo_vm_fault(struct vm_fault *vmf)
->>>         prot = vma->vm_page_prot;
->>>       if (drm_dev_enter(ddev, &idx)) {
->>> -        ret = ttm_bo_vm_fault_reserved(vmf, prot, 
->>> TTM_BO_VM_NUM_PREFAULT, 1);
->>> +        ret = ttm_bo_vm_fault_reserved(vmf, prot, 
->>> TTM_BO_VM_NUM_PREFAULT);
->>>           drm_dev_exit(idx);
->>>       } else {
->>>           ret = ttm_bo_vm_dummy_page(vmf, prot);
->>> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h 
->>> b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
->>> index a833751099b559..858aff99a3fe53 100644
->>> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
->>> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
->>> @@ -1550,10 +1550,6 @@ void vmw_bo_dirty_unmap(struct 
->>> vmw_buffer_object *vbo,
->>>               pgoff_t start, pgoff_t end);
->>>   vm_fault_t vmw_bo_vm_fault(struct vm_fault *vmf);
->>>   vm_fault_t vmw_bo_vm_mkwrite(struct vm_fault *vmf);
->>> -#ifdef CONFIG_TRANSPARENT_HUGEPAGE
->>> -vm_fault_t vmw_bo_vm_huge_fault(struct vm_fault *vmf,
->>> -                enum page_entry_size pe_size);
->>> -#endif
->>>     /* Transparent hugepage support - vmwgfx_thp.c */
->>>   #ifdef CONFIG_TRANSPARENT_HUGEPAGE
->>> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_page_dirty.c 
->>> b/drivers/gpu/drm/vmwgfx/vmwgfx_page_dirty.c
->>> index e5a9a5cbd01a7c..922317d1acc8a0 100644
->>> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_page_dirty.c
->>> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_page_dirty.c
->>> @@ -477,7 +477,7 @@ vm_fault_t vmw_bo_vm_fault(struct vm_fault *vmf)
->>>       else
->>>           prot = vm_get_page_prot(vma->vm_flags);
->>>   -    ret = ttm_bo_vm_fault_reserved(vmf, prot, num_prefault, 1);
->>> +    ret = ttm_bo_vm_fault_reserved(vmf, prot, num_prefault);
->>>       if (ret == VM_FAULT_RETRY && !(vmf->flags & 
->>> FAULT_FLAG_RETRY_NOWAIT))
->>>           return ret;
->>>   @@ -486,73 +486,3 @@ vm_fault_t vmw_bo_vm_fault(struct vm_fault *vmf)
->>>         return ret;
->>>   }
->>> -
->>> -#ifdef CONFIG_TRANSPARENT_HUGEPAGE
->>> -vm_fault_t vmw_bo_vm_huge_fault(struct vm_fault *vmf,
->>> -                enum page_entry_size pe_size)
->>> -{
->>> -    struct vm_area_struct *vma = vmf->vma;
->>> -    struct ttm_buffer_object *bo = (struct ttm_buffer_object *)
->>> -        vma->vm_private_data;
->>> -    struct vmw_buffer_object *vbo =
->>> -        container_of(bo, struct vmw_buffer_object, base);
->>> -    pgprot_t prot;
->>> -    vm_fault_t ret;
->>> -    pgoff_t fault_page_size;
->>> -    bool write = vmf->flags & FAULT_FLAG_WRITE;
->>> -
->>> -    switch (pe_size) {
->>> -    case PE_SIZE_PMD:
->>> -        fault_page_size = HPAGE_PMD_SIZE >> PAGE_SHIFT;
->>> -        break;
->>> -#ifdef CONFIG_HAVE_ARCH_TRANSPARENT_HUGEPAGE_PUD
->>> -    case PE_SIZE_PUD:
->>> -        fault_page_size = HPAGE_PUD_SIZE >> PAGE_SHIFT;
->>> -        break;
->>> -#endif
->>> -    default:
->>> -        WARN_ON_ONCE(1);
->>> -        return VM_FAULT_FALLBACK;
->>> -    }
->>> -
->>> -    /* Always do write dirty-tracking and COW on PTE level. */
->>> -    if (write && (READ_ONCE(vbo->dirty) || 
->>> is_cow_mapping(vma->vm_flags)))
->>> -        return VM_FAULT_FALLBACK;
->>> -
->>> -    ret = ttm_bo_vm_reserve(bo, vmf);
->>> -    if (ret)
->>> -        return ret;
->>> -
->>> -    if (vbo->dirty) {
->>> -        pgoff_t allowed_prefault;
->>> -        unsigned long page_offset;
->>> -
->>> -        page_offset = vmf->pgoff -
->>> -            drm_vma_node_start(&bo->base.vma_node);
->>> -        if (page_offset >= bo->resource->num_pages ||
->>> -            vmw_resources_clean(vbo, page_offset,
->>> -                    page_offset + PAGE_SIZE,
->>> -                    &allowed_prefault)) {
->>> -            ret = VM_FAULT_SIGBUS;
->>> -            goto out_unlock;
->>> -        }
->>> -
->>> -        /*
->>> -         * Write protect, so we get a new fault on write, and can
->>> -         * split.
->>> -         */
->>> -        prot = vm_get_page_prot(vma->vm_flags & ~VM_SHARED);
->>> -    } else {
->>> -        prot = vm_get_page_prot(vma->vm_flags);
->>> -    }
->>> -
->>> -    ret = ttm_bo_vm_fault_reserved(vmf, prot, 1, fault_page_size);
->>> -    if (ret == VM_FAULT_RETRY && !(vmf->flags & 
->>> FAULT_FLAG_RETRY_NOWAIT))
->>> -        return ret;
->>> -
->>> -out_unlock:
->>> -    dma_resv_unlock(bo->base.resv);
->>> -
->>> -    return ret;
->>> -}
->>> -#endif
->>> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_glue.c 
->>> b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_glue.c
->>> index e6b1f98ec99f09..0a4c340252ec4a 100644
->>> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_glue.c
->>> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_glue.c
->>> @@ -61,9 +61,6 @@ int vmw_mmap(struct file *filp, struct 
->>> vm_area_struct *vma)
->>>           .fault = vmw_bo_vm_fault,
->>>           .open = ttm_bo_vm_open,
->>>           .close = ttm_bo_vm_close,
->>> -#ifdef CONFIG_TRANSPARENT_HUGEPAGE
->>> -        .huge_fault = vmw_bo_vm_huge_fault,
->>> -#endif
->>>       };
->>>       struct drm_file *file_priv = filp->private_data;
->>>       struct vmw_private *dev_priv = vmw_priv(file_priv->minor->dev);
->>> diff --git a/include/drm/ttm/ttm_bo_api.h 
->>> b/include/drm/ttm/ttm_bo_api.h
->>> index f681bbdbc6982e..36f7eb9d066395 100644
->>> --- a/include/drm/ttm/ttm_bo_api.h
->>> +++ b/include/drm/ttm/ttm_bo_api.h
->>> @@ -594,8 +594,7 @@ vm_fault_t ttm_bo_vm_reserve(struct 
->>> ttm_buffer_object *bo,
->>>     vm_fault_t ttm_bo_vm_fault_reserved(struct vm_fault *vmf,
->>>                       pgprot_t prot,
->>> -                    pgoff_t num_prefault,
->>> -                    pgoff_t fault_page_size);
->>> +                    pgoff_t num_prefault);
->>>     vm_fault_t ttm_bo_vm_fault(struct vm_fault *vmf);
->>>
->>> base-commit: 519d81956ee277b4419c723adfb154603c2565ba
->
+-- 
+~Vinod
