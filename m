@@ -1,66 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F6B3434CB7
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Oct 2021 15:52:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BDFC3434D0F
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Oct 2021 16:07:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A9A4A89FBC;
-	Wed, 20 Oct 2021 13:52:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6FC0A6E2D5;
+	Wed, 20 Oct 2021 14:07:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x729.google.com (mail-qk1-x729.google.com
- [IPv6:2607:f8b0:4864:20::729])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 49F9089F2A
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Oct 2021 13:52:25 +0000 (UTC)
-Received: by mail-qk1-x729.google.com with SMTP id b15so3118879qkl.10
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Oct 2021 06:52:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=mfs+4NyWkfTaj421oSEwudMTkuDSAys8V4yDoL8Jpzs=;
- b=lh2SLw9LG7sjy/U5kaBXhoagcHJOXKhY3BfguE1ZtvSL3rbyAGc63Xd8vOPv6XWZwB
- ZLzOtt2+4fB4e+VDmPuxLDfD++zXTfcRdLrgGi0gl9yUbbaiUqj3R2ipqjXtSU3CEB7x
- 5n7a+mRMGCSKB95yKttmnTdv//O5NoEcS8OAE+QCBo4yIXZ4C2GYjNvqTyHFc2JVLYXm
- eR0WdEQjoMJMhD/09XXisBimbOmSdbqyHevnCKjyboOLym86hTeiyUko1vUN/iUqmUjp
- gkgtEwe+VA7CWLLSRZhV1fyC8Yh1yu9W8zKDOE4k+pHEi0IIxvSPVXT8MBniYiIFBpxi
- Jg6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=mfs+4NyWkfTaj421oSEwudMTkuDSAys8V4yDoL8Jpzs=;
- b=qHMfmHrl5o+2awUifhMEm5qEmS6xaoaWOuM5PzuZwA6Q9Jy/0C0FVJJ8cEE9bRw0yp
- ppfqH1I3aQzgQrFRRjJUMwWVknMTBig57LPFY4U0/hyunW5o8BeuIWq6ML2lTci9EJXU
- rjqJ0KzC3gw+DeYK+aogkl7V4bB66ILMZRCJlvdlhYQbEBvFpLQiLgBDwdaGrth5Xs77
- eOvJEBdtSFhQj8ovb8/GeNjoXkBQWmE3gRMcnwq0WS9yOt7nVBRRKnSilh+HvEiQxynj
- Li0xMOIr7P9vnhh+IzEF2ZcWOT4zthKapO2YSzwWr4PE32QcG9rBudLs3HzbMNTMzw5/
- DEWg==
-X-Gm-Message-State: AOAM532cdvZnSKPpFfBkQT66Q2ABmtjiV4tDUS3ZSSDQEfeCIJfWWKO3
- hUNPZGDc2gf/jZLSnRiqtaeLHMrnpZLMgsQO5U1PCA==
-X-Google-Smtp-Source: ABdhPJz8v3Z+3bmo6S7PjIrVebau93Wu/0dTLaQ2xsXOA/kgqokYi7hSyOxWoGwRwCU4FMbg4eigPgPMvA88MXHzIAY=
-X-Received: by 2002:a05:620a:1a05:: with SMTP id
- bk5mr101729qkb.195.1634737944348; 
- Wed, 20 Oct 2021 06:52:24 -0700 (PDT)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 349B56E2D5
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Oct 2021 14:07:01 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id B2AF321A7E;
+ Wed, 20 Oct 2021 14:06:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1634738819; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=TacpC2ZKlyo4vcGubsH+1dX4BvMBRCBLB/BmT9oB4nI=;
+ b=U/Jt70N2sLvo8USn3MeftEqGfbZ86sLPVSMoSTAoBJGUxgCqZRj+Vb6beLDKLx6e64Pe4D
+ 9YH1PoVKxC1VnurNbs6kJQpVGe808b9WpuTimiXXAGxs8kB63rcjeMWypHTYvC7QqAkMa+
+ Uj1XlhrbuaEPWMVNe8oIiMA+SijZ1cg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1634738819;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=TacpC2ZKlyo4vcGubsH+1dX4BvMBRCBLB/BmT9oB4nI=;
+ b=BWTKex8w4YB5LAyVaM8TKqIEOTycyiHjmoeRCCJY5X9/jroHBC8NlrcbXCs0Nx6pwqM7sC
+ 6HxSTpoYVyXhDgBA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7029213B55;
+ Wed, 20 Oct 2021 14:06:59 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id tB6WGYMicGG1EQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Wed, 20 Oct 2021 14:06:59 +0000
+Message-ID: <b855b3fb-73bb-74e4-3bb7-b7ae59f135d0@suse.de>
+Date: Wed, 20 Oct 2021 16:06:58 +0200
 MIME-Version: 1.0
-References: <1634732051-31282-1-git-send-email-quic_sbillaka@quicinc.com>
- <1634732051-31282-2-git-send-email-quic_sbillaka@quicinc.com>
-In-Reply-To: <1634732051-31282-2-git-send-email-quic_sbillaka@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Wed, 20 Oct 2021 16:52:13 +0300
-Message-ID: <CAA8EJpp60hdSaizFgHD3jzutgxvJ9XoueBuggoWXfTaCLenUpw@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] drm/msm/dp: Add support for SC7280 eDP
-To: Sankeerth Billakanti <quic_sbillaka@quicinc.com>
-Cc: "open list:DRM DRIVER FOR MSM ADRENO GPU"
- <dri-devel@lists.freedesktop.org>, 
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- freedreno <freedreno@lists.freedesktop.org>, 
- open list <linux-kernel@vger.kernel.org>, 
- Sankeerth Billakanti <sbillaka@codeaurora.org>, Rob Clark <robdclark@gmail.com>,
- Sean Paul <seanpaul@chromium.org>, Stephen Boyd <swboyd@chromium.org>, 
- Kalyan Thota <kalyan_t@codeaurora.org>, Abhinav Kumar <abhinavk@codeaurora.org>,
- Douglas Anderson <dianders@chromium.org>, Kuogee Hsieh <khsieh@codeaurora.org>,
- Krishna Manikandan <mkrishn@codeaurora.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: drm/rockchip: Implement mmap as GEM object function
+Content-Language: en-US
+To: Alex Bee <knaerzche@gmail.com>, hjc@rock-chips.com, heiko@sntech.de,
+ airlied@linux.ie, daniel@ffwll.ch
+Cc: linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+ dri-devel@lists.freedesktop.org
+References: <20210624095502.8945-1-tzimmermann@suse.de>
+ <7e0c55c3-604f-6948-fce2-a7c1df17a4a5@gmail.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <7e0c55c3-604f-6948-fce2-a7c1df17a4a5@gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------HNHYISfFaGBfS2hbOdpeSNCR"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,160 +76,191 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 20 Oct 2021 at 15:14, Sankeerth Billakanti
-<quic_sbillaka@quicinc.com> wrote:
->
-> From: Sankeerth Billakanti <sbillaka@codeaurora.org>
->
-> The eDP controller on SC7280 is similar to the eDP/DP controllers
-> supported by the current driver implementation.
->
-> SC7280 supports one EDP and one DP controller which can operate
-> concurrently.
->
-> The following are some required changes to support eDP on sc7280:
-> 1. SC7280 eDP support in the dp_display driver.
-> 2. ASSR support programming for the sink device.
-> 3. SSC support programming for the sink device.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------HNHYISfFaGBfS2hbOdpeSNCR
+Content-Type: multipart/mixed; boundary="------------8Km82e0Q3tzemvaUk096IWZh";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Alex Bee <knaerzche@gmail.com>, hjc@rock-chips.com, heiko@sntech.de,
+ airlied@linux.ie, daniel@ffwll.ch
+Cc: linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ dri-devel@lists.freedesktop.org
+Message-ID: <b855b3fb-73bb-74e4-3bb7-b7ae59f135d0@suse.de>
+Subject: Re: drm/rockchip: Implement mmap as GEM object function
+References: <20210624095502.8945-1-tzimmermann@suse.de>
+ <7e0c55c3-604f-6948-fce2-a7c1df17a4a5@gmail.com>
+In-Reply-To: <7e0c55c3-604f-6948-fce2-a7c1df17a4a5@gmail.com>
 
-Please split your patch according to these changes. Each item should
-go in a separate patch.
+--------------8Km82e0Q3tzemvaUk096IWZh
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
->
-> Signed-off-by: Sankeerth Billakanti <quic_sbillaka@quicinc.com>
-> ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c |  4 ++--
->  drivers/gpu/drm/msm/dp/dp_ctrl.c               | 20 ++++++++++++++++++--
->  drivers/gpu/drm/msm/dp/dp_display.c            | 10 +++++++++-
->  3 files changed, 29 insertions(+), 5 deletions(-)
->
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> index ce6f32a..516cc19 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> @@ -856,9 +856,9 @@ static const struct dpu_intf_cfg sm8150_intf[] = {
->  };
->
->  static const struct dpu_intf_cfg sc7280_intf[] = {
-> -       INTF_BLK("intf_0", INTF_0, 0x34000, INTF_DP, 0, 24, INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 24, 25),
-> +       INTF_BLK("intf_0", INTF_0, 0x34000, INTF_DP, 1, 24, INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 24, 25),
->         INTF_BLK("intf_1", INTF_1, 0x35000, INTF_DSI, 0, 24, INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 26, 27),
-> -       INTF_BLK("intf_5", INTF_5, 0x39000, INTF_EDP, 0, 24, INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 22, 23),
-> +       INTF_BLK("intf_5", INTF_5, 0x39000, INTF_DP, 0, 24, INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 22, 23),
+SGkNCg0KQW0gMTkuMTAuMjEgdW0gMTY6MDIgc2NocmllYiBBbGV4IEJlZToNCj4gDQo+IEFt
+IDI0LjA2LjIxIHVtIDExOjU1IHNjaHJpZWIgVGhvbWFzIFppbW1lcm1hbm46DQo+PiBNb3Zp
+bmcgdGhlIGRyaXZlci1zcGVjaWZpYyBtbWFwIGNvZGUgaW50byBhIEdFTSBvYmplY3QgZnVu
+Y3Rpb24gYWxsb3dzDQo+PiBmb3IgdXNpbmcgRFJNIGhlbHBlcnMgZm9yIHZhcmlvdXMgbW1h
+cCBjYWxsYmFja3MuDQo+Pg0KPj4gVGhlIHJlc3BlY3RpdmUgcm9ja2NoaXAgZnVuY3Rpb25z
+IGFyZSBiZWluZyByZW1vdmVkLiBUaGUgZmlsZV9vcGVyYXRpb25zDQo+PiBzdHJ1Y3R1cmUg
+Zm9wcyBpcyBub3cgYmVpbmcgY3JlYXRlZCBieSB0aGUgaGVscGVyIG1hY3JvDQo+PiBERUZJ
+TkVfRFJNX0dFTV9GT1BTKCkuDQo+IA0KPiBBbHNvDQo+IA0KPiAgwqDCoMKgIFRlc3RlZC1i
+eTogQWxleCBCZWUgPGtuYWVyemNoZUBnbWFpbC5jb20+DQo+IA0KPiBvbiBSSzMxODgvUksz
+MDY2LCBpLmUuIG9uIFNvQ3Mgdy9vIElPTU1VIGZvciB2b3AuDQo+IA0KPiBDb3VsZCBzb21l
+b25lIHBpY2sgdGhpcyB1cCBmb3IgcmV2aWV3L21lcmdpbmc/DQoNClllcywgcGxlYXNlISBJ
+J3ZlIGJlZW4gd2FpdGluZyBmb3IgbW9udGhzLiBBbmQgdGhlcmUgYXJlIG9ubHkgMiBvciAz
+IA0KZHJpdmVycycgbW1hcCBmdW5jdGlvbnMgbGVmdCB0byBjb252ZXJ0Lg0KDQpCZXN0IHJl
+Z2FyZHMNClRob21hcw0KDQo+IA0KPiBUaGFua3MsDQo+IA0KPiBBbGV4Lg0KPiANCj4+IFNp
+Z25lZC1vZmYtYnk6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPg0K
+Pj4gVGVzdGVkLWJ5OiBIZWlrbyBTdHVlYm5lciA8aGVpa29Ac250ZWNoLmRlPg0KPj4gLS0t
+DQo+PiDCoCBkcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvcm9ja2NoaXBfZHJtX2Rydi5jwqDC
+oCB8IDEzICstLS0tLQ0KPj4gwqAgZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL3JvY2tjaGlw
+X2RybV9mYmRldi5jIHzCoCAzICstDQo+PiDCoCBkcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAv
+cm9ja2NoaXBfZHJtX2dlbS5jwqDCoCB8IDQ0ICsrKysrLS0tLS0tLS0tLS0tLS0NCj4+IMKg
+IGRyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9yb2NrY2hpcF9kcm1fZ2VtLmjCoMKgIHzCoCA3
+IC0tLQ0KPj4gwqAgNCBmaWxlcyBjaGFuZ2VkLCAxNSBpbnNlcnRpb25zKCspLCA1MiBkZWxl
+dGlvbnMoLSkNCj4+DQo+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlw
+L3JvY2tjaGlwX2RybV9kcnYuYyANCj4+IGIvZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL3Jv
+Y2tjaGlwX2RybV9kcnYuYw0KPj4gaW5kZXggYjczMGI4ZDVkOTQ5Li4yZTNhYjU3M2E4MTcg
+MTAwNjQ0DQo+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvcm9ja2NoaXBfZHJt
+X2Rydi5jDQo+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvcm9ja2NoaXBfZHJt
+X2Rydi5jDQo+PiBAQCAtMjA4LDE2ICsyMDgsNyBAQCBzdGF0aWMgdm9pZCByb2NrY2hpcF9k
+cm1fdW5iaW5kKHN0cnVjdCBkZXZpY2UgKmRldikNCj4+IMKgwqDCoMKgwqAgZHJtX2Rldl9w
+dXQoZHJtX2Rldik7DQo+PiDCoCB9DQo+PiAtc3RhdGljIGNvbnN0IHN0cnVjdCBmaWxlX29w
+ZXJhdGlvbnMgcm9ja2NoaXBfZHJtX2RyaXZlcl9mb3BzID0gew0KPj4gLcKgwqDCoCAub3du
+ZXIgPSBUSElTX01PRFVMRSwNCj4+IC3CoMKgwqAgLm9wZW4gPSBkcm1fb3BlbiwNCj4+IC3C
+oMKgwqAgLm1tYXAgPSByb2NrY2hpcF9nZW1fbW1hcCwNCj4+IC3CoMKgwqAgLnBvbGwgPSBk
+cm1fcG9sbCwNCj4+IC3CoMKgwqAgLnJlYWQgPSBkcm1fcmVhZCwNCj4+IC3CoMKgwqAgLnVu
+bG9ja2VkX2lvY3RsID0gZHJtX2lvY3RsLA0KPj4gLcKgwqDCoCAuY29tcGF0X2lvY3RsID0g
+ZHJtX2NvbXBhdF9pb2N0bCwNCj4+IC3CoMKgwqAgLnJlbGVhc2UgPSBkcm1fcmVsZWFzZSwN
+Cj4+IC19Ow0KPj4gK0RFRklORV9EUk1fR0VNX0ZPUFMocm9ja2NoaXBfZHJtX2RyaXZlcl9m
+b3BzKTsNCj4+IMKgIHN0YXRpYyBjb25zdCBzdHJ1Y3QgZHJtX2RyaXZlciByb2NrY2hpcF9k
+cm1fZHJpdmVyID0gew0KPj4gwqDCoMKgwqDCoCAuZHJpdmVyX2ZlYXR1cmVzwqDCoMKgID0g
+RFJJVkVSX01PREVTRVQgfCBEUklWRVJfR0VNIHwgRFJJVkVSX0FUT01JQywNCj4+IEBAIC0y
+MjYsNyArMjE3LDcgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCBkcm1fZHJpdmVyIHJvY2tjaGlw
+X2RybV9kcml2ZXIgDQo+PiA9IHsNCj4+IMKgwqDCoMKgwqAgLnByaW1lX2hhbmRsZV90b19m
+ZMKgwqDCoCA9IGRybV9nZW1fcHJpbWVfaGFuZGxlX3RvX2ZkLA0KPj4gwqDCoMKgwqDCoCAu
+cHJpbWVfZmRfdG9faGFuZGxlwqDCoMKgID0gZHJtX2dlbV9wcmltZV9mZF90b19oYW5kbGUs
+DQo+PiDCoMKgwqDCoMKgIC5nZW1fcHJpbWVfaW1wb3J0X3NnX3RhYmxlwqDCoMKgID0gcm9j
+a2NoaXBfZ2VtX3ByaW1lX2ltcG9ydF9zZ190YWJsZSwNCj4+IC3CoMKgwqAgLmdlbV9wcmlt
+ZV9tbWFwwqDCoMKgwqDCoMKgwqAgPSByb2NrY2hpcF9nZW1fbW1hcF9idWYsDQo+PiArwqDC
+oMKgIC5nZW1fcHJpbWVfbW1hcMKgwqDCoMKgwqDCoMKgID0gZHJtX2dlbV9wcmltZV9tbWFw
+LA0KPj4gwqDCoMKgwqDCoCAuZm9wc8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAgPSAmcm9ja2No
+aXBfZHJtX2RyaXZlcl9mb3BzLA0KPj4gwqDCoMKgwqDCoCAubmFtZcKgwqDCoCA9IERSSVZF
+Ul9OQU1FLA0KPj4gwqDCoMKgwqDCoCAuZGVzY8KgwqDCoCA9IERSSVZFUl9ERVNDLA0KPj4g
+ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9yb2NrY2hpcF9kcm1fZmJk
+ZXYuYyANCj4+IGIvZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL3JvY2tjaGlwX2RybV9mYmRl
+di5jDQo+PiBpbmRleCAyZmRjNDU1YzRhZDcuLmQ4NDE4ZGQzOWQwZSAxMDA2NDQNCj4+IC0t
+LSBhL2RyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9yb2NrY2hpcF9kcm1fZmJkZXYuYw0KPj4g
+KysrIGIvZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL3JvY2tjaGlwX2RybV9mYmRldi5jDQo+
+PiBAQCAtNyw2ICs3LDcgQEANCj4+IMKgICNpbmNsdWRlIDxkcm0vZHJtLmg+DQo+PiDCoCAj
+aW5jbHVkZSA8ZHJtL2RybV9mYl9oZWxwZXIuaD4NCj4+IMKgICNpbmNsdWRlIDxkcm0vZHJt
+X2ZvdXJjYy5oPg0KPj4gKyNpbmNsdWRlIDxkcm0vZHJtX3ByaW1lLmg+DQo+PiDCoCAjaW5j
+bHVkZSA8ZHJtL2RybV9wcm9iZV9oZWxwZXIuaD4NCj4+IMKgICNpbmNsdWRlICJyb2NrY2hp
+cF9kcm1fZHJ2LmgiDQo+PiBAQCAtMjQsNyArMjUsNyBAQCBzdGF0aWMgaW50IHJvY2tjaGlw
+X2ZiZGV2X21tYXAoc3RydWN0IGZiX2luZm8gKmluZm8sDQo+PiDCoMKgwqDCoMKgIHN0cnVj
+dCBkcm1fZmJfaGVscGVyICpoZWxwZXIgPSBpbmZvLT5wYXI7DQo+PiDCoMKgwqDCoMKgIHN0
+cnVjdCByb2NrY2hpcF9kcm1fcHJpdmF0ZSAqcHJpdmF0ZSA9IHRvX2RybV9wcml2YXRlKGhl
+bHBlcik7DQo+PiAtwqDCoMKgIHJldHVybiByb2NrY2hpcF9nZW1fbW1hcF9idWYocHJpdmF0
+ZS0+ZmJkZXZfYm8sIHZtYSk7DQo+PiArwqDCoMKgIHJldHVybiBkcm1fZ2VtX3ByaW1lX21t
+YXAocHJpdmF0ZS0+ZmJkZXZfYm8sIHZtYSk7DQo+PiDCoCB9DQo+PiDCoCBzdGF0aWMgY29u
+c3Qgc3RydWN0IGZiX29wcyByb2NrY2hpcF9kcm1fZmJkZXZfb3BzID0gew0KPj4gZGlmZiAt
+LWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9yb2NrY2hpcF9kcm1fZ2VtLmMgDQo+
+PiBiL2RyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9yb2NrY2hpcF9kcm1fZ2VtLmMNCj4+IGlu
+ZGV4IDc5NzFmNTc0MzZkZC4uNjNlYjczYjYyNGFhIDEwMDY0NA0KPj4gLS0tIGEvZHJpdmVy
+cy9ncHUvZHJtL3JvY2tjaGlwL3JvY2tjaGlwX2RybV9nZW0uYw0KPj4gKysrIGIvZHJpdmVy
+cy9ncHUvZHJtL3JvY2tjaGlwL3JvY2tjaGlwX2RybV9nZW0uYw0KPj4gQEAgLTI0MCwxMiAr
+MjQwLDIyIEBAIHN0YXRpYyBpbnQgcm9ja2NoaXBfZHJtX2dlbV9vYmplY3RfbW1hcChzdHJ1
+Y3QgDQo+PiBkcm1fZ2VtX29iamVjdCAqb2JqLA0KPj4gwqDCoMKgwqDCoCBpbnQgcmV0Ow0K
+Pj4gwqDCoMKgwqDCoCBzdHJ1Y3Qgcm9ja2NoaXBfZ2VtX29iamVjdCAqcmtfb2JqID0gdG9f
+cm9ja2NoaXBfb2JqKG9iaik7DQo+PiArwqDCoMKgIC8qDQo+PiArwqDCoMKgwqAgKiBTZXQg
+dm1fcGdvZmYgKHVzZWQgYXMgYSBmYWtlIGJ1ZmZlciBvZmZzZXQgYnkgRFJNKSB0byAwIGFu
+ZCANCj4+IG1hcCB0aGUNCj4+ICvCoMKgwqDCoCAqIHdob2xlIGJ1ZmZlciBmcm9tIHRoZSBz
+dGFydC4NCj4+ICvCoMKgwqDCoCAqLw0KPj4gK8KgwqDCoCB2bWEtPnZtX3Bnb2ZmID0gMDsN
+Cj4+ICsNCj4+IMKgwqDCoMKgwqAgLyoNCj4+IMKgwqDCoMKgwqDCoCAqIFdlIGFsbG9jYXRl
+ZCBhIHN0cnVjdCBwYWdlIHRhYmxlIGZvciBya19vYmosIHNvIGNsZWFyDQo+PiDCoMKgwqDC
+oMKgwqAgKiBWTV9QRk5NQVAgZmxhZyB0aGF0IHdhcyBzZXQgYnkgDQo+PiBkcm1fZ2VtX21t
+YXBfb2JqKCkvZHJtX2dlbV9tbWFwKCkuDQo+PiDCoMKgwqDCoMKgwqAgKi8NCj4+ICvCoMKg
+wqAgdm1hLT52bV9mbGFncyB8PSBWTV9JTyB8IFZNX0RPTlRFWFBBTkQgfCBWTV9ET05URFVN
+UDsNCj4+IMKgwqDCoMKgwqAgdm1hLT52bV9mbGFncyAmPSB+Vk1fUEZOTUFQOw0KPj4gK8Kg
+wqDCoCB2bWEtPnZtX3BhZ2VfcHJvdCA9IA0KPj4gcGdwcm90X3dyaXRlY29tYmluZSh2bV9n
+ZXRfcGFnZV9wcm90KHZtYS0+dm1fZmxhZ3MpKTsNCj4+ICvCoMKgwqAgdm1hLT52bV9wYWdl
+X3Byb3QgPSBwZ3Byb3RfZGVjcnlwdGVkKHZtYS0+dm1fcGFnZV9wcm90KTsNCj4+ICsNCj4+
+IMKgwqDCoMKgwqAgaWYgKHJrX29iai0+cGFnZXMpDQo+PiDCoMKgwqDCoMKgwqDCoMKgwqAg
+cmV0ID0gcm9ja2NoaXBfZHJtX2dlbV9vYmplY3RfbW1hcF9pb21tdShvYmosIHZtYSk7DQo+
+PiDCoMKgwqDCoMKgIGVsc2UNCj4+IEBAIC0yNTcsMzkgKzI2Nyw2IEBAIHN0YXRpYyBpbnQg
+cm9ja2NoaXBfZHJtX2dlbV9vYmplY3RfbW1hcChzdHJ1Y3QgDQo+PiBkcm1fZ2VtX29iamVj
+dCAqb2JqLA0KPj4gwqDCoMKgwqDCoCByZXR1cm4gcmV0Ow0KPj4gwqAgfQ0KPj4gLWludCBy
+b2NrY2hpcF9nZW1fbW1hcF9idWYoc3RydWN0IGRybV9nZW1fb2JqZWN0ICpvYmosDQo+PiAt
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgc3RydWN0IHZtX2FyZWFfc3RydWN0ICp2bWEp
+DQo+PiAtew0KPj4gLcKgwqDCoCBpbnQgcmV0Ow0KPj4gLQ0KPj4gLcKgwqDCoCByZXQgPSBk
+cm1fZ2VtX21tYXBfb2JqKG9iaiwgb2JqLT5zaXplLCB2bWEpOw0KPj4gLcKgwqDCoCBpZiAo
+cmV0KQ0KPj4gLcKgwqDCoMKgwqDCoMKgIHJldHVybiByZXQ7DQo+PiAtDQo+PiAtwqDCoMKg
+IHJldHVybiByb2NrY2hpcF9kcm1fZ2VtX29iamVjdF9tbWFwKG9iaiwgdm1hKTsNCj4+IC19
+DQo+PiAtDQo+PiAtLyogZHJtIGRyaXZlciBtbWFwIGZpbGUgb3BlcmF0aW9ucyAqLw0KPj4g
+LWludCByb2NrY2hpcF9nZW1fbW1hcChzdHJ1Y3QgZmlsZSAqZmlscCwgc3RydWN0IHZtX2Fy
+ZWFfc3RydWN0ICp2bWEpDQo+PiAtew0KPj4gLcKgwqDCoCBzdHJ1Y3QgZHJtX2dlbV9vYmpl
+Y3QgKm9iajsNCj4+IC3CoMKgwqAgaW50IHJldDsNCj4+IC0NCj4+IC3CoMKgwqAgcmV0ID0g
+ZHJtX2dlbV9tbWFwKGZpbHAsIHZtYSk7DQo+PiAtwqDCoMKgIGlmIChyZXQpDQo+PiAtwqDC
+oMKgwqDCoMKgwqAgcmV0dXJuIHJldDsNCj4+IC0NCj4+IC3CoMKgwqAgLyoNCj4+IC3CoMKg
+wqDCoCAqIFNldCB2bV9wZ29mZiAodXNlZCBhcyBhIGZha2UgYnVmZmVyIG9mZnNldCBieSBE
+Uk0pIHRvIDAgYW5kIA0KPj4gbWFwIHRoZQ0KPj4gLcKgwqDCoMKgICogd2hvbGUgYnVmZmVy
+IGZyb20gdGhlIHN0YXJ0Lg0KPj4gLcKgwqDCoMKgICovDQo+PiAtwqDCoMKgIHZtYS0+dm1f
+cGdvZmYgPSAwOw0KPj4gLQ0KPj4gLcKgwqDCoCBvYmogPSB2bWEtPnZtX3ByaXZhdGVfZGF0
+YTsNCj4+IC0NCj4+IC3CoMKgwqAgcmV0dXJuIHJvY2tjaGlwX2RybV9nZW1fb2JqZWN0X21t
+YXAob2JqLCB2bWEpOw0KPj4gLX0NCj4+IC0NCj4+IMKgIHN0YXRpYyB2b2lkIHJvY2tjaGlw
+X2dlbV9yZWxlYXNlX29iamVjdChzdHJ1Y3Qgcm9ja2NoaXBfZ2VtX29iamVjdCANCj4+ICpy
+a19vYmopDQo+PiDCoCB7DQo+PiDCoMKgwqDCoMKgIGRybV9nZW1fb2JqZWN0X3JlbGVhc2Uo
+JnJrX29iai0+YmFzZSk7DQo+PiBAQCAtMzAxLDYgKzI3OCw3IEBAIHN0YXRpYyBjb25zdCBz
+dHJ1Y3QgZHJtX2dlbV9vYmplY3RfZnVuY3MgDQo+PiByb2NrY2hpcF9nZW1fb2JqZWN0X2Z1
+bmNzID0gew0KPj4gwqDCoMKgwqDCoCAuZ2V0X3NnX3RhYmxlID0gcm9ja2NoaXBfZ2VtX3By
+aW1lX2dldF9zZ190YWJsZSwNCj4+IMKgwqDCoMKgwqAgLnZtYXAgPSByb2NrY2hpcF9nZW1f
+cHJpbWVfdm1hcCwNCj4+IMKgwqDCoMKgwqAgLnZ1bm1hcMKgwqDCoCA9IHJvY2tjaGlwX2dl
+bV9wcmltZV92dW5tYXAsDQo+PiArwqDCoMKgIC5tbWFwID0gcm9ja2NoaXBfZHJtX2dlbV9v
+YmplY3RfbW1hcCwNCj4+IMKgwqDCoMKgwqAgLnZtX29wcyA9ICZkcm1fZ2VtX2NtYV92bV9v
+cHMsDQo+PiDCoCB9Ow0KPj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9yb2NrY2hp
+cC9yb2NrY2hpcF9kcm1fZ2VtLmggDQo+PiBiL2RyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9y
+b2NrY2hpcF9kcm1fZ2VtLmgNCj4+IGluZGV4IDVhNzBhNTZjZDQwNi4uNDdjMTg2MWVlY2Uw
+IDEwMDY0NA0KPj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL3JvY2tjaGlwX2Ry
+bV9nZW0uaA0KPj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL3JvY2tjaGlwX2Ry
+bV9nZW0uaA0KPj4gQEAgLTM0LDEzICszNCw2IEBAIHJvY2tjaGlwX2dlbV9wcmltZV9pbXBv
+cnRfc2dfdGFibGUoc3RydWN0IA0KPj4gZHJtX2RldmljZSAqZGV2LA0KPj4gwqAgaW50IHJv
+Y2tjaGlwX2dlbV9wcmltZV92bWFwKHN0cnVjdCBkcm1fZ2VtX29iamVjdCAqb2JqLCBzdHJ1
+Y3QgDQo+PiBkbWFfYnVmX21hcCAqbWFwKTsNCj4+IMKgIHZvaWQgcm9ja2NoaXBfZ2VtX3By
+aW1lX3Z1bm1hcChzdHJ1Y3QgZHJtX2dlbV9vYmplY3QgKm9iaiwgc3RydWN0IA0KPj4gZG1h
+X2J1Zl9tYXAgKm1hcCk7DQo+PiAtLyogZHJtIGRyaXZlciBtbWFwIGZpbGUgb3BlcmF0aW9u
+cyAqLw0KPj4gLWludCByb2NrY2hpcF9nZW1fbW1hcChzdHJ1Y3QgZmlsZSAqZmlscCwgc3Ry
+dWN0IHZtX2FyZWFfc3RydWN0ICp2bWEpOw0KPj4gLQ0KPj4gLS8qIG1tYXAgYSBnZW0gb2Jq
+ZWN0IHRvIHVzZXJzcGFjZS4gKi8NCj4+IC1pbnQgcm9ja2NoaXBfZ2VtX21tYXBfYnVmKHN0
+cnVjdCBkcm1fZ2VtX29iamVjdCAqb2JqLA0KPj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgIHN0cnVjdCB2bV9hcmVhX3N0cnVjdCAqdm1hKTsNCj4+IC0NCj4+IMKgIHN0cnVjdCBy
+b2NrY2hpcF9nZW1fb2JqZWN0ICoNCj4+IMKgwqDCoMKgwqAgcm9ja2NoaXBfZ2VtX2NyZWF0
+ZV9vYmplY3Qoc3RydWN0IGRybV9kZXZpY2UgKmRybSwgdW5zaWduZWQgaW50IA0KPj4gc2l6
+ZSwNCj4+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgYm9vbCBh
+bGxvY19rbWFwKTsNCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVy
+IERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpNYXhm
+ZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkNCihIUkIgMzY4MDksIEFHIE7D
+vHJuYmVyZykNCkdlc2Now6RmdHNmw7xocmVyOiBGZWxpeCBJbWVuZMO2cmZmZXINCg==
 
-Why does intf_0 receive index 1? I think you have a mistake in the
-dp_descs below.
-Also note that the latest patch started using MSM_DP_CONTROLLER_n
-symbols instead of using raw numbers.
+--------------8Km82e0Q3tzemvaUk096IWZh--
 
->  };
->
->  /*************************************************************
-> diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-> index 62e75dc..9fea49c 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-> @@ -119,7 +119,7 @@ void dp_ctrl_push_idle(struct dp_ctrl *dp_ctrl)
->  static void dp_ctrl_config_ctrl(struct dp_ctrl_private *ctrl)
->  {
->         u32 config = 0, tbd;
-> -       u8 *dpcd = ctrl->panel->dpcd;
-> +       const u8 *dpcd = ctrl->panel->dpcd;
->
->         /* Default-> LSCLK DIV: 1/4 LCLK  */
->         config |= (2 << DP_CONFIGURATION_CTRL_LSCLK_DIV_SHIFT);
-> @@ -1228,7 +1228,9 @@ static int dp_ctrl_link_train(struct dp_ctrl_private *ctrl,
->                         int *training_step)
->  {
->         int ret = 0;
-> +       const u8 *dpcd = ctrl->panel->dpcd;
->         u8 encoding = DP_SET_ANSI_8B10B;
-> +       u8 ssc, assr;
->         struct dp_link_info link_info = {0};
->
->         dp_ctrl_config_ctrl(ctrl);
-> @@ -1238,9 +1240,21 @@ static int dp_ctrl_link_train(struct dp_ctrl_private *ctrl,
->         link_info.capabilities = DP_LINK_CAP_ENHANCED_FRAMING;
->
->         dp_aux_link_configure(ctrl->aux, &link_info);
-> +
-> +       if (dpcd[DP_MAX_DOWNSPREAD] & DP_MAX_DOWNSPREAD_0_5) {
-> +               ssc = DP_SPREAD_AMP_0_5;
-> +               drm_dp_dpcd_write(ctrl->aux, DP_DOWNSPREAD_CTRL, &ssc, 1);
-> +       }
-> +
->         drm_dp_dpcd_write(ctrl->aux, DP_MAIN_LINK_CHANNEL_CODING_SET,
->                                 &encoding, 1);
->
-> +       if (dpcd[DP_EDP_CONFIGURATION_CAP] & DP_ALTERNATE_SCRAMBLER_RESET_CAP) {
-> +               assr = DP_ALTERNATE_SCRAMBLER_RESET_ENABLE;
-> +               drm_dp_dpcd_write(ctrl->aux, DP_EDP_CONFIGURATION_SET,
-> +                               &assr, 1);
-> +       }
-> +
->         ret = dp_ctrl_link_train_1(ctrl, training_step);
->         if (ret) {
->                 DRM_ERROR("link training #1 failed. ret=%d\n", ret);
-> @@ -1312,9 +1326,11 @@ static int dp_ctrl_enable_mainlink_clocks(struct dp_ctrl_private *ctrl)
->         struct dp_io *dp_io = &ctrl->parser->io;
->         struct phy *phy = dp_io->phy;
->         struct phy_configure_opts_dp *opts_dp = &dp_io->phy_opts.dp;
-> +       const u8 *dpcd = ctrl->panel->dpcd;
->
->         opts_dp->lanes = ctrl->link->link_params.num_lanes;
->         opts_dp->link_rate = ctrl->link->link_params.rate / 100;
-> +       opts_dp->ssc = dpcd[DP_MAX_DOWNSPREAD] & DP_MAX_DOWNSPREAD_0_5;
->         dp_ctrl_set_clock_rate(ctrl, DP_CTRL_PM, "ctrl_link",
->                                         ctrl->link->link_params.rate * 1000);
->
-> @@ -1406,7 +1422,7 @@ void dp_ctrl_host_deinit(struct dp_ctrl *dp_ctrl)
->
->  static bool dp_ctrl_use_fixed_nvid(struct dp_ctrl_private *ctrl)
->  {
-> -       u8 *dpcd = ctrl->panel->dpcd;
-> +       const u8 *dpcd = ctrl->panel->dpcd;
->
->         /*
->          * For better interop experience, used a fixed NVID=0x8000
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-> index c867745..c16311b 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_display.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> @@ -144,8 +144,16 @@ static const struct msm_dp_config sc8180x_dp_cfg = {
->         .num_descs = 3,
->  };
->
-> +static const struct msm_dp_config sc7280_dp_cfg = {
-> +       .descs = (struct msm_dp_desc[]) {
-> +               { .io_start = 0x0aea0000, .connector_type = DRM_MODE_CONNECTOR_eDP },
+--------------HNHYISfFaGBfS2hbOdpeSNCR
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-I think you'd want to have sc7280-dp using DP_CONTROLLER_0 and
-sc7280-edp using DP_CONTROLLER_1. See latest Bjorn's patches.
+-----BEGIN PGP SIGNATURE-----
 
-> +       },
-> +       .num_descs = 1,
-> +};
-> +
->  static const struct of_device_id dp_dt_match[] = {
->         { .compatible = "qcom,sc7180-dp", .data = &sc7180_dp_cfg },
-> +       { .compatible = "qcom,sc7280-edp", .data = &sc7280_dp_cfg },
->         { .compatible = "qcom,sc8180x-dp", .data = &sc8180x_dp_cfg },
->         { .compatible = "qcom,sc8180x-edp", .data = &sc8180x_dp_cfg },
->         {}
-> @@ -1440,7 +1448,7 @@ void msm_dp_irq_postinstall(struct msm_dp *dp_display)
->
->         dp_hpd_event_setup(dp);
->
-> -       dp_add_event(dp, EV_HPD_INIT_SETUP, 0, 100);
-> +       dp_add_event(dp, EV_HPD_INIT_SETUP, 0, 1);
->  }
->
->  void msm_dp_debugfs_init(struct msm_dp *dp_display, struct drm_minor *minor)
-> --
-> The Qualcomm Innovatin Center, Inc. is a member of the Code Aurora Forum, a Linux Foundation Collaborative Project
->
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmFwIoIFAwAAAAAACgkQlh/E3EQov+Bq
+IhAAvXeEFgO7sTunc9iEU4BDOhmnA2ByQ0N0lFJdV6ExMcUBb+Fs1I7OwYOx7/9zLrV+FWJOAkik
+Y4seSryEGjUymD9NFyXeVNYWqfYNgVmQ09rROOL5PZ6hQ2uLrhVA4m3RoiMyLulK1y7sOe08HCKh
+6sfstOYAkJbP5IQ8yWV+F9tzut5xo4HdxGvgPijEqJSInyrmcncOgnlFmj9FlkUv1rWLtIktLG+h
+orJbsh191DsxLiMC9qQDNMl3seLxmuzQ4Yy+VYqgGV2LAlIofrZctJWOPoZ8frEe4kULYGNKwITN
+3vh3ADTHOS64iSoOZjAAv8eG/FV90z+A0dS2f1AH4MymtAPRelCr6FYCxNrtzj1hU7A7tJGFVzEb
+w8TNkKSJaOwnrZWqruDRZldJrIx1MZOZ3afMz6vNCYL83E4eqM1PSKDfGWTJ2xqDGhIvGlIqqwmh
++NY2ikZB6Qd1m3yPT9Vox1pWWSmJr+6lF3VBLGqksTdQPCHScaql1sp9Xl52HfkoV7dfiFrt9avu
+mYvlYYWBOJnAjnzbvrg6pFRcYVxlo2VJTUkwb9mzRNvXWG2WlZWdbamNITqFzGg7vMzryecu0RVN
+RMoU6IDd1nC4zgmRhgXEi3uD7ZMGsZlxC3yyMerHFM8o9hRRXGm0pK4AsbI6md+Q+YeQpQUFhonH
+wHY=
+=/GFx
+-----END PGP SIGNATURE-----
 
-
--- 
-With best wishes
-Dmitry
+--------------HNHYISfFaGBfS2hbOdpeSNCR--
