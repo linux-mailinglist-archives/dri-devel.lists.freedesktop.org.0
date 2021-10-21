@@ -1,135 +1,108 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E5AC436582
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Oct 2021 17:13:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D7CF543657F
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Oct 2021 17:13:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA5D36EC8F;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 695066EC8D;
 	Thu, 21 Oct 2021 15:13:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 427 seconds by postgrey-1.36 at gabe;
- Thu, 21 Oct 2021 12:23:20 UTC
-Received: from esa.hc3962-90.iphmx.com (esa.hc3962-90.iphmx.com
- [216.71.140.77])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DBF4F6E452;
- Thu, 21 Oct 2021 12:23:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qccesdkim1;
- t=1634819000; x=1635423800;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=jzZ8GV5DL5ey9WrVhv96Bk7dq4m4xkzMBftThhsQNtI=;
- b=KIoT+dSwvxWSpQ8QScRTRADiU9cvnOxl1N5Wv262pWSSokjCAXBfFudc
- +ZbWhU5zUhR+w1BxtBB7jfqyfYC74T+nutMYLRdUN9CHDNXVAZFoNW+/9
- GAGb20dr65ZsXYxL6xYCsu28vVe1txgRhn01pIANLFw00MEGbVlvGMwDY 8=;
-Received: from mail-mw2nam10lp2101.outbound.protection.outlook.com (HELO
- NAM10-MW2-obe.outbound.protection.outlook.com) ([104.47.55.101])
- by ob1.hc3962-90.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Oct 2021 12:16:12 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=C+QWhu6kb+h94X6H+9wjEKDC28CO6V1ZkzyeZKwrLwH5LV9kk3DmfpSf5RlL7poh+uBGsAlXHnUVwg+jOjs39RydZo7Un0uZqGtQvWGxBGxhCcQdvbzw3aLVb8vmA5/fIBplPcL0q8Mc0v84zYoDQhWEQNTiUYKoZOkZFUwmH+31z+R0A1y0C43vgTmU6VDT3bT1Nn/RYTMBg4uESf64D3ysaX3Q6eEuPkEWYqkDhY43U6RNHsuG2C2c9K3TJyVdAQRJpbfLtPxF+MdAq91ZAP12upTtPT0+m7hsZA5pwh5HXXhHu+NyTT3MSNG3eYdyljAHB1enng5l2BEpYJqk7A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jzZ8GV5DL5ey9WrVhv96Bk7dq4m4xkzMBftThhsQNtI=;
- b=OLlH+qIxZ/r/A3SmRnxw4TbLcngBQfxVSeYhfndFzUJs5Ibi+MyChIPNTTE8IhiLm1lxAml7zBSHND1BoACNbVrZ6Iir9OX0Lypx5MyOz2lDVLrsH0fadPTztaRHAZ2Vz29iw+oFf7ioDiv6fciuDhv/u5bm6EVgKuPlad5Yiim1sgXlwNyPfxq4dEk8O8sa1NyUeGvBQ8EvBQ7BO83TqpLJ6G9KjCgXhQiEsRKq2QcZkGLM90NZaOVV5y+RyqyGAU5TmrpFWzZ+qHqnSvA2W7aYz5soJvyI4Ruz/abP5oI9cxDmdJnQlbdqQykbEDztWZgxhVgNK7ixGncgc0DWng==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=quicinc.com; dmarc=pass action=none header.from=quicinc.com;
- dkim=pass header.d=quicinc.com; arc=none
-Received: from MW4PR02MB7186.namprd02.prod.outlook.com (2603:10b6:303:73::6)
- by CO6PR02MB7603.namprd02.prod.outlook.com (2603:10b6:303:a7::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4628.18; Thu, 21 Oct
- 2021 12:16:09 +0000
-Received: from MW4PR02MB7186.namprd02.prod.outlook.com
- ([fe80::ad8b:665b:af52:b2c5]) by MW4PR02MB7186.namprd02.prod.outlook.com
- ([fe80::ad8b:665b:af52:b2c5%8]) with mapi id 15.20.4608.019; Thu, 21 Oct 2021
- 12:16:09 +0000
-From: quic_sbillaka <quic_sbillaka@quicinc.com>
-To: Doug Anderson <dianders@chromium.org>, quic_sbillaka
- <quic_sbillaka@quicinc.com>
-CC: dri-devel <dri-devel@lists.freedesktop.org>, linux-arm-msm
- <linux-arm-msm@vger.kernel.org>, freedreno <freedreno@lists.freedesktop.org>, 
- LKML <linux-kernel@vger.kernel.org>, Sankeerth Billakanti
- <sbillaka@codeaurora.org>, Rob Clark <robdclark@gmail.com>, Sean Paul
- <seanpaul@chromium.org>, Stephen Boyd <swboyd@chromium.org>, Kalyan Thota
- <kalyan_t@codeaurora.org>, Abhinav Kumar <abhinavk@codeaurora.org>, Kuogee
- Hsieh <khsieh@codeaurora.org>, Krishna Manikandan <mkrishn@codeaurora.org>
-Subject: RE: [PATCH v2 2/2] dt-bindings: Add SC7280 compatible string
-Thread-Topic: [PATCH v2 2/2] dt-bindings: Add SC7280 compatible string
-Thread-Index: AQHXxawXqmYMEEPgfkuL3gmgM0vxsqvcJ+eAgAE1V2A=
-Date: Thu, 21 Oct 2021 12:16:09 +0000
-Message-ID: <MW4PR02MB7186ED00AAF0C3FD8BB6F657E1BF9@MW4PR02MB7186.namprd02.prod.outlook.com>
-References: <1634732051-31282-1-git-send-email-quic_sbillaka@quicinc.com>
- <1634732051-31282-3-git-send-email-quic_sbillaka@quicinc.com>
- <CAD=FV=U9==zFpYtiU1S=n+Ygy5Qa4xfA6GFMpHJUtkpjpNfcyw@mail.gmail.com>
-In-Reply-To: <CAD=FV=U9==zFpYtiU1S=n+Ygy5Qa4xfA6GFMpHJUtkpjpNfcyw@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: chromium.org; dkim=none (message not signed)
- header.d=none;chromium.org; dmarc=none action=none header.from=quicinc.com;
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: a86cf7e4-623c-4cdc-5192-08d9948c90d8
-x-ms-traffictypediagnostic: CO6PR02MB7603:
-x-microsoft-antispam-prvs: <CO6PR02MB76035582D593D0B4437AE8449DBF9@CO6PR02MB7603.namprd02.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8273;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: q5FTT1msaQZEWlLl5jTOADbZsmETqJ2byaDrpQ4/ZodN3YodUZchn215kCeyA3O1n1p/XbHpF/80wPT9MmuGfG0f8xJn7wRno8AzmcitapSMSohPBeiZEA+15qCqJBU29GkRAP/JXi+GIHUFEOX59NWu58XHNhR+xIe+cIHla1M8f32davQXdUFp3CmCnWvnYbkhz0ce/k61EzvkPHEPvDo8FVqq3QCTuRCUw+my2t9uc2j14qnBwhV5eF0vsgkm8ACD5AViZvIAzRXdYYuSJzHzDK3Lg/sTugSrjbAfbf9sTsThcIA7cl8G3G3bqcgfBFmgWaQ6KfPcHUis94DkCv/b6+al9f0ef4NIBGMXd1+8AV85znDkjQhzT7HNLWOfUwClm9L442IT08EKki+aKnQKiRYl2oa5KLXOhy6qHpqxbGf7kja1LgBh7rMAB4vuPlsgVhJWun17heI6lgFiRAjlmHSTnMfdjsY4BIEEDdHK0/ei1Q0YJW08cSxWbw1chMEJ96hbZp3NC2KF2LsFgX6PY8EsKH36qUsqVPGDlo0fjWNciNcZzEqTHzQaasZCk5d7ya/bJgJzoumg61jCxJFcdQy3Qh0xoiz/H6E1mXc7lciRqTLtmR6RAsTWNxlj/cMG9KywnSX3av5rrja3teNoHe/JNQM77wnBaaq1T6oPjExEnWk78/9aMMauLb2aaM5vjpYHFazLYi3stgd2T/ACl9LoP9U+pEU0zSq82dyP2Eqq0prAZY+wsmH7wJzqZrc6FsD6K+Vcq0x1pm6883RfndJDolsRP46RqF1yAKQ=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MW4PR02MB7186.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(508600001)(66946007)(64756008)(186003)(66476007)(966005)(5660300002)(71200400001)(4326008)(52536014)(33656002)(26005)(2906002)(66556008)(66446008)(76116006)(7416002)(53546011)(6506007)(8676002)(38070700005)(83380400001)(316002)(7696005)(110136005)(38100700002)(9686003)(55016002)(122000001)(54906003)(86362001)(8936002);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?K0IzTSsxcVNmK0ltUFkyaDU3TkJJUks0TU82SHVsMlA3QWZsZ0h0ZzZPVGND?=
- =?utf-8?B?dmZKT1Q0bUZuSjBmbGMwNDJLK2xnVGQxMUJ5M28wMVQwYnJlTmJQYjZITmc3?=
- =?utf-8?B?c2s4RzV2MVNmeGFrVzZxTmMrL1hRYy9lWEFpRXRFRkR6YWZZMlNBVm1ZWWRj?=
- =?utf-8?B?Y3BIaVdNUHh6N085UkZucmV0RFUxdkZBV01pc1hGMzNUa2lySUhrSnF2U0lh?=
- =?utf-8?B?SC96akJJa3FLZ2RIZzUvZ0xYWnlBZ1dtZDh3UkxhWUw4bnM4UHA5elY1Nmlh?=
- =?utf-8?B?Q3NHMG92MHlDUjZTaitoVkJPRGtDclFYb1pJNUhWSURacVdXWkdHOWMxdzNH?=
- =?utf-8?B?a1hpQ0N5TForTU03dFdMNVFKeXlVWFRsczRXUFhKWmsxQjNhNG1xRnZ4ZzBr?=
- =?utf-8?B?RzhJRUpMWCtOUzkvODdldFoxbUYvUVpuMVA5Rks3Z3Y4MTc5YVAreUE1bjQ0?=
- =?utf-8?B?WnVrcUhGd1E4NEc5c1VmUys0Z0lveFFseE54MFcyOFlRSVJxbEMwMHc3QkZN?=
- =?utf-8?B?U2ZxOE1QeFVCdW9JWkFMMXUvYmpjeW1yZlZoTk9WSTZWTnVORHBMYWZRdkhl?=
- =?utf-8?B?NmhjRnFWZHlXWTFWcGFxYXBWODgwVjJaOW45U09LanRib1dEbWJBdVA1TnV3?=
- =?utf-8?B?VStVS1ZQWFdiV0N2Wms5QnRveUdlYVI1L3psUGpIKzRSY04zdlc4aEVqSWFW?=
- =?utf-8?B?WUIrVVExaUQxMGE0d3hFbXVVUmNFRlJIcE5Xci9YSVFOTFJuQUtSSzJzd1pP?=
- =?utf-8?B?dnQvMHp2dHNCY1JsOXhVcEJzU2k2cTNINnNzdFBoZ1RVY3NOdC9vVS9kVWNj?=
- =?utf-8?B?TWZZTW4rNWNGdFY4NUR4MDZLWkpabTJaTXREYUs1bzBxVWFoOWhia2F5UVEw?=
- =?utf-8?B?Y1g2SDNiK1FRMUJ2OEQzNmJjZTVXMW1aSUVBSk9vMG53S0gxMUxCT1p1SkUy?=
- =?utf-8?B?Y08zVmtDaXZOUVVvSGQ4Q2hNZXkxTkZ1RjFnOXpqZ3VaUUZ1VVJpZVBlTmw0?=
- =?utf-8?B?NmhsUmlnVzhLMFpGbzN6TzdUUFgraTVXeHNRd083MmJ3bFZEeXJUMENsTkEr?=
- =?utf-8?B?aFZIbXQ3VTVrSDlOUUxjMVBWbmFFQkgyZ1p1UVpydDJJWXdvWEgxazU3aG9m?=
- =?utf-8?B?MFNxMFFtNmxlZTI3ckswNEczVnBuaFJnT1VKcnBKY2ZBaUFMWThlR2E3NGs3?=
- =?utf-8?B?dTJxdEltYzJCdnc3a1NPZ24yVE1PZFVVd0xYSDVNclFlQ29iL0ptVUg4bEx4?=
- =?utf-8?B?d2RTSDZrL3hiN2tpUGZycVZod1I1VVJFRTQ4M2tiRWRvS3R3QkMzWlU4VlNV?=
- =?utf-8?B?djlmNGRWYnhsSUxKS3lqQ1JDMlE2UUV2TTVPQXN2ZE4wRWcvVWk3TUw5ZThD?=
- =?utf-8?B?TndCL04xYWkxTUdpTDlXcWlvVElpbXRKVHdkV2VGL2ppRUZndGZmWGZuTWlj?=
- =?utf-8?B?anoyM1QrSG5jbDdEVGE0djhZRkNGUnAvSUxMeTZVbnh2ek1VUFBKNUV4b0tL?=
- =?utf-8?B?Z1RxK3pKZ0wvTERrQjdUOExkMHlsWGl0Mm1WQy9xdkNnWVhUcjBRemJqYXBG?=
- =?utf-8?B?SFltVTBvWVE0QVRlU3NzMlJUcithOHdBMzZJZVloTndocjFwVHF0ZGZSMWYz?=
- =?utf-8?B?aWp6b3Z0a3pDV3k4MGFHWWw3ZTlNVHNSUVZQcHhsbkhMQUpuZDRJa2ZFRWNq?=
- =?utf-8?B?c3BkZjU2TzlObWdwb1ZVbnJIbEg0eEozdG5yTXJSc2w0Vkk2RVNwYUNzcGhz?=
- =?utf-8?Q?XVGFI8CMXKqVImDDA0=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com
+ [148.163.158.5])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3FA1B6EC6C;
+ Thu, 21 Oct 2021 13:32:38 +0000 (UTC)
+Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 19LCLj84038810; 
+ Thu, 21 Oct 2021 09:32:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=sgOHubR8R6J54xwngiqD0Y0ChXz2lRdk62x6cxNTnJE=;
+ b=SEGLJ6Tdu+0tsmMz9qciS1Js8x8vTMy7HMDk3G62w/2cu9Oz4hPj7HDV+VNCuOpVLC6F
+ 9okZ+UcDwy8t+EHPzAzewPbHCX1qoh5IS5NE5Ae29BrUPw0kDxvrde2NZRoLA8unnCB3
+ MQi3TD+nX5jk9WqAOwIwUi3YasOKH5eA/6WxBBA4WXV3Gh/nqw3NF5NcAQwJmOpgIp/3
+ lMpq60ISc8DPqao8Ep1mygkSN0D4q/Ne8WiljhwdPDwB5xpjXDg0FWCMsQbDUaV/Dgen
+ bWbLP/iZwLyTJMQigzW/9aGXL0V+BpHbAjFwrjZlw1Xw5RVovX03xGdws4qWkw83STKJ ig== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3btxutwmy2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 21 Oct 2021 09:32:29 -0400
+Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 19LBAsSg034394;
+ Thu, 21 Oct 2021 09:32:28 -0400
+Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.10])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3btxutwmxj-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 21 Oct 2021 09:32:28 -0400
+Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
+ by ppma02dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 19LDNKvV018457;
+ Thu, 21 Oct 2021 13:32:28 GMT
+Received: from b01cxnp22033.gho.pok.ibm.com (b01cxnp22033.gho.pok.ibm.com
+ [9.57.198.23]) by ppma02dal.us.ibm.com with ESMTP id 3bqpcd5chq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 21 Oct 2021 13:32:27 +0000
+Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com
+ [9.57.199.111])
+ by b01cxnp22033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 19LDWQjl36831726
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 21 Oct 2021 13:32:27 GMT
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id DFEE3AC065;
+ Thu, 21 Oct 2021 13:32:26 +0000 (GMT)
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 6590DAC05B;
+ Thu, 21 Oct 2021 13:32:21 +0000 (GMT)
+Received: from li-c92d2ccc-254b-11b2-a85c-a700b5bfb098.ibm.com (unknown
+ [9.211.103.136]) by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTP;
+ Thu, 21 Oct 2021 13:32:21 +0000 (GMT)
+Subject: Re: [PATCH v3 01/10] vfio/ccw: Remove unneeded GFP_DMA
+To: Jason Gunthorpe <jgg@nvidia.com>, David Airlie <airlied@linux.ie>,
+ Tony Krowiak <akrowiak@linux.ibm.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Cornelia Huck <cohuck@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ Eric Farman <farman@linux.ibm.com>,
+ Harald Freudenberger <freude@linux.ibm.com>,
+ Vasily Gorbik <gor@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>,
+ intel-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Jason Herne <jjherne@linux.ibm.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, kvm@vger.kernel.org,
+ Kirti Wankhede <kwankhede@nvidia.com>, linux-doc@vger.kernel.org,
+ linux-s390@vger.kernel.org, Peter Oberparleiter <oberpar@linux.ibm.com>,
+ Halil Pasic <pasic@linux.ibm.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Vineeth Vijayan <vneethv@linux.ibm.com>,
+ Zhenyu Wang <zhenyuw@linux.intel.com>, Zhi Wang <zhi.a.wang@intel.com>
+Cc: Christoph Hellwig <hch@infradead.org>, Christoph Hellwig <hch@lst.de>
+References: <1-v3-57c1502c62fd+2190-ccw_mdev_jgg@nvidia.com>
+From: Matthew Rosato <mjrosato@linux.ibm.com>
+Message-ID: <5a6016b3-2e3f-0cf6-1e7a-2cd242fe46a8@linux.ibm.com>
+Date: Thu, 21 Oct 2021 09:32:20 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-X-OriginatorOrg: quicinc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MW4PR02MB7186.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a86cf7e4-623c-4cdc-5192-08d9948c90d8
-X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Oct 2021 12:16:09.4341 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: sbillaka@qti.qualcomm.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR02MB7603
+In-Reply-To: <1-v3-57c1502c62fd+2190-ccw_mdev_jgg@nvidia.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: dQHjb8Ez5MbK_bJreSXQOqa-qwmcwmWa
+X-Proofpoint-GUID: N6Z06c8FDqqRjq_dvqnQhuBZQucCGB3C
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
+ definitions=2021-10-21_04,2021-10-21_02,2020-04-07_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 adultscore=0
+ suspectscore=0 lowpriorityscore=0 priorityscore=1501 mlxscore=0
+ malwarescore=0 impostorscore=0 mlxlogscore=999 clxscore=1011 spamscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2109230001 definitions=main-2110210072
 X-Mailman-Approved-At: Thu, 21 Oct 2021 15:13:16 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -146,42 +119,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgRG91ZywNCg0KU29ycnkgYWJvdXQgdGhhdCwgdGhpcyBpcyB0aGUgZmlyc3QgdGltZSBJIGFt
-IHBvc3RpbmcgY2hhbmdlcyB1cHN0cmVhbSBhbmQgc3RpbGwgZ2V0dGluZyBob2xkIG9mIGNvbnZl
-bnRpb25zLg0KDQpJIHRoaW5rIEkgbWlzaW50ZXJwcmV0ZWQgeW91ciBzdWJqZWN0IGxpbmUgY29t
-bWVudCBhbmQgY2hhbmdlZCB0aGUganVzdCB0aXRsZSB0byBpbmNsdWRlIGRwLWNvbnRyb2xsZXIu
-IEkgd2lsbCBjb3JyZWN0IGl0IGluIHRoZSBuZXh0IHZlcnNpb24uDQoNCnNjNzI4MC1kcCB3aWxs
-IGJlIGFkZGVkIGxhdGVyIHdoZW4gZHAgc3VwcG9ydCBmb3Igc2M3MjgwIHdpbGwgYmUgcG9zdGVk
-LiBJIHdpbGwgcmVwbHkgb24gdGhlIGZlZWRiYWNrIGVtYWlsIGZyb20gU3RlcGhlbi4NCg0KVGhh
-bmsgeW91LA0KU2Fua2VlcnRoDQoNCi0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQpGcm9tOiBE
-b3VnIEFuZGVyc29uIDxkaWFuZGVyc0BjaHJvbWl1bS5vcmc+IA0KU2VudDogV2VkbmVzZGF5LCBP
-Y3RvYmVyIDIwLCAyMDIxIDExOjExIFBNDQpUbzogcXVpY19zYmlsbGFrYSA8cXVpY19zYmlsbGFr
-YUBxdWljaW5jLmNvbT4NCkNjOiBkcmktZGV2ZWwgPGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3Rv
-cC5vcmc+OyBsaW51eC1hcm0tbXNtIDxsaW51eC1hcm0tbXNtQHZnZXIua2VybmVsLm9yZz47IGZy
-ZWVkcmVubyA8ZnJlZWRyZW5vQGxpc3RzLmZyZWVkZXNrdG9wLm9yZz47IExLTUwgPGxpbnV4LWtl
-cm5lbEB2Z2VyLmtlcm5lbC5vcmc+OyBTYW5rZWVydGggQmlsbGFrYW50aSA8c2JpbGxha2FAY29k
-ZWF1cm9yYS5vcmc+OyBSb2IgQ2xhcmsgPHJvYmRjbGFya0BnbWFpbC5jb20+OyBTZWFuIFBhdWwg
-PHNlYW5wYXVsQGNocm9taXVtLm9yZz47IFN0ZXBoZW4gQm95ZCA8c3dib3lkQGNocm9taXVtLm9y
-Zz47IEthbHlhbiBUaG90YSA8a2FseWFuX3RAY29kZWF1cm9yYS5vcmc+OyBBYmhpbmF2IEt1bWFy
-IDxhYmhpbmF2a0Bjb2RlYXVyb3JhLm9yZz47IEt1b2dlZSBIc2llaCA8a2hzaWVoQGNvZGVhdXJv
-cmEub3JnPjsgS3Jpc2huYSBNYW5pa2FuZGFuIDxta3Jpc2huQGNvZGVhdXJvcmEub3JnPg0KU3Vi
-amVjdDogUmU6IFtQQVRDSCB2MiAyLzJdIGR0LWJpbmRpbmdzOiBBZGQgU0M3MjgwIGNvbXBhdGli
-bGUgc3RyaW5nDQoNCldBUk5JTkc6IFRoaXMgZW1haWwgb3JpZ2luYXRlZCBmcm9tIG91dHNpZGUg
-b2YgUXVhbGNvbW0uIFBsZWFzZSBiZSB3YXJ5IG9mIGFueSBsaW5rcyBvciBhdHRhY2htZW50cywg
-YW5kIGRvIG5vdCBlbmFibGUgbWFjcm9zLg0KDQpIaSwNCg0KT24gV2VkLCBPY3QgMjAsIDIwMjEg
-YXQgNToxNCBBTSBTYW5rZWVydGggQmlsbGFrYW50aSA8cXVpY19zYmlsbGFrYUBxdWljaW5jLmNv
-bT4gd3JvdGU6DQo+DQo+IEZyb206IFNhbmtlZXJ0aCBCaWxsYWthbnRpIDxzYmlsbGFrYUBjb2Rl
-YXVyb3JhLm9yZz4NCj4NCj4gVGhlIFF1YWxjb21tIFNDNzI4MCBwbGF0Zm9ybSBzdXBwb3J0cyBh
-biBlRFAgY29udHJvbGxlciwgYWRkIA0KPiBjb21wYXRpYmxlIHN0cmluZyBmb3IgaXQgdG8gZHAt
-Y29udHJvbGxlci4NCj4NCj4gU2lnbmVkLW9mZi1ieTogU2Fua2VlcnRoIEJpbGxha2FudGkgPHF1
-aWNfc2JpbGxha2FAcXVpY2luYy5jb20+DQo+IC0tLQ0KPiAgRG9jdW1lbnRhdGlvbi9kZXZpY2V0
-cmVlL2JpbmRpbmdzL2Rpc3BsYXkvbXNtL2RwLWNvbnRyb2xsZXIueWFtbCB8IDEgDQo+ICsNCj4g
-IDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKQ0KDQpJIHRoaW5rIHlvdSBpZ25vcmVkIHNv
-bWUgb2YgdGhlIGZlZWRiYWNrIHRoYXQgd2FzIGdpdmVuIG9uIHYxLiBQZXJoYXBzIHlvdSBjb3Vs
-ZCBnbyBiYWNrIGFuZCByZS1yZWFkIHRoYXQgZmVlZGJhY2s/IFNlZSB0aGUgcmVwbGllcyB0bzoN
-Cg0KaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvci8xNjI4NzI2ODgyLTI3ODQxLTMtZ2l0LXNlbmQt
-ZW1haWwtc2JpbGxha2FAY29kZWF1cm9yYS5vcmcvDQoNCkZvciBvbmUsICR7U1VCSkVDVH0gbmVl
-ZHMgdXBkYXRpbmcuIEl0J3MgcHJvYmFibHkgYXMgc2ltcGxlIGFzIGFkZGluZyB0aGUgIm1zbS9k
-cCIgdGFnLCBsaWtlOg0KDQpkdC1iaW5kaW5nczogbXNtL2RwOiBBZGQgU0M3MjgwIGNvbXBhdGli
-bGUgc3RyaW5nDQoNCkZvciBhbm90aGVyLCBTdGVwaGVuIHJlcXVlc3RlZCB0aGF0IHlvdSBhZGQg
-InNjNzI4MC1kcCIgdG9vLg0K
+On 10/1/21 1:52 PM, Jason Gunthorpe wrote:
+> Since the ccw_io_region was split out of the private the allocation no
+> longer needs the GFP_DMA. Remove it.
+> 
+> Reported-by: Christoph Hellwig <hch@infradead.org>
+> Fixes: c98e16b2fa12 ("s390/cio: Convert ccw_io_region to pointer")
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+
+Reviewed-by: Matthew Rosato <mjrosato@linux.ibm.com>
+
+> ---
+>   drivers/s390/cio/vfio_ccw_drv.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/s390/cio/vfio_ccw_drv.c b/drivers/s390/cio/vfio_ccw_drv.c
+> index 76099bcb765b45..371558ec92045d 100644
+> --- a/drivers/s390/cio/vfio_ccw_drv.c
+> +++ b/drivers/s390/cio/vfio_ccw_drv.c
+> @@ -161,7 +161,7 @@ static int vfio_ccw_sch_probe(struct subchannel *sch)
+>   		return -ENODEV;
+>   	}
+>   
+> -	private = kzalloc(sizeof(*private), GFP_KERNEL | GFP_DMA);
+> +	private = kzalloc(sizeof(*private), GFP_KERNEL);
+>   	if (!private)
+>   		return -ENOMEM;
+>   
+> 
+
