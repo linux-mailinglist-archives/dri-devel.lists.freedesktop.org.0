@@ -1,49 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A390435DE7
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Oct 2021 11:27:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 23DCE435DE3
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Oct 2021 11:27:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 86CF66EA14;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B93D6E425;
 	Thu, 21 Oct 2021 09:27:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
- [IPv6:2a00:1450:4864:20::434])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BCDE26E425
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Oct 2021 09:27:26 +0000 (UTC)
-Received: by mail-wr1-x434.google.com with SMTP id r7so553537wrc.10
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Oct 2021 02:27:26 -0700 (PDT)
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
+ [IPv6:2a00:1450:4864:20::330])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B4066E425
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Oct 2021 09:27:27 +0000 (UTC)
+Received: by mail-wm1-x330.google.com with SMTP id
+ d198-20020a1c1dcf000000b00322f53b9b89so155712wmd.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Oct 2021 02:27:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=baylibre-com.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=DZYjp3Dh8hYAEBhaoFo5fj7lc6MgCHR723xl76CUYQw=;
- b=53f8z8rb58oZUqdOszfjJfIxosmnNwBcT1tAWZBniM9HagD5l5e0NJ8M5Oi4LwEmaE
- 0pmfn0sSI9zhlBuDjCHI6LvDeNF8e4YQrNVKDeRJ03VQ+xkOANXibCao2miiaaAtVERk
- WHM3i67jMrN0iEMwhYdibUilq9GW9ZGmpLseHf/SX9T+xLW1iLih8aBd/HiETzTFrDCn
- O2bZTFE1SVtseOO1JGcYp3AqMs2T5lc2ft6QIVD+IvTuNCd0LvWem6Xv+Aw7eIXVZjS+
- QYLM3b93FYUKaMpAk1YI1I0dmzD0xOnzREXZnU1uL1p8LLzuyScie0IEUZR47dGFS1U9
- ToMQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=YUizT5Wo6QNRZzLKQyX7xAagO6y2u5vlJ1IHIzpEMig=;
+ b=8MyqEVx81dV7pE7mPfN/OecXsjb2Qv/SvK1MGn4n2hIQNJ6xMKdEUM7+tSQYLsARc3
+ 384KGvuma+/fJGBxypQUfCheMIhkOkkRINw34Pzd0q/SQ6tR4MlMAjs9O5A3OrQOsiRU
+ XQn7qlnXHnN2U/PjSlX/4M3Zd3m+z09PEBjntw/9xgPMKCdU1Si1ds056Yb8Dx1rl6rb
+ NTVjgk1gQDglYkuxVLUWjuts337Pg5iKRfsw9QdieDjb/xigjd6HO2bazX259Tg7ET2a
+ rA6JVukqzDBTeTV+BTOloCEfnGeeWnsh4zYM+WHymrp7JepuIuzfZ1Xb9JeDLn3+BS7/
+ O16Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=DZYjp3Dh8hYAEBhaoFo5fj7lc6MgCHR723xl76CUYQw=;
- b=NwOFPp7xNE6vowYXnp0OnpXeVm7Z6X1Vag3XgFNFxSaDMS5/NyRz6EEWgpQAtisIUN
- mSKDsAQG01qsE+3PHJ3qQM3Gt0q3exbq7qDuEE7AXZLaePIb9cTw9X/9Z51BFjLA2O/u
- Zerj7O77cBg88QKEdYIp4s9iHW+RwBvm1NtKTw9ZsBTkI6VlRa1NRzhzV4LrmaK9i04/
- b2nqFFv0/ZFmBNrYZqrH/saT2qD/BdSCSJXk7v04K4bAksebGXh+7pNHTv+skccA3UlF
- pngUleyHEv4yRJPnK/PM29G09vZSdxtdvomdT+j5KCvZywPHW9p49a5ENURzwRMcnf0e
- QQnw==
-X-Gm-Message-State: AOAM533uSTcK7biAMVaApzcwBdCfz0W1q5C0cX0+D4tc32XTtZEjYZbM
- BT9DqkdUpO9Syk6zvegANIRlcw==
-X-Google-Smtp-Source: ABdhPJxKwvQe1h4U5lHSzGW5G0U7Y6O6CUrkRgxaTKQUauPRqxI+Wryg0o4Rsh3TqDUBSnokeRxL1Q==
-X-Received: by 2002:adf:f305:: with SMTP id i5mr5850502wro.155.1634808445339; 
- Thu, 21 Oct 2021 02:27:25 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=YUizT5Wo6QNRZzLKQyX7xAagO6y2u5vlJ1IHIzpEMig=;
+ b=1gjxiAJdIIhR+NMC6Ov0OielHYVtv1URB90vi1uQbD9vZbU7UV41Q7RBtAiGiVNKEI
+ FIb4sFz+tyzCJFjYJbOa1nKTYgDKtRJa0fScZYaBKfOnLJxHLnNHqQSosX4E+cIYzOoT
+ xUXSL+qMEZtzbNvqpwBz5pqvGMLKQI8Dz/J2k5kaJzy3oAHZ04+J2ezWnIjTh3aoQsRN
+ m/1Wo8bd6PCXrLHi2j6LgoIVKp1CYAVNGPggnO73gc3v7fcbCGlSCP0h8O4L729weMse
+ gvtCkK2m4vdB3kO7v2fPcmPZYa4HT5e/nanirt30BoFAC0XTHNE/2jFOjo7DqQJF/jHx
+ daCg==
+X-Gm-Message-State: AOAM530e98v3oaXNaVx9UjOGB3SAyWBEYZ/SbGPZyc0zNAPRsvqRt68b
+ q+iB/uHpQY2eV4LK33o+MaDfZg==
+X-Google-Smtp-Source: ABdhPJz1E+9+oInCY1vqxibaqKskcDP7eWbh3y5SDTdZxzg/MhVoYwSyqQLSyEcMXzma59LSuMGbqw==
+X-Received: by 2002:a05:600c:4111:: with SMTP id
+ j17mr19808078wmi.59.1634808446096; 
+ Thu, 21 Oct 2021 02:27:26 -0700 (PDT)
 Received: from blmsp.lan ([2a02:2454:3e6:c900:5142:5fbb:5821:5dc3])
- by smtp.gmail.com with ESMTPSA id d3sm4538468wrb.36.2021.10.21.02.27.24
+ by smtp.gmail.com with ESMTPSA id d3sm4538468wrb.36.2021.10.21.02.27.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 21 Oct 2021 02:27:25 -0700 (PDT)
 From: Markus Schneider-Pargmann <msp@baylibre.com>
@@ -54,10 +56,12 @@ Cc: Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org,
  linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
  linux-phy@lists.infradead.org, devicetree@vger.kernel.org,
  Markus Schneider-Pargmann <msp@baylibre.com>
-Subject: [PATCH v5 0/7] drm/mediatek: Add mt8195 DisplayPort driver
-Date: Thu, 21 Oct 2021 11:27:00 +0200
-Message-Id: <20211021092707.3562523-1-msp@baylibre.com>
+Subject: [PATCH v5 1/7] dt-bindings: mediatek,dpi: Add DP_INTF compatible
+Date: Thu, 21 Oct 2021 11:27:01 +0200
+Message-Id: <20211021092707.3562523-2-msp@baylibre.com>
 X-Mailer: git-send-email 2.33.0
+In-Reply-To: <20211021092707.3562523-1-msp@baylibre.com>
+References: <20211021092707.3562523-1-msp@baylibre.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -75,77 +79,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi everyone,
+DP_INTF is similar to DPI but does not have the exact same feature set
+or register layouts.
 
-this series is built around the DisplayPort driver. The dpi/dpintf
-driver and the added helper functions are required for the DisplayPort
-driver to work.
+DP_INTF is the sink of the display pipeline that is connected to the
+DisplayPort controller and encoder unit. It takes the same clocks as
+DPI.
 
-In v5 I reworked the mtk-dpi so that dpintf is only using the same three clocks
-as dpi does. This lead to the removal of the separate dpintf binding document.
-Also there are minor updates to the mtk-dp binding and driver.
+Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
+---
 
-The series is based on v5.15-rc1 but also applies cleanly on linux-next.
-Note: This patch series is currently tested on v5.10 and I am still
-working on testing it on v5.15.
+Notes:
+    Changes v4 -> v5:
+    - Newly created patch after realizing that the specific clocks for dpintf were
+      the same as engine and pixel clocks.
 
-Thanks in advance for any feedback and comments.
+ .../bindings/display/mediatek/mediatek,dpi.yaml       | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
-Best,
-Markus
-
-
-Functional dependencies are:
-- Add Mediatek Soc DRM (vdosys0) support for mt8195
-  https://lore.kernel.org/linux-mediatek/20210921155218.10387-1-jason-jh.lin@mediatek.com/
-- Add MediaTek SoC DRM (vdosys1) support for mt8195
-  https://lore.kernel.org/linux-mediatek/20211004062140.29803-1-nancy.lin@mediatek.com/
-
-Older revisions:
-RFC - https://lore.kernel.org/linux-mediatek/20210816192523.1739365-1-msp@baylibre.com/
-v1  - https://lore.kernel.org/linux-mediatek/20210906193529.718845-1-msp@baylibre.com/
-v2  - https://lore.kernel.org/linux-mediatek/20210920084424.231825-1-msp@baylibre.com/
-v3  - https://lore.kernel.org/linux-mediatek/20211001094443.2770169-1-msp@baylibre.com/
-v4  - https://lore.kernel.org/linux-mediatek/20211011094624.3416029-1-msp@baylibre.com/
-
-
-Markus Schneider-Pargmann (7):
-  dt-bindings: mediatek,dpi: Add DP_INTF compatible
-  dt-bindings: mediatek,dp: Add Display Port binding
-  drm/edid: Add cea_sad helpers for freq/length
-  video/hdmi: Add audio_infoframe packing for DP
-  drm/mediatek: dpi: Add dpintf support
-  phy: phy-mtk-dp: Add driver for DP phy
-  drm/mediatek: Add mt8195 DisplayPort driver
-
- .../display/mediatek/mediatek,dp.yaml         |   87 +
- .../display/mediatek/mediatek,dpi.yaml        |   11 +-
- MAINTAINERS                                   |    1 +
- drivers/gpu/drm/drm_edid.c                    |   74 +
- drivers/gpu/drm/mediatek/Kconfig              |    7 +
- drivers/gpu/drm/mediatek/Makefile             |    2 +
- drivers/gpu/drm/mediatek/mtk_dp.c             | 2813 +++++++++++++++++
- drivers/gpu/drm/mediatek/mtk_dp_reg.h         |  535 ++++
- drivers/gpu/drm/mediatek/mtk_dpi.c            |  199 +-
- drivers/gpu/drm/mediatek/mtk_dpi_regs.h       |   12 +
- drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c   |    4 +
- drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h   |    1 +
- drivers/gpu/drm/mediatek/mtk_drm_drv.c        |    6 +-
- drivers/gpu/drm/mediatek/mtk_drm_drv.h        |    1 +
- drivers/phy/mediatek/Kconfig                  |    8 +
- drivers/phy/mediatek/Makefile                 |    1 +
- drivers/phy/mediatek/phy-mtk-dp.c             |  219 ++
- drivers/video/hdmi.c                          |   83 +-
- include/drm/drm_dp_helper.h                   |    2 +
- include/drm/drm_edid.h                        |   18 +-
- include/linux/hdmi.h                          |    7 +-
- include/linux/soc/mediatek/mtk-mmsys.h        |    2 +
- 22 files changed, 4019 insertions(+), 74 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml
- create mode 100644 drivers/gpu/drm/mediatek/mtk_dp.c
- create mode 100644 drivers/gpu/drm/mediatek/mtk_dp_reg.h
- create mode 100644 drivers/phy/mediatek/phy-mtk-dp.c
-
+diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml
+index dd2896a40ff0..53acf9a84f7f 100644
+--- a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml
++++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml
+@@ -4,16 +4,16 @@
+ $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
+ $schema: http://devicetree.org/meta-schemas/core.yaml#
+ 
+-title: mediatek DPI Controller Device Tree Bindings
++title: mediatek DPI/DP_INTF Controller Device Tree Bindings
+ 
+ maintainers:
+   - CK Hu <ck.hu@mediatek.com>
+   - Jitao shi <jitao.shi@mediatek.com>
+ 
+ description: |
+-  The Mediatek DPI function block is a sink of the display subsystem and
+-  provides 8-bit RGB/YUV444 or 8/10/10-bit YUV422 pixel data on a parallel
+-  output bus.
++  The Mediatek DPI and DP_INTF function blocks are a sink of the display
++  subsystem and provides 8-bit RGB/YUV444 or 8/10/10-bit YUV422 pixel data on a
++  parallel output bus.
+ 
+ properties:
+   compatible:
+@@ -23,6 +23,7 @@ properties:
+       - mediatek,mt8173-dpi
+       - mediatek,mt8183-dpi
+       - mediatek,mt8192-dpi
++      - mediatek,mt8195-dpintf
+ 
+   reg:
+     maxItems: 1
+@@ -54,7 +55,7 @@ properties:
+     $ref: /schemas/graph.yaml#/properties/port
+     description:
+       Output port node. This port should be connected to the input port of an
+-      attached HDMI or LVDS encoder chip.
++      attached HDMI, LVDS or DisplayPort encoder chip.
+ 
+ required:
+   - compatible
 -- 
 2.33.0
 
