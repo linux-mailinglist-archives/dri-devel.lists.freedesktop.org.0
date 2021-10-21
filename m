@@ -2,58 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52DB04361EE
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Oct 2021 14:39:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D674436220
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Oct 2021 14:54:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1EE876EC4C;
-	Thu, 21 Oct 2021 12:39:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 26E0A6E444;
+	Thu, 21 Oct 2021 12:54:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A980F6EC4C
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Oct 2021 12:39:44 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 0BFD161251
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Oct 2021 12:39:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1634819984;
- bh=UKgE+eNxYggonJLBreBOmEBeE+5mjCaNvFJ4hLuLVAY=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=XmG9JyKcXQV2vkUMd5etrLtcEoC1ouCXYzmydIwCjRKl4zVTmqBzT9QfRmHLcDizb
- NZxcC/FKnA3VxOh/W/+zGGh0o1Jx7F99Mm1TfcWUjwHrxowqU3RJcb5KUs+EegUBoS
- q8s8DsjlTDnCyMrspbnxPaIh4RfiDE7irBS6th2OWw5BN+7eV8ZuCVCran/Naxd01I
- rA4oJt5FnaFVdZJEMn5+0EpFa9d7VJbo41hOQTpA2zq/liETY6CXdZ5wITUYhnznA/
- +3cBE5TcrGW/jTrgQY0PqtmZ9S51GaDTpbJWbqdmPeWuN78KgYIsv/5R0soM4qc+Us
- BNX6OeI726uVw==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 0907760E73; Thu, 21 Oct 2021 12:39:44 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 214029] [bisected] [amdgpu] Several memory leaks in amdgpu and
- ttm
-Date: Thu, 21 Oct 2021 12:39:41 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: erhard_f@mailbox.org
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-214029-2300-Eync77DQAG@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-214029-2300@https.bugzilla.kernel.org/>
-References: <bug-214029-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 539546E444;
+ Thu, 21 Oct 2021 12:54:30 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10143"; a="228971109"
+X-IronPort-AV: E=Sophos;i="5.87,169,1631602800"; d="scan'208";a="228971109"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Oct 2021 05:54:17 -0700
+X-IronPort-AV: E=Sophos;i="5.87,169,1631602800"; d="scan'208";a="484191103"
+Received: from lmirabel-mobl.ger.corp.intel.com (HELO mwauld-desk1.intel.com)
+ ([10.213.195.77])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Oct 2021 05:54:16 -0700
+From: Matthew Auld <matthew.auld@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, kernel test robot <lkp@intel.com>,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+Subject: [PATCH 1/2] drm/i915/dmabuf: fix broken build
+Date: Thu, 21 Oct 2021 13:53:31 +0100
+Message-Id: <20211021125332.2455288-1-matthew.auld@intel.com>
+X-Mailer: git-send-email 2.26.3
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,17 +48,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D214029
+wbinvd_on_all_cpus() is only defined on x86 it seems, plus we need to
+include asm/smp.h here.
 
---- Comment #22 from Erhard F. (erhard_f@mailbox.org) ---
-(In reply to Christian K=C3=B6nig from comment #21)
-> Can I add your mail as Tested-by? (you potentially get a bit more spam wi=
-th
-> that).
-Yes, I'm fine with that. Getting spam anyhow. ;)
+Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+---
+ drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
---=20
-You may reply to this email to add a comment.
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
+index 1adcd8e02d29..a45d0ec2c5b6 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
+@@ -12,6 +12,13 @@
+ #include "i915_gem_object.h"
+ #include "i915_scatterlist.h"
+ 
++#if defined(CONFIG_X86)
++#include <asm/smp.h>
++#else
++#define wbinvd_on_all_cpus() \
++	pr_warn(DRIVER_NAME ": Missing cache flush in %s\n", __func__)
++#endif
++
+ I915_SELFTEST_DECLARE(static bool force_different_devices;)
+ 
+ static struct drm_i915_gem_object *dma_buf_to_obj(struct dma_buf *buf)
+-- 
+2.26.3
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
