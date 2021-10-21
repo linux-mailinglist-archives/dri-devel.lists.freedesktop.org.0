@@ -2,99 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC369436643
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Oct 2021 17:30:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74DEC43669E
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Oct 2021 17:42:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C56F06E43F;
-	Thu, 21 Oct 2021 15:30:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8BFBF6ECB7;
+	Thu, 21 Oct 2021 15:42:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2068.outbound.protection.outlook.com [40.107.223.68])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C69BF6E43F
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Oct 2021 15:30:26 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jl6qfBnkQwephbNQvMtkRN9pRLUCDwk01jy1OKk01qGZFu7bbJfBCZQJAfU3VYQ4+YpwvHBZpfgQkSm71qHwYJkSqi4Hw8Tub8Cj06RI5xXvFtW2DuDH9S1jNnbmYppe/X+p7sCRQXUs9VNQIeqAtU2apVb21V6OiY4TCJaes6Zr3Ec2s7DSVtr52zGg4u9Fg2A6BP6nkUFmupsu6/1pFT9BLrjftpGTtxFIbzPshVPc30EDuhuYPDSdR9C5JTtvyHsfNTl9gctEx0BMIopChGH311L+/5eWVQjrtp7CM4lzEspWwUmuvsvXIsJ+xrcsPnlXulzMkJm017MfQ+1dpQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6casjYgshgoMv7C8Udwns8lMskgbmz0Feha11gjiLCU=;
- b=new7sTalvg9tWxDVRb/ObHzYgmW3fDfEzxDJaiQLGpQRcXUfq7tXCMUmMXkSH3YTYYXV2vuKkX99rWrj45WzuQoRzpFb09h1hcNDD+i3H56QBpD3sAGSnlys1yf+/683QRvfTx+LC1/NPa6J++KVrHCBatJ6Isr4t6Vpk4WQ+6ZLsEkExM45svqIi5c2o0/T+1TH+0oRvIEJQDaOuTj+f/zGhKiOE/Af9ZZDrIpp6j15U6fi4f63U5uJazYXJ1msK29yz5wDDFYCZf0/IgP6tBKT1Kr7gwDyen7QhmV7HTieRHZzqTw10BK9fbHoGXW6eonpfSZwsICQIA8s6qOGgw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=suse.de smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6casjYgshgoMv7C8Udwns8lMskgbmz0Feha11gjiLCU=;
- b=v15Z03BayhR34DWyYDfVN7Pc+pWDS0ikUaHbvnbnkyPCN4Xqry82MYIKDaNWWfHNsb7y6JOUQZA5P9IXkO2UUoaBPn3V53BBVnjmAlgEXI2ALz/Jg1UBuqykFDj8GiGMtC2VLyvcogTc8euYhK4udNmXvSmd/lxNTQ/yzJTXOeM=
-Received: from DM5PR2001CA0019.namprd20.prod.outlook.com (2603:10b6:4:16::29)
- by MWHPR12MB1904.namprd12.prod.outlook.com (2603:10b6:300:114::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4628.18; Thu, 21 Oct
- 2021 15:30:17 +0000
-Received: from DM6NAM11FT020.eop-nam11.prod.protection.outlook.com
- (2603:10b6:4:16:cafe::aa) by DM5PR2001CA0019.outlook.office365.com
- (2603:10b6:4:16::29) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4628.16 via Frontend
- Transport; Thu, 21 Oct 2021 15:30:17 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; suse.de; dkim=none (message not signed)
- header.d=none;suse.de; dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- DM6NAM11FT020.mail.protection.outlook.com (10.13.172.224) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4628.16 via Frontend Transport; Thu, 21 Oct 2021 15:30:16 +0000
-Received: from fritz.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.15; Thu, 21 Oct
- 2021 10:30:14 -0500
-From: Kim Phillips <kim.phillips@amd.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, Ainux <ainux.wang@gmail.com>
-CC: Kim Phillips <kim.phillips@amd.com>, David Airlie <airlied@redhat.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- <sterlingteng@gmail.com>, <chenhuacai@kernel.org>, Chuck Lever III
- <chuck.lever@oracle.com>, Borislav Petkov <bp@alien8.de>, Borislav Petkov
- <bp@suse.de>, Jon Grimm <jon.grimm@amd.com>, dri-devel
- <dri-devel@lists.freedesktop.org>, linux-kernel
- <linux-kernel@vger.kernel.org>
-Subject: [PATCH] Revert "drm/ast: Add detect function support"
-Date: Thu, 21 Oct 2021 10:30:06 -0500
-Message-ID: <20211021153006.92983-1-kim.phillips@amd.com>
-X-Mailer: git-send-email 2.32.0
+Received: from mail-qk1-x72e.google.com (mail-qk1-x72e.google.com
+ [IPv6:2607:f8b0:4864:20::72e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 557106ECAA;
+ Thu, 21 Oct 2021 15:42:29 +0000 (UTC)
+Received: by mail-qk1-x72e.google.com with SMTP id d205so1902856qke.3;
+ Thu, 21 Oct 2021 08:42:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=bP3PpTzuKSkswm52zIWZGRSjzTqs6/5a5g6f528XaBc=;
+ b=eLkNOsnh4Nv4JsdpjQ1j3nJk0iFD4ukyv/LXkCPXzU8/gNhKnYtXjR2KrSwFfkp32K
+ c6xvRB2TSssJYsIgKE3M+5FUVs3xVk55I2mC1oeMfnrHmrKaJUm0Q0Y2kh4WGqA17mZV
+ KDg8xuPSDc/mi8J+zJUWhKLMob626AkoeLhlN5/WUSd2Obvjff0Tda60u1qUGGOI3pJ7
+ 3e4+q69PjMlyBEN2a4PAhhedkEHd6AEKIlSoPi6TrH69oxozwwru0TIUGWKQwBlJjyDN
+ GfyiqfXxd+rGgumgKXdz86nk4yE4x1amlUzWCXMdVRcYyvBKoxEzygFV+B/DnfT1LyiE
+ P7uQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=bP3PpTzuKSkswm52zIWZGRSjzTqs6/5a5g6f528XaBc=;
+ b=TmxNfd/9KEEuv3cxS8DxvfaWgT4awngC+9iN8v4FH/73nSIKzWaJ5rboQA/J5u10aj
+ aWuti3wzhkqFc+dA3vpYJDDH5X+jYCI3UMM8jxpua3oDpK6LRa+SLk+8vTR7ClgNHKXs
+ FjZWUhpsQkrFAAiIQVepyBYkaXSR182V4+Bxu0ou4CNyCCSeEEaGrCVUgNPn6CvwL00i
+ Ec/6102zP86gxiSZlqpzaffdK1EEavqukRDaHmZz9D5+tr3itYg8bS/426saIkysHurt
+ bUsFGSS/V8RVXa//TyA1s/msAblXaNY6PrwEm6arz0ihCktI+7I3P9j2MutEC/Z14EpB
+ V5kg==
+X-Gm-Message-State: AOAM530J7l/O9j8VMMZ0DnjHCTnJiew6yG1SLtRBcV+AWTq+eAeVFW9s
+ PzevI9IXTSRWWmnF7jk1fPoH78m1uoCTiBNr119DI7itAqg=
+X-Google-Smtp-Source: ABdhPJyJ9FNJqnd3Ra4p1l97SBHr+eVdPd5IhQBpc3dXYPk5333cs8JULshE2aNGl39Ex/bRH8ZwJ0OQv/NKh/ToR4A=
+X-Received: by 2002:a37:ae84:: with SMTP id x126mr5061241qke.334.1634830948319; 
+ Thu, 21 Oct 2021 08:42:28 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d0cb24da-415a-40e8-313e-08d994a7af0d
-X-MS-TrafficTypeDiagnostic: MWHPR12MB1904:
-X-Microsoft-Antispam-PRVS: <MWHPR12MB19042776D15C3804F8E4445487BF9@MWHPR12MB1904.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:207;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: RYu5QfXKo/XlHrQ14ufZYUsz9Px0jroTDSPby/qVRoSHxTMfDJqrBRCbRg4q+nWYI3okeoEEv3yJJQxIsfZaXK7EWBlP5GlpN3iw2bAC4KLDa7xio+3l90U6Xyy63XSvXCWWkmHIiJMW+lDG5/sNJGBpZRZ1m0o8C6AHvg7svtOth1ioMLz6Xj4C8S7EVqi89SW4Z5seXpiiMtp8yegvZE+AVti8iXf1Qyzs0Gq3hq7oi9HIHSUnyVLC0JFjrOHf4qMtKYKrt0jE/TDIIsLMIDyFs1WLGR36A0gHvuy5eBlm4ruf0EetX7Wvyxu4hJnte9RAQSsWjlvdCW4bWb80P8s8hbf1vgqlwpSHk/fbnz631kGV5Fr2DrlUqT4tN7q+11c1W6bV7EXdf+2rMTLfoMocG/KXFmxv2QJHUjoqF/uJnSlO3nqt4lw2aiNrANuui3T868JatxCFqd01lt1PcFBsKCBaaP9o7wSccz/iC1y1ptzCb8SbtoL/fa5ITm38u/o60yCifLIgDbvfSFkSfHKYTzkeCOhAu1+6o+39LCIrdzMouRa4sk48GcLXZUtO8c8ZEdpJeqxpXZFgi9I36SGamhJQLkx6p6sGQdCowijAhLPd+TAmgXKbjvm4hn9JXLd3B9Uym+GWkNeMPWZlI/iZCJyTZNEznjOWfPWri5X+YOxD5XBuVj4A/TmC5xbZEEhFlVlVImAPJwSe+l+R8PCnh3CuUbfRE2E/jfh4Rv2rtAbufN9/AErudiLO3aIdtn8UzVlaSvtipvxtXzneyzA8T2bu7o05351QQOEvgfRR9KXW+DaHg0RpdecfLjJH
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(4636009)(46966006)(36840700001)(86362001)(81166007)(82310400003)(356005)(1076003)(44832011)(36860700001)(83380400001)(47076005)(36756003)(2616005)(4326008)(8936002)(6666004)(7696005)(70586007)(70206006)(2906002)(16526019)(426003)(336012)(8676002)(316002)(54906003)(5660300002)(966005)(110136005)(7416002)(186003)(45080400002)(508600001)(26005)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Oct 2021 15:30:16.6063 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: d0cb24da-415a-40e8-313e-08d994a7af0d
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT020.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR12MB1904
+References: <20211021103605.735002-1-maarten.lankhorst@linux.intel.com>
+ <20211021103605.735002-7-maarten.lankhorst@linux.intel.com>
+In-Reply-To: <20211021103605.735002-7-maarten.lankhorst@linux.intel.com>
+From: Matthew Auld <matthew.william.auld@gmail.com>
+Date: Thu, 21 Oct 2021 16:42:00 +0100
+Message-ID: <CAM0jSHMyT8YZek1ZtAom2vqaZCOWp1QdWTJkmwmBDrXM03gtWQ@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH 07/28] drm/i915: Create a dummy object for
+ gen6 ppgtt
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>, 
+ ML dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -110,151 +68,318 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This reverts commit aae74ff9caa8de9a45ae2e46068c417817392a26,
-since it prevents my AMD Milan system from booting, with:
+On Thu, 21 Oct 2021 at 11:36, Maarten Lankhorst
+<maarten.lankhorst@linux.intel.com> wrote:
+>
+> We currently have to special case vma->obj being NULL because
+> of gen6 ppgtt and mock_engine. Fix gen6 ppgtt, so we may soon
+> be able to remove a few checks. As the object only exists as
+> a fake object pointing to ggtt, we have no backing storage,
+> so no real object is created. It just has to look real enough.
+>
+> Also kill pin_mutex, it's not compatible with ww locking,
+> and we can use the vm lock instead.
+>
+> Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> ---
+>  drivers/gpu/drm/i915/gem/i915_gem_internal.c |  44 ++++---
+>  drivers/gpu/drm/i915/gt/gen6_ppgtt.c         | 122 +++++++++++--------
+>  drivers/gpu/drm/i915/gt/gen6_ppgtt.h         |   1 -
+>  drivers/gpu/drm/i915/i915_drv.h              |   4 +
+>  4 files changed, 99 insertions(+), 72 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_internal.c b/drivers/gpu/drm/i915/gem/i915_gem_internal.c
+> index a57a6b7013c2..c5150a1ee3d2 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_internal.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_internal.c
+> @@ -145,24 +145,10 @@ static const struct drm_i915_gem_object_ops i915_gem_object_internal_ops = {
+>         .put_pages = i915_gem_object_put_pages_internal,
+>  };
+>
+> -/**
+> - * i915_gem_object_create_internal: create an object with volatile pages
+> - * @i915: the i915 device
+> - * @size: the size in bytes of backing storage to allocate for the object
+> - *
+> - * Creates a new object that wraps some internal memory for private use.
+> - * This object is not backed by swappable storage, and as such its contents
+> - * are volatile and only valid whilst pinned. If the object is reaped by the
+> - * shrinker, its pages and data will be discarded. Equally, it is not a full
+> - * GEM object and so not valid for access from userspace. This makes it useful
+> - * for hardware interfaces like ringbuffers (which are pinned from the time
+> - * the request is written to the time the hardware stops accessing it), but
+> - * not for contexts (which need to be preserved when not active for later
+> - * reuse). Note that it is not cleared upon allocation.
+> - */
+>  struct drm_i915_gem_object *
+> -i915_gem_object_create_internal(struct drm_i915_private *i915,
+> -                               phys_addr_t size)
+> +__i915_gem_object_create_internal(struct drm_i915_private *i915,
+> +                                 const struct drm_i915_gem_object_ops *ops,
+> +                                 phys_addr_t size)
+>  {
+>         static struct lock_class_key lock_class;
+>         struct drm_i915_gem_object *obj;
+> @@ -179,7 +165,7 @@ i915_gem_object_create_internal(struct drm_i915_private *i915,
+>                 return ERR_PTR(-ENOMEM);
+>
+>         drm_gem_private_object_init(&i915->drm, &obj->base, size);
+> -       i915_gem_object_init(obj, &i915_gem_object_internal_ops, &lock_class, 0);
+> +       i915_gem_object_init(obj, ops, &lock_class, 0);
+>         obj->mem_flags |= I915_BO_FLAG_STRUCT_PAGE;
+>
+>         /*
+> @@ -199,3 +185,25 @@ i915_gem_object_create_internal(struct drm_i915_private *i915,
+>
+>         return obj;
+>  }
+> +
+> +/**
+> + * i915_gem_object_create_internal: create an object with volatile pages
+> + * @i915: the i915 device
+> + * @size: the size in bytes of backing storage to allocate for the object
+> + *
+> + * Creates a new object that wraps some internal memory for private use.
+> + * This object is not backed by swappable storage, and as such its contents
+> + * are volatile and only valid whilst pinned. If the object is reaped by the
+> + * shrinker, its pages and data will be discarded. Equally, it is not a full
+> + * GEM object and so not valid for access from userspace. This makes it useful
+> + * for hardware interfaces like ringbuffers (which are pinned from the time
+> + * the request is written to the time the hardware stops accessing it), but
+> + * not for contexts (which need to be preserved when not active for later
+> + * reuse). Note that it is not cleared upon allocation.
+> + */
+> +struct drm_i915_gem_object *
+> +i915_gem_object_create_internal(struct drm_i915_private *i915,
+> +                               phys_addr_t size)
+> +{
+> +       return __i915_gem_object_create_internal(i915, &i915_gem_object_internal_ops, size);
+> +}
+> diff --git a/drivers/gpu/drm/i915/gt/gen6_ppgtt.c b/drivers/gpu/drm/i915/gt/gen6_ppgtt.c
+> index 9fdbd9d3372b..5caa1703716e 100644
+> --- a/drivers/gpu/drm/i915/gt/gen6_ppgtt.c
+> +++ b/drivers/gpu/drm/i915/gt/gen6_ppgtt.c
+> @@ -262,13 +262,10 @@ static void gen6_ppgtt_cleanup(struct i915_address_space *vm)
+>  {
+>         struct gen6_ppgtt *ppgtt = to_gen6_ppgtt(i915_vm_to_ppgtt(vm));
+>
+> -       __i915_vma_put(ppgtt->vma);
+> -
+>         gen6_ppgtt_free_pd(ppgtt);
+>         free_scratch(vm);
+>
+>         mutex_destroy(&ppgtt->flush);
+> -       mutex_destroy(&ppgtt->pin_mutex);
+>
+>         free_pd(&ppgtt->base.vm, ppgtt->base.pd);
+>  }
+> @@ -331,37 +328,6 @@ static const struct i915_vma_ops pd_vma_ops = {
+>         .unbind_vma = pd_vma_unbind,
+>  };
+>
+> -static struct i915_vma *pd_vma_create(struct gen6_ppgtt *ppgtt, int size)
+> -{
+> -       struct i915_ggtt *ggtt = ppgtt->base.vm.gt->ggtt;
+> -       struct i915_vma *vma;
+> -
+> -       GEM_BUG_ON(!IS_ALIGNED(size, I915_GTT_PAGE_SIZE));
+> -       GEM_BUG_ON(size > ggtt->vm.total);
+> -
+> -       vma = i915_vma_alloc();
+> -       if (!vma)
+> -               return ERR_PTR(-ENOMEM);
+> -
+> -       i915_active_init(&vma->active, NULL, NULL, 0);
+> -
+> -       kref_init(&vma->ref);
+> -       mutex_init(&vma->pages_mutex);
+> -       vma->vm = i915_vm_get(&ggtt->vm);
+> -       vma->ops = &pd_vma_ops;
+> -       vma->private = ppgtt;
+> -
+> -       vma->size = size;
+> -       vma->fence_size = size;
+> -       atomic_set(&vma->flags, I915_VMA_GGTT);
+> -       vma->ggtt_view.type = I915_GGTT_VIEW_ROTATED; /* prevent fencing */
+> -
+> -       INIT_LIST_HEAD(&vma->obj_link);
+> -       INIT_LIST_HEAD(&vma->closed_link);
+> -
+> -       return vma;
+> -}
+> -
+>  int gen6_ppgtt_pin(struct i915_ppgtt *base, struct i915_gem_ww_ctx *ww)
+>  {
+>         struct gen6_ppgtt *ppgtt = to_gen6_ppgtt(base);
+> @@ -378,24 +344,84 @@ int gen6_ppgtt_pin(struct i915_ppgtt *base, struct i915_gem_ww_ctx *ww)
+>         if (atomic_add_unless(&ppgtt->pin_count, 1, 0))
+>                 return 0;
+>
+> -       if (mutex_lock_interruptible(&ppgtt->pin_mutex))
+> -               return -EINTR;
+> +       /* grab the ppgtt resv to pin the object */
+> +       err = i915_vm_lock_objects(&ppgtt->base.vm, ww);
+> +       if (err)
+> +               return err;
+>
+>         /*
+>          * PPGTT PDEs reside in the GGTT and consists of 512 entries. The
+>          * allocator works in address space sizes, so it's multiplied by page
+>          * size. We allocate at the top of the GTT to avoid fragmentation.
+>          */
+> -       err = 0;
+> -       if (!atomic_read(&ppgtt->pin_count))
+> +       if (!atomic_read(&ppgtt->pin_count)) {
+>                 err = i915_ggtt_pin(ppgtt->vma, ww, GEN6_PD_ALIGN, PIN_HIGH);
+> +
+> +               GEM_BUG_ON(ppgtt->vma->fence);
+> +               clear_bit(I915_VMA_CAN_FENCE_BIT, __i915_vma_flags(ppgtt->vma));
+> +       }
+>         if (!err)
+>                 atomic_inc(&ppgtt->pin_count);
+> -       mutex_unlock(&ppgtt->pin_mutex);
+>
+>         return err;
+>  }
+>
+> +static int pd_dummy_obj_get_pages(struct drm_i915_gem_object *obj)
+> +{
+> +       obj->mm.pages = ZERO_SIZE_PTR;
+> +       return 0;
+> +}
+> +
+> +static void pd_dummy_obj_put_pages(struct drm_i915_gem_object *obj,
+> +                                    struct sg_table *pages)
+> +{
+> +}
+> +
+> +static const struct drm_i915_gem_object_ops pd_dummy_obj_ops = {
+> +       .name = "pd_dummy_obj",
+> +       .flags = I915_GEM_OBJECT_IS_SHRINKABLE,
 
-[   27.189558] BUG: kernel NULL pointer dereference, address: 0000000000000000
-[   27.197506] #PF: supervisor write access in kernel mode
-[   27.203333] #PF: error_code(0x0002) - not-present page
-[   27.209064] PGD 0 P4D 0
-[   27.211885] Oops: 0002 [#1] PREEMPT SMP NOPTI
-[   27.216744] CPU: 0 PID: 0 Comm: swapper/0 Not tainted 5.15.0-rc6+ #15
-[   27.223928] Hardware name: AMD Corporation ETHANOL_X/ETHANOL_X, BIOS RXM1006B 08/20/2021
-[   27.232955] RIP: 0010:run_timer_softirq+0x38b/0x4a0
-[   27.238397] Code: 4c 89 f7 e8 37 27 ac 00 49 c7 46 08 00 00 00 00 49 8b 04 24 48 85 c0 74 71 4d 8b 3c 24 4d 89 7e 08 66 90 49 8b 07 49 8b 57 08 <48> 89 02 48 85 c0 74 04 48 89 50 08 49 8b 77 18 41 f6 47 22 20 4c
-[   27.259350] RSP: 0018:ffffc42d00003ee8 EFLAGS: 00010086
-[   27.265176] RAX: dead000000000122 RBX: 0000000000000000 RCX: 0000000000000101
-[   27.273134] RDX: 0000000000000000 RSI: 0000000000000087 RDI: 0000000000000001
-[   27.281084] RBP: ffffc42d00003f70 R08: 0000000000000000 R09: 00000000000003eb
-[   27.289043] R10: ffffa0860cb300d0 R11: ffffa0c44de290b0 R12: ffffc42d00003ef8
-[   27.297002] R13: 00000000fffef200 R14: ffffa0c44de18dc0 R15: ffffa0867a882350
-[   27.304961] FS:  0000000000000000(0000) GS:ffffa0c44de00000(0000) knlGS:0000000000000000
-[   27.313988] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[   27.320396] CR2: 0000000000000000 CR3: 000000014569c001 CR4: 0000000000770ef0
-[   27.328346] PKRU: 55555554
-[   27.331359] Call Trace:
-[   27.334073]  <IRQ>
-[   27.336314]  ? __queue_work+0x420/0x420
-[   27.340589]  ? lapic_next_event+0x21/0x30
-[   27.345060]  ? clockevents_program_event+0x8f/0xe0
-[   27.350402]  __do_softirq+0xfb/0x2db
-[   27.354388]  irq_exit_rcu+0x98/0xd0
-[   27.358275]  sysvec_apic_timer_interrupt+0xac/0xd0
-[   27.363620]  </IRQ>
-[   27.365955]  asm_sysvec_apic_timer_interrupt+0x12/0x20
-[   27.371685] RIP: 0010:cpuidle_enter_state+0xcc/0x390
-[   27.377292] Code: 3d 01 79 0a 50 e8 44 ed 77 ff 49 89 c6 0f 1f 44 00 00 31 ff e8 f5 f8 77 ff 80 7d d7 00 0f 85 e6 01 00 00 fb 66 0f 1f 44 00 00 <45> 85 ff 0f 88 17 01 00 00 49 63 c7 4c 2b 75 c8 48 8d 14 40 48 8d
-[   27.398243] RSP: 0018:ffffffffb0e03dc8 EFLAGS: 00000246
-[   27.404069] RAX: ffffa0c44de00000 RBX: 0000000000000001 RCX: 000000000000001f
-[   27.412028] RDX: 0000000000000000 RSI: ffffffffb0bafc1f RDI: ffffffffb0bbdb81
-[   27.419986] RBP: ffffffffb0e03e00 R08: 00000006549f8f3f R09: ffffffffb1065200
-[   27.427935] R10: ffffa0c44de27ae4 R11: ffffa0c44de27ac4 R12: ffffa0c5634cb000
-[   27.435894] R13: ffffffffb1065200 R14: 00000006549f8f3f R15: 0000000000000001
-[   27.443854]  ? cpuidle_enter_state+0xbb/0x390
-[   27.448712]  cpuidle_enter+0x2e/0x40
-[   27.452695]  call_cpuidle+0x23/0x40
-[   27.456584]  do_idle+0x1f0/0x270
-[   27.460181]  cpu_startup_entry+0x20/0x30
-[   27.464553]  rest_init+0xd4/0xe0
-[   27.468149]  arch_call_rest_init+0xe/0x1b
-[   27.472619]  start_kernel+0x6bc/0x6e2
-[   27.476764]  x86_64_start_reservations+0x24/0x26
-[   27.481912]  x86_64_start_kernel+0x75/0x79
-[   27.486477]  secondary_startup_64_no_verify+0xb0/0xbb
-[   27.492111] Modules linked in: kvm_amd(+) kvm ipmi_si(+) ipmi_devintf rapl wmi_bmof ipmi_msghandler input_leds ccp k10temp mac_hid sch_fq_codel msr ip_tables x_tables autofs4 btrfs blake2b_generic zstd_compress raid10 raid456 async_raid6_recov async_memcpy async_pq async_xor async_tx xor raid6_pq libcrc32c raid1 raid0 multipath linear ast i2c_algo_bit drm_vram_helper drm_ttm_helper ttm drm_kms_helper crct10dif_pclmul crc32_pclmul ghash_clmulni_intel syscopyarea aesni_intel sysfillrect crypto_simd sysimgblt fb_sys_fops cryptd hid_generic cec nvme ahci usbhid drm e1000e nvme_core hid libahci i2c_piix4 wmi
-[   27.551789] CR2: 0000000000000000
-[   27.555482] ---[ end trace 897987dfe93dccc6 ]---
-[   27.560630] RIP: 0010:run_timer_softirq+0x38b/0x4a0
-[   27.566069] Code: 4c 89 f7 e8 37 27 ac 00 49 c7 46 08 00 00 00 00 49 8b 04 24 48 85 c0 74 71 4d 8b 3c 24 4d 89 7e 08 66 90 49 8b 07 49 8b 57 08 <48> 89 02 48 85 c0 74 04 48 89 50 08 49 8b 77 18 41 f6 47 22 20 4c
-[   27.587021] RSP: 0018:ffffc42d00003ee8 EFLAGS: 00010086
-[   27.592848] RAX: dead000000000122 RBX: 0000000000000000 RCX: 0000000000000101
-[   27.600808] RDX: 0000000000000000 RSI: 0000000000000087 RDI: 0000000000000001
-[   27.608765] RBP: ffffc42d00003f70 R08: 0000000000000000 R09: 00000000000003eb
-[   27.616716] R10: ffffa0860cb300d0 R11: ffffa0c44de290b0 R12: ffffc42d00003ef8
-[   27.624673] R13: 00000000fffef200 R14: ffffa0c44de18dc0 R15: ffffa0867a882350
-[   27.632624] FS:  0000000000000000(0000) GS:ffffa0c44de00000(0000) knlGS:0000000000000000
-[   27.641650] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[   27.648159] CR2: 0000000000000000 CR3: 000000014569c001 CR4: 0000000000770ef0
-[   27.656119] PKRU: 55555554
-[   27.659133] Kernel panic - not syncing: Fatal exception in interrupt
-[   29.030411] Shutting down cpus with NMI
-[   29.034699] Kernel Offset: 0x2e600000 from 0xffffffff81000000 (relocation range: 0xffffffff80000000-0xffffffffbfffffff)
-[   29.046790] ---[ end Kernel panic - not syncing: Fatal exception in interrupt ]---
+I would assume we don't want this dummy object to be considered for shrinking?
 
-Since unreliable, found by bisecting for KASAN's use-after-free in
-enqueue_timer+0x4f/0x1e0, where the timer callback is called.
+> +       .get_pages = pd_dummy_obj_get_pages,
+> +       .put_pages = pd_dummy_obj_put_pages,
+> +};
+> +
+> +static struct i915_page_directory *
+> +gen6_alloc_top_pd(struct gen6_ppgtt *ppgtt)
+> +{
+> +       struct i915_ggtt * const ggtt = ppgtt->base.vm.gt->ggtt;
+> +       struct i915_page_directory *pd;
+> +       int err;
+> +
+> +       pd = __alloc_pd(I915_PDES);
+> +       if (unlikely(!pd))
+> +               return ERR_PTR(-ENOMEM);
+> +
+> +       pd->pt.base = __i915_gem_object_create_internal(ppgtt->base.vm.gt->i915, &pd_dummy_obj_ops, I915_PDES * SZ_4K);
 
-Reported-by: Kim Phillips <kim.phillips@amd.com>
-Signed-off-by: Kim Phillips <kim.phillips@amd.com>
-Fixes: aae74ff9caa8 ("drm/ast: Add detect function support")
-Link: https://lore.kernel.org/lkml/0f7871be-9ca6-5ae4-3a40-5db9a8fb2365@amd.com/
-Cc: Ainux <ainux.wang@gmail.com>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: David Airlie <airlied@redhat.com>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: sterlingteng@gmail.com
-Cc: chenhuacai@kernel.org
-Cc: Chuck Lever III <chuck.lever@oracle.com>
-Cc: Borislav Petkov <bp@alien8.de>
-Cc: Borislav Petkov <bp@suse.de>
-Cc: Jon Grimm <jon.grimm@amd.com>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>
-Cc: linux-kernel <linux-kernel@vger.kernel.org>
----
- drivers/gpu/drm/ast/ast_mode.c | 18 +-----------------
- 1 file changed, 1 insertion(+), 17 deletions(-)
+Overly long line?
 
-diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
-index 6bfaefa01818..1e30eaeb0e1b 100644
---- a/drivers/gpu/drm/ast/ast_mode.c
-+++ b/drivers/gpu/drm/ast/ast_mode.c
-@@ -1300,18 +1300,6 @@ static enum drm_mode_status ast_mode_valid(struct drm_connector *connector,
- 	return flags;
- }
- 
--static enum drm_connector_status ast_connector_detect(struct drm_connector
--						   *connector, bool force)
--{
--	int r;
--
--	r = ast_get_modes(connector);
--	if (r <= 0)
--		return connector_status_disconnected;
--
--	return connector_status_connected;
--}
--
- static void ast_connector_destroy(struct drm_connector *connector)
- {
- 	struct ast_connector *ast_connector = to_ast_connector(connector);
-@@ -1327,7 +1315,6 @@ static const struct drm_connector_helper_funcs ast_connector_helper_funcs = {
- 
- static const struct drm_connector_funcs ast_connector_funcs = {
- 	.reset = drm_atomic_helper_connector_reset,
--	.detect = ast_connector_detect,
- 	.fill_modes = drm_helper_probe_single_connector_modes,
- 	.destroy = ast_connector_destroy,
- 	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
-@@ -1355,8 +1342,7 @@ static int ast_connector_init(struct drm_device *dev)
- 	connector->interlace_allowed = 0;
- 	connector->doublescan_allowed = 0;
- 
--	connector->polled = DRM_CONNECTOR_POLL_CONNECT |
--						DRM_CONNECTOR_POLL_DISCONNECT;
-+	connector->polled = DRM_CONNECTOR_POLL_CONNECT;
- 
- 	drm_connector_attach_encoder(connector, encoder);
- 
-@@ -1425,8 +1411,6 @@ int ast_mode_config_init(struct ast_private *ast)
- 
- 	drm_mode_config_reset(dev);
- 
--	drm_kms_helper_poll_init(dev);
--
- 	return 0;
- }
- 
--- 
-2.32.0
+Otherwise,
+Reviewed-by: Matthew Auld <matthew.auld@intel.com>
 
+> +       if (IS_ERR(pd->pt.base)) {
+> +               err = PTR_ERR(pd->pt.base);
+> +               pd->pt.base = NULL;
+> +               goto err_pd;
+> +       }
+> +
+> +       pd->pt.base->base.resv = i915_vm_resv_get(&ppgtt->base.vm);
+> +       pd->pt.base->shares_resv_from = &ppgtt->base.vm;
+> +
+> +       ppgtt->vma = i915_vma_instance(pd->pt.base, &ggtt->vm, NULL);
+> +       if (IS_ERR(ppgtt->vma)) {
+> +               err = PTR_ERR(ppgtt->vma);
+> +               ppgtt->vma = NULL;
+> +               goto err_pd;
+> +       }
+> +
+> +       /* The dummy object we create is special, override ops.. */
+> +       ppgtt->vma->ops = &pd_vma_ops;
+> +       ppgtt->vma->private = ppgtt;
+> +       return pd;
+> +
+> +err_pd:
+> +       free_pd(&ppgtt->base.vm, pd);
+> +       return ERR_PTR(err);
+> +}
+> +
+>  void gen6_ppgtt_unpin(struct i915_ppgtt *base)
+>  {
+>         struct gen6_ppgtt *ppgtt = to_gen6_ppgtt(base);
+> @@ -416,7 +442,6 @@ struct i915_ppgtt *gen6_ppgtt_create(struct intel_gt *gt)
+>                 return ERR_PTR(-ENOMEM);
+>
+>         mutex_init(&ppgtt->flush);
+> -       mutex_init(&ppgtt->pin_mutex);
+>
+>         ppgtt_init(&ppgtt->base, gt, 0);
+>         ppgtt->base.vm.pd_shift = ilog2(SZ_4K * SZ_4K / sizeof(gen6_pte_t));
+> @@ -431,19 +456,13 @@ struct i915_ppgtt *gen6_ppgtt_create(struct intel_gt *gt)
+>         ppgtt->base.vm.alloc_pt_dma = alloc_pt_dma;
+>         ppgtt->base.vm.pte_encode = ggtt->vm.pte_encode;
+>
+> -       ppgtt->base.pd = __alloc_pd(I915_PDES);
+> -       if (!ppgtt->base.pd) {
+> -               err = -ENOMEM;
+> -               goto err_free;
+> -       }
+> -
+>         err = gen6_ppgtt_init_scratch(ppgtt);
+>         if (err)
+> -               goto err_pd;
+> +               goto err_free;
+>
+> -       ppgtt->vma = pd_vma_create(ppgtt, GEN6_PD_SIZE);
+> -       if (IS_ERR(ppgtt->vma)) {
+> -               err = PTR_ERR(ppgtt->vma);
+> +       ppgtt->base.pd = gen6_alloc_top_pd(ppgtt);
+> +       if (IS_ERR(ppgtt->base.pd)) {
+> +               err = PTR_ERR(ppgtt->base.pd);
+>                 goto err_scratch;
+>         }
+>
+> @@ -451,10 +470,7 @@ struct i915_ppgtt *gen6_ppgtt_create(struct intel_gt *gt)
+>
+>  err_scratch:
+>         free_scratch(&ppgtt->base.vm);
+> -err_pd:
+> -       free_pd(&ppgtt->base.vm, ppgtt->base.pd);
+>  err_free:
+> -       mutex_destroy(&ppgtt->pin_mutex);
+>         kfree(ppgtt);
+>         return ERR_PTR(err);
+>  }
+> diff --git a/drivers/gpu/drm/i915/gt/gen6_ppgtt.h b/drivers/gpu/drm/i915/gt/gen6_ppgtt.h
+> index ab0eecb086dd..5e5cf2ec3309 100644
+> --- a/drivers/gpu/drm/i915/gt/gen6_ppgtt.h
+> +++ b/drivers/gpu/drm/i915/gt/gen6_ppgtt.h
+> @@ -19,7 +19,6 @@ struct gen6_ppgtt {
+>         u32 pp_dir;
+>
+>         atomic_t pin_count;
+> -       struct mutex pin_mutex;
+>
+>         bool scan_for_unused_pt;
+>  };
+> diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
+> index 12256218634f..a8d733a7e1d9 100644
+> --- a/drivers/gpu/drm/i915/i915_drv.h
+> +++ b/drivers/gpu/drm/i915/i915_drv.h
+> @@ -1933,6 +1933,10 @@ int i915_gem_evict_vm(struct i915_address_space *vm);
+>  struct drm_i915_gem_object *
+>  i915_gem_object_create_internal(struct drm_i915_private *dev_priv,
+>                                 phys_addr_t size);
+> +struct drm_i915_gem_object *
+> +__i915_gem_object_create_internal(struct drm_i915_private *dev_priv,
+> +                                 const struct drm_i915_gem_object_ops *ops,
+> +                                 phys_addr_t size);
+>
+>  /* i915_gem_tiling.c */
+>  static inline bool i915_gem_object_needs_bit17_swizzle(struct drm_i915_gem_object *obj)
+> --
+> 2.33.0
+>
