@@ -1,41 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC2A6436CB9
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Oct 2021 23:32:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A6CB436CC5
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Oct 2021 23:35:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1219B6E4C4;
-	Thu, 21 Oct 2021 21:32:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0621C6E4C7;
+	Thu, 21 Oct 2021 21:35:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 21E006E4C4;
- Thu, 21 Oct 2021 21:32:17 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10144"; a="216066894"
-X-IronPort-AV: E=Sophos;i="5.87,170,1631602800"; d="scan'208";a="216066894"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Oct 2021 14:32:16 -0700
-X-IronPort-AV: E=Sophos;i="5.87,170,1631602800"; d="scan'208";a="445502291"
-Received: from sghiemst-mobl2.amr.corp.intel.com (HELO ldmartin-desk2)
- ([10.254.10.154])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Oct 2021 14:32:15 -0700
-Date: Thu, 21 Oct 2021 14:32:13 -0700
-From: Lucas De Marchi <lucas.demarchi@intel.com>
-To: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [Intel-gfx] [PATCH] drm/i915: remove CNL leftover
-Message-ID: <20211021213213.rl7dyux3sfaczyit@ldmartin-desk2>
-X-Patchwork-Hint: comment
-References: <20211021181847.1543341-1-lucas.demarchi@intel.com>
- <YXG6BGEtId+5oXFH@intel.com>
+Received: from mail-oo1-xc29.google.com (mail-oo1-xc29.google.com
+ [IPv6:2607:f8b0:4864:20::c29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E47176E4C5
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Oct 2021 21:34:58 +0000 (UTC)
+Received: by mail-oo1-xc29.google.com with SMTP id
+ y145-20020a4a4597000000b002b7d49905acso551631ooa.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Oct 2021 14:34:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=pTwNmZooOeOdog1xCjDMl0qLSkOmdnMEB9kSUbzvyVs=;
+ b=MRnKxjV2S5VmP3MI6tkI7zr9Azux0Rd/L85aFA6X0wUy+9ZtuHirQ72Ha8mPPLV6jF
+ gX9Qnli2J+I2jtuv5EWT5fh8EB3OUSM4ZwE2NpnbXdI+L4PsDbkTMycEuJfnbQ2qmLdC
+ Pc3cKHElfP+qJhmBBmtGRxWOK69LSNRzXfM3n0pCgoDpmlGSw/0l01/Krq3KgO3TqGMi
+ IOgxIgts5EOSKRbRnacceTtAVKDEHkq9WhpZEommGBON352orr/HFQM2+lxRFLkZcDhL
+ nsnWppvCWtIDV8CiwOEWpstzk0OVVrRLKTseuglUzwnGdoXL3OC5ogl2gzqmdbSyFQpa
+ g2JQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=pTwNmZooOeOdog1xCjDMl0qLSkOmdnMEB9kSUbzvyVs=;
+ b=iX9NlrsVDCcH6hgN75wCJsNhNQ58/LG26HjGpsNbXHMezHTUJyioo7G7pKOgcKfb1Q
+ D8ZB2zEHBnVkgYaRhU6RqVMambqXBvtR6V28vyu8oYlVsExlyuwg3uZVs9D4fOgF9yZa
+ JSrwQgdSS/H/vestwt8zjZ9Pw3oh0n/HgTov0W90Z5MflJJKQ2FeVbwjg3EIRfJ+6RFD
+ J6UaBXpuG8ssx00DhAb8mOUFm9AKcIesHvV0GQQ58cK15HRdiLHAIRMgj8oMM3Sq1wHz
+ GjkOBHCcLm15MlZCDqU/NHou+gaj9apoulzq6r1YszFwFOQ+Dm1/po7+c6lfeYukwAhm
+ pjiQ==
+X-Gm-Message-State: AOAM533B6Yqj2dCbJLNhZloFnOPxmqKxvR3e9NiKugB4m3R83rGFS3OJ
+ 9fsKJwd4JCw86+KLLPxn9HI=
+X-Google-Smtp-Source: ABdhPJwfTPpBcCCoB6iF70POe8qmJ1hWZFW1k43lF3cwrrSfvNcY6maKSjUXRG+WJEYFiMzL466hNA==
+X-Received: by 2002:a4a:a34d:: with SMTP id u13mr6185244ool.53.1634852097915; 
+ Thu, 21 Oct 2021 14:34:57 -0700 (PDT)
+Received: from localhost.localdomain (mobile-166-172-188-255.mycingular.net.
+ [166.172.188.255])
+ by smtp.gmail.com with ESMTPSA id o42sm1152386ooi.9.2021.10.21.14.34.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 21 Oct 2021 14:34:57 -0700 (PDT)
+From: Julian Braha <julianbraha@gmail.com>
+To: sam@ravnborg.org, thierry.reding@gmail.com, airlied@linux.ie,
+ daniel@ffwll.ch, robh+dt@kernel.org
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org
+Subject: [PATCH RESEND v2 1/2] dt-bindings: panel-simple-dsi: add Tianma
+ TL057FVXP01
+Date: Thu, 21 Oct 2021 17:34:44 -0400
+Message-Id: <20211021213445.17289-1-julianbraha@gmail.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <YXG6BGEtId+5oXFH@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,50 +74,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 21, 2021 at 10:05:40PM +0300, Ville Syrjälä wrote:
->On Thu, Oct 21, 2021 at 11:18:47AM -0700, Lucas De Marchi wrote:
->> We left the definition IS_CANNONLAKE() macro while removing it from the
->> tree due to having to merge the changes in different branches. Now that
->> everything is back in sync and nobody is using IS_CANNONLAKE(), we can
->> safely ditch it.
->>
->> Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
->
->Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
->
->I found another leftover somewhere else, but now I forgot where
->it was. I guess it'll come back to me eventually.
+Adds the bindings for the Tianma TL057FVXP01 DSI panel,
+found on the Motorola Moto G6.
 
-drivers/gpu/drm/i915/intel_pch.c, which I suspect is what you're talking
-about due to your recent patches. But that one is correct as we still
-have Cannon Lake Point (and I never remember if P in CNP is for PCH or
-Point) 
+v2:
+Fixed accidental whitespace deletion.
 
-there is another one in a comment in drivers/gpu/drm/i915/gt/intel_gt.c,
-too.
+Signed-off-by: Julian Braha <julianbraha@gmail.com>
+---
+ .../devicetree/bindings/display/panel/panel-simple-dsi.yaml     | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Lucas De Marchi
+diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
+index fbd71669248f..92a702d141e1 100644
+--- a/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
++++ b/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
+@@ -55,6 +55,8 @@ properties:
+       - samsung,sofef00
+         # Shangai Top Display Optoelectronics 7" TL070WSH30 1024x600 TFT LCD panel
+       - tdo,tl070wsh30
++        # Tianma Micro-electronics TL057FVXP01 5.7" 2160x1080 LCD panel
++      - tianma,tl057fvxp01
 
->
->> ---
->>  drivers/gpu/drm/i915/i915_drv.h | 1 -
->>  1 file changed, 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
->> index 357faa043b3a..5e23c0273cf0 100644
->> --- a/drivers/gpu/drm/i915/i915_drv.h
->> +++ b/drivers/gpu/drm/i915/i915_drv.h
->> @@ -1431,7 +1431,6 @@ IS_SUBPLATFORM(const struct drm_i915_private *i915,
->>  #define IS_GEMINILAKE(dev_priv)	IS_PLATFORM(dev_priv, INTEL_GEMINILAKE)
->>  #define IS_COFFEELAKE(dev_priv)	IS_PLATFORM(dev_priv, INTEL_COFFEELAKE)
->>  #define IS_COMETLAKE(dev_priv)	IS_PLATFORM(dev_priv, INTEL_COMETLAKE)
->> -#define IS_CANNONLAKE(dev_priv)	0
->>  #define IS_ICELAKE(dev_priv)	IS_PLATFORM(dev_priv, INTEL_ICELAKE)
->>  #define IS_JSL_EHL(dev_priv)	(IS_PLATFORM(dev_priv, INTEL_JASPERLAKE) || \
->>  				IS_PLATFORM(dev_priv, INTEL_ELKHARTLAKE))
->> --
->> 2.33.1
->
->-- 
->Ville Syrjälä
->Intel
+   reg:
+     maxItems: 1
+--
+2.30.2
