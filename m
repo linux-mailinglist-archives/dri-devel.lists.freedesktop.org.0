@@ -2,63 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDC44436D3D
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Oct 2021 00:08:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD261436D4B
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Oct 2021 00:13:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 61F576E4CF;
-	Thu, 21 Oct 2021 22:08:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B9E446E4CB;
+	Thu, 21 Oct 2021 22:13:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6DAB56E4CB
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Oct 2021 22:08:45 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1634854125; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=dCbsFaQy5fbSZvOhlEJxzzk8OkTpu48VEz1cEQ2GkkQ=;
- b=r6Q8IePN7QmyxXJ8vQUCr5O7e5Y1jT245EIKr5UOJHOQUKL+YRpEdWbqeHyRGGYUwezews05
- h+hjLDEhMimqtBJm/SBku7OgI+cyBRDOqg3pgVW4Hbh9LjYP7gOQ0/7W7tSTAsIth+3tg54d
- sJJOPCCbzQch0iI6RyXJ4Fi7zEU=
-X-Mailgun-Sending-Ip: 198.61.254.9
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n06.prod.us-west-2.postgun.com with SMTP id
- 6171e4ebbc30296958d8969e (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 21 Oct 2021 22:08:43
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 94ED8C43460; Thu, 21 Oct 2021 22:08:43 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00
- autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
- (No client certificate requested) (Authenticated sender: abhinavk)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id F03E7C4338F;
- Thu, 21 Oct 2021 22:08:41 +0000 (UTC)
+Received: from mail-yb1-xb31.google.com (mail-yb1-xb31.google.com
+ [IPv6:2607:f8b0:4864:20::b31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2037C6E4CB
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Oct 2021 22:13:33 +0000 (UTC)
+Received: by mail-yb1-xb31.google.com with SMTP id g6so2655185ybb.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Oct 2021 15:13:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=/JNbTex7xms2/Cnj1YUiyYIVh0CE0nHjewijLch+82Q=;
+ b=FfOx9yi/TuhHQ9MsjLtKqFx9v3fCbngNPzNUinjEIXIi+g+psMA3N6JzeJb/vcTYEm
+ vKIQ8ffLQcHHfIzne66oBiISC0EpYFb6Esyjn3RjyE3ciawjLAEdZmVHTR3qiLgpVddG
+ iQW6fWjV9U+Wk4O+qXaRrilUGoF1GjHhgUxz4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=/JNbTex7xms2/Cnj1YUiyYIVh0CE0nHjewijLch+82Q=;
+ b=U2hTjWMU8IaAXofBRqkE67gK5VNFknHHyyIZDMAgsJdHlLAoJgWV1KatY06xwUfrPi
+ yUNdsw203lFJ0pm1zJmZDelo5fW/jptyqgddwHTF24Jy8L7hFT0onFeak6YfgQnKNnG+
+ R5VAlYmlueCGQf2JGRCrAKZtzE5H0M/QaR/l7C909RV1IjQ9UEaiosD+Gh7s+07QvT6x
+ uKwqQRAyHcg5/Qutwveanp3ZKt4u8huSujJ4/+l1TlxFJp+8GqX2h6uRqqfMHJzi8Rzp
+ s+pNzqSIftijDd3xn2U9DTJ8Znj5rAtAwFqBHh2qUOEmTI5j/hAfVfp0ZzJEUga6drbV
+ T4wQ==
+X-Gm-Message-State: AOAM531PgIbQ2jSSTbzYv8MV24UM48HyvE+7DUVqsNAHhPRMj1RHUl0I
+ 0bINT3D1KQKsuWQ+ZyJrCINaCPB+ywc46ys3lvUjJg==
+X-Google-Smtp-Source: ABdhPJxaCktPEOq+UiNW76HQBbiZpM3WakQJwjtwjaPfWuI75ndx7HKMTkeL0YbBpMZqy6VAJJRlMdmA2x2T9C1vcoI=
+X-Received: by 2002:a25:cf07:: with SMTP id f7mr9184774ybg.100.1634854412341; 
+ Thu, 21 Oct 2021 15:13:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date: Thu, 21 Oct 2021 15:08:41 -0700
-From: abhinavk@codeaurora.org
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Bjorn Andersson <bjorn.andersson@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Jonathan Marek
- <jonathan@marek.ca>, Stephen Boyd <sboyd@kernel.org>, David Airlie
- <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org
-Subject: Re: [Freedreno] [PATCH] drm/msm/dsi: use bulk clk API
-In-Reply-To: <20211002012715.691406-1-dmitry.baryshkov@linaro.org>
-References: <20211002012715.691406-1-dmitry.baryshkov@linaro.org>
-Message-ID: <e567c8f2b3b60f95826e7775cbf82e67@codeaurora.org>
-X-Sender: abhinavk@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+References: <20211021122719.1.I56d382006dea67ed8f30729a751fbc75434315b2@changeid>
+ <YXHLrnAliqxmrrho@ravnborg.org>
+ <CAD=FV=U3_q-Y7QArYkGabrNEYMT0D3uuh-_O+D4DjF_bYmpPiA@mail.gmail.com>
+ <YXHQhMe84ZZKkJik@ravnborg.org>
+In-Reply-To: <YXHQhMe84ZZKkJik@ravnborg.org>
+From: Philip Chen <philipchen@chromium.org>
+Date: Thu, 21 Oct 2021 15:13:21 -0700
+Message-ID: <CA+cxXhkxEhPcmXgim89yKdhBFR4P96_eNQTKPP6ahnBC1mR9eQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/bridge: Fix the bridge chain order for pre_enable /
+ post_disable
+To: Sam Ravnborg <sam@ravnborg.org>
+Cc: Doug Anderson <dianders@chromium.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ dri-devel <dri-devel@lists.freedesktop.org>, 
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Daniel Vetter <daniel@ffwll.ch>, 
+ David Airlie <airlied@linux.ie>, Jagan Teki <jagan@amarulasolutions.com>, 
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Neil Armstrong <narmstrong@baylibre.com>, Robert Foss <robert.foss@linaro.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,120 +76,116 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-10-01 18:27, Dmitry Baryshkov wrote:
-> Use clk_bulk_* API instead of hand-coding them. Note, this drops 
-> support
-> for legacy clk naming (e.g. "iface_clk" instead of just "iface"),
-> however all in-kernel device trees were converted long long ago. The
-> warning is present there since 2017.
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Reviewed-by: Abhinav Kumar <abhinavk@codeaurora.org>
-> ---
->  drivers/gpu/drm/msm/dsi/dsi_host.c | 59 ++++++------------------------
->  1 file changed, 12 insertions(+), 47 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c
-> b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> index e269df285136..3b81f40bba2e 100644
-> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
-> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> @@ -106,7 +106,8 @@ struct msm_dsi_host {
->  	phys_addr_t ctrl_size;
->  	struct regulator_bulk_data supplies[DSI_DEV_REGULATOR_MAX];
-> 
-> -	struct clk *bus_clks[DSI_BUS_CLK_MAX];
-> +	int num_bus_clks;
-> +	struct clk_bulk_data bus_clks[DSI_BUS_CLK_MAX];
-> 
->  	struct clk *byte_clk;
->  	struct clk *esc_clk;
-> @@ -374,15 +375,14 @@ static int dsi_clk_init(struct msm_dsi_host 
-> *msm_host)
->  	int i, ret = 0;
-> 
->  	/* get bus clocks */
-> -	for (i = 0; i < cfg->num_bus_clks; i++) {
-> -		msm_host->bus_clks[i] = msm_clk_get(pdev,
-> -						cfg->bus_clk_names[i]);
-> -		if (IS_ERR(msm_host->bus_clks[i])) {
-> -			ret = PTR_ERR(msm_host->bus_clks[i]);
-> -			pr_err("%s: Unable to get %s clock, ret = %d\n",
-> -				__func__, cfg->bus_clk_names[i], ret);
-> -			goto exit;
-> -		}
-> +	for (i = 0; i < cfg->num_bus_clks; i++)
-> +		msm_host->bus_clks[i].id = cfg->bus_clk_names[i];
-> +	msm_host->num_bus_clks = cfg->num_bus_clks;
-> +
-> +	ret = devm_clk_bulk_get(&pdev->dev, msm_host->num_bus_clks,
-> msm_host->bus_clks);
-> +	if (ret < 0) {
-> +		dev_err(&pdev->dev, "Unable to get clocks, ret = %d\n", ret);
-> +		goto exit;
->  	}
-> 
->  	/* get link and source clocks */
-> @@ -433,41 +433,6 @@ static int dsi_clk_init(struct msm_dsi_host 
-> *msm_host)
->  	return ret;
->  }
-> 
-> -static int dsi_bus_clk_enable(struct msm_dsi_host *msm_host)
-> -{
-> -	const struct msm_dsi_config *cfg = msm_host->cfg_hnd->cfg;
-> -	int i, ret;
-> -
-> -	DBG("id=%d", msm_host->id);
-> -
-> -	for (i = 0; i < cfg->num_bus_clks; i++) {
-> -		ret = clk_prepare_enable(msm_host->bus_clks[i]);
-> -		if (ret) {
-> -			pr_err("%s: failed to enable bus clock %d ret %d\n",
-> -				__func__, i, ret);
-> -			goto err;
-> -		}
-> -	}
-> -
-> -	return 0;
-> -err:
-> -	for (; i > 0; i--)
-> -		clk_disable_unprepare(msm_host->bus_clks[i]);
-> -
-> -	return ret;
-> -}
-> -
-> -static void dsi_bus_clk_disable(struct msm_dsi_host *msm_host)
-> -{
-> -	const struct msm_dsi_config *cfg = msm_host->cfg_hnd->cfg;
-> -	int i;
-> -
-> -	DBG("");
-> -
-> -	for (i = cfg->num_bus_clks - 1; i >= 0; i--)
-> -		clk_disable_unprepare(msm_host->bus_clks[i]);
-> -}
-> -
->  int msm_dsi_runtime_suspend(struct device *dev)
->  {
->  	struct platform_device *pdev = to_platform_device(dev);
-> @@ -478,7 +443,7 @@ int msm_dsi_runtime_suspend(struct device *dev)
->  	if (!msm_host->cfg_hnd)
->  		return 0;
-> 
-> -	dsi_bus_clk_disable(msm_host);
-> +	clk_bulk_disable_unprepare(msm_host->num_bus_clks, 
-> msm_host->bus_clks);
-> 
->  	return 0;
->  }
-> @@ -493,7 +458,7 @@ int msm_dsi_runtime_resume(struct device *dev)
->  	if (!msm_host->cfg_hnd)
->  		return 0;
-> 
-> -	return dsi_bus_clk_enable(msm_host);
-> +	return clk_bulk_prepare_enable(msm_host->num_bus_clks, 
-> msm_host->bus_clks);
->  }
-> 
->  int dsi_link_clk_set_rate_6g(struct msm_dsi_host *msm_host)
+Hi Doug,
+
+I see this patch fixes the order for
+drm_bridge_chain_pre_enable() and drm_atomic_bridge_chain_post_disable().
+
+For completeness, shouldn't we also fix the order for
+drm_atomic_bridge_chain_pre_enable() and drm_bridge_chain_post_disable()?
+
+Surely, if Sam's pending patches will land first, there is no need to
+fix the non_atomic versions.
+
+On Thu, Oct 21, 2021 at 1:41 PM Sam Ravnborg <sam@ravnborg.org> wrote:
+>
+> Hi Douglas,
+>
+> > > >  void drm_bridge_chain_pre_enable(struct drm_bridge *bridge)
+> > >
+> > > If you, or someone else, could r-b or ack the pending patches to remove
+> > > this function, this part of the patch would no longer be needed.
+> >
+> > OK. I will likely be able to take a look next week. Given that I'm
+> > helping Philip bringup a board with ps8640 it looks like your patch
+> > series will be quite relevant! I guess it would be good to figure out
+> > what would be the best order to land them. In my case we need this fix
+> > to be easy to pick back to fix the behavior on the Chrome OS 5.4 tree.
+> > My fix is easy to pick back, but perhaps yours is as well. Of course
+> > we could also just make a local divergent change in our tree if need
+> > be, too.
+> I do not mind the order - so whatever works for you guys.
+> The only concern here is that we should not gain new users.
+>
+> >
+> > > >  {
+> > > >       struct drm_encoder *encoder;
+> > > > -     struct drm_bridge *iter;
+> > > >
+> > > >       if (!bridge)
+> > > >               return;
+> > > >
+> > > >       encoder = bridge->encoder;
+> > > > -     list_for_each_entry_reverse(iter, &encoder->bridge_chain, chain_node) {
+> > > > -             if (iter->funcs->pre_enable)
+> > > > -                     iter->funcs->pre_enable(iter);
+> > > > -
+> > > > -             if (iter == bridge)
+> > > > -                     break;
+> > > > +     list_for_each_entry_from(bridge, &encoder->bridge_chain, chain_node) {
+> > > > +             if (bridge->funcs->pre_enable)
+> > > > +                     bridge->funcs->pre_enable(bridge);
+> > > >       }
+> > > >  }
+> > > >  EXPORT_SYMBOL(drm_bridge_chain_pre_enable);
+> > > > @@ -684,26 +680,30 @@ void drm_atomic_bridge_chain_post_disable(struct drm_bridge *bridge,
+> > > >                                         struct drm_atomic_state *old_state)
+> > > >  {
+> > > >       struct drm_encoder *encoder;
+> > > > +     struct drm_bridge *iter;
+> > > s/iter/bridge/ would make the patch simpler
+> > > And then the bridge argument could be last_bridge or something.
+> > > This would IMO increase readability of the code and make the patch smaller.
+> >
+> > Yeah, I debated this too. I was trying to match
+> > drm_bridge_chain_disable() and in my mind keeping the two functions
+> > matching is more important than keeping this patch small.
+> Well, drm_bridge_chain_disable() is about to be deleted. So that the
+> wrong one to look at.
+>
+> > Certainly I
+> > could add another patch in the series to rename "bridge" to
+> > "last_bridge" and "iter" to "bridge" in that function, but that
+> > defeats the goal of reducing churn... ...and clearly whoever wrote
+> > drm_bridge_chain_disable() liked "iter" better. :-P
+> >
+> > In any case, I'll change it as you say if everyone likes it better,
+> > but otherwise I'll leave it as I have it.
+>
+> >
+> >
+> > > >       if (!bridge)
+> > > >               return;
+> > > >
+> > > >       encoder = bridge->encoder;
+> > > > -     list_for_each_entry_from(bridge, &encoder->bridge_chain, chain_node) {
+> > > > -             if (bridge->funcs->atomic_post_disable) {
+> > > > +     list_for_each_entry_reverse(iter, &encoder->bridge_chain, chain_node) {
+> > > > +             if (iter->funcs->atomic_post_disable) {
+> > > >                       struct drm_bridge_state *old_bridge_state;
+> > > >
+> > > >                       old_bridge_state =
+> > > >                               drm_atomic_get_old_bridge_state(old_state,
+> > > > -                                                             bridge);
+> > > > +                                                             iter);
+> > > >                       if (WARN_ON(!old_bridge_state))
+> > > >                               return;
+> > > >
+> > > > -                     bridge->funcs->atomic_post_disable(bridge,
+> > > > -                                                        old_bridge_state);
+> > > > -             } else if (bridge->funcs->post_disable) {
+> > > > -                     bridge->funcs->post_disable(bridge);
+> > > > +                     iter->funcs->atomic_post_disable(iter,
+> > > > +                                                      old_bridge_state);
+> > > > +             } else if (iter->funcs->post_disable) {
+> > > > +                     iter->funcs->post_disable(iter);
+> > > >               }
+> > > > +
+> > > > +             if (iter == bridge)
+> > > > +                     break;
+> > > I cannot see why this is needed, we are at the end of the list here
+> > > anyway.
+> I see, please include this change in your changelog and add it to the
+> documentation in drm_bridge_h.
+>
+>         Sam
