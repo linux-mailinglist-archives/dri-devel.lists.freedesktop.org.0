@@ -1,49 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F25F84356DD
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Oct 2021 02:20:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C28B14357E4
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Oct 2021 02:40:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 751D46EA1F;
-	Thu, 21 Oct 2021 00:20:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F3D586E3FC;
+	Thu, 21 Oct 2021 00:40:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 840846EA1D;
- Thu, 21 Oct 2021 00:20:36 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8E1FD611CC;
- Thu, 21 Oct 2021 00:20:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1634775636;
- bh=tQn2x1b7CEDjXT4xT5M21SEZ9mXIyPc8lUGX3/VUoxw=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=omgS/aXzCWchH2SWGwtwEV1dpO8qtQEbLtdPo7IjknEmwEN7dixS2+DVIXY4Xe3Tp
- YVuWc6fyFWBL5IEGnoiOippy/n5dkkKuC/d4NXJbz1Drln9GHD2eLSyalR73t0Cz75
- 8WrQS87GpBd7B/JfDusiYf96Ftofh2dBYb3/Exmh+ZEydgCO1uMtw+CMi5ZfsI985X
- fcsGqfZd00GDFoAayMfQ2zkE1sZIj1Q2omnZYntcrCCiMmVQ+Zqao1TEwHe8q0pO7O
- bOJjEupVsujIAncDr+K4XX0REzUsRP7BrJXLdT1ljnnbOPSWxnx1e+ichVwmyjn1t8
- 1tTU0PU1w3FXA==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Rob Clark <robdclark@chromium.org>, Sasha Levin <sashal@kernel.org>,
- robdclark@gmail.com, sean@poorly.run, airlied@linux.ie, daniel@ffwll.ch,
- jonathan@marek.ca, jordan@cosmicpenguin.net, eric@anholt.net,
- akhilpo@codeaurora.org, bjorn.andersson@linaro.org,
- saiprakash.ranjan@codeaurora.org, smasetty@codeaurora.org,
- dianders@chromium.org, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 5.14 02/26] drm/msm/a6xx: Serialize GMU communication
-Date: Wed, 20 Oct 2021 20:19:59 -0400
-Message-Id: <20211021002023.1128949-2-sashal@kernel.org>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20211021002023.1128949-1-sashal@kernel.org>
-References: <20211021002023.1128949-1-sashal@kernel.org>
+Received: from mail-qt1-x829.google.com (mail-qt1-x829.google.com
+ [IPv6:2607:f8b0:4864:20::829])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 23E696E3FC
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Oct 2021 00:40:17 +0000 (UTC)
+Received: by mail-qt1-x829.google.com with SMTP id r17so4698345qtx.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Oct 2021 17:40:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=poorly.run; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=VZPJC135e4gI9IE4SikWPG4kEQVKeYEug43Q5Pno9ck=;
+ b=AfzHfuETj1Nfd6Wzw8No2kFiEtNxiTgBLp87S7AlOjU/Wol8WR57JUcKlo6ocGKOQO
+ MjnOma3wiQJc117zzRj7Cw9p+lCoBIQS3b5edJRrDvaqwUhvgWMcIMeEvs/xRNtF6BDp
+ IKCAX0MET4ijVYWY5OxcAmYc7i7vggkajW0ZHLD2efo9l7i7s4Q7OyJrILg4JOfYruDI
+ d5jLFxhRzJ/NMa3gOVmfRiVR4APMXcRcuv7g4s5g+mX9b96l5aM53UXrqZmosS7B0Ou1
+ 8OHxslQNZbikUAyhDRpo8Hk4mfft8ylPMzlHiMZar2fcv4+fGhA8UmAzdqxncgPiFV8M
+ 2fqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=VZPJC135e4gI9IE4SikWPG4kEQVKeYEug43Q5Pno9ck=;
+ b=VO+UwapMMyrz6MdXlNmo1sdts2qoVVFCzdoDfVKR0xpjgP6BJnGrkhdYO5ccBsRnfc
+ jYmvlBJTFZ4IZGlSSBQquKa03zslOSvxnSf1DUK91RjVyAoods0VwSFvJYOO1utNo6xm
+ iHE5+pN4eFwg3wOB0caDTnJfAzrHKjHbmP9qcRuZvuF+J8XS2gyGb2YehQ9Qdg2tPEUl
+ WsNSJRfxwvLYZqk2pR9OAKhnKg2Xf5PbdxpuaZTeKWKTHN52vlQgDKzzNMPs/NHWS3Ww
+ j/deys3/zMRrIJ3QCXsU1SprR1jqcLjddwgFZBclHaaITtQHo6ZUdG3Wv0NPn3hEqT0I
+ JNOA==
+X-Gm-Message-State: AOAM530Y6GvNWGZ+GxzZm+PLBRBkzvLG5kDytKad7wuifXdHGOTQmXMU
+ 8030HB4MaZEJROzEsHB0iDz4HA==
+X-Google-Smtp-Source: ABdhPJy7GDVoAFKf9GLnenHotfcaiYNRCR48UP6AkEWiVP2ChDdjguebP5TRHsimUXRxtaTDCdpwjQ==
+X-Received: by 2002:ac8:7f03:: with SMTP id f3mr2823240qtk.320.1634776816940; 
+ Wed, 20 Oct 2021 17:40:16 -0700 (PDT)
+Received: from localhost ([167.100.64.199])
+ by smtp.gmail.com with ESMTPSA id w185sm1818625qkd.30.2021.10.20.17.40.16
+ (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+ Wed, 20 Oct 2021 17:40:16 -0700 (PDT)
+Date: Wed, 20 Oct 2021 20:40:15 -0400
+From: Sean Paul <sean@poorly.run>
+To: Brian Norris <briannorris@chromium.org>
+Cc: Andrzej Hajda <a.hajda@samsung.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Robert Foss <robert.foss@linaro.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ stable@vger.kernel.org, Zain Wang <wzz@rock-chips.com>,
+ Tomasz Figa <tfiga@chromium.org>, Heiko Stuebner <heiko@sntech.de>,
+ Sean Paul <seanpaul@chromium.org>
+Subject: Re: [PATCH] drm/bridge: analogix_dp: Make PSR-disable non-blocking
+Message-ID: <20211021004015.GD2515@art_vandelay>
+References: <20211020161724.1.I67612ea073c3306c71b46a87be894f79707082df@changeid>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211020161724.1.I67612ea073c3306c71b46a87be894f79707082df@changeid>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,170 +79,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Clark <robdclark@chromium.org>
+On Wed, Oct 20, 2021 at 04:17:28PM -0700, Brian Norris wrote:
+> Prior to commit 6c836d965bad ("drm/rockchip: Use the helpers for PSR"),
+> "PSR disable" used non-blocking analogix_dp_send_psr_spd(). The refactor
+> accidentally (?) set blocking=true.
 
-[ Upstream commit f6f59072e821901d96c791864a07d57d8ec8d312 ]
+IIRC this wasn't accidental.
 
-I've seen some crashes in our crash reporting that *look* like multiple
-threads stomping on each other while communicating with GMU.  So wrap
-all those paths in a lock.
+The reason it became synchronous was:
+ - To avoid racing a subsequent PSR entry (if exit takes a long time)
+ - To avoid racing disable/modeset
+ - We're not displaying new content while exiting PSR anyways, so there is
+   minimal utility in allowing frames to be submitted
+ - We're lying to userspace telling them frames are on the screen when we're
+   just dropping them on the floor
 
-Signed-off-by: Rob Clark <robdclark@chromium.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/gpu/drm/msm/adreno/a6xx_gmu.c |  6 ++++
- drivers/gpu/drm/msm/adreno/a6xx_gmu.h |  3 ++
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 40 +++++++++++++++++++++++----
- 3 files changed, 43 insertions(+), 6 deletions(-)
+The actual latency gains from doing this synchronously are minimal since the
+panel will display new content as soon as it can regardless of whether the
+kernel is blocking. There is likely a perceptual difference, but that's only
+because kernel is lying to userspace and skipping frames without consent.
 
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-index b349692219b7..c95985792076 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-@@ -296,6 +296,8 @@ int a6xx_gmu_set_oob(struct a6xx_gmu *gmu, enum a6xx_gmu_oob_state state)
- 	u32 val;
- 	int request, ack;
- 
-+	WARN_ON_ONCE(!mutex_is_locked(&gmu->lock));
-+
- 	if (state >= ARRAY_SIZE(a6xx_gmu_oob_bits))
- 		return -EINVAL;
- 
-@@ -337,6 +339,8 @@ void a6xx_gmu_clear_oob(struct a6xx_gmu *gmu, enum a6xx_gmu_oob_state state)
- {
- 	int bit;
- 
-+	WARN_ON_ONCE(!mutex_is_locked(&gmu->lock));
-+
- 	if (state >= ARRAY_SIZE(a6xx_gmu_oob_bits))
- 		return;
- 
-@@ -1478,6 +1482,8 @@ int a6xx_gmu_init(struct a6xx_gpu *a6xx_gpu, struct device_node *node)
- 	if (!pdev)
- 		return -ENODEV;
- 
-+	mutex_init(&gmu->lock);
-+
- 	gmu->dev = &pdev->dev;
- 
- 	of_dma_configure(gmu->dev, node, true);
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.h b/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
-index 71dfa60070cc..19c1a0ddee7a 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
-@@ -44,6 +44,9 @@ struct a6xx_gmu_bo {
- struct a6xx_gmu {
- 	struct device *dev;
- 
-+	/* For serializing communication with the GMU: */
-+	struct mutex lock;
-+
- 	struct msm_gem_address_space *aspace;
- 
- 	void * __iomem mmio;
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-index 183b9f9c1b31..64586eb8cda5 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-@@ -859,7 +859,7 @@ static int a6xx_zap_shader_init(struct msm_gpu *gpu)
- 	  A6XX_RBBM_INT_0_MASK_UCHE_OOB_ACCESS | \
- 	  A6XX_RBBM_INT_0_MASK_UCHE_TRAP_INTR)
- 
--static int a6xx_hw_init(struct msm_gpu *gpu)
-+static int hw_init(struct msm_gpu *gpu)
- {
- 	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
- 	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
-@@ -1107,6 +1107,19 @@ static int a6xx_hw_init(struct msm_gpu *gpu)
- 	return ret;
- }
- 
-+static int a6xx_hw_init(struct msm_gpu *gpu)
-+{
-+	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
-+	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
-+	int ret;
-+
-+	mutex_lock(&a6xx_gpu->gmu.lock);
-+	ret = hw_init(gpu);
-+	mutex_unlock(&a6xx_gpu->gmu.lock);
-+
-+	return ret;
-+}
-+
- static void a6xx_dump(struct msm_gpu *gpu)
- {
- 	DRM_DEV_INFO(&gpu->pdev->dev, "status:   %08x\n",
-@@ -1481,7 +1494,9 @@ static int a6xx_pm_resume(struct msm_gpu *gpu)
- 
- 	trace_msm_gpu_resume(0);
- 
-+	mutex_lock(&a6xx_gpu->gmu.lock);
- 	ret = a6xx_gmu_resume(a6xx_gpu);
-+	mutex_unlock(&a6xx_gpu->gmu.lock);
- 	if (ret)
- 		return ret;
- 
-@@ -1504,7 +1519,9 @@ static int a6xx_pm_suspend(struct msm_gpu *gpu)
- 
- 	devfreq_suspend_device(gpu->devfreq.devfreq);
- 
-+	mutex_lock(&a6xx_gpu->gmu.lock);
- 	ret = a6xx_gmu_stop(a6xx_gpu);
-+	mutex_unlock(&a6xx_gpu->gmu.lock);
- 	if (ret)
- 		return ret;
- 
-@@ -1519,18 +1536,19 @@ static int a6xx_get_timestamp(struct msm_gpu *gpu, uint64_t *value)
- {
- 	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
- 	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
--	static DEFINE_MUTEX(perfcounter_oob);
- 
--	mutex_lock(&perfcounter_oob);
-+	mutex_lock(&a6xx_gpu->gmu.lock);
- 
- 	/* Force the GPU power on so we can read this register */
- 	a6xx_gmu_set_oob(&a6xx_gpu->gmu, GMU_OOB_PERFCOUNTER_SET);
- 
- 	*value = gpu_read64(gpu, REG_A6XX_CP_ALWAYS_ON_COUNTER_LO,
--		REG_A6XX_CP_ALWAYS_ON_COUNTER_HI);
-+			    REG_A6XX_CP_ALWAYS_ON_COUNTER_HI);
- 
- 	a6xx_gmu_clear_oob(&a6xx_gpu->gmu, GMU_OOB_PERFCOUNTER_SET);
--	mutex_unlock(&perfcounter_oob);
-+
-+	mutex_unlock(&a6xx_gpu->gmu.lock);
-+
- 	return 0;
- }
- 
-@@ -1594,6 +1612,16 @@ static unsigned long a6xx_gpu_busy(struct msm_gpu *gpu)
- 	return (unsigned long)busy_time;
- }
- 
-+void a6xx_gpu_set_freq(struct msm_gpu *gpu, struct dev_pm_opp *opp)
-+{
-+	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
-+	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
-+
-+	mutex_lock(&a6xx_gpu->gmu.lock);
-+	a6xx_gmu_set_freq(gpu, opp);
-+	mutex_unlock(&a6xx_gpu->gmu.lock);
-+}
-+
- static struct msm_gem_address_space *
- a6xx_create_address_space(struct msm_gpu *gpu, struct platform_device *pdev)
- {
-@@ -1740,7 +1768,7 @@ static const struct adreno_gpu_funcs funcs = {
- #endif
- 		.gpu_busy = a6xx_gpu_busy,
- 		.gpu_get_freq = a6xx_gmu_get_freq,
--		.gpu_set_freq = a6xx_gmu_set_freq,
-+		.gpu_set_freq = a6xx_gpu_set_freq,
- #if defined(CONFIG_DRM_MSM_GPU_STATE)
- 		.gpu_state_get = a6xx_gpu_state_get,
- 		.gpu_state_put = a6xx_gpu_state_put,
+Going back to the first line, it's entirely possible my memory is failing
+and this was accidental!
+
+Sean
+
+> 
+> This can cause upwards of 60-100ms of unneeded latency when exiting
+> self-refresh, which can cause very noticeable lag when, say, moving a
+> cursor.
+> 
+> Presumbaly it's OK to let the display finish exiting refresh in parallel
+> with clocking out the next video frames, so we shouldn't hold up the
+> atomic_enable() step. This also brings behavior in line with the
+> downstream ("mainline-derived") variant of the driver currently deployed
+> to Chrome OS Rockchip systems.
+> 
+> Tested on a Samsung Chromebook Plus (i.e., Rockchip RK3399 Gru Kevin).
+> 
+> Fixes: 6c836d965bad ("drm/rockchip: Use the helpers for PSR")
+> Cc: <stable@vger.kernel.org>
+> Cc: Zain Wang <wzz@rock-chips.com>
+> Cc: Tomasz Figa <tfiga@chromium.org>
+> Cc: Heiko Stuebner <heiko@sntech.de>
+> Cc: Sean Paul <seanpaul@chromium.org>
+> Signed-off-by: Brian Norris <briannorris@chromium.org>
+> ---
+> CC list is partially constructed from the commit message of the Fixed
+> commit
+> 
+>  drivers/gpu/drm/bridge/analogix/analogix_dp_core.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
+> index b7d2e4449cfa..fbe6eb9df310 100644
+> --- a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
+> +++ b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
+> @@ -1055,7 +1055,7 @@ static int analogix_dp_disable_psr(struct analogix_dp_device *dp)
+>  	psr_vsc.db[0] = 0;
+>  	psr_vsc.db[1] = 0;
+>  
+> -	return analogix_dp_send_psr_spd(dp, &psr_vsc, true);
+> +	return analogix_dp_send_psr_spd(dp, &psr_vsc, false);
+>  }
+>  
+>  /*
+> -- 
+> 2.33.0.1079.g6e70778dc9-goog
+> 
+
 -- 
-2.33.0
-
+Sean Paul, Software Engineer, Google / Chromium OS
