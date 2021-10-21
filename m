@@ -1,30 +1,30 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17B654365E5
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Oct 2021 17:20:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 287DF4365F6
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Oct 2021 17:23:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CCA956ECB4;
-	Thu, 21 Oct 2021 15:20:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 27F416E45E;
+	Thu, 21 Oct 2021 15:23:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx1.smtp.larsendata.com (mx1.smtp.larsendata.com
  [91.221.196.215])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 577F26ECB4
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Oct 2021 15:20:31 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4BC4D6E45E
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Oct 2021 15:22:59 +0000 (UTC)
 Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
  by mx1.smtp.larsendata.com (Halon) with ESMTPS
- id 6f81f751-3282-11ec-9c3f-0050568c148b;
- Thu, 21 Oct 2021 15:20:33 +0000 (UTC)
+ id c7e3c188-3282-11ec-9c3f-0050568c148b;
+ Thu, 21 Oct 2021 15:23:02 +0000 (UTC)
 Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
  [80.162.45.141])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
  (Authenticated sender: sam@ravnborg.org)
- by mail01.mxhotel.dk (Postfix) with ESMTPSA id 06011194B5B;
- Thu, 21 Oct 2021 17:20:25 +0200 (CEST)
-Date: Thu, 21 Oct 2021 17:20:22 +0200
+ by mail01.mxhotel.dk (Postfix) with ESMTPSA id 993A2194B7B;
+ Thu, 21 Oct 2021 17:22:56 +0200 (CEST)
+Date: Thu, 21 Oct 2021 17:22:55 +0200
 X-Report-Abuse-To: abuse@mxhotel.dk
 From: Sam Ravnborg <sam@ravnborg.org>
 To: Maxime Ripard <maxime@cerno.tech>
@@ -47,15 +47,15 @@ Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Rob Clark <robdclark@gmail.com>, linux-arm-msm@vger.kernel.org,
  Sean Paul <sean@poorly.run>, Inki Dae <inki.dae@samsung.com>,
  Xinwei Kong <kong.kongxinwei@hisilicon.com>,
- dri-devel@lists.freedesktop.org, Marek Vasut <marex@denx.de>
-Subject: Re: [PATCH v5 13/21] drm/bridge: sn65dsi83: Fix bridge removal
-Message-ID: <YXGFNquMkb6LMmAE@ravnborg.org>
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v5 00/21] drm/bridge: Make panel and bridge probe order
+ consistent
+Message-ID: <YXGFz4o5fWrfGnGk@ravnborg.org>
 References: <20211021073947.499373-1-maxime@cerno.tech>
- <20211021073947.499373-14-maxime@cerno.tech>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211021073947.499373-14-maxime@cerno.tech>
+In-Reply-To: <20211021073947.499373-1-maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,16 +71,11 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 21, 2021 at 09:39:39AM +0200, Maxime Ripard wrote:
-> Commit 24417d5b0c00 ("drm/bridge: ti-sn65dsi83: Implement .detach
-> callback") moved the unregistration of the bridge DSI device and bridge
-> itself to the detach callback.
-> 
-> While this is correct for the DSI device detach and unregistration, the
-> bridge is added in the driver probe, and should thus be removed as part
-> of its remove callback.
-> 
-> Cc: Marek Vasut <marex@denx.de>
-> Fixes: 24417d5b0c00 ("drm/bridge: ti-sn65dsi83: Implement .detach callback")
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
+Hi Maxime,
+
+> Let me know what you think,
+
+apply the lot to drm-misc-next. Maybe wait for an r-b or a-b on the kirin
+patch but the rest is IMO good to go.
+
+	Sam
