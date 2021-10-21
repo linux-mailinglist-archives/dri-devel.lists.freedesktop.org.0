@@ -1,64 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB5BD435660
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Oct 2021 01:17:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F25F84356DD
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Oct 2021 02:20:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF3EB89F6E;
-	Wed, 20 Oct 2021 23:17:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 751D46EA1F;
+	Thu, 21 Oct 2021 00:20:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com
- [IPv6:2607:f8b0:4864:20::1036])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 304DF89F6E
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Oct 2021 23:17:47 +0000 (UTC)
-Received: by mail-pj1-x1036.google.com with SMTP id
- ls14-20020a17090b350e00b001a00e2251c8so3518557pjb.4
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Oct 2021 16:17:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=xmAxhqZ/qDXN3jl5uUqBa40we4vavlccN8HRNtmRBjo=;
- b=DPDaH/RkezXtN0idzH4Syc1+SsqMzr4yMjUZzdfeRXscRQPBE5okTja97VBkR4Sy8v
- dUX1gTvgvHkm1HUmvc0LBJJlgQLXrwbvVztlIHrL82E/ew9TAgSJ6C0s1nf1lpyPMH98
- EozvhWu7w2JyGQJO6ZDIU0j/j/Xb9ZFbE9VbI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=xmAxhqZ/qDXN3jl5uUqBa40we4vavlccN8HRNtmRBjo=;
- b=rA3vfVanOU7uVhrqylSp5p+gciT7Gj+g/mMCHtdk8SLvz4KZuSL+PlTKDoPcmZ/zSl
- IRZTVRy7dPjcJPU+9uOLRInzCitVRwh2FPk9v6dQ4YMKcaa36MB8tzjER+Y2zk/Z2cCN
- BTRxKGnnM3+gNMO1/DJhabzcyjW+UYVWncbDTB+DMI6o3A/MoyzBEpMkkhHxX9jxTXCs
- xFiv80/4PeMo0u2Txdzw2hVNAAjx1VxNpIoI3PksBifped0EDNsns5JEKCo/nRSbITj9
- ifzUMCWCrkMHtrS7N0d07FVOjT6OWkoMd3aHqG0oNyGOsRHCUMXWCDlk/c+6fXrpPn/U
- I7VQ==
-X-Gm-Message-State: AOAM533PgVjZ7ZiyycRDmTAkT+Zm9ae+NRD1cADpLmk/KEsd0/po+AGC
- diZlRclG45aovkGYpmfJ/yTG9A==
-X-Google-Smtp-Source: ABdhPJy10j1PNwa7XNz+7pTguI6ICQBzzgQiMZZp5X2pn58l45H2/Rq64w/vkIsJdW2IpL1mtRa3OA==
-X-Received: by 2002:a17:90b:1646:: with SMTP id
- il6mr2042453pjb.129.1634771866681; 
- Wed, 20 Oct 2021 16:17:46 -0700 (PDT)
-Received: from localhost ([2620:15c:202:201:ee8c:e73a:3f5e:717a])
- by smtp.gmail.com with UTF8SMTPSA id kb10sm7856013pjb.18.2021.10.20.16.17.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 20 Oct 2021 16:17:46 -0700 (PDT)
-From: Brian Norris <briannorris@chromium.org>
-To: Andrzej Hajda <a.hajda@samsung.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Robert Foss <robert.foss@linaro.org>
-Cc: Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- dri-devel@lists.freedesktop.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Brian Norris <briannorris@chromium.org>, stable@vger.kernel.org,
- Zain Wang <wzz@rock-chips.com>, Tomasz Figa <tfiga@chromium.org>,
- Heiko Stuebner <heiko@sntech.de>, Sean Paul <seanpaul@chromium.org>
-Subject: [PATCH] drm/bridge: analogix_dp: Make PSR-disable non-blocking
-Date: Wed, 20 Oct 2021 16:17:28 -0700
-Message-Id: <20211020161724.1.I67612ea073c3306c71b46a87be894f79707082df@changeid>
-X-Mailer: git-send-email 2.33.0.1079.g6e70778dc9-goog
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 840846EA1D;
+ Thu, 21 Oct 2021 00:20:36 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 8E1FD611CC;
+ Thu, 21 Oct 2021 00:20:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1634775636;
+ bh=tQn2x1b7CEDjXT4xT5M21SEZ9mXIyPc8lUGX3/VUoxw=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=omgS/aXzCWchH2SWGwtwEV1dpO8qtQEbLtdPo7IjknEmwEN7dixS2+DVIXY4Xe3Tp
+ YVuWc6fyFWBL5IEGnoiOippy/n5dkkKuC/d4NXJbz1Drln9GHD2eLSyalR73t0Cz75
+ 8WrQS87GpBd7B/JfDusiYf96Ftofh2dBYb3/Exmh+ZEydgCO1uMtw+CMi5ZfsI985X
+ fcsGqfZd00GDFoAayMfQ2zkE1sZIj1Q2omnZYntcrCCiMmVQ+Zqao1TEwHe8q0pO7O
+ bOJjEupVsujIAncDr+K4XX0REzUsRP7BrJXLdT1ljnnbOPSWxnx1e+ichVwmyjn1t8
+ 1tTU0PU1w3FXA==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Rob Clark <robdclark@chromium.org>, Sasha Levin <sashal@kernel.org>,
+ robdclark@gmail.com, sean@poorly.run, airlied@linux.ie, daniel@ffwll.ch,
+ jonathan@marek.ca, jordan@cosmicpenguin.net, eric@anholt.net,
+ akhilpo@codeaurora.org, bjorn.andersson@linaro.org,
+ saiprakash.ranjan@codeaurora.org, smasetty@codeaurora.org,
+ dianders@chromium.org, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 5.14 02/26] drm/msm/a6xx: Serialize GMU communication
+Date: Wed, 20 Oct 2021 20:19:59 -0400
+Message-Id: <20211021002023.1128949-2-sashal@kernel.org>
+X-Mailer: git-send-email 2.33.0
+In-Reply-To: <20211021002023.1128949-1-sashal@kernel.org>
+References: <20211021002023.1128949-1-sashal@kernel.org>
 MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -75,49 +59,170 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Prior to commit 6c836d965bad ("drm/rockchip: Use the helpers for PSR"),
-"PSR disable" used non-blocking analogix_dp_send_psr_spd(). The refactor
-accidentally (?) set blocking=true.
+From: Rob Clark <robdclark@chromium.org>
 
-This can cause upwards of 60-100ms of unneeded latency when exiting
-self-refresh, which can cause very noticeable lag when, say, moving a
-cursor.
+[ Upstream commit f6f59072e821901d96c791864a07d57d8ec8d312 ]
 
-Presumbaly it's OK to let the display finish exiting refresh in parallel
-with clocking out the next video frames, so we shouldn't hold up the
-atomic_enable() step. This also brings behavior in line with the
-downstream ("mainline-derived") variant of the driver currently deployed
-to Chrome OS Rockchip systems.
+I've seen some crashes in our crash reporting that *look* like multiple
+threads stomping on each other while communicating with GMU.  So wrap
+all those paths in a lock.
 
-Tested on a Samsung Chromebook Plus (i.e., Rockchip RK3399 Gru Kevin).
-
-Fixes: 6c836d965bad ("drm/rockchip: Use the helpers for PSR")
-Cc: <stable@vger.kernel.org>
-Cc: Zain Wang <wzz@rock-chips.com>
-Cc: Tomasz Figa <tfiga@chromium.org>
-Cc: Heiko Stuebner <heiko@sntech.de>
-Cc: Sean Paul <seanpaul@chromium.org>
-Signed-off-by: Brian Norris <briannorris@chromium.org>
+Signed-off-by: Rob Clark <robdclark@chromium.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
-CC list is partially constructed from the commit message of the Fixed
-commit
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.c |  6 ++++
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.h |  3 ++
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 40 +++++++++++++++++++++++----
+ 3 files changed, 43 insertions(+), 6 deletions(-)
 
- drivers/gpu/drm/bridge/analogix/analogix_dp_core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-index b7d2e4449cfa..fbe6eb9df310 100644
---- a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-+++ b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-@@ -1055,7 +1055,7 @@ static int analogix_dp_disable_psr(struct analogix_dp_device *dp)
- 	psr_vsc.db[0] = 0;
- 	psr_vsc.db[1] = 0;
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+index b349692219b7..c95985792076 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+@@ -296,6 +296,8 @@ int a6xx_gmu_set_oob(struct a6xx_gmu *gmu, enum a6xx_gmu_oob_state state)
+ 	u32 val;
+ 	int request, ack;
  
--	return analogix_dp_send_psr_spd(dp, &psr_vsc, true);
-+	return analogix_dp_send_psr_spd(dp, &psr_vsc, false);
++	WARN_ON_ONCE(!mutex_is_locked(&gmu->lock));
++
+ 	if (state >= ARRAY_SIZE(a6xx_gmu_oob_bits))
+ 		return -EINVAL;
+ 
+@@ -337,6 +339,8 @@ void a6xx_gmu_clear_oob(struct a6xx_gmu *gmu, enum a6xx_gmu_oob_state state)
+ {
+ 	int bit;
+ 
++	WARN_ON_ONCE(!mutex_is_locked(&gmu->lock));
++
+ 	if (state >= ARRAY_SIZE(a6xx_gmu_oob_bits))
+ 		return;
+ 
+@@ -1478,6 +1482,8 @@ int a6xx_gmu_init(struct a6xx_gpu *a6xx_gpu, struct device_node *node)
+ 	if (!pdev)
+ 		return -ENODEV;
+ 
++	mutex_init(&gmu->lock);
++
+ 	gmu->dev = &pdev->dev;
+ 
+ 	of_dma_configure(gmu->dev, node, true);
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.h b/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
+index 71dfa60070cc..19c1a0ddee7a 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
+@@ -44,6 +44,9 @@ struct a6xx_gmu_bo {
+ struct a6xx_gmu {
+ 	struct device *dev;
+ 
++	/* For serializing communication with the GMU: */
++	struct mutex lock;
++
+ 	struct msm_gem_address_space *aspace;
+ 
+ 	void * __iomem mmio;
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+index 183b9f9c1b31..64586eb8cda5 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+@@ -859,7 +859,7 @@ static int a6xx_zap_shader_init(struct msm_gpu *gpu)
+ 	  A6XX_RBBM_INT_0_MASK_UCHE_OOB_ACCESS | \
+ 	  A6XX_RBBM_INT_0_MASK_UCHE_TRAP_INTR)
+ 
+-static int a6xx_hw_init(struct msm_gpu *gpu)
++static int hw_init(struct msm_gpu *gpu)
+ {
+ 	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+ 	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
+@@ -1107,6 +1107,19 @@ static int a6xx_hw_init(struct msm_gpu *gpu)
+ 	return ret;
  }
  
- /*
++static int a6xx_hw_init(struct msm_gpu *gpu)
++{
++	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
++	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
++	int ret;
++
++	mutex_lock(&a6xx_gpu->gmu.lock);
++	ret = hw_init(gpu);
++	mutex_unlock(&a6xx_gpu->gmu.lock);
++
++	return ret;
++}
++
+ static void a6xx_dump(struct msm_gpu *gpu)
+ {
+ 	DRM_DEV_INFO(&gpu->pdev->dev, "status:   %08x\n",
+@@ -1481,7 +1494,9 @@ static int a6xx_pm_resume(struct msm_gpu *gpu)
+ 
+ 	trace_msm_gpu_resume(0);
+ 
++	mutex_lock(&a6xx_gpu->gmu.lock);
+ 	ret = a6xx_gmu_resume(a6xx_gpu);
++	mutex_unlock(&a6xx_gpu->gmu.lock);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -1504,7 +1519,9 @@ static int a6xx_pm_suspend(struct msm_gpu *gpu)
+ 
+ 	devfreq_suspend_device(gpu->devfreq.devfreq);
+ 
++	mutex_lock(&a6xx_gpu->gmu.lock);
+ 	ret = a6xx_gmu_stop(a6xx_gpu);
++	mutex_unlock(&a6xx_gpu->gmu.lock);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -1519,18 +1536,19 @@ static int a6xx_get_timestamp(struct msm_gpu *gpu, uint64_t *value)
+ {
+ 	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+ 	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
+-	static DEFINE_MUTEX(perfcounter_oob);
+ 
+-	mutex_lock(&perfcounter_oob);
++	mutex_lock(&a6xx_gpu->gmu.lock);
+ 
+ 	/* Force the GPU power on so we can read this register */
+ 	a6xx_gmu_set_oob(&a6xx_gpu->gmu, GMU_OOB_PERFCOUNTER_SET);
+ 
+ 	*value = gpu_read64(gpu, REG_A6XX_CP_ALWAYS_ON_COUNTER_LO,
+-		REG_A6XX_CP_ALWAYS_ON_COUNTER_HI);
++			    REG_A6XX_CP_ALWAYS_ON_COUNTER_HI);
+ 
+ 	a6xx_gmu_clear_oob(&a6xx_gpu->gmu, GMU_OOB_PERFCOUNTER_SET);
+-	mutex_unlock(&perfcounter_oob);
++
++	mutex_unlock(&a6xx_gpu->gmu.lock);
++
+ 	return 0;
+ }
+ 
+@@ -1594,6 +1612,16 @@ static unsigned long a6xx_gpu_busy(struct msm_gpu *gpu)
+ 	return (unsigned long)busy_time;
+ }
+ 
++void a6xx_gpu_set_freq(struct msm_gpu *gpu, struct dev_pm_opp *opp)
++{
++	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
++	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
++
++	mutex_lock(&a6xx_gpu->gmu.lock);
++	a6xx_gmu_set_freq(gpu, opp);
++	mutex_unlock(&a6xx_gpu->gmu.lock);
++}
++
+ static struct msm_gem_address_space *
+ a6xx_create_address_space(struct msm_gpu *gpu, struct platform_device *pdev)
+ {
+@@ -1740,7 +1768,7 @@ static const struct adreno_gpu_funcs funcs = {
+ #endif
+ 		.gpu_busy = a6xx_gpu_busy,
+ 		.gpu_get_freq = a6xx_gmu_get_freq,
+-		.gpu_set_freq = a6xx_gmu_set_freq,
++		.gpu_set_freq = a6xx_gpu_set_freq,
+ #if defined(CONFIG_DRM_MSM_GPU_STATE)
+ 		.gpu_state_get = a6xx_gpu_state_get,
+ 		.gpu_state_put = a6xx_gpu_state_put,
 -- 
-2.33.0.1079.g6e70778dc9-goog
+2.33.0
 
