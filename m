@@ -1,47 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD911435C08
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Oct 2021 09:41:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB9F1435C09
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Oct 2021 09:41:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 01CB36EC0A;
-	Thu, 21 Oct 2021 07:41:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E34856EC0C;
+	Thu, 21 Oct 2021 07:41:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com
  [64.147.123.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E8EDD6EC0A
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Oct 2021 07:41:08 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id D4BDE2B01362;
- Thu, 21 Oct 2021 03:41:06 -0400 (EDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A3E186EC0E
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Oct 2021 07:41:13 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailnew.west.internal (Postfix) with ESMTP id 369122B0041E;
+ Thu, 21 Oct 2021 03:41:11 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Thu, 21 Oct 2021 03:41:08 -0400
+ by compute1.internal (MEProxy); Thu, 21 Oct 2021 03:41:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=R42zJVFPqXWis
- ftwmhRtrrTmMiiujU+L/s0xKJb/r2o=; b=Ve5FuXreqcW5s8yaQ57TY8cqWF0Mn
- X7rVMHZlmysTlXXYtuLF2bKCB1SMfBUkayHBhetIFmBTtzC34FPmujgmzzzW7N7C
- 9saPIQ/28xVQN7DDK/EZ0UzNoF0em2JYW+tRVqaN1iPnCOi0HXek8jPzMHpjQEfH
- CSvuIjUv8lrNRmTm+B5k2hluHQ8UtA1XZByjxohS2Fsyth245LxqcDjUjfI4b6x5
- AzRzm+MbkiSX5IljAFZNYB1sgp1DDDP1g2+7tZM41f8KY3hkvkkb3ccBtrh7sptC
- W4DIMh25bLsbGL8v/olDfxQpOH9ltvvw/eLiQAKXWMOCdF1087dFNVRuw==
+ :mime-version:content-transfer-encoding; s=fm1; bh=IjJ7Xg/H84lYB
+ rLNnbeRdHfHU/7mTRchCznYNagdcAY=; b=LyUaKYLH0kcqISbLnmU7sV/YXwVDW
+ ZK+PFB/ikBYxIRt68IJ/5hhqvdPT67JRYSFehAGwBsdlkN+512JrGFLY9lFUo1wq
+ wF0fYONzSi9K4b3W7pdiRvbqElia23ZhW+yd+fmBn69XAowp7yTw8ySFx820AdnR
+ E8hg0pkrWjDk43dEzQV+ulRWgI13RyOhjUrTEbleBD0D5PoDW4Xlks2HM8zbaHbj
+ q0S6BAHDNiGGe8iJtLDdZQYTizHoZ0Hp0E4k/4TxDGvamHqgQOnF405Ow954YI/E
+ JnphBWBVNOIp97KueoVp9s4tsoDUtINCqz2F244W5uqhyW42FF9eZ3QDw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=R42zJVFPqXWisftwmhRtrrTmMiiujU+L/s0xKJb/r2o=; b=bbPguaPW
- hWfirR9U1m+UYX5PsZLYsUt262l+CTFntR+ytG9PLhle7+tr7JZI227bZ+mNNV5J
- Urz+QKUUOPdgVTDwTPbIhPtsczYlpLg7en92Edxfm9zOtbRC8vF6mlSdelSjeUwN
- TrPexa91VU9fSQ6QfuLTrjCMC7Erf8tDFzAPyOzI8Aaopkc34szK3yxgUZII2rWY
- LGotj6Z0pH2lstrkiFtzBoiy24mlSB4qxB5RPl4Dx9AFcz0R3qzX863ik4LAyEnX
- xXLwLxS6GBt31dDTy8skjll7y0H6BZD9JtCXyeDzapvwrNmfHa40FcxNvitqRJKq
- XzELclE/IbKh2A==
-X-ME-Sender: <xms:khlxYf3Ge1Kewe-WifgCy63cLkxnom7vdRP7ZpqGDI73g-yWTRHeZg>
- <xme:khlxYeEjrXKsQuLdsezWl4ADRKKN6Xb4SI62p58U-4T3-CDMXDWpSS0HRXW8J_M6b
- XpqRUVDiI8GcD7m2Mc>
-X-ME-Received: <xmr:khlxYf7EwIpx-SdAWUpkP2p0nXt5e_vc37YLAFJCYdibiJiQcqgVK7V9WGZDdsP1KkaaIUp1xldiuQNcfvAQ9_BaZz6-8GsaGGsU08G7>
+ fm1; bh=IjJ7Xg/H84lYBrLNnbeRdHfHU/7mTRchCznYNagdcAY=; b=eKCsAx4T
+ OIsGhqbGD3/BfVNYl4xAVnV6IuBCGNV8lo824neSJ9Q0JBRxcJWGMLXOH/tmAAzl
+ 5nHmiLJNVvkgtBpzmST98uG2Ik6HutWL2dzoWns3ML9Wrf64YUyAriGunE71C1bm
+ 5D2T/LiQv3e2C2hKR4ci9kwm3XmQ52r0MupwLJZps+hSJAxs34fwNYhu6OmQ4Gez
+ Xa2so4NPoMpl/v5eybeh+k9tjxXruwj7DYszOP7tikRGaA7aQzeJFN13xOz+YFbV
+ S3wSJGPuQoIhuZrUFZLTLEMzWT3aR8e97FaPuYX1cmh/0Ok0JhSYjit+BPzkRkwV
+ 54u+8Edhigz8GQ==
+X-ME-Sender: <xms:lhlxYZDBTrLEhSJWHXB9hcFhHNzWdXuyF9npYSFymJO8arCwZPbctA>
+ <xme:lhlxYXjmJUaZ-NeAMK11c4j5t5VlZXOEiLSz4R6pjobtCY4Qxcm6TsH2aw2SE8ZXK
+ 3uYjkoKyQt9OC-C7QY>
+X-ME-Received: <xmr:lhlxYUlJM2mtKPqQI4_AUwlt0UfGlNYEv4U1orFhM-PQu1cWry_w3czm1iBErBdhu6JD7A-mexZbFkEuuVihMRnLPa2Va8tEC6_9akO3>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrvddvhedgudduiecutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
  necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
@@ -50,12 +50,12 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrvddvhedgudduiecutefuodetgg
  htthgvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveev
  heehvdenucevlhhushhtvghrufhiiigvpeefnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
  hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:khlxYU2AG2iq5Ny-Gc0fGOzmA6zHM4Jf-8U36goZabNaiVzBfDIGgQ>
- <xmx:khlxYSGTOlIKerQwkpBSRKHHPoUY62b8BRZ4TViGw-Ak-d3wTNt8ew>
- <xmx:khlxYV_ncmRZZRMAMr_JVHVNTkd0Eqm1os09KymZFhtODbpv1KmIUg>
- <xmx:khlxYaUvr5MH5Oy3-QL6g3H5z3xsCtDdEG3ywUTOhFsUHxFGeE1mqIIehls>
+X-ME-Proxy: <xmx:lhlxYTw23QBCKAxwbdENIU5oF9vYG8Fc9hcdZn_8XG4baIlXfVVZtA>
+ <xmx:lhlxYeTDfWAeAmX8NQQXbs5Soy9jWz5UPJpzKmyptinIUygugr-kxA>
+ <xmx:lhlxYWbcoeJD_XmbRWzbM6ft-NZ0ZHlnbfJ75yysuXyHWGfgF8eHwg>
+ <xmx:lhlxYSw0-DFrhuLXjNp1t5dP5KXB1YC18W3v7BM4r0RaUkuIS6cm8ISrSYY>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 21 Oct 2021 03:41:05 -0400 (EDT)
+ 21 Oct 2021 03:41:10 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -76,10 +76,10 @@ Cc: Seung-Woo Kim <sw0312.kim@samsung.com>,
  Inki Dae <inki.dae@samsung.com>,
  Xinwei Kong <kong.kongxinwei@hisilicon.com>,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH v5 16/21] drm/bridge: sn65dsi86: Switch to devm MIPI-DSI
- helpers
-Date: Thu, 21 Oct 2021 09:39:42 +0200
-Message-Id: <20211021073947.499373-17-maxime@cerno.tech>
+Subject: [PATCH v5 17/21] drm/bridge: sn65dsi86: Register and attach our DSI
+ device at probe
+Date: Thu, 21 Oct 2021 09:39:43 +0200
+Message-Id: <20211021073947.499373-18-maxime@cerno.tech>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211021073947.499373-1-maxime@cerno.tech>
 References: <20211021073947.499373-1-maxime@cerno.tech>
@@ -100,86 +100,140 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Let's switch to the new devm MIPI-DSI function to register and attach
-our secondary device. This also avoids leaking the device when we detach
-the bridge.
+In order to avoid any probe ordering issue, the best practice is to move
+the secondary MIPI-DSI device registration and attachment to the
+MIPI-DSI host at probe time. Let's do this.
 
 Acked-by: Sam Ravnborg <sam@ravnborg.org>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/bridge/ti-sn65dsi86.c | 22 +++++++---------------
- 1 file changed, 7 insertions(+), 15 deletions(-)
+ drivers/gpu/drm/bridge/ti-sn65dsi86.c | 77 ++++++++++++++-------------
+ 1 file changed, 40 insertions(+), 37 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-index 6154bed0af5b..36a82e3d17ab 100644
+index 36a82e3d17ab..b6ce6776cdf1 100644
 --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
 +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-@@ -662,6 +662,7 @@ static int ti_sn_bridge_attach(struct drm_bridge *bridge,
- 	struct ti_sn65dsi86 *pdata = bridge_to_ti_sn65dsi86(bridge);
+@@ -655,58 +655,27 @@ static struct ti_sn65dsi86 *bridge_to_ti_sn65dsi86(struct drm_bridge *bridge)
+ 	return container_of(bridge, struct ti_sn65dsi86, bridge);
+ }
+ 
+-static int ti_sn_bridge_attach(struct drm_bridge *bridge,
+-			       enum drm_bridge_attach_flags flags)
++static int ti_sn_attach_host(struct ti_sn65dsi86 *pdata)
+ {
+ 	int ret, val;
+-	struct ti_sn65dsi86 *pdata = bridge_to_ti_sn65dsi86(bridge);
  	struct mipi_dsi_host *host;
  	struct mipi_dsi_device *dsi;
-+	struct device *dev = pdata->dev;
+ 	struct device *dev = pdata->dev;
  	const struct mipi_dsi_device_info info = { .type = "ti_sn_bridge",
  						   .channel = 0,
  						   .node = NULL,
-@@ -701,7 +702,7 @@ static int ti_sn_bridge_attach(struct drm_bridge *bridge,
- 		goto err_dsi_host;
+-						 };
++	};
+ 
+-	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR) {
+-		DRM_ERROR("Fix bridge driver to make connector optional!");
+-		return -EINVAL;
+-	}
+-
+-	pdata->aux.drm_dev = bridge->dev;
+-	ret = drm_dp_aux_register(&pdata->aux);
+-	if (ret < 0) {
+-		drm_err(bridge->dev, "Failed to register DP AUX channel: %d\n", ret);
+-		return ret;
+-	}
+-
+-	ret = ti_sn_bridge_connector_init(pdata);
+-	if (ret < 0)
+-		goto err_conn_init;
+-
+-	/*
+-	 * TODO: ideally finding host resource and dsi dev registration needs
+-	 * to be done in bridge probe. But some existing DSI host drivers will
+-	 * wait for any of the drm_bridge/drm_panel to get added to the global
+-	 * bridge/panel list, before completing their probe. So if we do the
+-	 * dsi dev registration part in bridge probe, before populating in
+-	 * the global bridge list, then it will cause deadlock as dsi host probe
+-	 * will never complete, neither our bridge probe. So keeping it here
+-	 * will satisfy most of the existing host drivers. Once the host driver
+-	 * is fixed we can move the below code to bridge probe safely.
+-	 */
+ 	host = of_find_mipi_dsi_host_by_node(pdata->host_node);
+ 	if (!host) {
+ 		DRM_ERROR("failed to find dsi host\n");
+-		ret = -ENODEV;
+-		goto err_dsi_host;
++		return -ENODEV;
  	}
  
--	dsi = mipi_dsi_device_register_full(host, &info);
-+	dsi = devm_mipi_dsi_device_register_full(dev, host, &info);
+ 	dsi = devm_mipi_dsi_device_register_full(dev, host, &info);
  	if (IS_ERR(dsi)) {
  		DRM_ERROR("failed to create dsi device\n");
- 		ret = PTR_ERR(dsi);
-@@ -714,16 +715,16 @@ static int ti_sn_bridge_attach(struct drm_bridge *bridge,
- 	dsi->mode_flags = MIPI_DSI_MODE_VIDEO;
+-		ret = PTR_ERR(dsi);
+-		goto err_dsi_host;
++		return PTR_ERR(dsi);
+ 	}
  
- 	/* check if continuous dsi clock is required or not */
--	pm_runtime_get_sync(pdata->dev);
-+	pm_runtime_get_sync(dev);
- 	regmap_read(pdata->regmap, SN_DPPLL_SRC_REG, &val);
--	pm_runtime_put_autosuspend(pdata->dev);
-+	pm_runtime_put_autosuspend(dev);
+ 	/* TODO: setting to 4 MIPI lanes always for now */
+@@ -721,12 +690,38 @@ static int ti_sn_bridge_attach(struct drm_bridge *bridge,
  	if (!(val & DPPLL_CLK_SRC_DSICLK))
  		dsi->mode_flags |= MIPI_DSI_CLOCK_NON_CONTINUOUS;
  
--	ret = mipi_dsi_attach(dsi);
-+	ret = devm_mipi_dsi_attach(dev, dsi);
++	pdata->dsi = dsi;
++
+ 	ret = devm_mipi_dsi_attach(dev, dsi);
  	if (ret < 0) {
  		DRM_ERROR("failed to attach dsi to host\n");
--		goto err_dsi_attach;
-+		goto err_dsi_host;
+-		goto err_dsi_host;
++		return ret;
  	}
- 	pdata->dsi = dsi;
+-	pdata->dsi = dsi;
++
++	return 0;
++}
++
++static int ti_sn_bridge_attach(struct drm_bridge *bridge,
++			       enum drm_bridge_attach_flags flags)
++{
++	struct ti_sn65dsi86 *pdata = bridge_to_ti_sn65dsi86(bridge);
++	int ret;
++
++	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR) {
++		DRM_ERROR("Fix bridge driver to make connector optional!");
++		return -EINVAL;
++	}
++
++	pdata->aux.drm_dev = bridge->dev;
++	ret = drm_dp_aux_register(&pdata->aux);
++	if (ret < 0) {
++		drm_err(bridge->dev, "Failed to register DP AUX channel: %d\n", ret);
++		return ret;
++	}
++
++	ret = ti_sn_bridge_connector_init(pdata);
++	if (ret < 0)
++		goto err_conn_init;
  
-@@ -734,14 +735,10 @@ static int ti_sn_bridge_attach(struct drm_bridge *bridge,
- 	ret = drm_bridge_attach(bridge->encoder, pdata->next_bridge,
- 				&pdata->bridge, flags);
- 	if (ret < 0)
--		goto err_dsi_detach;
-+		goto err_dsi_host;
+ 	/* We never want the next bridge to *also* create a connector: */
+ 	flags |= DRM_BRIDGE_ATTACH_NO_CONNECTOR;
+@@ -1224,7 +1219,15 @@ static int ti_sn_bridge_probe(struct auxiliary_device *adev,
  
+ 	drm_bridge_add(&pdata->bridge);
+ 
++	ret = ti_sn_attach_host(pdata);
++	if (ret)
++		goto err_remove_bridge;
++
  	return 0;
++
++err_remove_bridge:
++	drm_bridge_remove(&pdata->bridge);
++	return ret;
+ }
  
--err_dsi_detach:
--	mipi_dsi_detach(dsi);
--err_dsi_attach:
--	mipi_dsi_device_unregister(dsi);
- err_dsi_host:
- 	drm_connector_cleanup(&pdata->connector);
- err_conn_init:
-@@ -1237,11 +1234,6 @@ static void ti_sn_bridge_remove(struct auxiliary_device *adev)
- 	if (!pdata)
- 		return;
- 
--	if (pdata->dsi) {
--		mipi_dsi_detach(pdata->dsi);
--		mipi_dsi_device_unregister(pdata->dsi);
--	}
--
- 	drm_bridge_remove(&pdata->bridge);
- 
- 	of_node_put(pdata->host_node);
+ static void ti_sn_bridge_remove(struct auxiliary_device *adev)
 -- 
 2.31.1
 
