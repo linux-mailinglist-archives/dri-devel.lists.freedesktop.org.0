@@ -1,68 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE0BB436112
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Oct 2021 14:08:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id ACC91436188
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Oct 2021 14:22:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 881F96EC4D;
-	Thu, 21 Oct 2021 12:08:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 016276E454;
+	Thu, 21 Oct 2021 12:22:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
- [IPv6:2a00:1450:4864:20::430])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 261ED6EC4D
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Oct 2021 12:08:24 +0000 (UTC)
-Received: by mail-wr1-x430.google.com with SMTP id r10so466710wra.12
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Oct 2021 05:08:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=djJOEt6biCNzIxqdTk62h+b491lKskY6U3yacyivLEw=;
- b=c5tSrGe3CHMZl7DvRDR4efrUSRgSfTbn1NK8z9SBLd2TeMvrHf674NXN87YTkG7zxV
- tsOHF3eTlZjBz7DKbYflzdjTdn0rT3RXAvFdmrwAkFPoH1tLHYp7sx1pDRAsTusXRq1a
- 4ndd2MIqdHYVqputO76fGvZJPD3oVqZopuOOw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=djJOEt6biCNzIxqdTk62h+b491lKskY6U3yacyivLEw=;
- b=jCKARo5SREA+daHfyR4ml+NkGfIrPbO5XYOTaX8fMPEwaIs3WQA/+zBrBQa4XEDa/3
- kuuSY21H8Jj6CtNE68TzSrD0iIP/2Y5sLECY4E5hZf3Hks9kodkYDkkWaLrr1jSFxZmp
- 939tRNoKlaAN9MJsBEc8ulRxbvkLQng2u9mWuUd3k+V48s4xocnsbYNSw4h0IXgK4IbU
- JXXkGqo9fi+nNbFcBN/cbsS/Jf2a7Fn2ehl56SYUWjxbMpQrqFvMMOAOGrjIVZg3ZC7B
- 0MRr/KAO0bFMMTmKAYCQwJb0VuGFECRXPHzHEs54fB5vPWkvVXWPjWPJQ57HH8STD+yt
- y6Kg==
-X-Gm-Message-State: AOAM530fqmYRAZhvSOXWXkkwn4yliIzMMcZfLYCThcAvzcpcpZK53/pm
- 7egg8jjnShbkb12oh15pxasptw==
-X-Google-Smtp-Source: ABdhPJwk2ijMk01v1uJB5E7SqZ7tASKWbjKG/5T1dTuTmqKek02XQ4pRXTflPK6lzGUhXJQWb663yg==
-X-Received: by 2002:a5d:64c5:: with SMTP id f5mr6635604wri.321.1634818102689; 
- Thu, 21 Oct 2021 05:08:22 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id g33sm4267021wmp.45.2021.10.21.05.08.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 Oct 2021 05:08:21 -0700 (PDT)
-Date: Thu, 21 Oct 2021 14:08:19 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- intel-gfx@lists.freedesktop.org, linux-media@vger.kernel.org
-Subject: Re: [Linaro-mm-sig] [PATCH 2/2] dma-buf: Fix dma_resv_test_signaled.
-Message-ID: <YXFYM/15tbTF2bi2@phenom.ffwll.local>
-References: <20211015115720.79958-1-maarten.lankhorst@linux.intel.com>
- <20211015115720.79958-3-maarten.lankhorst@linux.intel.com>
- <ebf0714c-2f49-a0ad-1861-16394ade468d@amd.com>
- <9b7e43bb-e175-0aff-2cc1-cc10236fe8e5@linux.intel.com>
- <06fa85f5-3664-4da4-bde8-6d7d2f199251@gmail.com>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AAA116E454
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Oct 2021 12:21:58 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 1637E219C3;
+ Thu, 21 Oct 2021 12:21:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1634818917; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ucz1Y3aAdKkcDG3ip+Plp+tSC8uDb2R83+A2ivydyXs=;
+ b=mlFjB8Col/hxKBm7XVqGpA2ISKHEcDF7pRa7ksPAzkYbegzzQctXIZ1pqa4loR7gYjAaST
+ siVuSu03t4jEa9vgixhjiof+zgawFqxvQwAIFnESG3fsjJfns+/ChzlQEGJygiWsSIXb+j
+ Q3r5E1lbtKmuvWpM85moXlayTeVKSJ8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1634818917;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ucz1Y3aAdKkcDG3ip+Plp+tSC8uDb2R83+A2ivydyXs=;
+ b=onJujf/wLCvw2WA9NCFpLplpCuwHA1+rpgIqf2cDRpm6r8BeUml//Qdd401Ck22g0qEhZf
+ mE5AKiqbVFFFH4Bg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E89B6133A6;
+ Thu, 21 Oct 2021 12:21:56 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id ANvON2RbcWGMfgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Thu, 21 Oct 2021 12:21:56 +0000
+Message-ID: <28ca3e87-4fbb-d7bb-d5ce-520981e7ee2d@suse.de>
+Date: Thu, 21 Oct 2021 14:21:56 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <06fa85f5-3664-4da4-bde8-6d7d2f199251@gmail.com>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH 0/3] drm: Move several files from DRM core into modules
+Content-Language: en-US
+To: Daniel Vetter <daniel@ffwll.ch>
+Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@linux.ie,
+ dri-devel@lists.freedesktop.org
+References: <20211020131941.15367-1-tzimmermann@suse.de>
+ <YXFUe355D41ebf8q@phenom.ffwll.local>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <YXFUe355D41ebf8q@phenom.ffwll.local>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------5qnLhFtaGlJfaxV1ivaK80m2"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,51 +75,80 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 15, 2021 at 02:56:59PM +0200, Christian König wrote:
-> 
-> 
-> Am 15.10.21 um 14:52 schrieb Maarten Lankhorst:
-> > Op 15-10-2021 om 14:07 schreef Christian König:
-> > > Am 15.10.21 um 13:57 schrieb Maarten Lankhorst:
-> > > > Commit 7fa828cb9265 ("dma-buf: use new iterator in dma_resv_test_signaled")
-> > > > accidentally forgot to test whether the dma-buf is actually signaled, breaking
-> > > > pretty much everything depending on it.
-> > > NAK, the dma_resv_for_each_fence_unlocked() returns only unsignaled fences. So the code is correct as it is.
-> > That seems like it might cause some unexpected behavior when that function is called with one of the fence locks held, if it calls dma_fence_signal().
-> > 
-> > Could it be changed to only test the signaled bit, in which case this patch would still be useful?
-> 
-> That's exactly what I suggested as well, but Daniel was against that because
-> of concerns around barriers.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------5qnLhFtaGlJfaxV1ivaK80m2
+Content-Type: multipart/mixed; boundary="------------1E0HSTMAOFXqIl3BnEnZph1x";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Daniel Vetter <daniel@ffwll.ch>
+Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@linux.ie,
+ dri-devel@lists.freedesktop.org
+Message-ID: <28ca3e87-4fbb-d7bb-d5ce-520981e7ee2d@suse.de>
+Subject: Re: [PATCH 0/3] drm: Move several files from DRM core into modules
+References: <20211020131941.15367-1-tzimmermann@suse.de>
+ <YXFUe355D41ebf8q@phenom.ffwll.local>
+In-Reply-To: <YXFUe355D41ebf8q@phenom.ffwll.local>
 
-I don't want open-coded bitmask tests, because the current code we have in
-dma-fence.c is missing barriers, and that doesn't get better if we spread
-that all around. But if you want this then wrap it in some static inline
-in dma-fence.h or so, that's fine. Just not open-coded outside of these
-files, like i915-gem code does a lot (which imo is just plain a disaster).
+--------------1E0HSTMAOFXqIl3BnEnZph1x
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-> > Or at least add some lockdep annotations, that fence->lock might be taken. So any hangs would at least be easy to spot with lockdep.
-> 
-> That should be trivial doable.
+SGkNCg0KQW0gMjEuMTAuMjEgdW0gMTM6NTIgc2NocmllYiBEYW5pZWwgVmV0dGVyOg0KPiBP
+biBXZWQsIE9jdCAyMCwgMjAyMSBhdCAwMzoxOTozOFBNICswMjAwLCBUaG9tYXMgWmltbWVy
+bWFubiB3cm90ZToNCj4+IE1vdmUgYSBudW1iZXIgb2YgZmlsZXMgaW50byBtb2R1bGVzIGFu
+ZCBiZWhpbmQgY29uZmlnIG9wdGlvbnMuDQo+Pg0KPj4gU28gZmFyLCBlYXJseSBib290IGdy
+YXBoaWNzIHdhcyBwcm92aWRlZCBieSBmYmRldi4gV2l0aCBzaW1wbGVkcm0sIGFuZA0KPj4g
+cG9zc2libHkgb3RoZXIgZ2VuZXJpYyBEUk0gZHJpdmVycywgaXQncyBub3cgcG9zc2libGUg
+dG8gaGF2ZSBnZW5lcmFsDQo+PiBlYXJseS1ib290IG91dHB1dCB3aXRoIERSTS4gVGhpcyBy
+ZXF1aXJlcyB0aGUgRFJNIGNvcmUgdG8gYmUgbGlua2VkIGludG8NCj4+IHRoZSBrZXJuZWwg
+YmluYXJ5IGltYWdlLg0KPj4NCj4+IFRoZSByZWR1Y3Rpb24gaW4gc2l6ZSBoZXJlIGlzIG9u
+bHkgfjElLCBidXQgdGhlIHBhdGNoc2V0IGlzIHBhcnQgb2YgYQ0KPj4gbGFyZ2VyIGVmZm9y
+dCB0byByZWR1Y2UgdGhlIHNpemUgb2YgdGhlIERSTSBjb3JlIG1vZHVsZS4NCj4+DQo+PiBU
+aG9tYXMgWmltbWVybWFubiAoMyk6DQo+PiAgICBkcm06IEJ1aWxkIGRybV9pcnEubyBvbmx5
+IGlmIENPTkZJR19EUk1fTEVHQUNZIGhhcyBiZWVuIHNldA0KPj4gICAgZHJtOiBMaW5rIHNl
+dmVyYWwgb2JqZWN0IGZpbGVzIGludG8gZHJtX2ttc19oZWxwZXIua28NCj4+ICAgIGRybTog
+TW92ZSBHRU0gbWVtb3J5IG1hbmFnZXJzIGludG8gbW9kdWxlcw0KPiANCj4gQXNzdW1pbmcg
+aXQgYWxsIGNvbXBpbGVzIHN0aWxsIGluIGFsbCBjb21ib3MsIG9uIHRoZSBzZXJpZXM6DQo+
+IA0KPiBBY2tlZC1ieTogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBmZndsbC5jaD4N
+Cg0KVGhhbmtzIGZvciB0aGUgQS1iLiBJIGJ1aWx0IHdpdGggRFJNX0xFR0FDWSBzZXQgYW5k
+IHVuc2V0Lg0KDQpUaGUgR0VNIGNoYW5nZXMgc2hvdWxkbid0IGJlIGFmZmVjdGVkIGJ5IHRo
+ZSBjb25maWcuIFdpdGggdGhlIENNQSANCmhlbHBlcnMgaW4gYSBzZXBhcmF0ZSBtb2R1bGUs
+IHdlIGNvdWxkIG1heWJlIHJlbW92ZSANCkNPTkZJR19EUk1fS01TX0NNQV9IRUxQRVIgYW5k
+IGxpbmsgZHJtX2ZiX2NtYV9oZWxwZXIubyBpZiANCkNPTkZJR19EUk1fS01TX0hFTFBFUiBo
+YXMgYmVlbiBzZWxlY3RlZC4NCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KPj4NCj4+ICAg
+ZHJpdmVycy9ncHUvZHJtL0tjb25maWcgICAgICAgICAgICAgICAgfCAgNCArKy0tDQo+PiAg
+IGRyaXZlcnMvZ3B1L2RybS9NYWtlZmlsZSAgICAgICAgICAgICAgIHwgMjYgKysrKysrKysr
+KysrKysrLS0tLS0tLS0tLS0NCj4+ICAgZHJpdmVycy9ncHUvZHJtL2RybV9nZW1fY21hX2hl
+bHBlci5jICAgfCAgNCArKysrDQo+PiAgIGRyaXZlcnMvZ3B1L2RybS9kcm1fZ2VtX3NobWVt
+X2hlbHBlci5jIHwgIDQgKysrKw0KPj4gICBkcml2ZXJzL2dwdS9kcm0vZHJtX2lycS5jICAg
+ICAgICAgICAgICB8ICAyIC0tDQo+PiAgIDUgZmlsZXMgY2hhbmdlZCwgMjUgaW5zZXJ0aW9u
+cygrKSwgMTUgZGVsZXRpb25zKC0pDQo+Pg0KPj4gLS0NCj4+IDIuMzMuMA0KPj4NCj4gDQoN
+Ci0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNV
+U0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KTWF4ZmVsZHN0ci4gNSwgOTA0
+MDkgTsO8cm5iZXJnLCBHZXJtYW55DQooSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpDQpHZXNj
+aMOkZnRzZsO8aHJlcjogRmVsaXggSW1lbmTDtnJmZmVyDQo=
 
-might_lock is trivial to add, but it's more complicated. The spinlock is
-provided by the fence code, which means there's lots of different lockdep
-classes. A might_lock on fence->lock is better than nothing, but maybe not
-good enough.
+--------------1E0HSTMAOFXqIl3BnEnZph1x--
 
-What we might need are a few more pieces:
-- a fake dma-fence spinlock lockdep key, maybe call it dma_fence_lock_key
-  or so.
-- in dma_fence_init we lock dma_fence_lock_key, and then might_lock the
-  actual spinlock passed as an argument. This establishes dependencies
-  from that fake lock to all real fence spinlocks
-- anywhere we need a might lock we take dma_fence_lock_key instead
+--------------5qnLhFtaGlJfaxV1ivaK80m2
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-The potential issue here is that this might result in lockdep splats in
-cases where fences somehow naturally nest (maybe drm/sched job fence vs hw
-fence). So perhaps too much.
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmFxW2QFAwAAAAAACgkQlh/E3EQov+C8
+xA/+ML/I3qLuP0ldarMIxlGNHFFAJC/OlG7hTpK2EfUN+CcQ+7LfIs2Lx4vxVTtS5YV930NSiWMm
+NfPmn+YJBCSDIKoBVwPy8DF8QnaSpy0l+imtgFxKnXaK6KdjzBHalXInobRYValMNDsisKUTW2pC
+e1GXgU29L2g6cR141ovH5hzVo7EDcy6RG74uHac0Yc146lMqrruMdAT6R1odh4ATFfq5KOVZ3CBR
+Mp9ghoyV7nNsy5YeEKHegJv/ZZj1pIbgKtI/5NhsFGnMocVVdkPs3CQ79QwZ6oVM7nCH3ZzpkP7R
+az9skbEGuZV5RlUJ0NI+cUBPCK2JwB7bLT52NA5Tb5lhEGuvfHGyrlejaWNTBbSVODPIZMvzDDBY
+6RsJK7knRtitJr4nlmFS4UDH6Xw+O6OIelWTANyhrWLaJrUEoC//wciGnNSkVVKcYaUogyhzGiXL
+L93OiqZmAipvFF4ldxWT73uZUcW+dNzmm06jjN9/rafRxcQzarJEKRHKjYo+ndxmZ34SKp1hBQl6
+mYKpl0xuST7ZUVmpZgGXc8pqgN5gRzT9CJ1WgzAmIA0Po17CsqpJy87oTwojh++0bWLwSqCvwWia
+lggQPsH6aaX822sHNvkn6j6hxtoTf+pM3gN39it7379HiJ2WSKjHsBSLyMOet3rPD7lPGLUCfVbT
+B8Y=
+=3bhV
+-----END PGP SIGNATURE-----
+
+--------------5qnLhFtaGlJfaxV1ivaK80m2--
