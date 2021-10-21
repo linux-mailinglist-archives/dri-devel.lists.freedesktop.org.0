@@ -1,36 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0903A435989
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Oct 2021 05:50:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 395EF435A30
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Oct 2021 07:07:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E092B6EA9C;
-	Thu, 21 Oct 2021 03:50:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 397CC6EAAB;
+	Thu, 21 Oct 2021 05:07:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4DA0E6EA9C
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Oct 2021 03:50:50 +0000 (UTC)
-Received: from rorschach.local.home (cpe-66-24-58-225.stny.res.rr.com
- [66.24.58.225])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id A511661183;
- Thu, 21 Oct 2021 03:50:49 +0000 (UTC)
-Date: Wed, 20 Oct 2021 23:50:48 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Gurchetan Singh <gurchetansingh@chromium.org>
-Cc: dri-devel@lists.freedesktop.org, kaleshsingh@google.com, daniel@ffwll.ch
-Subject: Re: [RFC PATCH 5/8] drm: start using drm_gem_trace_gpu_mem_instance
-Message-ID: <20211020235048.588bcac0@rorschach.local.home>
-In-Reply-To: <20211021031027.537-6-gurchetansingh@chromium.org>
-References: <20211021031027.537-1-gurchetansingh@chromium.org>
- <20211021031027.537-6-gurchetansingh@chromium.org>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8DCF86E409;
+ Thu, 21 Oct 2021 05:07:06 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10143"; a="229215250"
+X-IronPort-AV: E=Sophos;i="5.87,168,1631602800"; d="scan'208";a="229215250"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Oct 2021 22:07:05 -0700
+X-IronPort-AV: E=Sophos;i="5.87,168,1631602800"; d="scan'208";a="484048420"
+Received: from gmherteg-mobl2.amr.corp.intel.com (HELO
+ kialmah1-mobl1.amr.corp.intel.com) ([10.251.20.183])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Oct 2021 22:07:05 -0700
+From: Khaled Almahallawy <khaled.almahallawy@intel.com>
+To: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, linux-arm-msm@vger.kernel.org
+Cc: Khaled Almahallawy <khaled.almahallawy@intel.com>
+Subject: [RFC PATCH 0/4] drm/dp: Use DP2.0 DPCD 248h updated register/field
+ names for DP PHY CTS
+Date: Wed, 20 Oct 2021 22:07:09 -0700
+Message-Id: <20211021050713.836498-1-khaled.almahallawy@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,21 +49,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 20 Oct 2021 20:10:24 -0700
-Gurchetan Singh <gurchetansingh@chromium.org> wrote:
+This series updates DPCD 248h register name and PHY test patterns names to follow DP 2.0 Specs.
+Also updates the DP PHY CTS codes of the affected drivers (i915, amd, msm)
+No functional changes expected.
+ 
+Reference: “DPCD 248h/10Bh/10Ch/10Dh/10Eh Name/Description Consistency”
+https://groups.vesa.org/wg/AllMem/documentComment/2738
 
-> @@ -305,6 +306,7 @@ drm_gem_object_release_handle(int id, void *ptr, void *data)
->  	drm_gem_remove_prime_handles(obj, file_priv);
->  	drm_vma_node_revoke(&obj->vma_node, file_priv);
->  
-> +	drm_gem_trace_gpu_mem_instance(dev, file_priv, -obj->size, false);
+Khaled Almahallawy (4):
+  drm/dp: Rename DPCD 248h according to DP 2.0 specs
+  drm/i915/dp: Use DP 2.0 LINK_QUAL_PATTERN_* Phy test pattern
+    definitions
+  drm/amd/dc: Use DPCD 248h DP 2.0 new name
+  drm/msm/dp: Use DPCD 248h DP 2.0 new names/definitions
 
-I would suggest adding the trace_*_enabled() if statements around all
-these callers.
+ drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c |  2 +-
+ drivers/gpu/drm/drm_dp_helper.c                  |  6 +++---
+ drivers/gpu/drm/i915/display/intel_dp.c          | 12 ++++++------
+ drivers/gpu/drm/msm/dp/dp_catalog.c              | 12 ++++++------
+ drivers/gpu/drm/msm/dp/dp_ctrl.c                 | 12 ++++++------
+ drivers/gpu/drm/msm/dp/dp_link.c                 | 16 ++++++++--------
+ include/drm/drm_dp_helper.h                      | 13 +++----------
+ 7 files changed, 33 insertions(+), 40 deletions(-)
 
--- Steve
+-- 
+2.25.1
 
-
->  	drm_gem_object_handle_put_unlocked(obj);
->  
->  	return 0;
