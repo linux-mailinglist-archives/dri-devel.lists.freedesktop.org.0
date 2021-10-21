@@ -1,63 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 269BB436AD2
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Oct 2021 20:45:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 21921436B0B
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Oct 2021 21:05:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 877596ECEF;
-	Thu, 21 Oct 2021 18:45:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D6726E488;
+	Thu, 21 Oct 2021 19:05:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com
- [IPv6:2a00:1450:4864:20::232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B32856ECE3
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Oct 2021 18:45:22 +0000 (UTC)
-Received: by mail-lj1-x232.google.com with SMTP id l5so226888lja.13
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Oct 2021 11:45:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:in-reply-to:references:from:user-agent:date:message-id
- :subject:to:cc;
- bh=9MuLW1yfrGnnXorHHuXQXcRAluIurMXU5vrmf/nqkGE=;
- b=FITLZmM/2oE6KZ12z4Oo85YoKei0F42uWLMnZ7ontaKS8PHbrY0Qfaugi2465wnXNJ
- 1fFUxxF/tZhW4Jpy10fPp/i8kRij5Z3QLe/WsNl6HLtGtkS1hF7li4+I6pV6tN9PY62O
- zmWUJ18OgEvHA+oSZ3HmZPt7a8MHp05RfAqfo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:in-reply-to:references:from
- :user-agent:date:message-id:subject:to:cc;
- bh=9MuLW1yfrGnnXorHHuXQXcRAluIurMXU5vrmf/nqkGE=;
- b=ymR6Os9imhoUQk1ZTYMRfxjiMAz9gAdjp2De19H9sUhnVNTyLjt+s5IKEbm3TT+e40
- OvPbxmPYKo8aBHCtcDKxtRZHL2p6hJVeqWmrMAKHTrOno5uzWX0vGM1UTdKEdMOElWwK
- x5Jn6iTrWF/TNnYgvKTI5T7Zmq1hl4dpAdie9Y8WDoJ/js4QCyAopJV8ej+UyyEIzDzw
- D0f4/ejKdYEWZI02lRqJSrzBtHO2GMbWrzQE5VlUcWYS5oj80GDFB0xqqLNT7cHo9L1V
- 4ybvQVj7E+7TIHOFhtSJeoVcbTUH38cPDyElQdUCKC/UzAX90PthxMsKs+NivMfS1tNR
- jhZg==
-X-Gm-Message-State: AOAM533z0S4r1PN96l6EKIXjyJKrTGQGyyv4SHeQz5LFwJXZnobrxBod
- X5W6vCvzaVQ+Cxz+VpnMzs/7LZnzMMmaDM1qsBHlZA==
-X-Google-Smtp-Source: ABdhPJwpbVQtsFa1/rdGMFSiAHJ/DrNi3DxrP6HwLnRItX7TvhyyMIFGC8yEIl690fJTmadvvpEHD+Ho6z6kxVBZMW4=
-X-Received: by 2002:a05:651c:283:: with SMTP id
- b3mr7755337ljo.459.1634841921121; 
- Thu, 21 Oct 2021 11:45:21 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 21 Oct 2021 11:45:20 -0700
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C0816E488;
+ Thu, 21 Oct 2021 19:05:47 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10144"; a="292576803"
+X-IronPort-AV: E=Sophos;i="5.87,170,1631602800"; d="scan'208";a="292576803"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Oct 2021 12:05:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.87,170,1631602800"; d="scan'208";a="491910494"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
+ by fmsmga007.fm.intel.com with SMTP; 21 Oct 2021 12:05:41 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Thu, 21 Oct 2021 22:05:40 +0300
+Date: Thu, 21 Oct 2021 22:05:40 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Lucas De Marchi <lucas.demarchi@intel.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: Re: [Intel-gfx] [PATCH] drm/i915: remove CNL leftover
+Message-ID: <YXG6BGEtId+5oXFH@intel.com>
+References: <20211021181847.1543341-1-lucas.demarchi@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <1634738333-3916-3-git-send-email-quic_mkrishn@quicinc.com>
-References: <1634738333-3916-1-git-send-email-quic_mkrishn@quicinc.com>
- <1634738333-3916-3-git-send-email-quic_mkrishn@quicinc.com>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.9.1
-Date: Thu, 21 Oct 2021 11:45:20 -0700
-Message-ID: <CAE-0n51Q7Uir5LvmU8MJG-KmNsiYN690xr5svVv8_H=de-EkpA@mail.gmail.com>
-Subject: Re: [PATCH v2 3/4] arm64: dts: qcom: sc7280: Add DSI display nodes
-To: Krishna Manikandan <quic_mkrishn@quicinc.com>, devicetree@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: kalyan_t@codeaurora.org, sbillaka@codeaurora.org, abhinavk@codeaurora.org, 
- robdclark@gmail.com, bjorn.andersson@linaro.org, khsieh@codeaurora.org, 
- rajeevny@codeaurora.org, freedreno@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, robh+dt@kernel.org, 
- Rajeev Nandan <quic_rajeevny@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20211021181847.1543341-1-lucas.demarchi@intel.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,17 +51,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Krishna Manikandan (2021-10-20 06:58:52)
-> Add DSI controller and PHY nodes for sc7280.
->
-> Signed-off-by: Rajeev Nandan <quic_rajeevny@quicinc.com>
-> Signed-off-by: Krishna Manikandan <quic_mkrishn@quicinc.com>
-> Reviewed-by: Matthias Kaehlcke <mka@chromium.org>
->
-> Changes in v2:
->     - Drop flags from interrupts (Stephen Boyd)
->     - Rename dsi-opp-table (Stephen Boyd)
->     - Rename dsi phy  node (Stephen Boyd)
-> ---
+On Thu, Oct 21, 2021 at 11:18:47AM -0700, Lucas De Marchi wrote:
+> We left the definition IS_CANNONLAKE() macro while removing it from the
+> tree due to having to merge the changes in different branches. Now that
+> everything is back in sync and nobody is using IS_CANNONLAKE(), we can
+> safely ditch it.
+> 
+> Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
 
-Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+
+I found another leftover somewhere else, but now I forgot where
+it was. I guess it'll come back to me eventually.
+
+> ---
+>  drivers/gpu/drm/i915/i915_drv.h | 1 -
+>  1 file changed, 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
+> index 357faa043b3a..5e23c0273cf0 100644
+> --- a/drivers/gpu/drm/i915/i915_drv.h
+> +++ b/drivers/gpu/drm/i915/i915_drv.h
+> @@ -1431,7 +1431,6 @@ IS_SUBPLATFORM(const struct drm_i915_private *i915,
+>  #define IS_GEMINILAKE(dev_priv)	IS_PLATFORM(dev_priv, INTEL_GEMINILAKE)
+>  #define IS_COFFEELAKE(dev_priv)	IS_PLATFORM(dev_priv, INTEL_COFFEELAKE)
+>  #define IS_COMETLAKE(dev_priv)	IS_PLATFORM(dev_priv, INTEL_COMETLAKE)
+> -#define IS_CANNONLAKE(dev_priv)	0
+>  #define IS_ICELAKE(dev_priv)	IS_PLATFORM(dev_priv, INTEL_ICELAKE)
+>  #define IS_JSL_EHL(dev_priv)	(IS_PLATFORM(dev_priv, INTEL_JASPERLAKE) || \
+>  				IS_PLATFORM(dev_priv, INTEL_ELKHARTLAKE))
+> -- 
+> 2.33.1
+
+-- 
+Ville Syrjälä
+Intel
