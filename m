@@ -2,61 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64059436832
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Oct 2021 18:42:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEAD743685B
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Oct 2021 18:51:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 93E226E43B;
-	Thu, 21 Oct 2021 16:42:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 254F16ECD2;
+	Thu, 21 Oct 2021 16:51:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com
- [IPv6:2a00:1450:4864:20::52b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E2AD06E43B
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Oct 2021 16:42:13 +0000 (UTC)
-Received: by mail-ed1-x52b.google.com with SMTP id w19so1761795edd.2
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Oct 2021 09:42:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+Received: from mail-oo1-xc2c.google.com (mail-oo1-xc2c.google.com
+ [IPv6:2607:f8b0:4864:20::c2c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D4296ECD2
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Oct 2021 16:51:52 +0000 (UTC)
+Received: by mail-oo1-xc2c.google.com with SMTP id
+ o26-20020a4abe9a000000b002b74bffdef0so301687oop.12
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Oct 2021 09:51:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=5kDRmnzIH03xrtrZgYDtwH/WzS6dnydlo7OWL37wWGU=;
- b=c0pPEzMM+ASHHHj4QCNroPy2CARe+mLhA2STa+pRVgVttv/jnFta1ziqiI61pCgTeD
- q+IZuwqAnYPzTOTNsVi9nyYe1nN7QKSnBa9bpkd6gcYirMZcQmKBYBBIEAx8p5W9+kwf
- z8fjQ9n2pAQkUTpdpeyz2cVzajCbziKix765QEDWFkBlnDMa2mUjtkRvH4bkx/tU9yWQ
- 9gCX4XKZJoY+6DahPdAbe41RwLqf8sLRW3+H6WY99ygDr0IYYCfS1kBfU4cQWAm/YX9m
- 3l0AnUJRPowmGxJWoALREX+POwQiMWzswUWsudnHWklUDxsPo/jF49xJOA8hIb866LIC
- I0Kw==
+ :cc; bh=Ob5PLxDR2eB9FDkXitaNSYrf2mgKeu2sUJGtm5GFDys=;
+ b=Hv4wX6WevG7UsonZZJW2ZqkwMUyb+bULZcgM+QXqj9+1e6u1LG4+WNK+4YSD+7FaVv
+ e8PRTScwd/gnxzNvUKoBd7dbrpfmTIM3kMNjKx7fPnn85afFuKNgWGTyjWFB+V5EQgHt
+ ntrw6DLoVXWiTjq1uZb910fuBPnwbMwVhnNZ0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=5kDRmnzIH03xrtrZgYDtwH/WzS6dnydlo7OWL37wWGU=;
- b=04HnGLhxpsFmYKEtj7qfqQ957CGuFFi7BKwL6PJfk6qb6JKb0FZXi4ydfMvjC6kwQR
- DG0tDMk8efaaRFlnL3iXVAoSvz06LPUkieNqaM1HGipDu1Ld9lSoE+bIhdpMTo7JduAu
- vi2Pr7MBIg+X8MAPpH4dU0TzAX35l0wUo1JAo/ToYOj7m44EQ5TLjUPVbNVGX9hetP8c
- WB7Nk7EQNYatRofE3TWQAFF0KcdoGlz7NeBrFcT+ktD1auK4KWCr+r1HGnGKibGvBPIF
- FpiX0exVCpoQjUAkz7UPt+XnFWP7CNXhuJZ5x5PDRUyRi4IfSDncUkAjXYJGWJCkZf5g
- RKrg==
-X-Gm-Message-State: AOAM533twvm9EJUou+Rv+o+UR6auD9bU9j/3Qtt2NwLfhmplpxbwuR1e
- EW4Dz6APSVWl3b8RJiviCpobPzGOFuVAkOWR+fM=
-X-Google-Smtp-Source: ABdhPJyccymnZsJh0cBou34794Zed2lq7y9b5xrz0vlxEDmBG54OEPx1zAnudKX4kA+2F1rEFB3yNELsy5w3piWj6SM=
-X-Received: by 2002:a17:907:971e:: with SMTP id
- jg30mr8348703ejc.375.1634834532298; 
- Thu, 21 Oct 2021 09:42:12 -0700 (PDT)
+ bh=Ob5PLxDR2eB9FDkXitaNSYrf2mgKeu2sUJGtm5GFDys=;
+ b=cf5CML2Sx0QO2KLUJp84ZRHT1UrZtFlFoYdh68OOTqe+FtpkN1TcELIf+Ld1ajOb1l
+ d+FXMiGCm3oOkTBE+35KI4xPHGyCLyw8ZLPEe+WDfCTL9yEolBUh1xID5m2ycs9mL11p
+ QLMZ5GPtzmU4cUeGsk5HU24tXFHrceF+l3/TQEHLjYOQwK8I6vZZI+quCT14RkneXBsF
+ 3eCn0kFkHxHn3cUF/v+sfO4pJkdLTBIkuOebDjvMlM4PggilV1pK95JscJVbOMVJPOyZ
+ gYK3vpINCwTlYkB5ikpHA/oZPf8Ktlp4OnD7KcJ3IKpNwmD+/n3Yt+rrzoGmhCMqWaqT
+ IwDw==
+X-Gm-Message-State: AOAM533bDMzGoFr61ASnJZma5GWyfBzfiex7itvlG9vWlVwr0sMed2eO
+ koZ1kVvJOpJmXxKH12SPIK70bW/GicpfxZrPSHBcPl/sc1ItCA==
+X-Google-Smtp-Source: ABdhPJwEHR465YIoZ6TJOoOIizjb7N0gbdEIYqO5hNxKjv8Tm/lyLFj8BD9p1dqilhW/PGRdXPrX8/lD8gtuq6arXvU=
+X-Received: by 2002:a4a:b90d:: with SMTP id x13mr5269753ooo.25.1634835111714; 
+ Thu, 21 Oct 2021 09:51:51 -0700 (PDT)
 MIME-Version: 1.0
-References: <20211021074445.452309-1-maksym.wezdecki@collabora.com>
- <20211021092535.ozafsijlakj7ccwc@sirius.home.kraxel.org>
- <327a5c8a-d82d-f115-27bb-37125affe24b@collabora.co.uk>
- <20211021115212.dk2kl2vbl6qotjwa@sirius.home.kraxel.org>
-In-Reply-To: <20211021115212.dk2kl2vbl6qotjwa@sirius.home.kraxel.org>
-From: Chia-I Wu <olvaffe@gmail.com>
-Date: Thu, 21 Oct 2021 09:42:00 -0700
-Message-ID: <CAPaKu7TfEtikdg2HEt2_PH7=zPbk=d9wfosDjNmr1AU6CC6sMw@mail.gmail.com>
-Subject: Re: drm/virtio: not pin pages on demand
-To: Gerd Hoffmann <kraxel@redhat.com>
-Cc: Maksym Wezdecki <maksym.wezdecki@collabora.co.uk>, 
- Maksym Wezdecki <maksym.wezdecki@collabora.com>,
- David Airlie <airlied@linux.ie>, 
- ML dri-devel <dri-devel@lists.freedesktop.org>, "open list:VIRTIO CORE,
- NET AND BLOCK DRIVERS" <virtualization@lists.linux-foundation.org>
+References: <20211020131941.15367-1-tzimmermann@suse.de>
+ <877de6mu1x.fsf@intel.com>
+In-Reply-To: <877de6mu1x.fsf@intel.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Thu, 21 Oct 2021 18:51:40 +0200
+Message-ID: <CAKMK7uEFDEvTuca52K5U4A24k3J-Hjnv8=aGBF-jCmW6Wq=XqA@mail.gmail.com>
+Subject: Re: [PATCH 0/3] drm: Move several files from DRM core into modules
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Dave Airlie <airlied@linux.ie>, dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,36 +67,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 21, 2021 at 4:52 AM Gerd Hoffmann <kraxel@redhat.com> wrote:
+On Thu, Oct 21, 2021 at 2:38 PM Jani Nikula <jani.nikula@linux.intel.com> wrote:
 >
-> On Thu, Oct 21, 2021 at 11:55:47AM +0200, Maksym Wezdecki wrote:
-> > I get your point. However, we need to make resource_create ioctl,
-> > in order to create corresponding resource on the host.
+> On Wed, 20 Oct 2021, Thomas Zimmermann <tzimmermann@suse.de> wrote:
+> > Move a number of files into modules and behind config options.
+> >
+> > So far, early boot graphics was provided by fbdev. With simpledrm, and
+> > possibly other generic DRM drivers, it's now possible to have general
+> > early-boot output with DRM. This requires the DRM core to be linked into
+> > the kernel binary image.
+> >
+> > The reduction in size here is only ~1%, but the patchset is part of a
+> > larger effort to reduce the size of the DRM core module.
 >
-> That used to be the case but isn't true any more with the new
-> blob resources.  virglrenderer allows to create gpu objects
-> via execbuffer.  Those gpu objects can be linked to a
-> virtio-gpu resources, but it's optional.  In your case you
-> would do that only for your staging buffer.  The other textures
-> (which you fill with a host-side copy from the staging buffer)
-> do not need a virtio-gpu resource in the first place.
-That's however a breaking change to the virgl protocol.  All virgl
-commands expect res ids rather than blob ids.
+> I think the main problem is really that of organization. You have all of
+> the files under drivers/gpu/drm/ and the only way to know which module
+> the files belong to is to look at the Makefile and the Kconfig. It's not
+> obvious based on the file names or directory, at all. And there are
+> nearly a hundred drm_*.c files there!
+>
+> We also seem to have stuff depend on DRM alone, while functionally they
+> should really depend on DRM_KMS_HELPER too.
+>
+> The subdirectories under drm/ also don't have any distinction between
+> being part of drm core and helpers or drivers. We have lib, scheduler,
+> selftests, and ttm next to the drivers.
+>
+> We should start adding drm_* subdirectories, and moving the modules
+> separate from drm core there. We should rename the current non-driver
+> directories drm_*. We need better structure.
 
-Using VIRTGPU_BLOB_MEM_HOST3D could in theory work.  But there are a
-few occasions where virglrenderer expects there to be guest storage.
-There are also readbacks that we need to support.  We might end up
-using VIRTGPU_BLOB_MEM_HOST3D_GUEST, where pin-on-demand is still
-desirable.
+Yeah it might be time for drm/core and drm/helpers or maybe even
+split-up helpers, dunno. drm/core probably needs to contain also all
+the legacy cruft since Kbuild doesn't support source files for the
+same module spread across directories (I think at least, or was that
+only meson?). Selftests might need to go with respective modules, not
+sure.
+-Daniel
 
-For this patch, I think the uapi change can be simplified.  It can be
-a new param plus a new field in drm_virtgpu_execbuffer
-
-  __u64 bo_flags; /* pointer to an array of size num_bo_handles, or NULL */
-
-The other changes do not seem needed.
 
 >
-> take care,
->   Gerd
 >
+> BR,
+> Jani.
+>
+>
+>
+>
+> >
+> > Thomas Zimmermann (3):
+> >   drm: Build drm_irq.o only if CONFIG_DRM_LEGACY has been set
+> >   drm: Link several object files into drm_kms_helper.ko
+> >   drm: Move GEM memory managers into modules
+> >
+> >  drivers/gpu/drm/Kconfig                |  4 ++--
+> >  drivers/gpu/drm/Makefile               | 26 +++++++++++++++-----------
+> >  drivers/gpu/drm/drm_gem_cma_helper.c   |  4 ++++
+> >  drivers/gpu/drm/drm_gem_shmem_helper.c |  4 ++++
+> >  drivers/gpu/drm/drm_irq.c              |  2 --
+> >  5 files changed, 25 insertions(+), 15 deletions(-)
+> >
+> > --
+> > 2.33.0
+> >
+>
+> --
+> Jani Nikula, Intel Open Source Graphics Center
+
+
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
