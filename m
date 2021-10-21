@@ -2,53 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FF914366F7
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Oct 2021 17:58:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 912CF436752
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Oct 2021 18:09:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 405086ECBC;
-	Thu, 21 Oct 2021 15:58:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 059AD6ECC0;
+	Thu, 21 Oct 2021 16:09:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x830.google.com (mail-qt1-x830.google.com
- [IPv6:2607:f8b0:4864:20::830])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A9016ECB6;
- Thu, 21 Oct 2021 15:58:21 +0000 (UTC)
-Received: by mail-qt1-x830.google.com with SMTP id v17so933748qtp.1;
- Thu, 21 Oct 2021 08:58:21 -0700 (PDT)
+Received: from mail-qt1-x836.google.com (mail-qt1-x836.google.com
+ [IPv6:2607:f8b0:4864:20::836])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 467BB6ECBF;
+ Thu, 21 Oct 2021 16:09:44 +0000 (UTC)
+Received: by mail-qt1-x836.google.com with SMTP id y11so897965qtn.13;
+ Thu, 21 Oct 2021 09:09:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=HvH+/l2njxx4Ke2vRINQSFTt0ijW8lYgJb/ZBYjDrsw=;
- b=fyEP+m7fvg4hEJJJrsHQ1SKt2JRVrfspY3kvaMBo61kdGL3P0D6mkka+HKiiwG4LZO
- cMVr3MINGcxqMdKJqD1wM2BwaefjRAt/a75I3voWTs4eW3aAV6LVZBJkRafr3deVNOr1
- vDjgA67BTEzQ3u6mMHn+WK4/ARkM7nquDQ9krlxVlWVO5RKZ30lf6v4NByZO2j6eq3t2
- Xs2qLY6xiBJdH6LxCKiLMzXLCDXi6yE+K+2K09b6Pv8lW+1wMB97r0pbInrTcaQRRqti
- /3GzCoC1aGWy6HB/fnV4VUl9VNHv//0Ps6TTSUMCO4PtSJBbzKln7YkLWae1cpRGwj0e
- oNvw==
+ :cc; bh=1NZ0L+FbYY5uFBGkgBkl6NPiS0hNSFM2L2tzSgtT6qM=;
+ b=XQE5jjfpfwPWs4CqmFEJ1dswQl1oiad+LN/bFfwmyMWAB+YFk0xiO/34Q+9BkpLDRe
+ i9eRvMa/cYJCJmuF+dtj6dBEan4O+HhDSEp+CWpVW393GdChRKz+nqStpj2caRbFO+9O
+ cp+WazJWV6uzTNuWeb96hXtHKOWNTKzWn8IzUUao0N0e6GBx0Mgecaq9DdpOygbrPPRu
+ GkZGXef7jMo2bAFmUzt0kbla5jV/q1vpShV3uJ08JN4AG1REMqjX5Tl3BUvFqPGKXqGT
+ N1/o7I+Ms3qlDysrji/r1SUIlgkUGJSRTT8xTuq6GYBIwKCgBwwa7F5Sfr1NhqGfOm8I
+ hDsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=HvH+/l2njxx4Ke2vRINQSFTt0ijW8lYgJb/ZBYjDrsw=;
- b=Hqnho59x5ofeS3OoAZwM8WzHeyY15zsfCF93cFDKqsuYv78Aylk3RN6J3vq9FVSNcy
- RzJTbDiXGIe44y+hwKV/TJeaJbqA9nH5IlbnXeVe96dsLXr9vyEahv3uXS6R0KIgxIEy
- 4/ywXjM+f1GtjbR6QWQAW8cAyUNBDLiWCu2eJZCHt7lD9KDe5c529qUvmpaz4hDkCbK+
- GMTjNX4Z2d9Pb7DnrjDGTKIH0eVhnThAYfO25IrvzhUiqp9vuarepUJxFTCZq9Z1P07l
- kfDM1cbuyNEmhSbnCM/8frX9tu/wQpqwcw4/pJ1aQj5rQaDL2gjkb3dW/+hOmoi7YmGq
- 5bFA==
-X-Gm-Message-State: AOAM531z/eW3M2T+MfQrfUTwh61x8Wm18Ni6Y0ZckFAgdcqNwgcmBlYK
- OGf5XzAw4jyGcPiRM8ohT9DD78d+phzaPWYZDLP/6ivOhJg=
-X-Google-Smtp-Source: ABdhPJyRElJ58pWlvpi31LvNCH56m6ZdMnGiX0OkMsqpRxVpeSidYe5HCyqv6pBFavocPs0TPevmUDN0P0WHKRhlwJE=
+ bh=1NZ0L+FbYY5uFBGkgBkl6NPiS0hNSFM2L2tzSgtT6qM=;
+ b=dpsqXKY8uc250XYnF8lMb3LsAi6/IeCYiB6KAE+BRzf1UaRQppNaEhTZnWv68IE/+o
+ n6C7Q+4ns0RGiTBbKDP5RkTIa9UM+8okbXW6vRzC+c4Pvwv+woakuCTYVuigyfGpzI5Y
+ vDocVsmePsw8JYSnBRVoUQABpRobSDl930v2PMy1TE6I8fxebGDI3poi5JdI55KNPFKg
+ Y7iP/rH/VbEot8uNvurJz25fXDf0J2V/Wm8lYsuADxeopi6EIVl2w526kF8P5JsDvdYD
+ tZVeHlRrt6qAktps7jhLBQXezYHp8AJ+kRh9eL2CyJHsVZu2mnwQBv2jlmrchDg7PswH
+ YYWw==
+X-Gm-Message-State: AOAM533VqlUIhTVQiIlzKkTVPVvaf8gGkdal9jX6i9ssrAE3K3r4gQ6d
+ k8vLG6wl/nKd4awCktKq1vtT7bbz2Vf6rgNQyG4itPEiKEOTRg==
+X-Google-Smtp-Source: ABdhPJytASn1uTxbA1VSBP1hvifvVAu6fdZboN60L6QvmCdDvJ7lFDlCIe/Lpia+XUWYpGzHrUlheLV/BvG0JCg+OCY=
 X-Received: by 2002:a05:622a:1998:: with SMTP id
- u24mr6958822qtc.156.1634831900274; 
- Thu, 21 Oct 2021 08:58:20 -0700 (PDT)
+ u24mr7042445qtc.156.1634832583231; 
+ Thu, 21 Oct 2021 09:09:43 -0700 (PDT)
 MIME-Version: 1.0
 References: <20211021103605.735002-1-maarten.lankhorst@linux.intel.com>
- <20211021103605.735002-8-maarten.lankhorst@linux.intel.com>
-In-Reply-To: <20211021103605.735002-8-maarten.lankhorst@linux.intel.com>
+ <20211021103605.735002-9-maarten.lankhorst@linux.intel.com>
+In-Reply-To: <20211021103605.735002-9-maarten.lankhorst@linux.intel.com>
 From: Matthew Auld <matthew.william.auld@gmail.com>
-Date: Thu, 21 Oct 2021 16:57:52 +0100
-Message-ID: <CAM0jSHN7htNjZORSqA=YDRP3TuWq6Xs+su8wF_hBqcu0qukvpA@mail.gmail.com>
-Subject: Re: [PATCH 08/28] drm/i915: Create a full object for mock_ring, v2.
+Date: Thu, 21 Oct 2021 17:09:15 +0100
+Message-ID: <CAM0jSHM1fk_V+_FYoq8Z-hWfzOqGLe7cBZYZCgw2SsxuR50Y5g@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH 09/28] drm/i915: vma is always backed by an
+ object.
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>, 
  ML dri-devel <dri-devel@lists.freedesktop.org>
@@ -68,111 +69,196 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 21 Oct 2021 at 11:36, Maarten Lankhorst
+On Thu, 21 Oct 2021 at 11:37, Maarten Lankhorst
 <maarten.lankhorst@linux.intel.com> wrote:
 >
-> This allows us to finally get rid of all the assumptions that vma->obj is NULL.
->
-> Changes since v1:
-> - Ensure the mock_ring vma is pinned to prevent a fault.
-> - Pin it high to avoid failure in evict_for_vma selftest.
+> vma->obj and vma->resv are now never NULL, and some checks can be removed.
 >
 > Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 > ---
->  drivers/gpu/drm/i915/gt/mock_engine.c | 38 ++++++++++++++++++++-------
->  1 file changed, 28 insertions(+), 10 deletions(-)
+>  drivers/gpu/drm/i915/gt/intel_context.c       |  2 +-
+>  .../gpu/drm/i915/gt/intel_ring_submission.c   |  2 +-
+>  drivers/gpu/drm/i915/i915_vma.c               | 48 ++++++++-----------
+>  drivers/gpu/drm/i915/i915_vma.h               |  3 --
+>  4 files changed, 22 insertions(+), 33 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/i915/gt/mock_engine.c b/drivers/gpu/drm/i915/gt/mock_engine.c
-> index 8b89215afe46..bb99fc03f503 100644
-> --- a/drivers/gpu/drm/i915/gt/mock_engine.c
-> +++ b/drivers/gpu/drm/i915/gt/mock_engine.c
-> @@ -35,9 +35,31 @@ static void mock_timeline_unpin(struct intel_timeline *tl)
->         atomic_dec(&tl->pin_count);
+> diff --git a/drivers/gpu/drm/i915/gt/intel_context.c b/drivers/gpu/drm/i915/gt/intel_context.c
+> index 5634d14052bc..e0220ac0e9b6 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_context.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_context.c
+> @@ -219,7 +219,7 @@ int __intel_context_do_pin_ww(struct intel_context *ce,
+>          */
+>
+>         err = i915_gem_object_lock(ce->timeline->hwsp_ggtt->obj, ww);
+> -       if (!err && ce->ring->vma->obj)
+> +       if (!err)
+>                 err = i915_gem_object_lock(ce->ring->vma->obj, ww);
+>         if (!err && ce->state)
+>                 err = i915_gem_object_lock(ce->state->obj, ww);
+> diff --git a/drivers/gpu/drm/i915/gt/intel_ring_submission.c b/drivers/gpu/drm/i915/gt/intel_ring_submission.c
+> index 586dca1731ce..3e6fac0340ef 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_ring_submission.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_ring_submission.c
+> @@ -1357,7 +1357,7 @@ int intel_ring_submission_setup(struct intel_engine_cs *engine)
+>         err = i915_gem_object_lock(timeline->hwsp_ggtt->obj, &ww);
+>         if (!err && gen7_wa_vma)
+>                 err = i915_gem_object_lock(gen7_wa_vma->obj, &ww);
+> -       if (!err && engine->legacy.ring->vma->obj)
+> +       if (!err)
+>                 err = i915_gem_object_lock(engine->legacy.ring->vma->obj, &ww);
+>         if (!err)
+>                 err = intel_timeline_pin(timeline, &ww);
+> diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
+> index 1187f1956c20..aebfc232b58b 100644
+> --- a/drivers/gpu/drm/i915/i915_vma.c
+> +++ b/drivers/gpu/drm/i915/i915_vma.c
+> @@ -40,12 +40,12 @@
+>
+>  static struct kmem_cache *slab_vmas;
+>
+> -struct i915_vma *i915_vma_alloc(void)
+> +static struct i915_vma *i915_vma_alloc(void)
+>  {
+>         return kmem_cache_zalloc(slab_vmas, GFP_KERNEL);
 >  }
 >
-> +static struct i915_vma *create_ring_vma(struct i915_ggtt *ggtt, int size)
-> +{
-> +       struct i915_address_space *vm = &ggtt->vm;
-> +       struct drm_i915_private *i915 = vm->i915;
-> +       struct drm_i915_gem_object *obj;
-> +       struct i915_vma *vma;
-> +
-> +       obj = i915_gem_object_create_internal(i915, size);
-> +       if (IS_ERR(obj))
-> +               return ERR_CAST(obj);
-
-We didn't want to use the dummy object here also? I guess meh?
-
-> +
-> +       vma = i915_vma_instance(obj, vm, NULL);
-> +       if (IS_ERR(vma))
-> +               goto err;
-> +
-> +       return vma;
-> +
-> +err:
-> +       i915_gem_object_put(obj);
-> +       return vma;
-> +}
-> +
->  static struct intel_ring *mock_ring(struct intel_engine_cs *engine)
+> -void i915_vma_free(struct i915_vma *vma)
+> +static void i915_vma_free(struct i915_vma *vma)
 >  {
-> -       const unsigned long sz = PAGE_SIZE / 2;
-> +       const unsigned long sz = PAGE_SIZE;
 
-Is that significant?
+I assume this belongs in the previous patch?
 
+Otherwise,
 Reviewed-by: Matthew Auld <matthew.auld@intel.com>
 
 
->         struct intel_ring *ring;
+>         return kmem_cache_free(slab_vmas, vma);
+>  }
+> @@ -426,10 +426,8 @@ int i915_vma_bind(struct i915_vma *vma,
 >
->         ring = kzalloc(sizeof(*ring) + sz, GFP_KERNEL);
-> @@ -50,15 +72,11 @@ static struct intel_ring *mock_ring(struct intel_engine_cs *engine)
->         ring->vaddr = (void *)(ring + 1);
->         atomic_set(&ring->pin_count, 1);
+>                 work->base.dma.error = 0; /* enable the queue_work() */
 >
-> -       ring->vma = i915_vma_alloc();
-> -       if (!ring->vma) {
-> +       ring->vma = create_ring_vma(engine->gt->ggtt, PAGE_SIZE);
-> +       if (IS_ERR(ring->vma)) {
->                 kfree(ring);
->                 return NULL;
+> -               if (vma->obj) {
+> -                       __i915_gem_object_pin_pages(vma->obj);
+> -                       work->pinned = i915_gem_object_get(vma->obj);
+> -               }
+> +               __i915_gem_object_pin_pages(vma->obj);
+> +               work->pinned = i915_gem_object_get(vma->obj);
+>         } else {
+>                 vma->ops->bind_vma(vma->vm, NULL, vma, cache_level, bind_flags);
 >         }
-> -       i915_active_init(&ring->vma->active, NULL, NULL, 0);
-> -       __set_bit(I915_VMA_GGTT_BIT, __i915_vma_flags(ring->vma));
-> -       __set_bit(DRM_MM_NODE_ALLOCATED_BIT, &ring->vma->node.flags);
-> -       ring->vma->node.size = sz;
+> @@ -670,7 +668,7 @@ i915_vma_insert(struct i915_vma *vma, u64 size, u64 alignment, u64 flags)
+>         }
 >
->         intel_ring_update_space(ring);
+>         color = 0;
+> -       if (vma->obj && i915_vm_has_cache_coloring(vma->vm))
+> +       if (i915_vm_has_cache_coloring(vma->vm))
+>                 color = vma->obj->cache_level;
 >
-> @@ -67,8 +85,7 @@ static struct intel_ring *mock_ring(struct intel_engine_cs *engine)
->
->  static void mock_ring_free(struct intel_ring *ring)
+>         if (flags & PIN_OFFSET_FIXED) {
+> @@ -795,17 +793,14 @@ static bool try_qad_pin(struct i915_vma *vma, unsigned int flags)
+>  static int vma_get_pages(struct i915_vma *vma)
 >  {
-> -       i915_active_fini(&ring->vma->active);
-> -       i915_vma_free(ring->vma);
-> +       i915_vma_put(ring->vma);
+>         int err = 0;
+> -       bool pinned_pages = false;
+> +       bool pinned_pages = true;
 >
->         kfree(ring);
+>         if (atomic_add_unless(&vma->pages_count, 1, 0))
+>                 return 0;
+>
+> -       if (vma->obj) {
+> -               err = i915_gem_object_pin_pages(vma->obj);
+> -               if (err)
+> -                       return err;
+> -               pinned_pages = true;
+> -       }
+> +       err = i915_gem_object_pin_pages(vma->obj);
+> +       if (err)
+> +               return err;
+>
+>         /* Allocations ahoy! */
+>         if (mutex_lock_interruptible(&vma->pages_mutex)) {
+> @@ -838,8 +833,8 @@ static void __vma_put_pages(struct i915_vma *vma, unsigned int count)
+>         if (atomic_sub_return(count, &vma->pages_count) == 0) {
+>                 vma->ops->clear_pages(vma);
+>                 GEM_BUG_ON(vma->pages);
+> -               if (vma->obj)
+> -                       i915_gem_object_unpin_pages(vma->obj);
+> +
+> +               i915_gem_object_unpin_pages(vma->obj);
+>         }
+>         mutex_unlock(&vma->pages_mutex);
 >  }
-> @@ -125,6 +142,7 @@ static void mock_context_unpin(struct intel_context *ce)
+> @@ -875,7 +870,7 @@ int i915_vma_pin_ww(struct i915_vma *vma, struct i915_gem_ww_ctx *ww,
+>         int err;
 >
->  static void mock_context_post_unpin(struct intel_context *ce)
+>  #ifdef CONFIG_PROVE_LOCKING
+> -       if (debug_locks && !WARN_ON(!ww) && vma->resv)
+> +       if (debug_locks && !WARN_ON(!ww))
+>                 assert_vma_held(vma);
+>  #endif
+>
+> @@ -983,7 +978,7 @@ int i915_vma_pin_ww(struct i915_vma *vma, struct i915_gem_ww_ctx *ww,
+>
+>         GEM_BUG_ON(!vma->pages);
+>         err = i915_vma_bind(vma,
+> -                           vma->obj ? vma->obj->cache_level : 0,
+> +                           vma->obj->cache_level,
+>                             flags, work);
+>         if (err)
+>                 goto err_remove;
+> @@ -1037,7 +1032,7 @@ int i915_ggtt_pin(struct i915_vma *vma, struct i915_gem_ww_ctx *ww,
+>         GEM_BUG_ON(!i915_vma_is_ggtt(vma));
+>
+>  #ifdef CONFIG_LOCKDEP
+> -       WARN_ON(!ww && vma->resv && dma_resv_held(vma->resv));
+> +       WARN_ON(!ww && dma_resv_held(vma->resv));
+>  #endif
+>
+>         do {
+> @@ -1116,6 +1111,7 @@ void i915_vma_reopen(struct i915_vma *vma)
+>  void i915_vma_release(struct kref *ref)
 >  {
-> +       i915_vma_unpin(ce->ring->vma);
->  }
+>         struct i915_vma *vma = container_of(ref, typeof(*vma), ref);
+> +       struct drm_i915_gem_object *obj = vma->obj;
 >
->  static void mock_context_destroy(struct kref *ref)
-> @@ -169,7 +187,7 @@ static int mock_context_alloc(struct intel_context *ce)
->  static int mock_context_pre_pin(struct intel_context *ce,
->                                 struct i915_gem_ww_ctx *ww, void **unused)
->  {
-> -       return 0;
-> +       return i915_vma_pin_ww(ce->ring->vma, ww, 0, 0, PIN_GLOBAL | PIN_HIGH);
->  }
+>         if (drm_mm_node_allocated(&vma->node)) {
+>                 mutex_lock(&vma->vm->mutex);
+> @@ -1126,15 +1122,11 @@ void i915_vma_release(struct kref *ref)
+>         }
+>         GEM_BUG_ON(i915_vma_is_active(vma));
 >
->  static int mock_context_pin(struct intel_context *ce, void *unused)
+> -       if (vma->obj) {
+> -               struct drm_i915_gem_object *obj = vma->obj;
+> -
+> -               spin_lock(&obj->vma.lock);
+> -               list_del(&vma->obj_link);
+> -               if (!RB_EMPTY_NODE(&vma->obj_node))
+> -                       rb_erase(&vma->obj_node, &obj->vma.tree);
+> -               spin_unlock(&obj->vma.lock);
+> -       }
+> +       spin_lock(&obj->vma.lock);
+> +       list_del(&vma->obj_link);
+> +       if (!RB_EMPTY_NODE(&vma->obj_node))
+> +               rb_erase(&vma->obj_node, &obj->vma.tree);
+> +       spin_unlock(&obj->vma.lock);
+>
+>         __i915_vma_remove_closed(vma);
+>         i915_vm_put(vma->vm);
+> diff --git a/drivers/gpu/drm/i915/i915_vma.h b/drivers/gpu/drm/i915/i915_vma.h
+> index b882fd7b5f99..423e0df81c87 100644
+> --- a/drivers/gpu/drm/i915/i915_vma.h
+> +++ b/drivers/gpu/drm/i915/i915_vma.h
+> @@ -416,9 +416,6 @@ static inline void i915_vma_clear_scanout(struct i915_vma *vma)
+>         list_for_each_entry(V, &(OBJ)->vma.list, obj_link)              \
+>                 for_each_until(!i915_vma_is_ggtt(V))
+>
+> -struct i915_vma *i915_vma_alloc(void);
+> -void i915_vma_free(struct i915_vma *vma);
+> -
+>  struct i915_vma *i915_vma_make_unshrinkable(struct i915_vma *vma);
+>  void i915_vma_make_shrinkable(struct i915_vma *vma);
+>  void i915_vma_make_purgeable(struct i915_vma *vma);
 > --
 > 2.33.0
 >
