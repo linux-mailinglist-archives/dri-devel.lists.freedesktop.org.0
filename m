@@ -1,48 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A60B43582F
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Oct 2021 03:27:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C77C435860
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Oct 2021 03:41:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2180E6EA25;
-	Thu, 21 Oct 2021 01:27:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD7296EA28;
+	Thu, 21 Oct 2021 01:41:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A97CE6EA24;
- Thu, 21 Oct 2021 01:27:14 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4HZVFm2b3Rz4xbL;
- Thu, 21 Oct 2021 12:27:08 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1634779629;
- bh=/P3sXv3gg+XWwVuNNFzsys4NuZ1Yv/74orig70uJzH4=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=o6UOh8UKYL9dHZPIkbY5Goqo8g0WDASq0S9rVYBWjy/R+yUoe8yVCxCCoEsjY4kyH
- 6yr3lTwN3LP8Zy924fHKfJUSsROszJ2rCjaQPv2LS7Re0DGPQX7ELnYBnKuOlJU0l9
- cxyqGrYDtaar8WEeaGbO9d513ytVaJ4kXlFvLycWSyUwQxBmOe2PILlM1bfD8eG3Nc
- +ym7tJ/OQzC6vZijFNxGEjPBF2Ygycfh0lINu4JVkLxywqL7fKvfcZtLXE3aiCVX5h
- DAPX2Dhyv/zz0Un78T6V1U4O2mglL+33HHqqP1LldqnwQZr9IJR4YCQ8rofXzKqEW+
- H5zuuiHwlgrag==
-Date: Thu, 21 Oct 2021 12:27:05 +1100
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, Intel Graphics
- <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux Next
- Mailing List <linux-next@vger.kernel.org>
-Subject: Re: linux-next: build warning after merge of the drm-misc tree
-Message-ID: <20211021122705.2282c49b@canb.auug.org.au>
-In-Reply-To: <f9b1b7e6-94ab-50f8-d16c-a3581096687d@amd.com>
-References: <20211005185940.382720e7@canb.auug.org.au>
- <f9b1b7e6-94ab-50f8-d16c-a3581096687d@amd.com>
+Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com
+ [IPv6:2607:f8b0:4864:20::22b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D3CF6EA2A
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Oct 2021 01:41:48 +0000 (UTC)
+Received: by mail-oi1-x22b.google.com with SMTP id o83so11946887oif.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Oct 2021 18:41:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=RFZLsyhyggQBAw1ieiqx/iLchu3wd9m2t5ZqNswJbDw=;
+ b=CR2ojTcfZCGkDc9qM8OY755pFDFVKGzCfda+m68dI3gOCMZ6aMJ6CWmeT+xv9zNEFy
+ B5YxaFbEA5oaGtG+Nq2ynNsIp5mFZ1ZNJjt9U3A7MjFP/kd8YFdQF+yfFpwvJs9WwsxM
+ wFM3uJB0XOUAx7XkgvPGwGXwAdLiNdV2ZaSFY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=RFZLsyhyggQBAw1ieiqx/iLchu3wd9m2t5ZqNswJbDw=;
+ b=yxLwA65cz3bf8OlHR4hSfWTKnb0/ls5Qid0e71ZVegSki1zvl2RyMDavWKpm8Si+do
+ yL8NMnYuaibWT8XADwQ80zXdBwIQ0mak7xPVirnvIUJ2tHr7iZ5IScv/QF4GPTMdbG88
+ 7bmgfd+7FIYKUMfbrqfgGYRvLu3JflNhvwn8+jIR9BZdfy7pXCMdKKureIZVp/wP/qWP
+ HNlQCMqgHH2WiDAFtINBQS86turL1/8k1PYdvVx0Bn1KVL+mLh1k70TszjM1JIqCv60A
+ fNU0Q8C6osOHK4qS33mR98cTtfYE2w+Xe4e1dJ1AhP+svMmf5TRBYZV8R3VXPYPpVFmh
+ c2NA==
+X-Gm-Message-State: AOAM5323Uta9mU/qy65b/zeahjquh2742RVbUC7Ck255Hp67Jow7F1u2
+ 0V5lm4quhYt0h9OpYiqrNFoirNTg5IduxA==
+X-Google-Smtp-Source: ABdhPJxToCDJHAtE5wpvK43poKQfz/XVJkYuCKo6oXF4kpa/cTC5TS6ccKr1x94qBCdqvtLQjvubPg==
+X-Received: by 2002:aca:b686:: with SMTP id g128mr2325698oif.38.1634780506438; 
+ Wed, 20 Oct 2021 18:41:46 -0700 (PDT)
+Received: from mail-oo1-f45.google.com (mail-oo1-f45.google.com.
+ [209.85.161.45])
+ by smtp.gmail.com with ESMTPSA id 187sm778595oig.19.2021.10.20.18.41.44
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 20 Oct 2021 18:41:44 -0700 (PDT)
+Received: by mail-oo1-f45.google.com with SMTP id
+ w10-20020a4a274a000000b002b6e972caa1so2543592oow.11
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Oct 2021 18:41:44 -0700 (PDT)
+X-Received: by 2002:a4a:424b:: with SMTP id i11mr2056955ooj.87.1634780503573; 
+ Wed, 20 Oct 2021 18:41:43 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/gnfe75AE3eq1OYO7JPRDy2e";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+References: <20211020161724.1.I67612ea073c3306c71b46a87be894f79707082df@changeid>
+ <20211021004015.GD2515@art_vandelay>
+In-Reply-To: <20211021004015.GD2515@art_vandelay>
+From: Brian Norris <briannorris@chromium.org>
+Date: Wed, 20 Oct 2021 18:41:31 -0700
+X-Gmail-Original-Message-ID: <CA+ASDXOAJqqEqx2ry4aRW4RZ87okosqxYDKRBJef8Sj_H2b1nA@mail.gmail.com>
+Message-ID: <CA+ASDXOAJqqEqx2ry4aRW4RZ87okosqxYDKRBJef8Sj_H2b1nA@mail.gmail.com>
+Subject: Re: [PATCH] drm/bridge: analogix_dp: Make PSR-disable non-blocking
+To: Sean Paul <sean@poorly.run>
+Cc: Neil Armstrong <narmstrong@baylibre.com>,
+ Robert Foss <robert.foss@linaro.org>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ dri-devel <dri-devel@lists.freedesktop.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ stable <stable@vger.kernel.org>, 
+ Zain Wang <wzz@rock-chips.com>, Tomasz Figa <tfiga@chromium.org>, 
+ Heiko Stuebner <heiko@sntech.de>, Sean Paul <seanpaul@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,51 +82,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/gnfe75AE3eq1OYO7JPRDy2e
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+(Dropping Andrzej, because that address keeps bouncing. Does
+MAINTAINERS and/or .mailmap need updating?)
 
-Hi all,
+Apologies for the double reply here, but I forgot to mention one last
+thing for now:
 
-On Tue, 5 Oct 2021 10:23:23 +0200 Christian K=C3=B6nig <christian.koenig@am=
-d.com> wrote:
+On Wed, Oct 20, 2021 at 5:40 PM Sean Paul <sean@poorly.run> wrote:
 >
-> Am 05.10.21 um 09:59 schrieb Stephen Rothwell:
-> >
-> > After merging the drm-misc tree, today's linux-next build (htmldocs)
-> > produced this warning:
-> >
-> > include/linux/dma-buf.h:456: warning: Function parameter or member 'cb_=
-in' not described in 'dma_buf'
-> > include/linux/dma-buf.h:456: warning: Function parameter or member 'cb_=
-out' not described in 'dma_buf'
-> >
-> > Introduced by commit
-> >
-> >    6b51b02a3a0a ("dma-buf: fix and rework dma_buf_poll v7")
+> On Wed, Oct 20, 2021 at 04:17:28PM -0700, Brian Norris wrote:
+> > Prior to commit 6c836d965bad ("drm/rockchip: Use the helpers for PSR"),
+> > "PSR disable" used non-blocking analogix_dp_send_psr_spd(). The refactor
+> > accidentally (?) set blocking=true.
 >
-> Thanks for the notice, going to fix this.
+> IIRC this wasn't accidental.
 
-I am still seeing these warnings.
+One other tip that made me think it was accidental was that today, the
+|blocking| argument to analogix_dp_send_psr_spd() is always true. If
+non-blocking support was intentionally dropped, it seemed like you
+should have dropped the non-blocking code too. But that's a weak proof
+of your intentions :)
 
---=20
-Cheers,
-Stephen Rothwell
-
---Sig_/gnfe75AE3eq1OYO7JPRDy2e
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmFwwekACgkQAVBC80lX
-0GyV5gf/S+g93X5+pnzfg+sMV1u6Z81Eki3YB95pwwcQpaGQFYtBBKi+wrp+NlJg
-9Z8HSyE7JDD5Fzv13vC6fEQsufrBn8haG7GNDcI9SVOCtaPMsvtzbtYg3sktR9al
-TjISf3cac7B7pqjEmx3DfcUhP2DvD9vMyiHsPd9beJU8PAFW991ChMz0iDEiaOQ9
-IGg1SzAUohuIet+IyFhgUd9OKr4dyYUF5TDtXMO+UmRQhnqoGf4h7FOnmc2+GVYO
-JeNwoVgPHq1jSH5rXm5SBPWFF7T+8BOmo874yFDaKwMsieiGnylwjuzWkYg/n8i9
-fAuXp5RwIGCD9pnvMH9oZ9Z6y76ttA==
-=AusU
------END PGP SIGNATURE-----
-
---Sig_/gnfe75AE3eq1OYO7JPRDy2e--
+Brian
