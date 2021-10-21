@@ -1,43 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FCC2436424
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Oct 2021 16:24:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C0405436425
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Oct 2021 16:24:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CFF1C6EC9D;
-	Thu, 21 Oct 2021 14:24:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F20DF6EC96;
+	Thu, 21 Oct 2021 14:24:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D5816EC96;
- Thu, 21 Oct 2021 14:24:20 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10143"; a="216212242"
-X-IronPort-AV: E=Sophos;i="5.87,170,1631602800"; d="scan'208";a="216212242"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 779D06EC96;
+ Thu, 21 Oct 2021 14:24:23 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10143"; a="216212264"
+X-IronPort-AV: E=Sophos;i="5.87,170,1631602800"; d="scan'208";a="216212264"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Oct 2021 07:24:19 -0700
-X-IronPort-AV: E=Sophos;i="5.87,170,1631602800"; d="scan'208";a="495170572"
+ 21 Oct 2021 07:24:23 -0700
+X-IronPort-AV: E=Sophos;i="5.87,170,1631602800"; d="scan'208";a="495170602"
 Received: from ramaling-i9x.iind.intel.com ([10.99.66.205])
  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Oct 2021 07:24:16 -0700
+ 21 Oct 2021 07:24:19 -0700
 From: Ramalingam C <ramalingam.c@intel.com>
 To: dri-devel <dri-devel@lists.freedesktop.org>,
  intel-gfx <intel-gfx@lists.freedesktop.org>
 Cc: Daniel Vetter <daniel@ffwll.ch>, CQ Tang <cq.tang@intel.com>,
  Matthew Auld <matthew.auld@intel.com>, lucas.demarchi@intel.com,
  <rodrigo.vivi@intel.com>, Hellstrom Thomas <thomas.hellstrom@intel.com>,
- Abdiel Janulgue <abdiel.janulgue@linux.intel.com>,
+ Ayaz A Siddiqui <ayaz.siddiqui@intel.com>,
  Ramalingam C <ramalingam.c@intel.com>
-Subject: [PATCH v2 11/17] drm/i915/lmem: Enable lmem for platforms with Flat
- CCS
-Date: Thu, 21 Oct 2021 19:56:21 +0530
-Message-Id: <20211021142627.31058-12-ramalingam.c@intel.com>
+Subject: [PATCH v2 12/17] drm/i915/gt: Clear compress metadata for Xe_HP
+ platforms
+Date: Thu, 21 Oct 2021 19:56:22 +0530
+Message-Id: <20211021142627.31058-13-ramalingam.c@intel.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20211021142627.31058-1-ramalingam.c@intel.com>
 References: <20211021142627.31058-1-ramalingam.c@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -54,113 +53,211 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Abdiel Janulgue <abdiel.janulgue@linux.intel.com>
+From: Ayaz A Siddiqui <ayaz.siddiqui@intel.com>
 
-A portion of device memory is reserved for Flat CCS so usable
-device memory will be reduced by size of Flat CCS. Size of
-Flat CCS is specified in “XEHPSDV_FLAT_CCS_BASE_ADDR”.
-So to get effective device memory we need to subtract
-total device memory by Flat CCS memory size.
+Xe-hp and latest devices support Flat CCS which reserved a portion of
+the device memory to store compression metadata, during the clearing of
+device memory buffer object we also need to clear the associated CCS buffer.
 
-Cc: Matthew Auld <matthew.auld@intel.com>
-Signed-off-by: Abdiel Janulgue <abdiel.janulgue@linux.intel.com>
+Flat CCS memory can not be directly accessed by S/W.
+Address of CCS buffer associated main BO is automatically calculated
+by device itself. KMD/UMD can only access this buffer indirectly using
+XY_CTRL_SURF_COPY_BLT cmd via the address of device memory buffer.
+
+v2: Fixed issues with platform naming [Lucas]
+
+Cc: CQ Tang <cq.tang@intel.com>
+Signed-off-by: Ayaz A Siddiqui <ayaz.siddiqui@intel.com>
 Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
 ---
- drivers/gpu/drm/i915/gt/intel_gt.c          | 19 ++++++++++++++++++
- drivers/gpu/drm/i915/gt/intel_gt.h          |  1 +
- drivers/gpu/drm/i915/gt/intel_region_lmem.c | 22 +++++++++++++++++++--
- drivers/gpu/drm/i915/i915_reg.h             |  3 +++
- 4 files changed, 43 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/i915/gt/intel_gpu_commands.h |  14 +++
+ drivers/gpu/drm/i915/gt/intel_migrate.c      | 120 ++++++++++++++++++-
+ 2 files changed, 131 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
-index 1cb1948ac959..fd82ebee8724 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt.c
-+++ b/drivers/gpu/drm/i915/gt/intel_gt.c
-@@ -900,6 +900,25 @@ u32 intel_gt_read_register_fw(struct intel_gt *gt, i915_reg_t reg)
- 	return intel_uncore_read_fw(gt->uncore, reg);
+diff --git a/drivers/gpu/drm/i915/gt/intel_gpu_commands.h b/drivers/gpu/drm/i915/gt/intel_gpu_commands.h
+index f8253012d166..07bf5a1753bd 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gpu_commands.h
++++ b/drivers/gpu/drm/i915/gt/intel_gpu_commands.h
+@@ -203,6 +203,20 @@
+ #define GFX_OP_DRAWRECT_INFO     ((0x3<<29)|(0x1d<<24)|(0x80<<16)|(0x3))
+ #define GFX_OP_DRAWRECT_INFO_I965  ((0x7900<<16)|0x2)
+ 
++#define XY_CTRL_SURF_INSTR_SIZE	5
++#define MI_FLUSH_DW_SIZE		3
++#define XY_CTRL_SURF_COPY_BLT		((2 << 29) | (0x48 << 22) | 3)
++#define   SRC_ACCESS_TYPE_SHIFT	21
++#define   DST_ACCESS_TYPE_SHIFT	20
++#define   CCS_SIZE_SHIFT		8
++#define   XY_CTRL_SURF_MOCS_SHIFT	25
++#define   NUM_CCS_BYTES_PER_BLOCK	256
++#define   NUM_CCS_BLKS_PER_XFER	1024
++#define   INDIRECT_ACCESS		0
++#define   DIRECT_ACCESS		1
++#define  MI_FLUSH_LLC			BIT(9)
++#define  MI_FLUSH_CCS			BIT(16)
++
+ #define COLOR_BLT_CMD			(2 << 29 | 0x40 << 22 | (5 - 2))
+ #define XY_COLOR_BLT_CMD		(2 << 29 | 0x50 << 22)
+ #define SRC_COPY_BLT_CMD		(2 << 29 | 0x43 << 22)
+diff --git a/drivers/gpu/drm/i915/gt/intel_migrate.c b/drivers/gpu/drm/i915/gt/intel_migrate.c
+index afb1cce9a352..0bed01750884 100644
+--- a/drivers/gpu/drm/i915/gt/intel_migrate.c
++++ b/drivers/gpu/drm/i915/gt/intel_migrate.c
+@@ -17,6 +17,7 @@ struct insert_pte_data {
+ };
+ 
+ #define CHUNK_SZ SZ_8M /* ~1ms at 8GiB/s preemption delay */
++#define GET_CCS_SIZE(i915, size)	(HAS_FLAT_CCS(i915) ? (size) >> 8 : 0)
+ 
+ static bool engine_supports_migration(struct intel_engine_cs *engine)
+ {
+@@ -490,15 +491,104 @@ intel_context_migrate_copy(struct intel_context *ce,
+ 	return err;
  }
  
-+u32 intel_gt_read_register(struct intel_gt *gt, i915_reg_t reg)
+-static int emit_clear(struct i915_request *rq, int size, u32 value)
++static inline u32 *i915_flush_dw(u32 *cmd, u64 dst, u32 flags)
 +{
-+	int type;
-+	u8 sliceid, subsliceid;
++	/* Mask the 3 LSB to use the PPGTT address space */
++	*cmd++ = MI_FLUSH_DW | flags;
++	*cmd++ = lower_32_bits(dst);
++	*cmd++ = upper_32_bits(dst);
 +
-+	for (type = 0; type < NUM_STEERING_TYPES; type++) {
-+		if (intel_gt_reg_needs_read_steering(gt, reg, type)) {
-+			intel_gt_get_valid_steering(gt, type, &sliceid,
-+						    &subsliceid);
-+			return intel_uncore_read_with_mcr_steering(gt->uncore,
-+								   reg,
-+								   sliceid,
-+								   subsliceid);
-+		}
-+	}
-+
-+	return intel_uncore_read(gt->uncore, reg);
++	return cmd;
 +}
 +
- void intel_gt_info_print(const struct intel_gt_info *info,
- 			 struct drm_printer *p)
++static u32 calc_ctrl_surf_instr_size(struct drm_i915_private *i915, int size)
++{
++	u32 num_cmds, num_blks, total_size;
++
++	if (!GET_CCS_SIZE(i915, size))
++		return 0;
++
++	/*
++	 * XY_CTRL_SURF_COPY_BLT transfers CCS in 256 byte
++	 * blocks. one XY_CTRL_SURF_COPY_BLT command can
++	 * trnasfer upto 1024 blocks.
++	 */
++	num_blks = (GET_CCS_SIZE(i915, size) +
++			   (NUM_CCS_BYTES_PER_BLOCK - 1)) >> 8;
++	num_cmds = (num_blks + (NUM_CCS_BLKS_PER_XFER - 1)) >> 10;
++	total_size = (XY_CTRL_SURF_INSTR_SIZE) * num_cmds;
++
++	/*
++	 * We need to add a flush before and after
++	 * XY_CTRL_SURF_COPY_BLT
++	 */
++	total_size += 2 * MI_FLUSH_DW_SIZE;
++	return total_size;
++}
++
++static u32 *_i915_ctrl_surf_copy_blt(u32 *cmd, u64 src_addr, u64 dst_addr,
++				     u8 src_mem_access, u8 dst_mem_access,
++				     int src_mocs, int dst_mocs,
++				     u16 num_ccs_blocks)
++{
++	int i = num_ccs_blocks;
++
++	/*
++	 * The XY_CTRL_SURF_COPY_BLT instruction is used to copy the CCS
++	 * data in and out of the CCS region.
++	 *
++	 * We can copy at most 1024 blocks of 256 bytes using one
++	 * XY_CTRL_SURF_COPY_BLT instruction.
++	 *
++	 * In case we need to copy more than 1024 blocks, we need to add
++	 * another instruction to the same batch buffer.
++	 *
++	 * 1024 blocks of 256 bytes of CCS represent a total 256KB of CCS.
++	 *
++	 * 256 KB of CCS represents 256 * 256 KB = 64 MB of LMEM.
++	 */
++	do {
++		/*
++		 * We use logical AND with 1023 since the size field
++		 * takes values which is in the range of 0 - 1023
++		 */
++		*cmd++ = ((XY_CTRL_SURF_COPY_BLT) |
++			  (src_mem_access << SRC_ACCESS_TYPE_SHIFT) |
++			  (dst_mem_access << DST_ACCESS_TYPE_SHIFT) |
++			  (((i - 1) & 1023) << CCS_SIZE_SHIFT));
++		*cmd++ = lower_32_bits(src_addr);
++		*cmd++ = ((upper_32_bits(src_addr) & 0xFFFF) |
++			  (src_mocs << XY_CTRL_SURF_MOCS_SHIFT));
++		*cmd++ = lower_32_bits(dst_addr);
++		*cmd++ = ((upper_32_bits(dst_addr) & 0xFFFF) |
++			  (dst_mocs << XY_CTRL_SURF_MOCS_SHIFT));
++		src_addr += SZ_64M;
++		dst_addr += SZ_64M;
++		i -= NUM_CCS_BLKS_PER_XFER;
++	} while (i > 0);
++
++	return cmd;
++}
++
++static int emit_clear(struct i915_request *rq,
++		      int size,
++		      u32 value,
++		      bool is_lmem)
  {
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt.h b/drivers/gpu/drm/i915/gt/intel_gt.h
-index 74e771871a9b..24b78398a587 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt.h
-+++ b/drivers/gpu/drm/i915/gt/intel_gt.h
-@@ -84,6 +84,7 @@ static inline bool intel_gt_needs_read_steering(struct intel_gt *gt,
- }
+ 	const int ver = GRAPHICS_VER(rq->engine->i915);
+ 	u32 instance = rq->engine->instance;
+ 	u32 *cs;
++	struct drm_i915_private *i915 = rq->engine->i915;
++	u32 num_ccs_blks, ccs_ring_size;
  
- u32 intel_gt_read_register_fw(struct intel_gt *gt, i915_reg_t reg);
-+u32 intel_gt_read_register(struct intel_gt *gt, i915_reg_t reg);
+ 	GEM_BUG_ON(size >> PAGE_SHIFT > S16_MAX);
  
- void intel_gt_info_print(const struct intel_gt_info *info,
- 			 struct drm_printer *p);
-diff --git a/drivers/gpu/drm/i915/gt/intel_region_lmem.c b/drivers/gpu/drm/i915/gt/intel_region_lmem.c
-index 073d28d96669..d1f88beb26fe 100644
---- a/drivers/gpu/drm/i915/gt/intel_region_lmem.c
-+++ b/drivers/gpu/drm/i915/gt/intel_region_lmem.c
-@@ -201,8 +201,26 @@ static struct intel_memory_region *setup_lmem(struct intel_gt *gt)
- 	if (!IS_DGFX(i915))
- 		return ERR_PTR(-ENODEV);
+-	cs = intel_ring_begin(rq, ver >= 8 ? 8 : 6);
++	/* Clear flat css only when value is 0 */
++	ccs_ring_size = (is_lmem && !value) ?
++			 calc_ctrl_surf_instr_size(i915, size)
++			 : 0;
++
++	cs = intel_ring_begin(rq, ver >= 8 ? 8 + ccs_ring_size : 6);
+ 	if (IS_ERR(cs))
+ 		return PTR_ERR(cs);
  
--	/* Stolen starts from GSMBASE on DG1 */
--	lmem_size = intel_uncore_read64(uncore, GEN12_GSMBASE);
-+	if (HAS_FLAT_CCS(i915)) {
-+		u64 tile_stolen, flat_ccs_base_addr_reg, flat_ccs_base;
+@@ -521,6 +611,30 @@ static int emit_clear(struct i915_request *rq, int size, u32 value)
+ 		*cs++ = value;
+ 	}
+ 
++	if (is_lmem && HAS_FLAT_CCS(i915) && !value) {
++		num_ccs_blks = (GET_CCS_SIZE(i915, size) +
++				NUM_CCS_BYTES_PER_BLOCK - 1) >> 8;
++		/*
++		 * Flat CCS surface can only be accessed via
++		 * XY_CTRL_SURF_COPY_BLT CMD and using indirect
++		 * mapping of associated LMEM.
++		 * We can clear ccs surface by writing all 0s,
++		 * so we will flush the previously cleared buffer
++		 * and use it as a source.
++		 */
 +
-+		lmem_size = pci_resource_len(pdev, 2);
-+		flat_ccs_base_addr_reg = intel_gt_read_register(gt, XEHPSDV_FLAT_CCS_BASE_ADDR);
-+		flat_ccs_base = (flat_ccs_base_addr_reg >> XEHPSDV_CCS_BASE_SHIFT) * SZ_64K;
-+		tile_stolen = lmem_size - flat_ccs_base;
-+
-+		/* If the FLAT_CCS_BASE_ADDR register is not populated, flag an error */
-+		if (tile_stolen == lmem_size)
-+			DRM_ERROR("CCS_BASE_ADDR register did not have expected value\n");
-+
-+		lmem_size -= tile_stolen;
-+	} else {
-+		/* Stolen starts from GSMBASE without CCS */
-+		lmem_size = intel_uncore_read64(&i915->uncore, GEN12_GSMBASE);
-+		if (GEM_WARN_ON(lmem_size > pci_resource_len(pdev, 2)))
-+			return ERR_PTR(-ENODEV);
++		cs = i915_flush_dw(cs, (u64)instance << 32,
++				   MI_FLUSH_LLC | MI_FLUSH_CCS);
++		cs = _i915_ctrl_surf_copy_blt(cs,
++					      (u64)instance << 32,
++					      (u64)instance << 32,
++					      DIRECT_ACCESS,
++					      INDIRECT_ACCESS,
++					      1, 1,
++					      num_ccs_blks);
++		cs = i915_flush_dw(cs, (u64)instance << 32,
++				   MI_FLUSH_LLC | MI_FLUSH_CCS);
 +	}
-+
+ 	intel_ring_advance(rq, cs);
+ 	return 0;
+ }
+@@ -581,7 +695,7 @@ intel_context_migrate_clear(struct intel_context *ce,
+ 		if (err)
+ 			goto out_rq;
  
- 	io_start = pci_resource_start(pdev, 2);
- 	if (GEM_WARN_ON(lmem_size > pci_resource_len(pdev, 2)))
-diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
-index 1e221fbe37fd..3693eb03f5aa 100644
---- a/drivers/gpu/drm/i915/i915_reg.h
-+++ b/drivers/gpu/drm/i915/i915_reg.h
-@@ -12469,6 +12469,9 @@ enum skl_power_gate {
- #define GEN12_GSMBASE			_MMIO(0x108100)
- #define GEN12_DSMBASE			_MMIO(0x1080C0)
+-		err = emit_clear(rq, len, value);
++		err = emit_clear(rq, len, value, is_lmem);
  
-+#define XEHPSDV_FLAT_CCS_BASE_ADDR             _MMIO(0x4910)
-+#define   XEHPSDV_CCS_BASE_SHIFT               8
-+
- /* gamt regs */
- #define GEN8_L3_LRA_1_GPGPU _MMIO(0x4dd4)
- #define   GEN8_L3_LRA_1_GPGPU_DEFAULT_VALUE_BDW  0x67F1427F /* max/min for LRA1/2 */
+ 		/* Arbitration is re-enabled between requests. */
+ out_rq:
 -- 
 2.20.1
 
