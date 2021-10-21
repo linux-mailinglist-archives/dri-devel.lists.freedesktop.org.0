@@ -2,29 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41B76435F1F
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Oct 2021 12:36:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A90B4435F2D
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Oct 2021 12:36:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A8A06EC36;
-	Thu, 21 Oct 2021 10:36:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7FC316EC32;
+	Thu, 21 Oct 2021 10:36:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mblankhorst.nl (mblankhorst.nl
- [IPv6:2a02:2308:0:7ec:e79c:4e97:b6c4:f0ae])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AFA356E3EC;
+Received: from mblankhorst.nl (mblankhorst.nl [141.105.120.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B4C3F6E427;
  Thu, 21 Oct 2021 10:36:09 +0000 (UTC)
 From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 To: intel-gfx@lists.freedesktop.org
 Cc: dri-devel@lists.freedesktop.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Subject: [PATCH 03/28] drm/i915: Remove dma_resv_prune
-Date: Thu, 21 Oct 2021 12:35:40 +0200
-Message-Id: <20211021103605.735002-3-maarten.lankhorst@linux.intel.com>
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+Subject: [PATCH 04/28] drm/i915: Remove unused bits of i915_vma/active api
+Date: Thu, 21 Oct 2021 12:35:41 +0200
+Message-Id: <20211021103605.735002-4-maarten.lankhorst@linux.intel.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211021103605.735002-1-maarten.lankhorst@linux.intel.com>
 References: <20211021103605.735002-1-maarten.lankhorst@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -41,120 +40,133 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The signaled bit is already used for quick testing if a fence is signaled.
+When reworking the code to move the eviction fence to the object,
+the best code is removed code.
+
+Remove some functions that are unused, and change the function definition
+if it's only used in 1 place.
 
 Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Reviewed-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
 ---
- drivers/gpu/drm/i915/Makefile                |  1 -
- drivers/gpu/drm/i915/dma_resv_utils.c        | 17 -----------------
- drivers/gpu/drm/i915/dma_resv_utils.h        | 13 -------------
- drivers/gpu/drm/i915/gem/i915_gem_shrinker.c |  3 ---
- drivers/gpu/drm/i915/gem/i915_gem_wait.c     |  8 --------
- 5 files changed, 42 deletions(-)
- delete mode 100644 drivers/gpu/drm/i915/dma_resv_utils.c
- delete mode 100644 drivers/gpu/drm/i915/dma_resv_utils.h
+ drivers/gpu/drm/i915/i915_active.c | 28 +++-------------------------
+ drivers/gpu/drm/i915/i915_active.h | 17 +----------------
+ drivers/gpu/drm/i915/i915_vma.c    |  2 +-
+ drivers/gpu/drm/i915/i915_vma.h    |  2 --
+ 4 files changed, 5 insertions(+), 44 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
-index 467872cca027..b87e3ed10d86 100644
---- a/drivers/gpu/drm/i915/Makefile
-+++ b/drivers/gpu/drm/i915/Makefile
-@@ -60,7 +60,6 @@ i915-y += i915_drv.o \
- 
- # core library code
- i915-y += \
--	dma_resv_utils.o \
- 	i915_memcpy.o \
- 	i915_mm.o \
- 	i915_sw_fence.o \
-diff --git a/drivers/gpu/drm/i915/dma_resv_utils.c b/drivers/gpu/drm/i915/dma_resv_utils.c
-deleted file mode 100644
-index 7df91b7e4ca8..000000000000
---- a/drivers/gpu/drm/i915/dma_resv_utils.c
-+++ /dev/null
-@@ -1,17 +0,0 @@
--// SPDX-License-Identifier: MIT
--/*
-- * Copyright © 2020 Intel Corporation
-- */
--
--#include <linux/dma-resv.h>
--
--#include "dma_resv_utils.h"
--
--void dma_resv_prune(struct dma_resv *resv)
--{
--	if (dma_resv_trylock(resv)) {
--		if (dma_resv_test_signaled(resv, true))
--			dma_resv_add_excl_fence(resv, NULL);
--		dma_resv_unlock(resv);
--	}
--}
-diff --git a/drivers/gpu/drm/i915/dma_resv_utils.h b/drivers/gpu/drm/i915/dma_resv_utils.h
-deleted file mode 100644
-index b9d8fb5f8367..000000000000
---- a/drivers/gpu/drm/i915/dma_resv_utils.h
-+++ /dev/null
-@@ -1,13 +0,0 @@
--/* SPDX-License-Identifier: MIT */
--/*
-- * Copyright © 2020 Intel Corporation
-- */
--
--#ifndef DMA_RESV_UTILS_H
--#define DMA_RESV_UTILS_H
--
--struct dma_resv;
--
--void dma_resv_prune(struct dma_resv *resv);
--
--#endif /* DMA_RESV_UTILS_H */
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c b/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
-index 5ab136ffdeb2..af3eb7fd951d 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
-@@ -15,7 +15,6 @@
- 
- #include "gt/intel_gt_requests.h"
- 
--#include "dma_resv_utils.h"
- #include "i915_trace.h"
- 
- static bool swap_available(void)
-@@ -229,8 +228,6 @@ i915_gem_shrink(struct i915_gem_ww_ctx *ww,
- 					i915_gem_object_unlock(obj);
- 			}
- 
--			dma_resv_prune(obj->base.resv);
--
- 			scanned += obj->base.size >> PAGE_SHIFT;
- skip:
- 			i915_gem_object_put(obj);
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_wait.c b/drivers/gpu/drm/i915/gem/i915_gem_wait.c
-index 840c13706999..1592d95c3ead 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_wait.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_wait.c
-@@ -10,7 +10,6 @@
- 
- #include "gt/intel_engine.h"
- 
--#include "dma_resv_utils.h"
- #include "i915_gem_ioctls.h"
- #include "i915_gem_object.h"
- 
-@@ -52,13 +51,6 @@ i915_gem_object_wait_reservation(struct dma_resv *resv,
- 	}
- 	dma_resv_iter_end(&cursor);
- 
--	/*
--	 * Opportunistically prune the fences iff we know they have *all* been
--	 * signaled.
--	 */
--	if (timeout > 0)
--		dma_resv_prune(resv);
--
- 	return ret;
+diff --git a/drivers/gpu/drm/i915/i915_active.c b/drivers/gpu/drm/i915/i915_active.c
+index 3103c1e1fd14..ee2b3a375362 100644
+--- a/drivers/gpu/drm/i915/i915_active.c
++++ b/drivers/gpu/drm/i915/i915_active.c
+@@ -426,8 +426,9 @@ replace_barrier(struct i915_active *ref, struct i915_active_fence *active)
+ 	return true;
  }
  
+-int i915_active_ref(struct i915_active *ref, u64 idx, struct dma_fence *fence)
++int i915_active_add_request(struct i915_active *ref, struct i915_request *rq)
+ {
++	struct dma_fence *fence = &rq->fence;
+ 	struct i915_active_fence *active;
+ 	int err;
+ 
+@@ -436,7 +437,7 @@ int i915_active_ref(struct i915_active *ref, u64 idx, struct dma_fence *fence)
+ 	if (err)
+ 		return err;
+ 
+-	active = active_instance(ref, idx);
++	active = active_instance(ref, i915_request_timeline(rq)->fence_context);
+ 	if (!active) {
+ 		err = -ENOMEM;
+ 		goto out;
+@@ -477,29 +478,6 @@ __i915_active_set_fence(struct i915_active *ref,
+ 	return prev;
+ }
+ 
+-static struct i915_active_fence *
+-__active_fence(struct i915_active *ref, u64 idx)
+-{
+-	struct active_node *it;
+-
+-	it = __active_lookup(ref, idx);
+-	if (unlikely(!it)) { /* Contention with parallel tree builders! */
+-		spin_lock_irq(&ref->tree_lock);
+-		it = __active_lookup(ref, idx);
+-		spin_unlock_irq(&ref->tree_lock);
+-	}
+-	GEM_BUG_ON(!it); /* slot must be preallocated */
+-
+-	return &it->base;
+-}
+-
+-struct dma_fence *
+-__i915_active_ref(struct i915_active *ref, u64 idx, struct dma_fence *fence)
+-{
+-	/* Only valid while active, see i915_active_acquire_for_context() */
+-	return __i915_active_set_fence(ref, __active_fence(ref, idx), fence);
+-}
+-
+ struct dma_fence *
+ i915_active_set_exclusive(struct i915_active *ref, struct dma_fence *f)
+ {
+diff --git a/drivers/gpu/drm/i915/i915_active.h b/drivers/gpu/drm/i915/i915_active.h
+index 5fcdb0e2bc9e..7eb44132183a 100644
+--- a/drivers/gpu/drm/i915/i915_active.h
++++ b/drivers/gpu/drm/i915/i915_active.h
+@@ -164,26 +164,11 @@ void __i915_active_init(struct i915_active *ref,
+ 	__i915_active_init(ref, active, retire, flags, &__mkey, &__wkey);	\
+ } while (0)
+ 
+-struct dma_fence *
+-__i915_active_ref(struct i915_active *ref, u64 idx, struct dma_fence *fence);
+-int i915_active_ref(struct i915_active *ref, u64 idx, struct dma_fence *fence);
+-
+-static inline int
+-i915_active_add_request(struct i915_active *ref, struct i915_request *rq)
+-{
+-	return i915_active_ref(ref,
+-			       i915_request_timeline(rq)->fence_context,
+-			       &rq->fence);
+-}
++int i915_active_add_request(struct i915_active *ref, struct i915_request *rq);
+ 
+ struct dma_fence *
+ i915_active_set_exclusive(struct i915_active *ref, struct dma_fence *f);
+ 
+-static inline bool i915_active_has_exclusive(struct i915_active *ref)
+-{
+-	return rcu_access_pointer(ref->excl.fence);
+-}
+-
+ int __i915_active_wait(struct i915_active *ref, int state);
+ static inline int i915_active_wait(struct i915_active *ref)
+ {
+diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
+index 90546fa58fc1..1187f1956c20 100644
+--- a/drivers/gpu/drm/i915/i915_vma.c
++++ b/drivers/gpu/drm/i915/i915_vma.c
+@@ -1220,7 +1220,7 @@ __i915_request_await_bind(struct i915_request *rq, struct i915_vma *vma)
+ 	return __i915_request_await_exclusive(rq, &vma->active);
+ }
+ 
+-int __i915_vma_move_to_active(struct i915_vma *vma, struct i915_request *rq)
++static int __i915_vma_move_to_active(struct i915_vma *vma, struct i915_request *rq)
+ {
+ 	int err;
+ 
+diff --git a/drivers/gpu/drm/i915/i915_vma.h b/drivers/gpu/drm/i915/i915_vma.h
+index 648dbe744c96..b882fd7b5f99 100644
+--- a/drivers/gpu/drm/i915/i915_vma.h
++++ b/drivers/gpu/drm/i915/i915_vma.h
+@@ -55,8 +55,6 @@ static inline bool i915_vma_is_active(const struct i915_vma *vma)
+ /* do not reserve memory to prevent deadlocks */
+ #define __EXEC_OBJECT_NO_RESERVE BIT(31)
+ 
+-int __must_check __i915_vma_move_to_active(struct i915_vma *vma,
+-					   struct i915_request *rq);
+ int __must_check _i915_vma_move_to_active(struct i915_vma *vma,
+ 					  struct i915_request *rq,
+ 					  struct dma_fence *fence,
 -- 
 2.33.0
 
