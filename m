@@ -2,40 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9234435AC0
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Oct 2021 08:16:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A712E435BA7
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Oct 2021 09:25:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D4ACB6EB51;
-	Thu, 21 Oct 2021 06:15:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D58206EB84;
+	Thu, 21 Oct 2021 07:25:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E37D6EA2A;
- Thu, 21 Oct 2021 06:15:54 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10143"; a="227724887"
-X-IronPort-AV: E=Sophos;i="5.87,168,1631602800"; d="scan'208";a="227724887"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Oct 2021 23:15:54 -0700
-X-IronPort-AV: E=Sophos;i="5.87,168,1631602800"; d="scan'208";a="632067132"
-Received: from mstribae-mobl1.ger.corp.intel.com (HELO [10.249.254.146])
- ([10.249.254.146])
- by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Oct 2021 23:15:52 -0700
-Message-ID: <f8f1ae021e8cabc2c6d76996b5e74912cb0913db.camel@linux.intel.com>
-Subject: Re: [PATCH] drm/i915/selftests: Allow engine reset failure to do a
- GT reset in hangcheck selftest
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Matthew Brost <matthew.brost@intel.com>,
- intel-gfx@lists.freedesktop.org,  dri-devel@lists.freedesktop.org
-Cc: john.c.harrison@intel.com
-Date: Thu, 21 Oct 2021 08:15:49 +0200
-In-Reply-To: <20211011234705.30853-1-matthew.brost@intel.com>
-References: <20211011234705.30853-1-matthew.brost@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
+X-Greylist: delayed 303 seconds by postgrey-1.36 at gabe;
+ Thu, 21 Oct 2021 06:21:46 UTC
+Received: from out28-146.mail.aliyun.com (out28-146.mail.aliyun.com
+ [115.124.28.146])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1703D6EB60
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Oct 2021 06:21:45 +0000 (UTC)
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.1877204|-1; CH=green; DM=|CONTINUE|false|;
+ DS=CONTINUE|ham_system_inform|0.00836179-0.00118455-0.990454;
+ FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047206;
+ MF=huangshuosheng@allwinnertech.com; NM=1; PH=DS; RN=12; RT=12; SR=0;
+ TI=SMTPD_---.LfKw.bc_1634796993; 
+Received: from allwinnertech.com(mailfrom:huangshuosheng@allwinnertech.com
+ fp:SMTPD_---.LfKw.bc_1634796993) by smtp.aliyun-inc.com(10.147.40.7);
+ Thu, 21 Oct 2021 14:16:37 +0800
+From: Shuosheng Huang <huangshuosheng@allwinnertech.com>
+To: sumit.semwal@linaro.org, benjamin.gaignard@linaro.org,
+ lmark@codeaurora.org, labbott@redhat.com, Brian.Starkey@arm.com,
+ john.stultz@linaro.org, christian.koenig@amd.com
+Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+ Shuosheng Huang <huangshuosheng@allwinnertech.com>
+Subject: [PATCH] dma-buf: heaps: init heaps in subsys_initcall
+Date: Thu, 21 Oct 2021 14:16:07 +0800
+Message-Id: <20211021061607.17618-1-huangshuosheng@allwinnertech.com>
+X-Mailer: git-send-email 2.29.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Thu, 21 Oct 2021 07:25:31 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,90 +52,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Matthew,
+Some built-in modules will failed to use dma-buf heap to allocate
+memory if the heap drivers is too late to be initialized.
+To fix this issue, move initialization of dma-buf heap drivers in
+subsys_initcall() which is more earlier to be called.
 
-On Mon, 2021-10-11 at 16:47 -0700, Matthew Brost wrote:
-> The hangcheck selftest blocks per engine resets by setting magic bits
-> in
-> the reset flags. This is incorrect for GuC submission because if the
-> GuC
-> fails to reset an engine we would like to do a full GT reset. Do no
-> set
-> these magic bits when using GuC submission.
-> 
-> Side note this lockless algorithm with magic bits to block resets
-> really
-> should be ripped out.
-> 
+Signed-off-by: Shuosheng Huang <huangshuosheng@allwinnertech.com>
+---
+ drivers/dma-buf/heaps/cma_heap.c    | 2 +-
+ drivers/dma-buf/heaps/system_heap.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-Lockless algorithm aside, from a quick look at the code in
-intel_reset.c it appears to me like the interface that falls back to a
-full GT reset is intel_gt_handle_error() whereas intel_engine_reset()
-is explicitly intended to not do that, so is there a discrepancy
-between GuC and non-GuC here?
-
-/Thomas
-
-
-> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> ---
->  drivers/gpu/drm/i915/gt/selftest_hangcheck.c | 12 ++++++++----
->  1 file changed, 8 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
-> b/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
-> index 7e2d99dd012d..90a03c60c80c 100644
-> --- a/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
-> +++ b/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
-> @@ -734,7 +734,8 @@ static int __igt_reset_engine(struct intel_gt
-> *gt, bool active)
->                 reset_engine_count = i915_reset_engine_count(global,
-> engine);
->  
->                 st_engine_heartbeat_disable(engine);
-> -               set_bit(I915_RESET_ENGINE + id, &gt->reset.flags);
-> +               if (!using_guc)
-> +                       set_bit(I915_RESET_ENGINE + id, &gt-
-> >reset.flags);
->                 count = 0;
->                 do {
->                         struct i915_request *rq = NULL;
-> @@ -824,7 +825,8 @@ static int __igt_reset_engine(struct intel_gt
-> *gt, bool active)
->                         if (err)
->                                 break;
->                 } while (time_before(jiffies, end_time));
-> -               clear_bit(I915_RESET_ENGINE + id, &gt->reset.flags);
-> +               if (!using_guc)
-> +                       clear_bit(I915_RESET_ENGINE + id, &gt-
-> >reset.flags);
->                 st_engine_heartbeat_enable(engine);
->                 pr_info("%s: Completed %lu %s resets\n",
->                         engine->name, count, active ? "active" :
-> "idle");
-> @@ -1042,7 +1044,8 @@ static int __igt_reset_engines(struct intel_gt
-> *gt,
->                 yield(); /* start all threads before we begin */
->  
->                 st_engine_heartbeat_disable_no_pm(engine);
-> -               set_bit(I915_RESET_ENGINE + id, &gt->reset.flags);
-> +               if (!using_guc)
-> +                       set_bit(I915_RESET_ENGINE + id, &gt-
-> >reset.flags);
->                 do {
->                         struct i915_request *rq = NULL;
->                         struct intel_selftest_saved_policy saved;
-> @@ -1165,7 +1168,8 @@ static int __igt_reset_engines(struct intel_gt
-> *gt,
->                         if (err)
->                                 break;
->                 } while (time_before(jiffies, end_time));
-> -               clear_bit(I915_RESET_ENGINE + id, &gt->reset.flags);
-> +               if (!using_guc)
-> +                       clear_bit(I915_RESET_ENGINE + id, &gt-
-> >reset.flags);
->                 st_engine_heartbeat_enable_no_pm(engine);
->  
->                 pr_info("i915_reset_engine(%s:%s): %lu resets\n",
-
+diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma_heap.c
+index 0c05b79870f9..e051403a346d 100644
+--- a/drivers/dma-buf/heaps/cma_heap.c
++++ b/drivers/dma-buf/heaps/cma_heap.c
+@@ -400,6 +400,6 @@ static int add_default_cma_heap(void)
+ 
+ 	return ret;
+ }
+-module_init(add_default_cma_heap);
++subsys_initcall(add_default_cma_heap);
+ MODULE_DESCRIPTION("DMA-BUF CMA Heap");
+ MODULE_LICENSE("GPL v2");
+diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/system_heap.c
+index 23a7e74ef966..3d6927657ec9 100644
+--- a/drivers/dma-buf/heaps/system_heap.c
++++ b/drivers/dma-buf/heaps/system_heap.c
+@@ -435,5 +435,5 @@ static int system_heap_create(void)
+ 
+ 	return 0;
+ }
+-module_init(system_heap_create);
++subsys_initcall(system_heap_create);
+ MODULE_LICENSE("GPL v2");
+-- 
+2.29.0
 
