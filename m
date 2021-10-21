@@ -1,67 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 276A0436BF1
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Oct 2021 22:21:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DA93436BF3
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Oct 2021 22:21:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 01CF36E497;
-	Thu, 21 Oct 2021 20:20:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6FCBA6E49A;
+	Thu, 21 Oct 2021 20:21:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
- [IPv6:2a00:1450:4864:20::42f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E7C86E497
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Oct 2021 20:20:56 +0000 (UTC)
-Received: by mail-wr1-x42f.google.com with SMTP id s19so674236wra.2
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Oct 2021 13:20:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=H3OxDgQ3SPNSwUlXawNQL491W4uV6Gbe6RUFFqLVjig=;
- b=N5/tObVR+UcKVWN7oM/qe2jWj1ugHaWtc+KVJMsldu3wA4NU5MHe2BxhpFMg0uvkk5
- AAx6Cfy/FieJzdP0b18zsWpWM5Utt39SnIEUgQ2WHlUk3t7cMSpkstZ8z6onfxtVsiGc
- kzUQ9CrnxlFGUy7fAQS1fJSDKqWF75SCK7Ey8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=H3OxDgQ3SPNSwUlXawNQL491W4uV6Gbe6RUFFqLVjig=;
- b=h1R/3l04jzyhhmoh35bvuyAoxLlN28LIuxzpq/RG1uz93/sw+w2njas7lYqz58b1y9
- 94RVFJpmgVebPnRmFQd5Cs1GUfBfEkbMLowyvmi7UTJPD+FqltzqO7ks+QoLTeKNkxXc
- cX8QDT4dhnKfYFmhoHBPwOG+H3VB5wUxI4Sm1ejv+8LfniuYbSjWG/OYxlMitRuCGl2w
- QpDLHLkIVuHNjXUEI9f+XeoSBv1UHeS9/CaN35jiT+Vw7W0GAx8Zbw0wV7j/St2GWS1O
- tqGAy9YBpgTJc4g1u/STfKjUW6fmo78pPXBvzikCwO6XAUSE61Znh3vGbcTgQ/27ycbf
- ujNg==
-X-Gm-Message-State: AOAM532Ti/whXbAgz1E8fCNggSWXVnOIpMKS14o0McPAdiUoyJv487Fz
- +7iOjoe6KVwbFcMZwEH1T/17oXMAuybkBw==
-X-Google-Smtp-Source: ABdhPJy66pBg4zAKr8KklTKoymNvpPPDgMecGVBcjV4LBgwaI3Y14JK79xMJHgKuHmH4Vo1XbbabpQ==
-X-Received: by 2002:adf:9b8a:: with SMTP id d10mr9598012wrc.151.1634847654587; 
- Thu, 21 Oct 2021 13:20:54 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id d24sm5648764wmb.35.2021.10.21.13.20.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 Oct 2021 13:20:53 -0700 (PDT)
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-To: DRI Development <dri-devel@lists.freedesktop.org>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- =?UTF-8?q?Jos=C3=A9=20Roberto=20de=20Souza?= <jose.souza@intel.com>,
- =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
- Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>,
- Hans de Goede <hdegoede@redhat.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
+Received: from mx2.smtp.larsendata.com (mx2.smtp.larsendata.com
+ [91.221.196.228])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8641F6E49A
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Oct 2021 20:21:11 +0000 (UTC)
+Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
+ by mx2.smtp.larsendata.com (Halon) with ESMTPS
+ id 72df22b6-32ac-11ec-ac3c-0050568cd888;
+ Thu, 21 Oct 2021 20:21:18 +0000 (UTC)
+Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
+ [80.162.45.141])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: sam@ravnborg.org)
+ by mail01.mxhotel.dk (Postfix) with ESMTPSA id AA1FD194B52;
+ Thu, 21 Oct 2021 22:21:03 +0200 (CEST)
+Date: Thu, 21 Oct 2021 22:21:02 +0200
+X-Report-Abuse-To: abuse@mxhotel.dk
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Douglas Anderson <dianders@chromium.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>
+Cc: dri-devel@lists.freedesktop.org, Philip Chen <philipchen@chromium.org>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
+ Jagan Teki <jagan@amarulasolutions.com>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH] drm/i915/selftests: Properly reset mock object propers for
- each test
-Date: Thu, 21 Oct 2021 22:20:48 +0200
-Message-Id: <20211021202048.2638668-1-daniel.vetter@ffwll.ch>
-X-Mailer: git-send-email 2.33.0
+ Maxime Ripard <mripard@kernel.org>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Robert Foss <robert.foss@linaro.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/bridge: Fix the bridge chain order for pre_enable /
+ post_disable
+Message-ID: <YXHLrnAliqxmrrho@ravnborg.org>
+References: <20211021122719.1.I56d382006dea67ed8f30729a751fbc75434315b2@changeid>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211021122719.1.I56d382006dea67ed8f30729a751fbc75434315b2@changeid>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,51 +62,149 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-I forgot to do this properly in
+Hi Douglas,
 
-commit 6f11f37459d8f9f74ff1c299c0bedd50b458057a
-Author: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date:   Fri Jul 23 10:34:55 2021 +0200
+On Thu, Oct 21, 2021 at 12:29:01PM -0700, Douglas Anderson wrote:
+> Right now, the chaining order of
+> pre_enable/enable/disable/post_disable looks like this:
+> 
+> pre_enable:   start from connector and move to encoder
+> enable:       start from encoder and move to connector
+> disable:      start from connector and move to encoder
+> post_disable: start from encoder and move to connector
+> 
+> In the above, it can be seen that at least pre_enable() and
+> post_disable() are opposites of each other and enable() and disable()
+> are opposites. However, it seems broken that pre_enable() and enable()
+> would not move in the same direction. In other parts of Linux you can
+> see that various stages move in the same order. For instance, during
+> system suspend the "early" calls run in the same order as the normal
+> calls run in the same order as the "late" calls run in the same order
+> as the "noirq" calls.
+> 
+> Let fix the above so that it makes more sense. Now we'll have:
+> 
+> pre_enable:   start from encoder and move to connector
+> enable:       start from encoder and move to connector
+> disable:      start from connector and move to encoder
+> post_disable: start from connector and move to encoder
+> 
+> This order is chosen because if there are parent-child relationships
+> anywhere I would expect that the encoder would be a parent and the
+> connector a child--not the other way around.
 
-    drm/plane: remove drm_helper_get_plane_damage_clips
+This makes good sense as you describe it. I hope others can add more
+useful feedback.
+Added Andrzej Hajda <andrzej.hajda@intel.com> to the mail, as he have
+expressed concerns with the chain of bridges before.
 
-intel-gfx CI didn't spot this because we run each selftest in each own
-invocations, which means reloading i915.ko. But if you just run all
-the selftests in one go at boot-up, then it falls apart and eventually
-we cross over the hardcoded limited of how many properties can be
-attached to a single object.
+> 
+> This can be important when using the DP AUX bus to instantiate a
+> panel. The DP AUX bus is likely part of a bridge driver and is a
+> parent of the panel. We'd like the bridge to be pre_enabled before the
+> panel and the panel to be post_disabled before the
+> bridge. Specifically, this allows pm_runtime_put_sync_suspend() in a
+> bridge driver's post_suspend to work properly even a panel is under
+> it.
+> 
+> NOTE: it's entirely possible that this change could break someone who
+> was relying on the old order. Hopefully this isn't the case, but if
+> this does break someone it seems like it's better to do it sonner
+> rather than later so we can fix everyone to handle the order that
+> makes the most sense.
+> 
+> A FURTHER NOTE: Looking closer at commit 4e5763f03e10 ("drm/bridge:
+> ti-sn65dsi86: Wrap panel with panel-bridge") you can see that patch
+> inadvertently changed the order of things. The order used to be
+> correct (panel prepare was at the tail of the bridge enable) but it
+> became backwards. We'll restore the original order with this patch.
+> 
+> Fixes: 4e5763f03e10 ("drm/bridge: ti-sn65dsi86: Wrap panel with panel-bridge")
+> Fixes: 05193dc38197 ("drm/bridge: Make the bridge chain a double-linked list")
+> Signed-off-by: Douglas Anderson <dianders@chromium.org>
 
-Fix this by resetting the property count. Nothing else to clean up
-since it's all static storage anyway.
+To make the patch complete the descriptions in drm_bridge_funcs
+need to be updated to reflect the new reality.
 
-Reported-and-tested-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Fixes: 6f11f37459d8 ("drm/plane: remove drm_helper_get_plane_damage_clips")
-Cc: José Roberto de Souza <jose.souza@intel.com>
-Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-Cc: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
-Cc: Hans de Goede <hdegoede@redhat.com>
-Cc: Daniel Vetter <daniel.vetter@intel.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
----
- drivers/gpu/drm/selftests/test-drm_damage_helper.c | 1 +
- 1 file changed, 1 insertion(+)
+> ---
+> 
+>  drivers/gpu/drm/drm_bridge.c | 28 ++++++++++++++--------------
+>  1 file changed, 14 insertions(+), 14 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+> index c96847fc0ebc..98808af59afd 100644
+> --- a/drivers/gpu/drm/drm_bridge.c
+> +++ b/drivers/gpu/drm/drm_bridge.c
+> @@ -583,18 +583,14 @@ EXPORT_SYMBOL(drm_bridge_chain_mode_set);
+>  void drm_bridge_chain_pre_enable(struct drm_bridge *bridge)
 
-diff --git a/drivers/gpu/drm/selftests/test-drm_damage_helper.c b/drivers/gpu/drm/selftests/test-drm_damage_helper.c
-index 1c19a5d3eefb..8d8d8e214c28 100644
---- a/drivers/gpu/drm/selftests/test-drm_damage_helper.c
-+++ b/drivers/gpu/drm/selftests/test-drm_damage_helper.c
-@@ -30,6 +30,7 @@ static void mock_setup(struct drm_plane_state *state)
- 	mock_device.driver = &mock_driver;
- 	mock_device.mode_config.prop_fb_damage_clips = &mock_prop;
- 	mock_plane.dev = &mock_device;
-+	mock_obj_props.count = 0;
- 	mock_plane.base.properties = &mock_obj_props;
- 	mock_prop.base.id = 1; /* 0 is an invalid id */
- 	mock_prop.dev = &mock_device;
--- 
-2.33.0
+If you, or someone else, could r-b or ack the pending patches to remove
+this function, this part of the patch would no longer be needed.
 
+>  {
+>  	struct drm_encoder *encoder;
+> -	struct drm_bridge *iter;
+>  
+>  	if (!bridge)
+>  		return;
+>  
+>  	encoder = bridge->encoder;
+> -	list_for_each_entry_reverse(iter, &encoder->bridge_chain, chain_node) {
+> -		if (iter->funcs->pre_enable)
+> -			iter->funcs->pre_enable(iter);
+> -
+> -		if (iter == bridge)
+> -			break;
+> +	list_for_each_entry_from(bridge, &encoder->bridge_chain, chain_node) {
+> +		if (bridge->funcs->pre_enable)
+> +			bridge->funcs->pre_enable(bridge);
+>  	}
+>  }
+>  EXPORT_SYMBOL(drm_bridge_chain_pre_enable);
+> @@ -684,26 +680,30 @@ void drm_atomic_bridge_chain_post_disable(struct drm_bridge *bridge,
+>  					  struct drm_atomic_state *old_state)
+>  {
+>  	struct drm_encoder *encoder;
+> +	struct drm_bridge *iter;
+s/iter/bridge/ would make the patch simpler
+And then the bridge argument could be last_bridge or something.
+This would IMO increase readability of the code and make the patch smaller.
+>  
+>  	if (!bridge)
+>  		return;
+>  
+>  	encoder = bridge->encoder;
+> -	list_for_each_entry_from(bridge, &encoder->bridge_chain, chain_node) {
+> -		if (bridge->funcs->atomic_post_disable) {
+> +	list_for_each_entry_reverse(iter, &encoder->bridge_chain, chain_node) {
+> +		if (iter->funcs->atomic_post_disable) {
+>  			struct drm_bridge_state *old_bridge_state;
+>  
+>  			old_bridge_state =
+>  				drm_atomic_get_old_bridge_state(old_state,
+> -								bridge);
+> +								iter);
+>  			if (WARN_ON(!old_bridge_state))
+>  				return;
+>  
+> -			bridge->funcs->atomic_post_disable(bridge,
+> -							   old_bridge_state);
+> -		} else if (bridge->funcs->post_disable) {
+> -			bridge->funcs->post_disable(bridge);
+> +			iter->funcs->atomic_post_disable(iter,
+> +							 old_bridge_state);
+> +		} else if (iter->funcs->post_disable) {
+> +			iter->funcs->post_disable(iter);
+>  		}
+> +
+> +		if (iter == bridge)
+> +			break;
+I cannot see why this is needed, we are at the end of the list here
+anyway.
+
+
+>  	}
+>  }
+>  EXPORT_SYMBOL(drm_atomic_bridge_chain_post_disable);
+
+	Sam
