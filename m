@@ -2,56 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBB1E4358D7
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Oct 2021 05:10:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29A244358DC
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Oct 2021 05:11:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BED66EA5D;
-	Thu, 21 Oct 2021 03:10:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 68C936EA6F;
+	Thu, 21 Oct 2021 03:10:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com
- [IPv6:2607:f8b0:4864:20::433])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 92CB26E3D8
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Oct 2021 03:10:31 +0000 (UTC)
-Received: by mail-pf1-x433.google.com with SMTP id f11so4620170pfc.12
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Oct 2021 20:10:31 -0700 (PDT)
+Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com
+ [IPv6:2607:f8b0:4864:20::534])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 801DA6E3FE
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Oct 2021 03:10:32 +0000 (UTC)
+Received: by mail-pg1-x534.google.com with SMTP id 75so24328241pga.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Oct 2021 20:10:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=35kmIfN/EN6HlYQAf9OBmO1Wo6icnsDK3CGRODRZcFs=;
- b=UUeH1LXb6bN3bLuXh0yc5nlGW/kyMa8fv56ZqoMpRtyPIbXmyfdDg1uFwBbtNbZatN
- yoY6Go0sEHgri4SrjsUiVHdVC1417EOn1t3zJMooWxqV1thLlfh8NvR12v6Bo8GNry0W
- 3ZW6eB+DszzCn7p1dkYJ4HYrvSSm1SXMd/GrU=
+ bh=5lnP0JIeU4WMucvckNmAZdbJm3u8WDteMovU1BGERnM=;
+ b=E//A4FRGDS7HjyUGx/gcxMA93ObKb3gM6+7KSphrVWWxfVe7X9tNE9k+zJKNfmavmn
+ M2QTERS9yo6+3TvXZ0xJWlXvnB7M/yePVKyDjQhA3sbCNQY1nZtYKVvSPFmpswAftgQP
+ BZWA7iSKd6tC8jvL5Njln0qmJxq+Qi8yLgeTc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=35kmIfN/EN6HlYQAf9OBmO1Wo6icnsDK3CGRODRZcFs=;
- b=oE5rfvDoMwJx1+307yaMC+iI4ZMBFVYn5WaDPzb6XzUZAo2KCfgnhOlqzEL4ESpZaB
- CimR0b4NTb8v2oEKxhkuKEg7gqlf31XEcLRbgvmMq74yLzhn0CLj2lsBIucXSR+FhGs4
- AVuuge527+OCcc7+5PYU9vdpW9ogWb+eTZMYoZbwXlp+lejRAO2dJzlAjKPJAzsdC8hW
- YaFZxlnsZTYeCFJZVpNvtNjIw6pb9UTGCv3TQpuRS0GjOkajW1aTa1f+tMxxp+cA7UX/
- 37VUfv8UkqECS9u3yN1Q+BVB5VEHs6KLnaVseZp2q5zWmd2UpdiQLJQyqiGgiYiVuEoy
- Za3Q==
-X-Gm-Message-State: AOAM531DcljJ400+tWdupyku/sqcFXEJ1AuIE02h5cKOJI/uAFVq4SYz
- rtz5DuVsd9oF65MmV4NKFE1hcDmtKY72JA==
-X-Google-Smtp-Source: ABdhPJyuQs6FWqZJYUVEK9sEdqreefpCYOKDlBOtGfqhMfYK/hwgGFwhqjNkc7Y/joAW9+8XfGOSYg==
-X-Received: by 2002:a05:6a00:10c2:b0:44d:d761:48d4 with SMTP id
- d2-20020a056a0010c200b0044dd76148d4mr3152633pfu.0.1634785830815; 
- Wed, 20 Oct 2021 20:10:30 -0700 (PDT)
+ bh=5lnP0JIeU4WMucvckNmAZdbJm3u8WDteMovU1BGERnM=;
+ b=maSY57t3gbCCw0IuXMIZshD2BfQGxOQ+BMk7oLi+CbKjwhAcoxNaSaH60JvAjluJ2s
+ zIjITBHkxb/P5VayFHYXMfzHlRoLcJjFILoNjqUgVm5nwbrOyioNdPwqVkIQu7oRFkYv
+ ucvvlKkFRefYr+Fafy9d4DdTA19oR3zWk/LDNj6OxX/oJTUKuwbWrrZ7h3lF90ouO6NY
+ 1TNCR2rAOMqAEpW6KJuFVFQGoba5gLTUKob3zgZYYmrzqKYG00Dd5g406rWIGXi3a1D1
+ wl3L3LzrcKxsA5R3gQ+149wF1T6lf03/UKnwGn6+h25SbDSMwXLRF5K5w5BWzIw7SFdR
+ Gi7Q==
+X-Gm-Message-State: AOAM531tOQms/w5nVmaghp37L+mG8seQUipPNzG/jxl/CYlOIuSL2xXY
+ G1YEQuMemOKPpVtHbMAQS10oMYIaYYWwWg==
+X-Google-Smtp-Source: ABdhPJzjbsvYYjtVrmd637dUd6fTIMg3GhWX9z4hoW+81AVBL6mANQKgqaTzKhgKDvPbX8Ayq1zubw==
+X-Received: by 2002:a05:6a00:190d:b0:46d:516c:4ed9 with SMTP id
+ y13-20020a056a00190d00b0046d516c4ed9mr924403pfi.57.1634785831636; 
+ Wed, 20 Oct 2021 20:10:31 -0700 (PDT)
 Received: from gurchetansingh0.mtv.corp.google.com
  ([2620:15c:202:201:21a4:fcf9:f5bb:f740])
  by smtp.gmail.com with ESMTPSA id z1sm4016255pfh.150.2021.10.20.20.10.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Oct 2021 20:10:30 -0700 (PDT)
+ Wed, 20 Oct 2021 20:10:31 -0700 (PDT)
 From: Gurchetan Singh <gurchetansingh@chromium.org>
 To: dri-devel@lists.freedesktop.org
 Cc: kaleshsingh@google.com,
 	daniel@ffwll.ch,
 	rostedt@goodmis.org
-Subject: [RFC PATCH 1/8] tracing/gpu: modify gpu_mem_total
-Date: Wed, 20 Oct 2021 20:10:20 -0700
-Message-Id: <20211021031027.537-2-gurchetansingh@chromium.org>
+Subject: [RFC PATCH 2/8] drm: add new tracepoint fields to drm_device and
+ drm_file
+Date: Wed, 20 Oct 2021 20:10:21 -0700
+Message-Id: <20211021031027.537-3-gurchetansingh@chromium.org>
 X-Mailer: git-send-email 2.31.0
 In-Reply-To: <20211021031027.537-1-gurchetansingh@chromium.org>
 References: <20211021031027.537-1-gurchetansingh@chromium.org>
@@ -72,126 +73,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The existing gpu_mem_total tracepoint [1] is not currently used by
-any in-tree consumers, we should add some.
+For struct drm_device, add:
+    - mem_total
+    - import_mem_total
 
-In addition, there's a desire to report imported memory via the
-counters too [2].
-
-To do this, we'll have to redefine the event to:
-
-a) Change 'pid' to 'ctx_id'
-
-The reason is  DRM subsystem is created with GEM objects, DRM devices
-and DRM files in mind.  A GEM object is associated with DRM device,
-and it may be shared between one or more DRM files.
-
-Per-instance (or "context") counters make more sense than per-process
-counters for DRM.  For GPUs that per process counters (kgsl), this
-change is backwards compatible.
-
-b) add an "import_mem_total" field
-
-We're just appending a field, so no problem here.  Change "size" to
-"mem_total" as well (name changes are backwards compatible).
-
-[1] https://lore.kernel.org/r/20200302234840.57188-1-zzyiwei@google.com/
-[2] https://www.spinics.net/lists/kernel/msg4062769.html
+For struct drm_file, add:
+    - mem_instance
+    - import_mem_instance
 
 Signed-off-by: Gurchetan Singh <gurchetansingh@chromium.org>
 ---
- include/trace/events/gpu_mem.h | 61 ++++++++++++++++++++++++----------
- 1 file changed, 43 insertions(+), 18 deletions(-)
+ include/drm/drm_device.h | 16 ++++++++++++++++
+ include/drm/drm_file.h   | 16 ++++++++++++++++
+ 2 files changed, 32 insertions(+)
 
-diff --git a/include/trace/events/gpu_mem.h b/include/trace/events/gpu_mem.h
-index 26d871f96e94..198b87f50356 100644
---- a/include/trace/events/gpu_mem.h
-+++ b/include/trace/events/gpu_mem.h
-@@ -14,41 +14,66 @@
- #include <linux/tracepoint.h>
+diff --git a/include/drm/drm_device.h b/include/drm/drm_device.h
+index 604b1d1b2d72..35a96bda5320 100644
+--- a/include/drm/drm_device.h
++++ b/include/drm/drm_device.h
+@@ -298,6 +298,22 @@ struct drm_device {
+ 	 */
+ 	struct drm_fb_helper *fb_helper;
  
- /*
-- * The gpu_memory_total event indicates that there's an update to either the
-- * global or process total gpu memory counters.
-+ * The gpu_mem_total event indicates that there's an update to local or
-+ * global gpu memory counters.
-  *
-- * This event should be emitted whenever the kernel device driver allocates,
-- * frees, imports, unimports memory in the GPU addressable space.
-+ * This event should be emitted whenever a GPU device (ctx_id == 0):
-  *
-- * @gpu_id: This is the gpu id.
-+ *   1) allocates memory.
-+ *   2) frees memory.
-+ *   3) imports memory from an external exporter.
-  *
-- * @pid: Put 0 for global total, while positive pid for process total.
-+ * OR when a GPU device instance (ctx_id != 0):
-  *
-- * @size: Size of the allocation in bytes.
-+ *   1) allocates or acquires a reference to memory from another instance.
-+ *   2) frees or releases a reference to memory from another instance.
-+ *   3) imports memory from another GPU device instance.
-  *
-+ * When ctx_id == 0, both mem_total and import_mem_total total counters
-+ * represent a global total.  When ctx_id == 0, these counters represent
-+ * an instance specifical total.
-+ *
-+ * Note allocation does not necessarily mean backing the memory with pages.
-+ *
-+ * @gpu_id: unique ID of the GPU.
-+ *
-+ * @ctx_id: an ID for specific instance of the GPU device.
-+ *
-+ * @mem_total: - total size of memory known to a GPU device, including
-+ *		 imports (ctx_id == 0)
-+ *	       - total size of memory known to a GPU device instance
-+ *		 (ctx_id != 0)
-+ *
-+ * @import_mem_total: - size of memory imported from outside GPU
-+ *			device (ctx_id == 0)
-+ *		      - size of memory imported into GPU device instance.
-+ *			(ctx_id == 0)
-  */
- TRACE_EVENT(gpu_mem_total,
++	/**
++	 * @mem_total:
++	 *
++	 * The total size of all GEM objects known to this DRM device.  Used
++	 * with `gpu_mem_total` tracepoint.
++	 */
++	atomic64_t mem_total;
++
++	/**
++	 * @import_mem_total:
++	 *
++	 * The total size of all GEM objects imported into this DRM device from
++	 * external exporters.  Used with `gpu_mem_total` tracepoint.
++	 */
++	atomic64_t import_mem_total;
++
+ 	/* Everything below here is for legacy driver, never use! */
+ 	/* private: */
+ #if IS_ENABLED(CONFIG_DRM_LEGACY)
+diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
+index a3acb7ac3550..a5b9befcf1db 100644
+--- a/include/drm/drm_file.h
++++ b/include/drm/drm_file.h
+@@ -362,6 +362,22 @@ struct drm_file {
+ 	 */
+ 	struct drm_prime_file_private prime;
  
--	TP_PROTO(uint32_t gpu_id, uint32_t pid, uint64_t size),
-+	TP_PROTO(u32 gpu_id, u32 ctx_id, u64 mem_total, u64 import_mem_total),
- 
--	TP_ARGS(gpu_id, pid, size),
-+	TP_ARGS(gpu_id, ctx_id, mem_total, import_mem_total),
- 
- 	TP_STRUCT__entry(
--		__field(uint32_t, gpu_id)
--		__field(uint32_t, pid)
--		__field(uint64_t, size)
-+		__field(u32, gpu_id)
-+		__field(u32, ctx_id)
-+		__field(u64, mem_total)
-+		__field(u64, import_mem_total)
- 	),
- 
- 	TP_fast_assign(
- 		__entry->gpu_id = gpu_id;
--		__entry->pid = pid;
--		__entry->size = size;
-+		__entry->ctx_id = ctx_id;
-+		__entry->mem_total = mem_total;
-+		__entry->import_mem_total = import_mem_total;
- 	),
- 
--	TP_printk("gpu_id=%u pid=%u size=%llu",
--		__entry->gpu_id,
--		__entry->pid,
--		__entry->size)
-+	TP_printk("gpu_id=%u, ctx_id=%u, mem total=%llu, mem import total=%llu",
-+		  __entry->gpu_id,
-+		  __entry->ctx_id,
-+		  __entry->mem_total,
-+		  __entry->import_mem_total)
- );
- 
- #endif /* _TRACE_GPU_MEM_H */
++	/**
++	 * @mem_instance:
++	 *
++	 * The total size of all GEM objects known into this instance of the DRM
++	 * device.  Used with `gpu_mem_instance` tracepoint.
++	 */
++	atomic64_t mem_instance;
++
++	/**
++	 * @import_mem_instance:
++	 *
++	 * The total size of all GEM objects imported into this instance of the
++	 * DRM device.  Used with `gpu_mem_instance` tracepoint.
++	 */
++	atomic64_t import_mem_instance;
++
+ 	/* private: */
+ #if IS_ENABLED(CONFIG_DRM_LEGACY)
+ 	unsigned long lock_count; /* DRI1 legacy lock count */
 -- 
 2.25.1
 
