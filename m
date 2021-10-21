@@ -2,65 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D11A1436D8A
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Oct 2021 00:36:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 057CA436D9C
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Oct 2021 00:39:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 02E9F89139;
-	Thu, 21 Oct 2021 22:36:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 16BC06E209;
+	Thu, 21 Oct 2021 22:39:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3AE096E209
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Oct 2021 22:36:00 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1634855760; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=nz46hJHg14w27MvaxWuLRSJj9BjKYZ+W7Iuyx5TwDEU=;
- b=gnscEUtDKv1gkWDjtfcsRTRIezpgPkPC4qWp49hy4F5FU3qPOKtkaVA1yzPPUmJWZd4zGD/q
- u7ua7WCjt5z/D5nO+MoHM8AaZCtOPzuvv9r3VCBxfjZllZDHBzoTZ4uj6OprMwhUoQMwpptB
- vfFZvzT6bGbAXq66luE8RsjKXZ8=
-X-Mailgun-Sending-Ip: 198.61.254.9
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n02.prod.us-west-2.postgun.com with SMTP id
- 6171eb4ffd91319f0f44dd25 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 21 Oct 2021 22:35:59
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 00488C43460; Thu, 21 Oct 2021 22:35:58 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00
- autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
- (No client certificate requested) (Authenticated sender: abhinavk)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 2DDF8C4338F;
- Thu, 21 Oct 2021 22:35:57 +0000 (UTC)
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com
+ [IPv6:2607:f8b0:4864:20::1035])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 920886E209
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Oct 2021 22:39:06 +0000 (UTC)
+Received: by mail-pj1-x1035.google.com with SMTP id
+ o4-20020a17090a3d4400b001a1c8344c3fso2155862pjf.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Oct 2021 15:39:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=u3mqWaXU7rqwo/TWDeTnHdGs0ITI4S49iyRKehjXXcA=;
+ b=RLIpnaGJBxN8U9SPGIBWFEHMP4HiOyPbtEl9M73GC08X3eRBVJ6+ZFSqL6xNPYuBGx
+ Ou8+O24w5cZCDDfg4TVoybFxHVcjLZl/ptaI3tghjgC1snZZ44GUMunVkdKRib2KrF/L
+ ijMhZZ9njamLl43juZrItNrNHtDJ0Kcf+1kw0D+LoOx87IkXzAIEvQ6WFhm8dbScN7Gw
+ iO7DmJh2cy2QoBLwurPlxjZQJYiz738P50EaD15cTlKOftv1nywyzF+QnJiHduXGrZFQ
+ 1sOcZ/xbWhm0hCODo5UIVEDNMi4g2SftTjm8xJsX/lF8vD/jLLLgJModycKkklJex0Wz
+ pe3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=u3mqWaXU7rqwo/TWDeTnHdGs0ITI4S49iyRKehjXXcA=;
+ b=xEXuKKKF4+XIaLlE/Tdx/VCfqKrBx5vwWXh4UgHTxQfCqpfqEenuvYz1kccF9xPNMU
+ izLYJutvn4DSa27QtIbguThH9ryLAY07KNRWHZ4B7AHX2Lbb+bmMByzF9I4AMErT9AsF
+ V9KUdW3YPSP/CcBhZeJLbfkH5TCvvU90P04w/4gurMA33KIKYdgFkXaLGHPDIscSLClh
+ xzV53JTDR1tFAMI/DkemG9plkGOVJRiYEy7H/YSUU1os9Xk5LJWsndFVSDlempOf5xua
+ 7XhgSFU0SEfAwHC1Si07+zR/7DKFhGhLs/uh6VUhVpEOXaWrRNPln91if9OQZiP2j9WZ
+ dQgg==
+X-Gm-Message-State: AOAM531ZMZvKS9YeVvHSpDsNMSVENqAL8jmhzJOpQX8kNrh8N9S9//S9
+ mB2uHgCjm7sVCtT0aT9iuICYNLSElu1L5M6aQ9x52w==
+X-Google-Smtp-Source: ABdhPJxiHYF5OYuVp7nHSZYIoLw18VB9X3QXkBovdQ1vs8pIE+Qy13Goc3nHtL5cCxsF4ikg4cPXkd+2LU30ZrrusRo=
+X-Received: by 2002:a17:903:18d:b0:13f:ada:9df4 with SMTP id
+ z13-20020a170903018d00b0013f0ada9df4mr7733740plg.69.1634855945776; Thu, 21
+ Oct 2021 15:39:05 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date: Thu, 21 Oct 2021 15:35:57 -0700
-From: abhinavk@codeaurora.org
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Bjorn Andersson <bjorn.andersson@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Jonathan Marek
- <jonathan@marek.ca>, Stephen Boyd <sboyd@kernel.org>, David Airlie
- <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org
-Subject: Re: [Freedreno] [PATCH 05/11] drm/msm/dpu: move dpu_hw_pipe_cfg out
- of struct dpu_plane
-In-Reply-To: <20210930140002.308628-6-dmitry.baryshkov@linaro.org>
-References: <20210930140002.308628-1-dmitry.baryshkov@linaro.org>
- <20210930140002.308628-6-dmitry.baryshkov@linaro.org>
-Message-ID: <25f95f7fa81c2b9d771f6e3f26dc2820@codeaurora.org>
-X-Sender: abhinavk@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+References: <20211021031027.537-1-gurchetansingh@chromium.org>
+ <YXFWYlC2nr4scxtz@phenom.ffwll.local>
+In-Reply-To: <YXFWYlC2nr4scxtz@phenom.ffwll.local>
+From: Kalesh Singh <kaleshsingh@google.com>
+Date: Thu, 21 Oct 2021 15:38:54 -0700
+Message-ID: <CAC_TJvfZu2Y16WS1ZZAagvAyTo42wpGWeJnzhFiAw2iEAi65pg@mail.gmail.com>
+Subject: Re: [RFC PATCH 0/8] GPU memory tracepoints
+To: Daniel Vetter <daniel@ffwll.ch>
+Cc: Gurchetan Singh <gurchetansingh@chromium.org>, 
+ DRI mailing list <dri-devel@lists.freedesktop.org>,
+ Steven Rostedt <rostedt@goodmis.org>, 
+ Suren Baghdasaryan <surenb@google.com>, Hridya Valsaraju <hridya@google.com>,
+ Yiwei Zhang <zzyiwei@google.com>, John Reitan <john.reitan@arm.com>,
+ =?UTF-8?Q?=C3=98rjan_Eide?= <orjan.eide@arm.com>, 
+ Mark Underwood <mark.underwood@arm.com>, Gary Sweet <gary.sweet@broadcom.com>, 
+ Stephen Mansfield <stephen.mansfield@imgtec.com>, Kenny.Ho@amd.com, 
+ android-kernel-team <android-kernel-team@google.com>,
+ Lingfeng Yang <lfy@google.com>, 
+ John Reck <jreck@google.com>, Chris Forbes <chrisforbes@google.com>,
+ Peiyong Lin <lpy@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,328 +81,128 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-09-30 06:59, Dmitry Baryshkov wrote:
-> struct dpu_hw_pipe_cfg represents an interim state during atomic
-> update/color fill, so move it out of struct dpu_plane.
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Reviewed-by: Abhinav Kumar <abhinavk@codeaurora.org>
-> ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 104 ++++++++++++----------
->  1 file changed, 57 insertions(+), 47 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> index ef3737642b0c..5288b5b824f8 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> @@ -104,7 +104,6 @@ struct dpu_plane {
->  	uint32_t features;      /* capabilities from catalog */
-> 
->  	struct dpu_hw_pipe *pipe_hw;
-> -	struct dpu_hw_pipe_cfg pipe_cfg;
->  	uint32_t color_fill;
->  	bool is_error;
->  	bool is_rt_pipe;
-> @@ -143,14 +142,15 @@ static struct dpu_kms *_dpu_plane_get_kms(struct
-> drm_plane *plane)
->   * _dpu_plane_calc_bw - calculate bandwidth required for a plane
->   * @plane: Pointer to drm plane.
->   * @fb:   Pointer to framebuffer associated with the given plane
-> + * @pipe_cfg: Pointer to pipe configuration
->   * Result: Updates calculated bandwidth in the plane state.
->   * BW Equation: src_w * src_h * bpp * fps * (v_total / v_dest)
->   * Prefill BW Equation: line src bytes * line_time
->   */
->  static void _dpu_plane_calc_bw(struct drm_plane *plane,
-> -	struct drm_framebuffer *fb)
-> +	struct drm_framebuffer *fb,
-> +	struct dpu_hw_pipe_cfg *pipe_cfg)
->  {
-> -	struct dpu_plane *pdpu = to_dpu_plane(plane);
->  	struct dpu_plane_state *pstate;
->  	struct drm_display_mode *mode;
->  	const struct dpu_format *fmt = NULL;
-> @@ -167,9 +167,9 @@ static void _dpu_plane_calc_bw(struct drm_plane 
-> *plane,
-> 
->  	fmt = dpu_get_dpu_format_ext(fb->format->format, fb->modifier);
-> 
-> -	src_width = drm_rect_width(&pdpu->pipe_cfg.src_rect);
-> -	src_height = drm_rect_height(&pdpu->pipe_cfg.src_rect);
-> -	dst_height = drm_rect_height(&pdpu->pipe_cfg.dst_rect);
-> +	src_width = drm_rect_width(&pipe_cfg->src_rect);
-> +	src_height = drm_rect_height(&pipe_cfg->src_rect);
-> +	dst_height = drm_rect_height(&pipe_cfg->dst_rect);
->  	fps = drm_mode_vrefresh(mode);
->  	vbp = mode->vtotal - mode->vsync_end;
->  	vpw = mode->vsync_end - mode->vsync_start;
-> @@ -200,12 +200,12 @@ static void _dpu_plane_calc_bw(struct drm_plane 
-> *plane,
->  /**
->   * _dpu_plane_calc_clk - calculate clock required for a plane
->   * @plane: Pointer to drm plane.
-> + * @pipe_cfg: Pointer to pipe configuration
->   * Result: Updates calculated clock in the plane state.
->   * Clock equation: dst_w * v_total * fps * (src_h / dst_h)
->   */
-> -static void _dpu_plane_calc_clk(struct drm_plane *plane)
-> +static void _dpu_plane_calc_clk(struct drm_plane *plane, struct
-> dpu_hw_pipe_cfg *pipe_cfg)
->  {
-> -	struct dpu_plane *pdpu = to_dpu_plane(plane);
->  	struct dpu_plane_state *pstate;
->  	struct drm_display_mode *mode;
->  	int dst_width, src_height, dst_height, fps;
-> @@ -213,9 +213,9 @@ static void _dpu_plane_calc_clk(struct drm_plane 
-> *plane)
->  	pstate = to_dpu_plane_state(plane->state);
->  	mode = &plane->state->crtc->mode;
-> 
-> -	src_height = drm_rect_height(&pdpu->pipe_cfg.src_rect);
-> -	dst_width = drm_rect_width(&pdpu->pipe_cfg.dst_rect);
-> -	dst_height = drm_rect_height(&pdpu->pipe_cfg.dst_rect);
-> +	src_height = drm_rect_height(&pipe_cfg->src_rect);
-> +	dst_width = drm_rect_width(&pipe_cfg->dst_rect);
-> +	dst_height = drm_rect_height(&pipe_cfg->dst_rect);
->  	fps = drm_mode_vrefresh(mode);
-> 
->  	pstate->plane_clk =
-> @@ -252,14 +252,17 @@ static int _dpu_plane_calc_fill_level(struct
-> drm_plane *plane,
->  	fixed_buff_size = pdpu->catalog->caps->pixel_ram_size;
-> 
->  	list_for_each_entry(tmp, &pdpu->mplane_list, mplane_list) {
-> +		u32 tmp_width;
-> +
->  		if (!tmp->base.state->visible)
->  			continue;
-> +		tmp_width = drm_rect_width(&tmp->base.state->src) >> 16;
->  		DPU_DEBUG("plane%d/%d src_width:%d/%d\n",
->  				pdpu->base.base.id, tmp->base.base.id,
->  				src_width,
-> -				drm_rect_width(&tmp->pipe_cfg.src_rect));
-> +				tmp_width);
->  		src_width = max_t(u32, src_width,
-> -				  drm_rect_width(&tmp->pipe_cfg.src_rect));
-> +				  tmp_width);
->  	}
-> 
->  	if (fmt->fetch_planes == DPU_PLANE_PSEUDO_PLANAR) {
-> @@ -319,9 +322,10 @@ static u64 _dpu_plane_get_qos_lut(const struct
-> dpu_qos_lut_tbl *tbl,
->   * _dpu_plane_set_qos_lut - set QoS LUT of the given plane
->   * @plane:		Pointer to drm plane
->   * @fb:			Pointer to framebuffer associated with the given plane
-> + * @pipe_cfg:		Pointer to pipe configuration
->   */
->  static void _dpu_plane_set_qos_lut(struct drm_plane *plane,
-> -		struct drm_framebuffer *fb)
-> +		struct drm_framebuffer *fb, struct dpu_hw_pipe_cfg *pipe_cfg)
->  {
->  	struct dpu_plane *pdpu = to_dpu_plane(plane);
->  	const struct dpu_format *fmt = NULL;
-> @@ -335,7 +339,7 @@ static void _dpu_plane_set_qos_lut(struct drm_plane 
-> *plane,
->  				fb->format->format,
->  				fb->modifier);
->  		total_fl = _dpu_plane_calc_fill_level(plane, fmt,
-> -				drm_rect_width(&pdpu->pipe_cfg.src_rect));
-> +				drm_rect_width(&pipe_cfg->src_rect));
-> 
->  		if (fmt && DPU_FORMAT_IS_LINEAR(fmt))
->  			lut_usage = DPU_QOS_LUT_USAGE_LINEAR;
-> @@ -461,9 +465,10 @@ static void _dpu_plane_set_qos_ctrl(struct
-> drm_plane *plane,
->   * _dpu_plane_set_ot_limit - set OT limit for the given plane
->   * @plane:		Pointer to drm plane
->   * @crtc:		Pointer to drm crtc
-> + * @pipe_cfg:		Pointer to pipe configuration
->   */
->  static void _dpu_plane_set_ot_limit(struct drm_plane *plane,
-> -		struct drm_crtc *crtc)
-> +		struct drm_crtc *crtc, struct dpu_hw_pipe_cfg *pipe_cfg)
->  {
->  	struct dpu_plane *pdpu = to_dpu_plane(plane);
->  	struct dpu_vbif_set_ot_params ot_params;
-> @@ -472,8 +477,8 @@ static void _dpu_plane_set_ot_limit(struct 
-> drm_plane *plane,
->  	memset(&ot_params, 0, sizeof(ot_params));
->  	ot_params.xin_id = pdpu->pipe_hw->cap->xin_id;
->  	ot_params.num = pdpu->pipe_hw->idx - SSPP_NONE;
-> -	ot_params.width = drm_rect_width(&pdpu->pipe_cfg.src_rect);
-> -	ot_params.height = drm_rect_height(&pdpu->pipe_cfg.src_rect);
-> +	ot_params.width = drm_rect_width(&pipe_cfg->src_rect);
-> +	ot_params.height = drm_rect_height(&pipe_cfg->src_rect);
->  	ot_params.is_wfd = !pdpu->is_rt_pipe;
->  	ot_params.frame_rate = drm_mode_vrefresh(&crtc->mode);
->  	ot_params.vbif_idx = VBIF_RT;
-> @@ -651,17 +656,18 @@ static void _dpu_plane_setup_csc(struct dpu_plane 
-> *pdpu)
-> 
->  static void _dpu_plane_setup_scaler(struct dpu_plane *pdpu,
->  		struct dpu_plane_state *pstate,
-> -		const struct dpu_format *fmt, bool color_fill)
-> +		const struct dpu_format *fmt, bool color_fill,
-> +		struct dpu_hw_pipe_cfg *pipe_cfg)
->  {
->  	const struct drm_format_info *info = 
-> drm_format_info(fmt->base.pixel_format);
-> 
->  	/* don't chroma subsample if decimating */
->  	/* update scaler. calculate default config for QSEED3 */
->  	_dpu_plane_setup_scaler3(pdpu, pstate,
-> -			drm_rect_width(&pdpu->pipe_cfg.src_rect),
-> -			drm_rect_height(&pdpu->pipe_cfg.src_rect),
-> -			drm_rect_width(&pdpu->pipe_cfg.dst_rect),
-> -			drm_rect_height(&pdpu->pipe_cfg.dst_rect),
-> +			drm_rect_width(&pipe_cfg->src_rect),
-> +			drm_rect_height(&pipe_cfg->src_rect),
-> +			drm_rect_width(&pipe_cfg->dst_rect),
-> +			drm_rect_height(&pipe_cfg->dst_rect),
->  			&pstate->scaler3_cfg, fmt,
->  			info->hsub, info->vsub);
->  }
-> @@ -679,6 +685,7 @@ static int _dpu_plane_color_fill(struct dpu_plane 
-> *pdpu,
->  	const struct dpu_format *fmt;
->  	const struct drm_plane *plane = &pdpu->base;
->  	struct dpu_plane_state *pstate = to_dpu_plane_state(plane->state);
-> +	struct dpu_hw_pipe_cfg pipe_cfg;
-> 
->  	DPU_DEBUG_PLANE(pdpu, "\n");
-> 
-> @@ -695,13 +702,15 @@ static int _dpu_plane_color_fill(struct dpu_plane 
-> *pdpu,
->  				pstate->multirect_index);
-> 
->  		/* override scaler/decimation if solid fill */
-> -		pdpu->pipe_cfg.src_rect.x1 = 0;
-> -		pdpu->pipe_cfg.src_rect.y1 = 0;
-> -		pdpu->pipe_cfg.src_rect.x2 =
-> -			drm_rect_width(&pdpu->pipe_cfg.dst_rect);
-> -		pdpu->pipe_cfg.src_rect.y2 =
-> -			drm_rect_height(&pdpu->pipe_cfg.dst_rect);
-> -		_dpu_plane_setup_scaler(pdpu, pstate, fmt, true);
-> +		pipe_cfg.dst_rect = pstate->base.dst;
-> +
-> +		pipe_cfg.src_rect.x1 = 0;
-> +		pipe_cfg.src_rect.y1 = 0;
-> +		pipe_cfg.src_rect.x2 =
-> +			drm_rect_width(&pipe_cfg.dst_rect);
-> +		pipe_cfg.src_rect.y2 =
-> +			drm_rect_height(&pipe_cfg.dst_rect);
-> +		_dpu_plane_setup_scaler(pdpu, pstate, fmt, true, &pipe_cfg);
-> 
->  		if (pdpu->pipe_hw->ops.setup_format)
->  			pdpu->pipe_hw->ops.setup_format(pdpu->pipe_hw,
-> @@ -710,7 +719,7 @@ static int _dpu_plane_color_fill(struct dpu_plane 
-> *pdpu,
-> 
->  		if (pdpu->pipe_hw->ops.setup_rects)
->  			pdpu->pipe_hw->ops.setup_rects(pdpu->pipe_hw,
-> -					&pdpu->pipe_cfg,
-> +					&pipe_cfg,
->  					pstate->multirect_index);
-> 
->  		if (pdpu->pipe_hw->ops.setup_pe)
-> @@ -720,7 +729,7 @@ static int _dpu_plane_color_fill(struct dpu_plane 
-> *pdpu,
->  		if (pdpu->pipe_hw->ops.setup_scaler &&
->  				pstate->multirect_index != DPU_SSPP_RECT_1)
->  			pdpu->pipe_hw->ops.setup_scaler(pdpu->pipe_hw,
-> -					&pdpu->pipe_cfg, &pstate->pixel_ext,
-> +					&pipe_cfg, &pstate->pixel_ext,
->  					&pstate->scaler3_cfg);
->  	}
-> 
-> @@ -1087,10 +1096,11 @@ static void
-> dpu_plane_sspp_atomic_update(struct drm_plane *plane)
->  	bool is_rt_pipe, update_qos_remap;
->  	const struct dpu_format *fmt =
->  		to_dpu_format(msm_framebuffer_format(fb));
-> +	struct dpu_hw_pipe_cfg pipe_cfg;
-> 
-> -	memset(&(pdpu->pipe_cfg), 0, sizeof(struct dpu_hw_pipe_cfg));
-> +	memset(&pipe_cfg, 0, sizeof(struct dpu_hw_pipe_cfg));
-> 
-> -	_dpu_plane_set_scanout(plane, pstate, &pdpu->pipe_cfg, fb);
-> +	_dpu_plane_set_scanout(plane, pstate, &pipe_cfg, fb);
-> 
->  	pstate->pending = true;
-> 
-> @@ -1102,17 +1112,17 @@ static void
-> dpu_plane_sspp_atomic_update(struct drm_plane *plane)
->  			crtc->base.id, DRM_RECT_ARG(&state->dst),
->  			(char *)&fmt->base.pixel_format, DPU_FORMAT_IS_UBWC(fmt));
-> 
-> -	pdpu->pipe_cfg.src_rect = state->src;
-> +	pipe_cfg.src_rect = state->src;
-> 
->  	/* state->src is 16.16, src_rect is not */
-> -	pdpu->pipe_cfg.src_rect.x1 >>= 16;
-> -	pdpu->pipe_cfg.src_rect.x2 >>= 16;
-> -	pdpu->pipe_cfg.src_rect.y1 >>= 16;
-> -	pdpu->pipe_cfg.src_rect.y2 >>= 16;
-> +	pipe_cfg.src_rect.x1 >>= 16;
-> +	pipe_cfg.src_rect.x2 >>= 16;
-> +	pipe_cfg.src_rect.y1 >>= 16;
-> +	pipe_cfg.src_rect.y2 >>= 16;
-> 
-> -	pdpu->pipe_cfg.dst_rect = state->dst;
-> +	pipe_cfg.dst_rect = state->dst;
-> 
-> -	_dpu_plane_setup_scaler(pdpu, pstate, fmt, false);
-> +	_dpu_plane_setup_scaler(pdpu, pstate, fmt, false, &pipe_cfg);
-> 
->  	/* override for color fill */
->  	if (pdpu->color_fill & DPU_PLANE_COLOR_FILL_FLAG) {
-> @@ -1122,7 +1132,7 @@ static void dpu_plane_sspp_atomic_update(struct
-> drm_plane *plane)
-> 
->  	if (pdpu->pipe_hw->ops.setup_rects) {
->  		pdpu->pipe_hw->ops.setup_rects(pdpu->pipe_hw,
-> -				&pdpu->pipe_cfg,
-> +				&pipe_cfg,
->  				pstate->multirect_index);
->  	}
-> 
-> @@ -1139,7 +1149,7 @@ static void dpu_plane_sspp_atomic_update(struct
-> drm_plane *plane)
->  	if (pdpu->pipe_hw->ops.setup_scaler &&
->  			pstate->multirect_index != DPU_SSPP_RECT_1)
->  		pdpu->pipe_hw->ops.setup_scaler(pdpu->pipe_hw,
-> -				&pdpu->pipe_cfg, &pstate->pixel_ext,
-> +				&pipe_cfg, &pstate->pixel_ext,
->  				&pstate->scaler3_cfg);
-> 
->  	if (pdpu->pipe_hw->ops.setup_multirect)
-> @@ -1192,12 +1202,12 @@ static void
-> dpu_plane_sspp_atomic_update(struct drm_plane *plane)
->  			pdpu->csc_ptr = 0;
->  	}
-> 
-> -	_dpu_plane_set_qos_lut(plane, fb);
-> +	_dpu_plane_set_qos_lut(plane, fb, &pipe_cfg);
->  	_dpu_plane_set_danger_lut(plane, fb);
-> 
->  	if (plane->type != DRM_PLANE_TYPE_CURSOR) {
->  		_dpu_plane_set_qos_ctrl(plane, true, DPU_PLANE_QOS_PANIC_CTRL);
-> -		_dpu_plane_set_ot_limit(plane, crtc);
-> +		_dpu_plane_set_ot_limit(plane, crtc, &pipe_cfg);
->  	}
-> 
->  	update_qos_remap = (is_rt_pipe != pdpu->is_rt_pipe) ||
-> @@ -1211,9 +1221,9 @@ static void dpu_plane_sspp_atomic_update(struct
-> drm_plane *plane)
->  		_dpu_plane_set_qos_remap(plane);
->  	}
-> 
-> -	_dpu_plane_calc_bw(plane, fb);
-> +	_dpu_plane_calc_bw(plane, fb, &pipe_cfg);
-> 
-> -	_dpu_plane_calc_clk(plane);
-> +	_dpu_plane_calc_clk(plane, &pipe_cfg);
->  }
-> 
->  static void _dpu_plane_atomic_disable(struct drm_plane *plane)
+On Thu, Oct 21, 2021 at 5:00 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+>
+> On Wed, Oct 20, 2021 at 08:10:19PM -0700, Gurchetan Singh wrote:
+> > This is latest iteration of GPU memory tracepoints [1].
+> >
+> > In the past, there were questions about the "big picture" of memory
+> > accounting [2], especially given related work on dma-buf heaps and DRM
+> > cgroups [3].  Also, there was a desire for a non-driver specific soluti=
+on.
+> >
+> > The great news is the dma-buf heaps work as recently landed [4].  It us=
+es
+> > sys-fs and the plan is to use it in conjunction with the tracepoint
+> > solution [5].  We're aiming for the GPU tracepoint to calculate totals
+> > per DRM-instance (a proxy for per-process on Android) and per-DRM devic=
+e.
+> >
+> > The cgroups work looks terrific too and hopefully we can deduplicate co=
+de once
+> > that's merged.  Though that's abit of an implementation detail, so long=
+ as
+> > the "GPU tracepoints" +  "dma-buf heap stats" plan sounds good for Andr=
+oid.
+>
+> Can we please start out with depulicated code, and integrate this with
+> cgroups?
+
+Thanks for the comments Dan,
+
+The cgroups work is currently targeting allocator attribution so it
+wouldn=E2=80=99t give insight to shared / imported memory - this is include=
+d
+as part of the totals in the tracepoint. We will start a separate
+discussion with the gpu community on including imported memory into
+cgroups design. Who would you recommend to be included? (in case we
+don't already know all the interested parties).
+
+The current tracepoint and the cgroups are not conflicting designs but
+rather complimentary. These are some of the gaps which the tracepoint
+helps to cover:
+1. Imported gpu memory accounting
+2. The tracepoint can be used to track gpu memory usage over time
+(useful to detect memory usage spikes, for example), while cgroups can
+be used to view usage as a more granular and static state.
+3. For systems where cgroups aren't enabled the tracepoint data can be
+a good alternative to identify memory issues.
+4. Non-drm devices can make use of the tracepoint for reporting.
+
+It would be great if we can also keep the tracepoint, as we don=E2=80=99t h=
+ave
+another alternative that provides all it offers (cgroups can certainly
+be extended to cover some of these),  and it's currently being used by
+all Android devices.
+
+Thanks,
+Kalesh
+
+>
+> The problem with gpu memory account is that everyone wants their own
+> thing, they're all slightly differently, and all supported by a different
+> subset of drivers. That doesn't make sense to support in upstream at all.
+>
+> Please huddle together so that there's one set of "track gpu memory"
+> calls, and that does cgroups, tracepoints and everything else that an OS
+> might want to have.
+>
+> Also ideally this thing works for both integrated soc gpu (including an
+> answer for special memory pools like cma) _and_ discrete gpus using ttm.
+> Or at least has an answer to both, because again if we end up with totall=
+y
+> different tracking for the soc vs the discrete gpu world, we've lost.
+> -Daniel
+>
+> >
+> > This series modifies the GPU memory tracepoint API in a non-breaking fa=
+shion
+> > (patch 1), and adds accounting via the GEM subsystem (patches 2 --> 7).=
+ Given
+> > the multiple places where memory events happen, there's a bunch trace e=
+vents
+> > scattered in various places.  The hardest part is allocation, where eac=
+h driver
+> > has their own API.  If there's a better way, do say so.
+> >
+> > The last patch is incomplete; we would like general feedback before pro=
+ceeding
+> > further.
+> >
+> > [1] https://lore.kernel.org/lkml/20200302235044.59163-1-zzyiwei@google.=
+com/
+> > [2] https://lists.freedesktop.org/archives/dri-devel/2021-January/29512=
+0.html
+> > [3] https://www.spinics.net/lists/cgroups/msg27867.html
+> > [4] https://www.spinics.net/lists/linux-doc/msg97788.html
+> > [5] https://source.android.com/devices/graphics/implement-dma-buf-gpu-m=
+em
+> >
+> > Gurchetan Singh (8):
+> >   tracing/gpu: modify gpu_mem_total
+> >   drm: add new tracepoint fields to drm_device and drm_file
+> >   drm: add helper functions for gpu_mem_total and gpu_mem_instance
+> >   drm: start using drm_gem_trace_gpu_mem_total
+> >   drm: start using drm_gem_trace_gpu_mem_instance
+> >   drm: track real and fake imports in drm_prime_member
+> >   drm: trace memory import per DRM file
+> >   drm: trace memory import per DRM device
+> >
+> >  drivers/gpu/drm/Kconfig        |  1 +
+> >  drivers/gpu/drm/drm_gem.c      | 65 +++++++++++++++++++++++++++++++++-
+> >  drivers/gpu/drm/drm_internal.h |  4 +--
+> >  drivers/gpu/drm/drm_prime.c    | 22 +++++++++---
+> >  include/drm/drm_device.h       | 16 +++++++++
+> >  include/drm/drm_file.h         | 16 +++++++++
+> >  include/drm/drm_gem.h          |  7 ++++
+> >  include/trace/events/gpu_mem.h | 61 +++++++++++++++++++++----------
+> >  8 files changed, 166 insertions(+), 26 deletions(-)
+> >
+> > --
+> > 2.25.1
+> >
+>
+> --
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
