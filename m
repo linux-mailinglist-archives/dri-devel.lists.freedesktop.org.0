@@ -2,34 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D674436220
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Oct 2021 14:54:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D440436223
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Oct 2021 14:54:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 26E0A6E444;
+	by gabe.freedesktop.org (Postfix) with ESMTP id B69D86EC56;
 	Thu, 21 Oct 2021 12:54:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 539546E444;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A75F26EC51;
  Thu, 21 Oct 2021 12:54:30 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10143"; a="228971109"
-X-IronPort-AV: E=Sophos;i="5.87,169,1631602800"; d="scan'208";a="228971109"
+X-IronPort-AV: E=McAfee;i="6200,9189,10143"; a="228971114"
+X-IronPort-AV: E=Sophos;i="5.87,169,1631602800"; d="scan'208";a="228971114"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Oct 2021 05:54:17 -0700
-X-IronPort-AV: E=Sophos;i="5.87,169,1631602800"; d="scan'208";a="484191103"
+ 21 Oct 2021 05:54:19 -0700
+X-IronPort-AV: E=Sophos;i="5.87,169,1631602800"; d="scan'208";a="484191106"
 Received: from lmirabel-mobl.ger.corp.intel.com (HELO mwauld-desk1.intel.com)
  ([10.213.195.77])
  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Oct 2021 05:54:16 -0700
+ 21 Oct 2021 05:54:17 -0700
 From: Matthew Auld <matthew.auld@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org, kernel test robot <lkp@intel.com>,
+Cc: dri-devel@lists.freedesktop.org,
  =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-Subject: [PATCH 1/2] drm/i915/dmabuf: fix broken build
-Date: Thu, 21 Oct 2021 13:53:31 +0100
-Message-Id: <20211021125332.2455288-1-matthew.auld@intel.com>
+Subject: [PATCH 2/2] drm/i915/dmabuf: drop the flush on discrete
+Date: Thu, 21 Oct 2021 13:53:32 +0100
+Message-Id: <20211021125332.2455288-2-matthew.auld@intel.com>
 X-Mailer: git-send-email 2.26.3
+In-Reply-To: <20211021125332.2455288-1-matthew.auld@intel.com>
+References: <20211021125332.2455288-1-matthew.auld@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -48,34 +50,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-wbinvd_on_all_cpus() is only defined on x86 it seems, plus we need to
-include asm/smp.h here.
+We were overzealous here; even though discrete is non-LLC, it should
+still be always coherent.
 
-Reported-by: kernel test robot <lkp@intel.com>
 Signed-off-by: Matthew Auld <matthew.auld@intel.com>
 Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 ---
- drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
-index 1adcd8e02d29..a45d0ec2c5b6 100644
+index a45d0ec2c5b6..848e81368043 100644
 --- a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
 +++ b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
-@@ -12,6 +12,13 @@
- #include "i915_gem_object.h"
- #include "i915_scatterlist.h"
+@@ -251,7 +251,8 @@ static int i915_gem_object_get_pages_dmabuf(struct drm_i915_gem_object *obj)
+ 		return PTR_ERR(pages);
  
-+#if defined(CONFIG_X86)
-+#include <asm/smp.h>
-+#else
-+#define wbinvd_on_all_cpus() \
-+	pr_warn(DRIVER_NAME ": Missing cache flush in %s\n", __func__)
-+#endif
-+
- I915_SELFTEST_DECLARE(static bool force_different_devices;)
+ 	/* XXX: consider doing a vmap flush or something */
+-	if (!HAS_LLC(i915) || i915_gem_object_can_bypass_llc(obj))
++	if ((!HAS_LLC(i915) && !IS_DGFX(i915)) ||
++	    i915_gem_object_can_bypass_llc(obj))
+ 		wbinvd_on_all_cpus();
  
- static struct drm_i915_gem_object *dma_buf_to_obj(struct dma_buf *buf)
+ 	sg_page_sizes = i915_sg_dma_sizes(pages->sgl);
 -- 
 2.26.3
 
