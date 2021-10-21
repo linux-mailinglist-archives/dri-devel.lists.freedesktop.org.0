@@ -2,40 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4E55436423
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Oct 2021 16:24:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FCC2436424
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Oct 2021 16:24:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B39496EC9C;
-	Thu, 21 Oct 2021 14:24:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CFF1C6EC9D;
+	Thu, 21 Oct 2021 14:24:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 652316EC9D;
- Thu, 21 Oct 2021 14:24:16 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10143"; a="216212224"
-X-IronPort-AV: E=Sophos;i="5.87,170,1631602800"; d="scan'208";a="216212224"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D5816EC96;
+ Thu, 21 Oct 2021 14:24:20 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10143"; a="216212242"
+X-IronPort-AV: E=Sophos;i="5.87,170,1631602800"; d="scan'208";a="216212242"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Oct 2021 07:24:16 -0700
-X-IronPort-AV: E=Sophos;i="5.87,170,1631602800"; d="scan'208";a="495170532"
+ 21 Oct 2021 07:24:19 -0700
+X-IronPort-AV: E=Sophos;i="5.87,170,1631602800"; d="scan'208";a="495170572"
 Received: from ramaling-i9x.iind.intel.com ([10.99.66.205])
  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Oct 2021 07:24:12 -0700
+ 21 Oct 2021 07:24:16 -0700
 From: Ramalingam C <ramalingam.c@intel.com>
 To: dri-devel <dri-devel@lists.freedesktop.org>,
  intel-gfx <intel-gfx@lists.freedesktop.org>
 Cc: Daniel Vetter <daniel@ffwll.ch>, CQ Tang <cq.tang@intel.com>,
  Matthew Auld <matthew.auld@intel.com>, lucas.demarchi@intel.com,
  <rodrigo.vivi@intel.com>, Hellstrom Thomas <thomas.hellstrom@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Abdiel Janulgue <abdiel.janulgue@linux.intel.com>,
  Ramalingam C <ramalingam.c@intel.com>
-Subject: [PATCH v2 10/17] drm/i915/xehpsdv: Add has_flat_ccs to device info
-Date: Thu, 21 Oct 2021 19:56:20 +0530
-Message-Id: <20211021142627.31058-11-ramalingam.c@intel.com>
+Subject: [PATCH v2 11/17] drm/i915/lmem: Enable lmem for platforms with Flat
+ CCS
+Date: Thu, 21 Oct 2021 19:56:21 +0530
+Message-Id: <20211021142627.31058-12-ramalingam.c@intel.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20211021142627.31058-1-ramalingam.c@intel.com>
 References: <20211021142627.31058-1-ramalingam.c@intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -52,67 +54,113 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: CQ Tang <cq.tang@intel.com>
+From: Abdiel Janulgue <abdiel.janulgue@linux.intel.com>
 
-Gen12+ devices support 3D surface (buffer) compression and various
-compression formats. This is accomplished by an additional compression
-control state (CCS) stored for each surface.
+A portion of device memory is reserved for Flat CCS so usable
+device memory will be reduced by size of Flat CCS. Size of
+Flat CCS is specified in “XEHPSDV_FLAT_CCS_BASE_ADDR”.
+So to get effective device memory we need to subtract
+total device memory by Flat CCS memory size.
 
-Gen 12 devices(TGL family and DG1) stores compression states in a separate
-region of memory. It is managed by user-space and has an associated set of
-user-space managed page tables used by hardware for address translation.
-
-In Gen12.5 devices(XEHPSDV, DG2, etc), there is a new feature introduced
-i.e Flat CCS. It replaced AUX page tables with a flat indexed region of
-device memory for storing compression states.
-
-Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
 Cc: Matthew Auld <matthew.auld@intel.com>
-Signed-off-by: CQ Tang <cq.tang@intel.com>
+Signed-off-by: Abdiel Janulgue <abdiel.janulgue@linux.intel.com>
 Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
 ---
- drivers/gpu/drm/i915/i915_drv.h          | 2 ++
- drivers/gpu/drm/i915/i915_pci.c          | 1 +
- drivers/gpu/drm/i915/intel_device_info.h | 1 +
- 3 files changed, 4 insertions(+)
+ drivers/gpu/drm/i915/gt/intel_gt.c          | 19 ++++++++++++++++++
+ drivers/gpu/drm/i915/gt/intel_gt.h          |  1 +
+ drivers/gpu/drm/i915/gt/intel_region_lmem.c | 22 +++++++++++++++++++--
+ drivers/gpu/drm/i915/i915_reg.h             |  3 +++
+ 4 files changed, 43 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
-index a16fde38a252..57948e0ee48b 100644
---- a/drivers/gpu/drm/i915/i915_drv.h
-+++ b/drivers/gpu/drm/i915/i915_drv.h
-@@ -1721,6 +1721,8 @@ IS_SUBPLATFORM(const struct drm_i915_private *i915,
- #define HAS_REGION(i915, i) (INTEL_INFO(i915)->memory_regions & (i))
- #define HAS_LMEM(i915) HAS_REGION(i915, REGION_LMEM)
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
+index 1cb1948ac959..fd82ebee8724 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt.c
++++ b/drivers/gpu/drm/i915/gt/intel_gt.c
+@@ -900,6 +900,25 @@ u32 intel_gt_read_register_fw(struct intel_gt *gt, i915_reg_t reg)
+ 	return intel_uncore_read_fw(gt->uncore, reg);
+ }
  
-+#define HAS_FLAT_CCS(dev_priv)   (INTEL_INFO(dev_priv)->has_flat_ccs)
++u32 intel_gt_read_register(struct intel_gt *gt, i915_reg_t reg)
++{
++	int type;
++	u8 sliceid, subsliceid;
 +
- #define HAS_GT_UC(dev_priv)	(INTEL_INFO(dev_priv)->has_gt_uc)
++	for (type = 0; type < NUM_STEERING_TYPES; type++) {
++		if (intel_gt_reg_needs_read_steering(gt, reg, type)) {
++			intel_gt_get_valid_steering(gt, type, &sliceid,
++						    &subsliceid);
++			return intel_uncore_read_with_mcr_steering(gt->uncore,
++								   reg,
++								   sliceid,
++								   subsliceid);
++		}
++	}
++
++	return intel_uncore_read(gt->uncore, reg);
++}
++
+ void intel_gt_info_print(const struct intel_gt_info *info,
+ 			 struct drm_printer *p)
+ {
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt.h b/drivers/gpu/drm/i915/gt/intel_gt.h
+index 74e771871a9b..24b78398a587 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt.h
++++ b/drivers/gpu/drm/i915/gt/intel_gt.h
+@@ -84,6 +84,7 @@ static inline bool intel_gt_needs_read_steering(struct intel_gt *gt,
+ }
  
- #define HAS_POOLED_EU(dev_priv)	(INTEL_INFO(dev_priv)->has_pooled_eu)
-diff --git a/drivers/gpu/drm/i915/i915_pci.c b/drivers/gpu/drm/i915/i915_pci.c
-index 8ef484a23652..68367b505dc4 100644
---- a/drivers/gpu/drm/i915/i915_pci.c
-+++ b/drivers/gpu/drm/i915/i915_pci.c
-@@ -991,6 +991,7 @@ static const struct intel_device_info adl_p_info = {
- 	XE_HP_PAGE_SIZES, \
- 	.dma_mask_size = 46, \
- 	.has_64bit_reloc = 1, \
-+	.has_flat_ccs = 1, \
- 	.has_global_mocs = 1, \
- 	.has_gt_uc = 1, \
- 	.has_llc = 1, \
-diff --git a/drivers/gpu/drm/i915/intel_device_info.h b/drivers/gpu/drm/i915/intel_device_info.h
-index dd453b96af19..87ee1d86d2ac 100644
---- a/drivers/gpu/drm/i915/intel_device_info.h
-+++ b/drivers/gpu/drm/i915/intel_device_info.h
-@@ -126,6 +126,7 @@ enum intel_ppgtt_type {
- 	func(has_64k_pages); \
- 	func(gpu_reset_clobbers_display); \
- 	func(has_reset_engine); \
-+	func(has_flat_ccs); \
- 	func(has_global_mocs); \
- 	func(has_gt_uc); \
- 	func(has_l3_dpf); \
+ u32 intel_gt_read_register_fw(struct intel_gt *gt, i915_reg_t reg);
++u32 intel_gt_read_register(struct intel_gt *gt, i915_reg_t reg);
+ 
+ void intel_gt_info_print(const struct intel_gt_info *info,
+ 			 struct drm_printer *p);
+diff --git a/drivers/gpu/drm/i915/gt/intel_region_lmem.c b/drivers/gpu/drm/i915/gt/intel_region_lmem.c
+index 073d28d96669..d1f88beb26fe 100644
+--- a/drivers/gpu/drm/i915/gt/intel_region_lmem.c
++++ b/drivers/gpu/drm/i915/gt/intel_region_lmem.c
+@@ -201,8 +201,26 @@ static struct intel_memory_region *setup_lmem(struct intel_gt *gt)
+ 	if (!IS_DGFX(i915))
+ 		return ERR_PTR(-ENODEV);
+ 
+-	/* Stolen starts from GSMBASE on DG1 */
+-	lmem_size = intel_uncore_read64(uncore, GEN12_GSMBASE);
++	if (HAS_FLAT_CCS(i915)) {
++		u64 tile_stolen, flat_ccs_base_addr_reg, flat_ccs_base;
++
++		lmem_size = pci_resource_len(pdev, 2);
++		flat_ccs_base_addr_reg = intel_gt_read_register(gt, XEHPSDV_FLAT_CCS_BASE_ADDR);
++		flat_ccs_base = (flat_ccs_base_addr_reg >> XEHPSDV_CCS_BASE_SHIFT) * SZ_64K;
++		tile_stolen = lmem_size - flat_ccs_base;
++
++		/* If the FLAT_CCS_BASE_ADDR register is not populated, flag an error */
++		if (tile_stolen == lmem_size)
++			DRM_ERROR("CCS_BASE_ADDR register did not have expected value\n");
++
++		lmem_size -= tile_stolen;
++	} else {
++		/* Stolen starts from GSMBASE without CCS */
++		lmem_size = intel_uncore_read64(&i915->uncore, GEN12_GSMBASE);
++		if (GEM_WARN_ON(lmem_size > pci_resource_len(pdev, 2)))
++			return ERR_PTR(-ENODEV);
++	}
++
+ 
+ 	io_start = pci_resource_start(pdev, 2);
+ 	if (GEM_WARN_ON(lmem_size > pci_resource_len(pdev, 2)))
+diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
+index 1e221fbe37fd..3693eb03f5aa 100644
+--- a/drivers/gpu/drm/i915/i915_reg.h
++++ b/drivers/gpu/drm/i915/i915_reg.h
+@@ -12469,6 +12469,9 @@ enum skl_power_gate {
+ #define GEN12_GSMBASE			_MMIO(0x108100)
+ #define GEN12_DSMBASE			_MMIO(0x1080C0)
+ 
++#define XEHPSDV_FLAT_CCS_BASE_ADDR             _MMIO(0x4910)
++#define   XEHPSDV_CCS_BASE_SHIFT               8
++
+ /* gamt regs */
+ #define GEN8_L3_LRA_1_GPGPU _MMIO(0x4dd4)
+ #define   GEN8_L3_LRA_1_GPGPU_DEFAULT_VALUE_BDW  0x67F1427F /* max/min for LRA1/2 */
 -- 
 2.20.1
 
