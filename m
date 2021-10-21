@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84FE14358D9
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Oct 2021 05:10:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B4514358D8
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Oct 2021 05:10:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A9156EA65;
-	Thu, 21 Oct 2021 03:10:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C89C86E3FE;
+	Thu, 21 Oct 2021 03:10:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com
  [IPv6:2607:f8b0:4864:20::632])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2448E6E3FE
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 001BB6EA64
  for <dri-devel@lists.freedesktop.org>; Thu, 21 Oct 2021 03:10:35 +0000 (UTC)
-Received: by mail-pl1-x632.google.com with SMTP id v20so17505660plo.7
+Received: by mail-pl1-x632.google.com with SMTP id g5so17533856plg.1
  for <dri-devel@lists.freedesktop.org>; Wed, 20 Oct 2021 20:10:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=9TThp1HI4kpOvu/0H4PBMLArwdOhxuUAZO1JZOsPPQg=;
- b=jMQX1CMFe17DbcK4X1+9H2+7H9PUAFf267h3c519tPcIGA5xJapzyKFi57EeNVQ3Kz
- tOHu1uW1+yj7SHaBrFW6bjgV22rsExZ+7t2M9llWo92DfIZP0wZnXPll14ktcS08ckf3
- Ui4ihs5JrCeSmS3eH5Nl4tfoRUaJy6XZKAAzc=
+ bh=AwgsndVmfHw/6pjlQaZU2erZEw/1WQ3kWFjNXQQ/usw=;
+ b=QVYUVNLV8P3IAQqTDiFZYwO/JJzXGzHLG/xlruYZIsaIlBJlkYg33OqiDiXDOEOnsA
+ n139ls4Ep3AjqEsuyItWrReMJuqEIgGyUIQRqOxD6KEhlMHJ9bInipFm0kw/c8/+Hn5b
+ DPsmpLV+GFeJiQCFA+2VyHMHHxQotgH6/cRHs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=9TThp1HI4kpOvu/0H4PBMLArwdOhxuUAZO1JZOsPPQg=;
- b=3JxaMRzejP4fFi+bFBMB+Q8JYBUBJ74fuuiePoA/XX/6jySYQfqqczi1dYse5vQIgJ
- bm2KKHZBqA6HUWyPWcYAbJjJhih7fj5P29RDaI/JJ/kEgMrL/2mWwEymsWZiQjayIZAM
- nBtI7YMc2S5pamFwqVztsp3GvyvsVR/Oh7oSjYXIuWx/F0C2AgnkxGvE0DDfFtwJdZhd
- 9VNLAAtJmr68h6NPMC8425SBe2Lt4d7eGxpKlDI27oQ81tCIrLxkIFFF72nJQCsZ1EfO
- 5/ISs9SUpNeMXWh5IxirZJWHIbaZGejC7uQApjZCxvde22Pqe7l8wYtvPTkqX7wfqy0M
- WAOw==
-X-Gm-Message-State: AOAM531+GpDgIpFBBwhYFYiCFhg6q929ARV0EoRbPAW8aO8lmLC40JzH
- kYu5DSTAFPh6B+0px1S0JzM6XpC6oHkZgg==
-X-Google-Smtp-Source: ABdhPJwjQC+qCihdnzdY1vNpbSK51KgkxFZVSGTlOO3vcnbR+OzHP2rYtlawrDqsb8r7WMaWxTk2PQ==
-X-Received: by 2002:a17:902:a613:b0:13d:d95c:c892 with SMTP id
- u19-20020a170902a61300b0013dd95cc892mr2861830plq.35.1634785834417; 
- Wed, 20 Oct 2021 20:10:34 -0700 (PDT)
+ bh=AwgsndVmfHw/6pjlQaZU2erZEw/1WQ3kWFjNXQQ/usw=;
+ b=iHTV2Vnl7guspa8JYlJTD3H7PzbfbkukBKEj7o/NQoxbm+gpIMNUsn26vtcnaAkPzD
+ jf2XB2t2K5iwMHpt+OThpONgbGho2wbLv1Sd46Xq6kSANxZYLhPJ34hmMMGqMit4xQNZ
+ sHqlfkt2TlNwq1dmACPR3W77unhrOi+IFsGoLsPoVPbnhgDyG0IdX0Qrr664TNpnsjgx
+ jlD8uFgtPMASlgmw17lCOSo+Zx5IzXbHD9uh6QrQI+PS777DkfRKNnje0InBE25I5Vq2
+ vT9/J7w+FR1Jduc8RXi3ffid0pS0x3M5SOjjQ0b5LYqmMJIpZ71Wpi6FejOi/vaL2LMn
+ bP1g==
+X-Gm-Message-State: AOAM5320t2ZnfAxAZmuEpe308eiULixnAskAgr+1q3lpLQsjAn/ANUWY
+ /PqDF72n7Y/GQLQKAMGNHsW3+biVbB9LXw==
+X-Google-Smtp-Source: ABdhPJxWw2WGryhCkcjWw7TZ74SSaUzjMVDMrpY7nz3ds0Uh6v2h9e6ucOwbBCeif9LFGnvHQbtCDA==
+X-Received: by 2002:a17:902:b40a:b0:13d:cbcd:2e64 with SMTP id
+ x10-20020a170902b40a00b0013dcbcd2e64mr2882180plr.18.1634785835304; 
+ Wed, 20 Oct 2021 20:10:35 -0700 (PDT)
 Received: from gurchetansingh0.mtv.corp.google.com
  ([2620:15c:202:201:21a4:fcf9:f5bb:f740])
- by smtp.gmail.com with ESMTPSA id z1sm4016255pfh.150.2021.10.20.20.10.33
+ by smtp.gmail.com with ESMTPSA id z1sm4016255pfh.150.2021.10.20.20.10.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Oct 2021 20:10:33 -0700 (PDT)
+ Wed, 20 Oct 2021 20:10:34 -0700 (PDT)
 From: Gurchetan Singh <gurchetansingh@chromium.org>
 To: dri-devel@lists.freedesktop.org
 Cc: kaleshsingh@google.com,
 	daniel@ffwll.ch,
 	rostedt@goodmis.org
-Subject: [RFC PATCH 5/8] drm: start using drm_gem_trace_gpu_mem_instance
-Date: Wed, 20 Oct 2021 20:10:24 -0700
-Message-Id: <20211021031027.537-6-gurchetansingh@chromium.org>
+Subject: [RFC PATCH 6/8] drm: track real and fake imports in drm_prime_member
+Date: Wed, 20 Oct 2021 20:10:25 -0700
+Message-Id: <20211021031027.537-7-gurchetansingh@chromium.org>
 X-Mailer: git-send-email 2.31.0
 In-Reply-To: <20211021031027.537-1-gurchetansingh@chromium.org>
 References: <20211021031027.537-1-gurchetansingh@chromium.org>
@@ -72,45 +72,135 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-- drm_gem_handle_create_tail(..) increases the per instance
-  memory counter.
-
-- drm_gem_object_release_handle(..) decreases the per instance
-  memory counter.
+Sometimes, an exported dma-buf is added to the import list.
+That messes up with trace point accounting, so track real vs.
+fake imports to correct this.
 
 Signed-off-by: Gurchetan Singh <gurchetansingh@chromium.org>
 ---
- drivers/gpu/drm/drm_gem.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/gpu/drm/drm_gem.c      |  5 ++++-
+ drivers/gpu/drm/drm_internal.h |  4 ++--
+ drivers/gpu/drm/drm_prime.c    | 18 +++++++++++++-----
+ 3 files changed, 19 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-index 528d7b29dccf..6f70419f2c90 100644
+index 6f70419f2c90..7637be0ceb74 100644
 --- a/drivers/gpu/drm/drm_gem.c
 +++ b/drivers/gpu/drm/drm_gem.c
-@@ -298,6 +298,7 @@ drm_gem_object_release_handle(int id, void *ptr, void *data)
- {
- 	struct drm_file *file_priv = data;
- 	struct drm_gem_object *obj = ptr;
-+	struct drm_device *dev = file_priv->minor->dev;
- 
- 	if (obj->funcs->close)
- 		obj->funcs->close(obj, file_priv);
-@@ -305,6 +306,7 @@ drm_gem_object_release_handle(int id, void *ptr, void *data)
- 	drm_gem_remove_prime_handles(obj, file_priv);
- 	drm_vma_node_revoke(&obj->vma_node, file_priv);
- 
-+	drm_gem_trace_gpu_mem_instance(dev, file_priv, -obj->size, false);
- 	drm_gem_object_handle_put_unlocked(obj);
- 
- 	return 0;
-@@ -447,6 +449,7 @@ drm_gem_handle_create_tail(struct drm_file *file_priv,
- 			goto err_revoke;
+@@ -226,8 +226,11 @@ drm_gem_remove_prime_handles(struct drm_gem_object *obj, struct drm_file *filp)
+ 	 */
+ 	mutex_lock(&filp->prime.lock);
+ 	if (obj->dma_buf) {
++		struct drm_device *dev = filp->minor->dev;
++		bool removed_real_import = false;
+ 		drm_prime_remove_buf_handle_locked(&filp->prime,
+-						   obj->dma_buf);
++						   obj->dma_buf,
++						   &removed_real_import);
  	}
+ 	mutex_unlock(&filp->prime.lock);
+ }
+diff --git a/drivers/gpu/drm/drm_internal.h b/drivers/gpu/drm/drm_internal.h
+index 17f3548c8ed2..40d572e46e2a 100644
+--- a/drivers/gpu/drm/drm_internal.h
++++ b/drivers/gpu/drm/drm_internal.h
+@@ -75,8 +75,8 @@ int drm_prime_fd_to_handle_ioctl(struct drm_device *dev, void *data,
+ void drm_prime_init_file_private(struct drm_prime_file_private *prime_fpriv);
+ void drm_prime_destroy_file_private(struct drm_prime_file_private *prime_fpriv);
+ void drm_prime_remove_buf_handle_locked(struct drm_prime_file_private *prime_fpriv,
+-					struct dma_buf *dma_buf);
+-
++					struct dma_buf *dma_buf,
++					bool *removed_real_import);
+ /* drm_drv.c */
+ struct drm_minor *drm_minor_acquire(unsigned int minor_id);
+ void drm_minor_release(struct drm_minor *minor);
+diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
+index deb23dbec8b5..31f033ec8549 100644
+--- a/drivers/gpu/drm/drm_prime.c
++++ b/drivers/gpu/drm/drm_prime.c
+@@ -90,13 +90,15 @@
+ struct drm_prime_member {
+ 	struct dma_buf *dma_buf;
+ 	uint32_t handle;
++	bool fake_import;
  
-+	drm_gem_trace_gpu_mem_instance(dev, file_priv, obj->size, false);
- 	*handlep = handle;
- 	return 0;
+ 	struct rb_node dmabuf_rb;
+ 	struct rb_node handle_rb;
+ };
  
+ static int drm_prime_add_buf_handle(struct drm_prime_file_private *prime_fpriv,
+-				    struct dma_buf *dma_buf, uint32_t handle)
++				    struct dma_buf *dma_buf, uint32_t handle,
++				    bool fake_import)
+ {
+ 	struct drm_prime_member *member;
+ 	struct rb_node **p, *rb;
+@@ -108,6 +110,7 @@ static int drm_prime_add_buf_handle(struct drm_prime_file_private *prime_fpriv,
+ 	get_dma_buf(dma_buf);
+ 	member->dma_buf = dma_buf;
+ 	member->handle = handle;
++	member->fake_import = fake_import;
+ 
+ 	rb = NULL;
+ 	p = &prime_fpriv->dmabufs.rb_node;
+@@ -188,9 +191,11 @@ static int drm_prime_lookup_buf_handle(struct drm_prime_file_private *prime_fpri
+ }
+ 
+ void drm_prime_remove_buf_handle_locked(struct drm_prime_file_private *prime_fpriv,
+-					struct dma_buf *dma_buf)
++					struct dma_buf *dma_buf,
++					bool *removed_real_import)
+ {
+ 	struct rb_node *rb;
++	*removed_real_import = false;
+ 
+ 	rb = prime_fpriv->dmabufs.rb_node;
+ 	while (rb) {
+@@ -201,6 +206,9 @@ void drm_prime_remove_buf_handle_locked(struct drm_prime_file_private *prime_fpr
+ 			rb_erase(&member->handle_rb, &prime_fpriv->handles);
+ 			rb_erase(&member->dmabuf_rb, &prime_fpriv->dmabufs);
+ 
++			if (!member->fake_import)
++				*removed_real_import = true;
++
+ 			dma_buf_put(dma_buf);
+ 			kfree(member);
+ 			return;
+@@ -303,7 +311,6 @@ int drm_gem_prime_fd_to_handle(struct drm_device *dev,
+ 		return PTR_ERR(dma_buf);
+ 
+ 	mutex_lock(&file_priv->prime.lock);
+-
+ 	ret = drm_prime_lookup_buf_handle(&file_priv->prime,
+ 			dma_buf, handle);
+ 	if (ret == 0)
+@@ -315,6 +322,7 @@ int drm_gem_prime_fd_to_handle(struct drm_device *dev,
+ 		obj = dev->driver->gem_prime_import(dev, dma_buf);
+ 	else
+ 		obj = drm_gem_prime_import(dev, dma_buf);
++
+ 	if (IS_ERR(obj)) {
+ 		ret = PTR_ERR(obj);
+ 		goto out_unlock;
+@@ -334,7 +342,7 @@ int drm_gem_prime_fd_to_handle(struct drm_device *dev,
+ 		goto out_put;
+ 
+ 	ret = drm_prime_add_buf_handle(&file_priv->prime,
+-			dma_buf, *handle);
++			dma_buf, *handle, false);
+ 	mutex_unlock(&file_priv->prime.lock);
+ 	if (ret)
+ 		goto fail;
+@@ -473,7 +481,7 @@ int drm_gem_prime_handle_to_fd(struct drm_device *dev,
+ 	 * ioctl doesn't miss to remove this buffer handle from the cache.
+ 	 */
+ 	ret = drm_prime_add_buf_handle(&file_priv->prime,
+-				       dmabuf, handle);
++				       dmabuf, handle, true);
+ 	mutex_unlock(&dev->object_name_lock);
+ 	if (ret)
+ 		goto fail_put_dmabuf;
 -- 
 2.25.1
 
