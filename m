@@ -2,37 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A8C2437309
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Oct 2021 09:46:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51D99437191
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Oct 2021 08:12:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 343C26E8F5;
-	Fri, 22 Oct 2021 07:46:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 370B389B4D;
+	Fri, 22 Oct 2021 06:12:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out28-1.mail.aliyun.com (out28-1.mail.aliyun.com [115.124.28.1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D40846E511
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Oct 2021 01:49:44 +0000 (UTC)
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.1947132|-1; CH=green; DM=|CONTINUE|false|;
- DS=CONTINUE|ham_system_inform|0.00895314-0.00138788-0.989659;
- FP=13645255560291118206|1|1|8|0|-1|-1|-1; HT=ay29a033018047211;
- MF=huangshuosheng@allwinnertech.com; NM=1; PH=DS; RN=10; RT=10; SR=0;
- TI=SMTPD_---.LflF5bR_1634867362; 
-Received: from allwinnertech.com(mailfrom:huangshuosheng@allwinnertech.com
- fp:SMTPD_---.LflF5bR_1634867362)
- by smtp.aliyun-inc.com(10.147.40.44); Fri, 22 Oct 2021 09:49:41 +0800
-From: Shuosheng Huang <huangshuosheng@allwinnertech.com>
-To: sumit.semwal@linaro.org, lmark@codeaurora.org, labbott@redhat.com,
- Brian.Starkey@arm.com, john.stultz@linaro.org, christian.koenig@amd.com
-Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org,
- Shuosheng Huang <huangshuosheng@allwinnertech.com>
-Subject: [PATCH v2] dma-buf: heaps: init heaps in subsys_initcall
-Date: Fri, 22 Oct 2021 09:48:50 +0800
-Message-Id: <20211022014850.22933-1-huangshuosheng@allwinnertech.com>
-X-Mailer: git-send-email 2.29.0
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 45E0289B4D;
+ Fri, 22 Oct 2021 06:12:33 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10144"; a="216147936"
+X-IronPort-AV: E=Sophos;i="5.87,171,1631602800"; d="scan'208";a="216147936"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Oct 2021 23:12:01 -0700
+X-IronPort-AV: E=Sophos;i="5.87,171,1631602800"; d="scan'208";a="721586457"
+Received: from unknown (HELO [10.249.254.159]) ([10.249.254.159])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Oct 2021 23:11:59 -0700
+Message-ID: <7fa98234-73d5-69a7-d712-b3180614c873@linux.intel.com>
+Date: Fri, 22 Oct 2021 08:11:55 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH] drm/i915/selftests: Update live.evict to wait on requests
+ / idle GPU after each loop
+Content-Language: en-US
+To: Matthew Brost <matthew.brost@intel.com>, intel-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org
+Cc: daniele.ceraolospurio@intel.com, john.c.harrison@intel.com
+References: <20211021214040.33292-1-matthew.brost@intel.com>
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
+In-Reply-To: <20211021214040.33292-1-matthew.brost@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Fri, 22 Oct 2021 07:46:03 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,40 +52,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Some built-in modules will failed to use dma-buf heap to allocate
-memory if the heap drivers are too late to be initialized.
-To fix this issue, move initialization of dma-buf heap drivers in
-subsys_initcall() which is more earlier to be called.
 
-Signed-off-by: Shuosheng Huang <huangshuosheng@allwinnertech.com>
----
- drivers/dma-buf/heaps/cma_heap.c    | 2 +-
- drivers/dma-buf/heaps/system_heap.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+On 10/21/21 23:40, Matthew Brost wrote:
+> Update live.evict to wait on last request and idle GPU after each loop.
+> This not only enhances the test to fill the GGTT on each engine class
+> but also avoid timeouts from igt_flush_test when using GuC submission.
+> igt_flush_test (idle GPU) can take a long time with GuC submission if
+> losts of contexts are created due to H2G / G2H required to destroy
+> contexts.
+>
+> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
 
-diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma_heap.c
-index 0c05b79870f9..e051403a346d 100644
---- a/drivers/dma-buf/heaps/cma_heap.c
-+++ b/drivers/dma-buf/heaps/cma_heap.c
-@@ -400,6 +400,6 @@ static int add_default_cma_heap(void)
- 
- 	return ret;
- }
--module_init(add_default_cma_heap);
-+subsys_initcall(add_default_cma_heap);
- MODULE_DESCRIPTION("DMA-BUF CMA Heap");
- MODULE_LICENSE("GPL v2");
-diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/system_heap.c
-index 23a7e74ef966..3d6927657ec9 100644
---- a/drivers/dma-buf/heaps/system_heap.c
-+++ b/drivers/dma-buf/heaps/system_heap.c
-@@ -435,5 +435,5 @@ static int system_heap_create(void)
- 
- 	return 0;
- }
--module_init(system_heap_create);
-+subsys_initcall(system_heap_create);
- MODULE_LICENSE("GPL v2");
--- 
-2.29.0
+LGTM,
 
+Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+
+
+> ---
+>   .../gpu/drm/i915/selftests/i915_gem_evict.c   | 19 +++++++++++++++++++
+>   1 file changed, 19 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/i915/selftests/i915_gem_evict.c b/drivers/gpu/drm/i915/selftests/i915_gem_evict.c
+> index f99bb0113726..7e0658a77659 100644
+> --- a/drivers/gpu/drm/i915/selftests/i915_gem_evict.c
+> +++ b/drivers/gpu/drm/i915/selftests/i915_gem_evict.c
+> @@ -442,6 +442,7 @@ static int igt_evict_contexts(void *arg)
+>   	/* Overfill the GGTT with context objects and so try to evict one. */
+>   	for_each_engine(engine, gt, id) {
+>   		struct i915_sw_fence fence;
+> +		struct i915_request *last = NULL;
+>   
+>   		count = 0;
+>   		onstack_fence_init(&fence);
+> @@ -479,6 +480,9 @@ static int igt_evict_contexts(void *arg)
+>   
+>   			i915_request_add(rq);
+>   			count++;
+> +			if (last)
+> +				i915_request_put(last);
+> +			last = i915_request_get(rq);
+>   			err = 0;
+>   		} while(1);
+>   		onstack_fence_fini(&fence);
+> @@ -486,6 +490,21 @@ static int igt_evict_contexts(void *arg)
+>   			count, engine->name);
+>   		if (err)
+>   			break;
+> +		if (last) {
+> +			if (i915_request_wait(last, 0, HZ) < 0) {
+> +				err = -EIO;
+> +				i915_request_put(last);
+> +				pr_err("Failed waiting for last request (on %s)",
+> +				       engine->name);
+> +				break;
+> +			}
+> +			i915_request_put(last);
+> +		}
+> +		err = intel_gt_wait_for_idle(engine->gt, HZ * 3);
+> +		if (err) {
+> +			pr_err("Failed to idle GT (on %s)", engine->name);
+> +			break;
+> +		}
+>   	}
+>   
+>   	mutex_lock(&ggtt->vm.mutex);
