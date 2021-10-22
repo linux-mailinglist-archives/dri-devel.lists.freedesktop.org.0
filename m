@@ -1,64 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DB2D437710
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Oct 2021 14:23:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D4276437769
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Oct 2021 14:50:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB3A36ED65;
-	Fri, 22 Oct 2021 12:23:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F0E16ED82;
+	Fri, 22 Oct 2021 12:50:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A09E96E7EC;
- Fri, 22 Oct 2021 12:23:11 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10144"; a="216208695"
-X-IronPort-AV: E=Sophos;i="5.87,172,1631602800"; d="scan'208";a="216208695"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Oct 2021 05:23:11 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.87,172,1631602800"; d="scan'208";a="569038517"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
- by FMSMGA003.fm.intel.com with SMTP; 22 Oct 2021 05:22:58 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Fri, 22 Oct 2021 15:22:57 +0300
-Date: Fri, 22 Oct 2021 15:22:57 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Claudio Suarez <cssk@net-c.es>
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-tegra@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Pan Xinhui <Xinhui.Pan@amd.com>, Emma Anholt <emma@anholt.net>,
- Maxime Ripard <mripard@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
- Jingoo Han <jingoohan1@gmail.com>, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, Chen-Yu Tsai <wens@csie.org>,
- Sandy Huang <hjc@rock-chips.com>, heiko@sntech.de,
- Neil Armstrong <narmstrong@baylibre.com>,
- Robert Foss <robert.foss@linaro.org>,
- Ben Skeggs <bskeggs@redhat.com>, nouveau@lists.freedesktop.org
-Subject: Re: [Intel-gfx] [PATCH v3 13/13] drm/i915: replace
- drm_detect_hdmi_monitor() with drm_display_info.is_hdmi
-Message-ID: <YXKtIUDk+f2Bnn++@intel.com>
-References: <20211016184226.3862-1-cssk@net-c.es>
- <20211016184226.3862-14-cssk@net-c.es> <YW8QYsmkm3ZrBAx3@intel.com>
- <YW9L6d7e+RO29VJu@gineta.localdomain> <YXFwB7rN4bvR0Z+m@intel.com>
- <YXKRnUHWuboQKBF1@zorro.micasa> <YXKoMEF/gU98cL9n@intel.com>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 50A9F6ED82
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Oct 2021 12:50:00 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id BB88E21987;
+ Fri, 22 Oct 2021 12:49:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1634906998; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=BiWtDBKtsfoffHAX2HzgkG+VhLk/jg095GQlHHeB6cA=;
+ b=gxueBIlv4mE5oZXdxd4ZOC1NZpObPbH7Siy+hL0ZjNF5173HyOHDfPnyILTsIkdCwA09Ue
+ iQzXZTk0wVzgaycoMvRGgqRdPoN75yUC3CPCG1sMQa0hSSNehsr9Ns6LrkPQXs3vKz17bB
+ 5WZLCg6ol1tDqCOULYO0dNCzmu3s090=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1634906998;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=BiWtDBKtsfoffHAX2HzgkG+VhLk/jg095GQlHHeB6cA=;
+ b=inN93mQcvTnwhHJUybYgXyyMpsFHTGupGiW35d6nUOzfVUnzg/fbFIhvkmqqR2zHb4LMfz
+ h7GpUZtTxdrfCwDg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9957B13CDA;
+ Fri, 22 Oct 2021 12:49:58 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id QdvJI3azcmFtTAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Fri, 22 Oct 2021 12:49:58 +0000
+Message-ID: <a19a6412-edba-e120-d9e6-0d70455bf567@suse.de>
+Date: Fri, 22 Oct 2021 14:49:57 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <YXKoMEF/gU98cL9n@intel.com>
-X-Patchwork-Hint: comment
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: Linux >= 5.14.12 and 5.15-rc5 fail to show anything on the screen
+ with CONFIG_DRM_SIMPLEDRM=y
+Content-Language: en-US
+To: "Artem S. Tashkinov" <aros@gmx.com>, dri-devel@lists.freedesktop.org
+Cc: Joshua Strobl <joshua@stroblindustries.com>, Arnd Bergmann <arnd@arndb.de>
+References: <488e87e6-00af-d514-dc95-25bce5160eda@gmx.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <488e87e6-00af-d514-dc95-25bce5160eda@gmx.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------C0Ws86293TDY2SWfZel0RfHM"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,61 +74,93 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 22, 2021 at 03:01:52PM +0300, Ville Syrjälä wrote:
-> On Fri, Oct 22, 2021 at 12:25:33PM +0200, Claudio Suarez wrote:
-> > On Thu, Oct 21, 2021 at 04:49:59PM +0300, Ville Syrjälä wrote:
-> > > On Wed, Oct 20, 2021 at 12:51:21AM +0200, Claudio Suarez wrote:
-> > > > drm_get_edid() internally calls to drm_connector_update_edid_property()
-> > > > and then drm_add_display_info(), which parses the EDID.
-> > > > This happens in the function intel_hdmi_set_edid() and
-> > > > intel_sdvo_tmds_sink_detect() (via intel_sdvo_get_edid()).
-> > > > 
-> > > > Once EDID is parsed, the monitor HDMI support information is available
-> > > > through drm_display_info.is_hdmi. Retriving the same information with
-> > > > drm_detect_hdmi_monitor() is less efficient. Change to
-> > > > drm_display_info.is_hdmi
-> > > 
-> > > I meant we need to examine all call chains that can lead to
-> > > .detect() to make sure all of them do in fact update the
-> > > display_info beforehand.
-> > 
-> > Well, I studied it carefully and, yes, all call chains that can lead to
-> > drm_display_info.is_hdmi / drm_detect_hdmi_monitor() update display_info
-> > beforehand. In the case that this doesn't happen, the code is unchanged.
-> > 
-> > Do you want I explain the changes in the code here again ? Or do you want
-> > to me change the commit message to be more clear ? In the first case, I can
-> > write here a detailed explanation. In the second case I can make a longer commit
-> > message.
-> > 
-> > Or both?
-> 
-> I want all those call chains explained in the commit message,
-> otherwise I have no easy way to confirm whether the change
-> is correct or not.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------C0Ws86293TDY2SWfZel0RfHM
+Content-Type: multipart/mixed; boundary="------------HeFDLpqqMKj3Zh6NBmwRVvH8";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: "Artem S. Tashkinov" <aros@gmx.com>, dri-devel@lists.freedesktop.org
+Cc: Joshua Strobl <joshua@stroblindustries.com>, Arnd Bergmann <arnd@arndb.de>
+Message-ID: <a19a6412-edba-e120-d9e6-0d70455bf567@suse.de>
+Subject: Re: Linux >= 5.14.12 and 5.15-rc5 fail to show anything on the screen
+ with CONFIG_DRM_SIMPLEDRM=y
+References: <488e87e6-00af-d514-dc95-25bce5160eda@gmx.com>
+In-Reply-To: <488e87e6-00af-d514-dc95-25bce5160eda@gmx.com>
 
-Hmm. OK, so I had a bit of a dig around and seems that what we do now
-.detect()->drm_get_edid()->drm_connector_update_edid_property()->drm_add_display_info()
+--------------HeFDLpqqMKj3Zh6NBmwRVvH8
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Now the question is when did that start happening? Looks like it was
-commit 4b4df570b41d ("drm: Update edid-derived drm_display_info fields
-at edid property set [v2]") that started to call drm_add_display_info()
-from drm_connector_update_edid_property(), and then commit 5186421cbfe2
-("drm: Introduce epoch counter to drm_connector") started to call
-drm_connector_update_edid_property() from drm_get_edid(). Before both
-of those commits were in place display_info would still contain
-some stale garbage during .detect().
+SGkNCg0KQW0gMjIuMTAuMjEgdW0gMTQ6MTUgc2NocmllYiBBcnRlbSBTLiBUYXNoa2lub3Y6
+DQo+IEhlbGxvLA0KPiANCj4gS2VybmVsIDUuMTQuMTIgaW50cm9kdWNlZCB0aGlzIGNoYW5n
+ZSwgZ2l0IGNvbW1pdA0KPiBlYzdjYzNmNzRiNDIzNjg2MGNlNjEyNjU2YWE1YmU3OTM2ZDFj
+NTk0Og0KPiANCj4gLS0tIGEvbGludXgtNS4xNC4xMS9kcml2ZXJzL3ZpZGVvL2ZiZGV2L0tj
+b25maWcNCj4gKysrIGIvbGludXgtNS4xNC4xMi9kcml2ZXJzL3ZpZGVvL2ZiZGV2L0tjb25m
+aWcNCj4gQEAgLTIxOTEsOCArMjE5MSw5IEBAIGNvbmZpZyBGQl9IWVBFUlYNCj4gIMKgwqDC
+oMKgwqAgVGhpcyBmcmFtZWJ1ZmZlciBkcml2ZXIgc3VwcG9ydHMgTWljcm9zb2Z0IEh5cGVy
+LVYgU3ludGhldGljIFZpZGVvLg0KPiANCj4gIMKgY29uZmlnIEZCX1NJTVBMRQ0KPiAtwqDC
+oCBib29sICJTaW1wbGUgZnJhbWVidWZmZXIgc3VwcG9ydCINCj4gLcKgwqAgZGVwZW5kcyBv
+biAoRkIgPSB5KSAmJiAhRFJNX1NJTVBMRURSTQ0KPiArwqDCoCB0cmlzdGF0ZSAiU2ltcGxl
+IGZyYW1lYnVmZmVyIHN1cHBvcnQiDQo+ICvCoMKgIGRlcGVuZHMgb24gRkINCj4gK8KgwqAg
+ZGVwZW5kcyBvbiAhRFJNX1NJTVBMRURSTQ0KPiAgwqDCoMKgIHNlbGVjdCBGQl9DRkJfRklM
+TFJFQ1QNCj4gIMKgwqDCoCBzZWxlY3QgRkJfQ0ZCX0NPUFlBUkVBDQo+ICDCoMKgwqAgc2Vs
+ZWN0IEZCX0NGQl9JTUFHRUJMSVQNCj4gDQo+IA0KPiBIb3dldmVyIGlmIHlvdSBlbmFibGUg
+Q09ORklHX0RSTV9TSU1QTEVEUk09eSBhbG9uZyB3aXRoIGl0LCB0aGUgc3lzdGVtDQo+IHdp
+bGwgc2hvdyBhIGJsYWNrIHNjcmVlbiBvbiBib290IHdoaWxlIGxvZ2dpbmcgdGhlc2UgbWVz
+c2FnZXM6DQo+IA0KPiBbZHJtXSBJbml0aWFsaXplZCBzaW1wbGVkcm0gMS4wLjAgMjAyMDA2
+MjUgZm9yIHNpbXBsZS1mcmFtZWJ1ZmZlci4wIG9uDQo+IG1pbm9yIDANCj4gc2ltcGxlLWZy
+YW1lYnVmZmVyIHNpbXBsZS1mcmFtZWJ1ZmZlci4wOiBbZHJtXSAqRVJST1IqIGZiZGV2OiBG
+YWlsZWQgdG8NCj4gc2V0dXAgZ2VuZXJpYyBlbXVsYXRpb24gKHJldD0tMjIpDQo+IGZiY29u
+OiBUYWtpbmcgb3ZlciBjb25zb2xlDQo+IA0KPiANCj4gV2hlbiBDT05GSUdfRFJNX1NJTVBM
+RURSTSBpcyBkaXNhYmxlZCBpdCBwcm9jZWVkcyB0byBib290IG5vcm1hbGx5Og0KPiANCj4g
+c2ltcGxlLWZyYW1lYnVmZmVyIHNpbXBsZS1mcmFtZWJ1ZmZlci4wOiBmcmFtZWJ1ZmZlciBh
+dCAweGUxMDAwMDAwLA0KPiAweDMwMDAwMCBieXRlcw0KPiBzaW1wbGUtZnJhbWVidWZmZXIg
+c2ltcGxlLWZyYW1lYnVmZmVyLjA6IGZvcm1hdD1hOHI4ZzhiOCwNCj4gbW9kZT0xMDI0eDc2
+OHgzMiwgbGluZWxlbmd0aD00MDk2DQo+IGZiY29uOiBEZWZlcnJpbmcgY29uc29sZSB0YWtl
+LW92ZXINCj4gc2ltcGxlLWZyYW1lYnVmZmVyIHNpbXBsZS1mcmFtZWJ1ZmZlci4wOiBmYjA6
+IHNpbXBsZWZiIHJlZ2lzdGVyZWQhDQo+IA0KPiANCj4gVGhpcyBpcyBkaXNjdXNzZWQgaGVy
+ZTogaHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMTQ3MjMN
+Cj4gDQo+IEkgcmVhbGx5IGRvbid0IGtub3cgd2hhdCB0byBtYWtlIG9mIGl0IGJ1dCBJIGRl
+ZmluaXRlbHkgZG9uJ3QgbGlrZSB0aGlzDQo+IHNpdHVhdGlvbi4NCg0KWW91IG1pZ2h0IG5l
+ZWQgY29tbWl0IGI2OTNlNDI5MjFlMCAoImRybS9mYmRldjogQ2xhbXAgZmJkZXYgc3VyZmFj
+ZSBzaXplIA0KaWYgdG9vIGxhcmdlIiksIHdoaWNoIGlzIG9ubHkgaW4gLXJjNi4NCg0KQWx0
+ZXJuYXRpdmVseSwgbWFrZSBzdXJlIHRoYXQgZmJkZXYgb3ZlcmFsbG9jYXRpb24gaGFzIGJl
+ZW4gZGlzYWJsZWQuIA0KVGhlIGNvbmZpZyB0aGF0IGlzIGF0dGFjaGVkIHRvIHRoYXQgYnVn
+IHJlcG9ydCBpbmRpY2F0ZSB0aGF0IGl0J3MgZW5hYmxlZC4NCg0KICAgQ09ORklHX0RSTV9G
+QkRFVl9PVkVSQUxMT0M9MzAwDQoNClRlbXBvcmFyaWx5IHNldCB0aGlzIHZhbHVlIHRvIDEw
+MCBmb3Igbm93Lg0KDQpTb3JyeSBmb3IgYW55IHByb2JsZW1zIHdpdGggc2ltcGxlZHJtLiBJ
+dCdzIHN0aWxsIG5ldyBhbmQgd2UncmUgZml4aW5nIA0KdGhlIGJ1ZyB0aGF0IGl0IGV4cG9z
+ZXMuDQoNCkJUVywgeW91IGFsc28gaGF2ZSB0byBtYWtlIHlvdXIgYm9vdGxvYWRlciBwYXNz
+IHRoZSBncmFwaGljcyBtb2RlIHRvIA0KTGludXguIChHUlVCX0dGWFBBWUxPQURfTElOVVg9
+ImtlZXAiIGZvciBHUlVCIFsxXSkuDQoNCkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoNClsxXSBo
+dHRwczovL3d3dy5nbnUub3JnL3NvZnR3YXJlL2dydWIvbWFudWFsL2dydWIvaHRtbF9ub2Rl
+L2dmeHBheWxvYWQuaHRtbA0KDQo+IA0KPiANCj4gQmVzdCByZWdhcmRzLA0KPiBBcnRlbQ0K
+DQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpT
+VVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkw
+NDA5IE7DvHJuYmVyZywgR2VybWFueQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2Vz
+Y2jDpGZ0c2bDvGhyZXI6IEZlbGl4IEltZW5kw7ZyZmZlcg0K
 
-That is the story I think we want in these commit messages since it
-a) explains why the old code was directly parsing the edid instead
-b) why it's now safe to change this
+--------------HeFDLpqqMKj3Zh6NBmwRVvH8--
 
-PS. connector->force handling in drm_get_edid() looks a bit busted
-since it doesn't call drm_connector_update_edid_property() at all
-in some cases. I think there might be some path that leads there
-anywya if/when we change connector->force, but we should fix
-drm_get_edid() to do the right thing regarless.
+--------------C0Ws86293TDY2SWfZel0RfHM
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
--- 
-Ville Syrjälä
-Intel
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmFys3YFAwAAAAAACgkQlh/E3EQov+C+
+bg/8D/sSnCYkq7vyeKJYVZw1TxLm6VkQoGGbLlp8BvjTkzwTNAgcLcTpJMwYJ5Eeg0aAhS5tSl1t
+0xhT2b8PXTXTrOUntqNY6JG0An0uc2zw59xYXE8VidfLorOpc8QSoAgoxxX3K5HmznDc8aQUgy7z
+Gx9EsxB3LkF1mqHC6X49ksDHOpgjCL8RlLbzmqSAKOWo8GcmwemiCSU653z379xpbwGJkmcse03D
+gvD8bSEAjVwXa9xbWmVfkKDJqmjQvMvgr/w9T67ZyPXJRHwhjAut88y4MuhQbl5Ns8I6eWRuAHlA
+OBaFvFRKdnUu8zGhxBNUduCs39GXhrdRQ5F1+tCcFsz6GgGZMq1itcdtPJC6IoA32EO7bL2ddaVs
+/pZGjEIIh+X0TXQXfNe1v8KIa9Q/u3vTxWX6RQXcVnw8iQhdWSwdIMh89UWD9Awyihs3jX+iiXXa
+xd/MieIY5lkNftDtoyi0EQ1X6HNWfDaVz3FmV7ynJ8JeeOT6s+lvvq7S7UdJ6FisI083qfmLjbjQ
+97Dhr9Agkxy8Iuyu9sJVg6E9WZyV8mfY5JvETK5TNPySwlSrqEnO5F3ILHfFGsGTNCA2HW9PITm1
+r1gmyifvWwT7vajRFzyruaM0NjnH5kCuW9yF9aLLDzuGcd5rhgVFDDLyojE1iM9rceknphMq2cMS
+tLo=
+=lq5z
+-----END PGP SIGNATURE-----
+
+--------------C0Ws86293TDY2SWfZel0RfHM--
