@@ -2,43 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69154437217
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Oct 2021 08:48:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA6CB437223
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Oct 2021 08:49:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E4D466E566;
-	Fri, 22 Oct 2021 06:47:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9348A89E2A;
+	Fri, 22 Oct 2021 06:49:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4CBDF6E566;
- Fri, 22 Oct 2021 06:47:56 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10144"; a="216155607"
-X-IronPort-AV: E=Sophos;i="5.87,171,1631602800"; d="scan'208";a="216155607"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Oct 2021 23:47:55 -0700
-X-IronPort-AV: E=Sophos;i="5.87,171,1631602800"; d="scan'208";a="492436281"
-Received: from ginagrec-mobl2.amr.corp.intel.com (HELO ldmartin-desk2)
- ([10.254.48.36])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Oct 2021 23:47:54 -0700
-Date: Thu, 21 Oct 2021 23:47:52 -0700
-From: Lucas De Marchi <lucas.demarchi@intel.com>
-To: Ramalingam C <ramalingam.c@intel.com>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- Daniel Vetter <daniel@ffwll.ch>, CQ Tang <cq.tang@intel.com>,
- Matthew Auld <matthew.auld@intel.com>, rodrigo.vivi@intel.com,
- Hellstrom Thomas <thomas.hellstrom@intel.com>,
- Stuart Summers <stuart.summers@intel.com>
-Subject: Re: [Intel-gfx] [PATCH v2 01/17] drm/i915: Add has_64k_pages flag
-Message-ID: <20211022064752.zvrnyza34z6ggvut@ldmartin-desk2>
-References: <20211021142627.31058-1-ramalingam.c@intel.com>
- <20211021142627.31058-2-ramalingam.c@intel.com>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 38AD389E2A
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Oct 2021 06:49:06 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 8D2452197F;
+ Fri, 22 Oct 2021 06:49:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+ t=1634885344; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=vdb5nLtyp5tIbT7/OLrVEaSBnq6naUGZA07AQT86v2c=;
+ b=PMNO7u+JK4lsjHIAmHQ/NYSH6PSDWxW5oi4qSzEsVw9p0v6RgIf1dw5L1M0yxZnnPmUE42
+ bEdzMHkjaPHjMsStRKaaW/VG+AFY5hngJA838Yw55Zrc0gCY9ILGst8rEWSnr+azo7IRtQ
+ wVKKkBy8OqPGObfHmn8PuQkefgkgXAA=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1A09513AAD;
+ Fri, 22 Oct 2021 06:49:04 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id jpEMBeBecmEIEwAAMHmgww
+ (envelope-from <jgross@suse.com>); Fri, 22 Oct 2021 06:49:04 +0000
+From: Juergen Gross <jgross@suse.com>
+To: xen-devel@lists.xenproject.org, linux-input@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org, linuxppc-dev@lists.ozlabs.org
+Cc: Juergen Gross <jgross@suse.com>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jiri Slaby <jirislaby@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, alsa-devel@alsa-project.org
+Subject: [PATCH 0/5] xen: cleanup detection of non-essential pv devices
+Date: Fri, 22 Oct 2021 08:47:55 +0200
+Message-Id: <20211022064800.14978-1-jgross@suse.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20211021142627.31058-2-ramalingam.c@intel.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,16 +68,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 21, 2021 at 07:56:11PM +0530, Ramalingam C wrote:
->From: Stuart Summers <stuart.summers@intel.com>
->
->Add a new platform flag, has_64k_pages, for platforms supporting
->base page sizes of 64k.
->
->Signed-off-by: Stuart Summers <stuart.summers@intel.com>
->Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
+Today the non-essential pv devices are hard coded in the xenbus driver
+and this list is lacking multiple entries.
 
+This series reworks the detection logic of non-essential devices by
+adding a flag for that purpose to struct xenbus_driver.
 
-Reviewed-by: Lucas De Marchi <lucas.demarchi@intel.com>
+Juergen Gross (5):
+  xen: add "not_essential" flag to struct xenbus_driver
+  xen: flag xen_drm_front to be not essential for system boot
+  xen: flag hvc_xen to be not essential for system boot
+  xen: flag pvcalls-front to be not essential for system boot
+  xen: flag xen_snd_front to be not essential for system boot
 
-Lucas De Marchi
+ drivers/gpu/drm/xen/xen_drm_front.c        |  1 +
+ drivers/input/misc/xen-kbdfront.c          |  1 +
+ drivers/tty/hvc/hvc_xen.c                  |  1 +
+ drivers/video/fbdev/xen-fbfront.c          |  1 +
+ drivers/xen/pvcalls-front.c                |  1 +
+ drivers/xen/xenbus/xenbus_probe_frontend.c | 14 +++-----------
+ include/xen/xenbus.h                       |  1 +
+ sound/xen/xen_snd_front.c                  |  1 +
+ 8 files changed, 10 insertions(+), 11 deletions(-)
+
+-- 
+2.26.2
+
