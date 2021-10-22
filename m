@@ -2,59 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4008F437D2C
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Oct 2021 21:02:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49455437D2F
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Oct 2021 21:02:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD92F6E5A2;
-	Fri, 22 Oct 2021 19:02:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 051B56E5D1;
+	Fri, 22 Oct 2021 19:02:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A1DC6E7E5
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Oct 2021 12:15:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1634904901;
- bh=61vV1s5G2weNUykUdb0d0cHAkEucmz4Ikp2vx99z/Xs=;
- h=X-UI-Sender-Class:Date:To:Cc:From:Subject;
- b=bjoaz9OBdJwqxEcENX6bSvr5RhxnVu21ei+mhYnzEUx6lnk+TsRe+82YkMv6fFfYe
- udgnOaHvkphnPlktB+zn7KW9NGLeb2Wx8WfMKwr/dixeQqCNO7tZhainHDT4hPv1vi
- Kw8NDMIfZVjLpJ1Rj83LWYHr2sEUmVGDkK1QNHnc=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [192.168.1.252] ([5.166.175.137]) by mail.gmx.net (mrgmx105
- [212.227.17.174]) with ESMTPSA (Nemesis) id 1McpNy-1nCOzH1dze-00Zu9p; Fri, 22
- Oct 2021 14:15:01 +0200
-Message-ID: <488e87e6-00af-d514-dc95-25bce5160eda@gmx.com>
-Date: Fri, 22 Oct 2021 12:15:00 +0000
+Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com
+ [IPv6:2607:f8b0:4864:20::b30])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 57F3A6E5CA
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Oct 2021 14:56:53 +0000 (UTC)
+Received: by mail-yb1-xb30.google.com with SMTP id o17so7597554ybq.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Oct 2021 07:56:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=xJta1LgbGikUaHeLMB8kAoU0t7xQlrmtTQ9nyeUNTBQ=;
+ b=pSvSBNfOJuEMbAhhFhVbSuj2ODm9tTRno/unAAt1EDe971a40kvDf5akrEHB3AatmF
+ MXCSYedNalukwZoghqjacHYTzadBTdcUq2EiIjwRaua/RBMz4KCnYzI3FFj106IQ+ATq
+ UKkZVhQO+z2SQOUrW4SJgas/9zcVpdQE8bA2vyAAtTpdl2kWn8fbgxDhiANE+d5dhfo3
+ KE+4WfzV6L6SlDfmahgxygwV/a1HKnKz9HjPT3yMlUqnG+DMl53JRunr4J3BkazZPTgO
+ 3U1DJLFcaIg0Xv16Om2brTyC0TgF7veIAtKz5xDfWaFa142KaJQVh61HxGp6VVcNpd14
+ eJ/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=xJta1LgbGikUaHeLMB8kAoU0t7xQlrmtTQ9nyeUNTBQ=;
+ b=6xApaCSM8ATEtxTtyUEZKWvSzrwRzOZ51eW5J5jX6MUvup+zMuRY31vmDyGJq42PHg
+ yXPL9SoPzdJBWJyIkBQburIKD64KN3ZYBE3j/I6hCgTVDVjJ7hEqKNKVejyDuC39UzSc
+ ek1/Q+PElawvQma7/yggSoWsG8kdZywVNtr4Ag06QUvjFYhuMxljrpSjbj88eIKXQOWH
+ o0S9aUJk0ZzNWdKw/AOlAavNVLnWyfLnT/r0RVUZ4gWfrDR6bhc6xRMvXvXQJHZD6B0X
+ eYqs2V7HNp8EToTcj7WkT0fK2Vtzl395ubqiaMf417g+nAWmGbmnrTKg63LIpHAe7Imw
+ 8kFQ==
+X-Gm-Message-State: AOAM531S2j/m86PkOyoOa0LC7IpdduQ7ChRtYBCil+W4Ge3DUY8cMD8R
+ tLYxrm+Cr1TP96C8QmKY4QOoADgswupFfWO+Eng=
+X-Google-Smtp-Source: ABdhPJwQ8YKApfhcSCGdyFijKioRrFOwGLLjqapBaunO/xsdVEnOUhcTteiHxyfCwknFhBGe0ozH32t0W/oEzAZksk0=
+X-Received: by 2002:a05:6902:701:: with SMTP id
+ k1mr280979ybt.298.1634914612428; 
+ Fri, 22 Oct 2021 07:56:52 -0700 (PDT)
 MIME-Version: 1.0
-To: dri-devel@lists.freedesktop.org
-Cc: Thomas Zimmermann <tzimmermann@suse.de>,
- Joshua Strobl <joshua@stroblindustries.com>, Arnd Bergmann <arnd@arndb.de>
-From: "Artem S. Tashkinov" <aros@gmx.com>
-Subject: Linux >= 5.14.12 and 5.15-rc5 fail to show anything on the screen
- with CONFIG_DRM_SIMPLEDRM=y
-Content-Type: text/plain; charset=UTF-8; format=flowed
+References: <20211022144040.3418284-1-javierm@redhat.com>
+In-Reply-To: <20211022144040.3418284-1-javierm@redhat.com>
+From: Neal Gompa <ngompa13@gmail.com>
+Date: Fri, 22 Oct 2021 10:56:16 -0400
+Message-ID: <CAEg-Je_v0zvOs1dOZ3P0qsPDO7LC8xk0zxQBLH6gr65V82dnPA@mail.gmail.com>
+Subject: Re: [RFC PATCH] drm/aperture: Add param to disable conflicting
+ framebuffers removal
+To: Javier Martinez Canillas <javierm@redhat.com>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ Peter Robinson <pbrobinson@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@linux.ie>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:HtEtJuQL9K29NOEDtDwW3WT3O+T5J2ZQRUAqCDW+Q0Y4N1cvKEY
- +6eU3WCDyG03MrBQPWcQ21UNLMuawu4HF397rUGwx8jx343E9KEvZbwWRVKjaUg8ZifYsZf
- e7OHHwzcqnYOdW6vUCE690XPeZUzFN6ca5RDxB4kbgbBfbOW0W+UOPCi5jaAjRDLw5YPgHk
- GjhavNI9j6yv93hHe5Ajw==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:zzE7hZay5dE=:9IV3j9pdsjupCKYUx/VDPL
- BclP2hkavSDmqD/48QhJ/v2Y7yN7E3XrLPXYfwyjVeaN1HcaC/zCtCjL1rDlssAofYMnEqDeq
- V0vjZtdJxLn+G34wNEZaME5Qxsfxu150ZIzE9rrI6fP7PT098WZvQXFOOAnkxSNJo/rfu+xmh
- jrWRGmNsezgn+pg/5iJzTGpqWQfLy4uxDOJDQc5b/EVO1nvtCK4J5a7+9Lu6IAiiByM2KMo3R
- Wuueb4nbPGVOerzxcWIxISTSe0qhley6aFkOV140ZPpND7n8ExMOlAFiInhAxtPBtMDXTIUbe
- 0KxAxi12HBzZ8lMFMb0UDCCY+3ONZsFTJOIoTzrZNG0D2LG9g26sl8ImTa6yxsq+I6oNXfHV4
- T1IJYnRiw2I3Ipa9Q4A30kt3p4eZ4SGTDq32RokPXDkzrzrKPwdZMGkSAkTGSjYgsSUCz0q9Y
- sgHBlthCXxQeEBVU3TzJx/1izVrS4nyuDcZJLorgeuTa7uajQaFxZvdldX1LJIJX1UZDg9TC7
- vDw7gNAUmsxqzPZjadLkDKGDoq/cluCPoUv0bPEHXwQsOiPjTclhjXCBGFwm/WtOljEH0Zz7q
- Sn5k1uoxMma+KwnLtNYk5n420QW+ZUDhv9el4ek3pJuBM9h3qzh9DCUJclcgU2iEEQpxLx31e
- uIn1hW4zM/gpSn1Xi5WBOan2RfzsHaEX8PjBxwBkTKM9pwR6zGJwdz8CErlRCQfkkJ9gqapnG
- Zrv6iax+x1auqcrtub+CiaybWs0o5DRhzAya/ecx1iDcaEJQzPhtrKwZegsZ7SqhLJeCuTbT5
- ZJbQVP+xc6MgNnP6GURE9sMmiE3XDqpWNfQWwZTHx7csCJgvR0q63fHu1Lg7RQYtobUTeYJ3m
- +lg5iMnKcCvhOF1RnkyHZbCQh4b2LR9ggTTay4zJI4NaQpOupHH9fj6myZb/e7uDlD6YrUi0b
- ymRhsiZs8BfOo3eZLQLYG5nN3mcKNv4p8yRB1lsl+Q81zn4Ce5Ku4DxYcC/JIEaoQ2mQj3vmd
- FhuvGzuCPoPo3TqsW2/p9HjJBNNGla3hLFnki3QXbECcXUgRNyhXo239n+jXuWRnVQ==
 X-Mailman-Approved-At: Fri, 22 Oct 2021 19:02:19 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,53 +75,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
+On Fri, Oct 22, 2021 at 10:40 AM Javier Martinez Canillas
+<javierm@redhat.com> wrote:
+>
+> The simpledrm driver allows to use the frame buffer that was set-up by th=
+e
+> firmware. This gives early video output before the platform DRM driver is
+> probed and takes over.
+>
+> But it would be useful to have a way to disable this take over by the rea=
+l
+> DRM drivers. For example, there may be bugs in the DRM drivers that could
+> cause the display output to not work correctly.
+>
+> For those cases, it would be good to keep the simpledrm driver instead an=
+d
+> at least get a working display as set-up by the firmware.
+>
+> Let's add a drm.remove_fb boolean kernel command line parameter, that whe=
+n
+> set to false will prevent the conflicting framebuffers to being removed.
+>
+> Since the drivers call drm_aperture_remove_conflicting_framebuffers() ver=
+y
+> early in their probe callback, this will cause the drivers' probe to fail=
+.
+>
+> Thanks to Neal Gompa for the suggestion and Thomas Zimmermann for the ide=
+a
+> on how this could be implemented.
+>
+> Suggested-by: Neal Gompa <ngompa13@gmail.com>
+> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+> ---
+> Hello,
+>
+> I'm sending this as an RFC because I wasn't sure about the correct name f=
+or
+> this module parameter, and also if 'remove_fb=3D0' is intitutive or inste=
+ad a
+> parameter that's enabled is preferred (i.e: 'disable_fb_removal=3D1').
+>
 
-Kernel 5.14.12 introduced this change, git commit
-ec7cc3f74b4236860ce612656aa5be7936d1c594:
+In general, I think the patch is fine, but it might make sense to name
+the parameter after the *effect* rather than the *action*. That is,
+the effect of this option is that we don't probe and hand over to a
+more appropriate hardware DRM driver.
 
-=2D-- a/linux-5.14.11/drivers/video/fbdev/Kconfig
-+++ b/linux-5.14.12/drivers/video/fbdev/Kconfig
-@@ -2191,8 +2191,9 @@ config FB_HYPERV
-       This framebuffer driver supports Microsoft Hyper-V Synthetic Video.
+Since the effect (in DRM terms) is that we don't use platform DRM
+modules, perhaps we could name the option one of these:
 
-  config FB_SIMPLE
--   bool "Simple framebuffer support"
--   depends on (FB =3D y) && !DRM_SIMPLEDRM
-+   tristate "Simple framebuffer support"
-+   depends on FB
-+   depends on !DRM_SIMPLEDRM
-     select FB_CFB_FILLRECT
-     select FB_CFB_COPYAREA
-     select FB_CFB_IMAGEBLIT
+* drm.noplatformdrv
+* drm.simpledrv
+* drm.force_simple
 
-
-However if you enable CONFIG_DRM_SIMPLEDRM=3Dy along with it, the system
-will show a black screen on boot while logging these messages:
-
-[drm] Initialized simpledrm 1.0.0 20200625 for simple-framebuffer.0 on
-minor 0
-simple-framebuffer simple-framebuffer.0: [drm] *ERROR* fbdev: Failed to
-setup generic emulation (ret=3D-22)
-fbcon: Taking over console
+I'm inclined to say we should use the drm.* namespace for the cmdline
+option because that makes it clear what subsystem it affects. The
+legacy "nomodeset" option kind of sucked because it didn't really tell
+you what that meant, and I'd rather not repeat that mistake.
 
 
-When CONFIG_DRM_SIMPLEDRM is disabled it proceeds to boot normally:
-
-simple-framebuffer simple-framebuffer.0: framebuffer at 0xe1000000,
-0x300000 bytes
-simple-framebuffer simple-framebuffer.0: format=3Da8r8g8b8,
-mode=3D1024x768x32, linelength=3D4096
-fbcon: Deferring console take-over
-simple-framebuffer simple-framebuffer.0: fb0: simplefb registered!
 
 
-This is discussed here: https://bugzilla.kernel.org/show_bug.cgi?id=3D2147=
-23
-
-I really don't know what to make of it but I definitely don't like this
-situation.
-
-
-Best regards,
-Artem
+--
+=E7=9C=9F=E5=AE=9F=E3=81=AF=E3=81=84=E3=81=A4=E3=82=82=E4=B8=80=E3=81=A4=EF=
+=BC=81/ Always, there's only one truth!
