@@ -2,70 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD4AC4377F3
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Oct 2021 15:28:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 027FE4378DE
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Oct 2021 16:16:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C8F36ED95;
-	Fri, 22 Oct 2021 13:28:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0258E6E5C0;
+	Fri, 22 Oct 2021 14:16:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 614946ED8A
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Oct 2021 13:28:36 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id EC2C521990;
- Fri, 22 Oct 2021 13:28:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1634909314; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=AnqzhGT0uv+LTZRPyyPSUgnVBDbveGG6+0StxQzTfpo=;
- b=Xx0gEuvNxXWPSh54tHYaynORHIDZOjYsdzLSm4Jtv6Q5Ux2purRHu7bNabi7AB+uLcUk7X
- ceLy2ETmN6Dcf2o7HBznqjguw9it6+5dMIVhmLfA4/tRZKSEaviasrMcA8V9utkoqPghxY
- JbOUOliPKBtcNr5mJsQpPONH/3p/vQ8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1634909314;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=AnqzhGT0uv+LTZRPyyPSUgnVBDbveGG6+0StxQzTfpo=;
- b=JHYjhlndi6DDIxc6dCkc5CMM+ybAOtJObL2FTl1vz/Yvvc47vlLN5mjNOIgnZFWHo6OAro
- ik6Vf3bdhDNYyDAg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8258213CDA;
- Fri, 22 Oct 2021 13:28:34 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id wMjGHoK8cmEwXgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Fri, 22 Oct 2021 13:28:34 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: daniel@ffwll.ch, airlied@linux.ie, mripard@kernel.org,
- maarten.lankhorst@linux.intel.com, noralf@tronnes.org,
- drawat.floss@gmail.com, airlied@redhat.com, kraxel@redhat.com,
- david@lechnology.com, sam@ravnborg.org, javierm@redhat.com,
- kernel@amanoeldawod.com, dirty.ice.hu@gmail.com,
- michael+lkml@stapelberg.ch, aros@gmx.com, joshua@stroblindustries.com,
- arnd@arndb.de
-Cc: dri-devel@lists.freedesktop.org, linux-hyperv@vger.kernel.org,
- virtualization@lists.linux-foundation.org,
- Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 9/9] drm: Clarify semantics of struct drm_mode_config.{min,
- max}_{width, height}
-Date: Fri, 22 Oct 2021 15:28:29 +0200
-Message-Id: <20211022132829.7697-10-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20211022132829.7697-1-tzimmermann@suse.de>
-References: <20211022132829.7697-1-tzimmermann@suse.de>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 102556E5BF
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Oct 2021 14:16:10 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id B0C1551D;
+ Fri, 22 Oct 2021 16:16:08 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1634912168;
+ bh=Aeh70f2r0wQV/wb1x02cOw9hnDeyXSaLBnVvry1mwe0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=rzBB0LaMFaMCZ2/dRF1HPjKReXJ7F978Gl8b3WnKVG4RBRlozPil9ZZwqX8as3T1K
+ IVgOgyAYDmi5y6xxhfxVMDJ7m8jQ0VqISSbeEfU8H3Jq0cg9u1e6HJj4gB9EJ+3kct
+ 9jmtrc0DbMiOgdCITq76tJvu4SoaAWkaNpLnJOYw=
+Date: Fri, 22 Oct 2021 17:15:49 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Sam Ravnborg <sam@ravnborg.org>
+Cc: dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
+ Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jitao Shi <jitao.shi@mediatek.com>, Jonas Karlman <jonas@kwiboo.se>,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Philip Chen <philipchen@chromium.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Robert Foss <robert.foss@linaro.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>,
+ Andrzej Hajda <a.hajda@samsung.com>
+Subject: Re: [PATCH v2 1/7] drm/bridge: ps8640: Use atomic variants of
+ drm_bridge_funcs
+Message-ID: <YXLHlaLfPD4wI7R7@pendragon.ideasonboard.com>
+References: <20211020181901.2114645-1-sam@ravnborg.org>
+ <20211020181901.2114645-2-sam@ravnborg.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20211020181901.2114645-2-sam@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,66 +68,95 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add additional information on the semantics of the size fields in
-struct drm_mode_config. Also add a TODO to review all driver for
-correct usage of these fields.
+Hi Sam,
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- Documentation/gpu/todo.rst    | 15 +++++++++++++++
- include/drm/drm_mode_config.h | 13 +++++++++++++
- 2 files changed, 28 insertions(+)
+Thank you for the patch.
 
-diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-index 60d1d7ee0719..f4e1d72149f7 100644
---- a/Documentation/gpu/todo.rst
-+++ b/Documentation/gpu/todo.rst
-@@ -463,6 +463,21 @@ Contact: Thomas Zimmermann <tzimmermann@suse.de>, Christian König, Daniel Vette
- 
- Level: Intermediate
- 
-+Review all drivers for setting struct drm_mode_config.{max_width,max_height} correctly
-+--------------------------------------------------------------------------------------
-+
-+The values in struct drm_mode_config.{max_width,max_height} describe the
-+maximum supported framebuffer size. It's the virtual screen size, but many
-+drivers treat it like limitations of the physical resolution.
-+
-+The maximum width depends on the hardware's maximum scanline pitch. The
-+maximum height depends on the amount of addressable video memory. Review all
-+drivers to initialize the fields to the correct values.
-+
-+Contact: Thomas Zimmermann <tzimmermann@suse.de>
-+
-+Level: Intermediate
-+
- 
- Core refactorings
- =================
-diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_config.h
-index 48b7de80daf5..91ca575a78de 100644
---- a/include/drm/drm_mode_config.h
-+++ b/include/drm/drm_mode_config.h
-@@ -359,6 +359,19 @@ struct drm_mode_config_funcs {
-  * Core mode resource tracking structure.  All CRTC, encoders, and connectors
-  * enumerated by the driver are added here, as are global properties.  Some
-  * global restrictions are also here, e.g. dimension restrictions.
-+ *
-+ * Framebuffer sizes refer to the virtual screen that can be displayed by
-+ * the CRTC. This can be different from the physical resolution programmed.
-+ * The minimum width and height, stored in @min_width and @min_height,
-+ * describe the smallest size of the framebuffer. It correlates to the
-+ * minimum programmable resolution.
-+ * The maximum width, stored in @max_width, is typically limited by the
-+ * maximum pitch between two adjacent scanlines. The maximum height, stored
-+ * in @max_height, is usually only limited by the amount of addressable video
-+ * memory. For hardware that has no real maximum, drivers should pick a
-+ * reasonable default.
-+ *
-+ * See also @DRM_SHADOW_PLANE_MAX_WIDTH and @DRM_SHADOW_PLANE_MAX_HEIGHT.
-  */
- struct drm_mode_config {
- 	/**
+On Wed, Oct 20, 2021 at 08:18:55PM +0200, Sam Ravnborg wrote:
+> The atomic variants of enable/disable in drm_bridge_funcs are the
+> preferred operations - introduce these.
+> 
+> The ps8640 driver used the non-atomic variants of the drm_bridge_chain_pre_enable/
+> drm_bridge_chain_post_disable - convert these to the atomic variants.
+> 
+> v2:
+>   - Added a few more people to cc: (Jitao, Enric, Philip) to increase
+>     possibility to get test feedback
+> 
+> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> Reviewed-by: Maxime Ripard <maxime@cerno.tech>
+> Cc: Jitao Shi <jitao.shi@mediatek.com>
+> Cc: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+> Cc: Philip Chen <philipchen@chromium.org>
+> Cc: Andrzej Hajda <a.hajda@samsung.com>
+> Cc: Neil Armstrong <narmstrong@baylibre.com>
+> Cc: Robert Foss <robert.foss@linaro.org>
+> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> Cc: Jonas Karlman <jonas@kwiboo.se>
+> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+> ---
+>  drivers/gpu/drm/bridge/parade-ps8640.c | 14 ++++++++------
+>  1 file changed, 8 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/parade-ps8640.c b/drivers/gpu/drm/bridge/parade-ps8640.c
+> index 3aaa90913bf8..0b620afe99c0 100644
+> --- a/drivers/gpu/drm/bridge/parade-ps8640.c
+> +++ b/drivers/gpu/drm/bridge/parade-ps8640.c
+> @@ -376,7 +376,8 @@ static void ps8640_bridge_poweroff(struct ps8640 *ps_bridge)
+>  	ps_bridge->powered = false;
+>  }
+>  
+> -static void ps8640_pre_enable(struct drm_bridge *bridge)
+> +static void ps8640_atomic_pre_enable(struct drm_bridge *bridge,
+> +				     struct drm_bridge_state *old_bridge_state)
+>  {
+>  	struct ps8640 *ps_bridge = bridge_to_ps8640(bridge);
+>  	int ret;
+> @@ -388,7 +389,8 @@ static void ps8640_pre_enable(struct drm_bridge *bridge)
+>  		ps8640_bridge_poweroff(ps_bridge);
+>  }
+>  
+> -static void ps8640_post_disable(struct drm_bridge *bridge)
+> +static void ps8640_atomic_post_disable(struct drm_bridge *bridge,
+> +				       struct drm_bridge_state *old_bridge_state)
+>  {
+>  	struct ps8640 *ps_bridge = bridge_to_ps8640(bridge);
+>  
+> @@ -489,7 +491,7 @@ static struct edid *ps8640_bridge_get_edid(struct drm_bridge *bridge,
+>  	 * EDID, for this chip, we need to do a full poweron, otherwise it will
+>  	 * fail.
+>  	 */
+> -	drm_bridge_chain_pre_enable(bridge);
+> +	drm_atomic_bridge_chain_pre_enable(bridge, connector->state->state);
+>  
+>  	edid = drm_get_edid(connector,
+>  			    ps_bridge->page[PAGE0_DP_CNTL]->adapter);
+> @@ -499,7 +501,7 @@ static struct edid *ps8640_bridge_get_edid(struct drm_bridge *bridge,
+>  	 * before, return the chip to its original power state.
+>  	 */
+>  	if (poweroff)
+> -		drm_bridge_chain_post_disable(bridge);
+> +		drm_atomic_bridge_chain_post_disable(bridge, connector->state->state);
+>  
+>  	return edid;
+>  }
+> @@ -508,8 +510,8 @@ static const struct drm_bridge_funcs ps8640_bridge_funcs = {
+>  	.attach = ps8640_bridge_attach,
+>  	.detach = ps8640_bridge_detach,
+>  	.get_edid = ps8640_bridge_get_edid,
+> -	.post_disable = ps8640_post_disable,
+> -	.pre_enable = ps8640_pre_enable,
+> +	.atomic_post_disable = ps8640_atomic_post_disable,
+> +	.atomic_pre_enable = ps8640_atomic_pre_enable,
+
+Don't you also need to implement .atomic_duplicate_state(),
+.atomic_destroy_state() and .atomic_reset() to use the atomic API ?
+
+>  };
+>  
+>  static int ps8640_probe(struct i2c_client *client)
+
 -- 
-2.33.0
+Regards,
 
+Laurent Pinchart
