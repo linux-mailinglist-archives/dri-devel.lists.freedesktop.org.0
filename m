@@ -2,47 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BB64437B34
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Oct 2021 18:57:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8A38437B78
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Oct 2021 19:08:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA9FB6EDB2;
-	Fri, 22 Oct 2021 16:57:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA58F6E7FA;
+	Fri, 22 Oct 2021 17:08:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 634AA6ED9E;
- Fri, 22 Oct 2021 16:57:04 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10145"; a="292804898"
-X-IronPort-AV: E=Sophos;i="5.87,173,1631602800"; d="scan'208";a="292804898"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Oct 2021 09:57:03 -0700
-X-IronPort-AV: E=Sophos;i="5.87,173,1631602800"; d="scan'208";a="445356201"
-Received: from bkokkula-mobl1.ger.corp.intel.com (HELO [10.252.0.159])
- ([10.252.0.159])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Oct 2021 09:57:01 -0700
-Subject: Re: [PATCH v2 07/17] drm/i915: Add vm min alignment support
-To: Ramalingam C <ramalingam.c@intel.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- intel-gfx <intel-gfx@lists.freedesktop.org>
-Cc: Daniel Vetter <daniel@ffwll.ch>, CQ Tang <cq.tang@intel.com>,
- lucas.demarchi@intel.com, rodrigo.vivi@intel.com,
- Hellstrom Thomas <thomas.hellstrom@intel.com>,
- Bommu Krishnaiah <krishnaiah.bommu@intel.com>,
- Wilson Chris P <chris.p.wilson@intel.com>
-References: <20211021142627.31058-1-ramalingam.c@intel.com>
- <20211021142627.31058-8-ramalingam.c@intel.com>
-From: Matthew Auld <matthew.auld@intel.com>
-Message-ID: <c279111a-7d64-5525-1b0a-d3cc2b3aef1c@intel.com>
-Date: Fri, 22 Oct 2021 17:56:58 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 65F546E7FA;
+ Fri, 22 Oct 2021 17:08:38 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10145"; a="226798111"
+X-IronPort-AV: E=Sophos;i="5.87,173,1631602800"; d="scan'208";a="226798111"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Oct 2021 10:08:37 -0700
+X-IronPort-AV: E=Sophos;i="5.87,173,1631602800"; d="scan'208";a="528003490"
+Received: from jons-linux-dev-box.fm.intel.com (HELO jons-linux-dev-box)
+ ([10.1.27.20])
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Oct 2021 10:08:37 -0700
+Date: Fri, 22 Oct 2021 10:03:58 -0700
+From: Matthew Brost <matthew.brost@intel.com>
+To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ john.c.harrison@intel.com
+Subject: Re: [PATCH] drm/i915/selftests: Allow engine reset failure to do a
+ GT reset in hangcheck selftest
+Message-ID: <20211022170356.GA23182@jons-linux-dev-box>
+References: <20211011234705.30853-1-matthew.brost@intel.com>
+ <f8f1ae021e8cabc2c6d76996b5e74912cb0913db.camel@linux.intel.com>
+ <20211021203747.GA27209@jons-linux-dev-box>
+ <ee989711-779e-874f-6737-ab9288557d1a@linux.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20211021142627.31058-8-ramalingam.c@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ee989711-779e-874f-6737-ab9288557d1a@linux.intel.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,152 +55,158 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 21/10/2021 15:26, Ramalingam C wrote:
-> From: Bommu Krishnaiah <krishnaiah.bommu@intel.com>
+On Fri, Oct 22, 2021 at 08:23:55AM +0200, Thomas Hellström wrote:
 > 
-> Replace the hard coded 4K alignment value with vm->min_alignment.
+> On 10/21/21 22:37, Matthew Brost wrote:
+> > On Thu, Oct 21, 2021 at 08:15:49AM +0200, Thomas Hellström wrote:
+> > > Hi, Matthew,
+> > > 
+> > > On Mon, 2021-10-11 at 16:47 -0700, Matthew Brost wrote:
+> > > > The hangcheck selftest blocks per engine resets by setting magic bits
+> > > > in
+> > > > the reset flags. This is incorrect for GuC submission because if the
+> > > > GuC
+> > > > fails to reset an engine we would like to do a full GT reset. Do no
+> > > > set
+> > > > these magic bits when using GuC submission.
+> > > > 
+> > > > Side note this lockless algorithm with magic bits to block resets
+> > > > really
+> > > > should be ripped out.
+> > > > 
+> > > Lockless algorithm aside, from a quick look at the code in
+> > > intel_reset.c it appears to me like the interface that falls back to a
+> > > full GT reset is intel_gt_handle_error() whereas intel_engine_reset()
+> > > is explicitly intended to not do that, so is there a discrepancy
+> > > between GuC and non-GuC here?
+> > > 
+> > With GuC submission when an engine reset fails, we get an engine reset
+> > failure notification which triggers a full GT reset
+> > (intel_guc_engine_failure_process_msg in intel_guc_submission.c). That
+> > reset is blocking by setting these magic bits. Clearing the bits in this
+> > function doesn't seem to unblock that reset either, the driver tries to
+> > unload with a worker blocked, and results in the blow up. Something with
+> > this lockless algorithm could be wrong as clear of the bit should
+> > unlblock the reset but it is doesn't. We can look into that but in the
+> > meantime we need to fix this test to be able to fail gracefully and not
+> > crash CI.
 > 
-> Cc: Wilson Chris P <chris.p.wilson@intel.com>
-> Signed-off-by: Bommu Krishnaiah <krishnaiah.bommu@intel.com>
-> Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
+> Yeah, for that lockless algorithm if needed, we might want to use a ww_mutex
+> per engine or something,
 
-Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+Do ww_mutex sleep? From what I can tell this lockless algorithm was
+added because even though resets are protected by mutex, there are some
+places in the IRQ context where we need to prevent resets from
+happening, hence the lockless protection + the mutex - what a mess. Long
+term this needs to rethought. 
 
-Although likely want to squash patch patches 3, 7 and 8, as suggested by 
-Chris.
+> but point was that AFAICT at least one of the tests that set those flags
+> explicitly tested the functionality that no other engines than the intended
+> one was reset when the intel_engine_reset() function was used, and then if
+> GuC submission doesn't honor that, wouldn't a better approach be to make a
 
-> ---
->   .../i915/gem/selftests/i915_gem_client_blt.c  | 23 ++++++++++++-------
->   drivers/gpu/drm/i915/gt/intel_gtt.c           |  9 ++++++++
->   drivers/gpu/drm/i915/gt/intel_gtt.h           |  9 ++++++++
->   3 files changed, 33 insertions(+), 8 deletions(-)
+No. In execlists this test explictly calls the engine reset function and
+explictly prevents other parts of the i915 from calling the engine reset
+function - this is why it sets that bit.
+
+In GuC submission the i915 can't do engine resets, the GuC does. In this
+case the engine reset fails which triggers a G2H message which tells the
+i915 to do a GT reset. If this bit is set the worker blocks on this bit
+in the GT reset and the driver blows up on unload as this worker isn't
+complete (believe it has a PM ref or something).
+
+> code comment around intel_engine_reset() to explain the differences and
+
+intel_engine_reset() return -ENODEV in GuC submission as the i915 isn't
+allowed to engine resets.
+
+> disable that particular test for GuC?. Also wouldn't we for example we see a
+> duplicated full GT reset with GuC if intel_engine_reset() fails as part of
+> the intel_gt_handle_error() function?
+>
+
+Yes, but the GT reset in this test is done after clearing the bits by
+the test. In the case of the GuC the GT reset is async operation done by
+a worker that receives the G2H message saying the engine reset failed.
+
+> I guess we could live with the hangcheck test being disabled for guc
+> submission until this is sorted out?
+>
+
+Wouldn't help. See above this an async operation from G2H message. We
+can't disable the async G2H handler as without other G2H messages the
+world breaks. The only other possible fix would be add an IGT only
+variable that if set skips the handling this G2H only.
+
+I can assure with this patch, if the test fails, it fails gracefully
+which is what we want.
+
+Matt
+
+> /Thomas
 > 
-> diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_client_blt.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_client_blt.c
-> index 8402ed925a69..6b9b861e43e5 100644
-> --- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_client_blt.c
-> +++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_client_blt.c
-> @@ -39,6 +39,7 @@ struct tiled_blits {
->   	struct blit_buffer scratch;
->   	struct i915_vma *batch;
->   	u64 hole;
-> +	u64 align;
->   	u32 width;
->   	u32 height;
->   };
-> @@ -410,14 +411,21 @@ tiled_blits_create(struct intel_engine_cs *engine, struct rnd_state *prng)
->   		goto err_free;
->   	}
->   
-> -	hole_size = 2 * PAGE_ALIGN(WIDTH * HEIGHT * 4);
-> +	t->align = I915_GTT_PAGE_SIZE_2M; /* XXX worst case, derive from vm! */
-> +	t->align = max(t->align,
-> +		       i915_vm_min_alignment(t->ce->vm, INTEL_MEMORY_LOCAL));
-> +	t->align = max(t->align,
-> +		       i915_vm_min_alignment(t->ce->vm, INTEL_MEMORY_SYSTEM));
-> +
-> +	hole_size = 2 * round_up(WIDTH * HEIGHT * 4, t->align);
->   	hole_size *= 2; /* room to maneuver */
-> -	hole_size += 2 * I915_GTT_MIN_ALIGNMENT;
-> +	hole_size += 2 * t->align; /* padding on either side */
->   
->   	mutex_lock(&t->ce->vm->mutex);
->   	memset(&hole, 0, sizeof(hole));
->   	err = drm_mm_insert_node_in_range(&t->ce->vm->mm, &hole,
-> -					  hole_size, 0, I915_COLOR_UNEVICTABLE,
-> +					  hole_size, t->align,
-> +					  I915_COLOR_UNEVICTABLE,
->   					  0, U64_MAX,
->   					  DRM_MM_INSERT_BEST);
->   	if (!err)
-> @@ -428,7 +436,7 @@ tiled_blits_create(struct intel_engine_cs *engine, struct rnd_state *prng)
->   		goto err_put;
->   	}
->   
-> -	t->hole = hole.start + I915_GTT_MIN_ALIGNMENT;
-> +	t->hole = hole.start + t->align;
->   	pr_info("Using hole at %llx\n", t->hole);
->   
->   	err = tiled_blits_create_buffers(t, WIDTH, HEIGHT, prng);
-> @@ -455,7 +463,7 @@ static void tiled_blits_destroy(struct tiled_blits *t)
->   static int tiled_blits_prepare(struct tiled_blits *t,
->   			       struct rnd_state *prng)
->   {
-> -	u64 offset = PAGE_ALIGN(t->width * t->height * 4);
-> +	u64 offset = round_up(t->width * t->height * 4, t->align);
->   	u32 *map;
->   	int err;
->   	int i;
-> @@ -486,8 +494,7 @@ static int tiled_blits_prepare(struct tiled_blits *t,
->   
->   static int tiled_blits_bounce(struct tiled_blits *t, struct rnd_state *prng)
->   {
-> -	u64 offset =
-> -		round_up(t->width * t->height * 4, 2 * I915_GTT_MIN_ALIGNMENT);
-> +	u64 offset = round_up(t->width * t->height * 4, 2 * t->align);
->   	int err;
->   
->   	/* We want to check position invariant tiling across GTT eviction */
-> @@ -500,7 +507,7 @@ static int tiled_blits_bounce(struct tiled_blits *t, struct rnd_state *prng)
->   
->   	/* Reposition so that we overlap the old addresses, and slightly off */
->   	err = tiled_blit(t,
-> -			 &t->buffers[2], t->hole + I915_GTT_MIN_ALIGNMENT,
-> +			 &t->buffers[2], t->hole + t->align,
->   			 &t->buffers[1], t->hole + 3 * offset / 2);
->   	if (err)
->   		return err;
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.c b/drivers/gpu/drm/i915/gt/intel_gtt.c
-> index 56fbd37a6b54..4743921b7638 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gtt.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_gtt.c
-> @@ -216,6 +216,15 @@ void i915_address_space_init(struct i915_address_space *vm, int subclass)
->   
->   	GEM_BUG_ON(!vm->total);
->   	drm_mm_init(&vm->mm, 0, vm->total);
-> +
-> +	memset64(vm->min_alignment, I915_GTT_MIN_ALIGNMENT,
-> +		 ARRAY_SIZE(vm->min_alignment));
-> +
-> +	if (HAS_64K_PAGES(vm->i915)) {
-> +		vm->min_alignment[INTEL_MEMORY_LOCAL] = I915_GTT_PAGE_SIZE_64K;
-> +		vm->min_alignment[INTEL_MEMORY_STOLEN_LOCAL] = I915_GTT_PAGE_SIZE_64K;
-> +	}
-> +
->   	vm->mm.head_node.color = I915_COLOR_UNEVICTABLE;
->   
->   	INIT_LIST_HEAD(&vm->bound_list);
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.h b/drivers/gpu/drm/i915/gt/intel_gtt.h
-> index 6d0233ffae17..20101eef4c95 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gtt.h
-> +++ b/drivers/gpu/drm/i915/gt/intel_gtt.h
-> @@ -28,6 +28,8 @@
->   #include "gt/intel_reset.h"
->   #include "i915_selftest.h"
->   #include "i915_vma_types.h"
-> +#include "i915_params.h"
-> +#include "intel_memory_region.h"
->   
->   #define I915_GFP_ALLOW_FAIL (GFP_KERNEL | __GFP_RETRY_MAYFAIL | __GFP_NOWARN)
->   
-> @@ -224,6 +226,7 @@ struct i915_address_space {
->   	struct device *dma;
->   	u64 total;		/* size addr space maps (ex. 2GB for ggtt) */
->   	u64 reserved;		/* size addr space reserved */
-> +	u64 min_alignment[INTEL_MEMORY_STOLEN_LOCAL + 1];
->   
->   	unsigned int bind_async_flags;
->   
-> @@ -382,6 +385,12 @@ i915_vm_has_scratch_64K(struct i915_address_space *vm)
->   	return vm->scratch_order == get_order(I915_GTT_PAGE_SIZE_64K);
->   }
->   
-> +static inline u64 i915_vm_min_alignment(struct i915_address_space *vm,
-> +					enum intel_memory_type type)
-> +{
-> +	return vm->min_alignment[type];
-> +}
-> +
->   static inline bool
->   i915_vm_has_cache_coloring(struct i915_address_space *vm)
->   {
 > 
+> > 
+> > Matt
+> > 
+> > > /Thomas
+> > > 
+> > > 
+> > > > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> > > > ---
+> > > >   drivers/gpu/drm/i915/gt/selftest_hangcheck.c | 12 ++++++++----
+> > > >   1 file changed, 8 insertions(+), 4 deletions(-)
+> > > > 
+> > > > diff --git a/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
+> > > > b/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
+> > > > index 7e2d99dd012d..90a03c60c80c 100644
+> > > > --- a/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
+> > > > +++ b/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
+> > > > @@ -734,7 +734,8 @@ static int __igt_reset_engine(struct intel_gt
+> > > > *gt, bool active)
+> > > >                  reset_engine_count = i915_reset_engine_count(global,
+> > > > engine);
+> > > >                  st_engine_heartbeat_disable(engine);
+> > > > -               set_bit(I915_RESET_ENGINE + id, &gt->reset.flags);
+> > > > +               if (!using_guc)
+> > > > +                       set_bit(I915_RESET_ENGINE + id, &gt-
+> > > > > reset.flags);
+> > > >                  count = 0;
+> > > >                  do {
+> > > >                          struct i915_request *rq = NULL;
+> > > > @@ -824,7 +825,8 @@ static int __igt_reset_engine(struct intel_gt
+> > > > *gt, bool active)
+> > > >                          if (err)
+> > > >                                  break;
+> > > >                  } while (time_before(jiffies, end_time));
+> > > > -               clear_bit(I915_RESET_ENGINE + id, &gt->reset.flags);
+> > > > +               if (!using_guc)
+> > > > +                       clear_bit(I915_RESET_ENGINE + id, &gt-
+> > > > > reset.flags);
+> > > >                  st_engine_heartbeat_enable(engine);
+> > > >                  pr_info("%s: Completed %lu %s resets\n",
+> > > >                          engine->name, count, active ? "active" :
+> > > > "idle");
+> > > > @@ -1042,7 +1044,8 @@ static int __igt_reset_engines(struct intel_gt
+> > > > *gt,
+> > > >                  yield(); /* start all threads before we begin */
+> > > >                  st_engine_heartbeat_disable_no_pm(engine);
+> > > > -               set_bit(I915_RESET_ENGINE + id, &gt->reset.flags);
+> > > > +               if (!using_guc)
+> > > > +                       set_bit(I915_RESET_ENGINE + id, &gt-
+> > > > > reset.flags);
+> > > >                  do {
+> > > >                          struct i915_request *rq = NULL;
+> > > >                          struct intel_selftest_saved_policy saved;
+> > > > @@ -1165,7 +1168,8 @@ static int __igt_reset_engines(struct intel_gt
+> > > > *gt,
+> > > >                          if (err)
+> > > >                                  break;
+> > > >                  } while (time_before(jiffies, end_time));
+> > > > -               clear_bit(I915_RESET_ENGINE + id, &gt->reset.flags);
+> > > > +               if (!using_guc)
+> > > > +                       clear_bit(I915_RESET_ENGINE + id, &gt-
+> > > > > reset.flags);
+> > > >                  st_engine_heartbeat_enable_no_pm(engine);
+> > > >                  pr_info("i915_reset_engine(%s:%s): %lu resets\n",
+> > > 
