@@ -1,61 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D1A8437B9F
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Oct 2021 19:14:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F57C437BAB
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Oct 2021 19:16:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B77B6EDB7;
-	Fri, 22 Oct 2021 17:14:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C40D76EDBA;
+	Fri, 22 Oct 2021 17:16:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.smtp.larsendata.com (mx2.smtp.larsendata.com
- [91.221.196.228])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8AB886EDB7
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Oct 2021 17:14:05 +0000 (UTC)
-Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
- by mx2.smtp.larsendata.com (Halon) with ESMTPS
- id 7baea307-335b-11ec-ac3c-0050568cd888;
- Fri, 22 Oct 2021 17:14:15 +0000 (UTC)
-Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
- [80.162.45.141])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: sam@ravnborg.org)
- by mail01.mxhotel.dk (Postfix) with ESMTPSA id B26E9194B92;
- Fri, 22 Oct 2021 19:13:59 +0200 (CEST)
-Date: Fri, 22 Oct 2021 19:13:58 +0200
-X-Report-Abuse-To: abuse@mxhotel.dk
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
- Enric Balletbo i Serra <enric.balletbo@collabora.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jitao Shi <jitao.shi@mediatek.com>, Jonas Karlman <jonas@kwiboo.se>,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Maxime Ripard <mripard@kernel.org>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Philip Chen <philipchen@chromium.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Robert Foss <robert.foss@linaro.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>,
- Andrzej Hajda <a.hajda@samsung.com>
-Subject: Re: [PATCH v2 1/7] drm/bridge: ps8640: Use atomic variants of
- drm_bridge_funcs
-Message-ID: <YXLxVoA133IEes6p@ravnborg.org>
-References: <20211020181901.2114645-1-sam@ravnborg.org>
- <20211020181901.2114645-2-sam@ravnborg.org>
- <YXLHlaLfPD4wI7R7@pendragon.ideasonboard.com>
- <YXLsbp+IwiRYfY2a@ravnborg.org>
+Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com
+ [IPv6:2607:f8b0:4864:20::430])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D6BF26EDBA;
+ Fri, 22 Oct 2021 17:16:13 +0000 (UTC)
+Received: by mail-pf1-x430.google.com with SMTP id f11so4206363pfc.12;
+ Fri, 22 Oct 2021 10:16:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=c9upTkwBh3xY9ywVd8LkCHHOA2Tt2sOFO924JWSijq0=;
+ b=QrR58CC78T/zmrIipMKrPGSMwC/I47uWJVSNHT6Ydg3H9l4vuWSR1ZylzAAGbS0hkm
+ Sz44gG5gK9JwqfvIJIcdc0nx+qtJNMyJWA581taM6Y5RHeBdkjz3NrfQ4mXRTEqunhJK
+ EooRYODEnkxtrk/STfw5MjbjScdCK193Q2VKyWgywQpYlzLSTFrpsYn1dsna0Y1VAeJQ
+ 8mRZ+vTP72yFJKGlPFOmliIE5y4Ma1qf2b8P/ac22582z18XviqMtUuoH1OcuK5DZHEu
+ m0ajmv8RLK4/Rb6umPwwpkwZDFYpgrJMPpMPZdGBSz680xdc8X/3MdSrKtX/dyi0Z9cB
+ QaYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=c9upTkwBh3xY9ywVd8LkCHHOA2Tt2sOFO924JWSijq0=;
+ b=K3RWjnv9Vf4LjV4T+8H5mNaPL77nnybcVwihA6fpHK9XOa8IPdMMbr3tjrPPrjJVHB
+ rNDtmjZCVZtmIr//xVAweHckp1SBth9fAOUyItmFT5XR960x5L6P3NWwZdIrYrbeE1dG
+ MrLj+Dj+ox/H3N787dEDuL/t34f6SeBI5M51pPyimn9lueo3kqUL8c/Ei5mkm6J8q8uz
+ hup12gCpArR85EDf31oTQLdU0KKui9jx7yeTxU0lLcCYxnUG5Bep0M3SCkru7CtUBqk9
+ YL5Zc+wFSZKver/+obekfQ02lLK92vBoWUxDJ0eze9tqfEoI/ieDDq0DzwWETBj71ruX
+ L64Q==
+X-Gm-Message-State: AOAM530V3Dx93XhrYglWSXxNYtCeoDSQ8IBL8ZoFuC0U6MUj74KVPhto
+ pZbp7LvYaZMHJqDjTfYL4j8QiUYYMlg=
+X-Google-Smtp-Source: ABdhPJyi3p42NwGJnpHuM40MQDCQUuNXmqIX0qRYo/6NEw1YGQJUAfXkXwbF4oXxVbnngtJFjl9IRg==
+X-Received: by 2002:a63:e24b:: with SMTP id y11mr741728pgj.452.1634922972511; 
+ Fri, 22 Oct 2021 10:16:12 -0700 (PDT)
+Received: from localhost (c-73-25-156-94.hsd1.or.comcast.net. [73.25.156.94])
+ by smtp.gmail.com with ESMTPSA id
+ u66sm10416377pfc.114.2021.10.22.10.16.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 22 Oct 2021 10:16:11 -0700 (PDT)
+From: Rob Clark <robdclark@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Rob Clark <robdclark@chromium.org>, Rob Clark <robdclark@gmail.com>,
+ Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Maxime Ripard <maxime@cerno.tech>, Abhinav Kumar <abhinavk@codeaurora.org>,
+ Krishna Manikandan <mkrishn@codeaurora.org>,
+ Stephen Boyd <swboyd@chromium.org>, Kalyan Thota <kalyan_t@codeaurora.org>,
+ Jessica Zhang <jesszhan@codeaurora.org>,
+ Mark Yacoub <markyacoub@google.com>,
+ linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH 1/2] drm/msm/dpu: Remove impossible NULL check
+Date: Fri, 22 Oct 2021 10:20:50 -0700
+Message-Id: <20211022172053.3219597-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YXLsbp+IwiRYfY2a@ravnborg.org>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,20 +80,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Laurent,
+From: Rob Clark <robdclark@chromium.org>
 
-> 
-> >From a quick look only cadence/cdns-mhdp8546 subclass
-> drm_bridge_state and I wonder if the right thing to do would be to
-> implement fallback to the helpers if the bridge driver do not set
-> any of the .atomic_duplicate_state(), .atomic_destroy_state(), or .atomic_reset().
-> 
-> That would drop the following from a few bridges:
->         .atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
->         .atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
->         .atomic_reset = drm_atomic_helper_bridge_reset,
+Signed-off-by: Rob Clark <robdclark@chromium.org>
+---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c | 5 -----
+ 1 file changed, 5 deletions(-)
 
-To answer myself here. This would create a dependency from the core to
-the helpers which is not OK so idea dropped again.
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+index e91568d4f09a..0ae397044310 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+@@ -187,11 +187,6 @@ static int dpu_crtc_get_crc(struct drm_crtc *crtc)
+ 	int i = 0;
+ 	int rc = 0;
+ 
+-	if (!crtc) {
+-		DPU_ERROR("Invalid crtc\n");
+-		return -EINVAL;
+-	}
+-
+ 	crtc_state = to_dpu_crtc_state(crtc->state);
+ 	crcs = kcalloc(crtc_state->num_mixers, sizeof(*crcs), GFP_KERNEL);
+ 
+-- 
+2.31.1
 
-	Sam
