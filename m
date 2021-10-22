@@ -1,44 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FFAE437500
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Oct 2021 11:47:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D3CA1437551
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Oct 2021 12:13:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 02CA96E928;
-	Fri, 22 Oct 2021 09:47:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9CF216ECE3;
+	Fri, 22 Oct 2021 10:13:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 50F0B6E928;
- Fri, 22 Oct 2021 09:47:23 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10144"; a="229214191"
-X-IronPort-AV: E=Sophos;i="5.87,172,1631602800"; d="scan'208";a="229214191"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Oct 2021 02:47:22 -0700
-X-IronPort-AV: E=Sophos;i="5.87,172,1631602800"; d="scan'208";a="445226439"
-Received: from bkokkula-mobl1.ger.corp.intel.com (HELO [10.252.0.159])
- ([10.252.0.159])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Oct 2021 02:47:21 -0700
-Subject: Re: [PATCH 2/2] drm/i915/dmabuf: drop the flush on discrete
-To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- intel-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org
-References: <20211021125332.2455288-1-matthew.auld@intel.com>
- <20211021125332.2455288-2-matthew.auld@intel.com>
- <c8e40d5f-beda-d5fd-9aa7-df951ba819b2@linux.intel.com>
-From: Matthew Auld <matthew.auld@intel.com>
-Message-ID: <337c653c-4074-9e67-e8c1-04d0d21830da@intel.com>
-Date: Fri, 22 Oct 2021 10:47:18 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D5B36ECE3
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Oct 2021 10:13:29 +0000 (UTC)
+X-UUID: d80e3027f026469f9531ae037f3ae4a0-20211022
+X-UUID: d80e3027f026469f9531ae037f3ae4a0-20211022
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
+ mailgw01.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1832692527; Fri, 22 Oct 2021 18:13:24 +0800
+Received: from mtkexhb01.mediatek.inc (172.21.101.102) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.2.792.15; Fri, 22 Oct 2021 18:13:22 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by mtkexhb01.mediatek.inc
+ (172.21.101.102) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Fri, 22 Oct 2021 18:13:22 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Fri, 22 Oct 2021 18:13:22 +0800
+Message-ID: <29992126d39a7f381a516fdb9cd6e39f1e51afdb.camel@mediatek.com>
+Subject: Re: [PATCH v11 09/16] soc: mediatek: add mtk-mmsys support for
+ mt8195 vdosys0
+From: Jason-JH Lin <jason-jh.lin@mediatek.com>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, "Rob
+ Herring" <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel
+ <p.zabel@pengutronix.de>
+CC: Enric Balletbo i Serra <enric.balletbo@collabora.com>, Maxime Coquelin
+ <mcoquelin.stm32@gmail.com>, David Airlie <airlied@linux.ie>, Daniel Vetter
+ <daniel@ffwll.ch>, Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ <hsinyi@chromium.org>, <fshao@chromium.org>, <moudy.ho@mediatek.com>,
+ <roy-cw.yeh@mediatek.com>, Fabien Parent <fparent@baylibre.com>, "Yongqiang
+ Niu" <yongqiang.niu@mediatek.com>, <nancy.lin@mediatek.com>,
+ <singo.chang@mediatek.com>, <devicetree@vger.kernel.org>,
+ <linux-stm32@st-md-mailman.stormreply.com>,
+ <linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>, 
+ <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>
+Date: Fri, 22 Oct 2021 18:13:22 +0800
+In-Reply-To: <8b509551-7cfa-f55c-fc0f-db7d0a3886eb@collabora.com>
+References: <20210921155218.10387-1-jason-jh.lin@mediatek.com>
+ <20210921155218.10387-10-jason-jh.lin@mediatek.com>
+ <8b509551-7cfa-f55c-fc0f-db7d0a3886eb@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-In-Reply-To: <c8e40d5f-beda-d5fd-9aa7-df951ba819b2@linux.intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,46 +71,128 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 22/10/2021 10:26, Thomas Hellström wrote:
-> Hi, Matt
-> 
-> On 10/21/21 14:53, Matthew Auld wrote:
->> We were overzealous here; even though discrete is non-LLC, it should
->> still be always coherent.
->>
->> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
->> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
->> ---
->>   drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c | 3 ++-
->>   1 file changed, 2 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c 
->> b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
->> index a45d0ec2c5b6..848e81368043 100644
->> --- a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
->> +++ b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
->> @@ -251,7 +251,8 @@ static int i915_gem_object_get_pages_dmabuf(struct 
->> drm_i915_gem_object *obj)
->>           return PTR_ERR(pages);
->>       /* XXX: consider doing a vmap flush or something */
->> -    if (!HAS_LLC(i915) || i915_gem_object_can_bypass_llc(obj))
->> +    if ((!HAS_LLC(i915) && !IS_DGFX(i915)) ||
-> 
-> Q: I notice that DG1 at least has HAS_SNOOP. Would it be incorrect to 
-> use that in this case?
+Hi Angelo,
 
-AFAIK DG1 is special in that CACHE_NONE will still snoop transactions, 
-which is not the case for other HAS_SNOOP platforms. AFAIK that is part 
-of the reason why we also just force CACHE_LLC everywhere on DG1.
+Thanks for the reviews.
 
-Could maybe do s/IS_DGFX/IS_DG1/ here? In case that changes on other 
-discrete platforms. And then add a comment.
 
+On Thu, 2021-10-14 at 16:05 +0200, AngeloGioacchino Del Regno wrote:
+> > Add mt8195 vdosys0 clock driver name and routing table to
+> > the driver data of mtk-mmsys.
+> > 
+
+[snip]
+
+> >  
+> > ---
 > 
-> /Thomas
+> Hello Jason,
+> thanks for the patch! However, there are a few things to improve:
 > 
+
+[snip]
+
+> > +#define MT8195_VDO0_SEL_IN					0xf34
+> > +#define MT8195_SEL_IN_VPP_MERGE_FROM_DSC_WRAP0_OUT		(0 <<
+> > 0)
 > 
+> Bitshifting 0 by 0 bits == 0, so this is simply 0.
 > 
->> +        i915_gem_object_can_bypass_llc(obj))
->>           wbinvd_on_all_cpus();
->>       sg_page_sizes = i915_sg_dma_sizes(pages->sgl);
+> > +#define MT8195_SEL_IN_VPP_MERGE_FROM_DISP_DITHER1		(1 <<
+> > 0)
+> 
+> I would write 0x1 here
+> 
+> > +#define MT8195_SEL_IN_VPP_MERGE_FROM_VDO1_VIRTUAL0		(2 <<
+> > 0)
+> 
+> ....and 0x2 here: bitshifting of 0 bits makes little sense.
+> 
+> > +#define MT8195_SEL_IN_DSC_WRAP0_IN_FROM_DISP_DITHER0		
+> > (0 << 4)
+> 
+> Bitshifting 0 by 4 bits is still 0, so this is again 0.
+> This is repeated too many times, so I will not list it for all of the
+> occurrences.
+> 
+> > +#define MT8195_SEL_IN_DSC_WRAP0_IN_FROM_VPP_MERGE		(1 <<
+> > 4)
+> 
+> This is BIT(4).
+> 
+> > +#define MT8195_SEL_IN_DSC_WRAP1_IN_FROM_DISP_DITHER1		
+> > (0 << 5) > +#define MT8195_SEL_IN_DSC_WRAP1_IN_FROM_VPP_MERGE	
+> > 	(1 << 5)
+> 
+> ...and this is BIT(5)
+> 
+> > +#define MT8195_SEL_IN_SINA_VIRTUAL0_FROM_VPP_MERGE		(0 <<
+> > 8)
+> > +#define MT8195_SEL_IN_SINA_VIRTUAL0_FROM_DSC_WRAP1_OUT		
+> > (1 << 8)
+> 
+> BIT(8)
+> 
+> > +#define MT8195_SEL_IN_SINB_VIRTUAL0_FROM_DSC_WRAP0_OUT		
+> > (0 << 9)
+> > +#define MT8195_SEL_IN_DP_INTF0_FROM_DSC_WRAP1_OUT		(0 <<
+> > 12)
+> > +#define MT8195_SEL_IN_DP_INTF0_FROM_VPP_MERGE			
+> > (1 << 12)
+> 
+> BIT(12)
+> 
+> > +#define MT8195_SEL_IN_DP_INTF0_FROM_VDO1_VIRTUAL0		(2 <<
+> > 12)
+> 
+> BIT(13)
+> 
+> ... and please, use the BIT(nr) macro for all these bit definitions,
+> it's way more
+> readable like that.
+> 
+> Regards,
+> - Angelo
+
+Because the HW register design of MT8195_VDO0_SEL_IN 0xf34 is like
+this:
+
+bit[1:0] as MT8195_SEL_IN_VPP_MERGE and
+  value: 0 as MT8195_SEL_IN_VPP_MERGE_FROM_DSC_WRAP0_OUT
+  value: 1 as MT8195_SEL_IN_VPP_MERGE_FROM_DISP_DITHER1
+  value: 2 as MT8195_SEL_IN_VPP_MERGE_FROM_VDO1_VIRTUAL0
+bit[4:4] as MT8195_SEL_IN_DSC_WRAP0_IN and
+  value 0 as MT8195_SEL_IN_DSC_WRAP0_IN_FROM_DISP_DITHER0
+  value 1 as MT8195_SEL_IN_DSC_WRAP0_IN_FROM_VPP_MERGE
+bit[5:5] as MT8195_SEL_IN_DSC_WRAP1_IN and
+  value 0 as
+MT8195_SEL_IN_DSC_WRAP1_IN_FROM_DISP_DITHER1
+  value 1 as
+MT8195_SEL_IN_DSC_WRAP1_IN_FROM_VPP_MERGE
+and so on...
+
+I think using BIT(nr) macro directly is not easy to debug.
+
+
+Is it better to define another MACRO like this?
+
+#define BIT_VAL(val, bit)  ((val) << (bit))
+#define MT8195_SEL_IN_DSC_WRAP0_IN_FROM_DISP_DITHER0  BIT_VAL(0, 4)
+#define MT8195_SEL_IN_DSC_WRAP0_IN_FROM_VPP_MERGE  BIT_VAL(1, 4)
+...
+
+or
+
+#define MT8195_SEL_IN_DSC_WRAP0_IN (4)
+#define MT8195_SEL_IN_DSC_WRAP0_IN_FROM_DISP_DITHER0  (0
+<< MT8195_SEL_IN_DSC_WRAP0_IN)
+#define MT8195_SEL_IN_DSC_WRAP0_IN_FROM_VPP_MERGE  (1 <<
+MT8195_SEL_IN_DSC_WRAP0_IN)
+...
+
+What do you think?
+
+
+Regards,
+Jason-JH Lin <jason-jh.lin@mediatek.com>
+
