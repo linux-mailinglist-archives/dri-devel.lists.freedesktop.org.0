@@ -2,61 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DB4B43760D
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Oct 2021 13:36:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98B09437571
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Oct 2021 12:30:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9FCEC6ED26;
-	Fri, 22 Oct 2021 11:36:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A99316ECFC;
+	Fri, 22 Oct 2021 10:30:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from msg-3.mailo.com (ip-8.mailobj.net [213.182.54.8])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A96B76ED25;
- Fri, 22 Oct 2021 11:36:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=net-c.es; s=mailo;
- t=1634898358; bh=qXTIz9NUZOX9AJLI0EfpCFCuPKutlkzQauklWJ1ZdII=;
- h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
- MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To;
- b=CDMwG+cYraiCkOvqWNoXRIOQdd1SKnLC6HrdHC95WxmidMkx+VnAsy2hnJqIKzTzu
- FEtdjZUf6XU2V9+66nVczdfj8AX/zERhEb1ooKV1f1ToGqd9ubuQgXMALLiCPlSACK
- XGc2B/eNeFQHv6UGVfpbYVPnwzAUmBX65vye7TSQ=
-Received: by b-6.in.mailobj.net [192.168.90.16] with ESMTP
- via ip-206.mailobj.net [213.182.55.206]
- Fri, 22 Oct 2021 12:25:37 +0200 (CEST)
-X-EA-Auth: ZUkw32usS9GpQ95qw4isUA4Qn5D5k42ZU4ER4OtDUnr2ExZFz+AjbHpLkWo4vIllva24n6AgDPqBGMsl893/BqHzRs7jwkE6
-Date: Fri, 22 Oct 2021 12:25:33 +0200
-From: Claudio Suarez <cssk@net-c.es>
-To: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-tegra@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Pan Xinhui <Xinhui.Pan@amd.com>, Emma Anholt <emma@anholt.net>,
- Maxime Ripard <mripard@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
- Jingoo Han <jingoohan1@gmail.com>, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, Chen-Yu Tsai <wens@csie.org>,
- Sandy Huang <hjc@rock-chips.com>, heiko@sntech.de,
- Neil Armstrong <narmstrong@baylibre.com>,
- Robert Foss <robert.foss@linaro.org>,
- Ben Skeggs <bskeggs@redhat.com>, nouveau@lists.freedesktop.org
-Subject: Re: [PATCH v3 13/13] drm/i915: replace drm_detect_hdmi_monitor()
- with drm_display_info.is_hdmi
-Message-ID: <YXKRnUHWuboQKBF1@zorro.micasa>
-References: <20211016184226.3862-1-cssk@net-c.es>
- <20211016184226.3862-14-cssk@net-c.es> <YW8QYsmkm3ZrBAx3@intel.com>
- <YW9L6d7e+RO29VJu@gineta.localdomain> <YXFwB7rN4bvR0Z+m@intel.com>
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ABDDC6ECFC
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Oct 2021 10:30:42 +0000 (UTC)
+X-UUID: 5ee641a17dd94a58aa7a494abd9ee8fe-20211022
+X-UUID: 5ee641a17dd94a58aa7a494abd9ee8fe-20211022
+Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw02.mediatek.com
+ (envelope-from <jason-jh.lin@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 1778794933; Fri, 22 Oct 2021 18:30:37 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by
+ mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Fri, 22 Oct 2021 18:30:36 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkcas10.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Fri, 22 Oct 2021 18:30:36 +0800
+Message-ID: <c15cc3f5e507e03c15be14c929430ce5bf313139.camel@mediatek.com>
+Subject: Re: [PATCH v11 15/16] drm/mediatek: add MERGE support for mediatek-drm
+From: Jason-JH Lin <jason-jh.lin@mediatek.com>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Rob
+ Herring <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, "Philipp Zabel"
+ <p.zabel@pengutronix.de>
+CC: Enric Balletbo i Serra <enric.balletbo@collabora.com>, Maxime Coquelin
+ <mcoquelin.stm32@gmail.com>, David Airlie <airlied@linux.ie>, Daniel Vetter
+ <daniel@ffwll.ch>, Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ <hsinyi@chromium.org>, <fshao@chromium.org>, <moudy.ho@mediatek.com>,
+ <roy-cw.yeh@mediatek.com>, Fabien Parent <fparent@baylibre.com>, "Yongqiang
+ Niu" <yongqiang.niu@mediatek.com>, <nancy.lin@mediatek.com>,
+ <singo.chang@mediatek.com>, <devicetree@vger.kernel.org>,
+ <linux-stm32@st-md-mailman.stormreply.com>,
+ <linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>, 
+ <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>
+Date: Fri, 22 Oct 2021 18:30:36 +0800
+In-Reply-To: <3e72dd1e-edf2-6d42-40e7-0c1c72749a20@collabora.com>
+References: <20210921155218.10387-1-jason-jh.lin@mediatek.com>
+ <20210921155218.10387-16-jason-jh.lin@mediatek.com>
+ <3e72dd1e-edf2-6d42-40e7-0c1c72749a20@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <YXFwB7rN4bvR0Z+m@intel.com>
+Content-Transfer-Encoding: 7bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,34 +66,142 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 21, 2021 at 04:49:59PM +0300, Ville Syrjälä wrote:
-> On Wed, Oct 20, 2021 at 12:51:21AM +0200, Claudio Suarez wrote:
-> > drm_get_edid() internally calls to drm_connector_update_edid_property()
-> > and then drm_add_display_info(), which parses the EDID.
-> > This happens in the function intel_hdmi_set_edid() and
-> > intel_sdvo_tmds_sink_detect() (via intel_sdvo_get_edid()).
-> > 
-> > Once EDID is parsed, the monitor HDMI support information is available
-> > through drm_display_info.is_hdmi. Retriving the same information with
-> > drm_detect_hdmi_monitor() is less efficient. Change to
-> > drm_display_info.is_hdmi
+Hi Angelo,
+
+thanks for the review.
+
+On Thu, 2021-10-14 at 16:27 +0200, AngeloGioacchino Del Regno wrote:
+> Il 21/09/21 17:52, jason-jh.lin ha scritto:
+> > Add MERGE engine file:
+
+[snip]
+
+> > +int mtk_merge_clk_enable(struct device *dev)
+> > +{
+> > +	int ret = 0;
+> > +	struct mtk_disp_merge *priv = dev_get_drvdata(dev);
+> > +
+> > +	ret = clk_prepare_enable(priv->clk);
+> > +	if (ret)
+> > +		pr_err("merge clk prepare enable failed\n");
 > 
-> I meant we need to examine all call chains that can lead to
-> .detect() to make sure all of them do in fact update the
-> display_info beforehand.
+> If you failed to enable this clock, I take it as the hardware won't
+> work or
+> won't work as expected, hence you should return a failure before
+> trying to
+> call prepare_enable for async_clk.
+> 
+OK I'll fix it.
 
-Well, I studied it carefully and, yes, all call chains that can lead to
-drm_display_info.is_hdmi / drm_detect_hdmi_monitor() update display_info
-beforehand. In the case that this doesn't happen, the code is unchanged.
+> > +	ret = clk_prepare_enable(priv->async_clk);
+> > +	if (ret)
+> > +		pr_err("async clk prepare enable failed\n");
+> > +
+> 
+> You should also return a failure here but, before that, you should
+> clean up
+> the state by calling clk_disable_unprepare(priv->clk), or you will
+> leave it
+> enabled, eventually getting a hardware fault later on (which may or
+> may not
+> result in a board reboot), or other sorts of unexpected states.
+> 
+> At least, you will get issues with the refcount for "clk" and/or
+> "async_clk".
+> 
+> Please fix that.
+> 
+> Also, please use dev_err or, more appropriately, DRM_ERROR instead or
+> pr_err.
+> 
 
-Do you want I explain the changes in the code here again ? Or do you want
-to me change the commit message to be more clear ? In the first case, I can
-write here a detailed explanation. In the second case I can make a longer commit
-message.
+OK I'll fix it .
 
-Or both?
+> > +	return ret;
+> > +}
+> > +
+> > +void mtk_merge_clk_disable(struct device *dev)
+> > +{
+> > +	struct mtk_disp_merge *priv = dev_get_drvdata(dev);
+> > +
+> > +	clk_disable_unprepare(priv->async_clk); > +	clk_disable_unprepa
+> > re(priv->clk);
+> > +}
+> > +
+> > +static int mtk_disp_merge_bind(struct device *dev, struct device
+> > *master,
+> > +			       void *data)
+> > +{
+> > +	return 0;
+> > +}
+> > +
+> > +static void mtk_disp_merge_unbind(struct device *dev, struct
+> > device *master,
+> > +				  void *data)
+> > +{
+> > +}
+> > +
+> > +static const struct component_ops mtk_disp_merge_component_ops = {
+> > +	.bind	= mtk_disp_merge_bind,
+> > +	.unbind = mtk_disp_merge_unbind,
+> > +};
+> > +
+> > +static int mtk_disp_merge_probe(struct platform_device *pdev)
+> > +{
+> > +	struct device *dev = &pdev->dev;
+> > +	struct resource *res;
+> > +	struct mtk_disp_merge *priv;
+> > +	int ret;
+> > +
+> > +	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+> > +	if (!priv)
+> > +		return -ENOMEM;
+> > +
+> > +	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> > +	priv->regs = devm_ioremap_resource(dev, res);
+> > +	if (IS_ERR(priv->regs)) {
+> > +		dev_err(dev, "failed to ioremap merge\n");
+> > +		return PTR_ERR(priv->regs);
+> > +	}
+> > +
+> > +	priv->clk = devm_clk_get(dev, NULL);
+> > +	if (IS_ERR(priv->clk)) {
+> > +		dev_err(dev, "failed to get merge clk\n");
+> > +		return PTR_ERR(priv->clk);
+> > +	}
+> > +
+> > +	priv->async_clk = of_clk_get(dev->of_node, 1);
+> > +	if (IS_ERR(priv->async_clk)) {
+> > +		ret = PTR_ERR(priv->async_clk);
+> > +		dev_dbg(dev, "No merge async clock: %d\n", ret);
+> > +		priv->async_clk = NULL;
+> > +	}
+> > +
+> 
+> You are using devm_clk_get for the first clock, of_clk_get for the
+> second one:
+> what's the reason for that?
+> 
+> Also, async_clk seems to be optional... and there's the right API for
+> you!
+> If you use devm_clk_get_optional(), you won't have to manually assign
+> NULL
+> to priv->async_clk, as that's API handled... and you'll get a failure
+> if
+> the return value is an error that's not -ENOENT (so, it'll fail if
+> the clock
+> was declared in DT, but there was an error acquiring it).
+> 
+> Please use devm_clk_get_optional() here.
+> 
 
-Best Regards,
-Claudio Suarez.
+Yes, async_clk is optional.
+Thanks for your suggestion.
+I'll try it.
 
+> Regards,
+> - Angelo
+-- 
+Regards,
+Jason-JH Lin <jason-jh.lin@mediatek.com>
 
