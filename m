@@ -1,53 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49455437D2F
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Oct 2021 21:02:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B0384437D33
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Oct 2021 21:02:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 051B56E5D1;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B0A06E8F6;
 	Fri, 22 Oct 2021 19:02:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com
- [IPv6:2607:f8b0:4864:20::b30])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 57F3A6E5CA
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Oct 2021 14:56:53 +0000 (UTC)
-Received: by mail-yb1-xb30.google.com with SMTP id o17so7597554ybq.4
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Oct 2021 07:56:53 -0700 (PDT)
+Received: from mail-yb1-xb2f.google.com (mail-yb1-xb2f.google.com
+ [IPv6:2607:f8b0:4864:20::b2f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A16A96EA40
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Oct 2021 15:18:48 +0000 (UTC)
+Received: by mail-yb1-xb2f.google.com with SMTP id i65so7000409ybb.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Oct 2021 08:18:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=xJta1LgbGikUaHeLMB8kAoU0t7xQlrmtTQ9nyeUNTBQ=;
- b=pSvSBNfOJuEMbAhhFhVbSuj2ODm9tTRno/unAAt1EDe971a40kvDf5akrEHB3AatmF
- MXCSYedNalukwZoghqjacHYTzadBTdcUq2EiIjwRaua/RBMz4KCnYzI3FFj106IQ+ATq
- UKkZVhQO+z2SQOUrW4SJgas/9zcVpdQE8bA2vyAAtTpdl2kWn8fbgxDhiANE+d5dhfo3
- KE+4WfzV6L6SlDfmahgxygwV/a1HKnKz9HjPT3yMlUqnG+DMl53JRunr4J3BkazZPTgO
- 3U1DJLFcaIg0Xv16Om2brTyC0TgF7veIAtKz5xDfWaFa142KaJQVh61HxGp6VVcNpd14
- eJ/g==
+ bh=fwpfxXx461GW/t9aJZdpXhZ72PsLhaKzoYMsGQ7KVRY=;
+ b=jS3yjWXDIs2OA38IxY4wKc8hJJHnIJVkM9H4fOUcOKB27upFSngstRXgglTBCCmHs7
+ x8sQ20ObWf/hpUqye8VGZCd/dRt8GsLJxiTOZZokTdx/GZ1Rtx+hxdx0lwGwGxYjN+iS
+ f2GPcMqjqF7lURdZfp7ion8tqA0am4HV7AM0DuTmYNmrU3WZCBQFrPk1uZI8yfK/ilZV
+ tonxWhZmli844dyy13ukq8rpHrqN9G2hec8UXVJxxv5Fw/vbadFk8Mg1gQ0C5+SJxEiF
+ lhpDCKRQoRtEYAY8q9IqFFtECDWNZ5L80ooYzpdwiLkvl9zb2pL+13tKWi3BlkG6fT47
+ PhgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=xJta1LgbGikUaHeLMB8kAoU0t7xQlrmtTQ9nyeUNTBQ=;
- b=6xApaCSM8ATEtxTtyUEZKWvSzrwRzOZ51eW5J5jX6MUvup+zMuRY31vmDyGJq42PHg
- yXPL9SoPzdJBWJyIkBQburIKD64KN3ZYBE3j/I6hCgTVDVjJ7hEqKNKVejyDuC39UzSc
- ek1/Q+PElawvQma7/yggSoWsG8kdZywVNtr4Ag06QUvjFYhuMxljrpSjbj88eIKXQOWH
- o0S9aUJk0ZzNWdKw/AOlAavNVLnWyfLnT/r0RVUZ4gWfrDR6bhc6xRMvXvXQJHZD6B0X
- eYqs2V7HNp8EToTcj7WkT0fK2Vtzl395ubqiaMf417g+nAWmGbmnrTKg63LIpHAe7Imw
- 8kFQ==
-X-Gm-Message-State: AOAM531S2j/m86PkOyoOa0LC7IpdduQ7ChRtYBCil+W4Ge3DUY8cMD8R
- tLYxrm+Cr1TP96C8QmKY4QOoADgswupFfWO+Eng=
-X-Google-Smtp-Source: ABdhPJwQ8YKApfhcSCGdyFijKioRrFOwGLLjqapBaunO/xsdVEnOUhcTteiHxyfCwknFhBGe0ozH32t0W/oEzAZksk0=
-X-Received: by 2002:a05:6902:701:: with SMTP id
- k1mr280979ybt.298.1634914612428; 
- Fri, 22 Oct 2021 07:56:52 -0700 (PDT)
+ bh=fwpfxXx461GW/t9aJZdpXhZ72PsLhaKzoYMsGQ7KVRY=;
+ b=lRl6vrSHY4gUXzKQWV/Ecci9THSBBjedSEW0LV7IIgo98D9Xewlt21J8hfGnOT7KJv
+ bvnEhiE465wGmfjvE54MnHYjatELFWJEZwD8eZmTGT/SNMuXCFQTsNoalwKnrAZJT6SX
+ dZw/8js9Fgj303OlX/2DFntkIBHlULe/1ajnOAD+ADndaJJKou33xNofm6cLnzaU+brR
+ JWmvEFT5WNCb/emsTCLNpFXa3wQp8HyR5hUhIkui3F833emeCucHKwiQb+VGxWS/6EDu
+ mVsuriQSZS/x5ckrFhueO3DjigGIG5M39KwP1dY+5aAEgVJJGXV9J2GOSAbY5SmndD3J
+ NHAQ==
+X-Gm-Message-State: AOAM532H40iA4wve6+MhmpK6Xe8nWS2sUxkcu0N4Cx4ur5qtkk4gOLqY
+ gzYQ9YDsw5CZEV61f/iQ7wUoERtcVPVBtkd+41o=
+X-Google-Smtp-Source: ABdhPJyAwPZVO8USIjROBG/1m9oIrEngG7D8J/gdwhG0Su6y+Uv+5HHnEgF7gkq1SLUU3Wt8n4ltkTlovLXxPCchwlQ=
+X-Received: by 2002:a25:a4e1:: with SMTP id g88mr409543ybi.58.1634915927698;
+ Fri, 22 Oct 2021 08:18:47 -0700 (PDT)
 MIME-Version: 1.0
 References: <20211022144040.3418284-1-javierm@redhat.com>
-In-Reply-To: <20211022144040.3418284-1-javierm@redhat.com>
+ <CAEg-Je_v0zvOs1dOZ3P0qsPDO7LC8xk0zxQBLH6gr65V82dnPA@mail.gmail.com>
+ <352163b2-2946-aec8-16b4-fd6f01373ff2@redhat.com>
+In-Reply-To: <352163b2-2946-aec8-16b4-fd6f01373ff2@redhat.com>
 From: Neal Gompa <ngompa13@gmail.com>
-Date: Fri, 22 Oct 2021 10:56:16 -0400
-Message-ID: <CAEg-Je_v0zvOs1dOZ3P0qsPDO7LC8xk0zxQBLH6gr65V82dnPA@mail.gmail.com>
+Date: Fri, 22 Oct 2021 11:18:12 -0400
+Message-ID: <CAEg-Je-zP=BZaqK94Ra+P1eiwpDrOy-jmq1YfyPE9XcPp_ZtCg@mail.gmail.com>
 Subject: Re: [RFC PATCH] drm/aperture: Add param to disable conflicting
  framebuffers removal
 To: Javier Martinez Canillas <javierm@redhat.com>
@@ -75,65 +76,91 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 22, 2021 at 10:40 AM Javier Martinez Canillas
+On Fri, Oct 22, 2021 at 11:16 AM Javier Martinez Canillas
 <javierm@redhat.com> wrote:
 >
-> The simpledrm driver allows to use the frame buffer that was set-up by th=
-e
-> firmware. This gives early video output before the platform DRM driver is
-> probed and takes over.
+> Hello Neal,
 >
-> But it would be useful to have a way to disable this take over by the rea=
-l
-> DRM drivers. For example, there may be bugs in the DRM drivers that could
-> cause the display output to not work correctly.
+> Thanks for your feedback.
 >
-> For those cases, it would be good to keep the simpledrm driver instead an=
-d
-> at least get a working display as set-up by the firmware.
+> On 10/22/21 16:56, Neal Gompa wrote:
+> > On Fri, Oct 22, 2021 at 10:40 AM Javier Martinez Canillas
+> > <javierm@redhat.com> wrote:
+> >>
+> >> The simpledrm driver allows to use the frame buffer that was set-up by=
+ the
+> >> firmware. This gives early video output before the platform DRM driver=
+ is
+> >> probed and takes over.
+> >>
+> >> But it would be useful to have a way to disable this take over by the =
+real
+> >> DRM drivers. For example, there may be bugs in the DRM drivers that co=
+uld
+> >> cause the display output to not work correctly.
+> >>
+> >> For those cases, it would be good to keep the simpledrm driver instead=
+ and
+> >> at least get a working display as set-up by the firmware.
+> >>
+> >> Let's add a drm.remove_fb boolean kernel command line parameter, that =
+when
+> >> set to false will prevent the conflicting framebuffers to being remove=
+d.
+> >>
+> >> Since the drivers call drm_aperture_remove_conflicting_framebuffers() =
+very
+> >> early in their probe callback, this will cause the drivers' probe to f=
+ail.
+> >>
+> >> Thanks to Neal Gompa for the suggestion and Thomas Zimmermann for the =
+idea
+> >> on how this could be implemented.
+> >>
+> >> Suggested-by: Neal Gompa <ngompa13@gmail.com>
+> >> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+> >> ---
+> >> Hello,
+> >>
+> >> I'm sending this as an RFC because I wasn't sure about the correct nam=
+e for
+> >> this module parameter, and also if 'remove_fb=3D0' is intitutive or in=
+stead a
+> >> parameter that's enabled is preferred (i.e: 'disable_fb_removal=3D1').
+> >>
+> >
+> > In general, I think the patch is fine, but it might make sense to name
+> > the parameter after the *effect* rather than the *action*. That is,
+> > the effect of this option is that we don't probe and hand over to a
+> > more appropriate hardware DRM driver.
+> >
+> > Since the effect (in DRM terms) is that we don't use platform DRM
+> > modules, perhaps we could name the option one of these:
+> >
+> > * drm.noplatformdrv
+> > * drm.simpledrv
+> > * drm.force_simple
+> >
 >
-> Let's add a drm.remove_fb boolean kernel command line parameter, that whe=
-n
-> set to false will prevent the conflicting framebuffers to being removed.
->
-> Since the drivers call drm_aperture_remove_conflicting_framebuffers() ver=
-y
-> early in their probe callback, this will cause the drivers' probe to fail=
-.
->
-> Thanks to Neal Gompa for the suggestion and Thomas Zimmermann for the ide=
-a
-> on how this could be implemented.
->
-> Suggested-by: Neal Gompa <ngompa13@gmail.com>
-> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
-> ---
-> Hello,
->
-> I'm sending this as an RFC because I wasn't sure about the correct name f=
-or
-> this module parameter, and also if 'remove_fb=3D0' is intitutive or inste=
-ad a
-> parameter that's enabled is preferred (i.e: 'disable_fb_removal=3D1').
+> or maybe drm.disable_handover ? Naming is hard...
 >
 
-In general, I think the patch is fine, but it might make sense to name
-the parameter after the *effect* rather than the *action*. That is,
-the effect of this option is that we don't probe and hand over to a
-more appropriate hardware DRM driver.
+That would make sense for a parameter named by the action. If we want
+to go that route, then I'd be fine with that. My goal is to have
+something people understand.
 
-Since the effect (in DRM terms) is that we don't use platform DRM
-modules, perhaps we could name the option one of these:
+> > I'm inclined to say we should use the drm.* namespace for the cmdline
+> > option because that makes it clear what subsystem it affects. The
+> > legacy "nomodeset" option kind of sucked because it didn't really tell
+> > you what that meant, and I'd rather not repeat that mistake.
+> >
+>
+> Yes, agreed. In fact, that is the case for this patch since the param is
+> in the drm module. I just forgot to mention the namespace in the last
+> paragraph of the comment.
+>
 
-* drm.noplatformdrv
-* drm.simpledrv
-* drm.force_simple
-
-I'm inclined to say we should use the drm.* namespace for the cmdline
-option because that makes it clear what subsystem it affects. The
-legacy "nomodeset" option kind of sucked because it didn't really tell
-you what that meant, and I'd rather not repeat that mistake.
-
+Good to know. :)
 
 
 
