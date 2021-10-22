@@ -1,47 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07016437E63
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Oct 2021 21:13:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E1A43437E6A
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Oct 2021 21:14:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D8D66EDA1;
-	Fri, 22 Oct 2021 19:13:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E29D86EDBE;
+	Fri, 22 Oct 2021 19:14:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8CF536EDA1
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Oct 2021 19:13:02 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10145"; a="292831800"
-X-IronPort-AV: E=Sophos;i="5.87,173,1631602800"; d="scan'208";a="292831800"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Oct 2021 12:13:01 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.87,173,1631602800"; d="scan'208";a="495799065"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
- by orsmga008.jf.intel.com with SMTP; 22 Oct 2021 12:12:58 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Fri, 22 Oct 2021 22:12:57 +0300
-Date: Fri, 22 Oct 2021 22:12:57 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Javier Martinez Canillas <javierm@redhat.com>
-Cc: linux-kernel@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Peter Robinson <pbrobinson@gmail.com>,
- Neal Gompa <ngompa13@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org
-Subject: Re: [RFC PATCH] drm/aperture: Add param to disable conflicting
- framebuffers removal
-Message-ID: <YXMNOfBS5iFenmx8@intel.com>
-References: <20211022144040.3418284-1-javierm@redhat.com>
+Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F11996EDBE
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Oct 2021 19:13:59 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1634930042; h=Content-Transfer-Encoding: Content-Type:
+ In-Reply-To: From: References: Cc: To: Subject: MIME-Version: Date:
+ Message-ID: Sender; bh=pRZPuY6pGgdzsFCqO2tK/CmQ5Q/2tEuIRVqkEKc1Q5s=;
+ b=Fo7uG2ob6NYDlLTKZ89CYVTZFIhJARMksHT3vdGDgyZOFmMXZhaiqtbqNRLjE0GaC8OavhuS
+ eiPwtayOBEVrpfEh/D5bpqrfk3Vg5RxU+irTouYMSq6YOXzFVUsMx9Sh/D8aR3BwcV68Mkwj
+ VuKLVwvlxIpzlEEGLoS3k/tm+xc=
+X-Mailgun-Sending-Ip: 198.61.254.9
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n02.prod.us-east-1.postgun.com with SMTP id
+ 61730d62c75c436a3046a6e2 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 22 Oct 2021 19:13:38
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id DCA43C43616; Fri, 22 Oct 2021 19:13:37 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-4.6 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+ NICE_REPLY_A,SPF_FAIL,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+ version=3.4.0
+Received: from [10.71.111.83] (i-global254.qualcomm.com [199.106.103.254])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: jesszhan)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 2F37AC4338F;
+ Fri, 22 Oct 2021 19:13:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.codeaurora.org 2F37AC4338F
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=fail smtp.mailfrom=codeaurora.org
+Message-ID: <e070bb16-7c7a-3b1a-0e0c-1330b1d0b8d3@codeaurora.org>
+Date: Fri, 22 Oct 2021 12:13:35 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20211022144040.3418284-1-javierm@redhat.com>
-X-Patchwork-Hint: comment
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.1
+Subject: Re: [PATCH 1/2] drm/msm/dpu: Remove impossible NULL check
+Content-Language: en-US
+To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Rob Clark <robdclark@chromium.org>, Sean Paul <sean@poorly.run>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Maxime Ripard <maxime@cerno.tech>, Abhinav Kumar <abhinavk@codeaurora.org>,
+ Krishna Manikandan <mkrishn@codeaurora.org>,
+ Stephen Boyd <swboyd@chromium.org>, Kalyan Thota <kalyan_t@codeaurora.org>,
+ Jessica Zhang <jesszhan@codeaurora.org>, Mark Yacoub
+ <markyacoub@google.com>, open list <linux-kernel@vger.kernel.org>
+References: <20211022172053.3219597-1-robdclark@gmail.com>
+From: Jessica Zhang <jesszhan@codeaurora.org>
+In-Reply-To: <20211022172053.3219597-1-robdclark@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,26 +84,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 22, 2021 at 04:40:40PM +0200, Javier Martinez Canillas wrote:
-> The simpledrm driver allows to use the frame buffer that was set-up by the
-> firmware. This gives early video output before the platform DRM driver is
-> probed and takes over.
-> 
-> But it would be useful to have a way to disable this take over by the real
-> DRM drivers. For example, there may be bugs in the DRM drivers that could
-> cause the display output to not work correctly.
-> 
-> For those cases, it would be good to keep the simpledrm driver instead and
-> at least get a working display as set-up by the firmware.
-> 
-> Let's add a drm.remove_fb boolean kernel command line parameter, that when
-> set to false will prevent the conflicting framebuffers to being removed.
-> 
-> Since the drivers call drm_aperture_remove_conflicting_framebuffers() very
-> early in their probe callback, this will cause the drivers' probe to fail.
-
-Why is that better than just modprobe.blacklisting those drivers?
-
--- 
-Ville Syrjälä
-Intel
+On 10/22/2021 10:20 AM, Rob Clark wrote:
+> From: Rob Clark <robdclark@chromium.org>
+>
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
+Reviewed-by: Jessica Zhang <jesszhan@codeaurora.org>
+> ---
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c | 5 -----
+>   1 file changed, 5 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> index e91568d4f09a..0ae397044310 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> @@ -187,11 +187,6 @@ static int dpu_crtc_get_crc(struct drm_crtc *crtc)
+>   	int i = 0;
+>   	int rc = 0;
+>   
+> -	if (!crtc) {
+> -		DPU_ERROR("Invalid crtc\n");
+> -		return -EINVAL;
+> -	}
+> -
+>   	crtc_state = to_dpu_crtc_state(crtc->state);
+>   	crcs = kcalloc(crtc_state->num_mixers, sizeof(*crcs), GFP_KERNEL);
+>   
