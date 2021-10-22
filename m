@@ -2,70 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CAC243745D
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Oct 2021 11:09:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D88C4374AE
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Oct 2021 11:25:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4FDC16E90B;
-	Fri, 22 Oct 2021 09:09:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 840FF6E919;
+	Fri, 22 Oct 2021 09:25:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
- [IPv6:2a00:1450:4864:20::32f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D182B6E914
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Oct 2021 09:09:16 +0000 (UTC)
-Received: by mail-wm1-x32f.google.com with SMTP id v127so2166144wme.5
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Oct 2021 02:09:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=CSvjVZ0e6L/69HFDijEqx7UYA5Hhk1PF7U/kuB2r/g8=;
- b=frHMQ9F31jCSFY4HZSHvx46pIAXd5fLRQ/JN2GzCJoD4aJ6VmivPS6qlk2tdwWLvDx
- yIdm0lM6WlLEG+MR9Sqry4LW0PcuvotJ15keEYPfrxFRmLGZucD4KE+NkPpQ/4huyT/9
- OSm1Srs8QBQWCLTH7F/IF4jReQ0pgeb1IYRls=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=CSvjVZ0e6L/69HFDijEqx7UYA5Hhk1PF7U/kuB2r/g8=;
- b=sPdTEEmBmWcLyCAgoricIhyNqwVe3iJn7JG818gNM8CTVKStUlSvaop6dzHHQe113K
- MJxfccy1av+U/ypol94Jgz+zEB7I/otREggxse4iSm+YZIZbbDkPgACcVCt1CleUro4E
- XNudiS0Um2Us/ygLImpT+K6RP162KkCDl99DmvA+f/nzu7jQCs3K6EeEGgK4CaS+lF9R
- 7WNdYkrABekU/9G9UMZvl8pZ7/4X8u2oAo4cLE7xLlbKLJtTnelCyOR9nluvsOIRDexB
- hoIMZA7kCktUDvPAMKDc2TrCq2DWHM8o1s5kwAHSIxOCfV1bV5D+w8e2WSHUGAUxomqY
- 6U1g==
-X-Gm-Message-State: AOAM533U3TZv1Pjuk13va5j0y8JajiIF5fXq+iDeGFZ+mFPluA8Ao/y1
- WbuB0lhtsg3aLpp/F9jVpjfw4CzV8dPPcg==
-X-Google-Smtp-Source: ABdhPJw7ZVrMVuO+WLUr5qF9wTmu2oNyYNIp2mJzHtmj1cyDK3U1rQAq4UXCHFDBZJL75yxYOg/q8Q==
-X-Received: by 2002:a1c:4b05:: with SMTP id y5mr12916551wma.106.1634893755307; 
- Fri, 22 Oct 2021 02:09:15 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id t1sm9004835wre.32.2021.10.22.02.09.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Oct 2021 02:09:14 -0700 (PDT)
-Date: Fri, 22 Oct 2021 11:09:12 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: DRI Development <dri-devel@lists.freedesktop.org>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- =?iso-8859-1?Q?Jos=E9?= Roberto de Souza <jose.souza@intel.com>,
- Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>,
- Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>,
- Hans de Goede <hdegoede@redhat.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH] drm/i915/selftests: Properly reset mock object propers
- for each test
-Message-ID: <YXJ/uCmXBcc2u3z/@phenom.ffwll.local>
-References: <20211021202048.2638668-1-daniel.vetter@ffwll.ch>
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CBB016E919
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Oct 2021 09:25:18 +0000 (UTC)
+X-UUID: b5ae67536ba44713ac2bdf93df43ffec-20211022
+X-UUID: b5ae67536ba44713ac2bdf93df43ffec-20211022
+Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
+ mailgw02.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 647642146; Fri, 22 Oct 2021 17:25:14 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Fri, 22 Oct 2021 17:25:13 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
+ Frontend Transport; Fri, 22 Oct 2021 17:25:13 +0800
+From: jason-jh.lin <jason-jh.lin@mediatek.com>
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel
+ <p.zabel@pengutronix.de>, Matthias Brugger <matthias.bgg@gmail.com>, Jassi
+ Brar <jassisinghbrar@gmail.com>, Yongqiang Niu <yongqiang.niu@mediatek.com>
+CC: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ "jason-jh . lin" <jason-jh.lin@mediatek.com>,
+ <dri-devel@lists.freedesktop.org>, <linux-mediatek@lists.infradead.org>,
+ <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+ <hsinyi@chromium.org>, <fshao@chromium.org>, <nancy.lin@mediatek.com>,
+ <singo.chang@mediatek.com>
+Subject: [PATCH] cmdq: fix gce_num of mt8192 driver data
+Date: Fri, 22 Oct 2021 17:25:11 +0800
+Message-ID: <20211022092511.23205-1-jason-jh.lin@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20211021202048.2638668-1-daniel.vetter@ffwll.ch>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,63 +56,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 21, 2021 at 10:20:48PM +0200, Daniel Vetter wrote:
-> I forgot to do this properly in
-> 
-> commit 6f11f37459d8f9f74ff1c299c0bedd50b458057a
-> Author: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Date:   Fri Jul 23 10:34:55 2021 +0200
-> 
->     drm/plane: remove drm_helper_get_plane_damage_clips
-> 
-> intel-gfx CI didn't spot this because we run each selftest in each own
-> invocations, which means reloading i915.ko. But if you just run all
-> the selftests in one go at boot-up, then it falls apart and eventually
-> we cross over the hardcoded limited of how many properties can be
-> attached to a single object.
-> 
-> Fix this by resetting the property count. Nothing else to clean up
-> since it's all static storage anyway.
-> 
-> Reported-and-tested-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-> Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-> Fixes: 6f11f37459d8 ("drm/plane: remove drm_helper_get_plane_damage_clips")
-> Cc: José Roberto de Souza <jose.souza@intel.com>
-> Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> Cc: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
-> Cc: Hans de Goede <hdegoede@redhat.com>
-> Cc: Daniel Vetter <daniel.vetter@intel.com>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+Because mt8192 only have 1 gce, the gce_num should be 1.
 
-Merged to drm-misc-fixes with Thomas' irc ack. Will unfortunately miss
-this -rc since the drm pull train left the station already, but it'll be
-there in a week.
--Daniel
+Fixes: 85dfdbfc13ea ("mailbox: cmdq: add multi-gce clocks support for mt8195")
+Signed-off-by: jason-jh.lin <jason-jh.lin@mediatek.com>
+---
+ drivers/mailbox/mtk-cmdq-mailbox.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> ---
->  drivers/gpu/drm/selftests/test-drm_damage_helper.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/gpu/drm/selftests/test-drm_damage_helper.c b/drivers/gpu/drm/selftests/test-drm_damage_helper.c
-> index 1c19a5d3eefb..8d8d8e214c28 100644
-> --- a/drivers/gpu/drm/selftests/test-drm_damage_helper.c
-> +++ b/drivers/gpu/drm/selftests/test-drm_damage_helper.c
-> @@ -30,6 +30,7 @@ static void mock_setup(struct drm_plane_state *state)
->  	mock_device.driver = &mock_driver;
->  	mock_device.mode_config.prop_fb_damage_clips = &mock_prop;
->  	mock_plane.dev = &mock_device;
-> +	mock_obj_props.count = 0;
->  	mock_plane.base.properties = &mock_obj_props;
->  	mock_prop.base.id = 1; /* 0 is an invalid id */
->  	mock_prop.dev = &mock_device;
-> -- 
-> 2.33.0
-> 
-
+diff --git a/drivers/mailbox/mtk-cmdq-mailbox.c b/drivers/mailbox/mtk-cmdq-mailbox.c
+index 64175a893312..fd5576a9f8b4 100644
+--- a/drivers/mailbox/mtk-cmdq-mailbox.c
++++ b/drivers/mailbox/mtk-cmdq-mailbox.c
+@@ -663,7 +663,7 @@ static const struct gce_plat gce_plat_v5 = {
+ 	.thread_nr = 24,
+ 	.shift = 3,
+ 	.control_by_sw = true,
+-	.gce_num = 2
++	.gce_num = 1
+ };
+ 
+ static const struct gce_plat gce_plat_v6 = {
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.18.0
+
