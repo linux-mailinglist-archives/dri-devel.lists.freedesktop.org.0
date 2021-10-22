@@ -2,48 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D52F4437109
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Oct 2021 06:47:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 872EB437116
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Oct 2021 07:10:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B92BF89B51;
-	Fri, 22 Oct 2021 04:47:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 161456E51B;
+	Fri, 22 Oct 2021 05:10:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E9A889B51
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Oct 2021 04:47:41 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id E8BCB51D;
- Fri, 22 Oct 2021 06:47:39 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1634878060;
- bh=G7T6wZkmrWLHbctwp4ctx4alzTbYKzVDezqLPHMiKe0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=W/brV8VOxlPHQ0b1U9/XRwEUOyfHjdMY4JDujpx8mPXzYg5xVSgKfzmsKSAuwwwFy
- QOi7CMXVQ7mwa+GKOGLFLyNKrrXMlNLpJIrL3VLDjnF8Gc67OI6V9kqBUcNGppL4+D
- gjclIMtiN9UXtpkwcGjk4a6vBAYPf/e4cZ9qRLKU=
-Date: Fri, 22 Oct 2021 07:47:19 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Maxime Ripard <maxime@cerno.tech>
-Cc: Rob Herring <robh+dt@kernel.org>, Frank Rowand <frowand.list@gmail.com>,
- Chen-Yu Tsai <wens@csie.org>,
- Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v5 1/7] of: Make of_graph_get_port_by_id take a const
- device_node
-Message-ID: <YXJCV6Qxl7HwSM1j@pendragon.ideasonboard.com>
-References: <20210929084234.1271915-1-maxime@cerno.tech>
- <20210929084234.1271915-2-maxime@cerno.tech>
- <YW6zxW3KdlpLQe/m@pendragon.ideasonboard.com>
- <20211021074843.yxbzoasfyxmzmukf@gilmour>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20211021074843.yxbzoasfyxmzmukf@gilmour>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 451586E51B
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Oct 2021 05:10:13 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 0EBEC6120D;
+ Fri, 22 Oct 2021 05:10:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1634879413;
+ bh=hAUsbK095GhU9u03l79kWnzchsQorHpB0MDHbzvNxkw=;
+ h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+ b=Z1WauhgmbEJmYAbkIlC54FYXSUiXQHK7PBkQDRjjnjk/zosxZ28p16rGebclvKNlC
+ IJahHif4dBJlO1NMJKzIrzrfyuJrXwgkWoZ1fVCuQxeZq3CWmSUHWiJ2SDFcx6Wwdy
+ 82mXZsFhAGUcS9xzSAPt96ttwXEiyKZ3wAcbZjFAVvNKeHDh5F0iBeLoIhCydI988O
+ PulMYRnP3YQtPxcxgBi8xHc3MjEGl9IM4UkxDtUkKt9HCklKCNqVO1LA5Fx3iOTdhS
+ 77Ug7r0/QEFpQrvWPj4eksibF6xy2tz5zTmlfAnRsClHOic9r+gpqvWUK/ZkabPiKL
+ V78KIrac67QtQ==
+Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain
+ [127.0.0.1])
+ by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id EE2E3609E7;
+ Fri, 22 Oct 2021 05:10:12 +0000 (UTC)
+Subject: Re: [git pull] drm fixes for 5.15-rc7
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <CAPM=9tzoEc2rNg9tObnmTnqhg_BEcKQiqgAgqAQOphJa1M760g@mail.gmail.com>
+References: <CAPM=9tzoEc2rNg9tObnmTnqhg_BEcKQiqgAgqAQOphJa1M760g@mail.gmail.com>
+X-PR-Tracked-List-Id: Direct Rendering Infrastructure - Development
+ <dri-devel.lists.freedesktop.org>
+X-PR-Tracked-Message-Id: <CAPM=9tzoEc2rNg9tObnmTnqhg_BEcKQiqgAgqAQOphJa1M760g@mail.gmail.com>
+X-PR-Tracked-Remote: git://anongit.freedesktop.org/drm/drm
+ tags/drm-fixes-2021-10-22
+X-PR-Tracked-Commit-Id: 595cb5e0b832a3e100cbbdefef797b0c27bf725a
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 64222515138e43da1fcf288f0289ef1020427b87
+Message-Id: <163487941291.3037.7507080835979258699.pr-tracker-bot@kernel.org>
+Date: Fri, 22 Oct 2021 05:10:12 +0000
+To: Dave Airlie <airlied@gmail.com>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,32 +63,15 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
+The pull request you sent on Fri, 22 Oct 2021 06:08:20 +1000:
 
-On Thu, Oct 21, 2021 at 09:48:43AM +0200, Maxime Ripard wrote:
-> On Tue, Oct 19, 2021 at 03:02:13PM +0300, Laurent Pinchart wrote:
-> > On Wed, Sep 29, 2021 at 10:42:28AM +0200, Maxime Ripard wrote:
-> > > of_graph_get_port_by_id doesn't modify the device_node pointer it takes
-> > > as argument, so we can make it const.
-> > 
-> > From a C point of view that's right, but conceptually speaking, is it
-> > right to return a non-const child port node of a const device_node ?
-> 
-> I mean, I guess not, but you're the one that asked for it:
-> https://lore.kernel.org/dri-devel/YBAiztjg0Jji9voK@pendragon.ideasonboard.com/
+> git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2021-10-22
 
-Oops. Looks like I must be wrong with at least one of the two comments.
-Please pick the option you like best.
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/64222515138e43da1fcf288f0289ef1020427b87
 
-> I can change it if you want, but certainly not if the only comment I get
-> on this series for the next year is going to be over whether or not
-> arguments of functions unrelated to the main intent should be constified
-> or not.
-
-DRM/KMS seems to suffer from a deficit of reviewers in all non-desktop
-areas :-(
+Thank you!
 
 -- 
-Regards,
-
-Laurent Pinchart
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
