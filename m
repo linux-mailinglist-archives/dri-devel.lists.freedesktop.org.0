@@ -2,83 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99AB24379B2
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Oct 2021 17:16:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48BDD4379F2
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Oct 2021 17:31:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 605506E5CA;
-	Fri, 22 Oct 2021 15:16:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B4256ED99;
+	Fri, 22 Oct 2021 15:31:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C483D6E5CA
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Oct 2021 15:16:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634915780;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=pGKg98798sR7hDdh2nqAXz7sKPnZ3GW7bRVI1o0f6mc=;
- b=TiiLhr7z6tQIozaSnIkVIOD14ZyhJ8th4VhVxup8Ez2WL2m+ajyKpOHS4zKixUMFWrBljx
- XpFSoUPJOY+oBWaNlTlNRZis4j3qDlZZIUckCUS4jxWhDsQhtQtI+tys+p0jtadROUNiPB
- c22hgWdexb4J+D1zEo4FrN2SKhCMgeo=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-339-a2hkIWlAMw6G4opsOVfPQw-1; Fri, 22 Oct 2021 11:16:19 -0400
-X-MC-Unique: a2hkIWlAMw6G4opsOVfPQw-1
-Received: by mail-wr1-f71.google.com with SMTP id
- 10-20020a5d47aa000000b001610cbda93dso1031885wrb.23
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Oct 2021 08:16:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=pGKg98798sR7hDdh2nqAXz7sKPnZ3GW7bRVI1o0f6mc=;
- b=Boni1QnKKquIMgZjvj4vbQHVNG113Ggc5eOVMl6rbh3345E3n4jZAnAN59cY81iFZx
- cRsrX7DSpL7GKBK5PExo5UW0+o9unMeGzbUWuw3IcM3SzSGcfLxHWcAtGIiJf4HKro8t
- CExcJynEZ1tnVMijlawRjtXkJLOAHRk39m4hq5X3KOolBAY/5LXM0L3z6EuTs57JHCXp
- xBp7ib+gCD+XwPC/P4UW2RW5SAccVsF6AhoIE/P9Sn2pfV17ozo91yvW6mbC8V3zZrgs
- tL0snFF0Ux5iMv4wvuuOxwzEjxnG7YfFu+o7Hn0HhWauvki6x2GwlHMhsNnZSblZOble
- BnhA==
-X-Gm-Message-State: AOAM5307UHauLBf/Ed/LUninywE85hR1ZO4+jWmIamvmLJUl9Umrz8Xs
- JlaqgQ4mVj4tIlvktuITYZTzPOHijqubo8RhNjl1do5dR67QPqYm6WpTAXQiokOQv3ferBN1vk9
- TgsyUXMRW4dqi8dr4R2qHEvuKaBiF
-X-Received: by 2002:adf:fa8b:: with SMTP id h11mr627054wrr.74.1634915778357;
- Fri, 22 Oct 2021 08:16:18 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyEKQAQpr7NQ++0cIjm/8luZl970ACFAB+piCj+X1eATgioaVsZPPinY4goUeNvEb0f2ZXSww==
-X-Received: by 2002:adf:fa8b:: with SMTP id h11mr627019wrr.74.1634915778129;
- Fri, 22 Oct 2021 08:16:18 -0700 (PDT)
-Received: from [192.168.1.128] ([92.176.231.106])
- by smtp.gmail.com with ESMTPSA id l20sm12942958wmq.42.2021.10.22.08.16.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 22 Oct 2021 08:16:17 -0700 (PDT)
-Message-ID: <352163b2-2946-aec8-16b4-fd6f01373ff2@redhat.com>
-Date: Fri, 22 Oct 2021 17:16:16 +0200
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 13FB56EA40;
+ Fri, 22 Oct 2021 15:31:00 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10144"; a="292785644"
+X-IronPort-AV: E=Sophos;i="5.87,173,1631602800"; d="scan'208";a="292785644"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Oct 2021 08:30:59 -0700
+X-IronPort-AV: E=Sophos;i="5.87,173,1631602800"; d="scan'208";a="495721735"
+Received: from pbabu-mobl.gar.corp.intel.com (HELO localhost)
+ ([10.251.213.192])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Oct 2021 08:30:56 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Jason Ekstrand <jason@jlekstrand.net>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Jason Ekstrand <jason@jlekstrand.net>
+Subject: Re: [PATCH 19/30] drm/i915: Add an i915_gem_vm_lookup helper
+In-Reply-To: <20210708154835.528166-20-jason@jlekstrand.net>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20210708154835.528166-1-jason@jlekstrand.net>
+ <20210708154835.528166-20-jason@jlekstrand.net>
+Date: Fri, 22 Oct 2021 18:30:53 +0300
+Message-ID: <87ilxpkrf6.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [RFC PATCH] drm/aperture: Add param to disable conflicting
- framebuffers removal
-To: Neal Gompa <ngompa13@gmail.com>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Peter Robinson <pbrobinson@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org
-References: <20211022144040.3418284-1-javierm@redhat.com>
- <CAEg-Je_v0zvOs1dOZ3P0qsPDO7LC8xk0zxQBLH6gr65V82dnPA@mail.gmail.com>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <CAEg-Je_v0zvOs1dOZ3P0qsPDO7LC8xk0zxQBLH6gr65V82dnPA@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,71 +51,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Neal,
-
-Thanks for your feedback.
-
-On 10/22/21 16:56, Neal Gompa wrote:
-> On Fri, Oct 22, 2021 at 10:40 AM Javier Martinez Canillas
-> <javierm@redhat.com> wrote:
->>
->> The simpledrm driver allows to use the frame buffer that was set-up by the
->> firmware. This gives early video output before the platform DRM driver is
->> probed and takes over.
->>
->> But it would be useful to have a way to disable this take over by the real
->> DRM drivers. For example, there may be bugs in the DRM drivers that could
->> cause the display output to not work correctly.
->>
->> For those cases, it would be good to keep the simpledrm driver instead and
->> at least get a working display as set-up by the firmware.
->>
->> Let's add a drm.remove_fb boolean kernel command line parameter, that when
->> set to false will prevent the conflicting framebuffers to being removed.
->>
->> Since the drivers call drm_aperture_remove_conflicting_framebuffers() very
->> early in their probe callback, this will cause the drivers' probe to fail.
->>
->> Thanks to Neal Gompa for the suggestion and Thomas Zimmermann for the idea
->> on how this could be implemented.
->>
->> Suggested-by: Neal Gompa <ngompa13@gmail.com>
->> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
->> ---
->> Hello,
->>
->> I'm sending this as an RFC because I wasn't sure about the correct name for
->> this module parameter, and also if 'remove_fb=0' is intitutive or instead a
->> parameter that's enabled is preferred (i.e: 'disable_fb_removal=1').
->>
-> 
-> In general, I think the patch is fine, but it might make sense to name
-> the parameter after the *effect* rather than the *action*. That is,
-> the effect of this option is that we don't probe and hand over to a
-> more appropriate hardware DRM driver.
-> 
-> Since the effect (in DRM terms) is that we don't use platform DRM
-> modules, perhaps we could name the option one of these:
-> 
-> * drm.noplatformdrv
-> * drm.simpledrv
-> * drm.force_simple
+On Thu, 08 Jul 2021, Jason Ekstrand <jason@jlekstrand.net> wrote:
+> This is the VM equivalent of i915_gem_context_lookup.  It's only used
+> once in this patch but future patches will need to duplicate this lookup
+> code so it's better to have it in a helper.
 >
+> Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
+> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-or maybe drm.disable_handover ? Naming is hard...
- 
-> I'm inclined to say we should use the drm.* namespace for the cmdline
-> option because that makes it clear what subsystem it affects. The
-> legacy "nomodeset" option kind of sucked because it didn't really tell
-> you what that meant, and I'd rather not repeat that mistake.
+I'm looking at i915_drv.h.... and really, i915_drv.h is not your dumping
+ground. None of this belongs in i915_drv.h.
+
+BR,
+Jani.
+
+
+> ---
+>  drivers/gpu/drm/i915/gem/i915_gem_context.c |  6 +-----
+>  drivers/gpu/drm/i915/i915_drv.h             | 14 ++++++++++++++
+>  2 files changed, 15 insertions(+), 5 deletions(-)
 >
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> index 206721dccd24e..3c59d1e4080c4 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> @@ -1311,11 +1311,7 @@ static int set_ppgtt(struct drm_i915_file_private *file_priv,
+>  	if (upper_32_bits(args->value))
+>  		return -ENOENT;
+>  
+> -	rcu_read_lock();
+> -	vm = xa_load(&file_priv->vm_xa, args->value);
+> -	if (vm && !kref_get_unless_zero(&vm->ref))
+> -		vm = NULL;
+> -	rcu_read_unlock();
+> +	vm = i915_gem_vm_lookup(file_priv, args->value);
+>  	if (!vm)
+>  		return -ENOENT;
+>  
+> diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
+> index ae45ea7b26997..8c1994c16b920 100644
+> --- a/drivers/gpu/drm/i915/i915_drv.h
+> +++ b/drivers/gpu/drm/i915/i915_drv.h
+> @@ -1867,6 +1867,20 @@ i915_gem_context_lookup(struct drm_i915_file_private *file_priv, u32 id)
+>  	return ctx;
+>  }
+>  
+> +static inline struct i915_address_space *
+> +i915_gem_vm_lookup(struct drm_i915_file_private *file_priv, u32 id)
+> +{
+> +	struct i915_address_space *vm;
+> +
+> +	rcu_read_lock();
+> +	vm = xa_load(&file_priv->vm_xa, id);
+> +	if (vm && !kref_get_unless_zero(&vm->ref))
+> +		vm = NULL;
+> +	rcu_read_unlock();
+> +
+> +	return vm;
+> +}
+> +
+>  /* i915_gem_evict.c */
+>  int __must_check i915_gem_evict_something(struct i915_address_space *vm,
+>  					  u64 min_size, u64 alignment,
 
-Yes, agreed. In fact, that is the case for this patch since the param is
-in the drm module. I just forgot to mention the namespace in the last
-paragraph of the comment.
-
-Best regards, -- 
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
-
+-- 
+Jani Nikula, Intel Open Source Graphics Center
