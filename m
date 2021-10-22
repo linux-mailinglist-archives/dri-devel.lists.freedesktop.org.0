@@ -1,114 +1,129 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18B8E4371C1
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Oct 2021 08:30:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DCF74371C6
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Oct 2021 08:33:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E6636E832;
-	Fri, 22 Oct 2021 06:30:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 313A96E546;
+	Fri, 22 Oct 2021 06:32:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from APC01-SG2-obe.outbound.protection.outlook.com
- (mail-eopbgr1310113.outbound.protection.outlook.com [40.107.131.113])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 711156E566
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Oct 2021 06:30:51 +0000 (UTC)
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2070.outbound.protection.outlook.com [40.107.243.70])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB6666E5A1
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Oct 2021 06:32:57 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bdD2s9vLQjk9XDdkORg1vz8+q8a+cPhsV+fv5OqbxLUPL6klAIS+HuZRz0b4t5IOmbcGxonw5KlxRzccmqHBay99GPKH/ofx3s48esYBI9gKBJAdtZPsf3IAhNA/rCozwQb0BU7agV+GnICr/aHSzROQfcjR4ndIvFtYdb7gf9RqyOXt/hOzxTgLbTzCCDj/ql+Cbu8IBlvSEph6NoOI33NpleD32jtIPNj0uKYz+7El90cRMYBLJPLJDB45Ga5kPXRhVim3ICpFAVkXGwSmZOgT4xB2NixYhRiPDOQ7/97jaf7H72u6A8GhI0sHF3U7QKHK8w9W0SsBxfvsJX5zCg==
+ b=To5eSQJwx3tDexH4IGJAGGmQoWZ0Zhr0Z/qGUAzg8sxpFVWExtY9ARPZzVAsmEb7YFWG+dgv3QEs3zZyfalfKNXtI62FNfCOivGeH7Vyl0agOweoeaHj7VieL2w3J+Ra0xRkRzrYKWx+53pXA2iNHKlAcoHYOTQG27/48Pspb6peBSJwZjBqG6kAu7dhJQxpqvbqb+6XLcYBXYFV9UGT/M7J9YrArIoDSe/p/ASGyr24eWh4cwBeWshHGn3VNWZLU2giA9hM2uE7qyIStz3+o88FfZuhkDOp1lHDuJwAE5rWD5xkyngbUSpHhmOIf8Mit9iMX7z4V1dFUo5FI9guyg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=k0GKXqL2OIQtWMD1zz8tLlbXN446+8CORWtQhLP5Ibc=;
- b=NeuUALJnTqbzxseSfecI4b7Qw4j5T8AAhRd0gNsru4wLkRXlkBjPWCSH7ykbfYnUwCt06pHnSybYYjFobxd1k4jaGfFBl0CG5BF3LB+nGB85p07KBBjZN/ggGoltWJ/MqwBDd+r2C2p22QLNnmtyZGpsolyz/4rVJ5t33dB91qTuUBosos3lNn1EOBO1Sg+bWeXu1E9NDIlq/ocmp6JUGdt/ii/isYdXboJGaOBi0GiiFy70VXnCa0anEmbU2q4WYnnb6uU3OUHPR88UCCxBEKWDC2ozCOugFqHBCcAGrzERhK1jsjSJ+0kkruZxYUSM1zjbMw/LRmDRzsTEOgMRPw==
+ bh=Se1Qbu+Y9mhJc7XsX5Lcq06IkY3UNG3vMXR5kUf3UXA=;
+ b=JdnBpsisu57qm3LX/ZwHTYN5suuRnS6cXJJaPWMBmN6Pqwx+Bt7oaZ9AUiHDKUSKzxbnIIYJKYsxQ35UzhhxNv9WPZ2aGH2aGf5KogmGiQZRp5uN6G0NFWB6tVQfkRKJEBLmLVfIZS07E52QVwdfPonjivl1Mx4MzcjY6at87La8ADgvtUdaiDSGiHk4uSGFnsJuQ4BE/vjBtMlyTmkQKmaize1/2ARXR6tgnZBlBH8aLWUtZZs1mwB4ts6SAA4DyUDShFP22bBPX9roz/EtYxxPM9NIDZVTIixXWQ5zb8V8oSDRO9nYjV5Rx3OOUqOrfvp65fmWcyGOw7hgmKuNbg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
- dkim=pass header.d=vivo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo0.onmicrosoft.com; 
- s=selector2-vivo0-onmicrosoft-com;
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=k0GKXqL2OIQtWMD1zz8tLlbXN446+8CORWtQhLP5Ibc=;
- b=FTq/wJUKvxyeBjTSKYHVI7GetpDJ1109VpxppDna2X6PAHeBfwTsKtxWXrneUHzuD0dsrseL7TVL8V2PnB3eaTMRE74HkjE0BMxHd7R6uXMZlmj5NzqLLnMLbw9yQCwymo7OTPYhnSZY7r9002/9dgeNvvhBEyvk3Zf/62RUs0g=
-Authentication-Results: linux.intel.com; dkim=none (message not signed)
- header.d=none;linux.intel.com; dmarc=none action=none header.from=vivo.com;
-Received: from PSAPR06MB4021.apcprd06.prod.outlook.com (2603:1096:301:37::11)
- by PS2PR06MB2502.apcprd06.prod.outlook.com (2603:1096:300:4a::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4628.15; Fri, 22 Oct
- 2021 06:30:46 +0000
-Received: from PSAPR06MB4021.apcprd06.prod.outlook.com
- ([fe80::395a:f2d7:d67f:b385]) by PSAPR06MB4021.apcprd06.prod.outlook.com
- ([fe80::395a:f2d7:d67f:b385%4]) with mapi id 15.20.4628.018; Fri, 22 Oct 2021
- 06:30:46 +0000
-From: Bernard Zhao <bernard@vivo.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Cc: Bernard Zhao <bernard@vivo.com>
-Subject: [PATCH] gpu/drm: fix potential memory leak
-Date: Thu, 21 Oct 2021 23:30:35 -0700
-Message-Id: <20211022063036.21763-1-bernard@vivo.com>
-X-Mailer: git-send-email 2.33.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: HKAPR03CA0033.apcprd03.prod.outlook.com
- (2603:1096:203:c9::20) To PSAPR06MB4021.apcprd06.prod.outlook.com
- (2603:1096:301:37::11)
+ bh=Se1Qbu+Y9mhJc7XsX5Lcq06IkY3UNG3vMXR5kUf3UXA=;
+ b=qSPFE+wHb75l7NZmdCWL3YIOi2swaDQUYgrt0jHns9jy4/mYIoqDXk9L96ByNaTLo5pOYnIRQfRAh9GNVjDcUI77ymg3CFUi9Qir9X9ykdIJjlE3Ba+3hR7X0wKWBE6le5tvBDBKRfzf4Ywr20+s0j1z86REz0MaT7TfPQ5lADA=
+Authentication-Results: vger.kernel.org; dkim=none (message not signed)
+ header.d=none;vger.kernel.org; dmarc=none action=none header.from=amd.com;
+Received: from MWHPR1201MB0192.namprd12.prod.outlook.com
+ (2603:10b6:301:5a::14) by MWHPR12MB1487.namprd12.prod.outlook.com
+ (2603:10b6:301:3::9) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4628.18; Fri, 22 Oct
+ 2021 06:32:53 +0000
+Received: from MWHPR1201MB0192.namprd12.prod.outlook.com
+ ([fe80::55c7:6fc9:b2b1:1e6a]) by MWHPR1201MB0192.namprd12.prod.outlook.com
+ ([fe80::55c7:6fc9:b2b1:1e6a%10]) with mapi id 15.20.4628.018; Fri, 22 Oct
+ 2021 06:32:53 +0000
+Subject: Re: [PATCH v2] dma-buf: heaps: init heaps in subsys_initcall
+To: John Stultz <john.stultz@linaro.org>,
+ Shuosheng Huang <huangshuosheng@allwinnertech.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>, Liam Mark <lmark@codeaurora.org>, 
+ Laura Abbott <labbott@redhat.com>, Brian Starkey <Brian.Starkey@arm.com>, 
+ linux-media <linux-media@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ lkml <linux-kernel@vger.kernel.org>
+References: <20211022014850.22933-1-huangshuosheng@allwinnertech.com>
+ <CALAqxLXNMvaT3OU3Y-aYkH+KJA_g1QSOZNJHqvzt21WPy=6UJw@mail.gmail.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <776ec196-08dd-4308-4484-b6ef91d3d4e9@amd.com>
+Date: Fri, 22 Oct 2021 08:32:45 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
+In-Reply-To: <CALAqxLXNMvaT3OU3Y-aYkH+KJA_g1QSOZNJHqvzt21WPy=6UJw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-ClientProxiedBy: AS9PR06CA0256.eurprd06.prod.outlook.com
+ (2603:10a6:20b:45f::7) To MWHPR1201MB0192.namprd12.prod.outlook.com
+ (2603:10b6:301:5a::14)
 MIME-Version: 1.0
-Received: from ubuntu.localdomain (218.213.202.190) by
- HKAPR03CA0033.apcprd03.prod.outlook.com (2603:1096:203:c9::20) with Microsoft
+Received: from [IPv6:2a02:908:1252:fb60:9826:b15:8db5:7240]
+ (2a02:908:1252:fb60:9826:b15:8db5:7240) by
+ AS9PR06CA0256.eurprd06.prod.outlook.com (2603:10a6:20b:45f::7) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4649.8 via Frontend Transport; Fri, 22 Oct 2021 06:30:45 +0000
+ 15.20.4628.18 via Frontend Transport; Fri, 22 Oct 2021 06:32:50 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 944ffbc5-7172-4010-9543-08d995257b34
-X-MS-TrafficTypeDiagnostic: PS2PR06MB2502:
-X-Microsoft-Antispam-PRVS: <PS2PR06MB2502F951C03B7A57CABC4B83DF809@PS2PR06MB2502.apcprd06.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:60;
+X-MS-Office365-Filtering-Correlation-Id: 3a8d3968-44bf-4f5c-3eb9-08d99525c676
+X-MS-TrafficTypeDiagnostic: MWHPR12MB1487:
+X-Microsoft-Antispam-PRVS: <MWHPR12MB14870949DA9C8327F0C2826383809@MWHPR12MB1487.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ZKnH3r3x7z3LugIrYZVCh1G0pl0tLLmS7Je8FESsC8J6PTuDxx+CAmqoQ88DrprJd9j7WjEn3wIt2TmKimAuGQJAia91Jasdl9zrcK9md16cslk4A129udLL+hyRDzTN5k+Rr+qzUVNWIgl4puZGFZszWE6e6ucw/OLbdJYY6t7V9u5VPLjxG1rHRpTJy7hChPtzbU6XEYrgMJOCaw0wHeelOLataACnCvg2LB1szY35npyBhRzsHSAwjUaFy8WyGtkfxKC8lpBt5p1QdktmlS8LEwDyxeb7mKl6n8OaJjjWOZQfWmoqSk6WpRSW1ujycMHktjllwecWNqGBswQ9P93YGR0ov6FCgA1uAnBYkpSgaBxZC37YVw94KkhtuaRMDZiLBMm+CUzDydCqGw1hCeXDFuYpQuNFgLtDaxpf8CYTxq1dwRxmOXBGKIvXmJwQNHREpvcDkr71Q2W7AZAXiOQAtJaNxJMgKC55ebkaM1J1lQh1o7oGeSNzjjCaXTlZtRth1nwMPAUXcUrgO3jNSLbUGVvjmqhPSMCrnIYskFWzTL8eomV95dHDc7a5yZ60e/hCaJOdw6828ujTcgMkkwZBKTcSCQYDhN62nnd/NXaP/6PdTOdj0NYcOSPzdLWTWhQ2KTH2/EiNXEKgOBOaYuIztDux4eAbAJAk/nmmXuUPyxzNDZZhVtyWR8KNeSB6pLukhVNXtExBM1B0vDwHJc3RHqwCBMyxSm4tdPw6gHglvilAvVhWX2XJZN8+Dm749t/viaJ4Hi9LS3GV5tvioS911Gc4Zf0KlYpga3VJrHJEK4lMHCM9ha3i3HdrA4qQ0/FCUpELoWZrxH/IaPc4eA==
+X-Microsoft-Antispam-Message-Info: hpWgp4DTC4YfDL/5c3UCXbaf/i6Uu3ahrQ+PZ2133DrmSQHxziyfxEEAYOasggC+vRPm4Ax/9nPp/cf5gQboPpkMzKPeR3lTR54G+W9F/Eu9AdoV9UbcypljqGfH9dI99GUVDuHrDiQ1A0gXzbBdF9+rZUCWO5Y7pDKPvk6Uh3dG5GLXs4uQ2r487W780cyNUHW+xVbuOumrafMM5Mw0jgzsgMgkTxVFeNlcRVcwrBvOecQbdtLob6lSTquXWCWIpVqDIA60PV8qxfPx7Q+nr8zrM1VyAmKySY103tJkbq6KyypcvPWJ5m03mGlZtULY3PH2WlusxiJezejZkuM2YG+J3FeUG9mDnEk99okr9qIywNxs5QjvSPNVlPiWDhiNMKwsZosJ9rk8Fw84g8GROJkNMSV3v/xurwI2OltKwMThMuIYIxUcHmLwhtSmQAFCyzLg3F319sInAK+6EH8Jr54HRhFPzNXgAlHj56tug9fRMaXuEC21NFf6YJZLwJJ9CCgNtgldBzLaQ2X/ywrLP+pvDLymNj95v9ysFzyaFDUAsEw+Zhocn9GSCXmEKl8PKf+2IHEQbBS5avOGEhShABaw0i1Ll4ZQZrEjz39q/wH3cXPAEo57elLIsuorsLkqEISYSEHeABHpqA2DE3TMRNEznB131skkCOrdmdtD0Ae2IOm+OTiE74dZ3fSXxCkzua7QsjQXhxAxn1Gf3jzoORWNEpDLvz0np/CxpPxLUhY=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PSAPR06MB4021.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(6506007)(6512007)(66946007)(86362001)(186003)(8676002)(36756003)(2906002)(8936002)(4326008)(316002)(110136005)(1076003)(26005)(6666004)(107886003)(6486002)(966005)(5660300002)(52116002)(38350700002)(956004)(2616005)(66556008)(38100700002)(508600001)(66476007)(83380400001)(99710200001)(505234007);
- DIR:OUT; SFP:1102; 
+ IPV:NLI; SFV:NSPM; H:MWHPR1201MB0192.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(66476007)(66556008)(66946007)(8676002)(316002)(6486002)(2906002)(4326008)(2616005)(6666004)(8936002)(186003)(5660300002)(54906003)(53546011)(110136005)(508600001)(31686004)(31696002)(38100700002)(36756003)(86362001)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?fKMippH9CT9HFNoMsCwqNkEPVrbfOn+D3vZlC/b3kovCCm5o6C0jfn8GOTnQ?=
- =?us-ascii?Q?0LldrHKXKVuNXmy+ewuMqDPYjm5VDCtMWSxsKBJDNlgNGI1ThKLss7zUHI4z?=
- =?us-ascii?Q?bJidLWpgbXiX1/CYQ444cGnuuR4hmA3ukNm4sBIXnZ6yj3d+ib3oo3oPkZ3A?=
- =?us-ascii?Q?5mnmNlEXSU+MDbc0uMCodiXNSnrVHOJvwWf4IZBBQPOq+MusyI9C6pxm0g75?=
- =?us-ascii?Q?QTsoPGW8Pru+j+AK1RqhkUIZEBmAC1988/utLW2JyCx4REDkNseiwYLRgavC?=
- =?us-ascii?Q?yPgkgoFT5U79Igr7x60KijE4CbEL0w720DqF8/bNMLVJiV5U2SWR2s6fV8Gm?=
- =?us-ascii?Q?Ll1h6d95+ub9TYV+aLArbBtR8ZeFck6bMkAmDnmLHenlusfwhVsv2pIJinRJ?=
- =?us-ascii?Q?P7Lt34rjg55/IFhoOXVY0AJc9thl7C4swCjAiNcQ2nE3rU7Zr0ArPufefVVB?=
- =?us-ascii?Q?/UuZ2BLSpVaSOH7am6ZBcbdCVtS2fwy2GDiYw8a1plVICWM4950uetCzcPtq?=
- =?us-ascii?Q?0oJ/J0EmeS942gyO/2S9F3BX6xXA8MQzb/zk5Obz7WBpHjEjv2PWYzvBnXKj?=
- =?us-ascii?Q?EU0pdht9aPCMZsXPIk352oxJOl2N2Fds094428RXUfkszKyKP43+G65cDqs2?=
- =?us-ascii?Q?sCZn4MAMpdrFVILx4l95Nz83iRi0rq66nU1fDE1evPjcMJ1ovxoH6Hw3hEZi?=
- =?us-ascii?Q?2TCECOlA8FFv18CSLUIWprzESCmmYzIs/HIWTGXuc0o2O3wUhrqmJJqXOqfP?=
- =?us-ascii?Q?woum6/tf05k/oY+xQCmlDHQdgfyV5ns7wbam4Ufr+cRNgG3p1yg//TLwHONe?=
- =?us-ascii?Q?d42rI9aJgPEO0V/WGSYPVISNV5M3DvFVSumtgY0oDgH6/EyE5HOn++7+N3jm?=
- =?us-ascii?Q?3bcEeM1NwweaKNs7VW5G7JEFGpb8hG9qeZGn4Yp/XsHocpe4cJhyyNAChP0b?=
- =?us-ascii?Q?dvVXBQ5F8sRKOQDDdZmOR8M42GAdlPFiUwMUQWyTL5/a3LyvZ+dVymTsqP+Q?=
- =?us-ascii?Q?zP0gspbMuO0ow4/+S5j7jdTMP09fYpIujFImU1S8PLJpO7aIvPLhYvvavtHF?=
- =?us-ascii?Q?BrRrCB8CctMtFlpkWGz0nuoH70OMI0DFeVVaJ3lRjhyoAH3hmq4KXzOfca4i?=
- =?us-ascii?Q?zwBHvV/GI049LM6Ktdp4KStFSR3jqBMfFBwxjoMTD61S/mBZY00H7JNksUpp?=
- =?us-ascii?Q?4EyNSQ+E2Zehb3BhuLGnieqxqUpgrjCyvMu5DojKjtTzucmYz4RhVILKh2uE?=
- =?us-ascii?Q?yLOzedAu81CTKEirHZMdjL7DZCWP4fA2QWgrYDGShUJTWmTKNBnGGAlF6mK1?=
- =?us-ascii?Q?ogz2+G7B4mkVRyNPCtQO6WBd+O2BQBufwZp+JcxqAsi5ZD7Pu3gKayiErEeR?=
- =?us-ascii?Q?9eZDrxi9VcnueFXN4H63qGb++/Q32W53DmczFRtTTTU4Zo5pglUZzXJIIvn1?=
- =?us-ascii?Q?sY8egyPLD9M=3D?=
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 944ffbc5-7172-4010-9543-08d995257b34
-X-MS-Exchange-CrossTenant-AuthSource: PSAPR06MB4021.apcprd06.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Y3lPK3NSdXZjUXJZbTB4a05xY1VYaDhITVd3eFNHSUN1aU1HSTQvMFhyYjQ3?=
+ =?utf-8?B?KzVTckhYaU9xOFFjQitPeThhSnA1K0ZzU2ZjSmRwekRtVjdWekVWcUFGeFFy?=
+ =?utf-8?B?Z1N2b2tqZ01ZZjlOeXFXUXVQMGJ4VStyZmFBODBkSTNxVzBZYVpMNVR6SnR2?=
+ =?utf-8?B?UlVkbnZURXNHOFJzYmV6WDF2ellzNjU0ZGt0NTM4OE93aEE5SDF3czNBN1dI?=
+ =?utf-8?B?UHpaQ3Q3V2twaU9qMlJGdU13VEFyMFZiUEgyVWNRUkVaS240cndsblo5cmVS?=
+ =?utf-8?B?K3NwTFNTMU5FQjVuYVVUR3hwRGtBazhFdy9aZnFUR2diWU1rWUtrdmwwZ2d1?=
+ =?utf-8?B?S3hXUllkRVAxWGk4N0h4UXhuakMwckFwNExrWHkzWVZZTXBWK0doczg0VXNC?=
+ =?utf-8?B?TVArc3JQLzdHWTlmbUlic3NVOHQyNGM4WUZiT2tVemJ2UTFzRHdMOEtkc3B5?=
+ =?utf-8?B?ZXEzNGFjZmRXcVVqb3BQelpSUGpTSFRKaTFwMzFiUEx1WkRvQmNNL2hNQjMr?=
+ =?utf-8?B?bk53ZWhRanIwaGQyOFRpc2RsUEtObSs1Z2g5Q0lmLzErdERBZ0VaMmpSYTV0?=
+ =?utf-8?B?TWFocWFGcmxSZ0xhZG9pQzRRaWpnTnVqRjhIRTg2K1RkZmN5M2pIRHhIVkYz?=
+ =?utf-8?B?YXBoRUNLVk9WVFNrVFZ2blcxTWh2Yk9JSnRGT21aVzFTWnNvTU9Wck5Md2Jy?=
+ =?utf-8?B?TUw0YldMZmVRbnpTVmYzZG1ySENjSGlxNDQwdEpZOXlxNEdyK0x4TURMQ0VV?=
+ =?utf-8?B?MjRYYVNrRE9GWFRsaWhSbVRBMUNwYzVsTGdOczRyTWJOT3FVVDc2ZitOR0pW?=
+ =?utf-8?B?Q05GdCtGMDF2bTVHU2F4QVFwZlcwSjVVZDFlRkpqeFZJdEdXS040MVIrTHVh?=
+ =?utf-8?B?cTEyZlUxN0Q1aGFFbjRtekN6SjVaWDdBRXpZQ1lNMlE4aVpORkVOaldVUmRH?=
+ =?utf-8?B?M3ZXWTVUYWloR21GWFVTcTMxR09SZWFLTFN4bUNvVDROeHJ5eVA1RDRTY2hV?=
+ =?utf-8?B?YjBabXZzY3M0K2N0SVh6RGRNNUJWcUtIVnU3T0xLMUtucjBGTVRBTDVTNnlD?=
+ =?utf-8?B?ZzMwNDV2ZFdFL1BuZng5RkFjSFRHYnAyYjU0SVN0S1o1UkwwWVlTL29WVzc3?=
+ =?utf-8?B?akhLL0xlazBNRmZ6M001ZnAvU0IreFk3azkyTFRYUk15OHZRcnRxMGZyVHRz?=
+ =?utf-8?B?MC9vdXB4MVA0T1pzUGpISU9jNk9yZTdsdTlsUTdZU3dENTE4U29QRnNORVRy?=
+ =?utf-8?B?TCsrY1k2SndCVzI5SW1ITThXeWl2c1FMbHd2VElONmRQMEdwQVdTemRXSTJP?=
+ =?utf-8?B?VnE2T1RJTWZmWnVIUWs1aFgzU2szbTlWMk5KdEZseThtcXJpdXZIb0JCTmxr?=
+ =?utf-8?B?WjFxYUd3WlFteFN0d3dUQVR5RGFwZXptU01xTXVWWEtCbm85ZHJUa2JrUUlm?=
+ =?utf-8?B?Ymc4S2ZIM3FwM2xYU0E4OUxwR1VEZENBak9DRVdma3JKWTk4QTg4TUJPOGJ3?=
+ =?utf-8?B?MmZ1MDZydzZwYVFLeFNMY2tYTnZkMVE0ZUVYYWFic3JNM1Iyd2NzM2hobllW?=
+ =?utf-8?B?M09mQkMybEtRQy9uRlY2MFp6cjRHalN4THdWdEF2bG9sdEF6NUJYS1d2YUN6?=
+ =?utf-8?B?Nml4SHVVNjFVd3RjKzRFT1cyeU1KR0J4d2R2M1dqVUhRU2NHbkg3am8xZVZo?=
+ =?utf-8?B?VXpDQ2grR0FxWXltUktjNDhjSjVnenhMMk42enZOWFhZR0VKY2dqRHJvcmt1?=
+ =?utf-8?B?Wk9QVXNPOVRJVnZKcXR4K0x3TXF1V0I0d0V3N1doZUVwaVJLZ0pwL1NNSFRD?=
+ =?utf-8?B?bVpqS3Z3bDFGTFR5WkI1Z1J6QlZpZjYwd04wTGFuZCtvdTI3M0dKd3F1dU1s?=
+ =?utf-8?B?VEZFNStuNWN2c2twZ0RjNTBtY3NzaUR0aE8xMHR5WVE0eGZ2c1RkWXBwYzdQ?=
+ =?utf-8?B?Y25Kc1VIa0ZZcUhqTW1VM2ZrMitZR1gwRWRtdldPSWd6Rm5NVlE3QUFja3U0?=
+ =?utf-8?Q?EFdNb+HsKza4eD/aGSzn521+ZWeZGc=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3a8d3968-44bf-4f5c-3eb9-08d99525c676
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1201MB0192.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Oct 2021 06:30:46.5576 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Oct 2021 06:32:52.9710 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 11115066@vivo.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PS2PR06MB2502
+X-MS-Exchange-CrossTenant-UserPrincipalName: ckoenig@amd.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR12MB1487
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -124,54 +139,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch try to fix memory leak reported by syzbot:
-BUG: memory leak
-unreferenced object 0xffff888127338180 (size 64):
-  comm "syz-executor.6", pid 11434, jiffies 4294961165 (age 15.480s)
-  hex dump (first 32 bytes):
-    01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-    00 00 00 00 00 00 00 00 00 4a 0d 28 81 88 ff ff  .........J.(....
-  backtrace:
-    [<ffffffff825b2892>] kmalloc include/linux/slab.h:591 [inline]
-    [<ffffffff825b2892>] drm_vma_node_allow+0x32/0x120 drivers/gpu/drm/drm_vma_manager.c:274
-    [<ffffffff825983b7>] drm_gem_handle_create_tail+0x107/0x250 drivers/gpu/drm/drm_gem.c:390
-    [<ffffffff826271bd>] vgem_gem_create drivers/gpu/drm/vgem/vgem_drv.c:203 [inline]
-    [<ffffffff826271bd>] vgem_gem_dumb_create+0x8d/0x240 drivers/gpu/drm/vgem/vgem_drv.c:223
-    [<ffffffff825c72f1>] drm_mode_create_dumb+0x121/0x150 drivers/gpu/drm/drm_dumb_buffers.c:96
-    [<ffffffff82599660>] drm_ioctl_kernel+0xf0/0x160 drivers/gpu/drm/drm_ioctl.c:795
-    [<ffffffff82599c7a>] drm_ioctl+0x2ea/0x4f0 drivers/gpu/drm/drm_ioctl.c:898
-    [<ffffffff8158e45c>] vfs_ioctl fs/ioctl.c:51 [inline]
-    [<ffffffff8158e45c>] __do_sys_ioctl fs/ioctl.c:1069 [inline]
-    [<ffffffff8158e45c>] __se_sys_ioctl fs/ioctl.c:1055 [inline]
-    [<ffffffff8158e45c>] __x64_sys_ioctl+0xfc/0x140 fs/ioctl.c:1055
-    [<ffffffff843b6675>] do_syscall_x64 arch/x86/entry/common.c:50 [inline]
-    [<ffffffff843b6675>] do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
-    [<ffffffff84400068>] entry_SYSCALL_64_after_hwframe+0x44/0xae
-The link is:
-https://syzkaller.appspot.com/bug?id=bd059c6ee8aee1d3af51cff3a2849b8c0027b822
 
-Signed-off-by: Bernard Zhao <bernard@vivo.com>
----
- drivers/gpu/drm/drm_vma_manager.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/drm_vma_manager.c b/drivers/gpu/drm/drm_vma_manager.c
-index 7de37f8c68fd..870d5bc7f1fa 100644
---- a/drivers/gpu/drm/drm_vma_manager.c
-+++ b/drivers/gpu/drm/drm_vma_manager.c
-@@ -300,11 +300,11 @@ int drm_vma_node_allow(struct drm_vma_offset_node *node, struct drm_file *tag)
- 	new->vm_count = 1;
- 	rb_link_node(&new->vm_rb, parent, iter);
- 	rb_insert_color(&new->vm_rb, &node->vm_files);
--	new = NULL;
- 
- unlock:
- 	write_unlock(&node->vm_lock);
- 	kfree(new);
-+	new = NULL;
- 	return ret;
- }
- EXPORT_SYMBOL(drm_vma_node_allow);
--- 
-2.33.1
+Am 22.10.21 um 04:56 schrieb John Stultz:
+> On Thu, Oct 21, 2021 at 6:49 PM Shuosheng Huang
+> <huangshuosheng@allwinnertech.com> wrote:
+>> Some built-in modules will failed to use dma-buf heap to allocate
+>> memory if the heap drivers are too late to be initialized.
+>> To fix this issue, move initialization of dma-buf heap drivers in
+>> subsys_initcall() which is more earlier to be called.
+> Hey! Thanks so much for sending this out! I appreciate it!
+>
+> So the change looks pretty straightforward to me, however, the
+> rationale for it is where we hit problems.
+>
+> With the upstream kernel, there are not yet any modules that directly
+> allocate from dmabuf heaps. So in the context of the upstream kernel,
+> the reasoning doesn't make much sense.
+
+I was already wondering which driver does that.
+
+> Now, I know folks have their own drivers that want to allocate from
+> dmabuf heaps, but those haven't been submitted upstream yet.
+> So maybe can you submit those patches that need this along with this
+> change so it would make sense as part of a patch series? It would be
+> trivial to justify including this patch then.
+
+Yes, agree. This patch here alone has no justification to be upstream.
+
+Regards,
+Christian.
+
+>
+> thanks
+> -john
 
