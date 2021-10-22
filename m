@@ -1,56 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B398437226
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Oct 2021 08:49:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 559A5437248
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Oct 2021 08:52:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C8C506E4AB;
-	Fri, 22 Oct 2021 06:49:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 21A6189DC0;
+	Fri, 22 Oct 2021 06:51:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9BF7689E2A
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Oct 2021 06:49:06 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 21C651FD59;
- Fri, 22 Oct 2021 06:49:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
- t=1634885345; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=80mOxk7OisLv8eTtTaoe81+q4mcgaLTrWwkMlhEogsw=;
- b=Y8s49wATwiV6ccraCQUa+ld+V54ty1XPZFYJwJ60XapgZj5bSnABkO44U1HpMqfeRnvSWM
- uW0I7W9S1o26EQZyD8UaYpPk7EcHaeQgRPdRS2ZmbSlW0cfsaBEx25FwtSU+hilKwCJfy5
- tsHcDZ7CYxP32C+ElsGFh95BERckVzY=
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D810413AAD;
- Fri, 22 Oct 2021 06:49:04 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id yCmFM+BecmEIEwAAMHmgww
- (envelope-from <jgross@suse.com>); Fri, 22 Oct 2021 06:49:04 +0000
-From: Juergen Gross <jgross@suse.com>
-To: xen-devel@lists.xenproject.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Cc: Juergen Gross <jgross@suse.com>,
- Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH 2/5] xen: flag xen_drm_front to be not essential for system
- boot
-Date: Fri, 22 Oct 2021 08:47:57 +0200
-Message-Id: <20211022064800.14978-3-jgross@suse.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20211022064800.14978-1-jgross@suse.com>
-References: <20211022064800.14978-1-jgross@suse.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA8C189DC0
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Oct 2021 06:51:55 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id B902E276;
+ Fri, 22 Oct 2021 08:51:53 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1634885514;
+ bh=Ow6sSnuG+BhhS9fwW+LpDPdkihVmkI3bNLiF7Er3Vpc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=gknfHsIl2kVd7ZeoMejDEeqMwd9LtGEuFHptNZw3p9jm9TxKq82nQLlCyGzoTqjH8
+ eT3nxK6eDvtDrZGRKuvOZCFbgCst0+VDpzjyYmBNdumfhXHVG5+IGM4f32+XUMiGlW
+ rqubdkeuKr+f2LnA95y6j2ctRQx+NxBeS8bSTsrE=
+Date: Fri, 22 Oct 2021 09:51:34 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Maxime Ripard <maxime@cerno.tech>
+Cc: Rob Herring <robh+dt@kernel.org>, Frank Rowand <frowand.list@gmail.com>,
+ Chen-Yu Tsai <wens@csie.org>,
+ Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v5 3/7] dt-bindings: display: sun4i: Add LVDS Dual-Link
+ property
+Message-ID: <YXJfdivkCx2NHCRQ@pendragon.ideasonboard.com>
+References: <20210929084234.1271915-1-maxime@cerno.tech>
+ <20210929084234.1271915-4-maxime@cerno.tech>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210929084234.1271915-4-maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,26 +57,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Similar to the virtual frame buffer (vfb) the pv display driver is not
-essential for booting the system. Set the respective flag.
+Hi Maxime,
 
-Signed-off-by: Juergen Gross <jgross@suse.com>
----
- drivers/gpu/drm/xen/xen_drm_front.c | 1 +
- 1 file changed, 1 insertion(+)
+Thank you for the patch.
 
-diff --git a/drivers/gpu/drm/xen/xen_drm_front.c b/drivers/gpu/drm/xen/xen_drm_front.c
-index 9f14d99c763c..bc7605324db3 100644
---- a/drivers/gpu/drm/xen/xen_drm_front.c
-+++ b/drivers/gpu/drm/xen/xen_drm_front.c
-@@ -773,6 +773,7 @@ static struct xenbus_driver xen_driver = {
- 	.probe = xen_drv_probe,
- 	.remove = xen_drv_remove,
- 	.otherend_changed = displback_changed,
-+	.not_essential = true,
- };
- 
- static int __init xen_drv_init(void)
+I may have written "Add LVDS link companion" property in the subject
+line.
+
+On Wed, Sep 29, 2021 at 10:42:30AM +0200, Maxime Ripard wrote:
+> The Allwinner SoCs with two TCONs and LVDS output can use both to drive an
+> LVDS dual-link. Add a new property to express that link between these two
+> TCONs.
+> 
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> ---
+>  .../bindings/display/allwinner,sun4i-a10-tcon.yaml          | 6 ++++++
+>  1 file changed, 6 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-tcon.yaml b/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-tcon.yaml
+> index 3a7d5d731712..d01b0689785c 100644
+> --- a/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-tcon.yaml
+> +++ b/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-tcon.yaml
+> @@ -113,6 +113,12 @@ properties:
+>            - const: edp
+>            - const: lvds
+>  
+> +  link-companion:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +    description: >
+> +      Phandle to the other TCON in the system used to drive a dual-link LVDS
+> +      output.
+
+Should this be expanded to indicate that the property shall be set in
+both TCON instances ?
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> +
+>    ports:
+>      $ref: /schemas/graph.yaml#/properties/ports
+>  
+
 -- 
-2.26.2
+Regards,
 
+Laurent Pinchart
