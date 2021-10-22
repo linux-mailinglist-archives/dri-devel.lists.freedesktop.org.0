@@ -2,40 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41512437B17
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Oct 2021 18:47:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3018C437B1E
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Oct 2021 18:50:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A7746E5D5;
-	Fri, 22 Oct 2021 16:47:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 44A6C6E5D4;
+	Fri, 22 Oct 2021 16:50:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 666B26E5D4;
- Fri, 22 Oct 2021 16:46:59 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10145"; a="229206469"
-X-IronPort-AV: E=Sophos;i="5.87,173,1631602800"; d="scan'208";a="229206469"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Oct 2021 09:46:58 -0700
-X-IronPort-AV: E=Sophos;i="5.87,173,1631602800"; d="scan'208";a="569275720"
-Received: from jons-linux-dev-box.fm.intel.com (HELO jons-linux-dev-box)
- ([10.1.27.20])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Oct 2021 09:46:58 -0700
-Date: Fri, 22 Oct 2021 09:42:19 -0700
-From: Matthew Brost <matthew.brost@intel.com>
-To: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- daniele.ceraolospurio@intel.com, john.c.harrison@intel.com
-Subject: Re: [PATCH 00/47] GuC submission support
-Message-ID: <20211022164219.GA23160@jons-linux-dev-box>
-References: <20210624070516.21893-1-matthew.brost@intel.com>
- <163489530491.10153.576017085715728906@jlahtine-mobl.ger.corp.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4711F6E5D4;
+ Fri, 22 Oct 2021 16:50:09 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10145"; a="226794291"
+X-IronPort-AV: E=Sophos;i="5.87,173,1631602800"; d="scan'208";a="226794291"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Oct 2021 09:50:08 -0700
+X-IronPort-AV: E=Sophos;i="5.87,173,1631602800"; d="scan'208";a="595602363"
+Received: from bkokkula-mobl1.ger.corp.intel.com (HELO mwauld-desk1.intel.com)
+ ([10.252.0.159])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Oct 2021 09:50:06 -0700
+From: Matthew Auld <matthew.auld@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ Ramalingam C <ramalingam.c@intel.com>
+Subject: [PATCH 1/2] drm/i915/gtt: flush the scratch page
+Date: Fri, 22 Oct 2021 17:48:46 +0100
+Message-Id: <20211022164847.2632366-1-matthew.auld@intel.com>
+X-Mailer: git-send-email 2.26.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <163489530491.10153.576017085715728906@jlahtine-mobl.ger.corp.intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,166 +50,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 22, 2021 at 12:35:04PM +0300, Joonas Lahtinen wrote:
-> Hi Matt & John,
-> 
-> Can you please queue patches with the right Fixes: references to convert
-> all the GuC tracepoints to be protected by the LOW_LEVEL_TRACEPOINTS
-> protection for now. Please do so before next Wednesday so we get it
-> queued in drm-intel-next-fixes.
-> 
+The scratch page is directly visible in the users address space, and
+while this is forced as CACHE_LLC, by the kernel, we still have to
+contend with things like "Bypass-LLC" MOCS. So just flush no matter
+what.
 
-Don't we already do that? I checked i915_trace.h and every tracepoint I
-added (intel_context class, i915_request_guc_submit) is protected by
-LOW_LEVEL_TRACEPOINTS.
+Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Cc: Chris Wilson <chris@chris-wilson.co.uk>
+Cc: Ramalingam C <ramalingam.c@intel.com>
+---
+ drivers/gpu/drm/i915/gt/intel_gtt.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-The only thing I changed outside of that protection is adding the guc_id
-field to existing i915_request class tracepoints. Without the guc_id in
-those tracepoints these are basically useless with GuC submission. We
-could revert that if it is a huge deal but as I said then they are
-useless...
+diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.c b/drivers/gpu/drm/i915/gt/intel_gtt.c
+index 67d14afa6623..b6c088423319 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gtt.c
++++ b/drivers/gpu/drm/i915/gt/intel_gtt.c
+@@ -273,6 +273,7 @@ static void poison_scratch_page(struct drm_i915_gem_object *scratch)
+ 		val = POISON_FREE;
+ 
+ 	memset(vaddr, val, scratch->base.size);
++	clflush_cache_range(vaddr, scratch->base.size);
+ }
+ 
+ int setup_scratch_page(struct i915_address_space *vm)
+-- 
+2.26.3
 
-Matt
-
-> There's the orthogonal track to discuss what would be the stable set of
-> tracepoints we could expose. However, before that discussion is closed,
-> let's keep a rather strict line to avoid potential maintenance burned.
-> 
-> We can then relax in the future as needed.
-> 
-> Regards, Joonas
-> 
-> Quoting Matthew Brost (2021-06-24 10:04:29)
-> > As discussed in [1], [2] we are enabling GuC submission support in the
-> > i915. This is a subset of the patches in step 5 described in [1],
-> > basically it is absolute to enable CI with GuC submission on gen11+
-> > platforms.
-> > 
-> > This series itself will likely be broken down into smaller patch sets to
-> > merge. Likely into CTBs changes, basic submission, virtual engines, and
-> > resets.
-> > 
-> > A following series will address the missing patches remaining from [1].
-> > 
-> > Locally tested on TGL machine and basic tests seem to be passing.
-> > 
-> > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> > 
-> > [1] https://patchwork.freedesktop.org/series/89844/
-> > [2] https://patchwork.freedesktop.org/series/91417/
-> > 
-> > Daniele Ceraolo Spurio (1):
-> >   drm/i915/guc: Unblock GuC submission on Gen11+
-> > 
-> > John Harrison (10):
-> >   drm/i915/guc: Module load failure test for CT buffer creation
-> >   drm/i915: Track 'serial' counts for virtual engines
-> >   drm/i915/guc: Provide mmio list to be saved/restored on engine reset
-> >   drm/i915/guc: Don't complain about reset races
-> >   drm/i915/guc: Enable GuC engine reset
-> >   drm/i915/guc: Fix for error capture after full GPU reset with GuC
-> >   drm/i915/guc: Hook GuC scheduling policies up
-> >   drm/i915/guc: Connect reset modparam updates to GuC policy flags
-> >   drm/i915/guc: Include scheduling policies in the debugfs state dump
-> >   drm/i915/guc: Add golden context to GuC ADS
-> > 
-> > Matthew Brost (36):
-> >   drm/i915/guc: Relax CTB response timeout
-> >   drm/i915/guc: Improve error message for unsolicited CT response
-> >   drm/i915/guc: Increase size of CTB buffers
-> >   drm/i915/guc: Add non blocking CTB send function
-> >   drm/i915/guc: Add stall timer to non blocking CTB send function
-> >   drm/i915/guc: Optimize CTB writes and reads
-> >   drm/i915/guc: Add new GuC interface defines and structures
-> >   drm/i915/guc: Remove GuC stage descriptor, add lrc descriptor
-> >   drm/i915/guc: Add lrc descriptor context lookup array
-> >   drm/i915/guc: Implement GuC submission tasklet
-> >   drm/i915/guc: Add bypass tasklet submission path to GuC
-> >   drm/i915/guc: Implement GuC context operations for new inteface
-> >   drm/i915/guc: Insert fence on context when deregistering
-> >   drm/i915/guc: Defer context unpin until scheduling is disabled
-> >   drm/i915/guc: Disable engine barriers with GuC during unpin
-> >   drm/i915/guc: Extend deregistration fence to schedule disable
-> >   drm/i915: Disable preempt busywait when using GuC scheduling
-> >   drm/i915/guc: Ensure request ordering via completion fences
-> >   drm/i915/guc: Disable semaphores when using GuC scheduling
-> >   drm/i915/guc: Ensure G2H response has space in buffer
-> >   drm/i915/guc: Update intel_gt_wait_for_idle to work with GuC
-> >   drm/i915/guc: Update GuC debugfs to support new GuC
-> >   drm/i915/guc: Add several request trace points
-> >   drm/i915: Add intel_context tracing
-> >   drm/i915/guc: GuC virtual engines
-> >   drm/i915: Hold reference to intel_context over life of i915_request
-> >   drm/i915/guc: Disable bonding extension with GuC submission
-> >   drm/i915/guc: Direct all breadcrumbs for a class to single breadcrumbs
-> >   drm/i915/guc: Reset implementation for new GuC interface
-> >   drm/i915: Reset GPU immediately if submission is disabled
-> >   drm/i915/guc: Add disable interrupts to guc sanitize
-> >   drm/i915/guc: Suspend/resume implementation for new interface
-> >   drm/i915/guc: Handle context reset notification
-> >   drm/i915/guc: Handle engine reset failure notification
-> >   drm/i915/guc: Enable the timer expired interrupt for GuC
-> >   drm/i915/guc: Capture error state on context reset
-> > 
-> >  drivers/gpu/drm/i915/gem/i915_gem_context.c   |   30 +-
-> >  drivers/gpu/drm/i915/gem/i915_gem_context.h   |    1 +
-> >  drivers/gpu/drm/i915/gem/i915_gem_mman.c      |    3 +-
-> >  drivers/gpu/drm/i915/gt/gen8_engine_cs.c      |    6 +-
-> >  drivers/gpu/drm/i915/gt/intel_breadcrumbs.c   |   41 +-
-> >  drivers/gpu/drm/i915/gt/intel_breadcrumbs.h   |   14 +-
-> >  .../gpu/drm/i915/gt/intel_breadcrumbs_types.h |    7 +
-> >  drivers/gpu/drm/i915/gt/intel_context.c       |   41 +-
-> >  drivers/gpu/drm/i915/gt/intel_context.h       |   31 +-
-> >  drivers/gpu/drm/i915/gt/intel_context_types.h |   49 +
-> >  drivers/gpu/drm/i915/gt/intel_engine.h        |   72 +-
-> >  drivers/gpu/drm/i915/gt/intel_engine_cs.c     |  182 +-
-> >  .../gpu/drm/i915/gt/intel_engine_heartbeat.c  |   71 +-
-> >  .../gpu/drm/i915/gt/intel_engine_heartbeat.h  |    4 +
-> >  drivers/gpu/drm/i915/gt/intel_engine_types.h  |   12 +-
-> >  .../drm/i915/gt/intel_execlists_submission.c  |  234 +-
-> >  .../drm/i915/gt/intel_execlists_submission.h  |   11 -
-> >  drivers/gpu/drm/i915/gt/intel_gt.c            |   21 +
-> >  drivers/gpu/drm/i915/gt/intel_gt.h            |    2 +
-> >  drivers/gpu/drm/i915/gt/intel_gt_pm.c         |    6 +-
-> >  drivers/gpu/drm/i915/gt/intel_gt_requests.c   |   22 +-
-> >  drivers/gpu/drm/i915/gt/intel_gt_requests.h   |    9 +-
-> >  drivers/gpu/drm/i915/gt/intel_lrc_reg.h       |    1 -
-> >  drivers/gpu/drm/i915/gt/intel_reset.c         |   20 +-
-> >  .../gpu/drm/i915/gt/intel_ring_submission.c   |   28 +
-> >  drivers/gpu/drm/i915/gt/intel_rps.c           |    4 +
-> >  drivers/gpu/drm/i915/gt/intel_workarounds.c   |   46 +-
-> >  .../gpu/drm/i915/gt/intel_workarounds_types.h |    1 +
-> >  drivers/gpu/drm/i915/gt/mock_engine.c         |   41 +-
-> >  drivers/gpu/drm/i915/gt/selftest_context.c    |   10 +
-> >  drivers/gpu/drm/i915/gt/selftest_execlists.c  |   20 +-
-> >  .../gpu/drm/i915/gt/uc/abi/guc_actions_abi.h  |   15 +
-> >  drivers/gpu/drm/i915/gt/uc/intel_guc.c        |   82 +-
-> >  drivers/gpu/drm/i915/gt/uc/intel_guc.h        |  106 +-
-> >  drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c    |  460 +++-
-> >  drivers/gpu/drm/i915/gt/uc/intel_guc_ads.h    |    3 +
-> >  drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c     |  318 ++-
-> >  drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h     |   22 +-
-> >  .../gpu/drm/i915/gt/uc/intel_guc_debugfs.c    |   25 +-
-> >  drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h   |   88 +-
-> >  .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 2197 +++++++++++++++--
-> >  .../gpu/drm/i915/gt/uc/intel_guc_submission.h |   17 +-
-> >  drivers/gpu/drm/i915/gt/uc/intel_uc.c         |  102 +-
-> >  drivers/gpu/drm/i915/gt/uc/intel_uc.h         |   11 +
-> >  drivers/gpu/drm/i915/i915_debugfs.c           |    2 +
-> >  drivers/gpu/drm/i915/i915_debugfs_params.c    |   31 +
-> >  drivers/gpu/drm/i915/i915_gem_evict.c         |    1 +
-> >  drivers/gpu/drm/i915/i915_gpu_error.c         |   25 +-
-> >  drivers/gpu/drm/i915/i915_reg.h               |    2 +
-> >  drivers/gpu/drm/i915/i915_request.c           |  159 +-
-> >  drivers/gpu/drm/i915/i915_request.h           |   21 +
-> >  drivers/gpu/drm/i915/i915_scheduler.c         |    6 +
-> >  drivers/gpu/drm/i915/i915_scheduler.h         |    6 +
-> >  drivers/gpu/drm/i915/i915_scheduler_types.h   |    5 +
-> >  drivers/gpu/drm/i915/i915_trace.h             |  197 +-
-> >  .../gpu/drm/i915/selftests/igt_live_test.c    |    2 +-
-> >  .../gpu/drm/i915/selftests/mock_gem_device.c  |    3 +-
-> >  57 files changed, 4159 insertions(+), 787 deletions(-)
-> > 
-> > -- 
-> > 2.28.0
-> > 
