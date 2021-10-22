@@ -2,45 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55622436F26
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Oct 2021 02:53:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB3F2436F8D
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Oct 2021 03:44:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 048506E50C;
-	Fri, 22 Oct 2021 00:53:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2FFB289C93;
+	Fri, 22 Oct 2021 01:43:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6744D6E50B;
- Fri, 22 Oct 2021 00:53:46 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4Hb5Sf3L14z4xfH;
- Fri, 22 Oct 2021 11:53:37 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1634864021;
- bh=d6ItCl+Efl1Nk/5Rb/6mxbH0xgfWmTzJa5UQ5hcJI44=;
- h=Date:From:To:Cc:Subject:From;
- b=I7VGwtVF4rpm9XyA+1CHWDHQgD42WZWwLp9vQDO4xcYhgWdqkhiqZ7hDLEz6zQuw7
- 1PSIvn6OpB+vNWAZzxpt2mTJntN7g97Ow6pef2HgWUbkG6GV2+loZaWvnA+Mao0w75
- dPY9dl+XKJAf5cqqbJEfOEtpC19n6LP8cQ2OgGr3vIlZ6/43YM6MBB5JPm2l1fFtU7
- 17ZlM71G1MtxC4OAerNqdhgTLov9UVo+ny7FsdObSIOcnd3SvSTLRAUwtuXi0ZAss9
- nBFGTNjMBJ7+oD9aUk2bwdXFxkbCPggEgUqNKFCj6aGX1Ark4JAviqCM25oItPwQWm
- LcfA+KEEvb8Ew==
-Date: Fri, 22 Oct 2021 11:53:36 +1100
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Dave Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>, DRI
- <dri-devel@lists.freedesktop.org>
-Cc: Bryant Mairs <bryant@mai.rs>, Hans de Goede <hdegoede@redhat.com>, Linux
- Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux Next Mailing List
- <linux-next@vger.kernel.org>, Sam Ravnborg <sam@ravnborg.org>
-Subject: linux-next: manual merge of the drm tree with the drm-misc-fixes tree
-Message-ID: <20211022115336.28e41185@canb.auug.org.au>
+X-Greylist: delayed 1162 seconds by postgrey-1.36 at gabe;
+ Fri, 22 Oct 2021 01:43:56 UTC
+Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D866A89C93
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Oct 2021 01:43:56 +0000 (UTC)
+Received: from dggeme755-chm.china.huawei.com (unknown [172.30.72.55])
+ by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4Hb66B3D3Cz1DHqH;
+ Fri, 22 Oct 2021 09:22:42 +0800 (CST)
+Received: from huawei.com (10.67.174.47) by dggeme755-chm.china.huawei.com
+ (10.3.19.101) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.15; Fri, 22
+ Oct 2021 09:24:30 +0800
+From: He Ying <heying24@huawei.com>
+To: <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <airlied@linux.ie>, <daniel@ffwll.ch>
+CC: <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH] drm: Fix possible memleak in drm_client_modeset_probe
+Date: Thu, 21 Oct 2021 21:26:23 -0400
+Message-ID: <20211022012623.97631-1-heying24@huawei.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/QAgoVkw4C2wHzZH=MYSvvXG";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: text/plain
+X-Originating-IP: [10.67.174.47]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ dggeme755-chm.china.huawei.com (10.3.19.101)
+X-CFilter-Loop: Reflected
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,86 +50,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/QAgoVkw4C2wHzZH=MYSvvXG
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+I got memory leak as follows when doing fault injection test:
 
-Hi all,
+WARNING: CPU: 0 PID: 1214 at drm_mode_config_cleanup+0x689/0x890 [drm]
+RIP: 0010:drm_mode_config_cleanup+0x689/0x890 [drm]
+Call Trace:
+ ? tracer_hardirqs_on+0x33/0x520
+ ? drm_mode_config_reset+0x3f0/0x3f0 [drm]
+ ? trace_event_raw_event_rcu_torture_read+0x2c0/0x2c0
+ ? __sanitizer_cov_trace_pc+0x1d/0x50
+ ? call_rcu+0x489/0x15e0
+ ? trace_hardirqs_on+0x63/0x2d0
+ ? write_comp_data+0x2a/0x90
+ ? drm_mode_config_cleanup+0x890/0x890 [drm]
+ drm_managed_release+0x1fa/0x4f0 [drm]
+ drm_dev_release+0x72/0xb0 [drm]
+ devm_drm_dev_init_release+0x81/0xa0 [drm]
+ release_nodes+0xba/0x3b0
+ ...
+ entry_SYSCALL_64_after_hwframe+0x44/0xae
 
-Today's linux-next merge of the drm tree got a conflict in:
+and then an error message:
 
-  drivers/gpu/drm/drm_panel_orientation_quirks.c
+[drm:drm_mode_config_cleanup [drm]] *ERROR* connector SPI-1 leaked!
 
-between commit:
+When krealloc() in drm_client_modeset_probe() fails, it
+goes to the label 'free_connectors'. However, krealloc()
+is between drm_connector_list_iter_begin() and *_end().
+Going to the label directly is not a good idea. Because
+iter->conn is not cleaned up if so. Fix the problem by
+going to the label outside drm_connector_list_iter_end().
 
-  def0c3697287 ("drm: panel-orientation-quirks: Add quirk for Aya Neo 2021")
+Signed-off-by: He Ying <heying24@huawei.com>
+---
+ drivers/gpu/drm/drm_client_modeset.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-from the drm-misc-fixes tree and commits:
+diff --git a/drivers/gpu/drm/drm_client_modeset.c b/drivers/gpu/drm/drm_client_modeset.c
+index ced09c7c06f9..7ac88ae93f38 100644
+--- a/drivers/gpu/drm/drm_client_modeset.c
++++ b/drivers/gpu/drm/drm_client_modeset.c
+@@ -789,7 +789,7 @@ int drm_client_modeset_probe(struct drm_client_dev *client, unsigned int width,
+ 		tmp = krealloc(connectors, (connector_count + 1) * sizeof(*connectors), GFP_KERNEL);
+ 		if (!tmp) {
+ 			ret = -ENOMEM;
+-			goto free_connectors;
++			break;
+ 		}
+ 
+ 		connectors = tmp;
+@@ -798,6 +798,9 @@ int drm_client_modeset_probe(struct drm_client_dev *client, unsigned int width,
+ 	}
+ 	drm_connector_list_iter_end(&conn_iter);
+ 
++	if (ret)
++		goto free_connectors;
++
+ 	if (!connector_count)
+ 		return 0;
+ 
+-- 
+2.17.1
 
-  072e70d52372 ("drm: panel-orientation-quirks: Add quirk for the Chuwi Hi1=
-0 Pro")
-  63a4881572d7 ("drm: panel-orientation-quirks: Add quirk for the Chuwi HiB=
-ook")
-
-from the drm tree.
-
-I fixed it up (see below) and can carry the fix as necessary. This
-is now fixed as far as linux-next is concerned, but any non trivial
-conflicts should be mentioned to your upstream maintainer when your tree
-is submitted for merging.  You may also want to consider cooperating
-with the maintainer of the conflicting tree to minimise any particularly
-complex conflicts.
-
---=20
-Cheers,
-Stephen Rothwell
-
-diff --cc drivers/gpu/drm/drm_panel_orientation_quirks.c
-index 30c17a76f49a,62e8ccc7ab9c..000000000000
---- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
-+++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-@@@ -134,12 -140,20 +140,26 @@@ static const struct dmi_system_id orien
-  		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "T103HAF"),
-  		},
-  		.driver_data =3D (void *)&lcd800x1280_rightside_up,
- +	}, {	/* AYA NEO 2021 */
- +		.matches =3D {
- +		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "AYADEVICE"),
- +		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "AYA NEO 2021"),
- +		},
- +		.driver_data =3D (void *)&lcd800x1280_rightside_up,
-+ 	}, {	/* Chuwi HiBook (CWI514) */
-+ 		.matches =3D {
-+ 			DMI_MATCH(DMI_BOARD_VENDOR, "Hampoo"),
-+ 			DMI_MATCH(DMI_BOARD_NAME, "Cherry Trail CR"),
-+ 			/* Above matches are too generic, add bios-date match */
-+ 			DMI_MATCH(DMI_BIOS_DATE, "05/07/2016"),
-+ 		},
-+ 		.driver_data =3D (void *)&lcd1200x1920_rightside_up,
-+ 	}, {	/* Chuwi Hi10 Pro (CWI529) */
-+ 		.matches =3D {
-+ 		  DMI_EXACT_MATCH(DMI_BOARD_VENDOR, "Hampoo"),
-+ 		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "Hi10 pro tablet"),
-+ 		},
-+ 		.driver_data =3D (void *)&lcd1200x1920_rightside_up,
-  	}, {	/* GPD MicroPC (generic strings, also match on bios date) */
-  		.matches =3D {
-  		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "Default string"),
-
---Sig_/QAgoVkw4C2wHzZH=MYSvvXG
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmFyC5AACgkQAVBC80lX
-0Gwwlgf/YzLzI7xb2reXJgvWAk/JLKFVEQOBWx5cYdRpFA/w00uo87yKWUQqkdFv
-lR2dIpDjd5fsc4EFRkblAZikNZiazEVj43NWlfd2eRQdlrsgYNWiu5j82bDqinTh
-QcIDAmZp8WNSh4AUTCCk/Su/nJGKKj/4bpdRoIeQS9fsQEKUEKUQ2tqgraUkLdeR
-EEP36LkbPTlrHmOVyFD1sjrz+f1G5/p+rY46yE/4QZTauvAOrhx1+e9ubsYg5Max
-YKD4wiGIMasfF3dHm2O8ZJ86wPoqgx0CrISFQr3H+R15GVLgdSkavfe5moJGmavr
-zs3JA1680M2oqshbADaN03MaGyEOPg==
-=Njwx
------END PGP SIGNATURE-----
-
---Sig_/QAgoVkw4C2wHzZH=MYSvvXG--
