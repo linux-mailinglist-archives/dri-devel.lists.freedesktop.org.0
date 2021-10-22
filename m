@@ -2,69 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76BD6437E9B
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Oct 2021 21:25:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83C8A437EAD
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Oct 2021 21:32:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F3CCA6E560;
-	Fri, 22 Oct 2021 19:25:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D67806EDA6;
+	Fri, 22 Oct 2021 19:32:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x136.google.com (mail-il1-x136.google.com
- [IPv6:2607:f8b0:4864:20::136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 930D76EDA6
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Oct 2021 19:25:20 +0000 (UTC)
-Received: by mail-il1-x136.google.com with SMTP id s3so5470719ild.0
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Oct 2021 12:25:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=IFA4wQlK8CaJ1hsur/1XKvwpvXwy3gkeKIlN9LvzEXo=;
- b=rLomiKzN1fvLTUesFN4FsINXNm+w/LrB2o5/eWt84mtqPWqYwdzh/K2yIhZXhq60v5
- jZq7ZhN8IHFdFn6ymywqjTysXCp6H7KF0WPorpOWZJn/A0QZ9xCJDC2etyOaV9oAomTs
- +QdYrypKZwRsuzxTyhdqlZnFNfAqZ+508z+85OkGoBFUJI4khVGEfHYIEMGDSvm6RYVT
- rY984v4bEqJsQQIvvfBkmOMva/I9A+gkPdxO4Ls/SaajWH1gOnawzN/Kr7SJpv3Ffd3U
- apdsb38aqGg6FUCQH2BondlgVJRZEe7JTJ5KU+r/b2IGuor4mCtZx5Qw35qfNgpbCn2P
- ZrzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=IFA4wQlK8CaJ1hsur/1XKvwpvXwy3gkeKIlN9LvzEXo=;
- b=mj7tSH0icjmrh/tQHGF+WZ4xpJG8M+YAQwWKOu4uK5QvwIcF0/AHniEFER1Udengun
- 1oejFS0W39g4GwUkCo7MpFDTcvGM/+l5+Uoz8qBZEl47ywZYHRL2+S5OOvUuPh7YI0J6
- YdQsF5/H+JUkKfRIesDfPwzMWHE1KdFkD99ZsP9/zwOsGocxD1g3AJNtFQYvIuxCXWJS
- h0GivEJJGJYRihWpaOBfKj8Ik9RRmWc2Q2klU6A3sIufLuH/wQ/ini0HbeaGaGcNZbem
- ubnMB7nkNQ+C4ivQF6ifS++QqA00OtRLgzJ5i5MgNC7IZSJa0LgbA3CWO/0zMtgwclS+
- lnvQ==
-X-Gm-Message-State: AOAM530mMAjPmHQbogLpwXgONb7PZ2j3ZQ69Bx+A4TQ1NIBm5WWp6eRx
- LPA+DfnyPbfqeeKIOozKVpGnAmvWPrdhcxFRlUaqjAtYk3o=
-X-Google-Smtp-Source: ABdhPJwvWnJcpi9p4Iog2ilpcyx5pHCQ1DxE1z9y9o1svoDRBNloCTdriMWufTsRJesTGutghF0pvYQAlf/QVGTOqaE=
-X-Received: by 2002:a05:6e02:120f:: with SMTP id
- a15mr1159054ilq.109.1634930719824; 
- Fri, 22 Oct 2021 12:25:19 -0700 (PDT)
+Received: from mx1.smtp.larsendata.com (mx1.smtp.larsendata.com
+ [91.221.196.215])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4656A6EDA6
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Oct 2021 19:32:14 +0000 (UTC)
+Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
+ by mx1.smtp.larsendata.com (Halon) with ESMTPS
+ id c44089ca-336e-11ec-9c3f-0050568c148b;
+ Fri, 22 Oct 2021 19:32:17 +0000 (UTC)
+Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
+ [80.162.45.141])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: sam@ravnborg.org)
+ by mail01.mxhotel.dk (Postfix) with ESMTPSA id 2C439194B23;
+ Fri, 22 Oct 2021 21:32:09 +0200 (CEST)
+Date: Fri, 22 Oct 2021 21:32:08 +0200
+X-Report-Abuse-To: abuse@mxhotel.dk
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
+ Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jitao Shi <jitao.shi@mediatek.com>, Jonas Karlman <jonas@kwiboo.se>,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Philip Chen <philipchen@chromium.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Robert Foss <robert.foss@linaro.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>,
+ Andrzej Hajda <a.hajda@samsung.com>
+Subject: Re: [PATCH v2 1/7] drm/bridge: ps8640: Use atomic variants of
+ drm_bridge_funcs
+Message-ID: <YXMRuKkWyF9tGhG3@ravnborg.org>
+References: <20211020181901.2114645-1-sam@ravnborg.org>
+ <20211020181901.2114645-2-sam@ravnborg.org>
+ <YXLHlaLfPD4wI7R7@pendragon.ideasonboard.com>
+ <YXLsbp+IwiRYfY2a@ravnborg.org> <YXLxVoA133IEes6p@ravnborg.org>
+ <YXMGHYY40+aPuDm7@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-References: <20211014135410.4136412-1-dmitry.baryshkov@linaro.org>
- <3af41112-7ccd-5da8-c189-3ed8d22273c0@linaro.org>
- <CAA8EJprjoEX4BDHOHevQQ=TMwM21xZSHuqYm8yNJ=L6GiovQYA@mail.gmail.com>
-In-Reply-To: <CAA8EJprjoEX4BDHOHevQQ=TMwM21xZSHuqYm8yNJ=L6GiovQYA@mail.gmail.com>
-From: Amit Pundir <amit.pundir@linaro.org>
-Date: Sat, 23 Oct 2021 00:54:43 +0530
-Message-ID: <CAMi1Hd15Qb=xitFax-0OrL47reZnkpg-=Tvu3w=rKtwBk00JuQ@mail.gmail.com>
-Subject: Re: Revert "arm64: dts: qcom: sm8250: remove bus clock from the mdss
- node for sm8250 target"
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
- Andy Gross <agross@kernel.org>, 
- Bjorn Andersson <bjorn.andersson@linaro.org>, Rob Clark <robdclark@gmail.com>, 
- Sean Paul <sean@poorly.run>, Abhinav Kumar <abhinavk@codeaurora.org>, 
- Rob Herring <robh+dt@kernel.org>, Jonathan Marek <jonathan@marek.ca>,
- Stephen Boyd <sboyd@kernel.org>, 
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, 
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>, 
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>, 
- freedreno <freedreno@lists.freedesktop.org>, 
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YXMGHYY40+aPuDm7@pendragon.ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,78 +72,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 15 Oct 2021 at 02:53, Dmitry Baryshkov
-<dmitry.baryshkov@linaro.org> wrote:
->
-> On Thu, 14 Oct 2021 at 19:54, Vladimir Zapolskiy
-> <vladimir.zapolskiy@linaro.org> wrote:
-> >
-> > Hi Dmitry,
-> >
-> > On 10/14/21 4:54 PM, Dmitry Baryshkov wrote:
-> > > From: Amit Pundir <amit.pundir@linaro.org>
-> > >
-> > > This reverts commit 001ce9785c0674d913531345e86222c965fc8bf4.
-> > >
-> > > This upstream commit broke AOSP (post Android 12 merge) build
-> > > on RB5. The device either silently crashes into USB crash mode
-> > > after android boot animation or we see a blank blue screen
-> > > with following dpu errors in dmesg:
-> > >
-> > > [  T444] hw recovery is not complete for ctl:3
-> > > [  T444] [drm:dpu_encoder_phys_vid_prepare_for_kickoff:539] [dpu error]enc31 intf1 ctl 3 reset failure: -22
-> > > [  T444] [drm:dpu_encoder_phys_vid_wait_for_commit_done:513] [dpu error]vblank timeout
-> > > [  T444] [drm:dpu_kms_wait_for_commit_done:454] [dpu error]wait for commit done returned -110
-> > > [    C7] [drm:dpu_encoder_frame_done_timeout:2127] [dpu error]enc31 frame done timeout
-> > > [  T444] [drm:dpu_encoder_phys_vid_wait_for_commit_done:513] [dpu error]vblank timeout
-> > > [  T444] [drm:dpu_kms_wait_for_commit_done:454] [dpu error]wait for commit done returned -110
-> > >
-> > > Signed-off-by: Amit Pundir <amit.pundir@linaro.org>
-> >
-> > your sob tag is missing.
->
-> True. I hope this is fine:
->
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->
+Hi Laurent,
 
-Hi,
+On Fri, Oct 22, 2021 at 09:42:37PM +0300, Laurent Pinchart wrote:
+> Hi Sam,
+> 
+> On Fri, Oct 22, 2021 at 07:13:58PM +0200, Sam Ravnborg wrote:
+> > Hi Laurent,
+> > 
+> > > From a quick look only cadence/cdns-mhdp8546 subclass
+> > > drm_bridge_state and I wonder if the right thing to do would be to
+> > > implement fallback to the helpers if the bridge driver do not set
+> > > any of the .atomic_duplicate_state(), .atomic_destroy_state(), or .atomic_reset().
+> > > 
+> > > That would drop the following from a few bridges:
+> > >         .atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
+> > >         .atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
+> > >         .atomic_reset = drm_atomic_helper_bridge_reset,
+> > 
+> > To answer myself here. This would create a dependency from the core to
+> > the helpers which is not OK so idea dropped again.
+> 
+> I agree it would be nicer, but the dependency is likely a problem. That
+> being said, we have multiple types of helpers. The first set is the
+> modeset helpers, which were designed as one implementation of KMS
+> operations, with an opt-in API for drivers. The core should not depend
+> on those. There are however other helpers that are only default
+> implementations of some operations, without any dependency on other
+> components. The atomic state helpers fall in this category, they
+> implement .atomic_* operations of the drm_*_funcs structures, not
+> drm_*_helper_funcs. It could make sense to move them to the DRM core.
 
-Any update on this? I'd really like to see this or a relevant fix to
-land in v5.15, because I can't boot AOSP on RB5 otherwise.
+For now I went with a simple macro:
 
-Regards,
-Amit Pundir
++/**
++ * DRM_BRIDGE_STATE_OPS - Default drm_bridge state funcs
++ *
++ * Bridge driver that do not subclass &drm_bridge_state can use the helpers
++ * for reset, duplicate, and destroy. This macro provides a shortcut for
++ * setting the helpers in the &drm_bridge_funcs structure.
++ */
++#define DRM_BRIDGE_STATE_OPS \
++       .atomic_reset = drm_atomic_helper_bridge_reset,                         \
++       .atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,     \
++       .atomic_destroy_state = drm_atomic_helper_bridge_destroy_state
++
 
-> >
-> > > ---
-> > >   arch/arm64/boot/dts/qcom/sm8250.dtsi | 3 ++-
-> > >   1 file changed, 2 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/arch/arm64/boot/dts/qcom/sm8250.dtsi b/arch/arm64/boot/dts/qcom/sm8250.dtsi
-> > > index 8c15d9fed08f..d12e4cbfc852 100644
-> > > --- a/arch/arm64/boot/dts/qcom/sm8250.dtsi
-> > > +++ b/arch/arm64/boot/dts/qcom/sm8250.dtsi
-> > > @@ -2590,9 +2590,10 @@
-> > >                       power-domains = <&dispcc MDSS_GDSC>;
-> > >
-> > >                       clocks = <&dispcc DISP_CC_MDSS_AHB_CLK>,
-> > > +                              <&gcc GCC_DISP_HF_AXI_CLK>,
-> > >                                <&gcc GCC_DISP_SF_AXI_CLK>,
-> > >                                <&dispcc DISP_CC_MDSS_MDP_CLK>;
-> > > -                     clock-names = "iface", "nrt_bus", "core";
-> > > +                     clock-names = "iface", "bus", "nrt_bus", "core";
-> > >
-> > >                       assigned-clocks = <&dispcc DISP_CC_MDSS_MDP_CLK>;
-> > >                       assigned-clock-rates = <460000000>;
-> > >
-> >
-> > --
-> > Best wishes,
-> > Vladimir
->
->
->
-> --
-> With best wishes
-> Dmitry
+Thomas Z. is trying to make the core smaller so pulling in these helpers
+would be counterproductive to that. So I took the simpler approach here
+which we have already done in several places.
+It will be part of v3 when I post it.
+
+Drop a note if you (or any other reader) have better ideas.
+
+	Sam
