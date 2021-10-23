@@ -2,47 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3B2C438491
-	for <lists+dri-devel@lfdr.de>; Sat, 23 Oct 2021 19:46:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 874DC43849E
+	for <lists+dri-devel@lfdr.de>; Sat, 23 Oct 2021 20:10:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 903626E094;
-	Sat, 23 Oct 2021 17:46:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C93089FAD;
+	Sat, 23 Oct 2021 18:09:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 643986E094;
- Sat, 23 Oct 2021 17:46:53 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10146"; a="216376237"
-X-IronPort-AV: E=Sophos;i="5.87,175,1631602800"; d="scan'208";a="216376237"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Oct 2021 10:46:51 -0700
-X-IronPort-AV: E=Sophos;i="5.87,175,1631602800"; d="scan'208";a="485077395"
-Received: from morelmal-mobl1.ger.corp.intel.com (HELO [10.249.254.110])
- ([10.249.254.110])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Oct 2021 10:46:50 -0700
-Message-ID: <42cb2c7c-ce69-1cae-6e0c-a1f2b3cd5a67@linux.intel.com>
-Date: Sat, 23 Oct 2021 19:46:48 +0200
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C2DA89E9E;
+ Sat, 23 Oct 2021 18:09:52 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10146"; a="209566137"
+X-IronPort-AV: E=Sophos;i="5.87,175,1631602800"; d="scan'208";a="209566137"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Oct 2021 11:09:51 -0700
+X-IronPort-AV: E=Sophos;i="5.87,175,1631602800"; d="scan'208";a="528262356"
+Received: from jons-linux-dev-box.fm.intel.com ([10.1.27.20])
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Oct 2021 11:09:51 -0700
+From: Matthew Brost <matthew.brost@intel.com>
+To: <intel-gfx@lists.freedesktop.org>,
+	<dri-devel@lists.freedesktop.org>
+Cc: <daniele.ceraolospurio@intel.com>,
+	<john.c.harrison@intel.com>
+Subject: [PATCH 0/3] Do error capture async, flush G2H processing on reset
+Date: Sat, 23 Oct 2021 11:05:07 -0700
+Message-Id: <20211023180510.35152-1-matthew.brost@intel.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH] drm/i915/selftests: Allow engine reset failure to do a GT
- reset in hangcheck selftest
-Content-Language: en-US
-To: John Harrison <john.c.harrison@intel.com>,
- Matthew Brost <matthew.brost@intel.com>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-References: <20211011234705.30853-1-matthew.brost@intel.com>
- <f8f1ae021e8cabc2c6d76996b5e74912cb0913db.camel@linux.intel.com>
- <20211021203747.GA27209@jons-linux-dev-box>
- <ee989711-779e-874f-6737-ab9288557d1a@linux.intel.com>
- <20211022170356.GA23182@jons-linux-dev-box>
- <070ab480-6306-653c-514a-6648ac495253@intel.com>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
-In-Reply-To: <070ab480-6306-653c-514a-6648ac495253@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,35 +47,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Rather allocating an error capture in nowait context to break a lockdep
+splat [1], do the error capture async compared to the G2H processing.
 
-On 10/22/21 20:09, John Harrison wrote:
-> And to be clear, the engine reset is not supposed to fail. Whether 
-> issued by GuC or i915, the GDRST register is supposed to self clear 
-> according to the bspec. If we are being sent the G2H notification for 
-> an engine reset failure then the assumption is that the hardware is 
-> broken. This is not a situation that is ever intended to occur in a 
-> production system. Therefore, it is not something we should spend huge 
-> amounts of effort on making a perfect selftest for.
+v2: Fix Docs warning
+v3: Rebase, resend for CI
+v4: Resend for CI
+v5: Fix CI splat: https://intel-gfx-ci.01.org/tree/drm-tip/Patchwork_21428/fi-rkl-guc/igt@i915_selftest@live@hangcheck.html
 
-I don't agree. Selftests are there to verify that assumptions made and 
-contracts in the code hold and that hardware behaves as intended / 
-assumed. No selftest should ideally trigger in a production driver / 
-system. That doesn't mean we can remove all selftests or ignore updating 
-them for altered assumptions / contracts. I think it's important here to 
-acknowledge the fact that this and the perf selftest have found two 
-problems that need consideration for fixing for a production system.
+Signed-off-by: Matthew Brost <matthew.brost@intel.com>
 
->
-> The current theory is that the timeout in GuC is not quite long enough 
-> for DG1. Given that the bspec does not specify any kind of timeout, it 
-> is only a best guess anyway! Once that has been tuned correctly, we 
-> should never hit this case again. Not ever, Not in a selftest, not in 
-> an end user use case, just not ever.
+[1] https://patchwork.freedesktop.org/patch/451415/?series=93704&rev=5
 
-..until we introduce new hardware for which the tuning doesn't hold 
-anymore or somebody in a two years wants to lower the timeout wondering 
-why it was set so long?
+John Harrison (1):
+  drm/i915/guc: Refcount context during error capture
 
-/Thomas
+Matthew Brost (2):
+  drm/i915/guc: Do error capture asynchronously
+  drm/i915/guc: Flush G2H work queue during reset
 
+ drivers/gpu/drm/i915/gt/intel_context.c       |   2 +
+ drivers/gpu/drm/i915/gt/intel_context_types.h |   7 ++
+ drivers/gpu/drm/i915/gt/uc/intel_guc.h        |  10 ++
+ .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 107 ++++++++++++++----
+ 4 files changed, 101 insertions(+), 25 deletions(-)
+
+-- 
+2.32.0
 
