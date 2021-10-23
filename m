@@ -1,47 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E7F043845F
-	for <lists+dri-devel@lfdr.de>; Sat, 23 Oct 2021 18:48:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C3B2C438491
+	for <lists+dri-devel@lfdr.de>; Sat, 23 Oct 2021 19:46:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EAB1B6E09C;
-	Sat, 23 Oct 2021 16:48:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 903626E094;
+	Sat, 23 Oct 2021 17:46:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 878B96E09C
- for <dri-devel@lists.freedesktop.org>; Sat, 23 Oct 2021 16:48:37 +0000 (UTC)
-X-UUID: c43ebcd5be274386963e380c86f75ae1-20211024
-X-UUID: c43ebcd5be274386963e380c86f75ae1-20211024
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
- mailgw01.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 488625439; Sun, 24 Oct 2021 00:48:33 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
- Sun, 24 Oct 2021 00:48:32 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas10.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
- Frontend Transport; Sun, 24 Oct 2021 00:48:32 +0800
-From: jason-jh.lin <jason-jh.lin@mediatek.com>
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel
- <p.zabel@pengutronix.de>, Matthias Brugger <matthias.bgg@gmail.com>, "Jassi
- Brar" <jassisinghbrar@gmail.com>, Yongqiang Niu <yongqiang.niu@mediatek.com>
-CC: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- "jason-jh . lin" <jason-jh.lin@mediatek.com>,
- <dri-devel@lists.freedesktop.org>, <linux-mediatek@lists.infradead.org>,
- <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
- <hsinyi@chromium.org>, <fshao@chromium.org>, <nancy.lin@mediatek.com>,
- <singo.chang@mediatek.com>
-Subject: [PATCH] mailbox: remove the error message when gce clk is defer
-Date: Sun, 24 Oct 2021 00:48:31 +0800
-Message-ID: <20211023164831.25690-1-jason-jh.lin@mediatek.com>
-X-Mailer: git-send-email 2.18.0
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 643986E094;
+ Sat, 23 Oct 2021 17:46:53 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10146"; a="216376237"
+X-IronPort-AV: E=Sophos;i="5.87,175,1631602800"; d="scan'208";a="216376237"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Oct 2021 10:46:51 -0700
+X-IronPort-AV: E=Sophos;i="5.87,175,1631602800"; d="scan'208";a="485077395"
+Received: from morelmal-mobl1.ger.corp.intel.com (HELO [10.249.254.110])
+ ([10.249.254.110])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Oct 2021 10:46:50 -0700
+Message-ID: <42cb2c7c-ce69-1cae-6e0c-a1f2b3cd5a67@linux.intel.com>
+Date: Sat, 23 Oct 2021 19:46:48 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK: N
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH] drm/i915/selftests: Allow engine reset failure to do a GT
+ reset in hangcheck selftest
+Content-Language: en-US
+To: John Harrison <john.c.harrison@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+References: <20211011234705.30853-1-matthew.brost@intel.com>
+ <f8f1ae021e8cabc2c6d76996b5e74912cb0913db.camel@linux.intel.com>
+ <20211021203747.GA27209@jons-linux-dev-box>
+ <ee989711-779e-874f-6737-ab9288557d1a@linux.intel.com>
+ <20211022170356.GA23182@jons-linux-dev-box>
+ <070ab480-6306-653c-514a-6648ac495253@intel.com>
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
+In-Reply-To: <070ab480-6306-653c-514a-6648ac495253@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,37 +58,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Remove the error message when gce clk is defer.
 
-Signed-off-by: jason-jh.lin <jason-jh.lin@mediatek.com>
----
- drivers/mailbox/mtk-cmdq-mailbox.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+On 10/22/21 20:09, John Harrison wrote:
+> And to be clear, the engine reset is not supposed to fail. Whether 
+> issued by GuC or i915, the GDRST register is supposed to self clear 
+> according to the bspec. If we are being sent the G2H notification for 
+> an engine reset failure then the assumption is that the hardware is 
+> broken. This is not a situation that is ever intended to occur in a 
+> production system. Therefore, it is not something we should spend huge 
+> amounts of effort on making a perfect selftest for.
 
-diff --git a/drivers/mailbox/mtk-cmdq-mailbox.c b/drivers/mailbox/mtk-cmdq-mailbox.c
-index fd5576a9f8b4..684b8aa1e445 100644
---- a/drivers/mailbox/mtk-cmdq-mailbox.c
-+++ b/drivers/mailbox/mtk-cmdq-mailbox.c
-@@ -577,7 +577,8 @@ static int cmdq_probe(struct platform_device *pdev)
- 				snprintf(clk_id, sizeof(clk_id), "%s%d", clk_name, alias_id);
- 				cmdq->clocks[alias_id].id = clk_id;
- 				cmdq->clocks[alias_id].clk = of_clk_get(node, 0);
--				if (IS_ERR(cmdq->clocks[alias_id].clk)) {
-+				if (IS_ERR(cmdq->clocks[alias_id].clk) &&
-+				    PTR_ERR(cmdq->clocks[alias_id].clk) != -EPROBE_DEFER) {
- 					dev_err(dev, "failed to get gce clk: %d\n", alias_id);
- 					return PTR_ERR(cmdq->clocks[alias_id].clk);
- 				}
-@@ -586,7 +587,8 @@ static int cmdq_probe(struct platform_device *pdev)
- 	} else {
- 		cmdq->clocks[alias_id].id = clk_name;
- 		cmdq->clocks[alias_id].clk = devm_clk_get(&pdev->dev, clk_name);
--		if (IS_ERR(cmdq->clocks[alias_id].clk)) {
-+		if (IS_ERR(cmdq->clocks[alias_id].clk) &&
-+		    PTR_ERR(cmdq->clocks[alias_id].clk) != -EPROBE_DEFER) {
- 			dev_err(dev, "failed to get gce clk\n");
- 			return PTR_ERR(cmdq->clocks[alias_id].clk);
- 		}
--- 
-2.18.0
+I don't agree. Selftests are there to verify that assumptions made and 
+contracts in the code hold and that hardware behaves as intended / 
+assumed. No selftest should ideally trigger in a production driver / 
+system. That doesn't mean we can remove all selftests or ignore updating 
+them for altered assumptions / contracts. I think it's important here to 
+acknowledge the fact that this and the perf selftest have found two 
+problems that need consideration for fixing for a production system.
+
+>
+> The current theory is that the timeout in GuC is not quite long enough 
+> for DG1. Given that the bspec does not specify any kind of timeout, it 
+> is only a best guess anyway! Once that has been tuned correctly, we 
+> should never hit this case again. Not ever, Not in a selftest, not in 
+> an end user use case, just not ever.
+
+..until we introduce new hardware for which the tuning doesn't hold 
+anymore or somebody in a two years wants to lower the timeout wondering 
+why it was set so long?
+
+/Thomas
+
 
