@@ -1,30 +1,29 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2372543847E
-	for <lists+dri-devel@lfdr.de>; Sat, 23 Oct 2021 19:36:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DA16438489
+	for <lists+dri-devel@lfdr.de>; Sat, 23 Oct 2021 19:36:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E43696E098;
-	Sat, 23 Oct 2021 17:35:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C1D46E830;
+	Sat, 23 Oct 2021 17:36:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 58A466E820
- for <dri-devel@lists.freedesktop.org>; Sat, 23 Oct 2021 11:14:54 +0000 (UTC)
-X-UUID: 3880fae249eb49d98bf7b6952f17da58-20211023
-X-UUID: 3880fae249eb49d98bf7b6952f17da58-20211023
-Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5162D6E824
+ for <dri-devel@lists.freedesktop.org>; Sat, 23 Oct 2021 11:14:58 +0000 (UTC)
+X-UUID: ce5df9540e7a47ab8c002ca4e845a8f2-20211023
+X-UUID: ce5df9540e7a47ab8c002ca4e845a8f2-20211023
+Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by
  mailgw01.mediatek.com (envelope-from <flora.fu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1350239767; Sat, 23 Oct 2021 19:14:51 +0800
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 295213227; Sat, 23 Oct 2021 19:14:52 +0800
 Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
- Sat, 23 Oct 2021 19:14:50 +0800
+ mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Sat, 23 Oct 2021 19:14:51 +0800
 Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas10.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
- Frontend Transport; Sat, 23 Oct 2021 19:14:50 +0800
+ Frontend Transport; Sat, 23 Oct 2021 19:14:51 +0800
 From: Flora Fu <flora.fu@mediatek.com>
 To: Matthias Brugger <matthias.bgg@gmail.com>, Mark Brown
  <broonie@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>
@@ -33,10 +32,10 @@ CC: <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
  <dri-devel@lists.freedesktop.org>, <linaro-mm-sig@lists.linaro.org>, Flora Fu
  <flora.fu@mediatek.com>, Yong Wu <yong.wu@mediatek.com>, Pi-Cheng Chen
  <pi-cheng.chen@mediatek.com>
-Subject: [RFC 02/13] dt-bindings: soc: mediatek: apusys: Add new document for
- APU power
-Date: Sat, 23 Oct 2021 19:13:58 +0800
-Message-ID: <20211023111409.30463-3-flora.fu@mediatek.com>
+Subject: [RFC 03/13] dt-bindings: soc: mediatek: apusys: Add new document for
+ APU tinysys
+Date: Sat, 23 Oct 2021 19:13:59 +0800
+Message-ID: <20211023111409.30463-4-flora.fu@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20211023111409.30463-1-flora.fu@mediatek.com>
 References: <20211023111409.30463-1-flora.fu@mediatek.com>
@@ -59,45 +58,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add new document for APU power controller.
+Add new document for APU tinysys.
 
 Signed-off-by: Flora Fu <flora.fu@mediatek.com>
 ---
- .../soc/mediatek/mediatek,apu-pwr.yaml        | 88 +++++++++++++++++++
- 1 file changed, 88 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/soc/mediatek/mediatek,apu-pwr.yaml
+ .../soc/mediatek/mediatek,apu-rv.yaml         | 140 ++++++++++++++++++
+ 1 file changed, 140 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/soc/mediatek/mediatek,apu-rv.yaml
 
-diff --git a/Documentation/devicetree/bindings/soc/mediatek/mediatek,apu-pwr.yaml b/Documentation/devicetree/bindings/soc/mediatek/mediatek,apu-pwr.yaml
+diff --git a/Documentation/devicetree/bindings/soc/mediatek/mediatek,apu-rv.yaml b/Documentation/devicetree/bindings/soc/mediatek/mediatek,apu-rv.yaml
 new file mode 100644
-index 000000000000..0fd5af5138e3
+index 000000000000..ee0ff5d656e9
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/soc/mediatek/mediatek,apu-pwr.yaml
-@@ -0,0 +1,88 @@
++++ b/Documentation/devicetree/bindings/soc/mediatek/mediatek,apu-rv.yaml
+@@ -0,0 +1,140 @@
 +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
 +# # Copyright 2021 MediaTek Inc.
 +%YAML 1.2
 +---
-+$id: "http://devicetree.org/schemas/soc/mediatek/mediatek,apu-pwr.yaml#"
++$id: "http://devicetree.org/schemas/soc/mediatek/mediatek,apu-rv.yaml#"
 +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
 +
 +title: Mediatek APU Power
 +
 +description: |
-+  Mediatek AI Process Unit (APU) power driver support for subsys clock and
-+  regulator controller. It will has device link to iommu-apu and apusys-rv
-+  tinysys driver to ensure the power state is ready for hardware
-+  in sub modules.
++  APU integrated subsystem having MD32RV33 (MD32) that runs tinysys
++  The tinsys is running on a micro processor in APU.
++  Its firmware is load and boot from Kernel side. Kernel and tinysys use
++  IPI to tx/rx messages.
 +
 +maintainers:
 +  - Flora Fu <flora.fu@mediatek.com>
 +
 +properties:
 +  compatible:
-+    oneOf:
-+      - const: mediatek,apusys-power
-+      - items:
-+          - const: mediatek,apusys-power
-+          - const: mediatek,mt8192-apu-power
++    enum:
++      - mediatek,mt8192-apusys-rv
 +
 +  reg:
 +    minItems: 1
@@ -108,58 +104,113 @@ index 000000000000..0fd5af5138e3
 +  power-domains:
 +    maxItems: 1
 +
-+  vvpu-supply:
-+    description: apu vpu regulator supply.
++  iommus:
++    maxItems: 1
 +
-+  vmdla-supply:
-+    description: apu mdla regulator supply.
++  interrupts:
++    description: List of interrupts.
 +
-+  clocks:
-+    description: Contains module clock source and clock names
++  interrupt-names:
++    description: Name list of interrupts.
 +
-+  clock-names:
-+    description: Names of the clocks list in clocks property
++  mediatek,apusys-power:
++    $ref: /schemas/types.yaml#/definitions/phandle
++    description: |
++      phandle to the device containing the apusys-power handle.
++
++  apu_ctrl:
++    description: handle the ipi state, time sync and deep idle message.
++    type: object
++
++    properties:
++      compatible:
++        const: "mediatek,apu-ctrl-rpmsg"
++
++    required:
++      - compatible
++
++    additionalProperties: false
++
++  apu_pwr_tx:
++    description: handle the message trigger from AP side to tinysys.
++    type: object
++
++    properties:
++      compatible:
++        const: "mediatek,apupwr-tx-rpmsg"
++
++    required:
++      - compatible
++
++    additionalProperties: false
++
++  apu_pwr_rx:
++    description: handle the message trigger from tinysys to AP side.
++    type: object
++
++    properties:
++      compatible:
++        const: "mediatek,apupwr-rx-rpmsg"
++
++    required:
++      - compatible
++
++    additionalProperties: false
++
++  apu_mdw_rpmsg:
++    description: handle the middleware messages.
++    type: object
++
++    properties:
++      compatible:
++        const: "mediatek,apu-mdw-rpmsg"
++
++    required:
++      - compatible
++
++    additionalProperties: false
 +
 +required:
 +  - compatible
 +  - reg
-+  - reg-names
-+  - clocks
-+  - clock-names
-+  - vvpu-supply
-+  - vmdla-supply
++  - power-domains
++  - interrupts
++  - mediatek,apusys-power
 +
 +additionalProperties: false
 +
 +examples:
 +  - |
 +    #include <dt-bindings/clock/mt8192-clk.h>
-+    apusys_power: apusys_power@190f1000 {
-+      compatible = "mediatek,apusys-power",
-+                   "mediatek,mt8192-apu-power";
-+      reg = <0x190f1000 0x1000>;
-+      reg-names = "apu_pcu";
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/interrupt-controller/irq.h>
++    #include <dt-bindings/memory/mt8192-larb-port.h>
++
++    apusys_rv@19001000 {
++      compatible = "mediatek,mt8192-apusys-rv";
++      reg = <0x19000000 0x1000>,
++            <0x19001000 0x1000>;
++      reg-names = "apu_mbox",
++                  "md32_sysctrl";
++      mediatek,apusys-power = <&apusys_power>;
 +      power-domains = <&apuspm 0>;
-+      vvpu-supply = <&mt6359_vproc1_buck_reg>;
-+      vmdla-supply = <&mt6359_vproc2_buck_reg>;
-+      clocks = <&topckgen CLK_TOP_DSP_SEL>,
-+               <&topckgen CLK_TOP_DSP1_SEL>,
-+               <&topckgen CLK_TOP_DSP1_NPUPLL_SEL>,
-+               <&topckgen CLK_TOP_DSP2_SEL>,
-+               <&topckgen CLK_TOP_DSP2_NPUPLL_SEL>,
-+               <&topckgen CLK_TOP_DSP5_SEL>,
-+               <&topckgen CLK_TOP_DSP5_APUPLL_SEL>,
-+               <&topckgen CLK_TOP_IPU_IF_SEL>,
-+               <&clk26m>;
-+      clock-names = "clk_top_dsp_sel",
-+                    "clk_top_dsp1_sel",
-+                    "clk_top_dsp1_npupll_sel",
-+                    "clk_top_dsp2_sel",
-+                    "clk_top_dsp2_npupll_sel",
-+                    "clk_top_dsp5_sel",
-+                    "clk_top_dsp5_apupll_sel",
-+                    "clk_top_ipu_if_sel",
-+                    "clk_top_clk26m";
++      iommus = <&iommu_apu IOMMU_PORT_APU_DATA>;
++      interrupts = <GIC_SPI 393 IRQ_TYPE_LEVEL_HIGH 0>,
++                   <GIC_SPI 404 IRQ_TYPE_LEVEL_HIGH 0>;
++      interrupt-names = "apu_wdt",
++                        "mbox0_irq";
++      apu_ctrl {
++        compatible = "mediatek,apu-ctrl-rpmsg";
++      };
++      apu_pwr_tx {
++        compatible = "mediatek,apupwr-tx-rpmsg";
++      };
++      apu_pwr_rx {
++        compatible = "mediatek,apupwr-rx-rpmsg";
++      };
++      apu_mdw_rpmsg {
++        compatible = "mediatek,apu-mdw-rpmsg";
++      };
 +    };
 -- 
 2.18.0
