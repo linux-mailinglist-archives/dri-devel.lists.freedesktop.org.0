@@ -2,38 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF50043811C
-	for <lists+dri-devel@lfdr.de>; Sat, 23 Oct 2021 02:44:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFAD3438244
+	for <lists+dri-devel@lfdr.de>; Sat, 23 Oct 2021 09:45:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 18C5F6E59D;
-	Sat, 23 Oct 2021 00:44:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B8CF36E08A;
+	Sat, 23 Oct 2021 07:45:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C1586E57A;
- Sat, 23 Oct 2021 00:44:19 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10145"; a="229690035"
-X-IronPort-AV: E=Sophos;i="5.87,173,1631602800"; d="scan'208";a="229690035"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Oct 2021 17:44:18 -0700
-X-IronPort-AV: E=Sophos;i="5.87,173,1631602800"; d="scan'208";a="576917850"
-Received: from jons-linux-dev-box.fm.intel.com ([10.1.27.20])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Oct 2021 17:44:18 -0700
-From: Matthew Brost <matthew.brost@intel.com>
-To: <intel-gfx@lists.freedesktop.org>,
-	<dri-devel@lists.freedesktop.org>
-Cc: <daniele.ceraolospurio@intel.com>,
-	<john.c.harrison@intel.com>
-Subject: [PATCH 3/3] drm/i915/guc: Refcount context during error capture
-Date: Fri, 22 Oct 2021 17:39:36 -0700
-Message-Id: <20211023003936.15067-4-matthew.brost@intel.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20211023003936.15067-1-matthew.brost@intel.com>
-References: <20211023003936.15067-1-matthew.brost@intel.com>
+Received: from mx2.smtp.larsendata.com (mx2.smtp.larsendata.com
+ [91.221.196.228])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 344FD6E08A
+ for <dri-devel@lists.freedesktop.org>; Sat, 23 Oct 2021 07:45:01 +0000 (UTC)
+Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
+ by mx2.smtp.larsendata.com (Halon) with ESMTPS
+ id 27a44a98-33d5-11ec-ac3c-0050568cd888;
+ Sat, 23 Oct 2021 07:45:12 +0000 (UTC)
+Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
+ [80.162.45.141])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: sam@ravnborg.org)
+ by mail01.mxhotel.dk (Postfix) with ESMTPSA id 8E0A8194B12;
+ Sat, 23 Oct 2021 09:44:55 +0200 (CEST)
+Date: Sat, 23 Oct 2021 09:44:54 +0200
+X-Report-Abuse-To: abuse@mxhotel.dk
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: daniel@ffwll.ch, airlied@linux.ie, mripard@kernel.org,
+ maarten.lankhorst@linux.intel.com, noralf@tronnes.org,
+ drawat.floss@gmail.com, airlied@redhat.com, kraxel@redhat.com,
+ david@lechnology.com, javierm@redhat.com, kernel@amanoeldawod.com,
+ dirty.ice.hu@gmail.com, michael+lkml@stapelberg.ch, aros@gmx.com,
+ joshua@stroblindustries.com, arnd@arndb.de,
+ dri-devel@lists.freedesktop.org, linux-hyperv@vger.kernel.org,
+ virtualization@lists.linux-foundation.org
+Subject: Re: [PATCH 0/9] drm/simpledrm: Enable damage clips and virtual screens
+Message-ID: <YXO9dlQkdJFbUbvb@ravnborg.org>
+References: <20211022132829.7697-1-tzimmermann@suse.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211022132829.7697-1-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,104 +58,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: John Harrison <John.C.Harrison@Intel.com>
+Hi Thomas,
 
-When i915 receives a context reset notification from GuC, it triggers
-an error capture before resetting any outstanding requsts of that
-context. Unfortunately, the error capture is not a time bound
-operation. In certain situations it can take a long time, particularly
-when multiple large LMEM buffers must be read back and eoncoded. If
-this delay is longer than other timeouts (heartbeat, test recovery,
-etc.) then a full GT reset can be triggered in the middle.
+On Fri, Oct 22, 2021 at 03:28:20PM +0200, Thomas Zimmermann wrote:
+> Enable FB_DAMAGE_CLIPS with simpledrm for improved performance and/or
+> less overhead. With this in place, add support for virtual screens
+> (i.e., framebuffers that are larger than the display resolution). This
+> also enables fbdev panning and page flipping.
+> 
+> After the discussion and bug fixing wrt to fbdev overallocation, I
+> decided to add full support for this to simpledrm. Patches #1 to #5
+> change the format-helper functions accordingly. Destination buffers
+> are now clipped by the caller and all functions support a similar
+> feature set. This has some fallout in various drivers.
+> 
+> Patch #6 change fbdev emulation to support overallocation with
+> shadow buffers, even if the hardware buffer would be too small.
+This change is very welcome - I hope it will solve the problem
+Alistair experience - see:
+https://lore.kernel.org/all/CAKmqyKPCP45O5_gjCFwUs8jU4NrDnjAeLs7OYAE4j-LEUw+Hzg@mail.gmail.com/
 
-That can result in the context being reset by GuC actually being
-destroyed before the error capture completes and the GuC submission
-code resumes. Thus, the GuC side can start dereferencing stale
-pointers and Bad Things ensue.
+	Sam
 
-So add a refcount get of the context during the entire reset
-operation. That way, the context can't be destroyed part way through
-no matter what other resets or user interactions occur.
-
-v2:
- (Matthew Brost)
-  - Update patch to work with async error capture
-
-Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
-Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-Reviewed-by: Matthew Brost <matthew.brost@intel.com>
----
- .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 24 +++++++++++++++++--
- 1 file changed, 22 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-index 8513003f4820..951c8350f341 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-@@ -3662,6 +3662,8 @@ static void capture_worker_func(struct work_struct *w)
- 	with_intel_runtime_pm(&i915->runtime_pm, wakeref)
- 		i915_capture_error_state(gt, ce->engine->mask);
- 
-+	intel_context_put(ce);
-+
- 	if (!list_empty(&guc->submission_state.capture_list))
- 		queue_work(system_unbound_wq,
- 			   &guc->submission_state.capture_worker);
-@@ -3701,7 +3703,7 @@ static void guc_context_replay(struct intel_context *ce)
- 	tasklet_hi_schedule(&sched_engine->tasklet);
- }
- 
--static void guc_handle_context_reset(struct intel_guc *guc,
-+static bool guc_handle_context_reset(struct intel_guc *guc,
- 				     struct intel_context *ce)
- {
- 	trace_intel_context_reset(ce);
-@@ -3714,7 +3716,11 @@ static void guc_handle_context_reset(struct intel_guc *guc,
- 		   !context_blocked(ce))) {
- 		capture_error_state(guc, ce);
- 		guc_context_replay(ce);
-+
-+		return false;
- 	}
-+
-+	return true;
- }
- 
- int intel_guc_context_reset_process_msg(struct intel_guc *guc,
-@@ -3722,6 +3728,7 @@ int intel_guc_context_reset_process_msg(struct intel_guc *guc,
- {
- 	struct intel_context *ce;
- 	int desc_idx;
-+	unsigned long flags;
- 
- 	if (unlikely(len != 1)) {
- 		drm_err(&guc_to_gt(guc)->i915->drm, "Invalid length %u", len);
-@@ -3729,11 +3736,24 @@ int intel_guc_context_reset_process_msg(struct intel_guc *guc,
- 	}
- 
- 	desc_idx = msg[0];
-+
-+	/*
-+	 * The context lookup uses the xarray but lookups only require an RCU lock
-+	 * not the full spinlock. So take the lock explicitly and keep it until the
-+	 * context has been reference count locked to ensure it can't be destroyed
-+	 * asynchronously until the reset is done.
-+	 */
-+	xa_lock_irqsave(&guc->context_lookup, flags);
- 	ce = g2h_context_lookup(guc, desc_idx);
-+	if (ce)
-+		intel_context_get(ce);
-+	xa_unlock_irqrestore(&guc->context_lookup, flags);
-+
- 	if (unlikely(!ce))
- 		return -EPROTO;
- 
--	guc_handle_context_reset(guc, ce);
-+	if (guc_handle_context_reset(guc, ce))
-+		intel_context_put(ce);
- 
- 	return 0;
- }
--- 
-2.32.0
-
+> 
+> Patch #7 and #8 update simpledrm to enable damage clipping and virtual
+> screen sizes. Both feature go hand in hand, sort of. For shadow-
+> buffered planes, the DRM framebuffer lives in system memory. So the
+> maximum size of the virtual screen is somewhat arbitrary. We add two
+> constants for resonable maximum width and height of 4096 each.
+> 
+> Patch #9 adds documentation and a TODO item.
+> 
+> Tested with simpledrm. I also ran the recently posted fbdev panning
+> tests to make sure that the fbdev overallocation works correctly. [1]
+> 
+> [1] https://lists.freedesktop.org/archives/igt-dev/2021-October/036642.html
+> 
+> Thomas Zimmermann (9):
+>   drm/format-helper: Export drm_fb_clip_offset()
+>   drm/format-helper: Rework format-helper memcpy functions
+>   drm/format-helper: Add destination-buffer pitch to drm_fb_swab()
+>   drm/format-helper: Rework format-helper conversion functions
+>   drm/format-helper: Streamline blit-helper interface
+>   drm/fb-helper: Allocate shadow buffer of surface height
+>   drm/simpledrm: Enable FB_DAMAGE_CLIPS property
+>   drm/simpledrm: Support virtual screen sizes
+>   drm: Clarify semantics of struct
+>     drm_mode_config.{min,max}_{width,height}
+> 
+>  Documentation/gpu/todo.rst                  |  15 ++
+>  drivers/gpu/drm/drm_fb_helper.c             |   2 +-
+>  drivers/gpu/drm/drm_format_helper.c         | 236 ++++++++++----------
+>  drivers/gpu/drm/drm_mipi_dbi.c              |   6 +-
+>  drivers/gpu/drm/gud/gud_pipe.c              |  14 +-
+>  drivers/gpu/drm/hyperv/hyperv_drm_modeset.c |   5 +-
+>  drivers/gpu/drm/mgag200/mgag200_mode.c      |   4 +-
+>  drivers/gpu/drm/tiny/cirrus.c               |  24 +-
+>  drivers/gpu/drm/tiny/repaper.c              |   2 +-
+>  drivers/gpu/drm/tiny/simpledrm.c            |  41 +++-
+>  drivers/gpu/drm/tiny/st7586.c               |   2 +-
+>  include/drm/drm_format_helper.h             |  58 ++---
+>  include/drm/drm_gem_atomic_helper.h         |  18 ++
+>  include/drm/drm_mode_config.h               |  13 ++
+>  14 files changed, 254 insertions(+), 186 deletions(-)
+> 
+> --
+> 2.33.0
