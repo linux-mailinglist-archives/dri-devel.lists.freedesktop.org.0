@@ -2,58 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6A21438BCE
-	for <lists+dri-devel@lfdr.de>; Sun, 24 Oct 2021 22:26:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E6D2438BD2
+	for <lists+dri-devel@lfdr.de>; Sun, 24 Oct 2021 22:32:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A190C89FAC;
-	Sun, 24 Oct 2021 20:26:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E22F89BF6;
+	Sun, 24 Oct 2021 20:32:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk
- [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 33D8D89FAC
- for <dri-devel@lists.freedesktop.org>; Sun, 24 Oct 2021 20:26:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
- MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
- Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
- List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=8O9gkYAmFcVK2IsDTWyn2VcW39mplgtD5t4PDmHXu1U=; b=nSaHE3DkXdmeZ1O0lor5XmoZPe
- AW5ZCFNAxuvaGwR9xicRQr5bwZzNSKltIJlzzKIfb2B41sFIiWKNLHMxaykVDRj1MhManwnqgrj/S
- x9ZQedtZPEiyRNOygnlTPudecxV3ArZrm3/abUvlXCE5ztjj0qNfwUwjLOdeaytVsz4+BQmuUtfKu
- IfshdYkYPo3di9x0o2/Dswha1avGXlmWtX9n1EQwYW5XDl8OuvEs3VIR+MXA4vtI6SMeI7B4nhLi/
- bCUHBXPGkqMQcySiXD1C4DcC1niCP7nlV+Bx4tLMqyIEP53flEsPKfa2yZXIi/Rn42ghwVnMeRJf4
- FofPugpg==;
-Received: from shell.armlinux.org.uk
- ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:55272)
- by pandora.armlinux.org.uk with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <linux@armlinux.org.uk>)
- id 1mek49-0003Y2-8V; Sun, 24 Oct 2021 21:26:01 +0100
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
- (envelope-from <linux@shell.armlinux.org.uk>)
- id 1mek46-0003JU-0B; Sun, 24 Oct 2021 21:25:58 +0100
-Date: Sun, 24 Oct 2021 21:25:57 +0100
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: "jason-jh.lin" <jason-jh.lin@mediatek.com>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Jassi Brar <jassisinghbrar@gmail.com>,
- Yongqiang Niu <yongqiang.niu@mediatek.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- hsinyi@chromium.org, fshao@chromium.org, nancy.lin@mediatek.com,
- singo.chang@mediatek.com
-Subject: Re: [PATCH] mailbox: remove the error message when gce clk is defer
-Message-ID: <YXXBVTEbjPiBm1un@shell.armlinux.org.uk>
-References: <20211023164831.25690-1-jason-jh.lin@mediatek.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 19EA789BF6
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 Oct 2021 20:32:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1635107559;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=foPZLVboh7onbXg8RJt10aqr10vmq7ONgcIyRXku74s=;
+ b=Wceumxf/KwSf6lmSOo3SEQ77BK7R/mKiIPld07Q2rilsKRTmimEutwZffCnHI0/UX2JrPo
+ kvqK44960+K0F4zrcIIkVbUJzxlc/aMyNLxdy35S/tXer1UOzlUXIMlACAX6ItkNmZdIbk
+ nzGh6/lIbznTQMIXBkIU/QGUnVY4RNw=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-186-HOas7CWqMquofgUDvbc7aw-1; Sun, 24 Oct 2021 16:32:38 -0400
+X-MC-Unique: HOas7CWqMquofgUDvbc7aw-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ d13-20020adfa34d000000b00160aa1cc5f1so2414897wrb.14
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 Oct 2021 13:32:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=foPZLVboh7onbXg8RJt10aqr10vmq7ONgcIyRXku74s=;
+ b=gC0VQQdTYPkYi4AofFEBuLPJFfDPb8PEL0Hf/vp0SpJ47d1mvbbpcnmG2kNrr5OlbM
+ 5uguYct62ALSU7cBWhmukgG1Qb1V9WiVa0tuz6hHHpczBaAKzaWJ7Y3QAUoBgK3vcl38
+ ToJu/RMfqBa+QnnlLyFyhSPRBMEnOuC02Skbmrt48o1DKZfgI08eJiM8fmnKoV2URkkC
+ nVvl3dzXSxiBLT9RE+wTEyntqzl90qQYwiXgmP5EqWNFQtk68/pLv+Z66U6iP3kSTG/F
+ zpdOBB+9CTpzHzSGt53+D3n+PD7knPn4kR4dhEqh/mMWmWhAEnyTZdgimlYQhPqODLTB
+ 8cvQ==
+X-Gm-Message-State: AOAM533x4tAHOSn9r1IHR+TBJktFEegbgKTw+G6vHBQiQA8Ix4qYKLIP
+ oZwke85ZY4DTsn4lCrHa7CdwpiTWlkBeUsw8Alq7hXjNvZT0amzMKBektR3Q/9ZAD6Mgj0tZCJL
+ a81TGFNZtupNtwvcoHW0868f28Yke
+X-Received: by 2002:a05:600c:a43:: with SMTP id
+ c3mr43191915wmq.193.1635107557477; 
+ Sun, 24 Oct 2021 13:32:37 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzTb7WRG4PUnpVolCGCFaAjk037qGckuhGFDnVdfuykBRH4F+Vw25gbwIjHO7F2pE4LEgFYBA==
+X-Received: by 2002:a05:600c:a43:: with SMTP id
+ c3mr43191886wmq.193.1635107557159; 
+ Sun, 24 Oct 2021 13:32:37 -0700 (PDT)
+Received: from [192.168.1.128] ([92.176.231.106])
+ by smtp.gmail.com with ESMTPSA id r39sm8142731wmp.2.2021.10.24.13.32.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 24 Oct 2021 13:32:36 -0700 (PDT)
+Message-ID: <c1d1f245-7bcf-16e5-c3f4-c13550843e02@redhat.com>
+Date: Sun, 24 Oct 2021 22:32:35 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211023164831.25690-1-jason-jh.lin@mediatek.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [RFC PATCH] drm/aperture: Add param to disable conflicting
+ framebuffers removal
+To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+Cc: linux-kernel@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Peter Robinson <pbrobinson@gmail.com>, Neal Gompa <ngompa13@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org
+References: <20211022144040.3418284-1-javierm@redhat.com>
+ <YXMNOfBS5iFenmx8@intel.com>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <YXMNOfBS5iFenmx8@intel.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,32 +95,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Oct 24, 2021 at 12:48:31AM +0800, jason-jh.lin wrote:
-> Remove the error message when gce clk is defer.
-> 
-> Signed-off-by: jason-jh.lin <jason-jh.lin@mediatek.com>
-> ---
->  drivers/mailbox/mtk-cmdq-mailbox.c | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/mailbox/mtk-cmdq-mailbox.c b/drivers/mailbox/mtk-cmdq-mailbox.c
-> index fd5576a9f8b4..684b8aa1e445 100644
-> --- a/drivers/mailbox/mtk-cmdq-mailbox.c
-> +++ b/drivers/mailbox/mtk-cmdq-mailbox.c
-> @@ -577,7 +577,8 @@ static int cmdq_probe(struct platform_device *pdev)
->  				snprintf(clk_id, sizeof(clk_id), "%s%d", clk_name, alias_id);
->  				cmdq->clocks[alias_id].id = clk_id;
->  				cmdq->clocks[alias_id].clk = of_clk_get(node, 0);
-> -				if (IS_ERR(cmdq->clocks[alias_id].clk)) {
-> +				if (IS_ERR(cmdq->clocks[alias_id].clk) &&
-> +				    PTR_ERR(cmdq->clocks[alias_id].clk) != -EPROBE_DEFER) {
->  					dev_err(dev, "failed to get gce clk: %d\n", alias_id);
->  					return PTR_ERR(cmdq->clocks[alias_id].clk);
->  				}
+Hello Ville,
 
-So when you get -EPROBE_DEFER, you omit the error message _and_ ignore
-the -EPROBE_DEFER. Is that really what you want to do?
+On 10/22/21 21:12, Ville Syrjälä wrote:
+> On Fri, Oct 22, 2021 at 04:40:40PM +0200, Javier Martinez Canillas wrote:
+>> The simpledrm driver allows to use the frame buffer that was set-up by the
+>> firmware. This gives early video output before the platform DRM driver is
+>> probed and takes over.
+>>
+>> But it would be useful to have a way to disable this take over by the real
+>> DRM drivers. For example, there may be bugs in the DRM drivers that could
+>> cause the display output to not work correctly.
+>>
+>> For those cases, it would be good to keep the simpledrm driver instead and
+>> at least get a working display as set-up by the firmware.
+>>
+>> Let's add a drm.remove_fb boolean kernel command line parameter, that when
+>> set to false will prevent the conflicting framebuffers to being removed.
+>>
+>> Since the drivers call drm_aperture_remove_conflicting_framebuffers() very
+>> early in their probe callback, this will cause the drivers' probe to fail.
+> 
+> Why is that better than just modprobe.blacklisting those drivers?
+> 
 
+Because would allow to deny list all native (as Thomas called it) DRM drivers
+and only allow the simpledrm driver to be probed. This is useful for distros,
+since could add a "Basic graphics mode" to the boot menu entries, that could
+boot the kernel passing a "drm.disable_native_drivers=1" cmdline option.
+
+That way, if there's any problem with a given DRM driver, the distro may be
+installed and booted using the simpledrm driver and troubleshoot why a native
+DRM driver is not working. Or try updating the kernel package, etc.
+
+Currently what most distros do is to pass "nomodeset" in this mode. But now
+that we have the simpledrm driver, would be nice to just use the frame buffer
+set by the system firmware in those cases.
+
+Best regards,
 -- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
+
