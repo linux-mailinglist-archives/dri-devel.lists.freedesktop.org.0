@@ -2,17 +2,17 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 856F34387A5
-	for <lists+dri-devel@lfdr.de>; Sun, 24 Oct 2021 10:33:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA72E4388A0
+	for <lists+dri-devel@lfdr.de>; Sun, 24 Oct 2021 13:32:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C70F589FA0;
-	Sun, 24 Oct 2021 08:33:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 01F4D6E10D;
+	Sun, 24 Oct 2021 11:32:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp.domeneshop.no (smtp.domeneshop.no
  [IPv6:2a01:5b40:0:3005::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 52CE089FA0
- for <dri-devel@lists.freedesktop.org>; Sun, 24 Oct 2021 08:33:24 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B1D56E108
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 Oct 2021 11:32:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
  ; s=ds202012;
  h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
@@ -20,19 +20,19 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
  Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
  Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=65RlaRrC7lDrEjewQhWmAarZm2pT+v5fMP7uMLXsL6c=; b=adz02WEnV/TxS7So01KXMEIB6v
- fPN7H8wTmJwWlV5rkGrES3sjst0LNicPXGN5ypTbhteKKFocsK+PFFVeGFCDhQyj0LPE5R0zkw0rq
- IytBm007J06iBPCBX/fIrVtTHrvbg0nYUqq5mqvmZ7f/CMb5Koelk7L7pxvAon4JIMdvhvCGcHPJR
- vl9Xayj3/+1SFt4duYl70pjr76Ag6JsDjwKWj+aC7t/2zwdi78TI2Er9LpvMnG5t3eqx5ZO2YrbU6
- w+1WAi2rJOIi2hYPEmn3TUK66hseiMZg9cTnKxFo2WDubYYuqkKhTqMFkkD0k87bK7bZM7JpAgggC
- 078lahHw==;
-Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:49388
+ bh=4UjwHqhlZinB2vUUN1dbRV9mgrL0gkzMPLMVhpVUDqI=; b=OyDlWLdV8slnS+VFpMcCWmTn+k
+ iHAjSeNYvIc1ugrRhWGds1Bu/vn0DNurwMr0j6anwvr/XkkooSz7lQl7pIAdhRv150fSfKowt1B2P
+ OzZOwZ1FCQJBCR6TTiZLZvVCRbRVj7IX9oBbXZ55/AqoC6M+XOYsFYTnm+iInUSqa+LYxUntCEd24
+ bWpw/itsxfzp1MkOqZUwQXDWZMLyNKuuRjwnpBsXC++cCYfLKHITOoQpD31na7p0gjG5W/H22CgS0
+ k8pGHlfwNM6ppqn2hwNXDpKPBMZsWsaaioATZHqW0/WIXv2gJvkiD9DEbLXPtmcCSOe1Di5NyeDMT
+ +d0BT+Xw==;
+Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:52392
  helo=[192.168.10.61])
  by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.92) (envelope-from <noralf@tronnes.org>)
- id 1meYwU-00084L-4U; Sun, 24 Oct 2021 10:33:22 +0200
-Subject: Re: [PATCH 3/9] drm/format-helper: Add destination-buffer pitch to
- drm_fb_swab()
+ id 1mebjY-0007RS-4M; Sun, 24 Oct 2021 13:32:12 +0200
+Subject: Re: [PATCH 4/9] drm/format-helper: Rework format-helper conversion
+ functions
 To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
  airlied@linux.ie, mripard@kernel.org, maarten.lankhorst@linux.intel.com,
  drawat.floss@gmail.com, airlied@redhat.com, kraxel@redhat.com,
@@ -42,14 +42,14 @@ To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
 Cc: dri-devel@lists.freedesktop.org, linux-hyperv@vger.kernel.org,
  virtualization@lists.linux-foundation.org
 References: <20211022132829.7697-1-tzimmermann@suse.de>
- <20211022132829.7697-4-tzimmermann@suse.de>
+ <20211022132829.7697-5-tzimmermann@suse.de>
 From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-Message-ID: <5df27b45-c560-3495-5fc3-91b30684eb25@tronnes.org>
-Date: Sun, 24 Oct 2021 10:33:20 +0200
+Message-ID: <34b8daf3-b6b4-02fb-9e10-ef11c0848572@tronnes.org>
+Date: Sun, 24 Oct 2021 13:32:07 +0200
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <20211022132829.7697-4-tzimmermann@suse.de>
+In-Reply-To: <20211022132829.7697-5-tzimmermann@suse.de>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -70,42 +70,93 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 Den 22.10.2021 15.28, skrev Thomas Zimmermann:
-> Add destination-buffer pitch as argument to drm_fb_swab(). Done for
-> consistency with the rest of the interface.
+> Move destination-buffer clipping from all format-helper conversion
+> functions into callers. Support destination-buffer pitch. Only
+> distinguish between system and I/O memory, but use same logic
+> everywhere.
+> 
+> Simply harmonize the interface and semantics of the existing code.
+> Not all conversion helpers support all combinations of parameters.
+> We have to add additional features when we need them.
 > 
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
->  drivers/gpu/drm/drm_format_helper.c | 19 +++++++++++++++----
->  drivers/gpu/drm/drm_mipi_dbi.c      |  2 +-
->  drivers/gpu/drm/gud/gud_pipe.c      |  2 +-
->  include/drm/drm_format_helper.h     |  5 +++--
->  4 files changed, 20 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_format_helper.c b/drivers/gpu/drm/drm_format_helper.c
-> index 38c8055f6fa8..79869ed553d9 100644
-> --- a/drivers/gpu/drm/drm_format_helper.c
-> +++ b/drivers/gpu/drm/drm_format_helper.c
-> @@ -92,6 +92,7 @@ EXPORT_SYMBOL(drm_fb_memcpy_toio);
+
 >  /**
->   * drm_fb_swab - Swap bytes into clip buffer
->   * @dst: Destination buffer
+>   * drm_fb_xrgb8888_to_gray8 - Convert XRGB8888 to grayscale
+>   * @dst: 8-bit grayscale destination buffer
 > + * @dst_pitch: Number of bytes between two consecutive scanlines within dst
->   * @src: Source buffer
+>   * @vaddr: XRGB8888 source buffer
 >   * @fb: DRM framebuffer
 >   * @clip: Clip rectangle area to copy
-> @@ -103,19 +104,25 @@ EXPORT_SYMBOL(drm_fb_memcpy_toio);
->   * This function does not apply clipping on dst, i.e. the destination
-
-You have changed this line on the other functions, maybe you just missed
-it here:
-
->   * is a small buffer containing the clip rect only.
+> @@ -415,16 +417,21 @@ EXPORT_SYMBOL(drm_fb_xrgb8888_to_rgb888_dstclip);
+>   *
+>   * ITU BT.601 is used for the RGB -> luma (brightness) conversion.
 >   */
-> -void drm_fb_swab(void *dst, void *src, struct drm_framebuffer *fb,
-> -		 struct drm_rect *clip, bool cached)
-> +void drm_fb_swab(void *dst, unsigned int dst_pitch, const void *src,
-> +		 const struct drm_framebuffer *fb, const struct drm_rect *clip,
-> +		 bool cached)
+> -void drm_fb_xrgb8888_to_gray8(u8 *dst, void *vaddr, struct drm_framebuffer *fb,
+> -			       struct drm_rect *clip)
+> +void drm_fb_xrgb8888_to_gray8(void *dst, unsigned int dst_pitch, const void *vaddr,
+> +			      const struct drm_framebuffer *fb, const struct drm_rect *clip)
+>  {
+>  	unsigned int len = (clip->x2 - clip->x1) * sizeof(u32);
+>  	unsigned int x, y;
+>  	void *buf;
+> -	u32 *src;
+> +	u8 *dst8;
+> +	u32 *src32;
+>  
+>  	if (WARN_ON(fb->format->format != DRM_FORMAT_XRGB8888))
+>  		return;
+> +
+> +	if (!dst_pitch)
+
+len is source length (should really have been named src_len) which
+results in a kernel crash:
+
+> +		dst_pitch = len;
+
+This works:
+
+		dst_pitch = drm_rect_width(clip);
+
+With that fixed:
 
 Tested-by: Noralf Trønnes <noralf@tronnes.org>
 Reviewed-by: Noralf Trønnes <noralf@tronnes.org>
+
+> +
+>  	/*
+>  	 * The cma memory is write-combined so reads are uncached.
+>  	 * Speed up by fetching one line at a time.
+> @@ -433,20 +440,22 @@ void drm_fb_xrgb8888_to_gray8(u8 *dst, void *vaddr, struct drm_framebuffer *fb,
+>  	if (!buf)
+>  		return;
+>  
+> +	vaddr += clip_offset(clip, fb->pitches[0], sizeof(u32));
+>  	for (y = clip->y1; y < clip->y2; y++) {
+> -		src = vaddr + (y * fb->pitches[0]);
+> -		src += clip->x1;
+> -		memcpy(buf, src, len);
+> -		src = buf;
+> +		dst8 = dst;
+> +		src32 = memcpy(buf, vaddr, len);
+>  		for (x = clip->x1; x < clip->x2; x++) {
+> -			u8 r = (*src & 0x00ff0000) >> 16;
+> -			u8 g = (*src & 0x0000ff00) >> 8;
+> -			u8 b =  *src & 0x000000ff;
+> +			u8 r = (*src32 & 0x00ff0000) >> 16;
+> +			u8 g = (*src32 & 0x0000ff00) >> 8;
+> +			u8 b =  *src32 & 0x000000ff;
+>  
+>  			/* ITU BT.601: Y = 0.299 R + 0.587 G + 0.114 B */
+> -			*dst++ = (3 * r + 6 * g + b) / 10;
+> -			src++;
+> +			*dst8++ = (3 * r + 6 * g + b) / 10;
+> +			src32++;
+>  		}
+> +
+> +		vaddr += fb->pitches[0];
+> +		dst += dst_pitch;
+>  	}
+>  
+>  	kfree(buf);
