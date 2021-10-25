@@ -1,42 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2565E439125
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Oct 2021 10:25:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3781D4391A1
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Oct 2021 10:43:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9163E89DEC;
-	Mon, 25 Oct 2021 08:25:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D2FD898C0;
+	Mon, 25 Oct 2021 08:43:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BEB3E89DA5;
- Mon, 25 Oct 2021 08:25:25 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10147"; a="229457608"
-X-IronPort-AV: E=Sophos;i="5.87,179,1631602800"; d="scan'208";a="229457608"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Oct 2021 01:25:25 -0700
-X-IronPort-AV: E=Sophos;i="5.87,179,1631602800"; d="scan'208";a="485580144"
-Received: from atmozipo-mobl.amr.corp.intel.com (HELO localhost)
- ([10.249.43.83])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Oct 2021 01:25:21 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Hans de Goede <hdegoede@redhat.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Cc: Hans de Goede <hdegoede@redhat.com>,
- intel-gfx <intel-gfx@lists.freedesktop.org>, dri-devel@lists.freedesktop.org,
- Tsuchiya Yuto <kitakar@gmail.com>, "Deak\, Imre" <imre.deak@intel.com>
-Subject: Re: [PATCH] drm/i915: Add NO_VLV_DISP_PW_DPIO_CMN_BC_INIT quirk
-In-Reply-To: <20211024155010.126275-1-hdegoede@redhat.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20211024155010.126275-1-hdegoede@redhat.com>
-Date: Mon, 25 Oct 2021 11:25:18 +0300
-Message-ID: <877de1lde9.fsf@intel.com>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A1301898C0
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Oct 2021 08:43:05 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1mevZG-0001S4-Co; Mon, 25 Oct 2021 10:42:54 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+ by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1mevZC-00028D-VP; Mon, 25 Oct 2021 10:42:50 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1mevZC-0007Y0-Th; Mon, 25 Oct 2021 10:42:50 +0200
+Date: Mon, 25 Oct 2021 10:42:50 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Bjorn Andersson <bjorn.andersson@linaro.org>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Robert Foss <robert.foss@linaro.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Lee Jones <lee.jones@linaro.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, Doug Anderson <dianders@google.com>
+Subject: Re: [PATCH v6 3/3] drm/bridge: ti-sn65dsi86: Implement the pwm_chip
+Message-ID: <20211025084250.pkd5s4zdmevjjl7m@pengutronix.de>
+References: <20210930030557.1426-1-bjorn.andersson@linaro.org>
+ <20210930030557.1426-3-bjorn.andersson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="cuexqcw75bfvdr5f"
+Content-Disposition: inline
+In-Reply-To: <20210930030557.1426-3-bjorn.andersson@linaro.org>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,174 +67,355 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, 24 Oct 2021, Hans de Goede <hdegoede@redhat.com> wrote:
-> Add a NO_VLV_DISP_PW_DPIO_CMN_BC_INIT quirk to fix i915 not working on
-> the Xiaomi Mi Pad 2 (with CHT x5-Z8500 SoC).
->
-> The Xiaomi Mi Pad 2 uses quite an unusual hardware-design for a Cherry
-> Trail tablet. It deviates from the typical reference design based tablets
-> in many ways.
->
-> The Mi Pad 2 does not have any DisplayPort or HDMI outouts. I suspect that
-> as part of its unusual design it also has some supply rail which is only
-> used for DisplayPort or HDMI not connected.
->
-> Force-enabling the dpio-common-bc powerwell as the i915 normal does at boot
-> appears to cause the P-Unit to hang. When booting with a serial-usb console
-> the following errors are logged before the system freezes:
->
->  i915 0000:00:02.0: [drm] *ERROR* timeout setting power well state 00000000 (fffff3ff)
->  i915 0000:00:02.0: [drm] *ERROR* Display PHY 0 is not power up
->  ------------[ cut here ]------------
->  i915 0000:00:02.0: DPIO read pipe A reg 0x8170 == 0xffffffff
->  WARNING: CPU: 3 PID: 258 at drivers/gpu/drm/i915/intel_sideband.c:257 vlv_dpio_read+0x95/0xb0 [i915]
->  ...
->  Call Trace:
->   chv_dpio_cmn_power_well_enable+0xab/0x210 [i915]
->   __intel_display_power_get_domain.part.0+0xa0/0xc0 [i915]
->   intel_power_domains_init_hw+0x26d/0x760 [i915]
->   intel_modeset_init_noirq+0x5d/0x270 [i915]
->   i915_driver_probe+0x6b6/0xd10 [i915]
->   ...
->
-> If I disable the WARN about the register being 0xffffffff, so that the
-> system can log some more dmesg output over the serial console before
-> freezing, the following errors are also logged:
->
->  i915 0000:00:02.0: [drm] *ERROR* timeout setting power well state 00000000 (fcfff3ff)
->  i915 0000:00:02.0: [drm] *ERROR* Display PHY 1 is not power up
->
-> With this patch to disable the force-enabling of the PHY 0 / dpio-common-bc
-> powerwell in place, this error for PHY 1 goes away. So it seems that trying
-> the force-enabling of the PHY 0 / dpio-common-bc powerwell freezes the
-> P-Unit, causing the subsequent enabling of PHY 1 to also fail (and causing
-> the entire system to freeze within seconds).
->
-> With this patch the PHY 1 error disappears and the entire system works.
->
-> Note this change also moves the intel_init_quirks() call a bit up inside
-> intel_modeset_init_noirq() this is necessary so that the quirk is set
-> before the intel_power_domains_init_hw() call. This is harmless, all that
-> intel_init_quirks() does is set some bits in drm_i915_private.quirks and
-> make some drm_info() log calls.
->
-> Reported-by: Tsuchiya Yuto <kitakar@gmail.com>
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+
+--cuexqcw75bfvdr5f
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hello,
+
+[replaced Andrzej Hajda's email address with his new one]
+
+On Wed, Sep 29, 2021 at 10:05:57PM -0500, Bjorn Andersson wrote:
+> The SN65DSI86 provides the ability to supply a PWM signal on GPIO 4,
+> with the primary purpose of controlling the backlight of the attached
+> panel. Add an implementation that exposes this using the standard PWM
+> framework, to allow e.g. pwm-backlight to expose this to the user.
+
+Sorry for the long delay in reviewing this.
+
+> Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
 > ---
->  drivers/gpu/drm/i915/display/intel_display.c     |  4 ++--
->  .../gpu/drm/i915/display/intel_display_power.c   | 16 ++++++++++++++--
->  drivers/gpu/drm/i915/display/intel_quirks.c      | 10 ++++++++++
->  drivers/gpu/drm/i915/i915_drv.h                  |  1 +
->  4 files changed, 27 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
-> index 015854b5078c..1fb885cc86c9 100644
-> --- a/drivers/gpu/drm/i915/display/intel_display.c
-> +++ b/drivers/gpu/drm/i915/display/intel_display.c
-> @@ -12467,6 +12467,8 @@ int intel_modeset_init_noirq(struct drm_i915_private *i915)
->  	if (ret)
->  		goto cleanup_bios;
->  
-> +	intel_init_quirks(i915);
+>=20
+> Changes since v5:
+> - Make ti_sn65dsi86_read_u16() use regmap_bulk_read()
+> - Update the wording related to the formula for the period being wrong to=
+ not
+>   just say I'm "assuming because it's easier".
+> - Updated comment related to minimum period
+> - Clamp duty <=3D period in get_state()
+>=20
+>  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 366 +++++++++++++++++++++++++-
+>  1 file changed, 360 insertions(+), 6 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/brid=
+ge/ti-sn65dsi86.c
+> index 412fb6f564ea..ccf6496cc9ff 100644
+> --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> @@ -4,7 +4,9 @@
+>   * datasheet: https://www.ti.com/lit/ds/symlink/sn65dsi86.pdf
+>   */
+> =20
+> +#include <linux/atomic.h>
+>  #include <linux/auxiliary_bus.h>
+> +#include <linux/bitfield.h>
+>  #include <linux/bits.h>
+>  #include <linux/clk.h>
+>  #include <linux/debugfs.h>
+> @@ -15,6 +17,7 @@
+>  #include <linux/module.h>
+>  #include <linux/of_graph.h>
+>  #include <linux/pm_runtime.h>
+> +#include <linux/pwm.h>
+>  #include <linux/regmap.h>
+>  #include <linux/regulator/consumer.h>
+> =20
+> @@ -91,6 +94,13 @@
+>  #define SN_ML_TX_MODE_REG			0x96
+>  #define  ML_TX_MAIN_LINK_OFF			0
+>  #define  ML_TX_NORMAL_MODE			BIT(0)
+> +#define SN_PWM_PRE_DIV_REG			0xA0
+> +#define SN_BACKLIGHT_SCALE_REG			0xA1
+> +#define  BACKLIGHT_SCALE_MAX			0xFFFF
+> +#define SN_BACKLIGHT_REG			0xA3
+> +#define SN_PWM_EN_INV_REG			0xA5
+> +#define  SN_PWM_INV_MASK			BIT(0)
+> +#define  SN_PWM_EN_MASK				BIT(1)
+>  #define SN_AUX_CMD_STATUS_REG			0xF4
+>  #define  AUX_IRQ_STATUS_AUX_RPLY_TOUT		BIT(3)
+>  #define  AUX_IRQ_STATUS_AUX_SHORT		BIT(5)
+> @@ -113,11 +123,14 @@
+> =20
+>  #define SN_LINK_TRAINING_TRIES		10
+> =20
+> +#define SN_PWM_GPIO_IDX			3 /* 4th GPIO */
 > +
->  	/* FIXME: completely on the wrong abstraction layer */
->  	intel_power_domains_init_hw(i915, false);
->  
-> @@ -12501,8 +12503,6 @@ int intel_modeset_init_noirq(struct drm_i915_private *i915)
->  	INIT_WORK(&i915->atomic_helper.free_work,
->  		  intel_atomic_helper_free_state_worker);
->  
-> -	intel_init_quirks(i915);
-> -
->  	intel_fbc_init(i915);
->  
->  	return 0;
-> diff --git a/drivers/gpu/drm/i915/display/intel_display_power.c b/drivers/gpu/drm/i915/display/intel_display_power.c
-> index cce1a926fcc1..eeaba3dc064b 100644
-> --- a/drivers/gpu/drm/i915/display/intel_display_power.c
-> +++ b/drivers/gpu/drm/i915/display/intel_display_power.c
-> @@ -2090,8 +2090,14 @@ __intel_display_power_get_domain(struct drm_i915_private *dev_priv,
->  	if (intel_display_power_grab_async_put_ref(dev_priv, domain))
->  		return;
->  
-> -	for_each_power_domain_well(dev_priv, power_well, BIT_ULL(domain))
-> +	for_each_power_domain_well(dev_priv, power_well, BIT_ULL(domain)) {
-> +		if (domain == POWER_DOMAIN_INIT &&
-> +		    (dev_priv->quirks & QUIRK_NO_VLV_DISP_PW_DPIO_CMN_BC_INIT) &&
-> +		    power_well->desc->id == VLV_DISP_PW_DPIO_CMN_BC)
-> +			continue;
-> +
->  		intel_power_well_get(dev_priv, power_well);
-> +	}
-
-Cc: Imre
-
-There has got to be a way to hide this better. Having this here is
-unacceptable.
-
-
-BR,
-Jani.
-
->  
->  	power_domains->domain_use_count[domain]++;
->  }
-> @@ -2184,8 +2190,14 @@ __intel_display_power_put_domain(struct drm_i915_private *dev_priv,
->  
->  	power_domains->domain_use_count[domain]--;
->  
-> -	for_each_power_domain_well_reverse(dev_priv, power_well, BIT_ULL(domain))
-> +	for_each_power_domain_well_reverse(dev_priv, power_well, BIT_ULL(domain)) {
-> +		if (domain == POWER_DOMAIN_INIT &&
-> +		    (dev_priv->quirks & QUIRK_NO_VLV_DISP_PW_DPIO_CMN_BC_INIT) &&
-> +		    power_well->desc->id == VLV_DISP_PW_DPIO_CMN_BC)
-> +			continue;
-> +
->  		intel_power_well_put(dev_priv, power_well);
-> +	}
->  }
->  
->  static void __intel_display_power_put(struct drm_i915_private *dev_priv,
-> diff --git a/drivers/gpu/drm/i915/display/intel_quirks.c b/drivers/gpu/drm/i915/display/intel_quirks.c
-> index 8a52b7a16774..c377f515bbf4 100644
-> --- a/drivers/gpu/drm/i915/display/intel_quirks.c
-> +++ b/drivers/gpu/drm/i915/display/intel_quirks.c
-> @@ -59,6 +59,13 @@ static void quirk_no_pps_backlight_power_hook(struct drm_i915_private *i915)
->  	drm_info(&i915->drm, "Applying no pps backlight power quirk\n");
->  }
->  
-> +/* The Xiaomi Mi Pad 2 CHT tablet hangs on enabling the dpio-common-bc well */
-> +static void quirk_no_vlv_disp_pw_dpio_cmn_bc_init(struct drm_i915_private *i915)
+>  /**
+>   * struct ti_sn65dsi86 - Platform data for ti-sn65dsi86 driver.
+>   * @bridge_aux:   AUX-bus sub device for MIPI-to-eDP bridge functionalit=
+y.
+>   * @gpio_aux:     AUX-bus sub device for GPIO controller functionality.
+>   * @aux_aux:      AUX-bus sub device for eDP AUX channel functionality.
+> + * @pwm_aux:      AUX-bus sub device for PWM controller functionality.
+>   *
+>   * @dev:          Pointer to the top level (i2c) device.
+>   * @regmap:       Regmap for accessing i2c.
+> @@ -145,11 +158,17 @@
+>   *                bitmap so we can do atomic ops on it without an extra
+>   *                lock so concurrent users of our 4 GPIOs don't stomp on
+>   *                each other's read-modify-write.
+> + *
+> + * @pchip:        pwm_chip if the PWM is exposed.
+> + * @pwm_enabled:  Used to track if the PWM signal is currently enabled.
+> + * @pwm_pin_busy: Track if GPIO4 is currently requested for GPIO or PWM.
+> + * @pwm_refclk_freq: Cache for the reference clock input to the PWM.
+>   */
+>  struct ti_sn65dsi86 {
+>  	struct auxiliary_device		bridge_aux;
+>  	struct auxiliary_device		gpio_aux;
+>  	struct auxiliary_device		aux_aux;
+> +	struct auxiliary_device		pwm_aux;
+> =20
+>  	struct device			*dev;
+>  	struct regmap			*regmap;
+> @@ -172,6 +191,12 @@ struct ti_sn65dsi86 {
+>  	struct gpio_chip		gchip;
+>  	DECLARE_BITMAP(gchip_output, SN_NUM_GPIOS);
+>  #endif
+> +#if defined(CONFIG_PWM)
+> +	struct pwm_chip			pchip;
+> +	bool				pwm_enabled;
+> +	atomic_t			pwm_pin_busy;
+> +#endif
+> +	unsigned int			pwm_refclk_freq;
+>  };
+> =20
+>  static const struct regmap_range ti_sn65dsi86_volatile_ranges[] =3D {
+> @@ -190,6 +215,21 @@ static const struct regmap_config ti_sn65dsi86_regma=
+p_config =3D {
+>  	.cache_type =3D REGCACHE_NONE,
+>  };
+> =20
+> +static int ti_sn65dsi86_read_u16(struct ti_sn65dsi86 *pdata,
+> +				 unsigned int reg, u16 *val)
 > +{
-> +	i915->quirks |= QUIRK_NO_VLV_DISP_PW_DPIO_CMN_BC_INIT;
-> +	drm_info(&i915->drm, "Applying no dpio-common-bc powerwell init quirk\n");
+> +	u8 buf[2];
+> +	int ret;
+> +
+> +	ret =3D regmap_bulk_read(pdata->regmap, reg, buf, ARRAY_SIZE(buf));
+> +	if (ret)
+> +		return ret;
+> +
+> +	*val =3D buf[0] | (buf[1] << 8);
+> +
+> +	return 0;
 > +}
 > +
->  struct intel_quirk {
->  	int device;
->  	int subsystem_vendor;
-> @@ -190,6 +197,9 @@ static struct intel_quirk intel_quirks[] = {
->  	/* ASRock ITX*/
->  	{ 0x3185, 0x1849, 0x2212, quirk_increase_ddi_disabled_time },
->  	{ 0x3184, 0x1849, 0x2212, quirk_increase_ddi_disabled_time },
+>  static void ti_sn65dsi86_write_u16(struct ti_sn65dsi86 *pdata,
+>  				   unsigned int reg, u16 val)
+>  {
+> @@ -254,6 +294,12 @@ static void ti_sn_bridge_set_refclk_freq(struct ti_s=
+n65dsi86 *pdata)
+> =20
+>  	regmap_update_bits(pdata->regmap, SN_DPPLL_SRC_REG, REFCLK_FREQ_MASK,
+>  			   REFCLK_FREQ(i));
 > +
-> +	/* Xiaomi Mi Pad 2 */
-> +	{ 0x22b0, 0x1d72, 0x1502, quirk_no_vlv_disp_pw_dpio_cmn_bc_init },
+> +	/*
+> +	 * The PWM refclk is based on the value written to SN_DPPLL_SRC_REG,
+> +	 * regardless of its actual sourcing.
+> +	 */
+> +	pdata->pwm_refclk_freq =3D ti_sn_bridge_refclk_lut[i];
+>  }
+> =20
+>  static void ti_sn65dsi86_enable_comms(struct ti_sn65dsi86 *pdata)
+> @@ -1260,9 +1306,289 @@ static struct auxiliary_driver ti_sn_bridge_drive=
+r =3D {
 >  };
->  
->  void intel_init_quirks(struct drm_i915_private *i915)
-> diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
-> index 005b1cec7007..b907b49b4f0e 100644
-> --- a/drivers/gpu/drm/i915/i915_drv.h
-> +++ b/drivers/gpu/drm/i915/i915_drv.h
-> @@ -524,6 +524,7 @@ struct i915_drrs {
->  #define QUIRK_INCREASE_T12_DELAY (1<<6)
->  #define QUIRK_INCREASE_DDI_DISABLED_TIME (1<<7)
->  #define QUIRK_NO_PPS_BACKLIGHT_POWER_HOOK (1<<8)
-> +#define QUIRK_NO_VLV_DISP_PW_DPIO_CMN_BC_INIT (1<<9)
->  
->  struct intel_fbdev;
->  struct intel_fbc_work;
+> =20
+>  /* ---------------------------------------------------------------------=
+--------
+> - * GPIO Controller
+> + * PWM Controller
+>   */
+> +#if defined(CONFIG_PWM)
+> +static int ti_sn_pwm_pin_request(struct ti_sn65dsi86 *pdata)
+> +{
+> +	return atomic_xchg(&pdata->pwm_pin_busy, 1) ? -EBUSY : 0;
+> +}
+> +
+> +static void ti_sn_pwm_pin_release(struct ti_sn65dsi86 *pdata)
+> +{
+> +	atomic_set(&pdata->pwm_pin_busy, 0);
+> +}
+> +
+> +static struct ti_sn65dsi86 *pwm_chip_to_ti_sn_bridge(struct pwm_chip *ch=
+ip)
+> +{
+> +	return container_of(chip, struct ti_sn65dsi86, pchip);
+> +}
+> +
+> +static int ti_sn_pwm_request(struct pwm_chip *chip, struct pwm_device *p=
+wm)
+> +{
+> +	struct ti_sn65dsi86 *pdata =3D pwm_chip_to_ti_sn_bridge(chip);
+> =20
+> +	return ti_sn_pwm_pin_request(pdata);
+> +}
+> +
+> +static void ti_sn_pwm_free(struct pwm_chip *chip, struct pwm_device *pwm)
+> +{
+> +	struct ti_sn65dsi86 *pdata =3D pwm_chip_to_ti_sn_bridge(chip);
+> +
+> +	ti_sn_pwm_pin_release(pdata);
+> +}
+> +
+> +/*
+> + * Limitations:
+> + * - The PWM signal is not driven when the chip is powered down, or in i=
+ts
+> + *   reset state and the driver does not implement the "suspend state"
+> + *   described in the documentation. In order to save power, state->enab=
+led is
+> + *   interpreted as denoting if the signal is expected to be valid, and =
+is used
+> + *   to determine if the chip needs to be kept powered.
+> + * - Changing both period and duty_cycle is not done atomically, neither=
+ is the
+> + *   multi-byte register updates, so the output might briefly be undefin=
+ed
+> + *   during update.
+> + */
+> +static int ti_sn_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
+> +			   const struct pwm_state *state)
+> +{
+> +	struct ti_sn65dsi86 *pdata =3D pwm_chip_to_ti_sn_bridge(chip);
+> +	unsigned int pwm_en_inv;
+> +	unsigned int backlight;
+> +	unsigned int pre_div;
+> +	unsigned int scale;
+> +	u64 period_max;
+> +	u64 period;
+> +	int ret;
+> +
+> +	if (!pdata->pwm_enabled) {
+> +		ret =3D pm_runtime_get_sync(pdata->dev);
+> +		if (ret < 0) {
+> +			pm_runtime_put_sync(pdata->dev);
+> +			return ret;
+> +		}
+> +	}
+> +
+> +	if (state->enabled) {
+> +		if (!pdata->pwm_enabled) {
+> +			/*
+> +			 * The chip might have been powered down while we
+> +			 * didn't hold a PM runtime reference, so mux in the
+> +			 * PWM function on the GPIO pin again.
+> +			 */
+> +			ret =3D regmap_update_bits(pdata->regmap, SN_GPIO_CTRL_REG,
+> +						 SN_GPIO_MUX_MASK << (2 * SN_PWM_GPIO_IDX),
+> +						 SN_GPIO_MUX_SPECIAL << (2 * SN_PWM_GPIO_IDX));
+> +			if (ret) {
+> +				dev_err(pdata->dev, "failed to mux in PWM function\n");
+> +				goto out;
+> +			}
+> +		}
+> +
+> +		/*
+> +		 * Per the datasheet the PWM frequency is given by:
+> +		 *
+> +		 *                          REFCLK_FREQ
+> +		 *   PWM_FREQ =3D -----------------------------------
+> +		 *               PWM_PRE_DIV * BACKLIGHT_SCALE + 1
+> +		 *
+> +		 * However, after careful review the author is convinced that
+> +		 * the documentation has lost some parenthesis around
+> +		 * "BACKLIGHT_SCALE + 1".
+> +		 * With that the formula can be written:
+> +		 *
+> +		 *   T_pwm * REFCLK_FREQ =3D PWM_PRE_DIV * (BACKLIGHT_SCALE + 1)
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
+For my understanding: T_pwm =3D period length =3D 1 / PWM_FREQ, right? Maybe
+it's a good idea to state this more explicitly?
+
+> +		 * In order to keep BACKLIGHT_SCALE within its 16 bits,
+> +		 * PWM_PRE_DIV must be:
+> +		 *
+> +		 *                     T_pwm * REFCLK_FREQ
+> +		 *   PWM_PRE_DIV >=3D -------------------------
+> +		 *                   BACKLIGHT_SCALE_MAX + 1
+> +		 *
+> +		 * To simplify the search and to favour higher resolution of
+> +		 * the duty cycle over accuracy of the period, the lowest
+> +		 * possible PWM_PRE_DIV is used. Finally the scale is
+> +		 * calculated as:
+> +		 *
+> +		 *                      T_pwm * REFCLK_FREQ
+> +		 *   BACKLIGHT_SCALE =3D ---------------------- - 1
+> +		 *                          PWM_PRE_DIV
+> +		 *
+> +		 * Here T_pwm is represented in seconds, so appropriate scaling
+> +		 * to nanoseconds is necessary.
+> +		 */
+> +
+> +		/* Minimum T_pwm is 1 / REFCLK_FREQ */
+> +		if (state->period <=3D NSEC_PER_SEC / pdata->pwm_refclk_freq) {
+> +			ret =3D -EINVAL;
+> +			goto out;
+> +		}
+> +
+> +		/*
+> +		 * Maximum T_pwm is 255 * (65535 + 1) / REFCLK_FREQ
+> +		 * Limit period to this to avoid overflows
+> +		 */
+> +		period_max =3D div_u64((u64)NSEC_PER_SEC * 255 * (65535 + 1),
+> +				     pdata->pwm_refclk_freq);
+> +		if (period > period_max)
+
+period is uninitialized here. This must be
+
+		if (state->period > period_max)
+
+=2E Alternatively to the if you could use
+
+		period =3D min(state->period, period_max);
+
+
+Apart from this I'm happy with your patch set now.
+
+> +			period =3D period_max;
+> +		else
+> +			period =3D state->period;
+> +
+> +		pre_div =3D DIV64_U64_ROUND_UP(period * pdata->pwm_refclk_freq,
+> +					     (u64)NSEC_PER_SEC * (BACKLIGHT_SCALE_MAX + 1));
+> +		scale =3D div64_u64(period * pdata->pwm_refclk_freq, (u64)NSEC_PER_SEC=
+ * pre_div) - 1;
+
+After thinking a while about this---I think I stumbled about this
+calculation already in earlier revisions of this patch set---I think I
+now understood it. I never saw something like this before because other
+drivers with similar HW conditions would pick:
+
+	pre_div =3D div64_u64(period * pdata->pwm_refclk_freq,
+			    (u64)NSEC_PER_SEC * (BACKLIGHT_SCALE_MAX + 1));
+
+and then scale =3D BACKLIGHT_SCALE_MAX. This latter approach weights high
+resolution of duty_cycle still higher over period exactness than your
+approach. For me both approaches are fine.
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--cuexqcw75bfvdr5f
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmF2bgYACgkQwfwUeK3K
+7AlbLQf/dX7AFhR4SnjkB5ypnLpUDz3ofrD8uilpwTivEN2u1nY3Er7vtUzJJ43m
+EXBzk6PsLNTcs7032S7vPO1DVqHnWDHUhzaij4ePftrbPG7RQGOH85UBm67nJHj6
+VM9fKpSO5k3mSMurhLKf3hhNyz6Qr6OyyYJMFzIrGBWvuaD8wPww6CyYImD+NRJS
+t5uXV8Q/IWCWm9FDoOBGZoW/YoUHMpDydpwfHXDpUEZugqhduPb1346W5kWxQknW
+84xyN9gFq+CSZQjnDj1yDgUnvsNOQe5np86zZgHTsSX9kTKgLXEY8UIbd9aIKcLC
+R0ARA5/b96lOA7iorCZq1455FU2QTg==
+=9lPG
+-----END PGP SIGNATURE-----
+
+--cuexqcw75bfvdr5f--
