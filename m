@@ -2,73 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDE86439A68
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Oct 2021 17:26:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAC04439A74
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Oct 2021 17:29:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B674A6E063;
-	Mon, 25 Oct 2021 15:26:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED35F6E0AC;
+	Mon, 25 Oct 2021 15:29:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x231.google.com (mail-oi1-x231.google.com
- [IPv6:2607:f8b0:4864:20::231])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A7386E063
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Oct 2021 15:26:13 +0000 (UTC)
-Received: by mail-oi1-x231.google.com with SMTP id q129so16111032oib.0
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Oct 2021 08:26:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=p4DTS+XDrRU1zoDF0JXsJDKfzlw1Jx2jETNT5iMePnI=;
- b=g2mOb7t41N5cc6GiB6ZWW8pit9ZMFe7sLknkU8KdXdL+pOnmDmId3kzmHS4y0DtBpw
- I32xsjou3/rS4rnA+q4kYdvturfTXNlWEso0uvlQFO2DEmEqVQ65bRt3ouiS/5iEYAA7
- e1iVvseAu+CdriJ4zt2zMeWIBXO1FUjPbaxZwclrkzofT3BZLGKgom6aztrN9cwjGKd3
- pBhMmEYMMQa4Yssj1VLaiUdEndOq5LU7c7Qm76pD9Xuz11TflCmhq7J9c2fIlByX/yBl
- dFEAz+0ixVWJf9fvHKKMlW/mdsZSyq24e2DFQqxx1D2rxllUJ+ZQNdQmeL61FGXOR77i
- rozg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=p4DTS+XDrRU1zoDF0JXsJDKfzlw1Jx2jETNT5iMePnI=;
- b=XLEfYvyKgHyZ6Bd7iKMSy85i0N/gtMfD/toDGyZN6+ceuvCjY08mEP+1PM7VehWgbV
- UXGJtVDzmL+sr3jgVNXVNeEtVsg6XPoS/T9WXUpey52VHdMnn8FTQ2aRU+MJRNkB0QTz
- GClxtmz1osvSBPP8UCCPkzzd1oEJpFda6OEx3ZxUm7yyR7+BbS0+cvsEMHsvXd0JFpjx
- uEL77SZz2SFAl3dvfvC52nsAgqKks0GX1zXLWzDrv0jloLk3TgRiCwDbbAdd/gkMBq3E
- ht8mU/aH+2DEg+7poOuwIVnel16qOWf/nOVBgUm3TwiC3e4WUDwpBPc7TsXEtvmm3zzd
- O5Mw==
-X-Gm-Message-State: AOAM531am2Ra/tQQPah+P7VRx97LSqo0FbSEkeREAEDkkQYgMDZFsExc
- z9DiWabYRCGQRQ3mC3Uw4HOTeA==
-X-Google-Smtp-Source: ABdhPJz+aGu1DW+AHAHdR7S/AfP0mjfSmCKCdM4kWHzZY7VGk5rnkngQoMCvlKGwWg4u8iN0ZVtFRQ==
-X-Received: by 2002:aca:a817:: with SMTP id r23mr12992262oie.71.1635175572431; 
- Mon, 25 Oct 2021 08:26:12 -0700 (PDT)
-Received: from ripper ([2600:1700:a0:3dc8:205:1bff:fec0:b9b3])
- by smtp.gmail.com with ESMTPSA id bn41sm3688631oib.43.2021.10.25.08.26.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 25 Oct 2021 08:26:11 -0700 (PDT)
-Date: Mon, 25 Oct 2021 08:27:48 -0700
-From: Bjorn Andersson <bjorn.andersson@linaro.org>
-To: Uwe Kleine-K?nig <u.kleine-koenig@pengutronix.de>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Robert Foss <robert.foss@linaro.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Thierry Reding <thierry.reding@gmail.com>,
- Lee Jones <lee.jones@linaro.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, Doug Anderson <dianders@google.com>
-Subject: Re: [PATCH v6 3/3] drm/bridge: ti-sn65dsi86: Implement the pwm_chip
-Message-ID: <YXbM9Pnxpo50TQy+@ripper>
-References: <20210930030557.1426-1-bjorn.andersson@linaro.org>
- <20210930030557.1426-3-bjorn.andersson@linaro.org>
- <20211025084250.pkd5s4zdmevjjl7m@pengutronix.de>
+Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
+ [66.111.4.229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C6BF96E0AC
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Oct 2021 15:29:06 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 1E5305806D0;
+ Mon, 25 Oct 2021 11:29:06 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Mon, 25 Oct 2021 11:29:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ from:to:cc:subject:date:message-id:content-type:mime-version
+ :content-transfer-encoding; s=fm1; bh=+uHGLlaZStEUDZoEdeccQ37+kW
+ /i83PHcozXaWvbhgo=; b=IURZZj7zFAQUDtumk7HJCgGhkTR9/yGbRxtF+fBxL4
+ 0ej6P1oMAmIfKiAZWAC+WBKBiDXkc0JDm+GzwU10rNQGFeq92g37i9imH/exTPbj
+ nad8gr48jfLdnp5sWR0CNGQ1NmojYrQ1TKoHFRP4OB6Myu91uZs4bV1xWO+H1AJq
+ ibtCgkteujo2gvHKRpsSeC6VFdX8WHKDLlBr4RVFdKezAfWPYnTWIxXPzMnyPzI6
+ 9+SSrvNh0FKQ/KGpInUGmqC9KiiMNQZhzDl74IHpHh5F/s6lZgUb7na5EAaPwb6L
+ LUFCNDuUx/upIimw5TaJwvMVTg38PD56tNUGf7qV1HBA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:message-id:mime-version:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=+uHGLl
+ aZStEUDZoEdeccQ37+kW/i83PHcozXaWvbhgo=; b=TA8ZJsNTbMABO8HVsVkuF0
+ 31fM+dnI2LcQirKoKy85RBrBIOf4TxefLO606cv2FK7NtxjU2aI+w0R15gudTwdW
+ DEE1htwJlDOUs7pq1+OyjbS0wKc03RxIh6V4b3NtslhiqfibBRCP8FZsmJdUkcx6
+ PoHJ3LylJIa2kbl9sjvK8N8Aq7hTCggzLhyj6kC5ggmgxSt/WK/aGgs3diq9DWVc
+ zz3yNRqU62425OXrd6YhBwhNWA3dgiK9z/PTmf4iEIz53NB50dOm9kUEEsqz53wO
+ 28W5oR+qPS/QieV1y2ykKxzxOMrAf7A7tPXX2IZNUAt01rKPUfaynQesPQ95Jvjw
+ ==
+X-ME-Sender: <xms:Qc12Yc9FleVOWhV4_PJi75A6OMVULPZ7WHzyoIT_zgN1tWX6JrQtmg>
+ <xme:Qc12YUvPEALPBYUnkMfNLZOQmYk5VimrTocYXBtvB5q9616B-WJvKtqttay1OY4lz
+ gje-8elDX-j-SYvURQ>
+X-ME-Received: <xmr:Qc12YSD96RWCKOCDZ5jvsudhoJLo2sMNTVTpMmCdBIQ38Kf4i0M6j8gKvIGAgTgVIxzmGidO7D9ADleBktRwMQGoDnbB2GR5wiKstucg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrvdefhedgkeeiucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhephffvufffkffotggggfesthhqredtredtjeenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+ gvrhhnpeetieekgfffkeegkeeltdehudetteejgfekueevhffhteegudfgkedtueegfffg
+ feenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
+ igihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:Qc12Ycfybuy5J96TLlC--HUhy6_ZVYx9OdZxD-NbNz_-XX9D5jdomg>
+ <xmx:Qc12YRPtE_e-LJVGvtPur2VsbUlTPsUn-tZcU2M_iNt41LT2azgflQ>
+ <xmx:Qc12YWmf5aLGAlfJau_t7vIwlkFq5dktduXx4ymaF2BDn_Eu8HjUtg>
+ <xmx:Qs12YYluawrdLUQmrtX6eNAA2-2kXoZHNynhgM-7gavXa4Gx24dAQQ>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 25 Oct 2021 11:29:04 -0400 (EDT)
+From: Maxime Ripard <maxime@cerno.tech>
+To: dri-devel@lists.freedesktop.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>,
+ Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>
+Cc: linux-rpi-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ Maxime Ripard <mripard@kernel.org>,
+ Nicolas Saenz Julienne <nsaenz@kernel.org>,
+ bcm-kernel-feedback-list@broadcom.com, Emma Anholt <emma@anholt.net>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Phil Elwell <phil@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
+ Dom Cobley <dom@raspberrypi.com>
+Subject: [PATCH v8 00/10] drm/vc4: hdmi: Support the 4k @ 60Hz modes
+Date: Mon, 25 Oct 2021 17:28:53 +0200
+Message-Id: <20211025152903.1088803-1-maxime@cerno.tech>
+X-Mailer: git-send-email 2.31.1
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20211025084250.pkd5s4zdmevjjl7m@pengutronix.de>
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,170 +90,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon 25 Oct 01:42 PDT 2021, Uwe Kleine-K?nig wrote:
-
-> Hello,
-> 
-> [replaced Andrzej Hajda's email address with his new one]
-> 
-> On Wed, Sep 29, 2021 at 10:05:57PM -0500, Bjorn Andersson wrote:
-> > The SN65DSI86 provides the ability to supply a PWM signal on GPIO 4,
-> > with the primary purpose of controlling the backlight of the attached
-> > panel. Add an implementation that exposes this using the standard PWM
-> > framework, to allow e.g. pwm-backlight to expose this to the user.
-> 
-> Sorry for the long delay in reviewing this.
-> 
-
-No worries, glad to hear from you again.
-
-> > Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-> > ---
-> > 
-[..]
-> > +static int ti_sn_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
-> > +			   const struct pwm_state *state)
-> > +{
-> > +	struct ti_sn65dsi86 *pdata = pwm_chip_to_ti_sn_bridge(chip);
-> > +	unsigned int pwm_en_inv;
-> > +	unsigned int backlight;
-> > +	unsigned int pre_div;
-> > +	unsigned int scale;
-> > +	u64 period_max;
-> > +	u64 period;
-> > +	int ret;
-> > +
-> > +	if (!pdata->pwm_enabled) {
-> > +		ret = pm_runtime_get_sync(pdata->dev);
-> > +		if (ret < 0) {
-> > +			pm_runtime_put_sync(pdata->dev);
-> > +			return ret;
-> > +		}
-> > +	}
-> > +
-> > +	if (state->enabled) {
-> > +		if (!pdata->pwm_enabled) {
-> > +			/*
-> > +			 * The chip might have been powered down while we
-> > +			 * didn't hold a PM runtime reference, so mux in the
-> > +			 * PWM function on the GPIO pin again.
-> > +			 */
-> > +			ret = regmap_update_bits(pdata->regmap, SN_GPIO_CTRL_REG,
-> > +						 SN_GPIO_MUX_MASK << (2 * SN_PWM_GPIO_IDX),
-> > +						 SN_GPIO_MUX_SPECIAL << (2 * SN_PWM_GPIO_IDX));
-> > +			if (ret) {
-> > +				dev_err(pdata->dev, "failed to mux in PWM function\n");
-> > +				goto out;
-> > +			}
-> > +		}
-> > +
-> > +		/*
-> > +		 * Per the datasheet the PWM frequency is given by:
-> > +		 *
-> > +		 *                          REFCLK_FREQ
-> > +		 *   PWM_FREQ = -----------------------------------
-> > +		 *               PWM_PRE_DIV * BACKLIGHT_SCALE + 1
-> > +		 *
-> > +		 * However, after careful review the author is convinced that
-> > +		 * the documentation has lost some parenthesis around
-> > +		 * "BACKLIGHT_SCALE + 1".
-> > +		 * With that the formula can be written:
-> > +		 *
-> > +		 *   T_pwm * REFCLK_FREQ = PWM_PRE_DIV * (BACKLIGHT_SCALE + 1)
-> 
-> For my understanding: T_pwm = period length = 1 / PWM_FREQ, right? Maybe
-> it's a good idea to state this more explicitly?
-> 
-
-Correct. I've improved the comment accordingly.
-
-> > +		 * In order to keep BACKLIGHT_SCALE within its 16 bits,
-> > +		 * PWM_PRE_DIV must be:
-> > +		 *
-> > +		 *                     T_pwm * REFCLK_FREQ
-> > +		 *   PWM_PRE_DIV >= -------------------------
-> > +		 *                   BACKLIGHT_SCALE_MAX + 1
-> > +		 *
-> > +		 * To simplify the search and to favour higher resolution of
-> > +		 * the duty cycle over accuracy of the period, the lowest
-> > +		 * possible PWM_PRE_DIV is used. Finally the scale is
-> > +		 * calculated as:
-> > +		 *
-> > +		 *                      T_pwm * REFCLK_FREQ
-> > +		 *   BACKLIGHT_SCALE = ---------------------- - 1
-> > +		 *                          PWM_PRE_DIV
-> > +		 *
-> > +		 * Here T_pwm is represented in seconds, so appropriate scaling
-> > +		 * to nanoseconds is necessary.
-> > +		 */
-> > +
-> > +		/* Minimum T_pwm is 1 / REFCLK_FREQ */
-> > +		if (state->period <= NSEC_PER_SEC / pdata->pwm_refclk_freq) {
-> > +			ret = -EINVAL;
-> > +			goto out;
-> > +		}
-> > +
-> > +		/*
-> > +		 * Maximum T_pwm is 255 * (65535 + 1) / REFCLK_FREQ
-> > +		 * Limit period to this to avoid overflows
-> > +		 */
-> > +		period_max = div_u64((u64)NSEC_PER_SEC * 255 * (65535 + 1),
-> > +				     pdata->pwm_refclk_freq);
-> > +		if (period > period_max)
-> 
-> period is uninitialized here. This must be
-> 
-> 		if (state->period > period_max)
-> 
-> . Alternatively to the if you could use
-> 
-> 		period = min(state->period, period_max);
-> 
-
-Yes of course.
-
-> 
-> Apart from this I'm happy with your patch set now.
-> 
-
-Thank you.
-
-> > +			period = period_max;
-> > +		else
-> > +			period = state->period;
-> > +
-> > +		pre_div = DIV64_U64_ROUND_UP(period * pdata->pwm_refclk_freq,
-> > +					     (u64)NSEC_PER_SEC * (BACKLIGHT_SCALE_MAX + 1));
-> > +		scale = div64_u64(period * pdata->pwm_refclk_freq, (u64)NSEC_PER_SEC * pre_div) - 1;
-> 
-> After thinking a while about this---I think I stumbled about this
-> calculation already in earlier revisions of this patch set---I think I
-> now understood it. I never saw something like this before because other
-> drivers with similar HW conditions would pick:
-> 
-> 	pre_div = div64_u64(period * pdata->pwm_refclk_freq,
-> 			    (u64)NSEC_PER_SEC * (BACKLIGHT_SCALE_MAX + 1));
-> 
-> and then scale = BACKLIGHT_SCALE_MAX. This latter approach weights high
-> resolution of duty_cycle still higher over period exactness than your
-> approach.
-
-Interesting.
-
-> For me both approaches are fine.
-> 
-
-Thanks, I'll respin with the two minor things above and leave the math
-as is now :)
-
-Regards,
-Bjorn
-
-> Best regards
-> Uwe
-> 
-> -- 
-> Pengutronix e.K.                           | Uwe Kleine-König            |
-> Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
-
+Hi,=0D
+=0D
+Here is a series that enables the higher resolutions on the HDMI0 Controlle=
+r=0D
+found in the BCM2711 (RPi4).=0D
+=0D
+In order to work it needs a few adjustments to config.txt, most notably to=
+=0D
+enable the enable_hdmi_4kp60 option.=0D
+=0D
+Let me know what you think,=0D
+Maxime=0D
+=0D
+---=0D
+=0D
+Changes from v7:=0D
+  - Rebased on current drm-misc-next=0D
+=0D
+Changes from v6:=0D
+  - Rebased on current drm-misc-next=0D
+  - Removed stale clk_request pointer=0D
+=0D
+Changes from v5:=0D
+  - Fixed unused variables warning=0D
+=0D
+Changes from v4:=0D
+  - Removed the patches already applied=0D
+  - Added various fixes for the issues that have been discovered on the=0D
+    downstream tree=0D
+=0D
+Changes from v3:=0D
+  - Rework the encoder retrieval code that was broken on the RPi3 and older=
+=0D
+  - Fix a scrambling enabling issue on some display=0D
+=0D
+Changes from v2:=0D
+  - Gathered the various tags=0D
+  - Added Cc stable when relevant=0D
+  - Split out the check to test whether the scrambler is required into=0D
+    an helper=0D
+  - Fixed a bug where the scrambler state wouldn't be tracked properly=0D
+    if it was enabled at boot=0D
+=0D
+Changes from v1:=0D
+  - Dropped the range accessors=0D
+  - Drop the mention of force_turbo=0D
+  - Reordered the SCRAMBLER_CTL register to match the offset=0D
+  - Removed duplicate HDMI_14_MAX_TMDS_CLK define=0D
+  - Warn about enable_hdmi_4kp60 only if there's some modes that can't be r=
+eached=0D
+  - Rework the BVB clock computation=0D
+=0D
+Maxime Ripard (10):=0D
+  drm/vc4: hdmi: Remove the DDC probing for status detection=0D
+  drm/vc4: hdmi: Fix HPD GPIO detection=0D
+  drm/vc4: Make vc4_crtc_get_encoder public=0D
+  drm/vc4: crtc: Add encoder to vc4_crtc_config_pv prototype=0D
+  drm/vc4: crtc: Rework the encoder retrieval code (again)=0D
+  drm/vc4: crtc: Add some logging=0D
+  drm/vc4: Leverage the load tracker on the BCM2711=0D
+  drm/vc4: hdmi: Raise the maximum clock rate=0D
+  drm/vc4: hdmi: Enable the scrambler on reconnection=0D
+  drm/vc4: Increase the core clock based on HVS load=0D
+=0D
+ drivers/gpu/drm/vc4/vc4_crtc.c    |  60 ++++++++------=0D
+ drivers/gpu/drm/vc4/vc4_debugfs.c |   7 +-=0D
+ drivers/gpu/drm/vc4/vc4_drv.h     |   8 +-=0D
+ drivers/gpu/drm/vc4/vc4_hdmi.c    |  13 +--=0D
+ drivers/gpu/drm/vc4/vc4_kms.c     | 126 +++++++++++++++++++++++++-----=0D
+ drivers/gpu/drm/vc4/vc4_plane.c   |   5 --=0D
+ 6 files changed, 157 insertions(+), 62 deletions(-)=0D
+=0D
+-- =0D
+2.31.1=0D
+=0D
