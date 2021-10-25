@@ -1,61 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 168D6439A25
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Oct 2021 17:16:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0272C439A1B
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Oct 2021 17:16:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E6F056E151;
-	Mon, 25 Oct 2021 15:16:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 84C6A6E0BC;
+	Mon, 25 Oct 2021 15:16:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
  [66.111.4.229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA2536E10F;
- Mon, 25 Oct 2021 15:16:15 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id 33EC55806BC;
- Mon, 25 Oct 2021 11:16:15 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Mon, 25 Oct 2021 11:16:15 -0400
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D23B6E0BC;
+ Mon, 25 Oct 2021 15:16:19 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 7B2E55806C0;
+ Mon, 25 Oct 2021 11:16:18 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute3.internal (MEProxy); Mon, 25 Oct 2021 11:16:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=EN5xePGTNMO0H
- /F8C9iuzf8RZG/qHM1W7ybnkbL4DMs=; b=hlZp1sT3HLSCz/Rhmcq+ASF4Avo88
- FcMod4BawMyaZRg7SCyC1XaEH+8I+CeU7mO2XUQ0y0BfDU6RIazcz2ru3pB0qFNf
- ElQXIvbJ+iRV0fu/44hPtKbzq8Csmm/uoR8KvUZydpF2gw7eElYH650HWWOHxXCz
- lVlwwH3nwrjTOqlm3P9fD2ZOtYhRpJ8YAOJKRblL+LpOeZL4SyZBg+nB4W3kCm96
- DWV5i/C+o9YqR/akW9uv2q6E85QWelbVfNo7hyB3g01SJXPIduFvTzBunaJAwbDF
- aIWclJhLAIhDwuMsxRyb5e6AXPE9+YwlAyAMarEh03Tt05/AxoSqzWHJQ==
+ :mime-version:content-transfer-encoding; s=fm1; bh=aINb3yyNPEGy8
+ 1/IksR4f28ybF+VpRvrF3mAjvmMCck=; b=m2TmID25oAKCCRNJ4zWZNB5aWejsb
+ n7WYWtbVGlSbS0dMzMv26gC+9l3Ehzj1obMWdyE0HxGW4wYaOZRZTw3QID9X8hmL
+ xqvP2IQN8PUm/BeQhW6w5hGZwZ3tZWS1tJXdqoQ9uzjn+u9Lw76Ah6E+VmHHN4LR
+ fkK6E/YNGkMKh3B6Fpz4A3sN5p85QttLz2ElZA2z+62sCkfJRJwQTJWT55sgArtf
+ N9wGiVQWtE2LMMccBAQkh6eO3ZHEKHapJUlQvoOQ58iOHIvAIkrZzbRyjKDo7G4z
+ 7oN/ckPA+2s5aEqpwgE3IAAf1zIYRY/PKnxPiq0v6dsgUbJYj6AadW9HQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=EN5xePGTNMO0H/F8C9iuzf8RZG/qHM1W7ybnkbL4DMs=; b=PuJpfAql
- 7IgjLU8t2bvI5bLrB18yexPm/4im/DZXovQsMcRv1y6kL/goOgy8b8m45GS5GBpi
- jSeWUPUW5II9wQuQwUhxM/4VNp6W+WufdkOex+2WLWPTJZ8ap5MQsvHaQvAI3qQh
- ZO4L+exvP+Lq79FsPoU2uVUEbjfxPqMjJEmWyymwqlpc/fQbNOQ91YbN8pHrR4++
- NTSYQW6UNdXyQ5g5BQcoUzwvMVG5m2kmaoNMVTjo7Z1vZh7K9nBFqisYCa392cOh
- V6OdZb8WdIq8oj7DMzhIi+3S0+4uF85w8P1TtukFkx45clZ0yIWSn+gc3FNXsY4R
- 6g22smeQcmwmpA==
-X-ME-Sender: <xms:P8p2YRk3pKjfNjFsWunWu8qNhT98WxHKuCDFRzzjjFrWrn_yMEuleA>
- <xme:P8p2Yc0HbhiC9kYzeBWHZuYSi2VYRMTUDsdnnrmlREfySIU3dE0tE-ijKg0MSH_eo
- Qflf2kaU289kn6M61I>
-X-ME-Received: <xmr:P8p2YXrYNzDAYSKk1seDpXifLXr_CGSUsMkWWTboAZGKFSDcMK-DMHXzPZ-VzNpZAyoiyihKudkOzDEz6Um9JAijiw34kQmyM16RTh5_>
+ fm1; bh=aINb3yyNPEGy81/IksR4f28ybF+VpRvrF3mAjvmMCck=; b=QxNL/KMm
+ gNifumTn7jZ7sn7osNTjOBm3g6jfTZLQcPqfKACTlaimUdZHOTUQuBG314n00h3o
+ DF1hY/WuQOEKndIeYbvxaqbbuSdVO3zxoK4bVHzjE7y5ZyCBpxyp8gJqdQgG8v3a
+ cTWDz0IvbMW6tuZUGNtst8qxHnXOEQQKe1lad+N3yScaOtRgmnKlAHizs8Q8E19b
+ LChRUUPOv35KT+X+wFgrYduKWmdW0rUon8YI9ZcL81YY4cCi54T2Zq5JY5ZdiAR7
+ TLY5LXquoydjcgOjA8bFF+jhdcohvz5nGQ21eHcpfUyPO5S27tgi7ss+yqgIU9w5
+ 5gl3jD+3WbeG6w==
+X-ME-Sender: <xms:Qcp2Yd3miyaDSKImCrIn8vRRjzb54BMLmpBV3jfirkqNPyU4c-vvRQ>
+ <xme:Qcp2YUH2rdyEAUBuOXsSJJRrjheUCfaQDWeg9B_T-jb8ybnz70EfeLMZddyFfvhf5
+ 26rT8oNHtNSpJ5CIJ0>
+X-ME-Received: <xmr:Qcp2Yd6XnJrpjkiOzXw1WWw-Tg-wlDBe2L03AGyDNCejVhkXHXbyILMbxBFPFmk2PxgozTMc08HgVxGdxtnxKEDr5mKmxfLZ9EtDWBXb>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrvdefhedgkeefucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpeforgigihhm
  vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
  htvghrnhepvdekleevfeffkeejhfffueelteelfeduieefheduudfggffhhfffheevveeh
- hedvnecuvehluhhsthgvrhfuihiivgepgeenucfrrghrrghmpehmrghilhhfrhhomhepmh
+ hedvnecuvehluhhsthgvrhfuihiivgepvdenucfrrghrrghmpehmrghilhhfrhhomhepmh
  grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:P8p2YRk0oFVmLRIPP_BMustD7YhtLOlbm_UCL4MjWX4CI9ng4Scg9w>
- <xmx:P8p2Yf1oVFXtOfhpiAuTk2RGhjpuYrKQpIC2G213YTz332f1a-TqzA>
- <xmx:P8p2YQueZtstKq538mkM6fafVI72W3T_rH1WViNXjPhLHWQ5Kh4W6A>
- <xmx:P8p2YeBlyliW-aoltrz84qC96NVripHt0nlCt3e3gVVK77vIw_EDyg>
+X-ME-Proxy: <xmx:Qcp2Ya2JqU6_KPZPHBBq765PY7QbY8Y1MTCJuRrm-4WuBkqY6n7BIQ>
+ <xmx:Qcp2YQHRoP1EfOxMEwKIxGqpvt8TIWwew7kurU1HtHhD2_5tNCDbTA>
+ <xmx:Qcp2Yb9_EoV1H9wFWTbBrgqxXKd5ttt0rPB14UmdRwrXdMI4as3i9w>
+ <xmx:Qsp2YYTZTia2MsZtFevDNy7LfHr2nrpqMKmzKCXCLBsU13CciTrKuA>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 25 Oct 2021 11:16:14 -0400 (EDT)
+ 25 Oct 2021 11:16:16 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Thierry Reding <thierry.reding@gmail.com>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
@@ -75,10 +75,11 @@ Cc: Seung-Woo Kim <sw0312.kim@samsung.com>, linux-arm-msm@vger.kernel.org,
  John Stultz <john.stultz@linaro.org>, linux-kernel@vger.kernel.org,
  Inki Dae <inki.dae@samsung.com>, dri-devel@lists.freedesktop.org,
  freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
- Marek Vasut <marex@denx.de>
-Subject: [PATCH v6 13/21] drm/bridge: sn65dsi83: Fix bridge removal
-Date: Mon, 25 Oct 2021 17:15:28 +0200
-Message-Id: <20211025151536.1048186-14-maxime@cerno.tech>
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v6 14/21] drm/bridge: sn65dsi83: Switch to devm MIPI-DSI
+ helpers
+Date: Mon, 25 Oct 2021 17:15:29 +0200
+Message-Id: <20211025151536.1048186-15-maxime@cerno.tech>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211025151536.1048186-1-maxime@cerno.tech>
 References: <20211025151536.1048186-1-maxime@cerno.tech>
@@ -99,42 +100,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Commit 24417d5b0c00 ("drm/bridge: ti-sn65dsi83: Implement .detach
-callback") moved the unregistration of the bridge DSI device and bridge
-itself to the detach callback.
-
-While this is correct for the DSI device detach and unregistration, the
-bridge is added in the driver probe, and should thus be removed as part
-of its remove callback.
+Let's switch to the new devm MIPI-DSI function to register and attach
+our secondary device. This also avoids leaking the device when we detach
+the bridge but don't remove its driver.
 
 Acked-by: Sam Ravnborg <sam@ravnborg.org>
-Reviewed-by: Marek Vasut <marex@denx.de>
-Fixes: 24417d5b0c00 ("drm/bridge: ti-sn65dsi83: Implement .detach callback")
+Tested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/bridge/ti-sn65dsi83.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/bridge/ti-sn65dsi83.c | 12 +++---------
+ 1 file changed, 3 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-index 52030a82f3e1..3bfd07caf8d7 100644
+index 3bfd07caf8d7..539edd2c19f5 100644
 --- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
 +++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-@@ -297,7 +297,6 @@ static void sn65dsi83_detach(struct drm_bridge *bridge)
+@@ -262,7 +262,7 @@ static int sn65dsi83_attach(struct drm_bridge *bridge,
+ 		return -EPROBE_DEFER;
+ 	}
  
- 	mipi_dsi_detach(ctx->dsi);
- 	mipi_dsi_device_unregister(ctx->dsi);
--	drm_bridge_remove(&ctx->bridge);
+-	dsi = mipi_dsi_device_register_full(host, &info);
++	dsi = devm_mipi_dsi_device_register_full(dev, host, &info);
+ 	if (IS_ERR(dsi)) {
+ 		return dev_err_probe(dev, PTR_ERR(dsi),
+ 				     "failed to create dsi device\n");
+@@ -274,18 +274,14 @@ static int sn65dsi83_attach(struct drm_bridge *bridge,
+ 	dsi->format = MIPI_DSI_FMT_RGB888;
+ 	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST;
+ 
+-	ret = mipi_dsi_attach(dsi);
++	ret = devm_mipi_dsi_attach(dev, dsi);
+ 	if (ret < 0) {
+ 		dev_err(dev, "failed to attach dsi to host\n");
+-		goto err_dsi_attach;
++		return ret;
+ 	}
+ 
+ 	return drm_bridge_attach(bridge->encoder, ctx->panel_bridge,
+ 				 &ctx->bridge, flags);
+-
+-err_dsi_attach:
+-	mipi_dsi_device_unregister(dsi);
+-	return ret;
+ }
+ 
+ static void sn65dsi83_detach(struct drm_bridge *bridge)
+@@ -295,8 +291,6 @@ static void sn65dsi83_detach(struct drm_bridge *bridge)
+ 	if (!ctx->dsi)
+ 		return;
+ 
+-	mipi_dsi_detach(ctx->dsi);
+-	mipi_dsi_device_unregister(ctx->dsi);
  	ctx->dsi = NULL;
  }
  
-@@ -693,6 +692,7 @@ static int sn65dsi83_remove(struct i2c_client *client)
- {
- 	struct sn65dsi83 *ctx = i2c_get_clientdata(client);
- 
-+	drm_bridge_remove(&ctx->bridge);
- 	of_node_put(ctx->host_node);
- 
- 	return 0;
 -- 
 2.31.1
 
