@@ -1,51 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE07743A744
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Oct 2021 00:47:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 150E743A76E
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Oct 2021 00:47:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E2BEE6E39B;
-	Mon, 25 Oct 2021 22:46:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 24D2F6E3C6;
+	Mon, 25 Oct 2021 22:47:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com
- [IPv6:2a00:1450:4864:20::229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5621A6E3C6
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Oct 2021 22:46:15 +0000 (UTC)
-Received: by mail-lj1-x229.google.com with SMTP id u5so15045031ljo.8
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Oct 2021 15:46:15 -0700 (PDT)
+Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com
+ [IPv6:2a00:1450:4864:20::230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 54DE86E3D0
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Oct 2021 22:46:16 +0000 (UTC)
+Received: by mail-lj1-x230.google.com with SMTP id n7so12464511ljp.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Oct 2021 15:46:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=geO1923AWqbQV0ZHVSFZZlCETWhtbpam6KIpanWLvLY=;
- b=DVHEJ18tuxzBcbjTR840zMvey9CCXY2CvoS4fRQuXym6mNzzDQxq1509R9XPaxgT8J
- BQd2inC3sAs5K6b94joZQVgZYL8U0LrlEIBMtYk/MFNrIPA3BY7XxczS8OYyxyJqilOD
- 880F2dmg9+MDhqQK5Cz0O4pCuTMVffCCJL9GCSHDhvkXXtQd56Jv3zkx5XTZam4ncquw
- IuHAy+K82y7IQjENz75atzENY+kGokoZtJkwFnsj1qrhtdefTQ3dNnrXXfhejdN/owvU
- ou/PiwNyOvwogZKVlaoUNdinf9vV2jo+WY9bg01kti2iChZNmg6zLFDCxVLmd2WMBnVS
- LxfA==
+ bh=XhJhoHa09g0eMXcPzvcsak7Gc2B+P6Q69tbTx8m4NvQ=;
+ b=g4lNDzaXWoWnLUPZ36g5NPwv1hrjOWOnXwPfD+IvI+6zsWnp5DCMdjyRCMdQTTmCe3
+ LgqIbs3O45c7jIcep2OzjdpPzmecNIqPCCwbOxhL6GhiRjv83y5f9E6AkmEOpKfq49dc
+ N1iCKrMuxF5ghJLJ7iLcB+8Y0x3sAki9QxI30bG3pozVBsTlLSWv44KDuhwTOl6/P+o9
+ i4to7W/zgwTrNK9xiza9rpv0rL4fJY4Bbv4/W1mNOW8sS/Hrd6HX6B77Mma0Jp0POqv/
+ +ES8lNPKt3dv6y+iiUf5NhGpOHAgv604vY4m5nPNJnOuOfgADErV1ZQ6PGPzH12N2TcF
+ X3zg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=geO1923AWqbQV0ZHVSFZZlCETWhtbpam6KIpanWLvLY=;
- b=EfDUUa0Q9W/0OkRkv22yXsFibaamCqpOX/dJ2RivV0wvWl2Dyb9zRYl9HhotXEFWw7
- YWBunYaBblUTf86EKzwSsX6CViUS6k84F1hzftUYmQqpIsPubPv8O2xtRENn3CFjaF30
- 3ndXEdPbnI5CrL+yq2LgMxNqLxn/9ibaKMVdNuVWDe+0B3QBCQ/2a0+dze5vTJ0prOK4
- l58LH9ufbpt336EwohW4bJElg6GXBsY02bvNAjMF4TWno+S7Smg1hd2sy/q7a80wjHne
- tM8JvZ9vAy030hnjQZ+GzkEPkRcRmscgqeP2GHuvcx6FpJUQ6m91IbpUrGHM6I4npCBD
- /Vcg==
-X-Gm-Message-State: AOAM533ZlRNklFepdzf/ZyWRa+AXX0kmqx8jAe6NusAC8Xqhyjxo8dSR
- OxuPM2CYgu0bdspREvjCZHs=
-X-Google-Smtp-Source: ABdhPJwZZ6JrYXaHlvUTnSapnMScCELz6b/X2rjYOT7ih4JhhzNhVrQbb3VcD2jBz2wtN+9v9xeRvQ==
-X-Received: by 2002:a05:651c:c5:: with SMTP id 5mr21766849ljr.48.1635201973727; 
- Mon, 25 Oct 2021 15:46:13 -0700 (PDT)
+ bh=XhJhoHa09g0eMXcPzvcsak7Gc2B+P6Q69tbTx8m4NvQ=;
+ b=qosC/8b7R2WY1xCfAYYpTonVB7bbgLN2hMl1u+u7WdoYd9CzyvWwUX3GqBgpMD5BrH
+ Mroh5Fsi/5TQha8HmHtZbmJHlLMOn4/zX7pbrKxCyeIVmdxVwmkjX2p/BzcTyR2Wz2wU
+ xEFhhpjE6zSUKs4Td0mgd+jOkl7Pk50oEtO082KISbupBvXbkWR+ma5FuZBmIjvDdK7a
+ xfONJjzzVStmNgGz7mYehzG/3EF+RmjlLfKIhBiaWWwFP4YKX+NA91YOkuFxe3zuKvJH
+ sWuV8KuXWs+7d4sBM0YM6W9JccfxV3fQdCClvxk88DeY/+pzyvAJ984o7w50f3WOgvJW
+ fcuQ==
+X-Gm-Message-State: AOAM530aqQcv1hCOjnUhH8wjDBFAFEaHtqbr39GVfmg0hVlOW17PmRtM
+ c5OdOyicQroKGHGIF3NMfYs=
+X-Google-Smtp-Source: ABdhPJx19huNzK+qkOsecJzciIfqsQoAzle0v8di7zqWT9JJN0+HUZjnnILNgbhPItf4hiomO38dkA==
+X-Received: by 2002:a2e:9891:: with SMTP id b17mr22400671ljj.391.1635201974621; 
+ Mon, 25 Oct 2021 15:46:14 -0700 (PDT)
 Received: from localhost.localdomain (46-138-41-28.dynamic.spd-mgts.ru.
  [46.138.41.28])
- by smtp.gmail.com with ESMTPSA id t20sm2040956lft.240.2021.10.25.15.46.12
+ by smtp.gmail.com with ESMTPSA id t20sm2040956lft.240.2021.10.25.15.46.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 25 Oct 2021 15:46:13 -0700 (PDT)
+ Mon, 25 Oct 2021 15:46:14 -0700 (PDT)
 From: Dmitry Osipenko <digetx@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
  Jonathan Hunter <jonathanh@nvidia.com>,
@@ -60,9 +60,9 @@ Cc: linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
  linux-pm@vger.kernel.org, linux-pwm@vger.kernel.org,
  linux-mmc@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-clk@vger.kernel.org, David Heidelberg <david@ixit.cz>
-Subject: [PATCH v14 30/39] soc/tegra: pmc: Rename 3d power domains
-Date: Tue, 26 Oct 2021 01:40:23 +0300
-Message-Id: <20211025224032.21012-31-digetx@gmail.com>
+Subject: [PATCH v14 31/39] soc/tegra: pmc: Rename core power domain
+Date: Tue, 26 Oct 2021 01:40:24 +0300
+Message-Id: <20211025224032.21012-32-digetx@gmail.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211025224032.21012-1-digetx@gmail.com>
 References: <20211025224032.21012-1-digetx@gmail.com>
@@ -83,56 +83,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Device-tree schema doesn't allow domain name to start with a number.
-We don't use 3d domain yet in device-trees, so rename it to the name
-used by Tegra TRMs: TD, TD2.
+CORE power domain uses name of device-tree node, which is inconsistent with
+the names of PMC domains. Set the name to "core" to make it consistent.
 
-Reported-by: David Heidelberg <david@ixit.cz>
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/soc/tegra/pmc.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/soc/tegra/pmc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/soc/tegra/pmc.c b/drivers/soc/tegra/pmc.c
-index 575d6d5b4294..5c6d58a27c39 100644
+index 5c6d58a27c39..4665b7214f1c 100644
 --- a/drivers/soc/tegra/pmc.c
 +++ b/drivers/soc/tegra/pmc.c
-@@ -2963,7 +2963,7 @@ static SIMPLE_DEV_PM_OPS(tegra_pmc_pm_ops, tegra_pmc_suspend, tegra_pmc_resume);
+@@ -1353,7 +1353,7 @@ static int tegra_pmc_core_pd_add(struct tegra_pmc *pmc, struct device_node *np)
+ 	if (!genpd)
+ 		return -ENOMEM;
  
- static const char * const tegra20_powergates[] = {
- 	[TEGRA_POWERGATE_CPU] = "cpu",
--	[TEGRA_POWERGATE_3D] = "3d",
-+	[TEGRA_POWERGATE_3D] = "td",
- 	[TEGRA_POWERGATE_VENC] = "venc",
- 	[TEGRA_POWERGATE_VDEC] = "vdec",
- 	[TEGRA_POWERGATE_PCIE] = "pcie",
-@@ -3071,7 +3071,7 @@ static const struct tegra_pmc_soc tegra20_pmc_soc = {
+-	genpd->name = np->name;
++	genpd->name = "core";
+ 	genpd->set_performance_state = tegra_pmc_core_pd_set_performance_state;
+ 	genpd->opp_to_performance_state = tegra_pmc_core_pd_opp_to_performance_state;
  
- static const char * const tegra30_powergates[] = {
- 	[TEGRA_POWERGATE_CPU] = "cpu0",
--	[TEGRA_POWERGATE_3D] = "3d0",
-+	[TEGRA_POWERGATE_3D] = "td",
- 	[TEGRA_POWERGATE_VENC] = "venc",
- 	[TEGRA_POWERGATE_VDEC] = "vdec",
- 	[TEGRA_POWERGATE_PCIE] = "pcie",
-@@ -3083,7 +3083,7 @@ static const char * const tegra30_powergates[] = {
- 	[TEGRA_POWERGATE_CPU2] = "cpu2",
- 	[TEGRA_POWERGATE_CPU3] = "cpu3",
- 	[TEGRA_POWERGATE_CELP] = "celp",
--	[TEGRA_POWERGATE_3D1] = "3d1",
-+	[TEGRA_POWERGATE_3D1] = "td2",
- };
- 
- static const u8 tegra30_cpu_powergates[] = {
-@@ -3132,7 +3132,7 @@ static const struct tegra_pmc_soc tegra30_pmc_soc = {
- 
- static const char * const tegra114_powergates[] = {
- 	[TEGRA_POWERGATE_CPU] = "crail",
--	[TEGRA_POWERGATE_3D] = "3d",
-+	[TEGRA_POWERGATE_3D] = "td",
- 	[TEGRA_POWERGATE_VENC] = "venc",
- 	[TEGRA_POWERGATE_VDEC] = "vdec",
- 	[TEGRA_POWERGATE_MPE] = "mpe",
 -- 
 2.33.1
 
