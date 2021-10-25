@@ -1,74 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8994543A786
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Oct 2021 00:47:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 75E9F43A78E
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Oct 2021 00:48:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 171456E3C1;
-	Mon, 25 Oct 2021 22:47:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC86F6E3D6;
+	Mon, 25 Oct 2021 22:48:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com
- [IPv6:2a00:1450:4864:20::233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DBC186E32F
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Oct 2021 22:46:23 +0000 (UTC)
-Received: by mail-lj1-x233.google.com with SMTP id h11so3747750ljk.1
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Oct 2021 15:46:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=KUl5NgtppOXN7aMrj+VJMJxgtwwCvjbf2LUP4ZJTZHk=;
- b=dM8HQOakT9lKwnlzX8oDz69wX5j1TjDnrC8XDQpJ3/grT/a5UOQT72pKmmWOeA+nw5
- hwS1AaicnlAS+Q3JuF+ijqvdVe4Un6yYFhFplrdKyeGItVsGKKcqDiC/7fQHeHpKybn0
- mi8KXBeDO3NELpLv4ar+VQwjOxNzn0V1FHmGK4K54a2y92lJV8T2Xs4iQadhxe1H5kx8
- 949C5LowvQw9vTNqSPVd5lnBVNk3LEVCdQxC2NHFJOFUZ6q/S9pksA16cLzksRcTmCPm
- sc8c3tPIr72zAsfojA2oE0GaEnvZY0XTwZQWzo9WhpgugqOWsN43BXToZPztYXToBEiP
- J7QQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=KUl5NgtppOXN7aMrj+VJMJxgtwwCvjbf2LUP4ZJTZHk=;
- b=iDAsZK3v5ZmlLAVPklCsfhe1oowePyeGTjuTq4ynrpW6aCUefOWAoS6cgVhnX8wq1E
- dc2jFsLqdSkOwbhvf8qs5AMmCDwInzXI4yk6zkq3xfSvTF//Qhc8eavXW+VIZDsDQbKN
- HempLNzjiQr66PBwkabAvE+8IIquNDkCZLJGFw7xCT5tImHBQ3Mog5324upWvG4mEeYp
- Ar4JwCjqCoQpbWzQdYaVp9eoCDs8eFm7zItUrBe1QscZEdP4oXvP2CVisSTatoow2YKH
- ADHpS0MS0wUQ/u/yykTwIcQjV5IUVN/rzoe1IR7GZ0eJNi490g4V9iP5WrfHQCXJrwhe
- tyJg==
-X-Gm-Message-State: AOAM531ww81rqzKNeFJEMM80AuZxcUWxSLAuUBt05mSwHFsWG+C+oqGl
- +yfj3JiG8wbs/2edSNyyYxA=
-X-Google-Smtp-Source: ABdhPJznfzGWMyl02ihP30IcAisfmZn0lCnSMUeLm2QIKB/p5f1vAU2HQg628QiAR5z1U8DIPh6cDw==
-X-Received: by 2002:a05:651c:556:: with SMTP id
- q22mr21587546ljp.314.1635201982105; 
- Mon, 25 Oct 2021 15:46:22 -0700 (PDT)
-Received: from localhost.localdomain (46-138-41-28.dynamic.spd-mgts.ru.
- [46.138.41.28])
- by smtp.gmail.com with ESMTPSA id t20sm2040956lft.240.2021.10.25.15.46.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 25 Oct 2021 15:46:21 -0700 (PDT)
-From: Dmitry Osipenko <digetx@gmail.com>
-To: Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Ulf Hansson <ulf.hansson@linaro.org>, Viresh Kumar <vireshk@kernel.org>,
- Stephen Boyd <sboyd@kernel.org>,
- Peter De Schrijver <pdeschrijver@nvidia.com>,
- Mikko Perttunen <mperttunen@nvidia.com>, Lee Jones <lee.jones@linaro.org>,
- =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Nishanth Menon <nm@ti.com>, Adrian Hunter <adrian.hunter@intel.com>,
- Michael Turquette <mturquette@baylibre.com>
-Cc: linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-pwm@vger.kernel.org,
- linux-mmc@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-clk@vger.kernel.org, David Heidelberg <david@ixit.cz>
-Subject: [PATCH v14 39/39] ARM: tegra20/30: Disable unused host1x hardware
-Date: Tue, 26 Oct 2021 01:40:32 +0300
-Message-Id: <20211025224032.21012-40-digetx@gmail.com>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20211025224032.21012-1-digetx@gmail.com>
-References: <20211025224032.21012-1-digetx@gmail.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ADACD6E3D6
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Oct 2021 22:48:14 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B880B60527;
+ Mon, 25 Oct 2021 22:48:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1635202094;
+ bh=qxxxMQVeFjZxLU1eZ0wh5jiPQCS3q60kDxRnCGPyqlY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=q0idpKffK6mdHcszuV9oGH/vDtF5lVzYKSl6HscdNcbTj6I+DxYuKw2fqDYtucrHf
+ PeECJHjxO09PD0qm1YqRa5yEjDV/kGxz8g0LeEfac83sG6li9Hdmmv8I26VG3hM4AR
+ y0yWRmSoPwLXAzF/xkyf3JEoyPW5MrgIJqTqXr3JdYKHxV59jAuNSgvuGTT6LfUaSs
+ RuVrE6ozM9wCd744GP6BHPWNJmzF1RgVD5T03LJlptBNSqhVcxs0YEA6vV5g6/NtWn
+ o7T/FWsR5JgvV3/pnH+Jho1VA5aZCdwPbZGlFzrNsNjY7TcNlV49u3khlzDtsqeSVm
+ a65SDCgoT0IpQ==
+Date: Mon, 25 Oct 2021 15:48:10 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, llvm@lists.linux.dev
+Subject: Re: [PATCH] dma-buf: fix uninitialized variable usage in selftests
+Message-ID: <YXc0KlqXvm5W61ee@archlinux-ax161>
+References: <20211025072835.176805-1-christian.koenig@amd.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20211025072835.176805-1-christian.koenig@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,93 +51,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-MPE, VI, EPP and ISP were never used and we don't have drivers for them.
-Since these modules are enabled by default in a device-tree, a device is
-created for them, blocking voltage scaling because there is no driver to
-bind, and thus, state of PMC driver is never synced. Disable them.
+Hi Christian,
 
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- arch/arm/boot/dts/tegra20.dtsi | 4 ++++
- arch/arm/boot/dts/tegra30.dtsi | 8 ++++++++
- 2 files changed, 12 insertions(+)
+On Mon, Oct 25, 2021 at 09:28:35AM +0200, Christian König wrote:
+> "i" can be used uninitialized in one of the error branches. Fix this.
+> 
+> Signed-off-by: Christian König <christian.koenig@amd.com>
+> Reported-by: kernel test robot <lkp@intel.com>
+> ---
+>  drivers/dma-buf/st-dma-resv.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/dma-buf/st-dma-resv.c b/drivers/dma-buf/st-dma-resv.c
+> index 6f3ba756da3e..bc2265807f6c 100644
+> --- a/drivers/dma-buf/st-dma-resv.c
+> +++ b/drivers/dma-buf/st-dma-resv.c
+> @@ -295,7 +295,7 @@ static int test_get_fences(void *arg, bool shared)
+>  		if (r) {
+>  			pr_err("Resv shared slot allocation failed\n");
+>  			dma_resv_unlock(&resv);
+> -			goto err_free;
+> +			goto err_fini;
+>  		}
+>  
+>  		dma_resv_add_shared_fence(&resv, f);
+> @@ -336,6 +336,7 @@ static int test_get_fences(void *arg, bool shared)
+>  	while (i--)
+>  		dma_fence_put(fences[i]);
+>  	kfree(fences);
+> +err_fini:
+>  	dma_resv_fini(&resv);
+>  	dma_fence_put(f);
+>  	return r;
+> -- 
+> 2.25.1
+> 
+> 
 
-diff --git a/arch/arm/boot/dts/tegra20.dtsi b/arch/arm/boot/dts/tegra20.dtsi
-index 7b69ffc57abe..8010b40d7377 100644
---- a/arch/arm/boot/dts/tegra20.dtsi
-+++ b/arch/arm/boot/dts/tegra20.dtsi
-@@ -59,6 +59,7 @@ mpe@54040000 {
- 			reset-names = "mpe";
- 			power-domains = <&pd_mpe>;
- 			operating-points-v2 = <&mpe_dvfs_opp_table>;
-+			status = "disabled";
- 		};
- 
- 		vi@54080000 {
-@@ -70,6 +71,7 @@ vi@54080000 {
- 			reset-names = "vi";
- 			power-domains = <&pd_venc>;
- 			operating-points-v2 = <&vi_dvfs_opp_table>;
-+			status = "disabled";
- 		};
- 
- 		epp@540c0000 {
-@@ -81,6 +83,7 @@ epp@540c0000 {
- 			reset-names = "epp";
- 			power-domains = <&pd_core>;
- 			operating-points-v2 = <&epp_dvfs_opp_table>;
-+			status = "disabled";
- 		};
- 
- 		isp@54100000 {
-@@ -91,6 +94,7 @@ isp@54100000 {
- 			resets = <&tegra_car 23>;
- 			reset-names = "isp";
- 			power-domains = <&pd_venc>;
-+			status = "disabled";
- 		};
- 
- 		gr2d@54140000 {
-diff --git a/arch/arm/boot/dts/tegra30.dtsi b/arch/arm/boot/dts/tegra30.dtsi
-index c1be136aac7d..d961ce3761e6 100644
---- a/arch/arm/boot/dts/tegra30.dtsi
-+++ b/arch/arm/boot/dts/tegra30.dtsi
-@@ -145,6 +145,8 @@ mpe@54040000 {
- 			operating-points-v2 = <&mpe_dvfs_opp_table>;
- 
- 			iommus = <&mc TEGRA_SWGROUP_MPE>;
-+
-+			status = "disabled";
- 		};
- 
- 		vi@54080000 {
-@@ -158,6 +160,8 @@ vi@54080000 {
- 			operating-points-v2 = <&vi_dvfs_opp_table>;
- 
- 			iommus = <&mc TEGRA_SWGROUP_VI>;
-+
-+			status = "disabled";
- 		};
- 
- 		epp@540c0000 {
-@@ -171,6 +175,8 @@ epp@540c0000 {
- 			operating-points-v2 = <&epp_dvfs_opp_table>;
- 
- 			iommus = <&mc TEGRA_SWGROUP_EPP>;
-+
-+			status = "disabled";
- 		};
- 
- 		isp@54100000 {
-@@ -183,6 +189,8 @@ isp@54100000 {
- 			power-domains = <&pd_venc>;
- 
- 			iommus = <&mc TEGRA_SWGROUP_ISP>;
-+
-+			status = "disabled";
- 		};
- 
- 		gr2d@54140000 {
--- 
-2.33.1
+Thanks for the patch! This is not enough to fix all the warnings in this
+file:
 
+drivers/dma-buf/st-dma-resv.c:288:6: error: variable 'i' is used uninitialized whenever 'if' condition is true [-Werror,-Wsometimes-uninitialized]
+        if (r) {
+            ^
+drivers/dma-buf/st-dma-resv.c:336:9: note: uninitialized use occurs here
+        while (i--)
+               ^
+drivers/dma-buf/st-dma-resv.c:288:2: note: remove the 'if' if its condition is always false
+        if (r) {
+        ^~~~~~~~
+drivers/dma-buf/st-dma-resv.c:280:10: note: initialize the variable 'i' to silence this warning
+        int r, i;
+                ^
+                 = 0
+1 error generated.
+
+This hunk resolves it for me. With that:
+
+Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+
+diff --git a/drivers/dma-buf/st-dma-resv.c b/drivers/dma-buf/st-dma-resv.c
+index bc2265807f6c..e5d5c25eed53 100644
+--- a/drivers/dma-buf/st-dma-resv.c
++++ b/drivers/dma-buf/st-dma-resv.c
+@@ -287,7 +287,7 @@ static int test_get_fences(void *arg, bool shared)
+ 	r = dma_resv_lock(&resv, NULL);
+ 	if (r) {
+ 		pr_err("Resv locking failed\n");
+-		goto err_free;
++		goto err_fini;
+ 	}
+ 
+ 	if (shared) {
