@@ -1,51 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9243B43A722
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Oct 2021 00:46:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B1ED43A72D
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Oct 2021 00:46:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 33E596E2E1;
-	Mon, 25 Oct 2021 22:46:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB05F6E30C;
+	Mon, 25 Oct 2021 22:46:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
- [IPv6:2a00:1450:4864:20::130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD83C6E2DF
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Oct 2021 22:46:01 +0000 (UTC)
-Received: by mail-lf1-x130.google.com with SMTP id bq11so13208232lfb.10
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Oct 2021 15:46:01 -0700 (PDT)
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
+ [IPv6:2a00:1450:4864:20::12d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BFCE66E2DF
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Oct 2021 22:46:02 +0000 (UTC)
+Received: by mail-lf1-x12d.google.com with SMTP id p16so15801850lfa.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Oct 2021 15:46:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=5kVn44UJl6fsxwvVMnWN4rWlwALC4wEkQ8Ltx5Ru85I=;
- b=bEH2cGpchvDPwkMd9z0LQIcOmk/u440rjJmMCVazujsoPMTB5FQaOYLbejY2sEP9Gx
- T878kU7T8oIW6d/dHdQfHyNVcW+oMMbcJYsT/VitwqzWZr1NREBLGiqUl0GYqbgHjPtw
- g1mR2hYLaRScSlzZuq3XBoK45Xa8ByejW+Cva5qJRQZDW9UwMZqBMzjQ2lxIFZg2q4M9
- Fw6CHUlM/V57XsTOsufGVchiFI80I1KoIl0Gy5iUx5KJzo9YRHEbVn78j57mKV2ZUIuj
- 02dJLQFrBSQokLUL8BOan0yJIsr8oMhTYIk5yHnsv61clvQXVEvQ9X5CyhMV4ugJKLN8
- bF6A==
+ bh=gJarTkNTEoMlksCf38GHnHNmMaOZo5rLjpR2+6rp6ac=;
+ b=DuNY3RgV6b5E0HRk5wiok3CV4aymhY8nc62i3OPlTGYABwzcbBbjHC+wFjs2xZ/01z
+ Dli6udhMR5bcSIRDbfm+x79bwSNWkSPP0Cuuo5mu7fZha48ucJUZStvuuWg1N41f2SyQ
+ H4A3f0M3HvGKRD7W0x1eIFeYXZM12DTibMOkgW5BhBqo81qSEdC56haL/jKaaT7uNQFA
+ Kfln32k686TIRae5eUqsReXHCbUGt1FmsbEN3/4l152M6nWwjOJym7jvgrl/Hpb4KDE8
+ k4z5ubUmeKNIvQSKbmdfqrVEMXpFlgKDaLcFJNlCYucP9w6kQmFnmgH0LHCbpNAPF6wH
+ Lalw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=5kVn44UJl6fsxwvVMnWN4rWlwALC4wEkQ8Ltx5Ru85I=;
- b=utBsevD/84zaWovIz9XQ1PQn97ayqzgjYAxMFujsxutruc0irgu4GkP42zZHpgp78o
- Z4vOqPm0QYq2+91feZOhLn+6Hu5eEIg6ki9RQvgGoJDWJUEROyA6HYxn9a+ASCvz4Ysq
- 8VW8D8+qp4Z8lXqWNPWTpIxzLAoxnNASaNJTZnJAiqte24AFHfxBg3zR8m4NrpoixQ8N
- 1YJ5iLmexrNSAl81XTJ4W3cb7q0zBnh+wzZp7GYuTVEA7Xz/RFtbqnCBF2EcpRLkr2h+
- QI3RXl4b0Ni5Y3/y2ngUw7hqzQ64S3Fb0iJr5e8t4OgxVM5Kg9EG4fiHaCNPTQy6tDZI
- nWTQ==
-X-Gm-Message-State: AOAM532I5IJKtnfixGcz0lRgh/CPSx1k3tvPnFYuo4ta0sbzFM0Czbw5
- Qvt5HE7UL/vFLEwp19dR4M/DkKqx+WQ=
-X-Google-Smtp-Source: ABdhPJyFH33zgAFRFRVBFFB9Y/6hkGd0ZRgecxsZqpM+QDY3ZTYFAnvBykhg3Eh7aWgyJB9OIJDR9Q==
-X-Received: by 2002:ac2:4c88:: with SMTP id d8mr11635926lfl.531.1635201960189; 
- Mon, 25 Oct 2021 15:46:00 -0700 (PDT)
+ bh=gJarTkNTEoMlksCf38GHnHNmMaOZo5rLjpR2+6rp6ac=;
+ b=smm8nvmWftTuXsdfUaxIyzWFjyW20jTAXcCGNk7Pmo3p61KgKWItY2vMPiINThZkx3
+ oAJvRu2ptnuzIE8d8UBpaHPeNWHYpMC3Rzt3dWx6NU6sQyrwL3nIbAxK8s8O20w5pgMz
+ ZZpHSvIVCaOnNfDYt0MjRyiOiRb3SfJ7LdBAia2knW9M7AR+mldp56aswGN6pP/FH3vW
+ OMLHcEcyoqByruLrGVKpnDHfU0SOD9S2GN47HMG60U2zLquUENUV8oYUcroZzVsjVR+z
+ zWO75S+j3xKiwQbs1zDfikcDT+AR1y8Q037rPOEbdxgPpyl2M8aI22TPcqKAKER9KWvH
+ XJ+w==
+X-Gm-Message-State: AOAM532xx3S88BTkqhT2c94Kprl82YTRFy/FNYR5JxVhy7tFVIQ/7F6i
+ y7tmvyboGMVAhfYiVfGMlcw=
+X-Google-Smtp-Source: ABdhPJzCMRNjjko6GLKt0sLL7ix8/6D4t6ztVcc38PF5qU5R381WDWrVETaFqH/0HiPEphfr6UnV6Q==
+X-Received: by 2002:ac2:5968:: with SMTP id h8mr6720554lfp.24.1635201961138;
+ Mon, 25 Oct 2021 15:46:01 -0700 (PDT)
 Received: from localhost.localdomain (46-138-41-28.dynamic.spd-mgts.ru.
  [46.138.41.28])
- by smtp.gmail.com with ESMTPSA id t20sm2040956lft.240.2021.10.25.15.45.59
+ by smtp.gmail.com with ESMTPSA id t20sm2040956lft.240.2021.10.25.15.46.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 25 Oct 2021 15:45:59 -0700 (PDT)
+ Mon, 25 Oct 2021 15:46:00 -0700 (PDT)
 From: Dmitry Osipenko <digetx@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
  Jonathan Hunter <jonathanh@nvidia.com>,
@@ -60,9 +60,10 @@ Cc: linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
  linux-pm@vger.kernel.org, linux-pwm@vger.kernel.org,
  linux-mmc@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-clk@vger.kernel.org, David Heidelberg <david@ixit.cz>
-Subject: [PATCH v14 15/39] drm/tegra: nvdec: Stop channel on suspend
-Date: Tue, 26 Oct 2021 01:40:08 +0300
-Message-Id: <20211025224032.21012-16-digetx@gmail.com>
+Subject: [PATCH v14 16/39] drm/tegra: submit: Remove pm_runtime_enabled()
+ checks
+Date: Tue, 26 Oct 2021 01:40:09 +0300
+Message-Id: <20211025224032.21012-17-digetx@gmail.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211025224032.21012-1-digetx@gmail.com>
 References: <20211025224032.21012-1-digetx@gmail.com>
@@ -83,106 +84,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CDMA must be stopped before hardware is suspended. Add channel stopping
-to RPM suspend callback. Add system level suspend-resume callbacks.
-
-Runtime PM initialization is moved to host1x client init phase because
-RPM callback now uses host1x channel that is available only when host1x
-client is registered.
+Runtime PM is now universally available, make it mandatory by removing
+the pm_runtime_enabled() checks.
 
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/gpu/drm/tegra/nvdec.c | 29 ++++++++++++++++++-----------
- 1 file changed, 18 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/tegra/submit.c | 13 +++++--------
+ 1 file changed, 5 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/tegra/nvdec.c b/drivers/gpu/drm/tegra/nvdec.c
-index 48c90e26e90a..0f1146be9d6d 100644
---- a/drivers/gpu/drm/tegra/nvdec.c
-+++ b/drivers/gpu/drm/tegra/nvdec.c
-@@ -112,9 +112,13 @@ static int nvdec_init(struct host1x_client *client)
- 		goto free_channel;
+diff --git a/drivers/gpu/drm/tegra/submit.c b/drivers/gpu/drm/tegra/submit.c
+index c32698404e36..3bbd8de5711c 100644
+--- a/drivers/gpu/drm/tegra/submit.c
++++ b/drivers/gpu/drm/tegra/submit.c
+@@ -504,8 +504,7 @@ static void release_job(struct host1x_job *job)
+ 	kfree(job_data->used_mappings);
+ 	kfree(job_data);
+ 
+-	if (pm_runtime_enabled(client->base.dev))
+-		pm_runtime_put_autosuspend(client->base.dev);
++	pm_runtime_put_autosuspend(client->base.dev);
+ }
+ 
+ int tegra_drm_ioctl_channel_submit(struct drm_device *drm, void *data,
+@@ -589,12 +588,10 @@ int tegra_drm_ioctl_channel_submit(struct drm_device *drm, void *data,
  	}
  
-+	pm_runtime_enable(client->dev);
-+	pm_runtime_use_autosuspend(client->dev);
-+	pm_runtime_set_autosuspend_delay(client->dev, 500);
-+
- 	err = tegra_drm_register_client(tegra, drm);
- 	if (err < 0)
--		goto free_syncpt;
-+		goto disable_rpm;
- 
- 	/*
- 	 * Inherit the DMA parameters (such as maximum segment size) from the
-@@ -124,7 +128,10 @@ static int nvdec_init(struct host1x_client *client)
- 
- 	return 0;
- 
--free_syncpt:
-+disable_rpm:
-+	pm_runtime_dont_use_autosuspend(client->dev);
-+	pm_runtime_force_suspend(client->dev);
-+
- 	host1x_syncpt_put(client->syncpts[0]);
- free_channel:
- 	host1x_channel_put(nvdec->channel);
-@@ -149,10 +156,15 @@ static int nvdec_exit(struct host1x_client *client)
- 	if (err < 0)
- 		return err;
- 
-+	pm_runtime_dont_use_autosuspend(client->dev);
-+	pm_runtime_force_suspend(client->dev);
-+
- 	host1x_syncpt_put(client->syncpts[0]);
- 	host1x_channel_put(nvdec->channel);
- 	host1x_client_iommu_detach(client);
- 
-+	nvdec->channel = NULL;
-+
- 	if (client->group) {
- 		dma_unmap_single(nvdec->dev, nvdec->falcon.firmware.phys,
- 				 nvdec->falcon.firmware.size, DMA_TO_DEVICE);
-@@ -267,6 +279,8 @@ static int nvdec_runtime_suspend(struct device *dev)
- {
- 	struct nvdec *nvdec = dev_get_drvdata(dev);
- 
-+	host1x_channel_stop(nvdec->channel);
-+
- 	clk_disable_unprepare(nvdec->clk);
- 
- 	return 0;
-@@ -411,10 +425,6 @@ static int nvdec_probe(struct platform_device *pdev)
- 		goto exit_falcon;
+ 	/* Boot engine. */
+-	if (pm_runtime_enabled(context->client->base.dev)) {
+-		err = pm_runtime_resume_and_get(context->client->base.dev);
+-		if (err < 0) {
+-			SUBMIT_ERR(context, "could not power up engine: %d", err);
+-			goto unpin_job;
+-		}
++	err = pm_runtime_resume_and_get(context->client->base.dev);
++	if (err < 0) {
++		SUBMIT_ERR(context, "could not power up engine: %d", err);
++		goto unpin_job;
  	}
  
--	pm_runtime_enable(&pdev->dev);
--	pm_runtime_set_autosuspend_delay(&pdev->dev, 500);
--	pm_runtime_use_autosuspend(&pdev->dev);
--
- 	return 0;
- 
- exit_falcon:
-@@ -435,11 +445,6 @@ static int nvdec_remove(struct platform_device *pdev)
- 		return err;
- 	}
- 
--	if (pm_runtime_enabled(&pdev->dev))
--		pm_runtime_disable(&pdev->dev);
--	else
--		nvdec_runtime_suspend(&pdev->dev);
--
- 	falcon_exit(&nvdec->falcon);
- 
- 	return 0;
-@@ -447,6 +452,8 @@ static int nvdec_remove(struct platform_device *pdev)
- 
- static const struct dev_pm_ops nvdec_pm_ops = {
- 	SET_RUNTIME_PM_OPS(nvdec_runtime_suspend, nvdec_runtime_resume, NULL)
-+	SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
-+				pm_runtime_force_resume)
- };
- 
- struct platform_driver tegra_nvdec_driver = {
+ 	job->user_data = job_data;
 -- 
 2.33.1
 
