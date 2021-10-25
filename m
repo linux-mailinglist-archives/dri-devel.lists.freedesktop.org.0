@@ -2,45 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 404DA43A653
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Oct 2021 00:10:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA0C743A6A1
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Oct 2021 00:33:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C7416E218;
-	Mon, 25 Oct 2021 22:10:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2020B6E226;
+	Mon, 25 Oct 2021 22:33:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B8C136E218
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Oct 2021 22:10:36 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5D2CA4A8;
- Tue, 26 Oct 2021 00:10:34 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1635199834;
- bh=MbNaK8CuKNjYoYTHfB2J31y1X/HByeHR2kqxdyuTS9Q=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Sn9YIo6ojBDgbh6Ea1kePcY7Efg1LGaDfwIyt498jx8qGvvL3snOzLfImVaK90Snl
- P3dtvqdMH6x8ZJQFiVXTIdvYQ+YIpYl2EA27lKXzto/5xRXa/g/XrbR4GKGC3XW9zP
- +gTVvM4yY0VGZlJ0e4xa+1buPOOVD2hZXFfjqM0A=
-Date: Tue, 26 Oct 2021 01:10:12 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Julian Braha <julianbraha@gmail.com>
-Cc: robert.foss@linaro.org, a.hajda@samsung.com, narmstrong@baylibre.com,
- jonas@kwiboo.se, jernej.skrabec@gmail.com, airlied@linux.ie,
- daniel@ffwll.ch, jagan@amarulasolutions.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm: bridge: fix unmet dependency on DRM_KMS_HELPER for
- DRM_PANEL_BRIDGE
-Message-ID: <YXcrRDNylQ896ypx@pendragon.ideasonboard.com>
-References: <20211025174202.32396-1-julianbraha@gmail.com>
- <YXbtt2M+I41qH2ME@pendragon.ideasonboard.com>
- <2172694.EMfidFSxsr@ubuntu-mate-laptop>
+X-Greylist: delayed 438 seconds by postgrey-1.36 at gabe;
+ Mon, 25 Oct 2021 22:33:43 UTC
+Received: from angie.orcam.me.uk (angie.orcam.me.uk [78.133.224.34])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 67D5A6E226
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Oct 2021 22:33:43 +0000 (UTC)
+Received: by angie.orcam.me.uk (Postfix, from userid 500)
+ id 3C03492009C; Tue, 26 Oct 2021 00:26:22 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by angie.orcam.me.uk (Postfix) with ESMTP id 378FE92009B;
+ Tue, 26 Oct 2021 00:26:22 +0200 (CEST)
+Date: Tue, 26 Oct 2021 00:26:22 +0200 (CEST)
+From: "Maciej W. Rozycki" <macro@orcam.me.uk>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+cc: Wim Osterholt <wim@djo.tudelft.nl>, 
+ "Pavel V. Panteleev" <panteleev_p@mcst.ru>, 
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] vgacon: Propagate console boot parameters before calling
+ `vc_resize'
+Message-ID: <alpine.DEB.2.21.2110252317110.58149@angie.orcam.me.uk>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <2172694.EMfidFSxsr@ubuntu-mate-laptop>
+Content-Type: text/plain; charset=US-ASCII
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,69 +47,89 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Julian,
+Fix a division by zero in `vgacon_resize' with a backtrace like:
 
-On Mon, Oct 25, 2021 at 02:51:47PM -0400, Julian Braha wrote:
-> On Monday, October 25, 2021 1:47:35 PM EDT you wrote:
-> > On Mon, Oct 25, 2021 at 01:42:02PM -0400, Julian Braha wrote:
-> > > When DRM_CHIPONE_ICN6211 is selected, and DRM_KMS_HELPER is not selected,
-> > > Kbuild gives the following warning:
-> > > 
-> > > WARNING: unmet direct dependencies detected for DRM_PANEL_BRIDGE
-> > >   Depends on [n]: HAS_IOMEM [=y] && DRM_BRIDGE [=y] && DRM_KMS_HELPER [=n]
-> > >   Selected by [y]:
-> > >   - DRM_CHIPONE_ICN6211 [=y] && HAS_IOMEM [=y] && DRM [=y] && DRM_BRIDGE [=y] && OF [=y]
-> > > 
-> > > This is because DRM_CHIPONE_ICN6211 selects DRM_PANEL_BRIDGE
-> > > without depending on or selecting DRM_KMS_HELPER,
-> > > despite DRM_PANEL_BRIDGE depending on DRM_KMS_HELPER.
-> > > 
-> > > This unmet dependency bug was detected by Kismet,
-> > > a static analysis tool for Kconfig.
-> > > Please advise if this is not the appropriate solution.
-> > 
-> > Shouldn't DRM_PANEL_BRIDGE select DRM_KMS_HELPER instead of depending on
-> > it ?
-> > 
-> > > Fixes: ce517f18944e ("drm: bridge: Add Chipone ICN6211 MIPI-DSI to RGB bridge")
-> > > Reviewed-by: Robert Foss <robert.foss@linaro.org>
-> > > Signed-off-by: Julian Braha <julianbraha@gmail.com>
-> > > ---
-> > >  drivers/gpu/drm/bridge/Kconfig | 1 +
-> > >  1 file changed, 1 insertion(+)
-> > > 
-> > > diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
-> > > index 431b6e12a81f..a630cb8fd1c8 100644
-> > > --- a/drivers/gpu/drm/bridge/Kconfig
-> > > +++ b/drivers/gpu/drm/bridge/Kconfig
-> > > @@ -30,6 +30,7 @@ config DRM_CDNS_DSI
-> > >  config DRM_CHIPONE_ICN6211
-> > >  	tristate "Chipone ICN6211 MIPI-DSI/RGB Converter bridge"
-> > >  	depends on OF
-> > > +  select DRM_KMS_HELPER
-> > >  	select DRM_MIPI_DSI
-> > >  	select DRM_PANEL_BRIDGE
-> > >  	help
-> 
-> Hi Laurent,
-> 
-> Either a "select" or a "depends" will resolve this issue,
+vgacon_resize
+vc_do_resize
+vgacon_init
+do_bind_con_driver
+do_unbind_con_driver
+fbcon_fb_unbind
+do_unregister_framebuffer
+do_register_framebuffer
+register_framebuffer
+__drm_fb_helper_initial_config_and_unlock
+drm_helper_hpd_irq_event
+dw_hdmi_irq
+irq_thread
+kthread
 
-Mixing "select" and "depends" usually lead to be results. DRM_KMS_HELPER
-is a symbol that is mostly selected (I think there are a handful of
-occurrences of "depends", which should probably be fixed).
+caused by `c->vc_cell_height' not having been initialized.  This has 
+only started to trigger with commit 860dafa90259 ("vt: Fix character 
+height handling with VT_RESIZEX"), however the ultimate offender is 
+commit 50ec42edd978 ("[PATCH] Detaching fbcon: fix vgacon to allow 
+retaking of the console").
 
-> but most similar devices in this Kconfig file select DRM_KMS_HELPER.
-> Is there something different about DRM_CHIPONE_ICN6211 that I have missed?
+Said commit has added a call to `vc_resize' whenever `vgacon_init' is 
+called with the `init' argument set to 0, which did not happen before. 
+And the call is made before a key vgacon boot parameter retrieved in 
+`vgacon_startup' has been propagated in `vgacon_init' for `vc_resize' to 
+use to the console structure being worked on.  Previously the parameter 
+was `c->vc_font.height' and now it is `c->vc_cell_height'.
 
-There isn't anything fundamentally different, but because DRM_KMS_HELPER
-is meant to be selected and not depended on, I think we should fix that
-for DRM_PANEL_BRIDGE, and it will fix the issue with
-DRM_CHIPONE_ICN6211. The dependency on the KMS helpers come from
-drm_panel_bridge.c, not from chipone-icn6211.c as far as I can tell, so
-it would also be more correct.
+In this particular scenario the registration of fbcon has failed and vt 
+resorts to vgacon.  Now fbcon does have initialized `c->vc_font.height' 
+somehow, unlike `c->vc_cell_height', which is why this code did not 
+crash before, but either way the boot parameters should have been copied 
+to the console structure ahead of the call to `vc_resize' rather than 
+afterwards, so that first the call has a chance to use them and second 
+they do not change the console structure to something possibly different 
+from what was used by `vc_resize'.
 
--- 
-Regards,
+Move the propagation of the vgacon boot parameters ahead of the call to 
+`vc_resize' then.  Adjust the comment accordingly.
 
-Laurent Pinchart
+Signed-off-by: Maciej W. Rozycki <macro@orcam.me.uk>
+Reported-by: Wim Osterholt <wim@djo.tudelft.nl>
+Reported-by: Pavel V. Panteleev <panteleev_p@mcst.ru>
+Fixes: 50ec42edd978 ("[PATCH] Detaching fbcon: fix vgacon to allow retaking of the console")
+Cc: stable@vger.kernel.org # v2.6.18+
+---
+ drivers/video/console/vgacon.c |   14 +++++++++-----
+ 1 file changed, 9 insertions(+), 5 deletions(-)
+
+linux-vt-vgacon-init-cell-height-fix.diff
+Index: linux-macro-ide-tty/drivers/video/console/vgacon.c
+===================================================================
+--- linux-macro-ide-tty.orig/drivers/video/console/vgacon.c
++++ linux-macro-ide-tty/drivers/video/console/vgacon.c
+@@ -366,11 +366,17 @@ static void vgacon_init(struct vc_data *
+ 	struct uni_pagedir *p;
+ 
+ 	/*
+-	 * We cannot be loaded as a module, therefore init is always 1,
+-	 * but vgacon_init can be called more than once, and init will
+-	 * not be 1.
++	 * We cannot be loaded as a module, therefore init will be 1
++	 * if we are the default console, however if we are a fallback
++	 * console, for example if fbcon has failed registration, then
++	 * init will be 0, so we need to make sure our boot parameters
++	 * have been copied to the console structure for vgacon_resize
++	 * ultimately called by vc_resize.  Any subsequent calls to
++	 * vgacon_init init will have init set to 0 too.
+ 	 */
+ 	c->vc_can_do_color = vga_can_do_color;
++	c->vc_scan_lines = vga_scan_lines;
++	c->vc_font.height = c->vc_cell_height = vga_video_font_height;
+ 
+ 	/* set dimensions manually if init != 0 since vc_resize() will fail */
+ 	if (init) {
+@@ -379,8 +385,6 @@ static void vgacon_init(struct vc_data *
+ 	} else
+ 		vc_resize(c, vga_video_num_columns, vga_video_num_lines);
+ 
+-	c->vc_scan_lines = vga_scan_lines;
+-	c->vc_font.height = c->vc_cell_height = vga_video_font_height;
+ 	c->vc_complement_mask = 0x7700;
+ 	if (vga_512_chars)
+ 		c->vc_hi_font_mask = 0x0800;
