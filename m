@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E059E43A617
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Oct 2021 23:45:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 404DA43A653
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Oct 2021 00:10:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 61A996E1F6;
-	Mon, 25 Oct 2021 21:45:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C7416E218;
+	Mon, 25 Oct 2021 22:10:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.smtp.larsendata.com (mx1.smtp.larsendata.com
- [91.221.196.215])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 19D566E1F6
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Oct 2021 21:45:14 +0000 (UTC)
-Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
- by mx1.smtp.larsendata.com (Halon) with ESMTPS
- id d907b8be-35dc-11ec-9c3f-0050568c148b;
- Mon, 25 Oct 2021 21:45:19 +0000 (UTC)
-Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
- [80.162.45.141])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: sam@ravnborg.org)
- by mail01.mxhotel.dk (Postfix) with ESMTPSA id 18709194B7E;
- Mon, 25 Oct 2021 23:45:11 +0200 (CEST)
-Date: Mon, 25 Oct 2021 23:45:09 +0200
-X-Report-Abuse-To: abuse@mxhotel.dk
-From: Sam Ravnborg <sam@ravnborg.org>
-To: George Kennedy <george.kennedy@oracle.com>, Zheyu Ma <zheyuma97@gmail.com>
-Cc: Greg KH <gregkh@linuxfoundation.org>, tzimmermann@suse.de,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] video: fbdev: cirrusfb: check pixclock to avoid divide
- by zero
-Message-ID: <YXclZQGFTr1NFjbc@ravnborg.org>
-References: <1635188490-15082-1-git-send-email-george.kennedy@oracle.com>
- <YXcAbXJfg/jKCo5h@kroah.com>
- <0ddb1c19-64b0-4117-7a92-c3d2fcddfdcf@oracle.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B8C136E218
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Oct 2021 22:10:36 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5D2CA4A8;
+ Tue, 26 Oct 2021 00:10:34 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1635199834;
+ bh=MbNaK8CuKNjYoYTHfB2J31y1X/HByeHR2kqxdyuTS9Q=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Sn9YIo6ojBDgbh6Ea1kePcY7Efg1LGaDfwIyt498jx8qGvvL3snOzLfImVaK90Snl
+ P3dtvqdMH6x8ZJQFiVXTIdvYQ+YIpYl2EA27lKXzto/5xRXa/g/XrbR4GKGC3XW9zP
+ +gTVvM4yY0VGZlJ0e4xa+1buPOOVD2hZXFfjqM0A=
+Date: Tue, 26 Oct 2021 01:10:12 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Julian Braha <julianbraha@gmail.com>
+Cc: robert.foss@linaro.org, a.hajda@samsung.com, narmstrong@baylibre.com,
+ jonas@kwiboo.se, jernej.skrabec@gmail.com, airlied@linux.ie,
+ daniel@ffwll.ch, jagan@amarulasolutions.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm: bridge: fix unmet dependency on DRM_KMS_HELPER for
+ DRM_PANEL_BRIDGE
+Message-ID: <YXcrRDNylQ896ypx@pendragon.ideasonboard.com>
+References: <20211025174202.32396-1-julianbraha@gmail.com>
+ <YXbtt2M+I41qH2ME@pendragon.ideasonboard.com>
+ <2172694.EMfidFSxsr@ubuntu-mate-laptop>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <0ddb1c19-64b0-4117-7a92-c3d2fcddfdcf@oracle.com>
+In-Reply-To: <2172694.EMfidFSxsr@ubuntu-mate-laptop>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,53 +56,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi George,
+Hi Julian,
 
-On Mon, Oct 25, 2021 at 03:33:43PM -0400, George Kennedy wrote:
-> 
-> 
-> On 10/25/2021 3:07 PM, Greg KH wrote:
-> > On Mon, Oct 25, 2021 at 02:01:30PM -0500, George Kennedy wrote:
-> > > Do a sanity check on pixclock value before using it as a divisor.
+On Mon, Oct 25, 2021 at 02:51:47PM -0400, Julian Braha wrote:
+> On Monday, October 25, 2021 1:47:35 PM EDT you wrote:
+> > On Mon, Oct 25, 2021 at 01:42:02PM -0400, Julian Braha wrote:
+> > > When DRM_CHIPONE_ICN6211 is selected, and DRM_KMS_HELPER is not selected,
+> > > Kbuild gives the following warning:
 > > > 
-> > > Syzkaller reported a divide error in cirrusfb_check_pixclock.
+> > > WARNING: unmet direct dependencies detected for DRM_PANEL_BRIDGE
+> > >   Depends on [n]: HAS_IOMEM [=y] && DRM_BRIDGE [=y] && DRM_KMS_HELPER [=n]
+> > >   Selected by [y]:
+> > >   - DRM_CHIPONE_ICN6211 [=y] && HAS_IOMEM [=y] && DRM [=y] && DRM_BRIDGE [=y] && OF [=y]
 > > > 
-> > > divide error: 0000 [#1] SMP KASAN PTI
-> > > CPU: 0 PID: 14938 Comm: cirrusfb_test Not tainted 5.15.0-rc6 #1
-> > > Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.11.0-2
-> > > RIP: 0010:cirrusfb_check_var+0x6f1/0x1260
+> > > This is because DRM_CHIPONE_ICN6211 selects DRM_PANEL_BRIDGE
+> > > without depending on or selecting DRM_KMS_HELPER,
+> > > despite DRM_PANEL_BRIDGE depending on DRM_KMS_HELPER.
 > > > 
-> > > Call Trace:
-> > >   fb_set_var+0x398/0xf90
-> > >   do_fb_ioctl+0x4b8/0x6f0
-> > >   fb_ioctl+0xeb/0x130
-> > >   __x64_sys_ioctl+0x19d/0x220
-> > >   do_syscall_64+0x3a/0x80
-> > >   entry_SYSCALL_64_after_hwframe+0x44/0xae
-> > > 
-> > > Signed-off-by: George Kennedy <george.kennedy@oracle.com>
+> > > This unmet dependency bug was detected by Kismet,
+> > > a static analysis tool for Kconfig.
+> > > Please advise if this is not the appropriate solution.
+> > 
+> > Shouldn't DRM_PANEL_BRIDGE select DRM_KMS_HELPER instead of depending on
+> > it ?
+> > 
+> > > Fixes: ce517f18944e ("drm: bridge: Add Chipone ICN6211 MIPI-DSI to RGB bridge")
+> > > Reviewed-by: Robert Foss <robert.foss@linaro.org>
+> > > Signed-off-by: Julian Braha <julianbraha@gmail.com>
 > > > ---
-> > >   drivers/video/fbdev/cirrusfb.c | 3 +++
-> > >   1 file changed, 3 insertions(+)
+> > >  drivers/gpu/drm/bridge/Kconfig | 1 +
+> > >  1 file changed, 1 insertion(+)
 > > > 
-> > > diff --git a/drivers/video/fbdev/cirrusfb.c b/drivers/video/fbdev/cirrusfb.c
-> > > index 93802ab..099ddcb 100644
-> > > --- a/drivers/video/fbdev/cirrusfb.c
-> > > +++ b/drivers/video/fbdev/cirrusfb.c
-> > > @@ -477,6 +477,9 @@ static int cirrusfb_check_pixclock(const struct fb_var_screeninfo *var,
-> > >   	struct cirrusfb_info *cinfo = info->par;
-> > >   	unsigned maxclockidx = var->bits_per_pixel >> 3;
-> > > +	if (!var->pixclock)
-> > > +		return -EINVAL;
-> > Shouldn't you be checking further up the call chain where this got set
-> > to 0?
+> > > diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
+> > > index 431b6e12a81f..a630cb8fd1c8 100644
+> > > --- a/drivers/gpu/drm/bridge/Kconfig
+> > > +++ b/drivers/gpu/drm/bridge/Kconfig
+> > > @@ -30,6 +30,7 @@ config DRM_CDNS_DSI
+> > >  config DRM_CHIPONE_ICN6211
+> > >  	tristate "Chipone ICN6211 MIPI-DSI/RGB Converter bridge"
+> > >  	depends on OF
+> > > +  select DRM_KMS_HELPER
+> > >  	select DRM_MIPI_DSI
+> > >  	select DRM_PANEL_BRIDGE
+> > >  	help
 > 
-I recall we had a similar discussion when Zheyu Ma <zheyuma97@gmail.com>
-added the same checks to at least 3 fbdev drivers.
-The conclusion was that the check belongs in the individual check
-functions - IIRC.
+> Hi Laurent,
+> 
+> Either a "select" or a "depends" will resolve this issue,
 
-Maybe Zheyu or google can help find the original thread.
+Mixing "select" and "depends" usually lead to be results. DRM_KMS_HELPER
+is a symbol that is mostly selected (I think there are a handful of
+occurrences of "depends", which should probably be fixed).
 
-	Sam
+> but most similar devices in this Kconfig file select DRM_KMS_HELPER.
+> Is there something different about DRM_CHIPONE_ICN6211 that I have missed?
 
+There isn't anything fundamentally different, but because DRM_KMS_HELPER
+is meant to be selected and not depended on, I think we should fix that
+for DRM_PANEL_BRIDGE, and it will fix the issue with
+DRM_CHIPONE_ICN6211. The dependency on the KMS helpers come from
+drm_panel_bridge.c, not from chipone-icn6211.c as far as I can tell, so
+it would also be more correct.
+
+-- 
+Regards,
+
+Laurent Pinchart
