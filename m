@@ -1,37 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA0C743A6A1
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Oct 2021 00:33:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 76E2843A68F
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Oct 2021 00:30:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2020B6E226;
-	Mon, 25 Oct 2021 22:33:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 64D0688EF2;
+	Mon, 25 Oct 2021 22:30:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 438 seconds by postgrey-1.36 at gabe;
- Mon, 25 Oct 2021 22:33:43 UTC
-Received: from angie.orcam.me.uk (angie.orcam.me.uk [78.133.224.34])
- by gabe.freedesktop.org (Postfix) with ESMTP id 67D5A6E226
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Oct 2021 22:33:43 +0000 (UTC)
-Received: by angie.orcam.me.uk (Postfix, from userid 500)
- id 3C03492009C; Tue, 26 Oct 2021 00:26:22 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by angie.orcam.me.uk (Postfix) with ESMTP id 378FE92009B;
- Tue, 26 Oct 2021 00:26:22 +0200 (CEST)
-Date: Tue, 26 Oct 2021 00:26:22 +0200 (CEST)
-From: "Maciej W. Rozycki" <macro@orcam.me.uk>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-cc: Wim Osterholt <wim@djo.tudelft.nl>, 
- "Pavel V. Panteleev" <panteleev_p@mcst.ru>, 
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-Subject: [PATCH] vgacon: Propagate console boot parameters before calling
- `vc_resize'
-Message-ID: <alpine.DEB.2.21.2110252317110.58149@angie.orcam.me.uk>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF99188EF2
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Oct 2021 22:30:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1635201042;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=0rVLTkzL+CC5DsjZcAbFddThzjyd1wa1/08osRCigXg=;
+ b=bEHlTzoPkknqkmlL+fyEeXGjJy3epoRMJQFAeMzdqZ7dkJ+J2uxjeU1qwwbs0svid5Uvpn
+ iiOc8ZtnaRT52B6yoRhj6TNkX4crXj9BPC8oMr2RDsMLP+w4IqjjXXn+A//Hq5TOnC89Od
+ vgvt/SvfwaEJjcSkrYgF5nNo+/VWf/k=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-270-Z7ms3oBlORa8a04fhG7z5A-1; Mon, 25 Oct 2021 18:30:39 -0400
+X-MC-Unique: Z7ms3oBlORa8a04fhG7z5A-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 337D310168C0;
+ Mon, 25 Oct 2021 22:30:38 +0000 (UTC)
+Received: from emerald.lyude.net (unknown [10.22.9.162])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1C20618368;
+ Mon, 25 Oct 2021 22:30:37 +0000 (UTC)
+From: Lyude Paul <lyude@redhat.com>
+To: dri-devel@lists.freedesktop.org,
+	amdgfx@lists.freedesktop.org
+Subject: [PATCH v5 0/4] drm/amdgpu, Add DP 2.0 MST support + drm/dp_mst helpers
+Date: Mon, 25 Oct 2021 18:30:24 -0400
+Message-Id: <20211025223029.300891-1-lyude@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,89 +64,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix a division by zero in `vgacon_resize' with a backtrace like:
+Just resubmitting this patch series from AMD with _very_ minor changes
+(just a typo and fixing a debug message) so that this can be pushed
+upstream with a proper patchwork link. Will be pushing this into a topic
+branch and submitting to airlied in a moment.
 
-vgacon_resize
-vc_do_resize
-vgacon_init
-do_bind_con_driver
-do_unbind_con_driver
-fbcon_fb_unbind
-do_unregister_framebuffer
-do_register_framebuffer
-register_framebuffer
-__drm_fb_helper_initial_config_and_unlock
-drm_helper_hpd_irq_event
-dw_hdmi_irq
-irq_thread
-kthread
+Bhawanpreet Lakha (3):
+  drm: Remove slot checks in dp mst topology during commit
+  drm: Update MST First Link Slot Information Based on Encoding Format
+  drm/amd/display: Add DP 2.0 MST DM Support
 
-caused by `c->vc_cell_height' not having been initialized.  This has 
-only started to trigger with commit 860dafa90259 ("vt: Fix character 
-height handling with VT_RESIZEX"), however the ultimate offender is 
-commit 50ec42edd978 ("[PATCH] Detaching fbcon: fix vgacon to allow 
-retaking of the console").
+Fangzhi Zuo (1):
+  drm/amd/display: Add DP 2.0 MST DC Support
 
-Said commit has added a call to `vc_resize' whenever `vgacon_init' is 
-called with the `init' argument set to 0, which did not happen before. 
-And the call is made before a key vgacon boot parameter retrieved in 
-`vgacon_startup' has been propagated in `vgacon_init' for `vc_resize' to 
-use to the console structure being worked on.  Previously the parameter 
-was `c->vc_font.height' and now it is `c->vc_cell_height'.
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  29 ++
+ .../amd/display/amdgpu_dm/amdgpu_dm_debugfs.c |   3 +
+ .../amd/display/amdgpu_dm/amdgpu_dm_helpers.c |   5 +-
+ drivers/gpu/drm/amd/display/dc/core/dc.c      |  14 +
+ drivers/gpu/drm/amd/display/dc/core/dc_link.c | 292 ++++++++++++++++++
+ .../gpu/drm/amd/display/dc/core/dc_link_dp.c  |  19 ++
+ drivers/gpu/drm/amd/display/dc/dc_link.h      |   7 +
+ drivers/gpu/drm/amd/display/dc/dc_stream.h    |  13 +
+ drivers/gpu/drm/drm_dp_mst_topology.c         |  42 ++-
+ drivers/gpu/drm/i915/display/intel_dp_mst.c   |   4 +-
+ drivers/gpu/drm/nouveau/dispnv50/disp.c       |   2 +-
+ drivers/gpu/drm/radeon/radeon_dp_mst.c        |   4 +-
+ include/drm/drm_dp_mst_helper.h               |   5 +-
+ 13 files changed, 423 insertions(+), 16 deletions(-)
 
-In this particular scenario the registration of fbcon has failed and vt 
-resorts to vgacon.  Now fbcon does have initialized `c->vc_font.height' 
-somehow, unlike `c->vc_cell_height', which is why this code did not 
-crash before, but either way the boot parameters should have been copied 
-to the console structure ahead of the call to `vc_resize' rather than 
-afterwards, so that first the call has a chance to use them and second 
-they do not change the console structure to something possibly different 
-from what was used by `vc_resize'.
+-- 
+2.31.1
 
-Move the propagation of the vgacon boot parameters ahead of the call to 
-`vc_resize' then.  Adjust the comment accordingly.
-
-Signed-off-by: Maciej W. Rozycki <macro@orcam.me.uk>
-Reported-by: Wim Osterholt <wim@djo.tudelft.nl>
-Reported-by: Pavel V. Panteleev <panteleev_p@mcst.ru>
-Fixes: 50ec42edd978 ("[PATCH] Detaching fbcon: fix vgacon to allow retaking of the console")
-Cc: stable@vger.kernel.org # v2.6.18+
----
- drivers/video/console/vgacon.c |   14 +++++++++-----
- 1 file changed, 9 insertions(+), 5 deletions(-)
-
-linux-vt-vgacon-init-cell-height-fix.diff
-Index: linux-macro-ide-tty/drivers/video/console/vgacon.c
-===================================================================
---- linux-macro-ide-tty.orig/drivers/video/console/vgacon.c
-+++ linux-macro-ide-tty/drivers/video/console/vgacon.c
-@@ -366,11 +366,17 @@ static void vgacon_init(struct vc_data *
- 	struct uni_pagedir *p;
- 
- 	/*
--	 * We cannot be loaded as a module, therefore init is always 1,
--	 * but vgacon_init can be called more than once, and init will
--	 * not be 1.
-+	 * We cannot be loaded as a module, therefore init will be 1
-+	 * if we are the default console, however if we are a fallback
-+	 * console, for example if fbcon has failed registration, then
-+	 * init will be 0, so we need to make sure our boot parameters
-+	 * have been copied to the console structure for vgacon_resize
-+	 * ultimately called by vc_resize.  Any subsequent calls to
-+	 * vgacon_init init will have init set to 0 too.
- 	 */
- 	c->vc_can_do_color = vga_can_do_color;
-+	c->vc_scan_lines = vga_scan_lines;
-+	c->vc_font.height = c->vc_cell_height = vga_video_font_height;
- 
- 	/* set dimensions manually if init != 0 since vc_resize() will fail */
- 	if (init) {
-@@ -379,8 +385,6 @@ static void vgacon_init(struct vc_data *
- 	} else
- 		vc_resize(c, vga_video_num_columns, vga_video_num_lines);
- 
--	c->vc_scan_lines = vga_scan_lines;
--	c->vc_font.height = c->vc_cell_height = vga_video_font_height;
- 	c->vc_complement_mask = 0x7700;
- 	if (vga_512_chars)
- 		c->vc_hi_font_mask = 0x0800;
