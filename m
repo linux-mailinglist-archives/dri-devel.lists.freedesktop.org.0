@@ -2,65 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7673439289
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Oct 2021 11:36:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4DA8439296
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Oct 2021 11:37:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 99AAA89CDE;
-	Mon, 25 Oct 2021 09:36:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E631A89D4A;
+	Mon, 25 Oct 2021 09:37:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com
- [IPv6:2607:f8b0:4864:20::52e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E058889CDE
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Oct 2021 09:36:03 +0000 (UTC)
-Received: by mail-pg1-x52e.google.com with SMTP id 83so4111384pgc.8
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Oct 2021 02:36:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=WNXjMl3djkSey7/l1jZYCXnDqPOAjrS/eZHlkk+odCE=;
- b=nvMps0aoEJuiH7Gdf0HIV42fph+/blNyVbFtUKFeTeUjoQ8Om7tYB5EybqKvS28JPI
- nGct0tJvTpHBprfQVichaJvzQQY0dz/EzQExXfmxU+taDWXyss2JzkF5swGz68t1WWxB
- BcTx+H4qgyzaxjAIMu8U6UPQ4zaouxwdb3KTmnGgLmuzVaQclLTmFDmnykZB4GYa8OK6
- FQfYIO3MSDEWt99MD7iZWCxFwtvAZH+NgXQQooavmHYBgtq5hXhi6Ss9hCJ4FwzX9XoR
- Ve2sKFjlqH6DAOGmXVdyftxLO55505InyI1B0J+IoaoZlwgk2uXol4TTC/9I1MA+zW5t
- YNvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=WNXjMl3djkSey7/l1jZYCXnDqPOAjrS/eZHlkk+odCE=;
- b=7etsHt4799+6FEMwmzWdKV5rX2EYNziZC1//Pf8JzybGa2aF18XjHdT48O64JxGO9g
- iPq8K56OOSkEwRa106TDVlBZoQ/a6QVhrMKYrkNaDJQvYOi/xYhrRqn0zrAaVEuFTCMl
- yJexIeI5w///N1SeoTDY007MrDzxl4131CDqk7Wr9KDD6sdw0Av4zaK4LWPEk6+nQNaH
- JGxbk06hFCFKD2TMsfucIbd6IYBIOa8/9UJz/Ty+Gz08WGyKpwpbXe37AIsoaBcWsBsx
- +iYcnu8oPfgUnsPUGhALDJfj4x3fGN83+0yagwlWEIikRP3UfV8uIy0A+MZEcIBnchWb
- sRaQ==
-X-Gm-Message-State: AOAM5310AfX2rNooWMbruo3/tg4B6fwRUXlu6FfO4hGTn0eE1CTvLIoa
- o5CEp/DXeJRC0uZjrRPlDVU=
-X-Google-Smtp-Source: ABdhPJzJYpo97n7JFl0abLVW/Otvx6Pcvun2DWzu/bQkfRWHdvnXK6GnMVAyHawHkC1+/qia3UhKFA==
-X-Received: by 2002:a05:6a00:2181:b0:44d:c18d:7af9 with SMTP id
- h1-20020a056a00218100b0044dc18d7af9mr17833871pfi.16.1635154563193; 
- Mon, 25 Oct 2021 02:36:03 -0700 (PDT)
-Received: from nj08008nbu.spreadtrum.com
- ([240e:47a:878:6a2:e0f0:8dca:6977:afd5])
- by smtp.gmail.com with ESMTPSA id c9sm15446100pgq.58.2021.10.25.02.35.51
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 25 Oct 2021 02:36:02 -0700 (PDT)
-From: Kevin Tang <kevin3.tang@gmail.com>
-To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, sean@poorly.run,
- airlied@linux.ie, daniel@ffwll.ch, robh+dt@kernel.org,
- mark.rutland@arm.com, kevin3.tang@gmail.com, pony1.wu@gmail.com
-Cc: orsonzhai@gmail.com, zhang.lyra@gmail.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org
-Subject: [PATCH v7 6/6] drm/sprd: add Unisoc's drm mipi dsi&dphy driver
-Date: Mon, 25 Oct 2021 17:34:18 +0800
-Message-Id: <20211025093418.20545-7-kevin3.tang@gmail.com>
-X-Mailer: git-send-email 2.29.0
-In-Reply-To: <20211025093418.20545-1-kevin3.tang@gmail.com>
-References: <20211025093418.20545-1-kevin3.tang@gmail.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8756089CF9;
+ Mon, 25 Oct 2021 09:37:07 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10147"; a="253131796"
+X-IronPort-AV: E=Sophos;i="5.87,179,1631602800"; d="scan'208";a="253131796"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Oct 2021 02:37:07 -0700
+X-IronPort-AV: E=Sophos;i="5.87,179,1631602800"; d="scan'208";a="536409546"
+Received: from vadimmik-mobl.ccr.corp.intel.com (HELO localhost)
+ ([10.249.254.123])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Oct 2021 02:37:05 -0700
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20211022164219.GA23160@jons-linux-dev-box>
+References: <20210624070516.21893-1-matthew.brost@intel.com>
+ <163489530491.10153.576017085715728906@jlahtine-mobl.ger.corp.intel.com>
+ <20211022164219.GA23160@jons-linux-dev-box>
+From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ daniele.ceraolospurio@intel.com, john.c.harrison@intel.com
+Subject: Re: [PATCH 00/47] GuC submission support
+To: Matthew Brost <matthew.brost@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Message-ID: <163515462275.3804.10893210486918669519@jlahtine-mobl.ger.corp.intel.com>
+User-Agent: alot/0.8.1
+Date: Mon, 25 Oct 2021 12:37:02 +0300
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,1651 +53,190 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Adds dsi host controller support for the Unisoc's display subsystem.
-Adds dsi phy support for the Unisoc's display subsystem.
-Only MIPI DSI Displays supported, DP/TV/HMDI will be support
-in the feature.
+Quoting Matthew Brost (2021-10-22 19:42:19)
+> On Fri, Oct 22, 2021 at 12:35:04PM +0300, Joonas Lahtinen wrote:
+> > Hi Matt & John,
+> >=20
+> > Can you please queue patches with the right Fixes: references to convert
+> > all the GuC tracepoints to be protected by the LOW_LEVEL_TRACEPOINTS
+> > protection for now. Please do so before next Wednesday so we get it
+> > queued in drm-intel-next-fixes.
+> >=20
+>=20
+> Don't we already do that? I checked i915_trace.h and every tracepoint I
+> added (intel_context class, i915_request_guc_submit) is protected by
+> LOW_LEVEL_TRACEPOINTS.
+>=20
+> The only thing I changed outside of that protection is adding the guc_id
+> field to existing i915_request class tracepoints.
 
-v1:
-  - Remove dphy and dsi graph binding, merge the dphy driver into the dsi.
+It's the first search hit for "guc" inside the i915_trace.h file :)
 
-v2:
-  - Use drm_xxx to replace all DRM_XXX.
-  - Use kzalloc to replace devm_kzalloc for sprd_dsi structure init.
+> Without the guc_id in
+> those tracepoints these are basically useless with GuC submission. We
+> could revert that if it is a huge deal but as I said then they are
+> useless...
 
-v4:
-  - Use drmm_helpers to allocate encoder.
-  - Move allocate encoder and connector to bind function.
+Let's eliminate it for now and restore the tracepoint exactly as it was.
 
-v5:
-  - Drop the dsi ip file prefix.
-  - Fix the checkpatch warnings.
-  - Add Signed-off-by for dsi&dphy patch.
-  - Use the mode_flags of mipi_dsi_device to setup crtc DPI and EDPI mode.
+If there is an immediate need, we should instead have an auxilary tracepoint
+which is enabled only through LOW_LEVEL_TRACEPOINTS and that amends the
+information of the basic tracepoint.
 
-v6:
-  - Redesign the way to access the dsi register.
-  - Reduce the dsi_context member variables.
+For the longer term solution we should align towards the dma fence
+tracepoints. When those are combined with the OA information, one should
+be able to get a good understanding of both the software and hardware
+scheduling decisions.
 
-v7:
-  - Fix codeing style issue by checkpatch.
-  - Drop the pll registers structure define.
-  - Use bridge API instead of drm panel API.
-  - Register mipi_dsi_host on probe phase;
-  - Remove some unused function.
----
- drivers/gpu/drm/sprd/Kconfig         |    1 +
- drivers/gpu/drm/sprd/Makefile        |    4 +-
- drivers/gpu/drm/sprd/megacores_pll.c |  305 ++++++++
- drivers/gpu/drm/sprd/sprd_dpu.c      |   17 +
- drivers/gpu/drm/sprd/sprd_drm.c      |    1 +
- drivers/gpu/drm/sprd/sprd_drm.h      |    1 +
- drivers/gpu/drm/sprd/sprd_dsi.c      | 1065 ++++++++++++++++++++++++++
- drivers/gpu/drm/sprd/sprd_dsi.h      |  126 +++
- 8 files changed, 1519 insertions(+), 1 deletion(-)
- create mode 100644 drivers/gpu/drm/sprd/megacores_pll.c
- create mode 100644 drivers/gpu/drm/sprd/sprd_dsi.c
- create mode 100644 drivers/gpu/drm/sprd/sprd_dsi.h
+Regards, Joonas
 
-diff --git a/drivers/gpu/drm/sprd/Kconfig b/drivers/gpu/drm/sprd/Kconfig
-index 37762c333..3edeaeca0 100644
---- a/drivers/gpu/drm/sprd/Kconfig
-+++ b/drivers/gpu/drm/sprd/Kconfig
-@@ -5,6 +5,7 @@ config DRM_SPRD
- 	select DRM_GEM_CMA_HELPER
- 	select DRM_KMS_CMA_HELPER
- 	select DRM_KMS_HELPER
-+	select DRM_MIPI_DSI
- 	select VIDEOMODE_HELPERS
- 	help
- 	  Choose this option if you have a Unisoc chipset.
-diff --git a/drivers/gpu/drm/sprd/Makefile b/drivers/gpu/drm/sprd/Makefile
-index ab12b95e6..73f96c459 100644
---- a/drivers/gpu/drm/sprd/Makefile
-+++ b/drivers/gpu/drm/sprd/Makefile
-@@ -1,4 +1,6 @@
- # SPDX-License-Identifier: GPL-2.0
- 
- obj-y := sprd_drm.o \
--	sprd_dpu.o
-+	sprd_dpu.o \
-+	sprd_dsi.o \
-+	megacores_pll.o
-diff --git a/drivers/gpu/drm/sprd/megacores_pll.c b/drivers/gpu/drm/sprd/megacores_pll.c
-new file mode 100644
-index 000000000..3091dfdc1
---- /dev/null
-+++ b/drivers/gpu/drm/sprd/megacores_pll.c
-@@ -0,0 +1,305 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (C) 2020 Unisoc Inc.
-+ */
-+
-+#include <asm/div64.h>
-+#include <linux/delay.h>
-+#include <linux/init.h>
-+#include <linux/kernel.h>
-+#include <linux/regmap.h>
-+#include <linux/string.h>
-+
-+#include "sprd_dsi.h"
-+
-+#define L						0
-+#define H						1
-+#define CLK						0
-+#define DATA					1
-+#define INFINITY				0xffffffff
-+#define MIN_OUTPUT_FREQ			(100)
-+
-+#define AVERAGE(a, b) (min(a, b) + abs((b) - (a)) / 2)
-+
-+/* sharkle */
-+#define VCO_BAND_LOW	750
-+#define VCO_BAND_MID	1100
-+#define VCO_BAND_HIGH	1500
-+#define PHY_REF_CLK	26000
-+
-+static int dphy_calc_pll_param(struct dphy_pll *pll)
-+{
-+	const u32 khz = 1000;
-+	const u32 mhz = 1000000;
-+	const unsigned long long factor = 100;
-+	unsigned long long tmp;
-+	int i;
-+
-+	pll->potential_fvco = pll->freq / khz;
-+	pll->ref_clk = PHY_REF_CLK / khz;
-+
-+	for (i = 0; i < 4; ++i) {
-+		if (pll->potential_fvco >= VCO_BAND_LOW &&
-+		    pll->potential_fvco <= VCO_BAND_HIGH) {
-+			pll->fvco = pll->potential_fvco;
-+			pll->out_sel = BIT(i);
-+			break;
-+		}
-+		pll->potential_fvco <<= 1;
-+	}
-+	if (pll->fvco == 0)
-+		return -EINVAL;
-+
-+	if (pll->fvco >= VCO_BAND_LOW && pll->fvco <= VCO_BAND_MID) {
-+		/* vco band control */
-+		pll->vco_band = 0x0;
-+		/* low pass filter control */
-+		pll->lpf_sel = 1;
-+	} else if (pll->fvco > VCO_BAND_MID && pll->fvco <= VCO_BAND_HIGH) {
-+		pll->vco_band = 0x1;
-+		pll->lpf_sel = 0;
-+	} else {
-+		return -EINVAL;
-+	}
-+
-+	pll->nint = pll->fvco / pll->ref_clk;
-+	tmp = pll->fvco * factor * mhz;
-+	do_div(tmp, pll->ref_clk);
-+	tmp = tmp - pll->nint * factor * mhz;
-+	tmp *= BIT(20);
-+	do_div(tmp, 100000000);
-+	pll->kint = (u32)tmp;
-+	pll->refin = 3; /* pre-divider bypass */
-+	pll->sdm_en = true; /* use fraction N PLL */
-+	pll->fdk_s = 0x1; /* fraction */
-+	pll->cp_s = 0x0;
-+	pll->det_delay = 0x1;
-+
-+	return 0;
-+}
-+
-+static void dphy_set_pll_reg(struct dphy_pll *pll, struct regmap *regmap)
-+{
-+	u8 reg_val[9] = {0};
-+	int i;
-+
-+	u8 reg_addr[] = {
-+		0x03, 0x04, 0x06, 0x08, 0x09,
-+		0x0a, 0x0b, 0x0e, 0x0f
-+	};
-+
-+	reg_val[0] = 1 | (1 << 1) |  (pll->lpf_sel << 2);
-+	reg_val[1] = pll->div | (1 << 3) | (pll->cp_s << 5) | (pll->fdk_s << 7);
-+	reg_val[2] = pll->nint;
-+	reg_val[3] = pll->vco_band | (pll->sdm_en << 1) | (pll->refin << 2);
-+	reg_val[4] = pll->kint >> 12;
-+	reg_val[5] = pll->kint >> 4;
-+	reg_val[6] = pll->out_sel | ((pll->kint << 4) & 0xf);
-+	reg_val[7] = 1 << 4;
-+	reg_val[8] = pll->det_delay;
-+
-+	for (i = 0; i < sizeof(reg_addr); ++i) {
-+		regmap_write(regmap, reg_addr[i], reg_val[i]);
-+		DRM_DEBUG("%02x: %02x\n", reg_addr[i], reg_val[i]);
-+	}
-+}
-+
-+int dphy_pll_config(struct dsi_context *ctx)
-+{
-+	struct sprd_dsi *dsi = container_of(ctx, struct sprd_dsi, ctx);
-+	struct regmap *regmap = ctx->regmap;
-+	struct dphy_pll *pll = &ctx->pll;
-+	int ret;
-+
-+	pll->freq = dsi->slave->hs_rate;
-+
-+	/* FREQ = 26M * (NINT + KINT / 2^20) / out_sel */
-+	ret = dphy_calc_pll_param(pll);
-+	if (ret) {
-+		drm_err(dsi->drm, "failed to calculate dphy pll parameters\n");
-+		return ret;
-+	}
-+	dphy_set_pll_reg(pll, regmap);
-+
-+	return 0;
-+}
-+
-+static void dphy_set_timing_reg(struct regmap *regmap, int type, u8 val[])
-+{
-+	switch (type) {
-+	case REQUEST_TIME:
-+		regmap_write(regmap, 0x31, val[CLK]);
-+		regmap_write(regmap, 0x41, val[DATA]);
-+		regmap_write(regmap, 0x51, val[DATA]);
-+		regmap_write(regmap, 0x61, val[DATA]);
-+		regmap_write(regmap, 0x71, val[DATA]);
-+
-+		regmap_write(regmap, 0x90, val[CLK]);
-+		regmap_write(regmap, 0xa0, val[DATA]);
-+		regmap_write(regmap, 0xb0, val[DATA]);
-+		regmap_write(regmap, 0xc0, val[DATA]);
-+		regmap_write(regmap, 0xd0, val[DATA]);
-+		break;
-+	case PREPARE_TIME:
-+		regmap_write(regmap, 0x32, val[CLK]);
-+		regmap_write(regmap, 0x42, val[DATA]);
-+		regmap_write(regmap, 0x52, val[DATA]);
-+		regmap_write(regmap, 0x62, val[DATA]);
-+		regmap_write(regmap, 0x72, val[DATA]);
-+
-+		regmap_write(regmap, 0x91, val[CLK]);
-+		regmap_write(regmap, 0xa1, val[DATA]);
-+		regmap_write(regmap, 0xb1, val[DATA]);
-+		regmap_write(regmap, 0xc1, val[DATA]);
-+		regmap_write(regmap, 0xd1, val[DATA]);
-+		break;
-+	case ZERO_TIME:
-+		regmap_write(regmap, 0x33, val[CLK]);
-+		regmap_write(regmap, 0x43, val[DATA]);
-+		regmap_write(regmap, 0x53, val[DATA]);
-+		regmap_write(regmap, 0x63, val[DATA]);
-+		regmap_write(regmap, 0x73, val[DATA]);
-+
-+		regmap_write(regmap, 0x92, val[CLK]);
-+		regmap_write(regmap, 0xa2, val[DATA]);
-+		regmap_write(regmap, 0xb2, val[DATA]);
-+		regmap_write(regmap, 0xc2, val[DATA]);
-+		regmap_write(regmap, 0xd2, val[DATA]);
-+		break;
-+	case TRAIL_TIME:
-+		regmap_write(regmap, 0x34, val[CLK]);
-+		regmap_write(regmap, 0x44, val[DATA]);
-+		regmap_write(regmap, 0x54, val[DATA]);
-+		regmap_write(regmap, 0x64, val[DATA]);
-+		regmap_write(regmap, 0x74, val[DATA]);
-+
-+		regmap_write(regmap, 0x93, val[CLK]);
-+		regmap_write(regmap, 0xa3, val[DATA]);
-+		regmap_write(regmap, 0xb3, val[DATA]);
-+		regmap_write(regmap, 0xc3, val[DATA]);
-+		regmap_write(regmap, 0xd3, val[DATA]);
-+		break;
-+	case EXIT_TIME:
-+		regmap_write(regmap, 0x36, val[CLK]);
-+		regmap_write(regmap, 0x46, val[DATA]);
-+		regmap_write(regmap, 0x56, val[DATA]);
-+		regmap_write(regmap, 0x66, val[DATA]);
-+		regmap_write(regmap, 0x76, val[DATA]);
-+
-+		regmap_write(regmap, 0x95, val[CLK]);
-+		regmap_write(regmap, 0xA5, val[DATA]);
-+		regmap_write(regmap, 0xB5, val[DATA]);
-+		regmap_write(regmap, 0xc5, val[DATA]);
-+		regmap_write(regmap, 0xd5, val[DATA]);
-+		break;
-+	case CLKPOST_TIME:
-+		regmap_write(regmap, 0x35, val[CLK]);
-+		regmap_write(regmap, 0x94, val[CLK]);
-+		break;
-+
-+	/* the following just use default value */
-+	case SETTLE_TIME:
-+		fallthrough;
-+	case TA_GET:
-+		fallthrough;
-+	case TA_GO:
-+		fallthrough;
-+	case TA_SURE:
-+		fallthrough;
-+	default:
-+		break;
-+	}
-+}
-+
-+void dphy_timing_config(struct dsi_context *ctx)
-+{
-+	struct regmap *regmap = ctx->regmap;
-+	struct dphy_pll *pll = &ctx->pll;
-+	const u32 factor = 2;
-+	const u32 scale = 100;
-+	u32 t_ui, t_byteck, t_half_byteck;
-+	u32 range[2], constant;
-+	u8 val[2];
-+	u32 tmp = 0;
-+
-+	/* t_ui: 1 ui, byteck: 8 ui, half byteck: 4 ui */
-+	t_ui = 1000 * scale / (pll->freq / 1000);
-+	t_byteck = t_ui << 3;
-+	t_half_byteck = t_ui << 2;
-+	constant = t_ui << 1;
-+
-+	/* REQUEST_TIME: HS T-LPX: LP-01
-+	 * For T-LPX, mipi spec defined min value is 50ns,
-+	 * but maybe it shouldn't be too small, because BTA,
-+	 * LP-10, LP-00, LP-01, all of this is related to T-LPX.
-+	 */
-+	range[L] = 50 * scale;
-+	range[H] = INFINITY;
-+	val[CLK] = DIV_ROUND_UP(range[L] * (factor << 1), t_byteck) - 2;
-+	val[DATA] = val[CLK];
-+	dphy_set_timing_reg(regmap, REQUEST_TIME, val);
-+
-+	/* PREPARE_TIME: HS sequence: LP-00 */
-+	range[L] = 38 * scale;
-+	range[H] = 95 * scale;
-+	tmp = AVERAGE(range[L], range[H]);
-+	val[CLK] = DIV_ROUND_UP(AVERAGE(range[L], range[H]), t_half_byteck) - 1;
-+	range[L] = 40 * scale + 4 * t_ui;
-+	range[H] = 85 * scale + 6 * t_ui;
-+	tmp |= AVERAGE(range[L], range[H]) << 16;
-+	val[DATA] = DIV_ROUND_UP(AVERAGE(range[L], range[H]), t_half_byteck) - 1;
-+	dphy_set_timing_reg(regmap, PREPARE_TIME, val);
-+
-+	/* ZERO_TIME: HS-ZERO */
-+	range[L] = 300 * scale;
-+	range[H] = INFINITY;
-+	val[CLK] = DIV_ROUND_UP(range[L] * factor + (tmp & 0xffff)
-+			- 525 * t_byteck / 100, t_byteck) - 2;
-+	range[L] = 145 * scale + 10 * t_ui;
-+	val[DATA] = DIV_ROUND_UP(range[L] * factor
-+			+ ((tmp >> 16) & 0xffff) - 525 * t_byteck / 100,
-+			t_byteck) - 2;
-+	dphy_set_timing_reg(regmap, ZERO_TIME, val);
-+
-+	/* TRAIL_TIME: HS-TRAIL */
-+	range[L] = 60 * scale;
-+	range[H] = INFINITY;
-+	val[CLK] = DIV_ROUND_UP(range[L] * factor - constant, t_half_byteck);
-+	range[L] = max(8 * t_ui, 60 * scale + 4 * t_ui);
-+	val[DATA] = DIV_ROUND_UP(range[L] * 3 / 2 - constant, t_half_byteck) - 2;
-+	dphy_set_timing_reg(regmap, TRAIL_TIME, val);
-+
-+	/* EXIT_TIME: */
-+	range[L] = 100 * scale;
-+	range[H] = INFINITY;
-+	val[CLK] = DIV_ROUND_UP(range[L] * factor, t_byteck) - 2;
-+	val[DATA] = val[CLK];
-+	dphy_set_timing_reg(regmap, EXIT_TIME, val);
-+
-+	/* CLKPOST_TIME: */
-+	range[L] = 60 * scale + 52 * t_ui;
-+	range[H] = INFINITY;
-+	val[CLK] = DIV_ROUND_UP(range[L] * factor, t_byteck) - 2;
-+	val[DATA] = val[CLK];
-+	dphy_set_timing_reg(regmap, CLKPOST_TIME, val);
-+
-+	/* SETTLE_TIME:
-+	 * This time is used for receiver. So for transmitter,
-+	 * it can be ignored.
-+	 */
-+
-+	/* TA_GO:
-+	 * transmitter drives bridge state(LP-00) before releasing control,
-+	 * reg 0x1f default value: 0x04, which is good.
-+	 */
-+
-+	/* TA_SURE:
-+	 * After LP-10 state and before bridge state(LP-00),
-+	 * reg 0x20 default value: 0x01, which is good.
-+	 */
-+
-+	/* TA_GET:
-+	 * receiver drives Bridge state(LP-00) before releasing control
-+	 * reg 0x21 default value: 0x03, which is good.
-+	 */
-+}
-diff --git a/drivers/gpu/drm/sprd/sprd_dpu.c b/drivers/gpu/drm/sprd/sprd_dpu.c
-index 1d10d0998..ce9691f50 100644
---- a/drivers/gpu/drm/sprd/sprd_dpu.c
-+++ b/drivers/gpu/drm/sprd/sprd_dpu.c
-@@ -25,6 +25,7 @@
- 
- #include "sprd_drm.h"
- #include "sprd_dpu.h"
-+#include "sprd_dsi.h"
- 
- /* Global control registers */
- #define REG_DPU_CTRL	0x04
-@@ -618,9 +619,25 @@ static void sprd_crtc_mode_set_nofb(struct drm_crtc *crtc)
- {
- 	struct sprd_dpu *dpu = to_sprd_crtc(crtc);
- 	struct drm_display_mode *mode = &crtc->state->adjusted_mode;
-+	struct drm_encoder *encoder;
-+	struct mipi_dsi_device *slave;
-+	struct sprd_dsi *dsi;
- 
- 	drm_display_mode_to_videomode(mode, &dpu->ctx.vm);
- 
-+	drm_for_each_encoder(encoder, crtc->dev) {
-+		if (encoder->crtc != crtc)
-+			continue;
-+
-+		dsi = encoder_to_dsi(encoder);
-+		slave = dsi->slave;
-+
-+		if (slave->mode_flags & MIPI_DSI_MODE_VIDEO)
-+			dpu->ctx.if_type = SPRD_DPU_IF_DPI;
-+		else
-+			dpu->ctx.if_type = SPRD_DPU_IF_EDPI;
-+	}
-+
- 	sprd_dpi_init(dpu);
- }
- 
-diff --git a/drivers/gpu/drm/sprd/sprd_drm.c b/drivers/gpu/drm/sprd/sprd_drm.c
-index 59b9e54f7..a077e2d4d 100644
---- a/drivers/gpu/drm/sprd/sprd_drm.c
-+++ b/drivers/gpu/drm/sprd/sprd_drm.c
-@@ -181,6 +181,7 @@ static struct platform_driver sprd_drm_driver = {
- static struct platform_driver *sprd_drm_drivers[]  = {
- 	&sprd_drm_driver,
- 	&sprd_dpu_driver,
-+	&sprd_dsi_driver,
- };
- 
- static int __init sprd_drm_init(void)
-diff --git a/drivers/gpu/drm/sprd/sprd_drm.h b/drivers/gpu/drm/sprd/sprd_drm.h
-index 85d4a8b9f..95d1b972f 100644
---- a/drivers/gpu/drm/sprd/sprd_drm.h
-+++ b/drivers/gpu/drm/sprd/sprd_drm.h
-@@ -14,5 +14,6 @@ struct sprd_drm {
- };
- 
- extern struct platform_driver sprd_dpu_driver;
-+extern struct platform_driver sprd_dsi_driver;
- 
- #endif /* _SPRD_DRM_H_ */
-diff --git a/drivers/gpu/drm/sprd/sprd_dsi.c b/drivers/gpu/drm/sprd/sprd_dsi.c
-new file mode 100644
-index 000000000..e21f52061
---- /dev/null
-+++ b/drivers/gpu/drm/sprd/sprd_dsi.c
-@@ -0,0 +1,1065 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (C) 2020 Unisoc Inc.
-+ */
-+
-+#include <linux/component.h>
-+#include <linux/module.h>
-+#include <linux/of_address.h>
-+#include <linux/of_device.h>
-+#include <linux/of_irq.h>
-+#include <linux/of_graph.h>
-+#include <video/mipi_display.h>
-+
-+#include <drm/drm_atomic_helper.h>
-+#include <drm/drm_crtc_helper.h>
-+#include <drm/drm_of.h>
-+#include <drm/drm_probe_helper.h>
-+
-+#include "sprd_drm.h"
-+#include "sprd_dpu.h"
-+#include "sprd_dsi.h"
-+
-+#define SOFT_RESET 0x04
-+#define MASK_PROTOCOL_INT 0x0C
-+#define MASK_INTERNAL_INT 0x14
-+#define DSI_MODE_CFG 0x18
-+
-+#define VIRTUAL_CHANNEL_ID 0x1C
-+#define GEN_RX_VCID GENMASK(1, 0)
-+#define VIDEO_PKT_VCID GENMASK(3, 2)
-+
-+#define DPI_VIDEO_FORMAT 0x20
-+#define DPI_VIDEO_MODE_FORMAT GENMASK(5, 0)
-+#define LOOSELY18_EN BIT(6)
-+
-+#define VIDEO_PKT_CONFIG 0x24
-+#define VIDEO_PKT_SIZE GENMASK(15, 0)
-+#define VIDEO_LINE_CHUNK_NUM GENMASK(31, 16)
-+
-+#define VIDEO_LINE_HBLK_TIME 0x28
-+#define VIDEO_LINE_HBP_TIME GENMASK(15, 0)
-+#define VIDEO_LINE_HSA_TIME GENMASK(31, 16)
-+
-+#define VIDEO_LINE_TIME 0x2C
-+
-+#define VIDEO_VBLK_LINES 0x30
-+#define VFP_LINES GENMASK(9, 0)
-+#define VBP_LINES GENMASK(19, 10)
-+#define VSA_LINES GENMASK(29, 20)
-+
-+#define VIDEO_VACTIVE_LINES 0x34
-+
-+#define VID_MODE_CFG 0x38
-+#define VID_MODE_TYPE GENMASK(1, 0)
-+#define LP_VSA_EN BIT(8)
-+#define LP_VBP_EN BIT(9)
-+#define LP_VFP_EN BIT(10)
-+#define LP_VACT_EN BIT(11)
-+#define LP_HBP_EN BIT(12)
-+#define LP_HFP_EN BIT(13)
-+#define FRAME_BTA_ACK_EN BIT(14)
-+
-+#define TIMEOUT_CNT_CLK_CONFIG 0x40
-+#define HTX_TO_CONFIG 0x44
-+#define LRX_H_TO_CONFIG 0x48
-+
-+#define TX_ESC_CLK_CONFIG 0x5C
-+
-+#define CMD_MODE_CFG 0x68
-+#define TEAR_FX_EN BIT(0)
-+
-+#define GEN_HDR 0x6C
-+#define GEN_DT GENMASK(5, 0)
-+#define GEN_VC GENMASK(7, 6)
-+
-+#define GEN_PLD_DATA 0x70
-+
-+#define PHY_CLK_LANE_LP_CTRL 0x74
-+#define PHY_CLKLANE_TX_REQ_HS BIT(0)
-+#define AUTO_CLKLANE_CTRL_EN BIT(1)
-+
-+#define PHY_INTERFACE_CTRL 0x78
-+#define RF_PHY_SHUTDOWN BIT(0)
-+#define RF_PHY_RESET_N BIT(1)
-+#define RF_PHY_CLK_EN BIT(2)
-+
-+#define CMD_MODE_STATUS 0x98
-+#define GEN_CMD_RDATA_FIFO_EMPTY BIT(1)
-+#define GEN_CMD_WDATA_FIFO_EMPTY BIT(3)
-+#define GEN_CMD_CMD_FIFO_EMPTY BIT(5)
-+#define GEN_CMD_RDCMD_DONE BIT(7)
-+
-+#define PHY_STATUS 0x9C
-+#define PHY_LOCK BIT(1)
-+
-+#define PHY_MIN_STOP_TIME 0xA0
-+#define PHY_LANE_NUM_CONFIG 0xA4
-+
-+#define PHY_CLKLANE_TIME_CONFIG 0xA8
-+#define PHY_CLKLANE_LP_TO_HS_TIME GENMASK(15, 0)
-+#define PHY_CLKLANE_HS_TO_LP_TIME GENMASK(31, 16)
-+
-+#define PHY_DATALANE_TIME_CONFIG 0xAC
-+#define PHY_DATALANE_LP_TO_HS_TIME GENMASK(15, 0)
-+#define PHY_DATALANE_HS_TO_LP_TIME GENMASK(31, 16)
-+
-+#define MAX_READ_TIME 0xB0
-+
-+#define RX_PKT_CHECK_CONFIG 0xB4
-+#define RX_PKT_ECC_EN BIT(0)
-+#define RX_PKT_CRC_EN BIT(1)
-+
-+#define TA_EN 0xB8
-+
-+#define EOTP_EN 0xBC
-+#define TX_EOTP_EN BIT(0)
-+#define RX_EOTP_EN BIT(1)
-+
-+#define VIDEO_NULLPKT_SIZE 0xC0
-+#define DCS_WM_PKT_SIZE 0xC4
-+
-+#define VIDEO_SIG_DELAY_CONFIG 0xD0
-+#define VIDEO_SIG_DELAY GENMASK(23, 0)
-+
-+#define PHY_TST_CTRL0 0xF0
-+#define PHY_TESTCLR BIT(0)
-+#define PHY_TESTCLK BIT(1)
-+
-+#define PHY_TST_CTRL1 0xF4
-+#define PHY_TESTDIN GENMASK(7, 0)
-+#define PHY_TESTDOUT GENMASK(15, 8)
-+#define PHY_TESTEN BIT(16)
-+
-+#define host_to_dsi(host) \
-+	container_of(host, struct sprd_dsi, host)
-+
-+static inline u32
-+dsi_reg_rd(struct dsi_context *ctx, u32 offset, u32 mask,
-+	   u32 shift)
-+{
-+	return (readl(ctx->base + offset) & mask) >> shift;
-+}
-+
-+static inline void
-+dsi_reg_wr(struct dsi_context *ctx, u32 offset, u32 mask,
-+	   u32 shift, u32 val)
-+{
-+	u32 ret;
-+
-+	ret = readl(ctx->base + offset);
-+	ret &= ~mask;
-+	ret |= (val << shift) & mask;
-+	writel(ret, ctx->base + offset);
-+}
-+
-+static inline void
-+dsi_reg_up(struct dsi_context *ctx, u32 offset, u32 mask,
-+	   u32 val)
-+{
-+	u32 ret = readl(ctx->base + offset);
-+
-+	writel((ret & ~mask) | (val & mask), ctx->base + offset);
-+}
-+
-+static int regmap_tst_io_write(void *context, u32 reg, u32 val)
-+{
-+	struct sprd_dsi *dsi = context;
-+	struct dsi_context *ctx = &dsi->ctx;
-+
-+	if (val > 0xff || reg > 0xff)
-+		return -EINVAL;
-+
-+	drm_dbg(dsi->drm, "reg = 0x%02x, val = 0x%02x\n", reg, val);
-+
-+	dsi_reg_up(ctx, PHY_TST_CTRL1, PHY_TESTEN, PHY_TESTEN);
-+	dsi_reg_wr(ctx, PHY_TST_CTRL1, PHY_TESTDIN, 0, reg);
-+	dsi_reg_up(ctx, PHY_TST_CTRL0, PHY_TESTCLK, PHY_TESTCLK);
-+	dsi_reg_up(ctx, PHY_TST_CTRL0, PHY_TESTCLK, 0);
-+	dsi_reg_up(ctx, PHY_TST_CTRL1, PHY_TESTEN, 0);
-+	dsi_reg_wr(ctx, PHY_TST_CTRL1, PHY_TESTDIN, 0, val);
-+	dsi_reg_up(ctx, PHY_TST_CTRL0, PHY_TESTCLK, PHY_TESTCLK);
-+	dsi_reg_up(ctx, PHY_TST_CTRL0, PHY_TESTCLK, 0);
-+
-+	return 0;
-+}
-+
-+static int regmap_tst_io_read(void *context, u32 reg, u32 *val)
-+{
-+	struct sprd_dsi *dsi = context;
-+	struct dsi_context *ctx = &dsi->ctx;
-+	int ret;
-+
-+	if (reg > 0xff)
-+		return -EINVAL;
-+
-+	dsi_reg_up(ctx, PHY_TST_CTRL1, PHY_TESTEN, PHY_TESTEN);
-+	dsi_reg_wr(ctx, PHY_TST_CTRL1, PHY_TESTDIN, 0, reg);
-+	dsi_reg_up(ctx, PHY_TST_CTRL0, PHY_TESTCLK, PHY_TESTCLK);
-+	dsi_reg_up(ctx, PHY_TST_CTRL0, PHY_TESTCLK, 0);
-+	dsi_reg_up(ctx, PHY_TST_CTRL1, PHY_TESTEN, 0);
-+
-+	udelay(1);
-+
-+	ret = dsi_reg_rd(ctx, PHY_TST_CTRL1, PHY_TESTDOUT, 8);
-+	if (ret < 0)
-+		return ret;
-+
-+	*val = ret;
-+
-+	drm_dbg(dsi->drm, "reg = 0x%02x, val = 0x%02x\n", reg, *val);
-+	return 0;
-+}
-+
-+static struct regmap_bus regmap_tst_io = {
-+	.reg_write = regmap_tst_io_write,
-+	.reg_read = regmap_tst_io_read,
-+};
-+
-+static const struct regmap_config byte_config = {
-+	.reg_bits = 8,
-+	.val_bits = 8,
-+};
-+
-+static int dphy_wait_pll_locked(struct dsi_context *ctx)
-+{
-+	struct sprd_dsi *dsi = container_of(ctx, struct sprd_dsi, ctx);
-+	int i;
-+
-+	for (i = 0; i < 50000; i++) {
-+		if (dsi_reg_rd(ctx, PHY_STATUS, PHY_LOCK, 1))
-+			return 0;
-+		udelay(3);
-+	}
-+
-+	drm_err(dsi->drm, "dphy pll can not be locked\n");
-+	return -ETIMEDOUT;
-+}
-+
-+static int dsi_wait_tx_payload_fifo_empty(struct dsi_context *ctx)
-+{
-+	int i;
-+
-+	for (i = 0; i < 5000; i++) {
-+		if (dsi_reg_rd(ctx, CMD_MODE_STATUS, GEN_CMD_WDATA_FIFO_EMPTY, 3))
-+			return 0;
-+		udelay(1);
-+	}
-+
-+	return -ETIMEDOUT;
-+}
-+
-+static int dsi_wait_tx_cmd_fifo_empty(struct dsi_context *ctx)
-+{
-+	int i;
-+
-+	for (i = 0; i < 5000; i++) {
-+		if (dsi_reg_rd(ctx, CMD_MODE_STATUS, GEN_CMD_CMD_FIFO_EMPTY, 5))
-+			return 0;
-+		udelay(1);
-+	}
-+
-+	return -ETIMEDOUT;
-+}
-+
-+static int dsi_wait_rd_resp_completed(struct dsi_context *ctx)
-+{
-+	int i;
-+
-+	for (i = 0; i < 10000; i++) {
-+		if (dsi_reg_rd(ctx, CMD_MODE_STATUS, GEN_CMD_RDCMD_DONE, 7))
-+			return 0;
-+		udelay(10);
-+	}
-+
-+	return -ETIMEDOUT;
-+}
-+
-+static u16 calc_bytes_per_pixel_x100(int coding)
-+{
-+	u16 bpp_x100;
-+
-+	switch (coding) {
-+	case COLOR_CODE_16BIT_CONFIG1:
-+	case COLOR_CODE_16BIT_CONFIG2:
-+	case COLOR_CODE_16BIT_CONFIG3:
-+		bpp_x100 = 200;
-+		break;
-+	case COLOR_CODE_18BIT_CONFIG1:
-+	case COLOR_CODE_18BIT_CONFIG2:
-+		bpp_x100 = 225;
-+		break;
-+	case COLOR_CODE_24BIT:
-+		bpp_x100 = 300;
-+		break;
-+	case COLOR_CODE_COMPRESSTION:
-+		bpp_x100 = 100;
-+		break;
-+	case COLOR_CODE_20BIT_YCC422_LOOSELY:
-+		bpp_x100 = 250;
-+		break;
-+	case COLOR_CODE_24BIT_YCC422:
-+		bpp_x100 = 300;
-+		break;
-+	case COLOR_CODE_16BIT_YCC422:
-+		bpp_x100 = 200;
-+		break;
-+	case COLOR_CODE_30BIT:
-+		bpp_x100 = 375;
-+		break;
-+	case COLOR_CODE_36BIT:
-+		bpp_x100 = 450;
-+		break;
-+	case COLOR_CODE_12BIT_YCC420:
-+		bpp_x100 = 150;
-+		break;
-+	default:
-+		DRM_ERROR("invalid color coding");
-+		bpp_x100 = 0;
-+		break;
-+	}
-+
-+	return bpp_x100;
-+}
-+
-+static u8 calc_video_size_step(int coding)
-+{
-+	u8 video_size_step;
-+
-+	switch (coding) {
-+	case COLOR_CODE_16BIT_CONFIG1:
-+	case COLOR_CODE_16BIT_CONFIG2:
-+	case COLOR_CODE_16BIT_CONFIG3:
-+	case COLOR_CODE_18BIT_CONFIG1:
-+	case COLOR_CODE_18BIT_CONFIG2:
-+	case COLOR_CODE_24BIT:
-+	case COLOR_CODE_COMPRESSTION:
-+		return video_size_step = 1;
-+	case COLOR_CODE_20BIT_YCC422_LOOSELY:
-+	case COLOR_CODE_24BIT_YCC422:
-+	case COLOR_CODE_16BIT_YCC422:
-+	case COLOR_CODE_30BIT:
-+	case COLOR_CODE_36BIT:
-+	case COLOR_CODE_12BIT_YCC420:
-+		return video_size_step = 2;
-+	default:
-+		DRM_ERROR("invalid color coding");
-+		return 0;
-+	}
-+}
-+
-+static u16 round_video_size(int coding, u16 video_size)
-+{
-+	switch (coding) {
-+	case COLOR_CODE_16BIT_YCC422:
-+	case COLOR_CODE_24BIT_YCC422:
-+	case COLOR_CODE_20BIT_YCC422_LOOSELY:
-+	case COLOR_CODE_12BIT_YCC420:
-+		/* round up active H pixels to a multiple of 2 */
-+		if ((video_size % 2) != 0)
-+			video_size += 1;
-+		break;
-+	default:
-+		break;
-+	}
-+
-+	return video_size;
-+}
-+
-+#define SPRD_MIPI_DSI_FMT_DSC 0xff
-+static u32 fmt_to_coding(u32 fmt)
-+{
-+	switch (fmt) {
-+	case MIPI_DSI_FMT_RGB565:
-+		return COLOR_CODE_16BIT_CONFIG1;
-+	case MIPI_DSI_FMT_RGB666:
-+	case MIPI_DSI_FMT_RGB666_PACKED:
-+		return COLOR_CODE_18BIT_CONFIG1;
-+	case MIPI_DSI_FMT_RGB888:
-+		return COLOR_CODE_24BIT;
-+	case SPRD_MIPI_DSI_FMT_DSC:
-+		return COLOR_CODE_COMPRESSTION;
-+	default:
-+		DRM_ERROR("Unsupported format (%d)\n", fmt);
-+		return COLOR_CODE_24BIT;
-+	}
-+}
-+
-+#define ns_to_cycle(ns, byte_clk) \
-+	DIV_ROUND_UP((ns) * (byte_clk), 1000000)
-+
-+static void sprd_dsi_init(struct dsi_context *ctx)
-+{
-+	struct sprd_dsi *dsi = container_of(ctx, struct sprd_dsi, ctx);
-+	u32 byte_clk = dsi->slave->hs_rate / 8;
-+	u16 data_hs2lp, data_lp2hs, clk_hs2lp, clk_lp2hs;
-+	u16 max_rd_time;
-+	int div;
-+
-+	writel(0, ctx->base + SOFT_RESET);
-+	writel(0xffffffff, ctx->base + MASK_PROTOCOL_INT);
-+	writel(0xffffffff, ctx->base + MASK_INTERNAL_INT);
-+	writel(1, ctx->base + DSI_MODE_CFG);
-+	dsi_reg_up(ctx, EOTP_EN, RX_EOTP_EN, 0);
-+	dsi_reg_up(ctx, EOTP_EN, TX_EOTP_EN, 0);
-+	dsi_reg_up(ctx, RX_PKT_CHECK_CONFIG, RX_PKT_ECC_EN, RX_PKT_ECC_EN);
-+	dsi_reg_up(ctx, RX_PKT_CHECK_CONFIG, RX_PKT_CRC_EN, RX_PKT_CRC_EN);
-+	writel(1, ctx->base + TA_EN);
-+	dsi_reg_up(ctx, VIRTUAL_CHANNEL_ID, VIDEO_PKT_VCID, 0);
-+	dsi_reg_up(ctx, VIRTUAL_CHANNEL_ID, GEN_RX_VCID, 0);
-+
-+	div = DIV_ROUND_UP(byte_clk, dsi->slave->lp_rate);
-+	writel(div, ctx->base + TX_ESC_CLK_CONFIG);
-+
-+	max_rd_time = ns_to_cycle(ctx->max_rd_time, byte_clk);
-+	writel(max_rd_time, ctx->base + MAX_READ_TIME);
-+
-+	data_hs2lp = ns_to_cycle(ctx->data_hs2lp, byte_clk);
-+	data_lp2hs = ns_to_cycle(ctx->data_lp2hs, byte_clk);
-+	clk_hs2lp = ns_to_cycle(ctx->clk_hs2lp, byte_clk);
-+	clk_lp2hs = ns_to_cycle(ctx->clk_lp2hs, byte_clk);
-+	dsi_reg_wr(ctx, PHY_DATALANE_TIME_CONFIG,
-+		   PHY_DATALANE_HS_TO_LP_TIME, 16, data_hs2lp);
-+	dsi_reg_wr(ctx, PHY_DATALANE_TIME_CONFIG,
-+		   PHY_DATALANE_LP_TO_HS_TIME, 0, data_lp2hs);
-+	dsi_reg_wr(ctx, PHY_CLKLANE_TIME_CONFIG,
-+		   PHY_CLKLANE_HS_TO_LP_TIME, 16, clk_hs2lp);
-+	dsi_reg_wr(ctx, PHY_CLKLANE_TIME_CONFIG,
-+		   PHY_CLKLANE_LP_TO_HS_TIME, 0, clk_lp2hs);
-+
-+	writel(1, ctx->base + SOFT_RESET);
-+}
-+
-+/*
-+ * Free up resources and shutdown host controller and PHY
-+ */
-+static void sprd_dsi_fini(struct dsi_context *ctx)
-+{
-+	writel(0xffffffff, ctx->base + MASK_PROTOCOL_INT);
-+	writel(0xffffffff, ctx->base + MASK_INTERNAL_INT);
-+	writel(0, ctx->base + SOFT_RESET);
-+}
-+
-+/*
-+ * If not in burst mode, it will compute the video and null packet sizes
-+ * according to necessity.
-+ * Configure timers for data lanes and/or clock lane to return to LP when
-+ * bandwidth is not filled by data.
-+ */
-+static int sprd_dsi_dpi_video(struct dsi_context *ctx)
-+{
-+	struct sprd_dsi *dsi = container_of(ctx, struct sprd_dsi, ctx);
-+	struct videomode *vm = &ctx->vm;
-+	u32 byte_clk = dsi->slave->hs_rate / 8;
-+	u16 bpp_x100;
-+	u16 video_size;
-+	u32 ratio_x1000;
-+	u16 null_pkt_size = 0;
-+	u8 video_size_step;
-+	u32 hs_to;
-+	u32 total_bytes;
-+	u32 bytes_per_chunk;
-+	u32 chunks = 0;
-+	u32 bytes_left = 0;
-+	u32 chunk_overhead;
-+	const u8 pkt_header = 6;
-+	u8 coding;
-+	int div;
-+	u16 hline;
-+	u16 byte_cycle;
-+
-+	coding = fmt_to_coding(dsi->slave->format);
-+	video_size = round_video_size(coding, vm->hactive);
-+	bpp_x100 = calc_bytes_per_pixel_x100(coding);
-+	video_size_step = calc_video_size_step(coding);
-+	ratio_x1000 = byte_clk * 1000 / (vm->pixelclock / 1000);
-+	hline = vm->hactive + vm->hsync_len + vm->hfront_porch +
-+		vm->hback_porch;
-+
-+	writel(0, ctx->base + SOFT_RESET);
-+	dsi_reg_wr(ctx, VID_MODE_CFG, FRAME_BTA_ACK_EN, 15, ctx->frame_ack_en);
-+	dsi_reg_wr(ctx, DPI_VIDEO_FORMAT, DPI_VIDEO_MODE_FORMAT, 0, coding);
-+	dsi_reg_wr(ctx, VID_MODE_CFG, VID_MODE_TYPE, 0, ctx->burst_mode);
-+	byte_cycle = 95 * hline * ratio_x1000 / 100000;
-+	dsi_reg_wr(ctx, VIDEO_SIG_DELAY_CONFIG, VIDEO_SIG_DELAY, 0, byte_cycle);
-+	byte_cycle = hline * ratio_x1000 / 1000;
-+	writel(byte_cycle, ctx->base + VIDEO_LINE_TIME);
-+	byte_cycle = vm->hsync_len * ratio_x1000 / 1000;
-+	dsi_reg_wr(ctx, VIDEO_LINE_HBLK_TIME, VIDEO_LINE_HSA_TIME, 16, byte_cycle);
-+	byte_cycle = vm->hback_porch * ratio_x1000 / 1000;
-+	dsi_reg_wr(ctx, VIDEO_LINE_HBLK_TIME, VIDEO_LINE_HBP_TIME, 0, byte_cycle);
-+	writel(vm->vactive, ctx->base + VIDEO_VACTIVE_LINES);
-+	dsi_reg_wr(ctx, VIDEO_VBLK_LINES, VFP_LINES, 0, vm->vfront_porch);
-+	dsi_reg_wr(ctx, VIDEO_VBLK_LINES, VBP_LINES, 10, vm->vback_porch);
-+	dsi_reg_wr(ctx, VIDEO_VBLK_LINES, VSA_LINES, 20, vm->vsync_len);
-+	dsi_reg_up(ctx, VID_MODE_CFG, LP_HBP_EN | LP_HFP_EN | LP_VACT_EN |
-+			LP_VFP_EN | LP_VBP_EN | LP_VSA_EN, LP_HBP_EN | LP_HFP_EN |
-+			LP_VACT_EN | LP_VFP_EN | LP_VBP_EN | LP_VSA_EN);
-+
-+	hs_to = (hline * vm->vactive) + (2 * bpp_x100) / 100;
-+	for (div = 0x80; (div < hs_to) && (div > 2); div--) {
-+		if ((hs_to % div) == 0) {
-+			writel(div, ctx->base + TIMEOUT_CNT_CLK_CONFIG);
-+			writel(hs_to / div, ctx->base + LRX_H_TO_CONFIG);
-+			writel(hs_to / div, ctx->base + HTX_TO_CONFIG);
-+			break;
-+		}
-+	}
-+
-+	if (ctx->burst_mode == VIDEO_BURST_WITH_SYNC_PULSES) {
-+		dsi_reg_wr(ctx, VIDEO_PKT_CONFIG, VIDEO_PKT_SIZE, 0, video_size);
-+		writel(0, ctx->base + VIDEO_NULLPKT_SIZE);
-+		dsi_reg_up(ctx, VIDEO_PKT_CONFIG, VIDEO_LINE_CHUNK_NUM, 0);
-+	} else {
-+		/* non burst transmission */
-+		null_pkt_size = 0;
-+
-+		/* bytes to be sent - first as one chunk */
-+		bytes_per_chunk = vm->hactive * bpp_x100 / 100 + pkt_header;
-+
-+		/* hline total bytes from the DPI interface */
-+		total_bytes = (vm->hactive + vm->hfront_porch) *
-+				ratio_x1000 / dsi->slave->lanes / 1000;
-+
-+		/* check if the pixels actually fit on the DSI link */
-+		if (total_bytes < bytes_per_chunk) {
-+			drm_err(dsi->drm, "current resolution can not be set\n");
-+			return -EINVAL;
-+		}
-+
-+		chunk_overhead = total_bytes - bytes_per_chunk;
-+
-+		/* overhead higher than 1 -> enable multi packets */
-+		if (chunk_overhead > 1) {
-+			/* multi packets */
-+			for (video_size = video_size_step;
-+			     video_size < vm->hactive;
-+			     video_size += video_size_step) {
-+				if (vm->hactive * 1000 / video_size % 1000)
-+					continue;
-+
-+				chunks = vm->hactive / video_size;
-+				bytes_per_chunk = bpp_x100 * video_size / 100
-+						  + pkt_header;
-+				if (total_bytes >= (bytes_per_chunk * chunks)) {
-+					bytes_left = total_bytes -
-+						     bytes_per_chunk * chunks;
-+					break;
-+				}
-+			}
-+
-+			/* prevent overflow (unsigned - unsigned) */
-+			if (bytes_left > (pkt_header * chunks)) {
-+				null_pkt_size = (bytes_left -
-+						pkt_header * chunks) / chunks;
-+				/* avoid register overflow */
-+				if (null_pkt_size > 1023)
-+					null_pkt_size = 1023;
-+			}
-+
-+		} else {
-+			/* single packet */
-+			chunks = 1;
-+
-+			/* must be a multiple of 4 except 18 loosely */
-+			for (video_size = vm->hactive;
-+			    (video_size % video_size_step) != 0;
-+			     video_size++)
-+				;
-+		}
-+
-+		dsi_reg_wr(ctx, VIDEO_PKT_CONFIG, VIDEO_PKT_SIZE, 0, video_size);
-+		writel(null_pkt_size, ctx->base + VIDEO_NULLPKT_SIZE);
-+		dsi_reg_wr(ctx, VIDEO_PKT_CONFIG, VIDEO_LINE_CHUNK_NUM, 16, chunks);
-+	}
-+
-+	writel(ctx->int0_mask, ctx->base + MASK_PROTOCOL_INT);
-+	writel(ctx->int1_mask, ctx->base + MASK_INTERNAL_INT);
-+	writel(1, ctx->base + SOFT_RESET);
-+
-+	return 0;
-+}
-+
-+static void sprd_dsi_edpi_video(struct dsi_context *ctx)
-+{
-+	struct sprd_dsi *dsi = container_of(ctx, struct sprd_dsi, ctx);
-+	const u32 fifo_depth = 1096;
-+	const u32 word_length = 4;
-+	u32 hactive = ctx->vm.hactive;
-+	u32 bpp_x100;
-+	u32 max_fifo_len;
-+	u8 coding;
-+
-+	coding = fmt_to_coding(dsi->slave->format);
-+	bpp_x100 = calc_bytes_per_pixel_x100(coding);
-+	max_fifo_len = word_length * fifo_depth * 100 / bpp_x100;
-+
-+	writel(0, ctx->base + SOFT_RESET);
-+	dsi_reg_wr(ctx, DPI_VIDEO_FORMAT, DPI_VIDEO_MODE_FORMAT, 0, coding);
-+	dsi_reg_wr(ctx, CMD_MODE_CFG, TEAR_FX_EN, 0, ctx->te_ack_en);
-+
-+	if (max_fifo_len > hactive)
-+		writel(hactive, ctx->base + DCS_WM_PKT_SIZE);
-+	else
-+		writel(max_fifo_len, ctx->base + DCS_WM_PKT_SIZE);
-+
-+	writel(ctx->int0_mask, ctx->base + MASK_PROTOCOL_INT);
-+	writel(ctx->int1_mask, ctx->base + MASK_INTERNAL_INT);
-+	writel(1, ctx->base + SOFT_RESET);
-+}
-+
-+/*
-+ * Send a packet on the generic interface,
-+ * this function has an active delay to wait for the buffer to clear.
-+ * The delay is limited to:
-+ * (param_length / 4) x DSIH_FIFO_ACTIVE_WAIT x register access time
-+ * the controller restricts the sending of.
-+ *
-+ * This function will not be able to send Null and Blanking packets due to
-+ * controller restriction
-+ */
-+static int sprd_dsi_wr_pkt(struct dsi_context *ctx, u8 vc, u8 type,
-+			   const u8 *param, u16 len)
-+{
-+	struct sprd_dsi *dsi = container_of(ctx, struct sprd_dsi, ctx);
-+	u8 wc_lsbyte, wc_msbyte;
-+	u32 payload;
-+	int i, j, ret;
-+
-+	if (vc > 3)
-+		return -EINVAL;
-+
-+	/* 1st: for long packet, must config payload first */
-+	ret = dsi_wait_tx_payload_fifo_empty(ctx);
-+	if (ret) {
-+		drm_err(dsi->drm, "tx payload fifo is not empty\n");
-+		return ret;
-+	}
-+
-+	if (len > 2) {
-+		for (i = 0, j = 0; i < len; i += j) {
-+			payload = 0;
-+			for (j = 0; (j < 4) && ((j + i) < (len)); j++)
-+				payload |= param[i + j] << (j * 8);
-+
-+			writel(payload, ctx->base + GEN_PLD_DATA);
-+		}
-+		wc_lsbyte = len & 0xff;
-+		wc_msbyte = len >> 8;
-+	} else {
-+		wc_lsbyte = (len > 0) ? param[0] : 0;
-+		wc_msbyte = (len > 1) ? param[1] : 0;
-+	}
-+
-+	/* 2nd: then set packet header */
-+	ret = dsi_wait_tx_cmd_fifo_empty(ctx);
-+	if (ret) {
-+		drm_err(dsi->drm, "tx cmd fifo is not empty\n");
-+		return ret;
-+	}
-+
-+	writel(type | (vc << 6) | (wc_lsbyte << 8) | (wc_msbyte << 16),
-+	       ctx->base + GEN_HDR);
-+
-+	return 0;
-+}
-+
-+/*
-+ * Send READ packet to peripheral using the generic interface,
-+ * this will force command mode and stop video mode (because of BTA).
-+ *
-+ * This function has an active delay to wait for the buffer to clear,
-+ * the delay is limited to 2 x DSIH_FIFO_ACTIVE_WAIT
-+ * (waiting for command buffer, and waiting for receiving)
-+ * @note this function will enable BTA
-+ */
-+static int sprd_dsi_rd_pkt(struct dsi_context *ctx, u8 vc, u8 type,
-+			   u8 msb_byte, u8 lsb_byte,
-+			   u8 *buffer, u8 bytes_to_read)
-+{
-+	struct sprd_dsi *dsi = container_of(ctx, struct sprd_dsi, ctx);
-+	int i, ret;
-+	int count = 0;
-+	u32 temp;
-+
-+	if (vc > 3)
-+		return -EINVAL;
-+
-+	/* 1st: send read command to peripheral */
-+	ret = dsi_reg_rd(ctx, CMD_MODE_STATUS, GEN_CMD_CMD_FIFO_EMPTY, 5);
-+	if (!ret)
-+		return -EIO;
-+
-+	writel(type | (vc << 6) | (lsb_byte << 8) | (msb_byte << 16),
-+	       ctx->base + GEN_HDR);
-+
-+	/* 2nd: wait peripheral response completed */
-+	ret = dsi_wait_rd_resp_completed(ctx);
-+	if (ret) {
-+		drm_err(dsi->drm, "wait read response time out\n");
-+		return ret;
-+	}
-+
-+	/* 3rd: get data from rx payload fifo */
-+	ret = dsi_reg_rd(ctx, CMD_MODE_STATUS, GEN_CMD_RDATA_FIFO_EMPTY, 1);
-+	if (ret) {
-+		drm_err(dsi->drm, "rx payload fifo empty\n");
-+		return -EIO;
-+	}
-+
-+	for (i = 0; i < 100; i++) {
-+		temp = readl(ctx->base + GEN_PLD_DATA);
-+
-+		if (count < bytes_to_read)
-+			buffer[count++] = temp & 0xff;
-+		if (count < bytes_to_read)
-+			buffer[count++] = (temp >> 8) & 0xff;
-+		if (count < bytes_to_read)
-+			buffer[count++] = (temp >> 16) & 0xff;
-+		if (count < bytes_to_read)
-+			buffer[count++] = (temp >> 24) & 0xff;
-+
-+		ret = dsi_reg_rd(ctx, CMD_MODE_STATUS, GEN_CMD_RDATA_FIFO_EMPTY, 1);
-+		if (ret)
-+			return count;
-+	}
-+
-+	return 0;
-+}
-+
-+static void sprd_dsi_set_work_mode(struct dsi_context *ctx, u8 mode)
-+{
-+	if (mode == DSI_MODE_CMD)
-+		writel(1, ctx->base + DSI_MODE_CFG);
-+	else
-+		writel(0, ctx->base + DSI_MODE_CFG);
-+}
-+
-+static void sprd_dsi_state_reset(struct dsi_context *ctx)
-+{
-+	writel(0, ctx->base + SOFT_RESET);
-+	udelay(100);
-+	writel(1, ctx->base + SOFT_RESET);
-+}
-+
-+static int sprd_dphy_init(struct dsi_context *ctx)
-+{
-+	struct sprd_dsi *dsi = container_of(ctx, struct sprd_dsi, ctx);
-+	int ret;
-+
-+	dsi_reg_up(ctx, PHY_INTERFACE_CTRL, RF_PHY_RESET_N, 0);
-+	dsi_reg_up(ctx, PHY_INTERFACE_CTRL, RF_PHY_SHUTDOWN, 0);
-+	dsi_reg_up(ctx, PHY_INTERFACE_CTRL, RF_PHY_CLK_EN, 0);
-+
-+	dsi_reg_up(ctx, PHY_TST_CTRL0, PHY_TESTCLR, 0);
-+	dsi_reg_up(ctx, PHY_TST_CTRL0, PHY_TESTCLR, PHY_TESTCLR);
-+	dsi_reg_up(ctx, PHY_TST_CTRL0, PHY_TESTCLR, 0);
-+
-+	dphy_pll_config(ctx);
-+	dphy_timing_config(ctx);
-+
-+	dsi_reg_up(ctx, PHY_INTERFACE_CTRL, RF_PHY_SHUTDOWN, RF_PHY_SHUTDOWN);
-+	dsi_reg_up(ctx, PHY_INTERFACE_CTRL, RF_PHY_RESET_N, RF_PHY_RESET_N);
-+	writel(0x1C, ctx->base + PHY_MIN_STOP_TIME);
-+	dsi_reg_up(ctx, PHY_INTERFACE_CTRL, RF_PHY_CLK_EN, RF_PHY_CLK_EN);
-+	writel(dsi->slave->lanes - 1, ctx->base + PHY_LANE_NUM_CONFIG);
-+
-+	ret = dphy_wait_pll_locked(ctx);
-+	if (ret) {
-+		drm_err(dsi->drm, "dphy initial failed\n");
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static void sprd_dphy_fini(struct dsi_context *ctx)
-+{
-+	dsi_reg_up(ctx, PHY_INTERFACE_CTRL, RF_PHY_RESET_N, 0);
-+	dsi_reg_up(ctx, PHY_INTERFACE_CTRL, RF_PHY_SHUTDOWN, 0);
-+	dsi_reg_up(ctx, PHY_INTERFACE_CTRL, RF_PHY_RESET_N, RF_PHY_RESET_N);
-+}
-+
-+static void sprd_dsi_encoder_mode_set(struct drm_encoder *encoder,
-+				      struct drm_display_mode *mode,
-+				 struct drm_display_mode *adj_mode)
-+{
-+	struct sprd_dsi *dsi = encoder_to_dsi(encoder);
-+
-+	drm_display_mode_to_videomode(adj_mode, &dsi->ctx.vm);
-+}
-+
-+static void sprd_dsi_encoder_enable(struct drm_encoder *encoder)
-+{
-+	struct sprd_dsi *dsi = encoder_to_dsi(encoder);
-+	struct sprd_dpu *dpu = to_sprd_crtc(encoder->crtc);
-+	struct dsi_context *ctx = &dsi->ctx;
-+
-+	if (ctx->enabled) {
-+		drm_warn(dsi->drm, "dsi is initialized\n");
-+		return;
-+	}
-+
-+	sprd_dsi_init(ctx);
-+	if (ctx->work_mode == DSI_MODE_VIDEO)
-+		sprd_dsi_dpi_video(ctx);
-+	else
-+		sprd_dsi_edpi_video(ctx);
-+
-+	sprd_dphy_init(ctx);
-+
-+	sprd_dsi_set_work_mode(ctx, ctx->work_mode);
-+	sprd_dsi_state_reset(ctx);
-+
-+	if (dsi->slave->mode_flags & MIPI_DSI_CLOCK_NON_CONTINUOUS) {
-+		dsi_reg_up(ctx, PHY_CLK_LANE_LP_CTRL, AUTO_CLKLANE_CTRL_EN,
-+			   AUTO_CLKLANE_CTRL_EN);
-+	} else {
-+		dsi_reg_up(ctx, PHY_CLK_LANE_LP_CTRL, RF_PHY_CLK_EN, RF_PHY_CLK_EN);
-+		dsi_reg_up(ctx, PHY_CLK_LANE_LP_CTRL, PHY_CLKLANE_TX_REQ_HS,
-+			   PHY_CLKLANE_TX_REQ_HS);
-+		dphy_wait_pll_locked(ctx);
-+	}
-+
-+	sprd_dpu_run(dpu);
-+
-+	ctx->enabled = true;
-+}
-+
-+static void sprd_dsi_encoder_disable(struct drm_encoder *encoder)
-+{
-+	struct sprd_dsi *dsi = encoder_to_dsi(encoder);
-+	struct sprd_dpu *dpu = to_sprd_crtc(encoder->crtc);
-+	struct dsi_context *ctx = &dsi->ctx;
-+
-+	if (!ctx->enabled) {
-+		drm_warn(dsi->drm, "dsi isn't initialized\n");
-+		return;
-+	}
-+
-+	sprd_dpu_stop(dpu);
-+	sprd_dphy_fini(ctx);
-+	sprd_dsi_fini(ctx);
-+
-+	ctx->enabled = false;
-+}
-+
-+static const struct drm_encoder_helper_funcs sprd_encoder_helper_funcs = {
-+	.mode_set	= sprd_dsi_encoder_mode_set,
-+	.enable		= sprd_dsi_encoder_enable,
-+	.disable	= sprd_dsi_encoder_disable
-+};
-+
-+static const struct drm_encoder_funcs sprd_encoder_funcs = {
-+	.destroy = drm_encoder_cleanup,
-+};
-+
-+static int sprd_dsi_host_attach(struct mipi_dsi_host *host,
-+				struct mipi_dsi_device *slave)
-+{
-+	struct sprd_dsi *dsi = host_to_dsi(host);
-+	struct dsi_context *ctx = &dsi->ctx;
-+
-+	dsi->slave = slave;
-+
-+	if (slave->mode_flags & MIPI_DSI_MODE_VIDEO)
-+		ctx->work_mode = DSI_MODE_VIDEO;
-+	else
-+		ctx->work_mode = DSI_MODE_CMD;
-+
-+	if (slave->mode_flags & MIPI_DSI_MODE_VIDEO_BURST)
-+		ctx->burst_mode = VIDEO_BURST_WITH_SYNC_PULSES;
-+	else if (slave->mode_flags & MIPI_DSI_MODE_VIDEO_SYNC_PULSE)
-+		ctx->burst_mode = VIDEO_NON_BURST_WITH_SYNC_PULSES;
-+	else
-+		ctx->burst_mode = VIDEO_NON_BURST_WITH_SYNC_EVENTS;
-+
-+	return 0;
-+}
-+
-+static int sprd_dsi_host_detach(struct mipi_dsi_host *host,
-+				struct mipi_dsi_device *slave)
-+{
-+	/* do nothing */
-+	return 0;
-+}
-+
-+static ssize_t sprd_dsi_host_transfer(struct mipi_dsi_host *host,
-+				      const struct mipi_dsi_msg *msg)
-+{
-+	struct sprd_dsi *dsi = host_to_dsi(host);
-+	const u8 *tx_buf = msg->tx_buf;
-+
-+	if (msg->rx_buf && msg->rx_len) {
-+		u8 lsb = (msg->tx_len > 0) ? tx_buf[0] : 0;
-+		u8 msb = (msg->tx_len > 1) ? tx_buf[1] : 0;
-+
-+		return sprd_dsi_rd_pkt(&dsi->ctx, msg->channel, msg->type,
-+				msb, lsb, msg->rx_buf, msg->rx_len);
-+	}
-+
-+	if (msg->tx_buf && msg->tx_len)
-+		return sprd_dsi_wr_pkt(&dsi->ctx, msg->channel, msg->type,
-+					tx_buf, msg->tx_len);
-+
-+	return 0;
-+}
-+
-+static const struct mipi_dsi_host_ops sprd_dsi_host_ops = {
-+	.attach = sprd_dsi_host_attach,
-+	.detach = sprd_dsi_host_detach,
-+	.transfer = sprd_dsi_host_transfer,
-+};
-+
-+static int sprd_dsi_encoder_init(struct sprd_dsi *dsi,
-+				 struct device *dev)
-+{
-+	u32 crtc_mask;
-+
-+	crtc_mask = drm_of_find_possible_crtcs(dsi->drm, dev->of_node);
-+	if (!crtc_mask) {
-+		drm_err(dsi->drm, "failed to find crtc mask\n");
-+		return -EINVAL;
-+	}
-+
-+	drm_dbg(dsi->drm, "find possible crtcs: 0x%08x\n", crtc_mask);
-+
-+	dsi->encoder.possible_crtcs = crtc_mask;
-+	drm_encoder_helper_add(&dsi->encoder, &sprd_encoder_helper_funcs);
-+
-+	return 0;
-+}
-+
-+static int sprd_dsi_bridge_init(struct sprd_dsi *dsi,
-+				struct device *dev)
-+{
-+	int ret;
-+
-+	dsi->panel_bridge = devm_drm_of_get_bridge(dev, dev->of_node, 1, 0);
-+	if (IS_ERR(dsi->panel_bridge))
-+		return PTR_ERR(dsi->panel_bridge);
-+
-+	ret = drm_bridge_attach(&dsi->encoder, dsi->panel_bridge, NULL, 0);
-+	if (ret)
-+		return ret;
-+
-+	return 0;
-+}
-+
-+static int sprd_dsi_context_init(struct sprd_dsi *dsi,
-+				 struct device *dev)
-+{
-+	struct platform_device *pdev = to_platform_device(dev);
-+	struct dsi_context *ctx = &dsi->ctx;
-+	struct resource *res;
-+
-+	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-+	ctx->base = devm_ioremap(dev, res->start, resource_size(res));
-+	if (!ctx->base) {
-+		drm_err(dsi->drm, "failed to map dsi host registers\n");
-+		return -ENXIO;
-+	}
-+
-+	ctx->regmap = devm_regmap_init(dev, &regmap_tst_io, dsi, &byte_config);
-+	if (IS_ERR(ctx->regmap)) {
-+		drm_err(dsi->drm, "dphy regmap init failed\n");
-+		return PTR_ERR(ctx->regmap);
-+	}
-+
-+	ctx->data_hs2lp = 120;
-+	ctx->data_lp2hs = 500;
-+	ctx->clk_hs2lp = 4;
-+	ctx->clk_lp2hs = 15;
-+	ctx->max_rd_time = 6000;
-+	ctx->int0_mask = 0xffffffff;
-+	ctx->int1_mask = 0xffffffff;
-+	ctx->enabled = true;
-+
-+	return 0;
-+}
-+
-+static int sprd_dsi_bind(struct device *dev, struct device *master, void *data)
-+{
-+	struct drm_device *drm = data;
-+	struct sprd_dsi *dsi = dev_get_drvdata(dev);
-+	int ret;
-+
-+	dsi->drm = drm;
-+
-+	ret = sprd_dsi_encoder_init(dsi, dev);
-+	if (ret)
-+		return ret;
-+
-+	ret = sprd_dsi_bridge_init(dsi, dev);
-+	if (ret)
-+		return ret;
-+
-+	ret = sprd_dsi_context_init(dsi, dev);
-+	if (ret)
-+		return ret;
-+
-+	return 0;
-+}
-+
-+static void sprd_dsi_unbind(struct device *dev,
-+			    struct device *master, void *data)
-+{
-+	struct sprd_dsi *dsi = dev_get_drvdata(dev);
-+
-+	drm_of_panel_bridge_remove(dev->of_node, 1, 0);
-+
-+	drm_encoder_cleanup(&dsi->encoder);
-+}
-+
-+static const struct component_ops dsi_component_ops = {
-+	.bind	= sprd_dsi_bind,
-+	.unbind	= sprd_dsi_unbind,
-+};
-+
-+static const struct of_device_id dsi_match_table[] = {
-+	{ .compatible = "sprd,sharkl3-dsi-host" },
-+	{ /* sentinel */ },
-+};
-+
-+static int sprd_dsi_probe(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	struct sprd_dsi *dsi;
-+
-+	dsi = devm_kzalloc(dev, sizeof(*dsi), GFP_KERNEL);
-+	if (!dsi)
-+		return -ENOMEM;
-+
-+	dev_set_drvdata(dev, dsi);
-+
-+	dsi->host.ops = &sprd_dsi_host_ops;
-+	dsi->host.dev = dev;
-+	mipi_dsi_host_register(&dsi->host);
-+
-+	return component_add(&pdev->dev, &dsi_component_ops);
-+}
-+
-+static int sprd_dsi_remove(struct platform_device *pdev)
-+{
-+	struct sprd_dsi *dsi = dev_get_drvdata(&pdev->dev);
-+
-+	component_del(&pdev->dev, &dsi_component_ops);
-+
-+	mipi_dsi_host_unregister(&dsi->host);
-+
-+	return 0;
-+}
-+
-+struct platform_driver sprd_dsi_driver = {
-+	.probe = sprd_dsi_probe,
-+	.remove = sprd_dsi_remove,
-+	.driver = {
-+		.name = "sprd-dsi-drv",
-+		.of_match_table = dsi_match_table,
-+	},
-+};
-+
-+MODULE_AUTHOR("Leon He <leon.he@unisoc.com>");
-+MODULE_AUTHOR("Kevin Tang <kevin.tang@unisoc.com>");
-+MODULE_DESCRIPTION("Unisoc MIPI DSI HOST Controller Driver");
-+MODULE_LICENSE("GPL v2");
-diff --git a/drivers/gpu/drm/sprd/sprd_dsi.h b/drivers/gpu/drm/sprd/sprd_dsi.h
-new file mode 100644
-index 000000000..d858ebb11
---- /dev/null
-+++ b/drivers/gpu/drm/sprd/sprd_dsi.h
-@@ -0,0 +1,126 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Copyright (C) 2020 Unisoc Inc.
-+ */
-+
-+#ifndef __SPRD_DSI_H__
-+#define __SPRD_DSI_H__
-+
-+#include <linux/of.h>
-+#include <linux/device.h>
-+#include <linux/regmap.h>
-+#include <video/videomode.h>
-+
-+#include <drm/drm_bridge.h>
-+#include <drm/drm_connector.h>
-+#include <drm/drm_encoder.h>
-+#include <drm/drm_mipi_dsi.h>
-+#include <drm/drm_print.h>
-+#include <drm/drm_panel.h>
-+
-+#define encoder_to_dsi(encoder) \
-+	container_of(encoder, struct sprd_dsi, encoder)
-+
-+enum dsi_work_mode {
-+	DSI_MODE_CMD = 0,
-+	DSI_MODE_VIDEO
-+};
-+
-+enum video_burst_mode {
-+	VIDEO_NON_BURST_WITH_SYNC_PULSES = 0,
-+	VIDEO_NON_BURST_WITH_SYNC_EVENTS,
-+	VIDEO_BURST_WITH_SYNC_PULSES
-+};
-+
-+enum dsi_color_coding {
-+	COLOR_CODE_16BIT_CONFIG1 = 0,
-+	COLOR_CODE_16BIT_CONFIG2,
-+	COLOR_CODE_16BIT_CONFIG3,
-+	COLOR_CODE_18BIT_CONFIG1,
-+	COLOR_CODE_18BIT_CONFIG2,
-+	COLOR_CODE_24BIT,
-+	COLOR_CODE_20BIT_YCC422_LOOSELY,
-+	COLOR_CODE_24BIT_YCC422,
-+	COLOR_CODE_16BIT_YCC422,
-+	COLOR_CODE_30BIT,
-+	COLOR_CODE_36BIT,
-+	COLOR_CODE_12BIT_YCC420,
-+	COLOR_CODE_COMPRESSTION,
-+	COLOR_CODE_MAX
-+};
-+
-+enum pll_timing {
-+	NONE,
-+	REQUEST_TIME,
-+	PREPARE_TIME,
-+	SETTLE_TIME,
-+	ZERO_TIME,
-+	TRAIL_TIME,
-+	EXIT_TIME,
-+	CLKPOST_TIME,
-+	TA_GET,
-+	TA_GO,
-+	TA_SURE,
-+	TA_WAIT,
-+};
-+
-+struct dphy_pll {
-+	u8 refin; /* Pre-divider control signal */
-+	u8 cp_s; /* 00: SDM_EN=1, 10: SDM_EN=0 */
-+	u8 fdk_s; /* PLL mode control: integer or fraction */
-+	u8 sdm_en;
-+	u8 div;
-+	u8 int_n; /* integer N PLL */
-+	u32 ref_clk; /* dphy reference clock, unit: MHz */
-+	u32 freq; /* panel config, unit: KHz */
-+	u32 fvco;
-+	u32 potential_fvco;
-+	u32 nint; /* sigma delta modulator NINT control */
-+	u32 kint; /* sigma delta modulator KINT control */
-+	u8 lpf_sel; /* low pass filter control */
-+	u8 out_sel; /* post divider control */
-+	u8 vco_band; /* vco range */
-+	u8 det_delay;
-+};
-+
-+struct dsi_context {
-+	void __iomem *base;
-+	struct regmap *regmap;
-+	struct dphy_pll pll;
-+	struct videomode vm;
-+	bool enabled;
-+
-+	u8 work_mode;
-+	u8 burst_mode;
-+	u32 int0_mask;
-+	u32 int1_mask;
-+
-+	/* maximum time (ns) for data lanes from HS to LP */
-+	u16 data_hs2lp;
-+	/* maximum time (ns) for data lanes from LP to HS */
-+	u16 data_lp2hs;
-+	/* maximum time (ns) for clk lanes from HS to LP */
-+	u16 clk_hs2lp;
-+	/* maximum time (ns) for clk lanes from LP to HS */
-+	u16 clk_lp2hs;
-+	/* maximum time (ns) for BTA operation - REQUIRED */
-+	u16 max_rd_time;
-+	/* enable receiving frame ack packets - for video mode */
-+	bool frame_ack_en;
-+	/* enable receiving tear effect ack packets - for cmd mode */
-+	bool te_ack_en;
-+};
-+
-+struct sprd_dsi {
-+	struct drm_device *drm;
-+	struct mipi_dsi_host host;
-+	struct mipi_dsi_device *slave;
-+	struct drm_encoder encoder;
-+	struct drm_bridge *panel_bridge;
-+	struct dsi_context ctx;
-+};
-+
-+int dphy_pll_config(struct dsi_context *ctx);
-+void dphy_timing_config(struct dsi_context *ctx);
-+
-+#endif /* __SPRD_DSI_H__ */
--- 
-2.29.0
-
+>=20
+> Matt
+>=20
+> > There's the orthogonal track to discuss what would be the stable set of
+> > tracepoints we could expose. However, before that discussion is closed,
+> > let's keep a rather strict line to avoid potential maintenance burned.
+> >=20
+> > We can then relax in the future as needed.
+> >=20
+> > Regards, Joonas
+> >=20
+> > Quoting Matthew Brost (2021-06-24 10:04:29)
+> > > As discussed in [1], [2] we are enabling GuC submission support in the
+> > > i915. This is a subset of the patches in step 5 described in [1],
+> > > basically it is absolute to enable CI with GuC submission on gen11+
+> > > platforms.
+> > >=20
+> > > This series itself will likely be broken down into smaller patch sets=
+ to
+> > > merge. Likely into CTBs changes, basic submission, virtual engines, a=
+nd
+> > > resets.
+> > >=20
+> > > A following series will address the missing patches remaining from [1=
+].
+> > >=20
+> > > Locally tested on TGL machine and basic tests seem to be passing.
+> > >=20
+> > > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> > >=20
+> > > [1] https://patchwork.freedesktop.org/series/89844/
+> > > [2] https://patchwork.freedesktop.org/series/91417/
+> > >=20
+> > > Daniele Ceraolo Spurio (1):
+> > >   drm/i915/guc: Unblock GuC submission on Gen11+
+> > >=20
+> > > John Harrison (10):
+> > >   drm/i915/guc: Module load failure test for CT buffer creation
+> > >   drm/i915: Track 'serial' counts for virtual engines
+> > >   drm/i915/guc: Provide mmio list to be saved/restored on engine reset
+> > >   drm/i915/guc: Don't complain about reset races
+> > >   drm/i915/guc: Enable GuC engine reset
+> > >   drm/i915/guc: Fix for error capture after full GPU reset with GuC
+> > >   drm/i915/guc: Hook GuC scheduling policies up
+> > >   drm/i915/guc: Connect reset modparam updates to GuC policy flags
+> > >   drm/i915/guc: Include scheduling policies in the debugfs state dump
+> > >   drm/i915/guc: Add golden context to GuC ADS
+> > >=20
+> > > Matthew Brost (36):
+> > >   drm/i915/guc: Relax CTB response timeout
+> > >   drm/i915/guc: Improve error message for unsolicited CT response
+> > >   drm/i915/guc: Increase size of CTB buffers
+> > >   drm/i915/guc: Add non blocking CTB send function
+> > >   drm/i915/guc: Add stall timer to non blocking CTB send function
+> > >   drm/i915/guc: Optimize CTB writes and reads
+> > >   drm/i915/guc: Add new GuC interface defines and structures
+> > >   drm/i915/guc: Remove GuC stage descriptor, add lrc descriptor
+> > >   drm/i915/guc: Add lrc descriptor context lookup array
+> > >   drm/i915/guc: Implement GuC submission tasklet
+> > >   drm/i915/guc: Add bypass tasklet submission path to GuC
+> > >   drm/i915/guc: Implement GuC context operations for new inteface
+> > >   drm/i915/guc: Insert fence on context when deregistering
+> > >   drm/i915/guc: Defer context unpin until scheduling is disabled
+> > >   drm/i915/guc: Disable engine barriers with GuC during unpin
+> > >   drm/i915/guc: Extend deregistration fence to schedule disable
+> > >   drm/i915: Disable preempt busywait when using GuC scheduling
+> > >   drm/i915/guc: Ensure request ordering via completion fences
+> > >   drm/i915/guc: Disable semaphores when using GuC scheduling
+> > >   drm/i915/guc: Ensure G2H response has space in buffer
+> > >   drm/i915/guc: Update intel_gt_wait_for_idle to work with GuC
+> > >   drm/i915/guc: Update GuC debugfs to support new GuC
+> > >   drm/i915/guc: Add several request trace points
+> > >   drm/i915: Add intel_context tracing
+> > >   drm/i915/guc: GuC virtual engines
+> > >   drm/i915: Hold reference to intel_context over life of i915_request
+> > >   drm/i915/guc: Disable bonding extension with GuC submission
+> > >   drm/i915/guc: Direct all breadcrumbs for a class to single breadcru=
+mbs
+> > >   drm/i915/guc: Reset implementation for new GuC interface
+> > >   drm/i915: Reset GPU immediately if submission is disabled
+> > >   drm/i915/guc: Add disable interrupts to guc sanitize
+> > >   drm/i915/guc: Suspend/resume implementation for new interface
+> > >   drm/i915/guc: Handle context reset notification
+> > >   drm/i915/guc: Handle engine reset failure notification
+> > >   drm/i915/guc: Enable the timer expired interrupt for GuC
+> > >   drm/i915/guc: Capture error state on context reset
+> > >=20
+> > >  drivers/gpu/drm/i915/gem/i915_gem_context.c   |   30 +-
+> > >  drivers/gpu/drm/i915/gem/i915_gem_context.h   |    1 +
+> > >  drivers/gpu/drm/i915/gem/i915_gem_mman.c      |    3 +-
+> > >  drivers/gpu/drm/i915/gt/gen8_engine_cs.c      |    6 +-
+> > >  drivers/gpu/drm/i915/gt/intel_breadcrumbs.c   |   41 +-
+> > >  drivers/gpu/drm/i915/gt/intel_breadcrumbs.h   |   14 +-
+> > >  .../gpu/drm/i915/gt/intel_breadcrumbs_types.h |    7 +
+> > >  drivers/gpu/drm/i915/gt/intel_context.c       |   41 +-
+> > >  drivers/gpu/drm/i915/gt/intel_context.h       |   31 +-
+> > >  drivers/gpu/drm/i915/gt/intel_context_types.h |   49 +
+> > >  drivers/gpu/drm/i915/gt/intel_engine.h        |   72 +-
+> > >  drivers/gpu/drm/i915/gt/intel_engine_cs.c     |  182 +-
+> > >  .../gpu/drm/i915/gt/intel_engine_heartbeat.c  |   71 +-
+> > >  .../gpu/drm/i915/gt/intel_engine_heartbeat.h  |    4 +
+> > >  drivers/gpu/drm/i915/gt/intel_engine_types.h  |   12 +-
+> > >  .../drm/i915/gt/intel_execlists_submission.c  |  234 +-
+> > >  .../drm/i915/gt/intel_execlists_submission.h  |   11 -
+> > >  drivers/gpu/drm/i915/gt/intel_gt.c            |   21 +
+> > >  drivers/gpu/drm/i915/gt/intel_gt.h            |    2 +
+> > >  drivers/gpu/drm/i915/gt/intel_gt_pm.c         |    6 +-
+> > >  drivers/gpu/drm/i915/gt/intel_gt_requests.c   |   22 +-
+> > >  drivers/gpu/drm/i915/gt/intel_gt_requests.h   |    9 +-
+> > >  drivers/gpu/drm/i915/gt/intel_lrc_reg.h       |    1 -
+> > >  drivers/gpu/drm/i915/gt/intel_reset.c         |   20 +-
+> > >  .../gpu/drm/i915/gt/intel_ring_submission.c   |   28 +
+> > >  drivers/gpu/drm/i915/gt/intel_rps.c           |    4 +
+> > >  drivers/gpu/drm/i915/gt/intel_workarounds.c   |   46 +-
+> > >  .../gpu/drm/i915/gt/intel_workarounds_types.h |    1 +
+> > >  drivers/gpu/drm/i915/gt/mock_engine.c         |   41 +-
+> > >  drivers/gpu/drm/i915/gt/selftest_context.c    |   10 +
+> > >  drivers/gpu/drm/i915/gt/selftest_execlists.c  |   20 +-
+> > >  .../gpu/drm/i915/gt/uc/abi/guc_actions_abi.h  |   15 +
+> > >  drivers/gpu/drm/i915/gt/uc/intel_guc.c        |   82 +-
+> > >  drivers/gpu/drm/i915/gt/uc/intel_guc.h        |  106 +-
+> > >  drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c    |  460 +++-
+> > >  drivers/gpu/drm/i915/gt/uc/intel_guc_ads.h    |    3 +
+> > >  drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c     |  318 ++-
+> > >  drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h     |   22 +-
+> > >  .../gpu/drm/i915/gt/uc/intel_guc_debugfs.c    |   25 +-
+> > >  drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h   |   88 +-
+> > >  .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 2197 +++++++++++++++=
+--
+> > >  .../gpu/drm/i915/gt/uc/intel_guc_submission.h |   17 +-
+> > >  drivers/gpu/drm/i915/gt/uc/intel_uc.c         |  102 +-
+> > >  drivers/gpu/drm/i915/gt/uc/intel_uc.h         |   11 +
+> > >  drivers/gpu/drm/i915/i915_debugfs.c           |    2 +
+> > >  drivers/gpu/drm/i915/i915_debugfs_params.c    |   31 +
+> > >  drivers/gpu/drm/i915/i915_gem_evict.c         |    1 +
+> > >  drivers/gpu/drm/i915/i915_gpu_error.c         |   25 +-
+> > >  drivers/gpu/drm/i915/i915_reg.h               |    2 +
+> > >  drivers/gpu/drm/i915/i915_request.c           |  159 +-
+> > >  drivers/gpu/drm/i915/i915_request.h           |   21 +
+> > >  drivers/gpu/drm/i915/i915_scheduler.c         |    6 +
+> > >  drivers/gpu/drm/i915/i915_scheduler.h         |    6 +
+> > >  drivers/gpu/drm/i915/i915_scheduler_types.h   |    5 +
+> > >  drivers/gpu/drm/i915/i915_trace.h             |  197 +-
+> > >  .../gpu/drm/i915/selftests/igt_live_test.c    |    2 +-
+> > >  .../gpu/drm/i915/selftests/mock_gem_device.c  |    3 +-
+> > >  57 files changed, 4159 insertions(+), 787 deletions(-)
+> > >=20
+> > > --=20
+> > > 2.28.0
+> > >=20
