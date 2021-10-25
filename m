@@ -2,47 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBA234393D7
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Oct 2021 12:37:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B521C4393EC
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Oct 2021 12:45:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B2B3889CF5;
-	Mon, 25 Oct 2021 10:36:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 82D4E89DB4;
+	Mon, 25 Oct 2021 10:45:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 50C3189CF5
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Oct 2021 10:36:58 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 830AE61073;
- Mon, 25 Oct 2021 10:36:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1635158218;
- bh=/lbtMJGnAzJmGzzqeIS0JbaBPvwFTXO7FSkV6cdmOik=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=McbOZC4g1Y+GVHZxJnABiZtutL1Xnv7LoYgCZCQt8Lh5VIjChzuMxDRbp3GbBPz2x
- 7DD8o/NGPtChMoj9FIFp/KUuP9R7SHIEUyK+VZsVUMqp8Zq2aJQ1okSLsTUziI1Bw4
- CXiQrJypbtEsVkscro3PFVsqEHc6FJRqgQHH7JYQ=
-Date: Mon, 25 Oct 2021 12:36:55 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Sumit Semwal <sumit.semwal@linaro.org>, christian.koenig@amd.com,
- Alex Deucher <alexander.deucher@amd.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Xinhui.Pan@amd.com
-Cc: linux-kernel@vger.kernel.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Arnd Bergmann <arnd@arndb.de>
-Subject: Re: [PATCH v2] dma-buf: move dma-buf symbols into the DMA_BUF module
- namespace
-Message-ID: <YXaIx0g/kHEnq8ZN@kroah.com>
-References: <20211010124628.17691-1-gregkh@linuxfoundation.org>
+Received: from netline-mail3.netline.ch (mail.netline.ch [148.251.143.180])
+ by gabe.freedesktop.org (Postfix) with ESMTP id A85D289DB4
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Oct 2021 10:45:19 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by netline-mail3.netline.ch (Postfix) with ESMTP id 3D29420201D;
+ Mon, 25 Oct 2021 12:45:18 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at netline-mail3.netline.ch
+Received: from netline-mail3.netline.ch ([127.0.0.1])
+ by localhost (netline-mail3.netline.ch [127.0.0.1]) (amavisd-new, port 10024)
+ with LMTP id 8Zice53EdW5K; Mon, 25 Oct 2021 12:45:17 +0200 (CEST)
+Received: from thor (24.99.2.85.dynamic.wline.res.cust.swisscom.ch
+ [85.2.99.24])
+ by netline-mail3.netline.ch (Postfix) with ESMTPA id 8775120201A;
+ Mon, 25 Oct 2021 12:45:17 +0200 (CEST)
+Received: from [127.0.0.1] by thor with esmtp (Exim 4.95)
+ (envelope-from <michel@daenzer.net>) id 1mexTg-000W6M-Nj;
+ Mon, 25 Oct 2021 12:45:16 +0200
+Message-ID: <931230b4-1e73-948d-abaf-f1d62ea58239@daenzer.net>
+Date: Mon, 25 Oct 2021 12:45:16 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Content-Language: en-CA
+To: Javier Martinez Canillas <javierm@redhat.com>,
+ =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+Cc: linux-kernel@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Peter Robinson <pbrobinson@gmail.com>, Neal Gompa <ngompa13@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org
+References: <20211022144040.3418284-1-javierm@redhat.com>
+ <YXMNOfBS5iFenmx8@intel.com>
+ <c1d1f245-7bcf-16e5-c3f4-c13550843e02@redhat.com>
+From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>
+Subject: Re: [RFC PATCH] drm/aperture: Add param to disable conflicting
+ framebuffers removal
+In-Reply-To: <c1d1f245-7bcf-16e5-c3f4-c13550843e02@redhat.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20211010124628.17691-1-gregkh@linuxfoundation.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,40 +63,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Oct 10, 2021 at 02:46:28PM +0200, Greg Kroah-Hartman wrote:
-> In order to better track where in the kernel the dma-buf code is used,
-> put the symbols in the namespace DMA_BUF and modify all users of the
-> symbols to properly import the namespace to not break the build at the
-> same time.
+On 2021-10-24 22:32, Javier Martinez Canillas wrote:
+> Hello Ville,
 > 
-> Now the output of modinfo shows the use of these symbols, making it
-> easier to watch for users over time:
+> On 10/22/21 21:12, Ville Syrjälä wrote:
+>> On Fri, Oct 22, 2021 at 04:40:40PM +0200, Javier Martinez Canillas wrote:
+>>> The simpledrm driver allows to use the frame buffer that was set-up by the
+>>> firmware. This gives early video output before the platform DRM driver is
+>>> probed and takes over.
+>>>
+>>> But it would be useful to have a way to disable this take over by the real
+>>> DRM drivers. For example, there may be bugs in the DRM drivers that could
+>>> cause the display output to not work correctly.
+>>>
+>>> For those cases, it would be good to keep the simpledrm driver instead and
+>>> at least get a working display as set-up by the firmware.
+>>>
+>>> Let's add a drm.remove_fb boolean kernel command line parameter, that when
+>>> set to false will prevent the conflicting framebuffers to being removed.
+>>>
+>>> Since the drivers call drm_aperture_remove_conflicting_framebuffers() very
+>>> early in their probe callback, this will cause the drivers' probe to fail.
+>>
+>> Why is that better than just modprobe.blacklisting those drivers?
 > 
-> $ modinfo drivers/misc/fastrpc.ko | grep import
-> import_ns:      DMA_BUF
+> Because would allow to deny list all native (as Thomas called it) DRM drivers
+> and only allow the simpledrm driver to be probed. This is useful for distros,
+> since could add a "Basic graphics mode" to the boot menu entries, that could
+> boot the kernel passing a "drm.disable_native_drivers=1" cmdline option.
 > 
-> Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
-> Cc: David Airlie <airlied@linux.ie>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: dri-devel@lists.freedesktop.org
-> Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Acked-by: Christian K�nig <christian.koenig@amd.com>
-> Acked-by: Arnd Bergmann <arnd@arndb.de>
-> Acked-by: Sumit Semwal <sumit.semwal@linaro.org>
-> Acked-by: Alex Deucher <alexander.deucher@amd.com>
-> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> ---
-> v2: added lots of acks
->     added 2 more drivers that needed the change, as found by Arnd
+> That way, if there's any problem with a given DRM driver, the distro may be
+> installed and booted using the simpledrm driver and troubleshoot why a native
+> DRM driver is not working. Or try updating the kernel package, etc.
 
-Ping?  Any ideas on what needs to happen to get this into the tree?
+For troubleshooting, it'll be helpful if this new parameter can be enabled for the boot via the kernel command line, then disabled again after boot-up. One simple possibility for this would be allowing the parameter to be changed via /sys/module/drm/parameters/<name>, which I suspect doesn't work with the patch as is (due to the 0600 permissions).
 
-Or can I take it through my char-misc tree?  I seem to have a bunch of
-acks on it by the respective maintainers...
 
-thanks,
-
-greg k-h
+-- 
+Earthling Michel Dänzer            |                  https://redhat.com
+Libre software enthusiast          |         Mesa and Xwayland developer
