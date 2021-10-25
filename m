@@ -2,52 +2,122 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FB1B4394A9
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Oct 2021 13:21:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B4EE4394E2
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Oct 2021 13:33:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 29A2E89E33;
-	Mon, 25 Oct 2021 11:21:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A9CE89C0D;
+	Mon, 25 Oct 2021 11:33:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F9E489E11
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Oct 2021 11:21:35 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 34940E0A;
- Mon, 25 Oct 2021 13:21:33 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1635160893;
- bh=KJ5E+UmHrKXcUGMUAvm4P646pzk+qrj0hQ0ZpbrdCAM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=gSRiOrCuipvsOg0iazp3C0ri1JCfVyhxZDBgSavug/r4C7maSpZkT/O9YkoitRGk3
- RX/E+vAHYpfTnNhIbEelfli32VcGN5FSb42l46gDpiCkIV2fRYS2lr1oUTd2KBH9r3
- DeHfWDqwgRb4g/K7YD1RjPjpCnav7TXG+e+MjOF8=
-Date: Mon, 25 Oct 2021 14:21:11 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>
-Cc: Sam Ravnborg <sam@ravnborg.org>, Douglas Anderson <dianders@chromium.org>,
- dri-devel@lists.freedesktop.org, Philip Chen <philipchen@chromium.org>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
- Jagan Teki <jagan@amarulasolutions.com>,
+Received: from APC01-SG2-obe.outbound.protection.outlook.com
+ (mail-eopbgr1310135.outbound.protection.outlook.com [40.107.131.135])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EBE8289C0D;
+ Mon, 25 Oct 2021 11:33:49 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gtzzL0YOdHODD9k6bSeRwy/7Wt6lo0gDXJzmIkj5I/9ufvG7Hpy7qkKQP9HfigY6dx2uhuNGpI+WfJhbhPMKBfq0au+d4AZ8ujzS5KX/P6EL5fIeYlJrr0fWN+zoa2TN/l6wwEl1mYCmZ9aHu8yv2Hj9gZN/NrLa1y2+INPjsM4eNbtXhq+v07VTSYBfBXO2zegp16d5T0Fl72rmJBbhnyA7jVyLte4IvL0YHEGroA92L6O4+dUah5vG6lt5i4n2jgCmTSf/gW5ebHXXi+xtNdaIQxLgw1/cevyh068Fg9HydJ8LdBdL2DyxJOLc9FsRzv/OocQ3ox3Sie1wKqu9cQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=iaH0iEvrRGp3wCTfbYgs19ulu1qJ8sFEiRPxIRE1OuA=;
+ b=KEzw2rjpVY5qnpJCVy6iGhz1okQNr8X2kZsumbaBuA2R/klDPjaDi5fvKsqkE2WWoy0ZR6Xf/KIg12m6UgfvD0aZXWU8AC+xBT2OO5a+iezrxSizTIIePviEj4USOJrYx9+4U5oZGrlcz+pcIl9DSipRBALaf28Xf5c/NajpA64XozAVYX8/kv9D3CjiObQA/PK3vv7ci5MZ7bZeAbfhDQ4cvq1hjrsvTygS6WNNGVIA/Y4yDUzucolBZC/VNq76hvR3uBHdKYK4CiEOfbjYCcREMEpwN7QXg3Cd0Cf/tuJ4w2dcHIr7F6McMDbd1ywsZIqCg2+q8U5JOg8LxBLD0Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
+ dkim=pass header.d=vivo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo0.onmicrosoft.com; 
+ s=selector2-vivo0-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=iaH0iEvrRGp3wCTfbYgs19ulu1qJ8sFEiRPxIRE1OuA=;
+ b=Dks+hO0az2j1V3dsV2IdmzBeMqeRlXNxdTTVPfVTbAhgC+O88Xu5xyOcAI9P8YazCjNAnZNys43Dap2fCr2nsQXAatChS1TdnOk0U8wBd84WJvnKGeNkWGb+XNpte7Uo4L7+obrebLpv/ySX8dy8qlmudp4kIPG8yuKQ91UCn84=
+Authentication-Results: linux.intel.com; dkim=none (message not signed)
+ header.d=none;linux.intel.com; dmarc=none action=none header.from=vivo.com;
+Received: from SG2PR06MB3367.apcprd06.prod.outlook.com (2603:1096:4:78::19) by
+ SG2PR06MB2123.apcprd06.prod.outlook.com (2603:1096:4:e::19) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4628.16; Mon, 25 Oct 2021 11:33:44 +0000
+Received: from SG2PR06MB3367.apcprd06.prod.outlook.com
+ ([fe80::fc12:4e1b:cc77:6c0]) by SG2PR06MB3367.apcprd06.prod.outlook.com
+ ([fe80::fc12:4e1b:cc77:6c0%6]) with mapi id 15.20.4628.020; Mon, 25 Oct 2021
+ 11:33:43 +0000
+From: Wan Jiabing <wanjiabing@vivo.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Chris Wilson <chris@chris-wilson.co.uk>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Robert Foss <robert.foss@linaro.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/bridge: Fix the bridge chain order for pre_enable /
- post_disable
-Message-ID: <YXaTJ+bwm7vSTGpv@pendragon.ideasonboard.com>
-References: <20211021122719.1.I56d382006dea67ed8f30729a751fbc75434315b2@changeid>
- <YXHLrnAliqxmrrho@ravnborg.org>
- <cdcd19de-19e6-83ed-606f-defebdcc0997@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+ Jason Ekstrand <jason@jlekstrand.net>,
+ Matthew Auld <matthew.auld@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: kael_w@yeah.net,
+	Wan Jiabing <wanjiabing@vivo.com>
+Subject: [PATCH] drm/i915: Use ERR_CAST instead of ERR_PTR(PTR_ERR())
+Date: Mon, 25 Oct 2021 07:32:50 -0400
+Message-Id: <20211025113316.24424-1-wanjiabing@vivo.com>
+X-Mailer: git-send-email 2.20.1
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <cdcd19de-19e6-83ed-606f-defebdcc0997@intel.com>
+Content-Type: text/plain
+X-ClientProxiedBy: HK2PR0401CA0010.apcprd04.prod.outlook.com
+ (2603:1096:202:2::20) To SG2PR06MB3367.apcprd06.prod.outlook.com
+ (2603:1096:4:78::19)
+MIME-Version: 1.0
+Received: from localhost.localdomain (218.213.202.190) by
+ HK2PR0401CA0010.apcprd04.prod.outlook.com (2603:1096:202:2::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4628.15 via Frontend
+ Transport; Mon, 25 Oct 2021 11:33:41 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: c62bbded-1cb6-4418-6b9f-08d997ab4c94
+X-MS-TrafficTypeDiagnostic: SG2PR06MB2123:
+X-Microsoft-Antispam-PRVS: <SG2PR06MB2123E7013164D89448630121AB839@SG2PR06MB2123.apcprd06.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:397;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 8P/19vgSXXriXgEqAejZT797hZge4ZwlZQhQUKuTaM//gjHRlqUL8GsxiAtXPU8mneUkc/iqppBm6APK5mWE1YPCWFvY4zMGpJbAT/Zq5cus1Y1jRU+niamt9HbrJOz3t/7zr/PmY0Znl6oaFSn77iSOQzq8WMXrVz/OKSCsrtxZNC7kByTkdl9l618RM2egX9eUr8TIQ2HSOmo++azJYzz4htQpsQ15OR2sNjNMY1K7y4dStrHsEMJVhlDJOxWUievGcRQQVNsAb7jvsYRVqdp5bqPqxrmFpDGioFbGY1xyr1QozkhDnhTjqfprE2D7XPA4XQgIO/t06J7taTycK8ji/R5z3Ka9jACTtM257S8yaenuUO7t7EGF0K/kfNermK2na54Xh8fKl6kFeK+Svgjevp60ms+ZUtc0Vnl/YiizkQQhHopfC/JeyXLBgJnLga21TvOhHKk2uCUfdHx7w60xZHUYxnQe3vcggoaWpkkMTk0zXv9rK/YSJBp6yfVH7j7oFdebL7QOMGh7LLE119knT2wtZ1R4hrnZMaPDrXS97cRucDixg2uarQYlFWrj7NijhNpsZrEchGidn2XR6Ky4FPQxmmfO/BZkhxWInCYE1TNBkCAgv8LXdxuFkDybywHaswNi++QQMNFwuoIDKn1gV09eH4j6cxceRZu5aoiaIfup4sq52Wq2imvFOxeZsymsSkMuBChR8v1sMPIYBwsGYIUonHEz26QZo4ErQkM=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SG2PR06MB3367.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(26005)(38350700002)(316002)(6506007)(38100700002)(956004)(2616005)(36756003)(52116002)(2906002)(186003)(83380400001)(6486002)(508600001)(1076003)(921005)(7416002)(6666004)(66946007)(66556008)(107886003)(6512007)(66476007)(86362001)(8676002)(5660300002)(4744005)(8936002)(4326008)(110136005);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?KaBcbTDv4Ge2h74vj7ow2Ilzvs6dFcDqj7KLsz8uxLWei1VPCZ5+wVSyTei6?=
+ =?us-ascii?Q?yfmOt0HpiUiKxn6kdNjfV5ca4L68r3Hp+lrucVGuOA+aLvzD2ss/uyCUxlyg?=
+ =?us-ascii?Q?8UE5gnl0dTWX3zK0GtB2ayTKAV1XVGC6wheY06RPq9zoFVD42T8HDWRCeilP?=
+ =?us-ascii?Q?8PDR41mv1kB9EuaWjuYOoJZCmnGQGs7phW7Rf/96tybVDX5bTWhOiOwUQh95?=
+ =?us-ascii?Q?rSqj2RHq+tiQYJdlQZ7YxSQlCP/T3buQDgcIlNFTMRcG6EJwgRDEzvNiV9v0?=
+ =?us-ascii?Q?jZ8BlVvIkCgDTU05NngJ9fX/aHNGdPm0mrgDiEt6NYPLXHVo5+/yU5qZzGaW?=
+ =?us-ascii?Q?DVk8x+8/0tDJV1UJALXAdozR+wiDMn504gYgbK0lPpadQx5VPMFGJSzgDUyv?=
+ =?us-ascii?Q?TJfSRXmlTJWHbSGPlZkE+dxfWBHYO6xRrHIq2Jai434xMdj6Y1BIxBt8u9Bl?=
+ =?us-ascii?Q?yuVTpOgwmc8mZb/h0YNcExL+P42A8+uYu6dMikfBJlK8ZRx3OWZC1cywh9N2?=
+ =?us-ascii?Q?etfu31XmTEURRiHRAljiHRAdXYKGqiDbr+NnuEvb7DwL9BdUWXXjaLpDzxqD?=
+ =?us-ascii?Q?91JmxYd22cKN1Ffnmfzl0kG8iqiEBK8A9pVNyU4+pv1JIAvfdDfulh/NVw2Y?=
+ =?us-ascii?Q?kvHZI+g/go2Jk9U+wTDP1To1RgqKueBu8GzmgY9A9LAcezP81bS14rKGKPDR?=
+ =?us-ascii?Q?RgDNzv+jhuigvdkzCFHDMe+BlD9KeKCvgKxCSroOKFHCFN+hYFqxbdg0U0jf?=
+ =?us-ascii?Q?KGMaIcBssdiUTVyJEp8bRfIU+csdmPtbSnNkKl+/gC4tlTMt8etLSwnIUcP5?=
+ =?us-ascii?Q?P/d3tk9uWzQ8suDgdDkG+RsksA8PYVoUd/bPvHXgpTE8AW1CXSNMCg0qZQkn?=
+ =?us-ascii?Q?rzRuaV6ojffoUUOk5sbYnfrXpt6HIkAANzCINKO4O/CLO1aAXy2K2AGcKfl5?=
+ =?us-ascii?Q?5OKoP3bedu/hszBttoHahhWrd7gSJivLrLU+lXgUqlDZQH56Z2yUADgK3pQq?=
+ =?us-ascii?Q?18V425xUirmUkjdV/oLwxNCEmpVlIitMBYTyHI7UBqL5IRthQ1uEMOwBZNb/?=
+ =?us-ascii?Q?9jobjh/gfV9v5zFy84bBdik1GRTQyGFNA46ZYdL4+Qo4xCFARTdlnoP9z+dy?=
+ =?us-ascii?Q?PwSYnODWRCoWMIrTrrKWm4GA0z9YBQlAiy+QrWO55D+Btg+Q2fKM0G1myX1Y?=
+ =?us-ascii?Q?hSqSfWEDnWsYNtD1OnHdVpPPC+74IJwvK+TKYjkQiuToEFEwr0E8hthMccTX?=
+ =?us-ascii?Q?J+MO29GR4Ss7F267hLkWwRL/vU+F3cTfh2Xwy14qTT0Z52yA1kJf0VIlFIyD?=
+ =?us-ascii?Q?KdXfaVP6lMWBXDu5LzzNoID4DaTbsHd8m8E/XcwAXc9GfsS1TWgu9V+TSG9o?=
+ =?us-ascii?Q?xeTkLreQkg53dWudii8qvTg5ioSv7u+tFTay5iXAgWcssZinkeiWFjmwBSyF?=
+ =?us-ascii?Q?zu0hLl1+JNnck/reRdsrnNMz0AA4/YY6IggmpfWvIYWL4EYMP14KdKE0OqI4?=
+ =?us-ascii?Q?i7m9/3bctmshI3dW5EvUx/mu4wWs2MI74/aXzfK/qtQCcYS7xFNLx9qd0MiK?=
+ =?us-ascii?Q?mp0OnEN4n/wjmqtQyvoz6/dvKrrJNo15LJtA1TQTDZoAphx+7SDnqlM3uiM0?=
+ =?us-ascii?Q?NyHSyJrxS+gbHaRKPlPa+nA=3D?=
+X-OriginatorOrg: vivo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c62bbded-1cb6-4418-6b9f-08d997ab4c94
+X-MS-Exchange-CrossTenant-AuthSource: SG2PR06MB3367.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Oct 2021 11:33:43.2911 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: s5oFWN5cK59SHg1OuohJcwbqtxczpdIR6MPFdgnVGUuwcy7OAlt3KZhzg7P+JKuNKhEtJjHFjsbwwIX+XWtBUQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SG2PR06MB2123
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,247 +133,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
+Fix following coccicheck warning:
+./drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c:3117:15-22: WARNING:
+ERR_CAST can be used with eb->requests[i].
 
-On Mon, Oct 25, 2021 at 01:00:10PM +0200, Andrzej Hajda wrote:
-> On 21.10.2021 22:21, Sam Ravnborg wrote:
-> > On Thu, Oct 21, 2021 at 12:29:01PM -0700, Douglas Anderson wrote:
-> >> Right now, the chaining order of
-> >> pre_enable/enable/disable/post_disable looks like this:
-> >>
-> >> pre_enable:   start from connector and move to encoder
-> >> enable:       start from encoder and move to connector
-> >> disable:      start from connector and move to encoder
-> >> post_disable: start from encoder and move to connector
-> >>
-> >> In the above, it can be seen that at least pre_enable() and
-> >> post_disable() are opposites of each other and enable() and disable()
-> >> are opposites. However, it seems broken that pre_enable() and enable()
-> >> would not move in the same direction. In other parts of Linux you can
-> >> see that various stages move in the same order. For instance, during
-> >> system suspend the "early" calls run in the same order as the normal
-> >> calls run in the same order as the "late" calls run in the same order
-> >> as the "noirq" calls.
-> >>
-> >> Let fix the above so that it makes more sense. Now we'll have:
-> >>
-> >> pre_enable:   start from encoder and move to connector
-> >> enable:       start from encoder and move to connector
-> >> disable:      start from connector and move to encoder
-> >> post_disable: start from connector and move to encoder
-> >>
-> >> This order is chosen because if there are parent-child relationships
-> >> anywhere I would expect that the encoder would be a parent and the
-> >> connector a child--not the other way around.
-> >
-> > This makes good sense as you describe it. I hope others can add more
-> > useful feedback.
-> > Added Andrzej Hajda <andrzej.hajda@intel.com> to the mail, as he have
-> > expressed concerns with the chain of bridges before.
-> 
-> Thanks Sam, but I am not sure about useful feedback - when I see bridge 
-> chain issues it automatically triggers "whining mode" in my head :)
-> 
-> >> This can be important when using the DP AUX bus to instantiate a
-> >> panel. The DP AUX bus is likely part of a bridge driver and is a
-> >> parent of the panel. We'd like the bridge to be pre_enabled before the
-> >> panel and the panel to be post_disabled before the
-> >> bridge. Specifically, this allows pm_runtime_put_sync_suspend() in a
-> >> bridge driver's post_suspend to work properly even a panel is under
-> >> it.
-> >>
-> >> NOTE: it's entirely possible that this change could break someone who
-> >> was relying on the old order. Hopefully this isn't the case, but if
-> >> this does break someone it seems like it's better to do it sonner
-> >> rather than later so we can fix everyone to handle the order that
-> >> makes the most sense.
-> 
-> It will break for sure. So the question is: if it is worth changing?
-> 
-> New order seems good for eDP, DSI sinks [1], probably other as well.
-> 
-> Old order is better for example for THC63LVD1024 [2 p. 20], I guess for 
-> many other sinks as well.
-> 
-> I am not even sure if it is protocol specific (LVDS, RGB, HDMI,...), or 
-> it depends on specific hw pairs (source->sink).
-> 
-> This is why I complain about the bridge chain - assumption that one 
-> fixed call order will work for all setups seems to me ridiculous.
-> 
-> Going back to the question - changing the order from fixed one to 
-> another fixed one will not solve general issue.
-> 
-> What can we do then?
-> 
-> 1. Configurable call order? Probably doable: every chain element should 
-> expose info if it's call should be before or after source, then some 
-> core helper will create queue of callbacks. Seems quite complicated, 
-> hides the logic from implementer and not fully flexible (for example, 
-> there are protocols which require to perform sth on source, then on 
-> sink, then again on the source).
-> 
-> 2. Stop using bridge chain and call sink ops directly from the source 
-> (this is what Exynos and VC4 do): is flexible and straightforward, gives 
-> full control to the source.
+Signed-off-by: Wan Jiabing <wanjiabing@vivo.com>
+---
+ drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-And breaks interoperability, because different sources end up calling
-operations in different orders. We end up having different sinks that
-expect calls in different ways, and divide the world in sink/source
-groups that don't interoperate :-(
-
-> 3. Use different abstractions to enforce proper initialization order 
-> (like extending mipi_dsi_host_ops): requires existence of transport bus 
-> abstraction (only DSI at the moment(?)).
-
-A real bus seems overkill, but we could have drm_bridge operations
-specific to particular hardware interfaces.
-
-> ... other ideas?
-
-I don't like it because of the amount of work it would require to switch
-to such a model, but I'm really starting to think that a variation of
-the second option would be best, where the sink controls the source
-instead of having the source controlling the sink. It's the sink that
-knows about its enabling/disabling sequence, and about how the source
-needs to be controlled to match it.
-
-> Another idea, connected to the subject - some protocols require some 
-> negotiations between source and sink bus format, or more steps than 
-> pre_enable, enable ops to establish link. I wonder if encapsulating 
-> drm_bridge in some protocol specific struct wouldn't be a solution, it 
-> can be helpful as well in case of the subject.
-> 
-> For example:
-> 
-> struct drm_bridge_edp {
-> 
->      const struct drm_bridge_edp_funcs *funcs;
-> 
->      struct drm_bridge base;
-> 
->      ...
-> 
-> };
-> 
-> Then source could promote bridge pointer to bridge_edp pointer (if 
-> applicable) and perform edp specific stuff. To make it working well 
-> pre-enable order should be as proposed in this patchsets (encoder -> 
-> connector), as the source should initiate negotiations.
-> 
-> Btw this encapsulation stuff above asks to rename drm_bridge to 
-> drm_sink, otherwise it would be confusing as bridges have two ends.
-
-drm_sink would be equally confusing when used for devices that have a
-sink and a source :-) I'm not against a rename though, if we can find a
-better name.
-
-> Regards
-> 
-> Andrzej
-> 
-> 
-> [1]: I use term sink as short equivalent for 'bridges AND panels' 
-> (another issue in DRMs).
-> 
-> [2]: https://www.mouser.com/datasheet/2/286/THC63LVD1024-1396205.pdf
-> 
-> >> A FURTHER NOTE: Looking closer at commit 4e5763f03e10 ("drm/bridge:
-> >> ti-sn65dsi86: Wrap panel with panel-bridge") you can see that patch
-> >> inadvertently changed the order of things. The order used to be
-> >> correct (panel prepare was at the tail of the bridge enable) but it
-> >> became backwards. We'll restore the original order with this patch.
-> >>
-> >> Fixes: 4e5763f03e10 ("drm/bridge: ti-sn65dsi86: Wrap panel with panel-bridge")
-> >> Fixes: 05193dc38197 ("drm/bridge: Make the bridge chain a double-linked list")
-> >> Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> >
-> > To make the patch complete the descriptions in drm_bridge_funcs
-> > need to be updated to reflect the new reality.
-> >
-> >> ---
-> >>
-> >>   drivers/gpu/drm/drm_bridge.c | 28 ++++++++++++++--------------
-> >>   1 file changed, 14 insertions(+), 14 deletions(-)
-> >>
-> >> diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-> >> index c96847fc0ebc..98808af59afd 100644
-> >> --- a/drivers/gpu/drm/drm_bridge.c
-> >> +++ b/drivers/gpu/drm/drm_bridge.c
-> >> @@ -583,18 +583,14 @@ EXPORT_SYMBOL(drm_bridge_chain_mode_set);
-> >>   void drm_bridge_chain_pre_enable(struct drm_bridge *bridge)
-> >
-> > If you, or someone else, could r-b or ack the pending patches to remove
-> > this function, this part of the patch would no longer be needed.
-> >
-> >>   {
-> >>   	struct drm_encoder *encoder;
-> >> -	struct drm_bridge *iter;
-> >>   
-> >>   	if (!bridge)
-> >>   		return;
-> >>   
-> >>   	encoder = bridge->encoder;
-> >> -	list_for_each_entry_reverse(iter, &encoder->bridge_chain, chain_node) {
-> >> -		if (iter->funcs->pre_enable)
-> >> -			iter->funcs->pre_enable(iter);
-> >> -
-> >> -		if (iter == bridge)
-> >> -			break;
-> >> +	list_for_each_entry_from(bridge, &encoder->bridge_chain, chain_node) {
-> >> +		if (bridge->funcs->pre_enable)
-> >> +			bridge->funcs->pre_enable(bridge);
-> >>   	}
-> >>   }
-> >>   EXPORT_SYMBOL(drm_bridge_chain_pre_enable);
-> >> @@ -684,26 +680,30 @@ void drm_atomic_bridge_chain_post_disable(struct drm_bridge *bridge,
-> >>   					  struct drm_atomic_state *old_state)
-> >>   {
-> >>   	struct drm_encoder *encoder;
-> >> +	struct drm_bridge *iter;
-> >
-> > s/iter/bridge/ would make the patch simpler
-> > And then the bridge argument could be last_bridge or something.
-> > This would IMO increase readability of the code and make the patch smaller.
-> >>   
-> >>   	if (!bridge)
-> >>   		return;
-> >>   
-> >>   	encoder = bridge->encoder;
-> >> -	list_for_each_entry_from(bridge, &encoder->bridge_chain, chain_node) {
-> >> -		if (bridge->funcs->atomic_post_disable) {
-> >> +	list_for_each_entry_reverse(iter, &encoder->bridge_chain, chain_node) {
-> >> +		if (iter->funcs->atomic_post_disable) {
-> >>   			struct drm_bridge_state *old_bridge_state;
-> >>   
-> >>   			old_bridge_state =
-> >>   				drm_atomic_get_old_bridge_state(old_state,
-> >> -								bridge);
-> >> +								iter);
-> >>   			if (WARN_ON(!old_bridge_state))
-> >>   				return;
-> >>   
-> >> -			bridge->funcs->atomic_post_disable(bridge,
-> >> -							   old_bridge_state);
-> >> -		} else if (bridge->funcs->post_disable) {
-> >> -			bridge->funcs->post_disable(bridge);
-> >> +			iter->funcs->atomic_post_disable(iter,
-> >> +							 old_bridge_state);
-> >> +		} else if (iter->funcs->post_disable) {
-> >> +			iter->funcs->post_disable(iter);
-> >>   		}
-> >> +
-> >> +		if (iter == bridge)
-> >> +			break;
-> >
-> > I cannot see why this is needed, we are at the end of the list here
-> > anyway.
-> >
-> >>   	}
-> >>   }
-> >>   EXPORT_SYMBOL(drm_atomic_bridge_chain_post_disable);
-
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+index 4d7da07442f2..eb2dcaf78d08 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+@@ -3114,7 +3114,7 @@ eb_requests_create(struct i915_execbuffer *eb, struct dma_fence *in_fence,
+ 		/* Allocate a request for this batch buffer nice and early. */
+ 		eb->requests[i] = i915_request_create(eb_find_context(eb, i));
+ 		if (IS_ERR(eb->requests[i])) {
+-			out_fence = ERR_PTR(PTR_ERR(eb->requests[i]));
++			out_fence = ERR_CAST(eb->requests[i]);
+ 			eb->requests[i] = NULL;
+ 			return out_fence;
+ 		}
 -- 
-Regards,
+2.20.1
 
-Laurent Pinchart
