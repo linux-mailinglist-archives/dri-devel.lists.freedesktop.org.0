@@ -1,44 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F03B439DDD
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Oct 2021 19:48:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F2CAB439DE0
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Oct 2021 19:48:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F06AA6E17F;
-	Mon, 25 Oct 2021 17:48:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2CC646E194;
+	Mon, 25 Oct 2021 17:48:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A97C66E17F
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Oct 2021 17:47:59 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7FE173F0;
- Mon, 25 Oct 2021 19:47:57 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1635184077;
- bh=6ZtEAw8d5dNncwEtVoiWSHFcOFRwfR0tsZKRdCAYWJA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=qp4OotbRMjxwZb8+8CSpjYMkfqzAubNtAh16zhdBB9vNUtvk+CqugPqfTWFP1Wrp9
- lZv8D3Q3AkECaxtv7vtA9pzgLgYwHYtdJu6nSo9QsKI3GLuSu6REFidVFlFH5GUKX9
- q6Z36DUpCGtGwgxs1Z8zOf1gKkDO4DEGx6g7Yk1o=
-Date: Mon, 25 Oct 2021 20:47:35 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Julian Braha <julianbraha@gmail.com>
-Cc: robert.foss@linaro.org, a.hajda@samsung.com, narmstrong@baylibre.com,
- jonas@kwiboo.se, jernej.skrabec@gmail.com, airlied@linux.ie,
- daniel@ffwll.ch, jagan@amarulasolutions.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm: bridge: fix unmet dependency on DRM_KMS_HELPER for
- DRM_PANEL_BRIDGE
-Message-ID: <YXbtt2M+I41qH2ME@pendragon.ideasonboard.com>
-References: <20211025174202.32396-1-julianbraha@gmail.com>
+Received: from mail-qt1-x82d.google.com (mail-qt1-x82d.google.com
+ [IPv6:2607:f8b0:4864:20::82d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B4FF6E193;
+ Mon, 25 Oct 2021 17:48:32 +0000 (UTC)
+Received: by mail-qt1-x82d.google.com with SMTP id t2so11012530qtn.12;
+ Mon, 25 Oct 2021 10:48:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:reply-to:subject
+ :content-language:from:to:cc:references:in-reply-to
+ :content-transfer-encoding;
+ bh=BtGwZQqLyeVwRyLLA+/DNrTsbJxo3+8snfh+L6EC62U=;
+ b=LAU7hD3JnpAvimCobygD9XG+nRmWpHXniwx8U+diKkNeqHlabzmWd0wZhjdlM3070C
+ S+bTamCCvvTMDD2rLpF9ZA/0nCuoziMrdN6C+D0ZCzWcXG9WN3ccbdC3F6zINpa1i5zH
+ RflF/oO+fMkySTXCv/4LPUEO9NtKNUk4oAK4dopmLC0f2NOyKcNeV3D0cbU+v16+3dzJ
+ UlzzVjdnwzZutzzu8hdSzJ3LLDhoLz8ElzNOkp5cIiYJFqv6nnEePb4tH5swJNq73LV5
+ Oc0vzfrHCxYppB37EFmKUbndcoTlV8WX+UUqT1fPektPcZIlD9kSmwVw0szCzuajBHyC
+ BqYg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:reply-to
+ :subject:content-language:from:to:cc:references:in-reply-to
+ :content-transfer-encoding;
+ bh=BtGwZQqLyeVwRyLLA+/DNrTsbJxo3+8snfh+L6EC62U=;
+ b=SaXK3WhmKm6KhMn6YqTJG3e3N3g7WGDiwO7rDw0Gbf4WtJ013y7GTzIIW+b91P74ov
+ PGLthKDyj/5fnOy4jNvwF/zQngp3//l2vuLIjucDFvo3mzlyp6ZDGwi8rM8IinD+DDf1
+ vvq+knNyeAKWwlvO2dI1iskzTOLqDdONrvO5OG4+6p32aujBmdkhBxQu17CZSmD7E8qr
+ fILaayh4+slTjvgELaH04tKP44JuGGfOc0cM0ML7v7bDUmurvKvI6ZUClslIvbTsJ/BL
+ ngvJNtFPW+rBr//sAYxLamHQiZ0tYFvUWU8mKzVQ1Dc6rp/GCQ1ulcflQr4ZndxB6+LL
+ 90tg==
+X-Gm-Message-State: AOAM5307Hf4Y+igvJpxF7JLwwoLVB1N7KIV/QpH+rBBVstpafWM3MQDK
+ We8u1+bNDZYc8w3UayEOUSU=
+X-Google-Smtp-Source: ABdhPJwh/n1YYJlQQKIVB13OFFINIC3PNTATpXpZHYja3ycyvORcSOD0T6e184TZreDJliFoYGwJRA==
+X-Received: by 2002:ac8:610b:: with SMTP id a11mr18965953qtm.182.1635184111176; 
+ Mon, 25 Oct 2021 10:48:31 -0700 (PDT)
+Received: from mua.localhost ([2600:1700:e380:2c20::49])
+ by smtp.gmail.com with ESMTPSA id v21sm512169qtk.46.2021.10.25.10.48.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 25 Oct 2021 10:48:30 -0700 (PDT)
+Message-ID: <f43cbd18-a0ef-a029-4f3d-28c9f9d27ad1@gmail.com>
+Date: Mon, 25 Oct 2021 13:48:29 -0400
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20211025174202.32396-1-julianbraha@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Firefox/91.0 Thunderbird/91.2.0
+Subject: Re: amdgpu "Fatal error during GPU init"; Ryzen 5600G integrated GPU
+ + kernel 5.14.13
+Content-Language: en-US
+From: PGNet Dev <pgnet.dev@gmail.com>
+To: lijo.lazar@amd.com, alexdeucher@gmail.com
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+References: <b4adea1b-9a21-75d2-7ee7-25d4f28ef6f8@gmail.com>
+ <2303555f-42cd-180c-7a67-1d104bceea7d@gmail.com>
+ <CADnq5_PsKDreYH0aNNzfR_TbfMMsfVK=-hCCB0ThZ0PzcLPCpw@mail.gmail.com>
+ <27b8936d-ba79-cc13-7768-692565bedc2f@amd.com>
+ <b412bb59-8f60-6b4a-9bc4-e606c6b9f66a@gmail.com>
+In-Reply-To: <b412bb59-8f60-6b4a-9bc4-e606c6b9f66a@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,54 +78,15 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: pgnet.dev@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Julian,
+> sbios settings
 
-Thank you for the patch.
+any of these raise a suspicion?
 
-On Mon, Oct 25, 2021 at 01:42:02PM -0400, Julian Braha wrote:
-> When DRM_CHIPONE_ICN6211 is selected, and DRM_KMS_HELPER is not selected,
-> Kbuild gives the following warning:
-> 
-> WARNING: unmet direct dependencies detected for DRM_PANEL_BRIDGE
->   Depends on [n]: HAS_IOMEM [=y] && DRM_BRIDGE [=y] && DRM_KMS_HELPER [=n]
->   Selected by [y]:
->   - DRM_CHIPONE_ICN6211 [=y] && HAS_IOMEM [=y] && DRM [=y] && DRM_BRIDGE [=y] && OF [=y]
-> 
-> This is because DRM_CHIPONE_ICN6211 selects DRM_PANEL_BRIDGE
-> without depending on or selecting DRM_KMS_HELPER,
-> despite DRM_PANEL_BRIDGE depending on DRM_KMS_HELPER.
-> 
-> This unmet dependency bug was detected by Kismet,
-> a static analysis tool for Kconfig.
-> Please advise if this is not the appropriate solution.
+screenshot from the ASRockRack X470D4U's BIOS setup:
 
-Shouldn't DRM_PANEL_BRIDGE select DRM_KMS_HELPER instead of depending on
-it ?
+   https://imgur.com/a/rdhGQNy
 
-> Fixes: ce517f18944e ("drm: bridge: Add Chipone ICN6211 MIPI-DSI to RGB bridge")
-> Reviewed-by: Robert Foss <robert.foss@linaro.org>
-> Signed-off-by: Julian Braha <julianbraha@gmail.com>
-> ---
->  drivers/gpu/drm/bridge/Kconfig | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
-> index 431b6e12a81f..a630cb8fd1c8 100644
-> --- a/drivers/gpu/drm/bridge/Kconfig
-> +++ b/drivers/gpu/drm/bridge/Kconfig
-> @@ -30,6 +30,7 @@ config DRM_CDNS_DSI
->  config DRM_CHIPONE_ICN6211
->  	tristate "Chipone ICN6211 MIPI-DSI/RGB Converter bridge"
->  	depends on OF
-> +  select DRM_KMS_HELPER
->  	select DRM_MIPI_DSI
->  	select DRM_PANEL_BRIDGE
->  	help
-
--- 
-Regards,
-
-Laurent Pinchart
