@@ -2,85 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 535C5439851
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Oct 2021 16:15:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83A9B4398C4
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Oct 2021 16:37:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C4426E0C1;
-	Mon, 25 Oct 2021 14:15:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 018038982E;
+	Mon, 25 Oct 2021 14:37:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
- [66.111.4.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4151D89CBE
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Oct 2021 14:15:12 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailout.nyi.internal (Postfix) with ESMTP id 5C8D55C0215;
- Mon, 25 Oct 2021 10:15:11 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute6.internal (MEProxy); Mon, 25 Oct 2021 10:15:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=s2MHqfw+LInfFzgO01BL4acWrAD
- cKONYay/PKw/oiy4=; b=dYiZR16FH0IqzA0dDnxKN9+jlAzL6FlVsGHpt2LCgoo
- ruzkruuGxSab/YYOeWxVD0KvLfhhXiGqHBpMKnejJblrZyTHSv9M7/5FZB3QIy/6
- eA2bklzwGLJemB9fKKw/xGAm11gmUGuJTaK/wA77pAezHlvjXnVBooVcA0pi0UxP
- dJI04+qZKjeqbKz+2ks1CGmplOVKzRUZ4sJwlad1mqpOkh9esT0iYnV3/+dcW8/C
- DyweG7eLg/fx8A+kOwyxmGRGX0IkLcz/yQKs1yN12EwTw7FKxRA+TDDyfA8GTVaz
- tq8c3xAOG4Tlxw3ObzAdu7Bm2TCScGZ0YHm+beBAt8Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=s2MHqf
- w+LInfFzgO01BL4acWrADcKONYay/PKw/oiy4=; b=JgeSRqy23EfCl78Z+HzNFG
- 2hiZy4MsBCycc+prkrcJsDHQU280W59OOVEI60GZsM9xjLI7eWi8k+XIaHUxDhsL
- s3naJe9uYJWMpHpAawZ+6ipozArk8qVxR6qDFMuPgRcNoTgirrOIarScU7xxKSGt
- Y7vj3P7zmmW0PX+t/0/C5YwtZfdsoE0l+chHN7BbD+o7Ov+XxlmwDhAVmPRWRWJJ
- XA8GKMIzmqvwQPl+gCeUv99cEd/HGOWbRAZoQwcjMmXwXWqV6tsTs2EEoaGnHOLk
- WhXfcEYfN401BXi3mjr5CwRY4N/fj6PpOhXqIEEavNQLY/0jz9TIaOs7nuhtrKrA
- ==
-X-ME-Sender: <xms:7rt2YVPAtvY_knPoFIJroz5aNuSKQ6rcM6SpnXhoB1wTdmE_79ZwWg>
- <xme:7rt2YX-RFMsYH1VTeHlmoNki52kzz3Dyt0SRhag0fboXcfPeCMh7ohlQyQpinDEUt
- pdXjohnYGSogl5BTF0>
-X-ME-Received: <xmr:7rt2YURl7ixs-LVR9fQ8l5OutW59OG_SS_F0u0P9_30SLs6_8JriHHwEoLJD-IPEIqHS7UqRNvvvY1_ujt2wBkbwTmT3Udc8BSguSYQ9>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrvdefhedgjedvucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepveevfeffudeviedtgeethffhteeuffetfeffvdehvedvheetteehvdelfffg
- jedvnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpe
- dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:7rt2YRuiD-j_LOyFimfFVwCjleuf_uBhdMAI7ToJa1CeflAknhcyYQ>
- <xmx:7rt2YdcLdPHHv-y8-RhAr07rQHSE0zil_bKJeunwMAMEaiGBFIkojQ>
- <xmx:7rt2Yd3QJu4OzUOM4Jbb3C4YP04ST6gr0QXgA8UfPJLQofGaxlyZQA>
- <xmx:77t2YWFoM3ZePRoVCW4gmTvrt-RH9yF3Uqlrip9llIfy6FSHGYLQzQ>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 25 Oct 2021 10:15:10 -0400 (EDT)
-Date: Mon, 25 Oct 2021 16:15:09 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Linus Torvalds <torvalds@linux-foundation.org>,
- Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
- Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- linux-kernel <linux-kernel@vger.kernel.org>
-Subject: Re: Regression with mainline kernel on rpi4
-Message-ID: <20211025141509.3bojy4fndhapv6ti@gilmour>
-References: <CADVatmNZB6yjS6zXqUcY4xsUTyX3pa6VysB6RmT1CGV5LXer6g@mail.gmail.com>
- <CAHk-=wh+y=C5hVhE1X=AvZz+OM5Yp8eLHYGth31pfoJVF7UKKQ@mail.gmail.com>
- <CADVatmPDeSxeY3GTZyC6+G0N76su0E6Y3LF_h6BOcBf5QAtjvg@mail.gmail.com>
- <CAHk-=whASMriPYRdH8kxC_UwObBtwHbPvf7rb58sUEZZyaFxJg@mail.gmail.com>
- <20210924133022.waqgtr5xjjxigong@gilmour>
- <CAKMK7uFxO-ss86k483VJQJiHwcAYxNwD06xSEZStn+fWiRJ6iw@mail.gmail.com>
- <20210928083446.cfji7hmndt6a5nop@gilmour>
- <YVWBP5ZJInH/wt1P@phenom.ffwll.local>
- <20211013150103.p3rea3ny3rjmohtd@gilmour>
- <YWgteNaNeaS9uWDe@phenom.ffwll.local>
+Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com
+ [IPv6:2a00:1450:4864:20::232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E0C628982E
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Oct 2021 14:37:33 +0000 (UTC)
+Received: by mail-lj1-x232.google.com with SMTP id l5so14001271lja.13
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Oct 2021 07:37:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:from:to:cc:references:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=37RgvT0lSxttAIlpSPbiWU3o8nfxLJzJwGwkROsLVrI=;
+ b=PDheW/ZXwp72+mvCVThbwpylurx7v+Cxk9afOfRVMDOUgcboyCOHD8N9w2FJBMecZ6
+ DODHV7P0yY6Jbo70Qq+smB6P/iI3dW3upMnC53iBiHe2W4iiYg/lIeLw9FSI1HJ9VpEY
+ xfTG21VYrElV69izSy1tOfYMyx+ViO1Aumh16/zmzrZtfrC4HX3A8LqO2r20t7ywASjl
+ +mTr1v7Ux2JItddXY6lh/u2RnLz19HgWHwdyBuDUrSJr9j+EsIn/ZyCjH/DvdGnd4Qsv
+ ja98WuZ+8d9se8V+KM60Lw1LYLQBiQPrlZX1i4RTreVsSQUvd2fF/UoZbEspCtW++zcY
+ Gh/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=37RgvT0lSxttAIlpSPbiWU3o8nfxLJzJwGwkROsLVrI=;
+ b=ktcu+DBFZUab9LjCWMCHrrwRlgqzZ5JgLrOLTHLAPxXHkKILgP1iCEWHAW4+Qki3FC
+ 4l++f299m9tP51MVtDT3t7OjuCRir/GZoKJzqJq2MzQBc3T8RDo/XL6XAJTRzRCSHnY0
+ GHfS8FrBP9EredbB6bF2Q830s37mGbipaukG0BDqgSl9wSEtJuW245IuM3ACILqLJzQG
+ 746hd6azRUQcgqFG7w1DHJ8wK6GCuLDEwYkle1/y17Y9mJ6SnBCEm7vq00xGuMOA3lLf
+ c49EgU1H/y6sOeGZB89LxrtLcqt4bL4Gwl1XdvQV13Uyb8rkEsgzaRx87vy+DGbz9kDj
+ fFAQ==
+X-Gm-Message-State: AOAM531nZo7ncuCBizxuUpT0t60kE2f/yYlc2PGQHIcsn5BMCqKAX+/m
+ tKmOmR6CJCBZoQW5hetw79Cq2g==
+X-Google-Smtp-Source: ABdhPJzF+wFEONNsTMIkjQf5jW/Xtl49NSImVljVD73HjiPKVvYXkdYFtOaCLEq0Vp+IpFuL/zjJtw==
+X-Received: by 2002:a2e:9609:: with SMTP id v9mr18279740ljh.275.1635172652250; 
+ Mon, 25 Oct 2021 07:37:32 -0700 (PDT)
+Received: from [192.168.1.211] ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id m6sm89924ljp.113.2021.10.25.07.37.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 25 Oct 2021 07:37:31 -0700 (PDT)
+Subject: Re: [PATCH v2 09/11] drm/msm/disp/dpu1: Add support for DSC in
+ topology
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Vinod Koul <vkoul@kernel.org>, Rob Clark <robdclark@gmail.com>
+Cc: linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, David Airlie
+ <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Jonathan Marek <jonathan@marek.ca>, Abhinav Kumar <abhinavk@codeaurora.org>,
+ Jeffrey Hugo <jeffrey.l.hugo@gmail.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
+References: <20211007070900.456044-1-vkoul@kernel.org>
+ <20211007070900.456044-10-vkoul@kernel.org>
+ <020ab810-c975-d58b-a572-57eb3010d6c0@linaro.org>
+Message-ID: <7ba115c8-16e6-54c4-b151-e69eedcb47d2@linaro.org>
+Date: Mon, 25 Oct 2021 17:37:30 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="ypjexi65tpqzaana"
-Content-Disposition: inline
-In-Reply-To: <YWgteNaNeaS9uWDe@phenom.ffwll.local>
+In-Reply-To: <020ab810-c975-d58b-a572-57eb3010d6c0@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,157 +84,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 14/10/2021 17:13, Dmitry Baryshkov wrote:
+> On 07/10/2021 10:08, Vinod Koul wrote:
+>> For DSC to work we typically need a 2,2,1 configuration. This should
+>> suffice for resolutions upto 4k. For more resolutions like 8k this won't
+>> work.
+>>
+>> Also, it is better to use 2 LMs and DSC instances as half width results
+>> in lesser power consumption as compared to single LM, DSC at full width.
+>>
+>> The panel has been tested only with 2,2,1 configuration, so for
+>> now we blindly create 2,2,1 topology when DSC is enabled
+>>
+>> Co-developed-by: Abhinav Kumar <abhinavk@codeaurora.org>
+>> Signed-off-by: Abhinav Kumar <abhinavk@codeaurora.org>
+>> Signed-off-by: Vinod Koul <vkoul@kernel.org>
+>> ---
+>> Changes since
+>> RFC:
+>>   - Add more details in changelog
+>>
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 16 ++++++++++++++++
+>>   1 file changed, 16 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c 
+>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+>> index aac51c1bdf94..70f57a071165 100644
+>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+>> @@ -538,6 +538,8 @@ static struct msm_display_topology 
+>> dpu_encoder_get_topology(
+>>               struct drm_display_mode *mode)
+>>   {
+>>       struct msm_display_topology topology = {0};
+>> +    struct drm_encoder *drm_enc;
+>> +    struct msm_drm_private *priv;
+>>       int i, intf_count = 0;
+>>       for (i = 0; i < MAX_PHYS_ENCODERS_PER_VIRTUAL; i++)
+>> @@ -572,8 +574,22 @@ static struct msm_display_topology 
+>> dpu_encoder_get_topology(
+>>       topology.num_enc = 0;
+>>       topology.num_intf = intf_count;
+>> +    drm_enc = &dpu_enc->base;
+>> +    priv = drm_enc->dev->dev_private;
+>> +    if (priv && priv->dsc) {
+>> +        /* In case of Display Stream Compression DSC, we would use
+>> +         * 2 encoders, 2 line mixers and 1 interface
+>> +         * this is power optimal and can drive upto (including) 4k
+>> +         * screens
+>> +         */
+>> +        topology.num_enc = 2;
+>> +        topology.num_intf = 1;
+>> +        topology.num_lm = 2;
+> 
+> So, here you'd set the topology.num_rm.
 
---ypjexi65tpqzaana
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I meant 'num_dsc', please excuse the typo.
 
-Hi,
+> 
+>> +    }
+>> +
+>>       return topology;
+>>   }
+>> +
+>>   static int dpu_encoder_virt_atomic_check(
+>>           struct drm_encoder *drm_enc,
+>>           struct drm_crtc_state *crtc_state,
+>>
+> 
+> 
 
-On Thu, Oct 14, 2021 at 03:15:36PM +0200, Daniel Vetter wrote:
-> On Wed, Oct 13, 2021 at 05:01:03PM +0200, Maxime Ripard wrote:
-> > On Thu, Sep 30, 2021 at 11:19:59AM +0200, Daniel Vetter wrote:
-> > > On Tue, Sep 28, 2021 at 10:34:46AM +0200, Maxime Ripard wrote:
-> > > > Hi Daniel,
-> > > >=20
-> > > > On Sat, Sep 25, 2021 at 12:50:17AM +0200, Daniel Vetter wrote:
-> > > > > On Fri, Sep 24, 2021 at 3:30 PM Maxime Ripard <maxime@cerno.tech>=
- wrote:
-> > > > > >
-> > > > > > On Wed, Sep 22, 2021 at 01:25:21PM -0700, Linus Torvalds wrote:
-> > > > > > > On Wed, Sep 22, 2021 at 1:19 PM Sudip Mukherjee
-> > > > > > > <sudipm.mukherjee@gmail.com> wrote:
-> > > > > > > >
-> > > > > > > > I added some debugs to print the addresses, and I am gettin=
-g:
-> > > > > > > > [   38.813809] sudip crtc 0000000000000000
-> > > > > > > >
-> > > > > > > > This is from struct drm_crtc *crtc =3D connector->state->cr=
-tc;
-> > > > > > >
-> > > > > > > Yeah, that was my personal suspicion, because while the line =
-number
-> > > > > > > implied "crtc->state" being NULL, the drm data structure docu=
-mentation
-> > > > > > > and other drivers both imply that "crtc" was the more likely =
-one.
-> > > > > > >
-> > > > > > > I suspect a simple
-> > > > > > >
-> > > > > > >         if (!crtc)
-> > > > > > >                 return;
-> > > > > > >
-> > > > > > > in vc4_hdmi_set_n_cts() is at least part of the fix for this =
-all, but
-> > > > > > > I didn't check if there is possibly something else that needs=
- to be
-> > > > > > > done too.
-> > > > > >
-> > > > > > Thanks for the decode_stacktrace.sh and the follow-up
-> > > > > >
-> > > > > > Yeah, it looks like we have several things wrong here:
-> > > > > >
-> > > > > >   * we only check that connector->state is set, and not
-> > > > > >     connector->state->crtc indeed.
-> > > > > >
-> > > > > >   * We also check only in startup(), so at open() and not later=
- on when
-> > > > > >     the sound streaming actually start. This has been there for=
- a while,
-> > > > > >     so I guess it's never really been causing a practical issue=
- before.
-> > > > >=20
-> > > > > You also have no locking
-> > > >=20
-> > > > Indeed. Do we just need locking to prevent a concurrent audio setup=
- and
-> > > > modeset, or do you have another corner case in mind?
-> > > >=20
-> > > > Also, generally, what locks should we make sure we have locked when
-> > > > accessing the connector and CRTC state? drm_mode_config.connection_=
-mutex
-> > > > and drm_mode_config.mutex, respectively?
-> > > >=20
-> > > > > plus looking at ->state objects outside of atomic commit machinery
-> > > > > makes no sense because you're not actually in sync with the hw st=
-ate.
-> > > > > Relevant bits need to be copied over at commit time, protected by=
- some
-> > > > > spinlock (and that spinlock also needs to be held over whatever o=
-ther
-> > > > > stuff you're setting to make sure we don't get a funny out-of-sync
-> > > > > state anywhere).
-> > > >=20
-> > > > If we already have a lock protecting against having both an ASoC an=
-d KMS
-> > > > function running, it's not clear to me what the spinlock would prev=
-ent
-> > > > here?
-> > >=20
-> > > Replicating the irc chat here. With
-> > >=20
-> > > commit 6c5ed5ae353cdf156f9ac4db17e15db56b4de880
-> > > Author: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> > > Date:   Thu Apr 6 20:55:20 2017 +0200
-> > >=20
-> > >     drm/atomic: Acquire connection_mutex lock in drm_helper_probe_sin=
-gle_connector_modes, v4.
-> > >=20
-> > > this is already taken care of for drivers and should be all good from=
- a
-> > > locking pov.
-> >=20
-> > So, if I understand this properly, this superseeds your comment on the
-> > spinlock for the hw state, but not the comment that we need some locking
-> > to synchronize between the audio and KMS path (and CEC?). Right?
->=20
-> Other way round. There's 3 things involved here:
-> 1. kms output probe code
-> 2. kms atomic commit code
-> 3. calls from asoc side
->=20
-> The above referenced commit makes sure 1&2 are synchronized. The problem
-> is that 2&3 are not synchonronized, and from 3, no matter how much locking
-> you have, you cannot look at kms state. I.e. not allowed to look at
-> crtc->state for example, irrespective of whether you're holding
-> drm_modeset_lock or not. This is because the atomic nonblocking commit is
-> done without holding any locks, protection is purely down to ownership
-> rules of state structures and ordering (through drm_crtc_commit) of
-> in-flight nonblocking atomic commits.
->=20
-> That's why you need a sperate lock _and_ copy state, so taht 2&3 stay in
-> sync.
->=20
-> In practice you only care about modeset changes from 2 vs anything from 3,
-> and most userspace does modeset atomic commits as blocking commits, which
-> means you won't notice that your locking has gaps.
->=20
-> btw same problem exists between atomic and (vblank) irq handler. There you
-> need a irqsafe spinlock and you also have to copy (because the irq handler
-> just cannot access ->state in any safe way, because it doesn't own that
-> structure).
->=20
-> This is maybe a bit the confusing thing with atomic commit: ->state isn't
-> protected by locks, but through ownership rules. Only for atomic check is
-> ->state protected by locks, but once we're committed we switch over to
-> ownership rules for protection. swap_states() is that point of no return.
 
-Thanks for the clarifications, I just posted a series that should be
-implementing this here:
-https://lore.kernel.org/dri-devel/20211025141113.702757-1-maxime@cerno.tech/
-
-Maxime
-
---ypjexi65tpqzaana
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYXa77QAKCRDj7w1vZxhR
-xbBFAP4pHttlebRsLgfQPT9362C9Rm4B069Dh4b9cBAHq8Q7rQEA9hQvXedd3EBB
-YaUsNNJJBnikVVFy2VvHVJaHbunDawo=
-=B6NJ
------END PGP SIGNATURE-----
-
---ypjexi65tpqzaana--
+-- 
+With best wishes
+Dmitry
