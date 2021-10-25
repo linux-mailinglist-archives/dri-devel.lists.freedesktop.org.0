@@ -1,55 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3630543A6B9
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Oct 2021 00:40:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0815A43A6AD
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Oct 2021 00:38:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 75ECC6E28B;
-	Mon, 25 Oct 2021 22:40:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 171C76E288;
+	Mon, 25 Oct 2021 22:38:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 252C66E28B
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Oct 2021 22:40:02 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 964F66E270
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Oct 2021 22:38:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635201601;
+ s=mimecast20190719; t=1635201519;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=S4KYRoHVnLHt6UICdy2GjiPz6RdGZIQTNnxSEUr7b9A=;
- b=fUKc2ADpQKY75EGrxgw53N9eC+42K65Od0Fw02ycp45lwkG9pUerA7pQ3pmoMGZG0MUuS9
- rWNRnr1IFkCZ6B/syARlIjYE0llKKCXcZaEYjUzsox8XfKgH0/+LNuT8WgVUzjxBAH2qPF
- KLo+rTkr8Nhifs66L+Hhl8PJ2iDKv+0=
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=E5v1Na7JVt3wuBUYr9NpLnaa0AfB+WKs9SYn9cUM/6Y=;
+ b=huPNgBVV1JwYX7PfydAgcbyKKEcDXYSQo+/cDh8KDUeZqtIXM8BcQRLktqo4a3Fn+4YOdJ
+ 4/URTZlha7Hzk/0NdMVtQSdJ3BBaCJURE4UTiMRLd7kVtWyErWEzg+KC7BChO1MCbDPwBi
+ T3e81dhrCeFaIMzLG2TTBWwewawr4P4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-73-KUDzJBhzM5O3IgyVimpXEQ-1; Mon, 25 Oct 2021 18:38:34 -0400
-X-MC-Unique: KUDzJBhzM5O3IgyVimpXEQ-1
+ us-mta-231-lwRaFAw_M6yBDXp0uGa7JQ-1; Mon, 25 Oct 2021 18:38:36 -0400
+X-MC-Unique: lwRaFAw_M6yBDXp0uGa7JQ-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8462719057A1;
- Mon, 25 Oct 2021 22:38:33 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B34E5100C612;
+ Mon, 25 Oct 2021 22:38:34 +0000 (UTC)
 Received: from emerald.lyude.net (unknown [10.22.9.162])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E94B860BF1;
- Mon, 25 Oct 2021 22:38:31 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C266160BF1;
+ Mon, 25 Oct 2021 22:38:33 +0000 (UTC)
 From: Lyude Paul <lyude@redhat.com>
 To: dri-devel@lists.freedesktop.org,
 	amd-gfx@lists.freedesktop.org
-Subject: [PATCH RESEND v5 0/4] drm/amdgpu,
- Add DP 2.0 MST support + drm/dp_mst helpers
-Date: Mon, 25 Oct 2021 18:38:20 -0400
-Message-Id: <20211025223825.301703-1-lyude@redhat.com>
+Cc: Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH RESEND v5 1/4] drm: Remove slot checks in dp mst topology
+ during commit
+Date: Mon, 25 Oct 2021 18:38:21 -0400
+Message-Id: <20211025223825.301703-2-lyude@redhat.com>
+In-Reply-To: <20211025223825.301703-1-lyude@redhat.com>
+References: <20211025223825.301703-1-lyude@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,37 +68,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-(Sorry for the noise, had to resend because I typo'd amd's mailing list
-email address by accident)
+From: Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>
 
-Just resubmitting this patch series from AMD with _very_ minor changes
-(just a typo and fixing a debug message) so that this can be pushed
-upstream with a proper patchwork link. Will be pushing this into a topic
-branch and submitting to airlied in a moment.
+This code path is used during commit, and we dont expect things to fail
+during the commit stage, so remove this.
 
-Bhawanpreet Lakha (3):
-  drm: Remove slot checks in dp mst topology during commit
-  drm: Update MST First Link Slot Information Based on Encoding Format
-  drm/amd/display: Add DP 2.0 MST DM Support
+Signed-off-by: Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>
+Reviewed-by: Lyude Paul <lyude@redhat.com>
+Signed-off-by: Lyude Paul <lyude@redhat.com>
+---
+ drivers/gpu/drm/drm_dp_mst_topology.c | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
-Fangzhi Zuo (1):
-  drm/amd/display: Add DP 2.0 MST DC Support
-
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  29 ++
- .../amd/display/amdgpu_dm/amdgpu_dm_debugfs.c |   3 +
- .../amd/display/amdgpu_dm/amdgpu_dm_helpers.c |   5 +-
- drivers/gpu/drm/amd/display/dc/core/dc.c      |  14 +
- drivers/gpu/drm/amd/display/dc/core/dc_link.c | 292 ++++++++++++++++++
- .../gpu/drm/amd/display/dc/core/dc_link_dp.c  |  19 ++
- drivers/gpu/drm/amd/display/dc/dc_link.h      |   7 +
- drivers/gpu/drm/amd/display/dc/dc_stream.h    |  13 +
- drivers/gpu/drm/drm_dp_mst_topology.c         |  42 ++-
- drivers/gpu/drm/i915/display/intel_dp_mst.c   |   4 +-
- drivers/gpu/drm/nouveau/dispnv50/disp.c       |   2 +-
- drivers/gpu/drm/radeon/radeon_dp_mst.c        |   4 +-
- include/drm/drm_dp_mst_helper.h               |   5 +-
- 13 files changed, 423 insertions(+), 16 deletions(-)
-
+diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_dp_mst_topology.c
+index 86d13d6bc463..04ed34a7f71c 100644
+--- a/drivers/gpu/drm/drm_dp_mst_topology.c
++++ b/drivers/gpu/drm/drm_dp_mst_topology.c
+@@ -4334,10 +4334,6 @@ static int drm_dp_init_vcpi(struct drm_dp_mst_topology_mgr *mgr,
+ {
+ 	int ret;
+ 
+-	/* max. time slots - one slot for MTP header */
+-	if (slots > 63)
+-		return -ENOSPC;
+-
+ 	vcpi->pbn = pbn;
+ 	vcpi->aligned_pbn = slots * mgr->pbn_div;
+ 	vcpi->num_slots = slots;
+@@ -4540,7 +4536,7 @@ bool drm_dp_mst_allocate_vcpi(struct drm_dp_mst_topology_mgr *mgr,
+ 
+ 	ret = drm_dp_init_vcpi(mgr, &port->vcpi, pbn, slots);
+ 	if (ret) {
+-		drm_dbg_kms(mgr->dev, "failed to init vcpi slots=%d max=63 ret=%d\n",
++		drm_dbg_kms(mgr->dev, "failed to init vcpi slots=%d ret=%d\n",
+ 			    DIV_ROUND_UP(pbn, mgr->pbn_div), ret);
+ 		drm_dp_mst_topology_put_port(port);
+ 		goto out;
 -- 
 2.31.1
 
