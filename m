@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 150E743A76E
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Oct 2021 00:47:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B054343A765
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Oct 2021 00:47:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 24D2F6E3C6;
-	Mon, 25 Oct 2021 22:47:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04A488984F;
+	Mon, 25 Oct 2021 22:47:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com
  [IPv6:2a00:1450:4864:20::230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 54DE86E3D0
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Oct 2021 22:46:16 +0000 (UTC)
-Received: by mail-lj1-x230.google.com with SMTP id n7so12464511ljp.5
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Oct 2021 15:46:16 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 452FA6E328
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Oct 2021 22:46:17 +0000 (UTC)
+Received: by mail-lj1-x230.google.com with SMTP id o26so16227131ljj.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Oct 2021 15:46:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=XhJhoHa09g0eMXcPzvcsak7Gc2B+P6Q69tbTx8m4NvQ=;
- b=g4lNDzaXWoWnLUPZ36g5NPwv1hrjOWOnXwPfD+IvI+6zsWnp5DCMdjyRCMdQTTmCe3
- LgqIbs3O45c7jIcep2OzjdpPzmecNIqPCCwbOxhL6GhiRjv83y5f9E6AkmEOpKfq49dc
- N1iCKrMuxF5ghJLJ7iLcB+8Y0x3sAki9QxI30bG3pozVBsTlLSWv44KDuhwTOl6/P+o9
- i4to7W/zgwTrNK9xiza9rpv0rL4fJY4Bbv4/W1mNOW8sS/Hrd6HX6B77Mma0Jp0POqv/
- +ES8lNPKt3dv6y+iiUf5NhGpOHAgv604vY4m5nPNJnOuOfgADErV1ZQ6PGPzH12N2TcF
- X3zg==
+ bh=R1MsgTWaMU7L5hsoQyQaWcgiqMKdd8mOxB+as8zU9xk=;
+ b=ESW5TVtukQQHsP1xA1tsnaOoIjIQu87u6518JmR4shcn7KtAWPxPFh3d0xpoDsI6wM
+ YyP2MT3Eu+6fIplBUYjaf0WSmG+CDCMsMvMiidRkeq9ZtD5jB9qMIibBJqrqgCUM/bKv
+ pWnLiISUU3Z6rNE17YU25yFK/efAJIdE8Gt8dzjGEIznWXy5DlEdOLDN6teWTGMHUNKY
+ 1zyAUKVMTWnAk+7boP6tufnTpZEe8brt5G0s4+mIA9wod8aobxx3bnsTKl9oNjn7ru+Y
+ QdDqeZIrycYFFAEbEuLO0p1eLh2LDrr2oPkhVFiJCXWmGtGfQS2q2OhwgibVnvCC58SF
+ vmVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=XhJhoHa09g0eMXcPzvcsak7Gc2B+P6Q69tbTx8m4NvQ=;
- b=qosC/8b7R2WY1xCfAYYpTonVB7bbgLN2hMl1u+u7WdoYd9CzyvWwUX3GqBgpMD5BrH
- Mroh5Fsi/5TQha8HmHtZbmJHlLMOn4/zX7pbrKxCyeIVmdxVwmkjX2p/BzcTyR2Wz2wU
- xEFhhpjE6zSUKs4Td0mgd+jOkl7Pk50oEtO082KISbupBvXbkWR+ma5FuZBmIjvDdK7a
- xfONJjzzVStmNgGz7mYehzG/3EF+RmjlLfKIhBiaWWwFP4YKX+NA91YOkuFxe3zuKvJH
- sWuV8KuXWs+7d4sBM0YM6W9JccfxV3fQdCClvxk88DeY/+pzyvAJ984o7w50f3WOgvJW
- fcuQ==
-X-Gm-Message-State: AOAM530aqQcv1hCOjnUhH8wjDBFAFEaHtqbr39GVfmg0hVlOW17PmRtM
- c5OdOyicQroKGHGIF3NMfYs=
-X-Google-Smtp-Source: ABdhPJx19huNzK+qkOsecJzciIfqsQoAzle0v8di7zqWT9JJN0+HUZjnnILNgbhPItf4hiomO38dkA==
-X-Received: by 2002:a2e:9891:: with SMTP id b17mr22400671ljj.391.1635201974621; 
- Mon, 25 Oct 2021 15:46:14 -0700 (PDT)
+ bh=R1MsgTWaMU7L5hsoQyQaWcgiqMKdd8mOxB+as8zU9xk=;
+ b=uchDxEwk+sZqLJV7MLI1lmBYIuAi1/5zL6Eb0NTk8V0GGXRwwdvrjsSZ0iIX+hznm/
+ oaDXqMNlhtSHd6JBjc0IDFKg8KEoQkold716wFvCpXG9cxeEWleH9YawMpSDOvekEAVn
+ t+cY/R34H+wNwHQ1pgNPJg16zyZ03iZQx8EGBIHR6u/oahovUbfJkgGIVjYoyrrBTygB
+ 0yIzrQoAzadHPMaoVBnpWsypPykjOG0BUgy1IRWu9rYJeVXNphvJkK2/jOeETDPGo6iR
+ bxGzAr3/AVaxcvfpKk4DOY+wTZQxTlPakvjCSmP5z/9SIw+pILkdxMVOx8BBi281Rjd9
+ AYCg==
+X-Gm-Message-State: AOAM532lb5mnKm+jO4gVnon1q+5cr4N9KaADbSKvy95yL2uOv6xM+NLQ
+ kkHzhHyq1iFhmy+fJacqfas=
+X-Google-Smtp-Source: ABdhPJx5gPntgOyZIHqj2um0ceQNxg/n93Di/GFAUn7kVG4nQHeNw/wbNxrIgWWvvCnUBeaoVmYQag==
+X-Received: by 2002:a2e:8785:: with SMTP id n5mr22579743lji.52.1635201975524; 
+ Mon, 25 Oct 2021 15:46:15 -0700 (PDT)
 Received: from localhost.localdomain (46-138-41-28.dynamic.spd-mgts.ru.
  [46.138.41.28])
- by smtp.gmail.com with ESMTPSA id t20sm2040956lft.240.2021.10.25.15.46.13
+ by smtp.gmail.com with ESMTPSA id t20sm2040956lft.240.2021.10.25.15.46.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 25 Oct 2021 15:46:14 -0700 (PDT)
+ Mon, 25 Oct 2021 15:46:15 -0700 (PDT)
 From: Dmitry Osipenko <digetx@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
  Jonathan Hunter <jonathanh@nvidia.com>,
@@ -60,9 +60,10 @@ Cc: linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
  linux-pm@vger.kernel.org, linux-pwm@vger.kernel.org,
  linux-mmc@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-clk@vger.kernel.org, David Heidelberg <david@ixit.cz>
-Subject: [PATCH v14 31/39] soc/tegra: pmc: Rename core power domain
-Date: Tue, 26 Oct 2021 01:40:24 +0300
-Message-Id: <20211025224032.21012-32-digetx@gmail.com>
+Subject: [PATCH v14 32/39] soc/tegra: pmc: Enable core domain support for
+ Tegra20 and Tegra30
+Date: Tue, 26 Oct 2021 01:40:25 +0300
+Message-Id: <20211025224032.21012-33-digetx@gmail.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211025224032.21012-1-digetx@gmail.com>
 References: <20211025224032.21012-1-digetx@gmail.com>
@@ -83,27 +84,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CORE power domain uses name of device-tree node, which is inconsistent with
-the names of PMC domains. Set the name to "core" to make it consistent.
+All device drivers got runtime PM and OPP support. Flip the core domain
+support status for Tegra20 and Tegra30 SoCs.
 
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/soc/tegra/pmc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/soc/tegra/pmc.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/soc/tegra/pmc.c b/drivers/soc/tegra/pmc.c
-index 5c6d58a27c39..4665b7214f1c 100644
+index 4665b7214f1c..ad8f33a5daa1 100644
 --- a/drivers/soc/tegra/pmc.c
 +++ b/drivers/soc/tegra/pmc.c
-@@ -1353,7 +1353,7 @@ static int tegra_pmc_core_pd_add(struct tegra_pmc *pmc, struct device_node *np)
- 	if (!genpd)
- 		return -ENOMEM;
+@@ -3041,7 +3041,7 @@ static void tegra20_pmc_setup_irq_polarity(struct tegra_pmc *pmc,
+ }
  
--	genpd->name = np->name;
-+	genpd->name = "core";
- 	genpd->set_performance_state = tegra_pmc_core_pd_set_performance_state;
- 	genpd->opp_to_performance_state = tegra_pmc_core_pd_opp_to_performance_state;
+ static const struct tegra_pmc_soc tegra20_pmc_soc = {
+-	.supports_core_domain = false,
++	.supports_core_domain = true,
+ 	.num_powergates = ARRAY_SIZE(tegra20_powergates),
+ 	.powergates = tegra20_powergates,
+ 	.num_cpu_powergates = 0,
+@@ -3102,7 +3102,7 @@ static const char * const tegra30_reset_sources[] = {
+ };
  
+ static const struct tegra_pmc_soc tegra30_pmc_soc = {
+-	.supports_core_domain = false,
++	.supports_core_domain = true,
+ 	.num_powergates = ARRAY_SIZE(tegra30_powergates),
+ 	.powergates = tegra30_powergates,
+ 	.num_cpu_powergates = ARRAY_SIZE(tegra30_cpu_powergates),
 -- 
 2.33.1
 
