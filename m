@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 801C843983D
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Oct 2021 16:11:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1619043983A
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Oct 2021 16:11:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C601D6E086;
-	Mon, 25 Oct 2021 14:11:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 38F246E05D;
+	Mon, 25 Oct 2021 14:11:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
  [66.111.4.229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F11C6E055
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Oct 2021 14:11:31 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 83C956E055
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Oct 2021 14:11:33 +0000 (UTC)
 Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id DC7F05805BE;
- Mon, 25 Oct 2021 10:11:30 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute6.internal (MEProxy); Mon, 25 Oct 2021 10:11:30 -0400
+ by mailnew.nyi.internal (Postfix) with ESMTP id B9BD75805BE;
+ Mon, 25 Oct 2021 10:11:32 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute6.internal (MEProxy); Mon, 25 Oct 2021 10:11:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=4Aqmym0elkF3v
- /hiHKelXviWr1n8l/+lCUn8w3iv3xI=; b=OAo4C9SNBoCbU3fN0jf0YKQm9sNUY
- CzymvKFKlIeg4eLW2Sj/q2sUbxFXkf+Vx3TVaTPQPAEqYSBS92JPvB7ETecHcb2+
- DXAsndh6nyAfG6/Yqj+0nXC/ldUXJYvC7ya4dFV17VnvQoZEogW7+MpenbR5udgL
- asciHA5qvuL/xaWyrDWCr9VqTZshtFnSVLTvld4NhCECKk/YrEv8we2uw0lvthxu
- F4wWujVJdQg6mZhGtaG4sHBl4RFlcMBGBqbYEh7250HRvYv3OiJlKKsIJ14K1uOt
- qUlB96iF8IpIrMsNhz7t0lMv4iQQYMBM0s+vaPM/D8USHNzymmG8H5rIA==
+ :mime-version:content-transfer-encoding; s=fm1; bh=9ooEoIqPsQPag
+ +S7IZdWToL5/xTYUh+e0qhr7MZMyhY=; b=bh7hmc8ak1w/gChB7rP9HMm+h7xaw
+ yRprkAdlOaRh35dZRwjGpDOk/DEx+NbOKu9/kmdI0vmQt2nwzRpEnHeVLK2dvrbd
+ boSToTj0LsCvnNCi94Xx4JZJ84bbUugRyiGxxfuYZzVjRS5TDmOdEDsuATLKNela
+ sAy9xRMCIN5k1GuyKRuuDhQZQ6DD8mmwaEbaS+stwo3PFN/U5Hh9gEYcv/c39jVW
+ O32wMERCsb8HSMiCXFgQxVkSEiWGnH0CMWFQVT5Obhn5oC8vFaPneAwVa/5PstIx
+ FrA0zIbrJamMJckzE7Y1Y3WZuNlaMHywEzF0CxNgyPz1CseQuWh17x/QQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=4Aqmym0elkF3v/hiHKelXviWr1n8l/+lCUn8w3iv3xI=; b=Nl1RJESX
- umb5mKLAwiB4SnuG1GudrftQjd6IErF75ntg9LDdRUJtvjzwRoCfJD6lHhdr9CXm
- jtlIipACqU6BQy0zaLq6Xdbak97gO8uebBhdBSc2DGrz5vVxTE58x0BZWALg8dEJ
- rKP7fUPTU8djbg5PtsNplzfxqPOB1JFQHnBIOeRFuP1Pddbf7ArBiRblWBniHt0k
- 7pJKmJ5G4cYAfpmepeSLyO6iwpOMdx3EA6PrhqQxVxp6GyknzwSPjYbngGrOTHPD
- L3on1GGFulcWTc3tNkAuAoLonIBs+IRaeJUzzRHicoY9mApUjcW7UMjpWjMLgfMv
- 1cucMvcRfrKW4Q==
-X-ME-Sender: <xms:Ert2YdxvY5gO8rJzZk9rU6qRm77ftKXjvtskW736JjN3z2PmIxwaKQ>
- <xme:Ert2YdRknGfkx7RYVYPiZmLmUeCYr1oFxb9RSe7oufpwMSD4kji2b3o1-xj0u9Qns
- 2_qYpldtYeCEEnZxAw>
-X-ME-Received: <xmr:Ert2YXW-_WJ3dqw-AzOu4BRxG1eqaeEDS67fSQ1GZ69MBTLZbuWN3s9ExOKaEiVw48ucJuHAafHM6-HifDJ5Q-5a0fDEU7nX9IOl2LEx>
+ fm1; bh=9ooEoIqPsQPag+S7IZdWToL5/xTYUh+e0qhr7MZMyhY=; b=WurglZ3/
+ 5LNZPgIJDubqT1Q5amDC0Utv4NC24xfWYXX0oIvLlgtr7Eo6rOEKURj4Er079PJl
+ fgDfe2VQByUAKVWcv4lA1Dq5C5aWYON8oudQyuo2jLMTjCcG3kUee0ph8byiyaVZ
+ mF0BbKYhYW2GOugBRr0Z8FMhOKYCzqcy+spQarm+59tgqgDKf2UsqOufWK3TAuUh
+ v9yvE7fd6OrPjJ0W19axSFaQ8A7ZHl5TdtxAq4J/158KTag7uP5UBXKimvD7a5wb
+ G5iXeTYfWl3VWiYWMTDyW68zKEYwEnNO5tHtOvfklHMuaJ73Ht0K1YNplxS0tojd
+ B1rCxwJKg6R+Ww==
+X-ME-Sender: <xms:FLt2Ya30sp1LqvEYvozEXjsuhcmHKX8nfgjeYHKy0cy07MDkpvpqPw>
+ <xme:FLt2YdG3d8olTqL5r2Y2goTwltYcSFQrlzt0zhESTrRmoBjKkwQSccra9iQGVxlt7
+ TL4YO41NXp5UiFtThc>
+X-ME-Received: <xmr:FLt2YS5iK242PrPM63bZ3c21i09A9el3moR6QPKkCPURdhXNrHNViDSKTHkQ0Y0IL37md9n3tbBtxbdvFVcXOIu-1q_Ns9PoW_TRQ-I6>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrvdefhedgjeduucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpeforgigihhm
  vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepjeetueeludeikefgheethfefgfektdfgheefleetheffuddvleegffekvdfh
- vdffnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpe
- dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:Ert2Yfih5m0dQOwau-syjy8uVLQi9lCUZhv48z06MuoT7hVOHDO3rg>
- <xmx:Ert2YfCKm50_9xputsh4nDG5xP7cNQnJoICAsXEii8QXajJB9udJZw>
- <xmx:Ert2YYJkNJALl1fcR9H4lXpFcLvcY-5cjyeH5DQERg20raqGSiTD3w>
- <xmx:Ert2YbswSDY23969liiV2XoZJG6DwIqHkHVCdx4NaLGRM2zox9G0PA>
+ htvghrnhepvdekleevfeffkeejhfffueelteelfeduieefheduudfggffhhfffheevveeh
+ hedvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+ grgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:FLt2Yb2N-Y1YZ1y3sb_hJbwohRRYk4qVVHHngOH-lQKeRe7hwkwOIQ>
+ <xmx:FLt2YdHrGHUrXjWsxWj49FbpwTZdWqkaKoSG_ASVXqYUkRrUIfckvQ>
+ <xmx:FLt2YU_KDGNpYdWpRd2D54ZqEJogvzX-8mCdHEc2AeGmuHmqAZBxHA>
+ <xmx:FLt2YcCXMTbwcpN9E642n5qp_PnjmYo-Fwz-BtkmOd85TaiKCnapLA>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 25 Oct 2021 10:11:30 -0400 (EDT)
+ 25 Oct 2021 10:11:32 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -64,10 +64,9 @@ Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
  Phil Elwell <phil@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
  Dom Cobley <dom@raspberrypi.com>, dri-devel@lists.freedesktop.org,
  Sudip Mukherjee <sudipm.mukherjee@gmail.com>
-Subject: [PATCH 6/9] drm/vc4: hdmi: Prevent access to crtc->state outside of
- KMS
-Date: Mon, 25 Oct 2021 16:11:10 +0200
-Message-Id: <20211025141113.702757-7-maxime@cerno.tech>
+Subject: [PATCH 7/9] drm/vc4: hdmi: Check the device state in prepare()
+Date: Mon, 25 Oct 2021 16:11:11 +0200
+Message-Id: <20211025141113.702757-8-maxime@cerno.tech>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211025141113.702757-1-maxime@cerno.tech>
 References: <20211025141113.702757-1-maxime@cerno.tech>
@@ -88,165 +87,80 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Accessing the crtc->state pointer from outside the modesetting context
-is not allowed. We thus need to copy whatever we need from the KMS state
-to our structure in order to access it.
+Even though we already check that the encoder->crtc pointer is there
+during in startup(), which is part of the open() path in ASoC, nothing
+guarantees that our encoder state won't change between the time when we
+open the device and the time we prepare it.
 
-However, in the vc4 HDMI driver we do use that pointer in the ALSA code
-path, and potentially in the hotplug interrupt handler path.
+Move the sanity checks we do in startup() to a helper and call it from
+prepare().
 
-These paths both need access to the CRTC adjusted mode in order for the
-proper dividers to be set for ALSA, and the scrambler state to be
-reinstated properly for hotplug.
-
-Let's copy this mode into our private encoder structure and reference it
-from there when needed. Since that part is shared between KMS and other
-paths, we need to protect it using our mutex.
-
-Link: https://lore.kernel.org/all/YWgteNaNeaS9uWDe@phenom.ffwll.local/
-Fixes: bb7d78568814 ("drm/vc4: Add HDMI audio support")
+Fixes: 91e99e113929 ("drm/vc4: hdmi: Register HDMI codec")
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_hdmi.c | 38 +++++++++++++++++++++++-----------
- drivers/gpu/drm/vc4/vc4_hdmi.h |  6 ++++++
- 2 files changed, 32 insertions(+), 12 deletions(-)
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 35 +++++++++++++++++++++++++++-------
+ 1 file changed, 28 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index 814f98414f2b..cb444571a3f7 100644
+index cb444571a3f7..291fad018be3 100644
 --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
 +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -483,8 +483,7 @@ static void vc4_hdmi_set_avi_infoframe(struct drm_encoder *encoder)
- 	struct vc4_hdmi_encoder *vc4_encoder = to_vc4_hdmi_encoder(encoder);
- 	struct drm_connector *connector = &vc4_hdmi->connector;
- 	struct drm_connector_state *cstate = connector->state;
--	struct drm_crtc *crtc = encoder->crtc;
--	const struct drm_display_mode *mode = &crtc->state->adjusted_mode;
-+	const struct drm_display_mode *mode = &vc4_hdmi->saved_adjusted_mode;
- 	union hdmi_infoframe frame;
- 	int ret;
+@@ -1394,20 +1394,36 @@ static inline struct vc4_hdmi *dai_to_hdmi(struct snd_soc_dai *dai)
+ 	return snd_soc_card_get_drvdata(card);
+ }
  
-@@ -596,8 +595,8 @@ static bool vc4_hdmi_supports_scrambling(struct drm_encoder *encoder,
- 
- static void vc4_hdmi_enable_scrambling(struct drm_encoder *encoder)
- {
--	struct drm_display_mode *mode = &encoder->crtc->state->adjusted_mode;
- 	struct vc4_hdmi *vc4_hdmi = encoder_to_vc4_hdmi(encoder);
-+	struct drm_display_mode *mode = &vc4_hdmi->saved_adjusted_mode;
- 	unsigned long flags;
- 
- 	lockdep_assert_held(&vc4_hdmi->mutex);
-@@ -623,18 +622,21 @@ static void vc4_hdmi_enable_scrambling(struct drm_encoder *encoder)
- static void vc4_hdmi_disable_scrambling(struct drm_encoder *encoder)
- {
- 	struct vc4_hdmi *vc4_hdmi = encoder_to_vc4_hdmi(encoder);
-+	struct drm_display_mode *mode = &vc4_hdmi->saved_adjusted_mode;
- 	struct drm_crtc *crtc = encoder->crtc;
- 	unsigned long flags;
- 
++static bool vc4_hdmi_audio_can_stream(struct vc4_hdmi *vc4_hdmi)
++{
++	struct drm_encoder *encoder = &vc4_hdmi->encoder.base.base;
++
 +	lockdep_assert_held(&vc4_hdmi->mutex);
 +
- 	/*
- 	 * At boot, encoder->crtc will be NULL. Since we don't know the
- 	 * state of the scrambler and in order to avoid any
- 	 * inconsistency, let's disable it all the time.
- 	 */
--	if (crtc && !vc4_hdmi_supports_scrambling(encoder, &crtc->mode))
-+	if (crtc && !vc4_hdmi_supports_scrambling(encoder, mode))
- 		return;
- 
--	if (crtc && !vc4_hdmi_mode_needs_scrambling(&crtc->mode))
-+	if (crtc && !vc4_hdmi_mode_needs_scrambling(mode))
- 		return;
- 
- 	if (delayed_work_pending(&vc4_hdmi->scrambling_work))
-@@ -1007,8 +1009,8 @@ static void vc4_hdmi_encoder_pre_crtc_configure(struct drm_encoder *encoder,
- 		vc4_hdmi_encoder_get_connector_state(encoder, state);
- 	struct vc4_hdmi_connector_state *vc4_conn_state =
- 		conn_state_to_vc4_hdmi_conn_state(conn_state);
--	struct drm_display_mode *mode = &encoder->crtc->state->adjusted_mode;
- 	struct vc4_hdmi *vc4_hdmi = encoder_to_vc4_hdmi(encoder);
-+	struct drm_display_mode *mode = &vc4_hdmi->saved_adjusted_mode;
- 	unsigned long pixel_rate = vc4_conn_state->pixel_rate;
- 	unsigned long bvb_rate, hsm_rate;
- 	unsigned long flags;
-@@ -1110,9 +1112,9 @@ static void vc4_hdmi_encoder_pre_crtc_configure(struct drm_encoder *encoder,
- static void vc4_hdmi_encoder_pre_crtc_enable(struct drm_encoder *encoder,
- 					     struct drm_atomic_state *state)
++	/*
++	 * The encoder doesn't have a CRTC until the first modeset.
++	 */
++	if (!encoder->crtc)
++		return false;
++
++	/*
++	 * If the encoder is currently in DVI mode, treat the codec DAI
++	 * as missing.
++	 */
++	if (!(HDMI_READ(HDMI_RAM_PACKET_CONFIG) & VC4_HDMI_RAM_PACKET_ENABLE))
++		return false;
++
++	return true;
++}
++
+ static int vc4_hdmi_audio_startup(struct device *dev, void *data)
  {
--	struct drm_display_mode *mode = &encoder->crtc->state->adjusted_mode;
--	struct vc4_hdmi_encoder *vc4_encoder = to_vc4_hdmi_encoder(encoder);
- 	struct vc4_hdmi *vc4_hdmi = encoder_to_vc4_hdmi(encoder);
-+	struct drm_display_mode *mode = &vc4_hdmi->saved_adjusted_mode;
-+	struct vc4_hdmi_encoder *vc4_encoder = to_vc4_hdmi_encoder(encoder);
+ 	struct vc4_hdmi *vc4_hdmi = dev_get_drvdata(dev);
+-	struct drm_encoder *encoder = &vc4_hdmi->encoder.base.base;
  	unsigned long flags;
  
  	mutex_lock(&vc4_hdmi->mutex);
-@@ -1140,8 +1142,8 @@ static void vc4_hdmi_encoder_pre_crtc_enable(struct drm_encoder *encoder,
- static void vc4_hdmi_encoder_post_crtc_enable(struct drm_encoder *encoder,
- 					      struct drm_atomic_state *state)
- {
--	struct drm_display_mode *mode = &encoder->crtc->state->adjusted_mode;
- 	struct vc4_hdmi *vc4_hdmi = encoder_to_vc4_hdmi(encoder);
-+	struct drm_display_mode *mode = &vc4_hdmi->saved_adjusted_mode;
- 	struct vc4_hdmi_encoder *vc4_encoder = to_vc4_hdmi_encoder(encoder);
- 	bool hsync_pos = mode->flags & DRM_MODE_FLAG_PHSYNC;
- 	bool vsync_pos = mode->flags & DRM_MODE_FLAG_PVSYNC;
-@@ -1217,6 +1219,19 @@ static void vc4_hdmi_encoder_enable(struct drm_encoder *encoder)
- {
- }
  
-+static void vc4_hdmi_encoder_atomic_mode_set(struct drm_encoder *encoder,
-+					     struct drm_crtc_state *crtc_state,
-+					     struct drm_connector_state *conn_state)
-+{
-+	struct vc4_hdmi *vc4_hdmi = encoder_to_vc4_hdmi(encoder);
+-	/*
+-	 * If the HDMI encoder hasn't probed, or the encoder is
+-	 * currently in DVI mode, treat the codec dai as missing.
+-	 */
+-	if (!encoder->crtc || !(HDMI_READ(HDMI_RAM_PACKET_CONFIG) &
+-				VC4_HDMI_RAM_PACKET_ENABLE)) {
++	if (!vc4_hdmi_audio_can_stream(vc4_hdmi)) {
+ 		mutex_unlock(&vc4_hdmi->mutex);
+ 		return -ENODEV;
+ 	}
+@@ -1537,6 +1553,11 @@ static int vc4_hdmi_audio_prepare(struct device *dev, void *data,
+ 
+ 	mutex_lock(&vc4_hdmi->mutex);
+ 
++	if (!vc4_hdmi_audio_can_stream(vc4_hdmi)) {
++		mutex_unlock(&vc4_hdmi->mutex);
++		return -EINVAL;
++	}
 +
-+	mutex_lock(&vc4_hdmi->mutex);
-+	memcpy(&vc4_hdmi->saved_adjusted_mode,
-+	       &crtc_state->adjusted_mode,
-+	       sizeof(vc4_hdmi->saved_adjusted_mode));
-+	mutex_unlock(&vc4_hdmi->mutex);
-+}
-+
- #define WIFI_2_4GHz_CH1_MIN_FREQ	2400000000ULL
- #define WIFI_2_4GHz_CH1_MAX_FREQ	2422000000ULL
+ 	vc4_hdmi_audio_set_mai_clock(vc4_hdmi, sample_rate);
  
-@@ -1293,6 +1308,7 @@ vc4_hdmi_encoder_mode_valid(struct drm_encoder *encoder,
- 
- static const struct drm_encoder_helper_funcs vc4_hdmi_encoder_helper_funcs = {
- 	.atomic_check = vc4_hdmi_encoder_atomic_check,
-+	.atomic_mode_set = vc4_hdmi_encoder_atomic_mode_set,
- 	.mode_valid = vc4_hdmi_encoder_mode_valid,
- 	.disable = vc4_hdmi_encoder_disable,
- 	.enable = vc4_hdmi_encoder_enable,
-@@ -1346,9 +1362,7 @@ static void vc4_hdmi_audio_set_mai_clock(struct vc4_hdmi *vc4_hdmi,
- 
- static void vc4_hdmi_set_n_cts(struct vc4_hdmi *vc4_hdmi, unsigned int samplerate)
- {
--	struct drm_encoder *encoder = &vc4_hdmi->encoder.base.base;
--	struct drm_crtc *crtc = encoder->crtc;
--	const struct drm_display_mode *mode = &crtc->state->adjusted_mode;
-+	const struct drm_display_mode *mode = &vc4_hdmi->saved_adjusted_mode;
- 	u32 n, cts;
- 	u64 tmp;
- 
-diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.h b/drivers/gpu/drm/vc4/vc4_hdmi.h
-index cf9bb21a8ef7..a43cc5614d19 100644
---- a/drivers/gpu/drm/vc4/vc4_hdmi.h
-+++ b/drivers/gpu/drm/vc4/vc4_hdmi.h
-@@ -197,6 +197,12 @@ struct vc4_hdmi {
- 	 * be resilient to that.
- 	 */
- 	struct mutex mutex;
-+
-+	/**
-+	 * @saved_adjusted_mode: Copy of @drm_crtc_state.adjusted_mode
-+	 * for use by ALSA hooks and interrupt handlers. Protected by @mutex.
-+	 */
-+	struct drm_display_mode saved_adjusted_mode;
- };
- 
- static inline struct vc4_hdmi *
+ 	spin_lock_irqsave(&vc4_hdmi->hw_lock, flags);
 -- 
 2.31.1
 
