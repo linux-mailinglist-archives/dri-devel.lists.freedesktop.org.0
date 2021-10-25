@@ -2,68 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCF3E4395C6
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Oct 2021 14:14:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D466D4395C9
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Oct 2021 14:14:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F0C5289F2A;
-	Mon, 25 Oct 2021 12:14:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 296B089F0A;
+	Mon, 25 Oct 2021 12:14:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com
- [IPv6:2a00:1450:4864:20::229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 248E689F24
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Oct 2021 12:14:03 +0000 (UTC)
-Received: by mail-lj1-x229.google.com with SMTP id 65so7536099ljf.9
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Oct 2021 05:14:03 -0700 (PDT)
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
+ [IPv6:2a00:1450:4864:20::535])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 843D489F03
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Oct 2021 12:14:07 +0000 (UTC)
+Received: by mail-ed1-x535.google.com with SMTP id u13so18387146edy.10
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Oct 2021 05:14:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=9EdUhOEz6LCHy9Q4PpzvVDj9adp0XAbP/V+787pVMF0=;
- b=o+dWeZI/z6lqMSLsbil6YIyE1jqJSEN4+lcUSDasiWYLtPgepVuV9yRFGul/S+IZjd
- gDbGpaNe3bqNbRWJhQ8uzBY4CiicZs1uR5BS3+MoUCDorm+8eG2KGfZD1N4QFQhEcKYw
- xy7gxDmYOZRBm6yhyTEiLwdcWRAlH9ewRtC0Drmg6f6HGWdLbLyhETNKBPdWq8uo1CSV
- cbAWIYtOWs8A+jmLxHgpOUrmw4sE93EPz2L+YLH6FIq17e7sB4yGDacegypyYqkVZsfc
- +nFJF2hSn2fSDbNW7rTDUeK7o2Z6gvK87WT6kkz+wB0G7qLv3XjLyhikq5itsQnyPrpo
- L0lg==
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=6e5dClZNqugBonIUDa3xy+s+zikUwDcuCRtJDo7dWDc=;
+ b=UI1SGw3rj6zDGc3ho5bxfEYVRrJF9huO+iOj4Qie1YJH0hJSitseo7xPTw1jcRfSPi
+ WoJjDjaRVTb02lCF+m6/pvSs934gD4eLWpn/lgZds7N4DhkkFvoyP1uUHZqHmA7cn/ce
+ 0V/fpkuLITE14ueEoy6pnK/07x4z0HHmubYikqlqdRzWL9rh0PSyIiW5ffhSRreX1Mnv
+ 6ntxhX/GjxCokmfjfjxWPgkRTQDnkPShsqPmt1DMpYTy+8ioo50/8rPiCCsztdftd0Ip
+ S6PvOuNIj5aBMw91TC00gKRGLlAbXQ+RTBnv/EwhnTfEnhqauHOYLJUpO62ZK/+PoiIS
+ Pt/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=9EdUhOEz6LCHy9Q4PpzvVDj9adp0XAbP/V+787pVMF0=;
- b=j5iF8h03kkip+s+v32Gk1OLRhf7wmuTqfVg97QnJE97FI/yfggX9j7CvIOwYnLO2Rw
- 6vHw/ZUsW1L2/LqtNrKM6xj35NZl2vGW535jx9VM59oH7++TKxKSysuSnu3eTaH19bK8
- 2J0x53j9hIRmsjA3ugY56AtZP+n3+a3yfO0ta9d3I3A/cxcWThnFS8sPlPUhQ5JKw12j
- O2cQWNWCyA8e9fGmfLvF1pYQAKbqA1Dn4UlXBrrLoEdd7ypmsq5JiLCNxYRUZGyubpCR
- VTA4AJJz4Jcfj/gVi6hCyVnIwvDfM9GP616TSnUBJB/gW8TPA+Bw6pRoUrEKLi/YCh8t
- Kiyw==
-X-Gm-Message-State: AOAM531qRF/jQF6PMmLSmla5WUVrYo0m6tLgepjRT/+xGV0lmsIdAZTK
- s2fGWJAsn9axHjv7xOscPD2O9DBTRNRclBpOH9CTUA==
-X-Google-Smtp-Source: ABdhPJxMcBXf08mQujD6/q+CS6va26l4F0UMxyQLEYHppTQUj1YDoHEdo/Gg27zgpNe8o6sYV7ePnDmBYzD5E0mpwE8=
-X-Received: by 2002:a05:651c:2328:: with SMTP id
- bi40mr18700746ljb.121.1635164041366; 
- Mon, 25 Oct 2021 05:14:01 -0700 (PDT)
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=6e5dClZNqugBonIUDa3xy+s+zikUwDcuCRtJDo7dWDc=;
+ b=ETZGOk1bzRhhlor/yH2CTy25lEXz/iL1Myio/xDvHdXHp4JQUuLejSXnzoBt1fl/0R
+ zQ6YXqsa2SdzKY9Sjsp2fV2IkgWeRYHo+oCXyOqMA17r+IekvUKQG81uXbKpygj4Bicy
+ QtzyNxFEvoqWAyr1u0PAuofgEcHSIz+F2XN1snzMjFjlxX22ig6lg/A3Jfq8VnLAdpUt
+ BFge/469oKVOuYdjzWf2RqlLZOOPySdGs/D4rAZ4eXC8cn0kByARvIkczGMCa7OHJDR9
+ Ljlv1QYPabxcANylB/sACiJGxgOPvYI2+rUnWs+MLPsTcqmKL/Upnfka9C/QWg56Ktnc
+ wkDg==
+X-Gm-Message-State: AOAM531yrPYpc/PEO/zHRE0N42niIpRtIBroWlYyRmHjmh66hylflEjL
+ XKCPfBI/RM8LCCgglh+JwlkoCXVI76dNTrY6+WPxahG/KMpUMQ==
+X-Google-Smtp-Source: ABdhPJwYIDzIsHOM44KEDTo1eeUMhc2q7IlHYTePt1GAveyFCSaLen+h5x5KtB67vFlUAnVpGwuzqiQ8tylPZDcOU4g=
+X-Received: by 2002:a05:6402:3587:: with SMTP id
+ y7mr25938248edc.182.1635164044795; 
+ Mon, 25 Oct 2021 05:14:04 -0700 (PDT)
 MIME-Version: 1.0
-References: <20211010124628.17691-1-gregkh@linuxfoundation.org>
- <YXaIx0g/kHEnq8ZN@kroah.com> <7328189c-0567-847e-17e9-e2ed4f3a78f4@amd.com>
-In-Reply-To: <7328189c-0567-847e-17e9-e2ed4f3a78f4@amd.com>
-From: Sumit Semwal <sumit.semwal@linaro.org>
-Date: Mon, 25 Oct 2021 17:43:49 +0530
-Message-ID: <CAO_48GE9C_eOK84iYwvNjkGQRcFQQ8Hn-z70ndOhmF1gbmd5BQ@mail.gmail.com>
-Subject: Re: [PATCH v2] dma-buf: move dma-buf symbols into the DMA_BUF module
- namespace
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Alex Deucher <alexander.deucher@amd.com>, 
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>, LKML <linux-kernel@vger.kernel.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+From: Naresh Kamboju <naresh.kamboju@linaro.org>
+Date: Mon, 25 Oct 2021 17:43:53 +0530
+Message-ID: <CA+G9fYvpyUbqLko+9Dza8h4=9yOd-n9J0dKoQtZxawstCCnsZw@mail.gmail.com>
+Subject: gpu: drm_fb_cma_helper.c:46: undefined reference to
+ `drm_gem_fb_get_obj'
+To: dri-devel@lists.freedesktop.org, open list <linux-kernel@vger.kernel.org>, 
+ Linux-Next Mailing List <linux-next@vger.kernel.org>, 
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- DRI mailing list <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Arnd Bergmann <arnd@arndb.de>
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Andrey Konovalov <andreyknvl@gmail.com>,
+ Stephen Rothwell <sfr@canb.auug.org.au>, Arnd Bergmann <arnd@arndb.de>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+ Linus Walleij <linus.walleij@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,61 +72,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Greg,
+Regression found on arm gcc-11 built with multi_v5_defconfig
+Following build warnings / errors reported on linux next 20211025.
 
-On Mon, 25 Oct 2021 at 16:29, Christian K=C3=B6nig <christian.koenig@amd.co=
-m> wrote:
->
-> Am 25.10.21 um 12:36 schrieb Greg Kroah-Hartman:
-> > On Sun, Oct 10, 2021 at 02:46:28PM +0200, Greg Kroah-Hartman wrote:
-> >> In order to better track where in the kernel the dma-buf code is used,
-> >> put the symbols in the namespace DMA_BUF and modify all users of the
-> >> symbols to properly import the namespace to not break the build at the
-> >> same time.
-> >>
-> >> Now the output of modinfo shows the use of these symbols, making it
-> >> easier to watch for users over time:
-> >>
-> >> $ modinfo drivers/misc/fastrpc.ko | grep import
-> >> import_ns:      DMA_BUF
-> >>
-> >> Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
-> >> Cc: David Airlie <airlied@linux.ie>
-> >> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> >> Cc: Maxime Ripard <mripard@kernel.org>
-> >> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> >> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> >> Cc: dri-devel@lists.freedesktop.org
-> >> Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> >> Acked-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-> >> Acked-by: Arnd Bergmann <arnd@arndb.de>
-> >> Acked-by: Sumit Semwal <sumit.semwal@linaro.org>
-> >> Acked-by: Alex Deucher <alexander.deucher@amd.com>
-> >> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> >> ---
-> >> v2: added lots of acks
-> >>      added 2 more drivers that needed the change, as found by Arnd
-> > Ping?  Any ideas on what needs to happen to get this into the tree?
-> >
-> > Or can I take it through my char-misc tree?  I seem to have a bunch of
-> > acks on it by the respective maintainers...
->
-> I could push that upstream through the drm-misc-next tree if you like,
-> but honestly char-misc sounds like the better approach since this
-> touches a lot of drivers outside of drm as well.
+metadata:
+    git_describe: next-20211025
+    git_repo: https://gitlab.com/Linaro/lkft/mirrors/next/linux-next
+    git_short_log: 9ae1fbdeabd3 (\"Add linux-next specific files for 20211025\")
+    target_arch: arm
+    toolchain: gcc-11
+    config: multi_v5_defconfig
 
-I agree with Christian here - char-misc might be a better way for this.
+build error :
+--------------
+arm-linux-gnueabihf-ld: drivers/gpu/drm/drm_fb_cma_helper.o: in
+function `drm_fb_cma_get_gem_obj':
+drivers/gpu/drm/drm_fb_cma_helper.c:46: undefined reference to
+`drm_gem_fb_get_obj'
+arm-linux-gnueabihf-ld: drivers/gpu/drm/drm_fb_cma_helper.c:46:
+undefined reference to `drm_gem_fb_get_obj'
+arm-linux-gnueabihf-ld: drivers/gpu/drm/drm_fb_cma_helper.c:46:
+undefined reference to `drm_gem_fb_get_obj'
+arm-linux-gnueabihf-ld: drivers/gpu/drm/drm_fb_cma_helper.o: in
+function `drm_fb_cma_sync_non_coherent':
+drivers/gpu/drm/drm_fb_cma_helper.c:133: undefined reference to
+`drm_atomic_helper_damage_iter_init'
+arm-linux-gnueabihf-ld: drivers/gpu/drm/drm_fb_cma_helper.c:135:
+undefined reference to `drm_atomic_helper_damage_iter_next'
+make[1]: *** [Makefile:1252: vmlinux] Error 1
+make[1]: Target '__all' not remade because of errors.
+make: *** [Makefile:226: __sub-make] Error 2
 
->
->
-> Thanks,
-> Christian.
->
-> >
-> > thanks,
-> >
-> > greg k-h
->
+Reported-by: Linux Kernel Functional Testing <lkft@linaro.org>
 
-Best,
-Sumit.
+
+build link:
+-----------
+https://builds.tuxbuild.com/1zzgFZBGjpQ5R0lawQFW9iJ39Hp/build.log
+
+build config:
+-------------
+https://builds.tuxbuild.com/1zzgFZBGjpQ5R0lawQFW9iJ39Hp/config
+
+# To install tuxmake on your system globally
+# sudo pip3 install -U tuxmake
+tuxmake --runtime podman --target-arch arm --toolchain gcc-11
+--kconfig multi_v5_defconfig
+
+--
+Linaro LKFT
+https://lkft.linaro.org
