@@ -2,42 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A0DD439A51
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Oct 2021 17:19:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 370AF4399D8
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Oct 2021 17:16:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D4EB76E170;
-	Mon, 25 Oct 2021 15:19:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E7776E0A2;
+	Mon, 25 Oct 2021 15:15:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EBD236E170;
- Mon, 25 Oct 2021 15:19:47 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10148"; a="315879786"
-X-IronPort-AV: E=Sophos;i="5.87,180,1631602800"; d="scan'208";a="315879786"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Oct 2021 08:19:47 -0700
-X-IronPort-AV: E=Sophos;i="5.87,180,1631602800"; d="scan'208";a="578154445"
-Received: from jons-linux-dev-box.fm.intel.com (HELO jons-linux-dev-box)
- ([10.1.27.20])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Oct 2021 08:19:47 -0700
-Date: Mon, 25 Oct 2021 08:15:09 -0700
-From: Matthew Brost <matthew.brost@intel.com>
-To: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- daniele.ceraolospurio@intel.com, john.c.harrison@intel.com
-Subject: Re: [PATCH 00/47] GuC submission support
-Message-ID: <20211025151506.GA10182@jons-linux-dev-box>
-References: <20210624070516.21893-1-matthew.brost@intel.com>
- <163489530491.10153.576017085715728906@jlahtine-mobl.ger.corp.intel.com>
- <20211022164219.GA23160@jons-linux-dev-box>
- <163515462275.3804.10893210486918669519@jlahtine-mobl.ger.corp.intel.com>
+Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
+ [66.111.4.229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EDE6C89FED;
+ Mon, 25 Oct 2021 15:15:47 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.nyi.internal (Postfix) with ESMTP id C51E7580684;
+ Mon, 25 Oct 2021 11:15:44 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Mon, 25 Oct 2021 11:15:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ from:to:cc:subject:date:message-id:content-type:mime-version
+ :content-transfer-encoding; s=fm1; bh=diT2fj6PkuD69IpbJXNRqYXYKn
+ P5NvILTd/s9bJ0OlY=; b=VhHgFlMBiex3XRoKMVkP+MWPTu1mTWrGp4HgjCJft+
+ fHkLIUpdJGrXpdk0BZKDh0N1sigiQA3bm27LeWhFLC21sLCnDLFgfcb+Cv0SNR8U
+ tohUaqhOuqwc+1KuOXWtoe8CC/v1ugkxODW6w3gp/79FhR07P028s58b15qWqQuo
+ TW53Ucj3d+S0vfYZzHXDE/ObvS1xxnk9mYY0+qizTiINFyHnotoAgDrV3C9CbEeD
+ PLyfe9kLAShmsTe9vben4QH/GmZ2TQVQZH6rqeK++soiCr1YRvWTSASxvhfdi77s
+ TJnOsLV7v6sfOHsu1UCbobC/s2wa2tjRdFXAiAumU+OA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:message-id:mime-version:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=diT2fj
+ 6PkuD69IpbJXNRqYXYKnP5NvILTd/s9bJ0OlY=; b=gaB3S8V7nuXn3MJq7kzo6d
+ d4Fp06+GtLqaQ5KXkUBaE5WWL//ewQTFZkT7eGQabm1x7ipCRO7mAj1S++bwpKx7
+ WlPX3MZh2+FJC0osKUtI23L5JD2A27pCnl8LQP8rZrIB+1NUNhHM34zBs4pvCVfW
+ 5WwLYEkL2QzJZ4AlPdtBapgmwZlmJV9JQ31U7+lVzxIjowrW8h7O1TbSr4lVV5Ix
+ EY03X8IbPZIdmkIjems9awfdTKIoKGxBWHzJl5bTpwd/PcjA/1pjQPqZJ5EOByBO
+ Xq9pQ5WdiAYvNGKtfe2uUf3kpyHt56Q6Vt6IuMBqB2MfF1ko0PmM0Fk1qERGAUFQ
+ ==
+X-ME-Sender: <xms:G8p2YbjduyIs9HNx7cBAEAtontiOHY_jS-jmkObeZ94vetZX9eqg6w>
+ <xme:G8p2YYDTxtDtJpxDM63v_DyoGxxuDZW426cibcC6bQSOnDTLUgGd3p_JMSnScrPAP
+ P1BaCp7V2agX6reYAg>
+X-ME-Received: <xmr:G8p2YbFlDXgXfKfgO7g5j2-kTCFAp2v_8FrI3mbI1bXoVwMFnlvolDBPhz8oR_tl2upxI_ht9fmxL4co22guE-t6cz_fWHqABc4U51Qt>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrvdefhedgkeefucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhephffvufffkffotggggfesthhqredtredtjeenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+ gvrhhnpeetieekgfffkeegkeeltdehudetteejgfekueevhffhteegudfgkedtueegfffg
+ feenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
+ igihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:G8p2YYS-IKlGhVYjArQExuUKR87BklDnDhRBhhW0Wt7MdKK7geic9g>
+ <xmx:G8p2YYx6D8REvZ37THes66PRhnkNn4ws_YLk_AFPewIYJ42sz0DgJA>
+ <xmx:G8p2Ye6Rp0Sli7-vbb2yAR6hc2D382XbLOQRatF-PTTlMX7HbXZFWw>
+ <xmx:IMp2YbRN72csKs5h_Y3VhNJjZqJpThnblLDm2WRMg0A90KxxMn549Q>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 25 Oct 2021 11:15:39 -0400 (EDT)
+From: Maxime Ripard <maxime@cerno.tech>
+To: Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <a.hajda@samsung.com>, Robert Foss <robert.foss@linaro.org>,
+ Jonas Karlman <jonas@kwiboo.se>, Daniel Vetter <daniel.vetter@intel.com>,
+ David Airlie <airlied@linux.ie>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Neil Armstrong <narmstrong@baylibre.com>
+Cc: Seung-Woo Kim <sw0312.kim@samsung.com>, linux-arm-msm@vger.kernel.org,
+ Joonyoung Shim <jy0922.shim@samsung.com>, Rob Clark <robdclark@gmail.com>,
+ Tian Tao <tiantao6@hisilicon.com>, Chen Feng <puck.chen@hisilicon.com>,
+ Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ linux-samsung-soc@vger.kernel.org, Xinliang Liu <xinliang.liu@linaro.org>,
+ John Stultz <john.stultz@linaro.org>, linux-kernel@vger.kernel.org,
+ Inki Dae <inki.dae@samsung.com>, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>
+Subject: [PATCH v6 00/21] drm/bridge: Make panel and bridge probe order
+ consistent
+Date: Mon, 25 Oct 2021 17:15:15 +0200
+Message-Id: <20211025151536.1048186-1-maxime@cerno.tech>
+X-Mailer: git-send-email 2.31.1
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <163515462275.3804.10893210486918669519@jlahtine-mobl.ger.corp.intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,210 +98,125 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Oct 25, 2021 at 12:37:02PM +0300, Joonas Lahtinen wrote:
-> Quoting Matthew Brost (2021-10-22 19:42:19)
-> > On Fri, Oct 22, 2021 at 12:35:04PM +0300, Joonas Lahtinen wrote:
-> > > Hi Matt & John,
-> > > 
-> > > Can you please queue patches with the right Fixes: references to convert
-> > > all the GuC tracepoints to be protected by the LOW_LEVEL_TRACEPOINTS
-> > > protection for now. Please do so before next Wednesday so we get it
-> > > queued in drm-intel-next-fixes.
-> > > 
-> > 
-> > Don't we already do that? I checked i915_trace.h and every tracepoint I
-> > added (intel_context class, i915_request_guc_submit) is protected by
-> > LOW_LEVEL_TRACEPOINTS.
-> > 
-> > The only thing I changed outside of that protection is adding the guc_id
-> > field to existing i915_request class tracepoints.
-> 
-> It's the first search hit for "guc" inside the i915_trace.h file :)
-> 
-> > Without the guc_id in
-> > those tracepoints these are basically useless with GuC submission. We
-> > could revert that if it is a huge deal but as I said then they are
-> > useless...
-> 
-> Let's eliminate it for now and restore the tracepoint exactly as it was.
-> 
-
-Don't really agree - let's render tracepoints to be useless? Are
-tracepoints ABI? I googled this and couldn't really find a definie
-answer. If tracepoints are ABI, then OK I can revert this change but
-still this is a poor technical decision (tracepoints should not be ABI).
-
-> If there is an immediate need, we should instead have an auxilary tracepoint
-> which is enabled only through LOW_LEVEL_TRACEPOINTS and that amends the
-> information of the basic tracepoint.
-> 
-
-Regardless of what I said above, I'll post 2 patches. The 1st just
-remove the GuC, the 2nd modify the tracepoint to include guc_id if
-LOW_LEVEL_TRACEPOINTS is defined.
-
-> For the longer term solution we should align towards the dma fence
-> tracepoints. When those are combined with the OA information, one should
-> be able to get a good understanding of both the software and hardware
-> scheduling decisions.
-> 
-
-Not sure about this either. I use these tracepoins to correlate things
-to the GuC log. Between the 2, if you know what you are doing you
-basically can figure out everything that is happening. Fields in the
-trace translate directly to fields in the GuC log. Some of these fields
-are backend specific, not sure how these could be pushed the dma fence
-tracepoints. For what it is worth, without these tracepoints we'd likely
-still have a bunch of bugs in the GuC firmware. I understand these
-points, several other i915 developers do, and several of the GuC
-firmware developers do too.
-
-Matt
-
-> Regards, Joonas
-> 
-> > 
-> > Matt
-> > 
-> > > There's the orthogonal track to discuss what would be the stable set of
-> > > tracepoints we could expose. However, before that discussion is closed,
-> > > let's keep a rather strict line to avoid potential maintenance burned.
-> > > 
-> > > We can then relax in the future as needed.
-> > > 
-> > > Regards, Joonas
-> > > 
-> > > Quoting Matthew Brost (2021-06-24 10:04:29)
-> > > > As discussed in [1], [2] we are enabling GuC submission support in the
-> > > > i915. This is a subset of the patches in step 5 described in [1],
-> > > > basically it is absolute to enable CI with GuC submission on gen11+
-> > > > platforms.
-> > > > 
-> > > > This series itself will likely be broken down into smaller patch sets to
-> > > > merge. Likely into CTBs changes, basic submission, virtual engines, and
-> > > > resets.
-> > > > 
-> > > > A following series will address the missing patches remaining from [1].
-> > > > 
-> > > > Locally tested on TGL machine and basic tests seem to be passing.
-> > > > 
-> > > > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> > > > 
-> > > > [1] https://patchwork.freedesktop.org/series/89844/
-> > > > [2] https://patchwork.freedesktop.org/series/91417/
-> > > > 
-> > > > Daniele Ceraolo Spurio (1):
-> > > >   drm/i915/guc: Unblock GuC submission on Gen11+
-> > > > 
-> > > > John Harrison (10):
-> > > >   drm/i915/guc: Module load failure test for CT buffer creation
-> > > >   drm/i915: Track 'serial' counts for virtual engines
-> > > >   drm/i915/guc: Provide mmio list to be saved/restored on engine reset
-> > > >   drm/i915/guc: Don't complain about reset races
-> > > >   drm/i915/guc: Enable GuC engine reset
-> > > >   drm/i915/guc: Fix for error capture after full GPU reset with GuC
-> > > >   drm/i915/guc: Hook GuC scheduling policies up
-> > > >   drm/i915/guc: Connect reset modparam updates to GuC policy flags
-> > > >   drm/i915/guc: Include scheduling policies in the debugfs state dump
-> > > >   drm/i915/guc: Add golden context to GuC ADS
-> > > > 
-> > > > Matthew Brost (36):
-> > > >   drm/i915/guc: Relax CTB response timeout
-> > > >   drm/i915/guc: Improve error message for unsolicited CT response
-> > > >   drm/i915/guc: Increase size of CTB buffers
-> > > >   drm/i915/guc: Add non blocking CTB send function
-> > > >   drm/i915/guc: Add stall timer to non blocking CTB send function
-> > > >   drm/i915/guc: Optimize CTB writes and reads
-> > > >   drm/i915/guc: Add new GuC interface defines and structures
-> > > >   drm/i915/guc: Remove GuC stage descriptor, add lrc descriptor
-> > > >   drm/i915/guc: Add lrc descriptor context lookup array
-> > > >   drm/i915/guc: Implement GuC submission tasklet
-> > > >   drm/i915/guc: Add bypass tasklet submission path to GuC
-> > > >   drm/i915/guc: Implement GuC context operations for new inteface
-> > > >   drm/i915/guc: Insert fence on context when deregistering
-> > > >   drm/i915/guc: Defer context unpin until scheduling is disabled
-> > > >   drm/i915/guc: Disable engine barriers with GuC during unpin
-> > > >   drm/i915/guc: Extend deregistration fence to schedule disable
-> > > >   drm/i915: Disable preempt busywait when using GuC scheduling
-> > > >   drm/i915/guc: Ensure request ordering via completion fences
-> > > >   drm/i915/guc: Disable semaphores when using GuC scheduling
-> > > >   drm/i915/guc: Ensure G2H response has space in buffer
-> > > >   drm/i915/guc: Update intel_gt_wait_for_idle to work with GuC
-> > > >   drm/i915/guc: Update GuC debugfs to support new GuC
-> > > >   drm/i915/guc: Add several request trace points
-> > > >   drm/i915: Add intel_context tracing
-> > > >   drm/i915/guc: GuC virtual engines
-> > > >   drm/i915: Hold reference to intel_context over life of i915_request
-> > > >   drm/i915/guc: Disable bonding extension with GuC submission
-> > > >   drm/i915/guc: Direct all breadcrumbs for a class to single breadcrumbs
-> > > >   drm/i915/guc: Reset implementation for new GuC interface
-> > > >   drm/i915: Reset GPU immediately if submission is disabled
-> > > >   drm/i915/guc: Add disable interrupts to guc sanitize
-> > > >   drm/i915/guc: Suspend/resume implementation for new interface
-> > > >   drm/i915/guc: Handle context reset notification
-> > > >   drm/i915/guc: Handle engine reset failure notification
-> > > >   drm/i915/guc: Enable the timer expired interrupt for GuC
-> > > >   drm/i915/guc: Capture error state on context reset
-> > > > 
-> > > >  drivers/gpu/drm/i915/gem/i915_gem_context.c   |   30 +-
-> > > >  drivers/gpu/drm/i915/gem/i915_gem_context.h   |    1 +
-> > > >  drivers/gpu/drm/i915/gem/i915_gem_mman.c      |    3 +-
-> > > >  drivers/gpu/drm/i915/gt/gen8_engine_cs.c      |    6 +-
-> > > >  drivers/gpu/drm/i915/gt/intel_breadcrumbs.c   |   41 +-
-> > > >  drivers/gpu/drm/i915/gt/intel_breadcrumbs.h   |   14 +-
-> > > >  .../gpu/drm/i915/gt/intel_breadcrumbs_types.h |    7 +
-> > > >  drivers/gpu/drm/i915/gt/intel_context.c       |   41 +-
-> > > >  drivers/gpu/drm/i915/gt/intel_context.h       |   31 +-
-> > > >  drivers/gpu/drm/i915/gt/intel_context_types.h |   49 +
-> > > >  drivers/gpu/drm/i915/gt/intel_engine.h        |   72 +-
-> > > >  drivers/gpu/drm/i915/gt/intel_engine_cs.c     |  182 +-
-> > > >  .../gpu/drm/i915/gt/intel_engine_heartbeat.c  |   71 +-
-> > > >  .../gpu/drm/i915/gt/intel_engine_heartbeat.h  |    4 +
-> > > >  drivers/gpu/drm/i915/gt/intel_engine_types.h  |   12 +-
-> > > >  .../drm/i915/gt/intel_execlists_submission.c  |  234 +-
-> > > >  .../drm/i915/gt/intel_execlists_submission.h  |   11 -
-> > > >  drivers/gpu/drm/i915/gt/intel_gt.c            |   21 +
-> > > >  drivers/gpu/drm/i915/gt/intel_gt.h            |    2 +
-> > > >  drivers/gpu/drm/i915/gt/intel_gt_pm.c         |    6 +-
-> > > >  drivers/gpu/drm/i915/gt/intel_gt_requests.c   |   22 +-
-> > > >  drivers/gpu/drm/i915/gt/intel_gt_requests.h   |    9 +-
-> > > >  drivers/gpu/drm/i915/gt/intel_lrc_reg.h       |    1 -
-> > > >  drivers/gpu/drm/i915/gt/intel_reset.c         |   20 +-
-> > > >  .../gpu/drm/i915/gt/intel_ring_submission.c   |   28 +
-> > > >  drivers/gpu/drm/i915/gt/intel_rps.c           |    4 +
-> > > >  drivers/gpu/drm/i915/gt/intel_workarounds.c   |   46 +-
-> > > >  .../gpu/drm/i915/gt/intel_workarounds_types.h |    1 +
-> > > >  drivers/gpu/drm/i915/gt/mock_engine.c         |   41 +-
-> > > >  drivers/gpu/drm/i915/gt/selftest_context.c    |   10 +
-> > > >  drivers/gpu/drm/i915/gt/selftest_execlists.c  |   20 +-
-> > > >  .../gpu/drm/i915/gt/uc/abi/guc_actions_abi.h  |   15 +
-> > > >  drivers/gpu/drm/i915/gt/uc/intel_guc.c        |   82 +-
-> > > >  drivers/gpu/drm/i915/gt/uc/intel_guc.h        |  106 +-
-> > > >  drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c    |  460 +++-
-> > > >  drivers/gpu/drm/i915/gt/uc/intel_guc_ads.h    |    3 +
-> > > >  drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c     |  318 ++-
-> > > >  drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h     |   22 +-
-> > > >  .../gpu/drm/i915/gt/uc/intel_guc_debugfs.c    |   25 +-
-> > > >  drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h   |   88 +-
-> > > >  .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 2197 +++++++++++++++--
-> > > >  .../gpu/drm/i915/gt/uc/intel_guc_submission.h |   17 +-
-> > > >  drivers/gpu/drm/i915/gt/uc/intel_uc.c         |  102 +-
-> > > >  drivers/gpu/drm/i915/gt/uc/intel_uc.h         |   11 +
-> > > >  drivers/gpu/drm/i915/i915_debugfs.c           |    2 +
-> > > >  drivers/gpu/drm/i915/i915_debugfs_params.c    |   31 +
-> > > >  drivers/gpu/drm/i915/i915_gem_evict.c         |    1 +
-> > > >  drivers/gpu/drm/i915/i915_gpu_error.c         |   25 +-
-> > > >  drivers/gpu/drm/i915/i915_reg.h               |    2 +
-> > > >  drivers/gpu/drm/i915/i915_request.c           |  159 +-
-> > > >  drivers/gpu/drm/i915/i915_request.h           |   21 +
-> > > >  drivers/gpu/drm/i915/i915_scheduler.c         |    6 +
-> > > >  drivers/gpu/drm/i915/i915_scheduler.h         |    6 +
-> > > >  drivers/gpu/drm/i915/i915_scheduler_types.h   |    5 +
-> > > >  drivers/gpu/drm/i915/i915_trace.h             |  197 +-
-> > > >  .../gpu/drm/i915/selftests/igt_live_test.c    |    2 +-
-> > > >  .../gpu/drm/i915/selftests/mock_gem_device.c  |    3 +-
-> > > >  57 files changed, 4159 insertions(+), 787 deletions(-)
-> > > > 
-> > > > -- 
-> > > > 2.28.0
-> > > > 
+Hi,=0D
+=0D
+We've encountered an issue with the RaspberryPi DSI panel that prevented th=
+e=0D
+whole display driver from probing.=0D
+=0D
+The issue is described in detail in the commit 7213246a803f ("drm/vc4: dsi:=
+=0D
+Only register our component once a DSI device is attached"), but the basic =
+idea=0D
+is that since the panel is probed through i2c, there's no synchronization=0D
+between its probe and the registration of the MIPI-DSI host it's attached t=
+o.=0D
+=0D
+We initially moved the component framework registration to the MIPI-DSI Hos=
+t=0D
+attach hook to make sure we register our component only when we have a DSI=
+=0D
+device attached to our MIPI-DSI host, and then use lookup our DSI device in=
+ our=0D
+bind hook.=0D
+=0D
+However, all the DSI bridges controlled through i2c are only registering th=
+eir=0D
+associated DSI device in their bridge attach hook, meaning with our change=
+=0D
+above, we never got that far, and therefore ended up in the same situation =
+than=0D
+the one we were trying to fix for panels.=0D
+=0D
+The best practice to avoid those issues is to register its functions only a=
+fter=0D
+all its dependencies are live. We also shouldn't wait any longer than we sh=
+ould=0D
+to play nice with the other components that are waiting for us, so in our c=
+ase=0D
+that would mean moving the DSI device registration to the bridge probe.=0D
+=0D
+This has been tested on vc4 (with sn65dsi83 and ps8640), msm (sn65dsi86,=0D
+lt9611), kirin (adv7511) and exynos.=0D
+=0D
+Let me know what you think,=0D
+Maxime=0D
+=0D
+---=0D
+=0D
+Changes from v5:=0D
+  - Collected more tags=0D
+  - Fixed a compilation error for ps8640=0D
+=0D
+Changes from v4:=0D
+  - Rebased on current drm-misc-next=0D
+  - Collected the various tags=0D
+  - Fix for Kirin=0D
+  - Added conversion patch for msm=0D
+=0D
+Changes from v3:=0D
+  - Converted exynos and kirin=0D
+  - Converted all the affected bridge drivers=0D
+  - Reworded the documentation a bit=0D
+=0D
+Changes from v2:=0D
+  - Changed the approach as suggested by Andrzej, and aligned the bridge on=
+ the=0D
+    panel this time.=0D
+  - Fixed some typos=0D
+=0D
+Changes from v1:=0D
+  - Change the name of drm_of_get_next function to drm_of_get_bridge=0D
+  - Mention the revert of 87154ff86bf6 and squash the two patches that were=
+=0D
+    reverting that commit=0D
+  - Add some documentation=0D
+  - Make drm_panel_attach and _detach succeed when no callback is there=0D
+=0D
+Maxime Ripard (20):=0D
+  drm/bridge: adv7533: Switch to devm MIPI-DSI helpers=0D
+  drm/bridge: adv7511: Register and attach our DSI device at probe=0D
+  drm/bridge: anx7625: Switch to devm MIPI-DSI helpers=0D
+  drm/bridge: anx7625: Register and attach our DSI device at probe=0D
+  drm/bridge: lt8912b: Switch to devm MIPI-DSI helpers=0D
+  drm/bridge: lt8912b: Register and attach our DSI device at probe=0D
+  drm/bridge: lt9611: Switch to devm MIPI-DSI helpers=0D
+  drm/bridge: lt9611: Register and attach our DSI device at probe=0D
+  drm/bridge: lt9611uxc: Switch to devm MIPI-DSI helpers=0D
+  drm/bridge: lt9611uxc: Register and attach our DSI device at probe=0D
+  drm/bridge: ps8640: Switch to devm MIPI-DSI helpers=0D
+  drm/bridge: ps8640: Register and attach our DSI device at probe=0D
+  drm/bridge: sn65dsi83: Fix bridge removal=0D
+  drm/bridge: sn65dsi83: Switch to devm MIPI-DSI helpers=0D
+  drm/bridge: sn65dsi83: Register and attach our DSI device at probe=0D
+  drm/bridge: sn65dsi86: Switch to devm MIPI-DSI helpers=0D
+  drm/bridge: sn65dsi86: Register and attach our DSI device at probe=0D
+  drm/bridge: tc358775: Switch to devm MIPI-DSI helpers=0D
+  drm/bridge: tc358775: Register and attach our DSI device at probe=0D
+  drm/kirin: dsi: Adjust probe order=0D
+=0D
+Rob Clark (1):=0D
+  drm/msm/dsi: Adjust probe order=0D
+=0D
+ drivers/gpu/drm/bridge/adv7511/adv7511.h     |   1 -=0D
+ drivers/gpu/drm/bridge/adv7511/adv7511_drv.c |  15 ++-=0D
+ drivers/gpu/drm/bridge/adv7511/adv7533.c     |  20 +---=0D
+ drivers/gpu/drm/bridge/analogix/anx7625.c    |  40 ++++---=0D
+ drivers/gpu/drm/bridge/lontium-lt8912b.c     |  31 ++----=0D
+ drivers/gpu/drm/bridge/lontium-lt9611.c      |  62 ++++-------=0D
+ drivers/gpu/drm/bridge/lontium-lt9611uxc.c   |  65 +++++-------=0D
+ drivers/gpu/drm/bridge/parade-ps8640.c       | 105 ++++++++++---------=0D
+ drivers/gpu/drm/bridge/tc358775.c            |  50 +++++----=0D
+ drivers/gpu/drm/bridge/ti-sn65dsi83.c        |  88 ++++++++--------=0D
+ drivers/gpu/drm/bridge/ti-sn65dsi86.c        | 101 +++++++++---------=0D
+ drivers/gpu/drm/hisilicon/kirin/dw_drm_dsi.c |  52 +++++----=0D
+ drivers/gpu/drm/msm/dsi/dsi.c                |  50 +++++----=0D
+ drivers/gpu/drm/msm/dsi/dsi.h                |   2 +-=0D
+ drivers/gpu/drm/msm/dsi/dsi_host.c           |  22 ++--=0D
+ drivers/gpu/drm/msm/dsi/dsi_manager.c        |   6 +-=0D
+ drivers/gpu/drm/msm/msm_drv.h                |   2 +=0D
+ 17 files changed, 348 insertions(+), 364 deletions(-)=0D
+=0D
+-- =0D
+2.31.1=0D
+=0D
