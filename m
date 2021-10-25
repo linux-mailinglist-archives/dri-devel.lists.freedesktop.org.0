@@ -2,71 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EC5D4398EF
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Oct 2021 16:44:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63FFF4398F8
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Oct 2021 16:46:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B25F89EB8;
-	Mon, 25 Oct 2021 14:44:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 828F989FA5;
+	Mon, 25 Oct 2021 14:46:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
- [IPv6:2a00:1450:4864:20::132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C60A189EB8
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Oct 2021 14:44:35 +0000 (UTC)
-Received: by mail-lf1-x132.google.com with SMTP id x27so9951664lfu.5
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Oct 2021 07:44:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=v1mMWeJ4eN0jON4Tvhqworti70ZpkjNPMSIyXJ+VLbI=;
- b=WFcklZTVt7vJVB15GuEypjH1pAU0tMy5fdSyc/fuf/HAPm+8RfxB7+YDclQVB76xjo
- i5mBFGciMx6unYZEa5h89n2MwKT4jghiER/WpNYW5m/YynwXNbnZX4conC0mo2OfM4vT
- P1jCYpHOEbSOZB7+8KvuDJ4Hw9KucVWfpo4lxMJU18kaTULhuiMgu5rNf9YfeVPQoEME
- tX5RfIKBRZiR3+lg9yG0ehpJpNfiEP+GlXub6KELemRITQJ72IblYiUWy2L3JXu9TxAs
- cpA+UDvZLl0VYqhAEM5SeoWu54AIUc2/M/0ONmuaF2dtv0PD8xXjhNqXkAlDV1glpNlY
- Iy+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=v1mMWeJ4eN0jON4Tvhqworti70ZpkjNPMSIyXJ+VLbI=;
- b=Xfk3v0yT24gZaXnUyby6BRBA0ddC1Ts/VhRP6/YTBGn7boODkmjFHWToGSpMy0na4D
- rHxKBOD/J2LDSVZgAnwQSwmq6oeAswTF5Ku+rKwaiCG51Q9mXxm7HMJtv5orRawKfpVl
- oeZviwJBDIqA6cNNGcPAGKbzqVPuk9Lw+OTKspXj6SGcs6+Gh5IwbvyZuedIsLw2rTbY
- iDaoVARBKLXqL38suC/Trs/GiL2Qh0192PjNv6UdLas22im0HnpacwGRBB201O3+ne6M
- Dl66cYQFpS6iH5/is/weQQM/vecbu9jzTwRfCg06laBu2THoQ/92yxYYz8unkJEaR58P
- SdDA==
-X-Gm-Message-State: AOAM532z+GOPmXf/uP8OTDFQYZGO+p0eZp02Me/32rV1q/EnD56KMPt8
- DOCpMlS6MLu9LSiQgXYAPl7HdA==
-X-Google-Smtp-Source: ABdhPJwBjFjyK/Nc+qQ0ZiUYPVs157D7zQLXPwUTFO95z9Mc69tejJhIgjGnWyncD7G4LX1hx4aESQ==
-X-Received: by 2002:a19:3813:: with SMTP id f19mr11095588lfa.284.1635173073947; 
- Mon, 25 Oct 2021 07:44:33 -0700 (PDT)
-Received: from [192.168.1.211] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id a19sm1742188ljb.3.2021.10.25.07.44.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 25 Oct 2021 07:44:33 -0700 (PDT)
-Subject: Re: [PATCH v2 08/11] drm/msm/disp/dpu1: Add support for DSC in encoder
-To: Vinod Koul <vkoul@kernel.org>, Rob Clark <robdclark@gmail.com>
-Cc: linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <bjorn.andersson@linaro.org>, David Airlie
- <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Jonathan Marek <jonathan@marek.ca>, Abhinav Kumar <abhinavk@codeaurora.org>,
- Jeffrey Hugo <jeffrey.l.hugo@gmail.com>,
- Sumit Semwal <sumit.semwal@linaro.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
-References: <20211007070900.456044-1-vkoul@kernel.org>
- <20211007070900.456044-9-vkoul@kernel.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Message-ID: <e53aee33-1fd9-cd2f-9b98-99e20d26632b@linaro.org>
-Date: Mon, 25 Oct 2021 17:44:32 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0DD1A89F71;
+ Mon, 25 Oct 2021 14:46:50 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10148"; a="229936490"
+X-IronPort-AV: E=Sophos;i="5.87,180,1631602800"; d="scan'208";a="229936490"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Oct 2021 07:46:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.87,180,1631602800"; d="scan'208";a="634762348"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
+ by fmsmga001.fm.intel.com with SMTP; 25 Oct 2021 07:46:26 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Mon, 25 Oct 2021 17:46:26 +0300
+Date: Mon, 25 Oct 2021 17:46:26 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: He Ying <heying24@huawei.com>
+Cc: jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
+ rodrigo.vivi@intel.com, airlied@linux.ie, daniel@ffwll.ch,
+ lyude@redhat.com, anshuman.gupta@intel.com,
+ matthew.d.roper@intel.com, nikola.cornij@amd.com,
+ jose.souza@intel.com, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH -next] drm: Small optimization to
+ intel_dp_mst_atomic_master_trans_check
+Message-ID: <YXbDQrH1/rpA8xL2@intel.com>
+References: <20211022022243.138860-1-heying24@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <20211007070900.456044-9-vkoul@kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20211022022243.138860-1-heying24@huawei.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,224 +57,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 07/10/2021 10:08, Vinod Koul wrote:
-> We need to configure the encoder for DSC configuration and calculate DSC
-> parameters for the given timing so this patch adds that support by
-> adding dpu_encoder_prep_dsc() which is invoked when DSC is enabled.
+On Thu, Oct 21, 2021 at 10:22:43PM -0400, He Ying wrote:
+> If we want to return from for_each_intel_connector_iter(), one
+> way is calling drm_connector_list_iter_end() before returning
+> to avoid memleak. The other way is just breaking from the bracket
+> and then returning after the outside drm_connector_list_iter_end().
+> Obviously, the second way makes code smaller and more clear.
+> Apply it to the function intel_dp_mst_atomic_master_trans_check().
+
+Matches what we seem to be doing everywhere else.
+Applied to drm-intel-next. Thanks.
+
 > 
-> Signed-off-by: Vinod Koul <vkoul@kernel.org>
+> Signed-off-by: He Ying <heying24@huawei.com>
 > ---
-> Changes since
-> v1:
->   - Remove duplicate defines
->   - Update changelog
+>  drivers/gpu/drm/i915/display/intel_dp_mst.c | 18 ++++++++----------
+>  1 file changed, 8 insertions(+), 10 deletions(-)
 > 
->   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 139 +++++++++++++++++++-
->   1 file changed, 138 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> index 0e9d3fa1544b..aac51c1bdf94 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> @@ -21,6 +21,7 @@
->   #include "dpu_hw_intf.h"
->   #include "dpu_hw_ctl.h"
->   #include "dpu_hw_dspp.h"
-> +#include "dpu_hw_dsc.h"
->   #include "dpu_formats.h"
->   #include "dpu_encoder_phys.h"
->   #include "dpu_crtc.h"
-> @@ -136,6 +137,7 @@ enum dpu_enc_rc_states {
->    * @cur_slave:		As above but for the slave encoder.
->    * @hw_pp:		Handle to the pingpong blocks used for the display. No.
->    *			pingpong blocks can be different than num_phys_encs.
-> + * @hw_dsc:		Handle to the DSC blocks used for the display.
->    * @intfs_swapped:	Whether or not the phys_enc interfaces have been swapped
->    *			for partial update right-only cases, such as pingpong
->    *			split where virtual pingpong does not generate IRQs
-> @@ -181,6 +183,7 @@ struct dpu_encoder_virt {
->   	struct dpu_encoder_phys *cur_master;
->   	struct dpu_encoder_phys *cur_slave;
->   	struct dpu_hw_pingpong *hw_pp[MAX_CHANNELS_PER_ENC];
-> +	struct dpu_hw_dsc *hw_dsc[MAX_CHANNELS_PER_ENC];
->   
->   	bool intfs_swapped;
->   
-> @@ -977,7 +980,8 @@ static void dpu_encoder_virt_mode_set(struct drm_encoder *drm_enc,
->   	struct dpu_hw_blk *hw_ctl[MAX_CHANNELS_PER_ENC];
->   	struct dpu_hw_blk *hw_lm[MAX_CHANNELS_PER_ENC];
->   	struct dpu_hw_blk *hw_dspp[MAX_CHANNELS_PER_ENC] = { NULL };
-> -	int num_lm, num_ctl, num_pp;
-> +	struct dpu_hw_blk *hw_dsc[MAX_CHANNELS_PER_ENC];
-> +	int num_lm, num_ctl, num_pp, num_dsc;
->   	int i, j;
->   
->   	if (!drm_enc) {
-> @@ -1035,6 +1039,13 @@ static void dpu_encoder_virt_mode_set(struct drm_encoder *drm_enc,
->   		dpu_enc->hw_pp[i] = i < num_pp ? to_dpu_hw_pingpong(hw_pp[i])
->   						: NULL;
->   
-> +	if (priv->dsc) {
-> +		num_dsc = dpu_rm_get_assigned_resources(&dpu_kms->rm, global_state,
-> +			drm_enc->base.id, DPU_HW_BLK_DSC, hw_dsc, ARRAY_SIZE(hw_dsc));
-> +		for (i = 0; i < MAX_CHANNELS_PER_ENC; i++)
-> +			dpu_enc->hw_dsc[i] = i < num_dsc ? to_dpu_hw_dsc(hw_dsc[i]) : NULL;
-> +	}
-> +
->   	cstate = to_dpu_crtc_state(drm_crtc->state);
->   
->   	for (i = 0; i < num_lm; i++) {
-> @@ -1778,10 +1789,132 @@ static void dpu_encoder_vsync_event_work_handler(struct kthread_work *work)
->   			nsecs_to_jiffies(ktime_to_ns(wakeup_time)));
->   }
->   
-> +static void
-> +dpu_encoder_dsc_pclk_param_calc(struct msm_display_dsc_config *dsc, u32 width)
-> +{
-> +	int slice_count, slice_per_intf;
-> +	int bytes_in_slice, total_bytes_per_intf;
-> +
-> +	if (!dsc || !dsc->drm->slice_width || !dsc->drm->slice_count) {
-> +		DPU_ERROR("Invalid DSC/slices\n");
-> +		return;
-> +	}
-> +
-> +	slice_count = dsc->drm->slice_count;
-> +	slice_per_intf = DIV_ROUND_UP(width, dsc->drm->slice_width);
-> +
-> +	/*
-> +	 * If slice_count is greater than slice_per_intf then default to 1.
-> +	 * This can happen during partial update.
-> +	 */
-> +	if (slice_count > slice_per_intf)
-> +		slice_count = 1;
-> +
-> +	bytes_in_slice = DIV_ROUND_UP(dsc->drm->slice_width *
-> +				      dsc->drm->bits_per_pixel, 8);
-> +	total_bytes_per_intf = bytes_in_slice * slice_per_intf;
-> +
-> +	dsc->eol_byte_num = total_bytes_per_intf % 3;
-> +	dsc->pclk_per_line =  DIV_ROUND_UP(total_bytes_per_intf, 3);
-> +	dsc->bytes_in_slice = bytes_in_slice;
-> +	dsc->bytes_per_pkt = bytes_in_slice * slice_count;
-> +	dsc->pkt_per_line = slice_per_intf / slice_count;
-> +}
-> +
-> +static void
-> +dpu_encoder_dsc_initial_line_calc(struct msm_display_dsc_config *dsc,
-> +				  u32 enc_ip_width)
-> +{
-> +	int ssm_delay, total_pixels, soft_slice_per_enc;
-> +
-> +	soft_slice_per_enc = enc_ip_width / dsc->drm->slice_width;
-> +
-> +	/*
-> +	 * minimum number of initial line pixels is a sum of:
-> +	 * 1. sub-stream multiplexer delay (83 groups for 8bpc,
-> +	 *    91 for 10 bpc) * 3
-> +	 * 2. for two soft slice cases, add extra sub-stream multiplexer * 3
-> +	 * 3. the initial xmit delay
-> +	 * 4. total pipeline delay through the "lock step" of encoder (47)
-> +	 * 5. 6 additional pixels as the output of the rate buffer is
-> +	 *    48 bits wide
-> +	 */
-> +	ssm_delay = ((dsc->drm->bits_per_component < 10) ? 84 : 92);
-> +	total_pixels = ssm_delay * 3 + dsc->drm->initial_xmit_delay + 47;
-> +	if (soft_slice_per_enc > 1)
-> +		total_pixels += (ssm_delay * 3);
-> +	dsc->initial_lines = DIV_ROUND_UP(total_pixels, dsc->drm->slice_width);
-> +}
-> +
-> +static void dpu_encoder_dsc_pipe_cfg(struct dpu_hw_dsc *hw_dsc,
-> +				     struct dpu_hw_pingpong *hw_pp,
-> +				     struct msm_display_dsc_config *dsc,
-> +				     u32 common_mode)
-> +{
-> +	if (hw_dsc->ops.dsc_config)
-> +		hw_dsc->ops.dsc_config(hw_dsc, dsc, common_mode);
-> +
-> +	if (hw_dsc->ops.dsc_config_thresh)
-> +		hw_dsc->ops.dsc_config_thresh(hw_dsc, dsc);
-> +
-> +	if (hw_pp->ops.setup_dsc)
-> +		hw_pp->ops.setup_dsc(hw_pp);
-> +
-> +	if (hw_pp->ops.enable_dsc)
-> +		hw_pp->ops.enable_dsc(hw_pp);
-> +}
-> +
-> +static void dpu_encoder_prep_dsc(struct dpu_encoder_virt *dpu_enc,
-> +				 struct msm_display_dsc_config *dsc)
-> +{
-> +	/* coding only for 2LM, 2enc, 1 dsc config */
-> +	struct dpu_encoder_phys *enc_master = dpu_enc->cur_master;
-> +	struct dpu_hw_dsc *hw_dsc[MAX_CHANNELS_PER_ENC];
-> +	struct dpu_hw_pingpong *hw_pp[MAX_CHANNELS_PER_ENC];
-> +	int this_frame_slices;
-> +	int intf_ip_w, enc_ip_w;
-> +	int dsc_common_mode;
-> +	int pic_width;
-> +	int i;
-> +
-> +	for (i = 0; i < MAX_CHANNELS_PER_ENC; i++) {
-> +		hw_pp[i] = dpu_enc->hw_pp[i];
-> +		hw_dsc[i] = dpu_enc->hw_dsc[i];
-> +
-> +		if (!hw_pp[i] || !hw_dsc[i]) {
-> +			DPU_ERROR_ENC(dpu_enc, "invalid params for DSC\n");
-> +			return;
-> +		}
-> +	}
-> +
-> +	dsc_common_mode = 0;
-> +	pic_width = dsc->drm->pic_width;
-> +
-> +	dsc_common_mode = DSC_MODE_MULTIPLEX | DSC_MODE_SPLIT_PANEL;
-> +	if (enc_master->intf_mode == INTF_MODE_VIDEO)
-> +		dsc_common_mode |= DSC_MODE_VIDEO;
-> +
-> +	this_frame_slices = pic_width / dsc->drm->slice_width;
-> +	intf_ip_w = this_frame_slices * dsc->drm->slice_width;
-> +
-> +	dpu_encoder_dsc_pclk_param_calc(dsc, intf_ip_w);
-> +
-> +	/*
-> +	 * dsc merge case: when using 2 encoders for the same stream,
-> +	 * no. of slices need to be same on both the encoders.
-> +	 */
-> +	enc_ip_w = intf_ip_w / 2;
-> +	dpu_encoder_dsc_initial_line_calc(dsc, enc_ip_w);
-> +
-> +	for (i = 0; i < MAX_CHANNELS_PER_ENC; i++)
-> +		dpu_encoder_dsc_pipe_cfg(hw_dsc[i], hw_pp[i], dsc, dsc_common_mode);
-> +}
-> +
->   void dpu_encoder_prepare_for_kickoff(struct drm_encoder *drm_enc)
->   {
->   	struct dpu_encoder_virt *dpu_enc;
->   	struct dpu_encoder_phys *phys;
-> +	struct msm_drm_private *priv;
->   	bool needs_hw_reset = false;
->   	unsigned int i;
->   
-> @@ -1809,6 +1942,10 @@ void dpu_encoder_prepare_for_kickoff(struct drm_encoder *drm_enc)
->   			dpu_encoder_helper_hw_reset(dpu_enc->phys_encs[i]);
->   		}
->   	}
-> +
-> +	priv = drm_enc->dev->dev_private;
-> +	if (priv->dsc)
-> +		dpu_encoder_prep_dsc(dpu_enc, priv->dsc);
-
-Again, DP + DSI case would be broken here. We'd need to tie DSC config 
-to the encoder itself rather than having a single global DSC config.
-
->   }
->   
->   void dpu_encoder_kickoff(struct drm_encoder *drm_enc)
-> 
-
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c b/drivers/gpu/drm/i915/display/intel_dp_mst.c
+> index 8d13d7b26a25..bbecbbbcb10d 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
+> @@ -231,6 +231,7 @@ intel_dp_mst_atomic_master_trans_check(struct intel_connector *connector,
+>  	struct drm_i915_private *dev_priv = to_i915(state->base.dev);
+>  	struct drm_connector_list_iter connector_list_iter;
+>  	struct intel_connector *connector_iter;
+> +	int ret = 0;
+>  
+>  	if (DISPLAY_VER(dev_priv) < 12)
+>  		return  0;
+> @@ -243,7 +244,6 @@ intel_dp_mst_atomic_master_trans_check(struct intel_connector *connector,
+>  		struct intel_digital_connector_state *conn_iter_state;
+>  		struct intel_crtc_state *crtc_state;
+>  		struct intel_crtc *crtc;
+> -		int ret;
+>  
+>  		if (connector_iter->mst_port != connector->mst_port ||
+>  		    connector_iter == connector)
+> @@ -252,8 +252,8 @@ intel_dp_mst_atomic_master_trans_check(struct intel_connector *connector,
+>  		conn_iter_state = intel_atomic_get_digital_connector_state(state,
+>  									   connector_iter);
+>  		if (IS_ERR(conn_iter_state)) {
+> -			drm_connector_list_iter_end(&connector_list_iter);
+> -			return PTR_ERR(conn_iter_state);
+> +			ret = PTR_ERR(conn_iter_state);
+> +			break;
+>  		}
+>  
+>  		if (!conn_iter_state->base.crtc)
+> @@ -262,20 +262,18 @@ intel_dp_mst_atomic_master_trans_check(struct intel_connector *connector,
+>  		crtc = to_intel_crtc(conn_iter_state->base.crtc);
+>  		crtc_state = intel_atomic_get_crtc_state(&state->base, crtc);
+>  		if (IS_ERR(crtc_state)) {
+> -			drm_connector_list_iter_end(&connector_list_iter);
+> -			return PTR_ERR(crtc_state);
+> +			ret = PTR_ERR(crtc_state);
+> +			break;
+>  		}
+>  
+>  		ret = drm_atomic_add_affected_planes(&state->base, &crtc->base);
+> -		if (ret) {
+> -			drm_connector_list_iter_end(&connector_list_iter);
+> -			return ret;
+> -		}
+> +		if (ret)
+> +			break;
+>  		crtc_state->uapi.mode_changed = true;
+>  	}
+>  	drm_connector_list_iter_end(&connector_list_iter);
+>  
+> -	return 0;
+> +	return ret;
+>  }
+>  
+>  static int
+> -- 
+> 2.17.1
 
 -- 
-With best wishes
-Dmitry
+Ville Syrjälä
+Intel
