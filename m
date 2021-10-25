@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6A0F439837
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Oct 2021 16:11:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FCB643983B
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Oct 2021 16:11:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 587CC6E038;
-	Mon, 25 Oct 2021 14:11:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 452CF6E064;
+	Mon, 25 Oct 2021 14:11:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
  [66.111.4.229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EAD0689FC9
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Oct 2021 14:11:21 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id AB47D5805C9;
- Mon, 25 Oct 2021 10:11:20 -0400 (EDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A87F86E03A
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Oct 2021 14:11:23 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailnew.nyi.internal (Postfix) with ESMTP id C106A5805CC;
+ Mon, 25 Oct 2021 10:11:22 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Mon, 25 Oct 2021 10:11:20 -0400
+ by compute5.internal (MEProxy); Mon, 25 Oct 2021 10:11:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=THqkG9CQz5e/W
- GVPnbLRZuBmGr1LKHsZoeshuJbnnGQ=; b=k1FTv6/DotFMROwLePZ7vb3F0NlpR
- HNegEGlFlgISbX7xRUj7v/kK7j+4e3ZHG/LzJo68yKP/zzNvqN2yoTspkLKBbsu2
- pwby5vcmX+1xc8bGQfBCXzcMtkUBIfqfCm1Mfh4YOE2IXyn6BTnp4RvpcC/NRPSB
- CuxECM4I7Q/ZpcmiHlnrH0KvOesHi7r6X6dB8jnALIddDTY/NWohCpBEUdK7JZsH
- ozFDDE9e8nD8gVaGbbIf0WJJcCqYRPvnxgzJ9KkJIgixE5CcRDYlx7HFM4kNSySS
- N+GQTp/WiAbWowaLwq1tpUei819dCov+DHNtvcZtLvb7K9F91lKDIaZOQ==
+ :mime-version:content-transfer-encoding; s=fm1; bh=+hSOzJzRLZ76M
+ okv/w6B702fkyVIiqVGebQxl3vcw5A=; b=F6UQyIH/9i8+xD8NgH/19jiag+7WB
+ gZEbWzvwxnAQLPb+WrY1UcFueO2geFlpw5kreukr2agTmqpIcDeyRk7Tpghtl0cF
+ nyDlFfjeRzPhRpnMyGw5039melaqGtUgZMwkhbR4iWchkWsBruhzWIsgYWZL4Rnt
+ U5gCZCmpW46Ns5qiHdeEp++9oX+HlfQ36r8eWwxUQ+dKjEltktgr8VvP09ccNDrR
+ Ge9O8sB+Cqk2YKcwirXRL3lLVUiEX8ZeRtouxfeBbT1vmZECqqmAL0gYeDiT6HRs
+ JNZnJeJtzWnJygyHo2PcbfSM4jSwJzdMhjVgZe7WobLlaOfJ/80oEimsA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=THqkG9CQz5e/WGVPnbLRZuBmGr1LKHsZoeshuJbnnGQ=; b=EbkbJtSy
- Zx/xoEm3HXy30qu8vfRg/CsLcWKzdRZkK5+gSzqqED3OgAfkGdS6MwHi4g4OwxWQ
- Q8Tv0dbejdThQRK6NQRl4k6lqbWSBJJOKD8GCj9CK2n745Ff2yidVA6NJ2IaiR+4
- iv4uHp/aES3+OT1ip6a1Cd/edrn/yQsKfYyJmRXRSYzrkvpXq6k7rCW0dc+YXRsc
- g4+K9LWGsKqxsBpHB3PXnPk4OhUaGGkZErh/d1iP+BYDAHcfqPuvBGp4gSbyYz8i
- rsvMk45gZuCeyHSai21WyOMhBWjGlCS6DuV3Q/SXv9r4v5fDT/NgGeOMDYDUwSiu
- aWWUeJQLJ8gOKA==
-X-ME-Sender: <xms:B7t2YQeFe0LhsPWn5s1uRxZwj9Yr6DnXeCg2VjzCG-guQ_HsXVEH-g>
- <xme:B7t2YSMKhkTacTTHMaUPA0YlvBtyMpEjQHdNH_vF08vz-TeXPuY-tsvmwKHKRrUaf
- TqOVBxOkI0xncmc5-0>
-X-ME-Received: <xmr:B7t2YRgb0kMi50NYbXvS8ny-r7aKvOScg9UsAwDyVANvDIG1LucSit_GkcB77NG1wsp-8dLxazi6yL5nVSJ5jBlDR4RO9AbTbrvQ_mCN>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrvdefhedgjedtucetufdoteggodetrfdotf
+ fm1; bh=+hSOzJzRLZ76Mokv/w6B702fkyVIiqVGebQxl3vcw5A=; b=iJPMjKJW
+ 1/mTP/ikiIe9gFIXQsaH5jP0qoXqA6UBqcXV74RmfykbZ2z0nglIofelOP1r4lJo
+ u9gDUzfAVDHMtYzvWMLJxBJbvnNGvaPhw5vtsmPphRC8SK4jYGqC1Iv66uTt+W4V
+ 1bHWgDnbyGKoo0g4wRKkJRcSTaj6WadxQWuLictPFLWNR7XT1a0noGmi3WEc3e0Z
+ 98SIgkrSsayJBVyKXUWeVXBCg68e0zSDTVVW/Q3YU9Lt/DocX5LD8Vs0R3mt8anf
+ ECg8+FwTJ+82KWtGL9gcmQMx5DZGJ+hyyhvfDDCBnnt636a++1A58ZBi984xX3y6
+ W9hb7wNt8GXOiA==
+X-ME-Sender: <xms:Crt2YfnGyu4oI5sr96nmbY0z70IovWOCjxWazUrEjxyyrWAdbkMpzQ>
+ <xme:Crt2YS2KnH7V1dhE4e_rLwYt4e4kbu7CnCbsLAy6d3FAkGjS9mIroEaCFAM_cDXeo
+ RSJoDVLNJxlQWGRdP8>
+X-ME-Received: <xmr:Crt2YVqbp-us0xTj6tFRXDt4L1MITS3QH4cdPfJpvT1-Yew8DCnT5cQq1xFjuSVhx0-JC6bbXjuH9E6wM2ZI62n6adk80zOmClPF_2Vy>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrvdefhedgheehucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpeforgigihhm
@@ -50,12 +50,12 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrvdefhedgjedtucetufdoteggod
  htvghrnhepjeetueeludeikefgheethfefgfektdfgheefleetheffuddvleegffekvdfh
  vdffnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpe
  dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:B7t2YV-F0LPPP_sVIsBvZ8o0r9ahHxMTgDAiIwV0vcbPgmT4zKMPBA>
- <xmx:B7t2Ycvnc3nNF674IP-nN8iQflMSgBQwQ3keRUQXwiFPu7ycw2BiIQ>
- <xmx:B7t2YcGvpBIXIFDAaPY89Nkhyj_QcEfYsetVJvxGgczKWweqtciDQg>
- <xmx:CLt2YeK7HXU5uGwhwCECkGhngLF065lOMk5XIRrDs_e2fgpXKyh5wA>
+X-ME-Proxy: <xmx:Crt2YXlty3MfynYMUQDg5Nd4hnlkj75WssS20liB5Gx0fF84Y2NQXw>
+ <xmx:Crt2Yd0WyCeIRIyutiTg9LX9mjwuQyguHn3_Yf1M0kO_Wjq9GA-LaQ>
+ <xmx:Crt2YWvmXu8udLC7-htRvw1woNF1P4i9Yw_AjfJwrUw-HdcaMMmxrw>
+ <xmx:Crt2YXzeahW5XLmB_yck5kWpGTrn6aZ7TCX71bGlkyxGJj-8DpbMUA>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 25 Oct 2021 10:11:19 -0400 (EDT)
+ 25 Oct 2021 10:11:21 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -64,9 +64,9 @@ Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
  Phil Elwell <phil@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
  Dom Cobley <dom@raspberrypi.com>, dri-devel@lists.freedesktop.org,
  Sudip Mukherjee <sudipm.mukherjee@gmail.com>
-Subject: [PATCH 1/9] drm/vc4: crtc: Drop feed_txp from state
-Date: Mon, 25 Oct 2021 16:11:05 +0200
-Message-Id: <20211025141113.702757-2-maxime@cerno.tech>
+Subject: [PATCH 2/9] drm/vc4: Fix non-blocking commit getting stuck forever
+Date: Mon, 25 Oct 2021 16:11:06 +0200
+Message-Id: <20211025141113.702757-3-maxime@cerno.tech>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211025141113.702757-1-maxime@cerno.tech>
 References: <20211025141113.702757-1-maxime@cerno.tech>
@@ -87,152 +87,141 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Accessing the crtc->state pointer from outside the modesetting context
-is not allowed. We thus need to copy whatever we need from the KMS state
-to our structure in order to access it.
+In some situation, we can end up being stuck on a non-blocking that went
+through properly.
 
-In VC4, a number of users of that pointers have crept in over the years,
-the first one being whether or not the downstream controller of the
-pixelvalve is our writeback controller.
+The situation that seems to trigger it reliably is to first start a
+non-blocking commit, and then right after, and before we had any vblank
+interrupt), start a blocking commit.
 
-Fortunately for us, Since commit 39fcb2808376 ("drm/vc4: txp: Turn the
-TXP into a CRTC of its own") this is no longer something that can change
-from one commit to the other and is hardcoded.
+This will lead to the first commit workqueue to be scheduled, setup the
+display, while the second commit is waiting for the first one to be
+completed.
 
-Let's set this flag in struct vc4_crtc if we happen to be the TXP, and
-drop the flag from our private state structure.
+The vblank interrupt will then be raised, vc4_crtc_handle_vblank() will
+run and will compare the active dlist in the HVS channel to the one
+associated with the crtc->state.
+
+However, at that point, the second commit is waiting using
+drm_atomic_helper_wait_for_dependencies that occurs after
+drm_atomic_helper_swap_state has been called, so crtc->state points to
+the second commit state. vc4_crtc_handle_vblank() will compare the two
+dlist addresses and since they don't match will ignore the interrupt.
+
+The vblank event will never be reported, and the first and second commit
+will wait for the first commit completion until they timeout.
+
+The underlying reason is that it was never safe to do so. Indeed,
+accessing the ->state pointer access synchronization is based on
+ownership guarantees that can only occur within the functions and hooks
+defined as part of the KMS framework, and obviously the irq handler
+isn't one of them. The rework to move to generic helpers only uncovered
+the underlying issue.
+
+However, since the code path between
+drm_atomic_helper_wait_for_dependencies() and
+drm_atomic_helper_wait_for_vblanks() is serialised and we can't get two
+commits in that path at the same time, we can work around this issue by
+setting a variable associated to struct drm_crtc to the dlist we expect,
+and then using it from the vc4_crtc_handle_vblank() function.
+
+Since that state is shared with the modesetting path, we also need to
+introduce a spinlock to protect the code shared between the interrupt
+handler and the modesetting path, protecting only our new variable for
+now.
 
 Link: https://lore.kernel.org/all/YWgteNaNeaS9uWDe@phenom.ffwll.local/
-Fixes: 008095e065a8 ("drm/vc4: Add support for the transposer block")
+Fixes: 56d1fe0979dc ("drm/vc4: Make pageflip completion handling more robust.")
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_crtc.c | 3 +--
- drivers/gpu/drm/vc4/vc4_drv.h  | 6 +++++-
- drivers/gpu/drm/vc4/vc4_hvs.c  | 7 +++----
- drivers/gpu/drm/vc4/vc4_kms.c  | 3 ++-
- drivers/gpu/drm/vc4/vc4_txp.c  | 3 +--
- 5 files changed, 12 insertions(+), 10 deletions(-)
+ drivers/gpu/drm/vc4/vc4_crtc.c |  5 ++++-
+ drivers/gpu/drm/vc4/vc4_drv.h  | 14 ++++++++++++++
+ drivers/gpu/drm/vc4/vc4_hvs.c  |  7 +++++--
+ 3 files changed, 23 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_crtc.c b/drivers/gpu/drm/vc4/vc4_crtc.c
-index c0df11e5fcf2..b90187d2c819 100644
+index b90187d2c819..98de8b265220 100644
 --- a/drivers/gpu/drm/vc4/vc4_crtc.c
 +++ b/drivers/gpu/drm/vc4/vc4_crtc.c
-@@ -715,7 +715,7 @@ static void vc4_crtc_handle_page_flip(struct vc4_crtc *vc4_crtc)
+@@ -713,8 +713,9 @@ static void vc4_crtc_handle_page_flip(struct vc4_crtc *vc4_crtc)
+ 	unsigned long flags;
+ 
  	spin_lock_irqsave(&dev->event_lock, flags);
++	spin_lock(&vc4_crtc->irq_lock);
  	if (vc4_crtc->event &&
- 	    (vc4_state->mm.start == HVS_READ(SCALER_DISPLACTX(chan)) ||
--	     vc4_state->feed_txp)) {
-+	     vc4_crtc->feeds_txp)) {
+-	    (vc4_state->mm.start == HVS_READ(SCALER_DISPLACTX(chan)) ||
++	    (vc4_crtc->current_dlist == HVS_READ(SCALER_DISPLACTX(chan)) ||
+ 	     vc4_crtc->feeds_txp)) {
  		drm_crtc_send_vblank_event(crtc, vc4_crtc->event);
  		vc4_crtc->event = NULL;
- 		drm_crtc_vblank_put(crtc);
-@@ -893,7 +893,6 @@ struct drm_crtc_state *vc4_crtc_duplicate_state(struct drm_crtc *crtc)
- 		return NULL;
+@@ -728,6 +729,7 @@ static void vc4_crtc_handle_page_flip(struct vc4_crtc *vc4_crtc)
+ 		 */
+ 		vc4_hvs_unmask_underrun(dev, chan);
+ 	}
++	spin_unlock(&vc4_crtc->irq_lock);
+ 	spin_unlock_irqrestore(&dev->event_lock, flags);
+ }
  
- 	old_vc4_state = to_vc4_crtc_state(crtc->state);
--	vc4_state->feed_txp = old_vc4_state->feed_txp;
- 	vc4_state->margins = old_vc4_state->margins;
- 	vc4_state->assigned_channel = old_vc4_state->assigned_channel;
+@@ -1127,6 +1129,7 @@ int vc4_crtc_init(struct drm_device *drm, struct vc4_crtc *vc4_crtc,
+ 		return PTR_ERR(primary_plane);
+ 	}
  
++	spin_lock_init(&vc4_crtc->irq_lock);
+ 	drm_crtc_init_with_planes(drm, crtc, primary_plane, NULL,
+ 				  crtc_funcs, NULL);
+ 	drm_crtc_helper_add(crtc, crtc_helper_funcs);
 diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
-index ef73e0aaf726..3c69b89363cb 100644
+index 3c69b89363cb..6d2480abcf08 100644
 --- a/drivers/gpu/drm/vc4/vc4_drv.h
 +++ b/drivers/gpu/drm/vc4/vc4_drv.h
-@@ -495,6 +495,11 @@ struct vc4_crtc {
- 	struct drm_pending_vblank_event *event;
- 
- 	struct debugfs_regset32 regset;
+@@ -500,6 +500,20 @@ struct vc4_crtc {
+ 	 * @feeds_txp: True if the CRTC feeds our writeback controller.
+ 	 */
+ 	bool feeds_txp;
 +
 +	/**
-+	 * @feeds_txp: True if the CRTC feeds our writeback controller.
++	 * @irq_lock: Spinlock protecting the resources shared between
++	 * the atomic code and our vblank handler.
 +	 */
-+	bool feeds_txp;
++	spinlock_t irq_lock;
++
++	/**
++	 * @current_dlist: Start offset of the display list currently
++	 * set in the HVS for that CRTC. Protected by @irq_lock, and
++	 * copied in vc4_hvs_update_dlist() for the CRTC interrupt
++	 * handler to have access to that value.
++	 */
++	unsigned int current_dlist;
  };
  
  static inline struct vc4_crtc *
-@@ -521,7 +526,6 @@ struct vc4_crtc_state {
- 	struct drm_crtc_state base;
- 	/* Dlist area for this CRTC configuration. */
- 	struct drm_mm_node mm;
--	bool feed_txp;
- 	bool txp_armed;
- 	unsigned int assigned_channel;
- 
 diff --git a/drivers/gpu/drm/vc4/vc4_hvs.c b/drivers/gpu/drm/vc4/vc4_hvs.c
-index c239045e05d6..9ddaee6b368d 100644
+index 9ddaee6b368d..f8ed0f6a57e0 100644
 --- a/drivers/gpu/drm/vc4/vc4_hvs.c
 +++ b/drivers/gpu/drm/vc4/vc4_hvs.c
-@@ -375,7 +375,7 @@ static void vc4_hvs_update_dlist(struct drm_crtc *crtc)
- 
- 		spin_lock_irqsave(&dev->event_lock, flags);
- 
--		if (!vc4_state->feed_txp || vc4_state->txp_armed) {
-+		if (!vc4_crtc->feeds_txp || vc4_state->txp_armed) {
- 			vc4_crtc->event = crtc->state->event;
- 			crtc->state->event = NULL;
- 		}
-@@ -395,10 +395,9 @@ void vc4_hvs_atomic_enable(struct drm_crtc *crtc,
- {
- 	struct drm_device *dev = crtc->dev;
+@@ -365,10 +365,9 @@ static void vc4_hvs_update_dlist(struct drm_crtc *crtc)
  	struct vc4_dev *vc4 = to_vc4_dev(dev);
--	struct drm_crtc_state *new_crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
--	struct vc4_crtc_state *vc4_state = to_vc4_crtc_state(new_crtc_state);
- 	struct drm_display_mode *mode = &crtc->state->adjusted_mode;
--	bool oneshot = vc4_state->feed_txp;
-+	struct vc4_crtc *vc4_crtc = to_vc4_crtc(crtc);
-+	bool oneshot = vc4_crtc->feeds_txp;
+ 	struct vc4_crtc *vc4_crtc = to_vc4_crtc(crtc);
+ 	struct vc4_crtc_state *vc4_state = to_vc4_crtc_state(crtc->state);
++	unsigned long flags;
  
- 	vc4_hvs_update_dlist(crtc);
- 	vc4_hvs_init_channel(vc4, crtc, mode, oneshot);
-diff --git a/drivers/gpu/drm/vc4/vc4_kms.c b/drivers/gpu/drm/vc4/vc4_kms.c
-index f0b3e4cf5bce..028f19f7a5f8 100644
---- a/drivers/gpu/drm/vc4/vc4_kms.c
-+++ b/drivers/gpu/drm/vc4/vc4_kms.c
-@@ -233,6 +233,7 @@ static void vc4_hvs_pv_muxing_commit(struct vc4_dev *vc4,
- 	unsigned int i;
+ 	if (crtc->state->event) {
+-		unsigned long flags;
+-
+ 		crtc->state->event->pipe = drm_crtc_index(crtc);
  
- 	for_each_new_crtc_in_state(state, crtc, crtc_state, i) {
-+		struct vc4_crtc *vc4_crtc = to_vc4_crtc(crtc);
- 		struct vc4_crtc_state *vc4_state = to_vc4_crtc_state(crtc_state);
- 		u32 dispctrl;
- 		u32 dsp3_mux;
-@@ -253,7 +254,7 @@ static void vc4_hvs_pv_muxing_commit(struct vc4_dev *vc4,
- 		 * TXP IP, and we need to disable the FIFO2 -> pixelvalve1
- 		 * route.
- 		 */
--		if (vc4_state->feed_txp)
-+		if (vc4_crtc->feeds_txp)
- 			dsp3_mux = VC4_SET_FIELD(3, SCALER_DISPCTRL_DSP3_MUX);
- 		else
- 			dsp3_mux = VC4_SET_FIELD(2, SCALER_DISPCTRL_DSP3_MUX);
-diff --git a/drivers/gpu/drm/vc4/vc4_txp.c b/drivers/gpu/drm/vc4/vc4_txp.c
-index 2fc7f4b5fa09..26eda7542f74 100644
---- a/drivers/gpu/drm/vc4/vc4_txp.c
-+++ b/drivers/gpu/drm/vc4/vc4_txp.c
-@@ -391,7 +391,6 @@ static int vc4_txp_atomic_check(struct drm_crtc *crtc,
- {
- 	struct drm_crtc_state *crtc_state = drm_atomic_get_new_crtc_state(state,
- 									  crtc);
--	struct vc4_crtc_state *vc4_state = to_vc4_crtc_state(crtc_state);
- 	int ret;
- 
- 	ret = vc4_hvs_atomic_check(crtc, state);
-@@ -399,7 +398,6 @@ static int vc4_txp_atomic_check(struct drm_crtc *crtc,
- 		return ret;
- 
- 	crtc_state->no_vblank = true;
--	vc4_state->feed_txp = true;
- 
- 	return 0;
+ 		WARN_ON(drm_crtc_vblank_get(crtc) != 0);
+@@ -388,6 +387,10 @@ static void vc4_hvs_update_dlist(struct drm_crtc *crtc)
+ 		HVS_WRITE(SCALER_DISPLISTX(vc4_state->assigned_channel),
+ 			  vc4_state->mm.start);
+ 	}
++
++	spin_lock_irqsave(&vc4_crtc->irq_lock, flags);
++	vc4_crtc->current_dlist = vc4_state->mm.start;
++	spin_unlock_irqrestore(&vc4_crtc->irq_lock, flags);
  }
-@@ -482,6 +480,7 @@ static int vc4_txp_bind(struct device *dev, struct device *master, void *data)
  
- 	vc4_crtc->pdev = pdev;
- 	vc4_crtc->data = &vc4_txp_crtc_data;
-+	vc4_crtc->feeds_txp = true;
- 
- 	txp->pdev = pdev;
- 
+ void vc4_hvs_atomic_enable(struct drm_crtc *crtc,
 -- 
 2.31.1
 
