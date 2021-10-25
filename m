@@ -1,48 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C076439A77
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Oct 2021 17:29:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D98B3439A7B
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Oct 2021 17:29:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C43A6E0C2;
-	Mon, 25 Oct 2021 15:29:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D0116E0CC;
+	Mon, 25 Oct 2021 15:29:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
  [66.111.4.229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0500F6E0C2
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Oct 2021 15:29:08 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id 413255806CD;
- Mon, 25 Oct 2021 11:29:08 -0400 (EDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 760946E0B7
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Oct 2021 15:29:12 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailnew.nyi.internal (Postfix) with ESMTP id B44C55806D4;
+ Mon, 25 Oct 2021 11:29:11 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Mon, 25 Oct 2021 11:29:08 -0400
+ by compute6.internal (MEProxy); Mon, 25 Oct 2021 11:29:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=9IZMa95QxdFW8
- F6/H8kHqAEGM8P4RCek8PIOtrKbAVU=; b=iv0OaKuztPA7wrBwqXDJPpc3x+rmE
- CqTVogJoswQJvgKlVuG+d6coalzVQFG5vMUH9rEhNx42llZfT1jBmnnaSEAMZh95
- FRVP1PnYjyt5X+9F7+dqk1v2ZMesag+iAp+JQLOVzWyyq1ZQXQtn2oeTyBlbhnP4
- MZjipfRiqiFI19Xr9HFRqLNrH7DECmUfPajDS2+O4ffmG87NvCKShEHaD51tBKhV
- j7fdr6WmFqGpeiTX50KCvLt6vkc7pHpiyHPC7MiNrTXP/GD8qdVUGt32vOvnU9Kx
- AwYUGOkM+xs/oCp5kpjVMbt+zMM0CSOOXhtuj9lkD7AJ193BqSbCoTnMg==
+ :mime-version:content-transfer-encoding; s=fm1; bh=apYCseIKPEa7T
+ yvpW6vrDcktfnDBwxegPWvT7BJ6R7o=; b=D+xlObxnqtG5KmvRn6mhjlRZmND2x
+ 3yGVLDfxIsENjOLqkFjNvGt2/CiPPmyIo7g13uE9EwikIFMu6uMPv164wypXGVN+
+ Q/2LehDwKQeV9U83WMoQr43AMja1nr2RUNAxTaOgXwfj9mlSOAONboy5KuiA8a7k
+ N3RxW0WiQV3BwYrBPNeJOwn6RVuLDKmgLQGBlwqCVRWeCEd3VGHbVr55KkRI5w5G
+ Le643Exdj9+dmbsnOXR0DsTamlBtRheksGe9+vtOsIruIOmMH5GJ78MtJ/VVwqfD
+ WUXagBHyYQDeXVxTaI4huHnT7mVjGx/nEu6oNWxeauKVSAT84f6/TDEcg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=9IZMa95QxdFW8F6/H8kHqAEGM8P4RCek8PIOtrKbAVU=; b=Wx2K+isk
- 8HOFEQsvTfhXKlrMWoEYxH+vU9bUSfnuzSU/1wXKZHchRwuhOO00ZzmlAeGfuQtx
- gTFh6UEmHVrTQ8TkWZm8r9x7mN2Ep8/1ql52yLVhOio6ComYWkr1DQ+ylFoMpYQ6
- xIVZ1d2HAtGl3ly2D4bqLn+7ezH4XSCTcCzZUq00uJp853q2GGGD7wq/K2U75vK8
- NVD2cDYlD5h8fW+fsUzZjIw+/kXJcMw0pYm+JAJyVcQxxb6wvB4uXFg0mgQ9GC7X
- IQAvCsxrNMIuECe+c44yPKccLt3WV9OLtuFZTBF66B1h9I60DDL5DA6PW69rp1ra
- qcAE+l9Envn0fw==
-X-ME-Sender: <xms:RM12YajtTu7ecien-O7WLq86n8DBgqnByHiO4TP-HOmQ82iEtMjUcA>
- <xme:RM12YbA89m873c25V9VPEmIiIUcuCsC5jtEKwy5l-i1IcIxFkxc8HqAsPjDkXOuCw
- FR5ElDlQdZxIbSQ2RE>
-X-ME-Received: <xmr:RM12YSFP_m8PBdvQQMfpl2Y2OXLg_Vigue-B5hakQE2nT7jaT_ZHXX-4WLLBSZHCM4ENe8jwXYGtEWTFq5ipnaFmyump2NkKtFMmCuzk>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrvdefhedgkeeiucetufdoteggodetrfdotf
+ fm1; bh=apYCseIKPEa7TyvpW6vrDcktfnDBwxegPWvT7BJ6R7o=; b=b6U++hPB
+ FyMJhcR6QvSKJssGDL8QB2EGjQOcS4Bo5fO1VDMyvBClBu2LMFdbc0QtqhmzTOGJ
+ mPCaNhySjKkaE4DG8b+Wf5kkxyWLXtq78PjcDiZb54V7HsPjXFZbAMZGea1YIEL9
+ l8vQgbDSycx5nNggH9bRUNDBZenpTiz9a0OZjiLrLi93Qhs2K4DJir8npd7TneBm
+ +vSb0ECGQzBbvAE0UQJTQ284FtFDgpY6/T77MmWjPwCf3Y/qG+oVIIDKJFnJ2A5c
+ +hVrgZNRptYKXPVqEuLcRFkduEVkvsR7P3yn4hrUg6HzFbsy4YiDfSbmW2+qmKwS
+ iGmr8K9coD5BRw==
+X-ME-Sender: <xms:Rs12YfUfV_ew-i3CtG_cggp7oISiwDo-q_OAXWOtcyUGRmSeQEBn0A>
+ <xme:Rs12YXnVoMotFg5S9jW46K3gk_RczLgIsStq1ueik1rjUc3gly2dHxxEHTDwv95_n
+ W0eYouVFqDQUzKMJV0>
+X-ME-Received: <xmr:Rs12YbbyMXe4gWhfvLIb2xP-JG-qiYvtlxuV96fUD_dICAFk6tVjih4XqfDTd9dpD5P89v9BPafCPJqRODJOejzN583NSGjwfhQU6CRZ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrvdefhedgkeehucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpeforgigihhm
@@ -50,12 +50,12 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrvdefhedgkeeiucetufdoteggod
  htvghrnhepvdekleevfeffkeejhfffueelteelfeduieefheduudfggffhhfffheevveeh
  hedvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
  grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:RM12YTTDrv8jJVmedExWjuSTkeVQxbGbJ5rUFQHUr_2-eIAcO6DZ9w>
- <xmx:RM12YXyZ_Sh4t4um7NGJLt2NzVF4fwIWKoPphcKEVorRDsPKkwGMkA>
- <xmx:RM12YR5eFtPF8V8V3UUPsXNpSqTJrUN25Fcm-x_cyAdWbkrS_aVevA>
- <xmx:RM12YcJIeSFCh-0ODUyQc0Qvs6U7FqaVSCs4uOe2CDvtI5XdXadvmQ>
+X-ME-Proxy: <xmx:R812YaVH_3j4RdIT3-tt4DQEBABacX2XGJIVJhqKJri-YDHhENls6w>
+ <xmx:R812YZmDbz3a5__-WE4WcPld6NZK-CpwG3RdsP0rpe08AGe0aRJiyA>
+ <xmx:R812YXcaqdiTGZAdPFVRvik3iMWJAIa3xcsMveNbcmBZZ6YzoHWczA>
+ <xmx:R812Ye8sPFTDl_nZmevRdkYkd_mMnKtLQlXoFpb0IO7zLLsXE5SWlg>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 25 Oct 2021 11:29:07 -0400 (EDT)
+ 25 Oct 2021 11:29:10 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: dri-devel@lists.freedesktop.org,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -68,10 +68,9 @@ Cc: linux-rpi-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
  Dave Stevenson <dave.stevenson@raspberrypi.com>,
  Phil Elwell <phil@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
  Dom Cobley <dom@raspberrypi.com>
-Subject: [PATCH v8 01/10] drm/vc4: hdmi: Remove the DDC probing for status
- detection
-Date: Mon, 25 Oct 2021 17:28:54 +0200
-Message-Id: <20211025152903.1088803-2-maxime@cerno.tech>
+Subject: [PATCH v8 02/10] drm/vc4: hdmi: Fix HPD GPIO detection
+Date: Mon, 25 Oct 2021 17:28:55 +0200
+Message-Id: <20211025152903.1088803-3-maxime@cerno.tech>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211025152903.1088803-1-maxime@cerno.tech>
 References: <20211025152903.1088803-1-maxime@cerno.tech>
@@ -92,44 +91,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Commit 9d44abbbb8d5 ("drm/vc4: Fall back to using an EDID probe in the
-absence of a GPIO.") added some code to read the EDID through DDC in the
-HDMI driver detect hook since the Pi3 had no HPD GPIO back then.
-However, commit b1b8f45b3130 ("ARM: dts: bcm2837: Add missing GPIOs of
-Expander") changed that a couple of years later.
+Prior to commit 6800234ceee0 ("drm/vc4: hdmi: Convert to gpiod"), in the
+detect hook, if we had an HPD GPIO we would only rely on it and return
+whatever state it was in.
 
-This causes an issue though since some TV (like the LG 55C8) when it
-comes out of standy will deassert the HPD line, but the EDID will
-remain readable.
+However, that commit changed that by mistake to only consider the case
+where we have a GPIO and it returns a logical high, and would fall back
+to the other methods otherwise.
 
-It causes an issues nn platforms without an HPD GPIO, like the Pi4,
-where the DDC probing will be our primary mean to detect a display, and
-thus we will never detect the HPD pulse. This was fine before since the
-pulse was small enough that we would never detect it, and we also didn't
-have anything (like the scrambler) that needed to be set up in the
-display.
+Since we can read the EDIDs when the HPD signal is low on some displays,
+we changed the detection status from disconnected to connected, and we
+would ignore an HPD pulse.
 
-However, now that we have both, the display during the HPD pulse will
-clear its scrambler status, and since we won't detect the
-disconnect/reconnect cycle we will never enable the scrambler back.
-
-As our main reason for that DDC probing is gone, let's just remove it.
-
+Fixes: 6800234ceee0 ("drm/vc4: hdmi: Convert to gpiod")
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_hdmi.c | 2 --
- 1 file changed, 2 deletions(-)
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index 7b0cb08e6563..338968275724 100644
+index 338968275724..dde67b991ae7 100644
 --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
 +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -193,8 +193,6 @@ vc4_hdmi_connector_detect(struct drm_connector *connector, bool force)
- 	if (vc4_hdmi->hpd_gpio &&
- 	    gpiod_get_value_cansleep(vc4_hdmi->hpd_gpio)) {
- 		connected = true;
--	} else if (drm_probe_ddc(vc4_hdmi->ddc)) {
+@@ -190,9 +190,9 @@ vc4_hdmi_connector_detect(struct drm_connector *connector, bool force)
+ 
+ 	WARN_ON(pm_runtime_resume_and_get(&vc4_hdmi->pdev->dev));
+ 
+-	if (vc4_hdmi->hpd_gpio &&
+-	    gpiod_get_value_cansleep(vc4_hdmi->hpd_gpio)) {
 -		connected = true;
++	if (vc4_hdmi->hpd_gpio) {
++		if (gpiod_get_value_cansleep(vc4_hdmi->hpd_gpio))
++			connected = true;
  	} else {
  		unsigned long flags;
  		u32 hotplug;
