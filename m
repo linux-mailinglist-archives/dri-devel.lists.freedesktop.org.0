@@ -2,48 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91C8F439AAF
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Oct 2021 17:44:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAFCB439AFF
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Oct 2021 17:59:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D7A3A6E145;
-	Mon, 25 Oct 2021 15:44:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03882892CD;
+	Mon, 25 Oct 2021 15:59:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F0C1589F89;
- Mon, 25 Oct 2021 15:44:27 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10148"; a="229541446"
-X-IronPort-AV: E=Sophos;i="5.87,180,1631602800"; d="scan'208";a="229541446"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Oct 2021 08:42:38 -0700
-X-IronPort-AV: E=Sophos;i="5.87,180,1631602800"; d="scan'208";a="446684809"
-Received: from dscaswel-mobl2.ger.corp.intel.com (HELO [10.213.242.254])
- ([10.213.242.254])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Oct 2021 08:42:29 -0700
-Subject: Re: [PATCH] drm/i915: Use ERR_CAST instead of ERR_PTR(PTR_ERR())
-To: Wan Jiabing <wanjiabing@vivo.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Chris Wilson <chris@chris-wilson.co.uk>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Jason Ekstrand <jason@jlekstrand.net>,
- Matthew Brost <matthew.brost@intel.com>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Cc: kael_w@yeah.net
-References: <20211025113316.24424-1-wanjiabing@vivo.com>
-From: Matthew Auld <matthew.auld@intel.com>
-Message-ID: <58331d3d-c3e3-0e82-eb7a-469c6e72d7a7@intel.com>
-Date: Mon, 25 Oct 2021 16:42:24 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+Received: from mail-ot1-x329.google.com (mail-ot1-x329.google.com
+ [IPv6:2607:f8b0:4864:20::329])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 92729892CD
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Oct 2021 15:59:18 +0000 (UTC)
+Received: by mail-ot1-x329.google.com with SMTP id
+ e59-20020a9d01c1000000b00552c91a99f7so15611655ote.6
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Oct 2021 08:59:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=KOddvT3/SVcm/um2/rq9wR57y2D9AglEjqRL6U6ddYY=;
+ b=WSBsi5uPR5US36IEkDlz89S/mbtLNqxQAxAqUO026sRsksWylXVHr+6Lf5yPIrsDit
+ H5RQdD/rVcUO9vFBzQE+08Eq6lg9r+55r69OJOdFJju750B/r58fYW6lDxPNdlqGVySn
+ UA4jYv2TVAbv7nFnQLDOsJebMuLJJjsgGvZdYLwGN/qrGu+ciId/M5C7nDMdK38/zONM
+ nK2BjXmgJUbmBbwo63BSMZCdyEVyInPPVYXKgLt46CZIhwmkEt4872Lbra9Zu1lFZUm2
+ 7uqX7wXNnx57/v3KFNfkoQ9M38fdpQpuSfwTcJCyROxpZ5QXkz5i2mQD4dHD+t2Mfksp
+ SuOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=KOddvT3/SVcm/um2/rq9wR57y2D9AglEjqRL6U6ddYY=;
+ b=WFQh+YVRcCS99WKEHMkQchdpcjf7NxtdA28bz6Wc3DHeR3bgkYyPrEOtUM2JAm3bAG
+ SFu3ArQ6w0i6Vvbeyf+voMUCZENiizvwy6tNm9bQtJGK8xF21QjAaydKq1QMxjwKbj78
+ NcF6qGGeWeihz+wwSDl9xp3p/1gW9LnzD9hKEd8I5gdJ3eFlaPN/NlGzA5szbein4lzL
+ Bb0W6D/qe6NiX4pJ+Df85ooio06CSrWeEOLQpVf8ReiqplF1+UIN3teocU/n2nBMC/It
+ RvyrmW+m/PDeXRYRGrKBDGvnuCQqNhF8FhMnGcoSuAqXSnQzUskJ9wfhhXRpg6x/xpz7
+ 53Zg==
+X-Gm-Message-State: AOAM530DP1xepqPhEWk5lyK2+2eMZVtMHS/OQhCfTLp2oJBGt0L8diie
+ 7K07+GKgz84ipcg6Yg8QBhOgjpWOCQpOOLAI8s80bW/oYpY=
+X-Google-Smtp-Source: ABdhPJyi+KtA5UrArj8yJmll6FCzPW8JK1jmgqulic8kX4WMD2iY8Nxvdcadoj9qrGOl6hSlRKITO8z0Pazhka4vjHY=
+X-Received: by 2002:a05:6830:23ac:: with SMTP id
+ m12mr15206769ots.357.1635177557832; 
+ Mon, 25 Oct 2021 08:59:17 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20211025113316.24424-1-wanjiabing@vivo.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+References: <20211025072835.176805-1-christian.koenig@amd.com>
+In-Reply-To: <20211025072835.176805-1-christian.koenig@amd.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 25 Oct 2021 11:59:06 -0400
+Message-ID: <CADnq5_NRCi1JFi53DMFJaAhqhPX-KTjf9ufQ3J+m6PgwyBgiig@mail.gmail.com>
+Subject: Re: [PATCH] dma-buf: fix uninitialized variable usage in selftests
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+Cc: Maling list - DRI developers <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,30 +69,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 25/10/2021 12:32, Wan Jiabing wrote:
-> Fix following coccicheck warning:
-> ./drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c:3117:15-22: WARNING:
-> ERR_CAST can be used with eb->requests[i].
-> 
-> Signed-off-by: Wan Jiabing <wanjiabing@vivo.com>
+On Mon, Oct 25, 2021 at 3:28 AM Christian K=C3=B6nig
+<ckoenig.leichtzumerken@gmail.com> wrote:
+>
+> "i" can be used uninitialized in one of the error branches. Fix this.
+>
+> Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+> Reported-by: kernel test robot <lkp@intel.com>
 
-Pushed to drm-intel-gt-next. Thanks.
+Acked-by: Alex Deucher <alexander.deucher@amd.com>
 
 > ---
->   drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-> index 4d7da07442f2..eb2dcaf78d08 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-> @@ -3114,7 +3114,7 @@ eb_requests_create(struct i915_execbuffer *eb, struct dma_fence *in_fence,
->   		/* Allocate a request for this batch buffer nice and early. */
->   		eb->requests[i] = i915_request_create(eb_find_context(eb, i));
->   		if (IS_ERR(eb->requests[i])) {
-> -			out_fence = ERR_PTR(PTR_ERR(eb->requests[i]));
-> +			out_fence = ERR_CAST(eb->requests[i]);
->   			eb->requests[i] = NULL;
->   			return out_fence;
->   		}
-> 
+>  drivers/dma-buf/st-dma-resv.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/dma-buf/st-dma-resv.c b/drivers/dma-buf/st-dma-resv.=
+c
+> index 6f3ba756da3e..bc2265807f6c 100644
+> --- a/drivers/dma-buf/st-dma-resv.c
+> +++ b/drivers/dma-buf/st-dma-resv.c
+> @@ -295,7 +295,7 @@ static int test_get_fences(void *arg, bool shared)
+>                 if (r) {
+>                         pr_err("Resv shared slot allocation failed\n");
+>                         dma_resv_unlock(&resv);
+> -                       goto err_free;
+> +                       goto err_fini;
+>                 }
+>
+>                 dma_resv_add_shared_fence(&resv, f);
+> @@ -336,6 +336,7 @@ static int test_get_fences(void *arg, bool shared)
+>         while (i--)
+>                 dma_fence_put(fences[i]);
+>         kfree(fences);
+> +err_fini:
+>         dma_resv_fini(&resv);
+>         dma_fence_put(f);
+>         return r;
+> --
+> 2.25.1
+>
