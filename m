@@ -2,57 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42076439D3F
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Oct 2021 19:16:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7967439B4B
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Oct 2021 18:14:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CED096E054;
-	Mon, 25 Oct 2021 17:16:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D5376E084;
+	Mon, 25 Oct 2021 16:14:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [1.203.163.81])
- by gabe.freedesktop.org (Postfix) with ESMTP id 1FBF56E054
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Oct 2021 17:15:36 +0000 (UTC)
-X-UUID: dd12562eeb4847c99294e197b948b0f9-20211026
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=udnQklD6AuNtsKUUdw4k9sQubsB0IEV1ohpw90V2P0k=; 
- b=I+Cw47M1QxKYvRYmaIPUrI7ySlPryPVev3EYaedcI6FB8O6jWWYYM6SdqKfa/2a+J8nH4uc+BM9lM0W6linR7dUTB+dpJxwAoBFDFJFbbg9/mGpSAk/pijdYfk/7+rC58m8GXzz5NMoyRi3/zu1KgVdD2lH+c/n1ovw334qsWXo=;
-X-UUID: dd12562eeb4847c99294e197b948b0f9-20211026
-Received: from mtkexhb02.mediatek.inc [(172.27.7.253)] by mailgw02.mediatek.com
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D3BA6E084
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Oct 2021 16:14:40 +0000 (UTC)
+X-UUID: 485e54eb4e2147dd8f507b2843ff0f7b-20211026
+X-UUID: 485e54eb4e2147dd8f507b2843ff0f7b-20211026
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
  (envelope-from <jason-jh.lin@mediatek.com>)
- (mailgw01.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1745278135; Tue, 26 Oct 2021 00:14:37 +0800
-Received: from mtkexhb02.mediatek.inc (172.21.101.103) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
- Tue, 26 Oct 2021 00:14:36 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by mtkexhb02.mediatek.inc
- (172.21.101.103) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Tue, 26 Oct 2021 00:14:36 +0800
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 1729165711; Tue, 26 Oct 2021 00:14:37 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Tue, 26 Oct 2021 00:14:36 +0800
 Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas11.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
- Frontend Transport; Tue, 26 Oct 2021 00:14:35 +0800
+ Frontend Transport; Tue, 26 Oct 2021 00:14:36 +0800
 From: jason-jh.lin <jason-jh.lin@mediatek.com>
 To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel
- <p.zabel@pengutronix.de>, Matthias Brugger <matthias.bgg@gmail.com>, "Jassi
- Brar" <jassisinghbrar@gmail.com>, Yongqiang Niu <yongqiang.niu@mediatek.com>
+ <p.zabel@pengutronix.de>, Matthias Brugger <matthias.bgg@gmail.com>, Jassi
+ Brar <jassisinghbrar@gmail.com>, Yongqiang Niu <yongqiang.niu@mediatek.com>
 CC: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  "jason-jh . lin" <jason-jh.lin@mediatek.com>,
  <dri-devel@lists.freedesktop.org>, <linux-mediatek@lists.infradead.org>,
  <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
  <hsinyi@chromium.org>, <fshao@chromium.org>, <nancy.lin@mediatek.com>,
  <singo.chang@mediatek.com>
-Subject: [PATCH v3 2/5] drm/mediatek: Remove the pointer of struct cmdq_client
-Date: Tue, 26 Oct 2021 00:14:31 +0800
-Message-ID: <20211025161434.2641-3-jason-jh.lin@mediatek.com>
+Subject: [PATCH v3 3/5] drm/mediatek: Detect CMDQ execution timeout
+Date: Tue, 26 Oct 2021 00:14:32 +0800
+Message-ID: <20211025161434.2641-4-jason-jh.lin@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20211025161434.2641-1-jason-jh.lin@mediatek.com>
 References: <20211025161434.2641-1-jason-jh.lin@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-MTK: N
-Content-Transfer-Encoding: base64
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,84 +58,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogQ2h1bi1LdWFuZyBIdSA8Y2h1bmt1YW5nLmh1QGtlcm5lbC5vcmc+DQoNCkluIG1haWxi
-b3ggcnhfY2FsbGJhY2ssIGl0IHBhc3Mgc3RydWN0IG1ib3hfY2xpZW50IHRvIGNhbGxiYWNrDQpm
-dW5jdGlvbiwgYnV0IGl0IGNvdWxkIG5vdCBtYXAgYmFjayB0byBtdGtfZHJtX2NydGMgaW5zdGFu
-Y2UNCmJlY2F1c2Ugc3RydWN0IGNtZHFfY2xpZW50IHVzZSBhIHBvaW50ZXIgdG8gc3RydWN0IG1i
-b3hfY2xpZW50Og0KDQpzdHJ1Y3QgY21kcV9jbGllbnQgew0KCXN0cnVjdCBtYm94X2NsaWVudCBj
-bGllbnQ7DQoJc3RydWN0IG1ib3hfY2hhbiAqY2hhbjsNCn07DQoNCnN0cnVjdCBtdGtfZHJtX2Ny
-dGMgew0KCS8qIGNsaWVudCBpbnN0YW5jZSBkYXRhICovDQoJc3RydWN0IGNtZHFfY2xpZW50ICpj
-bWRxX2NsaWVudDsNCn07DQoNCnNvIHJlbW92ZSB0aGUgcG9pbnRlciBvZiBzdHJ1Y3QgY21kcV9j
-bGllbnQgYW5kIGxldCBtdGtfZHJtX2NydGMNCmluc3RhbmNlIGRlZmluZSBjbWRxX2NsaWVudCBh
-czoNCg0Kc3RydWN0IG10a19kcm1fY3J0YyB7DQoJLyogY2xpZW50IGluc3RhbmNlIGRhdGEgKi8N
-CglzdHJ1Y3QgY21kcV9jbGllbnQgY21kcV9jbGllbnQ7DQp9Ow0KDQphbmQgaW4gcnhfY2FsbGJh
-Y2sgZnVuY3Rpb24sIHVzZSBzdHJ1Y3QgbWJveF9jbGllbnQgdG8gZ2V0DQpzdHJ1Y3QgbXRrX2Ry
-bV9jcnRjLg0KDQpTaWduZWQtb2ZmLWJ5OiBDaHVuLUt1YW5nIEh1IDxjaHVua3VhbmcuaHVAa2Vy
-bmVsLm9yZz4NClNpZ25lZC1vZmYtYnk6IGphc29uLWpoLmxpbiA8amFzb24tamgubGluQG1lZGlh
-dGVrLmNvbT4NCi0tLQ0KIGRyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2NydGMuYyB8
-IDM3ICsrKysrKysrKysrKystLS0tLS0tLS0tLS0NCiAxIGZpbGUgY2hhbmdlZCwgMjAgaW5zZXJ0
-aW9ucygrKSwgMTcgZGVsZXRpb25zKC0pDQoNCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0v
-bWVkaWF0ZWsvbXRrX2RybV9jcnRjLmMgYi9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2Ry
-bV9jcnRjLmMNCmluZGV4IDM2OWQzZTY4YzBiNi4uZTIzZTMyMjRhYzY3IDEwMDY0NA0KLS0tIGEv
-ZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1fY3J0Yy5jDQorKysgYi9kcml2ZXJzL2dw
-dS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9jcnRjLmMNCkBAIC01Miw3ICs1Miw3IEBAIHN0cnVjdCBt
-dGtfZHJtX2NydGMgew0KIAlib29sCQkJCXBlbmRpbmdfYXN5bmNfcGxhbmVzOw0KIA0KICNpZiBJ
-U19SRUFDSEFCTEUoQ09ORklHX01US19DTURRKQ0KLQlzdHJ1Y3QgY21kcV9jbGllbnQJCSpjbWRx
-X2NsaWVudDsNCisJc3RydWN0IGNtZHFfY2xpZW50CQljbWRxX2NsaWVudDsNCiAJdTMyCQkJCWNt
-ZHFfZXZlbnQ7DQogI2VuZGlmDQogDQpAQCAtNDcyLDE5ICs0NzIsMTkgQEAgc3RhdGljIHZvaWQg
-bXRrX2RybV9jcnRjX3VwZGF0ZV9jb25maWcoc3RydWN0IG10a19kcm1fY3J0YyAqbXRrX2NydGMs
-DQogCQltdGtfbXV0ZXhfcmVsZWFzZShtdGtfY3J0Yy0+bXV0ZXgpOw0KIAl9DQogI2lmIElTX1JF
-QUNIQUJMRShDT05GSUdfTVRLX0NNRFEpDQotCWlmIChtdGtfY3J0Yy0+Y21kcV9jbGllbnQpIHsN
-Ci0JCW1ib3hfZmx1c2gobXRrX2NydGMtPmNtZHFfY2xpZW50LT5jaGFuLCAyMDAwKTsNCi0JCWNt
-ZHFfaGFuZGxlID0gY21kcV9wa3RfY3JlYXRlKG10a19jcnRjLT5jbWRxX2NsaWVudCwgUEFHRV9T
-SVpFKTsNCisJaWYgKG10a19jcnRjLT5jbWRxX2NsaWVudC5jaGFuKSB7DQorCQltYm94X2ZsdXNo
-KG10a19jcnRjLT5jbWRxX2NsaWVudC5jaGFuLCAyMDAwKTsNCisJCWNtZHFfaGFuZGxlID0gY21k
-cV9wa3RfY3JlYXRlKCZtdGtfY3J0Yy0+Y21kcV9jbGllbnQsIFBBR0VfU0laRSk7DQogCQljbWRx
-X3BrdF9jbGVhcl9ldmVudChjbWRxX2hhbmRsZSwgbXRrX2NydGMtPmNtZHFfZXZlbnQpOw0KIAkJ
-Y21kcV9wa3Rfd2ZlKGNtZHFfaGFuZGxlLCBtdGtfY3J0Yy0+Y21kcV9ldmVudCwgZmFsc2UpOw0K
-IAkJbXRrX2NydGNfZGRwX2NvbmZpZyhjcnRjLCBjbWRxX2hhbmRsZSk7DQogCQljbWRxX3BrdF9m
-aW5hbGl6ZShjbWRxX2hhbmRsZSk7DQotCQlkbWFfc3luY19zaW5nbGVfZm9yX2RldmljZShtdGtf
-Y3J0Yy0+Y21kcV9jbGllbnQtPmNoYW4tPm1ib3gtPmRldiwNCisJCWRtYV9zeW5jX3NpbmdsZV9m
-b3JfZGV2aWNlKG10a19jcnRjLT5jbWRxX2NsaWVudC5jaGFuLT5tYm94LT5kZXYsDQogCQkJCQkg
-ICBjbWRxX2hhbmRsZS0+cGFfYmFzZSwNCiAJCQkJCSAgIGNtZHFfaGFuZGxlLT5jbWRfYnVmX3Np
-emUsDQogCQkJCQkgICBETUFfVE9fREVWSUNFKTsNCi0JCW1ib3hfc2VuZF9tZXNzYWdlKG10a19j
-cnRjLT5jbWRxX2NsaWVudC0+Y2hhbiwgY21kcV9oYW5kbGUpOw0KLQkJbWJveF9jbGllbnRfdHhk
-b25lKG10a19jcnRjLT5jbWRxX2NsaWVudC0+Y2hhbiwgMCk7DQorCQltYm94X3NlbmRfbWVzc2Fn
-ZShtdGtfY3J0Yy0+Y21kcV9jbGllbnQuY2hhbiwgY21kcV9oYW5kbGUpOw0KKwkJbWJveF9jbGll
-bnRfdHhkb25lKG10a19jcnRjLT5jbWRxX2NsaWVudC5jaGFuLCAwKTsNCiAJfQ0KICNlbmRpZg0K
-IAltdGtfY3J0Yy0+Y29uZmlnX3VwZGF0aW5nID0gZmFsc2U7DQpAQCAtNDk4LDcgKzQ5OCw3IEBA
-IHN0YXRpYyB2b2lkIG10a19jcnRjX2RkcF9pcnEodm9pZCAqZGF0YSkNCiAJc3RydWN0IG10a19k
-cm1fcHJpdmF0ZSAqcHJpdiA9IGNydGMtPmRldi0+ZGV2X3ByaXZhdGU7DQogDQogI2lmIElTX1JF
-QUNIQUJMRShDT05GSUdfTVRLX0NNRFEpDQotCWlmICghcHJpdi0+ZGF0YS0+c2hhZG93X3JlZ2lz
-dGVyICYmICFtdGtfY3J0Yy0+Y21kcV9jbGllbnQpDQorCWlmICghcHJpdi0+ZGF0YS0+c2hhZG93
-X3JlZ2lzdGVyICYmICFtdGtfY3J0Yy0+Y21kcV9jbGllbnQuY2hhbikNCiAjZWxzZQ0KIAlpZiAo
-IXByaXYtPmRhdGEtPnNoYWRvd19yZWdpc3RlcikNCiAjZW5kaWYNCkBAIC04MzgsMTcgKzgzOCwy
-MCBAQCBpbnQgbXRrX2RybV9jcnRjX2NyZWF0ZShzdHJ1Y3QgZHJtX2RldmljZSAqZHJtX2RldiwN
-CiAJbXV0ZXhfaW5pdCgmbXRrX2NydGMtPmh3X2xvY2spOw0KIA0KICNpZiBJU19SRUFDSEFCTEUo
-Q09ORklHX01US19DTURRKQ0KLQltdGtfY3J0Yy0+Y21kcV9jbGllbnQgPQ0KLQkJCWNtZHFfbWJv
-eF9jcmVhdGUobXRrX2NydGMtPm1tc3lzX2RldiwNCi0JCQkJCSBkcm1fY3J0Y19pbmRleCgmbXRr
-X2NydGMtPmJhc2UpKTsNCi0JaWYgKElTX0VSUihtdGtfY3J0Yy0+Y21kcV9jbGllbnQpKSB7DQor
-CW10a19jcnRjLT5jbWRxX2NsaWVudC5jbGllbnQuZGV2ID0gbXRrX2NydGMtPm1tc3lzX2RldjsN
-CisJbXRrX2NydGMtPmNtZHFfY2xpZW50LmNsaWVudC50eF9ibG9jayA9IGZhbHNlOw0KKwltdGtf
-Y3J0Yy0+Y21kcV9jbGllbnQuY2xpZW50Lmtub3dzX3R4ZG9uZSA9IHRydWU7DQorCW10a19jcnRj
-LT5jbWRxX2NsaWVudC5jbGllbnQucnhfY2FsbGJhY2sgPSBkZHBfY21kcV9jYjsNCisJbXRrX2Ny
-dGMtPmNtZHFfY2xpZW50LmNoYW4gPQ0KKwkJCW1ib3hfcmVxdWVzdF9jaGFubmVsKCZtdGtfY3J0
-Yy0+Y21kcV9jbGllbnQuY2xpZW50LA0KKwkJCQkJICAgICBkcm1fY3J0Y19pbmRleCgmbXRrX2Ny
-dGMtPmJhc2UpKTsNCisJaWYgKElTX0VSUihtdGtfY3J0Yy0+Y21kcV9jbGllbnQuY2hhbikpIHsN
-CiAJCWRldl9kYmcoZGV2LCAibXRrX2NydGMgJWQgZmFpbGVkIHRvIGNyZWF0ZSBtYWlsYm94IGNs
-aWVudCwgd3JpdGluZyByZWdpc3RlciBieSBDUFUgbm93XG4iLA0KIAkJCWRybV9jcnRjX2luZGV4
-KCZtdGtfY3J0Yy0+YmFzZSkpOw0KLQkJbXRrX2NydGMtPmNtZHFfY2xpZW50ID0gTlVMTDsNCisJ
-CW10a19jcnRjLT5jbWRxX2NsaWVudC5jaGFuID0gTlVMTDsNCiAJfQ0KIA0KLQlpZiAobXRrX2Ny
-dGMtPmNtZHFfY2xpZW50KSB7DQotCQltdGtfY3J0Yy0+Y21kcV9jbGllbnQtPmNsaWVudC5yeF9j
-YWxsYmFjayA9IGRkcF9jbWRxX2NiOw0KKwlpZiAobXRrX2NydGMtPmNtZHFfY2xpZW50LmNoYW4p
-IHsNCiAJCXJldCA9IG9mX3Byb3BlcnR5X3JlYWRfdTMyX2luZGV4KHByaXYtPm11dGV4X25vZGUs
-DQogCQkJCQkJICJtZWRpYXRlayxnY2UtZXZlbnRzIiwNCiAJCQkJCQkgZHJtX2NydGNfaW5kZXgo
-Jm10a19jcnRjLT5iYXNlKSwNCkBAIC04NTYsOCArODU5LDggQEAgaW50IG10a19kcm1fY3J0Y19j
-cmVhdGUoc3RydWN0IGRybV9kZXZpY2UgKmRybV9kZXYsDQogCQlpZiAocmV0KSB7DQogCQkJZGV2
-X2RiZyhkZXYsICJtdGtfY3J0YyAlZCBmYWlsZWQgdG8gZ2V0IG1lZGlhdGVrLGdjZS1ldmVudHMg
-cHJvcGVydHlcbiIsDQogCQkJCWRybV9jcnRjX2luZGV4KCZtdGtfY3J0Yy0+YmFzZSkpOw0KLQkJ
-CWNtZHFfbWJveF9kZXN0cm95KG10a19jcnRjLT5jbWRxX2NsaWVudCk7DQotCQkJbXRrX2NydGMt
-PmNtZHFfY2xpZW50ID0gTlVMTDsNCisJCQltYm94X2ZyZWVfY2hhbm5lbChtdGtfY3J0Yy0+Y21k
-cV9jbGllbnQuY2hhbik7DQorCQkJbXRrX2NydGMtPmNtZHFfY2xpZW50LmNoYW4gPSBOVUxMOw0K
-IAkJfQ0KIAl9DQogI2VuZGlmDQotLSANCjIuMTguMA0K
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+
+CMDQ is used to update display register in vblank period, so
+it should be execute in next vblank. If it fail to execute
+in next 2 vblank, tiemout happen.
+
+Signed-off-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Signed-off-by: jason-jh.lin <jason-jh.lin@mediatek.com>
+---
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.c | 17 +++++++++++++++--
+ 1 file changed, 15 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+index e23e3224ac67..d992f34632e3 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
++++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+@@ -54,6 +54,7 @@ struct mtk_drm_crtc {
+ #if IS_REACHABLE(CONFIG_MTK_CMDQ)
+ 	struct cmdq_client		cmdq_client;
+ 	u32				cmdq_event;
++	u32				cmdq_vblank_cnt;
+ #endif
+ 
+ 	struct device			*mmsys_dev;
+@@ -227,7 +228,10 @@ struct mtk_ddp_comp *mtk_drm_ddp_comp_for_plane(struct drm_crtc *crtc,
+ static void ddp_cmdq_cb(struct mbox_client *cl, void *mssg)
+ {
+ 	struct cmdq_cb_data *data = mssg;
++	struct cmdq_client *cmdq_cl = container_of(cl, struct cmdq_client, client);
++	struct mtk_drm_crtc *mtk_crtc = container_of(cmdq_cl, struct mtk_drm_crtc, cmdq_client);
+ 
++	mtk_crtc->cmdq_vblank_cnt = 0;
+ 	cmdq_pkt_destroy(data->pkt);
+ }
+ #endif
+@@ -483,6 +487,12 @@ static void mtk_drm_crtc_update_config(struct mtk_drm_crtc *mtk_crtc,
+ 					   cmdq_handle->pa_base,
+ 					   cmdq_handle->cmd_buf_size,
+ 					   DMA_TO_DEVICE);
++		/*
++		 * CMDQ command should execute in next vblank,
++		 * If it fail to execute in next 2 vblank, timeout happen.
++		 */
++		mtk_crtc->cmdq_vblank_cnt = 2;
++
+ 		mbox_send_message(mtk_crtc->cmdq_client.chan, cmdq_handle);
+ 		mbox_client_txdone(mtk_crtc->cmdq_client.chan, 0);
+ 	}
+@@ -499,11 +509,14 @@ static void mtk_crtc_ddp_irq(void *data)
+ 
+ #if IS_REACHABLE(CONFIG_MTK_CMDQ)
+ 	if (!priv->data->shadow_register && !mtk_crtc->cmdq_client.chan)
++		mtk_crtc_ddp_config(crtc, NULL);
++	else if (mtk_crtc->cmdq_vblank_cnt > 0 && --mtk_crtc->cmdq_vblank_cnt == 0)
++		DRM_ERROR("mtk_crtc %d CMDQ execute command timeout!\n",
++			  drm_crtc_index(&mtk_crtc->base));
+ #else
+ 	if (!priv->data->shadow_register)
+-#endif
+ 		mtk_crtc_ddp_config(crtc, NULL);
+-
++#endif
+ 	mtk_drm_finish_page_flip(mtk_crtc);
+ }
+ 
+-- 
+2.18.0
 
