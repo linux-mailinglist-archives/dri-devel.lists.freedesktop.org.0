@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC01143B16C
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Oct 2021 13:41:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB53E43B164
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Oct 2021 13:41:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 721566E82B;
-	Tue, 26 Oct 2021 11:41:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DFF036E5A4;
+	Tue, 26 Oct 2021 11:41:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B8686E591;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B254A6E41B;
  Tue, 26 Oct 2021 11:41:07 +0000 (UTC)
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1635248465;
+ s=2020; t=1635248466;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GlN4Xoy0Y/M8Q0M1CpxcAL0AiL8ioioqGfsGYxp3KAc=;
- b=atXGj1vAT2SVLpL9o+7T+qCHeniN4MO+Jb8n1niIcFQX0zuyAJriCmlOUGAKQo8NnAVWWH
- V6T3v30rZGObcV5FSb1/YqivN4AF+MZJAg6LVRyku+iH2hlGOq9rNlLy0XsejZ01tWcxVJ
- +IqBukAQZ+bwUPdTw/tjbDyF+ObldKIBXGH2fY5MY5K02xYKaesyBbnGH9AanCw3UjmqZK
- 2cTftsufV3T3DMW5HzYtYnaJ6p3TmaMybPgrrCARwfm5ing9ZoqLRSkQqSY9x9baBGJmQY
- 20km7Ve34sa5oFtDsGNj8ahggLBIOHffOVghIGR088scgdGVGctCU5bT7hchHw==
+ bh=iJiIfR6mr75TRNVvBVBFQnoSa1tOGFCvEnhQ+nKMAzk=;
+ b=wkIBTuZ7EkUJIDzu+4RwXR6Kad69hJ02RpNvooXYYHt4OnWDHEtMcCNLYbCLWBK6HtWl+0
+ TK5BgKkfEkRzTB3rEbySVM4OiH98HERlvCpcm1CcQlMN1fc0FNvy18Qr1iU1rsNEHT07VX
+ ilhbUO3rCm1Zd5Mawma5lZAH8ZhHRC3xx2p70pEk9SSSer2gMqoNk7Q5SIwtgd9HWD0ojZ
+ mAOia1XV9/f8squt2dwGGy1Q9G1QTesMo7Xl+rDJxFeUtDh4cStOXWNXLjX9s9ZB4fD+Uw
+ W2mLIu7W2ZQst5AmD/vYdWRU/RxYa6sq2iqTk52bIQkJzi5Kz+XUcGhEP/+uVQ==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1635248465;
+ s=2020e; t=1635248466;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GlN4Xoy0Y/M8Q0M1CpxcAL0AiL8ioioqGfsGYxp3KAc=;
- b=6WqCafDxfmfNMkeDd6oA8r7n4+femnKxhZd4FrZBNXUgphStAYU0Y0hve035wDRPfgMsmS
- N8XjkXdHYkLVwnAg==
+ bh=iJiIfR6mr75TRNVvBVBFQnoSa1tOGFCvEnhQ+nKMAzk=;
+ b=U+7H7faKnuyHInO+ImDN8ii6xGclTJr/i5tDs32PfgIqGTZasm+EZByjR9Hin4lmTx5PrR
+ Whj/Jqw5Vw6lKJAQ==
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
 Cc: Jani Nikula <jani.nikula@linux.intel.com>,
@@ -44,9 +44,10 @@ Cc: Jani Nikula <jani.nikula@linux.intel.com>,
  Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
  Clark Williams <williams@redhat.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Subject: [PATCH 2/9] drm/i915/gt: Queue and wait for the irq_work item.
-Date: Tue, 26 Oct 2021 13:40:53 +0200
-Message-Id: <20211026114100.2593433-3-bigeasy@linutronix.de>
+Subject: [PATCH 3/9] drm/i915/gt: Use spin_lock_irq() instead of
+ local_irq_disable() + spin_lock()
+Date: Tue, 26 Oct 2021 13:40:54 +0200
+Message-Id: <20211026114100.2593433-4-bigeasy@linutronix.de>
 In-Reply-To: <20211026114100.2593433-1-bigeasy@linutronix.de>
 References: <20211026114100.2593433-1-bigeasy@linutronix.de>
 MIME-Version: 1.0
@@ -66,46 +67,97 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Disabling interrupts and invoking the irq_work function directly breaks
-on PREEMPT_RT.
-PREEMPT_RT does not invoke all irq_work from hardirq context because
-some of the user have spinlock_t locking in the callback function.
-These locks are then turned into a sleeping locks which can not be
-acquired with disabled interrupts.
+execlists_dequeue() is invoked from a function which uses
+local_irq_disable() to disable interrupts so the spin_lock() behaves
+like spin_lock_irq().
+This breaks PREEMPT_RT because local_irq_disable() + spin_lock() is not
+the same as spin_lock_irq().
 
-Using irq_work_queue() has the benefit that the irqwork will be invoked
-in the regular context. In general there is "no" delay between enqueuing
-the callback and its invocation because the interrupt is raised right
-away on architectures which support it (which includes x86).
-
-Use irq_work_queue() + irq_work_sync() instead invoking the callback
-directly.
+execlists_dequeue_irq() and execlists_dequeue() has each one caller
+only. If intel_engine_cs::active::lock is acquired and released with the
+_irq suffix then it behaves almost as if execlists_dequeue() would be
+invoked with disabled interrupts. The difference is the last part of the
+function which is then invoked with enabled interrupts.
+I can't tell if this makes a difference. From looking at it, it might
+work to move the last unlock at the end of the function as I didn't find
+anything that would acquire the lock again.
 
 Reported-by: Clark Williams <williams@redhat.com>
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Reviewed-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 ---
- drivers/gpu/drm/i915/gt/intel_breadcrumbs.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ .../drm/i915/gt/intel_execlists_submission.c    | 17 +++++------------
+ 1 file changed, 5 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_breadcrumbs.c b/drivers/gpu/drm/=
-i915/gt/intel_breadcrumbs.c
-index 209cf265bf746..6e1b9068d944c 100644
---- a/drivers/gpu/drm/i915/gt/intel_breadcrumbs.c
-+++ b/drivers/gpu/drm/i915/gt/intel_breadcrumbs.c
-@@ -311,10 +311,9 @@ void __intel_breadcrumbs_park(struct intel_breadcrumbs=
- *b)
- 	/* Kick the work once more to drain the signalers, and disarm the irq */
- 	irq_work_sync(&b->irq_work);
- 	while (READ_ONCE(b->irq_armed) && !atomic_read(&b->active)) {
--		local_irq_disable();
--		signal_irq_work(&b->irq_work);
--		local_irq_enable();
-+		irq_work_queue(&b->irq_work);
- 		cond_resched();
-+		irq_work_sync(&b->irq_work);
+diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers=
+/gpu/drm/i915/gt/intel_execlists_submission.c
+index bedb80057046a..1dbcac05f44eb 100644
+--- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
++++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+@@ -1284,7 +1284,7 @@ static void execlists_dequeue(struct intel_engine_cs =
+*engine)
+ 	 * and context switches) submission.
+ 	 */
+=20
+-	spin_lock(&sched_engine->lock);
++	spin_lock_irq(&sched_engine->lock);
+=20
+ 	/*
+ 	 * If the queue is higher priority than the last
+@@ -1384,7 +1384,7 @@ static void execlists_dequeue(struct intel_engine_cs =
+*engine)
+ 				 * Even if ELSP[1] is occupied and not worthy
+ 				 * of timeslices, our queue might be.
+ 				 */
+-				spin_unlock(&sched_engine->lock);
++				spin_unlock_irq(&sched_engine->lock);
+ 				return;
+ 			}
+ 		}
+@@ -1410,7 +1410,7 @@ static void execlists_dequeue(struct intel_engine_cs =
+*engine)
+=20
+ 		if (last && !can_merge_rq(last, rq)) {
+ 			spin_unlock(&ve->base.sched_engine->lock);
+-			spin_unlock(&engine->sched_engine->lock);
++			spin_unlock_irq(&engine->sched_engine->lock);
+ 			return; /* leave this for another sibling */
+ 		}
+=20
+@@ -1572,7 +1572,7 @@ static void execlists_dequeue(struct intel_engine_cs =
+*engine)
+ 	 */
+ 	sched_engine->queue_priority_hint =3D queue_prio(sched_engine);
+ 	i915_sched_engine_reset_on_empty(sched_engine);
+-	spin_unlock(&sched_engine->lock);
++	spin_unlock_irq(&sched_engine->lock);
+=20
+ 	/*
+ 	 * We can skip poking the HW if we ended up with exactly the same set
+@@ -1598,13 +1598,6 @@ static void execlists_dequeue(struct intel_engine_cs=
+ *engine)
  	}
  }
+=20
+-static void execlists_dequeue_irq(struct intel_engine_cs *engine)
+-{
+-	local_irq_disable(); /* Suspend interrupts across request submission */
+-	execlists_dequeue(engine);
+-	local_irq_enable(); /* flush irq_work (e.g. breadcrumb enabling) */
+-}
+-
+ static void clear_ports(struct i915_request **ports, int count)
+ {
+ 	memset_p((void **)ports, NULL, count);
+@@ -2424,7 +2417,7 @@ static void execlists_submission_tasklet(struct taskl=
+et_struct *t)
+ 	}
+=20
+ 	if (!engine->execlists.pending[0]) {
+-		execlists_dequeue_irq(engine);
++		execlists_dequeue(engine);
+ 		start_timeslice(engine);
+ 	}
 =20
 --=20
 2.33.1
