@@ -1,18 +1,17 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C75B43B16A
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Oct 2021 13:41:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 987F443B16E
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Oct 2021 13:41:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1982A6E82C;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 018916E56A;
 	Tue, 26 Oct 2021 11:41:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from galois.linutronix.de (Galois.linutronix.de
- [IPv6:2a0a:51c0:0:12e:550::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F33286E591;
- Tue, 26 Oct 2021 11:41:07 +0000 (UTC)
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BEE366E51C;
+ Tue, 26 Oct 2021 11:41:08 +0000 (UTC)
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
  s=2020; t=1635248466;
@@ -20,21 +19,21 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=91wFMvmS+H5j0sZQltNeaYmJvSEdrnPH6twt/4t68J8=;
- b=y0TBOErSUszGvof3+1YF5pv2xRLnZkzkrzE2GD3rv0MelTXCNzlhvtKLbU+0pHRvBHPVKl
- Lae0lNQ/L1SmEsheOrG3P0rP9yjY/6pqeYM+QvFWcovR0+QrVarkfN9dWOqsO4k6DZBugA
- /nTRNoUIAUyNogldIg2xulXve/mHBUKijw0Sz9KIbeIGXkuzcWLdcgq+jeJ3LaPgPw0TmZ
- 7/RzhVkaizq32cg22C6OBAVL4u2DEpFu0L7I15uY6s7kt4fxEAtMPpsbLHV6kGlhBO/nJt
- ADk/bnQfc49S5yeC3UmBM0q2Kjlblr2tKgB92ykjLdw7KaDDvQS+PlIbttZIvQ==
+ bh=NZdup3Ji8kBPGkW4RTEx9y7VueR9SxIvsPT7p9xwNuY=;
+ b=kWXJEEABd63YMQRTEdZn9rxlDREQnomUdn75nKlOluEGF3QoMs9lKTc7/96i7wTj/2QA5Q
+ KA0FjN+g+eESfK0G4+dWSw8GK94uICZGjvYSGMXOgyMjubIY3pSPMVHTEuUW5j0gesnxOU
+ LFqvISgc6E9o+Yp6L1sZeO2wj3IRuavnwGOYdM8kb1kxaklrbFkYIJtJq2Kh/FPH245rTy
+ ldQT3CEoOuCL8/+1s4fU4mCMI72CTK9UY1gFUvbjzimYaOn+iiGhwbQ3OLYA8HfIeFCYq9
+ VAsbiwVTQYFFgpgO6IfGoaE71/kUIGGFFx2U6IyyORaYwuctbys8T6vfnlBjLQ==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
  s=2020e; t=1635248466;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=91wFMvmS+H5j0sZQltNeaYmJvSEdrnPH6twt/4t68J8=;
- b=j5h0SiLdUHx6/j4f0wuDS6IXRt3HRNuPK9Sl3vSqy6J22ElOVtzhbwUypvnH191IF6oi3E
- ME9CsU7fmrSFxBDQ==
+ bh=NZdup3Ji8kBPGkW4RTEx9y7VueR9SxIvsPT7p9xwNuY=;
+ b=CceJB0gqJM1PtHm1ogbWxKBoFyCM5MZaIwHglwwQ6FiFn+mXb06wWONzGqCi3dAjgDlTlA
+ POdcBrwwB0XwDzBQ==
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
 Cc: Jani Nikula <jani.nikula@linux.intel.com>,
@@ -42,11 +41,13 @@ Cc: Jani Nikula <jani.nikula@linux.intel.com>,
  Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@linux.ie>,
  Daniel Vetter <daniel@ffwll.ch>, Thomas Gleixner <tglx@linutronix.de>,
  Peter Zijlstra <peterz@infradead.org>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Subject: [PATCH 4/9] drm/i915: Drop the irqs_disabled() check
-Date: Tue, 26 Oct 2021 13:40:55 +0200
-Message-Id: <20211026114100.2593433-5-bigeasy@linutronix.de>
+ Mike Galbraith <umgwanakikbuti@gmail.com>,
+ Mario Kleiner <mario.kleiner.de@gmail.com>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Subject: [PATCH 5/9] drm/i915: Use preempt_disable/enable_rt() where
+ recommended
+Date: Tue, 26 Oct 2021 13:40:56 +0200
+Message-Id: <20211026114100.2593433-6-bigeasy@linutronix.de>
 In-Reply-To: <20211026114100.2593433-1-bigeasy@linutronix.de>
 References: <20211026114100.2593433-1-bigeasy@linutronix.de>
 MIME-Version: 1.0
@@ -66,44 +67,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The !irqs_disabled() check triggers on PREEMPT_RT even with
-i915_sched_engine::lock acquired. The reason is the lock is transformed
-into a sleeping lock on PREEMPT_RT and does not disable interrupts.
+From: Mike Galbraith <umgwanakikbuti@gmail.com>
 
-There is no need to check for disabled interrupts. The lockdep
-annotation below already check if the lock has been acquired by the
-caller and will yell if the interrupts are not disabled.
+Mario Kleiner suggest in commit
+  ad3543ede630f ("drm/intel: Push get_scanout_position() timestamping into =
+kms driver.")
 
-Remove the !irqs_disabled() check.
+a spots where preemption should be disabled on PREEMPT_RT. The
+difference is that on PREEMPT_RT the intel_uncore::lock disables neither
+preemption nor interrupts and so region remains preemptible.
 
-Reported-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+The area covers only register reads and writes. The part that worries me
+is:
+- __intel_get_crtc_scanline() the worst case is 100us if no match is
+  found.
+
+- intel_crtc_scanlines_since_frame_timestamp() not sure how long this
+  may take in the worst case.
+
+It was in the RT queue for a while and nobody complained.
+Disable preemption on PREEPMPT_RT during timestamping.
+
+[bigeasy: patch description.]
+
+Cc: Mario Kleiner <mario.kleiner.de@gmail.com>
+Signed-off-by: Mike Galbraith <umgwanakikbuti@gmail.com>
+Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 ---
- drivers/gpu/drm/i915/i915_request.c | 2 --
- 1 file changed, 2 deletions(-)
+ drivers/gpu/drm/i915/i915_irq.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i91=
-5_request.c
-index 820a1f38b271e..3bbe34ff3b15a 100644
---- a/drivers/gpu/drm/i915/i915_request.c
-+++ b/drivers/gpu/drm/i915/i915_request.c
-@@ -559,7 +559,6 @@ bool __i915_request_submit(struct i915_request *request)
-=20
- 	RQ_TRACE(request, "\n");
-=20
--	GEM_BUG_ON(!irqs_disabled());
- 	lockdep_assert_held(&engine->sched_engine->lock);
-=20
- 	/*
-@@ -668,7 +667,6 @@ void __i915_request_unsubmit(struct i915_request *reque=
-st)
+diff --git a/drivers/gpu/drm/i915/i915_irq.c b/drivers/gpu/drm/i915/i915_ir=
+q.c
+index 77680bca46eec..be8faaaa60226 100644
+--- a/drivers/gpu/drm/i915/i915_irq.c
++++ b/drivers/gpu/drm/i915/i915_irq.c
+@@ -916,7 +916,8 @@ static bool i915_get_crtc_scanoutpos(struct drm_crtc *_=
+crtc,
  	 */
- 	RQ_TRACE(request, "\n");
+ 	spin_lock_irqsave(&dev_priv->uncore.lock, irqflags);
 =20
--	GEM_BUG_ON(!irqs_disabled());
- 	lockdep_assert_held(&engine->sched_engine->lock);
+-	/* preempt_disable_rt() should go right here in PREEMPT_RT patchset. */
++	if (IS_ENABLED(CONFIG_PREEMPT_RT))
++		preempt_disable();
 =20
- 	/*
+ 	/* Get optional system timestamp before query. */
+ 	if (stime)
+@@ -980,7 +981,8 @@ static bool i915_get_crtc_scanoutpos(struct drm_crtc *_=
+crtc,
+ 	if (etime)
+ 		*etime =3D ktime_get();
+=20
+-	/* preempt_enable_rt() should go right here in PREEMPT_RT patchset. */
++	if (IS_ENABLED(CONFIG_PREEMPT_RT))
++		preempt_enable();
+=20
+ 	spin_unlock_irqrestore(&dev_priv->uncore.lock, irqflags);
+=20
 --=20
 2.33.1
 
