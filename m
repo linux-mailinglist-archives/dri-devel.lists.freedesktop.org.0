@@ -2,44 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 794FB43ABB4
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Oct 2021 07:29:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 716D843ABB3
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Oct 2021 07:29:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F2B46E24D;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8CAE76E249;
 	Tue, 26 Oct 2021 05:29:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C4216E21A
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Oct 2021 05:29:24 +0000 (UTC)
-X-UUID: aa4ed3a405fa4b91bb064984ac83988e-20211026
-X-UUID: aa4ed3a405fa4b91bb064984ac83988e-20211026
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
- mailgw01.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 651104480; Tue, 26 Oct 2021 13:29:19 +0800
-Received: from mtkexhb02.mediatek.inc (172.21.101.103) by
- mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B38F6E249
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Oct 2021 05:29:25 +0000 (UTC)
+X-UUID: 80558382f46443a38dfd2b9c22d543f8-20211026
+X-UUID: 80558382f46443a38dfd2b9c22d543f8-20211026
+Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
+ mailgw02.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 994617978; Tue, 26 Oct 2021 13:29:18 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
  15.0.1497.2; Tue, 26 Oct 2021 13:29:18 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by mtkexhb02.mediatek.inc
- (172.21.101.103) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Tue, 26 Oct 2021 13:29:18 +0800
 Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas11.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
- Frontend Transport; Tue, 26 Oct 2021 13:29:17 +0800
+ Frontend Transport; Tue, 26 Oct 2021 13:29:18 +0800
 From: jason-jh.lin <jason-jh.lin@mediatek.com>
 To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel
- <p.zabel@pengutronix.de>, Matthias Brugger <matthias.bgg@gmail.com>, "Jassi
- Brar" <jassisinghbrar@gmail.com>, Yongqiang Niu <yongqiang.niu@mediatek.com>
+ <p.zabel@pengutronix.de>, Matthias Brugger <matthias.bgg@gmail.com>, Jassi
+ Brar <jassisinghbrar@gmail.com>, Yongqiang Niu <yongqiang.niu@mediatek.com>
 CC: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  "jason-jh . lin" <jason-jh.lin@mediatek.com>,
  <dri-devel@lists.freedesktop.org>, <linux-mediatek@lists.infradead.org>,
  <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
  <hsinyi@chromium.org>, <fshao@chromium.org>, <nancy.lin@mediatek.com>,
  <singo.chang@mediatek.com>
-Subject: [PATCH v4 4/5] drm/mediatek: Add cmdq_handle in mtk_crtc
-Date: Tue, 26 Oct 2021 13:29:15 +0800
-Message-ID: <20211026052916.8222-5-jason-jh.lin@mediatek.com>
+Subject: [PATCH v4 5/5] drm/mediatek: Clear pending flag when cmdq packet is
+ done
+Date: Tue, 26 Oct 2021 13:29:16 +0800
+Message-ID: <20211026052916.8222-6-jason-jh.lin@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20211026052916.8222-1-jason-jh.lin@mediatek.com>
 References: <20211026052916.8222-1-jason-jh.lin@mediatek.com>
@@ -61,138 +59,104 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+From: Yongqiang Niu <yongqiang.niu@mediatek.com>
 
-One mtk_crtc need just one cmdq_handle, so add one cmdq_handle
-in mtk_crtc to prevent frequently allocation and free of
-cmdq_handle.
+In cmdq mode, packet may be flushed before it is executed, so
+the pending flag should be cleared after cmdq packet is done.
 
-Signed-off-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
 Signed-off-by: jason-jh.lin <jason-jh.lin@mediatek.com>
 ---
- drivers/gpu/drm/mediatek/mtk_drm_crtc.c | 64 +++++++++++++++++++++++--
- 1 file changed, 60 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.c | 51 ++++++++++++++++++++++---
+ 1 file changed, 46 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-index dad1f85ee315..31f05efc1bc0 100644
+index 31f05efc1bc0..ea285795776f 100644
 --- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
 +++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-@@ -53,6 +53,7 @@ struct mtk_drm_crtc {
- 
- #if IS_REACHABLE(CONFIG_MTK_CMDQ)
- 	struct cmdq_client		cmdq_client;
-+	struct cmdq_pkt			cmdq_handle;
- 	u32				cmdq_event;
- 	u32				cmdq_vblank_cnt;
- #endif
-@@ -107,12 +108,59 @@ static void mtk_drm_finish_page_flip(struct mtk_drm_crtc *mtk_crtc)
- 	}
- }
- 
-+#if IS_REACHABLE(CONFIG_MTK_CMDQ)
-+static int mtk_drm_cmdq_pkt_create(struct cmdq_client *client, struct cmdq_pkt *pkt,
-+				   size_t size)
-+{
-+	struct device *dev;
-+	dma_addr_t dma_addr;
-+
-+	pkt->va_base = kzalloc(size, GFP_KERNEL);
-+	if (!pkt->va_base) {
-+		kfree(pkt);
-+		return -ENOMEM;
-+	}
-+	pkt->buf_size = size;
-+	pkt->cl = (void *)client;
-+
-+	dev = client->chan->mbox->dev;
-+	dma_addr = dma_map_single(dev, pkt->va_base, pkt->buf_size,
-+				  DMA_TO_DEVICE);
-+	if (dma_mapping_error(dev, dma_addr)) {
-+		dev_err(dev, "dma map failed, size=%u\n", (u32)(u64)size);
-+		kfree(pkt->va_base);
-+		kfree(pkt);
-+		return -ENOMEM;
-+	}
-+
-+	pkt->pa_base = dma_addr;
-+
-+	return 0;
-+}
-+
-+static void mtk_drm_cmdq_pkt_destroy(struct cmdq_pkt *pkt)
-+{
-+	struct cmdq_client *client = (struct cmdq_client *)pkt->cl;
-+
-+	dma_unmap_single(client->chan->mbox->dev, pkt->pa_base, pkt->buf_size,
-+			 DMA_TO_DEVICE);
-+	kfree(pkt->va_base);
-+	kfree(pkt);
-+}
-+#endif
-+
- static void mtk_drm_crtc_destroy(struct drm_crtc *crtc)
- {
- 	struct mtk_drm_crtc *mtk_crtc = to_mtk_crtc(crtc);
- 
- 	mtk_mutex_put(mtk_crtc->mutex);
-+#if IS_REACHABLE(CONFIG_MTK_CMDQ)
-+	mtk_drm_cmdq_pkt_destroy(&mtk_crtc->cmdq_handle);
- 
-+	if (mtk_crtc->cmdq_client.chan)
-+		mbox_free_channel(mtk_crtc->cmdq_client.chan);
-+				  mtk_crtc->cmdq_client.chan = NULL;
-+#endif
- 	drm_crtc_cleanup(crtc);
- }
- 
-@@ -227,12 +275,10 @@ struct mtk_ddp_comp *mtk_drm_ddp_comp_for_plane(struct drm_crtc *crtc,
+@@ -275,8 +275,42 @@ struct mtk_ddp_comp *mtk_drm_ddp_comp_for_plane(struct drm_crtc *crtc,
  #if IS_REACHABLE(CONFIG_MTK_CMDQ)
  static void ddp_cmdq_cb(struct mbox_client *cl, void *mssg)
  {
--	struct cmdq_cb_data *data = mssg;
++	struct cmdq_cb_data *data = mssg;
  	struct cmdq_client *cmdq_cl = container_of(cl, struct cmdq_client, client);
  	struct mtk_drm_crtc *mtk_crtc = container_of(cmdq_cl, struct mtk_drm_crtc, cmdq_client);
++	struct mtk_crtc_state *state;
++	unsigned int i;
++
++	if (data->sta < 0)
++		return;
++
++	state = to_mtk_crtc_state(mtk_crtc->base.state);
++
++	state->pending_config = false;
++
++	if (mtk_crtc->pending_planes) {
++		for (i = 0; i < mtk_crtc->layer_nr; i++) {
++			struct drm_plane *plane = &mtk_crtc->planes[i];
++			struct mtk_plane_state *plane_state;
++
++			plane_state = to_mtk_plane_state(plane->state);
++
++			plane_state->pending.config = false;
++		}
++		mtk_crtc->pending_planes = false;
++	}
++
++	if (mtk_crtc->pending_async_planes) {
++		for (i = 0; i < mtk_crtc->layer_nr; i++) {
++			struct drm_plane *plane = &mtk_crtc->planes[i];
++			struct mtk_plane_state *plane_state;
++
++			plane_state = to_mtk_plane_state(plane->state);
++
++			plane_state->pending.async_config = false;
++		}
++		mtk_crtc->pending_async_planes = false;
++	}
  
  	mtk_crtc->cmdq_vblank_cnt = 0;
--	cmdq_pkt_destroy(data->pkt);
  }
- #endif
+@@ -432,7 +466,8 @@ static void mtk_crtc_ddp_config(struct drm_crtc *crtc,
+ 				    state->pending_vrefresh, 0,
+ 				    cmdq_handle);
  
-@@ -438,7 +484,7 @@ static void mtk_drm_crtc_update_config(struct mtk_drm_crtc *mtk_crtc,
- 				       bool needs_vblank)
- {
- #if IS_REACHABLE(CONFIG_MTK_CMDQ)
--	struct cmdq_pkt *cmdq_handle;
-+	struct cmdq_pkt *cmdq_handle = &mtk_crtc->cmdq_handle;
- #endif
- 	struct drm_crtc *crtc = &mtk_crtc->base;
- 	struct mtk_drm_private *priv = crtc->dev->dev_private;
-@@ -478,7 +524,7 @@ static void mtk_drm_crtc_update_config(struct mtk_drm_crtc *mtk_crtc,
- #if IS_REACHABLE(CONFIG_MTK_CMDQ)
- 	if (mtk_crtc->cmdq_client.chan) {
- 		mbox_flush(mtk_crtc->cmdq_client.chan, 2000);
--		cmdq_handle = cmdq_pkt_create(&mtk_crtc->cmdq_client, PAGE_SIZE);
-+		cmdq_handle->cmd_buf_size = 0;
- 		cmdq_pkt_clear_event(cmdq_handle, mtk_crtc->cmdq_event);
- 		cmdq_pkt_wfe(cmdq_handle, mtk_crtc->cmdq_event, false);
- 		mtk_crtc_ddp_config(crtc, cmdq_handle);
-@@ -877,6 +923,16 @@ int mtk_drm_crtc_create(struct drm_device *drm_dev,
- 				drm_crtc_index(&mtk_crtc->base));
- 			mbox_free_channel(mtk_crtc->cmdq_client.chan);
- 			mtk_crtc->cmdq_client.chan = NULL;
-+		} else {
-+			ret = mtk_drm_cmdq_pkt_create(&mtk_crtc->cmdq_client,
-+						      &mtk_crtc->cmdq_handle,
-+						      PAGE_SIZE);
-+			if (ret) {
-+				dev_dbg(dev, "mtk_crtc %d failed to create cmdq packet\n",
-+					drm_crtc_index(&mtk_crtc->base));
-+				mbox_free_channel(mtk_crtc->cmdq_client.chan);
-+				mtk_crtc->cmdq_client.chan = NULL;
-+			}
- 		}
+-		state->pending_config = false;
++		if (!cmdq_handle)
++			state->pending_config = false;
  	}
- #endif
+ 
+ 	if (mtk_crtc->pending_planes) {
+@@ -452,9 +487,12 @@ static void mtk_crtc_ddp_config(struct drm_crtc *crtc,
+ 				mtk_ddp_comp_layer_config(comp, local_layer,
+ 							  plane_state,
+ 							  cmdq_handle);
+-			plane_state->pending.config = false;
++			if (!cmdq_handle)
++				plane_state->pending.config = false;
+ 		}
+-		mtk_crtc->pending_planes = false;
++
++		if (!cmdq_handle)
++			mtk_crtc->pending_planes = false;
+ 	}
+ 
+ 	if (mtk_crtc->pending_async_planes) {
+@@ -474,9 +512,12 @@ static void mtk_crtc_ddp_config(struct drm_crtc *crtc,
+ 				mtk_ddp_comp_layer_config(comp, local_layer,
+ 							  plane_state,
+ 							  cmdq_handle);
+-			plane_state->pending.async_config = false;
++			if (!cmdq_handle)
++				plane_state->pending.async_config = false;
+ 		}
+-		mtk_crtc->pending_async_planes = false;
++
++		if (!cmdq_handle)
++			mtk_crtc->pending_async_planes = false;
+ 	}
+ }
+ 
 -- 
 2.18.0
 
