@@ -1,66 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A461F43BA6C
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Oct 2021 21:11:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D104143BA71
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Oct 2021 21:13:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 56DF36E48C;
-	Tue, 26 Oct 2021 19:11:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5455A89E19;
+	Tue, 26 Oct 2021 19:13:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com
- [IPv6:2607:f8b0:4864:20::62c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 327806E48C
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Oct 2021 19:11:23 +0000 (UTC)
-Received: by mail-pl1-x62c.google.com with SMTP id n11so253590plf.4
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Oct 2021 12:11:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=0h1RnUd5PARdrga1EYHETqmlrMDbPxICwyZdeM0MwaA=;
- b=Xgp1RRotfKk+B9adJOK8VfJB9qYti/n8D/hDo+cpgwU6AhDUqB/LP910crAIqywtWH
- pj/VUbnzA5JRa2fwp7v3cimNE7Q3RYUM4pAADt0m5RJcj2PSTRQdGIskQCj+ShFCZAOP
- IseWPteey1fvnTyLaJNuXJjhL9ZY+GZi1M1TQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=0h1RnUd5PARdrga1EYHETqmlrMDbPxICwyZdeM0MwaA=;
- b=w+blpr4fQhlz2XdvDuDdjfkmeKLlBIDiDeA2pZoNyBBlLS+nstDce0BNSmF3Z3FF61
- 5G+ASBEQExz8UoAGAffgAEn0/hrHvh7Kz9Ukay/4PPuZ51eApwXkzMwt5Jk8jNwhRELJ
- nfHmkP9LNUSsf0mHxG2QaolydSKcGZwUhbHTT8e1SE9HOXBGR/0uUui2vLKikTo63bCl
- WEP91kW0Acw+p3rRDQBNgvlRcUjSJk191Jpxr+wJgxKEGqh0J6REuXYhSv9zglqId+08
- QtCqjOKSzGEUFIaqkizXL8diWvBmy/plJC5tcTqQ/0X+hWULE8DnIqy/HkPVvpNNqcG8
- aHyA==
-X-Gm-Message-State: AOAM531hKhaSRDyW17WdGG5eHGivWj0LxNxMPckwF2lAAV13k67uWw8h
- toRGS6rd13eCMXj9JPyV/axJ5Q==
-X-Google-Smtp-Source: ABdhPJy92bVOEeUiK1EZRoh5T4Mty2fOyhWuZ9REegD827EDvnT+LjJNQytmWJd7ymsywJ+4wm7imQ==
-X-Received: by 2002:a17:90a:af93:: with SMTP id
- w19mr730703pjq.10.1635275477955; 
- Tue, 26 Oct 2021 12:11:17 -0700 (PDT)
-Received: from philipchen.mtv.corp.google.com
- ([2620:15c:202:201:dad:6684:6674:b268])
- by smtp.gmail.com with ESMTPSA id il17sm1591179pjb.52.2021.10.26.12.11.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Oct 2021 12:11:17 -0700 (PDT)
-From: Philip Chen <philipchen@chromium.org>
-To: LKML <linux-kernel@vger.kernel.org>
-Cc: dianders@chromium.org, swboyd@chromium.org,
- Philip Chen <philipchen@chromium.org>, Andrzej Hajda <a.hajda@samsung.com>,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Robert Foss <robert.foss@linaro.org>, dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 2/2] drm/bridge: parade-ps8640: Populate devices on aux-bus
-Date: Tue, 26 Oct 2021 12:11:10 -0700
-Message-Id: <20211026121058.v3.2.I09899dea340f11feab97d719cb4b62bef3179e4b@changeid>
-X-Mailer: git-send-email 2.33.0.1079.g6e70778dc9-goog
-In-Reply-To: <20211026121058.v3.1.I9d81c3b44f350707b5373d00524af77c4aae862b@changeid>
-References: <20211026121058.v3.1.I9d81c3b44f350707b5373d00524af77c4aae862b@changeid>
+Received: from mx1.smtp.larsendata.com (mx1.smtp.larsendata.com
+ [91.221.196.215])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1079189E19
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Oct 2021 19:13:19 +0000 (UTC)
+Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
+ by mx1.smtp.larsendata.com (Halon) with ESMTPS
+ id cbdd36ae-3690-11ec-9c3f-0050568c148b;
+ Tue, 26 Oct 2021 19:13:26 +0000 (UTC)
+Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
+ [80.162.45.141])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: sam@ravnborg.org)
+ by mail01.mxhotel.dk (Postfix) with ESMTPSA id 2ABEA194B90;
+ Tue, 26 Oct 2021 21:13:17 +0200 (CEST)
+Date: Tue, 26 Oct 2021 21:13:15 +0200
+X-Report-Abuse-To: abuse@mxhotel.dk
+From: Sam Ravnborg <sam@ravnborg.org>
+To: "H. Nikolaus Schaller" <hns@goldelico.com>
+Cc: Paul Cercueil <paul@crapouillou.net>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Paul Boddie <paul@boddie.org.uk>, list@opendingux.net,
+ linux-mips@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [RESEND PATCH v3 0/6] drm/ingenic: Various improvements v3
+Message-ID: <YXhTS4vIRZg++3F9@ravnborg.org>
+References: <20211026181240.213806-1-paul@crapouillou.net>
+ <4CBF748C-DA58-4E8B-A6E4-A7CE653F2C52@goldelico.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <4CBF748C-DA58-4E8B-A6E4-A7CE653F2C52@goldelico.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,141 +57,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Conventionally, panel is listed under the root of the device tree.
-When userland asks for display mode, ps8640 bridge is responsible
-for returning EDID when ps8640_bridge_get_edid() is called.
+Hi Nikolaus,
+On Tue, Oct 26, 2021 at 08:50:19PM +0200, H. Nikolaus Schaller wrote:
+> Hi Paul,
+> 
+> > Am 26.10.2021 um 20:12 schrieb Paul Cercueil <paul@crapouillou.net>:
+> > 
+> > Hi,
+> > 
+> > I resend the V3 of my patchset for drm/ingenic, verbatim.
+> > 
+> > The previous submission of my V3 received a lot of replies, but none of
+> > these replies were actually talking about the patches themselves.
+> 
+> Indeed. And since we have finally managed to add jz4780 HDMI support
+> (I didn't find to work in the latest comments) on top of the series as is,
+> please go ahead and add my
+> 
+> tested-by: Nikolaus Schaller <hns@goldelico.com>
+Capital T, but I expect Paul to fix it.
 
-Now enable a new option of listing panel under "aux-bus" of ps8640
-bridge node in the device tree. In this case, panel driver can retrieve
-EDID by triggering AUX transactions, without ps8640_bridge_get_edid()
-calls at all.
+If you have read the patches it would be good if you could add an
+Acked-by: or Reviewed-by: tag on the individual patches.
+Paul are not supposed to apply the patches until someone claims they have
+looked at the patches, documented by one of these tags.
 
-To prevent the "old" and "new" options from interfering with each
-other's logic flow, disable DRM_BRIDGE_OP_EDID when the new option
-is taken.
+And I have no head to do so myself today.
 
-Signed-off-by: Philip Chen <philipchen@chromium.org>
-Reviewed-by: Stephen Boyd <swboyd@chromium.org>
----
-
-Changes in v3:
-- Fix when to call of_node_put() in ps8640_of_panel_on_aux_bus()
-
-Changes in v2:
-- Add of_node_put() calls in ps8640_of_panel_on_aux_bus()
-- Select DRM_DP_AUX_BUS for PS8640 driver in Kconfig
-- Replace _put_sync() with _put_sync_suspend() in ps8640_post_disable()
-
- drivers/gpu/drm/bridge/Kconfig         |  1 +
- drivers/gpu/drm/bridge/parade-ps8640.c | 53 +++++++++++++++++++-------
- 2 files changed, 41 insertions(+), 13 deletions(-)
-
-diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
-index 431b6e12a81f..61db5a66b493 100644
---- a/drivers/gpu/drm/bridge/Kconfig
-+++ b/drivers/gpu/drm/bridge/Kconfig
-@@ -182,6 +182,7 @@ config DRM_PARADE_PS8622
- config DRM_PARADE_PS8640
- 	tristate "Parade PS8640 MIPI DSI to eDP Converter"
- 	depends on OF
-+	select DRM_DP_AUX_BUS
- 	select DRM_KMS_HELPER
- 	select DRM_MIPI_DSI
- 	select DRM_PANEL
-diff --git a/drivers/gpu/drm/bridge/parade-ps8640.c b/drivers/gpu/drm/bridge/parade-ps8640.c
-index ac42a3473770..e737f1a27f30 100644
---- a/drivers/gpu/drm/bridge/parade-ps8640.c
-+++ b/drivers/gpu/drm/bridge/parade-ps8640.c
-@@ -14,6 +14,7 @@
- #include <linux/regulator/consumer.h>
- 
- #include <drm/drm_bridge.h>
-+#include <drm/drm_dp_aux_bus.h>
- #include <drm/drm_dp_helper.h>
- #include <drm/drm_mipi_dsi.h>
- #include <drm/drm_of.h>
-@@ -149,7 +150,24 @@ static inline struct ps8640 *aux_to_ps8640(struct drm_dp_aux *aux)
- 	return container_of(aux, struct ps8640, aux);
- }
- 
--static void ps8640_ensure_hpd(struct ps8640 *ps_bridge)
-+static bool ps8640_of_panel_on_aux_bus(struct device *dev)
-+{
-+	struct device_node *bus, *panel;
-+
-+	bus = of_get_child_by_name(dev->of_node, "aux-bus");
-+	if (!bus)
-+		return false;
-+
-+	panel = of_get_child_by_name(bus, "panel");
-+	of_node_put(bus);
-+	if (!panel)
-+		return false;
-+	of_node_put(panel);
-+
-+	return true;
-+}
-+
-+static int ps8640_ensure_hpd(struct ps8640 *ps_bridge)
- {
- 	struct regmap *map = ps_bridge->regmap[PAGE2_TOP_CNTL];
- 	struct device *dev = &ps_bridge->page[PAGE2_TOP_CNTL]->dev;
-@@ -556,17 +574,6 @@ static int ps8640_probe(struct i2c_client *client)
- 	if (!ps_bridge)
- 		return -ENOMEM;
- 
--	/* port@1 is ps8640 output port */
--	ret = drm_of_find_panel_or_bridge(np, 1, 0, &panel, NULL);
--	if (ret < 0)
--		return ret;
--	if (!panel)
--		return -ENODEV;
--
--	ps_bridge->panel_bridge = devm_drm_panel_bridge_add(dev, panel);
--	if (IS_ERR(ps_bridge->panel_bridge))
--		return PTR_ERR(ps_bridge->panel_bridge);
--
- 	ps_bridge->supplies[0].supply = "vdd33";
- 	ps_bridge->supplies[1].supply = "vdd12";
- 	ret = devm_regulator_bulk_get(dev, ARRAY_SIZE(ps_bridge->supplies),
-@@ -589,9 +596,16 @@ static int ps8640_probe(struct i2c_client *client)
- 
- 	ps_bridge->bridge.funcs = &ps8640_bridge_funcs;
- 	ps_bridge->bridge.of_node = dev->of_node;
--	ps_bridge->bridge.ops = DRM_BRIDGE_OP_EDID;
- 	ps_bridge->bridge.type = DRM_MODE_CONNECTOR_eDP;
- 
-+	/*
-+	 * In the device tree, if panel is listed under aux-bus of the bridge
-+	 * node, panel driver should be able to retrieve EDID by itself using
-+	 * aux-bus. So let's not set DRM_BRIDGE_OP_EDID here.
-+	 */
-+	if (!ps8640_of_panel_on_aux_bus(&client->dev))
-+		ps_bridge->bridge.ops = DRM_BRIDGE_OP_EDID;
-+
- 	ps_bridge->page[PAGE0_DP_CNTL] = client;
- 
- 	ps_bridge->regmap[PAGE0_DP_CNTL] = devm_regmap_init_i2c(client, ps8640_regmap_config);
-@@ -630,6 +644,19 @@ static int ps8640_probe(struct i2c_client *client)
- 	if (ret)
- 		return ret;
- 
-+	devm_of_dp_aux_populate_ep_devices(&ps_bridge->aux);
-+
-+	/* port@1 is ps8640 output port */
-+	ret = drm_of_find_panel_or_bridge(np, 1, 0, &panel, NULL);
-+	if (ret < 0)
-+		return ret;
-+	if (!panel)
-+		return -ENODEV;
-+
-+	ps_bridge->panel_bridge = devm_drm_panel_bridge_add(dev, panel);
-+	if (IS_ERR(ps_bridge->panel_bridge))
-+		return PTR_ERR(ps_bridge->panel_bridge);
-+
- 	drm_bridge_add(&ps_bridge->bridge);
- 
- 	return 0;
--- 
-2.33.0.1079.g6e70778dc9-goog
-
+	Sam
