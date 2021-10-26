@@ -2,69 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 814E643A9B7
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Oct 2021 03:28:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57B8343A9BD
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Oct 2021 03:30:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 68DFD6E1D7;
-	Tue, 26 Oct 2021 01:28:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C3B936E1F7;
+	Tue, 26 Oct 2021 01:30:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x833.google.com (mail-qt1-x833.google.com
- [IPv6:2607:f8b0:4864:20::833])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 58E5B6E1D7
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Oct 2021 01:28:54 +0000 (UTC)
-Received: by mail-qt1-x833.google.com with SMTP id c28so12033627qtv.11
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Oct 2021 18:28:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=poorly.run; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=hh45oPDn94gNypIm1FQKgEgGeN239lum/jZyUe6g9nY=;
- b=U2dYK2PV3BxgyM+7d822+Ew8Y5DSy6+gsGjm/wl0fPr+ZF2fi3mJ0IGMLrSZXSuxNn
- qqBGh9pVxQ6I7KBKWXtlf+3sGcm9y4iSx8uLS5V5/oah9ex0fpysu4UGghJCAM4SYXGJ
- FM62r0guNt1biyKMGwfkAUDqX9Rw4xGPLTRDnsnSbjv1Oc2Sin0YLjoSptdYRK+xY7JJ
- Fk7MkGG6yDX9WVesysklP7VAyMb9RG98TFoYnBER2IJElQSEnSwFHiAcxJGIqefMX9AC
- +Z6JUwys1RyJg30ReZKj0RBpc8k1XZfW8esNdah9WY73zuLQpGoqqbHm8WPXl0SZviKp
- jzEg==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 860C66E1F2
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Oct 2021 01:30:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1635211817;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=tgXMA3BrRhOniqxXRIBV1pJtvUVvtvT46cVR8aAsSEQ=;
+ b=aUafzLPwDYab+bat/3L3EUbqbaXeZsXTBKyYLxpY2/EsNTe4rGcOBhSfPyoKxx0J9rlCwF
+ t6ed2xO5IO/d92Phcw39//35n0fC4TMe+Q8L2BF+PFymImvA2S+Bc4l1menbkWGa1Hsopn
+ DggasnXAtGoMNDYvSRvFCpqk7UgYWCM=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-571-2rGdun2NM8aYdWMhZTzECQ-1; Mon, 25 Oct 2021 21:30:16 -0400
+X-MC-Unique: 2rGdun2NM8aYdWMhZTzECQ-1
+Received: by mail-qv1-f72.google.com with SMTP id
+ dc4-20020a056214174400b003853fe024bfso2170757qvb.13
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Oct 2021 18:30:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=hh45oPDn94gNypIm1FQKgEgGeN239lum/jZyUe6g9nY=;
- b=rMn5d4KfnXTHVzRPpRQ2OI1DhDB/ajTU2Y7S0SLrx/Be5Y2Ti1AfX8pVir3Ml+VFcx
- 4MgqX99xNOPqEQrUOHTVPaD12BsQ96FFUHo2VeUJ+a7EB8ZtxXo3N9foTNrQjAyQFH7F
- GwwBwxSRy6RnvfeTZTolEB5r98CAZteXcIy2ZBXUGRYwmKnEuy2vcg520Acqjn501BKc
- rgqE2/jeU6DSlkZsLynvm2dojNQfXaYaB/AFhhxdKDR0PKQs1SnjiMCuhCbJTGhiM29H
- yDhTO7QFPvSpbbrFgch1ZApRVwL2dIfaLRJEP20uhSYM3wupA3HJ3gq6pancAzdb93qa
- mBVw==
-X-Gm-Message-State: AOAM5334HNLCvAG7F0LIMY+Ghr3T3vFDZaFHVjS5XqabUyKaZGl4Mq0e
- j9kVKtcSeXbCQA7OqUmqsBKhEQ==
-X-Google-Smtp-Source: ABdhPJw79deyD9lBHGmREWUAqpL3YQFMBNdQygVadCb4kqmWCWsyXxVF3unQOWHfWut9doYx00CuoQ==
-X-Received: by 2002:a05:622a:199c:: with SMTP id
- u28mr21723399qtc.153.1635211733222; 
- Mon, 25 Oct 2021 18:28:53 -0700 (PDT)
-Received: from localhost ([167.100.64.199])
- by smtp.gmail.com with ESMTPSA id b8sm9463851qtr.82.2021.10.25.18.28.52
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Mon, 25 Oct 2021 18:28:52 -0700 (PDT)
-Date: Mon, 25 Oct 2021 21:28:51 -0400
-From: Sean Paul <sean@poorly.run>
-To: Mark Yacoub <markyacoub@chromium.org>
-Cc: linux-mediatek@lists.infradead.org, seanpaul@chromium.org,
- Mark Yacoub <markyacoub@google.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Matthias Brugger <matthias.bgg@gmail.com>, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/mediatek: Set Rotation default value to 1.
-Message-ID: <20211026012851.GH2515@art_vandelay>
-References: <20211022165409.178281-1-markyacoub@chromium.org>
- <20211026011154.GE2515@art_vandelay>
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:organization
+ :user-agent:mime-version:content-transfer-encoding;
+ bh=tgXMA3BrRhOniqxXRIBV1pJtvUVvtvT46cVR8aAsSEQ=;
+ b=xZx03Mcqc9b2wKDFRZsnJ0sXAg5ZTMr+ssjFQLLFW3hdgVtKIkm4z2YANQwOL0+yCv
+ z3exTK67QwcVLb5oFHv64kvwf3vh9Rvk8bzloqHE+LDUZ1BSwRZRMSO3/a8Y9/FoqJvJ
+ siDXX6omY1WxLwZr9Lo63u+rpRgF8yMWFpTIYqqLv4Fvj3VRK1/pKF9sHegVG5f9jk8i
+ mFGTlSK6KbAkemWp9HfUJp1wXoQtgsiTUtNryWAzYpxnwVJdrqQpU0uenW3Cvwp8yug/
+ qOXxw/srlPSLXBS8pM06flk2eRnTzjpxcy23C/NWkM0D+JwaMTgwFH3pliYMJ8xAC9u4
+ 9gGw==
+X-Gm-Message-State: AOAM531NZEUI0DGmJKBQQ+UitDqJXIMXZdmxF/x8NNAlp3uNOF704Uic
+ VVytq5NEKy/e5hA+6RcRtAk/wsT1mI5/AVtlq+bNZtaSGRzfpgVg3XCME6o6obSmnbNsMYE3utk
+ KSoO8pKR4rmCUgUFR5s0ifEF2i7uf
+X-Received: by 2002:a05:620a:4621:: with SMTP id
+ br33mr14286632qkb.436.1635211815861; 
+ Mon, 25 Oct 2021 18:30:15 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzFScchRf0T8WqzucShcSUH6rIDZE5L50dgnvYrs/YJkClN+IHMF49zWA6iuJF9H4xehg+inA==
+X-Received: by 2002:a05:620a:4621:: with SMTP id
+ br33mr14286612qkb.436.1635211815617; 
+ Mon, 25 Oct 2021 18:30:15 -0700 (PDT)
+Received: from [192.168.8.138] (pool-96-230-249-157.bstnma.fios.verizon.net.
+ [96.230.249.157])
+ by smtp.gmail.com with ESMTPSA id h25sm9390294qkk.65.2021.10.25.18.30.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 25 Oct 2021 18:30:15 -0700 (PDT)
+Message-ID: <e0e3cb4ea8b6f2d08e8d07a2ad3b25a2dca4570e.camel@redhat.com>
+Subject: [PULL] topic/amdgpu-dp2.0-mst
+From: Lyude Paul <lyude@redhat.com>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Sean Paul <sean@poorly.run>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ dri-devel@lists.freedesktop.org,  intel-gfx@lists.freedesktop.org,
+ dim-tools@lists.freedesktop.org
+Date: Mon, 25 Oct 2021 21:30:14 -0400
+Organization: Red Hat
+User-Agent: Evolution 3.40.4 (3.40.4-2.fc34)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211026011154.GE2515@art_vandelay>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,140 +90,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Oct 25, 2021 at 09:11:54PM -0400, Sean Paul wrote:
-> On Fri, Oct 22, 2021 at 12:54:02PM -0400, Mark Yacoub wrote:
-> > From: Mark Yacoub <markyacoub@google.com>
-> > 
-> > [Why]
-> > The Rotation prob is a bitmask value. It must always have a valid value.
-> 
-> nit: s/prob/prop/
-> 
-> > A default NO rotation is equal to 1 not 0.
-> > 
-> > [How]
-> > 1. At the reset hook, call __drm_atomic_helper_plane_reset which is
-> > called at the initialization of the plane and sets the default value of
-> > all planes to DRM_MODE_ROTATE_0 which is equal to 1.
-> > 2. At the ovl layer check, do no overwrite the state->rotation value 0
-> > if DRM_MODE_ROTATE_0 is set. We should not change the value that the
-> > userspace has set, especially if it's an unsupported value.
-> 
-> nit: I would probably split these into 2 patches since they're related but
-> different
+topic/amdgpu-dp2.0-mst-2021-10-25:
+UAPI Changes:
+Nope!
 
-Did you decide not to remove the default value from the plane rotation value? I
-still think we should do that.
+Cross-subsystem Changes:
+drm_dp_update_payload_part1() takes a new argument for specifying what the
+VCPI slot start is
 
-Sean
+Core Changes:
+Make the DP MST helpers aware of the current starting VCPI slot/VCPI total
+slot count...
 
-> 
-> Sean
-> 
-> > 
-> > Tested on Jacuzzi(MTK).
-> > Fixes IGT@kms_properties@plane-properties-{legacy,atomic} and
-> > IGT@kms_properties@get_properties-sanity-{atomic,non-atomic}
-> > 
-> > Signed-off-by: Mark Yacoub <markyacoub@chromium.org>
-> > ---
-> >  drivers/gpu/drm/mediatek/mtk_disp_drv.h     |  2 +-
-> >  drivers/gpu/drm/mediatek/mtk_disp_ovl.c     | 20 +++++++-------------
-> >  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h |  5 ++---
-> >  drivers/gpu/drm/mediatek/mtk_drm_plane.c    |  3 ++-
-> >  4 files changed, 12 insertions(+), 18 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/mediatek/mtk_disp_drv.h b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-> > index 86c3068894b11..2fc566964f68e 100644
-> > --- a/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-> > +++ b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-> > @@ -64,7 +64,7 @@ void mtk_ovl_config(struct device *dev, unsigned int w,
-> >  		    unsigned int h, unsigned int vrefresh,
-> >  		    unsigned int bpc, struct cmdq_pkt *cmdq_pkt);
-> >  int mtk_ovl_layer_check(struct device *dev, unsigned int idx,
-> > -			struct mtk_plane_state *mtk_state);
-> > +			const struct mtk_plane_state *mtk_state);
-> >  void mtk_ovl_layer_config(struct device *dev, unsigned int idx,
-> >  			  struct mtk_plane_state *state,
-> >  			  struct cmdq_pkt *cmdq_pkt);
-> > diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-> > index ea5760f856ec6..13999564304bc 100644
-> > --- a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-> > +++ b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-> > @@ -190,19 +190,15 @@ unsigned int mtk_ovl_supported_rotations(struct device *dev)
-> >  }
-> >  
-> >  int mtk_ovl_layer_check(struct device *dev, unsigned int idx,
-> > -			struct mtk_plane_state *mtk_state)
-> > +			const struct mtk_plane_state *mtk_state)
-> >  {
-> > -	struct drm_plane_state *state = &mtk_state->base;
-> > -	unsigned int rotation = 0;
-> > +	const struct drm_plane_state *state = &mtk_state->base;
-> > +	unsigned int rotation = drm_rotation_simplify(
-> > +		state->rotation,
-> > +		DRM_MODE_ROTATE_0 | DRM_MODE_REFLECT_X | DRM_MODE_REFLECT_Y);
-> >  
-> > -	rotation = drm_rotation_simplify(state->rotation,
-> > -					 DRM_MODE_ROTATE_0 |
-> > -					 DRM_MODE_REFLECT_X |
-> > -					 DRM_MODE_REFLECT_Y);
-> > -	rotation &= ~DRM_MODE_ROTATE_0;
-> > -
-> > -	/* We can only do reflection, not rotation */
-> > -	if ((rotation & DRM_MODE_ROTATE_MASK) != 0)
-> > +	/* We can only do reflection, not non-zero rotation */
-> > +	if (((rotation & ~DRM_MODE_ROTATE_0) & DRM_MODE_ROTATE_MASK) != 0)
-> >  		return -EINVAL;
-> >  
-> >  	/*
-> > @@ -212,8 +208,6 @@ int mtk_ovl_layer_check(struct device *dev, unsigned int idx,
-> >  	if (state->fb->format->is_yuv && rotation != 0)
-> >  		return -EINVAL;
-> >  
-> > -	state->rotation = rotation;
-> > -
-> >  	return 0;
-> >  }
-> >  
-> > diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
-> > index 1b582262b682b..530bdd031933f 100644
-> > --- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
-> > +++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
-> > @@ -53,9 +53,8 @@ struct mtk_ddp_comp_funcs {
-> >  	void (*disable_vblank)(struct device *dev);
-> >  	unsigned int (*supported_rotations)(struct device *dev);
-> >  	unsigned int (*layer_nr)(struct device *dev);
-> > -	int (*layer_check)(struct device *dev,
-> > -			   unsigned int idx,
-> > -			   struct mtk_plane_state *state);
-> > +	int (*layer_check)(struct device *dev, unsigned int idx,
-> > +			   const struct mtk_plane_state *state);
-> >  	void (*layer_config)(struct device *dev, unsigned int idx,
-> >  			     struct mtk_plane_state *state,
-> >  			     struct cmdq_pkt *cmdq_pkt);
-> > diff --git a/drivers/gpu/drm/mediatek/mtk_drm_plane.c b/drivers/gpu/drm/mediatek/mtk_drm_plane.c
-> > index e6dcb34d30522..accd26481b9fb 100644
-> > --- a/drivers/gpu/drm/mediatek/mtk_drm_plane.c
-> > +++ b/drivers/gpu/drm/mediatek/mtk_drm_plane.c
-> > @@ -44,9 +44,10 @@ static void mtk_plane_reset(struct drm_plane *plane)
-> >  		state = kzalloc(sizeof(*state), GFP_KERNEL);
-> >  		if (!state)
-> >  			return;
-> > -		plane->state = &state->base;
-> >  	}
-> >  
-> > +	__drm_atomic_helper_plane_reset(plane, &state->base);
-> > +
-> >  	state->base.plane = plane;
-> >  	state->pending.format = DRM_FORMAT_RGB565;
-> >  }
-> > -- 
-> > 2.33.0.1079.g6e70778dc9-goog
-> > 
-> 
-> -- 
-> Sean Paul, Software Engineer, Google / Chromium OS
+Driver Changes:
+...and then add support for taking advantage of this for 128b/132b links on DP
+2.0 for amdgpu
+The following changes since commit 6f2f7c83303d2227f47551423e507d77d9ea01c7:
 
--- 
-Sean Paul, Software Engineer, Google / Chromium OS
+  Merge tag 'drm-intel-gt-next-2021-10-21' of
+git://anongit.freedesktop.org/drm/drm-intel into drm-next (2021-10-22 06:30:34
++1000)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm-misc tags/topic/amdgpu-dp2.0-mst-2021-
+10-25
+
+for you to fetch changes up to 41724ea273cdda5261db4fabd6bfb1375fbc96b2:
+
+  drm/amd/display: Add DP 2.0 MST DM Support (2021-10-25 21:21:09 -0400)
+
+----------------------------------------------------------------
+UAPI Changes:
+Nope!
+
+Cross-subsystem Changes:
+drm_dp_update_payload_part1() takes a new argument for specifying what the
+VCPI slot start is
+
+Core Changes:
+Make the DP MST helpers aware of the current starting VCPI slot/VCPI total
+slot count...
+
+Driver Changes:
+...and then add support for taking advantage of this for 128b/132b links on DP
+2.0 for amdgpu
+
+----------------------------------------------------------------
+Bhawanpreet Lakha (3):
+      drm: Remove slot checks in dp mst topology during commit
+      drm: Update MST First Link Slot Information Based on Encoding Format
+      drm/amd/display: Add DP 2.0 MST DM Support
+
+Fangzhi Zuo (1):
+      drm/amd/display: Add DP 2.0 MST DC Support
+
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |  29 ++
+ .../drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c  |   3 +
+ .../drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c  |   5 +-
+ drivers/gpu/drm/amd/display/dc/core/dc.c           |  14 +
+ drivers/gpu/drm/amd/display/dc/core/dc_link.c      | 292
++++++++++++++++++++++
+ drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c   |  19 ++
+ drivers/gpu/drm/amd/display/dc/dc_link.h           |   7 +
+ drivers/gpu/drm/amd/display/dc/dc_stream.h         |  13 +
+ drivers/gpu/drm/drm_dp_mst_topology.c              |  42 ++-
+ drivers/gpu/drm/i915/display/intel_dp_mst.c        |   4 +-
+ drivers/gpu/drm/nouveau/dispnv50/disp.c            |   2 +-
+ drivers/gpu/drm/radeon/radeon_dp_mst.c             |   4 +-
+ include/drm/drm_dp_mst_helper.h                    |   5 +-
+ 13 files changed, 423 insertions(+), 16 deletions(-)
+
+
