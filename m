@@ -2,59 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86DFA43BA73
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Oct 2021 21:14:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93C0143BA9B
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Oct 2021 21:21:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF8B86E854;
-	Tue, 26 Oct 2021 19:14:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 121AC6E855;
+	Tue, 26 Oct 2021 19:21:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com
- [IPv6:2607:f8b0:4864:20::b2a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E1096E854
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Oct 2021 19:14:33 +0000 (UTC)
-Received: by mail-yb1-xb2a.google.com with SMTP id v7so335326ybq.0
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Oct 2021 12:14:33 -0700 (PDT)
+Received: from mail-qt1-x82c.google.com (mail-qt1-x82c.google.com
+ [IPv6:2607:f8b0:4864:20::82c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D87976E859
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Oct 2021 19:21:08 +0000 (UTC)
+Received: by mail-qt1-x82c.google.com with SMTP id g17so240545qtk.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Oct 2021 12:21:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=e1Od3r3qPkF5gqs5aFmgK4aW8UvHyGg0exs5u3kOpa0=;
- b=ANzzsKfUm9vSae7g+ybUBDvg9jE+GcvmfzWlk3f7mugii25iwlmsDsODDryutvtCle
- DYcAu8yQ1+qtB3rdAr0j2/QtXBaxgDqTXvW30azJttqgblP4hgrCe3DUQgtAojRuQkOI
- NspzrKmW2XpvnQaumNP/BjfaD7B8eqoaL6F20=
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=127m+2Fwn/io7KvRr/KOS7xqYguoXNnwDnCZDuDXMls=;
+ b=RjhlVtWGRH4NjzWs8qEsffk9kM4I6eskC3WyXwXekquU/6FsHhbHoDWqRQ38FJhFj3
+ OVKmUSkhG6dYmEXVnhONtOqwcfox1NOnxhpB5SyqTHS8vqpmAtEDeKS6Yv22i/k1TPDq
+ Opcyro3k6lKG+TnIb7/tD9lpHOawtLLtfNAr8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=e1Od3r3qPkF5gqs5aFmgK4aW8UvHyGg0exs5u3kOpa0=;
- b=AOU9oG/Qn27Svw7emii+mRKGSbKvuuF7ovig2DhfvVKlbUc4VM5KFnPlGopGimd+nb
- 3R4S10IYkb+wUbE5ztbSHn2GjTpdXE9zSR8xiVlldHswnbYkutz9F39jDmyOYr6lddK/
- VJ0AQt57mNWfODd2jTT0/Q5MhbYRfQNq9F1pJVKpu5J1rMEpRmAwWsWN+fAATfGAoYw7
- lDsbdsYR312CHTRs5DG6GBsZhbcELpPZjKYj4KNOLsb5dOOFYMMz0VvtIxhM/tQSmqND
- TR7leEcT0dUpVTxNoZafSSs89hin2XZZbPxSxZUk40xsk3pKLIGu+m+4mM/+pwUiQdXO
- x/Mg==
-X-Gm-Message-State: AOAM5302aQlCfuLLKpdUhpjFu9jjBrkGkolFAc+G4g0ZtW/kkiWoNl7s
- KxEzD6TKR1v5Y14C1grHDaMuqZH/dyypZwRiltfI/w==
-X-Google-Smtp-Source: ABdhPJxC8ykyO0LlKiUPOTjbY7wYtV5Eg4VAmMAB9V5oV/P2EMLduP9B6fK+tqolSIZhDs36vR9F3kQvl0EBYn/xQV0=
-X-Received: by 2002:a25:ea48:: with SMTP id o8mr25556562ybe.14.1635275671133; 
- Tue, 26 Oct 2021 12:14:31 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=127m+2Fwn/io7KvRr/KOS7xqYguoXNnwDnCZDuDXMls=;
+ b=zyZVWfyNvXr6yrzD7/RiJ5dio7dzh1bgg3LPmRVA0QxDwxUJv4g+gLrSvt+wI9s+df
+ olZtKrwtE68JWkq4dig0qw34JeWu74OnCg5/xbIaPH+oXCddhxuYuR/QPfmtFQGY5fwg
+ bUs9teiKvXirlVLW36/3sP9pDFIPpvDh4uDcdA16iXYdhATacWzn4tgfuKJ/uBK3itYu
+ ID0nmUlCnzMt0qBKYld5nMSaudfvwGFFM35dqavx4bUzbYJWJA0GDYTHlMOWsXMsOpMi
+ reEeuCrfBBABZwbrJsx7MMgbHwLrbGvANw+XHcLgoUUCVpOaqExYzI4dh3423IJMKmIH
+ +frA==
+X-Gm-Message-State: AOAM532pcQDmp6dFBQpzQVFIveBscW/KmmG5RNmyA2mUz1B7FN06wmh0
+ W16HgAYzEBUzB5WsNG72cT4giA==
+X-Google-Smtp-Source: ABdhPJxIvSKMXHMgOqR+0IzuDBjRv51mc+McEVmOd74PDkMDAluxSEORKPdsy6BHd6I0NnJCw5RNHQ==
+X-Received: by 2002:ac8:7087:: with SMTP id y7mr3457600qto.112.1635276067936; 
+ Tue, 26 Oct 2021 12:21:07 -0700 (PDT)
+Received: from markyacoub.nyc.corp.google.com
+ ([2620:0:1003:314:6c5e:8134:a5e1:b63b])
+ by smtp.gmail.com with ESMTPSA id c13sm2284643qtc.42.2021.10.26.12.21.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 26 Oct 2021 12:21:07 -0700 (PDT)
+From: Mark Yacoub <markyacoub@chromium.org>
+To: 
+Cc: seanpaul@chromium.org, pmenzel@molgen.mpg.de,
+ Mark Yacoub <markyacoub@google.com>, Mark Yacoub <markyacoub@chromium.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org
+Subject: [PATCH v3 1/3] drm: Rename lut check functions to lut channel checks
+Date: Tue, 26 Oct 2021 15:21:00 -0400
+Message-Id: <20211026192104.1860504-1-markyacoub@chromium.org>
+X-Mailer: git-send-email 2.33.0.1079.g6e70778dc9-goog
 MIME-Version: 1.0
-References: <20211021140552.v2.1.I9d81c3b44f350707b5373d00524af77c4aae862b@changeid>
- <CAE-0n50zgG963E-xPA3H7NJd9=iAQaV5YYdrN9zHPsTj93TE-A@mail.gmail.com>
-In-Reply-To: <CAE-0n50zgG963E-xPA3H7NJd9=iAQaV5YYdrN9zHPsTj93TE-A@mail.gmail.com>
-From: Philip Chen <philipchen@chromium.org>
-Date: Tue, 26 Oct 2021 12:14:20 -0700
-Message-ID: <CA+cxXhnXVJYs3Q31N8iG+Dt5b+BLTenWan1i=ooPs2kwZq8Peg@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] drm/bridge: parade-ps8640: Enable runtime power
- management
-To: Stephen Boyd <swboyd@chromium.org>
-Cc: LKML <linux-kernel@vger.kernel.org>, dianders@chromium.org, 
- Andrzej Hajda <a.hajda@samsung.com>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@linux.ie>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Neil Armstrong <narmstrong@baylibre.com>, Robert Foss <robert.foss@linaro.org>,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,186 +75,115 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+From: Mark Yacoub <markyacoub@google.com>
 
-On Mon, Oct 25, 2021 at 1:05 PM Stephen Boyd <swboyd@chromium.org> wrote:
->
-> Quoting Philip Chen (2021-10-21 14:05:59)
-> > Fit ps8640 driver into runtime power management framework:
-> >
-> > First, break _poweron() to 3 parts: (1) turn on power and wait for
-> > ps8640's internal MCU to finish init (2) check panel HPD (which is
-> > proxied by GPIO9) (3) the other configs. As runtime_resume() can be
-> > called before panel is powered, we only add (1) to _resume() and leave
-> > (2)(3) to _pre_enable(). We also add (2) to _aux_transfer() as we want
-> > to ensure panel HPD is asserted before we start AUX CH transactions.
-> >
-> > The original driver has a mysterious delay of 50 ms between (2) and
-> > (3). Since Parade's support can't explain what the delay is for, and we
-> > don't see removing the delay break any boards at hand, remove the dalay
->
-> s/dalay/delay/
-Thanks.
-I've fixed it in v3.
->
-> > to fit into this driver change.
-> >
-> > Besides, rename "powered" to "pre_enabled" and don't check for it in
->
-> "Besides" doesn't make sense here. Probably "In addition" or "Also"?
-Thanks.
-I've fixed it in v3.
->
-> > the pm_runtime calls. The pm_runtime calls are already refcounted so
-> > there's no reason to check there. The other user of "powered",
-> > _get_edid(), only cares if pre_enable() has already been called.
-> >
-> > Lastly, change some existing DRM_...() logging to dev_...() along the
-> > way, since DRM_...() seem to be deprecated in [1].
-> >
-> > [1] https://patchwork.freedesktop.org/patch/454760/
-> >
-> > Signed-off-by: Philip Chen <philipchen@chromium.org>
-> > Reviewed-by: Douglas Anderson <dianders@chromium.org>
-> > ---
-> > diff --git a/drivers/gpu/drm/bridge/parade-ps8640.c b/drivers/gpu/drm/bridge/parade-ps8640.c
-> > index 3aaa90913bf8..220ca3b03d24 100644
-> > --- a/drivers/gpu/drm/bridge/parade-ps8640.c
-> > +++ b/drivers/gpu/drm/bridge/parade-ps8640.c
-> > @@ -148,6 +149,25 @@ static inline struct ps8640 *aux_to_ps8640(struct drm_dp_aux *aux)
-> >         return container_of(aux, struct ps8640, aux);
-> >  }
-> >
-> > +static void ps8640_ensure_hpd(struct ps8640 *ps_bridge)
-> > +{
-> > +       struct regmap *map = ps_bridge->regmap[PAGE2_TOP_CNTL];
-> > +       struct device *dev = &ps_bridge->page[PAGE2_TOP_CNTL]->dev;
-> > +       int status;
-> > +       int ret;
-> > +
-> > +       /*
-> > +        * Apparently something about the firmware in the chip signals that
-> > +        * HPD goes high by reporting GPIO9 as high (even though HPD isn't
-> > +        * actually connected to GPIO9).
-> > +        */
-> > +       ret = regmap_read_poll_timeout(map, PAGE2_GPIO_H, status,
-> > +                               status & PS_GPIO9, 20 * 1000, 200 * 1000);
-> > +
-> > +       if (ret < 0)
-> > +               dev_warn(dev, "HPD didn't go high: %d", ret);
->
-> Missing newline on the print message.
-Thanks.
-I've fixed it in v3.
->
-> > +}
-> > +
-> >  static ssize_t ps8640_aux_transfer(struct drm_dp_aux *aux,
-> >                                    struct drm_dp_aux_msg *msg)
-> >  {
-> > @@ -171,6 +191,9 @@ static ssize_t ps8640_aux_transfer(struct drm_dp_aux *aux,
-> >         if (msg->address & ~SWAUX_ADDR_MASK)
-> >                 return -EINVAL;
-> >
-> > +       pm_runtime_get_sync(dev);
-> > +       ps8640_ensure_hpd(ps_bridge);
->
-> Shouldn't we bail out of here with an error if we can't ensure hpd?
-Sounds about right.
-I fixed this in v3.
-PTAL.
->
-> > +
-> >         switch (request) {
-> >         case DP_AUX_NATIVE_WRITE:
-> >         case DP_AUX_NATIVE_READ:
-> > @@ -180,14 +203,15 @@ static ssize_t ps8640_aux_transfer(struct drm_dp_aux *aux,
-> >         case DP_AUX_I2C_READ:
-> >                 break;
-> >         default:
-> > -               return -EINVAL;
-> > +               ret = -EINVAL;
-> > +               goto exit;
-> >         }
-> >
-> >         ret = regmap_write(map, PAGE0_AUXCH_CFG3, AUXCH_CFG3_RESET);
-> >         if (ret) {
-> >                 DRM_DEV_ERROR(dev, "failed to write PAGE0_AUXCH_CFG3: %d\n",
-> >                               ret);
-> > -               return ret;
-> > +               goto exit;
-> >         }
-> >
-> >         /* Assume it's good */
-> > @@ -213,7 +237,7 @@ static ssize_t ps8640_aux_transfer(struct drm_dp_aux *aux,
-> >                                 DRM_DEV_ERROR(dev,
-> >                                               "failed to write WDATA: %d\n",
-> >                                               ret);
-> > -                               return ret;
-> > +                               goto exit;
-> >                         }
-> >                 }
-> >         }
-> > @@ -228,7 +252,7 @@ static ssize_t ps8640_aux_transfer(struct drm_dp_aux *aux,
-> >         if (ret) {
-> >                 DRM_DEV_ERROR(dev, "failed to read PAGE0_SWAUX_STATUS: %d\n",
-> >                               ret);
-> > -               return ret;
-> > +               goto exit;
-> >         }
-> >
-> >         switch (data & SWAUX_STATUS_MASK) {
-> > @@ -250,9 +274,11 @@ static ssize_t ps8640_aux_transfer(struct drm_dp_aux *aux,
-> >                 len = data & SWAUX_M_MASK;
-> >                 break;
-> >         case SWAUX_STATUS_INVALID:
-> > -               return -EOPNOTSUPP;
-> > +               ret = -EOPNOTSUPP;
-> > +               goto exit;
-> >         case SWAUX_STATUS_TIMEOUT:
-> > -               return -ETIMEDOUT;
-> > +               ret = -ETIMEDOUT;
-> > +               goto exit;
-> >         }
-> >
-> >         if (len && (request == DP_AUX_NATIVE_READ ||
->
-> It may be simpler to understand the diff if the transfer function still
-> exited the same way and a small wrapper function was put around this to
-> do the runtime PM operations.
-Thanks for the suggestion.
-I've posted v3 following this route.
-PTAL.
+[Why]
+This function and enum do not do generic checking on the luts but they
+test color channels in the LUTs.
+Keeping the name explicit as more generic LUT checks will follow.
 
->
->
->         pm_runtime_get_sync();
->         if (ps8640_hpd_asserted())
->                 ret = ps8640_aux_transfer_msg();
->         pm_runtime_mark_last_busy();
->         pm_runtime_put_autosuspend();
->
->         return ret;
->
->
-> > @@ -587,6 +611,13 @@ static int ps8640_probe(struct i2c_client *client)
-> >         ps_bridge->aux.transfer = ps8640_aux_transfer;
-> >         drm_dp_aux_init(&ps_bridge->aux);
-> >
-> > +       pm_runtime_enable(dev);
-> > +       pm_runtime_set_autosuspend_delay(dev, 500);
->
-> Presumably 500 is chosen because the message transfer speed is faster
-> than that? Can we get a comment in the code for that?
-Added a comment in v3.
-PTAL.
+Tested on Eldrid ChromeOS (TGL).
 
->
-> > +       pm_runtime_use_autosuspend(dev);
-> > +       ret = devm_add_action_or_reset(dev, ps8640_runtime_disable, dev);
-> > +       if (ret)
-> > +               return ret;
-> > +
-> >         drm_bridge_add(&ps_bridge->bridge);
-> >
-> >         return 0;
+Signed-off-by: Mark Yacoub <markyacoub@chromium.org>
+---
+ drivers/gpu/drm/drm_color_mgmt.c           | 12 ++++++------
+ drivers/gpu/drm/i915/display/intel_color.c | 10 +++++-----
+ include/drm/drm_color_mgmt.h               |  7 ++++---
+ 3 files changed, 15 insertions(+), 14 deletions(-)
+
+diff --git a/drivers/gpu/drm/drm_color_mgmt.c b/drivers/gpu/drm/drm_color_mgmt.c
+index bb14f488c8f6c..6f4e04746d90f 100644
+--- a/drivers/gpu/drm/drm_color_mgmt.c
++++ b/drivers/gpu/drm/drm_color_mgmt.c
+@@ -585,17 +585,17 @@ int drm_plane_create_color_properties(struct drm_plane *plane,
+ EXPORT_SYMBOL(drm_plane_create_color_properties);
+ 
+ /**
+- * drm_color_lut_check - check validity of lookup table
++ * drm_color_lut_channels_check - check validity of the channels in the lookup table
+  * @lut: property blob containing LUT to check
+  * @tests: bitmask of tests to run
+  *
+- * Helper to check whether a userspace-provided lookup table is valid and
+- * satisfies hardware requirements.  Drivers pass a bitmask indicating which of
+- * the tests in &drm_color_lut_tests should be performed.
++ * Helper to check whether each color channel of userspace-provided lookup table is valid and
++ * satisfies hardware requirements. Drivers pass a bitmask indicating which of in
++ * &drm_color_lut_channels_tests should be performed.
+  *
+  * Returns 0 on success, -EINVAL on failure.
+  */
+-int drm_color_lut_check(const struct drm_property_blob *lut, u32 tests)
++int drm_color_lut_channels_check(const struct drm_property_blob *lut, u32 tests)
+ {
+ 	const struct drm_color_lut *entry;
+ 	int i;
+@@ -625,4 +625,4 @@ int drm_color_lut_check(const struct drm_property_blob *lut, u32 tests)
+ 
+ 	return 0;
+ }
+-EXPORT_SYMBOL(drm_color_lut_check);
++EXPORT_SYMBOL(drm_color_lut_channels_check);
+diff --git a/drivers/gpu/drm/i915/display/intel_color.c b/drivers/gpu/drm/i915/display/intel_color.c
+index dab892d2251ba..4bb1bc76c4de9 100644
+--- a/drivers/gpu/drm/i915/display/intel_color.c
++++ b/drivers/gpu/drm/i915/display/intel_color.c
+@@ -1285,7 +1285,7 @@ static int check_luts(const struct intel_crtc_state *crtc_state)
+ 	const struct drm_property_blob *gamma_lut = crtc_state->hw.gamma_lut;
+ 	const struct drm_property_blob *degamma_lut = crtc_state->hw.degamma_lut;
+ 	int gamma_length, degamma_length;
+-	u32 gamma_tests, degamma_tests;
++	u32 gamma_channels_tests, degamma_channels_tests;
+ 
+ 	/* Always allow legacy gamma LUT with no further checking. */
+ 	if (crtc_state_is_legacy_gamma(crtc_state))
+@@ -1300,15 +1300,15 @@ static int check_luts(const struct intel_crtc_state *crtc_state)
+ 
+ 	degamma_length = INTEL_INFO(dev_priv)->color.degamma_lut_size;
+ 	gamma_length = INTEL_INFO(dev_priv)->color.gamma_lut_size;
+-	degamma_tests = INTEL_INFO(dev_priv)->color.degamma_lut_tests;
+-	gamma_tests = INTEL_INFO(dev_priv)->color.gamma_lut_tests;
++	degamma_channels_tests = INTEL_INFO(dev_priv)->color.degamma_lut_tests;
++	gamma_channels_tests = INTEL_INFO(dev_priv)->color.gamma_lut_tests;
+ 
+ 	if (check_lut_size(degamma_lut, degamma_length) ||
+ 	    check_lut_size(gamma_lut, gamma_length))
+ 		return -EINVAL;
+ 
+-	if (drm_color_lut_check(degamma_lut, degamma_tests) ||
+-	    drm_color_lut_check(gamma_lut, gamma_tests))
++	if (drm_color_lut_channels_check(degamma_lut, degamma_channels_tests) ||
++	    drm_color_lut_channels_check(gamma_lut, gamma_channels_tests))
+ 		return -EINVAL;
+ 
+ 	return 0;
+diff --git a/include/drm/drm_color_mgmt.h b/include/drm/drm_color_mgmt.h
+index 81c298488b0c8..cb1bf361ad3e3 100644
+--- a/include/drm/drm_color_mgmt.h
++++ b/include/drm/drm_color_mgmt.h
+@@ -94,12 +94,12 @@ int drm_plane_create_color_properties(struct drm_plane *plane,
+ 				      enum drm_color_range default_range);
+ 
+ /**
+- * enum drm_color_lut_tests - hw-specific LUT tests to perform
++ * enum drm_color_lut_channels_tests - hw-specific LUT tests to perform
+  *
+  * The drm_color_lut_check() function takes a bitmask of the values here to
+  * determine which tests to apply to a userspace-provided LUT.
+  */
+-enum drm_color_lut_tests {
++enum drm_color_lut_channels_tests {
+ 	/**
+ 	 * @DRM_COLOR_LUT_EQUAL_CHANNELS:
+ 	 *
+@@ -119,5 +119,6 @@ enum drm_color_lut_tests {
+ 	DRM_COLOR_LUT_NON_DECREASING = BIT(1),
+ };
+ 
+-int drm_color_lut_check(const struct drm_property_blob *lut, u32 tests);
++int drm_color_lut_channels_check(const struct drm_property_blob *lut,
++				 u32 tests);
+ #endif
+-- 
+2.33.0.1079.g6e70778dc9-goog
+
