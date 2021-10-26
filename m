@@ -1,53 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7763A43AD3C
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Oct 2021 09:34:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B563043ACA1
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Oct 2021 09:08:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C04789DB2;
-	Tue, 26 Oct 2021 07:34:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A2126E1F4;
+	Tue, 26 Oct 2021 07:07:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 480 seconds by postgrey-1.36 at gabe;
- Tue, 26 Oct 2021 06:18:32 UTC
-Received: from out0.migadu.com (out0.migadu.com [94.23.1.103])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 447E06E2B4
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Oct 2021 06:18:32 +0000 (UTC)
-Message-ID: <1d60192a-0eec-70ed-9c3c-8e6f3866d99c@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1635228629;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=oBQbtnpH+00gV7mBGAxGI5OEydFCoAjp1v+/FzoQd1k=;
- b=J+BKMrUXFE4YEUzli0oDEhIbt38gYW1tEOzDBCtkYly1rEGQeGMsw8UvDnRTiDbVeiugqj
- fA6eoevDZXQa+EntqUz6Tjr9ZMV23IJQ3P/aTu3vyJDm4LOzFlrVPGXAUHj7QufCLzyQNX
- bsGXPfbtlWYVe8wBSURqPlQfF0UPRa0=
-Date: Tue, 26 Oct 2021 09:10:26 +0300
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 33ACA6E1F4;
+ Tue, 26 Oct 2021 07:07:55 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10148"; a="253373691"
+X-IronPort-AV: E=Sophos;i="5.87,182,1631602800"; d="scan'208";a="253373691"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Oct 2021 00:07:54 -0700
+X-IronPort-AV: E=Sophos;i="5.87,182,1631602800"; d="scan'208";a="572263750"
+Received: from fnygreen-mobl1.ger.corp.intel.com (HELO
+ thellstr-mobl1.intel.com) ([10.249.254.182])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Oct 2021 00:07:52 -0700
+From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Cc: maarten.lankhorst@linux.intel.com, matthew.auld@intel.com,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+Subject: [PATCH 0/3] Prepare error capture for asynchronous migration
+Date: Tue, 26 Oct 2021 09:07:41 +0200
+Message-Id: <20211026070744.337554-1-thomas.hellstrom@linux.intel.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Subject: Re: [PATCH for-next 0/3] EFA dmabuf memory regions
-Content-Language: en-US
-To: Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Doug Ledford <dledford@redhat.com>, Jason Gunthorpe <jgg@ziepe.ca>
-Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org,
- Oded Gabbay <ogabbay@habana.ai>, Tomer Tayar <ttayar@habana.ai>,
- Yossi Leybovich <sleybo@amazon.com>, Alexander Matushevsky
- <matua@amazon.com>, Leon Romanovsky <leonro@nvidia.com>,
- Jianxin Xiong <jianxin.xiong@intel.com>, Firas Jahjah <firasj@amazon.com>
-References: <20211012120903.96933-1-galpress@amazon.com>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Gal Pressman <gal.pressman@linux.dev>
-In-Reply-To: <20211012120903.96933-1-galpress@amazon.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
-X-Migadu-Auth-User: gal.pressman@linux.dev
-X-Mailman-Approved-At: Tue, 26 Oct 2021 07:33:59 +0000
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,40 +49,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/10/2021 15:09, Gal Pressman wrote:
-> Hey all,
->
-> This is a followup to my previous RFCs [1][2], which now adds a new api
-> to the RDMA subsystem that allows drivers to get a pinned dmabuf memory
-> region without requiring an implementation of the move_notify callback.
-> The new api makes use of the dynamic attachment api implemented in the
-> RDMA subsystem, but calls dma_buf_pin() in order to make sure that the
-> callback will not be called, as suggested by Christian.
->
-> As explained in the previous RFC, move_notify requires the RDMA device
-> to support on-demand-paging (ODP) which is not common on most devices
-> (only supported by mlx5).
->
-> While the dynamic requirement makes sense for certain GPUs, some devices
-> (such as habanalabs) have device memory that is always "pinned" and do
-> not need/use the move_notify operation.
->
-> Patch #1 changes the dmabuf documentation to make it clear that pinning
-> does not necessarily mean the memory must be moved to system memory, it
-> is up to the exporter to decide.
-> Patch #2 adds the RDMA api that allows drivers to get pinned dmabuf
-> memory regions.
-> Patch #3 adds the EFA implementation of the dmabuf importer.
->
-> The motivation of this submission is to use habanalabs as the dmabuf
-> exporter, and EFA as the importer to allow for peer2peer access through
-> libibverbs.
->
-> [1] https://lore.kernel.org/linux-rdma/20210818074352.29950-1-galpress@amazon.com/
-> [2] https://lore.kernel.org/linux-rdma/20211007104301.76693-1-galpress@amazon.com/
->
-> Thanks
+This patch series prepares error capture for asynchronous migration,
+where the vma pages may not reflect the pages the GPU is currently
+executing from but may be several migrations ahead.
 
+The first patch deals with refcounting sg-list so that they don't
+disappear under the capture code, which typically otherwise happens at
+put_pages() time.
 
-Hey Jason, did you get a chance to take a look?
+The second patch introduces vma state snapshots that record the vma state
+at request submission time. It also updates the memory allocation mode to
+reflect that error capture may and will happen in the dma-fence signalling
+critical path, and finally takes additional measures to make sure that
+the capture list and request is not disappearing from under us while
+capturing. The latter may otherwise happen if a heartbeat triggered parallel
+capture is running during a manual reset which retires the request.
+
+Finally the last patch is more of a POC patch and not strictly needed yet,
+but will be (or at least something very similar) soon for async unbinding.
+It will make sure that unbinding doesn't complete or signal completion
+before capture is done. Async reuse of memory can't happen until unbinding
+signals complete and without waiting for capture done, we might capture
+contents of reused memory.
+Before the last patch the vma active is instead still keeping the vma alive,
+but that will not work with async unbinding anymore, and also it is still
+not clear how we guarantee keeping the vma alive long enough to even
+grab an active reference during capture.
+
+Thomas Hellström (3):
+  drm/i915: Introduce refcounted sg-tables
+  drm/i915: Update error capture code to avoid using the current vma
+    state
+  drm/i915: Initial introduction of vma resources
+
+ drivers/gpu/drm/i915/Makefile                 |   1 +
+ .../gpu/drm/i915/gem/i915_gem_execbuffer.c    | 143 ++++++++++---
+ drivers/gpu/drm/i915/gem/i915_gem_object.h    |   4 +-
+ .../gpu/drm/i915/gem/i915_gem_object_types.h  |   3 +-
+ drivers/gpu/drm/i915/gem/i915_gem_shmem.c     |  16 +-
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.c       | 188 ++++++++++-------
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c     |   8 +-
+ .../drm/i915/gt/intel_execlists_submission.c  |   2 +-
+ drivers/gpu/drm/i915/i915_gpu_error.c         | 180 +++++++++++-----
+ drivers/gpu/drm/i915/i915_request.c           |  63 ++++--
+ drivers/gpu/drm/i915/i915_request.h           |  18 +-
+ drivers/gpu/drm/i915/i915_scatterlist.c       |  62 ++++--
+ drivers/gpu/drm/i915/i915_scatterlist.h       |  76 ++++++-
+ drivers/gpu/drm/i915/i915_vma.c               | 192 +++++++++++++++++-
+ drivers/gpu/drm/i915/i915_vma.h               |  15 +-
+ drivers/gpu/drm/i915/i915_vma_snapshot.c      | 131 ++++++++++++
+ drivers/gpu/drm/i915/i915_vma_snapshot.h      | 112 ++++++++++
+ drivers/gpu/drm/i915/i915_vma_types.h         |   5 +
+ drivers/gpu/drm/i915/intel_region_ttm.c       |  15 +-
+ drivers/gpu/drm/i915/intel_region_ttm.h       |   5 +-
+ drivers/gpu/drm/i915/selftests/mock_region.c  |  12 +-
+ 21 files changed, 1026 insertions(+), 225 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/i915_vma_snapshot.c
+ create mode 100644 drivers/gpu/drm/i915/i915_vma_snapshot.h
+
+-- 
+2.31.1
 
