@@ -1,60 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A36E543B13E
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Oct 2021 13:28:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BA5E543B149
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Oct 2021 13:34:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E83E96E41A;
-	Tue, 26 Oct 2021 11:28:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E9BA89C6B;
+	Tue, 26 Oct 2021 11:34:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
- [IPv6:2a00:1450:4864:20::42a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E6B06E41A
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Oct 2021 11:28:01 +0000 (UTC)
-Received: by mail-wr1-x42a.google.com with SMTP id o14so1339212wra.12
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Oct 2021 04:28:01 -0700 (PDT)
+Received: from mail-qt1-x834.google.com (mail-qt1-x834.google.com
+ [IPv6:2607:f8b0:4864:20::834])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9920B89C6B
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Oct 2021 11:34:27 +0000 (UTC)
+Received: by mail-qt1-x834.google.com with SMTP id z24so13124005qtv.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Oct 2021 04:34:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=nGTPimRUuQbXsjAfFE7Aj9Gc6Sbu9jVHcvTKPzpMRu4=;
- b=IuviMdSjZoRXW1PJrQe9UBhSVcEm7ke1qGcg1WIWDjEbTHDYTdNUMIgd0OlPxyO3Ep
- hZsa3KIE/HlJeKw7BlbBbdUEFJfFWOvCIVQp+5PBDhT7GqEt3b6jU+w3En0/9LKmeoAs
- 1MZdqvlmhJhaRhZWb7ZApWiNMkebcM3P9nfSy3poHtRzOUjbeBcbprLIHQK6FZRNoFFd
- 6dP6G+wcPGAF2sMXkZumMiZFOzMV9fzrRF7vqC2G2bgmh9wYfQhQED0qpRGtPmr4AtC4
- 2aQ/oQRbe1dSJWL2OPQpwJAEEweW+2HldSxZLBTO7gzVnnHyh6SbQUwjRhOlgI0XK63A
- G+fQ==
+ bh=R5UZTg1sZBkeJ19IyTUC1E5QPJHjay85a0uFZoDfyhM=;
+ b=o7jzUohXr8D/usUm6CDPnWYFpwsRaqSx+LxcON45Ma/Zl6oD2fRN/kqvYQSmLX0tmb
+ M9ci75IhirycGa9GiA9F78cJ44EC3d6ZSdv1G1vmUexxeKcvfKd8ygantClj1PWNLPZZ
+ Gks3t5qBdtWKXUHDOz4UPVnahrSvcb3LyrAuic+uInbQFM7RZN34xjP9mUVSZwOgbrbr
+ AcMECCNtHaWOGrC4ftuLo4ehTzP7v7eILaGNwiKrrcD/mkOIKBU+OtgodPLZAa5d3Ri4
+ QvRk3Xnpiz5I9FJ1DIIaSjb2wyyZ1ReFG362s08zY4R7//dSP13ltNrEaxZcaMsogV6p
+ bG3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=nGTPimRUuQbXsjAfFE7Aj9Gc6Sbu9jVHcvTKPzpMRu4=;
- b=2MpSFctw3waQ7wGYBSac8DoNum7nPmfHoPD8tNlSxS6U/7LpcMersixRYNA7dvfRQG
- n5kDT1Cqn+6oHtj5Z2ZxUXRc1GPkPNWV0zctMLc7VW9kU89dcZIf9/NuL+FJPQ1F0pvO
- S2REa0QIJU8PazB/OZXSe29j3itUpgKK6ZsI4Fl1Z6Dgt6A/pzb3wuzJiYn+aMcY4Xuv
- vDw7Mf8BljhppAj1E2QmSMIrjvbQkSEmH+x0pUqjD98EeqTvrkuKlJTYy56H19TbB8FI
- 1drKQ3o+02o7ehh1AnKdjjQlmxjSvHbA11Ir2i8lfEeahRoniHGugBW/UWtikksS/Jdj
- L7BQ==
-X-Gm-Message-State: AOAM531/7qd51euA5yiKaXmWKsezhZORB/splxuVzWSIIfSlcfHfXfCT
- y5ZZ1CauHf6Xn/ceu5JT+Yo=
-X-Google-Smtp-Source: ABdhPJz32JLoL1jJ6kI3SgRClrG3OUb/6s1YV6t+rLNL+YuvzOPoEnuWWLafwZCAs1iX5qvQuCF1Rw==
-X-Received: by 2002:adf:9b84:: with SMTP id d4mr29199200wrc.393.1635247680130; 
- Tue, 26 Oct 2021 04:28:00 -0700 (PDT)
-Received: from cerbero.fritz.box (93-41-150-160.ip82.fastwebnet.it.
- [93.41.150.160])
- by smtp.gmail.com with ESMTPSA id n11sm9288810wrs.14.2021.10.26.04.27.59
+ bh=R5UZTg1sZBkeJ19IyTUC1E5QPJHjay85a0uFZoDfyhM=;
+ b=foExHoIE1h1kWGXgbDymbXg0p4mTACehrjkU74qipFEfWUxOcEyyM6TCrwENz77AHC
+ vX4Dw78ngS/WILgtKvmdE+8YT4qkg1nN/SXZl+NsWfyN5rwk5K4n6sauX1zoLTUaDbip
+ c7s6fY0KqbUs6IJqgalAnFo8aDOIRMXtku4mckXRzi7E4Cd3v4mg2UT4pHqyhndXVbpw
+ kKPzP1w48P0df+AsROecLHowRd5tnbk9BxrFv9K8tYieeITURMJBM5Pzj5E2KixsffIA
+ uEY6n37PJzxCg/cjagx0BwzG9h9X7OXAxS8TE0nWWkxS3KpO2ThrTzdXZ5tiJ2mE+8BJ
+ 3eJw==
+X-Gm-Message-State: AOAM531JimgHvE934pJsXp93nXwler2ZW7TARM7sh2CyYKRLMjkKuwEO
+ q1DVB1gf1NYBZ0r0yn4YDDE=
+X-Google-Smtp-Source: ABdhPJy6NijxBuFlTjT5EnsQFBU3D+RgSg2fvPcQ6/Nwp39wKsyzxHy1dfOUGDeCNQUQJpfkjikbJg==
+X-Received: by 2002:ac8:7d92:: with SMTP id c18mr24108324qtd.388.1635248066187; 
+ Tue, 26 Oct 2021 04:34:26 -0700 (PDT)
+Received: from localhost.localdomain ([2804:431:c7f4:5469:b11e:67b8:49d2:1744])
+ by smtp.googlemail.com with ESMTPSA id f3sm11117691qko.32.2021.10.26.04.34.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Oct 2021 04:27:59 -0700 (PDT)
-From: Mario <awxkrnl@gmail.com>
-To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@linux.ie, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Cc: Mario <awxkrnl@gmail.com>
-Subject: [PATCH v2] drm: panel-orientation-quirks: Add quirk for GPD Win3
-Date: Tue, 26 Oct 2021 13:27:37 +0200
-Message-Id: <20211026112737.9181-1-awxkrnl@gmail.com>
-X-Mailer: git-send-email 2.33.1
+ Tue, 26 Oct 2021 04:34:25 -0700 (PDT)
+From: Igor Torrente <igormtorrente@gmail.com>
+To: rodrigosiqueiramelo@gmail.com, melissa.srw@gmail.com, ppaalanen@gmail.com,
+ tzimmermann@suse.de
+Cc: Igor Torrente <igormtorrente@gmail.com>, hamohammed.sa@gmail.com,
+ daniel@ffwll.ch, airlied@linux.ie, contact@emersion.fr,
+ leandro.ribeiro@collabora.com, dri-devel@lists.freedesktop.org
+Subject: [PATCH v2 0/8] Add new formats support to vkms
+Date: Tue, 26 Oct 2021 08:34:00 -0300
+Message-Id: <20211026113409.7242-1-igormtorrente@gmail.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -72,30 +72,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fixes screen orientation for GPD Win 3 handheld gaming console.
+Summary
+=======
+This series of patches refactor some vkms components in order to introduce
+new formats to the planes and writeback connector.
 
-Signed-off-by: Mario Risoldi <awxkrnl@gmail.com>
+Now in the blend function, the plane's pixels are converted to ARGB16161616
+and then blended together.
+
+The CRC is calculated based on the ARGB1616161616 buffer. And if required,
+this buffer is copied/converted to the writeback buffer format.
+
+And to handle the pixel conversion, new functions were added to convert
+from a specific format to ARGB16161616 (the reciprocal is also true).
+
+Tests
+=====
+This patch series was tested using the following igt tests:
+-t ".*kms_plane.*"
+-t ".*kms_writeback.*"
+-t ".*kms_cursor_crc*"
+-t ".*kms_flip.*"
+
+New tests passing
+-------------------
+- pipe-A-cursor-size-change
+- pipe-A-cursor-alpha-transparent
+
+Performance
+-----------
+Following some optimization proposed by Pekka Paalanen, now the code
+runs way faster than V1 and slightly faster than the current implementation.
+
+|                          Frametime                          |
+|:---------------:|:---------:|:--------------:|:------------:|
+|  implmentation  |  Current  |  Per-pixel(V1) | Per-line(V2) |
+| frametime range |  8~22 ms  |    32~56 ms    |    6~19 ms   |
+|     Average     |  10.0 ms  |     35.8 ms    |    8.6 ms    |
+
+Writeback test
+--------------
+During the development of this patch series, I discovered that the
+writeback-check-output test wasn't filling the plane correctly.
+
+So, currently, this patch series is failing in this test. But I sent a
+patch to igt to fix it[1].
+
+XRGB to ARGB behavior
+=====================
+During the development, I decided to always fill the alpha channel of
+the output pixel whenever the conversion from a format without an alpha
+channel to ARGB16161616 is necessary. Therefore, I ignore the value
+received from the XRGB and overwrite the value with 0xFFFF.
+
 ---
- drivers/gpu/drm/drm_panel_orientation_quirks.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+Igor Torrente (8):
+  drm: vkms: Replace the deprecated drm_mode_config_init
+  drm: vkms: Alloc the compose frame using vzalloc
+  drm: vkms: Replace hardcoded value of `vkms_composer.map` to
+    DRM_FORMAT_MAX_PLANES
+  drm: vkms: Add fb information to `vkms_writeback_job`
+  drm: drm_atomic_helper: Add a new helper to deal with the writeback
+    connector validation
+  drm: vkms: Refactor the plane composer to accept new formats
+  drm: vkms: Exposes ARGB_1616161616 and adds XRGB_16161616 formats
+  drm: vkms: Add support to the RGB565 format
 
-diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-index f6bdec7fa925..f6177c1d9872 100644
---- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
-+++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-@@ -185,6 +185,12 @@ static const struct dmi_system_id orientation_data[] = {
- 		  DMI_EXACT_MATCH(DMI_BOARD_NAME, "Default string"),
- 		},
- 		.driver_data = (void *)&gpd_win2,
-+	}, {	/* GPD Win 3 */
-+		.matches = {
-+		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "GPD"),
-+		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "G1618-03")
-+		},
-+		.driver_data = (void *)&lcd720x1280_rightside_up,
- 	}, {	/* I.T.Works TW891 */
- 		.matches = {
- 		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "To be filled by O.E.M."),
+ drivers/gpu/drm/drm_atomic_helper.c   |  47 ++++
+ drivers/gpu/drm/vkms/vkms_composer.c  | 329 +++++++++++++++-----------
+ drivers/gpu/drm/vkms/vkms_drv.c       |   6 +-
+ drivers/gpu/drm/vkms/vkms_drv.h       |  14 +-
+ drivers/gpu/drm/vkms/vkms_formats.h   | 252 ++++++++++++++++++++
+ drivers/gpu/drm/vkms/vkms_plane.c     |  17 +-
+ drivers/gpu/drm/vkms/vkms_writeback.c |  33 ++-
+ include/drm/drm_atomic_helper.h       |   3 +
+ 8 files changed, 545 insertions(+), 156 deletions(-)
+ create mode 100644 drivers/gpu/drm/vkms/vkms_formats.h
+
 -- 
-2.33.1
+2.30.2
 
