@@ -1,135 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1A1A43B5CB
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Oct 2021 17:40:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E23743B610
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Oct 2021 17:49:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 82D3B89F73;
-	Tue, 26 Oct 2021 15:40:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 853B76E439;
+	Tue, 26 Oct 2021 15:49:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2082.outbound.protection.outlook.com [40.107.237.82])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1CE3E6E45C;
- Tue, 26 Oct 2021 15:40:32 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hhe6MZWw8t0e7OUlkSacoxIN5qZT4ZtMVs1/9lYLuL1CsyzL3tXH9AlBID1V69F6hfQp6i7OfFZR8PA5wiRIz6Z3FBPugpnpV5+3qkqBSK0Uz6L2/xMjQnZXBYlALtqEu2lKrHIko4wniS8ov3hLrXh5fOXYydDGjqZG94wCOKb9nuDm9swXQoNHkwqxU79/vUN9txGMv+8fyKuV/DPm4B6AqmP4At2zI800kZxuqoGEuqquUAh2eiVRKdDYUKiAmDjjuAqpCgKcZbRBfYvgos9ID1dYZKcgwa/Dp/Y0DNDEL+lgbud5m8knL/nOqn4Bp+Q9epaSWnQAu6F3VrkunQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rrEXVnLGEeWHCyy0SFNwpS9ca5vxfvtdELh1r8E5M50=;
- b=OP7IQI8JU4PjG+DJmyNZnSv7dQ/u2o1Ci8/v0jzPehUmepuQ/frgOH0FO16ucciMfEJrVYBya5Hzt40XvZ5WCg/HBXvwEK4KFcPU257S0NC6MIehO/ZuFNmAAAam1n+C2tahblFqu+PYefRId8qAHws/dz9gY9BqHyiyiSfobAV4M/4vMCBD+oiYSFgBzZs2JumaB1WDPmL2XKXnP8w6SMH1gy1MV7BCZJCAq5Wv/+ptidlfE/qAkFyydSoJX4zrzR0N0FHtrnLwjFL7Xd1TU5WW4ypaImY5FJnCxfma7YAoJ1pdRYcovyq4n2TbVxeITrChMhnfiXNG8FYIsvQbOA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rrEXVnLGEeWHCyy0SFNwpS9ca5vxfvtdELh1r8E5M50=;
- b=xhGvxJkXYnTGtz9eqJ5MPuW2mycRoJjYo88BV7F1kt1uw41HH6MVKTIrHKE2doQtvwhdWR+xSSyxekDKHuhJR86TxakcgP+pzkxDAo3IRe5juzhGnIn/j7ykEFs6vYQHrxOXiO4ZXHFvtqxGVOu1E7Su8PgZwnkH+d7ZBgKIPrc=
-Authentication-Results: intel.com; dkim=none (message not signed)
- header.d=none;intel.com; dmarc=none action=none header.from=amd.com;
-Received: from CO6PR12MB5427.namprd12.prod.outlook.com (2603:10b6:5:358::13)
- by CO6PR12MB5396.namprd12.prod.outlook.com (2603:10b6:303:139::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4628.18; Tue, 26 Oct
- 2021 15:40:29 +0000
-Received: from CO6PR12MB5427.namprd12.prod.outlook.com
- ([fe80::d095:131a:b99a:9975]) by CO6PR12MB5427.namprd12.prod.outlook.com
- ([fe80::d095:131a:b99a:9975%3]) with mapi id 15.20.4649.014; Tue, 26 Oct 2021
- 15:40:29 +0000
-Message-ID: <79e7f945-8df3-1fae-39ff-06d993e4fe29@amd.com>
-Date: Tue, 26 Oct 2021 11:40:25 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [RFC v2 01/22] drm: RFC for Plane Color Hardware Pipeline
-Content-Language: en-US
-To: "Shankar, Uma" <uma.shankar@intel.com>,
- Pekka Paalanen <ppaalanen@gmail.com>,
- "ville.syrjala@linux.intel.com" <ville.syrjala@linux.intel.com>
-Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "brian.starkey@arm.com" <brian.starkey@arm.com>,
- "sebastian@sebastianwick.net" <sebastian@sebastianwick.net>,
- "Shashank.Sharma@amd.com" <Shashank.Sharma@amd.com>
-References: <20210906213904.27918-1-uma.shankar@intel.com>
- <20210906213904.27918-2-uma.shankar@intel.com>
- <20211006155559.606521de@eldfell>
- <92af78eb53c04d67ac66b77f8b098cc0@intel.com>
-From: Harry Wentland <harry.wentland@amd.com>
-In-Reply-To: <92af78eb53c04d67ac66b77f8b098cc0@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: YQXPR0101CA0011.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c00:15::24) To CO6PR12MB5427.namprd12.prod.outlook.com
- (2603:10b6:5:358::13)
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 90BFD6E439;
+ Tue, 26 Oct 2021 15:49:36 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10149"; a="217115016"
+X-IronPort-AV: E=Sophos;i="5.87,184,1631602800"; d="scan'208";a="217115016"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Oct 2021 08:47:41 -0700
+X-IronPort-AV: E=Sophos;i="5.87,184,1631602800"; d="scan'208";a="596977809"
+Received: from jons-linux-dev-box.fm.intel.com (HELO jons-linux-dev-box)
+ ([10.1.27.20])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Oct 2021 08:47:40 -0700
+Date: Tue, 26 Oct 2021 08:43:03 -0700
+From: Matthew Brost <matthew.brost@intel.com>
+To: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ daniele.ceraolospurio@intel.com, john.c.harrison@intel.com
+Subject: Re: [PATCH 00/47] GuC submission support
+Message-ID: <20211026154303.GA12465@jons-linux-dev-box>
+References: <20210624070516.21893-1-matthew.brost@intel.com>
+ <163489530491.10153.576017085715728906@jlahtine-mobl.ger.corp.intel.com>
+ <20211022164219.GA23160@jons-linux-dev-box>
+ <163515462275.3804.10893210486918669519@jlahtine-mobl.ger.corp.intel.com>
+ <20211025151506.GA10182@jons-linux-dev-box>
+ <163523877564.3841.4449806608079864803@jlahtine-mobl.ger.corp.intel.com>
 MIME-Version: 1.0
-Received: from [192.168.50.4] (198.200.67.104) by
- YQXPR0101CA0011.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:c00:15::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4649.14 via Frontend
- Transport; Tue, 26 Oct 2021 15:40:27 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: e44f991b-89ba-499d-bf66-08d99896f025
-X-MS-TrafficTypeDiagnostic: CO6PR12MB5396:
-X-Microsoft-Antispam-PRVS: <CO6PR12MB539638E3D026F098E462CEEC8C849@CO6PR12MB5396.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 5vEb11KC6k0I2HIT+mqVAVF74ajI1gtkCQOfYGk1FTkZyqOyqs+KrYptmN7ClWS73urSPLrr43ArNNL94dQupAZKnuh90s6WdOGysYHIQ0jdvsN0QtCLRUupWGELTW5S/9Dv4+tYb+7mZQfruNNXnv5iB+kRILUqrzqvDNdJdDpyj/A+4PPFIgFB9oqnsnxBg63nuRvnTwKvQtUkA0LjrIkaXakAlLltYRVJj7M3MNwYulSmGRFyGqkjIRNJ+YxXKa6SqKs7dP6v6M6O8pi0mQFJZD9i4B+n1RWzHwX28MUGnmSZLGpsfTGjGDHYxjeq9Sk9YScGsus8L9MMFdtapbVC5rx6YVxOt8kCSkjLUngPizeM6qzwMZo0l5mz38ULwr+t22h7LAv1pQPNV0bW9SgYXsaQlt78y/u3rqoYpw+tPcqeZ+O3tOYHfGbL2OIQHcR9vxQz8sKtqa6UXTxr6sHU79J7TKSii9ORwXxMIMjQGimMFdYx9wzDl75lppZqSd3hXkoNDDGBWqs4fbSRhkQvvSO19yQkvmminMi8PU6K55zPCJ5Zaxklggu4DJC+up4Y5ZxE5dKuU8lcat8kMbNI0jrqPzQnnwrZU0J2+6R/v7NeeU0lXKufzWLdp93LdjMCF+mc/KzztoBOjeuKNW12CpAFBS7/KLuNG0yck3MmzsLMblNu8XaGt4fRFBoE0wvOTcT1d5JXqPRNGXLs94BSxaka9i/oPQM2AH5DqZ0=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CO6PR12MB5427.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(66476007)(83380400001)(36756003)(8676002)(53546011)(8936002)(31696002)(4326008)(316002)(186003)(66946007)(956004)(16576012)(44832011)(38100700002)(31686004)(86362001)(6486002)(66556008)(4001150100001)(508600001)(26005)(54906003)(110136005)(5660300002)(2906002)(2616005)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UVA2VzFSdnBpU2JFUVhQK3l6N2ZuamZNZldIcDNNdkE5bmRBOUhDYjcybHRV?=
- =?utf-8?B?RWhCeGMreG1zQkk1UHh1allnKzcyL2JwZk9rSVlBT09qSWtzSW5PSU9Dalgw?=
- =?utf-8?B?Y2k1YzJ4d3EvUXA0bWxNNy85dmkyMDI1QlppTmhHZHhVSHFBWG9RRDZvZzI1?=
- =?utf-8?B?RUZKcmhBOGM3ZVJ0bGIvTCsrTUtWaWJxOFZReTh3UUcrQkVCWElsbkl4dEhz?=
- =?utf-8?B?UDhJWDBRTXBjNkxoZDVZVm1IODJZT0JoamIySWJ5YlRjdlkwMDA2Y24wZmx4?=
- =?utf-8?B?SXRPek5kRjBFMVFaUm5xcFM1TEZ5MEI0Y2JlYm85VjErMDVFbUlod2pTQmZU?=
- =?utf-8?B?NXF4QkU5VVVVRGRhUVREWklRSFJ0aWowUzV4SURLQUIzR2EyRHduVndhTlVF?=
- =?utf-8?B?ZnVDMGh0OVhlMWFSc1JSdkI0NTVDbWwxU05OdW5nUUQ2TWNSUTJkVmhkMDYz?=
- =?utf-8?B?R3ZTYjUxbUtjY0xQOWQ2Tk9yRHhDNVphK3I2VE5DMlR5cWNuQzdNNnZrMkpV?=
- =?utf-8?B?dFl6c210VUFoS3pVNE1rL0dya3RDNjF3VWtMejM1ek9hYkh2a1V6NS9tZWta?=
- =?utf-8?B?eUVnNkFFUFpwVE9zeWk4Wk9yQVBHSnhUQnJ0VEcvSHlTQjhQNjdkWFAvME84?=
- =?utf-8?B?TzhwVTdMZDIyVGRoUzZ5cWNtbEpGVk5QM2pUc1NLd1h0eEJRa2VQbER3aWhz?=
- =?utf-8?B?Q3lJOGpmWmM3Y0N0SlV0UFNHbXdCWmcvTThaa3NoN1pIMldEaEhtMTJlVHBD?=
- =?utf-8?B?RW9TckpvbEc3N0pOZXdVcktwdGtWVkFIZWh6RUR6UGdWd2hocno0VmI5aUg2?=
- =?utf-8?B?WGhWK2t5R2FCVk9oOWNHTmJlODZHRlZseSs5alZqTXB3NDVvYmNpa3JVN1JE?=
- =?utf-8?B?REZFUUdWYVdoZlo1NUtRVlF3NXk1bGtFMEtNVEgzaU41U0xKRng3V3p3N1Fi?=
- =?utf-8?B?aHEwZlhwZWhvMW0vc2YwKzA5a25jUTlpUXlwT2NiRm9qWjNTSXZRRkZNOVBi?=
- =?utf-8?B?K3F2UDdsMStJa2RBbUdWSkVUeVAwejNBSXpwUFM1djhjbkhvSlNhV1lmemdF?=
- =?utf-8?B?L0NDcTEvZDJXY21EVnJWRm5tOXV5eVRROGwyVVJkT2ExRVJPeGEzd1ovUm9C?=
- =?utf-8?B?Wld3QXVVWG5GZWxRS2EyOUp0U2o0VFF3ekhKQ0Y3WWlRcUxUNW5zMVdkRVNo?=
- =?utf-8?B?TW9EZ0p4QWM3QmplSVE5Y1ZNZmhUK0krVGNsTW9kc0FZMUdQTjJNNnpjTnBo?=
- =?utf-8?B?V2xjbjFjSkJYM0JkTzB5NkFFbDVDdEk3MWc1dTA4SXF5VkVud0dsaHk0ME9m?=
- =?utf-8?B?R04vL05PU1NhbVN3ZHR0SWV2RHFQWjRJc3BvZXZJMDlENmhsM2d6NXpXUTBn?=
- =?utf-8?B?SjI4dEhvUm9LOFluS0NaYTB2U2FaUzNkbk8vV29BT1BuUFNBNG5JakptUkgx?=
- =?utf-8?B?UE9CRXZIdFBUcStjV0duNytjdm4vbkMzNW0xNDB3N3d1RzIrVzd2TjY2VW9X?=
- =?utf-8?B?U1BZVFR5NHhVUW50LzBPRTNyUlkvS1YxdVYyQ3o5TEJuQWpHemRQNTIydUVI?=
- =?utf-8?B?RTh3b1VBQXFlOVdBSmNaS25EWkZwais2K1BvOTUvUVF6ZG1XWWZsYWp3dXdQ?=
- =?utf-8?B?S2t0cmMrVmF1blB6ZGVEd25GSWhOdW1kZXBlVW5TK1hXTEthdkJGdkErOXZX?=
- =?utf-8?B?VkxEaWhQbzBSTWdNQ1pUek9HMGYrc2c1L1NFY3pjQmhOUUVjd21ublIvckJL?=
- =?utf-8?B?aEZSZ1llYlpac1hkcUp5YmlRdE81ckxCUjdrNnBlT3dsQ085N3lJWnVZN0Rz?=
- =?utf-8?B?MWJ3V1cyVWdQeGJZS044WE4rdEZKVnpiNnZLWUFhY1FSaHBGUXBERmUzRXMz?=
- =?utf-8?B?dGl6M2lYV2Q3V2FwYmtiRDdWSE1sWTIvVnZxSDNmRVVweHdDdWV2bXgvZTE1?=
- =?utf-8?B?QXdlOTVpVStVc0hpMWFPRVUwSWphandKTVhIZ3RHS1JWaDFmRmphMTVWU2Qy?=
- =?utf-8?B?MlJPYVd2eVphdEpzRldKdXJ3WUg0Q3F5QWZsZU5TRjZOc2M1ck1Na0lOdVlv?=
- =?utf-8?B?QjNmejd5OGh1SEZxSWQ2SDNSTVpsWjRxRUJlWUxxaW1CS0xDZmkrNkV3SDB5?=
- =?utf-8?B?N2RxZElCOVc3SFRqazh4TThCV0Fvdmo5UVBaRXF2SzRiWUVvbk1QZGd1UjdU?=
- =?utf-8?Q?lV7MWHb03kiuvh/LGbKAGkw=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e44f991b-89ba-499d-bf66-08d99896f025
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5427.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Oct 2021 15:40:29.2920 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: TdZvPXLbKA+ndaDkKPj60taqtyocnReYPDRIK71bajvH9FBxwTMqib+aMFc/xhEKI4vhwckujjv+9aHvwtg4Cg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR12MB5396
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <163523877564.3841.4449806608079864803@jlahtine-mobl.ger.corp.intel.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -145,73 +55,252 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 2021-10-12 16:58, Shankar, Uma wrote:
+On Tue, Oct 26, 2021 at 11:59:35AM +0300, Joonas Lahtinen wrote:
+> Quoting Matthew Brost (2021-10-25 18:15:09)
+> > On Mon, Oct 25, 2021 at 12:37:02PM +0300, Joonas Lahtinen wrote:
+> > > Quoting Matthew Brost (2021-10-22 19:42:19)
+> > > > On Fri, Oct 22, 2021 at 12:35:04PM +0300, Joonas Lahtinen wrote:
+> > > > > Hi Matt & John,
+> > > > > 
+> > > > > Can you please queue patches with the right Fixes: references to convert
+> > > > > all the GuC tracepoints to be protected by the LOW_LEVEL_TRACEPOINTS
+> > > > > protection for now. Please do so before next Wednesday so we get it
+> > > > > queued in drm-intel-next-fixes.
+> > > > > 
+> > > > 
+> > > > Don't we already do that? I checked i915_trace.h and every tracepoint I
+> > > > added (intel_context class, i915_request_guc_submit) is protected by
+> > > > LOW_LEVEL_TRACEPOINTS.
+> > > > 
+> > > > The only thing I changed outside of that protection is adding the guc_id
+> > > > field to existing i915_request class tracepoints.
+> > > 
+> > > It's the first search hit for "guc" inside the i915_trace.h file :)
+> > > 
+> > > > Without the guc_id in
+> > > > those tracepoints these are basically useless with GuC submission. We
+> > > > could revert that if it is a huge deal but as I said then they are
+> > > > useless...
+> > > 
+> > > Let's eliminate it for now and restore the tracepoint exactly as it was.
+> > > 
+> > 
+> > Don't really agree - let's render tracepoints to be useless? Are
+> > tracepoints ABI? I googled this and couldn't really find a definie
+> > answer. If tracepoints are ABI, then OK I can revert this change but
+> > still this is a poor technical decision (tracepoints should not be ABI).
 > 
-> 
->> -----Original Message-----
->> From: Pekka Paalanen <ppaalanen@gmail.com>
->> Sent: Tuesday, October 12, 2021 4:01 PM
->> To: Shankar, Uma <uma.shankar@intel.com>
->> Cc: intel-gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org; 
->> harry.wentland@amd.com; ville.syrjala@linux.intel.com; 
->> brian.starkey@arm.com; sebastian@sebastianwick.net; 
->> Shashank.Sharma@amd.com
->> Subject: Re: [RFC v2 01/22] drm: RFC for Plane Color Hardware Pipeline
->>
->> On Tue,  7 Sep 2021 03:08:43 +0530
->> Uma Shankar <uma.shankar@intel.com> wrote:
->>
-
-snip
-
->>> +
->>> +
->>> +This patch series adds properties for plane color features. It adds 
->>> +properties for degamma used to linearize data and CSC used for 
->>> +gamut conversion. It also includes Gamma support used to again 
->>> +non-linearize data as per panel supported color space. These can be 
->>> +utilize by user space to convert planes from one format to another, 
->>> +one color space to another etc.
->>
->> FWIW, this is exactly the structure I have assumed in the Weston CM&HDR work.
-> 
-> This is great to hear that we are aligned wrt how the pipeline should work.
-> 
-> Thanks Pekka for taking time out and providing the feedback.
-> 
-> @harry.wentland@amd.com We can work together and build our design to accommodate
-> both Intel and AMD's hardware needs. This will also make things generic enough for any
-> other hardware vendor as well.
+> Thats a very heated discussion in general. But the fact is that if
+> tracepoint changes have caused regressions to applications, they have
+> been forced to be remain untouched. You are free to raise the discussion
+> with Linus/LKML if you feel that should not be the case. So the end
+> result is that tracepoints are effectively in limbo, not ABI unless some
+> application uses them like ABI.
 > 
 
-Definitely. I think we're on the right path. Personally I would like to
-arrive at a solid KMS definition for this by the time Weston guys
-get to the HDR enablement with SW composition so we can start looking
-at KMS offloading for HDR planes as next step.
+Not trying to start or fight a holy war. If the current rules are don't
+change tracepoints, we won't. Patch posted, let's stay focused, get an
+RB, and move on.
 
-Harry
+Matt
 
-> Thanks & Regards,
-> Uma Shankar
+> Feel free to search the intel-gfx/lkml for "tracepoints" keyword and look
+> for threads with many replies. It's not that I would not agree, it's more
+> that I'm not in the mood for repeating that discussion over and over again
+> and always land in the same spot.
 > 
->>> +
->>> +Userspace can take smart blending decisions and utilize these 
->>> +hardware supported plane color features to get accurate color 
->>> +profile. The same can help in consistent color quality from source 
->>> +to panel taking advantage of advanced color features in hardware.
->>> +
->>> +These patches add the property interfaces and enable helper functions.
->>> +This series adds Intel's XE_LPD hw specific plane gamma feature. We 
->>> +can build up and add other platform/hardware specific 
->>> +implementation on top of this series.
->>> +
->>> +Credits: Special mention and credits to Ville Syrjala for coming up 
->>> +with a design for this feature and inputs. This series is based on 
->>> +his original design and idea.
->>
->>
->> Thanks,
->> pq
-
+> So for now, we don't add anything new to tracepoints we can't guarantee
+> to always be there untouched. Similarly, we don't guarantee any of them
+> to remain stable. So we try to be compatible with the limbo.
+> 
+> I'm long overdue waiting for some stable consumer to step up for the
+> tracepoints, so we can then start discussion what would actually be the
+> best way of getting that information out for them. In ~5 years that has
+> not happened.
+> 
+> > > If there is an immediate need, we should instead have an auxilary tracepoint
+> > > which is enabled only through LOW_LEVEL_TRACEPOINTS and that amends the
+> > > information of the basic tracepoint.
+> > > 
+> > 
+> > Regardless of what I said above, I'll post 2 patches. The 1st just
+> > remove the GuC, the 2nd modify the tracepoint to include guc_id if
+> > LOW_LEVEL_TRACEPOINTS is defined.
+> 
+> Thanks. Let's get a patch merged which simply drops the guc_id for now
+> to unblock things.
+> 
+> For the second, an auxilary tracepoint will be preferred instead of
+> mutating the existing one (regardless of the LOW_LEVEL_TRACEPOINTS).
+> 
+> I only noticed a patch that mutates the tracepoints, can you
+> double-check sending the first patch?
+> 
+> Regards, Joonas
+> 
+> > 
+> > > For the longer term solution we should align towards the dma fence
+> > > tracepoints. When those are combined with the OA information, one should
+> > > be able to get a good understanding of both the software and hardware
+> > > scheduling decisions.
+> > > 
+> > 
+> > Not sure about this either. I use these tracepoins to correlate things
+> > to the GuC log. Between the 2, if you know what you are doing you
+> > basically can figure out everything that is happening. Fields in the
+> > trace translate directly to fields in the GuC log. Some of these fields
+> > are backend specific, not sure how these could be pushed the dma fence
+> > tracepoints. For what it is worth, without these tracepoints we'd likely
+> > still have a bunch of bugs in the GuC firmware. I understand these
+> > points, several other i915 developers do, and several of the GuC
+> > firmware developers do too.
+> > 
+> > Matt
+> > 
+> > > Regards, Joonas
+> > > 
+> > > > 
+> > > > Matt
+> > > > 
+> > > > > There's the orthogonal track to discuss what would be the stable set of
+> > > > > tracepoints we could expose. However, before that discussion is closed,
+> > > > > let's keep a rather strict line to avoid potential maintenance burned.
+> > > > > 
+> > > > > We can then relax in the future as needed.
+> > > > > 
+> > > > > Regards, Joonas
+> > > > > 
+> > > > > Quoting Matthew Brost (2021-06-24 10:04:29)
+> > > > > > As discussed in [1], [2] we are enabling GuC submission support in the
+> > > > > > i915. This is a subset of the patches in step 5 described in [1],
+> > > > > > basically it is absolute to enable CI with GuC submission on gen11+
+> > > > > > platforms.
+> > > > > > 
+> > > > > > This series itself will likely be broken down into smaller patch sets to
+> > > > > > merge. Likely into CTBs changes, basic submission, virtual engines, and
+> > > > > > resets.
+> > > > > > 
+> > > > > > A following series will address the missing patches remaining from [1].
+> > > > > > 
+> > > > > > Locally tested on TGL machine and basic tests seem to be passing.
+> > > > > > 
+> > > > > > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> > > > > > 
+> > > > > > [1] https://patchwork.freedesktop.org/series/89844/
+> > > > > > [2] https://patchwork.freedesktop.org/series/91417/
+> > > > > > 
+> > > > > > Daniele Ceraolo Spurio (1):
+> > > > > >   drm/i915/guc: Unblock GuC submission on Gen11+
+> > > > > > 
+> > > > > > John Harrison (10):
+> > > > > >   drm/i915/guc: Module load failure test for CT buffer creation
+> > > > > >   drm/i915: Track 'serial' counts for virtual engines
+> > > > > >   drm/i915/guc: Provide mmio list to be saved/restored on engine reset
+> > > > > >   drm/i915/guc: Don't complain about reset races
+> > > > > >   drm/i915/guc: Enable GuC engine reset
+> > > > > >   drm/i915/guc: Fix for error capture after full GPU reset with GuC
+> > > > > >   drm/i915/guc: Hook GuC scheduling policies up
+> > > > > >   drm/i915/guc: Connect reset modparam updates to GuC policy flags
+> > > > > >   drm/i915/guc: Include scheduling policies in the debugfs state dump
+> > > > > >   drm/i915/guc: Add golden context to GuC ADS
+> > > > > > 
+> > > > > > Matthew Brost (36):
+> > > > > >   drm/i915/guc: Relax CTB response timeout
+> > > > > >   drm/i915/guc: Improve error message for unsolicited CT response
+> > > > > >   drm/i915/guc: Increase size of CTB buffers
+> > > > > >   drm/i915/guc: Add non blocking CTB send function
+> > > > > >   drm/i915/guc: Add stall timer to non blocking CTB send function
+> > > > > >   drm/i915/guc: Optimize CTB writes and reads
+> > > > > >   drm/i915/guc: Add new GuC interface defines and structures
+> > > > > >   drm/i915/guc: Remove GuC stage descriptor, add lrc descriptor
+> > > > > >   drm/i915/guc: Add lrc descriptor context lookup array
+> > > > > >   drm/i915/guc: Implement GuC submission tasklet
+> > > > > >   drm/i915/guc: Add bypass tasklet submission path to GuC
+> > > > > >   drm/i915/guc: Implement GuC context operations for new inteface
+> > > > > >   drm/i915/guc: Insert fence on context when deregistering
+> > > > > >   drm/i915/guc: Defer context unpin until scheduling is disabled
+> > > > > >   drm/i915/guc: Disable engine barriers with GuC during unpin
+> > > > > >   drm/i915/guc: Extend deregistration fence to schedule disable
+> > > > > >   drm/i915: Disable preempt busywait when using GuC scheduling
+> > > > > >   drm/i915/guc: Ensure request ordering via completion fences
+> > > > > >   drm/i915/guc: Disable semaphores when using GuC scheduling
+> > > > > >   drm/i915/guc: Ensure G2H response has space in buffer
+> > > > > >   drm/i915/guc: Update intel_gt_wait_for_idle to work with GuC
+> > > > > >   drm/i915/guc: Update GuC debugfs to support new GuC
+> > > > > >   drm/i915/guc: Add several request trace points
+> > > > > >   drm/i915: Add intel_context tracing
+> > > > > >   drm/i915/guc: GuC virtual engines
+> > > > > >   drm/i915: Hold reference to intel_context over life of i915_request
+> > > > > >   drm/i915/guc: Disable bonding extension with GuC submission
+> > > > > >   drm/i915/guc: Direct all breadcrumbs for a class to single breadcrumbs
+> > > > > >   drm/i915/guc: Reset implementation for new GuC interface
+> > > > > >   drm/i915: Reset GPU immediately if submission is disabled
+> > > > > >   drm/i915/guc: Add disable interrupts to guc sanitize
+> > > > > >   drm/i915/guc: Suspend/resume implementation for new interface
+> > > > > >   drm/i915/guc: Handle context reset notification
+> > > > > >   drm/i915/guc: Handle engine reset failure notification
+> > > > > >   drm/i915/guc: Enable the timer expired interrupt for GuC
+> > > > > >   drm/i915/guc: Capture error state on context reset
+> > > > > > 
+> > > > > >  drivers/gpu/drm/i915/gem/i915_gem_context.c   |   30 +-
+> > > > > >  drivers/gpu/drm/i915/gem/i915_gem_context.h   |    1 +
+> > > > > >  drivers/gpu/drm/i915/gem/i915_gem_mman.c      |    3 +-
+> > > > > >  drivers/gpu/drm/i915/gt/gen8_engine_cs.c      |    6 +-
+> > > > > >  drivers/gpu/drm/i915/gt/intel_breadcrumbs.c   |   41 +-
+> > > > > >  drivers/gpu/drm/i915/gt/intel_breadcrumbs.h   |   14 +-
+> > > > > >  .../gpu/drm/i915/gt/intel_breadcrumbs_types.h |    7 +
+> > > > > >  drivers/gpu/drm/i915/gt/intel_context.c       |   41 +-
+> > > > > >  drivers/gpu/drm/i915/gt/intel_context.h       |   31 +-
+> > > > > >  drivers/gpu/drm/i915/gt/intel_context_types.h |   49 +
+> > > > > >  drivers/gpu/drm/i915/gt/intel_engine.h        |   72 +-
+> > > > > >  drivers/gpu/drm/i915/gt/intel_engine_cs.c     |  182 +-
+> > > > > >  .../gpu/drm/i915/gt/intel_engine_heartbeat.c  |   71 +-
+> > > > > >  .../gpu/drm/i915/gt/intel_engine_heartbeat.h  |    4 +
+> > > > > >  drivers/gpu/drm/i915/gt/intel_engine_types.h  |   12 +-
+> > > > > >  .../drm/i915/gt/intel_execlists_submission.c  |  234 +-
+> > > > > >  .../drm/i915/gt/intel_execlists_submission.h  |   11 -
+> > > > > >  drivers/gpu/drm/i915/gt/intel_gt.c            |   21 +
+> > > > > >  drivers/gpu/drm/i915/gt/intel_gt.h            |    2 +
+> > > > > >  drivers/gpu/drm/i915/gt/intel_gt_pm.c         |    6 +-
+> > > > > >  drivers/gpu/drm/i915/gt/intel_gt_requests.c   |   22 +-
+> > > > > >  drivers/gpu/drm/i915/gt/intel_gt_requests.h   |    9 +-
+> > > > > >  drivers/gpu/drm/i915/gt/intel_lrc_reg.h       |    1 -
+> > > > > >  drivers/gpu/drm/i915/gt/intel_reset.c         |   20 +-
+> > > > > >  .../gpu/drm/i915/gt/intel_ring_submission.c   |   28 +
+> > > > > >  drivers/gpu/drm/i915/gt/intel_rps.c           |    4 +
+> > > > > >  drivers/gpu/drm/i915/gt/intel_workarounds.c   |   46 +-
+> > > > > >  .../gpu/drm/i915/gt/intel_workarounds_types.h |    1 +
+> > > > > >  drivers/gpu/drm/i915/gt/mock_engine.c         |   41 +-
+> > > > > >  drivers/gpu/drm/i915/gt/selftest_context.c    |   10 +
+> > > > > >  drivers/gpu/drm/i915/gt/selftest_execlists.c  |   20 +-
+> > > > > >  .../gpu/drm/i915/gt/uc/abi/guc_actions_abi.h  |   15 +
+> > > > > >  drivers/gpu/drm/i915/gt/uc/intel_guc.c        |   82 +-
+> > > > > >  drivers/gpu/drm/i915/gt/uc/intel_guc.h        |  106 +-
+> > > > > >  drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c    |  460 +++-
+> > > > > >  drivers/gpu/drm/i915/gt/uc/intel_guc_ads.h    |    3 +
+> > > > > >  drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c     |  318 ++-
+> > > > > >  drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h     |   22 +-
+> > > > > >  .../gpu/drm/i915/gt/uc/intel_guc_debugfs.c    |   25 +-
+> > > > > >  drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h   |   88 +-
+> > > > > >  .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 2197 +++++++++++++++--
+> > > > > >  .../gpu/drm/i915/gt/uc/intel_guc_submission.h |   17 +-
+> > > > > >  drivers/gpu/drm/i915/gt/uc/intel_uc.c         |  102 +-
+> > > > > >  drivers/gpu/drm/i915/gt/uc/intel_uc.h         |   11 +
+> > > > > >  drivers/gpu/drm/i915/i915_debugfs.c           |    2 +
+> > > > > >  drivers/gpu/drm/i915/i915_debugfs_params.c    |   31 +
+> > > > > >  drivers/gpu/drm/i915/i915_gem_evict.c         |    1 +
+> > > > > >  drivers/gpu/drm/i915/i915_gpu_error.c         |   25 +-
+> > > > > >  drivers/gpu/drm/i915/i915_reg.h               |    2 +
+> > > > > >  drivers/gpu/drm/i915/i915_request.c           |  159 +-
+> > > > > >  drivers/gpu/drm/i915/i915_request.h           |   21 +
+> > > > > >  drivers/gpu/drm/i915/i915_scheduler.c         |    6 +
+> > > > > >  drivers/gpu/drm/i915/i915_scheduler.h         |    6 +
+> > > > > >  drivers/gpu/drm/i915/i915_scheduler_types.h   |    5 +
+> > > > > >  drivers/gpu/drm/i915/i915_trace.h             |  197 +-
+> > > > > >  .../gpu/drm/i915/selftests/igt_live_test.c    |    2 +-
+> > > > > >  .../gpu/drm/i915/selftests/mock_gem_device.c  |    3 +-
+> > > > > >  57 files changed, 4159 insertions(+), 787 deletions(-)
+> > > > > > 
+> > > > > > -- 
+> > > > > > 2.28.0
+> > > > > > 
