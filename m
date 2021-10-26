@@ -1,45 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2887143B62F
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Oct 2021 17:56:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D7A643B630
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Oct 2021 17:56:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 721AE6E45C;
-	Tue, 26 Oct 2021 15:55:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4181089C29;
+	Tue, 26 Oct 2021 15:55:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 06A4289C29;
- Tue, 26 Oct 2021 15:55:54 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10149"; a="290782168"
-X-IronPort-AV: E=Sophos;i="5.87,184,1631602800"; d="scan'208";a="290782168"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Oct 2021 08:55:54 -0700
-X-IronPort-AV: E=Sophos;i="5.87,184,1631602800"; d="scan'208";a="664602890"
-Received: from jons-linux-dev-box.fm.intel.com (HELO jons-linux-dev-box)
- ([10.1.27.20])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Oct 2021 08:55:53 -0700
-Date: Tue, 26 Oct 2021 08:51:17 -0700
-From: Matthew Brost <matthew.brost@intel.com>
-To: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- daniele.ceraolospurio@intel.com, john.c.harrison@intel.com
-Subject: Re: [PATCH 00/47] GuC submission support
-Message-ID: <20211026155116.GA12563@jons-linux-dev-box>
-References: <20210624070516.21893-1-matthew.brost@intel.com>
- <163489530491.10153.576017085715728906@jlahtine-mobl.ger.corp.intel.com>
- <20211022164219.GA23160@jons-linux-dev-box>
- <163515462275.3804.10893210486918669519@jlahtine-mobl.ger.corp.intel.com>
- <20211025151506.GA10182@jons-linux-dev-box>
- <163523877564.3841.4449806608079864803@jlahtine-mobl.ger.corp.intel.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 29E6F89C29
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Oct 2021 15:55:58 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id F17BC610A1
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Oct 2021 15:55:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1635263758;
+ bh=NGSch2WtYB3nDlQ/+9YEqgDLoXEDKMRu/wdD8415fBY=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=FlSVQ3SIbW3N4ycPWKYZpfq+rek/flxAZQMYHr1rdAJOBv1DzeA1/NNChbJzxDVof
+ Uw9TqXZ0fXUSE/zavPFugXDKwLDtNUppuBzeirSG2K1x/3sAHqpfmu4ZDXVr3NkNpf
+ 6KWRuU8EomZ5rP20n/YPR2guyPiTIimNOWiqXOdOUBArftWfhXy3RfkolegECZhXG5
+ uVCi81HAtY1IGbfoy7g2nEwBBzi8OcSl/cxoiyrHDTRm5c2Br87G++zpAJafnfBFiF
+ H86aM2OmnsAyUv7QFKwekfiIGBZGjaiguim/dTS1Gtu3/Wih0TeafcAXK47HKKwnA6
+ khxj4cdMi3k0w==
+Received: by mail-ed1-f52.google.com with SMTP id r4so15076258edi.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Oct 2021 08:55:57 -0700 (PDT)
+X-Gm-Message-State: AOAM530YTzoqOLVbzlIqLPNhU9bbJabqGeF2LYzhhm5hq9pGjYg+WDy7
+ /eOk2YycEZshOvtu4A8VOXK49XAPus1Tw2BUzA==
+X-Google-Smtp-Source: ABdhPJzgqVCWXT+M41aSMPpOJ3v17st31iPfPukH3+SRVrfDKy8AVSdPsaimk9diarnRpFFsF7bEkw5S9zvp3XNpVJA=
+X-Received: by 2002:a50:ff0a:: with SMTP id a10mr22764187edu.357.1635263560041; 
+ Tue, 26 Oct 2021 08:52:40 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <163523877564.3841.4449806608079864803@jlahtine-mobl.ger.corp.intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+References: <20211026052916.8222-1-jason-jh.lin@mediatek.com>
+ <20211026052916.8222-3-jason-jh.lin@mediatek.com>
+In-Reply-To: <20211026052916.8222-3-jason-jh.lin@mediatek.com>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Tue, 26 Oct 2021 23:52:29 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_-=JhEzK0UT3qVScLWh75LTr9K3VFJhJ6Zs_nuM0kmBXw@mail.gmail.com>
+Message-ID: <CAAOTY_-=JhEzK0UT3qVScLWh75LTr9K3VFJhJ6Zs_nuM0kmBXw@mail.gmail.com>
+Subject: Re: [PATCH v4 2/5] drm/mediatek: Remove the pointer of struct
+ cmdq_client
+To: "jason-jh.lin" <jason-jh.lin@mediatek.com>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>, 
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Jassi Brar <jassisinghbrar@gmail.com>, 
+ Yongqiang Niu <yongqiang.niu@mediatek.com>, David Airlie <airlied@linux.ie>, 
+ Daniel Vetter <daniel@ffwll.ch>,
+ DRI Development <dri-devel@lists.freedesktop.org>, 
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>, 
+ linux-kernel <linux-kernel@vger.kernel.org>, Hsin-Yi Wang <hsinyi@chromium.org>,
+ fshao@chromium.org, 
+ Nancy Lin <nancy.lin@mediatek.com>, singo.chang@mediatek.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,256 +71,150 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 26, 2021 at 11:59:35AM +0300, Joonas Lahtinen wrote:
-> Quoting Matthew Brost (2021-10-25 18:15:09)
-> > On Mon, Oct 25, 2021 at 12:37:02PM +0300, Joonas Lahtinen wrote:
-> > > Quoting Matthew Brost (2021-10-22 19:42:19)
-> > > > On Fri, Oct 22, 2021 at 12:35:04PM +0300, Joonas Lahtinen wrote:
-> > > > > Hi Matt & John,
-> > > > > 
-> > > > > Can you please queue patches with the right Fixes: references to convert
-> > > > > all the GuC tracepoints to be protected by the LOW_LEVEL_TRACEPOINTS
-> > > > > protection for now. Please do so before next Wednesday so we get it
-> > > > > queued in drm-intel-next-fixes.
-> > > > > 
-> > > > 
-> > > > Don't we already do that? I checked i915_trace.h and every tracepoint I
-> > > > added (intel_context class, i915_request_guc_submit) is protected by
-> > > > LOW_LEVEL_TRACEPOINTS.
-> > > > 
-> > > > The only thing I changed outside of that protection is adding the guc_id
-> > > > field to existing i915_request class tracepoints.
-> > > 
-> > > It's the first search hit for "guc" inside the i915_trace.h file :)
-> > > 
-> > > > Without the guc_id in
-> > > > those tracepoints these are basically useless with GuC submission. We
-> > > > could revert that if it is a huge deal but as I said then they are
-> > > > useless...
-> > > 
-> > > Let's eliminate it for now and restore the tracepoint exactly as it was.
-> > > 
-> > 
-> > Don't really agree - let's render tracepoints to be useless? Are
-> > tracepoints ABI? I googled this and couldn't really find a definie
-> > answer. If tracepoints are ABI, then OK I can revert this change but
-> > still this is a poor technical decision (tracepoints should not be ABI).
-> 
-> Thats a very heated discussion in general. But the fact is that if
-> tracepoint changes have caused regressions to applications, they have
-> been forced to be remain untouched. You are free to raise the discussion
-> with Linus/LKML if you feel that should not be the case. So the end
-> result is that tracepoints are effectively in limbo, not ABI unless some
-> application uses them like ABI.
-> 
-> Feel free to search the intel-gfx/lkml for "tracepoints" keyword and look
-> for threads with many replies. It's not that I would not agree, it's more
-> that I'm not in the mood for repeating that discussion over and over again
-> and always land in the same spot.
-> 
-> So for now, we don't add anything new to tracepoints we can't guarantee
-> to always be there untouched. Similarly, we don't guarantee any of them
-> to remain stable. So we try to be compatible with the limbo.
-> 
-> I'm long overdue waiting for some stable consumer to step up for the
-> tracepoints, so we can then start discussion what would actually be the
-> best way of getting that information out for them. In ~5 years that has
-> not happened.
-> 
-> > > If there is an immediate need, we should instead have an auxilary tracepoint
-> > > which is enabled only through LOW_LEVEL_TRACEPOINTS and that amends the
-> > > information of the basic tracepoint.
-> > > 
-> > 
-> > Regardless of what I said above, I'll post 2 patches. The 1st just
-> > remove the GuC, the 2nd modify the tracepoint to include guc_id if
-> > LOW_LEVEL_TRACEPOINTS is defined.
-> 
-> Thanks. Let's get a patch merged which simply drops the guc_id for now
-> to unblock things.
-> 
-> For the second, an auxilary tracepoint will be preferred instead of
-> mutating the existing one (regardless of the LOW_LEVEL_TRACEPOINTS).
-> 
-> I only noticed a patch that mutates the tracepoints, can you
-> double-check sending the first patch?
+Hi, Jason:
 
-Sorry for the double reply - missed this one in the first.
+jason-jh.lin <jason-jh.lin@mediatek.com> =E6=96=BC 2021=E5=B9=B410=E6=9C=88=
+26=E6=97=A5 =E9=80=B1=E4=BA=8C =E4=B8=8B=E5=8D=881:29=E5=AF=AB=E9=81=93=EF=
+=BC=9A
+>
+> From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+>
+> In mailbox rx_callback, it pass struct mbox_client to callback
+> function, but it could not map back to mtk_drm_crtc instance
+> because struct cmdq_client use a pointer to struct mbox_client:
+>
+> struct cmdq_client {
+>         struct mbox_client client;
+>         struct mbox_chan *chan;
+> };
+>
+> struct mtk_drm_crtc {
+>         /* client instance data */
+>         struct cmdq_client *cmdq_client;
+> };
+>
+> so remove the pointer of struct cmdq_client and let mtk_drm_crtc
+> instance define cmdq_client as:
+>
+> struct mtk_drm_crtc {
+>         /* client instance data */
+>         struct cmdq_client cmdq_client;
+> };
+>
+> and in rx_callback function, use struct mbox_client to get
+> struct mtk_drm_crtc.
 
-I changed my plans / mind after I send the original email. I only sent a
-patch which includes guc_id when LOW_LEVEL_TRACEPOINTS is enabled. That
-is the bear minimum I live with. Without it any time there is a problem
-results in hacking the kernel. I can't do that. This is a good
-compromise.
+Reviewed-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
 
-Matt
-
-> 
-> Regards, Joonas
-> 
-> > 
-> > > For the longer term solution we should align towards the dma fence
-> > > tracepoints. When those are combined with the OA information, one should
-> > > be able to get a good understanding of both the software and hardware
-> > > scheduling decisions.
-> > > 
-> > 
-> > Not sure about this either. I use these tracepoins to correlate things
-> > to the GuC log. Between the 2, if you know what you are doing you
-> > basically can figure out everything that is happening. Fields in the
-> > trace translate directly to fields in the GuC log. Some of these fields
-> > are backend specific, not sure how these could be pushed the dma fence
-> > tracepoints. For what it is worth, without these tracepoints we'd likely
-> > still have a bunch of bugs in the GuC firmware. I understand these
-> > points, several other i915 developers do, and several of the GuC
-> > firmware developers do too.
-> > 
-> > Matt
-> > 
-> > > Regards, Joonas
-> > > 
-> > > > 
-> > > > Matt
-> > > > 
-> > > > > There's the orthogonal track to discuss what would be the stable set of
-> > > > > tracepoints we could expose. However, before that discussion is closed,
-> > > > > let's keep a rather strict line to avoid potential maintenance burned.
-> > > > > 
-> > > > > We can then relax in the future as needed.
-> > > > > 
-> > > > > Regards, Joonas
-> > > > > 
-> > > > > Quoting Matthew Brost (2021-06-24 10:04:29)
-> > > > > > As discussed in [1], [2] we are enabling GuC submission support in the
-> > > > > > i915. This is a subset of the patches in step 5 described in [1],
-> > > > > > basically it is absolute to enable CI with GuC submission on gen11+
-> > > > > > platforms.
-> > > > > > 
-> > > > > > This series itself will likely be broken down into smaller patch sets to
-> > > > > > merge. Likely into CTBs changes, basic submission, virtual engines, and
-> > > > > > resets.
-> > > > > > 
-> > > > > > A following series will address the missing patches remaining from [1].
-> > > > > > 
-> > > > > > Locally tested on TGL machine and basic tests seem to be passing.
-> > > > > > 
-> > > > > > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> > > > > > 
-> > > > > > [1] https://patchwork.freedesktop.org/series/89844/
-> > > > > > [2] https://patchwork.freedesktop.org/series/91417/
-> > > > > > 
-> > > > > > Daniele Ceraolo Spurio (1):
-> > > > > >   drm/i915/guc: Unblock GuC submission on Gen11+
-> > > > > > 
-> > > > > > John Harrison (10):
-> > > > > >   drm/i915/guc: Module load failure test for CT buffer creation
-> > > > > >   drm/i915: Track 'serial' counts for virtual engines
-> > > > > >   drm/i915/guc: Provide mmio list to be saved/restored on engine reset
-> > > > > >   drm/i915/guc: Don't complain about reset races
-> > > > > >   drm/i915/guc: Enable GuC engine reset
-> > > > > >   drm/i915/guc: Fix for error capture after full GPU reset with GuC
-> > > > > >   drm/i915/guc: Hook GuC scheduling policies up
-> > > > > >   drm/i915/guc: Connect reset modparam updates to GuC policy flags
-> > > > > >   drm/i915/guc: Include scheduling policies in the debugfs state dump
-> > > > > >   drm/i915/guc: Add golden context to GuC ADS
-> > > > > > 
-> > > > > > Matthew Brost (36):
-> > > > > >   drm/i915/guc: Relax CTB response timeout
-> > > > > >   drm/i915/guc: Improve error message for unsolicited CT response
-> > > > > >   drm/i915/guc: Increase size of CTB buffers
-> > > > > >   drm/i915/guc: Add non blocking CTB send function
-> > > > > >   drm/i915/guc: Add stall timer to non blocking CTB send function
-> > > > > >   drm/i915/guc: Optimize CTB writes and reads
-> > > > > >   drm/i915/guc: Add new GuC interface defines and structures
-> > > > > >   drm/i915/guc: Remove GuC stage descriptor, add lrc descriptor
-> > > > > >   drm/i915/guc: Add lrc descriptor context lookup array
-> > > > > >   drm/i915/guc: Implement GuC submission tasklet
-> > > > > >   drm/i915/guc: Add bypass tasklet submission path to GuC
-> > > > > >   drm/i915/guc: Implement GuC context operations for new inteface
-> > > > > >   drm/i915/guc: Insert fence on context when deregistering
-> > > > > >   drm/i915/guc: Defer context unpin until scheduling is disabled
-> > > > > >   drm/i915/guc: Disable engine barriers with GuC during unpin
-> > > > > >   drm/i915/guc: Extend deregistration fence to schedule disable
-> > > > > >   drm/i915: Disable preempt busywait when using GuC scheduling
-> > > > > >   drm/i915/guc: Ensure request ordering via completion fences
-> > > > > >   drm/i915/guc: Disable semaphores when using GuC scheduling
-> > > > > >   drm/i915/guc: Ensure G2H response has space in buffer
-> > > > > >   drm/i915/guc: Update intel_gt_wait_for_idle to work with GuC
-> > > > > >   drm/i915/guc: Update GuC debugfs to support new GuC
-> > > > > >   drm/i915/guc: Add several request trace points
-> > > > > >   drm/i915: Add intel_context tracing
-> > > > > >   drm/i915/guc: GuC virtual engines
-> > > > > >   drm/i915: Hold reference to intel_context over life of i915_request
-> > > > > >   drm/i915/guc: Disable bonding extension with GuC submission
-> > > > > >   drm/i915/guc: Direct all breadcrumbs for a class to single breadcrumbs
-> > > > > >   drm/i915/guc: Reset implementation for new GuC interface
-> > > > > >   drm/i915: Reset GPU immediately if submission is disabled
-> > > > > >   drm/i915/guc: Add disable interrupts to guc sanitize
-> > > > > >   drm/i915/guc: Suspend/resume implementation for new interface
-> > > > > >   drm/i915/guc: Handle context reset notification
-> > > > > >   drm/i915/guc: Handle engine reset failure notification
-> > > > > >   drm/i915/guc: Enable the timer expired interrupt for GuC
-> > > > > >   drm/i915/guc: Capture error state on context reset
-> > > > > > 
-> > > > > >  drivers/gpu/drm/i915/gem/i915_gem_context.c   |   30 +-
-> > > > > >  drivers/gpu/drm/i915/gem/i915_gem_context.h   |    1 +
-> > > > > >  drivers/gpu/drm/i915/gem/i915_gem_mman.c      |    3 +-
-> > > > > >  drivers/gpu/drm/i915/gt/gen8_engine_cs.c      |    6 +-
-> > > > > >  drivers/gpu/drm/i915/gt/intel_breadcrumbs.c   |   41 +-
-> > > > > >  drivers/gpu/drm/i915/gt/intel_breadcrumbs.h   |   14 +-
-> > > > > >  .../gpu/drm/i915/gt/intel_breadcrumbs_types.h |    7 +
-> > > > > >  drivers/gpu/drm/i915/gt/intel_context.c       |   41 +-
-> > > > > >  drivers/gpu/drm/i915/gt/intel_context.h       |   31 +-
-> > > > > >  drivers/gpu/drm/i915/gt/intel_context_types.h |   49 +
-> > > > > >  drivers/gpu/drm/i915/gt/intel_engine.h        |   72 +-
-> > > > > >  drivers/gpu/drm/i915/gt/intel_engine_cs.c     |  182 +-
-> > > > > >  .../gpu/drm/i915/gt/intel_engine_heartbeat.c  |   71 +-
-> > > > > >  .../gpu/drm/i915/gt/intel_engine_heartbeat.h  |    4 +
-> > > > > >  drivers/gpu/drm/i915/gt/intel_engine_types.h  |   12 +-
-> > > > > >  .../drm/i915/gt/intel_execlists_submission.c  |  234 +-
-> > > > > >  .../drm/i915/gt/intel_execlists_submission.h  |   11 -
-> > > > > >  drivers/gpu/drm/i915/gt/intel_gt.c            |   21 +
-> > > > > >  drivers/gpu/drm/i915/gt/intel_gt.h            |    2 +
-> > > > > >  drivers/gpu/drm/i915/gt/intel_gt_pm.c         |    6 +-
-> > > > > >  drivers/gpu/drm/i915/gt/intel_gt_requests.c   |   22 +-
-> > > > > >  drivers/gpu/drm/i915/gt/intel_gt_requests.h   |    9 +-
-> > > > > >  drivers/gpu/drm/i915/gt/intel_lrc_reg.h       |    1 -
-> > > > > >  drivers/gpu/drm/i915/gt/intel_reset.c         |   20 +-
-> > > > > >  .../gpu/drm/i915/gt/intel_ring_submission.c   |   28 +
-> > > > > >  drivers/gpu/drm/i915/gt/intel_rps.c           |    4 +
-> > > > > >  drivers/gpu/drm/i915/gt/intel_workarounds.c   |   46 +-
-> > > > > >  .../gpu/drm/i915/gt/intel_workarounds_types.h |    1 +
-> > > > > >  drivers/gpu/drm/i915/gt/mock_engine.c         |   41 +-
-> > > > > >  drivers/gpu/drm/i915/gt/selftest_context.c    |   10 +
-> > > > > >  drivers/gpu/drm/i915/gt/selftest_execlists.c  |   20 +-
-> > > > > >  .../gpu/drm/i915/gt/uc/abi/guc_actions_abi.h  |   15 +
-> > > > > >  drivers/gpu/drm/i915/gt/uc/intel_guc.c        |   82 +-
-> > > > > >  drivers/gpu/drm/i915/gt/uc/intel_guc.h        |  106 +-
-> > > > > >  drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c    |  460 +++-
-> > > > > >  drivers/gpu/drm/i915/gt/uc/intel_guc_ads.h    |    3 +
-> > > > > >  drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c     |  318 ++-
-> > > > > >  drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h     |   22 +-
-> > > > > >  .../gpu/drm/i915/gt/uc/intel_guc_debugfs.c    |   25 +-
-> > > > > >  drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h   |   88 +-
-> > > > > >  .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 2197 +++++++++++++++--
-> > > > > >  .../gpu/drm/i915/gt/uc/intel_guc_submission.h |   17 +-
-> > > > > >  drivers/gpu/drm/i915/gt/uc/intel_uc.c         |  102 +-
-> > > > > >  drivers/gpu/drm/i915/gt/uc/intel_uc.h         |   11 +
-> > > > > >  drivers/gpu/drm/i915/i915_debugfs.c           |    2 +
-> > > > > >  drivers/gpu/drm/i915/i915_debugfs_params.c    |   31 +
-> > > > > >  drivers/gpu/drm/i915/i915_gem_evict.c         |    1 +
-> > > > > >  drivers/gpu/drm/i915/i915_gpu_error.c         |   25 +-
-> > > > > >  drivers/gpu/drm/i915/i915_reg.h               |    2 +
-> > > > > >  drivers/gpu/drm/i915/i915_request.c           |  159 +-
-> > > > > >  drivers/gpu/drm/i915/i915_request.h           |   21 +
-> > > > > >  drivers/gpu/drm/i915/i915_scheduler.c         |    6 +
-> > > > > >  drivers/gpu/drm/i915/i915_scheduler.h         |    6 +
-> > > > > >  drivers/gpu/drm/i915/i915_scheduler_types.h   |    5 +
-> > > > > >  drivers/gpu/drm/i915/i915_trace.h             |  197 +-
-> > > > > >  .../gpu/drm/i915/selftests/igt_live_test.c    |    2 +-
-> > > > > >  .../gpu/drm/i915/selftests/mock_gem_device.c  |    3 +-
-> > > > > >  57 files changed, 4159 insertions(+), 787 deletions(-)
-> > > > > > 
-> > > > > > -- 
-> > > > > > 2.28.0
-> > > > > > 
+>
+> Signed-off-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+> Signed-off-by: jason-jh.lin <jason-jh.lin@mediatek.com>
+> ---
+>  drivers/gpu/drm/mediatek/mtk_drm_crtc.c | 37 +++++++++++++------------
+>  1 file changed, 20 insertions(+), 17 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/me=
+diatek/mtk_drm_crtc.c
+> index 369d3e68c0b6..e23e3224ac67 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+> @@ -52,7 +52,7 @@ struct mtk_drm_crtc {
+>         bool                            pending_async_planes;
+>
+>  #if IS_REACHABLE(CONFIG_MTK_CMDQ)
+> -       struct cmdq_client              *cmdq_client;
+> +       struct cmdq_client              cmdq_client;
+>         u32                             cmdq_event;
+>  #endif
+>
+> @@ -472,19 +472,19 @@ static void mtk_drm_crtc_update_config(struct mtk_d=
+rm_crtc *mtk_crtc,
+>                 mtk_mutex_release(mtk_crtc->mutex);
+>         }
+>  #if IS_REACHABLE(CONFIG_MTK_CMDQ)
+> -       if (mtk_crtc->cmdq_client) {
+> -               mbox_flush(mtk_crtc->cmdq_client->chan, 2000);
+> -               cmdq_handle =3D cmdq_pkt_create(mtk_crtc->cmdq_client, PA=
+GE_SIZE);
+> +       if (mtk_crtc->cmdq_client.chan) {
+> +               mbox_flush(mtk_crtc->cmdq_client.chan, 2000);
+> +               cmdq_handle =3D cmdq_pkt_create(&mtk_crtc->cmdq_client, P=
+AGE_SIZE);
+>                 cmdq_pkt_clear_event(cmdq_handle, mtk_crtc->cmdq_event);
+>                 cmdq_pkt_wfe(cmdq_handle, mtk_crtc->cmdq_event, false);
+>                 mtk_crtc_ddp_config(crtc, cmdq_handle);
+>                 cmdq_pkt_finalize(cmdq_handle);
+> -               dma_sync_single_for_device(mtk_crtc->cmdq_client->chan->m=
+box->dev,
+> +               dma_sync_single_for_device(mtk_crtc->cmdq_client.chan->mb=
+ox->dev,
+>                                            cmdq_handle->pa_base,
+>                                            cmdq_handle->cmd_buf_size,
+>                                            DMA_TO_DEVICE);
+> -               mbox_send_message(mtk_crtc->cmdq_client->chan, cmdq_handl=
+e);
+> -               mbox_client_txdone(mtk_crtc->cmdq_client->chan, 0);
+> +               mbox_send_message(mtk_crtc->cmdq_client.chan, cmdq_handle=
+);
+> +               mbox_client_txdone(mtk_crtc->cmdq_client.chan, 0);
+>         }
+>  #endif
+>         mtk_crtc->config_updating =3D false;
+> @@ -498,7 +498,7 @@ static void mtk_crtc_ddp_irq(void *data)
+>         struct mtk_drm_private *priv =3D crtc->dev->dev_private;
+>
+>  #if IS_REACHABLE(CONFIG_MTK_CMDQ)
+> -       if (!priv->data->shadow_register && !mtk_crtc->cmdq_client)
+> +       if (!priv->data->shadow_register && !mtk_crtc->cmdq_client.chan)
+>  #else
+>         if (!priv->data->shadow_register)
+>  #endif
+> @@ -838,17 +838,20 @@ int mtk_drm_crtc_create(struct drm_device *drm_dev,
+>         mutex_init(&mtk_crtc->hw_lock);
+>
+>  #if IS_REACHABLE(CONFIG_MTK_CMDQ)
+> -       mtk_crtc->cmdq_client =3D
+> -                       cmdq_mbox_create(mtk_crtc->mmsys_dev,
+> -                                        drm_crtc_index(&mtk_crtc->base))=
+;
+> -       if (IS_ERR(mtk_crtc->cmdq_client)) {
+> +       mtk_crtc->cmdq_client.client.dev =3D mtk_crtc->mmsys_dev;
+> +       mtk_crtc->cmdq_client.client.tx_block =3D false;
+> +       mtk_crtc->cmdq_client.client.knows_txdone =3D true;
+> +       mtk_crtc->cmdq_client.client.rx_callback =3D ddp_cmdq_cb;
+> +       mtk_crtc->cmdq_client.chan =3D
+> +                       mbox_request_channel(&mtk_crtc->cmdq_client.clien=
+t,
+> +                                            drm_crtc_index(&mtk_crtc->ba=
+se));
+> +       if (IS_ERR(mtk_crtc->cmdq_client.chan)) {
+>                 dev_dbg(dev, "mtk_crtc %d failed to create mailbox client=
+, writing register by CPU now\n",
+>                         drm_crtc_index(&mtk_crtc->base));
+> -               mtk_crtc->cmdq_client =3D NULL;
+> +               mtk_crtc->cmdq_client.chan =3D NULL;
+>         }
+>
+> -       if (mtk_crtc->cmdq_client) {
+> -               mtk_crtc->cmdq_client->client.rx_callback =3D ddp_cmdq_cb=
+;
+> +       if (mtk_crtc->cmdq_client.chan) {
+>                 ret =3D of_property_read_u32_index(priv->mutex_node,
+>                                                  "mediatek,gce-events",
+>                                                  drm_crtc_index(&mtk_crtc=
+->base),
+> @@ -856,8 +859,8 @@ int mtk_drm_crtc_create(struct drm_device *drm_dev,
+>                 if (ret) {
+>                         dev_dbg(dev, "mtk_crtc %d failed to get mediatek,=
+gce-events property\n",
+>                                 drm_crtc_index(&mtk_crtc->base));
+> -                       cmdq_mbox_destroy(mtk_crtc->cmdq_client);
+> -                       mtk_crtc->cmdq_client =3D NULL;
+> +                       mbox_free_channel(mtk_crtc->cmdq_client.chan);
+> +                       mtk_crtc->cmdq_client.chan =3D NULL;
+>                 }
+>         }
+>  #endif
+> --
+> 2.18.0
+>
