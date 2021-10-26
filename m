@@ -2,58 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D467D43B153
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Oct 2021 13:34:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7188343B154
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Oct 2021 13:35:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B19226E42F;
-	Tue, 26 Oct 2021 11:34:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8BE516E512;
+	Tue, 26 Oct 2021 11:35:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x72c.google.com (mail-qk1-x72c.google.com
- [IPv6:2607:f8b0:4864:20::72c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4108C6E42A
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Oct 2021 11:34:49 +0000 (UTC)
-Received: by mail-qk1-x72c.google.com with SMTP id bj31so14878942qkb.2
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Oct 2021 04:34:49 -0700 (PDT)
+Received: from mail-qk1-x732.google.com (mail-qk1-x732.google.com
+ [IPv6:2607:f8b0:4864:20::732])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F10BE6E550
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Oct 2021 11:34:51 +0000 (UTC)
+Received: by mail-qk1-x732.google.com with SMTP id y10so14697058qkp.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Oct 2021 04:34:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
  bh=BpzB9psURBvhNvmXpPEQXb13hz7OsGQ74tdDzFCqOD4=;
- b=GXDL8pf6VLTBwZRBxzMJfKTsTcr0Netp0zWt3lU2zsSyJFqLVkkS2/NAaVI+yYrdbJ
- nv2qglrowxZnYGS7l7gmLxSwlVIe3WdOOIHtiSjBwqcw/IeWLmr94/Ot/8OeNNB+Ywcf
- lzwyhnEEz7C4uQCG8RRUrIh4hc8c7GK2ooTTzzy5Ll8u23wD1pGQZgaCb9SU9+HPCuRc
- A8e8mZSxU3im4WO6EC0dTPimgFWPCBOnPEMbZGj1PNEwbg0THpcr8vYM7ls53yX5xvXG
- AmJMrM4xbLevIc6Yq8/DlDJy29R2YY8w/i8kLBqCaQV0aPeA32DxBwU8KyN/jBnlcI2A
- Elzw==
+ b=ELKTX2N0pM9diq7UfncrGTwHsd7lRcRe31idtHL9/vpWKK5B1EJwVX4LRAliYYq7sP
+ tUiUSeNB0jMAFI6wJHwhPWg8ps7bKOa2XzujsnCXJpPz4dDnm/g2YC0EqhfHkb9+4ugN
+ FBmZ/gRACEPKP8cDM6OYcg8GMM7XFyr3aHVE9PB4tVcfoXcOeLyIyne/A8qZRcCYUeET
+ 3NznIUe630X199WCABqIQoBh4mcgC/afZGFpf7fSrdPfvhT6rmcj1laa6lv/6Bq/eeyI
+ FwzB8dK/uL1cpx+Oe4KIb3XypIpzUrruP8cM3z3cRYtIbIC5IbB5/b0ekS6RjiCsNNJD
+ 6flg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
  bh=BpzB9psURBvhNvmXpPEQXb13hz7OsGQ74tdDzFCqOD4=;
- b=fxbjv2u43MF+BY/kl2YTOR1//y+BhRVcAOrHGNI5LYhsMsIyTmdwWPF3R2A1/yzTQf
- UjI+LxgSwwmQOVCy2G/eRipIprsGI3/+l5zTajNINSIRoAuK+AeqepEt+X9E5M+b0pJ+
- fk6GZS5PXOCXgfg6tC9nQ+BR/uTewlpE8AKvF3Y+ha7BB78A/RbTsuR+GZtlgN3YKvcU
- 8CU5kTc/VQX1altYV5MZ9JewsG/J4Yak98sNEX0KhZiCzschHMEmPkBU1Dn17VQr4Plc
- g12k0K29/CAoIcXWMroNJO+Dm3VCUz1jdx/u07onGdKKn+y7Wnv0O9X5P+KevRkvXy57
- QmSw==
-X-Gm-Message-State: AOAM530OXgqJG5M/kIjmBCx2YqGqOERRaBG2CDMTf71Q9DVoPb/9Gt6l
- KswKm2N14ZljML04VCaHXE4=
-X-Google-Smtp-Source: ABdhPJwTt1Btc3rYbvaHDdJEFrwttZSfHy5RAuJQKD6wxekYKq3IlBd2Q50hxF6KarbzOl9TAqKCew==
-X-Received: by 2002:a37:9606:: with SMTP id y6mr18046734qkd.13.1635248088339; 
- Tue, 26 Oct 2021 04:34:48 -0700 (PDT)
+ b=HqefXAlLY/DFzEanz0A/xh+URXXxfllAZXc09fQ0fw4K0DkdzBWPi8Oqis+jMXRdvv
+ 3H2wTHXlKEhIRH3HNBC1uBa8NBOG5oSwkYpS7ns406QVy92+KGtv/gLkCvdSE/DyTWNo
+ G1B3TbcZ6hvgD/rV1kYNY0FUlXgjH2EYjoOcT6lJI0l43+wZegDUeM/5uWy4sUHnGdNl
+ yoGw06pSW9+Tpgj1FtUhggcFcCLuCmRzu9OzxEyGji6Q/7TMbOqcDK2bvbKPqyhvAS7I
+ Rss0GJMsAOzUpGQkkbNVOrPZX2pldYZdFRgRLTmvu7lAeiONTMX5XPaejnljag4lzrtq
+ YhJQ==
+X-Gm-Message-State: AOAM531G6GivOdrWmMJP7L4bq8tLGDUlHexYqyeS5fDOvId1Mk9eTnxs
+ FgaW5FAKQ9q0fkg5KDUN6mY=
+X-Google-Smtp-Source: ABdhPJwKTHJlfIEMcnnIZOv6oLIkexzcFFaN54c0Fgkz4kSrPIQ9cCBf04ZaTEJ6UCbplNaOvisCCw==
+X-Received: by 2002:a05:620a:170d:: with SMTP id
+ az13mr18376675qkb.505.1635248091019; 
+ Tue, 26 Oct 2021 04:34:51 -0700 (PDT)
 Received: from localhost.localdomain ([2804:431:c7f4:5469:b11e:67b8:49d2:1744])
- by smtp.googlemail.com with ESMTPSA id f3sm11117691qko.32.2021.10.26.04.34.45
+ by smtp.googlemail.com with ESMTPSA id f3sm11117691qko.32.2021.10.26.04.34.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Oct 2021 04:34:48 -0700 (PDT)
+ Tue, 26 Oct 2021 04:34:50 -0700 (PDT)
 From: Igor Torrente <igormtorrente@gmail.com>
 To: rodrigosiqueiramelo@gmail.com, melissa.srw@gmail.com, ppaalanen@gmail.com,
  tzimmermann@suse.de
 Cc: Igor Torrente <igormtorrente@gmail.com>, hamohammed.sa@gmail.com,
  daniel@ffwll.ch, airlied@linux.ie, contact@emersion.fr,
  leandro.ribeiro@collabora.com, dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 8/8] drm: vkms: Add support the RGB565 format
-Date: Tue, 26 Oct 2021 08:34:08 -0300
-Message-Id: <20211026113409.7242-9-igormtorrente@gmail.com>
+Subject: [PATCH v2 8/8] drm: vkms: Add support to the RGB565 format
+Date: Tue, 26 Oct 2021 08:34:09 -0300
+Message-Id: <20211026113409.7242-10-igormtorrente@gmail.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211026113409.7242-1-igormtorrente@gmail.com>
 References: <20211026113409.7242-1-igormtorrente@gmail.com>
