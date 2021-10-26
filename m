@@ -2,48 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 716D843ABB3
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Oct 2021 07:29:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7763A43AD3C
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Oct 2021 09:34:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8CAE76E249;
-	Tue, 26 Oct 2021 05:29:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C04789DB2;
+	Tue, 26 Oct 2021 07:34:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B38F6E249
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Oct 2021 05:29:25 +0000 (UTC)
-X-UUID: 80558382f46443a38dfd2b9c22d543f8-20211026
-X-UUID: 80558382f46443a38dfd2b9c22d543f8-20211026
-Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
- mailgw02.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 994617978; Tue, 26 Oct 2021 13:29:18 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Tue, 26 Oct 2021 13:29:18 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
- Frontend Transport; Tue, 26 Oct 2021 13:29:18 +0800
-From: jason-jh.lin <jason-jh.lin@mediatek.com>
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel
- <p.zabel@pengutronix.de>, Matthias Brugger <matthias.bgg@gmail.com>, Jassi
- Brar <jassisinghbrar@gmail.com>, Yongqiang Niu <yongqiang.niu@mediatek.com>
-CC: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- "jason-jh . lin" <jason-jh.lin@mediatek.com>,
- <dri-devel@lists.freedesktop.org>, <linux-mediatek@lists.infradead.org>,
- <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
- <hsinyi@chromium.org>, <fshao@chromium.org>, <nancy.lin@mediatek.com>,
- <singo.chang@mediatek.com>
-Subject: [PATCH v4 5/5] drm/mediatek: Clear pending flag when cmdq packet is
- done
-Date: Tue, 26 Oct 2021 13:29:16 +0800
-Message-ID: <20211026052916.8222-6-jason-jh.lin@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20211026052916.8222-1-jason-jh.lin@mediatek.com>
-References: <20211026052916.8222-1-jason-jh.lin@mediatek.com>
+X-Greylist: delayed 480 seconds by postgrey-1.36 at gabe;
+ Tue, 26 Oct 2021 06:18:32 UTC
+Received: from out0.migadu.com (out0.migadu.com [94.23.1.103])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 447E06E2B4
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Oct 2021 06:18:32 +0000 (UTC)
+Message-ID: <1d60192a-0eec-70ed-9c3c-8e6f3866d99c@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1635228629;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=oBQbtnpH+00gV7mBGAxGI5OEydFCoAjp1v+/FzoQd1k=;
+ b=J+BKMrUXFE4YEUzli0oDEhIbt38gYW1tEOzDBCtkYly1rEGQeGMsw8UvDnRTiDbVeiugqj
+ fA6eoevDZXQa+EntqUz6Tjr9ZMV23IJQ3P/aTu3vyJDm4LOzFlrVPGXAUHj7QufCLzyQNX
+ bsGXPfbtlWYVe8wBSURqPlQfF0UPRa0=
+Date: Tue, 26 Oct 2021 09:10:26 +0300
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK: N
+Subject: Re: [PATCH for-next 0/3] EFA dmabuf memory regions
+Content-Language: en-US
+To: Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Doug Ledford <dledford@redhat.com>, Jason Gunthorpe <jgg@ziepe.ca>
+Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org,
+ Oded Gabbay <ogabbay@habana.ai>, Tomer Tayar <ttayar@habana.ai>,
+ Yossi Leybovich <sleybo@amazon.com>, Alexander Matushevsky
+ <matua@amazon.com>, Leon Romanovsky <leonro@nvidia.com>,
+ Jianxin Xiong <jianxin.xiong@intel.com>, Firas Jahjah <firasj@amazon.com>
+References: <20211012120903.96933-1-galpress@amazon.com>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Gal Pressman <gal.pressman@linux.dev>
+In-Reply-To: <20211012120903.96933-1-galpress@amazon.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
+X-Migadu-Auth-User: gal.pressman@linux.dev
+X-Mailman-Approved-At: Tue, 26 Oct 2021 07:33:59 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,104 +63,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Yongqiang Niu <yongqiang.niu@mediatek.com>
+On 12/10/2021 15:09, Gal Pressman wrote:
+> Hey all,
+>
+> This is a followup to my previous RFCs [1][2], which now adds a new api
+> to the RDMA subsystem that allows drivers to get a pinned dmabuf memory
+> region without requiring an implementation of the move_notify callback.
+> The new api makes use of the dynamic attachment api implemented in the
+> RDMA subsystem, but calls dma_buf_pin() in order to make sure that the
+> callback will not be called, as suggested by Christian.
+>
+> As explained in the previous RFC, move_notify requires the RDMA device
+> to support on-demand-paging (ODP) which is not common on most devices
+> (only supported by mlx5).
+>
+> While the dynamic requirement makes sense for certain GPUs, some devices
+> (such as habanalabs) have device memory that is always "pinned" and do
+> not need/use the move_notify operation.
+>
+> Patch #1 changes the dmabuf documentation to make it clear that pinning
+> does not necessarily mean the memory must be moved to system memory, it
+> is up to the exporter to decide.
+> Patch #2 adds the RDMA api that allows drivers to get pinned dmabuf
+> memory regions.
+> Patch #3 adds the EFA implementation of the dmabuf importer.
+>
+> The motivation of this submission is to use habanalabs as the dmabuf
+> exporter, and EFA as the importer to allow for peer2peer access through
+> libibverbs.
+>
+> [1] https://lore.kernel.org/linux-rdma/20210818074352.29950-1-galpress@amazon.com/
+> [2] https://lore.kernel.org/linux-rdma/20211007104301.76693-1-galpress@amazon.com/
+>
+> Thanks
 
-In cmdq mode, packet may be flushed before it is executed, so
-the pending flag should be cleared after cmdq packet is done.
 
-Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
-Signed-off-by: jason-jh.lin <jason-jh.lin@mediatek.com>
----
- drivers/gpu/drm/mediatek/mtk_drm_crtc.c | 51 ++++++++++++++++++++++---
- 1 file changed, 46 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-index 31f05efc1bc0..ea285795776f 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-@@ -275,8 +275,42 @@ struct mtk_ddp_comp *mtk_drm_ddp_comp_for_plane(struct drm_crtc *crtc,
- #if IS_REACHABLE(CONFIG_MTK_CMDQ)
- static void ddp_cmdq_cb(struct mbox_client *cl, void *mssg)
- {
-+	struct cmdq_cb_data *data = mssg;
- 	struct cmdq_client *cmdq_cl = container_of(cl, struct cmdq_client, client);
- 	struct mtk_drm_crtc *mtk_crtc = container_of(cmdq_cl, struct mtk_drm_crtc, cmdq_client);
-+	struct mtk_crtc_state *state;
-+	unsigned int i;
-+
-+	if (data->sta < 0)
-+		return;
-+
-+	state = to_mtk_crtc_state(mtk_crtc->base.state);
-+
-+	state->pending_config = false;
-+
-+	if (mtk_crtc->pending_planes) {
-+		for (i = 0; i < mtk_crtc->layer_nr; i++) {
-+			struct drm_plane *plane = &mtk_crtc->planes[i];
-+			struct mtk_plane_state *plane_state;
-+
-+			plane_state = to_mtk_plane_state(plane->state);
-+
-+			plane_state->pending.config = false;
-+		}
-+		mtk_crtc->pending_planes = false;
-+	}
-+
-+	if (mtk_crtc->pending_async_planes) {
-+		for (i = 0; i < mtk_crtc->layer_nr; i++) {
-+			struct drm_plane *plane = &mtk_crtc->planes[i];
-+			struct mtk_plane_state *plane_state;
-+
-+			plane_state = to_mtk_plane_state(plane->state);
-+
-+			plane_state->pending.async_config = false;
-+		}
-+		mtk_crtc->pending_async_planes = false;
-+	}
- 
- 	mtk_crtc->cmdq_vblank_cnt = 0;
- }
-@@ -432,7 +466,8 @@ static void mtk_crtc_ddp_config(struct drm_crtc *crtc,
- 				    state->pending_vrefresh, 0,
- 				    cmdq_handle);
- 
--		state->pending_config = false;
-+		if (!cmdq_handle)
-+			state->pending_config = false;
- 	}
- 
- 	if (mtk_crtc->pending_planes) {
-@@ -452,9 +487,12 @@ static void mtk_crtc_ddp_config(struct drm_crtc *crtc,
- 				mtk_ddp_comp_layer_config(comp, local_layer,
- 							  plane_state,
- 							  cmdq_handle);
--			plane_state->pending.config = false;
-+			if (!cmdq_handle)
-+				plane_state->pending.config = false;
- 		}
--		mtk_crtc->pending_planes = false;
-+
-+		if (!cmdq_handle)
-+			mtk_crtc->pending_planes = false;
- 	}
- 
- 	if (mtk_crtc->pending_async_planes) {
-@@ -474,9 +512,12 @@ static void mtk_crtc_ddp_config(struct drm_crtc *crtc,
- 				mtk_ddp_comp_layer_config(comp, local_layer,
- 							  plane_state,
- 							  cmdq_handle);
--			plane_state->pending.async_config = false;
-+			if (!cmdq_handle)
-+				plane_state->pending.async_config = false;
- 		}
--		mtk_crtc->pending_async_planes = false;
-+
-+		if (!cmdq_handle)
-+			mtk_crtc->pending_async_planes = false;
- 	}
- }
- 
--- 
-2.18.0
+Hey Jason, did you get a chance to take a look?
 
