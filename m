@@ -2,46 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96CE743ADC4
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Oct 2021 10:04:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B84343ADE7
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Oct 2021 10:22:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2430889B83;
-	Tue, 26 Oct 2021 08:04:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ACD936E400;
+	Tue, 26 Oct 2021 08:22:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C77F56E40A
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Oct 2021 08:04:49 +0000 (UTC)
-X-UUID: a06a541a01624b4490537ec3abd7a2c1-20211026
-X-UUID: a06a541a01624b4490537ec3abd7a2c1-20211026
-Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
- mailgw02.mediatek.com (envelope-from <guangming.cao@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1877048041; Tue, 26 Oct 2021 16:04:46 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.2.792.15; Tue, 26 Oct 2021 16:04:45 +0800
-Received: from mszswglt01.gcn.mediatek.inc (10.16.20.20) by
- mtkcas10.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.0.1497.2 via Frontend Transport; Tue, 26 Oct 2021 16:04:44 +0800
-From: <guangming.cao@mediatek.com>
-To: <christian.koenig@amd.com>, <sumit.semwal@linaro.org>
-CC: <dri-devel@lists.freedesktop.org>, <guangming.cao@mediatek.com>,
- <linaro-mm-sig@lists.linaro.org>, <linux-arm-kernel@lists.infradead.org>,
- <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
- <linux-mediatek@lists.infradead.org>, <matthias.bgg@gmail.com>,
- <rdunlap@infradead.org>, <wsd_upstream@mediatek.com>, Guangming Cao
- <Guangming.Cao@mediatek.com>
-Subject: [PATCH v3] dma-buf: remove restriction of IOCTL:DMA_BUF_SET_NAME
-Date: Tue, 26 Oct 2021 16:04:51 +0800
-Message-ID: <20211026080451.3763-1-guangming.cao@mediatek.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20211014102551.54983-1-guangming.cao@mediatek.com>
-References: <20211014102551.54983-1-guangming.cao@mediatek.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B20C6E400;
+ Tue, 26 Oct 2021 08:22:34 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10148"; a="230128723"
+X-IronPort-AV: E=Sophos;i="5.87,182,1631602800"; d="scan'208";a="230128723"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Oct 2021 01:22:31 -0700
+X-IronPort-AV: E=Sophos;i="5.87,182,1631602800"; d="scan'208";a="723980115"
+Received: from fnygreen-mobl1.ger.corp.intel.com (HELO [10.249.254.182])
+ ([10.249.254.182])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Oct 2021 01:22:30 -0700
+Message-ID: <4ce320ad-623f-fb27-6772-aac2ae18a9fb@linux.intel.com>
+Date: Tue, 26 Oct 2021 10:22:27 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK: N
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH] drm/i915/selftests: Allow engine reset failure to do a GT
+ reset in hangcheck selftest
+Content-Language: en-US
+To: Matthew Brost <matthew.brost@intel.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ john.c.harrison@intel.com
+References: <20211011234705.30853-1-matthew.brost@intel.com>
+ <f8f1ae021e8cabc2c6d76996b5e74912cb0913db.camel@linux.intel.com>
+ <20211021203747.GA27209@jons-linux-dev-box>
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
+In-Reply-To: <20211021203747.GA27209@jons-linux-dev-box>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,91 +55,130 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Guangming Cao <Guangming.Cao@mediatek.com>
+Hi,
 
-On Thu, 2021-10-14 at 18:25 +0800, guangming.cao@mediatek.com wrote:
-> From: Guangming Cao <Guangming.Cao@mediatek.com>
-> 
-> In this patch(https://patchwork.freedesktop.org/patch/310349),
-> it add a new IOCTL to support dma-buf user to set debug name.
-> 
-> But it also added a limitation of this IOCTL, it needs the
-> attachments of dmabuf should be empty, otherwise it will fail.
-> 
-> For the original series, the idea was that allowing name change
-> mid-use could confuse the users about the dma-buf.
-> However, the rest of the series also makes sure each dma-buf have a
-> unique
-> inode(https://patchwork.freedesktop.org/patch/310387/), and any
-> accounting
-> should probably use that, without relying on the name as much.
-> 
-> So, removing this restriction will let dma-buf userspace users to use
-> it
-> more comfortably and without any side effect.
-> 
-Hi christian, sumit,
+On 10/21/21 22:37, Matthew Brost wrote:
+> On Thu, Oct 21, 2021 at 08:15:49AM +0200, Thomas Hellström wrote:
+>> Hi, Matthew,
+>>
+>> On Mon, 2021-10-11 at 16:47 -0700, Matthew Brost wrote:
+>>> The hangcheck selftest blocks per engine resets by setting magic bits
+>>> in
+>>> the reset flags. This is incorrect for GuC submission because if the
+>>> GuC
+>>> fails to reset an engine we would like to do a full GT reset. Do no
+>>> set
+>>> these magic bits when using GuC submission.
+>>>
+>>> Side note this lockless algorithm with magic bits to block resets
+>>> really
+>>> should be ripped out.
+>>>
+>> Lockless algorithm aside, from a quick look at the code in
+>> intel_reset.c it appears to me like the interface that falls back to a
+>> full GT reset is intel_gt_handle_error() whereas intel_engine_reset()
+>> is explicitly intended to not do that, so is there a discrepancy
+>> between GuC and non-GuC here?
+>>
+> With GuC submission when an engine reset fails, we get an engine reset
+> failure notification which triggers a full GT reset
+> (intel_guc_engine_failure_process_msg in intel_guc_submission.c). That
+> reset is blocking by setting these magic bits. Clearing the bits in this
+> function doesn't seem to unblock that reset either, the driver tries to
+> unload with a worker blocked, and results in the blow up. Something with
+> this lockless algorithm could be wrong as clear of the bit should
+> unlblock the reset but it is doesn't. We can look into that but in the
+> meantime we need to fix this test to be able to fail gracefully and not
+> crash CI.
+>
+> Matt
 
-Just a gentle ping for this patch, please kindly let me know your comments about this patch.
-Thanks!
+Hmm, OK I think the situation is a bit unfortunate with the selftest 
+hangcheck as the code is sprinkled with "using_guc" to disable anything 
+that manually does per-engine resets or verifies the per-engine reset 
+count, leaving it very difficult to understand what the test actually 
+does except perhaps checking that GuC actually did a reset.
 
-Guangming
+A better approach would probably be to disable all tests that doesn't do 
+anything exept iterating through the engines with GuC, and for the other 
+tests, extract what's left to test into GuC specific tests.
 
-> Signed-off-by: Guangming Cao <Guangming.Cao@mediatek.com>
-> ---
->  drivers/dma-buf/dma-buf.c | 17 +++--------------
->  1 file changed, 3 insertions(+), 14 deletions(-)
-> 
-> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> index 511fe0d217a0..5fbb3a2068a3 100644
-> --- a/drivers/dma-buf/dma-buf.c
-> +++ b/drivers/dma-buf/dma-buf.c
-> @@ -325,10 +325,8 @@ static __poll_t dma_buf_poll(struct file *file,
-> poll_table *poll)
->  
->  /**
->   * dma_buf_set_name - Set a name to a specific dma_buf to track the
-> usage.
-> - * The name of the dma-buf buffer can only be set when the dma-buf
-> is not
-> - * attached to any devices. It could theoritically support changing
-> the
-> - * name of the dma-buf if the same piece of memory is used for
-> multiple
-> - * purpose between different devices.
-> + * It could support changing the name of the dma-buf if the same
-> + * piece of memory is used for multiple purpose between different
-> devices.
->   *
->   * @dmabuf: [in]     dmabuf buffer that will be renamed.
->   * @buf:    [in]     A piece of userspace memory that contains the
-> name of
-> @@ -341,25 +339,16 @@ static __poll_t dma_buf_poll(struct file *file,
-> poll_table *poll)
->  static long dma_buf_set_name(struct dma_buf *dmabuf, const char
-> __user *buf)
->  {
->  	char *name = strndup_user(buf, DMA_BUF_NAME_LEN);
-> -	long ret = 0;
->  
->  	if (IS_ERR(name))
->  		return PTR_ERR(name);
->  
-> -	dma_resv_lock(dmabuf->resv, NULL);
-> -	if (!list_empty(&dmabuf->attachments)) {
-> -		ret = -EBUSY;
-> -		kfree(name);
-> -		goto out_unlock;
-> -	}
->  	spin_lock(&dmabuf->name_lock);
->  	kfree(dmabuf->name);
->  	dmabuf->name = name;
->  	spin_unlock(&dmabuf->name_lock);
->  
-> -out_unlock:
-> -	dma_resv_unlock(dmabuf->resv);
-> -	return ret;
-> +	return 0;
->  }
->  
->  static long dma_buf_ioctl(struct file *file,
+The bit-locks are obviously there to verify that we don't do concurrent 
+per-engine resets or global resets while a per-engine reset is 
+happening. Even in the GuC case it appears at least the latter is true 
+for this particular self-test, but at the same time the selftest doesn't 
+assume anything is trying to reset concurrently and therefore doesn't 
+use clear_and_wake_up_bit() when releasing the bit-locks.
+
+But as much as I want the selftests to start running again, TBH I don't 
+think I can contribute to even more code being conditioned on GuC with 
+an R-B here. Could we disable the per-engine reset tests when GuC is 
+enabled for now or try a clear_and_wake_up_bit() instead.
+
+/Thomas
+
+
+>> /Thomas
+>>
+>>
+>>> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+>>> ---
+>>>   drivers/gpu/drm/i915/gt/selftest_hangcheck.c | 12 ++++++++----
+>>>   1 file changed, 8 insertions(+), 4 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
+>>> b/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
+>>> index 7e2d99dd012d..90a03c60c80c 100644
+>>> --- a/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
+>>> +++ b/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
+>>> @@ -734,7 +734,8 @@ static int __igt_reset_engine(struct intel_gt
+>>> *gt, bool active)
+>>>                  reset_engine_count = i915_reset_engine_count(global,
+>>> engine);
+>>>   
+>>>                  st_engine_heartbeat_disable(engine);
+>>> -               set_bit(I915_RESET_ENGINE + id, &gt->reset.flags);
+>>> +               if (!using_guc)
+>>> +                       set_bit(I915_RESET_ENGINE + id, &gt-
+>>>> reset.flags);
+>>>                  count = 0;
+>>>                  do {
+>>>                          struct i915_request *rq = NULL;
+>>> @@ -824,7 +825,8 @@ static int __igt_reset_engine(struct intel_gt
+>>> *gt, bool active)
+>>>                          if (err)
+>>>                                  break;
+>>>                  } while (time_before(jiffies, end_time));
+>>> -               clear_bit(I915_RESET_ENGINE + id, &gt->reset.flags);
+>>> +               if (!using_guc)
+>>> +                       clear_bit(I915_RESET_ENGINE + id, &gt-
+>>>> reset.flags);
+>>>                  st_engine_heartbeat_enable(engine);
+>>>                  pr_info("%s: Completed %lu %s resets\n",
+>>>                          engine->name, count, active ? "active" :
+>>> "idle");
+>>> @@ -1042,7 +1044,8 @@ static int __igt_reset_engines(struct intel_gt
+>>> *gt,
+>>>                  yield(); /* start all threads before we begin */
+>>>   
+>>>                  st_engine_heartbeat_disable_no_pm(engine);
+>>> -               set_bit(I915_RESET_ENGINE + id, &gt->reset.flags);
+>>> +               if (!using_guc)
+>>> +                       set_bit(I915_RESET_ENGINE + id, &gt-
+>>>> reset.flags);
+>>>                  do {
+>>>                          struct i915_request *rq = NULL;
+>>>                          struct intel_selftest_saved_policy saved;
+>>> @@ -1165,7 +1168,8 @@ static int __igt_reset_engines(struct intel_gt
+>>> *gt,
+>>>                          if (err)
+>>>                                  break;
+>>>                  } while (time_before(jiffies, end_time));
+>>> -               clear_bit(I915_RESET_ENGINE + id, &gt->reset.flags);
+>>> +               if (!using_guc)
+>>> +                       clear_bit(I915_RESET_ENGINE + id, &gt-
+>>>> reset.flags);
+>>>                  st_engine_heartbeat_enable_no_pm(engine);
+>>>   
+>>>                  pr_info("i915_reset_engine(%s:%s): %lu resets\n",
+>>
