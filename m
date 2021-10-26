@@ -2,128 +2,128 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 185D443B696
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Oct 2021 18:10:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CBD443B79C
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Oct 2021 18:52:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D7A7A6E563;
-	Tue, 26 Oct 2021 16:10:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0493189ABE;
+	Tue, 26 Oct 2021 16:52:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2066.outbound.protection.outlook.com [40.107.236.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 48C1E899B7;
- Tue, 26 Oct 2021 16:10:04 +0000 (UTC)
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10on2071.outbound.protection.outlook.com [40.107.92.71])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A4F889ABE
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Oct 2021 16:52:42 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BiDE8eaQhu/1hsy0NBGOdwkK5gKTngTwwoWqQOY0Nz+EjmkhuV4ZpmQcJobFndiSAmPC9Wxu2YrG5TaN7bsYOw18r9//IowKdpvO1s7NymLQBVdYRHHmOgNbv5Ug961Cz+GXbwD4TxYmmjp8VqfwlpCKJLAsWWn5cdEFeKfYjgbHsL8fZ2MpQ0zTzyrEHDS+CQYlXu/hasd5Y+TGRvVaLEgxjfhW2dUBDXcL4SGTuDJT+oIO2TiamVXFSLXlRoYNOqt0a5AMMrNm3cUgNMVnqNdmozZqqbMXtOPHCbu5oDqYGmrwJlshTk3kqkFGNhwYub2BFF/luozry5sEUe1JKQ==
+ b=KKuTZ9SdIqfvmRb2WWjZ7QScaLWQoyAARcNrDzqNa7ZVlUrajd0tUxFL5cM9QAK0ByYVP6PKVOxqQzgunevEkFP5VBLASDU4x57W4FcHFjTeOPJhYDqYxGW+bHkx/oyDJ0p0Rj8+D6O0dymkvp+AxwLcUmbxyo1I/zMBiVGjQ8fez08QEpS0mWThQOj5xxMTyn0vkVZzF0dldCTWF/Ptgs+0nQsf89J+yAWPdixssFocDkfILBnEBq09Z+nm34Dsw7FfRPJqWWd7RxBuANyxiAyoK+BfYr/TGhE5/31KPLyJQrM3EoaeO+WJo5TcrgxS94Vlma2rot/kD1yrPzszeQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=A/j3iQWvhbgV+Ui/Yv2yn2kv7bUeyLawI76+a9CbgPU=;
- b=YCVBudUhHlMcbm8T2sCReyiJFkYP9neAER816xxOMr0dwpjFnSV7X7FpDj3JhcYCnBl0I14C5u+4z4W5S/Aw03LBjitIGFkxcumYZ2rE1NMrY5NgTXHvmBk9017tktWemUhj5fsPrhw8ikDUSQ4xVc1aBPGOA6XAD6sdvy6Mlo2KMWorOk89O7BAZ5jNl1sLKhfZK+CzS7OzK1jHUjydCvp83mQdUVQcPCT4xZ22PgftsXdoHsx/rLitm/pvGimtmrqjrDzG0IHqFi17r8a4/ZvibYPr9APp5ew1hniTsOh3rsaPeCRoSdtEQWmIWv2p+VdhnCoe4SPxTOYGj0oSYQ==
+ bh=2gUoZjvbz2lHSNeaQzkQceRpb3xtquK9W4vgG7jqllo=;
+ b=lHu/uaC64qRaaWtNf2RRD6RsyuHX/4EepwQe4rxxCQgo0Q3xRlcqNMpGRMTbaAZRSRqhio+M0phr7sGP1DOLXt+sjRNAOAqCTdN0LWm+0UKqb/c7aQeSd6D2dNFfllJLT2WwpBS3H8ItT9t/sjW7BagAxlyevTlBJScoR1aKOcTjIr4mq/c9aCrLZOguS+5SxBA6su1IgtLW6b7QQwWy52/V7DZjNdUcEWPzcvP7JOgDsDqeBaQK3BiDdvuOj+ZYpZFHhLCBPqiPXcPHYXxqpL5QIXfbSHt2TcWLBIY+8OK3ntIXGYKC9p21OvkiXYC//jnLaNpP9DIr1qfLKNtNdQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=A/j3iQWvhbgV+Ui/Yv2yn2kv7bUeyLawI76+a9CbgPU=;
- b=oK9a5GIfXKj9QZA4mVznaduWfVv7HCIB/KW4yJ2rl6cvLEN23ijEPHif9CWxiKf1Ku/cSaXECIl9BwfU/ylylvvZpEUKaqTGx/sgzgsVBCOCDJMaYiztCug9Xfijm5buKobCmlKNasLkzj6pBNCdh0S3HDqJJT9P2SPmppyBkts=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=amd.com;
-Received: from DM5PR1201MB2491.namprd12.prod.outlook.com (2603:10b6:3:eb::23)
- by DM6PR12MB3401.namprd12.prod.outlook.com (2603:10b6:5:39::32) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4628.18; Tue, 26 Oct
- 2021 16:10:00 +0000
-Received: from DM5PR1201MB2491.namprd12.prod.outlook.com
- ([fe80::d153:3aa6:4677:e29]) by DM5PR1201MB2491.namprd12.prod.outlook.com
- ([fe80::d153:3aa6:4677:e29%7]) with mapi id 15.20.4628.020; Tue, 26 Oct 2021
- 16:10:00 +0000
-Subject: Re: [PATCH] mm/migrate.c: Remove MIGRATE_PFN_LOCKED
-To: Alistair Popple <apopple@nvidia.com>, akpm@linux-foundation.org
-Cc: kvm-ppc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- alexander.deucher@amd.com, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, jglisse@redhat.com, jhubbard@nvidia.com,
- ziy@nvidia.com, rcampbell@nvidia.com, hch@lst.de, bskeggs@redhat.com
-References: <20211025041608.289017-1-apopple@nvidia.com>
-From: Felix Kuehling <felix.kuehling@amd.com>
-Message-ID: <14d807ba-04f8-49cb-8094-bde1032f1eaf@amd.com>
-Date: Tue, 26 Oct 2021 12:09:57 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
-In-Reply-To: <20211025041608.289017-1-apopple@nvidia.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-ClientProxiedBy: YQBPR0101CA0106.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c01:5::9) To DM5PR1201MB2491.namprd12.prod.outlook.com
- (2603:10b6:3:eb::23)
+ bh=2gUoZjvbz2lHSNeaQzkQceRpb3xtquK9W4vgG7jqllo=;
+ b=Iy1kprlr5UChlQ0acxz0vcyKqfoANTsRljXVaVNMeFW9ieSz/4hGgfMGQ/38KYOB5WOHc1GfUcNXWK2G9IO+eZza9Etdej9+GOslOqGsv/18SngsFNhVeZ6fIwJsHLxLeEnPDNQkFrTxQe1d4IuPhs2PyQossCREjTvDdpoJtxmigs0W/A7hX1rzVk7BvruuhD2TyWXy+KKzIfIKIVVycHifMazI1HFqfUngvDi70C86gT8phHeSaHAIez59BKYvj+O2cUaR/PSN0AhqKYbnx29715inHOtAM3dw7vkC8bNPXMc213hQGCkC5S6jLF1Vq4B+9jylIvJWDSi/iP3jFA==
+Authentication-Results: linux.ie; dkim=none (message not signed)
+ header.d=none;linux.ie; dmarc=none action=none header.from=nvidia.com;
+Received: from BL0PR12MB5506.namprd12.prod.outlook.com (2603:10b6:208:1cb::22)
+ by BL1PR12MB5174.namprd12.prod.outlook.com (2603:10b6:208:31c::19)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4649.14; Tue, 26 Oct
+ 2021 16:52:40 +0000
+Received: from BL0PR12MB5506.namprd12.prod.outlook.com
+ ([fe80::e8af:232:915e:2f95]) by BL0PR12MB5506.namprd12.prod.outlook.com
+ ([fe80::e8af:232:915e:2f95%8]) with mapi id 15.20.4649.014; Tue, 26 Oct 2021
+ 16:52:40 +0000
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: David Airlie <airlied@linux.ie>,
+ Christian Koenig <christian.koenig@amd.com>,
+ Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ Huang Rui <ray.huang@amd.com>,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+Cc: Dan Williams <dan.j.williams@intel.com>,
+ Ralph Campbell <rcampbell@nvidia.com>,
+ Roland Scheidegger <sroland@vmware.com>
+Subject: [PATCH drm-fixes v3] drm/ttm: remove ttm_bo_vm_insert_huge()
+Date: Tue, 26 Oct 2021 13:52:38 -0300
+Message-Id: <0-v3-53c9dd89557a+8df1f-ttm_pmd_jgg@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: YTOPR0101CA0056.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b00:14::33) To BL0PR12MB5506.namprd12.prod.outlook.com
+ (2603:10b6:208:1cb::22)
 MIME-Version: 1.0
-Received: from [192.168.2.100] (142.118.126.231) by
- YQBPR0101CA0106.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:c01:5::9) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4628.22 via Frontend Transport; Tue, 26 Oct 2021 16:09:59 +0000
+Received: from mlx.ziepe.ca (206.223.160.26) by
+ YTOPR0101CA0056.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b00:14::33) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4608.18 via Frontend
+ Transport; Tue, 26 Oct 2021 16:52:39 +0000
+Received: from jgg by mlx with local (Exim 4.94)	(envelope-from
+ <jgg@nvidia.com>)	id 1mfPgk-0028eT-5P; Tue, 26 Oct 2021 13:52:38 -0300
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ed698679-2d1c-4774-ad2c-08d9989b0fc2
-X-MS-TrafficTypeDiagnostic: DM6PR12MB3401:
-X-Microsoft-Antispam-PRVS: <DM6PR12MB3401AB0CB7ED99131D1B072C92849@DM6PR12MB3401.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Office365-Filtering-Correlation-Id: d818ebc2-1a61-4fa7-9352-08d998a10569
+X-MS-TrafficTypeDiagnostic: BL1PR12MB5174:
+X-Microsoft-Antispam-PRVS: <BL1PR12MB51743EE033D6E63783AFF461C2849@BL1PR12MB5174.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: QlaAXwgfGBhP2oyAL4Jk72FCZ6nNoKutXudRKnOwKSIFH+uajOiAEwa8T4jR2rtaJC0GsnZB6NJPc3cU5WRa6269OnDgFAD6UfqIDJ9XmtCWi2IOtPijjJE1/sXIY4x3IgR4+MkXSpzR/q68u+Hyu1hXjHKP/pz2p0IlbIXwMclgVmC7uIVnJC3kbCxLCox1SB6Z2pbsICwa57YkAv11f/YPAt9ynwtLN2zsaD90548FjEWHgW75yxADgjlWDYJfIUZdGWUb8oU73WW1JyOH96jVlRT+aVIJ7b4n4MaZYTrkYcr0D2u8BRYntvmByFTjyqQJu96tn5JxvrrKdo+YU2TIZW9mzvplgKhM6DAae63ylm38hWrJ8Lx6W2R7TXkmv+a5nlk68zGpMtQBqp5IkMVxcLrdNzkWPWfKYC7OQOKgK+uoesR8TywhZFG7wSP0SFgYoU1VZnsPGoepLHAm7yVqFgk6opcE8Fk92PkIHgwbzUh+VoA0l0unCbF1W9yuItJm6vfJXgs6KC9KSDfntgJufDQ3uOfJ1hhP2L7CdfeD9TBK0JOvxGvBktKoTCAzmLgQiew5WMxgzogh6qq7plbBmijAjBluLf2qrYy7Jo7vd3Lqlq3ZQSrStyRKrRv+6Sd60pqUs9vLl7JaKL5fiBfdXqHPYfNd3l5fHbGxvcvIzbYWVHUInYE+HD4FphKj4VptTr2dmi170yCzzdsXTmljHQbXh4sH201aIT8uaVLrlGhSxCLifo0zSUuRk+Qs
+X-Microsoft-Antispam-Message-Info: mIuiJyU/LY2TN4xN0NG7o/KQpYju95OtTiyODFbhBgbFdTCHDNcXHPSP3RjKOEyB2vE4DlM6iRz5+11StP/6VlVsqZjywX3i6KaTgLyEGgGo9O/SZcG5r73/BzmC8dgf2KkvbjbNWbTasW4odpQ9arjjfUfc5SconTGny+z/VavK2kR/WoF5CQe7xrmmt761PtImUrJ+jloIR4O10qUBwU92JLkhms5j9Wo5V3CtF07Rmj5Y3aSB0mnCBDwKgUs33EyfAIWiRqIzn4v0an1dHtQ035JiSqtHteswlODusmYTcoVm3jZagUuc8ogkf5VowNSq49DRjXS2CRD/lQ8KQIeKydvtpKByhMvOWOlIaoibSHcSR2f/fSfIkM4n+jkFbqGTdXEbfOSh+zsTNnEVB9ym8ZD8KoIJWGWgr2eLZFb5cG7IJgMKoDLTOlS1z8XUNhzWXaLymicYNVxCLS6QfZX+IbxQ13j792broZFSIR0EObl8KoxFKku2BJnS0LmOhaVH0dX2aR7p4woDQYVHphWngdZbOrkPq13gTR0U0fg7Cqy8znuHWzFKqLpv+HMoVgAhb5mHUKauCN6opsIy8iceVXsUEYjYAKDbuA5Llbh+BU189GQYA4+w9iXFJYRoLYdejZB+6jfG5KKsemtxLOzYBm7iP79t3t95ogC5QujAs1TPalHG19usd4/IzNpN/hMg8ku6iOL+mbl3xFp1wGRZk6kh4IKE7sWmdOuyf31giXi3aloU+4r4kpu36iEdnXLwzfbSbt7dPh/dMQmFYHa47dxiTem5Fx3BQ0hCbeR0bhXTkrj0AyiGarewXGnWncXGT0CN1NKJy/F0EC4NYi1wPo1C9yGHbY/mbla2tEw=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM5PR1201MB2491.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(316002)(4326008)(26005)(7416002)(66946007)(4001150100001)(6486002)(30864003)(2616005)(2906002)(36756003)(86362001)(8936002)(956004)(5660300002)(66556008)(186003)(38100700002)(8676002)(31686004)(44832011)(83380400001)(66476007)(508600001)(16576012)(31696002)(45980500001)(43740500002);
+ IPV:NLI; SFV:NSPM; H:BL0PR12MB5506.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(186003)(66556008)(86362001)(66946007)(26005)(66476007)(8676002)(316002)(426003)(30864003)(966005)(83380400001)(5660300002)(38100700002)(66574015)(2616005)(36756003)(508600001)(8936002)(9786002)(110136005)(9746002)(2906002)(4326008)(54906003)(4216001)(14583001);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?alRaQTd2YmphS210dHJmSERMWmtKQWdHYWtadTNZeXI3bmNLTUNzNExrRnUx?=
- =?utf-8?B?N0RUS3RXMW5RV1Zoa2ovaHNlbENMcnNES0M2cmhCMCsvdjlhbzg2YmFzVlB0?=
- =?utf-8?B?ZytsdHhLdlJyR2FOZmNsOThvQkx1UGR5dGtiUFhkQXV2Yk53Q0hQWWhpN05C?=
- =?utf-8?B?QTBUazVIWFo5VzkvZTlmend0Vlloc0kxUkg3MnpIazR4YmNwRmZTbVhiRmlh?=
- =?utf-8?B?OVgzQTRJc1pmYmpLcW4zcFdFWGd4WC9jMHlsSFR2Ry9McndqanZ6SUg3Sndi?=
- =?utf-8?B?VlgzZVlWbHpjRU9LNTFoOE54L2lzT0VFR28vQmpTVEUrVENsbngrMzRiTzhO?=
- =?utf-8?B?M2JZQzRSdWprZDZiTFk5SjE2Zis2MkpaeXFlMTVoZkVSU1VORldvdTlmQWpL?=
- =?utf-8?B?TFhOQlArRCttMU5UMEtqeFVoOHg5eWZVVlRRcjNKNkVWR1NmajJMbC92dDZL?=
- =?utf-8?B?bTZXNkpHRHIxVmMrbEJKUEsvQUlCODlwN2VEVU1wQThubDZnUjBnN2dwTzZ4?=
- =?utf-8?B?M2ZRa0duU3IyMnltMlkvcDlMM0toMGl0WFViYjZlNG10NmlEa1BhMlorRjNs?=
- =?utf-8?B?NDJIbFBDK0ljcmtaNUVJSCs4YnFxSkFZN0x3MXJ4TGp4SG1yNFlyWlJjeWU0?=
- =?utf-8?B?SDJzTDZPSHI2ejdwMGtEcmRQcjNCWW03K3d6ZFI5b0haMjlNV2pPVTk4T1F0?=
- =?utf-8?B?Y0VJWHdOU2VENHdrRnJlNGVWQ2M5S1g5QWtETUE0Nkgyc1pHdHpPRW1Fc1BI?=
- =?utf-8?B?djB3dWpsS2pmVzV2c1RjWkFnQklqQy9WZnJ2U2ZHWnRmUHhkenRKY2JLMzJP?=
- =?utf-8?B?RjZ5Vm01WnRLVUdEby9TcDhZL3o4ZzcyTXNOclhnNkVIT0lyMkZMZGhzRUJw?=
- =?utf-8?B?VVpCcjVraUUvcUIyWFBkcU1iaHd6RjRDQlZ3eERrdUJ2TG41OU9sVFlXL2xo?=
- =?utf-8?B?bEg1b21WMXRQOXN4QTQ0SEtsaW00T2xzMjl1b293SlI1RjFOUmFOSk5VWU80?=
- =?utf-8?B?Vzc2R1dNOVBLbm5Wbkk5WVdtQTZTSzZvaDlFSnFTMDlyWjhGZlhaUTNnNEg5?=
- =?utf-8?B?V2RxNi9maTAxaFBtOVBNYXdERHFqNVhwMTFoMWEvSnF6cW5hWld6RG5aQzhI?=
- =?utf-8?B?bER1dFBBaUVkT3Q3Vis0QTE1NFoydWpPWFNNd3RjSFh3S08zaTJBVEI2V2Ev?=
- =?utf-8?B?SDI5eFlhcWNFcjhIeEVydEtRVVBxMDREeDgvYmR2YXF6cGhyNUhiQ2g1THZ0?=
- =?utf-8?B?V3pMaWZ3Z3JIWlNmZmREUGZlWHIzSlNJM2JRSXh0Zm0wS0hEbmFJVXVuYVBK?=
- =?utf-8?B?a3RxRjVxZkxEQmFZTkpQdzVHRlQraGl6ZjZ0RG5tSW5JRUFadjJzbUZxeE10?=
- =?utf-8?B?c0FUakRmcS9KSkc2bEo1Ty9OVkNUbzdJL2Q1Wk85TDZDYkJIVit4TjJ4Nm9l?=
- =?utf-8?B?cTlvK3dlN3cybTQrSHlTYzJ2Ny95VVdNbDBnQnl4dFJZdmJOOTZkNTdZVW5m?=
- =?utf-8?B?MFJBZERWekFvaHFkaDNydWk4UXRyc2RaN3BUeHNxZFBENkU3djBUWkhBMWV2?=
- =?utf-8?B?aW8rdWhCaVNZazE1eGdiblRHc3JtdXArVTdWTExCZjErOFFhczRydUM5ZWZM?=
- =?utf-8?B?L1ZScWVReDNJV3pJR1NwYXhUZzJKN0pxMDdmZXFVeUdqZm9LVm1NQWJ4a1Zk?=
- =?utf-8?B?ZnFBSzlkSHVzRjJVajhSWTRkZEFlRWZSU1ZPV1NiNFNZb2VuVTduVzZQcm9I?=
- =?utf-8?B?cUN6S1dZUllLdUxmWlZOckplOXc2aEZDWTM5ZXIzTUxqK2YyUC9XQkZ1MUYx?=
- =?utf-8?B?STkzamExMzcycnRsVjFGNFlNRXdWcVErV3ROZURXL2FBdm1vTVFoc1ljR2xt?=
- =?utf-8?B?aWdBMmN5a2tkeEQrcklIK0h0Z1R6b3ZvZzZJdXNQNFVzVThuVytVTVRLU2Jp?=
- =?utf-8?B?UWZXblV5c1QxMDlXRko1QUNIblpmQlpjSkF6Zk91bDNlb3pUN1F3NGowdXl4?=
- =?utf-8?B?Y1VEK1BrS3ZJMmp2MkxuWkFLTC9nWld3VklOZTJXc3NpbDZreUtSaXlmQnRQ?=
- =?utf-8?B?RGY4WGJNTFdtUGUrODh1a3EzbWt3dXdCQzZrTlB1eTdkdzhIc1oxdFNTRG9y?=
- =?utf-8?B?NnZmTU1iSjY1Um1OOGFVaVZWMkgrUVdOK2dLcklhN3hrZG02U09GUkxSYWs4?=
- =?utf-8?Q?sYviTuUqlGI2XDU9wfNIuoo=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ed698679-2d1c-4774-ad2c-08d9989b0fc2
-X-MS-Exchange-CrossTenant-AuthSource: DM5PR1201MB2491.namprd12.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MUoxbVNjSEZEQ2JzNDVNMUlML1M5M1NGTldONHM5dEovdjh5Vm0vRmM0Ukcw?=
+ =?utf-8?B?eE5uVU1pY0VaNUt0aWsxak9hYjJuaTBCMW9ZTHZxQzBzQ0FKeWQyeHdqcEwy?=
+ =?utf-8?B?dnVMU2M5dHhEZXhXdGhXN1pPVlh2YldQcENjNlZuUG5ZeXFTMlFaR2RMNk5z?=
+ =?utf-8?B?cGVzNzF1WExYY1plY3AvcWR0VDZ0WC9aOERmakZBdVY4UkJ4RzRBUkpKZjQ5?=
+ =?utf-8?B?dUs4OS9xT04zTklLK2h3bktNQlJWa0lpbG1JSlJFdE5SaDZ5dWN6TThGYWJZ?=
+ =?utf-8?B?M3orcXZmOVVEVVJPMHFVSlhVWW9DUHdwYzF6R3F4N3JUOXdjd0FtdDBFWTUw?=
+ =?utf-8?B?b3hNZ01PS1RlUEQzVkpITDJnanlGLzk1NXIzcWtCWU1mTlZkMDhJQUhVSWg5?=
+ =?utf-8?B?RmxyZWRWRkZqeWladlpGc3lUWFpOUDIzdXpITEVwblJCTVdPTytXZVhRYXhk?=
+ =?utf-8?B?U0R1dk9GVUxqOWVXSm5pakVkeGQ0WXE0b05qbnIwcGhja3l5bEpWWk00UzV5?=
+ =?utf-8?B?VVJoYUFhYUluTzgwb3pWeWtacE03ajJ3NCtzbmw2ZWd4a05adTRZRmFib3Fi?=
+ =?utf-8?B?Q2pUZnd0R0FEUUV1RVNpdnRRY0x5dXo3bGl3bmk1LzlYYkFYTHNsVTlJVlBo?=
+ =?utf-8?B?QkM5NjBEL1MrK2V0VnVjMTFEcDNkV2FPWHJYSzIzYktPYXpmWDFtWWN3cDU2?=
+ =?utf-8?B?cTNUekgzVVE2SEtoK3AvT1RJSzNMSlk4dGpSd0V1OVNvWTVuZTJ3bWh1QTlo?=
+ =?utf-8?B?cVF2NjFBYzZDK1BaSzFyMm5JN0R2NHE1U2x1ajhNL1dQMEV6WEQ5YlBtR2o1?=
+ =?utf-8?B?OE16UnE4T29sb3RGNm1OVkFMSkVIaTJmMkZoMUNaTFVIakNoclZIdWZyQzhi?=
+ =?utf-8?B?RFZXb3FlT25nTDB1RVNocFk1U2gwbHZKb2ZRSW9SZk9FK0lid2lBakI3Rkcr?=
+ =?utf-8?B?L1UxVVhjczEzZWFENjRZVXlDNmI0TTFPMEhqZFczcmxCZGI2c1NMazVuN1pN?=
+ =?utf-8?B?dnN3cmFvL25INVFNMVVnRnd5NHhQR29hdEJhNkJaNXJrQS8zQ2g2ZjQ5Ym9Z?=
+ =?utf-8?B?UDg1K2ZFS2p0YS96SG1qODcwMjcyVDR6dGJIMHVVOWJSWlZmbHdxZEVNKzFm?=
+ =?utf-8?B?R3VrZ0lMQS9tUnpEUmZFbjhsQThJN2NjNUJoVmJlblYrSzh3VWtoUzVMQWJa?=
+ =?utf-8?B?RmVKUWFuUURrSWhNQlMxNXNKdGloajNjKytjbXIwSysybGxmK0RsVEp4aDN0?=
+ =?utf-8?B?WEFCZkN2NytMay9CTlZiMkwvMDFEQ1czZ0ovbXFTbm8ydnlyY3ZLSFJ0L29t?=
+ =?utf-8?B?emkveFBmMkNzSDdLTXRaMU4vKzFjeWpxVWE1YjdBKzZ0OHJVOWFHZmxyY3Zw?=
+ =?utf-8?B?TVBZVHZPTjFKbDcyWWI3Mk1YQnc1cFdGR2I5Q1IxOUsxdHZmQytyRzE1MTFT?=
+ =?utf-8?B?Mi9kd210OGhreUkzcytmQkRoRUZPK2prTUZIQUZ6d1hZT3dGTW5VRW5pOEM3?=
+ =?utf-8?B?Z3RtRCs1SWdLTWprVFNudGp6bnJFdGlGVnVYWmZFZW0zVEp5OFgrb2ZYbllj?=
+ =?utf-8?B?T0tRUjloM3h4aXpRRnJETkZCMGhERUk1QVNIZXJxVEhIQnBUY1plcUV0Uk1x?=
+ =?utf-8?B?bjVxNVkwckY5Q1NjQ3BkbTRTZVF4YmhRWktIMWhGc2tSb0lGNHJNbCtkbHpH?=
+ =?utf-8?B?bU1wWndYQ0lFNWpOME1JTExqYklpbHgxODRxb0dPYkJZM0dnSXBRRm5JVUdv?=
+ =?utf-8?B?ekgvZCtaQ05LWDU4VTZ6MCtSaHBuMEZuNjh0OVZKelFVdDQ5SmFxb2JGcWNv?=
+ =?utf-8?B?dlZ3OFQ4R0ZxUm5TQnRpUFNCNlBZT2hPanJxZ04yeVI1TTNMeFFuWlk1OFdw?=
+ =?utf-8?B?eGxySW5ZUWdpd1lMZ0xnWFBuTTRPUVYwVFduQlZqSEM1K0tWVEZlQUtIM2l3?=
+ =?utf-8?B?QmRBNkFYaGROelVxb2oySkJHSFRxWjVVeXNyK2FiVUgxeFZEN3M2eTg5dzNK?=
+ =?utf-8?B?NklJVzQ4TzM1ci9aUHdabVpONTNVNDdSVzJLU0xsa04vS2R6NmNMaFh5a2c5?=
+ =?utf-8?B?YXE3RDVlVzBkWG5NWGQ5cWdFZnJ0TUg4SHdHbGVlS3Nid24xOTN1U3N2b2Yx?=
+ =?utf-8?Q?SkKQ=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d818ebc2-1a61-4fa7-9352-08d998a10569
+X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB5506.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Oct 2021 16:10:00.4193 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Oct 2021 16:52:39.9997 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: z8y0NOQPGdXJbFIljT9REhUhVKqi3f2xm5UBcPIW17WtxVowntGcyKofuV4f5l4guvP3VJTHCjZeUnE4QrHxWw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3401
+X-MS-Exchange-CrossTenant-UserPrincipalName: rE8dkAchLs64q6+kUpALTpBnuJ75naO1yQKKFQLc/MAGU9VZcyePQ5EdEkHINUks
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5174
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -139,380 +139,369 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 2021-10-25 um 12:16 a.m. schrieb Alistair Popple:
-> MIGRATE_PFN_LOCKED is used to indicate to migrate_vma_prepare() that a
-> source page was already locked during migrate_vma_collect(). If it
-> wasn't then the a second attempt is made to lock the page. However if
-> the first attempt failed it's unlikely a second attempt will succeed,
-> and the retry adds complexity. So clean this up by removing the retry
-> and MIGRATE_PFN_LOCKED flag.
->
-> Destination pages are also meant to have the MIGRATE_PFN_LOCKED flag
-> set, but nothing actually checks that.
->
-> Signed-off-by: Alistair Popple <apopple@nvidia.com>
+The huge page functionality in TTM does not work safely because PUD and
+PMD entries do not have a special bit.
 
-It makes sense to me. Do you have any empirical data on how much more
-likely migrations are going to fail with this change due to contested
-page locks?
+get_user_pages_fast() considers any page that passed pmd_huge() as
+usable:
 
-Either way, the patch is
+	if (unlikely(pmd_trans_huge(pmd) || pmd_huge(pmd) ||
+		     pmd_devmap(pmd))) {
 
-Acked-by: Felix Kuehling <Felix.Kuehling@amd.com>
+And vmf_insert_pfn_pmd_prot() unconditionally sets
 
+	entry = pmd_mkhuge(pfn_t_pmd(pfn, prot));
 
-> ---
->  Documentation/vm/hmm.rst                 |   2 +-
->  arch/powerpc/kvm/book3s_hv_uvmem.c       |   4 +-
->  drivers/gpu/drm/amd/amdkfd/kfd_migrate.c |   2 -
->  drivers/gpu/drm/nouveau/nouveau_dmem.c   |   4 +-
->  include/linux/migrate.h                  |   1 -
->  lib/test_hmm.c                           |   5 +-
->  mm/migrate.c                             | 145 +++++------------------
->  7 files changed, 35 insertions(+), 128 deletions(-)
->
-> diff --git a/Documentation/vm/hmm.rst b/Documentation/vm/hmm.rst
-> index a14c2938e7af..f2a59ed82ed3 100644
-> --- a/Documentation/vm/hmm.rst
-> +++ b/Documentation/vm/hmm.rst
-> @@ -360,7 +360,7 @@ between device driver specific code and shared common code:
->     system memory page, locks the page with ``lock_page()``, and fills in the
->     ``dst`` array entry with::
->  
-> -     dst[i] = migrate_pfn(page_to_pfn(dpage)) | MIGRATE_PFN_LOCKED;
-> +     dst[i] = migrate_pfn(page_to_pfn(dpage));
->  
->     Now that the driver knows that this page is being migrated, it can
->     invalidate device private MMU mappings and copy device private memory
-> diff --git a/arch/powerpc/kvm/book3s_hv_uvmem.c b/arch/powerpc/kvm/book3s_hv_uvmem.c
-> index a7061ee3b157..28c436df9935 100644
-> --- a/arch/powerpc/kvm/book3s_hv_uvmem.c
-> +++ b/arch/powerpc/kvm/book3s_hv_uvmem.c
-> @@ -560,7 +560,7 @@ static int __kvmppc_svm_page_out(struct vm_area_struct *vma,
->  				  gpa, 0, page_shift);
->  
->  	if (ret == U_SUCCESS)
-> -		*mig.dst = migrate_pfn(pfn) | MIGRATE_PFN_LOCKED;
-> +		*mig.dst = migrate_pfn(pfn);
->  	else {
->  		unlock_page(dpage);
->  		__free_page(dpage);
-> @@ -774,7 +774,7 @@ static int kvmppc_svm_page_in(struct vm_area_struct *vma,
->  		}
->  	}
->  
-> -	*mig.dst = migrate_pfn(page_to_pfn(dpage)) | MIGRATE_PFN_LOCKED;
-> +	*mig.dst = migrate_pfn(page_to_pfn(dpage));
->  	migrate_vma_pages(&mig);
->  out_finalize:
->  	migrate_vma_finalize(&mig);
-> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c b/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
-> index 4a16e3c257b9..41d9417f182b 100644
-> --- a/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
-> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
-> @@ -300,7 +300,6 @@ svm_migrate_copy_to_vram(struct amdgpu_device *adev, struct svm_range *prange,
->  			migrate->dst[i] = svm_migrate_addr_to_pfn(adev, dst[i]);
->  			svm_migrate_get_vram_page(prange, migrate->dst[i]);
->  			migrate->dst[i] = migrate_pfn(migrate->dst[i]);
-> -			migrate->dst[i] |= MIGRATE_PFN_LOCKED;
->  			src[i] = dma_map_page(dev, spage, 0, PAGE_SIZE,
->  					      DMA_TO_DEVICE);
->  			r = dma_mapping_error(dev, src[i]);
-> @@ -580,7 +579,6 @@ svm_migrate_copy_to_ram(struct amdgpu_device *adev, struct svm_range *prange,
->  			      dst[i] >> PAGE_SHIFT, page_to_pfn(dpage));
->  
->  		migrate->dst[i] = migrate_pfn(page_to_pfn(dpage));
-> -		migrate->dst[i] |= MIGRATE_PFN_LOCKED;
->  		j++;
->  	}
->  
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_dmem.c b/drivers/gpu/drm/nouveau/nouveau_dmem.c
-> index 92987daa5e17..3828aafd3ac4 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_dmem.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_dmem.c
-> @@ -166,7 +166,7 @@ static vm_fault_t nouveau_dmem_fault_copy_one(struct nouveau_drm *drm,
->  		goto error_dma_unmap;
->  	mutex_unlock(&svmm->mutex);
->  
-> -	args->dst[0] = migrate_pfn(page_to_pfn(dpage)) | MIGRATE_PFN_LOCKED;
-> +	args->dst[0] = migrate_pfn(page_to_pfn(dpage));
->  	return 0;
->  
->  error_dma_unmap:
-> @@ -602,7 +602,7 @@ static unsigned long nouveau_dmem_migrate_copy_one(struct nouveau_drm *drm,
->  		((paddr >> PAGE_SHIFT) << NVIF_VMM_PFNMAP_V0_ADDR_SHIFT);
->  	if (src & MIGRATE_PFN_WRITE)
->  		*pfn |= NVIF_VMM_PFNMAP_V0_W;
-> -	return migrate_pfn(page_to_pfn(dpage)) | MIGRATE_PFN_LOCKED;
-> +	return migrate_pfn(page_to_pfn(dpage));
->  
->  out_dma_unmap:
->  	dma_unmap_page(dev, *dma_addr, PAGE_SIZE, DMA_BIDIRECTIONAL);
-> diff --git a/include/linux/migrate.h b/include/linux/migrate.h
-> index c8077e936691..479b861ae490 100644
-> --- a/include/linux/migrate.h
-> +++ b/include/linux/migrate.h
-> @@ -119,7 +119,6 @@ static inline int migrate_misplaced_page(struct page *page,
->   */
->  #define MIGRATE_PFN_VALID	(1UL << 0)
->  #define MIGRATE_PFN_MIGRATE	(1UL << 1)
-> -#define MIGRATE_PFN_LOCKED	(1UL << 2)
->  #define MIGRATE_PFN_WRITE	(1UL << 3)
->  #define MIGRATE_PFN_SHIFT	6
->  
-> diff --git a/lib/test_hmm.c b/lib/test_hmm.c
-> index c259842f6d44..e2ce8f9b7605 100644
-> --- a/lib/test_hmm.c
-> +++ b/lib/test_hmm.c
-> @@ -613,8 +613,7 @@ static void dmirror_migrate_alloc_and_copy(struct migrate_vma *args,
->  		 */
->  		rpage->zone_device_data = dmirror;
->  
-> -		*dst = migrate_pfn(page_to_pfn(dpage)) |
-> -			    MIGRATE_PFN_LOCKED;
-> +		*dst = migrate_pfn(page_to_pfn(dpage));
->  		if ((*src & MIGRATE_PFN_WRITE) ||
->  		    (!spage && args->vma->vm_flags & VM_WRITE))
->  			*dst |= MIGRATE_PFN_WRITE;
-> @@ -1137,7 +1136,7 @@ static vm_fault_t dmirror_devmem_fault_alloc_and_copy(struct migrate_vma *args,
->  		lock_page(dpage);
->  		xa_erase(&dmirror->pt, addr >> PAGE_SHIFT);
->  		copy_highpage(dpage, spage);
-> -		*dst = migrate_pfn(page_to_pfn(dpage)) | MIGRATE_PFN_LOCKED;
-> +		*dst = migrate_pfn(page_to_pfn(dpage));
->  		if (*src & MIGRATE_PFN_WRITE)
->  			*dst |= MIGRATE_PFN_WRITE;
->  	}
-> diff --git a/mm/migrate.c b/mm/migrate.c
-> index a6a7743ee98f..915e969811d0 100644
-> --- a/mm/migrate.c
-> +++ b/mm/migrate.c
-> @@ -2369,7 +2369,6 @@ static int migrate_vma_collect_pmd(pmd_t *pmdp,
->  		 * can't be dropped from it).
->  		 */
->  		get_page(page);
-> -		migrate->cpages++;
->  
->  		/*
->  		 * Optimize for the common case where page is only mapped once
-> @@ -2379,7 +2378,7 @@ static int migrate_vma_collect_pmd(pmd_t *pmdp,
->  		if (trylock_page(page)) {
->  			pte_t swp_pte;
->  
-> -			mpfn |= MIGRATE_PFN_LOCKED;
-> +			migrate->cpages++;
->  			ptep_get_and_clear(mm, addr, ptep);
->  
->  			/* Setup special migration page table entry */
-> @@ -2413,6 +2412,9 @@ static int migrate_vma_collect_pmd(pmd_t *pmdp,
->  
->  			if (pte_present(pte))
->  				unmapped++;
-> +		} else {
-> +			put_page(page);
-> +			mpfn = 0;
->  		}
->  
->  next:
-> @@ -2517,15 +2519,17 @@ static bool migrate_vma_check_page(struct page *page)
->  }
->  
->  /*
-> - * migrate_vma_prepare() - lock pages and isolate them from the lru
-> + * migrate_vma_unmap() - replace page mapping with special migration pte entry
->   * @migrate: migrate struct containing all migration information
->   *
-> - * This locks pages that have been collected by migrate_vma_collect(). Once each
-> - * page is locked it is isolated from the lru (for non-device pages). Finally,
-> - * the ref taken by migrate_vma_collect() is dropped, as locked pages cannot be
-> - * migrated by concurrent kernel threads.
-> + * Isolate pages from the LRU and replace mappings (CPU page table pte) with a
-> + * special migration pte entry and check if it has been pinned. Pinned pages are
-> + * restored because we cannot migrate them.
-> + *
-> + * This is the last step before we call the device driver callback to allocate
-> + * destination memory and copy contents of original page over to new page.
->   */
-> -static void migrate_vma_prepare(struct migrate_vma *migrate)
-> +static void migrate_vma_unmap(struct migrate_vma *migrate)
->  {
->  	const unsigned long npages = migrate->npages;
->  	const unsigned long start = migrate->start;
-> @@ -2534,32 +2538,12 @@ static void migrate_vma_prepare(struct migrate_vma *migrate)
->  
->  	lru_add_drain();
->  
-> -	for (i = 0; (i < npages) && migrate->cpages; i++) {
-> +	for (i = 0; i < npages; i++) {
->  		struct page *page = migrate_pfn_to_page(migrate->src[i]);
-> -		bool remap = true;
->  
->  		if (!page)
->  			continue;
->  
-> -		if (!(migrate->src[i] & MIGRATE_PFN_LOCKED)) {
-> -			/*
-> -			 * Because we are migrating several pages there can be
-> -			 * a deadlock between 2 concurrent migration where each
-> -			 * are waiting on each other page lock.
-> -			 *
-> -			 * Make migrate_vma() a best effort thing and backoff
-> -			 * for any page we can not lock right away.
-> -			 */
-> -			if (!trylock_page(page)) {
-> -				migrate->src[i] = 0;
-> -				migrate->cpages--;
-> -				put_page(page);
-> -				continue;
-> -			}
-> -			remap = false;
-> -			migrate->src[i] |= MIGRATE_PFN_LOCKED;
-> -		}
-> -
->  		/* ZONE_DEVICE pages are not on LRU */
->  		if (!is_zone_device_page(page)) {
->  			if (!PageLRU(page) && allow_drain) {
-> @@ -2569,16 +2553,9 @@ static void migrate_vma_prepare(struct migrate_vma *migrate)
->  			}
->  
->  			if (isolate_lru_page(page)) {
-> -				if (remap) {
-> -					migrate->src[i] &= ~MIGRATE_PFN_MIGRATE;
-> -					migrate->cpages--;
-> -					restore++;
-> -				} else {
-> -					migrate->src[i] = 0;
-> -					unlock_page(page);
-> -					migrate->cpages--;
-> -					put_page(page);
-> -				}
-> +				migrate->src[i] &= ~MIGRATE_PFN_MIGRATE;
-> +				migrate->cpages--;
-> +				restore++;
->  				continue;
->  			}
->  
-> @@ -2586,80 +2563,20 @@ static void migrate_vma_prepare(struct migrate_vma *migrate)
->  			put_page(page);
->  		}
->  
-> -		if (!migrate_vma_check_page(page)) {
-> -			if (remap) {
-> -				migrate->src[i] &= ~MIGRATE_PFN_MIGRATE;
-> -				migrate->cpages--;
-> -				restore++;
-> -
-> -				if (!is_zone_device_page(page)) {
-> -					get_page(page);
-> -					putback_lru_page(page);
-> -				}
-> -			} else {
-> -				migrate->src[i] = 0;
-> -				unlock_page(page);
-> -				migrate->cpages--;
-> +		if (page_mapped(page))
-> +			try_to_migrate(page, 0);
->  
-> -				if (!is_zone_device_page(page))
-> -					putback_lru_page(page);
-> -				else
-> -					put_page(page);
-> +		if (page_mapped(page) || !migrate_vma_check_page(page)) {
-> +			if (!is_zone_device_page(page)) {
-> +				get_page(page);
-> +				putback_lru_page(page);
->  			}
-> -		}
-> -	}
-> -
-> -	for (i = 0, addr = start; i < npages && restore; i++, addr += PAGE_SIZE) {
-> -		struct page *page = migrate_pfn_to_page(migrate->src[i]);
-> -
-> -		if (!page || (migrate->src[i] & MIGRATE_PFN_MIGRATE))
-> -			continue;
->  
-> -		remove_migration_pte(page, migrate->vma, addr, page);
-> -
-> -		migrate->src[i] = 0;
-> -		unlock_page(page);
-> -		put_page(page);
-> -		restore--;
-> -	}
-> -}
-> -
-> -/*
-> - * migrate_vma_unmap() - replace page mapping with special migration pte entry
-> - * @migrate: migrate struct containing all migration information
-> - *
-> - * Replace page mapping (CPU page table pte) with a special migration pte entry
-> - * and check again if it has been pinned. Pinned pages are restored because we
-> - * cannot migrate them.
-> - *
-> - * This is the last step before we call the device driver callback to allocate
-> - * destination memory and copy contents of original page over to new page.
-> - */
-> -static void migrate_vma_unmap(struct migrate_vma *migrate)
-> -{
-> -	const unsigned long npages = migrate->npages;
-> -	const unsigned long start = migrate->start;
-> -	unsigned long addr, i, restore = 0;
-> -
-> -	for (i = 0; i < npages; i++) {
-> -		struct page *page = migrate_pfn_to_page(migrate->src[i]);
-> -
-> -		if (!page || !(migrate->src[i] & MIGRATE_PFN_MIGRATE))
-> +			migrate->src[i] &= ~MIGRATE_PFN_MIGRATE;
-> +			migrate->cpages--;
-> +			restore++;
->  			continue;
-> -
-> -		if (page_mapped(page)) {
-> -			try_to_migrate(page, 0);
-> -			if (page_mapped(page))
-> -				goto restore;
->  		}
-> -
-> -		if (migrate_vma_check_page(page))
-> -			continue;
-> -
-> -restore:
-> -		migrate->src[i] &= ~MIGRATE_PFN_MIGRATE;
-> -		migrate->cpages--;
-> -		restore++;
->  	}
->  
->  	for (addr = start, i = 0; i < npages && restore; addr += PAGE_SIZE, i++) {
-> @@ -2672,12 +2589,8 @@ static void migrate_vma_unmap(struct migrate_vma *migrate)
->  
->  		migrate->src[i] = 0;
->  		unlock_page(page);
-> +		put_page(page);
->  		restore--;
-> -
-> -		if (is_zone_device_page(page))
-> -			put_page(page);
-> -		else
-> -			putback_lru_page(page);
->  	}
->  }
->  
-> @@ -2700,8 +2613,8 @@ static void migrate_vma_unmap(struct migrate_vma *migrate)
->   * it for all those entries (ie with MIGRATE_PFN_VALID and MIGRATE_PFN_MIGRATE
->   * flag set).  Once these are allocated and copied, the caller must update each
->   * corresponding entry in the dst array with the pfn value of the destination
-> - * page and with the MIGRATE_PFN_VALID and MIGRATE_PFN_LOCKED flags set
-> - * (destination pages must have their struct pages locked, via lock_page()).
-> + * page and with MIGRATE_PFN_VALID. Destination pages must be locked via
-> + * lock_page().
->   *
->   * Note that the caller does not have to migrate all the pages that are marked
->   * with MIGRATE_PFN_MIGRATE flag in src array unless this is a migration from
-> @@ -2770,8 +2683,6 @@ int migrate_vma_setup(struct migrate_vma *args)
->  
->  	migrate_vma_collect(args);
->  
-> -	if (args->cpages)
-> -		migrate_vma_prepare(args);
->  	if (args->cpages)
->  		migrate_vma_unmap(args);
->  
+eg on x86 the page will be _PAGE_PRESENT | PAGE_PSE.
+
+As such gup_huge_pmd() will try to deref a struct page:
+
+	head = try_grab_compound_head(pmd_page(orig), refs, flags);
+
+and thus crash.
+
+So, iomem cannot be installed using vmf_insert_pfn_pud/pmd_prot().
+
+Thomas further notices that the drivers are not expecting the struct page
+to be used by anything - in particular the refcount incr above will cause
+them to malfunction. This means even the struct page memory cannot be
+used.
+
+Therefore everything about this is not able to fully work correctly
+considering GUP_fast. Delete it entirely. It can return someday along with
+a proper PMD/PUD_SPECIAL bit in the page table itself to gate GUP_fast.
+
+Cc: stable@vger.kernel.org
+Fixes: 314b6580adc5 ("drm/ttm, drm/vmwgfx: Support huge TTM pagefaults")
+Reviewed-by: Christian König <christian.koenig@amd.com>
+Reviewed-by: Thomas Hellström <thomas.helllstrom@linux.intel.com>
+Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c    |  2 +-
+ drivers/gpu/drm/nouveau/nouveau_gem.c      |  2 +-
+ drivers/gpu/drm/radeon/radeon_gem.c        |  2 +-
+ drivers/gpu/drm/ttm/ttm_bo_vm.c            | 94 +---------------------
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.h        |  4 -
+ drivers/gpu/drm/vmwgfx/vmwgfx_page_dirty.c | 72 +----------------
+ drivers/gpu/drm/vmwgfx/vmwgfx_ttm_glue.c   |  3 -
+ include/drm/ttm/ttm_bo_api.h               |  3 +-
+ 8 files changed, 7 insertions(+), 175 deletions(-)
+
+Daniel/David, please grab it thanks
+
+v3:
+ - Updated commit message
+v2: https://lore.kernel.org/r/0-v2-a44694790652+4ac-ttm_pmd_jgg@nvidia.com
+ - Remove the entire thing as per Thomas's advice
+v1: https://lore.kernel.org/r/0-v1-69e7da97f81f+21c-ttm_pmd_jgg@nvidia.com
+
+Jason
+
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
+index d6aa032890ee8b..a1e63ba4c54a59 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
+@@ -61,7 +61,7 @@ static vm_fault_t amdgpu_gem_fault(struct vm_fault *vmf)
+ 		}
+ 
+ 		 ret = ttm_bo_vm_fault_reserved(vmf, vmf->vma->vm_page_prot,
+-						TTM_BO_VM_NUM_PREFAULT, 1);
++						TTM_BO_VM_NUM_PREFAULT);
+ 
+ 		 drm_dev_exit(idx);
+ 	} else {
+diff --git a/drivers/gpu/drm/nouveau/nouveau_gem.c b/drivers/gpu/drm/nouveau/nouveau_gem.c
+index 8c2ecc28272322..c89d5964148fd5 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_gem.c
++++ b/drivers/gpu/drm/nouveau/nouveau_gem.c
+@@ -56,7 +56,7 @@ static vm_fault_t nouveau_ttm_fault(struct vm_fault *vmf)
+ 
+ 	nouveau_bo_del_io_reserve_lru(bo);
+ 	prot = vm_get_page_prot(vma->vm_flags);
+-	ret = ttm_bo_vm_fault_reserved(vmf, prot, TTM_BO_VM_NUM_PREFAULT, 1);
++	ret = ttm_bo_vm_fault_reserved(vmf, prot, TTM_BO_VM_NUM_PREFAULT);
+ 	nouveau_bo_add_io_reserve_lru(bo);
+ 	if (ret == VM_FAULT_RETRY && !(vmf->flags & FAULT_FLAG_RETRY_NOWAIT))
+ 		return ret;
+diff --git a/drivers/gpu/drm/radeon/radeon_gem.c b/drivers/gpu/drm/radeon/radeon_gem.c
+index 458f92a7088797..a36a4f2c76b097 100644
+--- a/drivers/gpu/drm/radeon/radeon_gem.c
++++ b/drivers/gpu/drm/radeon/radeon_gem.c
+@@ -61,7 +61,7 @@ static vm_fault_t radeon_gem_fault(struct vm_fault *vmf)
+ 		goto unlock_resv;
+ 
+ 	ret = ttm_bo_vm_fault_reserved(vmf, vmf->vma->vm_page_prot,
+-				       TTM_BO_VM_NUM_PREFAULT, 1);
++				       TTM_BO_VM_NUM_PREFAULT);
+ 	if (ret == VM_FAULT_RETRY && !(vmf->flags & FAULT_FLAG_RETRY_NOWAIT))
+ 		goto unlock_mclk;
+ 
+diff --git a/drivers/gpu/drm/ttm/ttm_bo_vm.c b/drivers/gpu/drm/ttm/ttm_bo_vm.c
+index f56be5bc0861ec..e5af7f9e94b273 100644
+--- a/drivers/gpu/drm/ttm/ttm_bo_vm.c
++++ b/drivers/gpu/drm/ttm/ttm_bo_vm.c
+@@ -171,89 +171,6 @@ vm_fault_t ttm_bo_vm_reserve(struct ttm_buffer_object *bo,
+ }
+ EXPORT_SYMBOL(ttm_bo_vm_reserve);
+ 
+-#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+-/**
+- * ttm_bo_vm_insert_huge - Insert a pfn for PUD or PMD faults
+- * @vmf: Fault data
+- * @bo: The buffer object
+- * @page_offset: Page offset from bo start
+- * @fault_page_size: The size of the fault in pages.
+- * @pgprot: The page protections.
+- * Does additional checking whether it's possible to insert a PUD or PMD
+- * pfn and performs the insertion.
+- *
+- * Return: VM_FAULT_NOPAGE on successful insertion, VM_FAULT_FALLBACK if
+- * a huge fault was not possible, or on insertion error.
+- */
+-static vm_fault_t ttm_bo_vm_insert_huge(struct vm_fault *vmf,
+-					struct ttm_buffer_object *bo,
+-					pgoff_t page_offset,
+-					pgoff_t fault_page_size,
+-					pgprot_t pgprot)
+-{
+-	pgoff_t i;
+-	vm_fault_t ret;
+-	unsigned long pfn;
+-	pfn_t pfnt;
+-	struct ttm_tt *ttm = bo->ttm;
+-	bool write = vmf->flags & FAULT_FLAG_WRITE;
+-
+-	/* Fault should not cross bo boundary. */
+-	page_offset &= ~(fault_page_size - 1);
+-	if (page_offset + fault_page_size > bo->resource->num_pages)
+-		goto out_fallback;
+-
+-	if (bo->resource->bus.is_iomem)
+-		pfn = ttm_bo_io_mem_pfn(bo, page_offset);
+-	else
+-		pfn = page_to_pfn(ttm->pages[page_offset]);
+-
+-	/* pfn must be fault_page_size aligned. */
+-	if ((pfn & (fault_page_size - 1)) != 0)
+-		goto out_fallback;
+-
+-	/* Check that memory is contiguous. */
+-	if (!bo->resource->bus.is_iomem) {
+-		for (i = 1; i < fault_page_size; ++i) {
+-			if (page_to_pfn(ttm->pages[page_offset + i]) != pfn + i)
+-				goto out_fallback;
+-		}
+-	} else if (bo->bdev->funcs->io_mem_pfn) {
+-		for (i = 1; i < fault_page_size; ++i) {
+-			if (ttm_bo_io_mem_pfn(bo, page_offset + i) != pfn + i)
+-				goto out_fallback;
+-		}
+-	}
+-
+-	pfnt = __pfn_to_pfn_t(pfn, PFN_DEV);
+-	if (fault_page_size == (HPAGE_PMD_SIZE >> PAGE_SHIFT))
+-		ret = vmf_insert_pfn_pmd_prot(vmf, pfnt, pgprot, write);
+-#ifdef CONFIG_HAVE_ARCH_TRANSPARENT_HUGEPAGE_PUD
+-	else if (fault_page_size == (HPAGE_PUD_SIZE >> PAGE_SHIFT))
+-		ret = vmf_insert_pfn_pud_prot(vmf, pfnt, pgprot, write);
+-#endif
+-	else
+-		WARN_ON_ONCE(ret = VM_FAULT_FALLBACK);
+-
+-	if (ret != VM_FAULT_NOPAGE)
+-		goto out_fallback;
+-
+-	return VM_FAULT_NOPAGE;
+-out_fallback:
+-	count_vm_event(THP_FAULT_FALLBACK);
+-	return VM_FAULT_FALLBACK;
+-}
+-#else
+-static vm_fault_t ttm_bo_vm_insert_huge(struct vm_fault *vmf,
+-					struct ttm_buffer_object *bo,
+-					pgoff_t page_offset,
+-					pgoff_t fault_page_size,
+-					pgprot_t pgprot)
+-{
+-	return VM_FAULT_FALLBACK;
+-}
+-#endif
+-
+ /**
+  * ttm_bo_vm_fault_reserved - TTM fault helper
+  * @vmf: The struct vm_fault given as argument to the fault callback
+@@ -261,7 +178,6 @@ static vm_fault_t ttm_bo_vm_insert_huge(struct vm_fault *vmf,
+  * @num_prefault: Maximum number of prefault pages. The caller may want to
+  * specify this based on madvice settings and the size of the GPU object
+  * backed by the memory.
+- * @fault_page_size: The size of the fault in pages.
+  *
+  * This function inserts one or more page table entries pointing to the
+  * memory backing the buffer object, and then returns a return code
+@@ -275,8 +191,7 @@ static vm_fault_t ttm_bo_vm_insert_huge(struct vm_fault *vmf,
+  */
+ vm_fault_t ttm_bo_vm_fault_reserved(struct vm_fault *vmf,
+ 				    pgprot_t prot,
+-				    pgoff_t num_prefault,
+-				    pgoff_t fault_page_size)
++				    pgoff_t num_prefault)
+ {
+ 	struct vm_area_struct *vma = vmf->vma;
+ 	struct ttm_buffer_object *bo = vma->vm_private_data;
+@@ -327,11 +242,6 @@ vm_fault_t ttm_bo_vm_fault_reserved(struct vm_fault *vmf,
+ 		prot = pgprot_decrypted(prot);
+ 	}
+ 
+-	/* We don't prefault on huge faults. Yet. */
+-	if (IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE) && fault_page_size != 1)
+-		return ttm_bo_vm_insert_huge(vmf, bo, page_offset,
+-					     fault_page_size, prot);
+-
+ 	/*
+ 	 * Speculatively prefault a number of pages. Only error on
+ 	 * first page.
+@@ -429,7 +339,7 @@ vm_fault_t ttm_bo_vm_fault(struct vm_fault *vmf)
+ 
+ 	prot = vma->vm_page_prot;
+ 	if (drm_dev_enter(ddev, &idx)) {
+-		ret = ttm_bo_vm_fault_reserved(vmf, prot, TTM_BO_VM_NUM_PREFAULT, 1);
++		ret = ttm_bo_vm_fault_reserved(vmf, prot, TTM_BO_VM_NUM_PREFAULT);
+ 		drm_dev_exit(idx);
+ 	} else {
+ 		ret = ttm_bo_vm_dummy_page(vmf, prot);
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
+index a833751099b559..858aff99a3fe53 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
+@@ -1550,10 +1550,6 @@ void vmw_bo_dirty_unmap(struct vmw_buffer_object *vbo,
+ 			pgoff_t start, pgoff_t end);
+ vm_fault_t vmw_bo_vm_fault(struct vm_fault *vmf);
+ vm_fault_t vmw_bo_vm_mkwrite(struct vm_fault *vmf);
+-#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+-vm_fault_t vmw_bo_vm_huge_fault(struct vm_fault *vmf,
+-				enum page_entry_size pe_size);
+-#endif
+ 
+ /* Transparent hugepage support - vmwgfx_thp.c */
+ #ifdef CONFIG_TRANSPARENT_HUGEPAGE
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_page_dirty.c b/drivers/gpu/drm/vmwgfx/vmwgfx_page_dirty.c
+index e5a9a5cbd01a7c..922317d1acc8a0 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_page_dirty.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_page_dirty.c
+@@ -477,7 +477,7 @@ vm_fault_t vmw_bo_vm_fault(struct vm_fault *vmf)
+ 	else
+ 		prot = vm_get_page_prot(vma->vm_flags);
+ 
+-	ret = ttm_bo_vm_fault_reserved(vmf, prot, num_prefault, 1);
++	ret = ttm_bo_vm_fault_reserved(vmf, prot, num_prefault);
+ 	if (ret == VM_FAULT_RETRY && !(vmf->flags & FAULT_FLAG_RETRY_NOWAIT))
+ 		return ret;
+ 
+@@ -486,73 +486,3 @@ vm_fault_t vmw_bo_vm_fault(struct vm_fault *vmf)
+ 
+ 	return ret;
+ }
+-
+-#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+-vm_fault_t vmw_bo_vm_huge_fault(struct vm_fault *vmf,
+-				enum page_entry_size pe_size)
+-{
+-	struct vm_area_struct *vma = vmf->vma;
+-	struct ttm_buffer_object *bo = (struct ttm_buffer_object *)
+-	    vma->vm_private_data;
+-	struct vmw_buffer_object *vbo =
+-		container_of(bo, struct vmw_buffer_object, base);
+-	pgprot_t prot;
+-	vm_fault_t ret;
+-	pgoff_t fault_page_size;
+-	bool write = vmf->flags & FAULT_FLAG_WRITE;
+-
+-	switch (pe_size) {
+-	case PE_SIZE_PMD:
+-		fault_page_size = HPAGE_PMD_SIZE >> PAGE_SHIFT;
+-		break;
+-#ifdef CONFIG_HAVE_ARCH_TRANSPARENT_HUGEPAGE_PUD
+-	case PE_SIZE_PUD:
+-		fault_page_size = HPAGE_PUD_SIZE >> PAGE_SHIFT;
+-		break;
+-#endif
+-	default:
+-		WARN_ON_ONCE(1);
+-		return VM_FAULT_FALLBACK;
+-	}
+-
+-	/* Always do write dirty-tracking and COW on PTE level. */
+-	if (write && (READ_ONCE(vbo->dirty) || is_cow_mapping(vma->vm_flags)))
+-		return VM_FAULT_FALLBACK;
+-
+-	ret = ttm_bo_vm_reserve(bo, vmf);
+-	if (ret)
+-		return ret;
+-
+-	if (vbo->dirty) {
+-		pgoff_t allowed_prefault;
+-		unsigned long page_offset;
+-
+-		page_offset = vmf->pgoff -
+-			drm_vma_node_start(&bo->base.vma_node);
+-		if (page_offset >= bo->resource->num_pages ||
+-		    vmw_resources_clean(vbo, page_offset,
+-					page_offset + PAGE_SIZE,
+-					&allowed_prefault)) {
+-			ret = VM_FAULT_SIGBUS;
+-			goto out_unlock;
+-		}
+-
+-		/*
+-		 * Write protect, so we get a new fault on write, and can
+-		 * split.
+-		 */
+-		prot = vm_get_page_prot(vma->vm_flags & ~VM_SHARED);
+-	} else {
+-		prot = vm_get_page_prot(vma->vm_flags);
+-	}
+-
+-	ret = ttm_bo_vm_fault_reserved(vmf, prot, 1, fault_page_size);
+-	if (ret == VM_FAULT_RETRY && !(vmf->flags & FAULT_FLAG_RETRY_NOWAIT))
+-		return ret;
+-
+-out_unlock:
+-	dma_resv_unlock(bo->base.resv);
+-
+-	return ret;
+-}
+-#endif
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_glue.c b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_glue.c
+index e6b1f98ec99f09..0a4c340252ec4a 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_glue.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_glue.c
+@@ -61,9 +61,6 @@ int vmw_mmap(struct file *filp, struct vm_area_struct *vma)
+ 		.fault = vmw_bo_vm_fault,
+ 		.open = ttm_bo_vm_open,
+ 		.close = ttm_bo_vm_close,
+-#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+-		.huge_fault = vmw_bo_vm_huge_fault,
+-#endif
+ 	};
+ 	struct drm_file *file_priv = filp->private_data;
+ 	struct vmw_private *dev_priv = vmw_priv(file_priv->minor->dev);
+diff --git a/include/drm/ttm/ttm_bo_api.h b/include/drm/ttm/ttm_bo_api.h
+index f681bbdbc6982e..36f7eb9d066395 100644
+--- a/include/drm/ttm/ttm_bo_api.h
++++ b/include/drm/ttm/ttm_bo_api.h
+@@ -594,8 +594,7 @@ vm_fault_t ttm_bo_vm_reserve(struct ttm_buffer_object *bo,
+ 
+ vm_fault_t ttm_bo_vm_fault_reserved(struct vm_fault *vmf,
+ 				    pgprot_t prot,
+-				    pgoff_t num_prefault,
+-				    pgoff_t fault_page_size);
++				    pgoff_t num_prefault);
+ 
+ vm_fault_t ttm_bo_vm_fault(struct vm_fault *vmf);
+ 
+
+base-commit: 519d81956ee277b4419c723adfb154603c2565ba
+-- 
+2.33.0
+
