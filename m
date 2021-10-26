@@ -2,50 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAD3C43BCF2
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Oct 2021 00:09:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1F0E43BCF5
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Oct 2021 00:09:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 985FA6E4BA;
-	Tue, 26 Oct 2021 22:09:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B0E86E4C7;
+	Tue, 26 Oct 2021 22:09:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EFC2D6E4BA
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Oct 2021 22:09:18 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 36D646E4C1
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Oct 2021 22:09:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1635286158;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Ngv1FWqUrC7WszvpfrssmeIqBsloegVrfJrePI9SEBc=;
- b=WzZ4mk4RWMb81HnH3WMyB+tHjAP43wc1A/WsGf2IinJcY/2dvSO68X33lzLOz98pl5SGy+
- PNNEYYi2cHevSh0y/W8d1fiVvleXUolfMKjiSyeT3MrlB2lC6N2k4ETRrP+sk2X9CySotn
- bqhfydXkXVDgUbSshCVoYEiS+/anMS8=
+ bh=zvLwBuw2xMaGHdYkra4v1Q3yXMsS6BPwfHitS+XchrA=;
+ b=XusmX88FqTMOcOUt1O52FM6OeGAc0JnPtshzdZ43nNCKLBxgMXi7HKjP2jz/gI3C4OQ3lJ
+ UWZKPeLbCniXFLTC3aeZ82N0Cu6jXUMrAxUCAMF7b9V90Qy+9UfGNEKGIiObXYvJXFbhcM
+ 5OeHBs98DMzs/JLh+u8t3rx5UBushkk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-600-QhrBmdrkNZiPOjq3-Gi69A-1; Tue, 26 Oct 2021 18:09:14 -0400
-X-MC-Unique: QhrBmdrkNZiPOjq3-Gi69A-1
+ us-mta-290-1kTBeKgbPZqk7x22hGux9g-1; Tue, 26 Oct 2021 18:09:16 -0400
+X-MC-Unique: 1kTBeKgbPZqk7x22hGux9g-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 55C19A40FA;
- Tue, 26 Oct 2021 22:09:13 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CA548112B8F0;
+ Tue, 26 Oct 2021 22:09:14 +0000 (UTC)
 Received: from emerald.lyude.net (unknown [10.22.18.207])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D41006A908;
- Tue, 26 Oct 2021 22:09:11 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 981535F4E0;
+ Tue, 26 Oct 2021 22:09:13 +0000 (UTC)
 From: Lyude Paul <lyude@redhat.com>
 To: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  nouveau@lists.freedesktop.org
-Cc: Satadru Pramanik <satadru@gmail.com>, Ben Skeggs <bskeggs@redhat.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+Cc: Satadru Pramanik <satadru@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
  linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH v4 2/5] drm/nouveau/kms/nv50-: Explicitly check DPCD
- backlights for aux enable/brightness
-Date: Tue, 26 Oct 2021 18:08:45 -0400
-Message-Id: <20211026220848.439530-3-lyude@redhat.com>
+Subject: [PATCH v4 3/5] drm/dp: Disable unsupported features in
+ DP_EDP_BACKLIGHT_MODE_SET_REGISTER
+Date: Tue, 26 Oct 2021 18:08:46 -0400
+Message-Id: <20211026220848.439530-4-lyude@redhat.com>
 In-Reply-To: <20211026220848.439530-1-lyude@redhat.com>
 References: <20211026220848.439530-1-lyude@redhat.com>
 MIME-Version: 1.0
@@ -66,31 +69,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since we don't support hybrid AUX/PWM backlights in nouveau right now,
-let's add some explicit checks so that we don't break nouveau once we
-enable support for these backlights in other drivers.
+As it turns out, apparently some machines will actually leave additional
+backlight functionality like dynamic backlight control on before the OS
+loads. Currently we don't take care to disable unsupported features when
+writing back the backlight mode, which can lead to some rather strange
+looking behavior when adjusting the backlight.
+
+So, let's fix this by ensuring we only keep supported features enabled for
+panel backlights - which should fix some of the issues we were seeing from
+this on fi-bdw-samus.
 
 Signed-off-by: Lyude Paul <lyude@redhat.com>
+Fixes: 867cf9cd73c3 ("drm/dp: Extract i915's eDP backlight code into DRM helpers")
 ---
- drivers/gpu/drm/nouveau/nouveau_backlight.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/drm_dp_helper.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_backlight.c b/drivers/gpu/drm/nouveau/nouveau_backlight.c
-index 1cbd71abc80a..ae2f2abc8f5a 100644
---- a/drivers/gpu/drm/nouveau/nouveau_backlight.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_backlight.c
-@@ -308,7 +308,10 @@ nv50_backlight_init(struct nouveau_backlight *bl,
- 		if (ret < 0)
- 			return ret;
+diff --git a/drivers/gpu/drm/drm_dp_helper.c b/drivers/gpu/drm/drm_dp_helper.c
+index ada0a1ff262d..8f2032a955cf 100644
+--- a/drivers/gpu/drm/drm_dp_helper.c
++++ b/drivers/gpu/drm/drm_dp_helper.c
+@@ -3372,7 +3372,9 @@ int drm_edp_backlight_enable(struct drm_dp_aux *aux, const struct drm_edp_backli
+ 		return ret < 0 ? ret : -EIO;
+ 	}
  
--		if (drm_edp_backlight_supported(edp_dpcd)) {
-+		/* TODO: Add support for hybrid PWM/DPCD panels */
-+		if (drm_edp_backlight_supported(edp_dpcd) &&
-+		    (edp_dpcd[1] & DP_EDP_BACKLIGHT_AUX_ENABLE_CAP) &&
-+		    (edp_dpcd[2] & DP_EDP_BACKLIGHT_BRIGHTNESS_AUX_SET_CAP)) {
- 			NV_DEBUG(drm, "DPCD backlight controls supported on %s\n",
- 				 nv_conn->base.name);
+-	new_dpcd_buf = dpcd_buf;
++	/* Disable any backlight functionality we don't support that might be on */
++	new_dpcd_buf = dpcd_buf & (DP_EDP_BACKLIGHT_CONTROL_MODE_MASK |
++				   DP_EDP_BACKLIGHT_FREQ_AUX_SET_ENABLE);
  
+ 	if ((dpcd_buf & DP_EDP_BACKLIGHT_CONTROL_MODE_MASK) != DP_EDP_BACKLIGHT_CONTROL_MODE_DPCD) {
+ 		new_dpcd_buf &= ~DP_EDP_BACKLIGHT_CONTROL_MODE_MASK;
+@@ -3394,6 +3396,8 @@ int drm_edp_backlight_enable(struct drm_dp_aux *aux, const struct drm_edp_backli
+ 				    aux->name, ret);
+ 		else
+ 			new_dpcd_buf |= DP_EDP_BACKLIGHT_FREQ_AUX_SET_ENABLE;
++	} else {
++		new_dpcd_buf &= ~DP_EDP_BACKLIGHT_FREQ_AUX_SET_ENABLE;
+ 	}
+ 
+ 	if (new_dpcd_buf != dpcd_buf) {
 -- 
 2.31.1
 
