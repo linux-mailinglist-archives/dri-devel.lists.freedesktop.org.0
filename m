@@ -1,44 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF41C43B227
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Oct 2021 14:18:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AA2DE43B2ED
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Oct 2021 15:09:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8ACBE89BBE;
-	Tue, 26 Oct 2021 12:18:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F48589B11;
+	Tue, 26 Oct 2021 13:09:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C15689B49;
- Tue, 26 Oct 2021 12:18:22 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10148"; a="290724767"
-X-IronPort-AV: E=Sophos;i="5.87,182,1631602800"; d="scan'208";a="290724767"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Oct 2021 05:18:03 -0700
-X-IronPort-AV: E=Sophos;i="5.87,182,1631602800"; d="scan'208";a="497311502"
-Received: from kyarovyx-mobl.ger.corp.intel.com (HELO [10.252.50.18])
- ([10.252.50.18])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Oct 2021 05:18:00 -0700
-Message-ID: <4a133970-ff4b-aa62-d346-b269b1b9236e@linux.intel.com>
-Date: Tue, 26 Oct 2021 14:17:58 +0200
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 422D889B11
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Oct 2021 13:09:43 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 12FFC60FD7
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Oct 2021 13:09:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1635253783;
+ bh=zVdXD0zijj+UHkKbiOIf/ipYffCEIp1DYW/uvtY350A=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=n6Uwd5onIllxn5nySG6GVLG9smzVxrDjBC3lt8wlIDT0MwDCDlC7cPYKuSPByXu5O
+ jTyyMjLhTue9kgxnGWq5dchjKDrrKHNoHV4nA/G24wPNVMmIYWKwmJcMoDZ1xi17LA
+ BSNI93bMPyJVyULmMQWL+h7UQ1iNbE2Ue3Ok+Tu3u7KbJO0HFoZz//nYu8G8CjVzMM
+ 83WauKENA7rUP3hf2RmGNRQbmRHc9b2T8Gzp8hxSwwbJVVRXYgTgtlPnQGyxjsSV97
+ /7s7gYQvdVsUQ87LK2yCuLr+SODvI2QMzYCnpa4tHk0CEgknWkR5QvLQ+sUxZx7mQC
+ aSFhzI8w+Hgdg==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id 0FA7460FC0; Tue, 26 Oct 2021 13:09:43 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 211807] [drm:drm_dp_mst_dpcd_read] *ERROR* mstb
+ 000000004e6288dd port 3: DPCD read on addr 0x60 for 1 bytes NAKed
+Date: Tue, 26 Oct 2021 13:09:42 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: low
+X-Bugzilla-Who: alexdeucher@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-211807-2300-ZgLaDR4Si7@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-211807-2300@https.bugzilla.kernel.org/>
+References: <bug-211807-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.2.1
-From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, dim-tools@lists.freedesktop.org
-Subject: [PULL] drm-misc-fixes
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,48 +69,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave and Dan,
+https://bugzilla.kernel.org/show_bug.cgi?id=3D211807
 
-Last pull request for me for v5.15 I hope.
-Out for vacation until the third week of november,
-Maxime offered to do the remainder of v5.15.
+--- Comment #13 from Alex Deucher (alexdeucher@gmail.com) ---
+(In reply to zwerg12 from comment #12)
+> As mentioned before, I get the same error with a monitor connected with DP
+> to a Lenovo ThinkPad USB-C Dock Gen2. My Laptop has an Intel i7 10510U no
+> additional graphics card. I am using Debian testing with the provided ker=
+nel.
+>=20
+>=20
+> During this my notebook monitor is blinking.
+> This setup worked for around four weeks when suddenly these errors occurr=
+ed.
 
-~Maarten
 
-drm-misc-fixes-2021-10-26:
-drm-misc-fixes for v5.15-rc8:
-- Fix fence leak in ttm_transfered_destroy.
-- Add quirk for Aya Neo 2021
-- Reset property count for each drm damage selftest so full run will work correctly.
-The following changes since commit 74056092ff415e7e20ce2544689b32ee811c4f0b:
+Can you bisect?
 
-  drm/kmb: Enable ADV bridge after modeset (2021-10-21 11:08:09 +0200)
+--=20
+You may reply to this email to add a comment.
 
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-fixes-2021-10-26
-
-for you to fetch changes up to ee71fb6c4d99c51f2d82a32c503c872b7e40e7f7:
-
-  drm/i915/selftests: Properly reset mock object propers for each test (2021-10-22 11:09:45 +0200)
-
-----------------------------------------------------------------
-drm-misc-fixes for v5.15-rc8:
-- Fix fence leak in ttm_transfered_destroy.
-- Add quirk for Aya Neo 2021
-- Reset property count for each drm damage selftest so full run will work correctly.
-
-----------------------------------------------------------------
-Bryant Mairs (1):
-      drm: panel-orientation-quirks: Add quirk for Aya Neo 2021
-
-Christian König (1):
-      drm/ttm: fix memleak in ttm_transfered_destroy
-
-Daniel Vetter (1):
-      drm/i915/selftests: Properly reset mock object propers for each test
-
- drivers/gpu/drm/drm_panel_orientation_quirks.c     | 6 ++++++
- drivers/gpu/drm/selftests/test-drm_damage_helper.c | 1 +
- drivers/gpu/drm/ttm/ttm_bo_util.c                  | 1 +
- 3 files changed, 8 insertions(+)
+You are receiving this mail because:
+You are watching the assignee of the bug.=
