@@ -2,60 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0ED8743BA21
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Oct 2021 21:03:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C194943BA68
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Oct 2021 21:10:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 10E4C8938C;
-	Tue, 26 Oct 2021 19:02:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5CE786E483;
+	Tue, 26 Oct 2021 19:10:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com
- [IPv6:2607:f8b0:4864:20::b29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 491F38938C
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Oct 2021 19:02:58 +0000 (UTC)
-Received: by mail-yb1-xb29.google.com with SMTP id e138so155416ybc.3
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Oct 2021 12:02:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=5L3NweT3WPaAhbnyD6WsMkziixFdgFckJuSxCTQJug8=;
- b=l0QpRlsuyjAiD2JKUtg4qYGjk/EHm4JDHoWsRaQ6YYdxRC2jJ+SB5MOUuC/fhQBdXR
- iwpP3kdXxKiLLSkXR6os09z73mhZ7ayH+dXNYDCxKexWzUHCnCS2pBgGQCZKYW+GtoUF
- kbRE9ZsqoRNQGY8U+okXUtMSxUo40rG3nKl+c=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=5L3NweT3WPaAhbnyD6WsMkziixFdgFckJuSxCTQJug8=;
- b=YoPRBmnhaKk7eiiVvLsQw5Nka8CQg4SWRlkbj0OK8iZL+gnJZT2aLqzqqECJZh39iR
- 1TqyfAtRQ0qnkONe3UqgcO/VDlcuG8/Lo/ECdsOq5L1kwXljmWi7C3EA+td89+UQx1F1
- 7tPK6TLNOdQySzP+++Z7TvHg7iG1JKkI+de6Xf2Sg3THUysBOrx74jDEydnwfHxcHyWs
- bL7UZllyfu6PMLG+08VW4i3m/Wt5BO+Qe7fxwDj9swsecs+wOqi0Ro6JDWYp9gBeAgWW
- RvQrsO+euyE82ot9rQJ+y5pKwerlj9u5MNqtFFGzOJDq0+YCYsA/fDATh25/bdWtRAd4
- K6jQ==
-X-Gm-Message-State: AOAM532l/tm1Pd3GxL6XKxCEUlgrM3qZGnefVZCJjuK5Ci9GYAEEtiaI
- 0wgdUisqAZIxdh/NBzNd2/lzp/yIR6hLli3vaX6Xwg==
-X-Google-Smtp-Source: ABdhPJzOBEFRxTBiSQhUxPe/HnGVVKVilz0M99d1Ba9vdf2gbBSJgmrn/SQqYt1r2uNjvGCVNZKyZ+TpxEK1zr8c9JQ=
-X-Received: by 2002:a25:cf07:: with SMTP id f7mr25652281ybg.100.1635274977398; 
- Tue, 26 Oct 2021 12:02:57 -0700 (PDT)
+Received: from mx1.smtp.larsendata.com (mx1.smtp.larsendata.com
+ [91.221.196.215])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 10A496E483
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Oct 2021 19:10:00 +0000 (UTC)
+Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
+ by mx1.smtp.larsendata.com (Halon) with ESMTPS
+ id 549203a9-3690-11ec-9c3f-0050568c148b;
+ Tue, 26 Oct 2021 19:10:06 +0000 (UTC)
+Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
+ [80.162.45.141])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: sam@ravnborg.org)
+ by mail01.mxhotel.dk (Postfix) with ESMTPSA id B4A0A194B70;
+ Tue, 26 Oct 2021 21:09:57 +0200 (CEST)
+Date: Tue, 26 Oct 2021 21:09:56 +0200
+X-Report-Abuse-To: abuse@mxhotel.dk
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Mario <awxkrnl@gmail.com>
+Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@linux.ie, daniel@ffwll.ch,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] drm: panel-orientation-quirks: Add quirk for GPD Win3
+Message-ID: <YXhShDj4c8W9aMhz@ravnborg.org>
+References: <20211026112737.9181-1-awxkrnl@gmail.com>
 MIME-Version: 1.0
-References: <20211021140552.v2.1.I9d81c3b44f350707b5373d00524af77c4aae862b@changeid>
- <20211021140552.v2.2.I3ed2a84c58d9e81965f497d587f735eea56c1684@changeid>
- <CAE-0n52UdhHwM0rViVdyE4wO3sw8DzU5fEFp_aKTQBwLfR-qgA@mail.gmail.com>
-In-Reply-To: <CAE-0n52UdhHwM0rViVdyE4wO3sw8DzU5fEFp_aKTQBwLfR-qgA@mail.gmail.com>
-From: Philip Chen <philipchen@chromium.org>
-Date: Tue, 26 Oct 2021 12:02:46 -0700
-Message-ID: <CA+cxXh=Rqtqp701rf0c8cVWOWsjrVi-HcoA5H0E_SqxX7B=5NA@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] drm/bridge: parade-ps8640: Populate devices on
- aux-bus
-To: Stephen Boyd <swboyd@chromium.org>
-Cc: LKML <linux-kernel@vger.kernel.org>, dianders@chromium.org, 
- Andrzej Hajda <a.hajda@samsung.com>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@linux.ie>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Neil Armstrong <narmstrong@baylibre.com>, Robert Foss <robert.foss@linaro.org>,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211026112737.9181-1-awxkrnl@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,52 +53,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Mario,
 
-On Mon, Oct 25, 2021 at 1:10 PM Stephen Boyd <swboyd@chromium.org> wrote:
->
-> Quoting Philip Chen (2021-10-21 14:06:00)
-> > diff --git a/drivers/gpu/drm/bridge/parade-ps8640.c b/drivers/gpu/drm/bridge/parade-ps8640.c
-> > index 220ca3b03d24..f99a2e0808b7 100644
-> > --- a/drivers/gpu/drm/bridge/parade-ps8640.c
-> > +++ b/drivers/gpu/drm/bridge/parade-ps8640.c
-> > @@ -149,6 +150,23 @@ static inline struct ps8640 *aux_to_ps8640(struct drm_dp_aux *aux)
-> >         return container_of(aux, struct ps8640, aux);
-> >  }
-> >
-> > +static bool ps8640_of_panel_on_aux_bus(struct device *dev)
-> > +{
-> > +       struct device_node *bus, *panel;
-> > +
-> > +       bus = of_get_child_by_name(dev->of_node, "aux-bus");
-> > +       if (!bus)
-> > +               return false;
-> > +       of_node_put(bus);
->
-> This should come after the next line...
->
-> > +
-> > +       panel = of_get_child_by_name(bus, "panel");
->
-> here, so that 'bus' can't go away before getting children nodes. It
-> doesn't actually matter in this case because 'device' holds the aux-bus,
-> but we shouldn't add anti-patterns to the code lest someone copies it
-> where it actually matters.
-Thanks for pointing it out.
-I will fix it in v3.
+On Tue, Oct 26, 2021 at 01:27:37PM +0200, Mario wrote:
+> Fixes screen orientation for GPD Win 3 handheld gaming console.
+> 
+> Signed-off-by: Mario Risoldi <awxkrnl@gmail.com>
 
->
-> > +       if (!panel)
-> > +               return false;
-> > +       of_node_put(panel);
-> > +
-> > +       return true;
-> > +}
-> > +
-> >  static void ps8640_ensure_hpd(struct ps8640 *ps_bridge)
-> >  {
-> >         struct regmap *map = ps_bridge->regmap[PAGE2_TOP_CNTL];
->
-> Otherwise
->
-> Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+Thanks for the resend.
+A couple of points for your, hopefully soonish, next contribution:
+
+1) Use the same name/email in the Signed-off-by and a sender mail.
+As an alternative add an From: Mario Risoldi <awxkrnl@gmail.com> in the
+top of the changelog. Otherwise there is a warning about the mismatch.
+
+2) When you make a v2 it is always a good service to the readers to tell
+what was changed.
+In this case you could have added the following:
+"
+v2:
+  - Added changelog and s-o-b (Sam)
+"
+
+It is perfectly fine in the DRM subsystem to have this part of the
+changelog. Other subsystmes do not want to see it in the changelog so
+there it must go below the end-of-changelog marker - the "---"
+
+Patch is applied to drm-misc-next and will hopefully find its way to
+upstream within 1-2 weeks.
+So for this patch you do not need to do more.
+
+	Sam
+
+> ---
+>  drivers/gpu/drm/drm_panel_orientation_quirks.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+> index f6bdec7fa925..f6177c1d9872 100644
+> --- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
+> +++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+> @@ -185,6 +185,12 @@ static const struct dmi_system_id orientation_data[] = {
+>  		  DMI_EXACT_MATCH(DMI_BOARD_NAME, "Default string"),
+>  		},
+>  		.driver_data = (void *)&gpd_win2,
+> +	}, {	/* GPD Win 3 */
+> +		.matches = {
+> +		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "GPD"),
+> +		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "G1618-03")
+> +		},
+> +		.driver_data = (void *)&lcd720x1280_rightside_up,
+>  	}, {	/* I.T.Works TW891 */
+>  		.matches = {
+>  		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "To be filled by O.E.M."),
+> -- 
+> 2.33.1
