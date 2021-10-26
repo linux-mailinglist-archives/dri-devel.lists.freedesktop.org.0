@@ -2,59 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A72F343A8F0
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Oct 2021 02:02:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42FC443A8E7
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Oct 2021 02:02:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A53D46E252;
-	Tue, 26 Oct 2021 00:01:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C55236E213;
+	Tue, 26 Oct 2021 00:01:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com
- [IPv6:2607:f8b0:4864:20::429])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AACEC6E21A
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Oct 2021 00:01:06 +0000 (UTC)
-Received: by mail-pf1-x429.google.com with SMTP id x66so12447749pfx.13
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Oct 2021 17:01:06 -0700 (PDT)
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com
+ [IPv6:2607:f8b0:4864:20::102b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE4CB6E171
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Oct 2021 00:01:07 +0000 (UTC)
+Received: by mail-pj1-x102b.google.com with SMTP id
+ n11-20020a17090a2bcb00b001a1e7a0a6a6so756172pje.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Oct 2021 17:01:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=qrvKBJr+DUbrISc8WyZICnsdtffozhNCQiB3CMiYO5U=;
- b=eBJkD88KGHZoyjf0uyhFOf6hXmXPj8CyJleM8bF+Z23T3g4hjnvuyInTyDrdIQ9Vvf
- PD9uL+5hQbzCJTDU5CukFarTB0O6VL8TK9y55i+Sli1EZXzjOY0sBvIDGQidzFo/X2dI
- Me3sFLyu2nTabjMtPst/dDZ0g8ftVN4RrqTkw=
+ bh=0NtNoitnZpRD+QXZE528qbbYjh9dmwDBO87rVNizGkg=;
+ b=MkpS8mYXYZqk/7Nl8cm+FACjFCj9sRfBP+cI4HAQV78Fb5HJmEC3lEI2D45nLTFAlE
+ siWcKQrdjpkbAZLWqUTH/wIYNd05pSjofkRJAB90KF/7zgFj/bDbDpe3LcYfoGqW73Fu
+ MRNCGUEWcC/Uyedqxrf8IxVsXEbqt1KtgUXAw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=qrvKBJr+DUbrISc8WyZICnsdtffozhNCQiB3CMiYO5U=;
- b=UhMUakCzO6AOoaJqEOAFVotRXfr6k7xi2fyxS7WFkn+hSvxTHeOIhzmmlhBS+jmrwl
- 7FPMXFdcULYaGTTpbcYQ40yj3iqPTZsDzW1LYpWV6GBJ1+e8WrYgwB2S0CSLpXQPqTgJ
- h8CeBJtc2He2nBJcOLMDDjFG6G4754lOqFj4U+sCHunaIjeukg2r/Rx3H5/UgXmM32aH
- PIIYm8zJDueAtjO9aqtTYPhahmBrlUwKlgKooXxz65HbVLHErRrdaRYgqhWxj0FG0wfs
- XmSrO057bciR1hrhk0gFRwgvNt9jxLIYX6EOTN+3jULMz2Mq0ySkLsKlYhWfujB5iGd/
- voMQ==
-X-Gm-Message-State: AOAM532B3H0XQXdJ3djWA5LZ062+YW+JpENrE0OB1oHheHZP6snnXwYq
- TO2/G8GZ1MvDFfmCRZD83Z8o7gKs6pA=
-X-Google-Smtp-Source: ABdhPJx+YQjSm8Kx6nD7Ebqb9PvN4A/RpsIstD9hkOnWwntjaPbSm9R27Ho+0rDkvlMCsSpNZZrSxw==
-X-Received: by 2002:aa7:9043:0:b0:44d:13c7:14a5 with SMTP id
- n3-20020aa79043000000b0044d13c714a5mr21906414pfo.86.1635206466351; 
- Mon, 25 Oct 2021 17:01:06 -0700 (PDT)
+ bh=0NtNoitnZpRD+QXZE528qbbYjh9dmwDBO87rVNizGkg=;
+ b=nbWZx7Go1FXXHgVY0hhFHLat3BXqShR2fjWEdKCg0Flrxd0+MiVvLRhaUYV5NyaYbe
+ Gi94jIbqsEntSD4gnoU7nwq/tiLqaw9opdfY6+FHLeYQ8O3s5DYA+cwA3kYwzgA7l+kZ
+ /8dWbeTDmktlqht7C2okP7hOsetVrlsuH63fvSKHJZxZdErTDD8/k+RBP45b8nzsE6mw
+ p+TAm2Ad7HBk6uQTjY7VO9ox6mgVivD3+FHTyR/CYyhbjpr8w0j7Sw73mJLnZDK59JWy
+ l6h/+FNeEM98Q9eFIavbaX9mC5/06Cre7ipswcaXsH7x2D3d3vPv2uJYwDWU3hb88JuI
+ tLqA==
+X-Gm-Message-State: AOAM532E9nmUqRGVbhEWLhwiZmyqhf0ZwWL3cocFX6/5eHAlMUl42VOJ
+ 3/PhdDjF1E2ARKhpy7ct2uIlVA==
+X-Google-Smtp-Source: ABdhPJzS7rBd0UngMBRyJ0xskLKRSYsErpV4cnHHIRxNh02iXz47s2c97WpjkL2B1CQapTgu6tyRgQ==
+X-Received: by 2002:a17:903:1252:b0:13d:f3f6:2e1c with SMTP id
+ u18-20020a170903125200b0013df3f62e1cmr19295693plh.73.1635206467259; 
+ Mon, 25 Oct 2021 17:01:07 -0700 (PDT)
 Received: from smtp.gmail.com ([2620:15c:202:201:f5e3:5eb1:d5ee:6893])
- by smtp.gmail.com with ESMTPSA id b7sm9900747pfm.28.2021.10.25.17.01.05
+ by smtp.gmail.com with ESMTPSA id b7sm9900747pfm.28.2021.10.25.17.01.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 25 Oct 2021 17:01:06 -0700 (PDT)
 From: Stephen Boyd <swboyd@chromium.org>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
  dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Jyri Sarha <jyri.sarha@iki.fi>, Tomi Valkeinen <tomba@kernel.org>,
  Daniel Vetter <daniel.vetter@ffwll.ch>,
  "Rafael J. Wysocki" <rafael@kernel.org>, Rob Clark <robdclark@gmail.com>,
  Russell King <rmk+kernel@arm.linux.org.uk>,
  Saravana Kannan <saravanak@google.com>
-Subject: [PATCH v3 23/34] drm/sun4i: Migrate to aggregate driver
-Date: Mon, 25 Oct 2021 17:00:33 -0700
-Message-Id: <20211026000044.885195-24-swboyd@chromium.org>
+Subject: [PATCH v3 24/34] drm/tilcdc: Migrate to aggregate driver
+Date: Mon, 25 Oct 2021 17:00:34 -0700
+Message-Id: <20211026000044.885195-25-swboyd@chromium.org>
 X-Mailer: git-send-email 2.33.0.1079.g6e70778dc9-goog
 In-Reply-To: <20211026000044.885195-1-swboyd@chromium.org>
 References: <20211026000044.885195-1-swboyd@chromium.org>
@@ -79,8 +80,8 @@ Use an aggregate driver instead of component ops so that we can get
 proper driver probe ordering of the aggregate device with respect to all
 the component devices that make up the aggregate device.
 
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Chen-Yu Tsai <wens@csie.org>
+Cc: Jyri Sarha <jyri.sarha@iki.fi>
+Cc: Tomi Valkeinen <tomba@kernel.org>
 Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
 Cc: "Rafael J. Wysocki" <rafael@kernel.org>
 Cc: Rob Clark <robdclark@gmail.com>
@@ -88,70 +89,74 @@ Cc: Russell King <rmk+kernel@arm.linux.org.uk>
 Cc: Saravana Kannan <saravanak@google.com>
 Signed-off-by: Stephen Boyd <swboyd@chromium.org>
 ---
- drivers/gpu/drm/sun4i/sun4i_drv.c | 26 +++++++++++++++-----------
- 1 file changed, 15 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/tilcdc/tilcdc_drv.c | 28 ++++++++++++++++------------
+ 1 file changed, 16 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_drv.c b/drivers/gpu/drm/sun4i/sun4i_drv.c
-index 54dd562e294c..700f5e32eaf7 100644
---- a/drivers/gpu/drm/sun4i/sun4i_drv.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_drv.c
-@@ -56,8 +56,9 @@ static const struct drm_driver sun4i_drv_driver = {
- 	DRM_GEM_CMA_DRIVER_OPS_VMAP_WITH_DUMB_CREATE(drm_sun4i_gem_dumb_create),
- };
- 
--static int sun4i_drv_bind(struct device *dev)
-+static int sun4i_drv_bind(struct aggregate_device *adev)
+diff --git a/drivers/gpu/drm/tilcdc/tilcdc_drv.c b/drivers/gpu/drm/tilcdc/tilcdc_drv.c
+index 6b03f89a98d4..d5c6567eec8d 100644
+--- a/drivers/gpu/drm/tilcdc/tilcdc_drv.c
++++ b/drivers/gpu/drm/tilcdc/tilcdc_drv.c
+@@ -531,13 +531,16 @@ static const struct dev_pm_ops tilcdc_pm_ops = {
+ /*
+  * Platform driver:
+  */
+-static int tilcdc_bind(struct device *dev)
++static int tilcdc_bind(struct aggregate_device *adev)
  {
 +	struct device *dev = adev->parent;
- 	struct drm_device *drm;
- 	struct sun4i_drv *drv;
- 	int ret;
-@@ -125,8 +126,9 @@ static int sun4i_drv_bind(struct device *dev)
- 	return ret;
++
+ 	return tilcdc_init(&tilcdc_driver, dev);
  }
  
--static void sun4i_drv_unbind(struct device *dev)
-+static void sun4i_drv_unbind(struct aggregate_device *adev)
+-static void tilcdc_unbind(struct device *dev)
++static void tilcdc_unbind(struct aggregate_device *adev)
  {
 +	struct device *dev = adev->parent;
- 	struct drm_device *drm = dev_get_drvdata(dev);
+ 	struct drm_device *ddev = dev_get_drvdata(dev);
  
- 	drm_dev_unregister(drm);
-@@ -140,9 +142,13 @@ static void sun4i_drv_unbind(struct device *dev)
- 	drm_dev_put(drm);
+ 	/* Check if a subcomponent has already triggered the unloading. */
+@@ -547,9 +550,13 @@ static void tilcdc_unbind(struct device *dev)
+ 	tilcdc_fini(dev_get_drvdata(dev));
  }
  
--static const struct component_master_ops sun4i_drv_master_ops = {
--	.bind	= sun4i_drv_bind,
--	.unbind	= sun4i_drv_unbind,
-+static struct aggregate_driver sun4i_aggregate_driver = {
-+	.probe	= sun4i_drv_bind,
-+	.remove	= sun4i_drv_unbind,
+-static const struct component_master_ops tilcdc_comp_ops = {
+-	.bind = tilcdc_bind,
+-	.unbind = tilcdc_unbind,
++static struct aggregate_driver tilcdc_aggregate_driver = {
++	.probe = tilcdc_bind,
++	.remove = tilcdc_unbind,
 +	.driver = {
-+		.name = "sun4i_drm",
++		.name = "tilcdc_drm",
 +		.owner = THIS_MODULE,
 +	},
  };
  
- static bool sun4i_drv_node_is_connector(struct device_node *node)
-@@ -398,16 +404,14 @@ static int sun4i_drv_probe(struct platform_device *pdev)
- 	}
- 
- 	if (count)
--		return component_master_add_with_match(&pdev->dev,
--						       &sun4i_drv_master_ops,
--						       match);
+ static int tilcdc_pdev_probe(struct platform_device *pdev)
+@@ -566,12 +573,9 @@ static int tilcdc_pdev_probe(struct platform_device *pdev)
+ 	ret = tilcdc_get_external_components(&pdev->dev, &match);
+ 	if (ret < 0)
+ 		return ret;
+-	else if (ret == 0)
++	if (ret == 0)
+ 		return tilcdc_init(&tilcdc_driver, &pdev->dev);
 -	else
--		return 0;
-+		return component_aggregate_register(&pdev->dev, &sun4i_aggregate_driver, match);
-+
-+	return 0;
+-		return component_master_add_with_match(&pdev->dev,
+-						       &tilcdc_comp_ops,
+-						       match);
++	return component_aggregate_register(&pdev->dev, &tilcdc_aggregate_driver, match);
  }
  
- static int sun4i_drv_remove(struct platform_device *pdev)
- {
--	component_master_del(&pdev->dev, &sun4i_drv_master_ops);
-+	component_aggregate_unregister(&pdev->dev, &sun4i_aggregate_driver);
+ static int tilcdc_pdev_remove(struct platform_device *pdev)
+@@ -581,10 +585,10 @@ static int tilcdc_pdev_remove(struct platform_device *pdev)
+ 	ret = tilcdc_get_external_components(&pdev->dev, NULL);
+ 	if (ret < 0)
+ 		return ret;
+-	else if (ret == 0)
++	if (ret == 0)
+ 		tilcdc_fini(platform_get_drvdata(pdev));
+ 	else
+-		component_master_del(&pdev->dev, &tilcdc_comp_ops);
++		component_aggregate_unregister(&pdev->dev, &tilcdc_aggregate_driver);
  
  	return 0;
  }
