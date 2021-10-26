@@ -1,45 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B84343ADE7
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Oct 2021 10:22:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C500D43AE04
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Oct 2021 10:30:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ACD936E400;
-	Tue, 26 Oct 2021 08:22:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 442886E450;
+	Tue, 26 Oct 2021 08:30:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B20C6E400;
- Tue, 26 Oct 2021 08:22:34 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10148"; a="230128723"
-X-IronPort-AV: E=Sophos;i="5.87,182,1631602800"; d="scan'208";a="230128723"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Oct 2021 01:22:31 -0700
-X-IronPort-AV: E=Sophos;i="5.87,182,1631602800"; d="scan'208";a="723980115"
-Received: from fnygreen-mobl1.ger.corp.intel.com (HELO [10.249.254.182])
- ([10.249.254.182])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Oct 2021 01:22:30 -0700
-Message-ID: <4ce320ad-623f-fb27-6772-aac2ae18a9fb@linux.intel.com>
-Date: Tue, 26 Oct 2021 10:22:27 +0200
+Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com
+ [209.85.221.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1CAFE6E450
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Oct 2021 08:30:29 +0000 (UTC)
+Received: by mail-vk1-f181.google.com with SMTP id s201so4382714vke.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Oct 2021 01:30:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=/ahLicdrMZ8Rl440uYSQXYfqc+SmHqq4WEC7k8rF9Ug=;
+ b=q6enFpUkYFaaelISRETVCPLYj7cHhkbA1/yqVjwRKJTDYvxRyzs8G0asbfcfEu2Yvj
+ r8MqEWEX4vrXvrTZlJV9Qnjouiw1Ts23XGSSYTLkyBFBIXLJJxagWCfDKalMjPFmIDeq
+ MoXFfM/26eRMSESlqjycMSIOIZc/XUDoibTOg08IMCoyNa4SwVgpzIX9QWXAByMevmds
+ vRUjJK5goLMf19JC/7bYRV+Kajvo+zGCwMikHO81eJBn0152ZffbwmG3LB32Qpqbz5v1
+ O9/lCAwbAgKCIFCw+9vAriYSburS9hWg97kPjGxQJQpHg0vIRuxxd2/Dhyv3AHK8QBDa
+ dXCw==
+X-Gm-Message-State: AOAM531FoJDoKgA+9gSY+8j+95RX8UHBA98+VPpes378fIUmyTJtmI4q
+ ux6oPpFm6Q8jUnd7WwrcdVvQTv15I7j4dg==
+X-Google-Smtp-Source: ABdhPJxSXtqDbnMcXw3k5d4eCPZ0p+lawvsbo7RoC1aEOcaKZD072tFIY4PrTbbtjJwJYv2qjGv5wQ==
+X-Received: by 2002:a1f:b64e:: with SMTP id g75mr21259097vkf.13.1635237027695; 
+ Tue, 26 Oct 2021 01:30:27 -0700 (PDT)
+Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com.
+ [209.85.222.42])
+ by smtp.gmail.com with ESMTPSA id i19sm4522044uat.13.2021.10.26.01.30.27
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 26 Oct 2021 01:30:27 -0700 (PDT)
+Received: by mail-ua1-f42.google.com with SMTP id p23so14802759uaa.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Oct 2021 01:30:27 -0700 (PDT)
+X-Received: by 2002:ab0:2bd2:: with SMTP id s18mr21259739uar.78.1635237026866; 
+ Tue, 26 Oct 2021 01:30:26 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH] drm/i915/selftests: Allow engine reset failure to do a GT
- reset in hangcheck selftest
-Content-Language: en-US
-To: Matthew Brost <matthew.brost@intel.com>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- john.c.harrison@intel.com
-References: <20211011234705.30853-1-matthew.brost@intel.com>
- <f8f1ae021e8cabc2c6d76996b5e74912cb0913db.camel@linux.intel.com>
- <20211021203747.GA27209@jons-linux-dev-box>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
-In-Reply-To: <20211021203747.GA27209@jons-linux-dev-box>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <1635188490-15082-1-git-send-email-george.kennedy@oracle.com>
+ <YXcAbXJfg/jKCo5h@kroah.com> <0ddb1c19-64b0-4117-7a92-c3d2fcddfdcf@oracle.com>
+In-Reply-To: <0ddb1c19-64b0-4117-7a92-c3d2fcddfdcf@oracle.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 26 Oct 2021 10:30:15 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWcU7wy1dxa_MXuHoUTWebvq6ShP820Bn_v+8tx7-TEdg@mail.gmail.com>
+Message-ID: <CAMuHMdWcU7wy1dxa_MXuHoUTWebvq6ShP820Bn_v+8tx7-TEdg@mail.gmail.com>
+Subject: Re: [PATCH] video: fbdev: cirrusfb: check pixclock to avoid divide by
+ zero
+To: George Kennedy <george.kennedy@oracle.com>
+Cc: Greg KH <gregkh@linuxfoundation.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>, 
+ Linux Fbdev development list <linux-fbdev@vger.kernel.org>, 
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,130 +73,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi George,
 
-On 10/21/21 22:37, Matthew Brost wrote:
-> On Thu, Oct 21, 2021 at 08:15:49AM +0200, Thomas Hellström wrote:
->> Hi, Matthew,
->>
->> On Mon, 2021-10-11 at 16:47 -0700, Matthew Brost wrote:
->>> The hangcheck selftest blocks per engine resets by setting magic bits
->>> in
->>> the reset flags. This is incorrect for GuC submission because if the
->>> GuC
->>> fails to reset an engine we would like to do a full GT reset. Do no
->>> set
->>> these magic bits when using GuC submission.
->>>
->>> Side note this lockless algorithm with magic bits to block resets
->>> really
->>> should be ripped out.
->>>
->> Lockless algorithm aside, from a quick look at the code in
->> intel_reset.c it appears to me like the interface that falls back to a
->> full GT reset is intel_gt_handle_error() whereas intel_engine_reset()
->> is explicitly intended to not do that, so is there a discrepancy
->> between GuC and non-GuC here?
->>
-> With GuC submission when an engine reset fails, we get an engine reset
-> failure notification which triggers a full GT reset
-> (intel_guc_engine_failure_process_msg in intel_guc_submission.c). That
-> reset is blocking by setting these magic bits. Clearing the bits in this
-> function doesn't seem to unblock that reset either, the driver tries to
-> unload with a worker blocked, and results in the blow up. Something with
-> this lockless algorithm could be wrong as clear of the bit should
-> unlblock the reset but it is doesn't. We can look into that but in the
-> meantime we need to fix this test to be able to fail gracefully and not
-> crash CI.
+On Mon, Oct 25, 2021 at 9:37 PM George Kennedy
+<george.kennedy@oracle.com> wrote:
+> On 10/25/2021 3:07 PM, Greg KH wrote:
+> > On Mon, Oct 25, 2021 at 02:01:30PM -0500, George Kennedy wrote:
+> >> Do a sanity check on pixclock value before using it as a divisor.
+> >>
+> >> Syzkaller reported a divide error in cirrusfb_check_pixclock.
+> >>
+> >> divide error: 0000 [#1] SMP KASAN PTI
+> >> CPU: 0 PID: 14938 Comm: cirrusfb_test Not tainted 5.15.0-rc6 #1
+> >> Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.11.0-2
+> >> RIP: 0010:cirrusfb_check_var+0x6f1/0x1260
+> >>
+> >> Call Trace:
+> >>   fb_set_var+0x398/0xf90
+> >>   do_fb_ioctl+0x4b8/0x6f0
+> >>   fb_ioctl+0xeb/0x130
+> >>   __x64_sys_ioctl+0x19d/0x220
+> >>   do_syscall_64+0x3a/0x80
+> >>   entry_SYSCALL_64_after_hwframe+0x44/0xae
+> >>
+> >> Signed-off-by: George Kennedy <george.kennedy@oracle.com>
+> >> ---
+> >>   drivers/video/fbdev/cirrusfb.c | 3 +++
+> >>   1 file changed, 3 insertions(+)
+> >>
+> >> diff --git a/drivers/video/fbdev/cirrusfb.c b/drivers/video/fbdev/cirrusfb.c
+> >> index 93802ab..099ddcb 100644
+> >> --- a/drivers/video/fbdev/cirrusfb.c
+> >> +++ b/drivers/video/fbdev/cirrusfb.c
+> >> @@ -477,6 +477,9 @@ static int cirrusfb_check_pixclock(const struct fb_var_screeninfo *var,
+> >>      struct cirrusfb_info *cinfo = info->par;
+> >>      unsigned maxclockidx = var->bits_per_pixel >> 3;
+> >>
+> >> +    if (!var->pixclock)
+> >> +            return -EINVAL;
+
+This is not correct: fbdev drivers should round up invalid values,
+and only return an error if rounding up cannot yield a valid value.
+
+> > Shouldn't you be checking further up the call chain where this got set
+> > to 0?
 >
-> Matt
+> The same pixclock check is done in these fb drivers:
+>
+> arch/arm/mach-rpc/include/mach/acornfb.h:    if (!var->pixclock)
+> drivers/video/fbdev/asiliantfb.c:    if (!var->pixclock)
+> drivers/video/fbdev/clps711x-fb.c:    if (!var->pixclock)
+> drivers/video/fbdev/core/fbmon.c:    if (!var->pixclock)
+> drivers/video/fbdev/core/modedb.c:    if (!var->pixclock)
+> drivers/video/fbdev/cirrusfb.c:    if (!var->pixclock)
+> drivers/video/fbdev/kyro/fbdev.c:    if (!var->pixclock)
+> drivers/video/fbdev/riva/fbdev.c:    if (!var->pixclock)
+> drivers/video/fbdev/uvesafb.c:    if (!var->pixclock)
+>
+> >
+> > What logic allows this to be a valid value?  What about all other fb
+> > drivers?
+>
+> The "check_var" function, which is set into the ".fb_check_var" element
+> of the fb_ops struct, should do the check, but in the case of cirrusfb,
+> that is not being done.
+>
+> All this patch does is add the same pixclock check that the other above
+> fb drivers do.
 
-Hmm, OK I think the situation is a bit unfortunate with the selftest 
-hangcheck as the code is sprinkled with "using_guc" to disable anything 
-that manually does per-engine resets or verifies the per-engine reset 
-count, leaving it very difficult to understand what the test actually 
-does except perhaps checking that GuC actually did a reset.
+Indeed, several drivers are not following the rounding rules.
 
-A better approach would probably be to disable all tests that doesn't do 
-anything exept iterating through the engines with GuC, and for the other 
-tests, extract what's left to test into GuC specific tests.
+Gr{oetje,eeting}s,
 
-The bit-locks are obviously there to verify that we don't do concurrent 
-per-engine resets or global resets while a per-engine reset is 
-happening. Even in the GuC case it appears at least the latter is true 
-for this particular self-test, but at the same time the selftest doesn't 
-assume anything is trying to reset concurrently and therefore doesn't 
-use clear_and_wake_up_bit() when releasing the bit-locks.
+                        Geert
 
-But as much as I want the selftests to start running again, TBH I don't 
-think I can contribute to even more code being conditioned on GuC with 
-an R-B here. Could we disable the per-engine reset tests when GuC is 
-enabled for now or try a clear_and_wake_up_bit() instead.
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-/Thomas
-
-
->> /Thomas
->>
->>
->>> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
->>> ---
->>>   drivers/gpu/drm/i915/gt/selftest_hangcheck.c | 12 ++++++++----
->>>   1 file changed, 8 insertions(+), 4 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
->>> b/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
->>> index 7e2d99dd012d..90a03c60c80c 100644
->>> --- a/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
->>> +++ b/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
->>> @@ -734,7 +734,8 @@ static int __igt_reset_engine(struct intel_gt
->>> *gt, bool active)
->>>                  reset_engine_count = i915_reset_engine_count(global,
->>> engine);
->>>   
->>>                  st_engine_heartbeat_disable(engine);
->>> -               set_bit(I915_RESET_ENGINE + id, &gt->reset.flags);
->>> +               if (!using_guc)
->>> +                       set_bit(I915_RESET_ENGINE + id, &gt-
->>>> reset.flags);
->>>                  count = 0;
->>>                  do {
->>>                          struct i915_request *rq = NULL;
->>> @@ -824,7 +825,8 @@ static int __igt_reset_engine(struct intel_gt
->>> *gt, bool active)
->>>                          if (err)
->>>                                  break;
->>>                  } while (time_before(jiffies, end_time));
->>> -               clear_bit(I915_RESET_ENGINE + id, &gt->reset.flags);
->>> +               if (!using_guc)
->>> +                       clear_bit(I915_RESET_ENGINE + id, &gt-
->>>> reset.flags);
->>>                  st_engine_heartbeat_enable(engine);
->>>                  pr_info("%s: Completed %lu %s resets\n",
->>>                          engine->name, count, active ? "active" :
->>> "idle");
->>> @@ -1042,7 +1044,8 @@ static int __igt_reset_engines(struct intel_gt
->>> *gt,
->>>                  yield(); /* start all threads before we begin */
->>>   
->>>                  st_engine_heartbeat_disable_no_pm(engine);
->>> -               set_bit(I915_RESET_ENGINE + id, &gt->reset.flags);
->>> +               if (!using_guc)
->>> +                       set_bit(I915_RESET_ENGINE + id, &gt-
->>>> reset.flags);
->>>                  do {
->>>                          struct i915_request *rq = NULL;
->>>                          struct intel_selftest_saved_policy saved;
->>> @@ -1165,7 +1168,8 @@ static int __igt_reset_engines(struct intel_gt
->>> *gt,
->>>                          if (err)
->>>                                  break;
->>>                  } while (time_before(jiffies, end_time));
->>> -               clear_bit(I915_RESET_ENGINE + id, &gt->reset.flags);
->>> +               if (!using_guc)
->>> +                       clear_bit(I915_RESET_ENGINE + id, &gt-
->>>> reset.flags);
->>>                  st_engine_heartbeat_enable_no_pm(engine);
->>>   
->>>                  pr_info("i915_reset_engine(%s:%s): %lu resets\n",
->>
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
