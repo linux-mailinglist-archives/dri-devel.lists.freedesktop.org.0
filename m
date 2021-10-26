@@ -1,39 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 987F443B16E
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Oct 2021 13:41:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 42D6643B16D
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Oct 2021 13:41:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 018916E56A;
-	Tue, 26 Oct 2021 11:41:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C16426E7F1;
+	Tue, 26 Oct 2021 11:41:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BEE366E51C;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF08B6E591;
  Tue, 26 Oct 2021 11:41:08 +0000 (UTC)
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1635248466;
+ s=2020; t=1635248467;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NZdup3Ji8kBPGkW4RTEx9y7VueR9SxIvsPT7p9xwNuY=;
- b=kWXJEEABd63YMQRTEdZn9rxlDREQnomUdn75nKlOluEGF3QoMs9lKTc7/96i7wTj/2QA5Q
- KA0FjN+g+eESfK0G4+dWSw8GK94uICZGjvYSGMXOgyMjubIY3pSPMVHTEuUW5j0gesnxOU
- LFqvISgc6E9o+Yp6L1sZeO2wj3IRuavnwGOYdM8kb1kxaklrbFkYIJtJq2Kh/FPH245rTy
- ldQT3CEoOuCL8/+1s4fU4mCMI72CTK9UY1gFUvbjzimYaOn+iiGhwbQ3OLYA8HfIeFCYq9
- VAsbiwVTQYFFgpgO6IfGoaE71/kUIGGFFx2U6IyyORaYwuctbys8T6vfnlBjLQ==
+ bh=bGU76EoGi2ewbnKMuWsfLWneyPGRohqlZWfqo14IkxM=;
+ b=hYSzVy09LzDR7lSFZEhrfOTs/78vM2cHshQSO5xUu6tEPhOv14VkslaYhkz7MesvLpQkyF
+ 8lBLN2VjZNwYx1GdlQFhjEnD19rLbC/l7v4lr7PSfkjqVwmQ0v0rdbxb97jA8i5HttVDmN
+ CY5JBVfz8nUVWGk++WsGnhZtHaIuOIn/92/2Bf6pQO77XUu8jDaL/grYz5gBOP3ldzpTnK
+ /MpLkV5+xO4GllHtDJLgGlwZhNDhj6qbfdyrSYg7+RONZeK9VfhmyrIlxdNMvR03sCPv9y
+ hvlIlfa5CQvfg29P6yCzgVy+4mJJ73Pp5u1V+5cIOYH14MS9KB2cG9UNvHSwxg==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1635248466;
+ s=2020e; t=1635248467;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NZdup3Ji8kBPGkW4RTEx9y7VueR9SxIvsPT7p9xwNuY=;
- b=CceJB0gqJM1PtHm1ogbWxKBoFyCM5MZaIwHglwwQ6FiFn+mXb06wWONzGqCi3dAjgDlTlA
- POdcBrwwB0XwDzBQ==
+ bh=bGU76EoGi2ewbnKMuWsfLWneyPGRohqlZWfqo14IkxM=;
+ b=utDtNsegQp9wxCmpLVDXuarMNAtigXHCuU6RKrn6KDRdh8OZBpZmGR5jo5wohwIC9C5lsJ
+ IqPzJcCTTz3aiYDg==
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
 Cc: Jani Nikula <jani.nikula@linux.intel.com>,
@@ -42,12 +42,11 @@ Cc: Jani Nikula <jani.nikula@linux.intel.com>,
  Daniel Vetter <daniel@ffwll.ch>, Thomas Gleixner <tglx@linutronix.de>,
  Peter Zijlstra <peterz@infradead.org>,
  Mike Galbraith <umgwanakikbuti@gmail.com>,
- Mario Kleiner <mario.kleiner.de@gmail.com>,
  Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Subject: [PATCH 5/9] drm/i915: Use preempt_disable/enable_rt() where
- recommended
-Date: Tue, 26 Oct 2021 13:40:56 +0200
-Message-Id: <20211026114100.2593433-6-bigeasy@linutronix.de>
+Subject: [PATCH 6/9] drm/i915: Don't disable interrupts on PREEMPT_RT during
+ atomic updates
+Date: Tue, 26 Oct 2021 13:40:57 +0200
+Message-Id: <20211026114100.2593433-7-bigeasy@linutronix.de>
 In-Reply-To: <20211026114100.2593433-1-bigeasy@linutronix.de>
 References: <20211026114100.2593433-1-bigeasy@linutronix.de>
 MIME-Version: 1.0
@@ -69,62 +68,95 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Mike Galbraith <umgwanakikbuti@gmail.com>
 
-Mario Kleiner suggest in commit
-  ad3543ede630f ("drm/intel: Push get_scanout_position() timestamping into =
-kms driver.")
+Commit
+   8d7849db3eab7 ("drm/i915: Make sprite updates atomic")
 
-a spots where preemption should be disabled on PREEMPT_RT. The
-difference is that on PREEMPT_RT the intel_uncore::lock disables neither
-preemption nor interrupts and so region remains preemptible.
+started disabling interrupts across atomic updates. This breaks on PREEMPT_=
+RT
+because within this section the code attempt to acquire spinlock_t locks wh=
+ich
+are sleeping locks on PREEMPT_RT.
 
-The area covers only register reads and writes. The part that worries me
-is:
-- __intel_get_crtc_scanline() the worst case is 100us if no match is
-  found.
+According to the comment the interrupts are disabled to avoid random delays=
+ and
+not required for protection or synchronisation.
+If this needs to happen with disabled interrupts on PREEMPT_RT, and the
+whole section is restricted to register access then all sleeping locks
+need to be acquired before interrupts are disabled and some function
+maybe moved after enabling interrupts again.
+This includes:
+- prepare_to_wait() + finish_wait() due its wake queue.
+- drm_crtc_vblank_put() -> vblank_disable_fn() drm_device::vbl_lock.
+- skl_pfit_enable(), intel_update_plane(), vlv_atomic_update_fifo() and
+  maybe others due to intel_uncore::lock
+- drm_crtc_arm_vblank_event() due to drm_device::event_lock and
+  drm_device::vblank_time_lock.
 
-- intel_crtc_scanlines_since_frame_timestamp() not sure how long this
-  may take in the worst case.
+Don't disable interrupts on PREEMPT_RT during atomic updates.
 
-It was in the RT queue for a while and nobody complained.
-Disable preemption on PREEPMPT_RT during timestamping.
+[bigeasy: drop local locks, commit message]
 
-[bigeasy: patch description.]
-
-Cc: Mario Kleiner <mario.kleiner.de@gmail.com>
 Signed-off-by: Mike Galbraith <umgwanakikbuti@gmail.com>
-Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 ---
- drivers/gpu/drm/i915/i915_irq.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/i915/display/intel_crtc.c | 15 ++++++++++-----
+ 1 file changed, 10 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/i915_irq.c b/drivers/gpu/drm/i915/i915_ir=
-q.c
-index 77680bca46eec..be8faaaa60226 100644
---- a/drivers/gpu/drm/i915/i915_irq.c
-+++ b/drivers/gpu/drm/i915/i915_irq.c
-@@ -916,7 +916,8 @@ static bool i915_get_crtc_scanoutpos(struct drm_crtc *_=
-crtc,
+diff --git a/drivers/gpu/drm/i915/display/intel_crtc.c b/drivers/gpu/drm/i9=
+15/display/intel_crtc.c
+index 254e67141a776..7a39029b083f4 100644
+--- a/drivers/gpu/drm/i915/display/intel_crtc.c
++++ b/drivers/gpu/drm/i915/display/intel_crtc.c
+@@ -425,7 +425,8 @@ void intel_pipe_update_start(const struct intel_crtc_st=
+ate *new_crtc_state)
  	 */
- 	spin_lock_irqsave(&dev_priv->uncore.lock, irqflags);
+ 	intel_psr_wait_for_idle(new_crtc_state);
 =20
--	/* preempt_disable_rt() should go right here in PREEMPT_RT patchset. */
-+	if (IS_ENABLED(CONFIG_PREEMPT_RT))
-+		preempt_disable();
+-	local_irq_disable();
++	if (!IS_ENABLED(CONFIG_PREEMPT_RT))
++		local_irq_disable();
 =20
- 	/* Get optional system timestamp before query. */
- 	if (stime)
-@@ -980,7 +981,8 @@ static bool i915_get_crtc_scanoutpos(struct drm_crtc *_=
-crtc,
- 	if (etime)
- 		*etime =3D ktime_get();
+ 	crtc->debug.min_vbl =3D min;
+ 	crtc->debug.max_vbl =3D max;
+@@ -450,11 +451,13 @@ void intel_pipe_update_start(const struct intel_crtc_=
+state *new_crtc_state)
+ 			break;
+ 		}
 =20
--	/* preempt_enable_rt() should go right here in PREEMPT_RT patchset. */
-+	if (IS_ENABLED(CONFIG_PREEMPT_RT))
-+		preempt_enable();
+-		local_irq_enable();
++		if (!IS_ENABLED(CONFIG_PREEMPT_RT))
++			local_irq_enable();
 =20
- 	spin_unlock_irqrestore(&dev_priv->uncore.lock, irqflags);
+ 		timeout =3D schedule_timeout(timeout);
 =20
+-		local_irq_disable();
++		if (!IS_ENABLED(CONFIG_PREEMPT_RT))
++			local_irq_disable();
+ 	}
+=20
+ 	finish_wait(wq, &wait);
+@@ -487,7 +490,8 @@ void intel_pipe_update_start(const struct intel_crtc_st=
+ate *new_crtc_state)
+ 	return;
+=20
+ irq_disable:
+-	local_irq_disable();
++	if (!IS_ENABLED(CONFIG_PREEMPT_RT))
++		local_irq_disable();
+ }
+=20
+ #if IS_ENABLED(CONFIG_DRM_I915_DEBUG_VBLANK_EVADE)
+@@ -566,7 +570,8 @@ void intel_pipe_update_end(struct intel_crtc_state *new=
+_crtc_state)
+ 		new_crtc_state->uapi.event =3D NULL;
+ 	}
+=20
+-	local_irq_enable();
++	if (!IS_ENABLED(CONFIG_PREEMPT_RT))
++		local_irq_enable();
+=20
+ 	/* Send VRR Push to terminate Vblank */
+ 	intel_vrr_send_push(new_crtc_state);
 --=20
 2.33.1
 
