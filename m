@@ -2,40 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CA1543ACA6
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Oct 2021 09:08:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76A1943AD8F
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Oct 2021 09:53:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A82F6E434;
-	Tue, 26 Oct 2021 07:08:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 335306E3F5;
+	Tue, 26 Oct 2021 07:53:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 706896E3F9;
- Tue, 26 Oct 2021 07:08:00 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10148"; a="253373705"
-X-IronPort-AV: E=Sophos;i="5.87,182,1631602800"; d="scan'208";a="253373705"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Oct 2021 00:08:00 -0700
-X-IronPort-AV: E=Sophos;i="5.87,182,1631602800"; d="scan'208";a="572263793"
-Received: from fnygreen-mobl1.ger.corp.intel.com (HELO
- thellstr-mobl1.intel.com) ([10.249.254.182])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Oct 2021 00:07:58 -0700
-From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Cc: maarten.lankhorst@linux.intel.com, matthew.auld@intel.com,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@intel.com>
-Subject: [PATCH 3/3] drm/i915: Initial introduction of vma resources
-Date: Tue, 26 Oct 2021 09:07:44 +0200
-Message-Id: <20211026070744.337554-4-thomas.hellstrom@linux.intel.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20211026070744.337554-1-thomas.hellstrom@linux.intel.com>
-References: <20211026070744.337554-1-thomas.hellstrom@linux.intel.com>
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 277D36E3F5
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Oct 2021 07:53:20 +0000 (UTC)
+X-UUID: e041f1081cd0445b98383daca8df30a4-20211026
+X-UUID: e041f1081cd0445b98383daca8df30a4-20211026
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
+ (envelope-from <nancy.lin@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 2051737254; Tue, 26 Oct 2021 15:53:15 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
+ Tue, 26 Oct 2021 15:53:14 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkcas10.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Tue, 26 Oct 2021 15:53:13 +0800
+Message-ID: <50cb7ede37f30a2275fbd09d94f86b93574b4d4b.camel@mediatek.com>
+Subject: Re: [PATCH v6 14/16] drm/mediatek: add ovl_adaptor support for MT8195
+From: Nancy.Lin <nancy.lin@mediatek.com>
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+CC: CK Hu <ck.hu@mediatek.com>, Philipp Zabel <p.zabel@pengutronix.de>, "David
+ Airlie" <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, Rob Herring
+ <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, "jason-jh .
+ lin" <jason-jh.lin@mediatek.com>, Yongqiang Niu <yongqiang.niu@mediatek.com>, 
+ DRI Development <dri-devel@lists.freedesktop.org>, "moderated
+ list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>, DTML
+ <devicetree@vger.kernel.org>, linux-kernel <linux-kernel@vger.kernel.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>, <singo.chang@mediatek.com>, 
+ srv_heupstream <srv_heupstream@mediatek.com>
+Date: Tue, 26 Oct 2021 15:53:14 +0800
+In-Reply-To: <CAAOTY_-PYe3C_+=-qpXQ3+XckE3B62gznCrqWe27DQ5SSOV_hw@mail.gmail.com>
+References: <20211004062140.29803-1-nancy.lin@mediatek.com>
+ <20211004062140.29803-15-nancy.lin@mediatek.com>
+ <CAAOTY_-PYe3C_+=-qpXQ3+XckE3B62gznCrqWe27DQ5SSOV_hw@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,473 +63,713 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Thomas Hellström <thomas.hellstrom@intel.com>
+Hi Chun-Kuang,
 
-The vma resource are needed for asynchronous bind management and are
-similar to TTM resources. They contain the data needed for
-asynchronous unbinding (typically the vm range, any backend
-private information and a means to do refcounting and to hold
-the unbinding for error capture).
+Thanks for the review.
 
-When a vma is bound, a vma resource is created and attached to the
-vma, and on async unbinding it is detached from the vma, and instead
-the vm records the fence marking unbind complete. This fence needs to
-be waited on before we can bind the same region again, so either
-the fence can be recorded for this particular range only, using an
-interval tree, or as a simpler approach, for the whole vm. The latter
-means no binding can take place on a vm until all detached vma
-resources scheduled for unbind are signaled. With an interval tree
-fence recording, the interval tree needs to be searched for fences
-to be signaled before binding can take place.
+On Tue, 2021-10-26 at 07:11 +0800, Chun-Kuang Hu wrote:
+>   Hi, Nancy:
+> 
+> Nancy.Lin <nancy.lin@mediatek.com> 於 2021年10月4日 週一 下午2:21寫道：
+> > 
+> > Add ovl_adaptor driver for MT8195.
+> > Ovl_adaptor is an encapsulated module and designed for simplified
+> > DRM control flow. This module is composed of 8 RDMAs, 4 MERGEs and
+> > an ETHDR. Two RDMAs merge into one layer, so this module support 4
+> > layers.
+> > 
+> > Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
+> > ---
+> >  drivers/gpu/drm/mediatek/Makefile             |   1 +
+> >  drivers/gpu/drm/mediatek/mtk_disp_drv.h       |  16 +
+> >  .../gpu/drm/mediatek/mtk_disp_ovl_adaptor.c   | 498
+> > ++++++++++++++++++
+> >  drivers/gpu/drm/mediatek/mtk_drm_drv.h        |   1 +
+> >  4 files changed, 516 insertions(+)
+> >  create mode 100644 drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c
+> > 
+> > diff --git a/drivers/gpu/drm/mediatek/Makefile
+> > b/drivers/gpu/drm/mediatek/Makefile
+> > index fb158a1e7f06..3abd27d7c91d 100644
+> > --- a/drivers/gpu/drm/mediatek/Makefile
+> > +++ b/drivers/gpu/drm/mediatek/Makefile
+> > @@ -6,6 +6,7 @@ mediatek-drm-y := mtk_disp_aal.o \
+> >                   mtk_disp_gamma.o \
+> >                   mtk_disp_merge.o \
+> >                   mtk_disp_ovl.o \
+> > +                 mtk_disp_ovl_adaptor.o \
+> >                   mtk_disp_rdma.o \
+> >                   mtk_drm_crtc.o \
+> >                   mtk_drm_ddp_comp.o \
+> > diff --git a/drivers/gpu/drm/mediatek/mtk_disp_drv.h
+> > b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
+> > index 2446ad0a4977..6a4f4c42aedb 100644
+> > --- a/drivers/gpu/drm/mediatek/mtk_disp_drv.h
+> > +++ b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
+> > @@ -113,6 +113,22 @@ void mtk_rdma_enable_vblank(struct device
+> > *dev,
+> >                             void *vblank_cb_data);
+> >  void mtk_rdma_disable_vblank(struct device *dev);
+> > 
+> > +int mtk_ovl_adaptor_clk_enable(struct device *dev);
+> > +void mtk_ovl_adaptor_clk_disable(struct device *dev);
+> > +void mtk_ovl_adaptor_config(struct device *dev, unsigned int w,
+> > +                           unsigned int h, unsigned int vrefresh,
+> > +                           unsigned int bpc, struct cmdq_pkt
+> > *cmdq_pkt);
+> > +void mtk_ovl_adaptor_layer_config(struct device *dev, unsigned int
+> > idx,
+> > +                                 struct mtk_plane_state *state,
+> > +                                 struct cmdq_pkt *cmdq_pkt);
+> > +void mtk_ovl_adaptor_enable_vblank(struct device *dev,
+> > +                                  void (*vblank_cb)(void *),
+> > +                                  void *vblank_cb_data);
+> > +void mtk_ovl_adaptor_disable_vblank(struct device *dev);
+> > +void mtk_ovl_adaptor_start(struct device *dev);
+> > +void mtk_ovl_adaptor_stop(struct device *dev);
+> > +unsigned int mtk_ovl_adaptor_layer_nr(struct device *dev);
+> > +
+> >  int mtk_mdp_rdma_clk_enable(struct device *dev);
+> >  void mtk_mdp_rdma_clk_disable(struct device *dev);
+> >  void mtk_mdp_rdma_start(struct device *dev, struct cmdq_pkt
+> > *cmdq_pkt);
+> > diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c
+> > b/drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c
+> > new file mode 100644
+> > index 000000000000..bfb5a9d29c26
+> > --- /dev/null
+> > +++ b/drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c
+> > @@ -0,0 +1,498 @@
+> > +// SPDX-License-Identifier: GPL-2.0-only
+> > +/*
+> > + * Copyright (c) 2021 MediaTek Inc.
+> > + */
+> > +
+> > +#include <drm/drm_fourcc.h>
+> > +#include <drm/drm_of.h>
+> > +#include <linux/clk.h>
+> > +#include <linux/component.h>
+> > +#include <linux/of_device.h>
+> > +#include <linux/of_address.h>
+> > +#include <linux/platform_device.h>
+> > +#include <linux/pm_runtime.h>
+> > +#include <linux/reset.h>
+> > +#include <linux/soc/mediatek/mtk-mmsys.h>
+> > +#include <linux/soc/mediatek/mtk-cmdq.h>
+> > +
+> > +#include "mtk_drm_drv.h"
+> > +#include "mtk_drm_crtc.h"
+> > +#include "mtk_drm_ddp_comp.h"
+> > +#include "mtk_disp_drv.h"
+> 
+> Alphabetic order.
+> 
+OK.
 
-But most of that is for later, this patch only introduces stub vma
-resources without unbind capability and the fences of which are waited
-for sync during unbinding. At this point we're interested in the hold
-capability as a POC for error capture. Note that the current sync waiting
-at unbind time is done uninterruptible, but that's OK since we're
-only ever waiting during error capture, and in that case there's very
-little gpu activity (if any) that can stall.
+> > +#include "mtk_ethdr.h"
+> > +
+> > +#define MTK_OVL_ADAPTOR_RDMA_MAX_WIDTH 1920
+> > +#define MTK_OVL_ADAPTOR_LAYER_NUM 4
+> > +
+> > +enum mtk_ovl_adaptor_comp_type {
+> > +       OVL_ADAPTOR_TYPE_RDMA = 0,
+> > +       OVL_ADAPTOR_TYPE_MERGE,
+> > +       OVL_ADAPTOR_TYPE_ETHDR,
+> > +       OVL_ADAPTOR_TYPE_NUM,
+> > +};
+> > +
+> > +enum mtk_ovl_adaptor_comp_id {
+> > +       OVL_ADAPTOR_MDP_RDMA0,
+> > +       OVL_ADAPTOR_MDP_RDMA1,
+> > +       OVL_ADAPTOR_MDP_RDMA2,
+> > +       OVL_ADAPTOR_MDP_RDMA3,
+> > +       OVL_ADAPTOR_MDP_RDMA4,
+> > +       OVL_ADAPTOR_MDP_RDMA5,
+> > +       OVL_ADAPTOR_MDP_RDMA6,
+> > +       OVL_ADAPTOR_MDP_RDMA7,
+> > +       OVL_ADAPTOR_MERGE0,
+> > +       OVL_ADAPTOR_MERGE1,
+> > +       OVL_ADAPTOR_MERGE2,
+> > +       OVL_ADAPTOR_MERGE3,
+> > +       OVL_ADAPTOR_ETHDR0,
+> > +       OVL_ADAPTOR_ID_MAX
+> > +};
+> > +
+> > +struct ovl_adaptor_comp_match {
+> > +       enum mtk_ovl_adaptor_comp_type type;
+> > +       int alias_id;
+> > +};
+> > +
+> > +struct mtk_disp_ovl_adaptor {
+> > +       struct device *ovl_adaptor_comp[OVL_ADAPTOR_ID_MAX];
+> > +       struct device *mmsys_dev;
+> > +};
+> > +
+> > +static const char * const ovl_adaptor_comp_str[] = {
+> > +       "OVL_ADAPTOR_MDP_RDMA0",
+> > +       "OVL_ADAPTOR_MDP_RDMA1",
+> > +       "OVL_ADAPTOR_MDP_RDMA2",
+> > +       "OVL_ADAPTOR_MDP_RDMA3",
+> > +       "OVL_ADAPTOR_MDP_RDMA4",
+> > +       "OVL_ADAPTOR_MDP_RDMA5",
+> > +       "OVL_ADAPTOR_MDP_RDMA6",
+> > +       "OVL_ADAPTOR_MDP_RDMA7",
+> > +       "OVL_ADAPTOR_MERGE0",
+> > +       "OVL_ADAPTOR_MERGE1",
+> > +       "OVL_ADAPTOR_MERGE2",
+> > +       "OVL_ADAPTOR_MERGE3",
+> > +       "OVL_ADAPTOR_ETHDR",
+> > +       "OVL_ADAPTOR_ID_MAX"
+> > +};
+> > +
+> > +static const char * const private_comp_stem[OVL_ADAPTOR_TYPE_NUM]
+> > = {
+> > +       [OVL_ADAPTOR_TYPE_RDMA] = "vdo1_rdma",
+> > +       [OVL_ADAPTOR_TYPE_MERGE] = "merge",
+> > +       [OVL_ADAPTOR_TYPE_ETHDR] = "ethdr",
+> > +};
+> > +
+> > +static const struct ovl_adaptor_comp_match
+> > comp_matches[OVL_ADAPTOR_ID_MAX] = {
+> > +       [OVL_ADAPTOR_MDP_RDMA0] =       { OVL_ADAPTOR_TYPE_RDMA, 0
+> > },
+> > +       [OVL_ADAPTOR_MDP_RDMA1] =       { OVL_ADAPTOR_TYPE_RDMA, 1
+> > },
+> > +       [OVL_ADAPTOR_MDP_RDMA2] =       { OVL_ADAPTOR_TYPE_RDMA, 2
+> > },
+> > +       [OVL_ADAPTOR_MDP_RDMA3] =       { OVL_ADAPTOR_TYPE_RDMA, 3
+> > },
+> > +       [OVL_ADAPTOR_MDP_RDMA4] =       { OVL_ADAPTOR_TYPE_RDMA, 4
+> > },
+> > +       [OVL_ADAPTOR_MDP_RDMA5] =       { OVL_ADAPTOR_TYPE_RDMA, 5
+> > },
+> > +       [OVL_ADAPTOR_MDP_RDMA6] =       { OVL_ADAPTOR_TYPE_RDMA, 6
+> > },
+> > +       [OVL_ADAPTOR_MDP_RDMA7] =       { OVL_ADAPTOR_TYPE_RDMA, 7
+> > },
+> > +       [OVL_ADAPTOR_MERGE0] =  { OVL_ADAPTOR_TYPE_MERGE, 1 },
+> > +       [OVL_ADAPTOR_MERGE1] =  { OVL_ADAPTOR_TYPE_MERGE, 2 },
+> > +       [OVL_ADAPTOR_MERGE2] =  { OVL_ADAPTOR_TYPE_MERGE, 3 },
+> > +       [OVL_ADAPTOR_MERGE3] =  { OVL_ADAPTOR_TYPE_MERGE, 4 },
+> > +       [OVL_ADAPTOR_ETHDR0] =  { OVL_ADAPTOR_TYPE_ETHDR, 0 },
+> > +};
+> > +
+> > +void mtk_ovl_adaptor_layer_config(struct device *dev, unsigned int
+> > idx,
+> > +                                 struct mtk_plane_state *state,
+> > +                                 struct cmdq_pkt *cmdq_pkt)
+> > +{
+> > +       struct mtk_disp_ovl_adaptor *ovl_adaptor =
+> > dev_get_drvdata(dev);
+> > +       struct mtk_plane_pending_state *pending = &state->pending;
+> > +       struct mtk_mdp_rdma_cfg rdma_config = {0};
+> > +       struct device *rdma_l;
+> > +       struct device *rdma_r;
+> > +       struct device *merge;
+> > +       struct device *ethdr;
+> > +       const struct drm_format_info *fmt_info =
+> > drm_format_info(pending->format);
+> > +       bool use_dual_pipe = false;
+> > +       unsigned int l_w = 0;
+> > +       unsigned int r_w = 0;
+> > +
+> > +       dev_dbg(dev, "%s+ idx:%d, enable:%d, fmt:0x%x\n", __func__,
+> > idx,
+> > +               pending->enable, pending->format);
+> > +       dev_dbg(dev, "addr 0x%lx, fb w:%d, {%d,%d,%d,%d}\n",
+> > +               pending->addr, (pending->pitch / fmt_info->cpp[0]),
+> > +               pending->x, pending->y, pending->width, pending-
+> > >height);
+> > +
+> > +       rdma_l = ovl_adaptor-
+> > >ovl_adaptor_comp[OVL_ADAPTOR_MDP_RDMA0 + 2 * idx];
+> > +       rdma_r = ovl_adaptor-
+> > >ovl_adaptor_comp[OVL_ADAPTOR_MDP_RDMA0 + 2 * idx + 1];
+> > +       merge = ovl_adaptor->ovl_adaptor_comp[OVL_ADAPTOR_MERGE0 +
+> > idx];
+> > +       ethdr = ovl_adaptor->ovl_adaptor_comp[OVL_ADAPTOR_ETHDR0];
+> > +
+> > +       if (!pending->enable) {
+> > +               mtk_merge_disable(merge, cmdq_pkt);
+> > +               mtk_mdp_rdma_stop(rdma_l, cmdq_pkt);
+> > +               mtk_mdp_rdma_stop(rdma_r, cmdq_pkt);
+> > +               mtk_ethdr_layer_config(ethdr, idx, state,
+> > cmdq_pkt);
+> > +               return;
+> > +       }
+> > +
+> > +       /* ETHDR is in 1T2P domain, width needs to be 2 pixels
+> > align */
+> > +       pending->width = ALIGN_DOWN(pending->width, 2);
+> 
+> pending->width is passed from caller function, the caller function
+> does not expect that pending->width is modified by callee function.
+> 
+OK, I will add local variable to keep the 2 pixel align width.
+> > +
+> > +       if (pending->width > MTK_OVL_ADAPTOR_RDMA_MAX_WIDTH)
+> > +               use_dual_pipe = true;
+> > +
+> > +       if (use_dual_pipe) {
+> > +               l_w = (pending->width / 2) + ((pending->width / 2)
+> > % 2);
+> > +               r_w = pending->width - l_w;
+> > +       } else {
+> > +               l_w = pending->width;
+> > +       }
+> > +       mtk_merge_advance_config(merge, l_w, r_w, pending->height,
+> > 0, 0, cmdq_pkt);
+> > +       mtk_mmsys_ddp_config(ovl_adaptor->mmsys_dev,
+> > MMSYS_CONFIG_MERGE_ASYNC_WIDTH,
+> > +                            idx, pending->width / 2, cmdq_pkt);
+> 
+> This is neither l_w nor r_w, why?
+> For example, if pending->width is 1922, l_w is 962, r_w is 960, and
+> MMSYS_CONFIG_MERGE_ASYNC_WIDTH is 961.
+> 
+The async width is set to the merge output width / 2, not for merge
+input (l_w/r_w).
 
-Signed-off-by: Thomas Hellström <thomas.hellstrom@intel.com>
----
- .../gpu/drm/i915/gem/i915_gem_execbuffer.c    |   8 +-
- drivers/gpu/drm/i915/i915_vma.c               | 192 +++++++++++++++++-
- drivers/gpu/drm/i915/i915_vma.h               |  15 +-
- drivers/gpu/drm/i915/i915_vma_snapshot.c      |  14 +-
- drivers/gpu/drm/i915/i915_vma_snapshot.h      |   2 +-
- drivers/gpu/drm/i915/i915_vma_types.h         |   5 +
- 6 files changed, 217 insertions(+), 19 deletions(-)
+> > +       mtk_mmsys_ddp_config(ovl_adaptor->mmsys_dev,
+> > MMSYS_CONFIG_MERGE_ASYNC_HEIGHT,
+> > +                            idx, pending->height, cmdq_pkt);
+> > +
+> > +       rdma_config.width = l_w;
+> > +       rdma_config.height = pending->height;
+> > +       rdma_config.addr0 = pending->addr;
+> > +       rdma_config.pitch = pending->pitch;
+> > +       rdma_config.fmt = pending->format;
+> > +       mtk_mdp_rdma_config(rdma_l, &rdma_config, cmdq_pkt);
+> > +
+> > +       if (use_dual_pipe) {
+> > +               rdma_config.x_left = l_w;
+> > +               rdma_config.width = r_w;
+> > +               mtk_mdp_rdma_config(rdma_r, &rdma_config,
+> > cmdq_pkt);
+> > +       }
+> > +
+> > +       mtk_merge_enable(merge, cmdq_pkt);
+> > +       mtk_merge_unmute(merge, cmdq_pkt);
+> > +
+> > +       mtk_mdp_rdma_start(rdma_l, cmdq_pkt);
+> > +       if (use_dual_pipe)
+> > +               mtk_mdp_rdma_start(rdma_r, cmdq_pkt);
+> > +       else
+> > +               mtk_mdp_rdma_stop(rdma_r, cmdq_pkt);
+> > +
+> > +       mtk_ethdr_layer_config(ethdr, idx, state, cmdq_pkt);
+> > +}
+> > +
+> > +void mtk_ovl_adaptor_config(struct device *dev, unsigned int w,
+> > +                           unsigned int h, unsigned int vrefresh,
+> > +                           unsigned int bpc, struct cmdq_pkt
+> > *cmdq_pkt)
+> > +{
+> > +       struct mtk_disp_ovl_adaptor *ovl_adaptor =
+> > dev_get_drvdata(dev);
+> > +
+> > +       mtk_ethdr_config(ovl_adaptor-
+> > >ovl_adaptor_comp[OVL_ADAPTOR_ETHDR0], w, h,
+> > +                        vrefresh, bpc, cmdq_pkt);
+> > +}
+> > +
+> > +void mtk_ovl_adaptor_start(struct device *dev)
+> > +{
+> > +       struct mtk_disp_ovl_adaptor *ovl_adaptor =
+> > dev_get_drvdata(dev);
+> > +
+> > +       mtk_ethdr_start(ovl_adaptor-
+> > >ovl_adaptor_comp[OVL_ADAPTOR_ETHDR0]);
+> > +}
+> > +
+> > +void mtk_ovl_adaptor_stop(struct device *dev)
+> > +{
+> > +       struct mtk_disp_ovl_adaptor *ovl_adaptor =
+> > dev_get_drvdata(dev);
+> > +       struct device *rdma_l;
+> > +       struct device *rdma_r;
+> > +       struct device *merge;
+> > +       u32 i;
+> > +
+> > +       for (i = 0; i < MTK_OVL_ADAPTOR_LAYER_NUM; i++) {
+> > +               rdma_l = ovl_adaptor-
+> > >ovl_adaptor_comp[OVL_ADAPTOR_MDP_RDMA0 + 2 * i];
+> > +               rdma_r = ovl_adaptor-
+> > >ovl_adaptor_comp[OVL_ADAPTOR_MDP_RDMA0 + 2 * i + 1];
+> > +               merge = ovl_adaptor-
+> > >ovl_adaptor_comp[OVL_ADAPTOR_MERGE0 + i];
+> > +
+> > +               mtk_mdp_rdma_stop(rdma_l, NULL);
+> > +               mtk_mdp_rdma_stop(rdma_r, NULL);
+> > +               mtk_merge_stop(merge);
+> 
+> Does DRM framework not disable all layer before disable crtc? These
+> codes looks asymetric.
+> 
+DRM framework disable all layers before disabling crtc. This is a
+redundant code fragment. I will remove it.
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-index 9338cdb0ed56..3b7d5de14b23 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-@@ -1374,9 +1374,15 @@ eb_relocate_entry(struct i915_execbuffer *eb,
- 		 */
- 		if (reloc->write_domain == I915_GEM_DOMAIN_INSTRUCTION &&
- 		    GRAPHICS_VER(eb->i915) == 6) {
-+			struct i915_vma_resource *vma_res =
-+				i915_vma_resource_alloc();
-+
-+			if (IS_ERR(vma_res))
-+				return PTR_ERR(vma_res);
-+
- 			err = i915_vma_bind(target->vma,
- 					    target->vma->obj->cache_level,
--					    PIN_GLOBAL, NULL);
-+					    PIN_GLOBAL, NULL, vma_res);
- 			if (err)
- 				return err;
- 		}
-diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
-index 90546fa58fc1..2b331c5f0a5f 100644
---- a/drivers/gpu/drm/i915/i915_vma.c
-+++ b/drivers/gpu/drm/i915/i915_vma.c
-@@ -38,8 +38,35 @@
- #include "i915_trace.h"
- #include "i915_vma.h"
- 
-+/**
-+ * struct i915_vma_resource - Snapshotted unbind information.
-+ * @unbind_fence: Fence to mark unbinding complete. Note that this fence
-+ * is not considered published until unbind is scheduled, and as such it
-+ * is illegal to access this fence before scheduled unbind other than
-+ * for refcounting.
-+ * @lock: The @unbind_fence lock. We're also using it to protect the weak
-+ * pointer to the struct i915_vma, @vma during lookup and takedown.
-+ * @vma: Weak back-pointer to the parent vma struct. This pointer is
-+ * protected by @lock, and a reference on @vma needs to be taken
-+ * using kref_get_unless_zero.
-+ * @hold_count: Number of holders blocking the fence from finishing.
-+ * The vma itself is keeping a hold, which is released when unbind
-+ * is scheduled.
-+ */
-+struct i915_vma_resource {
-+	struct dma_fence unbind_fence;
-+	/* See above for description of the lock. */
-+	spinlock_t lock;
-+	struct i915_vma *vma;
-+	refcount_t hold_count;
-+};
-+
- static struct kmem_cache *slab_vmas;
- 
-+static void i915_vma_resource_init(struct i915_vma_resource *vma_res,
-+				   struct i915_vma *vma);
-+static struct dma_fence *i915_vma_resource_unbind(struct i915_vma_resource *vma_res);
-+
- struct i915_vma *i915_vma_alloc(void)
- {
- 	return kmem_cache_zalloc(slab_vmas, GFP_KERNEL);
-@@ -363,6 +390,8 @@ int i915_vma_wait_for_bind(struct i915_vma *vma)
-  * @cache_level: mapping cache level
-  * @flags: flags like global or local mapping
-  * @work: preallocated worker for allocating and binding the PTE
-+ * @vma_res: pointer to a preallocated vma resource. The resource is either
-+ * consumed or freed.
-  *
-  * DMA addresses are taken from the scatter-gather table of this object (or of
-  * this VMA in case of non-default GGTT views) and PTE entries set up.
-@@ -371,7 +400,8 @@ int i915_vma_wait_for_bind(struct i915_vma *vma)
- int i915_vma_bind(struct i915_vma *vma,
- 		  enum i915_cache_level cache_level,
- 		  u32 flags,
--		  struct i915_vma_work *work)
-+		  struct i915_vma_work *work,
-+		  struct i915_vma_resource *vma_res)
- {
- 	u32 bind_flags;
- 	u32 vma_flags;
-@@ -381,11 +411,15 @@ int i915_vma_bind(struct i915_vma *vma,
- 
- 	if (GEM_DEBUG_WARN_ON(range_overflows(vma->node.start,
- 					      vma->node.size,
--					      vma->vm->total)))
-+					      vma->vm->total))) {
-+		kfree(vma_res);
- 		return -ENODEV;
-+	}
- 
--	if (GEM_DEBUG_WARN_ON(!flags))
-+	if (GEM_DEBUG_WARN_ON(!flags)) {
-+		kfree(vma_res);
- 		return -EINVAL;
-+	}
- 
- 	bind_flags = flags;
- 	bind_flags &= I915_VMA_GLOBAL_BIND | I915_VMA_LOCAL_BIND;
-@@ -394,11 +428,15 @@ int i915_vma_bind(struct i915_vma *vma,
- 	vma_flags &= I915_VMA_GLOBAL_BIND | I915_VMA_LOCAL_BIND;
- 
- 	bind_flags &= ~vma_flags;
--	if (bind_flags == 0)
-+	if (bind_flags == 0) {
-+		kfree(vma_res);
- 		return 0;
-+	}
- 
- 	GEM_BUG_ON(!vma->pages);
- 
-+	i915_vma_resource_init(vma_res, vma);
-+	vma->resource = vma_res;
- 	trace_i915_vma_bind(vma, bind_flags);
- 	if (work && bind_flags & vma->vm->bind_async_flags) {
- 		struct dma_fence *prev;
-@@ -870,6 +908,7 @@ int i915_vma_pin_ww(struct i915_vma *vma, struct i915_gem_ww_ctx *ww,
- 		    u64 size, u64 alignment, u64 flags)
- {
- 	struct i915_vma_work *work = NULL;
-+	struct i915_vma_resource *vma_res;
- 	intel_wakeref_t wakeref = 0;
- 	unsigned int bound;
- 	int err;
-@@ -923,6 +962,12 @@ int i915_vma_pin_ww(struct i915_vma *vma, struct i915_gem_ww_ctx *ww,
- 		}
- 	}
- 
-+	vma_res = i915_vma_resource_alloc();
-+	if (IS_ERR(vma_res)) {
-+		err = PTR_ERR(vma_res);
-+		goto err_fence;
-+	}
-+
- 	/*
- 	 * Differentiate between user/kernel vma inside the aliasing-ppgtt.
- 	 *
-@@ -984,7 +1029,7 @@ int i915_vma_pin_ww(struct i915_vma *vma, struct i915_gem_ww_ctx *ww,
- 	GEM_BUG_ON(!vma->pages);
- 	err = i915_vma_bind(vma,
- 			    vma->obj ? vma->obj->cache_level : 0,
--			    flags, work);
-+			    flags, work, vma_res);
- 	if (err)
- 		goto err_remove;
- 
-@@ -1014,6 +1059,7 @@ int i915_vma_pin_ww(struct i915_vma *vma, struct i915_gem_ww_ctx *ww,
- 	if (wakeref)
- 		intel_runtime_pm_put(&vma->vm->i915->runtime_pm, wakeref);
- 	vma_put_pages(vma);
-+
- 	return err;
- }
- 
-@@ -1331,6 +1377,7 @@ void __i915_vma_evict(struct i915_vma *vma)
- 
- int __i915_vma_unbind(struct i915_vma *vma)
- {
-+	struct dma_fence *unbind_fence;
- 	int ret;
- 
- 	lockdep_assert_held(&vma->vm->mutex);
-@@ -1356,6 +1403,16 @@ int __i915_vma_unbind(struct i915_vma *vma)
- 	__i915_vma_evict(vma);
- 
- 	drm_mm_remove_node(&vma->node); /* pairs with i915_vma_release() */
-+	unbind_fence = i915_vma_resource_unbind(vma->resource);
-+
-+	/*
-+	 * This uninterruptible wait under the vm mutex is currently
-+	 * only ever blocking while the vma is being captured from.
-+	 * With async unbinding, this wait here will be removed.
-+	 */
-+	dma_fence_wait(unbind_fence, false);
-+	dma_fence_put(unbind_fence);
-+
- 	return 0;
- }
- 
-@@ -1388,7 +1445,6 @@ int i915_vma_unbind(struct i915_vma *vma)
- 
- 	err = __i915_vma_unbind(vma);
- 	mutex_unlock(&vm->mutex);
--
- out_rpm:
- 	if (wakeref)
- 		intel_runtime_pm_put(&vm->i915->runtime_pm, wakeref);
-@@ -1411,6 +1467,130 @@ void i915_vma_make_purgeable(struct i915_vma *vma)
- 	i915_gem_object_make_purgeable(vma->obj);
- }
- 
-+static const char *get_driver_name(struct dma_fence *fence)
-+{
-+	return "vma unbind fence";
-+}
-+
-+static const char *get_timeline_name(struct dma_fence *fence)
-+{
-+	return "unbound";
-+}
-+
-+static struct dma_fence_ops unbind_fence_ops = {
-+	.get_driver_name = get_driver_name,
-+	.get_timeline_name = get_timeline_name,
-+};
-+
-+struct i915_vma_resource *i915_vma_resource_alloc(void)
-+{
-+	struct i915_vma_resource *vma_res =
-+		kzalloc(sizeof(*vma_res), GFP_KERNEL);
-+
-+	return vma_res ? vma_res : ERR_PTR(-ENOMEM);
-+}
-+
-+static void i915_vma_resource_init(struct i915_vma_resource *vma_res,
-+				   struct i915_vma *vma)
-+{
-+	vma_res->vma = vma;
-+	spin_lock_init(&vma_res->lock);
-+	dma_fence_init(&vma_res->unbind_fence, &unbind_fence_ops,
-+		       &vma_res->lock, 0, 0);
-+	refcount_set(&vma_res->hold_count, 1);
-+}
-+
-+static void __i915_vma_resource_unhold(struct i915_vma_resource *vma_res)
-+{
-+	if (refcount_dec_and_test(&vma_res->hold_count))
-+		dma_fence_signal(&vma_res->unbind_fence);
-+}
-+
-+/**
-+ * i915_vma_resource_hold - Unhold the signaling of the vma resource unbind
-+ * fence.
-+ * @vma_res: The vma resource.
-+ * @lockdep_cookie: The lockdep cookie returned from i915_vma_resource_hold.
-+ *
-+ * The function may leave a dma_fence critical section.
-+ */
-+void i915_vma_resource_unhold(struct i915_vma_resource *vma_res,
-+			      bool lockdep_cookie)
-+{
-+	dma_fence_end_signalling(lockdep_cookie);
-+
-+	if (IS_ENABLED(CONFIG_PROVE_LOCKING)) {
-+		unsigned long irq_flags;
-+
-+		/* Inefficient open-coded might_lock_irqsave() */
-+		spin_lock_irqsave(&vma_res->lock, irq_flags);
-+		spin_unlock_irqrestore(&vma_res->lock, irq_flags);
-+	}
-+
-+	__i915_vma_resource_unhold(vma_res);
-+}
-+
-+/**
-+ * i915_vma_resource_hold - Hold the signaling of the vma resource unbind fence.
-+ * @vma_res: The vma resource.
-+ * @lockdep_cookie: Pointer to a bool serving as a lockdep cooke that should
-+ * be given as an argument to the pairing i915_vma_resource_unhold.
-+ *
-+ * If returning true, the function enters a dma_fence signalling critical
-+ * section is not in one already.
-+ *
-+ * Return: true if holding successful, false if not.
-+ */
-+bool i915_vma_resource_hold(struct i915_vma_resource *vma_res,
-+			    bool *lockdep_cookie)
-+{
-+	bool held = refcount_inc_not_zero(&vma_res->hold_count);
-+
-+	if (held)
-+		*lockdep_cookie = dma_fence_begin_signalling();
-+
-+	return held;
-+}
-+
-+/**
-+ * i915_vma_get_current_resource - Return the vma's current vma resource
-+ * @vma: The vma referencing the resource.
-+ *
-+ * Return: A refcounted pointer to the vma's current vma resource.
-+ */
-+struct i915_vma_resource *i915_vma_get_current_resource(struct i915_vma *vma)
-+{
-+	GEM_BUG_ON(!vma->resource);
-+
-+	dma_fence_get(&vma->resource->unbind_fence);
-+	return vma->resource;
-+}
-+
-+/**
-+ * i915_vma_resource_put - Release a reference to a struct i915_vma_resource
-+ * @vma_res: The resource
-+ */
-+void i915_vma_resource_put(struct i915_vma_resource *vma_res)
-+{
-+	dma_fence_put(&vma_res->unbind_fence);
-+}
-+
-+static struct dma_fence *
-+i915_vma_resource_unbind(struct i915_vma_resource *vma_res)
-+{
-+	/* Reference is transferred to the returned dma_fence pointer */
-+	vma_res->vma->resource = NULL;
-+
-+	spin_lock(&vma_res->lock);
-+	/* Kill the weak reference under the spinlock. */
-+	vma_res->vma = NULL;
-+	spin_unlock(&vma_res->lock);
-+
-+	/* With async unbind, schedule it here. */
-+	__i915_vma_resource_unhold(vma_res);
-+	return &vma_res->unbind_fence;
-+}
-+
- #if IS_ENABLED(CONFIG_DRM_I915_SELFTEST)
- #include "selftests/i915_vma.c"
- #endif
-diff --git a/drivers/gpu/drm/i915/i915_vma.h b/drivers/gpu/drm/i915/i915_vma.h
-index 648dbe744c96..6235989ec425 100644
---- a/drivers/gpu/drm/i915/i915_vma.h
-+++ b/drivers/gpu/drm/i915/i915_vma.h
-@@ -206,7 +206,8 @@ struct i915_vma_work *i915_vma_work(void);
- int i915_vma_bind(struct i915_vma *vma,
- 		  enum i915_cache_level cache_level,
- 		  u32 flags,
--		  struct i915_vma_work *work);
-+		  struct i915_vma_work *work,
-+		  struct i915_vma_resource *vma_res);
- 
- bool i915_gem_valid_gtt_space(struct i915_vma *vma, unsigned long color);
- bool i915_vma_misplaced(const struct i915_vma *vma,
-@@ -433,6 +434,18 @@ static inline int i915_vma_sync(struct i915_vma *vma)
- 	return i915_active_wait(&vma->active);
- }
- 
-+bool i915_vma_resource_hold(struct i915_vma_resource *vma_res,
-+			    bool *lockdep_cookie);
-+
-+void i915_vma_resource_unhold(struct i915_vma_resource *vma_res,
-+			      bool lockdep_cookie);
-+
-+void i915_vma_resource_put(struct i915_vma_resource *vma_res);
-+
-+struct i915_vma_resource *i915_vma_get_current_resource(struct i915_vma *vma);
-+
-+struct i915_vma_resource *i915_vma_resource_alloc(void);
-+
- void i915_vma_module_exit(void);
- int i915_vma_module_init(void);
- 
-diff --git a/drivers/gpu/drm/i915/i915_vma_snapshot.c b/drivers/gpu/drm/i915/i915_vma_snapshot.c
-index 44985d600f96..b4ee8220df85 100644
---- a/drivers/gpu/drm/i915/i915_vma_snapshot.c
-+++ b/drivers/gpu/drm/i915/i915_vma_snapshot.c
-@@ -36,7 +36,7 @@ void i915_vma_snapshot_init(struct i915_vma_snapshot *vsnap,
- 	if (vma->obj->mm.region)
- 		vsnap->mr = intel_memory_region_get(vma->obj->mm.region);
- 	kref_init(&vsnap->kref);
--	vsnap->vma_resource = &vma->active;
-+	vsnap->vma_resource = i915_vma_get_current_resource(vma);
- 	vsnap->onstack = false;
- 	vsnap->present = true;
- }
-@@ -63,6 +63,7 @@ static void vma_snapshot_release(struct kref *ref)
- 		container_of(ref, typeof(*vsnap), kref);
- 
- 	vsnap->present = false;
-+	i915_vma_resource_put(vsnap->vma_resource);
- 	if (vsnap->mr)
- 		intel_memory_region_put(vsnap->mr);
- 	if (vsnap->pages_rsgt)
-@@ -112,12 +113,7 @@ void i915_vma_snapshot_put_onstack(struct i915_vma_snapshot *vsnap)
- bool i915_vma_snapshot_resource_pin(struct i915_vma_snapshot *vsnap,
- 				    bool *lockdep_cookie)
- {
--	bool pinned = i915_active_acquire_if_busy(vsnap->vma_resource);
--
--	if (pinned)
--		*lockdep_cookie = dma_fence_begin_signalling();
--
--	return pinned;
-+	return i915_vma_resource_hold(vsnap->vma_resource, lockdep_cookie);
- }
- 
- /**
-@@ -131,7 +127,5 @@ bool i915_vma_snapshot_resource_pin(struct i915_vma_snapshot *vsnap,
- void i915_vma_snapshot_resource_unpin(struct i915_vma_snapshot *vsnap,
- 				      bool lockdep_cookie)
- {
--	dma_fence_end_signalling(lockdep_cookie);
--
--	return i915_active_release(vsnap->vma_resource);
-+	i915_vma_resource_unhold(vsnap->vma_resource, lockdep_cookie);
- }
-diff --git a/drivers/gpu/drm/i915/i915_vma_snapshot.h b/drivers/gpu/drm/i915/i915_vma_snapshot.h
-index 940581df4622..d083b6bf1b11 100644
---- a/drivers/gpu/drm/i915/i915_vma_snapshot.h
-+++ b/drivers/gpu/drm/i915/i915_vma_snapshot.h
-@@ -49,7 +49,7 @@ struct i915_vma_snapshot {
- 	struct i915_refct_sgt *pages_rsgt;
- 	struct intel_memory_region *mr;
- 	struct kref kref;
--	struct i915_active *vma_resource;
-+	struct i915_vma_resource *vma_resource;
- 	u32 page_sizes;
- 	bool onstack:1;
- 	bool present:1;
-diff --git a/drivers/gpu/drm/i915/i915_vma_types.h b/drivers/gpu/drm/i915/i915_vma_types.h
-index 80e93bf00f2e..14d20ac5350c 100644
---- a/drivers/gpu/drm/i915/i915_vma_types.h
-+++ b/drivers/gpu/drm/i915/i915_vma_types.h
-@@ -95,6 +95,8 @@ enum i915_cache_level;
-  *
-  */
- 
-+struct i915_vma_resource;
-+
- struct intel_remapped_plane_info {
- 	/* in gtt pages */
- 	u32 offset;
-@@ -284,6 +286,9 @@ struct i915_vma {
- 	struct list_head evict_link;
- 
- 	struct list_head closed_link;
-+
-+	/** The async vma resource. Protected by the vm_mutex */
-+	struct i915_vma_resource *resource;
- };
- 
- #endif
--- 
-2.31.1
+> > +       }
+> > +
+> > +       mtk_ethdr_stop(ovl_adaptor-
+> > >ovl_adaptor_comp[OVL_ADAPTOR_ETHDR0]);
+> > +}
+> > +
+> > +int mtk_ovl_adaptor_clk_enable(struct device *dev)
+> > +{
+> > +       struct mtk_disp_ovl_adaptor *ovl_adaptor =
+> > dev_get_drvdata(dev);
+> > +       struct device *comp;
+> > +       int ret;
+> > +       int i;
+> > +
+> > +       for (i = OVL_ADAPTOR_MDP_RDMA0; i < OVL_ADAPTOR_ID_MAX;
+> > i++) {
+> 
+> In clk_err, you count i to zero, so
+> 
+> for (i = 0; i < OVL_ADAPTOR_ID_MAX; i++) {
+> 
+OK.
+> > +               comp = ovl_adaptor->ovl_adaptor_comp[i];
+> > +
+> > +               if (i < OVL_ADAPTOR_MERGE0)
+> > +                       ret = mtk_mdp_rdma_clk_enable(comp);
+> > +               else if (i < OVL_ADAPTOR_ETHDR0)
+> > +                       ret = mtk_merge_clk_enable(comp);
+> > +               else
+> > +                       ret = mtk_ethdr_clk_enable(comp);
+> > +               if (ret) {
+> > +                       dev_err(dev,
+> > +                               "Failed to enable clock %d, err %d-
+> > %s\n",
+> > +                               i, ret, ovl_adaptor_comp_str[i]);
+> 
+> Drop ovl_adaptor_comp_str[] and print i instead of
+> ovl_adaptor_comp_str[i]. We could know what the i mean in driver
+> code.
+> 
+OK.
+> 
+> > +                       goto clk_err;
+> > +               }
+> > +       }
+> > +
+> > +       return ret;
+> > +
+> > +clk_err:
+> > +       while (--i >= 0) {
+> > +               comp = ovl_adaptor->ovl_adaptor_comp[i];
+> > +               if (i < OVL_ADAPTOR_MERGE0)
+> > +                       mtk_mdp_rdma_clk_disable(comp);
+> > +               else if (i < OVL_ADAPTOR_ETHDR0)
+> > +                       mtk_merge_clk_disable(comp);
+> > +               else
+> > +                       mtk_ethdr_clk_disable(comp);
+> > +       }
+> > +       return ret;
+> > +}
+> > +
+> > +void mtk_ovl_adaptor_clk_disable(struct device *dev)
+> > +{
+> > +       struct mtk_disp_ovl_adaptor *ovl_adaptor =
+> > dev_get_drvdata(dev);
+> > +       struct device *comp;
+> > +       int i;
+> > +
+> > +       for (i = OVL_ADAPTOR_MDP_RDMA0; i < OVL_ADAPTOR_ID_MAX;
+> > i++) {
+> 
+> for (i = 0; i < OVL_ADAPTOR_ID_MAX; i++) {
+> 
+OK.
+> > +               comp = ovl_adaptor->ovl_adaptor_comp[i];
+> > +
+> > +               if (i < OVL_ADAPTOR_MERGE0)
+> > +                       mtk_mdp_rdma_clk_disable(comp);
+> > +               else if (i < OVL_ADAPTOR_ETHDR0)
+> > +                       mtk_merge_clk_disable(comp);
+> > +               else
+> > +                       mtk_ethdr_clk_disable(comp);
+> > +       }
+> > +}
+> > +
+> > +unsigned int mtk_ovl_adaptor_layer_nr(struct device *dev)
+> > +{
+> > +       return MTK_OVL_ADAPTOR_LAYER_NUM;
+> > +}
+> > +
+> > +void mtk_ovl_adaptor_enable_vblank(struct device *dev, void
+> > (*vblank_cb)(void *),
+> > +                                  void *vblank_cb_data)
+> > +{
+> > +       struct mtk_disp_ovl_adaptor *ovl_adaptor =
+> > dev_get_drvdata(dev);
+> > +
+> > +       mtk_ethdr_enable_vblank(ovl_adaptor-
+> > >ovl_adaptor_comp[OVL_ADAPTOR_ETHDR0],
+> > +                               vblank_cb, vblank_cb_data);
+> > +}
+> > +
+> > +void mtk_ovl_adaptor_disable_vblank(struct device *dev)
+> > +{
+> > +       struct mtk_disp_ovl_adaptor *ovl_adaptor =
+> > dev_get_drvdata(dev);
+> > +
+> > +       mtk_ethdr_disable_vblank(ovl_adaptor-
+> > >ovl_adaptor_comp[OVL_ADAPTOR_ETHDR0]);
+> > +}
+> > +
+> > +static int ovl_adaptor_comp_get_id(struct device *dev, struct
+> > device_node *node,
+> > +                                  enum mtk_ovl_adaptor_comp_type
+> > type)
+> > +{
+> > +       int alias_id = of_alias_get_id(node,
+> > private_comp_stem[type]);
+> > +       int ret;
+> > +       int i;
+> > +
+> > +       for (i = 0; i < ARRAY_SIZE(comp_matches); i++)
+> > +               if (comp_matches[i].type == type &&
+> > +                   comp_matches[i].alias_id == alias_id)
+> > +                       return i;
+> > +
+> > +       dev_err(dev, "Failed to get id. type: %d, alias: %d\n",
+> > type, alias_id);
+> > +       return -EINVAL;
+> > +}
+> > +
+> > +static const struct of_device_id mtk_ovl_adaptor_comp_dt_ids[] = {
+> > +       {
+> > +               .compatible = "mediatek,mt8195-vdo1-rdma",
+> > +               .data = (void *)OVL_ADAPTOR_TYPE_RDMA,
+> > +       }, {
+> > +               .compatible = "mediatek,mt8195-disp-merge",
+> > +               .data = (void *)OVL_ADAPTOR_TYPE_MERGE,
+> > +       }, {
+> > +               .compatible = "mediatek,mt8195-disp-ethdr",
+> > +               .data = (void *)OVL_ADAPTOR_TYPE_ETHDR,
+> > +       },
+> > +       {},
+> > +};
+> > +
+> > +static int compare_of(struct device *dev, void *data)
+> > +{
+> > +       return dev->of_node == data;
+> > +}
+> > +
+> > +static int ovl_adaptor_comp_init(struct device *dev, struct
+> > component_match **match)
+> > +{
+> > +       struct mtk_disp_ovl_adaptor *priv = dev_get_drvdata(dev);
+> > +       struct device_node *node, *parent;
+> > +       struct platform_device *comp_pdev;
+> > +       int i, ret;
+> > +
+> > +       parent = dev->parent->parent->of_node->parent;
+> > +
+> > +       for_each_child_of_node(parent, node) {
+> > +               const struct of_device_id *of_id;
+> > +               enum mtk_ovl_adaptor_comp_type type;
+> > +               int id;
+> > +
+> > +               of_id = of_match_node(mtk_ovl_adaptor_comp_dt_ids,
+> > node);
+> > +               if (!of_id)
+> > +                       continue;
+> > +
+> > +               if (!of_device_is_available(node)) {
+> > +                       dev_info(dev, "Skipping disabled component
+> > %pOF\n",
+> > +                                node);
+> > +                       continue;
+> > +               }
+> > +
+> > +               type = (enum mtk_ovl_adaptor_comp_type)of_id->data;
+> > +               id = ovl_adaptor_comp_get_id(dev, node, type);
+> > +               if (id < 0) {
+> > +                       dev_warn(dev, "Skipping unknown component
+> > %pOF\n",
+> > +                                node);
+> > +                       continue;
+> > +               }
+> > +
+> > +               comp_pdev = of_find_device_by_node(node);
+> > +               if (!comp_pdev) {
+> > +                       dev_warn(dev, "can't find platform device
+> > of node:%s\n",
+> > +                                node->name);
+> > +                       return -ENODEV;
+> > +               }
+> > +               priv->ovl_adaptor_comp[id] = &comp_pdev->dev;
+> > +
+> > +               drm_of_component_match_add(dev, match, compare_of,
+> > node);
+> > +               dev_info(dev, "Adding component match for %pOF\n",
+> > node);
+> > +       }
+> > +
+> > +       return 0;
+> > +}
+> > +
+> > +static int mtk_disp_ovl_adaptor_comp_bind(struct device *dev,
+> > struct device *master,
+> > +                                         void *data)
+> > +{
+> > +       return 0;
+> > +}
+> > +
+> > +static void mtk_disp_ovl_adaptor_comp_unbind(struct device *dev,
+> > struct device *master,
+> > +                                            void *data)
+> > +{
+> > +}
+> > +
+> > +static const struct component_ops mtk_disp_ovl_adaptor_comp_ops =
+> > {
+> > +       .bind   = mtk_disp_ovl_adaptor_comp_bind,
+> > +       .unbind = mtk_disp_ovl_adaptor_comp_unbind,
+> > +};
+> > +
+> > +static int mtk_disp_ovl_adaptor_master_bind(struct device *dev)
+> > +{
+> > +       struct mtk_disp_ovl_adaptor *priv = dev_get_drvdata(dev);
+> > +
+> > +       dev_info(dev, "%s-%d", __func__, __LINE__);
+> > +
+> > +       component_bind_all(dev, priv->mmsys_dev);
+> > +       return 0;
+> > +}
+> > +
+> > +static void mtk_disp_ovl_adaptor_master_unbind(struct device *dev)
+> > +{
+> > +}
+> > +
+> > +static const struct component_master_ops
+> > mtk_disp_ovl_adaptor_master_ops = {
+> > +       .bind           = mtk_disp_ovl_adaptor_master_bind,
+> > +       .unbind         = mtk_disp_ovl_adaptor_master_unbind,
+> > +};
+> > +
+> > +static int mtk_disp_ovl_adaptor_check_comp(struct device *dev)
+> > +{
+> > +       struct device_node *node;
+> > +
+> > +       for_each_child_of_node(dev->parent->parent->of_node-
+> > >parent, node) {
+> > +               const struct of_device_id *of_id;
+> > +               struct platform_device *comp_pdev;
+> > +               enum mtk_ovl_adaptor_comp_type type;
+> > +               int id;
+> > +
+> > +               of_id = of_match_node(mtk_ovl_adaptor_comp_dt_ids,
+> > node);
+> > +               if (!of_id)
+> > +                       continue;
+> > +
+> > +               if (!of_device_is_available(node))
+> > +                       continue;
+> > +
+> > +               type = (enum mtk_ovl_adaptor_comp_type)of_id->data;
+> > +
+> > +               id = ovl_adaptor_comp_get_id(dev, node, type);
+> > +               if (id < 0)
+> > +                       continue;
+> > +
+> > +               comp_pdev = of_find_device_by_node(node);
+> > +               if (!comp_pdev)
+> > +                       return -EPROBE_DEFER;
+> > +
+> > +               if (!platform_get_drvdata(comp_pdev))
+> > +                       return -EPROBE_DEFER;
+> 
+> This function looks like ovl_adaptor_comp_init(), I think things
+> could
+> be done once.
+> 
+> Regards,
+> Chun-Kuang.
+> 
+OK.
+
+> > +       }
+> > +       return 0;
+> > +}
+> > +
+> > +static int mtk_disp_ovl_adaptor_probe(struct platform_device
+> > *pdev)
+> > +{
+> > +       struct mtk_disp_ovl_adaptor *priv;
+> > +       struct device *dev = &pdev->dev;
+> > +       struct component_match *match = NULL;
+> > +       int ret;
+> > +
+> > +       dev_info(dev, "%s+\n", __func__);
+> > +
+> > +       ret = mtk_disp_ovl_adaptor_check_comp(dev);
+> > +       if (ret < 0)
+> > +               return ret;
+> > +
+> > +       priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+> > +       if (!priv)
+> > +               return -ENOMEM;
+> > +
+> > +       priv->mmsys_dev = pdev->dev.platform_data;
+> > +
+> > +       platform_set_drvdata(pdev, priv);
+> > +
+> > +       ret = ovl_adaptor_comp_init(dev, &match);
+> > +       if (ret) {
+> > +               dev_notice(dev, "ovl_adaptor comp init fail\n");
+> > +               return ret;
+> > +       }
+> > +       component_master_add_with_match(dev,
+> > &mtk_disp_ovl_adaptor_master_ops, match);
+> > +
+> > +       pm_runtime_enable(dev);
+> > +
+> > +       ret = component_add(dev, &mtk_disp_ovl_adaptor_comp_ops);
+> > +       if (ret != 0) {
+> > +               pm_runtime_disable(dev);
+> > +               dev_err(dev, "Failed to add component: %d\n", ret);
+> > +       }
+> > +
+> > +       dev_info(dev, "%s-\n", __func__);
+> > +       return ret;
+> > +}
+> > +
+> > +static int mtk_disp_ovl_adaptor_remove(struct platform_device
+> > *pdev)
+> > +{
+> > +       component_del(&pdev->dev, &mtk_disp_ovl_adaptor_comp_ops);
+> > +       pm_runtime_disable(&pdev->dev);
+> > +       return 0;
+> > +}
+> > +
+> > +struct platform_driver mtk_disp_ovl_adaptor_driver = {
+> > +       .probe = mtk_disp_ovl_adaptor_probe,
+> > +       .remove = mtk_disp_ovl_adaptor_remove,
+> > +       .driver = {
+> > +                       .name = "mediatek-disp-ovl-adaptor",
+> > +                       .owner = THIS_MODULE,
+> > +               },
+> > +};
+> > diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.h
+> > b/drivers/gpu/drm/mediatek/mtk_drm_drv.h
+> > index a58cebd01d35..1ad9f7edfcc7 100644
+> > --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.h
+> > +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.h
+> > @@ -51,6 +51,7 @@ extern struct platform_driver
+> > mtk_disp_ccorr_driver;
+> >  extern struct platform_driver mtk_disp_color_driver;
+> >  extern struct platform_driver mtk_disp_gamma_driver;
+> >  extern struct platform_driver mtk_disp_merge_driver;
+> > +extern struct platform_driver mtk_disp_ovl_adaptor_driver;
+> >  extern struct platform_driver mtk_disp_ovl_driver;
+> >  extern struct platform_driver mtk_disp_rdma_driver;
+> >  extern struct platform_driver mtk_dpi_driver;
+> > --
+> > 2.18.0
+> > 
 
