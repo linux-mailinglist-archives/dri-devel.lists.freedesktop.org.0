@@ -2,42 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F90D43AECA
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Oct 2021 11:16:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAB0843AEF7
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Oct 2021 11:24:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DAC526E413;
-	Tue, 26 Oct 2021 09:16:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D2AC6E418;
+	Tue, 26 Oct 2021 09:24:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 88CFF6E413;
- Tue, 26 Oct 2021 09:16:11 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10148"; a="217030882"
-X-IronPort-AV: E=Sophos;i="5.87,182,1631602800"; d="scan'208";a="217030882"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Oct 2021 02:15:59 -0700
-X-IronPort-AV: E=Sophos;i="5.87,182,1631602800"; d="scan'208";a="537002362"
-Received: from scelesti-mobl.amr.corp.intel.com (HELO localhost)
- ([10.249.254.162])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Oct 2021 02:15:56 -0700
-Content-Type: text/plain; charset="utf-8"
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1DC7B6E418;
+ Tue, 26 Oct 2021 09:24:31 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10148"; a="216773052"
+X-IronPort-AV: E=Sophos;i="5.87,182,1631602800"; d="scan'208";a="216773052"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Oct 2021 02:24:30 -0700
+X-IronPort-AV: E=Sophos;i="5.87,182,1631602800"; d="scan'208";a="723998081"
+Received: from fnygreen-mobl1.ger.corp.intel.com (HELO [10.249.254.182])
+ ([10.249.254.182])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Oct 2021 02:24:28 -0700
+Message-ID: <36f3ea04-df18-acf9-eb46-5d30c5bde851@linux.intel.com>
+Date: Tue, 26 Oct 2021 11:24:25 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20211025171321.GA9338@jons-linux-dev-box>
-References: <20211020192147.8048-1-matthew.brost@intel.com>
- <a2d6a96b3f360991511e6e4969de83cea2f5a97a.camel@linux.intel.com>
- <163516458029.3804.14322548249266136569@jlahtine-mobl.ger.corp.intel.com>
- <20211025171321.GA9338@jons-linux-dev-box>
-Subject: Re: [PATCH] drm/i915/guc: Fix recursive lock in GuC submission
-From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>, dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, daniele.ceraolospurio@intel.com, john.c.harrison@intel.com
-To: Matthew Brost <matthew.brost@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Message-ID: <163523975442.6968.9660235537397634312@jlahtine-mobl.ger.corp.intel.com>
-User-Agent: alot/0.8.1
-Date: Tue, 26 Oct 2021 12:15:54 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH 1/2] drm/i915/gtt: flush the scratch page
+Content-Language: en-US
+To: Matthew Auld <matthew.auld@intel.com>, intel-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, Chris Wilson <chris@chris-wilson.co.uk>, 
+ Ramalingam C <ramalingam.c@intel.com>
+References: <20211022164847.2632366-1-matthew.auld@intel.com>
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
+In-Reply-To: <20211022164847.2632366-1-matthew.auld@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,52 +52,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Matthew Brost (2021-10-25 20:13:22)
-> On Mon, Oct 25, 2021 at 03:23:00PM +0300, Joonas Lahtinen wrote:
-> > Quoting Thomas Hellstr=C3=B6m (2021-10-21 08:39:48)
-> > > On Wed, 2021-10-20 at 12:21 -0700, Matthew Brost wrote:
-> >=20
-> > <SNIP>
-> >=20
-> > > > Fixes: 1a52faed31311 ("drm/i915/guc: Take engine PM when a context =
-is
-> > > > pinned with GuC submission")
-> > > > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> > > > Cc: stable@vger.kernel.org
-> >=20
-> > This Cc: stable annotation is unnecessary.
-> >=20
-> > Please always use "dim fixes 1a52faed31311" for helping to decide which
-> > Cc's are needed. In this case stable is not needed. If it was, there
-> > would be an indication of kernel version. In this case this is fine to
-> > be picked up by in drm-intel-next-fixes PR.
-> >=20
-> > Let's pay attention to the right Fixes: annotation while submitting and
-> > reviewing patches.
-> >=20
->=20
-> Will do. Working on getting push rights. Is there any documentation with
-> all the rules when pushing as it seems like there are a lot of rules.
 
-Yes, we have the documentation here:
+On 10/22/21 18:48, Matthew Auld wrote:
+> The scratch page is directly visible in the users address space, and
+> while this is forced as CACHE_LLC, by the kernel, we still have to
+> contend with things like "Bypass-LLC" MOCS. So just flush no matter
+> what.
+>
+> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> Cc: Chris Wilson <chris@chris-wilson.co.uk>
+> Cc: Ramalingam C <ramalingam.c@intel.com>
 
-https://drm.pages.freedesktop.org/maintainer-tools/committer-guidelines.html
+Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 
-And more specifically this topic:
-
-https://drm.pages.freedesktop.org/maintainer-tools/committer-drm-intel.html=
-#labeling-fixes-before-pushing
-
-I could even recommend to at least do a cursory read through the wider
-documentation about how the different trees interact:
-
-https://drm.pages.freedesktop.org/maintainer-tools/index.html
-
-Makes it easier to understand how the tags are used.
-
-Regards, Joonas
-
->=20
-> Matt=20
->=20
-> > Regards, Joonas
+> ---
+>   drivers/gpu/drm/i915/gt/intel_gtt.c | 1 +
+>   1 file changed, 1 insertion(+)
+>
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.c b/drivers/gpu/drm/i915/gt/intel_gtt.c
+> index 67d14afa6623..b6c088423319 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_gtt.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_gtt.c
+> @@ -273,6 +273,7 @@ static void poison_scratch_page(struct drm_i915_gem_object *scratch)
+>   		val = POISON_FREE;
+>   
+>   	memset(vaddr, val, scratch->base.size);
+> +	clflush_cache_range(vaddr, scratch->base.size);
+>   }
+>   
+>   int setup_scratch_page(struct i915_address_space *vm)
