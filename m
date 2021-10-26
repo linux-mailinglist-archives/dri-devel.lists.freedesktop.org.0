@@ -1,55 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2ECEC43B169
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Oct 2021 13:41:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 57BF443B18D
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Oct 2021 13:52:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2EE1B6E817;
-	Tue, 26 Oct 2021 11:41:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6EA776E41B;
+	Tue, 26 Oct 2021 11:52:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C322A6E811;
- Tue, 26 Oct 2021 11:41:09 +0000 (UTC)
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1635248468;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=q4/fNwiRiJZ9ULVn6oL48P42QKMAyeO05FZDpRjPIJE=;
- b=ECsbcQM5PhqVImWMbGn5/SqVG7h2Ns2IIsPZJ+v8VqgDMMbq4U9s4SHAevBDdCFiOnKoAy
- 4OMovOPu2zIyZDnyX1aRCp4sgjpnUZYyTe+z7W09WBiXHOpu8VYTV+n3ePwrRpT7hRcFzn
- HwkPKl73Av4/SH7GyEc1N3SC0DhHEUSlLih6qWYeA5dbX8RJ0zvPrnr6PyHogFEW4m6b1W
- ymPwNKlg7oBW1I3eQ+ecXCkHk+g2V2iyqEJPud1Jr/Xhwz3OWbZi3fqGt818HhBbXV63wm
- lkcFAzYTNcWj3s4Mt3j6AnBkhXeeC/+/qqYxtQd1k9i9YQ646Bslpfjr1F8JSg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1635248468;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=q4/fNwiRiJZ9ULVn6oL48P42QKMAyeO05FZDpRjPIJE=;
- b=9iYl0++YjM9oimPiYI7Uif/j32CdpkEvgkW3CsQmcYLw8Y1PYrOPzBzBY+0UfJ5cnExYl9
- M+9aWvSDgqgtLDDg==
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Thomas Gleixner <tglx@linutronix.de>,
- Peter Zijlstra <peterz@infradead.org>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Steven Rostedt <rostedt@goodmis.org>
-Subject: [PATCH 9/9] drm/i915: skip DRM_I915_LOW_LEVEL_TRACEPOINTS with NOTRACE
-Date: Tue, 26 Oct 2021 13:41:00 +0200
-Message-Id: <20211026114100.2593433-10-bigeasy@linutronix.de>
-In-Reply-To: <20211026114100.2593433-1-bigeasy@linutronix.de>
-References: <20211026114100.2593433-1-bigeasy@linutronix.de>
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BEEAA6E41B
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Oct 2021 11:52:47 +0000 (UTC)
+X-UUID: 85655ae7c4df4c47993a373fa7dca3e1-20211026
+X-UUID: 85655ae7c4df4c47993a373fa7dca3e1-20211026
+Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by
+ mailgw01.mediatek.com (envelope-from <guangming.cao@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 592306941; Tue, 26 Oct 2021 19:52:43 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.2.792.15; Tue, 26 Oct 2021 19:52:41 +0800
+Received: from mszswglt01.gcn.mediatek.inc (10.16.20.20) by
+ mtkcas11.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.0.1497.2 via Frontend Transport; Tue, 26 Oct 2021 19:52:41 +0800
+From: <guangming.cao@mediatek.com>
+To: <christian.koenig@amd.com>
+CC: <dri-devel@lists.freedesktop.org>, <guangming.cao@mediatek.com>,
+ <linaro-mm-sig@lists.linaro.org>, <linux-arm-kernel@lists.infradead.org>,
+ <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
+ <linux-mediatek@lists.infradead.org>, <matthias.bgg@gmail.com>,
+ <rdunlap@infradead.org>, <sumit.semwal@linaro.org>,
+ <wsd_upstream@mediatek.com>, Guangming Cao <Guangming.Cao@mediatek.com>
+Subject: Re: [PATCH v3] dma-buf: remove restriction of IOCTL:DMA_BUF_SET_NAME
+Date: Tue, 26 Oct 2021 19:52:48 +0800
+Message-ID: <20211026115248.9564-1-guangming.cao@mediatek.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <0e062f12-7e79-5a05-1e7b-10dda8e353b7@amd.com>
+References: <0e062f12-7e79-5a05-1e7b-10dda8e353b7@amd.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,32 +58,104 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The order of the header files is important. If this header file is
-included after tracepoint.h was included then the NOTRACE here becomes a
-nop. Currently this happens for two .c files which use the tracepoitns
-behind DRM_I915_LOW_LEVEL_TRACEPOINTS.
+From: Guangming Cao <Guangming.Cao@mediatek.com>
 
-Cc: Steven Rostedt <rostedt@goodmis.org>
-Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- drivers/gpu/drm/i915/i915_trace.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Tue, 2021-10-26 at 13:18 +0200, Christian König wrote:
+> Am 14.10.21 um 12:25 schrieb guangming.cao@mediatek.com:
+> > From: Guangming Cao <Guangming.Cao@mediatek.com>
+> > 
+> > In this patch(https://patchwork.freedesktop.org/patch/310349),
+> > it add a new IOCTL to support dma-buf user to set debug name.
+> > 
+> > But it also added a limitation of this IOCTL, it needs the
+> > attachments of dmabuf should be empty, otherwise it will fail.
+> > 
+> > For the original series, the idea was that allowing name change
+> > mid-use could confuse the users about the dma-buf.
+> > However, the rest of the series also makes sure each dma-buf have a
+> > unique
+> > inode(https://patchwork.freedesktop.org/patch/310387/), and any
+> > accounting
+> > should probably use that, without relying on the name as much.
+> > 
+> > So, removing this restriction will let dma-buf userspace users to
+> > use it
+> > more comfortably and without any side effect.
+> > 
+> > Signed-off-by: Guangming Cao <Guangming.Cao@mediatek.com>
+> 
+> We could now cleanup the return value from dma_buf_set_name() into a 
+> void since that function can't fail any more as far as I can see.
+> 
+> But that isn't mandatory I think, patch is Reviewed-by: Christian
+> König 
+> <christian.koenig@amd.com>
+>
 
-diff --git a/drivers/gpu/drm/i915/i915_trace.h b/drivers/gpu/drm/i915/i915_=
-trace.h
-index 0f8341ca67385..0aefb14c638ae 100644
---- a/drivers/gpu/drm/i915/i915_trace.h
-+++ b/drivers/gpu/drm/i915/i915_trace.h
-@@ -826,7 +826,7 @@ DEFINE_EVENT(i915_request, i915_request_add,
- 	     TP_ARGS(rq)
- );
-=20
--#if defined(CONFIG_DRM_I915_LOW_LEVEL_TRACEPOINTS)
-+#if defined(CONFIG_DRM_I915_LOW_LEVEL_TRACEPOINTS) && !defined(NOTRACE)
- DEFINE_EVENT(i915_request, i915_request_guc_submit,
- 	     TP_PROTO(struct i915_request *rq),
- 	     TP_ARGS(rq)
---=20
-2.33.1
+So, here is no need to check return value of 'strndup_user',
+just return without error code if the almost impossible error occurs?
 
+Guangming.
+
+> Regards,
+> Christian.
+> 
+> > ---
+> >   drivers/dma-buf/dma-buf.c | 17 +++--------------
+> >   1 file changed, 3 insertions(+), 14 deletions(-)
+> > 
+> > diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> > index 511fe0d217a0..5fbb3a2068a3 100644
+> > --- a/drivers/dma-buf/dma-buf.c
+> > +++ b/drivers/dma-buf/dma-buf.c
+> > @@ -325,10 +325,8 @@ static __poll_t dma_buf_poll(struct file
+> > *file, poll_table *poll)
+> >   
+> >   /**
+> >    * dma_buf_set_name - Set a name to a specific dma_buf to track
+> > the usage.
+> > - * The name of the dma-buf buffer can only be set when the dma-buf 
+> > is not
+> > - * attached to any devices. It could theoritically support
+> > changing the
+> > - * name of the dma-buf if the same piece of memory is used for
+> > multiple
+> > - * purpose between different devices.
+> > + * It could support changing the name of the dma-buf if the same
+> > + * piece of memory is used for multiple purpose between different
+> > devices.
+> >    *
+> >    * @dmabuf: [in]     dmabuf buffer that will be renamed.
+> >    * @buf:    [in]     A piece of userspace memory that contains
+> > the name of
+> > @@ -341,25 +339,16 @@ static __poll_t dma_buf_poll(struct file
+> > *file, poll_table *poll)
+> >   static long dma_buf_set_name(struct dma_buf *dmabuf, const char
+> > __user *buf)
+> >   {
+> >   	char *name = strndup_user(buf, DMA_BUF_NAME_LEN);
+> > -	long ret = 0;
+> >   
+> >   	if (IS_ERR(name))
+> >   		return PTR_ERR(name);
+> >   
+> > -	dma_resv_lock(dmabuf->resv, NULL);
+> > -	if (!list_empty(&dmabuf->attachments)) {
+> > -		ret = -EBUSY;
+> > -		kfree(name);
+> > -		goto out_unlock;
+> > -	}
+> >   	spin_lock(&dmabuf->name_lock);
+> >   	kfree(dmabuf->name);
+> >   	dmabuf->name = name;
+> >   	spin_unlock(&dmabuf->name_lock);
+> >   
+> > -out_unlock:
+> > -	dma_resv_unlock(dmabuf->resv);
+> > -	return ret;
+> > +	return 0;
+> >   }
+> >   
+> >   static long dma_buf_ioctl(struct file *file,
+> 
+> 
