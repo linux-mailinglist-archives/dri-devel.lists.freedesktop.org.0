@@ -1,67 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDCA343A8DA
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Oct 2021 02:02:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5423643A8F5
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Oct 2021 02:02:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 10A596E1F9;
-	Tue, 26 Oct 2021 00:01:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C2D0B6E296;
+	Tue, 26 Oct 2021 00:01:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com
- [IPv6:2607:f8b0:4864:20::1036])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 11FB76E215
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Oct 2021 00:01:05 +0000 (UTC)
-Received: by mail-pj1-x1036.google.com with SMTP id
- t5-20020a17090a4e4500b001a0a284fcc2so722545pjl.2
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Oct 2021 17:01:05 -0700 (PDT)
+Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com
+ [IPv6:2607:f8b0:4864:20::536])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B2636E1BE
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Oct 2021 00:00:59 +0000 (UTC)
+Received: by mail-pg1-x536.google.com with SMTP id 83so6059148pgc.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Oct 2021 17:00:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=pu3Ettw2+f3cI24EEPlu+iHiL6Bl5h06ZQoWL3Cz2Tw=;
- b=FyVFBxqfsIYw8YOp7sC2d6zkxP42HZ4IH945uwnHC8IJXRMGAOMflzcAsSWqsBv3LS
- rx7di7IicyojDoCy/pfarCS70keFfp5aLLJ7RAYiJFwVcBLnyfVyMQztieULiZDGYH9J
- XYY2V8lXbLnP7x9/7EQfmfg0ZmwwKzOjuvCN8=
+ bh=xbBIA2S7VMXOXCQu3Vr82oQpSXn2i51a0ZJRtaPISIs=;
+ b=IFB7bXnzVvlVX81TcMP9+qq+2LS6XC8kvLUolA0a9EiVRRhI9h5HOH8CYlQMBkyZtF
+ w1M1dJ4099haRG17Kbgw/c/Hsi08G5NXG224TvF1tLfU6uN4bQCMLs9fL2cgkX0PsshI
+ WqofS2DtMsrWBcKMWVeAUZkp00CFd7c/5aFXk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=pu3Ettw2+f3cI24EEPlu+iHiL6Bl5h06ZQoWL3Cz2Tw=;
- b=oaYDV2ixw6Sr6kM7p2RejsL9ng255S5qkTDTnA2uI7m6C2lQeXWxXHK8yBYNppN4kT
- XTiybNNie1qMpGss+Q/6udx4G1HOul4L6/fp0vk5OPls8FfOQIw/i4lyxuKJeAeoEw4r
- NnNzR20egSXnmwGEIVlLPShkIpNOboZ7IS66yw+XGAdOmjgKua3m4kWmsKHbgLmkVTIk
- YVZzbx4ZehTT/9+d4clggpU7kkkAmilBmJnPwfhuWlLfcKyJ7ffy0QSAbW6mh6GCg8ho
- WGRuYzX28h+9RWwU+CxFzX+hGg2OWWA0RUd7okckDfHJRfIJewmMNXSTXnA9FObWjnxM
- KwXg==
-X-Gm-Message-State: AOAM5320WdOUpTHdw/8d6PveJJoCjAB5k5ZcRL0mXwMLPyH36ttzc5hP
- ZoM8Snsv2MxaHuId2oFWAPioXg==
-X-Google-Smtp-Source: ABdhPJyo8+IVsPW4ErQRrYNvfYFj9VfY/6yHyL/Fe4pPomZF1IH2ZD3fGLXHX+N3iY4mjz6EA/xuLg==
-X-Received: by 2002:a17:903:1111:b0:13f:d1d7:fb67 with SMTP id
- n17-20020a170903111100b0013fd1d7fb67mr18762269plh.85.1635206464672; 
- Mon, 25 Oct 2021 17:01:04 -0700 (PDT)
+ bh=xbBIA2S7VMXOXCQu3Vr82oQpSXn2i51a0ZJRtaPISIs=;
+ b=F1Q3ryoDAJ+D1KAZ9+qFDt3tpqHQaG76yTi4a0dc4HYp/+AjjgnZsHqhJCLurjURBR
+ bGmmeCSiQQfnDDiO487jOleQ9s+sopeA+Cu8I1oGF9fJEUcC5tbIowxotxYhFNfNLm66
+ WIvC/IbjqMOxgHoZ7OQ5FDatElv5K3Yn8Rsvm+mE2S3PjcIYNg+hCLEgDZMGGcbWH3jo
+ uQ4QlfzHy0DCsLOdDE1hB3ERX7/7joH49rFVr4i5K4nvv8ate7UFv2AuUPCv2jG4PH46
+ 6i/AkPdUXWH+D+uxDYgoWyKMqHZs0Fr938WTFy2AlfwuKTmkPwdX36hGBvVBPNp53UYK
+ QyfA==
+X-Gm-Message-State: AOAM531Rw5e5LgDQIxh78cxrnu+7oUESJru9U8MAsxgL5ZP8ew0hFPLW
+ +eXXSWRym01IkWDjNr2J9VHq6Q==
+X-Google-Smtp-Source: ABdhPJy63RfcmCTa6T5K9FSh3Xplj6tXo3FnRfv91xfWXns90oFaTHq8SBpUXMcbH2vqEPmjKkOotA==
+X-Received: by 2002:a63:230c:: with SMTP id j12mr16437201pgj.1.1635206459577; 
+ Mon, 25 Oct 2021 17:00:59 -0700 (PDT)
 Received: from smtp.gmail.com ([2620:15c:202:201:f5e3:5eb1:d5ee:6893])
- by smtp.gmail.com with ESMTPSA id b7sm9900747pfm.28.2021.10.25.17.01.03
+ by smtp.gmail.com with ESMTPSA id b7sm9900747pfm.28.2021.10.25.17.00.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 25 Oct 2021 17:01:04 -0700 (PDT)
+ Mon, 25 Oct 2021 17:00:59 -0700 (PDT)
 From: Stephen Boyd <swboyd@chromium.org>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
  dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- Sandy Huang <hjc@rock-chips.com>,
- =?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
  Daniel Vetter <daniel.vetter@ffwll.ch>,
  "Rafael J. Wysocki" <rafael@kernel.org>, Rob Clark <robdclark@gmail.com>,
  Russell King <rmk+kernel@arm.linux.org.uk>,
  Saravana Kannan <saravanak@google.com>
-Subject: [PATCH v3 21/34] drm/rockchip: Migrate to aggregate driver
-Date: Mon, 25 Oct 2021 17:00:31 -0700
-Message-Id: <20211026000044.885195-22-swboyd@chromium.org>
+Subject: [PATCH v3 15/34] drm/imx: Migrate to aggregate driver
+Date: Mon, 25 Oct 2021 17:00:25 -0700
+Message-Id: <20211026000044.885195-16-swboyd@chromium.org>
 X-Mailer: git-send-email 2.33.0.1079.g6e70778dc9-goog
 In-Reply-To: <20211026000044.885195-1-swboyd@chromium.org>
 References: <20211026000044.885195-1-swboyd@chromium.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -82,8 +78,7 @@ Use an aggregate driver instead of component ops so that we can get
 proper driver probe ordering of the aggregate device with respect to all
 the component devices that make up the aggregate device.
 
-Cc: Sandy Huang <hjc@rock-chips.com>
-Cc: "Heiko Stübner" <heiko@sntech.de>
+Cc: Philipp Zabel <p.zabel@pengutronix.de>
 Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
 Cc: "Rafael J. Wysocki" <rafael@kernel.org>
 Cc: Rob Clark <robdclark@gmail.com>
@@ -91,69 +86,66 @@ Cc: Russell King <rmk+kernel@arm.linux.org.uk>
 Cc: Saravana Kannan <saravanak@google.com>
 Signed-off-by: Stephen Boyd <swboyd@chromium.org>
 ---
- drivers/gpu/drm/rockchip/rockchip_drm_drv.c | 20 +++++++++++++-------
+ drivers/gpu/drm/imx/imx-drm-core.c | 20 +++++++++++++-------
  1 file changed, 13 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_drv.c b/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
-index bfba9793d238..cc63222c3ad0 100644
---- a/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
-+++ b/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
-@@ -109,8 +109,9 @@ static void rockchip_iommu_cleanup(struct drm_device *drm_dev)
- 	iommu_domain_free(private->domain);
+diff --git a/drivers/gpu/drm/imx/imx-drm-core.c b/drivers/gpu/drm/imx/imx-drm-core.c
+index 9558e9e1b431..dbf5cca5201d 100644
+--- a/drivers/gpu/drm/imx/imx-drm-core.c
++++ b/drivers/gpu/drm/imx/imx-drm-core.c
+@@ -198,8 +198,9 @@ static int compare_of(struct device *dev, void *data)
+ 	return dev->of_node == np;
  }
  
--static int rockchip_drm_bind(struct device *dev)
-+static int rockchip_drm_bind(struct aggregate_device *adev)
+-static int imx_drm_bind(struct device *dev)
++static int imx_drm_bind(struct aggregate_device *adev)
  {
 +	struct device *dev = adev->parent;
- 	struct drm_device *drm_dev;
- 	struct rockchip_drm_private *private;
+ 	struct drm_device *drm;
  	int ret;
-@@ -186,8 +187,9 @@ static int rockchip_drm_bind(struct device *dev)
+ 
+@@ -266,8 +267,9 @@ static int imx_drm_bind(struct device *dev)
  	return ret;
  }
  
--static void rockchip_drm_unbind(struct device *dev)
-+static void rockchip_drm_unbind(struct aggregate_device *adev)
+-static void imx_drm_unbind(struct device *dev)
++static void imx_drm_unbind(struct aggregate_device *adev)
  {
 +	struct device *dev = adev->parent;
- 	struct drm_device *drm_dev = dev_get_drvdata(dev);
+ 	struct drm_device *drm = dev_get_drvdata(dev);
  
- 	drm_dev_unregister(drm_dev);
-@@ -342,9 +344,13 @@ static struct component_match *rockchip_drm_match_add(struct device *dev)
- 	return match ?: ERR_PTR(-ENODEV);
+ 	drm_dev_unregister(drm);
+@@ -281,14 +283,18 @@ static void imx_drm_unbind(struct device *dev)
+ 	dev_set_drvdata(dev, NULL);
  }
  
--static const struct component_master_ops rockchip_drm_ops = {
--	.bind = rockchip_drm_bind,
--	.unbind = rockchip_drm_unbind,
-+static struct aggregate_driver rockchip_aggregate_driver = {
-+	.probe = rockchip_drm_bind,
-+	.remove = rockchip_drm_unbind,
+-static const struct component_master_ops imx_drm_ops = {
+-	.bind = imx_drm_bind,
+-	.unbind = imx_drm_unbind,
++static struct aggregate_driver imx_drm_aggregate_driver = {
++	.probe = imx_drm_bind,
++	.remove = imx_drm_unbind,
 +	.driver = {
-+		.name = "rockchip_drm",
++		.name = "imx_drm",
 +		.owner = THIS_MODULE,
 +	},
  };
  
- static int rockchip_drm_platform_of_probe(struct device *dev)
-@@ -415,7 +421,7 @@ static int rockchip_drm_platform_probe(struct platform_device *pdev)
- 	if (IS_ERR(match))
- 		return PTR_ERR(match);
- 
--	ret = component_master_add_with_match(dev, &rockchip_drm_ops, match);
-+	ret = component_aggregate_register(dev, &rockchip_aggregate_driver, match);
- 	if (ret < 0) {
- 		rockchip_drm_match_remove(dev);
- 		return ret;
-@@ -426,7 +432,7 @@ static int rockchip_drm_platform_probe(struct platform_device *pdev)
- 
- static int rockchip_drm_platform_remove(struct platform_device *pdev)
+ static int imx_drm_platform_probe(struct platform_device *pdev)
  {
--	component_master_del(&pdev->dev, &rockchip_drm_ops);
-+	component_aggregate_unregister(&pdev->dev, &rockchip_aggregate_driver);
+-	int ret = drm_of_component_probe(&pdev->dev, compare_of, &imx_drm_ops);
++	int ret = drm_of_aggregate_probe(&pdev->dev, compare_of, &imx_drm_aggregate_driver);
  
- 	rockchip_drm_match_remove(&pdev->dev);
+ 	if (!ret)
+ 		ret = dma_set_coherent_mask(&pdev->dev, DMA_BIT_MASK(32));
+@@ -298,7 +304,7 @@ static int imx_drm_platform_probe(struct platform_device *pdev)
+ 
+ static int imx_drm_platform_remove(struct platform_device *pdev)
+ {
+-	component_master_del(&pdev->dev, &imx_drm_ops);
++	component_aggregate_unregister(&pdev->dev, &imx_drm_aggregate_driver);
+ 	return 0;
+ }
  
 -- 
 https://chromeos.dev
