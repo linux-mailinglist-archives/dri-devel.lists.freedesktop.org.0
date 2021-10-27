@@ -2,53 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25F1243D334
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Oct 2021 22:52:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8553943D336
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Oct 2021 22:53:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9DCEC6E8FF;
-	Wed, 27 Oct 2021 20:52:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3BB036E900;
+	Wed, 27 Oct 2021 20:53:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org
- [IPv6:2404:9400:2:0:216:3eff:fee2:21ea])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB2776E8FF
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Oct 2021 20:52:04 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4Hfgq06GF4z4xbw;
- Thu, 28 Oct 2021 07:51:56 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1635367920;
- bh=5Y8NA6U3yNgxnNJyRa2otd4eCLUptj9+0XcbhyPWVjo=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=q51G2eKcUSlkJKQJEPCVbbhP9KTi/ieoY3LoOCd6Ej2Bu9amIt109H8yIIFglKSFf
- 2rFVDZ0ybhwjVDBSiUaA//CZZP4AQmLRoR/S1yjCKIUtkynnGr2iHQ9/wk+hfPeo5q
- npD5Co5Ef9IOsJYAeRgq1JPDbJeJKOWucADE1yl8x2oVyhGTjQhr/Hlm+lVZgO2AJu
- n+DU9ffLpJHxcG3XocS3CJLM01RB2EWT1WhhKdR1K7ypL4APWji1T6umQZhZv6WEeC
- MZYs4DXtyClbnoSEZvUWL/xSS2seqTxdFzUYAis32ollv0K8YMuo5fx26vaMyAFChx
- desxHwy+ylftg==
-Date: Thu, 28 Oct 2021 07:51:55 +1100
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Cc: "Nikula, Jani" <jani.nikula@linux.intel.com>, Daniel Vetter
- <daniel@ffwll.ch>, Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
- <tvrtko.ursulin@linux.intel.com>, Dave Airlie <airlied@linux.ie>, DRI
- <dri-devel@lists.freedesktop.org>, Linux Next Mailing List
- <linux-next@vger.kernel.org>, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>, Chris Wilson <chris@chris-wilson.co.uk>
-Subject: Re: linux-next: build warning after merge of the drm tree
-Message-ID: <20211028075155.02825f86@canb.auug.org.au>
-In-Reply-To: <163533676481.68716.4009950051571709814@jlahtine-mobl.ger.corp.intel.com>
-References: <20210122115918.63b56fa1@canb.auug.org.au>
- <CAKMK7uEuJa1J66mo5dS+QRPy9NOENTx95SZ4rU2MeVRTWj7Kcw@mail.gmail.com>
- <20210122182946.6beb10b7@canb.auug.org.au>
- <CAKMK7uFWFVC0be2foiP8+2=vrqyh1e4mqkuk+2xY+fgSWAExyQ@mail.gmail.com>
- <163533676481.68716.4009950051571709814@jlahtine-mobl.ger.corp.intel.com>
+Received: from bombadil.infradead.org (bombadil.infradead.org
+ [IPv6:2607:7c80:54:e::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A52936E900;
+ Wed, 27 Oct 2021 20:53:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+ Content-Type:MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
+ Content-ID:Content-Description:In-Reply-To:References;
+ bh=DCX9q09z8tXg5bvLCU7mK4ylZma0Aj+ui0Z+ZwYz7w4=; b=ChN2fVno3u+2S8lH/bNNRWYfd6
+ umxx7lnMdiRXNJLkzS+SzM8jyQ7Ry4VBoK3riQJpaQV4waGt7oKz7L/8G2SXvOnfZPEXqbL41k0wT
+ jvIoI5gJpdUFhCYG5WnMijDVi82xBseSZfx5IJ9emAl1ENS0m86h9aDhp6V3dYQx63HL+jdyZNb9K
+ u9ePAkCnHqhK/IwmyyrooV8mDJCOUhv+JjoBLFCFx4Y8LJBeEsCqoVk79sKZ7KHFei767viLS2XC7
+ +JKZVVeAr5t901mZMpcYtZc30vzkU5xSLgTD4ELlSvrcu3m1fLhlwa/EoYJsadvxny6CztGaP4saH
+ 12HBmzbw==;
+Received: from [2601:1c0:6280:3f0::aa0b] (helo=bombadil.infradead.org)
+ by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1mfpux-0066Im-3Q; Wed, 27 Oct 2021 20:53:03 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: linux-kernel@vger.kernel.org
+Cc: Randy Dunlap <rdunlap@infradead.org>,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Matthew Auld <matthew.auld@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH -next] i915/gem/dmabuf: add <asm/smp.h> to fix build error
+Date: Wed, 27 Oct 2021 13:53:02 -0700
+Message-Id: <20211027205302.19222-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/Hk7RweDXpOKZXpJ2ckQ5Ttf";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,72 +56,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/Hk7RweDXpOKZXpJ2ckQ5Ttf
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+When CONFIG_SMP is not set, wbinvd_on_all_cpus() is not declared,
+due to missing <asm/smp.h>.
 
-Hi Joonas,
+Fixes this build error:
 
-On Wed, 27 Oct 2021 15:12:44 +0300 Joonas Lahtinen <joonas.lahtinen@linux.i=
-ntel.com> wrote:
->
-> We should be now good to go and add drm-intel-gt-next to linux-next.
->=20
-> The branch would be as follows:
->=20
-> drm-intel-gt-next	git://anongit.freedesktop.org/drm-intel	for-linux-next-=
-gt
->=20
-> Notice the "-gt" and the end of the for-linux-next branch name. This shou=
-ld eliminate
-> the gap we have been having.
+../drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c: In function 'i915_gem_object_get_pages_dmabuf':
+../drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c:251:3: error: implicit declaration of function 'wbinvd_on_all_cpus'; did you mean 'wrmsr_on_cpus'? [-Werror=implicit-function-declaration]
+   wbinvd_on_all_cpus();
 
-I have added it to linux-next from today. I called it just
-"drm-intel-gt" for consistency with the other drm trees in linux-next.
+Fixes: a035154da45d ("drm/i915/dmabuf: add paranoid flush-on-acquire")
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Cc: Matthew Auld <matthew.auld@intel.com>
+Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: intel-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
+---
+ drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c |    1 +
+ 1 file changed, 1 insertion(+)
 
-Currently I just have you listed as a contact, is there anyone else (or
-a list) that I should add?
-
-Thanks for adding your subsystem tree as a participant of linux-next.  As
-you may know, this is not a judgement of your code.  The purpose of
-linux-next is for integration testing and to lower the impact of
-conflicts between subsystems in the next merge window.=20
-
-You will need to ensure that the patches/commits in your tree/series have
-been:
-     * submitted under GPL v2 (or later) and include the Contributor's
-        Signed-off-by,
-     * posted to the relevant mailing list,
-     * reviewed by you (or another maintainer of your subsystem tree),
-     * successfully unit tested, and=20
-     * destined for the current or next Linux merge window.
-
-Basically, this should be just what you would send to Linus (or ask him
-to fetch).  It is allowed to be rebased if you deem it necessary.
-
---=20
-Cheers,
-Stephen Rothwell=20
-sfr@canb.auug.org.au
-
---=20
-Cheers,
-Stephen Rothwell
-
---Sig_/Hk7RweDXpOKZXpJ2ckQ5Ttf
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmF5u+sACgkQAVBC80lX
-0GyL4wgAinKWeTjSgRL2p4EwwgFCQr0nKu7Fz27XMK81p8reA+qvVPccClAaSVqr
-cOyNTq/yGj/vF2H9UFfjxW5eju+5TicCbSUd3CLi/ePxO8YH9PSKTBywpGYBzI4q
-6MkZW9aAPWt5Usbfe1j/EphQaujM9/X8BLC6kDj+LoiZ3bgZtMiDvmNkqs4ICE/w
-OJlOOz7LpkPTaoFliNIQct1l9PIHAfDMPnbYj7Rtb/IIOHoZcaT67RUB3ShnVoGt
-7qwN9iPhCCFiUYQRZv7FKII3AebeX/zjmJMnr0J+Njd3lM5y37v6v0hYgyzJax0D
-S4+4bMnlnZpi9rAIeHPs7x7NToSnxQ==
-=HjKj
------END PGP SIGNATURE-----
-
---Sig_/Hk7RweDXpOKZXpJ2ckQ5Ttf--
+--- linux-next-20211027.orig/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
++++ linux-next-20211027/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
+@@ -8,6 +8,7 @@
+ #include <linux/highmem.h>
+ #include <linux/dma-resv.h>
+ #include <linux/module.h>
++#include <asm/smp.h>
+ 
+ #include "i915_drv.h"
+ #include "i915_gem_object.h"
