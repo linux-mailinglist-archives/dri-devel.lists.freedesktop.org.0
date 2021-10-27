@@ -1,66 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0553043C6C7
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Oct 2021 11:48:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 655BC43C750
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Oct 2021 12:03:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B4816E87F;
-	Wed, 27 Oct 2021 09:48:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9007189DFC;
+	Wed, 27 Oct 2021 10:03:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x735.google.com (mail-qk1-x735.google.com
- [IPv6:2607:f8b0:4864:20::735])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC04C6E87F;
- Wed, 27 Oct 2021 09:48:31 +0000 (UTC)
-Received: by mail-qk1-x735.google.com with SMTP id bl14so1842382qkb.4;
- Wed, 27 Oct 2021 02:48:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=UMgCr5h5dLtzA1yiIwm7EshjuW5tSW2Zw/W86auLHek=;
- b=euk20K6ykoqvYZShOmhjVpjIO4NcLbfwHcva4lDVJYUKbyCn2xpPM4fdPqRsJ9J4VQ
- akq+rBvrrqKYwWeOOO8ZsMfoO3T+952D8U3orcvlGnxhOS2kUitGLgt3CrB8detaQLNe
- KB8qfjL+1d6t8+ZF0Cs7WH6aspCl7XxII1up91+9GS05dkCHsQAw5Pt1jyzdzW1U7bvL
- rfTGIPMu0QE2oACdzr0i5wN1E5sP4wYv3nx+XhGaPyYynR4NN6W61/UP4py+KsmnJmi2
- tK4BrXl6Fqex+oYiefowwTNbDtn9oKsobgWqMc5jHeB0rutmdy5eJRYbbkcHdKcBW7VG
- JEbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=UMgCr5h5dLtzA1yiIwm7EshjuW5tSW2Zw/W86auLHek=;
- b=qsfyUxB5nwZeP20xk0XwP1muuvm+B8lfhg+G7YIsmQNcdclF1Mx/E0UE6CaufjqXba
- ae3pByzeDTjvqOHasSwgC+M1b6tMh8F758ii8lh9Ic1evmfCzrPNQHlcepzxHXGf651w
- k4Zp+7dsuKVj8YsJ0NjIDzGVC6siXEDIr0jj3O3SROGMVDbHJNyvwCNPU2XsjAIFt/J2
- cdzaQsCBwAA5RlhDbIcadVhpUOz6I3HcE41cA8eZWCPxlbJsVe54OlRdZchctyDCETDt
- Vm8HeALaNPBEwqv9SKmihhdoz6Jnc+mbiiBkfxZYYUgNmTv8kqI5h3+OgUJrxC7V51nO
- YuUw==
-X-Gm-Message-State: AOAM531LqgtaqeU4Wb7HCHpj8yMMGhvpCoJHH4PqYOp7qmp4c3WPelvL
- pb5enS5VZ6+Ukio1OsfF1n/MU6RSknxz6yisi+Io+bk0sHstBw==
-X-Google-Smtp-Source: ABdhPJy53xyC2cukuUWwF300yJ9Zhhj7aeW0lL1iPA66xlOH1Z3aqTAs/fefOV3VqARGpNzM6YVp1ii4sX1HUj09J+M=
-X-Received: by 2002:a37:a87:: with SMTP id 129mr23154681qkk.107.1635328110896; 
- Wed, 27 Oct 2021 02:48:30 -0700 (PDT)
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8DD1089D61;
+ Wed, 27 Oct 2021 10:03:27 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10149"; a="316330967"
+X-IronPort-AV: E=Sophos;i="5.87,186,1631602800"; d="scan'208";a="316330967"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Oct 2021 03:03:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.87,186,1631602800"; d="scan'208";a="635669892"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
+ by fmsmga001.fm.intel.com with SMTP; 27 Oct 2021 03:03:22 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Wed, 27 Oct 2021 13:03:22 +0300
+Date: Wed, 27 Oct 2021 13:03:22 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Lyude Paul <lyude@redhat.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, Satadru Pramanik <satadru@gmail.com>,
+ stable@vger.kernel.org, Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v4 1/5] drm/i915: Add support for panels with VESA
+ backlights with PWM enable/disable
+Message-ID: <YXkj6n/6U5ZaSRN7@intel.com>
+References: <20211026220848.439530-1-lyude@redhat.com>
+ <20211026220848.439530-2-lyude@redhat.com>
 MIME-Version: 1.0
-References: <20211021125332.2455288-1-matthew.auld@intel.com>
- <CAM0jSHNig=n9cw0CCNhWHnLn5hLPYFFQR4D9OgZ-QavgyJGJpg@mail.gmail.com>
- <87k0hyj13f.fsf@intel.com>
- <CAM0jSHOCn120_-WZCJHa2+NzPrB_pErHPT3hA2BGarM-ZDw-Cg@mail.gmail.com>
- <87cznqiyzg.fsf@intel.com>
-In-Reply-To: <87cznqiyzg.fsf@intel.com>
-From: Matthew Auld <matthew.william.auld@gmail.com>
-Date: Wed, 27 Oct 2021 10:48:03 +0100
-Message-ID: <CAM0jSHN4oYq=DRnpKiMXjVKUFQ5kttobWpuJLEi6eFzMwjP5-g@mail.gmail.com>
-Subject: Re: [PATCH 1/2] drm/i915/dmabuf: fix broken build
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Matthew Auld <matthew.auld@intel.com>, 
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>, 
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- kernel test robot <lkp@intel.com>, 
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20211026220848.439530-2-lyude@redhat.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,96 +59,95 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 27 Oct 2021 at 10:44, Jani Nikula <jani.nikula@linux.intel.com> wro=
-te:
->
-> On Wed, 27 Oct 2021, Matthew Auld <matthew.william.auld@gmail.com> wrote:
-> > On Wed, 27 Oct 2021 at 09:58, Jani Nikula <jani.nikula@linux.intel.com>=
- wrote:
-> >>
-> >> On Wed, 27 Oct 2021, Matthew Auld <matthew.william.auld@gmail.com> wro=
-te:
-> >> > On Thu, 21 Oct 2021 at 13:54, Matthew Auld <matthew.auld@intel.com> =
-wrote:
-> >> >>
-> >> >> wbinvd_on_all_cpus() is only defined on x86 it seems, plus we need =
-to
-> >> >> include asm/smp.h here.
-> >> >>
-> >> >> Reported-by: kernel test robot <lkp@intel.com>
-> >> >> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-> >> >> Cc: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
-> >> >
-> >> > Jani, would it make sense to cherry-pick this to -fixes? The offendi=
-ng
-> >> > commit is in drm-next, and there have been a few reports around this=
-.
-> >> >
-> >> > Fixes: a035154da45d ("drm/i915/dmabuf: add paranoid flush-on-acquire=
-")
-> >>
-> >> If the Fixes: tag is in place, our tooling will cherry-pick it where i=
-t
-> >> belongs. (In this case, drm-intel-next-fixes, not drm-intel-fixes.)
-> >
-> > Yeah, I forgot to add the fixes tag here unfortunately.
->
-> Already merged? What's the commit id to be cherry-picked? Rodrigo can do
-> it manually.
+On Tue, Oct 26, 2021 at 06:08:44PM -0400, Lyude Paul wrote:
+> This simply adds proper support for panel backlights that can be controlled
+> via VESA's backlight control protocol, but which also require that we
+> enable and disable the backlight via PWM instead of via the DPCD interface.
+> We also enable this by default, in order to fix some people's backlights
+> that were broken by not having this enabled.
+> 
+> For reference, backlights that require this and use VESA's backlight
+> interface tend to be laptops with hybrid GPUs, but this very well may
+> change in the future.
+> 
+> v4:
+> * Make sure that we call intel_backlight_level_to_pwm() in
+>   intel_dp_aux_vesa_enable_backlight() - vsyrjala
+> 
+> Signed-off-by: Lyude Paul <lyude@redhat.com>
+> Link: https://gitlab.freedesktop.org/drm/intel/-/issues/3680
+> Fixes: fe7d52bccab6 ("drm/i915/dp: Don't use DPCD backlights that need PWM enable/disable")
+> Cc: <stable@vger.kernel.org> # v5.12+
 
-Yeah, it was merged to gt-next:
+Seems consistent enough.
+Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
-777226dac058 ("drm/i915/dmabuf: fix broken build")
+> ---
+>  .../drm/i915/display/intel_dp_aux_backlight.c | 27 ++++++++++++++-----
+>  1 file changed, 21 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
+> index 569d17b4d00f..f05b71c01b8e 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
+> @@ -293,6 +293,13 @@ intel_dp_aux_vesa_enable_backlight(const struct intel_crtc_state *crtc_state,
+>  	struct intel_panel *panel = &connector->panel;
+>  	struct intel_dp *intel_dp = enc_to_intel_dp(connector->encoder);
+>  
+> +	if (!panel->backlight.edp.vesa.info.aux_enable) {
+> +		u32 pwm_level = intel_backlight_invert_pwm_level(connector,
+> +								 panel->backlight.pwm_level_max);
+> +
+> +		panel->backlight.pwm_funcs->enable(crtc_state, conn_state, pwm_level);
+> +	}
+> +
+>  	drm_edp_backlight_enable(&intel_dp->aux, &panel->backlight.edp.vesa.info, level);
+>  }
+>  
+> @@ -304,6 +311,10 @@ static void intel_dp_aux_vesa_disable_backlight(const struct drm_connector_state
+>  	struct intel_dp *intel_dp = enc_to_intel_dp(connector->encoder);
+>  
+>  	drm_edp_backlight_disable(&intel_dp->aux, &panel->backlight.edp.vesa.info);
+> +
+> +	if (!panel->backlight.edp.vesa.info.aux_enable)
+> +		panel->backlight.pwm_funcs->disable(old_conn_state,
+> +						    intel_backlight_invert_pwm_level(connector, 0));
+>  }
+>  
+>  static int intel_dp_aux_vesa_setup_backlight(struct intel_connector *connector, enum pipe pipe)
+> @@ -321,6 +332,15 @@ static int intel_dp_aux_vesa_setup_backlight(struct intel_connector *connector,
+>  	if (ret < 0)
+>  		return ret;
+>  
+> +	if (!panel->backlight.edp.vesa.info.aux_enable) {
+> +		ret = panel->backlight.pwm_funcs->setup(connector, pipe);
+> +		if (ret < 0) {
+> +			drm_err(&i915->drm,
+> +				"Failed to setup PWM backlight controls for eDP backlight: %d\n",
+> +				ret);
+> +			return ret;
+> +		}
+> +	}
+>  	panel->backlight.max = panel->backlight.edp.vesa.info.max;
+>  	panel->backlight.min = 0;
+>  	if (current_mode == DP_EDP_BACKLIGHT_CONTROL_MODE_DPCD) {
+> @@ -340,12 +360,7 @@ intel_dp_aux_supports_vesa_backlight(struct intel_connector *connector)
+>  	struct intel_dp *intel_dp = intel_attached_dp(connector);
+>  	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
+>  
+> -	/* TODO: We currently only support AUX only backlight configurations, not backlights which
+> -	 * require a mix of PWM and AUX controls to work. In the mean time, these machines typically
+> -	 * work just fine using normal PWM controls anyway.
+> -	 */
+> -	if ((intel_dp->edp_dpcd[1] & DP_EDP_BACKLIGHT_AUX_ENABLE_CAP) &&
+> -	    drm_edp_backlight_supported(intel_dp->edp_dpcd)) {
+> +	if (drm_edp_backlight_supported(intel_dp->edp_dpcd)) {
+>  		drm_dbg_kms(&i915->drm, "AUX Backlight Control Supported!\n");
+>  		return true;
+>  	}
+> -- 
+> 2.31.1
 
->
-> Note to self, we should set up some way to check which maintainer is
-> responsible for which branches and when.
->
-> BR,
-> Jani.
->
-> >
-> >>
-> >> Cc: Rodrigo who covers drm-intel-next-fixes atm.
-> >>
-> >> BR,
-> >> Jani.
-> >>
-> >>
-> >>
-> >> >
-> >> >
-> >> >> ---
-> >> >>  drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c | 7 +++++++
-> >> >>  1 file changed, 7 insertions(+)
-> >> >>
-> >> >> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c b/drivers/g=
-pu/drm/i915/gem/i915_gem_dmabuf.c
-> >> >> index 1adcd8e02d29..a45d0ec2c5b6 100644
-> >> >> --- a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
-> >> >> +++ b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
-> >> >> @@ -12,6 +12,13 @@
-> >> >>  #include "i915_gem_object.h"
-> >> >>  #include "i915_scatterlist.h"
-> >> >>
-> >> >> +#if defined(CONFIG_X86)
-> >> >> +#include <asm/smp.h>
-> >> >> +#else
-> >> >> +#define wbinvd_on_all_cpus() \
-> >> >> +       pr_warn(DRIVER_NAME ": Missing cache flush in %s\n", __func=
-__)
-> >> >> +#endif
-> >> >> +
-> >> >>  I915_SELFTEST_DECLARE(static bool force_different_devices;)
-> >> >>
-> >> >>  static struct drm_i915_gem_object *dma_buf_to_obj(struct dma_buf *=
-buf)
-> >> >> --
-> >> >> 2.26.3
-> >> >>
-> >>
-> >> --
-> >> Jani Nikula, Intel Open Source Graphics Center
->
-> --
-> Jani Nikula, Intel Open Source Graphics Center
+-- 
+Ville Syrjälä
+Intel
