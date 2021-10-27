@@ -2,69 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4ACD943C357
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Oct 2021 08:54:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60CF143C361
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Oct 2021 08:58:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 545C089C3B;
-	Wed, 27 Oct 2021 06:54:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E0E76E536;
+	Wed, 27 Oct 2021 06:58:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com
- [209.85.222.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C2C389C37
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Oct 2021 06:54:06 +0000 (UTC)
-Received: by mail-ua1-f49.google.com with SMTP id z22so662760uaq.12
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Oct 2021 23:54:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=uHeQsCzj+NuIoaUijS+BqVs1TYH9sOv+TDs8LySkQvc=;
- b=0llaMyt0bufMSX58GVIaytM7wZOQTsyZNXywPLdKO+1T4BOTXkJMAhIgsB2obz8LOM
- C8JbKsw+L0lcd/m8HEu4HJnLgVnV9YHphY311iat+KfQYClcL5SosdBF4kkcSOXcKgc3
- 7e09YYXyWWKHWZWxYHuHEPMe0X3O/xt4puHrJ8yqNsSzuuIbuQ6HFipC8P9mo+fVBqzZ
- 7C+rXDBcY0eaie5Xe3pPq3IzSONDyP/nH916RYyc+6b7EtZHk/RB2ycMOaIypJD6OH+i
- 7yeEGPrnWdrEUKdni7R2kBOlZ7QPbNBAa2c0r/GoFMJqRP9J6Q1vzyaz8+z1tSreol5h
- IDhA==
-X-Gm-Message-State: AOAM530j3ZMhedNRJ0/IHh6DWfSmhqcdrmdGDz+B/GK+cAPazPypJ2/w
- PvnPaMjd7ZSv0Te6MSooWiaWxv7QgRRfsw==
-X-Google-Smtp-Source: ABdhPJx4q12aRtEoFVe7LsK2DiZUMHb9XmMS6g4RsD+GNcOiH4VcnsIqPLS9zW4UbwWLX+RiKsV8GQ==
-X-Received: by 2002:a05:6102:143:: with SMTP id
- a3mr15578667vsr.5.1635317645296; 
- Tue, 26 Oct 2021 23:54:05 -0700 (PDT)
-Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com.
- [209.85.222.43])
- by smtp.gmail.com with ESMTPSA id m15sm11142530vsh.31.2021.10.26.23.54.04
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 26 Oct 2021 23:54:04 -0700 (PDT)
-Received: by mail-ua1-f43.google.com with SMTP id z22so662684uaq.12
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Oct 2021 23:54:04 -0700 (PDT)
-X-Received: by 2002:ab0:2bd2:: with SMTP id s18mr28311148uar.78.1635317644217; 
- Tue, 26 Oct 2021 23:54:04 -0700 (PDT)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9BCDE6E52E;
+ Wed, 27 Oct 2021 06:57:59 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10149"; a="210172488"
+X-IronPort-AV: E=Sophos;i="5.87,186,1631602800"; d="scan'208";a="210172488"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Oct 2021 23:57:59 -0700
+X-IronPort-AV: E=Sophos;i="5.87,186,1631602800"; d="scan'208";a="572803014"
+Received: from dzhang-mobl2.amr.corp.intel.com (HELO ldmartin-desk2)
+ ([10.251.142.134])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Oct 2021 23:57:58 -0700
+Date: Tue, 26 Oct 2021 23:57:55 -0700
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Matt Roper <matthew.d.roper@intel.com>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ Matthew Auld <matthew.auld@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Subject: Re: [Intel-gfx] [PATCH 03/11] drm/i915: Restructure probe to handle
+ multi-tile platforms
+Message-ID: <20211027065755.gp476mo3hwfbbbno@ldmartin-desk2>
+X-Patchwork-Hint: comment
+References: <20211008215635.2026385-1-matthew.d.roper@intel.com>
+ <20211008215635.2026385-4-matthew.d.roper@intel.com>
+ <87ee8pxgvs.fsf@intel.com>
 MIME-Version: 1.0
-References: <1635188490-15082-1-git-send-email-george.kennedy@oracle.com>
- <YXcAbXJfg/jKCo5h@kroah.com> <0ddb1c19-64b0-4117-7a92-c3d2fcddfdcf@oracle.com>
- <CAMuHMdWcU7wy1dxa_MXuHoUTWebvq6ShP820Bn_v+8tx7-TEdg@mail.gmail.com>
- <c73402dd-ec3f-4df7-6a16-36fb276a50f4@oracle.com>
- <CAMuHMdVHt=9N274SG+B7W83JbVVnbz_U5Nkejs_PR2HqvZvJgQ@mail.gmail.com>
- <d2119d59-89e4-34aa-86df-38fee2a0c6ef@oracle.com>
- <CAMuHMdUZq00r7QYeAKGm36UKpGwH_uEGMvwHBzRi9_nxV-dRhg@mail.gmail.com>
- <4cf6a155-85b7-649b-066d-e56da87dc8fd@oracle.com>
-In-Reply-To: <4cf6a155-85b7-649b-066d-e56da87dc8fd@oracle.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 27 Oct 2021 08:53:53 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVJ=92S9Ds66cYZO+96THsOkz-jjYPWUgsJ6oRibEMoCA@mail.gmail.com>
-Message-ID: <CAMuHMdVJ=92S9Ds66cYZO+96THsOkz-jjYPWUgsJ6oRibEMoCA@mail.gmail.com>
-Subject: Re: [PATCH] video: fbdev: cirrusfb: check pixclock to avoid divide by
- zero
-To: George Kennedy <george.kennedy@oracle.com>
-Cc: Greg KH <gregkh@linuxfoundation.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>,
- DRI Development <dri-devel@lists.freedesktop.org>, 
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>, 
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <87ee8pxgvs.fsf@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,120 +57,170 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi George,
-
-On Wed, Oct 27, 2021 at 3:13 AM George Kennedy
-<george.kennedy@oracle.com> wrote:
-> On 10/26/2021 1:12 PM, Geert Uytterhoeven wrote:
-> > On Tue, Oct 26, 2021 at 5:48 PM George Kennedy
-> > <george.kennedy@oracle.com> wrote:
-> >> On 10/26/2021 10:11 AM, Geert Uytterhoeven wrote:
-> >>> On Tue, Oct 26, 2021 at 3:38 PM George Kennedy
-> >>> <george.kennedy@oracle.com> wrote:
-> >>>> On 10/26/2021 4:30 AM, Geert Uytterhoeven wrote:
-> >>>>> On Mon, Oct 25, 2021 at 9:37 PM George Kennedy
-> >>>>> <george.kennedy@oracle.com> wrote:
-> >>>>>> On 10/25/2021 3:07 PM, Greg KH wrote:
-> >>>>>>> On Mon, Oct 25, 2021 at 02:01:30PM -0500, George Kennedy wrote:
-> >>>>>>>> Do a sanity check on pixclock value before using it as a divisor.
-> >>>>>>>>
-> >>>>>>>> Syzkaller reported a divide error in cirrusfb_check_pixclock.
-> >>>>>>>>
-> >>>>>>>> divide error: 0000 [#1] SMP KASAN PTI
-> >>>>>>>> CPU: 0 PID: 14938 Comm: cirrusfb_test Not tainted 5.15.0-rc6 #1
-> >>>>>>>> Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.11.0-2
-> >>>>>>>> RIP: 0010:cirrusfb_check_var+0x6f1/0x1260
-> >>>>>>>>
-> >>>>>>>> Call Trace:
-> >>>>>>>>      fb_set_var+0x398/0xf90
-> >>>>>>>>      do_fb_ioctl+0x4b8/0x6f0
-> >>>>>>>>      fb_ioctl+0xeb/0x130
-> >>>>>>>>      __x64_sys_ioctl+0x19d/0x220
-> >>>>>>>>      do_syscall_64+0x3a/0x80
-> >>>>>>>>      entry_SYSCALL_64_after_hwframe+0x44/0xae
-> >>>>>>>>
-> >>>>>>>> Signed-off-by: George Kennedy <george.kennedy@oracle.com>
-> >>>>>>>> --- a/drivers/video/fbdev/cirrusfb.c
-> >>>>>>>> +++ b/drivers/video/fbdev/cirrusfb.c
-> >>>>>>>> @@ -477,6 +477,9 @@ static int cirrusfb_check_pixclock(const struct fb_var_screeninfo *var,
-> >>>>>>>>         struct cirrusfb_info *cinfo = info->par;
-> >>>>>>>>         unsigned maxclockidx = var->bits_per_pixel >> 3;
-> >>>>>>>>
-> >>>>>>>> +    if (!var->pixclock)
-> >>>>>>>> +            return -EINVAL;
-> >>>>> This is not correct: fbdev drivers should round up invalid values,
-> >>>>> and only return an error if rounding up cannot yield a valid value.
-> >>>> What default value would you recommend? Here are examples of some of the
-> >>>> possible cirrusfb pixclock values:
-> >>>> 40000: 25MHz
-> >>>> 20000: 50Mhz
-> >>>> 12500: 80Mhz
-> >>> You should pick the lowest supported value.
-> >> In bestclock() the frequency value ("freq") is not allowed to go below 8000.
-> >>
-> >>           if (freq < 8000)
-> >>                   freq = 8000;
-> >>
-> >> If pixclock is passed in as zero to cirrusfb_check_pixclock(), is it ok
-> >> to then set the value of pixclock to 125000, which will result in "freq"
-> >> being set to 8000 (or adjust the passed in pixclock value to make sure
-> >> "freq" does not get below 8000)?
-> > No, clock rate is the inverse of clock period.
-> > So the smallest clock period (fb_var_screeninfo.pixclock) corresponds
-> > to the largest clock rate (freq in bestclock()).
+On Wed, Oct 13, 2021 at 03:12:55PM +0300, Jani Nikula wrote:
+>On Fri, 08 Oct 2021, Matt Roper <matthew.d.roper@intel.com> wrote:
+>> On a multi-tile platform, each tile has its own registers + GGTT space,
+>> and BAR 0 is extended to cover all of them.  Upcoming patches will start
+>> exposing the tiles as multiple GTs within a single PCI device.  In
+>> preparation for supporting such setups, restructure the driver's probe
+>> code a bit.
+>>
+>> Only the primary/root tile is initialized for now; the other tiles will
+>> be detected and plugged in by future patches once the necessary
+>> infrastructure is in place to handle them.
+>>
+>> Original-author: Abdiel Janulgue
+>> Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+>> Cc: Matthew Auld <matthew.auld@intel.com>
+>> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+>> Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>> Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
+>> ---
+>>  drivers/gpu/drm/i915/gt/intel_gt.c       | 45 ++++++++++++++++++++++++
+>>  drivers/gpu/drm/i915/gt/intel_gt.h       |  3 ++
+>>  drivers/gpu/drm/i915/gt/intel_gt_pm.c    |  9 ++++-
+>>  drivers/gpu/drm/i915/gt/intel_gt_types.h |  5 +++
+>>  drivers/gpu/drm/i915/i915_drv.c          | 20 +++++------
+>>  drivers/gpu/drm/i915/intel_uncore.c      | 12 +++----
+>>  drivers/gpu/drm/i915/intel_uncore.h      |  3 +-
+>>  7 files changed, 76 insertions(+), 21 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
+>> index 1cb1948ac959..f4bea1f1de77 100644
+>> --- a/drivers/gpu/drm/i915/gt/intel_gt.c
+>> +++ b/drivers/gpu/drm/i915/gt/intel_gt.c
+>> @@ -900,6 +900,51 @@ u32 intel_gt_read_register_fw(struct intel_gt *gt, i915_reg_t reg)
+>>  	return intel_uncore_read_fw(gt->uncore, reg);
+>>  }
+>>
+>> +static int
+>> +tile_setup(struct intel_gt *gt, unsigned int id, phys_addr_t phys_addr)
+>> +{
+>> +	int ret;
+>> +
+>> +	intel_uncore_init_early(gt->uncore, gt->i915);
+>> +
+>> +	ret = intel_uncore_setup_mmio(gt->uncore, phys_addr);
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	gt->phys_addr = phys_addr;
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static void tile_cleanup(struct intel_gt *gt)
+>> +{
+>> +	intel_uncore_cleanup_mmio(gt->uncore);
+>> +}
+>> +
+>> +int intel_probe_gts(struct drm_i915_private *i915)
+>> +{
+>> +	struct pci_dev *pdev = to_pci_dev(i915->drm.dev);
+>> +	phys_addr_t phys_addr;
+>> +	unsigned int mmio_bar;
+>> +	int ret;
+>> +
+>> +	mmio_bar = GRAPHICS_VER(i915) == 2 ? 1 : 0;
+>> +	phys_addr = pci_resource_start(pdev, mmio_bar);
+>> +
+>> +	/* We always have at least one primary GT on any device */
+>> +	ret = tile_setup(&i915->gt, 0, phys_addr);
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	/* TODO: add more tiles */
+>> +	return 0;
+>> +}
+>> +
+>> +void intel_gts_release(struct drm_i915_private *i915)
+>> +{
+>> +	tile_cleanup(&i915->gt);
+>> +}
 >
-> How about this?
+>Please call the functions intel_gt_*.
+
+actually besides the name, the fact that these take i915 as argument
+seems to suggest they are in the wrong place. Probably this part should
+remain in i915_drv.c with name i915_setup_gts()?
+
+then we could export tile_setup as intel_gt_setup() or something else
+(name here is confusing IMO as in some places we have
+`init(); ...; setup()` and in other this is `setup(); ...; init();` like
+in patch 1. We already have
+
+   - intel_gt_init_early()
+   - intel_gt_init_hw_early()
+   - intel_gt_init_mmio()
+   - intel_gt_init()
+
+
+given this is just initiliazing mmio for that specific gt (tile), do we
+actually need a new init/setup entrypoint?
+
 >
-> This gets the frequency derived from pixclock to maxclock or rounds up
-> pixclock to get the frequency as close to maxclock as possible.
+>BR,
+>Jani.
 >
-> diff --git a/drivers/video/fbdev/cirrusfb.c b/drivers/video/fbdev/cirrusfb.c
-> index 93802ab..2e8e620 100644
-> --- a/drivers/video/fbdev/cirrusfb.c
-> +++ b/drivers/video/fbdev/cirrusfb.c
-> @@ -620,6 +620,18 @@ static int cirrusfb_check_var(struct
-> fb_var_screeninfo *var,
->                  return -EINVAL;
->          }
 >
-> +       if (!var->pixclock) {
-> +               long maxclock;
-> +               unsigned maxclockidx = var->bits_per_pixel >> 3;
-> +
-> +               maxclock =
-> cirrusfb_board_info[cinfo->btype].maxclock[maxclockidx];
-> +
-> +               var->pixclock = KHZ2PICOS(maxclock);
-> +               while (PICOS2KHZ(var->pixclock) > maxclock) {
-> +                       var->pixclock++;
-> +               }
-> +       }
-> +
->          if (cirrusfb_check_pixclock(var, info))
->                  return -EINVAL;
 >
-> The work can't be done in cirrusfb_check_pixclock() as var->pixclock is
-> read-only because "var" is "const struct fb_var_screeninfo *var".
+>> +
+>>  void intel_gt_info_print(const struct intel_gt_info *info,
+>>  			 struct drm_printer *p)
+>>  {
+>> diff --git a/drivers/gpu/drm/i915/gt/intel_gt.h b/drivers/gpu/drm/i915/gt/intel_gt.h
+>> index 74e771871a9b..f4f35a70cbe4 100644
+>> --- a/drivers/gpu/drm/i915/gt/intel_gt.h
+>> +++ b/drivers/gpu/drm/i915/gt/intel_gt.h
+>> @@ -85,6 +85,9 @@ static inline bool intel_gt_needs_read_steering(struct intel_gt *gt,
+>>
+>>  u32 intel_gt_read_register_fw(struct intel_gt *gt, i915_reg_t reg);
+>>
+>> +int intel_probe_gts(struct drm_i915_private *i915);
+>> +void intel_gts_release(struct drm_i915_private *i915);
+>> +
+>>  void intel_gt_info_print(const struct intel_gt_info *info,
+>>  			 struct drm_printer *p);
+>>
+>> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm.c b/drivers/gpu/drm/i915/gt/intel_gt_pm.c
+>> index 524eaf678790..76f498edb0d5 100644
+>> --- a/drivers/gpu/drm/i915/gt/intel_gt_pm.c
+>> +++ b/drivers/gpu/drm/i915/gt/intel_gt_pm.c
+>> @@ -126,7 +126,14 @@ static const struct intel_wakeref_ops wf_ops = {
+>>
+>>  void intel_gt_pm_init_early(struct intel_gt *gt)
+>>  {
+>> -	intel_wakeref_init(&gt->wakeref, gt->uncore->rpm, &wf_ops);
+>> +	/*
+>> +	 * We access the runtime_pm structure via gt->i915 here rather than
+>> +	 * gt->uncore as we do elsewhere in the file because gt->uncore is not
+>> +	 * yet initialized for all tiles at this point in the driver startup.
+>> +	 * runtime_pm is per-device rather than per-tile, so this is still the
+>> +	 * correct structure.
+>> +	 */
+>> +	intel_wakeref_init(&gt->wakeref, &gt->i915->runtime_pm, &wf_ops);
+>>  	seqcount_mutex_init(&gt->stats.lock, &gt->wakeref.mutex);
+>>  }
+>>
+>> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_types.h b/drivers/gpu/drm/i915/gt/intel_gt_types.h
+>> index 14216cc471b1..66143316d92e 100644
+>> --- a/drivers/gpu/drm/i915/gt/intel_gt_types.h
+>> +++ b/drivers/gpu/drm/i915/gt/intel_gt_types.h
+>> @@ -180,6 +180,11 @@ struct intel_gt {
+>>
+>>  	const struct intel_mmio_range *steering_table[NUM_STEERING_TYPES];
+>>
+>> +	/*
+>> +	 * Base of per-tile GTTMMADR where we can derive the MMIO and the GGTT.
+>> +	 */
+>> +	phys_addr_t phys_addr;
 
-Perhaps the const should be dropped from the var parameter, so the
-rounding can be done in the function where it makes most sense,
-and where most of the above operations are already done?
+here and in the next patches it doesn't seem like we need to save
+phys_addr (which should probably be better named as gttmmadr)? Looking
+at what is coming it seems this will be needed only when initializing
+ggtt... We could move this to when it's needed or, just to be clear this
+is indeed desired for a future change, drop a comment in the commit
+message the address will be needed for the ggtt initialization?
 
-Then, you can simplify:
-
--        freq = PICOS2KHZ(var->pixclock);
-+        freq = PICOS2KHZ(var->pixclock ? : 1);
-
-and change the "if (freq > maxclock) return -EINVAL" to use maxclock
-instead.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Lucas De Marchi
