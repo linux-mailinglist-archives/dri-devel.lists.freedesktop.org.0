@@ -1,66 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43B0F43D248
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Oct 2021 22:11:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1149E43D24D
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Oct 2021 22:11:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B0F06E8E6;
-	Wed, 27 Oct 2021 20:11:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A3846E8ED;
+	Wed, 27 Oct 2021 20:11:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
- [66.111.4.230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B2486E8EB;
- Wed, 27 Oct 2021 20:10:58 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id 16B1F580591;
- Wed, 27 Oct 2021 16:10:57 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute6.internal (MEProxy); Wed, 27 Oct 2021 16:10:57 -0400
+Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com
+ [64.147.123.27])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 26E306E8EC;
+ Wed, 27 Oct 2021 20:11:03 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
+ by mailnew.west.internal (Postfix) with ESMTP id E88BE2B01463;
+ Wed, 27 Oct 2021 16:11:00 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute2.internal (MEProxy); Wed, 27 Oct 2021 16:11:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-type:content-transfer-encoding; s=fm1; bh=
- Dfp3E3JPhSmIpFg9M1/Ete1dD1LEPWgNYA18tMqJ7P4=; b=NQj/XFQOPEHpVIsO
- RXVPiD3/ouN/UISxM1oaoXgRBWaTOA3h4QeyfnrBCbEsar8WfjZtyyBMJ3wXs8sv
- Y27VB0bewsMc0rMVzQfqoTR0KdeXBf3xXBhqmPYHmTosHR9uXo6ZUAtKugZz3EH2
- BxXZN38MLqr2isMl+x/FA6JaMljtaurQjJTeXsKbj1mzgrpV78VwvBd7fTgmM0lj
- fBXL4geKC51sBzjyAsAobMKRYTN8CUtNEpr8GC1bGFriMVayN4laIsy//xc9suNu
- 5V7iYqRgIBHHVSskAfxUO7IYJ4JXzX5e/UN0Uym40ADcSa/pIqciuqjOAvum83A4
- tbH4bw==
+ l4Xrcim1NeZ0A3wLC0VIRJabGj7nDwOIrT1lj2KJTfs=; b=LMFxdXaUrKPrgfx3
+ dU0WlzjALNOfhhYji3EVlrO3kO1tSDhPt8xEkbVI7IEcTYqlzTFgK/DDxQ/z3ZlH
+ EdnmBxigUTczLut4EMXJQt2sQMP3ubKH4K6GaOE1TXVaMzeBKl6aL+i70b9Dc5Gc
+ VgHet5JUG/gV8F2gXZu7MoeVZ59sZ+dJC7j5Xmww0HeHSxY4hqWiC5WfNCO26YTt
+ omrZHzuQMUAXB7li/T9x2L2Bj0mzfDA9sB+eNNByzXKVtk1VudbazcbkyRPsKW3h
+ knKOcnQTVibG5SPjujJZFi/YB7q1E5tN7o2ZeLCGrk54XGTV9sOYlsLam/OUEIEK
+ z7kvLg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:content-type
  :date:from:in-reply-to:message-id:mime-version:references
  :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm1; bh=Dfp3E3JPhSmIpFg9M1/Ete1dD1LEPWgNYA18tMqJ7
- P4=; b=gRqB24nroTRe9Dnqr+XU0cPijUPrOXaCcYv17Wz2pK6bXEdoDeNjQ8OYL
- fxwTVeDTV6EhpYAmerkR+MKcEu8w78vnAec1tJ6PhZVgC1JxQ+nwmDsrG9Br73I6
- 0zrCrhb5P+4nAEv/6Ry3EJYmEocbzLPLfPPI6rhh0Dpwbaf6w7wkObU1huk/H/QS
- QV/to0aN7xA8KBBwayhsItrsKi7RHAyuSI095m23SP7/fvZqzC9dgHyI7XVr+PlQ
- 9t46ClBsp506F7kis0U5spK7UTikX9dYEgDMG32R17WmjWwiEotBeXzGMVRiq2bF
- krgeqJeHYf0WjvcRsT9YeuIK6WdiA==
-X-ME-Sender: <xms:ULJ5YQrcm7j5sDlmlG3sSjd9cimmHxMSfk2HfZZqXfIa-75fZrG1oA>
- <xme:ULJ5YWrIO29ZrahsnkKGLYA4utvtIbY_vTJ-hKzB1R3A5L1HRnL51phkVFYO3wsSN
- QUaAsRpVqvLKSS-Y5w>
-X-ME-Received: <xmr:ULJ5YVPpm7eVEdZHoReibsRP1_ioCT8JSo7aMTxfSJmx_lkWZk083hnWCIBFKAt6ICqwlUzRMyi7zcbMlZ1aoW3AFDbTMtazrSerBpyE>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrvdegtddgheefucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepofgrgihi
- mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpeejuefggeekfffgueevtddvudffhfejffejjedvvdduudethefhfefhfeeg
- ieekkeenucevlhhushhtvghrufhiiigvpeefnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
- hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:ULJ5YX5WaphSjP7CJ8v_D7VuTSueSu2OhZlH68-W1DjACg809bCM4w>
- <xmx:ULJ5Yf7LZ6sSZ0T53eWUkCfWIVlB0pDPBrtkQFURPPcHoTRQnRgM7g>
- <xmx:ULJ5YXirhg8A5yHSP24BUfWTlIR4_z04EHM6CWG1HNygM8xw9x063w>
- <xmx:UbJ5YT70G5n8vHV7pvPvO73_heY0dGcSRHHWoju59e4aDDz6h7UU7w>
+ :x-sasl-enc; s=fm1; bh=l4Xrcim1NeZ0A3wLC0VIRJabGj7nDwOIrT1lj2KJT
+ fs=; b=V+Uw+iE4mGVzZKYZ6w56Cqor+uljVP6j2EGPCGh6+klg0fbWJXlZ499go
+ BqoRTfFHeg3fNuK0ntFBPGCJonShKtgtpP2tBd+1uBroJ1Dr16MVEolCFEAZVJEw
+ NzyyYWAI701xGdfcyqGcFcBCw6b58udSYp0RVgA6v3RcT7iqbtzGos0IAXRqNJIJ
+ QfHp6ws8EXHWz9nMxmvC3GlDbxO3JbtLfpZ7lAYYrCjG4Alz7HZJh9feFsr4WknI
+ 8RSnXM9n97Ci44XbHcAXMl+dEFKPlKuZSF3AS+KbpOAvAKjOrk56XXN79opNkuOn
+ VTHcf3bWu2oxD5F5QnGLNlYlaeBVQ==
+X-ME-Sender: <xms:U7J5YXyUzj3hzhpwjXWPLPjXYtRvh6Bo7zDW16T5_DAoY_YxVCxFKg>
+ <xme:U7J5YfS8opwbXCK-b_kj8FkOqvvTbGYlIf5IOEVVM1_bf5i8t_tKmVVbOgopoTlt4
+ mAtrPvsoOkTrSGWdd4>
+X-ME-Received: <xmr:U7J5YRUEXqenTDDSnwiDeWvCRk1pchvIXaw_Vr-KXsCT3ygX9nj535aqWZMtTJm4nlFor0PMHaPsFSyLTy4wznxKkjg44U_IUMgS5FD8>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrvdegtddguddutdcutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpefhvffufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpeforgig
+ ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
+ grthhtvghrnhepjeeugfegkeffgfeuvedtvddufffhjeffjeejvddvudduteehhfefhfef
+ geeikeeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+ epmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:U7J5YRgH8vhs5KBLFGcOHg3C2hnrOh_Mhjw7we5y6oxc12dosoNlYw>
+ <xmx:U7J5YZBZ0AelwOAiWH9gac1vpeeu5UqZTy4rHroD-9zYzbx0UXV6DQ>
+ <xmx:U7J5YaIe1HW67C0TC80zN7QZ7LR81BkWGlMP5ivsANaAc1OrU-grOg>
+ <xmx:VLJ5YWhEBPWGIEpxOwBwfp55Vkqc13_-o-3jMS9Hud7VGcSij6Fa9aZ7yGg>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 27 Oct 2021 16:10:55 -0400 (EDT)
+ 27 Oct 2021 16:10:58 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Robert Foss <robert.foss@linaro.org>, Sam Ravnborg <sam@ravnborg.org>,
+To: Thierry Reding <thierry.reding@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Robert Foss <robert.foss@linaro.org>,
  Neil Armstrong <narmstrong@baylibre.com>, Jonas Karlman <jonas@kwiboo.se>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  David Airlie <airlied@linux.ie>, Maxime Ripard <maxime@cerno.tech>,
@@ -71,21 +71,20 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 Cc: Xinwei Kong <kong.kongxinwei@hisilicon.com>,
  Kyungmin Park <kyungmin.park@samsung.com>, linux-kernel@vger.kernel.org,
  Tian Tao <tiantao6@hisilicon.com>, Rob Clark <robdclark@gmail.com>,
- John Stultz <john.stultz@linaro.org>,
- Seung-Woo Kim <sw0312.kim@samsung.com>, Sean Paul <sean@poorly.run>,
+ John Stultz <john.stultz@linaro.org>, Sean Paul <sean@poorly.run>,
+ dri-devel@lists.freedesktop.org, Seung-Woo Kim <sw0312.kim@samsung.com>,
  Inki Dae <inki.dae@samsung.com>, Chen Feng <puck.chen@hisilicon.com>,
- dri-devel@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org,
- freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Joonyoung Shim <jy0922.shim@samsung.com>,
+ linux-samsung-soc@vger.kernel.org, freedreno@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, Joonyoung Shim <jy0922.shim@samsung.com>,
  Xinliang Liu <xinliang.liu@linaro.org>
-Subject: Re: (subset) [PATCH v6 11/21] drm/bridge: ps8640: Switch to devm
- MIPI-DSI helpers
-Date: Wed, 27 Oct 2021 22:09:42 +0200
-Message-Id: <163532324664.18245.8400657494513082961.b4-ty@cerno.tech>
+Subject: Re: (subset) [PATCH v6 12/21] drm/bridge: ps8640: Register and attach
+ our DSI device at probe
+Date: Wed, 27 Oct 2021 22:09:43 +0200
+Message-Id: <163532324664.18245.16998495633292862458.b4-ty@cerno.tech>
 X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20211025151536.1048186-12-maxime@cerno.tech>
+In-Reply-To: <20211025151536.1048186-13-maxime@cerno.tech>
 References: <20211025151536.1048186-1-maxime@cerno.tech>
- <20211025151536.1048186-12-maxime@cerno.tech>
+ <20211025151536.1048186-13-maxime@cerno.tech>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -104,9 +103,10 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 25 Oct 2021 17:15:26 +0200, Maxime Ripard wrote:
-> Let's switch to the new devm MIPI-DSI function to register and attach
-> our secondary device. This also avoids leaking the device on removal.
+On Mon, 25 Oct 2021 17:15:27 +0200, Maxime Ripard wrote:
+> In order to avoid any probe ordering issue, the best practice is to move
+> the secondary MIPI-DSI device registration and attachment to the
+> MIPI-DSI host at probe time. Let's do this.
 > 
 > 
 
