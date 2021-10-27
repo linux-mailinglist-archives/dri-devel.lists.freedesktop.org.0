@@ -1,59 +1,81 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CBD443D19C
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Oct 2021 21:26:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2126543D1BD
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Oct 2021 21:32:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D3746E808;
-	Wed, 27 Oct 2021 19:26:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC040890A6;
+	Wed, 27 Oct 2021 19:32:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bombadil.infradead.org (bombadil.infradead.org
- [IPv6:2607:7c80:54:e::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C0D7B6E558;
- Wed, 27 Oct 2021 19:26:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
- Subject:Sender:Reply-To:Content-ID:Content-Description;
- bh=g0dH9lUH9vPuYQ5RBQpLLtCKZuNR2X5ACKtS00x71Kw=; b=PxUBtFESwlvjxxr6Dimbwj55Tl
- eW5mYYUtBZSQwqGOGj647EFkxq6N6Znmn7EJYhiMZd2ZgrOngPZJkot34TISXBQbg4OK0I5sf66VN
- LABs5hSzkQddb7+0GC1ZYeytLjXzCf45XXjkePzy0HEeO8ce0X3yZob7Z8uKfSGoowKKTMLhiFAQJ
- gwNmPL9VIJIOZ2sNP06QvlTJywZOd+CUGxgEB6o8CAe9aSQlHwo57Vba6AMhUCJk9v7cjlT8x545C
- 7BuNJyH/0fCMqkEk+fkIrymdMpf6ZOPiGZ8P7Nd+iLGltiWJ9hyV0CcOBSnHowTDGLUliTjlpqQDA
- y0jXwaoA==;
-Received: from [2601:1c0:6280:3f0::aa0b]
- by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mfoYX-005url-4B; Wed, 27 Oct 2021 19:25:49 +0000
-Subject: Re: [PATCH 2/3] fbdev: rework backlight dependencies
-To: Arnd Bergmann <arnd@kernel.org>, dri-devel@lists.freedesktop.org
-Cc: linux-fbdev@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- Jani Nikula <jani.nikula@linux.intel.com>, Arnd Bergmann <arnd@arndb.de>,
- Miguel Ojeda <ojeda@kernel.org>,
- Benjamin Herrenschmidt <benh@kernel.crashing.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jens Frederich <jfrederich@gmail.com>,
- Jon Nettleton <jon.nettleton@gmail.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Lars Poeschel <poeschel@lemonage.de>,
- Robin van der Gracht <robin@protonic.nl>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Andy Shevchenko <andy.shevchenko@gmail.com>, linux-kernel@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-staging@lists.linux.dev
-References: <20211027132732.3993279-1-arnd@kernel.org>
- <20211027132732.3993279-2-arnd@kernel.org>
-From: Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <e19f3eeb-e1c4-ff0e-cf97-f98bd420f842@infradead.org>
-Date: Wed, 27 Oct 2021 12:25:47 -0700
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
+ [IPv6:2a00:1450:4864:20::135])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C9B0C890A6
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Oct 2021 19:32:37 +0000 (UTC)
+Received: by mail-lf1-x135.google.com with SMTP id l13so8427948lfg.6
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Oct 2021 12:32:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=OTBdPJFa+ah3P9FuQhKUL9RznqjaKHz1+CuZIYV3wsc=;
+ b=agih9qYZmYcntiWOtjjpqFInO/NVgVrWGE905q2yfSEyyV2BoggudSRC0uWF+1avff
+ 7h8uADNMgxE72KU5FMyuapAtk8t88XRt2jfl54CZfqYvfnhCV75du+zNwvIkpk3yCgVL
+ 5o9kX2dk8r96+D9juLvJdGhh7jbf4BxzAJXKAEQRsRoc3C6FmbCmEAsyjnlucSt2pWtU
+ 83u5VeuC3bsmPi7byNO1u5d3lYPRedAvTMiCRtXBDeyQCqpUwvSHd2PVm0VgcshYs06T
+ bsc+rK79JJB2gmNcE8cTUf426Ht1SndEa2i1Np6mV8Ss5aEDyzIPzgP6y8adlqO2cjBC
+ Qp1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=OTBdPJFa+ah3P9FuQhKUL9RznqjaKHz1+CuZIYV3wsc=;
+ b=hQxMYxOtaJ0dfJbAZUMoROr7cLGXGzN+ZhgVEQGTw1upnYI37Vls4iWCwA0GRAso/G
+ Zkfjqn7pDzsE5bPsHGCWpa0LG9+fYy4Xd8lJBn0GlAtETwy42WiyySauiFlkgVlVC0KD
+ Oiw2baaZGbZ/RT74ykLEtWGIMbEcFCPqNV2tGbTPzcodQUXbEhsyTrrYXSjvelubzuxN
+ btZNctgW2sUY5btuLVt8+m0VXYXOK5iDviRwnNex7OPfhNB0p1pZzu76ASfyOA1V1JUb
+ eJw/bP7V8NO5G4g8nH0fKTcIgh5BTwyBM1UVmHRJouenoxx3AvaG/Yqv+kHELBVVjhdo
+ Jf/w==
+X-Gm-Message-State: AOAM530JW2piJQPKL+tJ9viAWSjgeeMTyfzYzuTGZO+yw2cfYmOUC1sv
+ E5TR046oK2dr+Q0eUuBwetI=
+X-Google-Smtp-Source: ABdhPJyaiRz/Ui6iA1xiTx91a3t+RwtvYGxJT3StDDfm32LrCKRStVdKsTDTbJW/siFtx98e9FjJ2w==
+X-Received: by 2002:a05:6512:1510:: with SMTP id
+ bq16mr31326351lfb.268.1635363156058; 
+ Wed, 27 Oct 2021 12:32:36 -0700 (PDT)
+Received: from [192.168.2.145] (46-138-41-28.dynamic.spd-mgts.ru.
+ [46.138.41.28])
+ by smtp.googlemail.com with ESMTPSA id t3sm81030lfc.216.2021.10.27.12.32.34
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 27 Oct 2021 12:32:35 -0700 (PDT)
+Subject: Re: [PATCH v14 01/39] soc/tegra: Enable runtime PM during OPP
+ state-syncing
+To: Ulf Hansson <ulf.hansson@linaro.org>
+Cc: Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Viresh Kumar <vireshk@kernel.org>,
+ Stephen Boyd <sboyd@kernel.org>, Peter De Schrijver
+ <pdeschrijver@nvidia.com>, Mikko Perttunen <mperttunen@nvidia.com>,
+ Lee Jones <lee.jones@linaro.org>,
+ =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+ Nishanth Menon <nm@ti.com>, Adrian Hunter <adrian.hunter@intel.com>,
+ Michael Turquette <mturquette@baylibre.com>, linux-kernel@vger.kernel.org,
+ linux-tegra@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-pwm@vger.kernel.org, linux-mmc@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-clk@vger.kernel.org,
+ David Heidelberg <david@ixit.cz>
+References: <20211025224032.21012-1-digetx@gmail.com>
+ <20211025224032.21012-2-digetx@gmail.com>
+ <CAPDyKFr7VY73cQugSA5n-p_oXf43o1M-7s3-M+fnk0656h25UA@mail.gmail.com>
+From: Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <8076eee8-ac8b-90a7-b87a-35e40d7300fb@gmail.com>
+Date: Wed, 27 Oct 2021 22:32:34 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <20211027132732.3993279-2-arnd@kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <CAPDyKFr7VY73cQugSA5n-p_oXf43o1M-7s3-M+fnk0656h25UA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,28 +91,81 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/27/21 6:27 AM, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
+27.10.2021 18:06, Ulf Hansson пишет:
+> On Tue, 26 Oct 2021 at 00:45, Dmitry Osipenko <digetx@gmail.com> wrote:
+>>
+>> GENPD core now can set up domain's performance state properly while device
+>> is RPM-suspended. Runtime PM of a device must be enabled during setup
+>> because GENPD checks whether device is suspended and check doesn't work
+>> while RPM is disabled. Instead of replicating the boilerplate RPM-enable
+>> code around OPP helper for each driver, let's make OPP helper to take care
+>> of enabling it.
+>>
+>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 > 
-> Rather than having CONFIG_FB_BACKLIGHT select CONFIG_BACKLIGHT_CLASS_DEVICE,
-> make any driver that needs it have a dependency on the class device
-> being available, to prevent circular dependencies.
+> Just a minor nitpick, see below. Nevertheless feel free to add:
 > 
-> This is the same way that the backlight is already treated for the DRM
-> subsystem.
+> Reviewed-by: Ulf Hansson <ulf.hansson@linaro.org>
 > 
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
->   drivers/auxdisplay/Kconfig        |  1 +
->   drivers/macintosh/Kconfig         |  1 +
->   drivers/staging/fbtft/Kconfig     |  1 +
->   drivers/staging/olpc_dcon/Kconfig |  2 +-
->   drivers/video/fbdev/Kconfig       | 14 +++++++++++---
->   5 files changed, 15 insertions(+), 4 deletions(-)
+> Kind regards
+> Uffe
+> 
+>> ---
+>>  drivers/soc/tegra/common.c | 16 ++++++++++++++++
+>>  1 file changed, 16 insertions(+)
+>>
+>> diff --git a/drivers/soc/tegra/common.c b/drivers/soc/tegra/common.c
+>> index cd33e99249c3..d930a2b4facc 100644
+>> --- a/drivers/soc/tegra/common.c
+>> +++ b/drivers/soc/tegra/common.c
+>> @@ -10,6 +10,7 @@
+>>  #include <linux/export.h>
+>>  #include <linux/of.h>
+>>  #include <linux/pm_opp.h>
+>> +#include <linux/pm_runtime.h>
+>>
+>>  #include <soc/tegra/common.h>
+>>  #include <soc/tegra/fuse.h>
+>> @@ -43,6 +44,7 @@ static int tegra_core_dev_init_opp_state(struct device *dev)
+>>  {
+>>         unsigned long rate;
+>>         struct clk *clk;
+>> +       bool rpm_enabled;
+>>         int err;
+>>
+>>         clk = devm_clk_get(dev, NULL);
+>> @@ -57,8 +59,22 @@ static int tegra_core_dev_init_opp_state(struct device *dev)
+>>                 return -EINVAL;
+>>         }
+>>
+>> +       /*
+>> +        * Runtime PM of the device must be enabled in order to set up
+>> +        * GENPD's performance properly because GENPD core checks whether
+>> +        * device is suspended and this check doesn't work while RPM is
+>> +        * disabled.
+>> +        */
+>> +       rpm_enabled = pm_runtime_enabled(dev);
+>> +       if (!rpm_enabled)
+>> +               pm_runtime_enable(dev);
+> 
+> This makes sure the OPP vote below gets cached in genpd for the
+> device. Instead, the vote is done the next time the device gets
+> runtime resumed.
 
-Acked-by: Randy Dunlap <rdunlap@infraded.org>
+Thanks, I'll extend the code's comment with this text in v15.
 
-Thanks.
+I also noticed that won't hurt to add extra sanity check of whether RPM
+indeed got enabled since it could be disabled multiple times in a
+nesting fashion.
 
--- 
-~Randy
+> I don't have an issue doing it like this, but at the same time it does
+> remove some flexibility for the drivers/subsystem that calls
+> tegra_core_dev_init_opp_state().
+> 
+> Isn't it better to leave this to be flexible - or you prefer to have
+> it done like this for everybody?
+
+All the current users of the helper function want this behaviour by
+default. It's unlikely that we will ever have a user that will want
+different bahaviour, but even then it won't be a problem to add extra
+flag to struct tegra_core_opp_params to specify that special case.
