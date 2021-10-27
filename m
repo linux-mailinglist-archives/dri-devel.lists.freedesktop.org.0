@@ -1,65 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63FA143D284
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Oct 2021 22:11:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 745DC43D286
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Oct 2021 22:11:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CAA476E8F6;
-	Wed, 27 Oct 2021 20:11:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1211A6E8F8;
+	Wed, 27 Oct 2021 20:11:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com
  [64.147.123.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B9FD6E8F5;
- Wed, 27 Oct 2021 20:11:42 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0DB7E6E8F1;
+ Wed, 27 Oct 2021 20:11:48 +0000 (UTC)
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id 3F7E32B01466;
- Wed, 27 Oct 2021 16:11:40 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Wed, 27 Oct 2021 16:11:42 -0400
+ by mailnew.west.internal (Postfix) with ESMTP id 23A3A2B0145E;
+ Wed, 27 Oct 2021 16:11:45 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Wed, 27 Oct 2021 16:11:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-type:content-transfer-encoding; s=fm1; bh=
- xCSt7V+GF1Mz9Uk1XjErTP0d3bB70YKlH2mV7rVj/xU=; b=Z10bedxqzGVDF06Y
- qebXonYbWkHR0ShulzD/mD1ajBluc7oF/qtP+SyE3fbQAS7Bd7u0mKV9y/o9O5aJ
- 1vTvbCofnqCTgW43bAUF9kd0TZ45G/khV62ygrlEJVnMZCZxJxI1TXowcj5GUhsY
- PHecaNvXAqEbCHaJz9e4rNpygyfNQf8N4xYqWqVTZnPdLxTvW6Sm/dZoTJo+sM37
- 56ibBF9PZBtX4NFom6gZtMUcwHdx2SfcyUFXE06D+69c+AhPX8zNWh6IdAGERp4U
- xz5dutphPZJ0b4UEKEIv5shFfiA4VCbp859VD4NiHBGHvznyD29vP2icnfQqsBYK
- Buc55A==
+ dEH+48NnYpdtL5JL9l0poNkvtH8Ouiwk557d7ziA8c8=; b=POTFtTRD2oeJkeVv
+ PU7V4i98DA2GjMfJT+cWQ8XmRzZIy7Q2sXtwGwnvCwvNnWYjcFuE70mbaKy0+a3w
+ v68hHk8j2Ra8PQuc+fWPEJTOZrkFjghL75QUX5ehdIXlV5H5P0P5YiBcu7hSUFP2
+ t3DJvm6zoB+ggLtSkv6ATvlytq9S823pbEtegr845BXPXfPM0qeRUMROfdNUABrM
+ axFQXUyOA2TDcLjo5c627sX6v+uS4AqxrX8PM5Jo3SMuTT9WDbDmgX6/PSWzLg7E
+ Ri0F8H02d4EL0gCtuBko9MmkcTCtj2tvZZKEA8iLTvz7pTzN5AuY2E5dhs0jeL6v
+ tMsh8w==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:content-type
  :date:from:in-reply-to:message-id:mime-version:references
  :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm1; bh=xCSt7V+GF1Mz9Uk1XjErTP0d3bB70YKlH2mV7rVj/
- xU=; b=gVNhs6a3SrBUN6yO7Bf9lidqEIh8YLVA3i2v2RHslZRRGoeq9LZYBfeKY
- MnpFmLhtIWonuxNLpLkfSWwloo3+k9HbN4CmmCuT1vJagyoZ9c19OEQtkUenR2nR
- nIsrReuUGKCa/y8myy5g3OFOk409qH70cobBRwlKI/uNyNGTv9XJgF9Jy1qkcnS0
- 4cfgSx0KnERkAvaViPkVufhw2jpN1Z2jUsYz6Vs5lybGwa5ULsna5HM+fQS0bPbW
- pBwvdoM1f9RwG292I8Y8fFkaC/qaKCo+EbTPe2nJcMH62BJQGGkiMReEsLMuSQeC
- Bfywg5VlyEALERwFQQEOFhhLlmAKA==
-X-ME-Sender: <xms:e7J5YVQXX6PsPWwEQNJbNKekxOaXloAHAp_Eo5HIX4RMAwQQmbYOhQ>
- <xme:e7J5YeyC2J8ucbPay6UZTARtTBmlv2FSWyHPITgmzuYz0MR6ptn6La0gr6o7EUR1e
- qL0iAoRLDIf4-nYM1w>
-X-ME-Received: <xmr:e7J5Ya0ewOVPbps051psyx-AHQ322NMJEbCjjTHDyMFiXXCnluzbW-64qBuR_FtDRQfzT4_Rf1fmor18hCd2-OuHhJFt16awxRnbbU4x>
+ :x-sasl-enc; s=fm1; bh=dEH+48NnYpdtL5JL9l0poNkvtH8Ouiwk557d7ziA8
+ c8=; b=UQdoBvWcqo7RhGURWXmWhsf22TZlC4VVy1z9AASzM+3hUCP0flBd691R3
+ V0Cj9cdxZZlIAGg741mO+pAfEAZF7tA8dSE64j8PPCgh+GdO3tEIoKP7douwduqh
+ 3ENT1M2I0yAuDCB2Tt2tN2kaVRxuvretigOhY3AEHvq6WxxFiKTNFDpZRaSVM/Nz
+ f7CS5MWTVGrm2GDGbcoZYrDfCDypZx8ijX0EOxoO4QAEAi33TRC6+fVZ1ujzYmN4
+ LOtpuTviD2CY4r5huUEHtVZP/z8TBMaoowTnH64tAOHG2ecQV0aiJHjOaMl2KkTa
+ 1HOGGOM9DGs+P8X/Qzqy+Tps1qigA==
+X-ME-Sender: <xms:gLJ5YQuf2llcJFQlx0_SuOUAtz-u_V_DeuUuhPDjkkVFY_cSFJMebg>
+ <xme:gLJ5Yde1Ex0dsi0rRImbYFT9wpDuCjaV1O9Zae96a-tpnThbRF7BLKBY_MfhU3CRD
+ jhp5NENnh_0pA0D_U0>
+X-ME-Received: <xmr:gLJ5YbzuVyJ0AMAnsF1nptsAVPypActnbGBxjscOHHUmVSOKMPqnxNiOgU0OrL1zWyymqF1Ae3O3RrQEMaSEtfYOmdueFeIjnVx2kYbQ>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrvdegtddguddutdcutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
  necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
  enucfjughrpefhvffufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpeforgig
  ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
  grthhtvghrnhepjeeugfegkeffgfeuvedtvddufffhjeffjeejvddvudduteehhfefhfef
- geeikeeknecuvehluhhsthgvrhfuihiivgepheenucfrrghrrghmpehmrghilhhfrhhomh
+ geeikeeknecuvehluhhsthgvrhfuihiivgepieenucfrrghrrghmpehmrghilhhfrhhomh
  epmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:e7J5YdDpuwBkpMTA6O6tI20gadbFFXibBCkO4xUIQNH2OJ7PVfpcAA>
- <xmx:e7J5YegxF0zWMuSJENuqFk-1qRcbtUL8xOYMpS_g19QCbqmkMD4H0w>
- <xmx:e7J5YRpMfe8KTlKCYgZ2cYKmJjDRVmMADrgxKcOQXdgjkHsjfjn_pA>
- <xmx:e7J5YeCN6UK3NgoUty7NOSKbd-QbU9c-MDJI7PyQZ0jcRIGOinEpmN8sJLY>
+X-ME-Proxy: <xmx:gLJ5YTP6IAKN5Vt2DFtee_vW5MSM2erQXYqtS3Bp9TEVdgJUMgHMSA>
+ <xmx:gLJ5YQ8eHKb_o6pxCWQlAjcdtgMPN3rC4DNwtfZzDX5WtXiUoIzvYA>
+ <xmx:gLJ5YbXitDXFgp0awX7jYZuY9aqMZmEzrGmU8TfiPIhs1KlT42AfPw>
+ <xmx:gLJ5YVKEK0bqUDvlKIxjG9QlJ2DIAvTPQaHDQTg1zG7VqvKJJX6IusJKV2Y>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 27 Oct 2021 16:11:39 -0400 (EDT)
+ 27 Oct 2021 16:11:44 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
-To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- Robert Foss <robert.foss@linaro.org>,
+To: Thierry Reding <thierry.reding@gmail.com>,
+ Robert Foss <robert.foss@linaro.org>, Sam Ravnborg <sam@ravnborg.org>,
  Neil Armstrong <narmstrong@baylibre.com>,
  Daniel Vetter <daniel.vetter@intel.com>, Jonas Karlman <jonas@kwiboo.se>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
@@ -68,23 +68,26 @@ To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>,
  Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: Xinwei Kong <kong.kongxinwei@hisilicon.com>,
- Kyungmin Park <kyungmin.park@samsung.com>, linux-kernel@vger.kernel.org,
- Tian Tao <tiantao6@hisilicon.com>, Rob Clark <robdclark@gmail.com>,
- John Stultz <john.stultz@linaro.org>,
- Seung-Woo Kim <sw0312.kim@samsung.com>, Inki Dae <inki.dae@samsung.com>,
- dri-devel@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
- Chen Feng <puck.chen@hisilicon.com>, linux-samsung-soc@vger.kernel.org,
- freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Joonyoung Shim <jy0922.shim@samsung.com>,
- Xinliang Liu <xinliang.liu@linaro.org>
-Subject: Re: (subset) [PATCH v6 20/21] drm/kirin: dsi: Adjust probe order
-Date: Wed, 27 Oct 2021 22:09:51 +0200
-Message-Id: <163532324665.18245.9629721147812502503.b4-ty@cerno.tech>
+Cc: Sean Paul <sean@poorly.run>, freedreno@lists.freedesktop.org,
+ Rob Clark <robdclark@chromium.org>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Tian Tao <tiantao6@hisilicon.com>, Chen Feng <puck.chen@hisilicon.com>,
+ Inki Dae <inki.dae@samsung.com>, linux-arm-msm@vger.kernel.org,
+ Joonyoung Shim <jy0922.shim@samsung.com>, linux-kernel@vger.kernel.org,
+ linux-samsung-soc@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Xinliang Liu <xinliang.liu@linaro.org>,
+ Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+ Rob Clark <robdclark@gmail.com>, John Stultz <john.stultz@linaro.org>,
+ Caleb Connolly <caleb.connolly@linaro.org>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Amit Pundir <amit.pundir@linaro.org>
+Subject: Re: (subset) [PATCH v6 21/21] drm/msm/dsi: Adjust probe order
+Date: Wed, 27 Oct 2021 22:09:52 +0200
+Message-Id: <163532324665.18245.10729198650633132372.b4-ty@cerno.tech>
 X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20211025151536.1048186-21-maxime@cerno.tech>
+In-Reply-To: <20211025151536.1048186-22-maxime@cerno.tech>
 References: <20211025151536.1048186-1-maxime@cerno.tech>
- <20211025151536.1048186-21-maxime@cerno.tech>
+ <20211025151536.1048186-22-maxime@cerno.tech>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -103,16 +106,12 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 25 Oct 2021 17:15:35 +0200, Maxime Ripard wrote:
-> Without proper care and an agreement between how DSI hosts and devices
-> drivers register their MIPI-DSI entities and potential components, we can
-> end up in a situation where the drivers can never probe.
+On Mon, 25 Oct 2021 17:15:36 +0200, Maxime Ripard wrote:
+> From: Rob Clark <robdclark@chromium.org>
 > 
-> Most drivers were taking evasive maneuvers to try to workaround this,
-> but not all of them were following the same conventions, resulting in
-> various incompatibilities between DSI hosts and devices.
+> Switch to the documented order dsi-host vs bridge probe.
 > 
-> [...]
+> 
 
 Applied to drm/drm-misc (drm-misc-next).
 
