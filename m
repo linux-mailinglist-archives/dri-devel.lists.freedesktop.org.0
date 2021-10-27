@@ -2,48 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 655BC43C750
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Oct 2021 12:03:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 330AF43C80F
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Oct 2021 12:50:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9007189DFC;
-	Wed, 27 Oct 2021 10:03:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 558948901E;
+	Wed, 27 Oct 2021 10:50:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8DD1089D61;
- Wed, 27 Oct 2021 10:03:27 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10149"; a="316330967"
-X-IronPort-AV: E=Sophos;i="5.87,186,1631602800"; d="scan'208";a="316330967"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Oct 2021 03:03:26 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.87,186,1631602800"; d="scan'208";a="635669892"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
- by fmsmga001.fm.intel.com with SMTP; 27 Oct 2021 03:03:22 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Wed, 27 Oct 2021 13:03:22 +0300
-Date: Wed, 27 Oct 2021 13:03:22 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Lyude Paul <lyude@redhat.com>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- nouveau@lists.freedesktop.org, Satadru Pramanik <satadru@gmail.com>,
- stable@vger.kernel.org, Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v4 1/5] drm/i915: Add support for panels with VESA
- backlights with PWM enable/disable
-Message-ID: <YXkj6n/6U5ZaSRN7@intel.com>
-References: <20211026220848.439530-1-lyude@redhat.com>
- <20211026220848.439530-2-lyude@redhat.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E0F068901E
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Oct 2021 10:50:05 +0000 (UTC)
+Received: from [192.168.1.111] (91-158-153-130.elisa-laajakaista.fi
+ [91.158.153.130])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 75548596;
+ Wed, 27 Oct 2021 12:50:03 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1635331803;
+ bh=aDpMfGkY/pVbewju2AuvzED9MYgdhbzFcPl/WwUDvjE=;
+ h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+ b=pzf4vD1kSgwnc51Vkhp8FvzNLNBMg2G//VeSsWf+x5krxUO+36z2wcpy1Pj9GkQPb
+ 9hITUfTMWHyD6e+7vpGPTZGB36/zdXyQrYcwyNSOaRt9LHt2eOF4FjBPiurvQpU1ao
+ ko7naKvI9Z2o7ZVhNmSrH4Bu8DAA1WbyMyf6Bo3c=
+Subject: Re: [PATCH v6 4/9] drm/omap: introduce omap_hw_overlay
+To: Neil Armstrong <narmstrong@baylibre.com>
+Cc: linux-omap@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, khilman@baylibre.com,
+ Benoit Parrot <bparrot@ti.com>
+References: <20211018142842.2511200-1-narmstrong@baylibre.com>
+ <20211018142842.2511200-5-narmstrong@baylibre.com>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Message-ID: <e2b8e8c4-a2d3-532c-7ee8-5b609bb4cb5f@ideasonboard.com>
+Date: Wed, 27 Oct 2021 13:50:00 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20211026220848.439530-2-lyude@redhat.com>
-X-Patchwork-Hint: comment
+In-Reply-To: <20211018142842.2511200-5-narmstrong@baylibre.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,95 +56,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 26, 2021 at 06:08:44PM -0400, Lyude Paul wrote:
-> This simply adds proper support for panel backlights that can be controlled
-> via VESA's backlight control protocol, but which also require that we
-> enable and disable the backlight via PWM instead of via the DPCD interface.
-> We also enable this by default, in order to fix some people's backlights
-> that were broken by not having this enabled.
+On 18/10/2021 17:28, Neil Armstrong wrote:
+> From: Benoit Parrot <bparrot@ti.com>
 > 
-> For reference, backlights that require this and use VESA's backlight
-> interface tend to be laptops with hybrid GPUs, but this very well may
-> change in the future.
+> Split out the hardware overlay specifics from omap_plane.
+> To start, the hw overlays are statically assigned to planes.
 > 
-> v4:
-> * Make sure that we call intel_backlight_level_to_pwm() in
->   intel_dp_aux_vesa_enable_backlight() - vsyrjala
+> The goal is to eventually assign hw overlays dynamically to planes
+> during plane->atomic_check() based on requested caps (scaling, YUV,
+> etc). And then perform hw overlay re-assignment if required.
 > 
-> Signed-off-by: Lyude Paul <lyude@redhat.com>
-> Link: https://gitlab.freedesktop.org/drm/intel/-/issues/3680
-> Fixes: fe7d52bccab6 ("drm/i915/dp: Don't use DPCD backlights that need PWM enable/disable")
-> Cc: <stable@vger.kernel.org> # v5.12+
-
-Seems consistent enough.
-Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
-
+> Signed-off-by: Benoit Parrot <bparrot@ti.com>
+> Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
 > ---
->  .../drm/i915/display/intel_dp_aux_backlight.c | 27 ++++++++++++++-----
->  1 file changed, 21 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
-> index 569d17b4d00f..f05b71c01b8e 100644
-> --- a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
-> +++ b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
-> @@ -293,6 +293,13 @@ intel_dp_aux_vesa_enable_backlight(const struct intel_crtc_state *crtc_state,
->  	struct intel_panel *panel = &connector->panel;
->  	struct intel_dp *intel_dp = enc_to_intel_dp(connector->encoder);
->  
-> +	if (!panel->backlight.edp.vesa.info.aux_enable) {
-> +		u32 pwm_level = intel_backlight_invert_pwm_level(connector,
-> +								 panel->backlight.pwm_level_max);
-> +
-> +		panel->backlight.pwm_funcs->enable(crtc_state, conn_state, pwm_level);
-> +	}
-> +
->  	drm_edp_backlight_enable(&intel_dp->aux, &panel->backlight.edp.vesa.info, level);
->  }
->  
-> @@ -304,6 +311,10 @@ static void intel_dp_aux_vesa_disable_backlight(const struct drm_connector_state
->  	struct intel_dp *intel_dp = enc_to_intel_dp(connector->encoder);
->  
->  	drm_edp_backlight_disable(&intel_dp->aux, &panel->backlight.edp.vesa.info);
-> +
-> +	if (!panel->backlight.edp.vesa.info.aux_enable)
-> +		panel->backlight.pwm_funcs->disable(old_conn_state,
-> +						    intel_backlight_invert_pwm_level(connector, 0));
->  }
->  
->  static int intel_dp_aux_vesa_setup_backlight(struct intel_connector *connector, enum pipe pipe)
-> @@ -321,6 +332,15 @@ static int intel_dp_aux_vesa_setup_backlight(struct intel_connector *connector,
->  	if (ret < 0)
->  		return ret;
->  
-> +	if (!panel->backlight.edp.vesa.info.aux_enable) {
-> +		ret = panel->backlight.pwm_funcs->setup(connector, pipe);
-> +		if (ret < 0) {
-> +			drm_err(&i915->drm,
-> +				"Failed to setup PWM backlight controls for eDP backlight: %d\n",
-> +				ret);
-> +			return ret;
-> +		}
-> +	}
->  	panel->backlight.max = panel->backlight.edp.vesa.info.max;
->  	panel->backlight.min = 0;
->  	if (current_mode == DP_EDP_BACKLIGHT_CONTROL_MODE_DPCD) {
-> @@ -340,12 +360,7 @@ intel_dp_aux_supports_vesa_backlight(struct intel_connector *connector)
->  	struct intel_dp *intel_dp = intel_attached_dp(connector);
->  	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
->  
-> -	/* TODO: We currently only support AUX only backlight configurations, not backlights which
-> -	 * require a mix of PWM and AUX controls to work. In the mean time, these machines typically
-> -	 * work just fine using normal PWM controls anyway.
-> -	 */
-> -	if ((intel_dp->edp_dpcd[1] & DP_EDP_BACKLIGHT_AUX_ENABLE_CAP) &&
-> -	    drm_edp_backlight_supported(intel_dp->edp_dpcd)) {
-> +	if (drm_edp_backlight_supported(intel_dp->edp_dpcd)) {
->  		drm_dbg_kms(&i915->drm, "AUX Backlight Control Supported!\n");
->  		return true;
->  	}
-> -- 
-> 2.31.1
+>   drivers/gpu/drm/omapdrm/Makefile       |  1 +
+>   drivers/gpu/drm/omapdrm/omap_drv.c     |  9 ++-
+>   drivers/gpu/drm/omapdrm/omap_drv.h     |  4 ++
+>   drivers/gpu/drm/omapdrm/omap_overlay.c | 84 ++++++++++++++++++++++++++
+>   drivers/gpu/drm/omapdrm/omap_overlay.h | 30 +++++++++
+>   drivers/gpu/drm/omapdrm/omap_plane.c   | 54 +++++++----------
+>   6 files changed, 148 insertions(+), 34 deletions(-)
+>   create mode 100644 drivers/gpu/drm/omapdrm/omap_overlay.c
+>   create mode 100644 drivers/gpu/drm/omapdrm/omap_overlay.h
 
--- 
-Ville Syrjälä
-Intel
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+
+  Tomi
