@@ -2,42 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70C1143C8D5
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Oct 2021 13:47:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23E5E43C8DF
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Oct 2021 13:51:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C12F56E884;
-	Wed, 27 Oct 2021 11:47:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F24F26E88B;
+	Wed, 27 Oct 2021 11:51:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 628556E884
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Oct 2021 11:47:47 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10149"; a="228892664"
-X-IronPort-AV: E=Sophos;i="5.87,186,1631602800"; d="scan'208";a="228892664"
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F8F96E88B
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Oct 2021 11:51:40 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10149"; a="316345988"
+X-IronPort-AV: E=Sophos;i="5.87,186,1631602800"; d="scan'208";a="316345988"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Oct 2021 04:47:45 -0700
-X-IronPort-AV: E=Sophos;i="5.87,186,1631602800"; d="scan'208";a="497830029"
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Oct 2021 04:51:39 -0700
+X-IronPort-AV: E=Sophos;i="5.87,186,1631602800"; d="scan'208";a="497831225"
 Received: from smaharan-mobl.gar.corp.intel.com (HELO localhost)
  ([10.251.214.195])
  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Oct 2021 04:47:40 -0700
+ 27 Oct 2021 04:51:34 -0700
 From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Daniel Vetter <daniel@ffwll.ch>, Kees Cook <keescook@chromium.org>
-Cc: Arnd Bergmann <arnd@kernel.org>, Maarten Lankhorst
+To: Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org
+Cc: Dan =?utf-8?Q?Hor=C3=A1k?= <dan@danny.cz>, "Justin M . Forbes"
+ <jforbes@fedoraproject.org>, Peter Robinson <pbrobinson@gmail.com>, Javier
+ Martinez Canillas <javierm@redhat.com>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@linux.ie>, Maarten Lankhorst
  <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Arnd Bergmann <arnd@arndb.de>, Alex
- Deucher <alexander.deucher@amd.com>, Christian =?utf-8?Q?K=C3=B6nig?=
- <christian.koenig@amd.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Javier Martinez Canillas <javierm@redhat.com>
-Subject: Re: [PATCH] [RESEND] drm: fb_helper: fix CONFIG_FB dependency
-In-Reply-To: <YVXJLE8UqgcUNIKl@phenom.ffwll.local>
+ Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH] drm: Make DRM_FBDEV_EMULATION deps more robust to fix
+ linker errors
+In-Reply-To: <20211027072044.4105113-1-javierm@redhat.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20210927142816.2069269-1-arnd@kernel.org>
- <202109270923.97AFDE89DB@keescook> <YVXJLE8UqgcUNIKl@phenom.ffwll.local>
-Date: Wed, 27 Oct 2021 14:47:37 +0300
-Message-ID: <878ryeit9i.fsf@intel.com>
+References: <20211027072044.4105113-1-javierm@redhat.com>
+Date: Wed, 27 Oct 2021 14:51:31 +0300
+Message-ID: <875ytiit30.fsf@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -55,60 +54,73 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 30 Sep 2021, Daniel Vetter <daniel@ffwll.ch> wrote:
-> On Mon, Sep 27, 2021 at 09:23:45AM -0700, Kees Cook wrote:
->> On Mon, Sep 27, 2021 at 04:28:02PM +0200, Arnd Bergmann wrote:
->> > From: Arnd Bergmann <arnd@arndb.de>
->> > 
->> > With CONFIG_FB=m and CONFIG_DRM=y, we get a link error in the fb helper:
->> > 
->> > aarch64-linux-ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_alloc_fbi':
->> > (.text+0x10cc): undefined reference to `framebuffer_alloc'
->> > 
->> > Tighten the dependency so it is only allowed in the case that DRM can
->> > link against FB.
->> > 
->> > Fixes: f611b1e7624c ("drm: Avoid circular dependencies for CONFIG_FB")
->> > Link: https://lore.kernel.org/all/20210721152211.2706171-1-arnd@kernel.org/
->> > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
->> 
->> Thanks for fixing this!
->> 
->> Reviewed-by: Kees Cook <keescook@chromium.org>
+On Wed, 27 Oct 2021, Javier Martinez Canillas <javierm@redhat.com> wrote:
+> Enabling the CONFIG_DRM_FBDEV_EMULATION Kconfig symbol can lead to linker
+> errors, if CONFIG_DRM_KMS_HELPER is built-in but CONFIG_FB as a module.
 >
-> Stuffed into drm-misc-next.
+> Because in that case the drm_kms_helper.o object will have references to
+> symbols that are defined in the fb.ko module, i.e:
+>
+>   $ make bzImage modules
+>     DESCEND objtool
+>     CALL    scripts/atomic/check-atomics.sh
+>     CALL    scripts/checksyscalls.sh
+>     CHK     include/generated/compile.h
+>     GEN     .version
+>     CHK     include/generated/compile.h
+>     UPD     include/generated/compile.h
+>     CC      init/version.o
+>     AR      init/built-in.a
+>     LD      vmlinux.o
+>     MODPOST vmlinux.symvers
+>     MODINFO modules.builtin.modinfo
+>     GEN     modules.builtin
+>     LD      .tmp_vmlinux.kallsyms1
+>   ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_resume_worker':
+>   drm_fb_helper.c:(.text+0x2a0): undefined reference to `fb_set_suspend'
+>   ...
+>
+> To prevent this, make following changes to the config option dependencies:
+>
+>   * Depend on FB && !(DRM_KMS_HELPER=y && FB=m), to avoid invalid configs.
+>   * Depend on DRM_KMS_HELPER instead selecting it, to avoid circular deps.
+>
+> Reported-by: Justin M. Forbes <jforbes@fedoraproject.org>
+> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
 
-The problem is, I don't think the patch is semantically correct.
-
-drm_fb_helper.o is not part of drm.ko, it's part of
-drm_kms_helper.ko. This adds some sort of indirect dependency via DRM
-which might work, maybe by coincidence, maybe not - but it's certainly
-not obvious.
-
-The likely culprit is, again, the overuse of select, and in this case
-select DRM_KMS_HELPER. And DRM_KMS_HELPER should depend on FB if
-DRM_FBDEV_EMULATION=y. That's the problem.
-
-All of the drm Kconfigs could use an overhaul to be semantically
-correct, but that's a hill nobody wants to die on. Instead we keep
-piling up tweaks to paper over the issues, ad infinitum.
-
-(And this ties to a previous comment I had about the organization of
-files under drm/, a hundred files in one big lump that belong to
-different modules, and it's not helping people figure out the
-dependencies.)
-
+Please see [1]. I think it's a big mess. I don't think this is the fix
+either.
 
 BR,
 Jani.
 
+[1] https://lore.kernel.org/r/878ryeit9i.fsf@intel.com
 
-PS. I was brought here via [1] which is another complicated "fix" to the
-same problem.
-
-
-[1] https://lore.kernel.org/r/20211027072044.4105113-1-javierm@redhat.com
-
+> ---
+>
+> This fixes linker errors found when building the Fedora kernel package
+> for the s390x architecture:
+>
+> https://kojipkgs.fedoraproject.org//work/tasks/9849/77859849/build.log
+>
+>  drivers/gpu/drm/Kconfig | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+> index cea777ae7fb9..9a21e57b4a0d 100644
+> --- a/drivers/gpu/drm/Kconfig
+> +++ b/drivers/gpu/drm/Kconfig
+> @@ -103,8 +103,8 @@ config DRM_DEBUG_DP_MST_TOPOLOGY_REFS
+>  config DRM_FBDEV_EMULATION
+>  	bool "Enable legacy fbdev support for your modesetting driver"
+>  	depends on DRM
+> -	depends on FB
+> -	select DRM_KMS_HELPER
+> +	depends on FB && !(DRM_KMS_HELPER=y && FB=m)
+> +	depends on DRM_KMS_HELPER
+>  	select FB_CFB_FILLRECT
+>  	select FB_CFB_COPYAREA
+>  	select FB_CFB_IMAGEBLIT
 
 -- 
 Jani Nikula, Intel Open Source Graphics Center
