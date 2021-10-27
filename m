@@ -1,43 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23CA743C683
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Oct 2021 11:34:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A937D43C6B5
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Oct 2021 11:44:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 96D296E878;
-	Wed, 27 Oct 2021 09:34:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 369806E876;
+	Wed, 27 Oct 2021 09:44:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ADB816E878
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Oct 2021 09:34:44 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: mwezdeck) with ESMTPSA id 0E19E1F43F1B
-Subject: Re: drm/virtio: not pin pages on demand
-From: Maksym Wezdecki <maksym.wezdecki@collabora.co.uk>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Cc: Maksym Wezdecki <maksym.wezdecki@collabora.com>,
- David Airlie <airlied@linux.ie>,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- "open list:VIRTIO CORE, NET AND BLOCK DRIVERS"
- <virtualization@lists.linux-foundation.org>, Chia-I Wu <olvaffe@gmail.com>
-References: <20211021074445.452309-1-maksym.wezdecki@collabora.com>
- <20211021092535.ozafsijlakj7ccwc@sirius.home.kraxel.org>
- <327a5c8a-d82d-f115-27bb-37125affe24b@collabora.co.uk>
- <20211021115212.dk2kl2vbl6qotjwa@sirius.home.kraxel.org>
- <CAPaKu7TfEtikdg2HEt2_PH7=zPbk=d9wfosDjNmr1AU6CC6sMw@mail.gmail.com>
- <d1b610f3-6a73-eda1-a35b-3efc85cbb582@collabora.co.uk>
-Message-ID: <ff1f2f85-2f14-af01-3f57-ed5abb4e8a49@collabora.co.uk>
-Date: Wed, 27 Oct 2021 11:34:40 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D3E16E876;
+ Wed, 27 Oct 2021 09:44:12 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10149"; a="228874325"
+X-IronPort-AV: E=Sophos;i="5.87,186,1631602800"; d="scan'208";a="228874325"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Oct 2021 02:44:10 -0700
+X-IronPort-AV: E=Sophos;i="5.87,186,1631602800"; d="scan'208";a="497792583"
+Received: from smaharan-mobl.gar.corp.intel.com (HELO localhost)
+ ([10.251.214.195])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Oct 2021 02:44:07 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Matthew Auld <matthew.william.auld@gmail.com>
+Cc: Matthew Auld <matthew.auld@intel.com>, Intel Graphics Development
+ <intel-gfx@lists.freedesktop.org>, ML dri-devel
+ <dri-devel@lists.freedesktop.org>, kernel test robot <lkp@intel.com>,
+ Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
+Subject: Re: [PATCH 1/2] drm/i915/dmabuf: fix broken build
+In-Reply-To: <CAM0jSHOCn120_-WZCJHa2+NzPrB_pErHPT3hA2BGarM-ZDw-Cg@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20211021125332.2455288-1-matthew.auld@intel.com>
+ <CAM0jSHNig=n9cw0CCNhWHnLn5hLPYFFQR4D9OgZ-QavgyJGJpg@mail.gmail.com>
+ <87k0hyj13f.fsf@intel.com>
+ <CAM0jSHOCn120_-WZCJHa2+NzPrB_pErHPT3hA2BGarM-ZDw-Cg@mail.gmail.com>
+Date: Wed, 27 Oct 2021 12:44:03 +0300
+Message-ID: <87cznqiyzg.fsf@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <d1b610f3-6a73-eda1-a35b-3efc85cbb582@collabora.co.uk>
-Content-Type: multipart/alternative;
- boundary="------------A760D4959662DBF1664DB019"
-Content-Language: en-US
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,176 +56,81 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is a multi-part message in MIME format.
---------------A760D4959662DBF1664DB019
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-
-Gerd,
-
-Can we follow up on this issue?
-
-The main pain point with your suggestion is the fact,
-that it will cause VirGL protocol breakage and we would
-like to avoid this.
-
-Extending execbuffer ioctl and create_resource ioctl is
-more convenient than having the protocol broken.
-
-Blob resources is not a solution, too, because QEMU doesn't
-support blob resources right now.
-
-In ideal solution when both QEMU and crosvm support blob resources
-we can switch to blob resources for textures.
-
-I would like to introduce changes gradually and not make a protocol
-breakage.
-
-What do you think about that?
-
-Maksym
-
-
-On 10/22/21 10:44 AM, Maksym Wezdecki wrote:
-
-> Once again with all lists and receivers. I'm sorry for that.
+On Wed, 27 Oct 2021, Matthew Auld <matthew.william.auld@gmail.com> wrote:
+> On Wed, 27 Oct 2021 at 09:58, Jani Nikula <jani.nikula@linux.intel.com> w=
+rote:
+>>
+>> On Wed, 27 Oct 2021, Matthew Auld <matthew.william.auld@gmail.com> wrote:
+>> > On Thu, 21 Oct 2021 at 13:54, Matthew Auld <matthew.auld@intel.com> wr=
+ote:
+>> >>
+>> >> wbinvd_on_all_cpus() is only defined on x86 it seems, plus we need to
+>> >> include asm/smp.h here.
+>> >>
+>> >> Reported-by: kernel test robot <lkp@intel.com>
+>> >> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+>> >> Cc: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
+>> >
+>> > Jani, would it make sense to cherry-pick this to -fixes? The offending
+>> > commit is in drm-next, and there have been a few reports around this.
+>> >
+>> > Fixes: a035154da45d ("drm/i915/dmabuf: add paranoid flush-on-acquire")
+>>
+>> If the Fixes: tag is in place, our tooling will cherry-pick it where it
+>> belongs. (In this case, drm-intel-next-fixes, not drm-intel-fixes.)
 >
-> On 10/21/21 6:42 PM, Chia-I Wu wrote:
->> On Thu, Oct 21, 2021 at 4:52 AM Gerd Hoffmann <kraxel@redhat.com> wrote:
->>> On Thu, Oct 21, 2021 at 11:55:47AM +0200, Maksym Wezdecki wrote:
->>>> I get your point. However, we need to make resource_create ioctl,
->>>> in order to create corresponding resource on the host.
->>> That used to be the case but isn't true any more with the new
->>> blob resources.  virglrenderer allows to create gpu objects
->>> via execbuffer.  Those gpu objects can be linked to a
->>> virtio-gpu resources, but it's optional.  In your case you
->>> would do that only for your staging buffer.  The other textures
->>> (which you fill with a host-side copy from the staging buffer)
->>> do not need a virtio-gpu resource in the first place.
->> That's however a breaking change to the virgl protocol.  All virgl
->> commands expect res ids rather than blob ids.
->>
->> Using VIRTGPU_BLOB_MEM_HOST3D could in theory work.  But there are a
->> few occasions where virglrenderer expects there to be guest storage.
->> There are also readbacks that we need to support.  We might end up
->> using VIRTGPU_BLOB_MEM_HOST3D_GUEST, where pin-on-demand is still
->> desirable.
->>
->> For this patch, I think the uapi change can be simplified.  It can be
->> a new param plus a new field in drm_virtgpu_execbuffer
->>
->>   __u64 bo_flags; /* pointer to an array of size num_bo_handles, or NULL */
->>
->> The other changes do not seem needed.
-> My first approach was the same, as you mentioned. However, having "__u64 bo_flags"
-> needs a for loop, where only few of the bo-s needs to be pinned - this has
-> performance implications. I would rather pass bo handles that should be pinned than
-> having a lot of flags, where only 1-2 bos needs to be pinned.
+> Yeah, I forgot to add the fixes tag here unfortunately.
+
+Already merged? What's the commit id to be cherry-picked? Rodrigo can do
+it manually.
+
+Note to self, we should set up some way to check which maintainer is
+responsible for which branches and when.
+
+BR,
+Jani.
+
 >
->>> take care,
->>>   Gerd
->>>
+>>
+>> Cc: Rodrigo who covers drm-intel-next-fixes atm.
+>>
+>> BR,
+>> Jani.
+>>
+>>
+>>
+>> >
+>> >
+>> >> ---
+>> >>  drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c | 7 +++++++
+>> >>  1 file changed, 7 insertions(+)
+>> >>
+>> >> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c b/drivers/gpu=
+/drm/i915/gem/i915_gem_dmabuf.c
+>> >> index 1adcd8e02d29..a45d0ec2c5b6 100644
+>> >> --- a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
+>> >> +++ b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
+>> >> @@ -12,6 +12,13 @@
+>> >>  #include "i915_gem_object.h"
+>> >>  #include "i915_scatterlist.h"
+>> >>
+>> >> +#if defined(CONFIG_X86)
+>> >> +#include <asm/smp.h>
+>> >> +#else
+>> >> +#define wbinvd_on_all_cpus() \
+>> >> +       pr_warn(DRIVER_NAME ": Missing cache flush in %s\n", __func__)
+>> >> +#endif
+>> >> +
+>> >>  I915_SELFTEST_DECLARE(static bool force_different_devices;)
+>> >>
+>> >>  static struct drm_i915_gem_object *dma_buf_to_obj(struct dma_buf *bu=
+f)
+>> >> --
+>> >> 2.26.3
+>> >>
+>>
+>> --
+>> Jani Nikula, Intel Open Source Graphics Center
 
---------------A760D4959662DBF1664DB019
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 7bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <pre>Gerd,</pre>
-    <pre>Can we follow up on this issue?</pre>
-    <pre>The main pain point with your suggestion is the fact,
-that it will cause VirGL protocol breakage and we would
-like to avoid this.
-
-Extending execbuffer ioctl and create_resource ioctl is
-more convenient than having the protocol broken.
-
-Blob resources is not a solution, too, because QEMU doesn't
-support blob resources right now.
-
-In ideal solution when both QEMU and crosvm support blob resources
-we can switch to blob resources for textures.
-
-I would like to introduce changes gradually and not make a protocol
-breakage.
-
-What do you think about that?
-
-Maksym
-
-
-</pre>
-    <div class="moz-cite-prefix">
-      <pre>On 10/22/21 10:44 AM, Maksym Wezdecki wrote:</pre>
-    </div>
-    <blockquote type="cite"
-      cite="mid:d1b610f3-6a73-eda1-a35b-3efc85cbb582@collabora.co.uk">
-      <pre class="moz-quote-pre" wrap="">Once again with all lists and receivers. I'm sorry for that.
-
-On 10/21/21 6:42 PM, Chia-I Wu wrote:
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">On Thu, Oct 21, 2021 at 4:52 AM Gerd Hoffmann <a class="moz-txt-link-rfc2396E" href="mailto:kraxel@redhat.com">&lt;kraxel@redhat.com&gt;</a> wrote:
-</pre>
-        <blockquote type="cite">
-          <pre class="moz-quote-pre" wrap="">On Thu, Oct 21, 2021 at 11:55:47AM +0200, Maksym Wezdecki wrote:
-</pre>
-          <blockquote type="cite">
-            <pre class="moz-quote-pre" wrap="">I get your point. However, we need to make resource_create ioctl,
-in order to create corresponding resource on the host.
-</pre>
-          </blockquote>
-          <pre class="moz-quote-pre" wrap="">That used to be the case but isn't true any more with the new
-blob resources.  virglrenderer allows to create gpu objects
-via execbuffer.  Those gpu objects can be linked to a
-virtio-gpu resources, but it's optional.  In your case you
-would do that only for your staging buffer.  The other textures
-(which you fill with a host-side copy from the staging buffer)
-do not need a virtio-gpu resource in the first place.
-</pre>
-        </blockquote>
-        <pre class="moz-quote-pre" wrap="">That's however a breaking change to the virgl protocol.  All virgl
-commands expect res ids rather than blob ids.
-
-Using VIRTGPU_BLOB_MEM_HOST3D could in theory work.  But there are a
-few occasions where virglrenderer expects there to be guest storage.
-There are also readbacks that we need to support.  We might end up
-using VIRTGPU_BLOB_MEM_HOST3D_GUEST, where pin-on-demand is still
-desirable.
-
-For this patch, I think the uapi change can be simplified.  It can be
-a new param plus a new field in drm_virtgpu_execbuffer
-
-  __u64 bo_flags; /* pointer to an array of size num_bo_handles, or NULL */
-
-The other changes do not seem needed.
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-My first approach was the same, as you mentioned. However, having "__u64 bo_flags"
-needs a for loop, where only few of the bo-s needs to be pinned - this has
-performance implications. I would rather pass bo handles that should be pinned than
-having a lot of flags, where only 1-2 bos needs to be pinned.
-
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">
-</pre>
-        <blockquote type="cite">
-          <pre class="moz-quote-pre" wrap="">take care,
-  Gerd
-
-</pre>
-        </blockquote>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-</pre>
-    </blockquote>
-  </body>
-</html>
-
---------------A760D4959662DBF1664DB019--
+--=20
+Jani Nikula, Intel Open Source Graphics Center
