@@ -1,72 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63B8343CE2C
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Oct 2021 17:59:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 285D143CE36
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Oct 2021 18:01:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD6FD6E5C3;
-	Wed, 27 Oct 2021 15:59:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A8566E8C3;
+	Wed, 27 Oct 2021 16:01:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x331.google.com (mail-ot1-x331.google.com
- [IPv6:2607:f8b0:4864:20::331])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 660486E5C3;
- Wed, 27 Oct 2021 15:59:25 +0000 (UTC)
-Received: by mail-ot1-x331.google.com with SMTP id
- 107-20020a9d0a74000000b00553bfb53348so4307908otg.0; 
- Wed, 27 Oct 2021 08:59:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=JDGhLnAjGcemyGOmhvCllnpzPG1c1ebcma9GtpslLK8=;
- b=gXvpY2rj4x+6ro0u4u+WkiU6Owx0jrPe7Oj5sXe99VRLCxTCzzNdp2L0QtH6vGPE5T
- OxFrov2Ej359v/Wsbj7BYROPEeHN9vq80ZDU7uvB7KxzxokxJ8FYg4rQIimk9JBSnIE8
- ZZIuPo/+GV2UEWwdSvRujkzdeNsdKPCp57AFefkoDXkf+cLGgbuSeUbbpFDTrXQjwv+o
- Nv8KulaLUW0sI0fLmdhzrRgLsbWLfCRGv3L/3TNvjiU3mhW5Og77m+QVcVlKWcEXSP09
- u8jGF9OkVmmy4VUsIaG9Fv5qcxS07Xq/l+8kNxjQg4V7jWNUDtdQ90wIGNrJJaGpH2G0
- kcIw==
+Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com
+ [IPv6:2a00:1450:4864:20::22f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 559526E8C3
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Oct 2021 16:01:39 +0000 (UTC)
+Received: by mail-lj1-x22f.google.com with SMTP id o26so5545051ljj.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Oct 2021 09:01:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=tkCgQJkUSUXPKa9PPaG98xGW8ORLrJoeUL+lFNuAKlI=;
+ b=JuXVzxzuz+qv/oGJh4H3FGcoT4i1PRfFmZGPc6lEW/N9sVUHQywzVSA6QOXoew8eMN
+ 2VuWytyylFxvVVv4NHBnyfc0Qf66xZSXHV0PNkrxsRogr/txx31V1QIsqMYUDW3/lS/Q
+ puLCWl/i68QH+uN4xJWqYNAHxq8s/ABltDsTffJInX/ueXsemQ/gPVFmTZ93Ha2IFRxA
+ fbB3/Ci3reBmhbmZLY5Agp3ldPGxwIMR97E/B9IL/d5CWC5Xg4LcOyrcEsyeLsDfw7q4
+ 1r0gIxWuTyvt/wIwtmEfq/EQYkL7wpbE/0EDTKaVxaRJS8WIN0jvlGqgTJ1Igaa+L78p
+ ZceQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=JDGhLnAjGcemyGOmhvCllnpzPG1c1ebcma9GtpslLK8=;
- b=p6Ah4bnxBYHP9MCBw01L7DhltvoskZzQYS/DGdjsoG5dTS82/ouK2SBdCEdbpogCmO
- 4ADCkYzCRMh+U8HhhIc1hP4vmoBQlZa4LnjnPZ5VdEbcP54Ol+xocyZhIu86AlEtqmzV
- r6UajtdiGom0775T40b5MAH8PlNo+wp+HS6I1kRYey87q9lgf44n2LW6oewN6SKqjmeJ
- OZwt1SiK0PN0KiQVdx7pG49KSmOGn/i+csgsccLsBjK7kEMxHsEhy9nsdnx1gsqAdG5c
- QKjOR9NR/gb2StO9zTeJ2NmvO8JgLlSLxIVyxA37280rQHeAbdnYr++iTUOee85dXlDD
- 1BOw==
-X-Gm-Message-State: AOAM532Mk0iv7R4Nj9Ss+R5Hw0Iqg/8W4B/lghgX+lfKolGRLWFSOL5K
- tTZ4hPEnn1NmeN/NUdanJcw=
-X-Google-Smtp-Source: ABdhPJxJ1qES9romQLNWwbkLhJuQ+1GVlbrTUSnpuhDk1WhYt+AqMhF7rH8bXBtdVDY2Nm56a0B8xQ==
-X-Received: by 2002:a9d:6346:: with SMTP id y6mr26685096otk.154.1635350364648; 
- Wed, 27 Oct 2021 08:59:24 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id
- v9sm118175oth.62.2021.10.27.08.59.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 27 Oct 2021 08:59:24 -0700 (PDT)
-Subject: Re: [PATCH] drm/amdgpu: fix out of bounds write
-To: Harry Wentland <harry.wentland@amd.com>,
- Thelford Williams <tdwilliamsiv@gmail.com>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, David Airlie <airlied@linux.ie>,
- Alex Deucher <alexander.deucher@amd.com>,
- Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-References: <20211027143945.GA1947580@roeck-us.net>
- <8205a660-6990-9007-48c9-453117d16f72@amd.com>
-From: Guenter Roeck <linux@roeck-us.net>
-Message-ID: <fb5ee1a9-8cdb-3aab-c3ac-e4d03421fb85@roeck-us.net>
-Date: Wed, 27 Oct 2021 08:59:22 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=tkCgQJkUSUXPKa9PPaG98xGW8ORLrJoeUL+lFNuAKlI=;
+ b=IHHl+eVRayITXAEDnEaFGZgyycNQlSuCrTL4Qn14/ydVELvdPEFAYKI98LaFtvomES
+ S46Siuh8PG++xCjBgxwFGUY9jlNDppQvicHWwogtPubBb1bP64pNTqGQYy3a+tEhSGhz
+ lIujvnd2dFEvHk9YHsLHXJaFL8Q/4/Ldl1oUfleWWVyTonSDqnABzM3R5O07K8DpEtB/
+ RI4TN+uoYPd7VIjMU6Wd53ni2xuMflhoXVk1xMRq1QoqOsBuAZRUhLhtelO8jpdKwC1t
+ BPy6HaTQKhNiQA/r7CQ8p4a3wLIp5wWHtwjcd3TbLXVtajWqby31FbnEZ3adCkgSQVA/
+ SNuA==
+X-Gm-Message-State: AOAM533iYpq0Wvnr/rqfErskIB+r1it5z4/uUTRVbzC9CKI2GjvPa+8w
+ 2sUmKdrAKLbLEHItYSlAN9KDs7OaQeVmbYlTKRi8ow==
+X-Google-Smtp-Source: ABdhPJyLTmxvQZ0j5lQGHsFYcydy71+PhRmg+SxpLEXAm87AnzbFNmKI1TyiM271I2tAbjx+BOKyohjDU7jCER0qQM4=
+X-Received: by 2002:a2e:5c45:: with SMTP id q66mr22976435ljb.273.1635350497549; 
+ Wed, 27 Oct 2021 09:01:37 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <8205a660-6990-9007-48c9-453117d16f72@amd.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20211025224032.21012-1-digetx@gmail.com>
+In-Reply-To: <20211025224032.21012-1-digetx@gmail.com>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Wed, 27 Oct 2021 18:01:01 +0200
+Message-ID: <CAPDyKFrA2Jcb5BmaFmajtdUCmpwoPjAAvPC_MhoWwjDXJynD=w@mail.gmail.com>
+Subject: Re: [PATCH v14 00/39] NVIDIA Tegra power management patches for 5.17
+To: Dmitry Osipenko <digetx@gmail.com>
+Cc: Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, 
+ Viresh Kumar <vireshk@kernel.org>, Stephen Boyd <sboyd@kernel.org>, 
+ Peter De Schrijver <pdeschrijver@nvidia.com>,
+ Mikko Perttunen <mperttunen@nvidia.com>, Lee Jones <lee.jones@linaro.org>,
+ =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
+ Nishanth Menon <nm@ti.com>, Adrian Hunter <adrian.hunter@intel.com>, 
+ Michael Turquette <mturquette@baylibre.com>, linux-kernel@vger.kernel.org, 
+ linux-tegra@vger.kernel.org, linux-pm@vger.kernel.org, 
+ linux-pwm@vger.kernel.org, linux-mmc@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linux-clk@vger.kernel.org, 
+ David Heidelberg <david@ixit.cz>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,50 +76,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/27/21 8:22 AM, Harry Wentland wrote:
-> On 2021-10-27 10:39, Guenter Roeck wrote:
->> On Wed, Oct 13, 2021 at 04:04:13PM -0400, Thelford Williams wrote:
->>> Size can be any value and is user controlled resulting in overwriting the
->>> 40 byte array wr_buf with an arbitrary length of data from buf.
->>>
->>> Signed-off-by: Thelford Williams <tdwilliamsiv@gmail.com>
->>> Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
->>
->> The fix works, but unless I am missing something it is incomplete.
->> parse_write_buffer_into_params() is called several times, and the
->> size parameter is always wrong. This patch only fixes one of several
->> instances of the problem.
->>
-> 
-> Patrik sent a patch that covers all cases:
-> https://patchwork.freedesktop.org/patch/461554/?series=96341&rev=2
-> 
-> Harry
-> 
-Thanks!
+On Tue, 26 Oct 2021 at 00:45, Dmitry Osipenko <digetx@gmail.com> wrote:
+>
+> This series adds runtime PM support to Tegra drivers and enables core
+> voltage scaling for Tegra20/30 SoCs, resolving overheating troubles.
+>
+> All patches in this series are interdependent and should go via Tegra tree
+> for simplicity.
+>
+> Changelog:
+>
+> v14: - Fixed missing runtime PM syncing on removal of drivers, which was
+>        spotted by Ulf Hansson in v13.
+>
+>      - clk-device driver now resumes RPM on system suspend instead of
+>        preparing clock which it backs. This was suggested by Ulf Hansson.
+>
+>      - clk-device driver now syncs power domain performance unconditionally
+>        during driver's probe time since GENPD API allows to do this now.
+>        It was spotted by Ulf Hansson.
+>
+>      - Added new "Enable runtime PM during OPP state-syncing" patch, which
+>        allows drivers to sync state at any time. Previously drivers were
+>        obligated to take care of enabling RPM at the "right" time.
+>
+>      - Moved runtime PM initialization/uninitialization of DRM drivers that
+>        use host1x channel to host1x client init/deinit phase. I noticed that
+>        there is UAF problem because RPM-suspend callback waits until channel
+>        is idling and channel is already released/freed during driver's removal
+>        phase.
+>
+>      - Added system suspend support to the new NVDEC DRM driver.
+>
+>      - Added missing pm_runtime_mark_last_busy() to DRM driver.
+>
+>      - Corrected VDE GENPD patch which previously made video decoder clock
+>        always-enabled by mistake if legacy PD code path was used. It was
+>        spotted while we were testing VDE on Tegra114 that doesn't support
+>        GENPD yet.
+>
+>      - Added ack from Peter Chen to the USB patch that he gave to v13.
+>
+>      - Changed OPP table names in accordance to the new naming scheme
+>        required by the recent core OPP binding.
+>
+>      - Added 500MHz memory OPP entry used by ASUS Transformer tablets.
 
-Guenter
+Besides those minor nitpicks/questions that I have sent for patch1 and
+patch29, the series looks good to me!
 
->> Guenter
->>
->>> ---
->>>   drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c | 2 +-
->>>   1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
->>> index 814f67d86a3c..9b3ad56607bb 100644
->>> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
->>> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
->>> @@ -264,7 +264,7 @@ static ssize_t dp_link_settings_write(struct file *f, const char __user *buf,
->>>   	if (!wr_buf)
->>>   		return -ENOSPC;
->>>   
->>> -	if (parse_write_buffer_into_params(wr_buf, size,
->>> +	if (parse_write_buffer_into_params(wr_buf, wr_buf_size,
->>>   					   (long *)param, buf,
->>>   					   max_param_num,
->>>   					   &param_nums)) {
->>> -- 
->>> 2.33.0
-> 
+Feel free to add, for the whole series:
 
+Reviewed-by: Ulf Hansson <ulf.hansson@linaro.org>
+
+Kind regards
+Uffe
