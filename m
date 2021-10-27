@@ -2,66 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECB5E43C1BE
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Oct 2021 06:38:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F22043C308
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Oct 2021 08:29:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B42196E5A0;
-	Wed, 27 Oct 2021 04:37:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C60196E52A;
+	Wed, 27 Oct 2021 06:29:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd33.google.com (mail-io1-xd33.google.com
- [IPv6:2607:f8b0:4864:20::d33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE1FB89850;
- Wed, 27 Oct 2021 04:37:27 +0000 (UTC)
-Received: by mail-io1-xd33.google.com with SMTP id v65so2107516ioe.5;
- Tue, 26 Oct 2021 21:37:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=cnTkeK8v67eIBs3PS2euQVCRKMfmRbTWdl+Z44hl+ec=;
- b=hyLsn00WTLCJL4GvOmE2kxDub5BpxRbKWLIpyTkYZF2eqFHzXTbv7M4KAij+kGcq8w
- Gz7Q6kF3P+6u6t3A5bB/VzAdsm9ralmjQ8B41BWntNLNmeJH/AHDWkq+Ej/m+8lWmPb/
- Hd/yO7Edb3UcphCFdVM451GH/37X6CyTP6+c7p8/Rx5hOrApcbqSekYfE2APXIclkST2
- scGa8LjGdR29jtDvfvPpH8HR2bJpt9C4R7l3/Rx31ItRrHnCWjjK1vXLw8EvjPAyHIKh
- StLJ2ShUBrrYetUf3emdR/NQuFRm1rrCiY1qRs6FGXfqiWMbNVGy5H6hv/CW5Pt5Eake
- gi0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=cnTkeK8v67eIBs3PS2euQVCRKMfmRbTWdl+Z44hl+ec=;
- b=2Pa7ZuPG6N7ByWvqxH7jDo/7spva2YHEBQBej0TzsJxC8SOEhdfsQYczQ1NEfUTEqt
- BADFrArsW1qq7jmujbysTmFLQcCmMzNuVS4xwEv2uKjaOiZcQVvNTSS9+srpzp+kk9L2
- fP5mrjyNRyncqM8a+W+40AdX4j/cUgDcCDwhWeWpBssDOkzAagL6QgWJijkInQ8heu49
- ihIEDGoWcgPnX7uPbzlG1hVGyZeFRcZMGV3hGQX4ie6XCbmmCtvPohcAng9wlooq6dfT
- 7XO0UrRo1dIg8l2T/gDXiOwLP2Il5wa5Tx0gIMkvqaLutjq1OH59vnuRpq/IRa4kepSq
- 00Bw==
-X-Gm-Message-State: AOAM530f4WyfLLnvGC8RvTDsPMrPbebOaOYvro43dMVExrzX/FBH2e3D
- L54bRJuR6oEm0XS7nk1Uxcw=
-X-Google-Smtp-Source: ABdhPJxOL3av75apCy1NaSeSnBdOn/HBQSzgvyFqXTBntJL0EsDlcBUuZ+4BzU72oZQOjVlVp6bO2w==
-X-Received: by 2002:a05:6638:d90:: with SMTP id
- l16mr18388899jaj.36.1635309447330; 
- Tue, 26 Oct 2021 21:37:27 -0700 (PDT)
-Received: from samwise.. (c-24-9-77-57.hsd1.co.comcast.net. [24.9.77.57])
- by smtp.googlemail.com with ESMTPSA id a15sm2030404ilj.81.2021.10.26.21.37.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Oct 2021 21:37:27 -0700 (PDT)
-From: Jim Cromie <jim.cromie@gmail.com>
-To: jbaron@akamai.com, gregkh@linuxfoundation.org,
- linux-kernel@vger.kernel.org, linux@rasmusvillemoes.dk,
- daniel.vetter@ffwll.ch, seanpaul@chromium.org,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- intel-gvt-dev@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
-Cc: Jim Cromie <jim.cromie@gmail.com>
-Subject: [PATCH v9 10/10] drm: use DEFINE_DYNAMIC_DEBUG_TRACE_CATEGORIES
- bitmap to tracefs
-Date: Tue, 26 Oct 2021 22:36:45 -0600
-Message-Id: <20211027043645.153133-11-jim.cromie@gmail.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20211027043645.153133-1-jim.cromie@gmail.com>
-References: <20211027043645.153133-1-jim.cromie@gmail.com>
+X-Greylist: delayed 364 seconds by postgrey-1.36 at gabe;
+ Wed, 27 Oct 2021 00:55:44 UTC
+Received: from djo.tudelft.nl (x127130.tudelft.net [131.180.127.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 982B96E4DE
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Oct 2021 00:55:44 +0000 (UTC)
+Received: by djo.tudelft.nl (Postfix, from userid 2001)
+ id CC9461C42C4; Wed, 27 Oct 2021 02:51:10 +0200 (CEST)
+Date: Wed, 27 Oct 2021 02:51:10 +0200
+From: wim <wim@djo.tudelft.nl>
+To: "Maciej W. Rozycki" <macro@orcam.me.uk>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Pavel V. Panteleev" <panteleev_p@mcst.ru>,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, wim <wim@djo.tudelft.nl>
+Subject: Re: [PATCH] vgacon: Propagate console boot parameters before calling
+ `vc_resize'
+Message-ID: <20211027005110.GA26354@djo.tudelft.nl>
+References: <alpine.DEB.2.21.2110252317110.58149@angie.orcam.me.uk>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <alpine.DEB.2.21.2110252317110.58149@angie.orcam.me.uk>
+User-Agent: Mutt/1.11.2 (2019-01-07)
+X-Mailman-Approved-At: Wed, 27 Oct 2021 06:29:37 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,56 +45,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: wim@djo.tudelft.nl
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use new macro to create a sysfs control bitmap knob to control
-print-to-trace in: /sys/module/drm/parameters/trace
+On Tue, Oct 26, 2021 at 12:26:22AM +0200, Maciej W. Rozycki wrote:
+> Fix a division by zero in `vgacon_resize' with a backtrace like:
+> ...
+> linux-vt-vgacon-init-cell-height-fix.diff
+> Index: linux-macro-ide-tty/drivers/video/console/vgacon.c
+> ===================================================================
+> --- linux-macro-ide-tty.orig/drivers/video/console/vgacon.c
+> +++ linux-macro-ide-tty/drivers/video/console/vgacon.c
+> @@ -366,11 +366,17 @@ static void vgacon_init(struct vc_data *
+>  	struct uni_pagedir *p;
+>  
+>  	/*
+> -	 * We cannot be loaded as a module, therefore init is always 1,
+> -	 * but vgacon_init can be called more than once, and init will
+> -	 * not be 1.
+> +	 * We cannot be loaded as a module, therefore init will be 1
+> +	 * if we are the default console, however if we are a fallback
+> +	 * console, for example if fbcon has failed registration, then
+> +	 * init will be 0, so we need to make sure our boot parameters
+> +	 * have been copied to the console structure for vgacon_resize
+> +	 * ultimately called by vc_resize.  Any subsequent calls to
+> +	 * vgacon_init init will have init set to 0 too.
+>  	 */
+>  	c->vc_can_do_color = vga_can_do_color;
+> +	c->vc_scan_lines = vga_scan_lines;
+> +	c->vc_font.height = c->vc_cell_height = vga_video_font_height;
+>  
+>  	/* set dimensions manually if init != 0 since vc_resize() will fail */
+>  	if (init) {
+> @@ -379,8 +385,6 @@ static void vgacon_init(struct vc_data *
+>  	} else
+>  		vc_resize(c, vga_video_num_columns, vga_video_num_lines);
+>  
+> -	c->vc_scan_lines = vga_scan_lines;
+> -	c->vc_font.height = c->vc_cell_height = vga_video_font_height;
+>  	c->vc_complement_mask = 0x7700;
+>  	if (vga_512_chars)
+>  		c->vc_hi_font_mask = 0x0800;
 
-todo: reconsider this api, ie a single macro expecting both debug &
-trace terms (2 each), followed by a single description and the
-bitmap-spec::
 
-Good: declares bitmap once for both interfaces
+Just to let you know that the above patch fixes the crashes I experienced.
+Tried in kernel 4.9.287.
+The git tree is broken in the sense that it doesn't know the tags v4.9.284,
+v4.9.285, v4.9.286 and v2.4.287.
 
-Bad: arg-type/count handling (expecting 4 args) is ugly,
-     especially preceding the bitmap-init var-args.
-
-Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
----
- drivers/gpu/drm/drm_print.c | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
-
-diff --git a/drivers/gpu/drm/drm_print.c b/drivers/gpu/drm/drm_print.c
-index ce662d0f339b..7b49fbc5e21d 100644
---- a/drivers/gpu/drm/drm_print.c
-+++ b/drivers/gpu/drm/drm_print.c
-@@ -73,6 +73,25 @@ DEFINE_DYNAMIC_DEBUG_CATEGORIES(debug, __drm_debug,
- 				[7] = { DRM_DBG_CAT_LEASE },
- 				[8] = { DRM_DBG_CAT_DP },
- 				[9] = { DRM_DBG_CAT_DRMRES });
-+
-+#ifdef CONFIG_TRACING
-+unsigned long __drm_trace;
-+EXPORT_SYMBOL(__drm_trace);
-+DEFINE_DYNAMIC_DEBUG_TRACE_CATEGORIES(trace, __drm_trace,
-+				      DRM_DEBUG_DESC,
-+				      [0] = { DRM_DBG_CAT_CORE },
-+				      [1] = { DRM_DBG_CAT_DRIVER },
-+				      [2] = { DRM_DBG_CAT_KMS },
-+				      [3] = { DRM_DBG_CAT_PRIME },
-+				      [4] = { DRM_DBG_CAT_ATOMIC },
-+				      [5] = { DRM_DBG_CAT_VBL },
-+				      [6] = { DRM_DBG_CAT_STATE },
-+				      [7] = { DRM_DBG_CAT_LEASE },
-+				      [8] = { DRM_DBG_CAT_DP },
-+				      [9] = { DRM_DBG_CAT_DRMRES });
-+
-+struct trace_array *trace_arr;
-+#endif
- #endif
- 
- void __drm_puts_coredump(struct drm_printer *p, const char *str)
--- 
-2.31.1
-
+Wim.
