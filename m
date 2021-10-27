@@ -1,136 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7762E43D349
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Oct 2021 22:54:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DA1D43D365
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Oct 2021 23:00:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 35DE86E529;
-	Wed, 27 Oct 2021 20:54:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E29156E901;
+	Wed, 27 Oct 2021 21:00:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR04-VI1-obe.outbound.protection.outlook.com
- (mail-eopbgr80139.outbound.protection.outlook.com [40.107.8.139])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D57F6E529
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Oct 2021 20:54:27 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bB33pb0LSiFtkBqj2L13hAHa2qAfOqUZHJHJBYanBa7qlCGu5X9fqQLaxuGllEc8Fgq2O0fGX8EuW7NAOYmcxpzNpaDL6V1qjF5fa26bTWe18v14bALOE9jt7tjRKCbvbER4aP+yY/f2iqEKAucsSJQHJpdG2afblzL5kieRNfPz90cdMRKbbArqzUYXLx0KHlF8cBP22OkaWQoZICMrHnUPlySRbCY8JPQv8L+vrf053ztWp7fVDdmARAU82KUpvcmbXzOd+BbPxGcbegXdX2MaAv62RL6a1jUl+hCBVOp8/JwLe2s8KlbuMlF0aHPWY/+b6Vo9cxsSYZP8s81flA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PamNjXSsvsvIbblmkx2LHeFi/jeIbXp2ysiYeFlnUTs=;
- b=SYx/Wjg7cyENaUF0rFqbezwRq4VhV/ynuTY04n54Lm6mYWfzSpajeLuY3swggAbUYQ8xMrgX0PSlMqNNqGB/NepNNugFWcJ7DZcPGjJQg71lMnDdzFTFYR9KIcPVkWslJTHV7OrVK9D8Svhuz1SFNf0EVl3wjCn2o32+kYiuGtSTqgvzh1UKFRXJrf3XnKMvPCJWvUKkSBFDNT6VaFiO5Y/FV/5jaqcgLXQrWJRPpDLAc+Bi5wkL+txXouPZ2A86fjiKJatwaDjOeepp64fC9OshafhUZdByGqAwD5P1HhPBgdZKUKYPyfwcTbmCPRW412DoXy4rfYOteTGat7GunA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=toradex.com; dmarc=pass action=none header.from=toradex.com;
- dkim=pass header.d=toradex.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=toradex.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PamNjXSsvsvIbblmkx2LHeFi/jeIbXp2ysiYeFlnUTs=;
- b=Qu2P/P1YXuRlRgmotShoAolQ45HibbSsMdFDdYOglWHbv140x6dvg2yX23bF/sQJz9rpm/wqDjNA7fB8EBvMLcudBdOv0+Hvd4arKtumM8mNnmFRKVbn0cJxoV0PYyFEb/s4xEdONS+mbGUdM8tstOybKRxTfGYQ4UPkeQHHWyc=
-Received: from DB7PR05MB5431.eurprd05.prod.outlook.com (2603:10a6:10:55::32)
- by DBAPR05MB7253.eurprd05.prod.outlook.com (2603:10a6:10:1af::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4628.18; Wed, 27 Oct
- 2021 20:54:24 +0000
-Received: from DB7PR05MB5431.eurprd05.prod.outlook.com
- ([fe80::91e8:e960:243:da70]) by DB7PR05MB5431.eurprd05.prod.outlook.com
- ([fe80::91e8:e960:243:da70%5]) with mapi id 15.20.4628.020; Wed, 27 Oct 2021
- 20:54:24 +0000
-From: Marcel Ziswiler <marcel.ziswiler@toradex.com>
-To: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>, "linux-next@vger.kernel.org"
- <linux-next@vger.kernel.org>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>, "tzimmermann@suse.de" <tzimmermann@suse.de>
-CC: "sfr@canb.auug.org.au" <sfr@canb.auug.org.au>, "airlied@linux.ie"
- <airlied@linux.ie>, "andreyknvl@gmail.com" <andreyknvl@gmail.com>,
- "linus.walleij@linaro.org" <linus.walleij@linaro.org>, "arnd@arndb.de"
- <arnd@arndb.de>, "lkft@linaro.org" <lkft@linaro.org>,
- "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
- "alexandre.belloni@bootlin.com" <alexandre.belloni@bootlin.com>,
- "mripard@kernel.org" <mripard@kernel.org>, "daniel@ffwll.ch"
- <daniel@ffwll.ch>
-Subject: Re: [PATCH v1] drm: import DMA_BUF module namespace
-Thread-Topic: [PATCH v1] drm: import DMA_BUF module namespace
-Thread-Index: AQHXy0b0gZ5pUr/KX0G6WBvl+vAPP6vnKucAgAAoL4A=
-Date: Wed, 27 Oct 2021 20:54:23 +0000
-Message-ID: <0f90b5da6139316429363fc14f76e96366f4a4b5.camel@toradex.com>
-References: <20211027152534.3366799-1-marcel@ziswiler.com>
- <77d1966e-3081-10d3-d7a8-c159b62004aa@suse.de>
-In-Reply-To: <77d1966e-3081-10d3-d7a8-c159b62004aa@suse.de>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=toradex.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: a6ef53d3-bdd3-4865-15c4-08d9998bf51e
-x-ms-traffictypediagnostic: DBAPR05MB7253:
-x-microsoft-antispam-prvs: <DBAPR05MB7253ED8BFFC67E55B921662FFB859@DBAPR05MB7253.eurprd05.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:4502;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 2VdZOd70B3/zn2mXCLuj0Bo335DNzthjTmaRPyryw8XGDW3mfjRMmHYgKsmd6lnufE7xTnWolixDaiT6KfvBFewspB7pVru3wwtCH8LRv0M5xANUJ79G5G5xdd5QPtvTXlYHlB18B4lmVh7FWO3Qy7Yrls/F+dhy1NJajvLIjFyVe4oVW7xbmw8K9SyK5XINzVTt0lilTTIg5HJP0CPBR0mmb1Jed7dZXe1A7AlxJIhFtPbOUrmQPYyIeVUJIzetcExsh2RFQE8vu/du/49naG42V0lzY7uGP7nyChmADQhP1G6CDvngMdrpmOb4zFYnqzxcXN1vNmKKVKW+74wnlSYBUA5dzNPfjl1hKJhb6abgGBsBotEi/9YwtpiJTw/NLN09Vvv95JjO4QEYS8bzZKS9pcFq1YCKhO0Ox/AzM5zEIUh2TpugDfzQo01e7vPcfVGkI5UG7qrSkI3sS7UR84DYRQUynY4WfsCK7rmkqiiat5fUlo7pu+nL6xwL6TTh1IWROXf+qqnxEMi+xxpZ+OauqS5qdzsjNkCeqkVyedJ4ByMPPuNrnOzUns1ujUauggAeJrNQJAXS90VWvGk+e3TZfvkS7gBHLE3v2+9YcWveijjx04wcsmgqISVHUFxzCfDU86mw5p0tXCrp7T6SlWiiInI9lyHrtouqeFL3eWNxwXKhOgojzyTBknUMvF0aQsB5mDdnyWQpROcpgE+dzg==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DB7PR05MB5431.eurprd05.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(39850400004)(376002)(396003)(366004)(136003)(44832011)(66946007)(6506007)(91956017)(66556008)(64756008)(66476007)(76116006)(8676002)(2906002)(36756003)(4001150100001)(66446008)(2616005)(186003)(4326008)(122000001)(71200400001)(38070700005)(5660300002)(26005)(38100700002)(86362001)(7416002)(508600001)(66574015)(6512007)(316002)(83380400001)(54906003)(110136005)(8936002)(6486002);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?ZkJ1Yk9NSkpwbi9GWGJWM093djBhYnVHSkRqMnVQcmVUcHBiUmY3UE9hM2Q0?=
- =?utf-8?B?c3NnMisrdytDRmxCOHRrRlExWlRLZnFKN1VRUVYwWnpWeWZSZUF6dXdyakV5?=
- =?utf-8?B?RkxEdHQ5RkJlVW5oN0lKOGpIc3YzVkVRdGZXS29UaHFZZU1vZHhTQkw4bzBa?=
- =?utf-8?B?QjFmdFp5cFlyUW5VZTJiUWJxYTd1OTYvUnhaeU1DRkhYYWpkNDZRVDhlTUw0?=
- =?utf-8?B?WWs0NXFVWDdiSjk3YWZqZXF4eUpYeU1PQTJKVjNNZEQvRHhIWWVoZHFHbTZm?=
- =?utf-8?B?OUJ5cDQvMmxqTW5MaHF0cEQ3TWNRbUpiOWNtd0VsUFU2SEZrcStjdlBCdWNU?=
- =?utf-8?B?V0g2RzExZTluSDVGQWFuQWEwVUtuQ2UycCtld2VYZmFMMDNqbm8wWXY1QXFt?=
- =?utf-8?B?U2xYRndneFhxdHV0eTA2R2lUUW9BU0F6aVNwUmdmQVFGVWxydEFOOVE4c1BG?=
- =?utf-8?B?ZVlxanFYQmlieFA1RTh6bzV6VSt5ZC9NK015QmRYaGFYS2J5RmdjbDZwMkdP?=
- =?utf-8?B?VHc4WTZ6dDFLTjJlWHFFaTJVU3dWMmtZanBNRlFJNFJvai9KVjIvM3RReHQy?=
- =?utf-8?B?cHlJdFB3bDhqQm8wbGlMNzRNS2VyLzNoS1VGbC9SbG0wbE9FVE9aYTAzT0Jl?=
- =?utf-8?B?Y09ZdHFpWXZyMUM5ZUtVbHBMK3kyVmJYNGJCY1Q5WDZDQTVNeHFkNmlqbFo2?=
- =?utf-8?B?QmFmcnJMOUJpdzV4a3lKZWdTZFp4WlJGMVBZTFU0VitiQkNidXdueTNjZTVN?=
- =?utf-8?B?SlRqd3k4Y3pwYXhoYTFraXlsNFdnZFNYM2JYUmVaOHpKdk1VVDdDdGxUV3hE?=
- =?utf-8?B?azFvZDYzZnIzcVh1VGpHcjY2OS9ZbTZIOXErelI0ZExrQUJsUGlLeU93S2Q2?=
- =?utf-8?B?S2J5cGRQMXNQekpzNEtkaGRTOG0yWGhHa0JHV0tWN29TQThTbWtuQUhiMkJX?=
- =?utf-8?B?ZWc0K2R1TGtYeGxMeVFHemlja0ppSnlTUG5GZmdlOHY5bWVTa0p2dHQzZk83?=
- =?utf-8?B?SE9JVkZNM1JiWDRTclhXTkVXYWFDci9iQnIrdXdUS0RLeGVwM0thYjJncXd3?=
- =?utf-8?B?Wnc3S0ZueDRqRGdvSklqclI4eUs5ZldnK3EzTk0xaEVQMG5QUHc4WjVQMDlW?=
- =?utf-8?B?aVZLU2R2WWUyamxyMGNDSWlqckdnL3p4ekl6K2h5dDVQdGtWWk41NFk1YXlO?=
- =?utf-8?B?VTZZKzZBN2t5WCt4VGl2NGlKTjUyd0RzYnJHMUN6dnNiSWIrRXRWYzhJM2RP?=
- =?utf-8?B?K2M1SlgvMkxWZmVHR1BiS2FpYTdQcDFnYWh2MEJYN0l0Q1hBVEFRZForc214?=
- =?utf-8?B?UCtKZmd1bjJoOHlPYWo0djZ4QVdWTjNza0prQ084cTNlRzExTmhqRGYvK1l1?=
- =?utf-8?B?VHZ4UmhjMkRWTjBoTUE0U3NzYkhTY3I0blp4NWJ1M2RubnJSM2hoRkZ5Tmlu?=
- =?utf-8?B?SEllOEJudkpvK2JWSkhWNzkwSXlOZVdBaS9JdVJPeFhsTnRzNkJjTklvNzUx?=
- =?utf-8?B?YmJVRC9KRUFJbjgvMGhXdTl4Y1pObkd2Q2pDaTdUT3FZbWpWazBKSHRNNmJX?=
- =?utf-8?B?OVpXZ3dOTmQyUTUyVU1LVTA4VDVzdFVzcE1VNnBIamVnV2Y2YTI4THVnNTVs?=
- =?utf-8?B?Qk02M1hSUTFFODRuT2tTN0dBeVNRNWJiWHpSekVpbWxSSUdCdlQzL25xaHN3?=
- =?utf-8?B?Z2ZMcWQ4ejRENE95c3o3WHg1QXIzMFdyNkR6UUNRMFFlRFN6VUI5T1d1Y1BU?=
- =?utf-8?B?aVpWV3BISTROY1E3NXBVMjJLNWtzWkZUeHVoRUhwaGlBdFAwVTZqRUpzU08r?=
- =?utf-8?B?ZjI1SWROTUlreG5FakZZWmtGZmJoRVB6QjJocG1PcEZCbTdsZkMvUGFFR3J3?=
- =?utf-8?B?dlNGbzQzTkgvcHZzTUFackFaNUhFUm5pYlNHdjQzZmdkdGlOV0kzYm1QeDBt?=
- =?utf-8?B?VzVlb2FYYkliMUN0MmF6TW0xOG5Ba3BHbzBST3J5eG5jNmFQamNMNXhUbDY0?=
- =?utf-8?B?WG9Sa2RVdFhCRVZNTDdZOGlkNnpiMUFNZ251L01yQlh5MWxqZnNFcFdMSlZo?=
- =?utf-8?B?Sld6bXRaZWc5R1V1MVVhbkZVUDlJU0wvclBjUHFLVUxTVjNPMEJjTlA2ZVB5?=
- =?utf-8?B?SUNJSm1hVEdISFVwZ1Z6YWRvV3Y5QlNSeXZyd2l2eHlQUjJta0ppS0Vmcy9s?=
- =?utf-8?B?T2tnK25CcEhsd3htR2ZSdnRlOUFkUUtiY2hWWlJkeGozbUFGUGMvd2JEUmh0?=
- =?utf-8?Q?KfcL4SgXs9LwlqeNB7t13ucyIYaZI4i0dnmX3VEa4w=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <5082D25C1BF463408E33AD13D94510B1@eurprd05.prod.outlook.com>
-Content-Transfer-Encoding: base64
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC2AE6E901
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Oct 2021 21:00:15 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 9D8D16109E
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Oct 2021 21:00:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1635368415;
+ bh=ZCmPc69p3Cdve8GQCAozAx7L3qx9qC8lEE15iVYzX1g=;
+ h=From:To:Subject:Date:From;
+ b=HHis9uZQRDEEc+5oG8brxfoBAWbMLmNreYMHSDc4bi0F5pJrskaiIHScxD1Ng5ezB
+ TAB4Sy1a6sVvyoPJS9m4FpbO7rpe/SEqcN8zdvkIOK/chFQ5elpkOg4Jmp+zeVYNbQ
+ NZCClXdONFrEmAmVqfdrKEDcqWEbpJYeGOnuk+efsCzhofrzu0ppCp10ViY/Zms2dM
+ mY8LJmjZPllSF1/vBIi3uYqopuwA3BV4w3m+ReyUSOQjJ9nOkiD7/ihDWeSnUIkYw8
+ xTp5upa5vzLBOqaZ5fI6+P3N9szILJhfftlytI9TQuQVj2kTbO9umQ0RHntz8nkBH6
+ 3t1/5DjyztDXw==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id 95FCC610FC; Wed, 27 Oct 2021 21:00:15 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 214853] New: [amdgpu] UBSAN shows several null-ptr-deref in
+ ../dc/bios/command_table2.c some array-index-out-of-bounds in
+ ../dc/bios/bios_parser2.c and an invalid-load in ../amdgpu_dm/amdgpu_dm.c
+Date: Wed, 27 Oct 2021 21:00:15 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: erhard_f@mailbox.org
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
+ priority component assigned_to reporter cc cf_regression attachments.created
+Message-ID: <bug-214853-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-OriginatorOrg: toradex.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DB7PR05MB5431.eurprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a6ef53d3-bdd3-4865-15c4-08d9998bf51e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Oct 2021 20:54:23.9550 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: d9995866-0d9b-4251-8315-093f062abab4
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: MWCeCEkPjGAknoEWStqj4XhuDEWhHgs3Q9mLU5zvy6yFu/t1q259tBEE7hFF+O7IGyCb33KL9BYBzumeOUWGZxkcGC4kgRLQnBx/Or++t88=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBAPR05MB7253
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -146,62 +70,216 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-U2FsaSBUaG9tYXMNCg0KT24gV2VkLCAyMDIxLTEwLTI3IGF0IDIwOjMwICswMjAwLCBUaG9tYXMg
-WmltbWVybWFubiB3cm90ZToNCj4gSGksDQo+IA0KPiB0aGFua3MgZm9yIHRoZSBwYXRjaC4NCg0K
-WW91IGFyZSB2ZXJ5IHdlbGNvbWUuDQoNCj4gQW0gMjcuMTAuMjEgdW0gMTc6MjUgc2NocmllYiBN
-YXJjZWwgWmlzd2lsZXI6DQo+ID4gRnJvbTogTWFyY2VsIFppc3dpbGVyIDxtYXJjZWwuemlzd2ls
-ZXJAdG9yYWRleC5jb20+DQo+ID4gDQo+ID4gVG9kYXkncyAtbmV4dCBmYWlscyBidWlsZGluZyBh
-cm02NCBkZWZjb25maWcgYXMgZm9sbG93czoNCj4gPiANCj4gPiBFUlJPUjogbW9kcG9zdDogbW9k
-dWxlIGRybV9jbWFfaGVscGVyIHVzZXMgc3ltYm9sIGRtYV9idWZfdnVubWFwIGZyb20NCj4gPiDC
-oCBuYW1lc3BhY2UgRE1BX0JVRiwgYnV0IGRvZXMgbm90IGltcG9ydCBpdC4NCj4gPiBFUlJPUjog
-bW9kcG9zdDogbW9kdWxlIGRybV9jbWFfaGVscGVyIHVzZXMgc3ltYm9sIGRtYV9idWZfdm1hcCBm
-cm9tDQo+ID4gwqAgbmFtZXNwYWNlIERNQV9CVUYsIGJ1dCBkb2VzIG5vdCBpbXBvcnQgaXQuDQo+
-ID4gDQo+ID4gUmVwb3J0ZWQtYnk6IExpbnV4IEtlcm5lbCBGdW5jdGlvbmFsIFRlc3RpbmcgPGxr
-ZnRAbGluYXJvLm9yZz4NCj4gPiBGaXhlczogY29tbWl0IDRiMmI1ZTE0MmZmNCAoImRybTogTW92
-ZSBHRU0gbWVtb3J5IG1hbmFnZXJzIGludG8gbW9kdWxlcyIpDQo+ID4gU2lnbmVkLW9mZi1ieTog
-TWFyY2VsIFppc3dpbGVyIDxtYXJjZWwuemlzd2lsZXJAdG9yYWRleC5jb20+DQo+ID4gDQo+ID4g
-LS0tDQo+ID4gDQo+ID4gwqAgZHJpdmVycy9ncHUvZHJtL2RybV9nZW1fY21hX2hlbHBlci5jIHwg
-MiArKw0KPiA+IMKgIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKykNCj4gPiANCj4gPiBk
-aWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2RybV9nZW1fY21hX2hlbHBlci5jIGIvZHJpdmVy
-cy9ncHUvZHJtL2RybV9nZW1fY21hX2hlbHBlci5jDQo+ID4gaW5kZXggNmY3YjNmOGVjMDRkMy4u
-NjlmODU2NGFkMTFjZCAxMDA2NDQNCj4gPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2dlbV9j
-bWFfaGVscGVyLmMNCj4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2dlbV9jbWFfaGVscGVy
-LmMNCj4gPiBAQCAtMjMsNiArMjMsOCBAQA0KPiA+IMKgICNpbmNsdWRlIDxkcm0vZHJtX2dlbV9j
-bWFfaGVscGVyLmg+DQo+ID4gwqAgI2luY2x1ZGUgPGRybS9kcm1fdm1hX21hbmFnZXIuaD4NCj4g
-PiDCoCANCj4gPiArTU9EVUxFX0lNUE9SVF9OUyhETUFfQlVGKTsNCj4gDQo+IENvdWxkIHRoaXMg
-bGluZSBiZSBtb3ZlZCB0byB0aGUgYm90dG9tIG9mIHRoZSBmaWxlLCB3aGVyZSB0aGUgb3RoZXIg
-DQo+IE1PRFVMRSBzdGF0ZW1lbnRzIGFyZT8NCg0KSGVoZSwgZ29vZCBxdWVzdGlvbi4gSSB3YXMg
-YWN0dWFsbHkgYXNraW5nIG15c2VsZiB0aGUgc2FtZSBidXQgcXVpY2tseSBsb29raW5nIGF0IGEg
-ZmV3IGZpbGVzIGFuZCB0aGV5IGFsbCBoYWQNCml0IGFmdGVyIHRoZWlyIGluY2x1ZGVzIHRvd2Fy
-ZHMgdGhlIHRvcC4gVHVybnMgb3V0IHRoYXQgd2FzIHJhdGhlciBzaG9ydCBzaWdodGVkLi4uDQoN
-CkxldCBtZSBsb29rIG1vcmUgY2xvc2VseS4gQ3VycmVudCAtbmV4dCBoYXMgZXhhY3RseSAyMDAg
-ZmlsZXMgd2l0aCBhIE1PRFVMRV9JTVBPUlRfTlMgc3RhdGVtZW50LiBPa2F5LCBzb21lIG9mDQp3
-aGljaCBhcmUgZG9jdW1lbnRhdGlvbi4gQW55d2F5LCAxMzIgb2Ygd2hpY2ggZG8gaGF2ZSBpdCB3
-aXRoIHRoZWlyIG90aGVyIE1PRFVMRSBtYWNyb3MgdG93YXJkcyB0aGUgZW5kIGFzIHlvdQ0Kc3Vn
-Z2VzdC4gMjAgb2Ygd2hpY2ggYW5kIG1haW5seSBEUk0gc3R1ZmYgaGFzIGl0IHRvd2FyZHMgdGhl
-IHRvcCBhZnRlciB0aGVtIGluY2x1ZGVzLiBGdW5ueS4NCg0KV2hhdCBkb2VzIHRoZSBkb2N1bWVu
-dGF0aW9uIHN1Z2dlc3Q/DQoNCkRvY3VtZW50YXRpb24vY29yZS1hcGkvc3ltYm9sLW5hbWVzcGFj
-ZXMucnN0DQoNCiJJdCBpcyBhZHZpc2FibGUgdG8gYWRkIHRoZSBNT0RVTEVfSU1QT1JUX05TKCkg
-c3RhdGVtZW50IGNsb3NlIHRvIG90aGVyIG1vZHVsZQ0KbWV0YWRhdGEgZGVmaW5pdGlvbnMgbGlr
-ZSBNT0RVTEVfQVVUSE9SKCkgb3IgTU9EVUxFX0xJQ0VOU0UoKS4gUmVmZXIgdG8gc2VjdGlvbg0K
-NS4gZm9yIGEgd2F5IHRvIGNyZWF0ZSBtaXNzaW5nIGltcG9ydCBzdGF0ZW1lbnRzIGF1dG9tYXRp
-Y2FsbHkuIg0KDQpUaGVyZSB5b3UgZ28uIFBsdXMgdGhlcmUgaXMgZXZlbiBzb21lIGZhbmN5IGF1
-dG9tYXRpb24gKDstcCkuDQoNClNvIGxldCBtZSBtb3ZlIGl0IGRvd24gdGhlcmUgdGhlbi4NCg0K
-PiBJbiB0aGUgZml4ZWQgY29tbWl0IDRiMmI1ZTE0MmZmNCwgdGhlcmUncyBhIHNpbWlsYXIgY2hh
-bmdlIGZvciANCj4gZHJtX2dlbV9zaG1lbV9oZWxwZXIuYy4gSXQgdXNlcyBkbWEtYnVmX3ZtYXAg
-YXMgd2VsbC4gRG9lcyB0aGF0IG1vZHVsZSANCj4gcmVxdWlyZSB0aGUgc2FtZSBmaXg/DQoNCkxp
-a2VseS4gTGV0IG1lIGp1c3QgcnVuIHplIGF1dG9tYXRpb24gYW5kIHNlZSB3aGF0IHdlIGdldC4u
-Lg0KDQo+IERvIHlvdSBoYXZlIGFueSBpZGVhIHdoeSBJIGRvbid0IHNlZSB0aGVzZSBlcnJvcnMg
-aW4gbXkgYnVpbGRzPw0KDQpXZWxsLCBJIGd1ZXNzLCB0aGVyZSBhcmUgdmFyaW91cyBLQ09ORklH
-IHN5bWJvbHMgaW5mbHVlbmNpbmcgdGhhdCB3aG9sZSBzdG9yeS4gSG93IGFib3V0IGUuZy4NCg0K
-aW5pdC9LY29uZmlnOmNvbmZpZyBNT0RVTEVfQUxMT1dfTUlTU0lOR19OQU1FU1BBQ0VfSU1QT1JU
-Uw0KDQo+IEJlc3QgcmVnYXJkcw0KPiBUaG9tYXMNCg0KQ2hlZXJzDQoNCk1hcmNlbA0KDQo+ID4g
-Kw0KPiA+IMKgIC8qKg0KPiA+IMKgwqAgKiBET0M6IGNtYSBoZWxwZXJzDQo+ID4gwqDCoCAqDQo+
-ID4gDQo+IA0KPiAtLSANCj4gVGhvbWFzIFppbW1lcm1hbm4NCj4gR3JhcGhpY3MgRHJpdmVyIERl
-dmVsb3Blcg0KPiBTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCj4gTWF4ZmVs
-ZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBHZXJtYW55DQo+IChIUkIgMzY4MDksIEFHIE7DvHJu
-YmVyZykNCj4gR2VzY2jDpGZ0c2bDvGhyZXI6IEZlbGl4IEltZW5kw7ZyZmZlcg0KDQotLSANCkJl
-c3QgcmVnYXJkcyAtIE1pdCBmcmV1bmRsaWNoZW4gR3LDvHNzZW4gLSBNZWlsbGV1cmVzIHNhbHV0
-YXRpb25zDQoNCk1hcmNlbCBaaXN3aWxlcg0KU29mdHdhcmUgVGVhbSBMZWFkIC0gRW1iZWRkZWQg
-TGludXggQlNQDQoNClRvcmFkZXggQUcNCkViZW5hdXN0cmFzc2UgMTAgfCA2MDQ4IEhvcncvTHV6
-ZXJuIHwgU3dpdHplcmxhbmQgfCBUOiArNDEgNDEgNTAwIDQ4MDANCg==
+https://bugzilla.kernel.org/show_bug.cgi?id=3D214853
+
+            Bug ID: 214853
+           Summary: [amdgpu] UBSAN shows several null-ptr-deref in
+                    ../dc/bios/command_table2.c some
+                    array-index-out-of-bounds in ../dc/bios/bios_parser2.c
+                    and an invalid-load in ../amdgpu_dm/amdgpu_dm.c
+           Product: Drivers
+           Version: 2.5
+    Kernel Version: 5.15-rc7
+          Hardware: All
+                OS: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: Video(DRI - non Intel)
+          Assignee: drivers_video-dri@kernel-bugs.osdl.org
+          Reporter: erhard_f@mailbox.org
+                CC: christian.koenig@amd.com
+        Regression: No
+
+Created attachment 299337
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D299337&action=3Dedit
+kernel dmesg (kernel 5.15-rc7, AMD FX-8370)
+
+[...]
+UBSAN: null-ptr-deref in
+drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:872:3
+member access within null pointer of type 'struct
+atom_master_list_of_command_functions_v2_1'
+CPU: 3 PID: 234 Comm: systemd-udevd Not tainted 5.15.0-rc7-bdver2 #11
+Hardware name: Gigabyte Technology Co., Ltd. To be filled by O.E.M./970-GAM=
+ING,
+BIOS F2 04/06/2016
+Call Trace:
+ dump_stack_lvl+0x8d/0xd9
+ ubsan_epilogue+0x5/0x44
+ __ubsan_handle_type_mismatch_v1+0x45/0x4a
+ dal_firmware_parser_init_cmd_tbl+0x31c/0x37c [amdgpu]
+ bios_parser2_construct+0x16f/0x9cb [amdgpu]
+ firmware_parser_create+0x36/0x4c [amdgpu]
+ dal_bios_parser_create+0xc/0x20 [amdgpu]
+ dc_create+0x25d/0x764 [amdgpu]
+ dm_hw_init+0x28a/0x697 [amdgpu]
+ ? dev_printk_emit+0x4c/0x66
+ amdgpu_device_init+0x1847/0x1e13 [amdgpu]
+ amdgpu_driver_load_kms+0x47/0x33d [amdgpu]
+ amdgpu_pci_probe+0xeb/0x1a6 [amdgpu]
+ pci_device_probe+0xa1/0x121
+ really_probe+0xe4/0x331
+ __driver_probe_device+0x84/0xe1
+ driver_probe_device+0x1a/0x6d
+ __driver_attach+0xac/0xc3
+ ? driver_attach+0x15/0x15
+ bus_for_each_dev+0x8c/0xc0
+ bus_add_driver+0xf5/0x1f2
+ driver_register+0x66/0xe7
+ ? 0xffffffffc0ff2000
+ do_one_initcall+0x109/0x1f4
+ ? 0xffffffffc0ff2000
+ do_init_module+0x5c/0x1f1
+ load_module+0x193f/0x1ca9
+ ? kernel_read_file_from_fd+0x5b/0x7e
+ __se_sys_finit_module+0xa7/0xce
+ do_syscall_64+0x79/0xa3
+ ? lockdep_hardirqs_on_prepare+0xf6/0x1e3
+ entry_SYSCALL_64_after_hwframe+0x44/0xae
+RIP: 0033:0x7fa99ef681e9
+Code: 00 00 b8 ca 00 00 00 0f 05 eb ac 66 0f 1f 44 00 00 48 89 f8 48 89 f7 =
+48
+89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 7=
+3 01
+c3 48 8b 0d 4f fc 0b 00 f7 d8 64 89 01 48
+RSP: 002b:00007fff06041ba8 EFLAGS: 00000246 ORIG_RAX: 0000000000000139
+RAX: ffffffffffffffda RBX: 000055f2d378be20 RCX: 00007fa99ef681e9
+RDX: 0000000000000000 RSI: 00007fa99f0af97f RDI: 0000000000000018
+RBP: 0000000000020000 R08: 0000000000000000 R09: fffffffffffffeb8
+R10: 0000000000000018 R11: 0000000000000246 R12: 0000000000000000
+R13: 000055f2d38eba60 R14: 00007fa99f0af97f R15: 0000000000000000
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
+UBSAN: array-index-out-of-bounds in
+drivers/gpu/drm/amd/amdgpu/../display/dc/bios/bios_parser2.c:384:3
+index 8 is out of range for type 'struct atom_gpio_pin_assignment [8]'
+CPU: 3 PID: 234 Comm: systemd-udevd Not tainted 5.15.0-rc7-bdver2 #11
+Hardware name: Gigabyte Technology Co., Ltd. To be filled by O.E.M./970-GAM=
+ING,
+BIOS F2 04/06/2016
+Call Trace:
+ dump_stack_lvl+0x8d/0xd9
+ ubsan_epilogue+0x5/0x44
+ __ubsan_handle_out_of_bounds+0x9e/0xa0
+ get_gpio_i2c_info+0xe0/0x17e [amdgpu]
+ bios_parser_get_i2c_info+0x5b/0xfa [amdgpu]
+ dal_ddc_service_create+0xa7/0x1a8 [amdgpu]
+ dcn20_resource_construct+0x106e/0x10ba [amdgpu]
+ ? find_held_lock+0x41/0xc1
+ ? slab_post_alloc_hook+0x5f/0x8a
+ dcn20_create_resource_pool+0x39/0x6f [amdgpu]
+ dc_create_resource_pool+0x164/0x213 [amdgpu]
+ ? dal_gpio_service_create+0x8f/0x193 [amdgpu]
+ dc_create+0x2b3/0x764 [amdgpu]
+ dm_hw_init+0x28a/0x697 [amdgpu]
+ ? dev_printk_emit+0x4c/0x66
+ amdgpu_device_init+0x1847/0x1e13 [amdgpu]
+ amdgpu_driver_load_kms+0x47/0x33d [amdgpu]
+ amdgpu_pci_probe+0xeb/0x1a6 [amdgpu]
+ pci_device_probe+0xa1/0x121
+ really_probe+0xe4/0x331
+ __driver_probe_device+0x84/0xe1
+ driver_probe_device+0x1a/0x6d
+ __driver_attach+0xac/0xc3
+ ? driver_attach+0x15/0x15
+ bus_for_each_dev+0x8c/0xc0
+ bus_add_driver+0xf5/0x1f2
+ driver_register+0x66/0xe7
+ ? 0xffffffffc0ff2000
+ do_one_initcall+0x109/0x1f4
+ ? 0xffffffffc0ff2000
+ do_init_module+0x5c/0x1f1
+ load_module+0x193f/0x1ca9
+ ? kernel_read_file_from_fd+0x5b/0x7e
+ __se_sys_finit_module+0xa7/0xce
+ do_syscall_64+0x79/0xa3
+ ? lockdep_hardirqs_on_prepare+0xf6/0x1e3
+ entry_SYSCALL_64_after_hwframe+0x44/0xae
+RIP: 0033:0x7fa99ef681e9
+Code: 00 00 b8 ca 00 00 00 0f 05 eb ac 66 0f 1f 44 00 00 48 89 f8 48 89 f7 =
+48
+89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 7=
+3 01
+c3 48 8b 0d 4f fc 0b 00 f7 d8 64 89 01 48
+RSP: 002b:00007fff06041ba8 EFLAGS: 00000246 ORIG_RAX: 0000000000000139
+RAX: ffffffffffffffda RBX: 000055f2d378be20 RCX: 00007fa99ef681e9
+RDX: 0000000000000000 RSI: 00007fa99f0af97f RDI: 0000000000000018
+RBP: 0000000000020000 R08: 0000000000000000 R09: fffffffffffffeb8
+R10: 0000000000000018 R11: 0000000000000246 R12: 0000000000000000
+R13: 000055f2d38eba60 R14: 00007fa99f0af97f R15: 0000000000000000
+[...]
+=3D
+UBSAN: invalid-load in
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:5865:85
+load of value 170 is not a valid value for type 'bool' (aka '_Bool')
+CPU: 5 PID: 234 Comm: systemd-udevd Not tainted 5.15.0-rc7-bdver2 #11
+Hardware name: Gigabyte Technology Co., Ltd. To be filled by O.E.M./970-GAM=
+ING,
+BIOS F2 04/06/2016
+Call Trace:
+ dump_stack_lvl+0x8d/0xd9
+ ubsan_epilogue+0x5/0x44
+ __ubsan_handle_load_invalid_value+0x9e/0xa0
+ create_validate_stream_for_sink+0x6bb/0x777 [amdgpu]
+ ? lockdep_hardirqs_on_prepare+0xf6/0x1e3
+ amdgpu_dm_connector_mode_valid+0x70/0x1b9 [amdgpu]
+ ? drm_connector_list_update+0xba/0x121 [drm]
+ drm_connector_mode_valid+0x34/0x42 [drm_kms_helper]
+ drm_helper_probe_single_connector_modes+0x4d7/0x88e [drm_kms_helper]
+ ? drm_client_modeset_probe+0x1fa/0x14c9 [drm]
+ drm_client_modeset_probe+0x232/0x14c9 [drm]
+ ? add_chain_block+0x165/0x22f
+ ? __lock_acquire+0xc7c/0x1e4d
+ ? rcu_read_lock_sched_held+0x45/0xa5
+ ? lock_acquire+0xcb/0x210
+ ? drm_fb_helper_initial_config+0x32/0x4f [drm_kms_helper]
+ __drm_fb_helper_initial_config_and_unlock+0x3e/0x5f0 [drm_kms_helper]
+ amdgpu_fbdev_init+0xee/0x110 [amdgpu]
+ amdgpu_device_init+0x1996/0x1e13 [amdgpu]
+ amdgpu_driver_load_kms+0x47/0x33d [amdgpu]
+ amdgpu_pci_probe+0xeb/0x1a6 [amdgpu]
+ pci_device_probe+0xa1/0x121
+ really_probe+0xe4/0x331
+ __driver_probe_device+0x84/0xe1
+ driver_probe_device+0x1a/0x6d
+ __driver_attach+0xac/0xc3
+ ? driver_attach+0x15/0x15
+ bus_for_each_dev+0x8c/0xc0
+ bus_add_driver+0xf5/0x1f2
+ driver_register+0x66/0xe7
+ ? 0xffffffffc0ff2000
+ do_one_initcall+0x109/0x1f4
+ ? 0xffffffffc0ff2000
+ do_init_module+0x5c/0x1f1
+ load_module+0x193f/0x1ca9
+ ? kernel_read_file_from_fd+0x5b/0x7e
+ __se_sys_finit_module+0xa7/0xce
+ do_syscall_64+0x79/0xa3
+ ? lockdep_hardirqs_on_prepare+0xf6/0x1e3
+ entry_SYSCALL_64_after_hwframe+0x44/0xae
+RIP: 0033:0x7fa99ef681e9
+Code: 00 00 b8 ca 00 00 00 0f 05 eb ac 66 0f 1f 44 00 00 48 89 f8 48 89 f7 =
+48
+89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 7=
+3 01
+c3 48 8b 0d 4f fc 0b 00 f7 d8 64 89 01 48
+RSP: 002b:00007fff06041ba8 EFLAGS: 00000246 ORIG_RAX: 0000000000000139
+RAX: ffffffffffffffda RBX: 000055f2d378be20 RCX: 00007fa99ef681e9
+RDX: 0000000000000000 RSI: 00007fa99f0af97f RDI: 0000000000000018
+RBP: 0000000000020000 R08: 0000000000000000 R09: fffffffffffffeb8
+R10: 0000000000000018 R11: 0000000000000246 R12: 0000000000000000
+R13: 000055f2d38eba60 R14: 00007fa99f0af97f R15: 0000000000000000
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
