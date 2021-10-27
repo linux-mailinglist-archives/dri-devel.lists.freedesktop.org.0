@@ -1,93 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAD1743CAC7
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Oct 2021 15:36:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 65BD643CAD1
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Oct 2021 15:38:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 186566E899;
-	Wed, 27 Oct 2021 13:36:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 194686E89B;
+	Wed, 27 Oct 2021 13:38:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A628E6E899
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Oct 2021 13:36:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635341778;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=HGAgU8sFMkBfN+ogQRdoDOKIrf4t8BDQtiu9bep9LTI=;
- b=hQoeRy+jN7oVuC/v41gMde8H9K8u5d8NGCY5ZvsOxsC7wfufnDJg9Fr8LfF5ZETXbEK2MX
- sT1GXAF+KEmOU5j+Z1TDuv+PRFmH2KNuWA2KgNZG/OY3OYXzZlcnIiuzKQSUGcRuscVUEH
- PYx0WACj2OtiAjPnFU5FTTauxtHx6xQ=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-335-Lyo7Y9KvMoy8OFathT9pKA-1; Wed, 27 Oct 2021 09:36:17 -0400
-X-MC-Unique: Lyo7Y9KvMoy8OFathT9pKA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- b79-20020a1c1b52000000b0032328337393so1781042wmb.1
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Oct 2021 06:36:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=HGAgU8sFMkBfN+ogQRdoDOKIrf4t8BDQtiu9bep9LTI=;
- b=IBKKIGgn2Jm+DFv1eiT4/Zsot9f09G3zosRMf0ONWApwSWB4H8cZNmseUKIDCRcM5U
- b/g+v0DgGBpDofNLbMt2214sEuk+Uv1PGXpw2mbXOqR2RR4fxSRzOEc+eYj3Tc20+fwG
- pp3ev4BGyQiSaX+DJuFP6WIHvrphSAnp2kadb3hJ/7oUm58JQUFlMLWyNerfcjVXk/nS
- FFGNzn2DDAn+do3/77sYRgkGfU356QxiKPsl/Hq1/V81TZts1nbiCR+kGQpGOHWp/RS8
- kPi+qWRrVnQb7xG3g0/HrtlIqlahH3q9T/fOzqZ8FEWQlByo/SP6ysCCg3lmTC6iDqJZ
- xKOQ==
-X-Gm-Message-State: AOAM53326KUmQm4CeTXfl+BRAgZOzwEnkE2r5oTZ1d0K6WqT51WRZACR
- Nu4VQfrnRyxscRv/4GbvUbmdBhTcO/itBA4xRwhs5ydQ7DGTTDmtwGnJpQ1TD6UV0O3yaxAiY0K
- x5Ybw11pIm6BNyfycS7RtrIzFIt3j
-X-Received: by 2002:a05:600c:1912:: with SMTP id
- j18mr5705918wmq.173.1635341776204; 
- Wed, 27 Oct 2021 06:36:16 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwbmPrH9Z0DjjdY9RmSwXuXV5NSvYIJTaNRAESht+qDYjmHT9FSA7ryojF0uBa4uPXN3oLe2w==
-X-Received: by 2002:a05:600c:1912:: with SMTP id
- j18mr5705891wmq.173.1635341775997; 
- Wed, 27 Oct 2021 06:36:15 -0700 (PDT)
-Received: from [192.168.1.128] ([92.176.231.106])
- by smtp.gmail.com with ESMTPSA id k63sm3534742wme.22.2021.10.27.06.36.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 27 Oct 2021 06:36:15 -0700 (PDT)
-Message-ID: <d243edae-9d3d-1a00-3dcd-c4c2d1fb02cd@redhat.com>
-Date: Wed, 27 Oct 2021 15:36:14 +0200
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E91BB6E89A;
+ Wed, 27 Oct 2021 13:38:34 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10149"; a="217070595"
+X-IronPort-AV: E=Sophos;i="5.87,186,1631602800"; d="scan'208";a="217070595"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Oct 2021 06:38:34 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.87,186,1631602800"; d="scan'208";a="447219659"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
+ by orsmga006.jf.intel.com with SMTP; 27 Oct 2021 06:38:31 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Wed, 27 Oct 2021 16:38:30 +0300
+Date: Wed, 27 Oct 2021 16:38:30 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel@lists.freedesktop.org, Tsuchiya Yuto <kitakar@gmail.com>
+Subject: Re: [PATCH] drm/i915: Add NO_VLV_DISP_PW_DPIO_CMN_BC_INIT quirk
+Message-ID: <YXlWVtnaTUEJ6yQs@intel.com>
+References: <20211024155010.126275-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH] [RESEND] drm: fb_helper: fix CONFIG_FB dependency
-To: Arnd Bergmann <arnd@kernel.org>, Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>, Kees Cook <keescook@chromium.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@linux.ie>, Arnd Bergmann <arnd@arndb.de>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <20210927142816.2069269-1-arnd@kernel.org>
- <202109270923.97AFDE89DB@keescook> <YVXJLE8UqgcUNIKl@phenom.ffwll.local>
- <878ryeit9i.fsf@intel.com>
- <CAK8P3a0EG_C6OvG00Dg8SQacirNztLFjVonb5t2xQj9aFZ47Vg@mail.gmail.com>
- <3604fb90-f6c3-0fa2-c864-7f1795caee1e@redhat.com>
- <CAK8P3a0_9U0MDLcNG8GL_ZDCGQAsB=G7DBC0k1BYB1HNQTbu4Q@mail.gmail.com>
- <87tuh2hb17.fsf@intel.com>
- <CAK8P3a0KHwaSNqg_dz8-w6e_EJBrsQw_ti+5aErsSr+8AfV9cA@mail.gmail.com>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <CAK8P3a0KHwaSNqg_dz8-w6e_EJBrsQw_ti+5aErsSr+8AfV9cA@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20211024155010.126275-1-hdegoede@redhat.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,36 +55,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/27/21 15:25, Arnd Bergmann wrote:
-
-[snip]
-
-> That's not going to help in this case, the way the helper functions work is that
-> you select them as needed, and you avoid the other dependencies. This part
-> works fine.
+On Sun, Oct 24, 2021 at 05:50:10PM +0200, Hans de Goede wrote:
+> Add a NO_VLV_DISP_PW_DPIO_CMN_BC_INIT quirk to fix i915 not working on
+> the Xiaomi Mi Pad 2 (with CHT x5-Z8500 SoC).
 > 
-> We could probably get rid of this symbol by just making it an unconditional
-> part of drm.ko, as almost every driver ends up using it anyway.
+> The Xiaomi Mi Pad 2 uses quite an unusual hardware-design for a Cherry
+> Trail tablet. It deviates from the typical reference design based tablets
+> in many ways.
 > 
-> Arguably, this would make the end result worse, as you'd again get drm.ko
-> itself to link against the old framebuffer code.
+> The Mi Pad 2 does not have any DisplayPort or HDMI outouts. I suspect that
+> as part of its unusual design it also has some supply rail which is only
+> used for DisplayPort or HDMI not connected.
+
+Do we have the VBT somewhere (preferable attached to a bug report)?
+Maybe we can avoid an ugly quirk.
+
 > 
-> What I'm not sure about is whether drivers/video/fbdev/core/fb.ko could
-> be split up into smaller parts so DRM_FBDEV_EMULATION could
-> only depend on a set of common code without the bits that are needed
-> for the classic fbdev drivers.
->
+> Force-enabling the dpio-common-bc powerwell as the i915 normal does at boot
+> appears to cause the P-Unit to hang. When booting with a serial-usb console
+> the following errors are logged before the system freezes:
+> 
+>  i915 0000:00:02.0: [drm] *ERROR* timeout setting power well state 00000000 (fffff3ff)
+>  i915 0000:00:02.0: [drm] *ERROR* Display PHY 0 is not power up
 
-I attempted to do something like that but the changes were nacked:
+Hmm. I wonder if we're missing a clock or something...
 
-https://patchwork.kernel.org/project/linux-fbdev/list/?series=538227
+Either of these do anything different?
+
+--- a/drivers/gpu/drm/i915/display/intel_display_power.c
++++ b/drivers/gpu/drm/i915/display/intel_display_power.c
+@@ -1419,6 +1419,10 @@ static void vlv_display_power_well_init(struct drm_i915_private *dev_priv)
+ 	for_each_pipe(dev_priv, pipe) {
+ 		u32 val = intel_de_read(dev_priv, DPLL(pipe));
  
->       Arnd
-> 
++		val |= DPLL_SSC_REF_CLK_CHV;
+		or
++		val &= ~DPLL_SSC_REF_CLK_CHV;
 
-Best regards,
+ 		val |= DPLL_REF_CLK_ENABLE_VLV | DPLL_VGA_MODE_DIS;
+ 		if (pipe != PIPE_A)
+ 			val |= DPLL_INTEGRATED_CRI_CLK_VLV;
+
 -- 
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
-
+Ville Syrjälä
+Intel
