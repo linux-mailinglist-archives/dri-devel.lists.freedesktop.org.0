@@ -2,46 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0549743CAE4
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Oct 2021 15:42:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BE6243CAF2
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Oct 2021 15:43:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B9FC6E89A;
-	Wed, 27 Oct 2021 13:42:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 767B06E89C;
+	Wed, 27 Oct 2021 13:43:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A6E66E89A;
- Wed, 27 Oct 2021 13:42:05 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10149"; a="217332618"
-X-IronPort-AV: E=Sophos;i="5.87,186,1631602800"; d="scan'208";a="217332618"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Oct 2021 06:42:04 -0700
-X-IronPort-AV: E=Sophos;i="5.87,186,1631602800"; d="scan'208";a="497870033"
-Received: from smaharan-mobl.gar.corp.intel.com (HELO localhost)
- ([10.251.214.195])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Oct 2021 06:41:59 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Arnd Bergmann <arnd@kernel.org>, dri-devel@lists.freedesktop.org,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>
-Cc: linux-fbdev@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- Arnd Bergmann <arnd@arndb.de>, Matthew Auld <matthew.auld@intel.com>,
- Zhenyu Wang <zhenyuw@linux.intel.com>,
- Alex Williamson <alex.williamson@redhat.com>, Jason Gunthorpe <jgg@ziepe.ca>,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/3] [v2] i915: fix backlight configuration issue
-In-Reply-To: <20211027132732.3993279-3-arnd@kernel.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20211027132732.3993279-1-arnd@kernel.org>
- <20211027132732.3993279-3-arnd@kernel.org>
-Date: Wed, 27 Oct 2021 16:41:55 +0300
-Message-ID: <87r1c6h9ek.fsf@intel.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9CDA56E89C
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Oct 2021 13:43:39 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 6F0F660E74
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Oct 2021 13:43:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1635342219;
+ bh=f3K135fFyRe2WrfxYkF8b0CFeLfkWi8oAkXGi++/ryQ=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=qJ49FXssnOyodR7/o1C4uY6dFMBsa0tlMDrodlsTS4OjlAk8akhnPHZDGd/YptMeG
+ u+2kSoHUczoDz1HvGAbhI7EPjFHq/I9MHoAovVafkQjQ8lq4uW6Ugxnn2jefSEKZQ+
+ lDKQ2J9C3582ORMkcb6hJLz+720YJnwxlmknQVawVOeE6ZGcN+Gk1tlIIedYWxvYMO
+ YmxToRzTvpjOKw2nzff8zwBNeYArMgSa6BFAr486Anzr+bYlwL9rSWIQX+W6F7+5Wg
+ hDY8E1bv7yiCceh/dZFAUO1cMRyinCFFCApT0F/WldrbbI4AVbf5GEW1SJ+abQwqm6
+ TDsDB/OeeCotQ==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id 693EB60FE3; Wed, 27 Oct 2021 13:43:39 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 213983] WARNING: CPU: 3 PID: 520 at
+ drivers/gpu/drm/ttm/ttm_bo.c:409 ttm_bo_release+0x7a/0x803 [ttm]
+Date: Wed, 27 Oct 2021 13:43:38 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: erhard_f@mailbox.org
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-213983-2300-8ZSiQI0i3i@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-213983-2300@https.bugzilla.kernel.org/>
+References: <bug-213983-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,66 +69,100 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 27 Oct 2021, Arnd Bergmann <arnd@kernel.org> wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
->
-> The i915 driver can use the backlight subsystem as an option, and usually
-> selects it when CONFIG_ACPI is set. However it is possible to configure
-> a kernel with modular backlight classdev support and a built-in i915
-> driver, which leads to a linker error:
->
-> drivers/gpu/drm/i915/display/intel_panel.o: In function `intel_backlight_device_register':
-> intel_panel.c:(.text+0x2f58): undefined reference to `backlight_device_register'
-> drivers/gpu/drm/i915/display/intel_panel.o: In function `intel_backlight_device_unregister':
-> intel_panel.c:(.text+0x2fe4): undefined reference to `backlight_device_unregister'
->
-> Change i915 to just 'depends on' for both BACKLIGHT_CLASS_DEVICE
-> and ACPI_VIDEO, which avoids a lot of the problems.
->
-> Link: https://lore.kernel.org/all/20200108140227.3976563-1-arnd@arndb.de/
-> Link: https://lore.kernel.org/all/20200417155553.675905-1-arnd@arndb.de/
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
-> This change depends on cleaning up drivers/video/fbdev to no longer
-> 'select' I2C and BACKLIGHT_CLASS_DEVICE, otherwise it causes
-> dependency loops.
-> ---
->  drivers/gpu/drm/i915/Kconfig | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/Kconfig b/drivers/gpu/drm/i915/Kconfig
-> index 84b6fc70cbf5..f427e6d50d9b 100644
-> --- a/drivers/gpu/drm/i915/Kconfig
-> +++ b/drivers/gpu/drm/i915/Kconfig
-> @@ -3,6 +3,8 @@ config DRM_I915
->  	tristate "Intel 8xx/9xx/G3x/G4x/HD Graphics"
->  	depends on DRM
->  	depends on X86 && PCI
-> +	depends on ACPI_VIDEO || !ACPI
-> +	depends on BACKLIGHT_CLASS_DEVICE || !BACKLIGHT_CLASS_DEVICE
->  	select INTEL_GTT
->  	select INTERVAL_TREE
->  	# we need shmfs for the swappable backing store, and in particular
-> @@ -16,10 +18,6 @@ config DRM_I915
->  	select IRQ_WORK
->  	# i915 depends on ACPI_VIDEO when ACPI is enabled
->  	# but for select to work, need to select ACPI_VIDEO's dependencies, ick
+https://bugzilla.kernel.org/show_bug.cgi?id=3D213983
 
-The comment needs updating as well.
+--- Comment #4 from Erhard F. (erhard_f@mailbox.org) ---
+(In reply to Christian K=C3=B6nig from comment #3)
+> Well what happens here is that a buffer object is released while it is
+> pinned and TTM now warns about doing stuff like that.
+>=20
+> The key point is we need to figure out why the buffer is pinned in the fi=
+rst
+> place.
+>=20
+> One possibility is that it is used for scanout and containing the display=
+ed
+> picture, but from the backtrace my guess is that the buffer is shared wit=
+h a
+> different device and pinned because of that.
+>=20
+> Can we get an lspci output for the system?
+No prob. Changed the CPU to an A10-8750B meanwhile but the other hardware is
+the same as in the original report.
 
-Other than that,
+ # lspci=20
+00:00.0 Host bridge: Advanced Micro Devices, Inc. [AMD] Family 15h (Models
+30h-3fh) Processor Root Complex
+00:00.2 IOMMU: Advanced Micro Devices, Inc. [AMD] Family 15h (Models 30h-3f=
+h)
+I/O Memory Management Unit
+00:01.0 VGA compatible controller: Advanced Micro Devices, Inc. [AMD/ATI]
+Kaveri [Radeon R7 Graphics] (rev d7)
+00:01.1 Audio device: Advanced Micro Devices, Inc. [AMD/ATI] Kaveri HDMI/DP
+Audio Controller
+00:02.0 Host bridge: Advanced Micro Devices, Inc. [AMD] Family 15h (Models
+30h-3fh) Processor Root Port
+00:02.1 PCI bridge: Advanced Micro Devices, Inc. [AMD] Kaveri P2P Bridge for
+GFX PCIe Port [1:0]
+00:03.0 Host bridge: Advanced Micro Devices, Inc. [AMD] Family 15h (Models
+30h-3fh) Processor Root Port
+00:03.1 PCI bridge: Advanced Micro Devices, Inc. [AMD] Family 15h (Models
+30h-3fh) Processor Root Port
+00:03.4 PCI bridge: Advanced Micro Devices, Inc. [AMD] Family 15h (Models
+30h-3fh) Processor Root Port
+00:04.0 Host bridge: Advanced Micro Devices, Inc. [AMD] Family 15h (Models
+30h-3fh) Processor Root Port
+00:10.0 USB controller: Advanced Micro Devices, Inc. [AMD] FCH USB XHCI
+Controller (rev 09)
+00:10.1 USB controller: Advanced Micro Devices, Inc. [AMD] FCH USB XHCI
+Controller (rev 09)
+00:11.0 SATA controller: Advanced Micro Devices, Inc. [AMD] FCH SATA Contro=
+ller
+[AHCI mode] (rev 40)
+00:12.0 USB controller: Advanced Micro Devices, Inc. [AMD] FCH USB OHCI
+Controller (rev 11)
+00:12.2 USB controller: Advanced Micro Devices, Inc. [AMD] FCH USB EHCI
+Controller (rev 11)
+00:13.0 USB controller: Advanced Micro Devices, Inc. [AMD] FCH USB OHCI
+Controller (rev 11)
+00:13.2 USB controller: Advanced Micro Devices, Inc. [AMD] FCH USB EHCI
+Controller (rev 11)
+00:14.0 SMBus: Advanced Micro Devices, Inc. [AMD] FCH SMBus Controller (rev=
+ 16)
+00:14.3 ISA bridge: Advanced Micro Devices, Inc. [AMD] FCH LPC Bridge (rev =
+11)
+00:14.4 PCI bridge: Advanced Micro Devices, Inc. [AMD] FCH PCI Bridge (rev =
+40)
+00:14.5 USB controller: Advanced Micro Devices, Inc. [AMD] FCH USB OHCI
+Controller (rev 11)
+00:15.0 PCI bridge: Advanced Micro Devices, Inc. [AMD] Hudson PCI to PCI br=
+idge
+(PCIE port 0)
+00:18.0 Host bridge: Advanced Micro Devices, Inc. [AMD] Family 15h (Models
+30h-3fh) Processor Function 0
+00:18.1 Host bridge: Advanced Micro Devices, Inc. [AMD] Family 15h (Models
+30h-3fh) Processor Function 1
+00:18.2 Host bridge: Advanced Micro Devices, Inc. [AMD] Family 15h (Models
+30h-3fh) Processor Function 2
+00:18.3 Host bridge: Advanced Micro Devices, Inc. [AMD] Family 15h (Models
+30h-3fh) Processor Function 3
+00:18.4 Host bridge: Advanced Micro Devices, Inc. [AMD] Family 15h (Models
+30h-3fh) Processor Function 4
+00:18.5 Host bridge: Advanced Micro Devices, Inc. [AMD] Family 15h (Models
+30h-3fh) Processor Function 5
+01:00.0 USB controller: ASMedia Technology Inc. ASM2142 USB 3.1 Host Contro=
+ller
+02:00.0 USB controller: ASMedia Technology Inc. ASM1143 USB 3.1 Host Contro=
+ller
+03:00.0 Ethernet controller: Realtek Semiconductor Co., Ltd. RTL8111/8168/8=
+411
+PCI Express Gigabit Ethernet Controller (rev 11)
+05:00.0 Non-Volatile memory controller: Sandisk Corp WD Black SN750 / PC SN=
+730
+NVMe SSD
 
-Acked-by: Jani Nikula <jani.nikula@intel.com>
+--=20
+You may reply to this email to add a comment.
 
-on the series.
-
-> -	select BACKLIGHT_CLASS_DEVICE if ACPI
-> -	select INPUT if ACPI
-> -	select ACPI_VIDEO if ACPI
-> -	select ACPI_BUTTON if ACPI
->  	select SYNC_FILE
->  	select IOSF_MBI
->  	select CRC32
-
--- 
-Jani Nikula, Intel Open Source Graphics Center
+You are receiving this mail because:
+You are watching the assignee of the bug.=
