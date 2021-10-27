@@ -2,25 +2,25 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F55543D4FA
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Oct 2021 23:22:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0720743D4E1
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Oct 2021 23:22:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A3466E92D;
-	Wed, 27 Oct 2021 21:21:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C73486E926;
+	Wed, 27 Oct 2021 21:21:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A80F76E927;
- Wed, 27 Oct 2021 21:21:40 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10150"; a="230217453"
-X-IronPort-AV: E=Sophos;i="5.87,187,1631602800"; d="scan'208";a="230217453"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E74696E925;
+ Wed, 27 Oct 2021 21:21:44 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10150"; a="230217465"
+X-IronPort-AV: E=Sophos;i="5.87,187,1631602800"; d="scan'208";a="230217465"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Oct 2021 14:21:40 -0700
-X-IronPort-AV: E=Sophos;i="5.87,187,1631602800"; d="scan'208";a="665154317"
+ 27 Oct 2021 14:21:44 -0700
+X-IronPort-AV: E=Sophos;i="5.87,187,1631602800"; d="scan'208";a="665154343"
 Received: from ramaling-i9x.iind.intel.com ([10.99.66.205])
  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Oct 2021 14:21:36 -0700
+ 27 Oct 2021 14:21:40 -0700
 From: Ramalingam C <ramalingam.c@intel.com>
 To: dri-devel <dri-devel@lists.freedesktop.org>,
  intel-gfx <intel-gfx@lists.freedesktop.org>
@@ -33,9 +33,10 @@ Cc: Daniel Vetter <daniel@ffwll.ch>, Matthew Auld <matthew.auld@intel.com>,
  Kenneth Graunke <kenneth@whitecape.org>, mesa-dev@lists.freedesktop.org,
  Tony Ye <tony.ye@intel.com>,
  Slawomir Milczarek <slawomir.milczarek@intel.com>
-Subject: [PATCH v3 15/17] drm/i915/uapi: document behaviour for DG2 64K support
-Date: Thu, 28 Oct 2021 02:53:37 +0530
-Message-Id: <20211027212339.29259-16-ramalingam.c@intel.com>
+Subject: [PATCH v3 16/17] drm/i915/Flat-CCS: Document on Flat-CCS memory
+ compression
+Date: Thu, 28 Oct 2021 02:53:38 +0530
+Message-Id: <20211027212339.29259-17-ramalingam.c@intel.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20211027212339.29259-1-ramalingam.c@intel.com>
 References: <20211027212339.29259-1-ramalingam.c@intel.com>
@@ -56,15 +57,9 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Matthew Auld <matthew.auld@intel.com>
+Documents the Flat-CCS feature and kernel handling required along with
+modifiers used.
 
-On discrete platforms like DG2, we need to support a minimum page size
-of 64K when dealing with device local-memory. This is quite tricky for
-various reasons, so try to document the new implicit uapi for this.
-
-v2: Fixed suggestions on formatting [Daniel]
-
-Signed-off-by: Matthew Auld <matthew.auld@intel.com>
 Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
 cc: Simon Ser <contact@emersion.fr>
 cc: Pekka Paalanen <ppaalanen@gmail.com>
@@ -74,98 +69,67 @@ Cc: mesa-dev@lists.freedesktop.org
 Cc: Tony Ye <tony.ye@intel.com>
 Cc: Slawomir Milczarek <slawomir.milczarek@intel.com>
 ---
- include/uapi/drm/i915_drm.h | 67 ++++++++++++++++++++++++++++++++++---
- 1 file changed, 62 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/i915/gt/intel_migrate.c | 47 +++++++++++++++++++++++++
+ 1 file changed, 47 insertions(+)
 
-diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
-index 914ebd9290e5..89bcf5a77958 100644
---- a/include/uapi/drm/i915_drm.h
-+++ b/include/uapi/drm/i915_drm.h
-@@ -1118,10 +1118,16 @@ struct drm_i915_gem_exec_object2 {
- 	/**
- 	 * When the EXEC_OBJECT_PINNED flag is specified this is populated by
- 	 * the user with the GTT offset at which this object will be pinned.
-+	 *
- 	 * When the I915_EXEC_NO_RELOC flag is specified this must contain the
- 	 * presumed_offset of the object.
-+	 *
- 	 * During execbuffer2 the kernel populates it with the value of the
- 	 * current GTT offset of the object, for future presumed_offset writes.
-+	 *
-+	 * See struct drm_i915_gem_create_ext for the rules when dealing with
-+	 * alignment restrictions with I915_MEMORY_CLASS_DEVICE, on devices with
-+	 * minimum page sizes, like DG2.
- 	 */
- 	__u64 offset;
+diff --git a/drivers/gpu/drm/i915/gt/intel_migrate.c b/drivers/gpu/drm/i915/gt/intel_migrate.c
+index 0bed01750884..ad5a28da1c6a 100644
+--- a/drivers/gpu/drm/i915/gt/intel_migrate.c
++++ b/drivers/gpu/drm/i915/gt/intel_migrate.c
+@@ -491,6 +491,53 @@ intel_context_migrate_copy(struct intel_context *ce,
+ 	return err;
+ }
  
-@@ -3144,11 +3150,62 @@ struct drm_i915_gem_create_ext {
- 	 *
- 	 * The (page-aligned) allocated size for the object will be returned.
- 	 *
--	 * Note that for some devices we have might have further minimum
--	 * page-size restrictions(larger than 4K), like for device local-memory.
--	 * However in general the final size here should always reflect any
--	 * rounding up, if for example using the I915_GEM_CREATE_EXT_MEMORY_REGIONS
--	 * extension to place the object in device local-memory.
-+	 *
-+	 * **DG2 64K min page size implications:**
-+	 *
-+	 * On discrete platforms, starting from DG2, we have to contend with GTT
-+	 * page size restrictions when dealing with I915_MEMORY_CLASS_DEVICE
-+	 * objects.  Specifically the hardware only supports 64K or larger GTT
-+	 * page sizes for such memory. The kernel will already ensure that all
-+	 * I915_MEMORY_CLASS_DEVICE memory is allocated using 64K or larger page
-+	 * sizes underneath.
-+	 *
-+	 * Note that the returned size here will always reflect any required
-+	 * rounding up done by the kernel, i.e 4K will now become 64K on devices
-+	 * such as DG2.
-+	 *
-+	 * **Special DG2 GTT address alignment requirement:**
-+	 *
-+	 * The GTT alignment will also need be at least 64K for  such objects.
-+	 *
-+	 * Note that due to how the hardware implements 64K GTT page support, we
-+	 * have some further complications:
-+	 *
-+	 *   1) The entire PDE(which covers a 2M virtual address range), must
-+	 *   contain only 64K PTEs, i.e mixing 4K and 64K PTEs in the same
-+	 *   PDE is forbidden by the hardware.
-+	 *
-+	 *   2) We still need to support 4K PTEs for I915_MEMORY_CLASS_SYSTEM
-+	 *   objects.
-+	 *
-+	 * To handle the above the kernel implements a memory coloring scheme to
-+	 * prevent userspace from mixing I915_MEMORY_CLASS_DEVICE and
-+	 * I915_MEMORY_CLASS_SYSTEM objects in the same PDE. If the kernel is
-+	 * ever unable to evict the required pages for the given PDE(different
-+	 * color) when inserting the object into the GTT then it will simply
-+	 * fail the request.
-+	 *
-+	 * Since userspace needs to manage the GTT address space themselves,
-+	 * special care is needed to ensure this doesn't happen. The simplest
-+	 * scheme is to simply align and round up all I915_MEMORY_CLASS_DEVICE
-+	 * objects to 2M, which avoids any issues here. At the very least this
-+	 * is likely needed for objects that can be placed in both
-+	 * I915_MEMORY_CLASS_DEVICE and I915_MEMORY_CLASS_SYSTEM, to avoid
-+	 * potential issues when the kernel needs to migrate the object behind
-+	 * the scenes, since that might also involve evicting other objects.
-+	 *
-+	 * **To summarise the GTT rules, on platforms like DG2:**
-+	 *
-+	 *   1) All objects that can be placed in I915_MEMORY_CLASS_DEVICE must
-+	 *   have 64K alignment. The kernel will reject this otherwise.
-+	 *
-+	 *   2) All I915_MEMORY_CLASS_DEVICE objects must never be placed in
-+	 *   the same PDE with other I915_MEMORY_CLASS_SYSTEM objects. The
-+	 *   kernel will reject this otherwise.
-+	 *
-+	 *   3) Objects that can be placed in both I915_MEMORY_CLASS_DEVICE and
-+	 *   I915_MEMORY_CLASS_SYSTEM should probably be aligned and padded out
-+	 *   to 2M.
- 	 */
- 	__u64 size;
- 	/**
++/**
++ * DOC: Flat-CCS - Memory compression for Local memory
++ *
++ * On Xe-HP and later devices, we use dedicated compression control state (CCS)
++ * stored in local memory for each surface, to support the 3D and media
++ * compression formats.
++ *
++ * The memory required for the CCS of the entire local memory is 1/256 of the
++ * local memory size. So before the kernel boot, the required memory is reserved
++ * for the CCS data and a secure register will be programmed with the CCS base
++ * address.
++ *
++ * Flat CCS data needs to be cleared when a lmem object is allocated.
++ * And CCS data can be copied in and out of CCS region through
++ * XY_CTRL_SURF_COPY_BLT. CPU can't access the CCS data directly.
++ *
++ * When we exaust the lmem, if the object's placements support smem, then we can
++ * directly decompress the compressed lmem object into smem and start using it
++ * from smem itself.
++ *
++ * But when we need to swapout the compressed lmem object into a smem region
++ * though objects' placement doesn't support smem, then we copy the lmem content
++ * as it is into smem region along with ccs data (using XY_CTRL_SURF_COPY_BLT).
++ * When the object is referred, lmem content will be swaped in along with
++ * restoration of the CCS data (using XY_CTRL_SURF_COPY_BLT) at corresponding
++ * location.
++ *
++ *
++ * Flat-CCS Modifiers for different compression formats
++ * ----------------------------------------------------
++ *
++ * I915_FORMAT_MOD_F_TILED_DG2_RC_CCS - used to indicate the buffers of Flat CCS
++ * render compression formats. Though the general layout is same as
++ * I915_FORMAT_MOD_Y_TILED_GEN12_RC_CCS, new hashing/compression algorithm is
++ * used. Render compression uses 128 byte compression blocks
++ *
++ * I915_FORMAT_MOD_F_TILED_DG2_MC_CCS -used to indicate the buffers of Flat CCS
++ * media compression formats. Though the general layout is same as
++ * I915_FORMAT_MOD_Y_TILED_GEN12_MC_CCS, new hashing/compression algorithm is
++ * used. Media compression uses 256 byte compression blocks.
++ *
++ * I915_FORMAT_MOD_F_TILED_DG2_RC_CCS_CC - used to indicate the buffers of Flat
++ * CCS clear color render compression formats. Unified compression format for
++ * clear color render compression. The genral layout is a tiled layout using
++ * 4Kb tiles i.e Tile4 layout.
++ */
++
+ static inline u32 *i915_flush_dw(u32 *cmd, u64 dst, u32 flags)
+ {
+ 	/* Mask the 3 LSB to use the PPGTT address space */
 -- 
 2.20.1
 
