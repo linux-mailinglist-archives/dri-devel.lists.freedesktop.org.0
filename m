@@ -1,61 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E55143D782
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Oct 2021 01:30:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 462D843D784
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Oct 2021 01:32:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03CE46E54C;
-	Wed, 27 Oct 2021 23:30:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F42B6E7EA;
+	Wed, 27 Oct 2021 23:32:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C7AA96E54C
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Oct 2021 23:30:48 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 9DEFF610E7
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Oct 2021 23:30:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1635377448;
- bh=Tn75VzarQbc5QgLHek0RK4HW2XH2u4J1JDqisUkgpqY=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=UJekR0JZaL9yDHPomHOW1TXTbkxwC8wWAMo9qu2ELak/JzDOgggi4ow3k2KFciFjS
- JaXYwfLmT1zMZEAZ8uHScJtnHoTRG5ZxgKCwitOQpHftd6KDjD0tR9OrNWTZ0YS+yI
- OG3ZGmBj5YAjVYL3acF9GyXkwXsbTOmVi1dEDh5OsaqEKv5zXYLA3xyPjuCsuZ82s1
- 0kD4uioaNCUNSZGhz5VllceNEBMKM3dlaLFJYygYoBYjhliGgCvpliwAkJ3QIDs2R7
- V/EeuwdSHMa2zIe89HRo+Zbc0UCLcN9MSpcPXevZXFrBoGdVGFSMGx9zD1PbSTqEmz
- 5/cyuhbW2Xvuw==
-Received: by mail-ed1-f42.google.com with SMTP id w15so17052759edc.9
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Oct 2021 16:30:48 -0700 (PDT)
-X-Gm-Message-State: AOAM530QdA5SLvX3ZliDwGUbQawXFeS0gXOpDgZPbWXCTp1BslZSEbLv
- lgsk4ddrYQBSiJhTl9Og4/NJxAtQIzrcfedF+A==
-X-Google-Smtp-Source: ABdhPJzUHykGHts37AdltmTcOjjKPYdJdGgU/ReeYi6xz9u0NbxyDwQULshIj1Ado65mhw4sC4r/wUEqBnoJ9X7sBhw=
-X-Received: by 2002:a50:ff0a:: with SMTP id a10mr1131395edu.357.1635377447059; 
- Wed, 27 Oct 2021 16:30:47 -0700 (PDT)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C26A26E7EA
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Oct 2021 23:32:09 +0000 (UTC)
+Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4FAB0276;
+ Thu, 28 Oct 2021 01:32:07 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1635377527;
+ bh=a9jy9hdTyXufD2ZitJq7wGdYp6+SpY1HvNoATvCVuSk=;
+ h=From:To:Cc:Subject:Date:From;
+ b=XAbmLUcuwRGIN2ST3diQIVuBujY5cNyk2C7k9uUiyx0HmvKnnVgVWZIa09oQRuLqV
+ l1Ntq1zksOolCMXFGADtr5degTBabcmrlpGvo7XElC+seuTH5Nhbowe/WtlsT25n9g
+ 1OWvBXKv43kFZEaoOx4dM5vh0FUV97mbbftaXE8E=
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: dri-devel@lists.freedesktop.org
+Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Maxime Ripard <mripard@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Subject: [PATCH] drm: Add R10 and R12 FourCC
+Date: Thu, 28 Oct 2021 02:31:40 +0300
+Message-Id: <20211027233140.12268-1-laurent.pinchart@ideasonboard.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-References: <20211027021857.20816-1-jason-jh.lin@mediatek.com>
- <20211027021857.20816-6-jason-jh.lin@mediatek.com>
-In-Reply-To: <20211027021857.20816-6-jason-jh.lin@mediatek.com>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Thu, 28 Oct 2021 07:30:35 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_85V6HHaK4LT+jUyJ9-0dh4KgtLfS-ZBconLja0_S2wbg@mail.gmail.com>
-Message-ID: <CAAOTY_85V6HHaK4LT+jUyJ9-0dh4KgtLfS-ZBconLja0_S2wbg@mail.gmail.com>
-Subject: Re: [PATCH v5 5/6] drm/mediatek: Add mbox_free_channel in
- mtk_drm_crtc_destroy
-To: "jason-jh.lin" <jason-jh.lin@mediatek.com>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>, 
- Matthias Brugger <matthias.bgg@gmail.com>,
- Jassi Brar <jassisinghbrar@gmail.com>, 
- Yongqiang Niu <yongqiang.niu@mediatek.com>, David Airlie <airlied@linux.ie>, 
- Daniel Vetter <daniel@ffwll.ch>,
- DRI Development <dri-devel@lists.freedesktop.org>, 
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>, 
- linux-kernel <linux-kernel@vger.kernel.org>, Hsin-Yi Wang <hsinyi@chromium.org>,
- fshao@chromium.org, 
- Nancy Lin <nancy.lin@mediatek.com>, singo.chang@mediatek.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,41 +50,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Jason:
+Add FourCCs for 10- and 12-bit red formats with padding to 16 bits.
+They correspond to the V4L2 10- and 12-bit greyscale (V4L2_PIX_FMT_Y10
+and V4L2_PIX_FMT_Y12) formats, as well as the Bayer formats with the
+same bit depth (V4L2_PIX_FMT_SBGGR{10,12} and all other Bayer pattern
+permutations).
 
-jason-jh.lin <jason-jh.lin@mediatek.com> =E6=96=BC 2021=E5=B9=B410=E6=9C=88=
-27=E6=97=A5 =E9=80=B1=E4=B8=89 =E4=B8=8A=E5=8D=8810:19=E5=AF=AB=E9=81=93=EF=
-=BC=9A
->
-> Add mbox_free_channel in mtk_drm_crtc_destroy.
->
-> Signed-off-by: jason-jh.lin <jason-jh.lin@mediatek.com>
-> ---
->  drivers/gpu/drm/mediatek/mtk_drm_crtc.c | 4 ++++
->  1 file changed, 4 insertions(+)
->
-> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/me=
-diatek/mtk_drm_crtc.c
-> index ffa54b416ca7..31f05efc1bc0 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-> @@ -156,6 +156,10 @@ static void mtk_drm_crtc_destroy(struct drm_crtc *cr=
-tc)
->         mtk_mutex_put(mtk_crtc->mutex);
->  #if IS_REACHABLE(CONFIG_MTK_CMDQ)
->         mtk_drm_cmdq_pkt_destroy(&mtk_crtc->cmdq_handle);
-> +
-> +       if (mtk_crtc->cmdq_client.chan)
-> +               mbox_free_channel(mtk_crtc->cmdq_client.chan);
-> +                                 mtk_crtc->cmdq_client.chan =3D NULL;
+These formats are not used by any kernel driver at this point, but need
+to be exposed to applications by libcamera, which uses DRM FourCCs for
+pixel formats.
 
-Except the indent,
+Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+---
+ drivers/gpu/drm/drm_fourcc.c  | 2 ++
+ include/uapi/drm/drm_fourcc.h | 6 ++++++
+ 2 files changed, 8 insertions(+)
 
-Reviewed-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+diff --git a/drivers/gpu/drm/drm_fourcc.c b/drivers/gpu/drm/drm_fourcc.c
+index 783844bfecc1..25837b1d6639 100644
+--- a/drivers/gpu/drm/drm_fourcc.c
++++ b/drivers/gpu/drm/drm_fourcc.c
+@@ -134,6 +134,8 @@ const struct drm_format_info *__drm_format_info(u32 format)
+ 	static const struct drm_format_info formats[] = {
+ 		{ .format = DRM_FORMAT_C8,		.depth = 8,  .num_planes = 1, .cpp = { 1, 0, 0 }, .hsub = 1, .vsub = 1 },
+ 		{ .format = DRM_FORMAT_R8,		.depth = 8,  .num_planes = 1, .cpp = { 1, 0, 0 }, .hsub = 1, .vsub = 1 },
++		{ .format = DRM_FORMAT_R10,		.depth = 10, .num_planes = 1, .cpp = { 2, 0, 0 }, .hsub = 1, .vsub = 1 },
++		{ .format = DRM_FORMAT_R12,		.depth = 12, .num_planes = 1, .cpp = { 2, 0, 0 }, .hsub = 1, .vsub = 1 },
+ 		{ .format = DRM_FORMAT_RGB332,		.depth = 8,  .num_planes = 1, .cpp = { 1, 0, 0 }, .hsub = 1, .vsub = 1 },
+ 		{ .format = DRM_FORMAT_BGR233,		.depth = 8,  .num_planes = 1, .cpp = { 1, 0, 0 }, .hsub = 1, .vsub = 1 },
+ 		{ .format = DRM_FORMAT_XRGB4444,	.depth = 0,  .num_planes = 1, .cpp = { 2, 0, 0 }, .hsub = 1, .vsub = 1 },
+diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
+index 45a914850be0..7f652c96845b 100644
+--- a/include/uapi/drm/drm_fourcc.h
++++ b/include/uapi/drm/drm_fourcc.h
+@@ -104,6 +104,12 @@ extern "C" {
+ /* 8 bpp Red */
+ #define DRM_FORMAT_R8		fourcc_code('R', '8', ' ', ' ') /* [7:0] R */
+ 
++/* 10 bpp Red */
++#define DRM_FORMAT_R10		fourcc_code('R', '1', '0', ' ') /* [15:0] x:R 6:10 little endian */
++
++/* 12 bpp Red */
++#define DRM_FORMAT_R12		fourcc_code('R', '1', '2', ' ') /* [15:0] x:R 4:12 little endian */
++
+ /* 16 bpp Red */
+ #define DRM_FORMAT_R16		fourcc_code('R', '1', '6', ' ') /* [15:0] R little endian */
+ 
 
->  #endif
->         drm_crtc_cleanup(crtc);
->  }
-> --
-> 2.18.0
->
+base-commit: 367fe8dc299c968eabdae890536d55d80ea55e01
+-- 
+Regards,
+
+Laurent Pinchart
+
