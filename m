@@ -2,65 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 285D143CE36
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Oct 2021 18:01:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80C1F43CE41
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Oct 2021 18:07:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A8566E8C3;
-	Wed, 27 Oct 2021 16:01:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA33F89890;
+	Wed, 27 Oct 2021 16:07:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com
- [IPv6:2a00:1450:4864:20::22f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 559526E8C3
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Oct 2021 16:01:39 +0000 (UTC)
-Received: by mail-lj1-x22f.google.com with SMTP id o26so5545051ljj.2
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Oct 2021 09:01:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=tkCgQJkUSUXPKa9PPaG98xGW8ORLrJoeUL+lFNuAKlI=;
- b=JuXVzxzuz+qv/oGJh4H3FGcoT4i1PRfFmZGPc6lEW/N9sVUHQywzVSA6QOXoew8eMN
- 2VuWytyylFxvVVv4NHBnyfc0Qf66xZSXHV0PNkrxsRogr/txx31V1QIsqMYUDW3/lS/Q
- puLCWl/i68QH+uN4xJWqYNAHxq8s/ABltDsTffJInX/ueXsemQ/gPVFmTZ93Ha2IFRxA
- fbB3/Ci3reBmhbmZLY5Agp3ldPGxwIMR97E/B9IL/d5CWC5Xg4LcOyrcEsyeLsDfw7q4
- 1r0gIxWuTyvt/wIwtmEfq/EQYkL7wpbE/0EDTKaVxaRJS8WIN0jvlGqgTJ1Igaa+L78p
- ZceQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=tkCgQJkUSUXPKa9PPaG98xGW8ORLrJoeUL+lFNuAKlI=;
- b=IHHl+eVRayITXAEDnEaFGZgyycNQlSuCrTL4Qn14/ydVELvdPEFAYKI98LaFtvomES
- S46Siuh8PG++xCjBgxwFGUY9jlNDppQvicHWwogtPubBb1bP64pNTqGQYy3a+tEhSGhz
- lIujvnd2dFEvHk9YHsLHXJaFL8Q/4/Ldl1oUfleWWVyTonSDqnABzM3R5O07K8DpEtB/
- RI4TN+uoYPd7VIjMU6Wd53ni2xuMflhoXVk1xMRq1QoqOsBuAZRUhLhtelO8jpdKwC1t
- BPy6HaTQKhNiQA/r7CQ8p4a3wLIp5wWHtwjcd3TbLXVtajWqby31FbnEZ3adCkgSQVA/
- SNuA==
-X-Gm-Message-State: AOAM533iYpq0Wvnr/rqfErskIB+r1it5z4/uUTRVbzC9CKI2GjvPa+8w
- 2sUmKdrAKLbLEHItYSlAN9KDs7OaQeVmbYlTKRi8ow==
-X-Google-Smtp-Source: ABdhPJyLTmxvQZ0j5lQGHsFYcydy71+PhRmg+SxpLEXAm87AnzbFNmKI1TyiM271I2tAbjx+BOKyohjDU7jCER0qQM4=
-X-Received: by 2002:a2e:5c45:: with SMTP id q66mr22976435ljb.273.1635350497549; 
- Wed, 27 Oct 2021 09:01:37 -0700 (PDT)
+Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
+ [199.106.114.39])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 073F689890
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Oct 2021 16:07:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1635350844; x=1666886844;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=3wmHPIoqwW/AtqnUK9O2SRwIiFbLXNiIfQw/yk4RMCQ=;
+ b=oeIjETJS9mpTfWivX6Llcql51mO3JUa9b1iQn+DT53xlfELraTEZgbat
+ hsuxdco7aN/VW9+jWk8PnPd2ydi4ZV2Xv0UuUUhPbDmo4a1EC7qxU2B1/
+ vJoy7qWoCRF59xrUMcMqnZUupap/srXYjecj12NiEvM04HaFT7zU30hpw I=;
+Received: from unknown (HELO ironmsg05-sd.qualcomm.com) ([10.53.140.145])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 27 Oct 2021 09:07:22 -0700
+X-QCInternal: smtphost
+Received: from nasanex01b.na.qualcomm.com ([10.46.141.250])
+ by ironmsg05-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Oct 2021 09:07:20 -0700
+Received: from [10.71.111.83] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.922.7; Wed, 27 Oct 2021
+ 09:07:20 -0700
+Message-ID: <dd918b48-f733-7eb1-4e0e-6d360e199424@quicinc.com>
+Date: Wed, 27 Oct 2021 09:07:19 -0700
 MIME-Version: 1.0
-References: <20211025224032.21012-1-digetx@gmail.com>
-In-Reply-To: <20211025224032.21012-1-digetx@gmail.com>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Wed, 27 Oct 2021 18:01:01 +0200
-Message-ID: <CAPDyKFrA2Jcb5BmaFmajtdUCmpwoPjAAvPC_MhoWwjDXJynD=w@mail.gmail.com>
-Subject: Re: [PATCH v14 00/39] NVIDIA Tegra power management patches for 5.17
-To: Dmitry Osipenko <digetx@gmail.com>
-Cc: Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, 
- Viresh Kumar <vireshk@kernel.org>, Stephen Boyd <sboyd@kernel.org>, 
- Peter De Schrijver <pdeschrijver@nvidia.com>,
- Mikko Perttunen <mperttunen@nvidia.com>, Lee Jones <lee.jones@linaro.org>,
- =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
- Nishanth Menon <nm@ti.com>, Adrian Hunter <adrian.hunter@intel.com>, 
- Michael Turquette <mturquette@baylibre.com>, linux-kernel@vger.kernel.org, 
- linux-tegra@vger.kernel.org, linux-pm@vger.kernel.org, 
- linux-pwm@vger.kernel.org, linux-mmc@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linux-clk@vger.kernel.org, 
- David Heidelberg <david@ixit.cz>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.1
+Subject: Re: [PATCH] drm/msm/dpu: Remove commit and its uses in
+ dpu_crtc_set_crc_source()
+Content-Language: en-US
+To: Nathan Chancellor <nathan@kernel.org>, Rob Clark <robdclark@gmail.com>,
+ Sean Paul <sean@poorly.run>
+CC: Nick Desaulniers <ndesaulniers@google.com>, Jessica Zhang
+ <jesszhan@codeaurora.org>, <linux-arm-msm@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, <llvm@lists.linux.dev>, kernelci.org bot
+ <bot@kernelci.org>
+References: <20211026142435.3606413-1-nathan@kernel.org>
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+In-Reply-To: <20211026142435.3606413-1-nathan@kernel.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,58 +70,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 26 Oct 2021 at 00:45, Dmitry Osipenko <digetx@gmail.com> wrote:
+On 10/26/2021 7:24 AM, Nathan Chancellor wrote:
+> Clang warns:
 >
-> This series adds runtime PM support to Tegra drivers and enables core
-> voltage scaling for Tegra20/30 SoCs, resolving overheating troubles.
+> drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c:162:6: error: variable 'commit' is uninitialized when used here [-Werror,-Wuninitialized]
+>          if (commit)
+>              ^~~~~~
+> drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c:106:32: note: initialize the variable 'commit' to silence this warning
+>          struct drm_crtc_commit *commit;
+>                                        ^
+>                                         = NULL
+> 1 error generated.
 >
-> All patches in this series are interdependent and should go via Tegra tree
-> for simplicity.
+> The assignment and use of commit in the main body of
+> dpu_crtc_set_crc_source() were removed from v1 to v2 but the call to
+> drm_crtc_commit_put() at the end was not. Do that now so there is no
+> more warning.
 >
-> Changelog:
+> Fixes: 78d9b458cc21 ("drm/msm/dpu: Add CRC support for DPU")
+> Link: https://github.com/ClangBuiltLinux/linux/issues/1493
+> Reported-by: "kernelci.org bot" <bot@kernelci.org>
+> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+Reviewed-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+> ---
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c | 3 ---
+>   1 file changed, 3 deletions(-)
 >
-> v14: - Fixed missing runtime PM syncing on removal of drivers, which was
->        spotted by Ulf Hansson in v13.
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> index 2523e829f485..967245b8cc02 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> @@ -103,7 +103,6 @@ static int dpu_crtc_set_crc_source(struct drm_crtc *crtc, const char *src_name)
+>   {
+>   	enum dpu_crtc_crc_source source = dpu_crtc_parse_crc_source(src_name);
+>   	enum dpu_crtc_crc_source current_source;
+> -	struct drm_crtc_commit *commit;
+>   	struct dpu_crtc_state *crtc_state;
+>   	struct drm_device *drm_dev = crtc->dev;
+>   	struct dpu_crtc_mixer *m;
+> @@ -159,8 +158,6 @@ static int dpu_crtc_set_crc_source(struct drm_crtc *crtc, const char *src_name)
+>   
+>   
+>   cleanup:
+> -	if (commit)
+> -		drm_crtc_commit_put(commit);
+>   	drm_modeset_unlock(&crtc->mutex);
+>   
+>   	return ret;
 >
->      - clk-device driver now resumes RPM on system suspend instead of
->        preparing clock which it backs. This was suggested by Ulf Hansson.
->
->      - clk-device driver now syncs power domain performance unconditionally
->        during driver's probe time since GENPD API allows to do this now.
->        It was spotted by Ulf Hansson.
->
->      - Added new "Enable runtime PM during OPP state-syncing" patch, which
->        allows drivers to sync state at any time. Previously drivers were
->        obligated to take care of enabling RPM at the "right" time.
->
->      - Moved runtime PM initialization/uninitialization of DRM drivers that
->        use host1x channel to host1x client init/deinit phase. I noticed that
->        there is UAF problem because RPM-suspend callback waits until channel
->        is idling and channel is already released/freed during driver's removal
->        phase.
->
->      - Added system suspend support to the new NVDEC DRM driver.
->
->      - Added missing pm_runtime_mark_last_busy() to DRM driver.
->
->      - Corrected VDE GENPD patch which previously made video decoder clock
->        always-enabled by mistake if legacy PD code path was used. It was
->        spotted while we were testing VDE on Tegra114 that doesn't support
->        GENPD yet.
->
->      - Added ack from Peter Chen to the USB patch that he gave to v13.
->
->      - Changed OPP table names in accordance to the new naming scheme
->        required by the recent core OPP binding.
->
->      - Added 500MHz memory OPP entry used by ASUS Transformer tablets.
-
-Besides those minor nitpicks/questions that I have sent for patch1 and
-patch29, the series looks good to me!
-
-Feel free to add, for the whole series:
-
-Reviewed-by: Ulf Hansson <ulf.hansson@linaro.org>
-
-Kind regards
-Uffe
+> base-commit: 00326bfa4e6363e4b0b8b019ecd2556fdda5ad1c
