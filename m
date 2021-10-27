@@ -2,37 +2,124 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F22043C308
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Oct 2021 08:29:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25F4043C32D
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Oct 2021 08:45:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C60196E52A;
-	Wed, 27 Oct 2021 06:29:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B6CB89DBA;
+	Wed, 27 Oct 2021 06:45:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 364 seconds by postgrey-1.36 at gabe;
- Wed, 27 Oct 2021 00:55:44 UTC
-Received: from djo.tudelft.nl (x127130.tudelft.net [131.180.127.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 982B96E4DE
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Oct 2021 00:55:44 +0000 (UTC)
-Received: by djo.tudelft.nl (Postfix, from userid 2001)
- id CC9461C42C4; Wed, 27 Oct 2021 02:51:10 +0200 (CEST)
-Date: Wed, 27 Oct 2021 02:51:10 +0200
-From: wim <wim@djo.tudelft.nl>
-To: "Maciej W. Rozycki" <macro@orcam.me.uk>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Pavel V. Panteleev" <panteleev_p@mcst.ru>,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, wim <wim@djo.tudelft.nl>
-Subject: Re: [PATCH] vgacon: Propagate console boot parameters before calling
- `vc_resize'
-Message-ID: <20211027005110.GA26354@djo.tudelft.nl>
-References: <alpine.DEB.2.21.2110252317110.58149@angie.orcam.me.uk>
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
+ [185.132.182.106])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD66989DBA
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Oct 2021 06:45:33 +0000 (UTC)
+Received: from pps.filterd (m0046668.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 19QIJftj012181; 
+ Wed, 27 Oct 2021 08:10:55 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=selector1;
+ bh=q0IzamWoBnMLIIIWgH1c6YZ0YARVpDAlAywCoCd8O6A=;
+ b=pLut+GxRqLoEwutxmEsKmT0U9f6n8Czu59GaLbziADOMwtznLgQUZ54Gw0mFG30LzTFI
+ mAf8pn9K9k2l9XDGD8kyB8y+cnm5BmAO3YB00+gyy/yFMSCCO5HF8/PQ6lATeCubYrNt
+ DdiIwe9I6oNJ1LpNKfJ0tNMiodtkGtIRzCLDVOx9JfwIBUGTkeKgOf8Hru+PdxHSGGIB
+ WmjLMAKdFPGg4+kJmvUsa+tgl9tTdDraTeFW116MnoqgEuCPXI2gblkV13eeEpJbnLHW
+ 9gSaSeXE68XwgQBNQi7Ez8d68t00m5nmdGyM96U93gZ2aaDRvaLknKJ4aiI1DjaFKmGE dQ== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+ by mx07-00178001.pphosted.com with ESMTP id 3bxputjet7-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 27 Oct 2021 08:10:55 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+ by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 6E078100044;
+ Wed, 27 Oct 2021 08:10:46 +0200 (CEST)
+Received: from Webmail-eu.st.com (sfhdag2node2.st.com [10.75.127.5])
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id A09DC21810A;
+ Wed, 27 Oct 2021 08:10:46 +0200 (CEST)
+Received: from lmecxl0573.lme.st.com (10.75.127.49) by SFHDAG2NODE2.st.com
+ (10.75.127.5) with Microsoft SMTP Server (TLS) id 15.0.1497.18; Wed, 27 Oct
+ 2021 08:10:43 +0200
+Subject: Re: dt-bindings: treewide: Update @st.com email address to
+ @foss.st.com
+To: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>, Rob Herring
+ <robh+dt@kernel.org>, maxime coquelin <mcoquelin.stm32@gmail.com>,
+ "alexandre torgue" <alexandre.torgue@foss.st.com>, michael turquette
+ <mturquette@baylibre.com>, stephen boyd <sboyd@kernel.org>, herbert xu
+ <herbert@gondor.apana.org.au>, "david s . miller" <davem@davemloft.net>,
+ david airlie <airlied@linux.ie>, daniel vetter <daniel@ffwll.ch>, "thierry
+ reding" <thierry.reding@gmail.com>, sam ravnborg <sam@ravnborg.org>,
+ "yannick fertre" <yannick.fertre@foss.st.com>, philippe cornu
+ <philippe.cornu@foss.st.com>, benjamin gaignard
+ <benjamin.gaignard@linaro.org>,
+ vinod koul <vkoul@kernel.org>, ohad ben-cohen <ohad@wizery.com>,
+ bjorn andersson <bjorn.andersson@linaro.org>, baolin wang
+ <baolin.wang7@gmail.com>, jonathan cameron <jic23@kernel.org>, "lars-peter
+ clausen" <lars@metafoo.de>, olivier moysan <olivier.moysan@foss.st.com>,
+ arnaud pouliquen <arnaud.pouliquen@foss.st.com>, Thomas Gleixner
+ <tglx@linutronix.de>, Marc Zyngier <maz@kernel.org>, Jassi Brar
+ <jassisinghbrar@gmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Hugues Fruchet <hugues.fruchet@foss.st.com>, Fabrice Gasnier
+ <fabrice.gasnier@foss.st.com>, Lee Jones <lee.jones@linaro.org>, "Miquel
+ Raynal" <miquel.raynal@bootlin.com>, Richard Weinberger <richard@nod.at>,
+ Vignesh Raghavendra <vigneshr@ti.com>, Jakub Kicinski <kuba@kernel.org>,
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+ Kishon Vijay Abraham I <kishon@ti.com>,
+ Linus Walleij <linus.walleij@linaro.org>, Liam Girdwood
+ <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Mathieu Poirier
+ <mathieu.poirier@linaro.org>, Matt Mackall <mpm@selenic.com>, "Alessandro
+ Zummo" <a.zummo@towertech.it>, Alexandre Belloni
+ <alexandre.belloni@bootlin.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, "Rafael J . Wysocki" <rafael@kernel.org>,
+ Daniel Lezcano <daniel.lezcano@linaro.org>,
+ Amit Kucheria <amitk@kernel.org>, Zhang Rui <rui.zhang@intel.com>,
+ Wim Van Sebroeck <wim@linux-watchdog.org>,
+ Guenter Roeck <linux@roeck-us.net>, Geert Uytterhoeven
+ <geert+renesas@glider.be>, Viresh Kumar <viresh.kumar@linaro.org>, "Ahmad
+ Fatoum" <a.fatoum@pengutronix.de>, Jagan Teki <jagan@amarulasolutions.com>,
+ dillon min <dillon.minfei@gmail.com>, Marek Vasut <marex@denx.de>, "Laurent
+ Pinchart" <laurent.pinchart@ideasonboard.com>, Sebastian Reichel
+ <sre@kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Paul Cercueil <paul@crapouillou.net>,
+ Fabien Dessenne <fabien.dessenne@foss.st.com>,
+ Christophe Roullier <christophe.roullier@foss.st.com>, Gabriel Fernandez
+ <gabriel.fernandez@foss.st.com>,
+ Lionel Debieve <lionel.debieve@foss.st.com>,
+ Amelie Delaunay <amelie.delaunay@foss.st.com>, Pierre-Yves MORDRET
+ <pierre-yves.mordret@foss.st.com>,
+ Ludovic Barre <ludovic.barre@foss.st.com>,
+ Christophe Kerello <christophe.kerello@foss.st.com>, pascal Paillet
+ <p.paillet@foss.st.com>, Giuseppe Cavallaro <peppe.cavallaro@st.com>, "Jose
+ Abreu" <joabreu@synopsys.com>, Le Ray <erwan.leray@foss.st.com>
+CC: <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-stm32@st-md-mailman.stormreply.com>,
+ <linux-arm-kernel@lists.infradead.org>, <linux-clk@vger.kernel.org>,
+ <linux-crypto@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <dmaengine@vger.kernel.org>, <linux-remoteproc@vger.kernel.org>,
+ <linux-i2c@vger.kernel.org>, <linux-iio@vger.kernel.org>,
+ <alsa-devel@alsa-project.org>, <linux-media@vger.kernel.org>,
+ <linux-mtd@lists.infradead.org>, <netdev@vger.kernel.org>,
+ <linux-phy@lists.infradead.org>, <linux-gpio@vger.kernel.org>,
+ <linux-rtc@vger.kernel.org>, <linux-serial@vger.kernel.org>,
+ <linux-spi@vger.kernel.org>, <linux-pm@vger.kernel.org>,
+ <linux-usb@vger.kernel.org>, <linux-watchdog@vger.kernel.org>
+References: <20211020065000.21312-1-patrice.chotard@foss.st.com>
+ <22fb6f19-21eb-dcb5-fa31-bb243d4a7eaf@canonical.com>
+From: Patrice CHOTARD <patrice.chotard@foss.st.com>
+Message-ID: <e8ddc63b-a0b5-79ae-6aff-19810cf74920@foss.st.com>
+Date: Wed, 27 Oct 2021 08:10:42 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <alpine.DEB.2.21.2110252317110.58149@angie.orcam.me.uk>
-User-Agent: Mutt/1.11.2 (2019-01-07)
-X-Mailman-Approved-At: Wed, 27 Oct 2021 06:29:37 +0000
+In-Reply-To: <22fb6f19-21eb-dcb5-fa31-bb243d4a7eaf@canonical.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.75.127.49]
+X-ClientProxiedBy: SFHDAG1NODE2.st.com (10.75.127.2) To SFHDAG2NODE2.st.com
+ (10.75.127.5)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
+ definitions=2021-10-27_01,2021-10-26_01,2020-04-07_01
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,53 +132,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: wim@djo.tudelft.nl
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 26, 2021 at 12:26:22AM +0200, Maciej W. Rozycki wrote:
-> Fix a division by zero in `vgacon_resize' with a backtrace like:
-> ...
-> linux-vt-vgacon-init-cell-height-fix.diff
-> Index: linux-macro-ide-tty/drivers/video/console/vgacon.c
-> ===================================================================
-> --- linux-macro-ide-tty.orig/drivers/video/console/vgacon.c
-> +++ linux-macro-ide-tty/drivers/video/console/vgacon.c
-> @@ -366,11 +366,17 @@ static void vgacon_init(struct vc_data *
->  	struct uni_pagedir *p;
->  
->  	/*
-> -	 * We cannot be loaded as a module, therefore init is always 1,
-> -	 * but vgacon_init can be called more than once, and init will
-> -	 * not be 1.
-> +	 * We cannot be loaded as a module, therefore init will be 1
-> +	 * if we are the default console, however if we are a fallback
-> +	 * console, for example if fbcon has failed registration, then
-> +	 * init will be 0, so we need to make sure our boot parameters
-> +	 * have been copied to the console structure for vgacon_resize
-> +	 * ultimately called by vc_resize.  Any subsequent calls to
-> +	 * vgacon_init init will have init set to 0 too.
->  	 */
->  	c->vc_can_do_color = vga_can_do_color;
-> +	c->vc_scan_lines = vga_scan_lines;
-> +	c->vc_font.height = c->vc_cell_height = vga_video_font_height;
->  
->  	/* set dimensions manually if init != 0 since vc_resize() will fail */
->  	if (init) {
-> @@ -379,8 +385,6 @@ static void vgacon_init(struct vc_data *
->  	} else
->  		vc_resize(c, vga_video_num_columns, vga_video_num_lines);
->  
-> -	c->vc_scan_lines = vga_scan_lines;
-> -	c->vc_font.height = c->vc_cell_height = vga_video_font_height;
->  	c->vc_complement_mask = 0x7700;
->  	if (vga_512_chars)
->  		c->vc_hi_font_mask = 0x0800;
+Hi Krzysztof
 
+On 10/20/21 9:45 AM, Krzysztof Kozlowski wrote:
+> On 20/10/2021 08:50, patrice.chotard@foss.st.com wrote:
+>> From: Patrice Chotard <patrice.chotard@foss.st.com>
+>>
+>> Not all @st.com email address are concerned, only people who have
+>> a specific @foss.st.com email will see their entry updated.
+>> For some people, who left the company, remove their email.
+>>
+> 
+> Please split simple address change from maintainer updates (removal,
+> addition).
 
-Just to let you know that the above patch fixes the crashes I experienced.
-Tried in kernel 4.9.287.
-The git tree is broken in the sense that it doesn't know the tags v4.9.284,
-v4.9.285, v4.9.286 and v2.4.287.
+ok
 
-Wim.
+> 
+> Also would be nice to see here explained *why* are you doing this.
+
+Our @foss.st.com address are dedicated for upstream activities, 
+i will add a comment about this.
+
+Thanks
+Patrice
+
+> 
+> Best regards,
+> Krzysztof
+> 
