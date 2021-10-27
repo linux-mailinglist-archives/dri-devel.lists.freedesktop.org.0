@@ -1,40 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B42A443CE98
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Oct 2021 18:20:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4326943CEAE
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Oct 2021 18:24:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EBEA26E8C6;
-	Wed, 27 Oct 2021 16:19:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A4376E7D5;
+	Wed, 27 Oct 2021 16:24:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 362FF6E7D0;
- Wed, 27 Oct 2021 16:19:55 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10150"; a="291038231"
-X-IronPort-AV: E=Sophos;i="5.87,187,1631602800"; d="scan'208";a="291038231"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Oct 2021 09:19:51 -0700
-X-IronPort-AV: E=Sophos;i="5.87,187,1631602800"; d="scan'208";a="597417917"
-Received: from shetherx-mobl.ger.corp.intel.com (HELO mwauld-desk1.intel.com)
- ([10.213.218.37])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Oct 2021 09:19:49 -0700
-From: Matthew Auld <matthew.auld@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-Subject: [PATCH v2 4/4] drm/i915: stop setting cache_dirty on discrete
-Date: Wed, 27 Oct 2021 17:18:13 +0100
-Message-Id: <20211027161813.3094681-4-matthew.auld@intel.com>
-X-Mailer: git-send-email 2.26.3
-In-Reply-To: <20211027161813.3094681-1-matthew.auld@intel.com>
-References: <20211027161813.3094681-1-matthew.auld@intel.com>
+Received: from mail-qv1-xf35.google.com (mail-qv1-xf35.google.com
+ [IPv6:2607:f8b0:4864:20::f35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E2E9C6E7D0;
+ Wed, 27 Oct 2021 16:24:27 +0000 (UTC)
+Received: by mail-qv1-xf35.google.com with SMTP id d6so2147063qvb.3;
+ Wed, 27 Oct 2021 09:24:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=vmpGZBtee5zeMy7ZXKmCA4/DiT+/FUCxOeG55lmjPBo=;
+ b=NCg0ezwJTfs48B0Na84dMRlbJ3G4sOR4CNG9aFHgRf8ZE/4AUQH6SVGUVEPieDlZvM
+ /Opl1BDIkrz+Z3m6l7RJ7M07EFsVKetBKaKit39+AKGmzdAHaXNP47mhtWABGXdJ5gHG
+ juodhCswbFW+eL4g62FpkNe/mkx2+R08QusyyYjONH03oawNZKWwNsdtECRmTGfkIQ6z
+ E9lX8oajOY2LZQdBw/5VLN9LXvwAOT7Kfei7OTf5lj7Qvblh2jXedTovKhaHenA6Aa1S
+ 0a8wJyF1EajRZGqem3GUFggzGXzPfruKDzy5lzUg2ZS2x9cyUgjkRMuPk4Eff9CKjrbm
+ LpVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=vmpGZBtee5zeMy7ZXKmCA4/DiT+/FUCxOeG55lmjPBo=;
+ b=XCxlgG/r70YkqISVDEEtiZtDI/a/ERaa5Lm77Fs4lKwZp4mRfC8Z7LSqnFvO2V1Y99
+ M+j8aKeWkIrJEtaeJXu4+cgS4KPFNt0Ff8FDCeZuw0dnFGytPvjoh+RepEtsUQfXTn+Z
+ rr5f0oxsAzaPBEBi3NlKAgMjt4123YoCaCcn0Uo35xXnP69CJRRJFjUovZjoZwQT6tvj
+ AHlq0E0ZAuLaCB+5E05SwOfQaJZmDsXwBhKiUMO4vr72+orD+cUCfYwAWLR76dPGoy5r
+ m3nXiGtay11d+D46fX+s63wlMFB7Gooto7G3Lr7WMnGr3kjvwlWd0chq69i0z4TN7N/n
+ dfDw==
+X-Gm-Message-State: AOAM530pE43MxEOHq9ZuFcaEFK1qLPJvRJc2PHkP+lSkXpjZKR3ZIsNQ
+ jjWdoCPRStg//2V/oWDeIZn/qwup1Q/ENniLtOHnyR5la96V+15d
+X-Google-Smtp-Source: ABdhPJxJ2avg0JKo7AOn9hOWhvdmRYe4wdndt0u95dzYqPbRz7f4V/3UUJqed72k5EpYYFamzjQH6IZivu4jj0ViqEY=
+X-Received: by 2002:a05:6214:2688:: with SMTP id
+ gm8mr3693137qvb.19.1635351867008; 
+ Wed, 27 Oct 2021 09:24:27 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20211021125332.2455288-1-matthew.auld@intel.com>
+ <CAM0jSHNig=n9cw0CCNhWHnLn5hLPYFFQR4D9OgZ-QavgyJGJpg@mail.gmail.com>
+ <20211027145414.mrpikqvdmg7qsb7g@ldmartin-desk2>
+In-Reply-To: <20211027145414.mrpikqvdmg7qsb7g@ldmartin-desk2>
+From: Matthew Auld <matthew.william.auld@gmail.com>
+Date: Wed, 27 Oct 2021 17:23:59 +0100
+Message-ID: <CAM0jSHMcnRCbXRud3K5wJERcww8urk7g1EDpMOEw7RW4LYPqMw@mail.gmail.com>
+Subject: Re: [PATCH 1/2] drm/i915/dmabuf: fix broken build
+To: Lucas De Marchi <lucas.demarchi@intel.com>
+Cc: Matthew Auld <matthew.auld@intel.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>, 
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>, 
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ kernel test robot <lkp@intel.com>, 
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,119 +75,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Should not be needed. Even with non-coherent display, we should be using
-device local-memory there, and not system memory.
+On Wed, 27 Oct 2021 at 15:54, Lucas De Marchi <lucas.demarchi@intel.com> wr=
+ote:
+>
+> On Wed, Oct 27, 2021 at 08:57:48AM +0100, Matthew Auld wrote:
+> >On Thu, 21 Oct 2021 at 13:54, Matthew Auld <matthew.auld@intel.com> wrot=
+e:
+> >>
+> >> wbinvd_on_all_cpus() is only defined on x86 it seems, plus we need to
+> >> include asm/smp.h here.
+> >>
+> >> Reported-by: kernel test robot <lkp@intel.com>
+> >> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+> >> Cc: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
+> >
+> >Jani, would it make sense to cherry-pick this to -fixes? The offending
+> >commit is in drm-next, and there have been a few reports around this.
+> >
+> >Fixes: a035154da45d ("drm/i915/dmabuf: add paranoid flush-on-acquire")
+> >
+> >
+> >> ---
+> >>  drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c | 7 +++++++
+> >>  1 file changed, 7 insertions(+)
+> >>
+> >> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c b/drivers/gpu/=
+drm/i915/gem/i915_gem_dmabuf.c
+> >> index 1adcd8e02d29..a45d0ec2c5b6 100644
+> >> --- a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
+> >> +++ b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
+> >> @@ -12,6 +12,13 @@
+> >>  #include "i915_gem_object.h"
+> >>  #include "i915_scatterlist.h"
+> >>
+> >> +#if defined(CONFIG_X86)
+> >> +#include <asm/smp.h>
+> >> +#else
+> >> +#define wbinvd_on_all_cpus() \
+> >> +       pr_warn(DRIVER_NAME ": Missing cache flush in %s\n", __func__)
+>
+>
+> not sure I understand why this is a fix. Sure, it's true, but right now
+> this file can't be built on any other arch.
+>
+> For clflush, wbind, etc, I'd rather change the code to use things from
+> drm_cache rather than ifdef it out locally. This is
+> "Reported-by: kernel test robot <lkp@intel.com>", but what's the error?
 
-v2: also add a warning in i915_gem_clflush_object
+I guess it depends on the kernel config, but it reported:
+error: implicit declaration of function 'wbinvd_on_all_cpus'
 
-Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com> #v1
----
- drivers/gpu/drm/i915/gem/i915_gem_clflush.c |  7 ++++++-
- drivers/gpu/drm/i915/gem/i915_gem_domain.c  | 10 ++++++++++
- drivers/gpu/drm/i915/gem/i915_gem_object.c  |  7 +++++--
- drivers/gpu/drm/i915/gem/i915_gem_pages.c   |  1 +
- 4 files changed, 22 insertions(+), 3 deletions(-)
+AFAIK it's the missing <asm/smp.h>, the CONFIG_X86 thing is just for
+good measure.
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_clflush.c b/drivers/gpu/drm/i915/gem/i915_gem_clflush.c
-index aa91252c9324..539b2116b2d5 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_clflush.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_clflush.c
-@@ -75,6 +75,11 @@ bool i915_gem_clflush_object(struct drm_i915_gem_object *obj,
- 
- 	assert_object_held(obj);
- 
-+	if (IS_DGFX(i915)) {
-+		WARN_ON_ONCE(obj->cache_dirty);
-+		return false;
-+	}
-+
- 	/*
- 	 * Stolen memory is always coherent with the GPU as it is explicitly
- 	 * marked as wc by the system, or the system is cache-coherent.
-@@ -82,7 +87,7 @@ bool i915_gem_clflush_object(struct drm_i915_gem_object *obj,
- 	 * anything not backed by physical memory we consider to be always
- 	 * coherent and not need clflushing.
- 	 */
--	if (!i915_gem_object_has_struct_page(obj) || IS_DGFX(i915)) {
-+	if (!i915_gem_object_has_struct_page(obj)) {
- 		obj->cache_dirty = false;
- 		return false;
- 	}
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_domain.c b/drivers/gpu/drm/i915/gem/i915_gem_domain.c
-index d30d5a699788..26532c07d467 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_domain.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_domain.c
-@@ -18,18 +18,28 @@
- 
- static bool gpu_write_needs_clflush(struct drm_i915_gem_object *obj)
- {
-+	struct drm_i915_private *i915 = to_i915(obj->base.dev);
-+
-+	if (IS_DGFX(i915))
-+		return false;
-+
- 	return !(obj->cache_level == I915_CACHE_NONE ||
- 		 obj->cache_level == I915_CACHE_WT);
- }
- 
- bool i915_gem_cpu_write_needs_clflush(struct drm_i915_gem_object *obj)
- {
-+	struct drm_i915_private *i915 = to_i915(obj->base.dev);
-+
- 	if (obj->cache_dirty)
- 		return false;
- 
- 	if (!(obj->cache_coherent & I915_BO_CACHE_COHERENT_FOR_WRITE))
- 		return true;
- 
-+	if (IS_DGFX(i915))
-+		return false;
-+
- 	/* Currently in use by HW (display engine)? Keep flushed. */
- 	return i915_gem_object_is_framebuffer(obj);
- }
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.c b/drivers/gpu/drm/i915/gem/i915_gem_object.c
-index 55b0f1df3192..591ee3cb7275 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_object.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_object.c
-@@ -114,18 +114,21 @@ void __i915_gem_object_fini(struct drm_i915_gem_object *obj)
- void i915_gem_object_set_cache_coherency(struct drm_i915_gem_object *obj,
- 					 unsigned int cache_level)
- {
-+	struct drm_i915_private *i915 = to_i915(obj->base.dev);
-+
- 	obj->cache_level = cache_level;
- 
- 	if (cache_level != I915_CACHE_NONE)
- 		obj->cache_coherent = (I915_BO_CACHE_COHERENT_FOR_READ |
- 				       I915_BO_CACHE_COHERENT_FOR_WRITE);
--	else if (HAS_LLC(to_i915(obj->base.dev)))
-+	else if (HAS_LLC(i915))
- 		obj->cache_coherent = I915_BO_CACHE_COHERENT_FOR_READ;
- 	else
- 		obj->cache_coherent = 0;
- 
- 	obj->cache_dirty =
--		!(obj->cache_coherent & I915_BO_CACHE_COHERENT_FOR_WRITE);
-+		!(obj->cache_coherent & I915_BO_CACHE_COHERENT_FOR_WRITE) &&
-+		!IS_DGFX(i915);
- }
- 
- bool i915_gem_object_can_bypass_llc(struct drm_i915_gem_object *obj)
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_pages.c b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
-index 308e22a80af4..c4f684b7cc51 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_pages.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
-@@ -26,6 +26,7 @@ void __i915_gem_object_set_pages(struct drm_i915_gem_object *obj,
- 
- 	/* Make the pages coherent with the GPU (flushing any swapin). */
- 	if (obj->cache_dirty) {
-+		WARN_ON_ONCE(IS_DGFX(i915));
- 		obj->write_domain = 0;
- 		if (i915_gem_object_has_struct_page(obj))
- 			drm_clflush_sg(pages);
--- 
-2.26.3
+I didn't spot anything in drm_cache which just offers a simple wrapper
+for wbinvd?
 
+>
+> Lucas De Marchi
+>
+> >> +#endif
+> >> +
+> >>  I915_SELFTEST_DECLARE(static bool force_different_devices;)
+> >>
+> >>  static struct drm_i915_gem_object *dma_buf_to_obj(struct dma_buf *buf=
+)
+> >> --
+> >> 2.26.3
+> >>
