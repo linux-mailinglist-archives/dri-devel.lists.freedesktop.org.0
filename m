@@ -1,57 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F4F743C972
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Oct 2021 14:19:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 710CA43C988
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Oct 2021 14:23:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 44BB46E5CC;
-	Wed, 27 Oct 2021 12:19:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB54189CB5;
+	Wed, 27 Oct 2021 12:23:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C42D6E5CC
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Oct 2021 12:19:04 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 52870610A5
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Oct 2021 12:19:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1635337144;
- bh=N0hHufsA4EpZzPuUSABPRlv91lFIykpTajufmGvhWUs=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=UQHIDCqTivQTJ21GBCFzXw1Qo5rgI9dwnMtwql5+0IX/ZjbtTw1+za7S6AO8m4MqZ
- HzOuMbFZ4p3+7JynKr0d0wSUVtoxM1NPBdCAGcsyFHdxIDzbu0RZV9Uu7r6sZkQgjR
- sBs6Jsl/h0Inhvq+nETJB251J2Gf8Wg0Ir7QSPiWZos3CuEyHh4q03D7gQJ0tIBf7y
- 2imLeLQVn/7NzrTxqvVCNSO5ZpX1/pjV26JTVXKJmgrwIzl3muyXUTeOgW9OYEasyr
- pUBrcPqBFFoV2OJFV/I0rbz06vRNwQ3WdA7q8Pm629xsDsIK1+1qZqReG30kcevlZr
- 44LAQCEtmVN+A==
-Received: by mail-wr1-f43.google.com with SMTP id d3so3802804wrh.8
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Oct 2021 05:19:04 -0700 (PDT)
-X-Gm-Message-State: AOAM531Z8WPszucSg1Cnr+PDTYGN7yYd+0/5lbBWdF76FRY2HcgX5u6A
- 8nMCP0ZWFtna1k4AN+6GA+k9EyT6xmk0I0DaroY=
-X-Google-Smtp-Source: ABdhPJzoUgOiwa5qHQWOfJ8KqHnSLcVaqjltVoX2kWLRWVMNVmk/Xlspt0Fim2onTGTzFXkXEGvr3R8QuEO6UaOatoA=
-X-Received: by 2002:adf:ab46:: with SMTP id r6mr40167677wrc.71.1635337142692; 
- Wed, 27 Oct 2021 05:19:02 -0700 (PDT)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4228189CB5
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Oct 2021 12:23:19 +0000 (UTC)
+Received: from [192.168.1.111] (91-158-153-130.elisa-laajakaista.fi
+ [91.158.153.130])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id DA757596;
+ Wed, 27 Oct 2021 14:23:16 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1635337397;
+ bh=hCZZIb3Qa/BAfprE/laYYbaPgiuXMjNAdkKr4MBcg7o=;
+ h=To:Cc:References:From:Subject:Date:In-Reply-To:From;
+ b=EB3PlZ85+7L516uH4UvnfMTx6F3w7ItkSnHL8tZ3iuaChsls/PMj5SblEtn1EO7UX
+ vcv7QYRWDGMbHEcWH5tpgWvqm7OrsZa6dyFvuqG33TZSKKLHnLXFtRGE7zNF/hSXtW
+ 1D8jKorXdp1PRglilTDXP3vNOdFzCMuCAyRwkziY=
+To: Neil Armstrong <narmstrong@baylibre.com>
+Cc: linux-omap@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, khilman@baylibre.com,
+ Benoit Parrot <bparrot@ti.com>
+References: <20211018142842.2511200-1-narmstrong@baylibre.com>
+ <20211018142842.2511200-9-narmstrong@baylibre.com>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCH v6 8/9] drm/omap: add plane_atomic_print_state support
+Message-ID: <70a29d4d-eaab-5162-58b7-df9d9d3e7a9b@ideasonboard.com>
+Date: Wed, 27 Oct 2021 15:23:14 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-References: <20210927142816.2069269-1-arnd@kernel.org>
- <202109270923.97AFDE89DB@keescook>
- <YVXJLE8UqgcUNIKl@phenom.ffwll.local> <878ryeit9i.fsf@intel.com>
-In-Reply-To: <878ryeit9i.fsf@intel.com>
-From: Arnd Bergmann <arnd@kernel.org>
-Date: Wed, 27 Oct 2021 14:18:46 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a0EG_C6OvG00Dg8SQacirNztLFjVonb5t2xQj9aFZ47Vg@mail.gmail.com>
-Message-ID: <CAK8P3a0EG_C6OvG00Dg8SQacirNztLFjVonb5t2xQj9aFZ47Vg@mail.gmail.com>
-Subject: Re: [PATCH] [RESEND] drm: fb_helper: fix CONFIG_FB dependency
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>, Kees Cook <keescook@chromium.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Arnd Bergmann <arnd@arndb.de>, Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- dri-devel <dri-devel@lists.freedesktop.org>, 
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
- Javier Martinez Canillas <javierm@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20211018142842.2511200-9-narmstrong@baylibre.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,86 +56,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Oct 27, 2021 at 1:47 PM Jani Nikula <jani.nikula@linux.intel.com> wrote:
-> On Thu, 30 Sep 2021, Daniel Vetter <daniel@ffwll.ch> wrote:
-> > On Mon, Sep 27, 2021 at 09:23:45AM -0700, Kees Cook wrote:
-> >> On Mon, Sep 27, 2021 at 04:28:02PM +0200, Arnd Bergmann wrote:
-> >> > From: Arnd Bergmann <arnd@arndb.de>
-> >> >
-> >> > With CONFIG_FB=m and CONFIG_DRM=y, we get a link error in the fb helper:
-> >> >
-> >> > aarch64-linux-ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_alloc_fbi':
-> >> > (.text+0x10cc): undefined reference to `framebuffer_alloc'
-> >> >
-> >> > Tighten the dependency so it is only allowed in the case that DRM can
-> >> > link against FB.
-> >> >
-> >> > Fixes: f611b1e7624c ("drm: Avoid circular dependencies for CONFIG_FB")
-> >> > Link: https://lore.kernel.org/all/20210721152211.2706171-1-arnd@kernel.org/
-> >> > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> >>
-> >> Thanks for fixing this!
-> >>
-> >> Reviewed-by: Kees Cook <keescook@chromium.org>
-> >
-> > Stuffed into drm-misc-next.
->
-> The problem is, I don't think the patch is semantically correct.
->
-> drm_fb_helper.o is not part of drm.ko, it's part of
-> drm_kms_helper.ko. This adds some sort of indirect dependency via DRM
-> which might work, maybe by coincidence, maybe not - but it's certainly
-> not obvious.
+On 18/10/2021 17:28, Neil Armstrong wrote:
+> From: Benoit Parrot <bparrot@ti.com>
+> 
+> Now that we added specific item to our subclassed drm_plane_state
+> we can add omap_plane_atomic_print_state() helper to dump out our own
+> driver specific plane state.
+> 
+> Signed-off-by: Benoit Parrot <bparrot@ti.com>
+> Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
+> ---
+>   drivers/gpu/drm/omapdrm/omap_plane.c | 16 ++++++++++++++++
+>   1 file changed, 16 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/omapdrm/omap_plane.c b/drivers/gpu/drm/omapdrm/omap_plane.c
+> index ce5ed45401fb..5001c8354e4f 100644
+> --- a/drivers/gpu/drm/omapdrm/omap_plane.c
+> +++ b/drivers/gpu/drm/omapdrm/omap_plane.c
+> @@ -348,6 +348,21 @@ omap_plane_atomic_duplicate_state(struct drm_plane *plane)
+>   	return &state->base;
+>   }
+>   
+> +static void omap_plane_atomic_print_state(struct drm_printer *p,
+> +					  const struct drm_plane_state *state)
+> +{
+> +	struct omap_plane_state *omap_state = to_omap_plane_state(state);
+> +
+> +	drm_printf(p, "\toverlay=%s\n", omap_state->overlay ?
+> +					omap_state->overlay->name : "(null)");
+> +	if (omap_state->overlay) {
+> +		drm_printf(p, "\t\tidx=%d\n", omap_state->overlay->idx);
+> +		drm_printf(p, "\t\toverlay_id=%d\n",
+> +			   omap_state->overlay->id);
+> +		drm_printf(p, "\t\tcaps=0x%x\n", omap_state->overlay->caps);
+> +	}
+> +}
 
-Right, how about this change on top?
+This prints:
 
---- a/drivers/gpu/drm/Kconfig
-+++ b/drivers/gpu/drm/Kconfig
-@@ -117,9 +117,8 @@ config DRM_DEBUG_MODESET_LOCK
+         overlay=gfx
+                 idx=0
+                 overlay_id=0
+                 caps=0x3e
 
- config DRM_FBDEV_EMULATION
-        bool "Enable legacy fbdev support for your modesetting driver"
--       depends on DRM
--       depends on FB=y || FB=DRM
--       select DRM_KMS_HELPER
-+       depends on DRM_KMS_HELPER
-+       depends on FB=y || FB=DRM_KMS_HELPER
-        select FB_CFB_FILLRECT
-        select FB_CFB_COPYAREA
-        select FB_CFB_IMAGEBLIT
+I'm not sure if some of these details are needed. The name ("gfx") and 
+overlay_id refer to the same thing, and while idx is in theory a 
+different value, in practice it's always the same as overlay_id. And 
+even if it was a different number, I think idx is kind of irrelevant, 
+isn't it?
 
-That would probably make it work for DRM=y, FB=m, DRM_KMS_HELPER=m,
-but it needs more randconfig testing, which I can help with.
+caps can be figured out from the name of the overlay, but perhaps it 
+doesn't hurt to print them here. Then again, if none of the other debug 
+prints show the cap values (e.g. "requires cap 0x4), maybe printing the 
+caps value is not really useful here.
 
-> The likely culprit is, again, the overuse of select, and in this case
-> select DRM_KMS_HELPER. And DRM_KMS_HELPER should depend on FB if
-> DRM_FBDEV_EMULATION=y. That's the problem.
+Maybe this could be just a single line, say:
 
-This is something we can't easily express in Kconfig, as we can't add the
-dependency to a symbol that only gets selected by other drivers, which
-is why the dependency has to be in the user-visible symbol,
-in this case DRM_FBDEV_EMULATION.
+overlay=gfx
 
-> All of the drm Kconfigs could use an overhaul to be semantically
-> correct, but that's a hill nobody wants to die on. Instead we keep
-> piling up tweaks to paper over the issues, ad infinitum.
+or if caps is useful:
 
-Yes, that is a big issue, though we have similar problems with drivers/media
-and net/.
+overlay=gfx (caps=0x3e)
 
-On a related note, I did manage to sort out the backlight dependency issue
-(intel_panel.c:(.text+0x2f58): undefined reference to
-`backlight_device_register'),
-but haven't sent that one again yet, but I can if you like. This one changes
-DRM_I915 and all of drivers/video/fbdev from 'select BACKLIGHT_CLASS_DEVICE'
-to 'depends on', which I think moves everything into broadly the right
-direction.
+What do you think?
 
-Let me know if you would like me to send those now, or have a look at the
-top 3 patches in [1] if you are interested. This has passed a few
-thousand randconfig
-builds and should not depend on additional patches.
-
-        Arnd
-
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/arnd/playground.git/log/?h=randconfig-5.16-next
+  Tomi
