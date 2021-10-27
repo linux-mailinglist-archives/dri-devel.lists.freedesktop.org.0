@@ -1,58 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7006D43CB26
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Oct 2021 15:49:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0747A43CB2D
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Oct 2021 15:50:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1430689107;
-	Wed, 27 Oct 2021 13:49:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ADA5A890EB;
+	Wed, 27 Oct 2021 13:50:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 94AC6899E6;
- Wed, 27 Oct 2021 13:49:16 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 6611660D43;
- Wed, 27 Oct 2021 13:49:16 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB425890EB
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Oct 2021 13:50:46 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id C0CD960F5A
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Oct 2021 13:50:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1635342556;
- bh=fYZWrsKGlOp7lc/xKrJeyNzK/8u8cgiGUJ+/2sKfEe4=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=U77fnHxIIXJm4+qiC90pNvz1GrZM8catxUQG7co8cVjv+UYRYVBKwCeKgPPwHViuj
- xoJ27M5dFmNBhFvyMPli6fYHsUydemysyTGE9Ebf0eWT8F2Ulk9F04sK1UnFnlhiJF
- 0vm6HcrSv3i8ETCP2piQNWl+EDlH3FTJ1cAzruc0ybYXacPFwluwmr2EdnzUyJ+Iep
- +SOUOC4U5ZF59ELZ475X7m09U5PLF/OnvDVfcHidoo8TzjjHp+FUfWWfgMQ007IbRo
- b5gi4tQFssHjeeHLKRHrH2Yns7c+HmBmUHKYMHTx4ccmilVI/ycU+QmygFQ9Kvxseo
- FxFxqsIBUdY9A==
-Received: by mail-wr1-f53.google.com with SMTP id d10so4352608wrb.1;
- Wed, 27 Oct 2021 06:49:16 -0700 (PDT)
-X-Gm-Message-State: AOAM530yXlueA8L5xb3BCgfjGYvpyza8pXcxgxKj0P4KU6+T/aIMMnVp
- mmYCF815j0JO0Dqj8R3QOd/bZf6BCQvzTpMTqgU=
-X-Google-Smtp-Source: ABdhPJwyFrogSswX9aFMchaesz3OloZkKeoRK58xGE8J8a1euHLGUsdWENXaWPhRgbPktw6Hq/mkQOMklICoHioJnp4=
-X-Received: by 2002:a5d:4692:: with SMTP id u18mr210674wrq.428.1635342554955; 
- Wed, 27 Oct 2021 06:49:14 -0700 (PDT)
-MIME-Version: 1.0
-References: <20211027132732.3993279-1-arnd@kernel.org>
- <20211027132732.3993279-3-arnd@kernel.org>
- <87r1c6h9ek.fsf@intel.com>
-In-Reply-To: <87r1c6h9ek.fsf@intel.com>
-From: Arnd Bergmann <arnd@kernel.org>
-Date: Wed, 27 Oct 2021 15:48:59 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a0Lcwb4mROKt-sZHYFfCF2ji-dAbpWyy5_f7v6SHnzpjQ@mail.gmail.com>
-Message-ID: <CAK8P3a0Lcwb4mROKt-sZHYFfCF2ji-dAbpWyy5_f7v6SHnzpjQ@mail.gmail.com>
-Subject: Re: [PATCH 3/3] [v2] i915: fix backlight configuration issue
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>, 
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, 
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>, 
- Intel Graphics <intel-gfx@lists.freedesktop.org>, Arnd Bergmann <arnd@arndb.de>,
- Matthew Auld <matthew.auld@intel.com>, Zhenyu Wang <zhenyuw@linux.intel.com>, 
- Alex Williamson <alex.williamson@redhat.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>, 
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+ s=k20201202; t=1635342646;
+ bh=OAiONdkhDTQaa0UVicXRXj6oB9x5H4jrvS3VNdgJNgc=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=WdMUaWcq2mn58xppVLEeimR+Qdho9xipeU3k0KA+yKuCM29Dsjm0lrPteGTsbtL5K
+ VLTMSFueD+UAjViCd8HjFgDUrQggaIWLMbFgQaVeUAeygx4aMkM6IKGti8ZV+fItYx
+ jN8HYKsQv9kjwhd8LePsP0PpvQeYPzgYfqDth0xLbY5j0Vl4VQRHHhTU6kEpkbDfjM
+ iL1wTAHja94AuDgJsWjVHLE7Zn4wR8jGAK0yCQnU9Bg5ftdiG1SCNjIqy2OZb0l+zo
+ 5PLEl4FFfRmHH52bWV/0qiStaCiueVac336YVt43hQ68thvKBTTmFKd5VI3wBcCwz6
+ sNpBMEgTYF4Pg==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id BE19161100; Wed, 27 Oct 2021 13:50:46 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 214621] WARNING: CPU: 3 PID: 521 at
+ drivers/gpu/drm/ttm/ttm_bo.c:409 ttm_bo_release+0xb64/0xe40 [ttm]
+Date: Wed, 27 Oct 2021 13:50:46 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: erhard_f@mailbox.org
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: DUPLICATE
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-214621-2300-pYPKPscKIU@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-214621-2300@https.bugzilla.kernel.org/>
+References: <bug-214621-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,22 +69,96 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Oct 27, 2021 at 3:41 PM Jani Nikula <jani.nikula@linux.intel.com> wrote:
-> > @@ -16,10 +18,6 @@ config DRM_I915
-> >       select IRQ_WORK
-> >       # i915 depends on ACPI_VIDEO when ACPI is enabled
-> >       # but for select to work, need to select ACPI_VIDEO's dependencies, ick
->
-> The comment needs updating as well.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D214621
 
-Right, I've removed that comment now.
+--- Comment #4 from Erhard F. (erhard_f@mailbox.org) ---
+(In reply to Lang Yu from comment #3)
+> Could you please reproduce it on a ubuntu 20.04 system? I didn't reproduce
+> it on ubuntu 20.04.
+Not on this machine unfortunately. I need it 24/7 as a fileserver and audio
+server. Building vanilla or -rc kernels and running these on Gentoo is fine=
+ but
+installing another distro, getting configs equal and running Ubuntu instead=
+ for
+testing purposes is too much effort, sorry.
 
-> Other than that,
->
-> Acked-by: Jani Nikula <jani.nikula@intel.com>
->
-> on the series.
+> And could you please get outputs of following command before rebooting?
+> Thanks!
+>=20
+> $ cat /sys/kernel/debug/dma_buf/bufinfo
+Current kernel is v5.14.14, built with clang 12.0.1 (-Os).
 
-Thanks!
+ # cat /sys/kernel/debug/dma_buf/bufinfo
 
-         Arnd
+Dma-buf Objects:
+size            flags           mode            count           exp_name=20=
+=20=20=20=20=20=20
+ino=20=20=20=20=20
+03047424        00000002        00080007        00000003        drm=20=20=
+=20=20
+00415409=20=20=20=20=20=20=20=20
+        Shared fence: drm_sched gfx signalled
+        Attached Devices:
+Total 0 devices attached
+
+03047424        00000002        00080007        00000003        drm=20=20=
+=20=20
+00414559=20=20=20=20=20=20=20=20
+        Shared fence: drm_sched gfx signalled
+        Attached Devices:
+Total 0 devices attached
+
+00004096        00000002        00080007        00000003        drm=20=20=
+=20=20
+00414537=20=20=20=20=20=20=20=20
+        Attached Devices:
+Total 0 devices attached
+
+00004096        00000002        00080007        00000003        drm=20=20=
+=20=20
+00415280=20=20=20=20=20=20=20=20
+        Shared fence: drm_sched gfx signalled
+        Attached Devices:
+Total 0 devices attached
+
+07864320        00000002        00080007        00000003        drm=20=20=
+=20=20
+00244896=20=20=20=20=20=20=20=20
+        Shared fence: drm_sched gfx signalled
+        Attached Devices:
+Total 0 devices attached
+
+07864320        00000002        00080007        00000003        drm=20=20=
+=20=20
+00242446=20=20=20=20=20=20=20=20
+        Shared fence: drm_sched gfx signalled
+        Attached Devices:
+Total 0 devices attached
+
+00065536        00000002        00080007        00000003        drm=20=20=
+=20=20
+00058778=20=20=20=20=20=20=20=20
+        Attached Devices:
+Total 0 devices attached
+
+08355840        00000002        00080007        00000004        drm=20=20=
+=20=20
+00058661=20=20=20=20=20=20=20=20
+        Attached Devices:
+Total 0 devices attached
+
+08355840        00000002        00080007        00000002        drm=20=20=
+=20=20
+00003715=20=20=20=20=20=20=20=20
+        Shared fence: drm_sched gfx signalled
+        Attached Devices:
+Total 0 devices attached
+
+
+Total 9 objects, 38608896 bytes
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
