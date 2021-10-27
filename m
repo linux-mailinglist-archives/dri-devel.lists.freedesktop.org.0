@@ -1,45 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65BD643CAD1
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Oct 2021 15:38:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0549743CAE4
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Oct 2021 15:42:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 194686E89B;
-	Wed, 27 Oct 2021 13:38:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B9FC6E89A;
+	Wed, 27 Oct 2021 13:42:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E91BB6E89A;
- Wed, 27 Oct 2021 13:38:34 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10149"; a="217070595"
-X-IronPort-AV: E=Sophos;i="5.87,186,1631602800"; d="scan'208";a="217070595"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Oct 2021 06:38:34 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.87,186,1631602800"; d="scan'208";a="447219659"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
- by orsmga006.jf.intel.com with SMTP; 27 Oct 2021 06:38:31 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Wed, 27 Oct 2021 16:38:30 +0300
-Date: Wed, 27 Oct 2021 16:38:30 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A6E66E89A;
+ Wed, 27 Oct 2021 13:42:05 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10149"; a="217332618"
+X-IronPort-AV: E=Sophos;i="5.87,186,1631602800"; d="scan'208";a="217332618"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Oct 2021 06:42:04 -0700
+X-IronPort-AV: E=Sophos;i="5.87,186,1631602800"; d="scan'208";a="497870033"
+Received: from smaharan-mobl.gar.corp.intel.com (HELO localhost)
+ ([10.251.214.195])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Oct 2021 06:41:59 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Arnd Bergmann <arnd@kernel.org>, dri-devel@lists.freedesktop.org,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel@lists.freedesktop.org, Tsuchiya Yuto <kitakar@gmail.com>
-Subject: Re: [PATCH] drm/i915: Add NO_VLV_DISP_PW_DPIO_CMN_BC_INIT quirk
-Message-ID: <YXlWVtnaTUEJ6yQs@intel.com>
-References: <20211024155010.126275-1-hdegoede@redhat.com>
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>
+Cc: linux-fbdev@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ Arnd Bergmann <arnd@arndb.de>, Matthew Auld <matthew.auld@intel.com>,
+ Zhenyu Wang <zhenyuw@linux.intel.com>,
+ Alex Williamson <alex.williamson@redhat.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/3] [v2] i915: fix backlight configuration issue
+In-Reply-To: <20211027132732.3993279-3-arnd@kernel.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20211027132732.3993279-1-arnd@kernel.org>
+ <20211027132732.3993279-3-arnd@kernel.org>
+Date: Wed, 27 Oct 2021 16:41:55 +0300
+Message-ID: <87r1c6h9ek.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20211024155010.126275-1-hdegoede@redhat.com>
-X-Patchwork-Hint: comment
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,47 +57,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Oct 24, 2021 at 05:50:10PM +0200, Hans de Goede wrote:
-> Add a NO_VLV_DISP_PW_DPIO_CMN_BC_INIT quirk to fix i915 not working on
-> the Xiaomi Mi Pad 2 (with CHT x5-Z8500 SoC).
-> 
-> The Xiaomi Mi Pad 2 uses quite an unusual hardware-design for a Cherry
-> Trail tablet. It deviates from the typical reference design based tablets
-> in many ways.
-> 
-> The Mi Pad 2 does not have any DisplayPort or HDMI outouts. I suspect that
-> as part of its unusual design it also has some supply rail which is only
-> used for DisplayPort or HDMI not connected.
+On Wed, 27 Oct 2021, Arnd Bergmann <arnd@kernel.org> wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+>
+> The i915 driver can use the backlight subsystem as an option, and usually
+> selects it when CONFIG_ACPI is set. However it is possible to configure
+> a kernel with modular backlight classdev support and a built-in i915
+> driver, which leads to a linker error:
+>
+> drivers/gpu/drm/i915/display/intel_panel.o: In function `intel_backlight_device_register':
+> intel_panel.c:(.text+0x2f58): undefined reference to `backlight_device_register'
+> drivers/gpu/drm/i915/display/intel_panel.o: In function `intel_backlight_device_unregister':
+> intel_panel.c:(.text+0x2fe4): undefined reference to `backlight_device_unregister'
+>
+> Change i915 to just 'depends on' for both BACKLIGHT_CLASS_DEVICE
+> and ACPI_VIDEO, which avoids a lot of the problems.
+>
+> Link: https://lore.kernel.org/all/20200108140227.3976563-1-arnd@arndb.de/
+> Link: https://lore.kernel.org/all/20200417155553.675905-1-arnd@arndb.de/
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+> This change depends on cleaning up drivers/video/fbdev to no longer
+> 'select' I2C and BACKLIGHT_CLASS_DEVICE, otherwise it causes
+> dependency loops.
+> ---
+>  drivers/gpu/drm/i915/Kconfig | 6 ++----
+>  1 file changed, 2 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/Kconfig b/drivers/gpu/drm/i915/Kconfig
+> index 84b6fc70cbf5..f427e6d50d9b 100644
+> --- a/drivers/gpu/drm/i915/Kconfig
+> +++ b/drivers/gpu/drm/i915/Kconfig
+> @@ -3,6 +3,8 @@ config DRM_I915
+>  	tristate "Intel 8xx/9xx/G3x/G4x/HD Graphics"
+>  	depends on DRM
+>  	depends on X86 && PCI
+> +	depends on ACPI_VIDEO || !ACPI
+> +	depends on BACKLIGHT_CLASS_DEVICE || !BACKLIGHT_CLASS_DEVICE
+>  	select INTEL_GTT
+>  	select INTERVAL_TREE
+>  	# we need shmfs for the swappable backing store, and in particular
+> @@ -16,10 +18,6 @@ config DRM_I915
+>  	select IRQ_WORK
+>  	# i915 depends on ACPI_VIDEO when ACPI is enabled
+>  	# but for select to work, need to select ACPI_VIDEO's dependencies, ick
 
-Do we have the VBT somewhere (preferable attached to a bug report)?
-Maybe we can avoid an ugly quirk.
+The comment needs updating as well.
 
-> 
-> Force-enabling the dpio-common-bc powerwell as the i915 normal does at boot
-> appears to cause the P-Unit to hang. When booting with a serial-usb console
-> the following errors are logged before the system freezes:
-> 
->  i915 0000:00:02.0: [drm] *ERROR* timeout setting power well state 00000000 (fffff3ff)
->  i915 0000:00:02.0: [drm] *ERROR* Display PHY 0 is not power up
+Other than that,
 
-Hmm. I wonder if we're missing a clock or something...
+Acked-by: Jani Nikula <jani.nikula@intel.com>
 
-Either of these do anything different?
+on the series.
 
---- a/drivers/gpu/drm/i915/display/intel_display_power.c
-+++ b/drivers/gpu/drm/i915/display/intel_display_power.c
-@@ -1419,6 +1419,10 @@ static void vlv_display_power_well_init(struct drm_i915_private *dev_priv)
- 	for_each_pipe(dev_priv, pipe) {
- 		u32 val = intel_de_read(dev_priv, DPLL(pipe));
- 
-+		val |= DPLL_SSC_REF_CLK_CHV;
-		or
-+		val &= ~DPLL_SSC_REF_CLK_CHV;
-
- 		val |= DPLL_REF_CLK_ENABLE_VLV | DPLL_VGA_MODE_DIS;
- 		if (pipe != PIPE_A)
- 			val |= DPLL_INTEGRATED_CRI_CLK_VLV;
+> -	select BACKLIGHT_CLASS_DEVICE if ACPI
+> -	select INPUT if ACPI
+> -	select ACPI_VIDEO if ACPI
+> -	select ACPI_BUTTON if ACPI
+>  	select SYNC_FILE
+>  	select IOSF_MBI
+>  	select CRC32
 
 -- 
-Ville Syrjälä
-Intel
+Jani Nikula, Intel Open Source Graphics Center
