@@ -1,60 +1,97 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCAB643D6C6
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Oct 2021 00:38:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8701243D6CD
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Oct 2021 00:39:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B2F226E104;
-	Wed, 27 Oct 2021 22:38:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 94FC86E48F;
+	Wed, 27 Oct 2021 22:39:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb34.google.com (mail-yb1-xb34.google.com
- [IPv6:2607:f8b0:4864:20::b34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1013E6E104
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Oct 2021 22:38:11 +0000 (UTC)
-Received: by mail-yb1-xb34.google.com with SMTP id m63so10216994ybf.7
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Oct 2021 15:38:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=9oSytowWKNwBBfMwPK2z8OUTJ/DV6Vi07ePItefhWPA=;
- b=avoig4YK8GBf9CAkkiPstN495H8ufgsgLmycuwhIIcKQlChKBArOq3T7H08ISwbkZP
- b1PMg4Ox60dyWE6lCMObvITqTxbOWx7qItChFwJt3dxA05vzHSH6OFMuG9qobd7E+HeY
- IUlvslIN37ITjz9mW0+IcwO9HlspVWj1T2Dhk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=9oSytowWKNwBBfMwPK2z8OUTJ/DV6Vi07ePItefhWPA=;
- b=NfxJxdw4RZbihr6VF51cCQp/tE/b3hbooQL7Bbtaj/GOAcd/mzbUBX88Bb1D7oh0WQ
- oPsIxzIlJo129f1/xWLH6/q0qGdA/NOTQvE6KA7kSbei9WAYmZ2hPWGb6Tiwugaqxq0k
- qKVJbfY00498g8kjy21I25Op3YDqOpXrGKAa+mwf7Kk6IAmOpQqV3+2V2Xf5MGiAs0h2
- b0BXGq/ShUFcsEZVDv3RR5fK/Ly6JJ/Tacshoxe3kMqmO+MPYqbYJbV3DD482aCUNB2P
- 6i5BPRuURjVBsTw+/YSUDbklqSS9fmv5wFa3LVTgW4D2ejEU3g015SRiJhMEBi24pBzB
- VO4g==
-X-Gm-Message-State: AOAM533pLjSHDIdbd/dwAzUgZIu23sRlpggopyBDEWt4QL1DV9k0DWXb
- 5UYb/yY/GWMb++piYhY3UY2elMkiIf/hU1ZWO39C7g==
-X-Google-Smtp-Source: ABdhPJxB2cf0ejh1JrlD28UAn2KzuQGKwVaIkvK+lcXb819vEQtQoI7Rgsm+YxiVyRZXgYvOxJs7inAaTHHEdJmaQwA=
-X-Received: by 2002:a25:23cc:: with SMTP id j195mr506259ybj.508.1635374290200; 
- Wed, 27 Oct 2021 15:38:10 -0700 (PDT)
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2058.outbound.protection.outlook.com [40.107.244.58])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 76C1E6E44C;
+ Wed, 27 Oct 2021 22:39:35 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=QzTNcuYZdvTn/rF0FM9PoVTXzECk5te0GnIJaYX5GAyoRcj8+tWRn5dwiMA1b+4e6cKSorXo4gOpz6zyHZIvSRee4UR3PI+LL3xm+XmYHx9K6oJAVf+tajYU6yTNmhBJ0LLASNjb2os2xzB2n7solimrm36JIN/cWV3sXKrq2zn5KJoeHjiPHP4jihcfMp0evu+paSm+WQb0/m2HJT0ZChi2HLc4+fspNEg3bj+j3pOHXct+qr81FHTObugi+fc1EM1QacZxybypgsl6rulGrXWv0X3A2+5U9ajn2MrwKuEcBgmJmSybobArkpcQ/1F06WQyc6EgEmrkaR4ugq8V/w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=X8g91vHOX44bOaHZDnx/oNB4P8+xQd7SeU9lhRd/6JY=;
+ b=PkJ6vr1PY9rH5Mi97t8aWvEQvDfzX9rBjrjZ70g/vSX5dFlc69MXpEFyQyHHmRCIWvhr+1g5rmhDydqHReV0iB+qHshHOb/oyJUPlSgHrBhEhWBN68sIkTl1GQ3GGZhx09o2nQvF2hsbHfTt/cjTCtbz0YIU3LvZ0ofHjgrGYrTUs84eq33jnpeIHdMrm7+5i2kn13VOqjjrxm9nPSSUQumfYlA/kqUcw04cFbAEHUGdURdIPKVzzXsCpeC+S+tKjt736rmH4CNkEqv1zX6CLy5V7x8LTMPzc47sD9iZmWPa++3b1sBouG42bHsrm6L1fKwEA/Hjc3KMdNCNoBQzqw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=X8g91vHOX44bOaHZDnx/oNB4P8+xQd7SeU9lhRd/6JY=;
+ b=v8iKaqcKl5Sy1uKBWBiWEfUhyU57986l5CkLlye34LOWdYgL4QAx5QbUkwC7+XRXmAbBqX7GalyU9FQ2baGF5XnDmVMiRC6ehLqNceVnUY+Eu9erZw5PhUukM9dmMqCRmvXxolO7mPkhfOIbARFH5YJqhz7lgSLoeXDImX08g98=
+Received: from DM6PR06CA0089.namprd06.prod.outlook.com (2603:10b6:5:336::22)
+ by DM6PR12MB4959.namprd12.prod.outlook.com (2603:10b6:5:208::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4649.14; Wed, 27 Oct
+ 2021 22:39:33 +0000
+Received: from DM6NAM11FT014.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:5:336:cafe::86) by DM6PR06CA0089.outlook.office365.com
+ (2603:10b6:5:336::22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4649.14 via Frontend
+ Transport; Wed, 27 Oct 2021 22:39:33 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; lists.freedesktop.org; dkim=none (message not signed)
+ header.d=none;lists.freedesktop.org; dmarc=pass action=none
+ header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ DM6NAM11FT014.mail.protection.outlook.com (10.13.173.132) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.4649.14 via Frontend Transport; Wed, 27 Oct 2021 22:39:33 +0000
+Received: from tr4.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.15; Wed, 27 Oct
+ 2021 17:39:29 -0500
+From: Alex Deucher <alexander.deucher@amd.com>
+To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
+CC: Alex Deucher <alexander.deucher@amd.com>, Lyude Paul <lyude@redhat.com>,
+ Dave Airlie <airlied@gmail.com>
+Subject: [PATCH] drm/amdgpu/display: fix build when CONFIG_DRM_AMD_DC_DCN is
+ not set
+Date: Wed, 27 Oct 2021 18:39:14 -0400
+Message-ID: <20211027223914.1776061-1-alexander.deucher@amd.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-References: <20211026145622.v4.1.I9d81c3b44f350707b5373d00524af77c4aae862b@changeid>
- <CAD=FV=WTQG_zdQVDFPe7u8_350Nwr9tSeWjtQO7FD-3N-JMjuQ@mail.gmail.com>
-In-Reply-To: <CAD=FV=WTQG_zdQVDFPe7u8_350Nwr9tSeWjtQO7FD-3N-JMjuQ@mail.gmail.com>
-From: Philip Chen <philipchen@chromium.org>
-Date: Wed, 27 Oct 2021 15:37:59 -0700
-Message-ID: <CA+cxXh=pxw7iPnmfs998fd=OZ1QHDRtc913GFOXpLzKF8ZkOeA@mail.gmail.com>
-Subject: Re: [PATCH v4 1/2] drm/bridge: parade-ps8640: Enable runtime power
- management
-To: Doug Anderson <dianders@chromium.org>
-Cc: LKML <linux-kernel@vger.kernel.org>, Stephen Boyd <swboyd@chromium.org>, 
- Andrzej Hajda <a.hajda@samsung.com>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@linux.ie>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Neil Armstrong <narmstrong@baylibre.com>, Robert Foss <robert.foss@linaro.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 10debed3-9b67-4ef7-4f58-08d9999aa59a
+X-MS-TrafficTypeDiagnostic: DM6PR12MB4959:
+X-Microsoft-Antispam-PRVS: <DM6PR12MB4959C2A3B2F7BE1F97FA3E2BF7859@DM6PR12MB4959.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4941;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: gDllAc+sQULe2EnPUFcUZxBUzV+hGyINxLUjFboO9YNrw1DlItZPceLqmwmE7Bd28+dpvjEYBxc7ppBOVbauub3h4i6RcCLpLzEpi26NmiqmR6uns+9KZ/TfW43VDjC+pMGqXLlmTnVfg3ZG2Kua3dRHoDswrUThiiCwvSnYEQFZlP/TIwqbdpuuzXooeQ9q3zQrwGRIFFlTNojNxvI9f3Q0MXYKETT4cF2jUkGl+eDbqSXfL7C4iJcnPA6QuQBSd8QwyeVvOVYDmqqMO6iItTvuH6R0D9bzGk94lYSYhEqF/euWYcUtM/KPzvcgUWUew3SRbyuPQiNe13/pkW1hRUJvx4UKP/WHE8ZX6AB27Das2EtonN0/fWF2VtqmNL5lh1WA0vHeWlETQ2MANFO4UIxP7i/r3AFIl+nsp7aBYcGuTDtbxnWKWIcdxpEA8I2o937NTzhzGsgVRxIyflPAqFz1Es+6eL1DdaOyLShSfkOXzFdgBX4BZCnAvcd6UGxGU2Yxha2U+pZWwdSFXsW31t53EPwYCfFNtwSsGZHS6bBhd6vVGx1CnL+wO9hUw5xEtW9POEDcumGy2zkD3wcxx0mk64kZTm754MTG8RaoA4IxonV4hgslezL4h9zog/E/uHzz/oyu5xADy4ITw9R7biZT46xmeM3kkZtXi2Tjkdx+qusdfnzLDEqAcZcjCyJuJmTIGrJSDd5iujgkCvkt0KHulUh/9kXNh/GI5fIIBcU=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(4636009)(36840700001)(46966006)(70586007)(70206006)(54906003)(36860700001)(336012)(110136005)(186003)(83380400001)(2616005)(47076005)(8936002)(26005)(16526019)(1076003)(36756003)(6666004)(2906002)(81166007)(426003)(356005)(508600001)(86362001)(5660300002)(82310400003)(4326008)(316002)(7696005)(8676002)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Oct 2021 22:39:33.1003 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 10debed3-9b67-4ef7-4f58-08d9999aa59a
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT014.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4959
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,107 +107,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Doug,
+Need to guard some things with CONFIG_DRM_AMD_DC_DCN.
 
-On Wed, Oct 27, 2021 at 3:08 PM Doug Anderson <dianders@chromium.org> wrote:
->
-> Hi,
->
-> On Tue, Oct 26, 2021 at 2:56 PM Philip Chen <philipchen@chromium.org> wrote:
-> >
-> > Fit ps8640 driver into runtime power management framework:
-> >
-> > First, break _poweron() to 3 parts: (1) turn on power and wait for
-> > ps8640's internal MCU to finish init (2) check panel HPD (which is
-> > proxied by GPIO9) (3) the other configs. As runtime_resume() can be
-> > called before panel is powered, we only add (1) to _resume() and leave
-> > (2)(3) to _pre_enable(). We also add (2) to _aux_transfer() as we want
-> > to ensure panel HPD is asserted before we start AUX CH transactions.
-> >
-> > Second, the original driver has a mysterious delay of 50 ms between (2)
-> > and (3). Since Parade's support can't explain what the delay is for,
-> > and we don't see removing the delay break any boards at hand, remove
-> > the delay to fit into this driver change.
-> >
-> > In addition, rename "powered" to "pre_enabled" and don't check for it
-> > in the pm_runtime calls. The pm_runtime calls are already refcounted
-> > so there's no reason to check there. The other user of "powered",
-> > _get_edid(), only cares if pre_enable() has already been called.
-> >
-> > Lastly, change some existing DRM_...() logging to dev_...() along the
-> > way, since DRM_...() seem to be deprecated in [1].
-> >
-> > [1] https://patchwork.freedesktop.org/patch/454760/
-> >
-> > Signed-off-by: Philip Chen <philipchen@chromium.org>
-> > Reviewed-by: Douglas Anderson <dianders@chromium.org>
-> > Reviewed-by: Stephen Boyd <swboyd@chromium.org>
-> > ---
-> > In v3, I also added pm_suspend_ignore_children() in the ps8640_probe()
-> > but forgot to mention that in the v3 change log.
-> >
-> > Changes in v4:
-> > - Make ps8640_ensure_hpd() return int (This change was mis-added to
-> >   another patch [2] in this patch series:
-> >   [2] https://patchwork.kernel.org/project/dri-devel/patch/20211026121058.v3.2.I09899dea340f11feab97d719cb4b62bef3179e4b@changeid/)
-> >
-> > Changes in v3:
-> > - Fix typo/wording in the commit message.
-> > - Add ps8640_aux_transfer_msg() for AUX operation. In
-> >   ps8640_aux_transfer(), wrap around ps8640_aux_transfer_msg()
-> >   with PM operations and HPD check.
-> > - Document why autosuspend_delay is set to 500ms.
-> >
-> >  drivers/gpu/drm/bridge/parade-ps8640.c | 186 +++++++++++++++----------
-> >  1 file changed, 115 insertions(+), 71 deletions(-)
->
-> Unfortunately, your patch no longer applies to drm-misc/drm-misc-next.
-> Commit 7abbc26fd667 ("drm/bridge: ps8640: Register and attach our DSI
-> device at probe") landed and that causes a merge conflict. Can you
-> rebase and resend?
-Yes, I will rebase and resend.
+Fixes: 41724ea273cdda ("drm/amd/display: Add DP 2.0 MST DM Support")
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Cc: Lyude Paul <lyude@redhat.com>
+Cc: Dave Airlie <airlied@gmail.com>
+---
 
->
-> This will also cause a conflict when Sam's change lands [1] so I guess
-> we can see whose lands first. Let me review that now and maybe you add
-> a Tested-by? If it lands that'll make it easier and you can just
-> rebase on both of them?
-As per your latest reply, I'll just rebase atop drm-misc-next for now.
+Lyude, can you apply this to topic/amdgpu-dp2.0-mst? or Dave, if it's
+already pulled can you apply this to drm-next?
 
->
->
-> > +       pm_runtime_enable(dev);
-> > +       /*
-> > +        * In practice, ps8640_aux_transfer_msg() takes ~300ms to complete in
-> > +        * the worst case. Set autosuspend_delay to 500ms.
-> > +        */
-> > +       pm_runtime_set_autosuspend_delay(dev, 500);
->
-> To be a little nitpicky, this makes it sound as if the 500 ms needs to
-> be greater than the 300 ms for correctness. That's not _really_ the
-> case. During the whole ps8640_aux_transfer_msg() we're holding a PM
-> Runtime reference (so it won't autosuspend no matter what) and at the
-> end of it we mark that we were busy so the timer won't start ticking
-> until then.
-Yeah....sorry, looking again, I agree the comment I added in v3 is
-pretty misleading.
-I think autosuspend_delay just needs to be consistently longer than
-the interval between each aux_transfer call during EDID read.
-I'll measure the interval and add the number to the comment.
+Thanks!
 
->
-> Really the 500 ms is because we're quite slow to power up (~300 ms)
-> and so we want to avoid powering down and powering up constantly. We
-> definitely need to avoid a power down / power up when reading the EDID
-> and an EDID read involves _several_ calls in a row to the AUX transfer
-> function. We also expect that after userspace reads the EDID it will
-> call us again "soon" to turn the power on and it's nice to not have to
-> wait the 300 ms again. The 500 ms here is really just a number that's
-> not too short but not too long. I suppose it's roughly related to the
-> 300 ms because that's the delay we're trying to avoid, but otherwise
-> they are unrelated. NOTE: the code will still be _correct_ if we miss
-> the 500 ms window, it'll just be a lot slower.
->
-> [1] https://lore.kernel.org/r/20211020181901.2114645-2-sam@ravnborg.org
->
-> -Doug
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c         | 2 +-
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c | 4 +++-
+ 2 files changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index a02ca525610c..3f36dbb2c663 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -10723,9 +10723,9 @@ static int amdgpu_dm_atomic_check(struct drm_device *dev,
+ 	struct dm_crtc_state *dm_old_crtc_state;
+ #if defined(CONFIG_DRM_AMD_DC_DCN)
+ 	struct dsc_mst_fairness_vars vars[MAX_PIPES];
+-#endif
+ 	struct drm_dp_mst_topology_state *mst_state;
+ 	struct drm_dp_mst_topology_mgr *mgr;
++#endif
+ 
+ 	trace_amdgpu_dm_atomic_check_begin(state);
+ 
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+index 719cbec4c45e..c200e07d2fb2 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+@@ -219,7 +219,7 @@ bool dm_helpers_dp_mst_write_payload_allocation_table(
+ 	struct drm_dp_mst_topology_mgr *mst_mgr;
+ 	struct drm_dp_mst_port *mst_port;
+ 	bool ret;
+-	u8 link_encoding_cap;
++	u8 link_encoding_cap = DP_8b_10b_ENCODING;
+ 
+ 	aconnector = (struct amdgpu_dm_connector *)stream->dm_stream_context;
+ 	/* Accessing the connector state is required for vcpi_slots allocation
+@@ -239,7 +239,9 @@ bool dm_helpers_dp_mst_write_payload_allocation_table(
+ 
+ 	mst_port = aconnector->port;
+ 
++#if defined(CONFIG_DRM_AMD_DC_DCN)
+ 	link_encoding_cap = dc_link_dp_mst_decide_link_encoding_format(aconnector->dc_link);
++#endif
+ 
+ 	if (enable) {
+ 
+-- 
+2.31.1
+
