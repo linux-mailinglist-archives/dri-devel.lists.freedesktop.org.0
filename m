@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AB4B43D233
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Oct 2021 22:10:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6F6143D235
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Oct 2021 22:10:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03A2C6E8E2;
-	Wed, 27 Oct 2021 20:10:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 798F66E8DD;
+	Wed, 27 Oct 2021 20:10:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com
  [64.147.123.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F57B6E8E2;
- Wed, 27 Oct 2021 20:10:21 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailnew.west.internal (Postfix) with ESMTP id 128E72B0145C;
- Wed, 27 Oct 2021 16:10:19 -0400 (EDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5DD816E8DD;
+ Wed, 27 Oct 2021 20:10:28 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailnew.west.internal (Postfix) with ESMTP id 2E3C12B01443;
+ Wed, 27 Oct 2021 16:10:26 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Wed, 27 Oct 2021 16:10:20 -0400
+ by compute3.internal (MEProxy); Wed, 27 Oct 2021 16:10:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-type:content-transfer-encoding; s=fm1; bh=
- jLs2r1zDl/69wi6ikC/R/ADci8RrfsDbJ/iNqiDxJSU=; b=cyk1/80xqQsy27Nh
- 8OTBk8En3NhH/K+ULwpXqUqLiAtenQIUDzGxvjhbdabWpFNunwC7GQrqhvIj5965
- 2U/Q7hl3Ey6CjiQ90oDkS3Mq8O9APk5sLn5DEtoinRNNUfHPZzLDSPEHHWGreHSD
- IeHZ0BPYqqNvXnmW5dfx81tgEiCKqSAHRwhto8VVaJ+W93B4gslFMJ+xygub2YIC
- h9BKnQLSnaFHimSTIaQ5x/2A7VfTW/IDex3HE+9nqIAWZ/QTkHTa1GZH3LzsbJEO
- SoNQpUaET+tu7yqFy8Bm+pc1SWLgEQo/5wjppyzhyhsDwafcz+VD8u/gA0H/1gde
- i5LH0g==
+ RFcMHqahWOcsuN+fSNttIEGwMPzwxHhTO+aiGzLgY34=; b=QUaE0++APXMQV84A
+ Bvlgt14PwgCRxnjOAd6wfeetrHonFlVKUUdkeFKY8zeWD5YrnFFbKWk5ZFxuUYiZ
+ IndXiJ9myYs47tYUB9+dha6GXhU9/AzOoQDNBpGAz+g5P5imoX9o0Yxrox+Qz/EW
+ RX+WffEoY+xfg2OBVgtMmMX1BF0YykcfyvBNwGRsgXMJOF8dwjbum3CGfzCCru2n
+ 3/mnTHp+rjYr0JjvLGrS/POTW1NQHewYKznPvAwMWMLlfTO9IdebOOwyM4YBGexa
+ pGajJTlaBsDEkT8I4CKhiWScMte7L/XqJU75a0sASMJTuu2hl2Jg9PyEfGfn1H9y
+ /2otnA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:content-type
  :date:from:in-reply-to:message-id:mime-version:references
  :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm1; bh=jLs2r1zDl/69wi6ikC/R/ADci8RrfsDbJ/iNqiDxJ
- SU=; b=HibrOR3S2iB2quNO4SEdx/CINaEY8ijgpomz3jodIm7GwuKwhw/+2Kezv
- ptDh0HKz3iWQoQVovSKWSn/4OzYcuBqCLldPRiGVtqxxrYGurg9AvVJEOunaLf4q
- Efv8Edj+/t8GKe26MkBy3APGf+6FkKQ1jWqVfc6s8LmqROHBpcPewNVhKTiLEbLd
- TxB+YZ/GsCQs0u9Deqv44lNgmaZMSe45b2l009cEMUbmhkm2/yBn5fndsni8A66g
- iGBytACgH5fowV3SkVwedpvpr0GOqH7wVCSXTyDdkqYlsf1M6yiBRTyCDPjL+DpQ
- RMnyrvCxoIA13Kjdg5pKd8Ql7vLMA==
-X-ME-Sender: <xms:KbJ5YZli9ZyecaZe5_0lXL1jOf4GI7I2tw_Mwv3ZJdlDFBtgrPSxlg>
- <xme:KbJ5YU2NEiaaAZeYRvl-7DPqhPpGKOMdLRJyQ98dp9IqEvjae5ikp1JaLcPB0s58F
- rnnG9Fi2qbdXk96DoE>
-X-ME-Received: <xmr:KbJ5YfqvNeHKiger_7QPepCeI1OeLHB1BbSrdOfYRuhEwenvNpQbB6sqEZnTUya59sDxS8VzMrDWQkja-tWbcKftKIPp2TYGog6snkmv>
+ :x-sasl-enc; s=fm1; bh=RFcMHqahWOcsuN+fSNttIEGwMPzwxHhTO+aiGzLgY
+ 34=; b=bsfpei8QRHujDs6vre2cl821rhfKVU2wp2OoLV0kNIXUn2KHb1cD3W8vY
+ /gb4q6kfXGGbFfIEHs+YKHaOWz7u5iBc3sZoAh/rNIY7JLiZZz3Oq3QBvvxFKH7T
+ bTKI6kSrOzAiyTfzNxZKxQ/awfUWNB+74BqQA+rndayto4UNpLDaj04QF/XU5Evp
+ nvdBNThG3PUsuLG/AIYtyhVX2GNvf8j3Lm9RU5HhjVgy6yfJfnKO2rPmSTjD241p
+ xBb59aSrJV534iY4dZB4A4/WamZ2Gi5FdfDFeOd+7jaM0VeSFxF+Z2k2CbVXLh+0
+ Sl9CC4v/J9y9VcqYshSJupdwFqRjg==
+X-ME-Sender: <xms:L7J5Yb7syN9q7898T3Z4jvDJEiFaN7qQmzywGFKYYEGJGiUxv9lGbQ>
+ <xme:L7J5YQ6dXRgLAFsMnWR54-eIy-b31mGMALNxkvq-uA4i7tIWeuH22PFkwIR2tCkMM
+ UNwAl8PV1yooB5atHc>
+X-ME-Received: <xmr:L7J5YSfLPl-qpH4ef2iA2voWx_PKhOKXB0RZz2Dh1MhdbfzdIT8E9tRpzamEOTyqHrgFi83P3ITH-QWxsfVcZf68tgBN9b_5y155odt1>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrvdegtddguddutdcutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
  necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
@@ -51,12 +51,12 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrvdegtddguddutdcutefuodetgg
  grthhtvghrnhepjeeugfegkeffgfeuvedtvddufffhjeffjeejvddvudduteehhfefhfef
  geeikeeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
  epmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:KbJ5YZn1UWsUiGNuCRrVr8qPyDZoGms1Oornprx-BoYmogfrhee8Lw>
- <xmx:KbJ5YX3M3Kdf4ZXqa2GRlqJh_aKYka9mtzZVfNxUYunFqJ9arHYfsg>
- <xmx:KbJ5YYv73UJPWMr7tOvWehDYIC26ReNUVWJM6eUfNVZ7kIrCNftUsw>
- <xmx:KrJ5YdHJ82k9-oD4AqMOZ_Nz6UT2WLIQ1v7jxbbFwgKWmPbOPR7tBnAydD8>
+X-ME-Proxy: <xmx:L7J5YcL1GFfFi0DtI66hCufAoFQCCJJznmVgm4PXuTcQsf8Pv_SKPw>
+ <xmx:L7J5YfKziIn7EAqgXJ82Y3B6Q9wCdpGhcdU9Fl0rwIijql6D_j4oCA>
+ <xmx:L7J5YVym3qCRsz7fJk63Ns58eDgJhG1aAfgfvVMb8_mJPbMPbtO2Wg>
+ <xmx:MbJ5YSIxH-NKPj5p5vZ2RrV3E49C-u3hjqaXReOeKZ-wZB0xRQZKazaKH_I>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 27 Oct 2021 16:10:16 -0400 (EDT)
+ 27 Oct 2021 16:10:22 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Thierry Reding <thierry.reding@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -69,23 +69,22 @@ To: Thierry Reding <thierry.reding@gmail.com>,
  Thomas Zimmermann <tzimmermann@suse.de>,
  Jernej Skrabec <jernej.skrabec@gmail.com>
 Cc: Xinwei Kong <kong.kongxinwei@hisilicon.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Tian Tao <tiantao6@hisilicon.com>, linux-kernel@vger.kernel.org,
- Rob Clark <robdclark@gmail.com>, John Stultz <john.stultz@linaro.org>,
- Seung-Woo Kim <sw0312.kim@samsung.com>,
- Chen Feng <puck.chen@hisilicon.com>, dri-devel@lists.freedesktop.org,
- Inki Dae <inki.dae@samsung.com>, Sean Paul <sean@poorly.run>,
+ Kyungmin Park <kyungmin.park@samsung.com>, linux-kernel@vger.kernel.org,
+ Tian Tao <tiantao6@hisilicon.com>, Rob Clark <robdclark@gmail.com>,
+ John Stultz <john.stultz@linaro.org>, Chen Feng <puck.chen@hisilicon.com>,
+ dri-devel@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
+ Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
  linux-samsung-soc@vger.kernel.org, freedreno@lists.freedesktop.org,
  linux-arm-msm@vger.kernel.org, Joonyoung Shim <jy0922.shim@samsung.com>,
  Xinliang Liu <xinliang.liu@linaro.org>
-Subject: Re: (subset) [PATCH v6 04/21] drm/bridge: anx7625: Register and
- attach our DSI device at probe
-Date: Wed, 27 Oct 2021 22:09:35 +0200
-Message-Id: <163532324663.18245.8805629524058287692.b4-ty@cerno.tech>
+Subject: Re: (subset) [PATCH v6 05/21] drm/bridge: lt8912b: Switch to devm
+ MIPI-DSI helpers
+Date: Wed, 27 Oct 2021 22:09:36 +0200
+Message-Id: <163532324663.18245.3762655755657411905.b4-ty@cerno.tech>
 X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20211025151536.1048186-5-maxime@cerno.tech>
+In-Reply-To: <20211025151536.1048186-6-maxime@cerno.tech>
 References: <20211025151536.1048186-1-maxime@cerno.tech>
- <20211025151536.1048186-5-maxime@cerno.tech>
+ <20211025151536.1048186-6-maxime@cerno.tech>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -104,10 +103,9 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 25 Oct 2021 17:15:19 +0200, Maxime Ripard wrote:
-> In order to avoid any probe ordering issue, the best practice is to move
-> the secondary MIPI-DSI device registration and attachment to the
-> MIPI-DSI host at probe time. Let's do this.
+On Mon, 25 Oct 2021 17:15:20 +0200, Maxime Ripard wrote:
+> Let's switch to the new devm MIPI-DSI function to register and attach
+> our secondary device.
 > 
 > 
 
