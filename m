@@ -1,65 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4326943CEAE
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Oct 2021 18:24:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 30A1C43CEBD
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Oct 2021 18:28:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A4376E7D5;
-	Wed, 27 Oct 2021 16:24:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A417A6E7D0;
+	Wed, 27 Oct 2021 16:28:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf35.google.com (mail-qv1-xf35.google.com
- [IPv6:2607:f8b0:4864:20::f35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E2E9C6E7D0;
- Wed, 27 Oct 2021 16:24:27 +0000 (UTC)
-Received: by mail-qv1-xf35.google.com with SMTP id d6so2147063qvb.3;
- Wed, 27 Oct 2021 09:24:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=vmpGZBtee5zeMy7ZXKmCA4/DiT+/FUCxOeG55lmjPBo=;
- b=NCg0ezwJTfs48B0Na84dMRlbJ3G4sOR4CNG9aFHgRf8ZE/4AUQH6SVGUVEPieDlZvM
- /Opl1BDIkrz+Z3m6l7RJ7M07EFsVKetBKaKit39+AKGmzdAHaXNP47mhtWABGXdJ5gHG
- juodhCswbFW+eL4g62FpkNe/mkx2+R08QusyyYjONH03oawNZKWwNsdtECRmTGfkIQ6z
- E9lX8oajOY2LZQdBw/5VLN9LXvwAOT7Kfei7OTf5lj7Qvblh2jXedTovKhaHenA6Aa1S
- 0a8wJyF1EajRZGqem3GUFggzGXzPfruKDzy5lzUg2ZS2x9cyUgjkRMuPk4Eff9CKjrbm
- LpVg==
+Received: from mail-qk1-x72a.google.com (mail-qk1-x72a.google.com
+ [IPv6:2607:f8b0:4864:20::72a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A37096E7D0
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Oct 2021 16:28:14 +0000 (UTC)
+Received: by mail-qk1-x72a.google.com with SMTP id bl14so2992491qkb.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Oct 2021 09:28:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Kcaw11fIjDklEqqCtjykwfsrJvW1LW9AxQoWbgSjC4M=;
+ b=Ua/sCb/y9VDGpUgeNnsC/TY1iozBS8HSs8sB4TzNnEPa+6427LOWQi6WL9uSP+9r0f
+ KGOwJodnrSB2fiQhxLQFuuW8O4HKPNi3pVV1x8cV2XHk8wFzt0Z2GsjSi96dOsDPs1pd
+ jAq2oO9A9mstmfyKZ9gWU7sZY5Lj5IMLSkyfA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=vmpGZBtee5zeMy7ZXKmCA4/DiT+/FUCxOeG55lmjPBo=;
- b=XCxlgG/r70YkqISVDEEtiZtDI/a/ERaa5Lm77Fs4lKwZp4mRfC8Z7LSqnFvO2V1Y99
- M+j8aKeWkIrJEtaeJXu4+cgS4KPFNt0Ff8FDCeZuw0dnFGytPvjoh+RepEtsUQfXTn+Z
- rr5f0oxsAzaPBEBi3NlKAgMjt4123YoCaCcn0Uo35xXnP69CJRRJFjUovZjoZwQT6tvj
- AHlq0E0ZAuLaCB+5E05SwOfQaJZmDsXwBhKiUMO4vr72+orD+cUCfYwAWLR76dPGoy5r
- m3nXiGtay11d+D46fX+s63wlMFB7Gooto7G3Lr7WMnGr3kjvwlWd0chq69i0z4TN7N/n
- dfDw==
-X-Gm-Message-State: AOAM530pE43MxEOHq9ZuFcaEFK1qLPJvRJc2PHkP+lSkXpjZKR3ZIsNQ
- jjWdoCPRStg//2V/oWDeIZn/qwup1Q/ENniLtOHnyR5la96V+15d
-X-Google-Smtp-Source: ABdhPJxJ2avg0JKo7AOn9hOWhvdmRYe4wdndt0u95dzYqPbRz7f4V/3UUJqed72k5EpYYFamzjQH6IZivu4jj0ViqEY=
-X-Received: by 2002:a05:6214:2688:: with SMTP id
- gm8mr3693137qvb.19.1635351867008; 
- Wed, 27 Oct 2021 09:24:27 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Kcaw11fIjDklEqqCtjykwfsrJvW1LW9AxQoWbgSjC4M=;
+ b=HbdHMQRC7lplEq3tPzWeex/xNxAhZyc9C1QgXyuE0lPbakOxF61atxCK7BIxXCFx59
+ hHvAfaCX9tUN3fcTrVnn2nS0DhXyDUznVGHHFQMozqSblkRDdjExyalHdKM6SwvnmHWE
+ pm0B9hzY863XerOKvxo2KCS18uLNRY+gSj1EpJho+ZFv2dZX+t3pyRBBZIWFSwM3Wl+8
+ FVbb1Wnse6/Zsz4V/DK2Yib1FXQ7UhNOnac6gZMRp0vJYL0AkFsX69FYoVISSjyHkQU2
+ ZL0ObOSKi9hLSW/QJxKto3Arfk+WncklBkz2Ia7kklGXgtN+EAr5lQf46ucJb/DeJYzc
+ wREA==
+X-Gm-Message-State: AOAM531EcxMfafhgMCmMEy6MAMxJlRBL+Rgn+/y6UBsG6WLKK2N8UqSn
+ ZKSwVVIbTmzuHIE6kgK4DHs5yA==
+X-Google-Smtp-Source: ABdhPJzvDL/hbW8x3WlZ9XGRkGRqMyNVExMy38ru/QmkZqYlZSlc0XaIiKT5o4RWmWJvhzMO0AsrYA==
+X-Received: by 2002:a05:620a:1035:: with SMTP id
+ a21mr8908441qkk.354.1635352093630; 
+ Wed, 27 Oct 2021 09:28:13 -0700 (PDT)
+Received: from markyacoub.nyc.corp.google.com
+ ([2620:0:1003:314:121e:94ae:f1a6:940c])
+ by smtp.gmail.com with ESMTPSA id i22sm311589qkn.80.2021.10.27.09.28.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 27 Oct 2021 09:28:13 -0700 (PDT)
+From: Mark Yacoub <markyacoub@chromium.org>
+To: 
+Cc: seanpaul@chromium.org, Mark Yacoub <markyacoub@google.com>,
+ Mark Yacoub <markyacoub@chromium.org>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/mediatek: Set the default value of rotation to
+ DRM_MODE_ROTATE_0
+Date: Wed, 27 Oct 2021 12:27:51 -0400
+Message-Id: <20211027162806.2014022-1-markyacoub@chromium.org>
+X-Mailer: git-send-email 2.33.0.1079.g6e70778dc9-goog
 MIME-Version: 1.0
-References: <20211021125332.2455288-1-matthew.auld@intel.com>
- <CAM0jSHNig=n9cw0CCNhWHnLn5hLPYFFQR4D9OgZ-QavgyJGJpg@mail.gmail.com>
- <20211027145414.mrpikqvdmg7qsb7g@ldmartin-desk2>
-In-Reply-To: <20211027145414.mrpikqvdmg7qsb7g@ldmartin-desk2>
-From: Matthew Auld <matthew.william.auld@gmail.com>
-Date: Wed, 27 Oct 2021 17:23:59 +0100
-Message-ID: <CAM0jSHMcnRCbXRud3K5wJERcww8urk7g1EDpMOEw7RW4LYPqMw@mail.gmail.com>
-Subject: Re: [PATCH 1/2] drm/i915/dmabuf: fix broken build
-To: Lucas De Marchi <lucas.demarchi@intel.com>
-Cc: Matthew Auld <matthew.auld@intel.com>,
- Jani Nikula <jani.nikula@linux.intel.com>, 
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>, 
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- kernel test robot <lkp@intel.com>, 
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,71 +75,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 27 Oct 2021 at 15:54, Lucas De Marchi <lucas.demarchi@intel.com> wr=
-ote:
->
-> On Wed, Oct 27, 2021 at 08:57:48AM +0100, Matthew Auld wrote:
-> >On Thu, 21 Oct 2021 at 13:54, Matthew Auld <matthew.auld@intel.com> wrot=
-e:
-> >>
-> >> wbinvd_on_all_cpus() is only defined on x86 it seems, plus we need to
-> >> include asm/smp.h here.
-> >>
-> >> Reported-by: kernel test robot <lkp@intel.com>
-> >> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-> >> Cc: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
-> >
-> >Jani, would it make sense to cherry-pick this to -fixes? The offending
-> >commit is in drm-next, and there have been a few reports around this.
-> >
-> >Fixes: a035154da45d ("drm/i915/dmabuf: add paranoid flush-on-acquire")
-> >
-> >
-> >> ---
-> >>  drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c | 7 +++++++
-> >>  1 file changed, 7 insertions(+)
-> >>
-> >> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c b/drivers/gpu/=
-drm/i915/gem/i915_gem_dmabuf.c
-> >> index 1adcd8e02d29..a45d0ec2c5b6 100644
-> >> --- a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
-> >> +++ b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
-> >> @@ -12,6 +12,13 @@
-> >>  #include "i915_gem_object.h"
-> >>  #include "i915_scatterlist.h"
-> >>
-> >> +#if defined(CONFIG_X86)
-> >> +#include <asm/smp.h>
-> >> +#else
-> >> +#define wbinvd_on_all_cpus() \
-> >> +       pr_warn(DRIVER_NAME ": Missing cache flush in %s\n", __func__)
->
->
-> not sure I understand why this is a fix. Sure, it's true, but right now
-> this file can't be built on any other arch.
->
-> For clflush, wbind, etc, I'd rather change the code to use things from
-> drm_cache rather than ifdef it out locally. This is
-> "Reported-by: kernel test robot <lkp@intel.com>", but what's the error?
+From: Mark Yacoub <markyacoub@google.com>
 
-I guess it depends on the kernel config, but it reported:
-error: implicit declaration of function 'wbinvd_on_all_cpus'
+At the reset hook, call __drm_atomic_helper_plane_reset which is
+called at the initialization of the plane and sets the default value of
+rotation on all planes to DRM_MODE_ROTATE_0 which is equal to 1.
 
-AFAIK it's the missing <asm/smp.h>, the CONFIG_X86 thing is just for
-good measure.
+Tested on Jacuzzi (MTK).
+Resolves IGT@kms_properties@plane-properties-{legacy,atomic}
 
-I didn't spot anything in drm_cache which just offers a simple wrapper
-for wbinvd?
+Signed-off-by: Mark Yacoub <markyacoub@chromium.org>
+---
+ drivers/gpu/drm/mediatek/mtk_drm_plane.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
->
-> Lucas De Marchi
->
-> >> +#endif
-> >> +
-> >>  I915_SELFTEST_DECLARE(static bool force_different_devices;)
-> >>
-> >>  static struct drm_i915_gem_object *dma_buf_to_obj(struct dma_buf *buf=
-)
-> >> --
-> >> 2.26.3
-> >>
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_plane.c b/drivers/gpu/drm/mediatek/mtk_drm_plane.c
+index e6dcb34d30522..accd26481b9fb 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_plane.c
++++ b/drivers/gpu/drm/mediatek/mtk_drm_plane.c
+@@ -44,9 +44,10 @@ static void mtk_plane_reset(struct drm_plane *plane)
+ 		state = kzalloc(sizeof(*state), GFP_KERNEL);
+ 		if (!state)
+ 			return;
+-		plane->state = &state->base;
+ 	}
+ 
++	__drm_atomic_helper_plane_reset(plane, &state->base);
++
+ 	state->base.plane = plane;
+ 	state->pending.format = DRM_FORMAT_RGB565;
+ }
+-- 
+2.33.0.1079.g6e70778dc9-goog
+
