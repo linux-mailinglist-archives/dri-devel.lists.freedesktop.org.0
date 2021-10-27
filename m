@@ -1,44 +1,79 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F98643C39E
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Oct 2021 09:13:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DB73743C3AD
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Oct 2021 09:18:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 666AB6E542;
-	Wed, 27 Oct 2021 07:13:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 90AAB6E546;
+	Wed, 27 Oct 2021 07:18:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7EE366E4AB;
- Wed, 27 Oct 2021 07:13:52 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10149"; a="230365327"
-X-IronPort-AV: E=Sophos;i="5.87,186,1631602800"; d="scan'208";a="230365327"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Oct 2021 00:13:47 -0700
-X-IronPort-AV: E=Sophos;i="5.87,186,1631602800"; d="scan'208";a="447426017"
-Received: from dzhang-mobl2.amr.corp.intel.com (HELO ldmartin-desk2)
- ([10.251.142.134])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Oct 2021 00:13:46 -0700
-Date: Wed, 27 Oct 2021 00:13:43 -0700
-From: Lucas De Marchi <lucas.demarchi@intel.com>
-To: Matt Roper <matthew.d.roper@intel.com>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Paulo Zanoni <paulo.r.zanoni@intel.com>,
- Stuart Summers <stuart.summers@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-Subject: Re: [PATCH 07/11] drm/i915/xehp: Determine which tile raised an
- interrupt
-Message-ID: <20211027071343.s4rrp2v3kfnfj3sl@ldmartin-desk2>
-X-Patchwork-Hint: comment
-References: <20211008215635.2026385-1-matthew.d.roper@intel.com>
- <20211008215635.2026385-8-matthew.d.roper@intel.com>
+Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
+ [66.111.4.221])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 51DFE6E4AB;
+ Wed, 27 Oct 2021 07:18:23 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 9BE1158039D;
+ Wed, 27 Oct 2021 03:18:20 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute3.internal (MEProxy); Wed, 27 Oct 2021 03:18:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=zbIblgmtYNwpzwaZNwU9252HLEj
+ HY066oOXTRFTs1zk=; b=TZdA9vDaemOXN0uPyqX7dcjxIztE4TRxfXlP6eAvCBB
+ 3PiZ1G4pbrgs3UwqBInD9mhwlTSsxoBlxak0Cta7Sp+RMiXkbZaQdkyZ4erifKls
+ BmrDp8Zqyd0fMZ9liEabW5+PfS68Jxna3+yWOpDa9m27nVho6hTk3gGfSZITsa49
+ lGgt2iYbvyTogJhCYwAVdpQ0DY64uATQg+mrKlJ3YgrcmoU9i0vN5K1qUiNgrHtC
+ iaMb4md0ys2IDmF9yY/wAXmObYyWwuNfZxGCexwOzaL8eO92ZOvTgwt4RC05vzVG
+ ehoDbexsLWtgJoJiCtGtRzFGUt9JX+k2CI5hxe4GxoA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=zbIblg
+ mtYNwpzwaZNwU9252HLEjHY066oOXTRFTs1zk=; b=O0aZ92x7C+y+oJw8HAUTXv
+ mT7r8oas2NUR4Dw/CzSp5hjH3gIjKPtVcFXfDPah34RJ3/q28r96g2vAw5jx1emG
+ xOm72RL+X36LSeBEF6xMu7XaKuEnN+PiQ9O9VMoPnzBGEljmcd0UQGymgUZPAeon
+ byRbiNKa5GNV7H4+dKuNX9hPST9WNy2TmL6tWqNNsYZ2lqonIoXUFhxytBpM3TMU
+ l9NJBI9iV4QGN1pKYIhrh1WsmIneC5mLJS3NHLNNcupsyw67GdvMSYRYaDIqrJAT
+ WD0QaC8dt0PoAUwpCKT8yMsBdiw9IYrQenh+rImqeundJCtJdwpk2gPPBTdrFgow
+ ==
+X-ME-Sender: <xms:O_14YQXRgBgNUJpKm0XMIlxprRpFSv_8yL_zSQaEoZtp81WSXab2ow>
+ <xme:O_14YUmZNXlpM8-Xpf4vKeXJJ5axMudk8VnB85JmFMXSRklku6TcojjCSenMAX4XG
+ keMAPhtkcRYSX89tCU>
+X-ME-Received: <xmr:O_14YUYyNlid0T1wTInuoEjXXJEw6s_mCnY7xi4LsNpdg6ZrVXhZq1htud7StILe-nZPkOChOZCyNa3Tzsds0kJTnKIhzYH5V7MSEqc2>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrvdefledgudduudcutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
+ mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+ htthgvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheei
+ heegudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ hmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:O_14YfW3qZF-CgOBJLrbajH9j4pfRGaYdJq4BYC-vqMxpGENbC5eyg>
+ <xmx:O_14Yak1qcjOcph8ktiNgTUpGZiXSGH1dPuSrDSCSzqAFigFgVesPQ>
+ <xmx:O_14YUdL9PxtxQ-eTIbGldPIxYNm09plknVDByyJk2tF3gpRGQwRWw>
+ <xmx:PP14Yfi_oKcMIHE649GOCa-ExFo7KxsYEnRdxOZnECOsAGhMxE60Bw>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 27 Oct 2021 03:18:19 -0400 (EDT)
+Date: Wed, 27 Oct 2021 09:18:16 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Lyude Paul <lyude@redhat.com>
+Cc: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ dim-tools@lists.freedesktop.org
+Subject: Re: [PULL] topic/amdgpu-dp2.0-mst
+Message-ID: <20211027071816.64ntgyzdvnbotabb@gilmour>
+References: <e0e3cb4ea8b6f2d08e8d07a2ad3b25a2dca4570e.camel@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="37klhonfyyrkyte5"
 Content-Disposition: inline
-In-Reply-To: <20211008215635.2026385-8-matthew.d.roper@intel.com>
+In-Reply-To: <e0e3cb4ea8b6f2d08e8d07a2ad3b25a2dca4570e.camel@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,101 +89,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 08, 2021 at 02:56:31PM -0700, Matt Roper wrote:
->From: Paulo Zanoni <paulo.r.zanoni@intel.com>
->
->The first step of interrupt handling is to read a tile0 register that
->tells us in which tile the interrupt happened; we can then we read the
->usual interrupt registers from the appropriate tile.
->
->Note that this is just the first step of handling interrupts properly on
->multi-tile platforms.  Subsequent patches will convert other parts of
->the interrupt handling flow.
->
->Cc: Stuart Summers <stuart.summers@intel.com>
->Signed-off-by: Paulo Zanoni <paulo.r.zanoni@intel.com>
->Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
->---
-> drivers/gpu/drm/i915/i915_irq.c | 31 ++++++++++++++++---------------
-> 1 file changed, 16 insertions(+), 15 deletions(-)
->
->diff --git a/drivers/gpu/drm/i915/i915_irq.c b/drivers/gpu/drm/i915/i915_irq.c
->index 038a9ec563c1..9f99ad56cde6 100644
->--- a/drivers/gpu/drm/i915/i915_irq.c
->+++ b/drivers/gpu/drm/i915/i915_irq.c
->@@ -2772,37 +2772,38 @@ static irqreturn_t dg1_irq_handler(int irq, void *arg)
-> {
-> 	struct drm_i915_private * const i915 = arg;
-> 	struct intel_gt *gt = &i915->gt;
->-	void __iomem * const regs = gt->uncore->regs;
->+	void __iomem * const t0_regs = gt->uncore->regs;
 
-given that we later make gt point elsewhere since it's now only used
-inside the loop, I think this would be clearer with
+--37klhonfyyrkyte5
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-	void __iomem * const t0_regs = i915->gt->uncore->regs;
-	struct intel_gt *gt;
+Hi Lyude,
 
-but see below
+On Mon, Oct 25, 2021 at 09:30:14PM -0400, Lyude Paul wrote:
+> topic/amdgpu-dp2.0-mst-2021-10-25:
+> UAPI Changes:
+> Nope!
+>=20
+> Cross-subsystem Changes:
+> drm_dp_update_payload_part1() takes a new argument for specifying what the
+> VCPI slot start is
+>=20
+> Core Changes:
+> Make the DP MST helpers aware of the current starting VCPI slot/VCPI total
+> slot count...
+>=20
+> Driver Changes:
+> ...and then add support for taking advantage of this for 128b/132b links =
+on DP
+> 2.0 for amdgpu
 
+It's not really clear to me what branch it should be pulled in? is it
+for drm-misc-next?
 
-> 	u32 master_tile_ctl, master_ctl;
->-	u32 gu_misc_iir;
->+	u32 gu_misc_iir = 0;
->+	unsigned int i;
->
-> 	if (!intel_irqs_enabled(i915))
-> 		return IRQ_NONE;
->
->-	master_tile_ctl = dg1_master_intr_disable(regs);
->+	master_tile_ctl = dg1_master_intr_disable(t0_regs);
-> 	if (!master_tile_ctl) {
->-		dg1_master_intr_enable(regs);
->+		dg1_master_intr_enable(t0_regs);
-> 		return IRQ_NONE;
-> 	}
->
->-	/* FIXME: we only support tile 0 for now. */
->-	if (master_tile_ctl & DG1_MSTR_TILE(0)) {
->+	for_each_gt(i915, i, gt) {
->+		void __iomem *const regs = gt->uncore->regs;
->+
->+		if ((master_tile_ctl & DG1_MSTR_TILE(i)) == 0)
->+			continue;
->+
-> 		master_ctl = raw_reg_read(regs, GEN11_GFX_MSTR_IRQ);
-> 		raw_reg_write(regs, GEN11_GFX_MSTR_IRQ, master_ctl);
->-	} else {
->-		DRM_ERROR("Tile not supported: 0x%08x\n", master_tile_ctl);
->-		dg1_master_intr_enable(regs);
->-		return IRQ_NONE;
->-	}
->
->-	gen11_gt_irq_handler(gt, master_ctl);
->+		gen11_gt_irq_handler(gt, master_ctl);
->+
->+		gu_misc_iir = gen11_gu_misc_irq_ack(gt, master_ctl);
->+	}
->
-> 	if (master_ctl & GEN11_DISPLAY_IRQ)
-> 		gen11_display_irq_handler(i915);
->
->-	gu_misc_iir = gen11_gu_misc_irq_ack(gt, master_ctl);
->-
->-	dg1_master_intr_enable(regs);
->+	dg1_master_intr_enable(t0_regs);
->
-> 	gen11_gu_misc_irq_handler(gt, gu_misc_iir);
+Thanks!
+Maxime
 
-since we used gt in the for_each_gt() loop it looks like this is not
-the gt we wanted anymore. Alas gen11_gu_misc_irq_handler() only uses gt
-to backpoint to i915... so I'm not sure if it should actually be taking
-a gt as parameter if it is per device rather than per tile/gt.
+--37klhonfyyrkyte5
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Lucas De Marchi
+-----BEGIN PGP SIGNATURE-----
 
->
->-- 
->2.33.0
->
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYXj9OAAKCRDj7w1vZxhR
+xfIRAQDqiCgkgHfLC3zhkuseDumwLGo/iWaZdexBCfZH78Bx7wEAqbkiCNYIZQWp
+FAF7+jkQY8XY5Fc7dcpVrFqwiPhusAc=
+=mRFE
+-----END PGP SIGNATURE-----
+
+--37klhonfyyrkyte5--
