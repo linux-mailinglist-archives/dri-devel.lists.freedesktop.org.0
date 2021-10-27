@@ -2,63 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 702B443CA62
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Oct 2021 15:15:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D9E043CA72
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Oct 2021 15:19:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E1BBC6E88E;
-	Wed, 27 Oct 2021 13:15:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD1F289D5E;
+	Wed, 27 Oct 2021 13:19:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
- [IPv6:2a00:1450:4864:20::12f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D8CA36E88E
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Oct 2021 13:15:26 +0000 (UTC)
-Received: by mail-lf1-x12f.google.com with SMTP id b32so2922915lfv.0
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Oct 2021 06:15:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=Na2fsPy2qizJxBSFFJroM9fryMbb9XAfatD1Eg80iKE=;
- b=oOYW5jIbNlABTCOoH/GcQiqIl5Wy2H7dedcSQx4LzgwS0fLxQKwCRWcQu/ut47wydf
- BbBZq6+eG9yUSlLQUwRRHkSRAOc+xO3/xugN9geSpxzoPzfgxrt/XWNsvk1E4enCOKSB
- UyX8V+y8lVN8FAu82ZPaPweFMfehfTxdyi/eofAPz99sJl+t5S5J5PEuOv6P+YNBnJN7
- xb9h2uLkR1vgx0vPkkc/ie9bncDUP9jgC6+2X974MhgU2JjyhhihZlq7l8UnJTzRL2YW
- C2kPQ2JQHN8eWmjiD3lZt+x0fmh7jUq2OoaaP1kh3aNtPq8H7Vk2eKElTv2j9QKyAN+T
- o9Ng==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC73689D5E
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Oct 2021 13:19:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1635340752;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=T0knKn4vlSSXJNLziODRiT1VCKABnqaDy5uuDBcVhuU=;
+ b=ACYWRV2is3sKQnT+Apxu9Ykirc49Q3pv4FpzTDCjpxOWi922NU9x67kOomVb5N7om7fqiS
+ XIS7bdrT15WDNkrEDdBykNMu/DMdNGSKYLFIM0pnI9Z+nongBStW5MUJFiYsABYH1RZ4us
+ iJoXhAZhDVgRIJ7nZoYi2HZhb9HvB0Y=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-185-VhMEnCY9Nr-y3ut4ADd3JA-1; Wed, 27 Oct 2021 09:18:06 -0400
+X-MC-Unique: VhMEnCY9Nr-y3ut4ADd3JA-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ m5-20020a5d56c5000000b00168861c65f9so666744wrw.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Oct 2021 06:18:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=Na2fsPy2qizJxBSFFJroM9fryMbb9XAfatD1Eg80iKE=;
- b=0vFL4bsZM+f9tbhKuVeF3YGQXo/Eq8P5G2Q7BJRC3vgnrIIFBUcdnlFx+0VzZQ56JU
- JyhUtzDSfj8jK4Vv4kujBsLcJW19PxoEsVVgjfIa5yh7G+PpOKOhIDl28A+EcFp8gT93
- lUOLLG5tracmM95NrAbygVecUUGVJ3tRbj2LplKLpgmCwAnpLNXpNqCQV/v5ER1+2gsu
- ap3vLoYMDMjjU30rDGd95myB0Vy1P8bb3ewRNEvKFlozSi5Bi0d49ipCuANndwfv9dj1
- kNY82dIwt69h9txPjjaL/uoabzDi309sGeAg6lFDOW/CYoTvAnTyJL1OJwWkdh/RHF3A
- jLnQ==
-X-Gm-Message-State: AOAM5316mkbkXxliZpIqqI5LpT4YEupGUVjeT3QHsUcEtbPopAbsTa27
- iJP1EyRujv9tIotUfQO/kQI=
-X-Google-Smtp-Source: ABdhPJz9o5HC6PJM3uw+mD1rSM0LPXhdwF30xCEmWKK1XOM57/+V8a2ICsAUZvCaHYKrco5T4B2CrA==
-X-Received: by 2002:a05:6512:12c9:: with SMTP id
- p9mr30092007lfg.236.1635340525164; 
- Wed, 27 Oct 2021 06:15:25 -0700 (PDT)
-Received: from eldfell ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id w17sm2233840lfu.251.2021.10.27.06.15.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 27 Oct 2021 06:15:24 -0700 (PDT)
-Date: Wed, 27 Oct 2021 16:15:14 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Simon Ser <contact@emersion.fr>
-Cc: dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v3 3/6] drm/connector: use
- drm_sysfs_connector_hotplug_event
-Message-ID: <20211027161514.431a5851@eldfell>
-In-Reply-To: <20211015163336.95188-4-contact@emersion.fr>
-References: <20211015163336.95188-1-contact@emersion.fr>
- <20211015163336.95188-4-contact@emersion.fr>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=T0knKn4vlSSXJNLziODRiT1VCKABnqaDy5uuDBcVhuU=;
+ b=PD9DoiI+UFva28AYrUWI//9usKYsIClUZCiefKiV5XUw3CjfDkc9dfVZsrluI1lmpT
+ MOsTlkXCNqbAojsBeZNBisIAgNABIvurqDL4Rd8ZvxWC7OivnjkFnS9nuJqeghNevPTw
+ Xe+Z5Y3q4DM5CJ4FFhp/i5kH8l25S//zfcjV7d/wEwfuGM9TciCjKiXmJkPCy66d6w0H
+ 4pzVDkKOjbut8IIUP+WwdhSOwYGCXRSoU1Q9xnYcYCnYPI/695DYNRIo1wgk01I6buem
+ f4funQ+kfID8//3YRo8+eGuIyhFiq5hYD5P66p2m9I07kv16vwAG/j5L/jQoXbTVX1pa
+ jMmg==
+X-Gm-Message-State: AOAM531nOV5YH2/pvcRCEaebqAz+Xo7TlsK9A2UtH2YWXCwKAZsvlsq8
+ NOfgYuCb3+GLdfO+xCTNOFlnistTghqkQia1LLoOhB9QnUm0wO5q0Co+o53vZzLKR9SnLtwuqWL
+ to21FttAUkeoPzWeMuxurJM8KGEO5
+X-Received: by 2002:adf:f904:: with SMTP id b4mr40692303wrr.403.1635340685706; 
+ Wed, 27 Oct 2021 06:18:05 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzkN+ouoRwZcIXIo4nO3GPnaT6BwP+6Gy2W0VoJk+RIw7SPLg61t2NykMicE+Lxtab8AZLmqQ==
+X-Received: by 2002:adf:f904:: with SMTP id b4mr40692273wrr.403.1635340685540; 
+ Wed, 27 Oct 2021 06:18:05 -0700 (PDT)
+Received: from [192.168.1.128] ([92.176.231.106])
+ by smtp.gmail.com with ESMTPSA id o1sm1872624wrp.95.2021.10.27.06.18.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 27 Oct 2021 06:18:04 -0700 (PDT)
+Message-ID: <76763f5e-8c37-c36a-8f64-af3efe0da254@redhat.com>
+Date: Wed, 27 Oct 2021 15:18:03 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/f46GOJW5iVvMVplWkthz_kn";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH] [RESEND] drm: fb_helper: fix CONFIG_FB dependency
+To: Jani Nikula <jani.nikula@linux.intel.com>, Arnd Bergmann <arnd@kernel.org>
+Cc: Daniel Vetter <daniel@ffwll.ch>, Kees Cook <keescook@chromium.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@linux.ie>, Arnd Bergmann <arnd@arndb.de>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <20210927142816.2069269-1-arnd@kernel.org>
+ <202109270923.97AFDE89DB@keescook> <YVXJLE8UqgcUNIKl@phenom.ffwll.local>
+ <878ryeit9i.fsf@intel.com>
+ <CAK8P3a0EG_C6OvG00Dg8SQacirNztLFjVonb5t2xQj9aFZ47Vg@mail.gmail.com>
+ <3604fb90-f6c3-0fa2-c864-7f1795caee1e@redhat.com> <87zgquhbjx.fsf@intel.com>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <87zgquhbjx.fsf@intel.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,82 +98,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/f46GOJW5iVvMVplWkthz_kn
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On 10/27/21 14:55, Jani Nikula wrote:
 
-On Fri, 15 Oct 2021 16:33:43 +0000
-Simon Ser <contact@emersion.fr> wrote:
+[snip]
 
-> In drm_connector_register, use drm_sysfs_connector_hotplug_event
-> instead of drm_sysfs_hotplug_event, because the hotplug event
-> only updates a single connector.
->=20
-> Signed-off-by: Simon Ser <contact@emersion.fr>
-> ---
->  drivers/gpu/drm/drm_connector.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connec=
-tor.c
-> index ec3973e8963c..a50c82bc2b2f 100644
-> --- a/drivers/gpu/drm/drm_connector.c
-> +++ b/drivers/gpu/drm/drm_connector.c
-> @@ -547,7 +547,7 @@ int drm_connector_register(struct drm_connector *conn=
-ector)
->  	connector->registration_state =3D DRM_CONNECTOR_REGISTERED;
-> =20
->  	/* Let userspace know we have a new connector */
-> -	drm_sysfs_hotplug_event(connector->dev);
-> +	drm_sysfs_connector_hotplug_event(connector);
-> =20
->  	if (connector->privacy_screen)
->  		drm_privacy_screen_register_notifier(connector->privacy_screen,
+>> Why the dependency has to be in a user-visible symbol? What could be the
+>> problem with having something like:
+>>
+>> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+>> index cea777ae7fb9..f80b404946ca 100644
+>> --- a/drivers/gpu/drm/Kconfig
+>> +++ b/drivers/gpu/drm/Kconfig
+>> @@ -82,6 +82,7 @@ config DRM_DEBUG_SELFTEST
+>>  config DRM_KMS_HELPER
+>>         tristate
+>>         depends on DRM
+>> +       depends on (DRM_FBDEV_EMULATION && FB) || !DRM_FBDEV_EMULATION
+> 
+> To me, this seems like the right solution. Depend on FB if
+> DRM_FBDEV_EMULATION is enabled. That's exactly what the relationship is.
+>
 
-Hi Simon,
+The problem as Arnd explained is that then this relationship will have to
+be expressed in all the Kconfig symbols that select DRM_KMS_HELPER.
 
-this might not work for Weston if I understand this right. Kernel is
-adding a new connector, which means userspace does not recognise the
-connector id in the uevent. Weston as it is right now would ignore the
-event rather than add the connector.
+Otherwise the symbol will happily select the wrong state and even when a
+warning is printed by Kconfig, it will just set an invalid configuration.
 
-The missing piece is for Weston to revert to the old fashioned "recheck
-everything" behaviour when hotplug uevent carries anything
-unrecognised. Grep for drm_backend_update_conn_props if you want to see
-for yourself.
+For example with CONFIG_FB=m (that led to the linker errors if the symbol
+is also not CONFIG_DRM_KMS_HELPER=m) and CONFIG_SIMPLEDRM=y (that selects
+CONFIG_DRM_KMS_HELPER), this would cause the following unmet dependencies:
 
-However, I wouldn't NAK this patch just for Weston, but I wonder if
-other software would ignore events because of this as well.
+$ make prepare modules_prepare
+WARNING: unmet direct dependencies detected for DRM_KMS_HELPER
+  Depends on [m]: HAS_IOMEM [=y] && DRM [=y] && (DRM_FBDEV_EMULATION [=y] && FB [=m] || !DRM_FBDEV_EMULATION [=y])
+  Selected by [y]:
+  - DRM_SIMPLEDRM [=y] && HAS_IOMEM [=y] && DRM [=y]
+  Selected by [m]:
+  - DRM_I915 [=m] && HAS_IOMEM [=y] && DRM [=y] && X86 [=y] && PCI [=y]
+  - DRM_VIRTIO_GPU [=m] && HAS_IOMEM [=y] && DRM [=y] && VIRTIO_MENU [=y] && MMU [=y]
 
-A whole another question is, would anyone notice. I guess this can only
-be an issue with MST.
+so CONFIG_DRM_KMS_HELPER will wrongly set to =y which will cause the issue.
 
-All the other changes in this series look fine to me, so them I can give
-Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+Best regards,
+-- 
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
 
-
-Thanks,
-pq
-
---Sig_/f46GOJW5iVvMVplWkthz_kn
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmF5UOIACgkQI1/ltBGq
-qqdY9BAAhRETV8FGfBc1YMK1MxYpZcWJkZKIbvvNITzUEiBY+Fe+2sXpZdr317Q3
-Cb9ouJIJXy+4vId3ly7TFObIGlaPVVKCwK918PePn9LXQqUqWXx8JKP9Xp6SEI55
-FFCnP4yJ1oQUpyzJVIQN26vnju3PQfZ8SwOBC+q/8ix1VO8Hya8Jem0yFaSRoUVL
-5x8+1//ThnfYMGuiB88bXV8trooJ5BXrJrJEEAxCN7hLCBHhk5u39lcnlFHMEiqV
-GNcETztpx1ZAD80TOjP5TYkedlcfLKel++mjAhvCVNx/GwVVHL2oPZpfNMwXvha8
-gYjY9ceOsSMPlrHOwB2a+x/+1ImPwJ5PyuTUVR9cbPqE62DtJhKjYv7cyq5PpLZZ
-x7+xbk4xm2kAvfQAPuhnSoANOxQqLW+tk8U5BlMb+5oOC+4IHla6KLgTfJMrbMZq
-BPMZbFJ8qvPzvLri2ok93pJowLMfpGNSv+b+uCN8+F/SCE4+/RQC1e6bWAWWe/Se
-sq8rKbXDhq40lorL740qnqdiKXtbNs31ipOHnieVEVPVlqciXf37Dm8ba9u/Bb9b
-UT+DAb5rjSiTkhfuOGDYnvhcNbRz0cEQTfe8K0Dt4A460NQcrcQLCtc9wHtm8SF6
-f8EYhsB5J8bEOq1OHFfVrQXLHM55wcFhMvkz0ser70RpGCSgqn0=
-=eX6G
------END PGP SIGNATURE-----
-
---Sig_/f46GOJW5iVvMVplWkthz_kn--
