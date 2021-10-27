@@ -1,75 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BCDE43C349
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Oct 2021 08:51:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4ACD943C357
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Oct 2021 08:54:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7BCD06E51D;
-	Wed, 27 Oct 2021 06:51:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 545C089C3B;
+	Wed, 27 Oct 2021 06:54:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D09226E51D
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Oct 2021 06:50:58 +0000 (UTC)
-Received: from mail-wm1-f44.google.com ([209.85.128.44]) by
- mrelayeu.kundenserver.de (mreue011 [213.165.67.97]) with ESMTPSA (Nemesis) id
- 1M2w4S-1meWqa3Feu-003KAe for <dri-devel@lists.freedesktop.org>; Wed, 27 Oct
- 2021 08:50:56 +0200
-Received: by mail-wm1-f44.google.com with SMTP id
- 67-20020a1c1946000000b0030d4c90fa87so1432974wmz.2
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Oct 2021 23:50:56 -0700 (PDT)
-X-Gm-Message-State: AOAM532FKxb176Ldg5V0q80vraH8FF45e0YuJwmjQ1bhNoEaoA91Rr/y
- BzW9fz0xikOSW1l9fSC9kpErp55mrgUEJZYr1lc=
-X-Google-Smtp-Source: ABdhPJwQCZU65OJ5le40ErfDG3lMpipzGPEQQiKR+5p4NqDSNXnQjgYl35DAhfFkrtD8UsNvlTNRmWPFObv6j8fyG5M=
-X-Received: by 2002:a1c:4489:: with SMTP id r131mr3881742wma.1.1635317455940; 
- Tue, 26 Oct 2021 23:50:55 -0700 (PDT)
+Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com
+ [209.85.222.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C2C389C37
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Oct 2021 06:54:06 +0000 (UTC)
+Received: by mail-ua1-f49.google.com with SMTP id z22so662760uaq.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Oct 2021 23:54:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=uHeQsCzj+NuIoaUijS+BqVs1TYH9sOv+TDs8LySkQvc=;
+ b=0llaMyt0bufMSX58GVIaytM7wZOQTsyZNXywPLdKO+1T4BOTXkJMAhIgsB2obz8LOM
+ C8JbKsw+L0lcd/m8HEu4HJnLgVnV9YHphY311iat+KfQYClcL5SosdBF4kkcSOXcKgc3
+ 7e09YYXyWWKHWZWxYHuHEPMe0X3O/xt4puHrJ8yqNsSzuuIbuQ6HFipC8P9mo+fVBqzZ
+ 7C+rXDBcY0eaie5Xe3pPq3IzSONDyP/nH916RYyc+6b7EtZHk/RB2ycMOaIypJD6OH+i
+ 7yeEGPrnWdrEUKdni7R2kBOlZ7QPbNBAa2c0r/GoFMJqRP9J6Q1vzyaz8+z1tSreol5h
+ IDhA==
+X-Gm-Message-State: AOAM530j3ZMhedNRJ0/IHh6DWfSmhqcdrmdGDz+B/GK+cAPazPypJ2/w
+ PvnPaMjd7ZSv0Te6MSooWiaWxv7QgRRfsw==
+X-Google-Smtp-Source: ABdhPJx4q12aRtEoFVe7LsK2DiZUMHb9XmMS6g4RsD+GNcOiH4VcnsIqPLS9zW4UbwWLX+RiKsV8GQ==
+X-Received: by 2002:a05:6102:143:: with SMTP id
+ a3mr15578667vsr.5.1635317645296; 
+ Tue, 26 Oct 2021 23:54:05 -0700 (PDT)
+Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com.
+ [209.85.222.43])
+ by smtp.gmail.com with ESMTPSA id m15sm11142530vsh.31.2021.10.26.23.54.04
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 26 Oct 2021 23:54:04 -0700 (PDT)
+Received: by mail-ua1-f43.google.com with SMTP id z22so662684uaq.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Oct 2021 23:54:04 -0700 (PDT)
+X-Received: by 2002:ab0:2bd2:: with SMTP id s18mr28311148uar.78.1635317644217; 
+ Tue, 26 Oct 2021 23:54:04 -0700 (PDT)
 MIME-Version: 1.0
-References: <CA+G9fYvpyUbqLko+9Dza8h4=9yOd-n9J0dKoQtZxawstCCnsZw@mail.gmail.com>
- <857ab1a9-0175-2b2c-e729-2620d0221e1e@suse.de>
- <6862b109-ea12-6ffa-c82b-b23ee26aa5b2@infradead.org>
- <CAK8P3a0wG8dKnuQMOL=bKmBHuSkWcu6OfvhTP-86rpLdr7_5CA@mail.gmail.com>
- <61f14f2b-b1cd-b9df-86fd-8fcc4b9eb738@infradead.org>
-In-Reply-To: <61f14f2b-b1cd-b9df-86fd-8fcc4b9eb738@infradead.org>
-From: Arnd Bergmann <arnd@arndb.de>
-Date: Wed, 27 Oct 2021 08:50:39 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a3v9mb8RH7ER=iF2SAizv-Sb=hTWzpuQzL050ToR02h+Q@mail.gmail.com>
-Message-ID: <CAK8P3a3v9mb8RH7ER=iF2SAizv-Sb=hTWzpuQzL050ToR02h+Q@mail.gmail.com>
-Subject: Re: gpu: drm_fb_cma_helper.c:46: undefined reference to
- `drm_gem_fb_get_obj'
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: Arnd Bergmann <arnd@arndb.de>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Naresh Kamboju <naresh.kamboju@linaro.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, 
- open list <linux-kernel@vger.kernel.org>, 
- Linux-Next Mailing List <linux-next@vger.kernel.org>, 
- Linux ARM <linux-arm-kernel@lists.infradead.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, 
- Andrey Konovalov <andreyknvl@gmail.com>,
- Stephen Rothwell <sfr@canb.auug.org.au>, 
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Linus Walleij <linus.walleij@linaro.org>
+References: <1635188490-15082-1-git-send-email-george.kennedy@oracle.com>
+ <YXcAbXJfg/jKCo5h@kroah.com> <0ddb1c19-64b0-4117-7a92-c3d2fcddfdcf@oracle.com>
+ <CAMuHMdWcU7wy1dxa_MXuHoUTWebvq6ShP820Bn_v+8tx7-TEdg@mail.gmail.com>
+ <c73402dd-ec3f-4df7-6a16-36fb276a50f4@oracle.com>
+ <CAMuHMdVHt=9N274SG+B7W83JbVVnbz_U5Nkejs_PR2HqvZvJgQ@mail.gmail.com>
+ <d2119d59-89e4-34aa-86df-38fee2a0c6ef@oracle.com>
+ <CAMuHMdUZq00r7QYeAKGm36UKpGwH_uEGMvwHBzRi9_nxV-dRhg@mail.gmail.com>
+ <4cf6a155-85b7-649b-066d-e56da87dc8fd@oracle.com>
+In-Reply-To: <4cf6a155-85b7-649b-066d-e56da87dc8fd@oracle.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 27 Oct 2021 08:53:53 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVJ=92S9Ds66cYZO+96THsOkz-jjYPWUgsJ6oRibEMoCA@mail.gmail.com>
+Message-ID: <CAMuHMdVJ=92S9Ds66cYZO+96THsOkz-jjYPWUgsJ6oRibEMoCA@mail.gmail.com>
+Subject: Re: [PATCH] video: fbdev: cirrusfb: check pixclock to avoid divide by
+ zero
+To: George Kennedy <george.kennedy@oracle.com>
+Cc: Greg KH <gregkh@linuxfoundation.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>, 
+ Linux Fbdev development list <linux-fbdev@vger.kernel.org>, 
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:r6pij2JZAITwn8aj+fKIQdV3yThGgNaTxGrU66wnQ2cuvFV/0jJ
- PPDVYBj40/CCiAY0ijtEV4/xiFKEl+rrUyUR2/8Bk/rPb6I5S6lx9gnlJItNLLYqVBV6T6l
- YQGXDAL4CzshV08jlU3WaHF0JuHurflon5WV7dvw/pKSGx44gu6SoxUf7vDZvSYkHnqymrt
- fjKw78+GZZnaNr0GUvFww==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:jc4ShQmhzc4=:I5i4R63IbdAR75+sY6v2Ku
- QMXr+ksaJs3wuveG4hAVqPGpfYAdZL2Letc2dCcAfLc9D31f2BULoI0B7Gkl24nEVV9g0xj9F
- HSpL1OwzRGmX3rc8BCFLehtxQu3gUAvTUfSOWYQ1Wzlmeh3mgMFqCdneK2Z0mr7ty8h08JCov
- r8jywICcJ43bE7EivpJoOa8VRVseevcS6wbSYyXGbKL8a+XPL+ntz2JcXndFGYYBb4V6IH9Q0
- cSxxSsTmV8rqeDjzBAWYbjcDl4iAWKkbyRt9wUmI128SMk8a1igRe2+W3CNzeyz0uL3Kgt/UQ
- P125MglfaqbqHwRUmhxI4K7cJcxYh6aoCr7OjD3pEmrObnkcGhIkKp4oZNrb/vPznzlGI8UNR
- 1ZYgOJE6JhrOpLBF8pR1mREzMAXonBIF9bWbsAUh2nE1nf2m+5O0YVFF+k/3v33jmCjNhZPqW
- Bg9yrIaaVX667cJtDMMbMmA4GS0kLjrHqR7Cd929ll3jQ61Wuj/ey+fd7JsZvPvAoxOOcNipX
- VUM9ElD6LI7G1t3x0sL0SO/SCKUnXdZuloB0E41gZ0HndMor/Y7C5p3h85uymnenPdbTIebE+
- Q6f2UahA50H7HO3nGO5HqzkD0VSC+MVTfzvxP2Uz22qm1j/iDRg1C5L9aPOxX5g/ndkVRPb/S
- ID1wpCyXk5IZvnIRltVLIf7d35P2lT327P1i+/wUIQw1Pz5JKtdwImFublz/HCO/gnlnEEwyV
- BzpDxcoL5CW/MNNWOvlKPTTzZJgE8tVVIN8iYnBOb1m4Ko5v0VekgslGEGeDdTQ6KMwuuX4po
- 5qsY2eYi/5g84PE/LiAQovI1feTXmIblIFEXkq/2itKtH08y00=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,39 +80,120 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Oct 27, 2021 at 8:26 AM Randy Dunlap <rdunlap@infradead.org> wrote:
-> On 10/26/21 11:19 PM, Arnd Bergmann wrote:
-> > On Wed, Oct 27, 2021 at 2:58 AM Randy Dunlap <rdunlap@infradead.org> wrote:
+Hi George,
 
-> > This trivial change makes it all build:
-> >
-> > diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-> > index c08860db2520..699f434ce813 100644
-> > --- a/drivers/gpu/drm/Kconfig
-> > +++ b/drivers/gpu/drm/Kconfig
-> > @@ -218,7 +218,7 @@ config DRM_GEM_CMA_HELPER
-> >            Choose this if you need the GEM CMA helper functions
-> >
-> >   config
-
-> > -       bool
-> > +       tristate
-> >          depends on DRM
-> >          select DRM_GEM_CMA_HELPER
-> >          help
-> >
-> > but this needs some more testing to make sure it doesn't add
-> > any other regressions.
-> >
-> > Interestingly, I never hit the problem in randconfig testing since
-> > there is always some '=y' driver that selects DRM_KMS_HELPER.
+On Wed, Oct 27, 2021 at 3:13 AM George Kennedy
+<george.kennedy@oracle.com> wrote:
+> On 10/26/2021 1:12 PM, Geert Uytterhoeven wrote:
+> > On Tue, Oct 26, 2021 at 5:48 PM George Kennedy
+> > <george.kennedy@oracle.com> wrote:
+> >> On 10/26/2021 10:11 AM, Geert Uytterhoeven wrote:
+> >>> On Tue, Oct 26, 2021 at 3:38 PM George Kennedy
+> >>> <george.kennedy@oracle.com> wrote:
+> >>>> On 10/26/2021 4:30 AM, Geert Uytterhoeven wrote:
+> >>>>> On Mon, Oct 25, 2021 at 9:37 PM George Kennedy
+> >>>>> <george.kennedy@oracle.com> wrote:
+> >>>>>> On 10/25/2021 3:07 PM, Greg KH wrote:
+> >>>>>>> On Mon, Oct 25, 2021 at 02:01:30PM -0500, George Kennedy wrote:
+> >>>>>>>> Do a sanity check on pixclock value before using it as a divisor.
+> >>>>>>>>
+> >>>>>>>> Syzkaller reported a divide error in cirrusfb_check_pixclock.
+> >>>>>>>>
+> >>>>>>>> divide error: 0000 [#1] SMP KASAN PTI
+> >>>>>>>> CPU: 0 PID: 14938 Comm: cirrusfb_test Not tainted 5.15.0-rc6 #1
+> >>>>>>>> Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.11.0-2
+> >>>>>>>> RIP: 0010:cirrusfb_check_var+0x6f1/0x1260
+> >>>>>>>>
+> >>>>>>>> Call Trace:
+> >>>>>>>>      fb_set_var+0x398/0xf90
+> >>>>>>>>      do_fb_ioctl+0x4b8/0x6f0
+> >>>>>>>>      fb_ioctl+0xeb/0x130
+> >>>>>>>>      __x64_sys_ioctl+0x19d/0x220
+> >>>>>>>>      do_syscall_64+0x3a/0x80
+> >>>>>>>>      entry_SYSCALL_64_after_hwframe+0x44/0xae
+> >>>>>>>>
+> >>>>>>>> Signed-off-by: George Kennedy <george.kennedy@oracle.com>
+> >>>>>>>> --- a/drivers/video/fbdev/cirrusfb.c
+> >>>>>>>> +++ b/drivers/video/fbdev/cirrusfb.c
+> >>>>>>>> @@ -477,6 +477,9 @@ static int cirrusfb_check_pixclock(const struct fb_var_screeninfo *var,
+> >>>>>>>>         struct cirrusfb_info *cinfo = info->par;
+> >>>>>>>>         unsigned maxclockidx = var->bits_per_pixel >> 3;
+> >>>>>>>>
+> >>>>>>>> +    if (!var->pixclock)
+> >>>>>>>> +            return -EINVAL;
+> >>>>> This is not correct: fbdev drivers should round up invalid values,
+> >>>>> and only return an error if rounding up cannot yield a valid value.
+> >>>> What default value would you recommend? Here are examples of some of the
+> >>>> possible cirrusfb pixclock values:
+> >>>> 40000: 25MHz
+> >>>> 20000: 50Mhz
+> >>>> 12500: 80Mhz
+> >>> You should pick the lowest supported value.
+> >> In bestclock() the frequency value ("freq") is not allowed to go below 8000.
+> >>
+> >>           if (freq < 8000)
+> >>                   freq = 8000;
+> >>
+> >> If pixclock is passed in as zero to cirrusfb_check_pixclock(), is it ok
+> >> to then set the value of pixclock to 125000, which will result in "freq"
+> >> being set to 8000 (or adjust the passed in pixclock value to make sure
+> >> "freq" does not get below 8000)?
+> > No, clock rate is the inverse of clock period.
+> > So the smallest clock period (fb_var_screeninfo.pixclock) corresponds
+> > to the largest clock rate (freq in bestclock()).
 >
-> Thomas had posted a patch that also fixes the problem.
-> Somehow I missed seeing that the first time around.
+> How about this?
+>
+> This gets the frequency derived from pixclock to maxclock or rounds up
+> pixclock to get the frequency as close to maxclock as possible.
+>
+> diff --git a/drivers/video/fbdev/cirrusfb.c b/drivers/video/fbdev/cirrusfb.c
+> index 93802ab..2e8e620 100644
+> --- a/drivers/video/fbdev/cirrusfb.c
+> +++ b/drivers/video/fbdev/cirrusfb.c
+> @@ -620,6 +620,18 @@ static int cirrusfb_check_var(struct
+> fb_var_screeninfo *var,
+>                  return -EINVAL;
+>          }
+>
+> +       if (!var->pixclock) {
+> +               long maxclock;
+> +               unsigned maxclockidx = var->bits_per_pixel >> 3;
+> +
+> +               maxclock =
+> cirrusfb_board_info[cinfo->btype].maxclock[maxclockidx];
+> +
+> +               var->pixclock = KHZ2PICOS(maxclock);
+> +               while (PICOS2KHZ(var->pixclock) > maxclock) {
+> +                       var->pixclock++;
+> +               }
+> +       }
+> +
+>          if (cirrusfb_check_pixclock(var, info))
+>                  return -EINVAL;
+>
+> The work can't be done in cirrusfb_check_pixclock() as var->pixclock is
+> read-only because "var" is "const struct fb_var_screeninfo *var".
 
-Ah right, I missed that as well. That patch seems reasonable
-to me, but I think we may want both of them in this case, as
-it does not address DRM_GEM_CMA_HELPER being set to =y
-when it is only used from modules.
+Perhaps the const should be dropped from the var parameter, so the
+rounding can be done in the function where it makes most sense,
+and where most of the above operations are already done?
 
-       Arnd
+Then, you can simplify:
+
+-        freq = PICOS2KHZ(var->pixclock);
++        freq = PICOS2KHZ(var->pixclock ? : 1);
+
+and change the "if (freq > maxclock) return -EINVAL" to use maxclock
+instead.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
