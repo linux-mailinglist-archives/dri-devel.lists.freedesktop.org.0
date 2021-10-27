@@ -2,95 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 745DC43D286
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Oct 2021 22:11:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46CED43D2A5
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Oct 2021 22:14:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1211A6E8F8;
-	Wed, 27 Oct 2021 20:11:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 56A9E6E8F1;
+	Wed, 27 Oct 2021 20:14:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com
- [64.147.123.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0DB7E6E8F1;
- Wed, 27 Oct 2021 20:11:48 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id 23A3A2B0145E;
- Wed, 27 Oct 2021 16:11:45 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Wed, 27 Oct 2021 16:11:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-type:content-transfer-encoding; s=fm1; bh=
- dEH+48NnYpdtL5JL9l0poNkvtH8Ouiwk557d7ziA8c8=; b=POTFtTRD2oeJkeVv
- PU7V4i98DA2GjMfJT+cWQ8XmRzZIy7Q2sXtwGwnvCwvNnWYjcFuE70mbaKy0+a3w
- v68hHk8j2Ra8PQuc+fWPEJTOZrkFjghL75QUX5ehdIXlV5H5P0P5YiBcu7hSUFP2
- t3DJvm6zoB+ggLtSkv6ATvlytq9S823pbEtegr845BXPXfPM0qeRUMROfdNUABrM
- axFQXUyOA2TDcLjo5c627sX6v+uS4AqxrX8PM5Jo3SMuTT9WDbDmgX6/PSWzLg7E
- Ri0F8H02d4EL0gCtuBko9MmkcTCtj2tvZZKEA8iLTvz7pTzN5AuY2E5dhs0jeL6v
- tMsh8w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:from:in-reply-to:message-id:mime-version:references
- :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm1; bh=dEH+48NnYpdtL5JL9l0poNkvtH8Ouiwk557d7ziA8
- c8=; b=UQdoBvWcqo7RhGURWXmWhsf22TZlC4VVy1z9AASzM+3hUCP0flBd691R3
- V0Cj9cdxZZlIAGg741mO+pAfEAZF7tA8dSE64j8PPCgh+GdO3tEIoKP7douwduqh
- 3ENT1M2I0yAuDCB2Tt2tN2kaVRxuvretigOhY3AEHvq6WxxFiKTNFDpZRaSVM/Nz
- f7CS5MWTVGrm2GDGbcoZYrDfCDypZx8ijX0EOxoO4QAEAi33TRC6+fVZ1ujzYmN4
- LOtpuTviD2CY4r5huUEHtVZP/z8TBMaoowTnH64tAOHG2ecQV0aiJHjOaMl2KkTa
- 1HOGGOM9DGs+P8X/Qzqy+Tps1qigA==
-X-ME-Sender: <xms:gLJ5YQuf2llcJFQlx0_SuOUAtz-u_V_DeuUuhPDjkkVFY_cSFJMebg>
- <xme:gLJ5Yde1Ex0dsi0rRImbYFT9wpDuCjaV1O9Zae96a-tpnThbRF7BLKBY_MfhU3CRD
- jhp5NENnh_0pA0D_U0>
-X-ME-Received: <xmr:gLJ5YbzuVyJ0AMAnsF1nptsAVPypActnbGBxjscOHHUmVSOKMPqnxNiOgU0OrL1zWyymqF1Ae3O3RrQEMaSEtfYOmdueFeIjnVx2kYbQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrvdegtddguddutdcutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpefhvffufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpeforgig
- ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
- grthhtvghrnhepjeeugfegkeffgfeuvedtvddufffhjeffjeejvddvudduteehhfefhfef
- geeikeeknecuvehluhhsthgvrhfuihiivgepieenucfrrghrrghmpehmrghilhhfrhhomh
- epmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:gLJ5YTP6IAKN5Vt2DFtee_vW5MSM2erQXYqtS3Bp9TEVdgJUMgHMSA>
- <xmx:gLJ5YQ8eHKb_o6pxCWQlAjcdtgMPN3rC4DNwtfZzDX5WtXiUoIzvYA>
- <xmx:gLJ5YbXitDXFgp0awX7jYZuY9aqMZmEzrGmU8TfiPIhs1KlT42AfPw>
- <xmx:gLJ5YVKEK0bqUDvlKIxjG9QlJ2DIAvTPQaHDQTg1zG7VqvKJJX6IusJKV2Y>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 27 Oct 2021 16:11:44 -0400 (EDT)
-From: Maxime Ripard <maxime@cerno.tech>
-To: Thierry Reding <thierry.reding@gmail.com>,
- Robert Foss <robert.foss@linaro.org>, Sam Ravnborg <sam@ravnborg.org>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Daniel Vetter <daniel.vetter@intel.com>, Jonas Karlman <jonas@kwiboo.se>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- David Airlie <airlied@linux.ie>, Maxime Ripard <maxime@cerno.tech>,
- Andrzej Hajda <a.hajda@samsung.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: Sean Paul <sean@poorly.run>, freedreno@lists.freedesktop.org,
- Rob Clark <robdclark@chromium.org>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Tian Tao <tiantao6@hisilicon.com>, Chen Feng <puck.chen@hisilicon.com>,
- Inki Dae <inki.dae@samsung.com>, linux-arm-msm@vger.kernel.org,
- Joonyoung Shim <jy0922.shim@samsung.com>, linux-kernel@vger.kernel.org,
- linux-samsung-soc@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Xinliang Liu <xinliang.liu@linaro.org>,
- Xinwei Kong <kong.kongxinwei@hisilicon.com>,
- Rob Clark <robdclark@gmail.com>, John Stultz <john.stultz@linaro.org>,
- Caleb Connolly <caleb.connolly@linaro.org>,
- Seung-Woo Kim <sw0312.kim@samsung.com>,
- Amit Pundir <amit.pundir@linaro.org>
-Subject: Re: (subset) [PATCH v6 21/21] drm/msm/dsi: Adjust probe order
-Date: Wed, 27 Oct 2021 22:09:52 +0200
-Message-Id: <163532324665.18245.10729198650633132372.b4-ty@cerno.tech>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20211025151536.1048186-22-maxime@cerno.tech>
-References: <20211025151536.1048186-1-maxime@cerno.tech>
- <20211025151536.1048186-22-maxime@cerno.tech>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18CA46E8E5;
+ Wed, 27 Oct 2021 20:14:39 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10150"; a="291095614"
+X-IronPort-AV: E=Sophos;i="5.87,187,1631602800"; d="scan'208";a="291095614"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Oct 2021 13:14:38 -0700
+X-IronPort-AV: E=Sophos;i="5.87,187,1631602800"; d="scan'208";a="447369447"
+Received: from jons-linux-dev-box.fm.intel.com (HELO jons-linux-dev-box)
+ ([10.1.27.20])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Oct 2021 13:14:38 -0700
+Date: Wed, 27 Oct 2021 13:10:01 -0700
+From: Matthew Brost <matthew.brost@intel.com>
+To: John Harrison <john.c.harrison@intel.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ tvrtko.ursulin@intel.com, daniele.ceraolospurio@intel.com
+Subject: Re: [PATCH] drm/i915/execlists: Weak parallel submission support for
+ execlists
+Message-ID: <20211027201001.GA16265@jons-linux-dev-box>
+References: <20211020214751.34602-1-matthew.brost@intel.com>
+ <c9a1cd3e-dc3a-2b2b-ee37-73c0c50f3f60@intel.com>
+ <20211027191732.GA16188@jons-linux-dev-box>
+ <af017ae0-e826-7b6a-03d7-0e422030da02@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <af017ae0-e826-7b6a-03d7-0e422030da02@intel.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,14 +54,201 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 25 Oct 2021 17:15:36 +0200, Maxime Ripard wrote:
-> From: Rob Clark <robdclark@chromium.org>
-> 
-> Switch to the documented order dsi-host vs bridge probe.
-> 
+On Wed, Oct 27, 2021 at 01:04:49PM -0700, John Harrison wrote:
+> On 10/27/2021 12:17, Matthew Brost wrote:
+> > On Tue, Oct 26, 2021 at 02:58:00PM -0700, John Harrison wrote:
+> > > On 10/20/2021 14:47, Matthew Brost wrote:
+> > > > A weak implementation of parallel submission (multi-bb execbuf IOCTL) for
+> > > > execlists. Doing as little as possible to support this interface for
+> > > > execlists - basically just passing submit fences between each request
+> > > > generated and virtual engines are not allowed. This is on par with what
+> > > > is there for the existing (hopefully soon deprecated) bonding interface.
+> > > > 
+> > > > We perma-pin these execlists contexts to align with GuC implementation.
+> > > > 
+> > > > v2:
+> > > >    (John Harrison)
+> > > >     - Drop siblings array as num_siblings must be 1
+> > > > 
+> > > > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> > > > ---
+> > > >    drivers/gpu/drm/i915/gem/i915_gem_context.c   | 10 +++--
+> > > >    drivers/gpu/drm/i915/gt/intel_context.c       |  4 +-
+> > > >    .../drm/i915/gt/intel_execlists_submission.c  | 44 ++++++++++++++++++-
+> > > >    drivers/gpu/drm/i915/gt/intel_lrc.c           |  2 +
+> > > >    .../gpu/drm/i915/gt/uc/intel_guc_submission.c |  2 -
+> > > >    5 files changed, 52 insertions(+), 10 deletions(-)
+> > > > 
+> > > > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> > > > index fb33d0322960..35e87a7d0ea9 100644
+> > > > --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> > > > +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> > > > @@ -570,10 +570,6 @@ set_proto_ctx_engines_parallel_submit(struct i915_user_extension __user *base,
+> > > >    	struct intel_engine_cs **siblings = NULL;
+> > > >    	intel_engine_mask_t prev_mask;
+> > > > -	/* FIXME: This is NIY for execlists */
+> > > > -	if (!(intel_uc_uses_guc_submission(&i915->gt.uc)))
+> > > > -		return -ENODEV;
+> > > > -
+> > > >    	if (get_user(slot, &ext->engine_index))
+> > > >    		return -EFAULT;
+> > > > @@ -583,6 +579,12 @@ set_proto_ctx_engines_parallel_submit(struct i915_user_extension __user *base,
+> > > >    	if (get_user(num_siblings, &ext->num_siblings))
+> > > >    		return -EFAULT;
+> > > > +	if (!intel_uc_uses_guc_submission(&i915->gt.uc) && num_siblings != 1) {
+> > > > +		drm_dbg(&i915->drm, "Only 1 sibling (%d) supported in non-GuC mode\n",
+> > > > +			num_siblings);
+> > > > +		return -EINVAL;
+> > > > +	}
+> > > > +
+> > > >    	if (slot >= set->num_engines) {
+> > > >    		drm_dbg(&i915->drm, "Invalid placement value, %d >= %d\n",
+> > > >    			slot, set->num_engines);
+> > > > diff --git a/drivers/gpu/drm/i915/gt/intel_context.c b/drivers/gpu/drm/i915/gt/intel_context.c
+> > > > index 5634d14052bc..1bec92e1d8e6 100644
+> > > > --- a/drivers/gpu/drm/i915/gt/intel_context.c
+> > > > +++ b/drivers/gpu/drm/i915/gt/intel_context.c
+> > > > @@ -79,7 +79,8 @@ static int intel_context_active_acquire(struct intel_context *ce)
+> > > >    	__i915_active_acquire(&ce->active);
+> > > > -	if (intel_context_is_barrier(ce) || intel_engine_uses_guc(ce->engine))
+> > > > +	if (intel_context_is_barrier(ce) || intel_engine_uses_guc(ce->engine) ||
+> > > > +	    intel_context_is_parallel(ce))
+> > > >    		return 0;
+> > > >    	/* Preallocate tracking nodes */
+> > > > @@ -563,7 +564,6 @@ void intel_context_bind_parent_child(struct intel_context *parent,
+> > > >    	 * Callers responsibility to validate that this function is used
+> > > >    	 * correctly but we use GEM_BUG_ON here ensure that they do.
+> > > >    	 */
+> > > > -	GEM_BUG_ON(!intel_engine_uses_guc(parent->engine));
+> > > >    	GEM_BUG_ON(intel_context_is_pinned(parent));
+> > > >    	GEM_BUG_ON(intel_context_is_child(parent));
+> > > >    	GEM_BUG_ON(intel_context_is_pinned(child));
+> > > > diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> > > > index bedb80057046..2865b422300d 100644
+> > > > --- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> > > > +++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> > > > @@ -927,8 +927,7 @@ static void execlists_submit_ports(struct intel_engine_cs *engine)
+> > > >    static bool ctx_single_port_submission(const struct intel_context *ce)
+> > > >    {
+> > > > -	return (IS_ENABLED(CONFIG_DRM_I915_GVT) &&
+> > > > -		intel_context_force_single_submission(ce));
+> > > > +	return intel_context_force_single_submission(ce);
+> > > I think this is actually going to break GVT.
+> > > 
+> > > Not so much this change here but the whole use of single submission outside
+> > > of GVT. It looks like the GVT driver overloads the single submission flag to
+> > > tag requests that it owns. If we start using that flag elsewhere when GVT is
+> > > active, I think that will cause much confusion within the GVT code.
+> > > 
+> > > The correct fix would be to create a new flag just for GVT usage alongside
+> > > the single submission one. GVT would then set both but only check for its
+> > > own private flag. The parallel code would obviously only set the existing
+> > > single submission flag.
+> > > 
+> > Ok, see below.
+> > 
+> > > >    }
+> > > >    static bool can_merge_ctx(const struct intel_context *prev,
+> > > > @@ -2598,6 +2597,46 @@ static void execlists_context_cancel_request(struct intel_context *ce,
+> > > >    				      current->comm);
+> > > >    }
+> > > > +static struct intel_context *
+> > > > +execlists_create_parallel(struct intel_engine_cs **engines,
+> > > > +			  unsigned int num_siblings,
+> > > > +			  unsigned int width)
+> > > > +{
+> > > > +	struct intel_context *parent = NULL, *ce, *err;
+> > > > +	int i;
+> > > > +
+> > > > +	GEM_BUG_ON(num_siblings != 1);
+> > > > +
+> > > > +	for (i = 0; i < width; ++i) {
+> > > > +		ce = intel_context_create(engines[i]);
+> > > > +		if (!ce) {
+> > > > +			err = ERR_PTR(-ENOMEM);
+> > > > +			goto unwind;
+> > > > +		}
+> > > > +
+> > > > +		if (i == 0)
+> > > > +			parent = ce;
+> > > > +		else
+> > > > +			intel_context_bind_parent_child(parent, ce);
+> > > > +	}
+> > > > +
+> > > > +	parent->parallel.fence_context = dma_fence_context_alloc(1);
+> > > > +
+> > > > +	intel_context_set_nopreempt(parent);
+> > > > +	intel_context_set_single_submission(parent);
+> > > Can you explain the need for setting single submission?
+> > > 
+> > I think I can actually pull this out. This was needed when I tried to
+> > truely implement a guarante that all the parallel requests would be
+> > running simultaneously. Couldn't ever to get that working because of the
+> > mess that is the execlists scheduler - a simple wait at the head of
+> > queue until everyone joined just blew up for whatever reason. I don't
+> > believe this servers a purpose anymore, so I'll just drop it.
+> > 
+> > Matt
+> Is that not going to be a problem? I thought concurrent execution was a
+> fundamental requirement?
 > 
 
-Applied to drm/drm-misc (drm-misc-next).
+I don't think so. See the commit message. This implmementation is on par
+with the bonding interface - there is no guarantee whatsoever that with
+the bonding interface bonded requests actually run at the same time. It
+says hopefully these submissions run together. That's what I do in this
+patch too for execlists, hence the 'weak' clause in the commit message.
 
-Thanks!
-Maxime
+Matt
+
+> John.
+> 
+> > 
+> > > John.
+> > > 
+> > > > +	for_each_child(parent, ce) {
+> > > > +		intel_context_set_nopreempt(ce);
+> > > > +		intel_context_set_single_submission(ce);
+> > > > +	}
+> > > > +
+> > > > +	return parent;
+> > > > +
+> > > > +unwind:
+> > > > +	if (parent)
+> > > > +		intel_context_put(parent);
+> > > > +	return err;
+> > > > +}
+> > > > +
+> > > >    static const struct intel_context_ops execlists_context_ops = {
+> > > >    	.flags = COPS_HAS_INFLIGHT,
+> > > > @@ -2616,6 +2655,7 @@ static const struct intel_context_ops execlists_context_ops = {
+> > > >    	.reset = lrc_reset,
+> > > >    	.destroy = lrc_destroy,
+> > > > +	.create_parallel = execlists_create_parallel,
+> > > >    	.create_virtual = execlists_create_virtual,
+> > > >    };
+> > > > diff --git a/drivers/gpu/drm/i915/gt/intel_lrc.c b/drivers/gpu/drm/i915/gt/intel_lrc.c
+> > > > index 56156cf18c41..70f4b309522d 100644
+> > > > --- a/drivers/gpu/drm/i915/gt/intel_lrc.c
+> > > > +++ b/drivers/gpu/drm/i915/gt/intel_lrc.c
+> > > > @@ -1065,6 +1065,8 @@ lrc_pin(struct intel_context *ce,
+> > > >    void lrc_unpin(struct intel_context *ce)
+> > > >    {
+> > > > +	if (unlikely(ce->parallel.last_rq))
+> > > > +		i915_request_put(ce->parallel.last_rq);
+> > > >    	check_redzone((void *)ce->lrc_reg_state - LRC_STATE_OFFSET,
+> > > >    		      ce->engine);
+> > > >    }
+> > > > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > > > index 1341752dc70e..ddc9a97fcc8f 100644
+> > > > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > > > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > > > @@ -2961,8 +2961,6 @@ static void guc_parent_context_unpin(struct intel_context *ce)
+> > > >    	GEM_BUG_ON(!intel_context_is_parent(ce));
+> > > >    	GEM_BUG_ON(!intel_engine_is_virtual(ce->engine));
+> > > > -	if (ce->parallel.last_rq)
+> > > > -		i915_request_put(ce->parallel.last_rq);
+> > > >    	unpin_guc_id(guc, ce);
+> > > >    	lrc_unpin(ce);
+> > > >    }
+> 
