@@ -2,45 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B311743C955
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Oct 2021 14:13:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F4F743C972
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Oct 2021 14:19:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A26F96E5BE;
-	Wed, 27 Oct 2021 12:13:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 44BB46E5CC;
+	Wed, 27 Oct 2021 12:19:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DDD7D6E5BE
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Oct 2021 12:13:38 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10149"; a="230093103"
-X-IronPort-AV: E=Sophos;i="5.87,186,1631602800"; d="scan'208";a="230093103"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Oct 2021 05:13:38 -0700
-X-IronPort-AV: E=Sophos;i="5.87,186,1631602800"; d="scan'208";a="497841528"
-Received: from smaharan-mobl.gar.corp.intel.com (HELO localhost)
- ([10.251.214.195])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Oct 2021 05:13:33 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Daniel Vetter <daniel@ffwll.ch>, Kees Cook <keescook@chromium.org>
-Cc: Arnd Bergmann <arnd@kernel.org>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Arnd Bergmann <arnd@arndb.de>, Alex
- Deucher <alexander.deucher@amd.com>, Christian =?utf-8?Q?K=C3=B6nig?=
- <christian.koenig@amd.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Javier Martinez Canillas <javierm@redhat.com>
-Subject: Re: [PATCH] [RESEND] drm: fb_helper: fix CONFIG_FB dependency
-In-Reply-To: <878ryeit9i.fsf@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20210927142816.2069269-1-arnd@kernel.org>
- <202109270923.97AFDE89DB@keescook> <YVXJLE8UqgcUNIKl@phenom.ffwll.local>
- <878ryeit9i.fsf@intel.com>
-Date: Wed, 27 Oct 2021 15:13:29 +0300
-Message-ID: <8735omis2e.fsf@intel.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C42D6E5CC
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Oct 2021 12:19:04 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 52870610A5
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Oct 2021 12:19:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1635337144;
+ bh=N0hHufsA4EpZzPuUSABPRlv91lFIykpTajufmGvhWUs=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=UQHIDCqTivQTJ21GBCFzXw1Qo5rgI9dwnMtwql5+0IX/ZjbtTw1+za7S6AO8m4MqZ
+ HzOuMbFZ4p3+7JynKr0d0wSUVtoxM1NPBdCAGcsyFHdxIDzbu0RZV9Uu7r6sZkQgjR
+ sBs6Jsl/h0Inhvq+nETJB251J2Gf8Wg0Ir7QSPiWZos3CuEyHh4q03D7gQJ0tIBf7y
+ 2imLeLQVn/7NzrTxqvVCNSO5ZpX1/pjV26JTVXKJmgrwIzl3muyXUTeOgW9OYEasyr
+ pUBrcPqBFFoV2OJFV/I0rbz06vRNwQ3WdA7q8Pm629xsDsIK1+1qZqReG30kcevlZr
+ 44LAQCEtmVN+A==
+Received: by mail-wr1-f43.google.com with SMTP id d3so3802804wrh.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Oct 2021 05:19:04 -0700 (PDT)
+X-Gm-Message-State: AOAM531Z8WPszucSg1Cnr+PDTYGN7yYd+0/5lbBWdF76FRY2HcgX5u6A
+ 8nMCP0ZWFtna1k4AN+6GA+k9EyT6xmk0I0DaroY=
+X-Google-Smtp-Source: ABdhPJzoUgOiwa5qHQWOfJ8KqHnSLcVaqjltVoX2kWLRWVMNVmk/Xlspt0Fim2onTGTzFXkXEGvr3R8QuEO6UaOatoA=
+X-Received: by 2002:adf:ab46:: with SMTP id r6mr40167677wrc.71.1635337142692; 
+ Wed, 27 Oct 2021 05:19:02 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20210927142816.2069269-1-arnd@kernel.org>
+ <202109270923.97AFDE89DB@keescook>
+ <YVXJLE8UqgcUNIKl@phenom.ffwll.local> <878ryeit9i.fsf@intel.com>
+In-Reply-To: <878ryeit9i.fsf@intel.com>
+From: Arnd Bergmann <arnd@kernel.org>
+Date: Wed, 27 Oct 2021 14:18:46 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a0EG_C6OvG00Dg8SQacirNztLFjVonb5t2xQj9aFZ47Vg@mail.gmail.com>
+Message-ID: <CAK8P3a0EG_C6OvG00Dg8SQacirNztLFjVonb5t2xQj9aFZ47Vg@mail.gmail.com>
+Subject: Re: [PATCH] [RESEND] drm: fb_helper: fix CONFIG_FB dependency
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>, Kees Cook <keescook@chromium.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Arnd Bergmann <arnd@arndb.de>, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ dri-devel <dri-devel@lists.freedesktop.org>, 
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
+ Javier Martinez Canillas <javierm@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,29 +67,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 27 Oct 2021, Jani Nikula <jani.nikula@linux.intel.com> wrote:
+On Wed, Oct 27, 2021 at 1:47 PM Jani Nikula <jani.nikula@linux.intel.com> wrote:
 > On Thu, 30 Sep 2021, Daniel Vetter <daniel@ffwll.ch> wrote:
->> On Mon, Sep 27, 2021 at 09:23:45AM -0700, Kees Cook wrote:
->>> On Mon, Sep 27, 2021 at 04:28:02PM +0200, Arnd Bergmann wrote:
->>> > From: Arnd Bergmann <arnd@arndb.de>
->>> > 
->>> > With CONFIG_FB=m and CONFIG_DRM=y, we get a link error in the fb helper:
->>> > 
->>> > aarch64-linux-ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_alloc_fbi':
->>> > (.text+0x10cc): undefined reference to `framebuffer_alloc'
->>> > 
->>> > Tighten the dependency so it is only allowed in the case that DRM can
->>> > link against FB.
->>> > 
->>> > Fixes: f611b1e7624c ("drm: Avoid circular dependencies for CONFIG_FB")
->>> > Link: https://lore.kernel.org/all/20210721152211.2706171-1-arnd@kernel.org/
->>> > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
->>> 
->>> Thanks for fixing this!
->>> 
->>> Reviewed-by: Kees Cook <keescook@chromium.org>
->>
->> Stuffed into drm-misc-next.
+> > On Mon, Sep 27, 2021 at 09:23:45AM -0700, Kees Cook wrote:
+> >> On Mon, Sep 27, 2021 at 04:28:02PM +0200, Arnd Bergmann wrote:
+> >> > From: Arnd Bergmann <arnd@arndb.de>
+> >> >
+> >> > With CONFIG_FB=m and CONFIG_DRM=y, we get a link error in the fb helper:
+> >> >
+> >> > aarch64-linux-ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_alloc_fbi':
+> >> > (.text+0x10cc): undefined reference to `framebuffer_alloc'
+> >> >
+> >> > Tighten the dependency so it is only allowed in the case that DRM can
+> >> > link against FB.
+> >> >
+> >> > Fixes: f611b1e7624c ("drm: Avoid circular dependencies for CONFIG_FB")
+> >> > Link: https://lore.kernel.org/all/20210721152211.2706171-1-arnd@kernel.org/
+> >> > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> >>
+> >> Thanks for fixing this!
+> >>
+> >> Reviewed-by: Kees Cook <keescook@chromium.org>
+> >
+> > Stuffed into drm-misc-next.
 >
 > The problem is, I don't think the patch is semantically correct.
 >
@@ -86,60 +97,56 @@ On Wed, 27 Oct 2021, Jani Nikula <jani.nikula@linux.intel.com> wrote:
 > drm_kms_helper.ko. This adds some sort of indirect dependency via DRM
 > which might work, maybe by coincidence, maybe not - but it's certainly
 > not obvious.
->
+
+Right, how about this change on top?
+
+--- a/drivers/gpu/drm/Kconfig
++++ b/drivers/gpu/drm/Kconfig
+@@ -117,9 +117,8 @@ config DRM_DEBUG_MODESET_LOCK
+
+ config DRM_FBDEV_EMULATION
+        bool "Enable legacy fbdev support for your modesetting driver"
+-       depends on DRM
+-       depends on FB=y || FB=DRM
+-       select DRM_KMS_HELPER
++       depends on DRM_KMS_HELPER
++       depends on FB=y || FB=DRM_KMS_HELPER
+        select FB_CFB_FILLRECT
+        select FB_CFB_COPYAREA
+        select FB_CFB_IMAGEBLIT
+
+That would probably make it work for DRM=y, FB=m, DRM_KMS_HELPER=m,
+but it needs more randconfig testing, which I can help with.
+
 > The likely culprit is, again, the overuse of select, and in this case
 > select DRM_KMS_HELPER. And DRM_KMS_HELPER should depend on FB if
 > DRM_FBDEV_EMULATION=y. That's the problem.
 
-Almost all of the recurring Kconfig related dependency issues would go
-away by following Documentation/kbuild/kconfig-language.rst:
+This is something we can't easily express in Kconfig, as we can't add the
+dependency to a symbol that only gets selected by other drivers, which
+is why the dependency has to be in the user-visible symbol,
+in this case DRM_FBDEV_EMULATION.
 
-  Note:
-	select should be used with care. select will force
-	a symbol to a value without visiting the dependencies.
-	By abusing select you are able to select a symbol FOO even
-	if FOO depends on BAR that is not set.
-	In general use select only for non-visible symbols
-	(no prompts anywhere) and for symbols with no dependencies.
-	That will limit the usefulness but on the other hand avoid
-	the illegal configurations all over.
-
-If the kconfig parser had a lint mode to issue a warning for all of
-those uses, and someone persistent enough followed through with fixing
-them, we'd all be better off.
-
-Oh, and maybe the menuconfig tools also need better ways to recursively
-enable config options with dependencies, because one of the reasons
-people like select is the convenience of just enabling a config option,
-and it selects everything that's needed (albeit with the occasional
-dependency issues). With dependencies, you need to start with the leaf
-dependencies and work your way up to what you need, and it's not easy.
-
-
-BR,
-Jani.
-
-
->
 > All of the drm Kconfigs could use an overhaul to be semantically
 > correct, but that's a hill nobody wants to die on. Instead we keep
 > piling up tweaks to paper over the issues, ad infinitum.
->
-> (And this ties to a previous comment I had about the organization of
-> files under drm/, a hundred files in one big lump that belong to
-> different modules, and it's not helping people figure out the
-> dependencies.)
->
->
-> BR,
-> Jani.
->
->
-> PS. I was brought here via [1] which is another complicated "fix" to the
-> same problem.
->
->
-> [1] https://lore.kernel.org/r/20211027072044.4105113-1-javierm@redhat.com
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
+Yes, that is a big issue, though we have similar problems with drivers/media
+and net/.
+
+On a related note, I did manage to sort out the backlight dependency issue
+(intel_panel.c:(.text+0x2f58): undefined reference to
+`backlight_device_register'),
+but haven't sent that one again yet, but I can if you like. This one changes
+DRM_I915 and all of drivers/video/fbdev from 'select BACKLIGHT_CLASS_DEVICE'
+to 'depends on', which I think moves everything into broadly the right
+direction.
+
+Let me know if you would like me to send those now, or have a look at the
+top 3 patches in [1] if you are interested. This has passed a few
+thousand randconfig
+builds and should not depend on additional patches.
+
+        Arnd
+
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/arnd/playground.git/log/?h=randconfig-5.16-next
