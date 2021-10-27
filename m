@@ -1,64 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BDA343C012
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Oct 2021 04:37:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C884543C071
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Oct 2021 04:57:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6423F6E505;
-	Wed, 27 Oct 2021 02:37:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 69DFD6E508;
+	Wed, 27 Oct 2021 02:57:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com
- [209.85.210.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB7FE6E505
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Oct 2021 02:37:18 +0000 (UTC)
-Received: by mail-ot1-f53.google.com with SMTP id
- w12-20020a056830410c00b0054e7ceecd88so1610681ott.2
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Oct 2021 19:37:18 -0700 (PDT)
+Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com
+ [IPv6:2a00:1450:4864:20::534])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 109C56E508
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Oct 2021 02:57:03 +0000 (UTC)
+Received: by mail-ed1-x534.google.com with SMTP id z20so4758124edi.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Oct 2021 19:57:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=+MnMGWD/0lv6QE/2RZDyhTwihVaLaY/cF7VXa6a77gU=;
+ b=ZaNVx/jqk9FWOrIgexWO/hOBqGfCeeBmqbojUEelH+VIpmg5St9QloHjV2C1+VvhTT
+ t7MPi+nZ4z/Fo15zsr28uLoGGxiK6FvKZMnMqv4hPPkre96n58ktGO355LHuuQ5H1CqH
+ eaEuYLl1bJjgYwCaabrq+lq4D9ku5jq+J+TaScuvWE1m5CPtDTOaUx0EXIMDiMZ7uyUU
+ 9zjDyq2q16TEwZgTO72CuOGgixDNxjAF67A96baU6kD8hkWePLImvIALsVxiJPFPa9x+
+ 2P3f7WuDYHsxQIk4UVy1JC7oR0xJovKp/QU50a6GrBYwoY87R5ClSagU53FAfV4zXlch
+ fOtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=u92E0EpFtZ3++MIktilNtSGwwznQbIIm/fPoIeal4/4=;
- b=OqxTYZCZv9h1PixFawCE2HvGrnzWoDoR1KSdkWKAR+lYlhpz3bC7xMg6fAU6xEqVOZ
- A4pi/79gXeNttpVyCoi0+dnATcWOFEmOBEadq05xqFzT2ltL4/xY1imkxTwWNdY9vcRh
- 9FfpX/fWOPmVrXAStG5QgmUdlAIOclVkRKhHQqKPv7UZPU9Z0AgDX5LjKmz/kPUeNESq
- zbUdegyAfPLsUKzd/tVhQ1xshIvoQxmSXvYwytQeh/za82NcOX/423o6WITiIXiP+Jrz
- EOrde5kP4VHcc1pbp3mhJXn3T+q9aj9qjMWqbfFfvrP/W4icMAtVtQvzMN78iNfvNvAU
- nzgA==
-X-Gm-Message-State: AOAM533j0krN9bbQpURW8aTUjjonlpQHYr8ItPvYBefI9OZb9JW8kifS
- NvX9Nk/W7ys5dJcEojQrqQ==
-X-Google-Smtp-Source: ABdhPJxlQCgNJcOdH6QHUyXjxReaOauicUSabSwGKhvr1usEJl3GquscqQh/iQLcY1OZKw5v4FmV+g==
-X-Received: by 2002:a05:6830:101:: with SMTP id
- i1mr22304080otp.107.1635302237996; 
- Tue, 26 Oct 2021 19:37:17 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net.
- [66.90.148.213])
- by smtp.gmail.com with ESMTPSA id bp21sm5787606oib.31.2021.10.26.19.37.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Oct 2021 19:37:17 -0700 (PDT)
-Received: (nullmailer pid 3846294 invoked by uid 1000);
- Wed, 27 Oct 2021 02:37:16 -0000
-Date: Tue, 26 Oct 2021 21:37:16 -0500
-From: Rob Herring <robh@kernel.org>
-To: Alexander Stein <alexander.stein@ew.tq-group.com>
-Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Daniel Vetter <daniel@ffwll.ch>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
- Rob Herring <robh+dt@kernel.org>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, Robert Foss <robert.foss@linaro.org>,
- Andrzej Hajda <a.hajda@samsung.com>, Neil Armstrong <narmstrong@baylibre.com>,
- Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: [PATCH v3 3/4] dt-bindings: drm/bridge: ti-sn65dsi83: Add vcc
- supply bindings
-Message-ID: <YXi7XKhYWe4f+SJW@robh.at.kernel.org>
-References: <20211019065239.969988-1-alexander.stein@ew.tq-group.com>
- <20211019065239.969988-4-alexander.stein@ew.tq-group.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=+MnMGWD/0lv6QE/2RZDyhTwihVaLaY/cF7VXa6a77gU=;
+ b=43rQOCUaU7wq3XozzcvIT/VYJtS+1s2W7zoPKAI8YuNpXcz8u0zIM7cTMZyt8ETnrs
+ uoguaI5DY5vxpG+D/ke2q1rm+1boVf7BQOenGGO81hWUKp+lsJLTvIy/0SVlIQuL0sTm
+ n9RlVQJsjD/BTW6cj1Y1dGSNnwxwrFQFJgQ5SyvZc3CLJ6dzmMS02wuifTr6IBBvkUjW
+ gWB2UUiDLuFwmL9PXLpc76NJsoH4jJHgnPUFualRTudQht8s3ZRRuIRB85k47C4hVvzL
+ UKVOLDQ61bAdOjpLIZTLKw8B+55OFK2iKeHUFmic75PHeEq/LItoRs57xGcBXG+NekHj
+ VNCw==
+X-Gm-Message-State: AOAM5300TghXjTJuJFAKf+djyMUneiyUwAbsrrXAt37PVKgZ2BJLZc3r
+ hVgFRjguM8wokDN7LWidsV4DAIUnt00t+EFbi7JlBA==
+X-Google-Smtp-Source: ABdhPJwIK61/V7qcKbhx4yii4iHXjQOUbVeTBUCQwnBLVrY1BbKYFYOd48L8rLqNKXbJxAp/xU4REFHyMBfMvTKiQy8=
+X-Received: by 2002:a17:906:c7c1:: with SMTP id
+ dc1mr35935786ejb.6.1635303421412; 
+ Tue, 26 Oct 2021 19:57:01 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211019065239.969988-4-alexander.stein@ew.tq-group.com>
+References: <CA+G9fYvpyUbqLko+9Dza8h4=9yOd-n9J0dKoQtZxawstCCnsZw@mail.gmail.com>
+ <CA+G9fYvdhk-H8wBDdaPmRMZS_egxndncUkbZ92HCnUFD1g_wSQ@mail.gmail.com>
+ <b26491f8-66a4-d532-e866-2dc0ecb922d2@suse.de>
+In-Reply-To: <b26491f8-66a4-d532-e866-2dc0ecb922d2@suse.de>
+From: Naresh Kamboju <naresh.kamboju@linaro.org>
+Date: Wed, 27 Oct 2021 08:26:48 +0530
+Message-ID: <CA+G9fYvsfNO5qNj7TChXQ_si1xDwL3gqyM+8SUgCowocpRqKdA@mail.gmail.com>
+Subject: Re: gpu: drm_fb_cma_helper.c:46: undefined reference to
+ `drm_gem_fb_get_obj'
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: dri-devel@lists.freedesktop.org, open list <linux-kernel@vger.kernel.org>, 
+ Linux-Next Mailing List <linux-next@vger.kernel.org>, 
+ Linux ARM <linux-arm-kernel@lists.infradead.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, 
+ Andrey Konovalov <andreyknvl@gmail.com>,
+ Stephen Rothwell <sfr@canb.auug.org.au>, Arnd Bergmann <arnd@arndb.de>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+ Linus Walleij <linus.walleij@linaro.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,15 +81,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 19 Oct 2021 08:52:38 +0200, Alexander Stein wrote:
-> Add a VCC regulator which needs to be enabled before the EN pin is
-> released.
-> 
-> Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
-> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-> ---
->  .../devicetree/bindings/display/bridge/ti,sn65dsi83.yaml      | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
+Hi Thomas,
 
-Acked-by: Rob Herring <robh@kernel.org>
+I have tested the fix patch [1] and it works fine for me.
+
+> Could you please try the patch at [1]? It fixes the problem for me.
+
+=F0=9F=8E=89 Pass: 6d61a7c3bc2a ("arm: multi_v5_defconfig build fix")
+ arm (multi_v5_defconfig) with gcc-11
+@ https://builds.tuxbuild.com/204SnLe1DFWQ4iAHpwAMiyUcpsL/
+
+
+> Best regards
+> Thomas
+>
+> [1] https://patchwork.freedesktop.org/patch/461426/
+
+
+Tested-by: Naresh Kamboju <naresh.kamboju@linaro.org>
+
+- Naresh
