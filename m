@@ -2,57 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4E4143BF77
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Oct 2021 04:18:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBF7B43BF82
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Oct 2021 04:19:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F35156E4E8;
-	Wed, 27 Oct 2021 02:18:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD3AF6E503;
+	Wed, 27 Oct 2021 02:19:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com
- [209.85.210.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 96D4F6E4E8
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Oct 2021 02:18:24 +0000 (UTC)
-Received: by mail-ot1-f52.google.com with SMTP id
- t17-20020a056830083100b00553ced10177so1316514ots.1
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Oct 2021 19:18:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=7VRwiWsFW3qU9OClD0E6PGyfRVEAATUo35AgOU+oVAs=;
- b=LLhvncrBx00b5NoAAq6u8Ay8msdK9UtwthMU7ju/TBs/2B9XC3jjPz3fPeoBudipYR
- nYF4wJ+kOQyvuPpwfL/5mEjQ2yOOyH8U+GNML1a8yShGkKfvngHRar3B6W3sJ4vE6Y0v
- Q0xzBObgOjCLDZ0jL3wCJ8IppjahlOpImjmbhjet/1BldC1NSuTSJN32iQbxt53KRQ2Z
- XUwvA/Kne/lPky/kjWe6UUm6YMJqRF4ZHB8LPlixEYVjGVn+9AdQfilezPFcu0iLoflR
- bLTfEnY9WnZvWekREfaKRpmfzPraSN9CM/KydkqKVLYM++sqW5sFmG89rTDF/LU6ldDX
- pGGg==
-X-Gm-Message-State: AOAM531ijOJBrPmJ5TMDKcK9dcHzcndGpcpDoa0x3SHApAxwfeUNt+V1
- G2+x3rNqslCxcEW4IsQF2Q==
-X-Google-Smtp-Source: ABdhPJyv1pUrxa7Hiz1b6MtytdlGJV6SUTPZtbLUZyB4s9ILL8HXBapLEsoJv6AKeLk4kJofMM2s+g==
-X-Received: by 2002:a9d:6009:: with SMTP id h9mr22691428otj.313.1635301103594; 
- Tue, 26 Oct 2021 19:18:23 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net.
- [66.90.148.213])
- by smtp.gmail.com with ESMTPSA id j15sm463929ots.58.2021.10.26.19.18.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Oct 2021 19:18:23 -0700 (PDT)
-Received: (nullmailer pid 3814307 invoked by uid 1000);
- Wed, 27 Oct 2021 02:18:22 -0000
-Date: Tue, 26 Oct 2021 21:18:22 -0500
-From: Rob Herring <robh@kernel.org>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: a.hajda@samsung.com, daniel@ffwll.ch, airlied@linux.ie,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] dt-bindings: display/bridge: tc358764: Convert to
- YAML binding
-Message-ID: <YXi27l0bzbEmb65C@robh.at.kernel.org>
-References: <20211018144003.878345-1-angelogioacchino.delregno@collabora.com>
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A4886E4F8
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Oct 2021 02:19:06 +0000 (UTC)
+X-UUID: 60d9f03d65f34486b400ffd5f9012550-20211027
+X-UUID: 60d9f03d65f34486b400ffd5f9012550-20211027
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
+ mailgw02.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 798243135; Wed, 27 Oct 2021 10:19:00 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
+ Wed, 27 Oct 2021 10:18:59 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
+ Frontend Transport; Wed, 27 Oct 2021 10:18:59 +0800
+From: jason-jh.lin <jason-jh.lin@mediatek.com>
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel
+ <p.zabel@pengutronix.de>, Matthias Brugger <matthias.bgg@gmail.com>, "Jassi
+ Brar" <jassisinghbrar@gmail.com>, Yongqiang Niu <yongqiang.niu@mediatek.com>
+CC: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ "jason-jh . lin" <jason-jh.lin@mediatek.com>,
+ <dri-devel@lists.freedesktop.org>, <linux-mediatek@lists.infradead.org>,
+ <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+ <hsinyi@chromium.org>, <fshao@chromium.org>, <nancy.lin@mediatek.com>,
+ <singo.chang@mediatek.com>
+Subject: [PATCH v5 0/6] CMDQ refinement of Mediatek DRM driver
+Date: Wed, 27 Oct 2021 10:18:51 +0800
+Message-ID: <20211027021857.20816-1-jason-jh.lin@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211018144003.878345-1-angelogioacchino.delregno@collabora.com>
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,21 +57,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Oct 18, 2021 at 04:40:03PM +0200, AngeloGioacchino Del Regno wrote:
-> Convert the Toshiba TC358764 txt documentation to YAML.
-> 
-> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-> ---
-> Note: dtbs_check on exynos5250-arndale.dts will give some warnings after
->       applying this patch: since the preferred way is to have 'ports',
->       this warning was ignored.
->       I have no Exynos5250 board, so the dts fix is left to someone who
->       is able to test on the real hw.
-> 
->  .../display/bridge/toshiba,tc358764.txt       | 35 -------
->  .../display/bridge/toshiba,tc358764.yaml      | 94 +++++++++++++++++++
->  2 files changed, 94 insertions(+), 35 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/display/bridge/toshiba,tc358764.txt
->  create mode 100644 Documentation/devicetree/bindings/display/bridge/toshiba,tc358764.yaml
+These refinements include using standard mailbox callback interface,
+timeout detection, and a fixed cmdq_handle.
 
-You haven't implemented any of Sam's feedback on v1.
+Change in v5:
+1. Move mbox_free_channel to a independent patch.
+
+Change in v4:
+1. Add cmdq_vblank_cnt initial value to 3.
+2. Move mtk_drm_cmdq_pkt_create to the same define scope with
+   mtk_drm_cmdq_pkt_destroy.
+
+Change in v3:
+1. Revert "drm/mediatek: clear pending flag when cmdq packet is done"
+   and add it after the CMDQ refinement patches.
+2. Change the remove of struct cmdq_client to remove the pointer of
+   struct cmdq_client.
+3. Fix pkt buf alloc once but free many times.
+
+Changes in v2:
+1. Define mtk_drm_cmdq_pkt_create() and mtk_drm_cmdq_pkt_destroy()
+   when CONFIG_MTK_CMDQ is reachable.
+
+Chun-Kuang Hu (4):
+  drm/mediatek: Use mailbox rx_callback instead of cmdq_task_cb
+  drm/mediatek: Remove the pointer of struct cmdq_client
+  drm/mediatek: Detect CMDQ execution timeout
+  drm/mediatek: Add cmdq_handle in mtk_crtc
+
+Yongqiang Niu (1):
+  drm/mediatek: Clear pending flag when cmdq packet is done.
+
+jason-jh.lin (1):
+  drm/mediatek: Add mbox_free_channel in mtk_drm_crtc_destroy
+
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.c | 174 ++++++++++++++++++++----
+ 1 file changed, 150 insertions(+), 24 deletions(-)
+
+-- 
+2.18.0
+
