@@ -1,53 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9863643D1D0
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Oct 2021 21:39:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id ADBCC43D1DC
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Oct 2021 21:42:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 78BF26E81A;
-	Wed, 27 Oct 2021 19:39:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 07B9589A5E;
+	Wed, 27 Oct 2021 19:42:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com
- [IPv6:2a00:1450:4864:20::22f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 40E396E81A
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Oct 2021 19:39:50 +0000 (UTC)
-Received: by mail-lj1-x22f.google.com with SMTP id 205so6525516ljf.9
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Oct 2021 12:39:50 -0700 (PDT)
+Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com
+ [IPv6:2a00:1450:4864:20::22a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 315C589A5E
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Oct 2021 19:42:42 +0000 (UTC)
+Received: by mail-lj1-x22a.google.com with SMTP id 205so6537934ljf.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Oct 2021 12:42:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=rAmPJfYHzRC+rm0bfc8zWvJNQrGo60yLoxqPzW5j78A=;
- b=Nf8FrgqEjAxhNRNr6ZyQdcPUhhOJYQ0gmHrNA+/9hDUzrt7itfhaONpqMxhY6dWN6B
- iDQg+mxMHuf7ZWvUMb7Lzt4OX51hiY2jaolNc5XtLM6ZPthyIo6jx1g/u+ORa9Cp/4PS
- E/oDftg2l6dE2E4zoU+e5kIOHFhISGDziHSz2dC4w+1lMFYzXXHpsP8Ds/pbSafnV8QE
- 2SGd4nvFamN/ZFYZfE/7IISgYBw98NM4uOOAybsDqUf1Q2c/oCNJdHF6yeaEJgEtKpNu
- 7/zbJs5OjypWNUtSZLbD/EmdazCUy5iZbB1aZdR7Oyx8ENzeVxshzHuutTrGwt/a8Vfu
- i0Sg==
+ bh=lMrIGDyxX8Zy9n5Qfaorgc1V0f7+eeLTleV6gBWprQs=;
+ b=EpcfosP+IsCdHIOo4g9lQWA3Dt1mvkaa2S1lXNcMJ+wAv70XvIlAza40HBE97tgQSR
+ IkfIOp4xJgtTffYGkAODDYFJUZj25zWXktUjS8WptldLXdmHDvPyX9mlbT0mLS1M3dXX
+ vUj4Del4y/UjFwXSQBiS0m51FgS+KELr7DJbgRJsAD/6braCFNhttH/KC80FJLOUhVUT
+ XfbMBVd+oQ2hJle6n3br/BePBAtqcauPVqovMypm7aya3CAfvvL8qtYTm6PKzR8w5vVX
+ 22lLwx9nfxESrOYG2VjBRQJktOLAAIQCePAjr6ylcuwqDGPz2+ysUeVsBLBoQzGs0iWt
+ nJuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=rAmPJfYHzRC+rm0bfc8zWvJNQrGo60yLoxqPzW5j78A=;
- b=ioEZpsm3B18Eeq9uX2o0yokamnIdloQk92Cl4kEpjjseClQoG0TT3HdRfB4o4bqivR
- kwMkbS7eqXX4d3+HXFqi8tGpDB9crlClV287ovyiK78e4K5s4umCa87peyHFjaXtBZDt
- Gy3kBn7nk1nL8dNIEHTagWxjkkfcpvkfDq+eDE2JzDI2/mzTPK6e3AKU7YQWNrvl8tUM
- d+7pz9b/u7t8OBQ9zWKskUyCSwMlVZXbLSOIjcWo/J/v4HzmZtSBqAC+7BpnUp79fYdn
- Ukg68fFDcx1MPw9Pra7ecir0Y6vXO2mYwcuAE0ZJt9+HrvOzjQAQgue+fgVEyugRSugw
- cXTQ==
-X-Gm-Message-State: AOAM531/H0bdYyEOpVL6TbEIPkBspDnsJkVJW2X2eOwxsnX1K0HXaf6R
- GPqizrK8AWWvZK+2JEl3OJlEX8+ZEwM=
-X-Google-Smtp-Source: ABdhPJxarReFU7RnxAQqcknPbpQOUIP5VL6i4EpFxgGeK2aS9UED9Jy4im3s+hZp3RGqU6hEovYD0g==
-X-Received: by 2002:a2e:7804:: with SMTP id t4mr4801093ljc.305.1635363588626; 
- Wed, 27 Oct 2021 12:39:48 -0700 (PDT)
+ bh=lMrIGDyxX8Zy9n5Qfaorgc1V0f7+eeLTleV6gBWprQs=;
+ b=Azvq5wXFmuKmv3YHXZOgpyZrML30G2M3sxmAyxNC3mo4NYRS9KfeIYBbElj5myWy7p
+ 28+Hf2dWZmHl8vMdXD5IU9hZKtQMrdETrrlYPkFNtLAFCMhDv8mo2jJNp3xgd96KyHi5
+ xDTl/siYwUQGIxYJTaIOSDtyASvZqv1xJDgz3MLid79r9YUMwBg44rIY/wPJ34dNOr+B
+ I3IL9NdGJGvsRTLtRxv1Xg7yZsnFBlM8uMrw5EPCBoD4ZWq7cFw8D21+9P6bq/jW6kys
+ TircC0E+qew+XCm++cpCIEN7JSxqlIXok6p5WRs8N3fyQBtwPoiDkgyr3EzPrTrFaowQ
+ ghXg==
+X-Gm-Message-State: AOAM532w4IXE2anB4UNRTU5I/PgMGRScTVT+3w9tzgBI47MugG5x14dh
+ 28BFHkYPAr5lpDIfvKwburc=
+X-Google-Smtp-Source: ABdhPJxS+SO4cZo9cpkl8K0LznK+P9fYpGRd1oswPP0T1GAwpmwlx8un9r9DrfnHA/QNv1WaeAvq9A==
+X-Received: by 2002:a05:651c:4cf:: with SMTP id
+ e15mr34624456lji.139.1635363760555; 
+ Wed, 27 Oct 2021 12:42:40 -0700 (PDT)
 Received: from [192.168.2.145] (46-138-41-28.dynamic.spd-mgts.ru.
  [46.138.41.28])
- by smtp.googlemail.com with ESMTPSA id bq19sm84272lfb.144.2021.10.27.12.39.46
+ by smtp.googlemail.com with ESMTPSA id o14sm71771ljh.62.2021.10.27.12.42.39
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 27 Oct 2021 12:39:48 -0700 (PDT)
-Subject: Re: [PATCH v14 29/39] soc/tegra: regulators: Prepare for suspend
+ Wed, 27 Oct 2021 12:42:40 -0700 (PDT)
+Subject: Re: [PATCH v14 00/39] NVIDIA Tegra power management patches for 5.17
 To: Ulf Hansson <ulf.hansson@linaro.org>
 Cc: Thierry Reding <thierry.reding@gmail.com>,
  Jonathan Hunter <jonathanh@nvidia.com>, Viresh Kumar <vireshk@kernel.org>,
@@ -62,15 +63,14 @@ Cc: Thierry Reding <thierry.reding@gmail.com>,
  dri-devel@lists.freedesktop.org, linux-clk@vger.kernel.org,
  David Heidelberg <david@ixit.cz>
 References: <20211025224032.21012-1-digetx@gmail.com>
- <20211025224032.21012-30-digetx@gmail.com>
- <CAPDyKFrQfACqtHtsnbk9fJpfaXWgD6-GEy2HFq8DxMTe4+zZmA@mail.gmail.com>
+ <CAPDyKFrA2Jcb5BmaFmajtdUCmpwoPjAAvPC_MhoWwjDXJynD=w@mail.gmail.com>
 From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <a8280b5b-7347-8995-c97b-10b798cdf057@gmail.com>
-Date: Wed, 27 Oct 2021 22:39:46 +0300
+Message-ID: <98072124-c196-5a5a-7fa6-9c8e465f9878@gmail.com>
+Date: Wed, 27 Oct 2021 22:42:39 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <CAPDyKFrQfACqtHtsnbk9fJpfaXWgD6-GEy2HFq8DxMTe4+zZmA@mail.gmail.com>
+In-Reply-To: <CAPDyKFrA2Jcb5BmaFmajtdUCmpwoPjAAvPC_MhoWwjDXJynD=w@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -89,49 +89,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-27.10.2021 18:47, Ulf Hansson пишет:
->> Depending on hardware version, Tegra SoC may require a higher voltages
->> during resume from system suspend, otherwise hardware will crash. Set
->> SoC voltages to a nominal levels during suspend.
+27.10.2021 19:01, Ulf Hansson пишет:
+> On Tue, 26 Oct 2021 at 00:45, Dmitry Osipenko <digetx@gmail.com> wrote:
 >>
->> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> I don't understand the reason why you need to use pm notifiers to
-> manage these things. Those are invoked really early during the system
-> suspend process and really late during the system resume process.
+>> This series adds runtime PM support to Tegra drivers and enables core
+>> voltage scaling for Tegra20/30 SoCs, resolving overheating troubles.
+>>
+>> All patches in this series are interdependent and should go via Tegra tree
+>> for simplicity.
+>>
+>> Changelog:
+>>
+>> v14: - Fixed missing runtime PM syncing on removal of drivers, which was
+>>        spotted by Ulf Hansson in v13.
+>>
+>>      - clk-device driver now resumes RPM on system suspend instead of
+>>        preparing clock which it backs. This was suggested by Ulf Hansson.
+>>
+>>      - clk-device driver now syncs power domain performance unconditionally
+>>        during driver's probe time since GENPD API allows to do this now.
+>>        It was spotted by Ulf Hansson.
+>>
+>>      - Added new "Enable runtime PM during OPP state-syncing" patch, which
+>>        allows drivers to sync state at any time. Previously drivers were
+>>        obligated to take care of enabling RPM at the "right" time.
+>>
+>>      - Moved runtime PM initialization/uninitialization of DRM drivers that
+>>        use host1x channel to host1x client init/deinit phase. I noticed that
+>>        there is UAF problem because RPM-suspend callback waits until channel
+>>        is idling and channel is already released/freed during driver's removal
+>>        phase.
+>>
+>>      - Added system suspend support to the new NVDEC DRM driver.
+>>
+>>      - Added missing pm_runtime_mark_last_busy() to DRM driver.
+>>
+>>      - Corrected VDE GENPD patch which previously made video decoder clock
+>>        always-enabled by mistake if legacy PD code path was used. It was
+>>        spotted while we were testing VDE on Tegra114 that doesn't support
+>>        GENPD yet.
+>>
+>>      - Added ack from Peter Chen to the USB patch that he gave to v13.
+>>
+>>      - Changed OPP table names in accordance to the new naming scheme
+>>        required by the recent core OPP binding.
+>>
+>>      - Added 500MHz memory OPP entry used by ASUS Transformer tablets.
+> 
+> Besides those minor nitpicks/questions that I have sent for patch1 and
+> patch29, the series looks good to me!
+> 
+> Feel free to add, for the whole series:
+> 
+> Reviewed-by: Ulf Hansson <ulf.hansson@linaro.org>
 
-The suspend/resume time doesn't matter as long as venc genpd resumes
-earlier than regulator is unprepared during late resume. Hence early
-suspend and late resume suit well.
+Thank you, Ulf!
 
-> In regards to this, you are mentioning the behaviour in genpd around
-> system suspend/resume in a comment a few lines below, and that it's
-> problematic for the venc domain. Can you perhaps share some more
-> information, just to make sure we shouldn't fix the problem in genpd
-> instead?
-
-GENPD core force-resumes all domains early during system resume and this
-causes odd problem on Tegra20 device in regards to resuming of video
-encoder domain where SoC sometimes hangs after couple milliseconds since
-the time of ungating the domain if SoC core voltage is low at that time.
-
-Initially I was blaming WiFi driver because somehow this problem didn't
-happen if WiFi chip was disabled [1]. I dived into debugging and found
-that hang happens after ungating venc early during resume from suspend,
-i.e. when genpd core resumes it.
-
-[1] https://www.spinics.net/lists/linux-wireless/msg212116.html
-
-Interestingly, this problem isn't reproducible when system is fully
-resumed, i.e. venc can be freely gated/ungated at a low voltage without
-any visible problems.
-
-What's also interesting, it's impossible to reproduce hang on a second
-resume from suspend if it didn't happen on the first resume. Need to
-reboot and try again in that case.
-
-In the end I found that bumping SoC core voltage 100% solves the trouble.
-
-I knew that downstream kernel bumps voltage during suspend, but it
-doesn't explain why. I replicated the suspicious behaviour of downstream
-kernel and the problem has gone. Could be that this only masks the real
-problem, but I don't have more information and the problem is solved.
+I'll wait for more comments and re-spin v15 with minor improvements
+around the end of the upcoming merge window.
