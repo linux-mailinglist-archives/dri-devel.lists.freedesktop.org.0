@@ -1,43 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FCFA43D4FD
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Oct 2021 23:22:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D947943D4F3
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Oct 2021 23:22:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 44A616E919;
-	Wed, 27 Oct 2021 21:21:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB00B6E928;
+	Wed, 27 Oct 2021 21:21:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C9086E912;
- Wed, 27 Oct 2021 21:21:33 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10150"; a="230217442"
-X-IronPort-AV: E=Sophos;i="5.87,187,1631602800"; d="scan'208";a="230217442"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D5846E91B;
+ Wed, 27 Oct 2021 21:21:36 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10150"; a="230217444"
+X-IronPort-AV: E=Sophos;i="5.87,187,1631602800"; d="scan'208";a="230217444"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Oct 2021 14:21:33 -0700
-X-IronPort-AV: E=Sophos;i="5.87,187,1631602800"; d="scan'208";a="665154289"
+ 27 Oct 2021 14:21:36 -0700
+X-IronPort-AV: E=Sophos;i="5.87,187,1631602800"; d="scan'208";a="665154302"
 Received: from ramaling-i9x.iind.intel.com ([10.99.66.205])
  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Oct 2021 14:21:28 -0700
+ 27 Oct 2021 14:21:33 -0700
 From: Ramalingam C <ramalingam.c@intel.com>
 To: dri-devel <dri-devel@lists.freedesktop.org>,
  intel-gfx <intel-gfx@lists.freedesktop.org>
 Cc: Daniel Vetter <daniel@ffwll.ch>, Matthew Auld <matthew.auld@intel.com>,
  Hellstrom Thomas <thomas.hellstrom@intel.com>,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Matt Roper <matthew.d.roper@intel.com>,
- Ramalingam C <ramalingam.c@intel.com>, Simon Ser <contact@emersion.fr>,
- Pekka Paalanen <ppaalanen@gmail.com>,
- Jordan Justen <jordan.l.justen@intel.com>,
- Kenneth Graunke <kenneth@whitecape.org>, mesa-dev@lists.freedesktop.org,
- Tony Ye <tony.ye@intel.com>,
- Slawomir Milczarek <slawomir.milczarek@intel.com>
-Subject: [PATCH v3 13/17] uapi/drm/dg2: Format modifier for DG2 unified
- compression and clear color
-Date: Thu, 28 Oct 2021 02:53:35 +0530
-Message-Id: <20211027212339.29259-14-ramalingam.c@intel.com>
+ Anshuman Gupta <anshuman.gupta@intel.com>,
+ Ramalingam C <ramalingam.c@intel.com>
+Subject: [PATCH v3 14/17] drm/i915/dg2: Plane handling for Flat CCS and clear
+ color
+Date: Thu, 28 Oct 2021 02:53:36 +0530
+Message-Id: <20211027212339.29259-15-ramalingam.c@intel.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20211027212339.29259-1-ramalingam.c@intel.com>
 References: <20211027212339.29259-1-ramalingam.c@intel.com>
@@ -59,216 +54,314 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Matt Roper <matthew.d.roper@intel.com>
+From: Anshuman Gupta <anshuman.gupta@intel.com>
 
-DG2 unifies render compression and media compression into a single
-format for the first time.  The programming and buffer layout is
-supposed to match compression on older gen12 platforms, but the
-actual compression algorithm is different from any previous platform; as
-such, we need a new framebuffer modifier to represent buffers in this
-format, but otherwise we can re-use the existing gen12 compression driver
-logic.
+Handles the plane programing for flat ccs and clear color modifiers for
+DG2
 
-DG2 clear color render compression uses Tile4 layout. Therefore, we need
-to define a new format modifier for uAPI to support clear color rendering.
-
-v2: Rebased on new format modifier check [Ram]
-
-Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
-Signed-off-by: Mika Kahola <mika.kahola@intel.com> (v2)
+Signed-off-by: Anshuman Gupta <anshuman.gupta@intel.com>
 Signed-off-by: Juha-Pekka Heikkilä <juha-pekka.heikkila@intel.com>
 Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
-cc: Simon Ser <contact@emersion.fr>
-Cc: Pekka Paalanen <ppaalanen@gmail.com>
-Cc: Jordan Justen <jordan.l.justen@intel.com>
-Cc: Kenneth Graunke <kenneth@whitecape.org>
-Cc: mesa-dev@lists.freedesktop.org
-Cc: Tony Ye <tony.ye@intel.com>
-Cc: Slawomir Milczarek <slawomir.milczarek@intel.com>
-Acked-by: Simon Ser <contact@emersion.fr>
 ---
- drivers/gpu/drm/i915/display/intel_fb.c       | 43 +++++++++++++++++++
- .../drm/i915/display/skl_universal_plane.c    | 29 ++++++++++++-
- include/uapi/drm/drm_fourcc.h                 | 30 +++++++++++++
- 3 files changed, 101 insertions(+), 1 deletion(-)
+ .../gpu/drm/i915/display/intel_atomic_plane.c |  3 +-
+ drivers/gpu/drm/i915/display/intel_display.c  |  4 ++-
+ drivers/gpu/drm/i915/display/intel_fb.c       | 30 +++++++++++--------
+ drivers/gpu/drm/i915/display/intel_fb.h       |  3 +-
+ drivers/gpu/drm/i915/display/skl_scaler.c     |  6 ++--
+ .../drm/i915/display/skl_universal_plane.c    | 21 ++++++++-----
+ drivers/gpu/drm/i915/intel_pm.c               |  9 +++---
+ 7 files changed, 46 insertions(+), 30 deletions(-)
 
+diff --git a/drivers/gpu/drm/i915/display/intel_atomic_plane.c b/drivers/gpu/drm/i915/display/intel_atomic_plane.c
+index f61a48e1a562..545784fb7bc9 100644
+--- a/drivers/gpu/drm/i915/display/intel_atomic_plane.c
++++ b/drivers/gpu/drm/i915/display/intel_atomic_plane.c
+@@ -355,7 +355,8 @@ int intel_plane_atomic_check_with_state(const struct intel_crtc_state *old_crtc_
+ 		new_crtc_state->active_planes |= BIT(plane->id);
+ 
+ 	if (new_plane_state->uapi.visible &&
+-	    intel_format_info_is_yuv_semiplanar(fb->format, fb->modifier))
++	    intel_format_info_is_yuv_semiplanar(to_i915(fb->dev),
++						fb->format, fb->modifier))
+ 		new_crtc_state->nv12_planes |= BIT(plane->id);
+ 
+ 	if (new_plane_state->uapi.visible &&
+diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
+index 9b3913d73213..80626aec3747 100644
+--- a/drivers/gpu/drm/i915/display/intel_display.c
++++ b/drivers/gpu/drm/i915/display/intel_display.c
+@@ -8595,7 +8595,9 @@ static void intel_atomic_prepare_plane_clear_colors(struct intel_atomic_state *s
+ 
+ 		/*
+ 		 * The layout of the fast clear color value expected by HW
+-		 * (the DRM ABI requiring this value to be located in fb at offset 0 of plane#2):
++		 * (the DRM ABI requiring this value to be located in fb at
++		 * offset 0 of cc plane, plane#2 for non flat-ccs solutions and
++		 * plane#1 for flat-ccs based solutions):
+ 		 * - 4 x 4 bytes per-channel value
+ 		 *   (in surface type specific float/int format provided by the fb user)
+ 		 * - 8 bytes native color value used by the display
 diff --git a/drivers/gpu/drm/i915/display/intel_fb.c b/drivers/gpu/drm/i915/display/intel_fb.c
-index 562d5244688d..484ae1fd0e94 100644
+index 484ae1fd0e94..534018563cdb 100644
 --- a/drivers/gpu/drm/i915/display/intel_fb.c
 +++ b/drivers/gpu/drm/i915/display/intel_fb.c
-@@ -106,6 +106,21 @@ static const struct drm_format_info gen12_ccs_cc_formats[] = {
- 	  .hsub = 1, .vsub = 1, .has_alpha = true },
- };
+@@ -427,7 +427,8 @@ bool intel_fb_plane_supports_modifier(struct intel_plane *plane, u64 modifier)
+ 	return false;
+ }
  
-+static const struct drm_format_info gen12_flat_ccs_cc_formats[] = {
-+	{ .format = DRM_FORMAT_XRGB8888, .depth = 24, .num_planes = 2,
-+	  .char_per_block = { 4, 0 }, .block_w = { 1, 2 }, .block_h = { 1, 1 },
-+	  .hsub = 1, .vsub = 1, },
-+	{ .format = DRM_FORMAT_XBGR8888, .depth = 24, .num_planes = 2,
-+	  .char_per_block = { 4, 0 }, .block_w = { 1, 2 }, .block_h = { 1, 1 },
-+	  .hsub = 1, .vsub = 1, },
-+	{ .format = DRM_FORMAT_ARGB8888, .depth = 32, .num_planes = 2,
-+	  .char_per_block = { 4, 0 }, .block_w = { 1, 2 }, .block_h = { 1, 1 },
-+	  .hsub = 1, .vsub = 1, .has_alpha = true },
-+	{ .format = DRM_FORMAT_ABGR8888, .depth = 32, .num_planes = 2,
-+	  .char_per_block = { 4, 0 }, .block_w = { 1, 2 }, .block_h = { 1, 1 },
-+	  .hsub = 1, .vsub = 1, .has_alpha = true },
-+};
-+
- struct intel_modifier_desc {
- 	u64 modifier;
- 	struct {
-@@ -166,6 +181,27 @@ static const struct intel_modifier_desc intel_modifiers[] = {
- 		.ccs.packed_aux_planes = BIT(1),
+-static bool format_is_yuv_semiplanar(const struct intel_modifier_desc *md,
++static bool format_is_yuv_semiplanar(const struct drm_i915_private *i915,
++				     const struct intel_modifier_desc *md,
+ 				     const struct drm_format_info *info)
+ {
+ 	int yuv_planes;
+@@ -435,7 +436,7 @@ static bool format_is_yuv_semiplanar(const struct intel_modifier_desc *md,
+ 	if (!info->is_yuv)
+ 		return false;
  
- 		FORMAT_OVERRIDE(gen12_ccs_cc_formats),
-+	}, {
-+		.modifier = I915_FORMAT_MOD_4_TILED_DG2_RC_CCS,
-+		.display_ver = { 12, 13 },
-+		.tiling = I915_TILING_NONE,
+-	if (is_ccs_type_modifier(md, INTEL_CCS_ANY))
++	if (is_ccs_type_modifier(md, INTEL_CCS_ANY) && !!HAS_FLAT_CCS(i915))
+ 		yuv_planes = 4;
+ 	else
+ 		yuv_planes = 2;
+@@ -451,16 +452,18 @@ static bool format_is_yuv_semiplanar(const struct intel_modifier_desc *md,
+  * Returns:
+  * %true if @info / @modifier is YUV semiplanar.
+  */
+-bool intel_format_info_is_yuv_semiplanar(const struct drm_format_info *info,
++bool intel_format_info_is_yuv_semiplanar(const struct drm_i915_private *i915,
++					 const struct drm_format_info *info,
+ 					 u64 modifier)
+ {
+-	return format_is_yuv_semiplanar(lookup_modifier(modifier), info);
++	return format_is_yuv_semiplanar(i915, lookup_modifier(modifier), info);
+ }
+ 
+-static u8 ccs_aux_plane_mask(const struct intel_modifier_desc *md,
++static u8 ccs_aux_plane_mask(const struct drm_i915_private *i915,
++			     const struct intel_modifier_desc *md,
+ 			     const struct drm_format_info *format)
+ {
+-	if (format_is_yuv_semiplanar(md, format))
++	if (format_is_yuv_semiplanar(i915, md, format))
+ 		return md->ccs.planar_aux_planes;
+ 	else
+ 		return md->ccs.packed_aux_planes;
+@@ -478,7 +481,7 @@ bool intel_fb_is_ccs_aux_plane(const struct drm_framebuffer *fb, int color_plane
+ {
+ 	const struct intel_modifier_desc *md = lookup_modifier(fb->modifier);
+ 
+-	return ccs_aux_plane_mask(md, fb->format) & BIT(color_plane);
++	return ccs_aux_plane_mask(to_i915(fb->dev), md, fb->format) & BIT(color_plane);
+ }
+ 
+ /**
+@@ -493,8 +496,11 @@ static bool intel_fb_is_gen12_ccs_aux_plane(const struct drm_framebuffer *fb, in
+ {
+ 	const struct intel_modifier_desc *md = lookup_modifier(fb->modifier);
+ 
++	if (HAS_FLAT_CCS(to_i915(fb->dev)))
++		return false;
 +
-+		.ccs.type = INTEL_CCS_RC,
-+	}, {
-+		.modifier = I915_FORMAT_MOD_4_TILED_DG2_MC_CCS,
-+		.display_ver = { 12, 13 },
-+		.tiling = I915_TILING_NONE,
-+
-+		.ccs.type = INTEL_CCS_MC,
-+	}, {
-+		.modifier = I915_FORMAT_MOD_4_TILED_DG2_RC_CCS_CC,
-+		.display_ver = { 12, 13 },
-+		.tiling = I915_TILING_NONE,
-+
-+		.ccs.type = INTEL_CCS_RC_CC,
-+		.ccs.cc_planes = BIT(1),
-+
-+		FORMAT_OVERRIDE(gen12_flat_ccs_cc_formats),
- 	}, {
- 		.modifier = I915_FORMAT_MOD_Yf_TILED_CCS,
- 		.display_ver = { 9, 11 },
-@@ -582,6 +618,9 @@ intel_tile_width_bytes(const struct drm_framebuffer *fb, int color_plane)
- 			return 128;
- 		else
- 			return 512;
-+	case I915_FORMAT_MOD_4_TILED_DG2_RC_CCS:
-+	case I915_FORMAT_MOD_4_TILED_DG2_MC_CCS:
-+	case I915_FORMAT_MOD_4_TILED_DG2_RC_CCS_CC:
- 	case I915_FORMAT_MOD_4_TILED:
- 		/*
- 		 * Each 4K tile consists of 64B(8*8) subtiles, with
-@@ -759,6 +798,10 @@ unsigned int intel_surf_alignment(const struct drm_framebuffer *fb,
- 	case I915_FORMAT_MOD_4_TILED:
- 	case I915_FORMAT_MOD_Yf_TILED:
- 		return 1 * 1024 * 1024;
-+	case I915_FORMAT_MOD_4_TILED_DG2_RC_CCS:
-+	case I915_FORMAT_MOD_4_TILED_DG2_RC_CCS_CC:
-+	case I915_FORMAT_MOD_4_TILED_DG2_MC_CCS:
-+		return 16 * 1024;
- 	default:
- 		MISSING_CASE(fb->modifier);
+ 	return check_modifier_display_ver_range(md, 12, 13) &&
+-	       ccs_aux_plane_mask(md, fb->format) & BIT(color_plane);
++	       ccs_aux_plane_mask(to_i915(fb->dev), md, fb->format) & BIT(color_plane);
+ }
+ 
+ /**
+@@ -524,8 +530,8 @@ static bool is_gen12_ccs_cc_plane(const struct drm_framebuffer *fb, int color_pl
+ 
+ static bool is_semiplanar_uv_plane(const struct drm_framebuffer *fb, int color_plane)
+ {
+-	return intel_format_info_is_yuv_semiplanar(fb->format, fb->modifier) &&
+-		color_plane == 1;
++	return intel_format_info_is_yuv_semiplanar(to_i915(fb->dev), fb->format,
++						   fb->modifier) && color_plane == 1;
+ }
+ 
+ bool is_surface_linear(const struct drm_framebuffer *fb, int color_plane)
+@@ -590,10 +596,10 @@ int skl_main_to_aux_plane(const struct drm_framebuffer *fb, int main_plane)
+ {
+ 	struct drm_i915_private *i915 = to_i915(fb->dev);
+ 
+-	if (intel_fb_is_ccs_modifier(fb->modifier))
++	if (intel_fb_is_ccs_modifier(fb->modifier) && !HAS_FLAT_CCS(i915))
+ 		return main_to_ccs_plane(fb, main_plane);
+ 	else if (DISPLAY_VER(i915) < 11 &&
+-		 intel_format_info_is_yuv_semiplanar(fb->format, fb->modifier))
++		 intel_format_info_is_yuv_semiplanar(i915, fb->format, fb->modifier))
+ 		return 1;
+ 	else
  		return 0;
+diff --git a/drivers/gpu/drm/i915/display/intel_fb.h b/drivers/gpu/drm/i915/display/intel_fb.h
+index 042ad81f8608..750f3f3a70b7 100644
+--- a/drivers/gpu/drm/i915/display/intel_fb.h
++++ b/drivers/gpu/drm/i915/display/intel_fb.h
+@@ -42,7 +42,8 @@ const struct drm_format_info *
+ intel_fb_get_format_info(const struct drm_mode_fb_cmd2 *cmd);
+ 
+ bool
+-intel_format_info_is_yuv_semiplanar(const struct drm_format_info *info,
++intel_format_info_is_yuv_semiplanar(const struct drm_i915_private *i915,
++				    const struct drm_format_info *info,
+ 				    u64 modifier);
+ 
+ bool is_surface_linear(const struct drm_framebuffer *fb, int color_plane);
+diff --git a/drivers/gpu/drm/i915/display/skl_scaler.c b/drivers/gpu/drm/i915/display/skl_scaler.c
+index c2e94118566b..1bc0d98b252b 100644
+--- a/drivers/gpu/drm/i915/display/skl_scaler.c
++++ b/drivers/gpu/drm/i915/display/skl_scaler.c
+@@ -148,7 +148,7 @@ skl_update_scaler(struct intel_crtc_state *crtc_state, bool force_detach,
+ 		return 0;
+ 	}
+ 
+-	if (format && intel_format_info_is_yuv_semiplanar(format, modifier) &&
++	if (format && intel_format_info_is_yuv_semiplanar(dev_priv, format, modifier) &&
+ 	    (src_h < SKL_MIN_YUV_420_SRC_H || src_w < SKL_MIN_YUV_420_SRC_W)) {
+ 		drm_dbg_kms(&dev_priv->drm,
+ 			    "Planar YUV: src dimensions not met\n");
+@@ -224,7 +224,7 @@ int skl_update_scaler_plane(struct intel_crtc_state *crtc_state,
+ 
+ 	/* Pre-gen11 and SDR planes always need a scaler for planar formats. */
+ 	if (!icl_is_hdr_plane(dev_priv, intel_plane->id) &&
+-	    fb && intel_format_info_is_yuv_semiplanar(fb->format, fb->modifier))
++	    fb && intel_format_info_is_yuv_semiplanar(dev_priv, fb->format, fb->modifier))
+ 		need_scaler = true;
+ 
+ 	ret = skl_update_scaler(crtc_state, force_detach,
+@@ -481,7 +481,7 @@ skl_program_plane_scaler(struct intel_plane *plane,
+ 				      0, INT_MAX);
+ 
+ 	/* TODO: handle sub-pixel coordinates */
+-	if (intel_format_info_is_yuv_semiplanar(fb->format, fb->modifier) &&
++	if (intel_format_info_is_yuv_semiplanar(dev_priv, fb->format, fb->modifier) &&
+ 	    !icl_is_hdr_plane(dev_priv, plane->id)) {
+ 		y_hphase = skl_scaler_calc_phase(1, hscale, false);
+ 		y_vphase = skl_scaler_calc_phase(1, vscale, false);
 diff --git a/drivers/gpu/drm/i915/display/skl_universal_plane.c b/drivers/gpu/drm/i915/display/skl_universal_plane.c
-index aeca96925feb..136b3f74a290 100644
+index 136b3f74a290..13cd95a7d827 100644
 --- a/drivers/gpu/drm/i915/display/skl_universal_plane.c
 +++ b/drivers/gpu/drm/i915/display/skl_universal_plane.c
-@@ -753,6 +753,16 @@ static u32 skl_plane_ctl_tiling(u64 fb_modifier)
- 		return PLANE_CTL_TILED_Y;
- 	case I915_FORMAT_MOD_4_TILED:
- 		return PLANE_CTL_TILED_4;
-+	case I915_FORMAT_MOD_4_TILED_DG2_RC_CCS:
-+		return PLANE_CTL_TILED_4 |
-+			PLANE_CTL_RENDER_DECOMPRESSION_ENABLE |
-+			PLANE_CTL_CLEAR_COLOR_DISABLE;
-+	case I915_FORMAT_MOD_4_TILED_DG2_MC_CCS:
-+		return PLANE_CTL_TILED_4 |
-+			PLANE_CTL_MEDIA_DECOMPRESSION_ENABLE |
-+			PLANE_CTL_CLEAR_COLOR_DISABLE;
-+	case I915_FORMAT_MOD_4_TILED_DG2_RC_CCS_CC:
-+		return PLANE_CTL_TILED_4 | PLANE_CTL_RENDER_DECOMPRESSION_ENABLE;
- 	case I915_FORMAT_MOD_Y_TILED_CCS:
- 	case I915_FORMAT_MOD_Y_TILED_GEN12_RC_CCS_CC:
- 		return PLANE_CTL_TILED_Y | PLANE_CTL_RENDER_DECOMPRESSION_ENABLE;
-@@ -1983,6 +1993,9 @@ skl_plane_disable_flip_done(struct intel_plane *plane)
- static bool skl_plane_has_rc_ccs(struct drm_i915_private *i915,
- 				 enum pipe pipe, enum plane_id plane_id)
+@@ -823,8 +823,9 @@ static u32 icl_plane_ctl_flip(unsigned int reflect)
+ static u32 adlp_plane_ctl_arb_slots(const struct intel_plane_state *plane_state)
  {
-+	if (IS_DG2(i915) && !HAS_4TILE(i915))
-+		return false;
-+
- 	/* Wa_22011186057 */
- 	if (IS_ADLP_DISPLAY_STEP(i915, STEP_A0, STEP_B0))
- 		return false;
-@@ -2001,6 +2014,10 @@ static bool skl_plane_has_rc_ccs(struct drm_i915_private *i915,
- static bool gen12_plane_has_mc_ccs(struct drm_i915_private *i915,
- 				   enum plane_id plane_id)
- {
-+	/* Wa_14013215631:dg2[a0,b0] */
-+	if (IS_DG2_DISP_STEP(i915, STEP_A0, STEP_C0))
-+		return false;
-+
- 	/* Wa_14010477008:tgl[a0..c0],rkl[all],dg1[all] */
- 	if (IS_DG1(i915) || IS_ROCKETLAKE(i915) ||
- 	    IS_TGL_DISPLAY_STEP(i915, STEP_A0, STEP_D0))
-@@ -2243,7 +2260,17 @@ skl_get_initial_plane_config(struct intel_crtc *crtc,
- 		break;
- 	case PLANE_CTL_TILED_YF: /* aka PLANE_CTL_TILED_4 on XE_LPD+ */
- 		if (DISPLAY_VER(dev_priv) >= 13) {
--			fb->modifier = I915_FORMAT_MOD_4_TILED;
-+			u32 rc_mask = PLANE_CTL_RENDER_DECOMPRESSION_ENABLE |
-+					PLANE_CTL_CLEAR_COLOR_DISABLE;
-+
-+			if ((val & rc_mask) == rc_mask)
-+				fb->modifier = I915_FORMAT_MOD_4_TILED_DG2_RC_CCS;
-+			else if (val & PLANE_CTL_MEDIA_DECOMPRESSION_ENABLE)
-+				fb->modifier = I915_FORMAT_MOD_4_TILED_DG2_MC_CCS;
-+			else if (val & PLANE_CTL_RENDER_DECOMPRESSION_ENABLE)
-+				fb->modifier = I915_FORMAT_MOD_4_TILED_DG2_RC_CCS_CC;
-+			else
-+				fb->modifier = I915_FORMAT_MOD_4_TILED;
- 		} else {
- 			if (val & PLANE_CTL_RENDER_DECOMPRESSION_ENABLE)
- 				fb->modifier = I915_FORMAT_MOD_Yf_TILED_CCS;
-diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
-index 982b0a9fa78b..719c17847e07 100644
---- a/include/uapi/drm/drm_fourcc.h
-+++ b/include/uapi/drm/drm_fourcc.h
-@@ -567,6 +567,36 @@ extern "C" {
-  */
- #define I915_FORMAT_MOD_4_TILED         fourcc_mod_code(INTEL, 12)
+ 	const struct drm_framebuffer *fb = plane_state->hw.fb;
++	struct drm_i915_private *i915 = to_i915(fb->dev);
  
-+/*
-+ * Intel color control surfaces (CCS) for DG2 render compression.
-+ *
-+ * DG2 uses a new compression format for render compression. The general
-+ * layout is the same as I915_FORMAT_MOD_Y_TILED_GEN12_RC_CCS,
-+ * but a new hashing/compression algorithm is used, so a fresh modifier must
-+ * be associated with buffers of this type. Render compression uses 128 byte
-+ * compression blocks.
-+ */
-+#define I915_FORMAT_MOD_4_TILED_DG2_RC_CCS fourcc_mod_code(INTEL, 13)
-+
-+/*
-+ * Intel color control surfaces (CCS) for DG2 media compression.
-+ *
-+ * DG2 uses a new compression format for media compression. The general
-+ * layout is the same as I915_FORMAT_MOD_Y_TILED_GEN12_MC_CCS,
-+ * but a new hashing/compression algorithm is used, so a fresh modifier must
-+ * be associated with buffers of this type. Media compression uses 256 byte
-+ * compression blocks.
-+ */
-+#define I915_FORMAT_MOD_4_TILED_DG2_MC_CCS fourcc_mod_code(INTEL, 14)
-+
-+/*
-+ * Intel color control surfaces (CCS) for DG2 clear color render compression.
-+ *
-+ * DG2 uses a unified compression format for clear color render compression.
-+ * The general layout is a tiled layout using 4Kb tiles i.e. Tile4 layout.
-+ */
-+#define I915_FORMAT_MOD_4_TILED_DG2_RC_CCS_CC fourcc_mod_code(INTEL, 15)
-+
- /*
-  * Tiled, NV12MT, grouped in 64 (pixels) x 32 (lines) -sized macroblocks
-  *
+-	if (intel_format_info_is_yuv_semiplanar(fb->format, fb->modifier)) {
++	if (intel_format_info_is_yuv_semiplanar(i915, fb->format, fb->modifier)) {
+ 		switch (fb->format->cpp[0]) {
+ 		case 2:
+ 			return PLANE_CTL_ARB_SLOTS(1);
+@@ -1077,7 +1078,9 @@ skl_program_plane(struct intel_plane *plane,
+ 	intel_de_write_fw(dev_priv, PLANE_SIZE(pipe, plane_id),
+ 			  (src_h << 16) | src_w);
+ 
+-	intel_de_write_fw(dev_priv, PLANE_AUX_DIST(pipe, plane_id), aux_dist);
++	/* FLAT CCS doesn't need to program AUX_DIST */
++	if (!HAS_FLAT_CCS(dev_priv))
++		intel_de_write_fw(dev_priv, PLANE_AUX_DIST(pipe, plane_id), aux_dist);
+ 
+ 	if (icl_is_hdr_plane(dev_priv, plane_id))
+ 		intel_de_write_fw(dev_priv, PLANE_CUS_CTL(pipe, plane_id),
+@@ -1300,11 +1303,12 @@ static int skl_plane_check_dst_coordinates(const struct intel_crtc_state *crtc_s
+ static int skl_plane_check_nv12_rotation(const struct intel_plane_state *plane_state)
+ {
+ 	const struct drm_framebuffer *fb = plane_state->hw.fb;
++	struct drm_i915_private *i915 = to_i915(fb->dev);
+ 	unsigned int rotation = plane_state->hw.rotation;
+ 	int src_w = drm_rect_width(&plane_state->uapi.src) >> 16;
+ 
+ 	/* Display WA #1106 */
+-	if (intel_format_info_is_yuv_semiplanar(fb->format, fb->modifier) &&
++	if (intel_format_info_is_yuv_semiplanar(i915, fb->format, fb->modifier) &&
+ 	    src_w & 3 &&
+ 	    (rotation == DRM_MODE_ROTATE_270 ||
+ 	     rotation == (DRM_MODE_REFLECT_X | DRM_MODE_ROTATE_90))) {
+@@ -1325,7 +1329,7 @@ static int skl_plane_max_scale(struct drm_i915_private *dev_priv,
+ 	 * FIXME need to properly check this later.
+ 	 */
+ 	if (DISPLAY_VER(dev_priv) >= 10 ||
+-	    !intel_format_info_is_yuv_semiplanar(fb->format, fb->modifier))
++	    !intel_format_info_is_yuv_semiplanar(dev_priv, fb->format, fb->modifier))
+ 		return 0x30000 - 1;
+ 	else
+ 		return 0x20000 - 1;
+@@ -1493,8 +1497,9 @@ static int skl_check_main_surface(struct intel_plane_state *plane_state)
+ 	/*
+ 	 * CCS AUX surface doesn't have its own x/y offsets, we must make sure
+ 	 * they match with the main surface x/y offsets.
++	 * On DG2 with Flat-CCS, there's no aux plane on fb so skip this checking.
+ 	 */
+-	if (intel_fb_is_ccs_modifier(fb->modifier)) {
++	if (intel_fb_is_ccs_modifier(fb->modifier) && !HAS_FLAT_CCS(dev_priv)) {
+ 		while (!skl_check_main_ccs_coordinates(plane_state, x, y,
+ 						       offset, aux_plane)) {
+ 			if (offset == 0)
+@@ -1558,7 +1563,7 @@ static int skl_check_nv12_aux_surface(struct intel_plane_state *plane_state)
+ 	offset = intel_plane_compute_aligned_offset(&x, &y,
+ 						    plane_state, uv_plane);
+ 
+-	if (intel_fb_is_ccs_modifier(fb->modifier)) {
++	if (intel_fb_is_ccs_modifier(fb->modifier) && !HAS_FLAT_CCS(i915)) {
+ 		int ccs_plane = main_to_ccs_plane(fb, uv_plane);
+ 		u32 aux_offset = plane_state->view.color_plane[ccs_plane].offset;
+ 		u32 alignment = intel_surf_alignment(fb, uv_plane);
+@@ -1662,7 +1667,7 @@ static int skl_check_plane_surface(struct intel_plane_state *plane_state)
+ 			return ret;
+ 	}
+ 
+-	if (intel_format_info_is_yuv_semiplanar(fb->format,
++	if (intel_format_info_is_yuv_semiplanar(to_i915(fb->dev), fb->format,
+ 						fb->modifier)) {
+ 		ret = skl_check_nv12_aux_surface(plane_state);
+ 		if (ret)
+@@ -1765,7 +1770,7 @@ static int skl_plane_check(struct intel_crtc_state *crtc_state,
+ 		plane_state->color_ctl = glk_plane_color_ctl(crtc_state,
+ 							     plane_state);
+ 
+-	if (intel_format_info_is_yuv_semiplanar(fb->format, fb->modifier) &&
++	if (intel_format_info_is_yuv_semiplanar(dev_priv, fb->format, fb->modifier) &&
+ 	    icl_is_hdr_plane(dev_priv, plane->id))
+ 		/* Enable and use MPEG-2 chroma siting */
+ 		plane_state->cus_ctl = PLANE_CUS_ENABLE |
+diff --git a/drivers/gpu/drm/i915/intel_pm.c b/drivers/gpu/drm/i915/intel_pm.c
+index 1ac1af0a7f2d..b3d29ea9fe77 100644
+--- a/drivers/gpu/drm/i915/intel_pm.c
++++ b/drivers/gpu/drm/i915/intel_pm.c
+@@ -4926,7 +4926,8 @@ skl_plane_relative_data_rate(const struct intel_crtc_state *crtc_state,
+ 		return 0;
+ 
+ 	if (color_plane == 1 &&
+-	    !intel_format_info_is_yuv_semiplanar(fb->format, fb->modifier))
++	    !intel_format_info_is_yuv_semiplanar(to_i915(fb->dev), fb->format,
++						 fb->modifier))
+ 		return 0;
+ 
+ 	/*
+@@ -5367,11 +5368,11 @@ skl_compute_wm_params(const struct intel_crtc_state *crtc_state,
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+ 	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	bool planar = intel_format_info_is_yuv_semiplanar(dev_priv, format, modifier);
+ 	u32 interm_pbpl;
+ 
+ 	/* only planar format has two planes */
+-	if (color_plane == 1 &&
+-	    !intel_format_info_is_yuv_semiplanar(format, modifier)) {
++	if (color_plane == 1 && !planar) {
+ 		drm_dbg_kms(&dev_priv->drm,
+ 			    "Non planar format have single plane\n");
+ 		return -EINVAL;
+@@ -5385,7 +5386,7 @@ skl_compute_wm_params(const struct intel_crtc_state *crtc_state,
+ 	wp->x_tiled = modifier == I915_FORMAT_MOD_X_TILED;
+ 	wp->rc_surface = modifier == I915_FORMAT_MOD_Y_TILED_CCS ||
+ 			 modifier == I915_FORMAT_MOD_Yf_TILED_CCS;
+-	wp->is_planar = intel_format_info_is_yuv_semiplanar(format, modifier);
++	wp->is_planar = planar;
+ 
+ 	wp->width = width;
+ 	if (color_plane == 1 && wp->is_planar)
 -- 
 2.20.1
 
