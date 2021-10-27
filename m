@@ -1,49 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8330143C952
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Oct 2021 14:12:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B311743C955
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Oct 2021 14:13:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF3D089B66;
-	Wed, 27 Oct 2021 12:12:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A26F96E5BE;
+	Wed, 27 Oct 2021 12:13:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E3F2889A9F
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Oct 2021 12:12:50 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10149"; a="253694645"
-X-IronPort-AV: E=Sophos;i="5.87,186,1631602800"; d="scan'208";a="253694645"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Oct 2021 05:12:50 -0700
-X-IronPort-AV: E=Sophos;i="5.87,186,1631602800"; d="scan'208";a="537504651"
-Received: from aeremina-mobl.ccr.corp.intel.com (HELO localhost)
- ([10.249.254.123])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Oct 2021 05:12:47 -0700
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <CAKMK7uFWFVC0be2foiP8+2=vrqyh1e4mqkuk+2xY+fgSWAExyQ@mail.gmail.com>
-References: <20210122115918.63b56fa1@canb.auug.org.au>
- <CAKMK7uEuJa1J66mo5dS+QRPy9NOENTx95SZ4rU2MeVRTWj7Kcw@mail.gmail.com>
- <20210122182946.6beb10b7@canb.auug.org.au>
- <CAKMK7uFWFVC0be2foiP8+2=vrqyh1e4mqkuk+2xY+fgSWAExyQ@mail.gmail.com>
-Subject: Re: linux-next: build warning after merge of the drm tree
-To: "Nikula, Jani" <jani.nikula@linux.intel.com>,
- Daniel Vetter <daniel@ffwll.ch>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Stephen Rothwell <sfr@canb.auug.org.au>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Cc: Dave Airlie <airlied@linux.ie>, DRI <dri-devel@lists.freedesktop.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Chris Wilson <chris@chris-wilson.co.uk>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DDD7D6E5BE
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Oct 2021 12:13:38 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10149"; a="230093103"
+X-IronPort-AV: E=Sophos;i="5.87,186,1631602800"; d="scan'208";a="230093103"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Oct 2021 05:13:38 -0700
+X-IronPort-AV: E=Sophos;i="5.87,186,1631602800"; d="scan'208";a="497841528"
+Received: from smaharan-mobl.gar.corp.intel.com (HELO localhost)
+ ([10.251.214.195])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Oct 2021 05:13:33 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Daniel Vetter <daniel@ffwll.ch>, Kees Cook <keescook@chromium.org>
+Cc: Arnd Bergmann <arnd@kernel.org>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Arnd Bergmann <arnd@arndb.de>, Alex
+ Deucher <alexander.deucher@amd.com>, Christian =?utf-8?Q?K=C3=B6nig?=
+ <christian.koenig@amd.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Javier Martinez Canillas <javierm@redhat.com>
+Subject: Re: [PATCH] [RESEND] drm: fb_helper: fix CONFIG_FB dependency
+In-Reply-To: <878ryeit9i.fsf@intel.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Message-ID: <163533676481.68716.4009950051571709814@jlahtine-mobl.ger.corp.intel.com>
-User-Agent: alot/0.8.1
-Date: Wed, 27 Oct 2021 15:12:44 +0300
+References: <20210927142816.2069269-1-arnd@kernel.org>
+ <202109270923.97AFDE89DB@keescook> <YVXJLE8UqgcUNIKl@phenom.ffwll.local>
+ <878ryeit9i.fsf@intel.com>
+Date: Wed, 27 Oct 2021 15:13:29 +0300
+Message-ID: <8735omis2e.fsf@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,82 +56,90 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-(+ Tvrtko who was recently added as a drm/i915 co-maintainer)
+On Wed, 27 Oct 2021, Jani Nikula <jani.nikula@linux.intel.com> wrote:
+> On Thu, 30 Sep 2021, Daniel Vetter <daniel@ffwll.ch> wrote:
+>> On Mon, Sep 27, 2021 at 09:23:45AM -0700, Kees Cook wrote:
+>>> On Mon, Sep 27, 2021 at 04:28:02PM +0200, Arnd Bergmann wrote:
+>>> > From: Arnd Bergmann <arnd@arndb.de>
+>>> > 
+>>> > With CONFIG_FB=m and CONFIG_DRM=y, we get a link error in the fb helper:
+>>> > 
+>>> > aarch64-linux-ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_alloc_fbi':
+>>> > (.text+0x10cc): undefined reference to `framebuffer_alloc'
+>>> > 
+>>> > Tighten the dependency so it is only allowed in the case that DRM can
+>>> > link against FB.
+>>> > 
+>>> > Fixes: f611b1e7624c ("drm: Avoid circular dependencies for CONFIG_FB")
+>>> > Link: https://lore.kernel.org/all/20210721152211.2706171-1-arnd@kernel.org/
+>>> > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+>>> 
+>>> Thanks for fixing this!
+>>> 
+>>> Reviewed-by: Kees Cook <keescook@chromium.org>
+>>
+>> Stuffed into drm-misc-next.
+>
+> The problem is, I don't think the patch is semantically correct.
+>
+> drm_fb_helper.o is not part of drm.ko, it's part of
+> drm_kms_helper.ko. This adds some sort of indirect dependency via DRM
+> which might work, maybe by coincidence, maybe not - but it's certainly
+> not obvious.
+>
+> The likely culprit is, again, the overuse of select, and in this case
+> select DRM_KMS_HELPER. And DRM_KMS_HELPER should depend on FB if
+> DRM_FBDEV_EMULATION=y. That's the problem.
 
-Quoting Daniel Vetter (2021-01-22 10:40:48)
-> On Fri, Jan 22, 2021 at 8:29 AM Stephen Rothwell <sfr@canb.auug.org.au> w=
-rote:
-> >
-> > Hi Daniel,
-> >
-> > On Fri, 22 Jan 2021 08:17:58 +0100 Daniel Vetter <daniel@ffwll.ch> wrot=
-e:
-> > >
-> > > Hm that has been in drm-intel-gt-next for a few days, is that tree not
-> > > in linux-next?
-> >
-> > It is not.
+Almost all of the recurring Kconfig related dependency issues would go
+away by following Documentation/kbuild/kconfig-language.rst:
 
-Hi Stephen,
+  Note:
+	select should be used with care. select will force
+	a symbol to a value without visiting the dependencies.
+	By abusing select you are able to select a symbol FOO even
+	if FOO depends on BAR that is not set.
+	In general use select only for non-visible symbols
+	(no prompts anywhere) and for symbols with no dependencies.
+	That will limit the usefulness but on the other hand avoid
+	the illegal configurations all over.
 
-We should be now good to go and add drm-intel-gt-next to linux-next.
+If the kconfig parser had a lint mode to issue a warning for all of
+those uses, and someone persistent enough followed through with fixing
+them, we'd all be better off.
 
-The branch would be as follows:
+Oh, and maybe the menuconfig tools also need better ways to recursively
+enable config options with dependencies, because one of the reasons
+people like select is the convenience of just enabling a config option,
+and it selects everything that's needed (albeit with the occasional
+dependency issues). With dependencies, you need to start with the leaf
+dependencies and work your way up to what you need, and it's not easy.
 
-drm-intel-gt-next	git://anongit.freedesktop.org/drm-intel	for-linux-next-gt
 
-Notice the "-gt" and the end of the for-linux-next branch name. This should=
- eliminate
-the gap we have been having. The change to add it to the DIM tool is here:
+BR,
+Jani.
 
-https://gitlab.freedesktop.org/drm/maintainer-tools/-/commit/7b5c2c29cdbc05=
-4e8c8fce38f095c56290fc4833
 
-So once all developers have updated their tooling (for which they will
-get an automatic nag message) we should be all up-to-date for future
-merge windows.
+>
+> All of the drm Kconfigs could use an overhaul to be semantically
+> correct, but that's a hill nobody wants to die on. Instead we keep
+> piling up tweaks to paper over the issues, ad infinitum.
+>
+> (And this ties to a previous comment I had about the organization of
+> files under drm/, a hundred files in one big lump that belong to
+> different modules, and it's not helping people figure out the
+> dependencies.)
+>
+>
+> BR,
+> Jani.
+>
+>
+> PS. I was brought here via [1] which is another complicated "fix" to the
+> same problem.
+>
+>
+> [1] https://lore.kernel.org/r/20211027072044.4105113-1-javierm@redhat.com
 
-Regards, Joonas
-
-> Adding -intel maintainers to get that sorted.
-> -Daniel
->=20
-> > These are the drm branches currently in linux-next:
->=20
-> Oh for ordering maybe put drm-misc ahead of the other subtrees, -misc
-> is where nowadays a lot of refactorings and core changes land.
-> Probably doesn't matter in practice.
-> -Daniel
->=20
-> > drm-fixes       git://git.freedesktop.org/git/drm/drm.git       drm-fix=
-es
-> > amdgpu-fixes    git://people.freedesktop.org/~agd5f/linux       drm-fix=
-es
-> > drm-intel-fixes git://anongit.freedesktop.org/drm-intel         for-lin=
-ux-next-fixes
-> > drm-misc-fixes  git://anongit.freedesktop.org/drm/drm-misc      for-lin=
-ux-next-fixes
-> > drm             git://git.freedesktop.org/git/drm/drm.git       drm-next
-> > amdgpu          https://gitlab.freedesktop.org/agd5f/linux      drm-next
-> > drm-intel       git://anongit.freedesktop.org/drm-intel         for-lin=
-ux-next
-> > drm-tegra       git://anongit.freedesktop.org/tegra/linux.git   drm/teg=
-ra/for-next
-> > drm-misc        git://anongit.freedesktop.org/drm/drm-misc      for-lin=
-ux-next
-> > drm-msm         https://gitlab.freedesktop.org/drm/msm.git      msm-next
-> > imx-drm         https://git.pengutronix.de/git/pza/linux        imx-drm=
-/next
-> > etnaviv         https://git.pengutronix.de/git/lst/linux        etnaviv=
-/next
-> >
-> > --
-> > Cheers,
-> > Stephen Rothwell
->=20
->=20
->=20
-> --=20
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
+-- 
+Jani Nikula, Intel Open Source Graphics Center
