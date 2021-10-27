@@ -1,60 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80C1F43CE41
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Oct 2021 18:07:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7017343CE95
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Oct 2021 18:19:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA33F89890;
-	Wed, 27 Oct 2021 16:07:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 20D4D6E5C8;
+	Wed, 27 Oct 2021 16:19:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
- [199.106.114.39])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 073F689890
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Oct 2021 16:07:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1635350844; x=1666886844;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=3wmHPIoqwW/AtqnUK9O2SRwIiFbLXNiIfQw/yk4RMCQ=;
- b=oeIjETJS9mpTfWivX6Llcql51mO3JUa9b1iQn+DT53xlfELraTEZgbat
- hsuxdco7aN/VW9+jWk8PnPd2ydi4ZV2Xv0UuUUhPbDmo4a1EC7qxU2B1/
- vJoy7qWoCRF59xrUMcMqnZUupap/srXYjecj12NiEvM04HaFT7zU30hpw I=;
-Received: from unknown (HELO ironmsg05-sd.qualcomm.com) ([10.53.140.145])
- by alexa-out-sd-02.qualcomm.com with ESMTP; 27 Oct 2021 09:07:22 -0700
-X-QCInternal: smtphost
-Received: from nasanex01b.na.qualcomm.com ([10.46.141.250])
- by ironmsg05-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Oct 2021 09:07:20 -0700
-Received: from [10.71.111.83] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.922.7; Wed, 27 Oct 2021
- 09:07:20 -0700
-Message-ID: <dd918b48-f733-7eb1-4e0e-6d360e199424@quicinc.com>
-Date: Wed, 27 Oct 2021 09:07:19 -0700
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD8606E5A9;
+ Wed, 27 Oct 2021 16:19:50 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10150"; a="291038180"
+X-IronPort-AV: E=Sophos;i="5.87,187,1631602800"; d="scan'208";a="291038180"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Oct 2021 09:19:47 -0700
+X-IronPort-AV: E=Sophos;i="5.87,187,1631602800"; d="scan'208";a="597417902"
+Received: from shetherx-mobl.ger.corp.intel.com (HELO mwauld-desk1.intel.com)
+ ([10.213.218.37])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Oct 2021 09:19:45 -0700
+From: Matthew Auld <matthew.auld@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+Subject: [PATCH v2 1/4] drm/i915/clflush: fixup handling of cache_dirty
+Date: Wed, 27 Oct 2021 17:18:10 +0100
+Message-Id: <20211027161813.3094681-1-matthew.auld@intel.com>
+X-Mailer: git-send-email 2.26.3
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.1
-Subject: Re: [PATCH] drm/msm/dpu: Remove commit and its uses in
- dpu_crtc_set_crc_source()
-Content-Language: en-US
-To: Nathan Chancellor <nathan@kernel.org>, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>
-CC: Nick Desaulniers <ndesaulniers@google.com>, Jessica Zhang
- <jesszhan@codeaurora.org>, <linux-arm-msm@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, <llvm@lists.linux.dev>, kernelci.org bot
- <bot@kernelci.org>
-References: <20211026142435.3606413-1-nathan@kernel.org>
-From: Jessica Zhang <quic_jesszhan@quicinc.com>
-In-Reply-To: <20211026142435.3606413-1-nathan@kernel.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,52 +48,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/26/2021 7:24 AM, Nathan Chancellor wrote:
-> Clang warns:
->
-> drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c:162:6: error: variable 'commit' is uninitialized when used here [-Werror,-Wuninitialized]
->          if (commit)
->              ^~~~~~
-> drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c:106:32: note: initialize the variable 'commit' to silence this warning
->          struct drm_crtc_commit *commit;
->                                        ^
->                                         = NULL
-> 1 error generated.
->
-> The assignment and use of commit in the main body of
-> dpu_crtc_set_crc_source() were removed from v1 to v2 but the call to
-> drm_crtc_commit_put() at the end was not. Do that now so there is no
-> more warning.
->
-> Fixes: 78d9b458cc21 ("drm/msm/dpu: Add CRC support for DPU")
-> Link: https://github.com/ClangBuiltLinux/linux/issues/1493
-> Reported-by: "kernelci.org bot" <bot@kernelci.org>
-> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
-Reviewed-by: Jessica Zhang <quic_jesszhan@quicinc.com>
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c | 3 ---
->   1 file changed, 3 deletions(-)
->
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> index 2523e829f485..967245b8cc02 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> @@ -103,7 +103,6 @@ static int dpu_crtc_set_crc_source(struct drm_crtc *crtc, const char *src_name)
->   {
->   	enum dpu_crtc_crc_source source = dpu_crtc_parse_crc_source(src_name);
->   	enum dpu_crtc_crc_source current_source;
-> -	struct drm_crtc_commit *commit;
->   	struct dpu_crtc_state *crtc_state;
->   	struct drm_device *drm_dev = crtc->dev;
->   	struct dpu_crtc_mixer *m;
-> @@ -159,8 +158,6 @@ static int dpu_crtc_set_crc_source(struct drm_crtc *crtc, const char *src_name)
->   
->   
->   cleanup:
-> -	if (commit)
-> -		drm_crtc_commit_put(commit);
->   	drm_modeset_unlock(&crtc->mutex);
->   
->   	return ret;
->
-> base-commit: 00326bfa4e6363e4b0b8b019ecd2556fdda5ad1c
+In theory if clflush_work_create() somehow fails here, and we don't yet
+have mm.pages populated then we end up resetting cache_dirty, which is
+likely wrong, since that will potentially skip the flush-on-acquire, if
+it was needed.
+
+It looks like intel_user_framebuffer_dirty() can arrive here before the
+pages are populated.
+
+v2(Thomas):
+  - Move setting cache_dirty out of the async portion, also add a
+    comment for why that should still be safe.
+
+Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+---
+ drivers/gpu/drm/i915/gem/i915_gem_clflush.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_clflush.c b/drivers/gpu/drm/i915/gem/i915_gem_clflush.c
+index f0435c6feb68..47586a8a1b73 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_clflush.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_clflush.c
+@@ -109,12 +109,20 @@ bool i915_gem_clflush_object(struct drm_i915_gem_object *obj,
+ 						I915_FENCE_GFP);
+ 		dma_resv_add_excl_fence(obj->base.resv, &clflush->base.dma);
+ 		dma_fence_work_commit(&clflush->base);
++		/*
++		 * We must have successfully populated the pages(since we are
++		 * holding a pin on the pages as per the flush worker) to reach
++		 * this point, which must mean we have already done the required
++		 * flush-on-acquire, hence resetting cache_dirty here should be
++		 * safe.
++		 */
++		obj->cache_dirty = false;
+ 	} else if (obj->mm.pages) {
+ 		__do_clflush(obj);
++		obj->cache_dirty = false;
+ 	} else {
+ 		GEM_BUG_ON(obj->write_domain != I915_GEM_DOMAIN_CPU);
+ 	}
+ 
+-	obj->cache_dirty = false;
+ 	return true;
+ }
+-- 
+2.26.3
+
