@@ -1,48 +1,130 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA26643DFE8
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Oct 2021 13:20:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 37CC943E018
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Oct 2021 13:36:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AED2C6E42D;
-	Thu, 28 Oct 2021 11:20:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC9F46E7EF;
+	Thu, 28 Oct 2021 11:36:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD24F6E42D;
- Thu, 28 Oct 2021 11:20:28 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10150"; a="217295681"
-X-IronPort-AV: E=Sophos;i="5.87,189,1631602800"; d="scan'208";a="217295681"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Oct 2021 04:20:08 -0700
-X-IronPort-AV: E=Sophos;i="5.87,189,1631602800"; d="scan'208";a="529981725"
-Received: from jxu13-mobl.amr.corp.intel.com (HELO [10.249.254.218])
- ([10.249.254.218])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Oct 2021 04:20:06 -0700
-Message-ID: <5e0bb734-9e4b-9d17-2202-4eba95703d6f@linux.intel.com>
-Date: Thu, 28 Oct 2021 13:20:04 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH v2 1/3] drm/i915: Introduce refcounted sg-tables
-Content-Language: en-US
-To: Matthew Auld <matthew.auld@intel.com>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Cc: maarten.lankhorst@linux.intel.com
-References: <20211027105211.485125-1-thomas.hellstrom@linux.intel.com>
- <20211027105211.485125-2-thomas.hellstrom@linux.intel.com>
- <0f548cca-214f-26c2-1628-35e6fa0d7c95@intel.com>
- <1d2f46030369b17405550b5ea42d0326199ad4bf.camel@linux.intel.com>
- <e2b4f1d3-3ade-92d9-5216-77d4619e408e@intel.com>
- <467c16ed-5efd-ed33-1e4b-18b0f447af9e@linux.intel.com>
- <81061bce-c651-70f0-3f3a-6d307754cb92@intel.com>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
-In-Reply-To: <81061bce-c651-70f0-3f3a-6d307754cb92@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com
+ (mail-sn1anam02on2076.outbound.protection.outlook.com [40.107.96.76])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D7BBD6E0BE
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Oct 2021 11:36:34 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=dlM1aGxNnCjThUgyMO87rFGmxbJIhp+JxhFgguPYnkjkEzBBl9a/ndK+7KqWTZ3nCfBaBYbg4EABfV1jeoIP2jFjGeJ3ELj3IaOxyYE0br8VjotIYb0JPAZNvY03jpYW7QZl04wCCArcmzUpJu/8+aDdD3WqIklnvnMgFLkT6CBmW0sM/rcTh8j4Pb3HcLPDg67NqBsTSwyPg3ZmqCdTS9ljMRUFGFlGABVlopvBN8uK0LxNxzKLB2PEz0RGLRaoMeW8UYWZY+RS/fWydGwxYBww1oWtLxVtTC5YItU2JVXOaFchnJtJQH0tp9sCSn8Z75EUffYCnIfT27pd+VTbAw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=hGfEfY3l7XoIzMKcpwCj60wmJJGCk/4S7EoSb4NMz80=;
+ b=T3BZmVnFj+aTnxacSUfBx1L3ffJqWt50tajygHboAeGN0U4irWK/1SsJBRqgHe6dl2B1ItbLRib/TG5UiAzSs9hyfHKYES/QeVb7tzyF2222ocpLqCNw9n76K6de1xyts4eW2ya5YjbHTQFCBQI9OreX+SUpte233sBVhIOnkeWETyATlPQYGE8JuNa0sWek9gaQD5Vuxal0DXoudE2OG3y0zSryqJXJyR9goSF5YjBoeePkqF7YQaK0BMPwtEo2aq6Zp2F2B2d8GmQt9U3JDQRug1+XOrGBCvXqFLsXC1JUJiOwSwL/8aMPOvQ+u3SD7zr6yxYTrbsjUFBh2Qwf1Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=hGfEfY3l7XoIzMKcpwCj60wmJJGCk/4S7EoSb4NMz80=;
+ b=NU5X1fkopkjqPbm1tX0AsVp01iExf3K45/b/Gn4S8fhffx+QzzlCKGzw4v1dN02mVH9Xz2zCWDGY7jxddRDTqU4F1adyx3vBN61+0ghx552yyJp1QUOFvE1RKVlmdX4RplEWv9IOUacWunDp0EWxK4/f3SDiJdR5vzjU6n64VG8=
+Authentication-Results: mediatek.com; dkim=none (message not signed)
+ header.d=none;mediatek.com; dmarc=none action=none header.from=amd.com;
+Received: from MWHPR1201MB0192.namprd12.prod.outlook.com
+ (2603:10b6:301:5a::14) by MW3PR12MB4476.namprd12.prod.outlook.com
+ (2603:10b6:303:2d::11) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4628.18; Thu, 28 Oct
+ 2021 11:35:30 +0000
+Received: from MWHPR1201MB0192.namprd12.prod.outlook.com
+ ([fe80::55c7:6fc9:b2b1:1e6a]) by MWHPR1201MB0192.namprd12.prod.outlook.com
+ ([fe80::55c7:6fc9:b2b1:1e6a%10]) with mapi id 15.20.4628.020; Thu, 28 Oct
+ 2021 11:35:30 +0000
+Subject: Re: [PATCH v3] dma-buf: remove restriction of IOCTL:DMA_BUF_SET_NAME
+To: guangming.cao@mediatek.com
+Cc: dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org,
+ matthias.bgg@gmail.com, rdunlap@infradead.org, sumit.semwal@linaro.org,
+ wsd_upstream@mediatek.com
+References: <0e062f12-7e79-5a05-1e7b-10dda8e353b7@amd.com>
+ <20211026115248.9564-1-guangming.cao@mediatek.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <1d681a88-5c3e-f2b1-2865-c380599a4f71@amd.com>
+Date: Thu, 28 Oct 2021 13:35:20 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
+In-Reply-To: <20211026115248.9564-1-guangming.cao@mediatek.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-ClientProxiedBy: AM4PR0701CA0038.eurprd07.prod.outlook.com
+ (2603:10a6:200:42::48) To MWHPR1201MB0192.namprd12.prod.outlook.com
+ (2603:10b6:301:5a::14)
+MIME-Version: 1.0
+Received: from [192.168.178.21] (91.14.161.181) by
+ AM4PR0701CA0038.eurprd07.prod.outlook.com (2603:10a6:200:42::48) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4669.4 via Frontend
+ Transport; Thu, 28 Oct 2021 11:35:26 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 6bd37a8a-834f-4621-5a27-08d99a070b50
+X-MS-TrafficTypeDiagnostic: MW3PR12MB4476:
+X-Microsoft-Antispam-PRVS: <MW3PR12MB4476DB038EC8789D4735BFF983869@MW3PR12MB4476.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: cUfzIa9UVYKYejles+AoaZ3ogrzczXDJkZJrdPt0fml8dqJrYnrMFvf2Gt/9oBmZwIsxbcTF/M1D2RBOW5JPl4zuVFPUimrjYZ+aBHWKUdC8kSkWAgpUum9wiPP1eyFaQyj8SgEDSkIgvGSqx0fD/rCUlYoLxeEVzo7671n5DPCjJKnL+WSSp8rzvYIFWT6/oDJgkjWjjzPaXALBugAPcNknPzsO6vHkgy1ocQM/gnm085PJNUvcGxyCGwY1WAei3Mu4aLUszt4cqnh4pjh+KbigzLD708KaWCbvSSdxLxn8n2ZIeNzTk389x9bki7Zz/uuPMvTVvVdr/Ej+k/HU732amaVvB2q5Oij8KyijzHuKDa7S40XYPTheVuQJZkOZMRn0QT6Znn3LLmvOk9jpkmfhjw9+trnzojnk7QG89MUpM1pHTg63BsZZCfRq/wwie7/L8Gxx0/3bxjumL5OmfPFCzjoxnpxr72zyu6s64ttblcFm+uM0P9sI8qrlZinIgMUmdL9TSnicgINQefImOhojPCx0N+f6EDwO4h32ELM2EJ+yt19VsbHAdkdFqA4OltCwEASw1G5bMiAlRT8f/8rRyVQHUS3jayKCAqSo7zXHNnDaTg1BBA+NB8siZBQc3JNhvluOAiiiixx70W1rCQvaiwqRR5UkQbrhfh39758p13jEh3t6vGG0zIAsP1RtTQUdQL+8lq6y1Aui6Qc5Vtj8eVkSCGBFnd/Y5lEQ0cI+iJ6n91sv6c0f2OF0hthb
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MWHPR1201MB0192.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(8936002)(31696002)(4326008)(6486002)(2616005)(6666004)(508600001)(316002)(86362001)(2906002)(7416002)(5660300002)(16576012)(66556008)(6916009)(83380400001)(8676002)(66946007)(36756003)(66574015)(66476007)(4001150100001)(186003)(26005)(956004)(38100700002)(31686004)(45080400002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NlVTWmxqUU1oM1dtZ3E0UFNHL0UwSjRtcnlzS01xb2tsZGE5V0h1bGMzaHVL?=
+ =?utf-8?B?L0h5eDdUWVpqYVZ4ZmdDOXdkQkVublFzbEVSdjNqQm9LdWgyZTNhSVg4VVhL?=
+ =?utf-8?B?elVlQ2RFQnNQTTArNnJMT2dXRjV1Y0hyTHRlZDFDdGdMeU1DTU5XS3h4NnBq?=
+ =?utf-8?B?SlkwU0lnK2VoY204MURDQTgzY2tEL0RVU1JRZXE0aGptNCswcFlDRC8vNHBU?=
+ =?utf-8?B?bTRmY2JwakJCY2MybDJDKzFtSzcyZHQxTGU1T0F5SGdlcEx6TndsRG1wd2F0?=
+ =?utf-8?B?TjFtT3Z4WjJXMFY3YTNMTlRNTkF1ZG9SRHgxZzdzd05DNkVIcURhWlVYbzNi?=
+ =?utf-8?B?cXBLcE8vemVCM1ZNbDBUd1RxcVpBL2o5a1JneWg2QWw4NnRBRStEQkNsd1Ja?=
+ =?utf-8?B?T01abERXbkFNSHVFNzl6WGZQV2h2bUdFK3hWeENSKzZKQ0NBSyt4UDBoUUdU?=
+ =?utf-8?B?WDlaaXg4cEFEWDc2cmxpb2FiMHF0N2RnMkVoK2pMUzhzdWh0MHhaMVRqYXRl?=
+ =?utf-8?B?akY3ZGNnZzBjWFpLOHppTEVobWdNeTVKaUNKVUt3c0U1cGJpaDdBUFlLWkgw?=
+ =?utf-8?B?WEg0elI5TmFwZG4xL0k3dGRsa1dIY2hwSHBpUDdyYzdYU1cxVU8vOC93RC9w?=
+ =?utf-8?B?VEJjR1VLUHcrYjUzaHREcVM4aThqSkhHY3ZxUkpaR1hudXREa0tYQ2loeFUx?=
+ =?utf-8?B?WTJjUGdqUlV3bnFweTExYjdBWFlkUmZqbWdQSmRxNm1LVUEzaStoZ3dCeWJI?=
+ =?utf-8?B?YVBUYnJMUVhyYUFGRjl5TTM1V3VVZVFyVjA1WmtJTWpweVN1OW16QjVCbzZW?=
+ =?utf-8?B?Z3pEYlg4SjczUU95WW5MWHZobjQzeTBTckpMditZTEsrTTVhRUVJU2l6UWtj?=
+ =?utf-8?B?US9ZM29XbnEwRThLMXFwTnU2UjhncEpZRmgybndWazZpTlN5cUNyTWQxWjd3?=
+ =?utf-8?B?bGNsYjV2aitKZ3Q0d1g0NlBBQURNUDhBSkRCZy95Z1JZVFF5OHhzU3BETFlr?=
+ =?utf-8?B?c2FIMy84dStCUEErbFREems5VGQzcW9HeGlFQjVMa3VSdDNiOFFhWURMdDN1?=
+ =?utf-8?B?TUJOK0V3TmZLaG91bXM2SmpLck9jTU5sa0h2aWNJMlQwUWp4eE1rTGJNS3BY?=
+ =?utf-8?B?T3NkZElabzZXa2dyMWkyTVhURjBXTHpFMnUvOGNDblpiNWhrUlY0aUs0SnFh?=
+ =?utf-8?B?S0VWVURZYWV6ZWFtTVprdTZYdDJTVCtoNUNGeHFPRWk4TVA2STlZNFVsVkxB?=
+ =?utf-8?B?bE16Y2grL29WSDNjSmNVYVIvblpKMEFkRWVHOStBVjJrYWJBbHNCSU52STFw?=
+ =?utf-8?B?RG02bTJMNlpFNVhOOGFSMFZ3S0xtN2JYWVZLcnJSWk54U3huTlFWRTVrT040?=
+ =?utf-8?B?YVRlSTRHSHJoSEJuWEI3NFdka0ZuTng0akFEcDlyd1NheERrd09KV1pJMlZ5?=
+ =?utf-8?B?aDAwSGZXWXo3TzJiQkRYY0t5M1lRTmEvMnl0VVJsSmlSbzJUOGprS253ak5o?=
+ =?utf-8?B?QUovSXlQQ3ptckQ2WFV0cStvbm5WOGxFdXBUUG4rMWtsWWhWZEVMMXd1dS9E?=
+ =?utf-8?B?dFlpZzVWV0l5b2VmQXVJeTl4Zk5HUEQ4Y0FZdHYrOUNoVW0zUk9WaUc5SHpz?=
+ =?utf-8?B?YkxaeDgrcmFWRXNxTUc0bW5EdmNQUW9BSWNmblRqRkwvYUJuNnZaTjl0WHFC?=
+ =?utf-8?B?Ykw3SE1CeDM5WlZIbzhWbGlFVk1XaW9tQkV5UVE0T0FtTmJtMnFYL0o2UDRw?=
+ =?utf-8?B?ZkEzdWtGV2JlQkx1Rk84YlBEcVNmL2dHdVB3QjNEQmphWlp0bkFDVGtKcENr?=
+ =?utf-8?B?U1lQdS9EcGJwdlA3SUVnbk1tNmJmQWJsVzdkbG1jZzR6azF4N1BpaDFlRHF6?=
+ =?utf-8?B?aHFYRHp3b1REVlFueldVcDBkbm1WeHIzSWI4MUUvYWtRclJJQVFCSG54N0pL?=
+ =?utf-8?B?ZFNGNk95T3B3VTZpU1pNWWVlcVpySHIrb1BIS0paU2FmUjE4dEZkcm5YTFRs?=
+ =?utf-8?B?cGRaSU15TTB0TXNvNnlPV2JXVFlBTjNweFJMWFVXQjJYaElDeitrV3U4bE1s?=
+ =?utf-8?B?bEx3RWkwYWZIQm1yMmdOby93MkV3MFNmb1RRa2lRM1IzOXBzUDBaVXFGb0dp?=
+ =?utf-8?Q?SbKE=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6bd37a8a-834f-4621-5a27-08d99a070b50
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1201MB0192.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Oct 2021 11:35:29.8498 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: jLAwBj65H0Ulsg4e1wRKS3MI8p7zL1KU/NgVoXVH014q5rPkBVvQZ2IAEXV+eRoZ
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR12MB4476
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,267 +140,111 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 10/28/21 11:58, Matthew Auld wrote:
-> On 28/10/2021 10:35, Thomas Hellström wrote:
->>
->> On 10/28/21 10:47, Matthew Auld wrote:
->>> On 28/10/2021 08:04, Thomas Hellström wrote:
->>>> On Wed, 2021-10-27 at 19:03 +0100, Matthew Auld wrote:
->>>>> On 27/10/2021 11:52, Thomas Hellström wrote:
->>>>>> As we start to introduce asynchronous failsafe object migration,
->>>>>> where we update the object state and then submit asynchronous
->>>>>> commands we need to record what memory resources are actually used
->>>>>> by various part of the command stream. Initially for three
->>>>>> purposes:
->>>>>>
->>>>>> 1) Error capture.
->>>>>> 2) Asynchronous migration error recovery.
->>>>>> 3) Asynchronous vma bind.
->>>>>>
->>>>>> At the time where these happens, the object state may have been
->>>>>> updated
->>>>>> to be several migrations ahead and object sg-tables discarded.
->>>>>>
->>>>>> In order to make it possible to keep sg-tables with memory resource
->>>>>> information for these operations, introduce refcounted sg-tables
->>>>>> that
->>>>>> aren't freed until the last user is done with them.
->>>>>>
->>>>>> The alternative would be to reference information sitting on the
->>>>>> corresponding ttm_resources which typically have the same lifetime
->>>>>> as
->>>>>> these refcountes sg_tables, but that leads to other awkward
->>>>>> constructs:
->>>>>> Due to the design direction chosen for ttm resource managers that
->>>>>> would
->>>>>> lead to diamond-style inheritance, the LMEM resources may sometimes
->>>>>> be
->>>>>> prematurely freed, and finally the subclassed struct ttm_resource
->>>>>> would
->>>>>> have to bleed into the asynchronous vma bind code.
->>>>>>
->>>>>> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
->>>>>> ---
->>>>>>    drivers/gpu/drm/i915/gem/i915_gem_object.h    |   4 +-
->>>>>>    .../gpu/drm/i915/gem/i915_gem_object_types.h  |   3 +-
->>>>>>    drivers/gpu/drm/i915/gem/i915_gem_shmem.c     |  16 +-
->>>>>>    drivers/gpu/drm/i915/gem/i915_gem_ttm.c       | 188 +++++++++++--
->>>>>> -----
->>>>>>    drivers/gpu/drm/i915/i915_scatterlist.c       |  62 ++++--
->>>>>>    drivers/gpu/drm/i915/i915_scatterlist.h       |  76 ++++++-
->>>>>>    drivers/gpu/drm/i915/intel_region_ttm.c       |  15 +-
->>>>>>    drivers/gpu/drm/i915/intel_region_ttm.h       |   5 +-
->>>>>>    drivers/gpu/drm/i915/selftests/mock_region.c  |  12 +-
->>>>>>    9 files changed, 262 insertions(+), 119 deletions(-)
->>>>>>
->>>>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h
->>>>>> b/drivers/gpu/drm/i915/gem/i915_gem_object.h
->>>>>> index a5479ac7a4ad..c5ab364d4311 100644
->>>>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
->>>>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
->>>>>> @@ -624,8 +624,8 @@ struct sg_table *shmem_alloc_st(struct
->>>>>> drm_i915_private *i915,
->>>>>>                                  size_t size, struct
->>>>>> intel_memory_region *mr,
->>>>>>                                  struct address_space *mapping,
->>>>>>                                  unsigned int max_segment);
->>>>>> -void shmem_free_st(struct sg_table *st, struct address_space
->>>>>> *mapping,
->>>>>> -                  bool dirty, bool backup);
->>>>>> +void shmem_free_st_table(struct sg_table *st, struct address_space
->>>>>> *mapping,
->>>>>> +                        bool dirty, bool backup);
->>>>>
->>>>> s/st_table/sg_table/?
->>>>>
->>>>> I thought st was shorthand for sg_table? Maybe shmem_sg_free_table?
->>>>
->>>> Yes the naming is indeed a bit unfortunate here. To be consistent with
->>>> the core's sg_free_table(), I changed to
->>>> shmem_sg_free_table() / shmem_sg_alloc_table.
->>>>
->>>>>
->>>>>
->>>>>>    void __shmem_writeback(size_t size, struct address_space
->>>>>> *mapping);
->>>>>>       #ifdef CONFIG_MMU_NOTIFIER
->>>>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
->>>>>> b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
->>>>>> index a4b69a43b898..604ed5ad77f5 100644
->>>>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
->>>>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
->>>>>> @@ -544,6 +544,7 @@ struct drm_i915_gem_object {
->>>>>>                   */
->>>>>>                  struct list_head region_link;
->>>>>>    +               struct i915_refct_sgt *rsgt;
->>>>>>                  struct sg_table *pages;
->>>>>>                  void *mapping;
->>>>>>    @@ -597,7 +598,7 @@ struct drm_i915_gem_object {
->>>>>>          } mm;
->>>>>>             struct {
->>>>>> -               struct sg_table *cached_io_st;
->>>>>> +               struct i915_refct_sgt *cached_io_rsgt;
->>>>>>                  struct i915_gem_object_page_iter get_io_page;
->>>>>>                  struct drm_i915_gem_object *backup;
->>>>>>                  bool created:1;
->>>>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
->>>>>> b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
->>>>>> index 01f332d8dbde..67c6bee695c7 100644
->>>>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
->>>>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
->>>>>> @@ -25,8 +25,8 @@ static void check_release_pagevec(struct pagevec
->>>>>> *pvec)
->>>>>>          cond_resched();
->>>>>>    }
->>>>>>    -void shmem_free_st(struct sg_table *st, struct address_space
->>>>>> *mapping,
->>>>>> -                  bool dirty, bool backup)
->>>>>> +void shmem_free_st_table(struct sg_table *st, struct address_space
->>>>>> *mapping,
->>>>>> +                        bool dirty, bool backup)
->>>>>>    {
->>>>>>          struct sgt_iter sgt_iter;
->>>>>>          struct pagevec pvec;
->>>>>> @@ -49,7 +49,6 @@ void shmem_free_st(struct sg_table *st, struct
->>>>>> address_space *mapping,
->>>>>>                  check_release_pagevec(&pvec);
->>>>>>             sg_free_table(st);
->>>>>> -       kfree(st);
->>>>>>    }
->>>>>>       struct sg_table *shmem_alloc_st(struct drm_i915_private *i915,
->>>>>> @@ -171,7 +170,8 @@ struct sg_table *shmem_alloc_st(struct
->>>>>> drm_i915_private *i915,
->>>>>>    err_sg:
->>>>>>          sg_mark_end(sg);
->>>>>>          if (sg != st->sgl) {
->>>>>> -               shmem_free_st(st, mapping, false, false);
->>>>>> +               shmem_free_st_table(st, mapping, false, false);
->>>>>> +               kfree(st);
->>>>>>          } else {
->>>>>>                  mapping_clear_unevictable(mapping);
->>>>>>                  sg_free_table(st);
->>>>>> @@ -254,7 +254,8 @@ static int shmem_get_pages(struct
->>>>>> drm_i915_gem_object *obj)
->>>>>>          return 0;
->>>>>>       err_pages:
->>>>>> -       shmem_free_st(st, mapping, false, false);
->>>>>> +       shmem_free_st_table(st, mapping, false, false);
->>>>>> +       kfree(st);
->>>>>>          /*
->>>>>>           * shmemfs first checks if there is enough memory to
->>>>>> allocate the page
->>>>>>           * and reports ENOSPC should there be insufficient, along
->>>>>> with the usual
->>>>>> @@ -374,8 +375,9 @@ void i915_gem_object_put_pages_shmem(struct
->>>>>> drm_i915_gem_object *obj, struct sg_
->>>>>>          if (i915_gem_object_needs_bit17_swizzle(obj))
->>>>>>                  i915_gem_object_save_bit_17_swizzle(obj, pages);
->>>>>>    -       shmem_free_st(pages, 
->>>>>> file_inode(obj->base.filp)->i_mapping,
->>>>>> -                     obj->mm.dirty, obj->mm.madv ==
->>>>>> I915_MADV_WILLNEED);
->>>>>> +       shmem_free_st_table(pages, file_inode(obj->base.filp)-
->>>>>>> i_mapping,
->>>>>> +                           obj->mm.dirty, obj->mm.madv ==
->>>>>> I915_MADV_WILLNEED);
->>>>>> +       kfree(pages);
->>>>>>          obj->mm.dirty = false;
->>>>>>    }
->>>>>>    diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
->>>>>> b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
->>>>>> index 4fd2edb20dd9..6826e3859e18 100644
->>>>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
->>>>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
->>>>>> @@ -34,7 +34,7 @@
->>>>>>     * struct i915_ttm_tt - TTM page vector with additional private
->>>>>> information
->>>>>>     * @ttm: The base TTM page vector.
->>>>>>     * @dev: The struct device used for dma mapping and unmapping.
->>>>>> - * @cached_st: The cached scatter-gather table.
->>>>>> + * @cached_rsgt: The cached scatter-gather table.
->>>>>>     * @is_shmem: Set if using shmem.
->>>>>>     * @filp: The shmem file, if using shmem backend.
->>>>>>     *
->>>>>> @@ -47,7 +47,7 @@
->>>>>>    struct i915_ttm_tt {
->>>>>>          struct ttm_tt ttm;
->>>>>>          struct device *dev;
->>>>>> -       struct sg_table *cached_st;
->>>>>> +       struct i915_refct_sgt cached_rsgt;
->>>>>>             bool is_shmem;
->>>>>>          struct file *filp;
->>>>>> @@ -221,14 +221,10 @@ static int i915_ttm_tt_shmem_populate(struct
->>>>>> ttm_device *bdev,
->>>>>>          if (IS_ERR(st))
->>>>>>                  return PTR_ERR(st);
->>>>>>    -       err = dma_map_sg_attrs(i915_tt->dev,
->>>>>> -                              st->sgl, st->nents,
->>>>>> -                              DMA_BIDIRECTIONAL,
->>>>>> -                              DMA_ATTR_SKIP_CPU_SYNC);
->>>>>> -       if (err <= 0) {
->>>>>> -               err = -EINVAL;
->>>>>> +       err = dma_map_sgtable(i915_tt->dev, st, DMA_BIDIRECTIONAL,
->>>>>> +                             DMA_ATTR_SKIP_CPU_SYNC);
->>>>>> +       if (err)
->>>>>>                  goto err_free_st;
->>>>>> -       }
->>>>>>             i = 0;
->>>>>>          for_each_sgt_page(page, sgt_iter, st)
->>>>>> @@ -237,11 +233,15 @@ static int i915_ttm_tt_shmem_populate(struct
->>>>>> ttm_device *bdev,
->>>>>>          if (ttm->page_flags & TTM_TT_FLAG_SWAPPED)
->>>>>>                  ttm->page_flags &= ~TTM_TT_FLAG_SWAPPED;
->>>>>>    -       i915_tt->cached_st = st;
->>>>>> +       i915_tt->cached_rsgt.table = *st;
->>>>>> +       kfree(st);
->>>>>
->>>>> Will it work if the above just operates on the rsgt.table?
->>>>
->>>> I'll change the shmem utility here to not allocate the struct sg_table
->>>> and then we can operate on it directly.
->>>>
->>>>>
->>>>>> +
->>>>>>          return 0;
->>>>>>       err_free_st:
->>>>>> -       shmem_free_st(st, filp->f_mapping, false, false);
->>>>>> +       shmem_free_st_table(st, filp->f_mapping, false, false);
->>>>>> +       kfree(st);
->>>>>> +
->>>>>>          return err;
->>>>>>    }
->>>>>>    @@ -249,16 +249,29 @@ static void
->>>>>> i915_ttm_tt_shmem_unpopulate(struct ttm_tt *ttm)
->>>>>>    {
->>>>>>          struct i915_ttm_tt *i915_tt = container_of(ttm,
->>>>>> typeof(*i915_tt), ttm);
->>>>>>          bool backup = ttm->page_flags & TTM_TT_FLAG_SWAPPED;
->>>>>> +       struct sg_table *st = &i915_tt->cached_rsgt.table;
->>>>>>    -       dma_unmap_sg(i915_tt->dev, i915_tt->cached_st->sgl,
->>>>>> -                    i915_tt->cached_st->nents,
->>>>>> -                    DMA_BIDIRECTIONAL);
->>>>>> +       if (st->sgl)
->>>>>
->>>>> Can we ever hit this? I would have presumed not? Below also.
->>>>
->>>> Yes, here's where we typically free the scatterlist.
+Am 26.10.21 um 13:52 schrieb guangming.cao@mediatek.com:
+> From: Guangming Cao <Guangming.Cao@mediatek.com>
+>
+> On Tue, 2021-10-26 at 13:18 +0200, Christian König wrote:
+>> Am 14.10.21 um 12:25 schrieb guangming.cao@mediatek.com:
+>>> From: Guangming Cao <Guangming.Cao@mediatek.com>
 >>>
->>> What I meant to say: can the above ever not be true? i.e sgl == NULL
+>>> In this patch(https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fpatchwork.freedesktop.org%2Fpatch%2F310349&amp;data=04%7C01%7Cchristian.koenig%40amd.com%7C6652f423b96547b8321308d998772121%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637708459727236977%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=4EFg60sCxQzNuMKB0VjhbpvoeGlcAbofErMtcjPtIfw%3D&amp;reserved=0),
+>>> it add a new IOCTL to support dma-buf user to set debug name.
+>>>
+>>> But it also added a limitation of this IOCTL, it needs the
+>>> attachments of dmabuf should be empty, otherwise it will fail.
+>>>
+>>> For the original series, the idea was that allowing name change
+>>> mid-use could confuse the users about the dma-buf.
+>>> However, the rest of the series also makes sure each dma-buf have a
+>>> unique
+>>> inode(https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fpatchwork.freedesktop.org%2Fpatch%2F310387%2F&amp;data=04%7C01%7Cchristian.koenig%40amd.com%7C6652f423b96547b8321308d998772121%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637708459727236977%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=c%2Bbso%2BSxiPjwlv%2B9tAzA4x0gf5UktREhSiAsODFkihk%3D&amp;reserved=0), and any
+>>> accounting
+>>> should probably use that, without relying on the name as much.
+>>>
+>>> So, removing this restriction will let dma-buf userspace users to
+>>> use it
+>>> more comfortably and without any side effect.
+>>>
+>>> Signed-off-by: Guangming Cao <Guangming.Cao@mediatek.com>
+>> We could now cleanup the return value from dma_buf_set_name() into a
+>> void since that function can't fail any more as far as I can see.
 >>
->> Hm, Yes I think it can. If we're populating a non-shmem ttm tt, that 
->> sg-list is, IIRC allocated lazily on first use. Although I haven't 
->> analyzed in detail whether it can actually be populated and then not 
->> lazily allocated under the same lock.
+>> But that isn't mandatory I think, patch is Reviewed-by: Christian
+>> König
+>> <christian.koenig@amd.com>
+>>
+> So, here is no need to check return value of 'strndup_user',
+> just return without error code if the almost impossible error occurs?
+
+Good point, totally missed that one.
+
+In that case I'm going to push the patch to drm-misc-next as is.
+
+Regards,
+Christian.
+
 >
-> Oh right. I guess we could maybe drop the check in the shmem part?
-
-
-Ah yes, that should be safe. Will do that. Thanks.
-
-/Thomas
-
-
+> Guangming.
 >
+>> Regards,
+>> Christian.
 >>
+>>> ---
+>>>    drivers/dma-buf/dma-buf.c | 17 +++--------------
+>>>    1 file changed, 3 insertions(+), 14 deletions(-)
+>>>
+>>> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+>>> index 511fe0d217a0..5fbb3a2068a3 100644
+>>> --- a/drivers/dma-buf/dma-buf.c
+>>> +++ b/drivers/dma-buf/dma-buf.c
+>>> @@ -325,10 +325,8 @@ static __poll_t dma_buf_poll(struct file
+>>> *file, poll_table *poll)
+>>>    
+>>>    /**
+>>>     * dma_buf_set_name - Set a name to a specific dma_buf to track
+>>> the usage.
+>>> - * The name of the dma-buf buffer can only be set when the dma-buf
+>>> is not
+>>> - * attached to any devices. It could theoritically support
+>>> changing the
+>>> - * name of the dma-buf if the same piece of memory is used for
+>>> multiple
+>>> - * purpose between different devices.
+>>> + * It could support changing the name of the dma-buf if the same
+>>> + * piece of memory is used for multiple purpose between different
+>>> devices.
+>>>     *
+>>>     * @dmabuf: [in]     dmabuf buffer that will be renamed.
+>>>     * @buf:    [in]     A piece of userspace memory that contains
+>>> the name of
+>>> @@ -341,25 +339,16 @@ static __poll_t dma_buf_poll(struct file
+>>> *file, poll_table *poll)
+>>>    static long dma_buf_set_name(struct dma_buf *dmabuf, const char
+>>> __user *buf)
+>>>    {
+>>>    	char *name = strndup_user(buf, DMA_BUF_NAME_LEN);
+>>> -	long ret = 0;
+>>>    
+>>>    	if (IS_ERR(name))
+>>>    		return PTR_ERR(name);
+>>>    
+>>> -	dma_resv_lock(dmabuf->resv, NULL);
+>>> -	if (!list_empty(&dmabuf->attachments)) {
+>>> -		ret = -EBUSY;
+>>> -		kfree(name);
+>>> -		goto out_unlock;
+>>> -	}
+>>>    	spin_lock(&dmabuf->name_lock);
+>>>    	kfree(dmabuf->name);
+>>>    	dmabuf->name = name;
+>>>    	spin_unlock(&dmabuf->name_lock);
+>>>    
+>>> -out_unlock:
+>>> -	dma_resv_unlock(dmabuf->resv);
+>>> -	return ret;
+>>> +	return 0;
+>>>    }
+>>>    
+>>>    static long dma_buf_ioctl(struct file *file,
 >>
+
