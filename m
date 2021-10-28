@@ -2,71 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC2AC43E4C1
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Oct 2021 17:15:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9C0443E4F6
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Oct 2021 17:21:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B6DE36E056;
-	Thu, 28 Oct 2021 15:14:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9AAF46E993;
+	Thu, 28 Oct 2021 15:21:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
- [IPv6:2a00:1450:4864:20::42e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5AE0C6E053
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Oct 2021 15:14:56 +0000 (UTC)
-Received: by mail-wr1-x42e.google.com with SMTP id d10so10888372wrb.1
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Oct 2021 08:14:56 -0700 (PDT)
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
+ [IPv6:2a00:1450:4864:20::432])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 970396E993
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Oct 2021 15:21:41 +0000 (UTC)
+Received: by mail-wr1-x432.google.com with SMTP id o14so10803766wra.12
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Oct 2021 08:21:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=0rBv3gLltMIBQ7U6hPnNQRhn78uz/Pwsvkyd7M8egAA=;
- b=XrBSzbJxjv6maJ5X5pv3kMsroXp2p9SyJ541SdKDQMGqPuXilU+omiGeBBkXPC3li1
- 71RIQ+hY5wRvhzeeaQCes9zvIofH0qHk7OxYomXM2stshIvBT8sp3yJlx0FVwhS9kWXH
- GhCkuUeatwwsMzHIDnihDUDoEmbPVA0tHIZjA=
+ :content-disposition:in-reply-to;
+ bh=tA0VzRqtEp9p/s3l1/NkFeuNIBw4q8Z4uqqRJVrGR9s=;
+ b=G6mTplY3fRPAAjgbHNe+uj+5NSNgEBrZf0xsZXtvItIbf5Zoz92no4fw4S+jxjrNBq
+ D2f43wkRSC9E/OgcnLCmq/9ZYRgYDz3/YCkS1EQJXI7LTChuVofERjpO39pUcsOgrnVa
+ c9VqwkBZpkpP5aOxO7pm2qmX4iw37vaxdOSBg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=0rBv3gLltMIBQ7U6hPnNQRhn78uz/Pwsvkyd7M8egAA=;
- b=QyMfwz/O88psahCdzAocR9OIzvN01JnyiMMktLgYa5Tj5d939kX5stR/f9v1MdkB/D
- AoWvID+MjMU0z1fs8kNHVqhL7cXmR1tATXrqdstpG86qDF66G0hcIV65CWgbQF7pl7A/
- VS05iN153zUrCh6DNB+EbnOKG8ifa9d9l8LcEmwBpmwhS3TMi/eSdaYN1WdbWuO6sPuS
- eBU/jhnRXaSLSIGm++4or/oEoECQwlva7F4TpgLJCRJYp8yQJ0m8lj0TQ8OPhF5eck7j
- hvYqEVChjejz03G1g3rXzTS9qTlBqzPTALWHtwAD5CvO2chrwKjZUxcV2MeTQhlV1SrA
- pUDg==
-X-Gm-Message-State: AOAM5302UKXICCO+foXK4H9KU2Xu8G4Aqro1n03QEpUBrTDKzRf13PA1
- vaMEikBz1FXXG7rGKVkLI1hbog==
-X-Google-Smtp-Source: ABdhPJwgp2tebmKQBc35EaV+YNthU9hqMpcDkb+eto26VhD43IZqqUwbGq2+6fTdkzzI/X/tBu5gFg==
-X-Received: by 2002:a5d:4949:: with SMTP id r9mr6366818wrs.439.1635434094806; 
- Thu, 28 Oct 2021 08:14:54 -0700 (PDT)
+ :mime-version:content-disposition:in-reply-to;
+ bh=tA0VzRqtEp9p/s3l1/NkFeuNIBw4q8Z4uqqRJVrGR9s=;
+ b=wg9Ozkz983ZWnPRAH/hZJyM7Y0Un7eQyDgDgrqTk7TPEbqfP2wr7U8hrF3WCL9+TPW
+ kdsd4i1TrAWVBOY7VJIO7cyFai3CEzjMcS0A+tl3XGmJs7G9gh5pxRpi6y+LnebXwkAK
+ /MM2UBWmxNsmsQCeF3lPwuJV62ghAv4oO0P5Woxq1lSGwdh3KAR2FsZWbb5r/f8PYrA7
+ aeXeRwipX+OXpVQe2/AyNKOrcDkluuDJ5y7S0owBms507Ja0WNVctxu9R5rTx6bxwKul
+ dGd4ltr9p5jcqyre1N/A0I2zmDoQHKQWW+i+Mofev6Dfi/qrLlDPtr83VgnF1MV5E4bc
+ wlsw==
+X-Gm-Message-State: AOAM533s0UX5W4hE7/Ygda48ZgYDrJ/Y/0sXsO+Upk5EKo0JvBCs2Nsn
+ F0wF2JmCI4AT1e2KlvdYRwxCxw==
+X-Google-Smtp-Source: ABdhPJxaHXjKmsR7ic1mMPKR033CCC7sjGjMAhMqFUy0ef7+PJHRM8cFCcA5/Wy4oBui2AG1sm9MdA==
+X-Received: by 2002:a5d:6c65:: with SMTP id r5mr6668671wrz.26.1635434500139;
+ Thu, 28 Oct 2021 08:21:40 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id n17sm7000829wms.33.2021.10.28.08.14.53
+ by smtp.gmail.com with ESMTPSA id y12sm1578449wrn.73.2021.10.28.08.21.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 28 Oct 2021 08:14:54 -0700 (PDT)
-Date: Thu, 28 Oct 2021 17:14:52 +0200
+ Thu, 28 Oct 2021 08:21:39 -0700 (PDT)
+Date: Thu, 28 Oct 2021 17:21:37 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Jason Gunthorpe <jgg@nvidia.com>
+To: Steven Rostedt <rostedt@goodmis.org>
 Cc: Daniel Vetter <daniel@ffwll.ch>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Huang Rui <ray.huang@amd.com>, Dan Williams <dan.j.williams@intel.com>,
- Ralph Campbell <rcampbell@nvidia.com>,
- Roland Scheidegger <sroland@vmware.com>
-Subject: Re: [PATCH v2] drm/ttm: Do not put non-struct page memory into
- PUD/PMDs
-Message-ID: <YXq+bELDrDiB2VPm@phenom.ffwll.local>
-References: <0-v2-a44694790652+4ac-ttm_pmd_jgg@nvidia.com>
- <47182e81-39f2-1143-7654-fb31d171e4f3@linux.intel.com>
- <e88f42a3-7f04-25d9-5274-24a700df689f@amd.com>
- <20211020193702.GJ2744544@nvidia.com>
- <YXFR85joqUODJyy/@phenom.ffwll.local>
- <20211022185742.GO2744544@nvidia.com>
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ dri-devel@lists.freedesktop.org, kaleshsingh@google.com
+Subject: Re: [RFC PATCH 1/8] tracing/gpu: modify gpu_mem_total
+Message-ID: <YXrAAZlxxStNFG/K@phenom.ffwll.local>
+References: <20211021031027.537-1-gurchetansingh@chromium.org>
+ <20211021031027.537-2-gurchetansingh@chromium.org>
+ <YXFVdkeGHvOoTpZ0@phenom.ffwll.local>
+ <20211021090715.2318259d@gandalf.local.home>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20211022185742.GO2744544@nvidia.com>
+In-Reply-To: <20211021090715.2318259d@gandalf.local.home>
 X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -83,73 +74,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 22, 2021 at 03:57:42PM -0300, Jason Gunthorpe wrote:
-> On Thu, Oct 21, 2021 at 01:41:39PM +0200, Daniel Vetter wrote:
-> > On Wed, Oct 20, 2021 at 04:37:02PM -0300, Jason Gunthorpe wrote:
-> > > On Wed, Oct 20, 2021 at 08:41:24AM +0200, Christian König wrote:
-> > > 
-> > > > > I think the patch subject needs updating to reflect that we're disabling
-> > > > > PUD/PMDs completely.
-> > > > > With that fixed,
-> > > 
-> > > Everyone is OK with this?
-> > > 
-> > > drm/ttm: remove ttm_bo_vm_insert_huge()
-> > > 
-> > > The huge page functionality in TTM does not work safely because PUD and
-> > > PMD entries do not have a special bit.
-> > > 
-> > > get_user_pages_fast() considers any page that passed pmd_huge() as
-> > > usable:
-> > > 
-> > > 	if (unlikely(pmd_trans_huge(pmd) || pmd_huge(pmd) ||
-> > > 		     pmd_devmap(pmd))) {
-> > > 
-> > > And vmf_insert_pfn_pmd_prot() unconditionally sets
-> > > 
-> > > 	entry = pmd_mkhuge(pfn_t_pmd(pfn, prot));
-> > > 
-> > > eg on x86 the page will be _PAGE_PRESENT | PAGE_PSE.
-> > > 
-> > > As such gup_huge_pmd() will try to deref a struct page:
-> > > 
-> > > 	head = try_grab_compound_head(pmd_page(orig), refs, flags);
-> > > 
-> > > and thus crash.
-> > > 
-> > > So, iomem cannot be installed using vmf_insert_pfn_pud/pmd_prot().
-> > > 
-> > > Thomas further notices that the drivers are not expecting the struct page
-> > > to be used by anything - in particular the refcount incr above will cause
-> > > them to malfunction. This means even the struct page memory cannot be
-> > > used.
-> > > 
-> > > Therefore everything about this is not able to fully work correctly
-> > > considering GUP_fast. Delete it entirely. It can return someday along with
-> > > a proper PMD/PUD_SPECIAL bit in the page table itself to gate GUP_fast.
-> > > 
-> > > Fixes: 314b6580adc5 ("drm/ttm, drm/vmwgfx: Support huge TTM pagefaults")
-> > > Reviewed-by: Christian König <christian.koenig@amd.com>
-> > > Reviewed-by: Thomas Hellström <thomas.helllstrom@linux.intel.com>
-> > > Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
-> > 
-> > Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> > 
-> > I think we also want cc: stable here.
+On Thu, Oct 21, 2021 at 09:07:15AM -0400, Steven Rostedt wrote:
+> On Thu, 21 Oct 2021 13:56:38 +0200
+> Daniel Vetter <daniel@ffwll.ch> wrote:
 > 
-> Ok
->  
-> > Do you plan to land this through some dedicated pull for -rc? I think that
-> > makes sense to highlight it, but I can also smash this into some
-> > drm-fixes.
+> > Yay, that patch is just impressive. Lands a new gpu tracepoints, never
+> > even showed up on the gpu subsystem discussion list.
 > 
-> I was hoping you'd take it? Do want a v3?
+> I'm guessing there was some confusion. When this was first introduced, I
+> stated it needs to go into the gpu tree, which a new set of patches included
+> more Cc's. I never checked if those Cc's were for the GPU maintainers or not
+> (I assumed they were).
+> 
+>  https://lore.kernel.org/all/20200224113805.134f8b95@gandalf.local.home/
+> 
+> I'm not sure where Yiwei Zhang got his email list for the GPU maintainers
+> from. As he obviously thought it was going to them.
+> 
+>  https://lore.kernel.org/all/CAKT=dDnFpj2hJd5z73pfcrhXXacDpPVyKzC7+K94tsX=+e_BHg@mail.gmail.com/
+> 
+> Seeing that this patch set is going through dri-devel list, which I'm
+> guessing is also for GPU, even though it's not under that in the
+> MAINTAINERS file:
+> 
+> DRM DRIVERS AND MISC GPU PATCHES
+> M:      Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> M:      Maxime Ripard <mripard@kernel.org>
+> M:      Thomas Zimmermann <tzimmermann@suse.de>
+> S:      Maintained
+> W:      https://01.org/linuxgraphics/gfx-docs/maintainer-tools/drm-misc.html
+> T:      git git://anongit.freedesktop.org/drm/drm-misc
+> F:      Documentation/gpu/
+> F:      drivers/gpu/drm/*
+> F:      drivers/gpu/vga/
+> F:      include/drm/drm*
+> F:      include/linux/vga*
+> F:      include/uapi/drm/drm*
+> 
+> Should the list be added there?
+> 
+> I've been struggling with this patch set because nobody claimed ownership
+> for it. But now I believe we have one (you? :-)  And I can now just comment
+> on the tracing POV and leave the content and usability to you folks ;-)
 
-Hm totally lost this, I'm trying to not be too responsible for mm changes
-since it scares me :-) Plus dropping this very late in the release feels a
-bit risky.
+Hm we indeed don't have an entry for drivers/gpu, but there is one for
+gpu/drm overall:
 
-Ok if I stuff this into drm-next instead?
+DRM DRIVERS
+M:	David Airlie <airlied@linux.ie>
+M:	Daniel Vetter <daniel@ffwll.ch>
+L:	dri-devel@lists.freedesktop.org
+S:	Maintained
+B:	https://gitlab.freedesktop.org/drm
+C:	irc://irc.oftc.net/dri-devel
+T:	git git://anongit.freedesktop.org/drm/drm
+F:	Documentation/devicetree/bindings/display/
+F:	Documentation/devicetree/bindings/gpu/
+F:	Documentation/gpu/
+F:	drivers/gpu/drm/
+F:	drivers/gpu/vga/
+F:	include/drm/
+F:	include/linux/vga*
+F:	include/uapi/drm/
+
+I'll do a patch to include drivers/gpu here, not sure why that's
+different.
 -Daniel
 -- 
 Daniel Vetter
