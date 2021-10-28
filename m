@@ -1,62 +1,96 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C210B43D8CC
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Oct 2021 03:43:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 05BBD43D95A
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Oct 2021 04:32:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0AF596E03E;
-	Thu, 28 Oct 2021 01:43:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 06F166E040;
+	Thu, 28 Oct 2021 02:31:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 23FE76E03E;
- Thu, 28 Oct 2021 01:43:42 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10150"; a="227757830"
-X-IronPort-AV: E=Sophos;i="5.87,188,1631602800"; d="scan'208";a="227757830"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Oct 2021 18:43:41 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.87,188,1631602800"; d="scan'208";a="447770479"
-Received: from irsmsx601.ger.corp.intel.com ([163.33.146.7])
- by orsmga003.jf.intel.com with ESMTP; 27 Oct 2021 18:43:39 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- irsmsx601.ger.corp.intel.com (163.33.146.7) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Thu, 28 Oct 2021 02:43:37 +0100
-Received: from fmsmsx610.amr.corp.intel.com ([10.18.126.90]) by
- fmsmsx610.amr.corp.intel.com ([10.18.126.90]) with mapi id 15.01.2242.012;
- Wed, 27 Oct 2021 18:43:36 -0700
-From: "Vivi, Rodrigo" <rodrigo.vivi@intel.com>
-To: "jani.nikula@linux.intel.com" <jani.nikula@linux.intel.com>,
- "matthew.william.auld@gmail.com" <matthew.william.auld@gmail.com>
-CC: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>, "Auld,
- Matthew" <matthew.auld@intel.com>, lkp <lkp@intel.com>,
- "thomas.hellstrom@linux.intel.com" <thomas.hellstrom@linux.intel.com>
-Subject: Re: [PATCH 1/2] drm/i915/dmabuf: fix broken build
-Thread-Topic: [PATCH 1/2] drm/i915/dmabuf: fix broken build
-Thread-Index: AQHXyxDUaKHj3AXu+USb6UxUwtl4aavnAlOAgAALPoCAAAEegIABCvmA
-Date: Thu, 28 Oct 2021 01:43:36 +0000
-Message-ID: <3c77071b97add2ae18db01e02914f53654faf795.camel@intel.com>
-References: <20211021125332.2455288-1-matthew.auld@intel.com>
- <CAM0jSHNig=n9cw0CCNhWHnLn5hLPYFFQR4D9OgZ-QavgyJGJpg@mail.gmail.com>
- <87k0hyj13f.fsf@intel.com>
- <CAM0jSHOCn120_-WZCJHa2+NzPrB_pErHPT3hA2BGarM-ZDw-Cg@mail.gmail.com>
- <87cznqiyzg.fsf@intel.com>
- <CAM0jSHN4oYq=DRnpKiMXjVKUFQ5kttobWpuJLEi6eFzMwjP5-g@mail.gmail.com>
-In-Reply-To: <CAM0jSHN4oYq=DRnpKiMXjVKUFQ5kttobWpuJLEi6eFzMwjP5-g@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.40.4 (3.40.4-2.fc34) 
-x-originating-ip: [10.1.200.100]
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <7D02E8190C5EFA489EB9FB077722899B@intel.com>
-Content-Transfer-Encoding: base64
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com
+ (mail-sn1anam02on2082.outbound.protection.outlook.com [40.107.96.82])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C38F16E040;
+ Thu, 28 Oct 2021 02:31:55 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Fd0BpB6CZWHlk8dx9WZZytcB0/iqrq3pO8gc9yYsMgEfv5QsNXvXTfR0HOMaLBKbnICwvv3T9z9ZI5w7+oCqYdTZO8fkZJizNULwnOIO4wVHG8T1KlYY9UsMKKomOScuHYOppmmp+QZbwGIjXXuKCrD5arTlDdwkFg0tiJznyTmETSSYy84f16eo0EdRntG2mHejtRZGfWHBVAbY1OQtP0P/5NeVNoqjw69aRGYO+NLZlgw+ky/Ka/nzuAW3qD1Mazk/DJJ2Y4s75oZRvXCutpYxs0MkCKUr2DjYkYfPo3C15TfCSFb33yx4jeu76nimgkaHH5/PG7V2KDAZVIB8Qw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=GuBSFbPR4unxExfeq0CjqpcYHeDUcnJ2mcWwzBIYD8U=;
+ b=LK6kKqsilMjBXsTE+/LXia3xGeHtspuVK1f3xOnlmKbE8qp1X8a7RpphEuAXQzExq0K/8N3jvI0A+3Ul7d8vHSO0YfUMQJ3iIKVbm0ZghuHPowk7mhPWqTJYEQsnK+9GSkiyQVL4dFD/73QX7YEu2AqC5atDSr+KoErvDEFSd78wap3rVmc+doQmHRFsnoaG+H3PCvc5Lbzx9H/BNex6kbd2usd6ZaIj4kDQVUYwZCiPEpYXB01pVLzlsrf32Nj+IHyjj3E5w1yKXxjuGKqEEhGKwD1o9Jy75crSfiRZSkZGIUm8NGK6cEvycpdgrfBKCxhAktw8NNUilqAL6+a44w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GuBSFbPR4unxExfeq0CjqpcYHeDUcnJ2mcWwzBIYD8U=;
+ b=Gah7WGCOU6ACS8Q/tq2UiHso54+rd0/kSUfWTh/lo9CsRX3lowEMyT0Mjt+I4zzJScYshg3CGQlvIX047kraQ+ld0KYD+ASipWO7afXfaoKRF2FOCsTzTqxrKaGIjC5AzudvgZKIp2baDZPerpWjiBeT9f1n6AsRpGJi+D/19oo=
+Received: from CO2PR04CA0106.namprd04.prod.outlook.com (2603:10b6:104:6::32)
+ by MN2PR12MB4318.namprd12.prod.outlook.com (2603:10b6:208:1d8::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4649.14; Thu, 28 Oct
+ 2021 02:31:50 +0000
+Received: from CO1NAM11FT040.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:104:6:cafe::96) by CO2PR04CA0106.outlook.office365.com
+ (2603:10b6:104:6::32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4649.14 via Frontend
+ Transport; Thu, 28 Oct 2021 02:31:50 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; lists.freedesktop.org; dkim=none (message not signed)
+ header.d=none;lists.freedesktop.org; dmarc=pass action=none
+ header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ CO1NAM11FT040.mail.protection.outlook.com (10.13.174.140) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.4649.14 via Frontend Transport; Thu, 28 Oct 2021 02:31:49 +0000
+Received: from tr4.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.15; Wed, 27 Oct
+ 2021 21:31:48 -0500
+From: Alex Deucher <alexander.deucher@amd.com>
+To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <airlied@gmail.com>, <daniel.vetter@ffwll.ch>
+CC: Alex Deucher <alexander.deucher@amd.com>
+Subject: [pull] amdgpu drm-fixes-5.15
+Date: Wed, 27 Oct 2021 22:31:30 -0400
+Message-ID: <20211028023130.4528-1-alexander.deucher@amd.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 838452ed-0bb3-47e4-6ab9-08d999bb187f
+X-MS-TrafficTypeDiagnostic: MN2PR12MB4318:
+X-Microsoft-Antispam-PRVS: <MN2PR12MB4318A145E179C115D506B542F7869@MN2PR12MB4318.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:538;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: SdIjWOzKHchsm+FUv35IYzewHnmGJGxJwjMgze+MAY7RaV0gVaE1n/w9Ic/knRDrSJQ1A9hj+V9dlb/Sr4saC1uhlFsvnD46zSYYSqLf0ND0HKFsnuHMgraYD4K+//zcxxGTeAcJvWMSGEMogVIwpeUszZ+sw61hOol18NCHAUIlWpu1rkh0SR3mQcLZkFbw41Q2x+PSzb60kbbr4lf/RNOGbZIiz4jte1ksY5XYxDYZpeANsXy+uIEIiL3ij88qJgAeiHhAotdlSmnEykuIkNtEwDdIDAwJ76YgDdwjpsrvLCDR10qyyUufkmgj84ZbJ7467pzfBIgUnftErEBYwjV+SOJjWpNEFjlYxZNd22IUvZZKyaxH5VZeVtAmwkkqVTjf8T7suL04zCdyln4PtNyN5ZuhTkV/PUMK4wkcLxFFXNnnFFCDjf2/p7tDQNQrjeD2vt7FamI3a5K7XPbJBkdbCdxnGeVtez3SwvZYpVR3pQOmTDEK+PieLOup3BFjLRuohF8/hYUqC6GxhSQUoWWvFDz7q448okn+BJNNUvfYNUpZGHL1jMbDlesNMR/kYyqm8DETm3qV4hFHhodxXVHXcI+wW633kzqewEQMV2lIvLY7balDc5kuQYt24798OSG8a2UHL0fs7jlRjf3ViEjO8RvC3cwgyE4hISq363KakpCeJY9Rum4ytcQSpX6LLZWEoY3s5oZh8l+6P/sDIkQfsRsOUnW/kSHKc+FmRSw=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(4636009)(46966006)(36840700001)(83380400001)(8676002)(82310400003)(70586007)(47076005)(1076003)(70206006)(26005)(6666004)(356005)(81166007)(336012)(2616005)(36860700001)(508600001)(36756003)(186003)(110136005)(16526019)(7696005)(966005)(316002)(4326008)(2906002)(5660300002)(8936002)(426003)(86362001)(4001150100001)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Oct 2021 02:31:49.7114 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 838452ed-0bb3-47e4-6ab9-08d999bb187f
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT040.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4318
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,61 +106,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCAyMDIxLTEwLTI3IGF0IDEwOjQ4ICswMTAwLCBNYXR0aGV3IEF1bGQgd3JvdGU6DQo+
-IE9uIFdlZCwgMjcgT2N0IDIwMjEgYXQgMTA6NDQsIEphbmkgTmlrdWxhDQo+IDxqYW5pLm5pa3Vs
-YUBsaW51eC5pbnRlbC5jb20+IHdyb3RlOg0KPiA+IA0KPiA+IE9uIFdlZCwgMjcgT2N0IDIwMjEs
-IE1hdHRoZXcgQXVsZCA8bWF0dGhldy53aWxsaWFtLmF1bGRAZ21haWwuY29tPg0KPiA+IHdyb3Rl
-Og0KPiA+ID4gT24gV2VkLCAyNyBPY3QgMjAyMSBhdCAwOTo1OCwgSmFuaSBOaWt1bGENCj4gPiA+
-IDxqYW5pLm5pa3VsYUBsaW51eC5pbnRlbC5jb20+IHdyb3RlOg0KPiA+ID4gPiANCj4gPiA+ID4g
-T24gV2VkLCAyNyBPY3QgMjAyMSwgTWF0dGhldyBBdWxkDQo+ID4gPiA+IDxtYXR0aGV3LndpbGxp
-YW0uYXVsZEBnbWFpbC5jb20+IHdyb3RlOg0KPiA+ID4gPiA+IE9uIFRodSwgMjEgT2N0IDIwMjEg
-YXQgMTM6NTQsIE1hdHRoZXcgQXVsZA0KPiA+ID4gPiA+IDxtYXR0aGV3LmF1bGRAaW50ZWwuY29t
-PiB3cm90ZToNCj4gPiA+ID4gPiA+IA0KPiA+ID4gPiA+ID4gd2JpbnZkX29uX2FsbF9jcHVzKCkg
-aXMgb25seSBkZWZpbmVkIG9uIHg4NiBpdCBzZWVtcywgcGx1cw0KPiA+ID4gPiA+ID4gd2UgbmVl
-ZCB0bw0KPiA+ID4gPiA+ID4gaW5jbHVkZSBhc20vc21wLmggaGVyZS4NCj4gPiA+ID4gPiA+IA0K
-PiA+ID4gPiA+ID4gUmVwb3J0ZWQtYnk6IGtlcm5lbCB0ZXN0IHJvYm90IDxsa3BAaW50ZWwuY29t
-Pg0KPiA+ID4gPiA+ID4gU2lnbmVkLW9mZi1ieTogTWF0dGhldyBBdWxkIDxtYXR0aGV3LmF1bGRA
-aW50ZWwuY29tPg0KPiA+ID4gPiA+ID4gQ2M6IFRob21hcyBIZWxsc3Ryw7ZtIDx0aG9tYXMuaGVs
-bHN0cm9tQGxpbnV4LmludGVsLmNvbT4NCj4gPiA+ID4gPiANCj4gPiA+ID4gPiBKYW5pLCB3b3Vs
-ZCBpdCBtYWtlIHNlbnNlIHRvIGNoZXJyeS1waWNrIHRoaXMgdG8gLWZpeGVzPyBUaGUNCj4gPiA+
-ID4gPiBvZmZlbmRpbmcNCj4gPiA+ID4gPiBjb21taXQgaXMgaW4gZHJtLW5leHQsIGFuZCB0aGVy
-ZSBoYXZlIGJlZW4gYSBmZXcgcmVwb3J0cw0KPiA+ID4gPiA+IGFyb3VuZCB0aGlzLg0KPiA+ID4g
-PiA+IA0KPiA+ID4gPiA+IEZpeGVzOiBhMDM1MTU0ZGE0NWQgKCJkcm0vaTkxNS9kbWFidWY6IGFk
-ZCBwYXJhbm9pZCBmbHVzaC1vbi0NCj4gPiA+ID4gPiBhY3F1aXJlIikNCj4gPiA+ID4gDQo+ID4g
-PiA+IElmIHRoZSBGaXhlczogdGFnIGlzIGluIHBsYWNlLCBvdXIgdG9vbGluZyB3aWxsIGNoZXJy
-eS1waWNrIGl0DQo+ID4gPiA+IHdoZXJlIGl0DQo+ID4gPiA+IGJlbG9uZ3MuIChJbiB0aGlzIGNh
-c2UsIGRybS1pbnRlbC1uZXh0LWZpeGVzLCBub3QgZHJtLWludGVsLQ0KPiA+ID4gPiBmaXhlcy4p
-DQo+ID4gPiANCj4gPiA+IFllYWgsIEkgZm9yZ290IHRvIGFkZCB0aGUgZml4ZXMgdGFnIGhlcmUg
-dW5mb3J0dW5hdGVseS4NCj4gPiANCj4gPiBBbHJlYWR5IG1lcmdlZD8gV2hhdCdzIHRoZSBjb21t
-aXQgaWQgdG8gYmUgY2hlcnJ5LXBpY2tlZD8gUm9kcmlnbw0KPiA+IGNhbiBkbw0KPiA+IGl0IG1h
-bnVhbGx5Lg0KPiANCj4gWWVhaCwgaXQgd2FzIG1lcmdlZCB0byBndC1uZXh0Og0KPiANCj4gNzc3
-MjI2ZGFjMDU4ICgiZHJtL2k5MTUvZG1hYnVmOiBmaXggYnJva2VuIGJ1aWxkIikNCg0KcGlja2Vk
-IHVwIHRvIGRybS1pbnRlbC1uZXh0LWZpeGVzDQoNCnRoYW5rcywNClJvZHJpZ28uDQoNCj4gDQo+
-ID4gDQo+ID4gTm90ZSB0byBzZWxmLCB3ZSBzaG91bGQgc2V0IHVwIHNvbWUgd2F5IHRvIGNoZWNr
-IHdoaWNoIG1haW50YWluZXINCj4gPiBpcw0KPiA+IHJlc3BvbnNpYmxlIGZvciB3aGljaCBicmFu
-Y2hlcyBhbmQgd2hlbi4NCj4gPiANCj4gPiBCUiwNCj4gPiBKYW5pLg0KPiA+IA0KPiA+ID4gDQo+
-ID4gPiA+IA0KPiA+ID4gPiBDYzogUm9kcmlnbyB3aG8gY292ZXJzIGRybS1pbnRlbC1uZXh0LWZp
-eGVzIGF0bS4NCj4gPiA+ID4gDQo+ID4gPiA+IEJSLA0KPiA+ID4gPiBKYW5pLg0KPiA+ID4gPiAN
-Cj4gPiA+ID4gDQo+ID4gPiA+IA0KPiA+ID4gPiA+IA0KPiA+ID4gPiA+IA0KPiA+ID4gPiA+ID4g
-LS0tDQo+ID4gPiA+ID4gPiDCoGRyaXZlcnMvZ3B1L2RybS9pOTE1L2dlbS9pOTE1X2dlbV9kbWFi
-dWYuYyB8IDcgKysrKysrKw0KPiA+ID4gPiA+ID4gwqAxIGZpbGUgY2hhbmdlZCwgNyBpbnNlcnRp
-b25zKCspDQo+ID4gPiA+ID4gPiANCj4gPiA+ID4gPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dw
-dS9kcm0vaTkxNS9nZW0vaTkxNV9nZW1fZG1hYnVmLmMNCj4gPiA+ID4gPiA+IGIvZHJpdmVycy9n
-cHUvZHJtL2k5MTUvZ2VtL2k5MTVfZ2VtX2RtYWJ1Zi5jDQo+ID4gPiA+ID4gPiBpbmRleCAxYWRj
-ZDhlMDJkMjkuLmE0NWQwZWMyYzViNiAxMDA2NDQNCj4gPiA+ID4gPiA+IC0tLSBhL2RyaXZlcnMv
-Z3B1L2RybS9pOTE1L2dlbS9pOTE1X2dlbV9kbWFidWYuYw0KPiA+ID4gPiA+ID4gKysrIGIvZHJp
-dmVycy9ncHUvZHJtL2k5MTUvZ2VtL2k5MTVfZ2VtX2RtYWJ1Zi5jDQo+ID4gPiA+ID4gPiBAQCAt
-MTIsNiArMTIsMTMgQEANCj4gPiA+ID4gPiA+IMKgI2luY2x1ZGUgImk5MTVfZ2VtX29iamVjdC5o
-Ig0KPiA+ID4gPiA+ID4gwqAjaW5jbHVkZSAiaTkxNV9zY2F0dGVybGlzdC5oIg0KPiA+ID4gPiA+
-ID4gDQo+ID4gPiA+ID4gPiArI2lmIGRlZmluZWQoQ09ORklHX1g4NikNCj4gPiA+ID4gPiA+ICsj
-aW5jbHVkZSA8YXNtL3NtcC5oPg0KPiA+ID4gPiA+ID4gKyNlbHNlDQo+ID4gPiA+ID4gPiArI2Rl
-ZmluZSB3YmludmRfb25fYWxsX2NwdXMoKSBcDQo+ID4gPiA+ID4gPiArwqDCoMKgwqDCoMKgIHBy
-X3dhcm4oRFJJVkVSX05BTUUgIjogTWlzc2luZyBjYWNoZSBmbHVzaCBpbg0KPiA+ID4gPiA+ID4g
-JXNcbiIsIF9fZnVuY19fKQ0KPiA+ID4gPiA+ID4gKyNlbmRpZg0KPiA+ID4gPiA+ID4gKw0KPiA+
-ID4gPiA+ID4gwqBJOTE1X1NFTEZURVNUX0RFQ0xBUkUoc3RhdGljIGJvb2wNCj4gPiA+ID4gPiA+
-IGZvcmNlX2RpZmZlcmVudF9kZXZpY2VzOykNCj4gPiA+ID4gPiA+IA0KPiA+ID4gPiA+ID4gwqBz
-dGF0aWMgc3RydWN0IGRybV9pOTE1X2dlbV9vYmplY3QgKmRtYV9idWZfdG9fb2JqKHN0cnVjdA0K
-PiA+ID4gPiA+ID4gZG1hX2J1ZiAqYnVmKQ0KPiA+ID4gPiA+ID4gLS0NCj4gPiA+ID4gPiA+IDIu
-MjYuMw0KPiA+ID4gPiA+ID4gDQo+ID4gPiA+IA0KPiA+ID4gPiAtLQ0KPiA+ID4gPiBKYW5pIE5p
-a3VsYSwgSW50ZWwgT3BlbiBTb3VyY2UgR3JhcGhpY3MgQ2VudGVyDQo+ID4gDQo+ID4gLS0NCj4g
-PiBKYW5pIE5pa3VsYSwgSW50ZWwgT3BlbiBTb3VyY2UgR3JhcGhpY3MgQ2VudGVyDQoNCg==
+Hi Dave, Daniel,
+
+Fixes for 5.15.
+
+The following changes since commit defbbcd99fa68cb7feed453662048baa87e9a441:
+
+  Merge tag 'amd-drm-fixes-5.15-2021-10-21' of https://gitlab.freedesktop.org/agd5f/linux into drm-fixes (2021-10-27 10:01:21 +1000)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-fixes-5.15-2021-10-27
+
+for you to fetch changes up to ad76744b041d8c87ef1c9adbb04fb7eaa20a179e:
+
+  drm/amd/display: Fix deadlock when falling back to v2 from v3 (2021-10-27 22:04:50 -0400)
+
+----------------------------------------------------------------
+amd-drm-fixes-5.15-2021-10-27:
+
+amdgpu:
+- Display fixes for DCN 3.1
+- Fix potential out of bounds write in debugfs
+
+----------------------------------------------------------------
+Michael Strauss (1):
+      drm/amd/display: Fallback to clocks which meet requested voltage on DCN31
+
+Nicholas Kazlauskas (1):
+      drm/amd/display: Fix deadlock when falling back to v2 from v3
+
+Patrik Jakobsson (1):
+      drm/amdgpu: Fix even more out of bound writes from debugfs
+
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c  | 18 +++++++++---------
+ .../drm/amd/display/dc/clk_mgr/dcn31/dcn31_clk_mgr.c   | 13 ++++++++++---
+ drivers/gpu/drm/amd/display/modules/hdcp/hdcp_psp.c    |  6 ++----
+ 3 files changed, 21 insertions(+), 16 deletions(-)
