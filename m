@@ -2,42 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D343443DEAE
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Oct 2021 12:19:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8029943DEB3
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Oct 2021 12:19:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A1736E947;
-	Thu, 28 Oct 2021 10:19:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 80E7E6E94A;
+	Thu, 28 Oct 2021 10:19:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CCD356E0A1
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Oct 2021 10:19:18 +0000 (UTC)
-X-UUID: a713e4527da549c6a15cf0bcd4acd68e-20211028
-X-UUID: a713e4527da549c6a15cf0bcd4acd68e-20211028
-Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by
- mailgw02.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1003576310; Thu, 28 Oct 2021 18:19:15 +0800
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 67FF36E948
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Oct 2021 10:19:22 +0000 (UTC)
+X-UUID: b9c5e74516b14ffd8710d0a97ebfa09c-20211028
+X-UUID: b9c5e74516b14ffd8710d0a97ebfa09c-20211028
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
+ mailgw01.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 180988430; Thu, 28 Oct 2021 18:19:16 +0800
 Received: from mtkmbs10n2.mediatek.inc (172.21.101.183) by
- mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Thu, 28 Oct 2021 18:19:13 +0800
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3; 
+ Thu, 28 Oct 2021 18:19:14 +0800
 Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
  mtkmbs10n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.792.3 via Frontend Transport; Thu, 28 Oct 2021 18:19:13 +0800
+ 15.2.792.3 via Frontend Transport; Thu, 28 Oct 2021 18:19:14 +0800
 From: jason-jh.lin <jason-jh.lin@mediatek.com>
 To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel
- <p.zabel@pengutronix.de>, Matthias Brugger <matthias.bgg@gmail.com>, Jassi
- Brar <jassisinghbrar@gmail.com>, Yongqiang Niu <yongqiang.niu@mediatek.com>,
+ <p.zabel@pengutronix.de>, Matthias Brugger <matthias.bgg@gmail.com>, "Jassi
+ Brar" <jassisinghbrar@gmail.com>, Yongqiang Niu <yongqiang.niu@mediatek.com>, 
  <fshao@chromium.org>
 CC: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  "jason-jh . lin" <jason-jh.lin@mediatek.com>,
  <dri-devel@lists.freedesktop.org>, <linux-mediatek@lists.infradead.org>,
  <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
  <hsinyi@chromium.org>, <nancy.lin@mediatek.com>, <singo.chang@mediatek.com>
-Subject: [PATCH v6 0/5] CMDQ refinement of Mediatek DRM driver
-Date: Thu, 28 Oct 2021 18:19:06 +0800
-Message-ID: <20211028101912.4624-1-jason-jh.lin@mediatek.com>
+Subject: [PATCH v6 1/6] drm/mediatek: Use mailbox rx_callback instead of
+ cmdq_task_cb
+Date: Thu, 28 Oct 2021 18:19:07 +0800
+Message-ID: <20211028101912.4624-2-jason-jh.lin@mediatek.com>
 X-Mailer: git-send-email 2.18.0
+In-Reply-To: <20211028101912.4624-1-jason-jh.lin@mediatek.com>
+References: <20211028101912.4624-1-jason-jh.lin@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-MTK: N
@@ -56,44 +60,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Change in v6:
-1. Drop the redundant checking of cmdq_vblank_cnt .
-2. fix the indent.
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
 
-Change in v5:
-1. Move mbox_free_channel to a independent patch.
+rx_callback is a standard mailbox callback mechanism and could cover the
+function of proprietary cmdq_task_cb, so use the standard one instead of
+the proprietary one.
 
-Change in v4:
-1. Add cmdq_vblank_cnt initial value to 3.
-2. Move mtk_drm_cmdq_pkt_create to the same define scope with
-   mtk_drm_cmdq_pkt_destroy.
+Signed-off-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Signed-off-by: jason-jh.lin <jason-jh.lin@mediatek.com>
+Reviewed-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+---
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.c | 16 +++++++++++++---
+ 1 file changed, 13 insertions(+), 3 deletions(-)
 
-Change in v3:
-1. Revert "drm/mediatek: clear pending flag when cmdq packet is done"
-   and add it after the CMDQ refinement patches.
-2. Change the remove of struct cmdq_client to remove the pointer of
-   struct cmdq_client.
-3. Fix pkt buf alloc once but free many times.
-
-Changes in v2:
-1. Define mtk_drm_cmdq_pkt_create() and mtk_drm_cmdq_pkt_destroy()
-   when CONFIG_MTK_CMDQ is reachable.
-
-Chun-Kuang Hu (4):
-  drm/mediatek: Use mailbox rx_callback instead of cmdq_task_cb
-  drm/mediatek: Remove the pointer of struct cmdq_client
-  drm/mediatek: Detect CMDQ execution timeout
-  drm/mediatek: Add cmdq_handle in mtk_crtc
-
-Yongqiang Niu (1):
-  drm/mediatek: Clear pending flag when cmdq packet is done
-
-jason-jh.lin (1):
-  drm/mediatek: Add mbox_free_channel in mtk_drm_crtc_destroy
-
- drivers/gpu/drm/mediatek/mtk_drm_crtc.c | 175 ++++++++++++++++++++----
- 1 file changed, 151 insertions(+), 24 deletions(-)
-
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+index a4e80e499674..369d3e68c0b6 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
++++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+@@ -4,6 +4,8 @@
+  */
+ 
+ #include <linux/clk.h>
++#include <linux/dma-mapping.h>
++#include <linux/mailbox_controller.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/soc/mediatek/mtk-cmdq.h>
+ #include <linux/soc/mediatek/mtk-mmsys.h>
+@@ -222,9 +224,11 @@ struct mtk_ddp_comp *mtk_drm_ddp_comp_for_plane(struct drm_crtc *crtc,
+ }
+ 
+ #if IS_REACHABLE(CONFIG_MTK_CMDQ)
+-static void ddp_cmdq_cb(struct cmdq_cb_data data)
++static void ddp_cmdq_cb(struct mbox_client *cl, void *mssg)
+ {
+-	cmdq_pkt_destroy(data.data);
++	struct cmdq_cb_data *data = mssg;
++
++	cmdq_pkt_destroy(data->pkt);
+ }
+ #endif
+ 
+@@ -475,7 +479,12 @@ static void mtk_drm_crtc_update_config(struct mtk_drm_crtc *mtk_crtc,
+ 		cmdq_pkt_wfe(cmdq_handle, mtk_crtc->cmdq_event, false);
+ 		mtk_crtc_ddp_config(crtc, cmdq_handle);
+ 		cmdq_pkt_finalize(cmdq_handle);
+-		cmdq_pkt_flush_async(cmdq_handle, ddp_cmdq_cb, cmdq_handle);
++		dma_sync_single_for_device(mtk_crtc->cmdq_client->chan->mbox->dev,
++					   cmdq_handle->pa_base,
++					   cmdq_handle->cmd_buf_size,
++					   DMA_TO_DEVICE);
++		mbox_send_message(mtk_crtc->cmdq_client->chan, cmdq_handle);
++		mbox_client_txdone(mtk_crtc->cmdq_client->chan, 0);
+ 	}
+ #endif
+ 	mtk_crtc->config_updating = false;
+@@ -839,6 +848,7 @@ int mtk_drm_crtc_create(struct drm_device *drm_dev,
+ 	}
+ 
+ 	if (mtk_crtc->cmdq_client) {
++		mtk_crtc->cmdq_client->client.rx_callback = ddp_cmdq_cb;
+ 		ret = of_property_read_u32_index(priv->mutex_node,
+ 						 "mediatek,gce-events",
+ 						 drm_crtc_index(&mtk_crtc->base),
 -- 
 2.18.0
 
