@@ -2,50 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16F9A43DD8E
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Oct 2021 11:16:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD50F43DDBB
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Oct 2021 11:28:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA53B6E939;
-	Thu, 28 Oct 2021 09:16:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB20A6E938;
+	Thu, 28 Oct 2021 09:28:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 17FDA6E939
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Oct 2021 09:16:55 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10150"; a="230312133"
-X-IronPort-AV: E=Sophos;i="5.87,189,1631602800"; d="scan'208";a="230312133"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Oct 2021 02:16:54 -0700
-X-IronPort-AV: E=Sophos;i="5.87,189,1631602800"; d="scan'208";a="487056454"
-Received: from djustese-mobl.ger.corp.intel.com (HELO localhost)
- ([10.249.254.12])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Oct 2021 02:16:51 -0700
-Content-Type: text/plain; charset="utf-8"
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC75F6E937;
+ Thu, 28 Oct 2021 09:28:49 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10150"; a="291202663"
+X-IronPort-AV: E=Sophos;i="5.87,189,1631602800"; d="scan'208";a="291202663"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Oct 2021 02:28:37 -0700
+X-IronPort-AV: E=Sophos;i="5.87,189,1631602800"; d="scan'208";a="597730505"
+Received: from malloyd-mobl.ger.corp.intel.com (HELO mwauld-desk1.intel.com)
+ ([10.252.16.73])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Oct 2021 02:28:36 -0700
+From: Matthew Auld <matthew.auld@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ Ramalingam C <ramalingam.c@intel.com>
+Subject: [PATCH v2 1/2] drm/i915/gtt: flush the scratch page
+Date: Thu, 28 Oct 2021 10:26:37 +0100
+Message-Id: <20211028092638.3142258-1-matthew.auld@intel.com>
+X-Mailer: git-send-email 2.26.3
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20211028075155.02825f86@canb.auug.org.au>
-References: <20210122115918.63b56fa1@canb.auug.org.au>
- <CAKMK7uEuJa1J66mo5dS+QRPy9NOENTx95SZ4rU2MeVRTWj7Kcw@mail.gmail.com>
- <20210122182946.6beb10b7@canb.auug.org.au>
- <CAKMK7uFWFVC0be2foiP8+2=vrqyh1e4mqkuk+2xY+fgSWAExyQ@mail.gmail.com>
- <163533676481.68716.4009950051571709814@jlahtine-mobl.ger.corp.intel.com>
- <20211028075155.02825f86@canb.auug.org.au>
-Subject: Re: linux-next: build warning after merge of the drm tree
-Cc: "Nikula, Jani" <jani.nikula@linux.intel.com>,
- Daniel Vetter <daniel@ffwll.ch>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Dave Airlie <airlied@linux.ie>, DRI <dri-devel@lists.freedesktop.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Chris Wilson <chris@chris-wilson.co.uk>
-From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-To: Stephen Rothwell <sfr@canb.auug.org.au>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Message-ID: <163541260904.5162.14679444275127334752@jlahtine-mobl.ger.corp.intel.com>
-User-Agent: alot/0.8.1
-Date: Thu, 28 Oct 2021 12:16:49 +0300
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,68 +50,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Stephen Rothwell (2021-10-27 23:51:55)
-> Hi Joonas,
->=20
-> On Wed, 27 Oct 2021 15:12:44 +0300 Joonas Lahtinen <joonas.lahtinen@linux=
-.intel.com> wrote:
-> >
-> > We should be now good to go and add drm-intel-gt-next to linux-next.
-> >=20
-> > The branch would be as follows:
-> >=20
-> > drm-intel-gt-next     git://anongit.freedesktop.org/drm-intel for-linux=
--next-gt
-> >=20
-> > Notice the "-gt" and the end of the for-linux-next branch name. This sh=
-ould eliminate
-> > the gap we have been having.
->=20
-> I have added it to linux-next from today.
+The scratch page is directly visible in the users address space, and
+while this is forced as CACHE_LLC, by the kernel, we still have to
+contend with things like "Bypass-LLC" MOCS. So just flush no matter
+what.
 
-Thanks!
+v2(Thomas):
+  - Make sure we use drm_clflush_virt_range here, in case clflush support
+    is missing.
 
-> I called it just
-> "drm-intel-gt" for consistency with the other drm trees in linux-next.
+Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Cc: Chris Wilson <chris@chris-wilson.co.uk>
+Cc: Ramalingam C <ramalingam.c@intel.com>
+Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+---
+ drivers/gpu/drm/i915/gt/intel_gtt.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-We use the drm-intel-gt-next as the branch name in repo and DIM tolling, so=
- if
-we are after consistenty consistency, using the full name probably makes
-sense. drm-intel-gt-next for name keeps open the option for separating
-the drm-intel-gt-fixes too, if we decide to do so in the future.
+diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.c b/drivers/gpu/drm/i915/gt/intel_gtt.c
+index 67d14afa6623..efb51e881c5a 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gtt.c
++++ b/drivers/gpu/drm/i915/gt/intel_gtt.c
+@@ -273,6 +273,7 @@ static void poison_scratch_page(struct drm_i915_gem_object *scratch)
+ 		val = POISON_FREE;
+ 
+ 	memset(vaddr, val, scratch->base.size);
++	drm_clflush_virt_range(vaddr, scratch->base.size);
+ }
+ 
+ int setup_scratch_page(struct i915_address_space *vm)
+-- 
+2.26.3
 
-> Currently I just have you listed as a contact, is there anyone else (or
-> a list) that I should add?
-
-Please do add Tvrtko (Cc'd). I guess it might make sense adding Jani and
-Rodrigo too, as backups. Similarly Tvrtko could be added to the other
-drm-intel-* trees. Doesn't hurt to have more eyes especially if some
-folks are on a vacation.
-
-Regards, Joonas
-
-> Thanks for adding your subsystem tree as a participant of linux-next.  As
-> you may know, this is not a judgement of your code.  The purpose of
-> linux-next is for integration testing and to lower the impact of
-> conflicts between subsystems in the next merge window.=20
->=20
-> You will need to ensure that the patches/commits in your tree/series have
-> been:
->      * submitted under GPL v2 (or later) and include the Contributor's
->         Signed-off-by,
->      * posted to the relevant mailing list,
->      * reviewed by you (or another maintainer of your subsystem tree),
->      * successfully unit tested, and=20
->      * destined for the current or next Linux merge window.
->=20
-> Basically, this should be just what you would send to Linus (or ask him
-> to fetch).  It is allowed to be rebased if you deem it necessary.
->=20
-> --=20
-> Cheers,
-> Stephen Rothwell=20
-> sfr@canb.auug.org.au
->=20
-> --=20
-> Cheers,
-> Stephen Rothwell
