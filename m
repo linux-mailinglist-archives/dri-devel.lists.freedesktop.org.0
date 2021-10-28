@@ -2,58 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80C0043DC27
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Oct 2021 09:35:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EF2743DB09
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Oct 2021 08:20:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E5056E91F;
-	Thu, 28 Oct 2021 07:35:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD2F089BFD;
+	Thu, 28 Oct 2021 06:20:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E2F66E5C5;
- Thu, 28 Oct 2021 02:01:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1635386516; x=1666922516;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version;
- bh=PumI7KYEnaLZedKWySsRxRR6/fjZlsD1mJD7/WiWdxk=;
- b=wQ19L+XCl/67TUm6cI1vbAGHm+Ao+OLFUELegU9UODSeSMAI3WS6ryTd
- wbeBNFtylxNzPEDuhuVHIFRamUu35dCLAExF6giilfOUCS1k/E4ATwHiT
- JNc2+zW3uAv3gsOKxOnonVC4DDQ4HvQarIp/nN/z8QxQzRo1qngelY51L g=;
-Received: from ironmsg-lv-alpha.qualcomm.com ([10.47.202.13])
- by alexa-out.qualcomm.com with ESMTP; 27 Oct 2021 18:55:52 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg-lv-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Oct 2021 18:55:51 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.922.7; 
- Wed, 27 Oct 2021 18:55:51 -0700
-Received: from sbillaka-linux.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.922.7; 
- Wed, 27 Oct 2021 18:55:46 -0700
-From: Sankeerth Billakanti <quic_sbillaka@quicinc.com>
-To: <dri-devel@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>,
- <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-CC: Sankeerth Billakanti <quic_sbillaka@quicinc.com>, <robdclark@gmail.com>,
- <seanpaul@chromium.org>, <swboyd@chromium.org>, <kalyan_t@codeaurora.org>,
- <abhinavk@codeaurora.org>, <dianders@chromium.org>, <khsieh@codeaurora.org>,
- <mkrishn@codeaurora.org>, <sbillaka@codeaurora.org>
-Subject: [PATCH v3 6/6] drm/msm/dp: Remove the hpd init delay for eDP
-Date: Thu, 28 Oct 2021 07:24:48 +0530
-Message-ID: <1635386088-18089-7-git-send-email-quic_sbillaka@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1635386088-18089-1-git-send-email-quic_sbillaka@quicinc.com>
-References: <1635386088-18089-1-git-send-email-quic_sbillaka@quicinc.com>
+Received: from mail-oo1-xc2d.google.com (mail-oo1-xc2d.google.com
+ [IPv6:2607:f8b0:4864:20::c2d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8905B89BFD
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Oct 2021 06:20:33 +0000 (UTC)
+Received: by mail-oo1-xc2d.google.com with SMTP id
+ w23-20020a4a9d17000000b002bb72fd39f3so213445ooj.11
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Oct 2021 23:20:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+ :subject:to:cc;
+ bh=6+eTf7nyr6M3KwEm+TOLweZAQxKtMfVD5JwzIPGapF4=;
+ b=XFMvMVNKWo0K9tklL2H+PQ5pnRbAvZXkJu6OVqgEKFrzqKb/qBrXK4jeGJCuIl/2Rs
+ ycXF/pYyFD7R3khkDEkpZo6R+ipPDYlxcQEIcRaMUSb/DuplmshZSHY9vfO4n/HZ8/Ir
+ lxD4yIUK5obFrRuQqv5qF5INpaolMTU/WPINM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:in-reply-to:references:from
+ :user-agent:date:message-id:subject:to:cc;
+ bh=6+eTf7nyr6M3KwEm+TOLweZAQxKtMfVD5JwzIPGapF4=;
+ b=eyx9SIFNUuwFxx84nADg5FxgMbFy0Vc3+rAD0dSnxz0EeqJ2AHWTS1IvhcrKg/JcJq
+ UuCg1AtCdZzbDu3HCwrVi+xcMdo1lCIqXwUEOk5pYF3gudflA1861AulBM2+T7gzulJB
+ pPbqK5Tpq3qkY/lpfq33TQJkNrBQBdCvo7FSrhrV7CTRDRtQR8t6i9aOq0yx2DCCqaYH
+ A3QbiVGEk1oomyr4PbdAPqWccn//mGxMBg/wCfQ1AVoQKewI6qvmLln/6VTn7lucgVPY
+ 25sd3R/PwBvYOP93dinI8/XLJyxjEFS4pOsnCt6KsYi3KUMvLNFiKRGBVBGZRBe/k3FL
+ fT8g==
+X-Gm-Message-State: AOAM530haQ6nslleVtC1Fijq1GLi48BWCyLUugGqj1e21y59JHFAsOIu
+ jdQwGGlqamgI9fHvXwGt2p17nfmS4Mo0Ccq9Yj51Aw==
+X-Google-Smtp-Source: ABdhPJyea8Fwx4YyKse423qLTPTFc+z3zOfjtneOqoZsNUJoAqTszW1lfetTqMDV080TNLNVBZYOcvECNsZXED/wHU4=
+X-Received: by 2002:a4a:e94e:: with SMTP id v14mr1125894ood.1.1635402032695;
+ Wed, 27 Oct 2021 23:20:32 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Wed, 27 Oct 2021 23:20:32 -0700
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-Mailman-Approved-At: Thu, 28 Oct 2021 07:35:12 +0000
+In-Reply-To: <1635386088-18089-2-git-send-email-quic_sbillaka@quicinc.com>
+References: <1635386088-18089-1-git-send-email-quic_sbillaka@quicinc.com>
+ <1635386088-18089-2-git-send-email-quic_sbillaka@quicinc.com>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.9.1
+Date: Wed, 27 Oct 2021 23:20:32 -0700
+Message-ID: <CAE-0n51J60efae0yMvC_ZfxX53YZLOgY_K1cpA8PLPedr6hMBA@mail.gmail.com>
+Subject: Re: [PATCH v3 1/6] dt-bindings: msm/dp: Add DP compatible strings for
+ sc7280
+To: Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
+ dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+Cc: Sankeerth Billakanti <sbillaka@codeaurora.org>, robdclark@gmail.com,
+ seanpaul@chromium.org, 
+ kalyan_t@codeaurora.org, abhinavk@codeaurora.org, dianders@chromium.org, 
+ khsieh@codeaurora.org, mkrishn@codeaurora.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,48 +75,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DP driver needs a 10 second delay before phy_init so that
-the usb combo phy initializes and sets up the necessary
-clocks for usb devices such as keyboard and mouse.
+Quoting Sankeerth Billakanti (2021-10-27 18:54:43)
+> From: Sankeerth Billakanti <sbillaka@codeaurora.org>
+>
+> The Qualcomm SC7280 platform supports one eDP controller
+> and a DP controller. This change will add the compatible
+> string for both eDP and DP to msm dp-controller binding.
+>
+> Signed-off-by: Sankeerth Billakanti <quic_sbillaka@quicinc.com>
+>
+> changes in v3:
+>     - Modify the subject (Doug Anderson)
+>     - Add sc7280-dp also to the list (Stephen Boyd)
+>
+> changes in v2:
+>     - Sort alphabetically (Stephen Boyd)
+>     - Cleanup residual stale changes in the patch (Matthias Kaehlcke)
+>     - Modify the subject (Doug Anderson)
+> ---
 
-eDP controller uses a standalone phy and need not wait for
-phy initialization from any other component. This change
-will remove the delay for eDP controller.
-
-Signed-off-by: Sankeerth Billakanti <quic_sbillaka@quicinc.com>
----
- drivers/gpu/drm/msm/dp/dp_display.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index 61385d6..de6a1fd 100644
---- a/drivers/gpu/drm/msm/dp/dp_display.c
-+++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -1430,6 +1430,7 @@ void __exit msm_dp_unregister(void)
- void msm_dp_irq_postinstall(struct msm_dp *dp_display)
- {
- 	struct dp_display_private *dp;
-+	u8 delay;
- 
- 	if (!dp_display)
- 		return;
-@@ -1438,7 +1439,15 @@ void msm_dp_irq_postinstall(struct msm_dp *dp_display)
- 
- 	dp_hpd_event_setup(dp);
- 
--	dp_add_event(dp, EV_HPD_INIT_SETUP, 0, 100);
-+	if (dp->dp_display.connector_type == DRM_MODE_CONNECTOR_eDP) {
-+		/* eDP does not need any delay before phy init */
-+		delay = 0;
-+	} else {
-+		/* DP needs 10 second delay to let usb combo phy initialize */
-+		delay = 100;
-+	}
-+
-+	dp_add_event(dp, EV_HPD_INIT_SETUP, 0, delay);
- }
- 
- void msm_dp_debugfs_init(struct msm_dp *dp_display, struct drm_minor *minor)
--- 
-2.7.4
-
+Reviewed-by: Stephen Boyd <swboyd@chromium.org>
