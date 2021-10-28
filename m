@@ -2,67 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5636B43DD59
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Oct 2021 10:58:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16F9A43DD8E
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Oct 2021 11:16:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9558F6E93F;
-	Thu, 28 Oct 2021 08:58:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA53B6E939;
+	Thu, 28 Oct 2021 09:16:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com
- [IPv6:2a00:1450:4864:20::329])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 708D66E93B;
- Thu, 28 Oct 2021 08:58:35 +0000 (UTC)
-Received: by mail-wm1-x329.google.com with SMTP id m42so5042710wms.2;
- Thu, 28 Oct 2021 01:58:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=4CDt1ISjRTMYLH7FxvvLqp3He8TQZQtgj+2GfXtaN90=;
- b=a49w+C/y2sbZAU5tKWLTRIp351EX7VpCOI6BKaM8KxWJvC5HzCpafogg+jEZ2O+f5a
- Nm/7cC3SJ2uXEmJ5bCkyV63be86lADCvdtC8euPvITGkeSRYZyQw7Sa1680UshZFXQz/
- 9UlHdHthOhGAcl73+AG83bWY/CJaTpkPfDA8/GzGX6HalbIti0y/6sjgY6/P/BSNDBiA
- 6GbgPHZ0q87VEgCbsxXdTsCQsRmlq0C4KnFUbX8xR46d4POBvvUr9nkVwcviOHxCqcg4
- kXZB1y8qbCNJRdsRMQ3DMbG2/5NN1hkF5HeNQMo34c5Uwz++WzYb5AX+49xiwcLK3kJX
- 90hg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=4CDt1ISjRTMYLH7FxvvLqp3He8TQZQtgj+2GfXtaN90=;
- b=Okq5YK2WYu/Ev/9q+qb8djKZFc9lWS26oWDl5zfLlT7lspl0P8HS29KRdT6aaq6CmZ
- JnRP0FZnL6INcvsEJZ1dCYgKYjASkOzBYwVc6ZoZDPeCsE+jQ1EH6UqLdXg/zhUr6EE4
- CbjU5vFFYgZLA+ggno0HMWuRYMYQhJO5OmB7WSFqRNcyD0Bm3jRoHrIlJ8bwf8z2RvP4
- n0T8LTzNIRDLc0YeWNuZKXMQtR/kuAr3gXzzsGukpN5FVFcY1svCXlPd0x3LOeyMMBQi
- zC3fXJWVqKFRk2J3aHNIPZszXhDYRSvWaxAXZj7WytEc5wG8N4MPSZNTg+ricANNOfFs
- 0/4A==
-X-Gm-Message-State: AOAM5309vx3bQkw+oq8CvbIAwXu7fteSqXhARnQIdukPt0yO50obOsNf
- Y4/7Uv5LCpTtHPXIQsVYAcSPk1RPxu0=
-X-Google-Smtp-Source: ABdhPJwOvkH0PJNa8GaEqN3ST8vn3EFPokaEJKjsSgERJyLOcZWZ1yA+NuGzCaCXn2rkSVmKVfClTA==
-X-Received: by 2002:a1c:540c:: with SMTP id i12mr3048967wmb.6.1635411513954;
- Thu, 28 Oct 2021 01:58:33 -0700 (PDT)
-Received: from abel.fritz.box (p5b0ea1b5.dip0.t-ipconnect.de. [91.14.161.181])
- by smtp.gmail.com with ESMTPSA id
- k22sm2412143wrd.59.2021.10.28.01.58.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 28 Oct 2021 01:58:33 -0700 (PDT)
-From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
- <christian.koenig@amd.com>
-To: dri-devel@lists.freedesktop.org,
-	linux-media@vger.kernel.org
-Cc: etnaviv@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
- spice-devel@lists.freedesktop.org
-Subject: [PATCH 4/4] drm/qxl: use iterator instead of dma_resv_shared_list
-Date: Thu, 28 Oct 2021 10:58:29 +0200
-Message-Id: <20211028085829.1726-4-christian.koenig@amd.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211028085829.1726-1-christian.koenig@amd.com>
-References: <20211028085829.1726-1-christian.koenig@amd.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 17FDA6E939
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Oct 2021 09:16:55 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10150"; a="230312133"
+X-IronPort-AV: E=Sophos;i="5.87,189,1631602800"; d="scan'208";a="230312133"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Oct 2021 02:16:54 -0700
+X-IronPort-AV: E=Sophos;i="5.87,189,1631602800"; d="scan'208";a="487056454"
+Received: from djustese-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.249.254.12])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Oct 2021 02:16:51 -0700
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20211028075155.02825f86@canb.auug.org.au>
+References: <20210122115918.63b56fa1@canb.auug.org.au>
+ <CAKMK7uEuJa1J66mo5dS+QRPy9NOENTx95SZ4rU2MeVRTWj7Kcw@mail.gmail.com>
+ <20210122182946.6beb10b7@canb.auug.org.au>
+ <CAKMK7uFWFVC0be2foiP8+2=vrqyh1e4mqkuk+2xY+fgSWAExyQ@mail.gmail.com>
+ <163533676481.68716.4009950051571709814@jlahtine-mobl.ger.corp.intel.com>
+ <20211028075155.02825f86@canb.auug.org.au>
+Subject: Re: linux-next: build warning after merge of the drm tree
+Cc: "Nikula, Jani" <jani.nikula@linux.intel.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Dave Airlie <airlied@linux.ie>, DRI <dri-devel@lists.freedesktop.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Chris Wilson <chris@chris-wilson.co.uk>
+From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+To: Stephen Rothwell <sfr@canb.auug.org.au>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Message-ID: <163541260904.5162.14679444275127334752@jlahtine-mobl.ger.corp.intel.com>
+User-Agent: alot/0.8.1
+Date: Thu, 28 Oct 2021 12:16:49 +0300
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,46 +61,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-I'm not sure why it is useful to know the number of fences
-in the reservation object, but we try to avoid exposing the
-dma_resv_shared_list() function.
+Quoting Stephen Rothwell (2021-10-27 23:51:55)
+> Hi Joonas,
+>=20
+> On Wed, 27 Oct 2021 15:12:44 +0300 Joonas Lahtinen <joonas.lahtinen@linux=
+.intel.com> wrote:
+> >
+> > We should be now good to go and add drm-intel-gt-next to linux-next.
+> >=20
+> > The branch would be as follows:
+> >=20
+> > drm-intel-gt-next     git://anongit.freedesktop.org/drm-intel for-linux=
+-next-gt
+> >=20
+> > Notice the "-gt" and the end of the for-linux-next branch name. This sh=
+ould eliminate
+> > the gap we have been having.
+>=20
+> I have added it to linux-next from today.
 
-So use the iterator instead. If more information is desired
-we could use dma_resv_describe() as well.
+Thanks!
 
-Signed-off-by: Christian König <christian.koenig@amd.com>
----
- drivers/gpu/drm/qxl/qxl_debugfs.c | 17 ++++++++++-------
- 1 file changed, 10 insertions(+), 7 deletions(-)
+> I called it just
+> "drm-intel-gt" for consistency with the other drm trees in linux-next.
 
-diff --git a/drivers/gpu/drm/qxl/qxl_debugfs.c b/drivers/gpu/drm/qxl/qxl_debugfs.c
-index 1f9a59601bb1..6a36b0fd845c 100644
---- a/drivers/gpu/drm/qxl/qxl_debugfs.c
-+++ b/drivers/gpu/drm/qxl/qxl_debugfs.c
-@@ -57,13 +57,16 @@ qxl_debugfs_buffers_info(struct seq_file *m, void *data)
- 	struct qxl_bo *bo;
- 
- 	list_for_each_entry(bo, &qdev->gem.objects, list) {
--		struct dma_resv_list *fobj;
--		int rel;
--
--		rcu_read_lock();
--		fobj = dma_resv_shared_list(bo->tbo.base.resv);
--		rel = fobj ? fobj->shared_count : 0;
--		rcu_read_unlock();
-+		struct dma_resv_iter cursor;
-+		struct dma_fence *fence;
-+		int rel = 0;
-+
-+		dma_resv_iter_begin(&cursor, bo->tbo.base.resv, true);
-+		dma_resv_for_each_fence_unlocked(&cursor, fence) {
-+			if (dma_resv_iter_is_restarted(&cursor))
-+				rel = 0;
-+			++rel;
-+		}
- 
- 		seq_printf(m, "size %ld, pc %d, num releases %d\n",
- 			   (unsigned long)bo->tbo.base.size,
--- 
-2.25.1
+We use the drm-intel-gt-next as the branch name in repo and DIM tolling, so=
+ if
+we are after consistenty consistency, using the full name probably makes
+sense. drm-intel-gt-next for name keeps open the option for separating
+the drm-intel-gt-fixes too, if we decide to do so in the future.
 
+> Currently I just have you listed as a contact, is there anyone else (or
+> a list) that I should add?
+
+Please do add Tvrtko (Cc'd). I guess it might make sense adding Jani and
+Rodrigo too, as backups. Similarly Tvrtko could be added to the other
+drm-intel-* trees. Doesn't hurt to have more eyes especially if some
+folks are on a vacation.
+
+Regards, Joonas
+
+> Thanks for adding your subsystem tree as a participant of linux-next.  As
+> you may know, this is not a judgement of your code.  The purpose of
+> linux-next is for integration testing and to lower the impact of
+> conflicts between subsystems in the next merge window.=20
+>=20
+> You will need to ensure that the patches/commits in your tree/series have
+> been:
+>      * submitted under GPL v2 (or later) and include the Contributor's
+>         Signed-off-by,
+>      * posted to the relevant mailing list,
+>      * reviewed by you (or another maintainer of your subsystem tree),
+>      * successfully unit tested, and=20
+>      * destined for the current or next Linux merge window.
+>=20
+> Basically, this should be just what you would send to Linus (or ask him
+> to fetch).  It is allowed to be rebased if you deem it necessary.
+>=20
+> --=20
+> Cheers,
+> Stephen Rothwell=20
+> sfr@canb.auug.org.au
+>=20
+> --=20
+> Cheers,
+> Stephen Rothwell
