@@ -2,51 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92A7843E44A
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Oct 2021 16:53:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22E8C43E39E
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Oct 2021 16:26:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05C7D6E986;
-	Thu, 28 Oct 2021 14:53:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 093976E98C;
+	Thu, 28 Oct 2021 14:26:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1202 seconds by postgrey-1.36 at gabe;
- Thu, 28 Oct 2021 14:53:41 UTC
-Received: from 3.mo576.mail-out.ovh.net (3.mo576.mail-out.ovh.net
- [188.165.52.203])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6846E6E986
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Oct 2021 14:53:41 +0000 (UTC)
-Received: from player737.ha.ovh.net (unknown [10.110.103.23])
- by mo576.mail-out.ovh.net (Postfix) with ESMTP id D794120EF1
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Oct 2021 14:14:03 +0000 (UTC)
+X-Greylist: delayed 509 seconds by postgrey-1.36 at gabe;
+ Thu, 28 Oct 2021 14:26:05 UTC
+Received: from 14.mo561.mail-out.ovh.net (14.mo561.mail-out.ovh.net
+ [188.165.43.98])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E0E5D6E98C
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Oct 2021 14:26:05 +0000 (UTC)
+Received: from player734.ha.ovh.net (unknown [10.108.4.73])
+ by mo561.mail-out.ovh.net (Postfix) with ESMTP id 408F22403A
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Oct 2021 14:17:34 +0000 (UTC)
 Received: from etezian.org (unknown [31.22.57.166])
  (Authenticated sender: andi@etezian.org)
- by player737.ha.ovh.net (Postfix) with ESMTPSA id 1D1EF1A41984F;
- Thu, 28 Oct 2021 14:13:53 +0000 (UTC)
+ by player734.ha.ovh.net (Postfix) with ESMTPSA id EBF39238E7D7F;
+ Thu, 28 Oct 2021 14:17:27 +0000 (UTC)
 Authentication-Results: garm.ovh; auth=pass
- (GARM-96R001f5f4b79e-0f83-4210-9c38-36dee9fee6bd,
- 525B1D08A26901CC0984473A0927D9CF1F2D8319) smtp.auth=andi@etezian.org
+ (GARM-100R003c472ee62-2be9-4ecf-84f6-62570791d73a,
+ 19738AB094897BD963DB89D239EF437C7015E8F6) smtp.auth=andi@etezian.org
 X-OVh-ClientIp: 31.22.57.166
-Date: Thu, 28 Oct 2021 16:13:52 +0200
+Date: Thu, 28 Oct 2021 16:17:26 +0200
 From: Andi Shyti <andi@etezian.org>
 To: Matt Roper <matthew.d.roper@intel.com>
 Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Paulo Zanoni <paulo.r.zanoni@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- Radhakrishna Sripada <radhakrishna.sripada@intel.com>,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
  Andi Shyti <andi.shyti@linux.intel.com>, Andi Shyti <andi@etezian.org>
-Subject: Re: [Intel-gfx] [PATCH 01/11] drm/i915: rework some irq functions to
- take intel_gt as argument
-Message-ID: <YXqwIKn0UQ//w6z+@jack.zhora.eu>
+Subject: Re: [Intel-gfx] [PATCH 02/11] drm/i915: split general MMIO setup
+ from per-GT uncore init
+Message-ID: <YXqw9gCvOtpifFrS@jack.zhora.eu>
 References: <20211008215635.2026385-1-matthew.d.roper@intel.com>
- <20211008215635.2026385-2-matthew.d.roper@intel.com>
+ <20211008215635.2026385-3-matthew.d.roper@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211008215635.2026385-2-matthew.d.roper@intel.com>
-X-Ovh-Tracer-Id: 12694239975881247242
+In-Reply-To: <20211008215635.2026385-3-matthew.d.roper@intel.com>
+X-Ovh-Tracer-Id: 12753349721586665994
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddrvdegvddgjedtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpeetnhguihcuufhhhihtihcuoegrnhguihesvghtvgiiihgrnhdrohhrgheqnecuggftrfgrthhtvghrnheptdfgudduhfefueeujeefieehtdeftefggeevhefgueellefhudetgeeikeduieefnecukfhppedtrddtrddtrddtpdefuddrvddvrdehjedrudeiieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepphhlrgihvghrjeefjedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegrnhguihesvghtvgiiihgrnhdrohhrghdprhgtphhtthhopegurhhiqdguvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhg
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddrvdegvddgjeduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpeetnhguihcuufhhhihtihcuoegrnhguihesvghtvgiiihgrnhdrohhrgheqnecuggftrfgrthhtvghrnheptdfgudduhfefueeujeefieehtdeftefggeevhefgueellefhudetgeeikeduieefnecukfhppedtrddtrddtrddtpdefuddrvddvrdehjedrudeiieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepphhlrgihvghrjeefgedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegrnhguihesvghtvgiiihgrnhdrohhrghdprhgtphhtthhopegurhhiqdguvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhg
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,23 +60,14 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Paulo and Matt,
+Hi Matt and Daniele,
 
-> From: Paulo Zanoni <paulo.r.zanoni@intel.com>
+> From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
 > 
-> We'll be adding multi-tile support soon; on multi-tile platforms
-> interrupts are per-tile and every tile has the full set of
-> interrupt registers.
+> In coming patches we'll be doing the actual tile initialization between
+> these two uncore init phases.
 > 
-> In this commit we start passing intel_gt instead of dev_priv for the
-> functions that are related to Xe_HP irq handling. Right now we're still
-> passing tile 0 everywhere, but in later patches we'll start actually
-> passing the correct tile.
-> 
-> Signed-off-by: Paulo Zanoni <paulo.r.zanoni@intel.com>
-> Co-authored-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-> Signed-off-by: Radhakrishna Sripada <radhakrishna.sripada@intel.com>
+> Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
 > Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
 
 Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
