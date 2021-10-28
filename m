@@ -1,44 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F90743E3CF
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Oct 2021 16:33:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC2AC43E4C1
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Oct 2021 17:15:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 40A136E97A;
-	Thu, 28 Oct 2021 14:33:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B6DE36E056;
+	Thu, 28 Oct 2021 15:14:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA5B06E0DB;
- Thu, 28 Oct 2021 14:33:38 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10151"; a="291255540"
-X-IronPort-AV: E=Sophos;i="5.87,190,1631602800"; d="scan'208";a="291255540"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Oct 2021 07:33:38 -0700
-X-IronPort-AV: E=Sophos;i="5.87,190,1631602800"; d="scan'208";a="487156570"
-Received: from ralfseng-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.251.214.156])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Oct 2021 07:33:33 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Cc: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, dim-tools@lists.freedesktop.org
-Subject: Re: [Intel-gfx] [PULL] drm-intel-fixes
-In-Reply-To: <YXqjnyedcljkaZE/@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <8735olh27y.fsf@intel.com> <YXqjnyedcljkaZE/@intel.com>
-Date: Thu, 28 Oct 2021 17:33:30 +0300
-Message-ID: <87pmrpfccl.fsf@intel.com>
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
+ [IPv6:2a00:1450:4864:20::42e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5AE0C6E053
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Oct 2021 15:14:56 +0000 (UTC)
+Received: by mail-wr1-x42e.google.com with SMTP id d10so10888372wrb.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Oct 2021 08:14:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=0rBv3gLltMIBQ7U6hPnNQRhn78uz/Pwsvkyd7M8egAA=;
+ b=XrBSzbJxjv6maJ5X5pv3kMsroXp2p9SyJ541SdKDQMGqPuXilU+omiGeBBkXPC3li1
+ 71RIQ+hY5wRvhzeeaQCes9zvIofH0qHk7OxYomXM2stshIvBT8sp3yJlx0FVwhS9kWXH
+ GhCkuUeatwwsMzHIDnihDUDoEmbPVA0tHIZjA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=0rBv3gLltMIBQ7U6hPnNQRhn78uz/Pwsvkyd7M8egAA=;
+ b=QyMfwz/O88psahCdzAocR9OIzvN01JnyiMMktLgYa5Tj5d939kX5stR/f9v1MdkB/D
+ AoWvID+MjMU0z1fs8kNHVqhL7cXmR1tATXrqdstpG86qDF66G0hcIV65CWgbQF7pl7A/
+ VS05iN153zUrCh6DNB+EbnOKG8ifa9d9l8LcEmwBpmwhS3TMi/eSdaYN1WdbWuO6sPuS
+ eBU/jhnRXaSLSIGm++4or/oEoECQwlva7F4TpgLJCRJYp8yQJ0m8lj0TQ8OPhF5eck7j
+ hvYqEVChjejz03G1g3rXzTS9qTlBqzPTALWHtwAD5CvO2chrwKjZUxcV2MeTQhlV1SrA
+ pUDg==
+X-Gm-Message-State: AOAM5302UKXICCO+foXK4H9KU2Xu8G4Aqro1n03QEpUBrTDKzRf13PA1
+ vaMEikBz1FXXG7rGKVkLI1hbog==
+X-Google-Smtp-Source: ABdhPJwgp2tebmKQBc35EaV+YNthU9hqMpcDkb+eto26VhD43IZqqUwbGq2+6fTdkzzI/X/tBu5gFg==
+X-Received: by 2002:a5d:4949:: with SMTP id r9mr6366818wrs.439.1635434094806; 
+ Thu, 28 Oct 2021 08:14:54 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id n17sm7000829wms.33.2021.10.28.08.14.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 28 Oct 2021 08:14:54 -0700 (PDT)
+Date: Thu, 28 Oct 2021 17:14:52 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Huang Rui <ray.huang@amd.com>, Dan Williams <dan.j.williams@intel.com>,
+ Ralph Campbell <rcampbell@nvidia.com>,
+ Roland Scheidegger <sroland@vmware.com>
+Subject: Re: [PATCH v2] drm/ttm: Do not put non-struct page memory into
+ PUD/PMDs
+Message-ID: <YXq+bELDrDiB2VPm@phenom.ffwll.local>
+References: <0-v2-a44694790652+4ac-ttm_pmd_jgg@nvidia.com>
+ <47182e81-39f2-1143-7654-fb31d171e4f3@linux.intel.com>
+ <e88f42a3-7f04-25d9-5274-24a700df689f@amd.com>
+ <20211020193702.GJ2744544@nvidia.com>
+ <YXFR85joqUODJyy/@phenom.ffwll.local>
+ <20211022185742.GO2744544@nvidia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20211022185742.GO2744544@nvidia.com>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,92 +83,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 28 Oct 2021, Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com=
-> wrote:
-> On Thu, Oct 28, 2021 at 01:29:21PM +0300, Jani Nikula wrote:
->>=20
->> Hi Dave & Daniel -
->>=20
->> Certainly more than I'd like at this stage, but it's mostly Cc: stable
->> material, and the tracepoint change is a last minute revert to dodge a
->> potential "tracepoints are uabi" bullet before it hits the final
->> release.
->>=20
->>=20
->> BR,
->> Jani.
->>=20
->>=20
->> drm-intel-fixes-2021-10-28:
->> drm/i915 fixes for v5.15 final:
->> - Remove unconditional clflushes
->> - Fix oops on boot due to sync state on disabled DP encoders
->> - Revert backend specific data added to tracepoints
->> - Remove useless and incorrect memory frequence calculation
->>=20
->> BR,
->> Jani.
->>=20
->> The following changes since commit 519d81956ee277b4419c723adfb154603c256=
-5ba:
->>=20
->>   Linux 5.15-rc6 (2021-10-17 20:00:13 -1000)
->>=20
->> are available in the Git repository at:
->>=20
->>   git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-fixes-2021-=
-10-28
->>=20
->> for you to fetch changes up to 9a4aa3a2f1606a03c220b21049baa4a2b6169626:
->>=20
->>   drm/i915: Revert 'guc_id' from i915_request tracepoint (2021-10-28 11:=
-45:11 +0300)
->>=20
->> ----------------------------------------------------------------
->> drm/i915 fixes for v5.15 final:
->> - Remove unconditional clflushes
->> - Fix oops on boot due to sync state on disabled DP encoders
->> - Revert backend specific data added to tracepoints
->> - Remove useless and incorrect memory frequence calculation
->>=20
->> ----------------------------------------------------------------
->> Imre Deak (1):
->>       drm/i915/dp: Skip the HW readout of DPCD on disabled encoders
->>=20
->> Joonas Lahtinen (1):
->>       drm/i915: Revert 'guc_id' from i915_request tracepoint
->>=20
->> Jos=C3=A9 Roberto de Souza (1):
->>       drm/i915: Remove memory frequency calculation
->>=20
->> Ville Syrj=C3=A4l=C3=A4 (2):
->>       drm/i915: Convert unconditional clflush to drm_clflush_virt_range()
->>       drm/i915: Catch yet another unconditioal clflush
->
-> Where did the third one go?
-> commit ef7ec41f17cb ("drm/i915: Replace the unconditional clflush with dr=
-m_clflush_virt_range()")
+On Fri, Oct 22, 2021 at 03:57:42PM -0300, Jason Gunthorpe wrote:
+> On Thu, Oct 21, 2021 at 01:41:39PM +0200, Daniel Vetter wrote:
+> > On Wed, Oct 20, 2021 at 04:37:02PM -0300, Jason Gunthorpe wrote:
+> > > On Wed, Oct 20, 2021 at 08:41:24AM +0200, Christian König wrote:
+> > > 
+> > > > > I think the patch subject needs updating to reflect that we're disabling
+> > > > > PUD/PMDs completely.
+> > > > > With that fixed,
+> > > 
+> > > Everyone is OK with this?
+> > > 
+> > > drm/ttm: remove ttm_bo_vm_insert_huge()
+> > > 
+> > > The huge page functionality in TTM does not work safely because PUD and
+> > > PMD entries do not have a special bit.
+> > > 
+> > > get_user_pages_fast() considers any page that passed pmd_huge() as
+> > > usable:
+> > > 
+> > > 	if (unlikely(pmd_trans_huge(pmd) || pmd_huge(pmd) ||
+> > > 		     pmd_devmap(pmd))) {
+> > > 
+> > > And vmf_insert_pfn_pmd_prot() unconditionally sets
+> > > 
+> > > 	entry = pmd_mkhuge(pfn_t_pmd(pfn, prot));
+> > > 
+> > > eg on x86 the page will be _PAGE_PRESENT | PAGE_PSE.
+> > > 
+> > > As such gup_huge_pmd() will try to deref a struct page:
+> > > 
+> > > 	head = try_grab_compound_head(pmd_page(orig), refs, flags);
+> > > 
+> > > and thus crash.
+> > > 
+> > > So, iomem cannot be installed using vmf_insert_pfn_pud/pmd_prot().
+> > > 
+> > > Thomas further notices that the drivers are not expecting the struct page
+> > > to be used by anything - in particular the refcount incr above will cause
+> > > them to malfunction. This means even the struct page memory cannot be
+> > > used.
+> > > 
+> > > Therefore everything about this is not able to fully work correctly
+> > > considering GUP_fast. Delete it entirely. It can return someday along with
+> > > a proper PMD/PUD_SPECIAL bit in the page table itself to gate GUP_fast.
+> > > 
+> > > Fixes: 314b6580adc5 ("drm/ttm, drm/vmwgfx: Support huge TTM pagefaults")
+> > > Reviewed-by: Christian König <christian.koenig@amd.com>
+> > > Reviewed-by: Thomas Hellström <thomas.helllstrom@linux.intel.com>
+> > > Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+> > 
+> > Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> > 
+> > I think we also want cc: stable here.
+> 
+> Ok
+>  
+> > Do you plan to land this through some dedicated pull for -rc? I think that
+> > makes sense to highlight it, but I can also smash this into some
+> > drm-fixes.
+> 
+> I was hoping you'd take it? Do want a v3?
 
-It failed to cherry-pick cleanly, and I failed to ask for a
-backport. Too late now, will need to go via -next-fixes or v5.16-rc1 and
-backports to stable.
+Hm totally lost this, I'm trying to not be too responsible for mm changes
+since it scares me :-) Plus dropping this very late in the release feels a
+bit risky.
 
-BR,
-Jani.
-
-
->
->>=20
->>  drivers/gpu/drm/i915/display/intel_dp.c  |  3 +++
->>  drivers/gpu/drm/i915/gt/intel_timeline.c |  4 ++--
->>  drivers/gpu/drm/i915/i915_reg.h          |  8 --------
->>  drivers/gpu/drm/i915/i915_trace.h        |  7 ++-----
->>  drivers/gpu/drm/i915/intel_dram.c        | 30 ++-----------------------=
------
->>  5 files changed, 9 insertions(+), 43 deletions(-)
->>=20
->> --=20
->> Jani Nikula, Intel Open Source Graphics Center
-
---=20
-Jani Nikula, Intel Open Source Graphics Center
+Ok if I stuff this into drm-next instead?
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
