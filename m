@@ -1,78 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BAC843E898
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Oct 2021 20:46:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F65E43E8E8
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Oct 2021 21:14:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A30376E438;
-	Thu, 28 Oct 2021 18:46:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B383B6E0AB;
+	Thu, 28 Oct 2021 19:14:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F4176E438
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Oct 2021 18:46:02 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 81E941FD53;
- Thu, 28 Oct 2021 18:46:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1635446760; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ecWVPcwOfzpV0QpOBidyI3KRjmXmd+oaLSz7CPNfAeI=;
- b=KhkBBOn2Vdct7RM/TTVUyX+511kWS5r5BqL7En9hUhxS4OurA+OH2jw8J5Hhv4NrBWsbbQ
- ajChZGk4Y4pK+C30piZ5BIY5RmibPc/HSnP8m9ex69nSQbKXBmHLocx16vB3PglXwe3baK
- xhh2E51GCMQe/U8JtrUCOIad3cSPG1E=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1635446760;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ecWVPcwOfzpV0QpOBidyI3KRjmXmd+oaLSz7CPNfAeI=;
- b=v8wLO+0StmBGDA07NDUBcmqFxhV4POUZhzQMPiCZBXzKjODhhwzFrl3+pN6kkwueK1OjAq
- tsb3uY8rwJSipoBQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2C52113F51;
- Thu, 28 Oct 2021 18:46:00 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id arReCejvemF/fwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Thu, 28 Oct 2021 18:46:00 +0000
-Message-ID: <e5b4681a-36cd-20ba-c763-c4ff00732eb4@suse.de>
-Date: Thu, 28 Oct 2021 20:45:59 +0200
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com
+ [IPv6:2a00:1450:4864:20::52d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A5F976E0AB
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Oct 2021 19:14:31 +0000 (UTC)
+Received: by mail-ed1-x52d.google.com with SMTP id z20so29279634edc.13
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Oct 2021 12:14:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:from:date:message-id:subject:to:cc
+ :content-transfer-encoding;
+ bh=5ojLsCpfNAlUcTskJp6rsZY21B6sY/VX+UQ6ok+M4/Q=;
+ b=Ra89hbLYPBAFTl59WQ8ccGq+LL9M97zhqQu6o2fov1KDfv8VEcb+ua2UHXjlIJnpRK
+ YXttec5TD3cyUBX6LA8nScRZpdUWWyZhO1QXcunwWy1naf5eP6o/IbBHQ1DMlRnLumJe
+ kygzyPHwlCJY9E2qLD1rClCF/dpf1QBEMnwOTHoFd1WcDk34jF8j3j2293lI0qYeOydG
+ 6JvOFKYivsNPkGzXNJuLNSq4RjNiiNW3Io0fqyZmZ/T87XF68IrPmfkz91sIqAy6CCMV
+ +brQKy5EebKwa5+ZT80g9pr0amUsFDY2OiZz7sX38zpU0jPL+NqhILL8VJx6Xrfbp7Ua
+ VnPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc
+ :content-transfer-encoding;
+ bh=5ojLsCpfNAlUcTskJp6rsZY21B6sY/VX+UQ6ok+M4/Q=;
+ b=v8yd856lRF5WImET7zh68a9w7ZD7n7LWxOxiGqaMIh5M+rsQvyKZb3G5gg8CvwhugB
+ s2RRfN41Cl2ugcYV3QWR331F1XCC67/QbqkHE8npqUxrsJk2qUI2uMMovMFEOw+YIORT
+ mbtndlciO/DcUVaorRncJJdsIsc2fb75D7YuUciIBGdTau/GIYeXEQT4Mr2VcxBIiWdf
+ tkUEqonfoZkj2niK8BmMV+eSSPmrv8s6OxXan2RWk8UO4XgOFY1xtG+Ht4rV1QNXONoK
+ FqclskTm0nVwlN6tdt3aYsYJ3VK1KQO1fYfSOHrBrXmDasvZxppzulPXQvecrmfinnD6
+ HDkw==
+X-Gm-Message-State: AOAM533/MUzjvQfueI4l4N4rmOy3GGdqlYQhXhOLojWT0HDimuZYurEr
+ i7tQ7sHh/cLHxOqA12Oc54vBVKV5mSZ7NOoJuiY=
+X-Google-Smtp-Source: ABdhPJw4CjWJ8BjZkJLwt0AYD32zbQfBFtou0bzldpRHIyrs5wcDMJCuHN+jb8OQZvEJwjqTG8vixIcKZomTxJxoDl4=
+X-Received: by 2002:a05:6402:26c1:: with SMTP id
+ x1mr8544268edd.395.1635448470197; 
+ Thu, 28 Oct 2021 12:14:30 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v1] drm: import DMA_BUF module namespace
-Content-Language: en-US
-To: Marcel Ziswiler <marcel.ziswiler@toradex.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
- "linux-next@vger.kernel.org" <linux-next@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Cc: "sfr@canb.auug.org.au" <sfr@canb.auug.org.au>,
- "airlied@linux.ie" <airlied@linux.ie>,
- "andreyknvl@gmail.com" <andreyknvl@gmail.com>,
- "linus.walleij@linaro.org" <linus.walleij@linaro.org>,
- "arnd@arndb.de" <arnd@arndb.de>, "lkft@linaro.org" <lkft@linaro.org>,
- "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
- "alexandre.belloni@bootlin.com" <alexandre.belloni@bootlin.com>,
- "mripard@kernel.org" <mripard@kernel.org>, "daniel@ffwll.ch"
- <daniel@ffwll.ch>
-References: <20211027152534.3366799-1-marcel@ziswiler.com>
- <77d1966e-3081-10d3-d7a8-c159b62004aa@suse.de>
- <0f90b5da6139316429363fc14f76e96366f4a4b5.camel@toradex.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <0f90b5da6139316429363fc14f76e96366f4a4b5.camel@toradex.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------mErstqRuzD08suBMKdvgcL6H"
+From: Dave Airlie <airlied@gmail.com>
+Date: Fri, 29 Oct 2021 05:14:19 +1000
+Message-ID: <CAPM=9tw2U8mu1H+yCg=eRvoWOJXu7FD81doH+qQhWt-yznRSbQ@mail.gmail.com>
+Subject: [git pull] drm fixes for 5.15 final
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,126 +68,176 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------mErstqRuzD08suBMKdvgcL6H
-Content-Type: multipart/mixed; boundary="------------YoNzEKjaCWljAM4gZ7Iwc0LE";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Marcel Ziswiler <marcel.ziswiler@toradex.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
- "linux-next@vger.kernel.org" <linux-next@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Cc: "sfr@canb.auug.org.au" <sfr@canb.auug.org.au>,
- "airlied@linux.ie" <airlied@linux.ie>,
- "andreyknvl@gmail.com" <andreyknvl@gmail.com>,
- "linus.walleij@linaro.org" <linus.walleij@linaro.org>,
- "arnd@arndb.de" <arnd@arndb.de>, "lkft@linaro.org" <lkft@linaro.org>,
- "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
- "alexandre.belloni@bootlin.com" <alexandre.belloni@bootlin.com>,
- "mripard@kernel.org" <mripard@kernel.org>, "daniel@ffwll.ch"
- <daniel@ffwll.ch>
-Message-ID: <e5b4681a-36cd-20ba-c763-c4ff00732eb4@suse.de>
-Subject: Re: [PATCH v1] drm: import DMA_BUF module namespace
-References: <20211027152534.3366799-1-marcel@ziswiler.com>
- <77d1966e-3081-10d3-d7a8-c159b62004aa@suse.de>
- <0f90b5da6139316429363fc14f76e96366f4a4b5.camel@toradex.com>
-In-Reply-To: <0f90b5da6139316429363fc14f76e96366f4a4b5.camel@toradex.com>
+Hi Linus,
 
---------------YoNzEKjaCWljAM4gZ7Iwc0LE
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Quiet but not too quiet, I blame Halloween. The first set of amdgpu
+fixes missed last week, hence why this has a few more of them, it's
+mostly display fixes for new GPUs and some debugfs OOB stuff. The i915
+patches have one to remove a tracepoint possible issue before it's a
+real problem, the others around cflush and display are cc'ed to stable
+as well. Otherwise it's just a few misc fixes.
 
-SGkNCg0KQW0gMjcuMTAuMjEgdW0gMjI6NTQgc2NocmllYiBNYXJjZWwgWmlzd2lsZXI6DQo+
-IFNhbGkgVGhvbWFzDQo+IA0KPiBPbiBXZWQsIDIwMjEtMTAtMjcgYXQgMjA6MzAgKzAyMDAs
-IFRob21hcyBaaW1tZXJtYW5uIHdyb3RlOg0KPj4gSGksDQo+Pg0KPj4gdGhhbmtzIGZvciB0
-aGUgcGF0Y2guDQo+IA0KPiBZb3UgYXJlIHZlcnkgd2VsY29tZS4NCj4gDQo+PiBBbSAyNy4x
-MC4yMSB1bSAxNzoyNSBzY2hyaWViIE1hcmNlbCBaaXN3aWxlcjoNCj4+PiBGcm9tOiBNYXJj
-ZWwgWmlzd2lsZXIgPG1hcmNlbC56aXN3aWxlckB0b3JhZGV4LmNvbT4NCj4+Pg0KPj4+IFRv
-ZGF5J3MgLW5leHQgZmFpbHMgYnVpbGRpbmcgYXJtNjQgZGVmY29uZmlnIGFzIGZvbGxvd3M6
-DQo+Pj4NCj4+PiBFUlJPUjogbW9kcG9zdDogbW9kdWxlIGRybV9jbWFfaGVscGVyIHVzZXMg
-c3ltYm9sIGRtYV9idWZfdnVubWFwIGZyb20NCj4+PiAgwqAgbmFtZXNwYWNlIERNQV9CVUYs
-IGJ1dCBkb2VzIG5vdCBpbXBvcnQgaXQuDQo+Pj4gRVJST1I6IG1vZHBvc3Q6IG1vZHVsZSBk
-cm1fY21hX2hlbHBlciB1c2VzIHN5bWJvbCBkbWFfYnVmX3ZtYXAgZnJvbQ0KPj4+ICDCoCBu
-YW1lc3BhY2UgRE1BX0JVRiwgYnV0IGRvZXMgbm90IGltcG9ydCBpdC4NCj4+Pg0KPj4+IFJl
-cG9ydGVkLWJ5OiBMaW51eCBLZXJuZWwgRnVuY3Rpb25hbCBUZXN0aW5nIDxsa2Z0QGxpbmFy
-by5vcmc+DQo+Pj4gRml4ZXM6IGNvbW1pdCA0YjJiNWUxNDJmZjQgKCJkcm06IE1vdmUgR0VN
-IG1lbW9yeSBtYW5hZ2VycyBpbnRvIG1vZHVsZXMiKQ0KPj4+IFNpZ25lZC1vZmYtYnk6IE1h
-cmNlbCBaaXN3aWxlciA8bWFyY2VsLnppc3dpbGVyQHRvcmFkZXguY29tPg0KPj4+DQo+Pj4g
-LS0tDQo+Pj4NCj4+PiAgwqAgZHJpdmVycy9ncHUvZHJtL2RybV9nZW1fY21hX2hlbHBlci5j
-IHwgMiArKw0KPj4+ICDCoCAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspDQo+Pj4N
-Cj4+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2RybV9nZW1fY21hX2hlbHBlci5j
-IGIvZHJpdmVycy9ncHUvZHJtL2RybV9nZW1fY21hX2hlbHBlci5jDQo+Pj4gaW5kZXggNmY3
-YjNmOGVjMDRkMy4uNjlmODU2NGFkMTFjZCAxMDA2NDQNCj4+PiAtLS0gYS9kcml2ZXJzL2dw
-dS9kcm0vZHJtX2dlbV9jbWFfaGVscGVyLmMNCj4+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0v
-ZHJtX2dlbV9jbWFfaGVscGVyLmMNCj4+PiBAQCAtMjMsNiArMjMsOCBAQA0KPj4+ICDCoCAj
-aW5jbHVkZSA8ZHJtL2RybV9nZW1fY21hX2hlbHBlci5oPg0KPj4+ICDCoCAjaW5jbHVkZSA8
-ZHJtL2RybV92bWFfbWFuYWdlci5oPg0KPj4+ICAgIA0KPj4+ICtNT0RVTEVfSU1QT1JUX05T
-KERNQV9CVUYpOw0KPj4NCj4+IENvdWxkIHRoaXMgbGluZSBiZSBtb3ZlZCB0byB0aGUgYm90
-dG9tIG9mIHRoZSBmaWxlLCB3aGVyZSB0aGUgb3RoZXINCj4+IE1PRFVMRSBzdGF0ZW1lbnRz
-IGFyZT8NCj4gDQo+IEhlaGUsIGdvb2QgcXVlc3Rpb24uIEkgd2FzIGFjdHVhbGx5IGFza2lu
-ZyBteXNlbGYgdGhlIHNhbWUgYnV0IHF1aWNrbHkgbG9va2luZyBhdCBhIGZldyBmaWxlcyBh
-bmQgdGhleSBhbGwgaGFkDQo+IGl0IGFmdGVyIHRoZWlyIGluY2x1ZGVzIHRvd2FyZHMgdGhl
-IHRvcC4gVHVybnMgb3V0IHRoYXQgd2FzIHJhdGhlciBzaG9ydCBzaWdodGVkLi4uDQo+IA0K
-PiBMZXQgbWUgbG9vayBtb3JlIGNsb3NlbHkuIEN1cnJlbnQgLW5leHQgaGFzIGV4YWN0bHkg
-MjAwIGZpbGVzIHdpdGggYSBNT0RVTEVfSU1QT1JUX05TIHN0YXRlbWVudC4gT2theSwgc29t
-ZSBvZg0KPiB3aGljaCBhcmUgZG9jdW1lbnRhdGlvbi4gQW55d2F5LCAxMzIgb2Ygd2hpY2gg
-ZG8gaGF2ZSBpdCB3aXRoIHRoZWlyIG90aGVyIE1PRFVMRSBtYWNyb3MgdG93YXJkcyB0aGUg
-ZW5kIGFzIHlvdQ0KPiBzdWdnZXN0LiAyMCBvZiB3aGljaCBhbmQgbWFpbmx5IERSTSBzdHVm
-ZiBoYXMgaXQgdG93YXJkcyB0aGUgdG9wIGFmdGVyIHRoZW0gaW5jbHVkZXMuIEZ1bm55Lg0K
-PiANCj4gV2hhdCBkb2VzIHRoZSBkb2N1bWVudGF0aW9uIHN1Z2dlc3Q/DQo+IA0KPiBEb2N1
-bWVudGF0aW9uL2NvcmUtYXBpL3N5bWJvbC1uYW1lc3BhY2VzLnJzdA0KPiANCj4gIkl0IGlz
-IGFkdmlzYWJsZSB0byBhZGQgdGhlIE1PRFVMRV9JTVBPUlRfTlMoKSBzdGF0ZW1lbnQgY2xv
-c2UgdG8gb3RoZXIgbW9kdWxlDQo+IG1ldGFkYXRhIGRlZmluaXRpb25zIGxpa2UgTU9EVUxF
-X0FVVEhPUigpIG9yIE1PRFVMRV9MSUNFTlNFKCkuIFJlZmVyIHRvIHNlY3Rpb24NCj4gNS4g
-Zm9yIGEgd2F5IHRvIGNyZWF0ZSBtaXNzaW5nIGltcG9ydCBzdGF0ZW1lbnRzIGF1dG9tYXRp
-Y2FsbHkuIg0KPiANCj4gVGhlcmUgeW91IGdvLiBQbHVzIHRoZXJlIGlzIGV2ZW4gc29tZSBm
-YW5jeSBhdXRvbWF0aW9uICg7LXApLg0KPiANCj4gU28gbGV0IG1lIG1vdmUgaXQgZG93biB0
-aGVyZSB0aGVuLg0KDQpXaWxsIHlvdSBzZW5kIG91dCBhbm90aGVyIHJldmlzaW9uIG9mIHRo
-ZSBwYXRjaD8NCg0KPiANCj4+IEluIHRoZSBmaXhlZCBjb21taXQgNGIyYjVlMTQyZmY0LCB0
-aGVyZSdzIGEgc2ltaWxhciBjaGFuZ2UgZm9yDQo+PiBkcm1fZ2VtX3NobWVtX2hlbHBlci5j
-LiBJdCB1c2VzIGRtYS1idWZfdm1hcCBhcyB3ZWxsLiBEb2VzIHRoYXQgbW9kdWxlDQo+PiBy
-ZXF1aXJlIHRoZSBzYW1lIGZpeD8NCj4gDQo+IExpa2VseS4gTGV0IG1lIGp1c3QgcnVuIHpl
-IGF1dG9tYXRpb24gYW5kIHNlZSB3aGF0IHdlIGdldC4uLg0KPiANCj4+IERvIHlvdSBoYXZl
-IGFueSBpZGVhIHdoeSBJIGRvbid0IHNlZSB0aGVzZSBlcnJvcnMgaW4gbXkgYnVpbGRzPw0K
-PiANCj4gV2VsbCwgSSBndWVzcywgdGhlcmUgYXJlIHZhcmlvdXMgS0NPTkZJRyBzeW1ib2xz
-IGluZmx1ZW5jaW5nIHRoYXQgd2hvbGUgc3RvcnkuIEhvdyBhYm91dCBlLmcuDQo+IA0KPiBp
-bml0L0tjb25maWc6Y29uZmlnIE1PRFVMRV9BTExPV19NSVNTSU5HX05BTUVTUEFDRV9JTVBP
-UlRTDQoNClRoYW5rcyBmb3IgdGhlIGhpbnQuDQoNCkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoN
-Cj4gDQo+PiBCZXN0IHJlZ2FyZHMNCj4+IFRob21hcw0KPiANCj4gQ2hlZXJzDQo+IA0KPiBN
-YXJjZWwNCj4gDQo+Pj4gKw0KPj4+ICDCoCAvKioNCj4+PiAgwqDCoCAqIERPQzogY21hIGhl
-bHBlcnMNCj4+PiAgwqDCoCAqDQo+Pj4NCj4+DQo+PiAtLSANCj4+IFRob21hcyBaaW1tZXJt
-YW5uDQo+PiBHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQo+PiBTVVNFIFNvZnR3YXJlIFNv
-bHV0aW9ucyBHZXJtYW55IEdtYkgNCj4+IE1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVy
-ZywgR2VybWFueQ0KPj4gKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KPj4gR2VzY2jDpGZ0
-c2bDvGhyZXI6IEZlbGl4IEltZW5kw7ZyZmZlcg0KPiANCg0KLS0gDQpUaG9tYXMgWmltbWVy
-bWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlv
-bnMgR2VybWFueSBHbWJIDQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1h
-bnkNCihIUkIgMzY4MDksIEFHIE7DvHJuYmVyZykNCkdlc2Now6RmdHNmw7xocmVyOiBGZWxp
-eCBJbWVuZMO2cmZmZXINCg==
+Dave.
 
---------------YoNzEKjaCWljAM4gZ7Iwc0LE--
+drm-fixes-2021-10-29:
+drm fixes for 5.15 final
 
---------------mErstqRuzD08suBMKdvgcL6H
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+MAINTAINERS:
+- change the paths
 
------BEGIN PGP SIGNATURE-----
+ttm:
+- Fix fence leak in ttm_transfered_destroy.
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmF67+cFAwAAAAAACgkQlh/E3EQov+CR
-Dw/8C0RXo97a70QQN2Xt9ROWfK+aE3antAURtxdLdXbKyjjeXlywMzzpTjkjID8YOS/cIwz5rU7h
-sswYnkEGzKLgwMdwVHU51R0cKG4Wrvgz6nB/3zkSlt0yZJv5PY0GkX2oZ842lcYcC4FyDc/grjc4
-1ntK3vORuWF/NnEk/VPqU1JlX1gf45b6OHEIhovgfAjnWdoOeD1cB6XNMxyOH2rXvgCqzDUT0lIa
-XtzKlPKrG0AP2J1DWDgDyOJGeyMQeDz46p2ud3+2a1VnLFCz8493flBZwtv5CRQdloZ12dLMdWBe
-OepG2BKbgbemJpmpgKVJAhc3mipvLlSuWPuaO9kP9dxhsxQPrrCMcKX8Wr3/VzQh9pOCCj6cddsI
-mIaSZAFPpJVrkTISCMdOFnpwjBd8YaeVryJv9ahec8TMad+lJA9SIDMcLpQ35w3pOKgnyktS6Mlr
-+tW6F1w8WvmMIBpGIpMd2PDZ0zrHGgrDwTyxdqLd7fL7v60xS44SaTftpYB//VtIW5o26Nfs8tco
-DeKpDm5JP84utCDt/a/KMRnfZ5iDpJaQFn+WWeBeGxgH573aW9Qg9b3EcqHYn4u6FfP4SM3+00AA
-8YtOM70ZXJejvrBBdGU9ILA0zfyrnhz04I9dBAWZ4u+lhjCx31MjHafcl66wS0AEC2xilUYQhYpC
-KsQ=
-=L9Du
------END PGP SIGNATURE-----
+core:
+- add GPD Win3 rotation quirk
 
---------------mErstqRuzD08suBMKdvgcL6H--
+i915:
+- Remove unconditional clflushes
+- Fix oops on boot due to sync state on disabled DP encoders
+- Revert backend specific data added to tracepoints
+- Remove useless and incorrect memory frequency calculation
+
+panel:
+- Add quirk for Aya Neo 2021
+
+seltest:
+- Reset property count for each drm damage selftest so full run will
+work correctly.
+
+amdgpu:
+- Fix two potential out of bounds writes in debugfs
+- Fix revision handling for Yellow Carp
+- Display fixes for Yellow Carp
+- Display fixes for DCN 3.1
+The following changes since commit 3906fe9bb7f1a2c8667ae54e967dc8690824f4ea=
+:
+
+  Linux 5.15-rc7 (2021-10-25 11:30:31 -0700)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2021-10-29
+
+for you to fetch changes up to b112166a894db446f47a8c31781b037f28ac1721:
+
+  MAINTAINERS: dri-devel is for all of drivers/gpu (2021-10-29 04:49:11 +10=
+00)
+
+----------------------------------------------------------------
+drm fixes for 5.15 final
+
+MAINTAINERS:
+- change the paths
+
+ttm:
+- Fix fence leak in ttm_transfered_destroy.
+
+core:
+- add GPD Win3 rotation quirk
+
+i915:
+- Remove unconditional clflushes
+- Fix oops on boot due to sync state on disabled DP encoders
+- Revert backend specific data added to tracepoints
+- Remove useless and incorrect memory frequence calculation
+
+panel:
+- Add quirk for Aya Neo 2021
+
+seltest:
+- Reset property count for each drm damage selftest so full run will
+work correctly.
+
+amdgpu:
+- Fix two potential out of bounds writes in debugfs
+- Fix revision handling for Yellow Carp
+- Display fixes for Yellow Carp
+- Display fixes for DCN 3.1
+
+----------------------------------------------------------------
+Aaron Liu (1):
+      drm/amdgpu: support B0&B1 external revision id for yellow carp
+
+Bryant Mairs (1):
+      drm: panel-orientation-quirks: Add quirk for Aya Neo 2021
+
+Christian K=C3=B6nig (1):
+      drm/ttm: fix memleak in ttm_transfered_destroy
+
+Daniel Vetter (2):
+      drm/i915/selftests: Properly reset mock object propers for each test
+      MAINTAINERS: dri-devel is for all of drivers/gpu
+
+Dave Airlie (5):
+      Merge tag 'amd-drm-fixes-5.15-2021-10-21' of
+https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
+      Merge tag 'amd-drm-fixes-5.15-2021-10-27' of
+https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
+      Merge tag 'drm-misc-fixes-2021-10-26' of
+git://anongit.freedesktop.org/drm/drm-misc into drm-fixes
+      Merge tag 'drm-misc-fixes-2021-10-28' of
+git://anongit.freedesktop.org/drm/drm-misc into drm-fixes
+      Merge tag 'drm-intel-fixes-2021-10-28' of
+git://anongit.freedesktop.org/drm/drm-intel into drm-fixes
+
+Eric Yang (1):
+      drm/amd/display: increase Z9 latency to workaround underflow in Z9
+
+Imre Deak (1):
+      drm/i915/dp: Skip the HW readout of DPCD on disabled encoders
+
+Jake Wang (1):
+      drm/amd/display: Moved dccg init to after bios golden init
+
+Joonas Lahtinen (1):
+      drm/i915: Revert 'guc_id' from i915_request tracepoint
+
+Jos=C3=A9 Roberto de Souza (1):
+      drm/i915: Remove memory frequency calculation
+
+Mario (1):
+      drm: panel-orientation-quirks: Add quirk for GPD Win3
+
+Michael Strauss (1):
+      drm/amd/display: Fallback to clocks which meet requested voltage on D=
+CN31
+
+Nicholas Kazlauskas (3):
+      drm/amd/display: Fix prefetch bandwidth calculation for DCN3.1
+      drm/amd/display: Require immediate flip support for DCN3.1 planes
+      drm/amd/display: Fix deadlock when falling back to v2 from v3
+
+Nikola Cornij (2):
+      drm/amd/display: Limit display scaling to up to true 4k for DCN 3.1
+      drm/amd/display: Increase watermark latencies for DCN3.1
+
+Patrik Jakobsson (1):
+      drm/amdgpu: Fix even more out of bound writes from debugfs
+
+Thelford Williams (1):
+      drm/amdgpu: fix out of bounds write
+
+Ville Syrj=C3=A4l=C3=A4 (2):
+      drm/i915: Convert unconditional clflush to drm_clflush_virt_range()
+      drm/i915: Catch yet another unconditioal clflush
+
+ MAINTAINERS                                        |  3 +--
+ drivers/gpu/drm/amd/amdgpu/nv.c                    |  2 +-
+ .../drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c  | 20 +++++++--------
+ .../amd/display/dc/clk_mgr/dcn31/dcn31_clk_mgr.c   | 29 +++++++++++++-----=
+---
+ drivers/gpu/drm/amd/display/dc/dcn31/dcn31_hwseq.c |  7 +++--
+ .../gpu/drm/amd/display/dc/dcn31/dcn31_resource.c  | 13 +++++++---
+ .../amd/display/dc/dml/dcn31/display_mode_vba_31.c |  6 ++---
+ drivers/gpu/drm/amd/display/include/dal_asic_id.h  |  2 +-
+ .../gpu/drm/amd/display/modules/hdcp/hdcp_psp.c    |  6 ++---
+ drivers/gpu/drm/drm_panel_orientation_quirks.c     | 12 +++++++++
+ drivers/gpu/drm/i915/display/intel_dp.c            |  3 +++
+ drivers/gpu/drm/i915/gt/intel_timeline.c           |  4 +--
+ drivers/gpu/drm/i915/i915_reg.h                    |  8 ------
+ drivers/gpu/drm/i915/i915_trace.h                  |  7 ++---
+ drivers/gpu/drm/i915/intel_dram.c                  | 30 ++----------------=
+----
+ drivers/gpu/drm/selftests/test-drm_damage_helper.c |  1 +
+ drivers/gpu/drm/ttm/ttm_bo_util.c                  |  1 +
+ 17 files changed, 72 insertions(+), 82 deletions(-)
