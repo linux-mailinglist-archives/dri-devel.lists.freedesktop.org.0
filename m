@@ -1,55 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FB5443DB0D
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Oct 2021 08:21:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 55E3143DB1D
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Oct 2021 08:31:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C3DB89B84;
-	Thu, 28 Oct 2021 06:21:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB3FD6E05C;
+	Thu, 28 Oct 2021 06:31:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32f.google.com (mail-ot1-x32f.google.com
- [IPv6:2607:f8b0:4864:20::32f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C650089B84
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Oct 2021 06:21:14 +0000 (UTC)
-Received: by mail-ot1-x32f.google.com with SMTP id
- w12-20020a056830410c00b0054e7ceecd88so7219471ott.2
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Oct 2021 23:21:14 -0700 (PDT)
+Received: from mail-ot1-x32d.google.com (mail-ot1-x32d.google.com
+ [IPv6:2607:f8b0:4864:20::32d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E5A66E051
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Oct 2021 06:31:29 +0000 (UTC)
+Received: by mail-ot1-x32d.google.com with SMTP id
+ o10-20020a9d718a000000b00554a0fe7ba0so1345523otj.11
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Oct 2021 23:31:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:in-reply-to:references:from:user-agent:date:message-id
  :subject:to:cc;
- bh=Mc9LKQAQoslOGm6o+pVM9AhRB1ZUOOEE/5oefVUl9Lc=;
- b=ispJvbrsPNohrDzzQOfGiAya2Gz/DXYBgvobMGSF8M38h1V5YLwF3zJvQ5mUvZWXwx
- dNEfCluGOMa///Ra8ket00k+BpYhjPld4QIjQuSaWuENr4YoQZ+SqqB8Z+bJu4ro7cMI
- wJxalHJpVDA7mjndkAe3QO2kjHgd/v7TFYCuU=
+ bh=fl3/6+D1WzrjlO9U2XlvyAbP1wGZPooZUWolFXNY6RE=;
+ b=icJvMa5pUjALY+NkhGVS54Ds28x++ZE3VJJWfsC4PaJl0wk9D0YnQX8VgrkoN1N+jf
+ 2XmMVSkoHKJAQY1yroE0GbT2nKRKFPJJoOL7J1FiJwRoemobn38o4iTMCRgTpjbbNkoV
+ wZ5HpRl/I3U6Mea/Wf46aCNQnb1zLIaYkJ0IQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:in-reply-to:references:from
  :user-agent:date:message-id:subject:to:cc;
- bh=Mc9LKQAQoslOGm6o+pVM9AhRB1ZUOOEE/5oefVUl9Lc=;
- b=y8wN7ahGav2Pv3zCHh8tC5QT++IWtiMZgscyTy4pR3InPzGmaglByUv2s2JcDU4I0R
- toDx9BskS71MrKoXJC4tk0NBtHXBK0McMEMy00iFiH3JeUDTgQfUOugrfz6SYfi7SocR
- zJYs4F1aa7ZkF7hoh7Qg9IEpKyEoV+r+6LOA0TAuCJ7qP2zdBjDfmqxs3vJiyUOn+ek+
- oDWcylavgb6xPpeMPmXWQv8lsyxBUw8utW8xels/8USgOFfonI6moXWC2Bm/XMp08326
- RA7IUXBpgouslPIyQJByNzVzRpLKZwUe0q9/GZEmVABzGp0qC97kItO47eIgQykJXmLF
- dKZw==
-X-Gm-Message-State: AOAM530BLFP56YV6L/4FRxLUmiXw/WuduM0kE2ZU9g/5tuAnhybFVq8G
- bn7tzlAW/d6UrXgrpxEHN6rpaHQflD+J6vEJL0BopA==
-X-Google-Smtp-Source: ABdhPJwXQHqI3ICCqimmpImWWFhlxNmRD9J4BKAimAk2nP8JakuCfq++JC5QTUaAhvBLQQixIagkH4fHHMXy87/FcEE=
-X-Received: by 2002:a9d:7655:: with SMTP id o21mr1891665otl.126.1635402074047; 
- Wed, 27 Oct 2021 23:21:14 -0700 (PDT)
+ bh=fl3/6+D1WzrjlO9U2XlvyAbP1wGZPooZUWolFXNY6RE=;
+ b=kHl1oHn0I+cxFGMOv83Rm4H9HxuMWbjLdgqrgqrwAJK9qdv25p7TQ5MyPKlKxO0vAT
+ 72yp/EmUcsH11BmkTxxrLZb1vadpGu5JztMT7GY4HpMZ469FJ1XL0Wq7/KCPurfOmyOu
+ o6Bb3WO4xeG2XsahVcMLG5bWc7N7uUYoxVEnSHoTdnTFvPz7c2lvuHyGBAzz3Y5oEtQr
+ I7wk8GELd6WFWDt9UZyTXXKclPmiI9GBh6aoYtzDZyrVDbcn6GDw4BDA37WTKX/bDMs1
+ ciJJkEkKVZf3jsSsDG6F78PWZBRJh1YPmRcFHgdaYCUb6V5Kxiv7bnbA1Gu6ujaxXOR2
+ v7ZA==
+X-Gm-Message-State: AOAM530M3dfYcH7clp6nklY0pS+IPVvKVTU9pKWW3TlQppMVDjeNAqdz
+ LFFM07d2Ocw8E5WwMQpCPkTkqoCwrSaLTzXPbJpTSsPt390=
+X-Google-Smtp-Source: ABdhPJwOH+dMU3ZV+EAZWCrAfkMlWceuSfzj8nbggbBIE6vGZwr08wjI7kbJHzryENUczI1dk388o3ot156zGeQHIH4=
+X-Received: by 2002:a9d:6e16:: with SMTP id e22mr1856094otr.77.1635402688480; 
+ Wed, 27 Oct 2021 23:31:28 -0700 (PDT)
 Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 27 Oct 2021 23:21:13 -0700
+ HTTPREST; Wed, 27 Oct 2021 23:31:27 -0700
 MIME-Version: 1.0
-In-Reply-To: <1635386088-18089-3-git-send-email-quic_sbillaka@quicinc.com>
+In-Reply-To: <1635386088-18089-4-git-send-email-quic_sbillaka@quicinc.com>
 References: <1635386088-18089-1-git-send-email-quic_sbillaka@quicinc.com>
- <1635386088-18089-3-git-send-email-quic_sbillaka@quicinc.com>
+ <1635386088-18089-4-git-send-email-quic_sbillaka@quicinc.com>
 From: Stephen Boyd <swboyd@chromium.org>
 User-Agent: alot/0.9.1
-Date: Wed, 27 Oct 2021 23:21:13 -0700
-Message-ID: <CAE-0n53gO-NtWosw8kjTkjv7eUPt+VH2rzAvDAYYwpGK+jJ=nw@mail.gmail.com>
-Subject: Re: [PATCH v3 2/6] drm/msm/dp: Add DP controllers for sc7280
+Date: Wed, 27 Oct 2021 23:31:27 -0700
+Message-ID: <CAE-0n52o0FtVhd_TPEf_NhpXwLErcYm9NX+dqW8RnwrYGrM6-Q@mail.gmail.com>
+Subject: Re: [PATCH v3 3/6] drm/dp: Add macro to check max_downspread
+ capability
 To: Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
  dri-devel@lists.freedesktop.org, 
  freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, 
@@ -73,32 +74,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Sankeerth Billakanti (2021-10-27 18:54:44)
-> The eDP controller on SC7280 is similar to the eDP/DP controllers
-> supported by the current driver implementation.
->
-> SC7280 supports one EDP and one DP controller which can operate
-> concurrently.
->
-> This change adds the support for eDP and DP controller on sc7280.
+Quoting Sankeerth Billakanti (2021-10-27 18:54:45)
+> Add a macro to check for the max_downspread capability in
+> drm_dp_helper.
 >
 > Signed-off-by: Sankeerth Billakanti <quic_sbillaka@quicinc.com>
->
-> changes in v3:
->     - Split into patches according to function (Dmitry Baryshkov)
->     - Use DP_CONTROLLER_1 for eDP controller intf (Dmitry Baryshkov)
->     - Use DP_CONTROLLER_0 for sc7280-dp (Dmitry Baryshkov)
->     - Add macro in drm_helper.h for checking ssc capability (Stephen Boyd)
->     - Use existing macro to check assr capability (Stephen Boyd)
->     - Add comment for HPD_INIT_SETUP delay (Stephen Boyd)
->
-> changes in v2:
->     - Don't initialize variables to 0 (Stephen Boyd)
->     - Use const for read-only dpcd (Stephen Boyd)
->     - Remove zero pixel clock check (Stephen Boyd)
->     - Sort compatible strings alphabetically (Stephen Boyd)
->     - Use pwm_bl.c for backlight instead of gpio (Stephen Boyd)
->     - Change return type for functions returning always 0 (Matthias Kaehlcke)
 > ---
 
+Looks OK to me. One question below
+
 Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+
+>  include/drm/drm_dp_helper.h | 6 ++++++
+>  1 file changed, 6 insertions(+)
+>
+> diff --git a/include/drm/drm_dp_helper.h b/include/drm/drm_dp_helper.h
+> index afdf7f4..b39e7a0 100644
+> --- a/include/drm/drm_dp_helper.h
+> +++ b/include/drm/drm_dp_helper.h
+> @@ -1784,6 +1784,12 @@ drm_dp_tps3_supported(const u8 dpcd[DP_RECEIVER_CAP_SIZE])
+>  }
+>
+>  static inline bool
+> +drm_dp_max_downspread(const u8 dpcd[DP_RECEIVER_CAP_SIZE])
+> +{
+> +       return dpcd[DP_MAX_DOWNSPREAD] & DP_MAX_DOWNSPREAD_0_5;
+
+Does it need a dpcd[DP_DPCD_REV] >= 0x11 check? Reading the spec I think
+the answer may be that we check for 1.1 and always return 1 if so just
+to make sure devices don't break the spec and put a 0 here when they're
+rev is >= v1.1?
+
+> +}
+> +
+> +static inline bool
+>  drm_dp_tps4_supported(const u8 dpcd[DP_RECEIVER_CAP_SIZE])
+>  {
+>         return dpcd[DP_DPCD_REV] >= 0x14 &&
