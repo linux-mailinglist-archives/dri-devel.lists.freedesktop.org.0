@@ -2,75 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EB2A43DBE5
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Oct 2021 09:23:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C81343DBFF
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Oct 2021 09:28:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 034936E90E;
-	Thu, 28 Oct 2021 07:23:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 972CE6E917;
+	Thu, 28 Oct 2021 07:28:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com
- [64.147.123.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A06486E909;
- Thu, 28 Oct 2021 07:23:07 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.west.internal (Postfix) with ESMTP id 86F0C2B01287;
- Thu, 28 Oct 2021 03:23:04 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute6.internal (MEProxy); Thu, 28 Oct 2021 03:23:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:mime-version:content-type; s=
- fm1; bh=KIwHOoVVMS/NPHj0iUVZa4i2QREEwVz6IUpJlR7w6SU=; b=KqgOsoCg
- iZABT+Z1QEirxMwCEEu4eNvL0mbns40gZa0cjZX3Xxtyr5nLzFe7TkLYEnM7Dr3J
- JDU+XXGIXGTk3dZPYhv/Yz4eKdhTRJJ5M0GOdwOnF/p2f3LF32Vetf73qs5zgnNV
- C082736yle5K/qnNdmUGYn5P4Zh81mmJspowDe7QtBhcJJf5EStypKvDNq7LZ+oQ
- RRtKtCXmXTjCH6mQTJCErxU48q2/xFzhGjSxK9F+juPAr/jfbJL/mdF22UU88fF5
- 9St9PX9Ve9gk8dqiodNCB/pjBaTA8Xgy6ZXZKUWfHZsf2gz4g9myRB80VgN5iEHa
- T5WGs/hIxMuDJA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:message-id
- :mime-version:subject:to:x-me-proxy:x-me-proxy:x-me-sender
- :x-me-sender:x-sasl-enc; s=fm1; bh=KIwHOoVVMS/NPHj0iUVZa4i2QREEw
- Vz6IUpJlR7w6SU=; b=dtAXHE8cersS1LMABlEEV7VrlfnOePysNA7VGUutJRplj
- w03mK2zOGBmyBMw5gxvZhTKF6ukKA4o3OiZR4EPdkNrvhvcXs8GNL+VFQWvVVQhM
- 1SyvL6ES2fyWY08T60eMQUkoaaqnZpkow7YxEDyh4r/jrAwvOVmQ1oL5SRLjfKkO
- btFSsEth0lQHj9SNwT8NWwf9LfLYNIVuog6cUNMxsoRK0g+GCOp67fs02dVFDUML
- LKRufsDIrYV5B04qCLsopAk8InmiPsvDsNQOVa5qqy9NrVv1hZHbNtbdSD6vdhxj
- zHgn1iRU+3Yb/D4wobkL5QM0aY65hODkSk+vvSFIA==
-X-ME-Sender: <xms:1096YWDutwAXy1uAgg4QEo7NHvmag3TWVW6rohEyQqfEaKdJYYLngg>
- <xme:1096YQjb8NY8flZcXna5DUGKDXdEhXD0VMkiUcVfQyU0Z5qElO48ZMKE7RkMOYSd7
- c9AVsdSOasQs18Xo5o>
-X-ME-Received: <xmr:1096YZnKFrxsW7TYVrBNdUbVwIhfx-GiVbsq5Th7N7_4eYbHQ5BxsDPBbdcGV3Ihbv39gEt6SXHv5HrwqrlhteD-CS2Mfg5cpuOySgu1>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrvdeguddguddugecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpeffhffvuffkgggtugesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
- gvrhhnpeeguedvtdehgeeghefhieegteffueefleevgefgkeevgeeiveduleejueegvdei
- gfenucffohhmrghinhepfhhrvggvuggvshhkthhophdrohhrghenucevlhhushhtvghruf
- hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdr
- thgvtghh
-X-ME-Proxy: <xmx:1096YUwlqUfxAhVL_ma4_8_R0rS6WaSZAbs4ev4bNLx1jEtKKMpR4A>
- <xmx:1096YbTt2gAU_7I9_EhRZzfqRtjhxkjW2lXmogPaDU3jd3HdHSimYg>
- <xmx:1096YfaJncnWJYOh_yIOfHr3nigBy6ZJoSKCaGPktgpN8flGuVsZkg>
- <xmx:2E96YQ8xwgf9eCP8-SqI9L5D1tW3Oj6w_805rqsiMvaEcq3ZcTj8-HKCUUo>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 28 Oct 2021 03:23:02 -0400 (EDT)
-Date: Thu, 28 Oct 2021 09:23:00 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, dim-tools@lists.freedesktop.org
-Subject: [PULL] drm-misc-fixes
-Message-ID: <20211028072300.b4gqexq6zfhby24g@gilmour>
+Received: from gandalf.ozlabs.org (gandalf.ozlabs.org
+ [IPv6:2404:9400:2:0:216:3eff:fee2:21ea])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC4CD6E909;
+ Thu, 28 Oct 2021 07:27:59 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4Hfxwp5Hh5z4xYy;
+ Thu, 28 Oct 2021 18:27:54 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=201702; t=1635406077;
+ bh=Qcv0WIWBqgF7S3Hx8WF1gQA6e3vrfumd7O64F1UC2XU=;
+ h=Date:From:To:Cc:Subject:From;
+ b=dteowK2iy6rMIyEGowhklT5fLwvmRbh3E/otbGJ68i/5MHgwMXUCkwq7IDT8J6Pjj
+ khzcJOW9FDVdxT9s7f0DpcZyfd267CrcAbIarL0nImIYlpTAVXXVo7k081S8d7X24w
+ 65bl+38Yag7DfqvLZRGZgB41tEWzU8D3+M6tGmIyddIO+GdTHpaUXLDWH2nF67YBS4
+ pg/vuZAOjiZ1/yVAt7Owjh9WBcJCILnUPrUZTdVw4Tqhra2itSe2NgxcbMmD1UR0FW
+ seh6DVyaCZd1z64nsI8Ta3c2BT5o9Agx80kgHgztPtfxhR79VtjK6zA0r17pvNwFqU
+ EKPB9ukJwQjAg==
+Date: Thu, 28 Oct 2021 18:27:53 +1100
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Greg KH <greg@kroah.com>, Arnd Bergmann <arnd@arndb.de>, Daniel Vetter
+ <daniel.vetter@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>, Joonas
+ Lahtinen <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi
+ <rodrigo.vivi@intel.com>, Intel Graphics <intel-gfx@lists.freedesktop.org>,
+ DRI <dri-devel@lists.freedesktop.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Linux Kernel Mailing
+ List <linux-kernel@vger.kernel.org>, Linux Next Mailing List
+ <linux-next@vger.kernel.org>, Matthew Auld <matthew.auld@intel.com>
+Subject: linux-next: manual merge of the char-misc tree with the drm-intel tree
+Message-ID: <20211028182753.56b6a174@canb.auug.org.au>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="tnfvh5ujnkdjosa6"
-Content-Disposition: inline
+Content-Type: multipart/signed; boundary="Sig_/ZxH8PJt7z=AaYJvoJhDlVz7";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,53 +59,73 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+--Sig_/ZxH8PJt7z=AaYJvoJhDlVz7
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
---tnfvh5ujnkdjosa6
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Hi all,
 
-Hi Dave, Daniel,
+Today's linux-next merge of the char-misc tree got a conflict in:
 
-Here's the (hopefully) final drm-misc-fixes PR for 5.15
+  drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
 
-I'll have a look tomorrow morning to see if anything has been committed
-and send a PR if so.
+between commit:
 
-Maxime
+  5740211ea442 ("drm/i915/dmabuf: fix broken build")
 
-drm-misc-fixes-2021-10-28:
-One patch to fix the default screen orientation on the GPD Win3
-The following changes since commit ee71fb6c4d99c51f2d82a32c503c872b7e40e7f7:
+from the drm-intel tree and commit:
 
-  drm/i915/selftests: Properly reset mock object propers for each test (2021-10-22 11:09:45 +0200)
+  16b0314aa746 ("dma-buf: move dma-buf symbols into the DMA_BUF module name=
+space")
 
-are available in the Git repository at:
+from the char-misc tree.
 
-  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-fixes-2021-10-28
+I fixed it up (see below) and can carry the fix as necessary. This
+is now fixed as far as linux-next is concerned, but any non trivial
+conflicts should be mentioned to your upstream maintainer when your tree
+is submitted for merging.  You may also want to consider cooperating
+with the maintainer of the conflicting tree to minimise any particularly
+complex conflicts.
 
-for you to fetch changes up to 61b1d445f3bfe4c3ba4335ceeb7e8ba688fd31e2:
+--=20
+Cheers,
+Stephen Rothwell
 
-  drm: panel-orientation-quirks: Add quirk for GPD Win3 (2021-10-26 20:57:10 +0200)
+diff --cc drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
+index a45d0ec2c5b6,abb854281347..000000000000
+--- a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
+@@@ -12,13 -13,8 +13,15 @@@
+  #include "i915_gem_object.h"
+  #include "i915_scatterlist.h"
+ =20
+ +#if defined(CONFIG_X86)
+ +#include <asm/smp.h>
+ +#else
+ +#define wbinvd_on_all_cpus() \
+ +	pr_warn(DRIVER_NAME ": Missing cache flush in %s\n", __func__)
+ +#endif
+ +
++ MODULE_IMPORT_NS(DMA_BUF);
++=20
+  I915_SELFTEST_DECLARE(static bool force_different_devices;)
+ =20
+  static struct drm_i915_gem_object *dma_buf_to_obj(struct dma_buf *buf)
 
-----------------------------------------------------------------
-One patch to fix the default screen orientation on the GPD Win3
-
-----------------------------------------------------------------
-Mario (1):
-      drm: panel-orientation-quirks: Add quirk for GPD Win3
-
- drivers/gpu/drm/drm_panel_orientation_quirks.c | 6 ++++++
- 1 file changed, 6 insertions(+)
-
---tnfvh5ujnkdjosa6
-Content-Type: application/pgp-signature; name="signature.asc"
+--Sig_/ZxH8PJt7z=AaYJvoJhDlVz7
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYXpP1AAKCRDj7w1vZxhR
-xcJXAQDK/wX+v/CzayJGAojr29DnK+z6HF/hOmNKOCdTCv/3bAEA+ysgZ0iw+jkr
-AKWmIFCrKIJE6yGV1JB0HRE04W/LsAc=
-=ecsY
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmF6UPkACgkQAVBC80lX
+0GzRngf/eUNxuO7M1M1QXanRfCOH/GCb3ybr/TsDwmInoK3A3IJQe3/Btjt5lbUE
+uh+KLTNNclL/Wk+batwFzkuNjjswFkkEGNVUjK4DEJkOKzKmPgl8LQ/BjpbGF+fv
+OnHbqb6Zj3DYyP0aWxkicTas83i2gK2DEbMfvTTRWI5S5pExoXc60Mhc3MsgGcPE
+xekDfHCTWEjzU4XzRLQeTgTCOj9n8s5b242gjc0wZizoP2L1y3lUab+2QauYxroL
+IVVegaFuTTZEuriepSs1jtFnYlyzFD57jS1AKi+hi/QU0EBJU4DhezFxw7p+AMil
+EIiCJ8jZZsCSPk59brKDGG46KQ7EIw==
+=as+o
 -----END PGP SIGNATURE-----
 
---tnfvh5ujnkdjosa6--
+--Sig_/ZxH8PJt7z=AaYJvoJhDlVz7--
