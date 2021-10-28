@@ -2,59 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83CE343E205
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Oct 2021 15:26:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 200A543E20B
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Oct 2021 15:26:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 015826E980;
-	Thu, 28 Oct 2021 13:26:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1AB676E987;
+	Thu, 28 Oct 2021 13:26:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
- [IPv6:2a00:1450:4864:20::335])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D57C96E971;
- Thu, 28 Oct 2021 13:26:34 +0000 (UTC)
-Received: by mail-wm1-x335.google.com with SMTP id
- 131-20020a1c0489000000b0032cca9883b5so8070010wme.0; 
- Thu, 28 Oct 2021 06:26:34 -0700 (PDT)
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com
+ [IPv6:2a00:1450:4864:20::332])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC8876E97B;
+ Thu, 28 Oct 2021 13:26:35 +0000 (UTC)
+Received: by mail-wm1-x332.google.com with SMTP id
+ j128-20020a1c2386000000b003301a98dd62so1013610wmj.5; 
+ Thu, 28 Oct 2021 06:26:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=F0uECfBAkPnxcTaaBNKjvRgDOvagF9vnqC8sbabETVI=;
- b=A/4UogMjSc8zQovGLXoblqVKJOl8bYZcitPpecVLxmxRfG6GDEgCJRCSjTFHun0aSD
- imL2m4WTdRWmc/zh0qvyk7bguneOTAGSeOUv5Y+n+gfGTApaWRHLcLy6B4uR9do15sdw
- 1XA2HJxLuTMqkAtDer2bpF8IjjnFQ+zZrlxF8PT99gjhjiShO8milE1ZJmsyFXSAdDbi
- xWCD8G9t683h5Yqk1TRUp1fEeEHp3xC8fSPXFELa82La/iItpIPTCwiWtJ9JXD4DC4x5
- fvLg3mSWULqYZuCovLQyyXzVl5HAgAqNzGW374YwJmUHQu8H7Uulm2ryJGPZVoaD/M+p
- gpCg==
+ bh=+ZOGlam3ZY615eG+CpWfufQSgg3eEwqr3uZmKnHNPog=;
+ b=kL4LO01axEADDFgKoypKI5W3+0I51DQJlfaqAybcnrgDt7QcmKegUIZCTfzOrrgOnd
+ WCLywig0D6KfHtiKzJBpknJctlOCbyW35Nrm3Csy5y9v0efZYhAPPc06nWaZyMMhxfWL
+ B7xBEvGtltHfS947NahYNpNJoe1tu/bheIOzESB9djQht1XOYwb+IiEiFpIm7GhDKPwH
+ hn5sMtvQjIUChX3cT6Fb1Uoe1G3KtDnrt0/tIKsZkpgfllbKQa28pZB6o5kXUh2FU84n
+ 3R8xdd4aRZE57lgKL8wkgKDmJPz3eDGi0NUhJq94Po1F3tURR3HXfzWuCx4p/vTlJZpn
+ bgQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=F0uECfBAkPnxcTaaBNKjvRgDOvagF9vnqC8sbabETVI=;
- b=gxP7VliBoUNw9R5fUwzSuCLr5/KmR3J3SDu8pDVm84WQrLTByD9LIKPdTL8kpkfXXe
- j+GL4QdXN9n7kdPL80UOUjj3wp3bXU73PMHQSdR9DHTaYntZDMl3az/xn6FEsBJqqUz6
- 0XgecXe9gGysRpS18QgkmcB/Q+RyXhuiDsxsRqA/PlxKzZeLboFq7BZyNL87YAUHlbqV
- OvF4HEQ1lY0Hv6j2jBs7/xmgNRc817+E+NpO9VA+fwAyMeZTjQbnZdF/qC5P/3AflC3r
- S1xs/SVQupzGzPND35MVihMncVwpBeFi+t5Fj9vuzLVLvD9/oEaq4HqT3ncUVnWsea3l
- 2Q1A==
-X-Gm-Message-State: AOAM530wkfPN6CXe3clxGveJnIFISraMMCAISiCX34NLWvOC3TXbkY0i
- qy/pl5cAKYwrsmX4+yNNTxq95zXi5nY=
-X-Google-Smtp-Source: ABdhPJxxWVtcxYU9iftgYazqCFP/sUSWmT5rCt1z6ncO18Obe7fDA9DTTFpIPtN7KUSLRq3trOGntQ==
-X-Received: by 2002:a7b:c192:: with SMTP id y18mr4590744wmi.31.1635427593520; 
- Thu, 28 Oct 2021 06:26:33 -0700 (PDT)
+ bh=+ZOGlam3ZY615eG+CpWfufQSgg3eEwqr3uZmKnHNPog=;
+ b=Nr1m5yPJdjjcE2No9JYGlNGzkh2QalczjellYlN9z4JNN00/x3PwGKALdv3qxmHCW1
+ tJ1LNua8FFWOtcYYv+sRb20TcTSuV16Sqsuap/u9cb6Vsb61Q3DBjDBYDCLfQdFFhFuG
+ k27ZN+87ytLHLQyJDXxLhUePm+YL3jC7Bq9H9gQQ+0/6QkrTzeUtKYrKP8viAT5Svkeu
+ 0T5FP4wJ6+ieWiESXOSlp+FDXyO4jZgKFCMwLn6W3Npm4eEySf1IsjxvvpbC5x4YH1Qs
+ pjtr/i/rXH5Si/LrJzdr7yTP9vKhyH1wBaelVJL5bT0xht2fyVWKoOzWA+1TuuUU6NKE
+ ahwQ==
+X-Gm-Message-State: AOAM530MmixL93yWCp4ARhIl0iYhzd8e89Z/ExCpszHSf0NNZS7S36GT
+ TRdki4ymetkf2cSo77T3jQyB4XPdrM4=
+X-Google-Smtp-Source: ABdhPJwhMpsL5tAuu5HCCIQ8uQ0zuJwI57WPFv2ZZVxa4Y++aF7AwdEm+jlfxuSci85VLFZEpY5Inw==
+X-Received: by 2002:a05:600c:4293:: with SMTP id
+ v19mr4468381wmc.187.1635427594441; 
+ Thu, 28 Oct 2021 06:26:34 -0700 (PDT)
 Received: from abel.fritz.box (p5b0ea1b5.dip0.t-ipconnect.de. [91.14.161.181])
  by smtp.gmail.com with ESMTPSA id
- l11sm2935695wrt.49.2021.10.28.06.26.32
+ l11sm2935695wrt.49.2021.10.28.06.26.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 28 Oct 2021 06:26:33 -0700 (PDT)
+ Thu, 28 Oct 2021 06:26:34 -0700 (PDT)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
  <christian.koenig@amd.com>
 To: dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
  etnaviv@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
-Subject: [PATCH 2/6] drm/amdgpu: stop getting excl fence separately
-Date: Thu, 28 Oct 2021 15:26:26 +0200
-Message-Id: <20211028132630.2330-2-christian.koenig@amd.com>
+Subject: [PATCH 3/6] drm/etnaviv: stop getting the excl fence separately here
+Date: Thu, 28 Oct 2021 15:26:27 +0200
+Message-Id: <20211028132630.2330-3-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211028132630.2330-1-christian.koenig@amd.com>
 References: <20211028132630.2330-1-christian.koenig@amd.com>
@@ -76,57 +77,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Just grab all fences for the display flip in one go.
+Just grab all fences in one go.
 
 Signed-off-by: Christian König <christian.koenig@amd.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu.h         | 1 -
- drivers/gpu/drm/amd/amdgpu/amdgpu_display.c | 6 +-----
- 2 files changed, 1 insertion(+), 6 deletions(-)
+ drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-index d58e37fd01f4..4da7eb65e744 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-@@ -457,7 +457,6 @@ struct amdgpu_flip_work {
- 	uint64_t			base;
- 	struct drm_pending_vblank_event *event;
- 	struct amdgpu_bo		*old_abo;
--	struct dma_fence		*excl;
- 	unsigned			shared_count;
- 	struct dma_fence		**shared;
- 	struct dma_fence_cb		cb;
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-index dc50c05f23fc..68108f151dad 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-@@ -83,9 +83,6 @@ static void amdgpu_display_flip_work_func(struct work_struct *__work)
- 	unsigned i;
- 	int vpos, hpos;
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+index 8dc93863bf96..b5e8ce86dbe7 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+@@ -189,7 +189,7 @@ static int submit_fence_sync(struct etnaviv_gem_submit *submit)
+ 			continue;
  
--	if (amdgpu_display_flip_handle_fence(work, &work->excl))
--		return;
--
- 	for (i = 0; i < work->shared_count; ++i)
- 		if (amdgpu_display_flip_handle_fence(work, &work->shared[i]))
- 			return;
-@@ -203,7 +200,7 @@ int amdgpu_display_crtc_page_flip_target(struct drm_crtc *crtc,
- 		goto unpin;
- 	}
- 
--	r = dma_resv_get_fences(new_abo->tbo.base.resv, &work->excl,
-+	r = dma_resv_get_fences(new_abo->tbo.base.resv, NULL,
- 				&work->shared_count, &work->shared);
- 	if (unlikely(r != 0)) {
- 		DRM_ERROR("failed to get fences for buffer\n");
-@@ -253,7 +250,6 @@ int amdgpu_display_crtc_page_flip_target(struct drm_crtc *crtc,
- 
- cleanup:
- 	amdgpu_bo_unref(&work->old_abo);
--	dma_fence_put(work->excl);
- 	for (i = 0; i < work->shared_count; ++i)
- 		dma_fence_put(work->shared[i]);
- 	kfree(work->shared);
+ 		if (bo->flags & ETNA_SUBMIT_BO_WRITE) {
+-			ret = dma_resv_get_fences(robj, &bo->excl,
++			ret = dma_resv_get_fences(robj, NULL,
+ 						  &bo->nr_shared,
+ 						  &bo->shared);
+ 			if (ret)
 -- 
 2.25.1
 
