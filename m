@@ -2,48 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A85843E622
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Oct 2021 18:30:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BC3D43E63D
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Oct 2021 18:39:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B3B36E0A8;
-	Thu, 28 Oct 2021 16:30:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 249246E0AF;
+	Thu, 28 Oct 2021 16:39:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from 6.mo560.mail-out.ovh.net (6.mo560.mail-out.ovh.net
- [87.98.165.38])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD2E56E0A8
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Oct 2021 16:30:21 +0000 (UTC)
-Received: from player693.ha.ovh.net (unknown [10.108.16.43])
- by mo560.mail-out.ovh.net (Postfix) with ESMTP id 0061023ACE
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Oct 2021 16:30:19 +0000 (UTC)
+Received: from 7.mo575.mail-out.ovh.net (7.mo575.mail-out.ovh.net
+ [46.105.63.230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC75D6E0AF
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Oct 2021 16:39:39 +0000 (UTC)
+Received: from player787.ha.ovh.net (unknown [10.110.115.231])
+ by mo575.mail-out.ovh.net (Postfix) with ESMTP id 77C0C23FC8
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Oct 2021 16:33:22 +0000 (UTC)
 Received: from etezian.org (unknown [31.22.57.166])
  (Authenticated sender: andi@etezian.org)
- by player693.ha.ovh.net (Postfix) with ESMTPSA id C39CB23AF9E34;
- Thu, 28 Oct 2021 16:30:10 +0000 (UTC)
+ by player787.ha.ovh.net (Postfix) with ESMTPSA id 34FBB23ED280B;
+ Thu, 28 Oct 2021 16:33:14 +0000 (UTC)
 Authentication-Results: garm.ovh; auth=pass
- (GARM-98R002e4ba0109-9c7f-4c7c-abe6-b28c21dd06aa,
- 525B1D08A26901CC0984473A0927D9CF1F2D8319) smtp.auth=andi@etezian.org
+ (GARM-103G005a037f3d6-d91c-491d-be00-dfefa369bff3,
+ 19738AB094897BD963DB89D239EF437C7015E8F6) smtp.auth=andi@etezian.org
 X-OVh-ClientIp: 31.22.57.166
-Date: Thu, 28 Oct 2021 18:30:09 +0200
+Date: Thu, 28 Oct 2021 18:33:13 +0200
 From: Andi Shyti <andi@etezian.org>
 To: Matt Roper <matthew.d.roper@intel.com>
 Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Paulo Zanoni <paulo.r.zanoni@intel.com>,
+ Venkata Sandeep Dhanalakota <venkata.s.dhanalakota@intel.com>,
  Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
  Andi Shyti <andi.shyti@linux.intel.com>, Andi Shyti <andi@etezian.org>
-Subject: Re: [Intel-gfx] [PATCH 08/11] drm/i915/xehp: Make IRQ reset and
- postinstall multi-tile aware
-Message-ID: <YXrQEb1Isc+n9dAO@jack.zhora.eu>
+Subject: Re: [Intel-gfx] [PATCH 10/11] drm/i915: Release per-gt resources
+ allocated
+Message-ID: <YXrQyaDnNEtOqJ2K@jack.zhora.eu>
 References: <20211008215635.2026385-1-matthew.d.roper@intel.com>
- <20211008215635.2026385-9-matthew.d.roper@intel.com>
+ <20211008215635.2026385-11-matthew.d.roper@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211008215635.2026385-9-matthew.d.roper@intel.com>
-X-Ovh-Tracer-Id: 14995579386921028106
+In-Reply-To: <20211008215635.2026385-11-matthew.d.roper@intel.com>
+X-Ovh-Tracer-Id: 15047089305654004234
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddrvdegfedgudeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpeetnhguihcuufhhhihtihcuoegrnhguihesvghtvgiiihgrnhdrohhrgheqnecuggftrfgrthhtvghrnheptdfgudduhfefueeujeefieehtdeftefggeevhefgueellefhudetgeeikeduieefnecukfhppedtrddtrddtrddtpdefuddrvddvrdehjedrudeiieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepphhlrgihvghrieelfedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegrnhguihesvghtvgiiihgrnhdrohhrghdprhgtphhtthhopegurhhiqdguvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhg
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddrvdegfedgudejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpeetnhguihcuufhhhihtihcuoegrnhguihesvghtvgiiihgrnhdrohhrgheqnecuggftrfgrthhtvghrnheptdfgudduhfefueeujeefieehtdeftefggeevhefgueellefhudetgeeikeduieefnecukfhppedtrddtrddtrddtpdefuddrvddvrdehjedrudeiieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepphhlrgihvghrjeekjedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegrnhguihesvghtvgiiihgrnhdrohhrghdprhgtphhtthhopegurhhiqdguvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhg
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,21 +59,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Paulo and Matt,
+Hi Matt and Venkata,
 
-[...]
+On Fri, Oct 08, 2021 at 02:56:34PM -0700, Matt Roper wrote:
+> From: Venkata Sandeep Dhanalakota <venkata.s.dhanalakota@intel.com>
+> 
+> Iterate for_each_gt during release to support multi-tile
+> devices.
+> 
+> Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> Signed-off-by: Venkata Sandeep Dhanalakota <venkata.s.dhanalakota@intel.com>
+> Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
 
-> @@ -3190,14 +3190,19 @@ static void dg1_irq_reset(struct drm_i915_private *dev_priv)
+This patches are quite similar, we could even think of squashing
+them.
 
-mmmhhh... bad naming :/
-
-[...]
-
-> -	dg1_master_intr_enable(uncore->regs);
-> -	intel_uncore_posting_read(uncore, DG1_MSTR_TILE_INTR);
-> +	dg1_master_intr_enable(dev_priv->gt.uncore->regs);
-> +	intel_uncore_posting_read(dev_priv->gt.uncore, DG1_MSTR_TILE_INTR);
-
-I guess this should also go under a for_each_gt()
+Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
 
 Andi
