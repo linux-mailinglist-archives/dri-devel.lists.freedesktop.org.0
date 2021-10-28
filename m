@@ -1,64 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EF2743DB09
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Oct 2021 08:20:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FB5443DB0D
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Oct 2021 08:21:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD2F089BFD;
-	Thu, 28 Oct 2021 06:20:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C3DB89B84;
+	Thu, 28 Oct 2021 06:21:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc2d.google.com (mail-oo1-xc2d.google.com
- [IPv6:2607:f8b0:4864:20::c2d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8905B89BFD
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Oct 2021 06:20:33 +0000 (UTC)
-Received: by mail-oo1-xc2d.google.com with SMTP id
- w23-20020a4a9d17000000b002bb72fd39f3so213445ooj.11
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Oct 2021 23:20:33 -0700 (PDT)
+Received: from mail-ot1-x32f.google.com (mail-ot1-x32f.google.com
+ [IPv6:2607:f8b0:4864:20::32f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C650089B84
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Oct 2021 06:21:14 +0000 (UTC)
+Received: by mail-ot1-x32f.google.com with SMTP id
+ w12-20020a056830410c00b0054e7ceecd88so7219471ott.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Oct 2021 23:21:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:in-reply-to:references:from:user-agent:date:message-id
  :subject:to:cc;
- bh=6+eTf7nyr6M3KwEm+TOLweZAQxKtMfVD5JwzIPGapF4=;
- b=XFMvMVNKWo0K9tklL2H+PQ5pnRbAvZXkJu6OVqgEKFrzqKb/qBrXK4jeGJCuIl/2Rs
- ycXF/pYyFD7R3khkDEkpZo6R+ipPDYlxcQEIcRaMUSb/DuplmshZSHY9vfO4n/HZ8/Ir
- lxD4yIUK5obFrRuQqv5qF5INpaolMTU/WPINM=
+ bh=Mc9LKQAQoslOGm6o+pVM9AhRB1ZUOOEE/5oefVUl9Lc=;
+ b=ispJvbrsPNohrDzzQOfGiAya2Gz/DXYBgvobMGSF8M38h1V5YLwF3zJvQ5mUvZWXwx
+ dNEfCluGOMa///Ra8ket00k+BpYhjPld4QIjQuSaWuENr4YoQZ+SqqB8Z+bJu4ro7cMI
+ wJxalHJpVDA7mjndkAe3QO2kjHgd/v7TFYCuU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:in-reply-to:references:from
  :user-agent:date:message-id:subject:to:cc;
- bh=6+eTf7nyr6M3KwEm+TOLweZAQxKtMfVD5JwzIPGapF4=;
- b=eyx9SIFNUuwFxx84nADg5FxgMbFy0Vc3+rAD0dSnxz0EeqJ2AHWTS1IvhcrKg/JcJq
- UuCg1AtCdZzbDu3HCwrVi+xcMdo1lCIqXwUEOk5pYF3gudflA1861AulBM2+T7gzulJB
- pPbqK5Tpq3qkY/lpfq33TQJkNrBQBdCvo7FSrhrV7CTRDRtQR8t6i9aOq0yx2DCCqaYH
- A3QbiVGEk1oomyr4PbdAPqWccn//mGxMBg/wCfQ1AVoQKewI6qvmLln/6VTn7lucgVPY
- 25sd3R/PwBvYOP93dinI8/XLJyxjEFS4pOsnCt6KsYi3KUMvLNFiKRGBVBGZRBe/k3FL
- fT8g==
-X-Gm-Message-State: AOAM530haQ6nslleVtC1Fijq1GLi48BWCyLUugGqj1e21y59JHFAsOIu
- jdQwGGlqamgI9fHvXwGt2p17nfmS4Mo0Ccq9Yj51Aw==
-X-Google-Smtp-Source: ABdhPJyea8Fwx4YyKse423qLTPTFc+z3zOfjtneOqoZsNUJoAqTszW1lfetTqMDV080TNLNVBZYOcvECNsZXED/wHU4=
-X-Received: by 2002:a4a:e94e:: with SMTP id v14mr1125894ood.1.1635402032695;
- Wed, 27 Oct 2021 23:20:32 -0700 (PDT)
+ bh=Mc9LKQAQoslOGm6o+pVM9AhRB1ZUOOEE/5oefVUl9Lc=;
+ b=y8wN7ahGav2Pv3zCHh8tC5QT++IWtiMZgscyTy4pR3InPzGmaglByUv2s2JcDU4I0R
+ toDx9BskS71MrKoXJC4tk0NBtHXBK0McMEMy00iFiH3JeUDTgQfUOugrfz6SYfi7SocR
+ zJYs4F1aa7ZkF7hoh7Qg9IEpKyEoV+r+6LOA0TAuCJ7qP2zdBjDfmqxs3vJiyUOn+ek+
+ oDWcylavgb6xPpeMPmXWQv8lsyxBUw8utW8xels/8USgOFfonI6moXWC2Bm/XMp08326
+ RA7IUXBpgouslPIyQJByNzVzRpLKZwUe0q9/GZEmVABzGp0qC97kItO47eIgQykJXmLF
+ dKZw==
+X-Gm-Message-State: AOAM530BLFP56YV6L/4FRxLUmiXw/WuduM0kE2ZU9g/5tuAnhybFVq8G
+ bn7tzlAW/d6UrXgrpxEHN6rpaHQflD+J6vEJL0BopA==
+X-Google-Smtp-Source: ABdhPJwXQHqI3ICCqimmpImWWFhlxNmRD9J4BKAimAk2nP8JakuCfq++JC5QTUaAhvBLQQixIagkH4fHHMXy87/FcEE=
+X-Received: by 2002:a9d:7655:: with SMTP id o21mr1891665otl.126.1635402074047; 
+ Wed, 27 Oct 2021 23:21:14 -0700 (PDT)
 Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 27 Oct 2021 23:20:32 -0700
+ HTTPREST; Wed, 27 Oct 2021 23:21:13 -0700
 MIME-Version: 1.0
-In-Reply-To: <1635386088-18089-2-git-send-email-quic_sbillaka@quicinc.com>
+In-Reply-To: <1635386088-18089-3-git-send-email-quic_sbillaka@quicinc.com>
 References: <1635386088-18089-1-git-send-email-quic_sbillaka@quicinc.com>
- <1635386088-18089-2-git-send-email-quic_sbillaka@quicinc.com>
+ <1635386088-18089-3-git-send-email-quic_sbillaka@quicinc.com>
 From: Stephen Boyd <swboyd@chromium.org>
 User-Agent: alot/0.9.1
-Date: Wed, 27 Oct 2021 23:20:32 -0700
-Message-ID: <CAE-0n51J60efae0yMvC_ZfxX53YZLOgY_K1cpA8PLPedr6hMBA@mail.gmail.com>
-Subject: Re: [PATCH v3 1/6] dt-bindings: msm/dp: Add DP compatible strings for
- sc7280
+Date: Wed, 27 Oct 2021 23:21:13 -0700
+Message-ID: <CAE-0n53gO-NtWosw8kjTkjv7eUPt+VH2rzAvDAYYwpGK+jJ=nw@mail.gmail.com>
+Subject: Re: [PATCH v3 2/6] drm/msm/dp: Add DP controllers for sc7280
 To: Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
  dri-devel@lists.freedesktop.org, 
  freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, 
  linux-kernel@vger.kernel.org
-Cc: Sankeerth Billakanti <sbillaka@codeaurora.org>, robdclark@gmail.com,
- seanpaul@chromium.org, 
- kalyan_t@codeaurora.org, abhinavk@codeaurora.org, dianders@chromium.org, 
- khsieh@codeaurora.org, mkrishn@codeaurora.org
+Cc: robdclark@gmail.com, seanpaul@chromium.org, kalyan_t@codeaurora.org, 
+ abhinavk@codeaurora.org, dianders@chromium.org, khsieh@codeaurora.org, 
+ mkrishn@codeaurora.org, sbillaka@codeaurora.org
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -75,23 +73,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Sankeerth Billakanti (2021-10-27 18:54:43)
-> From: Sankeerth Billakanti <sbillaka@codeaurora.org>
+Quoting Sankeerth Billakanti (2021-10-27 18:54:44)
+> The eDP controller on SC7280 is similar to the eDP/DP controllers
+> supported by the current driver implementation.
 >
-> The Qualcomm SC7280 platform supports one eDP controller
-> and a DP controller. This change will add the compatible
-> string for both eDP and DP to msm dp-controller binding.
+> SC7280 supports one EDP and one DP controller which can operate
+> concurrently.
+>
+> This change adds the support for eDP and DP controller on sc7280.
 >
 > Signed-off-by: Sankeerth Billakanti <quic_sbillaka@quicinc.com>
 >
 > changes in v3:
->     - Modify the subject (Doug Anderson)
->     - Add sc7280-dp also to the list (Stephen Boyd)
+>     - Split into patches according to function (Dmitry Baryshkov)
+>     - Use DP_CONTROLLER_1 for eDP controller intf (Dmitry Baryshkov)
+>     - Use DP_CONTROLLER_0 for sc7280-dp (Dmitry Baryshkov)
+>     - Add macro in drm_helper.h for checking ssc capability (Stephen Boyd)
+>     - Use existing macro to check assr capability (Stephen Boyd)
+>     - Add comment for HPD_INIT_SETUP delay (Stephen Boyd)
 >
 > changes in v2:
->     - Sort alphabetically (Stephen Boyd)
->     - Cleanup residual stale changes in the patch (Matthias Kaehlcke)
->     - Modify the subject (Doug Anderson)
+>     - Don't initialize variables to 0 (Stephen Boyd)
+>     - Use const for read-only dpcd (Stephen Boyd)
+>     - Remove zero pixel clock check (Stephen Boyd)
+>     - Sort compatible strings alphabetically (Stephen Boyd)
+>     - Use pwm_bl.c for backlight instead of gpio (Stephen Boyd)
+>     - Change return type for functions returning always 0 (Matthias Kaehlcke)
 > ---
 
 Reviewed-by: Stephen Boyd <swboyd@chromium.org>
