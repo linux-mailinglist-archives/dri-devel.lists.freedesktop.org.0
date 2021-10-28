@@ -2,63 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55E3143DB1D
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Oct 2021 08:31:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1365043DB24
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Oct 2021 08:33:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB3FD6E05C;
-	Thu, 28 Oct 2021 06:31:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A9F8D6E051;
+	Thu, 28 Oct 2021 06:32:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32d.google.com (mail-ot1-x32d.google.com
- [IPv6:2607:f8b0:4864:20::32d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E5A66E051
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Oct 2021 06:31:29 +0000 (UTC)
-Received: by mail-ot1-x32d.google.com with SMTP id
- o10-20020a9d718a000000b00554a0fe7ba0so1345523otj.11
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Oct 2021 23:31:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:in-reply-to:references:from:user-agent:date:message-id
- :subject:to:cc;
- bh=fl3/6+D1WzrjlO9U2XlvyAbP1wGZPooZUWolFXNY6RE=;
- b=icJvMa5pUjALY+NkhGVS54Ds28x++ZE3VJJWfsC4PaJl0wk9D0YnQX8VgrkoN1N+jf
- 2XmMVSkoHKJAQY1yroE0GbT2nKRKFPJJoOL7J1FiJwRoemobn38o4iTMCRgTpjbbNkoV
- wZ5HpRl/I3U6Mea/Wf46aCNQnb1zLIaYkJ0IQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:in-reply-to:references:from
- :user-agent:date:message-id:subject:to:cc;
- bh=fl3/6+D1WzrjlO9U2XlvyAbP1wGZPooZUWolFXNY6RE=;
- b=kHl1oHn0I+cxFGMOv83Rm4H9HxuMWbjLdgqrgqrwAJK9qdv25p7TQ5MyPKlKxO0vAT
- 72yp/EmUcsH11BmkTxxrLZb1vadpGu5JztMT7GY4HpMZ469FJ1XL0Wq7/KCPurfOmyOu
- o6Bb3WO4xeG2XsahVcMLG5bWc7N7uUYoxVEnSHoTdnTFvPz7c2lvuHyGBAzz3Y5oEtQr
- I7wk8GELd6WFWDt9UZyTXXKclPmiI9GBh6aoYtzDZyrVDbcn6GDw4BDA37WTKX/bDMs1
- ciJJkEkKVZf3jsSsDG6F78PWZBRJh1YPmRcFHgdaYCUb6V5Kxiv7bnbA1Gu6ujaxXOR2
- v7ZA==
-X-Gm-Message-State: AOAM530M3dfYcH7clp6nklY0pS+IPVvKVTU9pKWW3TlQppMVDjeNAqdz
- LFFM07d2Ocw8E5WwMQpCPkTkqoCwrSaLTzXPbJpTSsPt390=
-X-Google-Smtp-Source: ABdhPJwOH+dMU3ZV+EAZWCrAfkMlWceuSfzj8nbggbBIE6vGZwr08wjI7kbJHzryENUczI1dk388o3ot156zGeQHIH4=
-X-Received: by 2002:a9d:6e16:: with SMTP id e22mr1856094otr.77.1635402688480; 
- Wed, 27 Oct 2021 23:31:28 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 27 Oct 2021 23:31:27 -0700
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 37B7D6E051
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Oct 2021 06:32:58 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1mfyy1-00078i-7l; Thu, 28 Oct 2021 08:32:49 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+ by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1mfyxy-0001q6-J6; Thu, 28 Oct 2021 08:32:46 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1mfyxy-000331-Ht; Thu, 28 Oct 2021 08:32:46 +0200
+Date: Thu, 28 Oct 2021 08:32:46 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: =?utf-8?B?TWHDrXJh?= Canal <maira.canal@usp.br>
+Cc: lee.jones@linaro.org, daniel.thompson@linaro.org, jingoohan1@gmail.com,
+ thierry.reding@gmail.com, lkp@intel.com, llvm@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-pwm@vger.kernel.org
+Subject: Re: [PATCH v2] backlight: lp855x: Switch to atomic PWM API
+Message-ID: <20211028063246.p5mvij3653wg7nm4@pengutronix.de>
+References: <YXmeVPIroq96BXfm@fedora>
 MIME-Version: 1.0
-In-Reply-To: <1635386088-18089-4-git-send-email-quic_sbillaka@quicinc.com>
-References: <1635386088-18089-1-git-send-email-quic_sbillaka@quicinc.com>
- <1635386088-18089-4-git-send-email-quic_sbillaka@quicinc.com>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.9.1
-Date: Wed, 27 Oct 2021 23:31:27 -0700
-Message-ID: <CAE-0n52o0FtVhd_TPEf_NhpXwLErcYm9NX+dqW8RnwrYGrM6-Q@mail.gmail.com>
-Subject: Re: [PATCH v3 3/6] drm/dp: Add macro to check max_downspread
- capability
-To: Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
- dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-Cc: robdclark@gmail.com, seanpaul@chromium.org, kalyan_t@codeaurora.org, 
- abhinavk@codeaurora.org, dianders@chromium.org, khsieh@codeaurora.org, 
- mkrishn@codeaurora.org, sbillaka@codeaurora.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="mjgubidvytdfc23f"
+Content-Disposition: inline
+In-Reply-To: <YXmeVPIroq96BXfm@fedora>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,40 +60,84 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Sankeerth Billakanti (2021-10-27 18:54:45)
-> Add a macro to check for the max_downspread capability in
-> drm_dp_helper.
->
-> Signed-off-by: Sankeerth Billakanti <quic_sbillaka@quicinc.com>
+
+--mjgubidvytdfc23f
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, Oct 27, 2021 at 03:45:40PM -0300, Ma=EDra Canal wrote:
+> Remove legacy PWM interface (pwm_config, pwm_enable, pwm_disable) and
+> replace it for the atomic PWM API.
+>=20
+> Signed-off-by: Ma=EDra Canal <maira.canal@usp.br>
+> Reported-by: kernel test robot <lkp@intel.com>
 > ---
-
-Looks OK to me. One question below
-
-Reviewed-by: Stephen Boyd <swboyd@chromium.org>
-
->  include/drm/drm_dp_helper.h | 6 ++++++
->  1 file changed, 6 insertions(+)
->
-> diff --git a/include/drm/drm_dp_helper.h b/include/drm/drm_dp_helper.h
-> index afdf7f4..b39e7a0 100644
-> --- a/include/drm/drm_dp_helper.h
-> +++ b/include/drm/drm_dp_helper.h
-> @@ -1784,6 +1784,12 @@ drm_dp_tps3_supported(const u8 dpcd[DP_RECEIVER_CAP_SIZE])
->  }
->
->  static inline bool
-> +drm_dp_max_downspread(const u8 dpcd[DP_RECEIVER_CAP_SIZE])
-> +{
-> +       return dpcd[DP_MAX_DOWNSPREAD] & DP_MAX_DOWNSPREAD_0_5;
-
-Does it need a dpcd[DP_DPCD_REV] >= 0x11 check? Reading the spec I think
-the answer may be that we check for 1.1 and always return 1 if so just
-to make sure devices don't break the spec and put a 0 here when they're
-rev is >= v1.1?
-
-> +}
-> +
-> +static inline bool
->  drm_dp_tps4_supported(const u8 dpcd[DP_RECEIVER_CAP_SIZE])
+> V1 -> V2: Initializing variable and simplyfing conditional loop
+> ---
+>  drivers/video/backlight/lp855x_bl.c | 23 +++++++++--------------
+>  1 file changed, 9 insertions(+), 14 deletions(-)
+>=20
+> diff --git a/drivers/video/backlight/lp855x_bl.c b/drivers/video/backligh=
+t/lp855x_bl.c
+> index e94932c69f54..a895a8ca6d26 100644
+> --- a/drivers/video/backlight/lp855x_bl.c
+> +++ b/drivers/video/backlight/lp855x_bl.c
+> @@ -233,9 +233,8 @@ static int lp855x_configure(struct lp855x *lp)
+> =20
+>  static void lp855x_pwm_ctrl(struct lp855x *lp, int br, int max_br)
 >  {
->         return dpcd[DP_DPCD_REV] >= 0x14 &&
+> -	unsigned int period =3D lp->pdata->period_ns;
+> -	unsigned int duty =3D br * period / max_br;
+> -	struct pwm_device *pwm;
+> +	struct pwm_device *pwm =3D NULL;
+> +	struct pwm_state state;
+> =20
+>  	/* request pwm device with the consumer name */
+>  	if (!lp->pwm) {
+> @@ -244,19 +243,15 @@ static void lp855x_pwm_ctrl(struct lp855x *lp, int =
+br, int max_br)
+>  			return;
+> =20
+>  		lp->pwm =3D pwm;
+> -
+> -		/*
+> -		 * FIXME: pwm_apply_args() should be removed when switching to
+> -		 * the atomic PWM API.
+> -		 */
+> -		pwm_apply_args(pwm);
+>  	}
+> =20
+> -	pwm_config(lp->pwm, duty, period);
+> -	if (duty)
+> -		pwm_enable(lp->pwm);
+> -	else
+> -		pwm_disable(lp->pwm);
+> +	pwm_init_state(pwm, &state);
+
+This is broken. If lp->pwm is already set at function entry, pwm is
+NULL.
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--mjgubidvytdfc23f
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmF6RAoACgkQwfwUeK3K
+7Anebgf9HGhfhTpcJqWOKkxvlVftY0zDg637KqLVbPRkC58by+y66DVocHuCj+jp
+TrtP5OyEmMYYdvSK1LA6lFuDjxje3mHlACG8TwZWrDyoWGkTtqP1o4dsuQ6QAJMk
+1qea6fyvPF9dKhlsHYKd8z3/Z7dDGoPTCY6fZlYhYMTsJtBJhCMdCgHyte+vvi0f
+AOiXy6xo6p2qLwUz3U+Pp13eu3Xjbw2CDr1XVxuSc+0qjvSPg3Xc6RQyi7nEscmA
+MDJCRq6bRkC5BF00b1D2Fxdz/dQvlJlCbIl4PA8lcmdLOQJLgvlXGHGvPIKOWhVr
+AfP46DAQVB192zi4YO2uegiRV45P2Q==
+=obWM
+-----END PGP SIGNATURE-----
+
+--mjgubidvytdfc23f--
