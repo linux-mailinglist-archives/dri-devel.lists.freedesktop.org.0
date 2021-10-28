@@ -1,52 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3598D43DD4C
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Oct 2021 10:58:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FBDC43DD54
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Oct 2021 10:58:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA7436E936;
-	Thu, 28 Oct 2021 08:58:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9995F6E93E;
+	Thu, 28 Oct 2021 08:58:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
- [IPv6:2a00:1450:4864:20::32b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C3EE96E5BB;
- Thu, 28 Oct 2021 08:58:32 +0000 (UTC)
-Received: by mail-wm1-x32b.google.com with SMTP id
- o4-20020a1c7504000000b0032cab7473caso4258386wmc.1; 
- Thu, 28 Oct 2021 01:58:32 -0700 (PDT)
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
+ [IPv6:2a00:1450:4864:20::434])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A88C26E935;
+ Thu, 28 Oct 2021 08:58:33 +0000 (UTC)
+Received: by mail-wr1-x434.google.com with SMTP id k7so8790935wrd.13;
+ Thu, 28 Oct 2021 01:58:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=8pRnJQmmB+/kCdjQaACOoqogylSvktqG3v7tsX861XU=;
- b=hQr+RlB7nQ0kBfkch66CVzLGjeTDfB3+Y0hgwSAS2sIF7Etfjcn1XcPfLlpIGUHMg2
- ypErUzIrTp2LgbVFx1p0RhBKHqX4iSF0rouLa5lDo9WLKNJu5AZk0uauZWo/LjxYVWAW
- aSMx3vpPwRqidL6Xl4o1ByaNIE8eaf8bv2KzlC0APlc21nIIu6d5wba1ZN3krvZY4MD1
- gggPyRk+vDHQ5Y+S265L1eTwGOQaVUykfdsVPiEXgwTGPROcAdj3Q3kpqW4RqfMEDxcq
- vt9x97Bck2Zw8CGbRYDnZp3YcQgWD0+At0VlfPOEj8Pjs6MGvRQUd0a3A+7SmC4qCIFU
- DPJA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=HJ3FVZIBonOhulw4j97XZ+WDT4N0aGjKYTEFgdMl2bY=;
+ b=WQOumxgn7tGakSu5vcFCNz4PF9zeeT7h3I8Fd5JCGr5QZqH9JuEQyee3u4RXZGM0JF
+ 2qN9vGoreHgP4GYf2DuuIWa0T5YJtrIjdkKqScRQQGRVFsJ2M2AfsM41iVpgKVRDCueh
+ Tks011F8LfrX+O1yMnW5bFWqClwA7jYDsmR/iR3B/5s76ze7QSARIDNZKO72bW+Cz4Dr
+ 27p3x8eS+GwsOvLd8Tcvj4PQ+cL/HvSnuLggXHzvet7PJ6dJlTbzduHVqRr+IYCNYsI8
+ 93WjSD51yaDQXPMEfIcawmO+bE/gzd41qk001w5HDk0VO+PRPmdrdbleWlHNxZLJkLyu
+ Ehhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=8pRnJQmmB+/kCdjQaACOoqogylSvktqG3v7tsX861XU=;
- b=IMn1AiorXzJThs357Kw727fLOIg4u5ExtDzUeDB52H5cITFdQqmSEh9/TDxDEatD7b
- QGFpq82XmeIIcislsTGy4vVEUJcg1ZNrROdszJvMejTPiWR56Y+wF6kMqVxd8zdHHEYr
- ppPR7rU9kilQu5OkPFAnBQK2Jm05NBcOxSSOoy2SNqu0Os1QUmKMM27gCXyHH5hlS34Q
- fzZ7UbwtpfDhWgsxwY9xALFevtbr1kgDGo0xH0Hp0HDVsyXpJrgJxzKvu/vBx7KpoO2+
- bs6AZzukbfAEgqIsm6YdPUoI8BsXRJYWTbQ/g7AITX/Byvm4lkzBWT9+omkGHXZhvryd
- paog==
-X-Gm-Message-State: AOAM53170Kjd2WTkg7SSRpeJPgHuKrOVSqz9kNM5JZSmNVOLcWMnM7ws
- syAmDsKCo4g361MK64QXMwp+VcIJeEQ=
-X-Google-Smtp-Source: ABdhPJz8YhMDtgUIgGgUYWl+alCbM4WTONsbnjfCXo4Ut5lcjRZxATOVrz1OmZRT4kcVrUlDv3UamA==
-X-Received: by 2002:a7b:cd9a:: with SMTP id y26mr11110448wmj.107.1635411511382; 
- Thu, 28 Oct 2021 01:58:31 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=HJ3FVZIBonOhulw4j97XZ+WDT4N0aGjKYTEFgdMl2bY=;
+ b=H6NsuN+H7EbNMwZ8+dV42tgZ3Rv/PVECFsUjgLiiw7hB4Gj4GaP7RuatyXPp/h1K9O
+ Z/CWQNfnELdq6ckNJPxM85MYC5LOw3ZldzQYiBsee04MMypek4XC4SmDMkJA4yKyj4dx
+ cR30odOEzwJGUYIDziYIzWF2Q3r/fmC7v0cS1+pQZCg90fxMFyUpGzAHLdUoRda8unEK
+ M+wnNVAxCr2Jw+syc0cwVPVGUfz99bdmFXryxYFmsmsVlfFQWZ9gZ5rAR+o7Hn6x5cS7
+ JPsr5Z6YAEJF4sJfFyc7H3289e2bJqvJJXEQrZhcnAduSIl3tXslpDD/rB6eLxnCg93R
+ BZ1g==
+X-Gm-Message-State: AOAM5339+Qq4iD9V0Oup7K0WDO72LmiTPBJb1JsX2liL18fEVEI9l330
+ KgdPVp/2dryshN4vcAjFDtL1y2m2QQs=
+X-Google-Smtp-Source: ABdhPJy81fvykOcidGCavoYOA0fRG5j8hjfU8RE6GPqMrh5VHEL6jayQ/XCd5S8AoFEBgDmg04fTgw==
+X-Received: by 2002:adf:ea81:: with SMTP id s1mr3884320wrm.59.1635411512271;
+ Thu, 28 Oct 2021 01:58:32 -0700 (PDT)
 Received: from abel.fritz.box (p5b0ea1b5.dip0.t-ipconnect.de. [91.14.161.181])
  by smtp.gmail.com with ESMTPSA id
- k22sm2412143wrd.59.2021.10.28.01.58.30
+ k22sm2412143wrd.59.2021.10.28.01.58.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 28 Oct 2021 01:58:30 -0700 (PDT)
+ Thu, 28 Oct 2021 01:58:31 -0700 (PDT)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
  <christian.koenig@amd.com>
@@ -55,10 +54,12 @@ To: dri-devel@lists.freedesktop.org,
 Cc: etnaviv@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
  freedreno@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
  spice-devel@lists.freedesktop.org
-Subject: [PATCH 1/4] dma-buf: add dma_fence_describe and dma_resv_describe
-Date: Thu, 28 Oct 2021 10:58:26 +0200
-Message-Id: <20211028085829.1726-1-christian.koenig@amd.com>
+Subject: [PATCH 2/4] drm/msm: use the new dma_resv_describe
+Date: Thu, 28 Oct 2021 10:58:27 +0200
+Message-Id: <20211028085829.1726-2-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20211028085829.1726-1-christian.koenig@amd.com>
+References: <20211028085829.1726-1-christian.koenig@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -77,139 +78,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add functions to dump dma_fence and dma_resv objects into a seq_file and
-use them for printing the debugfs informations.
+Instead of hand rolling pretty much the same code.
 
 Signed-off-by: Christian König <christian.koenig@amd.com>
 Reviewed-by: Rob Clark <robdclark@gmail.com>
 ---
- drivers/dma-buf/dma-buf.c   | 11 +----------
- drivers/dma-buf/dma-fence.c | 16 ++++++++++++++++
- drivers/dma-buf/dma-resv.c  | 23 +++++++++++++++++++++++
- include/linux/dma-fence.h   |  1 +
- include/linux/dma-resv.h    |  1 +
- 5 files changed, 42 insertions(+), 10 deletions(-)
+ drivers/gpu/drm/msm/msm_gem.c | 20 +-------------------
+ 1 file changed, 1 insertion(+), 19 deletions(-)
 
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index 7b619998f03a..1d6f6c6a0b09 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -1332,8 +1332,6 @@ static int dma_buf_debug_show(struct seq_file *s, void *unused)
+diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
+index 5bd511f07c07..3878b8dc2d59 100644
+--- a/drivers/gpu/drm/msm/msm_gem.c
++++ b/drivers/gpu/drm/msm/msm_gem.c
+@@ -865,23 +865,11 @@ int msm_gem_cpu_fini(struct drm_gem_object *obj)
+ }
+ 
+ #ifdef CONFIG_DEBUG_FS
+-static void describe_fence(struct dma_fence *fence, const char *type,
+-		struct seq_file *m)
+-{
+-	if (!dma_fence_is_signaled(fence))
+-		seq_printf(m, "\t%9s: %s %s seq %llu\n", type,
+-				fence->ops->get_driver_name(fence),
+-				fence->ops->get_timeline_name(fence),
+-				fence->seqno);
+-}
+-
+ void msm_gem_describe(struct drm_gem_object *obj, struct seq_file *m,
+ 		struct msm_gem_stats *stats)
  {
- 	struct dma_buf *buf_obj;
- 	struct dma_buf_attachment *attach_obj;
+ 	struct msm_gem_object *msm_obj = to_msm_bo(obj);
+ 	struct dma_resv *robj = obj->resv;
 -	struct dma_resv_iter cursor;
 -	struct dma_fence *fence;
- 	int count = 0, attach_count;
- 	size_t size = 0;
- 	int ret;
-@@ -1361,14 +1359,7 @@ static int dma_buf_debug_show(struct seq_file *s, void *unused)
- 				file_inode(buf_obj->file)->i_ino,
- 				buf_obj->name ?: "");
+ 	struct msm_gem_vma *vma;
+ 	uint64_t off = drm_vma_node_start(&obj->vma_node);
+ 	const char *madv;
+@@ -955,13 +943,7 @@ void msm_gem_describe(struct drm_gem_object *obj, struct seq_file *m,
+ 		seq_puts(m, "\n");
+ 	}
  
--		dma_resv_for_each_fence(&cursor, buf_obj->resv, true, fence) {
--			seq_printf(s, "\t%s fence: %s %s %ssignalled\n",
--				   dma_resv_iter_is_exclusive(&cursor) ?
--					"Exclusive" : "Shared",
--				   fence->ops->get_driver_name(fence),
--				   fence->ops->get_timeline_name(fence),
--				   dma_fence_is_signaled(fence) ? "" : "un");
--		}
-+		dma_resv_describe(buf_obj->resv, s);
- 
- 		seq_puts(s, "\tAttached Devices:\n");
- 		attach_count = 0;
-diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
-index 1e82ecd443fa..5175adf58644 100644
---- a/drivers/dma-buf/dma-fence.c
-+++ b/drivers/dma-buf/dma-fence.c
-@@ -907,6 +907,22 @@ dma_fence_wait_any_timeout(struct dma_fence **fences, uint32_t count,
+-	dma_resv_for_each_fence(&cursor, robj, true, fence) {
+-		if (dma_resv_iter_is_exclusive(&cursor))
+-			describe_fence(fence, "Exclusive", m);
+-		else
+-			describe_fence(fence, "Shared", m);
+-	}
+-
++	dma_resv_describe(robj, m);
+ 	msm_gem_unlock(obj);
  }
- EXPORT_SYMBOL(dma_fence_wait_any_timeout);
  
-+/**
-+ * dma_fence_describe - Dump fence describtion into seq_file
-+ * @fence: the 6fence to describe
-+ * @seq: the seq_file to put the textual description into
-+ *
-+ * Dump a textual description of the fence and it's state into the seq_file.
-+ */
-+void dma_fence_describe(struct dma_fence *fence, struct seq_file *seq)
-+{
-+	seq_printf(seq, "%s %s seq %llu %ssignalled\n",
-+		   fence->ops->get_driver_name(fence),
-+		   fence->ops->get_timeline_name(fence), fence->seqno,
-+		   dma_fence_is_signaled(fence) ? "" : "un");
-+}
-+EXPORT_SYMBOL(dma_fence_describe);
-+
- /**
-  * dma_fence_init - Initialize a custom fence.
-  * @fence: the fence to initialize
-diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
-index 9eb2baa387d4..ff3c0558b3b8 100644
---- a/drivers/dma-buf/dma-resv.c
-+++ b/drivers/dma-buf/dma-resv.c
-@@ -38,6 +38,7 @@
- #include <linux/mm.h>
- #include <linux/sched/mm.h>
- #include <linux/mmu_notifier.h>
-+#include <linux/seq_file.h>
- 
- /**
-  * DOC: Reservation Object Overview
-@@ -666,6 +667,28 @@ bool dma_resv_test_signaled(struct dma_resv *obj, bool test_all)
- }
- EXPORT_SYMBOL_GPL(dma_resv_test_signaled);
- 
-+/**
-+ * dma_resv_describe - Dump description of the resv object into seq_file
-+ * @obj: the reservation object
-+ * @seq: the seq_file to dump the description into
-+ *
-+ * Dump a textual description of the fences inside an dma_resv object into the
-+ * seq_file.
-+ */
-+void dma_resv_describe(struct dma_resv *obj, struct seq_file *seq)
-+{
-+	struct dma_resv_iter cursor;
-+	struct dma_fence *fence;
-+
-+	dma_resv_for_each_fence(&cursor, obj, true, fence) {
-+		seq_printf(seq, "\t%s fence:",
-+			   dma_resv_iter_is_exclusive(&cursor) ?
-+				"Exclusive" : "Shared");
-+		dma_fence_describe(fence, seq);
-+	}
-+}
-+EXPORT_SYMBOL_GPL(dma_resv_describe);
-+
- #if IS_ENABLED(CONFIG_LOCKDEP)
- static int __init dma_resv_lockdep(void)
- {
-diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
-index a706b7bf51d7..1ea691753bd3 100644
---- a/include/linux/dma-fence.h
-+++ b/include/linux/dma-fence.h
-@@ -264,6 +264,7 @@ void dma_fence_init(struct dma_fence *fence, const struct dma_fence_ops *ops,
- 
- void dma_fence_release(struct kref *kref);
- void dma_fence_free(struct dma_fence *fence);
-+void dma_fence_describe(struct dma_fence *fence, struct seq_file *seq);
- 
- /**
-  * dma_fence_put - decreases refcount of the fence
-diff --git a/include/linux/dma-resv.h b/include/linux/dma-resv.h
-index dbd235ab447f..09c6063b199a 100644
---- a/include/linux/dma-resv.h
-+++ b/include/linux/dma-resv.h
-@@ -490,5 +490,6 @@ int dma_resv_copy_fences(struct dma_resv *dst, struct dma_resv *src);
- long dma_resv_wait_timeout(struct dma_resv *obj, bool wait_all, bool intr,
- 			   unsigned long timeout);
- bool dma_resv_test_signaled(struct dma_resv *obj, bool test_all);
-+void dma_resv_describe(struct dma_resv *obj, struct seq_file *seq);
- 
- #endif /* _LINUX_RESERVATION_H */
 -- 
 2.25.1
 
