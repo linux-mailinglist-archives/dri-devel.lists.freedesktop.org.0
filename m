@@ -1,47 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D198343E1E6
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Oct 2021 15:20:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2529643E1FE
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Oct 2021 15:26:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 475A16E97C;
-	Thu, 28 Oct 2021 13:20:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C839B6E969;
+	Thu, 28 Oct 2021 13:26:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 72CB86E971;
- Thu, 28 Oct 2021 13:20:37 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10150"; a="211173879"
-X-IronPort-AV: E=Sophos;i="5.87,189,1631602800"; d="scan'208";a="211173879"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Oct 2021 06:20:36 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.87,189,1631602800"; d="scan'208";a="487124569"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
- by orsmga007.jf.intel.com with SMTP; 28 Oct 2021 06:20:31 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Thu, 28 Oct 2021 16:20:31 +0300
-Date: Thu, 28 Oct 2021 16:20:31 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Jani Nikula <jani.nikula@intel.com>
-Cc: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, dim-tools@lists.freedesktop.org
-Subject: Re: [Intel-gfx] [PULL] drm-intel-fixes
-Message-ID: <YXqjnyedcljkaZE/@intel.com>
-References: <8735olh27y.fsf@intel.com>
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
+ [IPv6:2a00:1450:4864:20::42d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0DEF66E961;
+ Thu, 28 Oct 2021 13:26:34 +0000 (UTC)
+Received: by mail-wr1-x42d.google.com with SMTP id i5so2525323wrb.2;
+ Thu, 28 Oct 2021 06:26:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=c0/V9MX2CWjAIfztk9lQHqRb20K2jfbph5MPtHNbg44=;
+ b=N9N/hZD3xSeVnPH2DcmlMtwEWHqwTpBikGSV08ByPigtIdm44uCd2jvGMcG86b0+f0
+ Xso2S2du7yltn6YeQXwN+ya17RVgf9inhol9CBFVzgBOp700iSQmzsoL+stwpFEF+eKc
+ 3Dtdlm5ZVDSkKzvdmMsu4m7V4W0oBqse6uKSAjLwJzWvqJTmi5ARB1UZspNefbv9Z2GW
+ zYt65uUjvpHTGoq3ioji6aOjLR1rxBbi4xuWN/OYZkVhlwYPdPRmr5390eaNWFkkj+7G
+ JEcJpDjHVldeyPKsyZLX905vkoifjWsE8cWiyZoTwvYqOsZOa+DoqRhLkTXH/tEz68re
+ t7kg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=c0/V9MX2CWjAIfztk9lQHqRb20K2jfbph5MPtHNbg44=;
+ b=Gv3Af/5Xv3XrtdMrxhg3i3TIXzGnYlXphz3eYNHxRpanyYyWPh76RpP7EcY9oEV3Xh
+ ZRTGvFn1/1g5Pw55rep4FmUbVzv12MKDyKF8z3CNi3y5lB7Z7IhcoAWHW1LTgGx6U3cJ
+ qMjxgwSlBpuYUEgwn1akzY+qKrpH1obc7zzYkHX0eEbx2V6bX3WnKxWK4JyoD0LOYeUW
+ 2G21ANJamvHnsHfaXQjE5/iJ89oWcJqazZDtlGiN7TlSJnnqcv0IOaZoO9gBGs3ZOU3F
+ DelIAFs/iTCyU0DqD0GnW2pfw4VW9ABueqPbXkUjZZLZEwg/mr1cgsTXMk2o/WTevNHZ
+ oFyQ==
+X-Gm-Message-State: AOAM530pcra51FSeLSzIoiPHk9TGhBpJdFACbDjXAM2GYACZyCDNbCDx
+ kYPKPKYKuE/M+Jzu+YkrokEEkv7t/kI=
+X-Google-Smtp-Source: ABdhPJyN2MGWslATcLlPRDx7wTnmw/AQjSygmNv/6mJVmC/aO4jjiZa8ruoWViZgoH2yfuxRLZ4Unw==
+X-Received: by 2002:a5d:6e8d:: with SMTP id k13mr5734588wrz.295.1635427592655; 
+ Thu, 28 Oct 2021 06:26:32 -0700 (PDT)
+Received: from abel.fritz.box (p5b0ea1b5.dip0.t-ipconnect.de. [91.14.161.181])
+ by smtp.gmail.com with ESMTPSA id
+ l11sm2935695wrt.49.2021.10.28.06.26.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 28 Oct 2021 06:26:32 -0700 (PDT)
+From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>
+To: dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+ etnaviv@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+Subject: [PATCH 1/6] dma-buf: move dma_resv_prune_unlocked into dma_resv.c
+Date: Thu, 28 Oct 2021 15:26:25 +0200
+Message-Id: <20211028132630.2330-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <8735olh27y.fsf@intel.com>
-X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,77 +73,163 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 28, 2021 at 01:29:21PM +0300, Jani Nikula wrote:
-> 
-> Hi Dave & Daniel -
-> 
-> Certainly more than I'd like at this stage, but it's mostly Cc: stable
-> material, and the tracepoint change is a last minute revert to dodge a
-> potential "tracepoints are uabi" bullet before it hits the final
-> release.
-> 
-> 
-> BR,
-> Jani.
-> 
-> 
-> drm-intel-fixes-2021-10-28:
-> drm/i915 fixes for v5.15 final:
-> - Remove unconditional clflushes
-> - Fix oops on boot due to sync state on disabled DP encoders
-> - Revert backend specific data added to tracepoints
-> - Remove useless and incorrect memory frequence calculation
-> 
-> BR,
-> Jani.
-> 
-> The following changes since commit 519d81956ee277b4419c723adfb154603c2565ba:
-> 
->   Linux 5.15-rc6 (2021-10-17 20:00:13 -1000)
-> 
-> are available in the Git repository at:
-> 
->   git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-fixes-2021-10-28
-> 
-> for you to fetch changes up to 9a4aa3a2f1606a03c220b21049baa4a2b6169626:
-> 
->   drm/i915: Revert 'guc_id' from i915_request tracepoint (2021-10-28 11:45:11 +0300)
-> 
-> ----------------------------------------------------------------
-> drm/i915 fixes for v5.15 final:
-> - Remove unconditional clflushes
-> - Fix oops on boot due to sync state on disabled DP encoders
-> - Revert backend specific data added to tracepoints
-> - Remove useless and incorrect memory frequence calculation
-> 
-> ----------------------------------------------------------------
-> Imre Deak (1):
->       drm/i915/dp: Skip the HW readout of DPCD on disabled encoders
-> 
-> Joonas Lahtinen (1):
->       drm/i915: Revert 'guc_id' from i915_request tracepoint
-> 
-> José Roberto de Souza (1):
->       drm/i915: Remove memory frequency calculation
-> 
-> Ville Syrjälä (2):
->       drm/i915: Convert unconditional clflush to drm_clflush_virt_range()
->       drm/i915: Catch yet another unconditioal clflush
+The i915 driver implements a prune function which is called when it is very
+likely that the fences inside the dma_resv object can be removed because they
+are all signaled.
 
-Where did the third one go?
-commit ef7ec41f17cb ("drm/i915: Replace the unconditional clflush with drm_clflush_virt_range()")
+Move that function into the dma-resv.c code since the behavior of pruning
+fences is something internal to the object.
 
-> 
->  drivers/gpu/drm/i915/display/intel_dp.c  |  3 +++
->  drivers/gpu/drm/i915/gt/intel_timeline.c |  4 ++--
->  drivers/gpu/drm/i915/i915_reg.h          |  8 --------
->  drivers/gpu/drm/i915/i915_trace.h        |  7 ++-----
->  drivers/gpu/drm/i915/intel_dram.c        | 30 ++----------------------------
->  5 files changed, 9 insertions(+), 43 deletions(-)
-> 
-> -- 
-> Jani Nikula, Intel Open Source Graphics Center
+Signed-off-by: Christian KÃ¶nig <christian.koenig@amd.com>
+---
+ drivers/dma-buf/dma-resv.c                   | 18 ++++++++++++++++++
+ drivers/gpu/drm/i915/Makefile                |  1 -
+ drivers/gpu/drm/i915/dma_resv_utils.c        | 17 -----------------
+ drivers/gpu/drm/i915/dma_resv_utils.h        | 13 -------------
+ drivers/gpu/drm/i915/gem/i915_gem_shrinker.c |  3 +--
+ drivers/gpu/drm/i915/gem/i915_gem_wait.c     |  3 +--
+ include/linux/dma-resv.h                     |  1 +
+ 7 files changed, 21 insertions(+), 35 deletions(-)
+ delete mode 100644 drivers/gpu/drm/i915/dma_resv_utils.c
+ delete mode 100644 drivers/gpu/drm/i915/dma_resv_utils.h
 
+diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
+index ff3c0558b3b8..64d4f95778c4 100644
+--- a/drivers/dma-buf/dma-resv.c
++++ b/drivers/dma-buf/dma-resv.c
+@@ -324,6 +324,24 @@ void dma_resv_add_excl_fence(struct dma_resv *obj, struct dma_fence *fence)
+ }
+ EXPORT_SYMBOL(dma_resv_add_excl_fence);
+ 
++/**
++ * dma_resv_prune_unlocked - try to remove signaled fences
++ * @obj: The dma_resv object to prune
++ *
++ * Try to lock the object, test if it is signaled and if yes then remove all the
++ * signaled fences.
++ */
++void dma_resv_prune_unlocked(struct dma_resv *obj)
++{
++	if (!dma_resv_trylock(obj))
++		return;
++
++	if (dma_resv_test_signaled(obj, true))
++		dma_resv_add_excl_fence(obj, NULL);
++	dma_resv_unlock(obj);
++}
++EXPORT_SYMBOL(dma_resv_prune_unlocked);
++
+ /**
+  * dma_resv_iter_restart_unlocked - restart the unlocked iterator
+  * @cursor: The dma_resv_iter object to restart
+diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
+index 660bb03de6fc..5c1af130cb6d 100644
+--- a/drivers/gpu/drm/i915/Makefile
++++ b/drivers/gpu/drm/i915/Makefile
+@@ -60,7 +60,6 @@ i915-y += i915_drv.o \
+ 
+ # core library code
+ i915-y += \
+-	dma_resv_utils.o \
+ 	i915_memcpy.o \
+ 	i915_mm.o \
+ 	i915_sw_fence.o \
+diff --git a/drivers/gpu/drm/i915/dma_resv_utils.c b/drivers/gpu/drm/i915/dma_resv_utils.c
+deleted file mode 100644
+index 7df91b7e4ca8..000000000000
+--- a/drivers/gpu/drm/i915/dma_resv_utils.c
++++ /dev/null
+@@ -1,17 +0,0 @@
+-// SPDX-License-Identifier: MIT
+-/*
+- * Copyright Â© 2020 Intel Corporation
+- */
+-
+-#include <linux/dma-resv.h>
+-
+-#include "dma_resv_utils.h"
+-
+-void dma_resv_prune(struct dma_resv *resv)
+-{
+-	if (dma_resv_trylock(resv)) {
+-		if (dma_resv_test_signaled(resv, true))
+-			dma_resv_add_excl_fence(resv, NULL);
+-		dma_resv_unlock(resv);
+-	}
+-}
+diff --git a/drivers/gpu/drm/i915/dma_resv_utils.h b/drivers/gpu/drm/i915/dma_resv_utils.h
+deleted file mode 100644
+index b9d8fb5f8367..000000000000
+--- a/drivers/gpu/drm/i915/dma_resv_utils.h
++++ /dev/null
+@@ -1,13 +0,0 @@
+-/* SPDX-License-Identifier: MIT */
+-/*
+- * Copyright Â© 2020 Intel Corporation
+- */
+-
+-#ifndef DMA_RESV_UTILS_H
+-#define DMA_RESV_UTILS_H
+-
+-struct dma_resv;
+-
+-void dma_resv_prune(struct dma_resv *resv);
+-
+-#endif /* DMA_RESV_UTILS_H */
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c b/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
+index 5ab136ffdeb2..48029bbda682 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
+@@ -15,7 +15,6 @@
+ 
+ #include "gt/intel_gt_requests.h"
+ 
+-#include "dma_resv_utils.h"
+ #include "i915_trace.h"
+ 
+ static bool swap_available(void)
+@@ -229,7 +228,7 @@ i915_gem_shrink(struct i915_gem_ww_ctx *ww,
+ 					i915_gem_object_unlock(obj);
+ 			}
+ 
+-			dma_resv_prune(obj->base.resv);
++			dma_resv_prune_unlocked(obj->base.resv);
+ 
+ 			scanned += obj->base.size >> PAGE_SHIFT;
+ skip:
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_wait.c b/drivers/gpu/drm/i915/gem/i915_gem_wait.c
+index 569658c7859c..1915d203a72d 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_wait.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_wait.c
+@@ -10,7 +10,6 @@
+ 
+ #include "gt/intel_engine.h"
+ 
+-#include "dma_resv_utils.h"
+ #include "i915_gem_ioctls.h"
+ #include "i915_gem_object.h"
+ 
+@@ -53,7 +52,7 @@ i915_gem_object_wait_reservation(struct dma_resv *resv,
+ 	 * signaled.
+ 	 */
+ 	if (timeout > 0)
+-		dma_resv_prune(resv);
++		dma_resv_prune_unlocked(resv);
+ 
+ 	return timeout;
+ }
+diff --git a/include/linux/dma-resv.h b/include/linux/dma-resv.h
+index eebf04325b34..e0558429a5ee 100644
+--- a/include/linux/dma-resv.h
++++ b/include/linux/dma-resv.h
+@@ -458,6 +458,7 @@ void dma_resv_fini(struct dma_resv *obj);
+ int dma_resv_reserve_shared(struct dma_resv *obj, unsigned int num_fences);
+ void dma_resv_add_shared_fence(struct dma_resv *obj, struct dma_fence *fence);
+ void dma_resv_add_excl_fence(struct dma_resv *obj, struct dma_fence *fence);
++void dma_resv_prune_unlocked(struct dma_resv *obj);
+ int dma_resv_get_fences(struct dma_resv *obj, struct dma_fence **pfence_excl,
+ 			unsigned *pshared_count, struct dma_fence ***pshared);
+ int dma_resv_copy_fences(struct dma_resv *dst, struct dma_resv *src);
 -- 
-Ville Syrjälä
-Intel
+2.25.1
+
