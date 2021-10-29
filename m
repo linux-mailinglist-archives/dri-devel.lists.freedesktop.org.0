@@ -2,65 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 547AB43FA6D
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Oct 2021 12:03:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3698E43FAAF
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Oct 2021 12:23:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4409D6EA38;
-	Fri, 29 Oct 2021 10:03:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A97D46EA4F;
+	Fri, 29 Oct 2021 10:23:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk
- [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 575526EA38
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Oct 2021 10:03:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
- MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
- Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
- List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=7buZtiLc/ouuXxjLHbN2EnvR8r028Iyhe9uJXHmOVko=; b=1Vfjr47/HgOcxMDeXVf0ljPiRC
- 5jQx6W6+7+KXiL4bf8qA0+eRURpDuwbDcvZH0t0X/rn5D2K6BHzqlSxkTkWJk398cFDpt2Af7SBHo
- 4l2TuWDsKyYYMnxmgwLEkeLlgxIRwumKsMr/Qyr1Z+5ZOInfPjUT3H16Nvdmz3ChQKF0DKIkKpAF3
- avQZCxUblXjviaQI9hZKhX6P2Rbs1hfa8IA5VaG/1HaZgho0RfWKRhWGcgSp0aGvayKnAcU7xR93l
- Mmehd8N+kRdfdZl9Xl3UEUNB47ZGQ5JVytLyHi6+oKv1galh7wZU39uoydqI5XvVnngWqeUH3CEA4
- D/otjkQA==;
-Received: from shell.armlinux.org.uk
- ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:55378)
- by pandora.armlinux.org.uk with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <linux@armlinux.org.uk>)
- id 1mgOiy-0008Tt-1X; Fri, 29 Oct 2021 11:03:00 +0100
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
- (envelope-from <linux@shell.armlinux.org.uk>)
- id 1mgOiv-0001Vw-Ru; Fri, 29 Oct 2021 11:02:57 +0100
-Date: Fri, 29 Oct 2021 11:02:57 +0100
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Rob Herring <robh@kernel.org>,
- =?iso-8859-1?Q?Beno=EEt?= Cousson <bcousson@baylibre.com>,
- Tony Lindgren <tony@atomide.com>, Magnus Damm <magnus.damm@gmail.com>,
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, 
- DRI Development <dri-devel@lists.freedesktop.org>,
- "open list:TI ETHERNET SWITCH DRIVER (CPSW)" <linux-omap@vger.kernel.org>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH 3/3] [RFC] dt-bindings: display: bridge: nxp,tda998x:
- Convert to json-schema
-Message-ID: <YXvG0Xz6XgiS6jwD@shell.armlinux.org.uk>
-References: <cover.1634822085.git.geert+renesas@glider.be>
- <1f6bf58d76efc2e869b800534b818d1451ef98a2.1634822085.git.geert+renesas@glider.be>
- <YXtIsCnJ+L5zqCVk@robh.at.kernel.org>
- <YXusEUpTBUdvS7LY@shell.armlinux.org.uk>
- <CAMuHMdX+Ke54zyi2Z2ROk-2xpbcXU6+FFH71gEz0vEBXCAgVXw@mail.gmail.com>
- <YXu/zwjYqoqYgfLx@shell.armlinux.org.uk>
- <CAMuHMdUFp_GN-GLtrXVDQP5A8iM-jLWTQbM0p4g1bdVokxhOaw@mail.gmail.com>
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F29526EA48;
+ Fri, 29 Oct 2021 10:23:49 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10151"; a="217551210"
+X-IronPort-AV: E=Sophos;i="5.87,192,1631602800"; d="scan'208";a="217551210"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Oct 2021 03:23:49 -0700
+X-IronPort-AV: E=Sophos;i="5.87,192,1631602800"; d="scan'208";a="498856616"
+Received: from kostasp-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.251.214.46])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Oct 2021 03:23:46 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Lyude Paul <lyude@redhat.com>, Dave Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, dim-tools@lists.freedesktop.org
+Subject: Re: [PULL] topic/amdgpu-dp2.0-mst
+In-Reply-To: <bf8e724cc0c8803d58a8d730fd6883c991376a76.camel@redhat.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <bf8e724cc0c8803d58a8d730fd6883c991376a76.camel@redhat.com>
+Date: Fri, 29 Oct 2021 13:23:43 +0300
+Message-ID: <87sfwkdt8w.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdUFp_GN-GLtrXVDQP5A8iM-jLWTQbM0p4g1bdVokxhOaw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,44 +54,119 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 29, 2021 at 11:40:26AM +0200, Geert Uytterhoeven wrote:
-> Hi Russell,
-> 
-> On Fri, Oct 29, 2021 at 11:33 AM Russell King (Oracle)
-> <linux@armlinux.org.uk> wrote:
-> > On Fri, Oct 29, 2021 at 10:28:22AM +0200, Geert Uytterhoeven wrote:
-> > > No, you can still use port:
-> > >
-> > > +oneOf:
-> > > +  - required:
-> > > +      - port
-> > > +  - required:
-> > > +      - ports
-> > >
-> > > When using ports, no further requirements are set, but perhaps port@0
-> > > should be made required in that case?
-> >
-> > Maybe I don't understand the binding description then, but to me it
-> > looks like you require both port@0 and port@1.
-> 
-> "make dtbs_check" disagrees.
-> 
-> > The reality of the driver is that it makes almost no use of the graph
-> > itself, except via drm_of_find_possible_crtcs() to find the connected
-> > CRTCs. If it is connected to an I2S source, then it probably needs a
-> > port specification for that. If someone wants to describe the HDMI
-> > connector (which I don't see any point in) then they likely need a
-> 
-> I can't comment on the point of describing the HDMI connector.
-> 
-> > port specification for that too. However, the driver itself doesn't
-> > care about any of those.
-> 
-> DT describes hardware, not software limitations.
+On Wed, 27 Oct 2021, Lyude Paul <lyude@redhat.com> wrote:
+> topic/amdgpu-dp2.0-mst-2021-10-27:
+> UAPI Changes:
+> Nope!
+>
+> Cross-subsystem Changes:
+> drm_dp_update_payload_part1() takes a new argument for specifying what the
+> VCPI slot start is
+>
+> Core Changes:
+> Make the DP MST helpers aware of the current starting VCPI slot/VCPI total
+> slot count...
+>
+> Driver Changes:
+> ...and then add support for taking advantage of this for 128b/132b links =
+on DP
+> 2.0 for amdgpu
+> The following changes since commit 6f2f7c83303d2227f47551423e507d77d9ea01=
+c7:
+>
+> =C2=A0 Merge tag 'drm-intel-gt-next-2021-10-21' of
+> git://anongit.freedesktop.org/drm/drm-intel into drm-next (2021-10-22 06:=
+30:34
+> +1000)
+>
+> are available in the Git repository at:
+>
+> =C2=A0 git://anongit.freedesktop.org/drm/drm-misc tags/topic/amdgpu-dp2.0=
+-mst-2021-
+> 10-27
 
-Sigh. There's no point discussing this further, my replies seem to be
-interpreted out of context.
+I'm curious, how did you generate and send this pull request? The lines
+are wrapped with newlines, and you have non-breaking spaces instead of
+regular spaces there.
 
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
+So for me this fails with:
+
+Pulling =C2=A0 git://anongit.freedesktop.org/drm/drm-misc tags/topic/amdgpu=
+-dp2.0-mst-2021- 10-27 ...
+fatal: invalid refspec 'git://anongit.freedesktop.org/drm/drm-misc'
+
+BR,
+Jani.
+
+
+>
+> for you to fetch changes up to 00f965e700ef5aa2d889e7e65c7458531d2a4bcf:
+>
+> =C2=A0 drm/amdgpu/display: fix build when CONFIG_DRM_AMD_DC_DCN is not se=
+t (2021-
+> 10-27 19:50:26 -0400)
+>
+> ----------------------------------------------------------------
+> UAPI Changes:
+> Nope!
+>
+> Cross-subsystem Changes:
+> drm_dp_update_payload_part1() takes a new argument for specifying what the
+> VCPI slot start is
+>
+> Core Changes:
+> Make the DP MST helpers aware of the current starting VCPI slot/VCPI total
+> slot count...
+>
+> Driver Changes:
+> ...and then add support for taking advantage of this for 128b/132b links =
+on DP
+> 2.0 for amdgpu
+>
+> ----------------------------------------------------------------
+> Alex Deucher (1):
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm/amdgpu/display: fix build when CONFIG_=
+DRM_AMD_DC_DCN is not set
+>
+> Bhawanpreet Lakha (3):
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm: Remove slot checks in dp mst topology=
+ during commit
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm: Update MST First Link Slot Informatio=
+n Based on Encoding Format
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm/amd/display: Add DP 2.0 MST DM Support
+>
+> Fangzhi Zuo (1):
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm/amd/display: Add DP 2.0 MST DC Support
+>
+> =C2=A0drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c=C2=A0 |=C2=A0 29 =
+++
+> =C2=A0.../drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c=C2=A0 |=C2=A0=C2=
+=A0 3 +
+> =C2=A0.../drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c=C2=A0 |=C2=A0=C2=
+=A0 7 +-
+> =C2=A0drivers/gpu/drm/amd/display/dc/core/dc.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 14 +
+> =C2=A0drivers/gpu/drm/amd/display/dc/core/dc_link.c=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 | 292
+> +++++++++++++++++++++
+> =C2=A0drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c=C2=A0=C2=A0 |=C2=
+=A0 19 ++
+> =C2=A0drivers/gpu/drm/amd/display/dc/dc_link.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 7 +
+> =C2=A0drivers/gpu/drm/amd/display/dc/dc_stream.h=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 13 +
+> =C2=A0drivers/gpu/drm/drm_dp_mst_topology.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 42 ++-
+> =C2=A0drivers/gpu/drm/i915/display/intel_dp_mst.c=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 4 +-
+> =C2=A0drivers/gpu/drm/nouveau/dispnv50/disp.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 2 +-
+> =C2=A0drivers/gpu/drm/radeon/radeon_dp_mst.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 4 +-
+> =C2=A0include/drm/drm_dp_mst_helper.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 |=C2=A0=C2=A0 5 +-
+> =C2=A013 files changed, 425 insertions(+), 16 deletions(-)
+
+--=20
+Jani Nikula, Intel Open Source Graphics Center
