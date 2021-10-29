@@ -2,50 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1704443F83D
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Oct 2021 09:53:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8647743F885
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Oct 2021 10:05:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA64A6EA12;
-	Fri, 29 Oct 2021 07:52:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A45A56EA1B;
+	Fri, 29 Oct 2021 08:05:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 951366EA01
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Oct 2021 07:52:12 +0000 (UTC)
-X-UUID: 1e9a619fd88248d28939349732fb8841-20211029
-X-UUID: 1e9a619fd88248d28939349732fb8841-20211029
-Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
- mailgw02.mediatek.com (envelope-from <nancy.lin@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1811598486; Fri, 29 Oct 2021 15:52:08 +0800
-Received: from mtkmbs10n1.mediatek.inc (172.21.101.34) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3; 
- Fri, 29 Oct 2021 15:52:07 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
- mtkmbs10n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.792.15 via Frontend Transport; Fri, 29 Oct 2021 15:52:07 +0800
-From: Nancy.Lin <nancy.lin@mediatek.com>
-To: CK Hu <ck.hu@mediatek.com>
-CC: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel
- <p.zabel@pengutronix.de>, David Airlie <airlied@linux.ie>, Daniel Vetter
- <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>, "jason-jh . lin" <jason-jh.lin@mediatek.com>,
- "Nancy . Lin" <nancy.lin@mediatek.com>, Yongqiang Niu
- <yongqiang.niu@mediatek.com>, <dri-devel@lists.freedesktop.org>,
- <linux-mediatek@lists.infradead.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
- <singo.chang@mediatek.com>, <srv_heupstream@mediatek.com>
-Subject: [PATCH v7 20/20] drm/mediatek: add mediatek-drm of vdosys1 support
- for MT8195
-Date: Fri, 29 Oct 2021 15:52:03 +0800
-Message-ID: <20211029075203.17093-21-nancy.lin@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20211029075203.17093-1-nancy.lin@mediatek.com>
-References: <20211029075203.17093-1-nancy.lin@mediatek.com>
+Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
+ [66.111.4.230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ADED26EA1D;
+ Fri, 29 Oct 2021 08:05:28 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 9229158061F;
+ Fri, 29 Oct 2021 04:05:27 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute3.internal (MEProxy); Fri, 29 Oct 2021 04:05:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=T8QQliYtEhk4q5t0tdm2Hh5O/Vf
+ QXZ9zBNnZxk/jzEI=; b=Z6eoJZJq0Ut5F4hP4+9TCoaJtIJDtD7k2Xv5fnNEVtd
+ 8G1SVwIbIWfIfVbCxznEJDE/HUjHwkCnhXswpDg1Pbnkrlae/yJD6wpwkpJDtC6E
+ dPLMlCUXqua4EuvIrLoLx54Cq+2NuryE63/4sq2tG5FMO0jYmeH7XnkYLW+/59lB
+ 19iOOlcePZpMXSjpkKjmoHdJYNogrIZ87qF/UyvO8vG7adqSHcbUVIf8Sb7pc1/2
+ sljnabVdRqspEvblyb0qroYOlmNRshtWaB6u7QN0CiTjkUUgCO1oEtwP3495P7tM
+ DjnnJD8YYwJUTCz6Zpl+sA2FR8bLIKai2qWu9Up3Sug==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=T8QQli
+ YtEhk4q5t0tdm2Hh5O/VfQXZ9zBNnZxk/jzEI=; b=FLlTNFaJVmhAdFWHXLmXZU
+ voY3leb/37+JIBex0QIhiHWUvDsipU1M1e3dbO02bGXaQR9UDRYDRKoWJ3xVzVWU
+ ETjexx4DI3QkPN5mpYCyUa9ovlgr19aTpgniBU10J6T9y4gQ1XHmnXuwI6xuvVNO
+ Rkso5Z4MO+R3PGcIfTExgS3YipF2Tg9Z4QN/1puWkRbd26xFdFwYxrHoi8FXJBbg
+ bG+SjN/eJU1+4XS8KXhLPSyJ4kbcbHjIZ+vymaCcsB6BKIu/URls5IC2iJYgSo1L
+ bQ9xPNIFmZ4Nch8DiOH91iNNvXEsdrPEp0V3h0RNuWgd8KHOKaf57gjKpKywkVog
+ ==
+X-ME-Sender: <xms:RKt7YeSXrCiCbeO7YFYq-XCqAHMPpgAc2wGvelyRtrJ717gNiSnSpw>
+ <xme:RKt7YTygGWgbm3gyH8GdK2h4aEcBCMrIWY2iBahNDknFEADWQlX0u5gNDxvNl2MHz
+ K1FTnX8aAQKO3riRTc>
+X-ME-Received: <xmr:RKt7Yb15jw_gmxeV_c-5egrQN7_LUMb1Z-WEhLI6eqJU8yu4sMY1otnFawahSlKx9n9Rn2Vo75jr2cFKgHUGRiYxMx-5rkK_hzL_4cXU>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrvdeggedguddvfecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
+ mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+ htthgvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheei
+ heegudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ hmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:RKt7YaAPluwc6X3oDdXbDgGqiv8XU4-dAA6g7edKUI-23EZZv01tug>
+ <xmx:RKt7YXgrsvHS8i_b9ZzzaCdJQrM1IFnHUFXEj-56N4bfA-fLE2DXUg>
+ <xmx:RKt7YWrucJ8cWTSX5Svt8sS1i_TikQjRUrm64LZ7ZMbd2ZsTpLbk0w>
+ <xmx:R6t7YTCYbFmAnADED1yUnEGcEsCum-vXgjgXqLs6YvSN6HXt9cf44g>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 29 Oct 2021 04:05:24 -0400 (EDT)
+Date: Fri, 29 Oct 2021 10:05:21 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <a.hajda@samsung.com>,
+ Robert Foss <robert.foss@linaro.org>,	Jonas Karlman <jonas@kwiboo.se>,
+ Daniel Vetter <daniel.vetter@intel.com>,	David Airlie <airlied@linux.ie>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>,	linux-arm-msm@vger.kernel.org,
+ Joonyoung Shim <jy0922.shim@samsung.com>,
+ Rob Clark <robdclark@gmail.com>, Tian Tao <tiantao6@hisilicon.com>,
+ Chen Feng <puck.chen@hisilicon.com>,
+ Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ linux-samsung-soc@vger.kernel.org, Xinliang Liu <xinliang.liu@linaro.org>,
+ John Stultz <john.stultz@linaro.org>, linux-kernel@vger.kernel.org,
+ Inki Dae <inki.dae@samsung.com>, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>
+Subject: Re: [v6,02/21] drm/bridge: adv7511: Register and attach our DSI
+ device at probe
+Message-ID: <20211029080521.6tmfq4kjngu5slv7@gilmour>
+References: <20211025151536.1048186-3-maxime@cerno.tech>
+ <CGME20211029062347eucas1p1431402205321b066349e3ccf432d2452@eucas1p1.samsung.com>
+ <73c13cf5-ca36-f47b-f53a-11d4f015505c@samsung.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK: N
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="dxkmld7iruoye3zb"
+Content-Disposition: inline
+In-Reply-To: <73c13cf5-ca36-f47b-f53a-11d4f015505c@samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,301 +104,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add driver data of mt8195 vdosys1 to mediatek-drm and the sub driver.
 
-Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
----
- drivers/gpu/drm/mediatek/mtk_disp_merge.c   |  4 ++
- drivers/gpu/drm/mediatek/mtk_drm_crtc.c     | 13 ++---
- drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c | 30 +++++++++--
- drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h |  1 +
- drivers/gpu/drm/mediatek/mtk_drm_drv.c      | 56 ++++++++++++++++-----
- 5 files changed, 78 insertions(+), 26 deletions(-)
+--dxkmld7iruoye3zb
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_merge.c b/drivers/gpu/drm/mediatek/mtk_disp_merge.c
-index dff2797a2f68..d64846c38fe1 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_merge.c
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_merge.c
-@@ -8,6 +8,7 @@
- #include <linux/of_device.h>
- #include <linux/of_irq.h>
- #include <linux/platform_device.h>
-+#include <linux/reset.h>
- #include <linux/soc/mediatek/mtk-cmdq.h>
- 
- #include "mtk_drm_ddp_comp.h"
-@@ -79,6 +80,9 @@ void mtk_merge_stop(struct device *dev)
- 	struct mtk_disp_merge *priv = dev_get_drvdata(dev);
- 
- 	mtk_merge_stop_cmdq(dev, NULL);
-+
-+	if (priv->async_clk)
-+		device_reset_optional(dev);
- }
- 
- void mtk_merge_start_cmdq(struct device *dev, struct cmdq_pkt *cmdq_pkt)
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-index 25580106a2c4..d41bd8201371 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-@@ -876,15 +876,10 @@ int mtk_drm_crtc_create(struct drm_device *drm_dev,
- 		node = priv->comp_node[comp_id];
- 		comp = &priv->ddp_comp[comp_id];
- 
--		if (!node) {
--			dev_info(dev,
--				 "Not creating crtc %d because component %d is disabled or missing\n",
--				 crtc_i, comp_id);
--			return 0;
--		}
--
--		if (!comp->dev) {
--			dev_err(dev, "Component %pOF not initialized\n", node);
-+		if (!node && !comp->dev) {
-+			dev_err(dev,
-+				"Not creating crtc %d because component %d is disabled, missing or not initialized\n",
-+				crtc_i, comp_id);
- 			return -ENODEV;
- 		}
- 	}
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-index eb9835102d79..279087ae889b 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-@@ -385,6 +385,18 @@ static const struct mtk_ddp_comp_funcs ddp_ufoe = {
- 	.start = mtk_ufoe_start,
- };
- 
-+static const struct mtk_ddp_comp_funcs ddp_ovl_adaptor = {
-+	.clk_enable = mtk_ovl_adaptor_clk_enable,
-+	.clk_disable = mtk_ovl_adaptor_clk_disable,
-+	.config = mtk_ovl_adaptor_config,
-+	.start = mtk_ovl_adaptor_start,
-+	.stop = mtk_ovl_adaptor_stop,
-+	.layer_nr = mtk_ovl_adaptor_layer_nr,
-+	.layer_config = mtk_ovl_adaptor_layer_config,
-+	.enable_vblank = mtk_ovl_adaptor_enable_vblank,
-+	.disable_vblank = mtk_ovl_adaptor_disable_vblank,
-+};
-+
- static const char * const mtk_ddp_comp_stem[MTK_DDP_COMP_TYPE_MAX] = {
- 	[MTK_DISP_AAL] = "aal",
- 	[MTK_DISP_BLS] = "bls",
-@@ -398,6 +410,7 @@ static const char * const mtk_ddp_comp_stem[MTK_DDP_COMP_TYPE_MAX] = {
- 	[MTK_DISP_OD] = "od",
- 	[MTK_DISP_OVL] = "ovl",
- 	[MTK_DISP_OVL_2L] = "ovl-2l",
-+	[MTK_DISP_OVL_ADAPTOR] = "ovl_adaptor",
- 	[MTK_DISP_POSTMASK] = "postmask",
- 	[MTK_DISP_PWM] = "pwm",
- 	[MTK_DISP_RDMA] = "rdma",
-@@ -443,6 +456,7 @@ static const struct mtk_ddp_comp_match mtk_ddp_matches[DDP_COMPONENT_ID_MAX] = {
- 	[DDP_COMPONENT_OVL_2L0]		= { MTK_DISP_OVL_2L,	0, &ddp_ovl },
- 	[DDP_COMPONENT_OVL_2L1]		= { MTK_DISP_OVL_2L,	1, &ddp_ovl },
- 	[DDP_COMPONENT_OVL_2L2]		= { MTK_DISP_OVL_2L,    2, &ddp_ovl },
-+	[DDP_COMPONENT_OVL_ADAPTOR]	= { MTK_DISP_OVL_ADAPTOR,	0, &ddp_ovl_adaptor },
- 	[DDP_COMPONENT_POSTMASK0]	= { MTK_DISP_POSTMASK,	0, &ddp_postmask },
- 	[DDP_COMPONENT_PWM0]		= { MTK_DISP_PWM,	0, NULL },
- 	[DDP_COMPONENT_PWM1]		= { MTK_DISP_PWM,	1, NULL },
-@@ -548,12 +562,17 @@ int mtk_ddp_comp_init(struct device_node *node, struct mtk_ddp_comp *comp,
- 
- 	comp->id = comp_id;
- 	comp->funcs = mtk_ddp_matches[comp_id].funcs;
--	comp_pdev = of_find_device_by_node(node);
--	if (!comp_pdev) {
--		DRM_INFO("Waiting for device %s\n", node->full_name);
--		return -EPROBE_DEFER;
-+	/* Not all drm components have a DTS device node, such as ovl_adaptor,
-+	 * which is the drm bring up sub driver
-+	 */
-+	if (node) {
-+		comp_pdev = of_find_device_by_node(node);
-+		if (!comp_pdev) {
-+			DRM_INFO("Waiting for device %s\n", node->full_name);
-+			return -EPROBE_DEFER;
-+		}
-+		comp->dev = &comp_pdev->dev;
- 	}
--	comp->dev = &comp_pdev->dev;
- 
- 	/* Only DMA capable components need the LARB property */
- 	if (type == MTK_DISP_OVL ||
-@@ -573,6 +592,7 @@ int mtk_ddp_comp_init(struct device_node *node, struct mtk_ddp_comp *comp,
- 	    type == MTK_DISP_MERGE ||
- 	    type == MTK_DISP_OVL ||
- 	    type == MTK_DISP_OVL_2L ||
-+	    type == MTK_DISP_OVL_ADAPTOR ||
- 	    type == MTK_DISP_PWM ||
- 	    type == MTK_DISP_RDMA ||
- 	    type == MTK_DPI ||
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
-index 221e2e3a3c8d..5e1404dc20c4 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
-@@ -30,6 +30,7 @@ enum mtk_ddp_comp_type {
- 	MTK_DISP_OD,
- 	MTK_DISP_OVL,
- 	MTK_DISP_OVL_2L,
-+	MTK_DISP_OVL_ADAPTOR,
- 	MTK_DISP_POSTMASK,
- 	MTK_DISP_PWM,
- 	MTK_DISP_RDMA,
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-index eedf10ed30c8..778aec81a0de 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-@@ -190,6 +190,12 @@ static const enum mtk_ddp_comp_id mt8195_mtk_ddp_main[] = {
- 	DDP_COMPONENT_DP_INTF0,
- };
- 
-+static const enum mtk_ddp_comp_id mt8195_mtk_ddp_ext[] = {
-+	DDP_COMPONENT_OVL_ADAPTOR,
-+	DDP_COMPONENT_MERGE5,
-+	DDP_COMPONENT_DP_INTF1,
-+};
-+
- static const struct mtk_mmsys_driver_data mt2701_mmsys_driver_data = {
- 	.main_path = mt2701_mtk_ddp_main,
- 	.main_len = ARRAY_SIZE(mt2701_mtk_ddp_main),
-@@ -262,6 +268,13 @@ static const struct mtk_mmsys_driver_data mt8195_vdosys0_driver_data = {
- 	.mmsys_dev_num = 2,
- };
- 
-+static const struct mtk_mmsys_driver_data mt8195_vdosys1_driver_data = {
-+	.ext_path = mt8195_mtk_ddp_ext,
-+	.ext_len = ARRAY_SIZE(mt8195_mtk_ddp_ext),
-+	.mmsys_id = 1,
-+	.mmsys_dev_num = 2,
-+};
-+
- static const struct of_device_id mtk_drm_of_ids[] = {
- 	{ .compatible = "mediatek,mt2701-mmsys",
- 	  .data = &mt2701_mmsys_driver_data},
-@@ -279,6 +292,8 @@ static const struct of_device_id mtk_drm_of_ids[] = {
- 	  .data = &mt8192_mmsys_driver_data},
- 	{ .compatible = "mediatek,mt8195-vdosys0",
- 	  .data = &mt8195_vdosys0_driver_data},
-+	{ .compatible = "mediatek,mt8195-vdosys1",
-+	  .data = &mt8195_vdosys1_driver_data},
- 	{ }
- };
- MODULE_DEVICE_TABLE(of, mtk_drm_of_ids);
-@@ -362,9 +377,7 @@ static int mtk_drm_kms_init(struct drm_device *drm)
- {
- 	struct mtk_drm_private *private = drm->dev_private;
- 	struct mtk_drm_private *priv_n;
--	struct platform_device *pdev;
--	struct device_node *np = NULL;
--	struct device *dma_dev;
-+	struct device *dma_dev = NULL;
- 	int ret, i, j;
- 
- 	ret = drmm_mode_config_init(drm);
-@@ -406,8 +419,8 @@ static int mtk_drm_kms_init(struct drm_device *drm)
- 				if (ret)
- 					goto err_component_unbind;
- 
--				if (!np)
--					np = priv_n->comp_node[priv_n->data->main_path[0]];
-+				if (!dma_dev)
-+					dma_dev = priv_n->ddp_comp[priv_n->data->main_path[0]].dev;
- 
- 				continue;
- 			} else if (i == 1 && priv_n->data->ext_len) {
-@@ -416,8 +429,8 @@ static int mtk_drm_kms_init(struct drm_device *drm)
- 				if (ret)
- 					goto err_component_unbind;
- 
--				if (!np)
--					np = priv_n->comp_node[priv_n->data->ext_path[0]];
-+				if (!dma_dev)
-+					dma_dev = priv_n->ddp_comp[priv_n->data->ext_path[0]].dev;
- 
- 				continue;
- 			} else if (i == 2 && priv_n->data->third_len) {
-@@ -426,8 +439,8 @@ static int mtk_drm_kms_init(struct drm_device *drm)
- 				if (ret)
- 					goto err_component_unbind;
- 
--				if (!np)
--					np = priv_n->comp_node[priv_n->data->third_path[0]];
-+				if (!dma_dev)
-+					dma_dev = priv_n->ddp_comp[priv_n->data->third_path[0]].dev;
- 
- 				continue;
- 			}
-@@ -435,14 +448,12 @@ static int mtk_drm_kms_init(struct drm_device *drm)
- 	}
- 
- 	/* Use OVL device for all DMA memory allocations */
--	pdev = of_find_device_by_node(np);
--	if (!pdev) {
-+	if (!dma_dev) {
- 		ret = -ENODEV;
- 		dev_err(drm->dev, "Need at least one OVL device\n");
- 		goto err_component_unbind;
- 	}
- 
--	dma_dev = &pdev->dev;
- 	for (i = 0; i < private->data->mmsys_dev_num; i++)
- 		private->all_drm_private[i]->dma_dev = dma_dev;
- 
-@@ -521,6 +532,11 @@ static int compare_of(struct device *dev, void *data)
- 	return dev->of_node == data;
- }
- 
-+static int compare_dev(struct device *dev, void *data)
-+{
-+	return dev == (struct device *)data;
-+}
-+
- static int mtk_drm_bind(struct device *dev)
- {
- 	struct mtk_drm_private *private = dev_get_drvdata(dev);
-@@ -709,6 +725,7 @@ static int mtk_drm_probe(struct platform_device *pdev)
- 	struct mtk_drm_private *private;
- 	struct device_node *node;
- 	struct component_match *match = NULL;
-+	struct platform_device *ovl_adaptor;
- 	int ret;
- 	int i;
- 
-@@ -734,6 +751,19 @@ static int mtk_drm_probe(struct platform_device *pdev)
- 		return -ENODEV;
- 	}
- 
-+	/* Bringup ovl_adaptor */
-+	if (mtk_drm_find_mmsys_comp(private, DDP_COMPONENT_OVL_ADAPTOR)) {
-+		ovl_adaptor = platform_device_register_data(dev, "mediatek-disp-ovl-adaptor",
-+							    PLATFORM_DEVID_AUTO,
-+							    (void *)private->mmsys_dev,
-+							    sizeof(*private->mmsys_dev));
-+		private->ddp_comp[DDP_COMPONENT_OVL_ADAPTOR].dev = &ovl_adaptor->dev;
-+		private->comp_node[DDP_COMPONENT_OVL_ADAPTOR] = ovl_adaptor->dev.of_node;
-+		mtk_ddp_comp_init(NULL, &private->ddp_comp[DDP_COMPONENT_OVL_ADAPTOR],
-+				  DDP_COMPONENT_OVL_ADAPTOR);
-+		component_match_add(dev, &match, compare_dev, &ovl_adaptor->dev);
-+	}
-+
- 	/* Iterate over sibling DISP function blocks */
- 	for_each_child_of_node(phandle->parent, node) {
- 		const struct of_device_id *of_id;
-@@ -787,6 +817,7 @@ static int mtk_drm_probe(struct platform_device *pdev)
- 		    comp_type == MTK_DISP_MERGE ||
- 		    comp_type == MTK_DISP_OVL ||
- 		    comp_type == MTK_DISP_OVL_2L ||
-+		    comp_type == MTK_DISP_OVL_ADAPTOR ||
- 		    comp_type == MTK_DISP_RDMA ||
- 		    comp_type == MTK_DPI ||
- 		    comp_type == MTK_DSI) {
-@@ -889,6 +920,7 @@ static struct platform_driver * const mtk_drm_drivers[] = {
- 	&mtk_disp_color_driver,
- 	&mtk_disp_gamma_driver,
- 	&mtk_disp_merge_driver,
-+	&mtk_disp_ovl_adaptor_driver,
- 	&mtk_disp_ovl_driver,
- 	&mtk_disp_rdma_driver,
- 	&mtk_dpi_driver,
--- 
-2.18.0
+Hi Marek,
 
+On Fri, Oct 29, 2021 at 08:23:45AM +0200, Marek Szyprowski wrote:
+> Hi,
+>=20
+> On 25.10.2021 17:15, Maxime Ripard wrote:
+> > In order to avoid any probe ordering issue, the best practice is to move
+> > the secondary MIPI-DSI device registration and attachment to the
+> > MIPI-DSI host at probe time. Let's do this.
+> >
+> > Acked-by: Sam Ravnborg <sam@ravnborg.org>
+> > Tested-by: John Stultz <john.stultz@linaro.org>
+> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+>
+> This patch landed in linux-next as commit 864c49a31d6b ("drm/bridge:
+> adv7511: Register and attach our DSI device at probe"). Sadly it causes
+> endless probe-fail-defer loop on DragonBoard 410c board
+> (arch/arm64/boot/dts/qcom/apq8016-sbc.dts):
+
+I'm sorry to hear that (but would have been surprised if it didn't occur)
+
+This is supposed to be fixed by 8f59ee9a570c ("drm/msm/dsi: Adjust probe
+order"). Do you have that patch applied?
+
+Maxime
+
+--dxkmld7iruoye3zb
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYXurQQAKCRDj7w1vZxhR
+xVUEAP9BeVQOJLXYw9Qy6X8VqVrrt6ZD7ANhFfeWPIL13SPJCQD/aD1IaYsn/2Vy
+K56opVCzXYlbVeFJIDN28pPvj+x/ngE=
+=e1Zt
+-----END PGP SIGNATURE-----
+
+--dxkmld7iruoye3zb--
