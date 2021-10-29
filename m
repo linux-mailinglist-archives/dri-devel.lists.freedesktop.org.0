@@ -2,58 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C9E243F893
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Oct 2021 10:09:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B598143F8C1
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Oct 2021 10:22:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED4FF6E059;
-	Fri, 29 Oct 2021 08:09:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B36606E0F8;
+	Fri, 29 Oct 2021 08:22:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk
- [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB6526E059
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Oct 2021 08:09:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
- MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
- Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
- List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=PTrXKesBhRHIvuuaQcXDWtZjhJf5sWDq+qzw8TaYbK4=; b=us2E3Ql3HpgbS057DqM4Mg/Tg+
- x6U994wj9AXbi+Oe82YLlv2CBQ4crM0CUcJWxcDfoZDOHt3vTsAfjDwGO6KHBF4cJOJ7Sa4i76clm
- SerDH4VjMU9LetKGRIYQThnFdnfHwRfMuKs/1/71PX4TIY/T8eipjgHlJVaD980DxYKw7f3njr9L1
- p7uRJJ6ExsJxrSabISJD9dcxVMU+PFWQ2uwAbLj1GWiYVJlxlQUtmSmiIbbFbYZNitc7oLrAlxgA/
- aCqf2rpvKtmPtBQKTLZ3fIdI6OWx4zDWpDp6ypykqfS9N6sIY/D7clsh9v14I6PXLO9XHjWE1V9Jq
- bmw20bSw==;
-Received: from shell.armlinux.org.uk
- ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:55372)
- by pandora.armlinux.org.uk with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <linux@armlinux.org.uk>)
- id 1mgMwX-0008Ng-TD; Fri, 29 Oct 2021 09:08:53 +0100
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
- (envelope-from <linux@shell.armlinux.org.uk>)
- id 1mgMwT-0001Rn-7R; Fri, 29 Oct 2021 09:08:49 +0100
-Date: Fri, 29 Oct 2021 09:08:49 +0100
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: Rob Herring <robh@kernel.org>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
- =?iso-8859-1?Q?Beno=EEt?= Cousson <bcousson@baylibre.com>,
- Tony Lindgren <tony@atomide.com>, Magnus Damm <magnus.damm@gmail.com>,
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-omap@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 3/3] [RFC] dt-bindings: display: bridge: nxp,tda998x:
- Convert to json-schema
-Message-ID: <YXusEUpTBUdvS7LY@shell.armlinux.org.uk>
-References: <cover.1634822085.git.geert+renesas@glider.be>
- <1f6bf58d76efc2e869b800534b818d1451ef98a2.1634822085.git.geert+renesas@glider.be>
- <YXtIsCnJ+L5zqCVk@robh.at.kernel.org>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 27F4088071;
+ Fri, 29 Oct 2021 08:22:23 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10151"; a="230571119"
+X-IronPort-AV: E=Sophos;i="5.87,192,1631602800"; d="scan'208";a="230571119"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Oct 2021 01:22:06 -0700
+X-IronPort-AV: E=Sophos;i="5.87,192,1631602800"; d="scan'208";a="448038474"
+Received: from ekolpasx-mobl.ccr.corp.intel.com (HELO
+ thellstr-mobl1.intel.com) ([10.249.254.219])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Oct 2021 01:22:05 -0700
+From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Cc: maarten.lankhorst@linux.intel.com, matthew.auld@intel.com,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+Subject: [PATCH v4 0/4] Prepare error capture for asynchronous migration
+Date: Fri, 29 Oct 2021 10:21:52 +0200
+Message-Id: <20211029082156.194003-1-thomas.hellstrom@linux.intel.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YXtIsCnJ+L5zqCVk@robh.at.kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,31 +49,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 28, 2021 at 08:04:48PM -0500, Rob Herring wrote:
-> On Thu, Oct 21, 2021 at 03:18:53PM +0200, Geert Uytterhoeven wrote:
-> > +    properties:
-> > +      port@0:
-> > +        type: object
-> > +        description: FIXME
-> 
-> Looks like the input from the example
-> 
-> > +
-> > +      port@1:
-> > +        type: object
-> > +        description: FIXME
-> 
-> Presumably the output to connector or another bridge.
+This patch series prepares error capture for asynchronous migration,
+where the vma pages may not reflect the pages the GPU is currently
+executing from but may be several migrations ahead.
 
-This is changing the binding. The original had:
+The first patch deals with refcounting sg-list so that they don't
+disappear under the capture code, which typically otherwise happens at
+put_pages() time.
 
-Required node:
-  - port: Input port node with endpoint definition, as described
-        in Documentation/devicetree/bindings/graph.txt
+The second patch introduces vma state snapshots that record the vma state
+at request submission time.
+It also takes additional measures to make sure that
+the capture list and request is not disappearing from under us while
+capturing. The latter may otherwise happen if a heartbeat triggered parallel
+capture is running during a manual reset which retires the request.
 
-The above change appears to require that tda998x now has two ports.
-This goes against current usage in DT and the example.
+The third patch changes the allocation mode during capture to reflect that
+capturing is typically done in the fence signalling critical path. More
+details on the patch itself.
+
+Finally the last patch is more of a POC patch and not strictly needed yet,
+but will be (or at least something very similar) soon for async unbinding.
+It will make sure that unbinding doesn't complete or signal completion
+before capture is done. Async reuse of memory can't happen until unbinding
+signals complete and without waiting for capture done, we might capture
+contents of reused memory.
+Before the last patch the vma active is instead still keeping the vma alive,
+but that will not work with async unbinding anymore, and also it is still
+not clear how we guarantee keeping the vma alive long enough to even
+grab an active reference during capture.
+
+v2:
+- Mostly Fixes for selftests and rebinding. See patch 3. 
+v3:
+- Honor the unbind fence also when evicting for suspend on gen6.
+- Cleanups on patch 1
+- Minor cleanups on patch 3.
+v4:
+- Break out patch 3 from patch 2.
+- Move a fix from patch 4 to patch 1.
+
+Thomas Hellström (4):
+  drm/i915: Introduce refcounted sg-tables
+  drm/i915: Update error capture code to avoid using the current vma
+    state
+  drm/i915: Use GFP_NOWAIT in the capture code
+  drm/i915: Initial introduction of vma resources
+
+ drivers/gpu/drm/i915/Makefile                 |   1 +
+ .../gpu/drm/i915/gem/i915_gem_execbuffer.c    | 137 ++++++++++--
+ drivers/gpu/drm/i915/gem/i915_gem_object.h    |  12 +-
+ .../gpu/drm/i915/gem/i915_gem_object_types.h  |   3 +-
+ drivers/gpu/drm/i915/gem/i915_gem_shmem.c     |  49 ++---
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.c       | 186 +++++++++-------
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c     |   8 +-
+ .../drm/i915/gt/intel_execlists_submission.c  |   2 +-
+ drivers/gpu/drm/i915/i915_gpu_error.c         | 180 ++++++++++-----
+ drivers/gpu/drm/i915/i915_request.c           |  63 ++++--
+ drivers/gpu/drm/i915/i915_request.h           |  18 +-
+ drivers/gpu/drm/i915/i915_scatterlist.c       |  62 ++++--
+ drivers/gpu/drm/i915/i915_scatterlist.h       |  76 ++++++-
+ drivers/gpu/drm/i915/i915_vma.c               | 206 +++++++++++++++++-
+ drivers/gpu/drm/i915/i915_vma.h               |  20 +-
+ drivers/gpu/drm/i915/i915_vma_snapshot.c      | 131 +++++++++++
+ drivers/gpu/drm/i915/i915_vma_snapshot.h      | 112 ++++++++++
+ drivers/gpu/drm/i915/i915_vma_types.h         |   5 +
+ drivers/gpu/drm/i915/intel_region_ttm.c       |  15 +-
+ drivers/gpu/drm/i915/intel_region_ttm.h       |   5 +-
+ drivers/gpu/drm/i915/selftests/i915_gem_gtt.c |  98 +++++----
+ drivers/gpu/drm/i915/selftests/mock_region.c  |  12 +-
+ 22 files changed, 1111 insertions(+), 290 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/i915_vma_snapshot.c
+ create mode 100644 drivers/gpu/drm/i915/i915_vma_snapshot.h
 
 -- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
+2.31.1
+
