@@ -1,62 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 856D44400C2
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Oct 2021 18:56:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B36C3440125
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Oct 2021 19:20:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B3AE56EA79;
-	Fri, 29 Oct 2021 16:56:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6ED356EA7E;
+	Fri, 29 Oct 2021 17:20:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
- [IPv6:2a00:1450:4864:20::434])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 99F806EA79
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Oct 2021 16:56:03 +0000 (UTC)
-Received: by mail-wr1-x434.google.com with SMTP id p14so17129306wrd.10
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Oct 2021 09:56:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=JORDkNBVCiam94FSvOakfXRq2y6MsBVlkJEkMSxGATg=;
- b=hfTq5JoBlpiHjgii9KWrOuyMEttpfZeIs8MksRyuOrrQ1wnN96rR25zUEcFPMuU9Dh
- DGq3R6MD4tQiYtQW2TtttumrOATfc0//lBlBmrq6u12n56a/qnAjPwa2yybCxkQnVbRk
- MZElGWMrhGabxEHv+C83QDA5ndGIMMnZYtXyNPKHeNCTtXVTn6PjdvKgZM4izrnShhN7
- 01JwNFR5lWPFTtOd1rjfPycUhNwNum3zD8rYPCS6ZVd5cgd6UU5BQbo9Avd9aBBox8U3
- UwLSv1tTCc9XJMNWJQjz6GH404rV/fD0pljuCzzlYeRX+RgWD7PgC7TD/ig2sS1RiPK2
- DEZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=JORDkNBVCiam94FSvOakfXRq2y6MsBVlkJEkMSxGATg=;
- b=JqhHT1ExhsH7qgkxVFGs83cq+Gp0aAgYtInLWORq7dEUru684dtTuTt1dQHdKEamP5
- zqfIDgpt1R/E0P7ffozSS0tivi+X/nN9108g2odjyBe2+ttbbYUwjVrkVzP4ztBiHwrC
- gyE1BsyxTf/tmXWS/rSJ6XPbTrkAr2J+99jVvUW03G0nqSSnJ5BNSAbQ1+7sXm1CrlNB
- pbQIqi0bD8S6qICPI/uDnllYA1IVDWTFmOyuf5NiS9f0ruM3RKf1bGqhykgY3/5fuSKW
- ZZJZPnqTe7x5/XBQygJPqLNDeMHOPBv35GkAzWhq5186yP2/KKjojvw7wirreGfXskta
- nzeA==
-X-Gm-Message-State: AOAM533B9qk1zLO94Hh7jBEdHZc/sPdT8qdh30uGX6Q4jJgSkUP2d6TN
- H81xvJ2OjN0cC6hpIdrWpYygeFHTsa8sjC/UAIE=
-X-Google-Smtp-Source: ABdhPJy4pIUZd8m27bKrPrNTdIKtBVXJ5qpW4AaiB1hqGkfh0D3BnjSc6RMerVTJb4PjZmOd+ED/MTSHFdRUiE9VySs=
-X-Received: by 2002:a5d:5144:: with SMTP id u4mr10399103wrt.91.1635526562047; 
- Fri, 29 Oct 2021 09:56:02 -0700 (PDT)
+Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D2726EA7E
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Oct 2021 17:20:44 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1635528047; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=4HPL9sczbdymRv+oWzyjAE0VxVTQXhBhxNzHHsXiKw0=;
+ b=ENSGrqybMkvsg0nCujbtCJJ33xIwg5b8xEwffkDt0puir9cfUfUFw5C5HxPOA6SnBU2vmSFj
+ FX3vckMQovLu6b8BFSfKTnOhdXjZ7QaMF2vK4tfs1qrr5u2WakpvL1ez+jp7GvZsqrQKKC10
+ z5IFbqjfOQAoKBjuy4uaTyhmyIA=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n03.prod.us-east-1.postgun.com with SMTP id
+ 617c2d5e900d71ea1ee802ed (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 29 Oct 2021 17:20:30
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 4FB04C43617; Fri, 29 Oct 2021 17:20:29 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+ URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested) (Authenticated sender: khsieh)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 8BE25C4338F;
+ Fri, 29 Oct 2021 17:20:28 +0000 (UTC)
 MIME-Version: 1.0
-References: <20211026181240.213806-1-paul@crapouillou.net>
- <20211026181240.213806-7-paul@crapouillou.net>
-In-Reply-To: <20211026181240.213806-7-paul@crapouillou.net>
-From: Christophe Branchereau <cbranchereau@gmail.com>
-Date: Fri, 29 Oct 2021 18:55:50 +0200
-Message-ID: <CAFsFa87SJqyZ=VgbNe=obv+jHNdVQQe0NN4R8w_V_HCitP4Nbg@mail.gmail.com>
-Subject: Re: [RESEND PATCH v3 6/6] drm/ingenic: Attach bridge chain to encoders
-To: Paul Cercueil <paul@crapouillou.net>
-Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>, 
- "H . Nikolaus Schaller" <hns@goldelico.com>, Paul Boddie <paul@boddie.org.uk>,
- list@opendingux.net, 
- linux-mips@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date: Fri, 29 Oct 2021 10:20:28 -0700
+From: khsieh@codeaurora.org
+To: Stephen Boyd <swboyd@chromium.org>
+Cc: Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ robdclark@gmail.com, seanpaul@chromium.org, kalyan_t@codeaurora.org,
+ abhinavk@codeaurora.org, dianders@chromium.org, mkrishn@codeaurora.org,
+ sbillaka@codeaurora.org
+Subject: Re: [PATCH v3 6/6] drm/msm/dp: Remove the hpd init delay for eDP
+In-Reply-To: <CAE-0n50YcX6sCoTR0bUy_GrZM7=UdHPAGYNwE3Nvj6GL4iTmMg@mail.gmail.com>
+References: <1635386088-18089-1-git-send-email-quic_sbillaka@quicinc.com>
+ <1635386088-18089-7-git-send-email-quic_sbillaka@quicinc.com>
+ <CAE-0n50YcX6sCoTR0bUy_GrZM7=UdHPAGYNwE3Nvj6GL4iTmMg@mail.gmail.com>
+Message-ID: <d04f4082266e599cbba458d5e39e75e9@codeaurora.org>
+X-Sender: khsieh@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,199 +76,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Reviewed-by: Christophe Branchereau <cbranchereau@gmail.com>
+On 2021-10-27 23:38, Stephen Boyd wrote:
+> Quoting Sankeerth Billakanti (2021-10-27 18:54:48)
+>> DP driver needs a 10 second delay before phy_init so that
+>> the usb combo phy initializes and sets up the necessary
+>> clocks for usb devices such as keyboard and mouse.
+>> 
+>> eDP controller uses a standalone phy and need not wait for
+>> phy initialization from any other component. This change
+>> will remove the delay for eDP controller.
+>> 
+>> Signed-off-by: Sankeerth Billakanti <quic_sbillaka@quicinc.com>
+>> ---
+>>  drivers/gpu/drm/msm/dp/dp_display.c | 11 ++++++++++-
+>>  1 file changed, 10 insertions(+), 1 deletion(-)
+>> 
+>> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c 
+>> b/drivers/gpu/drm/msm/dp/dp_display.c
+>> index 61385d6..de6a1fd 100644
+>> --- a/drivers/gpu/drm/msm/dp/dp_display.c
+>> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+>> @@ -1438,7 +1439,15 @@ void msm_dp_irq_postinstall(struct msm_dp 
+>> *dp_display)
+>> 
+>>         dp_hpd_event_setup(dp);
+>> 
+>> -       dp_add_event(dp, EV_HPD_INIT_SETUP, 0, 100);
+>> +       if (dp->dp_display.connector_type == DRM_MODE_CONNECTOR_eDP) {
+>> +               /* eDP does not need any delay before phy init */
+>> +               delay = 0;
+>> +       } else {
+>> +               /* DP needs 10 second delay to let usb combo phy 
+>> initialize */
+> 
+> This seems to be a different approach to the patch Kuogee sent a week 
+> or
+> two ago. Can we figure out what's wrong with the DP phy starting before
+> the USB phy? I suppose this patch is OK as a temporary hack to keep
+> moving with eDP, but we really need to figure out what's wrong with DP
+> so this delay can be removed entirely. Has any progress been made on
+> that?
+> 
+Sankeerth,
+Can you drop this patch for now.
+Let's discuss more.
 
-On Tue, Oct 26, 2021 at 8:13 PM Paul Cercueil <paul@crapouillou.net> wrote:
->
-> Attach a top-level bridge to each encoder, which will be used for
-> negociating the bus format and flags.
->
-> All the bridges are now attached with DRM_BRIDGE_ATTACH_NO_CONNECTOR.
->
-> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-> ---
->  drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 92 +++++++++++++++++------
->  1 file changed, 70 insertions(+), 22 deletions(-)
->
-> diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-> index a5e2880e07a1..a05a9fa6e115 100644
-> --- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-> +++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-> @@ -21,6 +21,7 @@
->  #include <drm/drm_atomic.h>
->  #include <drm/drm_atomic_helper.h>
->  #include <drm/drm_bridge.h>
-> +#include <drm/drm_bridge_connector.h>
->  #include <drm/drm_color_mgmt.h>
->  #include <drm/drm_crtc.h>
->  #include <drm/drm_crtc_helper.h>
-> @@ -108,6 +109,19 @@ struct ingenic_drm {
->         struct drm_private_obj private_obj;
->  };
->
-> +struct ingenic_drm_bridge {
-> +       struct drm_encoder encoder;
-> +       struct drm_bridge bridge, *next_bridge;
-> +
-> +       struct drm_bus_cfg bus_cfg;
-> +};
-> +
-> +static inline struct ingenic_drm_bridge *
-> +to_ingenic_drm_bridge(struct drm_encoder *encoder)
-> +{
-> +       return container_of(encoder, struct ingenic_drm_bridge, encoder);
-> +}
-> +
->  static inline struct ingenic_drm_private_state *
->  to_ingenic_drm_priv_state(struct drm_private_state *state)
->  {
-> @@ -668,11 +682,10 @@ static void ingenic_drm_encoder_atomic_mode_set(struct drm_encoder *encoder,
->  {
->         struct ingenic_drm *priv = drm_device_get_priv(encoder->dev);
->         struct drm_display_mode *mode = &crtc_state->adjusted_mode;
-> -       struct drm_connector *conn = conn_state->connector;
-> -       struct drm_display_info *info = &conn->display_info;
-> +       struct ingenic_drm_bridge *bridge = to_ingenic_drm_bridge(encoder);
->         unsigned int cfg, rgbcfg = 0;
->
-> -       priv->panel_is_sharp = info->bus_flags & DRM_BUS_FLAG_SHARP_SIGNALS;
-> +       priv->panel_is_sharp = bridge->bus_cfg.flags & DRM_BUS_FLAG_SHARP_SIGNALS;
->
->         if (priv->panel_is_sharp) {
->                 cfg = JZ_LCD_CFG_MODE_SPECIAL_TFT_1 | JZ_LCD_CFG_REV_POLARITY;
-> @@ -685,19 +698,19 @@ static void ingenic_drm_encoder_atomic_mode_set(struct drm_encoder *encoder,
->                 cfg |= JZ_LCD_CFG_HSYNC_ACTIVE_LOW;
->         if (mode->flags & DRM_MODE_FLAG_NVSYNC)
->                 cfg |= JZ_LCD_CFG_VSYNC_ACTIVE_LOW;
-> -       if (info->bus_flags & DRM_BUS_FLAG_DE_LOW)
-> +       if (bridge->bus_cfg.flags & DRM_BUS_FLAG_DE_LOW)
->                 cfg |= JZ_LCD_CFG_DE_ACTIVE_LOW;
-> -       if (info->bus_flags & DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE)
-> +       if (bridge->bus_cfg.flags & DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE)
->                 cfg |= JZ_LCD_CFG_PCLK_FALLING_EDGE;
->
->         if (!priv->panel_is_sharp) {
-> -               if (conn->connector_type == DRM_MODE_CONNECTOR_TV) {
-> +               if (conn_state->connector->connector_type == DRM_MODE_CONNECTOR_TV) {
->                         if (mode->flags & DRM_MODE_FLAG_INTERLACE)
->                                 cfg |= JZ_LCD_CFG_MODE_TV_OUT_I;
->                         else
->                                 cfg |= JZ_LCD_CFG_MODE_TV_OUT_P;
->                 } else {
-> -                       switch (*info->bus_formats) {
-> +                       switch (bridge->bus_cfg.format) {
->                         case MEDIA_BUS_FMT_RGB565_1X16:
->                                 cfg |= JZ_LCD_CFG_MODE_GENERIC_16BIT;
->                                 break;
-> @@ -723,20 +736,29 @@ static void ingenic_drm_encoder_atomic_mode_set(struct drm_encoder *encoder,
->         regmap_write(priv->map, JZ_REG_LCD_RGBC, rgbcfg);
->  }
->
-> -static int ingenic_drm_encoder_atomic_check(struct drm_encoder *encoder,
-> -                                           struct drm_crtc_state *crtc_state,
-> -                                           struct drm_connector_state *conn_state)
-> +static int ingenic_drm_bridge_attach(struct drm_bridge *bridge,
-> +                                    enum drm_bridge_attach_flags flags)
-> +{
-> +       struct ingenic_drm_bridge *ib = to_ingenic_drm_bridge(bridge->encoder);
-> +
-> +       return drm_bridge_attach(bridge->encoder, ib->next_bridge,
-> +                                &ib->bridge, flags);
-> +}
-> +
-> +static int ingenic_drm_bridge_atomic_check(struct drm_bridge *bridge,
-> +                                          struct drm_bridge_state *bridge_state,
-> +                                          struct drm_crtc_state *crtc_state,
-> +                                          struct drm_connector_state *conn_state)
->  {
-> -       struct drm_display_info *info = &conn_state->connector->display_info;
->         struct drm_display_mode *mode = &crtc_state->adjusted_mode;
-> +       struct ingenic_drm_bridge *ib = to_ingenic_drm_bridge(bridge->encoder);
->
-> -       if (info->num_bus_formats != 1)
-> -               return -EINVAL;
-> +       ib->bus_cfg = bridge_state->output_bus_cfg;
->
->         if (conn_state->connector->connector_type == DRM_MODE_CONNECTOR_TV)
->                 return 0;
->
-> -       switch (*info->bus_formats) {
-> +       switch (bridge_state->output_bus_cfg.format) {
->         case MEDIA_BUS_FMT_RGB888_3X8:
->         case MEDIA_BUS_FMT_RGB888_3X8_DELTA:
->                 /*
-> @@ -900,8 +922,16 @@ static const struct drm_crtc_helper_funcs ingenic_drm_crtc_helper_funcs = {
->  };
->
->  static const struct drm_encoder_helper_funcs ingenic_drm_encoder_helper_funcs = {
-> -       .atomic_mode_set        = ingenic_drm_encoder_atomic_mode_set,
-> -       .atomic_check           = ingenic_drm_encoder_atomic_check,
-> +       .atomic_mode_set        = ingenic_drm_encoder_atomic_mode_set,
-> +};
-> +
-> +static const struct drm_bridge_funcs ingenic_drm_bridge_funcs = {
-> +       .attach                 = ingenic_drm_bridge_attach,
-> +       .atomic_check           = ingenic_drm_bridge_atomic_check,
-> +       .atomic_reset           = drm_atomic_helper_bridge_reset,
-> +       .atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
-> +       .atomic_destroy_state   = drm_atomic_helper_bridge_destroy_state,
-> +       .atomic_get_input_bus_fmts = drm_atomic_helper_bridge_propagate_bus_fmt,
->  };
->
->  static const struct drm_mode_config_funcs ingenic_drm_mode_config_funcs = {
-> @@ -976,7 +1006,9 @@ static int ingenic_drm_bind(struct device *dev, bool has_components)
->         struct drm_plane *primary;
->         struct drm_bridge *bridge;
->         struct drm_panel *panel;
-> +       struct drm_connector *connector;
->         struct drm_encoder *encoder;
-> +       struct ingenic_drm_bridge *ib;
->         struct drm_device *drm;
->         void __iomem *base;
->         long parent_rate;
-> @@ -1154,20 +1186,36 @@ static int ingenic_drm_bind(struct device *dev, bool has_components)
->                         bridge = devm_drm_panel_bridge_add_typed(dev, panel,
->                                                                  DRM_MODE_CONNECTOR_DPI);
->
-> -               encoder = drmm_plain_encoder_alloc(drm, NULL, DRM_MODE_ENCODER_DPI, NULL);
-> -               if (IS_ERR(encoder)) {
-> -                       ret = PTR_ERR(encoder);
-> +               ib = drmm_encoder_alloc(drm, struct ingenic_drm_bridge, encoder,
-> +                                       NULL, DRM_MODE_ENCODER_DPI, NULL);
-> +               if (IS_ERR(ib)) {
-> +                       ret = PTR_ERR(ib);
->                         dev_err(dev, "Failed to init encoder: %d\n", ret);
->                         return ret;
->                 }
->
-> -               encoder->possible_crtcs = 1;
-> +               encoder = &ib->encoder;
-> +               encoder->possible_crtcs = drm_crtc_mask(&priv->crtc);
->
->                 drm_encoder_helper_add(encoder, &ingenic_drm_encoder_helper_funcs);
->
-> -               ret = drm_bridge_attach(encoder, bridge, NULL, 0);
-> -               if (ret)
-> +               ib->bridge.funcs = &ingenic_drm_bridge_funcs;
-> +               ib->next_bridge = bridge;
-> +
-> +               ret = drm_bridge_attach(encoder, &ib->bridge, NULL,
-> +                                       DRM_BRIDGE_ATTACH_NO_CONNECTOR);
-> +               if (ret) {
-> +                       dev_err(dev, "Unable to attach bridge\n");
->                         return ret;
-> +               }
-> +
-> +               connector = drm_bridge_connector_init(drm, encoder);
-> +               if (IS_ERR(connector)) {
-> +                       dev_err(dev, "Unable to init connector\n");
-> +                       return PTR_ERR(connector);
-> +               }
-> +
-> +               drm_connector_attach_encoder(connector, encoder);
->         }
->
->         drm_for_each_encoder(encoder, drm) {
-> --
-> 2.33.0
->
+>> +               delay = 100;
+>> +       }
+>> +
+>> +       dp_add_event(dp, EV_HPD_INIT_SETUP, 0, delay);
