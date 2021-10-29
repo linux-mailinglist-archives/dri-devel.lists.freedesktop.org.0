@@ -1,39 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D229543FC44
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Oct 2021 14:23:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9550043FD25
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Oct 2021 15:10:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 85B1A6E108;
-	Fri, 29 Oct 2021 12:23:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C6FD898B6;
+	Fri, 29 Oct 2021 13:10:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7207D6E108;
- Fri, 29 Oct 2021 12:23:02 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10151"; a="217566596"
-X-IronPort-AV: E=Sophos;i="5.87,192,1631602800"; d="scan'208";a="217566596"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Oct 2021 05:23:01 -0700
-X-IronPort-AV: E=Sophos;i="5.87,192,1631602800"; d="scan'208";a="498886211"
-Received: from hohiggin-mobl2.ger.corp.intel.com (HELO mwauld-desk1.intel.com)
- ([10.213.197.138])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Oct 2021 05:23:00 -0700
-From: Matthew Auld <matthew.auld@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v2] drm/i915/dmabuf: drop the flush on discrete
-Date: Fri, 29 Oct 2021 13:21:37 +0100
-Message-Id: <20211029122137.3484203-1-matthew.auld@intel.com>
-X-Mailer: git-send-email 2.26.3
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E4036E10B;
+ Fri, 29 Oct 2021 12:30:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1635510639; x=1667046639;
+ h=from:to:cc:subject:date:message-id:in-reply-to: references;
+ bh=WX6+oirQgO/61V41wJZp+jdW5MNtOfx/cOe7FPtKI0k=;
+ b=zDFW9/fFpmYvkUo6vBj7r1pCvtIjCfC7Ei/doZ0osEFt9eHOYoeHruJn
+ X3+Veg+x7Bo/4U2Y2XpL0UDzBIGXxGV46AooKf3bnMNy7jVg06NTeud8v
+ /MEs5SzaZKsfQTTxhImqG1PCuv/SkfyFbJFDg6es6kZlxGdu/fE8gAnpb A=;
+Received: from ironmsg-lv-alpha.qualcomm.com ([10.47.202.13])
+ by alexa-out.qualcomm.com with ESMTP; 29 Oct 2021 05:30:38 -0700
+X-QCInternal: smtphost
+Received: from ironmsg01-blr.qualcomm.com ([10.86.208.130])
+ by ironmsg-lv-alpha.qualcomm.com with ESMTP/TLS/AES256-SHA;
+ 29 Oct 2021 05:30:36 -0700
+X-QCInternal: smtphost
+Received: from kalyant-linux.qualcomm.com ([10.204.66.210])
+ by ironmsg01-blr.qualcomm.com with ESMTP; 29 Oct 2021 18:00:22 +0530
+Received: by kalyant-linux.qualcomm.com (Postfix, from userid 94428)
+ id E01DE4D8B; Fri, 29 Oct 2021 05:30:21 -0700 (PDT)
+From: Kalyan Thota <quic_kalyant@quicinc.com>
+To: y@qualcomm.com, dri-devel@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ devicetree@vger.kernel.org
+Cc: Kalyan Thota <quic_kalyant@quicinc.com>, linux-kernel@vger.kernel.org,
+ robdclark@gmail.com, dianders@chromium.org, mkrishn@codeaurora.org,
+ swboyd@chromium.org, abhinavk@codeaurora.org
+Subject: [v2] drm/msm/disp/dpu1: set default group ID for CTL.
+Date: Fri, 29 Oct 2021 05:30:19 -0700
+Message-Id: <1635510619-6715-1-git-send-email-quic_kalyant@quicinc.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <y>
+References: <y>
+X-Mailman-Approved-At: Fri, 29 Oct 2021 13:10:12 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,46 +60,81 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We were overzealous here; even though discrete is non-LLC, it should
-still be always coherent.
+New required programming in CTL for SC7280. Group ID informs
+HW of which VM owns that CTL. Force this group ID to
+default/disabled until virtualization support is enabled in SW.
 
-v2(Thomas & Daniel)
-  - Be extra cautious and limit to DG1
-  - Add some more commentary
+Changes in v1:
+ - Fix documentation and add descritpion for the change (Stephen)
 
-Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>
+Signed-off-by: Kalyan Thota <quic_kalyant@quicinc.com>
 ---
- drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c | 15 +++++++++++++--
- 1 file changed, 13 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 2 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h | 5 ++++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c     | 8 ++++++++
+ 3 files changed, 13 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
-index a45d0ec2c5b6..a2b485a1be8c 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
-@@ -250,8 +250,19 @@ static int i915_gem_object_get_pages_dmabuf(struct drm_i915_gem_object *obj)
- 	if (IS_ERR(pages))
- 		return PTR_ERR(pages);
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+index ce6f32a..283605c 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+@@ -45,7 +45,7 @@
+ 	(PINGPONG_SDM845_MASK | BIT(DPU_PINGPONG_TE2))
  
--	/* XXX: consider doing a vmap flush or something */
--	if (!HAS_LLC(i915) || i915_gem_object_can_bypass_llc(obj))
-+	/*
-+	 * DG1 is special here since it still snoops transactions even with
-+	 * CACHE_NONE. This is not the case with other HAS_SNOOP platforms. We
-+	 * might need to revisit this as we add new discrete platforms.
-+	 *
-+	 * XXX: Consider doing a vmap flush or something, where possible.
-+	 * Currently we just do a heavy handed wbinvd_on_all_cpus() here since
-+	 * the underlying sg_table might not even point to struct pages, so we
-+	 * can't just call drm_clflush_sg or similar, like we do elsewhere in
-+	 * the driver.
+ #define CTL_SC7280_MASK \
+-	(BIT(DPU_CTL_ACTIVE_CFG) | BIT(DPU_CTL_FETCH_ACTIVE))
++	(BIT(DPU_CTL_ACTIVE_CFG) | BIT(DPU_CTL_FETCH_ACTIVE) | BIT(DPU_CTL_VM_CFG))
+ 
+ #define MERGE_3D_SM8150_MASK (0)
+ 
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+index 4ade44b..31af04a 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+@@ -179,13 +179,16 @@ enum {
+ 
+ /**
+  * CTL sub-blocks
+- * @DPU_CTL_SPLIT_DISPLAY       CTL supports video mode split display
++ * @DPU_CTL_SPLIT_DISPLAY:	CTL supports video mode split display
++ * @DPU_CTL_FETCH_ACTIVE:	Active CTL for fetch HW (SSPPs)
++ * @DPU_CTL_VM_CFG:		CTL config to support multiple VMs
+  * @DPU_CTL_MAX
+  */
+ enum {
+ 	DPU_CTL_SPLIT_DISPLAY = 0x1,
+ 	DPU_CTL_ACTIVE_CFG,
+ 	DPU_CTL_FETCH_ACTIVE,
++	DPU_CTL_VM_CFG,
+ 	DPU_CTL_MAX
+ };
+ 
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+index 64740ddb..02da9ec 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+@@ -36,6 +36,7 @@
+ #define  MERGE_3D_IDX   23
+ #define  INTF_IDX       31
+ #define CTL_INVALID_BIT                 0xffff
++#define CTL_DEFAULT_GROUP_ID		0xf
+ 
+ static const u32 fetch_tbl[SSPP_MAX] = {CTL_INVALID_BIT, 16, 17, 18, 19,
+ 	CTL_INVALID_BIT, CTL_INVALID_BIT, CTL_INVALID_BIT, CTL_INVALID_BIT, 0,
+@@ -498,6 +499,13 @@ static void dpu_hw_ctl_intf_cfg_v1(struct dpu_hw_ctl *ctx,
+ 	u32 intf_active = 0;
+ 	u32 mode_sel = 0;
+ 
++	/* CTL_TOP[31:28] carries group_id to collate CTL paths
++	 * per VM. Explicitly disable it until VM support is
++	 * added in SW. Power on reset value is not disable.
 +	 */
-+	if (i915_gem_object_can_bypass_llc(obj) ||
-+	    (!HAS_LLC(i915) && !IS_DG1(i915)))
- 		wbinvd_on_all_cpus();
++	if ((test_bit(DPU_CTL_VM_CFG, &ctx->caps->features)))
++		mode_sel = CTL_DEFAULT_GROUP_ID  << 28;
++
+ 	if (cfg->intf_mode_sel == DPU_CTL_MODE_SEL_CMD)
+ 		mode_sel |= BIT(17);
  
- 	sg_page_sizes = i915_sg_dma_sizes(pages->sgl);
 -- 
-2.26.3
+2.7.4
 
