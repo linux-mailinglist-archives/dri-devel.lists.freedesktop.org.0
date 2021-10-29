@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B7FD43FD54
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Oct 2021 15:27:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 944B343FD56
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Oct 2021 15:27:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E49326EA58;
-	Fri, 29 Oct 2021 13:27:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A9966EA5B;
+	Fri, 29 Oct 2021 13:27:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
  [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 867376EA58
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E863B6EA5B
  for <dri-devel@lists.freedesktop.org>; Fri, 29 Oct 2021 13:27:11 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: kholk11) with ESMTPSA id A44491F45A6F
+ (Authenticated sender: kholk11) with ESMTPSA id 4CD2C1F45A72
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 To: a.hajda@samsung.com
 Cc: narmstrong@baylibre.com, robert.foss@linaro.org,
@@ -23,10 +23,10 @@ Cc: narmstrong@baylibre.com, robert.foss@linaro.org,
  dri-devel@lists.freedesktop.org, kernel@collabora.com,
  linux-kernel@vger.kernel.org,
  AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Subject: [PATCH 2/3] drm/bridge: parade-ps8640: Move real poweroff action to
- new function
-Date: Fri, 29 Oct 2021 15:26:49 +0200
-Message-Id: <20211029132650.918761-2-angelogioacchino.delregno@collabora.com>
+Subject: [PATCH 3/3] drm/bridge: parade-ps8640: Perform full poweroff if
+ poweron fails
+Date: Fri, 29 Oct 2021 15:26:50 +0200
+Message-Id: <20211029132650.918761-3-angelogioacchino.delregno@collabora.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211029132650.918761-1-angelogioacchino.delregno@collabora.com>
 References: <20211029132650.918761-1-angelogioacchino.delregno@collabora.com>
@@ -47,73 +47,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In preparation for varying the poweron error handling in function
-ps8640_bridge_poweron(), move function ps8640_bridge_poweroff() up
-and also move the actual logic to power off the chip to a new
-__ps8640_bridge_poweroff() function.
+In function ps8640_bridge_poweron(), in case of a failure not relative
+to the regulators enablement, the code was disabling the regulators but
+the gpio changes that happened during the poweron sequence were not
+being reverted back to a clean poweroff state.
+
+Since it is expected that, when we enter ps8640_bridge_poweron(), the
+powerdown and reset GPIOs are both in active state exactly as they were
+left in the poweroff function before, we can simply call function
+__ps8640_bridge_poweroff() in the failure case, reverting every change
+that was done during the power on sequence.
+
+Of course it was chosen to call the poweroff function instead of adding
+code to revert the GPIO changes to the poweron one to avoid duplicating
+code, as we would be doing exactly what the poweroff function does.
 
 Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 ---
- drivers/gpu/drm/bridge/parade-ps8640.c | 39 +++++++++++++++-----------
- 1 file changed, 22 insertions(+), 17 deletions(-)
+ drivers/gpu/drm/bridge/parade-ps8640.c | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/parade-ps8640.c b/drivers/gpu/drm/bridge/parade-ps8640.c
-index 8c5402947b3c..9334217d02c9 100644
+index 9334217d02c9..8b54b515828a 100644
 --- a/drivers/gpu/drm/bridge/parade-ps8640.c
 +++ b/drivers/gpu/drm/bridge/parade-ps8640.c
-@@ -293,6 +293,28 @@ static int ps8640_bridge_vdo_control(struct ps8640 *ps_bridge,
- 	return 0;
- }
+@@ -346,7 +346,7 @@ static int ps8640_bridge_poweron(struct ps8640 *ps_bridge)
  
-+static void __ps8640_bridge_poweroff(struct ps8640 *ps_bridge)
-+{
-+	int ret;
-+
-+	gpiod_set_value(ps_bridge->gpio_reset, 1);
-+	gpiod_set_value(ps_bridge->gpio_powerdown, 1);
-+	if (regulator_bulk_disable(ARRAY_SIZE(ps_bridge->supplies),
-+				   ps_bridge->supplies)) {
-+		DRM_ERROR("cannot disable regulators %d\n", ret);
-+	}
-+}
-+
-+static void ps8640_bridge_poweroff(struct ps8640 *ps_bridge)
-+{
-+	if (!ps_bridge->powered)
-+		return;
-+
+ 	if (ret < 0) {
+ 		DRM_ERROR("failed read PAGE2_GPIO_H: %d\n", ret);
+-		goto err_regulators_disable;
++		goto err_poweroff;
+ 	}
+ 
+ 	msleep(50);
+@@ -362,23 +362,22 @@ static int ps8640_bridge_poweron(struct ps8640 *ps_bridge)
+ 	ret = regmap_update_bits(map, PAGE2_MCS_EN, MCS_EN, 0);
+ 	if (ret < 0) {
+ 		DRM_ERROR("failed write PAGE2_MCS_EN: %d\n", ret);
+-		goto err_regulators_disable;
++		goto err_poweroff;
+ 	}
+ 
+ 	/* Switch access edp panel's edid through i2c */
+ 	ret = regmap_write(map, PAGE2_I2C_BYPASS, I2C_BYPASS_EN);
+ 	if (ret < 0) {
+ 		DRM_ERROR("failed write PAGE2_I2C_BYPASS: %d\n", ret);
+-		goto err_regulators_disable;
++		goto err_poweroff;
+ 	}
+ 
+ 	ps_bridge->powered = true;
+ 
+ 	return 0;
+ 
+-err_regulators_disable:
+-	regulator_bulk_disable(ARRAY_SIZE(ps_bridge->supplies),
+-			       ps_bridge->supplies);
++err_poweroff:
 +	__ps8640_bridge_poweroff(ps_bridge);
-+
-+	ps_bridge->powered = false;
-+}
-+
- static int ps8640_bridge_poweron(struct ps8640 *ps_bridge)
- {
- 	struct regmap *map = ps_bridge->regmap[PAGE2_TOP_CNTL];
-@@ -361,23 +383,6 @@ static int ps8640_bridge_poweron(struct ps8640 *ps_bridge)
+ 
  	return ret;
  }
- 
--static void ps8640_bridge_poweroff(struct ps8640 *ps_bridge)
--{
--	int ret;
--
--	if (!ps_bridge->powered)
--		return;
--
--	gpiod_set_value(ps_bridge->gpio_reset, 1);
--	gpiod_set_value(ps_bridge->gpio_powerdown, 1);
--	ret = regulator_bulk_disable(ARRAY_SIZE(ps_bridge->supplies),
--				     ps_bridge->supplies);
--	if (ret < 0)
--		DRM_ERROR("cannot disable regulators %d\n", ret);
--
--	ps_bridge->powered = false;
--}
--
- static void ps8640_pre_enable(struct drm_bridge *bridge)
- {
- 	struct ps8640 *ps_bridge = bridge_to_ps8640(bridge);
 -- 
 2.33.0
 
