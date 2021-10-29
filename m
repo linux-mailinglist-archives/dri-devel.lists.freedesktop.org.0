@@ -1,54 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 461714400B6
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Oct 2021 18:55:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F2574400BA
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Oct 2021 18:55:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 426B46E9FD;
-	Fri, 29 Oct 2021 16:55:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 725756E9FE;
+	Fri, 29 Oct 2021 16:55:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
- [IPv6:2a00:1450:4864:20::430])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 873CC6E9FD
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Oct 2021 16:55:26 +0000 (UTC)
-Received: by mail-wr1-x430.google.com with SMTP id m22so17270308wrb.0
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Oct 2021 09:55:26 -0700 (PDT)
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
+ [IPv6:2a00:1450:4864:20::431])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 64FE06E9FE
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Oct 2021 16:55:41 +0000 (UTC)
+Received: by mail-wr1-x431.google.com with SMTP id i5so9520554wrb.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Oct 2021 09:55:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=SRcEZWu8D3vX9CUuQVcWwIJfOQutmrq5UYvVkoqhCpQ=;
- b=fCaHZ62fxWekoHiW9cVt7guKLcdU2vVE4M00ZSGfnLQ2HjFzshpoRDy+jGXab8BuRN
- 0XZkeC3vzL0Wq7AZaQXrXajzCE9cyG239HC6AN2rLCWs12VnEn+roPyP6maFKdDFNHbp
- aqdc3k6vLIvDrsxSRraiSqm8uUB9m+LT/wgWRkbjuSUKXnieOqjxfgFvRg/qqWqINDJI
- ASqyRESmnY1QqpxjWfLGQKwZxImnx+Sw9AlBSQbt47WkQLABZii8JNm0fJhveWEfYLVW
- 3v98GKlRDbI7dY5fkYI42JOf7PTUjlt3sv42ME4zwJtcXldwByIOQdERP0Qna72voakK
- MMaw==
+ :cc; bh=W9vJPcSbPLO7NfU0Ls6mVi7jOviGY9vm6tatJcjMExs=;
+ b=CzihUPbiAJpBZyWWtjZ7IdT/CG7h9VI2FEf8IbvTMCQekwhaJSL8Gf/1BEBeyaDSgZ
+ d2QYxjePqckZRujXjntZjiKuJvNLE/JhM1kt6TNXh9BvoQ5oEcYezhSfbJ2VSM8+c4ov
+ mSuQiB2ehZngeh+fdATwmzbTMbNIJaCNgmqrlPCckWQtaFR0t1Y13kYmPE34apr+3EKQ
+ f1bzItKYViT4a9usRNJWvDXEWZeWNWwiomErX9UZUdahsBINOuVJ5qwghzmPdCNSR1Cl
+ +7WhalDqmXo9o/QnO73xoEt1wiPG1G9KdDdhgAK/ad1YWyFZ2V4w/bwfi8Ud43eSKldy
+ A21g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=SRcEZWu8D3vX9CUuQVcWwIJfOQutmrq5UYvVkoqhCpQ=;
- b=8HkqRFVPfB+RbdnMyh8p+tGumaP+5gxTT9ngHiTwSwxVvp1u+sHjda4VuBPnfVQ+wd
- kFftjE+zpToD65NUqZ1Tl1L7hVGrmBMKy+9oYeQqGniO4QDaE2apKBUN1VzqdS6V9C8z
- LsBy2LFz9N5t2LUVDq+nJ+Ez2vm6ILuK9S8h78x25Dp+gUhHTe4DDaONBP4UcF0JQCYn
- AZ2rKRmTXvEyYe/FrHQ/I72+484FaMU2GsLQq/zVhzCoyfqk3QyaQgUk/q/NXPiM7BKe
- aKIoVTT00iYopm90rwC4bPjoz76tjeaxN6ir6kl5n6lIrJUFS1ov5XJSmo+vkHlMtAlg
- 0AkQ==
-X-Gm-Message-State: AOAM533ifxyGVCwke0oy2dR2G5hck7bfbyYDoBTYdQ3QFz94NZjVOhT0
- gzN5T2FUdnd3sh3A0BD20rI8c39E4DG87BYppOs=
-X-Google-Smtp-Source: ABdhPJzY0DLuPzbZLZcd4wqLNlTKlTol7oAAaYtyLoHQGKo9FeBNuhgPN9FypHeygwYnzdqtF3IpeYFOp9Eq1Bs4hMs=
-X-Received: by 2002:adf:f708:: with SMTP id r8mr10314653wrp.198.1635526525094; 
- Fri, 29 Oct 2021 09:55:25 -0700 (PDT)
+ bh=W9vJPcSbPLO7NfU0Ls6mVi7jOviGY9vm6tatJcjMExs=;
+ b=v3UyMlDNsqAUEoSeT2U1nr2f3E+5ZmuQERWb9e8FGrDCwz+Pw+OUlUhZrktFv6oXrD
+ c6HMnNbdQRvfkgBrA7I7KNGU/OPPIMBWXwMY7cNcMeOl32fJqx4PZe6dMk4bljvPx417
+ dB3Op9Y6O0UVaXuJDX73dIGCzQiYFqeOnqgktROEGP4jWtpCLgDUXoK2/NhYYo0RhvSG
+ BpWypqSuVVng6EpFAoqTBt79Qgjnez9bwARo6cTs7844UXd+6JkC8jjZQeH7Ub63Amry
+ 6SEXqHcet8fePMGTg25h0V1zhMOyZx3ijLu0yTujnfOlLsaZiSsWHxYPhnwRCsoZ6TSq
+ qX1w==
+X-Gm-Message-State: AOAM532tPkh83hpTA6CpRXHuFj1FGPVb9or1E0V4QxBUMQrGMDx+aUaf
+ Wp+mt0N6RMyF5qgcP26FOS+eZIYVGQjKSiujOsM=
+X-Google-Smtp-Source: ABdhPJzoQtwON+pjaqzIt16kK0/i80B+sZ5OLf0ZYarOLkk70Fag7712UVfnlBaW+YRp0t5vHQ5yOjPzFcfw8jkusoE=
+X-Received: by 2002:a1c:2b85:: with SMTP id
+ r127mr20691607wmr.134.1635526539897; 
+ Fri, 29 Oct 2021 09:55:39 -0700 (PDT)
 MIME-Version: 1.0
 References: <20211026181240.213806-1-paul@crapouillou.net>
- <20211026181240.213806-4-paul@crapouillou.net>
-In-Reply-To: <20211026181240.213806-4-paul@crapouillou.net>
+ <20211026181240.213806-5-paul@crapouillou.net>
+In-Reply-To: <20211026181240.213806-5-paul@crapouillou.net>
 From: Christophe Branchereau <cbranchereau@gmail.com>
-Date: Fri, 29 Oct 2021 18:55:14 +0200
-Message-ID: <CAFsFa86iJc2Hc8eqfQjsPQWx+xwMiC_K+NN-MTHZ0UE00eAAeg@mail.gmail.com>
-Subject: Re: [RESEND PATCH v3 3/6] drm/ingenic: Move IPU scale settings to
- private state
+Date: Fri, 29 Oct 2021 18:55:28 +0200
+Message-ID: <CAFsFa8446UokrOkce_owwULgdhz_HMaWWj=jZ_witPQyZZSNcQ@mail.gmail.com>
+Subject: Re: [RESEND PATCH v3 4/6] drm/ingenic: Set DMA descriptor chain
+ register when starting CRTC
 To: Paul Cercueil <paul@crapouillou.net>
 Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, 
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
@@ -77,183 +78,34 @@ Reviewed-by: Christophe Branchereau <cbranchereau@gmail.com>
 
 On Tue, Oct 26, 2021 at 8:13 PM Paul Cercueil <paul@crapouillou.net> wrote:
 >
-> The IPU scaling information is computed in the plane's ".atomic_check"
-> callback, and used in the ".atomic_update" callback. As such, it is
-> state-specific, and should be moved to a private state structure.
+> Setting the DMA descriptor chain register in the probe function has been
+> fine until now, because we only ever had one descriptor per foreground.
+>
+> As the driver will soon have real descriptor chains, and the DMA
+> descriptor chain register updates itself to point to the current
+> descriptor being processed, this register needs to be reset after a full
+> modeset to point to the first descriptor of the chain.
 >
 > Signed-off-by: Paul Cercueil <paul@crapouillou.net>
 > ---
->  drivers/gpu/drm/ingenic/ingenic-ipu.c | 73 ++++++++++++++++++++-------
->  1 file changed, 54 insertions(+), 19 deletions(-)
+>  drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 4 ++++
+>  1 file changed, 4 insertions(+)
 >
-> diff --git a/drivers/gpu/drm/ingenic/ingenic-ipu.c b/drivers/gpu/drm/ingenic/ingenic-ipu.c
-> index c819293b8317..2737fc521e15 100644
-> --- a/drivers/gpu/drm/ingenic/ingenic-ipu.c
-> +++ b/drivers/gpu/drm/ingenic/ingenic-ipu.c
-> @@ -47,6 +47,8 @@ struct soc_info {
+> diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+> index 5dbeca0f8f37..cbc76cede99e 100644
+> --- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+> +++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+> @@ -186,6 +186,10 @@ static void ingenic_drm_crtc_atomic_enable(struct drm_crtc *crtc,
 >
->  struct ingenic_ipu_private_state {
->         struct drm_private_state base;
+>         regmap_write(priv->map, JZ_REG_LCD_STATE, 0);
+>
+> +       /* Set address of our DMA descriptor chain */
+> +       regmap_write(priv->map, JZ_REG_LCD_DA0, dma_hwdesc_addr(priv, 0));
+> +       regmap_write(priv->map, JZ_REG_LCD_DA1, dma_hwdesc_addr(priv, 1));
 > +
-> +       unsigned int num_w, num_h, denom_w, denom_h;
->  };
->
->  struct ingenic_ipu {
-> @@ -58,8 +60,6 @@ struct ingenic_ipu {
->         const struct soc_info *soc_info;
->         bool clk_enabled;
->
-> -       unsigned int num_w, num_h, denom_w, denom_h;
-> -
->         dma_addr_t addr_y, addr_u, addr_v;
->
->         struct drm_property *sharpness_prop;
-> @@ -85,6 +85,30 @@ to_ingenic_ipu_priv_state(struct drm_private_state *state)
->         return container_of(state, struct ingenic_ipu_private_state, base);
->  }
->
-> +static struct ingenic_ipu_private_state *
-> +ingenic_ipu_get_priv_state(struct ingenic_ipu *priv, struct drm_atomic_state *state)
-> +{
-> +       struct drm_private_state *priv_state;
-> +
-> +       priv_state = drm_atomic_get_private_obj_state(state, &priv->private_obj);
-> +       if (IS_ERR(priv_state))
-> +               return ERR_CAST(priv_state);
-> +
-> +       return to_ingenic_ipu_priv_state(priv_state);
-> +}
-> +
-> +static struct ingenic_ipu_private_state *
-> +ingenic_ipu_get_new_priv_state(struct ingenic_ipu *priv, struct drm_atomic_state *state)
-> +{
-> +       struct drm_private_state *priv_state;
-> +
-> +       priv_state = drm_atomic_get_new_private_obj_state(state, &priv->private_obj);
-> +       if (!priv_state)
-> +               return NULL;
-> +
-> +       return to_ingenic_ipu_priv_state(priv_state);
-> +}
-> +
->  /*
->   * Apply conventional cubic convolution kernel. Both parameters
->   *  and return value are 15.16 signed fixed-point.
-> @@ -305,11 +329,16 @@ static void ingenic_ipu_plane_atomic_update(struct drm_plane *plane,
->         const struct drm_format_info *finfo;
->         u32 ctrl, stride = 0, coef_index = 0, format = 0;
->         bool needs_modeset, upscaling_w, upscaling_h;
-> +       struct ingenic_ipu_private_state *ipu_state;
->         int err;
->
->         if (!newstate || !newstate->fb)
->                 return;
->
-> +       ipu_state = ingenic_ipu_get_new_priv_state(ipu, state);
-> +       if (WARN_ON(!ipu_state))
-> +               return;
-> +
->         finfo = drm_format_info(newstate->fb->format->format);
->
->         if (!ipu->clk_enabled) {
-> @@ -482,27 +511,27 @@ static void ingenic_ipu_plane_atomic_update(struct drm_plane *plane,
->         if (ipu->soc_info->has_bicubic)
->                 ctrl |= JZ_IPU_CTRL_ZOOM_SEL;
->
-> -       upscaling_w = ipu->num_w > ipu->denom_w;
-> +       upscaling_w = ipu_state->num_w > ipu_state->denom_w;
->         if (upscaling_w)
->                 ctrl |= JZ_IPU_CTRL_HSCALE;
->
-> -       if (ipu->num_w != 1 || ipu->denom_w != 1) {
-> +       if (ipu_state->num_w != 1 || ipu_state->denom_w != 1) {
->                 if (!ipu->soc_info->has_bicubic && !upscaling_w)
-> -                       coef_index |= (ipu->denom_w - 1) << 16;
-> +                       coef_index |= (ipu_state->denom_w - 1) << 16;
->                 else
-> -                       coef_index |= (ipu->num_w - 1) << 16;
-> +                       coef_index |= (ipu_state->num_w - 1) << 16;
->                 ctrl |= JZ_IPU_CTRL_HRSZ_EN;
->         }
->
-> -       upscaling_h = ipu->num_h > ipu->denom_h;
-> +       upscaling_h = ipu_state->num_h > ipu_state->denom_h;
->         if (upscaling_h)
->                 ctrl |= JZ_IPU_CTRL_VSCALE;
->
-> -       if (ipu->num_h != 1 || ipu->denom_h != 1) {
-> +       if (ipu_state->num_h != 1 || ipu_state->denom_h != 1) {
->                 if (!ipu->soc_info->has_bicubic && !upscaling_h)
-> -                       coef_index |= ipu->denom_h - 1;
-> +                       coef_index |= ipu_state->denom_h - 1;
->                 else
-> -                       coef_index |= ipu->num_h - 1;
-> +                       coef_index |= ipu_state->num_h - 1;
->                 ctrl |= JZ_IPU_CTRL_VRSZ_EN;
->         }
->
-> @@ -513,13 +542,13 @@ static void ingenic_ipu_plane_atomic_update(struct drm_plane *plane,
->         /* Set the LUT index register */
->         regmap_write(ipu->map, JZ_REG_IPU_RSZ_COEF_INDEX, coef_index);
->
-> -       if (ipu->num_w != 1 || ipu->denom_w != 1)
-> +       if (ipu_state->num_w != 1 || ipu_state->denom_w != 1)
->                 ingenic_ipu_set_coefs(ipu, JZ_REG_IPU_HRSZ_COEF_LUT,
-> -                                     ipu->num_w, ipu->denom_w);
-> +                                     ipu_state->num_w, ipu_state->denom_w);
->
-> -       if (ipu->num_h != 1 || ipu->denom_h != 1)
-> +       if (ipu_state->num_h != 1 || ipu_state->denom_h != 1)
->                 ingenic_ipu_set_coefs(ipu, JZ_REG_IPU_VRSZ_COEF_LUT,
-> -                                     ipu->num_h, ipu->denom_h);
-> +                                     ipu_state->num_h, ipu_state->denom_h);
->
->         /* Clear STATUS register */
->         regmap_write(ipu->map, JZ_REG_IPU_STATUS, 0);
-> @@ -531,7 +560,8 @@ static void ingenic_ipu_plane_atomic_update(struct drm_plane *plane,
->         dev_dbg(ipu->dev, "Scaling %ux%u to %ux%u (%u:%u horiz, %u:%u vert)\n",
->                 newstate->src_w >> 16, newstate->src_h >> 16,
->                 newstate->crtc_w, newstate->crtc_h,
-> -               ipu->num_w, ipu->denom_w, ipu->num_h, ipu->denom_h);
-> +               ipu_state->num_w, ipu_state->denom_w,
-> +               ipu_state->num_h, ipu_state->denom_h);
->  }
->
->  static int ingenic_ipu_plane_atomic_check(struct drm_plane *plane,
-> @@ -545,6 +575,7 @@ static int ingenic_ipu_plane_atomic_check(struct drm_plane *plane,
->         struct ingenic_ipu *ipu = plane_to_ingenic_ipu(plane);
->         struct drm_crtc *crtc = new_plane_state->crtc ?: old_plane_state->crtc;
->         struct drm_crtc_state *crtc_state;
-> +       struct ingenic_ipu_private_state *ipu_state;
->
->         if (!crtc)
->                 return 0;
-> @@ -553,6 +584,10 @@ static int ingenic_ipu_plane_atomic_check(struct drm_plane *plane,
->         if (WARN_ON(!crtc_state))
->                 return -EINVAL;
->
-> +       ipu_state = ingenic_ipu_get_priv_state(ipu, state);
-> +       if (IS_ERR(ipu_state))
-> +               return PTR_ERR(ipu_state);
-> +
->         /* Request a full modeset if we are enabling or disabling the IPU. */
->         if (!old_plane_state->crtc ^ !new_plane_state->crtc)
->                 crtc_state->mode_changed = true;
-> @@ -605,10 +640,10 @@ static int ingenic_ipu_plane_atomic_check(struct drm_plane *plane,
->         if (num_h > max_h)
->                 return -EINVAL;
->
-> -       ipu->num_w = num_w;
-> -       ipu->num_h = num_h;
-> -       ipu->denom_w = denom_w;
-> -       ipu->denom_h = denom_h;
-> +       ipu_state->num_w = num_w;
-> +       ipu_state->num_h = num_h;
-> +       ipu_state->denom_w = denom_w;
-> +       ipu_state->denom_h = denom_h;
->
->  out_check_damage:
->         if (ingenic_drm_map_noncoherent(ipu->master))
+>         regmap_update_bits(priv->map, JZ_REG_LCD_CTRL,
+>                            JZ_LCD_CTRL_ENABLE | JZ_LCD_CTRL_DISABLE,
+>                            JZ_LCD_CTRL_ENABLE);
 > --
 > 2.33.0
 >
