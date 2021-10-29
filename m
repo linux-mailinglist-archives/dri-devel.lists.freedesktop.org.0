@@ -2,77 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8BC1440050
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Oct 2021 18:28:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB95D440056
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Oct 2021 18:29:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B07EE6E167;
-	Fri, 29 Oct 2021 16:28:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C46F86EA75;
+	Fri, 29 Oct 2021 16:29:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
- [IPv6:2a00:1450:4864:20::129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 31C6A6E167
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Oct 2021 16:28:18 +0000 (UTC)
-Received: by mail-lf1-x129.google.com with SMTP id bu18so4916703lfb.0
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Oct 2021 09:28:18 -0700 (PDT)
+Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com
+ [IPv6:2a00:1450:4864:20::22a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD7B16EA75
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Oct 2021 16:29:07 +0000 (UTC)
+Received: by mail-lj1-x22a.google.com with SMTP id l2so17774704lji.6
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Oct 2021 09:29:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=zb37U00i0UsxFiui6h8A52VDFSlAKY4vOYHPxpea81c=;
- b=TsfcoTQsth3GMbA87xy3JOsrwOf9WUKLzUc1wq2aKb8nm+h1lWm9UwjtFcoTaGbvKe
- sQ98YEE3QTH3m8zyDHhKCFjRS2hXMx5wd8getGuez1vRzftxlQjogBvlwfvmpymu6W7T
- ySq7aJHbfubll8P5mvCIAJdENcRSriG+nWUKGt8YXm41HMxIL0jeguvwUK7okHibeY+c
- 0K6K3NNXM6vt4yGO7r8IfmgknSut+OZ/JVcueYwKiXs2/OlLlWtYgatm0NmVojWdmF+O
- pSRIxigawMyoXfrvt4/Wr7uKB1Lo6pJbK/PxNamCiFzGsZ7HRRdZQvolu6lW6C5IYH0R
- hbhQ==
+ bh=C/nh1wSPg2qxieXH4r9qgq/nYihsX9fQ0PQvzCv1u8k=;
+ b=QY7EJfShfyck1TNZ/R2aaluwJPz15sC5RiT0pKVl1JBZVtBQSxxtlPJ1sxLt3NSauJ
+ CS3k6WGYEDy8OAAylkhJsCngz89Un3dxHovP4No3itSutHrrDyZUd72WZaq/i5tHjp33
+ lELVUGAvVDfpR+gOelx4tk66n3mxSuPyepdsDgYLhjJ942Xk7Ojaj0+h/HPUgrqIm0PJ
+ oYBdL5ErZ1oNHi3Kn4P4PHdWPZBdxADBaeRANLbbWXlgxWOpPqB08jsO0BNBX7Sw3/FW
+ /qECNqXLz41564ZEAm3eAFY8BNN+76YGZTkvpTl5C2EJMJUFNomDIzfOzG30Tp71fxVV
+ wlUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=zb37U00i0UsxFiui6h8A52VDFSlAKY4vOYHPxpea81c=;
- b=wnljhlcWIA6jj86U3siVHIub0g5ivug1QYAEU5qJUxrizBLe/PqIU2BA9Bd1zTN0aA
- EH0CYsEke7K9OMWwXOVZFSux6iP4X/UvjSu1xBIDsftelOJpxuumWxgWkDDRC86xP4wl
- TnGu+GSbrfsON5zPbmgYcsLwFSj/joRPMe4E0qOtn1a894rXoZghihvWcuWCDNxDCRvD
- 5TCk/KB8o+kZYMRqJuZHCAGN5z1qfWn8N/jhat3AmbfgRdKh3a34eblsbHiw8DrDhX2L
- cjYx+vX0YigHi27jYHr+bSiLyekmC8JJ55Ca3rhJxhU+Rzqd5yaVrXZUPaoXOUHn1z6/
- zhlA==
-X-Gm-Message-State: AOAM5307HYgjd8lOPjD04Coub8+/bcEgulT3ttIPEHf2DpH0ACDFdDTK
- RChXcQiQ/9BahZS9gmvpanc=
-X-Google-Smtp-Source: ABdhPJxqvCXUpic4tjN7rVlUMkTQZOd/62uMiYgoMdbQ434pB4vyHg9RWPIeJ8n3oYvJT9rPA0Mo5w==
-X-Received: by 2002:a05:6512:230b:: with SMTP id
- o11mr12461455lfu.490.1635524896479; 
- Fri, 29 Oct 2021 09:28:16 -0700 (PDT)
+ bh=C/nh1wSPg2qxieXH4r9qgq/nYihsX9fQ0PQvzCv1u8k=;
+ b=cIOpwgNmS/F6JSaC1VZXjTDGOaDrlugS7MTHnJFLaFggksGa7xuX46ff0MrWFneY1P
+ 1nAPgX3C8gSX0ZjKFPjEav51sxMlXKPRLJWn/uX//DBv6XHpoODKS5duS+/qClMc4bA5
+ CPe4NrImh2uf1xmYo6p5MiF52qKyhuRFQk6L78lzSTqmimNStuiaMQzbAxddOWw4RA+6
+ QS5iuA14bS2rGG3QX2QTeyW9z4dIvQ0B2B1VPCn7b9BKUIjFxddcb15kK131nHqEZ/xg
+ XE1kyBYgylRbxFzN5M+42hSglGpK3q6R+EeypluJZLg9FiITJbNyd1ywo2iM8LYJuq+S
+ Q8wA==
+X-Gm-Message-State: AOAM531e3FOLorXi04vnVyfvOpufClCYCjCxwQ47ai4tLtOjwgwKB5qW
+ SaiUmACZGNVT8ftku+SmnkE=
+X-Google-Smtp-Source: ABdhPJyZDHoy7QReMDTuh43voSzqtG9TmWKveT2FDJagZ7MTM03XORP0SaqpQynyngPjXYo2byU+CQ==
+X-Received: by 2002:a2e:b162:: with SMTP id a2mr12833961ljm.440.1635524946194; 
+ Fri, 29 Oct 2021 09:29:06 -0700 (PDT)
 Received: from [192.168.2.145] (46-138-44-18.dynamic.spd-mgts.ru.
  [46.138.44.18])
- by smtp.googlemail.com with ESMTPSA id m4sm644841lfu.107.2021.10.29.09.28.15
+ by smtp.googlemail.com with ESMTPSA id 9sm433066lfq.44.2021.10.29.09.29.05
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 29 Oct 2021 09:28:16 -0700 (PDT)
+ Fri, 29 Oct 2021 09:29:05 -0700 (PDT)
 Subject: Re: [PATCH v14 20/39] pwm: tegra: Add runtime PM and OPP support
-To: Ulf Hansson <ulf.hansson@linaro.org>
+To: "Rafael J. Wysocki" <rafael@kernel.org>
 Cc: Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Viresh Kumar <vireshk@kernel.org>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Ulf Hansson
+ <ulf.hansson@linaro.org>, Viresh Kumar <vireshk@kernel.org>,
  Stephen Boyd <sboyd@kernel.org>, Peter De Schrijver
  <pdeschrijver@nvidia.com>, Mikko Perttunen <mperttunen@nvidia.com>,
  Lee Jones <lee.jones@linaro.org>,
  =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
  Nishanth Menon <nm@ti.com>, Adrian Hunter <adrian.hunter@intel.com>,
- Michael Turquette <mturquette@baylibre.com>, linux-kernel@vger.kernel.org,
- linux-tegra@vger.kernel.org, linux-pm@vger.kernel.org,
- linux-pwm@vger.kernel.org, linux-mmc@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-clk@vger.kernel.org,
- David Heidelberg <david@ixit.cz>
+ Michael Turquette <mturquette@baylibre.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ linux-tegra <linux-tegra@vger.kernel.org>,
+ Linux PM <linux-pm@vger.kernel.org>,
+ Linux PWM List <linux-pwm@vger.kernel.org>,
+ linux-mmc <linux-mmc@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ linux-clk <linux-clk@vger.kernel.org>, David Heidelberg <david@ixit.cz>
 References: <20211025224032.21012-1-digetx@gmail.com>
  <20211025224032.21012-21-digetx@gmail.com>
  <09c05206-c0e5-9a25-8ffa-b9291f6ea5ae@gmail.com>
- <CAPDyKFoa5eQTrNxyiFevUCWitUecX=hi=y7qv1dC2mqk0+0XBA@mail.gmail.com>
+ <CAJZ5v0i9OtA1nDiv8UXuF3ASdENFYJFV7+nMWm6Pcu=kw8k1aQ@mail.gmail.com>
 From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <a1b9d966-5eb1-da02-5e77-6fe008e0c8a2@gmail.com>
-Date: Fri, 29 Oct 2021 19:28:15 +0300
+Message-ID: <4dc8a6bd-4072-ccbf-513b-221d286bd6d5@gmail.com>
+Date: Fri, 29 Oct 2021 19:29:05 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <CAPDyKFoa5eQTrNxyiFevUCWitUecX=hi=y7qv1dC2mqk0+0XBA@mail.gmail.com>
+In-Reply-To: <CAJZ5v0i9OtA1nDiv8UXuF3ASdENFYJFV7+nMWm6Pcu=kw8k1aQ@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -91,8 +94,8 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-29.10.2021 18:28, Ulf Hansson пишет:
-> On Fri, 29 Oct 2021 at 17:20, Dmitry Osipenko <digetx@gmail.com> wrote:
+29.10.2021 18:56, Rafael J. Wysocki пишет:
+> On Fri, Oct 29, 2021 at 5:20 PM Dmitry Osipenko <digetx@gmail.com> wrote:
 >>
 >> 26.10.2021 01:40, Dmitry Osipenko пишет:
 >>> +     ret = devm_pm_runtime_enable(&pdev->dev);
@@ -157,12 +160,8 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 >>
 >> I'll fix it for PWM and other drivers in this series, in v15.
 > 
-> Good catch - and sorry for not spotting it while reviewing!
+> Well, for the record, IMV using pm_runtime_force_suspend() is
+> generally a questionable idea.
 > 
-> Maybe devm_pm_runtime_enable() isn't that useful after all? Should we
-> suggest to remove it so others don't fall into the same trap?
 
-devm_pm_runtime_enable() was added to the recent v5.15 kernel. It's a
-useful helper, if it's used consciously. I'm not going to remove its
-usage entirely from this series, for example it still should be good to
-use for Tegra FUSE and HDMI drivers.
+Please clarify why it's a questionable idea.
