@@ -2,50 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B76B43F79A
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Oct 2021 09:03:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FDE843F79B
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Oct 2021 09:03:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6DB066E9F2;
-	Fri, 29 Oct 2021 07:03:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 96B736E9F3;
+	Fri, 29 Oct 2021 07:03:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com
- [IPv6:2607:f8b0:4864:20::52a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F6EC6E9F2
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Oct 2021 07:03:15 +0000 (UTC)
-Received: by mail-pg1-x52a.google.com with SMTP id m21so8993426pgu.13
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Oct 2021 00:03:15 -0700 (PDT)
+Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com
+ [IPv6:2607:f8b0:4864:20::634])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F2E986E9F3
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Oct 2021 07:03:20 +0000 (UTC)
+Received: by mail-pl1-x634.google.com with SMTP id t11so6208312plq.11
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Oct 2021 00:03:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=igel-co-jp.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=r3BsV1GTEqKXRyiYvYJGLvk2Pn1r3f4nsDFd9biBydc=;
- b=1miiAeJBD4YHde618x7VUYA3a8mA3M9i9cwKp+Hot/5+6jc/hdle2k/q2vrIoRW6pq
- jT1WM/yegfAfiaTwfqIrwef7lJ7qOke/IYttmFIK+ELo34L50cDydN0cGctNM7TdVUHU
- aeh98mybKRQ1WA/0B8kSHysJgPlyfYGJ4GBGP52iCTcRzswlgX1ERw2XKQq8a3ZErNeY
- RtzSMASWb1oVsKSwSsnYhei+Zc+ilVBUP65qwnB2Ja3n9+jfOLqIuTiK7I8UeFAw1ovF
- hWzC1RrYP7IkudA4rIHRJTisF5cILo9P/5CGMTnWtid4Dcq2i41os5gZWTx/azWf7UIc
- ZqCg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=ywomfQQ/zrXlNvvtHNPniVmuKMA6+X/rEa1nhATs1h0=;
+ b=pLuB60o8L9yV0psf3kVK1LIle1fWlkD7unrU4eav8uZ8P757BnoT9oCG+I2o9o3QWu
+ vddlDfKQTSkHbe0ZtUpLsAZ8MRGcvJDuasO8dXVrlC5MUDju0BQUCFNW+o/qe+obvxG2
+ yyDf6JkQ0f6/zctixWLAC0bA/fSrGFbgEyDGNXtK3IaM7oVU7H05AZIibFGUpm6xf/Pu
+ kpYNi0m+PJC5Cr0cyJVMsDnVSEDVZj7Vyms74bLZiW4yOMZ5ScU7p2zMfMf6WLU2c+kV
+ jypLpaE20UqM1XYpBH7YBjmuRFM/0fqmTQZThVlBpZyz31+offw289pRQEGHO+goNdBI
+ Ehow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=r3BsV1GTEqKXRyiYvYJGLvk2Pn1r3f4nsDFd9biBydc=;
- b=i9XtAE3cijcZOAPynm0IuiqCHo5Zi6m+qSsMJhu4hGITgYtKvkVneugCgDVJV9pYly
- LRL19McYTorVj0skIOG7RoMgmmCn3MC+KOnAFQKSlt3iHFP0Ncd6OBX9ydf4VwNjcd1+
- 3u5m3Paa+sT8KTamiS2gXTp+uHkw70/PoWQsfQKmo47kukva/PXPzg5OaK6O4nCcIV25
- rbjXmVKh6nuySb+tMrErjrkBWSRmnoBsd2QzBzP5ecsJPdLJ/XBMWK8PJYtsHtcHeTaR
- v0OKRGgiJOOndxweROcK3XAvp6kzLBvMh8+LeGoCvZh3IsoV3ilVqnaxHqW4rcUVQOvA
- ihkQ==
-X-Gm-Message-State: AOAM530quw2laf91b2uMfibhsbNS6ChWT/VNlxAzNsJlc8NL9TDz5HPY
- M6MpE/8E7IIyMLS3l7dkGlnKlw==
-X-Google-Smtp-Source: ABdhPJyYm5rE0hVRGHglH0izEfcuNX4yWQ6QvHTkUa/fEf//YnbIBYTmnBZevBFErFa9RyNL+x1GTQ==
-X-Received: by 2002:a05:6a00:1897:b0:47b:ff8c:3b05 with SMTP id
- x23-20020a056a00189700b0047bff8c3b05mr9180742pfh.37.1635490995256; 
- Fri, 29 Oct 2021 00:03:15 -0700 (PDT)
+ :references:mime-version:content-transfer-encoding;
+ bh=ywomfQQ/zrXlNvvtHNPniVmuKMA6+X/rEa1nhATs1h0=;
+ b=CXJ2abGSM3ZlrcW+GZGKkSg2keqXt5Tyc9PDgfSjmkYkAEw+GwM4UKCPv940EaWcFM
+ 3StXlk3+dikrAYWOuZAvQfI7z1BEclr1etB8VwdZY3h9DKQWnwFDdDXar/cGfVyboLhv
+ XPjRjFtFaUzO3yi5o0nZE3Dh4S23DUDpMQZ7rvUyDlpA0rvLXV5KPh1XF4DNPWt8cY40
+ jcRFzVvdUIVnP6rQavl0ReD+5bEUhb7mB5EBExCGeqCg+QseAwcL1GQL8gp0ENjtxXXY
+ wO5dpwHnEyoO9BtXMdtCcT7/9+tOEmBdM5FEpDlyL8x1x31ctqU7K0VlSMVc1Rxlnl2P
+ /rsw==
+X-Gm-Message-State: AOAM530tlyTUmlBsXu7bnK8VBjvgr1Q/YVQM7QoAlBfoQJ2ou1143n1n
+ yJUp0MIkeOLjiPNFy4Q9f0Hfbw==
+X-Google-Smtp-Source: ABdhPJwhKsR8/vu0Ha6ScVqkbkJBibHyYjEa6eYHRjgyLcEJ+esw6RmMdOIqve7jbA8UBE6Bvzkxmg==
+X-Received: by 2002:a17:90a:34b:: with SMTP id
+ 11mr9779039pjf.188.1635491000590; 
+ Fri, 29 Oct 2021 00:03:20 -0700 (PDT)
 Received: from tyrell.hq.igel.co.jp (napt.igel.co.jp. [219.106.231.132])
- by smtp.gmail.com with ESMTPSA id p16sm6039787pfh.97.2021.10.29.00.03.11
+ by smtp.gmail.com with ESMTPSA id p16sm6039787pfh.97.2021.10.29.00.03.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Oct 2021 00:03:14 -0700 (PDT)
+ Fri, 29 Oct 2021 00:03:20 -0700 (PDT)
 From: Shunsuke Mie <mie@igel.co.jp>
 To: Zhu Yanjun <zyjzyj2000@gmail.com>
 Cc: Shunsuke Mie <mie@igel.co.jp>,
@@ -59,13 +60,15 @@ Cc: Shunsuke Mie <mie@igel.co.jp>,
  linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-rdma@vger.kernel.org, dhobsong@igel.co.jp, taki@igel.co.jp,
  etom@igel.co.jp
-Subject: [RFC PATCH v3 1/2] RDMA/umem: Change for rdma devices has not dma
- device
-Date: Fri, 29 Oct 2021 16:02:57 +0900
-Message-Id: <20211029070258.59299-2-mie@igel.co.jp>
+Subject: [RFC PATCH v3 2/2] RDMA/rxe: Add dma-buf support
+Date: Fri, 29 Oct 2021 16:02:58 +0900
+Message-Id: <20211029070258.59299-3-mie@igel.co.jp>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20211029070258.59299-1-mie@igel.co.jp>
 References: <20211029070258.59299-1-mie@igel.co.jp>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,97 +84,219 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Current implementation requires a dma device for RDMA driver to use
-dma-buf memory space as RDMA buffer. However, software RDMA drivers has
-not dma device and copy RDMA data using CPU instead of hardware.
-
-This patch changes to be hold a dma-buf on struct ib_umem_dmabuf. This
-allows the software RDMA driver to map dma-buf memory for CPU memory
-accessing.
+Implement a ib device operation ‘reg_user_mr_dmabuf’. Generate a
+rxe_map from the memory space linked the passed dma-buf.
 
 Signed-off-by: Shunsuke Mie <mie@igel.co.jp>
 ---
- drivers/infiniband/core/umem_dmabuf.c | 20 ++++++++++++++++----
- include/rdma/ib_umem.h                |  1 +
- 2 files changed, 17 insertions(+), 4 deletions(-)
+ drivers/infiniband/sw/rxe/rxe_loc.h   |   2 +
+ drivers/infiniband/sw/rxe/rxe_mr.c    | 113 ++++++++++++++++++++++++++
+ drivers/infiniband/sw/rxe/rxe_verbs.c |  34 ++++++++
+ 3 files changed, 149 insertions(+)
 
-diff --git a/drivers/infiniband/core/umem_dmabuf.c b/drivers/infiniband/core/umem_dmabuf.c
-index e824baf4640d..ebbb0a259fd4 100644
---- a/drivers/infiniband/core/umem_dmabuf.c
-+++ b/drivers/infiniband/core/umem_dmabuf.c
-@@ -117,9 +117,6 @@ struct ib_umem_dmabuf *ib_umem_dmabuf_get(struct ib_device *device,
- 	if (check_add_overflow(offset, (unsigned long)size, &end))
- 		return ret;
+diff --git a/drivers/infiniband/sw/rxe/rxe_loc.h b/drivers/infiniband/sw/rxe/rxe_loc.h
+index 1ca43b859d80..8bc19ea1a376 100644
+--- a/drivers/infiniband/sw/rxe/rxe_loc.h
++++ b/drivers/infiniband/sw/rxe/rxe_loc.h
+@@ -75,6 +75,8 @@ u8 rxe_get_next_key(u32 last_key);
+ void rxe_mr_init_dma(struct rxe_pd *pd, int access, struct rxe_mr *mr);
+ int rxe_mr_init_user(struct rxe_pd *pd, u64 start, u64 length, u64 iova,
+ 		     int access, struct rxe_mr *mr);
++int rxe_mr_dmabuf_init_user(struct rxe_pd *pd, int fd, u64 start, u64 length,
++			    u64 iova, int access, struct rxe_mr *mr);
+ int rxe_mr_init_fast(struct rxe_pd *pd, int max_pages, struct rxe_mr *mr);
+ int rxe_mr_copy(struct rxe_mr *mr, u64 iova, void *addr, int length,
+ 		enum rxe_mr_copy_dir dir);
+diff --git a/drivers/infiniband/sw/rxe/rxe_mr.c b/drivers/infiniband/sw/rxe/rxe_mr.c
+index 53271df10e47..ba1282b99772 100644
+--- a/drivers/infiniband/sw/rxe/rxe_mr.c
++++ b/drivers/infiniband/sw/rxe/rxe_mr.c
+@@ -4,6 +4,8 @@
+  * Copyright (c) 2015 System Fabric Works, Inc. All rights reserved.
+  */
  
--	if (unlikely(!ops || !ops->move_notify))
--		return ret;
--
- 	dmabuf = dma_buf_get(fd);
- 	if (IS_ERR(dmabuf))
- 		return ERR_CAST(dmabuf);
-@@ -133,6 +130,8 @@ struct ib_umem_dmabuf *ib_umem_dmabuf_get(struct ib_device *device,
- 		goto out_release_dmabuf;
- 	}
++#include <linux/dma-buf.h>
++#include <linux/dma-buf-map.h>
+ #include "rxe.h"
+ #include "rxe_loc.h"
  
-+	umem_dmabuf->dmabuf = dmabuf;
-+
- 	umem = &umem_dmabuf->umem;
- 	umem->ibdev = device;
- 	umem->length = size;
-@@ -143,6 +142,13 @@ struct ib_umem_dmabuf *ib_umem_dmabuf_get(struct ib_device *device,
- 	if (!ib_umem_num_pages(umem))
- 		goto out_free_umem;
- 
-+	/* Software RDMA drivers has not dma device. Just get dmabuf from fd */
-+	if (!device->dma_device)
-+		goto done;
-+
-+	if (unlikely(!ops || !ops->move_notify))
-+		goto out_free_umem;
-+
- 	umem_dmabuf->attach = dma_buf_dynamic_attach(
- 					dmabuf,
- 					device->dma_device,
-@@ -152,6 +158,7 @@ struct ib_umem_dmabuf *ib_umem_dmabuf_get(struct ib_device *device,
- 		ret = ERR_CAST(umem_dmabuf->attach);
- 		goto out_free_umem;
- 	}
-+done:
- 	return umem_dmabuf;
- 
- out_free_umem:
-@@ -165,13 +172,18 @@ EXPORT_SYMBOL(ib_umem_dmabuf_get);
- 
- void ib_umem_dmabuf_release(struct ib_umem_dmabuf *umem_dmabuf)
- {
--	struct dma_buf *dmabuf = umem_dmabuf->attach->dmabuf;
-+	struct dma_buf *dmabuf = umem_dmabuf->dmabuf;
-+
-+	if (!umem_dmabuf->attach)
-+		goto free_dmabuf;
- 
- 	dma_resv_lock(dmabuf->resv, NULL);
- 	ib_umem_dmabuf_unmap_pages(umem_dmabuf);
- 	dma_resv_unlock(dmabuf->resv);
- 
- 	dma_buf_detach(dmabuf, umem_dmabuf->attach);
-+
-+free_dmabuf:
- 	dma_buf_put(dmabuf);
- 	kfree(umem_dmabuf);
+@@ -245,6 +247,114 @@ int rxe_mr_init_user(struct rxe_pd *pd, u64 start, u64 length, u64 iova,
+ 	return err;
  }
-diff --git a/include/rdma/ib_umem.h b/include/rdma/ib_umem.h
-index 5ae9dff74dac..11c0cf7e0dd8 100644
---- a/include/rdma/ib_umem.h
-+++ b/include/rdma/ib_umem.h
-@@ -32,6 +32,7 @@ struct ib_umem {
- struct ib_umem_dmabuf {
- 	struct ib_umem umem;
- 	struct dma_buf_attachment *attach;
-+	struct dma_buf *dmabuf;
- 	struct sg_table *sgt;
- 	struct scatterlist *first_sg;
- 	struct scatterlist *last_sg;
+ 
++static int rxe_map_dmabuf_mr(struct rxe_mr *mr,
++			     struct ib_umem_dmabuf *umem_dmabuf)
++{
++	struct rxe_map_set *set;
++	struct rxe_phys_buf *buf = NULL;
++	struct rxe_map **map;
++	void *vaddr, *vaddr_end;
++	int num_buf = 0;
++	int err;
++	size_t remain;
++	struct dma_buf_map dmabuf_map;
++
++	err = dma_buf_vmap(umem_dmabuf->dmabuf, &dmabuf_map);
++	if (err || dmabuf_map.is_iomem)
++		goto err_out;
++
++	set = mr->cur_map_set;
++	set->page_shift = PAGE_SHIFT;
++	set->page_mask = PAGE_SIZE - 1;
++
++	map = set->map;
++	buf = map[0]->buf;
++
++	vaddr = dmabuf_map.vaddr;
++	vaddr_end = vaddr + umem_dmabuf->dmabuf->size;
++	remain = umem_dmabuf->dmabuf->size;
++
++	for (; remain; vaddr += PAGE_SIZE) {
++		if (num_buf >= RXE_BUF_PER_MAP) {
++			map++;
++			buf = map[0]->buf;
++			num_buf = 0;
++		}
++
++		buf->addr = (uintptr_t)vaddr;
++		if (remain >= PAGE_SIZE)
++			buf->size = PAGE_SIZE;
++		else
++			buf->size = remain;
++		remain -= buf->size;
++
++		num_buf++;
++		buf++;
++	}
++
++	return 0;
++
++err_out:
++	return err;
++}
++
++static void rxe_unmap_dmabuf_mr(struct rxe_mr *mr)
++{
++	struct ib_umem_dmabuf *umem_dmabuf = to_ib_umem_dmabuf(mr->umem);
++	struct dma_buf_map map = DMA_BUF_MAP_INIT_VADDR(
++		(void *)mr->cur_map_set->map[0]->buf->addr);
++
++	dma_buf_vunmap(umem_dmabuf->dmabuf, &map);
++}
++
++int rxe_mr_dmabuf_init_user(struct rxe_pd *pd, int fd, u64 start, u64 length,
++			    u64 iova, int access, struct rxe_mr *mr)
++{
++	struct ib_umem_dmabuf *umem_dmabuf;
++	struct rxe_map_set *set;
++	int err;
++
++	umem_dmabuf = ib_umem_dmabuf_get(pd->ibpd.device, start, length, fd,
++					 access, NULL);
++	if (IS_ERR(umem_dmabuf)) {
++		err = PTR_ERR(umem_dmabuf);
++		goto err_out;
++	}
++
++	rxe_mr_init(access, mr);
++
++	err = rxe_mr_alloc(mr, ib_umem_num_pages(&umem_dmabuf->umem), 0);
++	if (err) {
++		pr_warn("%s: Unable to allocate memory for map\n", __func__);
++		goto err_release_umem;
++	}
++
++	mr->ibmr.pd = &pd->ibpd;
++	mr->umem = &umem_dmabuf->umem;
++	mr->access = access;
++	mr->state = RXE_MR_STATE_VALID;
++	mr->type = IB_MR_TYPE_USER;
++
++	set = mr->cur_map_set;
++	set->length = length;
++	set->iova = iova;
++	set->va = start;
++	set->offset = ib_umem_offset(mr->umem);
++
++	err = rxe_map_dmabuf_mr(mr, umem_dmabuf);
++	if (err)
++		goto err_free_map_set;
++
++	return 0;
++
++err_free_map_set:
++	rxe_mr_free_map_set(mr->num_map, mr->cur_map_set);
++err_release_umem:
++	ib_umem_release(&umem_dmabuf->umem);
++err_out:
++	return err;
++}
++
+ int rxe_mr_init_fast(struct rxe_pd *pd, int max_pages, struct rxe_mr *mr)
+ {
+ 	int err;
+@@ -703,6 +813,9 @@ void rxe_mr_cleanup(struct rxe_pool_entry *arg)
+ {
+ 	struct rxe_mr *mr = container_of(arg, typeof(*mr), pelem);
+ 
++	if (mr->umem && mr->umem->is_dmabuf)
++		rxe_unmap_dmabuf_mr(mr);
++
+ 	ib_umem_release(mr->umem);
+ 
+ 	if (mr->cur_map_set)
+diff --git a/drivers/infiniband/sw/rxe/rxe_verbs.c b/drivers/infiniband/sw/rxe/rxe_verbs.c
+index 0aa0d7e52773..dc7d27b3cb90 100644
+--- a/drivers/infiniband/sw/rxe/rxe_verbs.c
++++ b/drivers/infiniband/sw/rxe/rxe_verbs.c
+@@ -940,6 +940,39 @@ static struct ib_mr *rxe_reg_user_mr(struct ib_pd *ibpd,
+ 	return ERR_PTR(err);
+ }
+ 
++static struct ib_mr *rxe_reg_user_mr_dmabuf(struct ib_pd *ibpd, u64 start,
++					    u64 length, u64 iova, int fd,
++					    int access, struct ib_udata *udata)
++{
++	int err;
++	struct rxe_dev *rxe = to_rdev(ibpd->device);
++	struct rxe_pd *pd = to_rpd(ibpd);
++	struct rxe_mr *mr;
++
++	mr = rxe_alloc(&rxe->mr_pool);
++	if (!mr) {
++		err = -ENOMEM;
++		goto err2;
++	}
++
++	rxe_add_index(mr);
++
++	rxe_add_ref(pd);
++
++	err = rxe_mr_dmabuf_init_user(pd, fd, start, length, iova, access, mr);
++	if (err)
++		goto err3;
++
++	return &mr->ibmr;
++
++err3:
++	rxe_drop_ref(pd);
++	rxe_drop_index(mr);
++	rxe_drop_ref(mr);
++err2:
++	return ERR_PTR(err);
++}
++
+ static struct ib_mr *rxe_alloc_mr(struct ib_pd *ibpd, enum ib_mr_type mr_type,
+ 				  u32 max_num_sg)
+ {
+@@ -1105,6 +1138,7 @@ static const struct ib_device_ops rxe_dev_ops = {
+ 	.query_qp = rxe_query_qp,
+ 	.query_srq = rxe_query_srq,
+ 	.reg_user_mr = rxe_reg_user_mr,
++	.reg_user_mr_dmabuf = rxe_reg_user_mr_dmabuf,
+ 	.req_notify_cq = rxe_req_notify_cq,
+ 	.resize_cq = rxe_resize_cq,
+ 
 -- 
 2.17.1
 
