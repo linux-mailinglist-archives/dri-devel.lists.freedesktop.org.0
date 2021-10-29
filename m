@@ -2,80 +2,147 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E78F643FDB7
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Oct 2021 16:00:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5F0243FE3E
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Oct 2021 16:14:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 24B966EA59;
-	Fri, 29 Oct 2021 14:00:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ABB526EA60;
+	Fri, 29 Oct 2021 14:14:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
- [IPv6:2a00:1450:4864:20::331])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 897486EA59
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Oct 2021 13:59:59 +0000 (UTC)
-Received: by mail-wm1-x331.google.com with SMTP id
- d72-20020a1c1d4b000000b00331140f3dc8so1788017wmd.1
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Oct 2021 06:59:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=eQW1ZfP0uppKizFrHsbwkJvmM9Bvk3D3IrZDSyCjYKs=;
- b=vuUsnrVsYvbNoZH/e4/gAwEjhSd/BGgQxCI9Zg7Yy2qQELYULiCC4aSjjIkhGAAEXD
- 5k0voinJea1cqnTsWADLgeGyoB/P4+P+F1TRe84669Xvo+eTwKLsXbti3TGPLmcL8nLe
- 7hou1wcASwRQPpExlDd8m55PqbNoKuOOwu2gH2FX9ZtXwyzPo9Zhh/bH+l26sqqo7UO7
- ALVXBM/IXh7ItKT6OHLmW9c1IsXMfaIExnQv2VjZRFet5T/RMMg/axfH+2jXL9y8rN1a
- s8p/qfMVLud32Jd+3PzaUFwTxohUsQvIeVdKrxWkXNvIMF/JY/ytQfpvwCqpvREZo+ex
- 6MDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=eQW1ZfP0uppKizFrHsbwkJvmM9Bvk3D3IrZDSyCjYKs=;
- b=ObMRZBZU3OxHbtQlGHyNdPFlJUFsMUCjFzQF/W0rul5uBZq/rk+Zkp1q+StVQq/qCL
- x3b8COMPl9BF/Rl+fm6x3kvZdsdEru/2nryB7Kme8BZxn83xEG3AJlwDl+0qJ0KDHg7Y
- HoPEEeFVQFT1zMhXtQx6JW0sNbGHN36D0iajEvlJd0VR0rUj8gIR7hxj91F8H6YQmznA
- wz6w40iWAtHxSftgab/nsHpzM194M5ncJhcozkoJh6dUAukUi52xmXNS2uBF+FCJGJu2
- VTuyJ+I9Tuz+Nfpab4M+/ltmtICFQT1rRAlBuFCYwvYtx0aD/glfNoe8d+6U2ZeEppns
- tK2g==
-X-Gm-Message-State: AOAM532EljlQgh0rEDv7X2ZQksnfKjLWQrBkzfNtVEWoacuPRyGRJLVp
- ECCVrXVXLyvadyK8DRGKJ6rJCIfwSzHIVeu6
-X-Google-Smtp-Source: ABdhPJwpVEgPPkI/zSK4lpMUwVYrjijvbgxeje/k/4cZ9kdoo9+t4DjrMi4svi9/yVEvIFaacjsgJw==
-X-Received: by 2002:a05:600c:4e94:: with SMTP id
- f20mr20301004wmq.52.1635515997808; 
- Fri, 29 Oct 2021 06:59:57 -0700 (PDT)
-Received: from localhost.localdomain ([2001:861:44c0:66c0:a651:7f77:f257:17dc])
- by smtp.gmail.com with ESMTPSA id q18sm8999602wmc.7.2021.10.29.06.59.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Oct 2021 06:59:55 -0700 (PDT)
-From: Neil Armstrong <narmstrong@baylibre.com>
-To: a.hajda@samsung.com, Laurent.pinchart@ideasonboard.com,
- robert.foss@linaro.org, jonas@kwiboo.se, jernej.skrabec@gmail.com
-Cc: daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Neil Armstrong <narmstrong@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Subject: [PATCH] drm/bridge: dw-hdmi: handle ELD when
- DRM_BRIDGE_ATTACH_NO_CONNECTOR
-Date: Fri, 29 Oct 2021 15:59:47 +0200
-Message-Id: <20211029135947.3022875-1-narmstrong@baylibre.com>
-X-Mailer: git-send-email 2.25.1
+Received: from EUR03-DB5-obe.outbound.protection.outlook.com
+ (mail-eopbgr40059.outbound.protection.outlook.com [40.107.4.59])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D22856EA60
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Oct 2021 14:14:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com; 
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=aImYsxQdvR555r1pgbpDPb+v62OodbeidaIlzqhlu98=;
+ b=i829vny7IMiE8SX/g7ry7/ImXUV8myr31/5H1uxK01DEWnfsmPSi3GV1E59pAqeviSYE/656smegUo0PX0Oz0g6xqoeldjyeQ2lhDyX8BsRQglvgocLcuxuKgvkINAW+QdVNY4FRKXqUFePu44NNLEFaV4aI4xXq33XGTj1RCdw=
+Received: from AS8PR04CA0123.eurprd04.prod.outlook.com (2603:10a6:20b:127::8)
+ by DB7PR08MB3657.eurprd08.prod.outlook.com (2603:10a6:10:4d::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4628.18; Fri, 29 Oct
+ 2021 14:14:14 +0000
+Received: from AM5EUR03FT047.eop-EUR03.prod.protection.outlook.com
+ (2603:10a6:20b:127:cafe::ee) by AS8PR04CA0123.outlook.office365.com
+ (2603:10a6:20b:127::8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4649.15 via Frontend
+ Transport; Fri, 29 Oct 2021 14:14:14 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
+ client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ AM5EUR03FT047.mail.protection.outlook.com (10.152.16.197) with
+ Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4649.14 via Frontend Transport; Fri, 29 Oct 2021 14:14:14 +0000
+Received: ("Tessian outbound e7ce0d853b63:v108");
+ Fri, 29 Oct 2021 14:14:14 +0000
+X-CheckRecipientChecked: true
+X-CR-MTA-CID: af39d61463f16451
+X-CR-MTA-TID: 64aa7808
+Received: from 125557e2caf0.1
+ by 64aa7808-outbound-1.mta.getcheckrecipient.com id
+ DA005191-9E45-4D83-94EB-E5B823DC855A.1; 
+ Fri, 29 Oct 2021 14:14:04 +0000
+Received: from EUR04-VI1-obe.outbound.protection.outlook.com
+ by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 125557e2caf0.1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
+ Fri, 29 Oct 2021 14:14:04 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=T21R2iJIQBC13201TM+OAX/5+AAHTwYgLKezKl/tsDFGGkcnzUQVsIYAMB14djr5s5PcQMbLAyjXn/QmvPo06a8cLBA/L1jbTwt/iowgQFt9ennZeUzTQtGn82RAXh9iM6CxTt+QYCB6gaCOu9oaWJ/uo0lD4FMAuhAm4F0MhMCFDP6/nvi4xxv2VwDwvcvrR9Ir6m46u4DbFTynOPVVIwffxvl/RvzAjI5d/xIboKTE5dsZk6vOLSIWS73MYZ/2ezLp47KK3SoA1kklUq/plAUK8atcvQDi6mXCT9mSeutIx3H4M4thL8DIKBrM9ryowTrE1RH0ObqXqRiptVjZZg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=aImYsxQdvR555r1pgbpDPb+v62OodbeidaIlzqhlu98=;
+ b=Fg1oL0vAnVDdsT/Cmroh2cPZ/Uo4S5kGL6Wsl5BUOWKUL4GOzkbjQEPzIu9uTxR0nX9g4GcfI/myPrFoLkI8gADa95qXiek0kg+1LBs3U6ZoKSE8k3wNQHbuPMtyAsb9wF2l2qbME0/4jiWxV7NQlbWp0ZhO9XwpjlRhUzN5XqVUzIXzrW9rYoRUaPGOXB0fVTmq616ykV3xePzI3AT556XtgciFOLlK9WLFJxYyfw7N6qnmCcKX4/n71uGzIIuM1jsjQJanrfleIO6E1H15ElYkC+2+rxVUMAKU9GCEVIN3YlFs6owCKjGOtGquWJrH04hNzCdDCDi31wG7eF5UaA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com; 
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=aImYsxQdvR555r1pgbpDPb+v62OodbeidaIlzqhlu98=;
+ b=i829vny7IMiE8SX/g7ry7/ImXUV8myr31/5H1uxK01DEWnfsmPSi3GV1E59pAqeviSYE/656smegUo0PX0Oz0g6xqoeldjyeQ2lhDyX8BsRQglvgocLcuxuKgvkINAW+QdVNY4FRKXqUFePu44NNLEFaV4aI4xXq33XGTj1RCdw=
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+Received: from DB9PR08MB6812.eurprd08.prod.outlook.com (2603:10a6:10:2a2::15)
+ by DBBPR08MB6028.eurprd08.prod.outlook.com (2603:10a6:10:208::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4649.15; Fri, 29 Oct
+ 2021 14:14:01 +0000
+Received: from DB9PR08MB6812.eurprd08.prod.outlook.com
+ ([fe80::8da0:3380:60cf:9849]) by DB9PR08MB6812.eurprd08.prod.outlook.com
+ ([fe80::8da0:3380:60cf:9849%6]) with mapi id 15.20.4649.015; Fri, 29 Oct 2021
+ 14:14:01 +0000
+Date: Fri, 29 Oct 2021 15:14:00 +0100
+From: Brian Starkey <brian.starkey@arm.com>
+To: George Kennedy <george.kennedy@oracle.com>
+Cc: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+ gregkh@linuxfoundation.org, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@linux.ie,
+ daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, ben.davis@arm.com,
+ Liviu.Dudau@arm.com, Dan Carpenter <dan.carpenter@oracle.com>, nd@arm.com
+Subject: Re: [PATCH] drm: check drm_format_info hsub and vsub to avoid divide
+ by zero
+Message-ID: <20211029141400.vcswmabtk5i3cvv7@000377403353>
+References: <1635429437-21718-1-git-send-email-george.kennedy@oracle.com>
+ <YXqt46TPL9tUZCL1@intel.com>
+ <26fdb955-10c8-a5d6-07b6-85a4374e7754@oracle.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <26fdb955-10c8-a5d6-07b6-85a4374e7754@oracle.com>
+X-ClientProxiedBy: LO2P123CA0096.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:139::11) To DB9PR08MB6812.eurprd08.prod.outlook.com
+ (2603:10a6:10:2a2::15)
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4764; h=from:subject;
- bh=0QP3cFB9fKKagdZLsyMILZiovdgP4DkvKvAW6aRsEQs=;
- b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBhe/4YQaYx/zx/h5049LOKtQeaUtncl2DkuxdhemDl
- XzAHsUGJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCYXv+GAAKCRB33NvayMhJ0QY1D/
- 97wVWDvDmZpA3YIMODB3DjW7CpZjjK3TdXyCy8nPywIJbyYNML6ouF8IViPR7e+6QVayRuTVnlv2wu
- ufgr7PWFx4o1dAqzJ9RnLE1GuO+3ECXCp9fIb5GbJ0c3RgYSQpl3O3NpdqpOz55/DDmo6Z8IK2WTNL
- id3617cMdlbRbhhgqT3KIozXczV3ghRp6flfxy5UfGvWbbfTnHSI44uUQNCcwObLaishMVeaNWKIfo
- W/eL6Gduv2UhnjIBtB9fH11bDpaVfcL6k/I9UH2LOELDX+tgHKymA36LEuetjXAavXSmBNZa5p1X1n
- JEiv7y0lfaKQX6r+X0GnUzkDSjIRBtXA9nVgpwxkFSoiQyIzoHophFHgTuGbBPsqRArTipbQ1cGZVj
- AjxAU53OhwroSgmMLffgpJOh8UsEJwQmFLmm8gb4vKxD6LR4d3QgyK5mn3BK07peMPgfBG+YEmSoYW
- h4wvIiXhe6bJRHUdmsQUKIkA5uh0iiqfM6LVjACPg1Lkwgg3WvTYv7bGZ2E3jenb5h0lpiQBn541VW
- mUyDb8Hu07nKdFW3KD6gLHlzFIPAIRJfNKxzeCyNXkUoOpmSzpXPNLevI2nUd1CjJvb/LpjAFrH4yq
- juYS6E2QcqvLqjm1fxPA7fyvomnVNDauI0Z/vs04n4R/YZu1+y2Nmkd0b8yQ==
-X-Developer-Key: i=narmstrong@baylibre.com; a=openpgp;
- fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
-Content-Transfer-Encoding: 8bit
+Received: from 000377403353 (217.140.106.53) by
+ LO2P123CA0096.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:139::11) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4649.15 via Frontend Transport; Fri, 29 Oct 2021 14:14:01 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 19fd550b-6831-4c58-cc3d-08d99ae66328
+X-MS-TrafficTypeDiagnostic: DBBPR08MB6028:|DB7PR08MB3657:
+X-Microsoft-Antispam-PRVS: <DB7PR08MB3657E07A32EDA83BEA8E1A59F0879@DB7PR08MB3657.eurprd08.prod.outlook.com>
+x-checkrecipientrouted: true
+NoDisclaimer: true
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: BCL:0;
+X-Microsoft-Antispam-Message-Info-Original: 4DzY2JilctBzOTbg8fIGjZSJH3aXval3bHvEXU61o3hX6dR+HMcgF974EWjiqcaB7tXFPcGOoefNFk5+pyRHm1mvmUFIHFBwsL3sLlmC8nM/zXW4RvAp71dR9997QKkXsd9dtBUyMEJM/NWERVikOifjeCzYHOMUW6zjakeeMd704TmX3x7WsaxqF3w7v8gJM47n9IyeGRNqIzSZVO+IF0h1iuL8xOD4vLlcNIpUrdBmyj96GVLSZj4vIBD+mJNDxf5MesIQZJGtEoHspKvIdXUgvoR40bUaAcPHSWRSuxuq26HmANCPrxliEdZcmpFpHVigDjGSh7ojGeWY9Lybfm0/fCYCX25AqplkbrIRTnXJVC0PAP3FF8qOPdyxF7Rv8WvH/gsLcqKhIzAUG0llJE66mad3FiK3Yh5EEi0KVfR6QvlT4ZlocwVN3ihm1LmCCDc/2eJPchYykLLIELSuHRAKyK2leGWQpdcLTc6zTy/AYV2p4bswclVqLtY8tDr39/evFPH1ZKTjuMESliYHAUcdNf9gmJdW10Fdn5XjkaerRn9BIXhCvfTtga0ZweBLux2bxT9DLRjTXSKmqUqmMYnhBHqkGLZCBN6RmYdbrzmptGkTVMWQGC3NYRvY3cdlrwFoUNlcTI3ScAAGVy7Q/E7yIvXdxR4z3Gh3uBByJtiIsYBTc5va5fGitQid/E/zQwacT08HOaBcaP4c7pw0KQ==
+X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255; CTRY:; LANG:en;
+ SCL:1; SRV:; IPV:NLI; SFV:NSPM; H:DB9PR08MB6812.eurprd08.prod.outlook.com;
+ PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(4744005)(55016002)(6496006)(9576002)(1076003)(33716001)(86362001)(66556008)(83380400001)(66946007)(9686003)(66476007)(956004)(44832011)(8676002)(5660300002)(38100700002)(4326008)(38350700002)(7416002)(26005)(6916009)(54906003)(316002)(2906002)(186003)(52116002)(8936002)(508600001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBBPR08MB6028
+Original-Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: AM5EUR03FT047.eop-EUR03.prod.protection.outlook.com
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 1733aec8-509b-4cc2-4760-08d99ae65b70
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Sji4xYYp05f0muK7QEayw03bkPzQhd0faTM7lIEgWKQrjO9QAd19l0b4nWZwFo2mfCm498PH9AqzUD1i1qRv7YGrzkb+y4Jx5WBcsY84xc4lwvlymyZnHgYc/6VQ8fhfO0kIpwYCIE0lk/Zd+TlFaebIver8Z3/2NYQwyRl5NQyz38Lr59AqHO8SFgTRjwlfnLHnrgsWf1iPHAqrdpHZFYGQEExdr+KcCcLsbNdY2eSvf+hodAUE7wPRVN3mp9z6ev648RymAHHBQEfTRFWhPKcRa6YjH1s4s6u1hrdZaJQP0+rkzTgm1HCmci4c3u/932cnCz9LzrLqggp7IAiXb7cba+nQkk9VMGquGZnNcDy+KBjE5YU1RQ282OcDc/G3WjYz9Ct69eJfqDmh0/bDAdXZOyTI9SPIcrSfVW4SKTB04QEsSKlXYoAUi22rVdcK51yvFUA1SfRCoN4HlnUx4uHWRCAYfOts+taDWWVQ4IElmmao7CaWilmHBu2ZdBOUJknHMYaP2/zUME6/g1zipkVcwH3qhIaYoqQ3GnPo/nsRKkQENgnz6QvAyXhkffIw98WbpLR7aWznoIe7n0OCA7HG+HWbyxJJyIa6PPJgqQ6tpkMA5+GRZL9zYrnaYpoRoX8iIwNr6B9YLo9ymNxdGFinCikbpM+ylfGjGMba80UOypQEc6vY0Rp1LCBLGiLtalLU4n1HWoaoWCrvxhhXKA==
+X-Forefront-Antispam-Report: CIP:63.35.35.123; CTRY:IE; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:64aa7808-outbound-1.mta.getcheckrecipient.com;
+ PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com; CAT:NONE;
+ SFS:(4636009)(46966006)(36840700001)(36860700001)(9576002)(70206006)(33716001)(6862004)(1076003)(70586007)(186003)(508600001)(4326008)(55016002)(316002)(956004)(44832011)(26005)(81166007)(4744005)(2906002)(83380400001)(47076005)(9686003)(8936002)(6496006)(5660300002)(336012)(82310400003)(8676002)(86362001)(54906003)(356005);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Oct 2021 14:14:14.5799 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 19fd550b-6831-4c58-cc3d-08d99ae66328
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d; Ip=[63.35.35.123];
+ Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-AuthSource: AM5EUR03FT047.eop-EUR03.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB7PR08MB3657
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,136 +158,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The current ELD handling takes the internal connector ELD buffer and
-shares it to the I2S and AHB sub-driver.
+Hi,
 
-But with DRM_BRIDGE_ATTACH_NO_CONNECTOR, the connector is created
-elsewhere (not not), and an eventual connector is known only
-if the bridge chain up to a connector is enabled.
+On Fri, Oct 29, 2021 at 09:15:28AM -0400, George Kennedy wrote:
+> 
+> Asking if you have any input on how to deal with hsub and vsub = zero?
 
-The current dw-hdmi code gets the current connector from
-atomic_enable() so use the already stored connector pointer and
-replace the buffer pointer with a callback returning the current
-connector ELD buffer.
+That's just a straight mistake on those formats - they should
+be 1. My bad for not spotting it in review.
 
-Since a connector is not always available, either pass an empty
-ELD to the alsa HDMI driver or don't call snd_pcm_hw_constraint_eld()
-in AHB driver.
+On the one hand, having formats in this table is a nice
+machine-readable way to describe them. On the other, as drm_fourcc is
+being used as the canonical repository for formats, including ones
+not used in DRM, we can end up with situations like this.
+(R10/R12 being another example of formats not used in DRM:
+20211027233140.12268-1-laurent.pinchart@ideasonboard.com)
 
-Reported-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
----
- drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c | 10 +++++++---
- drivers/gpu/drm/bridge/synopsys/dw-hdmi-audio.h     |  4 ++--
- drivers/gpu/drm/bridge/synopsys/dw-hdmi-i2s-audio.c |  9 ++++++++-
- drivers/gpu/drm/bridge/synopsys/dw-hdmi.c           | 12 ++++++++++--
- 4 files changed, 27 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c
-index d0db1acf11d7..7d2ed0ed2fe2 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c
-@@ -320,13 +320,17 @@ static int dw_hdmi_open(struct snd_pcm_substream *substream)
- 	struct snd_pcm_runtime *runtime = substream->runtime;
- 	struct snd_dw_hdmi *dw = substream->private_data;
- 	void __iomem *base = dw->data.base;
-+	u8 *eld;
- 	int ret;
- 
- 	runtime->hw = dw_hdmi_hw;
- 
--	ret = snd_pcm_hw_constraint_eld(runtime, dw->data.eld);
--	if (ret < 0)
--		return ret;
-+	eld = dw->data.get_eld(dw->data.hdmi);
-+	if (eld) {
-+		ret = snd_pcm_hw_constraint_eld(runtime, eld);
-+		if (ret < 0)
-+			return ret;
-+	}
- 
- 	ret = snd_pcm_limit_hw_rates(runtime);
- 	if (ret < 0)
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-audio.h b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-audio.h
-index cb07dc0da5a7..f72d27208ebe 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-audio.h
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-audio.h
-@@ -9,15 +9,15 @@ struct dw_hdmi_audio_data {
- 	void __iomem *base;
- 	int irq;
- 	struct dw_hdmi *hdmi;
--	u8 *eld;
-+	u8 *(*get_eld)(struct dw_hdmi *hdmi);
- };
- 
- struct dw_hdmi_i2s_audio_data {
- 	struct dw_hdmi *hdmi;
--	u8 *eld;
- 
- 	void (*write)(struct dw_hdmi *hdmi, u8 val, int offset);
- 	u8 (*read)(struct dw_hdmi *hdmi, int offset);
-+	u8 *(*get_eld)(struct dw_hdmi *hdmi);
- };
- 
- #endif
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-i2s-audio.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-i2s-audio.c
-index feb04f127b55..f50b47ac11a8 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-i2s-audio.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-i2s-audio.c
-@@ -135,8 +135,15 @@ static int dw_hdmi_i2s_get_eld(struct device *dev, void *data, uint8_t *buf,
- 			       size_t len)
- {
- 	struct dw_hdmi_i2s_audio_data *audio = data;
-+	u8 *eld;
-+
-+	eld = audio->get_eld(audio->hdmi);
-+	if (eld)
-+		memcpy(buf, eld, min_t(size_t, MAX_ELD_BYTES, len));
-+	else
-+		/* Pass en empty ELD if connector not available */
-+		memset(buf, 0, len);
- 
--	memcpy(buf, audio->eld, min_t(size_t, MAX_ELD_BYTES, len));
- 	return 0;
- }
- 
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-index 62ae63565d3a..54d8fdad395f 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-@@ -757,6 +757,14 @@ static void hdmi_enable_audio_clk(struct dw_hdmi *hdmi, bool enable)
- 	hdmi_writeb(hdmi, hdmi->mc_clkdis, HDMI_MC_CLKDIS);
- }
- 
-+static u8 *hdmi_audio_get_eld(struct dw_hdmi *hdmi)
-+{
-+	if (!hdmi->curr_conn)
-+		return NULL;
-+
-+	return hdmi->curr_conn->eld;
-+}
-+
- static void dw_hdmi_ahb_audio_enable(struct dw_hdmi *hdmi)
- {
- 	hdmi_set_cts_n(hdmi, hdmi->audio_cts, hdmi->audio_n);
-@@ -3432,7 +3440,7 @@ struct dw_hdmi *dw_hdmi_probe(struct platform_device *pdev,
- 		audio.base = hdmi->regs;
- 		audio.irq = irq;
- 		audio.hdmi = hdmi;
--		audio.eld = hdmi->connector.eld;
-+		audio.get_eld = hdmi_audio_get_eld;
- 		hdmi->enable_audio = dw_hdmi_ahb_audio_enable;
- 		hdmi->disable_audio = dw_hdmi_ahb_audio_disable;
- 
-@@ -3445,7 +3453,7 @@ struct dw_hdmi *dw_hdmi_probe(struct platform_device *pdev,
- 		struct dw_hdmi_i2s_audio_data audio;
- 
- 		audio.hdmi	= hdmi;
--		audio.eld	= hdmi->connector.eld;
-+		audio.get_eld	= hdmi_audio_get_eld;
- 		audio.write	= hdmi_writeb;
- 		audio.read	= hdmi_readb;
- 		hdmi->enable_audio = dw_hdmi_i2s_audio_enable;
--- 
-2.25.1
-
+Thanks,
+-Brian
