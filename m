@@ -1,44 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A5CA43F572
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Oct 2021 05:29:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1996B43F57D
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Oct 2021 05:29:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC2AF6E9CD;
-	Fri, 29 Oct 2021 03:28:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DAE8C6E9B9;
+	Fri, 29 Oct 2021 03:29:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5DAEB6E9BB;
- Fri, 29 Oct 2021 03:28:37 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10151"; a="230438552"
-X-IronPort-AV: E=Sophos;i="5.87,191,1631602800"; d="scan'208";a="230438552"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Oct 2021 20:28:36 -0700
-X-IronPort-AV: E=Sophos;i="5.87,191,1631602800"; d="scan'208";a="538557552"
-Received: from mdroper-desk1.fm.intel.com ([10.1.27.134])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Oct 2021 20:28:35 -0700
-From: Matt Roper <matthew.d.roper@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org, andi.shyti@intel.com,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- Matt Roper <matthew.d.roper@intel.com>,
- Matthew Auld <matthew.auld@intel.com>,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Paulo Zanoni <paulo.r.zanoni@intel.com>,
- Michal Wajdeczko <michal.wajdeczko@intel.com>
-Subject: [PATCH v3 10/10] drm/i915/xehpsdv: Initialize multi-tiles
-Date: Thu, 28 Oct 2021 20:28:17 -0700
-Message-Id: <20211029032817.3747750-11-matthew.d.roper@intel.com>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20211029032817.3747750-1-matthew.d.roper@intel.com>
-References: <20211029032817.3747750-1-matthew.d.roper@intel.com>
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 93E476E9B9
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Oct 2021 03:29:42 +0000 (UTC)
+X-UUID: 4a2acf12752d42cfb6a33f6e711bb539-20211029
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
+ bh=GRAPofEE1i4Ut9H7b86SpQ8uaHtsCBapgHD2WyQaUDw=; 
+ b=pGBseJxxc0gHRTEKgtBtSgLKHmIeZcVlAQqxcMt9TmeqnFiiDm2+OGm+cdfrNSteiHLlSaa354b4amHHOmkzUz0i5Mn+8Sx8OFA6Bib9BuE6M4uaEYYmBC5ii4OA0fsELpmOnkUKJJgZFOmty6UYQNTnG/HzmZ0ZqwDMIYfSbwQ=;
+X-UUID: 4a2acf12752d42cfb6a33f6e711bb539-20211029
+Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw02.mediatek.com
+ (envelope-from <yunfei.dong@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 472096514; Fri, 29 Oct 2021 11:29:38 +0800
+Received: from mtkmbs10n1.mediatek.inc (172.21.101.34) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.792.15; Fri, 29 Oct 2021 11:29:37 +0800
+Received: from mhfsdcap04 (10.17.3.154) by mtkmbs10n1.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.2.792.15 via Frontend
+ Transport; Fri, 29 Oct 2021 11:29:36 +0800
+Message-ID: <ca5381b94941f0925235e70bf1ec97d42b3511fa.camel@mediatek.com>
+Subject: Re: [PATCH v7, 03/15] media: mtk-vcodec: Refactor vcodec pm interface
+From: "yunfei.dong@mediatek.com" <yunfei.dong@mediatek.com>
+To: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>, Alexandre Courbot
+ <acourbot@chromium.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, "Tzung-Bi
+ Shih" <tzungbi@chromium.org>, Tiffany Lin <tiffany.lin@mediatek.com>,
+ Andrew-CT Chen <andrew-ct.chen@mediatek.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Rob Herring <robh+dt@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>, Tomasz Figa <tfiga@google.com>
+CC: Hsin-Yi Wang <hsinyi@chromium.org>, Fritz Koenig <frkoenig@chromium.org>, 
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>, Daniel Vetter
+ <daniel@ffwll.ch>, dri-devel <dri-devel@lists.freedesktop.org>, Irui Wang
+ <irui.wang@mediatek.com>, <linux-media@vger.kernel.org>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-arm-kernel@lists.infradead.org>, <srv_heupstream@mediatek.com>,
+ <linux-mediatek@lists.infradead.org>,
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>, Tzung-Bi Shih
+ <tzungbi@google.com>
+Date: Fri, 29 Oct 2021 11:29:35 +0800
+In-Reply-To: <6f3e94fe-8e02-e79d-858d-620a057b87f2@collabora.com>
+References: <20211011070247.792-1-yunfei.dong@mediatek.com>
+ <20211011070247.792-4-yunfei.dong@mediatek.com>
+ <6f3e94fe-8e02-e79d-858d-620a057b87f2@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MTK: N
+Content-Transfer-Encoding: base64
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,380 +73,128 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-
-Check how many extra GT tiles are available on the system and setup
-register access for all of them. We can detect how may GT tiles are
-available by reading a register on the root tile. The same register
-returns the tile ID on all tiles.
-
-v2:
- - Include some additional refactor that didn't get squashed in properly
-   on v1.
-v3:
- - Move the PCI BAR size assertion into the non-gt0 code since we're
-   only really trying to check it on multi-tile platforms (and on old
-   pre-gen9 platforms the BAR size is less than 16MB so the assertion
-   would have failed there).
-
-Bspec: 33407
-Original-author: Abdiel Janulgue
-Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-Co-authored-by: Matt Roper <matthew.d.roper@intel.com>
-Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
-Cc: Matthew Auld <matthew.auld@intel.com>
-Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Cc: Paulo Zanoni <paulo.r.zanoni@intel.com>
-Cc: Andi Shyti <andi.shyti@intel.com>
-Signed-off-by: Paulo Zanoni <paulo.r.zanoni@intel.com>
-Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
----
- drivers/gpu/drm/i915/gt/intel_engine_cs.c |  2 +-
- drivers/gpu/drm/i915/gt/intel_gt.c        | 83 ++++++++++++++++++++++-
- drivers/gpu/drm/i915/gt/intel_gt.h        |  4 +-
- drivers/gpu/drm/i915/gt/intel_gt_types.h  |  3 +
- drivers/gpu/drm/i915/i915_drv.h           |  7 +-
- drivers/gpu/drm/i915/i915_pci.c           | 40 +++++++++--
- drivers/gpu/drm/i915/i915_reg.h           |  4 ++
- drivers/gpu/drm/i915/intel_device_info.h  | 15 ++++
- 8 files changed, 146 insertions(+), 12 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-index 332756036007..b50520bf3445 100644
---- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-+++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-@@ -527,7 +527,7 @@ static intel_engine_mask_t init_engine_mask(struct intel_gt *gt)
- 	u16 vdbox_mask;
- 	u16 vebox_mask;
- 
--	info->engine_mask = INTEL_INFO(i915)->platform_engine_mask;
-+	GEM_BUG_ON(!info->engine_mask);
- 
- 	if (GRAPHICS_VER(i915) < 11)
- 		return info->engine_mask;
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
-index ade698d47c34..54154715a14e 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt.c
-+++ b/drivers/gpu/drm/i915/gt/intel_gt.c
-@@ -912,7 +912,7 @@ u32 intel_gt_read_register_fw(struct intel_gt *gt, i915_reg_t reg)
- 	return intel_uncore_read_fw(gt->uncore, reg);
- }
- 
--static int
-+int
- intel_gt_tile_setup(struct intel_gt *gt, unsigned int id, phys_addr_t phys_addr)
- {
- 	struct drm_i915_private *i915 = gt->i915;
-@@ -921,6 +921,11 @@ intel_gt_tile_setup(struct intel_gt *gt, unsigned int id, phys_addr_t phys_addr)
- 	int ret;
- 
- 	if (id) {
-+		/* For multi-tile platforms BAR0 must have at least 16MB per tile */
-+		if (GEM_WARN_ON(pci_resource_len(to_pci_dev(i915->drm.dev), 0) <
-+				(id + 1) * SZ_16M))
-+			return -EINVAL;
-+
- 		uncore = kzalloc(sizeof(*uncore), GFP_KERNEL);
- 		if (!uncore)
- 			return -ENOMEM;
-@@ -943,6 +948,16 @@ intel_gt_tile_setup(struct intel_gt *gt, unsigned int id, phys_addr_t phys_addr)
- 	if (ret)
- 		return ret;
- 
-+	/* Which tile am I? default to zero on single tile systems */
-+	if (HAS_REMOTE_TILES(i915)) {
-+		u32 instance =
-+			__raw_uncore_read32(gt->uncore, XEHPSDV_MTCFG_ADDR) &
-+			TILE_NUMBER;
-+
-+		if (GEM_WARN_ON(instance != id))
-+			return -ENXIO;
-+	}
-+
- 	gt->phys_addr = phys_addr;
- 
- 	return 0;
-@@ -959,25 +974,87 @@ intel_gt_tile_cleanup(struct intel_gt *gt)
- 	}
- }
- 
-+static unsigned int tile_count(struct drm_i915_private *i915)
-+{
-+	u32 mtcfg;
-+
-+	/*
-+	 * We use raw MMIO reads at this point since the
-+	 * MMIO vfuncs are not setup yet
-+	 */
-+	mtcfg = __raw_uncore_read32(&i915->uncore, XEHPSDV_MTCFG_ADDR);
-+	return REG_FIELD_GET(TILE_COUNT, mtcfg) + 1;
-+}
-+
- int intel_gt_probe_all(struct drm_i915_private *i915)
- {
- 	struct pci_dev *pdev = to_pci_dev(i915->drm.dev);
-+	const struct intel_gt_definition *gtdef;
-+	struct intel_gt *gt;
- 	phys_addr_t phys_addr;
- 	unsigned int mmio_bar;
-+	unsigned int i, tiles;
- 	int ret;
- 
- 	mmio_bar = GRAPHICS_VER(i915) == 2 ? 1 : 0;
- 	phys_addr = pci_resource_start(pdev, mmio_bar);
- 
- 	/* We always have at least one primary GT on any device */
--	ret = intel_gt_tile_setup(&i915->gt, 0, phys_addr);
-+	gt = &i915->gt;
-+	gt->name = "Primary GT";
-+	gt->info.engine_mask = INTEL_INFO(i915)->platform_engine_mask;
-+
-+	drm_dbg(&i915->drm, "Setting up %s %u\n", gt->name, gt->info.id);
-+	ret = intel_gt_tile_setup(gt, 0, phys_addr);
- 	if (ret)
- 		return ret;
- 
- 	i915->gts[0] = &i915->gt;
- 
--	/* TODO: add more tiles */
-+	tiles = tile_count(i915);
-+	drm_dbg(&i915->drm, "Tile count: %u\n", tiles);
-+
-+	for (gtdef = INTEL_INFO(i915)->extra_gts, i = 1;
-+	     gtdef && i < tiles;
-+	     gtdef++, i++) {
-+		if (GEM_WARN_ON(i >= I915_MAX_GTS)) {
-+			ret = -EINVAL;
-+			goto err;
-+		}
-+
-+		gt = kzalloc(sizeof(*gt), GFP_KERNEL);
-+		if (!gt) {
-+			ret = -ENOMEM;
-+			goto err;
-+		}
-+
-+		gt->i915 = i915;
-+		gt->name = gtdef->name;
-+		gt->type = gtdef->type;
-+		gt->info.engine_mask = gtdef->engine_mask;
-+		gt->info.id = i;
-+
-+		drm_dbg(&i915->drm, "Setting up %s %u\n", gt->name, gt->info.id);
-+		ret = intel_gt_tile_setup(gt, i, phys_addr + gtdef->mapping_base);
-+		if (ret)
-+			goto err;
-+
-+		i915->gts[i] = gt;
-+	}
-+
-+	i915->remote_tiles = tiles - 1;
-+
- 	return 0;
-+
-+err:
-+	drm_err(&i915->drm, "Failed to initialize %s %u! (%d)\n", gtdef->name, i, ret);
-+
-+	for_each_gt(i915, i, gt) {
-+		intel_gt_tile_cleanup(gt);
-+		i915->gts[i] = NULL;
-+	}
-+
-+	return ret;
- }
- 
- void intel_gt_release_all(struct drm_i915_private *i915)
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt.h b/drivers/gpu/drm/i915/gt/intel_gt.h
-index a59521a8c96c..889e756453f2 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt.h
-+++ b/drivers/gpu/drm/i915/gt/intel_gt.h
-@@ -50,6 +50,8 @@ void intel_gt_driver_late_release(struct intel_gt *gt);
- 
- int intel_gt_wait_for_idle(struct intel_gt *gt, long timeout);
- 
-+int intel_gt_tile_setup(struct intel_gt *gt, unsigned int id, phys_addr_t phys_addr);
-+
- void intel_gt_check_and_clear_faults(struct intel_gt *gt);
- void intel_gt_clear_error_registers(struct intel_gt *gt,
- 				    intel_engine_mask_t engine_mask);
-@@ -90,7 +92,7 @@ void intel_gt_release_all(struct drm_i915_private *i915);
- 
- #define for_each_gt(i915__, id__, gt__) \
- 	for ((id__) = 0; \
--	     (id__) < I915_MAX_TILES; \
-+	     (id__) < I915_MAX_GTS; \
- 	     (id__)++) \
- 		for_each_if(((gt__) = (i915__)->gts[(id__)]))
- 
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt_types.h b/drivers/gpu/drm/i915/gt/intel_gt_types.h
-index 7311e485faae..345090e2bafd 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt_types.h
-+++ b/drivers/gpu/drm/i915/gt/intel_gt_types.h
-@@ -68,6 +68,9 @@ enum intel_submission_method {
- 
- struct intel_gt {
- 	struct drm_i915_private *i915;
-+	const char *name;
-+	enum intel_gt_type type;
-+
- 	struct intel_uncore *uncore;
- 	struct i915_ggtt *ggtt;
- 
-diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
-index 10a4817e397d..6173dd8e2114 100644
---- a/drivers/gpu/drm/i915/i915_drv.h
-+++ b/drivers/gpu/drm/i915/i915_drv.h
-@@ -865,6 +865,8 @@ struct drm_i915_private {
- 	 */
- 	resource_size_t stolen_usable_size;	/* Total size minus reserved ranges */
- 
-+	unsigned int remote_tiles;
-+
- 	struct intel_uncore uncore;
- 	struct intel_uncore_mmio_debug mmio_debug;
- 
-@@ -1196,8 +1198,8 @@ struct drm_i915_private {
- 	/*
- 	 * i915->gts[0] == &i915->gt
- 	 */
--#define I915_MAX_TILES 4
--	struct intel_gt *gts[I915_MAX_TILES];
-+#define I915_MAX_GTS 4
-+	struct intel_gt *gts[I915_MAX_GTS];
- 
- 	struct {
- 		struct i915_gem_contexts {
-@@ -1723,6 +1725,7 @@ IS_SUBPLATFORM(const struct drm_i915_private *i915,
- 
- #define HAS_REGION(i915, i) (INTEL_INFO(i915)->memory_regions & (i))
- #define HAS_LMEM(i915) HAS_REGION(i915, REGION_LMEM)
-+#define HAS_REMOTE_TILES(dev_priv)   (INTEL_INFO(dev_priv)->has_remote_tiles)
- 
- #define HAS_GT_UC(dev_priv)	(INTEL_INFO(dev_priv)->has_gt_uc)
- 
-diff --git a/drivers/gpu/drm/i915/i915_pci.c b/drivers/gpu/drm/i915/i915_pci.c
-index 169837de395d..2fd45321318a 100644
---- a/drivers/gpu/drm/i915/i915_pci.c
-+++ b/drivers/gpu/drm/i915/i915_pci.c
-@@ -29,6 +29,7 @@
- 
- #include "i915_drv.h"
- #include "i915_pci.h"
-+#include "gt/intel_gt.h"
- 
- #define PLATFORM(x) .platform = (x)
- #define GEN(x) \
-@@ -1008,6 +1009,37 @@ static const struct intel_device_info adl_p_info = {
- 	.media_ver = 12, \
- 	.media_rel = 50
- 
-+#define XE_HP_SDV_ENGINES \
-+	BIT(BCS0) | \
-+	BIT(VECS0) | BIT(VECS1) | BIT(VECS2) | BIT(VECS3) | \
-+	BIT(VCS0) | BIT(VCS1) | BIT(VCS2) | BIT(VCS3) | \
-+	BIT(VCS4) | BIT(VCS5) | BIT(VCS6) | BIT(VCS7)
-+
-+static const struct intel_gt_definition xehp_sdv_gts[] = {
-+	{
-+		.type = GT_TILE,
-+		.name = "Remote Tile GT",
-+		.mapping_base = SZ_16M,
-+		.engine_mask = XE_HP_SDV_ENGINES,
-+
-+	},
-+	{
-+		.type = GT_TILE,
-+		.name = "Remote Tile GT",
-+		.mapping_base = SZ_16M * 2,
-+		.engine_mask = XE_HP_SDV_ENGINES,
-+
-+	},
-+	{
-+		.type = GT_TILE,
-+		.name = "Remote Tile GT",
-+		.mapping_base = SZ_16M * 3,
-+		.engine_mask = XE_HP_SDV_ENGINES,
-+
-+	},
-+	{}
-+};
-+
- __maybe_unused
- static const struct intel_device_info xehpsdv_info = {
- 	XE_HP_FEATURES,
-@@ -1015,12 +1047,10 @@ static const struct intel_device_info xehpsdv_info = {
- 	DGFX_FEATURES,
- 	PLATFORM(INTEL_XEHPSDV),
- 	.display = { },
-+	.extra_gts = xehp_sdv_gts,
-+	.has_remote_tiles = 1,
- 	.pipe_mask = 0,
--	.platform_engine_mask =
--		BIT(RCS0) | BIT(BCS0) |
--		BIT(VECS0) | BIT(VECS1) | BIT(VECS2) | BIT(VECS3) |
--		BIT(VCS0) | BIT(VCS1) | BIT(VCS2) | BIT(VCS3) |
--		BIT(VCS4) | BIT(VCS5) | BIT(VCS6) | BIT(VCS7),
-+	.platform_engine_mask = XE_HP_SDV_ENGINES,
- 	.require_force_probe = 1,
- };
- 
-diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
-index fd58757e846a..706774871d35 100644
---- a/drivers/gpu/drm/i915/i915_reg.h
-+++ b/drivers/gpu/drm/i915/i915_reg.h
-@@ -12466,6 +12466,10 @@ enum skl_power_gate {
- 
- #define GEN12_GLOBAL_MOCS(i)	_MMIO(0x4000 + (i) * 4) /* Global MOCS regs */
- 
-+#define XEHPSDV_MTCFG_ADDR			_MMIO(0x101800)
-+#define   TILE_COUNT			REG_GENMASK(15, 8)
-+#define   TILE_NUMBER			REG_GENMASK(7, 0)
-+
- #define GEN12_GSMBASE			_MMIO(0x108100)
- #define GEN12_DSMBASE			_MMIO(0x1080C0)
- 
-diff --git a/drivers/gpu/drm/i915/intel_device_info.h b/drivers/gpu/drm/i915/intel_device_info.h
-index 8e6f48d1eb7b..e0b8758b4085 100644
---- a/drivers/gpu/drm/i915/intel_device_info.h
-+++ b/drivers/gpu/drm/i915/intel_device_info.h
-@@ -136,6 +136,7 @@ enum intel_ppgtt_type {
- 	func(has_pxp); \
- 	func(has_rc6); \
- 	func(has_rc6p); \
-+	func(has_remote_tiles); \
- 	func(has_rps); \
- 	func(has_runtime_pm); \
- 	func(has_snoop); \
-@@ -166,6 +167,18 @@ enum intel_ppgtt_type {
- 	func(overlay_needs_physical); \
- 	func(supports_tv);
- 
-+enum intel_gt_type {
-+	GT_PRIMARY,
-+	GT_TILE,
-+};
-+
-+struct intel_gt_definition {
-+	enum intel_gt_type type;
-+	char *name;
-+	u32 mapping_base;
-+	intel_engine_mask_t engine_mask;
-+};
-+
- struct intel_device_info {
- 	u8 graphics_ver;
- 	u8 graphics_rel;
-@@ -185,6 +198,8 @@ struct intel_device_info {
- 
- 	u32 memory_regions; /* regions supported by the HW */
- 
-+	const struct intel_gt_definition *extra_gts;
-+
- 	u32 display_mmio_offset;
- 
- 	u8 gt; /* GT number, 0 if undefined */
--- 
-2.33.0
+SGkgRGFmbmEsDQoNClRoYW5rcyBmb3IgeW91ciBzdWdnZXN0aW9uLg0KDQpPbiBUaHUsIDIwMjEt
+MTAtMTQgYXQgMTU6NDQgKzAyMDAsIERhZm5hIEhpcnNjaGZlbGQgd3JvdGU6DQo+IA0KPiBPbiAx
+MS4xMC4yMSAwOTowMiwgWXVuZmVpIERvbmcgd3JvdGU6DQo+ID4gVXNpbmcgdGhlIG5lZWRlZCBw
+YXJhbSBmb3IgcG0gaW5pdC9yZWxlYXNlIGZ1bmN0aW9uIGFuZCByZW1vdmUNCj4gPiB1bnVzZWQN
+Cj4gPiBwYXJhbSBtdGtkZXYgaW4gJ3N0cnVjdCBtdGtfdmNvZGVjX3BtJy4NCj4gPiANCj4gDQo+
+IEkgc2VlIHRoYXQgdGhlcmUgaXMgYSBsb3Qgb2YgY29kZSBkdXBsaWNhdGlvbiBiZXR3ZWVuDQo+
+IG10a192Y29kZWNfcmVsZWFzZV9kZWNfcG0uYyBhbmQgbXRrX3Zjb2RlY19yZWxlYXNlX2VuY19w
+bS5jDQo+IEkgdGhpbmsgaWYgeW91IGJvdGhlciB0byBmYWN0b3IgdGhlIGRlY29kZXIgeW91IHNo
+b3VsZCBkbyB0aGUgc2FtZQ0KPiBmYWN0b3IgdG8gdGhlIGVuY29kZXIsIGJ1dCBhY3R1YWxseSB0
+aGUgbXVjaCBiZXR0ZXIgdGhpbmcgdG8gZG8NCj4gaXMgdG8gdW5pZnkgYWxsIGNvZGUgZHVwbGlj
+YXRpb24gYmV0d2VlbiB0aGVzZSB0d28gZmlsZXMsIGp1c3QgZm9yDQo+IGV4YW1wbGUgb2YgaWRl
+bnRpY2FsIGZ1bmN0aW9uczoNCj4gDQo+IG10a192Y29kZWNfZW5jL2RlY19jbG9ja19vbi9vZmYN
+Cj4gbXRrX3Zjb2RlY19yZWxlYXNlX2VuY19wbQ0KPiBtdGtfdmNvZGVjX2luaXRfZGVjX3BtDQo+
+IA0KPiBJbiBhZGRpdGlvbiwgdGhlIGZ1bmN0aW9uIG10a192Y29kZWNfZGVjX3B3X29uIGNhbiBi
+ZSByZW1vdmUgc2luY2UgaXQNCj4gb25seSBjYWxscyBwbV9ydW50aW1lX3Jlc3VtZV9hbmRfZ2V0
+Lg0KPiBJdCB3b3VsZCBiZSBtdWNoIGJldHRlciB0byBjYWxsIHBtX3J1bnRpbWVfcmVzdW1lX2Fu
+ZF9nZXQgZGlyZWN0bHkNCj4gYW5kIG5vdCBoaWRlIGl0IGluIGEgZGlmZmVyZW50IGZ1bmN0aW9u
+DQo+IA0KSSB3aWxsIGZpeCBpdCBpbiBuZXh0IHBhdGNoIHNlcmllcy4gSXQncyBub3QgdmVyeSBy
+ZWFzb25hYmxlIGluIHRoaXMNCnBhdGNoICBzZXJpZXMuDQoNCj4gVGhhbmtzLA0KPiBEYWZuYQ0K
+PiANClRoYW5rcywNCll1bmZlaSBEb25nDQo+ID4gUmV2aWV3ZWQtYnk6IFR6dW5nLUJpIFNoaWgg
+PHR6dW5nYmlAZ29vZ2xlLmNvbT4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBZdW5mZWkgRG9uZyA8eXVu
+ZmVpLmRvbmdAbWVkaWF0ZWsuY29tPg0KPiA+IC0tLQ0KPiA+ICAgLi4uL3BsYXRmb3JtL210ay12
+Y29kZWMvbXRrX3Zjb2RlY19kZWNfZHJ2LmMgIHwgIDYgKystLS0NCj4gPiAgIC4uLi9wbGF0Zm9y
+bS9tdGstdmNvZGVjL210a192Y29kZWNfZGVjX3BtLmMgICB8IDIyICsrKysrKysrLS0tLQ0KPiA+
+IC0tLS0tLS0NCj4gPiAgIC4uLi9wbGF0Zm9ybS9tdGstdmNvZGVjL210a192Y29kZWNfZGVjX3Bt
+LmggICB8ICA1ICsrKy0tDQo+ID4gICAuLi4vcGxhdGZvcm0vbXRrLXZjb2RlYy9tdGtfdmNvZGVj
+X2Rydi5oICAgICAgfCAgMSAtDQo+ID4gICAuLi4vcGxhdGZvcm0vbXRrLXZjb2RlYy9tdGtfdmNv
+ZGVjX2VuY19wbS5jICAgfCAgMSAtDQo+ID4gICA1IGZpbGVzIGNoYW5nZWQsIDE1IGluc2VydGlv
+bnMoKyksIDIwIGRlbGV0aW9ucygtKQ0KPiA+IA0KPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL21l
+ZGlhL3BsYXRmb3JtL210ay12Y29kZWMvbXRrX3Zjb2RlY19kZWNfZHJ2LmMgDQo+ID4gYi9kcml2
+ZXJzL21lZGlhL3BsYXRmb3JtL210ay12Y29kZWMvbXRrX3Zjb2RlY19kZWNfZHJ2LmMNCj4gPiBp
+bmRleCA4ZGI5Y2RjNjYwNDMuLmRkNzQ5ZDQxYzc1YSAxMDA2NDQNCj4gPiAtLS0gYS9kcml2ZXJz
+L21lZGlhL3BsYXRmb3JtL210ay12Y29kZWMvbXRrX3Zjb2RlY19kZWNfZHJ2LmMNCj4gPiArKysg
+Yi9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL210ay12Y29kZWMvbXRrX3Zjb2RlY19kZWNfZHJ2LmMN
+Cj4gPiBAQCAtMjQ5LDcgKzI0OSw3IEBAIHN0YXRpYyBpbnQgbXRrX3Zjb2RlY19wcm9iZShzdHJ1
+Y3QNCj4gPiBwbGF0Zm9ybV9kZXZpY2UgKnBkZXYpDQo+ID4gICAJaWYgKElTX0VSUihkZXYtPmZ3
+X2hhbmRsZXIpKQ0KPiA+ICAgCQlyZXR1cm4gUFRSX0VSUihkZXYtPmZ3X2hhbmRsZXIpOw0KPiA+
+ICAgDQo+ID4gLQlyZXQgPSBtdGtfdmNvZGVjX2luaXRfZGVjX3BtKGRldik7DQo+ID4gKwlyZXQg
+PSBtdGtfdmNvZGVjX2luaXRfZGVjX3BtKGRldi0+cGxhdF9kZXYsICZkZXYtPnBtKTsNCj4gPiAg
+IAlpZiAocmV0IDwgMCkgew0KPiA+ICAgCQlkZXZfZXJyKCZwZGV2LT5kZXYsICJGYWlsZWQgdG8g
+Z2V0IG10IHZjb2RlYyBjbG9jaw0KPiA+IHNvdXJjZSIpOw0KPiA+ICAgCQlnb3RvIGVycl9kZWNf
+cG07DQo+ID4gQEAgLTM3OSw3ICszNzksNyBAQCBzdGF0aWMgaW50IG10a192Y29kZWNfcHJvYmUo
+c3RydWN0DQo+ID4gcGxhdGZvcm1fZGV2aWNlICpwZGV2KQ0KPiA+ICAgZXJyX2RlY19hbGxvYzoN
+Cj4gPiAgIAl2NGwyX2RldmljZV91bnJlZ2lzdGVyKCZkZXYtPnY0bDJfZGV2KTsNCj4gPiAgIGVy
+cl9yZXM6DQo+ID4gLQltdGtfdmNvZGVjX3JlbGVhc2VfZGVjX3BtKGRldik7DQo+ID4gKwltdGtf
+dmNvZGVjX3JlbGVhc2VfZGVjX3BtKCZkZXYtPnBtKTsNCj4gPiAgIGVycl9kZWNfcG06DQo+ID4g
+ICAJbXRrX3Zjb2RlY19md19yZWxlYXNlKGRldi0+ZndfaGFuZGxlcik7DQo+ID4gICAJcmV0dXJu
+IHJldDsNCj4gPiBAQCAtNDIyLDcgKzQyMiw3IEBAIHN0YXRpYyBpbnQgbXRrX3Zjb2RlY19kZWNf
+cmVtb3ZlKHN0cnVjdA0KPiA+IHBsYXRmb3JtX2RldmljZSAqcGRldikNCj4gPiAgIAkJdmlkZW9f
+dW5yZWdpc3Rlcl9kZXZpY2UoZGV2LT52ZmRfZGVjKTsNCj4gPiAgIA0KPiA+ICAgCXY0bDJfZGV2
+aWNlX3VucmVnaXN0ZXIoJmRldi0+djRsMl9kZXYpOw0KPiA+IC0JbXRrX3Zjb2RlY19yZWxlYXNl
+X2RlY19wbShkZXYpOw0KPiA+ICsJbXRrX3Zjb2RlY19yZWxlYXNlX2RlY19wbSgmZGV2LT5wbSk7
+DQo+ID4gICAJbXRrX3Zjb2RlY19md19yZWxlYXNlKGRldi0+ZndfaGFuZGxlcik7DQo+ID4gICAJ
+cmV0dXJuIDA7DQo+ID4gICB9DQo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvbWVkaWEvcGxhdGZv
+cm0vbXRrLXZjb2RlYy9tdGtfdmNvZGVjX2RlY19wbS5jDQo+ID4gYi9kcml2ZXJzL21lZGlhL3Bs
+YXRmb3JtL210ay12Y29kZWMvbXRrX3Zjb2RlY19kZWNfcG0uYw0KPiA+IGluZGV4IDYwMzhkYjk2
+ZjcxYy4uMjBiZDE1N2E4NTVjIDEwMDY0NA0KPiA+IC0tLSBhL2RyaXZlcnMvbWVkaWEvcGxhdGZv
+cm0vbXRrLXZjb2RlYy9tdGtfdmNvZGVjX2RlY19wbS5jDQo+ID4gKysrIGIvZHJpdmVycy9tZWRp
+YS9wbGF0Zm9ybS9tdGstdmNvZGVjL210a192Y29kZWNfZGVjX3BtLmMNCj4gPiBAQCAtMTMsMTgg
+KzEzLDE1IEBADQo+ID4gICAjaW5jbHVkZSAibXRrX3Zjb2RlY19kZWNfcG0uaCINCj4gPiAgICNp
+bmNsdWRlICJtdGtfdmNvZGVjX3V0aWwuaCINCj4gPiAgIA0KPiA+IC1pbnQgbXRrX3Zjb2RlY19p
+bml0X2RlY19wbShzdHJ1Y3QgbXRrX3Zjb2RlY19kZXYgKm10a2RldikNCj4gPiAraW50IG10a192
+Y29kZWNfaW5pdF9kZWNfcG0oc3RydWN0IHBsYXRmb3JtX2RldmljZSAqcGRldiwNCj4gPiArCXN0
+cnVjdCBtdGtfdmNvZGVjX3BtICpwbSkNCj4gPiAgIHsNCj4gPiAgIAlzdHJ1Y3QgZGV2aWNlX25v
+ZGUgKm5vZGU7DQo+ID4gLQlzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNlICpwZGV2Ow0KPiA+IC0Jc3Ry
+dWN0IG10a192Y29kZWNfcG0gKnBtOw0KPiA+ICsJc3RydWN0IHBsYXRmb3JtX2RldmljZSAqbGFy
+Yl9wZGV2Ow0KPiA+ICAgCXN0cnVjdCBtdGtfdmNvZGVjX2NsayAqZGVjX2NsazsNCj4gPiAgIAlz
+dHJ1Y3QgbXRrX3Zjb2RlY19jbGtfaW5mbyAqY2xrX2luZm87DQo+ID4gICAJaW50IGkgPSAwLCBy
+ZXQgPSAwOw0KPiA+ICAgDQo+ID4gLQlwZGV2ID0gbXRrZGV2LT5wbGF0X2RldjsNCj4gPiAtCXBt
+ID0gJm10a2Rldi0+cG07DQo+ID4gLQlwbS0+bXRrZGV2ID0gbXRrZGV2Ow0KPiA+ICAgCWRlY19j
+bGsgPSAmcG0tPnZkZWNfY2xrOw0KPiA+ICAgCW5vZGUgPSBvZl9wYXJzZV9waGFuZGxlKHBkZXYt
+PmRldi5vZl9ub2RlLCAibWVkaWF0ZWssbGFyYiIsIDApOw0KPiA+ICAgCWlmICghbm9kZSkgew0K
+PiA+IEBAIC0zMiwxMyArMjksMTIgQEAgaW50IG10a192Y29kZWNfaW5pdF9kZWNfcG0oc3RydWN0
+DQo+ID4gbXRrX3Zjb2RlY19kZXYgKm10a2RldikNCj4gPiAgIAkJcmV0dXJuIC0xOw0KPiA+ICAg
+CX0NCj4gPiAgIA0KPiA+IC0JcGRldiA9IG9mX2ZpbmRfZGV2aWNlX2J5X25vZGUobm9kZSk7DQo+
+ID4gKwlsYXJiX3BkZXYgPSBvZl9maW5kX2RldmljZV9ieV9ub2RlKG5vZGUpOw0KPiA+ICAgCW9m
+X25vZGVfcHV0KG5vZGUpOw0KPiA+IC0JaWYgKFdBUk5fT04oIXBkZXYpKSB7DQo+ID4gKwlpZiAo
+V0FSTl9PTighbGFyYl9wZGV2KSkgew0KPiA+ICAgCQlyZXR1cm4gLTE7DQo+ID4gICAJfQ0KPiA+
+IC0JcG0tPmxhcmJ2ZGVjID0gJnBkZXYtPmRldjsNCj4gPiAtCXBkZXYgPSBtdGtkZXYtPnBsYXRf
+ZGV2Ow0KPiA+ICsJcG0tPmxhcmJ2ZGVjID0gJmxhcmJfcGRldi0+ZGV2Ow0KPiA+ICAgCXBtLT5k
+ZXYgPSAmcGRldi0+ZGV2Ow0KPiA+ICAgDQo+ID4gICAJZGVjX2Nsay0+Y2xrX251bSA9DQo+ID4g
+QEAgLTgyLDEwICs3OCwxMCBAQCBpbnQgbXRrX3Zjb2RlY19pbml0X2RlY19wbShzdHJ1Y3QNCj4g
+PiBtdGtfdmNvZGVjX2RldiAqbXRrZGV2KQ0KPiA+ICAgCXJldHVybiByZXQ7DQo+ID4gICB9DQo+
+ID4gICANCj4gPiAtdm9pZCBtdGtfdmNvZGVjX3JlbGVhc2VfZGVjX3BtKHN0cnVjdCBtdGtfdmNv
+ZGVjX2RldiAqZGV2KQ0KPiA+ICt2b2lkIG10a192Y29kZWNfcmVsZWFzZV9kZWNfcG0oc3RydWN0
+IG10a192Y29kZWNfcG0gKnBtKQ0KPiA+ICAgew0KPiA+IC0JcG1fcnVudGltZV9kaXNhYmxlKGRl
+di0+cG0uZGV2KTsNCj4gPiAtCXB1dF9kZXZpY2UoZGV2LT5wbS5sYXJidmRlYyk7DQo+ID4gKwlw
+bV9ydW50aW1lX2Rpc2FibGUocG0tPmRldik7DQo+ID4gKwlwdXRfZGV2aWNlKHBtLT5sYXJidmRl
+Yyk7DQo+ID4gICB9DQo+ID4gICANCj4gPiAgIGludCBtdGtfdmNvZGVjX2RlY19wd19vbihzdHJ1
+Y3QgbXRrX3Zjb2RlY19wbSAqcG0pDQo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvbWVkaWEvcGxh
+dGZvcm0vbXRrLXZjb2RlYy9tdGtfdmNvZGVjX2RlY19wbS5oDQo+ID4gYi9kcml2ZXJzL21lZGlh
+L3BsYXRmb3JtL210ay12Y29kZWMvbXRrX3Zjb2RlY19kZWNfcG0uaA0KPiA+IGluZGV4IDI4MGFl
+YWVmZGI2NS4uYTNkZjZhZWY2Y2I5IDEwMDY0NA0KPiA+IC0tLSBhL2RyaXZlcnMvbWVkaWEvcGxh
+dGZvcm0vbXRrLXZjb2RlYy9tdGtfdmNvZGVjX2RlY19wbS5oDQo+ID4gKysrIGIvZHJpdmVycy9t
+ZWRpYS9wbGF0Zm9ybS9tdGstdmNvZGVjL210a192Y29kZWNfZGVjX3BtLmgNCj4gPiBAQCAtOSw4
+ICs5LDkgQEANCj4gPiAgIA0KPiA+ICAgI2luY2x1ZGUgIm10a192Y29kZWNfZHJ2LmgiDQo+ID4g
+ICANCj4gPiAtaW50IG10a192Y29kZWNfaW5pdF9kZWNfcG0oc3RydWN0IG10a192Y29kZWNfZGV2
+ICpkZXYpOw0KPiA+IC12b2lkIG10a192Y29kZWNfcmVsZWFzZV9kZWNfcG0oc3RydWN0IG10a192
+Y29kZWNfZGV2ICpkZXYpOw0KPiA+ICtpbnQgbXRrX3Zjb2RlY19pbml0X2RlY19wbShzdHJ1Y3Qg
+cGxhdGZvcm1fZGV2aWNlICpwZGV2LA0KPiA+ICsJc3RydWN0IG10a192Y29kZWNfcG0gKnBtKTsN
+Cj4gPiArdm9pZCBtdGtfdmNvZGVjX3JlbGVhc2VfZGVjX3BtKHN0cnVjdCBtdGtfdmNvZGVjX3Bt
+ICpwbSk7DQo+ID4gICANCj4gPiAgIGludCBtdGtfdmNvZGVjX2RlY19wd19vbihzdHJ1Y3QgbXRr
+X3Zjb2RlY19wbSAqcG0pOw0KPiA+ICAgdm9pZCBtdGtfdmNvZGVjX2RlY19wd19vZmYoc3RydWN0
+IG10a192Y29kZWNfcG0gKnBtKTsNCj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9tZWRpYS9wbGF0
+Zm9ybS9tdGstdmNvZGVjL210a192Y29kZWNfZHJ2LmgNCj4gPiBiL2RyaXZlcnMvbWVkaWEvcGxh
+dGZvcm0vbXRrLXZjb2RlYy9tdGtfdmNvZGVjX2Rydi5oDQo+ID4gaW5kZXggM2IxZTVlM2E0NTBl
+Li45NzNiMGIzNjQ5YzYgMTAwNjQ0DQo+ID4gLS0tIGEvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9t
+dGstdmNvZGVjL210a192Y29kZWNfZHJ2LmgNCj4gPiArKysgYi9kcml2ZXJzL21lZGlhL3BsYXRm
+b3JtL210ay12Y29kZWMvbXRrX3Zjb2RlY19kcnYuaA0KPiA+IEBAIC0xOTUsNyArMTk1LDYgQEAg
+c3RydWN0IG10a192Y29kZWNfcG0gew0KPiA+ICAgCXN0cnVjdCBtdGtfdmNvZGVjX2Nsawl2ZW5j
+X2NsazsNCj4gPiAgIAlzdHJ1Y3QgZGV2aWNlCSpsYXJidmVuYzsNCj4gPiAgIAlzdHJ1Y3QgZGV2
+aWNlCSpkZXY7DQo+ID4gLQlzdHJ1Y3QgbXRrX3Zjb2RlY19kZXYJKm10a2RldjsNCj4gPiAgIH07
+DQo+ID4gICANCj4gPiAgIC8qKg0KPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL21lZGlhL3BsYXRm
+b3JtL210ay12Y29kZWMvbXRrX3Zjb2RlY19lbmNfcG0uYw0KPiA+IGIvZHJpdmVycy9tZWRpYS9w
+bGF0Zm9ybS9tdGstdmNvZGVjL210a192Y29kZWNfZW5jX3BtLmMNCj4gPiBpbmRleCAxYjJlNDkz
+MGVkMjcuLjBjOGM4Zjg2Nzg4YyAxMDA2NDQNCj4gPiAtLS0gYS9kcml2ZXJzL21lZGlhL3BsYXRm
+b3JtL210ay12Y29kZWMvbXRrX3Zjb2RlY19lbmNfcG0uYw0KPiA+ICsrKyBiL2RyaXZlcnMvbWVk
+aWEvcGxhdGZvcm0vbXRrLXZjb2RlYy9tdGtfdmNvZGVjX2VuY19wbS5jDQo+ID4gQEAgLTI2LDcg
+KzI2LDYgQEAgaW50IG10a192Y29kZWNfaW5pdF9lbmNfcG0oc3RydWN0IG10a192Y29kZWNfZGV2
+DQo+ID4gKm10a2RldikNCj4gPiAgIAlwZGV2ID0gbXRrZGV2LT5wbGF0X2RldjsNCj4gPiAgIAlw
+bSA9ICZtdGtkZXYtPnBtOw0KPiA+ICAgCW1lbXNldChwbSwgMCwgc2l6ZW9mKHN0cnVjdCBtdGtf
+dmNvZGVjX3BtKSk7DQo+ID4gLQlwbS0+bXRrZGV2ID0gbXRrZGV2Ow0KPiA+ICAgCXBtLT5kZXYg
+PSAmcGRldi0+ZGV2Ow0KPiA+ICAgCWRldiA9ICZwZGV2LT5kZXY7DQo+ID4gICAJZW5jX2NsayA9
+ICZwbS0+dmVuY19jbGs7DQo+ID4gDQo=
 
