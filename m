@@ -1,52 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5069743FA2C
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Oct 2021 11:45:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 223DA43FB22
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Oct 2021 12:59:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 37B8D6EA37;
-	Fri, 29 Oct 2021 09:45:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D53D46E107;
+	Fri, 29 Oct 2021 10:59:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C7E086EA37
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Oct 2021 09:45:21 +0000 (UTC)
-X-UUID: 5107aa49ecb54fbdb59b0f1e543166fc-20211029
-X-UUID: 5107aa49ecb54fbdb59b0f1e543166fc-20211029
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
- mailgw02.mediatek.com (envelope-from <yunfei.dong@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1738094414; Fri, 29 Oct 2021 17:45:14 +0800
-Received: from mtkmbs10n2.mediatek.inc (172.21.101.183) by
- mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Fri, 29 Oct 2021 17:45:12 +0800
-Received: from localhost.localdomain (10.17.3.154) by mtkmbs10n2.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.2.792.3 via Frontend
- Transport; Fri, 29 Oct 2021 17:45:11 +0800
-From: Yunfei Dong <yunfei.dong@mediatek.com>
-To: Yunfei Dong <yunfei.dong@mediatek.com>, Alexandre Courbot
- <acourbot@chromium.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, Tzung-Bi
- Shih <tzungbi@chromium.org>, Tiffany Lin <tiffany.lin@mediatek.com>,
- Andrew-CT Chen <andrew-ct.chen@mediatek.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Rob Herring <robh+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>, Tomasz Figa <tfiga@google.com>
-CC: Hsin-Yi Wang <hsinyi@chromium.org>, Fritz Koenig <frkoenig@chromium.org>, 
- Dafna Hirschfeld <dafna.hirschfeld@collabora.com>, Benjamin Gaignard
- <benjamin.gaignard@collabora.com>, Daniel Vetter <daniel@ffwll.ch>, dri-devel
- <dri-devel@lists.freedesktop.org>, Irui Wang <irui.wang@mediatek.com>,
- <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
- <srv_heupstream@mediatek.com>, <linux-mediatek@lists.infradead.org>,
- <Project_Global_Chrome_Upstream_Group@mediatek.com>
-Subject: [PATCH v1] media: mtk-vcodec: Align width and height to 64
-Date: Fri, 29 Oct 2021 17:45:10 +0800
-Message-ID: <20211029094510.2411-1-yunfei.dong@mediatek.com>
+Received: from andre.telenet-ops.be (andre.telenet-ops.be
+ [IPv6:2a02:1800:120:4::f00:15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A4DA6EA3E
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Oct 2021 10:59:35 +0000 (UTC)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:20b9:ea2a:8e1c:8da1])
+ by andre.telenet-ops.be with bizsmtp
+ id BmzY2600i01kgUz01mzYpo; Fri, 29 Oct 2021 12:59:33 +0200
+Received: from rox.of.borg ([192.168.97.57])
+ by ramsan.of.borg with esmtps (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.93)
+ (envelope-from <geert@linux-m68k.org>)
+ id 1mgPbg-008ir7-KN; Fri, 29 Oct 2021 12:59:32 +0200
+Received: from geert by rox.of.borg with local (Exim 4.93)
+ (envelope-from <geert@linux-m68k.org>)
+ id 1mgObF-00FChw-47; Fri, 29 Oct 2021 11:55:01 +0200
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Russell King <linux@armlinux.org.uk>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] drm/armada: Fix off-by-one error in
+ armada_overlay_get_property()
+Date: Fri, 29 Oct 2021 11:54:42 +0200
+Message-Id: <5818c8b04834e6a9525441bc181580a230354b69.1635501237.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,29 +51,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-User get width and height are 64 align when set format. Need to make
-sure all is 64 align when use width and height to calculate buffer size.
+As ffs() returns one more than the index of the first bit set (zero
+means no bits set), the color key mode value is shifted one position too
+much.
 
-Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+Fix this by using FIELD_GET() instead.
+
+Fixes: c96103b6c49ff9a8 ("drm/armada: move colorkey properties into overlay plane state")
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_if.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Compile-tested only.
+---
+ drivers/gpu/drm/armada/armada_overlay.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_if.c b/drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_if.c
-index 946c23088308..28c17204f9a1 100644
---- a/drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_if.c
-+++ b/drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_if.c
-@@ -562,8 +562,8 @@ static void get_pic_info(struct vdec_h264_slice_inst *inst,
- {
- 	struct mtk_vcodec_ctx *ctx = inst->ctx;
+diff --git a/drivers/gpu/drm/armada/armada_overlay.c b/drivers/gpu/drm/armada/armada_overlay.c
+index 424250535fed9e87..0383deb970bbbb03 100644
+--- a/drivers/gpu/drm/armada/armada_overlay.c
++++ b/drivers/gpu/drm/armada/armada_overlay.c
+@@ -4,6 +4,8 @@
+  *  Rewritten from the dovefb driver, and Armada510 manuals.
+  */
  
--	ctx->picinfo.buf_w = (ctx->picinfo.pic_w + 15) & 0xFFFFFFF0;
--	ctx->picinfo.buf_h = (ctx->picinfo.pic_h + 31) & 0xFFFFFFE0;
-+	ctx->picinfo.buf_w = ALIGN(ctx->picinfo.pic_w, 64);
-+	ctx->picinfo.buf_h = ALIGN(ctx->picinfo.pic_h, 64);
- 	ctx->picinfo.fb_sz[0] = ctx->picinfo.buf_w * ctx->picinfo.buf_h;
- 	ctx->picinfo.fb_sz[1] = ctx->picinfo.fb_sz[0] >> 1;
- 	inst->vsi_ctx.dec.cap_num_planes =
++#include <linux/bitfield.h>
++
+ #include <drm/armada_drm.h>
+ #include <drm/drm_atomic.h>
+ #include <drm/drm_atomic_helper.h>
+@@ -451,8 +453,8 @@ static int armada_overlay_get_property(struct drm_plane *plane,
+ 			     drm_to_overlay_state(state)->colorkey_ug,
+ 			     drm_to_overlay_state(state)->colorkey_vb, 0);
+ 	} else if (property == priv->colorkey_mode_prop) {
+-		*val = (drm_to_overlay_state(state)->colorkey_mode &
+-			CFG_CKMODE_MASK) >> ffs(CFG_CKMODE_MASK);
++		*val = FIELD_GET(CFG_CKMODE_MASK,
++				 drm_to_overlay_state(state)->colorkey_mode);
+ 	} else if (property == priv->brightness_prop) {
+ 		*val = drm_to_overlay_state(state)->brightness + 256;
+ 	} else if (property == priv->contrast_prop) {
 -- 
 2.25.1
 
