@@ -2,44 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF0F843F3C5
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Oct 2021 02:16:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3A0A43F3F1
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Oct 2021 02:32:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C8C06E99E;
-	Fri, 29 Oct 2021 00:16:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 32E3A89F41;
+	Fri, 29 Oct 2021 00:32:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 668966E96B;
- Fri, 29 Oct 2021 00:16:17 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10151"; a="228006155"
-X-IronPort-AV: E=Sophos;i="5.87,191,1631602800"; d="scan'208";a="228006155"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Oct 2021 17:16:16 -0700
-X-IronPort-AV: E=Sophos;i="5.87,191,1631602800"; d="scan'208";a="498650985"
-Received: from roymalle-mobl1.ger.corp.intel.com (HELO intel.com)
- ([10.249.32.55])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Oct 2021 17:16:13 -0700
-Date: Fri, 29 Oct 2021 02:16:10 +0200
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Matt Roper <matthew.d.roper@intel.com>
-Cc: Andi Shyti <andi@etezian.org>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Paulo Zanoni <paulo.r.zanoni@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>
-Subject: Re: [Intel-gfx] [PATCH 08/11] drm/i915/xehp: Make IRQ reset and
- postinstall multi-tile aware
-Message-ID: <YXs9Sq87Lukml5wr@intel.intel>
-References: <20211008215635.2026385-1-matthew.d.roper@intel.com>
- <20211008215635.2026385-9-matthew.d.roper@intel.com>
- <YXrQEb1Isc+n9dAO@jack.zhora.eu>
- <20211028232053.GG602200@mdroper-desk1.amr.corp.intel.com>
+Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com
+ [IPv6:2607:f8b0:4864:20::b29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C936F89F41
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Oct 2021 00:32:30 +0000 (UTC)
+Received: by mail-yb1-xb29.google.com with SMTP id v7so19969055ybq.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Oct 2021 17:32:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fooishbar-org.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=4rK7ePU1L8BO2CXlI///OizKJOHVxbXh2HYaDi5fhnE=;
+ b=3Kg0JHw/gVUtOe1e46PFedKHqB/LFaC8cS1IsLcmSxfhlykJ96GUmxhxuDwTQ6ikZC
+ 5Tcr3r1HZDYeGuEScywkgZaE1A6YzJWgoEYt0opg7AvMwnQ6IcTNQTX4i0HgDtoIJeNn
+ 1+HEUjuu32/nTy2Voj1eMX9obmPX2g6OSQzO30HE/eDGltHGfq3dvn6Cn0cOBxU+GSOR
+ Uwl0gofuIgQplb6XYz5v0gTrkK/J//p5vc7fsAhGRSdErx5MJZjduozzC13tYfs1rAgU
+ B1h8n2hF4eOio4kB4ULfeIFeTfQtz+cPxrzrLWptTdMAvAJKMpuvuRChiIaTFtHVApY1
+ xsiw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=4rK7ePU1L8BO2CXlI///OizKJOHVxbXh2HYaDi5fhnE=;
+ b=fC6WcMYicHIGwm2gKMre7f5QnAd7fIsvJJlR/BqLESwMk09aqoMYWnylz8B3SgXVwV
+ FrYrkcg6G9fFrzQwGUaI0gZRxTt71nrJBmkJN43CE/oUgX/Q7faLHgU3RpwMDGp4d3LS
+ gmg7BaHyGgS2LNkESTR/OYMAjSUPOddgR1VhCUja9ziKnrrcq3Je1iaaVQk4uOfsgaf+
+ PVb7iGVgskEbc1W6AUPgqspAPFNdKTIUAbkXgZIDY6xtcovk8U+YAgUkcVc1wTNNsl2F
+ aX6hV57/PopSPc1QBsHH7glIADI5oZW8owAAPqDAgj3URetVX1MFeGDbLCix1HymqnXS
+ xxaA==
+X-Gm-Message-State: AOAM532xOeEpPvgGyyExqHIVBQ0HofaEkbSDb2ZsqgghikVFmTzX7Fkl
+ 7UWxZxCrFC/VyPps0u+z/4Nha78dzDJvn2axHviaJg==
+X-Google-Smtp-Source: ABdhPJxxNmD9KbPNT7tb4+hn5QP6aGL9UVcW4q9klXnAKEepY1canGkwLCL6taqj7A7KCYYcw6E0yRvgBx2DtjzM0Ho=
+X-Received: by 2002:a25:bb52:: with SMTP id b18mr8697712ybk.506.1635467549746; 
+ Thu, 28 Oct 2021 17:32:29 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211028232053.GG602200@mdroper-desk1.amr.corp.intel.com>
+References: <20211028213446.955338-1-olvaffe@gmail.com>
+In-Reply-To: <20211028213446.955338-1-olvaffe@gmail.com>
+From: Daniel Stone <daniel@fooishbar.org>
+Date: Fri, 29 Oct 2021 01:32:18 +0100
+Message-ID: <CAPj87rNJFNK6nrM5LkMQ2E_FdQFtu1eCveXwgdPBqNA5R+U6Lw@mail.gmail.com>
+Subject: Re: [PATCH] MAINTAINERS: add reviewers for virtio-gpu
+To: Chia-I Wu <olvaffe@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, 
+ Gurchetan Singh <gurchetansingh@chromium.org>, David Airlie <airlied@linux.ie>,
+ Gerd Hoffmann <kraxel@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,28 +68,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Matt,
+On Thu, 28 Oct 2021 at 22:35, Chia-I Wu <olvaffe@gmail.com> wrote:
+> Add Gurchetan Singh and me as reviewers for virtio-gpu.
 
-> > > -	dg1_master_intr_enable(uncore->regs);
-> > > -	intel_uncore_posting_read(uncore, DG1_MSTR_TILE_INTR);
-> > > +	dg1_master_intr_enable(dev_priv->gt.uncore->regs);
-> > > +	intel_uncore_posting_read(dev_priv->gt.uncore, DG1_MSTR_TILE_INTR);
-> > 
-> > I guess this should also go under a for_each_gt()
-> 
-> DG1_MSTR_TILE_INTR (0x190008) is the top-level, one-per-PCI device
-> interrupt register; we always access it via tile0's MMIO .  So in this
-> case we do want to do this outside the loop since it's not a per-tile
-> operation.
-
-yes of course... we are writing to the master interrupt.
-
-> We could probably simplify the dev_priv->gt.uncore parameter to just
-> dev_priv->uncore to make this more obvious.
-
-... it would be a nitpick, but nice to have.
-
-Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
-
-Thanks,
-Andi
+Acked-by: Daniel Stone <daniels@collabora.com>
