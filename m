@@ -1,52 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BBBC43F799
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Oct 2021 09:03:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B76B43F79A
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Oct 2021 09:03:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD9A06E9F1;
-	Fri, 29 Oct 2021 07:03:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6DB066E9F2;
+	Fri, 29 Oct 2021 07:03:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com
- [IPv6:2607:f8b0:4864:20::1036])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E014E6E9F1
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Oct 2021 07:03:09 +0000 (UTC)
-Received: by mail-pj1-x1036.google.com with SMTP id np13so6556195pjb.4
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Oct 2021 00:03:09 -0700 (PDT)
+Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com
+ [IPv6:2607:f8b0:4864:20::52a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F6EC6E9F2
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Oct 2021 07:03:15 +0000 (UTC)
+Received: by mail-pg1-x52a.google.com with SMTP id m21so8993426pgu.13
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Oct 2021 00:03:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=igel-co-jp.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=OBWdZ+D4rVuAM/YVY5PfNR/VqcL1cfHe5Q0y/P8//ew=;
- b=BF1UHSWlvI3/HOU1nzG+lh7R6COCYCDihZSUpBn1Y7hcTEs69SKIUwMVP1+q47NcFn
- OAodoerM0PM+trbldYixN+Ax09PYB1najZ8draC0zQ0l2jlPvZd8TaDXkos1UIfyMwQx
- GQnc4pH0EBcYsQ7lKoxoTHesH7PyX4mF70rTyAmvITU0+ERjCerc9G+FQ14RkwdNrzAy
- 5PFwi3uvH1uPUWpFZMZ5ifO9T98nQMlbthS7WAaP5y6TDEFOiWzJsIc3X49WXZfFM5hX
- DPwDUOxaRqYlmvrCLCfiAePjH1/niVk/RfIXNbW+zbpD2rBV3xXjzzX/q0D3fgKkh81O
- XaDA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=r3BsV1GTEqKXRyiYvYJGLvk2Pn1r3f4nsDFd9biBydc=;
+ b=1miiAeJBD4YHde618x7VUYA3a8mA3M9i9cwKp+Hot/5+6jc/hdle2k/q2vrIoRW6pq
+ jT1WM/yegfAfiaTwfqIrwef7lJ7qOke/IYttmFIK+ELo34L50cDydN0cGctNM7TdVUHU
+ aeh98mybKRQ1WA/0B8kSHysJgPlyfYGJ4GBGP52iCTcRzswlgX1ERw2XKQq8a3ZErNeY
+ RtzSMASWb1oVsKSwSsnYhei+Zc+ilVBUP65qwnB2Ja3n9+jfOLqIuTiK7I8UeFAw1ovF
+ hWzC1RrYP7IkudA4rIHRJTisF5cILo9P/5CGMTnWtid4Dcq2i41os5gZWTx/azWf7UIc
+ ZqCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=OBWdZ+D4rVuAM/YVY5PfNR/VqcL1cfHe5Q0y/P8//ew=;
- b=X7vBt0TyeEaRZsx6hvCfJ3fInuArqdOgKA/LsSZ/JZzW/IHYcEOMlGgStTd9bZibkQ
- 7+4+CawpdxnyeXE7WA2aHDPTMdB5W4ouUeRlD168jwayuXZCYxMHCUo4xJP1jLE0isFE
- p4L8blZ9ZAu28bjKR6ZbyR6/ynhIX8OqNKje2X/NjNAXRyEaYDhPOnkLP+ziQSAIfCTU
- FXkXV/XCI+CzzdU9U1jOfOIh9KHZ4uKx9FTMQymUuhAnba19bj/8e+LWA8qmlgOoQFGx
- 4iZSrTi4xSA6s50+PmW+XKw2p3VNeqJb3Bpn6ntmlXxkHn9mL5+MzL3lC6fDcOTF4+Wq
- CWzw==
-X-Gm-Message-State: AOAM531zSBZN2yXhLP194NYTlq54tXFn6J/lanroal/INlfUf7gLxDhu
- dumUm0m8ZrV1QuIb38MRqRGxkw==
-X-Google-Smtp-Source: ABdhPJyYcpsVVRs4dnJPUYk4jb1Z9YeTTmvs001e9rR1+K+F1QyW9gs4iEr1+r7SwPegB9ktIbf7Ww==
-X-Received: by 2002:a17:90b:388a:: with SMTP id
- mu10mr17448632pjb.221.1635490989501; 
- Fri, 29 Oct 2021 00:03:09 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references;
+ bh=r3BsV1GTEqKXRyiYvYJGLvk2Pn1r3f4nsDFd9biBydc=;
+ b=i9XtAE3cijcZOAPynm0IuiqCHo5Zi6m+qSsMJhu4hGITgYtKvkVneugCgDVJV9pYly
+ LRL19McYTorVj0skIOG7RoMgmmCn3MC+KOnAFQKSlt3iHFP0Ncd6OBX9ydf4VwNjcd1+
+ 3u5m3Paa+sT8KTamiS2gXTp+uHkw70/PoWQsfQKmo47kukva/PXPzg5OaK6O4nCcIV25
+ rbjXmVKh6nuySb+tMrErjrkBWSRmnoBsd2QzBzP5ecsJPdLJ/XBMWK8PJYtsHtcHeTaR
+ v0OKRGgiJOOndxweROcK3XAvp6kzLBvMh8+LeGoCvZh3IsoV3ilVqnaxHqW4rcUVQOvA
+ ihkQ==
+X-Gm-Message-State: AOAM530quw2laf91b2uMfibhsbNS6ChWT/VNlxAzNsJlc8NL9TDz5HPY
+ M6MpE/8E7IIyMLS3l7dkGlnKlw==
+X-Google-Smtp-Source: ABdhPJyYm5rE0hVRGHglH0izEfcuNX4yWQ6QvHTkUa/fEf//YnbIBYTmnBZevBFErFa9RyNL+x1GTQ==
+X-Received: by 2002:a05:6a00:1897:b0:47b:ff8c:3b05 with SMTP id
+ x23-20020a056a00189700b0047bff8c3b05mr9180742pfh.37.1635490995256; 
+ Fri, 29 Oct 2021 00:03:15 -0700 (PDT)
 Received: from tyrell.hq.igel.co.jp (napt.igel.co.jp. [219.106.231.132])
- by smtp.gmail.com with ESMTPSA id p16sm6039787pfh.97.2021.10.29.00.03.04
+ by smtp.gmail.com with ESMTPSA id p16sm6039787pfh.97.2021.10.29.00.03.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Oct 2021 00:03:08 -0700 (PDT)
+ Fri, 29 Oct 2021 00:03:14 -0700 (PDT)
 From: Shunsuke Mie <mie@igel.co.jp>
 To: Zhu Yanjun <zyjzyj2000@gmail.com>
 Cc: Shunsuke Mie <mie@igel.co.jp>,
@@ -60,13 +59,13 @@ Cc: Shunsuke Mie <mie@igel.co.jp>,
  linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-rdma@vger.kernel.org, dhobsong@igel.co.jp, taki@igel.co.jp,
  etom@igel.co.jp
-Subject: [RFC PATCH v3 0/2] RDMA/rxe: Add dma-buf support
-Date: Fri, 29 Oct 2021 16:02:56 +0900
-Message-Id: <20211029070258.59299-1-mie@igel.co.jp>
+Subject: [RFC PATCH v3 1/2] RDMA/umem: Change for rdma devices has not dma
+ device
+Date: Fri, 29 Oct 2021 16:02:57 +0900
+Message-Id: <20211029070258.59299-2-mie@igel.co.jp>
 X-Mailer: git-send-email 2.17.1
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20211029070258.59299-1-mie@igel.co.jp>
+References: <20211029070258.59299-1-mie@igel.co.jp>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,51 +81,97 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch series add a dma-buf support for rxe driver.
+Current implementation requires a dma device for RDMA driver to use
+dma-buf memory space as RDMA buffer. However, software RDMA drivers has
+not dma device and copy RDMA data using CPU instead of hardware.
 
-A dma-buf based memory registering has beed introduced to use the memory
-region that lack of associated page structures (e.g. device memory and CMA
-managed memory) [1]. However, to use the dma-buf based memory, each rdma
-device drivers require add some implementation. The rxe driver has not
-support yet.
+This patch changes to be hold a dma-buf on struct ib_umem_dmabuf. This
+allows the software RDMA driver to map dma-buf memory for CPU memory
+accessing.
 
-[1] https://www.spinics.net/lists/linux-rdma/msg98592.html
+Signed-off-by: Shunsuke Mie <mie@igel.co.jp>
+---
+ drivers/infiniband/core/umem_dmabuf.c | 20 ++++++++++++++++----
+ include/rdma/ib_umem.h                |  1 +
+ 2 files changed, 17 insertions(+), 4 deletions(-)
 
-To enable to use the dma-buf memory in rxe rdma device, add some changes
-and implementation in this patch series.
-
-This series consists of two patches. The first patch changes the IB core
-to support for rdma drivers that has not dma device. The secound patch adds
-the dma-buf support to rxe driver.
-
-Related user space RDMA library changes are provided as a separate patch.
-
-v3:
-* Rebase to the latest linux-rdma 'for-next' branch (5.15.0-rc6+)
-* Fix to use dma-buf-map helpers
-v2: https://www.spinics.net/lists/linux-rdma/msg105928.html
-* Rebase to the latest linux-rdma 'for-next' branch (5.15.0-rc1+)
-* Instead of using a dummy dma_device to attach dma-buf, just store
-  dma-buf to use software RDMA driver
-* Use dma-buf vmap() interface
-* Check to pass tests of rdma-core
-v1: https://www.spinics.net/lists/linux-rdma/msg105376.html
-* The initial patch set
-* Use ib_device as dma_device.
-* Use dma-buf dynamic attach interface
-* Add dma-buf support to rxe device
-
-Shunsuke Mie (2):
-  RDMA/umem: Change for rdma devices has not dma device
-  RDMA/rxe: Add dma-buf support
-
- drivers/infiniband/core/umem_dmabuf.c |  20 ++++-
- drivers/infiniband/sw/rxe/rxe_loc.h   |   2 +
- drivers/infiniband/sw/rxe/rxe_mr.c    | 113 ++++++++++++++++++++++++++
- drivers/infiniband/sw/rxe/rxe_verbs.c |  34 ++++++++
- include/rdma/ib_umem.h                |   1 +
- 5 files changed, 166 insertions(+), 4 deletions(-)
-
+diff --git a/drivers/infiniband/core/umem_dmabuf.c b/drivers/infiniband/core/umem_dmabuf.c
+index e824baf4640d..ebbb0a259fd4 100644
+--- a/drivers/infiniband/core/umem_dmabuf.c
++++ b/drivers/infiniband/core/umem_dmabuf.c
+@@ -117,9 +117,6 @@ struct ib_umem_dmabuf *ib_umem_dmabuf_get(struct ib_device *device,
+ 	if (check_add_overflow(offset, (unsigned long)size, &end))
+ 		return ret;
+ 
+-	if (unlikely(!ops || !ops->move_notify))
+-		return ret;
+-
+ 	dmabuf = dma_buf_get(fd);
+ 	if (IS_ERR(dmabuf))
+ 		return ERR_CAST(dmabuf);
+@@ -133,6 +130,8 @@ struct ib_umem_dmabuf *ib_umem_dmabuf_get(struct ib_device *device,
+ 		goto out_release_dmabuf;
+ 	}
+ 
++	umem_dmabuf->dmabuf = dmabuf;
++
+ 	umem = &umem_dmabuf->umem;
+ 	umem->ibdev = device;
+ 	umem->length = size;
+@@ -143,6 +142,13 @@ struct ib_umem_dmabuf *ib_umem_dmabuf_get(struct ib_device *device,
+ 	if (!ib_umem_num_pages(umem))
+ 		goto out_free_umem;
+ 
++	/* Software RDMA drivers has not dma device. Just get dmabuf from fd */
++	if (!device->dma_device)
++		goto done;
++
++	if (unlikely(!ops || !ops->move_notify))
++		goto out_free_umem;
++
+ 	umem_dmabuf->attach = dma_buf_dynamic_attach(
+ 					dmabuf,
+ 					device->dma_device,
+@@ -152,6 +158,7 @@ struct ib_umem_dmabuf *ib_umem_dmabuf_get(struct ib_device *device,
+ 		ret = ERR_CAST(umem_dmabuf->attach);
+ 		goto out_free_umem;
+ 	}
++done:
+ 	return umem_dmabuf;
+ 
+ out_free_umem:
+@@ -165,13 +172,18 @@ EXPORT_SYMBOL(ib_umem_dmabuf_get);
+ 
+ void ib_umem_dmabuf_release(struct ib_umem_dmabuf *umem_dmabuf)
+ {
+-	struct dma_buf *dmabuf = umem_dmabuf->attach->dmabuf;
++	struct dma_buf *dmabuf = umem_dmabuf->dmabuf;
++
++	if (!umem_dmabuf->attach)
++		goto free_dmabuf;
+ 
+ 	dma_resv_lock(dmabuf->resv, NULL);
+ 	ib_umem_dmabuf_unmap_pages(umem_dmabuf);
+ 	dma_resv_unlock(dmabuf->resv);
+ 
+ 	dma_buf_detach(dmabuf, umem_dmabuf->attach);
++
++free_dmabuf:
+ 	dma_buf_put(dmabuf);
+ 	kfree(umem_dmabuf);
+ }
+diff --git a/include/rdma/ib_umem.h b/include/rdma/ib_umem.h
+index 5ae9dff74dac..11c0cf7e0dd8 100644
+--- a/include/rdma/ib_umem.h
++++ b/include/rdma/ib_umem.h
+@@ -32,6 +32,7 @@ struct ib_umem {
+ struct ib_umem_dmabuf {
+ 	struct ib_umem umem;
+ 	struct dma_buf_attachment *attach;
++	struct dma_buf *dmabuf;
+ 	struct sg_table *sgt;
+ 	struct scatterlist *first_sg;
+ 	struct scatterlist *last_sg;
 -- 
 2.17.1
 
