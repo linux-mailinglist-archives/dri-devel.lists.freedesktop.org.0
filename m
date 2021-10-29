@@ -1,25 +1,26 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFF6743FB77
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Oct 2021 13:35:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 232DB43FB99
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Oct 2021 13:42:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A7756E50E;
-	Fri, 29 Oct 2021 11:35:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 22E176EA3C;
+	Fri, 29 Oct 2021 11:42:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
  [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 11F726E50E
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Oct 2021 11:35:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 785546EA3C
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Oct 2021 11:42:18 +0000 (UTC)
 Received: from [IPv6:2a02:810a:880:f54:6141:93b5:19a6:af87] (unknown
  [IPv6:2a02:810a:880:f54:6141:93b5:19a6:af87])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested) (Authenticated sender: dafna)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 137BD1F45952;
- Fri, 29 Oct 2021 12:35:42 +0100 (BST)
-Subject: Re: [PATCH v8, 03/17] media: mtk-vcodec: Refactor vcodec pm interface
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 7CB8E1F45953;
+ Fri, 29 Oct 2021 12:42:16 +0100 (BST)
+Subject: Re: [PATCH v8, 04/17] media: mtk-vcodec: Build decoder pm file as
+ module
 To: Yunfei Dong <yunfei.dong@mediatek.com>,
  Alexandre Courbot <acourbot@chromium.org>,
  Hans Verkuil <hverkuil-cisco@xs4all.nl>, Tzung-Bi Shih
@@ -36,17 +37,17 @@ Cc: Hsin-Yi Wang <hsinyi@chromium.org>, Fritz Koenig <frkoenig@chromium.org>,
  linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  srv_heupstream@mediatek.com, linux-mediatek@lists.infradead.org,
  Project_Global_Chrome_Upstream_Group@mediatek.com,
- Tzung-Bi Shih <tzungbi@google.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+ Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+ Collabora Kernel ML <kernel@collabora.com>
 References: <20211029035527.454-1-yunfei.dong@mediatek.com>
- <20211029035527.454-4-yunfei.dong@mediatek.com>
+ <20211029035527.454-5-yunfei.dong@mediatek.com>
 From: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Message-ID: <2a25abdc-691b-9409-15ed-980af460c6c6@collabora.com>
-Date: Fri, 29 Oct 2021 13:35:40 +0200
+Message-ID: <367efd7e-667c-6c0f-a36e-0eff6d323f48@collabora.com>
+Date: Fri, 29 Oct 2021 13:42:13 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20211029035527.454-4-yunfei.dong@mediatek.com>
+In-Reply-To: <20211029035527.454-5-yunfei.dong@mediatek.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -68,154 +69,97 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 On 29.10.21 05:55, Yunfei Dong wrote:
-> Using the needed param for pm init/release function and remove unused
-> param mtkdev in 'struct mtk_vcodec_pm'.
-> 
-> Reviewed-by: Tzung-Bi Shih <tzungbi@google.com>
-> Reviewed-By: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+> Need to build decoder pm file as module for master and comp
+> use the same pm interface.
 
-Hi,
-I already commented on v7 that since the pm implementation for dec and enc is identical,
-you should better do the same refactor to enc and dec or better remove the code duplication.
+Do you still use the component framework in this patchset?
+In the cover letter you write: "- Use of_platform_populate to manage multi hardware, not component framework for patch 4/15"
+If that frameworks is not used anymore you should also change the commit log, and maybe this patch is not needed anymore?
 
 Thanks,
 Dafna
-
-> ---
->   .../platform/mtk-vcodec/mtk_vcodec_dec_drv.c  |  6 ++---
->   .../platform/mtk-vcodec/mtk_vcodec_dec_pm.c   | 22 ++++++++-----------
->   .../platform/mtk-vcodec/mtk_vcodec_dec_pm.h   |  5 +++--
->   .../platform/mtk-vcodec/mtk_vcodec_drv.h      |  1 -
->   .../platform/mtk-vcodec/mtk_vcodec_enc_pm.c   |  1 -
->   5 files changed, 15 insertions(+), 20 deletions(-)
 > 
-> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
-> index 055d50e52720..3ac4c3935e4e 100644
-> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
-> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
-> @@ -249,7 +249,7 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
->   	if (IS_ERR(dev->fw_handler))
->   		return PTR_ERR(dev->fw_handler);
+> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+> ---
+> v8: add new patch to build pm file as module
+> ---
+>   drivers/media/platform/mtk-vcodec/Makefile            | 6 ++++--
+>   drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c | 9 +++++++++
+>   2 files changed, 13 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/platform/mtk-vcodec/Makefile b/drivers/media/platform/mtk-vcodec/Makefile
+> index ca8e9e7a9c4e..5d36e05535d7 100644
+> --- a/drivers/media/platform/mtk-vcodec/Makefile
+> +++ b/drivers/media/platform/mtk-vcodec/Makefile
+> @@ -2,7 +2,8 @@
 >   
-> -	ret = mtk_vcodec_init_dec_pm(dev);
-> +	ret = mtk_vcodec_init_dec_pm(dev->plat_dev, &dev->pm);
->   	if (ret < 0) {
->   		dev_err(&pdev->dev, "Failed to get mt vcodec clock source");
->   		goto err_dec_pm;
-> @@ -378,7 +378,7 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
->   err_dec_alloc:
->   	v4l2_device_unregister(&dev->v4l2_dev);
->   err_res:
-> -	mtk_vcodec_release_dec_pm(dev);
-> +	mtk_vcodec_release_dec_pm(&dev->pm);
->   err_dec_pm:
->   	mtk_vcodec_fw_release(dev->fw_handler);
->   	return ret;
-> @@ -418,7 +418,7 @@ static int mtk_vcodec_dec_remove(struct platform_device *pdev)
->   		video_unregister_device(dev->vfd_dec);
+>   obj-$(CONFIG_VIDEO_MEDIATEK_VCODEC) += mtk-vcodec-dec.o \
+>   				       mtk-vcodec-enc.o \
+> -				       mtk-vcodec-common.o
+> +				       mtk-vcodec-common.o \
+> +				       mtk-vcodec-dec-common.o
 >   
->   	v4l2_device_unregister(&dev->v4l2_dev);
-> -	mtk_vcodec_release_dec_pm(dev);
-> +	mtk_vcodec_release_dec_pm(&dev->pm);
->   	mtk_vcodec_fw_release(dev->fw_handler);
->   	return 0;
->   }
+>   mtk-vcodec-dec-y := vdec/vdec_h264_if.o \
+>   		vdec/vdec_vp8_if.o \
+> @@ -14,7 +15,8 @@ mtk-vcodec-dec-y := vdec/vdec_h264_if.o \
+>   		mtk_vcodec_dec.o \
+>   		mtk_vcodec_dec_stateful.o \
+>   		mtk_vcodec_dec_stateless.o \
+> -		mtk_vcodec_dec_pm.o \
+> +
+> +mtk-vcodec-dec-common-y := mtk_vcodec_dec_pm.o
+>   
+>   mtk-vcodec-enc-y := venc/venc_vp8_if.o \
+>   		venc/venc_h264_if.o \
 > diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c
-> index 6038db96f71c..20bd157a855c 100644
+> index 20bd157a855c..09a281e3065a 100644
 > --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c
 > +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c
-> @@ -13,18 +13,15 @@
->   #include "mtk_vcodec_dec_pm.h"
->   #include "mtk_vcodec_util.h"
->   
-> -int mtk_vcodec_init_dec_pm(struct mtk_vcodec_dev *mtkdev)
-> +int mtk_vcodec_init_dec_pm(struct platform_device *pdev,
-> +	struct mtk_vcodec_pm *pm)
->   {
->   	struct device_node *node;
-> -	struct platform_device *pdev;
-> -	struct mtk_vcodec_pm *pm;
-> +	struct platform_device *larb_pdev;
->   	struct mtk_vcodec_clk *dec_clk;
->   	struct mtk_vcodec_clk_info *clk_info;
->   	int i = 0, ret = 0;
->   
-> -	pdev = mtkdev->plat_dev;
-> -	pm = &mtkdev->pm;
-> -	pm->mtkdev = mtkdev;
->   	dec_clk = &pm->vdec_clk;
->   	node = of_parse_phandle(pdev->dev.of_node, "mediatek,larb", 0);
->   	if (!node) {
-> @@ -32,13 +29,12 @@ int mtk_vcodec_init_dec_pm(struct mtk_vcodec_dev *mtkdev)
->   		return -1;
->   	}
->   
-> -	pdev = of_find_device_by_node(node);
-> +	larb_pdev = of_find_device_by_node(node);
->   	of_node_put(node);
-> -	if (WARN_ON(!pdev)) {
-> +	if (WARN_ON(!larb_pdev)) {
->   		return -1;
->   	}
-> -	pm->larbvdec = &pdev->dev;
-> -	pdev = mtkdev->plat_dev;
-> +	pm->larbvdec = &larb_pdev->dev;
->   	pm->dev = &pdev->dev;
->   
->   	dec_clk->clk_num =
-> @@ -82,10 +78,10 @@ int mtk_vcodec_init_dec_pm(struct mtk_vcodec_dev *mtkdev)
+> @@ -77,12 +77,14 @@ int mtk_vcodec_init_dec_pm(struct platform_device *pdev,
+>   	put_device(pm->larbvdec);
 >   	return ret;
 >   }
+> +EXPORT_SYMBOL_GPL(mtk_vcodec_init_dec_pm);
 >   
-> -void mtk_vcodec_release_dec_pm(struct mtk_vcodec_dev *dev)
-> +void mtk_vcodec_release_dec_pm(struct mtk_vcodec_pm *pm)
+>   void mtk_vcodec_release_dec_pm(struct mtk_vcodec_pm *pm)
 >   {
-> -	pm_runtime_disable(dev->pm.dev);
-> -	put_device(dev->pm.larbvdec);
-> +	pm_runtime_disable(pm->dev);
-> +	put_device(pm->larbvdec);
+>   	pm_runtime_disable(pm->dev);
+>   	put_device(pm->larbvdec);
 >   }
+> +EXPORT_SYMBOL_GPL(mtk_vcodec_release_dec_pm);
 >   
 >   int mtk_vcodec_dec_pw_on(struct mtk_vcodec_pm *pm)
-> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.h b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.h
-> index 280aeaefdb65..a3df6aef6cb9 100644
-> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.h
-> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.h
-> @@ -9,8 +9,9 @@
+>   {
+> @@ -94,6 +96,7 @@ int mtk_vcodec_dec_pw_on(struct mtk_vcodec_pm *pm)
 >   
->   #include "mtk_vcodec_drv.h"
+>   	return ret;
+>   }
+> +EXPORT_SYMBOL_GPL(mtk_vcodec_dec_pw_on);
 >   
-> -int mtk_vcodec_init_dec_pm(struct mtk_vcodec_dev *dev);
-> -void mtk_vcodec_release_dec_pm(struct mtk_vcodec_dev *dev);
-> +int mtk_vcodec_init_dec_pm(struct platform_device *pdev,
-> +	struct mtk_vcodec_pm *pm);
-> +void mtk_vcodec_release_dec_pm(struct mtk_vcodec_pm *pm);
+>   void mtk_vcodec_dec_pw_off(struct mtk_vcodec_pm *pm)
+>   {
+> @@ -103,6 +106,7 @@ void mtk_vcodec_dec_pw_off(struct mtk_vcodec_pm *pm)
+>   	if (ret)
+>   		mtk_v4l2_err("pm_runtime_put_sync fail %d", ret);
+>   }
+> +EXPORT_SYMBOL_GPL(mtk_vcodec_dec_pw_off);
 >   
->   int mtk_vcodec_dec_pw_on(struct mtk_vcodec_pm *pm);
->   void mtk_vcodec_dec_pw_off(struct mtk_vcodec_pm *pm);
-> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h b/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
-> index 1d2370608d0d..0fa9d85114b9 100644
-> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
-> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
-> @@ -195,7 +195,6 @@ struct mtk_vcodec_pm {
->   	struct mtk_vcodec_clk	venc_clk;
->   	struct device	*larbvenc;
->   	struct device	*dev;
-> -	struct mtk_vcodec_dev	*mtkdev;
->   };
+>   void mtk_vcodec_dec_clock_on(struct mtk_vcodec_pm *pm)
+>   {
+> @@ -129,6 +133,7 @@ void mtk_vcodec_dec_clock_on(struct mtk_vcodec_pm *pm)
+>   	for (i -= 1; i >= 0; i--)
+>   		clk_disable_unprepare(dec_clk->clk_info[i].vcodec_clk);
+>   }
+> +EXPORT_SYMBOL_GPL(mtk_vcodec_dec_clock_on);
 >   
->   /**
-> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.c
-> index 1b2e4930ed27..0c8c8f86788c 100644
-> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.c
-> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.c
-> @@ -26,7 +26,6 @@ int mtk_vcodec_init_enc_pm(struct mtk_vcodec_dev *mtkdev)
->   	pdev = mtkdev->plat_dev;
->   	pm = &mtkdev->pm;
->   	memset(pm, 0, sizeof(struct mtk_vcodec_pm));
-> -	pm->mtkdev = mtkdev;
->   	pm->dev = &pdev->dev;
->   	dev = &pdev->dev;
->   	enc_clk = &pm->venc_clk;
+>   void mtk_vcodec_dec_clock_off(struct mtk_vcodec_pm *pm)
+>   {
+> @@ -139,3 +144,7 @@ void mtk_vcodec_dec_clock_off(struct mtk_vcodec_pm *pm)
+>   	for (i = dec_clk->clk_num - 1; i >= 0; i--)
+>   		clk_disable_unprepare(dec_clk->clk_info[i].vcodec_clk);
+>   }
+> +EXPORT_SYMBOL_GPL(mtk_vcodec_dec_clock_off);
+> +
+> +MODULE_LICENSE("GPL v2");
+> +MODULE_DESCRIPTION("Mediatek video decoder driver");
 > 
