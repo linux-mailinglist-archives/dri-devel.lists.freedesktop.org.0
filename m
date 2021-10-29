@@ -1,41 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 223DA43FB22
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Oct 2021 12:59:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 547AB43FA6D
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Oct 2021 12:03:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D53D46E107;
-	Fri, 29 Oct 2021 10:59:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4409D6EA38;
+	Fri, 29 Oct 2021 10:03:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from andre.telenet-ops.be (andre.telenet-ops.be
- [IPv6:2a02:1800:120:4::f00:15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A4DA6EA3E
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Oct 2021 10:59:35 +0000 (UTC)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:20b9:ea2a:8e1c:8da1])
- by andre.telenet-ops.be with bizsmtp
- id BmzY2600i01kgUz01mzYpo; Fri, 29 Oct 2021 12:59:33 +0200
-Received: from rox.of.borg ([192.168.97.57])
- by ramsan.of.borg with esmtps (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.93)
- (envelope-from <geert@linux-m68k.org>)
- id 1mgPbg-008ir7-KN; Fri, 29 Oct 2021 12:59:32 +0200
-Received: from geert by rox.of.borg with local (Exim 4.93)
- (envelope-from <geert@linux-m68k.org>)
- id 1mgObF-00FChw-47; Fri, 29 Oct 2021 11:55:01 +0200
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Russell King <linux@armlinux.org.uk>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] drm/armada: Fix off-by-one error in
- armada_overlay_get_property()
-Date: Fri, 29 Oct 2021 11:54:42 +0200
-Message-Id: <5818c8b04834e6a9525441bc181580a230354b69.1635501237.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.25.1
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk
+ [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 575526EA38
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Oct 2021 10:03:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+ MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+ Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+ List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=7buZtiLc/ouuXxjLHbN2EnvR8r028Iyhe9uJXHmOVko=; b=1Vfjr47/HgOcxMDeXVf0ljPiRC
+ 5jQx6W6+7+KXiL4bf8qA0+eRURpDuwbDcvZH0t0X/rn5D2K6BHzqlSxkTkWJk398cFDpt2Af7SBHo
+ 4l2TuWDsKyYYMnxmgwLEkeLlgxIRwumKsMr/Qyr1Z+5ZOInfPjUT3H16Nvdmz3ChQKF0DKIkKpAF3
+ avQZCxUblXjviaQI9hZKhX6P2Rbs1hfa8IA5VaG/1HaZgho0RfWKRhWGcgSp0aGvayKnAcU7xR93l
+ Mmehd8N+kRdfdZl9Xl3UEUNB47ZGQ5JVytLyHi6+oKv1galh7wZU39uoydqI5XvVnngWqeUH3CEA4
+ D/otjkQA==;
+Received: from shell.armlinux.org.uk
+ ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:55378)
+ by pandora.armlinux.org.uk with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <linux@armlinux.org.uk>)
+ id 1mgOiy-0008Tt-1X; Fri, 29 Oct 2021 11:03:00 +0100
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
+ (envelope-from <linux@shell.armlinux.org.uk>)
+ id 1mgOiv-0001Vw-Ru; Fri, 29 Oct 2021 11:02:57 +0100
+Date: Fri, 29 Oct 2021 11:02:57 +0100
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Rob Herring <robh@kernel.org>,
+ =?iso-8859-1?Q?Beno=EEt?= Cousson <bcousson@baylibre.com>,
+ Tony Lindgren <tony@atomide.com>, Magnus Damm <magnus.damm@gmail.com>,
+ Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, 
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ "open list:TI ETHERNET SWITCH DRIVER (CPSW)" <linux-omap@vger.kernel.org>,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH 3/3] [RFC] dt-bindings: display: bridge: nxp,tda998x:
+ Convert to json-schema
+Message-ID: <YXvG0Xz6XgiS6jwD@shell.armlinux.org.uk>
+References: <cover.1634822085.git.geert+renesas@glider.be>
+ <1f6bf58d76efc2e869b800534b818d1451ef98a2.1634822085.git.geert+renesas@glider.be>
+ <YXtIsCnJ+L5zqCVk@robh.at.kernel.org>
+ <YXusEUpTBUdvS7LY@shell.armlinux.org.uk>
+ <CAMuHMdX+Ke54zyi2Z2ROk-2xpbcXU6+FFH71gEz0vEBXCAgVXw@mail.gmail.com>
+ <YXu/zwjYqoqYgfLx@shell.armlinux.org.uk>
+ <CAMuHMdUFp_GN-GLtrXVDQP5A8iM-jLWTQbM0p4g1bdVokxhOaw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdUFp_GN-GLtrXVDQP5A8iM-jLWTQbM0p4g1bdVokxhOaw@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,44 +76,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As ffs() returns one more than the index of the first bit set (zero
-means no bits set), the color key mode value is shifted one position too
-much.
+On Fri, Oct 29, 2021 at 11:40:26AM +0200, Geert Uytterhoeven wrote:
+> Hi Russell,
+> 
+> On Fri, Oct 29, 2021 at 11:33 AM Russell King (Oracle)
+> <linux@armlinux.org.uk> wrote:
+> > On Fri, Oct 29, 2021 at 10:28:22AM +0200, Geert Uytterhoeven wrote:
+> > > No, you can still use port:
+> > >
+> > > +oneOf:
+> > > +  - required:
+> > > +      - port
+> > > +  - required:
+> > > +      - ports
+> > >
+> > > When using ports, no further requirements are set, but perhaps port@0
+> > > should be made required in that case?
+> >
+> > Maybe I don't understand the binding description then, but to me it
+> > looks like you require both port@0 and port@1.
+> 
+> "make dtbs_check" disagrees.
+> 
+> > The reality of the driver is that it makes almost no use of the graph
+> > itself, except via drm_of_find_possible_crtcs() to find the connected
+> > CRTCs. If it is connected to an I2S source, then it probably needs a
+> > port specification for that. If someone wants to describe the HDMI
+> > connector (which I don't see any point in) then they likely need a
+> 
+> I can't comment on the point of describing the HDMI connector.
+> 
+> > port specification for that too. However, the driver itself doesn't
+> > care about any of those.
+> 
+> DT describes hardware, not software limitations.
 
-Fix this by using FIELD_GET() instead.
+Sigh. There's no point discussing this further, my replies seem to be
+interpreted out of context.
 
-Fixes: c96103b6c49ff9a8 ("drm/armada: move colorkey properties into overlay plane state")
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-Compile-tested only.
----
- drivers/gpu/drm/armada/armada_overlay.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/armada/armada_overlay.c b/drivers/gpu/drm/armada/armada_overlay.c
-index 424250535fed9e87..0383deb970bbbb03 100644
---- a/drivers/gpu/drm/armada/armada_overlay.c
-+++ b/drivers/gpu/drm/armada/armada_overlay.c
-@@ -4,6 +4,8 @@
-  *  Rewritten from the dovefb driver, and Armada510 manuals.
-  */
- 
-+#include <linux/bitfield.h>
-+
- #include <drm/armada_drm.h>
- #include <drm/drm_atomic.h>
- #include <drm/drm_atomic_helper.h>
-@@ -451,8 +453,8 @@ static int armada_overlay_get_property(struct drm_plane *plane,
- 			     drm_to_overlay_state(state)->colorkey_ug,
- 			     drm_to_overlay_state(state)->colorkey_vb, 0);
- 	} else if (property == priv->colorkey_mode_prop) {
--		*val = (drm_to_overlay_state(state)->colorkey_mode &
--			CFG_CKMODE_MASK) >> ffs(CFG_CKMODE_MASK);
-+		*val = FIELD_GET(CFG_CKMODE_MASK,
-+				 drm_to_overlay_state(state)->colorkey_mode);
- 	} else if (property == priv->brightness_prop) {
- 		*val = drm_to_overlay_state(state)->brightness + 256;
- 	} else if (property == priv->contrast_prop) {
 -- 
-2.25.1
-
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
