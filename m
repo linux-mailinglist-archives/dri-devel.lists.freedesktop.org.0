@@ -1,56 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7912843FBC2
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Oct 2021 13:49:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 29FB043FBC9
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Oct 2021 13:50:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A4EFA6EA45;
-	Fri, 29 Oct 2021 11:49:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 401B26EA50;
+	Fri, 29 Oct 2021 11:50:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C3466EA45
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Oct 2021 11:49:51 +0000 (UTC)
-Received: from [IPv6:2a02:810a:880:f54:6141:93b5:19a6:af87] (unknown
- [IPv6:2a02:810a:880:f54:6141:93b5:19a6:af87])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: dafna)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 0712C1F4578C;
- Fri, 29 Oct 2021 12:49:48 +0100 (BST)
-Subject: Re: [PATCH v8, 07/17] dt-bindings: media: mtk-vcodec: Separate video
- encoder and decoder dt-bindings
-To: Yunfei Dong <yunfei.dong@mediatek.com>,
- Alexandre Courbot <acourbot@chromium.org>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>, Tzung-Bi Shih
- <tzungbi@chromium.org>, Tiffany Lin <tiffany.lin@mediatek.com>,
- Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
- <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
- Tomasz Figa <tfiga@google.com>
-Cc: Hsin-Yi Wang <hsinyi@chromium.org>, Fritz Koenig <frkoenig@chromium.org>, 
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Daniel Vetter <daniel@ffwll.ch>, dri-devel
- <dri-devel@lists.freedesktop.org>, Irui Wang <irui.wang@mediatek.com>,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+Received: from metanate.com (unknown [IPv6:2001:8b0:1628:5005::111])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 92D3E6EA46
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Oct 2021 11:50:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=metanate.com; s=stronger; h=Content-Transfer-Encoding:Message-Id:Date:
+ Subject:Cc:To:From:Content-Type:Reply-To:Content-ID:Content-Description:
+ In-Reply-To:References; bh=imNyHr0Qz5loN5vvGUmOIVYg0PJVih+KMZKIvy6syRc=; b=4P
+ NcVx9zm4eCtmBXR506acvL8MA/bg95D7X/ld6qTi4rHbwmWG55axJ/r1NsLk10HwsB26ucf8s4xxw
+ 2HCUani0eLZisUENVDTvJmMJZ+fUBJb8DLi+4rpB2NSqJ+EWZ1FCALoZ5wLHUHY98KUMQbFvEtird
+ q0kZSQ+UuYhDKCm+HC+YQL76ywwXs1jBxt441+rA5oL+6IAv9PipJydWq/j97llcYkQYnla7BH/NH
+ HrbCYK3mUJm1gqfEJLNbYSc3R6qlJsbncecY1Hbl9i2ajkKx7BX5caZ8VKPIjqdOa8NOdKrkN1i25
+ a/HftDhW65MKvKu2eQZTYVBzLS9yXQgA==;
+Received: from [81.174.171.191] (helo=donbot.metanate.com)
+ by email.metanate.com with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+ (Exim 4.93) (envelope-from <john@metanate.com>)
+ id 1mgQOp-00034N-IR; Fri, 29 Oct 2021 12:50:19 +0100
+From: John Keeping <john@metanate.com>
+To: dri-devel@lists.freedesktop.org
+Cc: John Keeping <john@metanate.com>, Sandy Huang <hjc@rock-chips.com>,
+ =?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- srv_heupstream@mediatek.com, linux-mediatek@lists.infradead.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- Rob Herring <robh@kernel.org>,
- Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
- Collabora Kernel ML <kernel@collabora.com>
-References: <20211029035527.454-1-yunfei.dong@mediatek.com>
- <20211029035527.454-8-yunfei.dong@mediatek.com>
-From: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Message-ID: <cbda45ed-b4a2-2f33-6e98-8120aa56b2f2@collabora.com>
-Date: Fri, 29 Oct 2021 13:49:46 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ linux-rockchip@lists.infradead.org
+Subject: [PATCH] drm/rockchip: use generic fbdev setup
+Date: Fri, 29 Oct 2021 12:50:13 +0100
+Message-Id: <20211029115014.264084-1-john@metanate.com>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-In-Reply-To: <20211029035527.454-8-yunfei.dong@mediatek.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Authenticated: YES
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,541 +54,298 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+The Rockchip fbdev code does not add anything compared to
+drm_fbdev_generic_setup(); the one custom function for .fb_mmap does the
+same thing as gem_prime_mmap which is called by the helper.
 
+Signed-off-by: John Keeping <john@metanate.com>
+---
+ drivers/gpu/drm/rockchip/Makefile             |   1 -
+ drivers/gpu/drm/rockchip/rockchip_drm_drv.c   |  10 +-
+ drivers/gpu/drm/rockchip/rockchip_drm_drv.h   |   2 -
+ drivers/gpu/drm/rockchip/rockchip_drm_fbdev.c | 164 ------------------
+ drivers/gpu/drm/rockchip/rockchip_drm_fbdev.h |  24 ---
+ 5 files changed, 2 insertions(+), 199 deletions(-)
+ delete mode 100644 drivers/gpu/drm/rockchip/rockchip_drm_fbdev.c
+ delete mode 100644 drivers/gpu/drm/rockchip/rockchip_drm_fbdev.h
 
-On 29.10.21 05:55, Yunfei Dong wrote:
-> Decoder will use component framework to manage hardware, it is big
-> difference with encoder.
-> 
-> Reviewed-by: Rob Herring<robh@kernel.org>
-> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
-> ---
->   .../media/mediatek,vcodec-decoder.yaml        | 176 +++++++++++++++++
->   .../media/mediatek,vcodec-encoder.yaml        | 187 ++++++++++++++++++
->   .../bindings/media/mediatek-vcodec.txt        | 131 ------------
->   3 files changed, 363 insertions(+), 131 deletions(-)
->   create mode 100644 Documentation/devicetree/bindings/media/mediatek,vcodec-decoder.yaml
->   create mode 100644 Documentation/devicetree/bindings/media/mediatek,vcodec-encoder.yaml
->   delete mode 100644 Documentation/devicetree/bindings/media/mediatek-vcodec.txt
-> 
-> diff --git a/Documentation/devicetree/bindings/media/mediatek,vcodec-decoder.yaml b/Documentation/devicetree/bindings/media/mediatek,vcodec-decoder.yaml
-> new file mode 100644
-> index 000000000000..5de37065fbce
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/mediatek,vcodec-decoder.yaml
-> @@ -0,0 +1,176 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/mediatek,vcodec-decoder.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Mediatek Video Decode Accelerator With Component
-> +
-> +maintainers:
-> +  - Yunfei Dong <yunfei.dong@mediatek.com>
-> +
-> +description: |+
-> +  Mediatek Video Decode is the video decode hardware present in Mediatek
-> +  SoCs which supports high resolution decoding functionalities.
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - mediatek,mt8173-vcodec-dec
-> +      - mediatek,mt8183-vcodec-dec
-> +
-> +  reg:
-> +    maxItems: 12
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    maxItems: 8
-> +
-> +  clock-names:
-> +    items:
-> +      - const: vcodecpll
-> +      - const: univpll_d2
-> +      - const: clk_cci400_sel
-> +      - const: vdec_sel
-> +      - const: vdecpll
-> +      - const: vencpll
-> +      - const: venc_lt_sel
-> +      - const: vdec_bus_clk_src
-> +
-> +  assigned-clocks: true
-> +
-> +  assigned-clock-parents: true
-> +
-> +  assigned-clock-rates: true
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +  iommus:
-> +    minItems: 1
-> +    maxItems: 32
-> +    description: |
-> +      List of the hardware port in respective IOMMU block for current Socs.
-> +      Refer to bindings/iommu/mediatek,iommu.yaml.
-> +
-> +  dma-ranges:
-> +    maxItems: 1
-> +    description: |
-> +      Describes the physical address space of IOMMU maps to memory.
-> +
-> +  mediatek,larb:
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +    maxItems: 1
-> +    description: |
-> +      Must contain the local arbiters in the current Socs.
-> +
-> +  mediatek,vpu:
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +    maxItems: 1
-> +    description:
-> +      Describes point to vpu.
-> +
-> +  mediatek,scp:
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +    maxItems: 1
-> +    description:
-> +      Describes point to scp.
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - clocks
-> +  - clock-names
-> +  - iommus
-> +  - assigned-clocks
-> +  - assigned-clock-parents
-> +
-> +allOf:
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            enum:
-> +              - mediatek,mt8183-vcodec-dec
-> +
-> +    then:
-> +      required:
-> +        - mediatek,scp
-> +
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            enum:
-> +              - mediatek,mt8173-vcodec-dec
-> +
-> +    then:
-> +      required:
-> +        - mediatek,vpu
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/clock/mt8173-clk.h>
-> +    #include <dt-bindings/memory/mt8173-larb-port.h>
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +    #include <dt-bindings/power/mt8173-power.h>
-> +
-> +    vcodec_dec: vcodec@16000000 {
-> +      compatible = "mediatek,mt8173-vcodec-dec";
-> +      reg = <0x16000000 0x100>,   /*VDEC_SYS*/
-> +          <0x16020000 0x1000>,  /*VDEC_MISC*/
-> +          <0x16021000 0x800>,   /*VDEC_LD*/
-> +          <0x16021800 0x800>,   /*VDEC_TOP*/
-> +          <0x16022000 0x1000>,  /*VDEC_CM*/
-> +          <0x16023000 0x1000>,  /*VDEC_AD*/
-> +          <0x16024000 0x1000>,  /*VDEC_AV*/
-> +          <0x16025000 0x1000>,  /*VDEC_PP*/
-> +          <0x16026800 0x800>,   /*VP8_VD*/
-> +          <0x16027000 0x800>,   /*VP6_VD*/
-> +          <0x16027800 0x800>,   /*VP8_VL*/
-> +          <0x16028400 0x400>;   /*VP9_VD*/
-> +      interrupts = <GIC_SPI 204 IRQ_TYPE_LEVEL_LOW>;
-> +      mediatek,larb = <&larb1>;
-> +      iommus = <&iommu M4U_PORT_HW_VDEC_MC_EXT>,
-> +             <&iommu M4U_PORT_HW_VDEC_PP_EXT>,
-> +             <&iommu M4U_PORT_HW_VDEC_AVC_MV_EXT>,
-> +             <&iommu M4U_PORT_HW_VDEC_PRED_RD_EXT>,
-> +             <&iommu M4U_PORT_HW_VDEC_PRED_WR_EXT>,
-> +             <&iommu M4U_PORT_HW_VDEC_UFO_EXT>,
-> +             <&iommu M4U_PORT_HW_VDEC_VLD_EXT>,
-> +             <&iommu M4U_PORT_HW_VDEC_VLD2_EXT>;
-> +      mediatek,vpu = <&vpu>;
-> +      power-domains = <&scpsys MT8173_POWER_DOMAIN_VDEC>;
-> +      clocks = <&apmixedsys CLK_APMIXED_VCODECPLL>,
-> +             <&topckgen CLK_TOP_UNIVPLL_D2>,
-> +             <&topckgen CLK_TOP_CCI400_SEL>,
-> +             <&topckgen CLK_TOP_VDEC_SEL>,
-> +             <&topckgen CLK_TOP_VCODECPLL>,
-> +             <&apmixedsys CLK_APMIXED_VENCPLL>,
-> +             <&topckgen CLK_TOP_VENC_LT_SEL>,
-> +             <&topckgen CLK_TOP_VCODECPLL_370P5>;
-> +      clock-names = "vcodecpll",
-> +                  "univpll_d2",
-> +                  "clk_cci400_sel",
-> +                  "vdec_sel",
-> +                  "vdecpll",
-> +                  "vencpll",
-> +                  "venc_lt_sel",
-> +                  "vdec_bus_clk_src";
-> +      assigned-clocks = <&topckgen CLK_TOP_VENC_LT_SEL>,
-> +                      <&topckgen CLK_TOP_CCI400_SEL>,
-> +                      <&topckgen CLK_TOP_VDEC_SEL>,
-> +                      <&apmixedsys CLK_APMIXED_VCODECPLL>,
-> +                      <&apmixedsys CLK_APMIXED_VENCPLL>;
-> +      assigned-clock-parents = <&topckgen CLK_TOP_VCODECPLL_370P5>,
-> +                             <&topckgen CLK_TOP_UNIVPLL_D2>,
-> +                             <&topckgen CLK_TOP_VCODECPLL>;
-> +      assigned-clock-rates = <0>, <0>, <0>, <1482000000>, <800000000>;
-> +    };
-> diff --git a/Documentation/devicetree/bindings/media/mediatek,vcodec-encoder.yaml b/Documentation/devicetree/bindings/media/mediatek,vcodec-encoder.yaml
-> new file mode 100644
-> index 000000000000..94d67d40548c
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/mediatek,vcodec-encoder.yaml
-> @@ -0,0 +1,187 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Mediatek Video Encode Accelerator With Component
+diff --git a/drivers/gpu/drm/rockchip/Makefile b/drivers/gpu/drm/rockchip/Makefile
+index 17a9e7eb2130..1a56f696558c 100644
+--- a/drivers/gpu/drm/rockchip/Makefile
++++ b/drivers/gpu/drm/rockchip/Makefile
+@@ -5,7 +5,6 @@
+ 
+ rockchipdrm-y := rockchip_drm_drv.o rockchip_drm_fb.o \
+ 		rockchip_drm_gem.o rockchip_drm_vop.o rockchip_vop_reg.o
+-rockchipdrm-$(CONFIG_DRM_FBDEV_EMULATION) += rockchip_drm_fbdev.o
+ 
+ rockchipdrm-$(CONFIG_ROCKCHIP_ANALOGIX_DP) += analogix_dp-rockchip.o
+ rockchipdrm-$(CONFIG_ROCKCHIP_CDN_DP) += cdn-dp-core.o cdn-dp-reg.o
+diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_drv.c b/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
+index 69c699459dce..20d81ae69828 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
++++ b/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
+@@ -26,7 +26,6 @@
+ 
+ #include "rockchip_drm_drv.h"
+ #include "rockchip_drm_fb.h"
+-#include "rockchip_drm_fbdev.h"
+ #include "rockchip_drm_gem.h"
+ 
+ #define DRIVER_NAME	"rockchip"
+@@ -159,10 +158,6 @@ static int rockchip_drm_bind(struct device *dev)
+ 
+ 	drm_mode_config_reset(drm_dev);
+ 
+-	ret = rockchip_drm_fbdev_init(drm_dev);
+-	if (ret)
+-		goto err_unbind_all;
+-
+ 	/* init kms poll for handling hpd */
+ 	drm_kms_helper_poll_init(drm_dev);
+ 
+@@ -170,10 +165,11 @@ static int rockchip_drm_bind(struct device *dev)
+ 	if (ret)
+ 		goto err_kms_helper_poll_fini;
+ 
++	drm_fbdev_generic_setup(drm_dev, 32);
++
+ 	return 0;
+ err_kms_helper_poll_fini:
+ 	drm_kms_helper_poll_fini(drm_dev);
+-	rockchip_drm_fbdev_fini(drm_dev);
+ err_unbind_all:
+ 	component_unbind_all(dev, drm_dev);
+ err_iommu_cleanup:
+@@ -189,7 +185,6 @@ static void rockchip_drm_unbind(struct device *dev)
+ 
+ 	drm_dev_unregister(drm_dev);
+ 
+-	rockchip_drm_fbdev_fini(drm_dev);
+ 	drm_kms_helper_poll_fini(drm_dev);
+ 
+ 	drm_atomic_helper_shutdown(drm_dev);
+@@ -203,7 +198,6 @@ DEFINE_DRM_GEM_FOPS(rockchip_drm_driver_fops);
+ 
+ static const struct drm_driver rockchip_drm_driver = {
+ 	.driver_features	= DRIVER_MODESET | DRIVER_GEM | DRIVER_ATOMIC,
+-	.lastclose		= drm_fb_helper_lastclose,
+ 	.dumb_create		= rockchip_gem_dumb_create,
+ 	.prime_handle_to_fd	= drm_gem_prime_handle_to_fd,
+ 	.prime_fd_to_handle	= drm_gem_prime_fd_to_handle,
+diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_drv.h b/drivers/gpu/drm/rockchip/rockchip_drm_drv.h
+index aa0909e8edf9..143a48330f84 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_drm_drv.h
++++ b/drivers/gpu/drm/rockchip/rockchip_drm_drv.h
+@@ -43,8 +43,6 @@ struct rockchip_crtc_state {
+  * @mm_lock: protect drm_mm on multi-threads.
+  */
+ struct rockchip_drm_private {
+-	struct drm_fb_helper fbdev_helper;
+-	struct drm_gem_object *fbdev_bo;
+ 	struct iommu_domain *domain;
+ 	struct mutex mm_lock;
+ 	struct drm_mm mm;
+diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_fbdev.c b/drivers/gpu/drm/rockchip/rockchip_drm_fbdev.c
+deleted file mode 100644
+index d8418dd39d0e..000000000000
+--- a/drivers/gpu/drm/rockchip/rockchip_drm_fbdev.c
++++ /dev/null
+@@ -1,164 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0-only
+-/*
+- * Copyright (C) Fuzhou Rockchip Electronics Co.Ltd
+- * Author:Mark Yao <mark.yao@rock-chips.com>
+- */
+-
+-#include <drm/drm.h>
+-#include <drm/drm_fb_helper.h>
+-#include <drm/drm_fourcc.h>
+-#include <drm/drm_prime.h>
+-#include <drm/drm_probe_helper.h>
+-
+-#include "rockchip_drm_drv.h"
+-#include "rockchip_drm_gem.h"
+-#include "rockchip_drm_fb.h"
+-#include "rockchip_drm_fbdev.h"
+-
+-#define PREFERRED_BPP		32
+-#define to_drm_private(x) \
+-		container_of(x, struct rockchip_drm_private, fbdev_helper)
+-
+-static int rockchip_fbdev_mmap(struct fb_info *info,
+-			       struct vm_area_struct *vma)
+-{
+-	struct drm_fb_helper *helper = info->par;
+-	struct rockchip_drm_private *private = to_drm_private(helper);
+-
+-	return drm_gem_prime_mmap(private->fbdev_bo, vma);
+-}
+-
+-static const struct fb_ops rockchip_drm_fbdev_ops = {
+-	.owner		= THIS_MODULE,
+-	DRM_FB_HELPER_DEFAULT_OPS,
+-	.fb_mmap	= rockchip_fbdev_mmap,
+-	.fb_fillrect	= drm_fb_helper_cfb_fillrect,
+-	.fb_copyarea	= drm_fb_helper_cfb_copyarea,
+-	.fb_imageblit	= drm_fb_helper_cfb_imageblit,
+-};
+-
+-static int rockchip_drm_fbdev_create(struct drm_fb_helper *helper,
+-				     struct drm_fb_helper_surface_size *sizes)
+-{
+-	struct rockchip_drm_private *private = to_drm_private(helper);
+-	struct drm_mode_fb_cmd2 mode_cmd = { 0 };
+-	struct drm_device *dev = helper->dev;
+-	struct rockchip_gem_object *rk_obj;
+-	struct drm_framebuffer *fb;
+-	unsigned int bytes_per_pixel;
+-	unsigned long offset;
+-	struct fb_info *fbi;
+-	size_t size;
+-	int ret;
+-
+-	bytes_per_pixel = DIV_ROUND_UP(sizes->surface_bpp, 8);
+-
+-	mode_cmd.width = sizes->surface_width;
+-	mode_cmd.height = sizes->surface_height;
+-	mode_cmd.pitches[0] = sizes->surface_width * bytes_per_pixel;
+-	mode_cmd.pixel_format = drm_mode_legacy_fb_format(sizes->surface_bpp,
+-		sizes->surface_depth);
+-
+-	size = mode_cmd.pitches[0] * mode_cmd.height;
+-
+-	rk_obj = rockchip_gem_create_object(dev, size, true);
+-	if (IS_ERR(rk_obj))
+-		return -ENOMEM;
+-
+-	private->fbdev_bo = &rk_obj->base;
+-
+-	fbi = drm_fb_helper_alloc_fbi(helper);
+-	if (IS_ERR(fbi)) {
+-		DRM_DEV_ERROR(dev->dev, "Failed to create framebuffer info.\n");
+-		ret = PTR_ERR(fbi);
+-		goto out;
+-	}
+-
+-	helper->fb = rockchip_drm_framebuffer_init(dev, &mode_cmd,
+-						   private->fbdev_bo);
+-	if (IS_ERR(helper->fb)) {
+-		DRM_DEV_ERROR(dev->dev,
+-			      "Failed to allocate DRM framebuffer.\n");
+-		ret = PTR_ERR(helper->fb);
+-		goto out;
+-	}
+-
+-	fbi->fbops = &rockchip_drm_fbdev_ops;
+-
+-	fb = helper->fb;
+-	drm_fb_helper_fill_info(fbi, helper, sizes);
+-
+-	offset = fbi->var.xoffset * bytes_per_pixel;
+-	offset += fbi->var.yoffset * fb->pitches[0];
+-
+-	dev->mode_config.fb_base = 0;
+-	fbi->screen_base = rk_obj->kvaddr + offset;
+-	fbi->screen_size = rk_obj->base.size;
+-	fbi->fix.smem_len = rk_obj->base.size;
+-
+-	DRM_DEBUG_KMS("FB [%dx%d]-%d kvaddr=%p offset=%ld size=%zu\n",
+-		      fb->width, fb->height, fb->format->depth,
+-		      rk_obj->kvaddr,
+-		      offset, size);
+-
+-	return 0;
+-
+-out:
+-	rockchip_gem_free_object(&rk_obj->base);
+-	return ret;
+-}
+-
+-static const struct drm_fb_helper_funcs rockchip_drm_fb_helper_funcs = {
+-	.fb_probe = rockchip_drm_fbdev_create,
+-};
+-
+-int rockchip_drm_fbdev_init(struct drm_device *dev)
+-{
+-	struct rockchip_drm_private *private = dev->dev_private;
+-	struct drm_fb_helper *helper;
+-	int ret;
+-
+-	if (!dev->mode_config.num_crtc || !dev->mode_config.num_connector)
+-		return -EINVAL;
+-
+-	helper = &private->fbdev_helper;
+-
+-	drm_fb_helper_prepare(dev, helper, &rockchip_drm_fb_helper_funcs);
+-
+-	ret = drm_fb_helper_init(dev, helper);
+-	if (ret < 0) {
+-		DRM_DEV_ERROR(dev->dev,
+-			      "Failed to initialize drm fb helper - %d.\n",
+-			      ret);
+-		return ret;
+-	}
+-
+-	ret = drm_fb_helper_initial_config(helper, PREFERRED_BPP);
+-	if (ret < 0) {
+-		DRM_DEV_ERROR(dev->dev,
+-			      "Failed to set initial hw config - %d.\n",
+-			      ret);
+-		goto err_drm_fb_helper_fini;
+-	}
+-
+-	return 0;
+-
+-err_drm_fb_helper_fini:
+-	drm_fb_helper_fini(helper);
+-	return ret;
+-}
+-
+-void rockchip_drm_fbdev_fini(struct drm_device *dev)
+-{
+-	struct rockchip_drm_private *private = dev->dev_private;
+-	struct drm_fb_helper *helper;
+-
+-	helper = &private->fbdev_helper;
+-
+-	drm_fb_helper_unregister_fbi(helper);
+-
+-	if (helper->fb)
+-		drm_framebuffer_put(helper->fb);
+-
+-	drm_fb_helper_fini(helper);
+-}
+diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_fbdev.h b/drivers/gpu/drm/rockchip/rockchip_drm_fbdev.h
+deleted file mode 100644
+index 5fb7ac2371a8..000000000000
+--- a/drivers/gpu/drm/rockchip/rockchip_drm_fbdev.h
++++ /dev/null
+@@ -1,24 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0-only */
+-/*
+- * Copyright (C) Fuzhou Rockchip Electronics Co.Ltd
+- * Author:Mark Yao <mark.yao@rock-chips.com>
+- */
+-
+-#ifndef _ROCKCHIP_DRM_FBDEV_H
+-#define _ROCKCHIP_DRM_FBDEV_H
+-
+-#ifdef CONFIG_DRM_FBDEV_EMULATION
+-int rockchip_drm_fbdev_init(struct drm_device *dev);
+-void rockchip_drm_fbdev_fini(struct drm_device *dev);
+-#else
+-static inline int rockchip_drm_fbdev_init(struct drm_device *dev)
+-{
+-	return 0;
+-}
+-
+-static inline void rockchip_drm_fbdev_fini(struct drm_device *dev)
+-{
+-}
+-#endif
+-
+-#endif /* _ROCKCHIP_DRM_FBDEV_H */
+-- 
+2.33.1
 
-
-why is it "With Component" ?
-I guess it should be removed
-
-Thanks,
-Dafna
-
-> +
-> +maintainers:
-> +  - Yunfei Dong <yunfei.dong@mediatek.com>
-> +
-> +description: |+
-> +  Mediatek Video Encode is the video encode hardware present in Mediatek
-> +  SoCs which supports high resolution encoding functionalities.
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - mediatek,mt8173-vcodec-enc-vp8
-> +      - mediatek,mt8173-vcodec-enc
-> +      - mediatek,mt8183-vcodec-enc
-> +      - mediatek,mt8192-vcodec-enc
-> +      - mediatek,mt8195-vcodec-enc
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    minItems: 1
-> +    maxItems: 5
-> +
-> +  clock-names:
-> +    minItems: 1
-> +    maxItems: 5
-> +
-> +  assigned-clocks: true
-> +
-> +  assigned-clock-parents: true
-> +
-> +  iommus:
-> +    minItems: 1
-> +    maxItems: 32
-> +    description: |
-> +      List of the hardware port in respective IOMMU block for current Socs.
-> +      Refer to bindings/iommu/mediatek,iommu.yaml.
-> +
-> +  dma-ranges:
-> +    maxItems: 1
-> +    description: |
-> +      Describes the physical address space of IOMMU maps to memory.
-> +
-> +  mediatek,larb:
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +    maxItems: 1
-> +    description: |
-> +      Must contain the local arbiters in the current Socs.
-> +
-> +  mediatek,vpu:
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +    maxItems: 1
-> +    description:
-> +      Describes point to vpu.
-> +
-> +  mediatek,scp:
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +    maxItems: 1
-> +    description:
-> +      Describes point to scp.
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - clocks
-> +  - clock-names
-> +  - iommus
-> +  - assigned-clocks
-> +  - assigned-clock-parents
-> +
-> +allOf:
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            enum:
-> +              - mediatek,mt8183-vcodec-enc
-> +              - mediatek,mt8192-vcodec-enc
-> +
-> +    then:
-> +      required:
-> +        - mediatek,scp
-> +
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            enum:
-> +              - mediatek,mt8173-vcodec-enc-vp8
-> +              - mediatek,mt8173-vcodec-enc
-> +
-> +    then:
-> +      required:
-> +        - mediatek,vpu
-> +
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          enum:
-> +            - mediatek,mt8173-vcodec-enc
-> +            - mediatek,mt8192-vcodec-enc
-> +            - mediatek,mt8173-vcodec-enc
-> +
-> +    then:
-> +      properties:
-> +        clock:
-> +          items:
-> +            minItems: 1
-> +            maxItems: 1
-> +        clock-names:
-> +          items:
-> +            - const: venc_sel
-> +    else:  # for vp8 hw decoder
-> +      properties:
-> +        clock:
-> +          items:
-> +            minItems: 1
-> +            maxItems: 1
-> +        clock-names:
-> +          items:
-> +            - const: venc_lt_sel
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/clock/mt8173-clk.h>
-> +    #include <dt-bindings/memory/mt8173-larb-port.h>
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +
-> +    vcodec_enc_avc: vcodec@18002000 {
-> +      compatible = "mediatek,mt8173-vcodec-enc";
-> +      reg = <0x18002000 0x1000>;
-> +      interrupts = <GIC_SPI 198 IRQ_TYPE_LEVEL_LOW>;
-> +      iommus = <&iommu M4U_PORT_VENC_RCPU>,
-> +             <&iommu M4U_PORT_VENC_REC>,
-> +             <&iommu M4U_PORT_VENC_BSDMA>,
-> +             <&iommu M4U_PORT_VENC_SV_COMV>,
-> +             <&iommu M4U_PORT_VENC_RD_COMV>,
-> +             <&iommu M4U_PORT_VENC_CUR_LUMA>,
-> +             <&iommu M4U_PORT_VENC_CUR_CHROMA>,
-> +             <&iommu M4U_PORT_VENC_REF_LUMA>,
-> +             <&iommu M4U_PORT_VENC_REF_CHROMA>,
-> +             <&iommu M4U_PORT_VENC_NBM_RDMA>,
-> +             <&iommu M4U_PORT_VENC_NBM_WDMA>;
-> +      mediatek,larb = <&larb3>;
-> +      mediatek,vpu = <&vpu>;
-> +      clocks = <&topckgen CLK_TOP_VENC_SEL>;
-> +      clock-names = "venc_sel";
-> +      assigned-clocks = <&topckgen CLK_TOP_VENC_SEL>;
-> +      assigned-clock-parents = <&topckgen CLK_TOP_VCODECPLL>;
-> +    };
-> +
-> +    vcodec_enc_vp8: vcodec@19002000 {
-> +      compatible = "mediatek,mt8173-vcodec-enc-vp8";
-> +      reg =  <0x19002000 0x1000>;	/* VENC_LT_SYS */
-> +      interrupts = <GIC_SPI 202 IRQ_TYPE_LEVEL_LOW>;
-> +      iommus = <&iommu M4U_PORT_VENC_RCPU_SET2>,
-> +             <&iommu M4U_PORT_VENC_REC_FRM_SET2>,
-> +             <&iommu M4U_PORT_VENC_BSDMA_SET2>,
-> +             <&iommu M4U_PORT_VENC_SV_COMA_SET2>,
-> +             <&iommu M4U_PORT_VENC_RD_COMA_SET2>,
-> +             <&iommu M4U_PORT_VENC_CUR_LUMA_SET2>,
-> +             <&iommu M4U_PORT_VENC_CUR_CHROMA_SET2>,
-> +             <&iommu M4U_PORT_VENC_REF_LUMA_SET2>,
-> +             <&iommu M4U_PORT_VENC_REC_CHROMA_SET2>;
-> +      mediatek,larb = <&larb5>;
-> +      mediatek,vpu = <&vpu>;
-> +      clocks = <&topckgen CLK_TOP_VENC_LT_SEL>;
-> +      clock-names = "venc_lt_sel";
-> +      assigned-clocks = <&topckgen CLK_TOP_VENC_LT_SEL>;
-> +      assigned-clock-parents = <&topckgen CLK_TOP_VCODECPLL_370P5>;
-> +    };
-> diff --git a/Documentation/devicetree/bindings/media/mediatek-vcodec.txt b/Documentation/devicetree/bindings/media/mediatek-vcodec.txt
-> deleted file mode 100644
-> index 665a9508708e..000000000000
-> --- a/Documentation/devicetree/bindings/media/mediatek-vcodec.txt
-> +++ /dev/null
-> @@ -1,131 +0,0 @@
-> -Mediatek Video Codec
-> -
-> -Mediatek Video Codec is the video codec hw present in Mediatek SoCs which
-> -supports high resolution encoding and decoding functionalities.
-> -
-> -Required properties:
-> -- compatible : must be one of the following string:
-> -  "mediatek,mt8173-vcodec-enc-vp8" for mt8173 vp8 encoder.
-> -  "mediatek,mt8173-vcodec-enc" for mt8173 avc encoder.
-> -  "mediatek,mt8183-vcodec-enc" for MT8183 encoder.
-> -  "mediatek,mt8173-vcodec-dec" for MT8173 decoder.
-> -  "mediatek,mt8192-vcodec-enc" for MT8192 encoder.
-> -  "mediatek,mt8183-vcodec-dec" for MT8183 decoder.
-> -  "mediatek,mt8195-vcodec-enc" for MT8195 encoder.
-> -- reg : Physical base address of the video codec registers and length of
-> -  memory mapped region.
-> -- interrupts : interrupt number to the cpu.
-> -- mediatek,larb : must contain the local arbiters in the current Socs.
-> -- clocks : list of clock specifiers, corresponding to entries in
-> -  the clock-names property.
-> -- clock-names: avc encoder must contain "venc_sel", vp8 encoder must
-> -  contain "venc_lt_sel", decoder must contain "vcodecpll", "univpll_d2",
-> -  "clk_cci400_sel", "vdec_sel", "vdecpll", "vencpll", "venc_lt_sel",
-> -  "vdec_bus_clk_src".
-> -- iommus : should point to the respective IOMMU block with master port as
-> -  argument, see Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml
-> -  for details.
-> -- dma-ranges : describes the dma address range space that the codec hw access.
-> -One of the two following nodes:
-> -- mediatek,vpu : the node of the video processor unit, if using VPU.
-> -- mediatek,scp : the node of the SCP unit, if using SCP.
-> -
-> -
-> -Example:
-> -
-> -vcodec_dec: vcodec@16000000 {
-> -    compatible = "mediatek,mt8173-vcodec-dec";
-> -    reg = <0 0x16000000 0 0x100>,   /*VDEC_SYS*/
-> -          <0 0x16020000 0 0x1000>,  /*VDEC_MISC*/
-> -          <0 0x16021000 0 0x800>,   /*VDEC_LD*/
-> -          <0 0x16021800 0 0x800>,   /*VDEC_TOP*/
-> -          <0 0x16022000 0 0x1000>,  /*VDEC_CM*/
-> -          <0 0x16023000 0 0x1000>,  /*VDEC_AD*/
-> -          <0 0x16024000 0 0x1000>,  /*VDEC_AV*/
-> -          <0 0x16025000 0 0x1000>,  /*VDEC_PP*/
-> -          <0 0x16026800 0 0x800>,   /*VP8_VD*/
-> -          <0 0x16027000 0 0x800>,   /*VP6_VD*/
-> -          <0 0x16027800 0 0x800>,   /*VP8_VL*/
-> -          <0 0x16028400 0 0x400>;   /*VP9_VD*/
-> -    interrupts = <GIC_SPI 204 IRQ_TYPE_LEVEL_LOW>;
-> -    mediatek,larb = <&larb1>;
-> -    iommus = <&iommu M4U_PORT_HW_VDEC_MC_EXT>,
-> -             <&iommu M4U_PORT_HW_VDEC_PP_EXT>,
-> -             <&iommu M4U_PORT_HW_VDEC_AVC_MV_EXT>,
-> -             <&iommu M4U_PORT_HW_VDEC_PRED_RD_EXT>,
-> -             <&iommu M4U_PORT_HW_VDEC_PRED_WR_EXT>,
-> -             <&iommu M4U_PORT_HW_VDEC_UFO_EXT>,
-> -             <&iommu M4U_PORT_HW_VDEC_VLD_EXT>,
-> -             <&iommu M4U_PORT_HW_VDEC_VLD2_EXT>;
-> -    mediatek,vpu = <&vpu>;
-> -    power-domains = <&scpsys MT8173_POWER_DOMAIN_VDEC>;
-> -    clocks = <&apmixedsys CLK_APMIXED_VCODECPLL>,
-> -             <&topckgen CLK_TOP_UNIVPLL_D2>,
-> -             <&topckgen CLK_TOP_CCI400_SEL>,
-> -             <&topckgen CLK_TOP_VDEC_SEL>,
-> -             <&topckgen CLK_TOP_VCODECPLL>,
-> -             <&apmixedsys CLK_APMIXED_VENCPLL>,
-> -             <&topckgen CLK_TOP_VENC_LT_SEL>,
-> -             <&topckgen CLK_TOP_VCODECPLL_370P5>;
-> -    clock-names = "vcodecpll",
-> -                  "univpll_d2",
-> -                  "clk_cci400_sel",
-> -                  "vdec_sel",
-> -                  "vdecpll",
-> -                  "vencpll",
-> -                  "venc_lt_sel",
-> -                  "vdec_bus_clk_src";
-> -    assigned-clocks = <&topckgen CLK_TOP_VENC_LT_SEL>,
-> -                      <&topckgen CLK_TOP_CCI400_SEL>,
-> -                      <&topckgen CLK_TOP_VDEC_SEL>,
-> -                      <&apmixedsys CLK_APMIXED_VCODECPLL>,
-> -                      <&apmixedsys CLK_APMIXED_VENCPLL>;
-> -    assigned-clock-parents = <&topckgen CLK_TOP_VCODECPLL_370P5>,
-> -                             <&topckgen CLK_TOP_UNIVPLL_D2>,
-> -                             <&topckgen CLK_TOP_VCODECPLL>;
-> -    assigned-clock-rates = <0>, <0>, <0>, <1482000000>, <800000000>;
-> -  };
-> -
-> -vcodec_enc_avc: vcodec@18002000 {
-> -    compatible = "mediatek,mt8173-vcodec-enc";
-> -    reg = <0 0x18002000 0 0x1000>;
-> -    interrupts = <GIC_SPI 198 IRQ_TYPE_LEVEL_LOW>;
-> -    iommus = <&iommu M4U_PORT_VENC_RCPU>,
-> -             <&iommu M4U_PORT_VENC_REC>,
-> -             <&iommu M4U_PORT_VENC_BSDMA>,
-> -             <&iommu M4U_PORT_VENC_SV_COMV>,
-> -             <&iommu M4U_PORT_VENC_RD_COMV>,
-> -             <&iommu M4U_PORT_VENC_CUR_LUMA>,
-> -             <&iommu M4U_PORT_VENC_CUR_CHROMA>,
-> -             <&iommu M4U_PORT_VENC_REF_LUMA>,
-> -             <&iommu M4U_PORT_VENC_REF_CHROMA>,
-> -             <&iommu M4U_PORT_VENC_NBM_RDMA>,
-> -             <&iommu M4U_PORT_VENC_NBM_WDMA>;
-> -    mediatek,larb = <&larb3>;
-> -    mediatek,vpu = <&vpu>;
-> -    clocks = <&topckgen CLK_TOP_VENC_SEL>;
-> -    clock-names = "venc_sel";
-> -    assigned-clocks = <&topckgen CLK_TOP_VENC_SEL>;
-> -    assigned-clock-parents = <&topckgen CLK_TOP_VCODECPLL>;
-> -  };
-> -
-> -vcodec_enc_vp8: vcodec@19002000 {
-> -    compatible = "mediatek,mt8173-vcodec-enc-vp8";
-> -    reg =  <0 0x19002000 0 0x1000>;	/* VENC_LT_SYS */
-> -    interrupts = <GIC_SPI 202 IRQ_TYPE_LEVEL_LOW>;
-> -    iommus = <&iommu M4U_PORT_VENC_RCPU_SET2>,
-> -             <&iommu M4U_PORT_VENC_REC_FRM_SET2>,
-> -             <&iommu M4U_PORT_VENC_BSDMA_SET2>,
-> -             <&iommu M4U_PORT_VENC_SV_COMA_SET2>,
-> -             <&iommu M4U_PORT_VENC_RD_COMA_SET2>,
-> -             <&iommu M4U_PORT_VENC_CUR_LUMA_SET2>,
-> -             <&iommu M4U_PORT_VENC_CUR_CHROMA_SET2>,
-> -             <&iommu M4U_PORT_VENC_REF_LUMA_SET2>,
-> -             <&iommu M4U_PORT_VENC_REC_CHROMA_SET2>;
-> -    mediatek,larb = <&larb5>;
-> -    mediatek,vpu = <&vpu>;
-> -    clocks = <&topckgen CLK_TOP_VENC_LT_SEL>;
-> -    clock-names = "venc_lt_sel";
-> -    assigned-clocks = <&topckgen CLK_TOP_VENC_LT_SEL>;
-> -    assigned-clock-parents = <&topckgen CLK_TOP_VCODECPLL_370P5>;
-> -  };
-> 
