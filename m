@@ -2,69 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C967C43F8D6
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Oct 2021 10:28:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C69FE43F8E0
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Oct 2021 10:32:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A23906E140;
-	Fri, 29 Oct 2021 08:28:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4FCCF89C6A;
+	Fri, 29 Oct 2021 08:32:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-f180.google.com (mail-vk1-f180.google.com
- [209.85.221.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C8D46E140
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Oct 2021 08:28:36 +0000 (UTC)
-Received: by mail-vk1-f180.google.com with SMTP id b125so3446147vkb.9
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Oct 2021 01:28:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=7D7n4zKwOftMKeYPi/HfP+/e549fNZjw4uN7YVlzcCA=;
- b=j5s+/KTnd+kXkfo9XkTupqymTxnjc5C2WDprS+joPA54TzH/j2uHYj9b8UI9PFbDvW
- ia4QlniGAUoVRTvyaLvQT3jKS4LEKIyza9k0SoUl7NHFCbtzwaJ2r05DSUgzDBOvXNRA
- rYZQaP81nD9TKIusVloTveDP2hsJZFxGDGeubF5Ka4vhXp3r5m4b1yVpNLDK1/NNSKna
- UWGdg13EIIbIHotxSOunZ5q0GrzDcRmZZB9pSYn24G5T19+YgBvV4jH54BoJIaRAuNNq
- msXoef8UC36G5wMmpsyJRN/chsK9ujkFxH6zubAGzbA9z4iF4FzlQQcW0vWbO/YZw04e
- sqVg==
-X-Gm-Message-State: AOAM532nNbLTSBoYnwoeF68ivOVJvmSWupz6GpBAOcCE4pLu+EY8P95+
- cupJ886zuEL2HnDg7b8BT02FTJcwys3Aqw==
-X-Google-Smtp-Source: ABdhPJyQ59y2h+U2+4rtbAQ25VgOPUgYf2S8Aa4A1C7x03NMp/BWybrr/Bxm1sBaThN25f4FYe3VCw==
-X-Received: by 2002:a05:6122:d0e:: with SMTP id
- az14mr3763757vkb.17.1635496114886; 
- Fri, 29 Oct 2021 01:28:34 -0700 (PDT)
-Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com.
- [209.85.221.172])
- by smtp.gmail.com with ESMTPSA id w194sm826837vkh.53.2021.10.29.01.28.34
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 29 Oct 2021 01:28:34 -0700 (PDT)
-Received: by mail-vk1-f172.google.com with SMTP id b125so3446124vkb.9
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Oct 2021 01:28:34 -0700 (PDT)
-X-Received: by 2002:a05:6122:804:: with SMTP id 4mr9584050vkj.7.1635496113976; 
- Fri, 29 Oct 2021 01:28:33 -0700 (PDT)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A49189C14;
+ Fri, 29 Oct 2021 08:32:26 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10151"; a="210671274"
+X-IronPort-AV: E=Sophos;i="5.87,192,1631602800"; d="scan'208";a="210671274"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Oct 2021 01:32:26 -0700
+X-IronPort-AV: E=Sophos;i="5.87,192,1631602800"; d="scan'208";a="448302236"
+Received: from hohiggin-mobl2.ger.corp.intel.com (HELO mwauld-desk1.intel.com)
+ ([10.213.197.138])
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Oct 2021 01:32:24 -0700
+From: Matthew Auld <matthew.auld@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+Subject: [PATCH v2 01/10] drm/i915: Remove unused bits of i915_vma/active api
+Date: Fri, 29 Oct 2021 09:31:09 +0100
+Message-Id: <20211029083118.3386312-1-matthew.auld@intel.com>
+X-Mailer: git-send-email 2.26.3
 MIME-Version: 1.0
-References: <cover.1634822085.git.geert+renesas@glider.be>
- <1f6bf58d76efc2e869b800534b818d1451ef98a2.1634822085.git.geert+renesas@glider.be>
- <YXtIsCnJ+L5zqCVk@robh.at.kernel.org> <YXusEUpTBUdvS7LY@shell.armlinux.org.uk>
-In-Reply-To: <YXusEUpTBUdvS7LY@shell.armlinux.org.uk>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 29 Oct 2021 10:28:22 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdX+Ke54zyi2Z2ROk-2xpbcXU6+FFH71gEz0vEBXCAgVXw@mail.gmail.com>
-Message-ID: <CAMuHMdX+Ke54zyi2Z2ROk-2xpbcXU6+FFH71gEz0vEBXCAgVXw@mail.gmail.com>
-Subject: Re: [PATCH 3/3] [RFC] dt-bindings: display: bridge: nxp,tda998x:
- Convert to json-schema
-To: "Russell King (Oracle)" <linux@armlinux.org.uk>
-Cc: Rob Herring <robh@kernel.org>,
- =?UTF-8?Q?Beno=C3=AEt_Cousson?= <bcousson@baylibre.com>, 
- Tony Lindgren <tony@atomide.com>, Magnus Damm <magnus.damm@gmail.com>, 
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, 
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, 
- DRI Development <dri-devel@lists.freedesktop.org>, 
- "open list:TI ETHERNET SWITCH DRIVER (CPSW)" <linux-omap@vger.kernel.org>, 
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,68 +48,136 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Russell,
+From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 
-Thanks for your comments!
+When reworking the code to move the eviction fence to the object,
+the best code is removed code.
 
-On Fri, Oct 29, 2021 at 10:08 AM Russell King (Oracle)
-<linux@armlinux.org.uk> wrote:
-> On Thu, Oct 28, 2021 at 08:04:48PM -0500, Rob Herring wrote:
-> > On Thu, Oct 21, 2021 at 03:18:53PM +0200, Geert Uytterhoeven wrote:
-> > > +    properties:
-> > > +      port@0:
-> > > +        type: object
-> > > +        description: FIXME
-> >
-> > Looks like the input from the example
-> >
-> > > +
-> > > +      port@1:
-> > > +        type: object
-> > > +        description: FIXME
-> >
-> > Presumably the output to connector or another bridge.
->
-> This is changing the binding. The original had:
->
-> Required node:
->   - port: Input port node with endpoint definition, as described
->         in Documentation/devicetree/bindings/graph.txt
+Remove some functions that are unused, and change the function definition
+if it's only used in 1 place.
 
-Indeed, cfr. "Add ports hierarchy, as an alternative to port." in the
-patch description. Some users use port, other use ports with one or
-two port subnodes.
+Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Reviewed-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+---
+ drivers/gpu/drm/i915/i915_active.c | 28 +++-------------------------
+ drivers/gpu/drm/i915/i915_active.h | 17 +----------------
+ drivers/gpu/drm/i915/i915_vma.c    |  2 +-
+ drivers/gpu/drm/i915/i915_vma.h    |  2 --
+ 4 files changed, 5 insertions(+), 44 deletions(-)
 
-> The above change appears to require that tda998x now has two ports.
+diff --git a/drivers/gpu/drm/i915/i915_active.c b/drivers/gpu/drm/i915/i915_active.c
+index 3103c1e1fd14..ee2b3a375362 100644
+--- a/drivers/gpu/drm/i915/i915_active.c
++++ b/drivers/gpu/drm/i915/i915_active.c
+@@ -426,8 +426,9 @@ replace_barrier(struct i915_active *ref, struct i915_active_fence *active)
+ 	return true;
+ }
+ 
+-int i915_active_ref(struct i915_active *ref, u64 idx, struct dma_fence *fence)
++int i915_active_add_request(struct i915_active *ref, struct i915_request *rq)
+ {
++	struct dma_fence *fence = &rq->fence;
+ 	struct i915_active_fence *active;
+ 	int err;
+ 
+@@ -436,7 +437,7 @@ int i915_active_ref(struct i915_active *ref, u64 idx, struct dma_fence *fence)
+ 	if (err)
+ 		return err;
+ 
+-	active = active_instance(ref, idx);
++	active = active_instance(ref, i915_request_timeline(rq)->fence_context);
+ 	if (!active) {
+ 		err = -ENOMEM;
+ 		goto out;
+@@ -477,29 +478,6 @@ __i915_active_set_fence(struct i915_active *ref,
+ 	return prev;
+ }
+ 
+-static struct i915_active_fence *
+-__active_fence(struct i915_active *ref, u64 idx)
+-{
+-	struct active_node *it;
+-
+-	it = __active_lookup(ref, idx);
+-	if (unlikely(!it)) { /* Contention with parallel tree builders! */
+-		spin_lock_irq(&ref->tree_lock);
+-		it = __active_lookup(ref, idx);
+-		spin_unlock_irq(&ref->tree_lock);
+-	}
+-	GEM_BUG_ON(!it); /* slot must be preallocated */
+-
+-	return &it->base;
+-}
+-
+-struct dma_fence *
+-__i915_active_ref(struct i915_active *ref, u64 idx, struct dma_fence *fence)
+-{
+-	/* Only valid while active, see i915_active_acquire_for_context() */
+-	return __i915_active_set_fence(ref, __active_fence(ref, idx), fence);
+-}
+-
+ struct dma_fence *
+ i915_active_set_exclusive(struct i915_active *ref, struct dma_fence *f)
+ {
+diff --git a/drivers/gpu/drm/i915/i915_active.h b/drivers/gpu/drm/i915/i915_active.h
+index 5fcdb0e2bc9e..7eb44132183a 100644
+--- a/drivers/gpu/drm/i915/i915_active.h
++++ b/drivers/gpu/drm/i915/i915_active.h
+@@ -164,26 +164,11 @@ void __i915_active_init(struct i915_active *ref,
+ 	__i915_active_init(ref, active, retire, flags, &__mkey, &__wkey);	\
+ } while (0)
+ 
+-struct dma_fence *
+-__i915_active_ref(struct i915_active *ref, u64 idx, struct dma_fence *fence);
+-int i915_active_ref(struct i915_active *ref, u64 idx, struct dma_fence *fence);
+-
+-static inline int
+-i915_active_add_request(struct i915_active *ref, struct i915_request *rq)
+-{
+-	return i915_active_ref(ref,
+-			       i915_request_timeline(rq)->fence_context,
+-			       &rq->fence);
+-}
++int i915_active_add_request(struct i915_active *ref, struct i915_request *rq);
+ 
+ struct dma_fence *
+ i915_active_set_exclusive(struct i915_active *ref, struct dma_fence *f);
+ 
+-static inline bool i915_active_has_exclusive(struct i915_active *ref)
+-{
+-	return rcu_access_pointer(ref->excl.fence);
+-}
+-
+ int __i915_active_wait(struct i915_active *ref, int state);
+ static inline int i915_active_wait(struct i915_active *ref)
+ {
+diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
+index 90546fa58fc1..1187f1956c20 100644
+--- a/drivers/gpu/drm/i915/i915_vma.c
++++ b/drivers/gpu/drm/i915/i915_vma.c
+@@ -1220,7 +1220,7 @@ __i915_request_await_bind(struct i915_request *rq, struct i915_vma *vma)
+ 	return __i915_request_await_exclusive(rq, &vma->active);
+ }
+ 
+-int __i915_vma_move_to_active(struct i915_vma *vma, struct i915_request *rq)
++static int __i915_vma_move_to_active(struct i915_vma *vma, struct i915_request *rq)
+ {
+ 	int err;
+ 
+diff --git a/drivers/gpu/drm/i915/i915_vma.h b/drivers/gpu/drm/i915/i915_vma.h
+index 648dbe744c96..b882fd7b5f99 100644
+--- a/drivers/gpu/drm/i915/i915_vma.h
++++ b/drivers/gpu/drm/i915/i915_vma.h
+@@ -55,8 +55,6 @@ static inline bool i915_vma_is_active(const struct i915_vma *vma)
+ /* do not reserve memory to prevent deadlocks */
+ #define __EXEC_OBJECT_NO_RESERVE BIT(31)
+ 
+-int __must_check __i915_vma_move_to_active(struct i915_vma *vma,
+-					   struct i915_request *rq);
+ int __must_check _i915_vma_move_to_active(struct i915_vma *vma,
+ 					  struct i915_request *rq,
+ 					  struct dma_fence *fence,
+-- 
+2.26.3
 
-No, you can still use port:
-
-+oneOf:
-+  - required:
-+      - port
-+  - required:
-+      - ports
-
-When using ports, no further requirements are set, but perhaps port@0
-should be made required in that case?
-
-> This goes against current usage in DT and the example.
-
-The original example didn't even have the original required input
-port node, so it was incomplete.
-
-arch/arm64/boot/dts/renesas/r8a774c0-cat874.dts has two port subnodes.
-Is that wrong?
-
-Thanks!
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
