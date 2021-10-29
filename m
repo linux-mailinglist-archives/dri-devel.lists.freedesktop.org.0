@@ -2,33 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7354440459
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Oct 2021 22:47:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 466FF4405AE
+	for <lists+dri-devel@lfdr.de>; Sat, 30 Oct 2021 01:10:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D26F46EA88;
-	Fri, 29 Oct 2021 20:47:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD0DE6EA8E;
+	Fri, 29 Oct 2021 23:10:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 02BA96EA88
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Oct 2021 20:47:44 +0000 (UTC)
-Date: Fri, 29 Oct 2021 21:47:32 +0100
-From: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [RESEND PATCH v3 6/6] drm/ingenic: Attach bridge chain to encoders
-To: Christophe Branchereau <cbranchereau@gmail.com>
-Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Sam Ravnborg
- <sam@ravnborg.org>, "H . Nikolaus Schaller" <hns@goldelico.com>, Paul Boddie
- <paul@boddie.org.uk>, list@opendingux.net, linux-mips@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Message-Id: <83BR1R.9ZTLAX4CQC6H@crapouillou.net>
-In-Reply-To: <CAFsFa87SJqyZ=VgbNe=obv+jHNdVQQe0NN4R8w_V_HCitP4Nbg@mail.gmail.com>
-References: <20211026181240.213806-1-paul@crapouillou.net>
- <20211026181240.213806-7-paul@crapouillou.net>
- <CAFsFa87SJqyZ=VgbNe=obv+jHNdVQQe0NN4R8w_V_HCitP4Nbg@mail.gmail.com>
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com
+ [IPv6:2607:f8b0:4864:20::632])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2AB066EA8E
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Oct 2021 23:10:07 +0000 (UTC)
+Received: by mail-pl1-x632.google.com with SMTP id y1so7736716plk.10
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Oct 2021 16:10:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=Khuc1pXaYRofI6UFT+rSjF/BH8l2xaVqJxEXbWNhoCI=;
+ b=j8fihy9A+vPnYIT8fw/af9uk1vDrLXfUnYL7Y19yFfcmFAN142nUhBww+jcsbZbBJ0
+ nBf5oCCHnGN3Z1kU04lJYCZB1o8OG82JZqP78x7yL39g2jSfxAPDWS1FXEUclJQDi+wQ
+ 7z5rz89qkltJ6fmszGfzOHbclRL0Zwsikf6es=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=Khuc1pXaYRofI6UFT+rSjF/BH8l2xaVqJxEXbWNhoCI=;
+ b=n48QM2fDR9ph86cct6t0LHbCZLVsSBrYrrAljnY+eXdrCQbJ5MEQfOlm/samvc5Cno
+ XTCcoAjzNZcrDYRWGnJJGF+DGmYAC8IsDuSJ8gMC6qQu1lg5VTM1/Dw6M+GoTNgcvqy4
+ IlfKxMMcWY4jgiP5xstNi/MJ3OaEar5S5u83w7WZiIaYHr7kGc7GvCYOz9gI79lEHM1w
+ URMFkeSz6WL0Qp1KrvT8BWgAhMpHuuJNYP9xPn+ndQtJS4i7AJR6B7I3hH1Z1pyZFtJh
+ 0E/2SiwAmqOIt2RBSBxsaYw1657JiAcadIqyWBt3R5w6dhQIsLN5o1s4Q+Dguio3Atch
+ pYqw==
+X-Gm-Message-State: AOAM533+8nBVs5fKPlMf98UK39fPTdDurfyZya6zxHySkwF7iT9wJGrr
+ HQSRiFpx3XGCS7xQ0LdRBxyzIA==
+X-Google-Smtp-Source: ABdhPJwGxsHcbLvcYaXN2qrTqidhM1hKN02zmGXtgdzYbdQKgNcPjnuobNEDquVUL1R26dWR0qrPOg==
+X-Received: by 2002:a17:903:2451:b0:141:7907:674e with SMTP id
+ l17-20020a170903245100b001417907674emr12386715pls.45.1635549006674; 
+ Fri, 29 Oct 2021 16:10:06 -0700 (PDT)
+Received: from google.com ([2620:15c:202:201:be89:1308:1b03:6bc4])
+ by smtp.gmail.com with ESMTPSA id mi11sm11824219pjb.5.2021.10.29.16.10.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 29 Oct 2021 16:10:06 -0700 (PDT)
+Date: Fri, 29 Oct 2021 16:10:04 -0700
+From: Brian Norris <briannorris@chromium.org>
+To: Sean Paul <sean@poorly.run>
+Cc: Neil Armstrong <narmstrong@baylibre.com>,
+ Robert Foss <robert.foss@linaro.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ stable@vger.kernel.org, Zain Wang <wzz@rock-chips.com>,
+ Tomasz Figa <tfiga@chromium.org>, Heiko Stuebner <heiko@sntech.de>,
+ Sean Paul <seanpaul@chromium.org>
+Subject: Re: [PATCH] drm/bridge: analogix_dp: Make PSR-disable non-blocking
+Message-ID: <YXx/TJ6CAXHfTdrQ@google.com>
+References: <20211020161724.1.I67612ea073c3306c71b46a87be894f79707082df@changeid>
+ <20211021004015.GD2515@art_vandelay>
+ <CA+ASDXNNPHfAVuN_Q7UJR6GLaepHghtovDUKyMKrVM_UboiM2A@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CA+ASDXNNPHfAVuN_Q7UJR6GLaepHghtovDUKyMKrVM_UboiM2A@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,257 +77,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Series applied, thanks!
+On Wed, Oct 20, 2021 at 06:23:35PM -0700, Brian Norris wrote:
+> On Wed, Oct 20, 2021 at 5:40 PM Sean Paul <sean@poorly.run> wrote:
+> > The actual latency gains from doing this synchronously are minimal since the
+> > panel will display new content as soon as it can regardless of whether the
+> > kernel is blocking. There is likely a perceptual difference, but that's only
+> > because kernel is lying to userspace and skipping frames without consent.
+> 
+> Hmm, you might well be right about some of the first points (I'm still
+> learning the DRM framework), but I'm a bit skeptical that the
+> perceptual difference is "only" because we're cheating in some way.
+> I'm not doing science here, and it's certainly not a blinded test, but
+> I'm nearly certain this patch cuts out approx 50-80% of the cursor lag
+> I see without this patch (relative to the current Chrome OS kernel). I
+> don't see how cheating would produce a smoother cursor movement --
+> we'd still be dropping frames, and the movement would appear jumpy
+> somewhere along the way.
 
-Cheers,
--Paul
+Aha, so I think I found {a,the} reason for some disagreement here:
+looking at the eDP PSR spec, I see that while the current implementation
+is looking for psr_state==DP_PSR_SINK_INACTIVE to signal PSR-exit
+completion, the spec shows an intermediate state
+(DP_PSR_SINK_ACTIVE_RESYNC == 4), where among other things, "the Sink
+device must display the incoming active frames from the Source device
+with no visible glitches and/or artifacts."
 
+And it happens that we move to DP_PSR_SINK_ACTIVE_RESYNC somewhat
+quickly (on the order of 20-40ms), while the move to
+DP_PSR_SINK_INACTIVE is a good chunk longer (approx 60ms more). So
+pre-commit-6c836d965bad might have been cheating a little (we'd claim
+we're "done" about 20-40ms too early), but post-commit-6c836d965bad
+we're waiting about 60ms too long.
 
-Le ven., oct. 29 2021 at 18:55:50 +0200, Christophe Branchereau=20
-<cbranchereau@gmail.com> a =E9crit :
-> Reviewed-by: Christophe Branchereau <cbranchereau@gmail.com>
->=20
-> On Tue, Oct 26, 2021 at 8:13 PM Paul Cercueil <paul@crapouillou.net>=20
-> wrote:
->>=20
->>  Attach a top-level bridge to each encoder, which will be used for
->>  negociating the bus format and flags.
->>=20
->>  All the bridges are now attached with=20
->> DRM_BRIDGE_ATTACH_NO_CONNECTOR.
->>=20
->>  Signed-off-by: Paul Cercueil <paul@crapouillou.net>
->>  ---
->>   drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 92=20
->> +++++++++++++++++------
->>   1 file changed, 70 insertions(+), 22 deletions(-)
->>=20
->>  diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c=20
->> b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
->>  index a5e2880e07a1..a05a9fa6e115 100644
->>  --- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
->>  +++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
->>  @@ -21,6 +21,7 @@
->>   #include <drm/drm_atomic.h>
->>   #include <drm/drm_atomic_helper.h>
->>   #include <drm/drm_bridge.h>
->>  +#include <drm/drm_bridge_connector.h>
->>   #include <drm/drm_color_mgmt.h>
->>   #include <drm/drm_crtc.h>
->>   #include <drm/drm_crtc_helper.h>
->>  @@ -108,6 +109,19 @@ struct ingenic_drm {
->>          struct drm_private_obj private_obj;
->>   };
->>=20
->>  +struct ingenic_drm_bridge {
->>  +       struct drm_encoder encoder;
->>  +       struct drm_bridge bridge, *next_bridge;
->>  +
->>  +       struct drm_bus_cfg bus_cfg;
->>  +};
->>  +
->>  +static inline struct ingenic_drm_bridge *
->>  +to_ingenic_drm_bridge(struct drm_encoder *encoder)
->>  +{
->>  +       return container_of(encoder, struct ingenic_drm_bridge,=20
->> encoder);
->>  +}
->>  +
->>   static inline struct ingenic_drm_private_state *
->>   to_ingenic_drm_priv_state(struct drm_private_state *state)
->>   {
->>  @@ -668,11 +682,10 @@ static void=20
->> ingenic_drm_encoder_atomic_mode_set(struct drm_encoder *encoder,
->>   {
->>          struct ingenic_drm *priv =3D=20
->> drm_device_get_priv(encoder->dev);
->>          struct drm_display_mode *mode =3D &crtc_state->adjusted_mode;
->>  -       struct drm_connector *conn =3D conn_state->connector;
->>  -       struct drm_display_info *info =3D &conn->display_info;
->>  +       struct ingenic_drm_bridge *bridge =3D=20
->> to_ingenic_drm_bridge(encoder);
->>          unsigned int cfg, rgbcfg =3D 0;
->>=20
->>  -       priv->panel_is_sharp =3D info->bus_flags &=20
->> DRM_BUS_FLAG_SHARP_SIGNALS;
->>  +       priv->panel_is_sharp =3D bridge->bus_cfg.flags &=20
->> DRM_BUS_FLAG_SHARP_SIGNALS;
->>=20
->>          if (priv->panel_is_sharp) {
->>                  cfg =3D JZ_LCD_CFG_MODE_SPECIAL_TFT_1 |=20
->> JZ_LCD_CFG_REV_POLARITY;
->>  @@ -685,19 +698,19 @@ static void=20
->> ingenic_drm_encoder_atomic_mode_set(struct drm_encoder *encoder,
->>                  cfg |=3D JZ_LCD_CFG_HSYNC_ACTIVE_LOW;
->>          if (mode->flags & DRM_MODE_FLAG_NVSYNC)
->>                  cfg |=3D JZ_LCD_CFG_VSYNC_ACTIVE_LOW;
->>  -       if (info->bus_flags & DRM_BUS_FLAG_DE_LOW)
->>  +       if (bridge->bus_cfg.flags & DRM_BUS_FLAG_DE_LOW)
->>                  cfg |=3D JZ_LCD_CFG_DE_ACTIVE_LOW;
->>  -       if (info->bus_flags & DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE)
->>  +       if (bridge->bus_cfg.flags &=20
->> DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE)
->>                  cfg |=3D JZ_LCD_CFG_PCLK_FALLING_EDGE;
->>=20
->>          if (!priv->panel_is_sharp) {
->>  -               if (conn->connector_type =3D=3D DRM_MODE_CONNECTOR_TV) =
-{
->>  +               if (conn_state->connector->connector_type =3D=3D=20
->> DRM_MODE_CONNECTOR_TV) {
->>                          if (mode->flags & DRM_MODE_FLAG_INTERLACE)
->>                                  cfg |=3D JZ_LCD_CFG_MODE_TV_OUT_I;
->>                          else
->>                                  cfg |=3D JZ_LCD_CFG_MODE_TV_OUT_P;
->>                  } else {
->>  -                       switch (*info->bus_formats) {
->>  +                       switch (bridge->bus_cfg.format) {
->>                          case MEDIA_BUS_FMT_RGB565_1X16:
->>                                  cfg |=3D=20
->> JZ_LCD_CFG_MODE_GENERIC_16BIT;
->>                                  break;
->>  @@ -723,20 +736,29 @@ static void=20
->> ingenic_drm_encoder_atomic_mode_set(struct drm_encoder *encoder,
->>          regmap_write(priv->map, JZ_REG_LCD_RGBC, rgbcfg);
->>   }
->>=20
->>  -static int ingenic_drm_encoder_atomic_check(struct drm_encoder=20
->> *encoder,
->>  -                                           struct drm_crtc_state=20
->> *crtc_state,
->>  -                                           struct=20
->> drm_connector_state *conn_state)
->>  +static int ingenic_drm_bridge_attach(struct drm_bridge *bridge,
->>  +                                    enum drm_bridge_attach_flags=20
->> flags)
->>  +{
->>  +       struct ingenic_drm_bridge *ib =3D=20
->> to_ingenic_drm_bridge(bridge->encoder);
->>  +
->>  +       return drm_bridge_attach(bridge->encoder, ib->next_bridge,
->>  +                                &ib->bridge, flags);
->>  +}
->>  +
->>  +static int ingenic_drm_bridge_atomic_check(struct drm_bridge=20
->> *bridge,
->>  +                                          struct drm_bridge_state=20
->> *bridge_state,
->>  +                                          struct drm_crtc_state=20
->> *crtc_state,
->>  +                                          struct=20
->> drm_connector_state *conn_state)
->>   {
->>  -       struct drm_display_info *info =3D=20
->> &conn_state->connector->display_info;
->>          struct drm_display_mode *mode =3D &crtc_state->adjusted_mode;
->>  +       struct ingenic_drm_bridge *ib =3D=20
->> to_ingenic_drm_bridge(bridge->encoder);
->>=20
->>  -       if (info->num_bus_formats !=3D 1)
->>  -               return -EINVAL;
->>  +       ib->bus_cfg =3D bridge_state->output_bus_cfg;
->>=20
->>          if (conn_state->connector->connector_type =3D=3D=20
->> DRM_MODE_CONNECTOR_TV)
->>                  return 0;
->>=20
->>  -       switch (*info->bus_formats) {
->>  +       switch (bridge_state->output_bus_cfg.format) {
->>          case MEDIA_BUS_FMT_RGB888_3X8:
->>          case MEDIA_BUS_FMT_RGB888_3X8_DELTA:
->>                  /*
->>  @@ -900,8 +922,16 @@ static const struct drm_crtc_helper_funcs=20
->> ingenic_drm_crtc_helper_funcs =3D {
->>   };
->>=20
->>   static const struct drm_encoder_helper_funcs=20
->> ingenic_drm_encoder_helper_funcs =3D {
->>  -       .atomic_mode_set        =3D=20
->> ingenic_drm_encoder_atomic_mode_set,
->>  -       .atomic_check           =3D ingenic_drm_encoder_atomic_check,
->>  +       .atomic_mode_set        =3D=20
->> ingenic_drm_encoder_atomic_mode_set,
->>  +};
->>  +
->>  +static const struct drm_bridge_funcs ingenic_drm_bridge_funcs =3D {
->>  +       .attach                 =3D ingenic_drm_bridge_attach,
->>  +       .atomic_check           =3D ingenic_drm_bridge_atomic_check,
->>  +       .atomic_reset           =3D drm_atomic_helper_bridge_reset,
->>  +       .atomic_duplicate_state =3D=20
->> drm_atomic_helper_bridge_duplicate_state,
->>  +       .atomic_destroy_state   =3D=20
->> drm_atomic_helper_bridge_destroy_state,
->>  +       .atomic_get_input_bus_fmts =3D=20
->> drm_atomic_helper_bridge_propagate_bus_fmt,
->>   };
->>=20
->>   static const struct drm_mode_config_funcs=20
->> ingenic_drm_mode_config_funcs =3D {
->>  @@ -976,7 +1006,9 @@ static int ingenic_drm_bind(struct device=20
->> *dev, bool has_components)
->>          struct drm_plane *primary;
->>          struct drm_bridge *bridge;
->>          struct drm_panel *panel;
->>  +       struct drm_connector *connector;
->>          struct drm_encoder *encoder;
->>  +       struct ingenic_drm_bridge *ib;
->>          struct drm_device *drm;
->>          void __iomem *base;
->>          long parent_rate;
->>  @@ -1154,20 +1186,36 @@ static int ingenic_drm_bind(struct device=20
->> *dev, bool has_components)
->>                          bridge =3D=20
->> devm_drm_panel_bridge_add_typed(dev, panel,
->>                                                                  =20
->> DRM_MODE_CONNECTOR_DPI);
->>=20
->>  -               encoder =3D drmm_plain_encoder_alloc(drm, NULL,=20
->> DRM_MODE_ENCODER_DPI, NULL);
->>  -               if (IS_ERR(encoder)) {
->>  -                       ret =3D PTR_ERR(encoder);
->>  +               ib =3D drmm_encoder_alloc(drm, struct=20
->> ingenic_drm_bridge, encoder,
->>  +                                       NULL, DRM_MODE_ENCODER_DPI,=20
->> NULL);
->>  +               if (IS_ERR(ib)) {
->>  +                       ret =3D PTR_ERR(ib);
->>                          dev_err(dev, "Failed to init encoder:=20
->> %d\n", ret);
->>                          return ret;
->>                  }
->>=20
->>  -               encoder->possible_crtcs =3D 1;
->>  +               encoder =3D &ib->encoder;
->>  +               encoder->possible_crtcs =3D=20
->> drm_crtc_mask(&priv->crtc);
->>=20
->>                  drm_encoder_helper_add(encoder,=20
->> &ingenic_drm_encoder_helper_funcs);
->>=20
->>  -               ret =3D drm_bridge_attach(encoder, bridge, NULL, 0);
->>  -               if (ret)
->>  +               ib->bridge.funcs =3D &ingenic_drm_bridge_funcs;
->>  +               ib->next_bridge =3D bridge;
->>  +
->>  +               ret =3D drm_bridge_attach(encoder, &ib->bridge, NULL,
->>  +                                      =20
->> DRM_BRIDGE_ATTACH_NO_CONNECTOR);
->>  +               if (ret) {
->>  +                       dev_err(dev, "Unable to attach bridge\n");
->>                          return ret;
->>  +               }
->>  +
->>  +               connector =3D drm_bridge_connector_init(drm, encoder);
->>  +               if (IS_ERR(connector)) {
->>  +                       dev_err(dev, "Unable to init connector\n");
->>  +                       return PTR_ERR(connector);
->>  +               }
->>  +
->>  +               drm_connector_attach_encoder(connector, encoder);
->>          }
->>=20
->>          drm_for_each_encoder(encoder, drm) {
->>  --
->>  2.33.0
->>=20
+I'll send v2 to make this block for DP_PSR_SINK_ACTIVE_RESYNC ||
+DP_PSR_SINK_INACTIVE, which gets much or all of the same latency win,
+and I'll try to document the reasons, etc., better.
 
+I'll probably also include a patch to drop the 'blocking' parameter,
+since it's unused, and gives the wrong idea about this state machine.
 
+> In any case, I'm absolutely certain that mainline Linux performs much
+> much worse with PSR than the current CrOS kernel, but there are some
+> other potential reasons for that, such as the lack of an
+> input-notifier [1].
+...
+> [1] This got locked up in "controversy":
+> https://patchwork.kernel.org/project/linux-arm-kernel/patch/20180405095000.9756-25-enric.balletbo@collabora.com/
+
+While I'm here: I also played with this a bit, and I still haven't
+gotten all the details right, but I don't believe this alone will get
+the latency wins we'd like. We still need something like the above.
+
+Brian
