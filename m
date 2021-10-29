@@ -1,40 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0542643F56E
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Oct 2021 05:29:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A5CA43F572
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Oct 2021 05:29:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A4DD86E9C5;
-	Fri, 29 Oct 2021 03:28:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC2AF6E9CD;
+	Fri, 29 Oct 2021 03:28:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3824C6E9B9;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5DAEB6E9BB;
  Fri, 29 Oct 2021 03:28:37 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10151"; a="230438551"
-X-IronPort-AV: E=Sophos;i="5.87,191,1631602800"; d="scan'208";a="230438551"
+X-IronPort-AV: E=McAfee;i="6200,9189,10151"; a="230438552"
+X-IronPort-AV: E=Sophos;i="5.87,191,1631602800"; d="scan'208";a="230438552"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  28 Oct 2021 20:28:36 -0700
-X-IronPort-AV: E=Sophos;i="5.87,191,1631602800"; d="scan'208";a="538557540"
+X-IronPort-AV: E=Sophos;i="5.87,191,1631602800"; d="scan'208";a="538557552"
 Received: from mdroper-desk1.fm.intel.com ([10.1.27.134])
  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  28 Oct 2021 20:28:35 -0700
 From: Matt Roper <matthew.d.roper@intel.com>
 To: intel-gfx@lists.freedesktop.org
 Cc: dri-devel@lists.freedesktop.org, andi.shyti@intel.com,
- Michal Wajdeczko <michal.wajdeczko@intel.com>,
- =?UTF-8?q?Micha=C5=82=20Winiarski?= <michal.winiarski@intel.com>,
- Matt Roper <matthew.d.roper@intel.com>
-Subject: [PATCH v3 09/10] drm/i915/guc: Update CT debug macro for multi-tile
-Date: Thu, 28 Oct 2021 20:28:16 -0700
-Message-Id: <20211029032817.3747750-10-matthew.d.roper@intel.com>
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+ Matt Roper <matthew.d.roper@intel.com>,
+ Matthew Auld <matthew.auld@intel.com>,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Paulo Zanoni <paulo.r.zanoni@intel.com>,
+ Michal Wajdeczko <michal.wajdeczko@intel.com>
+Subject: [PATCH v3 10/10] drm/i915/xehpsdv: Initialize multi-tiles
+Date: Thu, 28 Oct 2021 20:28:17 -0700
+Message-Id: <20211029032817.3747750-11-matthew.d.roper@intel.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211029032817.3747750-1-matthew.d.roper@intel.com>
 References: <20211029032817.3747750-1-matthew.d.roper@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -51,40 +54,380 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Michal Wajdeczko <michal.wajdeczko@intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 
-Update CT debug macros by including tile ID in all messages.
+Check how many extra GT tiles are available on the system and setup
+register access for all of them. We can detect how may GT tiles are
+available by reading a register on the root tile. The same register
+returns the tile ID on all tiles.
 
-Cc: Michał Winiarski <michal.winiarski@intel.com>
-Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
+v2:
+ - Include some additional refactor that didn't get squashed in properly
+   on v1.
+v3:
+ - Move the PCI BAR size assertion into the non-gt0 code since we're
+   only really trying to check it on multi-tile platforms (and on old
+   pre-gen9 platforms the BAR size is less than 16MB so the assertion
+   would have failed there).
+
+Bspec: 33407
+Original-author: Abdiel Janulgue
+Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Co-authored-by: Matt Roper <matthew.d.roper@intel.com>
 Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
+Cc: Matthew Auld <matthew.auld@intel.com>
+Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Cc: Paulo Zanoni <paulo.r.zanoni@intel.com>
+Cc: Andi Shyti <andi.shyti@intel.com>
+Signed-off-by: Paulo Zanoni <paulo.r.zanoni@intel.com>
+Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
 ---
- drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c |  2 +-
+ drivers/gpu/drm/i915/gt/intel_gt.c        | 83 ++++++++++++++++++++++-
+ drivers/gpu/drm/i915/gt/intel_gt.h        |  4 +-
+ drivers/gpu/drm/i915/gt/intel_gt_types.h  |  3 +
+ drivers/gpu/drm/i915/i915_drv.h           |  7 +-
+ drivers/gpu/drm/i915/i915_pci.c           | 40 +++++++++--
+ drivers/gpu/drm/i915/i915_reg.h           |  4 ++
+ drivers/gpu/drm/i915/intel_device_info.h  | 15 ++++
+ 8 files changed, 146 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-index a0cc34be7b56..8ca8dd0566fe 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-@@ -33,15 +33,15 @@ static inline struct drm_device *ct_to_drm(struct intel_guc_ct *ct)
+diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+index 332756036007..b50520bf3445 100644
+--- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
++++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+@@ -527,7 +527,7 @@ static intel_engine_mask_t init_engine_mask(struct intel_gt *gt)
+ 	u16 vdbox_mask;
+ 	u16 vebox_mask;
+ 
+-	info->engine_mask = INTEL_INFO(i915)->platform_engine_mask;
++	GEM_BUG_ON(!info->engine_mask);
+ 
+ 	if (GRAPHICS_VER(i915) < 11)
+ 		return info->engine_mask;
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
+index ade698d47c34..54154715a14e 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt.c
++++ b/drivers/gpu/drm/i915/gt/intel_gt.c
+@@ -912,7 +912,7 @@ u32 intel_gt_read_register_fw(struct intel_gt *gt, i915_reg_t reg)
+ 	return intel_uncore_read_fw(gt->uncore, reg);
  }
  
- #define CT_ERROR(_ct, _fmt, ...) \
--	drm_err(ct_to_drm(_ct), "CT: " _fmt, ##__VA_ARGS__)
-+	drm_err(ct_to_drm(_ct), "CT%u: " _fmt, ct_to_gt(_ct)->info.id, ##__VA_ARGS__)
- #ifdef CONFIG_DRM_I915_DEBUG_GUC
- #define CT_DEBUG(_ct, _fmt, ...) \
--	drm_dbg(ct_to_drm(_ct), "CT: " _fmt, ##__VA_ARGS__)
-+	drm_dbg(ct_to_drm(_ct), "CT%u: " _fmt, ct_to_gt(_ct)->info.id, ##__VA_ARGS__)
- #else
- #define CT_DEBUG(...)	do { } while (0)
- #endif
- #define CT_PROBE_ERROR(_ct, _fmt, ...) \
--	i915_probe_error(ct_to_i915(ct), "CT: " _fmt, ##__VA_ARGS__)
-+	i915_probe_error(ct_to_i915(ct), "CT%u: " _fmt, ct_to_gt(_ct)->info.id, ##__VA_ARGS__)
+-static int
++int
+ intel_gt_tile_setup(struct intel_gt *gt, unsigned int id, phys_addr_t phys_addr)
+ {
+ 	struct drm_i915_private *i915 = gt->i915;
+@@ -921,6 +921,11 @@ intel_gt_tile_setup(struct intel_gt *gt, unsigned int id, phys_addr_t phys_addr)
+ 	int ret;
  
- /**
-  * DOC: CTB Blob
+ 	if (id) {
++		/* For multi-tile platforms BAR0 must have at least 16MB per tile */
++		if (GEM_WARN_ON(pci_resource_len(to_pci_dev(i915->drm.dev), 0) <
++				(id + 1) * SZ_16M))
++			return -EINVAL;
++
+ 		uncore = kzalloc(sizeof(*uncore), GFP_KERNEL);
+ 		if (!uncore)
+ 			return -ENOMEM;
+@@ -943,6 +948,16 @@ intel_gt_tile_setup(struct intel_gt *gt, unsigned int id, phys_addr_t phys_addr)
+ 	if (ret)
+ 		return ret;
+ 
++	/* Which tile am I? default to zero on single tile systems */
++	if (HAS_REMOTE_TILES(i915)) {
++		u32 instance =
++			__raw_uncore_read32(gt->uncore, XEHPSDV_MTCFG_ADDR) &
++			TILE_NUMBER;
++
++		if (GEM_WARN_ON(instance != id))
++			return -ENXIO;
++	}
++
+ 	gt->phys_addr = phys_addr;
+ 
+ 	return 0;
+@@ -959,25 +974,87 @@ intel_gt_tile_cleanup(struct intel_gt *gt)
+ 	}
+ }
+ 
++static unsigned int tile_count(struct drm_i915_private *i915)
++{
++	u32 mtcfg;
++
++	/*
++	 * We use raw MMIO reads at this point since the
++	 * MMIO vfuncs are not setup yet
++	 */
++	mtcfg = __raw_uncore_read32(&i915->uncore, XEHPSDV_MTCFG_ADDR);
++	return REG_FIELD_GET(TILE_COUNT, mtcfg) + 1;
++}
++
+ int intel_gt_probe_all(struct drm_i915_private *i915)
+ {
+ 	struct pci_dev *pdev = to_pci_dev(i915->drm.dev);
++	const struct intel_gt_definition *gtdef;
++	struct intel_gt *gt;
+ 	phys_addr_t phys_addr;
+ 	unsigned int mmio_bar;
++	unsigned int i, tiles;
+ 	int ret;
+ 
+ 	mmio_bar = GRAPHICS_VER(i915) == 2 ? 1 : 0;
+ 	phys_addr = pci_resource_start(pdev, mmio_bar);
+ 
+ 	/* We always have at least one primary GT on any device */
+-	ret = intel_gt_tile_setup(&i915->gt, 0, phys_addr);
++	gt = &i915->gt;
++	gt->name = "Primary GT";
++	gt->info.engine_mask = INTEL_INFO(i915)->platform_engine_mask;
++
++	drm_dbg(&i915->drm, "Setting up %s %u\n", gt->name, gt->info.id);
++	ret = intel_gt_tile_setup(gt, 0, phys_addr);
+ 	if (ret)
+ 		return ret;
+ 
+ 	i915->gts[0] = &i915->gt;
+ 
+-	/* TODO: add more tiles */
++	tiles = tile_count(i915);
++	drm_dbg(&i915->drm, "Tile count: %u\n", tiles);
++
++	for (gtdef = INTEL_INFO(i915)->extra_gts, i = 1;
++	     gtdef && i < tiles;
++	     gtdef++, i++) {
++		if (GEM_WARN_ON(i >= I915_MAX_GTS)) {
++			ret = -EINVAL;
++			goto err;
++		}
++
++		gt = kzalloc(sizeof(*gt), GFP_KERNEL);
++		if (!gt) {
++			ret = -ENOMEM;
++			goto err;
++		}
++
++		gt->i915 = i915;
++		gt->name = gtdef->name;
++		gt->type = gtdef->type;
++		gt->info.engine_mask = gtdef->engine_mask;
++		gt->info.id = i;
++
++		drm_dbg(&i915->drm, "Setting up %s %u\n", gt->name, gt->info.id);
++		ret = intel_gt_tile_setup(gt, i, phys_addr + gtdef->mapping_base);
++		if (ret)
++			goto err;
++
++		i915->gts[i] = gt;
++	}
++
++	i915->remote_tiles = tiles - 1;
++
+ 	return 0;
++
++err:
++	drm_err(&i915->drm, "Failed to initialize %s %u! (%d)\n", gtdef->name, i, ret);
++
++	for_each_gt(i915, i, gt) {
++		intel_gt_tile_cleanup(gt);
++		i915->gts[i] = NULL;
++	}
++
++	return ret;
+ }
+ 
+ void intel_gt_release_all(struct drm_i915_private *i915)
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt.h b/drivers/gpu/drm/i915/gt/intel_gt.h
+index a59521a8c96c..889e756453f2 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt.h
++++ b/drivers/gpu/drm/i915/gt/intel_gt.h
+@@ -50,6 +50,8 @@ void intel_gt_driver_late_release(struct intel_gt *gt);
+ 
+ int intel_gt_wait_for_idle(struct intel_gt *gt, long timeout);
+ 
++int intel_gt_tile_setup(struct intel_gt *gt, unsigned int id, phys_addr_t phys_addr);
++
+ void intel_gt_check_and_clear_faults(struct intel_gt *gt);
+ void intel_gt_clear_error_registers(struct intel_gt *gt,
+ 				    intel_engine_mask_t engine_mask);
+@@ -90,7 +92,7 @@ void intel_gt_release_all(struct drm_i915_private *i915);
+ 
+ #define for_each_gt(i915__, id__, gt__) \
+ 	for ((id__) = 0; \
+-	     (id__) < I915_MAX_TILES; \
++	     (id__) < I915_MAX_GTS; \
+ 	     (id__)++) \
+ 		for_each_if(((gt__) = (i915__)->gts[(id__)]))
+ 
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt_types.h b/drivers/gpu/drm/i915/gt/intel_gt_types.h
+index 7311e485faae..345090e2bafd 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt_types.h
++++ b/drivers/gpu/drm/i915/gt/intel_gt_types.h
+@@ -68,6 +68,9 @@ enum intel_submission_method {
+ 
+ struct intel_gt {
+ 	struct drm_i915_private *i915;
++	const char *name;
++	enum intel_gt_type type;
++
+ 	struct intel_uncore *uncore;
+ 	struct i915_ggtt *ggtt;
+ 
+diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
+index 10a4817e397d..6173dd8e2114 100644
+--- a/drivers/gpu/drm/i915/i915_drv.h
++++ b/drivers/gpu/drm/i915/i915_drv.h
+@@ -865,6 +865,8 @@ struct drm_i915_private {
+ 	 */
+ 	resource_size_t stolen_usable_size;	/* Total size minus reserved ranges */
+ 
++	unsigned int remote_tiles;
++
+ 	struct intel_uncore uncore;
+ 	struct intel_uncore_mmio_debug mmio_debug;
+ 
+@@ -1196,8 +1198,8 @@ struct drm_i915_private {
+ 	/*
+ 	 * i915->gts[0] == &i915->gt
+ 	 */
+-#define I915_MAX_TILES 4
+-	struct intel_gt *gts[I915_MAX_TILES];
++#define I915_MAX_GTS 4
++	struct intel_gt *gts[I915_MAX_GTS];
+ 
+ 	struct {
+ 		struct i915_gem_contexts {
+@@ -1723,6 +1725,7 @@ IS_SUBPLATFORM(const struct drm_i915_private *i915,
+ 
+ #define HAS_REGION(i915, i) (INTEL_INFO(i915)->memory_regions & (i))
+ #define HAS_LMEM(i915) HAS_REGION(i915, REGION_LMEM)
++#define HAS_REMOTE_TILES(dev_priv)   (INTEL_INFO(dev_priv)->has_remote_tiles)
+ 
+ #define HAS_GT_UC(dev_priv)	(INTEL_INFO(dev_priv)->has_gt_uc)
+ 
+diff --git a/drivers/gpu/drm/i915/i915_pci.c b/drivers/gpu/drm/i915/i915_pci.c
+index 169837de395d..2fd45321318a 100644
+--- a/drivers/gpu/drm/i915/i915_pci.c
++++ b/drivers/gpu/drm/i915/i915_pci.c
+@@ -29,6 +29,7 @@
+ 
+ #include "i915_drv.h"
+ #include "i915_pci.h"
++#include "gt/intel_gt.h"
+ 
+ #define PLATFORM(x) .platform = (x)
+ #define GEN(x) \
+@@ -1008,6 +1009,37 @@ static const struct intel_device_info adl_p_info = {
+ 	.media_ver = 12, \
+ 	.media_rel = 50
+ 
++#define XE_HP_SDV_ENGINES \
++	BIT(BCS0) | \
++	BIT(VECS0) | BIT(VECS1) | BIT(VECS2) | BIT(VECS3) | \
++	BIT(VCS0) | BIT(VCS1) | BIT(VCS2) | BIT(VCS3) | \
++	BIT(VCS4) | BIT(VCS5) | BIT(VCS6) | BIT(VCS7)
++
++static const struct intel_gt_definition xehp_sdv_gts[] = {
++	{
++		.type = GT_TILE,
++		.name = "Remote Tile GT",
++		.mapping_base = SZ_16M,
++		.engine_mask = XE_HP_SDV_ENGINES,
++
++	},
++	{
++		.type = GT_TILE,
++		.name = "Remote Tile GT",
++		.mapping_base = SZ_16M * 2,
++		.engine_mask = XE_HP_SDV_ENGINES,
++
++	},
++	{
++		.type = GT_TILE,
++		.name = "Remote Tile GT",
++		.mapping_base = SZ_16M * 3,
++		.engine_mask = XE_HP_SDV_ENGINES,
++
++	},
++	{}
++};
++
+ __maybe_unused
+ static const struct intel_device_info xehpsdv_info = {
+ 	XE_HP_FEATURES,
+@@ -1015,12 +1047,10 @@ static const struct intel_device_info xehpsdv_info = {
+ 	DGFX_FEATURES,
+ 	PLATFORM(INTEL_XEHPSDV),
+ 	.display = { },
++	.extra_gts = xehp_sdv_gts,
++	.has_remote_tiles = 1,
+ 	.pipe_mask = 0,
+-	.platform_engine_mask =
+-		BIT(RCS0) | BIT(BCS0) |
+-		BIT(VECS0) | BIT(VECS1) | BIT(VECS2) | BIT(VECS3) |
+-		BIT(VCS0) | BIT(VCS1) | BIT(VCS2) | BIT(VCS3) |
+-		BIT(VCS4) | BIT(VCS5) | BIT(VCS6) | BIT(VCS7),
++	.platform_engine_mask = XE_HP_SDV_ENGINES,
+ 	.require_force_probe = 1,
+ };
+ 
+diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
+index fd58757e846a..706774871d35 100644
+--- a/drivers/gpu/drm/i915/i915_reg.h
++++ b/drivers/gpu/drm/i915/i915_reg.h
+@@ -12466,6 +12466,10 @@ enum skl_power_gate {
+ 
+ #define GEN12_GLOBAL_MOCS(i)	_MMIO(0x4000 + (i) * 4) /* Global MOCS regs */
+ 
++#define XEHPSDV_MTCFG_ADDR			_MMIO(0x101800)
++#define   TILE_COUNT			REG_GENMASK(15, 8)
++#define   TILE_NUMBER			REG_GENMASK(7, 0)
++
+ #define GEN12_GSMBASE			_MMIO(0x108100)
+ #define GEN12_DSMBASE			_MMIO(0x1080C0)
+ 
+diff --git a/drivers/gpu/drm/i915/intel_device_info.h b/drivers/gpu/drm/i915/intel_device_info.h
+index 8e6f48d1eb7b..e0b8758b4085 100644
+--- a/drivers/gpu/drm/i915/intel_device_info.h
++++ b/drivers/gpu/drm/i915/intel_device_info.h
+@@ -136,6 +136,7 @@ enum intel_ppgtt_type {
+ 	func(has_pxp); \
+ 	func(has_rc6); \
+ 	func(has_rc6p); \
++	func(has_remote_tiles); \
+ 	func(has_rps); \
+ 	func(has_runtime_pm); \
+ 	func(has_snoop); \
+@@ -166,6 +167,18 @@ enum intel_ppgtt_type {
+ 	func(overlay_needs_physical); \
+ 	func(supports_tv);
+ 
++enum intel_gt_type {
++	GT_PRIMARY,
++	GT_TILE,
++};
++
++struct intel_gt_definition {
++	enum intel_gt_type type;
++	char *name;
++	u32 mapping_base;
++	intel_engine_mask_t engine_mask;
++};
++
+ struct intel_device_info {
+ 	u8 graphics_ver;
+ 	u8 graphics_rel;
+@@ -185,6 +198,8 @@ struct intel_device_info {
+ 
+ 	u32 memory_regions; /* regions supported by the HW */
+ 
++	const struct intel_gt_definition *extra_gts;
++
+ 	u32 display_mmio_offset;
+ 
+ 	u8 gt; /* GT number, 0 if undefined */
 -- 
 2.33.0
 
