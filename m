@@ -2,44 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A6E143FAD5
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Oct 2021 12:36:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADF5443FAF1
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Oct 2021 12:41:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 980EA6EA40;
-	Fri, 29 Oct 2021 10:35:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EFFF98828E;
+	Fri, 29 Oct 2021 10:41:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A5296EA3B;
- Fri, 29 Oct 2021 10:35:58 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10151"; a="230904679"
-X-IronPort-AV: E=Sophos;i="5.87,192,1631602800"; d="scan'208";a="230904679"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Oct 2021 03:35:57 -0700
-X-IronPort-AV: E=Sophos;i="5.87,192,1631602800"; d="scan'208";a="487530255"
-Received: from kostasp-mobl.ger.corp.intel.com (HELO localhost)
- ([10.251.214.46])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Oct 2021 03:35:54 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Lyude Paul <lyude@redhat.com>, Dave Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, dim-tools@lists.freedesktop.org
-Subject: Re: [PULL] topic/amdgpu-dp2.0-mst
-In-Reply-To: <87sfwkdt8w.fsf@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <bf8e724cc0c8803d58a8d730fd6883c991376a76.camel@redhat.com>
- <87sfwkdt8w.fsf@intel.com>
-Date: Fri, 29 Oct 2021 13:35:52 +0300
-Message-ID: <87pmrodson.fsf@intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 005D88828E;
+ Fri, 29 Oct 2021 10:41:08 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10151"; a="316839175"
+X-IronPort-AV: E=Sophos;i="5.87,192,1631602800"; d="scan'208";a="316839175"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Oct 2021 03:41:08 -0700
+X-IronPort-AV: E=Sophos;i="5.87,192,1631602800"; d="scan'208";a="665789551"
+Received: from hohiggin-mobl2.ger.corp.intel.com (HELO mwauld-desk1.intel.com)
+ ([10.213.197.138])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Oct 2021 03:41:07 -0700
+From: Matthew Auld <matthew.auld@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Subject: [PATCH v3 1/8] drm/i915: Remove gen6_ppgtt_unpin_all
+Date: Fri, 29 Oct 2021 11:40:19 +0100
+Message-Id: <20211029104026.3472621-1-matthew.auld@intel.com>
+X-Mailer: git-send-email 2.26.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,139 +47,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 29 Oct 2021, Jani Nikula <jani.nikula@linux.intel.com> wrote:
-> On Wed, 27 Oct 2021, Lyude Paul <lyude@redhat.com> wrote:
->> topic/amdgpu-dp2.0-mst-2021-10-27:
->> UAPI Changes:
->> Nope!
->>
->> Cross-subsystem Changes:
->> drm_dp_update_payload_part1() takes a new argument for specifying what t=
-he
->> VCPI slot start is
->>
->> Core Changes:
->> Make the DP MST helpers aware of the current starting VCPI slot/VCPI tot=
-al
->> slot count...
->>
->> Driver Changes:
->> ...and then add support for taking advantage of this for 128b/132b links=
- on DP
->> 2.0 for amdgpu
->> The following changes since commit 6f2f7c83303d2227f47551423e507d77d9ea0=
-1c7:
->>
->> =C2=A0 Merge tag 'drm-intel-gt-next-2021-10-21' of
->> git://anongit.freedesktop.org/drm/drm-intel into drm-next (2021-10-22 06=
-:30:34
->> +1000)
->>
->> are available in the Git repository at:
->>
->> =C2=A0 git://anongit.freedesktop.org/drm/drm-misc tags/topic/amdgpu-dp2.=
-0-mst-2021-
->> 10-27
->
-> I'm curious, how did you generate and send this pull request? The lines
-> are wrapped with newlines, and you have non-breaking spaces instead of
-> regular spaces there.
->
-> So for me this fails with:
->
-> Pulling =C2=A0 git://anongit.freedesktop.org/drm/drm-misc tags/topic/amdg=
-pu-dp2.0-mst-2021- 10-27 ...
-> fatal: invalid refspec 'git://anongit.freedesktop.org/drm/drm-misc'
+From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 
-Fixed manually, but I can't pull this into drm-intel-next directly after
-all, because the baseline is not in drm-intel-next history. The diffstat
-for drm-intel-next is:
+gen6_ppgtt_unpin_all is unused, kill it.
 
-65 files changed, 3656 insertions(+), 780 deletions(-)
+Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+---
+ drivers/gpu/drm/i915/gt/gen6_ppgtt.c | 11 -----------
+ drivers/gpu/drm/i915/gt/gen6_ppgtt.h |  1 -
+ 2 files changed, 12 deletions(-)
 
-I asked for this to be a topic branch so I could pull it into
-drm-intel-next. I guess I'll just have to do a drm-next backmerge
-instead.
+diff --git a/drivers/gpu/drm/i915/gt/gen6_ppgtt.c b/drivers/gpu/drm/i915/gt/gen6_ppgtt.c
+index baea9770200a..ae693bf88ef0 100644
+--- a/drivers/gpu/drm/i915/gt/gen6_ppgtt.c
++++ b/drivers/gpu/drm/i915/gt/gen6_ppgtt.c
+@@ -404,17 +404,6 @@ void gen6_ppgtt_unpin(struct i915_ppgtt *base)
+ 		i915_vma_unpin(ppgtt->vma);
+ }
+ 
+-void gen6_ppgtt_unpin_all(struct i915_ppgtt *base)
+-{
+-	struct gen6_ppgtt *ppgtt = to_gen6_ppgtt(base);
+-
+-	if (!atomic_read(&ppgtt->pin_count))
+-		return;
+-
+-	i915_vma_unpin(ppgtt->vma);
+-	atomic_set(&ppgtt->pin_count, 0);
+-}
+-
+ struct i915_ppgtt *gen6_ppgtt_create(struct intel_gt *gt)
+ {
+ 	struct i915_ggtt * const ggtt = gt->ggtt;
+diff --git a/drivers/gpu/drm/i915/gt/gen6_ppgtt.h b/drivers/gpu/drm/i915/gt/gen6_ppgtt.h
+index 6a61a5c3a85a..ab0eecb086dd 100644
+--- a/drivers/gpu/drm/i915/gt/gen6_ppgtt.h
++++ b/drivers/gpu/drm/i915/gt/gen6_ppgtt.h
+@@ -71,7 +71,6 @@ static inline struct gen6_ppgtt *to_gen6_ppgtt(struct i915_ppgtt *base)
+ 
+ int gen6_ppgtt_pin(struct i915_ppgtt *base, struct i915_gem_ww_ctx *ww);
+ void gen6_ppgtt_unpin(struct i915_ppgtt *base);
+-void gen6_ppgtt_unpin_all(struct i915_ppgtt *base);
+ void gen6_ppgtt_enable(struct intel_gt *gt);
+ void gen7_ppgtt_enable(struct intel_gt *gt);
+ struct i915_ppgtt *gen6_ppgtt_create(struct intel_gt *gt);
+-- 
+2.26.3
 
-BR,
-Jani.
-
-
->
-> BR,
-> Jani.
->
->
->>
->> for you to fetch changes up to 00f965e700ef5aa2d889e7e65c7458531d2a4bcf:
->>
->> =C2=A0 drm/amdgpu/display: fix build when CONFIG_DRM_AMD_DC_DCN is not s=
-et (2021-
->> 10-27 19:50:26 -0400)
->>
->> ----------------------------------------------------------------
->> UAPI Changes:
->> Nope!
->>
->> Cross-subsystem Changes:
->> drm_dp_update_payload_part1() takes a new argument for specifying what t=
-he
->> VCPI slot start is
->>
->> Core Changes:
->> Make the DP MST helpers aware of the current starting VCPI slot/VCPI tot=
-al
->> slot count...
->>
->> Driver Changes:
->> ...and then add support for taking advantage of this for 128b/132b links=
- on DP
->> 2.0 for amdgpu
->>
->> ----------------------------------------------------------------
->> Alex Deucher (1):
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm/amdgpu/display: fix build when CONFIG=
-_DRM_AMD_DC_DCN is not set
->>
->> Bhawanpreet Lakha (3):
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm: Remove slot checks in dp mst topolog=
-y during commit
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm: Update MST First Link Slot Informati=
-on Based on Encoding Format
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm/amd/display: Add DP 2.0 MST DM Support
->>
->> Fangzhi Zuo (1):
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm/amd/display: Add DP 2.0 MST DC Support
->>
->> =C2=A0drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c=C2=A0 |=C2=A0 29=
- ++
->> =C2=A0.../drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c=C2=A0 |=C2=A0=C2=
-=A0 3 +
->> =C2=A0.../drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c=C2=A0 |=C2=A0=C2=
-=A0 7 +-
->> =C2=A0drivers/gpu/drm/amd/display/dc/core/dc.c=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 14 +
->> =C2=A0drivers/gpu/drm/amd/display/dc/core/dc_link.c=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 | 292
->> +++++++++++++++++++++
->> =C2=A0drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c=C2=A0=C2=A0 |=C2=
-=A0 19 ++
->> =C2=A0drivers/gpu/drm/amd/display/dc/dc_link.h=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 7 +
->> =C2=A0drivers/gpu/drm/amd/display/dc/dc_stream.h=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 13 +
->> =C2=A0drivers/gpu/drm/drm_dp_mst_topology.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 42 ++-
->> =C2=A0drivers/gpu/drm/i915/display/intel_dp_mst.c=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 4 +-
->> =C2=A0drivers/gpu/drm/nouveau/dispnv50/disp.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 2 +-
->> =C2=A0drivers/gpu/drm/radeon/radeon_dp_mst.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 4 +-
->> =C2=A0include/drm/drm_dp_mst_helper.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 |=C2=A0=C2=A0 5 +-
->> =C2=A013 files changed, 425 insertions(+), 16 deletions(-)
-
---=20
-Jani Nikula, Intel Open Source Graphics Center
