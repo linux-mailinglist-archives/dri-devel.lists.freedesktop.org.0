@@ -2,87 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0407E44069A
-	for <lists+dri-devel@lfdr.de>; Sat, 30 Oct 2021 03:04:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFA124407F2
+	for <lists+dri-devel@lfdr.de>; Sat, 30 Oct 2021 09:52:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03CBB6EAA0;
-	Sat, 30 Oct 2021 01:04:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 200966EAA8;
+	Sat, 30 Oct 2021 07:52:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
- [IPv6:2a00:1450:4864:20::12d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D9DF6EAA0
- for <dri-devel@lists.freedesktop.org>; Sat, 30 Oct 2021 01:04:26 +0000 (UTC)
-Received: by mail-lf1-x12d.google.com with SMTP id l13so24305392lfg.6
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Oct 2021 18:04:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=subject:from:to:cc:references:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=jsVDqvtMCjEItY59BjDdXBjqSCj5AFKpqqKBAZC15PM=;
- b=GpLS5QoeSZiVYuQcyQg/wOKpPbg40IU+2Dfb9FcXU4nYeCmN6KJXjfh49JBd/wKAHD
- 591KA3gQIf1SBvyjgUMmYV8cBXFTC/cdQ4HENj5UhrW8Zc5/6NQVTcbHDpp/uP/CtM/l
- 31doiyyMMYYg0QJkQWOkCsBIMW+mBz8uv2F64Oi2QMKIfsIG/oChYJ9O+QA33jYEsngE
- FrvXPW+rYpkwao9yDetR1TGipaDBlZx2RObVu97eob6CBZrnUrIsLKwo4+T+zZ5rm6br
- At5zVemkgnR+a9B35XIsz2qkCf1eXFLUUqLj7BeJp/CwzdGna52h2P/7YR84Xq7I1QPX
- qHKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:from:to:cc:references:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=jsVDqvtMCjEItY59BjDdXBjqSCj5AFKpqqKBAZC15PM=;
- b=vpFNG9GIjhCrUV2YtfppouyyYZydsn2YAY8Kak+0p9gbbFxGc/y1qsHihHB4ZAQf8t
- ZY2TEl952MqmVtBl3lFTgFTqi8spC5/q8bLqU/kjD67Y0dwJdJmS6wVvopVOb52dLqWY
- VzFybtkfjfB5ghaSooO0b+MJLKzBDuTPigvevuLym0JvgE/u9uXgDX0KWGajkyr+Dy9Q
- WGg0nLduja59QQA+CphO22nogGCEt/yD12+R8GRCfoaDBoTC7get2ARlrqNeYBlciFa5
- 2R6ThCgCAsfhJQd6Q6XwwOfxY9NG1d5+iB6i9sJvAwro74emYNN+x8CFqsA26JAubzit
- xR0A==
-X-Gm-Message-State: AOAM533ddDxUzPWbCyB3eU0OnQOaDc0ne3c3/ozh7xpk0to+c75o4X2c
- UvZKgS6sjW1MGeQwJxMQy48=
-X-Google-Smtp-Source: ABdhPJx9M756TGAugbnDnJ3XSPzCFgHZzkSWbjRs2ZMvdkgT0v7toK9mxfqBf0H0S0K+YMfr11W+ug==
-X-Received: by 2002:a05:6512:1287:: with SMTP id
- u7mr9587759lfs.590.1635555864551; 
- Fri, 29 Oct 2021 18:04:24 -0700 (PDT)
-Received: from [192.168.2.145] (46-138-44-18.dynamic.spd-mgts.ru.
- [46.138.44.18])
- by smtp.googlemail.com with ESMTPSA id f13sm748072lfv.72.2021.10.29.18.04.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 29 Oct 2021 18:04:24 -0700 (PDT)
-Subject: Re: [PATCH v14 20/39] pwm: tegra: Add runtime PM and OPP support
-From: Dmitry Osipenko <digetx@gmail.com>
-To: "Rafael J. Wysocki" <rafael@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Mikko Perttunen <mperttunen@nvidia.com>
-Cc: Jonathan Hunter <jonathanh@nvidia.com>,
- Ulf Hansson <ulf.hansson@linaro.org>, Viresh Kumar <vireshk@kernel.org>,
- Stephen Boyd <sboyd@kernel.org>, Peter De Schrijver
- <pdeschrijver@nvidia.com>, Lee Jones <lee.jones@linaro.org>,
- =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
- Nishanth Menon <nm@ti.com>, Adrian Hunter <adrian.hunter@intel.com>,
- Michael Turquette <mturquette@baylibre.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- linux-tegra <linux-tegra@vger.kernel.org>,
- Linux PM <linux-pm@vger.kernel.org>,
- Linux PWM List <linux-pwm@vger.kernel.org>,
- linux-mmc <linux-mmc@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- linux-clk <linux-clk@vger.kernel.org>, David Heidelberg <david@ixit.cz>
-References: <20211025224032.21012-1-digetx@gmail.com>
- <20211025224032.21012-21-digetx@gmail.com>
- <09c05206-c0e5-9a25-8ffa-b9291f6ea5ae@gmail.com>
- <CAJZ5v0i9OtA1nDiv8UXuF3ASdENFYJFV7+nMWm6Pcu=kw8k1aQ@mail.gmail.com>
- <4dc8a6bd-4072-ccbf-513b-221d286bd6d5@gmail.com>
- <CAJZ5v0hKQf-xZq2fx1pA5oxMqP_XJV=AG0Rqu7BKRUZGDz6H5Q@mail.gmail.com>
- <72160e55-6aa5-9541-43f2-fbf025f84ffb@gmail.com>
-Message-ID: <5469f48f-2137-59ae-5298-6dc68c12a126@gmail.com>
-Date: Sat, 30 Oct 2021 04:04:23 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E4B166EAA8;
+ Sat, 30 Oct 2021 07:52:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1635580322;
+ bh=tRYXYZmrS5UzHZaytjPgUmYfGMtddVsiz5chbN/g1nE=;
+ h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
+ b=ZS/ODmCs482V3SpxH25vrML4x5dds+3uYEe8wvjip6cW1O8r3AvRXIgJZXxFTMwYT
+ WJM8Vo/8XuHBe7Qu1rRO6qeQgpyS5TfmjZVONae5xkarCCHl50UIPPRT0HHQNKTqMa
+ yRkkEimwCBtutUcU3+E47yivnvxfN95l2uOZDtWg=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from titan ([79.150.72.99]) by mail.gmx.net (mrgmx105
+ [212.227.17.174]) with ESMTPSA (Nemesis) id 1MEm27-1mS5tp1Wup-00GKuV; Sat, 30
+ Oct 2021 09:52:02 +0200
+Date: Sat, 30 Oct 2021 09:51:50 +0200
+From: Len Baker <len.baker@gmx.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Len Baker <len.baker@gmx.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ David Airlie <airlied@linux.ie>, Kees Cook <keescook@chromium.org>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-hardening@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/i915: Prefer struct_size over open coded arithmetic
+Message-ID: <20211030075150.GA3486@titan>
+References: <20211003104258.18550-1-len.baker@gmx.com>
+ <20211011092304.GA5790@titan> <87k0ihxj56.fsf@intel.com>
+ <YWbIQmD1TGikpRm2@phenom.ffwll.local> <20211016111602.GA1996@titan>
+ <877deatzz2.fsf@intel.com> <20211023115020.GC4145@titan>
+ <87ee86h5hn.fsf@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <72160e55-6aa5-9541-43f2-fbf025f84ffb@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87ee86h5hn.fsf@intel.com>
+X-Provags-ID: V03:K1:nJ+E6kO3kOeE/a6RCjnW0DGdYOtTwFmROUmXqmeyhKg0w81ta51
+ UWWXofq+Ois/ee5qtQOAXJfYrZMkixOzgipT0KsyAQOf64vsMWexSTylpDka0dxCArAJupy
+ HSPyTUZ2L2NdgWYuuEo6P2Fq17hx2GeoNrRfvO0XBGRegmpb1Rac3A2H6RRJ7SeHW6egZ1f
+ LZsO/+fVFR+K8WaBlLhUw==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:+wnPXYv7YIc=:80wL/GovvA07EHIiq5dqX0
+ Gf3hHtnGYTiBu/a0boBPCpKGGLBOkbqL6p4GqfvwsMjMDynTlkEYplRtuVRlqHXuargyItWot
+ kIV7prFDNMHaNYiC0IY5xRyC1shRJSHUlKU4qQ35yamZ/A3ipdX31UqGTJSMriSeRLBwgGWAy
+ ZWz6MvaHkM+hl+RRa0ZNj+qX2dxCb0nfsaQHCqYyUKzFN2wDSClr8Y17PV5FfPgCc3uQGLBeH
+ R5Fjp7se7sB++gInzHkMB38hYCqDJy3CcSrjyN1vqbyl12wDEDYd8PTgHF/lYV5aunwqpD6qH
+ psGyekfWSpVO8JMwvHTOG2EracReQV3WtC+hffLgWbACY/h/kL2dEDZwOtFs+LfE3yRJounjR
+ FotQWpLaaWCxdcYpNYN5BUb84y9F9yguZZ/9HggzyhZo00ZGxRcG+3KxGdMp+3KuMAFFObmlJ
+ e6r7zKsoV/VRuZS5FAWmUIHSnT9w2b0POgiTF+nopvjclbvWpwNoyULfGAUVf2KjCrrOqD2pI
+ 29HL3p/p2xPF2sCsGFRpwUtVJfVRZhZpAjFt9t0C5f3NNdmGwKbkMUeBJp/J7vmb0/+4nyY6O
+ L9IvO4NRpPTIUGz6fwf1wWndwMJt4YtiiNuN6HolzUg////3BxQJIxXiYG4Cz3LnI18uYX4E9
+ 1CycwSqjVT2CKw/7+FS8Z7krPTUur1eXRTKS0cJkMF63E4ZM6f7ArpAfp+kxO3kAKzQPyfZy6
+ O08Ku9WP/aThUMpcfqY4yBjGeM9UpFQ9Sjve2UJVjoA5xf6tjgSWbYk9soIphseOKBEzdTXJ4
+ maOZ62AZBeDwLY3i1RrT1+22Av2hZMuhK/Z8jwEoCJILYjapTV36uAYL6t4liZT1NnxmKryP2
+ KXh0fEDqXzciMo2Iik4R5bbHbR2b+QPPiY2JQXvA8yU0OUzrnDVs9bHJjPvtEOnucnneJBp+k
+ qjXWkgsUyUSxbJQiml4QAEs/EILlTTpkANXQr9mdAeN+SShK9wgdcq9Gf43FLuw2IQ/Yg6a/U
+ SwzkBbK/s2JQ8X+zKG0iOt1UIBLIpMrOJnhdCl+EhnVIlHj8WPSmJB6si6P5iO0zATrE91BS2
+ 1GeaKat8KIQbZQ=
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,70 +82,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-30.10.2021 03:47, Dmitry Osipenko пишет:
-> 29.10.2021 21:06, Rafael J. Wysocki пишет:
-> ...
->>>>> I just noticed that RPM core doesn't reset RPM-enable count of a device
->>>>> on driver's unbind (pm_runtime_reinit). It was a bad idea to use
->>>>> devm_pm_runtime_enable() + pm_runtime_force_suspend() here, since RPM is
->>>>> disabled twice on driver's removal, and thus, RPM will never be enabled
->>>>> again.
->>>>>
->>>>> I'll fix it for PWM and other drivers in this series, in v15.
->>>>
->>>> Well, for the record, IMV using pm_runtime_force_suspend() is
->>>> generally a questionable idea.
->>>>
->>>
->>> Please clarify why it's a questionable idea.
->>
->> There are a few reasons.
->>
->> Generally speaking, it makes assumptions that may not be satisfied.
->>
->> For instance, it assumes that the driver will never have to work with
->> the ACPI PM domain, because the ACPI PM domain has a separate set of
->> callbacks for system-wide suspend and resume and they are not the same
->> as its PM-runtime callbacks, so if the driver is combined with the
->> ACPI PM domain, running pm_runtime_force_suspend() may not work as
->> expected.
-> 
-> ACPI is irrelevant to the drivers touched by this series.
-> 
-> This series is about older ARM32 Tegra SoCs which either don't have ACPI
-> at all or it's unusable by Linux, like a non-standard ACPI of M$ Surface
-> tablets.
+Hi,
 
-Although, there are VIC and NVDEC drivers of newer Tegra SoCs touched by
-this series. Maybe they could get ACPI support in the future, but this
-needs to be clarified. Perhaps Thierry or Mikko could comment on it.
+On Wed, Oct 27, 2021 at 06:06:28PM +0300, Jani Nikula wrote:
+> On Sat, 23 Oct 2021, Len Baker <len.baker@gmx.com> wrote:
+> > Sorry, but I'm missing something here. In linux-next this is the commi=
+t
+> > history of include/linux/stddef.h file:
+> >
+> > 3080ea5553cc stddef: Introduce DECLARE_FLEX_ARRAY() helper
+> > 50d7bd38c3aa stddef: Introduce struct_group() helper macro
+> > e7f18c22e6be stddef: Fix kerndoc for sizeof_field() and offsetofend()
+> > 4229a470175b stddef.h: Introduce sizeof_field()
+> > ...
+> >
+> > But in drm-tip this is the commit history:
+> >
+> > 4229a470175b stddef.h: Introduce sizeof_field()
+> > ...
+> >
+> > For this patch the DECLARE_FLEX_ARRAY() helper is needed. But the buil=
+d
+> > fails due to the last tree commits for stddef.h file are not present.
+> > So, if I understand correctly, drm-tip is not up to date with linux-ne=
+xt.
+>
+> linux-next is an ephemeral integration branch for most arch, subsystem
+> and driver -next branches.
+>
+> drm-tip is an ephemeral integration branch for drm subsystem and driver
+> -next branches.
+>
+> They contain different sets of branches. They are constantly
+> rebuilt. They are not the end result or end goal.
+>
+> If a problem (or a solution, for that matter) only exists in the merge
+> of some of those branches, you can't actually fix it until such a merge
+> exists somewhere more permanent than an ephemeral integration branch.
 
->> Next, it assumes that PM-runtime is actually enabled for the device
->> and the RPM_STATUS of it is valid when it is running.
-> 
-> Runtime PM presence is mandatory for Tegra and drivers take care of
-> enabling it, should be good here.
-> 
->> Further, it assumes that the PM-runtime suspend callback of the driver
->> will always be suitable for system-wide suspend which may not be the
->> case if the device can generate wakeup signals and it is not allowed
->> to wake up the system from sleep by user space.
-> 
-> There are no such 'wakeup' drivers in the context of this patchset.
-> 
->> Next, if the driver has to work with a PM domain (other than the ACPI
->> one) or bus type that doesn't take the pm_runtime_force_suspend()
->> explicitly into account, it may end up running the runtime-suspend
->> callback provided by that entity from within its system-wide suspend
->> callback which may not work as expected.
-> 
-> Only platform bus and generic power domain are relevant for this patchset.
-> 
->> I guess I could add a few if I had to.
->>
-> 
-> So far I can't see any problems.
-> 
-> If you have a better alternative on yours mind, please share.
-> 
+Ok, understood. Thanks for the clarification.
 
+Regards,
+Len
