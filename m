@@ -1,59 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF40E440FA4
-	for <lists+dri-devel@lfdr.de>; Sun, 31 Oct 2021 18:00:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BDF4440FAA
+	for <lists+dri-devel@lfdr.de>; Sun, 31 Oct 2021 18:05:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E90BE89BDB;
-	Sun, 31 Oct 2021 17:00:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8760789BBE;
+	Sun, 31 Oct 2021 17:05:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA9D889BDB
- for <dri-devel@lists.freedesktop.org>; Sun, 31 Oct 2021 17:00:25 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id C53F060F70
- for <dri-devel@lists.freedesktop.org>; Sun, 31 Oct 2021 17:00:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1635699625;
- bh=h6vE8Nxa715IufQF9ONqn7mxU9mKqbzbElp/mwLyQDM=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=BNs7u9ivx4nTZYqktcTbYf3zeh7NmWQah8MVGTWphPIOshW3+TJUBtd2DzrwCdy7W
- xxWR4SGJvvWqG7/h4Tktn60Cc01AUaCj77ziLfEeVv5OMVf1iNoe7I3SW+sXSeAMWl
- BfXn2dkBpWMUb2PufGycikZGWT8f3lSkaQ85nSZ1k4M5YwN5rwjSvfeyFn2SetmB5i
- TkE4G6pdUSbN1GUMUuAgHIxMqFpMNDLvAniffjD42wnc76CRGkNkU9POqFxmJB6Gkx
- 0+/f6D0wVYkDiK1QH6+Srymh1RwpiuwjMhqHmlBnj/h4xXGJhk/q40ZCcqkMa/1zW0
- fw6Uh+m9VHdJw==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id C2AC360F25; Sun, 31 Oct 2021 17:00:25 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 211425] [drm:atom_op_jump] *ERROR* atombios stuck in loop for
- more than 20secs aborting
-Date: Sun, 31 Oct 2021 17:00:25 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: icedragon.aw@web.de
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cf_kernel_version
-Message-ID: <bug-211425-2300-bG6tlqRETn@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-211425-2300@https.bugzilla.kernel.org/>
-References: <bug-211425-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mail-4022.proton.ch (mail-4022.proton.ch [185.70.40.22])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E79589BBE
+ for <dri-devel@lists.freedesktop.org>; Sun, 31 Oct 2021 17:05:08 +0000 (UTC)
+Date: Sun, 31 Oct 2021 17:05:05 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail; t=1635699905;
+ bh=I3xIr9sykXDKCSW/6ss33PLcmAeDhUuseyDbn8PaWcU=;
+ h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
+ b=ROUIMY9agcUk7OvO8OF4un0OQmfl6xVTSqeL/3caZD6STBnhrDmFhFV/7dt7C9nMU
+ HucPjDK98Epr5tUuDnrabE9sgPdN+n3r+b8FPReFzWqHuPSS/xW9lxc/oLajckzhWE
+ B3mJ74JnoTzJxtXeMYbw6Zkvx3aP5o2rF8XRckd0sVnlvpJBAgsQGlCg93yTlACVv/
+ aXRi6GsOCfOJOFBN0+DeNQsEoBI1eIaERlOmcRusWOoa3i7ijtVD1kHN8j3JErMA6U
+ qrV2lJmXv8uW0pO8LFzHjm0Ih7f2d31/Rk00knUIoXyhr1ixE6h7X+ZQuMcmApx3iu
+ VI9bZ4vIz40Xw==
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+From: Simon Ser <contact@emersion.fr>
+Cc: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@linux.ie>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Maxime Ripard <mripard@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Subject: Re: [PATCH] drm: Add R10 and R12 FourCC
+Message-ID: <7P0-fl_xSxK5WQ37jctxElP_P1ytRhEHye246mchMwpqTaw7iFylPHfWIE0GpMbAHvrhlXEpdqr4ju1s9PRmoBF0CLneIVjaDXp6MYvk2m8=@emersion.fr>
+In-Reply-To: <YXsyevoVkpJ52K6q@pendragon.ideasonboard.com>
+References: <20211027233140.12268-1-laurent.pinchart@ideasonboard.com>
+ <GkaYSCuz648_NXGj3rL0BmHzkGLlBdotRmuJv7K1hY9Ig2hOiresmoR_PS_tkf8nDm-3z8XnudFFPZ-eLtyQeWe6yGx17OUo5dz0Lh54jdc=@emersion.fr>
+ <YXsyevoVkpJ52K6q@pendragon.ideasonboard.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+ DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
+ autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+ mailout.protonmail.ch
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,19 +55,16 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: Simon Ser <contact@emersion.fr>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D211425
+On Friday, October 29th, 2021 at 01:30, Laurent Pinchart <laurent.pinchart@=
+ideasonboard.com> wrote:
 
-Andreas (icedragon.aw@web.de) changed:
+> I don't think we'll need a format with padding at that end (with data
+> aligned to tbe MSB) as that would essentially be DRM_FORMAT_R16.
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-     Kernel Version|5.14.13                     |5.14.15
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+The X channel doesn't mean that the padding is zeroes: the padding has
+undefined contents. So using R16 wouldn't quite work. Playing with
+DRM_FORMAT_BIG_ENDIAN (!) could do the trick.
