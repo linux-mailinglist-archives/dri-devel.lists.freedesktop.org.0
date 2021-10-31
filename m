@@ -1,56 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 908F3440CA6
-	for <lists+dri-devel@lfdr.de>; Sun, 31 Oct 2021 04:31:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FD90440CB4
+	for <lists+dri-devel@lfdr.de>; Sun, 31 Oct 2021 05:16:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BBE6E89EB1;
-	Sun, 31 Oct 2021 03:30:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 22DE689D77;
+	Sun, 31 Oct 2021 04:16:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE61A89EB1
- for <dri-devel@lists.freedesktop.org>; Sun, 31 Oct 2021 03:30:55 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4HhhWp1klRz4xbP;
- Sun, 31 Oct 2021 14:30:45 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1635651049;
- bh=lElvBm4kxWpYBa05SHe2+518FGFYo2nvrjWJliNGrOw=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=gOJ3bTeMjFismbBeJVfEbfpzwP2C0hmKDCL7fYAqjK4N+bEDYxY2YhSXrDekoIJRO
- rM260n6ECg6LxFqgtbn35UQ5mPMbpxt82Lh2xzhtGwxGvNBMBR1B7BNQqZ3TC/AJHo
- 8PsdiSMqWHUy1vwjngE2QkYQPIExW22ZxXkJXRESsTNuY9nzhTD2Qx2zqkkjbXU9oN
- t3v12ub58UAPR05Cjj3RP9E+J23NYYZuilavBr1NtTPB9OB1cXCn2rJbW+hgm7QGmJ
- p1JHiWsAbl4rUaFqdPgfb0K1zIjtyE1mVk9eJEY6VRQnWQSZ4BPCPiE47auw6fFTTx
- +L7mxie4h8+mA==
-Date: Sun, 31 Oct 2021 14:30:45 +1100
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Thomas Zimmermann <tzimmermann@suse.de>, Greg KH <greg@kroah.com>
-Cc: Marcel Ziswiler <marcel@ziswiler.com>, Linux-Next Mailing List
- <linux-next@vger.kernel.org>, dri-devel@lists.freedesktop.org, open list
- <linux-kernel@vger.kernel.org>, Linux ARM
- <linux-arm-kernel@lists.infradead.org>, Maxime Ripard <mripard@kernel.org>,
- Arnd Bergmann <arnd@arndb.de>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Andrey Konovalov
- <andreyknvl@gmail.com>, Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Linus Walleij <linus.walleij@linaro.org>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@linux.ie>, Marcel Ziswiler
- <marcel.ziswiler@toradex.com>, Linux Kernel Functional Testing
- <lkft@linaro.org>
-Subject: Re: [PATCH v2] drm: import DMA_BUF module namespace
-Message-ID: <20211031143045.6abb9225@canb.auug.org.au>
-In-Reply-To: <20211031132155.7dc972e8@canb.auug.org.au>
-References: <20211027212506.3418521-1-marcel@ziswiler.com>
- <2312b5c3-ffc9-b54e-a08b-2548e3837d83@suse.de>
- <20211031132155.7dc972e8@canb.auug.org.au>
+Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com
+ [IPv6:2607:f8b0:4864:20::536])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C27BE89D77;
+ Sun, 31 Oct 2021 04:16:19 +0000 (UTC)
+Received: by mail-pg1-x536.google.com with SMTP id m21so13931672pgu.13;
+ Sat, 30 Oct 2021 21:16:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=u8gCZCpacYgd5ErXTwktBdnbcH7JyijGssTddxvh9qE=;
+ b=k9IO8bpJuuP/sBhRxEhUNL8GqOmINAo+U8tRcBng6NY8+fo0XHByvseyKNvwUYiaty
+ nLPsJe7B3TVaksyY8zvAvG5Plw1yW1dmMCUZgdo3yuOIYNWoYHMl6AXk2XlSry11rr1B
+ lyfFM7U4GGYYGN0vlXQdTPJmJJ70SK5VjQ9fPYefRW5bdImS4kv/xp+oZOU43ra/Eubl
+ 8ex0P6pE7yIDgSyRrqMcUkSVcHXnDXezDtZN4LBFkmaUDpZrzSWArf7zNY6FK2YXIJuU
+ yZ94kdQbs306D7935nXpyWV+4uIJ5Qp5YdOXvzbc/DM9tQyKdeRMEcrRv7Y3lUtMDWLs
+ PYvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=u8gCZCpacYgd5ErXTwktBdnbcH7JyijGssTddxvh9qE=;
+ b=ZVwdn1TRHGQ0htpgDgSnZzmKwMWAmJO9LSjuNE12D0NHw1bpkWY+V+FJ+/6OEBcoXw
+ s9uB9qpRoniR4uUUgKVqEyRSCgjQ6Cg/at5uqxFjj/+Dz8BhGBtN0AUL26gqZ2elkS7B
+ Y7oM6MRGojrtPswxX/TeF8k22341yDrVYu6f0Rff/lCKmgmQlMG8eFMp9rd52S9oa3AP
+ gQfmhSISPqjRdxyqKDxPjy/J5hVmgwuWKs5WRZSOhoqThhnSUQCgW9Js8iWlFJXSPgRK
+ +00a8ggRdImktaOh+fRe0Ce70h0uvDh0HYJDNjEXz/GIDB3qfKWOHSHgqNxpnhq0DIo9
+ lgGQ==
+X-Gm-Message-State: AOAM532JB+5tPU68IJi4hSOEs4e96TIj1IbIge4k2DiDH0RGYp5z2TB7
+ fbZmFuYyEB+I8HyFmkbdwhHTHNzZVnRLXVHi
+X-Google-Smtp-Source: ABdhPJzCHGVVg1hlNigdzi/6OaZ03m0v1pbzhJoTzdzTipkkGrS18wZaShw+QK1s2hbWOp4WfKBzlA==
+X-Received: by 2002:a05:6a00:16cb:b0:44b:bd38:e068 with SMTP id
+ l11-20020a056a0016cb00b0044bbd38e068mr20507995pfc.34.1635653779180; 
+ Sat, 30 Oct 2021 21:16:19 -0700 (PDT)
+Received: from yuq-Aspire-4738G.lan (114-36-194-33.dynamic-ip.hinet.net.
+ [114.36.194.33])
+ by smtp.gmail.com with ESMTPSA id h3sm12013111pfi.207.2021.10.30.21.16.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 30 Oct 2021 21:16:18 -0700 (PDT)
+From: Qiang Yu <yuq825@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Cc: lima@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Erico Nunes <nunes.erico@gmail.com>,
+ Vasily Khoruzhick <anarsoul@gmail.com>,
+ Andreas Baierl <ichgeh@imkreisrum.de>, Qiang Yu <yuq825@gmail.com>,
+ Roman Stratiienko <r.stratiienko@gmail.com>
+Subject: [PATCH] drm/lima: fix warning when CONFIG_DEBUG_SG=y &
+ CONFIG_DMA_API_DEBUG=y
+Date: Sun, 31 Oct 2021 12:16:04 +0800
+Message-Id: <20211031041604.187216-1-yuq825@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/wf9NJo5lImerRBFY12uaiK5";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,55 +76,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/wf9NJo5lImerRBFY12uaiK5
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Otherwise get following warning:
 
-Hi all,
+DMA-API: lima 1c40000.gpu: mapping sg segment longer than device claims to support [len=4149248] [max=65536]
 
-On Sun, 31 Oct 2021 13:21:55 +1100 Stephen Rothwell <sfr@canb.auug.org.au> =
-wrote:
->
-> On Fri, 29 Oct 2021 20:51:52 +0200 Thomas Zimmermann <tzimmermann@suse.de=
-> wrote:
-> >
-> > Am 27.10.21 um 23:25 schrieb Marcel Ziswiler: =20
-> > > From: Marcel Ziswiler <marcel.ziswiler@toradex.com>
-> > >=20
-> > > Today's -next fails building arm64 defconfig as follows:
-> > >=20
-> > > ERROR: modpost: module drm_cma_helper uses symbol dma_buf_vunmap from
-> > >   namespace DMA_BUF, but does not import it.
-> > > ERROR: modpost: module drm_cma_helper uses symbol dma_buf_vmap from
-> > >   namespace DMA_BUF, but does not import it.
-> > >=20
-> > > Reported-by: Linux Kernel Functional Testing <lkft@linaro.org>
-> > > Fixes: commit 4b2b5e142ff4 ("drm: Move GEM memory managers into modul=
-es")
+See: https://gitlab.freedesktop.org/mesa/mesa/-/issues/5496
 
-Oh, and it is actually:
+Reported-by: Roman Stratiienko <r.stratiienko@gmail.com>
+Signed-off-by: Qiang Yu <yuq825@gmail.com>
+---
+ drivers/gpu/drm/lima/lima_device.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Fixes: 16b0314aa746 ("dma-buf: move dma-buf symbols into the DMA_BUF module=
- namespace")
+diff --git a/drivers/gpu/drm/lima/lima_device.c b/drivers/gpu/drm/lima/lima_device.c
+index 65fdca366e41..36c990589427 100644
+--- a/drivers/gpu/drm/lima/lima_device.c
++++ b/drivers/gpu/drm/lima/lima_device.c
+@@ -357,6 +357,7 @@ int lima_device_init(struct lima_device *ldev)
+ 	int err, i;
+ 
+ 	dma_set_coherent_mask(ldev->dev, DMA_BIT_MASK(32));
++	dma_set_max_seg_size(ldev->dev, UINT_MAX);
+ 
+ 	err = lima_clk_init(ldev);
+ 	if (err)
+-- 
+2.25.1
 
---=20
-Cheers,
-Stephen Rothwell
-
---Sig_/wf9NJo5lImerRBFY12uaiK5
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmF+DeUACgkQAVBC80lX
-0Gz2bQf+MNOX1/rN9oa/jPNwlc5VjeOSrrS7cXxshE8zON0/kdHnQpBB1TmV9FIX
-O7nyZYnAL2G35PXRQHsAkpzxSY0GrzdBPxZrweofHFjE0rH1HmhzZzajoYL+EWoe
-lc1306PDJJrzHLUn74lv7AvqLiqe7sALN5PbmM6RKIR0Fkp1Q2tjneb1Qd7S9SzS
-3rznO7Giva3PXWecs2nEIRVzUDADY0UbLYOTfISA/SWD1Ex/8UsPUugHDNGWUNTK
-cP/kqZQZw/6SIfZh0+YXmF96xOmtaJSmpBuM/3LOrQpyu/KX55MDrdyPkSahG8Y/
-aGh3RwFNWNoKv3ziIaAJBsN3nTghRQ==
-=HknL
------END PGP SIGNATURE-----
-
---Sig_/wf9NJo5lImerRBFY12uaiK5--
