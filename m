@@ -2,38 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9BF74423A0
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Nov 2021 23:59:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FC3A4423CD
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Nov 2021 00:11:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF6896E8FF;
-	Mon,  1 Nov 2021 22:58:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5DA5B6EB38;
+	Mon,  1 Nov 2021 23:11:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 970886E8FF;
- Mon,  1 Nov 2021 22:58:58 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10155"; a="254744522"
-X-IronPort-AV: E=Sophos;i="5.87,201,1631602800"; d="scan'208";a="254744522"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Nov 2021 15:58:58 -0700
-X-IronPort-AV: E=Sophos;i="5.87,201,1631602800"; d="scan'208";a="488843906"
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 524D46EB38;
+ Mon,  1 Nov 2021 23:11:18 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10155"; a="317341759"
+X-IronPort-AV: E=Sophos;i="5.87,201,1631602800"; d="scan'208";a="317341759"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Nov 2021 16:11:07 -0700
+X-IronPort-AV: E=Sophos;i="5.87,201,1631602800"; d="scan'208";a="500253556"
 Received: from ebijkerk-mobl1.ger.corp.intel.com (HELO intel.com)
  ([10.251.215.48])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Nov 2021 15:58:54 -0700
-Date: Mon, 1 Nov 2021 23:58:52 +0100
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Nov 2021 16:11:04 -0700
+Date: Tue, 2 Nov 2021 00:11:01 +0100
 From: Andi Shyti <andi.shyti@linux.intel.com>
 To: Matt Roper <matthew.d.roper@intel.com>
-Subject: Re: [PATCH v3 03/10] drm/i915: Restructure probe to handle
- multi-tile platforms
-Message-ID: <YYBxLCH4bn3pnwKB@intel.intel>
+Subject: Re: [PATCH v3 05/10] drm/i915: Prepare for multiple gts
+Message-ID: <YYB0BdEcDqt2IUXi@intel.intel>
 References: <20211029032817.3747750-1-matthew.d.roper@intel.com>
- <20211029032817.3747750-4-matthew.d.roper@intel.com>
+ <20211029032817.3747750-6-matthew.d.roper@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211029032817.3747750-4-matthew.d.roper@intel.com>
+In-Reply-To: <20211029032817.3747750-6-matthew.d.roper@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,41 +45,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>, intel-gfx@lists.freedesktop.org,
+Cc: intel-gfx@lists.freedesktop.org,
+ Venkata Sandeep Dhanalakota <venkata.s.dhanalakota@intel.com>,
  Lucas De Marchi <lucas.demarchi@intel.com>, dri-devel@lists.freedesktop.org,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- Matthew Auld <matthew.auld@intel.com>
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Matt,
+Hi Matt and Tvrtko,
 
-On Thu, Oct 28, 2021 at 08:28:10PM -0700, Matt Roper wrote:
-> On a multi-tile platform, each tile has its own registers + GGTT space,
-> and BAR 0 is extended to cover all of them.  Upcoming patches will start
-> exposing the tiles as multiple GTs within a single PCI device.  In
-> preparation for supporting such setups, restructure the driver's probe
-> code a bit.
-> 
-> Only the primary/root tile is initialized for now; the other tiles will
-> be detected and plugged in by future patches once the necessary
-> infrastructure is in place to handle them.
-> 
-> v2:
->  - Rename for naming prefix consistency.  (Jani, Lucas)
-> 
-> Original-author: Abdiel Janulgue
-> Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-> Cc: Matthew Auld <matthew.auld@intel.com>
-> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-> Cc: Lucas De Marchi <lucas.demarchi@intel.com>
-> Cc: Jani Nikula <jani.nikula@linux.intel.com>
-> Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-> Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
+[...]
 
-Looks correct to me:
+>  static int
+>  intel_gt_tile_setup(struct intel_gt *gt, unsigned int id, phys_addr_t phys_addr)
 
-Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
+we don't actually need 'id', it's gt->info.id. It's introduced in
+patch 3 with the value '0' but it's not needed.
+
+>  {
+> +	struct drm_i915_private *i915 = gt->i915;
+> +	struct intel_uncore *uncore;
+> +	struct intel_uncore_mmio_debug *mmio_debug;
+>  	int ret;
+>  
+> -	intel_uncore_init_early(gt->uncore, gt);
+> +	if (id) {
+
+if (gt->info.id) ?
 
 Andi
+
+> +		uncore = kzalloc(sizeof(*uncore), GFP_KERNEL);
+> +		if (!uncore)
+> +			return -ENOMEM;
+> +
+> +		mmio_debug = kzalloc(sizeof(*mmio_debug), GFP_KERNEL);
+> +		if (!mmio_debug) {
+> +			kfree(uncore);
+> +			return -ENOMEM;
+> +		}
+> +
+> +		__intel_gt_init_early(gt, uncore, i915);
+> +	} else {
+> +		uncore = &i915->uncore;
+> +		mmio_debug = &i915->mmio_debug;
+> +	}
+> +
+> +	intel_uncore_init_early(uncore, gt);
+>  
+>  	ret = intel_uncore_setup_mmio(gt->uncore, phys_addr);
