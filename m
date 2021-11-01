@@ -1,37 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0EBE441B76
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Nov 2021 14:02:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 85580441B7D
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Nov 2021 14:07:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ACCBA89F1B;
-	Mon,  1 Nov 2021 13:02:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 66A3989FE3;
+	Mon,  1 Nov 2021 13:07:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E785589F1B
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Nov 2021 13:02:12 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10154"; a="217918678"
-X-IronPort-AV: E=Sophos;i="5.87,199,1631602800"; d="scan'208";a="217918678"
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A8A4089FE3
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Nov 2021 13:06:59 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10154"; a="228461798"
+X-IronPort-AV: E=Sophos;i="5.87,199,1631602800"; d="scan'208";a="228461798"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Nov 2021 06:02:11 -0700
-X-IronPort-AV: E=Sophos;i="5.87,199,1631602800"; d="scan'208";a="500031023"
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Nov 2021 06:06:42 -0700
+X-IronPort-AV: E=Sophos;i="5.87,199,1631602800"; d="scan'208";a="500032544"
 Received: from mvtammin-mobl.ger.corp.intel.com (HELO localhost)
  ([10.251.214.228])
  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Nov 2021 06:02:08 -0700
+ 01 Nov 2021 06:06:38 -0700
 From: Jani Nikula <jani.nikula@linux.intel.com>
-To: He Ying <heying24@huawei.com>, mripard@kernel.org, wens@csie.org,
- airlied@linux.ie, daniel@ffwll.ch, jernej.skrabec@gmail.com
-Subject: Re: [PATCH] drm: Grab reference of connector before return connector
- from sun4i_tcon_get_connector
-In-Reply-To: <20211101062906.231518-1-heying24@huawei.com>
+To: Perry Yuan <Perry.Yuan@amd.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH v2] drm/dp: Fix aux->transfer NULL pointer dereference on
+ drm_dp_dpcd_access
+In-Reply-To: <20211101061053.38173-1-Perry.Yuan@amd.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20211101062906.231518-1-heying24@huawei.com>
-Date: Mon, 01 Nov 2021 15:02:06 +0200
-Message-ID: <87cznkdo6p.fsf@intel.com>
+References: <20211101061053.38173-1-Perry.Yuan@amd.com>
+Date: Mon, 01 Nov 2021 15:06:36 +0200
+Message-ID: <87a6iodnz7.fsf@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -46,106 +48,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Cc: Perry.Yuan@amd.com, Xinmei.Huang@amd.com, Ray.Huang@amd.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 01 Nov 2021, He Ying <heying24@huawei.com> wrote:
-> From the comments of drm_for_each_connector_iter(), we know
-> that "connector is only valid within the list body, if you
-> want to use connector after calling drm_connector_list_iter_end()
-> then you need to grab your own reference first using
-> drm_connector_get()". So fix the wrong use of connector
-> according to the comments and then call drm_connector_put()
-> after using connector finishes.
->
-> Signed-off-by: He Ying <heying24@huawei.com>
+On Mon, 01 Nov 2021, Perry Yuan <Perry.Yuan@amd.com> wrote:
+> Fix below crash by adding a check in the drm_dp_dpcd_access which
+> ensures that aux->transfer was actually initialized earlier.
 
-Please use "drm/sun4i:" subject prefix for sun4i patches.
+Gut feeling says this is papering over a real usage issue somewhere
+else. Why is the aux being used for transfers before ->transfer has been
+set? Why should the dp helper be defensive against all kinds of
+misprogramming?
+
 
 BR,
 Jani.
 
 
-> ---
->  drivers/gpu/drm/sun4i/sun4i_tcon.c | 18 +++++++++++++-----
->  1 file changed, 13 insertions(+), 5 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.c b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-> index 9f06dec0fc61..24fa6784ee5f 100644
-> --- a/drivers/gpu/drm/sun4i/sun4i_tcon.c
-> +++ b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-> @@ -47,12 +47,12 @@ static struct drm_connector *sun4i_tcon_get_connector(const struct drm_encoder *
->  	drm_connector_list_iter_begin(encoder->dev, &iter);
->  	drm_for_each_connector_iter(connector, &iter)
->  		if (connector->encoder == encoder) {
-> -			drm_connector_list_iter_end(&iter);
-> -			return connector;
-> +			drm_connector_get(connector);
-> +			break;
->  		}
->  	drm_connector_list_iter_end(&iter);
+> BUG: kernel NULL pointer dereference, address: 0000000000000000
+> PGD 0 P4D 0
+> Oops: 0010 [#1] SMP NOPTI
+> RIP: 0010:0x0
+> Code: Unable to access opcode bytes at RIP 0xffffffffffffffd6.
+> RSP: 0018:ffffa8d64225bab8 EFLAGS: 00010246
+> RAX: 0000000000000000 RBX: 0000000000000020 RCX: ffffa8d64225bb5e
+> RDX: ffff93151d921880 RSI: ffffa8d64225bac8 RDI: ffff931511a1a9d8
+> RBP: ffffa8d64225bb10 R08: 0000000000000001 R09: ffffa8d64225ba60
+> R10: 0000000000000002 R11: 000000000000000d R12: 0000000000000001
+> R13: 0000000000000000 R14: ffffa8d64225bb5e R15: ffff931511a1a9d8
+> FS: 00007ff8ea7fa9c0(0000) GS:ffff9317fe6c0000(0000) knlGS:0000000000000000
+> CS: 0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> CR2: ffffffffffffffd6 CR3: 000000010d5a4000 CR4: 0000000000750ee0
+> PKRU: 55555554
+> Call Trace:
+> drm_dp_dpcd_access+0x72/0x110 [drm_kms_helper]
+> drm_dp_dpcd_read+0xb7/0xf0 [drm_kms_helper]
+> drm_dp_start_crc+0x38/0xb0 [drm_kms_helper]
+> amdgpu_dm_crtc_set_crc_source+0x1ae/0x3e0 [amdgpu]
+> crtc_crc_open+0x174/0x220 [drm]
+> full_proxy_open+0x168/0x1f0
+> ? open_proxy_open+0x100/0x100
+> do_dentry_open+0x156/0x370
+> vfs_open+0x2d/0x30
+>
+> v2: fix some typo
+>
+> Signed-off-by: Perry Yuan <Perry.Yuan@amd.com>
+> ---
+>  drivers/gpu/drm/drm_dp_helper.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/drm_dp_helper.c b/drivers/gpu/drm/drm_dp_helper.c
+> index 6d0f2c447f3b..76b28396001a 100644
+> --- a/drivers/gpu/drm/drm_dp_helper.c
+> +++ b/drivers/gpu/drm/drm_dp_helper.c
+> @@ -260,6 +260,10 @@ static int drm_dp_dpcd_access(struct drm_dp_aux *aux, u8 request,
+>  	msg.buffer = buffer;
+>  	msg.size = size;
 >  
-> -	return NULL;
-> +	return connector;
->  }
+> +	/* No transfer function is set, so not an available DP connector */
+> +	if (!aux->transfer)
+> +		return -EINVAL;
+> +
+>  	mutex_lock(&aux->hw_mutex);
 >  
->  static int sun4i_tcon_get_pixel_depth(const struct drm_encoder *encoder)
-> @@ -65,6 +65,7 @@ static int sun4i_tcon_get_pixel_depth(const struct drm_encoder *encoder)
->  		return -EINVAL;
->  
->  	info = &connector->display_info;
-> +	drm_connector_put(connector);
->  	if (info->num_bus_formats != 1)
->  		return -EINVAL;
->  
-> @@ -361,6 +362,7 @@ static void sun4i_tcon0_mode_set_cpu(struct sun4i_tcon *tcon,
->  	/* TODO support normal CPU interface modes */
->  	struct sun6i_dsi *dsi = encoder_to_sun6i_dsi(encoder);
->  	struct mipi_dsi_device *device = dsi->device;
-> +	struct drm_connector *connector;
->  	u8 bpp = mipi_dsi_pixel_format_to_bpp(device->format);
->  	u8 lanes = device->lanes;
->  	u32 block_space, start_delay;
-> @@ -372,7 +374,9 @@ static void sun4i_tcon0_mode_set_cpu(struct sun4i_tcon *tcon,
->  	sun4i_tcon0_mode_set_common(tcon, mode);
->  
->  	/* Set dithering if needed */
-> -	sun4i_tcon0_mode_set_dithering(tcon, sun4i_tcon_get_connector(encoder));
-> +	connector = sun4i_tcon_get_connector(encoder);
-> +	sun4i_tcon0_mode_set_dithering(tcon, connector);
-> +	drm_connector_put(connector);
->  
->  	regmap_update_bits(tcon->regs, SUN4I_TCON0_CTL_REG,
->  			   SUN4I_TCON0_CTL_IF_MASK,
-> @@ -430,6 +434,7 @@ static void sun4i_tcon0_mode_set_lvds(struct sun4i_tcon *tcon,
->  				      const struct drm_display_mode *mode)
->  {
->  	unsigned int bp;
-> +	struct drm_connector *connector;
->  	u8 clk_delay;
->  	u32 reg, val = 0;
->  
-> @@ -440,7 +445,9 @@ static void sun4i_tcon0_mode_set_lvds(struct sun4i_tcon *tcon,
->  	sun4i_tcon0_mode_set_common(tcon, mode);
->  
->  	/* Set dithering if needed */
-> -	sun4i_tcon0_mode_set_dithering(tcon, sun4i_tcon_get_connector(encoder));
-> +	connector = sun4i_tcon_get_connector(encoder);
-> +	sun4i_tcon0_mode_set_dithering(tcon, connector);
-> +	drm_connector_put(connector);
->  
->  	/* Adjust clock delay */
->  	clk_delay = sun4i_tcon_get_clk_delay(mode, 0);
-> @@ -518,6 +525,7 @@ static void sun4i_tcon0_mode_set_rgb(struct sun4i_tcon *tcon,
->  
->  	/* Set dithering if needed */
->  	sun4i_tcon0_mode_set_dithering(tcon, connector);
-> +	drm_connector_put(connector);
->  
->  	/* Adjust clock delay */
->  	clk_delay = sun4i_tcon_get_clk_delay(mode, 0);
+>  	/*
 
 -- 
 Jani Nikula, Intel Open Source Graphics Center
