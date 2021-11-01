@@ -2,41 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4939D441A5A
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Nov 2021 12:01:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB51E441A53
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Nov 2021 12:01:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B6C1089C05;
-	Mon,  1 Nov 2021 11:01:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5655E89BFB;
+	Mon,  1 Nov 2021 11:01:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
- [211.20.114.71])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A60E189BF4
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Nov 2021 11:01:48 +0000 (UTC)
-Received: from mail.aspeedtech.com ([192.168.0.24])
- by twspam01.aspeedtech.com with ESMTP id 1A1AcdKM037900;
- Mon, 1 Nov 2021 18:38:39 +0800 (GMT-8)
- (envelope-from tommy_huang@aspeedtech.com)
-Received: from tommy0527-VirtualBox.aspeedtech.com (192.168.2.141) by
- TWMBX02.aspeed.com (192.168.0.24) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Mon, 1 Nov 2021 19:01:23 +0800
-From: tommy-huang <tommy_huang@aspeedtech.com>
-To: <joel@jms.id.au>, <airlied@linux.ie>, <daniel@ffwll.ch>,
- <robh+dt@kernel.org>, <andrew@aj.id.au>,
- <linux-aspeed@lists.ozlabs.org>, <dri-devel@lists.freedesktop.org>,
- <devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
- <linux-kernel@vger.kernel.org>
-Subject: [PATCH 0/4] Add Aspeed AST2600 soc display support
-Date: Mon, 1 Nov 2021 19:01:03 +0800
-Message-ID: <20211101110107.29010-1-tommy_huang@aspeedtech.com>
-X-Mailer: git-send-email 2.17.1
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6BFE189BF8
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Nov 2021 11:01:06 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 47D2460FD9
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Nov 2021 11:01:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1635764466;
+ bh=Bh6S6+TZwvMehjwPSjgy2VB/3C8posY4M4HqpPlxCtM=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=eH5aduhtd1JiwH2KMSqslrTfIvmLMesV35WLELuvK3gbtHkns8XxpSfQF+zzyDfHY
+ xVTGPPvvYobrkU1J8PhGpfZumiPB3fKrUQNGM5SVriU7Fmh3dWyt/lnqa0aDj/CZqF
+ MB2Vf9MEANskPd1fUGxYTO2cox/Pp/mL80Fv8GUvfoOOa+m5Wc0GN7+l9iq7bOZZ6k
+ ASy4L4VJzMqZstziui3G2JOkE6AajtyjfWz3WwoiEpgmx/dIuz9PAxFKiseKUrrlh/
+ FNvdXfPt6sC8hPh+0tnzd4WS/YVXdxgb3xus+hOcXDn5LoTOvY3xNLlANVUvoQmRSz
+ Lru+A6pHelvtQ==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id 3CD1460FC0; Mon,  1 Nov 2021 11:01:06 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 214901] amdgpu freezes HP laptop at start up
+Date: Mon, 01 Nov 2021 11:01:06 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: spasswolf@web.de
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-214901-2300-YiaL4L3uht@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-214901-2300@https.bugzilla.kernel.org/>
+References: <bug-214901-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [192.168.2.141]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 1A1AcdKM037900
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,36 +65,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: BMC-SW@aspeedtech.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The Aspeed AST2600 soc diaplay support is added in this patch.
-Because some hw designed is changed in this version, add them 
-in this patch.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D214901
 
-v2:
-  Remove some unnecessary patch.
-  Refine for reviwer request.
+--- Comment #4 from spasswolf@web.de ---
+Just confirmed that removing the 3 lines
+        r =3D amdgpu_amdkfd_resume_iommu(adev);
+        if (r)
+                goto init_failed;
+can be used as a workaround. Removing only the if (r) check is not enough,=
+=20
+just calling amdgpu_amdkfd_resume_iommu(adev) leads to freezing.
 
-v1:
-  First add patch.
+--=20
+You may reply to this email to add a comment.
 
-Joel Stanley (2):
-  ARM: dts: aspeed: Add GFX node to AST2600
-  ARM: dts: aspeed: ast2600-evb: Enable GFX device
-
-tommy-huang (2):
-  drm/aspeed: Update INTR_STS handling
-  dt-bindings: gpu: Add ASPEED GFX bindings document
-
- .../devicetree/bindings/gpu/aspeed-gfx.txt    |  1 +
- arch/arm/boot/dts/aspeed-ast2600-evb.dts      | 18 +++++++++++++
- arch/arm/boot/dts/aspeed-g6.dtsi              | 11 ++++++++
- drivers/gpu/drm/aspeed/aspeed_gfx.h           |  2 ++
- drivers/gpu/drm/aspeed/aspeed_gfx_drv.c       | 26 ++++++++++++++++---
- 5 files changed, 55 insertions(+), 3 deletions(-)
-
--- 
-2.17.1
-
+You are receiving this mail because:
+You are watching the assignee of the bug.=
