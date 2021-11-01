@@ -2,38 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 309E54412CB
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Nov 2021 05:40:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12A6C4412F5
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Nov 2021 06:20:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9FBF989B29;
-	Mon,  1 Nov 2021 04:40:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 752D089D4B;
+	Mon,  1 Nov 2021 05:20:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1DAD889B06;
- Mon,  1 Nov 2021 04:40:08 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10154"; a="231208247"
-X-IronPort-AV: E=Sophos;i="5.87,198,1631602800"; d="scan'208";a="231208247"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Oct 2021 21:40:07 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.87,198,1631602800"; d="scan'208";a="582497876"
-Received: from vbelgaum-ubuntu.fm.intel.com ([10.1.27.27])
- by fmsmga002.fm.intel.com with ESMTP; 31 Oct 2021 21:40:04 -0700
-From: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Cc: Vinay Belgaumkar <vinay.belgaumkar@intel.com>,
- Ashutosh Dixit <ashutosh.dixit@intel.com>
-Subject: [PATCH 3/3] drm/i915/guc/slpc: Update boost sysfs hooks for SLPC
-Date: Sun, 31 Oct 2021 21:39:37 -0700
-Message-Id: <20211101043937.35747-4-vinay.belgaumkar@intel.com>
-X-Mailer: git-send-email 2.25.0
-In-Reply-To: <20211101043937.35747-1-vinay.belgaumkar@intel.com>
-References: <20211101043937.35747-1-vinay.belgaumkar@intel.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
+ [66.111.4.26])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B35889D4B
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Nov 2021 05:20:33 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.nyi.internal (Postfix) with ESMTP id 70CEB5C013F;
+ Mon,  1 Nov 2021 01:20:30 -0400 (EDT)
+Received: from imap45 ([10.202.2.95])
+ by compute3.internal (MEProxy); Mon, 01 Nov 2021 01:20:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=noisetron.com;
+ h=mime-version:message-id:in-reply-to:references:date:from:to
+ :cc:subject:content-type; s=fm1; bh=Cta8O/qKICChITcjz8wR0k2qYSPl
+ nbplkKbySQf5i8c=; b=TSRKT0XJVzSLPorgQ3yTSykKfpSaB7mw7EEY1mz51K8L
+ cvvy0CgIB7ioY9vVGiBFCGa8dkB7yOWU7eQqrfH/uxRjVg3JXEu8FPKPf2BBDDyS
+ 1tIwqLGmP6vqxkXrEPBh65MKnnV23/lyKmzA/mp0FdVmCBJK67ERsaCg5cjyJLHG
+ A4171tD6BS9c3PRZ4ZxxEX2v8Gzj/cmNwgeVoEGHCL9kCuU5t9j4EG+8LTzW9019
+ gu6gHpS9DGOm0ttd4l9JwIepOWTpIuQxYQzkiqhNv/e5Ip1/E9p6ZAaom9VJ6xWj
+ +KlCfMZ/NjuiiCpWrEH2Y+pBBYS1NEzedhrSCnaLcg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=Cta8O/
+ qKICChITcjz8wR0k2qYSPlnbplkKbySQf5i8c=; b=boMdXKbiakRGilOZx4s+tv
+ dOywEZ5awHsuADJF9tG9LOx4JpLVZUWGJ3uL2Lb2j/Q/NUa6uqQ9dKyXmYK0jk6V
+ kE+zOiNANMUeGca60hDwVcGFusehJXtr7JXhHdf28thkrtpjKy9GqyX13QMVQ52B
+ XwXJ/qpffzMU7CGlb+79e++jJVcia0q+oumJWuuE7YNRuNeQ37CQvgubiCMjk/Wz
+ LtngAiuDDDlAY5DFEsbq/PbI4d+HFKQG0upJu/agvpxNo2Z3DN6Knwv1S8+OzSGz
+ fQG0VLJNLHAWlrsQG55voYfd4yB2xrQ70eEXomSqYbY9habEb9Dnm5pNuNfCwFCQ
+ ==
+X-ME-Sender: <xms:HXl_Ybm1aALqmqFdx3irmOETDix6aghI2YVi0pkMFi0G4jPBgdzf5g>
+ <xme:HXl_Ye2xW1a7e5j8RhZ7MB-k5SzGIfawTePS4cXctpfEyHu3389qH5YIVE92HaQXf
+ Lt9NYA5AUFMKTzi>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrvdehuddgkedtucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepofgfggfkjghffffhvffutgesthdtredtreertdenucfhrhhomhepfdeuvghr
+ thcuufgthhhivghtthgvtggrthhtvgdfuceosggvrhhtsehnohhishgvthhrohhnrdgtoh
+ hmqeenucggtffrrghtthgvrhhnpeefteffhedtueevjeelveffueeugffghfegieegkefh
+ teeluefgudeljeefhfelkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmh
+ grihhlfhhrohhmpegsvghrthesnhhoihhsvghtrhhonhdrtghomh
+X-ME-Proxy: <xmx:Hnl_YRoIwqq5Jw4p0yHmq2zylQq52Wz0YYuQoYsaCaxXQVArA6juJw>
+ <xmx:Hnl_YTk7wFAArLr80SevcfYdEDoGnOCx-PPze2Houb-wN6qm0waz0g>
+ <xmx:Hnl_YZ0x3lk8gDO7qqc2srUFC-p-f7SgAtJIDLOuiQT5eNlAHMFymw>
+ <xmx:Hnl_YSwqWsKv5T07SQzpBD-26CHhwK2z7AH5i8gMVfeSJ4p9IimPgw>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id F091B24A0077; Mon,  1 Nov 2021 01:20:29 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.5.0-alpha0-1369-gd055fb5e7c-fm-20211018.002-gd055fb5e
+Mime-Version: 1.0
+Message-Id: <a1140d60-77a0-4312-acae-9e9da2239b0d@www.fastmail.com>
+In-Reply-To: <YXwUTPBPlgwj5NdA@donbot>
+References: <e9e2bbf8-daa3-48f0-b875-f7487b64d57c@www.fastmail.com>
+ <YXwUTPBPlgwj5NdA@donbot>
+Date: Sun, 31 Oct 2021 22:20:09 -0700
+From: "Bert Schiettecatte" <bert@noisetron.com>
+To: "John Keeping" <john@metanate.com>, "Rob Herring" <robh@kernel.org>,
+ "Tomeu Vizoso" <tomeu.vizoso@collabora.com>,
+ "Steven Price" <steven.price@arm.com>,
+ "Alyssa Rosenzweig" <alyssa.rosenzweig@collabora.com>
+Subject: Re: dri/drm/kms question with regards to minor faults
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,201 +82,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a helper to sort through the SLPC/RPS paths of get/set methods.
-Boost frequency will be modified as long as it is within the constraints
-of RP0 and if it is different from the existing one. We will set min
-freq to boost only if there is at least one active waiter.
+Hi John 
 
-v2: Add num_boosts to guc_slpc_info and changes for worker function
+> Coincidentally, I've been looking at Panfrost on RK3288 this week as
+> well!  I'm testing it with a project that has been using the binary blob
+> driver for several years and unfortunately Panfrost seems to use ~15%
+> more CPU.
+> Like you, I see a huge number of minor faults (~500/second compared with
+> ~3/second on libmali).  It seems that Panfrost is mmap'ing and
+> munmap'ing buffers on every frame which doesn't happen when the same
+> application is using the binary driver.
 
-Cc: Ashutosh Dixit <ashutosh.dixit@intel.com>
-Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
----
- drivers/gpu/drm/i915/gt/intel_rps.c         | 47 +++++++++++++++++++++
- drivers/gpu/drm/i915/gt/intel_rps.h         |  2 +
- drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c | 29 +++++++++++++
- drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h |  1 +
- drivers/gpu/drm/i915/i915_sysfs.c           | 19 ++-------
- 5 files changed, 82 insertions(+), 16 deletions(-)
+Thanks for confirming you are seeing the same issue. 
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_rps.c b/drivers/gpu/drm/i915/gt/intel_rps.c
-index b2d5b1747086..21f60fba864f 100644
---- a/drivers/gpu/drm/i915/gt/intel_rps.c
-+++ b/drivers/gpu/drm/i915/gt/intel_rps.c
-@@ -936,6 +936,53 @@ void intel_rps_park(struct intel_rps *rps)
- 	GT_TRACE(rps_to_gt(rps), "park:%x\n", rps->cur_freq);
- }
- 
-+u32 intel_rps_get_boost_frequency(struct intel_rps *rps)
-+{
-+	struct intel_guc_slpc *slpc;
-+
-+	if (rps_uses_slpc(rps)) {
-+		slpc = rps_to_slpc(rps);
-+
-+		return slpc->boost_freq;
-+	} else {
-+		return intel_gpu_freq(rps, rps->boost_freq);
-+	}
-+}
-+
-+static int set_boost_freq(struct intel_rps *rps, u32 val)
-+{
-+	bool boost = false;
-+
-+	/* Validate against (static) hardware limits */
-+	val = intel_freq_opcode(rps, val);
-+	if (val < rps->min_freq || val > rps->max_freq)
-+		return -EINVAL;
-+
-+	mutex_lock(&rps->lock);
-+	if (val != rps->boost_freq) {
-+		rps->boost_freq = val;
-+		boost = atomic_read(&rps->num_waiters);
-+	}
-+	mutex_unlock(&rps->lock);
-+	if (boost)
-+		schedule_work(&rps->work);
-+
-+	return 0;
-+}
-+
-+int intel_rps_set_boost_frequency(struct intel_rps *rps, u32 freq)
-+{
-+	struct intel_guc_slpc *slpc;
-+
-+	if (rps_uses_slpc(rps)) {
-+		slpc = rps_to_slpc(rps);
-+
-+		return intel_guc_slpc_set_boost_freq(slpc, freq);
-+	} else {
-+		return set_boost_freq(rps, freq);
-+	}
-+}
-+
- void intel_rps_dec_waiters(struct intel_rps *rps)
- {
- 	struct intel_guc_slpc *slpc;
-diff --git a/drivers/gpu/drm/i915/gt/intel_rps.h b/drivers/gpu/drm/i915/gt/intel_rps.h
-index 407e878d5006..aee12f37d38a 100644
---- a/drivers/gpu/drm/i915/gt/intel_rps.h
-+++ b/drivers/gpu/drm/i915/gt/intel_rps.h
-@@ -24,6 +24,8 @@ void intel_rps_park(struct intel_rps *rps);
- void intel_rps_unpark(struct intel_rps *rps);
- void intel_rps_boost(struct i915_request *rq);
- void intel_rps_dec_waiters(struct intel_rps *rps);
-+u32 intel_rps_get_boost_frequency(struct intel_rps *rps);
-+int intel_rps_set_boost_frequency(struct intel_rps *rps, u32 freq);
- 
- int intel_rps_set(struct intel_rps *rps, u8 val);
- void intel_rps_mark_interactive(struct intel_rps *rps, bool interactive);
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
-index 65da454b6693..285133ae47b0 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
-@@ -649,6 +649,33 @@ int intel_guc_slpc_enable(struct intel_guc_slpc *slpc)
- 	return 0;
- }
- 
-+int intel_guc_slpc_set_boost_freq(struct intel_guc_slpc *slpc, u32 val)
-+{
-+	int ret = 0;
-+
-+	if (val < slpc->min_freq || val > slpc->rp0_freq)
-+		return -EINVAL;
-+
-+	mutex_lock(&slpc->lock);
-+
-+	if (slpc->boost_freq != val) {
-+		/* Apply only if there are active waiters */
-+		if (atomic_read(&slpc->num_waiters)) {
-+			ret = slpc_force_min_freq(slpc, val);
-+			if (ret) {
-+				ret = -EIO;
-+				goto done;
-+			}
-+		}
-+
-+		slpc->boost_freq = val;
-+	}
-+
-+done:
-+	mutex_unlock(&slpc->lock);
-+	return ret;
-+}
-+
- void intel_guc_slpc_dec_waiters(struct intel_guc_slpc *slpc)
- {
- 	/* Return min back to the softlimit.
-@@ -685,6 +712,8 @@ int intel_guc_slpc_print_info(struct intel_guc_slpc *slpc, struct drm_printer *p
- 				   slpc_decode_max_freq(slpc));
- 			drm_printf(p, "\tMin freq: %u MHz\n",
- 				   slpc_decode_min_freq(slpc));
-+			drm_printf(p, "\twaitboosts: %u\n",
-+				   slpc->num_boosts);
- 		}
- 	}
- 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h
-index d74d6d749bdc..0caa8fee3c04 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h
-@@ -34,6 +34,7 @@ int intel_guc_slpc_enable(struct intel_guc_slpc *slpc);
- void intel_guc_slpc_fini(struct intel_guc_slpc *slpc);
- int intel_guc_slpc_set_max_freq(struct intel_guc_slpc *slpc, u32 val);
- int intel_guc_slpc_set_min_freq(struct intel_guc_slpc *slpc, u32 val);
-+int intel_guc_slpc_set_boost_freq(struct intel_guc_slpc *slpc, u32 val);
- int intel_guc_slpc_get_max_freq(struct intel_guc_slpc *slpc, u32 *val);
- int intel_guc_slpc_get_min_freq(struct intel_guc_slpc *slpc, u32 *val);
- int intel_guc_slpc_print_info(struct intel_guc_slpc *slpc, struct drm_printer *p);
-diff --git a/drivers/gpu/drm/i915/i915_sysfs.c b/drivers/gpu/drm/i915/i915_sysfs.c
-index 1804f4142740..59d441cedc75 100644
---- a/drivers/gpu/drm/i915/i915_sysfs.c
-+++ b/drivers/gpu/drm/i915/i915_sysfs.c
-@@ -279,7 +279,7 @@ static ssize_t gt_boost_freq_mhz_show(struct device *kdev, struct device_attribu
- 	struct drm_i915_private *i915 = kdev_minor_to_i915(kdev);
- 	struct intel_rps *rps = &i915->gt.rps;
- 
--	return sysfs_emit(buf, "%d\n", intel_gpu_freq(rps, rps->boost_freq));
-+	return sysfs_emit(buf, "%d\n", intel_rps_get_boost_frequency(rps));
- }
- 
- static ssize_t gt_boost_freq_mhz_store(struct device *kdev,
-@@ -288,7 +288,6 @@ static ssize_t gt_boost_freq_mhz_store(struct device *kdev,
- {
- 	struct drm_i915_private *dev_priv = kdev_minor_to_i915(kdev);
- 	struct intel_rps *rps = &dev_priv->gt.rps;
--	bool boost = false;
- 	ssize_t ret;
- 	u32 val;
- 
-@@ -296,21 +295,9 @@ static ssize_t gt_boost_freq_mhz_store(struct device *kdev,
- 	if (ret)
- 		return ret;
- 
--	/* Validate against (static) hardware limits */
--	val = intel_freq_opcode(rps, val);
--	if (val < rps->min_freq || val > rps->max_freq)
--		return -EINVAL;
--
--	mutex_lock(&rps->lock);
--	if (val != rps->boost_freq) {
--		rps->boost_freq = val;
--		boost = atomic_read(&rps->num_waiters);
--	}
--	mutex_unlock(&rps->lock);
--	if (boost)
--		schedule_work(&rps->work);
-+	ret = intel_rps_set_boost_frequency(rps, val);
- 
--	return count;
-+	return ret ?: count;
- }
- 
- static ssize_t vlv_rpe_freq_mhz_show(struct device *kdev,
--- 
-2.25.0
+> Panfrost experts, is there a missed opportunity for optimisation here?
+> Or is there something applications should be doing differently to avoid
+> repeatedly mapping & unmapping the same buffers?
 
+Panfrost team - any update on this? 
+
+Thanks
+Bert
