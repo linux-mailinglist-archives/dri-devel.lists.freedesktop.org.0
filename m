@@ -2,57 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F7D444118E
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Nov 2021 01:07:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13CF544123D
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Nov 2021 03:56:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B063989B0D;
-	Mon,  1 Nov 2021 00:07:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB51E899D5;
+	Mon,  1 Nov 2021 02:56:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B42589B0D
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Nov 2021 00:07:19 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 1E4F760EE3
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Nov 2021 00:07:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1635725239;
- bh=90vgwktyZPDKfFQjg/UrLp37Z+EztIPS46juN3I5AzE=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=qFcleqJO71QXdLCvOe2c5iJboHPTRi+vSajq4nRCa+w5juLGuGDYtrNo2t+QzPOHf
- SoJ0KTVUgNCEm4kfLhQ/cQ9wmdnVJXLZaiSUKmvOstSuYU5/q4JFqQ8zF5kc8+tNhe
- 02W8LUKpeDPHp3iKnqFmCxqMBkiaBgAlf9q79Q8clXKJm56PVNnowSzwZ43xZrZcoG
- 2OxMQFOiO57deAteaQBCYDMySpu8RgmhKlPAVOzLqEKBD9aGVklM0pDRC7oCop53y6
- 8HtDm+8tM6VsZgJJiM8TazuKPRzqWtA92K2ugVCBJXxsFDO9IXQ9yPOOFoYluIpVG9
- HMEctb2Ohn2kA==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 1439660F48; Mon,  1 Nov 2021 00:07:19 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 214901] amdgpu freezes HP laptop at start up
-Date: Mon, 01 Nov 2021 00:07:18 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: spasswolf@web.de
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-214901-2300-5xNTM1N6E6@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-214901-2300@https.bugzilla.kernel.org/>
-References: <bug-214901-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A69A899D5;
+ Mon,  1 Nov 2021 02:56:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1635735405; x=1667271405;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to;
+ bh=TooinVCTF+GskGPPeCwj9QnDt7nLipC4yPQ/dTu7GqY=;
+ b=x27Fn6xzk6vxor5oCeHOvWUt3StQpqTIGCtxMaH88EZ2Fq5MWoq+fCW2
+ Uke6L4jInHefpP5YScVcaD1NDhH6SHAc5AH5p63YWrhQ36Sp4W19JeD3k
+ hUp1pn8qPxbDUvZZQrbbC6wr1o+/Id70bNFZAPDltAk6OAyWgUhqSjVGp E=;
+Received: from ironmsg07-lv.qualcomm.com ([10.47.202.151])
+ by alexa-out.qualcomm.com with ESMTP; 31 Oct 2021 19:56:45 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg07-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Oct 2021 19:56:43 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.922.7; 
+ Sun, 31 Oct 2021 19:56:43 -0700
+Received: from [10.111.175.173] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.922.7; Sun, 31 Oct 2021
+ 19:56:39 -0700
+Content-Type: multipart/alternative;
+ boundary="------------zpKu8wO0xpwjgPBhni7PbGCC"
+Message-ID: <cfaded34-0626-891d-f056-1d9c6584c253@quicinc.com>
+Date: Sun, 31 Oct 2021 19:56:38 -0700
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.1
+Subject: Re: [PATCH] drm/msm/dsi: set default num_data_lanes
+Content-Language: en-US
+To: Philip Chen <philipchen@chromium.org>, LKML <linux-kernel@vger.kernel.org>
+CC: <dianders@chromium.org>, <swboyd@chromium.org>, <robdclark@chromium.org>, 
+ Abhinav Kumar <abhinavk@codeaurora.org>, Bernard Zhao <bernard@vivo.com>, 
+ "Dan Carpenter" <dan.carpenter@oracle.com>, Daniel Vetter <daniel@ffwll.ch>,
+ "David Airlie" <airlied@linux.ie>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>, Jonathan Marek <jonathan@marek.ca>, Nicolas
+ Boichat <drinkcat@chromium.org>, Rob Clark <robdclark@gmail.com>, Sean Paul
+ <sean@poorly.run>, Viresh Kumar <viresh.kumar@linaro.org>, Yangtao Li
+ <tiny.windzz@gmail.com>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>
+References: <20211030100812.1.I6cd9af36b723fed277d34539d3b2ba4ca233ad2d@changeid>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20211030100812.1.I6cd9af36b723fed277d34539d3b2ba4ca233ad2d@changeid>
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,29 +75,93 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D214901
+--------------zpKu8wO0xpwjgPBhni7PbGCC
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
---- Comment #1 from spasswolf@web.de ---
-G
-00:01.0 VGA compatible controller [0300]: Advanced Micro Devices, Inc.
-[AMD/ATI] Wani [Radeon R5/R6/R7 Graphics] [1002:9874] (rev ca) (prog-if 00 =
-[VGA
-controller])
-        DeviceName: ATI EG BROADWAY
-        Subsystem: Hewlett-Packard Company Wani [Radeon R5/R6/R7 Graphics]
-[103c:8332]
-        Flags: bus master, fast devsel, latency 0, IRQ 37
-        Memory at e0000000 (64-bit, prefetchable) [size=3D256M]
-        Memory at f0800000 (64-bit, prefetchable) [size=3D8M]
-        I/O ports at 4000 [size=3D256]
-        Memory at f0400000 (32-bit, non-prefetchable) [size=3D256K]
-        Expansion ROM at 000c0000 [disabled] [size=3D128K]
-        Capabilities: <access denied>
-        Kernel driver in use: amdgpu
-        Kernel modules: amdgpu
 
---=20
-You may reply to this email to add a comment.
+On 10/30/2021 10:08 AM, Philip Chen wrote:
+> If "data_lanes" property of the dsi output endpoint is missing in
+> the DT, num_data_lanes would be 0 by default, which could cause
+> dsi_host_attach() to fail if dsi->lanes is set to a non-zero value
+> by the bridge driver.
+>
+> According to the binding document of msm dsi controller, the
+> input/output endpoint of the controller is expected to have 4 lanes.
+> So let's set num_data_lanes to 4 by default.
+>
+> Signed-off-by: Philip Chen<philipchen@chromium.org>
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> ---
+>
+>   drivers/gpu/drm/msm/dsi/dsi_host.c | 2 ++
+>   1 file changed, 2 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
+> index c86b5090fae6..a32eb33dfc14 100644
+> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
+> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
+> @@ -1696,6 +1696,8 @@ static int dsi_host_parse_lane_data(struct msm_dsi_host *msm_host,
+>   	if (!prop) {
+>   		DRM_DEV_DEBUG(dev,
+>   			"failed to find data lane mapping, using default\n");
+> +		/* Set the number of date lanes to 4 by default. */
+> +		msm_host->num_data_lanes = 4;
+>   		return 0;
+>   	}
+>   
+--------------zpKu8wO0xpwjgPBhni7PbGCC
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">On 10/30/2021 10:08 AM, Philip Chen
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+cite="mid:20211030100812.1.I6cd9af36b723fed277d34539d3b2ba4ca233ad2d@changeid">
+      <pre class="moz-quote-pre" wrap="">If "data_lanes" property of the dsi output endpoint is missing in
+the DT, num_data_lanes would be 0 by default, which could cause
+dsi_host_attach() to fail if dsi-&gt;lanes is set to a non-zero value
+by the bridge driver.
+
+According to the binding document of msm dsi controller, the
+input/output endpoint of the controller is expected to have 4 lanes.
+So let's set num_data_lanes to 4 by default.
+
+Signed-off-by: Philip Chen <a class="moz-txt-link-rfc2396E" href="mailto:philipchen@chromium.org">&lt;philipchen@chromium.org&gt;</a></pre>
+    </blockquote>
+    <span style="white-space:nowrap">Reviewed-by: Abhinav Kumar &lt;<a class="moz-txt-link-abbreviated" href="mailto:quic_abhinavk@quicinc.com">quic_abhinavk@quicinc.com</a></span><span
+      style="white-space:nowrap">&gt;</span>
+    <blockquote type="cite"
+cite="mid:20211030100812.1.I6cd9af36b723fed277d34539d3b2ba4ca233ad2d@changeid">
+      <pre class="moz-quote-pre" wrap="">
+---
+
+ drivers/gpu/drm/msm/dsi/dsi_host.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
+index c86b5090fae6..a32eb33dfc14 100644
+--- a/drivers/gpu/drm/msm/dsi/dsi_host.c
++++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
+@@ -1696,6 +1696,8 @@ static int dsi_host_parse_lane_data(struct msm_dsi_host *msm_host,
+ 	if (!prop) {
+ 		DRM_DEV_DEBUG(dev,
+ 			"failed to find data lane mapping, using default\n");
++		/* Set the number of date lanes to 4 by default. */
++		msm_host-&gt;num_data_lanes = 4;
+ 		return 0;
+ 	}
+ 
+</pre>
+    </blockquote>
+  </body>
+</html>
+--------------zpKu8wO0xpwjgPBhni7PbGCC--
