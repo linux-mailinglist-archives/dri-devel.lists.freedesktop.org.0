@@ -2,33 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC35A4421B4
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Nov 2021 21:34:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E0614421BD
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Nov 2021 21:35:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9768789D43;
-	Mon,  1 Nov 2021 20:34:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B94EC6E0DF;
+	Mon,  1 Nov 2021 20:35:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 41EE789D43;
- Mon,  1 Nov 2021 20:34:12 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10155"; a="229838562"
-X-IronPort-AV: E=Sophos;i="5.87,200,1631602800"; d="scan'208";a="229838562"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Nov 2021 13:34:11 -0700
-X-IronPort-AV: E=Sophos;i="5.87,200,1631602800"; d="scan'208";a="496701209"
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A457489D4F;
+ Mon,  1 Nov 2021 20:35:48 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10155"; a="291954392"
+X-IronPort-AV: E=Sophos;i="5.87,200,1631602800"; d="scan'208";a="291954392"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Nov 2021 13:35:48 -0700
+X-IronPort-AV: E=Sophos;i="5.87,200,1631602800"; d="scan'208";a="666853033"
 Received: from adixit-mobl1.amr.corp.intel.com (HELO adixit-arch.intel.com)
  ([10.212.137.218])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Nov 2021 13:34:09 -0700
-Date: Mon, 01 Nov 2021 13:24:42 -0700
-Message-ID: <87sfwf39px.wl-ashutosh.dixit@intel.com>
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Nov 2021 13:35:47 -0700
+Date: Mon, 01 Nov 2021 13:26:20 -0700
+Message-ID: <87r1bz39n7.wl-ashutosh.dixit@intel.com>
 From: "Dixit, Ashutosh" <ashutosh.dixit@intel.com>
 To: "Belgaumkar, Vinay" <vinay.belgaumkar@intel.com>
-Subject: Re: [PATCH v2 0/3] drm/i915/guc/slpc: Implement waitboost for SLPC
-In-Reply-To: <20211101043937.35747-1-vinay.belgaumkar@intel.com>
-References: <20211101043937.35747-1-vinay.belgaumkar@intel.com>
+Subject: Re: [PATCH 1/3] drm/i915/guc/slpc: Define and initialize boost
+ frequency
+In-Reply-To: <20211101043937.35747-2-vinay.belgaumkar@intel.com>
+References: <20211101043937.35747-1-vinay.belgaumkar@intel.com>	<20211101043937.35747-2-vinay.belgaumkar@intel.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
  FLIM-LB/1.14.9 (=?ISO-8859-4?Q?Goj=F2?=) APEL-LB/10.8 EasyPG/1.0.0
  Emacs/27.2 (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
@@ -51,14 +52,71 @@ Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, 31 Oct 2021 21:39:34 -0700, Belgaumkar, Vinay wrote:
+On Sun, 31 Oct 2021 21:39:35 -0700, Belgaumkar, Vinay wrote:
 >
-> Waitboost is a legacy feature implemented in the Host Turbo algorithm. This
-> patch set implements it for the SLPC path. A "boost" happens when user
-> calls gem_wait ioctl on a submission that has not landed on HW yet.
+> Define helpers and struct members required to record boost info.
+> Boost frequency is initialized to RP0 at SLPC init. Also define num_waiters
+> which can track the pending boost requests.
+>
+> Boost will be done by scheduling a worker thread. This will allow
+> us to make H2G calls inside an interrupt context. Initialize the
 
-Afaiu user doesn't have to call gem_wait, the boost will happen whenever a
-request waits to be submitted to GuC because of an unmet depedency. This
-has to be done from i915 because GuC has not yet seen the request.
+"to not make H2G calls from interrupt context" is probably better.
 
-Rest of the cover letter is fine.
+> +static int slpc_force_min_freq(struct intel_guc_slpc *slpc, u32 freq)
+> +{
+> +	struct drm_i915_private *i915 = slpc_to_i915(slpc);
+> +	intel_wakeref_t wakeref;
+> +	int ret = 0;
+> +
+> +	lockdep_assert_held(&slpc->lock);
+> +
+> +	/**
+
+nit: this I believe should just be
+
+	/*
+
+/** I believe shows up in kerneldoc so shouldn't be used unless we want
+something in kerneldoc.
+
+> +	 * This function is a little different as compared to
+> +	 * intel_guc_slpc_set_min_freq(). Softlimit will not be updated
+> +	 * here since this is used to temporarily change min freq,
+> +	 * for example, during a waitboost. Caller is responsible for
+> +	 * checking bounds.
+> +	 */
+> +
+> +	with_intel_runtime_pm(&i915->runtime_pm, wakeref) {
+> +		ret = slpc_set_param(slpc,
+> +				     SLPC_PARAM_GLOBAL_MIN_GT_UNSLICE_FREQ_MHZ,
+> +				     freq);
+> +		if (ret)
+> +			drm_err(&i915->drm, "Unable to force min freq to %u: %d",
+
+Probably drm_err_ratelimited since it's called at run time not only at
+init? Not sure if drm_err_once suffizes, probably not.
+
+> +				freq, ret);
+> +	}
+> +
+> +	return ret;
+> +}
+> +
+> +static void slpc_boost_work(struct work_struct *work)
+> +{
+> +	struct intel_guc_slpc *slpc = container_of(work, typeof(*slpc), boost_work);
+> +
+> +	/* Raise min freq to boost. It's possible that
+> +	 * this is greater than current max. But it will
+> +	 * certainly be limited by RP0. An error setting
+> +	 * the min param is not fatal.
+> +	 */
+
+nit: do we follow the following format for multi-line comments,
+Documentation/process/coding-style.rst mentions this:
+
+/*
+ * Line 1
+ * Line 2
+ */
