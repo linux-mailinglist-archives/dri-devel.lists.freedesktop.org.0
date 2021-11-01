@@ -2,58 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5338F442059
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Nov 2021 19:55:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDF5944205A
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Nov 2021 19:55:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B4D516E23B;
-	Mon,  1 Nov 2021 18:54:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC38D6E2ED;
+	Mon,  1 Nov 2021 18:55:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com
- [IPv6:2607:f8b0:4864:20::633])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1191F6E23B
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Nov 2021 18:54:58 +0000 (UTC)
-Received: by mail-pl1-x633.google.com with SMTP id b13so744795plg.2
- for <dri-devel@lists.freedesktop.org>; Mon, 01 Nov 2021 11:54:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=jE4EmXPxzPjHYSVUsCVNkTKVW+O+LxX4PMsksPUHGx4=;
- b=n4ExXP2WU6Zf5cFPTRWbPRvruPiz7yD4ryrc3g3HLM43Y56eXwNo5WeffaQC5LZ17f
- dWEpsEiL5aZr/LJnCTIaoIv67XzSWNnsada9aUyF8whEW/8EsNgkhzlF7R82kOBmaZJC
- +KZWD++WdNbyV2er1kYgz5krbCieKDIVMBbxN3TPX14xUVibGCS4KIlX/Ec7dT1YcJKn
- 8Mi7X+Zp2tX+Q1WdGAbQ15ZeOH1qguhT6CyhgYRcwwrPaSabL4btMyUCP2nXtPTUScEc
- DQwSCHoRCairKfWIRCuDebQo6Tc1gDlgKAFuBY9vMuYVcaryK1Qww7u+vtKzJF6e3Qor
- UyXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=jE4EmXPxzPjHYSVUsCVNkTKVW+O+LxX4PMsksPUHGx4=;
- b=VrCQfTvlsxzMEyhU95KeQNQO9u/Z+oXbWg0kC8gxTVNZL58r+PS2j1KznhLUZMng93
- dqAahhHszlVDuoElT5//mjG4OM+b3FAdZjkYelCTlccNfKD66gEK/z91SSMaMmwi0ovJ
- UrSCEV72C857gSY9EWxV0XMtmJ3ZiE8A+5dS9gVj8auRvUVV2PgRAeIAyA9Do7AGRsD7
- XvrH0jUIkQaMsKPBHEtuZevrRbpcLAdqF0OV5kIqFFHo49nkHcnioCBTynh8MVPgSq5Q
- seRviAXPRaJ3c9smoSrqCiry1VytjqbTkhqQktoTQLO2V/BlMzMTWOyzlU1nmFt1R7g8
- Nkkg==
-X-Gm-Message-State: AOAM532JcZlnKAOnRUGsxxhh/wP/GZuhsB9ZbFkq+QBDsNeNd/uwVQbY
- OoyOJafmEyvVPpy7lYQ/i1SV7b13IPdZ44Ehvd3YRQ==
-X-Google-Smtp-Source: ABdhPJxEDzZo9BSAdZaPyL7ujJq4yNyrhjwC59t2VVjzlemKe/5as05xzZOtuIa9F2Nc2G02IqsrWFkTvJWstIDXqlk=
-X-Received: by 2002:a17:90b:3e8e:: with SMTP id
- rj14mr824888pjb.170.1635792897284; 
- Mon, 01 Nov 2021 11:54:57 -0700 (PDT)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 670CB6E288
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Nov 2021 18:55:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1635792922;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=gZzdkJekBWG4x4xkvb6CthYR9L71Zxbnl6IAJZMNVVM=;
+ b=gZ3+XtpVIHqSX3i39zyAUTcRv5wifkpLVMuwr1RCcRPTQ9yckQSYsx7puR2E0aX7VZwLUj
+ 1F1110XRINCQFqlCYUc+WLtO9qqFP5BJGuuuEy6lAdZSRx0kdvhjYKLANLtzTqdqR6Orvm
+ ccpLh1mM/+p/56tUJOzA+hOX1nRdXbo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-552-VzgEnrQxMWWt2qRthEsR_w-1; Mon, 01 Nov 2021 14:55:21 -0400
+X-MC-Unique: VzgEnrQxMWWt2qRthEsR_w-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 26F57100C661;
+ Mon,  1 Nov 2021 18:55:20 +0000 (UTC)
+Received: from x1.localdomain (unknown [10.39.192.61])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E273160C17;
+ Mon,  1 Nov 2021 18:55:18 +0000 (UTC)
+From: Hans de Goede <hdegoede@redhat.com>
+To: Lee Jones <lee.jones@linaro.org>,
+ Daniel Thompson <daniel.thompson@linaro.org>,
+ Jingoo Han <jingoohan1@gmail.com>
+Subject: [PATCH 1/3] backlight: lp855x: Move device_config setting out of
+ lp855x_configure()
+Date: Mon,  1 Nov 2021 19:55:15 +0100
+Message-Id: <20211101185518.306728-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-References: <20211021031027.537-1-gurchetansingh@chromium.org>
- <YXFWYlC2nr4scxtz@phenom.ffwll.local>
- <CAC_TJvfZu2Y16WS1ZZAagvAyTo42wpGWeJnzhFiAw2iEAi65pg@mail.gmail.com>
-In-Reply-To: <CAC_TJvfZu2Y16WS1ZZAagvAyTo42wpGWeJnzhFiAw2iEAi65pg@mail.gmail.com>
-From: Kalesh Singh <kaleshsingh@google.com>
-Date: Mon, 1 Nov 2021 11:54:46 -0700
-Message-ID: <CAC_TJvcmghJ25m=+Ai71Ftt3mW9nYAP8UwwZwL1R8GDLVzUnLA@mail.gmail.com>
-Subject: Re: [RFC PATCH 0/8] GPU memory tracepoints
-To: Daniel Vetter <daniel@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,166 +58,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Underwood <Mark.Underwood@arm.com>,
- Stephen Mansfield <Stephen.Mansfield@imgtec.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, Kenny.Ho@amd.com,
- Lingfeng Yang <lfy@google.com>, Steven Rostedt <rostedt@goodmis.org>,
- Gurchetan Singh <gurchetansingh@chromium.org>, Peiyong Lin <lpy@google.com>,
- John Reitan <John.Reitan@arm.com>, Yiwei Zhang <zzyiwei@google.com>,
- DRI mailing list <dri-devel@lists.freedesktop.org>,
- Gary Sweet <gary.sweet@broadcom.com>,
- android-kernel-team <android-kernel-team@google.com>,
- Hridya Valsaraju <hridya@google.com>, "Deucher,
- Alexander" <Alexander.Deucher@amd.com>,
- =?UTF-8?Q?=C3=98rjan_Eide?= <Orjan.Eide@arm.com>,
- Suren Baghdasaryan <surenb@google.com>, Chris Forbes <chrisforbes@google.com>,
- John Reck <jreck@google.com>
+Cc: Hans de Goede <hdegoede@redhat.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 21, 2021 at 3:38 PM Kalesh Singh <kaleshsingh@google.com> wrote=
-:
->
-> On Thu, Oct 21, 2021 at 5:00 AM Daniel Vetter <daniel@ffwll.ch> wrote:
-> >
-> > On Wed, Oct 20, 2021 at 08:10:19PM -0700, Gurchetan Singh wrote:
-> > > This is latest iteration of GPU memory tracepoints [1].
-> > >
-> > > In the past, there were questions about the "big picture" of memory
-> > > accounting [2], especially given related work on dma-buf heaps and DR=
-M
-> > > cgroups [3].  Also, there was a desire for a non-driver specific solu=
-tion.
-> > >
-> > > The great news is the dma-buf heaps work as recently landed [4].  It =
-uses
-> > > sys-fs and the plan is to use it in conjunction with the tracepoint
-> > > solution [5].  We're aiming for the GPU tracepoint to calculate total=
-s
-> > > per DRM-instance (a proxy for per-process on Android) and per-DRM dev=
-ice.
-> > >
-> > > The cgroups work looks terrific too and hopefully we can deduplicate =
-code once
-> > > that's merged.  Though that's abit of an implementation detail, so lo=
-ng as
-> > > the "GPU tracepoints" +  "dma-buf heap stats" plan sounds good for An=
-droid.
-> >
-> > Can we please start out with depulicated code, and integrate this with
-> > cgroups?
->
-> Thanks for the comments Dan,
->
-> The cgroups work is currently targeting allocator attribution so it
-> wouldn=E2=80=99t give insight to shared / imported memory - this is inclu=
-ded
-> as part of the totals in the tracepoint. We will start a separate
-> discussion with the gpu community on including imported memory into
-> cgroups design. Who would you recommend to be included? (in case we
-> don't already know all the interested parties).
->
-> The current tracepoint and the cgroups are not conflicting designs but
-> rather complimentary. These are some of the gaps which the tracepoint
-> helps to cover:
-> 1. Imported gpu memory accounting
-> 2. The tracepoint can be used to track gpu memory usage over time
-> (useful to detect memory usage spikes, for example), while cgroups can
-> be used to view usage as a more granular and static state.
-> 3. For systems where cgroups aren't enabled the tracepoint data can be
-> a good alternative to identify memory issues.
-> 4. Non-drm devices can make use of the tracepoint for reporting.
->
-> It would be great if we can also keep the tracepoint, as we don=E2=80=99t=
- have
-> another alternative that provides all it offers (cgroups can certainly
-> be extended to cover some of these),  and it's currently being used by
-> all Android devices.
+Move the setting of the lp->cfg pointer to the chip specific
+lp855x_device_config struct from lp855x_configure() to
+lp855x_probe(), before calling lp855x_parse_dt().
 
-Hi Daniel,
+This is a preperation patch for adding ACPI enumeration support.
 
-We had a follow up discussion with Kenny on using drm cgroups. In
-summary, we think that the tracepoints and croups here are orthogonal
-and should not block each other. Would appreciate any advice you have
-on moving this forward.
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+ drivers/video/backlight/lp855x_bl.c | 32 ++++++++++++++---------------
+ 1 file changed, 16 insertions(+), 16 deletions(-)
 
-Thanks,
-Kalesh
+diff --git a/drivers/video/backlight/lp855x_bl.c b/drivers/video/backlight/lp855x_bl.c
+index e94932c69f54..808ff00b2003 100644
+--- a/drivers/video/backlight/lp855x_bl.c
++++ b/drivers/video/backlight/lp855x_bl.c
+@@ -170,22 +170,6 @@ static int lp855x_configure(struct lp855x *lp)
+ 	int i, ret;
+ 	struct lp855x_platform_data *pd = lp->pdata;
+ 
+-	switch (lp->chip_id) {
+-	case LP8550:
+-	case LP8551:
+-	case LP8552:
+-	case LP8553:
+-	case LP8556:
+-		lp->cfg = &lp855x_dev_cfg;
+-		break;
+-	case LP8555:
+-	case LP8557:
+-		lp->cfg = &lp8557_dev_cfg;
+-		break;
+-	default:
+-		return -EINVAL;
+-	}
+-
+ 	if (lp->cfg->pre_init_device) {
+ 		ret = lp->cfg->pre_init_device(lp);
+ 		if (ret) {
+@@ -413,6 +397,22 @@ static int lp855x_probe(struct i2c_client *cl, const struct i2c_device_id *id)
+ 	lp->chip_id = id->driver_data;
+ 	lp->pdata = dev_get_platdata(&cl->dev);
+ 
++	switch (lp->chip_id) {
++	case LP8550:
++	case LP8551:
++	case LP8552:
++	case LP8553:
++	case LP8556:
++		lp->cfg = &lp855x_dev_cfg;
++		break;
++	case LP8555:
++	case LP8557:
++		lp->cfg = &lp8557_dev_cfg;
++		break;
++	default:
++		return -EINVAL;
++	}
++
+ 	if (!lp->pdata) {
+ 		ret = lp855x_parse_dt(lp);
+ 		if (ret < 0)
+-- 
+2.31.1
 
->
-> Thanks,
-> Kalesh
->
-> >
-> > The problem with gpu memory account is that everyone wants their own
-> > thing, they're all slightly differently, and all supported by a differe=
-nt
-> > subset of drivers. That doesn't make sense to support in upstream at al=
-l.
-> >
-> > Please huddle together so that there's one set of "track gpu memory"
-> > calls, and that does cgroups, tracepoints and everything else that an O=
-S
-> > might want to have.
-> >
-> > Also ideally this thing works for both integrated soc gpu (including an
-> > answer for special memory pools like cma) _and_ discrete gpus using ttm=
-.
-> > Or at least has an answer to both, because again if we end up with tota=
-lly
-> > different tracking for the soc vs the discrete gpu world, we've lost.
-> > -Daniel
-> >
-> > >
-> > > This series modifies the GPU memory tracepoint API in a non-breaking =
-fashion
-> > > (patch 1), and adds accounting via the GEM subsystem (patches 2 --> 7=
-). Given
-> > > the multiple places where memory events happen, there's a bunch trace=
- events
-> > > scattered in various places.  The hardest part is allocation, where e=
-ach driver
-> > > has their own API.  If there's a better way, do say so.
-> > >
-> > > The last patch is incomplete; we would like general feedback before p=
-roceeding
-> > > further.
-> > >
-> > > [1] https://lore.kernel.org/lkml/20200302235044.59163-1-zzyiwei@googl=
-e.com/
-> > > [2] https://lists.freedesktop.org/archives/dri-devel/2021-January/295=
-120.html
-> > > [3] https://www.spinics.net/lists/cgroups/msg27867.html
-> > > [4] https://www.spinics.net/lists/linux-doc/msg97788.html
-> > > [5] https://source.android.com/devices/graphics/implement-dma-buf-gpu=
--mem
-> > >
-> > > Gurchetan Singh (8):
-> > >   tracing/gpu: modify gpu_mem_total
-> > >   drm: add new tracepoint fields to drm_device and drm_file
-> > >   drm: add helper functions for gpu_mem_total and gpu_mem_instance
-> > >   drm: start using drm_gem_trace_gpu_mem_total
-> > >   drm: start using drm_gem_trace_gpu_mem_instance
-> > >   drm: track real and fake imports in drm_prime_member
-> > >   drm: trace memory import per DRM file
-> > >   drm: trace memory import per DRM device
-> > >
-> > >  drivers/gpu/drm/Kconfig        |  1 +
-> > >  drivers/gpu/drm/drm_gem.c      | 65 ++++++++++++++++++++++++++++++++=
-+-
-> > >  drivers/gpu/drm/drm_internal.h |  4 +--
-> > >  drivers/gpu/drm/drm_prime.c    | 22 +++++++++---
-> > >  include/drm/drm_device.h       | 16 +++++++++
-> > >  include/drm/drm_file.h         | 16 +++++++++
-> > >  include/drm/drm_gem.h          |  7 ++++
-> > >  include/trace/events/gpu_mem.h | 61 +++++++++++++++++++++----------
-> > >  8 files changed, 166 insertions(+), 26 deletions(-)
-> > >
-> > > --
-> > > 2.25.1
-> > >
-> >
-> > --
-> > Daniel Vetter
-> > Software Engineer, Intel Corporation
-> > http://blog.ffwll.ch
