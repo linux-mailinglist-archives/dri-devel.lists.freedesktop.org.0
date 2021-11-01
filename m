@@ -1,35 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF5F74421C0
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Nov 2021 21:37:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AF0444223F
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Nov 2021 22:04:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 96F9B6E0EF;
-	Mon,  1 Nov 2021 20:37:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 30D1389CF7;
+	Mon,  1 Nov 2021 21:03:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C2BB36E073;
- Mon,  1 Nov 2021 20:37:35 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10155"; a="231375248"
-X-IronPort-AV: E=Sophos;i="5.87,200,1631602800"; d="scan'208";a="231375248"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Nov 2021 13:37:34 -0700
-X-IronPort-AV: E=Sophos;i="5.87,200,1631602800"; d="scan'208";a="576345507"
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D75189CF7;
+ Mon,  1 Nov 2021 21:03:54 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10155"; a="211876806"
+X-IronPort-AV: E=Sophos;i="5.87,200,1631602800"; d="scan'208";a="211876806"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Nov 2021 13:37:43 -0700
+X-IronPort-AV: E=Sophos;i="5.87,200,1631602800"; d="scan'208";a="583118571"
 Received: from adixit-mobl1.amr.corp.intel.com (HELO adixit-arch.intel.com)
  ([10.212.137.218])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Nov 2021 13:37:34 -0700
-Date: Mon, 01 Nov 2021 13:28:06 -0700
-Message-ID: <87pmrj39k9.wl-ashutosh.dixit@intel.com>
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Nov 2021 13:37:42 -0700
+Date: Mon, 01 Nov 2021 13:28:14 -0700
+Message-ID: <87o87339k1.wl-ashutosh.dixit@intel.com>
 From: "Dixit, Ashutosh" <ashutosh.dixit@intel.com>
 To: "Belgaumkar, Vinay" <vinay.belgaumkar@intel.com>
-Subject: Re: [PATCH 2/3] drm/i915/guc/slpc: Add waitboost functionality for
- SLPC
-In-Reply-To: <20211101043937.35747-3-vinay.belgaumkar@intel.com>
-References: <20211101043937.35747-1-vinay.belgaumkar@intel.com>	<20211101043937.35747-3-vinay.belgaumkar@intel.com>
+Subject: Re: [PATCH 3/3] drm/i915/guc/slpc: Update boost sysfs hooks for SLPC
+In-Reply-To: <20211101043937.35747-4-vinay.belgaumkar@intel.com>
+References: <20211101043937.35747-1-vinay.belgaumkar@intel.com>	<20211101043937.35747-4-vinay.belgaumkar@intel.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
  FLIM-LB/1.14.9 (=?ISO-8859-4?Q?Goj=F2?=) APEL-LB/10.8 EasyPG/1.0.0
  Emacs/27.2 (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
@@ -52,64 +51,8 @@ Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, 31 Oct 2021 21:39:36 -0700, Belgaumkar, Vinay wrote:
+On Sun, 31 Oct 2021 21:39:37 -0700, Belgaumkar, Vinay wrote:
 >
-> @@ -945,6 +960,17 @@ void intel_rps_boost(struct i915_request *rq)
->	if (!test_and_set_bit(I915_FENCE_FLAG_BOOST, &rq->fence.flags)) {
->		struct intel_rps *rps = &READ_ONCE(rq->engine)->gt->rps;
->
-> +		if (rps_uses_slpc(rps)) {
-> +			slpc = rps_to_slpc(rps);
-> +
-> +			/* Return if old value is non zero */
-> +			if (atomic_fetch_inc(&slpc->num_waiters))
-> +				return;
-> +
-> +			if (intel_rps_get_requested_frequency(rps) < slpc->boost_freq)
+> +static int set_boost_freq(struct intel_rps *rps, u32 val)
 
-I think this check is not needed because:
-
-a. The waitboost code only changes min_freq. i915 code should not depend on
-   how GuC changes requested_freq in response to change in min_freq.
-
-b. What is more worrisome is that when we "de-boost" we set min_freq to
-   min_freq_softlimit. If GuC e.g. has a delay in bringing requested_freq
-   down and intel_rps_boost() gets called meanwhile we will miss the one
-   opportunity we have to boost the freq (when num_waiters goes from 0 to
-   1. Asking GuC to boost when actual_freq is already boost_freq is
-   harmless in comparison). So to avoid this risk of missing the chance to
-   boost I think we should delete this check and replace the code above
-   with something like:
-
-                if (rps_uses_slpc(rps)) {
-                        struct intel_guc_slpc *slpc = rps_to_slpc(rps);
-
-                        if (slpc->boost_freq <= slpc->min_freq_softlimit)
-                                return;
-
-                        if (!atomic_fetch_inc(&slpc->num_waiters))
-                                schedule_work(&slpc->boost_work);
-
-                        return;
-                }
-
-Note that this check:
-
-                if (slpc->boost_freq <= slpc->min_freq_softlimit)
-                                return;
-
-(which is basically a degenerate case in which we don't have to do
-anything), can be probably be implemented when boost_freq is set in sysfs,
-or may already be encompassed in "val < slpc->min_freq" in
-intel_guc_slpc_set_boost_freq() in which case this check can also be
-skipped from this function.
-
-> +void intel_guc_slpc_dec_waiters(struct intel_guc_slpc *slpc)
-> +{
-> +	/* Return min back to the softlimit.
-> +	 * This is called during request retire,
-> +	 * so we don't need to fail that if the
-> +	 * set_param fails.
-> +	 */
-
-nit: maybe follow kernel multi-line comment format.
+Since this is legacy rps code path maybe change function name to rps_set_boost_freq?
