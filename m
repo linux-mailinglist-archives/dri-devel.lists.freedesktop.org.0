@@ -1,58 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 778724415DE
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Nov 2021 10:10:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5493E4415F6
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Nov 2021 10:18:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D0A026E0AC;
-	Mon,  1 Nov 2021 09:10:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A59F89C6E;
+	Mon,  1 Nov 2021 09:18:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6BFC46E09A
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Nov 2021 09:10:35 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 403FF610CA
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Nov 2021 09:10:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1635757835;
- bh=5eLaCisCJlKqjVAbM40lQHvXyXenQNGP0olkB/CPBnY=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=B0Nu8db6cONgp6Y0jzxrmXKmx1ZAnk8FO8zLkb17G5bbxkvIcaeNb1mcA2vqjz5WJ
- SNq3kFJBrkluPhypNK7h4wBMu9kWarV3++QQ17wvhwZOLTCgYMLz3J9tCShjG8IHZB
- rd3arZthbTU8Qhp+yFiOxhNMMX854GfywAzGjnbdCDKrO3IHJxB4to9Cc6Xk0Ob5Go
- 6f/7+ISaXphvJ55LHltSI7HzkMTT+XTu1MNMjmaPr2GTCoGfyzqBOMq0mtRbS81M8n
- PVKrXYlr9W2Db/1sZD4SCVk3MDrOXnDAQCPIdoUh64VlAMxyLbxWU+I8N9uuUDLfy0
- x3LyE6fbXeKiA==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 2EB3C60FC0; Mon,  1 Nov 2021 09:10:35 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 214901] amdgpu freezes HP laptop at start up
-Date: Mon, 01 Nov 2021 09:10:34 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: spasswolf@web.de
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-214901-2300-wTktKx0b15@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-214901-2300@https.bugzilla.kernel.org/>
-References: <bug-214901-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D182489BD5;
+ Mon,  1 Nov 2021 09:17:59 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4HjS9v4w2Pz4xbM;
+ Mon,  1 Nov 2021 20:17:55 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=201702; t=1635758276;
+ bh=3PZGj0sci0bcIw2HkwJH0u3E+keMCC3880sW+RDPpLA=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=Sz8NDmRJfupih7wwXJd+Z+oIWl/sTJIaYi4SfEV/BOmIogtNZiLSOL0OSX/cfTk4A
+ LcUra4B1MNgSrhpstI9NTJ074f+vZ5MN49AzZEIgZ5N/IK6nPq9fmBZareLVWZe888
+ i/lctwsHkNXVLVQSSQb0Pt6u2QojcRa1ucVykkpsOGvPJztdKS198eFFz7X+suQ0f5
+ grkcAPcNq3jvKtDMfecwfbb1y9FwlCBK8Fi2cec4GRUNv9CfPx3uKqMjsRxT0f8IlF
+ tzXMJAsJpoGipTQ9l5xgOIzjs9rBxUh176JQcM1mGhGHhbEhh3ZzpPmyGuGFwVa4ZK
+ Y3gIANeGopJ+w==
+Date: Mon, 1 Nov 2021 20:17:54 +1100
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>, Intel Graphics
+ <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>
+Subject: Re: linux-next: build warning after merge of the drm-misc tree
+Message-ID: <20211101201754.53c6c148@canb.auug.org.au>
+In-Reply-To: <20211005185940.382720e7@canb.auug.org.au>
+References: <20211005185940.382720e7@canb.auug.org.au>
 MIME-Version: 1.0
+Content-Type: multipart/signed; boundary="Sig_/pPtQHmT5cGItirLOVele=Cw";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,25 +51,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D214901
+--Sig_/pPtQHmT5cGItirLOVele=Cw
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
---- Comment #2 from spasswolf@web.de ---
-There is another error message just before the Oops:
-Nov  1 00:22:49 bart kernel: [    2.137397] amdgpu 0000:00:01.0: amdgpu:
-amdgpu_device_ip_init failed
-Nov  1 00:22:49 bart kernel: [    2.137402] amdgpu 0000:00:01.0: amdgpu: Fa=
-tal
-error during GPU init
-Nov  1 00:22:49 bart kernel: [    2.137406] amdgpu 0000:00:01.0: amdgpu:
-amdgpu: finishing device.
-Nov  1 00:22:49 bart kernel: [    2.139639] BUG: kernel NULL pointer
-dereference, address: 00000000000001db
+Hi Stephen,
+
+On Tue, 5 Oct 2021 18:59:40 +1100 Stephen Rothwell <sfr@canb.auug.org.au> w=
+rote:
+>
+> Hi all,
+>=20
+> After merging the drm-misc tree, today's linux-next build (htmldocs)
+> produced this warning:
+>=20
+> include/linux/dma-buf.h:456: warning: Function parameter or member 'cb_in=
+' not described in 'dma_buf'
+> include/linux/dma-buf.h:456: warning: Function parameter or member 'cb_ou=
+t' not described in 'dma_buf'
+>=20
+> Introduced by commit
+>=20
+>   6b51b02a3a0a ("dma-buf: fix and rework dma_buf_poll v7")
+
+This is back again as well :-(
 
 --=20
-You may reply to this email to add a comment.
+Cheers,
+Stephen Rothwell
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+--Sig_/pPtQHmT5cGItirLOVele=Cw
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmF/sMIACgkQAVBC80lX
+0GzqjAgAoHMxsBNaMEZw8e0gYsvplWSyRZUsYI9du1Og34jxHCucN+9CRgFHjflb
+sBjS5ZJzVSGYeT+igTiHoq3m/kHtJP2IcxuRPDaUQCT/SVGowUwCLgL8nZAbWunc
+rlB922IvJU14KTCQ8CFhptddX4LE9RwP2mHoHlmd8E6QnZBvR1Im2qWBgCtb4lWr
+YdljQP8dYl/Uw1Kj/XexiLEhVX92yakc/tZuqiC4Fyy07k1IbPehqn4LG7jxfgBY
+FieVWxLHqyPtpcVwWZUPhqCpxYJ6VXZJZ021HYGIr05bYfSZFrRGtZCqBATQBB2X
+/Mzeq3fVoPI3L6NBsUqX/BQCEjh+qQ==
+=wLoe
+-----END PGP SIGNATURE-----
+
+--Sig_/pPtQHmT5cGItirLOVele=Cw--
