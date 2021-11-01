@@ -2,43 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C765C441BE4
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Nov 2021 14:45:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21C93441C17
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Nov 2021 15:02:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 100486E4A7;
-	Mon,  1 Nov 2021 13:45:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7BF636E427;
+	Mon,  1 Nov 2021 13:51:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bombadil.infradead.org (bombadil.infradead.org
- [IPv6:2607:7c80:54:e::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 547C66E0F7;
- Mon,  1 Nov 2021 13:45:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Type:In-Reply-To:MIME-Version
- :Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=+ifZtmhOgLStglvSt0SsesxsUdppWc9XD2LFhCX8FSI=; b=n/SEPPk7W5ldJrTNh8Y8Tcx5gJ
- 6L2T17izwJqe+7juWsESPz9KMsmTSTslwUePDa7YnSP8fW1nsBGUHqPOeYhPkES61dP0gm23ztrof
- OCWlJilx0c6EPTUdc8bDVB0BGvX8lbprHbRZidqVtxx+FREqmpcn/ZMiLG+qjjPtXoIA/Ml0kDJ6Z
- KIb/rPDwAR2rzVEiOaVgKAUajkCaucTTtU31TdUb68Wld/+vT2j3lJuF67I6L9lMd+o5I36be+ec2
- 7gsX6Ti3h1+E0HXW2rPS+UDq5tvu9wdZljNG2X39vGz6Ou1tDaLifQyiYL50s93K57Mw9IBlbsrdv
- LuhdKXBg==;
-Received: from [2601:1c0:6280:3f0::aa0b]
- by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mhXcb-00GUac-Pb; Mon, 01 Nov 2021 13:45:10 +0000
-Subject: Re: linux-next: Tree for Nov 1 [drivers/gpu/drm/msm/msm.ko]
-To: Stephen Rothwell <sfr@canb.auug.org.au>,
- Linux Next Mailing List <linux-next@vger.kernel.org>
-References: <20211101204448.36494154@canb.auug.org.au>
-From: Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <438062c0-7b87-077f-0ab1-da7849cbb97c@infradead.org>
-Date: Mon, 1 Nov 2021 06:45:07 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D9726E133;
+ Mon,  1 Nov 2021 13:51:19 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10154"; a="294472804"
+X-IronPort-AV: E=Sophos;i="5.87,199,1631602800"; d="scan'208";a="294472804"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Nov 2021 06:51:18 -0700
+X-IronPort-AV: E=Sophos;i="5.87,199,1631602800"; d="scan'208";a="637780171"
+Received: from unknown (HELO [10.249.254.21]) ([10.249.254.21])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Nov 2021 06:51:16 -0700
+Message-ID: <9c4527a077fe7c98858e6312e134e45c15aa17d0.camel@linux.intel.com>
+Subject: Re: [Intel-gfx] [PATCH v5] drm/i915: Introduce refcounted sg-tables
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, 
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Date: Mon, 01 Nov 2021 14:51:02 +0100
+In-Reply-To: <e36fb04f-d652-cbb0-893d-57c32d834168@linux.intel.com>
+References: <20211101122444.114607-1-thomas.hellstrom@linux.intel.com>
+ <e36fb04f-d652-cbb0-893d-57c32d834168@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4 (3.40.4-2.fc34) 
 MIME-Version: 1.0
-In-Reply-To: <20211101204448.36494154@canb.auug.org.au>
-Content-Type: multipart/mixed; boundary="------------85C03F591A3435739E443E06"
-Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,707 +46,1222 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, linux-arm-msm@vger.kernel.org,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI <dri-devel@lists.freedesktop.org>, freedreno@lists.freedesktop.org
+Cc: matthew.auld@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is a multi-part message in MIME format.
---------------85C03F591A3435739E443E06
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+Hi, Tvrtko
 
-On 11/1/21 2:44 AM, Stephen Rothwell wrote:
-> Hi all,
+On Mon, 2021-11-01 at 13:14 +0000, Tvrtko Ursulin wrote:
 > 
-> Changes since 20211029:
+> On 01/11/2021 12:24, Thomas Hellström wrote:
+> > As we start to introduce asynchronous failsafe object migration,
+> > where we update the object state and then submit asynchronous
+> > commands we need to record what memory resources are actually used
+> > by various part of the command stream. Initially for three
+> > purposes:
+> > 
+> > 1) Error capture.
+> > 2) Asynchronous migration error recovery.
+> > 3) Asynchronous vma bind.
 > 
+> FWIW something like this may be interesting to me as well, although I
+> haven't looked much into details yet, for the purpose of allowing 
+> delayed "put pages" via decoupling from the GEM bo.
+> Two questions after glancing over:
+> 
+> 1)
+> I do wonder if abstracting "sgt" away from the name would make sense?
+> Like perhaps obj->mm.pages being the location of the new abstraction
+> so 
+> naming it along the lines of i915_obj_pages or something.
 
-On i386, when
-# CONFIG_COMMON_CLK is not set
+Well it's not yet clear how this will end up. Really this should 
+develop into something along the lines of "struct i915_async_obj", on
+which the sg-list is a member only. Depending on how this turns out and
+if it remains an sg-list I think your suggestion makes sense, but is it
+something we can postpone for now? 
 
-ERROR: modpost: "msm_hdmi_phy_8996_cfg" [drivers/gpu/drm/msm/msm.ko] undefined!
+> 
+> 2)
+> And how come obj->mm.pages remains? Does it go away later in follow
+> up work?
+
+For the non-ttm backends, it's not yet implemented, so once they are
+either moved to TTM or updated, we can completely replace obj-
+>mm.pages.
+
+/Thomas
+
+> 
+> Regards,
+> 
+> Tvrtko
+> 
+> > At the time where these happens, the object state may have been
+> > updated
+> > to be several migrations ahead and object sg-tables discarded.
+> > 
+> > In order to make it possible to keep sg-tables with memory resource
+> > information for these operations, introduce refcounted sg-tables
+> > that
+> > aren't freed until the last user is done with them.
+> > 
+> > The alternative would be to reference information sitting on the
+> > corresponding ttm_resources which typically have the same lifetime
+> > as
+> > these refcountes sg_tables, but that leads to other awkward
+> > constructs:
+> > Due to the design direction chosen for ttm resource managers that
+> > would
+> > lead to diamond-style inheritance, the LMEM resources may sometimes
+> > be
+> > prematurely freed, and finally the subclassed struct ttm_resource
+> > would
+> > have to bleed into the asynchronous vma bind code.
+> > 
+> > v3:
+> > - Address a number of style issues (Matthew Auld)
+> > v4:
+> > - Dont check for st->sgl being NULL in
+> > i915_ttm_tt__shmem_unpopulate(),
+> >    that should never happen. (Matthew Auld)
+> > v5:
+> > - Fix a Potential double-free (Matthew Auld)
+> > 
+> > Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> > Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+> > ---
+> >   drivers/gpu/drm/i915/gem/i915_gem_object.h    |  12 +-
+> >   .../gpu/drm/i915/gem/i915_gem_object_types.h  |   3 +-
+> >   drivers/gpu/drm/i915/gem/i915_gem_shmem.c     |  53 +++--
+> >   drivers/gpu/drm/i915/gem/i915_gem_ttm.c       | 186 ++++++++++---
+> > -----
+> >   drivers/gpu/drm/i915/i915_scatterlist.c       |  62 ++++--
+> >   drivers/gpu/drm/i915/i915_scatterlist.h       |  76 ++++++-
+> >   drivers/gpu/drm/i915/intel_region_ttm.c       |  15 +-
+> >   drivers/gpu/drm/i915/intel_region_ttm.h       |   5 +-
+> >   drivers/gpu/drm/i915/selftests/mock_region.c  |  12 +-
+> >   9 files changed, 277 insertions(+), 147 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h
+> > b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+> > index a5479ac7a4ad..ba224598ed69 100644
+> > --- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
+> > +++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+> > @@ -620,12 +620,12 @@ int i915_gem_object_wait_migration(struct
+> > drm_i915_gem_object *obj,
+> >   bool i915_gem_object_placement_possible(struct
+> > drm_i915_gem_object *obj,
+> >                                         enum intel_memory_type
+> > type);
+> >   
+> > -struct sg_table *shmem_alloc_st(struct drm_i915_private *i915,
+> > -                               size_t size, struct
+> > intel_memory_region *mr,
+> > -                               struct address_space *mapping,
+> > -                               unsigned int max_segment);
+> > -void shmem_free_st(struct sg_table *st, struct address_space
+> > *mapping,
+> > -                  bool dirty, bool backup);
+> > +int shmem_sg_alloc_table(struct drm_i915_private *i915, struct
+> > sg_table *st,
+> > +                        size_t size, struct intel_memory_region
+> > *mr,
+> > +                        struct address_space *mapping,
+> > +                        unsigned int max_segment);
+> > +void shmem_sg_free_table(struct sg_table *st, struct address_space
+> > *mapping,
+> > +                        bool dirty, bool backup);
+> >   void __shmem_writeback(size_t size, struct address_space
+> > *mapping);
+> >   
+> >   #ifdef CONFIG_MMU_NOTIFIER
+> > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
+> > b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
+> > index a4b69a43b898..604ed5ad77f5 100644
+> > --- a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
+> > +++ b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
+> > @@ -544,6 +544,7 @@ struct drm_i915_gem_object {
+> >                  */
+> >                 struct list_head region_link;
+> >   
+> > +               struct i915_refct_sgt *rsgt;
+> >                 struct sg_table *pages;
+> >                 void *mapping;
+> >   
+> > @@ -597,7 +598,7 @@ struct drm_i915_gem_object {
+> >         } mm;
+> >   
+> >         struct {
+> > -               struct sg_table *cached_io_st;
+> > +               struct i915_refct_sgt *cached_io_rsgt;
+> >                 struct i915_gem_object_page_iter get_io_page;
+> >                 struct drm_i915_gem_object *backup;
+> >                 bool created:1;
+> > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
+> > b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
+> > index 01f332d8dbde..4a88c89b7a14 100644
+> > --- a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
+> > +++ b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
+> > @@ -25,8 +25,8 @@ static void check_release_pagevec(struct pagevec
+> > *pvec)
+> >         cond_resched();
+> >   }
+> >   
+> > -void shmem_free_st(struct sg_table *st, struct address_space
+> > *mapping,
+> > -                  bool dirty, bool backup)
+> > +void shmem_sg_free_table(struct sg_table *st, struct address_space
+> > *mapping,
+> > +                        bool dirty, bool backup)
+> >   {
+> >         struct sgt_iter sgt_iter;
+> >         struct pagevec pvec;
+> > @@ -49,17 +49,15 @@ void shmem_free_st(struct sg_table *st, struct
+> > address_space *mapping,
+> >                 check_release_pagevec(&pvec);
+> >   
+> >         sg_free_table(st);
+> > -       kfree(st);
+> >   }
+> >   
+> > -struct sg_table *shmem_alloc_st(struct drm_i915_private *i915,
+> > -                               size_t size, struct
+> > intel_memory_region *mr,
+> > -                               struct address_space *mapping,
+> > -                               unsigned int max_segment)
+> > +int shmem_sg_alloc_table(struct drm_i915_private *i915, struct
+> > sg_table *st,
+> > +                        size_t size, struct intel_memory_region
+> > *mr,
+> > +                        struct address_space *mapping,
+> > +                        unsigned int max_segment)
+> >   {
+> >         const unsigned long page_count = size / PAGE_SIZE;
+> >         unsigned long i;
+> > -       struct sg_table *st;
+> >         struct scatterlist *sg;
+> >         struct page *page;
+> >         unsigned long last_pfn = 0;     /* suppress gcc warning */
+> > @@ -71,16 +69,10 @@ struct sg_table *shmem_alloc_st(struct
+> > drm_i915_private *i915,
+> >          * object, bail early.
+> >          */
+> >         if (size > resource_size(&mr->region))
+> > -               return ERR_PTR(-ENOMEM);
+> > -
+> > -       st = kmalloc(sizeof(*st), GFP_KERNEL);
+> > -       if (!st)
+> > -               return ERR_PTR(-ENOMEM);
+> > +               return -ENOMEM;
+> >   
+> > -       if (sg_alloc_table(st, page_count, GFP_KERNEL)) {
+> > -               kfree(st);
+> > -               return ERR_PTR(-ENOMEM);
+> > -       }
+> > +       if (sg_alloc_table(st, page_count, GFP_KERNEL))
+> > +               return -ENOMEM;
+> >   
+> >         /*
+> >          * Get the list of pages out of our struct file.  They'll
+> > be pinned
+> > @@ -167,15 +159,14 @@ struct sg_table *shmem_alloc_st(struct
+> > drm_i915_private *i915,
+> >         /* Trim unused sg entries to avoid wasting memory. */
+> >         i915_sg_trim(st);
+> >   
+> > -       return st;
+> > +       return 0;
+> >   err_sg:
+> >         sg_mark_end(sg);
+> >         if (sg != st->sgl) {
+> > -               shmem_free_st(st, mapping, false, false);
+> > +               shmem_sg_free_table(st, mapping, false, false);
+> >         } else {
+> >                 mapping_clear_unevictable(mapping);
+> >                 sg_free_table(st);
+> > -               kfree(st);
+> >         }
+> >   
+> >         /*
+> > @@ -190,7 +181,7 @@ struct sg_table *shmem_alloc_st(struct
+> > drm_i915_private *i915,
+> >         if (ret == -ENOSPC)
+> >                 ret = -ENOMEM;
+> >   
+> > -       return ERR_PTR(ret);
+> > +       return ret;
+> >   }
+> >   
+> >   static int shmem_get_pages(struct drm_i915_gem_object *obj)
+> > @@ -214,11 +205,14 @@ static int shmem_get_pages(struct
+> > drm_i915_gem_object *obj)
+> >         GEM_BUG_ON(obj->write_domain & I915_GEM_GPU_DOMAINS);
+> >   
+> >   rebuild_st:
+> > -       st = shmem_alloc_st(i915, obj->base.size, mem, mapping,
+> > max_segment);
+> > -       if (IS_ERR(st)) {
+> > -               ret = PTR_ERR(st);
+> > +       st = kmalloc(sizeof(*st), GFP_KERNEL);
+> > +       if (!st)
+> > +               return -ENOMEM;
+> > +
+> > +       ret = shmem_sg_alloc_table(i915, st, obj->base.size, mem,
+> > mapping,
+> > +                                  max_segment);
+> > +       if (ret)
+> >                 goto err_st;
+> > -       }
+> >   
+> >         ret = i915_gem_gtt_prepare_pages(obj, st);
+> >         if (ret) {
+> > @@ -254,7 +248,7 @@ static int shmem_get_pages(struct
+> > drm_i915_gem_object *obj)
+> >         return 0;
+> >   
+> >   err_pages:
+> > -       shmem_free_st(st, mapping, false, false);
+> > +       shmem_sg_free_table(st, mapping, false, false);
+> >         /*
+> >          * shmemfs first checks if there is enough memory to
+> > allocate the page
+> >          * and reports ENOSPC should there be insufficient, along
+> > with the usual
+> > @@ -268,6 +262,8 @@ static int shmem_get_pages(struct
+> > drm_i915_gem_object *obj)
+> >         if (ret == -ENOSPC)
+> >                 ret = -ENOMEM;
+> >   
+> > +       kfree(st);
+> > +
+> >         return ret;
+> >   }
+> >   
+> > @@ -374,8 +370,9 @@ void i915_gem_object_put_pages_shmem(struct
+> > drm_i915_gem_object *obj, struct sg_
+> >         if (i915_gem_object_needs_bit17_swizzle(obj))
+> >                 i915_gem_object_save_bit_17_swizzle(obj, pages);
+> >   
+> > -       shmem_free_st(pages, file_inode(obj->base.filp)->i_mapping,
+> > -                     obj->mm.dirty, obj->mm.madv ==
+> > I915_MADV_WILLNEED);
+> > +       shmem_sg_free_table(pages, file_inode(obj->base.filp)-
+> > >i_mapping,
+> > +                           obj->mm.dirty, obj->mm.madv ==
+> > I915_MADV_WILLNEED);
+> > +       kfree(pages);
+> >         obj->mm.dirty = false;
+> >   }
+> >   
+> > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> > b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> > index 4fd2edb20dd9..6a05369e2705 100644
+> > --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> > +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> > @@ -34,7 +34,7 @@
+> >    * struct i915_ttm_tt - TTM page vector with additional private
+> > information
+> >    * @ttm: The base TTM page vector.
+> >    * @dev: The struct device used for dma mapping and unmapping.
+> > - * @cached_st: The cached scatter-gather table.
+> > + * @cached_rsgt: The cached scatter-gather table.
+> >    * @is_shmem: Set if using shmem.
+> >    * @filp: The shmem file, if using shmem backend.
+> >    *
+> > @@ -47,7 +47,7 @@
+> >   struct i915_ttm_tt {
+> >         struct ttm_tt ttm;
+> >         struct device *dev;
+> > -       struct sg_table *cached_st;
+> > +       struct i915_refct_sgt cached_rsgt;
+> >   
+> >         bool is_shmem;
+> >         struct file *filp;
+> > @@ -217,18 +217,16 @@ static int i915_ttm_tt_shmem_populate(struct
+> > ttm_device *bdev,
+> >                 i915_tt->filp = filp;
+> >         }
+> >   
+> > -       st = shmem_alloc_st(i915, size, mr, filp->f_mapping,
+> > max_segment);
+> > -       if (IS_ERR(st))
+> > -               return PTR_ERR(st);
+> > +       st = &i915_tt->cached_rsgt.table;
+> > +       err = shmem_sg_alloc_table(i915, st, size, mr, filp-
+> > >f_mapping,
+> > +                                  max_segment);
+> > +       if (err)
+> > +               return err;
+> >   
+> > -       err = dma_map_sg_attrs(i915_tt->dev,
+> > -                              st->sgl, st->nents,
+> > -                              DMA_BIDIRECTIONAL,
+> > -                              DMA_ATTR_SKIP_CPU_SYNC);
+> > -       if (err <= 0) {
+> > -               err = -EINVAL;
+> > +       err = dma_map_sgtable(i915_tt->dev, st, DMA_BIDIRECTIONAL,
+> > +                             DMA_ATTR_SKIP_CPU_SYNC);
+> > +       if (err)
+> >                 goto err_free_st;
+> > -       }
+> >   
+> >         i = 0;
+> >         for_each_sgt_page(page, sgt_iter, st)
+> > @@ -237,11 +235,11 @@ static int i915_ttm_tt_shmem_populate(struct
+> > ttm_device *bdev,
+> >         if (ttm->page_flags & TTM_TT_FLAG_SWAPPED)
+> >                 ttm->page_flags &= ~TTM_TT_FLAG_SWAPPED;
+> >   
+> > -       i915_tt->cached_st = st;
+> >         return 0;
+> >   
+> >   err_free_st:
+> > -       shmem_free_st(st, filp->f_mapping, false, false);
+> > +       shmem_sg_free_table(st, filp->f_mapping, false, false);
+> > +
+> >         return err;
+> >   }
+> >   
+> > @@ -249,16 +247,27 @@ static void
+> > i915_ttm_tt_shmem_unpopulate(struct ttm_tt *ttm)
+> >   {
+> >         struct i915_ttm_tt *i915_tt = container_of(ttm,
+> > typeof(*i915_tt), ttm);
+> >         bool backup = ttm->page_flags & TTM_TT_FLAG_SWAPPED;
+> > +       struct sg_table *st = &i915_tt->cached_rsgt.table;
+> > +
+> > +       shmem_sg_free_table(st, file_inode(i915_tt->filp)-
+> > >i_mapping,
+> > +                           backup, backup);
+> > +}
+> >   
+> > -       dma_unmap_sg(i915_tt->dev, i915_tt->cached_st->sgl,
+> > -                    i915_tt->cached_st->nents,
+> > -                    DMA_BIDIRECTIONAL);
+> > +static void i915_ttm_tt_release(struct kref *ref)
+> > +{
+> > +       struct i915_ttm_tt *i915_tt =
+> > +               container_of(ref, typeof(*i915_tt),
+> > cached_rsgt.kref);
+> > +       struct sg_table *st = &i915_tt->cached_rsgt.table;
+> >   
+> > -       shmem_free_st(fetch_and_zero(&i915_tt->cached_st),
+> > -                     file_inode(i915_tt->filp)->i_mapping,
+> > -                     backup, backup);
+> > +       GEM_WARN_ON(st->sgl);
+> > +
+> > +       kfree(i915_tt);
+> >   }
+> >   
+> > +static const struct i915_refct_sgt_ops tt_rsgt_ops = {
+> > +       .release = i915_ttm_tt_release
+> > +};
+> > +
+> >   static struct ttm_tt *i915_ttm_tt_create(struct ttm_buffer_object
+> > *bo,
+> >                                          uint32_t page_flags)
+> >   {
+> > @@ -287,6 +296,9 @@ static struct ttm_tt *i915_ttm_tt_create(struct
+> > ttm_buffer_object *bo,
+> >         if (ret)
+> >                 goto err_free;
+> >   
+> > +       __i915_refct_sgt_init(&i915_tt->cached_rsgt, bo->base.size,
+> > +                             &tt_rsgt_ops);
+> > +
+> >         i915_tt->dev = obj->base.dev->dev;
+> >   
+> >         return &i915_tt->ttm;
+> > @@ -311,17 +323,15 @@ static int i915_ttm_tt_populate(struct
+> > ttm_device *bdev,
+> >   static void i915_ttm_tt_unpopulate(struct ttm_device *bdev,
+> > struct ttm_tt *ttm)
+> >   {
+> >         struct i915_ttm_tt *i915_tt = container_of(ttm,
+> > typeof(*i915_tt), ttm);
+> > +       struct sg_table *st = &i915_tt->cached_rsgt.table;
+> > +
+> > +       if (st->sgl)
+> > +               dma_unmap_sgtable(i915_tt->dev, st,
+> > DMA_BIDIRECTIONAL, 0);
+> >   
+> >         if (i915_tt->is_shmem) {
+> >                 i915_ttm_tt_shmem_unpopulate(ttm);
+> >         } else {
+> > -               if (i915_tt->cached_st) {
+> > -                       dma_unmap_sgtable(i915_tt->dev, i915_tt-
+> > >cached_st,
+> > -                                         DMA_BIDIRECTIONAL, 0);
+> > -                       sg_free_table(i915_tt->cached_st);
+> > -                       kfree(i915_tt->cached_st);
+> > -                       i915_tt->cached_st = NULL;
+> > -               }
+> > +               sg_free_table(st);
+> >                 ttm_pool_free(&bdev->pool, ttm);
+> >         }
+> >   }
+> > @@ -334,7 +344,7 @@ static void i915_ttm_tt_destroy(struct
+> > ttm_device *bdev, struct ttm_tt *ttm)
+> >                 fput(i915_tt->filp);
+> >   
+> >         ttm_tt_fini(ttm);
+> > -       kfree(i915_tt);
+> > +       i915_refct_sgt_put(&i915_tt->cached_rsgt);
+> >   }
+> >   
+> >   static bool i915_ttm_eviction_valuable(struct ttm_buffer_object
+> > *bo,
+> > @@ -376,12 +386,12 @@ static int i915_ttm_move_notify(struct
+> > ttm_buffer_object *bo)
+> >         return 0;
+> >   }
+> >   
+> > -static void i915_ttm_free_cached_io_st(struct drm_i915_gem_object
+> > *obj)
+> > +static void i915_ttm_free_cached_io_rsgt(struct
+> > drm_i915_gem_object *obj)
+> >   {
+> >         struct radix_tree_iter iter;
+> >         void __rcu **slot;
+> >   
+> > -       if (!obj->ttm.cached_io_st)
+> > +       if (!obj->ttm.cached_io_rsgt)
+> >                 return;
+> >   
+> >         rcu_read_lock();
+> > @@ -389,9 +399,8 @@ static void i915_ttm_free_cached_io_st(struct
+> > drm_i915_gem_object *obj)
+> >                 radix_tree_delete(&obj->ttm.get_io_page.radix,
+> > iter.index);
+> >         rcu_read_unlock();
+> >   
+> > -       sg_free_table(obj->ttm.cached_io_st);
+> > -       kfree(obj->ttm.cached_io_st);
+> > -       obj->ttm.cached_io_st = NULL;
+> > +       i915_refct_sgt_put(obj->ttm.cached_io_rsgt);
+> > +       obj->ttm.cached_io_rsgt = NULL;
+> >   }
+> >   
+> >   static void
+> > @@ -477,7 +486,7 @@ static int i915_ttm_purge(struct
+> > drm_i915_gem_object *obj)
+> >         obj->write_domain = 0;
+> >         obj->read_domains = 0;
+> >         i915_ttm_adjust_gem_after_move(obj);
+> > -       i915_ttm_free_cached_io_st(obj);
+> > +       i915_ttm_free_cached_io_rsgt(obj);
+> >         obj->mm.madv = __I915_MADV_PURGED;
+> >         return 0;
+> >   }
+> > @@ -532,7 +541,7 @@ static void i915_ttm_swap_notify(struct
+> > ttm_buffer_object *bo)
+> >         int ret = i915_ttm_move_notify(bo);
+> >   
+> >         GEM_WARN_ON(ret);
+> > -       GEM_WARN_ON(obj->ttm.cached_io_st);
+> > +       GEM_WARN_ON(obj->ttm.cached_io_rsgt);
+> >         if (!ret && obj->mm.madv != I915_MADV_WILLNEED)
+> >                 i915_ttm_purge(obj);
+> >   }
+> > @@ -543,7 +552,7 @@ static void i915_ttm_delete_mem_notify(struct
+> > ttm_buffer_object *bo)
+> >   
+> >         if (likely(obj)) {
+> >                 __i915_gem_object_pages_fini(obj);
+> > -               i915_ttm_free_cached_io_st(obj);
+> > +               i915_ttm_free_cached_io_rsgt(obj);
+> >         }
+> >   }
+> >   
+> > @@ -563,40 +572,35 @@ i915_ttm_region(struct ttm_device *bdev, int
+> > ttm_mem_type)
+> >                                           ttm_mem_type -
+> > I915_PL_LMEM0);
+> >   }
+> >   
+> > -static struct sg_table *i915_ttm_tt_get_st(struct ttm_tt *ttm)
+> > +static struct i915_refct_sgt *i915_ttm_tt_get_st(struct ttm_tt
+> > *ttm)
+> >   {
+> >         struct i915_ttm_tt *i915_tt = container_of(ttm,
+> > typeof(*i915_tt), ttm);
+> >         struct sg_table *st;
+> >         int ret;
+> >   
+> > -       if (i915_tt->cached_st)
+> > -               return i915_tt->cached_st;
+> > -
+> > -       st = kzalloc(sizeof(*st), GFP_KERNEL);
+> > -       if (!st)
+> > -               return ERR_PTR(-ENOMEM);
+> > +       if (i915_tt->cached_rsgt.table.sgl)
+> > +               return i915_refct_sgt_get(&i915_tt->cached_rsgt);
+> >   
+> > +       st = &i915_tt->cached_rsgt.table;
+> >         ret = sg_alloc_table_from_pages_segment(st,
+> >                         ttm->pages, ttm->num_pages,
+> >                         0, (unsigned long)ttm->num_pages <<
+> > PAGE_SHIFT,
+> >                         i915_sg_segment_size(), GFP_KERNEL);
+> >         if (ret) {
+> > -               kfree(st);
+> > +               st->sgl = NULL;
+> >                 return ERR_PTR(ret);
+> >         }
+> >   
+> >         ret = dma_map_sgtable(i915_tt->dev, st, DMA_BIDIRECTIONAL,
+> > 0);
+> >         if (ret) {
+> >                 sg_free_table(st);
+> > -               kfree(st);
+> >                 return ERR_PTR(ret);
+> >         }
+> >   
+> > -       i915_tt->cached_st = st;
+> > -       return st;
+> > +       return i915_refct_sgt_get(&i915_tt->cached_rsgt);
+> >   }
+> >   
+> > -static struct sg_table *
+> > +static struct i915_refct_sgt *
+> >   i915_ttm_resource_get_st(struct drm_i915_gem_object *obj,
+> >                          struct ttm_resource *res)
+> >   {
+> > @@ -610,7 +614,21 @@ i915_ttm_resource_get_st(struct
+> > drm_i915_gem_object *obj,
+> >          * the resulting st. Might make sense for GGTT.
+> >          */
+> >         GEM_WARN_ON(!cpu_maps_iomem(res));
+> > -       return intel_region_ttm_resource_to_st(obj->mm.region,
+> > res);
+> > +       if (bo->resource == res) {
+> > +               if (!obj->ttm.cached_io_rsgt) {
+> > +                       struct i915_refct_sgt *rsgt;
+> > +
+> > +                       rsgt =
+> > intel_region_ttm_resource_to_rsgt(obj->mm.region,
+> > +                                                               
+> > res);
+> > +                       if (IS_ERR(rsgt))
+> > +                               return rsgt;
+> > +
+> > +                       obj->ttm.cached_io_rsgt = rsgt;
+> > +               }
+> > +               return i915_refct_sgt_get(obj->ttm.cached_io_rsgt);
+> > +       }
+> > +
+> > +       return intel_region_ttm_resource_to_rsgt(obj->mm.region,
+> > res);
+> >   }
+> >   
+> >   static int i915_ttm_accel_move(struct ttm_buffer_object *bo,
+> > @@ -621,10 +639,7 @@ static int i915_ttm_accel_move(struct
+> > ttm_buffer_object *bo,
+> >   {
+> >         struct drm_i915_private *i915 = container_of(bo->bdev,
+> > typeof(*i915),
+> >                                                      bdev);
+> > -       struct ttm_resource_manager *src_man =
+> > -               ttm_manager_type(bo->bdev, bo->resource->mem_type);
+> >         struct drm_i915_gem_object *obj = i915_ttm_to_gem(bo);
+> > -       struct sg_table *src_st;
+> >         struct i915_request *rq;
+> >         struct ttm_tt *src_ttm = bo->ttm;
+> >         enum i915_cache_level src_level, dst_level;
+> > @@ -650,17 +665,22 @@ static int i915_ttm_accel_move(struct
+> > ttm_buffer_object *bo,
+> >                 }
+> >                 intel_engine_pm_put(i915->gt.migrate.context-
+> > >engine);
+> >         } else {
+> > -               src_st = src_man->use_tt ?
+> > i915_ttm_tt_get_st(src_ttm) :
+> > -                       obj->ttm.cached_io_st;
+> > +               struct i915_refct_sgt *src_rsgt =
+> > +                       i915_ttm_resource_get_st(obj, bo-
+> > >resource);
+> > +
+> > +               if (IS_ERR(src_rsgt))
+> > +                       return PTR_ERR(src_rsgt);
+> >   
+> >                 src_level = i915_ttm_cache_level(i915, bo-
+> > >resource, src_ttm);
+> >                 intel_engine_pm_get(i915->gt.migrate.context-
+> > >engine);
+> >                 ret = intel_context_migrate_copy(i915-
+> > >gt.migrate.context,
+> > -                                                NULL, src_st->sgl,
+> > src_level,
+> > +                                                NULL, src_rsgt-
+> > >table.sgl,
+> > +                                                src_level,
+> >                                                 
+> > gpu_binds_iomem(bo->resource),
+> >                                                  dst_st->sgl,
+> > dst_level,
+> >                                                 
+> > gpu_binds_iomem(dst_mem),
+> >                                                  &rq);
+> > +               i915_refct_sgt_put(src_rsgt);
+> >                 if (!ret && rq) {
+> >                         i915_request_wait(rq, 0,
+> > MAX_SCHEDULE_TIMEOUT);
+> >                         i915_request_put(rq);
+> > @@ -674,13 +694,14 @@ static int i915_ttm_accel_move(struct
+> > ttm_buffer_object *bo,
+> >   static void __i915_ttm_move(struct ttm_buffer_object *bo, bool
+> > clear,
+> >                             struct ttm_resource *dst_mem,
+> >                             struct ttm_tt *dst_ttm,
+> > -                           struct sg_table *dst_st,
+> > +                           struct i915_refct_sgt *dst_rsgt,
+> >                             bool allow_accel)
+> >   {
+> >         int ret = -EINVAL;
+> >   
+> >         if (allow_accel)
+> > -               ret = i915_ttm_accel_move(bo, clear, dst_mem,
+> > dst_ttm, dst_st);
+> > +               ret = i915_ttm_accel_move(bo, clear, dst_mem,
+> > dst_ttm,
+> > +                                         &dst_rsgt->table);
+> >         if (ret) {
+> >                 struct drm_i915_gem_object *obj =
+> > i915_ttm_to_gem(bo);
+> >                 struct intel_memory_region *dst_reg, *src_reg;
+> > @@ -697,12 +718,13 @@ static void __i915_ttm_move(struct
+> > ttm_buffer_object *bo, bool clear,
+> >                 dst_iter = !cpu_maps_iomem(dst_mem) ?
+> >                         ttm_kmap_iter_tt_init(&_dst_iter.tt,
+> > dst_ttm) :
+> >                         ttm_kmap_iter_iomap_init(&_dst_iter.io,
+> > &dst_reg->iomap,
+> > -                                                dst_st, dst_reg-
+> > >region.start);
+> > +                                                &dst_rsgt->table,
+> > +                                                dst_reg-
+> > >region.start);
+> >   
+> >                 src_iter = !cpu_maps_iomem(bo->resource) ?
+> >                         ttm_kmap_iter_tt_init(&_src_iter.tt, bo-
+> > >ttm) :
+> >                         ttm_kmap_iter_iomap_init(&_src_iter.io,
+> > &src_reg->iomap,
+> > -                                                obj-
+> > >ttm.cached_io_st,
+> > +                                                &obj-
+> > >ttm.cached_io_rsgt->table,
+> >                                                  src_reg-
+> > >region.start);
+> >   
+> >                 ttm_move_memcpy(clear, dst_mem->num_pages,
+> > dst_iter, src_iter);
+> > @@ -718,7 +740,7 @@ static int i915_ttm_move(struct
+> > ttm_buffer_object *bo, bool evict,
+> >         struct ttm_resource_manager *dst_man =
+> >                 ttm_manager_type(bo->bdev, dst_mem->mem_type);
+> >         struct ttm_tt *ttm = bo->ttm;
+> > -       struct sg_table *dst_st;
+> > +       struct i915_refct_sgt *dst_rsgt;
+> >         bool clear;
+> >         int ret;
+> >   
+> > @@ -744,22 +766,24 @@ static int i915_ttm_move(struct
+> > ttm_buffer_object *bo, bool evict,
+> >                         return ret;
+> >         }
+> >   
+> > -       dst_st = i915_ttm_resource_get_st(obj, dst_mem);
+> > -       if (IS_ERR(dst_st))
+> > -               return PTR_ERR(dst_st);
+> > +       dst_rsgt = i915_ttm_resource_get_st(obj, dst_mem);
+> > +       if (IS_ERR(dst_rsgt))
+> > +               return PTR_ERR(dst_rsgt);
+> >   
+> >         clear = !cpu_maps_iomem(bo->resource) && (!ttm ||
+> > !ttm_tt_is_populated(ttm));
+> >         if (!(clear && ttm && !(ttm->page_flags &
+> > TTM_TT_FLAG_ZERO_ALLOC)))
+> > -               __i915_ttm_move(bo, clear, dst_mem, bo->ttm,
+> > dst_st, true);
+> > +               __i915_ttm_move(bo, clear, dst_mem, bo->ttm,
+> > dst_rsgt, true);
+> >   
+> >         ttm_bo_move_sync_cleanup(bo, dst_mem);
+> >         i915_ttm_adjust_domains_after_move(obj);
+> > -       i915_ttm_free_cached_io_st(obj);
+> > +       i915_ttm_free_cached_io_rsgt(obj);
+> >   
+> >         if (gpu_binds_iomem(dst_mem) || cpu_maps_iomem(dst_mem)) {
+> > -               obj->ttm.cached_io_st = dst_st;
+> > -               obj->ttm.get_io_page.sg_pos = dst_st->sgl;
+> > +               obj->ttm.cached_io_rsgt = dst_rsgt;
+> > +               obj->ttm.get_io_page.sg_pos = dst_rsgt->table.sgl;
+> >                 obj->ttm.get_io_page.sg_idx = 0;
+> > +       } else {
+> > +               i915_refct_sgt_put(dst_rsgt);
+> >         }
+> >   
+> >         i915_ttm_adjust_lru(obj);
+> > @@ -825,7 +849,6 @@ static int __i915_ttm_get_pages(struct
+> > drm_i915_gem_object *obj,
+> >                 .interruptible = true,
+> >                 .no_wait_gpu = false,
+> >         };
+> > -       struct sg_table *st;
+> >         int real_num_busy;
+> >         int ret;
+> >   
+> > @@ -862,12 +885,16 @@ static int __i915_ttm_get_pages(struct
+> > drm_i915_gem_object *obj,
+> >         }
+> >   
+> >         if (!i915_gem_object_has_pages(obj)) {
+> > -               /* Object either has a page vector or is an iomem
+> > object */
+> > -               st = bo->ttm ? i915_ttm_tt_get_st(bo->ttm) : obj-
+> > >ttm.cached_io_st;
+> > -               if (IS_ERR(st))
+> > -                       return PTR_ERR(st);
+> > +               struct i915_refct_sgt *rsgt =
+> > +                       i915_ttm_resource_get_st(obj, bo-
+> > >resource);
+> > +
+> > +               if (IS_ERR(rsgt))
+> > +                       return PTR_ERR(rsgt);
+> >   
+> > -               __i915_gem_object_set_pages(obj, st,
+> > i915_sg_dma_sizes(st->sgl));
+> > +               GEM_BUG_ON(obj->mm.rsgt);
+> > +               obj->mm.rsgt = rsgt;
+> > +               __i915_gem_object_set_pages(obj, &rsgt->table,
+> > +                                           i915_sg_dma_sizes(rsgt-
+> > >table.sgl));
+> >         }
+> >   
+> >         i915_ttm_adjust_lru(obj);
+> > @@ -941,6 +968,9 @@ static void i915_ttm_put_pages(struct
+> > drm_i915_gem_object *obj,
+> >          * If the object is not destroyed next, The TTM eviction
+> > logic
+> >          * and shrinkers will move it out if needed.
+> >          */
+> > +
+> > +       if (obj->mm.rsgt)
+> > +               i915_refct_sgt_put(fetch_and_zero(&obj->mm.rsgt));
+> >   }
+> >   
+> >   static void i915_ttm_adjust_lru(struct drm_i915_gem_object *obj)
+> > @@ -1278,7 +1308,7 @@ int i915_gem_obj_copy_ttm(struct
+> > drm_i915_gem_object *dst,
+> >         struct ttm_operation_ctx ctx = {
+> >                 .interruptible = intr,
+> >         };
+> > -       struct sg_table *dst_st;
+> > +       struct i915_refct_sgt *dst_rsgt;
+> >         int ret;
+> >   
+> >         assert_object_held(dst);
+> > @@ -1293,11 +1323,11 @@ int i915_gem_obj_copy_ttm(struct
+> > drm_i915_gem_object *dst,
+> >         if (ret)
+> >                 return ret;
+> >   
+> > -       dst_st = gpu_binds_iomem(dst_bo->resource) ?
+> > -               dst->ttm.cached_io_st : i915_ttm_tt_get_st(dst_bo-
+> > >ttm);
+> > -
+> > +       dst_rsgt = i915_ttm_resource_get_st(dst, dst_bo->resource);
+> >         __i915_ttm_move(src_bo, false, dst_bo->resource, dst_bo-
+> > >ttm,
+> > -                       dst_st, allow_accel);
+> > +                       dst_rsgt, allow_accel);
+> > +
+> > +       i915_refct_sgt_put(dst_rsgt);
+> >   
+> >         return 0;
+> >   }
+> > diff --git a/drivers/gpu/drm/i915/i915_scatterlist.c
+> > b/drivers/gpu/drm/i915/i915_scatterlist.c
+> > index 4a6712dca838..41f2adb6a583 100644
+> > --- a/drivers/gpu/drm/i915/i915_scatterlist.c
+> > +++ b/drivers/gpu/drm/i915/i915_scatterlist.c
+> > @@ -41,8 +41,32 @@ bool i915_sg_trim(struct sg_table *orig_st)
+> >         return true;
+> >   }
+> >   
+> > +static void i915_refct_sgt_release(struct kref *ref)
+> > +{
+> > +       struct i915_refct_sgt *rsgt =
+> > +               container_of(ref, typeof(*rsgt), kref);
+> > +
+> > +       sg_free_table(&rsgt->table);
+> > +       kfree(rsgt);
+> > +}
+> > +
+> > +static const struct i915_refct_sgt_ops rsgt_ops = {
+> > +       .release = i915_refct_sgt_release
+> > +};
+> > +
+> > +/**
+> > + * i915_refct_sgt_init - Initialize a struct i915_refct_sgt with
+> > default ops
+> > + * @rsgt: The struct i915_refct_sgt to initialize.
+> > + * size: The size of the underlying memory buffer.
+> > + */
+> > +void i915_refct_sgt_init(struct i915_refct_sgt *rsgt, size_t size)
+> > +{
+> > +       __i915_refct_sgt_init(rsgt, size, &rsgt_ops);
+> > +}
+> > +
+> >   /**
+> > - * i915_sg_from_mm_node - Create an sg_table from a struct
+> > drm_mm_node
+> > + * i915_rsgt_from_mm_node - Create a refcounted sg_table from a
+> > struct
+> > + * drm_mm_node
+> >    * @node: The drm_mm_node.
+> >    * @region_start: An offset to add to the dma addresses of the sg
+> > list.
+> >    *
+> > @@ -50,25 +74,28 @@ bool i915_sg_trim(struct sg_table *orig_st)
+> >    * taking a maximum segment length into account, splitting into
+> > segments
+> >    * if necessary.
+> >    *
+> > - * Return: A pointer to a kmalloced struct sg_table on success,
+> > negative
+> > + * Return: A pointer to a kmalloced struct i915_refct_sgt on
+> > success, negative
+> >    * error code cast to an error pointer on failure.
+> >    */
+> > -struct sg_table *i915_sg_from_mm_node(const struct drm_mm_node
+> > *node,
+> > -                                     u64 region_start)
+> > +struct i915_refct_sgt *i915_rsgt_from_mm_node(const struct
+> > drm_mm_node *node,
+> > +                                             u64 region_start)
+> >   {
+> >         const u64 max_segment = SZ_1G; /* Do we have a limit on
+> > this? */
+> >         u64 segment_pages = max_segment >> PAGE_SHIFT;
+> >         u64 block_size, offset, prev_end;
+> > +       struct i915_refct_sgt *rsgt;
+> >         struct sg_table *st;
+> >         struct scatterlist *sg;
+> >   
+> > -       st = kmalloc(sizeof(*st), GFP_KERNEL);
+> > -       if (!st)
+> > +       rsgt = kmalloc(sizeof(*rsgt), GFP_KERNEL);
+> > +       if (!rsgt)
+> >                 return ERR_PTR(-ENOMEM);
+> >   
+> > +       i915_refct_sgt_init(rsgt, node->size << PAGE_SHIFT);
+> > +       st = &rsgt->table;
+> >         if (sg_alloc_table(st, DIV_ROUND_UP(node->size,
+> > segment_pages),
+> >                            GFP_KERNEL)) {
+> > -               kfree(st);
+> > +               i915_refct_sgt_put(rsgt);
+> >                 return ERR_PTR(-ENOMEM);
+> >         }
+> >   
+> > @@ -104,11 +131,11 @@ struct sg_table *i915_sg_from_mm_node(const
+> > struct drm_mm_node *node,
+> >         sg_mark_end(sg);
+> >         i915_sg_trim(st);
+> >   
+> > -       return st;
+> > +       return rsgt;
+> >   }
+> >   
+> >   /**
+> > - * i915_sg_from_buddy_resource - Create an sg_table from a struct
+> > + * i915_rsgt_from_buddy_resource - Create a refcounted sg_table
+> > from a struct
+> >    * i915_buddy_block list
+> >    * @res: The struct i915_ttm_buddy_resource.
+> >    * @region_start: An offset to add to the dma addresses of the sg
+> > list.
+> > @@ -117,11 +144,11 @@ struct sg_table *i915_sg_from_mm_node(const
+> > struct drm_mm_node *node,
+> >    * taking a maximum segment length into account, splitting into
+> > segments
+> >    * if necessary.
+> >    *
+> > - * Return: A pointer to a kmalloced struct sg_table on success,
+> > negative
+> > + * Return: A pointer to a kmalloced struct i915_refct_sgts on
+> > success, negative
+> >    * error code cast to an error pointer on failure.
+> >    */
+> > -struct sg_table *i915_sg_from_buddy_resource(struct ttm_resource
+> > *res,
+> > -                                            u64 region_start)
+> > +struct i915_refct_sgt *i915_rsgt_from_buddy_resource(struct
+> > ttm_resource *res,
+> > +                                                    u64
+> > region_start)
+> >   {
+> >         struct i915_ttm_buddy_resource *bman_res =
+> > to_ttm_buddy_resource(res);
+> >         const u64 size = res->num_pages << PAGE_SHIFT;
+> > @@ -129,18 +156,21 @@ struct sg_table
+> > *i915_sg_from_buddy_resource(struct ttm_resource *res,
+> >         struct i915_buddy_mm *mm = bman_res->mm;
+> >         struct list_head *blocks = &bman_res->blocks;
+> >         struct i915_buddy_block *block;
+> > +       struct i915_refct_sgt *rsgt;
+> >         struct scatterlist *sg;
+> >         struct sg_table *st;
+> >         resource_size_t prev_end;
+> >   
+> >         GEM_BUG_ON(list_empty(blocks));
+> >   
+> > -       st = kmalloc(sizeof(*st), GFP_KERNEL);
+> > -       if (!st)
+> > +       rsgt = kmalloc(sizeof(*rsgt), GFP_KERNEL);
+> > +       if (!rsgt)
+> >                 return ERR_PTR(-ENOMEM);
+> >   
+> > +       i915_refct_sgt_init(rsgt, size);
+> > +       st = &rsgt->table;
+> >         if (sg_alloc_table(st, res->num_pages, GFP_KERNEL)) {
+> > -               kfree(st);
+> > +               i915_refct_sgt_put(rsgt);
+> >                 return ERR_PTR(-ENOMEM);
+> >         }
+> >   
+> > @@ -181,7 +211,7 @@ struct sg_table
+> > *i915_sg_from_buddy_resource(struct ttm_resource *res,
+> >         sg_mark_end(sg);
+> >         i915_sg_trim(st);
+> >   
+> > -       return st;
+> > +       return rsgt;
+> >   }
+> >   
+> >   #if IS_ENABLED(CONFIG_DRM_I915_SELFTEST)
+> > diff --git a/drivers/gpu/drm/i915/i915_scatterlist.h
+> > b/drivers/gpu/drm/i915/i915_scatterlist.h
+> > index b8bd5925b03f..12c6a1684081 100644
+> > --- a/drivers/gpu/drm/i915/i915_scatterlist.h
+> > +++ b/drivers/gpu/drm/i915/i915_scatterlist.h
+> > @@ -144,10 +144,78 @@ static inline unsigned int
+> > i915_sg_segment_size(void)
+> >   
+> >   bool i915_sg_trim(struct sg_table *orig_st);
+> >   
+> > -struct sg_table *i915_sg_from_mm_node(const struct drm_mm_node
+> > *node,
+> > -                                     u64 region_start);
+> > +/**
+> > + * struct i915_refct_sgt_ops - Operations structure for struct
+> > i915_refct_sgt
+> > + */
+> > +struct i915_refct_sgt_ops {
+> > +       /**
+> > +        * release() - Free the memory of the struct i915_refct_sgt
+> > +        * @ref: struct kref that is embedded in the struct
+> > i915_refct_sgt
+> > +        */
+> > +       void (*release)(struct kref *ref);
+> > +};
+> > +
+> > +/**
+> > + * struct i915_refct_sgt - A refcounted scatter-gather table
+> > + * @kref: struct kref for refcounting
+> > + * @table: struct sg_table holding the scatter-gather table
+> > itself. Note that
+> > + * @table->sgl = NULL can be used to determine whether a scatter-
+> > gather table
+> > + * is present or not.
+> > + * @size: The size in bytes of the underlying memory buffer
+> > + * @ops: The operations structure.
+> > + */
+> > +struct i915_refct_sgt {
+> > +       struct kref kref;
+> > +       struct sg_table table;
+> > +       size_t size;
+> > +       const struct i915_refct_sgt_ops *ops;
+> > +};
+> > +
+> > +/**
+> > + * i915_refct_sgt_put - Put a refcounted sg-table
+> > + * @rsgt the struct i915_refct_sgt to put.
+> > + */
+> > +static inline void i915_refct_sgt_put(struct i915_refct_sgt *rsgt)
+> > +{
+> > +       if (rsgt)
+> > +               kref_put(&rsgt->kref, rsgt->ops->release);
+> > +}
+> > +
+> > +/**
+> > + * i915_refct_sgt_get - Get a refcounted sg-table
+> > + * @rsgt the struct i915_refct_sgt to get.
+> > + */
+> > +static inline struct i915_refct_sgt *
+> > +i915_refct_sgt_get(struct i915_refct_sgt *rsgt)
+> > +{
+> > +       kref_get(&rsgt->kref);
+> > +       return rsgt;
+> > +}
+> > +
+> > +/**
+> > + * __i915_refct_sgt_init - Initialize a refcounted sg-list with a
+> > custom
+> > + * operations structure
+> > + * @rsgt The struct i915_refct_sgt to initialize.
+> > + * @size: Size in bytes of the underlying memory buffer.
+> > + * @ops: A customized operations structure in case the refcounted
+> > sg-list
+> > + * is embedded into another structure.
+> > + */
+> > +static inline void __i915_refct_sgt_init(struct i915_refct_sgt
+> > *rsgt,
+> > +                                        size_t size,
+> > +                                        const struct
+> > i915_refct_sgt_ops *ops)
+> > +{
+> > +       kref_init(&rsgt->kref);
+> > +       rsgt->table.sgl = NULL;
+> > +       rsgt->size = size;
+> > +       rsgt->ops = ops;
+> > +}
+> > +
+> > +void i915_refct_sgt_init(struct i915_refct_sgt *rsgt, size_t
+> > size);
+> > +
+> > +struct i915_refct_sgt *i915_rsgt_from_mm_node(const struct
+> > drm_mm_node *node,
+> > +                                             u64 region_start);
+> >   
+> > -struct sg_table *i915_sg_from_buddy_resource(struct ttm_resource
+> > *res,
+> > -                                            u64 region_start);
+> > +struct i915_refct_sgt *i915_rsgt_from_buddy_resource(struct
+> > ttm_resource *res,
+> > +                                                    u64
+> > region_start);
+> >   
+> >   #endif
+> > diff --git a/drivers/gpu/drm/i915/intel_region_ttm.c
+> > b/drivers/gpu/drm/i915/intel_region_ttm.c
+> > index 98c7339bf8ba..2e901a27e259 100644
+> > --- a/drivers/gpu/drm/i915/intel_region_ttm.c
+> > +++ b/drivers/gpu/drm/i915/intel_region_ttm.c
+> > @@ -115,8 +115,8 @@ void intel_region_ttm_fini(struct
+> > intel_memory_region *mem)
+> >   }
+> >   
+> >   /**
+> > - * intel_region_ttm_resource_to_st - Convert an opaque TTM
+> > resource manager resource
+> > - * to an sg_table.
+> > + * intel_region_ttm_resource_to_rsgt -
+> > + * Convert an opaque TTM resource manager resource to a refcounted
+> > sg_table.
+> >    * @mem: The memory region.
+> >    * @res: The resource manager resource obtained from the TTM
+> > resource manager.
+> >    *
+> > @@ -126,17 +126,18 @@ void intel_region_ttm_fini(struct
+> > intel_memory_region *mem)
+> >    *
+> >    * Return: A malloced sg_table on success, an error pointer on
+> > failure.
+> >    */
+> > -struct sg_table *intel_region_ttm_resource_to_st(struct
+> > intel_memory_region *mem,
+> > -                                                struct
+> > ttm_resource *res)
+> > +struct i915_refct_sgt *
+> > +intel_region_ttm_resource_to_rsgt(struct intel_memory_region *mem,
+> > +                                 struct ttm_resource *res)
+> >   {
+> >         if (mem->is_range_manager) {
+> >                 struct ttm_range_mgr_node *range_node =
+> >                         to_ttm_range_mgr_node(res);
+> >   
+> > -               return i915_sg_from_mm_node(&range_node-
+> > >mm_nodes[0],
+> > -                                           mem->region.start);
+> > +               return i915_rsgt_from_mm_node(&range_node-
+> > >mm_nodes[0],
+> > +                                             mem->region.start);
+> >         } else {
+> > -               return i915_sg_from_buddy_resource(res, mem-
+> > >region.start);
+> > +               return i915_rsgt_from_buddy_resource(res, mem-
+> > >region.start);
+> >         }
+> >   }
+> >   
+> > diff --git a/drivers/gpu/drm/i915/intel_region_ttm.h
+> > b/drivers/gpu/drm/i915/intel_region_ttm.h
+> > index 6f44075920f2..7bbe2b46b504 100644
+> > --- a/drivers/gpu/drm/i915/intel_region_ttm.h
+> > +++ b/drivers/gpu/drm/i915/intel_region_ttm.h
+> > @@ -22,8 +22,9 @@ int intel_region_ttm_init(struct
+> > intel_memory_region *mem);
+> >   
+> >   void intel_region_ttm_fini(struct intel_memory_region *mem);
+> >   
+> > -struct sg_table *intel_region_ttm_resource_to_st(struct
+> > intel_memory_region *mem,
+> > -                                                struct
+> > ttm_resource *res);
+> > +struct i915_refct_sgt *
+> > +intel_region_ttm_resource_to_rsgt(struct intel_memory_region *mem,
+> > +                                 struct ttm_resource *res);
+> >   
+> >   void intel_region_ttm_resource_free(struct intel_memory_region
+> > *mem,
+> >                                     struct ttm_resource *res);
+> > diff --git a/drivers/gpu/drm/i915/selftests/mock_region.c
+> > b/drivers/gpu/drm/i915/selftests/mock_region.c
+> > index 75793008c4ef..7ec5037eaa58 100644
+> > --- a/drivers/gpu/drm/i915/selftests/mock_region.c
+> > +++ b/drivers/gpu/drm/i915/selftests/mock_region.c
+> > @@ -15,9 +15,9 @@
+> >   static void mock_region_put_pages(struct drm_i915_gem_object
+> > *obj,
+> >                                   struct sg_table *pages)
+> >   {
+> > +       i915_refct_sgt_put(obj->mm.rsgt);
+> > +       obj->mm.rsgt = NULL;
+> >         intel_region_ttm_resource_free(obj->mm.region, obj-
+> > >mm.res);
+> > -       sg_free_table(pages);
+> > -       kfree(pages);
+> >   }
+> >   
+> >   static int mock_region_get_pages(struct drm_i915_gem_object *obj)
+> > @@ -36,12 +36,14 @@ static int mock_region_get_pages(struct
+> > drm_i915_gem_object *obj)
+> >         if (IS_ERR(obj->mm.res))
+> >                 return PTR_ERR(obj->mm.res);
+> >   
+> > -       pages = intel_region_ttm_resource_to_st(obj->mm.region,
+> > obj->mm.res);
+> > -       if (IS_ERR(pages)) {
+> > -               err = PTR_ERR(pages);
+> > +       obj->mm.rsgt = intel_region_ttm_resource_to_rsgt(obj-
+> > >mm.region,
+> > +                                                        obj-
+> > >mm.res);
+> > +       if (IS_ERR(obj->mm.rsgt)) {
+> > +               err = PTR_ERR(obj->mm.rsgt);
+> >                 goto err_free_resource;
+> >         }
+> >   
+> > +       pages = &obj->mm.rsgt->table;
+> >         __i915_gem_object_set_pages(obj, pages,
+> > i915_sg_dma_sizes(pages->sgl));
+> >   
+> >         return 0;
+> > 
 
 
-Full randconfig file is attached.
-
--- 
-~Randy
-
---------------85C03F591A3435739E443E06
-Content-Type: application/gzip;
- name="config-r1095b.gz"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="config-r1095b.gz"
-
-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
-ODZerdHMEs1Ja1bS9S4F/wsyByevwjUCAA==
---------------85C03F591A3435739E443E06--
