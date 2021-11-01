@@ -1,65 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13CF544123D
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Nov 2021 03:56:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 67674441252
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Nov 2021 04:16:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB51E899D5;
-	Mon,  1 Nov 2021 02:56:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1210589ABA;
+	Mon,  1 Nov 2021 03:16:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A69A899D5;
- Mon,  1 Nov 2021 02:56:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1635735405; x=1667271405;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to;
- bh=TooinVCTF+GskGPPeCwj9QnDt7nLipC4yPQ/dTu7GqY=;
- b=x27Fn6xzk6vxor5oCeHOvWUt3StQpqTIGCtxMaH88EZ2Fq5MWoq+fCW2
- Uke6L4jInHefpP5YScVcaD1NDhH6SHAc5AH5p63YWrhQ36Sp4W19JeD3k
- hUp1pn8qPxbDUvZZQrbbC6wr1o+/Id70bNFZAPDltAk6OAyWgUhqSjVGp E=;
-Received: from ironmsg07-lv.qualcomm.com ([10.47.202.151])
- by alexa-out.qualcomm.com with ESMTP; 31 Oct 2021 19:56:45 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg07-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Oct 2021 19:56:43 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.922.7; 
- Sun, 31 Oct 2021 19:56:43 -0700
-Received: from [10.111.175.173] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.922.7; Sun, 31 Oct 2021
- 19:56:39 -0700
-Content-Type: multipart/alternative;
- boundary="------------zpKu8wO0xpwjgPBhni7PbGCC"
-Message-ID: <cfaded34-0626-891d-f056-1d9c6584c253@quicinc.com>
-Date: Sun, 31 Oct 2021 19:56:38 -0700
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D16EE89ABA
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Nov 2021 03:16:23 +0000 (UTC)
+X-UUID: 48e43b0dd3e4464dbcabdf5578280799-20211101
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
+ bh=MplEKwNK6OAffXAWeN1ahMfbiWO2NiLp63P/1LmLGmw=; 
+ b=GwLjNXSy9y3R8TBI6qDXqnz80ODYYegeSsZ5xWIcRcMN8Yokk0J4LaCQDl0f28JyFayOUTiNri6legOvAlqbuq+DM2RutmdALU+y67KHM1r7/ObUKEvHUem5inSeOtYItalllV8E3F6cjf8ZyXwLtOerYKO5f+7KX5UiPB2r3Gg=;
+X-UUID: 48e43b0dd3e4464dbcabdf5578280799-20211101
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
+ mailgw02.mediatek.com (envelope-from <jitao.shi@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1647572588; Mon, 01 Nov 2021 11:16:17 +0800
+Received: from mtkexhb01.mediatek.inc (172.21.101.102) by
+ mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Mon, 1 Nov 2021 11:16:16 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by mtkexhb01.mediatek.inc
+ (172.21.101.102) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Mon, 1 Nov 2021 11:16:16 +0800
+Received: from mszsdhlt06 (10.16.6.206) by mtkcas10.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Mon, 1 Nov 2021 11:16:15 +0800
+Message-ID: <a16150b6b10dca4bf961b8e02b5e4d940b98468c.camel@mediatek.com>
+Subject: Re: [PATCH v7 3/3] drm/bridge: anx7625: config hs packets end
+ aligned to avoid screen shift
+From: Jitao Shi <jitao.shi@mediatek.com>
+To: Andrzej Hajda <a.hajda@samsung.com>, Neil Armstrong
+ <narmstrong@baylibre.com>, Robert Foss <robert.foss@linaro.org>, "Laurent
+ Pinchart" <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
+ <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Xin Ji
+ <xji@analogixsemi.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, "Philipp
+ Zabel" <p.zabel@pengutronix.de>, Matthias Brugger <matthias.bgg@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+CC: <linux-mediatek@lists.infradead.org>,
+ <linux-arm-kernel@lists.infradead.org>, <ck.hu@mediatek.com>,
+ <stonea168@163.com>, <huijuan.xie@mediatek.com>, <rex-bc.chen@mediatek.com>,
+ <shuijing.li@mediatek.com>
+Date: Mon, 1 Nov 2021 11:16:15 +0800
+In-Reply-To: <20210915223117.7857-4-jitao.shi@mediatek.com>
+References: <20210915223117.7857-1-jitao.shi@mediatek.com>
+ <20210915223117.7857-4-jitao.shi@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.1
-Subject: Re: [PATCH] drm/msm/dsi: set default num_data_lanes
-Content-Language: en-US
-To: Philip Chen <philipchen@chromium.org>, LKML <linux-kernel@vger.kernel.org>
-CC: <dianders@chromium.org>, <swboyd@chromium.org>, <robdclark@chromium.org>, 
- Abhinav Kumar <abhinavk@codeaurora.org>, Bernard Zhao <bernard@vivo.com>, 
- "Dan Carpenter" <dan.carpenter@oracle.com>, Daniel Vetter <daniel@ffwll.ch>,
- "David Airlie" <airlied@linux.ie>, Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>, Jonathan Marek <jonathan@marek.ca>, Nicolas
- Boichat <drinkcat@chromium.org>, Rob Clark <robdclark@gmail.com>, Sean Paul
- <sean@poorly.run>, Viresh Kumar <viresh.kumar@linaro.org>, Yangtao Li
- <tiny.windzz@gmail.com>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>
-References: <20211030100812.1.I6cd9af36b723fed277d34539d3b2ba4ca233ad2d@changeid>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20211030100812.1.I6cd9af36b723fed277d34539d3b2ba4ca233ad2d@changeid>
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+X-MTK: N
+Content-Transfer-Encoding: base64
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,93 +72,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---------------zpKu8wO0xpwjgPBhni7PbGCC
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+SGkgWGluLA0KDQpQbGVhc2UgaGVscCB0byByZXZpZXcgdGhlIGNoYW5nZXMgaW4gYW54NzYyNS5j
+DQoNCk9uIFRodSwgMjAyMS0wOS0xNiBhdCAwNjozMSArMDgwMCwgSml0YW8gU2hpIHdyb3RlOg0K
+PiBUaGlzIGRldmljZSByZXF1aXJlcyB0aGUgcGFja2V0cyBvbiBsYW5lcyBhbGlnbmVkIGF0IHRo
+ZSBlbmQgdG8gZml4DQo+IHNjcmVlbiBzaGlmdCBvciBzY3JvbGwuDQo+IA0KPiBTaWduZWQtb2Zm
+LWJ5OiBKaXRhbyBTaGkgPGppdGFvLnNoaUBtZWRpYXRlay5jb20+DQo+IC0tLQ0KPiAgZHJpdmVy
+cy9ncHUvZHJtL2JyaWRnZS9hbmFsb2dpeC9hbng3NjI1LmMgfCAxICsNCj4gIDEgZmlsZSBjaGFu
+Z2VkLCAxIGluc2VydGlvbigrKQ0KPiANCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9i
+cmlkZ2UvYW5hbG9naXgvYW54NzYyNS5jDQo+IGIvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9hbmFs
+b2dpeC9hbng3NjI1LmMNCj4gaW5kZXggMTRkNzNmYjFkZDE1Li5kNzZmYjYzZmE5ZjcgMTAwNjQ0
+DQo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2UvYW5hbG9naXgvYW54NzYyNS5jDQo+ICsr
+KyBiL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2UvYW5hbG9naXgvYW54NzYyNS5jDQo+IEBAIC0xMzI3
+LDYgKzEzMjcsNyBAQCBzdGF0aWMgaW50IGFueDc2MjVfYXR0YWNoX2RzaShzdHJ1Y3QNCj4gYW54
+NzYyNV9kYXRhICpjdHgpDQo+ICAJCU1JUElfRFNJX01PREVfVklERU9fU1lOQ19QVUxTRQl8DQo+
+ICAJCU1JUElfRFNJX01PREVfTk9fRU9UX1BBQ0tFVAl8DQo+ICAJCU1JUElfRFNJX01PREVfVklE
+RU9fSFNFOw0KPiArCWRzaS0+aHNfcGFja2V0X2VuZF9hbGlnbmVkID0gdHJ1ZTsNCj4gIA0KPiAg
+CWlmIChtaXBpX2RzaV9hdHRhY2goZHNpKSA8IDApIHsNCj4gIAkJRFJNX0RFVl9FUlJPUihkZXYs
+ICJmYWlsIHRvIGF0dGFjaCBkc2kgdG8gaG9zdC5cbiIpOw0K
 
-
-On 10/30/2021 10:08 AM, Philip Chen wrote:
-> If "data_lanes" property of the dsi output endpoint is missing in
-> the DT, num_data_lanes would be 0 by default, which could cause
-> dsi_host_attach() to fail if dsi->lanes is set to a non-zero value
-> by the bridge driver.
->
-> According to the binding document of msm dsi controller, the
-> input/output endpoint of the controller is expected to have 4 lanes.
-> So let's set num_data_lanes to 4 by default.
->
-> Signed-off-by: Philip Chen<philipchen@chromium.org>
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> ---
->
->   drivers/gpu/drm/msm/dsi/dsi_host.c | 2 ++
->   1 file changed, 2 insertions(+)
->
-> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> index c86b5090fae6..a32eb33dfc14 100644
-> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
-> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> @@ -1696,6 +1696,8 @@ static int dsi_host_parse_lane_data(struct msm_dsi_host *msm_host,
->   	if (!prop) {
->   		DRM_DEV_DEBUG(dev,
->   			"failed to find data lane mapping, using default\n");
-> +		/* Set the number of date lanes to 4 by default. */
-> +		msm_host->num_data_lanes = 4;
->   		return 0;
->   	}
->   
---------------zpKu8wO0xpwjgPBhni7PbGCC
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 10/30/2021 10:08 AM, Philip Chen
-      wrote:<br>
-    </div>
-    <blockquote type="cite"
-cite="mid:20211030100812.1.I6cd9af36b723fed277d34539d3b2ba4ca233ad2d@changeid">
-      <pre class="moz-quote-pre" wrap="">If "data_lanes" property of the dsi output endpoint is missing in
-the DT, num_data_lanes would be 0 by default, which could cause
-dsi_host_attach() to fail if dsi-&gt;lanes is set to a non-zero value
-by the bridge driver.
-
-According to the binding document of msm dsi controller, the
-input/output endpoint of the controller is expected to have 4 lanes.
-So let's set num_data_lanes to 4 by default.
-
-Signed-off-by: Philip Chen <a class="moz-txt-link-rfc2396E" href="mailto:philipchen@chromium.org">&lt;philipchen@chromium.org&gt;</a></pre>
-    </blockquote>
-    <span style="white-space:nowrap">Reviewed-by: Abhinav Kumar &lt;<a class="moz-txt-link-abbreviated" href="mailto:quic_abhinavk@quicinc.com">quic_abhinavk@quicinc.com</a></span><span
-      style="white-space:nowrap">&gt;</span>
-    <blockquote type="cite"
-cite="mid:20211030100812.1.I6cd9af36b723fed277d34539d3b2ba4ca233ad2d@changeid">
-      <pre class="moz-quote-pre" wrap="">
----
-
- drivers/gpu/drm/msm/dsi/dsi_host.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
-index c86b5090fae6..a32eb33dfc14 100644
---- a/drivers/gpu/drm/msm/dsi/dsi_host.c
-+++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
-@@ -1696,6 +1696,8 @@ static int dsi_host_parse_lane_data(struct msm_dsi_host *msm_host,
- 	if (!prop) {
- 		DRM_DEV_DEBUG(dev,
- 			"failed to find data lane mapping, using default\n");
-+		/* Set the number of date lanes to 4 by default. */
-+		msm_host-&gt;num_data_lanes = 4;
- 		return 0;
- 	}
- 
-</pre>
-    </blockquote>
-  </body>
-</html>
---------------zpKu8wO0xpwjgPBhni7PbGCC--
