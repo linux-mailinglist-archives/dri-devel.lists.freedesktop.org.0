@@ -1,49 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C46D74438CF
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Nov 2021 23:55:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C4D9A4438D2
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Nov 2021 23:55:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 139E67390F;
-	Tue,  2 Nov 2021 22:55:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 08AE973912;
+	Tue,  2 Nov 2021 22:55:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D06087390F
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Nov 2021 22:55:33 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F8EC73911
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Nov 2021 22:55:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635893732;
+ s=mimecast20190719; t=1635893736;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=in9V/I6P5nWl0b1aEtKrhnbWkSaRhk1SKLF5QfaiNRA=;
- b=RYoKqC/2II6PJ0rThsmrypbRF1lJOCzJ0CVDiTRCF2hZZz/pr6r9dglM2p0/ym3wghcHN9
- 0JZqi7he1vnNnxcwhjdumU9dc8NLBar/ZZB7gDw5uibsqmtdb11R5qyZ1BNwiAhbxcUe8F
- Fb8huAB0coYxcU32oX1JQpypIomfR3M=
+ bh=VI+rXenfrHQ9NQf88Xc3kujdb0UXyWU2YSRE7S/ay+s=;
+ b=VxjYjB2PO9qn6/zFiMvOVfKpD0jtWR+Gn1pv9k7g50FFP0u+mbdfkgtYzVmzVIOqtWvGgm
+ ZKkoUdt+q0RMtRdYCwJW4agcjxiGFKAIuGX/T2h+a54kL4Ju0ER7hixmGRkMlNwlB1/3pl
+ d+QORqWzlWYfgJlzqhgCn9A0OLDwKm4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-122-fylSlgtvNQy1V-2NcFpYlw-1; Tue, 02 Nov 2021 18:55:31 -0400
-X-MC-Unique: fylSlgtvNQy1V-2NcFpYlw-1
+ us-mta-200-BsE6o8K7PGOKsX00YOPiag-1; Tue, 02 Nov 2021 18:55:33 -0400
+X-MC-Unique: BsE6o8K7PGOKsX00YOPiag-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6837E10A8E00;
- Tue,  2 Nov 2021 22:55:30 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1475E8042DB;
+ Tue,  2 Nov 2021 22:55:32 +0000 (UTC)
 Received: from x1.localdomain (unknown [10.39.192.24])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1103A60657;
- Tue,  2 Nov 2021 22:55:28 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AE4CF60657;
+ Tue,  2 Nov 2021 22:55:30 +0000 (UTC)
 From: Hans de Goede <hdegoede@redhat.com>
 To: Lee Jones <lee.jones@linaro.org>,
  Daniel Thompson <daniel.thompson@linaro.org>,
  Jingoo Han <jingoohan1@gmail.com>
-Subject: [PATCH v2 2/3] backlight: lp855x: Add dev helper variable to
- lp855x_probe()
-Date: Tue,  2 Nov 2021 23:55:03 +0100
-Message-Id: <20211102225504.18920-2-hdegoede@redhat.com>
+Subject: [PATCH v2 3/3] backlight: lp855x: Add support ACPI enumeration
+Date: Tue,  2 Nov 2021 23:55:04 +0100
+Message-Id: <20211102225504.18920-3-hdegoede@redhat.com>
 In-Reply-To: <20211102225504.18920-1-hdegoede@redhat.com>
 References: <20211102225504.18920-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -66,120 +65,167 @@ Cc: Hans de Goede <hdegoede@redhat.com>, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a dev local variable to the lp855x_probe(), to replace "&cl->dev"
-and "lp->dev" in various places.
+The Xiaomi Mi Pad 2 tablet uses an ACPI enumerated LP8556 backlight
+controller for its LCD-panel, with a Xiaomi specific ACPI HID of
+"XMCC0001", add support for this.
 
-Also switch to dev_err_probe() in one case which takes care of not
-printing -EPROBE_DEFER errors for us.
+Note the new "if (id)" check also fixes a NULL pointer deref when a user
+tries to manually bind the driver from sysfs.
 
-This is mostly a preparation for adding ACPI enumeration support which
-will use the new "dev" variable more.
+When CONFIG_ACPI is disabled acpi_match_device() will always return NULL,
+so the lp855x_parse_acpi() call will get optimized away.
 
-Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/video/backlight/lp855x_bl.c | 29 +++++++++++++----------------
- 1 file changed, 13 insertions(+), 16 deletions(-)
+Changes in v2:
+- Remove `lp->pdata = pdata` assignment from lp855x_parse_dt()
+- Add "and is in register mode" to the comment in
+  lp855x_parse_acpi()
+---
+ drivers/video/backlight/lp855x_bl.c | 73 ++++++++++++++++++++++++-----
+ 1 file changed, 61 insertions(+), 12 deletions(-)
 
 diff --git a/drivers/video/backlight/lp855x_bl.c b/drivers/video/backlight/lp855x_bl.c
-index 808ff00b2003..d1d27d5eb0f2 100644
+index d1d27d5eb0f2..2b9e2bbbb03e 100644
 --- a/drivers/video/backlight/lp855x_bl.c
 +++ b/drivers/video/backlight/lp855x_bl.c
-@@ -381,21 +381,22 @@ static int lp855x_parse_dt(struct lp855x *lp)
+@@ -5,6 +5,7 @@
+  *			Copyright (C) 2011 Texas Instruments
+  */
  
++#include <linux/acpi.h>
+ #include <linux/module.h>
+ #include <linux/slab.h>
+ #include <linux/i2c.h>
+@@ -330,7 +331,7 @@ static int lp855x_parse_dt(struct lp855x *lp)
+ {
+ 	struct device *dev = lp->dev;
+ 	struct device_node *node = dev->of_node;
+-	struct lp855x_platform_data *pdata;
++	struct lp855x_platform_data *pdata = lp->pdata;
+ 	int rom_length;
+ 
+ 	if (!node) {
+@@ -338,10 +339,6 @@ static int lp855x_parse_dt(struct lp855x *lp)
+ 		return -EINVAL;
+ 	}
+ 
+-	pdata = devm_kzalloc(dev, sizeof(*pdata), GFP_KERNEL);
+-	if (!pdata)
+-		return -ENOMEM;
+-
+ 	of_property_read_string(node, "bl-name", &pdata->name);
+ 	of_property_read_u8(node, "dev-ctrl", &pdata->device_control);
+ 	of_property_read_u8(node, "init-brt", &pdata->initial_brightness);
+@@ -368,8 +365,6 @@ static int lp855x_parse_dt(struct lp855x *lp)
+ 		pdata->rom_data = &rom[0];
+ 	}
+ 
+-	lp->pdata = pdata;
+-
+ 	return 0;
+ }
+ #else
+@@ -379,8 +374,32 @@ static int lp855x_parse_dt(struct lp855x *lp)
+ }
+ #endif
+ 
++static int lp855x_parse_acpi(struct lp855x *lp)
++{
++	int ret;
++
++	/*
++	 * On ACPI the device has already been initialized by the firmware
++	 * and is in register mode, so we can read back the settings from
++	 * the registers.
++	 */
++	ret = i2c_smbus_read_byte_data(lp->client, lp->cfg->reg_brightness);
++	if (ret < 0)
++		return ret;
++
++	lp->pdata->initial_brightness = ret;
++
++	ret = i2c_smbus_read_byte_data(lp->client, lp->cfg->reg_devicectrl);
++	if (ret < 0)
++		return ret;
++
++	lp->pdata->device_control = ret;
++	return 0;
++}
++
  static int lp855x_probe(struct i2c_client *cl, const struct i2c_device_id *id)
  {
-+	struct device *dev = &cl->dev;
++	const struct acpi_device_id *acpi_id = NULL;
+ 	struct device *dev = &cl->dev;
  	struct lp855x *lp;
  	int ret;
- 
- 	if (!i2c_check_functionality(cl->adapter, I2C_FUNC_SMBUS_I2C_BLOCK))
- 		return -EIO;
- 
--	lp = devm_kzalloc(&cl->dev, sizeof(struct lp855x), GFP_KERNEL);
-+	lp = devm_kzalloc(dev, sizeof(struct lp855x), GFP_KERNEL);
- 	if (!lp)
- 		return -ENOMEM;
+@@ -394,10 +413,20 @@ static int lp855x_probe(struct i2c_client *cl, const struct i2c_device_id *id)
  
  	lp->client = cl;
--	lp->dev = &cl->dev;
-+	lp->dev = dev;
- 	lp->chipname = id->name;
- 	lp->chip_id = id->driver_data;
--	lp->pdata = dev_get_platdata(&cl->dev);
-+	lp->pdata = dev_get_platdata(dev);
+ 	lp->dev = dev;
+-	lp->chipname = id->name;
+-	lp->chip_id = id->driver_data;
+ 	lp->pdata = dev_get_platdata(dev);
  
++	if (id) {
++		lp->chipname = id->name;
++		lp->chip_id = id->driver_data;
++	} else {
++		acpi_id = acpi_match_device(dev->driver->acpi_match_table, dev);
++		if (!acpi_id)
++			return -ENODEV;
++
++		lp->chipname = acpi_id->id;
++		lp->chip_id = acpi_id->driver_data;
++	}
++
  	switch (lp->chip_id) {
  	case LP8550:
-@@ -424,30 +425,27 @@ static int lp855x_probe(struct i2c_client *cl, const struct i2c_device_id *id)
- 	else
- 		lp->mode = REGISTER_BASED;
- 
--	lp->supply = devm_regulator_get(lp->dev, "power");
-+	lp->supply = devm_regulator_get(dev, "power");
- 	if (IS_ERR(lp->supply)) {
- 		if (PTR_ERR(lp->supply) == -EPROBE_DEFER)
- 			return -EPROBE_DEFER;
- 		lp->supply = NULL;
+ 	case LP8551:
+@@ -415,9 +444,19 @@ static int lp855x_probe(struct i2c_client *cl, const struct i2c_device_id *id)
  	}
  
--	lp->enable = devm_regulator_get_optional(lp->dev, "enable");
-+	lp->enable = devm_regulator_get_optional(dev, "enable");
- 	if (IS_ERR(lp->enable)) {
- 		ret = PTR_ERR(lp->enable);
- 		if (ret == -ENODEV) {
- 			lp->enable = NULL;
- 		} else {
--			if (ret != -EPROBE_DEFER)
--				dev_err(lp->dev, "error getting enable regulator: %d\n",
--					ret);
+ 	if (!lp->pdata) {
+-		ret = lp855x_parse_dt(lp);
+-		if (ret < 0)
 -			return ret;
-+			return dev_err_probe(dev, ret, "getting enable regulator\n");
- 		}
++		lp->pdata = devm_kzalloc(dev, sizeof(*lp->pdata), GFP_KERNEL);
++		if (!lp->pdata)
++			return -ENOMEM;
++
++		if (id) {
++			ret = lp855x_parse_dt(lp);
++			if (ret < 0)
++				return ret;
++		} else {
++			ret = lp855x_parse_acpi(lp);
++			if (ret < 0)
++				return ret;
++		}
  	}
  
- 	if (lp->supply) {
- 		ret = regulator_enable(lp->supply);
- 		if (ret < 0) {
--			dev_err(&cl->dev, "failed to enable supply: %d\n", ret);
-+			dev_err(dev, "failed to enable supply: %d\n", ret);
- 			return ret;
- 		}
- 	}
-@@ -455,7 +453,7 @@ static int lp855x_probe(struct i2c_client *cl, const struct i2c_device_id *id)
- 	if (lp->enable) {
- 		ret = regulator_enable(lp->enable);
- 		if (ret < 0) {
--			dev_err(lp->dev, "failed to enable vddio: %d\n", ret);
-+			dev_err(dev, "failed to enable vddio: %d\n", ret);
- 			goto disable_supply;
- 		}
+ 	if (lp->pdata->period_ns > 0)
+@@ -537,10 +576,20 @@ static const struct i2c_device_id lp855x_ids[] = {
+ };
+ MODULE_DEVICE_TABLE(i2c, lp855x_ids);
  
-@@ -470,20 +468,19 @@ static int lp855x_probe(struct i2c_client *cl, const struct i2c_device_id *id)
- 
- 	ret = lp855x_configure(lp);
- 	if (ret) {
--		dev_err(lp->dev, "device config err: %d", ret);
-+		dev_err(dev, "device config err: %d", ret);
- 		goto disable_vddio;
- 	}
- 
- 	ret = lp855x_backlight_register(lp);
- 	if (ret) {
--		dev_err(lp->dev,
--			"failed to register backlight. err: %d\n", ret);
-+		dev_err(dev, "failed to register backlight. err: %d\n", ret);
- 		goto disable_vddio;
- 	}
- 
--	ret = sysfs_create_group(&lp->dev->kobj, &lp855x_attr_group);
-+	ret = sysfs_create_group(&dev->kobj, &lp855x_attr_group);
- 	if (ret) {
--		dev_err(lp->dev, "failed to register sysfs. err: %d\n", ret);
-+		dev_err(dev, "failed to register sysfs. err: %d\n", ret);
- 		goto disable_vddio;
- 	}
- 
++#ifdef CONFIG_ACPI
++static const struct acpi_device_id lp855x_acpi_match[] = {
++	/* Xiaomi specific HID used for the LP8556 on the Mi Pad 2 */
++	{ "XMCC0001", LP8556 },
++	{ }
++};
++MODULE_DEVICE_TABLE(acpi, lp855x_acpi_match);
++#endif
++
+ static struct i2c_driver lp855x_driver = {
+ 	.driver = {
+ 		   .name = "lp855x",
+ 		   .of_match_table = of_match_ptr(lp855x_dt_ids),
++		   .acpi_match_table = ACPI_PTR(lp855x_acpi_match),
+ 		   },
+ 	.probe = lp855x_probe,
+ 	.remove = lp855x_remove,
 -- 
 2.31.1
 
