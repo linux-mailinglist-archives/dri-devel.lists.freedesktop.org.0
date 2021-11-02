@@ -2,44 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1129C442F95
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Nov 2021 14:58:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38100443002
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Nov 2021 15:14:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ACBC56FF7D;
-	Tue,  2 Nov 2021 13:58:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4401A6FFAF;
+	Tue,  2 Nov 2021 14:14:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F91F6FF81;
- Tue,  2 Nov 2021 13:58:45 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10155"; a="292098728"
-X-IronPort-AV: E=Sophos;i="5.87,203,1631602800"; d="scan'208";a="292098728"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Nov 2021 06:58:44 -0700
-X-IronPort-AV: E=Sophos;i="5.87,203,1631602800"; d="scan'208";a="489119390"
-Received: from hjubril-mobl.ger.corp.intel.com (HELO [10.213.199.124])
- ([10.213.199.124])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Nov 2021 06:58:43 -0700
-Subject: Re: [Intel-gfx] [PATCH v3 05/10] drm/i915: Prepare for multiple gts
-To: Andi Shyti <andi.shyti@linux.intel.com>
-References: <20211029032817.3747750-1-matthew.d.roper@intel.com>
- <20211029032817.3747750-6-matthew.d.roper@intel.com>
- <YYB0BdEcDqt2IUXi@intel.intel>
- <a1a70e75-2068-fa69-e307-456d031b25b1@linux.intel.com>
- <YYEgXz+hq8aBhmUJ@intel.intel>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-Message-ID: <8c2ec510-4e86-97f1-f0a9-872a2168455d@linux.intel.com>
-Date: Tue, 2 Nov 2021 13:58:41 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 164D86FFAE;
+ Tue,  2 Nov 2021 14:14:33 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10155"; a="212025107"
+X-IronPort-AV: E=Sophos;i="5.87,203,1631602800"; d="scan'208";a="212025107"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Nov 2021 07:14:32 -0700
+X-IronPort-AV: E=Sophos;i="5.87,203,1631602800"; d="scan'208";a="531552153"
+Received: from vanderss-mobl.ger.corp.intel.com (HELO [10.249.254.234])
+ ([10.249.254.234])
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Nov 2021 07:14:30 -0700
+Message-ID: <d4d65fb0-7889-fb68-8078-5d1766bdcd28@linux.intel.com>
+Date: Tue, 2 Nov 2021 15:14:27 +0100
 MIME-Version: 1.0
-In-Reply-To: <YYEgXz+hq8aBhmUJ@intel.intel>
-Content-Type: text/plain; charset=utf-8; format=flowed
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v2 2/2] drm/i915/ttm: Failsafe migration blits
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+To: Matthew Auld <matthew.auld@intel.com>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+References: <20211101183851.291015-1-thomas.hellstrom@linux.intel.com>
+ <20211101183851.291015-3-thomas.hellstrom@linux.intel.com>
+ <c88162c0-19d0-0fd5-4748-5fc70684f7f6@intel.com>
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
+In-Reply-To: <c88162c0-19d0-0fd5-4748-5fc70684f7f6@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,64 +50,524 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Thanks for reviewing Matt,
 
-On 02/11/2021 11:26, Andi Shyti wrote:
-> Hi Tvrtko,
-> 
->>> [...]
->>>
->>>>    static int
->>>>    intel_gt_tile_setup(struct intel_gt *gt, unsigned int id, phys_addr_t phys_addr)
->>>
->>> we don't actually need 'id', it's gt->info.id. It's introduced in
->>> patch 3 with the value '0' but it's not needed.
+On 11/2/21 14:55, Matthew Auld wrote:
+> On 01/11/2021 18:38, Thomas Hellström wrote:
+>> If the initial fill blit or copy blit of an object fails, the old
+>> content of the data might be exposed and read as soon as either CPU- or
+>> GPU PTEs are set up to point at the pages.
 >>
->> I have a suspicion code got munged up over endless rebases and refactors.
+>> Intercept the blit fence with an async callback that checks the
+>> blit fence for errors and if there are errors performs an async cpu blit
+>> instead. If there is a failure to allocate the async dma_fence_work,
+>> allocate it on the stack and sync wait for the blit to complete.
 >>
->> This patch is the one which introduces the id member to gt->info. But it is not setting it, even though I suspect the intent was for intel_gt_tile_setup to do that.
+>> Add selftests that simulate gpu blit failures and failure to allocate
+>> the async dma_fence_work.
 >>
->> Instead gt->info.id is only set to a valid value in last patch of this series inside intel_gt_probe_all:
+>> A previous version of this pach used dma_fence_work, now that's
+>> opencoded which adds more code but might lower the latency
+>> somewhat in the common non-error case.
 >>
->> +		gt->i915 = i915;
->> +		gt->name = gtdef->name;
->> +		gt->type = gtdef->type;
->> +		gt->info.engine_mask = gtdef->engine_mask;
->> +		gt->info.id = i;
+>> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+>> ---
+>>   drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c  | 322 +++++++++++++++---
+>>   drivers/gpu/drm/i915/gem/i915_gem_ttm_move.h  |   5 +
+>>   .../drm/i915/gem/selftests/i915_gem_migrate.c |  24 +-
+>>   3 files changed, 295 insertions(+), 56 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c 
+>> b/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
+>> index 0ed6b7f2b95f..2e3328e2b48c 100644
+>> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
+>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
+>> @@ -18,6 +18,29 @@
+>>   #include "gt/intel_gt.h"
+>>   #include "gt/intel_migrate.h"
+>>   +/**
+>> + * DOC: Selftest failure modes for failsafe migration:
+>> + *
+>> + * For fail_gpu_migration, the gpu blit scheduled is always a clear 
+>> blit
+>> + * rather than a copy blit, and then we force the failure paths as if
+>> + * the blit fence returned an error.
+>> + *
+>> + * For fail_work_allocation we fail the kmalloc of the async worker, we
+>> + * sync the gpu blit. If it then fails, or fail_gpu_migration is set to
+>> + * true, then a memcpy operation is performed sync.
+>> + */
+>> +I915_SELFTEST_DECLARE(static bool fail_gpu_migration;)
+>> +I915_SELFTEST_DECLARE(static bool fail_work_allocation;)
+>
+> Might as well move these under the CONFIG_SELFTEST below, and then 
+> drop the DECLARE stuff?
+>
 >> +
->> +		drm_dbg(&i915->drm, "Setting up %s %u\n", gt->name, gt->info.id);
->> +		ret = intel_gt_tile_setup(gt, i, phys_addr + gtdef->mapping_base);
+>> +#ifdef CONFIG_DRM_I915_SELFTEST
+>> +void i915_ttm_migrate_set_failure_modes(bool gpu_migration,
+>> +                    bool work_allocation)
+>> +{
+>> +    fail_gpu_migration = gpu_migration;
+>> +    fail_work_allocation = work_allocation;
+>> +}
+>> +#endif
+>> +
+>>   static enum i915_cache_level
+>>   i915_ttm_cache_level(struct drm_i915_private *i915, struct 
+>> ttm_resource *res,
+>>                struct ttm_tt *ttm)
+>> @@ -129,11 +152,11 @@ int i915_ttm_move_notify(struct 
+>> ttm_buffer_object *bo)
+>>       return 0;
+>>   }
+>>   -static int i915_ttm_accel_move(struct ttm_buffer_object *bo,
+>> -                   bool clear,
+>> -                   struct ttm_resource *dst_mem,
+>> -                   struct ttm_tt *dst_ttm,
+>> -                   struct sg_table *dst_st)
+>> +static struct dma_fence *i915_ttm_accel_move(struct 
+>> ttm_buffer_object *bo,
+>> +                         bool clear,
+>> +                         struct ttm_resource *dst_mem,
+>> +                         struct ttm_tt *dst_ttm,
+>> +                         struct sg_table *dst_st)
+>>   {
+>>       struct drm_i915_private *i915 = container_of(bo->bdev, 
+>> typeof(*i915),
+>>                                bdev);
+>> @@ -144,30 +167,29 @@ static int i915_ttm_accel_move(struct 
+>> ttm_buffer_object *bo,
+>>       int ret;
+>>         if (!i915->gt.migrate.context || intel_gt_is_wedged(&i915->gt))
+>> -        return -EINVAL;
+>> +        return ERR_PTR(-EINVAL);
+>> +
+>> +    /* With fail_gpu_migration, we always perform a GPU clear. */
+>> +    if (I915_SELFTEST_ONLY(fail_gpu_migration))
+>> +        clear = true;
+>>         dst_level = i915_ttm_cache_level(i915, dst_mem, dst_ttm);
+>>       if (clear) {
+>> -        if (bo->type == ttm_bo_type_kernel)
+>> -            return -EINVAL;
+>> +        if (bo->type == ttm_bo_type_kernel &&
+>> +            !I915_SELFTEST_ONLY(fail_gpu_migration))
+>> +            return ERR_PTR(-EINVAL);
+>> intel_engine_pm_get(i915->gt.migrate.context->engine);
+>>           ret = intel_context_migrate_clear(i915->gt.migrate.context, 
+>> NULL,
+>>                             dst_st->sgl, dst_level,
+>>                             i915_ttm_gtt_binds_lmem(dst_mem),
+>>                             0, &rq);
+>> -
+>> -        if (!ret && rq) {
+>> -            i915_request_wait(rq, 0, MAX_SCHEDULE_TIMEOUT);
+>> -            i915_request_put(rq);
+>> -        }
+>> - intel_engine_pm_put(i915->gt.migrate.context->engine);
+>>       } else {
+>>           struct i915_refct_sgt *src_rsgt =
+>>               i915_ttm_resource_get_st(obj, bo->resource);
+>>             if (IS_ERR(src_rsgt))
+>> -            return PTR_ERR(src_rsgt);
+>> +            return ERR_CAST(src_rsgt);
+>>             src_level = i915_ttm_cache_level(i915, bo->resource, 
+>> src_ttm);
+>> intel_engine_pm_get(i915->gt.migrate.context->engine);
+>> @@ -178,15 +200,183 @@ static int i915_ttm_accel_move(struct 
+>> ttm_buffer_object *bo,
+>>                            dst_st->sgl, dst_level,
+>>                            i915_ttm_gtt_binds_lmem(dst_mem),
+>>                            &rq);
+>> +
+>>           i915_refct_sgt_put(src_rsgt);
+>> -        if (!ret && rq) {
+>> -            i915_request_wait(rq, 0, MAX_SCHEDULE_TIMEOUT);
+>> -            i915_request_put(rq);
+>> -        }
+>> - intel_engine_pm_put(i915->gt.migrate.context->engine);
+>>       }
+>>   -    return ret;
+>> + intel_engine_pm_put(i915->gt.migrate.context->engine);
+>> +
+>> +    if (ret && rq) {
+>> +        i915_request_wait(rq, 0, MAX_SCHEDULE_TIMEOUT);
+>> +        i915_request_put(rq);
+>> +    }
+>> +
+>> +    return ret ? ERR_PTR(ret) : &rq->fence;
+>> +}
+>> +
+>> +/**
+>> + * struct i915_ttm_memcpy_arg - argument for the bo memcpy 
+>> functionality.
+>> + * @_dst_iter: Storage space for the destination kmap iterator.
+>> + * @_src_iter: Storage space for the source kmap iterator.
+>> + * @dst_iter: Pointer to the destination kmap iterator.
+>> + * @src_iter: Pointer to the source kmap iterator.
+>> + * @clear: Whether to clear instead of copy.
+>> + * @src_rsgt: Refcounted scatter-gather list of source memory.
+>> + * @dst_rsgt: Refcounted scatter-gather list of destination memory.
+>> + */
+>> +struct i915_ttm_memcpy_arg {
+>> +    union {
+>> +        struct ttm_kmap_iter_tt tt;
+>> +        struct ttm_kmap_iter_iomap io;
+>> +    } _dst_iter,
+>> +    _src_iter;
+>> +    struct ttm_kmap_iter *dst_iter;
+>> +    struct ttm_kmap_iter *src_iter;
+>> +    unsigned long num_pages;
+>> +    bool clear;
+>> +    struct i915_refct_sgt *src_rsgt;
+>> +    struct i915_refct_sgt *dst_rsgt;
+>> +};
+>> +
+>> +/**
+>> + * struct i915_ttm_memcpy_work - Async memcpy worker under a dma-fence.
+>> + * @fence: The dma-fence.
+>> + * @work: The work struct use for the memcpy work.
+>> + * @lock: The fence lock. Not used to protect anythinge else ATM.
+>
+> s/anythinge/anything
+>
+>> + * @irq_work: Low latency worker to signal the fence since it can't 
+>> be done
+>> + * from the callback for lockdep reasons.
+>> + * @cb: Callback for the accelerated migration fence.
+>> + * @arg: The argument for the memcpy functionality.
+>> + */
+>> +struct i915_ttm_memcpy_work {
+>> +    struct dma_fence fence;
+>> +    struct work_struct work;
+>> +    /* The fence lock */
+>> +    spinlock_t lock;
+>> +    struct irq_work irq_work;
+>> +    struct dma_fence_cb cb;
+>> +    struct i915_ttm_memcpy_arg arg;
+>> +};
+>> +
+>> +static void i915_ttm_move_memcpy(struct i915_ttm_memcpy_arg *arg)
+>> +{
+>> +    ttm_move_memcpy(arg->clear, arg->num_pages,
+>> +            arg->dst_iter, arg->src_iter);
+>> +}
+>> +
+>> +static void i915_ttm_memcpy_init(struct i915_ttm_memcpy_arg *arg,
+>> +                 struct ttm_buffer_object *bo, bool clear,
+>> +                 struct ttm_resource *dst_mem,
+>> +                 struct ttm_tt *dst_ttm,
+>> +                 struct i915_refct_sgt *dst_rsgt)
+>> +{
+>> +    struct drm_i915_gem_object *obj = i915_ttm_to_gem(bo);
+>> +    struct intel_memory_region *dst_reg, *src_reg;
+>> +
+>> +    dst_reg = i915_ttm_region(bo->bdev, dst_mem->mem_type);
+>> +    src_reg = i915_ttm_region(bo->bdev, bo->resource->mem_type);
+>> +    GEM_BUG_ON(!dst_reg || !src_reg);
+>> +
+>> +    arg->dst_iter = !i915_ttm_cpu_maps_iomem(dst_mem) ?
+>> +        ttm_kmap_iter_tt_init(&arg->_dst_iter.tt, dst_ttm) :
+>> +        ttm_kmap_iter_iomap_init(&arg->_dst_iter.io, &dst_reg->iomap,
+>> +                     &dst_rsgt->table, dst_reg->region.start);
+>> +
+>> +    arg->src_iter = !i915_ttm_cpu_maps_iomem(bo->resource) ?
+>> +        ttm_kmap_iter_tt_init(&arg->_src_iter.tt, bo->ttm) :
+>> +        ttm_kmap_iter_iomap_init(&arg->_src_iter.io, &src_reg->iomap,
+>> +                     &obj->ttm.cached_io_rsgt->table,
+>> +                     src_reg->region.start);
+>> +    arg->clear = clear;
+>> +    arg->num_pages = bo->base.size >> PAGE_SHIFT;
+>> +
+>> +    arg->dst_rsgt = i915_refct_sgt_get(dst_rsgt);
+>> +    arg->src_rsgt = clear ? NULL :
+>> +        i915_ttm_resource_get_st(obj, bo->resource);
+>> +}
+>> +
+>> +static void i915_ttm_memcpy_release(struct i915_ttm_memcpy_arg *arg)
+>> +{
+>> +    i915_refct_sgt_put(arg->src_rsgt);
+>> +    i915_refct_sgt_put(arg->dst_rsgt);
+>> +}
+>> +
+>> +static void __memcpy_work(struct work_struct *work)
+>> +{
+>> +    struct i915_ttm_memcpy_work *copy_work =
+>> +        container_of(work, typeof(*copy_work), work);
+>> +    struct i915_ttm_memcpy_arg *arg = &copy_work->arg;
+>> +    bool cookie = dma_fence_begin_signalling();
+>> +
+>> +    i915_ttm_move_memcpy(arg);
+>> +    dma_fence_end_signalling(cookie);
+>> +
+>> +    dma_fence_signal(&copy_work->fence);
+>> +
+>> +    i915_ttm_memcpy_release(arg);
+>> +    dma_fence_put(&copy_work->fence);
+>> +}
+>> +
+>> +static void __memcpy_irq_work(struct irq_work *irq_work)
+>> +{
+>> +    struct i915_ttm_memcpy_work *copy_work =
+>> +        container_of(irq_work, typeof(*copy_work), irq_work);
+>> +    struct i915_ttm_memcpy_arg *arg = &copy_work->arg;
+>> +
+>> +    dma_fence_signal(&copy_work->fence);
+>> +    i915_ttm_memcpy_release(arg);
+>> +    dma_fence_put(&copy_work->fence);
+>> +}
+>> +
+>> +static void __memcpy_cb(struct dma_fence *fence, struct dma_fence_cb 
+>> *cb)
+>> +{
+>> +    struct i915_ttm_memcpy_work *copy_work =
+>> +        container_of(cb, typeof(*copy_work), cb);
+>> +
+>> +    if (unlikely(fence->error || 
+>> I915_SELFTEST_ONLY(fail_gpu_migration))) {
+>> +        INIT_WORK(&copy_work->work, __memcpy_work);
+>> +        queue_work(system_unbound_wq, &copy_work->work);
+>> +    } else {
+>> +        init_irq_work(&copy_work->irq_work, __memcpy_irq_work);
+>> +        irq_work_queue(&copy_work->irq_work);
+>> +    }
+>> +}
+>> +
+>> +static const char *get_driver_name(struct dma_fence *fence)
+>> +{
+>> +    return "i915_ttm_memcpy_work";
+>> +}
+>> +
+>> +static const char *get_timeline_name(struct dma_fence *fence)
+>> +{
+>> +    return "unbound";
+>> +}
+>> +
+>> +static const struct dma_fence_ops dma_fence_memcpy_ops = {
+>> +    .get_driver_name = get_driver_name,
+>> +    .get_timeline_name = get_timeline_name,
+>> +};
+>> +
+>> +static struct dma_fence *
+>> +i915_ttm_memcpy_work_arm(struct i915_ttm_memcpy_work *work,
+>> +             struct dma_fence *dep)
+>> +{
+>> +    int ret = 0;
+>
+> No need to initialise.
+>
+>> +
+>> +    spin_lock_init(&work->lock);
+>> +    dma_fence_init(&work->fence, &dma_fence_memcpy_ops, &work->lock, 
+>> 0, 0);
+>> +    dma_fence_get(&work->fence);
+>> +    ret = dma_fence_add_callback(dep, &work->cb, __memcpy_cb);
+>> +    if (ret) {
+>> +        if (ret != -ENOENT)
+>> +            dma_fence_wait(dep, false);
+>> +
+>> +        ret = I915_SELFTEST_ONLY(fail_gpu_migration) ? -EINVAL :
+>> +            dep->error;
+>> +    }
+>> +    dma_fence_put(dep);
+>
+> Should we leave that in the caller?
+>
+>> +
+>> +    return ret ? ERR_PTR(ret) : &work->fence;
+>>   }
+>>     /**
+>> @@ -199,42 +389,64 @@ static int i915_ttm_accel_move(struct 
+>> ttm_buffer_object *bo,
+>>    * @allow_accel: Whether to allow acceleration.
+>>    */
+>>   void __i915_ttm_move(struct ttm_buffer_object *bo, bool clear,
+>> -             struct ttm_resource *dst_mem,
+>> -             struct ttm_tt *dst_ttm,
+>> -             struct i915_refct_sgt *dst_rsgt,
+>> -             bool allow_accel)
+>> +             struct ttm_resource *dst_mem, struct ttm_tt *dst_ttm,
+>> +             struct i915_refct_sgt *dst_rsgt, bool allow_accel)
+>>   {
+>> -    int ret = -EINVAL;
+>> +    struct i915_ttm_memcpy_work *copy_work = NULL;
+>> +    struct i915_ttm_memcpy_arg _arg, *arg = &_arg;
+>> +    struct dma_fence *fence = ERR_PTR(-EINVAL);
+>> +
+>> +    if (allow_accel) {
+>> +        fence = i915_ttm_accel_move(bo, clear, dst_mem, dst_ttm,
+>> +                        &dst_rsgt->table);
+>> +
+>> +        /*
+>> +         * We only need to intercept the error when moving to lmem.
+>> +         * When moving to system, TTM or shmem will provide us with
+>> +         * cleared pages.
+>> +         */
+>> +        if (!IS_ERR(fence) && !i915_ttm_gtt_binds_lmem(dst_mem) &&
+>> +            !I915_SELFTEST_ONLY(fail_gpu_migration ||
+>> +                    fail_work_allocation))
+>> +            goto out;
+>
+> Would it make sense to always add the failsafe, or not really? While 
+> there is nothing security sensitive, would it not be benificial to 
+> still add the fallback?
+
+Drawback is that the software fence *might* get in the way of gpu 
+pipelining. Not sure if that will be a problem in practice. One short 
+term benefit with having things as they are now is that the gpu fences 
+arising from  eviction to smem are ordered along a timeline which TTM 
+requires for pipelined eviction. If we were to add the error intercept 
+for these we'd also have to chain them along a dma_fence_chain to make 
+them appear ordered.
+
+>
+> Also any idea what was the plan for non-cpu mappable memory?
+
+Yes the idea was to wedge the gt and perhaps block cpu mapping (if 
+needed for some pages). But I still wonder if we can somehow just mark 
+the bo as insecure and just refuse setting up gpu- and cpu mappings to it...
+
+>
+> Anyway,
+> Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+>
+>
+>> +    }
+>>   -    if (allow_accel)
+>> -        ret = i915_ttm_accel_move(bo, clear, dst_mem, dst_ttm,
+>> -                      &dst_rsgt->table);
+>> -    if (ret) {
+>> -        struct drm_i915_gem_object *obj = i915_ttm_to_gem(bo);
+>> -        struct intel_memory_region *dst_reg, *src_reg;
+>> -        union {
+>> -            struct ttm_kmap_iter_tt tt;
+>> -            struct ttm_kmap_iter_iomap io;
+>> -        } _dst_iter, _src_iter;
+>> -        struct ttm_kmap_iter *dst_iter, *src_iter;
+>> -
+>> -        dst_reg = i915_ttm_region(bo->bdev, dst_mem->mem_type);
+>> -        src_reg = i915_ttm_region(bo->bdev, bo->resource->mem_type);
+>> -        GEM_BUG_ON(!dst_reg || !src_reg);
+>> -
+>> -        dst_iter = !i915_ttm_cpu_maps_iomem(dst_mem) ?
+>> -            ttm_kmap_iter_tt_init(&_dst_iter.tt, dst_ttm) :
+>> -            ttm_kmap_iter_iomap_init(&_dst_iter.io, &dst_reg->iomap,
+>> -                         &dst_rsgt->table,
+>> -                         dst_reg->region.start);
+>> -
+>> -        src_iter = !i915_ttm_cpu_maps_iomem(bo->resource) ?
+>> -            ttm_kmap_iter_tt_init(&_src_iter.tt, bo->ttm) :
+>> -            ttm_kmap_iter_iomap_init(&_src_iter.io, &src_reg->iomap,
+>> - &obj->ttm.cached_io_rsgt->table,
+>> -                         src_reg->region.start);
+>> -
+>> -        ttm_move_memcpy(clear, dst_mem->num_pages, dst_iter, src_iter);
+>> +    /* If we've scheduled gpu migration. Try to arm error intercept. */
+>> +    if (!IS_ERR(fence)) {
+>> +        struct dma_fence *dep = fence;
+>> +
+>> +        if (!I915_SELFTEST_ONLY(fail_work_allocation))
+>> +            copy_work = kzalloc(sizeof(*copy_work), GFP_KERNEL);
+>> +
+>> +        if (copy_work) {
+>> +            arg = &copy_work->arg;
+>> +            i915_ttm_memcpy_init(arg, bo, clear, dst_mem, dst_ttm,
+>> +                         dst_rsgt);
+>> +            fence = i915_ttm_memcpy_work_arm(copy_work, dep);
+>> +        } else {
+>> +            dma_fence_wait(dep, false);
+>> +            fence = ERR_PTR(I915_SELFTEST_ONLY(fail_gpu_migration) ?
+>> +                    -EINVAL : fence->error);
+>> +            dma_fence_put(dep);
+>> +        }
+>> +        if (!IS_ERR(fence))
+>> +            goto out;
+>> +    }
+>> +
+>> +    /* Error intercept failed or no accelerated migration to start 
+>> with */
+>> +    if (!copy_work)
+>> +        i915_ttm_memcpy_init(arg, bo, clear, dst_mem, dst_ttm,
+>> +                     dst_rsgt);
+>> +    i915_ttm_move_memcpy(arg);
+>> +    i915_ttm_memcpy_release(arg);
+>> +    kfree(copy_work);
+>> +
+>> +    return;
+>> +out:
+>> +    /* Sync here for now, forward the fence to caller when fully 
+>> async. */
+>> +    if (fence) {
+>> +        dma_fence_wait(fence, false);
+>> +        dma_fence_put(fence);
+>>       }
+>>   }
+>>   diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.h 
+>> b/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.h
+>> index 68294b16e5c2..75b87e752af2 100644
+>> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.h
+>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.h
+>> @@ -7,6 +7,8 @@
+>>     #include <linux/types.h>
+>>   +#include "i915_selftest.h"
+>> +
+>>   struct ttm_buffer_object;
+>>   struct ttm_operation_ctx;
+>>   struct ttm_place;
+>> @@ -18,6 +20,9 @@ struct i915_refct_sgt;
+>>     int i915_ttm_move_notify(struct ttm_buffer_object *bo);
+>>   +I915_SELFTEST_DECLARE(void i915_ttm_migrate_set_failure_modes(bool 
+>> gpu_migration,
+>> +                                  bool work_allocation));
+>> +
+>>   /* Internal I915 TTM declarations and definitions below. */
+>>     void __i915_ttm_move(struct ttm_buffer_object *bo, bool clear,
+>> diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_migrate.c 
+>> b/drivers/gpu/drm/i915/gem/selftests/i915_gem_migrate.c
+>> index 28a700f08b49..4b8e6b098659 100644
+>> --- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_migrate.c
+>> +++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_migrate.c
+>> @@ -4,6 +4,7 @@
+>>    */
+>>     #include "gt/intel_migrate.h"
+>> +#include "gem/i915_gem_ttm_move.h"
+>>     static int igt_fill_check_buffer(struct drm_i915_gem_object *obj,
+>>                    bool fill)
+>> @@ -227,13 +228,34 @@ static int igt_lmem_pages_migrate(void *arg)
+>>       return err;
+>>   }
+>>   +static int igt_lmem_pages_failsafe_migrate(void *arg)
+>> +{
+>> +    int fail_gpu, fail_alloc, ret;
+>> +
+>> +    for (fail_gpu = 0; fail_gpu < 2; ++fail_gpu) {
+>> +        for (fail_alloc = 0; fail_alloc < 2; ++fail_alloc) {
+>> +            pr_info("Simulated failure modes: gpu: %d, alloc: %d\n",
+>> +                fail_gpu, fail_alloc);
+>> +            i915_ttm_migrate_set_failure_modes(fail_gpu,
+>> +                               fail_alloc);
+>> +            ret = igt_lmem_pages_migrate(arg);
+>> +            if (ret)
+>> +                goto out_err;
+>> +        }
+>> +    }
+>> +
+>> +out_err:
+>> +    i915_ttm_migrate_set_failure_modes(false, false);
+>> +    return ret;
+>> +}
+>> +
+>>   int i915_gem_migrate_live_selftests(struct drm_i915_private *i915)
+>>   {
+>>       static const struct i915_subtest tests[] = {
+>>           SUBTEST(igt_smem_create_migrate),
+>>           SUBTEST(igt_lmem_create_migrate),
+>>           SUBTEST(igt_same_create_migrate),
+>> -        SUBTEST(igt_lmem_pages_migrate),
+>> +        SUBTEST(igt_lmem_pages_failsafe_migrate),
+>>       };
+>>         if (!HAS_LMEM(i915))
 >>
->> And intel_gt_tile_setup then calls __intel_gt_init_early which assigns gt->i915 yet again.
->>
->> So I'd say there is probably space to bring this all into a more streamlined flow, even more than what you suggest below.
-> 
-> yes, I noticed them!
-> 
-> Patch 3, 5 and 10 are very much connected with each other: 3
-> prepares for one tile, 5 prepares for multitile and 10 does the
-> multitile. While in between other patches are doing other things.
-> 
-> On top of some cleanups we could also rearrange the patches with
-> some squashing and reordering to have them a bit more linear and
-> also easier to review.
-
-Yes. Maybe make intel_gt_tile_setup accept more arguments so it can be 
-truly used to setup a gt?
-
-   intel_gt_tile_setup(gt, id, name, type, engine_mask)
-
-The usual thing where patch which adds something extends the prototype 
-to include more stuff. If that applies here.
-
-I know it is originally my patch but I don't have the time to rework it, 
-much less the whole series, so usual dispensation to take over 
-authorship if changes are large applies.
-
-Regards,
-
-Tvrtko
