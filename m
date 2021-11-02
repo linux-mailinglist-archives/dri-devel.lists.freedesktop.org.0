@@ -1,40 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 346FB44299E
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Nov 2021 09:37:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E14304429A6
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Nov 2021 09:39:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B1E56FE84;
-	Tue,  2 Nov 2021 08:37:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 170BE6FEA1;
+	Tue,  2 Nov 2021 08:39:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1CCA66FE84
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Nov 2021 08:37:21 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10155"; a="292049304"
-X-IronPort-AV: E=Sophos;i="5.87,202,1631602800"; d="scan'208";a="292049304"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Nov 2021 01:37:20 -0700
-X-IronPort-AV: E=Sophos;i="5.87,202,1631602800"; d="scan'208";a="500425503"
-Received: from sohamdas-mobl.gar.corp.intel.com (HELO localhost)
- ([10.249.32.13])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Nov 2021 01:37:17 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: He Ying <heying24@huawei.com>, mripard@kernel.org, wens@csie.org,
- airlied@linux.ie, daniel@ffwll.ch, jernej.skrabec@gmail.com
-Subject: Re: [PATCH] drm: Grab reference of connector before return connector
- from sun4i_tcon_get_connector
-In-Reply-To: <33e01d45-c9f9-0e8c-6871-868ecd198368@huawei.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20211101062906.231518-1-heying24@huawei.com>
- <87cznkdo6p.fsf@intel.com> <33e01d45-c9f9-0e8c-6871-868ecd198368@huawei.com>
-Date: Tue, 02 Nov 2021 10:37:14 +0200
-Message-ID: <871r3zdkcl.fsf@intel.com>
+Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com
+ [209.85.221.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 072CA6FE9F
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Nov 2021 08:39:53 +0000 (UTC)
+Received: by mail-vk1-f169.google.com with SMTP id u207so4542492vkb.7
+ for <dri-devel@lists.freedesktop.org>; Tue, 02 Nov 2021 01:39:52 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=vtHObjXz/fBAC2wVKkwQJuDdB+3lhXmiXIXLkWkTc/M=;
+ b=5RVRzpKRSPLM408+uPRsew/YphABPbFy3AW8o7O6ilve8nn+6Kx2msMmBIU68+Wfli
+ xAQCPmOCbKfLokFN8AWRwCS2Zcj85dbhgISueYcWUhRPDnBAbUBtrjGK+e6rwyrB+8TQ
+ AcYVmckO+WbVafZzis5V8Rlx2aepb0cd6HjrpI4G2GkG6Nd/0N2uclnZISdwJ1Gp0d2n
+ I2UXrz0qroAyunEgFj/2kpfOhOygCzwS5328qiyeTT5rag8VZkLw1CinjyXJhAQI+neT
+ stAkUSVnunNbUk0f74WfUoHmLGSWokRzdPT4foZVDLMD/t68QU8xycWR4RY53/p9amMz
+ /4/w==
+X-Gm-Message-State: AOAM531S1EcBSbx5TCRe7gQdw5AKupWOgOj1ZSS+t6ih6HU/+ecB2H/s
+ CymNmPoN1asPMlQPAPQRhZuRwnU081bv8g==
+X-Google-Smtp-Source: ABdhPJwhZxOnuBFs5UuzCLJotdixJ6hrE6ogLBsxHJUagm2G8T+2P7ly3qbjsUkKEca3W8DruOlodQ==
+X-Received: by 2002:a05:6122:169e:: with SMTP id
+ 30mr10748140vkl.7.1635842391856; 
+ Tue, 02 Nov 2021 01:39:51 -0700 (PDT)
+Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com.
+ [209.85.222.46])
+ by smtp.gmail.com with ESMTPSA id u14sm2738393vsi.2.2021.11.02.01.39.50
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 02 Nov 2021 01:39:51 -0700 (PDT)
+Received: by mail-ua1-f46.google.com with SMTP id q13so36617443uaq.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 02 Nov 2021 01:39:50 -0700 (PDT)
+X-Received: by 2002:ab0:2bd2:: with SMTP id s18mr35296866uar.78.1635842390754; 
+ Tue, 02 Nov 2021 01:39:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <YX1KCclMB/HTZ22c@fedora>
+In-Reply-To: <YX1KCclMB/HTZ22c@fedora>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 2 Nov 2021 09:39:39 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdW5thqxWz37er3BHwqee_agvhHVDK5p8Hrx7HCKOdFjLA@mail.gmail.com>
+Message-ID: <CAMuHMdW5thqxWz37er3BHwqee_agvhHVDK5p8Hrx7HCKOdFjLA@mail.gmail.com>
+Subject: Re: [PATCH v3] backlight: lp855x: Switch to atomic PWM API
+To: =?UTF-8?B?TWHDrXJhIENhbmFs?= <maira.canal@usp.br>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -48,34 +65,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Cc: Linux PWM List <linux-pwm@vger.kernel.org>,
+ Daniel Thompson <daniel.thompson@linaro.org>,
+ Jingoo Han <jingoohan1@gmail.com>,
+ Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Lee Jones <lee.jones@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 02 Nov 2021, He Ying <heying24@huawei.com> wrote:
-> =E5=9C=A8 2021/11/1 21:02, Jani Nikula =E5=86=99=E9=81=93:
->> On Mon, 01 Nov 2021, He Ying <heying24@huawei.com> wrote:
->>>  From the comments of drm_for_each_connector_iter(), we know
->>> that "connector is only valid within the list body, if you
->>> want to use connector after calling drm_connector_list_iter_end()
->>> then you need to grab your own reference first using
->>> drm_connector_get()". So fix the wrong use of connector
->>> according to the comments and then call drm_connector_put()
->>> after using connector finishes.
->>>
->>> Signed-off-by: He Ying <heying24@huawei.com>
->> Please use "drm/sun4i:" subject prefix for sun4i patches.
+Hi Ma=C3=ADra,
+
+On Sat, Oct 30, 2021 at 3:35 PM Ma=C3=ADra Canal <maira.canal@usp.br> wrote=
+:
+> Remove legacy PWM interface (pwm_config, pwm_enable, pwm_disable) and
+> replace it for the atomic PWM API.
 >
-> OK. I'll send a V2 later. By the way, may I have your suggestions about
-> this patch's content.
+> Signed-off-by: Ma=C3=ADra Canal <maira.canal@usp.br>
 
-Sorry, I only looked here because of the subject prefix, and would have
-skipped it completely with a drm/sun4i prefix. ;)
+Thanks for your patch!
 
-BR,
-Jani.
+> --- a/drivers/video/backlight/lp855x_bl.c
+> +++ b/drivers/video/backlight/lp855x_bl.c
+> @@ -233,9 +233,8 @@ static int lp855x_configure(struct lp855x *lp)
+>
+>  static void lp855x_pwm_ctrl(struct lp855x *lp, int br, int max_br)
+>  {
+> -       unsigned int period =3D lp->pdata->period_ns;
+> -       unsigned int duty =3D br * period / max_br;
+> -       struct pwm_device *pwm;
+> +       struct pwm_device *pwm =3D NULL;
+> +       struct pwm_state state;
+>
+>         /* request pwm device with the consumer name */
+>         if (!lp->pwm) {
+> @@ -245,18 +244,16 @@ static void lp855x_pwm_ctrl(struct lp855x *lp, int =
+br, int max_br)
+>
+>                 lp->pwm =3D pwm;
+>
+> -               /*
+> -                * FIXME: pwm_apply_args() should be removed when switchi=
+ng to
+> -                * the atomic PWM API.
+> -                */
+> -               pwm_apply_args(pwm);
+> +               pwm_init_state(lp->pwm, &state);
+> +               state.period =3D lp->pdata->period_ns;
+>         }
+>
+> -       pwm_config(lp->pwm, duty, period);
+> -       if (duty)
+> -               pwm_enable(lp->pwm);
+> -       else
+> -               pwm_disable(lp->pwm);
+> +       pwm_get_state(lp->pwm, &state);
+> +
+> +       state.duty_cycle =3D br * state.period / max_br;
 
+Above is a 64-by-32 division, which should not be open-coded, as
+that will cause link failures on 32-bit platform (cfr. "undefined
+reference to `__udivdi3'", as reported by the kernel test robot).
+Please use div_u64() instead.
 
---=20
-Jani Nikula, Intel Open Source Graphics Center
+> +       state.enabled =3D state.duty_cycle;
+> +
+> +       pwm_apply_state(lp->pwm, &state);
+>  }
+>
+>  static int lp855x_bl_update_status(struct backlight_device *bl)
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
