@@ -1,47 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D426443116
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Nov 2021 16:00:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 34129443118
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Nov 2021 16:00:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C15B72E71;
-	Tue,  2 Nov 2021 14:59:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6DBEE72E77;
+	Tue,  2 Nov 2021 15:00:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
  [66.111.4.221])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3398672E71
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Nov 2021 14:59:58 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id 8AF1758074B;
- Tue,  2 Nov 2021 10:59:57 -0400 (EDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D5AC72E67
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Nov 2021 15:00:00 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailnew.nyi.internal (Postfix) with ESMTP id A55EB58074F;
+ Tue,  2 Nov 2021 10:59:59 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Tue, 02 Nov 2021 10:59:57 -0400
+ by compute1.internal (MEProxy); Tue, 02 Nov 2021 10:59:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=k2xpQwmAT+mpq
- LxUbulFoFKTGhRvj+lFLAq3m/dstWE=; b=WPgB0mBYm58DSMhUWJgjo3t/DPQ4f
- 5JSU0uBrc/AelyE3YnTKN+lyqftUjvG3mb+sn61EeQdCgvWu3/IbBteDsqgOAt5x
- uLrUHwJIny7QLDgxz/3G2laCqTm3klWW75WWpZwYV8QJeXwm4jfSwpjRirDL9qsq
- p6h326U4C9aSrLwARNTOai8SKxrVPTBH7/nKCWNxx7jj1+S8kBoR2oUhkmsBbRlf
- 4VyXUX1aAhoTEs2VtM3EBQZfBkL6th8XlUJ+WA4BxrrZUkbjzW71eArGujLfj3r8
- ngl7O11Gfc19Qjo0HqC8oDhx27M+1CsY+fzO6X04BEna/xm2zu3izG2/w==
+ :mime-version:content-transfer-encoding; s=fm1; bh=SXBIm86j0pqm5
+ 5jTQj8YmXi08inHuWsfso5gtk94vbY=; b=UzCPWoS2CVe7/7qg2Caz7zOjeQwws
+ lEL9LJ4nIJy2w0jdrwm3iw3fx+FQtjCHEZlsnhbIGQoJ/tAfYC8Niq2Z2cJyxBhY
+ taEk2jM+yR2Fkrecwbs4p0E8S9gKXC6mUWeg0/oN32Z1Z5cbyaMBXeycPh+h9aKt
+ M8VsIWa7hhI2CVei8/k0jua7oFxk5OZbo0ahi1lE6IVcVaPj1Cxo87PIM2go53m2
+ bObJKKjQetcvb9NocXTX0IiXk/cbXtNMW0yFfn6q2OXct0aVQiB2ja5AtFbGmsue
+ oUNoWGvP2qt6TYyf/NvuZNUec9moiszEQ5G/LKvVUzeiF1S8NPxfxuq4w==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=k2xpQwmAT+mpqLxUbulFoFKTGhRvj+lFLAq3m/dstWE=; b=KU3g+sWV
- tURzbgCdhvBQrxWNyeeagqDGAT2FhVS+XgKD1bUXi8jqDQd2k36zB2oD/qh/5zAC
- AuELeMm9vw0OvwAtfnSGnYW/kyZ2owOIIZTaxZSWxwUiBllIJQd6moirucMkJlrJ
- AHYrnCW/Dx31otklmgOtBA+qGFLjwtFAidKhIYHfAIyeY8CNmxl1jB+KnIZOQYTX
- 1QbeBQs5nAZuzJdHPIE+dhBEe9Ji2uc6KGP4jLuCmq+E9BBKVhZZMuHkepzikPxj
- MfnOgNnExOSal64K0jyUyeB2KeXORf8T8sP/3psYCXGGC+GZ9fEA/4VJj2jwn4Qy
- ondruqX+8skrmQ==
-X-ME-Sender: <xms:bVKBYZihzj1JAJcT3TmdmwXZpXJlcxvQD1rdQlmTC86gFKCILnxgBg>
- <xme:bVKBYeB5Pwa0m0aT2R0_-657xL5DFoAuSaktNU163wj90-TyqEqyHlZeAhcC44WxS
- 0QbTKQJ9mMB-GeWPyg>
-X-ME-Received: <xmr:bVKBYZF8ZkJ13E1sHKPLvFj8BPuFq33rDAw451veZDYAns-UOEetziaG9Hn-V3SvH2f9qyj7tjnEcBRs4F6u2m1Apy0-iiY-e-NvHwqO>
+ fm1; bh=SXBIm86j0pqm55jTQj8YmXi08inHuWsfso5gtk94vbY=; b=FtdXnaDi
+ +QalmBhu2UJxi1/xhKt2WcrWfLyZUMpAjXFYWQlEdQy4wzwmTlaqtfnOKw3aR7YN
+ ZQae010mJcJXFFEONSRujPmpSVosO28V9XPw3SUg5iPIiyAZwKkVsLm8sFsprq0m
+ AppFQ1wliUzoh+z8UG+HL9LApMDtIh3SSfOb/t3xwplvVMrqMS6JVi+5nnZlFmOf
+ irZlDuKEyceLOGm7XBPA/zii7bd4wFSi4LNDm5KMJ3sfGBS7q4AYluHF2i1ntqLS
+ LVDejQPBOszgZS08DdT1zDyvNDEEikZXJeZ6VcCQxIjfAIXj4boxEAM7xP5K7Mr2
+ /wCk3NDY/aSIzQ==
+X-ME-Sender: <xms:b1KBYUMjMKyi6ELKSiZ9P9qjN_OygnKtk0AsWK_X1qZCoeyROtXT0g>
+ <xme:b1KBYa9R53M5kldirhzsb1vD8UxlqRcP5L70iitI4x8vICq6BiL3cKU70Etttdtsy
+ ZIIg4yKrUesVS77seM>
+X-ME-Received: <xmr:b1KBYbRZlTOAoXQOcXsxA8nzoqI6wr9XumkqbExjzhUAKA8R0Fy9O8O6cJXmXSCQyeecgvvzE3lvcpNtm-uO3CpGGQh9_qdW8ObN_u9Q>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrtddtgdeghecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
@@ -50,19 +50,19 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrtddtgdeghecutefuodetggdote
  gvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveevheeh
  vdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
  igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:bVKBYeS7HDJs4HiZCCfoyLFpj5hWXU7qG03i9ZIEtpY3ZGS58uz8Eg>
- <xmx:bVKBYWycflEzaem_ELBmNf6yqMO7lDrVg2kVkg-hnVO1QxvLwLs0hQ>
- <xmx:bVKBYU4-6M-_uk-A7R3fWDHHw7bI7eMsvFPPJTonrLVirU4uEWdbZA>
- <xmx:bVKBYaedKLN1R7y6PxEI5ztW4Kqi7DwlEpifxXeTHzzyFbCU28JE0g>
+X-ME-Proxy: <xmx:b1KBYctVAjQZMmJACFNpFpIYPCLWQLUHUhXm3tlYLDwq5NCMZyVxyQ>
+ <xmx:b1KBYceteptJ9HNePIhm7zQjpoe0vHGDopd5QlN-LEYSNDUbV4fNXA>
+ <xmx:b1KBYQ1kt7HZKhi5bhLtnrwRPQtd7Y1meerkp70JpInCLdwawdlKDA>
+ <xmx:b1KBYU5_VFZgdjUSaYjwlQ3GCkElAOlvZZLEEPpPFkut1IFJLS7J-A>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 2 Nov 2021 10:59:56 -0400 (EDT)
+ 2 Nov 2021 10:59:58 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>
-Subject: [PATCH 03/13] drm/atomic: Add HDMI scrambler state helper
-Date: Tue,  2 Nov 2021 15:59:34 +0100
-Message-Id: <20211102145944.259181-4-maxime@cerno.tech>
+Subject: [PATCH 04/13] drm/atomic: Add HDMI reset link helper
+Date: Tue,  2 Nov 2021 15:59:35 +0100
+Message-Id: <20211102145944.259181-5-maxime@cerno.tech>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20211102145944.259181-1-maxime@cerno.tech>
 References: <20211102145944.259181-1-maxime@cerno.tech>
@@ -86,148 +86,171 @@ Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-All the drivers that implement the HDMI scrambling setup (dw-hdmi, i915,
-tegra, vc4) duplicate the same logic to see if the TMDS ratio or the
-scrambling state needs to be modified depending on the current connector
-state and CRTC mode.
+During a hotplug cycle (such as a TV going out of suspend, or when the
+cable is disconnected and reconnected), the expectation is that the same
+state used before the disconnection is reused until the next commit.
 
-Since it's basically the same logic everywhere, let's put these two
-informations in the connector state, and filled by a atomic_check helper
-so that drivers can just use it.
+However, the HDMI scrambling requires that some flags are set in the
+monitor, and those flags are very likely to be reset when the cable has
+been disconnected. This will thus result in a blank display, even if the
+display pipeline configuration hasn't been modified or is in the exact
+same state.
+
+One solution would be to enable the scrambling-related bits again on
+reconnection, but the HDMI 2.0 specification (Section 6.1.3.1 -
+Scrambling Control) requires that the scrambling enable bit is set
+before sending any scrambled video signal. Using that solution would
+break that specification expectation.
+
+Thus, we need to do a full modeset on the connector so that we disable
+the video signal, enable the scrambling bit, and enable the video signal
+again.
+
+The i915 code was doing this already, so let's take its code and
+convert it into a generic helper.
 
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/drm_atomic_state_helper.c | 58 +++++++++++++++++++++++
- include/drm/drm_atomic_state_helper.h     |  3 ++
- include/drm/drm_connector.h               | 25 ++++++++++
- 3 files changed, 86 insertions(+)
+ drivers/gpu/drm/drm_atomic_helper.c | 109 ++++++++++++++++++++++++++++
+ include/drm/drm_atomic_helper.h     |   3 +
+ 2 files changed, 112 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/drm_atomic_state_helper.c
-index ddcf5c2c8e6a..93f40f2975c3 100644
---- a/drivers/gpu/drm/drm_atomic_state_helper.c
-+++ b/drivers/gpu/drm/drm_atomic_state_helper.c
-@@ -454,6 +454,64 @@ void drm_atomic_helper_connector_tv_reset(struct drm_connector *connector)
+diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
+index 2c0c6ec92820..9f3fcc65e66e 100644
+--- a/drivers/gpu/drm/drm_atomic_helper.c
++++ b/drivers/gpu/drm/drm_atomic_helper.c
+@@ -38,6 +38,7 @@
+ #include <drm/drm_gem_atomic_helper.h>
+ #include <drm/drm_plane_helper.h>
+ #include <drm/drm_print.h>
++#include <drm/drm_scdc_helper.h>
+ #include <drm/drm_self_refresh_helper.h>
+ #include <drm/drm_vblank.h>
+ #include <drm/drm_writeback.h>
+@@ -3524,3 +3525,111 @@ drm_atomic_helper_bridge_propagate_bus_fmt(struct drm_bridge *bridge,
+ 	return input_fmts;
  }
- EXPORT_SYMBOL(drm_atomic_helper_connector_tv_reset);
- 
+ EXPORT_SYMBOL(drm_atomic_helper_bridge_propagate_bus_fmt);
++
++static int modeset_pipe(struct drm_crtc *crtc,
++			struct drm_modeset_acquire_ctx *ctx)
++{
++	struct drm_atomic_state *state;
++	struct drm_crtc_state *crtc_state;
++	int ret;
++
++	state = drm_atomic_state_alloc(crtc->dev);
++	if (!state)
++		return -ENOMEM;
++
++	state->acquire_ctx = ctx;
++
++	crtc_state = drm_atomic_get_crtc_state(state, crtc);
++	if (IS_ERR(crtc_state)) {
++		ret = PTR_ERR(crtc_state);
++		goto out;
++	}
++
++	crtc_state->connectors_changed = true;
++
++	ret = drm_atomic_commit(state);
++out:
++	drm_atomic_state_put(state);
++
++	return ret;
++}
++
 +/**
-+ * drm_atomic_helper_connector_hdmi_check - Checks the state of an HDMI connector
-+ * @connector: DRM connector
-+ * @state: DRM atomic state to check
++ * drm_atomic_helper_connector_hdmi_reset_link() - Resets an HDMI link
++ * @connector: DRM connector we want to reset
++ * @ctx: Lock acquisition context
 + *
-+ * Checks that an HDMI connector state is sane, and sets the various
-+ * HDMI-specific flags in drm_connector_state related to HDMI support.
++ * This helper is here to restore the HDMI link state after the
++ * connector status has changed, typically when a TV has come out of
++ * suspend or when the HDMI cable has been disconnected and then
++ * reconnected.
 + *
 + * Returns:
 + * 0 on success, a negative error code otherwise.
 + */
-+int drm_atomic_helper_connector_hdmi_check(struct drm_connector *connector,
-+					   struct drm_atomic_state *state)
++int drm_atomic_helper_connector_hdmi_reset_link(struct drm_connector *connector,
++						struct drm_modeset_acquire_ctx *ctx)
 +{
-+	struct drm_connector_state *conn_state = drm_atomic_get_new_connector_state(state,
-+										    connector);
-+	struct drm_display_info *info = &connector->display_info;
-+	const struct drm_display_mode *mode;
++	struct drm_device *drm = connector->dev;
++	struct drm_connector_state *conn_state;
 +	struct drm_crtc_state *crtc_state;
 +	struct drm_crtc *crtc;
-+	bool required;
++	u8 config;
++	int ret;
 +
-+	if (!conn_state)
-+		return -EINVAL;
++	if (!connector)
++		return 0;
 +
++	drm_WARN_ON(drm,
++		    (connector->connector_type != DRM_MODE_CONNECTOR_HDMIA) &&
++		    (connector->connector_type != DRM_MODE_CONNECTOR_HDMIB));
++
++	ret = drm_modeset_lock(&drm->mode_config.connection_mutex, ctx);
++	if (ret)
++		return ret;
++
++	conn_state = connector->state;
 +	crtc = conn_state->crtc;
 +	if (!crtc)
-+		return -EINVAL;
-+
-+	crtc_state = drm_atomic_get_crtc_state(state, crtc);
-+	if (IS_ERR(crtc_state))
-+		return PTR_ERR(crtc_state);
-+
-+	mode = &crtc_state->mode;
-+	crtc_state->connectors_changed = true;
-+	conn_state->hdmi_needs_scrambling = false;
-+	conn_state->hdmi_needs_high_tmds_ratio = false;
-+
-+	if (!info->is_hdmi)
 +		return 0;
 +
-+	if (!info->hdmi.scdc.supported)
++	ret = drm_modeset_lock(&crtc->mutex, ctx);
++	if (ret)
++		return ret;
++
++	crtc_state = crtc->state;
++	if (!crtc_state->active)
 +		return 0;
 +
-+	required = drm_mode_hdmi_requires_scrambling(mode);
-+	if (required && !info->hdmi.scdc.scrambling.supported)
-+		return -EINVAL;
++	if (!conn_state->hdmi_needs_high_tmds_ratio &&
++	    !conn_state->hdmi_needs_scrambling)
++		return 0;
 +
-+	if (info->hdmi.scdc.scrambling.low_rates || required)
-+		conn_state->hdmi_needs_scrambling = true;
++	if (conn_state->commit &&
++	    !try_wait_for_completion(&conn_state->commit->hw_done))
++		return 0;
 +
-+	if (required)
-+		conn_state->hdmi_needs_high_tmds_ratio = true;
++	ret = drm_scdc_readb(connector->ddc, SCDC_TMDS_CONFIG, &config);
++	if (ret < 0) {
++		drm_err(drm, "Failed to read TMDS config: %d\n", ret);
++		return 0;
++	}
 +
-+	return 0;
++	if (!!(config & SCDC_TMDS_BIT_CLOCK_RATIO_BY_40) ==
++	    conn_state->hdmi_needs_high_tmds_ratio &&
++	    !!(config & SCDC_SCRAMBLING_ENABLE) ==
++	    conn_state->hdmi_needs_scrambling)
++		return 0;
++
++	/*
++	 * HDMI 2.0 says that one should not send scrambled data
++	 * prior to configuring the sink scrambling, and that
++	 * TMDS clock/data transmission should be suspended when
++	 * changing the TMDS clock rate in the sink. So let's
++	 * just do a full modeset here, even though some sinks
++	 * would be perfectly happy if were to just reconfigure
++	 * the SCDC settings on the fly.
++	 */
++	return modeset_pipe(crtc, ctx);
 +}
-+EXPORT_SYMBOL(drm_atomic_helper_connector_hdmi_check);
-+
- /**
-  * __drm_atomic_helper_connector_duplicate_state - copy atomic connector state
-  * @connector: connector object
-diff --git a/include/drm/drm_atomic_state_helper.h b/include/drm/drm_atomic_state_helper.h
-index 3f8f1d627f7c..3d3d1ff355f4 100644
---- a/include/drm/drm_atomic_state_helper.h
-+++ b/include/drm/drm_atomic_state_helper.h
-@@ -26,6 +26,7 @@
++EXPORT_SYMBOL(drm_atomic_helper_connector_hdmi_reset_link);
+diff --git a/include/drm/drm_atomic_helper.h b/include/drm/drm_atomic_helper.h
+index 4045e2507e11..d7727f9a6fe9 100644
+--- a/include/drm/drm_atomic_helper.h
++++ b/include/drm/drm_atomic_helper.h
+@@ -231,4 +231,7 @@ drm_atomic_helper_bridge_propagate_bus_fmt(struct drm_bridge *bridge,
+ 					u32 output_fmt,
+ 					unsigned int *num_input_fmts);
  
- #include <linux/types.h>
- 
-+struct drm_atomic_state;
- struct drm_bridge;
- struct drm_bridge_state;
- struct drm_crtc;
-@@ -71,6 +72,8 @@ void __drm_atomic_helper_connector_reset(struct drm_connector *connector,
- 					 struct drm_connector_state *conn_state);
- void drm_atomic_helper_connector_reset(struct drm_connector *connector);
- void drm_atomic_helper_connector_tv_reset(struct drm_connector *connector);
-+int drm_atomic_helper_connector_hdmi_check(struct drm_connector *connector,
-+					   struct drm_atomic_state *state);
- void
- __drm_atomic_helper_connector_duplicate_state(struct drm_connector *connector,
- 					   struct drm_connector_state *state);
-diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-index 030636635af1..78d3d6c78fcb 100644
---- a/include/drm/drm_connector.h
-+++ b/include/drm/drm_connector.h
-@@ -832,6 +832,31 @@ struct drm_connector_state {
- 	 * DRM blob property for HDR output metadata
- 	 */
- 	struct drm_property_blob *hdr_output_metadata;
++int drm_atomic_helper_connector_hdmi_reset_link(struct drm_connector *connector,
++						struct drm_modeset_acquire_ctx *ctx);
 +
-+	/**
-+	 * @hdmi_needs_scrambling:
-+	 *
-+	 * Only relevant for HDMI sink. Tracks whether the scrambling
-+	 * should be turned on for the current sink and mode.
-+	 *
-+	 * Drivers needing this should use
-+	 * drm_atomic_helper_connector_hdmi_check() and use the value
-+	 * set here to enable or disable their scrambler.
-+	 */
-+	bool hdmi_needs_scrambling;
-+
-+	/**
-+	 * @hdmi_needs_high_tmds_ratio:
-+	 *
-+	 * Only relevant for HDMI sink. Tracks whether the TMDS clock
-+	 * ratio should be 1/10 of the pixel clock (false), or 1/40
-+	 * (true).
-+	 *
-+	 * Drivers needing this should use
-+	 * drm_atomic_helper_connector_hdmi_check() and use the value
-+	 * set here to enable or disable their scrambler.
-+	 */
-+	bool hdmi_needs_high_tmds_ratio;
- };
- 
- /**
+ #endif /* DRM_ATOMIC_HELPER_H_ */
 -- 
 2.32.0
 
