@@ -1,62 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A45CF442DBC
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Nov 2021 13:23:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E7F30442DC5
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Nov 2021 13:23:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7EA686E958;
-	Tue,  2 Nov 2021 12:22:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 489DC6E13A;
+	Tue,  2 Nov 2021 12:23:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
- [IPv6:2a00:1450:4864:20::42b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7DCA06E958
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Nov 2021 12:22:57 +0000 (UTC)
-Received: by mail-wr1-x42b.google.com with SMTP id d5so17698646wrc.1
- for <dri-devel@lists.freedesktop.org>; Tue, 02 Nov 2021 05:22:57 -0700 (PDT)
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com
+ [IPv6:2a00:1450:4864:20::32c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 15E846E0A0
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Nov 2021 12:23:36 +0000 (UTC)
+Received: by mail-wm1-x32c.google.com with SMTP id
+ o4-20020a1c7504000000b0032cab7473caso1466323wmc.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 02 Nov 2021 05:23:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=PPrVvkKpDShrC2goi1J/Uno+TTdyeE7cxJPzYCbMSPg=;
- b=jxU04U0MA10e7Y9U6CN0a4OFuXLVChKzFdX2BjfJHLmAeI8hJ1qIVqZRMXuo1qTWJJ
- cVBoleFGmLtwyZh9rJDn75yqDgsZYr6c3qDRg9+tzXmS0nKqg3r/iJGblkGBkICrZKcc
- HZHjvOuCGu6J+o5WZ0qcYYidKMyhW0ow1egcdY0EBDTbkco3CzcO1fV0Gam4qcd6+NhQ
- g5c4D5HbGdriLR3dD94mKdWrQ76lxel8gklujAv1GprHxc4TlQBceogA43e6BtZZWzKv
- IVVDJRjA7rzJKa8NetTDVdXGdYt32YEoyK2FvVFb1OX99fxZsP+XX7jFJv39Z/YMqC/r
- UPsg==
+ bh=RG4XcfFl99SNeOBcyKQqC0Bs57QgpcfzeSgdEVPV+9Y=;
+ b=mXwkh6J03uhB0jI3X/g34Yn8qJcznjAuxyRXzam4PahlNmGvY4U+jVYqX1FYtByfhc
+ dN2+I2a6nIy6n884Vpz17p0FkYssBNKjblOSwI0mG1r9Xbuqs7kuOh5EjwqAlzHhNsnp
+ S7+6QtUdjAaGXJFZuAuKtsOsDjhRvcqVT7AeEQQlyNTZXH5687WEB9JbrLZ+2USq8pEW
+ ZDBEctXEkV21IK08rd/dGQvvFa6j5dS24pkXLhdav/DQFfXJNpqPh0j61oFu5Xsfk//q
+ kB6hGiKYEkzKlVI69+tlka+TrivhXGFGDVNNtdnfR8tV7J79IePTogU7bhBiI/FdahRy
+ Kayg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=PPrVvkKpDShrC2goi1J/Uno+TTdyeE7cxJPzYCbMSPg=;
- b=VV4MNktfkTXKVzhc819UOxn/i2uJTTcuoy9jokKldApqVrO9PRlHANJ8hi571GDace
- 7BBljk0zUxVwNGUAunZ4iY2RCEhog+3ExykcXYneJC65f9YzL+1bXxGevIe0M9Oo4XYs
- Pb3DITiLATjOccLTaHS1Qka5zjE3iSC9WRE0kftJC4eTB8LiKgKcFKSp6RpB5m/0s1s4
- GT5mWUCAs9r8LT3/re2tilv+GdPM5G4QcpwaSIPxquQa3DKxe3Ewp+QZXJ93vu34jX4B
- 8X+ocpZtC8i/QtP2g8aMZz+ybKg9beainJ21PzXnjRqiEQ8HtBh37go5ca5rJxHViYDM
- fUEA==
-X-Gm-Message-State: AOAM532dqfozQs6l9o52zD5i2cpbY9fyLfJgKNsjwcfhB7U7kulPjGUS
- sqcN5gh+O0sUEtZLUgN+drecAQ==
-X-Google-Smtp-Source: ABdhPJw2cKX4hOFi9O3gYybeogMRGL3fiRW5uZVJYAl/ga+gA0jafphuJrk6wM5hf/6vINnLKSD2uA==
-X-Received: by 2002:a5d:6e04:: with SMTP id h4mr22288639wrz.127.1635855775993; 
- Tue, 02 Nov 2021 05:22:55 -0700 (PDT)
+ bh=RG4XcfFl99SNeOBcyKQqC0Bs57QgpcfzeSgdEVPV+9Y=;
+ b=cDZKWALQ77LQKq1Xe6DG52IUKWF8BAExKfFAwo321jZ5i7yUz4dxGeu3er1j0jsTIz
+ +pSMZHZhTAJfrjlTAP42UcquhdKtgKa36xvM2l2mbgMU7Q1cbsiPKm9+fcBw2V/X/om7
+ l1BrQFEk5BoLLWoXm1RVg4o5topx6CZgxhaa/4DbOVvvdCYbGpFte5u9R1EoEYnmoqld
+ OkeDxfW+ezS3mX1hIGU98l6eCOhQHj8RGEpAyE/zX3xjjnCVvpc0vkQHJU0MK/bQjo7M
+ VAtVJnkYC6lPoo+5snOQ+MxcdyVUY6fHIVK84nFKvsAk/AFsaye7Ip/w3VcUEhtFxtr9
+ 83Sg==
+X-Gm-Message-State: AOAM5302ckYoLVhoyzu+Jw+4xBiSlNBITM6Ya3c8nVL65y5VK/kC9g+T
+ os5UX+ZA9yCO4IAAF7A8kl02/w==
+X-Google-Smtp-Source: ABdhPJxsDgM5ZPLfLVKJTJI3JP/w+5g7Z8xe4XK5UcWEFMmoP5kETUDrLTCVO9wue0MqXhVDKU2HKQ==
+X-Received: by 2002:a05:600c:1:: with SMTP id g1mr6509614wmc.19.1635855814619; 
+ Tue, 02 Nov 2021 05:23:34 -0700 (PDT)
 Received: from maple.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net.
  [80.7.220.175])
- by smtp.gmail.com with ESMTPSA id m20sm2634572wmq.5.2021.11.02.05.22.55
+ by smtp.gmail.com with ESMTPSA id m35sm3061260wms.2.2021.11.02.05.23.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Nov 2021 05:22:55 -0700 (PDT)
-Date: Tue, 2 Nov 2021 12:22:53 +0000
+ Tue, 02 Nov 2021 05:23:34 -0700 (PDT)
+Date: Tue, 2 Nov 2021 12:23:31 +0000
 From: Daniel Thompson <daniel.thompson@linaro.org>
 To: Hans de Goede <hdegoede@redhat.com>
-Subject: Re: [PATCH 3/3] backlight: lp855x: Add support ACPI enumeration
-Message-ID: <20211102122253.s4oc2p7hmy7w2qgn@maple.lan>
+Subject: Re: [PATCH 2/3] backlight: lp855x: Add dev helper variable to
+ lp855x_probe()
+Message-ID: <20211102122331.2dzhskz26ean74oq@maple.lan>
 References: <20211101185518.306728-1-hdegoede@redhat.com>
- <20211101185518.306728-3-hdegoede@redhat.com>
+ <20211101185518.306728-2-hdegoede@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211101185518.306728-3-hdegoede@redhat.com>
+In-Reply-To: <20211101185518.306728-2-hdegoede@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,58 +76,19 @@ Cc: Jingoo Han <jingoohan1@gmail.com>, Lee Jones <lee.jones@linaro.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Nov 01, 2021 at 07:55:17PM +0100, Hans de Goede wrote:
-> The Xiaomi Mi Pad 2 tablet uses an ACPI enumerated LP8556 backlight
-> controller for its LCD-panel, with a Xiaomi specific ACPI HID of
-> "XMCC0001", add support for this.
+On Mon, Nov 01, 2021 at 07:55:16PM +0100, Hans de Goede wrote:
+> Add a dev local variable to the lp855x_probe(), to replace "&cl->dev"
+> and "lp->dev" in various places.
 > 
-> Note the new "if (id)" check also fixes a NULL pointer deref when a user
-> tries to manually bind the driver from sysfs.
+> Also switch to dev_err_probe() in one case which takes care of not
+> printing -EPROBE_DEFER errors for us.
 > 
-> When CONFIG_ACPI is disabled acpi_match_device() will always return NULL,
-> so the lp855x_parse_acpi() call will get optimized away.
+> This is mostly a preparation for adding ACPI enumeration support which
+> will use the new "dev" variable more.
 > 
 > Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> ---
->  drivers/video/backlight/lp855x_bl.c | 70 ++++++++++++++++++++++++-----
->  1 file changed, 60 insertions(+), 10 deletions(-)
-> 
-> diff --git a/drivers/video/backlight/lp855x_bl.c b/drivers/video/backlight/lp855x_bl.c
-> index d1d27d5eb0f2..f075ec84acfb 100644
-> --- a/drivers/video/backlight/lp855x_bl.c
-> +++ b/drivers/video/backlight/lp855x_bl.c
-> @@ -338,10 +339,6 @@ static int lp855x_parse_dt(struct lp855x *lp)
->  		return -EINVAL;
->  	}
->  
-> -	pdata = devm_kzalloc(dev, sizeof(*pdata), GFP_KERNEL);
-> -	if (!pdata)
-> -		return -ENOMEM;
-> -
->  	of_property_read_string(node, "bl-name", &pdata->name);
->  	of_property_read_u8(node, "dev-ctrl", &pdata->device_control);
->  	of_property_read_u8(node, "init-brt", &pdata->initial_brightness);
 
-Shouldn't there be a removal of an `lp->pdata = pdata` from somewhere in
-this function?
-
-
-> @@ -379,8 +376,31 @@ static int lp855x_parse_dt(struct lp855x *lp)
->  }
->  #endif
->  
-> +static int lp855x_parse_acpi(struct lp855x *lp)
-> +{
-> +	int ret;
-> +
-> +	/*
-> +	 * On ACPI the device has already been initialized by the firmware
-
-Perhaps nitpicking but ideally I'd like "and is in register mode" here 
-since I presume it can also be assumed that everything with this HID
-has adopted that).
-
-Other than these, LGTM.
+Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
 
 
 Daniel.
