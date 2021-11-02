@@ -1,32 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EFDF442519
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Nov 2021 02:26:54 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 034F944251B
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Nov 2021 02:26:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED3616F560;
-	Tue,  2 Nov 2021 01:26:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3518B6F564;
+	Tue,  2 Nov 2021 01:26:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7ABFC6F55F;
- Tue,  2 Nov 2021 01:26:43 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10155"; a="231117045"
-X-IronPort-AV: E=Sophos;i="5.87,201,1631602800"; d="scan'208";a="231117045"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0EACD6F562;
+ Tue,  2 Nov 2021 01:26:46 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10155"; a="231117053"
+X-IronPort-AV: E=Sophos;i="5.87,201,1631602800"; d="scan'208";a="231117053"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Nov 2021 18:26:43 -0700
+ 01 Nov 2021 18:26:45 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.87,201,1631602800"; d="scan'208";a="531385668"
+X-IronPort-AV: E=Sophos;i="5.87,201,1631602800"; d="scan'208";a="531385688"
 Received: from vbelgaum-ubuntu.fm.intel.com ([10.1.27.27])
- by orsmga001.jf.intel.com with ESMTP; 01 Nov 2021 18:26:43 -0700
+ by orsmga001.jf.intel.com with ESMTP; 01 Nov 2021 18:26:45 -0700
 From: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH 1/3] drm/i915/guc/slpc: Define and initialize boost frequency
-Date: Mon,  1 Nov 2021 18:26:06 -0700
-Message-Id: <20211102012608.8609-2-vinay.belgaumkar@intel.com>
+Subject: [PATCH 2/3] drm/i915/guc/slpc: Add waitboost functionality for SLPC
+Date: Mon,  1 Nov 2021 18:26:07 -0700
+Message-Id: <20211102012608.8609-3-vinay.belgaumkar@intel.com>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20211102012608.8609-1-vinay.belgaumkar@intel.com>
 References: <20211102012608.8609-1-vinay.belgaumkar@intel.com>
@@ -49,199 +49,154 @@ Cc: Ashutosh Dixit <ashutosh.dixit@intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Define helpers and struct members required to record boost info.
-Boost frequency is initialized to RP0 at SLPC init. Also define num_waiters
-which can track the pending boost requests.
+Add helper in RPS code for handling SLPC and non-SLPC paths.
+When boost is requested in the SLPC path, we can ask GuC to ramp
+up the frequency req by setting the minimum frequency to boost freq.
+Reset freq back to the min softlimit when there are no more waiters.
 
-Boost will be done by scheduling a worker thread. This will avoid
-the need to make H2G calls inside an interrupt context. Initialize the
-worker function during SLPC init as well. Had to move intel_guc_slpc_init
-a few lines below to accomodate this.
+v2: Schedule a worker thread which can boost freq from within
+an interrupt context as well.
 
-v2: Add a workqueue to handle waitboost
-v3: Code review comments (Ashutosh)
+v3: No need to check against requested freq before scheduling boost
+work (Ashutosh)
 
 Cc: Ashutosh Dixit <ashutosh.dixit@intel.com>
 Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
 ---
- drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c   | 102 ++++++++++++++----
- drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h   |   1 +
- .../gpu/drm/i915/gt/uc/intel_guc_slpc_types.h |  13 +++
- 3 files changed, 93 insertions(+), 23 deletions(-)
+ drivers/gpu/drm/i915/gt/intel_rps.c         | 25 +++++++++++++++++++++
+ drivers/gpu/drm/i915/gt/intel_rps.h         |  1 +
+ drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c | 20 +++++++++++++++++
+ drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h |  1 +
+ drivers/gpu/drm/i915/i915_request.c         |  2 +-
+ 5 files changed, 48 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
-index 65a3e7fdb2b2..3a9750af0bdf 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
-@@ -79,29 +79,6 @@ static void slpc_mem_set_disabled(struct slpc_shared_data *data,
- 	slpc_mem_set_param(data, enable_id, 0);
+diff --git a/drivers/gpu/drm/i915/gt/intel_rps.c b/drivers/gpu/drm/i915/gt/intel_rps.c
+index 5e275f8dda8c..6f310c9d9765 100644
+--- a/drivers/gpu/drm/i915/gt/intel_rps.c
++++ b/drivers/gpu/drm/i915/gt/intel_rps.c
+@@ -936,8 +936,23 @@ void intel_rps_park(struct intel_rps *rps)
+ 	GT_TRACE(rps_to_gt(rps), "park:%x\n", rps->cur_freq);
  }
  
--int intel_guc_slpc_init(struct intel_guc_slpc *slpc)
--{
--	struct intel_guc *guc = slpc_to_guc(slpc);
--	struct drm_i915_private *i915 = slpc_to_i915(slpc);
--	u32 size = PAGE_ALIGN(sizeof(struct slpc_shared_data));
--	int err;
--
--	GEM_BUG_ON(slpc->vma);
--
--	err = intel_guc_allocate_and_map_vma(guc, size, &slpc->vma, (void **)&slpc->vaddr);
--	if (unlikely(err)) {
--		drm_err(&i915->drm,
--			"Failed to allocate SLPC struct (err=%pe)\n",
--			ERR_PTR(err));
--		return err;
--	}
--
--	slpc->max_freq_softlimit = 0;
--	slpc->min_freq_softlimit = 0;
--
--	return err;
--}
--
- static u32 slpc_get_state(struct intel_guc_slpc *slpc)
- {
- 	struct slpc_shared_data *data;
-@@ -203,6 +180,82 @@ static int slpc_unset_param(struct intel_guc_slpc *slpc,
- 	return guc_action_slpc_unset_param(guc, id);
- }
- 
-+static int slpc_force_min_freq(struct intel_guc_slpc *slpc, u32 freq)
++void intel_rps_dec_waiters(struct intel_rps *rps)
 +{
-+	struct drm_i915_private *i915 = slpc_to_i915(slpc);
-+	intel_wakeref_t wakeref;
-+	int ret = 0;
++	struct intel_guc_slpc *slpc;
 +
-+	lockdep_assert_held(&slpc->lock);
++	if (rps_uses_slpc(rps)) {
++		slpc = rps_to_slpc(rps);
 +
-+	/*
-+	 * This function is a little different as compared to
-+	 * intel_guc_slpc_set_min_freq(). Softlimit will not be updated
-+	 * here since this is used to temporarily change min freq,
-+	 * for example, during a waitboost. Caller is responsible for
-+	 * checking bounds.
-+	 */
-+
-+	with_intel_runtime_pm(&i915->runtime_pm, wakeref) {
-+		ret = slpc_set_param(slpc,
-+				     SLPC_PARAM_GLOBAL_MIN_GT_UNSLICE_FREQ_MHZ,
-+				     freq);
-+		if (ret)
-+			drm_err(&i915->drm, "Unable to force min freq to %u: %d",
-+				freq, ret);
++		intel_guc_slpc_dec_waiters(slpc);
++	} else {
++		atomic_dec(&rps->num_waiters);
 +	}
-+
-+	return ret;
 +}
 +
-+static void slpc_boost_work(struct work_struct *work)
-+{
-+	struct intel_guc_slpc *slpc = container_of(work, typeof(*slpc), boost_work);
+ void intel_rps_boost(struct i915_request *rq)
+ {
++	struct intel_guc_slpc *slpc;
 +
+ 	if (i915_request_signaled(rq) || i915_request_has_waitboost(rq))
+ 		return;
+ 
+@@ -945,6 +960,16 @@ void intel_rps_boost(struct i915_request *rq)
+ 	if (!test_and_set_bit(I915_FENCE_FLAG_BOOST, &rq->fence.flags)) {
+ 		struct intel_rps *rps = &READ_ONCE(rq->engine)->gt->rps;
+ 
++		if (rps_uses_slpc(rps)) {
++			slpc = rps_to_slpc(rps);
++
++			/* Return if old value is non zero */
++			if (!atomic_fetch_inc(&slpc->num_waiters))
++				schedule_work(&slpc->boost_work);
++
++			return;
++		}
++
+ 		if (atomic_fetch_inc(&rps->num_waiters))
+ 			return;
+ 
+diff --git a/drivers/gpu/drm/i915/gt/intel_rps.h b/drivers/gpu/drm/i915/gt/intel_rps.h
+index 11960d64ca82..407e878d5006 100644
+--- a/drivers/gpu/drm/i915/gt/intel_rps.h
++++ b/drivers/gpu/drm/i915/gt/intel_rps.h
+@@ -23,6 +23,7 @@ void intel_rps_disable(struct intel_rps *rps);
+ void intel_rps_park(struct intel_rps *rps);
+ void intel_rps_unpark(struct intel_rps *rps);
+ void intel_rps_boost(struct i915_request *rq);
++void intel_rps_dec_waiters(struct intel_rps *rps);
+ 
+ int intel_rps_set(struct intel_rps *rps, u8 val);
+ void intel_rps_mark_interactive(struct intel_rps *rps, bool interactive);
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
+index 3a9750af0bdf..db418396a145 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
+@@ -446,7 +446,11 @@ int intel_guc_slpc_set_min_freq(struct intel_guc_slpc *slpc, u32 val)
+ 	    val > slpc->max_freq_softlimit)
+ 		return -EINVAL;
+ 
++	/* Need a lock now since waitboost can be modifying min as well */
++	mutex_lock(&slpc->lock);
++
+ 	with_intel_runtime_pm(&i915->runtime_pm, wakeref) {
++
+ 		ret = slpc_set_param(slpc,
+ 				     SLPC_PARAM_GLOBAL_MIN_GT_UNSLICE_FREQ_MHZ,
+ 				     val);
+@@ -459,6 +463,8 @@ int intel_guc_slpc_set_min_freq(struct intel_guc_slpc *slpc, u32 val)
+ 	if (!ret)
+ 		slpc->min_freq_softlimit = val;
+ 
++	mutex_unlock(&slpc->lock);
++
+ 	return ret;
+ }
+ 
+@@ -644,6 +650,20 @@ int intel_guc_slpc_enable(struct intel_guc_slpc *slpc)
+ 	return 0;
+ }
+ 
++void intel_guc_slpc_dec_waiters(struct intel_guc_slpc *slpc)
++{
 +	/*
-+	 * Raise min freq to boost. It's possible that
-+	 * this is greater than current max. But it will
-+	 * certainly be limited by RP0. An error setting
-+	 * the min param is not fatal.
++	 * Return min back to the softlimit.
++	 * This is called during request retire,
++	 * so we don't need to fail that if the
++	 * set_param fails.
 +	 */
 +	mutex_lock(&slpc->lock);
-+	if (atomic_read(&slpc->num_waiters)) {
-+		slpc_force_min_freq(slpc, slpc->boost_freq);
-+		slpc->num_boosts++;
-+	}
++	if (atomic_dec_and_test(&slpc->num_waiters))
++		slpc_force_min_freq(slpc, slpc->min_freq_softlimit);
 +	mutex_unlock(&slpc->lock);
 +}
 +
-+int intel_guc_slpc_init(struct intel_guc_slpc *slpc)
-+{
-+	struct intel_guc *guc = slpc_to_guc(slpc);
-+	struct drm_i915_private *i915 = slpc_to_i915(slpc);
-+	u32 size = PAGE_ALIGN(sizeof(struct slpc_shared_data));
-+	int err;
-+
-+	GEM_BUG_ON(slpc->vma);
-+
-+	err = intel_guc_allocate_and_map_vma(guc, size, &slpc->vma, (void **)&slpc->vaddr);
-+	if (unlikely(err)) {
-+		drm_err(&i915->drm,
-+			"Failed to allocate SLPC struct (err=%pe)\n",
-+			ERR_PTR(err));
-+		return err;
-+	}
-+
-+	slpc->max_freq_softlimit = 0;
-+	slpc->min_freq_softlimit = 0;
-+
-+	slpc->boost_freq = 0;
-+	atomic_set(&slpc->num_waiters, 0);
-+	slpc->num_boosts = 0;
-+
-+	mutex_init(&slpc->lock);
-+	INIT_WORK(&slpc->boost_work, slpc_boost_work);
-+
-+	return err;
-+}
-+
- static const char *slpc_global_state_to_string(enum slpc_global_state state)
+ int intel_guc_slpc_print_info(struct intel_guc_slpc *slpc, struct drm_printer *p)
  {
- 	switch (state) {
-@@ -522,6 +575,9 @@ static void slpc_get_rp_values(struct intel_guc_slpc *slpc)
- 					GT_FREQUENCY_MULTIPLIER;
- 	slpc->min_freq = REG_FIELD_GET(RPN_CAP_MASK, rp_state_cap) *
- 					GT_FREQUENCY_MULTIPLIER;
-+
-+	if (!slpc->boost_freq)
-+		slpc->boost_freq = slpc->rp0_freq;
- }
- 
- /*
+ 	struct drm_i915_private *i915 = slpc_to_i915(slpc);
 diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h
-index e45054d5b9b4..b62528647770 100644
+index b62528647770..d74d6d749bdc 100644
 --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h
 +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h
-@@ -38,5 +38,6 @@ int intel_guc_slpc_get_max_freq(struct intel_guc_slpc *slpc, u32 *val);
- int intel_guc_slpc_get_min_freq(struct intel_guc_slpc *slpc, u32 *val);
+@@ -39,5 +39,6 @@ int intel_guc_slpc_get_min_freq(struct intel_guc_slpc *slpc, u32 *val);
  int intel_guc_slpc_print_info(struct intel_guc_slpc *slpc, struct drm_printer *p);
  void intel_guc_pm_intrmsk_enable(struct intel_gt *gt);
-+void intel_guc_slpc_boost(struct intel_guc_slpc *slpc);
+ void intel_guc_slpc_boost(struct intel_guc_slpc *slpc);
++void intel_guc_slpc_dec_waiters(struct intel_guc_slpc *slpc);
  
  #endif
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc_types.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc_types.h
-index 41d13527666f..bf5b9a563c09 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc_types.h
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc_types.h
-@@ -6,6 +6,9 @@
- #ifndef _INTEL_GUC_SLPC_TYPES_H_
- #define _INTEL_GUC_SLPC_TYPES_H_
+diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
+index 2c3cd6e635b5..08f38e86231d 100644
+--- a/drivers/gpu/drm/i915/i915_request.c
++++ b/drivers/gpu/drm/i915/i915_request.c
+@@ -339,7 +339,7 @@ bool i915_request_retire(struct i915_request *rq)
+ 	}
  
-+#include <linux/atomic.h>
-+#include <linux/workqueue.h>
-+#include <linux/mutex.h>
- #include <linux/types.h>
+ 	if (test_and_set_bit(I915_FENCE_FLAG_BOOST, &rq->fence.flags))
+-		atomic_dec(&rq->engine->gt->rps.num_waiters);
++		intel_rps_dec_waiters(&rq->engine->gt->rps);
  
- #define SLPC_RESET_TIMEOUT_MS 5
-@@ -20,10 +23,20 @@ struct intel_guc_slpc {
- 	u32 min_freq;
- 	u32 rp0_freq;
- 	u32 rp1_freq;
-+	u32 boost_freq;
- 
- 	/* frequency softlimits */
- 	u32 min_freq_softlimit;
- 	u32 max_freq_softlimit;
-+
-+	/* Protects set/reset of boost freq
-+	 * and value of num_waiters
-+	 */
-+	struct mutex lock;
-+
-+	struct work_struct boost_work;
-+	atomic_t num_waiters;
-+	u32 num_boosts;
- };
- 
- #endif
+ 	/*
+ 	 * We only loosely track inflight requests across preemption,
 -- 
 2.25.0
 
