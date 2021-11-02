@@ -2,55 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 163CF442F6F
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Nov 2021 14:51:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E196A442F88
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Nov 2021 14:56:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E20972BE6;
-	Tue,  2 Nov 2021 13:51:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0362172CB9;
+	Tue,  2 Nov 2021 13:56:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com
- [209.85.210.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5238472BE5
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Nov 2021 13:51:39 +0000 (UTC)
-Received: by mail-ot1-f44.google.com with SMTP id
- 107-20020a9d0a74000000b00553bfb53348so30161807otg.0
- for <dri-devel@lists.freedesktop.org>; Tue, 02 Nov 2021 06:51:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=XpVdRouFdaAwA7SuTkxvVAfzf38XTZnlT5W12MFMumo=;
- b=F5VIBcUKhp+VQfXWIvrYGKgYZApnkr9EBrQnATyP2FTRrf62Wx1SMCTVGFzmrw2O0S
- NnGScW1LIM7bRgaM8n8MBpdZV3Hi0Jp50HxNtfMYArYT6a7C/0V99WpxeBgxomDDovN7
- YGb0yH5Sr6clZoeu6YQOaWsPURCuOAVvVr5e7dBow5ahXBN9xfddGY/T3wOzfqoFGhCS
- lOmJmogBIyQSCksjTVqWlVb2F6slyHSi+WLSbJzXWRxfTzFwvfywh8O4tWNtE9DT6OL+
- ODdWrrZ3TKYIa8ieL7ToMYOTAJ1GU7VWKU0vzxJHCZLXxhvYXZ3WQ62aOWLXSATU1ei+
- 8QCw==
-X-Gm-Message-State: AOAM532FBPdXyXmAYUTMO4BcqipHUFjGzBbwo9kQCX313Xwtlj3yXKCg
- xwh8wqKRw1cLG4CJnawvmg==
-X-Google-Smtp-Source: ABdhPJyXYK0bH/5cyUilPJ+LyLIhOVaNej7ZknJgC1RMseweL5eKVOB8xNTTYf38hN9eyjDIury2mA==
-X-Received: by 2002:a9d:470d:: with SMTP id a13mr26745698otf.75.1635861098494; 
- Tue, 02 Nov 2021 06:51:38 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net.
- [66.90.148.213])
- by smtp.gmail.com with ESMTPSA id z25sm35974oic.1.2021.11.02.06.51.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Nov 2021 06:51:37 -0700 (PDT)
-Received: (nullmailer pid 2767023 invoked by uid 1000);
- Tue, 02 Nov 2021 13:51:36 -0000
-Date: Tue, 2 Nov 2021 08:51:36 -0500
-From: Rob Herring <robh@kernel.org>
-To: Yunfei Dong <yunfei.dong@mediatek.com>
-Subject: Re: [PATCH v8, 15/17] dt-bindings: media: mtk-vcodec: Adds decoder
- dt-bindings for mt8192
-Message-ID: <YYFCaHI/DASUz+Vu@robh.at.kernel.org>
-References: <20211029035527.454-1-yunfei.dong@mediatek.com>
- <20211029035527.454-16-yunfei.dong@mediatek.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E21372CA1;
+ Tue,  2 Nov 2021 13:56:31 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10155"; a="317462097"
+X-IronPort-AV: E=Sophos;i="5.87,203,1631602800"; d="scan'208";a="317462097"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Nov 2021 06:55:29 -0700
+X-IronPort-AV: E=Sophos;i="5.87,203,1631602800"; d="scan'208";a="728358308"
+Received: from dccormac-mobl1.ger.corp.intel.com (HELO [10.252.3.196])
+ ([10.252.3.196])
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Nov 2021 06:55:27 -0700
+Message-ID: <c88162c0-19d0-0fd5-4748-5fc70684f7f6@intel.com>
+Date: Tue, 2 Nov 2021 13:55:25 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211029035527.454-16-yunfei.dong@mediatek.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v2 2/2] drm/i915/ttm: Failsafe migration blits
+Content-Language: en-GB
+To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+References: <20211101183851.291015-1-thomas.hellstrom@linux.intel.com>
+ <20211101183851.291015-3-thomas.hellstrom@linux.intel.com>
+From: Matthew Auld <matthew.auld@intel.com>
+In-Reply-To: <20211101183851.291015-3-thomas.hellstrom@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,324 +49,506 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
- Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Irui Wang <irui.wang@mediatek.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- Fritz Koenig <frkoenig@chromium.org>, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, Tzung-Bi Shih <tzungbi@chromium.org>,
- Tomasz Figa <tfiga@google.com>, linux-mediatek@lists.infradead.org,
- Hsin-Yi Wang <hsinyi@chromium.org>, Matthias Brugger <matthias.bgg@gmail.com>,
- Tiffany Lin <tiffany.lin@mediatek.com>, linux-arm-kernel@lists.infradead.org,
- Alexandre Courbot <acourbot@chromium.org>, srv_heupstream@mediatek.com,
- linux-kernel@vger.kernel.org, Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 29, 2021 at 11:55:25AM +0800, Yunfei Dong wrote:
-> Adds decoder dt-bindings for mt8192.
+On 01/11/2021 18:38, Thomas Hellström wrote:
+> If the initial fill blit or copy blit of an object fails, the old
+> content of the data might be exposed and read as soon as either CPU- or
+> GPU PTEs are set up to point at the pages.
 > 
-> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+> Intercept the blit fence with an async callback that checks the
+> blit fence for errors and if there are errors performs an async cpu blit
+> instead. If there is a failure to allocate the async dma_fence_work,
+> allocate it on the stack and sync wait for the blit to complete.
+> 
+> Add selftests that simulate gpu blit failures and failure to allocate
+> the async dma_fence_work.
+> 
+> A previous version of this pach used dma_fence_work, now that's
+> opencoded which adds more code but might lower the latency
+> somewhat in the common non-error case.
+> 
+> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 > ---
-> v8: fix yaml file check fail
-> ---
->  .../media/mediatek,vcodec-comp-decoder.yaml   | 273 ++++++++++++++++++
->  1 file changed, 273 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/mediatek,vcodec-comp-decoder.yaml
+>   drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c  | 322 +++++++++++++++---
+>   drivers/gpu/drm/i915/gem/i915_gem_ttm_move.h  |   5 +
+>   .../drm/i915/gem/selftests/i915_gem_migrate.c |  24 +-
+>   3 files changed, 295 insertions(+), 56 deletions(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/media/mediatek,vcodec-comp-decoder.yaml b/Documentation/devicetree/bindings/media/mediatek,vcodec-comp-decoder.yaml
-> new file mode 100644
-> index 000000000000..40a076756439
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/mediatek,vcodec-comp-decoder.yaml
-> @@ -0,0 +1,273 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +
-> +%YAML 1.2
-> +---
-> +$id: "http://devicetree.org/schemas/media/mediatek,vcodec-comp-decoder.yaml#"
-> +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-> +
-> +title: Mediatek Video Decode Accelerator With Multi Hardware
-> +
-> +maintainers:
-> +  - Yunfei Dong <yunfei.dong@mediatek.com>
-> +
-> +description: |
-> +  Mediatek Video Decode is the video decode hardware present in Mediatek
-> +  SoCs which supports high resolution decoding functionalities. Required
-> +  master and component node.
-> +
-> +  About the Decoder Hardware Block Diagram, please check below:
-> +
-> +    +---------------------------------+------------------------------------+
-> +    |                                 |                                    |
-> +    | input -> lat HW -> lat buffer --|--> lat buffer -> core HW -> output |
-> +    |            ||                   |                     ||             |
-> +    +------------||-------------------+---------------------||-------------+
-> +                 ||       lat thread  |  core thread        ||     <master>
-> +    -------------||-----------------------------------------||----------------
-> +                 ||                                         ||     <component>
-> +                 \/ <----------------HW index-------------->\/
-> +           +------------------------------------------------------+
-> +           |                    enable/disable                    |
-> +           |           clk     power    irq    iommu port         |
-> +           |                 (lat/lat soc/core0/core1)            |
-> +           +------------------------------------------------------+
-> +
-> +  As above, <master> mean in master device, <component> mean in component device.
-> +  The information of each hardware will be stored in each component device. There
-> +  are two workqueue in master device: lat and core. Enable/disable the lat clk/power/irq
-> +  when lat hardware need to work through hardware index, core is the same.
-> +
-> +  Normally the smi common may not the same for each hardware, can't combine all
-> +  hardware in one node, or leading to iommu fault when access dram data.
-> +
-> +properties:
-> +  compatible:
-> +    const: mediatek,mt8192-vcodec-dec
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  iommus:
-> +    minItems: 1
-> +    maxItems: 32
-> +    description: |
-> +      List of the hardware port in respective IOMMU block for current Socs.
-> +      Refer to bindings/iommu/mediatek,iommu.yaml.
-> +
-> +  mediatek,scp:
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +    maxItems: 1
-> +    description: |
-> +      The node of system control processor (SCP), using
-> +      the remoteproc & rpmsg framework.
-> +      $ref: /schemas/remoteproc/mtk,scp.yaml
-> +
-> +  dma-ranges:
-> +    maxItems: 1
-> +    description: |
-> +      Describes the physical address space of IOMMU maps to memory.
-> +
-> +  "#address-cells":
-> +    const: 1
-> +
-> +  "#size-cells":
-> +    const: 1
-> +
-> +  ranges: true
-> +
-> +# Required child node:
-> +patternProperties:
-> +  vcodec-lat:
-> +    type: object
-> +
-> +    properties:
-> +      compatible:
-> +        const: mediatek,mtk-vcodec-lat
-> +
-> +      reg:
-> +        maxItems: 1
-> +
-> +      reg-names:
-> +        maxItems: 1
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
+> index 0ed6b7f2b95f..2e3328e2b48c 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
+> @@ -18,6 +18,29 @@
+>   #include "gt/intel_gt.h"
+>   #include "gt/intel_migrate.h"
+>   
+> +/**
+> + * DOC: Selftest failure modes for failsafe migration:
+> + *
+> + * For fail_gpu_migration, the gpu blit scheduled is always a clear blit
+> + * rather than a copy blit, and then we force the failure paths as if
+> + * the blit fence returned an error.
+> + *
+> + * For fail_work_allocation we fail the kmalloc of the async worker, we
+> + * sync the gpu blit. If it then fails, or fail_gpu_migration is set to
+> + * true, then a memcpy operation is performed sync.
+> + */
+> +I915_SELFTEST_DECLARE(static bool fail_gpu_migration;)
+> +I915_SELFTEST_DECLARE(static bool fail_work_allocation;)
 
-You have to document what the names are. But 'misc' is isn't really 
-specific and you don't need -names when there is only 1, so I'd just 
-drop it.
+Might as well move these under the CONFIG_SELFTEST below, and then drop 
+the DECLARE stuff?
 
 > +
-> +      interrupts:
-> +        maxItems: 1
+> +#ifdef CONFIG_DRM_I915_SELFTEST
+> +void i915_ttm_migrate_set_failure_modes(bool gpu_migration,
+> +					bool work_allocation)
+> +{
+> +	fail_gpu_migration = gpu_migration;
+> +	fail_work_allocation = work_allocation;
+> +}
+> +#endif
 > +
-> +      iommus:
-> +        minItems: 1
-> +        maxItems: 32
-> +        description: |
-> +          List of the hardware port in respective IOMMU block for current Socs.
-> +          Refer to bindings/iommu/mediatek,iommu.yaml.
+>   static enum i915_cache_level
+>   i915_ttm_cache_level(struct drm_i915_private *i915, struct ttm_resource *res,
+>   		     struct ttm_tt *ttm)
+> @@ -129,11 +152,11 @@ int i915_ttm_move_notify(struct ttm_buffer_object *bo)
+>   	return 0;
+>   }
+>   
+> -static int i915_ttm_accel_move(struct ttm_buffer_object *bo,
+> -			       bool clear,
+> -			       struct ttm_resource *dst_mem,
+> -			       struct ttm_tt *dst_ttm,
+> -			       struct sg_table *dst_st)
+> +static struct dma_fence *i915_ttm_accel_move(struct ttm_buffer_object *bo,
+> +					     bool clear,
+> +					     struct ttm_resource *dst_mem,
+> +					     struct ttm_tt *dst_ttm,
+> +					     struct sg_table *dst_st)
+>   {
+>   	struct drm_i915_private *i915 = container_of(bo->bdev, typeof(*i915),
+>   						     bdev);
+> @@ -144,30 +167,29 @@ static int i915_ttm_accel_move(struct ttm_buffer_object *bo,
+>   	int ret;
+>   
+>   	if (!i915->gt.migrate.context || intel_gt_is_wedged(&i915->gt))
+> -		return -EINVAL;
+> +		return ERR_PTR(-EINVAL);
 > +
-> +      clocks:
-> +        maxItems: 5
+> +	/* With fail_gpu_migration, we always perform a GPU clear. */
+> +	if (I915_SELFTEST_ONLY(fail_gpu_migration))
+> +		clear = true;
+>   
+>   	dst_level = i915_ttm_cache_level(i915, dst_mem, dst_ttm);
+>   	if (clear) {
+> -		if (bo->type == ttm_bo_type_kernel)
+> -			return -EINVAL;
+> +		if (bo->type == ttm_bo_type_kernel &&
+> +		    !I915_SELFTEST_ONLY(fail_gpu_migration))
+> +			return ERR_PTR(-EINVAL);
+>   
+>   		intel_engine_pm_get(i915->gt.migrate.context->engine);
+>   		ret = intel_context_migrate_clear(i915->gt.migrate.context, NULL,
+>   						  dst_st->sgl, dst_level,
+>   						  i915_ttm_gtt_binds_lmem(dst_mem),
+>   						  0, &rq);
+> -
+> -		if (!ret && rq) {
+> -			i915_request_wait(rq, 0, MAX_SCHEDULE_TIMEOUT);
+> -			i915_request_put(rq);
+> -		}
+> -		intel_engine_pm_put(i915->gt.migrate.context->engine);
+>   	} else {
+>   		struct i915_refct_sgt *src_rsgt =
+>   			i915_ttm_resource_get_st(obj, bo->resource);
+>   
+>   		if (IS_ERR(src_rsgt))
+> -			return PTR_ERR(src_rsgt);
+> +			return ERR_CAST(src_rsgt);
+>   
+>   		src_level = i915_ttm_cache_level(i915, bo->resource, src_ttm);
+>   		intel_engine_pm_get(i915->gt.migrate.context->engine);
+> @@ -178,15 +200,183 @@ static int i915_ttm_accel_move(struct ttm_buffer_object *bo,
+>   						 dst_st->sgl, dst_level,
+>   						 i915_ttm_gtt_binds_lmem(dst_mem),
+>   						 &rq);
 > +
-> +      clock-names:
-> +        items:
-> +          - const: vdec-sel
-> +          - const: vdec-soc-vdec
-> +          - const: vdec-soc-lat
-> +          - const: vdec-vdec
-> +          - const: vdec-top
+>   		i915_refct_sgt_put(src_rsgt);
+> -		if (!ret && rq) {
+> -			i915_request_wait(rq, 0, MAX_SCHEDULE_TIMEOUT);
+> -			i915_request_put(rq);
+> -		}
+> -		intel_engine_pm_put(i915->gt.migrate.context->engine);
+>   	}
+>   
+> -	return ret;
+> +	intel_engine_pm_put(i915->gt.migrate.context->engine);
+> +
+> +	if (ret && rq) {
+> +		i915_request_wait(rq, 0, MAX_SCHEDULE_TIMEOUT);
+> +		i915_request_put(rq);
+> +	}
+> +
+> +	return ret ? ERR_PTR(ret) : &rq->fence;
+> +}
+> +
+> +/**
+> + * struct i915_ttm_memcpy_arg - argument for the bo memcpy functionality.
+> + * @_dst_iter: Storage space for the destination kmap iterator.
+> + * @_src_iter: Storage space for the source kmap iterator.
+> + * @dst_iter: Pointer to the destination kmap iterator.
+> + * @src_iter: Pointer to the source kmap iterator.
+> + * @clear: Whether to clear instead of copy.
+> + * @src_rsgt: Refcounted scatter-gather list of source memory.
+> + * @dst_rsgt: Refcounted scatter-gather list of destination memory.
+> + */
+> +struct i915_ttm_memcpy_arg {
+> +	union {
+> +		struct ttm_kmap_iter_tt tt;
+> +		struct ttm_kmap_iter_iomap io;
+> +	} _dst_iter,
+> +	_src_iter;
+> +	struct ttm_kmap_iter *dst_iter;
+> +	struct ttm_kmap_iter *src_iter;
+> +	unsigned long num_pages;
+> +	bool clear;
+> +	struct i915_refct_sgt *src_rsgt;
+> +	struct i915_refct_sgt *dst_rsgt;
+> +};
+> +
+> +/**
+> + * struct i915_ttm_memcpy_work - Async memcpy worker under a dma-fence.
+> + * @fence: The dma-fence.
+> + * @work: The work struct use for the memcpy work.
+> + * @lock: The fence lock. Not used to protect anythinge else ATM.
 
-'vdec-' is redundant. Names are local to the node.
+s/anythinge/anything
+
+> + * @irq_work: Low latency worker to signal the fence since it can't be done
+> + * from the callback for lockdep reasons.
+> + * @cb: Callback for the accelerated migration fence.
+> + * @arg: The argument for the memcpy functionality.
+> + */
+> +struct i915_ttm_memcpy_work {
+> +	struct dma_fence fence;
+> +	struct work_struct work;
+> +	/* The fence lock */
+> +	spinlock_t lock;
+> +	struct irq_work irq_work;
+> +	struct dma_fence_cb cb;
+> +	struct i915_ttm_memcpy_arg arg;
+> +};
+> +
+> +static void i915_ttm_move_memcpy(struct i915_ttm_memcpy_arg *arg)
+> +{
+> +	ttm_move_memcpy(arg->clear, arg->num_pages,
+> +			arg->dst_iter, arg->src_iter);
+> +}
+> +
+> +static void i915_ttm_memcpy_init(struct i915_ttm_memcpy_arg *arg,
+> +				 struct ttm_buffer_object *bo, bool clear,
+> +				 struct ttm_resource *dst_mem,
+> +				 struct ttm_tt *dst_ttm,
+> +				 struct i915_refct_sgt *dst_rsgt)
+> +{
+> +	struct drm_i915_gem_object *obj = i915_ttm_to_gem(bo);
+> +	struct intel_memory_region *dst_reg, *src_reg;
+> +
+> +	dst_reg = i915_ttm_region(bo->bdev, dst_mem->mem_type);
+> +	src_reg = i915_ttm_region(bo->bdev, bo->resource->mem_type);
+> +	GEM_BUG_ON(!dst_reg || !src_reg);
+> +
+> +	arg->dst_iter = !i915_ttm_cpu_maps_iomem(dst_mem) ?
+> +		ttm_kmap_iter_tt_init(&arg->_dst_iter.tt, dst_ttm) :
+> +		ttm_kmap_iter_iomap_init(&arg->_dst_iter.io, &dst_reg->iomap,
+> +					 &dst_rsgt->table, dst_reg->region.start);
+> +
+> +	arg->src_iter = !i915_ttm_cpu_maps_iomem(bo->resource) ?
+> +		ttm_kmap_iter_tt_init(&arg->_src_iter.tt, bo->ttm) :
+> +		ttm_kmap_iter_iomap_init(&arg->_src_iter.io, &src_reg->iomap,
+> +					 &obj->ttm.cached_io_rsgt->table,
+> +					 src_reg->region.start);
+> +	arg->clear = clear;
+> +	arg->num_pages = bo->base.size >> PAGE_SHIFT;
+> +
+> +	arg->dst_rsgt = i915_refct_sgt_get(dst_rsgt);
+> +	arg->src_rsgt = clear ? NULL :
+> +		i915_ttm_resource_get_st(obj, bo->resource);
+> +}
+> +
+> +static void i915_ttm_memcpy_release(struct i915_ttm_memcpy_arg *arg)
+> +{
+> +	i915_refct_sgt_put(arg->src_rsgt);
+> +	i915_refct_sgt_put(arg->dst_rsgt);
+> +}
+> +
+> +static void __memcpy_work(struct work_struct *work)
+> +{
+> +	struct i915_ttm_memcpy_work *copy_work =
+> +		container_of(work, typeof(*copy_work), work);
+> +	struct i915_ttm_memcpy_arg *arg = &copy_work->arg;
+> +	bool cookie = dma_fence_begin_signalling();
+> +
+> +	i915_ttm_move_memcpy(arg);
+> +	dma_fence_end_signalling(cookie);
+> +
+> +	dma_fence_signal(&copy_work->fence);
+> +
+> +	i915_ttm_memcpy_release(arg);
+> +	dma_fence_put(&copy_work->fence);
+> +}
+> +
+> +static void __memcpy_irq_work(struct irq_work *irq_work)
+> +{
+> +	struct i915_ttm_memcpy_work *copy_work =
+> +		container_of(irq_work, typeof(*copy_work), irq_work);
+> +	struct i915_ttm_memcpy_arg *arg = &copy_work->arg;
+> +
+> +	dma_fence_signal(&copy_work->fence);
+> +	i915_ttm_memcpy_release(arg);
+> +	dma_fence_put(&copy_work->fence);
+> +}
+> +
+> +static void __memcpy_cb(struct dma_fence *fence, struct dma_fence_cb *cb)
+> +{
+> +	struct i915_ttm_memcpy_work *copy_work =
+> +		container_of(cb, typeof(*copy_work), cb);
+> +
+> +	if (unlikely(fence->error || I915_SELFTEST_ONLY(fail_gpu_migration))) {
+> +		INIT_WORK(&copy_work->work, __memcpy_work);
+> +		queue_work(system_unbound_wq, &copy_work->work);
+> +	} else {
+> +		init_irq_work(&copy_work->irq_work, __memcpy_irq_work);
+> +		irq_work_queue(&copy_work->irq_work);
+> +	}
+> +}
+> +
+> +static const char *get_driver_name(struct dma_fence *fence)
+> +{
+> +	return "i915_ttm_memcpy_work";
+> +}
+> +
+> +static const char *get_timeline_name(struct dma_fence *fence)
+> +{
+> +	return "unbound";
+> +}
+> +
+> +static const struct dma_fence_ops dma_fence_memcpy_ops = {
+> +	.get_driver_name = get_driver_name,
+> +	.get_timeline_name = get_timeline_name,
+> +};
+> +
+> +static struct dma_fence *
+> +i915_ttm_memcpy_work_arm(struct i915_ttm_memcpy_work *work,
+> +			 struct dma_fence *dep)
+> +{
+> +	int ret = 0;
+
+No need to initialise.
 
 > +
-> +      assigned-clocks:
-> +        maxItems: 1
+> +	spin_lock_init(&work->lock);
+> +	dma_fence_init(&work->fence, &dma_fence_memcpy_ops, &work->lock, 0, 0);
+> +	dma_fence_get(&work->fence);
+> +	ret = dma_fence_add_callback(dep, &work->cb, __memcpy_cb);
+> +	if (ret) {
+> +		if (ret != -ENOENT)
+> +			dma_fence_wait(dep, false);
 > +
-> +      assigned-clock-parents:
-> +        maxItems: 1
-> +
-> +      power-domains:
-> +        maxItems: 1
-> +
-> +    required:
-> +      - compatible
-> +      - reg
-> +      - reg-names
-> +      - interrupts
-> +      - iommus
-> +      - clocks
-> +      - clock-names
-> +      - assigned-clocks
-> +      - assigned-clock-parents
-> +      - power-domains
-> +
-> +    additionalProperties: false
-> +
-> +  vcodec-core:
-> +    type: object
-> +
-> +    properties:
-> +      compatible:
-> +        const: mediatek,mtk-vcodec-core
-> +
-> +      reg:
-> +        maxItems: 1
-> +
-> +      reg-names:
-> +        maxItems: 1
-> +
-> +      interrupts:
-> +        maxItems: 1
-> +
-> +      iommus:
-> +        minItems: 1
-> +        maxItems: 32
-> +        description: |
-> +          List of the hardware port in respective IOMMU block for current Socs.
-> +          Refer to bindings/iommu/mediatek,iommu.yaml.
-> +
-> +      clocks:
-> +        maxItems: 5
-> +
-> +      clock-names:
-> +        items:
-> +          - const: vdec-sel
-> +          - const: vdec-soc-vdec
-> +          - const: vdec-soc-lat
-> +          - const: vdec-vdec
-> +          - const: vdec-top
-> +
-> +      assigned-clocks:
-> +        maxItems: 1
-> +
-> +      assigned-clock-parents:
-> +        maxItems: 1
-> +
-> +      power-domains:
-> +        maxItems: 1
-> +
-> +    required:
-> +      - compatible
-> +      - reg
-> +      - reg-names
-> +      - interrupts
-> +      - iommus
-> +      - clocks
-> +      - clock-names
-> +      - assigned-clocks
-> +      - assigned-clock-parents
-> +      - power-domains
-> +
-> +    additionalProperties: false
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - iommus
-> +  - mediatek,scp
-> +  - dma-ranges
-> +  - ranges
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/memory/mt8192-larb-port.h>
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +    #include <dt-bindings/clock/mt8192-clk.h>
-> +    #include <dt-bindings/power/mt8192-power.h>
-> +
-> +    vcodec_dec: vcodec_dec@16000000 {
+> +		ret = I915_SELFTEST_ONLY(fail_gpu_migration) ? -EINVAL :
+> +			dep->error;
+> +	}
+> +	dma_fence_put(dep);
 
-video-codec@...
+Should we leave that in the caller?
 
-> +        compatible = "mediatek,mt8192-vcodec-dec";
-> +        reg = <0x16000000 0x1000>;		/* VDEC_SYS */
-> +        mediatek,scp = <&scp>;
-> +        iommus = <&iommu0 M4U_PORT_L4_VDEC_MC_EXT>;
-> +        dma-ranges = <0x1 0x0 0x0 0x40000000 0x0 0xfff00000>;
-> +        #address-cells = <1>;
-> +        #size-cells = <1>;
-> +        ranges;
-> +        lat: vcodec-lat@16010000 {
-> +            compatible = "mediatek,mtk-vcodec-lat";
-> +            reg = <0x16010000 0x800>;
-> +            reg-names = "misc";
-> +            interrupts = <GIC_SPI 426 IRQ_TYPE_LEVEL_HIGH 0>;
-> +            iommus = <&iommu0 M4U_PORT_L5_VDEC_LAT0_VLD_EXT>,
-> +                <&iommu0 M4U_PORT_L5_VDEC_LAT0_VLD2_EXT>,
-> +                <&iommu0 M4U_PORT_L5_VDEC_LAT0_AVC_MV_EXT>,
-> +                <&iommu0 M4U_PORT_L5_VDEC_LAT0_PRED_RD_EXT>,
-> +                <&iommu0 M4U_PORT_L5_VDEC_LAT0_TILE_EXT>,
-> +                <&iommu0 M4U_PORT_L5_VDEC_LAT0_WDMA_EXT>,
-> +                <&iommu0 M4U_PORT_L5_VDEC_LAT0_RG_CTRL_DMA_EXT>,
-> +                <&iommu0 M4U_PORT_L5_VDEC_UFO_ENC_EXT>;
-> +            clocks = <&topckgen CLK_TOP_VDEC_SEL>,
-> +                <&vdecsys_soc CLK_VDEC_SOC_VDEC>,
-> +                <&vdecsys_soc CLK_VDEC_SOC_LAT>,
-> +                <&vdecsys_soc CLK_VDEC_SOC_LARB1>,
-> +                <&topckgen CLK_TOP_MAINPLL_D4>;
-> +            clock-names = "vdec-sel", "vdec-soc-vdec", "vdec-soc-lat",
-> +                "vdec-vdec", "vdec-top";
-> +            assigned-clocks = <&topckgen CLK_TOP_VDEC_SEL>;
-> +            assigned-clock-parents = <&topckgen CLK_TOP_MAINPLL_D4>;
-> +            power-domains = <&spm MT8192_POWER_DOMAIN_VDEC>;
-> +        };
 > +
-> +        core: vcodec-core@16025000 {
-> +            compatible = "mediatek,mtk-vcodec-core";
-> +            reg = <0x16025000 0x1000>;
-> +            reg-names = "misc";
-> +            interrupts = <GIC_SPI 425 IRQ_TYPE_LEVEL_HIGH 0>;
-> +            iommus = <&iommu0 M4U_PORT_L4_VDEC_MC_EXT>,
-> +                <&iommu0 M4U_PORT_L4_VDEC_UFO_EXT>,
-> +                <&iommu0 M4U_PORT_L4_VDEC_PP_EXT>,
-> +                <&iommu0 M4U_PORT_L4_VDEC_PRED_RD_EXT>,
-> +                <&iommu0 M4U_PORT_L4_VDEC_PRED_WR_EXT>,
-> +                <&iommu0 M4U_PORT_L4_VDEC_PPWRAP_EXT>,
-> +                <&iommu0 M4U_PORT_L4_VDEC_TILE_EXT>,
-> +                <&iommu0 M4U_PORT_L4_VDEC_VLD_EXT>,
-> +                <&iommu0 M4U_PORT_L4_VDEC_VLD2_EXT>,
-> +                <&iommu0 M4U_PORT_L4_VDEC_AVC_MV_EXT>,
-> +                <&iommu0 M4U_PORT_L4_VDEC_RG_CTRL_DMA_EXT>;
-> +            clocks = <&topckgen CLK_TOP_VDEC_SEL>,
-> +                <&vdecsys CLK_VDEC_VDEC>,
-> +                <&vdecsys CLK_VDEC_LAT>,
-> +                <&vdecsys CLK_VDEC_LARB1>,
-> +                <&topckgen CLK_TOP_MAINPLL_D4>;
-> +            clock-names = "vdec-sel", "vdec-soc-vdec", "vdec-soc-lat",
-> +                "vdec-vdec", "vdec-top";
-> +            assigned-clocks = <&topckgen CLK_TOP_VDEC_SEL>;
-> +            assigned-clock-parents = <&topckgen CLK_TOP_MAINPLL_D4>;
-> +            power-domains = <&spm MT8192_POWER_DOMAIN_VDEC2>;
-> +        };
-> +    };
-> -- 
-> 2.25.1
-> 
+> +	return ret ? ERR_PTR(ret) : &work->fence;
+>   }
+>   
+>   /**
+> @@ -199,42 +389,64 @@ static int i915_ttm_accel_move(struct ttm_buffer_object *bo,
+>    * @allow_accel: Whether to allow acceleration.
+>    */
+>   void __i915_ttm_move(struct ttm_buffer_object *bo, bool clear,
+> -		     struct ttm_resource *dst_mem,
+> -		     struct ttm_tt *dst_ttm,
+> -		     struct i915_refct_sgt *dst_rsgt,
+> -		     bool allow_accel)
+> +		     struct ttm_resource *dst_mem, struct ttm_tt *dst_ttm,
+> +		     struct i915_refct_sgt *dst_rsgt, bool allow_accel)
+>   {
+> -	int ret = -EINVAL;
+> +	struct i915_ttm_memcpy_work *copy_work = NULL;
+> +	struct i915_ttm_memcpy_arg _arg, *arg = &_arg;
+> +	struct dma_fence *fence = ERR_PTR(-EINVAL);
+> +
+> +	if (allow_accel) {
+> +		fence = i915_ttm_accel_move(bo, clear, dst_mem, dst_ttm,
+> +					    &dst_rsgt->table);
+> +
+> +		/*
+> +		 * We only need to intercept the error when moving to lmem.
+> +		 * When moving to system, TTM or shmem will provide us with
+> +		 * cleared pages.
+> +		 */
+> +		if (!IS_ERR(fence) && !i915_ttm_gtt_binds_lmem(dst_mem) &&
+> +		    !I915_SELFTEST_ONLY(fail_gpu_migration ||
+> +					fail_work_allocation))
+> +			goto out;
+
+Would it make sense to always add the failsafe, or not really? While 
+there is nothing security sensitive, would it not be benificial to still 
+add the fallback?
+
+Also any idea what was the plan for non-cpu mappable memory?
+
+Anyway,
+Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+
+
+> +	}
+>   
+> -	if (allow_accel)
+> -		ret = i915_ttm_accel_move(bo, clear, dst_mem, dst_ttm,
+> -					  &dst_rsgt->table);
+> -	if (ret) {
+> -		struct drm_i915_gem_object *obj = i915_ttm_to_gem(bo);
+> -		struct intel_memory_region *dst_reg, *src_reg;
+> -		union {
+> -			struct ttm_kmap_iter_tt tt;
+> -			struct ttm_kmap_iter_iomap io;
+> -		} _dst_iter, _src_iter;
+> -		struct ttm_kmap_iter *dst_iter, *src_iter;
+> -
+> -		dst_reg = i915_ttm_region(bo->bdev, dst_mem->mem_type);
+> -		src_reg = i915_ttm_region(bo->bdev, bo->resource->mem_type);
+> -		GEM_BUG_ON(!dst_reg || !src_reg);
+> -
+> -		dst_iter = !i915_ttm_cpu_maps_iomem(dst_mem) ?
+> -			ttm_kmap_iter_tt_init(&_dst_iter.tt, dst_ttm) :
+> -			ttm_kmap_iter_iomap_init(&_dst_iter.io, &dst_reg->iomap,
+> -						 &dst_rsgt->table,
+> -						 dst_reg->region.start);
+> -
+> -		src_iter = !i915_ttm_cpu_maps_iomem(bo->resource) ?
+> -			ttm_kmap_iter_tt_init(&_src_iter.tt, bo->ttm) :
+> -			ttm_kmap_iter_iomap_init(&_src_iter.io, &src_reg->iomap,
+> -						 &obj->ttm.cached_io_rsgt->table,
+> -						 src_reg->region.start);
+> -
+> -		ttm_move_memcpy(clear, dst_mem->num_pages, dst_iter, src_iter);
+> +	/* If we've scheduled gpu migration. Try to arm error intercept. */
+> +	if (!IS_ERR(fence)) {
+> +		struct dma_fence *dep = fence;
+> +
+> +		if (!I915_SELFTEST_ONLY(fail_work_allocation))
+> +			copy_work = kzalloc(sizeof(*copy_work), GFP_KERNEL);
+> +
+> +		if (copy_work) {
+> +			arg = &copy_work->arg;
+> +			i915_ttm_memcpy_init(arg, bo, clear, dst_mem, dst_ttm,
+> +					     dst_rsgt);
+> +			fence = i915_ttm_memcpy_work_arm(copy_work, dep);
+> +		} else {
+> +			dma_fence_wait(dep, false);
+> +			fence = ERR_PTR(I915_SELFTEST_ONLY(fail_gpu_migration) ?
+> +					-EINVAL : fence->error);
+> +			dma_fence_put(dep);
+> +		}
+> +		if (!IS_ERR(fence))
+> +			goto out;
+> +	}
+> +
+> +	/* Error intercept failed or no accelerated migration to start with */
+> +	if (!copy_work)
+> +		i915_ttm_memcpy_init(arg, bo, clear, dst_mem, dst_ttm,
+> +				     dst_rsgt);
+> +	i915_ttm_move_memcpy(arg);
+> +	i915_ttm_memcpy_release(arg);
+> +	kfree(copy_work);
+> +
+> +	return;
+> +out:
+> +	/* Sync here for now, forward the fence to caller when fully async. */
+> +	if (fence) {
+> +		dma_fence_wait(fence, false);
+> +		dma_fence_put(fence);
+>   	}
+>   }
+>   
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.h b/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.h
+> index 68294b16e5c2..75b87e752af2 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.h
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.h
+> @@ -7,6 +7,8 @@
+>   
+>   #include <linux/types.h>
+>   
+> +#include "i915_selftest.h"
+> +
+>   struct ttm_buffer_object;
+>   struct ttm_operation_ctx;
+>   struct ttm_place;
+> @@ -18,6 +20,9 @@ struct i915_refct_sgt;
+>   
+>   int i915_ttm_move_notify(struct ttm_buffer_object *bo);
+>   
+> +I915_SELFTEST_DECLARE(void i915_ttm_migrate_set_failure_modes(bool gpu_migration,
+> +							      bool work_allocation));
+> +
+>   /* Internal I915 TTM declarations and definitions below. */
+>   
+>   void __i915_ttm_move(struct ttm_buffer_object *bo, bool clear,
+> diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_migrate.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_migrate.c
+> index 28a700f08b49..4b8e6b098659 100644
+> --- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_migrate.c
+> +++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_migrate.c
+> @@ -4,6 +4,7 @@
+>    */
+>   
+>   #include "gt/intel_migrate.h"
+> +#include "gem/i915_gem_ttm_move.h"
+>   
+>   static int igt_fill_check_buffer(struct drm_i915_gem_object *obj,
+>   				 bool fill)
+> @@ -227,13 +228,34 @@ static int igt_lmem_pages_migrate(void *arg)
+>   	return err;
+>   }
+>   
+> +static int igt_lmem_pages_failsafe_migrate(void *arg)
+> +{
+> +	int fail_gpu, fail_alloc, ret;
+> +
+> +	for (fail_gpu = 0; fail_gpu < 2; ++fail_gpu) {
+> +		for (fail_alloc = 0; fail_alloc < 2; ++fail_alloc) {
+> +			pr_info("Simulated failure modes: gpu: %d, alloc: %d\n",
+> +				fail_gpu, fail_alloc);
+> +			i915_ttm_migrate_set_failure_modes(fail_gpu,
+> +							   fail_alloc);
+> +			ret = igt_lmem_pages_migrate(arg);
+> +			if (ret)
+> +				goto out_err;
+> +		}
+> +	}
+> +
+> +out_err:
+> +	i915_ttm_migrate_set_failure_modes(false, false);
+> +	return ret;
+> +}
+> +
+>   int i915_gem_migrate_live_selftests(struct drm_i915_private *i915)
+>   {
+>   	static const struct i915_subtest tests[] = {
+>   		SUBTEST(igt_smem_create_migrate),
+>   		SUBTEST(igt_lmem_create_migrate),
+>   		SUBTEST(igt_same_create_migrate),
+> -		SUBTEST(igt_lmem_pages_migrate),
+> +		SUBTEST(igt_lmem_pages_failsafe_migrate),
+>   	};
+>   
+>   	if (!HAS_LMEM(i915))
 > 
