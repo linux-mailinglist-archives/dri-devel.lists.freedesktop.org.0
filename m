@@ -1,73 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F997443127
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Nov 2021 16:00:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 01A2C443135
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Nov 2021 16:03:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8DB7A72E8D;
-	Tue,  2 Nov 2021 15:00:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C56746E964;
+	Tue,  2 Nov 2021 15:03:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
- [66.111.4.221])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF35872E8D
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Nov 2021 15:00:19 +0000 (UTC)
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
+ [66.111.4.26])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 174046E964
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Nov 2021 15:03:35 +0000 (UTC)
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id 30734580741;
- Tue,  2 Nov 2021 11:00:19 -0400 (EDT)
+ by mailout.nyi.internal (Postfix) with ESMTP id 4D4095C011D;
+ Tue,  2 Nov 2021 11:03:34 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Tue, 02 Nov 2021 11:00:19 -0400
+ by compute4.internal (MEProxy); Tue, 02 Nov 2021 11:03:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=Vt11WgLzzV6Wz
- TMFHmRXrRPkf+2yFbTib92sNpd3u5E=; b=XcQ7FOklhoXYs9zhkQFfCaINYDVmC
- KgvbvTkIqphAkWNRORiwkXBW2/JFhN0lKta0y7AiUxKAF4qrXyZYCY4qeb+CG8MU
- u2zcoxcRAudSVfntbDn+SUwTsMLsHQQ2KcZYA1Nc71qbPW1lD299jTixat+9lwqP
- +Ul2gMuUZ/yKdZICydGrQ+OKlybF3VhIUgsOwEreAIO5IDOFTTtHL1jItEJYrjto
- s0Gtfja1NX6QkvvXoGbzLGAHOOAG7njrchSAj+d+bZUtegWMYtfIOVFOWsyOLlMK
- xQ8/RkCgCci48QHmBY7KhHLOXK4HuuBD7g0QI6jYsUfvM/3pfiD3NoOig==
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=GAofqbfPUokCWaAMbYDnlRK3LBS
+ NmSEwo1+DLnUZQPA=; b=icIDIil8mCAEUKdAFEM7bbBKJM4c3tow+C1rVnwW+ad
+ MUznoFGp9DBv7dGPibZgqbCm0Q0tey6/FvtxvGMTRKDKo83rf9G2yKhxNdlMfmt3
+ ok2BETvZfc6A/FXWa6HLmILlHq/2W0Ck38KgBOdvnRtyQqqCBsCdjlPMMDrLUlN7
+ TPUzShVSc2FtOhQABLAW/nG6CDrBSWD+zUDV7qS7QsKhJaLjtTsOky7z599t4nBN
+ tzOxG1hwiy8jQtszA5drBNszSvA9817qpmRN5zGc/F9WFvj7hPNm1Mja00T9Qmdx
+ PwF2Xw5SxETNMj8EsV57HNLhF+qICNKMGAt7pjXOjkA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=Vt11WgLzzV6WzTMFHmRXrRPkf+2yFbTib92sNpd3u5E=; b=fleHR3cj
- jVd1L9hcs3IirxueCpPBYHw0BbO9s1To9FHSn1GNnazfI/fMy9G93ymMEKpO8EUv
- UdHeRG1QTvCFPgNpXMgnX3QtoimsVt8Q3k+tq028F+BEQ3f8zYY16WzXjmZ/ZACh
- eE/wmOl+7spMBtdC5nEbJNZKd9UNOs+2bVCF1S2PGaxIhi8TzO1KE6Ui+yOtEAOy
- MNYnLyZM/HQ1D1wHEMp8aRAa5Wk3b6NRuRyMShAQIFWi318RDKb3ZAQJpNkAACr9
- geJa9GUS4GK9/d1+1N8XG2xonAutd1UQKKWcBnWWLov/iWSs1MFQ2vDjR430/I5n
- DX6wmL851ivlDA==
-X-ME-Sender: <xms:g1KBYf3wO0ukJZzL_0b281hnPmOqODQT08AwMogaf0GPEtTju8DjZw>
- <xme:g1KBYeEFO7qP3aHTtjGhTCr1h807qkGk5HXe0nxZecDHNX9U9qW-fxLBwJaOL62rx
- 5j5i0bcWjZtyyQI-E0>
-X-ME-Received: <xmr:g1KBYf7-NdNdX5xk1Z9KxymG37C7YzS0Ctc_6ieejSiKceUuVKWssyLlSDRiVeuNrIdQ77K1_OlaSkoVfnV4-BpeC5z2z0M05ZjHlzV7>
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=GAofqb
+ fPUokCWaAMbYDnlRK3LBSNmSEwo1+DLnUZQPA=; b=lS0scAA9GuTPiuitbEC3dS
+ qv4c6dADfSp8kKPWNRIHuE8oZuUWdIo6GylFAh7GPQ0zXHM35MDtWC8cyw6xfjOM
+ D5+yvuEOr4r+xowlLSaL23J92PnfZKpdj1TkHj7FM0wJXjlbpqCsykl0M3ii8rnP
+ OwIi08sSnJid0I0s4RAGF2pueZ517h5EQD+sMcxGjVxAZQwA3pdpPya5nXluxxNo
+ 4xxkCQ5fLaREA7RfKJkCC8eK13Qhxi5/nImYPMxSxUHyxlvmBjlf+0eBfQwX97rY
+ jZK0kMOquZ5OVO1hIGPffYkGO1dkiRR6VSHgUkwtySG+ZoFPtemUHHwf/xBowLeQ
+ ==
+X-ME-Sender: <xms:RVOBYRmSxDE-ppFBnVAdJDRlNJxZyhIzpbc0PtTGoSN66esEdoVQUA>
+ <xme:RVOBYc3G9nDsOLqxYI3OEf8TBTFfV-5GAbcP8eUPDMW1GAA09G4qlXrquj6wUM9-s
+ deqlsHjP9miNUFw5QU>
+X-ME-Received: <xmr:RVOBYXorC9Kx3w30qm1BHzP-3yQTScjn4t6Om5e2Gh6bJnGcGaLMSEquQLz9-BZ5vmw8zzrJQMsNRmkYyGiyJsyw7DpU5_J0MNGckOkS>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrtddtgdeghecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihimhgv
+ fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
  ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
- gvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveevheeh
- vdenucevlhhushhtvghrufhiiigvpeefnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
+ gvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheeiheeg
+ udenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
  igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:g1KBYU0yIQxvmBB7A0X5aQ0xYJYxWZb4AzbytcrgfUmIYpFYPxU3Zw>
- <xmx:g1KBYSFdk16QmIlb0P1hCroXv15wPiEzKk46gLC6zIOGZTkqhru2Dw>
- <xmx:g1KBYV_pvKMJ4rkzUKShAqbZmwE4NK2RizP8qdgeqBp49CL6PT_dlQ>
- <xmx:g1KBYVCAyx5INS8NF8ymnTB6eKS1Izw6sP3oppBEftFm1ounsBlc3A>
+X-ME-Proxy: <xmx:RVOBYRmLLJ0UnKsbu83sE6q-5mhZky_ifNG2WbNF6Tq_B2yC3uYQjQ>
+ <xmx:RVOBYf1zPxZ3-zxOvMDu9Kjba0RedM1WqL0QsHzFcevYYzJipDGWXQ>
+ <xmx:RVOBYQtNXE-2qsndLGoDB2gpXNWoMXPlKESxHpIKSaph6-DAHdk8bw>
+ <xmx:RlOBYUmeg4OiGeoV707zYscTun_wlHoz_frvERZjKemn3WECBXZduw>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 2 Nov 2021 11:00:18 -0400 (EDT)
+ 2 Nov 2021 11:03:32 -0400 (EDT)
+Date: Tue, 2 Nov 2021 16:03:31 +0100
 From: Maxime Ripard <maxime@cerno.tech>
-To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>
-Subject: [PATCH 13/13] drm/vc4: hdmi: Reset link on hotplug
-Date: Tue,  2 Nov 2021 15:59:44 +0100
-Message-Id: <20211102145944.259181-14-maxime@cerno.tech>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20211102145944.259181-1-maxime@cerno.tech>
-References: <20211102145944.259181-1-maxime@cerno.tech>
+To: He Ying <heying24@huawei.com>
+Subject: Re: [PATCH -V2] drm/sun4i: Grab reference of connector before return
+ connector from sun4i_tcon_get_connector
+Message-ID: <20211102150331.526nn2e6oqjbf6ur@gilmour>
+References: <33e01d45-c9f9-0e8c-6871-868ecd198368@huawei.com>
+ <20211102084628.149070-1-heying24@huawei.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="vw4qxeyln6gwbonp"
+Content-Disposition: inline
+In-Reply-To: <20211102084628.149070-1-heying24@huawei.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,57 +81,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- dri-devel@lists.freedesktop.org, Phil Elwell <phil@raspberrypi.com>
+Cc: airlied@linux.ie, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, wens@csie.org, jernej.skrabec@gmail.com,
+ linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Enabling the scrambling on reconnection seems to work so far but breaks
-the HDMI2.0 specification and has introduced some issues in the past
-with i915.
 
-Let's do a mode set on the connector instead to follow the
-specification.
+--vw4qxeyln6gwbonp
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
----
- drivers/gpu/drm/vc4/vc4_hdmi.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+Hi,
 
-diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index aa6700622797..a1f40548dd48 100644
---- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-+++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -175,9 +175,8 @@ static void vc4_hdmi_cec_update_clk_div(struct vc4_hdmi *vc4_hdmi)
- static void vc4_hdmi_cec_update_clk_div(struct vc4_hdmi *vc4_hdmi) {}
- #endif
- 
--static void vc4_hdmi_enable_scrambling(struct drm_encoder *encoder);
--
- static void vc4_hdmi_handle_hotplug(struct vc4_hdmi *vc4_hdmi,
-+				    struct drm_modeset_acquire_ctx *ctx,
- 				    enum drm_connector_status status)
- {
- 	struct drm_connector *connector = &vc4_hdmi->connector;
-@@ -198,7 +197,7 @@ static void vc4_hdmi_handle_hotplug(struct vc4_hdmi *vc4_hdmi,
- 	cec_s_phys_addr_from_edid(vc4_hdmi->cec_adap, edid);
- 	kfree(edid);
- 
--	vc4_hdmi_enable_scrambling(&vc4_hdmi->encoder.base.base);
-+	drm_atomic_helper_connector_hdmi_reset_link(connector, ctx);
- }
- 
- static int vc4_hdmi_connector_detect_ctx(struct drm_connector *connector,
-@@ -236,7 +235,7 @@ static int vc4_hdmi_connector_detect_ctx(struct drm_connector *connector,
- 			status = connector_status_connected;
- 	}
- 
--	vc4_hdmi_handle_hotplug(vc4_hdmi, status);
-+	vc4_hdmi_handle_hotplug(vc4_hdmi, ctx, status);
- 	pm_runtime_put(&vc4_hdmi->pdev->dev);
- 
- 	return status;
--- 
-2.32.0
+On Tue, Nov 02, 2021 at 04:46:28AM -0400, He Ying wrote:
+> From the comments of drm_for_each_connector_iter(), we know
+> that "connector is only valid within the list body, if you
+> want to use connector after calling drm_connector_list_iter_end()
+> then you need to grab your own reference first using
+> drm_connector_get()". So fix the wrong use of connector
+> according to the comments and then call drm_connector_put()
+> after using connector finishes.
+>=20
+> Signed-off-by: He Ying <heying24@huawei.com>
+> ---
+>=20
+> V2:
+>  Use proper subject prefix
+>=20
+>  drivers/gpu/drm/sun4i/sun4i_tcon.c | 18 +++++++++++++-----
+>  1 file changed, 13 insertions(+), 5 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.c b/drivers/gpu/drm/sun4i/s=
+un4i_tcon.c
+> index 9f06dec0fc61..24fa6784ee5f 100644
+> --- a/drivers/gpu/drm/sun4i/sun4i_tcon.c
+> +++ b/drivers/gpu/drm/sun4i/sun4i_tcon.c
+> @@ -47,12 +47,12 @@ static struct drm_connector *sun4i_tcon_get_connector=
+(const struct drm_encoder *
+>  	drm_connector_list_iter_begin(encoder->dev, &iter);
+>  	drm_for_each_connector_iter(connector, &iter)
+>  		if (connector->encoder =3D=3D encoder) {
+> -			drm_connector_list_iter_end(&iter);
+> -			return connector;
+> +			drm_connector_get(connector);
+> +			break;
+>  		}
+>  	drm_connector_list_iter_end(&iter);
+> =20
+> -	return NULL;
+> +	return connector;
 
+Connector might be uninitialized if we don't find one here
+
+>  }
+> =20
+>  static int sun4i_tcon_get_pixel_depth(const struct drm_encoder *encoder)
+> @@ -65,6 +65,7 @@ static int sun4i_tcon_get_pixel_depth(const struct drm_=
+encoder *encoder)
+>  		return -EINVAL;
+> =20
+>  	info =3D &connector->display_info;
+> +	drm_connector_put(connector);
+>  	if (info->num_bus_formats !=3D 1)
+
+We're still accessing connector->display_info here, but it might have been
+freed already.
+
+Maxime
+
+--vw4qxeyln6gwbonp
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYYFTQwAKCRDj7w1vZxhR
+xW5tAP4vLeRUB7hovZ/pzeMNYb3F27REbqDmaJ5hMt09+f8PEwD/cTbVT8+nLcMU
+bJyX2cCnGrXIgeAL3mxTmb8Efmeypg0=
+=d0nY
+-----END PGP SIGNATURE-----
+
+--vw4qxeyln6gwbonp--
