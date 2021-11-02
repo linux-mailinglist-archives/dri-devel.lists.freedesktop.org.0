@@ -2,38 +2,115 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08A9F44332F
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Nov 2021 17:39:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6782344330A
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Nov 2021 17:37:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0BEFD731E5;
-	Tue,  2 Nov 2021 16:39:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6BE8D731B9;
+	Tue,  2 Nov 2021 16:37:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A80D731E5;
- Tue,  2 Nov 2021 16:39:30 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10156"; a="231267893"
-X-IronPort-AV: E=Sophos;i="5.87,203,1631602800"; d="scan'208";a="231267893"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Nov 2021 09:34:38 -0700
-X-IronPort-AV: E=Sophos;i="5.87,203,1631602800"; d="scan'208";a="531614894"
-Received: from vanderss-mobl.ger.corp.intel.com (HELO
- thellstr-mobl1.intel.com) ([10.249.254.234])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Nov 2021 09:34:36 -0700
-From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 2/2] drm/i915/ttm: Failsafe migration blits
-Date: Tue,  2 Nov 2021 17:34:25 +0100
-Message-Id: <20211102163425.505732-3-thomas.hellstrom@linux.intel.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20211102163425.505732-1-thomas.hellstrom@linux.intel.com>
-References: <20211102163425.505732-1-thomas.hellstrom@linux.intel.com>
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam08on2066.outbound.protection.outlook.com [40.107.100.66])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 88C69731B7;
+ Tue,  2 Nov 2021 16:37:01 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=oLvaIjgYe4dhSI67yxYjQBVK6YK22UPYHEA6I8SuaZI5XIg0c9IS17kRK3EpwGxdaPCvRAX7+GykGqz3V4+xqYeylcgDbpWDjtnau5qnwPxKjWu0F/BpEkNj6eODe+MP56RXR4NQsmmkuCaRd2Vg2cx8HIFpueLbHDa0hSUDjJm/qKqrrRZyOe0u/We+9dOttMQcGzCgxkMG3Tt4NbkpaonGqvfbpknIkVlkjycF3ct/o4WRzYZ+fYJGzRAkEjATddZEvCVx6Frl5qEparWaRkiQCvroZLSPLFiNfP5BbsdTwMbrGL4/9Dv+mbcNtVEaK7GQA+TXdMCIqVLut1+HdQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Tf8Jhv1zDs8aaHpgyxt08mFpbdvgZwMVr0yHV8ae7GI=;
+ b=lofiXhu3ifgeZqeTQJtf/aYUy6Qx5jg78ldq8RICj0c3vsUwAsT7Xg9qhWXqLMVuv3BHoe7TdELD8ho0ej7pZUzfmspDRQbw0+ccxLONIaAQAKu5QswMT11qNQ2vGs4aMh5VZC1V/NpNFMUQwm+IbZcb+GLTxaZD40SnYptk30bNuz011Z+4xxqPJPB+r4dO5f8ECxxdaY/pgO8hFV7Muug/ibf/EP9+lQ+3ZQMDrEYWPXtqYMiTFaOXsX0Ul1u8V41QYvFuWRd9HVvxlYBffxOTImS028s+9Q4bphhAbcMS8XadsxARAP9xKJVhrdENJ45P4fTd+7scqNTcLHulxw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Tf8Jhv1zDs8aaHpgyxt08mFpbdvgZwMVr0yHV8ae7GI=;
+ b=Iqg3Ei0XF0vtws2bFQC80luHUtjpDvRwIWokSsdxam9cYvREoDjvgNjYADdG3WW8Ty6XYYuCQCSW+KQU0KpgmNtjmxsjOEDeJq18l993Ivz7BItCF2CDOgd7ENYiazEWCxWH3ho0rMP6VclKBmNRd+dgPeMLcrTs8GUznJE/p4ujo4qUjtVdjNaNKDuHQ0Y/zia8D6WW0e3ekjfP8ew2EHzYNeHaqLPlD1zvN+xUIHxV97GnTVR53WzmE0jmL+qRVXXbCW4dwoZZMtg8eyqJ6zGw+oyilz7jd8t4Pdsqoc6Qun6OdinMUkz79M+VDqJbxu0VceQKc3ne59tTEFNyEQ==
+Authentication-Results: lst.de; dkim=none (message not signed)
+ header.d=none;lst.de; dmarc=none action=none header.from=nvidia.com;
+Received: from BL0PR12MB5506.namprd12.prod.outlook.com (2603:10b6:208:1cb::22)
+ by BL1PR12MB5175.namprd12.prod.outlook.com (2603:10b6:208:318::8)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4649.14; Tue, 2 Nov
+ 2021 16:36:59 +0000
+Received: from BL0PR12MB5506.namprd12.prod.outlook.com
+ ([fe80::e8af:232:915e:2f95]) by BL0PR12MB5506.namprd12.prod.outlook.com
+ ([fe80::e8af:232:915e:2f95%8]) with mapi id 15.20.4649.020; Tue, 2 Nov 2021
+ 16:36:59 +0000
+Date: Tue, 2 Nov 2021 13:36:57 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH 27/29] drm/i915/gvt: remove kvmgt_guest_{init,exit}
+Message-ID: <20211102163657.GH2744544@nvidia.com>
+References: <20211102070601.155501-1-hch@lst.de>
+ <20211102070601.155501-28-hch@lst.de>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211102070601.155501-28-hch@lst.de>
+X-ClientProxiedBy: MN2PR10CA0028.namprd10.prod.outlook.com
+ (2603:10b6:208:120::41) To BL0PR12MB5506.namprd12.prod.outlook.com
+ (2603:10b6:208:1cb::22)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Received: from mlx.ziepe.ca (142.162.113.129) by
+ MN2PR10CA0028.namprd10.prod.outlook.com (2603:10b6:208:120::41) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4649.15 via Frontend
+ Transport; Tue, 2 Nov 2021 16:36:59 +0000
+Received: from jgg by mlx with local (Exim 4.94)	(envelope-from
+ <jgg@nvidia.com>)	id 1mhwmP-005Arh-T6; Tue, 02 Nov 2021 13:36:57 -0300
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 44c79e02-f53e-459f-089a-08d99e1efdb8
+X-MS-TrafficTypeDiagnostic: BL1PR12MB5175:
+X-Microsoft-Antispam-PRVS: <BL1PR12MB5175C08BC738481975FF630DC28B9@BL1PR12MB5175.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:260;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: zH/pD9GCt3rlKIcq/EdZZjElpRa/v46wTWRLNyO5liH+yhaIJHDA1w4Ue1lE1Jn+D6RuVTTjVuP72D/gcSr/uFgoM9g0uqFHi6MKs1dWwqZqZkfLp7uPRur5koRlpCf5CpXa5BscQ6BuF+S8iMtSm9MvHFqOK3CMrwX9Zgk6BOmP0UNKHXy3NloLxtXWXKThqkcO6nLj++d4SGjYQgHS0yX96B+vgthxjKqKfH9vRvAVAg1yt9mWfP6eIb/YRWpsdJKRXl3b+QvUZa2oGZXCNKv5XEeIjyGdasSRKKCrPkH4w0h4LhJbhry/hmUUTjFgcFl3SlJ5e+YCHGuxjx47Y/4bwTZdHUGaxuy9egHaGrVgGbA48q7jHnAUyZnk8URKs2RgyzyfZvWkcrFxrYrdM4n0QvpqdGs6QuMdR+FaPm5wN1RmB3p2tnLRDtug72Z3C/43n699180H8wk2GZltjpxve0WJTH1CCserKjXhZahx8/jjX+yPY/7PhW0RMXvTzWLY+jWMcLlmOgGnqpY+ODNuNzxhJIv6+wkPuc7j/b58eg77vBaw0Cyc4zksjJecT6AkQx51CyXSpuMWFLvYmQMg4vDjWkub+mxhs8f0CKL7xcKVYtfKUWMaI7wSMEmP8i30wSRzPhmkjdR1hxuFFA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BL0PR12MB5506.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(316002)(2616005)(26005)(38100700002)(66556008)(6916009)(66476007)(54906003)(8936002)(8676002)(83380400001)(66946007)(5660300002)(33656002)(1076003)(508600001)(426003)(9786002)(9746002)(4326008)(36756003)(4744005)(186003)(86362001)(7416002)(2906002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?2s6qJJjOP7FBTRcQG0o1Vj6d0O3rIon4lIvI6M4e47bzAnWKaq621fNewggB?=
+ =?us-ascii?Q?Abx6MnP5/GEnd9v7Vl4DbY/6FktxcxDBvoXBniRk9LvzMT1M9e0yWGNBUkCK?=
+ =?us-ascii?Q?hemP5Mhz3yJl9M3VkJSdIGea6Q5a8Y1eA4ESkxiWOF83OYcnDPCOFhDNGjnU?=
+ =?us-ascii?Q?6fpV3XV4BY82L6uP2QGq2AufFl60xOutAY1WlaiV1vUBM0vYAjnOcpURcWJq?=
+ =?us-ascii?Q?U9xQcgI1rNfTkwYW7EcBIaFF66GleWW9OReBmTcNhF92a+b6WJjvw0nn/apv?=
+ =?us-ascii?Q?xs5GYc57Do7fU1t8AXmGJSLjSf6h8QWiN+iPjzlJV2u4N7Q73z+omXHmCm1L?=
+ =?us-ascii?Q?ZE/Kx2Ba449t1OvsrNsSETZwZLUyXdATTdqAIvHNH7LTQfWb9KgEir18895u?=
+ =?us-ascii?Q?F0gXdthQKcQMoPa5A5RtB5RtpWuz6f4w2IhowAuU5NBJjehAiol6xhMlXmJG?=
+ =?us-ascii?Q?DX1mD7oCsgQzxc/2HnNFrRc7p7XChjaVfUkAJD4zRDhAJZMn8z13M899PHpX?=
+ =?us-ascii?Q?munUuzaMbd2hpwlDngsP+y2L3z8mTPW9VSr2HJPwV4pVRIJRqutnNLgdx/FZ?=
+ =?us-ascii?Q?ippZAQXKAiSW4Qt3Fwq5OKVD1vNX2m8ZmHo4qHt6BhGZKDLlfJrjLzMPLhhl?=
+ =?us-ascii?Q?RH0AnPxct8s1XZcP+TX/URZqUd1LSuZKUGNoIBIrsdWpjYq55Q/L0p5kOH4Z?=
+ =?us-ascii?Q?ice2C2+CloJg2CBHrUVXCjktwwzULgzhB9iu2/+Y3N6osOUm+eNrxrmTD5i6?=
+ =?us-ascii?Q?bdZ0qOK+cl5vtNeA7XMEGp9X5jL9sgaOlOwMlqjiL7dkJDSPsGtwYPMyVRlG?=
+ =?us-ascii?Q?C+8L+2PLCFBAxdudqz4X/QiEWmt5UT3VoEiFj6ixUgwDFe0AHvJfFBkJ1+1z?=
+ =?us-ascii?Q?7gO+sRzfKDyPRiMVoamOIzmyr7pChPskx75ic94KL/OXE7O3CPP8Xcp/KZPL?=
+ =?us-ascii?Q?/IVBSrrbLRc5dOi6FEYKUUgBkQO8B5Eh3qdCNH3obaUqHmhbcdtW0dkIAnDP?=
+ =?us-ascii?Q?YeRFGr0mTIpMHwC1TZXc0LqwiQE0xhrkIAcflVRKPr90jepXqOCNGs09dRuh?=
+ =?us-ascii?Q?O3NSK/LwvXKQBOdIGmNNIsSwhHze02ornHgQXmj4wEdOsep/jxJtl1Ncojp+?=
+ =?us-ascii?Q?GXv1dCPsZpZgCN1ybFRNlAg72JPuMd9jZUJ2HQP/zaAQ7GeEeBQsQ0atNmlg?=
+ =?us-ascii?Q?/bxrng7xVfci9zrpfKr/ISWRUKk7N7u+6Yq+sDDYXjDRwkSXR7VxPOaUwwUX?=
+ =?us-ascii?Q?odUXGaada0W3wbzVgJDdYK6FjflP7vI03FbMqqAE2L75i8OhiPyt4L9MBW5m?=
+ =?us-ascii?Q?chX04SimiTBpqZEjMLpVPPR+L8eYFywfvufJPYzXLMcNnv8oAvT7L71To1cy?=
+ =?us-ascii?Q?q6WYvJcAOHqEUW4zdBuMF3NdUohW+LBNaV+j0LsNnSVZ+yoJuAyVUgmEa89d?=
+ =?us-ascii?Q?KmEKkuR/mcqQEFZS44JkZ4C0oYEYA18t1kigBpEjvabxbsCseVeVMjt7P4m+?=
+ =?us-ascii?Q?ufmiTqj/w2I1ut9ru/qJCQRh4DZ72/rdqN9OwgEbqwVRD+kchP9wwl7NHFAz?=
+ =?us-ascii?Q?4uCADu0UH4OIKcTfSEA=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 44c79e02-f53e-459f-089a-08d99e1efdb8
+X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB5506.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Nov 2021 16:36:59.3993 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: h94dWPYsCLrLBHoJW0nt1V8Tk/WL1gnhu97oeDQ8bcnfdIHkTYvvoiyDgm9fo7uj
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5175
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,489 +123,20 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- matthew.auld@intel.com
+Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ intel-gvt-dev@lists.freedesktop.org, Zhi Wang <zhi.a.wang@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If the initial fill blit or copy blit of an object fails, the old
-content of the data might be exposed and read as soon as either CPU- or
-GPU PTEs are set up to point at the pages.
+On Tue, Nov 02, 2021 at 08:05:59AM +0100, Christoph Hellwig wrote:
+> Merge these into their only callers.
+> 
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> ---
+>  drivers/gpu/drm/i915/gvt/kvmgt.c | 129 ++++++++++++++-----------------
+>  1 file changed, 60 insertions(+), 69 deletions(-)
 
-Intercept the blit fence with an async callback that checks the
-blit fence for errors and if there are errors performs an async cpu blit
-instead. If there is a failure to allocate the async dma_fence_work,
-allocate it on the stack and sync wait for the blit to complete.
+Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
 
-Add selftests that simulate gpu blit failures and failure to allocate
-the async dma_fence_work.
-
-A previous version of this pach used dma_fence_work, now that's
-opencoded which adds more code but might lower the latency
-somewhat in the common non-error case.
-
-v3:
-- Style fixes (Matthew Auld)
-
-Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Reviewed-by: Matthew Auld <matthew.auld@intel.com>
----
- drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c  | 322 +++++++++++++++---
- drivers/gpu/drm/i915/gem/i915_gem_ttm_move.h  |   5 +
- .../drm/i915/gem/selftests/i915_gem_migrate.c |  24 +-
- 3 files changed, 295 insertions(+), 56 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
-index 0ed6b7f2b95f..b89672c547f8 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
-@@ -18,6 +18,29 @@
- #include "gt/intel_gt.h"
- #include "gt/intel_migrate.h"
- 
-+/**
-+ * DOC: Selftest failure modes for failsafe migration:
-+ *
-+ * For fail_gpu_migration, the gpu blit scheduled is always a clear blit
-+ * rather than a copy blit, and then we force the failure paths as if
-+ * the blit fence returned an error.
-+ *
-+ * For fail_work_allocation we fail the kmalloc of the async worker, we
-+ * sync the gpu blit. If it then fails, or fail_gpu_migration is set to
-+ * true, then a memcpy operation is performed sync.
-+ */
-+#ifdef CONFIG_DRM_I915_SELFTEST
-+static bool fail_gpu_migration;
-+static bool fail_work_allocation;
-+
-+void i915_ttm_migrate_set_failure_modes(bool gpu_migration,
-+					bool work_allocation)
-+{
-+	fail_gpu_migration = gpu_migration;
-+	fail_work_allocation = work_allocation;
-+}
-+#endif
-+
- static enum i915_cache_level
- i915_ttm_cache_level(struct drm_i915_private *i915, struct ttm_resource *res,
- 		     struct ttm_tt *ttm)
-@@ -129,11 +152,11 @@ int i915_ttm_move_notify(struct ttm_buffer_object *bo)
- 	return 0;
- }
- 
--static int i915_ttm_accel_move(struct ttm_buffer_object *bo,
--			       bool clear,
--			       struct ttm_resource *dst_mem,
--			       struct ttm_tt *dst_ttm,
--			       struct sg_table *dst_st)
-+static struct dma_fence *i915_ttm_accel_move(struct ttm_buffer_object *bo,
-+					     bool clear,
-+					     struct ttm_resource *dst_mem,
-+					     struct ttm_tt *dst_ttm,
-+					     struct sg_table *dst_st)
- {
- 	struct drm_i915_private *i915 = container_of(bo->bdev, typeof(*i915),
- 						     bdev);
-@@ -144,30 +167,29 @@ static int i915_ttm_accel_move(struct ttm_buffer_object *bo,
- 	int ret;
- 
- 	if (!i915->gt.migrate.context || intel_gt_is_wedged(&i915->gt))
--		return -EINVAL;
-+		return ERR_PTR(-EINVAL);
-+
-+	/* With fail_gpu_migration, we always perform a GPU clear. */
-+	if (I915_SELFTEST_ONLY(fail_gpu_migration))
-+		clear = true;
- 
- 	dst_level = i915_ttm_cache_level(i915, dst_mem, dst_ttm);
- 	if (clear) {
--		if (bo->type == ttm_bo_type_kernel)
--			return -EINVAL;
-+		if (bo->type == ttm_bo_type_kernel &&
-+		    !I915_SELFTEST_ONLY(fail_gpu_migration))
-+			return ERR_PTR(-EINVAL);
- 
- 		intel_engine_pm_get(i915->gt.migrate.context->engine);
- 		ret = intel_context_migrate_clear(i915->gt.migrate.context, NULL,
- 						  dst_st->sgl, dst_level,
- 						  i915_ttm_gtt_binds_lmem(dst_mem),
- 						  0, &rq);
--
--		if (!ret && rq) {
--			i915_request_wait(rq, 0, MAX_SCHEDULE_TIMEOUT);
--			i915_request_put(rq);
--		}
--		intel_engine_pm_put(i915->gt.migrate.context->engine);
- 	} else {
- 		struct i915_refct_sgt *src_rsgt =
- 			i915_ttm_resource_get_st(obj, bo->resource);
- 
- 		if (IS_ERR(src_rsgt))
--			return PTR_ERR(src_rsgt);
-+			return ERR_CAST(src_rsgt);
- 
- 		src_level = i915_ttm_cache_level(i915, bo->resource, src_ttm);
- 		intel_engine_pm_get(i915->gt.migrate.context->engine);
-@@ -178,15 +200,182 @@ static int i915_ttm_accel_move(struct ttm_buffer_object *bo,
- 						 dst_st->sgl, dst_level,
- 						 i915_ttm_gtt_binds_lmem(dst_mem),
- 						 &rq);
-+
- 		i915_refct_sgt_put(src_rsgt);
--		if (!ret && rq) {
--			i915_request_wait(rq, 0, MAX_SCHEDULE_TIMEOUT);
--			i915_request_put(rq);
--		}
--		intel_engine_pm_put(i915->gt.migrate.context->engine);
- 	}
- 
--	return ret;
-+	intel_engine_pm_put(i915->gt.migrate.context->engine);
-+
-+	if (ret && rq) {
-+		i915_request_wait(rq, 0, MAX_SCHEDULE_TIMEOUT);
-+		i915_request_put(rq);
-+	}
-+
-+	return ret ? ERR_PTR(ret) : &rq->fence;
-+}
-+
-+/**
-+ * struct i915_ttm_memcpy_arg - argument for the bo memcpy functionality.
-+ * @_dst_iter: Storage space for the destination kmap iterator.
-+ * @_src_iter: Storage space for the source kmap iterator.
-+ * @dst_iter: Pointer to the destination kmap iterator.
-+ * @src_iter: Pointer to the source kmap iterator.
-+ * @clear: Whether to clear instead of copy.
-+ * @src_rsgt: Refcounted scatter-gather list of source memory.
-+ * @dst_rsgt: Refcounted scatter-gather list of destination memory.
-+ */
-+struct i915_ttm_memcpy_arg {
-+	union {
-+		struct ttm_kmap_iter_tt tt;
-+		struct ttm_kmap_iter_iomap io;
-+	} _dst_iter,
-+	_src_iter;
-+	struct ttm_kmap_iter *dst_iter;
-+	struct ttm_kmap_iter *src_iter;
-+	unsigned long num_pages;
-+	bool clear;
-+	struct i915_refct_sgt *src_rsgt;
-+	struct i915_refct_sgt *dst_rsgt;
-+};
-+
-+/**
-+ * struct i915_ttm_memcpy_work - Async memcpy worker under a dma-fence.
-+ * @fence: The dma-fence.
-+ * @work: The work struct use for the memcpy work.
-+ * @lock: The fence lock. Not used to protect anything else ATM.
-+ * @irq_work: Low latency worker to signal the fence since it can't be done
-+ * from the callback for lockdep reasons.
-+ * @cb: Callback for the accelerated migration fence.
-+ * @arg: The argument for the memcpy functionality.
-+ */
-+struct i915_ttm_memcpy_work {
-+	struct dma_fence fence;
-+	struct work_struct work;
-+	/* The fence lock */
-+	spinlock_t lock;
-+	struct irq_work irq_work;
-+	struct dma_fence_cb cb;
-+	struct i915_ttm_memcpy_arg arg;
-+};
-+
-+static void i915_ttm_move_memcpy(struct i915_ttm_memcpy_arg *arg)
-+{
-+	ttm_move_memcpy(arg->clear, arg->num_pages,
-+			arg->dst_iter, arg->src_iter);
-+}
-+
-+static void i915_ttm_memcpy_init(struct i915_ttm_memcpy_arg *arg,
-+				 struct ttm_buffer_object *bo, bool clear,
-+				 struct ttm_resource *dst_mem,
-+				 struct ttm_tt *dst_ttm,
-+				 struct i915_refct_sgt *dst_rsgt)
-+{
-+	struct drm_i915_gem_object *obj = i915_ttm_to_gem(bo);
-+	struct intel_memory_region *dst_reg, *src_reg;
-+
-+	dst_reg = i915_ttm_region(bo->bdev, dst_mem->mem_type);
-+	src_reg = i915_ttm_region(bo->bdev, bo->resource->mem_type);
-+	GEM_BUG_ON(!dst_reg || !src_reg);
-+
-+	arg->dst_iter = !i915_ttm_cpu_maps_iomem(dst_mem) ?
-+		ttm_kmap_iter_tt_init(&arg->_dst_iter.tt, dst_ttm) :
-+		ttm_kmap_iter_iomap_init(&arg->_dst_iter.io, &dst_reg->iomap,
-+					 &dst_rsgt->table, dst_reg->region.start);
-+
-+	arg->src_iter = !i915_ttm_cpu_maps_iomem(bo->resource) ?
-+		ttm_kmap_iter_tt_init(&arg->_src_iter.tt, bo->ttm) :
-+		ttm_kmap_iter_iomap_init(&arg->_src_iter.io, &src_reg->iomap,
-+					 &obj->ttm.cached_io_rsgt->table,
-+					 src_reg->region.start);
-+	arg->clear = clear;
-+	arg->num_pages = bo->base.size >> PAGE_SHIFT;
-+
-+	arg->dst_rsgt = i915_refct_sgt_get(dst_rsgt);
-+	arg->src_rsgt = clear ? NULL :
-+		i915_ttm_resource_get_st(obj, bo->resource);
-+}
-+
-+static void i915_ttm_memcpy_release(struct i915_ttm_memcpy_arg *arg)
-+{
-+	i915_refct_sgt_put(arg->src_rsgt);
-+	i915_refct_sgt_put(arg->dst_rsgt);
-+}
-+
-+static void __memcpy_work(struct work_struct *work)
-+{
-+	struct i915_ttm_memcpy_work *copy_work =
-+		container_of(work, typeof(*copy_work), work);
-+	struct i915_ttm_memcpy_arg *arg = &copy_work->arg;
-+	bool cookie = dma_fence_begin_signalling();
-+
-+	i915_ttm_move_memcpy(arg);
-+	dma_fence_end_signalling(cookie);
-+
-+	dma_fence_signal(&copy_work->fence);
-+
-+	i915_ttm_memcpy_release(arg);
-+	dma_fence_put(&copy_work->fence);
-+}
-+
-+static void __memcpy_irq_work(struct irq_work *irq_work)
-+{
-+	struct i915_ttm_memcpy_work *copy_work =
-+		container_of(irq_work, typeof(*copy_work), irq_work);
-+	struct i915_ttm_memcpy_arg *arg = &copy_work->arg;
-+
-+	dma_fence_signal(&copy_work->fence);
-+	i915_ttm_memcpy_release(arg);
-+	dma_fence_put(&copy_work->fence);
-+}
-+
-+static void __memcpy_cb(struct dma_fence *fence, struct dma_fence_cb *cb)
-+{
-+	struct i915_ttm_memcpy_work *copy_work =
-+		container_of(cb, typeof(*copy_work), cb);
-+
-+	if (unlikely(fence->error || I915_SELFTEST_ONLY(fail_gpu_migration))) {
-+		INIT_WORK(&copy_work->work, __memcpy_work);
-+		queue_work(system_unbound_wq, &copy_work->work);
-+	} else {
-+		init_irq_work(&copy_work->irq_work, __memcpy_irq_work);
-+		irq_work_queue(&copy_work->irq_work);
-+	}
-+}
-+
-+static const char *get_driver_name(struct dma_fence *fence)
-+{
-+	return "i915_ttm_memcpy_work";
-+}
-+
-+static const char *get_timeline_name(struct dma_fence *fence)
-+{
-+	return "unbound";
-+}
-+
-+static const struct dma_fence_ops dma_fence_memcpy_ops = {
-+	.get_driver_name = get_driver_name,
-+	.get_timeline_name = get_timeline_name,
-+};
-+
-+static struct dma_fence *
-+i915_ttm_memcpy_work_arm(struct i915_ttm_memcpy_work *work,
-+			 struct dma_fence *dep)
-+{
-+	int ret;
-+
-+	spin_lock_init(&work->lock);
-+	dma_fence_init(&work->fence, &dma_fence_memcpy_ops, &work->lock, 0, 0);
-+	dma_fence_get(&work->fence);
-+	ret = dma_fence_add_callback(dep, &work->cb, __memcpy_cb);
-+	if (ret) {
-+		if (ret != -ENOENT)
-+			dma_fence_wait(dep, false);
-+
-+		ret = I915_SELFTEST_ONLY(fail_gpu_migration) ? -EINVAL :
-+			dep->error;
-+	}
-+
-+	return ret ? ERR_PTR(ret) : &work->fence;
- }
- 
- /**
-@@ -199,42 +388,65 @@ static int i915_ttm_accel_move(struct ttm_buffer_object *bo,
-  * @allow_accel: Whether to allow acceleration.
-  */
- void __i915_ttm_move(struct ttm_buffer_object *bo, bool clear,
--		     struct ttm_resource *dst_mem,
--		     struct ttm_tt *dst_ttm,
--		     struct i915_refct_sgt *dst_rsgt,
--		     bool allow_accel)
-+		     struct ttm_resource *dst_mem, struct ttm_tt *dst_ttm,
-+		     struct i915_refct_sgt *dst_rsgt, bool allow_accel)
- {
--	int ret = -EINVAL;
-+	struct i915_ttm_memcpy_work *copy_work = NULL;
-+	struct i915_ttm_memcpy_arg _arg, *arg = &_arg;
-+	struct dma_fence *fence = ERR_PTR(-EINVAL);
-+
-+	if (allow_accel) {
-+		fence = i915_ttm_accel_move(bo, clear, dst_mem, dst_ttm,
-+					    &dst_rsgt->table);
-+
-+		/*
-+		 * We only need to intercept the error when moving to lmem.
-+		 * When moving to system, TTM or shmem will provide us with
-+		 * cleared pages.
-+		 */
-+		if (!IS_ERR(fence) && !i915_ttm_gtt_binds_lmem(dst_mem) &&
-+		    !I915_SELFTEST_ONLY(fail_gpu_migration ||
-+					fail_work_allocation))
-+			goto out;
-+	}
- 
--	if (allow_accel)
--		ret = i915_ttm_accel_move(bo, clear, dst_mem, dst_ttm,
--					  &dst_rsgt->table);
--	if (ret) {
--		struct drm_i915_gem_object *obj = i915_ttm_to_gem(bo);
--		struct intel_memory_region *dst_reg, *src_reg;
--		union {
--			struct ttm_kmap_iter_tt tt;
--			struct ttm_kmap_iter_iomap io;
--		} _dst_iter, _src_iter;
--		struct ttm_kmap_iter *dst_iter, *src_iter;
--
--		dst_reg = i915_ttm_region(bo->bdev, dst_mem->mem_type);
--		src_reg = i915_ttm_region(bo->bdev, bo->resource->mem_type);
--		GEM_BUG_ON(!dst_reg || !src_reg);
--
--		dst_iter = !i915_ttm_cpu_maps_iomem(dst_mem) ?
--			ttm_kmap_iter_tt_init(&_dst_iter.tt, dst_ttm) :
--			ttm_kmap_iter_iomap_init(&_dst_iter.io, &dst_reg->iomap,
--						 &dst_rsgt->table,
--						 dst_reg->region.start);
--
--		src_iter = !i915_ttm_cpu_maps_iomem(bo->resource) ?
--			ttm_kmap_iter_tt_init(&_src_iter.tt, bo->ttm) :
--			ttm_kmap_iter_iomap_init(&_src_iter.io, &src_reg->iomap,
--						 &obj->ttm.cached_io_rsgt->table,
--						 src_reg->region.start);
--
--		ttm_move_memcpy(clear, dst_mem->num_pages, dst_iter, src_iter);
-+	/* If we've scheduled gpu migration. Try to arm error intercept. */
-+	if (!IS_ERR(fence)) {
-+		struct dma_fence *dep = fence;
-+
-+		if (!I915_SELFTEST_ONLY(fail_work_allocation))
-+			copy_work = kzalloc(sizeof(*copy_work), GFP_KERNEL);
-+
-+		if (copy_work) {
-+			arg = &copy_work->arg;
-+			i915_ttm_memcpy_init(arg, bo, clear, dst_mem, dst_ttm,
-+					     dst_rsgt);
-+			fence = i915_ttm_memcpy_work_arm(copy_work, dep);
-+		} else {
-+			dma_fence_wait(dep, false);
-+			fence = ERR_PTR(I915_SELFTEST_ONLY(fail_gpu_migration) ?
-+					-EINVAL : fence->error);
-+		}
-+		dma_fence_put(dep);
-+
-+		if (!IS_ERR(fence))
-+			goto out;
-+	}
-+
-+	/* Error intercept failed or no accelerated migration to start with */
-+	if (!copy_work)
-+		i915_ttm_memcpy_init(arg, bo, clear, dst_mem, dst_ttm,
-+				     dst_rsgt);
-+	i915_ttm_move_memcpy(arg);
-+	i915_ttm_memcpy_release(arg);
-+	kfree(copy_work);
-+
-+	return;
-+out:
-+	/* Sync here for now, forward the fence to caller when fully async. */
-+	if (fence) {
-+		dma_fence_wait(fence, false);
-+		dma_fence_put(fence);
- 	}
- }
- 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.h b/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.h
-index 68294b16e5c2..75b87e752af2 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.h
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.h
-@@ -7,6 +7,8 @@
- 
- #include <linux/types.h>
- 
-+#include "i915_selftest.h"
-+
- struct ttm_buffer_object;
- struct ttm_operation_ctx;
- struct ttm_place;
-@@ -18,6 +20,9 @@ struct i915_refct_sgt;
- 
- int i915_ttm_move_notify(struct ttm_buffer_object *bo);
- 
-+I915_SELFTEST_DECLARE(void i915_ttm_migrate_set_failure_modes(bool gpu_migration,
-+							      bool work_allocation));
-+
- /* Internal I915 TTM declarations and definitions below. */
- 
- void __i915_ttm_move(struct ttm_buffer_object *bo, bool clear,
-diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_migrate.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_migrate.c
-index 28a700f08b49..4b8e6b098659 100644
---- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_migrate.c
-+++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_migrate.c
-@@ -4,6 +4,7 @@
-  */
- 
- #include "gt/intel_migrate.h"
-+#include "gem/i915_gem_ttm_move.h"
- 
- static int igt_fill_check_buffer(struct drm_i915_gem_object *obj,
- 				 bool fill)
-@@ -227,13 +228,34 @@ static int igt_lmem_pages_migrate(void *arg)
- 	return err;
- }
- 
-+static int igt_lmem_pages_failsafe_migrate(void *arg)
-+{
-+	int fail_gpu, fail_alloc, ret;
-+
-+	for (fail_gpu = 0; fail_gpu < 2; ++fail_gpu) {
-+		for (fail_alloc = 0; fail_alloc < 2; ++fail_alloc) {
-+			pr_info("Simulated failure modes: gpu: %d, alloc: %d\n",
-+				fail_gpu, fail_alloc);
-+			i915_ttm_migrate_set_failure_modes(fail_gpu,
-+							   fail_alloc);
-+			ret = igt_lmem_pages_migrate(arg);
-+			if (ret)
-+				goto out_err;
-+		}
-+	}
-+
-+out_err:
-+	i915_ttm_migrate_set_failure_modes(false, false);
-+	return ret;
-+}
-+
- int i915_gem_migrate_live_selftests(struct drm_i915_private *i915)
- {
- 	static const struct i915_subtest tests[] = {
- 		SUBTEST(igt_smem_create_migrate),
- 		SUBTEST(igt_lmem_create_migrate),
- 		SUBTEST(igt_same_create_migrate),
--		SUBTEST(igt_lmem_pages_migrate),
-+		SUBTEST(igt_lmem_pages_failsafe_migrate),
- 	};
- 
- 	if (!HAS_LMEM(i915))
--- 
-2.31.1
-
+Jason
