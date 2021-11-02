@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D015443641
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Nov 2021 20:06:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 644AD443759
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Nov 2021 21:30:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA48A73796;
-	Tue,  2 Nov 2021 19:06:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C99D06E0D7;
+	Tue,  2 Nov 2021 20:30:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 625B473796
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Nov 2021 19:06:04 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 3D54360E78
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Nov 2021 19:06:04 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B14A96E0D7
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Nov 2021 20:30:40 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 8AED761058
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Nov 2021 20:30:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1635879964;
- bh=UcCuAM9W/F1I0YGFuqICnodM+zCJ23G+AgoVfM8iOsw=;
+ s=k20201202; t=1635885040;
+ bh=TRFraQlruEi229RJuTqMBNgLCKw6764SVPT+I8/N0hc=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=rjhU2bF6ZOyPTHDKux7WYyrFZAA5SetNEN0TVVf+jg6YdCPYiEdRy5GBuB9xDX/aQ
- 6JR2Q1MAan8t7hL2xrd3UEis3OrNwQK6VaTyOxDwgEKcJXV8TiHmVGND5VI1DzNq0+
- 4O/AvpN+JkjPMJ4PPIkdKub41OudyY+rLOoa5AWPG0zryBlwvHCBt0+Wv+aPC0C7aK
- 3Ag2YnxErcPUJ9gOJht8MFsJfWBrx735CNWEqx0RnKODOEnVYV41Csric56BhEE3rY
- 86NPsmvFJDCxZQsFeaffaVT/udljZAYC422YsyR+CzoXePGsw1klzAdx46Q/BtWQPJ
- w6YBMmO/+9U3w==
+ b=uTO9eRldeC6azBjmsX9Nq11LIm0xRLhdrsPNia73SxMCJE3X7OhdJH84hQotyJEbM
+ rbE1Lmbvkj2FP/3rzVP4vTZEwVsyrm2ucBWeTQfZvYtf9gtmmm5a+FBnfSuxqvueQb
+ H+clb7CKrkkoWkYK7idU/8AnZh+CRoZTIqEsQnYjDt2vGwrpxxbBw4f8sRIu8uwDND
+ 9+cyYGGkQARU/CyDApVB7ee5LIPbqX7lLWZ5D8QpHwIg64tvGgfnoqrHT8iEdQZZrL
+ mYWSsiclctLsdDdZSLwXhyg5khhwyOaT13CnQKF6sIMTuckzkxDuiLf8HykKlmyVfu
+ Nq7sMNsAP0Ujg==
 Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 33FBA60FC1; Tue,  2 Nov 2021 19:06:04 +0000 (UTC)
+ id 81FB460FF3; Tue,  2 Nov 2021 20:30:40 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 214901] amdgpu freezes HP laptop at start up
-Date: Tue, 02 Nov 2021 19:06:04 +0000
+Subject: [Bug 214859] drm-amdgpu-init-iommu~fd-device-init.patch introduce bug
+Date: Tue, 02 Nov 2021 20:30:40 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -38,16 +38,16 @@ X-Bugzilla-Component: Video(DRI - non Intel)
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: spasswolf@web.de
+X-Bugzilla-Who: alexdeucher@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cf_regression
-Message-ID: <bug-214901-2300-UCUEPbx052@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-214901-2300@https.bugzilla.kernel.org/>
-References: <bug-214901-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-214859-2300-LtBkDckEcJ@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-214859-2300@https.bugzilla.kernel.org/>
+References: <bug-214859-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -68,13 +68,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D214901
+https://bugzilla.kernel.org/show_bug.cgi?id=3D214859
 
-spasswolf@web.de changed:
+Alex Deucher (alexdeucher@gmail.com) changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-         Regression|No                          |Yes
+                 CC|                            |alexdeucher@gmail.com
+
+--- Comment #4 from Alex Deucher (alexdeucher@gmail.com) ---
+I think this patch set should address the issue:
+https://patchwork.freedesktop.org/series/96508/
 
 --=20
 You may reply to this email to add a comment.
