@@ -2,54 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9ACC34437A8
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Nov 2021 22:11:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 732574437A3
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Nov 2021 22:09:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B8E0A737FB;
-	Tue,  2 Nov 2021 21:11:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 45351737F6;
+	Tue,  2 Nov 2021 21:09:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd30.google.com (mail-io1-xd30.google.com
- [IPv6:2607:f8b0:4864:20::d30])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A64DB73257
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Nov 2021 16:44:06 +0000 (UTC)
-Received: by mail-io1-xd30.google.com with SMTP id b203so11029188iof.1
- for <dri-devel@lists.freedesktop.org>; Tue, 02 Nov 2021 09:44:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=v5nqr+mWoDX34ke8EKRh8PdpLENqg9zfxxbknlMQDYA=;
- b=Czz4O/XS6eGt5Fh/4nalt1WGoKGMOAZslHRa3XF82IZZSGhK06tLDzeN1MuJffUIAC
- 8FyDvSsrxSOCzhH4A406M4HEBP0R6IpdAYOdYJw2JqFyUyMi37Gm+dLXMx2plb1xLgto
- YG5hPtP/yvw5FDAIsXp+QSK5kiqgBUzD0mDY1NRIL/pq1XVbXi6IJJq2Wb1pWYYunVAa
- 7C+rWUZ1blrSZjGvfTFGo/vgi2wSBw8BT+DOEcbHyqsPN/ntm8EeaNIz0yErWzsPAF8e
- CxttCsVYk0wy2gN+bfXfbEyrv8LGyV+8Wa/laBUoIRJM043g3NrYEHRqmmBryt1Qm/59
- BkNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=v5nqr+mWoDX34ke8EKRh8PdpLENqg9zfxxbknlMQDYA=;
- b=kkbCAGAQl4W4xvZofcERpwy75g4LbpRA8LgIKiSw3clscGkkRShvn5WCaAT1towOE0
- cvLgfV57ikM68IbYNbpVh4nyXpE8FdPEBJOG6rM55sTvZSJOyLGdNQUsnTL17Z3uy2B8
- 86fl2TkoLV9G45JpqeRQijYmiwWMZ9bb991Orc72lQxuTo+xx3/Y0pdScK2L+mMF/i5d
- sRz27w1ofocksTuXhXhUZFXOV+6FVcvFLWlFhyJTwesi4H3UfMZi/fkAkTIZIQ44vM5g
- 7BtxN4LNAFPXSdFe2+3h8+QzMJigBsXfmxfUY/CEQPHMJTZWPtxAhYfXEEcW3sENcrsr
- cv8A==
-X-Gm-Message-State: AOAM533S8yt/KYCntkXVpfIbnIRlPEFr5kiBBiXq4bC95NmLunngNKjO
- gIYuTnouyoA9kN4Oi9LHzx1caGBoSyV2f8E87qC3oQ==
-X-Google-Smtp-Source: ABdhPJzzeIXbjfmNNwKaelc2pOfntRsmA33q9yNvrZMlcFE6zKsd9eird7nfZLnnaV4jzS1SAP3310mDWESAt8qAMAM=
-X-Received: by 2002:a5e:8701:: with SMTP id y1mr22186457ioj.192.1635871445801; 
- Tue, 02 Nov 2021 09:44:05 -0700 (PDT)
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 70740737F6;
+ Tue,  2 Nov 2021 21:08:59 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10156"; a="218276994"
+X-IronPort-AV: E=Sophos;i="5.87,203,1631602800"; d="scan'208";a="218276994"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Nov 2021 14:08:58 -0700
+X-IronPort-AV: E=Sophos;i="5.87,203,1631602800"; d="scan'208";a="500757180"
+Received: from lvillalo-mobl1.amr.corp.intel.com (HELO intel.com)
+ ([10.249.32.130])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Nov 2021 14:08:57 -0700
+Date: Tue, 2 Nov 2021 22:08:54 +0100
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Subject: Re: [Intel-gfx] [PATCH v3 05/10] drm/i915: Prepare for multiple gts
+Message-ID: <YYGo5tfOevjL2UaV@intel.intel>
+References: <20211029032817.3747750-1-matthew.d.roper@intel.com>
+ <20211029032817.3747750-6-matthew.d.roper@intel.com>
+ <YYB0BdEcDqt2IUXi@intel.intel>
+ <a1a70e75-2068-fa69-e307-456d031b25b1@linux.intel.com>
+ <YYEgXz+hq8aBhmUJ@intel.intel>
+ <8c2ec510-4e86-97f1-f0a9-872a2168455d@linux.intel.com>
 MIME-Version: 1.0
-References: <20211029094510.2411-1-yunfei.dong@mediatek.com>
-In-Reply-To: <20211029094510.2411-1-yunfei.dong@mediatek.com>
-From: Steve Cho <stevecho@google.com>
-Date: Tue, 2 Nov 2021 09:43:29 -0700
-Message-ID: <CAN0yncGtLC0D_MeNxu7nKBoixquwv+OKvrmo+izqLRWxiGWFJQ@mail.gmail.com>
-Subject: Re: [PATCH v1] media: mtk-vcodec: Align width and height to 64
-To: Yunfei Dong <yunfei.dong@mediatek.com>
-Content-Type: multipart/alternative; boundary="0000000000006d452a05cfd100a1"
-X-Mailman-Approved-At: Tue, 02 Nov 2021 21:11:30 +0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8c2ec510-4e86-97f1-f0a9-872a2168455d@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,136 +49,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
- Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Irui Wang <irui.wang@mediatek.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- Fritz Koenig <frkoenig@chromium.org>, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, Tzung-Bi Shih <tzungbi@chromium.org>,
- Tomasz Figa <tfiga@google.com>, Rob Herring <robh+dt@kernel.org>,
- linux-mediatek@lists.infradead.org, Hsin-Yi Wang <hsinyi@chromium.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Tiffany Lin <tiffany.lin@mediatek.com>, linux-arm-kernel@lists.infradead.org,
- Alexandre Courbot <acourbot@chromium.org>, srv_heupstream@mediatek.com,
- linux-kernel@vger.kernel.org, Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Andi Shyti <andi.shyti@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---0000000000006d452a05cfd100a1
-Content-Type: text/plain; charset="UTF-8"
+Hi Tvrtko,
 
-Thank you Yunfei for following up with this change.
+> > > > [...]
+> > > > 
+> > > > >    static int
+> > > > >    intel_gt_tile_setup(struct intel_gt *gt, unsigned int id, phys_addr_t phys_addr)
+> > > > 
+> > > > we don't actually need 'id', it's gt->info.id. It's introduced in
+> > > > patch 3 with the value '0' but it's not needed.
+> > > 
+> > > I have a suspicion code got munged up over endless rebases and refactors.
+> > > 
+> > > This patch is the one which introduces the id member to gt->info. But it is not setting it, even though I suspect the intent was for intel_gt_tile_setup to do that.
+> > > 
+> > > Instead gt->info.id is only set to a valid value in last patch of this series inside intel_gt_probe_all:
+> > > 
+> > > +		gt->i915 = i915;
+> > > +		gt->name = gtdef->name;
+> > > +		gt->type = gtdef->type;
+> > > +		gt->info.engine_mask = gtdef->engine_mask;
+> > > +		gt->info.id = i;
+> > > +
+> > > +		drm_dbg(&i915->drm, "Setting up %s %u\n", gt->name, gt->info.id);
+> > > +		ret = intel_gt_tile_setup(gt, i, phys_addr + gtdef->mapping_base);
+> > > 
+> > > And intel_gt_tile_setup then calls __intel_gt_init_early which assigns gt->i915 yet again.
+> > > 
+> > > So I'd say there is probably space to bring this all into a more streamlined flow, even more than what you suggest below.
+> > 
+> > yes, I noticed them!
+> > 
+> > Patch 3, 5 and 10 are very much connected with each other: 3
+> > prepares for one tile, 5 prepares for multitile and 10 does the
+> > multitile. While in between other patches are doing other things.
+> > 
+> > On top of some cleanups we could also rearrange the patches with
+> > some squashing and reordering to have them a bit more linear and
+> > also easier to review.
+> 
+> Yes. Maybe make intel_gt_tile_setup accept more arguments so it can be truly
+> used to setup a gt?
+> 
+>   intel_gt_tile_setup(gt, id, name, type, engine_mask)
+> 
+> The usual thing where patch which adds something extends the prototype to
+> include more stuff. If that applies here.
+> 
+> I know it is originally my patch but I don't have the time to rework it,
+> much less the whole series, so usual dispensation to take over authorship if
+> changes are large applies.
 
-This change is the last missing piece to enable VD on Kukui with Chromium.
-This patch fixed the corruption we were seeing on Kukui with certain tests.
+as no one is stepping forward, if you and Matt are OK, I can try
+to venture in some refactoring of these three patches (3, 5 and
+10).
 
-One comment from me is just to use defined macro or variable instead of
-hard coding 64.
-
-"User get width and height are 64 align when set format."
-
-This sentence might need to be reworded. It is not clear to me.
-
-Maybe something like "Width and height need to be 64 bytes aligned when
-setting the format."
-
-Thanks,
-Steve
-
-On Fri, Oct 29, 2021 at 2:45 AM Yunfei Dong <yunfei.dong@mediatek.com>
-wrote:
-
-> User get width and height are 64 align when set format. Need to make
-> sure all is 64 align when use width and height to calculate buffer size.
->
-> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
-> ---
->  drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_if.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_if.c
-> b/drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_if.c
-> index 946c23088308..28c17204f9a1 100644
-> --- a/drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_if.c
-> +++ b/drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_if.c
-> @@ -562,8 +562,8 @@ static void get_pic_info(struct vdec_h264_slice_inst
-> *inst,
->  {
->         struct mtk_vcodec_ctx *ctx = inst->ctx;
->
-> -       ctx->picinfo.buf_w = (ctx->picinfo.pic_w + 15) & 0xFFFFFFF0;
-> -       ctx->picinfo.buf_h = (ctx->picinfo.pic_h + 31) & 0xFFFFFFE0;
-> +       ctx->picinfo.buf_w = ALIGN(ctx->picinfo.pic_w, 64);
-> +       ctx->picinfo.buf_h = ALIGN(ctx->picinfo.pic_h, 64);
->         ctx->picinfo.fb_sz[0] = ctx->picinfo.buf_w * ctx->picinfo.buf_h;
->         ctx->picinfo.fb_sz[1] = ctx->picinfo.fb_sz[0] >> 1;
->         inst->vsi_ctx.dec.cap_num_planes =
-> --
-> 2.25.1
->
->
-
---0000000000006d452a05cfd100a1
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Thank you Yunfei for following up with this change.=C2=A0<=
-div><br></div><div>This change is the last missing piece to enable VD on Ku=
-kui with Chromium.=C2=A0</div><div>This patch fixed the corruption=C2=A0we =
-were seeing on Kukui with=C2=A0certain tests.</div><div><br></div><div>One =
-comment from me is just to use defined macro or variable instead of hard co=
-ding 64.=C2=A0</div><div><br></div><div>&quot;User get width and height are=
- 64 align when set format.&quot;<br></div><div><br></div><div>This sentence=
- might need to be reworded. It is not clear to me.=C2=A0</div><div><br></di=
-v><div>Maybe something like &quot;Width and height need to be 64 bytes alig=
-ned when setting the format.&quot;<br></div><div><br clear=3D"all"><div><di=
-v dir=3D"ltr" class=3D"gmail_signature" data-smartmail=3D"gmail_signature">=
-<div dir=3D"ltr">Thanks,<div>Steve</div></div></div></div></div></div><br><=
-div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Oct=
- 29, 2021 at 2:45 AM Yunfei Dong &lt;<a href=3D"mailto:yunfei.dong@mediatek=
-.com">yunfei.dong@mediatek.com</a>&gt; wrote:<br></div><blockquote class=3D=
-"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(2=
-04,204,204);padding-left:1ex">User get width and height are 64 align when s=
-et format. Need to make<br>
-sure all is 64 align when use width and height to calculate buffer size.<br=
->
-<br>
-Signed-off-by: Yunfei Dong &lt;<a href=3D"mailto:yunfei.dong@mediatek.com" =
-target=3D"_blank">yunfei.dong@mediatek.com</a>&gt;<br>
----<br>
-=C2=A0drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_if.c | 4 ++--<br=
->
-=C2=A01 file changed, 2 insertions(+), 2 deletions(-)<br>
-<br>
-diff --git a/drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_if.c b/dr=
-ivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_if.c<br>
-index 946c23088308..28c17204f9a1 100644<br>
---- a/drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_if.c<br>
-+++ b/drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_if.c<br>
-@@ -562,8 +562,8 @@ static void get_pic_info(struct vdec_h264_slice_inst *i=
-nst,<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct mtk_vcodec_ctx *ctx =3D inst-&gt;ctx;<br=
->
-<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0ctx-&gt;picinfo.buf_w =3D (ctx-&gt;picinfo.pic_=
-w + 15) &amp; 0xFFFFFFF0;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0ctx-&gt;picinfo.buf_h =3D (ctx-&gt;picinfo.pic_=
-h + 31) &amp; 0xFFFFFFE0;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0ctx-&gt;picinfo.buf_w =3D ALIGN(ctx-&gt;picinfo=
-.pic_w, 64);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0ctx-&gt;picinfo.buf_h =3D ALIGN(ctx-&gt;picinfo=
-.pic_h, 64);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 ctx-&gt;picinfo.fb_sz[0] =3D ctx-&gt;picinfo.bu=
-f_w * ctx-&gt;picinfo.buf_h;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 ctx-&gt;picinfo.fb_sz[1] =3D ctx-&gt;picinfo.fb=
-_sz[0] &gt;&gt; 1;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 inst-&gt;vsi_ctx.dec.cap_num_planes =3D<br>
--- <br>
-2.25.1<br>
-<br>
-</blockquote></div>
-
---0000000000006d452a05cfd100a1--
+Andi
