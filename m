@@ -1,99 +1,82 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 216F544387A
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Nov 2021 23:32:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BE694438C0
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Nov 2021 23:50:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA00D6E0C1;
-	Tue,  2 Nov 2021 22:31:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D390E7390E;
+	Tue,  2 Nov 2021 22:50:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 729B96E0A6
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Nov 2021 22:31:54 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8196F7390E
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Nov 2021 22:50:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635892313;
+ s=mimecast20190719; t=1635893408;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=s7LptIgu+syWserQTVVGwm5xGU03s5Ksw96xU5k2+b0=;
- b=CsBIGMpp198JmXtnLNTNsG2OnnUizzxONN7lb6UX0/7PEsXArmHvIzShxpsVSAkjkMzFIx
- Bal422pmoC+Yg8r2+AAFGdXdVOJXI+6KQD5JcczTjy95uNWx23tdTWfO2X+HR3WYa53YpG
- n3IMwClEYnviXZ9XBBw7ZoYv1SAqCZQ=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-286-FD1HXnSdOQObQcdogX0kkw-1; Tue, 02 Nov 2021 18:31:52 -0400
-X-MC-Unique: FD1HXnSdOQObQcdogX0kkw-1
-Received: by mail-qv1-f72.google.com with SMTP id
- j9-20020a05621419c900b003b815c01a54so467017qvc.10
- for <dri-devel@lists.freedesktop.org>; Tue, 02 Nov 2021 15:31:52 -0700 (PDT)
+ bh=fMXDJ1TPpIpn3w6SGHe+O23bhwkvcD2ThXDJ734AXLg=;
+ b=FYtOoSuHGrWIWJ7s46DEdqTk6k9twit9duBZutYvlI+vLJmPVkskNWJdQa4ALZ6M3ix2mp
+ jOcs1evG4pdvhzWlXco45/20iHrRuuuoP5HVYfcWHf+TUoUN/WkuzPgYg/D8D2ed6sjO3u
+ J2NinMKIHOdUawRAVqig/ikMUrxjTlw=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-6-Y78oMsjPM2WEtQPMAd7apQ-1; Tue, 02 Nov 2021 18:50:03 -0400
+X-MC-Unique: Y78oMsjPM2WEtQPMAd7apQ-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ w12-20020aa7da4c000000b003e28acbf765so801548eds.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 02 Nov 2021 15:50:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:organization:user-agent:mime-version
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=s7LptIgu+syWserQTVVGwm5xGU03s5Ksw96xU5k2+b0=;
- b=66O8Fq/Sai57SEyg6Gst7BiexxjyI2mLB3w0FRxKldsbpYi0wAJqVamV4jfcafvX5o
- ngKeIPf4cy4G2uUGpZ1L325dt+9dRWdnlXe1K/c9ThC4uL+61zrMTto8SfSnCobD/8Vz
- xhgZkC+rjDzP4BMBPrQziYAv/i+HGrhBzfuhIO2tY4AMtwnDFXMZmWqf/+oj1s+U2F/q
- r5gR/Vh9xaF6d13Tbw8UKr2ncPyFtwFmZ9oMw4ZAkIJojOVNmznoPBDjqtBxESyEz5SQ
- mntzfDI/OwXSMHmaq5yzmPDnsaALVCz0jg1zBRpIYjyiAaLt37NgTmyG5IblI4MfukIY
- O5kA==
-X-Gm-Message-State: AOAM532tNyyRelIm8esT0VwCSk+WkC9lxwgE90nVfp667C32Zfs+oMLF
- exeKqygnEyoowsFwKWE0B3RMmqvsHNCJdjb2wHrrwME6mHHLNodxDt08xSXoHiE3x/RSvqAVdho
- q0Q23rfegGzM8iJqeQfwDxipa22lp
-X-Received: by 2002:a05:620a:25c8:: with SMTP id
- y8mr31292618qko.42.1635892311495; 
- Tue, 02 Nov 2021 15:31:51 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz4Mn2/N4/VkaTugW1IbEV+gcQbmtzqiNbmi541UL6/BSzvvYeXqRyvJXZucZIrbqNTBihSRA==
-X-Received: by 2002:a05:620a:25c8:: with SMTP id
- y8mr31292576qko.42.1635892311148; 
- Tue, 02 Nov 2021 15:31:51 -0700 (PDT)
-Received: from [192.168.8.138] (pool-96-230-249-157.bstnma.fios.verizon.net.
- [96.230.249.157])
- by smtp.gmail.com with ESMTPSA id n18sm244365qtk.91.2021.11.02.15.31.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Nov 2021 15:31:50 -0700 (PDT)
-Message-ID: <0badd704d7014481cc87a42e58c96a84205f1ca3.camel@redhat.com>
-Subject: Re: [PATCH 2/4] drm/dp_mst: Only create connector for connected end
- device
-From: Lyude Paul <lyude@redhat.com>
-To: "Lin, Wayne" <Wayne.Lin@amd.com>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>
-Date: Tue, 02 Nov 2021 18:31:48 -0400
-In-Reply-To: <CO6PR12MB548935F6AE8DA89C965A2A58FC879@CO6PR12MB5489.namprd12.prod.outlook.com>
-References: <20210720160342.11415-1-Wayne.Lin@amd.com>
- <20210720160342.11415-3-Wayne.Lin@amd.com>
- <69a5f39580f0d3519468f45ecbfd50d7ad1b3036.camel@redhat.com>
- <292d6ead03d6afe54f81d52f705e38bbf9feb7bd.camel@redhat.com>
- <SJ0PR12MB550410E529057F59023153D9FCF19@SJ0PR12MB5504.namprd12.prod.outlook.com>
- <2012d26bb2bece43e65ce435e6ba03f1d8767f61.camel@redhat.com>
- <CO6PR12MB5489274038BFF71A80EA9ECEFCF89@CO6PR12MB5489.namprd12.prod.outlook.com>
- <cd24fffcbda28ffc6734fb6d6d28b39e8782e0dd.camel@redhat.com>
- <CO6PR12MB548965A84DF69BAC30F74AC5FCC19@CO6PR12MB5489.namprd12.prod.outlook.com>
- <db10eb95b1ec7e822c7379d310c54975810acd2b.camel@redhat.com>
- <CO6PR12MB548913A9CC63A199BBBD6545FCC49@CO6PR12MB5489.namprd12.prod.outlook.com>
- <6a0868a8ce6befd5f7ddea3481e70285079fcb6a.camel@redhat.com>
- <CO6PR12MB5489987336A4D5DF83C4FD3CFCC69@CO6PR12MB5489.namprd12.prod.outlook.com>
- <a0a8ce9d25cc5b68e14384329e8c635e546cee90.camel@redhat.com>
- <f3d1df941d36a2772f317973dd3dc1d7a666957e.camel@redhat.com>
- <CO6PR12MB54899D4044882C1D7CA4B765FCDA9@CO6PR12MB5489.namprd12.prod.outlook.com>
- <5282ad02ecd3fde8ab78fe798f066a5c03153815.camel@redhat.com>
- <SJ0PR12MB55046A57E424305A608C17A1FC849@SJ0PR12MB5504.namprd12.prod.outlook.com>
- <d91dbbc0f686e11e97c985713c65c8a35e575590.camel@redhat.com>
- <CO6PR12MB548935F6AE8DA89C965A2A58FC879@CO6PR12MB5489.namprd12.prod.outlook.com>
-Organization: Red Hat
-User-Agent: Evolution 3.40.4 (3.40.4-2.fc34)
+ bh=fMXDJ1TPpIpn3w6SGHe+O23bhwkvcD2ThXDJ734AXLg=;
+ b=zzzpzHsfJa0jzLKksEvXGtbUkTeAy0P0BT5dBRLPQSO3mt9M2cr6uGbRwUT3lef0W4
+ kVTkLhN3C6fE3G2ED6NVkOXzb8j/huwJWoovSf50nFiQmXX+Zthv2DjsPiTNJsYfgjdq
+ QN6Cc5X5xw9IydIZlDqhPDMXhKatVX2JebEekaR+vjApmr6zEHTyf7M5hdlcykjo49ZH
+ 260OiTnLsWqh045SV8RUl8PwY3k+oX6RcrpEbuY03RGpsUA0v1aBzMzciX6bzQezCBFl
+ XtXENtLCN2cgVDy2UDEKLlWJfz7syM6HjhxKyOZIuP6psd/QFZiLAoTbHxIunkbdnJ3O
+ kLgw==
+X-Gm-Message-State: AOAM533GMk4RVjy5LEA8xP4DwMkRb2+TL9JG8Mk8Q5axBY28kaAOSqDl
+ dOhOJbsImvT+IK6GnsYXigZLnpfnm/22emQf90qvjLNkv5etnHi/fmrwWgvnHslMpzT4Zfl8VY1
+ jCpUy4iPBv0ZdAPAtjXWKF1SvxZML
+X-Received: by 2002:a05:6402:d59:: with SMTP id
+ ec25mr31128470edb.214.1635893402046; 
+ Tue, 02 Nov 2021 15:50:02 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwvBLodOSLu5Kq97Smd47uhb24ifUvlhre7oO0RKS63qU7RqbIA2l2rnERIbXVcB7N0SNeKUA==
+X-Received: by 2002:a05:6402:d59:: with SMTP id
+ ec25mr31128445edb.214.1635893401899; 
+ Tue, 02 Nov 2021 15:50:01 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c1e:bf00:1054:9d19:e0f0:8214?
+ (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl.
+ [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
+ by smtp.gmail.com with ESMTPSA id gb2sm141913ejc.52.2021.11.02.15.50.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 02 Nov 2021 15:50:01 -0700 (PDT)
+Message-ID: <812ff68b-2b4a-3993-245a-ea791e6caf7c@redhat.com>
+Date: Tue, 2 Nov 2021 23:50:00 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH 3/3] backlight: lp855x: Add support ACPI enumeration
+To: Daniel Thompson <daniel.thompson@linaro.org>
+References: <20211101185518.306728-1-hdegoede@redhat.com>
+ <20211101185518.306728-3-hdegoede@redhat.com>
+ <20211102122253.s4oc2p7hmy7w2qgn@maple.lan>
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20211102122253.s4oc2p7hmy7w2qgn@maple.lan>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,162 +89,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- =?ISO-8859-1?Q?Jos=E9?= Roberto de Souza <jose.souza@intel.com>, "Siqueira,
- Rodrigo" <Rodrigo.Siqueira@amd.com>, "Zuo, Jerry" <Jerry.Zuo@amd.com>, "Pillai,
- Aurabindo" <Aurabindo.Pillai@amd.com>, Ben Skeggs <bskeggs@redhat.com>,
- Ankit Nautiyal <ankit.k.nautiyal@intel.com>, Juston Li <juston.li@intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Jani Nikula <jani.nikula@intel.com>,
- "Cornij, Nikola" <Nikola.Cornij@amd.com>, "Wu, Hersen" <hersenxs.wu@amd.com>,
- Sean Paul <sean@poorly.run>, "stable@vger.kernel.org" <stable@vger.kernel.org>,
- Manasi Navare <manasi.d.navare@intel.com>, "Deucher,
- Alexander" <Alexander.Deucher@amd.com>, Sean Paul <seanpaul@chromium.org>,
- "Kazlauskas, Nicholas" <Nicholas.Kazlauskas@amd.com>
+Cc: Jingoo Han <jingoohan1@gmail.com>, Lee Jones <lee.jones@linaro.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 2021-10-29 at 12:11 +0000, Lin, Wayne wrote:
-> [Public]
+Hi Daniel,
+
+Thank you for the quick review of this series.
+
+On 11/2/21 13:22, Daniel Thompson wrote:
+> On Mon, Nov 01, 2021 at 07:55:17PM +0100, Hans de Goede wrote:
+>> The Xiaomi Mi Pad 2 tablet uses an ACPI enumerated LP8556 backlight
+>> controller for its LCD-panel, with a Xiaomi specific ACPI HID of
+>> "XMCC0001", add support for this.
+>>
+>> Note the new "if (id)" check also fixes a NULL pointer deref when a user
+>> tries to manually bind the driver from sysfs.
+>>
+>> When CONFIG_ACPI is disabled acpi_match_device() will always return NULL,
+>> so the lp855x_parse_acpi() call will get optimized away.
+>>
+>> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+>> ---
+>>  drivers/video/backlight/lp855x_bl.c | 70 ++++++++++++++++++++++++-----
+>>  1 file changed, 60 insertions(+), 10 deletions(-)
+>>
+>> diff --git a/drivers/video/backlight/lp855x_bl.c b/drivers/video/backlight/lp855x_bl.c
+>> index d1d27d5eb0f2..f075ec84acfb 100644
+>> --- a/drivers/video/backlight/lp855x_bl.c
+>> +++ b/drivers/video/backlight/lp855x_bl.c
+>> @@ -338,10 +339,6 @@ static int lp855x_parse_dt(struct lp855x *lp)
+>>  		return -EINVAL;
+>>  	}
+>>  
+>> -	pdata = devm_kzalloc(dev, sizeof(*pdata), GFP_KERNEL);
+>> -	if (!pdata)
+>> -		return -ENOMEM;
+>> -
+>>  	of_property_read_string(node, "bl-name", &pdata->name);
+>>  	of_property_read_u8(node, "dev-ctrl", &pdata->device_control);
+>>  	of_property_read_u8(node, "init-brt", &pdata->initial_brightness);
 > 
-> Thanks Lyude for patiently guiding on this : )
-> Would like to learn more as following
+> Shouldn't there be a removal of an `lp->pdata = pdata` from somewhere in
+> this function?
 
-I do follow your bit about connectors only being created when a virtual path
-is instantiated, but that still doesn't follow how connectors in DRM typically
-behave though as this idea still comes down to "we don't have disconnected
-connectors, only connected ones". Which still breaks force probing (if the
-connector doesn't exist in userspace because we destroyed it, how do we get to
-it's force sysfs file?), and also just makes hides information from userspace
-that it might actually care about (what if for instance, a GUI wanted to display
-the topology layout of an MST hub -including- all of the currently disconnected
-ports on it? Considering we allow this for things like USB, it doesn't make
-sense to hide them for MST.
+Ack, fixed for v2.
 
-As well, while your idea for what an MST connector is honestly does make a lot
-more sense then what we have, that's not really the issue here. The problem is
-that connector creation/destruction is already quite racy, and requires a _lot_
-of care to get right. We've already had tons of bugs in the past that lead to us
-resorting to all of the tricks we're currently using, for instance:
-Which just seems to add a lot of
-complication to the current MST code, without much reason here besides trying
-to reduce the amount of connectors along with a potential bug with leaking
-connectors that we still don't know the cause of. Trying to solve problems
-without understanding exactly what's causing them 
-something around a bug that could be entirely unrelated to how we create
-connectors, because then it's not even really guaranteed we've fixed anything
-if we don't know what caused the problem in the first place. Working around
-problems might temporarily fix the ones we're dealing with right now, but
-without understanding what's causing it there's no guarantee it won't just pop
-up again in the future or that we won't introduce new problems in the process.
-
+>> @@ -379,8 +376,31 @@ static int lp855x_parse_dt(struct lp855x *lp)
+>>  }
+>>  #endif
+>>  
+>> +static int lp855x_parse_acpi(struct lp855x *lp)
+>> +{
+>> +	int ret;
+>> +
+>> +	/*
+>> +	 * On ACPI the device has already been initialized by the firmware
 > 
-> > 
-> > Regardless though, I would think that we could just handle this mostly
-> > from the atomic state even with a connector for every port. For
-> > instance, i915 already has something called "big joiner" for supporting
-> > display configurations where one display can take up two
-> > separate display pipes (CRTCs). We could likely do something similar but
-> > with connectors if we end up having to deal with a display
-> > driven by two DP links.
-> > 
-> > > I was thinking to associate a drm connector for end stream sink only.
-> > > I think we probably won't want to attach a connector to a
-> > > relay/retimer/redriver within a stream path? I treat MST port as the
-> > > similar role when It's fixed to connect to a MST branch device.
-> > 
-> > If it's a fixed connection, this might actually be OK to avoid attaching
-> > connectors on. Currently with input ports where we know we can
-> > never receive a CSN for them during runtime, we're able to avoid creating
-> > a connector because no potential for CSN during runtime
-> > means the only possible time an input port could transition would be
-> > suspend/resume. So if we detect we're on another topology
-> > where something that was previously an output port that is an input port
-> > on the new topology, we get rid of the connector by
-> > removing the drm_dp_mst_port it's associated with from the topology and
-> > replace it with a new one. This works pretty well, as it
-> > avoids doing any actual connector destruction from the suspend/resume
-> > codepath and ensures that any pointer references to the
-> > now non-existent output port remain valid for as long as needed. So I
-> > might actually be open to expanding this for fixed connections
-> > like relays, retimers and redrivers if we handle things in a similar
-> > manner.
-> > For anything that can receive a CSN though, a drm_connector is
-> > unconditionally needed even if nothing's connected.
-> 
-> Want to deepen my knowledge here. Sorry Lyude could you explain more on this
-> please?
-> Are you saying that if we change to associate drm connector as what I
-> proposed in this patch, we will create actual connector destruction
-> from the suspend/resume codepath and which is a problem here? I thought once
-> the connection status changed from connected to
-> disconnected during suspend/resume, we still use the same way as what we did
-> in drm_dp_delayed_destroy_port():
-> i.e.
-> if (port->connector) {
->         drm_connector_unregister(port->connector);
->         drm_connector_put(port->connector);
-> }
-> We won't directly destruct the drm connector?
+> Perhaps nitpicking but ideally I'd like "and is in register mode" here 
+> since I presume it can also be assumed that everything with this HID
+> has adopted that).
 
-Something like that, I'd need to to go look further into the details because I
-very vividly remember most of the tricks we do in the MST helpers regarding
-delayed connector destruction and when/how we change various members of the
-drm_dp_mst_port/drm_dp_mst_branch structures. I vaguely remember the problem
-with trying to hot add/remove connectors (I -did- actually try to do this once
-I believe! but not as thoroughly as you have) being some kind of lockdep
-issue. I started trying to dig into the MST code a bit deeper to get a clear
-answer on this, but I actually decided to take that time and just finish up
-the debug helpers I mentioned (I'll send the WIP patch I've got to you in a
-moment, and will send it off the mailing list once I finish hooking things up
-in i915) because it really just doesn't seem to me like we actually have a
-clear understanding of how this issue is being caused - and it's not a good
-idea for us to make any kind of API change like this to attempt (and
-inevitably fail or break something else) to fix an issue we don't fully
-understand.
+Nope not nitpicking, that is a good point, also fixed for v2.
 
-[snip...]
+Regards,
 
-> > 
-> Right! I might not recall correctly, but I think that's why I want this
-> patch. I probably encountered that userspace doesn’t explicitly
-> try to react to this unplug event. Instead, it tries to react when we plug
-> in monitor next time. And the problem is when we plug in
-> monitor next time, stale resources are not released yet. It then hits the
-> limitation within our HW. Which let me want to explicitly
-> release resource once driver detect the unplug event (just like sst long HPD
-> event I think).  By the way, just out of curiosity, when
-> do you think is the timing to release sink related resource if we rely on
-> hotplug event notifying userspace? When userspace frees the
-> associated pipe of the connector? Won't it be a transient state that
-> userspace just free the pipe temporarily?
-
-The timing of releasing resources should be done at the same time that we
-disable the connector. In general, MST modesetting shouldn't be much different
-from anything else - except for having to maintain a payload table and
-bandwidth limitations across a shared connection. So pretty much everything
-related to enabling or disabling streams should be in the atomic commit phase
-(with any bandwidth calculations done beforehand, WIP...). I'm going to say,
-let's figure out where this is happening first. I've got the debugging patches
-for this ready and will send them to you now.
-
-> 
-> > Also, I'm still working on the debugging stuff btw!
-> Much appreciate Lyude! Thanks!
-> 
-> > 
-> > --
-> > Cheers,
-> >  Lyude Paul (she/her)
-> >  Software Engineer at Red Hat
-> --
-> Regards,
-> Wayne Lin
-
--- 
-Cheers, Lyude Paul (she/her) Software Engineer at Red Hat
-
--- 
-Cheers,
- Lyude Paul (she/her)
- Software Engineer at Red Hat
+Hans
 
