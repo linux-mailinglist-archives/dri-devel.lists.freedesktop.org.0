@@ -2,41 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 732574437A3
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Nov 2021 22:09:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6068443800
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Nov 2021 22:42:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 45351737F6;
-	Tue,  2 Nov 2021 21:09:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 158ED738A0;
+	Tue,  2 Nov 2021 21:42:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 70740737F6;
- Tue,  2 Nov 2021 21:08:59 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10156"; a="218276994"
-X-IronPort-AV: E=Sophos;i="5.87,203,1631602800"; d="scan'208";a="218276994"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Nov 2021 14:08:58 -0700
-X-IronPort-AV: E=Sophos;i="5.87,203,1631602800"; d="scan'208";a="500757180"
-Received: from lvillalo-mobl1.amr.corp.intel.com (HELO intel.com)
- ([10.249.32.130])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Nov 2021 14:08:57 -0700
-Date: Tue, 2 Nov 2021 22:08:54 +0100
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Subject: Re: [Intel-gfx] [PATCH v3 05/10] drm/i915: Prepare for multiple gts
-Message-ID: <YYGo5tfOevjL2UaV@intel.intel>
-References: <20211029032817.3747750-1-matthew.d.roper@intel.com>
- <20211029032817.3747750-6-matthew.d.roper@intel.com>
- <YYB0BdEcDqt2IUXi@intel.intel>
- <a1a70e75-2068-fa69-e307-456d031b25b1@linux.intel.com>
- <YYEgXz+hq8aBhmUJ@intel.intel>
- <8c2ec510-4e86-97f1-f0a9-872a2168455d@linux.intel.com>
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
+ [IPv6:2a00:1450:4864:20::431])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B855738A0
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Nov 2021 21:42:19 +0000 (UTC)
+Received: by mail-wr1-x431.google.com with SMTP id d24so669387wra.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 02 Nov 2021 14:42:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=++s5U25AmrtB0jRnPpON4TpfrUm8lCjgAhvwZZmMcyk=;
+ b=ypsj6Ztj6KKT7yYtszeRDXqjLyZmFUoIc+pxUWoktkz3jaSW6u2HbXU9Bl27QlJsl0
+ IWvAbSyqQ0WxqnNA+uYNY973Li8SVWTmbRsqnS11uD6ZwfizcpG3d0twxYCkNSiFdZ8A
+ yajUdx3i+Tn1HCidgUivgNykquHBWP/isqlmQY7+Nzjv9Z5FnpKswnFgweJTvVPjQ2Mb
+ aMd0ytn8pyd8gAAfCxVvIy7VFJoxgv11UiuwG1pkK5jdHWmP8I9DBnl5oFmChc0h4wIY
+ hJUzmoQKiTrYN+UauG/GalqSk3lqXw/Q25UCoakaIc3KigU0ObihOu3kT2sed6VD3B7M
+ DBkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=++s5U25AmrtB0jRnPpON4TpfrUm8lCjgAhvwZZmMcyk=;
+ b=pK8sVdgldAbMdww08YYtyrtFlJnKb4V6/61M1U7jPmxKs0e7npR9oANTLvTAd1liXO
+ V+Oas5IN76RP5RY4EUWlHZ+LYDVVDc+Su6kUiqUdsWq7ZO6AxHTpvyMSEx9ECZfLyQ0d
+ L1ev+bZM0GUH3SOUGUH76Z2E/X9UtkcYApFwkVfoEsHFUZMlLezNn6EMicuunx5GrOd4
+ 5TvmfoSmd176cLB+KaymCirMAZK901e4cHMuQPZKD5t50EAKhbUpKYRFKJ4UYpnWa59M
+ kUBe/7AKD7A06Ctpct7M8vL9hSyme0WC9ZH6QcRCKGtcEw2wn4qa5cAxkIXYdOmSAAET
+ EDHA==
+X-Gm-Message-State: AOAM533Ie0NfbT8+WYzpUz+5N4DlGy46mwwmtdmBM7qfG92BThCVHBYF
+ fva4B4JBqjvPPlsihBczswRXjw==
+X-Google-Smtp-Source: ABdhPJzr8YmQqLyUSmCkYejogwjzQiAMastwvkFjwXPWrtwricO0JbZ/1JZUr6s7j1zCifzs7f6EIQ==
+X-Received: by 2002:adf:a28f:: with SMTP id s15mr49491954wra.138.1635889338120; 
+ Tue, 02 Nov 2021 14:42:18 -0700 (PDT)
+Received: from Red ([2a01:cb1d:3d5:a100:264b:feff:fe03:2806])
+ by smtp.googlemail.com with ESMTPSA id e12sm217581wrq.20.2021.11.02.14.42.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 02 Nov 2021 14:42:17 -0700 (PDT)
+Date: Tue, 2 Nov 2021 22:42:16 +0100
+From: LABBE Corentin <clabbe@baylibre.com>
+To: Daniel Thompson <daniel.thompson@linaro.org>
+Subject: Re: [PATCH] backlight: led_bl: Add support for an "enable" GPIO
+Message-ID: <YYGwuCmORnjFRHMk@Red>
+References: <20211102100455.2016610-1-clabbe@baylibre.com>
+ <20211102111942.xd7eqz2zrtb7zotc@maple.lan>
+ <20211102112514.75v7evbdp4ccyyt5@maple.lan>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <8c2ec510-4e86-97f1-f0a9-872a2168455d@linux.intel.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20211102112514.75v7evbdp4ccyyt5@maple.lan>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,64 +72,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Andi Shyti <andi.shyti@linux.intel.com>
+Cc: linux-fbdev@vger.kernel.org, jingoohan1@gmail.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Pavel Machek <pavel@ucw.cz>, khilman@baylibre.com,
+ Jean-Jacques Hiblot <jjhiblot@ti.com>, lee.jones@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tvrtko,
-
-> > > > [...]
-> > > > 
-> > > > >    static int
-> > > > >    intel_gt_tile_setup(struct intel_gt *gt, unsigned int id, phys_addr_t phys_addr)
-> > > > 
-> > > > we don't actually need 'id', it's gt->info.id. It's introduced in
-> > > > patch 3 with the value '0' but it's not needed.
+Le Tue, Nov 02, 2021 at 11:25:14AM +0000, Daniel Thompson a écrit :
+> On Tue, Nov 02, 2021 at 11:19:42AM +0000, Daniel Thompson wrote:
+> > On Tue, Nov 02, 2021 at 10:04:55AM +0000, Corentin LABBE wrote:
+> > > From: Jean-Jacques Hiblot <jjhiblot@ti.com>
 > > > 
-> > > I have a suspicion code got munged up over endless rebases and refactors.
-> > > 
-> > > This patch is the one which introduces the id member to gt->info. But it is not setting it, even though I suspect the intent was for intel_gt_tile_setup to do that.
-> > > 
-> > > Instead gt->info.id is only set to a valid value in last patch of this series inside intel_gt_probe_all:
-> > > 
-> > > +		gt->i915 = i915;
-> > > +		gt->name = gtdef->name;
-> > > +		gt->type = gtdef->type;
-> > > +		gt->info.engine_mask = gtdef->engine_mask;
-> > > +		gt->info.id = i;
-> > > +
-> > > +		drm_dbg(&i915->drm, "Setting up %s %u\n", gt->name, gt->info.id);
-> > > +		ret = intel_gt_tile_setup(gt, i, phys_addr + gtdef->mapping_base);
-> > > 
-> > > And intel_gt_tile_setup then calls __intel_gt_init_early which assigns gt->i915 yet again.
-> > > 
-> > > So I'd say there is probably space to bring this all into a more streamlined flow, even more than what you suggest below.
+> > > This patch adds support for an "enable GPIO".
 > > 
-> > yes, I noticed them!
-> > 
-> > Patch 3, 5 and 10 are very much connected with each other: 3
-> > prepares for one tile, 5 prepares for multitile and 10 does the
-> > multitile. While in between other patches are doing other things.
-> > 
-> > On top of some cleanups we could also rearrange the patches with
-> > some squashing and reordering to have them a bit more linear and
-> > also easier to review.
+> > Before taking this kind of change is there a good reason why backlight
+> > should manage the GPIO? I thought that the LED subsystem was a sub
+> > system for LEDs (not LED controllers). In other words if you direct
+> > that the LED be lit up then isn't it the LED driver's job to manage
+> > the GPIO and ensure that it lights up?
 > 
-> Yes. Maybe make intel_gt_tile_setup accept more arguments so it can be truly
-> used to setup a gt?
+> Sorry... I should have paid more attention to my sense of déjà vu with
+> this patch.
 > 
->   intel_gt_tile_setup(gt, id, name, type, engine_mask)
+> This approach was discussed and rejected when we first introduced the
+> led_bl driver:
+> https://lore.kernel.org/linux-leds/20190705100851.zn2jkipj4fxq5we6@devuan/
 > 
-> The usual thing where patch which adds something extends the prototype to
-> include more stuff. If that applies here.
-> 
-> I know it is originally my patch but I don't have the time to rework it,
-> much less the whole series, so usual dispensation to take over authorship if
-> changes are large applies.
 
-as no one is stepping forward, if you and Matt are OK, I can try
-to venture in some refactoring of these three patches (3, 5 and
-10).
+Hello
 
-Andi
+I am sorry, I didnt checked if the patch was already submitted or not.
+
+Regards
