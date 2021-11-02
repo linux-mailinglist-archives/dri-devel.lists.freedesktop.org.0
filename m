@@ -2,42 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEA7C442FAF
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Nov 2021 15:01:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF9DD442ED1
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Nov 2021 14:07:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF9CC72D13;
-	Tue,  2 Nov 2021 14:01:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 950B86FD49;
+	Tue,  2 Nov 2021 13:07:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from msg-2.mailo.com (msg-2.mailo.com [213.182.54.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B27DD72D13;
- Tue,  2 Nov 2021 14:01:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=net-c.es; s=mailo;
- t=1635856506; bh=86oBTMpnXN2rssnmOQ7LA61tTu8gU4eFEfOZP78RisE=;
- h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
- MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To;
- b=arAXsp3pJle1r6nOqeqtDf2GduQBJSJKdxquDfPAglkotW2p8bd9ev6Y1hBR3zQtg
- IuyMT4zYDmmlvKXOVjKcAlGccOqgCOyTr7jvZCiwWUwgT/UAfqSpkdsL+5jWMX7OiY
- 9iniW7IyoDqfGYNxRqVLIjAV6dqoTLdd5QORxuSQ=
-Received: by b-1.in.mailobj.net [192.168.90.11] with ESMTP
- via ip-206.mailobj.net [213.182.55.206]
- Tue,  2 Nov 2021 13:34:38 +0100 (CET)
-X-EA-Auth: FKr0z78nEI7fK18kQiJqc8cm6AQzx1MLFVMzYMgk3A7ptvyPhNNicmEOsJfefFwiU43Mj4ZkxeU8iS9dGsGDy7tpZekUHCqR
-Date: Tue, 2 Nov 2021 13:34:35 +0100
-From: Claudio Suarez <cssk@net-c.es>
-To: Inki Dae <inki.dae@samsung.com>
-Subject: Re: [PATCH v2 06/13] drm/exynos: replace drm_detect_hdmi_monitor()
- with drm_display_info.is_hdmi
-Message-ID: <YYEwWwZY/D7ylVuN@gineta.localdomain>
-References: <20211016184226.3862-1-cssk@net-c.es>
- <CGME20211016193513epcas1p4e354183520df0aa4c381b19eb2863262@epcas1p4.samsung.com>
- <20211016184226.3862-7-cssk@net-c.es>
- <ee6b3bac-4762-fd8f-c12a-c0a7ea7b56e9@samsung.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A4A166FD49
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Nov 2021 13:07:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1635858457;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=x5n86OvPaV2H1NZKCrF2kbcvYUIActOIda1CNrZjv7E=;
+ b=inZBXzIiMRXFsVVRMI2pPHx4r9yf9OYTOZCLRa1hWTUs4wCPg7A2xAdXEr2V86o0KMRy52
+ LkNdM8J7eVHjTPw6dgcCJxAlO1DKoXsroJyIEyfYy3L33t7kSVupUY8VzKy6Xuotrof6ga
+ K4L7B8F+xRfkGmdXdSSSh2gGXKmgHd0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-51-ZdzVCAWGMsOup90M0epPaw-1; Tue, 02 Nov 2021 09:03:14 -0400
+X-MC-Unique: ZdzVCAWGMsOup90M0epPaw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D358F100C666;
+ Tue,  2 Nov 2021 13:03:12 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.194.99])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8021567846;
+ Tue,  2 Nov 2021 13:03:12 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 69FBE180092D; Tue,  2 Nov 2021 14:03:08 +0100 (CET)
+Date: Tue, 2 Nov 2021 14:03:08 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Maksym Wezdecki <maksym.wezdecki@collabora.com>
+Subject: Re: [PATCH] drm/virtio: delay pinning the pages till first use
+Message-ID: <20211102130308.2s64ghmic5nhj6vu@sirius.home.kraxel.org>
+References: <20211102113139.154140-1-maksym.wezdecki@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20211102113139.154140-1-maksym.wezdecki@collabora.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ee6b3bac-4762-fd8f-c12a-c0a7ea7b56e9@samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,58 +64,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Emma Anholt <emma@anholt.net>, Neil Armstrong <narmstrong@baylibre.com>,
- David Airlie <airlied@linux.ie>, nouveau@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
- amd-gfx@lists.freedesktop.org, Chen-Yu Tsai <wens@csie.org>,
- Ben Skeggs <bskeggs@redhat.com>, linux-arm-msm@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- linux-tegra@vger.kernel.org, Sean Paul <sean@poorly.run>,
- Jingoo Han <jingoohan1@gmail.com>, Pan Xinhui <Xinhui.Pan@amd.com>,
- Sandy Huang <hjc@rock-chips.com>, Robert Foss <robert.foss@linaro.org>,
- Alex Deucher <alexander.deucher@amd.com>, freedreno@lists.freedesktop.org,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: David Airlie <airlied@linux.ie>, mwezdeck <maksym.wezdecki@collabora.co.uk>,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Oct 27, 2021 at 07:28:45AM +0900, Inki Dae wrote:
-> Hi,
+On Tue, Nov 02, 2021 at 12:31:39PM +0100, Maksym Wezdecki wrote:
+> From: mwezdeck <maksym.wezdecki@collabora.co.uk>
 > 
-> 21. 10. 17. 오전 3:42에 Claudio Suarez 이(가) 쓴 글:
-> > Once EDID is parsed, the monitor HDMI support information is available
-> > through drm_display_info.is_hdmi. Retriving the same information with
-> > drm_detect_hdmi_monitor() is less efficient. Change to
-> > drm_display_info.is_hdmi
-> > 
-> > Signed-off-by: Claudio Suarez <cssk@net-c.es>
-> > ---
-> >  drivers/gpu/drm/exynos/exynos_hdmi.c | 6 ++++--
-> >  1 file changed, 4 insertions(+), 2 deletions(
-> > 
-> > diff --git a/drivers/gpu/drm/exynos/exynos_hdmi.c b/drivers/gpu/drm/exynos/exynos_hdmi.c
-> > index 7655142a4651..a563d6386abe 100644
-> > --- a/drivers/gpu/drm/exynos/exynos_hdmi.c
-> > +++ b/drivers/gpu/drm/exynos/exynos_hdmi.c
-> > @@ -893,12 +893,14 @@ static int hdmi_get_modes(struct drm_connector *connector)
-> >  	if (!edid)
-> >  		return -ENODEV;
-> >  
-> > -	hdata->dvi_mode = !drm_detect_hdmi_monitor(edid);
-> > +	/* This updates connector->display_info */
-> > +	drm_connector_update_edid_property(connector, edid);
-> > +
-> > +	hdata->dvi_mode = !connector->display_info.is_hdmi;
-> 
-> Thanks for correcting this. Yeah, we should use drm_display_info.is_hdmi parsed from EDID.
-> https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/tree/drivers/gpu/drm/drm_edid.c?h=v5.14.14#n4725
-> 
-> Signed-off-by: Inki Dae <inki.dae@samsung.com>
+> The idea behind the commit:
+>   1. not pin the pages during resource_create ioctl
+>   2. pin the pages on the first use during:
+> 	- transfer_*_host ioctl
+>         - map ioctl
 
+i.e. basically lazy pinning.  Approach looks sane to me.
 
-Thank you, Inki.
+>   3. introduce new ioctl for pinning pages on demand
 
-Best regards
-Claudio Suarez
+What is the use case for this ioctl?
+In any case this should be a separate patch.
 
+> +	struct virtio_gpu_object_array *objs;
+> +	struct virtio_gpu_object *bo;
+> +	struct virtio_gpu_object_shmem *shmem;
+> +
+> +	objs = virtio_gpu_array_from_handles(file, &virtio_gpu_map->handle, 1);
+> +	if (objs == NULL)
+> +		return -ENOENT;
+> +
+> +	bo = gem_to_virtio_gpu_obj(objs->objs[0]);
+> +	if (bo == NULL)
+> +		return -ENOENT;
+> +	
+> +	shmem = to_virtio_gpu_shmem(bo);
+> +	if (shmem == NULL)
+> +		return -ENOENT;
+> +
+> +	if (!shmem->pages) {
+> +		virtio_gpu_object_pin(vgdev, objs, 1);
+> +	}
+
+Move this into virtio_gpu_object_pin(),
+or create a helper function for it ...
+
+> +	objs = virtio_gpu_array_from_handles(file, &virtio_gpu_pin->handle, 1);
+> +	if (objs == NULL)
+> +		return -ENOENT;
+> +
+> +	bo = gem_to_virtio_gpu_obj(objs->objs[0]);
+> +	if (bo == NULL)
+> +		return -ENOENT;
+> +	
+> +	shmem = to_virtio_gpu_shmem(bo);
+> +	if (shmem == NULL)
+> +		return -ENOENT;
+> +
+> +	if (!shmem->pages) {
+> +		return virtio_gpu_object_pin(vgdev, objs, 1);
+> +	}
+
+... to avoid this code duplication?
+
+> +int virtio_gpu_object_pin(struct virtio_gpu_device *vgdev,
+> +			  struct virtio_gpu_object_array *objs,
+> +			  int num_gem_objects)
+> +{
+> +	int i, ret;
+> +
+> +	for (i = 0; i < num_gem_objects; i++) {
+
+> +		ret = virtio_gpu_object_shmem_init(vgdev, bo, &ents, &nents);
+> +		if (ret != 0) {
+> +			return -EFAULT;
+> +		}
+> +
+> +		virtio_gpu_object_attach(vgdev, bo, ents, nents);
+
+I think it is enough to do the virtio_gpu_object_attach() call lazily.
+virtio_gpu_object_shmem_init() should not actually allocate pages, that
+only happens when virtio_gpu_object_attach() goes ask for a scatter
+list.
+
+take care,
+  Gerd
 
