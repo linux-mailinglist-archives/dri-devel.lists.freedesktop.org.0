@@ -2,59 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54108442761
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Nov 2021 08:01:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 346FB44299E
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Nov 2021 09:37:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 619856FA9F;
-	Tue,  2 Nov 2021 07:01:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B1E56FE84;
+	Tue,  2 Nov 2021 08:37:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com
- [IPv6:2607:f8b0:4864:20::633])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EAFF76FA9F;
- Tue,  2 Nov 2021 07:01:40 +0000 (UTC)
-Received: by mail-pl1-x633.google.com with SMTP id s24so14579372plp.0;
- Tue, 02 Nov 2021 00:01:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=hQoPRk8ivYGfoPLY0uKKJcZTeIJDjKgCSjb0TdRpEts=;
- b=a4PkgHNAFD9tiKky1CA8bCU1tMMcEmSlOfw1LLmJ9Y+H7Y4klCH+G7ttV9k3ZzVWJS
- bwoigSRjS5hUNDnzflSNJDflJVufDavIQsH8P9sf+2RWlFZbqrsllWXKfuSFQzc0pc1O
- WvwJ9KDnPRGd+54acxO3tB6H3hfLJiZenHy21sAwc+FJMTGTlSEoBRrgkoxPpEKuGAsp
- +SHbwEWleQ2R2fVOo8+jSoBKzTLyKKNFiRqH+/kQ/bIDf284bEWZEm5R88zcGncsGvl3
- Z5xFpwZIhTBeulSnyZfQrFAaQ4YhiJduwUcMvWr+fnGob8+PGB56jYgxl26XNXXAcMx9
- N81w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=hQoPRk8ivYGfoPLY0uKKJcZTeIJDjKgCSjb0TdRpEts=;
- b=SXg/jFOnjKzEAbw/XKD4EW1VKLvgfjDcm/ib/Rg3R6Z9asGBO/upbllxqQAJ3JJpD2
- fQmdgA7sNdznd6x8NrWRWHbe2lw4un80r+TP7tpA+nFDUM0u6EdQKeqUlMGejugA17d8
- O0P8uL4B3wK78LZomYzxP1y3zZLPpx2lI/3lqCdL3cHA+R1xjMxtREKfK1YVcVIo+bri
- yyF0rtnvEzIoy1gEC/ZzGA8GnnHlCKp7cnJm45laa7BG0KzE67yyD79JylwJgzD3yHLx
- KPUWGXMiYey1glypK/KlLYdpqE8zo42ubo4mcwl4/fiES+6NVYrC4xwBok85/pehemQ4
- Vj1w==
-X-Gm-Message-State: AOAM5314dBtnDxw69954103qEM7EOKZXT1uoWZK0ItnSmBbfzD+EATJO
- OwlCf9XLfxIQGq/w3ocdaPk=
-X-Google-Smtp-Source: ABdhPJwvd0T2hHcaD6+31RvPGMRiHpfwws6wPxEkTzrkBiAS+wxzFXvQR1utMLd7HTCdyJE0DGypBg==
-X-Received: by 2002:a17:90a:4dcc:: with SMTP id
- r12mr4464805pjl.13.1635836500426; 
- Tue, 02 Nov 2021 00:01:40 -0700 (PDT)
-Received: from localhost.localdomain ([193.203.214.57])
- by smtp.gmail.com with ESMTPSA id e9sm13458381pfv.132.2021.11.02.00.01.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Nov 2021 00:01:40 -0700 (PDT)
-From: cgel.zte@gmail.com
-X-Google-Original-From: ye.guojin@zte.com.cn
-To: harry.wentland@amd.com
-Subject: [PATCH] drm/amd/display: remove unnecessary conditional operators
-Date: Tue,  2 Nov 2021 07:01:25 +0000
-Message-Id: <20211102070125.4445-1-ye.guojin@zte.com.cn>
-X-Mailer: git-send-email 2.25.1
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1CCA66FE84
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Nov 2021 08:37:21 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10155"; a="292049304"
+X-IronPort-AV: E=Sophos;i="5.87,202,1631602800"; d="scan'208";a="292049304"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Nov 2021 01:37:20 -0700
+X-IronPort-AV: E=Sophos;i="5.87,202,1631602800"; d="scan'208";a="500425503"
+Received: from sohamdas-mobl.gar.corp.intel.com (HELO localhost)
+ ([10.249.32.13])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Nov 2021 01:37:17 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: He Ying <heying24@huawei.com>, mripard@kernel.org, wens@csie.org,
+ airlied@linux.ie, daniel@ffwll.ch, jernej.skrabec@gmail.com
+Subject: Re: [PATCH] drm: Grab reference of connector before return connector
+ from sun4i_tcon_get_connector
+In-Reply-To: <33e01d45-c9f9-0e8c-6871-868ecd198368@huawei.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20211101062906.231518-1-heying24@huawei.com>
+ <87cznkdo6p.fsf@intel.com> <33e01d45-c9f9-0e8c-6871-868ecd198368@huawei.com>
+Date: Tue, 02 Nov 2021 10:37:14 +0200
+Message-ID: <871r3zdkcl.fsf@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,59 +48,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, meenakshikumar.somasundaram@amd.com,
- lee.jones@linaro.org, shenshih@amd.com, jiapeng.chong@linux.alibaba.com,
- Zeal Robot <zealci@zte.com.cn>, Rodrigo.Siqueira@amd.com, syed.hassan@amd.com,
- amd-gfx@lists.freedesktop.org, sunpeng.li@amd.com, aurabindo.pillai@amd.com,
- george.shen@amd.com, Anson.Jacob@amd.com, nikola.cornij@amd.com,
- ye.guojin@zte.com.cn, qingqing.zhuo@amd.com, Xinhui.Pan@amd.com,
- Roman.Li@amd.com, christian.koenig@amd.com, Wayne.Lin@amd.com,
- alexander.deucher@amd.com, nicholas.kazlauskas@amd.com
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Ye Guojin <ye.guojin@zte.com.cn>
+On Tue, 02 Nov 2021, He Ying <heying24@huawei.com> wrote:
+> =E5=9C=A8 2021/11/1 21:02, Jani Nikula =E5=86=99=E9=81=93:
+>> On Mon, 01 Nov 2021, He Ying <heying24@huawei.com> wrote:
+>>>  From the comments of drm_for_each_connector_iter(), we know
+>>> that "connector is only valid within the list body, if you
+>>> want to use connector after calling drm_connector_list_iter_end()
+>>> then you need to grab your own reference first using
+>>> drm_connector_get()". So fix the wrong use of connector
+>>> according to the comments and then call drm_connector_put()
+>>> after using connector finishes.
+>>>
+>>> Signed-off-by: He Ying <heying24@huawei.com>
+>> Please use "drm/sun4i:" subject prefix for sun4i patches.
+>
+> OK. I'll send a V2 later. By the way, may I have your suggestions about
+> this patch's content.
 
-Since the variables named is_end_of_payload and hpd_status are already
-bool type, the ?: conditional operator is unnecessary any more.
+Sorry, I only looked here because of the subject prefix, and would have
+skipped it completely with a drm/sun4i prefix. ;)
 
-Clean them up here.
+BR,
+Jani.
 
-Reported-by: Zeal Robot <zealci@zte.com.cn>
-Signed-off-by: Ye Guojin <ye.guojin@zte.com.cn>
----
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 3 +--
- drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c | 2 +-
- 2 files changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 43e983e42c0f..752a79724ce1 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -784,8 +784,7 @@ static void dm_dmub_outbox1_low_irq(void *interrupt_params)
- 					plink = adev->dm.dc->links[notify.link_index];
- 					if (plink) {
- 						plink->hpd_status =
--							notify.hpd_status ==
--							DP_HPD_PLUG ? true : false;
-+							notify.hpd_status == DP_HPD_PLUG;
- 					}
- 				}
- 				queue_work(adev->dm.delayed_hpd_wq, &dmub_hpd_wrk->handle_hpd_work);
-diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c b/drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c
-index 60539b1f2a80..24dc662ec3e4 100644
---- a/drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c
-+++ b/drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c
-@@ -626,7 +626,7 @@ bool dal_ddc_submit_aux_command(struct ddc_service *ddc,
- 	do {
- 		struct aux_payload current_payload;
- 		bool is_end_of_payload = (retrieved + DEFAULT_AUX_MAX_DATA_SIZE) >=
--				payload->length ? true : false;
-+				payload->length;
- 		uint32_t payload_length = is_end_of_payload ?
- 				payload->length - retrieved : DEFAULT_AUX_MAX_DATA_SIZE;
- 
--- 
-2.25.1
-
+--=20
+Jani Nikula, Intel Open Source Graphics Center
