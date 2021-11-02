@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97DAC4429E3
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Nov 2021 09:52:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B4CF4429FA
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Nov 2021 09:58:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 478C26FF13;
-	Tue,  2 Nov 2021 08:52:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B8C66FF45;
+	Tue,  2 Nov 2021 08:58:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3BB5A6FF10;
- Tue,  2 Nov 2021 08:52:40 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10155"; a="231472008"
-X-IronPort-AV: E=Sophos;i="5.87,202,1631602800"; d="scan'208";a="231472008"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Nov 2021 01:52:28 -0700
-X-IronPort-AV: E=Sophos;i="5.87,202,1631602800"; d="scan'208";a="728288642"
-Received: from dccormac-mobl1.ger.corp.intel.com (HELO [10.252.3.196])
- ([10.252.3.196])
- by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Nov 2021 01:52:26 -0700
-Message-ID: <393737f9-5336-013c-8dc8-ab8f49f3d3f5@intel.com>
-Date: Tue, 2 Nov 2021 08:52:24 +0000
+Received: from mail-4323.proton.ch (mail-4323.proton.ch [185.70.43.23])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7D8E86FF03;
+ Tue,  2 Nov 2021 08:58:07 +0000 (UTC)
+Date: Tue, 02 Nov 2021 08:58:03 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail; t=1635843484;
+ bh=zRwWsMDd5Kf2yQpedEA3Ka2dLpgNvYvwuOL0uYq4mxY=;
+ h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
+ b=I7BfR8Tm5PFeWXoE8R0R//TQF8/hy3Tt4bIF1B90AgDR1K9YLk1RlV8S8qJmBoUMI
+ lp2dg7wtxW+xC6KpndMvEP7ddzQNMk5ZzLdFd/E26s2sKCR5c6H67GImNkJxofQeUk
+ 1e1odJREXzGHTpVVk9dYj1eJ+0BQ/L71EXZu6jqC3VIPt+4UuaZvmeAnbC1KqY9hbY
+ eTJKJGwMcNUtLeFZi6h5eOF6AndMA0/FzV4yGlL8kz0juAbpAk/nIvnzbxbeoPxO9l
+ YDU62Msd2bdbNKdlmh9J9vR5DxkfE5H7AfqIs/b+nbP46otSt8NeQdL/ulVpK932V7
+ hgW4O+Qd6QbtQ==
+To: cgel.zte@gmail.com
+From: Simon Ser <contact@emersion.fr>
+Subject: Re: [PATCH] drm/amd/display: remove unnecessary conditional operators
+Message-ID: <lvX4AA55dPGJGyFf1ncXCnqomRKljUmW8TXAJV88VrSpYt2gSTrcK3JnCbGl5zsRJ4Gqs7-MAXIuCGr01axsnxkzDO5STy3cMMAo5SL7wOE=@emersion.fr>
+In-Reply-To: <20211102070125.4445-1-ye.guojin@zte.com.cn>
+References: <20211102070125.4445-1-ye.guojin@zte.com.cn>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v2 1/2] drm/i915/ttm: Reorganize the ttm move code
-Content-Language: en-GB
-To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-References: <20211101183851.291015-1-thomas.hellstrom@linux.intel.com>
- <20211101183851.291015-2-thomas.hellstrom@linux.intel.com>
-From: Matthew Auld <matthew.auld@intel.com>
-In-Reply-To: <20211101183851.291015-2-thomas.hellstrom@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+ DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
+ autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+ mailout.protonmail.ch
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,21 +49,17 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: Simon Ser <contact@emersion.fr>
+Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, meenakshikumar.somasundaram@amd.com,
+ lee.jones@linaro.org, jiapeng.chong@linux.alibaba.com,
+ Zeal Robot <zealci@zte.com.cn>, Rodrigo.Siqueira@amd.com, syed.hassan@amd.com,
+ amd-gfx@lists.freedesktop.org, sunpeng.li@amd.com, aurabindo.pillai@amd.com,
+ george.shen@amd.com, Anson.Jacob@amd.com, nikola.cornij@amd.com,
+ ye.guojin@zte.com.cn, shenshih@amd.com, qingqing.zhuo@amd.com,
+ Xinhui.Pan@amd.com, Roman.Li@amd.com, christian.koenig@amd.com,
+ Wayne.Lin@amd.com, alexander.deucher@amd.com, nicholas.kazlauskas@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 01/11/2021 18:38, Thomas Hellström wrote:
-> We are about to introduce failsafe- and asynchronous migration and
-> ttm moves.
-> This will add complexity and code to the TTM move code so it makes sense
-> to split it out to a separate file to make the i915 TTM code easer to
-> digest.
-> Split the i915 TTM move code out and since we will have to change the name
-> of the gpu_binds_iomem() and cpu_maps_iomem() functions anyway,
-> we alter the name of gpu_binds_iomem() to i915_ttm_gtt_binds_lmem() which
-> is more reflecting what it is used for.
-> With this we also add some more documentation. Otherwise there should be
-> no functional change.
-> 
-> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+Reviewed-by: Simon Ser <contact@emersion.fr>
