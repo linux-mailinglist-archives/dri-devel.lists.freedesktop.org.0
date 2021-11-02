@@ -1,116 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF521443353
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Nov 2021 17:42:17 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 202C24433A2
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Nov 2021 17:47:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C4E47321F;
-	Tue,  2 Nov 2021 16:42:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 95FF1732B2;
+	Tue,  2 Nov 2021 16:47:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2047.outbound.protection.outlook.com [40.107.220.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE6C37321D;
- Tue,  2 Nov 2021 16:42:13 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XMP2lRE6CXG6HPplPUAlxVFbSWWN0L2A6drvXeiYXetVyYD2sHLYeJviY2ZjU34rJdP6Kxqq+fmLS6VjOIatSX99Mk9qf1ETw5aKaOjoPtsJaMCEZNJCRXtb60HQdR300umXU6xZdtFdo1wGuADD+Jggfy22DDvSVWwewkSi21Jm1yLqkgOnZFGP9DbMROLM1ncO0hxqhdASZ5NsLzOuuOD5/XHPP7+SHjt8SJhUJaGHThx9C1ZqqnCTTfNtUNBlUHFJeg1+wekEnWJE4hNAfXEnvbxaVUbGJJWEwgoVpsfP2bhoMjoT0kFlCRtjBrM2q+bdPh8UeFtsfbFIydokxA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1E+DvoF7M0M9S+cShR1tV4Fq7E5ooV9kmwBtBfO9aek=;
- b=g3qug43Ic/2h0vhsAiY0T+GUTqVE6ywNef8VKt8l/LEk0enPMnijNRrUbNUwuII0teWku2r+GbbhhNpMhXy2UYKGTtbQ9hnL2jhPZIsKxqTtrzw+p0V0UCsrQDn+DnuVlM+eyx8j0gbZk7GBjBJylqPMFfeePH3ev8xQ9jVcoXYVm7rNxdINFD9gEDbOQKlLWzJXMysKVdjJ/JFyzhKAwlHdJtOcCj/rP944W8tYgKpuy557JkKyj2Lk8gpYqGBtITnowD20fpAvrf9k671R7EuWX3Dac2nmmMzfRniILczhKpLwKyYAIL1zWFKWqevQMRdvbuySqbXntNuE1OkNdQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1E+DvoF7M0M9S+cShR1tV4Fq7E5ooV9kmwBtBfO9aek=;
- b=V0JYcM4SyDfEq9CAZzVKMDYO2DBz4WFxHpSymF3s4lsP/ggv04x8Ck2ScjH6AOLdDxi2/WuXxWmq1WNugbW5gvthh8Yb8zKxi7Q46lLPoKTqkvt8+doUSriIX0XZeOX3niRS4DtEY2uGTvp3sjr3lWl3Uy/TcrEdioWjzEZLxV824IaeYnjhh0Lq9oRq2awUnoxb0LmOhpjLAnWJDEXH1FBOqpv2R6R5r0ha+wwy5Vtk9wUPGFORiH9nrQes6HFPlOm4nKt8wK45ymjiIiS1mh2WW3EuZThCHIKlZI9+Scp69joUqOaKh+tXYZB5IBQJHo+4g1NxYUqiByXtEBffvA==
-Authentication-Results: lst.de; dkim=none (message not signed)
- header.d=none;lst.de; dmarc=none action=none header.from=nvidia.com;
-Received: from BL0PR12MB5506.namprd12.prod.outlook.com (2603:10b6:208:1cb::22)
- by BL1PR12MB5253.namprd12.prod.outlook.com (2603:10b6:208:30b::22)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4669.10; Tue, 2 Nov
- 2021 16:42:11 +0000
-Received: from BL0PR12MB5506.namprd12.prod.outlook.com
- ([fe80::e8af:232:915e:2f95]) by BL0PR12MB5506.namprd12.prod.outlook.com
- ([fe80::e8af:232:915e:2f95%8]) with mapi id 15.20.4649.020; Tue, 2 Nov 2021
- 16:42:10 +0000
-Date: Tue, 2 Nov 2021 13:42:09 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH 29/29] drm/i915/gvt: merge gvt.c into kvmgvt.c
-Message-ID: <20211102164209.GJ2744544@nvidia.com>
-References: <20211102070601.155501-1-hch@lst.de>
- <20211102070601.155501-30-hch@lst.de>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211102070601.155501-30-hch@lst.de>
-X-ClientProxiedBy: MN2PR17CA0036.namprd17.prod.outlook.com
- (2603:10b6:208:15e::49) To BL0PR12MB5506.namprd12.prod.outlook.com
- (2603:10b6:208:1cb::22)
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
+ [IPv6:2a00:1450:4864:20::32f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2BA9F732B2
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Nov 2021 16:47:16 +0000 (UTC)
+Received: by mail-wm1-x32f.google.com with SMTP id
+ 67-20020a1c1946000000b0030d4c90fa87so2562882wmz.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 02 Nov 2021 09:47:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=raspberrypi.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=MM4U8OxTTBsC+CGULK+tfZc2fJWm7ZzFiLqrtjhGXgw=;
+ b=UM0Z8w3309IL/SgU+FerRT6mAyqaQW5t5HBwCU63gZ/t3BIfWdF8MINXIYscqnxkYR
+ 5+O42gH7bi8X58hP/k0RGIhypkn9PQRbukbtR3vJwQHK9OyB7SoQIFu6K/mDQTXPrZaW
+ skYch/0SwgMOrxu5LREURfwxtzvsKecaRj+Kk4ao5hw6uHcia0F1xuNNHVx5A+DbQPfQ
+ 29PomrEWSL8iwTOxczG2/39ulYRnpY5z9kmYwMsLH1pKjNYDY3Ur6QuvbqmR73w7o5hE
+ X/+DbWuBsXctme/i8GDLbxFIqEEKocbqWpK2fHFh6BGvmxETaZlh4Ua4W0xq6GyQsWJr
+ ky2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=MM4U8OxTTBsC+CGULK+tfZc2fJWm7ZzFiLqrtjhGXgw=;
+ b=1tSjZ4OmDzfSLxV5a5iJsD0M0E35TnnJxa3f3AOtj20B8gCbFVT9USAYC2imgSyS/C
+ 9KH3ujWo4iUU8HHSkZJu2Y5q9z0jP/SWmeCASuCTu2ORc4DPkXRhns/M+jB/z5QRlsUq
+ zmLsYvcLXf1ZNoHqz9R2ZH4+2RoY9l+9qSwPsDu0OOnv7PrS5/x3eRfAXU2md9R2phez
+ 15UGlfFP417/b8t+6GS54uE1M0Fr9MiQr0kkYEzt00msi6vDisOch25gbWDwB+dkwYyu
+ r0cx6wTpsbWj72XYiAY+XwEciZncpvvv9UNC930LWlVP3NwjhXgdY/8DC9e2YEEa4S5D
+ OoBg==
+X-Gm-Message-State: AOAM532j7hlw8rUQxts7ODVUKotrF0apGitAqlgAR+5a9QNZq4Gfiwrx
+ 28JAk0tgiZTbfEWNfTdwfvvWm/9LW87yii1BGson7w==
+X-Google-Smtp-Source: ABdhPJwqiBEu7rQEr0yiHdHLzzx0ECjHopvd+OCLX7p+1tHVBu7iZ4acoz0A0s0BKq/Z3MdmzPBhH4TBAXbzHK4c+sA=
+X-Received: by 2002:a1c:1f06:: with SMTP id f6mr8330799wmf.55.1635871634688;
+ Tue, 02 Nov 2021 09:47:14 -0700 (PDT)
 MIME-Version: 1.0
-Received: from mlx.ziepe.ca (142.162.113.129) by
- MN2PR17CA0036.namprd17.prod.outlook.com (2603:10b6:208:15e::49) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4649.15 via Frontend
- Transport; Tue, 2 Nov 2021 16:42:10 +0000
-Received: from jgg by mlx with local (Exim 4.94)	(envelope-from
- <jgg@nvidia.com>)	id 1mhwrR-005Awn-Vp; Tue, 02 Nov 2021 13:42:09 -0300
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 838471ab-a84e-432d-8f50-08d99e1fb757
-X-MS-TrafficTypeDiagnostic: BL1PR12MB5253:
-X-Microsoft-Antispam-PRVS: <BL1PR12MB5253EE11657C5654445CDB67C28B9@BL1PR12MB5253.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:238;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: UqODgJCPMocrNo4KVjcirdHWCZ8Wex6GQfu5oZw8f8u5NNYBu8OXL2jB1zCLksMUaCXpodvxKGNFdO0mzPchoKEZx6H29VAaxDFCYeGqI3rtutxjzxO3UzMsyVWPyIpUBGPomN/FlzfZFun6YxUAH2iUdKRrOewdHzrxRDysBACOAQZIpUaZLte3v+r4nXU6FUviiEXURzaGFwWKmHQmli4PxCSU37UapID6hmQJed+uFTwXw9i+ed4FZAj6T+6tkuOkTOiBIQBXY95xaASNPKQSEpyMmGhJe+cFfJTMA7sWEunZoghvBaMG7q0eRRYOzeMudoqnoCg+hWPqV2hy5JTqObZyi4GTKyNNtCNQoa6Kiad3CnoWlJwTCBbsC0OXtO0beCfCYrzRJjwqs4LpHfXgZqurq3Jwlv+QF7JJxwpXKKMWG1ITVgoCp6F7kZr6mEE3Lba5t9MX2hCLtIpohcNJZYCB378GWexy9yDVbnr1BqsExmcKeGVo4/b17lLrTHqrWzDW62IBm41N5NjK7zfg3QB2mGF7sFlOEznfdmYE078/9b6H4E+lekRkWQIVSLs2kx8nI03kxoJSq6D+055EVRNCCa407mlE5L57wWCrWmLxiedie9udEm+n/u/K+uvD4Kp/HnjLiqStx6Rp1A==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BL0PR12MB5506.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(4326008)(66476007)(4744005)(66556008)(2616005)(186003)(86362001)(54906003)(1076003)(2906002)(316002)(66946007)(83380400001)(5660300002)(7416002)(8676002)(508600001)(6916009)(9786002)(9746002)(36756003)(26005)(33656002)(8936002)(38100700002)(426003);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?gsXF2qCVWMbooezl3a0nrJkTWsNxYTDZVQLWpZkdzwMpp9Covdw5HaiMbPpn?=
- =?us-ascii?Q?P5BA5Q3wSCFWPSGRvpxwso5q0Zz+HvcRG0wKrHc2QrLrONbzxJMxb5N/GyMy?=
- =?us-ascii?Q?A+l9pF59sBil8fXCR04ja2HSHyrD0gsyqyOJwZ/XGzDgVVcOvSv+B2VW5RBD?=
- =?us-ascii?Q?MjLCh7ye0BqhDGqqlk/Gk/D1wYwflDVk8jU2Qty+TsoWqnDixqSjCnycjax9?=
- =?us-ascii?Q?z9qytQUnuPVO0nItbJvKKke9TqTBGI5dPIYzZ0rGtWFR5bD5v8WlSFFvZUuK?=
- =?us-ascii?Q?EmWkGCJUCH4SBhNoPJMBSxNdK6pg8w6sqF2fvlwaDMn6QTGQzx+ubKsvp987?=
- =?us-ascii?Q?6fjpxZ42X7nNw0vAVs2ev7TsSZFoJ4/+3iZMKWQP7S7+FQBF//80e/CcyBSX?=
- =?us-ascii?Q?IuDlshSiUEp2RKrvHFbnEONKhXVxP9+PqFg3mbYVPZOrWqIVagCUrbJ4PBk6?=
- =?us-ascii?Q?waktIgYFCucqpVSbRIiVez/PHWWD80jJzN8Lc7BFv5HFj57pc3cjZ5JCPFyf?=
- =?us-ascii?Q?w3VswPAn566zEVtxBmd00Ri171SLhVyLUu42ON9dZ5yxtnAreeM0VX83Xetz?=
- =?us-ascii?Q?RugwJdGkPZsPs35exLwjZIPtiPCWwqjiVL7Tp7zuwj/mVtLcNj40tola3BsN?=
- =?us-ascii?Q?L+gPDhLhj9VGQbWI8hW4xUxLJC02gwZytmoKsMcus97sogqugN+P28FU4A/f?=
- =?us-ascii?Q?O6Cq3JfAjGEWAZCtVQuaFuZ6MUDeoKHyGeEQJBs47sOmqN7e2AQQJ7v3TUmk?=
- =?us-ascii?Q?MrSFMhMOhK/OQI11g6G/mFL/PSedL3ykITOG61cBGG6lZ122H4GX/zVvRIsH?=
- =?us-ascii?Q?CeWpFmN70TDd3nnxW9nQRqrhAfrCN7NasCt1Trg423Kny1VVhAsWXUwY5QXT?=
- =?us-ascii?Q?VUuE1zwOUtDzEBbiyH1Pasuy5JjjBULkXnGdsgvOlaOSuRqutEmdEmNwPGTY?=
- =?us-ascii?Q?IMK0Wxl3mOymB39XPerskQQ2W5nCDBkprdfme9NOR5wAgFRViIhhnWogjzdS?=
- =?us-ascii?Q?CdjRTtIFOxcbf8mrZqxAKp1AGIsmHXeoR/8YLE2DIPTgHSSNHBCAiXwo+StL?=
- =?us-ascii?Q?bTXBIZg3oDD7/7hZLDD/MY0NrivVHxLJ0wEh4LE9oB1tSNN5QRriMJEwf3x1?=
- =?us-ascii?Q?cgJDBkgnEfAFg+z5xLBu6yzkVdofHQyjKt//XiNhkHBpTJxp8B7wr4Ig99cN?=
- =?us-ascii?Q?H8ZQWzxCzAly6SbS9WJ4XYxwMllEGEPgZUt1G+BnnJUGU5HYHivu6nhdPv5B?=
- =?us-ascii?Q?Rr3BDe3/t/+sR1z6jW8OZATl/NIpcNURbeCJ2IihJXYhZI2qbXVg+WpL9OYZ?=
- =?us-ascii?Q?CR0wrJctlXgIxHr1FMotukzL4g31ZM9HtE8JNJ25deB3NIzb2l8l1MEehgxn?=
- =?us-ascii?Q?59M0EJH8jOs+bc4XQ5NmC3w0QuYFOxBGTr4n52YYkDqQ4XAOMDMOQnnJgNed?=
- =?us-ascii?Q?ycINk62JuM6UFhkV478JOwYobTCW5UB51WDomxemKndcYuO8rRkMunVH56ae?=
- =?us-ascii?Q?HtQA1sYcyf0rAZeFjbJLTPcGl451MNWxZHp/5MGYNghvTixl+7BuEARQ+YvN?=
- =?us-ascii?Q?w+4JenhP09uor1lBTOc=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 838471ab-a84e-432d-8f50-08d99e1fb757
-X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB5506.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Nov 2021 16:42:10.9009 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: twO4aJclD8LzJ110paRYbXRU42K7D3yNzE907N1QlLEmLfB3IxdB2wpPaLgm6paf
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5253
+References: <20211025152903.1088803-1-maxime@cerno.tech>
+ <20211025152903.1088803-8-maxime@cerno.tech>
+In-Reply-To: <20211025152903.1088803-8-maxime@cerno.tech>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Tue, 2 Nov 2021 16:46:58 +0000
+Message-ID: <CAPY8ntBo+xpeRSmOGLJNw_Kd2F-Azz-P244mxtvqyWM7ugZFZA@mail.gmail.com>
+Subject: Re: [PATCH v8 07/10] drm/vc4: Leverage the load tracker on the BCM2711
+To: Maxime Ripard <maxime@cerno.tech>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,25 +64,148 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- intel-gvt-dev@lists.freedesktop.org, Zhi Wang <zhi.a.wang@intel.com>
+Cc: Nicolas Saenz Julienne <nsaenz@kernel.org>,
+ Tim Gover <tim.gover@raspberrypi.com>, Emma Anholt <emma@anholt.net>,
+ David Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>, Phil Elwell <phil@raspberrypi.com>,
+ Dom Cobley <dom@raspberrypi.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 02, 2021 at 08:06:01AM +0100, Christoph Hellwig wrote:
-> The code in both files is deeply interconnected, so merge it and
-> keep a bunch of structures and functions static.
-> 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
+On Mon, 25 Oct 2021 at 16:29, Maxime Ripard <maxime@cerno.tech> wrote:
+>
+> The load tracker was initially designed to report and warn about a load
+> too high for the HVS. To do so, it computes for each plane the impact
+> it's going to have on the HVS, and will warn (if it's enabled) if we go
+> over what the hardware can process.
+>
+> While the limits being used are a bit irrelevant to the BCM2711, the
+> algorithm to compute the HVS load will be one component used in order to
+> compute the core clock rate on the BCM2711.
+>
+> Let's remove the hooks to prevent the load tracker to do its
+> computation, but since we don't have the same limits, don't check them
+> against them, and prevent the debugfs file to enable it from being
+> created.
+>
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+
+Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+
 > ---
->  drivers/gpu/drm/i915/Makefile    |   1 -
->  drivers/gpu/drm/i915/gvt/gvt.c   | 291 -------------------------------
->  drivers/gpu/drm/i915/gvt/gvt.h   |   6 -
->  drivers/gpu/drm/i915/gvt/kvmgt.c | 264 +++++++++++++++++++++++++++-
->  4 files changed, 260 insertions(+), 302 deletions(-)
->  delete mode 100644 drivers/gpu/drm/i915/gvt/gvt.c
-
-Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
-
-Jason
+>  drivers/gpu/drm/vc4/vc4_debugfs.c |  7 +++++--
+>  drivers/gpu/drm/vc4/vc4_drv.h     |  3 ---
+>  drivers/gpu/drm/vc4/vc4_kms.c     | 16 +++++-----------
+>  drivers/gpu/drm/vc4/vc4_plane.c   |  5 -----
+>  4 files changed, 10 insertions(+), 21 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/vc4/vc4_debugfs.c b/drivers/gpu/drm/vc4/vc4_debugfs.c
+> index 6da22af4ee91..ba2d8ea562af 100644
+> --- a/drivers/gpu/drm/vc4/vc4_debugfs.c
+> +++ b/drivers/gpu/drm/vc4/vc4_debugfs.c
+> @@ -7,6 +7,7 @@
+>  #include <linux/circ_buf.h>
+>  #include <linux/ctype.h>
+>  #include <linux/debugfs.h>
+> +#include <linux/platform_device.h>
+>
+>  #include "vc4_drv.h"
+>  #include "vc4_regs.h"
+> @@ -26,8 +27,10 @@ vc4_debugfs_init(struct drm_minor *minor)
+>         struct vc4_dev *vc4 = to_vc4_dev(minor->dev);
+>         struct vc4_debugfs_info_entry *entry;
+>
+> -       debugfs_create_bool("hvs_load_tracker", S_IRUGO | S_IWUSR,
+> -                           minor->debugfs_root, &vc4->load_tracker_enabled);
+> +       if (!of_device_is_compatible(vc4->hvs->pdev->dev.of_node,
+> +                                    "brcm,bcm2711-vc5"))
+> +               debugfs_create_bool("hvs_load_tracker", S_IRUGO | S_IWUSR,
+> +                                   minor->debugfs_root, &vc4->load_tracker_enabled);
+>
+>         list_for_each_entry(entry, &vc4->debugfs_list, link) {
+>                 drm_debugfs_create_files(&entry->info, 1,
+> diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
+> index 60826aca9e5b..813c5d0ea98e 100644
+> --- a/drivers/gpu/drm/vc4/vc4_drv.h
+> +++ b/drivers/gpu/drm/vc4/vc4_drv.h
+> @@ -202,9 +202,6 @@ struct vc4_dev {
+>
+>         int power_refcount;
+>
+> -       /* Set to true when the load tracker is supported. */
+> -       bool load_tracker_available;
+> -
+>         /* Set to true when the load tracker is active. */
+>         bool load_tracker_enabled;
+>
+> diff --git a/drivers/gpu/drm/vc4/vc4_kms.c b/drivers/gpu/drm/vc4/vc4_kms.c
+> index 028f19f7a5f8..41cb4869da50 100644
+> --- a/drivers/gpu/drm/vc4/vc4_kms.c
+> +++ b/drivers/gpu/drm/vc4/vc4_kms.c
+> @@ -552,9 +552,6 @@ static int vc4_load_tracker_atomic_check(struct drm_atomic_state *state)
+>         struct drm_plane *plane;
+>         int i;
+>
+> -       if (!vc4->load_tracker_available)
+> -               return 0;
+> -
+>         priv_state = drm_atomic_get_private_obj_state(state,
+>                                                       &vc4->load_tracker);
+>         if (IS_ERR(priv_state))
+> @@ -629,9 +626,6 @@ static void vc4_load_tracker_obj_fini(struct drm_device *dev, void *unused)
+>  {
+>         struct vc4_dev *vc4 = to_vc4_dev(dev);
+>
+> -       if (!vc4->load_tracker_available)
+> -               return;
+> -
+>         drm_atomic_private_obj_fini(&vc4->load_tracker);
+>  }
+>
+> @@ -639,9 +633,6 @@ static int vc4_load_tracker_obj_init(struct vc4_dev *vc4)
+>  {
+>         struct vc4_load_tracker_state *load_state;
+>
+> -       if (!vc4->load_tracker_available)
+> -               return 0;
+> -
+>         load_state = kzalloc(sizeof(*load_state), GFP_KERNEL);
+>         if (!load_state)
+>                 return -ENOMEM;
+> @@ -869,9 +860,12 @@ int vc4_kms_load(struct drm_device *dev)
+>                                               "brcm,bcm2711-vc5");
+>         int ret;
+>
+> +       /*
+> +        * The limits enforced by the load tracker aren't relevant for
+> +        * the BCM2711, but the load tracker computations are used for
+> +        * the core clock rate calculation.
+> +        */
+>         if (!is_vc5) {
+> -               vc4->load_tracker_available = true;
+> -
+>                 /* Start with the load tracker enabled. Can be
+>                  * disabled through the debugfs load_tracker file.
+>                  */
+> diff --git a/drivers/gpu/drm/vc4/vc4_plane.c b/drivers/gpu/drm/vc4/vc4_plane.c
+> index 19161b6ab27f..ac761c683663 100644
+> --- a/drivers/gpu/drm/vc4/vc4_plane.c
+> +++ b/drivers/gpu/drm/vc4/vc4_plane.c
+> @@ -529,11 +529,6 @@ static void vc4_plane_calc_load(struct drm_plane_state *state)
+>         struct vc4_plane_state *vc4_state;
+>         struct drm_crtc_state *crtc_state;
+>         unsigned int vscale_factor;
+> -       struct vc4_dev *vc4;
+> -
+> -       vc4 = to_vc4_dev(state->plane->dev);
+> -       if (!vc4->load_tracker_available)
+> -               return;
+>
+>         vc4_state = to_vc4_plane_state(state);
+>         crtc_state = drm_atomic_get_existing_crtc_state(state->state,
+> --
+> 2.31.1
+>
