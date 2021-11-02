@@ -2,42 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0A79442A7D
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Nov 2021 10:37:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E71C442A86
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Nov 2021 10:37:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C894372D26;
-	Tue,  2 Nov 2021 09:36:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F2F772D4D;
+	Tue,  2 Nov 2021 09:37:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4801172D23;
- Tue,  2 Nov 2021 09:36:37 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10155"; a="292057436"
-X-IronPort-AV: E=Sophos;i="5.87,202,1631602800"; d="scan'208";a="292057436"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Nov 2021 02:36:36 -0700
-X-IronPort-AV: E=Sophos;i="5.87,202,1631602800"; d="scan'208";a="449321979"
-Received: from dgwhelax-mobl.ger.corp.intel.com (HELO [10.213.243.111])
- ([10.213.243.111])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Nov 2021 02:36:35 -0700
-Subject: Re: [Intel-gfx] [PATCH v3 05/10] drm/i915: Prepare for multiple gts
-To: Andi Shyti <andi.shyti@linux.intel.com>,
- Matt Roper <matthew.d.roper@intel.com>
-References: <20211029032817.3747750-1-matthew.d.roper@intel.com>
- <20211029032817.3747750-6-matthew.d.roper@intel.com>
- <YYB0BdEcDqt2IUXi@intel.intel>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-Message-ID: <a1a70e75-2068-fa69-e307-456d031b25b1@linux.intel.com>
-Date: Tue, 2 Nov 2021 09:36:32 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+Received: from mail-qt1-x82a.google.com (mail-qt1-x82a.google.com
+ [IPv6:2607:f8b0:4864:20::82a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E72D72D4C;
+ Tue,  2 Nov 2021 09:37:39 +0000 (UTC)
+Received: by mail-qt1-x82a.google.com with SMTP id o12so7529594qtv.4;
+ Tue, 02 Nov 2021 02:37:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:reply-to:subject
+ :content-language:from:to:references:in-reply-to
+ :content-transfer-encoding;
+ bh=U01pN62IGxw0wEpHz7rt+oSLBB7OIWJHCo+M1XzRL6w=;
+ b=VBZaVCIldmEEkz48+ooyclOD1v/J5MfydE0imu0dPjkGygs9LKzzAcQFyk3Z2FfUo1
+ 3x0AWt+EiFAKZt/Z2lZfIL4FScRwyiosy9cO+pjCQgzeyRMOFr5/re2vNMqOZiGPjb0w
+ tymARzDm7vcfMzf66gdiKtomuDo9sAsV68n134C0/AqqqGZLHdZi/Cd7Vxu/LhIL2Nn8
+ SQw6tCucSfAO/0tNKIIGZ7QTKMTmOAb9uOCHivv4vwb4HjCLsY2PLirvFNn/ZdK5HwF0
+ OsqxSRkKhojPuU3Ab7zCDz8gihGC93ltLJ9NkqGYUnbeZtmPP1RXk7YFEVA8sDMPLwDH
+ OwpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:reply-to
+ :subject:content-language:from:to:references:in-reply-to
+ :content-transfer-encoding;
+ bh=U01pN62IGxw0wEpHz7rt+oSLBB7OIWJHCo+M1XzRL6w=;
+ b=msQaDoLvJC/Z3euEzGzKWSfEAZr/sJphTz+47at67fjU36yOZ/dGlHzGeTOJ5mrjp7
+ 5ER34136qH72/7HSBBNYkZRf/j24ibMKjBSEM/Fl6lqrKrg6h+lst/105IkprJsBeaHo
+ ELNcQBOH6e97NFksFtVmN/7OPQ/SopSU1a5o5VDvAH83BzV/OjY0iTrLBqh6DtWrJ4Qn
+ mNf2PHJRhAQTavShJQhMANcsXEx5iQHq5hMIKGPzbB+Tv6ubAf9URWv34/bJU8+wWEnw
+ YOkxD+hsnjZLdQWwKwmq+RluiWZ1rYn0Mb3UFnlPzNeJGqzn6K91BAEYiknCiSNAlFfR
+ sV+A==
+X-Gm-Message-State: AOAM532hlGLJ2z1NObflD56JawFN504D8kb9e8ac791LDHCT4izOaZ5o
+ uA1ll8Rr1OxXEhlm16nhCpnjrp2PEKQ=
+X-Google-Smtp-Source: ABdhPJxWSprHXCHYj6XNl0eEfQLli8nXmJXT0KpDQazoSAjnuCaeM3VhAEghSHMZcZlQmRxx7y8bFw==
+X-Received: by 2002:ac8:7d13:: with SMTP id g19mr37678225qtb.178.1635845858242; 
+ Tue, 02 Nov 2021 02:37:38 -0700 (PDT)
+Received: from mua.localhost ([2600:1700:e380:2c20::49])
+ by smtp.gmail.com with ESMTPSA id n15sm5269212qkp.102.2021.11.02.02.37.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 02 Nov 2021 02:37:37 -0700 (PDT)
+Message-ID: <0feee174-1ecf-0ab4-407f-67bdaac8b2e6@gmail.com>
+Date: Tue, 2 Nov 2021 05:37:36 -0400
 MIME-Version: 1.0
-In-Reply-To: <YYB0BdEcDqt2IUXi@intel.intel>
-Content-Type: text/plain; charset=utf-8; format=flowed
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Firefox/91.0 Thunderbird/91.2.0
+Subject: Re: amdgpu on Ryzen 5600G -- 'purple' background [WAS: Re: amdgpu
+ "Fatal error during GPU init"; Ryzen 5600G integrated GPU + kernel 5.14.13}
 Content-Language: en-US
+From: PGNet Dev <pgnet.dev@gmail.com>
+To: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+References: <b4adea1b-9a21-75d2-7ee7-25d4f28ef6f8@gmail.com>
+ <2303555f-42cd-180c-7a67-1d104bceea7d@gmail.com>
+ <CADnq5_PsKDreYH0aNNzfR_TbfMMsfVK=-hCCB0ThZ0PzcLPCpw@mail.gmail.com>
+ <c08a4b33-ac3a-ef52-57d3-f55a4c2843c7@gmail.com>
+In-Reply-To: <c08a4b33-ac3a-ef52-57d3-f55a4c2843c7@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -51,75 +76,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, Lucas De Marchi <lucas.demarchi@intel.com>,
- dri-devel@lists.freedesktop.org
+Reply-To: pgnet.dev@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 10/30/21 11:24, PGNet Dev wrote:
+> Is that kernel/modconfig config incorrect?
+> Not relevant to the problem?
+> Something else(where) needed?
 
-On 01/11/2021 23:11, Andi Shyti wrote:
-> Hi Matt and Tvrtko,
-> 
-> [...]
-> 
->>   static int
->>   intel_gt_tile_setup(struct intel_gt *gt, unsigned int id, phys_addr_t phys_addr)
-> 
-> we don't actually need 'id', it's gt->info.id. It's introduced in
-> patch 3 with the value '0' but it's not needed.
+fwiw,
 
-I have a suspicion code got munged up over endless rebases and refactors.
+AMD Global Customer Care's response to question about this 'purple' issue:
 
-This patch is the one which introduces the id member to gt->info. But it is not setting it, even though I suspect the intent was for intel_gt_tile_setup to do that.
+"...
+Please be informed that Ryzen 5600G APU is supported only on Windows 10, 11, RHEL and Ubuntu OS. Also, this might vary depending on the manufacturer in your case AsRock.
 
-Instead gt->info.id is only set to a valid value in last patch of this series inside intel_gt_probe_all:
+https://www.amd.com/en/products/apu/amd-ryzen-5-5600g
 
-+		gt->i915 = i915;
-+		gt->name = gtdef->name;
-+		gt->type = gtdef->type;
-+		gt->info.engine_mask = gtdef->engine_mask;
-+		gt->info.id = i;
-+
-+		drm_dbg(&i915->drm, "Setting up %s %u\n", gt->name, gt->info.id);
-+		ret = intel_gt_tile_setup(gt, i, phys_addr + gtdef->mapping_base);
-
-And intel_gt_tile_setup then calls __intel_gt_init_early which assigns gt->i915 yet again.
-
-So I'd say there is probably space to bring this all into a more streamlined flow, even more than what you suggest below.
-
-Regards,
-
-Tvrtko
-  
->>   {
->> +	struct drm_i915_private *i915 = gt->i915;
->> +	struct intel_uncore *uncore;
->> +	struct intel_uncore_mmio_debug *mmio_debug;
->>   	int ret;
->>   
->> -	intel_uncore_init_early(gt->uncore, gt);
->> +	if (id) {
-> 
-> if (gt->info.id) ?
-> 
-> Andi
-> 
->> +		uncore = kzalloc(sizeof(*uncore), GFP_KERNEL);
->> +		if (!uncore)
->> +			return -ENOMEM;
->> +
->> +		mmio_debug = kzalloc(sizeof(*mmio_debug), GFP_KERNEL);
->> +		if (!mmio_debug) {
->> +			kfree(uncore);
->> +			return -ENOMEM;
->> +		}
->> +
->> +		__intel_gt_init_early(gt, uncore, i915);
->> +	} else {
->> +		uncore = &i915->uncore;
->> +		mmio_debug = &i915->mmio_debug;
->> +	}
->> +
->> +	intel_uncore_init_early(uncore, gt);
->>   
->>   	ret = intel_uncore_setup_mmio(gt->uncore, phys_addr);
+I suggest you try installing Ubuntu 20.04.3 and update to latest version and check the status.
+"
