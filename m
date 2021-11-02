@@ -1,117 +1,125 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC8B344255B
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Nov 2021 02:56:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C4D3444258C
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Nov 2021 03:19:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 456316F55F;
-	Tue,  2 Nov 2021 01:56:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D2CE6F882;
+	Tue,  2 Nov 2021 02:19:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2108.outbound.protection.outlook.com [40.107.243.108])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 11E226F55F
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Nov 2021 01:56:40 +0000 (UTC)
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on2087.outbound.protection.outlook.com [40.107.237.87])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 461226F882
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Nov 2021 02:19:30 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UA0+48H71hjqnBAwsk3x5SNvPY9idOagIe3rKYDP3UsqwgW90gAe97hUBfxTm/dCZruyGAfjtWLsMH/KOA56kgYuwmsYx9wqsyYYe2cN6UE84WxrY+ESrRCDNetCdUW6E1tUwY4vWKGv6Cqvem3Ez3LFmyY0l0c6YJj5aNmrWMN9Ovq2sSEvvRgoQE/4LybaR8pTizZQWvHLiofKx/jHiOstrGUo8T4/DOtovaFg3j49GPjYxwUCGcgJIstK3xFlX2m5oXY6cNYJ3tJK/sHC42teIuWFi0gJ5BpUecOYng1/otFXCumZtkdRlvaVuGdouq9lnyXQaM8smUnrML9rzQ==
+ b=nBVg4r41R8SotCsOYh2qJKpi4PKHSIJ4lSjtZhx10WvYJwjfyi9u3VUob0gOVoXNIQRMAOzhgBrxm8y32HC6vSf3i3mCucOF84XZJDUBGg5rAb6eSW/nnQCS+tWkvbNvOEu4aTLB15l10k6bI+NZ+U6Dw0PSvBxBc8C1jQMGnps5vA31dUFmZIbBC6cTOQKkvsh0bbcegjen1+MVquLg3fOdzV9Ovv6oyudP2zLjhFp6phQsCikIi5mIH6oMgAd4l0k4vLnqBiaP+AAwcrtChCE2kL3oc5xoJu1HE9NDcZhGgQ1HAYeVeTqxa7BPlmn+/uR9/uIOOWqGaKtUwSRLiw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ktaJC0XjY/fUteJZ88N1HqJBPCQmcmLfRcsWl3B0/78=;
- b=hVd1bAl9MpHd4HOFIJmhW3txJ7n+pXtPh+xPu7ezYd/ckLzRa0LwKEId8kNEKQ5dIkhadPC02GnyOKME/d3zYpFiDFhshA2MYSVysD6cNVM6dFbnV+3KecxOb5T8dlfhKPx4Q4V649I3euJWPfHgng07qVo/mkO12E59LYbGonr+sEyKO0pdXNGTckUK1+WTmx8esLxRCX88s6+b02o28Csy1Sn2fMcDN5HOzMpsCnxUmwTm60uYLc/udMUO3CJe8+Cbb2zUs3DlD4wubwIF7buEieZ+1xIr434R1t7FbMenpvQ0MVIzroKXsEvfJK6vtAaJbmZL1xTTFbal2VieOQ==
+ bh=QMc40WzOvF4eA/CE2avahAj7lqbLdhD//BFg/yMhJEQ=;
+ b=QVxovuZvZyBi0XJJeZQ0SHFjAiKxuge6wFwXe0BUBYD66q/K8/YqRyIEOYvtO0lEmQWsMbsKKnLQ+znuZEwWthenk6ljAXmT8PDSAla/5sfLItXS6TuPCSeZgodqLPxO0ZqHB6tDpO2LOrDWocIkgaNd0jovkFgZZ+jp+e7oqaWLViUUzRAIVUkzirDG27+l2W93ygUgYf9JpQ+TzbjSuQx9h29wc7p/Zzs+/jmmnWij2EBGaKbsTGz7WXDXezagHQtrn8y6KrJd8actajojuPnJVAU0Cz7vNoJ50DSuQm9eqGGcuAzFfMgRrnsz12dJvNg3nhoneHbC3iRU5Cq2MQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=analogixsemi.com; dmarc=pass action=none
- header.from=analogixsemi.com; dkim=pass header.d=analogixsemi.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=Analogixsemi.onmicrosoft.com; s=selector2-Analogixsemi-onmicrosoft-com;
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ktaJC0XjY/fUteJZ88N1HqJBPCQmcmLfRcsWl3B0/78=;
- b=2munEAgJOY9mTqYv/aHvwz1XrgxWMtourJLyAy3hQCq+ni9bGFdC5JvKKAGq9FzL6aERMSscE4pH3QMbSSJe2c72HzlBBX4VBMNrq0Smu8R5hmrXpyOS1j8F7oXzSdFQ0qrefTwdFaq88b4FFU8f6A1gCJIfu10u+oi+OjpAS5M=
-Authentication-Results: mediatek.com; dkim=none (message not signed)
- header.d=none;mediatek.com; dmarc=none action=none
- header.from=analogixsemi.com;
-Received: from CH2PR04MB6741.namprd04.prod.outlook.com (2603:10b6:610:96::19)
- by CH2PR04MB6569.namprd04.prod.outlook.com (2603:10b6:610:6d::8) with
+ bh=QMc40WzOvF4eA/CE2avahAj7lqbLdhD//BFg/yMhJEQ=;
+ b=NDjxvpNv6ufmN6Te4ceH9v16tmnkBj8N7TnX3IrXXkTR+zKfBye1E3QLw1VELiID4zNWrzg34XDdLelmcpTeT7iHGLNlXWqvCUutVLr7rzFsKdJr19GStnpjeO4KbR1+2aXwwXRhMohHDDARw+DnwaYkYf7bzs8EKae9ybWDbsE=
+Received: from MWHPR12MB1631.namprd12.prod.outlook.com (2603:10b6:301:f::19)
+ by MWHPR12MB1903.namprd12.prod.outlook.com (2603:10b6:300:108::22) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4649.15; Tue, 2 Nov
- 2021 01:56:39 +0000
-Received: from CH2PR04MB6741.namprd04.prod.outlook.com
- ([fe80::d062:2525:29dc:13df]) by CH2PR04MB6741.namprd04.prod.outlook.com
- ([fe80::d062:2525:29dc:13df%8]) with mapi id 15.20.4649.020; Tue, 2 Nov 2021
- 01:56:39 +0000
-Date: Tue, 2 Nov 2021 09:56:31 +0800
-From: Xin Ji <xji@analogixsemi.com>
-To: Jitao Shi <jitao.shi@mediatek.com>
-Subject: Re: [PATCH v7 3/3] drm/bridge: anx7625: config hs packets end
- aligned to avoid screen shift
-Message-ID: <20211102015631.GA2248315@anxtwsw-Precision-3640-Tower>
-References: <20210915223117.7857-1-jitao.shi@mediatek.com>
- <20210915223117.7857-4-jitao.shi@mediatek.com>
- <a16150b6b10dca4bf961b8e02b5e4d940b98468c.camel@mediatek.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a16150b6b10dca4bf961b8e02b5e4d940b98468c.camel@mediatek.com>
-X-ClientProxiedBy: HKAPR04CA0009.apcprd04.prod.outlook.com
- (2603:1096:203:d0::19) To CH2PR04MB6741.namprd04.prod.outlook.com
- (2603:10b6:610:96::19)
+ 2021 02:19:23 +0000
+Received: from MWHPR12MB1631.namprd12.prod.outlook.com
+ ([fe80::48ee:f48:5a1:dcd8]) by MWHPR12MB1631.namprd12.prod.outlook.com
+ ([fe80::48ee:f48:5a1:dcd8%8]) with mapi id 15.20.4649.019; Tue, 2 Nov 2021
+ 02:19:23 +0000
+From: "Yuan, Perry" <Perry.Yuan@amd.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: RE: [PATCH v2] drm/dp: Fix aux->transfer NULL pointer dereference on
+ drm_dp_dpcd_access
+Thread-Topic: [PATCH v2] drm/dp: Fix aux->transfer NULL pointer dereference on
+ drm_dp_dpcd_access
+Thread-Index: AQHXzudL2995hzb9gUSl5xB6lKH0RavupMsAgADbG0A=
+Date: Tue, 2 Nov 2021 02:19:22 +0000
+Message-ID: <MWHPR12MB1631610D235FCC3B47064F6B9C8B9@MWHPR12MB1631.namprd12.prod.outlook.com>
+References: <20211101061053.38173-1-Perry.Yuan@amd.com>
+ <87a6iodnz7.fsf@intel.com>
+In-Reply-To: <87a6iodnz7.fsf@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_Enabled=true;
+ MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_SetDate=2021-11-02T02:19:20Z; 
+ MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_Method=Standard;
+ MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_Name=AMD Official Use
+ Only-AIP 2.0;
+ MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
+ MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_ActionId=ca4486da-c024-46a4-b6b7-bdb796a56ed2;
+ MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_ContentBits=1
+authentication-results: linux.intel.com; dkim=none (message not signed)
+ header.d=none;linux.intel.com; dmarc=none action=none header.from=amd.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 75df1b40-5b1b-4e11-7fea-08d99da72f69
+x-ms-traffictypediagnostic: MWHPR12MB1903:
+x-microsoft-antispam-prvs: <MWHPR12MB190344B1A03F21D1A9945CE29C8B9@MWHPR12MB1903.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: HiLNDwOD/3gk28O1rTtwpu2jVLTicPzfkx8vAY0gNUwikP6J0A48HKNSsPK4m29qgdhHtk/hzE1Z5pB8AbqllIPZ//cCZrY84RxnuHIEDXG1/8Pdhh+U4w0VbIKq0wjzN7B8LozKK0EifiZVR9Tq8ZwFHC2HnhpGoxYpVvrfzdLS+DG3QW0HE7g+AqDHCWvRfepVK4eXljTyLXpIUHkx+MHzHRZzamS3AfBxfEztWmUq+ksxFCxtBARYjlDuMyJldvhJeXtA/9jvLa4tUQ0jNyv51ZCPHDkNsxcCipmj6LspeQnZzuZtKTca2ownBRrnymVXe/1reM4JdprMMuTkljRJQ0RPKP9eZT+83XwWQCnVYPNfHxh25i49dFsBJn4JIYN0Xs2ynpuLLwjZr5Z2kOELjwHJ8xhceW1YzBkjPQu4b+0Le3nulHyeTgeatmzetEtwsTBfmn14G1jj7BKSWN05jCTsARUojsXfJQHB8cgJIlJ9Y3nDcEwYkdjPUfVKuPG8Y/9Y8QhOwBUAOOJhIVTpKHy/MjClQwDzOj3QsUcMvYUyPGLZUhofxiBbpK471HmMwFeZeiVIGYGFe9/Pbywxt6U/SRs/4EaYAVH87yE4cT3sncmQDogQYRQ0PbkWXYKOdaD5ZdZVn211/qdTko+y4to9abLhDNsmYxuFPzSs8cYWK6YhLhoxk4SqZ+88O5dhZx1i3VxKkpleuLDp8A==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MWHPR12MB1631.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(64756008)(26005)(110136005)(5660300002)(54906003)(316002)(38070700005)(52536014)(9686003)(8936002)(55016002)(966005)(38100700002)(66946007)(86362001)(186003)(76116006)(71200400001)(2906002)(4326008)(66476007)(66556008)(66446008)(508600001)(7696005)(6506007)(53546011)(122000001)(83380400001)(33656002)(8676002);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?XPyoYAm+Sf5aVTy2ld7Wi+ptLvQXPgy8NEEtHlv3gknAl+ER8eJSvEOD+ie/?=
+ =?us-ascii?Q?nYVDJbxwLsrBnM0hww3UlqiZkvrJYRCkaxEovr5iNA+cpYVtDuEWDcfYiMjX?=
+ =?us-ascii?Q?f2bRW54K0aPMUeLjT3twfU91GPLJYYNyn7E3uFg6fZYFa0aY2tpmXPXoE3Oh?=
+ =?us-ascii?Q?T9pGDCwWffO5/goYnNqeUJabiGA0SG26jSmyvjMK3/jdbaVqvxwsgRuisExA?=
+ =?us-ascii?Q?l/dWnEc15LDmhmnuvd0/roLlaluW8pBNJxObAyPvfAzKYyHxjHN8Z1drdMqZ?=
+ =?us-ascii?Q?xhdCFq1xXEEugjoQCoDK6fBq/lsIUHEk6XbtoH9GDqjGudAdcIMwsdk7kVpq?=
+ =?us-ascii?Q?bjqQqAMn+1cuyoX4oRpidzgeuGe0YxkMgvkFNFMrViuXyvT89zFhyn0zu/by?=
+ =?us-ascii?Q?VXm1Id7ljAqh2BJ3M3BaHoU8KQv0/5HcnVy52oyL65RA0mgvP23PrVWFN2O4?=
+ =?us-ascii?Q?DKApXIKE2YrS1n7A2Rga5T3lXLkTHvAjKU/io0HsE1u+VF80xLQZrt1VfZRp?=
+ =?us-ascii?Q?q/nac403160bmEch1eAM0h/zdY0P9TqTMObn/8yylH1xzTgCphByFULvzB16?=
+ =?us-ascii?Q?KP7RDJn4jmuqzcaThFyaTgBX7gse7s1Wdl8nMNwkffdid+MgIRMRvEF0EMDd?=
+ =?us-ascii?Q?pa67oQmQUrcfb4yXmJ9ngknB2+NjjvT1ktXqXAzeQn3LAGWy4fJeZ4ORADds?=
+ =?us-ascii?Q?4l07mTUmROOeeBAlMJm8t/39OeXwr+pZ6l357mVFhl4DI5uYHcIv1ORn7+ie?=
+ =?us-ascii?Q?Cyz97xxREaWnBTXVFkSDBarfL90JtTl2cz9vBC9h4wiZ//lSQwb7vzJZr2wq?=
+ =?us-ascii?Q?JBhj/UcgNWf1/v5gyilelhA3fEAHiXsf72FrYFTlse5eEMHxQVXkjs1dgDvc?=
+ =?us-ascii?Q?5j0Jyfj0wSSBU8X2ULK6UqgvQXGkRf3Os/4i6jNhjEw1chhAifOi3ZiWcChA?=
+ =?us-ascii?Q?FdBxffBv0xOa8cTnjUHDmys6lxzhtXEaZkbkGFdS3KnJkCw7IJjpL+tOO14l?=
+ =?us-ascii?Q?XaF5O9yhPbLcgQVR7Wa2pxdh5w9XBqsInc9ks92zPXcbhvWMvQIiJ/1aoSA/?=
+ =?us-ascii?Q?MnYq6p3gfFTw+bRnr/pNeqX+bjiFYmnYDUbVpr/AA1ZC5F1rVmXzG2zGK/e9?=
+ =?us-ascii?Q?31TuXVDzdZkBLQ1HmzSlNEqu6IC8W5oZ39MEJl37NeS5fdghu83pxBQaHSRf?=
+ =?us-ascii?Q?8Mr5FBT0/J9ViUo2ig9Td1u4qkiRGFHX27EGU0caKRqT5h8Qb7WDfEChGQ8J?=
+ =?us-ascii?Q?M38McVBWa2P7ITWpiffJf9j/ZtPlqnMVYSnrFveBG5c9fSStr/2S1kNnMg6G?=
+ =?us-ascii?Q?kPYtBZqETa+IW0kDTNkJSsvmCXYJPGW5bqtBP/ugv7KcJ1PuzM4EZ+wliCGZ?=
+ =?us-ascii?Q?c34z/PznOilwVleTFXL2SHcDBJmiTQuADSGvA9YAmwbWQ9uEQMVxGKBENeK5?=
+ =?us-ascii?Q?j3D8DqlPo1kPuAVWFQYMTAlgCQgm7u++upQ6JRuaWUb60Q7O1rR/I5W5jq4k?=
+ =?us-ascii?Q?lWKWDvgtTuvXAG8/Y0V037owMAuZuF3lFuf7flm9HK0Yyz6JOHrXjk+8xJKc?=
+ =?us-ascii?Q?NlLBaof0nVzyc+C0xFT2ToY53gwsMq1lXbA75xpzNlEBlkNwOmFcXO3+LbWK?=
+ =?us-ascii?Q?Qw7grcJLHT8YyHKFjSpq6C4=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Received: from anxtwsw-Precision-3640-Tower (60.251.58.79) by
- HKAPR04CA0009.apcprd04.prod.outlook.com (2603:1096:203:d0::19) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4649.15 via Frontend Transport; Tue, 2 Nov 2021 01:56:38 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 0a136137-843a-4158-c76d-08d99da40223
-X-MS-TrafficTypeDiagnostic: CH2PR04MB6569:
-X-Microsoft-Antispam-PRVS: <CH2PR04MB6569A99CE5328EF61A005E62C78B9@CH2PR04MB6569.namprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4303;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 0sIharperrjVZ/V/ciR2o3/XyFQqtrEIznTYV8CGcmOa3rmm9TREu7dfx8DWJ26v9o3d9iGyx/8zkRkGXrabyqpgejToZBm40nisQlzzt7ZPm/kV673uRMA1xd/oo93/+nxLRYmNm5KF7gmCNA/OA7XWAb7ADfKESS0o5sgbhgncSuj9oJ2edEhzCq+WkJ95QgWE7wxjMZ50apSp+4OCpmyJhubDKWqQ2ARliiW1wNaQgHdlSjWoiDB5YC80LreNh+E/ZwMCVVYVynYIPuBw/xsmO8KlaFRGVjGIfer23JtDRvuDEHVpTZpBUz9i+eVC9GXcEUiADPTyskgT5/Ej9jPOla3UTk0+i1HN8AqqnfFqqYt2qFNsFLZUgqDzL76XKOGInZN+VFcvHswGEoMpgbf+XRaVIB+bq4cCWhGh/MQePmaTlHeL4LpI7mmjiIcqyG7n4TACvdkBA5yQZzuQbxW1pJYjAsOB2Fmf9fbKcgLHE3f2fb+z/o6Dq4fxpR5wmcbwC4qA0thE+cxe7+V2wQ1NFdH1uDBaIrj08TvyxWAgW7I2ClzB/nKgdwbGyknev9J+GPph15WA4FC68VG0Tic+4jmoKddz5kU7aSpYnhsXqcSJPRDvATpUXmQ+xRv6rSflUtGzftiWJUPybMKy4ZKBN8JErd+WDG53oCeQ6tQesce0zNUjG3Q+F1AfB2CdmlY03kIKm8V4k75d+OXtwA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CH2PR04MB6741.namprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(366004)(186003)(26005)(5660300002)(508600001)(2906002)(66946007)(86362001)(8676002)(33656002)(55236004)(8936002)(55016002)(4326008)(66476007)(7416002)(956004)(38100700002)(316002)(66556008)(6496006)(6666004)(52116002)(1076003)(6916009)(54906003)(9686003)(38350700002)(33716001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?geMzpC6mraU7wSYiD42sggvUjMv+ASiBzpMecxO11YvNiCgRcsr/KPV5RyjV?=
- =?us-ascii?Q?B1ky48JiDpF7ar4VdSuyCQgdbdouJDEJKC1+hQ3t83T/lEIzN1142TY/xDUp?=
- =?us-ascii?Q?Q79OhPYSOjOTMRGsHa9yiMCX/MGRWzljHDSUIOUpf8Tc8RNFTrdS6LqdvbQY?=
- =?us-ascii?Q?DT3oPdq/6ZkNYi3Ig4mljprVJx99M90gjwEWkeTxtRINS37HDSvxwnRhp1tW?=
- =?us-ascii?Q?XCHqaBQsSvxnxOzFOkqqLX4G+yChRaJIwqQVKtPnvz+bHCvnSKfjMWCGl9XY?=
- =?us-ascii?Q?Y57u8mgzV2zvg9L1O3sOiUo7AD6GdBpfuRrknIiRgAicJOo5KVStZZHS1gHk?=
- =?us-ascii?Q?QY9QRjkinZTAXB24n7MC5QJSJVi//f/eJxuZBZfrqIJ+ZhWEzEAixllb1gOZ?=
- =?us-ascii?Q?1F0hEjUNhvcWZE+WbNHVVACgez10lPvlIHO4zxtK4wxvRMfOLAh5pK3D5g89?=
- =?us-ascii?Q?KwIFVmRbwboqt4VutFkmQR8Z0eod4CeMh62dzQRFnhVk0CUS2ozadOle+unw?=
- =?us-ascii?Q?5ofGxyNSqHPznPHEXGJAVwi4KE/uOtvwRK15KivGsB2kE3LrcgMS+YqJvjTp?=
- =?us-ascii?Q?UZWDhN6r6dQNY29mdJ7tbFS/tVRyAnhX8rjkhXgPWshVFs/1rrHZNIEsPKtn?=
- =?us-ascii?Q?vcDQfIZJ5CswCmu6P+XaNoKGzOeXkGpKH0jPt581oIEb3j3Mg1mYt7dqkJGL?=
- =?us-ascii?Q?2PeZUt7xeW0nR3gAJnzeoSDD0EzQN7BR/8kgRtEpZlT4NDtqBUY82AwWzb7w?=
- =?us-ascii?Q?Ydrvf8fUG1IAitMhwwG2LCAt82yk9jDkkjkgfkazYYCoOY9vNyJlLygJ4M8l?=
- =?us-ascii?Q?FRq0v3Gsp/8NqMhWb5XN0H6va+iCGuYsrA8MKJIU9kZI3FcFMmWzaG9aap7D?=
- =?us-ascii?Q?cUCIBU0Dq7nNvoN2cFwshM47+BAILQs0s4/KvrCHaP7iDuF1x7rVnDD70LvK?=
- =?us-ascii?Q?Cx4XS7PJ+8RmEzg3ZaSZUxE950Nwd1i52BKHBBIRrcsqokmCeWgvq/99+4jn?=
- =?us-ascii?Q?4H4kRAHcmRBTvbmqTeWbTJYE4B4kFmsurXj2pCDNKpBhd92sM201Tt6vF73K?=
- =?us-ascii?Q?cLAPEHmL6wSVZhHVHOXfXlUnn906cdbExsfGNlkBx2hmYWTRGxVoV/sEoRjj?=
- =?us-ascii?Q?Vk+4CHu11pPp6DGNfUtXgKys2tUucgLCvWIXdysxyZ32YZFz80pc3lpStWrZ?=
- =?us-ascii?Q?6WW3mjEPhbjRXGPNk+/MVaCl+uDsusK0oTBipHP5/hpv3oY9GKfpxYoGEKjE?=
- =?us-ascii?Q?tAPVzFfj+nagUsdQqDs1rUq/VToYvYCmCwiurXaF5HftGAhCTMLbVP1BD+tH?=
- =?us-ascii?Q?BEAF9ZJhGcG6tCBKxnbioaGQ9xXLqbjflp+XFzMsrIszUCR1Ol/JckHui/zT?=
- =?us-ascii?Q?aQvdh1ybKbaZCYvv0GM/bx6PJLuGLtIVycSo5CF9xUWPNxjmi4unuynDWFCf?=
- =?us-ascii?Q?qLv9XQTeueFaqEzUeeBdg5U04rqo3XvNZ3Bw6Z4sQ3qSdW4x1Du3sRTdljGk?=
- =?us-ascii?Q?Tdj5yjzto4x7Hyzhj3Rcfz3VKGWfpAL0lWit+EPhaD/px7bJLSYSms0oEJrq?=
- =?us-ascii?Q?8HxNSlDtuwXcN5NVNv/XJRuYa0cLfgSOmxmhQQ2lGhSyYBPdEeyEjjx6GVNG?=
- =?us-ascii?Q?RGFnfhHeHkOJCcWmY1iviWI=3D?=
-X-OriginatorOrg: analogixsemi.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0a136137-843a-4158-c76d-08d99da40223
-X-MS-Exchange-CrossTenant-AuthSource: CH2PR04MB6741.namprd04.prod.outlook.com
+X-OriginatorOrg: amd.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Nov 2021 01:56:39.1387 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: b099b0b4-f26c-4cf5-9a0f-d5be9acab205
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: C3Pw3hHGLQlgprdDqHxjw211SS9BUoMbpesBZXbTUbKoyYL5AnJ1vZjmUbFUYpyIDUR6F4jr72gylCYYXPRTbQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR04MB6569
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR12MB1631.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 75df1b40-5b1b-4e11-7fea-08d99da72f69
+X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Nov 2021 02:19:22.8638 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: x9N8PPHNdxY5r6afiuwHn9Pl4+IHZsRq5h+mZEnaJ7XJ7/6nh7ztiehHFFrLBPf6X6HFBv6Gio7HuIvmCTFWDg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR12MB1903
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -124,48 +132,113 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, stonea168@163.com,
- rex-bc.chen@mediatek.com, shuijing.li@mediatek.com,
- Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
- Robert Foss <robert.foss@linaro.org>, dri-devel@lists.freedesktop.org,
- Neil Armstrong <narmstrong@baylibre.com>, linux-kernel@vger.kernel.org,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Andrzej Hajda <a.hajda@samsung.com>,
- linux-mediatek@lists.infradead.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, huijuan.xie@mediatek.com,
- Matthias Brugger <matthias.bgg@gmail.com>, Xin Ji <xji@analogixsemi.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: "Huang, Shimmer" <Xinmei.Huang@amd.com>, "Huang, Ray" <Ray.Huang@amd.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Nov 01, 2021 at 11:16:15AM +0800, Jitao Shi wrote:
-> Hi Xin,
-> 
-> Please help to review the changes in anx7625.c
-> 
-> On Thu, 2021-09-16 at 06:31 +0800, Jitao Shi wrote:
-> > This device requires the packets on lanes aligned at the end to fix
-> > screen shift or scroll.
-> > 
-> > Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
+[AMD Official Use Only]
+
+Hi Jani:
+Thanks for your comments.
+
+> -----Original Message-----
+> From: Jani Nikula <jani.nikula@linux.intel.com>
+> Sent: Monday, November 1, 2021 9:07 PM
+> To: Yuan, Perry <Perry.Yuan@amd.com>; Maarten Lankhorst
+> <maarten.lankhorst@linux.intel.com>; Maxime Ripard <mripard@kernel.org>;
+> Thomas Zimmermann <tzimmermann@suse.de>; David Airlie <airlied@linux.ie>;
+> Daniel Vetter <daniel@ffwll.ch>
+> Cc: Yuan, Perry <Perry.Yuan@amd.com>; dri-devel@lists.freedesktop.org; li=
+nux-
+> kernel@vger.kernel.org; Huang, Shimmer <Xinmei.Huang@amd.com>; Huang,
+> Ray <Ray.Huang@amd.com>
+> Subject: Re: [PATCH v2] drm/dp: Fix aux->transfer NULL pointer dereferenc=
+e on
+> drm_dp_dpcd_access
+>=20
+> [CAUTION: External Email]
+>=20
+> On Mon, 01 Nov 2021, Perry Yuan <Perry.Yuan@amd.com> wrote:
+> > Fix below crash by adding a check in the drm_dp_dpcd_access which
+> > ensures that aux->transfer was actually initialized earlier.
+>=20
+> Gut feeling says this is papering over a real usage issue somewhere else.=
+ Why is
+> the aux being used for transfers before ->transfer has been set? Why shou=
+ld the
+> dp helper be defensive against all kinds of misprogramming?
+>=20
+>=20
+> BR,
+> Jani.
+>=20
+
+The issue was found by Intel IGT test suite, graphic by pass test case.
+https://gitlab.freedesktop.org/drm/igt-gpu-tools
+normally use case will not see the issue.=20
+To avoid this issue happy again when we run the test case , it will be nice=
+ to add a check before the transfer is called.
+And we can see that it really needs to have a check here to make ITG &kerne=
+l happy.
+
+Perry.
+
+>=20
+> >
+> > BUG: kernel NULL pointer dereference, address: 0000000000000000 PGD 0
+> > P4D 0
+> > Oops: 0010 [#1] SMP NOPTI
+> > RIP: 0010:0x0
+> > Code: Unable to access opcode bytes at RIP 0xffffffffffffffd6.
+> > RSP: 0018:ffffa8d64225bab8 EFLAGS: 00010246
+> > RAX: 0000000000000000 RBX: 0000000000000020 RCX: ffffa8d64225bb5e
+> > RDX: ffff93151d921880 RSI: ffffa8d64225bac8 RDI: ffff931511a1a9d8
+> > RBP: ffffa8d64225bb10 R08: 0000000000000001 R09: ffffa8d64225ba60
+> > R10: 0000000000000002 R11: 000000000000000d R12: 0000000000000001
+> > R13: 0000000000000000 R14: ffffa8d64225bb5e R15: ffff931511a1a9d8
+> > FS: 00007ff8ea7fa9c0(0000) GS:ffff9317fe6c0000(0000)
+> > knlGS:0000000000000000
+> > CS: 0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> > CR2: ffffffffffffffd6 CR3: 000000010d5a4000 CR4: 0000000000750ee0
+> > PKRU: 55555554
+> > Call Trace:
+> > drm_dp_dpcd_access+0x72/0x110 [drm_kms_helper]
+> > drm_dp_dpcd_read+0xb7/0xf0 [drm_kms_helper]
+> > drm_dp_start_crc+0x38/0xb0 [drm_kms_helper]
+> > amdgpu_dm_crtc_set_crc_source+0x1ae/0x3e0 [amdgpu]
+> > crtc_crc_open+0x174/0x220 [drm]
+> > full_proxy_open+0x168/0x1f0
+> > ? open_proxy_open+0x100/0x100
+> > do_dentry_open+0x156/0x370
+> > vfs_open+0x2d/0x30
+> >
+> > v2: fix some typo
+> >
+> > Signed-off-by: Perry Yuan <Perry.Yuan@amd.com>
 > > ---
-> >  drivers/gpu/drm/bridge/analogix/anx7625.c | 1 +
-> >  1 file changed, 1 insertion(+)
-> > 
-> > diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c
-> > b/drivers/gpu/drm/bridge/analogix/anx7625.c
-> > index 14d73fb1dd15..d76fb63fa9f7 100644
-> > --- a/drivers/gpu/drm/bridge/analogix/anx7625.c
-> > +++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
-> > @@ -1327,6 +1327,7 @@ static int anx7625_attach_dsi(struct
-> > anx7625_data *ctx)
-> >  		MIPI_DSI_MODE_VIDEO_SYNC_PULSE	|
-> >  		MIPI_DSI_MODE_NO_EOT_PACKET	|
-> >  		MIPI_DSI_MODE_VIDEO_HSE;
-> > +	dsi->hs_packet_end_aligned = true;
-
-Looks good, it's OK for me.
-Reviewed-by: Xin Ji <xji@analogixsemi.com>
-
-> >  
-> >  	if (mipi_dsi_attach(dsi) < 0) {
-> >  		DRM_DEV_ERROR(dev, "fail to attach dsi to host.\n");
+> >  drivers/gpu/drm/drm_dp_helper.c | 4 ++++
+> >  1 file changed, 4 insertions(+)
+> >
+> > diff --git a/drivers/gpu/drm/drm_dp_helper.c
+> > b/drivers/gpu/drm/drm_dp_helper.c index 6d0f2c447f3b..76b28396001a
+> > 100644
+> > --- a/drivers/gpu/drm/drm_dp_helper.c
+> > +++ b/drivers/gpu/drm/drm_dp_helper.c
+> > @@ -260,6 +260,10 @@ static int drm_dp_dpcd_access(struct drm_dp_aux
+> *aux, u8 request,
+> >       msg.buffer =3D buffer;
+> >       msg.size =3D size;
+> >
+> > +     /* No transfer function is set, so not an available DP connector =
+*/
+> > +     if (!aux->transfer)
+> > +             return -EINVAL;
+> > +
+> >       mutex_lock(&aux->hw_mutex);
+> >
+> >       /*
+>=20
+> --
+> Jani Nikula, Intel Open Source Graphics Center
