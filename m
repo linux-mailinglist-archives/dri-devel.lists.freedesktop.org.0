@@ -1,40 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E11E84429C2
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Nov 2021 09:44:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 97DAC4429E3
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Nov 2021 09:52:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0657E6FEC6;
-	Tue,  2 Nov 2021 08:44:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 478C26FF13;
+	Tue,  2 Nov 2021 08:52:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CDEA86FEC6
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Nov 2021 08:44:49 +0000 (UTC)
-Received: from dggeme755-chm.china.huawei.com (unknown [172.30.72.54])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4Hk3P13f6qz90SL;
- Tue,  2 Nov 2021 16:44:37 +0800 (CST)
-Received: from huawei.com (10.67.174.47) by dggeme755-chm.china.huawei.com
- (10.3.19.101) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.15; Tue, 2
- Nov 2021 16:44:45 +0800
-From: He Ying <heying24@huawei.com>
-To: <mripard@kernel.org>, <wens@csie.org>, <airlied@linux.ie>,
- <daniel@ffwll.ch>, <jernej.skrabec@gmail.com>
-Subject: [PATCH -V2] drm/sun4i: Grab reference of connector before return
- connector from sun4i_tcon_get_connector
-Date: Tue, 2 Nov 2021 04:46:28 -0400
-Message-ID: <20211102084628.149070-1-heying24@huawei.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <33e01d45-c9f9-0e8c-6871-868ecd198368@huawei.com>
-References: <33e01d45-c9f9-0e8c-6871-868ecd198368@huawei.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3BB5A6FF10;
+ Tue,  2 Nov 2021 08:52:40 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10155"; a="231472008"
+X-IronPort-AV: E=Sophos;i="5.87,202,1631602800"; d="scan'208";a="231472008"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Nov 2021 01:52:28 -0700
+X-IronPort-AV: E=Sophos;i="5.87,202,1631602800"; d="scan'208";a="728288642"
+Received: from dccormac-mobl1.ger.corp.intel.com (HELO [10.252.3.196])
+ ([10.252.3.196])
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Nov 2021 01:52:26 -0700
+Message-ID: <393737f9-5336-013c-8dc8-ab8f49f3d3f5@intel.com>
+Date: Tue, 2 Nov 2021 08:52:24 +0000
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.67.174.47]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- dggeme755-chm.china.huawei.com (10.3.19.101)
-X-CFilter-Loop: Reflected
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v2 1/2] drm/i915/ttm: Reorganize the ttm move code
+Content-Language: en-GB
+To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+References: <20211101183851.291015-1-thomas.hellstrom@linux.intel.com>
+ <20211101183851.291015-2-thomas.hellstrom@linux.intel.com>
+From: Matthew Auld <matthew.auld@intel.com>
+In-Reply-To: <20211101183851.291015-2-thomas.hellstrom@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,102 +49,21 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- dri-devel@lists.freedesktop.org, linux-sunxi@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From the comments of drm_for_each_connector_iter(), we know
-that "connector is only valid within the list body, if you
-want to use connector after calling drm_connector_list_iter_end()
-then you need to grab your own reference first using
-drm_connector_get()". So fix the wrong use of connector
-according to the comments and then call drm_connector_put()
-after using connector finishes.
-
-Signed-off-by: He Ying <heying24@huawei.com>
----
-
-V2:
- Use proper subject prefix
-
- drivers/gpu/drm/sun4i/sun4i_tcon.c | 18 +++++++++++++-----
- 1 file changed, 13 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.c b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-index 9f06dec0fc61..24fa6784ee5f 100644
---- a/drivers/gpu/drm/sun4i/sun4i_tcon.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-@@ -47,12 +47,12 @@ static struct drm_connector *sun4i_tcon_get_connector(const struct drm_encoder *
- 	drm_connector_list_iter_begin(encoder->dev, &iter);
- 	drm_for_each_connector_iter(connector, &iter)
- 		if (connector->encoder == encoder) {
--			drm_connector_list_iter_end(&iter);
--			return connector;
-+			drm_connector_get(connector);
-+			break;
- 		}
- 	drm_connector_list_iter_end(&iter);
- 
--	return NULL;
-+	return connector;
- }
- 
- static int sun4i_tcon_get_pixel_depth(const struct drm_encoder *encoder)
-@@ -65,6 +65,7 @@ static int sun4i_tcon_get_pixel_depth(const struct drm_encoder *encoder)
- 		return -EINVAL;
- 
- 	info = &connector->display_info;
-+	drm_connector_put(connector);
- 	if (info->num_bus_formats != 1)
- 		return -EINVAL;
- 
-@@ -361,6 +362,7 @@ static void sun4i_tcon0_mode_set_cpu(struct sun4i_tcon *tcon,
- 	/* TODO support normal CPU interface modes */
- 	struct sun6i_dsi *dsi = encoder_to_sun6i_dsi(encoder);
- 	struct mipi_dsi_device *device = dsi->device;
-+	struct drm_connector *connector;
- 	u8 bpp = mipi_dsi_pixel_format_to_bpp(device->format);
- 	u8 lanes = device->lanes;
- 	u32 block_space, start_delay;
-@@ -372,7 +374,9 @@ static void sun4i_tcon0_mode_set_cpu(struct sun4i_tcon *tcon,
- 	sun4i_tcon0_mode_set_common(tcon, mode);
- 
- 	/* Set dithering if needed */
--	sun4i_tcon0_mode_set_dithering(tcon, sun4i_tcon_get_connector(encoder));
-+	connector = sun4i_tcon_get_connector(encoder);
-+	sun4i_tcon0_mode_set_dithering(tcon, connector);
-+	drm_connector_put(connector);
- 
- 	regmap_update_bits(tcon->regs, SUN4I_TCON0_CTL_REG,
- 			   SUN4I_TCON0_CTL_IF_MASK,
-@@ -430,6 +434,7 @@ static void sun4i_tcon0_mode_set_lvds(struct sun4i_tcon *tcon,
- 				      const struct drm_display_mode *mode)
- {
- 	unsigned int bp;
-+	struct drm_connector *connector;
- 	u8 clk_delay;
- 	u32 reg, val = 0;
- 
-@@ -440,7 +445,9 @@ static void sun4i_tcon0_mode_set_lvds(struct sun4i_tcon *tcon,
- 	sun4i_tcon0_mode_set_common(tcon, mode);
- 
- 	/* Set dithering if needed */
--	sun4i_tcon0_mode_set_dithering(tcon, sun4i_tcon_get_connector(encoder));
-+	connector = sun4i_tcon_get_connector(encoder);
-+	sun4i_tcon0_mode_set_dithering(tcon, connector);
-+	drm_connector_put(connector);
- 
- 	/* Adjust clock delay */
- 	clk_delay = sun4i_tcon_get_clk_delay(mode, 0);
-@@ -518,6 +525,7 @@ static void sun4i_tcon0_mode_set_rgb(struct sun4i_tcon *tcon,
- 
- 	/* Set dithering if needed */
- 	sun4i_tcon0_mode_set_dithering(tcon, connector);
-+	drm_connector_put(connector);
- 
- 	/* Adjust clock delay */
- 	clk_delay = sun4i_tcon_get_clk_delay(mode, 0);
--- 
-2.17.1
-
+On 01/11/2021 18:38, Thomas Hellström wrote:
+> We are about to introduce failsafe- and asynchronous migration and
+> ttm moves.
+> This will add complexity and code to the TTM move code so it makes sense
+> to split it out to a separate file to make the i915 TTM code easer to
+> digest.
+> Split the i915 TTM move code out and since we will have to change the name
+> of the gpu_binds_iomem() and cpu_maps_iomem() functions anyway,
+> we alter the name of gpu_binds_iomem() to i915_ttm_gtt_binds_lmem() which
+> is more reflecting what it is used for.
+> With this we also add some more documentation. Otherwise there should be
+> no functional change.
+> 
+> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Reviewed-by: Matthew Auld <matthew.auld@intel.com>
