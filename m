@@ -2,34 +2,97 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80F06443866
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Nov 2021 23:25:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 216F544387A
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Nov 2021 23:32:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 27EFC738E0;
-	Tue,  2 Nov 2021 22:25:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA00D6E0C1;
+	Tue,  2 Nov 2021 22:31:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 097B0738E1;
- Tue,  2 Nov 2021 22:25:25 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10156"; a="231633868"
-X-IronPort-AV: E=Sophos;i="5.87,203,1631602800"; d="scan'208";a="231633868"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Nov 2021 15:25:24 -0700
-X-IronPort-AV: E=Sophos;i="5.87,203,1631602800"; d="scan'208";a="599673061"
-Received: from mdroper-desk1.fm.intel.com ([10.1.27.134])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Nov 2021 15:25:24 -0700
-From: Matt Roper <matthew.d.roper@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 3/3] drm/i915/dg2: Program recommended HW settings
-Date: Tue,  2 Nov 2021 15:25:11 -0700
-Message-Id: <20211102222511.534310-4-matthew.d.roper@intel.com>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20211102222511.534310-1-matthew.d.roper@intel.com>
-References: <20211102222511.534310-1-matthew.d.roper@intel.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 729B96E0A6
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Nov 2021 22:31:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1635892313;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=s7LptIgu+syWserQTVVGwm5xGU03s5Ksw96xU5k2+b0=;
+ b=CsBIGMpp198JmXtnLNTNsG2OnnUizzxONN7lb6UX0/7PEsXArmHvIzShxpsVSAkjkMzFIx
+ Bal422pmoC+Yg8r2+AAFGdXdVOJXI+6KQD5JcczTjy95uNWx23tdTWfO2X+HR3WYa53YpG
+ n3IMwClEYnviXZ9XBBw7ZoYv1SAqCZQ=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-286-FD1HXnSdOQObQcdogX0kkw-1; Tue, 02 Nov 2021 18:31:52 -0400
+X-MC-Unique: FD1HXnSdOQObQcdogX0kkw-1
+Received: by mail-qv1-f72.google.com with SMTP id
+ j9-20020a05621419c900b003b815c01a54so467017qvc.10
+ for <dri-devel@lists.freedesktop.org>; Tue, 02 Nov 2021 15:31:52 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:organization:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=s7LptIgu+syWserQTVVGwm5xGU03s5Ksw96xU5k2+b0=;
+ b=66O8Fq/Sai57SEyg6Gst7BiexxjyI2mLB3w0FRxKldsbpYi0wAJqVamV4jfcafvX5o
+ ngKeIPf4cy4G2uUGpZ1L325dt+9dRWdnlXe1K/c9ThC4uL+61zrMTto8SfSnCobD/8Vz
+ xhgZkC+rjDzP4BMBPrQziYAv/i+HGrhBzfuhIO2tY4AMtwnDFXMZmWqf/+oj1s+U2F/q
+ r5gR/Vh9xaF6d13Tbw8UKr2ncPyFtwFmZ9oMw4ZAkIJojOVNmznoPBDjqtBxESyEz5SQ
+ mntzfDI/OwXSMHmaq5yzmPDnsaALVCz0jg1zBRpIYjyiAaLt37NgTmyG5IblI4MfukIY
+ O5kA==
+X-Gm-Message-State: AOAM532tNyyRelIm8esT0VwCSk+WkC9lxwgE90nVfp667C32Zfs+oMLF
+ exeKqygnEyoowsFwKWE0B3RMmqvsHNCJdjb2wHrrwME6mHHLNodxDt08xSXoHiE3x/RSvqAVdho
+ q0Q23rfegGzM8iJqeQfwDxipa22lp
+X-Received: by 2002:a05:620a:25c8:: with SMTP id
+ y8mr31292618qko.42.1635892311495; 
+ Tue, 02 Nov 2021 15:31:51 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz4Mn2/N4/VkaTugW1IbEV+gcQbmtzqiNbmi541UL6/BSzvvYeXqRyvJXZucZIrbqNTBihSRA==
+X-Received: by 2002:a05:620a:25c8:: with SMTP id
+ y8mr31292576qko.42.1635892311148; 
+ Tue, 02 Nov 2021 15:31:51 -0700 (PDT)
+Received: from [192.168.8.138] (pool-96-230-249-157.bstnma.fios.verizon.net.
+ [96.230.249.157])
+ by smtp.gmail.com with ESMTPSA id n18sm244365qtk.91.2021.11.02.15.31.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 02 Nov 2021 15:31:50 -0700 (PDT)
+Message-ID: <0badd704d7014481cc87a42e58c96a84205f1ca3.camel@redhat.com>
+Subject: Re: [PATCH 2/4] drm/dp_mst: Only create connector for connected end
+ device
+From: Lyude Paul <lyude@redhat.com>
+To: "Lin, Wayne" <Wayne.Lin@amd.com>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>
+Date: Tue, 02 Nov 2021 18:31:48 -0400
+In-Reply-To: <CO6PR12MB548935F6AE8DA89C965A2A58FC879@CO6PR12MB5489.namprd12.prod.outlook.com>
+References: <20210720160342.11415-1-Wayne.Lin@amd.com>
+ <20210720160342.11415-3-Wayne.Lin@amd.com>
+ <69a5f39580f0d3519468f45ecbfd50d7ad1b3036.camel@redhat.com>
+ <292d6ead03d6afe54f81d52f705e38bbf9feb7bd.camel@redhat.com>
+ <SJ0PR12MB550410E529057F59023153D9FCF19@SJ0PR12MB5504.namprd12.prod.outlook.com>
+ <2012d26bb2bece43e65ce435e6ba03f1d8767f61.camel@redhat.com>
+ <CO6PR12MB5489274038BFF71A80EA9ECEFCF89@CO6PR12MB5489.namprd12.prod.outlook.com>
+ <cd24fffcbda28ffc6734fb6d6d28b39e8782e0dd.camel@redhat.com>
+ <CO6PR12MB548965A84DF69BAC30F74AC5FCC19@CO6PR12MB5489.namprd12.prod.outlook.com>
+ <db10eb95b1ec7e822c7379d310c54975810acd2b.camel@redhat.com>
+ <CO6PR12MB548913A9CC63A199BBBD6545FCC49@CO6PR12MB5489.namprd12.prod.outlook.com>
+ <6a0868a8ce6befd5f7ddea3481e70285079fcb6a.camel@redhat.com>
+ <CO6PR12MB5489987336A4D5DF83C4FD3CFCC69@CO6PR12MB5489.namprd12.prod.outlook.com>
+ <a0a8ce9d25cc5b68e14384329e8c635e546cee90.camel@redhat.com>
+ <f3d1df941d36a2772f317973dd3dc1d7a666957e.camel@redhat.com>
+ <CO6PR12MB54899D4044882C1D7CA4B765FCDA9@CO6PR12MB5489.namprd12.prod.outlook.com>
+ <5282ad02ecd3fde8ab78fe798f066a5c03153815.camel@redhat.com>
+ <SJ0PR12MB55046A57E424305A608C17A1FC849@SJ0PR12MB5504.namprd12.prod.outlook.com>
+ <d91dbbc0f686e11e97c985713c65c8a35e575590.camel@redhat.com>
+ <CO6PR12MB548935F6AE8DA89C965A2A58FC879@CO6PR12MB5489.namprd12.prod.outlook.com>
+Organization: Red Hat
+User-Agent: Evolution 3.40.4 (3.40.4-2.fc34)
 MIME-Version: 1.0
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -43,108 +106,162 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>,
- Matt Atwood <matthew.s.atwood@intel.com>,
- Siddiqui Ayaz A <ayaz.siddiqui@intel.com>, dri-devel@lists.freedesktop.org
+Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ =?ISO-8859-1?Q?Jos=E9?= Roberto de Souza <jose.souza@intel.com>, "Siqueira,
+ Rodrigo" <Rodrigo.Siqueira@amd.com>, "Zuo, Jerry" <Jerry.Zuo@amd.com>, "Pillai,
+ Aurabindo" <Aurabindo.Pillai@amd.com>, Ben Skeggs <bskeggs@redhat.com>,
+ Ankit Nautiyal <ankit.k.nautiyal@intel.com>, Juston Li <juston.li@intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Jani Nikula <jani.nikula@intel.com>,
+ "Cornij, Nikola" <Nikola.Cornij@amd.com>, "Wu, Hersen" <hersenxs.wu@amd.com>,
+ Sean Paul <sean@poorly.run>, "stable@vger.kernel.org" <stable@vger.kernel.org>,
+ Manasi Navare <manasi.d.navare@intel.com>, "Deucher,
+ Alexander" <Alexander.Deucher@amd.com>, Sean Paul <seanpaul@chromium.org>,
+ "Kazlauskas, Nicholas" <Nicholas.Kazlauskas@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The bspec's performance guide suggests programming specific values into
-a few registers for optimal performance.  Although these aren't
-workarounds, it's easiest to handle them inside the GT workaround
-functions (which will also ensure that the values set here are properly
-melded with other bits in the same registers that _are_ set by
-workarounds).
+On Fri, 2021-10-29 at 12:11 +0000, Lin, Wayne wrote:
+> [Public]
+> 
+> Thanks Lyude for patiently guiding on this : )
+> Would like to learn more as following
 
-Bspec: 68331, 45395
+I do follow your bit about connectors only being created when a virtual path
+is instantiated, but that still doesn't follow how connectors in DRM typically
+behave though as this idea still comes down to "we don't have disconnected
+connectors, only connected ones". Which still breaks force probing (if the
+connector doesn't exist in userspace because we destroyed it, how do we get to
+it's force sysfs file?), and also just makes hides information from userspace
+that it might actually care about (what if for instance, a GUI wanted to display
+the topology layout of an MST hub -including- all of the currently disconnected
+ports on it? Considering we allow this for things like USB, it doesn't make
+sense to hide them for MST.
 
-Cc: Matt Atwood <matthew.s.atwood@intel.com>
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>
-Cc: Siddiqui Ayaz A <ayaz.siddiqui@intel.com>
-Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
----
- drivers/gpu/drm/i915/gt/intel_workarounds.c | 26 ++++++++++++++++++++-
- drivers/gpu/drm/i915/i915_reg.h             |  9 +++++++
- 2 files changed, 34 insertions(+), 1 deletion(-)
+As well, while your idea for what an MST connector is honestly does make a lot
+more sense then what we have, that's not really the issue here. The problem is
+that connector creation/destruction is already quite racy, and requires a _lot_
+of care to get right. We've already had tons of bugs in the past that lead to us
+resorting to all of the tricks we're currently using, for instance:
+Which just seems to add a lot of
+complication to the current MST code, without much reason here besides trying
+to reduce the amount of connectors along with a potential bug with leaking
+connectors that we still don't know the cause of. Trying to solve problems
+without understanding exactly what's causing them 
+something around a bug that could be entirely unrelated to how we create
+connectors, because then it's not even really guaranteed we've fixed anything
+if we don't know what caused the problem in the first place. Working around
+problems might temporarily fix the ones we're dealing with right now, but
+without understanding what's causing it there's no guarantee it won't just pop
+up again in the future or that we won't introduce new problems in the process.
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_workarounds.c b/drivers/gpu/drm/i915/gt/intel_workarounds.c
-index 37fd541a9719..51591119da15 100644
---- a/drivers/gpu/drm/i915/gt/intel_workarounds.c
-+++ b/drivers/gpu/drm/i915/gt/intel_workarounds.c
-@@ -558,6 +558,22 @@ static void icl_ctx_workarounds_init(struct intel_engine_cs *engine,
- 	wa_masked_en(wal, GEN9_ROW_CHICKEN4, GEN11_DIS_PICK_2ND_EU);
- }
- 
-+/*
-+ * These settings aren't actually workarounds, but general tuning settings that
-+ * need to be programmed on dg2 platform.
-+ */
-+static void dg2_ctx_gt_tuning_init(struct intel_engine_cs *engine,
-+				   struct i915_wa_list *wal)
-+{
-+	wa_write_clr_set(wal, GEN11_L3SQCREG5, L3_PWM_TIMER_INIT_VAL_MASK,
-+			 REG_FIELD_PREP(L3_PWM_TIMER_INIT_VAL_MASK, 0x7f));
-+	wa_add(wal,
-+	       FF_MODE2,
-+	       FF_MODE2_TDS_TIMER_MASK,
-+	       FF_MODE2_TDS_TIMER_128,
-+	       0, false);
-+}
-+
- /*
-  * These settings aren't actually workarounds, but general tuning settings that
-  * need to be programmed on several platforms.
-@@ -647,7 +663,7 @@ static void dg1_ctx_workarounds_init(struct intel_engine_cs *engine,
- static void dg2_ctx_workarounds_init(struct intel_engine_cs *engine,
- 				     struct i915_wa_list *wal)
- {
--	gen12_ctx_gt_tuning_init(engine, wal);
-+	dg2_ctx_gt_tuning_init(engine, wal);
- 
- 	/* Wa_16011186671:dg2_g11 */
- 	if (IS_DG2_GRAPHICS_STEP(engine->i915, G11, STEP_A0, STEP_B0)) {
-@@ -1482,6 +1498,14 @@ dg2_gt_workarounds_init(struct intel_gt *gt, struct i915_wa_list *wal)
- 
- 	/* Wa_14014830051:dg2 */
- 	wa_write_clr(wal, SARB_CHICKEN1, COMP_CKN_IN);
-+
-+	/*
-+	 * The following are not actually "workarounds" but rather
-+	 * recommended tuning settings documented in the bspec's
-+	 * performance guide section.
-+	 */
-+	wa_write_or(wal, XEHP_L3SCQREG7, BLEND_FILL_CACHING_OPT_DIS);
-+	wa_write_or(wal, GEN12_SQCM, EN_32B_ACCESS);
- }
- 
- static void
-diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
-index ee39d6bd0f3c..ef3b5732faad 100644
---- a/drivers/gpu/drm/i915/i915_reg.h
-+++ b/drivers/gpu/drm/i915/i915_reg.h
-@@ -731,6 +731,9 @@ static inline bool i915_mmio_reg_valid(i915_reg_t reg)
- 
- #define GEN12_OA_TLB_INV_CR _MMIO(0xceec)
- 
-+#define GEN12_SQCM		_MMIO(0x8724)
-+#define   EN_32B_ACCESS		REG_BIT(30)
-+
- /* Gen12 OAR unit */
- #define GEN12_OAR_OACONTROL _MMIO(0x2960)
- #define  GEN12_OAR_OACONTROL_COUNTER_FORMAT_SHIFT 1
-@@ -8506,6 +8509,12 @@ enum {
- #define  GEN8_LQSC_FLUSH_COHERENT_LINES		(1 << 21)
- #define  GEN8_LQSQ_NONIA_COHERENT_ATOMICS_ENABLE REG_BIT(22)
- 
-+#define GEN11_L3SQCREG5				_MMIO(0xb158)
-+#define   L3_PWM_TIMER_INIT_VAL_MASK		REG_GENMASK(9, 0)
-+
-+#define XEHP_L3SCQREG7				_MMIO(0xb188)
-+#define   BLEND_FILL_CACHING_OPT_DIS		REG_BIT(3)
-+
- /* GEN8 chicken */
- #define HDC_CHICKEN0				_MMIO(0x7300)
- #define ICL_HDC_MODE				_MMIO(0xE5F4)
+> 
+> > 
+> > Regardless though, I would think that we could just handle this mostly
+> > from the atomic state even with a connector for every port. For
+> > instance, i915 already has something called "big joiner" for supporting
+> > display configurations where one display can take up two
+> > separate display pipes (CRTCs). We could likely do something similar but
+> > with connectors if we end up having to deal with a display
+> > driven by two DP links.
+> > 
+> > > I was thinking to associate a drm connector for end stream sink only.
+> > > I think we probably won't want to attach a connector to a
+> > > relay/retimer/redriver within a stream path? I treat MST port as the
+> > > similar role when It's fixed to connect to a MST branch device.
+> > 
+> > If it's a fixed connection, this might actually be OK to avoid attaching
+> > connectors on. Currently with input ports where we know we can
+> > never receive a CSN for them during runtime, we're able to avoid creating
+> > a connector because no potential for CSN during runtime
+> > means the only possible time an input port could transition would be
+> > suspend/resume. So if we detect we're on another topology
+> > where something that was previously an output port that is an input port
+> > on the new topology, we get rid of the connector by
+> > removing the drm_dp_mst_port it's associated with from the topology and
+> > replace it with a new one. This works pretty well, as it
+> > avoids doing any actual connector destruction from the suspend/resume
+> > codepath and ensures that any pointer references to the
+> > now non-existent output port remain valid for as long as needed. So I
+> > might actually be open to expanding this for fixed connections
+> > like relays, retimers and redrivers if we handle things in a similar
+> > manner.
+> > For anything that can receive a CSN though, a drm_connector is
+> > unconditionally needed even if nothing's connected.
+> 
+> Want to deepen my knowledge here. Sorry Lyude could you explain more on this
+> please?
+> Are you saying that if we change to associate drm connector as what I
+> proposed in this patch, we will create actual connector destruction
+> from the suspend/resume codepath and which is a problem here? I thought once
+> the connection status changed from connected to
+> disconnected during suspend/resume, we still use the same way as what we did
+> in drm_dp_delayed_destroy_port():
+> i.e.
+> if (port->connector) {
+>         drm_connector_unregister(port->connector);
+>         drm_connector_put(port->connector);
+> }
+> We won't directly destruct the drm connector?
+
+Something like that, I'd need to to go look further into the details because I
+very vividly remember most of the tricks we do in the MST helpers regarding
+delayed connector destruction and when/how we change various members of the
+drm_dp_mst_port/drm_dp_mst_branch structures. I vaguely remember the problem
+with trying to hot add/remove connectors (I -did- actually try to do this once
+I believe! but not as thoroughly as you have) being some kind of lockdep
+issue. I started trying to dig into the MST code a bit deeper to get a clear
+answer on this, but I actually decided to take that time and just finish up
+the debug helpers I mentioned (I'll send the WIP patch I've got to you in a
+moment, and will send it off the mailing list once I finish hooking things up
+in i915) because it really just doesn't seem to me like we actually have a
+clear understanding of how this issue is being caused - and it's not a good
+idea for us to make any kind of API change like this to attempt (and
+inevitably fail or break something else) to fix an issue we don't fully
+understand.
+
+[snip...]
+
+> > 
+> Right! I might not recall correctly, but I think that's why I want this
+> patch. I probably encountered that userspace doesn’t explicitly
+> try to react to this unplug event. Instead, it tries to react when we plug
+> in monitor next time. And the problem is when we plug in
+> monitor next time, stale resources are not released yet. It then hits the
+> limitation within our HW. Which let me want to explicitly
+> release resource once driver detect the unplug event (just like sst long HPD
+> event I think).  By the way, just out of curiosity, when
+> do you think is the timing to release sink related resource if we rely on
+> hotplug event notifying userspace? When userspace frees the
+> associated pipe of the connector? Won't it be a transient state that
+> userspace just free the pipe temporarily?
+
+The timing of releasing resources should be done at the same time that we
+disable the connector. In general, MST modesetting shouldn't be much different
+from anything else - except for having to maintain a payload table and
+bandwidth limitations across a shared connection. So pretty much everything
+related to enabling or disabling streams should be in the atomic commit phase
+(with any bandwidth calculations done beforehand, WIP...). I'm going to say,
+let's figure out where this is happening first. I've got the debugging patches
+for this ready and will send them to you now.
+
+> 
+> > Also, I'm still working on the debugging stuff btw!
+> Much appreciate Lyude! Thanks!
+> 
+> > 
+> > --
+> > Cheers,
+> >  Lyude Paul (she/her)
+> >  Software Engineer at Red Hat
+> --
+> Regards,
+> Wayne Lin
+
 -- 
-2.33.0
+Cheers, Lyude Paul (she/her) Software Engineer at Red Hat
+
+-- 
+Cheers,
+ Lyude Paul (she/her)
+ Software Engineer at Red Hat
 
