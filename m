@@ -2,55 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C46F844301F
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Nov 2021 15:17:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEA7C442FAF
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Nov 2021 15:01:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 36F1572E3B;
-	Tue,  2 Nov 2021 14:17:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF9CC72D13;
+	Tue,  2 Nov 2021 14:01:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
- [199.106.114.39])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 49A1D6FD16;
- Tue,  2 Nov 2021 11:32:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1635852734; x=1667388734;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version;
- bh=RnC9WiU+bMlrpr4oeqGd2lWJnjhCpPWkRh3Q+hPfyzs=;
- b=GCmyDwPd+u4wqjj/9tnxrWodIytSzpdB0IujJ2Y4rU+sssm6CIikxwmf
- gGp+a/UKHjj+KNOPl3EsmMttt8s+V7uM8mfhukFol+Nv6rmJ4UFl0oCOo
- zMWlXaNhF2I9JwXzXi1QTYFS2kt7kIHr2q06+1/g8B6eo/gwTzzgZaQFK w=;
-Received: from unknown (HELO ironmsg05-sd.qualcomm.com) ([10.53.140.145])
- by alexa-out-sd-02.qualcomm.com with ESMTP; 02 Nov 2021 04:32:13 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg05-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Nov 2021 04:32:13 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.922.7; 
- Tue, 2 Nov 2021 04:32:13 -0700
-Received: from sbillaka-linux.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.922.7; 
- Tue, 2 Nov 2021 04:32:08 -0700
-From: Sankeerth Billakanti <quic_sbillaka@quicinc.com>
-To: <dri-devel@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>,
- <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v3 3/3] arm64: dts: qcom: sc7280: add edp display dt nodes
-Date: Tue, 2 Nov 2021 17:01:42 +0530
-Message-ID: <1635852702-25822-3-git-send-email-quic_sbillaka@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1635852702-25822-1-git-send-email-quic_sbillaka@quicinc.com>
-References: <1635852702-25822-1-git-send-email-quic_sbillaka@quicinc.com>
+Received: from msg-2.mailo.com (msg-2.mailo.com [213.182.54.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B27DD72D13;
+ Tue,  2 Nov 2021 14:01:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=net-c.es; s=mailo;
+ t=1635856506; bh=86oBTMpnXN2rssnmOQ7LA61tTu8gU4eFEfOZP78RisE=;
+ h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
+ MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To;
+ b=arAXsp3pJle1r6nOqeqtDf2GduQBJSJKdxquDfPAglkotW2p8bd9ev6Y1hBR3zQtg
+ IuyMT4zYDmmlvKXOVjKcAlGccOqgCOyTr7jvZCiwWUwgT/UAfqSpkdsL+5jWMX7OiY
+ 9iniW7IyoDqfGYNxRqVLIjAV6dqoTLdd5QORxuSQ=
+Received: by b-1.in.mailobj.net [192.168.90.11] with ESMTP
+ via ip-206.mailobj.net [213.182.55.206]
+ Tue,  2 Nov 2021 13:34:38 +0100 (CET)
+X-EA-Auth: FKr0z78nEI7fK18kQiJqc8cm6AQzx1MLFVMzYMgk3A7ptvyPhNNicmEOsJfefFwiU43Mj4ZkxeU8iS9dGsGDy7tpZekUHCqR
+Date: Tue, 2 Nov 2021 13:34:35 +0100
+From: Claudio Suarez <cssk@net-c.es>
+To: Inki Dae <inki.dae@samsung.com>
+Subject: Re: [PATCH v2 06/13] drm/exynos: replace drm_detect_hdmi_monitor()
+ with drm_display_info.is_hdmi
+Message-ID: <YYEwWwZY/D7ylVuN@gineta.localdomain>
+References: <20211016184226.3862-1-cssk@net-c.es>
+ <CGME20211016193513epcas1p4e354183520df0aa4c381b19eb2863262@epcas1p4.samsung.com>
+ <20211016184226.3862-7-cssk@net-c.es>
+ <ee6b3bac-4762-fd8f-c12a-c0a7ea7b56e9@samsung.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-Mailman-Approved-At: Tue, 02 Nov 2021 14:16:59 +0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ee6b3bac-4762-fd8f-c12a-c0a7ea7b56e9@samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,169 +50,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_kalyant@quicinc.com, Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
- dianders@chromium.org, quic_abhinavk@quicinc.com, swboyd@chromium.org,
- seanpaul@chromium.org, quic_mkrishn@quicinc.com, quic_khsieh@quicinc.com
+Cc: Emma Anholt <emma@anholt.net>, Neil Armstrong <narmstrong@baylibre.com>,
+ David Airlie <airlied@linux.ie>, nouveau@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
+ amd-gfx@lists.freedesktop.org, Chen-Yu Tsai <wens@csie.org>,
+ Ben Skeggs <bskeggs@redhat.com>, linux-arm-msm@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ linux-tegra@vger.kernel.org, Sean Paul <sean@poorly.run>,
+ Jingoo Han <jingoohan1@gmail.com>, Pan Xinhui <Xinhui.Pan@amd.com>,
+ Sandy Huang <hjc@rock-chips.com>, Robert Foss <robert.foss@linaro.org>,
+ Alex Deucher <alexander.deucher@amd.com>, freedreno@lists.freedesktop.org,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add edp controller and phy DT nodes for sc7280.
+On Wed, Oct 27, 2021 at 07:28:45AM +0900, Inki Dae wrote:
+> Hi,
+> 
+> 21. 10. 17. 오전 3:42에 Claudio Suarez 이(가) 쓴 글:
+> > Once EDID is parsed, the monitor HDMI support information is available
+> > through drm_display_info.is_hdmi. Retriving the same information with
+> > drm_detect_hdmi_monitor() is less efficient. Change to
+> > drm_display_info.is_hdmi
+> > 
+> > Signed-off-by: Claudio Suarez <cssk@net-c.es>
+> > ---
+> >  drivers/gpu/drm/exynos/exynos_hdmi.c | 6 ++++--
+> >  1 file changed, 4 insertions(+), 2 deletions(
+> > 
+> > diff --git a/drivers/gpu/drm/exynos/exynos_hdmi.c b/drivers/gpu/drm/exynos/exynos_hdmi.c
+> > index 7655142a4651..a563d6386abe 100644
+> > --- a/drivers/gpu/drm/exynos/exynos_hdmi.c
+> > +++ b/drivers/gpu/drm/exynos/exynos_hdmi.c
+> > @@ -893,12 +893,14 @@ static int hdmi_get_modes(struct drm_connector *connector)
+> >  	if (!edid)
+> >  		return -ENODEV;
+> >  
+> > -	hdata->dvi_mode = !drm_detect_hdmi_monitor(edid);
+> > +	/* This updates connector->display_info */
+> > +	drm_connector_update_edid_property(connector, edid);
+> > +
+> > +	hdata->dvi_mode = !connector->display_info.is_hdmi;
+> 
+> Thanks for correcting this. Yeah, we should use drm_display_info.is_hdmi parsed from EDID.
+> https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/tree/drivers/gpu/drm/drm_edid.c?h=v5.14.14#n4725
+> 
+> Signed-off-by: Inki Dae <inki.dae@samsung.com>
 
-Signed-off-by: Krishna Manikandan <quic_mkrishn@quicinc.com>
-Reviewed-by: Stephen Boyd <swboyd@chromium.org>
-Signed-off-by: Sankeerth Billakanti <quic_sbillaka@quicinc.com>
----
 
-Changes in v3:
-    - Add one clock cell per line (Stephen Boyd)
-    - Unit address should match first reg property (Stephen Boyd)
-    - Remove new line (Stephen Boyd)
-    - Add the dsi_phy clocks in dispcc (Kuogee Hsieh)
+Thank you, Inki.
 
-Changes in v2:
-    - Move regulator definitions to board file (Matthias Kaehlcke)
-    - Move the gpio definitions to board file (Matthias Kaehlcke)
-    - Move the pinconf to board file (Matthias Kaehlcke)
-    - Move status property (Stephen Boyd)
-    - Drop flags from interrupts (Stephen Boyd)
-    - Add clock names one per line for readability (Stephen Boyd)
-    - Rename edp-opp-table (Stephen Boyd)
+Best regards
+Claudio Suarez
 
- arch/arm64/boot/dts/qcom/sc7280.dtsi | 107 ++++++++++++++++++++++++++++++++++-
- 1 file changed, 105 insertions(+), 2 deletions(-)
-
-diff --git a/arch/arm64/boot/dts/qcom/sc7280.dtsi b/arch/arm64/boot/dts/qcom/sc7280.dtsi
-index 12c4d32..5ad500e 100644
---- a/arch/arm64/boot/dts/qcom/sc7280.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sc7280.dtsi
-@@ -2695,8 +2695,8 @@
- 				 <&dsi_phy 1>,
- 				 <0>,
- 				 <0>,
--				 <0>,
--				 <0>;
-+				 <&edp_phy 0>,
-+				 <&edp_phy 1>;
- 			clock-names = "bi_tcxo",
- 				      "gcc_disp_gpll0_clk",
- 				      "dsi0_phy_pll_out_byteclk",
-@@ -2784,6 +2784,13 @@
- 							remote-endpoint = <&dsi0_in>;
- 						};
- 					};
-+
-+					port@1 {
-+						reg = <1>;
-+						dpu_intf5_out: endpoint {
-+							remote-endpoint = <&edp_in>;
-+						};
-+					};
- 				};
- 
- 				mdp_opp_table: opp-table {
-@@ -2899,6 +2906,102 @@
- 
- 				status = "disabled";
- 			};
-+
-+			msm_edp: edp@aea0000 {
-+				compatible = "qcom,sc7280-edp";
-+
-+				reg = <0 0xaea0000 0 0x200>,
-+				      <0 0xaea0200 0 0x200>,
-+				      <0 0xaea0400 0 0xc00>,
-+				      <0 0xaea1000 0 0x400>;
-+
-+				interrupt-parent = <&mdss>;
-+				interrupts = <14>;
-+
-+				clocks = <&rpmhcc RPMH_CXO_CLK>,
-+					 <&gcc GCC_EDP_CLKREF_EN>,
-+					 <&dispcc DISP_CC_MDSS_AHB_CLK>,
-+					 <&dispcc DISP_CC_MDSS_EDP_AUX_CLK>,
-+					 <&dispcc DISP_CC_MDSS_EDP_LINK_CLK>,
-+					 <&dispcc DISP_CC_MDSS_EDP_LINK_INTF_CLK>,
-+					 <&dispcc DISP_CC_MDSS_EDP_PIXEL_CLK>;
-+				clock-names = "core_xo",
-+					      "core_ref",
-+					      "core_iface",
-+					      "core_aux",
-+					      "ctrl_link",
-+					      "ctrl_link_iface",
-+					      "stream_pixel";
-+				#clock-cells = <1>;
-+				assigned-clocks = <&dispcc DISP_CC_MDSS_EDP_LINK_CLK_SRC>,
-+						  <&dispcc DISP_CC_MDSS_EDP_PIXEL_CLK_SRC>;
-+				assigned-clock-parents = <&edp_phy 0>, <&edp_phy 1>;
-+
-+				phys = <&edp_phy>;
-+				phy-names = "dp";
-+
-+				operating-points-v2 = <&edp_opp_table>;
-+				power-domains = <&rpmhpd SC7280_CX>;
-+
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+
-+				status = "disabled";
-+
-+				ports {
-+					#address-cells = <1>;
-+					#size-cells = <0>;
-+					port@0 {
-+						reg = <0>;
-+						edp_in: endpoint {
-+							remote-endpoint = <&dpu_intf5_out>;
-+						};
-+					};
-+				};
-+
-+				edp_opp_table: opp-table {
-+					compatible = "operating-points-v2";
-+
-+					opp-160000000 {
-+						opp-hz = /bits/ 64 <160000000>;
-+						required-opps = <&rpmhpd_opp_low_svs>;
-+					};
-+
-+					opp-270000000 {
-+						opp-hz = /bits/ 64 <270000000>;
-+						required-opps = <&rpmhpd_opp_svs>;
-+					};
-+
-+					opp-540000000 {
-+						opp-hz = /bits/ 64 <540000000>;
-+						required-opps = <&rpmhpd_opp_nom>;
-+					};
-+
-+					opp-810000000 {
-+						opp-hz = /bits/ 64 <810000000>;
-+						required-opps = <&rpmhpd_opp_nom>;
-+					};
-+				};
-+			};
-+
-+			edp_phy: phy@aec2a00 {
-+				compatible = "qcom,sc7280-edp-phy";
-+
-+				reg = <0 0xaec2a00 0 0x19c>,
-+				      <0 0xaec2200 0 0xa0>,
-+				      <0 0xaec2600 0 0xa0>,
-+				      <0 0xaec2000 0 0x1c0>;
-+
-+				clocks = <&rpmhcc RPMH_CXO_CLK>,
-+					 <&gcc GCC_EDP_CLKREF_EN>;
-+				clock-names = "aux",
-+					      "cfg_ahb";
-+
-+				#clock-cells = <1>;
-+				#phy-cells = <0>;
-+
-+				status = "disabled";
-+			};
- 		};
- 
- 		pdc: interrupt-controller@b220000 {
--- 
-2.7.4
 
