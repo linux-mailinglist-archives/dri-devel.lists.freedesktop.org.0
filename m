@@ -1,77 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10BA8444426
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Nov 2021 16:00:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE2F8444436
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Nov 2021 16:03:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C8EF73612;
-	Wed,  3 Nov 2021 15:00:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B2EAF72FF1;
+	Wed,  3 Nov 2021 15:03:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 43DEF73616
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Nov 2021 15:00:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635951652;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=uwI0Y59Q5jmF4PHv+uLDkwhNmEWKp2IZoCsuOpcoatA=;
- b=V8hupRDi7JW+MC8owgkOu+/x5Qo5KaggJE3sSIstfNGwbQoL9+gRulz1GWQFi/8GxGc41a
- enkqUtLyhFFkpJTFmMNpm+gZLs/uvyOcF+btSBtMsx0ql6i57D9Ot9z146O6p1kWLNpk7M
- zPe2NrI7r68797d6wlshTQaNDptLT/A=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-336-OPiXDLOvPk6OtlDBeB38sQ-1; Wed, 03 Nov 2021 11:00:51 -0400
-X-MC-Unique: OPiXDLOvPk6OtlDBeB38sQ-1
-Received: by mail-wm1-f70.google.com with SMTP id
- 144-20020a1c0496000000b003305ac0e03aso2867122wme.8
- for <dri-devel@lists.freedesktop.org>; Wed, 03 Nov 2021 08:00:50 -0700 (PDT)
+Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com
+ [IPv6:2607:f8b0:4864:20::32e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B864A72FF1
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Nov 2021 15:03:50 +0000 (UTC)
+Received: by mail-ot1-x32e.google.com with SMTP id
+ l7-20020a0568302b0700b0055ae988dcc8so697711otv.12
+ for <dri-devel@lists.freedesktop.org>; Wed, 03 Nov 2021 08:03:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=wKlSTVS04ZLdR07y/zy6DmqGg7B5qIiyVHLOGFxvYv0=;
+ b=RagWfHY2+qXXSxCv8OUa83G+3bAFUGrVc7zZqV7w/7jVJ18jUBcOkJ4ECaC+gAu/Bi
+ 3UTcYHHU22jmq31HPLq4MYKDPykTuikJ0SAPL3FrrD7zckjz8hb/61oPSN/G/0PX4kJ/
+ RsrJrk6s8icxTz0kjmK8f2hKxFD1QnSkOYMbX0NWLv7MnbI04USakAvf4gZNsAdZDGPx
+ aq2SaWHiZng9ChEF6x2EbXqwMGyvw442xq8NL6RWh5rqZYiahGMwQKwOe3qAToyStP7D
+ bRRKRZxHJlJFyylBSsIO4ifhpuVhva+ANXF51wCOmlrJc5U/chLDOSOA/U6JvYlAV/Vr
+ 4zfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=uwI0Y59Q5jmF4PHv+uLDkwhNmEWKp2IZoCsuOpcoatA=;
- b=DcsYZfXqMR5JhUmUbgta6ymO03yiG4NgqLWdD4OW5diYU9pxQXI6HPhaNPEoRvBou7
- ij050tlQuwuEWii0qo9USYeeYdkkwnYzbRBu+Epiz+kNtSoBaFZ/WMiJMILhidetuiSl
- sLZ0F8HjnuWnSPNSRN7GfaShIYVxwyBBl9M5HLyKiAhRKKQ70TtfYWWC7VC6SmCNyrni
- FbQp9x78FgUXpD2cHKDeI5KbjedgeILgeeHP9tP2enCStUs5wPIRs/XvExGSvt6OLtF3
- UfvEAWSsC7g0wgNzB8drCZgZQjSBptNZMMF0Vf97SPRzlON7snnxyMjOZxmXeyvVt09N
- gu8w==
-X-Gm-Message-State: AOAM531+8MIyyfxggicjmlfdERbhMjCioVKImadAWVgcYPGb1f/NR4eY
- 2rv86EG+CfzPCgR8giU3/a0mT+99dhe4RL+BlPH5Y5s1lBHOzV/WgfnorUGReNYTvbH4Fx7vOmV
- Q7rtbU176cn86Y8ojJyaZQSozu7v5
-X-Received: by 2002:a1c:740e:: with SMTP id p14mr15702605wmc.109.1635951649993; 
- Wed, 03 Nov 2021 08:00:49 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzlHYGSvfJmLDivVAOaT4xxbH7zmwqgCefExXH/bfigpAgkjWjbQ8meeoW65MqFlJvktgySGg==
-X-Received: by 2002:a1c:740e:: with SMTP id p14mr15702572wmc.109.1635951649817; 
- Wed, 03 Nov 2021 08:00:49 -0700 (PDT)
-Received: from [192.168.1.128] ([92.176.231.106])
- by smtp.gmail.com with ESMTPSA id q1sm2089857wmj.20.2021.11.03.08.00.48
+ bh=wKlSTVS04ZLdR07y/zy6DmqGg7B5qIiyVHLOGFxvYv0=;
+ b=rp+BmHzz/bc5IJlnKY1hm5YmYaa+NDcpUCy+f7GB6nVgpm9lbViPoLzqGJu1AWvdgN
+ kHUfEb/NbQnejEQJJi1guOam87Mpe8jiSyMvf5UxrJkGp+Glp6X8OHYFDWmbkf3VWRJ7
+ i+6or4nbfnsArWufywdmspciVNBMS/f5EcnIWSVSeyLF4vSeeYfoOrxgc/7EvBGaMxmj
+ hdece4lVX5MXXsvWEI2XUHL+chtkfF6ru7fGxBU+OpbUxbnGH/2hpUJ4pvXYpOkNd3s6
+ 8KK1AVe0J/0i/xf9CRcBhQWrpmiM7iJxYmeGj2LKq7LrLn6EUL97gq12rp6xTubxM7la
+ 30wg==
+X-Gm-Message-State: AOAM531pdehQUHS0MHR3JP9CahLzXssT4n4MnNYFmDwtqjl/Zv3A9sSk
+ kKBfQBftMBb/d8ICs5c+Ti5IhuHJPTk=
+X-Google-Smtp-Source: ABdhPJxmVM/bo258ec0LAPGIKln1RUTTBynyQJkrAQYszCT2u6T3An+2qIMEm9GFP11BuZAxDYqZjg==
+X-Received: by 2002:a9d:5508:: with SMTP id l8mr8829306oth.27.1635951829735;
+ Wed, 03 Nov 2021 08:03:49 -0700 (PDT)
+Received: from ?IPv6:2804:431:c7f5:66c6:188e:4e49:90d2:b722?
+ ([2804:431:c7f5:66c6:188e:4e49:90d2:b722])
+ by smtp.gmail.com with ESMTPSA id n67sm472332oib.42.2021.11.03.08.03.46
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 03 Nov 2021 08:00:49 -0700 (PDT)
-Message-ID: <dbdbaf95-8625-aec9-4446-d39db77b23f2@redhat.com>
-Date: Wed, 3 Nov 2021 16:00:47 +0100
+ Wed, 03 Nov 2021 08:03:49 -0700 (PDT)
+Subject: Re: [PATCH v2 5/8] drm: drm_atomic_helper: Add a new helper to deal
+ with the writeback connector validation
+To: Leandro Ribeiro <leandro.ribeiro@collabora.com>,
+ rodrigosiqueiramelo@gmail.com, melissa.srw@gmail.com, ppaalanen@gmail.com,
+ tzimmermann@suse.de
+References: <20211026113409.7242-1-igormtorrente@gmail.com>
+ <20211026113409.7242-6-igormtorrente@gmail.com>
+ <8adbff15-3ba6-317f-e50e-cc7a8eaf25d1@collabora.com>
+From: Igor Torrente <igormtorrente@gmail.com>
+Message-ID: <85ac57d9-b02d-3698-e1b1-67ccdf012f09@gmail.com>
+Date: Wed, 3 Nov 2021 12:03:45 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [RESEND PATCH 0/5] Cleanups for the nomodeset kernel command line
- parameter logic
-To: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
-References: <20211103122809.1040754-1-javierm@redhat.com>
- <e02d23be-1a1c-570d-e76f-dbea76b6dd55@suse.de>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <e02d23be-1a1c-570d-e76f-dbea76b6dd55@suse.de>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <8adbff15-3ba6-317f-e50e-cc7a8eaf25d1@collabora.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -85,54 +78,175 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Gerd Hoffmann <kraxel@redhat.com>, amd-gfx@lists.freedesktop.org,
- VMware Graphics <linux-graphics-maintainer@vmware.com>,
- Peter Robinson <pbrobinson@gmail.com>, Neal Gompa <ngompa13@gmail.com>,
- Dave Airlie <airlied@redhat.com>, Ben Skeggs <bskeggs@redhat.com>,
- =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>,
- Hans de Goede <hdegoede@redhat.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- nouveau@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
- Pekka Paalanen <pekka.paalanen@collabora.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>, spice-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>, intel-gfx@lists.freedesktop.org,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc: airlied@linux.ie, hamohammed.sa@gmail.com, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Thomas,
+Hi Leandro,
 
-On 11/3/21 14:01, Thomas Zimmermann wrote:
-
-[snip]
-
->>
->>
->> Javier Martinez Canillas (5):
->>    drm/i915: Fix comment about modeset parameters
->>    drm: Move nomodeset kernel parameter handler to the DRM subsystem
->>    drm: Rename vgacon_text_force() function to drm_modeset_disabled()
->>    drm: Add a drm_drv_enabled() helper function
->>    drm: Use drm_drv_enabled() instead of drm_modeset_disabled()
+On 10/28/21 6:38 PM, Leandro Ribeiro wrote:
+> Hi,
 > 
-> There's too much churn here IMHO. Please merge patches 2+3 and 4+5. And 
-> I'd put patch (4+5) first, so you have the drivers out of the way. After 
-> that patch (2+3) should only modify drm_drv_enabled().
->
-
-Sure, I'm happy with less patches.
-
-Thanks for your feedback.
- 
-> Best regards
-> Thomas
+> On 10/26/21 08:34, Igor Torrente wrote:
+>> Add a helper function to validate the connector configuration receive in
+>> the encoder atomic_check by the drivers.
+>>
+>> So the drivers don't need do these common validations themselves.
+>>
+>> Signed-off-by: Igor Torrente <igormtorrente@gmail.com>
+>> ---
+>> V2: Move the format verification to a new helper at the drm_atomic_helper.c
+>>      (Thomas Zimmermann).
+>> ---
+>>   drivers/gpu/drm/drm_atomic_helper.c   | 47 +++++++++++++++++++++++++++
+>>   drivers/gpu/drm/vkms/vkms_writeback.c |  9 +++--
+>>   include/drm/drm_atomic_helper.h       |  3 ++
+>>   3 files changed, 54 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
+>> index 2c0c6ec92820..c2653b9824b5 100644
+>> --- a/drivers/gpu/drm/drm_atomic_helper.c
+>> +++ b/drivers/gpu/drm/drm_atomic_helper.c
+>> @@ -766,6 +766,53 @@ drm_atomic_helper_check_modeset(struct drm_device *dev,
+>>   }
+>>   EXPORT_SYMBOL(drm_atomic_helper_check_modeset);
+>>   
+>> +/**
+>> + * drm_atomic_helper_check_wb_connector_state() - Check writeback encoder state
+>> + * @encoder: encoder state to check
+>> + * @conn_state: connector state to check
+>> + *
+>> + * Checks if the wriback connector state is valid, and returns a erros if it
+>> + * isn't.
+>> + *
+>> + * RETURNS:
+>> + * Zero for success or -errno
+>> + */
+>> +int
+>> +drm_atomic_helper_check_wb_encoder_state(struct drm_encoder *encoder,
+>> +					 struct drm_connector_state *conn_state)
+>> +{
+>> +	struct drm_writeback_job *wb_job = conn_state->writeback_job;
+>> +	struct drm_property_blob *pixel_format_blob;
+>> +	bool format_supported = false;
+>> +	struct drm_framebuffer *fb;
+>> +	int i, n_formats;
+>> +	u32 *formats;
+>> +
+>> +	if (!wb_job || !wb_job->fb)
+>> +		return 0;
 > 
-Best regards,
--- 
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
+> I think that this should be removed and that this functions should
+> assume that (wb_job && wb_job->fb) == true.
 
+Ok.
+
+> 
+> Actually, it's weird to have conn_state as argument and only use it to
+> get the wb_job. Instead, this function could receive wb_job directly.
+
+In the Thomas review of v1, he said that maybe other things could be
+tested in this helper. I'm not sure what these additional checks could
+be, so I tried to design the function signature expecting more things
+to be added after his review.
+
+As you can see, the helper is receiving the `drm_encoder` and doing
+nothing with it.
+
+If we, eventually, don't find anything else that this helper can do, I
+will revert to something very similar (if not equal) to your proposal.
+I just want to wait for Thomas's review first.
+
+> 
+> Of course, its name/description would have to change.
+> 
+>> +
+>> +	pixel_format_blob = wb_job->connector->pixel_formats_blob_ptr;
+>> +	n_formats = pixel_format_blob->length / sizeof(u32);
+>> +	formats = pixel_format_blob->data;
+>> +	fb = wb_job->fb;
+>> +
+>> +	for (i = 0; i < n_formats; i++) {
+>> +		if (fb->format->format == formats[i]) {
+>> +			format_supported = true;
+>> +			break;
+>> +		}
+>> +	}
+>> +
+>> +	if (!format_supported) {
+>> +		DRM_DEBUG_KMS("Invalid pixel format %p4cc\n",
+>> +			      &fb->format->format);
+>> +		return -EINVAL;
+>> +	}
+>> +
+>> +	return 0;
+> 
+> If you do this, you can get rid of the format_supported flag:
+> 
+> 	for(...) {
+> 		if (fb->format->format == formats[i])
+> 			return 0;
+> 	}
+> 
+> 
+> 	DRM_DEBUG_KMS(...);
+> 	return -EINVAL;
+> 
+
+Indeed. Thanks!
+
+> Thanks,
+> Leandro Ribeiro
+> 
+>> +}
+>> +EXPORT_SYMBOL(drm_atomic_helper_check_wb_encoder_state);
+>> +
+>>   /**
+>>    * drm_atomic_helper_check_plane_state() - Check plane state for validity
+>>    * @plane_state: plane state to check
+>> diff --git a/drivers/gpu/drm/vkms/vkms_writeback.c b/drivers/gpu/drm/vkms/vkms_writeback.c
+>> index 32734cdbf6c2..42f3396c523a 100644
+>> --- a/drivers/gpu/drm/vkms/vkms_writeback.c
+>> +++ b/drivers/gpu/drm/vkms/vkms_writeback.c
+>> @@ -30,6 +30,7 @@ static int vkms_wb_encoder_atomic_check(struct drm_encoder *encoder,
+>>   {
+>>   	struct drm_framebuffer *fb;
+>>   	const struct drm_display_mode *mode = &crtc_state->mode;
+>> +	int ret;
+>>   
+>>   	if (!conn_state->writeback_job || !conn_state->writeback_job->fb)
+>>   		return 0;
+>> @@ -41,11 +42,9 @@ static int vkms_wb_encoder_atomic_check(struct drm_encoder *encoder,
+>>   		return -EINVAL;
+>>   	}
+>>   
+>> -	if (fb->format->format != vkms_wb_formats[0]) {
+>> -		DRM_DEBUG_KMS("Invalid pixel format %p4cc\n",
+>> -			      &fb->format->format);
+>> -		return -EINVAL;
+>> -	}
+>> +	ret = drm_atomic_helper_check_wb_encoder_state(encoder, conn_state);
+>> +	if (ret < 0)
+>> +		return ret;
+>>   
+>>   	return 0;
+>>   }
+>> diff --git a/include/drm/drm_atomic_helper.h b/include/drm/drm_atomic_helper.h
+>> index 4045e2507e11..3fbf695da60f 100644
+>> --- a/include/drm/drm_atomic_helper.h
+>> +++ b/include/drm/drm_atomic_helper.h
+>> @@ -40,6 +40,9 @@ struct drm_private_state;
+>>   
+>>   int drm_atomic_helper_check_modeset(struct drm_device *dev,
+>>   				struct drm_atomic_state *state);
+>> +int
+>> +drm_atomic_helper_check_wb_encoder_state(struct drm_encoder *encoder,
+>> +					 struct drm_connector_state *conn_state);
+>>   int drm_atomic_helper_check_plane_state(struct drm_plane_state *plane_state,
+>>   					const struct drm_crtc_state *crtc_state,
+>>   					int min_scale,
+>>
+
+Thanks,
+---
+Igor M. A. Torrente
