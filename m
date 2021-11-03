@@ -2,44 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3E1A443BE6
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Nov 2021 04:37:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99B08443BEA
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Nov 2021 04:37:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB8026E04B;
-	Wed,  3 Nov 2021 03:37:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CDA5B6E056;
+	Wed,  3 Nov 2021 03:37:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E97186E04B
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Nov 2021 03:37:00 +0000 (UTC)
-X-UUID: f49cd06c7f994046a4e3738e8e7b6af6-20211103
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=pDTaiur9ZShMjYlGK0cOU3cTeMO5pedaPP3cgzT7Pdc=; 
- b=ekcMwu0KNxEVWpM9unKFUSi2YaiP5/TaR8YqQb70jNRskNU4OHWGEe9oxg9u6+J2xoPxIhqBbI1CqO2++HgC/w/k7N8HeNPJAHqWQbZVkk5EAkVA5MbWSIsYzCDCvpKqeTw7Grg7AbnD+HDsl7Chamd2ITGuG9xkN2jHPlmXwIU=;
-X-UUID: f49cd06c7f994046a4e3738e8e7b6af6-20211103
-Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw02.mediatek.com
- (envelope-from <yunfei.dong@mediatek.com>)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A6A936E056
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Nov 2021 03:37:17 +0000 (UTC)
+X-UUID: 865cbfb917494ae18ed211057195df6b-20211103
+X-UUID: 865cbfb917494ae18ed211057195df6b-20211103
+Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by
+ mailgw02.mediatek.com (envelope-from <yunfei.dong@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 899234818; Wed, 03 Nov 2021 11:36:54 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ with ESMTP id 1412010393; Wed, 03 Nov 2021 11:37:13 +0800
+Received: from mtkexhb02.mediatek.inc (172.21.101.103) by
  mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Wed, 3 Nov 2021 11:36:53 +0800
-Received: from mhfsdcap04 (10.17.3.154) by mtkcas11.mediatek.inc
+ 15.0.1497.2; Wed, 3 Nov 2021 11:37:12 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by mtkexhb02.mediatek.inc
+ (172.21.101.103) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Wed, 3 Nov 2021 11:37:12 +0800
+Received: from localhost.localdomain (10.17.3.154) by mtkcas11.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Wed, 3 Nov 2021 11:36:52 +0800
-Message-ID: <0c4f2dcb6cc1b1ab1afafe66e9a5c2c4ff2906c4.camel@mediatek.com>
-Subject: Re: [PATCH v1] media: mtk-vcodec: Align width and height to 64
-From: "yunfei.dong@mediatek.com" <yunfei.dong@mediatek.com>
-To: Steve Cho <stevecho@google.com>
-Date: Wed, 3 Nov 2021 11:36:52 +0800
-In-Reply-To: <CAN0yncGtLC0D_MeNxu7nKBoixquwv+OKvrmo+izqLRWxiGWFJQ@mail.gmail.com>
-References: <20211029094510.2411-1-yunfei.dong@mediatek.com>
- <CAN0yncGtLC0D_MeNxu7nKBoixquwv+OKvrmo+izqLRWxiGWFJQ@mail.gmail.com>
-Content-Type: multipart/alternative; boundary="=-ux45lUKXaziV+OvvxWsb"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+ Transport; Wed, 3 Nov 2021 11:37:10 +0800
+From: Yunfei Dong <yunfei.dong@mediatek.com>
+To: Steve Cho <stevecho@google.com>, Yunfei Dong <yunfei.dong@mediatek.com>,
+ Alexandre Courbot <acourbot@chromium.org>, Hans Verkuil
+ <hverkuil-cisco@xs4all.nl>, Tzung-Bi Shih <tzungbi@chromium.org>, Tiffany Lin
+ <tiffany.lin@mediatek.com>, Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, Tomasz Figa <tfiga@google.com>
+Subject: [PATCH v2] media: mtk-vcodec: Align width and height to 64 bytes
+Date: Wed, 3 Nov 2021 11:37:08 +0800
+Message-ID: <20211103033708.14469-1-yunfei.dong@mediatek.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -53,133 +54,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
- Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Irui Wang <irui.wang@mediatek.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+Cc: Irui Wang <irui.wang@mediatek.com>,
  Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ srv_heupstream@mediatek.com, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel <dri-devel@lists.freedesktop.org>,
  Project_Global_Chrome_Upstream_Group@mediatek.com,
- Fritz Koenig <frkoenig@chromium.org>, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, Tzung-Bi Shih <tzungbi@chromium.org>,
- Tomasz Figa <tfiga@google.com>, Rob Herring <robh+dt@kernel.org>,
  linux-mediatek@lists.infradead.org, Hsin-Yi Wang <hsinyi@chromium.org>,
- Matthias Brugger <matthias.bgg@gmail.com>, Tiffany
- Lin <tiffany.lin@mediatek.com>, linux-arm-kernel@lists.infradead.org,
- Alexandre Courbot <acourbot@chromium.org>, srv_heupstream@mediatek.com,
- linux-kernel@vger.kernel.org, Hans Verkuil <hverkuil-cisco@xs4all.nl>
+ Fritz Koenig <frkoenig@chromium.org>,
+ Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---=-ux45lUKXaziV+OvvxWsb
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+Width and height need to 64 bytes aligned when setting the format.
+Need to make sure all is 64 bytes align when use width and height to
+calculate buffer size.
 
-SGkgc3RldmUsDQpUaGFua3MgZm9yIHlvdXIgc3VnZ2VzdGlvbi5PbiBUdWUsIDIwMjEtMTEtMDIg
-YXQgMDk6NDMgLTA3MDAsIFN0ZXZlIENobw0Kd3JvdGU6DQo+IFRoYW5rIHlvdSBZdW5mZWkgZm9y
-IGZvbGxvd2luZyB1cCB3aXRoIHRoaXMgY2hhbmdlLiANCj4gVGhpcyBjaGFuZ2UgaXMgdGhlIGxh
-c3QgbWlzc2luZyBwaWVjZSB0byBlbmFibGUgVkQgb24gS3VrdWkgd2l0aA0KPiBDaHJvbWl1bS4g
-DQo+IFRoaXMgcGF0Y2ggZml4ZWQgdGhlIGNvcnJ1cHRpb24gd2Ugd2VyZSBzZWVpbmcgb24gS3Vr
-dWkgd2l0aCBjZXJ0YWluDQo+IHRlc3RzLg0KPiANCj4gT25lIGNvbW1lbnQgZnJvbSBtZSBpcyBq
-dXN0IHRvIHVzZSBkZWZpbmVkIG1hY3JvIG9yIHZhcmlhYmxlIGluc3RlYWQNCj4gb2YgaGFyZCBj
-b2RpbmcgNjQuIA0KPiANCj4gIlVzZXIgZ2V0IHdpZHRoIGFuZCBoZWlnaHQgYXJlIDY0IGFsaWdu
-IHdoZW4gc2V0IGZvcm1hdC4iDQo+IA0KPiBUaGlzIHNlbnRlbmNlIG1pZ2h0IG5lZWQgdG8gYmUg
-cmV3b3JkZWQuIEl0IGlzIG5vdCBjbGVhciB0byBtZS4gDQo+IA0KPiBNYXliZSBzb21ldGhpbmcg
-bGlrZSAiV2lkdGggYW5kIGhlaWdodCBuZWVkIHRvIGJlIDY0IGJ5dGVzIGFsaWduZWQNCj4gd2hl
-biBzZXR0aW5nIHRoZSBmb3JtYXQuIg0KPiANCj4gVGhhbmtzLFN0ZXZlDQpGaXggaXQgYW5kIHNl
-bmQgcGF0Y2ggdjIuDQpUaGFua3MsWXVuZmVpIERvbmcNCj4gT24gRnJpLCBPY3QgMjksIDIwMjEg
-YXQgMjo0NSBBTSBZdW5mZWkgRG9uZyA8eXVuZmVpLmRvbmdAbWVkaWF0ZWsuY29tDQo+ID4gd3Jv
-dGU6DQo+ID4gVXNlciBnZXQgd2lkdGggYW5kIGhlaWdodCBhcmUgNjQgYWxpZ24gd2hlbiBzZXQg
-Zm9ybWF0LiBOZWVkIHRvDQo+ID4gbWFrZQ0KPiA+IA0KPiA+IHN1cmUgYWxsIGlzIDY0IGFsaWdu
-IHdoZW4gdXNlIHdpZHRoIGFuZCBoZWlnaHQgdG8gY2FsY3VsYXRlIGJ1ZmZlcg0KPiA+IHNpemUu
-DQo+ID4gDQo+ID4gDQo+ID4gDQo+ID4gU2lnbmVkLW9mZi1ieTogWXVuZmVpIERvbmcgPHl1bmZl
-aS5kb25nQG1lZGlhdGVrLmNvbT4NCj4gPiANCj4gPiAtLS0NCj4gPiANCj4gPiAgZHJpdmVycy9t
-ZWRpYS9wbGF0Zm9ybS9tdGstdmNvZGVjL3ZkZWMvdmRlY19oMjY0X3JlcV9pZi5jIHwgNCArKy0t
-DQo+ID4gDQo+ID4gIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25z
-KC0pDQo+ID4gDQo+ID4gDQo+ID4gDQo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvbWVkaWEvcGxh
-dGZvcm0vbXRrLQ0KPiA+IHZjb2RlYy92ZGVjL3ZkZWNfaDI2NF9yZXFfaWYuYyBiL2RyaXZlcnMv
-bWVkaWEvcGxhdGZvcm0vbXRrLQ0KPiA+IHZjb2RlYy92ZGVjL3ZkZWNfaDI2NF9yZXFfaWYuYw0K
-PiA+IA0KPiA+IGluZGV4IDk0NmMyMzA4ODMwOC4uMjhjMTcyMDRmOWExIDEwMDY0NA0KPiA+IA0K
-PiA+IC0tLSBhL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vbXRrLXZjb2RlYy92ZGVjL3ZkZWNfaDI2
-NF9yZXFfaWYuYw0KPiA+IA0KPiA+ICsrKyBiL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vbXRrLXZj
-b2RlYy92ZGVjL3ZkZWNfaDI2NF9yZXFfaWYuYw0KPiA+IA0KPiA+IEBAIC01NjIsOCArNTYyLDgg
-QEAgc3RhdGljIHZvaWQgZ2V0X3BpY19pbmZvKHN0cnVjdA0KPiA+IHZkZWNfaDI2NF9zbGljZV9p
-bnN0ICppbnN0LA0KPiA+IA0KPiA+ICB7DQo+ID4gDQo+ID4gICAgICAgICBzdHJ1Y3QgbXRrX3Zj
-b2RlY19jdHggKmN0eCA9IGluc3QtPmN0eDsNCj4gPiANCj4gPiANCj4gPiANCj4gPiAtICAgICAg
-IGN0eC0+cGljaW5mby5idWZfdyA9IChjdHgtPnBpY2luZm8ucGljX3cgKyAxNSkgJg0KPiA+IDB4
-RkZGRkZGRjA7DQo+ID4gDQo+ID4gLSAgICAgICBjdHgtPnBpY2luZm8uYnVmX2ggPSAoY3R4LT5w
-aWNpbmZvLnBpY19oICsgMzEpICYNCj4gPiAweEZGRkZGRkUwOw0KPiA+IA0KPiA+ICsgICAgICAg
-Y3R4LT5waWNpbmZvLmJ1Zl93ID0gQUxJR04oY3R4LT5waWNpbmZvLnBpY193LCA2NCk7DQo+ID4g
-DQo+ID4gKyAgICAgICBjdHgtPnBpY2luZm8uYnVmX2ggPSBBTElHTihjdHgtPnBpY2luZm8ucGlj
-X2gsIDY0KTsNCj4gPiANCj4gPiAgICAgICAgIGN0eC0+cGljaW5mby5mYl9zelswXSA9IGN0eC0+
-cGljaW5mby5idWZfdyAqIGN0eC0NCj4gPiA+cGljaW5mby5idWZfaDsNCj4gPiANCj4gPiAgICAg
-ICAgIGN0eC0+cGljaW5mby5mYl9zelsxXSA9IGN0eC0+cGljaW5mby5mYl9zelswXSA+PiAxOw0K
-PiA+IA0KPiA+ICAgICAgICAgaW5zdC0+dnNpX2N0eC5kZWMuY2FwX251bV9wbGFuZXMgPQ0KPiA+
-IA0K
+Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+Change-Id: I39886b1a6b433c92565ddbf297eb193456eec1d2
+---
+ drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.h        | 1 +
+ drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_if.c | 4 ++--
+ 2 files changed, 3 insertions(+), 2 deletions(-)
 
---=-ux45lUKXaziV+OvvxWsb
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
-
-PGh0bWwgZGlyPSJsdHIiPjxoZWFkPjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIgY29u
-dGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij48L2hlYWQ+PGJvZHkgc3R5bGU9InRleHQt
-YWxpZ246bGVmdDsgZGlyZWN0aW9uOmx0cjsiPjxkaXY+SGkgc3RldmUsPC9kaXY+PGRpdj48YnI+
-PC9kaXY+PGRpdj5UaGFua3MgZm9yIHlvdXIgc3VnZ2VzdGlvbi48L2Rpdj48ZGl2Pk9uIFR1ZSwg
-MjAyMS0xMS0wMiBhdCAwOTo0MyAtMDcwMCwgU3RldmUgQ2hvIHdyb3RlOjwvZGl2PjxibG9ja3F1
-b3RlIHR5cGU9ImNpdGUiIHN0eWxlPSJtYXJnaW46MCAwIDAgLjhleDsgYm9yZGVyLWxlZnQ6MnB4
-ICM3MjlmY2Ygc29saWQ7cGFkZGluZy1sZWZ0OjFleCI+PGRpdiBkaXI9Imx0ciI+VGhhbmsgeW91
-IFl1bmZlaSBmb3IgZm9sbG93aW5nIHVwIHdpdGggdGhpcyBjaGFuZ2UuJm5ic3A7PGRpdj48YnI+
-PC9kaXY+PGRpdj5UaGlzIGNoYW5nZSBpcyB0aGUgbGFzdCBtaXNzaW5nIHBpZWNlIHRvIGVuYWJs
-ZSBWRCBvbiBLdWt1aSB3aXRoIENocm9taXVtLiZuYnNwOzwvZGl2PjxkaXY+VGhpcyBwYXRjaCBm
-aXhlZCB0aGUgY29ycnVwdGlvbiZuYnNwO3dlIHdlcmUgc2VlaW5nIG9uIEt1a3VpIHdpdGgmbmJz
-cDtjZXJ0YWluIHRlc3RzLjwvZGl2PjxkaXY+PGJyPjwvZGl2PjxkaXY+T25lIGNvbW1lbnQgZnJv
-bSBtZSBpcyBqdXN0IHRvIHVzZSBkZWZpbmVkIG1hY3JvIG9yIHZhcmlhYmxlIGluc3RlYWQgb2Yg
-aGFyZCBjb2RpbmcgNjQuJm5ic3A7PC9kaXY+PGRpdj48YnI+PC9kaXY+PGRpdj4iVXNlciBnZXQg
-d2lkdGggYW5kIGhlaWdodCBhcmUgNjQgYWxpZ24gd2hlbiBzZXQgZm9ybWF0LiI8YnI+PC9kaXY+
-PGRpdj48YnI+PC9kaXY+PGRpdj5UaGlzIHNlbnRlbmNlIG1pZ2h0IG5lZWQgdG8gYmUgcmV3b3Jk
-ZWQuIEl0IGlzIG5vdCBjbGVhciB0byBtZS4mbmJzcDs8L2Rpdj48ZGl2Pjxicj48L2Rpdj48ZGl2
-Pk1heWJlIHNvbWV0aGluZyBsaWtlICJXaWR0aCBhbmQgaGVpZ2h0IG5lZWQgdG8gYmUgNjQgYnl0
-ZXMgYWxpZ25lZCB3aGVuIHNldHRpbmcgdGhlIGZvcm1hdC4iPGJyPjwvZGl2PjxkaXY+PGJyIGNs
-ZWFyPSJhbGwiPjxkaXY+PGRpdiBkaXI9Imx0ciIgY2xhc3M9ImdtYWlsX3NpZ25hdHVyZSIgZGF0
-YS1zbWFydG1haWw9ImdtYWlsX3NpZ25hdHVyZSI+PGRpdiBkaXI9Imx0ciI+VGhhbmtzLDxkaXY+
-U3RldmU8L2Rpdj48L2Rpdj48L2Rpdj48L2Rpdj48L2Rpdj48L2Rpdj48YnI+PGRpdiBjbGFzcz0i
-Z21haWxfcXVvdGUiPjwvZGl2PjwvYmxvY2txdW90ZT48ZGl2PkZpeCBpdCBhbmQgc2VuZCBwYXRj
-aCB2Mi48L2Rpdj48ZGl2Pjxicj48L2Rpdj48ZGl2PlRoYW5rcyw8L2Rpdj48ZGl2Pll1bmZlaSBE
-b25nPC9kaXY+PGJsb2NrcXVvdGUgdHlwZT0iY2l0ZSIgc3R5bGU9Im1hcmdpbjowIDAgMCAuOGV4
-OyBib3JkZXItbGVmdDoycHggIzcyOWZjZiBzb2xpZDtwYWRkaW5nLWxlZnQ6MWV4Ij48ZGl2IGNs
-YXNzPSJnbWFpbF9xdW90ZSI+PGRpdiBkaXI9Imx0ciIgY2xhc3M9ImdtYWlsX2F0dHIiPk9uIEZy
-aSwgT2N0IDI5LCAyMDIxIGF0IDI6NDUgQU0gWXVuZmVpIERvbmcgJmx0OzxhIGhyZWY9Im1haWx0
-bzp5dW5mZWkuZG9uZ0BtZWRpYXRlay5jb20iPnl1bmZlaS5kb25nQG1lZGlhdGVrLmNvbTwvYT4m
-Z3Q7IHdyb3RlOjxicj48L2Rpdj48YmxvY2txdW90ZSB0eXBlPSJjaXRlIiBzdHlsZT0ibWFyZ2lu
-OjAgMCAwIC44ZXg7IGJvcmRlci1sZWZ0OjJweCAjNzI5ZmNmIHNvbGlkO3BhZGRpbmctbGVmdDox
-ZXgiPlVzZXIgZ2V0IHdpZHRoIGFuZCBoZWlnaHQgYXJlIDY0IGFsaWduIHdoZW4gc2V0IGZvcm1h
-dC4gTmVlZCB0byBtYWtlPGJyPg0Kc3VyZSBhbGwgaXMgNjQgYWxpZ24gd2hlbiB1c2Ugd2lkdGgg
-YW5kIGhlaWdodCB0byBjYWxjdWxhdGUgYnVmZmVyIHNpemUuPGJyPg0KPGJyPg0KU2lnbmVkLW9m
-Zi1ieTogWXVuZmVpIERvbmcgJmx0OzxhIGhyZWY9Im1haWx0bzp5dW5mZWkuZG9uZ0BtZWRpYXRl
-ay5jb20iIHRhcmdldD0iX2JsYW5rIj55dW5mZWkuZG9uZ0BtZWRpYXRlay5jb208L2E+Jmd0Ozxi
-cj4NCi0tLTxicj4NCiZuYnNwO2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vbXRrLXZjb2RlYy92ZGVj
-L3ZkZWNfaDI2NF9yZXFfaWYuYyB8IDQgKystLTxicj4NCiZuYnNwOzEgZmlsZSBjaGFuZ2VkLCAy
-IGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pPGJyPg0KPGJyPg0KZGlmZiAtLWdpdCBhL2Ry
-aXZlcnMvbWVkaWEvcGxhdGZvcm0vbXRrLXZjb2RlYy92ZGVjL3ZkZWNfaDI2NF9yZXFfaWYuYyBi
-L2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vbXRrLXZjb2RlYy92ZGVjL3ZkZWNfaDI2NF9yZXFfaWYu
-Yzxicj4NCmluZGV4IDk0NmMyMzA4ODMwOC4uMjhjMTcyMDRmOWExIDEwMDY0NDxicj4NCi0tLSBh
-L2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vbXRrLXZjb2RlYy92ZGVjL3ZkZWNfaDI2NF9yZXFfaWYu
-Yzxicj4NCisrKyBiL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vbXRrLXZjb2RlYy92ZGVjL3ZkZWNf
-aDI2NF9yZXFfaWYuYzxicj4NCkBAIC01NjIsOCArNTYyLDggQEAgc3RhdGljIHZvaWQgZ2V0X3Bp
-Y19pbmZvKHN0cnVjdCB2ZGVjX2gyNjRfc2xpY2VfaW5zdCAqaW5zdCw8YnI+DQombmJzcDt7PGJy
-Pg0KJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7IHN0cnVjdCBtdGtfdmNvZGVjX2N0eCAqY3R4
-ID0gaW5zdC0mZ3Q7Y3R4Ozxicj4NCjxicj4NCi0mbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDtj
-dHgtJmd0O3BpY2luZm8uYnVmX3cgPSAoY3R4LSZndDtwaWNpbmZvLnBpY193ICsgMTUpICZhbXA7
-IDB4RkZGRkZGRjA7PGJyPg0KLSZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwO2N0eC0mZ3Q7cGlj
-aW5mby5idWZfaCA9IChjdHgtJmd0O3BpY2luZm8ucGljX2ggKyAzMSkgJmFtcDsgMHhGRkZGRkZF
-MDs8YnI+DQorJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7Y3R4LSZndDtwaWNpbmZvLmJ1Zl93
-ID0gQUxJR04oY3R4LSZndDtwaWNpbmZvLnBpY193LCA2NCk7PGJyPg0KKyZuYnNwOyAmbmJzcDsg
-Jm5ic3A7ICZuYnNwO2N0eC0mZ3Q7cGljaW5mby5idWZfaCA9IEFMSUdOKGN0eC0mZ3Q7cGljaW5m
-by5waWNfaCwgNjQpOzxicj4NCiZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyBjdHgtJmd0O3Bp
-Y2luZm8uZmJfc3pbMF0gPSBjdHgtJmd0O3BpY2luZm8uYnVmX3cgKiBjdHgtJmd0O3BpY2luZm8u
-YnVmX2g7PGJyPg0KJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7IGN0eC0mZ3Q7cGljaW5mby5m
-Yl9zelsxXSA9IGN0eC0mZ3Q7cGljaW5mby5mYl9zelswXSAmZ3Q7Jmd0OyAxOzxicj4NCiZuYnNw
-OyAmbmJzcDsgJm5ic3A7ICZuYnNwOyBpbnN0LSZndDt2c2lfY3R4LmRlYy5jYXBfbnVtX3BsYW5l
-cyA9PGJyPg0KPC9ibG9ja3F1b3RlPjwvZGl2PjwvYmxvY2txdW90ZT48L2JvZHk+PC9odG1sPg0K
-
---=-ux45lUKXaziV+OvvxWsb--
+diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.h b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.h
+index e30806c1faea..66cd6d2242c3 100644
+--- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.h
++++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.h
+@@ -11,6 +11,7 @@
+ #include <media/videobuf2-core.h>
+ #include <media/v4l2-mem2mem.h>
+ 
++#define VCODEC_DEC_ALIGNED_64 64
+ #define VCODEC_CAPABILITY_4K_DISABLED	0x10
+ #define VCODEC_DEC_4K_CODED_WIDTH	4096U
+ #define VCODEC_DEC_4K_CODED_HEIGHT	2304U
+diff --git a/drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_if.c b/drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_if.c
+index d402fc4bda69..e1a3011772a9 100644
+--- a/drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_if.c
++++ b/drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_if.c
+@@ -562,8 +562,8 @@ static void get_pic_info(struct vdec_h264_slice_inst *inst,
+ {
+ 	struct mtk_vcodec_ctx *ctx = inst->ctx;
+ 
+-	ctx->picinfo.buf_w = (ctx->picinfo.pic_w + 15) & 0xFFFFFFF0;
+-	ctx->picinfo.buf_h = (ctx->picinfo.pic_h + 31) & 0xFFFFFFE0;
++	ctx->picinfo.buf_w = ALIGN(ctx->picinfo.pic_w, VCODEC_DEC_ALIGNED_64);
++	ctx->picinfo.buf_h = ALIGN(ctx->picinfo.pic_h, VCODEC_DEC_ALIGNED_64);
+ 	ctx->picinfo.fb_sz[0] = ctx->picinfo.buf_w * ctx->picinfo.buf_h;
+ 	ctx->picinfo.fb_sz[1] = ctx->picinfo.fb_sz[0] >> 1;
+ 	inst->vsi_ctx.dec.cap_num_planes =
+-- 
+2.25.1
 
