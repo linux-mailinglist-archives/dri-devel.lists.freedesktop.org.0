@@ -1,47 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99B08443BEA
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Nov 2021 04:37:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A8434443DB4
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Nov 2021 08:30:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CDA5B6E056;
-	Wed,  3 Nov 2021 03:37:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7EC2773192;
+	Wed,  3 Nov 2021 07:30:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A6A936E056
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Nov 2021 03:37:17 +0000 (UTC)
-X-UUID: 865cbfb917494ae18ed211057195df6b-20211103
-X-UUID: 865cbfb917494ae18ed211057195df6b-20211103
-Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by
- mailgw02.mediatek.com (envelope-from <yunfei.dong@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1412010393; Wed, 03 Nov 2021 11:37:13 +0800
-Received: from mtkexhb02.mediatek.inc (172.21.101.103) by
- mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Wed, 3 Nov 2021 11:37:12 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by mtkexhb02.mediatek.inc
- (172.21.101.103) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Wed, 3 Nov 2021 11:37:12 +0800
-Received: from localhost.localdomain (10.17.3.154) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Wed, 3 Nov 2021 11:37:10 +0800
-From: Yunfei Dong <yunfei.dong@mediatek.com>
-To: Steve Cho <stevecho@google.com>, Yunfei Dong <yunfei.dong@mediatek.com>,
- Alexandre Courbot <acourbot@chromium.org>, Hans Verkuil
- <hverkuil-cisco@xs4all.nl>, Tzung-Bi Shih <tzungbi@chromium.org>, Tiffany Lin
- <tiffany.lin@mediatek.com>, Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
- Matthias Brugger <matthias.bgg@gmail.com>, Tomasz Figa <tfiga@google.com>
-Subject: [PATCH v2] media: mtk-vcodec: Align width and height to 64 bytes
-Date: Wed, 3 Nov 2021 11:37:08 +0800
-Message-ID: <20211103033708.14469-1-yunfei.dong@mediatek.com>
-X-Mailer: git-send-email 2.25.1
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E99E73191
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Nov 2021 07:30:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1635924651;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=0xpja8WAihX9QgetoK4QXWHOWWctjoZyW/XmFOQd8n4=;
+ b=WCwF36Vhsr6AhYP//HwDPAVNS5AwjPZv8wDtCGws+v33EprWNfSsa7Q7SKSFPETdVb6mao
+ ZaGF01EfsY6dlm4S7S38OsW3G0wmlh/WwiJLuc5C7owkpDumxn6noNv1fv9PjP6rotED48
+ bWCUGQrjClSY0XFl/N1UU+9u/M+egIQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-100-3wlqcyNwORaF132aqw5eUQ-1; Wed, 03 Nov 2021 03:30:47 -0400
+X-MC-Unique: 3wlqcyNwORaF132aqw5eUQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A05A710B3947;
+ Wed,  3 Nov 2021 07:30:45 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.194.99])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E65C319723;
+ Wed,  3 Nov 2021 07:30:44 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 147151800924; Wed,  3 Nov 2021 08:30:43 +0100 (CET)
+Date: Wed, 3 Nov 2021 08:30:43 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Chia-I Wu <olvaffe@gmail.com>
+Subject: Re: [PATCH] drm/virtio: delay pinning the pages till first use
+Message-ID: <20211103073043.x7hdnm43zrw7u6j3@sirius.home.kraxel.org>
+References: <20211102113139.154140-1-maksym.wezdecki@collabora.com>
+ <20211102130308.2s64ghmic5nhj6vu@sirius.home.kraxel.org>
+ <CAPaKu7T9-KmmDwNRFzQWM3jH4h-xUwjtfWays20z24dVvROoHw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-MTK: N
+In-Reply-To: <CAPaKu7T9-KmmDwNRFzQWM3jH4h-xUwjtfWays20z24dVvROoHw@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,56 +66,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Irui Wang <irui.wang@mediatek.com>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- srv_heupstream@mediatek.com, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel <dri-devel@lists.freedesktop.org>,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-mediatek@lists.infradead.org, Hsin-Yi Wang <hsinyi@chromium.org>,
- Fritz Koenig <frkoenig@chromium.org>,
- Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Cc: David Airlie <airlied@linux.ie>, mwezdeck <maksym.wezdecki@collabora.co.uk>,
+ Maksym Wezdecki <maksym.wezdecki@collabora.com>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>, "open list:VIRTIO CORE,
+ NET AND BLOCK DRIVERS" <virtualization@lists.linux-foundation.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Width and height need to 64 bytes aligned when setting the format.
-Need to make sure all is 64 bytes align when use width and height to
-calculate buffer size.
+On Tue, Nov 02, 2021 at 08:58:55AM -0700, Chia-I Wu wrote:
+> On Tue, Nov 2, 2021 at 6:07 AM Gerd Hoffmann <kraxel@redhat.com> wrote:
+> >
+> > On Tue, Nov 02, 2021 at 12:31:39PM +0100, Maksym Wezdecki wrote:
+> > > From: mwezdeck <maksym.wezdecki@collabora.co.uk>
+> > >
+> > > The idea behind the commit:
+> > >   1. not pin the pages during resource_create ioctl
+> > >   2. pin the pages on the first use during:
+> > >       - transfer_*_host ioctl
+> > >         - map ioctl
+> >
+> > i.e. basically lazy pinning.  Approach looks sane to me.
+> >
+> > >   3. introduce new ioctl for pinning pages on demand
+> >
+> > What is the use case for this ioctl?
+> > In any case this should be a separate patch.
+> 
+> Lazy pinning can be a nice optimization that userspace does not
+> necessarily need to know about.  This patch however skips pinning for
+> execbuffer ioctl and introduces a new pin ioctl instead.  That is a
+> red flag.
 
-Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
-Change-Id: I39886b1a6b433c92565ddbf297eb193456eec1d2
----
- drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.h        | 1 +
- drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_if.c | 4 ++--
- 2 files changed, 3 insertions(+), 2 deletions(-)
+Ah, so the pin ioctl is for buffers which need a pin for execbuffer.
 
-diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.h b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.h
-index e30806c1faea..66cd6d2242c3 100644
---- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.h
-+++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.h
-@@ -11,6 +11,7 @@
- #include <media/videobuf2-core.h>
- #include <media/v4l2-mem2mem.h>
- 
-+#define VCODEC_DEC_ALIGNED_64 64
- #define VCODEC_CAPABILITY_4K_DISABLED	0x10
- #define VCODEC_DEC_4K_CODED_WIDTH	4096U
- #define VCODEC_DEC_4K_CODED_HEIGHT	2304U
-diff --git a/drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_if.c b/drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_if.c
-index d402fc4bda69..e1a3011772a9 100644
---- a/drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_if.c
-+++ b/drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_if.c
-@@ -562,8 +562,8 @@ static void get_pic_info(struct vdec_h264_slice_inst *inst,
- {
- 	struct mtk_vcodec_ctx *ctx = inst->ctx;
- 
--	ctx->picinfo.buf_w = (ctx->picinfo.pic_w + 15) & 0xFFFFFFF0;
--	ctx->picinfo.buf_h = (ctx->picinfo.pic_h + 31) & 0xFFFFFFE0;
-+	ctx->picinfo.buf_w = ALIGN(ctx->picinfo.pic_w, VCODEC_DEC_ALIGNED_64);
-+	ctx->picinfo.buf_h = ALIGN(ctx->picinfo.pic_h, VCODEC_DEC_ALIGNED_64);
- 	ctx->picinfo.fb_sz[0] = ctx->picinfo.buf_w * ctx->picinfo.buf_h;
- 	ctx->picinfo.fb_sz[1] = ctx->picinfo.fb_sz[0] >> 1;
- 	inst->vsi_ctx.dec.cap_num_planes =
--- 
-2.25.1
+Yep, that isn't going to fly that way, it'll break old userspace.
+
+Lazy pinning must be opt-in, so new userspace which knows about
+the pin ioctl can enable lazy pinning.  One possible way would
+be to add a flag for the VIRTGPU_RESOURCE_CREATE ioctl, so lazy
+pinning can be enabled per resource.
+
+take care,
+  Gerd
 
