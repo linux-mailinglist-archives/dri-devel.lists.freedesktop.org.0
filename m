@@ -1,57 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF540444AE5
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Nov 2021 23:31:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD740444B6A
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Nov 2021 00:17:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8853F7ABD3;
-	Wed,  3 Nov 2021 22:31:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 657F27AC4D;
+	Wed,  3 Nov 2021 23:17:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com
- [IPv6:2607:f8b0:4864:20::634])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 716487ABD2
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Nov 2021 22:31:27 +0000 (UTC)
-Received: by mail-pl1-x634.google.com with SMTP id b13so3993402plg.2
- for <dri-devel@lists.freedesktop.org>; Wed, 03 Nov 2021 15:31:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=wYuh1JY2j6LUOSTdqyWesZ0R/Q+mBuPiwKHvgPQt+68=;
- b=G/B3rxka7UN4c6zf8gYuxii9Qwd9no3+m+kLb94LFVc3JKwJlMEPU2wxhRRbATpHfN
- wHkjJ26kzj4Jkg7MbNuppZUX1ABhA5WkGKEptJKiiloJgl6oMSfvL2JFOJaxuoE3txIn
- pXuo6auKkl8DQCdZSVSgVrLMYdfjL6z9+o7LI=
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com
+ [IPv6:2607:f8b0:4864:20::636])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D6FA37AC4C
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Nov 2021 23:16:58 +0000 (UTC)
+Received: by mail-pl1-x636.google.com with SMTP id r5so4155306pls.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 03 Nov 2021 16:16:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=nPUeRo4P9qCmQn4DuIC8HZxfw8STfSLwfGHQpdZPJK0=;
+ b=lJ54p1bpc5dNl1qn8G0PyZcQQ7nf9cImYbZNUZZkV6erYIXEvTEB00hKRtK8Ja949x
+ EenvlthZ4PQ7D4q4Q2o2XFB3ae/TwEvA5VLlTp1v2abwL+aRNFIM2+Xza+cDzM8juKZx
+ PBoqhnkoOoQYYQ7bCuwPRnxEx3AvxOFeYzV15E9Q4RrHQHyk+JAlSpokM4XRZU0/CMVm
+ GGjMga7P9p4fylESj1nA8LSyrtIG1KMBuLloG2wXMoh74Y1vDYwWiYAd4xa7Gfy5Ps1o
+ 0RPm6Nq9q+fjGbGRES2xEmSTx/xMzj1FuO65R0ubXTEYQfauL8bo9RK61PldfsQ0PXhd
+ sgnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=wYuh1JY2j6LUOSTdqyWesZ0R/Q+mBuPiwKHvgPQt+68=;
- b=xBuniWJsMns5qkpOGsVFS62HB6FStUI6QygPDwoYLzc4akdNlXQQDybfGWxat3mQIA
- WHRCUwzTQ7Ik0Tc9vK9WJw3aNziXaOTTRP5qNcPP207b8/2wUwUvDw4G67VxqU3GQcWQ
- ECUXvXSj3fbVW/NyYWzH90RxDkzKQz0OzelMpTtyyrljRL4cCj3lPRfL7V31zzPwyBIG
- sGoWnBcuAbeiBD0kcIC0Z2aHpWpfF9otJalYZY86u3zEvkxwzRR2/Gbjv7iQdVHf84sR
- FOdEItrWaKjjKsg4x2r/Sy0AN03vP9hXPd/3V98CDhlG8hq3Bg0Gsaa1JGt9tq/RMvBE
- Xpeg==
-X-Gm-Message-State: AOAM532Lw+xhQxrOCksweMFlqkuimmrkKa1Cg940oa2J8vHnQcbnfS8v
- Jdygo66KeedXOyfdPSf13b39Pg==
-X-Google-Smtp-Source: ABdhPJwj3QFK3X8rRdGJf8MTmYNgv50bk2p3Le7VnOeB8x8pGV3kxUC0IhqOQLkuVMyU13+3e2zYSw==
-X-Received: by 2002:a17:90a:cb98:: with SMTP id
- a24mr17742425pju.153.1635978687072; 
- Wed, 03 Nov 2021 15:31:27 -0700 (PDT)
-Received: from tictac2.mtv.corp.google.com
- ([2620:15c:202:201:8d42:7991:8f12:2672])
- by smtp.gmail.com with ESMTPSA id f16sm3657259pfe.172.2021.11.03.15.31.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Nov 2021 15:31:26 -0700 (PDT)
-From: Douglas Anderson <dianders@chromium.org>
-To: Rob Clark <robdclark@gmail.com>
-Subject: [PATCH] drm/msm/a6xx: Allocate enough space for GMU registers
-Date: Wed,  3 Nov 2021 15:31:08 -0700
-Message-Id: <20211103153049.1.Idfa574ccb529d17b69db3a1852e49b580132035c@changeid>
-X-Mailer: git-send-email 2.33.1.1089.g2158813163f-goog
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=nPUeRo4P9qCmQn4DuIC8HZxfw8STfSLwfGHQpdZPJK0=;
+ b=GrIyTiEeyUKW5cwVOzXYErN7CsZZCC8+/eFjxkkBFFq+z1JjcUi5XsuWqJqibqUlhZ
+ JmbCvBvJ6Wh4jh947e0J21YMRHFpM3TAPBViksmRnv3DKNXCWxy0GSLI8pOxGmavtD7N
+ /Dj9K6Zins//qdk3mOFR7fiVX4AQ+M3n3zOFNUGNtEHYe1yO6XuiurzO8GfLJgRteLRA
+ nE6lYVXQ3TPRvCF5FCFIo/6PvjEG7Inc3lcs3WM5xmXL/P2ICG6ebWlCByruw0xS90iZ
+ dPeZ7rxK6cAHnEAtGszFAx/J6WDJpy3m1AJDuCCyHe4vFUeHcpEXPdmMXd7Im3yJzHFd
+ lNSg==
+X-Gm-Message-State: AOAM531B42nHhBr3dECT4rGK+nHazntW/AgfTER13t9doXrcRNCLLp5X
+ q6RTz7qv8NUXCrDvFlUHsVFqPUDkXMs55iM3pLtPyQ==
+X-Google-Smtp-Source: ABdhPJzKhlfXKTBHLc2xE+rbAQct0n9ITCxXdeR2vJAAU+30V1dqR+a5D2swN4o40sRQWrb/PdQWaP7KzvwMnJMl7aY=
+X-Received: by 2002:a17:90a:db81:: with SMTP id
+ h1mr18291271pjv.46.1635981418075; 
+ Wed, 03 Nov 2021 16:16:58 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20211005202322.700909-1-hdegoede@redhat.com>
+ <20211005202322.700909-11-hdegoede@redhat.com>
+ <YWdWyTVXMA3907no@intel.com>
+In-Reply-To: <YWdWyTVXMA3907no@intel.com>
+From: Rajat Jain <rajatja@google.com>
+Date: Wed, 3 Nov 2021 16:16:21 -0700
+Message-ID: <CACK8Z6GPu=Y_-0rrgN-S=HUrgqn_OoU0XroxAp--N0JKZxOnEQ@mail.gmail.com>
+Subject: Re: [PATCH 10/10] drm/i915: Add privacy-screen support (v3)
+To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,84 +66,187 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Jonathan Marek <jonathan@marek.ca>,
- David Airlie <airlied@linux.ie>, Sean Paul <sean@poorly.run>,
- Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
- Jordan Crouse <jordan@cosmicpenguin.net>, linux-arm-msm@vger.kernel.org,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Lee Jones <lee.jones@linaro.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- linux-kernel@vger.kernel.org
+Cc: Mark Pearson <markpearson@lenovo.com>,
+ Marco Trevisan <marco.trevisan@canonical.com>,
+ Sebastien Bacher <seb128@ubuntu.com>, David Airlie <airlied@linux.ie>,
+ Emil Velikov <emil.l.velikov@gmail.com>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ platform-driver-x86@vger.kernel.org, Mark Gross <markgross@kernel.org>,
+ Hans de Goede <hdegoede@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Pekka Paalanen <pekka.paalanen@collabora.com>,
+ Mario Limonciello <mario.limonciello@outlook.com>,
+ Andy Shevchenko <andy@infradead.org>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In commit 142639a52a01 ("drm/msm/a6xx: fix crashstate capture for
-A650") we changed a6xx_get_gmu_registers() to read 3 sets of
-registers. Unfortunately, we didn't change the memory allocation for
-the array. That leads to a KASAN warning (this was on the chromeos-5.4
-kernel, which has the problematic commit backported to it):
+Hello Hans,
 
-  BUG: KASAN: slab-out-of-bounds in _a6xx_get_gmu_registers+0x144/0x430
-  Write of size 8 at addr ffffff80c89432b0 by task A618-worker/209
-  CPU: 5 PID: 209 Comm: A618-worker Tainted: G        W         5.4.156-lockdep #22
-  Hardware name: Google Lazor Limozeen without Touchscreen (rev5 - rev8) (DT)
-  Call trace:
-   dump_backtrace+0x0/0x248
-   show_stack+0x20/0x2c
-   dump_stack+0x128/0x1ec
-   print_address_description+0x88/0x4a0
-   __kasan_report+0xfc/0x120
-   kasan_report+0x10/0x18
-   __asan_report_store8_noabort+0x1c/0x24
-   _a6xx_get_gmu_registers+0x144/0x430
-   a6xx_gpu_state_get+0x330/0x25d4
-   msm_gpu_crashstate_capture+0xa0/0x84c
-   recover_worker+0x328/0x838
-   kthread_worker_fn+0x32c/0x574
-   kthread+0x2dc/0x39c
-   ret_from_fork+0x10/0x18
+Thanks a lot for working on this diligently and getting almost all of
+it finally merged!
 
-  Allocated by task 209:
-   __kasan_kmalloc+0xfc/0x1c4
-   kasan_kmalloc+0xc/0x14
-   kmem_cache_alloc_trace+0x1f0/0x2a0
-   a6xx_gpu_state_get+0x164/0x25d4
-   msm_gpu_crashstate_capture+0xa0/0x84c
-   recover_worker+0x328/0x838
-   kthread_worker_fn+0x32c/0x574
-   kthread+0x2dc/0x39c
-   ret_from_fork+0x10/0x18
+On Wed, Oct 13, 2021 at 2:59 PM Ville Syrj=C3=A4l=C3=A4
+<ville.syrjala@linux.intel.com> wrote:
+>
+> On Tue, Oct 05, 2021 at 10:23:22PM +0200, Hans de Goede wrote:
+> > Add support for eDP panels with a built-in privacy screen using the
+> > new drm_privacy_screen class.
+> >
+> > Changes in v3:
+> > - Move drm_privacy_screen_get() call to intel_ddi_init_dp_connector()
+> >
+> > Changes in v2:
+> > - Call drm_connector_update_privacy_screen() from
+> >   intel_enable_ddi_dp() / intel_ddi_update_pipe_dp() instead of adding =
+a
+> >   for_each_new_connector_in_state() loop to intel_atomic_commit_tail()
+> > - Move the probe-deferral check to the intel_modeset_probe_defer() help=
+er
+> >
+> > Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> > ---
+> >  drivers/gpu/drm/i915/display/intel_atomic.c  |  1 +
+> >  drivers/gpu/drm/i915/display/intel_ddi.c     | 16 ++++++++++++++++
+> >  drivers/gpu/drm/i915/display/intel_display.c | 10 ++++++++++
+> >  3 files changed, 27 insertions(+)
+> >
+> > diff --git a/drivers/gpu/drm/i915/display/intel_atomic.c b/drivers/gpu/=
+drm/i915/display/intel_atomic.c
+> > index b4e7ac51aa31..a62550711e98 100644
+> > --- a/drivers/gpu/drm/i915/display/intel_atomic.c
+> > +++ b/drivers/gpu/drm/i915/display/intel_atomic.c
+> > @@ -139,6 +139,7 @@ int intel_digital_connector_atomic_check(struct drm=
+_connector *conn,
+> >           new_conn_state->base.picture_aspect_ratio !=3D old_conn_state=
+->base.picture_aspect_ratio ||
+> >           new_conn_state->base.content_type !=3D old_conn_state->base.c=
+ontent_type ||
+> >           new_conn_state->base.scaling_mode !=3D old_conn_state->base.s=
+caling_mode ||
+> > +         new_conn_state->base.privacy_screen_sw_state !=3D old_conn_st=
+ate->base.privacy_screen_sw_state ||
+> >           !drm_connector_atomic_hdr_metadata_equal(old_state, new_state=
+))
+> >               crtc_state->mode_changed =3D true;
+> >
+> > diff --git a/drivers/gpu/drm/i915/display/intel_ddi.c b/drivers/gpu/drm=
+/i915/display/intel_ddi.c
+> > index 0d4cf7fa8720..272714e07cc6 100644
+> > --- a/drivers/gpu/drm/i915/display/intel_ddi.c
+> > +++ b/drivers/gpu/drm/i915/display/intel_ddi.c
+> > @@ -25,6 +25,7 @@
+> >   *
+> >   */
+> >
+> > +#include <drm/drm_privacy_screen_consumer.h>
+> >  #include <drm/drm_scdc_helper.h>
+> >
+> >  #include "i915_drv.h"
+> > @@ -2946,6 +2947,7 @@ static void intel_enable_ddi_dp(struct intel_atom=
+ic_state *state,
+> >       if (port =3D=3D PORT_A && DISPLAY_VER(dev_priv) < 9)
+> >               intel_dp_stop_link_train(intel_dp, crtc_state);
+> >
+> > +     drm_connector_update_privacy_screen(conn_state);
+> >       intel_edp_backlight_on(crtc_state, conn_state);
+> >
+> >       if (!dig_port->lspcon.active || dig_port->dp.has_hdmi_sink)
+> > @@ -3161,6 +3163,7 @@ static void intel_ddi_update_pipe_dp(struct intel=
+_atomic_state *state,
+> >       intel_drrs_update(intel_dp, crtc_state);
+> >
+> >       intel_backlight_update(state, encoder, crtc_state, conn_state);
+> > +     drm_connector_update_privacy_screen(conn_state);
+> >  }
+> >
+> >  void intel_ddi_update_pipe(struct intel_atomic_state *state,
+> > @@ -3979,6 +3982,19 @@ intel_ddi_init_dp_connector(struct intel_digital=
+_port *dig_port)
+> >               return NULL;
+> >       }
+> >
+> > +     if (dig_port->base.type =3D=3D INTEL_OUTPUT_EDP) {
+>
+> Connector type check would be a bit more consistent with what this is
+> about I think. But there's is 1:1 correspondence with the encoder type
+> for eDP so not a particularly important point.
+>
+> Reviewed-by: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
 
-Fixes: 142639a52a01 ("drm/msm/a6xx: fix crashstate capture for A650")
-Signed-off-by: Douglas Anderson <dianders@chromium.org>
----
-I don't actually know how to trigger a GPU crash. I just happened to
-trigger one by getting "lucky" and hitting a timeout after being in
-kdb. Thus this is just compile tested. However, it looks pretty sane
-to me. ;-)
+I see only 8 out of 10 patches in this series were applied to drm-tip.
+I'm curious if there is any reason for which the last 2 patches were
+not applied:
 
- drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+[Patch 9/10]: drm/i915: Add intel_modeset_probe_defer() helper
+[Patch 10/10]: drm/i915: Add privacy-screen support (v3)
 
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
-index 7501849ed15d..6e90209cd543 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
-@@ -777,12 +777,12 @@ static void a6xx_get_gmu_registers(struct msm_gpu *gpu,
- 	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
- 
- 	a6xx_state->gmu_registers = state_kcalloc(a6xx_state,
--		2, sizeof(*a6xx_state->gmu_registers));
-+		3, sizeof(*a6xx_state->gmu_registers));
- 
- 	if (!a6xx_state->gmu_registers)
- 		return;
- 
--	a6xx_state->nr_gmu_registers = 2;
-+	a6xx_state->nr_gmu_registers = 3;
- 
- 	/* Get the CX GMU registers from AHB */
- 	_a6xx_get_gmu_registers(gpu, a6xx_state, &a6xx_gmu_reglist[0],
--- 
-2.33.1.1089.g2158813163f-goog
+I look forward to getting them merged so that I can use them.
 
+Thanks & Best regards,
+
+Rajat
+
+>
+> > +             struct drm_device *dev =3D dig_port->base.base.dev;
+> > +             struct drm_privacy_screen *privacy_screen;
+> > +
+> > +             privacy_screen =3D drm_privacy_screen_get(dev->dev, NULL)=
+;
+> > +             if (!IS_ERR(privacy_screen)) {
+> > +                     drm_connector_attach_privacy_screen_provider(&con=
+nector->base,
+> > +                                                                  priv=
+acy_screen);
+> > +             } else if (PTR_ERR(privacy_screen) !=3D -ENODEV) {
+> > +                     drm_warn(dev, "Error getting privacy-screen\n");
+> > +             }
+> > +     }
+> > +
+> >       return connector;
+> >  }
+> >
+> > diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu=
+/drm/i915/display/intel_display.c
+> > index 86dbe366a907..84715a779d9d 100644
+> > --- a/drivers/gpu/drm/i915/display/intel_display.c
+> > +++ b/drivers/gpu/drm/i915/display/intel_display.c
+> > @@ -42,6 +42,7 @@
+> >  #include <drm/drm_edid.h>
+> >  #include <drm/drm_fourcc.h>
+> >  #include <drm/drm_plane_helper.h>
+> > +#include <drm/drm_privacy_screen_consumer.h>
+> >  #include <drm/drm_probe_helper.h>
+> >  #include <drm/drm_rect.h>
+> >
+> > @@ -12769,6 +12770,8 @@ void intel_modeset_driver_remove_nogem(struct d=
+rm_i915_private *i915)
+> >
+> >  bool intel_modeset_probe_defer(struct pci_dev *pdev)
+> >  {
+> > +     struct drm_privacy_screen *privacy_screen;
+> > +
+> >       /*
+> >        * apple-gmux is needed on dual GPU MacBook Pro
+> >        * to probe the panel if we're the inactive GPU.
+> > @@ -12776,6 +12779,13 @@ bool intel_modeset_probe_defer(struct pci_dev =
+*pdev)
+> >       if (vga_switcheroo_client_probe_defer(pdev))
+> >               return true;
+> >
+> > +     /* If the LCD panel has a privacy-screen, wait for it */
+> > +     privacy_screen =3D drm_privacy_screen_get(&pdev->dev, NULL);
+> > +     if (IS_ERR(privacy_screen) && PTR_ERR(privacy_screen) =3D=3D -EPR=
+OBE_DEFER)
+> > +             return true;
+> > +
+> > +     drm_privacy_screen_put(privacy_screen);
+> > +
+> >       return false;
+> >  }
+> >
+> > --
+> > 2.31.1
+>
+> --
+> Ville Syrj=C3=A4l=C3=A4
+> Intel
