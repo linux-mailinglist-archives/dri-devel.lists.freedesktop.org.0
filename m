@@ -1,43 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50304443B59
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Nov 2021 03:26:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 66511443B8F
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Nov 2021 03:47:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E8B896F581;
-	Wed,  3 Nov 2021 02:26:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F364573A6D;
+	Wed,  3 Nov 2021 02:46:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E58826F581
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Nov 2021 02:26:45 +0000 (UTC)
-Received: from dggeme756-chm.china.huawei.com (unknown [172.30.72.57])
- by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4HkVw64WdJz1DHkd;
- Wed,  3 Nov 2021 10:24:38 +0800 (CST)
-Received: from [10.67.110.136] (10.67.110.136) by
- dggeme756-chm.china.huawei.com (10.3.19.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2308.15; Wed, 3 Nov 2021 10:26:42 +0800
-Subject: Re: [PATCH -V2] drm/sun4i: Grab reference of connector before return
- connector from sun4i_tcon_get_connector
-To: Maxime Ripard <maxime@cerno.tech>
-References: <33e01d45-c9f9-0e8c-6871-868ecd198368@huawei.com>
- <20211102084628.149070-1-heying24@huawei.com>
- <20211102150331.526nn2e6oqjbf6ur@gilmour>
-From: He Ying <heying24@huawei.com>
-Message-ID: <a0871590-62b2-bbf2-d6ab-920abdf20fad@huawei.com>
-Date: Wed, 3 Nov 2021 10:26:42 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D876873A6D
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Nov 2021 02:46:53 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id AC7FB60EFE
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Nov 2021 02:46:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1635907613;
+ bh=i0IMsV8fX95pekyN6qzYCZnPbfZhxxRKkhLTB5L38Wk=;
+ h=From:To:Subject:Date:From;
+ b=Gt0GBL2GZJEvwXdFnJ65512ynHEsAXEg1c3vVkS5spBhmnpd/ddeZpRqZdqWp8eS6
+ 1tHuLLAZ+Jj1uQHGOX6/jVaXbakLllRHab4McvDZ3tVyP2a3+me5FgDYEZ0nf663p3
+ IDEWNdIVjPBKsh1bLQqlbsd4iWi/SzJ2+b4oMNqMM5zqNgvu4/XqC0/RRO2bqZDKfv
+ T3dB/sARXptDszh/+pQAizlOR63XzjG8nhcNFCpToR+tt7hcC9MgPhfPxRtZG8xdEf
+ LgzVgHzC/4g/Vx1kXPqLDexAiFGo3wm2g/ZMbx78axT2YAIg/jkTmJgacC+U8e1YSr
+ 157ejB5Ndm9HA==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id A215961004; Wed,  3 Nov 2021 02:46:53 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 214921] New: amdgpu hangs HP Laptop on shutdown
+Date: Wed, 03 Nov 2021 02:46:53 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: spasswolf@web.de
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
+ priority component assigned_to reporter cf_regression
+Message-ID: <bug-214921-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <20211102150331.526nn2e6oqjbf6ur@gilmour>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.67.110.136]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- dggeme756-chm.china.huawei.com (10.3.19.102)
-X-CFilter-Loop: Reflected
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,74 +65,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, wens@csie.org, jernej.skrabec@gmail.com,
- linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+https://bugzilla.kernel.org/show_bug.cgi?id=3D214921
 
-在 2021/11/2 23:03, Maxime Ripard 写道:
-> Hi,
->
-> On Tue, Nov 02, 2021 at 04:46:28AM -0400, He Ying wrote:
->>  From the comments of drm_for_each_connector_iter(), we know
->> that "connector is only valid within the list body, if you
->> want to use connector after calling drm_connector_list_iter_end()
->> then you need to grab your own reference first using
->> drm_connector_get()". So fix the wrong use of connector
->> according to the comments and then call drm_connector_put()
->> after using connector finishes.
->>
->> Signed-off-by: He Ying <heying24@huawei.com>
->> ---
->>
->> V2:
->>   Use proper subject prefix
->>
->>   drivers/gpu/drm/sun4i/sun4i_tcon.c | 18 +++++++++++++-----
->>   1 file changed, 13 insertions(+), 5 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.c b/drivers/gpu/drm/sun4i/sun4i_tcon.c
->> index 9f06dec0fc61..24fa6784ee5f 100644
->> --- a/drivers/gpu/drm/sun4i/sun4i_tcon.c
->> +++ b/drivers/gpu/drm/sun4i/sun4i_tcon.c
->> @@ -47,12 +47,12 @@ static struct drm_connector *sun4i_tcon_get_connector(const struct drm_encoder *
->>   	drm_connector_list_iter_begin(encoder->dev, &iter);
->>   	drm_for_each_connector_iter(connector, &iter)
->>   		if (connector->encoder == encoder) {
->> -			drm_connector_list_iter_end(&iter);
->> -			return connector;
->> +			drm_connector_get(connector);
->> +			break;
->>   		}
->>   	drm_connector_list_iter_end(&iter);
->>   
->> -	return NULL;
->> +	return connector;
-> Connector might be uninitialized if we don't find one here
+            Bug ID: 214921
+           Summary: amdgpu hangs HP Laptop on shutdown
+           Product: Drivers
+           Version: 2.5
+    Kernel Version: 5.15
+          Hardware: All
+                OS: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: Video(DRI - non Intel)
+          Assignee: drivers_video-dri@kernel-bugs.osdl.org
+          Reporter: spasswolf@web.de
+        Regression: No
 
-Connector should be NULL if we don't find one. The code is
+Commit bf756fb833cbe8c6881c964f09db718bade6e591 leads to an improper shutdo=
+wn,
+i.e. the System does not switch off and has to be powered off by pressing t=
+he
+power button for a long time. The problem seems to occur relatively late in=
+ the
+shutdown as it leaves no trace in logfiles.=20=20
+It also does not fix hangs on suspension on this Laptop.
+Reverting this commit in 5.15 leads to working shutdown again while=20
+resuming from suspension still does not work.
+Hardware:
+HP bw064-ng
+CPU:
+processor       : 0
+vendor_id       : AuthenticAMD
+cpu family      : 21
+model           : 101
+model name      : AMD A10-9620P RADEON R5, 10 COMPUTE CORES 4C+6G
+stepping        : 1
+microcode       : 0x6006118
+GPU:
+00:01.0 VGA compatible controller [0300]: Advanced Micro Devices, Inc.
+[AMD/ATI] Wani [Radeon R5/R6/R7 Graphics] [1002:9874] (rev ca)
 
-#define drm_for_each_connector_iter(connector, iter) \
-    while ((connector = drm_connector_list_iter_next(iter)))
+--=20
+You may reply to this email to add a comment.
 
-So, when we don't break from the while body, connector
-
-can only be NULL.
-
->
->>   }
->>   
->>   static int sun4i_tcon_get_pixel_depth(const struct drm_encoder *encoder)
->> @@ -65,6 +65,7 @@ static int sun4i_tcon_get_pixel_depth(const struct drm_encoder *encoder)
->>   		return -EINVAL;
->>   
->>   	info = &connector->display_info;
->> +	drm_connector_put(connector);
->>   	if (info->num_bus_formats != 1)
-> We're still accessing connector->display_info here, but it might have been
-> freed already.
-Agree. I'll place it after using 'info' finishes in v3.
->
-> Maxime
+You are receiving this mail because:
+You are watching the assignee of the bug.=
