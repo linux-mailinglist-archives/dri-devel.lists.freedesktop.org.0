@@ -2,24 +2,25 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4147044408F
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Nov 2021 12:25:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31A05444092
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Nov 2021 12:26:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C2F6173041;
-	Wed,  3 Nov 2021 11:25:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 543C57304F;
+	Wed,  3 Nov 2021 11:25:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 036CA72FF4
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Nov 2021 11:25:49 +0000 (UTC)
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2CF9173041
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Nov 2021 11:25:51 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: mwezdeck) with ESMTPSA id 620241F45616
+ (Authenticated sender: mwezdeck) with ESMTPSA id CF5351F45615
 From: Maksym Wezdecki <maksym.wezdecki@collabora.com>
 To: David Airlie <airlied@linux.ie>,
 	Gerd Hoffmann <kraxel@redhat.com>
-Subject: [PATCH 1/2] drm/virtio: introduce ioctl for pinning pages
-Date: Wed,  3 Nov 2021 12:25:35 +0100
-Message-Id: <20211103112536.126855-2-maksym.wezdecki@collabora.com>
+Subject: [PATCH 2/2] drm/virtio: introduce lazy pinning
+Date: Wed,  3 Nov 2021 12:25:36 +0100
+Message-Id: <20211103112536.126855-3-maksym.wezdecki@collabora.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211103112536.126855-1-maksym.wezdecki@collabora.com>
 References: <20211103112536.126855-1-maksym.wezdecki@collabora.com>
@@ -44,145 +45,151 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: mwezdeck <maksym.wezdecki@collabora.co.uk>
 
-Pinning pages happens in virtio_gpu_object_shmem_init()
-function.
+Userspace can opt-in to not pin pages during resource
+create ioctl.
 
-This ioctl allows to pin pages if it was not done earlier.
+In transfer_*_host and map ioctls check if memory is pinned.
+If pages are not pinned, pin it. Otherwise, do nothing.
 
-Signed-off-by: mwezdeck <maksym.wezdecki@collabora.co.uk>
+This change is transparent to userspace.
 ---
- drivers/gpu/drm/virtio/virtgpu_drv.h    |  5 +++-
- drivers/gpu/drm/virtio/virtgpu_ioctl.c  | 11 ++++++++
- drivers/gpu/drm/virtio/virtgpu_object.c | 34 +++++++++++++++++++++++++
- include/uapi/drm/virtgpu_drm.h          |  9 +++++++
- 4 files changed, 58 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/virtio/virtgpu_ioctl.c  |  9 +++++++++
+ drivers/gpu/drm/virtio/virtgpu_object.c | 27 ++++++++++++++++---------
+ include/uapi/drm/virtgpu_drm.h          |  9 +++++++++
+ 3 files changed, 35 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
-index e0265fe74aa5..232933919b91 100644
---- a/drivers/gpu/drm/virtio/virtgpu_drv.h
-+++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
-@@ -278,7 +278,7 @@ struct virtio_gpu_fpriv {
- };
- 
- /* virtgpu_ioctl.c */
--#define DRM_VIRTIO_NUM_IOCTLS 12
-+#define DRM_VIRTIO_NUM_IOCTLS 13
- extern struct drm_ioctl_desc virtio_gpu_ioctls[DRM_VIRTIO_NUM_IOCTLS];
- void virtio_gpu_create_context(struct drm_device *dev, struct drm_file *file);
- 
-@@ -455,6 +455,9 @@ int virtio_gpu_object_create(struct virtio_gpu_device *vgdev,
- 			     struct virtio_gpu_object **bo_ptr,
- 			     struct virtio_gpu_fence *fence);
- 
-+int virtio_gpu_object_pin(struct drm_file *file, 
-+			  struct virtio_gpu_device *vgdev, uint32_t handle);
-+
- bool virtio_gpu_is_shmem(struct virtio_gpu_object *bo);
- 
- int virtio_gpu_resource_id_get(struct virtio_gpu_device *vgdev,
 diff --git a/drivers/gpu/drm/virtio/virtgpu_ioctl.c b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
-index 0007e423d885..f6a3a760c32d 100644
+index f6a3a760c32d..c01c5c15701c 100644
 --- a/drivers/gpu/drm/virtio/virtgpu_ioctl.c
 +++ b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
-@@ -836,6 +836,14 @@ static int virtio_gpu_context_init_ioctl(struct drm_device *dev,
- 	return ret;
- }
+@@ -103,6 +103,8 @@ static int virtio_gpu_map_ioctl(struct drm_device *dev, void *data,
+ 	struct virtio_gpu_device *vgdev = dev->dev_private;
+ 	struct drm_virtgpu_map *virtio_gpu_map = data;
  
-+static int virtio_gpu_pin_ioctl(struct drm_device *dev, void *data,
-+				struct drm_file *file)
-+{
-+	struct virtio_gpu_device *vgdev = dev->dev_private;
-+	struct drm_virtgpu_pin *virtio_gpu_pin = data;
-+	return virtio_gpu_object_pin(file, vgdev, virtio_gpu_pin->handle);
-+}
++	virtio_gpu_object_pin(file, vgdev, virtio_gpu_map->handle);
 +
- struct drm_ioctl_desc virtio_gpu_ioctls[DRM_VIRTIO_NUM_IOCTLS] = {
- 	DRM_IOCTL_DEF_DRV(VIRTGPU_MAP, virtio_gpu_map_ioctl,
- 			  DRM_RENDER_ALLOW),
-@@ -875,4 +883,7 @@ struct drm_ioctl_desc virtio_gpu_ioctls[DRM_VIRTIO_NUM_IOCTLS] = {
+ 	return virtio_gpu_mode_dumb_mmap(file, vgdev->ddev,
+ 					 virtio_gpu_map->handle,
+ 					 &virtio_gpu_map->offset);
+@@ -292,6 +294,9 @@ static int virtio_gpu_getparam_ioctl(struct drm_device *dev, void *data,
+ 	case VIRTGPU_PARAM_SUPPORTED_CAPSET_IDs:
+ 		value = vgdev->capset_id_mask;
+ 		break;
++	case VIRTGPU_PARAM_PIN_ON_DEMAND:
++		value = 1;
++		break;
+ 	default:
+ 		return -EINVAL;
+ 	}
+@@ -414,6 +419,8 @@ static int virtio_gpu_transfer_from_host_ioctl(struct drm_device *dev,
+ 		goto err_put_free;
+ 	}
  
- 	DRM_IOCTL_DEF_DRV(VIRTGPU_CONTEXT_INIT, virtio_gpu_context_init_ioctl,
- 			  DRM_RENDER_ALLOW),
++	virtio_gpu_object_pin(file, vgdev, args->bo_handle);
 +
-+	DRM_IOCTL_DEF_DRV(VIRTGPU_PIN, virtio_gpu_pin_ioctl,
-+			  DRM_RENDER_ALLOW),
- };
+ 	if (!bo->host3d_blob && (args->stride || args->layer_stride)) {
+ 		ret = -EINVAL;
+ 		goto err_put_free;
+@@ -465,6 +472,8 @@ static int virtio_gpu_transfer_to_host_ioctl(struct drm_device *dev, void *data,
+ 		goto err_put_free;
+ 	}
+ 
++	virtio_gpu_object_pin(file, vgdev, args->bo_handle);
++
+ 	if (!vgdev->has_virgl_3d) {
+ 		virtio_gpu_cmd_transfer_to_host_2d
+ 			(vgdev, offset,
 diff --git a/drivers/gpu/drm/virtio/virtgpu_object.c b/drivers/gpu/drm/virtio/virtgpu_object.c
-index f648b0e24447..064c50cb9846 100644
+index 064c50cb9846..183e57ef10e8 100644
 --- a/drivers/gpu/drm/virtio/virtgpu_object.c
 +++ b/drivers/gpu/drm/virtio/virtgpu_object.c
-@@ -280,3 +280,37 @@ int virtio_gpu_object_create(struct virtio_gpu_device *vgdev,
- 	drm_gem_shmem_free_object(&shmem_obj->base);
- 	return ret;
- }
-+
-+int virtio_gpu_object_pin(struct drm_file *file, 
-+			  struct virtio_gpu_device *vgdev, uint32_t handle)
-+{
-+	int ret;
-+	struct drm_gem_object *gem;
-+	struct virtio_gpu_object *bo;
-+	struct virtio_gpu_object_shmem *shmem;
-+	struct virtio_gpu_mem_entry *ents;
-+	unsigned int nents;
-+
-+	gem = drm_gem_object_lookup(file, handle);
-+	if (gem == NULL)
-+		return -ENOENT;
-+	
-+	bo = gem_to_virtio_gpu_obj(gem);
-+	if (bo == NULL)
-+		return -ENOENT;
-+
-+	shmem = to_virtio_gpu_shmem(bo);
-+	if (shmem == NULL)
-+		return -ENOENT;
-+
-+	if (!shmem->pages) {
+@@ -219,7 +219,7 @@ int virtio_gpu_object_create(struct virtio_gpu_device *vgdev,
+ 	struct virtio_gpu_mem_entry *ents;
+ 	unsigned int nents;
+ 	int ret;
+-
++	uint32_t backup_flags = params->flags;
+ 	*bo_ptr = NULL;
+ 
+ 	params->size = roundup(params->size, PAGE_SIZE);
+@@ -246,13 +246,19 @@ int virtio_gpu_object_create(struct virtio_gpu_device *vgdev,
+ 			goto err_put_objs;
+ 	}
+ 
+-	ret = virtio_gpu_object_shmem_init(vgdev, bo, &ents, &nents);
+-	if (ret != 0) {
+-		virtio_gpu_array_put_free(objs);
+-		virtio_gpu_free_object(&shmem_obj->base);
+-		return ret;
++	if (!(backup_flags & VIRTGPU_NOT_PIN_FLAG)) {
 +		ret = virtio_gpu_object_shmem_init(vgdev, bo, &ents, &nents);
 +		if (ret != 0) {
-+			return -EFAULT;
++			virtio_gpu_array_put_free(objs);
++			virtio_gpu_free_object(&shmem_obj->base);
++			return ret;
 +		}
+ 	}
+ 
++	// turn off these bits, as renderer doesn't support such bits
++	if (params->flags & VIRTGPU_NOT_PIN_FLAG)
++		params->flags &= ~(VIRTGPU_NOT_PIN_FLAG);
 +
-+		virtio_gpu_object_attach(vgdev, bo, ents, nents);
-+	}
-+
-+	return 0;
-+}
+ 	if (params->blob) {
+ 		if (params->blob_mem == VIRTGPU_BLOB_MEM_GUEST)
+ 			bo->guest_blob = true;
+@@ -262,11 +268,13 @@ int virtio_gpu_object_create(struct virtio_gpu_device *vgdev,
+ 	} else if (params->virgl) {
+ 		virtio_gpu_cmd_resource_create_3d(vgdev, bo, params,
+ 						  objs, fence);
+-		virtio_gpu_object_attach(vgdev, bo, ents, nents);
++		if (!(backup_flags & VIRTGPU_NOT_PIN_FLAG))
++			virtio_gpu_object_attach(vgdev, bo, ents, nents);
+ 	} else {
+ 		virtio_gpu_cmd_create_resource(vgdev, bo, params,
+ 					       objs, fence);
+-		virtio_gpu_object_attach(vgdev, bo, ents, nents);
++		if (!(backup_flags & VIRTGPU_NOT_PIN_FLAG))
++			virtio_gpu_object_attach(vgdev, bo, ents, nents);
+ 	}
+ 
+ 	*bo_ptr = bo;
+@@ -305,9 +313,8 @@ int virtio_gpu_object_pin(struct drm_file *file,
+ 
+ 	if (!shmem->pages) {
+ 		ret = virtio_gpu_object_shmem_init(vgdev, bo, &ents, &nents);
+-		if (ret != 0) {
++		if (ret != 0)
+ 			return -EFAULT;
+-		}
+ 
+ 		virtio_gpu_object_attach(vgdev, bo, ents, nents);
+ 	}
 diff --git a/include/uapi/drm/virtgpu_drm.h b/include/uapi/drm/virtgpu_drm.h
-index a13e20cc66b4..bb661d53c0e9 100644
+index bb661d53c0e9..0780234f946f 100644
 --- a/include/uapi/drm/virtgpu_drm.h
 +++ b/include/uapi/drm/virtgpu_drm.h
-@@ -48,6 +48,7 @@ extern "C" {
- #define DRM_VIRTGPU_GET_CAPS  0x09
- #define DRM_VIRTGPU_RESOURCE_CREATE_BLOB 0x0a
- #define DRM_VIRTGPU_CONTEXT_INIT 0x0b
-+#define DRM_VIRTGPU_PIN 0x0c
+@@ -83,12 +83,21 @@ struct drm_virtgpu_execbuffer {
+ #define VIRTGPU_PARAM_CROSS_DEVICE 5 /* Cross virtio-device resource sharing  */
+ #define VIRTGPU_PARAM_CONTEXT_INIT 6 /* DRM_VIRTGPU_CONTEXT_INIT */
+ #define VIRTGPU_PARAM_SUPPORTED_CAPSET_IDs 7 /* Bitmask of supported capability set ids */
++#define VIRTGPU_PARAM_PIN_ON_DEMAND 8 /* is pinning on demand available? */
  
- #define VIRTGPU_EXECBUF_FENCE_FD_IN	0x01
- #define VIRTGPU_EXECBUF_FENCE_FD_OUT	0x02
-@@ -196,6 +197,10 @@ struct drm_virtgpu_context_init {
- 	__u64 ctx_set_params;
+ struct drm_virtgpu_getparam {
+ 	__u64 param;
+ 	__u64 value;
  };
  
-+struct drm_virtgpu_pin {
-+	__u32 handle;
-+};
++/* it is used in resource_create_ioctl as resource
++ * flag.
++ * First 8 bits of uint32_t and 24th bit 
++ * are reserved for user space driver.
++ * Userspace can opt-in to not pin pages.
++ */
++#define VIRTGPU_NOT_PIN_FLAG (1 << 9)
 +
- #define DRM_IOCTL_VIRTGPU_MAP \
- 	DRM_IOWR(DRM_COMMAND_BASE + DRM_VIRTGPU_MAP, struct drm_virtgpu_map)
- 
-@@ -239,6 +244,10 @@ struct drm_virtgpu_context_init {
- 	DRM_IOWR(DRM_COMMAND_BASE + DRM_VIRTGPU_CONTEXT_INIT,		\
- 		struct drm_virtgpu_context_init)
- 
-+#define DRM_IOCTL_VIRTGPU_PIN					\
-+	DRM_IOWR(DRM_COMMAND_BASE + DRM_VIRTGPU_PIN,		\
-+		struct drm_virtgpu_pin)
-+
- #if defined(__cplusplus)
- }
- #endif
+ /* NO_BO flags? NO resource flag? */
+ /* resource flag for y_0_top */
+ struct drm_virtgpu_resource_create {
 -- 
 2.30.2
 
