@@ -2,41 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77CB4444049
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Nov 2021 12:02:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 019FF444061
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Nov 2021 12:14:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 822446E9C9;
-	Wed,  3 Nov 2021 11:02:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F13F973052;
+	Wed,  3 Nov 2021 11:14:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E8C6D6E9C9;
- Wed,  3 Nov 2021 11:02:21 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10156"; a="231425867"
-X-IronPort-AV: E=Sophos;i="5.87,205,1631602800"; d="scan'208";a="231425867"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Nov 2021 04:02:21 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.87,205,1631602800"; d="scan'208";a="541655211"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
- by fmsmga008.fm.intel.com with SMTP; 03 Nov 2021 04:02:11 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Wed, 03 Nov 2021 13:02:11 +0200
-Date: Wed, 3 Nov 2021 13:02:11 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Maxime Ripard <maxime@cerno.tech>
-Subject: Re: [PATCH 01/13] drm/connector: Add define for HDMI 1.4 Maximum
- Pixel Rate
-Message-ID: <YYJsM6/hZ43b1tm9@intel.com>
-References: <20211102145944.259181-1-maxime@cerno.tech>
- <20211102145944.259181-2-maxime@cerno.tech>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A1A5D6FFA9;
+ Wed,  3 Nov 2021 11:14:33 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10156"; a="231728132"
+X-IronPort-AV: E=Sophos;i="5.87,205,1631602800"; d="scan'208";a="231728132"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Nov 2021 04:14:30 -0700
+X-IronPort-AV: E=Sophos;i="5.87,205,1631602800"; d="scan'208";a="560850386"
+Received: from gzuchow-mobl.ger.corp.intel.com (HELO thellstr-mobl1.intel.com)
+ ([10.249.254.54])
+ by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Nov 2021 04:14:28 -0700
+From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH v4 0/2] drm/i915: Failsafe migration blits
+Date: Wed,  3 Nov 2021 12:14:17 +0100
+Message-Id: <20211103111419.536191-1-thomas.hellstrom@linux.intel.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20211102145944.259181-2-maxime@cerno.tech>
-X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,57 +44,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Emma Anholt <emma@anholt.net>, Neil Armstrong <narmstrong@baylibre.com>,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Andrzej Hajda <a.hajda@samsung.com>, Thierry Reding <thierry.reding@gmail.com>,
- amd-gfx@lists.freedesktop.org,
- Benjamin Gaignard <benjamin.gaignard@linaro.org>,
- Daniel Vetter <daniel.vetter@intel.com>, Phil Elwell <phil@raspberrypi.com>,
- Jerome Brunet <jbrunet@baylibre.com>, Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Kevin Hilman <khilman@baylibre.com>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Jonas Karlman <jonas@kwiboo.se>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- intel-gfx@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- linux-tegra@vger.kernel.org, linux-amlogic@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, Dom Cobley <dom@raspberrypi.com>, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>, Robert Foss <robert.foss@linaro.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Alex Deucher <alexander.deucher@amd.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ matthew.auld@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 02, 2021 at 03:59:32PM +0100, Maxime Ripard wrote:
-> --- a/drivers/gpu/drm/drm_edid.c
-> +++ b/drivers/gpu/drm/drm_edid.c
-> @@ -4966,7 +4966,7 @@ static void drm_parse_hdmi_forum_vsdb(struct drm_connector *connector,
->  		u32 max_tmds_clock = hf_vsdb[5] * 5000;
->  		struct drm_scdc *scdc = &hdmi->scdc;
->  
-> -		if (max_tmds_clock > 340000) {
-> +		if (max_tmds_clock > DRM_HDMI_14_MAX_TMDS_CLK_KHZ) {
->  			display->max_tmds_clock = max_tmds_clock;
->  			DRM_DEBUG_KMS("HF-VSDB: max TMDS clock %d kHz\n",
->  				display->max_tmds_clock);
-> diff --git a/drivers/gpu/drm/i915/display/intel_hdmi.c b/drivers/gpu/drm/i915/display/intel_hdmi.c
-> index d2e61f6c6e08..0666203d52b7 100644
-> --- a/drivers/gpu/drm/i915/display/intel_hdmi.c
-> +++ b/drivers/gpu/drm/i915/display/intel_hdmi.c
-> @@ -2226,7 +2226,7 @@ int intel_hdmi_compute_config(struct intel_encoder *encoder,
->  		if (scdc->scrambling.low_rates)
->  			pipe_config->hdmi_scrambling = true;
->  
-> -		if (pipe_config->port_clock > 340000) {
-> +		if (pipe_config->port_clock > DRM_HDMI_14_MAX_TMDS_CLK_KHZ) {
->  			pipe_config->hdmi_scrambling = true;
->  			pipe_config->hdmi_high_tmds_clock_ratio = true;
->  		}
+This patch series introduces failsafe migration blits.
+The reason for this seemingly strange concept is that if the initial
+clearing or readback of LMEM fails for some reason[1], and we then set up
+either GPU- or CPU ptes to the allocated LMEM, we can expose old
+contents from other clients.
 
-All of that is HDMI 2.0 stuff. So this just makes it all super
-confusing IMO. Nak.
+So after each migration blit to LMEM, attach a dma-fence callback that
+checks the migration fence error value and if it's an error,
+performs a memcpy blit, instead.
+
+Patch 1 splits out the TTM move code into separate files
+Patch 2 implements the failsafe blits and related self-tests
+
+[1] There are at least two ways we could trigger exposure of uninitialized
+LMEM assuming the migration blits themselves never trigger a gpu hang.
+
+a) A gpu operation preceding a pipelined eviction blit resets and sets the
+error fence to -EIO, and the error is propagated across the TTM manager to
+the clear / swapin blit of a newly allocated TTM resource. It aborts and
+leaves the memory uninitialized.
+
+b) Something wedges the GT while a migration blit is submitted. It ends up
+never executed and TTM can fault user-space cpu-ptes into uninitialized
+memory.
+
+v3:
+- Style fixes in second patch (Matthew Auld)
+v4:
+- More style fixes in second patch (Matthew Auld)
+
+Thomas Hellstr√∂m (2):
+  drm/i915/ttm: Reorganize the ttm move code
+  drm/i915/ttm: Failsafe migration blits
+
+ drivers/gpu/drm/i915/Makefile                 |   1 +
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.c       | 328 ++---------
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.h       |  35 ++
+ drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c  | 520 ++++++++++++++++++
+ drivers/gpu/drm/i915/gem/i915_gem_ttm_move.h  |  43 ++
+ .../drm/i915/gem/selftests/i915_gem_migrate.c |  24 +-
+ 6 files changed, 670 insertions(+), 281 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
+ create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_ttm_move.h
 
 -- 
-Ville Syrj‰l‰
-Intel
+2.31.1
+
