@@ -1,58 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2B874449F6
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Nov 2021 21:59:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 940474449F8
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Nov 2021 21:59:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E94CE7A324;
-	Wed,  3 Nov 2021 20:59:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 32C967A329;
+	Wed,  3 Nov 2021 20:59:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com
- [IPv6:2607:f8b0:4864:20::42b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 670A67A322;
- Wed,  3 Nov 2021 20:59:08 +0000 (UTC)
-Received: by mail-pf1-x42b.google.com with SMTP id s5so3675713pfg.2;
- Wed, 03 Nov 2021 13:59:08 -0700 (PDT)
+Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com
+ [IPv6:2607:f8b0:4864:20::62a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C3AAD7A326;
+ Wed,  3 Nov 2021 20:59:10 +0000 (UTC)
+Received: by mail-pl1-x62a.google.com with SMTP id s24so3693695plp.0;
+ Wed, 03 Nov 2021 13:59:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=9pcxuBvGjhUEmKd0khQGqkYMjXGdoop0TDNGStK9eQI=;
- b=JKYKg8toBVT2byo8HteiLk3miwnA0QtFnEzJyBw8Gt5NkhxvEcMoZlCllzPOB63NgM
- LmXj6EZNpMOr4Nflimx4AjPQ8dAX6PhGTwWHTGXvU1cQtCrncUGh+rmYpxowYl7R1kBJ
- 0WWPlwL/9I5wah2sPkFQSonsLi+6lZRgF/yY7nhYKqYQRcsciQnajyIvMxOySLkU9I+u
- 0V3MWRGtTK1Z0MutzTCze+QR+rG211g+zhUTe3lJnFt6FjKdixFdZXOaCgsF5tqPcyLv
- Gw5b2mpD3H5rxn1IFm/N4ej4ULs9afxgkakSTxMb7FOsGmHvd3JIpyr6xyFKQnzN4C7R
- 2kMQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=JAvM+g0nOw8dXBaO8IEKfuu1DVB6ImeRwrNAg5nlgY0=;
+ b=RwKDVJBJa9n/8X2oxiLeLyEYiId1ALn/wUwn2oHj4oVxJqTuQTFDcBVTDHFHNQSQ7s
+ a70j/DZC96WaL5djXcWVstbJrdtmEoG9L78mQSp5cg8gWVlBYLUfCTz2AU1efCh5gS+j
+ hRi04I4MD7umGlwsOB/l1WR5WMzxdzdYQ7Pmab9/rsFz7yxOuTiQcNQ6bQSzm8GfhtHV
+ QWSzV07pET8XFqtzEUxh6DBz7demRWGkzjI5nUUNrUDVHjHNCvPO/r84gh2ed4zXuEXs
+ bjenaUr1GijlAmfhhtckDfjrwxn0uiC76guULHgKtrFZMRpXnh4hXEY/ARsQDyUTVzXw
+ dAMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=9pcxuBvGjhUEmKd0khQGqkYMjXGdoop0TDNGStK9eQI=;
- b=maB3ERIXM4ECXBKkuSE/nOFQAlptUG1UBN891jydrB8U5OkIB5i4i2OhDEFx+52oCB
- G/d5knJK17tWG5ckWUDKTtjNrMIi2VhJqnL4apF13ZWSMRpHpadxM5gNwbP6DGQOrC5y
- kXaY48CS3EArMkrVdK8KTOiZPX2yGZpfU5MlQR7SypfFvKpdmFSP/8mFCQ80IvCEDXdo
- RyNkmdddNsvKKjEceWR4gDbPagbDiC3gN8cKLTznGoLqnpqYM0p3x1Be+FC5iK27gRyC
- q+Oo1SVx95EA5RUrIWOJ0+ckG41oE3M3t1jxajNF20G1hhI3HDRapCtm5AForTQaT2TT
- T1gg==
-X-Gm-Message-State: AOAM531Yvt3MGr8SRW7xD7jmSeOzBxoUDiqczkxsf1AUwsijMeiNJqSn
- aN8PBeQwpTGjRn5nBQiA39YmF+HqpDw=
-X-Google-Smtp-Source: ABdhPJy90OawVNmed6HjBzFdRIvX8XirbPVjXZCTukl8/vQMr3evDKQWlVqaP6AANmE2qGw9WFtqtg==
-X-Received: by 2002:a62:1707:0:b0:480:f85a:f3b0 with SMTP id
- 7-20020a621707000000b00480f85af3b0mr30495683pfx.43.1635973147232; 
- Wed, 03 Nov 2021 13:59:07 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=JAvM+g0nOw8dXBaO8IEKfuu1DVB6ImeRwrNAg5nlgY0=;
+ b=c80MCQEUr16YvYMb3FKdlG/JxwbLbE8gsBmuPE1yCnDIY4opwZqZVC9nrQ2NOFag25
+ lARVh62+gGbxmw5oO74xMCE7kWhNzC+TfXM2YL3Xz4JQ0W2UxK3rb7bIv2iX+kdDakeh
+ XCnd7kmPXfyt71LTufzpYkT42ycr1AQtsKq+AJIMm3xEmt1pYx4uTdxXSx5uAk/F1NKF
+ NiW1GWGi9qT3mIjgNuSgU5ujeph5BunM60IMxRBVJZFc7ts3e2KZvPStQpN72PvEy7NF
+ kCa6I02zR6ebypT/fJjumrBX3XMoiDFX8vyq06RKIgOl8p/C430TeQUvmMN7I0h3njru
+ +Akg==
+X-Gm-Message-State: AOAM5327jhoXxbCrDfy2vD6+etIRv42CB3x/obb/zrZdkvlFEBNs50zB
+ 6j7psGkpIkmeQCCuwIyh3OH4touDjGA=
+X-Google-Smtp-Source: ABdhPJzYneDeDjxADsHGJ8PHo5oX/urAKBo2bkfKMAOS6FV439NXqyc7lZkpu6FNyfnmDP+KPTS/eA==
+X-Received: by 2002:a17:90a:8b8a:: with SMTP id
+ z10mr17675513pjn.20.1635973149661; 
+ Wed, 03 Nov 2021 13:59:09 -0700 (PDT)
 Received: from localhost (c-73-25-156-94.hsd1.or.comcast.net. [73.25.156.94])
  by smtp.gmail.com with ESMTPSA id
- e14sm2568406pga.76.2021.11.03.13.59.04
+ d10sm3131569pfd.21.2021.11.03.13.59.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Nov 2021 13:59:05 -0700 (PDT)
+ Wed, 03 Nov 2021 13:59:08 -0700 (PDT)
 From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 1/2] drm/msm/devfreq: Add some locking asserts
-Date: Wed,  3 Nov 2021 14:04:01 -0700
-Message-Id: <20211103210402.623099-1-robdclark@gmail.com>
+Subject: [PATCH 2/2] drm/msm/gpu: Respect PM QoS constraints
+Date: Wed,  3 Nov 2021 14:04:02 -0700
+Message-Id: <20211103210402.623099-2-robdclark@gmail.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20211103210402.623099-1-robdclark@gmail.com>
+References: <20211103210402.623099-1-robdclark@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -77,44 +79,65 @@ From: Rob Clark <robdclark@chromium.org>
 
 Signed-off-by: Rob Clark <robdclark@chromium.org>
 ---
- drivers/gpu/drm/msm/msm_gpu_devfreq.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/msm/msm_gpu_devfreq.c | 31 +++++++++++++++++++++++++--
+ 1 file changed, 29 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/msm/msm_gpu_devfreq.c b/drivers/gpu/drm/msm/msm_gpu_devfreq.c
-index 47b3cf2df230..b24e5475cafb 100644
+index b24e5475cafb..427c55002f4d 100644
 --- a/drivers/gpu/drm/msm/msm_gpu_devfreq.c
 +++ b/drivers/gpu/drm/msm/msm_gpu_devfreq.c
-@@ -20,6 +20,8 @@ static int msm_devfreq_target(struct device *dev, unsigned long *freq,
- 	struct msm_gpu *gpu = dev_to_gpu(dev);
- 	struct dev_pm_opp *opp;
+@@ -158,6 +158,33 @@ void msm_devfreq_suspend(struct msm_gpu *gpu)
+ 	devfreq_suspend_device(gpu->devfreq.devfreq);
+ }
  
-+	WARN_ON(!mutex_is_locked(&gpu->devfreq.devfreq->lock));
++static void set_target(struct msm_gpu *gpu, unsigned long freq)
++{
++	struct msm_gpu_devfreq *df = &gpu->devfreq;
++	unsigned long min_freq, max_freq;
++	u32 flags = 0;
 +
- 	opp = devfreq_recommended_opp(dev, freq, flags);
++	/*
++	 * When setting the target freq internally, we need to apply PM QoS
++	 * constraints (such as cooling):
++	 */
++	min_freq = dev_pm_qos_read_value(df->devfreq->dev.parent,
++					 DEV_PM_QOS_MIN_FREQUENCY);
++	max_freq = dev_pm_qos_read_value(df->devfreq->dev.parent,
++					 DEV_PM_QOS_MAX_FREQUENCY);
++
++	if (freq < min_freq) {
++		freq = min_freq;
++		flags &= ~DEVFREQ_FLAG_LEAST_UPPER_BOUND; /* Use GLB */
++	}
++	if (freq > max_freq) {
++		freq = max_freq;
++		flags |= DEVFREQ_FLAG_LEAST_UPPER_BOUND; /* Use LUB */
++	}
++
++	msm_devfreq_target(&gpu->pdev->dev, &freq, flags);
++}
++
+ void msm_devfreq_boost(struct msm_gpu *gpu, unsigned factor)
+ {
+ 	struct msm_gpu_devfreq *df = &gpu->devfreq;
+@@ -173,7 +200,7 @@ void msm_devfreq_boost(struct msm_gpu *gpu, unsigned factor)
+ 
+ 	freq *= factor;
+ 
+-	msm_devfreq_target(&gpu->pdev->dev, &freq, 0);
++	set_target(gpu, freq);
+ 
+ 	mutex_unlock(&df->devfreq->lock);
+ }
+@@ -212,7 +239,7 @@ void msm_devfreq_active(struct msm_gpu *gpu)
+ 
+ 	df->idle_freq = 0;
+ 
+-	msm_devfreq_target(&gpu->pdev->dev, &target_freq, 0);
++	set_target(gpu, target_freq);
  
  	/*
-@@ -63,6 +65,8 @@ static int msm_devfreq_get_dev_status(struct device *dev,
- 	struct msm_gpu *gpu = dev_to_gpu(dev);
- 	ktime_t time;
- 
-+	WARN_ON(!mutex_is_locked(&gpu->devfreq.devfreq->lock));
-+
- 	status->current_frequency = get_freq(gpu);
- 	status->busy_time = gpu->funcs->gpu_busy(gpu);
- 
-@@ -75,7 +79,11 @@ static int msm_devfreq_get_dev_status(struct device *dev,
- 
- static int msm_devfreq_get_cur_freq(struct device *dev, unsigned long *freq)
- {
--	*freq = get_freq(dev_to_gpu(dev));
-+	struct msm_gpu *gpu = dev_to_gpu(dev);
-+
-+	WARN_ON(!mutex_is_locked(&gpu->devfreq.devfreq->lock));
-+
-+	*freq = get_freq(gpu);
- 
- 	return 0;
- }
+ 	 * Reset the polling interval so we aren't inconsistent
 -- 
 2.31.1
 
