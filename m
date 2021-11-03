@@ -1,56 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B6B4444819
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Nov 2021 19:18:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D06DE444873
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Nov 2021 19:41:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D9C8D73E5C;
-	Wed,  3 Nov 2021 18:18:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 61C5073FC4;
+	Wed,  3 Nov 2021 18:41:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd2b.google.com (mail-io1-xd2b.google.com
- [IPv6:2607:f8b0:4864:20::d2b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 754E273E5C
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Nov 2021 18:18:07 +0000 (UTC)
-Received: by mail-io1-xd2b.google.com with SMTP id 2so587897iou.1
- for <dri-devel@lists.freedesktop.org>; Wed, 03 Nov 2021 11:18:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=O23yy0XNaLc0R410pYr/V33NeRlDl1su4/qTlADNJK0=;
- b=PmBMPAJMTJSzmZXAokQHOShr6T/x9odJ/mnPDhQPtu0T6DHU7qEVZ2d+NnBxFu2cSE
- EhRJmGI8N+/LE8ZNSh+n2bA8+Ux9UvMkyX68sz9/yHWeVKwHBKZOwQcn2/Uxjz1UUDuV
- H55yzHltcvoNicqIJr5fchzCbTGwoZxKAoyC1XkPKrT2GWPHyrnq+RdGM4ErHU9LLf0Q
- 79f0VeCtpYCHVVdvAhB0LLIJyKtJ1jAEZPtGuagY2nKL4anpRljWUSef4GMm+g7foEuY
- lr3iHGQNPYus41MMK/2slkqUBB7A4FN8Uaq5pkWNvbX54Cu6mIfQJ261M0jK1PFy5dLG
- bwHQ==
+Received: from mail-qk1-x72b.google.com (mail-qk1-x72b.google.com
+ [IPv6:2607:f8b0:4864:20::72b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E49A673FC1
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Nov 2021 18:41:49 +0000 (UTC)
+Received: by mail-qk1-x72b.google.com with SMTP id br39so3275263qkb.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 03 Nov 2021 11:41:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=dpvDlm9XG8BS9PEwVCaoyGjqhg0IBvpzlPNBIoaOPaM=;
+ b=eXZG8MISuWzt96PJRto8A4LUkXC8mhgmpVb8UjFEGTPyqdrvgpNngZrfZRlBzS+VTt
+ X5J/Wer1qNgu4c/E7ahAefMJtIxyBeXozNSxnT5avIMU3r9bP0KiSNIIVFzcXVXxA/2o
+ gbPK7LVoMv2ah+HqlzxY+i60WJnPr1ydecu9dj4HY1a2ZDYjJ54oE1VWMXgYnO8ZGSUQ
+ GbcwlqgzDh2fgdKA19VDWPCECKVmnCWGWMcZA9g1Qp1DvNjWMMmRxrcniMFSH2MEz0+t
+ X/aWLgNuU+sJup/55lKgcMTQwjrfGxXqBD6oHx1C0O6zgL08Fncvqf8mQt7N8Ni6pp7H
+ gTGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=O23yy0XNaLc0R410pYr/V33NeRlDl1su4/qTlADNJK0=;
- b=WCxn4Rrfy2lbg969ueMyeatw+fNSqlPTNQ/v9tmITY8bpRskbCnYf6NxulIvLSagkP
- 8uzekQhSKcu438HSZo5ZstT5CjUEqTN0uATaLq2Kv7XRlXnUlo88nhmnksOuVfCba/lX
- rY+6EA0KonygFrDbOgiDYn6kcQt+xk4U07mvexPYS5En29OqTHQEPViHUbznTagnCWaH
- TnDvlwlF4EVgItmgz8nE7xEpCX7ufCunOVc52SWxB+5m1N/8D64kLhty26HsP7rSqFcu
- 6DtAhUIDFThoOtMrgAZldhQBvztbtgziCu+YmQ5Q2naN4RLUVFW2zCRFrWtdwgjZj1Il
- C9yg==
-X-Gm-Message-State: AOAM531lID+UG/T2OJA6hvWXBKxip050yMxidGS5l5SdYHpHny1xQH+r
- DKvW/OpPhBtJky24AhoyMxTYH+O1Ch5iNwS2HqwRgg==
-X-Google-Smtp-Source: ABdhPJzHbA7Bu2iKENsPydeGCqpNqdobu5r4ToGJSw9CwhawlRaQTsxDl3byqGQ9csTexqO7E7esD0HRWGe9sAqxpLc=
-X-Received: by 2002:a05:6602:19a:: with SMTP id
- m26mr15046938ioo.162.1635963486488; 
- Wed, 03 Nov 2021 11:18:06 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=dpvDlm9XG8BS9PEwVCaoyGjqhg0IBvpzlPNBIoaOPaM=;
+ b=XdSQUAQQmjCd2aTgP/SaR8WPedJU7PXBOOhtD4zuP1rzt+oNAukPc3yYrwn7kD+o+p
+ zXln8TGt3DqyU1YVmeiRgwC40pBaWJrEaK3HH2INEgrPEVyaEVgITzOGU4nZOMwbNCgA
+ RJ3MmIStcqM4rVs+BpWuK208+2MGDe6s559opzt/wKycb4yHXARQ4qsiG5/iAvzlaT3b
+ jiKl30bmbr46/cvx7osZ9TnmR1xKy5qHzAoJgH7coS5WBrpWlR/d2dFFYIwqZu3pE2vw
+ LZPZk3/G0AkB25b4ZoVU1yAWCS1W/Qa5Kk5/rlso/spKyiSSfWpUB8jJUfQy/QMUryEd
+ lTag==
+X-Gm-Message-State: AOAM5333KkVUYEfje7L8SIqhZ7T1O6FeFA1eNXbSDYjvxuDrBA2bwUHY
+ gSIfj8iB3Zi7FqYrwtER2hoKmXcwhM8=
+X-Google-Smtp-Source: ABdhPJzytvcj1XuVyKElMuJtptr+9yhjS9y6XH9OC5uTwhhluW5G0pVoLt3NR6s7F+E0DlDkTWyqHw==
+X-Received: by 2002:a05:620a:40c4:: with SMTP id
+ g4mr30121124qko.14.1635964908773; 
+ Wed, 03 Nov 2021 11:41:48 -0700 (PDT)
+Received: from ?IPv6:2804:431:c7f5:66c6:188e:4e49:90d2:b722?
+ ([2804:431:c7f5:66c6:188e:4e49:90d2:b722])
+ by smtp.gmail.com with ESMTPSA id bs33sm1946798qkb.130.2021.11.03.11.41.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 03 Nov 2021 11:41:48 -0700 (PDT)
+Subject: Re: [PATCH v2 5/8] drm: drm_atomic_helper: Add a new helper to deal
+ with the writeback connector validation
+To: Thomas Zimmermann <tzimmermann@suse.de>,
+ Leandro Ribeiro <leandro.ribeiro@collabora.com>,
+ rodrigosiqueiramelo@gmail.com, melissa.srw@gmail.com, ppaalanen@gmail.com
+References: <20211026113409.7242-1-igormtorrente@gmail.com>
+ <20211026113409.7242-6-igormtorrente@gmail.com>
+ <8adbff15-3ba6-317f-e50e-cc7a8eaf25d1@collabora.com>
+ <85ac57d9-b02d-3698-e1b1-67ccdf012f09@gmail.com>
+ <6d4c3ce1-705c-8f00-8ec6-2992baa8cb26@collabora.com>
+ <2e52c729-d448-fae6-5bc1-90146b0747b9@suse.de>
+From: Igor Torrente <igormtorrente@gmail.com>
+Message-ID: <3efa551d-5d2e-608a-ef8e-3427c5285e70@gmail.com>
+Date: Wed, 3 Nov 2021 15:41:44 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-References: <20211103033708.14469-1-yunfei.dong@mediatek.com>
- <b398917ca0c467d83c795f02f751609a52d56edb.camel@ndufresne.ca>
-In-Reply-To: <b398917ca0c467d83c795f02f751609a52d56edb.camel@ndufresne.ca>
-From: Steve Cho <stevecho@google.com>
-Date: Wed, 3 Nov 2021 11:17:30 -0700
-Message-ID: <CAN0yncEu6sCYXQeg1Os7BZZHXG2KMb=MLSR1Z0j9yRssdxt8DQ@mail.gmail.com>
-Subject: Re: [PATCH v2] media: mtk-vcodec: Align width and height to 64 bytes
-To: Nicolas Dufresne <nicolas@ndufresne.ca>
-Content-Type: multipart/alternative; boundary="0000000000007aad9405cfe66e78"
+In-Reply-To: <2e52c729-d448-fae6-5bc1-90146b0747b9@suse.de>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,186 +81,266 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
- Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
- Yunfei Dong <yunfei.dong@mediatek.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Irui Wang <irui.wang@mediatek.com>, Tiffany Lin <tiffany.lin@mediatek.com>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- Fritz Koenig <frkoenig@chromium.org>, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, Tzung-Bi Shih <tzungbi@chromium.org>,
- Tomasz Figa <tfiga@google.com>, Rob Herring <robh+dt@kernel.org>,
- linux-mediatek@lists.infradead.org, Hsin-Yi Wang <hsinyi@chromium.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- linux-arm-kernel@lists.infradead.org,
- Alexandre Courbot <acourbot@chromium.org>, srv_heupstream@mediatek.com,
- linux-kernel@vger.kernel.org, Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: airlied@linux.ie, hamohammed.sa@gmail.com, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---0000000000007aad9405cfe66e78
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hi Thomas,
 
-Thank you Yunfei for the update. Looks good to me.
-As mentioned earlier, I tested to verify that this fix resolved
-the corruption issue on Kukui.
+On 11/3/21 12:37 PM, Thomas Zimmermann wrote:
+> Hi
+> 
+> Am 03.11.21 um 16:11 schrieb Leandro Ribeiro:
+>> Hi,
+>>
+>> On 11/3/21 12:03, Igor Torrente wrote:
+>>> Hi Leandro,
+>>>
+>>> On 10/28/21 6:38 PM, Leandro Ribeiro wrote:
+>>>> Hi,
+>>>>
+>>>> On 10/26/21 08:34, Igor Torrente wrote:
+>>>>> Add a helper function to validate the connector configuration receive in
+>>>>> the encoder atomic_check by the drivers.
+>>>>>
+>>>>> So the drivers don't need do these common validations themselves.
+>>>>>
+>>>>> Signed-off-by: Igor Torrente <igormtorrente@gmail.com>
+>>>>> ---
+>>>>> V2: Move the format verification to a new helper at the
+>>>>> drm_atomic_helper.c
+>>>>>        (Thomas Zimmermann).
+>>>>> ---
+>>>>>     drivers/gpu/drm/drm_atomic_helper.c   | 47 +++++++++++++++++++++++++++
+>>>>>     drivers/gpu/drm/vkms/vkms_writeback.c |  9 +++--
+>>>>>     include/drm/drm_atomic_helper.h       |  3 ++
+>>>>>     3 files changed, 54 insertions(+), 5 deletions(-)
+>>>>>
+>>>>> diff --git a/drivers/gpu/drm/drm_atomic_helper.c
+>>>>> b/drivers/gpu/drm/drm_atomic_helper.c
+>>>>> index 2c0c6ec92820..c2653b9824b5 100644
+>>>>> --- a/drivers/gpu/drm/drm_atomic_helper.c
+>>>>> +++ b/drivers/gpu/drm/drm_atomic_helper.c
+>>>>> @@ -766,6 +766,53 @@ drm_atomic_helper_check_modeset(struct
+>>>>> drm_device *dev,
+>>>>>     }
+>>>>>     EXPORT_SYMBOL(drm_atomic_helper_check_modeset);
+>>>>>     +/**
+>>>>> + * drm_atomic_helper_check_wb_connector_state() - Check writeback
+>>>>> encoder state
+>>>>> + * @encoder: encoder state to check
+>>>>> + * @conn_state: connector state to check
+>>>>> + *
+>>>>> + * Checks if the wriback connector state is valid, and returns a
+> 
+> 'writeback'
+> 
+> 'an error'
+> 
+>>>>> erros if it
+> 
+> 'error'
+> 
+>>>>> + * isn't.
+>>>>> + *
+>>>>> + * RETURNS:
+>>>>> + * Zero for success or -errno
+>>>>> + */
+>>>>> +int
+>>>>> +drm_atomic_helper_check_wb_encoder_state(struct drm_encoder *encoder,
+>>>>> +                     struct drm_connector_state *conn_state)
+>>>>> +{
+>>>>> +    struct drm_writeback_job *wb_job = conn_state->writeback_job;
+>>>>> +    struct drm_property_blob *pixel_format_blob;
+>>>>> +    bool format_supported = false;
+>>>>> +    struct drm_framebuffer *fb;
+>>>>> +    int i, n_formats;
+> 
+> Just 'nformats'.
+> 
+> Please make both variables 'size_t'.
 
-Tested-by: Steve Cho <stevecho@chromium.org>
+I Will correct all these minor issues.
+
+> 
+> 
+>>>>> +    u32 *formats;
+>>>>> +
+>>>>> +    if (!wb_job || !wb_job->fb)
+>>>>> +        return 0;
+>>>>
+>>>> I think that this should be removed and that this functions should
+>>>> assume that (wb_job && wb_job->fb) == true.
+>>>
+>>> Ok.
+> 
+> In regular atomic check for planes, there can be planes with no attached
+> framebuffer. Helpers handle this situation. [1] I don't know if this is
+> possible in writeback code, but for consistency, it would make sense to
+> keep this test here. Not sure though.
+
+@Leandro, do you know if it is possible to have a wb_job without a fb
+attached?
+
+> 
+>>>
+>>>>
+>>>> Actually, it's weird to have conn_state as argument and only use it to
+>>>> get the wb_job. Instead, this function could receive wb_job directly.
+>>>
+>>> In the Thomas review of v1, he said that maybe other things could be
+>>> tested in this helper. I'm not sure what these additional checks could
+>>> be, so I tried to design the function signature expecting more things
+>>> to be added after his review.
+>>>
+>>> As you can see, the helper is receiving the `drm_encoder` and doing
+>>> nothing with it.
+>>>
+>>> If we, eventually, don't find anything else that this helper can do, I
+>>> will revert to something very similar (if not equal) to your proposal.
+>>> I just want to wait for Thomas's review first.
+>>>
+>>
+>> Sure, that makes sense.
+> 
+> We had many helper functions for atomic modesetting that took various
+> arguments for whatever they required. Extending such a function with new
+> functionality/arguments required required touching many drivers and made
+> the parameter list hard to read. At some point, Maxime went through most
+> of the code and unified it all to pass full state > So please keep the connector state. I think it's how we do things ATM.to the helpers.
+> 
+> So please keep the connector state. I think it's how we do things ATM.
+
+OK, I will keep then.
+
+> 
+>>
+>> Thanks,
+>> Leandro Ribeiro
+>>
+>>>>
+>>>> Of course, its name/description would have to change.
+>>>>
+>>>>> +
+>>>>> +    pixel_format_blob = wb_job->connector->pixel_formats_blob_ptr;
+>>>>> +    n_formats = pixel_format_blob->length / sizeof(u32);
+>>>>> +    formats = pixel_format_blob->data;
+>>>>> +    fb = wb_job->fb;
+>>>>> +
+>>>>> +    for (i = 0; i < n_formats; i++) {
+>>>>> +        if (fb->format->format == formats[i]) {
+>>>>> +            format_supported = true;
+>>>>> +            break;
+>>>>> +        }
+>>>>> +    }
+>>>>> +
+>>>>> +    if (!format_supported) {
+>>>>> +        DRM_DEBUG_KMS("Invalid pixel format %p4cc\n",
+>>>>> +                  &fb->format->format);
+> 
+> Please use drm_dgb_kms() instead. There's a 100-character-per-line
+> limit. The comment probably fits onto a single line.(?)
+
+
+I will improve that. This code came from the vkms, which follows the 80
+chars limit. If I'm not mistaken.
+
+> 
+>>>>> +        return -EINVAL;
+>>>>> +    }
+>>>>> +
+>>>>> +    return 0;
+>>>>
+>>>> If you do this, you can get rid of the format_supported flag:
+>>>>
+>>>>       for(...) {
+>>>>           if (fb->format->format == formats[i])
+>>>>               return 0;
+>>>>       }
+>>>>
+>>>>
+>>>>       DRM_DEBUG_KMS(...);
+>>>>       return -EINVAL;
+>>>>
+>>>
+>>> Indeed. Thanks!
+> 
+> Yes, that looks nicer.
+> 
+>>>
+>>>> Thanks,
+>>>> Leandro Ribeiro
+>>>>
+>>>>> +}
+>>>>> +EXPORT_SYMBOL(drm_atomic_helper_check_wb_encoder_state);
+>>>>> +
+>>>>>     /**
+>>>>>      * drm_atomic_helper_check_plane_state() - Check plane state for
+>>>>> validity
+>>>>>      * @plane_state: plane state to check
+>>>>> diff --git a/drivers/gpu/drm/vkms/vkms_writeback.c
+>>>>> b/drivers/gpu/drm/vkms/vkms_writeback.c
+>>>>> index 32734cdbf6c2..42f3396c523a 100644
+>>>>> --- a/drivers/gpu/drm/vkms/vkms_writeback.c
+>>>>> +++ b/drivers/gpu/drm/vkms/vkms_writeback.c
+>>>>> @@ -30,6 +30,7 @@ static int vkms_wb_encoder_atomic_check(struct
+>>>>> drm_encoder *encoder,
+>>>>>     {
+>>>>>         struct drm_framebuffer *fb;
+>>>>>         const struct drm_display_mode *mode = &crtc_state->mode;
+>>>>> +    int ret;
+>>>>>           if (!conn_state->writeback_job ||
+>>>>> !conn_state->writeback_job->fb)
+>>>>>             return 0;
+>>>>> @@ -41,11 +42,9 @@ static int vkms_wb_encoder_atomic_check(struct
+>>>>> drm_encoder *encoder,
+>>>>>             return -EINVAL;
+>>>>>         }
+>>>>>     -    if (fb->format->format != vkms_wb_formats[0]) {
+>>>>> -        DRM_DEBUG_KMS("Invalid pixel format %p4cc\n",
+>>>>> -                  &fb->format->format);
+>>>>> -        return -EINVAL;
+>>>>> -    }
+>>>>> +    ret = drm_atomic_helper_check_wb_encoder_state(encoder,
+>>>>> conn_state);
+>>>>> +    if (ret < 0)
+>>>>> +        return ret;
+> 
+> We usually use just 'if (ret)' for such test. No need for a less-than.
+
+I will change that.
+
+> 
+> Best regards
+> Thomas
+> 
+> [1]
+> https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/drm_atomic_helper.c#L809
+> 
+>>>>>           return 0;
+>>>>>     }
+>>>>> diff --git a/include/drm/drm_atomic_helper.h
+>>>>> b/include/drm/drm_atomic_helper.h
+>>>>> index 4045e2507e11..3fbf695da60f 100644
+>>>>> --- a/include/drm/drm_atomic_helper.h
+>>>>> +++ b/include/drm/drm_atomic_helper.h
+>>>>> @@ -40,6 +40,9 @@ struct drm_private_state;
+>>>>>       int drm_atomic_helper_check_modeset(struct drm_device *dev,
+>>>>>                     struct drm_atomic_state *state);
+>>>>> +int
+>>>>> +drm_atomic_helper_check_wb_encoder_state(struct drm_encoder *encoder,
+>>>>> +                     struct drm_connector_state *conn_state);
+>>>>>     int drm_atomic_helper_check_plane_state(struct drm_plane_state
+>>>>> *plane_state,
+>>>>>                         const struct drm_crtc_state *crtc_state,
+>>>>>                         int min_scale,
+>>>>>
+>>>
+>>> Thanks,
+>>> ---
+>>> Igor M. A. Torrente
+> 
 
 Thanks,
-Steve
-
-On Wed, Nov 3, 2021 at 8:23 AM Nicolas Dufresne <nicolas@ndufresne.ca>
-wrote:
-
-> Le mercredi 03 novembre 2021 =C3=A0 11:37 +0800, Yunfei Dong a =C3=A9crit=
- :
-> > Width and height need to 64 bytes aligned when setting the format.
-> > Need to make sure all is 64 bytes align when use width and height to
-> > calculate buffer size.
-> >
-> > Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
-> > Change-Id: I39886b1a6b433c92565ddbf297eb193456eec1d2
->
-> Perhaps avoid this tag later ? Another perhaps, there is a tag to indicat=
-e
-> which
-> patch introduce that bug, if you add this tag, the patch will be
-> automatically
-> backported into relevant stable kernel. The format is:
->
-> > Fixes: <short-hash> ("<short commit description")
->
-> Acked-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
->
-> > ---
-> >  drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.h        | 1 +
-> >  drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_if.c | 4 ++--
-> >  2 files changed, 3 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.h
-> b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.h
-> > index e30806c1faea..66cd6d2242c3 100644
-> > --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.h
-> > +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.h
-> > @@ -11,6 +11,7 @@
-> >  #include <media/videobuf2-core.h>
-> >  #include <media/v4l2-mem2mem.h>
-> >
-> > +#define VCODEC_DEC_ALIGNED_64 64
-> >  #define VCODEC_CAPABILITY_4K_DISABLED        0x10
-> >  #define VCODEC_DEC_4K_CODED_WIDTH    4096U
-> >  #define VCODEC_DEC_4K_CODED_HEIGHT   2304U
-> > diff --git a/drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_if.c
-> b/drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_if.c
-> > index d402fc4bda69..e1a3011772a9 100644
-> > --- a/drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_if.c
-> > +++ b/drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_if.c
-> > @@ -562,8 +562,8 @@ static void get_pic_info(struct vdec_h264_slice_ins=
-t
-> *inst,
-> >  {
-> >       struct mtk_vcodec_ctx *ctx =3D inst->ctx;
-> >
-> > -     ctx->picinfo.buf_w =3D (ctx->picinfo.pic_w + 15) & 0xFFFFFFF0;
-> > -     ctx->picinfo.buf_h =3D (ctx->picinfo.pic_h + 31) & 0xFFFFFFE0;
-> > +     ctx->picinfo.buf_w =3D ALIGN(ctx->picinfo.pic_w,
-> VCODEC_DEC_ALIGNED_64);
-> > +     ctx->picinfo.buf_h =3D ALIGN(ctx->picinfo.pic_h,
-> VCODEC_DEC_ALIGNED_64);
-> >       ctx->picinfo.fb_sz[0] =3D ctx->picinfo.buf_w * ctx->picinfo.buf_h=
-;
-> >       ctx->picinfo.fb_sz[1] =3D ctx->picinfo.fb_sz[0] >> 1;
-> >       inst->vsi_ctx.dec.cap_num_planes =3D
->
->
-
---0000000000007aad9405cfe66e78
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Thank you Yunfei for the update. Looks good to me.=C2=
-=A0</div><div>As mentioned earlier, I tested to verify that this fix resolv=
-ed the=C2=A0corruption issue on Kukui.</div><div><br></div>Tested-by: Steve=
- Cho &lt;<a href=3D"mailto:stevecho@chromium.org">stevecho@chromium.org</a>=
-&gt;<div><br clear=3D"all"><div><div dir=3D"ltr" class=3D"gmail_signature" =
-data-smartmail=3D"gmail_signature"><div dir=3D"ltr">Thanks,<div>Steve</div>=
-</div></div></div></div></div><br><div class=3D"gmail_quote"><div dir=3D"lt=
-r" class=3D"gmail_attr">On Wed, Nov 3, 2021 at 8:23 AM Nicolas Dufresne &lt=
-;<a href=3D"mailto:nicolas@ndufresne.ca">nicolas@ndufresne.ca</a>&gt; wrote=
-:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.=
-8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Le mercredi 03=
- novembre 2021 =C3=A0 11:37 +0800, Yunfei Dong a =C3=A9crit=C2=A0:<br>
-&gt; Width and height need to 64 bytes aligned when setting the format.<br>
-&gt; Need to make sure all is 64 bytes align when use width and height to<b=
-r>
-&gt; calculate buffer size.<br>
-&gt; <br>
-&gt; Signed-off-by: Yunfei Dong &lt;<a href=3D"mailto:yunfei.dong@mediatek.=
-com" target=3D"_blank">yunfei.dong@mediatek.com</a>&gt;<br>
-&gt; Change-Id: I39886b1a6b433c92565ddbf297eb193456eec1d2<br>
-<br>
-Perhaps avoid this tag later ? Another perhaps, there is a tag to indicate =
-which<br>
-patch introduce that bug, if you add this tag, the patch will be automatica=
-lly<br>
-backported into relevant stable kernel. The format is:<br>
-<br>
-&gt; Fixes: &lt;short-hash&gt; (&quot;&lt;short commit description&quot;)<b=
-r>
-<br>
-Acked-by: Nicolas Dufresne &lt;<a href=3D"mailto:nicolas.dufresne@collabora=
-.com" target=3D"_blank">nicolas.dufresne@collabora.com</a>&gt;<br>
-<br>
-&gt; ---<br>
-&gt;=C2=A0 drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.h=C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 | 1 +<br>
-&gt;=C2=A0 drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_if.c | 4 ++=
---<br>
-&gt;=C2=A0 2 files changed, 3 insertions(+), 2 deletions(-)<br>
-&gt; <br>
-&gt; diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.h b/driv=
-ers/media/platform/mtk-vcodec/mtk_vcodec_dec.h<br>
-&gt; index e30806c1faea..66cd6d2242c3 100644<br>
-&gt; --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.h<br>
-&gt; +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.h<br>
-&gt; @@ -11,6 +11,7 @@<br>
-&gt;=C2=A0 #include &lt;media/videobuf2-core.h&gt;<br>
-&gt;=C2=A0 #include &lt;media/v4l2-mem2mem.h&gt;<br>
-&gt;=C2=A0 <br>
-&gt; +#define VCODEC_DEC_ALIGNED_64 64<br>
-&gt;=C2=A0 #define VCODEC_CAPABILITY_4K_DISABLED=C2=A0 =C2=A0 =C2=A0 =C2=A0=
- 0x10<br>
-&gt;=C2=A0 #define VCODEC_DEC_4K_CODED_WIDTH=C2=A0 =C2=A0 4096U<br>
-&gt;=C2=A0 #define VCODEC_DEC_4K_CODED_HEIGHT=C2=A0 =C2=A02304U<br>
-&gt; diff --git a/drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_if.c=
- b/drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_if.c<br>
-&gt; index d402fc4bda69..e1a3011772a9 100644<br>
-&gt; --- a/drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_if.c<br>
-&gt; +++ b/drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_if.c<br>
-&gt; @@ -562,8 +562,8 @@ static void get_pic_info(struct vdec_h264_slice_in=
-st *inst,<br>
-&gt;=C2=A0 {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0struct mtk_vcodec_ctx *ctx =3D inst-&gt;ctx;=
-<br>
-&gt;=C2=A0 <br>
-&gt; -=C2=A0 =C2=A0 =C2=A0ctx-&gt;picinfo.buf_w =3D (ctx-&gt;picinfo.pic_w =
-+ 15) &amp; 0xFFFFFFF0;<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0ctx-&gt;picinfo.buf_h =3D (ctx-&gt;picinfo.pic_h =
-+ 31) &amp; 0xFFFFFFE0;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0ctx-&gt;picinfo.buf_w =3D ALIGN(ctx-&gt;picinfo.p=
-ic_w, VCODEC_DEC_ALIGNED_64);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0ctx-&gt;picinfo.buf_h =3D ALIGN(ctx-&gt;picinfo.p=
-ic_h, VCODEC_DEC_ALIGNED_64);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0ctx-&gt;picinfo.fb_sz[0] =3D ctx-&gt;picinfo=
-.buf_w * ctx-&gt;picinfo.buf_h;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0ctx-&gt;picinfo.fb_sz[1] =3D ctx-&gt;picinfo=
-.fb_sz[0] &gt;&gt; 1;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0inst-&gt;vsi_ctx.dec.cap_num_planes =3D<br>
-<br>
-</blockquote></div>
-
---0000000000007aad9405cfe66e78--
+---
+Igor M. A. Torrente
