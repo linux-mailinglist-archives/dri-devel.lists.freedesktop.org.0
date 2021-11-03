@@ -1,80 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E893044470E
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Nov 2021 18:28:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB3CE444719
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Nov 2021 18:31:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A73A773CC4;
-	Wed,  3 Nov 2021 17:28:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 469A673CCE;
+	Wed,  3 Nov 2021 17:31:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D28773CCA
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Nov 2021 17:28:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635960499;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/3vUfVtNAp+NHc0VZGMqWaMG2ICg6HEbKSf06yppkuM=;
- b=cDmR6QrKUIiNVQZLkADjV2DEu3GPIeSi9rHzBtLVeP9dJtuLB7AadhXoI9247kGrwTdhWx
- Tk0Ir8pFgZCLU9bUQtCGOw0U3EfFIBtnyDqexU+JgfELjFA0mpIj8sYremRlu7bs35HUG1
- KIgTCGxgVCRPxVG58eFsD1L2DHhns6M=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-421-Hrilf01AP5iR4OX__dta9Q-1; Wed, 03 Nov 2021 13:28:17 -0400
-X-MC-Unique: Hrilf01AP5iR4OX__dta9Q-1
-Received: by mail-ed1-f70.google.com with SMTP id
- v9-20020a50d849000000b003dcb31eabaaso3191323edj.13
- for <dri-devel@lists.freedesktop.org>; Wed, 03 Nov 2021 10:28:17 -0700 (PDT)
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
+ [IPv6:2a00:1450:4864:20::429])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E34173CCE
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Nov 2021 17:31:11 +0000 (UTC)
+Received: by mail-wr1-x429.google.com with SMTP id d5so4760011wrc.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 03 Nov 2021 10:31:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=FbRhYZ6lLMWqngWf2cqxRUv8emxiI2fe6YSOeSSY8HY=;
+ b=nvJNc3kB/aIJ8WA5Xc4dAfyJGXOUT9mCxG5OAo8haBSVue2iRvfBP+hqB6ahbX+ezi
+ zqI15/N++dSJ6NlXr5VpwmG2D9my+DL6ow3oHvtGg8YATWsixC12aBHCHzV5MJ/3zA8U
+ YiC82fphylyv3ro6WIM8eFAA/MzyMKQ28xkj9DUimMQBRmZ9ORq+fhracfulrKJXv6/a
+ fLYj2Q/NRYDMZ6oG5j8v9ccvHrdJChuEY+bKa8Gc3SOOX17C/uToTT8RmeNkyfelbGJs
+ TBz5ikILIVWAIYpHxulkY9g83YALDcES29WGuLv7K2d8cVrVi2/OdRJSBq4IZ0p5NSKZ
+ uTgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=/3vUfVtNAp+NHc0VZGMqWaMG2ICg6HEbKSf06yppkuM=;
- b=XYsULR8dIM1z5U44b26bLF+50DcOOJi+O9uW4K9z5qk/1Cd2Y1wFvReexAOoctrL26
- vUh/CIppI8IqH5SE/z2IrYxxUKGZOJglFj4etWzr8uF4uzKCLyFbDJ7Tj9y9ueEkKOjI
- 85WifUtEB2wOivO8R3W35M/dPqlXACbaNL5GR4T+2HXxcy75DTGEV8jrvxbDB01ygpXl
- ZilP++cBaK7i8Pk0q1mLbP3mG0gxOzy6oBmHTK2S9O7a3ZA/sqGxkBchAlmLbrG10qeH
- XhpJnsrlJke5XAMId/9XAHUvHAfXwA3SxEJpp55iQs9me/9+9pkeIGRl/Dzzt1V96uEo
- 3Bog==
-X-Gm-Message-State: AOAM533QTyGkFnotC6z5EAVlCP7Z1xUIostD7+lDKubDWRpYyMA3w8DC
- DNQvRQcVnvOeYjMuT93WvIFFpTsghArhsDVBhlIqMnaY/M47tvsTAuqjkHkNpR9DKbOEejCMon2
- 9DGMkINrtaDSHs5XuzVqvQgFrPRo9
-X-Received: by 2002:aa7:c053:: with SMTP id k19mr60902709edo.293.1635960496654; 
- Wed, 03 Nov 2021 10:28:16 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxNRnaHb5jF+zfe4fkL84C73Vq/hpN9b4BZRfrqQi6jeIgKg0x54vAQgmUcJMDLIby7rEUY9g==
-X-Received: by 2002:aa7:c053:: with SMTP id k19mr60902675edo.293.1635960496469; 
- Wed, 03 Nov 2021 10:28:16 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c1e:bf00:1054:9d19:e0f0:8214?
- (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl.
- [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
- by smtp.gmail.com with ESMTPSA id bm1sm1464617ejb.38.2021.11.03.10.28.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 03 Nov 2021 10:28:16 -0700 (PDT)
-Message-ID: <5d431db5-30dc-b51c-7abb-ab57a3de2f8f@redhat.com>
-Date: Wed, 3 Nov 2021 18:28:15 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=FbRhYZ6lLMWqngWf2cqxRUv8emxiI2fe6YSOeSSY8HY=;
+ b=T5mMiLbEmIgRNrk1bF/9+1ns/wKnnoSv4yvSlH3a7ppDfAectOQ9maoR4qbt2J0wFq
+ e0gkZpxOYv9lob1c57I/UWzb5HLRyG2+aypI5L/doPxVIX3yfj8LTZYNX5SdrVtkn/lJ
+ uSQihmk1S+H97N4DdsFRoQ3sTpWiGhwm4nQHmCChHLZXiO9EnH45DM3mifiLsjSuYHe1
+ W98y7iwVk4gk22uS5PsxtoLpYIS7ML0qtHV7LlYmKyzmrlyT29WFf5qwE5PiC2V29dUA
+ 98vyNZvcmV4QVKdJtswhxD4ibLYfQwXYOjwkdvxKhEkYvokM/ftSPY9QNbujGyEQH05B
+ tB5g==
+X-Gm-Message-State: AOAM53167ipDGyO4/t001sy20F0a2wL6PKEdfN/pQvhCYrywFkB0kdPy
+ NIRN7/CeeKs1CUhGFTQvjavyJA==
+X-Google-Smtp-Source: ABdhPJy6rnwrTz9baM7+pLMjNFPj2w5GZHKSc6LlHvcgadsD8ViZl7qmm+hRQaAogHkXjOwtekBfig==
+X-Received: by 2002:adf:d4c2:: with SMTP id w2mr40778374wrk.225.1635960670132; 
+ Wed, 03 Nov 2021 10:31:10 -0700 (PDT)
+Received: from maple.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net.
+ [80.7.220.175])
+ by smtp.gmail.com with ESMTPSA id a9sm2575261wrt.66.2021.11.03.10.31.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 03 Nov 2021 10:31:09 -0700 (PDT)
+Date: Wed, 3 Nov 2021 17:31:07 +0000
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Hans de Goede <hdegoede@redhat.com>
 Subject: Re: [PATCH v2 3/3] backlight: lp855x: Add support ACPI enumeration
-To: Daniel Thompson <daniel.thompson@linaro.org>
+Message-ID: <20211103173107.xlchsysme5xzpn24@maple.lan>
 References: <20211102225504.18920-1-hdegoede@redhat.com>
  <20211102225504.18920-3-hdegoede@redhat.com>
  <20211103171756.wxthncse2f4syeiz@maple.lan>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20211103171756.wxthncse2f4syeiz@maple.lan>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ <5d431db5-30dc-b51c-7abb-ab57a3de2f8f@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5d431db5-30dc-b51c-7abb-ab57a3de2f8f@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,31 +77,33 @@ Cc: Jingoo Han <jingoohan1@gmail.com>, Lee Jones <lee.jones@linaro.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On 11/3/21 18:17, Daniel Thompson wrote:
-> On Tue, Nov 02, 2021 at 11:55:04PM +0100, Hans de Goede wrote:
->> The Xiaomi Mi Pad 2 tablet uses an ACPI enumerated LP8556 backlight
->> controller for its LCD-panel, with a Xiaomi specific ACPI HID of
->> "XMCC0001", add support for this.
->>
->> Note the new "if (id)" check also fixes a NULL pointer deref when a user
->> tries to manually bind the driver from sysfs.
->>
->> When CONFIG_ACPI is disabled acpi_match_device() will always return NULL,
->> so the lp855x_parse_acpi() call will get optimized away.
->>
->> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+On Wed, Nov 03, 2021 at 06:28:15PM +0100, Hans de Goede wrote:
+> Hi,
 > 
-> Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
+> On 11/3/21 18:17, Daniel Thompson wrote:
+> > On Tue, Nov 02, 2021 at 11:55:04PM +0100, Hans de Goede wrote:
+> >> The Xiaomi Mi Pad 2 tablet uses an ACPI enumerated LP8556 backlight
+> >> controller for its LCD-panel, with a Xiaomi specific ACPI HID of
+> >> "XMCC0001", add support for this.
+> >>
+> >> Note the new "if (id)" check also fixes a NULL pointer deref when a user
+> >> tries to manually bind the driver from sysfs.
+> >>
+> >> When CONFIG_ACPI is disabled acpi_match_device() will always return NULL,
+> >> so the lp855x_parse_acpi() call will get optimized away.
+> >>
+> >> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> > 
+> > Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
+> 
+> Thank you.
+> 
+> So what is the process for upstreaming backlight patches,
+> do these go through drm-misc-next (in that case I can push
+> the series myself), or will you pick these up ?
 
-Thank you.
+Lee Jones gathers up the backlight patches and sends a PR (but, except
+in exceptional cases, treats my R-b as a pre-requisite before doing so).
 
-So what is the process for upstreaming backlight patches,
-do these go through drm-misc-next (in that case I can push
-the series myself), or will you pick these up ?
 
-Regards,
-
-Hans
-
+Daniel.
