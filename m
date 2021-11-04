@@ -2,38 +2,128 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3824844573D
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Nov 2021 17:24:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0017A445746
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Nov 2021 17:28:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 28B336FA8B;
-	Thu,  4 Nov 2021 16:24:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4AB526F9DD;
+	Thu,  4 Nov 2021 16:28:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 404C66FA8A;
- Thu,  4 Nov 2021 16:24:13 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10157"; a="317940202"
-X-IronPort-AV: E=Sophos;i="5.87,209,1631602800"; d="scan'208";a="317940202"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Nov 2021 09:24:12 -0700
-X-IronPort-AV: E=Sophos;i="5.87,209,1631602800"; d="scan'208";a="501602671"
-Received: from mihaelac-mobl.ger.corp.intel.com (HELO localhost)
- ([10.249.32.21])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Nov 2021 09:24:03 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] drm: Add a drm_drv_enabled() to check if drivers
- should be enabled
-In-Reply-To: <20211104160707.1407052-2-javierm@redhat.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20211104160707.1407052-1-javierm@redhat.com>
- <20211104160707.1407052-2-javierm@redhat.com>
-Date: Thu, 04 Nov 2021 18:24:01 +0200
-Message-ID: <87zgqjanz2.fsf@intel.com>
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam08on2059.outbound.protection.outlook.com [40.107.100.59])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 364966F9DD;
+ Thu,  4 Nov 2021 16:28:03 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ayMltZoXDc1uMIwx3Puo4Cx1v7CM/Bd1zRCu7qrbEICi9ClxMc5QNRxFVDHoWZo4X+QwI9u3JZI0XV0MUmBipl4R7fdx+KP3MOimbZ9VgTDG5GBYAplgDBOZAoj1Pf8O9rZpcJhFlhvL/eOFw5kpAZtMDFtGnKmmK/BrvA6Ea/x0zfK38FYRAFZNCTBHOIm/mRaK8qM2LUQof8d37VxEL0Ry9sl57ItptP3MyUBJVYba3omeCPG3z/pIvx3EEAQR+O5OGFLWyP/3Okyzl/xVDZVQCur+3o7cap7RQbwi22qUSthK+yRej7p98hNv1gmf6ZJf5mrAHuRnbWDJCF3nNA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=sQ7An+tEZF2F8HpjAOr7H9tDesAdoB7N2ILZEEM6KNc=;
+ b=aeK6Yqa5RuSa1cz1IOoilsyxVdABiW/RQ7hqgNx65Dvx1hTRoRUTgMXBSGWOmTiffDOyaT4aKXnqhHRVSXBOZoK3uG/g47O6KpF7EFJ4YaRbBvRw9NXwGHWyI4gk89hNNqYzATQi5tkNe6WrXO6KpZJD7F7e+D7SVQEUR2LMjrisQl2HGGxXC7eIClelxVzhrhSzwr89F22tlnvx3K763EzzgvSgQ3P91PqLlPJCrS43EPglmIOteMbdSgwtjIGrj/hme18FC5Uw56vzZxBR32Eth/py+VoK8W2AtxUu1sEqCLTDLyHd33d+Nti9vK6KchrzIXKfftIXjEL2C4QiUQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=sQ7An+tEZF2F8HpjAOr7H9tDesAdoB7N2ILZEEM6KNc=;
+ b=AQMOF4UjoDOVhZfWI+nAr2y00VzyhSksoASlcydUjYMHcR99Gx6aN44qrbndbYx2McOkt7w2S3bwdgmZ7bkoAQsXWbLeIhwQvCQZV3ERC45YZGOGaL0VyY+OSkuww+d5O9DRfIaxULv440Mt60XLWaLMZxnqqCSV2PIbfXg8c9c=
+Authentication-Results: gmail.com; dkim=none (message not signed)
+ header.d=none;gmail.com; dmarc=none action=none header.from=amd.com;
+Received: from CO6PR12MB5427.namprd12.prod.outlook.com (2603:10b6:5:358::13)
+ by CO6PR12MB5444.namprd12.prod.outlook.com (2603:10b6:5:35e::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4649.14; Thu, 4 Nov
+ 2021 16:28:00 +0000
+Received: from CO6PR12MB5427.namprd12.prod.outlook.com
+ ([fe80::d095:131a:b99a:9975]) by CO6PR12MB5427.namprd12.prod.outlook.com
+ ([fe80::d095:131a:b99a:9975%3]) with mapi id 15.20.4649.019; Thu, 4 Nov 2021
+ 16:28:00 +0000
+Message-ID: <5780b3b6-5b12-df66-03be-5f1918d28989@amd.com>
+Date: Thu, 4 Nov 2021 12:27:56 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.1
+Subject: Re: [RFC v2 02/22] drm: Add Enhanced Gamma and color lut range
+ attributes
+Content-Language: en-US
+To: Pekka Paalanen <ppaalanen@gmail.com>
+References: <20210906213904.27918-1-uma.shankar@intel.com>
+ <20210906213904.27918-3-uma.shankar@intel.com>
+ <d67a9761-91b4-3432-dd55-f85bb0657b68@amd.com>
+ <20211104103827.2cf48bb7@eldfell>
+From: Harry Wentland <harry.wentland@amd.com>
+In-Reply-To: <20211104103827.2cf48bb7@eldfell>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: YQBPR0101CA0275.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c01:68::25) To CO6PR12MB5427.namprd12.prod.outlook.com
+ (2603:10b6:5:358::13)
 MIME-Version: 1.0
-Content-Type: text/plain
+Received: from [192.168.50.4] (198.200.67.104) by
+ YQBPR0101CA0275.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:c01:68::25) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4669.10 via Frontend
+ Transport; Thu, 4 Nov 2021 16:27:59 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 996e7dff-5d72-4906-f5f2-08d99fb0116b
+X-MS-TrafficTypeDiagnostic: CO6PR12MB5444:
+X-Microsoft-Antispam-PRVS: <CO6PR12MB5444F37201BE6D1FBD1E3E9A8C8D9@CO6PR12MB5444.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: qcR072M/rCuattkcWA/6HerUNbb92u7jvPwfqWzWrgTZgmW57yxhLylVzH25wmgEpGHqgyd2HwBWME4XbgJOKXJN5NTDw5Q96qSgCimJs92BWv4rcWRHJ6Mv4Jk++Fr5kJemQvQH2ItglutWnlIvrUzdRvsBgnx2Ej8l+KYXVfq+m/QCjwA5VB0N67nQ4aYF3h4ZtNAocYDP79XgaK2x5rkiussazhZbbOD1a30uRjoaOAWPGd22YrlURpfdQSteCwJSkWrM2IMSmECLTl8NPZ8VGRx9jPFb4nPp1h22e0uXk1lnYoLyZhv4mwxO05MN8uxxZuERup8okIaEQpuND3xESgdLFys30PxWu0LT5QoSbH1s9e+pM/S+CP6+xHcVi89IwsIJvMKUL/BUkT6vvHIMcLpPIoyA7a1i8RW3qGyXwbZugeqbaLfAWzHsdc6zx4TPbGMxeCzCXFWKrmqe0USY1LES7np8igS/eNQnNtReHYjL2rzkNLTA774+sdStY7SnHTHk0CEK0BwTqqYdVGPd+owtowo0XOp8NymUrJ2Ti/9AaPVgfRn7e3bb2+Nm5GoVghlyJK2wIIro0wCYNyrE9ei48R4cHbcR0nlDjW3zTg5MBSCN38S3liIhzY0Yzk0PLw2VkI/bsqhBs+bOxHbWXNlrq4tYc7356ob4sVc6eOmsyqo2XuPwWJrl7guRiut3r1x/B2qMdnAl2rXAmMPp8jbtEPuH+LfuD5jQZ4Absk6WxJANWLR0tQQJH7x/M3rkK0W2+JKp8z/SYf8x1V57R9n5WZIuyfWyYEeyGSZReisfoaNF5Mi0tMkiQ+G4
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CO6PR12MB5427.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(36756003)(53546011)(8676002)(6486002)(26005)(66946007)(508600001)(5660300002)(186003)(66476007)(66556008)(966005)(38100700002)(54906003)(6916009)(956004)(2616005)(31696002)(83380400001)(6666004)(8936002)(4326008)(2906002)(16576012)(44832011)(86362001)(316002)(31686004)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TXZyL1RMUVJyejZ5Ynh3QWYzb3J0Q0cvbzBVMEpwSjFIWlIwVmZkeWx2K09v?=
+ =?utf-8?B?UGNKUmdnYjQ2cU5yUC9tUUpyM3JiUTNQU3hZZHBqTmlML0tvY1NjTkNReitw?=
+ =?utf-8?B?YlFKVUtBZVhxSkNMMlR4SG5EUEpHV2FRTnVYOWhXTUE2Sm9MTzEzS0FZMTQ3?=
+ =?utf-8?B?WktGbjdiZFR3N1NBTUp5a3h0ZXA1UlgzSXNqb3VvZTJGOGp3UElvV2NFdVh6?=
+ =?utf-8?B?b3duZG1jWUVxdVY1MFJLSXBDTFM5UnltVzF6bjBJQ0gyQVpFTzNGMEtWclNH?=
+ =?utf-8?B?aENOVVprNEJwd09ydWR0TS9YR1ZEeTU1L20rWVpZc2UzWmttYUQ2YmRGZk5S?=
+ =?utf-8?B?RlpBTktKTlhoZTZrUmVBZ2JtK0grWW9rbUxyeUJPU1l6RkNLWk5VeVlybysv?=
+ =?utf-8?B?RWxlb3NydFlYMUNBSElVZmJzOFRJd1dCdzNXSkI1Z0tWK0lycU1uZmJabzN2?=
+ =?utf-8?B?RlJDbHFTMDMrUDQrYWhOSTlYcnFHdkRtSTlPM3JyT3YwSjlGSms0UDFpM1Bl?=
+ =?utf-8?B?bDQ5dzRXYVhQYlRHcFF4NnN1MktqeFZjSmsza2c1cmdpYzdqdi9tMFhUaWhB?=
+ =?utf-8?B?cjdDT21RemVlYnA3dCs3aG81cXd1bW9EZDI3ei9yN09lUEx0K0JxYmxoNTA3?=
+ =?utf-8?B?aGhYT3V5SFMyM3dGVXF5YVgxMXE0SURUL0VQZUxiOFRrandHOTJEdmJCbEtZ?=
+ =?utf-8?B?UGlNbGt0eHhFVVhJY2Z2L29ZQkpiV291c2JzRWRQRlMrZFFHN3RscStZZmND?=
+ =?utf-8?B?dmNkek9HZ3lBN0ppNkIxVWtiSWcrbVlsUnNvUVBVWGdUeGVNeTREZStWbDJG?=
+ =?utf-8?B?WjBMY29SMnRJQVZLYmlZdFB0NXJ5SkVGMDJydHNBTCswVUdzeldaaTR3M3gv?=
+ =?utf-8?B?OWlDZ0dCTW1xZ2NFYzJsUzRhN0VIREpSalFSWHIvTXIrMTBrNWJVMUlnQ3Jl?=
+ =?utf-8?B?bjJWQnd4NnBzTG41OFoxcnJ1S3BNMENDdlpFTXV1a3NwdHZvV1RPRjhxTFdx?=
+ =?utf-8?B?Zlh3R0xtQjRBc29jdVMzbWNVUEsxSFJEVG9kL1UyTWJOUU80K1BtWEtYZWVN?=
+ =?utf-8?B?bmEvUHdmU1d5N0Qybk9MeDQvRGFxY3ZFYWYzS3kwVHNzeEFYSm95SmJ2Wngz?=
+ =?utf-8?B?enhqN2Z5dHNLMmlTc1BTenB0QkFpTmd6THBPUjh5V08zdVlPc0tiVHA2YmdQ?=
+ =?utf-8?B?QW1wWUNYZW5qVC8zQ0ljTlZGY1RhQTNmKzJETkI3NkFsRHo1M3lPeEdSc2xy?=
+ =?utf-8?B?RUF4OFE3QmpXby9hbFl5eEJ5cnV0MmZJYk9tVW1tbnZwVnZlSnErY2NhQlhW?=
+ =?utf-8?B?dGZIVWQ0ZForQVpmb3ZxUEJYT0ZWRkVxY1pFZUhGeXMyYmU5eWJZQnFEQzJk?=
+ =?utf-8?B?aW0xNTlKQWFZbXRuRFl6OG5kZWZLK2o4OWV0N1ZUdnFWU0RSaFJHVFNsV3dX?=
+ =?utf-8?B?RVNGa00zeFNDN05NTVpuVHVBOVlZR2VEcDlGY2tMVXdhdWdZN1dJVTlVQkVR?=
+ =?utf-8?B?Q3F4YzJ4ZEtIOHFFUS96NHh0RmpQRnI0aTJqbTUraTFXM3lyZExHTUZRY0VD?=
+ =?utf-8?B?RURIY2ZPMVhhVVhhTFZPakFlR0tHUGxiSU0rSFphMUw2cWVqZFdiVFRHd0p0?=
+ =?utf-8?B?NjZJYjRTUGF5MnphTU9QUHBLY2NuT3RaZTR4MVQ2aFhMN3JpVlpOUkVzZEMy?=
+ =?utf-8?B?dzVxS3FWY01xWkR1bmxreGM3MEFJV3pXbTBSaE9wMHV5YnhhSHE1bGMxaUE4?=
+ =?utf-8?B?Q0QwbXE3b0NRZjBUZzJMVzBCRk5ZYzVCRG94RjhkdkdQOVJ2TzFzNWR4aVJr?=
+ =?utf-8?B?QTZjdGlPWGkyaVVJR0poamZUSEl4dS9rWmV2Qnd1NzV4Y2FKanFOSlFnVmxC?=
+ =?utf-8?B?SCtCVGREZGdmMDQ3Q0crZHQrSzRlVnp3aDExV1ZMMzNWZ3dnZzRSbzRSQ09s?=
+ =?utf-8?B?QWF2cTRXM3IyVy9zcWNVdWRuRGcvTWpaTkhaY256NlNLOVF2VjZVbnJlOTk5?=
+ =?utf-8?B?UjhxbUs5b25lM2FCVmVWNHV1RldEQWdWeHF4NUdkVnRRUmtOeGtlczh4OFVq?=
+ =?utf-8?B?ZFBRT3diNm1VbWZEdk1heW9oK3N6MUc2bm9YZjY3OHNrNkZkYUF3Ym9vNXYr?=
+ =?utf-8?B?MzJFUnEwRWxNd1JKbnpDQjdZT2JUYnQ2cWtIVUNlaTR3Y1pWZUhRUXhKWFdt?=
+ =?utf-8?Q?BvIkqqKAg6Fw8C9hewVoxnc=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 996e7dff-5d72-4906-f5f2-08d99fb0116b
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5427.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Nov 2021 16:28:00.6328 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Z/+GyJ6vEek4Qij7mHb5z1Z9piUCFSFbGxz05ZGdjuNuqeuE0cyUX2hDgLWkdGXytscN9DoIrEmZ/o2e+uW5ow==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR12MB5444
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,340 +136,207 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- dri-devel@lists.freedesktop.org, Gurchetan Singh <gurchetansingh@chromium.org>,
- Gerd Hoffmann <kraxel@redhat.com>,
- Javier Martinez Canillas <javierm@redhat.com>, amd-gfx@lists.freedesktop.org,
- VMware Graphics <linux-graphics-maintainer@vmware.com>,
- Peter Robinson <pbrobinson@gmail.com>, nouveau@lists.freedesktop.org,
- Dave Airlie <airlied@redhat.com>, Ben Skeggs <bskeggs@redhat.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Michel =?utf-8?Q?D=C3=A4nzer?= <michel@daenzer.net>,
- Hans de Goede <hdegoede@redhat.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- virtualization@lists.linux-foundation.org,
- Pekka Paalanen <pekka.paalanen@collabora.com>, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>, spice-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>, intel-gfx@lists.freedesktop.org,
- Christian =?utf-8?Q?K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Shashank.Sharma@amd.com, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, sebastian@sebastianwick.net,
+ Uma Shankar <uma.shankar@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 04 Nov 2021, Javier Martinez Canillas <javierm@redhat.com> wrote:
-> Some DRM drivers check the vgacon_text_force() function return value as an
-> indication on whether they should be allowed to be enabled or not.
->
-> This function returns true if the nomodeset kernel command line parameter
-> was set. But there may be other conditions besides this to determine if a
-> driver should be enabled.
->
-> Let's add a drm_drv_enabled() helper function to encapsulate that logic so
-> can be later extended if needed, without having to modify all the drivers.
->
-> Also, while being there do some cleanup. The vgacon_text_force() function
-> is guarded by CONFIG_VGA_CONSOLE and there's no need for callers to do it.
->
-> Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
-> ---
->
-> Changes in v2:
-> - Squash patch to add drm_drv_enabled() and make drivers use it.
-> - Make the drivers changes before moving nomodeset logic to DRM.
-> - Make drm_drv_enabled() return an errno and -ENODEV if nomodeset.
-> - Remove debug and error messages in drivers.
->
->  drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c |  7 +++----
->  drivers/gpu/drm/ast/ast_drv.c           |  7 +++++--
->  drivers/gpu/drm/drm_drv.c               | 20 ++++++++++++++++++++
->  drivers/gpu/drm/i915/i915_module.c      |  6 +++++-
->  drivers/gpu/drm/mgag200/mgag200_drv.c   |  7 +++++--
->  drivers/gpu/drm/nouveau/nouveau_drm.c   |  5 ++++-
->  drivers/gpu/drm/qxl/qxl_drv.c           |  7 +++++--
->  drivers/gpu/drm/radeon/radeon_drv.c     |  6 ++++--
->  drivers/gpu/drm/tiny/bochs.c            |  7 +++++--
->  drivers/gpu/drm/tiny/cirrus.c           |  8 ++++++--
->  drivers/gpu/drm/vboxvideo/vbox_drv.c    |  9 +++++----
->  drivers/gpu/drm/virtio/virtgpu_drv.c    |  5 +++--
->  drivers/gpu/drm/vmwgfx/vmwgfx_drv.c     |  5 +++--
->  include/drm/drm_drv.h                   |  1 +
->  14 files changed, 74 insertions(+), 26 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> index c718fb5f3f8a..7fde40d06181 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> @@ -2514,10 +2514,9 @@ static int __init amdgpu_init(void)
->  {
->  	int r;
->  
-> -	if (vgacon_text_force()) {
-> -		DRM_ERROR("VGACON disables amdgpu kernel modesetting.\n");
-> -		return -EINVAL;
-> -	}
-> +	r = drm_drv_enabled(&amdgpu_kms_driver)
-> +	if (r)
-> +		return r;
->  
->  	r = amdgpu_sync_init();
->  	if (r)
-> diff --git a/drivers/gpu/drm/ast/ast_drv.c b/drivers/gpu/drm/ast/ast_drv.c
-> index 86d5cd7b6318..802063279b86 100644
-> --- a/drivers/gpu/drm/ast/ast_drv.c
-> +++ b/drivers/gpu/drm/ast/ast_drv.c
-> @@ -233,8 +233,11 @@ static struct pci_driver ast_pci_driver = {
->  
->  static int __init ast_init(void)
->  {
-> -	if (vgacon_text_force() && ast_modeset == -1)
-> -		return -EINVAL;
-> +	int ret;
-> +
-> +	ret = drm_drv_enabled(&ast_driver);
-> +	if (ret && ast_modeset == -1)
-> +		return ret;
->  
->  	if (ast_modeset == 0)
->  		return -EINVAL;
-> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
-> index 8214a0b1ab7f..3fb567d62881 100644
-> --- a/drivers/gpu/drm/drm_drv.c
-> +++ b/drivers/gpu/drm/drm_drv.c
-> @@ -975,6 +975,26 @@ int drm_dev_set_unique(struct drm_device *dev, const char *name)
->  }
->  EXPORT_SYMBOL(drm_dev_set_unique);
->  
-> +/**
-> + * drm_drv_enabled - Checks if a DRM driver can be enabled
-> + * @driver: DRM driver to check
-> + *
-> + * Checks whether a DRM driver can be enabled or not. This may be the case
-> + * if the "nomodeset" kernel command line parameter is used.
-> + *
-> + * Return: 0 on success or a negative error code on failure.
-> + */
-> +int drm_drv_enabled(const struct drm_driver *driver)
-> +{
-> +	if (vgacon_text_force()) {
-> +		DRM_INFO("%s driver is disabled\n", driver->name);
-> +		return -ENODEV;
-> +	}
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL(drm_drv_enabled);
-> +
->  /*
->   * DRM Core
->   * The DRM core module initializes all global DRM objects and makes them
-> diff --git a/drivers/gpu/drm/i915/i915_module.c b/drivers/gpu/drm/i915/i915_module.c
-> index ab2295dd4500..45cb3e540eff 100644
-> --- a/drivers/gpu/drm/i915/i915_module.c
-> +++ b/drivers/gpu/drm/i915/i915_module.c
-> @@ -18,9 +18,12 @@
->  #include "i915_selftest.h"
->  #include "i915_vma.h"
->  
-> +static const struct drm_driver driver;
-> +
-
-No, this makes absolutely no sense, and will also oops on nomodeset.
-
-BR,
-Jani.
 
 
->  static int i915_check_nomodeset(void)
->  {
->  	bool use_kms = true;
-> +	int ret;
->  
->  	/*
->  	 * Enable KMS by default, unless explicitly overriden by
-> @@ -31,7 +34,8 @@ static int i915_check_nomodeset(void)
->  	if (i915_modparams.modeset == 0)
->  		use_kms = false;
->  
-> -	if (vgacon_text_force() && i915_modparams.modeset == -1)
-> +	ret = drm_drv_enabled(&driver);
-> +	if (ret && i915_modparams.modeset == -1)
->  		use_kms = false;
->  
->  	if (!use_kms) {
-> diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.c b/drivers/gpu/drm/mgag200/mgag200_drv.c
-> index 6b9243713b3c..2a581094ba2b 100644
-> --- a/drivers/gpu/drm/mgag200/mgag200_drv.c
-> +++ b/drivers/gpu/drm/mgag200/mgag200_drv.c
-> @@ -378,8 +378,11 @@ static struct pci_driver mgag200_pci_driver = {
->  
->  static int __init mgag200_init(void)
->  {
-> -	if (vgacon_text_force() && mgag200_modeset == -1)
-> -		return -EINVAL;
-> +	int ret;
-> +
-> +	ret = drm_drv_enabled(&mgag200_driver);
-> +	if (ret && mgag200_modeset == -1)
-> +		return ret;
->  
->  	if (mgag200_modeset == 0)
->  		return -EINVAL;
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_drm.c b/drivers/gpu/drm/nouveau/nouveau_drm.c
-> index 1f828c9f691c..8844d3602d87 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_drm.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_drm.c
-> @@ -1316,13 +1316,16 @@ nouveau_platform_device_create(const struct nvkm_device_tegra_func *func,
->  static int __init
->  nouveau_drm_init(void)
->  {
-> +	int ret;
-> +
->  	driver_pci = driver_stub;
->  	driver_platform = driver_stub;
->  
->  	nouveau_display_options();
->  
->  	if (nouveau_modeset == -1) {
-> -		if (vgacon_text_force())
-> +		ret = drm_drv_enabled(&driver_stub);
-> +		if (ret)
->  			nouveau_modeset = 0;
->  	}
->  
-> diff --git a/drivers/gpu/drm/qxl/qxl_drv.c b/drivers/gpu/drm/qxl/qxl_drv.c
-> index fc47b0deb021..3ac2ef2bf545 100644
-> --- a/drivers/gpu/drm/qxl/qxl_drv.c
-> +++ b/drivers/gpu/drm/qxl/qxl_drv.c
-> @@ -295,8 +295,11 @@ static struct drm_driver qxl_driver = {
->  
->  static int __init qxl_init(void)
->  {
-> -	if (vgacon_text_force() && qxl_modeset == -1)
-> -		return -EINVAL;
-> +	int ret;
-> +
-> +	ret = drm_drv_enabled(&qxl_driver);
-> +	if (ret && qxl_modeset == -1)
-> +		return ret;
->  
->  	if (qxl_modeset == 0)
->  		return -EINVAL;
-> diff --git a/drivers/gpu/drm/radeon/radeon_drv.c b/drivers/gpu/drm/radeon/radeon_drv.c
-> index b74cebca1f89..56d688c04346 100644
-> --- a/drivers/gpu/drm/radeon/radeon_drv.c
-> +++ b/drivers/gpu/drm/radeon/radeon_drv.c
-> @@ -637,8 +637,10 @@ static struct pci_driver radeon_kms_pci_driver = {
->  
->  static int __init radeon_module_init(void)
->  {
-> -	if (vgacon_text_force() && radeon_modeset == -1) {
-> -		DRM_INFO("VGACON disable radeon kernel modesetting.\n");
-> +	int ret;
-> +
-> +	ret = drm_drv_enabled(&kms_driver)
-> +	if (ret && radeon_modeset == -1) {
->  		radeon_modeset = 0;
->  	}
->  
-> diff --git a/drivers/gpu/drm/tiny/bochs.c b/drivers/gpu/drm/tiny/bochs.c
-> index 2ce3bd903b70..ee6b1ff9128b 100644
-> --- a/drivers/gpu/drm/tiny/bochs.c
-> +++ b/drivers/gpu/drm/tiny/bochs.c
-> @@ -719,8 +719,11 @@ static struct pci_driver bochs_pci_driver = {
->  
->  static int __init bochs_init(void)
->  {
-> -	if (vgacon_text_force() && bochs_modeset == -1)
-> -		return -EINVAL;
-> +	int ret;
-> +
-> +	ret = drm_drv_enabled(&bochs_driver);
-> +	if (ret && bochs_modeset == -1)
-> +		return ret;
->  
->  	if (bochs_modeset == 0)
->  		return -EINVAL;
-> diff --git a/drivers/gpu/drm/tiny/cirrus.c b/drivers/gpu/drm/tiny/cirrus.c
-> index 4611ec408506..4706c5bc3067 100644
-> --- a/drivers/gpu/drm/tiny/cirrus.c
-> +++ b/drivers/gpu/drm/tiny/cirrus.c
-> @@ -636,8 +636,12 @@ static struct pci_driver cirrus_pci_driver = {
->  
->  static int __init cirrus_init(void)
->  {
-> -	if (vgacon_text_force())
-> -		return -EINVAL;
-> +	int ret;
-> +
-> +	ret = drm_drv_enabled(&cirrus_driver);
-> +	if (ret)
-> +		return ret;
-> +
->  	return pci_register_driver(&cirrus_pci_driver);
->  }
->  
-> diff --git a/drivers/gpu/drm/vboxvideo/vbox_drv.c b/drivers/gpu/drm/vboxvideo/vbox_drv.c
-> index a6c81af37345..e4377c37cf33 100644
-> --- a/drivers/gpu/drm/vboxvideo/vbox_drv.c
-> +++ b/drivers/gpu/drm/vboxvideo/vbox_drv.c
-> @@ -193,10 +193,11 @@ static const struct drm_driver driver = {
->  
->  static int __init vbox_init(void)
->  {
-> -#ifdef CONFIG_VGA_CONSOLE
-> -	if (vgacon_text_force() && vbox_modeset == -1)
-> -		return -EINVAL;
-> -#endif
-> +	int ret;
-> +
-> +	ret = drm_drv_enabled(&driver);
-> +	if (ret && vbox_modeset == -1)
-> +		return ret;
->  
->  	if (vbox_modeset == 0)
->  		return -EINVAL;
-> diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.c b/drivers/gpu/drm/virtio/virtgpu_drv.c
-> index 749db18dcfa2..28200dfba2d1 100644
-> --- a/drivers/gpu/drm/virtio/virtgpu_drv.c
-> +++ b/drivers/gpu/drm/virtio/virtgpu_drv.c
-> @@ -104,8 +104,9 @@ static int virtio_gpu_probe(struct virtio_device *vdev)
->  	struct drm_device *dev;
->  	int ret;
->  
-> -	if (vgacon_text_force() && virtio_gpu_modeset == -1)
-> -		return -EINVAL;
-> +	ret = drm_drv_enabled(&driver);
-> +	if (ret && virtio_gpu_modeset == -1)
-> +		return ret;
->  
->  	if (virtio_gpu_modeset == 0)
->  		return -EINVAL;
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-> index ab9a1750e1df..05e9949293d5 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-> @@ -1651,8 +1651,9 @@ static int __init vmwgfx_init(void)
->  {
->  	int ret;
->  
-> -	if (vgacon_text_force())
-> -		return -EINVAL;
-> +	ret = drm_drv_enabled(&driver);
-> +	if (ret)
-> +		return ret;
->  
->  	ret = pci_register_driver(&vmw_pci_driver);
->  	if (ret)
-> diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
-> index 0cd95953cdf5..77abfc7e078b 100644
-> --- a/include/drm/drm_drv.h
-> +++ b/include/drm/drm_drv.h
-> @@ -598,5 +598,6 @@ static inline bool drm_drv_uses_atomic_modeset(struct drm_device *dev)
->  
->  int drm_dev_set_unique(struct drm_device *dev, const char *name);
->  
-> +int drm_drv_enabled(const struct drm_driver *driver);
->  
->  #endif
+On 2021-11-04 04:38, Pekka Paalanen wrote:
+> On Wed, 3 Nov 2021 11:08:13 -0400
+> Harry Wentland <harry.wentland@amd.com> wrote:
+> 
+>> On 2021-09-06 17:38, Uma Shankar wrote:
+>>> Existing LUT precision structure is having only 16 bit
+>>> precision. This is not enough for upcoming enhanced hardwares
+>>> and advance usecases like HDR processing. Hence added a new
+>>> structure with 32 bit precision values.
+>>>
+>>> This also defines a new structure to define color lut ranges,
+>>> along with related macro definitions and enums. This will help
+>>> describe multi segmented lut ranges in the hardware.
+>>>
+>>> Signed-off-by: Uma Shankar <uma.shankar@intel.com>
+>>> ---
+>>>  include/uapi/drm/drm_mode.h | 58 +++++++++++++++++++++++++++++++++++++
+>>>  1 file changed, 58 insertions(+)
+>>>
+>>> diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
+>>> index 90c55383f1ee..1079794c86c3 100644
+>>> --- a/include/uapi/drm/drm_mode.h
+>>> +++ b/include/uapi/drm/drm_mode.h
+>>> @@ -903,6 +903,64 @@ struct hdr_output_metadata {
+>>>  	};
+>>>  };
+>>>  
+>>> +/*
+>>> + * DRM_MODE_LUT_GAMMA|DRM_MODE_LUT_DEGAMMA is legal and means the LUT
+>>> + * can be used for either purpose, but not simultaneously. To expose
+>>> + * modes that support gamma and degamma simultaneously the gamma mode
+>>> + * must declare distinct DRM_MODE_LUT_GAMMA and DRM_MODE_LUT_DEGAMMA
+>>> + * ranges.
+>>> + */
+>>> +/* LUT is for gamma (after CTM) */
+>>> +#define DRM_MODE_LUT_GAMMA BIT(0)
+>>> +/* LUT is for degamma (before CTM) */
+>>> +#define DRM_MODE_LUT_DEGAMMA BIT(1)
+>>> +/* linearly interpolate between the points */
+>>> +#define DRM_MODE_LUT_INTERPOLATE BIT(2)
+>>> +/*
+>>> + * the last value of the previous range is the
+>>> + * first value of the current range.
+>>> + */
+>>> +#define DRM_MODE_LUT_REUSE_LAST BIT(3)
+>>> +/* the curve must be non-decreasing */
+>>> +#define DRM_MODE_LUT_NON_DECREASING BIT(4)
+>>> +/* the curve is reflected across origin for negative inputs */
+>>> +#define DRM_MODE_LUT_REFLECT_NEGATIVE BIT(5)
+>>> +/* the same curve (red) is used for blue and green channels as well */
+>>> +#define DRM_MODE_LUT_SINGLE_CHANNEL BIT(6)
+>>> +
+>>> +struct drm_color_lut_range {
+>>> +	/* DRM_MODE_LUT_* */
+>>> +	__u32 flags;
+>>> +	/* number of points on the curve */
+>>> +	__u16 count;
+>>> +	/* input/output bits per component */
+>>> +	__u8 input_bpc, output_bpc;
+>>> +	/* input start/end values */
+>>> +	__s32 start, end;
+>>> +	/* output min/max values */
+>>> +	__s32 min, max;
+>>> +};
+>>> +
+>>> +enum lut_type {
+>>> +	LUT_TYPE_DEGAMMA = 0,
+>>> +	LUT_TYPE_GAMMA = 1,
+>>> +};
+>>> +
+>>> +/*
+>>> + * Creating 64 bit palette entries for better data
+>>> + * precision. This will be required for HDR and
+>>> + * similar color processing usecases.
+>>> + */
+>>> +struct drm_color_lut_ext {
+>>> +	/*
+>>> +	 * Data is U32.32 fixed point format.
+>>> +	 */
+>>> +	__u64 red;
+>>> +	__u64 green;
+>>> +	__u64 blue;
+>>> +	__u64 reserved;
+>>> +};  
+>>
+>> I've been drawing out examples of drm_color_lut_range defined PWLs
+>> and understand a bit better what you and Ville are trying to accomplish
+>> with it. It actually makes a lot of sense and would allow for a generic
+>> way to populate different PWL definitions with a generic function.
+>>
+>> But I still have some key questions that either are not answered in these
+>> patch sets or that I somehow overlooked.
+>>
+>> Can you explain how the U32.32 fixed point format relates to the input_bpc
+>> and output_bpc in drm_color_lut_range, as we as to the pixel coming in from
+>> the framebuffer.
+>>
+>> E.g. if we have ARGB2101010 what happens to a 0x3ff red value (assuming alpha
+>> is non-multiplied)?
+>>
+>> If the drm_color_lut_range segments are defined with input_bpc of 24 bpc will
+>> 0x3ff be zero-expanded to 24-bit? Is the 24 bpc an integer? I.e. would our 3xff
+>> be interpreted as 0x3ff << (24-10)? 
+>>
+>> Assuming the output_bpc is 16 bpc and the programmed LUT makes this 1-to-1 would
+>> the output value be 0x3ff << (16-10)?
+>>
+>> On AMD HW the pipe-internal format is a custom floating point format. We could
+>> probably express that in terms of input/output_bpc and do the translation in our
+>> driver between that and the internal floating point format, depending on the
+>> framebuffer format, but there is the added complication of the magnitude of the
+>> pixel data and correlating HDR with SDR planes.
+>>
+>> E.g. any SDR data would map from 0.0 to 1.0 floating point, while HDR content would
+>> map from 0.0 to some value larger than 1.0. I don't (yet) have a clear picture how
+>> to represent that with the drm_color_lut_range definition.
+> 
+> 
+> Hi Harry,
+> 
+> I think you just would not. Conceptually an SDR plane gets its very own
+> LUT that converts the FB [0.0, 1.0] range to any appropriate [a >= 0.0,
+> b <= 1.0] range in HDR. This is purely conceptual, in the terms of the
+> abstract KMS color pipeline, where [0.0, 1.0] is always the full
+> dynamic range at any point of the pipeline, meaning it is relative to
+> its placement in the pipeline. If you want to use values >1.0 in hw,
+> you can do so under the hood.
+> 
+> At least that is how I would imagine things. With LUTs in general, I
+> don't think I have ever seen LUT input domain being explicitly defined
+> to something else than [0.0, 1.0] relative to the elements in the LUT
+> where 0.0 maps exactly to the first element and 1.0 maps exactly to the
+> last element.
+> 
+> I'm of course open to other suggestions, but having values outside of
+> [0.0, 1.0] range in the abstract pipeline will always raise the
+> question: how do you feed those to the LUT next in the pipeline.
+> 
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
+AMD HW defines the LUT addressing in floating point space and allows
+for addressing beyond 1.0. In fact on other OSes our driver uses
+[0.0, 1.0] for SDR LUTs and [0.0, 128.0] for HDR LUTs.
+
+There are color spaces that extend beyond 1.0 and even into the negative
+range: https://en.wikipedia.org/wiki/ScRGB
+
+I don't think we should define the LUT to be limited to [0.0, 1.0].
+
+If the framebuffer is not in FP16 the question then becomes how
+the integer pixel values relate to LUT addressing.
+
+As well, LUT entries are defined to be U32.32 fixed point, also
+allowing for entries much greater than 1.0. If those are programmed
+as entries in the input (degamma) LUT how will they be used to address
+entries in the output (gamma) LUT?
+
+Maybe we want to say the actual input values are being used to
+address the LUT entries? But if we look at segment 1 of Uma's
+d13_degamma_hdr definition we see that the range of 0 to
+(1 << 24) -1 is covered by 128 (1 << 7) entries, so the range
+of 0 to 256 (for RGB with 8 bpc) would only be covered by 2
+LUT entries. So this interpretation doesn't make sense.
+
+You can see, I'm still confused by these definitions. An IGT
+test would help explain the API intentions a bit better, though
+I would like to see more precise documentation.
+
+Despite my confusion I think the segmented PWL definitions are
+a neat way to concisely describe the HW capabilities to
+userspace and a concise way for userspace to provide the LUT
+more precisely than with a uniformly spaced LUT.
+
+Harry
+
+> Yeah, I have no idea what it should mean if an FB has a format that
+> allows values beyond [0.0, 1.0].
+> 
+> 
+> Thanks,
+> pq
+> 
+> 
+>> If some of these questions should be obvious I apologize for being a bit dense,
+>> though it helps to make this accessible to the lowest common denominator
+>> to ensure not only the smartest devs can work with this.
+>>
+>> Harry
+>>
+>>> +
+>>>  #define DRM_MODE_PAGE_FLIP_EVENT 0x01
+>>>  #define DRM_MODE_PAGE_FLIP_ASYNC 0x02
+>>>  #define DRM_MODE_PAGE_FLIP_TARGET_ABSOLUTE 0x4
+>>>   
+>>
+> 
+
