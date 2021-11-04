@@ -2,35 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16196444CAB
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Nov 2021 01:39:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 798FE444CAE
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Nov 2021 01:42:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF11A6EC50;
-	Thu,  4 Nov 2021 00:39:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE73C6F940;
+	Thu,  4 Nov 2021 00:42:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0CD506EC50;
- Thu,  4 Nov 2021 00:39:25 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10157"; a="255264140"
-X-IronPort-AV: E=Sophos;i="5.87,207,1631602800"; d="scan'208";a="255264140"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Nov 2021 17:39:24 -0700
-X-IronPort-AV: E=Sophos;i="5.87,207,1631602800"; d="scan'208";a="532118891"
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BCE186F940;
+ Thu,  4 Nov 2021 00:42:04 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10157"; a="317831510"
+X-IronPort-AV: E=Sophos;i="5.87,207,1631602800"; d="scan'208";a="317831510"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Nov 2021 17:41:56 -0700
+X-IronPort-AV: E=Sophos;i="5.87,207,1631602800"; d="scan'208";a="578393624"
 Received: from adixit-mobl1.amr.corp.intel.com (HELO adixit-arch.intel.com)
  ([10.212.216.3])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Nov 2021 17:39:23 -0700
-Date: Wed, 03 Nov 2021 17:39:21 -0700
-Message-ID: <87ilx8da9y.wl-ashutosh.dixit@intel.com>
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Nov 2021 17:41:56 -0700
+Date: Wed, 03 Nov 2021 17:41:55 -0700
+Message-ID: <87h7csda5o.wl-ashutosh.dixit@intel.com>
 From: "Dixit, Ashutosh" <ashutosh.dixit@intel.com>
-To: "Belgaumkar, Vinay" <vinay.belgaumkar@intel.com>
+To: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
 Subject: Re: [PATCH 3/3] drm/i915/guc/slpc: Update boost sysfs hooks for SLPC
-In-Reply-To: <87o87339k1.wl-ashutosh.dixit@intel.com>
-References: <20211101043937.35747-1-vinay.belgaumkar@intel.com>
- <20211101043937.35747-4-vinay.belgaumkar@intel.com>
- <87o87339k1.wl-ashutosh.dixit@intel.com>
+In-Reply-To: <20211102012608.8609-4-vinay.belgaumkar@intel.com>
+References: <20211102012608.8609-1-vinay.belgaumkar@intel.com>
+ <20211102012608.8609-4-vinay.belgaumkar@intel.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
  FLIM-LB/1.14.9 (=?ISO-8859-4?Q?Goj=F2?=) APEL-LB/10.8 EasyPG/1.0.0
  Emacs/27.2 (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
@@ -48,21 +47,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 01 Nov 2021 13:28:14 -0700, Dixit, Ashutosh wrote:
+On Mon, 01 Nov 2021 18:26:08 -0700, Vinay Belgaumkar wrote:
 >
-> On Sun, 31 Oct 2021 21:39:37 -0700, Belgaumkar, Vinay wrote:
-> >
-> > +static int set_boost_freq(struct intel_rps *rps, u32 val)
+> Add a helper to sort through the SLPC/RPS paths of get/set methods.
+> Boost frequency will be modified as long as it is within the constraints
+> of RP0 and if it is different from the existing one. We will set min
+> freq to boost only if there is at least one active waiter.
 >
-> Since this is legacy rps code path maybe change function name to
-> rps_set_boost_freq?
-
-Not being able to find v3 of this patch so giving a R-b on v2 but the R-b
-applies to v3:
+> v2: Add num_boosts to guc_slpc_info and changes for worker function
+> v3: Review comments (Ashutosh)
 
 Reviewed-by: Ashutosh Dixit <ashutosh.dixit@intel.com>
