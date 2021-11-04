@@ -1,42 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 699A3445361
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Nov 2021 13:54:42 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C73E344536C
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Nov 2021 13:59:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 645986F462;
-	Thu,  4 Nov 2021 12:54:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 32F856F45E;
+	Thu,  4 Nov 2021 12:59:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 831296F462;
- Thu,  4 Nov 2021 12:54:37 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10157"; a="231944825"
-X-IronPort-AV: E=Sophos;i="5.87,208,1631602800"; d="scan'208";a="231944825"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Nov 2021 05:54:37 -0700
-X-IronPort-AV: E=Sophos;i="5.87,208,1631602800"; d="scan'208";a="489935011"
-Received: from agilev-mobl.ccr.corp.intel.com (HELO localhost)
- ([10.249.254.157])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Nov 2021 05:54:33 -0700
-Content-Type: text/plain; charset="utf-8"
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 357546F39B;
+ Thu,  4 Nov 2021 12:59:09 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10157"; a="229155696"
+X-IronPort-AV: E=Sophos;i="5.87,208,1631602800"; d="scan'208";a="229155696"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Nov 2021 05:59:08 -0700
+X-IronPort-AV: E=Sophos;i="5.87,208,1631602800"; d="scan'208";a="542225134"
+Received: from fnygreen-mobl1.ger.corp.intel.com (HELO
+ thellstr-mobl1.intel.com) ([10.249.254.164])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Nov 2021 05:59:06 -0700
+From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/i915/selftests: Use clear_and_wake_up_bit() for the
+ per-engine reset bitlocks
+Date: Thu,  4 Nov 2021 13:58:44 +0100
+Message-Id: <20211104125844.707783-1-thomas.hellstrom@linux.intel.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20211102070601.155501-7-hch@lst.de>
-References: <20211102070601.155501-1-hch@lst.de>
- <20211102070601.155501-7-hch@lst.de>
-To: Christoph Hellwig <hch@lst.de>, Jani Nikula <jani.nikula@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Zhenyu Wang <zhenyuw@linux.intel.com>,
- Zhi Wang <zhi.a.wang@intel.com>
-Subject: Re: [PATCH 06/29] drm/i915/gvt: move the gvt code into kvmgt.ko
-From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Message-ID: <163603047089.4807.10176282951802208428@jlahtine-mobl.ger.corp.intel.com>
-User-Agent: alot/0.8.1
-Date: Thu, 04 Nov 2021 14:54:30 +0200
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,84 +45,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>, intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, matthew.auld@intel.com, Jason Gunthorpe <jgg@nvidia.com>, intel-gvt-dev@lists.freedesktop.org
+Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ matthew.auld@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-+ Thomas, Maarten and Matt
+Some selftests assume that nothing will attempt to grab these bitlocks
+while they are held by the selftests. With GuC, for example, that is
+not true because the hanging workloads may cause the GuC code to attempt
+to grab them for a global reset, and that may cause it to end up
+sleeping on the bit never waking up. Regardless whether that will be
+the final solution for GuC, use clear_and_wake_up_bit() pending a more
+thorough investigation on how this should be handled moving forward.
 
-(Also, Zhi and Zhenyu, please see down)
+Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+---
+ drivers/gpu/drm/i915/gt/selftest_hangcheck.c | 8 ++++----
+ drivers/gpu/drm/i915/selftests/igt_reset.c   | 2 +-
+ 2 files changed, 5 insertions(+), 5 deletions(-)
 
-Quoting Christoph Hellwig (2021-11-02 09:05:38)
-> Instead of having an option to build the gvt code into the main i915
-> module, just move it into the kvmgt.ko module.  This only requires
-> a new struct with three entries that the KVMGT modules needs to register
-> with the main i915 module, and a proper list of GVT-enabled devices
-> instead of global device pointer.
->=20
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
+diff --git a/drivers/gpu/drm/i915/gt/selftest_hangcheck.c b/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
+index 7e2d99dd012d..8590419be4c6 100644
+--- a/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
++++ b/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
+@@ -528,7 +528,7 @@ static int igt_reset_nop_engine(void *arg)
+ 				break;
+ 			}
+ 		} while (time_before(jiffies, end_time));
+-		clear_bit(I915_RESET_ENGINE + id, &gt->reset.flags);
++		clear_and_wake_up_bit(I915_RESET_ENGINE + id, &gt->reset.flags);
+ 		st_engine_heartbeat_enable(engine);
+ 
+ 		pr_info("%s(%s): %d resets\n", __func__, engine->name, count);
+@@ -679,7 +679,7 @@ static int igt_reset_fail_engine(void *arg)
+ out:
+ 		pr_info("%s(%s): %d resets\n", __func__, engine->name, count);
+ skip:
+-		clear_bit(I915_RESET_ENGINE + id, &gt->reset.flags);
++		clear_and_wake_up_bit(I915_RESET_ENGINE + id, &gt->reset.flags);
+ 		st_engine_heartbeat_enable(engine);
+ 		intel_context_put(ce);
+ 
+@@ -824,7 +824,7 @@ static int __igt_reset_engine(struct intel_gt *gt, bool active)
+ 			if (err)
+ 				break;
+ 		} while (time_before(jiffies, end_time));
+-		clear_bit(I915_RESET_ENGINE + id, &gt->reset.flags);
++		clear_and_wake_up_bit(I915_RESET_ENGINE + id, &gt->reset.flags);
+ 		st_engine_heartbeat_enable(engine);
+ 		pr_info("%s: Completed %lu %s resets\n",
+ 			engine->name, count, active ? "active" : "idle");
+@@ -1165,7 +1165,7 @@ static int __igt_reset_engines(struct intel_gt *gt,
+ 			if (err)
+ 				break;
+ 		} while (time_before(jiffies, end_time));
+-		clear_bit(I915_RESET_ENGINE + id, &gt->reset.flags);
++		clear_and_wake_up_bit(I915_RESET_ENGINE + id, &gt->reset.flags);
+ 		st_engine_heartbeat_enable_no_pm(engine);
+ 
+ 		pr_info("i915_reset_engine(%s:%s): %lu resets\n",
+diff --git a/drivers/gpu/drm/i915/selftests/igt_reset.c b/drivers/gpu/drm/i915/selftests/igt_reset.c
+index 9f8590b868a9..a2838c65f8a5 100644
+--- a/drivers/gpu/drm/i915/selftests/igt_reset.c
++++ b/drivers/gpu/drm/i915/selftests/igt_reset.c
+@@ -36,7 +36,7 @@ void igt_global_reset_unlock(struct intel_gt *gt)
+ 	enum intel_engine_id id;
+ 
+ 	for_each_engine(engine, gt, id)
+-		clear_bit(I915_RESET_ENGINE + id, &gt->reset.flags);
++		clear_and_wake_up_bit(I915_RESET_ENGINE + id, &gt->reset.flags);
+ 
+ 	clear_bit(I915_RESET_BACKOFF, &gt->reset.flags);
+ 	wake_up_all(&gt->reset.queue);
+-- 
+2.31.1
 
-<SNIP>
-
-> +/*
-> + * Exported here so that the exports only get created when GVT support is
-> + * actually enabled.
-> + */
-> +EXPORT_SYMBOL_NS_GPL(i915_gem_object_alloc, I915_GVT);
-> +EXPORT_SYMBOL_NS_GPL(i915_gem_object_create_shmem, I915_GVT);
-> +EXPORT_SYMBOL_NS_GPL(i915_gem_object_init, I915_GVT);
-> +EXPORT_SYMBOL_NS_GPL(i915_gem_object_ggtt_pin_ww, I915_GVT);
-> +EXPORT_SYMBOL_NS_GPL(i915_gem_object_pin_map, I915_GVT);
-> +EXPORT_SYMBOL_NS_GPL(i915_gem_object_set_to_cpu_domain, I915_GVT);
-> +EXPORT_SYMBOL_NS_GPL(__i915_gem_object_flush_map, I915_GVT);
-> +EXPORT_SYMBOL_NS_GPL(__i915_gem_object_set_pages, I915_GVT);
-> +EXPORT_SYMBOL_NS_GPL(i915_gem_gtt_insert, I915_GVT);
-> +EXPORT_SYMBOL_NS_GPL(i915_gem_prime_export, I915_GVT);
-> +EXPORT_SYMBOL_NS_GPL(i915_gem_ww_ctx_init, I915_GVT);
-> +EXPORT_SYMBOL_NS_GPL(i915_gem_ww_ctx_backoff, I915_GVT);
-> +EXPORT_SYMBOL_NS_GPL(i915_gem_ww_ctx_fini, I915_GVT);
-> +EXPORT_SYMBOL_NS_GPL(i915_ppgtt_create, I915_GVT);
-> +EXPORT_SYMBOL_NS_GPL(i915_request_add, I915_GVT);
-> +EXPORT_SYMBOL_NS_GPL(i915_request_create, I915_GVT);
-> +EXPORT_SYMBOL_NS_GPL(i915_request_wait, I915_GVT);
-> +EXPORT_SYMBOL_NS_GPL(i915_reserve_fence, I915_GVT);
-> +EXPORT_SYMBOL_NS_GPL(i915_unreserve_fence, I915_GVT);
-> +EXPORT_SYMBOL_NS_GPL(i915_vm_release, I915_GVT);
-> +EXPORT_SYMBOL_NS_GPL(i915_vma_move_to_active, I915_GVT);
-> +EXPORT_SYMBOL_NS_GPL(intel_context_create, I915_GVT);
-> +EXPORT_SYMBOL_NS_GPL(__intel_context_do_pin, I915_GVT);
-> +EXPORT_SYMBOL_NS_GPL(__intel_context_do_unpin, I915_GVT);
-> +EXPORT_SYMBOL_NS_GPL(intel_ring_begin, I915_GVT);
-> +EXPORT_SYMBOL_NS_GPL(intel_runtime_pm_get, I915_GVT);
-> +EXPORT_SYMBOL_NS_GPL(intel_runtime_pm_put_unchecked, I915_GVT);
-> +EXPORT_SYMBOL_NS_GPL(intel_uncore_forcewake_for_reg, I915_GVT);
-> +EXPORT_SYMBOL_NS_GPL(intel_uncore_forcewake_get, I915_GVT);
-> +EXPORT_SYMBOL_NS_GPL(intel_uncore_forcewake_put, I915_GVT);
-> +EXPORT_SYMBOL_NS_GPL(shmem_pin_map, I915_GVT);
-> +EXPORT_SYMBOL_NS_GPL(shmem_unpin_map, I915_GVT);
-> +EXPORT_SYMBOL_NS_GPL(__px_dma, I915_GVT);
-
-This is where the module conversion got stuck last time.
-
-Conditionally exporting is kind of a partial remedy. Previously the
-intention for the rewrite was to define a clear interface between the
-two modules which would be well defined enough that we could avoid frequent
-clashes and hopefully get GVT into drm-tip, too.
-
-The absolute minimum requirement is not to have any of the double
-underscore symbols in this list. As that convention is specifically used
-to mark functions which are expected to have reduced error checking
-because of the exact point they are being called from. With that done
-we should be where we can enable the exports by default and modprobe
-would be all that is required.
-
-I think Zhenyu and Zhi took an AR back in time to see how small they
-could shrink this list. Would we have some followup patches available
-to shrink this interface?
-
-Also, the golden MMIO state capture remains something that leaks the
-hypervisor state into the guests. For example the fact which bug W/A
-are applied in hypervisor, and I would rather have that code path
-isolated before enabling by default.
-
-Regards, Joonas
