@@ -2,59 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5794445AE6
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Nov 2021 21:03:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0CA7445AF4
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Nov 2021 21:09:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B1137386E;
-	Thu,  4 Nov 2021 20:03:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B8A897386C;
+	Thu,  4 Nov 2021 20:09:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf31.google.com (mail-qv1-xf31.google.com
- [IPv6:2607:f8b0:4864:20::f31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 452F17386B
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Nov 2021 20:03:07 +0000 (UTC)
-Received: by mail-qv1-xf31.google.com with SMTP id v2so6042101qve.11
- for <dri-devel@lists.freedesktop.org>; Thu, 04 Nov 2021 13:03:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=n6LDFw29hZsoKOLns/SZzto6jZDnxgAkgjGJO4dyrRY=;
- b=T/ckcQBWOViogOXX72QJ6w3HvGmn5rL2NW06Yjte/zJcE/AB/v4oyf/SkjhFR0E227
- pI+xYaEgHixkWOy5DgzDRBV4gQ/rKqui2oQnykhq4YenADyPYoZHwx8ZkZpTVaERR2xz
- UduZGcSig2OE5calDBgcMjyWXIaGnoszW9veY=
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 61E666EB76
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Nov 2021 20:09:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1636056559;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=WRdrRlX7d6jR9XJ1WlJwuA/7L4WdNGNHCwwgPSMtrew=;
+ b=dDewa/LtGBJX7ac4fwngfqrK3V0fYBgwe+JLjd8GGTEQ1eZqtvHimZmHkNb2MWId6OpMe4
+ HTZd/hQxjMhhf1/oCMVhZIyNr1OO3vGG7gUcU+MqTAZyqMZM+UmA92DYXS5vxkJy3HaJHG
+ WZC+ZVdbavgqa5ilcXPTOemEuhnqZWQ=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-375-DUK-qGweOZ648YhQzvE3KQ-1; Thu, 04 Nov 2021 16:09:18 -0400
+X-MC-Unique: DUK-qGweOZ648YhQzvE3KQ-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ w14-20020adfbace000000b001884bf6e902so714082wrg.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 04 Nov 2021 13:09:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=n6LDFw29hZsoKOLns/SZzto6jZDnxgAkgjGJO4dyrRY=;
- b=ntbrboi+lU7IQT70oELVy/tce8ze5Ixyr7VZub50hZDqv+oGgVUfMn76ioZ2gZBmue
- jdN1SdFyTigr34HcEXMRss+mfK/AGVaJ+UGcfA4JuDneGNV/bnTk9Ud1H4TyZAIsv/tX
- ze3/jDuClxFUlP/cxDrCjZorrA4xjmtQlI/u7pgZJ/Cs3dHGokClNpnGnqdMLwYfhbOK
- NvrCA3DyBH2sKWIOQLerlxCKXsrv8UmMENy4u+tMrhGbxZc+z6j3fGre4aOkN27dZs8P
- sEKPQTXWZZYcDpmzsV2M+QUBQAXVOx1omWlXHjAmDpB549PiZK1ZGXJTqcd48AFEDld0
- Zxug==
-X-Gm-Message-State: AOAM530L5Wc/7giKuN7SG08Hf+2SZc2jsd4cqRlqxBYPO/sLy2/hb0fN
- hbu5NLCbiSZsPYWL+neXA1zikQ==
-X-Google-Smtp-Source: ABdhPJxLZ+5Oy62QzLHHu/KSvILvzeCBEI0UAESxsEUKEIxTcMhOTMEEJsV+Day34F+jzG9/rBb/yA==
-X-Received: by 2002:a05:6214:240c:: with SMTP id
- fv12mr3237449qvb.58.1636056186439; 
- Thu, 04 Nov 2021 13:03:06 -0700 (PDT)
-Received: from markyacoub.nyc.corp.google.com
- ([2620:0:1003:314:1118:14fe:72e3:f013])
- by smtp.gmail.com with ESMTPSA id j22sm4577411qko.121.2021.11.04.13.03.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 Nov 2021 13:03:05 -0700 (PDT)
-From: Mark Yacoub <markyacoub@chromium.org>
-To: 
-Subject: [PATCH v5 3/3] amd/amdgpu_dm: Verify Gamma and Degamma LUT sizes
- using DRM Core check
-Date: Thu,  4 Nov 2021 16:02:52 -0400
-Message-Id: <20211104200255.63499-3-markyacoub@chromium.org>
-X-Mailer: git-send-email 2.34.0.rc0.344.g81b53c2807-goog
-In-Reply-To: <20211104200255.63499-1-markyacoub@chromium.org>
-References: <20211104200255.63499-1-markyacoub@chromium.org>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=WRdrRlX7d6jR9XJ1WlJwuA/7L4WdNGNHCwwgPSMtrew=;
+ b=H1f+8uFczhAtDyFAg1YD4h4TDVjvwfu6QXLSJlXtm/rN7Cc6KcSpYMapoKNJjnp5aa
+ RPoWgVyGhdypNFl5qULISRGffcJ1ofCKwdv5vEjFN5+pNx4Nyj+pDDMT5NnkI6nLvFM8
+ mf/mpHjJIGa+REpYtPLN/AuQaVGun4XF0CQv7x9PwN9/sTdX2fTi3gFPOQEmunZqHzWC
+ lXOsZDlPjQxk+sj4WYJffGbAWin8MkhDGZFMlC8QNazZmkTbbT+jmr3O0tps/LTKDTNe
+ oox9/c9LCpFD9lUp1BM1MOcqRwFlTZeDHeMNm2m4t5oCtZlappKWYIvU4BBCz3qiArYz
+ QZqg==
+X-Gm-Message-State: AOAM530s0bzWt/2FBddeBtQKis7NBbI/VkTATxFRIgZOGtAOoBGhkkuv
+ CvARa0bNa2OUw6d3+VzbNuwmuISSfLv03bkAGs6aoQ498Wo7+zSODHc2um01tPBwijjLNx6yzO5
+ 5gZY3ZeHLEehs5QlmFExQl1hpOA9S
+X-Received: by 2002:a1c:ed03:: with SMTP id l3mr26040183wmh.86.1636056557045; 
+ Thu, 04 Nov 2021 13:09:17 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy76MY/85Rr56RxIxfOCWbJkdVKLFu3k+Td/GsoIreVUO3gSrCM0LaAND1RBuRZ0S+UgTUN+Q==
+X-Received: by 2002:a1c:ed03:: with SMTP id l3mr26040146wmh.86.1636056556830; 
+ Thu, 04 Nov 2021 13:09:16 -0700 (PDT)
+Received: from [192.168.1.128] ([92.176.231.106])
+ by smtp.gmail.com with ESMTPSA id z15sm6028960wrr.65.2021.11.04.13.09.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 04 Nov 2021 13:09:16 -0700 (PDT)
+Message-ID: <0c07f121-42d3-9f37-1e14-842fb685b501@redhat.com>
+Date: Thu, 4 Nov 2021 21:09:14 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v2 1/2] drm: Add a drm_drv_enabled() to check if drivers
+ should be enabled
+To: Jani Nikula <jani.nikula@linux.intel.com>, linux-kernel@vger.kernel.org
+References: <20211104160707.1407052-1-javierm@redhat.com>
+ <20211104160707.1407052-2-javierm@redhat.com> <87ilx7ae3v.fsf@intel.com>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <87ilx7ae3v.fsf@intel.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,130 +85,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: pmenzel@molgen.mpg.de, Leo Li <sunpeng.li@amd.com>,
- Mark Yacoub <markyacoub@chromium.org>, dri-devel@lists.freedesktop.org, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
- David Airlie <airlied@linux.ie>, seanpaul@chromium.org,
- amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Mark Yacoub <markyacoub@google.com>
+Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, Gurchetan Singh <gurchetansingh@chromium.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, amd-gfx@lists.freedesktop.org,
+ VMware Graphics <linux-graphics-maintainer@vmware.com>,
+ Peter Robinson <pbrobinson@gmail.com>, nouveau@lists.freedesktop.org,
+ Dave Airlie <airlied@redhat.com>, Ben Skeggs <bskeggs@redhat.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>,
+ Hans de Goede <hdegoede@redhat.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ virtualization@lists.linux-foundation.org,
+ Pekka Paalanen <pekka.paalanen@collabora.com>, "Pan,
+ Xinhui" <Xinhui.Pan@amd.com>, spice-devel@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>, intel-gfx@lists.freedesktop.org,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Mark Yacoub <markyacoub@google.com>
+Hello Jani,
 
-[Why]
-drm_atomic_helper_check_crtc now verifies both legacy and non-legacy LUT
-sizes. There is no need to check it within amdgpu_dm_atomic_check.
+On 11/4/21 20:57, Jani Nikula wrote:
+> On Thu, 04 Nov 2021, Javier Martinez Canillas <javierm@redhat.com> wrote:
+>> +/**
+>> + * drm_drv_enabled - Checks if a DRM driver can be enabled
+>> + * @driver: DRM driver to check
+>> + *
+>> + * Checks whether a DRM driver can be enabled or not. This may be the case
+>> + * if the "nomodeset" kernel command line parameter is used.
+>> + *
+>> + * Return: 0 on success or a negative error code on failure.
+>> + */
+>> +int drm_drv_enabled(const struct drm_driver *driver)
+>> +{
+>> +	if (vgacon_text_force()) {
+>> +		DRM_INFO("%s driver is disabled\n", driver->name);
+>> +		return -ENODEV;
+>> +	}
+>> +
+>> +	return 0;
+>> +}
+>> +EXPORT_SYMBOL(drm_drv_enabled);
+> 
+> The name implies a bool return, but it's not.
+> 
+> 	if (drm_drv_enabled(...)) {
+> 		/* surprise, it's disabled! */
+> 	}
+> 
 
-[How]
-Remove the local call to verify LUT sizes and use DRM Core function
-instead.
+It used to return a bool in v2 but Thomas suggested an int instead to
+have consistency on the errno code that was returned by the callers.
 
-Tested on ChromeOS Zork.
+I should probably name that function differently to avoid confusion.
 
-v1:
-Remove amdgpu_dm_verify_lut_sizes everywhere.
+But I think you are correct and this change is caused too much churn
+for not that much benefit, specially since is unclear that there might
+be another condition to prevent a DRM driver to load besides nomodeset.
 
-Signed-off-by: Mark Yacoub <markyacoub@chromium.org>
-Reviewed-by: Sean Paul <seanpaul@chromium.org>
----
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  8 ++---
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h |  1 -
- .../amd/display/amdgpu_dm/amdgpu_dm_color.c   | 35 -------------------
- 3 files changed, 4 insertions(+), 40 deletions(-)
+I'll just drop this patch and post only #2 but making drivers to test
+using the drm_check_modeset() function (which doesn't have a name that
+implies a bool return).
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index f74663b6b046e..47f8de1cfc3a5 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -10244,6 +10244,10 @@ static int amdgpu_dm_atomic_check(struct drm_device *dev,
- 		}
- 	}
- #endif
-+	ret = drm_atomic_helper_check_crtcs(state);
-+	if (ret)
-+		return ret;
-+
- 	for_each_oldnew_crtc_in_state(state, crtc, old_crtc_state, new_crtc_state, i) {
- 		dm_old_crtc_state = to_dm_crtc_state(old_crtc_state);
- 
-@@ -10253,10 +10257,6 @@ static int amdgpu_dm_atomic_check(struct drm_device *dev,
- 			dm_old_crtc_state->dsc_force_changed == false)
- 			continue;
- 
--		ret = amdgpu_dm_verify_lut_sizes(new_crtc_state);
--		if (ret)
--			goto fail;
--
- 		if (!new_crtc_state->enable)
- 			continue;
- 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-index fcb9c4a629c32..22730e5542092 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-@@ -617,7 +617,6 @@ void amdgpu_dm_trigger_timing_sync(struct drm_device *dev);
- #define MAX_COLOR_LEGACY_LUT_ENTRIES 256
- 
- void amdgpu_dm_init_color_mod(void);
--int amdgpu_dm_verify_lut_sizes(const struct drm_crtc_state *crtc_state);
- int amdgpu_dm_update_crtc_color_mgmt(struct dm_crtc_state *crtc);
- int amdgpu_dm_update_plane_color_mgmt(struct dm_crtc_state *crtc,
- 				      struct dc_plane_state *dc_plane_state);
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
-index a022e5bb30a5c..319f8a8a89835 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
-@@ -284,37 +284,6 @@ static int __set_input_tf(struct dc_transfer_func *func,
- 	return res ? 0 : -ENOMEM;
- }
- 
--/**
-- * Verifies that the Degamma and Gamma LUTs attached to the |crtc_state| are of
-- * the expected size.
-- * Returns 0 on success.
-- */
--int amdgpu_dm_verify_lut_sizes(const struct drm_crtc_state *crtc_state)
--{
--	const struct drm_color_lut *lut = NULL;
--	uint32_t size = 0;
--
--	lut = __extract_blob_lut(crtc_state->degamma_lut, &size);
--	if (lut && size != MAX_COLOR_LUT_ENTRIES) {
--		DRM_DEBUG_DRIVER(
--			"Invalid Degamma LUT size. Should be %u but got %u.\n",
--			MAX_COLOR_LUT_ENTRIES, size);
--		return -EINVAL;
--	}
--
--	lut = __extract_blob_lut(crtc_state->gamma_lut, &size);
--	if (lut && size != MAX_COLOR_LUT_ENTRIES &&
--	    size != MAX_COLOR_LEGACY_LUT_ENTRIES) {
--		DRM_DEBUG_DRIVER(
--			"Invalid Gamma LUT size. Should be %u (or %u for legacy) but got %u.\n",
--			MAX_COLOR_LUT_ENTRIES, MAX_COLOR_LEGACY_LUT_ENTRIES,
--			size);
--		return -EINVAL;
--	}
--
--	return 0;
--}
--
- /**
-  * amdgpu_dm_update_crtc_color_mgmt: Maps DRM color management to DC stream.
-  * @crtc: amdgpu_dm crtc state
-@@ -348,10 +317,6 @@ int amdgpu_dm_update_crtc_color_mgmt(struct dm_crtc_state *crtc)
- 	bool is_legacy;
- 	int r;
- 
--	r = amdgpu_dm_verify_lut_sizes(&crtc->base);
--	if (r)
--		return r;
--
- 	degamma_lut = __extract_blob_lut(crtc->base.degamma_lut, &degamma_size);
- 	regamma_lut = __extract_blob_lut(crtc->base.gamma_lut, &regamma_size);
- 
+> 
+> BR,
+> Jani.
+> 
+> 
+> 
+
+Best regards,
 -- 
-2.34.0.rc0.344.g81b53c2807-goog
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
 
