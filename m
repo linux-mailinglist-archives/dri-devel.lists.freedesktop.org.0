@@ -2,33 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91E76445BDF
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Nov 2021 22:57:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 523E3445C1C
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Nov 2021 23:23:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 47F7673899;
-	Thu,  4 Nov 2021 21:57:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F867738AD;
+	Thu,  4 Nov 2021 22:23:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2FD287388F
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Nov 2021 21:57:28 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10158"; a="231647517"
-X-IronPort-AV: E=Sophos;i="5.87,209,1631602800"; d="scan'208";a="231647517"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Nov 2021 14:57:27 -0700
-X-IronPort-AV: E=Sophos;i="5.87,209,1631602800"; d="scan'208";a="579056880"
-Received: from vkasired-desk2.fm.intel.com ([10.105.128.127])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Nov 2021 14:57:27 -0700
-From: Vivek Kasireddy <vivek.kasireddy@intel.com>
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com
+ [IPv6:2607:f8b0:4864:20::62c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 276B4738AC;
+ Thu,  4 Nov 2021 22:23:48 +0000 (UTC)
+Received: by mail-pl1-x62c.google.com with SMTP id p18so9589492plf.13;
+ Thu, 04 Nov 2021 15:23:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=SAjJe0L8rahemkypYUehC21SFtz7mEZThWWLPiWL/ro=;
+ b=NzCVs6lNdX69wDrb2nMBBzD34Y/tsJPVI6tZWsiJCOxvoDvtDSENn/huD6z7kv+08l
+ G9iOj0TeqIBrea+YwDGMeZ6jbbr6sTnh9mgSUQMWl+dW/IdmeFiNEmCgQ8Pqt1R0hQpq
+ 3O7JgIBvUhfdd1u1H5GDMGH2lCWjEGfPO5IJ/juwztKXa1cTmKsq9t2Xi3PsbeTpQn7G
+ PBFafU3TixWAtSjq2EPHFSGH+7VcbMguCFwyUrOqDSYKOWOBKq1+Vby130DqEsBYIQZ2
+ BpFco6dKebNmDvklIAwbsYFRHGbf+QtFcJ0aNpdIKY1WTAgxy2h73o3bAx2X5ZgjbPuL
+ SZlA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=SAjJe0L8rahemkypYUehC21SFtz7mEZThWWLPiWL/ro=;
+ b=mYSdJOU2qiiYO70gsI2VM6De+eYKG655AWXi1Wlao+/Gp03CGLbRSTEW9/Kz2zZmQ9
+ rMIGan+Doo/iP/OCPOfyL2uwKdJFo6MDcNN3krHYWuQ8w2119GSvalOi5pLb0gwwLpdE
+ C469vzKgEahKW3B+T2N1GK4UKH0zrcpzbxC4dNOr4bdZ2/YHpc87CK4GITQORwGon793
+ aT8zznG2SBbE46KLNMsoRrkftN31YCwww8mrmFTJ081EsUu7e5XcAaKMxTbXqUVX2QXk
+ chnwhMjILePJPrRNSExQTx4Y66qI7mMAC9tJds57wP2lun99ttBJ9pIp3v8jNYhChCth
+ Ixkw==
+X-Gm-Message-State: AOAM532U9lq1hfH0QktSWxXGAYLRuFCu+1wHoX0rpe4qSkGoLOKjT6Sp
+ Ub0870Gurde84iuOQv/JVeq2MB7gIUM=
+X-Google-Smtp-Source: ABdhPJywWwxxya+abTTKcjBAKn/zhPdhspjq0C6veBnXpocuNuoJ+miPacjiMb70eXIDSP4U7I+1qA==
+X-Received: by 2002:a17:902:db01:b0:141:ea12:2176 with SMTP id
+ m1-20020a170902db0100b00141ea122176mr28246520plx.44.1636064627091; 
+ Thu, 04 Nov 2021 15:23:47 -0700 (PDT)
+Received: from localhost ([2601:1c0:5200:a6:307:a401:7b76:c6e5])
+ by smtp.gmail.com with ESMTPSA id hg4sm8148128pjb.1.2021.11.04.15.23.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 04 Nov 2021 15:23:45 -0700 (PDT)
+From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/virtio: Fix NULL dereference error in virtio_gpu_poll
-Date: Thu,  4 Nov 2021 14:42:49 -0700
-Message-Id: <20211104214249.1802789-1-vivek.kasireddy@intel.com>
+Subject: [PATCH] drm/msm/devfreq: Fix OPP refcnt leak
+Date: Thu,  4 Nov 2021 15:28:40 -0700
+Message-Id: <20211104222840.781314-1-robdclark@gmail.com>
 X-Mailer: git-send-email 2.31.1
-In-Reply-To: <15731ad7-83ff-c7ef-e4a1-8b11814572c2@xenosoft.de>
-References: <15731ad7-83ff-c7ef-e4a1-8b11814572c2@xenosoft.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -43,40 +66,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Gurchetan Singh <gurchetansingh@chromium.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Vivek Kasireddy <vivek.kasireddy@intel.com>,
- Christian Zigotzky <chzigotzky@xenosoft.de>
+Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, Douglas Anderson <dianders@chromium.org>,
+ open list <linux-kernel@vger.kernel.org>, Sean Paul <sean@poorly.run>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When virgl is not enabled, vfpriv pointer would not be allocated.
-Therefore, check for a valid value before dereferencing.
+From: Rob Clark <robdclark@chromium.org>
 
-Reported-by: Christian Zigotzky <chzigotzky@xenosoft.de>
-Cc: Gurchetan Singh <gurchetansingh@chromium.org>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
-Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
+Reported-by: Douglas Anderson <dianders@chromium.org>
+Fixes: 9bc95570175a ("drm/msm: Devfreq tuning")
+Signed-off-by: Rob Clark <robdclark@chromium.org>
 ---
- drivers/gpu/drm/virtio/virtgpu_drv.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/msm/msm_gpu_devfreq.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.c b/drivers/gpu/drm/virtio/virtgpu_drv.c
-index 749db18dcfa2..d86e1ad4a972 100644
---- a/drivers/gpu/drm/virtio/virtgpu_drv.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_drv.c
-@@ -163,10 +163,11 @@ static __poll_t virtio_gpu_poll(struct file *filp,
- 	struct drm_file *drm_file = filp->private_data;
- 	struct virtio_gpu_fpriv *vfpriv = drm_file->driver_priv;
- 	struct drm_device *dev = drm_file->minor->dev;
-+	struct virtio_gpu_device *vgdev = dev->dev_private;
- 	struct drm_pending_event *e = NULL;
- 	__poll_t mask = 0;
+diff --git a/drivers/gpu/drm/msm/msm_gpu_devfreq.c b/drivers/gpu/drm/msm/msm_gpu_devfreq.c
+index d32b729b4616..9bf8600b6eea 100644
+--- a/drivers/gpu/drm/msm/msm_gpu_devfreq.c
++++ b/drivers/gpu/drm/msm/msm_gpu_devfreq.c
+@@ -20,8 +20,6 @@ static int msm_devfreq_target(struct device *dev, unsigned long *freq,
+ 	struct msm_gpu *gpu = dev_to_gpu(dev);
+ 	struct dev_pm_opp *opp;
  
--	if (!vfpriv->ring_idx_mask)
-+	if (!vgdev->has_virgl_3d || !vfpriv || !vfpriv->ring_idx_mask)
- 		return drm_poll(filp, wait);
+-	opp = devfreq_recommended_opp(dev, freq, flags);
+-
+ 	/*
+ 	 * If the GPU is idle, devfreq is not aware, so just ignore
+ 	 * it's requests
+@@ -31,6 +29,8 @@ static int msm_devfreq_target(struct device *dev, unsigned long *freq,
+ 		return 0;
+ 	}
  
- 	poll_wait(filp, &drm_file->event_wait, wait);
++	opp = devfreq_recommended_opp(dev, freq, flags);
++
+ 	if (IS_ERR(opp))
+ 		return PTR_ERR(opp);
+ 
 -- 
 2.31.1
 
