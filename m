@@ -1,38 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C73E344536C
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Nov 2021 13:59:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C2B2B445370
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Nov 2021 13:59:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 32F856F45E;
-	Thu,  4 Nov 2021 12:59:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 100616F46F;
+	Thu,  4 Nov 2021 12:59:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 357546F39B;
- Thu,  4 Nov 2021 12:59:09 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10157"; a="229155696"
-X-IronPort-AV: E=Sophos;i="5.87,208,1631602800"; d="scan'208";a="229155696"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Nov 2021 05:59:08 -0700
-X-IronPort-AV: E=Sophos;i="5.87,208,1631602800"; d="scan'208";a="542225134"
-Received: from fnygreen-mobl1.ger.corp.intel.com (HELO
- thellstr-mobl1.intel.com) ([10.249.254.164])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Nov 2021 05:59:06 -0700
-From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/i915/selftests: Use clear_and_wake_up_bit() for the
- per-engine reset bitlocks
-Date: Thu,  4 Nov 2021 13:58:44 +0100
-Message-Id: <20211104125844.707783-1-thomas.hellstrom@linux.intel.com>
-X-Mailer: git-send-email 2.31.1
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7777B6F478;
+ Thu,  4 Nov 2021 12:59:24 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10157"; a="292531884"
+X-IronPort-AV: E=Sophos;i="5.87,208,1631602800"; d="scan'208";a="292531884"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Nov 2021 05:59:23 -0700
+X-IronPort-AV: E=Sophos;i="5.87,208,1631602800"; d="scan'208";a="450441783"
+Received: from agilev-mobl.ccr.corp.intel.com (HELO localhost)
+ ([10.249.254.157])
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Nov 2021 05:59:21 -0700
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20211102070601.155501-1-hch@lst.de>
+References: <20211102070601.155501-1-hch@lst.de>
+To: Christoph Hellwig <hch@lst.de>, Jani Nikula <jani.nikula@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Zhenyu Wang <zhenyuw@linux.intel.com>,
+ Zhi Wang <zhi.a.wang@intel.com>
+Subject: Re: refactor the i915 GVT support and move to the modern mdev API v2
+From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Message-ID: <163603075885.4807.880888219859400958@jlahtine-mobl.ger.corp.intel.com>
+User-Agent: alot/0.8.1
+Date: Thu, 04 Nov 2021 14:59:18 +0200
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,78 +48,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- matthew.auld@intel.com
+Cc: intel-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Jason Gunthorpe <jgg@nvidia.com>,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Some selftests assume that nothing will attempt to grab these bitlocks
-while they are held by the selftests. With GuC, for example, that is
-not true because the hanging workloads may cause the GuC code to attempt
-to grab them for a global reset, and that may cause it to end up
-sleeping on the bit never waking up. Regardless whether that will be
-the final solution for GuC, use clear_and_wake_up_bit() pending a more
-thorough investigation on how this should be handled moving forward.
+Hi Zhenyu and Zhi,
 
-Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
----
- drivers/gpu/drm/i915/gt/selftest_hangcheck.c | 8 ++++----
- drivers/gpu/drm/i915/selftests/igt_reset.c   | 2 +-
- 2 files changed, 5 insertions(+), 5 deletions(-)
+Can you have somebody from the GVT team to review the patches that
+are fully contained in gvt/ ?
 
-diff --git a/drivers/gpu/drm/i915/gt/selftest_hangcheck.c b/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
-index 7e2d99dd012d..8590419be4c6 100644
---- a/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
-+++ b/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
-@@ -528,7 +528,7 @@ static int igt_reset_nop_engine(void *arg)
- 				break;
- 			}
- 		} while (time_before(jiffies, end_time));
--		clear_bit(I915_RESET_ENGINE + id, &gt->reset.flags);
-+		clear_and_wake_up_bit(I915_RESET_ENGINE + id, &gt->reset.flags);
- 		st_engine_heartbeat_enable(engine);
- 
- 		pr_info("%s(%s): %d resets\n", __func__, engine->name, count);
-@@ -679,7 +679,7 @@ static int igt_reset_fail_engine(void *arg)
- out:
- 		pr_info("%s(%s): %d resets\n", __func__, engine->name, count);
- skip:
--		clear_bit(I915_RESET_ENGINE + id, &gt->reset.flags);
-+		clear_and_wake_up_bit(I915_RESET_ENGINE + id, &gt->reset.flags);
- 		st_engine_heartbeat_enable(engine);
- 		intel_context_put(ce);
- 
-@@ -824,7 +824,7 @@ static int __igt_reset_engine(struct intel_gt *gt, bool active)
- 			if (err)
- 				break;
- 		} while (time_before(jiffies, end_time));
--		clear_bit(I915_RESET_ENGINE + id, &gt->reset.flags);
-+		clear_and_wake_up_bit(I915_RESET_ENGINE + id, &gt->reset.flags);
- 		st_engine_heartbeat_enable(engine);
- 		pr_info("%s: Completed %lu %s resets\n",
- 			engine->name, count, active ? "active" : "idle");
-@@ -1165,7 +1165,7 @@ static int __igt_reset_engines(struct intel_gt *gt,
- 			if (err)
- 				break;
- 		} while (time_before(jiffies, end_time));
--		clear_bit(I915_RESET_ENGINE + id, &gt->reset.flags);
-+		clear_and_wake_up_bit(I915_RESET_ENGINE + id, &gt->reset.flags);
- 		st_engine_heartbeat_enable_no_pm(engine);
- 
- 		pr_info("i915_reset_engine(%s:%s): %lu resets\n",
-diff --git a/drivers/gpu/drm/i915/selftests/igt_reset.c b/drivers/gpu/drm/i915/selftests/igt_reset.c
-index 9f8590b868a9..a2838c65f8a5 100644
---- a/drivers/gpu/drm/i915/selftests/igt_reset.c
-+++ b/drivers/gpu/drm/i915/selftests/igt_reset.c
-@@ -36,7 +36,7 @@ void igt_global_reset_unlock(struct intel_gt *gt)
- 	enum intel_engine_id id;
- 
- 	for_each_engine(engine, gt, id)
--		clear_bit(I915_RESET_ENGINE + id, &gt->reset.flags);
-+		clear_and_wake_up_bit(I915_RESET_ENGINE + id, &gt->reset.flags);
- 
- 	clear_bit(I915_RESET_BACKOFF, &gt->reset.flags);
- 	wake_up_all(&gt->reset.queue);
--- 
-2.31.1
+I also started discussion on patch 6 which is about defining the
+interface between the modules. I remember there is prior work to shrink
+the interface. Do you have links to such patches?
 
+The minimal we should do is to eliminate the double underscore
+prefixed functions. But I would prefer to have the symbol exports by
+default so that we can enable the functionality just by loading the
+module.
+
+Regards, Joonas
+
+Quoting Christoph Hellwig (2021-11-02 09:05:32)
+> Hi all,
+>=20
+> the GVT code in the i915 is a bit of a mess right now due to strange
+> abstractions and lots of indirect calls.  This series refactors various
+> bits to clean that up.  The main user visible change is that almost all
+> of the GVT code moves out of the main i915 driver and into the kvmgt
+> module.
+>=20
+> Tested on my Thinkpad with a Kaby Lake CPU and integrated graphics.
+>=20
+> Git tree:
+>=20
+>     git://git.infradead.org/users/hch/misc.git i915-gvt
+>=20
+> Gitweb:
+>=20
+>     http://git.infradead.org/users/hch/misc.git/shortlog/refs/heads/i915-=
+gvt
+>=20
+> Changes since v1:
+>  - rebased on Linux 5.15
+>  - allow the kvmgvt module to be loaded at any time and thus solve
+>    the deadlock when both i915 amd kvmgvt are modular
+>  - include the conversion to the modern mdev API
+>=20
+> Note that I do expect to rebased this again against 5.16-rc1 once
+> released, but I'd like to get this out for review ASAP.
+>=20
+> Diffstat:
+>  b/drivers/gpu/drm/i915/Kconfig          |   33=20
+>  b/drivers/gpu/drm/i915/Makefile         |   31=20
+>  b/drivers/gpu/drm/i915/gvt/cfg_space.c  |   89 --
+>  b/drivers/gpu/drm/i915/gvt/cmd_parser.c |    4=20
+>  b/drivers/gpu/drm/i915/gvt/dmabuf.c     |   36 -
+>  b/drivers/gpu/drm/i915/gvt/execlist.c   |   12=20
+>  b/drivers/gpu/drm/i915/gvt/gtt.c        |   55 +
+>  b/drivers/gpu/drm/i915/gvt/gvt.h        |  125 ++-
+>  b/drivers/gpu/drm/i915/gvt/interrupt.c  |   38 +
+>  b/drivers/gpu/drm/i915/gvt/kvmgt.c      | 1099 +++++++++++++++----------=
+-------
+>  b/drivers/gpu/drm/i915/gvt/mmio.c       |    4=20
+>  b/drivers/gpu/drm/i915/gvt/opregion.c   |  148 ----
+>  b/drivers/gpu/drm/i915/gvt/page_track.c |    8=20
+>  b/drivers/gpu/drm/i915/gvt/scheduler.c  |   37 -
+>  b/drivers/gpu/drm/i915/gvt/trace.h      |    2=20
+>  b/drivers/gpu/drm/i915/gvt/vgpu.c       |   22=20
+>  b/drivers/gpu/drm/i915/i915_drv.c       |    7=20
+>  b/drivers/gpu/drm/i915/i915_drv.h       |    1=20
+>  b/drivers/gpu/drm/i915/i915_trace.h     |    1=20
+>  b/drivers/gpu/drm/i915/intel_gvt.c      |  162 +++-
+>  b/drivers/gpu/drm/i915/intel_gvt.h      |   17=20
+>  drivers/gpu/drm/i915/gvt/Makefile       |    9=20
+>  drivers/gpu/drm/i915/gvt/gvt.c          |  340 ---------
+>  drivers/gpu/drm/i915/gvt/hypercall.h    |   82 --
+>  drivers/gpu/drm/i915/gvt/mpt.h          |  400 -----------
+>  25 files changed, 929 insertions(+), 1833 deletions(-)
