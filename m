@@ -2,53 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1851A445748
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Nov 2021 17:33:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EC8044576A
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Nov 2021 17:44:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 88E9972DE5;
-	Thu,  4 Nov 2021 16:33:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 79280732F2;
+	Thu,  4 Nov 2021 16:44:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A6E1472DE5
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Nov 2021 16:33:26 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 162FB732F2
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Nov 2021 16:44:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636043605;
+ s=mimecast20190719; t=1636044253;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=JgIlKKcyv1xuKr8/KIoOJvgCadSxABBEMfgI/LaHrJw=;
- b=VDzWzydLlMhrfPNUjITRV4wYI9QhXKJRSO+Fo2Cks5/L/7cGfBa77nSUaVID60GkLz7eLz
- YZK55JtPCXKXyUyG8nTFTIXIc5dT/uIQVht982MNyhmy7FE6WRqWNVKBsqTycNd8DiVKpl
- XVKAVVUZhlCVSjnBqTF952dqu41rM08=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-350-QRIk1CzFOx6ouBsqBfZ6UQ-1; Thu, 04 Nov 2021 12:33:24 -0400
-X-MC-Unique: QRIk1CzFOx6ouBsqBfZ6UQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C20BD19611C5
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Nov 2021 16:33:23 +0000 (UTC)
-Received: from hydra.redhat.com (unknown [10.39.193.214])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 17CF1100763D;
- Thu,  4 Nov 2021 16:33:22 +0000 (UTC)
-From: Jocelyn Falempe <jfalempe@redhat.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/fb-helper: Fix restore_fbdev when there are pending
- delayed hotplug
-Date: Thu,  4 Nov 2021 17:32:45 +0100
-Message-Id: <20211104163245.11070-1-jfalempe@redhat.com>
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=GBeSNSo+VR936LBuXFto2HVzfx/uW1FgtYIk1y3q3ig=;
+ b=CBVY3wAoy78upQNbKAT1HVlHDBpW4oEl0NbOHqlw8hz+XAM45IIsqMx9wT6FBTHERDHg6I
+ h207V7GgFIdF5o0vj424y1hfbUtdxmpIm3EE1+0uJwpm1eT+0mXEEd/T7hq/7E1t++v9zk
+ HkSLJ2SgiK0VMUli6JbyzWmnaRWXtWQ=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-38-qMVwtRYNOXKiXi7RXZfa5g-1; Thu, 04 Nov 2021 12:44:12 -0400
+X-MC-Unique: qMVwtRYNOXKiXi7RXZfa5g-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ c1-20020a05600c0ac100b00322fcaa2bc7so2776689wmr.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 04 Nov 2021 09:44:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=GBeSNSo+VR936LBuXFto2HVzfx/uW1FgtYIk1y3q3ig=;
+ b=ldursHxyGYPUYliBapAe3PB5KPAPYKIsdIboPqFXh9NtLtCkWxIhcFp/PcpWChnR8Q
+ c9hOrvC0BJrO4XuJtCLuGIfqz1m+3yG3sqbyD/yX2bMPcMKiZr84TzuxMAZ0LeZSw9rk
+ PylB6rXcYm8I+7locCtBIQNYZwhyIGRrF41slNXLZcUUle8BlyW2V38sl1rvLkgNd6vr
+ dzXQvayld2C76yH+dsG11opNrhJVsSI197UsEqwCn+UERczNUZOBfB4Fubs2Cp/fBrXv
+ Dq71ZMwaSFVeKjnnlvqGtzwJpFrvU6sHHAHplNvvMFbGs0owFoHxSb8aWc0evFszE+vL
+ JS0Q==
+X-Gm-Message-State: AOAM533liUwj4Lghk+qWYuQWNgpmNXmzY4tDjrNJoZI7T4kfKGmXWJmw
+ lLHJ//v5o1bx7/ARbGx1JH0L58LV2SUoT5hg0GongUWDAy/QYvRFBXhmAyv/hNdj6XHv0UltcDE
+ Yd/dIctMiCYX0rg58zV+pl7cDkf7A
+X-Received: by 2002:a5d:4e52:: with SMTP id r18mr39525111wrt.224.1636044250775; 
+ Thu, 04 Nov 2021 09:44:10 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwnATpWRYfiqKo492+/czqTIzFCv7HIX437cz1EV9eI7R7UChO4l+utit2RLduHTmaqMKEFNQ==
+X-Received: by 2002:a5d:4e52:: with SMTP id r18mr39525075wrt.224.1636044250590; 
+ Thu, 04 Nov 2021 09:44:10 -0700 (PDT)
+Received: from [192.168.1.128] ([92.176.231.106])
+ by smtp.gmail.com with ESMTPSA id o4sm6636216wry.80.2021.11.04.09.44.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 04 Nov 2021 09:44:10 -0700 (PDT)
+Message-ID: <3ff9fe95-9bc7-a043-78c6-d52d0ff02e23@redhat.com>
+Date: Thu, 4 Nov 2021 17:44:08 +0100
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v2 1/2] drm: Add a drm_drv_enabled() to check if drivers
+ should be enabled
+To: Jani Nikula <jani.nikula@linux.intel.com>, linux-kernel@vger.kernel.org
+References: <20211104160707.1407052-1-javierm@redhat.com>
+ <20211104160707.1407052-2-javierm@redhat.com> <87zgqjanz2.fsf@intel.com>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <87zgqjanz2.fsf@intel.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jfalempe@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,132 +85,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jocelyn Falempe <jfalempe@redhat.com>
+Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, Gurchetan Singh <gurchetansingh@chromium.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, amd-gfx@lists.freedesktop.org,
+ VMware Graphics <linux-graphics-maintainer@vmware.com>,
+ Peter Robinson <pbrobinson@gmail.com>, nouveau@lists.freedesktop.org,
+ Dave Airlie <airlied@redhat.com>, Ben Skeggs <bskeggs@redhat.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>,
+ Hans de Goede <hdegoede@redhat.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ virtualization@lists.linux-foundation.org,
+ Pekka Paalanen <pekka.paalanen@collabora.com>, "Pan,
+ Xinhui" <Xinhui.Pan@amd.com>, spice-devel@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>, intel-gfx@lists.freedesktop.org,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When using Xorg/Logind and an external monitor connected with an MST dock.
-After disconnecting the external monitor, switching to VT may not work,
-the (internal) monitor sill display Xorg, and you can't see what you are
-typing in the VT.
+On 11/4/21 17:24, Jani Nikula wrote:
 
-This is related to commit e2809c7db818df6bbd0edf843e1beb2fbc9d8541 which
-introduced delayed hotplug for MST, and commit
-dc5bdb68b5b369d5bc7d1de96fa64cc1737a6320 which introduced a workaround for
-Xorg and logind, and add a force parameter to
-__drm_fb_helper_restore_fbdev_mode_unlocked() in this case.
+[snip]
 
-When switching to VT, with Xorg and logind, if there
-are pending hotplug event (like MST unplugged), the hotplug path
-may not be fulfilled, because logind may drop the master a bit later.
-It leads to the console not showing up on the monitor.
+>> index ab2295dd4500..45cb3e540eff 100644
+>> --- a/drivers/gpu/drm/i915/i915_module.c
+>> +++ b/drivers/gpu/drm/i915/i915_module.c
+>> @@ -18,9 +18,12 @@
+>>  #include "i915_selftest.h"
+>>  #include "i915_vma.h"
+>>  
+>> +static const struct drm_driver driver;
+>> +
+> 
+> No, this makes absolutely no sense, and will also oops on nomodeset.
+>
 
-So in this case, forward the "force" parameter to the hotplug event,
-and ignore if there is a drm master in this case.
-
-Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
----
- drivers/gpu/drm/drm_fb_helper.c | 66 ++++++++++++++++++---------------
- 1 file changed, 36 insertions(+), 30 deletions(-)
-
-diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
-index 8e7a124d6c5a..c07080f661b1 100644
---- a/drivers/gpu/drm/drm_fb_helper.c
-+++ b/drivers/gpu/drm/drm_fb_helper.c
-@@ -82,6 +82,8 @@ MODULE_PARM_DESC(drm_leak_fbdev_smem,
- static LIST_HEAD(kernel_fb_helper_list);
- static DEFINE_MUTEX(kernel_fb_helper_lock);
+Ups, sorry about that. For some reason I thought that it was defined in
+the same compilation unit, but I noticed now that it is in i915_drv.c.
  
-+static int __drm_fb_helper_hotplug_event(struct drm_fb_helper *fb_helper, bool force);
-+
- /**
-  * DOC: fbdev helpers
-  *
-@@ -258,7 +260,7 @@ __drm_fb_helper_restore_fbdev_mode_unlocked(struct drm_fb_helper *fb_helper,
- 	mutex_unlock(&fb_helper->lock);
- 
- 	if (do_delayed)
--		drm_fb_helper_hotplug_event(fb_helper);
-+		__drm_fb_helper_hotplug_event(fb_helper, force);
- 
- 	return ret;
- }
-@@ -1930,6 +1932,38 @@ int drm_fb_helper_initial_config(struct drm_fb_helper *fb_helper, int bpp_sel)
- }
- EXPORT_SYMBOL(drm_fb_helper_initial_config);
- 
-+static int __drm_fb_helper_hotplug_event(struct drm_fb_helper *fb_helper, bool force)
-+{
-+	int err = 0;
-+
-+	if (!drm_fbdev_emulation || !fb_helper)
-+		return 0;
-+
-+	mutex_lock(&fb_helper->lock);
-+	if (fb_helper->deferred_setup) {
-+		err = __drm_fb_helper_initial_config_and_unlock(fb_helper,
-+				fb_helper->preferred_bpp);
-+		return err;
-+	}
-+	if (!force) {
-+		if (!fb_helper->fb || !drm_master_internal_acquire(fb_helper->dev)) {
-+			fb_helper->delayed_hotplug = true;
-+			mutex_unlock(&fb_helper->lock);
-+			return err;
-+		}
-+		drm_master_internal_release(fb_helper->dev);
-+	}
-+	drm_dbg_kms(fb_helper->dev, "\n");
-+
-+	drm_client_modeset_probe(&fb_helper->client, fb_helper->fb->width, fb_helper->fb->height);
-+	drm_setup_crtcs_fb(fb_helper);
-+	mutex_unlock(&fb_helper->lock);
-+
-+	drm_fb_helper_set_par(fb_helper->fbdev);
-+
-+	return 0;
-+}
-+
- /**
-  * drm_fb_helper_hotplug_event - respond to a hotplug notification by
-  *                               probing all the outputs attached to the fb
-@@ -1953,35 +1987,7 @@ EXPORT_SYMBOL(drm_fb_helper_initial_config);
-  */
- int drm_fb_helper_hotplug_event(struct drm_fb_helper *fb_helper)
- {
--	int err = 0;
--
--	if (!drm_fbdev_emulation || !fb_helper)
--		return 0;
--
--	mutex_lock(&fb_helper->lock);
--	if (fb_helper->deferred_setup) {
--		err = __drm_fb_helper_initial_config_and_unlock(fb_helper,
--				fb_helper->preferred_bpp);
--		return err;
--	}
--
--	if (!fb_helper->fb || !drm_master_internal_acquire(fb_helper->dev)) {
--		fb_helper->delayed_hotplug = true;
--		mutex_unlock(&fb_helper->lock);
--		return err;
--	}
--
--	drm_master_internal_release(fb_helper->dev);
--
--	drm_dbg_kms(fb_helper->dev, "\n");
--
--	drm_client_modeset_probe(&fb_helper->client, fb_helper->fb->width, fb_helper->fb->height);
--	drm_setup_crtcs_fb(fb_helper);
--	mutex_unlock(&fb_helper->lock);
--
--	drm_fb_helper_set_par(fb_helper->fbdev);
--
--	return 0;
-+	return __drm_fb_helper_hotplug_event(fb_helper, false);
- }
- EXPORT_SYMBOL(drm_fb_helper_hotplug_event);
- 
+> BR,
+> Jani.
+> 
+Best regards,
 -- 
-2.33.1
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
 
