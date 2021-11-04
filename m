@@ -1,39 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B5CC445203
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Nov 2021 12:10:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CECE244528A
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Nov 2021 12:52:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC01E6E8AE;
-	Thu,  4 Nov 2021 11:10:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D43126E110;
+	Thu,  4 Nov 2021 11:52:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E87F6E887
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Nov 2021 11:10:55 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10157"; a="211735595"
-X-IronPort-AV: E=Sophos;i="5.87,208,1631602800"; d="scan'208";a="211735595"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Nov 2021 04:10:53 -0700
-X-IronPort-AV: E=Sophos;i="5.87,208,1631602800"; d="scan'208";a="501504405"
-Received: from mihaelac-mobl.ger.corp.intel.com (HELO localhost)
- ([10.249.32.21])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Nov 2021 04:10:50 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>,
- Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org
-Subject: Re: [RESEND PATCH 4/5] drm: Add a drm_drv_enabled() helper function
-In-Reply-To: <54aedf5a-34b1-15f6-47f1-39815b3832ae@suse.de>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20211103123206.1041442-1-javierm@redhat.com>
- <87o871bbmb.fsf@intel.com> <54aedf5a-34b1-15f6-47f1-39815b3832ae@suse.de>
-Date: Thu, 04 Nov 2021 13:10:48 +0200
-Message-ID: <87bl30b2h3.fsf@intel.com>
+Received: from mail-qk1-x72a.google.com (mail-qk1-x72a.google.com
+ [IPv6:2607:f8b0:4864:20::72a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 591A66E110
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Nov 2021 11:52:36 +0000 (UTC)
+Received: by mail-qk1-x72a.google.com with SMTP id r8so5341069qkp.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 04 Nov 2021 04:52:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=iEj6bCr3w4Ms+m1RU60Hcm+FAOJ4d8yd2N73VNFTfd0=;
+ b=mrQ6Of4s3v6Ccg2apzzdjspvbk4NPScYzDtabmQaAxEJC4iNw07qwda1qNANqY7KAP
+ 190e52AZEmBu6AEgJ3Z+CjLLNUkXu165GhxjZYEhrA0YQXcs82bQTLA9EaC+h0W5BkKi
+ gxvo+nAxW+5GydXQjsDCm9VWwaPlx+VHVBW5AAKLyutWREknBPPCwjM8g8qIYvVTJzNr
+ CdUdoGuZZtLKhoXvxZsDrG4DJsq4sCGMrlP2y0/jJF0G2xHl7sSUs2995xWilz7vf2EP
+ tglOuG4jFfnp4TxHjnxUeFZbm6HzBSJXjMjhvh/E5+o610CgLRAwB8U+3LBFz7lvdKtt
+ 64Cg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=iEj6bCr3w4Ms+m1RU60Hcm+FAOJ4d8yd2N73VNFTfd0=;
+ b=7wjcMe74ZnTzZq2VrMFoy1cCrFeeQXfp6qf1Y/E3jbuRdV5segIo9Uckn9RJnxSBo3
+ kQF0vsO2mxhbKkFcr1Vfn7n8hTuSFT4qw7eJ+zHmMxXcMbZOwFfIzyDCp8YMIbz4ZZQx
+ bTElHj+Ui9L2zrU89And4FRqvTtF4e7bune+Z2R/cHHmjxQPcdxpsIhqL0omcccuH3MD
+ B5lL6tvwtykm8YZUq4wCCcI+kCOjPhhNe/FetM9GRqMDUXcJYF1bOwoh4PBLA/canXlX
+ 3VaUEvVo6iIW+PP0V4zMCpCSexpCZS87jXCpiC9KRC2b6tipa3M7vcN+yGJmVMUn/EIr
+ 25TQ==
+X-Gm-Message-State: AOAM533wDjw8Y76cLmCI3wcZavqICrrmzJsDN5o6wq1fNh4Od7+UIkUv
+ iqWTRGwpnRrM67N/LVHHQRI=
+X-Google-Smtp-Source: ABdhPJwNewhxjYRmZA4neTjQcNtlBxYfKrJlI3qVWNpGxig3My1dBO3r00nsSgxuR5nIx8p0PRZhSA==
+X-Received: by 2002:a05:620a:4411:: with SMTP id
+ v17mr39322514qkp.431.1636026755561; 
+ Thu, 04 Nov 2021 04:52:35 -0700 (PDT)
+Received: from localhost.localdomain ([193.203.214.57])
+ by smtp.gmail.com with ESMTPSA id o20sm3532718qkp.100.2021.11.04.04.52.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 04 Nov 2021 04:52:35 -0700 (PDT)
+From: cgel.zte@gmail.com
+X-Google-Original-From: yao.jing2@zte.com.cn
+To: bernie@plugable.com
+Subject: [PATCH] video: udlfb: replace snprintf in show functions with
+ sysfs_emit
+Date: Thu,  4 Nov 2021 11:52:29 +0000
+Message-Id: <20211104115229.31821-1-yao.jing2@zte.com.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,107 +68,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Pekka Paalanen <pekka.paalanen@collabora.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Michel =?utf-8?Q?D=C3=A4nzer?= <michel@daenzer.net>,
- dri-devel@lists.freedesktop.org, Peter Robinson <pbrobinson@gmail.com>,
- Neal Gompa <ngompa13@gmail.com>
+Cc: linux-fbdev@vger.kernel.org, Jing Yao <yao.jing2@zte.com.cn>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Zeal Robot <zealci@zte.com.cn>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 03 Nov 2021, Thomas Zimmermann <tzimmermann@suse.de> wrote:
-> Hi
->
-> Am 03.11.21 um 14:41 schrieb Jani Nikula:
->> On Wed, 03 Nov 2021, Javier Martinez Canillas <javierm@redhat.com> wrote:
->>> DRM drivers can use this to determine whether they can be enabled or not.
->>>
->>> For now it's just a wrapper around drm_modeset_disabled() but having the
->>> indirection level will allow to add other conditions besides "nomodeset".
->>>
->>> Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
->>> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
->> 
->> Can't see i915 trivially using this due to the drm_driver
->> parameter. Please let's not merge helpers like this without actual
->> users.
->
-> Can you explain?
->
-> This would be called on the top of the PCI probe function. The parameter 
-> would allow to decide on a per-driver base (e.g., to ignore generic 
-> drivers).
+From: Jing Yao <yao.jing2@zte.com.cn>
 
-Where and how exactly? This is why we need to see the patch using the
-function. A patch is worth a thousand words. ;)
+coccicheck complains about the use of snprintf() in sysfs show
+functions:
+WARNING use scnprintf or sprintf
 
-See current vgacon_text_force() usage in i915/i915_module.c. It happens
-way before anything related to pci or drm driver. Why bother with the
-complicated setup and teardown of stuff if you can bail out earlier?
+Use sysfs_emit instead of scnprintf, snprintf or sprintf makes more
+sense.
 
+Reported-by: Zeal Robot <zealci@zte.com.cn>
+Signed-off-by: Jing Yao <yao.jing2@zte.com.cn>
+---
+ drivers/video/fbdev/udlfb.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-BR,
-Jani.
-
->
-> Best regards
-> Thomas
->
->> 
->> BR,
->> Jani.
->> 
->> 
->>> ---
->>>
->>>   drivers/gpu/drm/drm_drv.c | 21 +++++++++++++++++++++
->>>   include/drm/drm_drv.h     |  1 +
->>>   2 files changed, 22 insertions(+)
->>>
->>> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
->>> index 8214a0b1ab7f..70ef08941e06 100644
->>> --- a/drivers/gpu/drm/drm_drv.c
->>> +++ b/drivers/gpu/drm/drm_drv.c
->>> @@ -975,6 +975,27 @@ int drm_dev_set_unique(struct drm_device *dev, const char *name)
->>>   }
->>>   EXPORT_SYMBOL(drm_dev_set_unique);
->>>   
->>> +/**
->>> + * drm_drv_enabled - Checks if a DRM driver can be enabled
->>> + * @driver: DRM driver to check
->>> + *
->>> + * Checks whether a DRM driver can be enabled or not. This may be the case
->>> + * if the "nomodeset" kernel command line parameter is used.
->>> + *
->>> + * Returns:
->>> + * True if the DRM driver is enabled and false otherwise.
->>> + */
->>> +bool drm_drv_enabled(const struct drm_driver *driver)
->>> +{
->>> +	if (drm_modeset_disabled()) {
->>> +		DRM_INFO("%s driver is disabled\n", driver->name);
->>> +		return false;
->>> +	}
->>> +
->>> +	return true;
->>> +}
->>> +EXPORT_SYMBOL(drm_drv_enabled);
->>> +
->>>   /*
->>>    * DRM Core
->>>    * The DRM core module initializes all global DRM objects and makes them
->>> diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
->>> index 0cd95953cdf5..48f2b6eec012 100644
->>> --- a/include/drm/drm_drv.h
->>> +++ b/include/drm/drm_drv.h
->>> @@ -598,5 +598,6 @@ static inline bool drm_drv_uses_atomic_modeset(struct drm_device *dev)
->>>   
->>>   int drm_dev_set_unique(struct drm_device *dev, const char *name);
->>>   
->>> +bool drm_drv_enabled(const struct drm_driver *driver);
->>>   
->>>   #endif
->> 
-
+diff --git a/drivers/video/fbdev/udlfb.c b/drivers/video/fbdev/udlfb.c
+index b9cdd02c1000..90f48b71fd8f 100644
+--- a/drivers/video/fbdev/udlfb.c
++++ b/drivers/video/fbdev/udlfb.c
+@@ -1426,7 +1426,7 @@ static ssize_t metrics_bytes_rendered_show(struct device *fbdev,
+ 				   struct device_attribute *a, char *buf) {
+ 	struct fb_info *fb_info = dev_get_drvdata(fbdev);
+ 	struct dlfb_data *dlfb = fb_info->par;
+-	return snprintf(buf, PAGE_SIZE, "%u\n",
++	return sysfs_emit(buf, "%u\n",
+ 			atomic_read(&dlfb->bytes_rendered));
+ }
+ 
+@@ -1434,7 +1434,7 @@ static ssize_t metrics_bytes_identical_show(struct device *fbdev,
+ 				   struct device_attribute *a, char *buf) {
+ 	struct fb_info *fb_info = dev_get_drvdata(fbdev);
+ 	struct dlfb_data *dlfb = fb_info->par;
+-	return snprintf(buf, PAGE_SIZE, "%u\n",
++	return sysfs_emit(buf, "%u\n",
+ 			atomic_read(&dlfb->bytes_identical));
+ }
+ 
+@@ -1442,7 +1442,7 @@ static ssize_t metrics_bytes_sent_show(struct device *fbdev,
+ 				   struct device_attribute *a, char *buf) {
+ 	struct fb_info *fb_info = dev_get_drvdata(fbdev);
+ 	struct dlfb_data *dlfb = fb_info->par;
+-	return snprintf(buf, PAGE_SIZE, "%u\n",
++	return sysfs_emit(buf, "%u\n",
+ 			atomic_read(&dlfb->bytes_sent));
+ }
+ 
+@@ -1450,7 +1450,7 @@ static ssize_t metrics_cpu_kcycles_used_show(struct device *fbdev,
+ 				   struct device_attribute *a, char *buf) {
+ 	struct fb_info *fb_info = dev_get_drvdata(fbdev);
+ 	struct dlfb_data *dlfb = fb_info->par;
+-	return snprintf(buf, PAGE_SIZE, "%u\n",
++	return sysfs_emit(buf, "%u\n",
+ 			atomic_read(&dlfb->cpu_kcycles_used));
+ }
+ 
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+2.25.1
+
