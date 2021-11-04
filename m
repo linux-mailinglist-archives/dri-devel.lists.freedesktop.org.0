@@ -2,41 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB7114458C4
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Nov 2021 18:37:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03090445901
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Nov 2021 18:52:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE86D736B7;
-	Thu,  4 Nov 2021 17:37:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C549F6F98E;
+	Thu,  4 Nov 2021 17:52:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.smtp.larsendata.com (mx2.smtp.larsendata.com
- [91.221.196.228])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD2AA736B7
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Nov 2021 17:37:49 +0000 (UTC)
-Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
- by mx2.smtp.larsendata.com (Halon) with ESMTPS
- id f930fe11-3d95-11ec-ac3c-0050568cd888;
- Thu, 04 Nov 2021 17:38:08 +0000 (UTC)
-Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
- [80.162.45.141])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: sam@ravnborg.org)
- by mail01.mxhotel.dk (Postfix) with ESMTPSA id 0354C194B43;
- Thu,  4 Nov 2021 18:37:40 +0100 (CET)
-Date: Thu, 4 Nov 2021 18:37:38 +0100
-X-Report-Abuse-To: abuse@mxhotel.dk
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Javier Martinez Canillas <javierm@redhat.com>
-Subject: Re: [PATCH v2 1/2] drm: Add a drm_drv_enabled() to check if drivers
- should be enabled
-Message-ID: <YYQaYsCr+piMlRpS@ravnborg.org>
-References: <20211104160707.1407052-1-javierm@redhat.com>
- <20211104160707.1407052-2-javierm@redhat.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E1D76F98E;
+ Thu,  4 Nov 2021 17:52:26 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10158"; a="231707784"
+X-IronPort-AV: E=Sophos;i="5.87,209,1631602800"; d="scan'208";a="231707784"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Nov 2021 10:52:25 -0700
+X-IronPort-AV: E=Sophos;i="5.87,209,1631602800"; d="scan'208";a="501632247"
+Received: from mihaelac-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.249.32.21])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Nov 2021 10:52:21 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Mark Yacoub <markyacoub@chromium.org>
+Subject: Re: [PATCH v4 1/3] drm: Move drm_color_lut_check implementation
+ internal to intel_color
+In-Reply-To: <20211104165046.4115042-1-markyacoub@chromium.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20211104165046.4115042-1-markyacoub@chromium.org>
+Date: Thu, 04 Nov 2021 19:52:18 +0200
+Message-ID: <87tugrajvx.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211104160707.1407052-2-javierm@redhat.com>
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,112 +45,300 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- dri-devel@lists.freedesktop.org, Gurchetan Singh <gurchetansingh@chromium.org>,
- Gerd Hoffmann <kraxel@redhat.com>, amd-gfx@lists.freedesktop.org,
- VMware Graphics <linux-graphics-maintainer@vmware.com>,
- Ben Skeggs <bskeggs@redhat.com>, nouveau@lists.freedesktop.org,
- Dave Airlie <airlied@redhat.com>, intel-gfx@lists.freedesktop.org,
- Peter Robinson <pbrobinson@gmail.com>,
- Michel =?iso-8859-1?Q?D=E4nzer?= <michel@daenzer.net>,
- Hans de Goede <hdegoede@redhat.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- virtualization@lists.linux-foundation.org,
- Pekka Paalanen <pekka.paalanen@collabora.com>, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
- spice-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Alex Deucher <alexander.deucher@amd.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: pmenzel@molgen.mpg.de, David Airlie <airlied@linux.ie>,
+ Mark Yacoub <markyacoub@chromium.org>, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, seanpaul@chromium.org,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Mark Yacoub <markyacoub@google.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Javier,
-
-On Thu, Nov 04, 2021 at 05:07:06PM +0100, Javier Martinez Canillas wrote:
-> Some DRM drivers check the vgacon_text_force() function return value as an
-> indication on whether they should be allowed to be enabled or not.
-> 
-> This function returns true if the nomodeset kernel command line parameter
-> was set. But there may be other conditions besides this to determine if a
-> driver should be enabled.
-> 
-> Let's add a drm_drv_enabled() helper function to encapsulate that logic so
-> can be later extended if needed, without having to modify all the drivers.
-> 
-> Also, while being there do some cleanup. The vgacon_text_force() function
-> is guarded by CONFIG_VGA_CONSOLE and there's no need for callers to do it.
-> 
-> Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+On Thu, 04 Nov 2021, Mark Yacoub <markyacoub@chromium.org> wrote:
+> From: Mark Yacoub <markyacoub@google.com>
+>
+> [Why]
+> The tests of LUT_EQUAL_CHANNELS and LUT_NON_DECREASING are currently
+> unique to i915 driver.
+> Freeing up the function name for the more generic LUT checks to folllow
+>
+> Tested on Eldrid ChromeOS (TGL).
+>
+> v1:
+> Stuff the test function from DRM to intel driver.
+>
+> Signed-off-by: Mark Yacoub <markyacoub@chromium.org>
 > ---
-> 
-> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
-> index 8214a0b1ab7f..3fb567d62881 100644
-> --- a/drivers/gpu/drm/drm_drv.c
-> +++ b/drivers/gpu/drm/drm_drv.c
-> @@ -975,6 +975,26 @@ int drm_dev_set_unique(struct drm_device *dev, const char *name)
+>  drivers/gpu/drm/drm_color_mgmt.c           | 43 ----------------------
+>  drivers/gpu/drm/i915/display/intel_color.c | 43 +++++++++++++++++++---
+>  drivers/gpu/drm/i915/display/intel_color.h | 27 ++++++++++++++
+>  drivers/gpu/drm/i915/i915_pci.c            | 27 ++++++++------
+>  include/drm/drm_color_mgmt.h               | 27 --------------
+>  5 files changed, 81 insertions(+), 86 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/drm_color_mgmt.c b/drivers/gpu/drm/drm_color_mgmt.c
+> index bb14f488c8f6c..16a07f84948f3 100644
+> --- a/drivers/gpu/drm/drm_color_mgmt.c
+> +++ b/drivers/gpu/drm/drm_color_mgmt.c
+> @@ -583,46 +583,3 @@ int drm_plane_create_color_properties(struct drm_plane *plane,
+>  	return 0;
 >  }
->  EXPORT_SYMBOL(drm_dev_set_unique);
+>  EXPORT_SYMBOL(drm_plane_create_color_properties);
+> -
+> -/**
+> - * drm_color_lut_check - check validity of lookup table
+> - * @lut: property blob containing LUT to check
+> - * @tests: bitmask of tests to run
+> - *
+> - * Helper to check whether a userspace-provided lookup table is valid and
+> - * satisfies hardware requirements.  Drivers pass a bitmask indicating which of
+> - * the tests in &drm_color_lut_tests should be performed.
+> - *
+> - * Returns 0 on success, -EINVAL on failure.
+> - */
+> -int drm_color_lut_check(const struct drm_property_blob *lut, u32 tests)
+> -{
+> -	const struct drm_color_lut *entry;
+> -	int i;
+> -
+> -	if (!lut || !tests)
+> -		return 0;
+> -
+> -	entry = lut->data;
+> -	for (i = 0; i < drm_color_lut_size(lut); i++) {
+> -		if (tests & DRM_COLOR_LUT_EQUAL_CHANNELS) {
+> -			if (entry[i].red != entry[i].blue ||
+> -			    entry[i].red != entry[i].green) {
+> -				DRM_DEBUG_KMS("All LUT entries must have equal r/g/b\n");
+> -				return -EINVAL;
+> -			}
+> -		}
+> -
+> -		if (i > 0 && tests & DRM_COLOR_LUT_NON_DECREASING) {
+> -			if (entry[i].red < entry[i - 1].red ||
+> -			    entry[i].green < entry[i - 1].green ||
+> -			    entry[i].blue < entry[i - 1].blue) {
+> -				DRM_DEBUG_KMS("LUT entries must never decrease.\n");
+> -				return -EINVAL;
+> -			}
+> -		}
+> -	}
+> -
+> -	return 0;
+> -}
+> -EXPORT_SYMBOL(drm_color_lut_check);
+> diff --git a/drivers/gpu/drm/i915/display/intel_color.c b/drivers/gpu/drm/i915/display/intel_color.c
+> index dab892d2251ba..bde98a155c9f3 100644
+> --- a/drivers/gpu/drm/i915/display/intel_color.c
+> +++ b/drivers/gpu/drm/i915/display/intel_color.c
+> @@ -1279,13 +1279,46 @@ static int check_lut_size(const struct drm_property_blob *lut, int expected)
+>  	return 0;
+>  }
 >  
-> +/**
-> + * drm_drv_enabled - Checks if a DRM driver can be enabled
-> + * @driver: DRM driver to check
-> + *
-> + * Checks whether a DRM driver can be enabled or not. This may be the case
-> + * if the "nomodeset" kernel command line parameter is used.
-> + *
-> + * Return: 0 on success or a negative error code on failure.
-> + */
-> +int drm_drv_enabled(const struct drm_driver *driver)
+> +static int test_luts(const struct drm_property_blob *lut, u32 tests)
 > +{
-> +	if (vgacon_text_force()) {
-> +		DRM_INFO("%s driver is disabled\n", driver->name);
-
-DRM_INFO is deprecated, please do not use it in new code.
-Also other users had an error message and not just info - is info
-enough?
-
-
-> +		return -ENODEV;
+> +	const struct drm_color_lut *entry;
+> +	int i;
+> +
+> +	if (!lut || !tests)
+> +		return 0;
+> +
+> +	entry = lut->data;
+> +	for (i = 0; i < drm_color_lut_size(lut); i++) {
+> +		if (tests & LUT_EQUAL_CHANNELS) {
+> +			if (entry[i].red != entry[i].blue ||
+> +			    entry[i].red != entry[i].green) {
+> +				DRM_DEBUG_KMS(
+> +					"All LUT entries must have equal r/g/b\n");
+> +				return -EINVAL;
+> +			}
+> +		}
+> +
+> +		if (i > 0 && tests & LUT_NON_DECREASING) {
+> +			if (entry[i].red < entry[i - 1].red ||
+> +			    entry[i].green < entry[i - 1].green ||
+> +			    entry[i].blue < entry[i - 1].blue) {
+> +				DRM_DEBUG_KMS(
+> +					"LUT entries must never decrease.\n");
+> +				return -EINVAL;
+> +			}
+> +		}
 > +	}
 > +
 > +	return 0;
 > +}
-> +EXPORT_SYMBOL(drm_drv_enabled);
 > +
->  /*
->   * DRM Core
->   * The DRM core module initializes all global DRM objects and makes them
-> diff --git a/drivers/gpu/drm/i915/i915_module.c b/drivers/gpu/drm/i915/i915_module.c
-> index ab2295dd4500..45cb3e540eff 100644
-> --- a/drivers/gpu/drm/i915/i915_module.c
-> +++ b/drivers/gpu/drm/i915/i915_module.c
-> @@ -18,9 +18,12 @@
->  #include "i915_selftest.h"
->  #include "i915_vma.h"
->  
-> +static const struct drm_driver driver;
-Hmmm...
-
-> +
->  static int i915_check_nomodeset(void)
+>  static int check_luts(const struct intel_crtc_state *crtc_state)
 >  {
->  	bool use_kms = true;
-> +	int ret;
+>  	struct drm_i915_private *dev_priv = to_i915(crtc_state->uapi.crtc->dev);
+>  	const struct drm_property_blob *gamma_lut = crtc_state->hw.gamma_lut;
+>  	const struct drm_property_blob *degamma_lut = crtc_state->hw.degamma_lut;
+>  	int gamma_length, degamma_length;
+> -	u32 gamma_tests, degamma_tests;
+> +	u32 gamma_channels_tests, degamma_channels_tests;
 >  
->  	/*
->  	 * Enable KMS by default, unless explicitly overriden by
-> @@ -31,7 +34,8 @@ static int i915_check_nomodeset(void)
->  	if (i915_modparams.modeset == 0)
->  		use_kms = false;
+>  	/* Always allow legacy gamma LUT with no further checking. */
+>  	if (crtc_state_is_legacy_gamma(crtc_state))
+> @@ -1300,15 +1333,15 @@ static int check_luts(const struct intel_crtc_state *crtc_state)
 >  
-> -	if (vgacon_text_force() && i915_modparams.modeset == -1)
-> +	ret = drm_drv_enabled(&driver);
+>  	degamma_length = INTEL_INFO(dev_priv)->color.degamma_lut_size;
+>  	gamma_length = INTEL_INFO(dev_priv)->color.gamma_lut_size;
+> -	degamma_tests = INTEL_INFO(dev_priv)->color.degamma_lut_tests;
+> -	gamma_tests = INTEL_INFO(dev_priv)->color.gamma_lut_tests;
+> +	degamma_channels_tests = INTEL_INFO(dev_priv)->color.degamma_lut_tests;
+> +	gamma_channels_tests = INTEL_INFO(dev_priv)->color.gamma_lut_tests;
+>  
+>  	if (check_lut_size(degamma_lut, degamma_length) ||
+>  	    check_lut_size(gamma_lut, gamma_length))
+>  		return -EINVAL;
+>  
+> -	if (drm_color_lut_check(degamma_lut, degamma_tests) ||
+> -	    drm_color_lut_check(gamma_lut, gamma_tests))
+> +	if (test_luts(degamma_lut, degamma_channels_tests) ||
+> +	    test_luts(gamma_lut, gamma_channels_tests))
+>  		return -EINVAL;
+>  
+>  	return 0;
+> diff --git a/drivers/gpu/drm/i915/display/intel_color.h b/drivers/gpu/drm/i915/display/intel_color.h
+> index 173727aaa24d2..621f8f2c95467 100644
+> --- a/drivers/gpu/drm/i915/display/intel_color.h
+> +++ b/drivers/gpu/drm/i915/display/intel_color.h
+> @@ -7,11 +7,38 @@
+>  #define __INTEL_COLOR_H__
+>  
+>  #include <linux/types.h>
+> +#include <linux/bits.h>
+>  
+>  struct intel_crtc_state;
+>  struct intel_crtc;
+>  struct drm_property_blob;
+>  
+> +/**
+> + * enum lut_channels_tests - hw-specific LUT tests to perform
+> + *
+> + * The test_luts() function takes a bitmask of the values here to
+> + * determine which tests to apply to a userspace-provided LUT.
+> + */
+> +enum lut_channels_tests {
+> +	/**
+> +	 * @LUT_EQUAL_CHANNELS:
+> +	 *
+> +	 * Checks whether the entries of a LUT all have equal values for the
+> +	 * red, green, and blue channels.  Intended for hardware that only
+> +	 * accepts a single value per LUT entry and assumes that value applies
+> +	 * to all three color components.
+> +	 */
+> +	LUT_EQUAL_CHANNELS = BIT(0),
+> +
+> +	/**
+> +	 * @LUT_NON_DECREASING:
+> +	 *
+> +	 * Checks whether the entries of a LUT are always flat or increasing
+> +	 * (never decreasing).
+> +	 */
+> +	LUT_NON_DECREASING = BIT(1),
+> +};
 
-You pass the local driver variable here - which looks wrong as this is
-not the same as the driver variable declared in another file.
+IMO using enums for defining bits is semantically wrong. These are not
+enumerations. The enum as a type is not used for anything. I'd just make
+these macros.
 
-Maybe move the check to new function you can add to init_funcs,
-and locate the new function in i915_drv - so it has access to driver?
+Everything defined here should be prefixed intel_color_ or INTEL_COLOR_.
+
+BR,
+Jani.
 
 
-	Sam
+> +
+>  void intel_color_init(struct intel_crtc *crtc);
+>  int intel_color_check(struct intel_crtc_state *crtc_state);
+>  void intel_color_commit(const struct intel_crtc_state *crtc_state);
+> diff --git a/drivers/gpu/drm/i915/i915_pci.c b/drivers/gpu/drm/i915/i915_pci.c
+> index 5e8348f506b8d..17798cfc13eb4 100644
+> --- a/drivers/gpu/drm/i915/i915_pci.c
+> +++ b/drivers/gpu/drm/i915/i915_pci.c
+> @@ -29,6 +29,7 @@
+>  #include <drm/i915_pciids.h>
+>  
+>  #include "display/intel_fbdev.h"
+> +#include "display/intel_color.h"
+>  
+>  #include "i915_drv.h"
+>  #include "i915_perf.h"
+> @@ -132,23 +133,27 @@
+>  
+>  #define I9XX_COLORS \
+>  	.color = { .gamma_lut_size = 256 }
+> -#define I965_COLORS \
+> -	.color = { .gamma_lut_size = 129, \
+> -		   .gamma_lut_tests = DRM_COLOR_LUT_NON_DECREASING, \
+> +#define I965_COLORS                                                            \
+> +	.color = {                                                             \
+> +		.gamma_lut_size = 129,                                         \
+> +		.gamma_lut_tests = LUT_NON_DECREASING,                         \
+>  	}
+>  #define ILK_COLORS \
+>  	.color = { .gamma_lut_size = 1024 }
+>  #define IVB_COLORS \
+>  	.color = { .degamma_lut_size = 1024, .gamma_lut_size = 1024 }
+> -#define CHV_COLORS \
+> -	.color = { .degamma_lut_size = 65, .gamma_lut_size = 257, \
+> -		   .degamma_lut_tests = DRM_COLOR_LUT_NON_DECREASING, \
+> -		   .gamma_lut_tests = DRM_COLOR_LUT_NON_DECREASING, \
+> +#define CHV_COLORS                                                             \
+> +	.color = {                                                             \
+> +		.degamma_lut_size = 65,                                        \
+> +		.gamma_lut_size = 257,                                         \
+> +		.degamma_lut_tests = LUT_NON_DECREASING,                       \
+> +		.gamma_lut_tests = LUT_NON_DECREASING,                         \
+>  	}
+> -#define GLK_COLORS \
+> -	.color = { .degamma_lut_size = 33, .gamma_lut_size = 1024, \
+> -		   .degamma_lut_tests = DRM_COLOR_LUT_NON_DECREASING | \
+> -					DRM_COLOR_LUT_EQUAL_CHANNELS, \
+> +#define GLK_COLORS                                                             \
+> +	.color = {                                                             \
+> +		.degamma_lut_size = 33,                                        \
+> +		.gamma_lut_size = 1024,                                        \
+> +		.degamma_lut_tests = LUT_NON_DECREASING | LUT_EQUAL_CHANNELS,  \
+>  	}
+>  
+>  /* Keep in gen based order, and chronological order within a gen */
+> diff --git a/include/drm/drm_color_mgmt.h b/include/drm/drm_color_mgmt.h
+> index 81c298488b0c8..3537f3eeb3872 100644
+> --- a/include/drm/drm_color_mgmt.h
+> +++ b/include/drm/drm_color_mgmt.h
+> @@ -93,31 +93,4 @@ int drm_plane_create_color_properties(struct drm_plane *plane,
+>  				      enum drm_color_encoding default_encoding,
+>  				      enum drm_color_range default_range);
+>  
+> -/**
+> - * enum drm_color_lut_tests - hw-specific LUT tests to perform
+> - *
+> - * The drm_color_lut_check() function takes a bitmask of the values here to
+> - * determine which tests to apply to a userspace-provided LUT.
+> - */
+> -enum drm_color_lut_tests {
+> -	/**
+> -	 * @DRM_COLOR_LUT_EQUAL_CHANNELS:
+> -	 *
+> -	 * Checks whether the entries of a LUT all have equal values for the
+> -	 * red, green, and blue channels.  Intended for hardware that only
+> -	 * accepts a single value per LUT entry and assumes that value applies
+> -	 * to all three color components.
+> -	 */
+> -	DRM_COLOR_LUT_EQUAL_CHANNELS = BIT(0),
+> -
+> -	/**
+> -	 * @DRM_COLOR_LUT_NON_DECREASING:
+> -	 *
+> -	 * Checks whether the entries of a LUT are always flat or increasing
+> -	 * (never decreasing).
+> -	 */
+> -	DRM_COLOR_LUT_NON_DECREASING = BIT(1),
+> -};
+> -
+> -int drm_color_lut_check(const struct drm_property_blob *lut, u32 tests);
+>  #endif
+
+-- 
+Jani Nikula, Intel Open Source Graphics Center
