@@ -1,59 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC52544517D
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Nov 2021 11:16:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E6C79445189
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Nov 2021 11:20:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 416E06E822;
-	Thu,  4 Nov 2021 10:16:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE3746E3A0;
+	Thu,  4 Nov 2021 10:20:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 80BDD6E822
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Nov 2021 10:16:17 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 552BA61216
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Nov 2021 10:16:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1636020977;
- bh=v63x1fWchQ7kqn4wEuAIvWhF2o9BTqAyPxLsj8Ei/zo=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=jnP80OCH+pbw/LwwEjOIickyq0r9GKdPmGf8/rJONnJ/gLvGLLjVKdo/RaW8HzSLj
- lN6Y/lEKd+C4ih9fWOl4nvnSI4PzbIaaxq/FYG80lp8DvkeJ1vmg5OE0tIMt5KasrU
- QocQnVAp+2yD8XFhj96EPAQeTGFIkRDimZ7Cjjdc9t7z9KRt2WmSVlaXuTQIuDi9rm
- hVTxVQYuPSZyV4MiGTu5z01NlOBdVxl2+1+hWbFjJ+KfJT+0Vv0CTubx1mtSBlpY3V
- 3gDP1f86Fb4/nvQA+HvTFKcUETM1Nbs+UZBpgJ646w2vvRBJxjNVvIXHbfpMdkTALN
- UpJKJPjLwx9oA==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 521CD60F48; Thu,  4 Nov 2021 10:16:17 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 214621] WARNING: CPU: 3 PID: 521 at
- drivers/gpu/drm/ttm/ttm_bo.c:409 ttm_bo_release+0xb64/0xe40 [ttm]
-Date: Thu, 04 Nov 2021 10:16:16 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: christian.koenig@amd.com
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: DUPLICATE
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-214621-2300-ldjFUft4Cr@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-214621-2300@https.bugzilla.kernel.org/>
-References: <bug-214621-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com
+ [IPv6:2607:f8b0:4864:20::629])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 739B26E3A0
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Nov 2021 10:20:33 +0000 (UTC)
+Received: by mail-pl1-x629.google.com with SMTP id o14so6438984plg.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 04 Nov 2021 03:20:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=+iI+yFGltrW+06mguQHc9k6iWJ/LtyIDZvg2aS6FlbI=;
+ b=vByyAndzTW6mzuIoNib020TqkRvaFsT8d9tTW9wo5B95xp3j1s2++/Ub4aok4aNpFw
+ phr/qS7k2KdIrM2YVaJbBRYgaDHKUWrNWWY3079+PabzfES4VqYGHMW8zysSvWCbvpcg
+ g9i7kxZm71akabWh4xqkojc6H6lDdcV+3Pw7mrk0yaWtXFWqOnFz5x+WfJ4d/lKkFQ9D
+ PNm/5kwDHG3Eb1UxzrXaiHFziTtFuss9nGh+rxwLhryqdEksLGZ2OlWd1WcZiIVezvwL
+ y2vPBvRfNyMs7fjZG0x16qS6UGku5uMYmXJxJclSFZnmFVR//rmbv6ocAGDd3g9Z5KUi
+ nGhg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=+iI+yFGltrW+06mguQHc9k6iWJ/LtyIDZvg2aS6FlbI=;
+ b=8Fogv1sobBvPqcfy0ASPgjr2/cmhyLC/oteGagnazAul1hS5Dk2BC28Wha6y5o70x4
+ rsgRlGVg6iOsOgObxB3RNjhvow/VCjycTRdLRbuCqXFXwXj0LirOfkQM9tdUby41o7Kj
+ Aqg8GhWYCnl6h/hVpdll8+XM0rXM+WeQu46U3+DCBDDsjCZMJgbMinPvlsjGB2j/xqHF
+ pzdOGztKoKDwKCuCZHDgz/Xf8UbrdZooqJMhzz5nXya9lQlXC0kipxDANWsxnDix5NlU
+ 3RZ6xf/REMq3yE3S+1hgLsvMdZXUGzl6EKiqEfoda9Dota2P8uM2XEVu/kvHWhNr3Po/
+ rz6A==
+X-Gm-Message-State: AOAM532p7MvPLfRyg1BT/Ti/vIlR1YE+aMu+zN9TdPH/GdcscJvwdKJ8
+ dvkwnp7Rh3mp0akFL9i97FDL62PPF4exaERINP30iA==
+X-Google-Smtp-Source: ABdhPJw6qviQc/jm3Zx+oWk3YXSxKea6cIuLJPDMQLXoCm9GAH1sbwWu+GdEcoHT4o51yjXS8/3lk1/uvwaZIVqdcuA=
+X-Received: by 2002:a17:902:d505:b0:141:f5f7:848e with SMTP id
+ b5-20020a170902d50500b00141f5f7848emr22312139plg.72.1636021232689; Thu, 04
+ Nov 2021 03:20:32 -0700 (PDT)
 MIME-Version: 1.0
+References: <20211104033331.2634341-1-xji@analogixsemi.com>
+In-Reply-To: <20211104033331.2634341-1-xji@analogixsemi.com>
+From: Robert Foss <robert.foss@linaro.org>
+Date: Thu, 4 Nov 2021 11:20:21 +0100
+Message-ID: <CAG3jFyuKEdbCptFHSSeGRwyDF_D844NAJXhUdcsiaFC2WvUTeA@mail.gmail.com>
+Subject: Re: [PATCH v12 0/4] Add MIPI rx DPI support
+To: Xin Ji <xji@analogixsemi.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,41 +62,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: drinkcat@google.com, pihsun@chromium.org, jonas@kwiboo.se, airlied@linux.ie,
+ bliang@analogixsemi.com, dri-devel@lists.freedesktop.org,
+ narmstrong@baylibre.com, linux-kernel@vger.kernel.org,
+ jernej.skrabec@gmail.com, a.hajda@samsung.com,
+ laurent.pinchart@ideasonboard.com, hsinyi@chromium.org, tzungbi@google.com,
+ sam@ravnborg.org, qwen@analogixsemi.com, dan.carpenter@oracle.com,
+ maxime@cerno.tech
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D214621
+Hey Xin,
 
---- Comment #11 from Christian K=C3=B6nig (christian.koenig@amd.com) ---
-Well it's really appreciated that you are looking into this.
+Applied to drm-misc-next.
 
-One thing we might want to do is to move the warning in dma_buf_release():
+The way this series was submitted to the mailing list is not correct
+and is breaking a lot of tooling. It seems like you used git
+send-email, but the individual patches of the series are not connected
+properly and both b4 and the patchwork tools are not able to handle
+this series properly.
 
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index 3f63d58bf68a..6ecc01585cf4 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -75,6 +75,7 @@ static void dma_buf_release(struct dentry *dentry)
-         * dma-buf while still having pending operation to the buffer.
-         */
-        BUG_ON(dmabuf->cb_in.active || dmabuf->cb_out.active);
-+       WARN_ON(!list_empty(&dmabuf->attachments));
+Please try to use git send-email along the lines of this:
+git send-email -$NBR_PATCHES_IN_SERIES -v$VERSION_OF_SERIES --annotate --to=....
 
-        dma_buf_stats_teardown(dmabuf);
-        dmabuf->ops->release(dmabuf);
-@@ -82,7 +83,6 @@ static void dma_buf_release(struct dentry *dentry)
-        if (dmabuf->resv =3D=3D (struct dma_resv *)&dmabuf[1])
-                dma_resv_fini(dmabuf->resv);
 
--       WARN_ON(!list_empty(&dmabuf->attachments));
-        module_put(dmabuf->owner);
-        kfree(dmabuf->name);
-        kfree(dmabuf);
-
-This way users get the dma-buf warning first and maybe a bit less confused.
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+Rob.
