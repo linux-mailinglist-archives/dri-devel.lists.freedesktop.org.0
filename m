@@ -2,79 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B459644682B
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Nov 2021 18:51:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9679844682E
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Nov 2021 18:53:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A0446EC56;
-	Fri,  5 Nov 2021 17:51:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DFB376EC5E;
+	Fri,  5 Nov 2021 17:53:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A243389CF1
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Nov 2021 17:50:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636134658;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5EUUyprJIxK9flb6ZNHg9WUoiRAuv+406L4BdTMGJQc=;
- b=DfOvs+0qr2xPy9p1fAgDiwNdaljgIicWdUv1D3+nCVo8SlckBspruIECh6VUS2whtL9LTj
- v6ufnbOXmLET43J2Shyll1O4YQkO+hlTLxR9j6D9Ob5Mjs3zPOFbILtd1vie3/ztYxiuAO
- wdCe5iN9g8p0sRnS3CRVpPgxG+19vxA=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-140-NnTvNtGzP1-BD7962Sqx5w-1; Fri, 05 Nov 2021 13:50:57 -0400
-X-MC-Unique: NnTvNtGzP1-BD7962Sqx5w-1
-Received: by mail-wm1-f71.google.com with SMTP id
- g80-20020a1c2053000000b003331a764709so886992wmg.2
- for <dri-devel@lists.freedesktop.org>; Fri, 05 Nov 2021 10:50:57 -0700 (PDT)
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
+ [IPv6:2a00:1450:4864:20::32b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D5B556EC5E
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Nov 2021 17:53:09 +0000 (UTC)
+Received: by mail-wm1-x32b.google.com with SMTP id
+ 77-20020a1c0450000000b0033123de3425so10142048wme.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 05 Nov 2021 10:53:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=3qgpnu4+F949fFLt8z7lhntewhGpkCVCzWBi5xlW0s0=;
+ b=dmlBo/fkpE9Iw7lZw2Qa6cY2qshJgOqn/esRDkYVWJovgHLAEfPt31IG47x6DF8jVM
+ 4ER8ljNzvW3nHCpkHveERc8dU94O8eFXdh0pmFSOcFDfUcoBREFZWbP2pQQKb3lMW0Nl
+ NG05r2mL1x53BdJjnSZ5Qcs4k3ZemviXqIu88=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:cc:from:in-reply-to
- :content-transfer-encoding;
- bh=5EUUyprJIxK9flb6ZNHg9WUoiRAuv+406L4BdTMGJQc=;
- b=6jdpbjaR0nhFx+nTnbZw/wdjHRyOt1GJwPFuZAKtRNXnLHIaXhT4FCNfD15wM9KPDw
- RmGwx77M0/QRImV/JVhXL6xYzIlXsgQcvkCFbWviBtASMKZB7e5sWBchv+UNLJQhEvnR
- k08Cu5L0NKfWOcSE75KbFVrNt3AMJUUA36SBuJWOByLV3gZchHhQO9UDuVQJxCnuOBSf
- rHIRuxefVxwSqVOwtqOyk/8JmRJpEEbHiTY4gbq1DPC9dvqD7JaK16nqXJhO+MWbdjT6
- 2ef+ubqN8PMqHzg9978CAqMz3dFVKa1Y/qzW9iqFvmVskszLEtMJMhW2H3p+i2/mbC6K
- Ua7g==
-X-Gm-Message-State: AOAM530IY4ZleBXCSu6qcci4QG3t1t9SfOs5PI5GVF3pXwr3zf/q3I0e
- B+hPdVGj9N19LGIk0XFAOx+4TFGIKpaS8qO823wYlDZ8Carc7oWcOaCGMz/fRYmmwMHMFKYzqBY
- gm9n3OLxtW8sHeuktmaZ/3sABM6M3hB0Zn+VT8TSeXE0lKfPv8ene654yeWWQCkvQFYp3A0c4Vb
- W9t27w
-X-Received: by 2002:a7b:c102:: with SMTP id w2mr30683032wmi.151.1636134655636; 
- Fri, 05 Nov 2021 10:50:55 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwc83CI+TNXXqI6W87vVY2zwMpAb+GA2pXpZcEiKwYSaFdyfwEKDyBp2EsBTS+fBMzAqNjCCw==
-X-Received: by 2002:a7b:c102:: with SMTP id w2mr30682996wmi.151.1636134655284; 
- Fri, 05 Nov 2021 10:50:55 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:c:37e0:cb60:a1c5:8a09:190d?
- ([2a01:e0a:c:37e0:cb60:a1c5:8a09:190d])
- by smtp.gmail.com with ESMTPSA id u16sm11145269wmc.21.2021.11.05.10.50.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 05 Nov 2021 10:50:54 -0700 (PDT)
-Message-ID: <556c4587-3105-72ae-49bc-64855aba1554@redhat.com>
-Date: Fri, 5 Nov 2021 18:50:53 +0100
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=3qgpnu4+F949fFLt8z7lhntewhGpkCVCzWBi5xlW0s0=;
+ b=FTKxTjomJX+EMrFS0HGYHI1CrLfSYEMdDawFWP+KP2vwN+D0pFs4drFSJZ1mC+W96i
+ iStrdEO3VKFbmhkZ+ot+AFYQbdWx7ni9LOXl5CkK6l/rzK2/VUfpWlR16fL18iQn6vqR
+ gpVvLBu7dmyLnMME0gTNi2p4386afGVfvRGHrtaVoG9S3wMBaRa3HPV6VxjBOFHjn3HJ
+ u5DwtNuFy/Fc32gYRWl0ZgVOkAzsVYWQ66k5K3Lio1WKqr+kLeX3ga+guLqY77MsW6fU
+ 2OOMG1YjzOaFaAJcrR/FrxQDEQkcPJm30moCG9aKETt2V0QNWfvMRuePp2INyIX5CpTm
+ ODwA==
+X-Gm-Message-State: AOAM532UNPCT8zBVk7/4F7BfuiP+qxRqM55lcbAt9WjeXpphbEVdGkMb
+ z8WQVRgTLSg8GF3jKsXjFuGoUg==
+X-Google-Smtp-Source: ABdhPJxj4ymiq7qSLhQiUYJ5j1gU+jqd+d6bDAotiSbE0ZcSDcoiY/LEjRjkGyWD86rZ5EdVzoa5cA==
+X-Received: by 2002:a05:600c:1c13:: with SMTP id
+ j19mr31954323wms.175.1636134788288; 
+ Fri, 05 Nov 2021 10:53:08 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id i15sm11461959wmb.20.2021.11.05.10.53.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 05 Nov 2021 10:53:07 -0700 (PDT)
+Date: Fri, 5 Nov 2021 18:53:05 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Arnd Bergmann <arnd@kernel.org>
+Subject: Re: [PATCH] drm: fb_helper: improve CONFIG_FB dependency
+Message-ID: <YYVvgVNz+py5H4Yz@phenom.ffwll.local>
+Mail-Followup-To: Arnd Bergmann <arnd@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@linux.ie>, Arnd Bergmann <arnd@arndb.de>,
+ "Acked-by : Jani Nikula" <jani.nikula@intel.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Kees Cook <keescook@chromium.org>,
+ Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20211029120307.1407047-1-arnd@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH] drm/fb-helper: Fix restore_fbdev when there are pending
- delayed hotplug
-To: dri-devel@lists.freedesktop.org
-References: <20211104163245.11070-1-jfalempe@redhat.com>
- <bbb313b2-6eab-33d2-b355-bdcba59231c9@daenzer.net>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <bbb313b2-6eab-33d2-b355-bdcba59231c9@daenzer.net>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jfalempe@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211029120307.1407047-1-arnd@kernel.org>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,138 +80,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: michel@daenze.net
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, Arnd Bergmann <arnd@arndb.de>,
+ David Airlie <airlied@linux.ie>, Javier Martinez Canillas <javierm@redhat.com>,
+ linux-kernel@vger.kernel.org, "Acked-by : Jani Nikula" <jani.nikula@intel.com>,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Kees Cook <keescook@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 05/11/2021 16:50, Michel Dänzer wrote:
-> On 2021-11-04 17:32, Jocelyn Falempe wrote:
->> When using Xorg/Logind and an external monitor connected with an MST dock.
->> After disconnecting the external monitor, switching to VT may not work,
->> the (internal) monitor sill display Xorg, and you can't see what you are
->> typing in the VT.
->>
->> This is related to commit e2809c7db818df6bbd0edf843e1beb2fbc9d8541 which
->> introduced delayed hotplug for MST, and commit
->> dc5bdb68b5b369d5bc7d1de96fa64cc1737a6320 which introduced a workaround for
->> Xorg and logind, and add a force parameter to
->> __drm_fb_helper_restore_fbdev_mode_unlocked() in this case.
->>
->> When switching to VT, with Xorg and logind, if there
->> are pending hotplug event (like MST unplugged), the hotplug path
->> may not be fulfilled, because logind may drop the master a bit later.
->> It leads to the console not showing up on the monitor.
->>
->> So in this case, forward the "force" parameter to the hotplug event,
->> and ignore if there is a drm master in this case.
+On Fri, Oct 29, 2021 at 02:02:38PM +0200, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
 > 
-> I'm worried that this leaves a race condition which allows the still-master (which causes drm_fb_helper_hotplug_event to bail without this patch) to modify the state set by __drm_fb_helper_hotplug_event, which could still result in similar symptoms.
+> My previous patch correctly addressed the possible link failure, but as
+> Jani points out, the dependency is now stricter than it needs to be.
 > 
-> I wonder if something like calling drm_fb_helper_hotplug_event when master is dropped and fb_helper->delayed_hotplug == true could work instead.
+> Change it again, to allow DRM_FBDEV_EMULATION to be used when
+> DRM_KMS_HELPER and FB are both loadable modules and DRM is linked into
+> the kernel.
+> 
+> As a side-effect, the option is now only visible when at least one DRM
+> driver makes use of DRM_KMS_HELPER. This is better, because the option
+> has no effect otherwise.
+> 
+> Fixes: 606b102876e3 ("drm: fb_helper: fix CONFIG_FB dependency")
+> Suggested-by: Acked-by: Jani Nikula <jani.nikula@intel.com>
+> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+
+Queued up for the merge window, thanks for the patch.
+-Daniel
+
+> ---
+>  drivers/gpu/drm/Kconfig | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+> index c08860db2520..d2e6d8ce5000 100644
+> --- a/drivers/gpu/drm/Kconfig
+> +++ b/drivers/gpu/drm/Kconfig
+> @@ -117,9 +117,8 @@ config DRM_DEBUG_MODESET_LOCK
+>  
+>  config DRM_FBDEV_EMULATION
+>  	bool "Enable legacy fbdev support for your modesetting driver"
+> -	depends on DRM
+> -	depends on FB=y || FB=DRM
+> -	select DRM_KMS_HELPER
+> +	depends on DRM_KMS_HELPER
+> +	depends on FB=y || FB=DRM_KMS_HELPER
+>  	select FB_CFB_FILLRECT
+>  	select FB_CFB_COPYAREA
+>  	select FB_CFB_IMAGEBLIT
+> -- 
+> 2.29.2
 > 
 
-Ok, I will try to make a new patch and call 
-drm_fb_helper_hotplug_event() from drm_drop_master() instead.
-> 
->> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
->> index 8e7a124d6c5a..c07080f661b1 100644
->> --- a/drivers/gpu/drm/drm_fb_helper.c
->> +++ b/drivers/gpu/drm/drm_fb_helper.c
->> @@ -82,6 +82,8 @@ MODULE_PARM_DESC(drm_leak_fbdev_smem,
->>   static LIST_HEAD(kernel_fb_helper_list);
->>   static DEFINE_MUTEX(kernel_fb_helper_lock);
->>   
->> +static int __drm_fb_helper_hotplug_event(struct drm_fb_helper *fb_helper, bool force);
->> +
->>   /**
->>    * DOC: fbdev helpers
->>    *
->> @@ -258,7 +260,7 @@ __drm_fb_helper_restore_fbdev_mode_unlocked(struct drm_fb_helper *fb_helper,
->>   	mutex_unlock(&fb_helper->lock);
->>   
->>   	if (do_delayed)
->> -		drm_fb_helper_hotplug_event(fb_helper);
->> +		__drm_fb_helper_hotplug_event(fb_helper, force);
->>   
->>   	return ret;
->>   }
->> @@ -1930,6 +1932,38 @@ int drm_fb_helper_initial_config(struct drm_fb_helper *fb_helper, int bpp_sel)
->>   }
->>   EXPORT_SYMBOL(drm_fb_helper_initial_config);
->>   
->> +static int __drm_fb_helper_hotplug_event(struct drm_fb_helper *fb_helper, bool force)
->> +{
->> +	int err = 0;
->> +
->> +	if (!drm_fbdev_emulation || !fb_helper)
->> +		return 0;
->> +
->> +	mutex_lock(&fb_helper->lock);
->> +	if (fb_helper->deferred_setup) {
->> +		err = __drm_fb_helper_initial_config_and_unlock(fb_helper,
->> +				fb_helper->preferred_bpp);
->> +		return err;
->> +	}
->> +	if (!force) {
->> +		if (!fb_helper->fb || !drm_master_internal_acquire(fb_helper->dev)) {
->> +			fb_helper->delayed_hotplug = true;
->> +			mutex_unlock(&fb_helper->lock);
->> +			return err;
->> +		}
->> +		drm_master_internal_release(fb_helper->dev);
->> +	}
->> +	drm_dbg_kms(fb_helper->dev, "\n");
->> +
->> +	drm_client_modeset_probe(&fb_helper->client, fb_helper->fb->width, fb_helper->fb->height);
->> +	drm_setup_crtcs_fb(fb_helper);
->> +	mutex_unlock(&fb_helper->lock);
->> +
->> +	drm_fb_helper_set_par(fb_helper->fbdev);
->> +
->> +	return 0;
->> +}
->> +
->>   /**
->>    * drm_fb_helper_hotplug_event - respond to a hotplug notification by
->>    *                               probing all the outputs attached to the fb
->> @@ -1953,35 +1987,7 @@ EXPORT_SYMBOL(drm_fb_helper_initial_config);
->>    */
->>   int drm_fb_helper_hotplug_event(struct drm_fb_helper *fb_helper)
->>   {
->> -	int err = 0;
->> -
->> -	if (!drm_fbdev_emulation || !fb_helper)
->> -		return 0;
->> -
->> -	mutex_lock(&fb_helper->lock);
->> -	if (fb_helper->deferred_setup) {
->> -		err = __drm_fb_helper_initial_config_and_unlock(fb_helper,
->> -				fb_helper->preferred_bpp);
->> -		return err;
->> -	}
->> -
->> -	if (!fb_helper->fb || !drm_master_internal_acquire(fb_helper->dev)) {
->> -		fb_helper->delayed_hotplug = true;
->> -		mutex_unlock(&fb_helper->lock);
->> -		return err;
->> -	}
->> -
->> -	drm_master_internal_release(fb_helper->dev);
->> -
->> -	drm_dbg_kms(fb_helper->dev, "\n");
->> -
->> -	drm_client_modeset_probe(&fb_helper->client, fb_helper->fb->width, fb_helper->fb->height);
->> -	drm_setup_crtcs_fb(fb_helper);
->> -	mutex_unlock(&fb_helper->lock);
->> -
->> -	drm_fb_helper_set_par(fb_helper->fbdev);
->> -
->> -	return 0;
->> +	return __drm_fb_helper_hotplug_event(fb_helper, false);
->>   }
->>   EXPORT_SYMBOL(drm_fb_helper_hotplug_event);
->>   
->>
-> 
-> 
-
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
