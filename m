@@ -1,58 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5737F446077
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Nov 2021 09:13:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A3E5C446085
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Nov 2021 09:20:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 014D56E4D7;
-	Fri,  5 Nov 2021 08:13:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E250A6E466;
+	Fri,  5 Nov 2021 08:20:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x82d.google.com (mail-qt1-x82d.google.com
- [IPv6:2607:f8b0:4864:20::82d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6FBD96E4D7
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Nov 2021 08:13:42 +0000 (UTC)
-Received: by mail-qt1-x82d.google.com with SMTP id w9so1404640qtk.13
- for <dri-devel@lists.freedesktop.org>; Fri, 05 Nov 2021 01:13:42 -0700 (PDT)
+Received: from mail-qt1-x829.google.com (mail-qt1-x829.google.com
+ [IPv6:2607:f8b0:4864:20::829])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9CEA26E466
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Nov 2021 08:20:51 +0000 (UTC)
+Received: by mail-qt1-x829.google.com with SMTP id h16so6559779qtk.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 05 Nov 2021 01:20:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=fVlZRJCKXUiqoF7G7hyUyfyk+5I40Id7HCqnbB08HMQ=;
- b=kTtDhSSUVBAaLquaHLkNCUmCFlhIfFNbkpBVUYWy/kf4GCXD82Rp+uFqFFnjosL91f
- GJet10XZfMoRgklh86ym1VJPDkjGjsl8HX25SW41/0tMoF7tQ/u+7mZIAiDz2JBPomRE
- SH5JPoqYH3/rpRIRstCz9budfZujQhFpdJ3Dij51Y0avydA/BEkM7KqUs5i2QSbIRQ6o
- qcyx0MW1AgCk+xqEvuHIcmQyVxr/sxeSVL6BV47RG+r4fB3skeUvIMu/A+Q3kjvbvwIT
- QXDGbl0dMbun5EYa1X+6PILPjL0ZZIiN6tJ5/mycAbBaQjBZYoqkcAeYin6eYSJP0Agk
- Ci2A==
+ bh=JV2GI1ElyWKj5nJkvVr78bo555smaUwaPP1WNumT+bI=;
+ b=hAtVwydAdMBI3HF1HcU50DSqHSm5F9VkFO3sk3cJZMZlOfHL8GE5RitgoSYteU7GJZ
+ C1kdW2JclKD1V4s0SDiKp94F4KsZnBOtk6AluW1VR1YbGYngepXDaJKyJWNwVm6HnPeh
+ bfjB8M9KFrSJGegaIqkEd3wLHHyJDe7+xoNMWrgZKCypcH2nDikjGZZ3Pw92/8P4t3ZK
+ tiiuwyEZpru7nAAiS4pSITyI4LPw8jEBV5xnvBlh1YvFQIJExJcOUZ9nwBN13bZ/TSzL
+ qTmw+FSx5zcaGxk/jv+JYZiQZ9vD2+63N2exK3N2Kum6hGLc/jPLikxm1BVkcN9AGbz2
+ CLpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=fVlZRJCKXUiqoF7G7hyUyfyk+5I40Id7HCqnbB08HMQ=;
- b=Fh/xK6eTRLkkP/lwr9awuk95VmpO1AjYZTBbkCm8etqcyLkS9X4hy70JHNEKbUyy9z
- 4WW35nqflB7BrDUydnUTBUm/Un8ZUc5nEWD6dgwMS+RvfD0xAqcVpbob1+37r5TRxKq5
- wpBqtyaOCeOP+XzISjSVcltiD6nL0SI88pIs1o9SFXm/hQ6thp5lSvKLj7zp5+aXgHOJ
- qT2GuSK5inXKE3V3KGogAsygLYL66j8Hw8pzu3g8snXNfEz9wvJk3ObuvS9UyvX8g0dJ
- /+ANXdPLI2j6NvvdZWu+5s+/9p9awpJ4OcsVne0C2ccrBMxn89AcbM625t7OBLMPEUTb
- BeUg==
-X-Gm-Message-State: AOAM530aNFsNf4xbfaiOAYhDlKAY4DdgRe7miMYNCeabIPobWx1hi1RY
- E1ED3wsDKt5ATHTd52l1gFk=
-X-Google-Smtp-Source: ABdhPJxUNp4kKqoDFXNGw/s5Alxe9f3i4Axux6ohHFVYJVgy0gVbIefnUP4h24e3WH9Tvqnk9m80Yg==
-X-Received: by 2002:a05:622a:1705:: with SMTP id
- h5mr36744355qtk.228.1636100021385; 
- Fri, 05 Nov 2021 01:13:41 -0700 (PDT)
+ bh=JV2GI1ElyWKj5nJkvVr78bo555smaUwaPP1WNumT+bI=;
+ b=issGZbhqUV+LRsuFozkWYSSIIsMCk+neBYCyCkBCu9gafH+0G9nF53nCGtCowP8iia
+ 2oZ3/oDk8PnySLooXAg4mhjKYfiRtAsEmsPNnLZl1pr+kwGwnp6QFCv6zU3sLtr37YCE
+ j62zSHQz19UCi3k+G+W5z5BfL7YUTbYcx4HYL5SMKeoSn8k+KGHgGhR95Z4oIIB6ekAS
+ 0ZMhqfNdgZBm47phq8VaFO2Sf0F3GP3DAh9s4hRV6JBwK7wFH8HAlvSMnJW7G8TNAbM5
+ XzBdA4CFs2ZzyiFu3BmkRz8+ycbaBAao6vEofOL0nsPXHFlu5SFiWbP7SwXrSpuFrXet
+ puwA==
+X-Gm-Message-State: AOAM530b443NauZUeojfepfteFSRBGOzT9dr0ecBcnc745FZDkuc8BuA
+ bjAR1+PIlzN9L5GUqKBOAcVzYIwQ35I=
+X-Google-Smtp-Source: ABdhPJy8sNu+X2LbVDfgoGjzfow4qraNvBUGA5R/CR484AyQ83qpzjMZ61VRonVoiLf+ZJAqgSn10Q==
+X-Received: by 2002:a05:622a:c5:: with SMTP id
+ p5mr43146417qtw.96.1636100450840; 
+ Fri, 05 Nov 2021 01:20:50 -0700 (PDT)
 Received: from localhost.localdomain ([193.203.214.57])
- by smtp.gmail.com with ESMTPSA id e10sm5428630qte.57.2021.11.05.01.13.38
+ by smtp.gmail.com with ESMTPSA id j192sm1791743qke.13.2021.11.05.01.20.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Nov 2021 01:13:40 -0700 (PDT)
+ Fri, 05 Nov 2021 01:20:50 -0700 (PDT)
 From: cgel.zte@gmail.com
 X-Google-Original-From: yao.jing2@zte.com.cn
 To: linux-omap@vger.kernel.org
-Subject: [PATCH] omapfb: panel-dsi-cm: Replace snprintf in show functions with
- sysfs_emit
-Date: Fri,  5 Nov 2021 08:13:33 +0000
-Message-Id: <20211105081333.76861-1-yao.jing2@zte.com.cn>
+Subject: [PATCH] omapfb: panel-tpo-td043mtea1: Replace snprintf in show
+ functions with sysfs_emit
+Date: Fri,  5 Nov 2021 08:20:44 +0000
+Message-Id: <20211105082044.77035-1-yao.jing2@zte.com.cn>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -86,49 +86,31 @@ sense.
 Reported-by: Zeal Robot <zealci@zte.com.cn>
 Signed-off-by: Jing Yao <yao.jing2@zte.com.cn>
 ---
- drivers/video/fbdev/omap2/omapfb/displays/panel-dsi-cm.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ .../video/fbdev/omap2/omapfb/displays/panel-tpo-td043mtea1.c  | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/video/fbdev/omap2/omapfb/displays/panel-dsi-cm.c b/drivers/video/fbdev/omap2/omapfb/displays/panel-dsi-cm.c
-index 4b0793abdd84..a2c7c5cb1523 100644
---- a/drivers/video/fbdev/omap2/omapfb/displays/panel-dsi-cm.c
-+++ b/drivers/video/fbdev/omap2/omapfb/displays/panel-dsi-cm.c
-@@ -409,7 +409,7 @@ static ssize_t dsicm_num_errors_show(struct device *dev,
- 	if (r)
- 		return r;
+diff --git a/drivers/video/fbdev/omap2/omapfb/displays/panel-tpo-td043mtea1.c b/drivers/video/fbdev/omap2/omapfb/displays/panel-tpo-td043mtea1.c
+index afac1d9445aa..57b7d1f49096 100644
+--- a/drivers/video/fbdev/omap2/omapfb/displays/panel-tpo-td043mtea1.c
++++ b/drivers/video/fbdev/omap2/omapfb/displays/panel-tpo-td043mtea1.c
+@@ -169,7 +169,7 @@ static ssize_t tpo_td043_vmirror_show(struct device *dev,
+ {
+ 	struct panel_drv_data *ddata = dev_get_drvdata(dev);
  
--	return snprintf(buf, PAGE_SIZE, "%d\n", errors);
-+	return sysfs_emit(buf, "%d\n", errors);
+-	return snprintf(buf, PAGE_SIZE, "%d\n", ddata->vmirror);
++	return sysfs_emit(buf, "%d\n", ddata->vmirror);
  }
  
- static ssize_t dsicm_hw_revision_show(struct device *dev,
-@@ -439,7 +439,7 @@ static ssize_t dsicm_hw_revision_show(struct device *dev,
- 	if (r)
- 		return r;
+ static ssize_t tpo_td043_vmirror_store(struct device *dev,
+@@ -199,7 +199,7 @@ static ssize_t tpo_td043_mode_show(struct device *dev,
+ {
+ 	struct panel_drv_data *ddata = dev_get_drvdata(dev);
  
--	return snprintf(buf, PAGE_SIZE, "%02x.%02x.%02x\n", id1, id2, id3);
-+	return sysfs_emit(buf, "%02x.%02x.%02x\n", id1, id2, id3);
+-	return snprintf(buf, PAGE_SIZE, "%d\n", ddata->mode);
++	return sysfs_emit(buf, "%d\n", ddata->mode);
  }
  
- static ssize_t dsicm_store_ulps(struct device *dev,
-@@ -487,7 +487,7 @@ static ssize_t dsicm_show_ulps(struct device *dev,
- 	t = ddata->ulps_enabled;
- 	mutex_unlock(&ddata->lock);
- 
--	return snprintf(buf, PAGE_SIZE, "%u\n", t);
-+	return sysfs_emit(buf, "%u\n", t);
- }
- 
- static ssize_t dsicm_store_ulps_timeout(struct device *dev,
-@@ -532,7 +532,7 @@ static ssize_t dsicm_show_ulps_timeout(struct device *dev,
- 	t = ddata->ulps_timeout;
- 	mutex_unlock(&ddata->lock);
- 
--	return snprintf(buf, PAGE_SIZE, "%u\n", t);
-+	return sysfs_emit(buf, "%u\n", t);
- }
- 
- static DEVICE_ATTR(num_dsi_errors, S_IRUGO, dsicm_num_errors_show, NULL);
+ static ssize_t tpo_td043_mode_store(struct device *dev,
 -- 
 2.25.1
 
