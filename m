@@ -1,63 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 323594469A2
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Nov 2021 21:26:17 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 05B664469A7
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Nov 2021 21:27:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 21BFA6E516;
-	Fri,  5 Nov 2021 20:26:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B45AD6EB2D;
+	Fri,  5 Nov 2021 20:27:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x132.google.com (mail-il1-x132.google.com
- [IPv6:2607:f8b0:4864:20::132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB6BE6E516
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Nov 2021 20:26:13 +0000 (UTC)
-Received: by mail-il1-x132.google.com with SMTP id f10so10677403ilu.5
- for <dri-devel@lists.freedesktop.org>; Fri, 05 Nov 2021 13:26:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Uw0GAODwRueFvBOQE2OGWsggM53Zcuqt3yCcWbHWgkA=;
- b=ZDCN/m0tmqnKaMhe26FXs3xZ5Si8fvJfzleOAKObY1a/TB05o9H4RU9PduYZUA8Ri/
- bRLZ77CghW64RM1dj3p2bmSYjZU4v6wqLhkQcNTMlCTsLe5+9QXsX3dRNmrdyjFIUm27
- ngqeVF/UcylsMcCudABfAf4UBFkDA06ibJIaU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Uw0GAODwRueFvBOQE2OGWsggM53Zcuqt3yCcWbHWgkA=;
- b=Fl/aH5YeXdFCPzmRevJnNNPjLqij42Csnid3U2kIm/wsHCtKohMwPCeg0ZZ+pJqMQ1
- WZC4nHI02BggAh5zQc4R0RK/rIA8SjGHoNQZvQohbBERzRmzUpsy3cMd/I46unNF0dl2
- 2vJIC3qRl89yZDRsoqu0FG1o0W4EyJ0ap9dR+cgLwAfEsC/G597C9oKpwVUjHIhNYKfy
- E9ptpNmtpjSzklwbwfLGoV71xqfmKZEETVQd86q5zk8NIqk43maOzjwhk9ScIpSuFmpm
- gH7uJ1IoMZ4wpsO69B/rGc6at0X0aH51qTekedy7zTS4YieZjgmP46kAtdzeNfrqp7ut
- xZeg==
-X-Gm-Message-State: AOAM532B+savrv1ATBIV/osKAwvVA3BtiMLIjPTYhM5aLmrfM6LOFknV
- TXTsdfxuzsuqw688OArE6ydbAO8MsnmZ1A==
-X-Google-Smtp-Source: ABdhPJx/PwrSF9opn7sCDYB1B8e7LRaGFoA89wCyulovvgTEn7NmKkgevnfWeywBeB9tB0sDjn6AOA==
-X-Received: by 2002:a92:c112:: with SMTP id p18mr37338990ile.52.1636143972857; 
- Fri, 05 Nov 2021 13:26:12 -0700 (PDT)
-Received: from mail-io1-f48.google.com (mail-io1-f48.google.com.
- [209.85.166.48])
- by smtp.gmail.com with ESMTPSA id m10sm5274751ila.13.2021.11.05.13.26.12
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 05 Nov 2021 13:26:12 -0700 (PDT)
-Received: by mail-io1-f48.google.com with SMTP id d70so11125360iof.7
- for <dri-devel@lists.freedesktop.org>; Fri, 05 Nov 2021 13:26:12 -0700 (PDT)
-X-Received: by 2002:a05:6602:24da:: with SMTP id
- h26mr1098936ioe.168.1636143971873; 
- Fri, 05 Nov 2021 13:26:11 -0700 (PDT)
+Received: from smtp.domeneshop.no (smtp.domeneshop.no
+ [IPv6:2a01:5b40:0:3005::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC2B36EADE
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Nov 2021 20:27:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+ ; s=ds202012;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
+ MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=c7xL3ULUvDEQY8y11JsWZ8qJvPv11YqU/ku2rqgY1ww=; b=iqUPoKkx2ggx9bqJoDGzYLoSFv
+ ZTj25RKGAhdI0A7DLOIF2+4TH8ZVLKHUquDkvkhOx1W3Yg58DkzzhhNLeBFhfh4olfJMcU07scxQ6
+ Yn2h7O+JoHEuxj+QUrQHL8mmD0RuqPpwPVfCvBHQ4LuIeqV3qafidcGwiSFUH3gby+FKwZEHvCxAA
+ RcrRlxazQfnlaKoT0EULpKhBHlJCmu/MiQ84j0VB0fwk+7mH5kbL30e8B4S4ouDpkn8isCKpCh2WF
+ m5lPL0D7s3v7KJtn2XRWABiG6h92aPjFc8Zgm2PM1EuFNBAMXPoYp77quZt3jhJaGupwbz++38H5c
+ YUTNZofA==;
+Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:51024
+ helo=[192.168.10.61])
+ by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <noralf@tronnes.org>)
+ id 1mj5ne-0006rL-Lg; Fri, 05 Nov 2021 21:26:58 +0100
+Subject: Re: [PATCH] staging/fbtft: Fix backlight
+To: gregkh@linuxfoundation.org
+References: <20211030162901.17918-1-noralf@tronnes.org>
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+Message-ID: <9915936e-8a02-2e7a-5c47-f048c1f0319b@tronnes.org>
+Date: Fri, 5 Nov 2021 21:26:56 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-References: <20211105202021.181092-1-robdclark@gmail.com>
-In-Reply-To: <20211105202021.181092-1-robdclark@gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Fri, 5 Nov 2021 13:26:00 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=Wz0bDNUVdbsjsPv-CU-4WF1ngXT5tODSRpG9qtUqs70w@mail.gmail.com>
-Message-ID: <CAD=FV=Wz0bDNUVdbsjsPv-CU-4WF1ngXT5tODSRpG9qtUqs70w@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/msm/devfreq: Fix OPP refcnt leak
-To: Rob Clark <robdclark@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20211030162901.17918-1-noralf@tronnes.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,24 +55,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, freedreno@lists.freedesktop.org,
- David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- open list <linux-kernel@vger.kernel.org>, Steev Klimaszewski <steev@kali.org>,
- dri-devel@lists.freedesktop.org, Sean Paul <sean@poorly.run>
+Cc: linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+ stable@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
-On Fri, Nov 5, 2021 at 1:15 PM Rob Clark <robdclark@gmail.com> wrote:
->
-> From: Rob Clark <robdclark@chromium.org>
->
-> Reported-by: Douglas Anderson <dianders@chromium.org>
-> Fixes: 9bc95570175a ("drm/msm: Devfreq tuning")
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
+
+Den 30.10.2021 18.29, skrev Noralf Trønnes:
+> Commit b4a1ed0cd18b ("fbdev: make FB_BACKLIGHT a tristate") forgot to
+> update fbtft breaking its backlight support when FB_BACKLIGHT is a module.
+> 
+> Fix this by using IS_ENABLED().
+> 
+> Fixes: b4a1ed0cd18b ("fbdev: make FB_BACKLIGHT a tristate")
+> Cc: <stable@vger.kernel.org>
+> Signed-off-by: Noralf Trønnes <noralf@tronnes.org>
 > ---
->  drivers/gpu/drm/msm/msm_gpu_devfreq.c | 5 +++++
->  1 file changed, 5 insertions(+)
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
+I discovered that fb_ssd1351 also has this #ifdef, so need to fix that
+as well. Will send a new version.
+
+Noralf.
