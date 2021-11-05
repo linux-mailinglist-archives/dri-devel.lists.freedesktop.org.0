@@ -2,65 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED004445F2E
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Nov 2021 05:32:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C6F5445FA7
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Nov 2021 07:15:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C6AB6E02F;
-	Fri,  5 Nov 2021 04:32:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BBCEA6E03D;
+	Fri,  5 Nov 2021 06:15:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x333.google.com (mail-ot1-x333.google.com
- [IPv6:2607:f8b0:4864:20::333])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 105646E02B
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Nov 2021 04:32:53 +0000 (UTC)
-Received: by mail-ot1-x333.google.com with SMTP id
- c2-20020a056830348200b0055a46c889a8so11407210otu.5
- for <dri-devel@lists.freedesktop.org>; Thu, 04 Nov 2021 21:32:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kali.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=e7wV/zXlbFEZLefjaI+cZ2mUrOMI6pJgxRuHVeGTiB0=;
- b=YnYsM26Rs+Xf8pXIQ5nENuN+3ANyFaM6dkQjCLCP7Ir99A28SjSRGrkLaVtovNqGAb
- kXGyJRInVW3Mtkd6uetRuQXo7TIlSwBojh1OY+AEL6vmyOrgBb9vuke1dNfO34Ogmk81
- 0id+xA535P1bR386wD0sBznxFSt1DRTXkNXILdHMk4eFKQtLxNuXrYU/Gx5URa3N3ORj
- ZPKDNdxwYqziFSBrkQIT7z8pXgkYc8KVAb4I/kBduklg9VRYe9wud4sT0867QFkUpFp5
- bgwRsM43YiwqfVOtFG1TWyxjHCYEGMVXLruAZgdafFefPZFR7KlQLCYVgqJjIuVkvQ0C
- Oa+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=e7wV/zXlbFEZLefjaI+cZ2mUrOMI6pJgxRuHVeGTiB0=;
- b=sLY/a8CK289Vr8ZW+PaU6DfAi5vIEdO4v3qHjIv8H+R7l0EjS7IjYai/HQoT8PsPME
- 3iB7A5F2SekZ+mKmv2nQIAYp+33xzKmWs9KDMWGBVyyNwZYsqWfX9t7syT7xvgTvGje5
- nMzlDsctrh/JAaaATleO1zGLBfFmHIFAgEgcgkAWHvcykd1cFlcjcBSsMrwOCZ0n5pwc
- d5kxyR/mBMnt7sDAMpNmhN0ctHHBatIM8y6kVuAL5cM2AmsGjq27DyWtBvBvvCfkHDQe
- jCYSLMMYAd9T482zy7dsLKrm2z1TyvlQ1fdMBRjehCjY1yxjrcGN6Rl3N/g11QeZizUJ
- l6Zw==
-X-Gm-Message-State: AOAM53087sTQOqKZruhNLj0zer2gl6ZtTxW8pF5Mv8NC5Wz3PR9O14sZ
- 28jxqSZOqG+S2UI8DihsDXFOxA==
-X-Google-Smtp-Source: ABdhPJz149yEAnlzEutepXMNcT57vxTomZmWHg5AgNejKGnvWASOFZ022mCwDSj4uZFjon3aCelt8g==
-X-Received: by 2002:a9d:7d8c:: with SMTP id j12mr34638887otn.373.1636086773005; 
- Thu, 04 Nov 2021 21:32:53 -0700 (PDT)
-Received: from [192.168.11.48] (cpe-173-173-107-246.satx.res.rr.com.
- [173.173.107.246])
- by smtp.gmail.com with ESMTPSA id w10sm1506327otk.51.2021.11.04.21.32.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 04 Nov 2021 21:32:52 -0700 (PDT)
-Message-ID: <be2222e2-8fec-84f9-bbcf-bf639a1a63bd@kali.org>
-Date: Thu, 4 Nov 2021 23:32:51 -0500
+Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 45D266E039;
+ Fri,  5 Nov 2021 06:15:23 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4HlqxL30X6z4xdL;
+ Fri,  5 Nov 2021 17:15:17 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=201702; t=1636092921;
+ bh=ABu42RiFT1taPHynORs6qxyIrsgHaPYvXtuZnDvLm28=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=Phd/GLBGSIR5NA6U4OcbR4wyh40bYgco8LL429cImCmDIf0vz8USNvPLk2qJ5FD6p
+ pvfgD1rACbzSWc9IssJ45dmK8dw0d2rBhX2clDU05+79FbN3X2PhUFSmaYe7R/Us5j
+ RBLCybZssKNtLiIu9PBS57vjQ1Xpt6WBmjvH4SoYkdcePqfzTZxDeqy/ge+GP6qnxh
+ MVcz8w4Pmml1mJ033rzesx9tfUYtJLCKmgvSyqnr0iOTpwSN3uK3bSD6LNKQqPjN5z
+ BfTOpRZwlQiPkzbnyKGK1ahxgxqv8KX4gQqUNLIUcB1kQ5CnuQDvGAkogZE41Xjz7W
+ Iv4D7yeBZwmXw==
+Date: Fri, 5 Nov 2021 17:15:17 +1100
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Dave Airlie <airlied@linux.ie>
+Subject: Re: linux-next: build failure after merge of the drm-misc tree
+Message-ID: <20211105171517.287de894@canb.auug.org.au>
+In-Reply-To: <20211101194223.749197c5@canb.auug.org.au>
+References: <20211015202648.258445ef@canb.auug.org.au>
+ <20211101194223.749197c5@canb.auug.org.au>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.2.1
-Subject: Re: [PATCH] drm/msm/devfreq: Fix OPP refcnt leak
-Content-Language: en-US
-To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
-References: <20211104222840.781314-1-robdclark@gmail.com>
-From: Steev Klimaszewski <steev@kali.org>
-In-Reply-To: <20211104222840.781314-1-robdclark@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; boundary="Sig_/f1z=jp8ned0U5MhcxSkEu39";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,99 +51,136 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, freedreno@lists.freedesktop.org,
- David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- Douglas Anderson <dianders@chromium.org>,
- open list <linux-kernel@vger.kernel.org>, Sean Paul <sean@poorly.run>
+Cc: Jani Nikula <jani.nikula@intel.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics <intel-gfx@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI <dri-devel@lists.freedesktop.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+--Sig_/f1z=jp8ned0U5MhcxSkEu39
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-On 11/4/21 5:28 PM, Rob Clark wrote:
-> From: Rob Clark <robdclark@chromium.org>
+Hi all,
+
+On Mon, 1 Nov 2021 19:42:23 +1100 Stephen Rothwell <sfr@canb.auug.org.au> w=
+rote:
 >
-> Reported-by: Douglas Anderson <dianders@chromium.org>
-> Fixes: 9bc95570175a ("drm/msm: Devfreq tuning")
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> ---
->   drivers/gpu/drm/msm/msm_gpu_devfreq.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/msm/msm_gpu_devfreq.c b/drivers/gpu/drm/msm/msm_gpu_devfreq.c
-> index d32b729b4616..9bf8600b6eea 100644
-> --- a/drivers/gpu/drm/msm/msm_gpu_devfreq.c
-> +++ b/drivers/gpu/drm/msm/msm_gpu_devfreq.c
-> @@ -20,8 +20,6 @@ static int msm_devfreq_target(struct device *dev, unsigned long *freq,
->   	struct msm_gpu *gpu = dev_to_gpu(dev);
->   	struct dev_pm_opp *opp;
->   
-> -	opp = devfreq_recommended_opp(dev, freq, flags);
-> -
->   	/*
->   	 * If the GPU is idle, devfreq is not aware, so just ignore
->   	 * it's requests
-> @@ -31,6 +29,8 @@ static int msm_devfreq_target(struct device *dev, unsigned long *freq,
->   		return 0;
->   	}
->   
-> +	opp = devfreq_recommended_opp(dev, freq, flags);
-> +
->   	if (IS_ERR(opp))
->   		return PTR_ERR(opp);
->   
+> On Fri, 15 Oct 2021 20:26:48 +1100 Stephen Rothwell <sfr@canb.auug.org.au=
+> wrote:
+> >
+> > After merging the drm-misc tree, today's linux-next build (arm
+> > multi_v7_defconfig) failed like this:
+> >=20
+> > drivers/gpu/drm/drm_modeset_lock.c:111:29: error: conflicting types for=
+ '__stack_depot_save'
+> >   111 | static depot_stack_handle_t __stack_depot_save(void)
+> >       |                             ^~~~~~~~~~~~~~~~~~
+> > In file included from include/linux/page_ext.h:7,
+> >                  from include/linux/mm.h:25,
+> >                  from include/linux/kallsyms.h:13,
+> >                  from include/linux/bpf.h:20,
+> >                  from include/linux/bpf-cgroup.h:5,
+> >                  from include/linux/cgroup-defs.h:22,
+> >                  from include/linux/cgroup.h:28,
+> >                  from include/linux/memcontrol.h:13,
+> >                  from include/linux/swap.h:9,
+> >                  from include/linux/suspend.h:5,
+> >                  from include/linux/regulator/consumer.h:35,
+> >                  from include/linux/i2c.h:18,
+> >                  from include/drm/drm_crtc.h:28,
+> >                  from include/drm/drm_atomic.h:31,
+> >                  from drivers/gpu/drm/drm_modeset_lock.c:24:
+> > include/linux/stackdepot.h:18:22: note: previous declaration of '__stac=
+k_depot_save' was here
+> >    18 | depot_stack_handle_t __stack_depot_save(unsigned long *entries,
+> >       |                      ^~~~~~~~~~~~~~~~~~
+> >=20
+> > Caused by commit
+> >=20
+> >   cd06ab2fd48f ("drm/locking: add backtrace for locking contended locks=
+ without backoff")
+> >=20
+> > This may only have been revealed because of another fix I have had to
+> > apply today.
+> >=20
+> > I have applied the following patch for today.
+> >=20
+> > From: Stephen Rothwell <sfr@canb.auug.org.au>
+> > Date: Fri, 15 Oct 2021 20:17:52 +1100
+> > Subject: [PATCH] drm/locking: fix for name conflict
+> >=20
+> > Fixes: cd06ab2fd48f ("drm/locking: add backtrace for locking contended =
+locks without backoff")
+> > Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
+> > ---
+> >  drivers/gpu/drm/drm_modeset_lock.c | 6 +++---
+> >  1 file changed, 3 insertions(+), 3 deletions(-)
+> >=20
+> > diff --git a/drivers/gpu/drm/drm_modeset_lock.c b/drivers/gpu/drm/drm_m=
+odeset_lock.c
+> > index 4d32b61fa1fd..ee36dd20900d 100644
+> > --- a/drivers/gpu/drm/drm_modeset_lock.c
+> > +++ b/drivers/gpu/drm/drm_modeset_lock.c
+> > @@ -79,7 +79,7 @@
+> >  static DEFINE_WW_CLASS(crtc_ww_class);
+> > =20
+> >  #if IS_ENABLED(CONFIG_DRM_DEBUG_MODESET_LOCK)
+> > -static noinline depot_stack_handle_t __stack_depot_save(void)
+> > +static noinline depot_stack_handle_t __drm_stack_depot_save(void)
+> >  {
+> >  	unsigned long entries[8];
+> >  	unsigned int n;
+> > @@ -108,7 +108,7 @@ static void __stack_depot_print(depot_stack_handle_=
+t stack_depot)
+> >  	kfree(buf);
+> >  }
+> >  #else /* CONFIG_DRM_DEBUG_MODESET_LOCK */
+> > -static depot_stack_handle_t __stack_depot_save(void)
+> > +static depot_stack_handle_t __drm_stack_depot_save(void)
+> >  {
+> >  	return 0;
+> >  }
+> > @@ -317,7 +317,7 @@ static inline int modeset_lock(struct drm_modeset_l=
+ock *lock,
+> >  		ret =3D 0;
+> >  	} else if (ret =3D=3D -EDEADLK) {
+> >  		ctx->contended =3D lock;
+> > -		ctx->stack_depot =3D __stack_depot_save();
+> > +		ctx->stack_depot =3D __drm_stack_depot_save();
+> >  	}
+> > =20
+> >  	return ret;
+>=20
+> This has reappeared today.  I don't know what happened to the drm-misc
+> tree over the weeked :-(
+>=20
+> I have reapplied the above fix.
 
-Testing this here on the Lenovo Yoga C630, and I'm starting to see in my 
-dmesg output
+So the above drm-misc commit is now in the drm tree, but its fix up
+commit vanished from the drm-misc tree over the past weekend :-(
 
-[   36.337061] devfreq 5000000.gpu: Couldn't update frequency transition 
-information.
-[   36.388122] devfreq 5000000.gpu: Couldn't update frequency transition 
-information.
-[   36.810941] wcd934x-codec wcd934x-codec.3.auto: Port Closed RX port 
-1, value 4
-[   36.811914] wcd934x-codec wcd934x-codec.3.auto: Port Closed RX port 
-2, value 4
-[  198.794946] devfreq 5000000.gpu: Couldn't update frequency transition 
-information.
-[  198.845698] devfreq 5000000.gpu: Couldn't update frequency transition 
-information.
-[  502.285421] devfreq 5000000.gpu: Couldn't update frequency transition 
-information.
-[  502.339427] devfreq 5000000.gpu: Couldn't update frequency transition 
-information.
-[  503.361469] devfreq 5000000.gpu: Couldn't update frequency transition 
-information.
-[  503.412757] devfreq 5000000.gpu: Couldn't update frequency transition 
-information.
-[  503.871480] devfreq 5000000.gpu: Couldn't update frequency transition 
-information.
-[  503.922712] devfreq 5000000.gpu: Couldn't update frequency transition 
-information.
-[  503.974474] devfreq 5000000.gpu: Couldn't update frequency transition 
-information.
-[  504.025501] devfreq 5000000.gpu: Couldn't update frequency transition 
-information.
-[  505.923563] devfreq 5000000.gpu: Couldn't update frequency transition 
-information.
-[  505.974513] devfreq 5000000.gpu: Couldn't update frequency transition 
-information.
-[  510.313052] usb 3-1.3: USB disconnect, device number 4
-[  519.677148] usb 3-1.3: new high-speed USB device number 5 using xhci-hcd
-[  519.793394] usb 3-1.3: New USB device found, idVendor=5986, 
-idProduct=2115, bcdDevice=54.20
-[  519.793441] usb 3-1.3: New USB device strings: Mfr=1, Product=2, 
-SerialNumber=0
-[  519.793472] usb 3-1.3: Product: Integrated Camera
-[  519.793495] usb 3-1.3: Manufacturer: SunplusIT Inc
-[  519.861020] usb 3-1.3: Found UVC 1.00 device Integrated Camera 
-(5986:2115)
-[  519.892879] input: Integrated Camera: Integrated C as 
-/devices/platform/soc@0/a8f8800.usb/a800000.dwc3/xhci-hcd.1.auto/usb3/3-1/3-1.3/3-1.3:1.0/input/input27
-[  520.283839] devfreq 5000000.gpu: Couldn't update frequency transition 
-information.
-[  520.335854] devfreq 5000000.gpu: Couldn't update frequency transition 
-information.
+--=20
+Cheers,
+Stephen Rothwell
 
+--Sig_/f1z=jp8ned0U5MhcxSkEu39
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
-Is this intended?
+-----BEGIN PGP SIGNATURE-----
 
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmGEy/UACgkQAVBC80lX
+0GwLYgf/YsXemq1FgUmgNNpY1yHPV39pjn7pDRTmtxoFSEa4Fo61slx+DkE9qeRm
+PSH5cAobM2bk8Ir8cG2iuqR2J0A2j1lzwh/FTX0YShmB5sPxYz9NQ1S+Oe8lTUc7
+uhuRJPj/4CDimckFkiYjF5Nwlim0E7sOSapBuFW7RBzcMhRWlXn7foF6xc385mUi
+pQvxiE6TIHzq8NgaFwNyvs9ouVz1dchou+phRXX187ENX958+YHYl9QZLJJ8MMjJ
+kHk+pMN3md6pGWLsu34t1/+9aAqG1aVKChPgRVRotwmKZMj/lJAIrmxE6Is6gdpY
+eVQOAtHXzcLJkDujD2OSOo+RIyHEqQ==
+=q40p
+-----END PGP SIGNATURE-----
+
+--Sig_/f1z=jp8ned0U5MhcxSkEu39--
