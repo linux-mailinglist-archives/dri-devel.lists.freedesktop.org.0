@@ -2,36 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E6564463C9
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Nov 2021 14:03:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F03E04463FB
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Nov 2021 14:19:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 950BF6E24D;
-	Fri,  5 Nov 2021 13:03:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1F876E284;
+	Fri,  5 Nov 2021 13:18:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E3E0C6E24D;
- Fri,  5 Nov 2021 13:03:43 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10158"; a="295336187"
-X-IronPort-AV: E=Sophos;i="5.87,211,1631602800"; d="scan'208";a="295336187"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Nov 2021 06:03:43 -0700
-X-IronPort-AV: E=Sophos;i="5.87,211,1631602800"; d="scan'208";a="532581578"
-Received: from inechita-mobl1.ger.corp.intel.com (HELO
- thellstr-mobl1.intel.com) ([10.249.254.167])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Nov 2021 06:03:41 -0700
-From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/i915/gem: Fix gem_madvise for ttm+shmem objects
-Date: Fri,  5 Nov 2021 14:03:33 +0100
-Message-Id: <20211105130333.797862-1-thomas.hellstrom@linux.intel.com>
-X-Mailer: git-send-email 2.31.1
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
+ [IPv6:2a00:1450:4864:20::42b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2DA6F6E212
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Nov 2021 13:18:55 +0000 (UTC)
+Received: by mail-wr1-x42b.google.com with SMTP id u1so13658586wru.13
+ for <dri-devel@lists.freedesktop.org>; Fri, 05 Nov 2021 06:18:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=7/iipoqAGtlWfjdTn7pIa/UV1IVALV2EMEK2Ldis3ok=;
+ b=ifXSu3YxdOWGJi9BpmMWnOWrVxdbHBjFXP/MC6gBHwOfp/tRp602TJzZp83L8zi9gC
+ 4TIiZETw5Zfvmnlrgma13J0NB9/IY0RnIftxjY3qyORHJOa5ft2S1MDCKespwqBDHy5X
+ 2fSiRlliFxIdbfA/46iK/DBjX9P8+jmEVwNSbaw7U6MYM/0VZFN9X1l18+oV7is/ugE/
+ Ldzd1ayvE5qOPCENJlcA2S9ktEb3FwxBlyvHejTgnGM5nsut7MW47QXuVPlY2SYQ5iaN
+ EZ/N4vTS6X4oKsJhsaaQ1ItC5COwZR3Gc4xUwW9jGB+JnS8YzhUZ98BISrACH8u0YqK7
+ 74rw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=7/iipoqAGtlWfjdTn7pIa/UV1IVALV2EMEK2Ldis3ok=;
+ b=kz8MLRXGG8vaOAe71LovsgfdCvQ+GrI9wOb9qkntZjoKdh55OrNa0ThF6MxmEgv5yQ
+ DFs8cqc6w9yjNOZ6YzV7bhSBRuZ6pe5wh9Fqb24gFf63kPgZI+JpS+UgS97DJ1drN4ug
+ jEANGb9THROjS3BekEYDZx9zZt8O1948FlJFFqwFWMI77bNoFc98Yu7jXrq7EKp4q0hK
+ uazjLKu/+NGdvYT3g8vXYc4qCHdICorAcq6bkDAM0KWcDitfVwYpCA625oTjMHL2flyY
+ Um4MLnmaFzGgqGYz4PTCY5/dIRyFUjhIpCJaJ2p/HRzz72fsiQgjaSMuqrs4CX5+9JuG
+ srWg==
+X-Gm-Message-State: AOAM532/zR0wMPtkJWGR2fdtZEtzBzkuc9K2QWC8Hx+0ZDM/hhlo0MQ0
+ WbtFURKPzwvWVxkBh73+C/sAnw==
+X-Google-Smtp-Source: ABdhPJwQHnoAVNWxU1bfYrJ+W2Anf3+K6IUO09ZgJAtRW1a3a3m9FMJj2FO8krg/xKbG0Vzc18WZlg==
+X-Received: by 2002:adf:f10d:: with SMTP id r13mr74756968wro.414.1636118333680; 
+ Fri, 05 Nov 2021 06:18:53 -0700 (PDT)
+Received: from maple.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net.
+ [80.7.220.175])
+ by smtp.gmail.com with ESMTPSA id o26sm11155063wmc.17.2021.11.05.06.18.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 05 Nov 2021 06:18:53 -0700 (PDT)
+Date: Fri, 5 Nov 2021 13:18:51 +0000
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: =?utf-8?B?TWHDrXJh?= Canal <maira.canal@usp.br>
+Subject: Re: [PATCH v6] backlight: lp855x: Switch to atomic PWM API
+Message-ID: <20211105131851.6p2jmo54b4jts2mo@maple.lan>
+References: <YYQfThRqabp4A7Dz@fedora>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <YYQfThRqabp4A7Dz@fedora>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,50 +70,20 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- matthew.auld@intel.com
+Cc: linux-pwm@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ jingoohan1@gmail.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, thierry.reding@gmail.com,
+ u.kleine-koenig@pengutronix.de, lee.jones@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Gem-TTM objects that are backed by shmem might have populated
-page-vectors without having the Gem pages set. Those objects
-aren't moved to the correct shrinker / purge list by the
-gem_madvise. Furthermore they are purged directly on
-MADV_DONTNEED rather than waiting for the shrinker to do that.
+On Thu, Nov 04, 2021 at 02:58:38PM -0300, Maíra Canal wrote:
+> Remove legacy PWM interface (pwm_config, pwm_enable, pwm_disable) and
+> replace it for the atomic PWM API.
+> 
+> Signed-off-by: Maíra Canal <maira.canal@usp.br>
 
-For such objects, identified by having the
-_SELF_MANAGED_SHRINK_LIST set, make sure they end up on the
-correct list and defer purging to the shrinker.
+Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
 
-Signed-off-by: Thomas HellstrÃ¶m <thomas.hellstrom@linux.intel.com>
----
- drivers/gpu/drm/i915/i915_gem.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/i915_gem.c b/drivers/gpu/drm/i915/i915_gem.c
-index d0e642c82064..da972c8d45b1 100644
---- a/drivers/gpu/drm/i915/i915_gem.c
-+++ b/drivers/gpu/drm/i915/i915_gem.c
-@@ -1005,7 +1005,8 @@ i915_gem_madvise_ioctl(struct drm_device *dev, void *data,
- 			obj->ops->adjust_lru(obj);
- 	}
- 
--	if (i915_gem_object_has_pages(obj)) {
-+	if (i915_gem_object_has_pages(obj) ||
-+	    i915_gem_object_has_self_managed_shrink_list(obj)) {
- 		unsigned long flags;
- 
- 		spin_lock_irqsave(&i915->mm.obj_lock, flags);
-@@ -1024,7 +1025,8 @@ i915_gem_madvise_ioctl(struct drm_device *dev, void *data,
- 
- 	/* if the object is no longer attached, discard its backing storage */
- 	if (obj->mm.madv == I915_MADV_DONTNEED &&
--	    !i915_gem_object_has_pages(obj))
-+	    !i915_gem_object_has_pages(obj) &&
-+	    !i915_gem_object_has_self_managed_shrink_list(obj))
- 		i915_gem_object_truncate(obj);
- 
- 	args->retained = obj->mm.madv != __I915_MADV_PURGED;
--- 
-2.31.1
-
+Daniel.
