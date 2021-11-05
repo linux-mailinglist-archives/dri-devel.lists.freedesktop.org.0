@@ -1,61 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D44E446DFC
-	for <lists+dri-devel@lfdr.de>; Sat,  6 Nov 2021 14:01:00 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F502446E2B
+	for <lists+dri-devel@lfdr.de>; Sat,  6 Nov 2021 14:41:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3337E6F5A4;
-	Sat,  6 Nov 2021 13:00:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 813366E1C0;
+	Sat,  6 Nov 2021 13:41:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
- [IPv6:2a00:1450:4864:20::42d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D06AC6F5A4
- for <dri-devel@lists.freedesktop.org>; Sat,  6 Nov 2021 13:00:52 +0000 (UTC)
-Received: by mail-wr1-x42d.google.com with SMTP id u18so18081580wrg.5
- for <dri-devel@lists.freedesktop.org>; Sat, 06 Nov 2021 06:00:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=m8wHab6566qURbj642hZQhjoNEVpnY3BwaarHDvq0L0=;
- b=XND+wSBUuPYLMgjewQQ+ZfunYmZNgCh8WWfsCXD0+PsOEDkfOKExouoH06ea4qyP2R
- FB0MqJKNiVp76AcUeWDBaFrBCmucksujIKNWtlWQ5+zBIpYORG52udyGka7M2ZFGQ76q
- V0TcnCJwJfirAXNGLwFVEV69RebWVhDKwLPb16UmV4cHYfZyD5rlCkOq6mgP84tWVzDS
- X1LtVHIqZogdb3d9gwGkK3v1bmpVRt2HQaxrtf9Uqfp6EXssJtqwuhO+gWxqd0KOkYIb
- YCVFhO33SLioM8xwNMnieu74NedU5n2fWXbBeTBYVWLTmxv/YQ6ZO8EBkmez93iCZFGO
- 03Xw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=m8wHab6566qURbj642hZQhjoNEVpnY3BwaarHDvq0L0=;
- b=Pbp5xjefQxmRzc4oY7PjPBJOhosvWRi/R8kXgDEPWp3UpNZp/5RLdk7DgfAcH/fMJO
- gv95mTJkqS6LR8fWlB0MyFZeBG2JPfQzKaZAjZw3pWEBFSZvYIIBfH40HbBGADqA3eLz
- t5ZqNsXyVpKyMNUAp3jw0BGOi0O7ZNcJKAmX+MaQiCfyDU9YmCwMhbgDx+sD8IMCs3CY
- 45iEy8iAVX8eGZf9awufmq6QJoCFRcDOJQPkFrSL9sz7ltkwO2lAvkFvAA9ojEF4i/qB
- K7NrO43hFErGZrnAXfRXiwGM4IJjJ0TFA4nQtW7AduU/Zug5iAjh5OmhNq2sAsgH3BEE
- o5bw==
-X-Gm-Message-State: AOAM530oFuN5YAZQI/EYVJGDpdqvrfSt+H31usXO3A4oVkSIEhnC/tcO
- ouKU8X1fwiaqraIJnjgGwA==
-X-Google-Smtp-Source: ABdhPJw/FzXBTpUJ4P9/xdnyrcrIhUJIRVvdOeNvjS5d8P59c56FmQdYXt8IzHbi1eD/sZhPdkltdg==
-X-Received: by 2002:adf:efc3:: with SMTP id i3mr59891089wrp.103.1636203651372; 
- Sat, 06 Nov 2021 06:00:51 -0700 (PDT)
-Received: from alex-ThinkPad-E480.. (ip5b435a69.dynamic.kabel-deutschland.de.
- [91.67.90.105])
- by smtp.googlemail.com with ESMTPSA id h27sm15786674wmc.43.2021.11.06.06.00.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 06 Nov 2021 06:00:51 -0700 (PDT)
-From: Alex Bee <knaerzche@gmail.com>
-To: Neil Armstrong <narmstrong@baylibre.com>,
- Andrzej Hajda <a.hajda@samsung.com>, Robert Foss <robert.foss@linaro.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Subject: [PATCH] drm: bridge: dw-hdmi: Fix RGB to YUV color space conversion
-Date: Sat,  6 Nov 2021 14:00:44 +0100
-Message-Id: <20211106130044.63483-1-knaerzche@gmail.com>
-X-Mailer: git-send-email 2.30.2
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B9B86EC35
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Nov 2021 17:28:25 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1636133306; h=Message-Id: Date: Subject: Cc: To: From:
+ Sender; bh=7R79BvDTeO6LbJs7f5vtqHWLrzxOGSrgoeB4iEkArII=;
+ b=A/eOzXC1g8AwhCFBOgj3T+AHFlpN63G272UPtHcZgC2SDMZcMJybGVW//CAiJ0R7/Yrc32uE
+ Kzt0uq64sL/2HRISzHr8KTpCbqjQAizZ19hcqpWyOKfZrkGvZMNemQ/A2TXUnPUp6zbA/NGD
+ 5Gxz8AonntPI7clXNJ8W3290mXw=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n07.prod.us-west-2.postgun.com with SMTP id
+ 618569b5f97c48cc48a2e7ab (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 05 Nov 2021 17:28:21
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 5A27EC4360D; Fri,  5 Nov 2021 17:28:21 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
+ SPF_FAIL, 
+ URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+Received: from khsieh-linux1.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: khsieh)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 96240C43460;
+ Fri,  5 Nov 2021 17:28:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.codeaurora.org 96240C43460
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=fail (p=none dis=none) header.from=quicinc.com
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=fail smtp.mailfrom=quicinc.com
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+To: robdclark@gmail.com, sean@poorly.run, swboyd@chromium.org,
+ vkoul@kernel.org, daniel@ffwll.ch, airlied@linux.ie, agross@kernel.org,
+ dmitry.baryshkov@linaro.org, bjorn.andersson@linaro.org
+Subject: [PATCH] drm/msm/dp: do not initialize phy until plugin interrupt
+ received
+Date: Fri,  5 Nov 2021 10:28:11 -0700
+Message-Id: <1636133291-10551-1-git-send-email-quic_khsieh@quicinc.com>
+X-Mailer: git-send-email 2.7.4
+X-Mailman-Approved-At: Sat, 06 Nov 2021 13:41:19 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,80 +68,417 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, Alex Bee <knaerzche@gmail.com>,
- dri-devel@lists.freedesktop.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jonas Karlman <jonas@kwiboo.se>
+Cc: linux-arm-msm@vger.kernel.org, quic_abhinavk@quicinc.com,
+ dri-devel@lists.freedesktop.org, quic_khsieh@quicinc.com,
+ Kuogee Hsieh <khsieh@codeaurora.org>, aravindh@codeaurora.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As per CEA-861 quantization range is always limited in case of YUV
-output - indepentently which CEA mode it is or if it is an DMT mode.
+From: Kuogee Hsieh <khsieh@codeaurora.org>
 
-This is already correctly setup in HDMI AVI inforame, but we always do
-a RGB to YUV conversion which doesn't consider that RGB input can be
-full range as well.
-That leads to incorrect colors for all CEA modes except mode 1 for HDMI
-and always for DVI.
+Combo phy supports both USB and DP simultaneously. There may has a
+possible conflict during phy initialization phase between USB and
+DP driver which may cause USB phy timeout when USB tries to power
+up its phy. This patch has the DP driver not initialize its phy
+during DP driver initialization phase. Instead DP driver only enable
+required regulators and clocks so that it is able to receive HPD
+interrupts after completion of initialization phase. DP driver will
+initialize its phy when HPD plug-in interrupt received.
+This patch also provides a positive side effects which balance regulator
+enable count since regulator only enabled at initialize phase and resume
+and disabled at followed suspend.
 
-To fix this, provide additional csc coefficents for converting from RGB
-full range to EITU601/EITU709 limited range and rename the existing
-arrays to clarify their meaning.
-
-Signed-off-by: Alex Bee <knaerzche@gmail.com>
+Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
 ---
- drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 24 +++++++++++++++++++----
- 1 file changed, 20 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/msm/dp/dp_ctrl.c    | 97 ++++++++++++++++++++++---------------
+ drivers/gpu/drm/msm/dp/dp_ctrl.h    |  9 ++--
+ drivers/gpu/drm/msm/dp/dp_display.c | 71 ++++++++++++++++++++-------
+ 3 files changed, 119 insertions(+), 58 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-index 62ae63565d3a..1cba08b70091 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-@@ -80,13 +80,25 @@ static const u16 csc_coeff_rgb_out_eitu709[3][4] = {
- 	{ 0x2000, 0x0000, 0x3b61, 0x7e25 }
+diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+index 7ec155d..e0e5dc9 100644
+--- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
++++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+@@ -1364,7 +1364,41 @@ static int dp_ctrl_enable_stream_clocks(struct dp_ctrl_private *ctrl)
+ 	return ret;
+ }
+ 
+-int dp_ctrl_host_init(struct dp_ctrl *dp_ctrl, bool flip, bool reset)
++void dp_ctrl_irq_enable(struct dp_ctrl *dp_ctrl, bool flip)
++{
++	struct dp_ctrl_private *ctrl;
++
++	if (!dp_ctrl) {
++		DRM_ERROR("Invalid input data\n");
++		return;
++	}
++
++	ctrl = container_of(dp_ctrl, struct dp_ctrl_private, dp_ctrl);
++
++	ctrl->dp_ctrl.orientation = flip;
++
++	dp_catalog_ctrl_reset(ctrl->catalog);
++
++	dp_catalog_ctrl_enable_irq(ctrl->catalog, true);
++}
++
++void dp_ctrl_irq_disable(struct dp_ctrl *dp_ctrl)
++{
++	struct dp_ctrl_private *ctrl;
++
++	if (!dp_ctrl) {
++		DRM_ERROR("Invalid input data\n");
++		return;
++	}
++
++	ctrl = container_of(dp_ctrl, struct dp_ctrl_private, dp_ctrl);
++
++	dp_catalog_ctrl_reset(ctrl->catalog);
++
++	dp_catalog_ctrl_enable_irq(ctrl->catalog, false);
++}
++
++void dp_ctrl_phy_init(struct dp_ctrl *dp_ctrl)
+ {
+ 	struct dp_ctrl_private *ctrl;
+ 	struct dp_io *dp_io;
+@@ -1372,34 +1406,24 @@ int dp_ctrl_host_init(struct dp_ctrl *dp_ctrl, bool flip, bool reset)
+ 
+ 	if (!dp_ctrl) {
+ 		DRM_ERROR("Invalid input data\n");
+-		return -EINVAL;
++		return;
+ 	}
+ 
+ 	ctrl = container_of(dp_ctrl, struct dp_ctrl_private, dp_ctrl);
+ 	dp_io = &ctrl->parser->io;
+ 	phy = dp_io->phy;
+ 
+-	ctrl->dp_ctrl.orientation = flip;
+-
+-	if (reset)
+-		dp_catalog_ctrl_reset(ctrl->catalog);
++	DRM_DEBUG_DP("Before, phy=%x init_count=%d power_on=%d\n",
++		(u32)(uintptr_t)phy, phy->init_count, phy->power_count);
+ 
+-	DRM_DEBUG_DP("flip=%d\n", flip);
+ 	dp_catalog_ctrl_phy_reset(ctrl->catalog);
+ 	phy_init(phy);
+-	dp_catalog_ctrl_enable_irq(ctrl->catalog, true);
+ 
+-	return 0;
++	DRM_DEBUG_DP("After, phy=%x init_count=%d power_on=%d\n",
++		(u32)(uintptr_t)phy, phy->init_count, phy->power_count);
+ }
+ 
+-/**
+- * dp_ctrl_host_deinit() - Uninitialize DP controller
+- * @dp_ctrl: Display Port Driver data
+- *
+- * Perform required steps to uninitialize DP controller
+- * and its resources.
+- */
+-void dp_ctrl_host_deinit(struct dp_ctrl *dp_ctrl)
++void dp_ctrl_phy_exit(struct dp_ctrl *dp_ctrl)
+ {
+ 	struct dp_ctrl_private *ctrl;
+ 	struct dp_io *dp_io;
+@@ -1414,10 +1438,14 @@ void dp_ctrl_host_deinit(struct dp_ctrl *dp_ctrl)
+ 	dp_io = &ctrl->parser->io;
+ 	phy = dp_io->phy;
+ 
+-	dp_catalog_ctrl_enable_irq(ctrl->catalog, false);
++	DRM_DEBUG_DP("Before, phy=%x init_count=%d power_on=%d\n",
++		(u32)(uintptr_t)phy, phy->init_count, phy->power_count);
++
++	dp_catalog_ctrl_phy_reset(ctrl->catalog);
+ 	phy_exit(phy);
+ 
+-	DRM_DEBUG_DP("Host deinitialized successfully\n");
++	DRM_DEBUG_DP("After, phy=%x init_count=%d power_on=%d\n",
++		(u32)(uintptr_t)phy, phy->init_count, phy->power_count);
+ }
+ 
+ static bool dp_ctrl_use_fixed_nvid(struct dp_ctrl_private *ctrl)
+@@ -1895,8 +1923,14 @@ int dp_ctrl_off_link_stream(struct dp_ctrl *dp_ctrl)
+ 		return ret;
+ 	}
+ 
++	DRM_DEBUG_DP("Before, phy=%x init_count=%d power_on=%d\n",
++		(u32)(uintptr_t)phy, phy->init_count, phy->power_count);
++
+ 	phy_power_off(phy);
+ 
++	DRM_DEBUG_DP("After, phy=%x init_count=%d power_on=%d\n",
++		(u32)(uintptr_t)phy, phy->init_count, phy->power_count);
++
+ 	/* aux channel down, reinit phy */
+ 	phy_exit(phy);
+ 	phy_init(phy);
+@@ -1905,23 +1939,6 @@ int dp_ctrl_off_link_stream(struct dp_ctrl *dp_ctrl)
+ 	return ret;
+ }
+ 
+-void dp_ctrl_off_phy(struct dp_ctrl *dp_ctrl)
+-{
+-	struct dp_ctrl_private *ctrl;
+-	struct dp_io *dp_io;
+-	struct phy *phy;
+-
+-	ctrl = container_of(dp_ctrl, struct dp_ctrl_private, dp_ctrl);
+-	dp_io = &ctrl->parser->io;
+-	phy = dp_io->phy;
+-
+-	dp_catalog_ctrl_reset(ctrl->catalog);
+-
+-	phy_exit(phy);
+-
+-	DRM_DEBUG_DP("DP off phy done\n");
+-}
+-
+ int dp_ctrl_off(struct dp_ctrl *dp_ctrl)
+ {
+ 	struct dp_ctrl_private *ctrl;
+@@ -1949,10 +1966,14 @@ int dp_ctrl_off(struct dp_ctrl *dp_ctrl)
+ 		DRM_ERROR("Failed to disable link clocks. ret=%d\n", ret);
+ 	}
+ 
++	DRM_DEBUG_DP("Before, phy=%x init_count=%d power_on=%d\n",
++		(u32)(uintptr_t)phy, phy->init_count, phy->power_count);
++
+ 	phy_power_off(phy);
+-	phy_exit(phy);
+ 
+-	DRM_DEBUG_DP("DP off done\n");
++	DRM_DEBUG_DP("After, phy=%x init_count=%d power_on=%d\n",
++		(u32)(uintptr_t)phy, phy->init_count, phy->power_count);
++
+ 	return ret;
+ }
+ 
+diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.h b/drivers/gpu/drm/msm/dp/dp_ctrl.h
+index 2363a2d..c1e4b1b 100644
+--- a/drivers/gpu/drm/msm/dp/dp_ctrl.h
++++ b/drivers/gpu/drm/msm/dp/dp_ctrl.h
+@@ -19,12 +19,9 @@ struct dp_ctrl {
+ 	u32 pixel_rate;
  };
  
--static const u16 csc_coeff_rgb_in_eitu601[3][4] = {
-+static const u16 csc_coeff_rgb_full_in_eitu601[3][4] = {
-+	{ 0x2044, 0x106f, 0x0644, 0x0040 },
-+	{ 0xe677, 0x1c1c, 0xfd46, 0x0200 },
-+	{ 0xed60, 0xf685, 0x1c1c, 0x0200 }
-+};
-+
-+static const u16 csc_coeff_rgb_limited_in_eitu601[3][4] = {
- 	{ 0x2591, 0x1322, 0x074b, 0x0000 },
- 	{ 0x6535, 0x2000, 0x7acc, 0x0200 },
- 	{ 0x6acd, 0x7534, 0x2000, 0x0200 }
- };
+-int dp_ctrl_host_init(struct dp_ctrl *dp_ctrl, bool flip, bool reset);
+-void dp_ctrl_host_deinit(struct dp_ctrl *dp_ctrl);
+ int dp_ctrl_on_link(struct dp_ctrl *dp_ctrl);
+ int dp_ctrl_on_stream(struct dp_ctrl *dp_ctrl);
+ int dp_ctrl_off_link_stream(struct dp_ctrl *dp_ctrl);
+-void dp_ctrl_off_phy(struct dp_ctrl *dp_ctrl);
+ int dp_ctrl_off(struct dp_ctrl *dp_ctrl);
+ void dp_ctrl_push_idle(struct dp_ctrl *dp_ctrl);
+ void dp_ctrl_isr(struct dp_ctrl *dp_ctrl);
+@@ -34,4 +31,10 @@ struct dp_ctrl *dp_ctrl_get(struct device *dev, struct dp_link *link,
+ 			struct dp_power *power, struct dp_catalog *catalog,
+ 			struct dp_parser *parser);
  
--static const u16 csc_coeff_rgb_in_eitu709[3][4] = {
-+static const u16 csc_coeff_rgb_full_in_eitu709[3][4] = {
-+	{ 0x2750, 0x0baf, 0x03f8, 0x0040 },
-+	{ 0xe677, 0x1c1c, 0xfd6d, 0x0200 },
-+	{ 0xea55, 0xf98f, 0x1c1c, 0x0200 }
-+};
++void dp_ctrl_irq_enable(struct dp_ctrl *dp_ctrl, bool flip);
++void dp_ctrl_irq_disable(struct dp_ctrl *dp_ctrl);
++void dp_ctrl_phy_init(struct dp_ctrl *dp_ctrl);
++void dp_ctrl_phy_exit(struct dp_ctrl *dp_ctrl);
++void dp_ctrl_irq_phy_exit(struct dp_ctrl *dp_ctrl);
 +
-+static const u16 csc_coeff_rgb_limted_in_eitu709[3][4] = {
- 	{ 0x2dc5, 0x0d9b, 0x049e, 0x0000 },
- 	{ 0x62f0, 0x2000, 0x7d11, 0x0200 },
- 	{ 0x6756, 0x78ab, 0x2000, 0x0200 }
-@@ -1023,9 +1035,13 @@ static void dw_hdmi_update_csc_coeffs(struct dw_hdmi *hdmi)
- 			csc_coeff = &csc_coeff_rgb_out_eitu709;
- 	} else if (is_input_rgb && !is_output_rgb) {
- 		if (hdmi->hdmi_data.enc_out_encoding == V4L2_YCBCR_ENC_601)
--			csc_coeff = &csc_coeff_rgb_in_eitu601;
-+			csc_coeff = hdmi->hdmi_data.rgb_limited_range
-+				? &csc_coeff_rgb_limited_in_eitu601
-+				: &csc_coeff_rgb_full_in_eitu601;
- 		else
--			csc_coeff = &csc_coeff_rgb_in_eitu709;
-+			csc_coeff = hdmi->hdmi_data.rgb_limited_range
-+				? &csc_coeff_rgb_limted_in_eitu709
-+				: &csc_coeff_rgb_full_in_eitu709;
- 		csc_scale = 0;
- 	} else if (is_input_rgb && is_output_rgb &&
- 		   hdmi->hdmi_data.rgb_limited_range) {
-
-base-commit: 89636a06fa2ee7826a19c39c19a9bc99ab9340a9
+ #endif /* _DP_CTRL_H_ */
+diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+index e41dd40..17d2d5c 100644
+--- a/drivers/gpu/drm/msm/dp/dp_display.c
++++ b/drivers/gpu/drm/msm/dp/dp_display.c
+@@ -84,6 +84,7 @@ struct dp_display_private {
+ 
+ 	/* state variables */
+ 	bool core_initialized;
++	bool phy_initialized;
+ 	bool hpd_irq_on;
+ 	bool audio_supported;
+ 
+@@ -387,7 +388,7 @@ static int dp_display_process_hpd_high(struct dp_display_private *dp)
+ 	return rc;
+ }
+ 
+-static void dp_display_host_init(struct dp_display_private *dp, int reset)
++static void dp_display_host_init(struct dp_display_private *dp)
+ {
+ 	bool flip = false;
+ 
+@@ -400,12 +401,37 @@ static void dp_display_host_init(struct dp_display_private *dp, int reset)
+ 	if (dp->usbpd->orientation == ORIENTATION_CC2)
+ 		flip = true;
+ 
+-	dp_power_init(dp->power, flip);
+-	dp_ctrl_host_init(dp->ctrl, flip, reset);
++	dp_power_init(dp->power, false);
++	dp_ctrl_irq_enable(dp->ctrl, flip);
++
++	if (dp->dp_display.connector_type == DRM_MODE_CONNECTOR_eDP)
++		dp_ctrl_phy_init(dp->ctrl);
++
+ 	dp_aux_init(dp->aux);
+ 	dp->core_initialized = true;
+ }
+ 
++static void dp_display_host_phy_init(struct dp_display_private *dp)
++{
++	DRM_DEBUG_DP("core_init=%d phy_init=%d\n",
++			dp->core_initialized, dp->phy_initialized);
++	if (dp->phy_initialized == false) {
++		dp_ctrl_phy_init(dp->ctrl);
++		dp->phy_initialized = true;
++	}
++}
++
++static void dp_display_host_phy_exit(struct dp_display_private *dp)
++{
++	DRM_DEBUG_DP("core_init=%d phy_init=%d\n",
++			dp->core_initialized, dp->phy_initialized);
++
++	if (dp->phy_initialized == true) {
++		dp_ctrl_phy_exit(dp->ctrl);
++		dp->phy_initialized = false;
++	}
++}
++
+ static void dp_display_host_deinit(struct dp_display_private *dp)
+ {
+ 	if (!dp->core_initialized) {
+@@ -413,7 +439,7 @@ static void dp_display_host_deinit(struct dp_display_private *dp)
+ 		return;
+ 	}
+ 
+-	dp_ctrl_host_deinit(dp->ctrl);
++	dp_ctrl_irq_disable(dp->ctrl);
+ 	dp_aux_deinit(dp->aux);
+ 	dp_power_deinit(dp->power);
+ 
+@@ -424,7 +450,7 @@ static int dp_display_usbpd_configure_cb(struct device *dev)
+ {
+ 	struct dp_display_private *dp = dev_get_dp_display_private(dev);
+ 
+-	dp_display_host_init(dp, true);
++	dp_display_host_phy_init(dp);
+ 
+ 	return dp_display_process_hpd_high(dp);
+ }
+@@ -551,7 +577,7 @@ static int dp_hpd_plug_handle(struct dp_display_private *dp, u32 data)
+ 		dp->hpd_state = ST_DISCONNECTED;
+ 
+ 		if (ret == -ECONNRESET) { /* cable unplugged */
+-			dp->core_initialized = false;
++			dp->phy_initialized = false;
+ 		}
+ 
+ 	} else {
+@@ -623,9 +649,8 @@ static int dp_hpd_unplug_handle(struct dp_display_private *dp, u32 data)
+ 	if (state == ST_DISCONNECTED) {
+ 		/* triggered by irq_hdp with sink_count = 0 */
+ 		if (dp->link->sink_count == 0) {
+-			dp_ctrl_off_phy(dp->ctrl);
++			dp_display_host_phy_exit(dp);
+ 			hpd->hpd_high = 0;
+-			dp->core_initialized = false;
+ 		}
+ 		mutex_unlock(&dp->event_mutex);
+ 		return 0;
+@@ -716,7 +741,7 @@ static int dp_irq_hpd_handle(struct dp_display_private *dp, u32 data)
+ 
+ 	ret = dp_display_usbpd_attention_cb(&dp->pdev->dev);
+ 	if (ret == -ECONNRESET) { /* cable unplugged */
+-		dp->core_initialized = false;
++		dp->phy_initialized = false;
+ 	}
+ 	DRM_DEBUG_DP("hpd_state=%d\n", state);
+ 
+@@ -918,12 +943,19 @@ static int dp_display_disable(struct dp_display_private *dp, u32 data)
+ 
+ 	dp_display->audio_enabled = false;
+ 
+-	/* triggered by irq_hpd with sink_count = 0 */
+ 	if (dp->link->sink_count == 0) {
++		/*
++		 * irq_hpd with sink_count = 0
++		 * hdmi unplugged out of dongle
++		 */
+ 		dp_ctrl_off_link_stream(dp->ctrl);
+ 	} else {
++		/*
++		 * unplugged interrupt
++		 * dongle unplugged out of DUT
++		 */
+ 		dp_ctrl_off(dp->ctrl);
+-		dp->core_initialized = false;
++		dp_display_host_phy_exit(dp);
+ 	}
+ 
+ 	dp_power_panel_on(dp->power, false);
+@@ -1059,7 +1091,7 @@ void msm_dp_snapshot(struct msm_disp_state *disp_state, struct msm_dp *dp)
+ static void dp_display_config_hpd(struct dp_display_private *dp)
+ {
+ 
+-	dp_display_host_init(dp, true);
++	dp_display_host_init(dp);
+ 	dp_catalog_ctrl_hpd_config(dp->catalog);
+ 
+ 	/* Enable interrupt first time
+@@ -1338,7 +1370,7 @@ static int dp_pm_resume(struct device *dev)
+ 	dp->hpd_state = ST_DISCONNECTED;
+ 
+ 	/* turn on dp ctrl/phy */
+-	dp_display_host_init(dp, true);
++	dp_display_host_init(dp);
+ 
+ 	dp_catalog_ctrl_hpd_config(dp->catalog);
+ 
+@@ -1346,12 +1378,15 @@ static int dp_pm_resume(struct device *dev)
+ 	 * set sink to normal operation mode -- D0
+ 	 * before dpcd read
+ 	 */
+-	dp_link_psm_config(dp->link, &dp->panel->link_info, false);
+-
+ 	if (dp_catalog_link_is_connected(dp->catalog)) {
++		dp_display_host_phy_init(dp);
++
++		dp_link_psm_config(dp->link, &dp->panel->link_info, false);
+ 		sink_count = drm_dp_read_sink_count(dp->aux);
+ 		if (sink_count < 0)
+ 			sink_count = 0;
++
++		dp_display_host_phy_exit(dp);
+ 	}
+ 
+ 	dp->link->sink_count = sink_count;
+@@ -1399,6 +1434,8 @@ static int dp_pm_suspend(struct device *dev)
+ 		dp_display_host_deinit(dp);
+ 	}
+ 
++	dp_display_host_phy_exit(dp);
++
+ 	dp->hpd_state = ST_SUSPENDED;
+ 
+ 	/* host_init will be called at pm_resume */
+@@ -1473,7 +1510,7 @@ void msm_dp_irq_postinstall(struct msm_dp *dp_display)
+ 		enable_irq(dp->irq);
+ 		dp_hpd_connect(dp->usbpd, true);
+ 	} else {
+-		dp_add_event(dp, EV_HPD_INIT_SETUP, 0, dp->id * 10);
++		dp_add_event(dp, EV_HPD_INIT_SETUP, 0, 0);
+ 	}
+ }
+ 
+@@ -1567,7 +1604,7 @@ int msm_dp_display_enable(struct msm_dp *dp, struct drm_encoder *encoder)
+ 	state =  dp_display->hpd_state;
+ 
+ 	if (state == ST_DISPLAY_OFF)
+-		dp_display_host_init(dp_display, true);
++		dp_display_host_phy_init(dp_display);
+ 
+ 	dp_display_enable(dp_display, 0);
+ 
 -- 
-2.30.2
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
 
