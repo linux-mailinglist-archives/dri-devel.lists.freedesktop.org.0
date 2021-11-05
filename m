@@ -1,84 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6195E446315
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Nov 2021 13:01:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AFFF44634C
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Nov 2021 13:20:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D7E6F89CD4;
-	Fri,  5 Nov 2021 12:01:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 046D46E161;
+	Fri,  5 Nov 2021 12:20:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EFD2989D39
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Nov 2021 12:01:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636113674;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=d6mnjEfsvPWlmw0Dlsyl+1vpuoyclHqeKNkGqPRjBhA=;
- b=blUsf+DphCkAa2HzUFHJk6+P+VzzwtzOxDAyn5bgR5WNRZGlPXWs1j2BdkXG88YOnqg8Ay
- TO/sHz4yO/A7M742m4XkmdR1n4lr3z2kNopkY2ejELFhcmmoazFDDpNlPudMu7hH2+8kb4
- SaT2zuHLgAHlqMsJYaQk3CKa5l7A+fk=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-501-JWQpqyBVNDyvIpS-zBtSVA-1; Fri, 05 Nov 2021 08:00:52 -0400
-X-MC-Unique: JWQpqyBVNDyvIpS-zBtSVA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- j25-20020a05600c1c1900b00332372c252dso3201878wms.1
- for <dri-devel@lists.freedesktop.org>; Fri, 05 Nov 2021 05:00:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=d6mnjEfsvPWlmw0Dlsyl+1vpuoyclHqeKNkGqPRjBhA=;
- b=5ffcR9YN5NF4oofuQNimuHrmNTtwhy2KGex9KbIbs8T2pnc/gvY5CYcR2/uQ97U6tS
- P1bWYKYMQp9j/RbpNDDMzRUR2oZyIOODcDiqYt+YlN6tkvmAJOZN82HtLoFvk5/6bruN
- To8n6Dl/lWZUgOoC9yORyw9yMivUKjbJTz5bXLZt7UWzvSFTZJiD8oAarwdlHKFKsZok
- OGd8s6Zxq0Q/8D+0exHMNk7Zu2UPvQa62An2EmaJ/fD6GD/9u0vRWvaZ3qyxU4azktu6
- tJqAcpOqcCpft/uFXA9DCoa3vCT/myBr+8f8I86huXK9ESdF462urAAJLCFZpluQ7dN6
- wn7A==
-X-Gm-Message-State: AOAM531MjOipCPwRrsGwUSGKoe2fBraFs5vbmF2m9T9fc3RfCSjAXOEV
- mwIeDlQwDnCG3TSvEJsSux+xav6L2s6CKi7IqPM2O9Wtb/DA7nlOiWUfSfk/tDLjdNhNsuubtS/
- +ggi3BKWILsuONSV9HrjW2eOe/UZU
-X-Received: by 2002:a05:6000:1868:: with SMTP id
- d8mr36559130wri.285.1636113651755; 
- Fri, 05 Nov 2021 05:00:51 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwxlHaNU9FU6Qy+ImAOwcqW/sLneLxZOG0rukxfbYjqJBdrwuSz7fg+xp3pWIymRwt/FJOPRA==
-X-Received: by 2002:a05:6000:1868:: with SMTP id
- d8mr36559073wri.285.1636113651479; 
- Fri, 05 Nov 2021 05:00:51 -0700 (PDT)
-Received: from [192.168.1.128] ([92.176.231.106])
- by smtp.gmail.com with ESMTPSA id m21sm7590336wrb.2.2021.11.05.05.00.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 05 Nov 2021 05:00:51 -0700 (PDT)
-Message-ID: <335a9e0f-cce9-480b-10e0-bd312b81e587@redhat.com>
-Date: Fri, 5 Nov 2021 13:00:49 +0100
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3480D6E15E
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Nov 2021 12:20:06 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10158"; a="211939114"
+X-IronPort-AV: E=Sophos;i="5.87,211,1631602800"; d="scan'208";a="211939114"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Nov 2021 05:20:04 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.87,211,1631602800"; d="scan'208";a="490304718"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
+ by orsmga007.jf.intel.com with SMTP; 05 Nov 2021 05:20:01 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Fri, 05 Nov 2021 14:20:00 +0200
+Date: Fri, 5 Nov 2021 14:20:00 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Harry Wentland <harry.wentland@amd.com>
+Subject: Re: Questions about KMS flip
+Message-ID: <YYUhcCxQ6LhL8Xyn@intel.com>
+References: <579d0f44-bb85-11b2-d326-35a0b7c5d0de@amd.com>
+ <5c242319-ade3-5621-6429-f77b17c34de5@amd.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v2 1/2] drm: Add a drm_drv_enabled() to check if drivers
- should be enabled
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
-References: <20211104160707.1407052-1-javierm@redhat.com>
- <20211104160707.1407052-2-javierm@redhat.com> <87ilx7ae3v.fsf@intel.com>
- <0c07f121-42d3-9f37-1e14-842fb685b501@redhat.com>
- <d4a64906-69e5-3250-2362-79f2afac0a23@suse.de>
- <38dbcc8f-2f95-6846-537f-9b85468bfa87@redhat.com> <877ddmapfj.fsf@intel.com>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <877ddmapfj.fsf@intel.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <5c242319-ade3-5621-6429-f77b17c34de5@amd.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,54 +48,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- Pekka Paalanen <pekka.paalanen@collabora.com>,
- Hans de Goede <hdegoede@redhat.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, amd-gfx@lists.freedesktop.org,
- Gurchetan Singh <gurchetansingh@chromium.org>, Ben Skeggs <bskeggs@redhat.com>,
- VMware Graphics <linux-graphics-maintainer@vmware.com>,
- Gerd Hoffmann <kraxel@redhat.com>, spice-devel@lists.freedesktop.org,
- nouveau@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- Dave Airlie <airlied@redhat.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- virtualization@lists.linux-foundation.org, intel-gfx@lists.freedesktop.org,
- =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>,
- Peter Robinson <pbrobinson@gmail.com>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ Michel =?iso-8859-1?Q?D=E4nzer?= <michel@daenzer.net>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, "Kazlauskas,
+ Nicholas" <Nicholas.Kazlauskas@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/5/21 11:04, Jani Nikula wrote:
-> On Fri, 05 Nov 2021, Javier Martinez Canillas <javierm@redhat.com> wrote:
-
-[snip]
-
->>
->> Do you envision other condition that could be added later to disable a
->> DRM driver ? Or do you think that just from a code readability point of
->> view makes worth it ?
+On Thu, Nov 04, 2021 at 12:44:34PM -0400, Harry Wentland wrote:
+> +Nick
 > 
-> Taking a step back for perspective.
+> It looks to be the old drm_plane_state->fb holds that reference. See dm_plane_helper_cleanup_fb() in amdgpu_dm.c.
+
+BTW looks like you have a possible leak during fb init;
+amdgpu_display_framebuffer_init() grabs the refs to the BOs,
+but drm_framebuffer_init() might still fail (at least
+theoretically) which will then leak those BO refs.
+
 > 
-> I think there's broad consensus in moving the parameter to drm, naming
-> the check function to drm_something_something(), and breaking the ties
-> to CONFIG_VGA_CONSOLE. I appreciate the work you're doing to that
-> effect.
->
+> Harry
+> 
+> On 2021-11-04 08:51, Christian König wrote:
+> > Hi guys,
+> > 
+> > adding the usual suspects which might know that of hand: When we do a KMS page flip, who keeps the reference to the BO while it is scanned out?
+> > 
+> > We are running into warning backtraces from TTM which look more than odd.
+> > 
+> > Thanks,
+> > Christian.
 
-Thanks, I appreciate your feedback and comments.
- 
-> I think everything beyond that is still a bit vague and/or
-> contentious. So how about making the first 2-3 patches just that?
-> Something we can all agree on, makes good progress, improves the kernel,
-> and gives us something to build on?
->
-
-That works for me. Thomas, do you agree with that approach ?
- 
-Best regards,
 -- 
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
-
+Ville Syrjälä
+Intel
