@@ -1,66 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 372974469BA
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Nov 2021 21:29:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3700F4469EE
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Nov 2021 21:44:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7EF016EB5A;
-	Fri,  5 Nov 2021 20:29:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2FE8F6E4AA;
+	Fri,  5 Nov 2021 20:44:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com
- [IPv6:2607:f8b0:4864:20::229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D3316EB5A
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Nov 2021 20:29:04 +0000 (UTC)
-Received: by mail-oi1-x229.google.com with SMTP id x70so16345888oix.6
- for <dri-devel@lists.freedesktop.org>; Fri, 05 Nov 2021 13:29:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kali.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=8JOiyVnxfxaZAhXkgjHfAK5HrLExH5oiye43Nc9y5lE=;
- b=Mkh7tjdb+bN/TRolya14M3jL1kGZiyedL6PMEh8LA19iejEw/DTZsdk3WhwKP9870o
- gnhPaIE6lMNPDZXnoMl3bV4nqSkCnnVcBUV3WZyzt1Jlxzy1vhG8Z92AeNC+4BByn6GD
- cCblwnlHT/5PSL/T9MENFZI4KIBTqCwXE6ilRQrgZxV+XzkVuFDkfGZw8oq/y1igL6ZO
- p1JnAnwT4gQouVR3lGoiwxh/Eh2ljiQczHGJXxyMYIy848ciIc8G5EGt5DPONSQz7ldK
- 1WgeNYkxTZJbcX6UmDqXNRtz6/cLKOeC1vNFWWMo1rvp69mJCVwhxX5X2UvKrSl1pifH
- ADPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=8JOiyVnxfxaZAhXkgjHfAK5HrLExH5oiye43Nc9y5lE=;
- b=7vIJrKyczK8AekjRGqxRcRrZEy2ON/4bVlVMAJvI4/bAyRB/7wpsrGPbkN/MnuaTu1
- ZuWibtvp9K5B0+Ztz/pR36AfC+/C00bk5ADZu9oBkC8hYdpeEsvYDQb13i5e+G+xgYsY
- zJgUuwknjK576p8eyZdXeB7U2B4MKaqOOYV45ujGOgUaBXTzHhgrWozzq7nAQOPRBGMl
- oHij2T/nu2QiRFpKFhI9d5rz/llAuEyrz6VmG5oEwGLlj3Bg31v4fFwm7vvvd0x/0Kcu
- cXOs43918UKMZDtxtZOE72MYXbThsV4g9iXo3hmdsd23AUpUyxlyAZOawVMpzt0EuUcM
- Stow==
-X-Gm-Message-State: AOAM530QmV7H2E/7yUKDdmNblCgsPvjCG8w3Qsj9Kgy9bcEYekOwFg+L
- o9U0S2CHBlAlu5J5uMt0f8e0ug==
-X-Google-Smtp-Source: ABdhPJx4R55434miRtFXT3rDjHhYO7yoc/PDMCPS0UxSDNaJESWi8pqHCWAz0JuewFqOuhbI+Hr6Zw==
-X-Received: by 2002:a05:6808:158c:: with SMTP id
- t12mr24051841oiw.24.1636144143770; 
- Fri, 05 Nov 2021 13:29:03 -0700 (PDT)
-Received: from [192.168.11.48] (cpe-173-173-107-246.satx.res.rr.com.
- [173.173.107.246])
- by smtp.gmail.com with ESMTPSA id c18sm3551722ots.64.2021.11.05.13.29.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 05 Nov 2021 13:29:03 -0700 (PDT)
-Message-ID: <fb85e94a-a961-aad2-494d-9318e9ae8f1c@kali.org>
-Date: Fri, 5 Nov 2021 15:29:01 -0500
+Received: from asav22.altibox.net (asav22.altibox.net [109.247.116.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7EE996E4AA
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Nov 2021 20:44:02 +0000 (UTC)
+Received: from localhost.localdomain (211.81-166-168.customer.lyse.net
+ [81.166.168.211])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: noralf.tronnes@ebnett.no)
+ by asav22.altibox.net (Postfix) with ESMTPSA id C616520A19;
+ Fri,  5 Nov 2021 21:44:00 +0100 (CET)
+From: =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>
+To: gregkh@linuxfoundation.org
+Subject: [PATCH v2] staging/fbtft: Fix backlight
+Date: Fri,  5 Nov 2021 21:43:58 +0100
+Message-Id: <20211105204358.2991-1-noralf@tronnes.org>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.3.0
-Subject: Re: [PATCH v2] drm/msm/devfreq: Fix OPP refcnt leak
-Content-Language: en-US
-To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
-References: <20211105202021.181092-1-robdclark@gmail.com>
-From: Steev Klimaszewski <steev@kali.org>
-In-Reply-To: <20211105202021.181092-1-robdclark@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=aqWc9xRV c=1 sm=1 tr=0
+ a=OYZzhG0JTxDrWp/F2OJbnw==:117 a=OYZzhG0JTxDrWp/F2OJbnw==:17
+ a=IkcTkHD0fZMA:10 a=M51BFTxLslgA:10 a=VwQbUJbxAAAA:8 a=SJz97ENfAAAA:8
+ a=1p55k4irWVlsT-gVo68A:9 a=QEXdDO2ut3YA:10 a=AjGcO6oz07-iQ99wixmX:22
+ a=vFet0B0WnEQeilDPIY6i:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,49 +46,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, freedreno@lists.freedesktop.org,
- David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- Douglas Anderson <dianders@chromium.org>,
- open list <linux-kernel@vger.kernel.org>, Sean Paul <sean@poorly.run>
+Cc: linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+ stable@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Commit b4a1ed0cd18b ("fbdev: make FB_BACKLIGHT a tristate") forgot to
+update fbtft breaking its backlight support when FB_BACKLIGHT is a module.
 
-On 11/5/21 3:20 PM, Rob Clark wrote:
-> From: Rob Clark <robdclark@chromium.org>
->
-> Reported-by: Douglas Anderson <dianders@chromium.org>
-> Fixes: 9bc95570175a ("drm/msm: Devfreq tuning")
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> ---
->   drivers/gpu/drm/msm/msm_gpu_devfreq.c | 5 +++++
->   1 file changed, 5 insertions(+)
->
-> diff --git a/drivers/gpu/drm/msm/msm_gpu_devfreq.c b/drivers/gpu/drm/msm/msm_gpu_devfreq.c
-> index d32b729b4616..07f1169df89b 100644
-> --- a/drivers/gpu/drm/msm/msm_gpu_devfreq.c
-> +++ b/drivers/gpu/drm/msm/msm_gpu_devfreq.c
-> @@ -20,6 +20,10 @@ static int msm_devfreq_target(struct device *dev, unsigned long *freq,
->   	struct msm_gpu *gpu = dev_to_gpu(dev);
->   	struct dev_pm_opp *opp;
->   
-> +	/*
-> +	 * Note that devfreq_recommended_opp() can modify the freq
-> +	 * to something that actually is in the opp table:
-> +	 */
->   	opp = devfreq_recommended_opp(dev, freq, flags);
->   
->   	/*
-> @@ -28,6 +32,7 @@ static int msm_devfreq_target(struct device *dev, unsigned long *freq,
->   	 */
->   	if (gpu->devfreq.idle_freq) {
->   		gpu->devfreq.idle_freq = *freq;
-> +		dev_pm_opp_put(opp);
->   		return 0;
->   	}
->   
+Since FB_TFT selects FB_BACKLIGHT there's no need for this conditional
+so just remove it and we're good.
 
-Tested on the Lenovo Yoga C630 and don't see the message from v1 :D
+Fixes: b4a1ed0cd18b ("fbdev: make FB_BACKLIGHT a tristate")
+Cc: <stable@vger.kernel.org>
+Signed-off-by: Noralf Trønnes <noralf@tronnes.org>
+---
 
-Tested-By: Steev Klimaszewski <steev@kali.org>
+Changes since v1:
+- No need for the #ifdef at all since FB_BACKLIGHT is always selected
+- Fix fb_ssd1351 as well
+
+fb_watterott has the same problem, but I've sent a removal patch for that one.
+
+ drivers/staging/fbtft/fb_ssd1351.c | 4 ----
+ drivers/staging/fbtft/fbtft-core.c | 9 +--------
+ 2 files changed, 1 insertion(+), 12 deletions(-)
+
+diff --git a/drivers/staging/fbtft/fb_ssd1351.c b/drivers/staging/fbtft/fb_ssd1351.c
+index cf263a58a148..6fd549a424d5 100644
+--- a/drivers/staging/fbtft/fb_ssd1351.c
++++ b/drivers/staging/fbtft/fb_ssd1351.c
+@@ -187,7 +187,6 @@ static struct fbtft_display display = {
+ 	},
+ };
+ 
+-#ifdef CONFIG_FB_BACKLIGHT
+ static int update_onboard_backlight(struct backlight_device *bd)
+ {
+ 	struct fbtft_par *par = bl_get_data(bd);
+@@ -231,9 +230,6 @@ static void register_onboard_backlight(struct fbtft_par *par)
+ 	if (!par->fbtftops.unregister_backlight)
+ 		par->fbtftops.unregister_backlight = fbtft_unregister_backlight;
+ }
+-#else
+-static void register_onboard_backlight(struct fbtft_par *par) { };
+-#endif
+ 
+ FBTFT_REGISTER_DRIVER(DRVNAME, "solomon,ssd1351", &display);
+ 
+diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
+index ed992ca605eb..1690358b8f01 100644
+--- a/drivers/staging/fbtft/fbtft-core.c
++++ b/drivers/staging/fbtft/fbtft-core.c
+@@ -128,7 +128,6 @@ static int fbtft_request_gpios(struct fbtft_par *par)
+ 	return 0;
+ }
+ 
+-#ifdef CONFIG_FB_BACKLIGHT
+ static int fbtft_backlight_update_status(struct backlight_device *bd)
+ {
+ 	struct fbtft_par *par = bl_get_data(bd);
+@@ -161,6 +160,7 @@ void fbtft_unregister_backlight(struct fbtft_par *par)
+ 		par->info->bl_dev = NULL;
+ 	}
+ }
++EXPORT_SYMBOL(fbtft_unregister_backlight);
+ 
+ static const struct backlight_ops fbtft_bl_ops = {
+ 	.get_brightness	= fbtft_backlight_get_brightness,
+@@ -198,12 +198,7 @@ void fbtft_register_backlight(struct fbtft_par *par)
+ 	if (!par->fbtftops.unregister_backlight)
+ 		par->fbtftops.unregister_backlight = fbtft_unregister_backlight;
+ }
+-#else
+-void fbtft_register_backlight(struct fbtft_par *par) { };
+-void fbtft_unregister_backlight(struct fbtft_par *par) { };
+-#endif
+ EXPORT_SYMBOL(fbtft_register_backlight);
+-EXPORT_SYMBOL(fbtft_unregister_backlight);
+ 
+ static void fbtft_set_addr_win(struct fbtft_par *par, int xs, int ys, int xe,
+ 			       int ye)
+@@ -853,13 +848,11 @@ int fbtft_register_framebuffer(struct fb_info *fb_info)
+ 		 fb_info->fix.smem_len >> 10, text1,
+ 		 HZ / fb_info->fbdefio->delay, text2);
+ 
+-#ifdef CONFIG_FB_BACKLIGHT
+ 	/* Turn on backlight if available */
+ 	if (fb_info->bl_dev) {
+ 		fb_info->bl_dev->props.power = FB_BLANK_UNBLANK;
+ 		fb_info->bl_dev->ops->update_status(fb_info->bl_dev);
+ 	}
+-#endif
+ 
+ 	return 0;
+ 
+-- 
+2.33.0
 
