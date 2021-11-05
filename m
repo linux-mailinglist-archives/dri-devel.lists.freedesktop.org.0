@@ -2,71 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9679844682E
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Nov 2021 18:53:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11D9E446831
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Nov 2021 18:59:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DFB376EC5E;
-	Fri,  5 Nov 2021 17:53:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 689D46EC6E;
+	Fri,  5 Nov 2021 17:59:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
- [IPv6:2a00:1450:4864:20::32b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D5B556EC5E
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Nov 2021 17:53:09 +0000 (UTC)
-Received: by mail-wm1-x32b.google.com with SMTP id
- 77-20020a1c0450000000b0033123de3425so10142048wme.0
- for <dri-devel@lists.freedesktop.org>; Fri, 05 Nov 2021 10:53:09 -0700 (PDT)
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
+ [IPv6:2a00:1450:4864:20::431])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 966F56EC6E
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Nov 2021 17:59:15 +0000 (UTC)
+Received: by mail-wr1-x431.google.com with SMTP id b12so14960471wrh.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 05 Nov 2021 10:59:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=3qgpnu4+F949fFLt8z7lhntewhGpkCVCzWBi5xlW0s0=;
- b=dmlBo/fkpE9Iw7lZw2Qa6cY2qshJgOqn/esRDkYVWJovgHLAEfPt31IG47x6DF8jVM
- 4ER8ljNzvW3nHCpkHveERc8dU94O8eFXdh0pmFSOcFDfUcoBREFZWbP2pQQKb3lMW0Nl
- NG05r2mL1x53BdJjnSZ5Qcs4k3ZemviXqIu88=
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=tGkFto0SREmSqUA5YI0n/LIXjjGKHRviX7CKssvc+BM=;
+ b=H3jiklJ/Y/eada1RvgM3UfPQsPX0by+cBlb6mu+HZpANjjDP2EAco1y7vZs0KY5Z3K
+ C8MdQ3+I5NEL9N/8IXXGyNI+uyZ82MNp7mVpaN4cTft5wEm0pU8+BSK0UHCLXzGllUnZ
+ noFTpfuPfo5PmpoXi87sKvb6OeEHMYA2hz+qo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=3qgpnu4+F949fFLt8z7lhntewhGpkCVCzWBi5xlW0s0=;
- b=FTKxTjomJX+EMrFS0HGYHI1CrLfSYEMdDawFWP+KP2vwN+D0pFs4drFSJZ1mC+W96i
- iStrdEO3VKFbmhkZ+ot+AFYQbdWx7ni9LOXl5CkK6l/rzK2/VUfpWlR16fL18iQn6vqR
- gpVvLBu7dmyLnMME0gTNi2p4386afGVfvRGHrtaVoG9S3wMBaRa3HPV6VxjBOFHjn3HJ
- u5DwtNuFy/Fc32gYRWl0ZgVOkAzsVYWQ66k5K3Lio1WKqr+kLeX3ga+guLqY77MsW6fU
- 2OOMG1YjzOaFaAJcrR/FrxQDEQkcPJm30moCG9aKETt2V0QNWfvMRuePp2INyIX5CpTm
- ODwA==
-X-Gm-Message-State: AOAM532UNPCT8zBVk7/4F7BfuiP+qxRqM55lcbAt9WjeXpphbEVdGkMb
- z8WQVRgTLSg8GF3jKsXjFuGoUg==
-X-Google-Smtp-Source: ABdhPJxj4ymiq7qSLhQiUYJ5j1gU+jqd+d6bDAotiSbE0ZcSDcoiY/LEjRjkGyWD86rZ5EdVzoa5cA==
-X-Received: by 2002:a05:600c:1c13:: with SMTP id
- j19mr31954323wms.175.1636134788288; 
- Fri, 05 Nov 2021 10:53:08 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=tGkFto0SREmSqUA5YI0n/LIXjjGKHRviX7CKssvc+BM=;
+ b=ZvFj0Fn6fJDb/DfMZ0kpyVn/lqU86DGuPuvDF1JcdLMVN5y8WkeFCLeyNPuF606/bJ
+ M3riBo1urq3olreIyMBYpdM/vNsjw+t0ceMQZMW2wslhSi0lCBD/XeHBljHhCxC2zGuP
+ Fq/+M7KjjV3/+I3QlNUV5FqJQjnwfm/uehTtS1oCKiOnrzXX5crAzV3N7yxsEgFy5pKe
+ SZMZ73X+9NQKPPTV0eK7aMTKgSS44gw9wqkV91csR2DNUefAheGSfKZwtTXcYuLQ1x4r
+ bBZLt+2+B3Lq1Y72xZ8QuzzZ+TNLm6JOVDSIbmK3j2mnDfGtAJKzgzrPEVmEDTACPDWH
+ /+VA==
+X-Gm-Message-State: AOAM531YVRgaYGR3iJsrN+EY/1QTQV6+jYhmGTs4B+v3ewRvvRqw7kFL
+ 5XwdrTk7vhfuRrR6+1rw9nJZ1A==
+X-Google-Smtp-Source: ABdhPJwNq7bzeIgDFzjtJqF6GB5todXBINJj4e6J3QfytVexB5YUgQf8SyXm53D1wok8LpIRuN/xuA==
+X-Received: by 2002:adf:f98c:: with SMTP id f12mr38342127wrr.184.1636135154166; 
+ Fri, 05 Nov 2021 10:59:14 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id i15sm11461959wmb.20.2021.11.05.10.53.07
+ by smtp.gmail.com with ESMTPSA id n7sm8549638wro.68.2021.11.05.10.59.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Nov 2021 10:53:07 -0700 (PDT)
-Date: Fri, 5 Nov 2021 18:53:05 +0100
+ Fri, 05 Nov 2021 10:59:13 -0700 (PDT)
+Date: Fri, 5 Nov 2021 18:59:11 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Arnd Bergmann <arnd@kernel.org>
-Subject: Re: [PATCH] drm: fb_helper: improve CONFIG_FB dependency
-Message-ID: <YYVvgVNz+py5H4Yz@phenom.ffwll.local>
-Mail-Followup-To: Arnd Bergmann <arnd@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@linux.ie>, Arnd Bergmann <arnd@arndb.de>,
- "Acked-by : Jani Nikula" <jani.nikula@intel.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Kees Cook <keescook@chromium.org>,
- Lukas Bulwahn <lukas.bulwahn@gmail.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20211029120307.1407047-1-arnd@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH 2/2] drm: Remove CONFIG_DRM_KMS_CMA_HELPER option
+Message-ID: <YYVw70934dYhyGVZ@phenom.ffwll.local>
+References: <20211101081751.24613-3-tzimmermann@suse.de>
+ <202111012344.tYv3YxkG-lkp@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211029120307.1407047-1-arnd@kernel.org>
+In-Reply-To: <202111012344.tYv3YxkG-lkp@intel.com>
 X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -80,61 +66,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, Arnd Bergmann <arnd@arndb.de>,
- David Airlie <airlied@linux.ie>, Javier Martinez Canillas <javierm@redhat.com>,
- linux-kernel@vger.kernel.org, "Acked-by : Jani Nikula" <jani.nikula@intel.com>,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- Lukas Bulwahn <lukas.bulwahn@gmail.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Kees Cook <keescook@chromium.org>
+Cc: dri-devel@lists.freedesktop.org, kbuild-all@lists.01.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-aspeed@lists.ozlabs.org,
+ airlied@linux.ie, naresh.kamboju@linaro.org, llvm@lists.linux.dev,
+ linux-mips@vger.kernel.org, noralf@tronnes.org, marcel@ziswiler.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 29, 2021 at 02:02:38PM +0200, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
+On Mon, Nov 01, 2021 at 11:59:15PM +0800, kernel test robot wrote:
+> Hi Thomas,
 > 
-> My previous patch correctly addressed the possible link failure, but as
-> Jani points out, the dependency is now stricter than it needs to be.
+> I love your patch! Yet something to improve:
 > 
-> Change it again, to allow DRM_FBDEV_EMULATION to be used when
-> DRM_KMS_HELPER and FB are both loadable modules and DRM is linked into
-> the kernel.
+> [auto build test ERROR on next-20211029]
+> [cannot apply to drm/drm-next shawnguo/for-next pinchartl-media/drm/du/next v5.15 v5.15-rc7 v5.15-rc6 v5.15]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch]
 > 
-> As a side-effect, the option is now only visible when at least one DRM
-> driver makes use of DRM_KMS_HELPER. This is better, because the option
-> has no effect otherwise.
+> url:    https://github.com/0day-ci/linux/commits/Thomas-Zimmermann/drm-Small-CMA-cleanups/20211101-161911
+> base:    bdcc9f6a568275aed4cc32fd2312432d2ff1b704
+> config: x86_64-randconfig-a004-20211101 (attached as .config)
+> compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 82ed106567063ea269c6d5669278b733e173a42f)
+> reproduce (this is a W=1 build):
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # https://github.com/0day-ci/linux/commit/c3c7ec5f9ccd90e78f0f2d3143505db4060bbf17
+>         git remote add linux-review https://github.com/0day-ci/linux
+>         git fetch --no-tags linux-review Thomas-Zimmermann/drm-Small-CMA-cleanups/20211101-161911
+>         git checkout c3c7ec5f9ccd90e78f0f2d3143505db4060bbf17
+>         # save the attached .config to linux build tree
+>         mkdir build_dir
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 > 
-> Fixes: 606b102876e3 ("drm: fb_helper: fix CONFIG_FB dependency")
-> Suggested-by: Acked-by: Jani Nikula <jani.nikula@intel.com>
-> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> If you fix the issue, kindly add following tag as appropriate
+> Reported-by: kernel test robot <lkp@intel.com>
+> 
+> All errors (new ones prefixed by >>, old ones prefixed by <<):
+> 
+> >> ERROR: modpost: module drm_cma_helper uses symbol dma_buf_vmap from namespace DMA_BUF, but does not import it.
+> >> ERROR: modpost: module drm_cma_helper uses symbol dma_buf_vunmap from namespace DMA_BUF, but does not import it.
 
-Queued up for the merge window, thanks for the patch.
--Daniel
+I guess this is simply because kbuild tests on top of linux-next, where
+the namespacing is a bit funny. We might need a fixup when we backmerge.
 
+Either way this looks like a good simplification to me, on the series:
+
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+
+> 
 > ---
->  drivers/gpu/drm/Kconfig | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-> index c08860db2520..d2e6d8ce5000 100644
-> --- a/drivers/gpu/drm/Kconfig
-> +++ b/drivers/gpu/drm/Kconfig
-> @@ -117,9 +117,8 @@ config DRM_DEBUG_MODESET_LOCK
->  
->  config DRM_FBDEV_EMULATION
->  	bool "Enable legacy fbdev support for your modesetting driver"
-> -	depends on DRM
-> -	depends on FB=y || FB=DRM
-> -	select DRM_KMS_HELPER
-> +	depends on DRM_KMS_HELPER
-> +	depends on FB=y || FB=DRM_KMS_HELPER
->  	select FB_CFB_FILLRECT
->  	select FB_CFB_COPYAREA
->  	select FB_CFB_IMAGEBLIT
-> -- 
-> 2.29.2
-> 
+> 0-DAY CI Kernel Test Service, Intel Corporation
+> https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+
+
 
 -- 
 Daniel Vetter
