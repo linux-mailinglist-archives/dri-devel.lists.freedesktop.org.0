@@ -1,29 +1,29 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D205C446940
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Nov 2021 20:40:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 310DE44693E
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Nov 2021 20:40:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E22D6ECEA;
-	Fri,  5 Nov 2021 19:40:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6CAF66ECFA;
+	Fri,  5 Nov 2021 19:40:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from EX13-EDG-OU-001.vmware.com (ex13-edg-ou-001.vmware.com
  [208.91.0.189])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 36ADB6E456
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E72B6EC81
  for <dri-devel@lists.freedesktop.org>; Fri,  5 Nov 2021 19:40:44 +0000 (UTC)
 Received: from sc9-mailhost1.vmware.com (10.113.161.71) by
  EX13-EDG-OU-001.vmware.com (10.113.208.155) with Microsoft SMTP Server id
  15.0.1156.6; Fri, 5 Nov 2021 12:40:38 -0700
 Received: from vmware.com (unknown [10.21.244.23])
- by sc9-mailhost1.vmware.com (Postfix) with ESMTP id 23F9C205B8;
+ by sc9-mailhost1.vmware.com (Postfix) with ESMTP id AFCEF205D2;
  Fri,  5 Nov 2021 12:40:43 -0700 (PDT)
 From: Zack Rusin <zackr@vmware.com>
 To: <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v2 1/6] drm/vmwgfx: Remove the deprecated lower mem limit
-Date: Fri, 5 Nov 2021 15:38:42 -0400
-Message-ID: <20211105193845.258816-2-zackr@vmware.com>
+Subject: [PATCH v2 2/6] drm/vmwgfx: Release ttm memory if probe fails
+Date: Fri, 5 Nov 2021 15:38:43 -0400
+Message-ID: <20211105193845.258816-3-zackr@vmware.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20211105193845.258816-1-zackr@vmware.com>
 References: <20211105193845.258816-1-zackr@vmware.com>
@@ -48,180 +48,72 @@ Cc: Martin Krastev <krastevm@vmware.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-TTM during the transition to the new page allocator lost the ability
-to constrain the allocations via the lower_mem_limit. The code has
-been unused since the change:
-256dd44bd897 ("drm/ttm: nuke old page allocator")
-and there's no reason to keep it.
+The ttm mem global state was leaking if the vmwgfx driver load failed.
 
-Fixes: 256dd44bd897 ("drm/ttm: nuke old page allocator")
+In case of a driver load failure we have to make sure we also release
+the ttm mem global state.
+
 Signed-off-by: Zack Rusin <zackr@vmware.com>
 Reviewed-by: Martin Krastev <krastevm@vmware.com>
 ---
- drivers/gpu/drm/vmwgfx/ttm_memory.c | 99 +----------------------------
- drivers/gpu/drm/vmwgfx/ttm_memory.h |  6 +-
- 2 files changed, 2 insertions(+), 103 deletions(-)
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.c | 26 ++++++++++++++++----------
+ 1 file changed, 16 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/gpu/drm/vmwgfx/ttm_memory.c b/drivers/gpu/drm/vmwgfx/ttm_memory.c
-index edd17c30d5a5..2ced4c06ca45 100644
---- a/drivers/gpu/drm/vmwgfx/ttm_memory.c
-+++ b/drivers/gpu/drm/vmwgfx/ttm_memory.c
-@@ -34,7 +34,6 @@
- #include <linux/mm.h>
- #include <linux/module.h>
- #include <linux/slab.h>
--#include <linux/swap.h>
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+index ab9a1750e1df..8d0b083ba267 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+@@ -1617,34 +1617,40 @@ static int vmw_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
  
- #include <drm/drm_device.h>
- #include <drm/drm_file.h>
-@@ -173,69 +172,7 @@ static struct kobj_type ttm_mem_zone_kobj_type = {
- 	.sysfs_ops = &ttm_mem_zone_ops,
- 	.default_attrs = ttm_mem_zone_attrs,
- };
--
--static struct attribute ttm_mem_global_lower_mem_limit = {
--	.name = "lower_mem_limit",
--	.mode = S_IRUGO | S_IWUSR
--};
--
--static ssize_t ttm_mem_global_show(struct kobject *kobj,
--				 struct attribute *attr,
--				 char *buffer)
--{
--	struct ttm_mem_global *glob =
--		container_of(kobj, struct ttm_mem_global, kobj);
--	uint64_t val = 0;
--
--	spin_lock(&glob->lock);
--	val = glob->lower_mem_limit;
--	spin_unlock(&glob->lock);
--	/* convert from number of pages to KB */
--	val <<= (PAGE_SHIFT - 10);
--	return snprintf(buffer, PAGE_SIZE, "%llu\n",
--			(unsigned long long) val);
--}
--
--static ssize_t ttm_mem_global_store(struct kobject *kobj,
--				  struct attribute *attr,
--				  const char *buffer,
--				  size_t size)
--{
--	int chars;
--	uint64_t val64;
--	unsigned long val;
--	struct ttm_mem_global *glob =
--		container_of(kobj, struct ttm_mem_global, kobj);
--
--	chars = sscanf(buffer, "%lu", &val);
--	if (chars == 0)
--		return size;
--
--	val64 = val;
--	/* convert from KB to number of pages */
--	val64 >>= (PAGE_SHIFT - 10);
--
--	spin_lock(&glob->lock);
--	glob->lower_mem_limit = val64;
--	spin_unlock(&glob->lock);
--
--	return size;
--}
--
--static struct attribute *ttm_mem_global_attrs[] = {
--	&ttm_mem_global_lower_mem_limit,
--	NULL
--};
--
--static const struct sysfs_ops ttm_mem_global_ops = {
--	.show = &ttm_mem_global_show,
--	.store = &ttm_mem_global_store,
--};
--
--static struct kobj_type ttm_mem_glob_kobj_type = {
--	.sysfs_ops = &ttm_mem_global_ops,
--	.default_attrs = ttm_mem_global_attrs,
--};
-+static struct kobj_type ttm_mem_glob_kobj_type = {0};
+ 	ret = drm_aperture_remove_conflicting_pci_framebuffers(pdev, &driver);
+ 	if (ret)
+-		return ret;
++		goto out_error;
  
- static bool ttm_zones_above_swap_target(struct ttm_mem_global *glob,
- 					bool from_wq, uint64_t extra)
-@@ -435,11 +372,6 @@ int ttm_mem_global_init(struct ttm_mem_global *glob, struct device *dev)
+ 	ret = pcim_enable_device(pdev);
+ 	if (ret)
+-		return ret;
++		goto out_error;
  
- 	si_meminfo(&si);
+ 	vmw = devm_drm_dev_alloc(&pdev->dev, &driver,
+ 				 struct vmw_private, drm);
+-	if (IS_ERR(vmw))
+-		return PTR_ERR(vmw);
++	if (IS_ERR(vmw)) {
++		ret = PTR_ERR(vmw);
++		goto out_error;
++	}
  
--	spin_lock(&glob->lock);
--	/* set it as 0 by default to keep original behavior of OOM */
--	glob->lower_mem_limit = 0;
--	spin_unlock(&glob->lock);
--
- 	ret = ttm_mem_init_kernel_zone(glob, &si);
- 	if (unlikely(ret != 0))
- 		goto out_no_zone;
-@@ -527,35 +459,6 @@ void ttm_mem_global_free(struct ttm_mem_global *glob,
+ 	pci_set_drvdata(pdev, &vmw->drm);
+ 
+ 	ret = ttm_mem_global_init(&ttm_mem_glob, &pdev->dev);
+ 	if (ret)
+-		return ret;
++		goto out_error;
+ 
+ 	ret = vmw_driver_load(vmw, ent->device);
+ 	if (ret)
+-		return ret;
++		goto out_release;
+ 
+ 	ret = drm_dev_register(&vmw->drm, 0);
+-	if (ret) {
+-		vmw_driver_unload(&vmw->drm);
+-		return ret;
+-	}
++	if (ret)
++		goto out_unload;
+ 
+ 	return 0;
++out_unload:
++	vmw_driver_unload(&vmw->drm);
++out_release:
++	ttm_mem_global_release(&ttm_mem_glob);
++out_error:
++	return ret;
  }
- EXPORT_SYMBOL(ttm_mem_global_free);
  
--/*
-- * check if the available mem is under lower memory limit
-- *
-- * a. if no swap disk at all or free swap space is under swap_mem_limit
-- * but available system mem is bigger than sys_mem_limit, allow TTM
-- * allocation;
-- *
-- * b. if the available system mem is less than sys_mem_limit but free
-- * swap disk is bigger than swap_mem_limit, allow TTM allocation.
-- */
--bool
--ttm_check_under_lowerlimit(struct ttm_mem_global *glob,
--			uint64_t num_pages,
--			struct ttm_operation_ctx *ctx)
--{
--	int64_t available;
--
--	/* We allow over commit during suspend */
--	if (ctx->force_alloc)
--		return false;
--
--	available = get_nr_swap_pages() + si_mem_available();
--	available -= num_pages;
--	if (available < glob->lower_mem_limit)
--		return true;
--
--	return false;
--}
--
- static int ttm_mem_global_reserve(struct ttm_mem_global *glob,
- 				  struct ttm_mem_zone *single_zone,
- 				  uint64_t amount, bool reserve)
-diff --git a/drivers/gpu/drm/vmwgfx/ttm_memory.h b/drivers/gpu/drm/vmwgfx/ttm_memory.h
-index c50dba774485..7b0d617ebcb1 100644
---- a/drivers/gpu/drm/vmwgfx/ttm_memory.h
-+++ b/drivers/gpu/drm/vmwgfx/ttm_memory.h
-@@ -50,8 +50,6 @@
-  * @work: The workqueue callback for the shrink queue.
-  * @lock: Lock to protect the @shrink - and the memory accounting members,
-  * that is, essentially the whole structure with some exceptions.
-- * @lower_mem_limit: include lower limit of swap space and lower limit of
-- * system memory.
-  * @zones: Array of pointers to accounting zones.
-  * @num_zones: Number of populated entries in the @zones array.
-  * @zone_kernel: Pointer to the kernel zone.
-@@ -69,7 +67,6 @@ extern struct ttm_mem_global {
- 	struct workqueue_struct *swap_queue;
- 	struct work_struct work;
- 	spinlock_t lock;
--	uint64_t lower_mem_limit;
- 	struct ttm_mem_zone *zones[TTM_MEM_MAX_ZONES];
- 	unsigned int num_zones;
- 	struct ttm_mem_zone *zone_kernel;
-@@ -91,6 +88,5 @@ int ttm_mem_global_alloc_page(struct ttm_mem_global *glob,
- void ttm_mem_global_free_page(struct ttm_mem_global *glob,
- 			      struct page *page, uint64_t size);
- size_t ttm_round_pot(size_t size);
--bool ttm_check_under_lowerlimit(struct ttm_mem_global *glob, uint64_t num_pages,
--				struct ttm_operation_ctx *ctx);
-+
- #endif
+ static int __init vmwgfx_init(void)
 -- 
 2.32.0
 
