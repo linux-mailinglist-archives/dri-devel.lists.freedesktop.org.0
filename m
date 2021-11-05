@@ -2,60 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BACB446851
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Nov 2021 19:18:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 661D3446865
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Nov 2021 19:34:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A2EF6EC8A;
-	Fri,  5 Nov 2021 18:18:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E74AB6E8CB;
+	Fri,  5 Nov 2021 18:34:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com
- [IPv6:2a00:1450:4864:20::32a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 34A1E6EC8A
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Nov 2021 18:18:33 +0000 (UTC)
-Received: by mail-wm1-x32a.google.com with SMTP id
- c71-20020a1c9a4a000000b0032cdcc8cbafso7019468wme.3
- for <dri-devel@lists.freedesktop.org>; Fri, 05 Nov 2021 11:18:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=1F7ZrS2qx6hcjbKFW18wbdX1dO7EVFjIOVbkgOQQu1M=;
- b=GTVlhhl2oRskd2ZQ+28qxi89au5z95PR6drciKUNxajnZkvK4HLW4viJ+xh8AcTDu3
- hh2VaSCcj+8IgJA10FIUlgghh7ilUUtbUiI7xolREJI5G3NV9zVnbzW76v/bwSokt4CG
- 4LRc4gVCVSbvkTiZqgsONuotdXQJFsN4aSt6g=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=1F7ZrS2qx6hcjbKFW18wbdX1dO7EVFjIOVbkgOQQu1M=;
- b=QDh65TXPAdwUYOebzPM9fX1dkgyNAeWX54COF7EJVqr6ITDOJJb6CftOJcpBd2tudw
- z8WBKurVOtBDd1TQoz5SfPQ7WVXpuCT67eCzcNxIwCek1ymOvu7WF0qHQsKUVsU+XVgG
- G3RN+XdZHHysS7vK29+IuIO32DrcQNSb1hsV1Uo4qKG/p5vj8Rr7M7llSl6Rqz4dLsTF
- q6yVo80pBSKOXXD2ABE4W36N8rPFdoeFNvhXnPWuX7VLtlMoFQVYk/jG8LqSlpZmiVpa
- 0qqlrYfBM4HF+F7mT0TIq7GMZGL0YLw8O1WrvBXCHQJl03TO+LJqcaj12G5/j2fORoLZ
- 44Tg==
-X-Gm-Message-State: AOAM530KTD//ftIaHPCPsj82FyKVztrrlDjU2jfvg3h7lcMb41Dcch6x
- GE9EPdfVMaaSslp4tt57fBYaoA==
-X-Google-Smtp-Source: ABdhPJwOOFxSie1d0wDtLy78QTbpGK3osp7QilTcBMlbw7teq6m3xwiroqIHHXhp4pQ5Hn3MKRNzLA==
-X-Received: by 2002:a1c:7e41:: with SMTP id z62mr32414284wmc.9.1636136311481; 
- Fri, 05 Nov 2021 11:18:31 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id m20sm5631911wmq.11.2021.11.05.11.18.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Nov 2021 11:18:31 -0700 (PDT)
-Date: Fri, 5 Nov 2021 19:18:29 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 2/3] drm/shmem-helper: Export dedicated wrappers for GEM
- object functions
-Message-ID: <YYV1dbE2/cyPL1ZU@phenom.ffwll.local>
-References: <20211105093558.5084-1-tzimmermann@suse.de>
- <20211105093558.5084-3-tzimmermann@suse.de>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0565E6EB6B
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Nov 2021 18:34:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1636137243;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=sLobVIUbaKMz6LiSgKJDhvPHikWx1fKXWii3cOCYfjY=;
+ b=cKrUfU14IlG8WQgTNBHvcKE/PPfKKJv3lHzvwVeIBVgoZPDLpxKgoI8j5bGlStdAjC72V1
+ XrPc3MdYQ9bfN4gL3gr8ifdE2dzuyNqwsOEpfqiFLlb3Yy6xgqOST77MKuI94dXwTwxYAb
+ /eG2XwQjF4nF/rOvuLpxtjRI0dNRqoE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-162-O1TvOONXNMW5HQKUWRP3gA-1; Fri, 05 Nov 2021 14:33:59 -0400
+X-MC-Unique: O1TvOONXNMW5HQKUWRP3gA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E3A1B8066F5;
+ Fri,  5 Nov 2021 18:33:58 +0000 (UTC)
+Received: from emerald.lyude.net (unknown [10.22.16.200])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E61375C23A;
+ Fri,  5 Nov 2021 18:33:57 +0000 (UTC)
+From: Lyude Paul <lyude@redhat.com>
+To: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org
+Subject: [PATCH v5 0/5] drm/dp,
+ drm/i915: Finish basic PWM support for VESA backlight helpers
+Date: Fri,  5 Nov 2021 14:33:37 -0400
+Message-Id: <20211105183342.130810-1-lyude@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211105093558.5084-3-tzimmermann@suse.de>
-X-Operating-System: Linux phenom 5.10.0-8-amd64
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,387 +62,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: lima@lists.freedesktop.org, airlied@linux.ie,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Nov 05, 2021 at 10:35:57AM +0100, Thomas Zimmermann wrote:
-> Wrap GEM SHMEM functions for struct drm_gem_object_funcs and update
-> all callers. This will allow for an update of the public interfaces
-> of the GEM SHMEM helper library.
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
->  drivers/gpu/drm/drm_gem_shmem_helper.c  |  45 ++++-----
->  drivers/gpu/drm/lima/lima_gem.c         |   8 +-
->  drivers/gpu/drm/panfrost/panfrost_gem.c |  12 +--
->  drivers/gpu/drm/v3d/v3d_bo.c            |  14 +--
->  drivers/gpu/drm/virtio/virtgpu_object.c |  15 ++-
->  include/drm/drm_gem_shmem_helper.h      | 120 ++++++++++++++++++++++++
->  6 files changed, 161 insertions(+), 53 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
-> index cd93e91b3487..72ac263f20be 100644
-> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
-> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-> @@ -30,14 +30,14 @@
+When I originally moved all of the VESA backlight code in i915 into DRM
+helpers, one of the things I didn't have the hardware or time for
+testing was machines that used a combination of PWM and DPCD in order to
+control their backlights. This has since then caused some breakages and
+resulted in us disabling DPCD backlight support on such machines. This
+works fine, unless you have a machine that actually needs this
+functionality for backlight controls to work at all. Additionally, we
+will need to support PWM for when we start adding support for VESA's
+product (as in the product of multiplication) control mode for better
+brightness ranges.
 
-Maybe add a few lines to the intro DOC: section about which functions
-should be used where? Just so drivers don't make a mess out of this again
-now that you cleaned it up.
+So - let's finally finish up implementing basic support for these types
+of backlights to solve these problems in our DP helpers, along with
+implementing support for this in i915. And since digging into this issue
+solved the last questions we really had about probing backlights in i915
+for the most part, let's update some of the comments around that as
+well!
 
-It's ofc not going to be perfect, but better than nothing.
+Lyude Paul (5):
+  drm/i915: Add support for panels with VESA backlights with PWM
+    enable/disable
+  drm/nouveau/kms/nv50-: Explicitly check DPCD backlights for aux
+    enable/brightness
+  drm/dp: Don't read back backlight mode in drm_edp_backlight_enable()
+  drm/dp, drm/i915: Add support for VESA backlights using PWM for
+    brightness control
+  drm/i915: Clarify probing order in intel_dp_aux_init_backlight_funcs()
 
-With that, on the series:
-
-Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
-But maybe wait for some more acks/reviews from driver folks.
--Daniel
-
-
-
->   */
->  
->  static const struct drm_gem_object_funcs drm_gem_shmem_funcs = {
-> -	.free = drm_gem_shmem_free_object,
-> -	.print_info = drm_gem_shmem_print_info,
-> -	.pin = drm_gem_shmem_pin,
-> -	.unpin = drm_gem_shmem_unpin,
-> -	.get_sg_table = drm_gem_shmem_get_sg_table,
-> -	.vmap = drm_gem_shmem_vmap,
-> -	.vunmap = drm_gem_shmem_vunmap,
-> -	.mmap = drm_gem_shmem_mmap,
-> +	.free = drm_gem_shmem_object_free,
-> +	.print_info = drm_gem_shmem_object_print_info,
-> +	.pin = drm_gem_shmem_object_pin,
-> +	.unpin = drm_gem_shmem_object_unpin,
-> +	.get_sg_table = drm_gem_shmem_object_get_sg_table,
-> +	.vmap = drm_gem_shmem_object_vmap,
-> +	.vunmap = drm_gem_shmem_object_vunmap,
-> +	.mmap = drm_gem_shmem_object_mmap,
->  };
->  
->  static struct drm_gem_shmem_object *
-> @@ -121,8 +121,7 @@ EXPORT_SYMBOL_GPL(drm_gem_shmem_create);
->   * @obj: GEM object to free
->   *
->   * This function cleans up the GEM object state and frees the memory used to
-> - * store the object itself. It should be used to implement
-> - * &drm_gem_object_funcs.free.
-> + * store the object itself.
->   */
->  void drm_gem_shmem_free_object(struct drm_gem_object *obj)
->  {
-> @@ -248,8 +247,7 @@ EXPORT_SYMBOL(drm_gem_shmem_put_pages);
->   * @obj: GEM object
->   *
->   * This function makes sure the backing pages are pinned in memory while the
-> - * buffer is exported. It should only be used to implement
-> - * &drm_gem_object_funcs.pin.
-> + * buffer is exported.
->   *
->   * Returns:
->   * 0 on success or a negative error code on failure.
-> @@ -269,7 +267,7 @@ EXPORT_SYMBOL(drm_gem_shmem_pin);
->   * @obj: GEM object
->   *
->   * This function removes the requirement that the backing pages are pinned in
-> - * memory. It should only be used to implement &drm_gem_object_funcs.unpin.
-> + * memory.
->   */
->  void drm_gem_shmem_unpin(struct drm_gem_object *obj)
->  {
-> @@ -340,11 +338,8 @@ static int drm_gem_shmem_vmap_locked(struct drm_gem_shmem_object *shmem, struct
->   *       store.
->   *
->   * This function makes sure that a contiguous kernel virtual address mapping
-> - * exists for the buffer backing the shmem GEM object.
-> - *
-> - * This function can be used to implement &drm_gem_object_funcs.vmap. But it can
-> - * also be called by drivers directly, in which case it will hide the
-> - * differences between dma-buf imported and natively allocated objects.
-> + * exists for the buffer backing the shmem GEM object. It hides the differences
-> + * between dma-buf imported and natively allocated objects.
->   *
->   * Acquired mappings should be cleaned up by calling drm_gem_shmem_vunmap().
->   *
-> @@ -396,9 +391,8 @@ static void drm_gem_shmem_vunmap_locked(struct drm_gem_shmem_object *shmem,
->   * drm_gem_shmem_vmap(). The mapping is only removed when the use count drops to
->   * zero.
->   *
-> - * This function can be used to implement &drm_gem_object_funcs.vmap. But it can
-> - * also be called by drivers directly, in which case it will hide the
-> - * differences between dma-buf imported and natively allocated objects.
-> + * This function hides the differences between dma-buf imported and natively
-> + * allocated objects.
->   */
->  void drm_gem_shmem_vunmap(struct drm_gem_object *obj, struct dma_buf_map *map)
->  {
-> @@ -604,8 +598,7 @@ static const struct vm_operations_struct drm_gem_shmem_vm_ops = {
->   * @vma: VMA for the area to be mapped
->   *
->   * This function implements an augmented version of the GEM DRM file mmap
-> - * operation for shmem objects. Drivers which employ the shmem helpers should
-> - * use this function as their &drm_gem_object_funcs.mmap handler.
-> + * operation for shmem objects.
->   *
->   * Returns:
->   * 0 on success or a negative error code on failure.
-> @@ -646,8 +639,6 @@ EXPORT_SYMBOL_GPL(drm_gem_shmem_mmap);
->   * @p: DRM printer
->   * @indent: Tab indentation level
->   * @obj: GEM object
-> - *
-> - * This implements the &drm_gem_object_funcs.info callback.
->   */
->  void drm_gem_shmem_print_info(struct drm_printer *p, unsigned int indent,
->  			      const struct drm_gem_object *obj)
-> @@ -666,9 +657,7 @@ EXPORT_SYMBOL(drm_gem_shmem_print_info);
->   * @obj: GEM object
->   *
->   * This function exports a scatter/gather table suitable for PRIME usage by
-> - * calling the standard DMA mapping API. Drivers should not call this function
-> - * directly, instead it should only be used as an implementation for
-> - * &drm_gem_object_funcs.get_sg_table.
-> + * calling the standard DMA mapping API.
->   *
->   * Drivers who need to acquire an scatter/gather table for objects need to call
->   * drm_gem_shmem_get_pages_sgt() instead.
-> diff --git a/drivers/gpu/drm/lima/lima_gem.c b/drivers/gpu/drm/lima/lima_gem.c
-> index 640acc060467..a5580bd6522c 100644
-> --- a/drivers/gpu/drm/lima/lima_gem.c
-> +++ b/drivers/gpu/drm/lima/lima_gem.c
-> @@ -206,12 +206,12 @@ static const struct drm_gem_object_funcs lima_gem_funcs = {
->  	.free = lima_gem_free_object,
->  	.open = lima_gem_object_open,
->  	.close = lima_gem_object_close,
-> -	.print_info = drm_gem_shmem_print_info,
-> +	.print_info = drm_gem_shmem_object_print_info,
->  	.pin = lima_gem_pin,
-> -	.unpin = drm_gem_shmem_unpin,
-> -	.get_sg_table = drm_gem_shmem_get_sg_table,
-> +	.unpin = drm_gem_shmem_object_unpin,
-> +	.get_sg_table = drm_gem_shmem_object_get_sg_table,
->  	.vmap = lima_gem_vmap,
-> -	.vunmap = drm_gem_shmem_vunmap,
-> +	.vunmap = drm_gem_shmem_object_vunmap,
->  	.mmap = lima_gem_mmap,
->  };
->  
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.c b/drivers/gpu/drm/panfrost/panfrost_gem.c
-> index 23377481f4e3..be1cc6579a71 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_gem.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_gem.c
-> @@ -197,13 +197,13 @@ static const struct drm_gem_object_funcs panfrost_gem_funcs = {
->  	.free = panfrost_gem_free_object,
->  	.open = panfrost_gem_open,
->  	.close = panfrost_gem_close,
-> -	.print_info = drm_gem_shmem_print_info,
-> +	.print_info = drm_gem_shmem_object_print_info,
->  	.pin = panfrost_gem_pin,
-> -	.unpin = drm_gem_shmem_unpin,
-> -	.get_sg_table = drm_gem_shmem_get_sg_table,
-> -	.vmap = drm_gem_shmem_vmap,
-> -	.vunmap = drm_gem_shmem_vunmap,
-> -	.mmap = drm_gem_shmem_mmap,
-> +	.unpin = drm_gem_shmem_object_unpin,
-> +	.get_sg_table = drm_gem_shmem_object_get_sg_table,
-> +	.vmap = drm_gem_shmem_object_vmap,
-> +	.vunmap = drm_gem_shmem_object_vunmap,
-> +	.mmap = drm_gem_shmem_object_mmap,
->  };
->  
->  /**
-> diff --git a/drivers/gpu/drm/v3d/v3d_bo.c b/drivers/gpu/drm/v3d/v3d_bo.c
-> index 6a8731ab9d7d..b50677beb6ac 100644
-> --- a/drivers/gpu/drm/v3d/v3d_bo.c
-> +++ b/drivers/gpu/drm/v3d/v3d_bo.c
-> @@ -52,13 +52,13 @@ void v3d_free_object(struct drm_gem_object *obj)
->  
->  static const struct drm_gem_object_funcs v3d_gem_funcs = {
->  	.free = v3d_free_object,
-> -	.print_info = drm_gem_shmem_print_info,
-> -	.pin = drm_gem_shmem_pin,
-> -	.unpin = drm_gem_shmem_unpin,
-> -	.get_sg_table = drm_gem_shmem_get_sg_table,
-> -	.vmap = drm_gem_shmem_vmap,
-> -	.vunmap = drm_gem_shmem_vunmap,
-> -	.mmap = drm_gem_shmem_mmap,
-> +	.print_info = drm_gem_shmem_object_print_info,
-> +	.pin = drm_gem_shmem_object_pin,
-> +	.unpin = drm_gem_shmem_object_unpin,
-> +	.get_sg_table = drm_gem_shmem_object_get_sg_table,
-> +	.vmap = drm_gem_shmem_object_vmap,
-> +	.vunmap = drm_gem_shmem_object_vunmap,
-> +	.mmap = drm_gem_shmem_object_mmap,
->  };
->  
->  /* gem_create_object function for allocating a BO struct and doing
-> diff --git a/drivers/gpu/drm/virtio/virtgpu_object.c b/drivers/gpu/drm/virtio/virtgpu_object.c
-> index f648b0e24447..698431d233b8 100644
-> --- a/drivers/gpu/drm/virtio/virtgpu_object.c
-> +++ b/drivers/gpu/drm/virtio/virtgpu_object.c
-> @@ -116,15 +116,14 @@ static const struct drm_gem_object_funcs virtio_gpu_shmem_funcs = {
->  	.free = virtio_gpu_free_object,
->  	.open = virtio_gpu_gem_object_open,
->  	.close = virtio_gpu_gem_object_close,
-> -
-> -	.print_info = drm_gem_shmem_print_info,
-> +	.print_info = drm_gem_shmem_object_print_info,
->  	.export = virtgpu_gem_prime_export,
-> -	.pin = drm_gem_shmem_pin,
-> -	.unpin = drm_gem_shmem_unpin,
-> -	.get_sg_table = drm_gem_shmem_get_sg_table,
-> -	.vmap = drm_gem_shmem_vmap,
-> -	.vunmap = drm_gem_shmem_vunmap,
-> -	.mmap = drm_gem_shmem_mmap,
-> +	.pin = drm_gem_shmem_object_pin,
-> +	.unpin = drm_gem_shmem_object_unpin,
-> +	.get_sg_table = drm_gem_shmem_object_get_sg_table,
-> +	.vmap = drm_gem_shmem_object_vmap,
-> +	.vunmap = drm_gem_shmem_object_vunmap,
-> +	.mmap = drm_gem_shmem_object_mmap,
->  };
->  
->  bool virtio_gpu_is_shmem(struct virtio_gpu_object *bo)
-> diff --git a/include/drm/drm_gem_shmem_helper.h b/include/drm/drm_gem_shmem_helper.h
-> index 6b47eb7d9f76..efc59dd4aeeb 100644
-> --- a/include/drm/drm_gem_shmem_helper.h
-> +++ b/include/drm/drm_gem_shmem_helper.h
-> @@ -137,6 +137,126 @@ void drm_gem_shmem_print_info(struct drm_printer *p, unsigned int indent,
->  			      const struct drm_gem_object *obj);
->  
->  struct sg_table *drm_gem_shmem_get_sg_table(struct drm_gem_object *obj);
-> +
-> +/*
-> + * GEM object functions
-> + */
-> +
-> +/**
-> + * drm_gem_shmem_object_free - GEM object function for drm_gem_shmem_free_object()
-> + * @obj: GEM object to free
-> + *
-> + * This function wraps drm_gem_shmem_free_object(). Drivers that employ the shmem helpers
-> + * should use it as their &drm_gem_object_funcs.free handler.
-> + */
-> +static inline void drm_gem_shmem_object_free(struct drm_gem_object *obj)
-> +{
-> +	drm_gem_shmem_free_object(obj);
-> +}
-> +
-> +/**
-> + * drm_gem_shmem_print_info() - Print &drm_gem_shmem_object info for debugfs
-> + * @p: DRM printer
-> + * @indent: Tab indentation level
-> + * @obj: GEM object
-> + *
-> + * This function wraps drm_gem_shmem_mmap(). Drivers that employ the shmem helpers should
-> + * use this function as their &drm_gem_object_funcs.mmap handler.
-> + */
-> +static inline void drm_gem_shmem_object_print_info(struct drm_printer *p, unsigned int indent,
-> +						   const struct drm_gem_object *obj)
-> +{
-> +	drm_gem_shmem_print_info(p, indent, obj);
-> +}
-> +
-> +/**
-> + * drm_gem_shmem_object_pin - GEM object function for drm_gem_shmem_pin()
-> + * @obj: GEM object
-> + *
-> + * This function wraps drm_gem_shmem_pin(). Drivers that employ the shmem helpers should
-> + * use it as their &drm_gem_object_funcs.pin handler.
-> + */
-> +static inline int drm_gem_shmem_object_pin(struct drm_gem_object *obj)
-> +{
-> +	return drm_gem_shmem_pin(obj);
-> +}
-> +
-> +/**
-> + * drm_gem_shmem_object_unpin - GEM object function for drm_gem_shmem_unpin()
-> + * @obj: GEM object
-> + *
-> + * This function wraps drm_gem_shmem_unpin(). Drivers that employ the shmem helpers should
-> + * use it as their &drm_gem_object_funcs.unpin handler.
-> + */
-> +static inline void drm_gem_shmem_object_unpin(struct drm_gem_object *obj)
-> +{
-> +	drm_gem_shmem_unpin(obj);
-> +}
-> +
-> +/**
-> + * drm_gem_shmem_object_get_sg_table - GEM object function for drm_gem_shmem_get_sg_table()
-> + * @obj: GEM object
-> + *
-> + * This function wraps drm_gem_shmem_get_sg_table(). Drivers that employ the shmem helpers should
-> + * use it as their &drm_gem_object_funcs.get_sg_table handler.
-> + *
-> + * Returns:
-> + * A pointer to the scatter/gather table of pinned pages or NULL on failure.
-> + */
-> +static inline struct sg_table *drm_gem_shmem_object_get_sg_table(struct drm_gem_object *obj)
-> +{
-> +	return drm_gem_shmem_get_sg_table(obj);
-> +}
-> +
-> +/*
-> + * drm_gem_shmem_object_vmap - GEM object function for drm_gem_shmem_vmap()
-> + * @obj: GEM object
-> + * @map: Returns the kernel virtual address of the SHMEM GEM object's backing store.
-> + *
-> + * This function wraps drm_gem_shmem_vmap(). Drivers that employ the shmem helpers should
-> + * use it as their &drm_gem_object_funcs.vmap handler.
-> + *
-> + * Returns:
-> + * 0 on success or a negative error code on failure.
-> + */
-> +static inline int drm_gem_shmem_object_vmap(struct drm_gem_object *obj, struct dma_buf_map *map)
-> +{
-> +	return drm_gem_shmem_vmap(obj, map);
-> +}
-> +
-> +/*
-> + * drm_gem_shmem_object_vunmap - GEM object function for drm_gem_shmem_vunmap()
-> + * @obj: GEM object
-> + * @map: Kernel virtual address where the SHMEM GEM object was mapped
-> + *
-> + * This function wraps drm_gem_shmem_vunmap(). Drivers that employ the shmem helpers should
-> + * use it as their &drm_gem_object_funcs.vunmap handler.
-> + */
-> +static inline void drm_gem_shmem_object_vunmap(struct drm_gem_object *obj, struct dma_buf_map *map)
-> +{
-> +	drm_gem_shmem_vunmap(obj, map);
-> +}
-> +
-> +/**
-> + * drm_gem_shmem_object_mmap - GEM object function for drm_gem_shmem_mmap()
-> + * @obj: GEM object
-> + * @vma: VMA for the area to be mapped
-> + *
-> + * This function wraps drm_gem_shmem_mmap(). Drivers that employ the shmem helpers should
-> + * use it as their &drm_gem_object_funcs.mmap handler.
-> + *
-> + * Returns:
-> + * 0 on success or a negative error code on failure.
-> + */
-> +static inline int drm_gem_shmem_object_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma)
-> +{
-> +	return drm_gem_shmem_mmap(obj, vma);
-> +}
-> +
-> +/*
-> + * Driver ops
-> + */
-> +
->  struct drm_gem_object *
->  drm_gem_shmem_prime_import_sg_table(struct drm_device *dev,
->  				    struct dma_buf_attachment *attach,
-> -- 
-> 2.33.1
-> 
+ drivers/gpu/drm/drm_dp_helper.c               | 108 ++++++++++--------
+ .../drm/i915/display/intel_dp_aux_backlight.c |  81 ++++++++++---
+ drivers/gpu/drm/nouveau/nouveau_backlight.c   |   5 +-
+ include/drm/drm_dp_helper.h                   |   7 +-
+ 4 files changed, 132 insertions(+), 69 deletions(-)
 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.31.1
+
