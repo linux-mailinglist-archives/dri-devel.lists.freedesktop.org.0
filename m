@@ -1,45 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36719446674
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Nov 2021 16:50:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1968A4466E9
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Nov 2021 17:21:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D2F6C6EB1B;
-	Fri,  5 Nov 2021 15:50:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B2376EB3C;
+	Fri,  5 Nov 2021 16:21:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from netline-mail3.netline.ch (mail.netline.ch [148.251.143.180])
- by gabe.freedesktop.org (Postfix) with ESMTP id 785A26EB1B
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Nov 2021 15:50:15 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by netline-mail3.netline.ch (Postfix) with ESMTP id 757B3202067;
- Fri,  5 Nov 2021 16:50:14 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at netline-mail3.netline.ch
-Received: from netline-mail3.netline.ch ([127.0.0.1])
- by localhost (netline-mail3.netline.ch [127.0.0.1]) (amavisd-new, port 10024)
- with LMTP id hRYPuPcCTkt8; Fri,  5 Nov 2021 16:50:14 +0100 (CET)
-Received: from thor (24.99.2.85.dynamic.wline.res.cust.swisscom.ch
- [85.2.99.24])
- by netline-mail3.netline.ch (Postfix) with ESMTPA id 30F60202060;
- Fri,  5 Nov 2021 16:50:14 +0100 (CET)
-Received: from [127.0.0.1] by thor with esmtp (Exim 4.95)
- (envelope-from <michel@daenzer.net>) id 1mj1Tp-000ClJ-Fs;
- Fri, 05 Nov 2021 16:50:13 +0100
-Message-ID: <bbb313b2-6eab-33d2-b355-bdcba59231c9@daenzer.net>
-Date: Fri, 5 Nov 2021 16:50:13 +0100
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B79796EB3C
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Nov 2021 16:21:35 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 7D99861252
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Nov 2021 16:21:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1636129295;
+ bh=LnYJwUM361rR0KDnMYqWzhhpXhYUCh4pbZLya+rJbAU=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=K9D2I5LoQKFMgTXzFW2/LCM+ouPMgk5Z3Po3mfQrLIAmI53EmqyCCmDQSzFYWGCtD
+ gfNTekgYixts9D81wmzolzvN5SfAhxyfdH9Ar2sjO+1WJQffug+pFAEl/PtnwAS4mp
+ cL9zzxFCuF+pNfLAqI7bV5xPuLbGcqz/GvU5io+kcKh7jhs0xPpla0cunJLzgM+JTR
+ /KLd+DdBjrzkZXweRnbhyV0P2NvrWpqB7s6xCImZ6H4Co7X/CJowi5DycstGKkSAIX
+ dYKcWSW9TifHFu+SZSkmlZh8UoQYz8zZm7Qb4SZ1Q/Rf+r7dW/eJMzI5xXqHtO492h
+ J6KzXj+h8qBIQ==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id 7146761108; Fri,  5 Nov 2021 16:21:35 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 214921] amdgpu hangs HP Laptop on shutdown
+Date: Fri, 05 Nov 2021 16:21:35 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: pmw.gover@yahoo.co.uk
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-214921-2300-5PAFnB9p65@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-214921-2300@https.bugzilla.kernel.org/>
+References: <bug-214921-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Content-Language: en-CA
-To: Jocelyn Falempe <jfalempe@redhat.com>
-References: <20211104163245.11070-1-jfalempe@redhat.com>
-From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>
-Subject: Re: [PATCH] drm/fb-helper: Fix restore_fbdev when there are pending
- delayed hotplug
-In-Reply-To: <20211104163245.11070-1-jfalempe@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,136 +65,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-11-04 17:32, Jocelyn Falempe wrote:
-> When using Xorg/Logind and an external monitor connected with an MST dock.
-> After disconnecting the external monitor, switching to VT may not work,
-> the (internal) monitor sill display Xorg, and you can't see what you are
-> typing in the VT.
-> 
-> This is related to commit e2809c7db818df6bbd0edf843e1beb2fbc9d8541 which
-> introduced delayed hotplug for MST, and commit
-> dc5bdb68b5b369d5bc7d1de96fa64cc1737a6320 which introduced a workaround for
-> Xorg and logind, and add a force parameter to
-> __drm_fb_helper_restore_fbdev_mode_unlocked() in this case.
-> 
-> When switching to VT, with Xorg and logind, if there
-> are pending hotplug event (like MST unplugged), the hotplug path
-> may not be fulfilled, because logind may drop the master a bit later.
-> It leads to the console not showing up on the monitor.
-> 
-> So in this case, forward the "force" parameter to the hotplug event,
-> and ignore if there is a drm master in this case.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D214921
 
-I'm worried that this leaves a race condition which allows the still-master (which causes drm_fb_helper_hotplug_event to bail without this patch) to modify the state set by __drm_fb_helper_hotplug_event, which could still result in similar symptoms.
+Paul Gover (pmw.gover@yahoo.co.uk) changed:
 
-I wonder if something like calling drm_fb_helper_hotplug_event when master is dropped and fb_helper->delayed_hotplug == true could work instead.
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |pmw.gover@yahoo.co.uk
 
+--- Comment #2 from Paul Gover (pmw.gover@yahoo.co.uk) ---
+Spasswolf's comment doesn't seem in any way related to this bug report.  I
+presume it was filed against the wrong bug!
 
-> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
-> index 8e7a124d6c5a..c07080f661b1 100644
-> --- a/drivers/gpu/drm/drm_fb_helper.c
-> +++ b/drivers/gpu/drm/drm_fb_helper.c
-> @@ -82,6 +82,8 @@ MODULE_PARM_DESC(drm_leak_fbdev_smem,
->  static LIST_HEAD(kernel_fb_helper_list);
->  static DEFINE_MUTEX(kernel_fb_helper_lock);
->  
-> +static int __drm_fb_helper_hotplug_event(struct drm_fb_helper *fb_helper, bool force);
-> +
->  /**
->   * DOC: fbdev helpers
->   *
-> @@ -258,7 +260,7 @@ __drm_fb_helper_restore_fbdev_mode_unlocked(struct drm_fb_helper *fb_helper,
->  	mutex_unlock(&fb_helper->lock);
->  
->  	if (do_delayed)
-> -		drm_fb_helper_hotplug_event(fb_helper);
-> +		__drm_fb_helper_hotplug_event(fb_helper, force);
->  
->  	return ret;
->  }
-> @@ -1930,6 +1932,38 @@ int drm_fb_helper_initial_config(struct drm_fb_helper *fb_helper, int bpp_sel)
->  }
->  EXPORT_SYMBOL(drm_fb_helper_initial_config);
->  
-> +static int __drm_fb_helper_hotplug_event(struct drm_fb_helper *fb_helper, bool force)
-> +{
-> +	int err = 0;
-> +
-> +	if (!drm_fbdev_emulation || !fb_helper)
-> +		return 0;
-> +
-> +	mutex_lock(&fb_helper->lock);
-> +	if (fb_helper->deferred_setup) {
-> +		err = __drm_fb_helper_initial_config_and_unlock(fb_helper,
-> +				fb_helper->preferred_bpp);
-> +		return err;
-> +	}
-> +	if (!force) {
-> +		if (!fb_helper->fb || !drm_master_internal_acquire(fb_helper->dev)) {
-> +			fb_helper->delayed_hotplug = true;
-> +			mutex_unlock(&fb_helper->lock);
-> +			return err;
-> +		}
-> +		drm_master_internal_release(fb_helper->dev);
-> +	}
-> +	drm_dbg_kms(fb_helper->dev, "\n");
-> +
-> +	drm_client_modeset_probe(&fb_helper->client, fb_helper->fb->width, fb_helper->fb->height);
-> +	drm_setup_crtcs_fb(fb_helper);
-> +	mutex_unlock(&fb_helper->lock);
-> +
-> +	drm_fb_helper_set_par(fb_helper->fbdev);
-> +
-> +	return 0;
-> +}
-> +
->  /**
->   * drm_fb_helper_hotplug_event - respond to a hotplug notification by
->   *                               probing all the outputs attached to the fb
-> @@ -1953,35 +1987,7 @@ EXPORT_SYMBOL(drm_fb_helper_initial_config);
->   */
->  int drm_fb_helper_hotplug_event(struct drm_fb_helper *fb_helper)
->  {
-> -	int err = 0;
-> -
-> -	if (!drm_fbdev_emulation || !fb_helper)
-> -		return 0;
-> -
-> -	mutex_lock(&fb_helper->lock);
-> -	if (fb_helper->deferred_setup) {
-> -		err = __drm_fb_helper_initial_config_and_unlock(fb_helper,
-> -				fb_helper->preferred_bpp);
-> -		return err;
-> -	}
-> -
-> -	if (!fb_helper->fb || !drm_master_internal_acquire(fb_helper->dev)) {
-> -		fb_helper->delayed_hotplug = true;
-> -		mutex_unlock(&fb_helper->lock);
-> -		return err;
-> -	}
-> -
-> -	drm_master_internal_release(fb_helper->dev);
-> -
-> -	drm_dbg_kms(fb_helper->dev, "\n");
-> -
-> -	drm_client_modeset_probe(&fb_helper->client, fb_helper->fb->width, fb_helper->fb->height);
-> -	drm_setup_crtcs_fb(fb_helper);
-> -	mutex_unlock(&fb_helper->lock);
-> -
-> -	drm_fb_helper_set_par(fb_helper->fbdev);
-> -
-> -	return 0;
-> +	return __drm_fb_helper_hotplug_event(fb_helper, false);
->  }
->  EXPORT_SYMBOL(drm_fb_helper_hotplug_event);
->  
-> 
+I can confirm on my setup, HP laptop with an AMD "Stoney" chipset, on kernel
+5.15.0 the system doesn't shutdown when you use KDE power menu "shutdown", =
+nor
+if you issue the "halt" or "poweroff" commands, nor "shutdown -P now".
+The keyboard is dead, so Ctl-Alt-Del doesn't reboot, all that's left is hol=
+ding
+the power button down.
 
+Behaviour was correct on kernel 5.14 (at least, up to 5.14.14).
 
--- 
-Earthling Michel Dänzer            |                  https://redhat.com
-Libre software enthusiast          |         Mesa and Xwayland developer
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
