@@ -2,74 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDBF5446310
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Nov 2021 12:57:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6195E446315
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Nov 2021 13:01:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6621F6E239;
-	Fri,  5 Nov 2021 11:57:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D7E6F89CD4;
+	Fri,  5 Nov 2021 12:01:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com
- [64.147.123.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9EBF96E231;
- Fri,  5 Nov 2021 11:57:51 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailout.west.internal (Postfix) with ESMTP id CD5943200C46;
- Fri,  5 Nov 2021 07:57:48 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute6.internal (MEProxy); Fri, 05 Nov 2021 07:57:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=GXv8uTQQMC84AFsDfN1s4dkYTlk
- J+uJwixHFe05xs5A=; b=G9vj57WOaV98UrEPEj0k756GLwtGvkKCgNeWfJYlzLO
- 8p3n1moUFQLu8Rgc3PImQElOxqG8OlB9CcsncF9nRDlvtZI0McDLOiAd1iUZCkos
- sH4jgzv99x23szWPoI7Btceq7RG8gGnTC7jVF5cbG4m+fEqcHTgqPoCW0Ow2XhEa
- ugUqIy8CaZRBN+MgV25uG90nTExvnz1kgQZhzK7ZdNTyV7BkAMZelYssKmjk90dX
- bw9KNQywnYNrCfC/iLGCIaL04KxA6GKOA6CZqrW6dlUr9CcuHmegnkfUeM5wU5tl
- hti53I7VSUyUJR2A+LM8g7uYKSeIWGeS3nsJ0afBv2Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=GXv8uT
- QQMC84AFsDfN1s4dkYTlkJ+uJwixHFe05xs5A=; b=heQkImP7etvn9nYSz4a+vX
- KS10HYncfm65v6J74cBSPuraY2HdAyUI88i6bEEL1D7nSczbdalb1IUOjyVocyBA
- B6Wox3qo2EH2WOQO6HfBRbil3kBFvk8tpvRwAI0+Cua+u5Q2lFtbzziXYF31jdVr
- JXM6wN49ouljb537NLE8rHpIbnCiyj8VDG1UDeh0UgVtUWMTzMjZjbmVVWDfp27q
- afTR7yU61RqP+mCTPIkSGJDV/lg06TuUai1mx00ms7vyX8pYvOvXXnDmpCzgBcmd
- iktyEYJP1u0gyKIgjP6V3/+PWcGYf8WNoubmFN86k9rdsLce/qjvY4C6ANXg9v6A
- ==
-X-ME-Sender: <xms:OxyFYTz9_K8EJfG6WNKMucHsQTV85gIeC1kOEV5Cjr6noLJJyFJ1Hg>
- <xme:OxyFYbTWgf0T39im5a6pICEfC3xPdSPm255dQFtpwds8poWzhRFwFFqVSp9S537b0
- zVEOTAvYovmRTxvqOU>
-X-ME-Received: <xmr:OxyFYdV6fpR3rC45oQ_yUpLF-BiSBXMoIibqBxB7w-xoaD4HImftM_yUomDiiDiKYSK_xvkNK7QElH9gUNo8bgGrRXd125dfl1FWg2gs>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrtdeigdefvdcutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
- gvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheeiheeg
- udenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
- igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:OxyFYdgWdROWw882YshFuN4RvocnR07SK_xcHxoh449QPLVRqPNv7g>
- <xmx:OxyFYVCOxBbf9Ozi6E8hFC10wu0PAaKOMiYpmx8qKXMvCJxlA2XDHg>
- <xmx:OxyFYWIUM1zbwaVAg62wgoVTkvq2JorCdGzAUVCX1Np4qpEjacdaDg>
- <xmx:PByFYZ3CRXHVFGNcxR6gpkkXMoo6m5nChbNS1Kar2blgGR2s-DLBhw>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 5 Nov 2021 07:57:47 -0400 (EDT)
-Date: Fri, 5 Nov 2021 12:57:45 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Jani Nikula <jani.nikula@intel.com>
-Subject: Re: linux-next: build failure after merge of the drm-misc tree
-Message-ID: <20211105115745.pg2a33quk63l4434@gilmour>
-References: <20211015202648.258445ef@canb.auug.org.au>
- <20211101194223.749197c5@canb.auug.org.au>
- <20211105171517.287de894@canb.auug.org.au>
- <874k8qampc.fsf@intel.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EFD2989D39
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Nov 2021 12:01:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1636113674;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=d6mnjEfsvPWlmw0Dlsyl+1vpuoyclHqeKNkGqPRjBhA=;
+ b=blUsf+DphCkAa2HzUFHJk6+P+VzzwtzOxDAyn5bgR5WNRZGlPXWs1j2BdkXG88YOnqg8Ay
+ TO/sHz4yO/A7M742m4XkmdR1n4lr3z2kNopkY2ejELFhcmmoazFDDpNlPudMu7hH2+8kb4
+ SaT2zuHLgAHlqMsJYaQk3CKa5l7A+fk=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-501-JWQpqyBVNDyvIpS-zBtSVA-1; Fri, 05 Nov 2021 08:00:52 -0400
+X-MC-Unique: JWQpqyBVNDyvIpS-zBtSVA-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ j25-20020a05600c1c1900b00332372c252dso3201878wms.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 05 Nov 2021 05:00:52 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=d6mnjEfsvPWlmw0Dlsyl+1vpuoyclHqeKNkGqPRjBhA=;
+ b=5ffcR9YN5NF4oofuQNimuHrmNTtwhy2KGex9KbIbs8T2pnc/gvY5CYcR2/uQ97U6tS
+ P1bWYKYMQp9j/RbpNDDMzRUR2oZyIOODcDiqYt+YlN6tkvmAJOZN82HtLoFvk5/6bruN
+ To8n6Dl/lWZUgOoC9yORyw9yMivUKjbJTz5bXLZt7UWzvSFTZJiD8oAarwdlHKFKsZok
+ OGd8s6Zxq0Q/8D+0exHMNk7Zu2UPvQa62An2EmaJ/fD6GD/9u0vRWvaZ3qyxU4azktu6
+ tJqAcpOqcCpft/uFXA9DCoa3vCT/myBr+8f8I86huXK9ESdF462urAAJLCFZpluQ7dN6
+ wn7A==
+X-Gm-Message-State: AOAM531MjOipCPwRrsGwUSGKoe2fBraFs5vbmF2m9T9fc3RfCSjAXOEV
+ mwIeDlQwDnCG3TSvEJsSux+xav6L2s6CKi7IqPM2O9Wtb/DA7nlOiWUfSfk/tDLjdNhNsuubtS/
+ +ggi3BKWILsuONSV9HrjW2eOe/UZU
+X-Received: by 2002:a05:6000:1868:: with SMTP id
+ d8mr36559130wri.285.1636113651755; 
+ Fri, 05 Nov 2021 05:00:51 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwxlHaNU9FU6Qy+ImAOwcqW/sLneLxZOG0rukxfbYjqJBdrwuSz7fg+xp3pWIymRwt/FJOPRA==
+X-Received: by 2002:a05:6000:1868:: with SMTP id
+ d8mr36559073wri.285.1636113651479; 
+ Fri, 05 Nov 2021 05:00:51 -0700 (PDT)
+Received: from [192.168.1.128] ([92.176.231.106])
+ by smtp.gmail.com with ESMTPSA id m21sm7590336wrb.2.2021.11.05.05.00.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 05 Nov 2021 05:00:51 -0700 (PDT)
+Message-ID: <335a9e0f-cce9-480b-10e0-bd312b81e587@redhat.com>
+Date: Fri, 5 Nov 2021 13:00:49 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="vkojbrwivjvcbsco"
-Content-Disposition: inline
-In-Reply-To: <874k8qampc.fsf@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v2 1/2] drm: Add a drm_drv_enabled() to check if drivers
+ should be enabled
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
+References: <20211104160707.1407052-1-javierm@redhat.com>
+ <20211104160707.1407052-2-javierm@redhat.com> <87ilx7ae3v.fsf@intel.com>
+ <0c07f121-42d3-9f37-1e14-842fb685b501@redhat.com>
+ <d4a64906-69e5-3250-2362-79f2afac0a23@suse.de>
+ <38dbcc8f-2f95-6846-537f-9b85468bfa87@redhat.com> <877ddmapfj.fsf@intel.com>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <877ddmapfj.fsf@intel.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,159 +91,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>, Dave Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI <dri-devel@lists.freedesktop.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ Pekka Paalanen <pekka.paalanen@collabora.com>,
+ Hans de Goede <hdegoede@redhat.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, amd-gfx@lists.freedesktop.org,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Ben Skeggs <bskeggs@redhat.com>,
+ VMware Graphics <linux-graphics-maintainer@vmware.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, spice-devel@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ Dave Airlie <airlied@redhat.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ virtualization@lists.linux-foundation.org, intel-gfx@lists.freedesktop.org,
+ =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>,
+ Peter Robinson <pbrobinson@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 11/5/21 11:04, Jani Nikula wrote:
+> On Fri, 05 Nov 2021, Javier Martinez Canillas <javierm@redhat.com> wrote:
 
---vkojbrwivjvcbsco
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+[snip]
 
-Hi,
+>>
+>> Do you envision other condition that could be added later to disable a
+>> DRM driver ? Or do you think that just from a code readability point of
+>> view makes worth it ?
+> 
+> Taking a step back for perspective.
+> 
+> I think there's broad consensus in moving the parameter to drm, naming
+> the check function to drm_something_something(), and breaking the ties
+> to CONFIG_VGA_CONSOLE. I appreciate the work you're doing to that
+> effect.
+>
 
-On Fri, Nov 05, 2021 at 01:03:43PM +0200, Jani Nikula wrote:
-> On Fri, 05 Nov 2021, Stephen Rothwell <sfr@canb.auug.org.au> wrote:
-> > Hi all,
-> >
-> > On Mon, 1 Nov 2021 19:42:23 +1100 Stephen Rothwell <sfr@canb.auug.org.a=
-u> wrote:
-> >>
-> >> On Fri, 15 Oct 2021 20:26:48 +1100 Stephen Rothwell <sfr@canb.auug.org=
-=2Eau> wrote:
-> >> >
-> >> > After merging the drm-misc tree, today's linux-next build (arm
-> >> > multi_v7_defconfig) failed like this:
-> >> >=20
-> >> > drivers/gpu/drm/drm_modeset_lock.c:111:29: error: conflicting types =
-for '__stack_depot_save'
-> >> >   111 | static depot_stack_handle_t __stack_depot_save(void)
-> >> >       |                             ^~~~~~~~~~~~~~~~~~
-> >> > In file included from include/linux/page_ext.h:7,
-> >> >                  from include/linux/mm.h:25,
-> >> >                  from include/linux/kallsyms.h:13,
-> >> >                  from include/linux/bpf.h:20,
-> >> >                  from include/linux/bpf-cgroup.h:5,
-> >> >                  from include/linux/cgroup-defs.h:22,
-> >> >                  from include/linux/cgroup.h:28,
-> >> >                  from include/linux/memcontrol.h:13,
-> >> >                  from include/linux/swap.h:9,
-> >> >                  from include/linux/suspend.h:5,
-> >> >                  from include/linux/regulator/consumer.h:35,
-> >> >                  from include/linux/i2c.h:18,
-> >> >                  from include/drm/drm_crtc.h:28,
-> >> >                  from include/drm/drm_atomic.h:31,
-> >> >                  from drivers/gpu/drm/drm_modeset_lock.c:24:
-> >> > include/linux/stackdepot.h:18:22: note: previous declaration of '__s=
-tack_depot_save' was here
-> >> >    18 | depot_stack_handle_t __stack_depot_save(unsigned long *entri=
-es,
-> >> >       |                      ^~~~~~~~~~~~~~~~~~
-> >> >=20
-> >> > Caused by commit
-> >> >=20
-> >> >   cd06ab2fd48f ("drm/locking: add backtrace for locking contended lo=
-cks without backoff")
-> >> >=20
-> >> > This may only have been revealed because of another fix I have had to
-> >> > apply today.
-> >> >=20
-> >> > I have applied the following patch for today.
-> >> >=20
-> >> > From: Stephen Rothwell <sfr@canb.auug.org.au>
-> >> > Date: Fri, 15 Oct 2021 20:17:52 +1100
-> >> > Subject: [PATCH] drm/locking: fix for name conflict
-> >> >=20
-> >> > Fixes: cd06ab2fd48f ("drm/locking: add backtrace for locking contend=
-ed locks without backoff")
-> >> > Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
-> >> > ---
-> >> >  drivers/gpu/drm/drm_modeset_lock.c | 6 +++---
-> >> >  1 file changed, 3 insertions(+), 3 deletions(-)
-> >> >=20
-> >> > diff --git a/drivers/gpu/drm/drm_modeset_lock.c b/drivers/gpu/drm/dr=
-m_modeset_lock.c
-> >> > index 4d32b61fa1fd..ee36dd20900d 100644
-> >> > --- a/drivers/gpu/drm/drm_modeset_lock.c
-> >> > +++ b/drivers/gpu/drm/drm_modeset_lock.c
-> >> > @@ -79,7 +79,7 @@
-> >> >  static DEFINE_WW_CLASS(crtc_ww_class);
-> >> > =20
-> >> >  #if IS_ENABLED(CONFIG_DRM_DEBUG_MODESET_LOCK)
-> >> > -static noinline depot_stack_handle_t __stack_depot_save(void)
-> >> > +static noinline depot_stack_handle_t __drm_stack_depot_save(void)
-> >> >  {
-> >> >  	unsigned long entries[8];
-> >> >  	unsigned int n;
-> >> > @@ -108,7 +108,7 @@ static void __stack_depot_print(depot_stack_hand=
-le_t stack_depot)
-> >> >  	kfree(buf);
-> >> >  }
-> >> >  #else /* CONFIG_DRM_DEBUG_MODESET_LOCK */
-> >> > -static depot_stack_handle_t __stack_depot_save(void)
-> >> > +static depot_stack_handle_t __drm_stack_depot_save(void)
-> >> >  {
-> >> >  	return 0;
-> >> >  }
-> >> > @@ -317,7 +317,7 @@ static inline int modeset_lock(struct drm_modese=
-t_lock *lock,
-> >> >  		ret =3D 0;
-> >> >  	} else if (ret =3D=3D -EDEADLK) {
-> >> >  		ctx->contended =3D lock;
-> >> > -		ctx->stack_depot =3D __stack_depot_save();
-> >> > +		ctx->stack_depot =3D __drm_stack_depot_save();
-> >> >  	}
-> >> > =20
-> >> >  	return ret;
-> >>=20
-> >> This has reappeared today.  I don't know what happened to the drm-misc
-> >> tree over the weeked :-(
-> >>=20
-> >> I have reapplied the above fix.
-> >
-> > So the above drm-misc commit is now in the drm tree, but its fix up
-> > commit vanished from the drm-misc tree over the past weekend :-(
->=20
-> Cc: drm-misc maintainers.
->=20
-> We normally point drm-misc/for-linux-next at drm-misc-next, *except* to
-> drm-misc-next-fixes during the merge window. This is because
-> drm-misc-next already starts accumulating stuff that's headed to one
-> release later, e.g. currently v5.17. I think that's part of the reason.
+Thanks, I appreciate your feedback and comments.
+ 
+> I think everything beyond that is still a bit vague and/or
+> contentious. So how about making the first 2-3 patches just that?
+> Something we can all agree on, makes good progress, improves the kernel,
+> and gives us something to build on?
+>
 
-Indeed
+That works for me. Thomas, do you agree with that approach ?
+ 
+Best regards,
+-- 
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
 
-> I probably should have pushed c4f08d7246a5 ("drm/locking: fix
-> __stack_depot_* name conflict") to drm-misc-next-fixes.
->=20
-> There's still something funny going on, because the drm-misc-next pull
-> request [1] isn't part of the drm pull request for v5.16 [2]. Is there
-> going to be another drm pull?
-
-The last drm-misc-next PR for some reason didn't got logged into
-patchwork, and Dave missed it.
-
-We found out yesterday, and he pulled it today so I assume there will be
-a second PR with that last PR and today's drm-misc-next-fixes PR.
-
-Maxime
-
---vkojbrwivjvcbsco
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYYUcOQAKCRDj7w1vZxhR
-xU+MAP4hgo9+qBCiI/qme/i6DPqP4+Y2ORFyGlUEBuEar1UvwgEAtP1vY7VT12Fi
-2bs9GPcW2eHwXfRgz2UMaIg32SZO7wM=
-=oApB
------END PGP SIGNATURE-----
-
---vkojbrwivjvcbsco--
