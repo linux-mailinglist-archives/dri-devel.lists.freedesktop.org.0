@@ -2,61 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51B1D446170
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Nov 2021 10:36:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4E56446174
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Nov 2021 10:39:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ACB2989830;
-	Fri,  5 Nov 2021 09:36:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 51F7F6E03E;
+	Fri,  5 Nov 2021 09:39:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 263CB896FA;
- Fri,  5 Nov 2021 09:36:03 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4DD9C6E03E;
+ Fri,  5 Nov 2021 09:39:12 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 99BA01FD43;
- Fri,  5 Nov 2021 09:36:01 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id D50C31FD33;
+ Fri,  5 Nov 2021 09:39:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1636104961; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
+ t=1636105150; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=eILFFGjLT9iaZW85lu+77O/nxgQWyvngQ0+3NqL7z4I=;
- b=B3eVd5HRclOZAg0ts0781GR/vXu9ZQKCfgAnzrqlngaUEj5yoeQeIgc+03umIdSZ7qi4cD
- NnuetIHf7ttCq2yMDStiHsEcpyW/r80N8yqVfbFuTOEqAjS57dA0bXtARuODNBgF8zIZWo
- q/XWA502OYl7VQkMPHWglCmkgoM643Y=
+ bh=botD9nL5X/9G6SBGBomRO546/D9/hxd94G5P/qmUqTA=;
+ b=pZVx+Oe4Z2GMAWcfRx3PscGFaUgPYlMQRzsA8oKrmQvHNO1Pq565Or4zNHH37FoJBmsgoG
+ UnomX/+v+w7+YwT82o0sH4MUnJJwvsYNd1dxWIBFgEo4j/zGC3mN6QH2r5r3MvrR0VAIMv
+ mmCKxLaAj+RD4XPbIeVBq1prNqsCbjE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1636104961;
+ s=susede2_ed25519; t=1636105150;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
+ mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=eILFFGjLT9iaZW85lu+77O/nxgQWyvngQ0+3NqL7z4I=;
- b=+hpngLOti9MMZC6iblC6mwfsk9wuFhgqCTKe7HcTbnKNCYz1XtQiMA+onsulFBY+93DV/h
- roqvNEXWDHl6AVCQ==
+ bh=botD9nL5X/9G6SBGBomRO546/D9/hxd94G5P/qmUqTA=;
+ b=v4/EnLAwNyABGGeo5o31wIOvLgtyR0slgRzxpBfFmJ05mVYZiq6WTJkFA0ALAbIcGuFQyE
+ xy1eWkajhsOtQiDQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 54A5313FDB;
- Fri,  5 Nov 2021 09:36:01 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3B03E13B97;
+ Fri,  5 Nov 2021 09:39:10 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id QO25EwH7hGFTaQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Fri, 05 Nov 2021 09:36:01 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: daniel@ffwll.ch, airlied@linux.ie, mripard@kernel.org,
- maarten.lankhorst@linux.intel.com
-Subject: [PATCH 3/3] drm/shmem-helper: Pass GEM shmem object in public
- interfaces
-Date: Fri,  5 Nov 2021 10:35:58 +0100
-Message-Id: <20211105093558.5084-4-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20211105093558.5084-1-tzimmermann@suse.de>
-References: <20211105093558.5084-1-tzimmermann@suse.de>
+ by imap2.suse-dmz.suse.de with ESMTPSA id 4dZbDb77hGEyawAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Fri, 05 Nov 2021 09:39:10 +0000
+Message-ID: <2698c680-6d05-f58d-d7c2-ea76aeb0bb47@suse.de>
+Date: Fri, 5 Nov 2021 10:39:09 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.1
+Subject: Re: [PATCH v2 2/2] drm: Move nomodeset kernel parameter to the DRM
+ subsystem
+Content-Language: en-US
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org
+References: <20211104160707.1407052-1-javierm@redhat.com>
+ <20211104160707.1407052-3-javierm@redhat.com>
+ <f2c40b22-04bf-e8f2-9839-36d6d26189a1@suse.de> <87cznf9cty.fsf@intel.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <87cznf9cty.fsf@intel.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------zl0Oh59VDXN0QB6wEYp8aODT"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,703 +73,338 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, lima@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org
+Cc: linux-fbdev@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, amd-gfx@lists.freedesktop.org,
+ VMware Graphics <linux-graphics-maintainer@vmware.com>,
+ Peter Robinson <pbrobinson@gmail.com>, nouveau@lists.freedesktop.org,
+ Dave Airlie <airlied@redhat.com>, Ben Skeggs <bskeggs@redhat.com>,
+ =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>,
+ Hans de Goede <hdegoede@redhat.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ virtualization@lists.linux-foundation.org,
+ Pekka Paalanen <pekka.paalanen@collabora.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Pan,
+ Xinhui" <Xinhui.Pan@amd.com>, spice-devel@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>, intel-gfx@lists.freedesktop.org,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Change all GEM SHMEM object functions that receive a GEM object
-of type struct drm_gem_object to expect an object of type
-struct drm_gem_shmem_object instead.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------zl0Oh59VDXN0QB6wEYp8aODT
+Content-Type: multipart/mixed; boundary="------------l4WtE5NDCwhX3Yej90putktx";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org
+Cc: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Peter Robinson
+ <pbrobinson@gmail.com>, Pekka Paalanen <pekka.paalanen@collabora.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Ben Skeggs <bskeggs@redhat.com>,
+ Chia-I Wu <olvaffe@gmail.com>, =?UTF-8?Q?Christian_K=c3=b6nig?=
+ <christian.koenig@amd.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Dave Airlie <airlied@redhat.com>, David Airlie <airlied@linux.ie>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Hans de Goede <hdegoede@redhat.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ VMware Graphics <linux-graphics-maintainer@vmware.com>,
+ Zack Rusin <zackr@vmware.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org, nouveau@lists.freedesktop.org,
+ spice-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org
+Message-ID: <2698c680-6d05-f58d-d7c2-ea76aeb0bb47@suse.de>
+Subject: Re: [PATCH v2 2/2] drm: Move nomodeset kernel parameter to the DRM
+ subsystem
+References: <20211104160707.1407052-1-javierm@redhat.com>
+ <20211104160707.1407052-3-javierm@redhat.com>
+ <f2c40b22-04bf-e8f2-9839-36d6d26189a1@suse.de> <87cznf9cty.fsf@intel.com>
+In-Reply-To: <87cznf9cty.fsf@intel.com>
 
-This change reduces the number of upcasts from struct drm_gem_object
-by moving them into callers. The C compiler can now verify that the
-GEM SHMEM functions are called with the correct type.
+--------------l4WtE5NDCwhX3Yej90putktx
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-For consistency, the patch also renames drm_gem_shmem_free_object to
-drm_gem_shmem_free. It further updates documentation for a number of
-functions.
+SGkNCg0KQW0gMDUuMTEuMjEgdW0gMTA6MjIgc2NocmllYiBKYW5pIE5pa3VsYToNCj4gT24g
+RnJpLCAwNSBOb3YgMjAyMSwgVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2Uu
+ZGU+IHdyb3RlOg0KPj4gSGkNCj4+DQo+PiBBbSAwNC4xMS4yMSB1bSAxNzowNyBzY2hyaWVi
+IEphdmllciBNYXJ0aW5leiBDYW5pbGxhczoNCj4+PiBUaGUgIm5vbW9kZXNldCIga2VybmVs
+IGNtZGxpbmUgcGFyYW1ldGVyIGlzIGhhbmRsZWQgYnkgdGhlIHZnYWNvbiBkcml2ZXINCj4+
+PiBidXQgdGhlIGV4cG9ydGVkIHZnYWNvbl90ZXh0X2ZvcmNlKCkgc3ltYm9sIGlzIG9ubHkg
+dXNlZCBieSBEUk0gZHJpdmVycy4NCj4+Pg0KPj4+IEl0IG1ha2VzIG11Y2ggbW9yZSBzZW5z
+ZSBmb3IgdGhlIHBhcmFtZXRlciBsb2dpYyB0byBiZSBpbiB0aGUgc3Vic3lzdGVtDQo+Pj4g
+b2YgdGhlIGRyaXZlcnMgdGhhdCBhcmUgbWFraW5nIHVzZSBvZiBpdC4NCj4+Pg0KPj4+IExl
+dCdzIG1vdmUgdGhlIHZnYWNvbl90ZXh0X2ZvcmNlKCkgZnVuY3Rpb24gYW5kIHJlbGF0ZWQg
+bG9naWMgdG8gdGhlIERSTQ0KPj4+IHN1YnN5c3RlbS4gV2hpbGUgZG9pbmcgdGhhdCwgcmVu
+YW1lIHRoZSBmdW5jdGlvbiB0byBkcm1fY2hlY2tfbW9kZXNldCgpDQo+Pj4gd2hpY2ggYmV0
+dGVyIHJlZmxlY3RzIHdoYXQgdGhlIGZ1bmN0aW9uIGlzIHJlYWxseSB1c2VkIHRvIHRlc3Qg
+Zm9yLg0KPj4+DQo+Pj4gU3VnZ2VzdGVkLWJ5OiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0
+dGVyQGZmd2xsLmNoPg0KPj4+IFNpZ25lZC1vZmYtYnk6IEphdmllciBNYXJ0aW5leiBDYW5p
+bGxhcyA8amF2aWVybUByZWRoYXQuY29tPg0KPj4+IC0tLQ0KPj4+DQo+Pj4gQ2hhbmdlcyBp
+biB2MjoNCj4+PiAtIENvbmRpdGlvbmFsbHkgYnVpbGQgZHJtX25vbW9kZXNldC5vIGlmIENP
+TkZJR19WR0FfQ09OU09MRSBpcyBzZXQuDQo+Pj4gLSBTcXVhc2ggcGF0Y2hlcyB0byBtb3Zl
+IG5vbW9kZXNldCBsb2dpYyB0byBEUk0gYW5kIGRvIHRoZSByZW5hbWluZy4NCj4+PiAtIE5h
+bWUgdGhlIGZ1bmN0aW9uIGRybV9jaGVja19tb2Rlc2V0KCkgYW5kIG1ha2UgaXQgcmV0dXJu
+IC1FTk9ERVYuDQo+Pj4NCj4+PiAgICBkcml2ZXJzL2dwdS9kcm0vTWFrZWZpbGUgICAgICAg
+ICAgICAgICAgfCAgMiArKw0KPj4+ICAgIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2Ft
+ZGdwdV9kcnYuYyB8ICAxIC0NCj4+PiAgICBkcml2ZXJzL2dwdS9kcm0vYXN0L2FzdF9kcnYu
+YyAgICAgICAgICAgfCAgMSAtDQo+Pj4gICAgZHJpdmVycy9ncHUvZHJtL2RybV9kcnYuYyAg
+ICAgICAgICAgICAgIHwgIDkgKysrKystLS0tDQo+Pj4gICAgZHJpdmVycy9ncHUvZHJtL2Ry
+bV9ub21vZGVzZXQuYyAgICAgICAgIHwgMjYgKysrKysrKysrKysrKysrKysrKysrKysrKw0K
+Pj4+ICAgIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2k5MTVfbW9kdWxlLmMgICAgICB8ICAyIC0t
+DQo+Pj4gICAgZHJpdmVycy9ncHUvZHJtL21nYWcyMDAvbWdhZzIwMF9kcnYuYyAgIHwgIDEg
+LQ0KPj4+ICAgIGRyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfZHJtLmMgICB8ICAx
+IC0NCj4+PiAgICBkcml2ZXJzL2dwdS9kcm0vcXhsL3F4bF9kcnYuYyAgICAgICAgICAgfCAg
+MSAtDQo+Pj4gICAgZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9yYWRlb25fZHJ2LmMgICAgIHwg
+IDEgLQ0KPj4+ICAgIGRyaXZlcnMvZ3B1L2RybS90aW55L2JvY2hzLmMgICAgICAgICAgICB8
+ICAxIC0NCj4+PiAgICBkcml2ZXJzL2dwdS9kcm0vdGlueS9jaXJydXMuYyAgICAgICAgICAg
+fCAgMSAtDQo+Pj4gICAgZHJpdmVycy9ncHUvZHJtL3Zib3h2aWRlby92Ym94X2Rydi5jICAg
+IHwgIDEgLQ0KPj4+ICAgIGRyaXZlcnMvZ3B1L2RybS92aXJ0aW8vdmlydGdwdV9kcnYuYyAg
+ICB8ICAxIC0NCj4+PiAgICBkcml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Ztd2dmeF9kcnYuYyAg
+ICAgfCAgMSAtDQo+Pj4gICAgZHJpdmVycy92aWRlby9jb25zb2xlL3ZnYWNvbi5jICAgICAg
+ICAgIHwgMjEgLS0tLS0tLS0tLS0tLS0tLS0tLS0NCj4+PiAgICBpbmNsdWRlL2RybS9kcm1f
+bW9kZV9jb25maWcuaCAgICAgICAgICAgfCAgNiArKysrKysNCj4+PiAgICBpbmNsdWRlL2xp
+bnV4L2NvbnNvbGUuaCAgICAgICAgICAgICAgICAgfCAgNiAtLS0tLS0NCj4+PiAgICAxOCBm
+aWxlcyBjaGFuZ2VkLCAzOSBpbnNlcnRpb25zKCspLCA0NCBkZWxldGlvbnMoLSkNCj4+PiAg
+ICBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL2RybV9ub21vZGVzZXQuYw0K
+Pj4+DQo+Pj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9NYWtlZmlsZSBiL2RyaXZl
+cnMvZ3B1L2RybS9NYWtlZmlsZQ0KPj4+IGluZGV4IDFjNDExNTZkZWI1Zi4uYzc0ODEwYzI4
+NWFmIDEwMDY0NA0KPj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9NYWtlZmlsZQ0KPj4+ICsr
+KyBiL2RyaXZlcnMvZ3B1L2RybS9NYWtlZmlsZQ0KPj4+IEBAIC0zMyw2ICszMyw4IEBAIGRy
+bS0kKENPTkZJR19EUk1fUFJJVkFDWV9TQ1JFRU4pICs9IGRybV9wcml2YWN5X3NjcmVlbi5v
+IGRybV9wcml2YWN5X3NjcmVlbl94ODYuDQo+Pj4gICAgDQo+Pj4gICAgb2JqLSQoQ09ORklH
+X0RSTV9EUF9BVVhfQlVTKSArPSBkcm1fZHBfYXV4X2J1cy5vDQo+Pj4gICAgDQo+Pj4gK29i
+ai0kKENPTkZJR19WR0FfQ09OU09MRSkgKz0gZHJtX25vbW9kZXNldC5vDQo+Pj4gKw0KPj4N
+Cj4+IFRoaXMgbm93IGRlcGVuZHMgb24gdGhlIFZHQSB0ZXh0bW9kZSBjb25zb2xlLiBFdmVu
+IGlmIHlvdSBoYXZlIG5vIFZHQQ0KPj4gY29uc29sZSwgeW91J2Qgd2FudCBkcm1fbm9tb2Rl
+c2V0Lm8uIFNpbXBsZWRybSBtaWdodCBiZSBidWlsdC1pbiBhbmQgY2FuDQo+PiBwcm92aWRl
+IGdyYXBoaWNzLiBOb24tUEMgc3lzdGVtcyBkb24ndCBldmVuIGhhdmUgYSBWR0EgZGV2aWNl
+Lg0KPiANCj4gVGhpcyB3YXMgZGlzY3Vzc2VkIGluIGFuIGVhcmxpZXIgdmVyc2lvbiwgd2hp
+Y2ggaGFkIHRoaXMgYnVpbHRpbiBidXQgdGhlDQo+IGhlYWRlciBzdGlsbCBoYWQgYSBzdHVi
+IGZvciBDT05GSUdfVkdBX0NPTlNPTEU9bi4NCj4gDQo+PiBJIHRoaW5rIHdlIHJlYWxseSB3
+YW50IGEgc2VwYXJhdGUgYm9vbGVhbiBjb25maWcgb3B0aW9uIHRoYXQgZ2V0cw0KPj4gc2Vs
+ZWN0ZWQgYnkgQ09ORklHX0RSTS4NCj4gDQo+IFBlcmhhcHMgdGhhdCBzaG91bGQgYmUgYSBz
+ZXBhcmF0ZSBjaGFuZ2Ugb24gdG9wLg0KDQpTdXJlLCBtYWtlIGl0IGEgc2VwYXJhdGUgcGF0
+Y2guDQoNCldlIHdhbnQgdG8gbWFrZSB0aGlzIHdvcmsgb24gQVJNIHN5c3RlbXMuIEkgZXZl
+biBoYXZlIGEgcmVxdWVzdCB0byANCnJlcGxhY2Ugb2ZmYiBvbiBQb3dlciBhcmNoaXRlY3R1
+cmUgYnkgc2ltcGxlZHJtLiBTbyB0aGUgZmluYWwgY29uZmlnIGhhcyANCnRvIGJlIHN5c3Rl
+bSBhZ25vc3RpYy4NCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KPiANCj4gQlIsDQo+IEph
+bmkuDQo+IA0KPj4NCj4+DQo+Pj4gICAgZHJtX2NtYV9oZWxwZXIteSA6PSBkcm1fZ2VtX2Nt
+YV9oZWxwZXIubw0KPj4+ICAgIG9iai0kKENPTkZJR19EUk1fR0VNX0NNQV9IRUxQRVIpICs9
+IGRybV9jbWFfaGVscGVyLm8NCj4+PiAgICANCj4+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9n
+cHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2Rydi5jIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9h
+bWRncHUvYW1kZ3B1X2Rydi5jDQo+Pj4gaW5kZXggN2ZkZTQwZDA2MTgxLi5iNGI2OTkzODYx
+ZTYgMTAwNjQ0DQo+Pj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1
+X2Rydi5jDQo+Pj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2Ry
+di5jDQo+Pj4gQEAgLTMxLDcgKzMxLDYgQEANCj4+PiAgICAjaW5jbHVkZSAiYW1kZ3B1X2Ry
+di5oIg0KPj4+ICAgIA0KPj4+ICAgICNpbmNsdWRlIDxkcm0vZHJtX3BjaWlkcy5oPg0KPj4+
+IC0jaW5jbHVkZSA8bGludXgvY29uc29sZS5oPg0KPj4+ICAgICNpbmNsdWRlIDxsaW51eC9t
+b2R1bGUuaD4NCj4+PiAgICAjaW5jbHVkZSA8bGludXgvcG1fcnVudGltZS5oPg0KPj4+ICAg
+ICNpbmNsdWRlIDxsaW51eC92Z2Ffc3dpdGNoZXJvby5oPg0KPj4+IGRpZmYgLS1naXQgYS9k
+cml2ZXJzL2dwdS9kcm0vYXN0L2FzdF9kcnYuYyBiL2RyaXZlcnMvZ3B1L2RybS9hc3QvYXN0
+X2Rydi5jDQo+Pj4gaW5kZXggODAyMDYzMjc5Yjg2Li42MjIyMDgyYzMwODIgMTAwNjQ0DQo+
+Pj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfZHJ2LmMNCj4+PiArKysgYi9kcml2
+ZXJzL2dwdS9kcm0vYXN0L2FzdF9kcnYuYw0KPj4+IEBAIC0yNiw3ICsyNiw2IEBADQo+Pj4g
+ICAgICogQXV0aG9yczogRGF2ZSBBaXJsaWUgPGFpcmxpZWRAcmVkaGF0LmNvbT4NCj4+PiAg
+ICAgKi8NCj4+PiAgICANCj4+PiAtI2luY2x1ZGUgPGxpbnV4L2NvbnNvbGUuaD4NCj4+PiAg
+ICAjaW5jbHVkZSA8bGludXgvbW9kdWxlLmg+DQo+Pj4gICAgI2luY2x1ZGUgPGxpbnV4L3Bj
+aS5oPg0KPj4+ICAgIA0KPj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2Ry
+di5jIGIvZHJpdmVycy9ncHUvZHJtL2RybV9kcnYuYw0KPj4+IGluZGV4IDNmYjU2N2Q2Mjg4
+MS4uODBiODViOGVhNzc2IDEwMDY0NA0KPj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1f
+ZHJ2LmMNCj4+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2Rydi5jDQo+Pj4gQEAgLTk4
+NiwxMiArOTg2LDEzIEBAIEVYUE9SVF9TWU1CT0woZHJtX2Rldl9zZXRfdW5pcXVlKTsNCj4+
+PiAgICAgKi8NCj4+PiAgICBpbnQgZHJtX2Rydl9lbmFibGVkKGNvbnN0IHN0cnVjdCBkcm1f
+ZHJpdmVyICpkcml2ZXIpDQo+Pj4gICAgew0KPj4+IC0JaWYgKHZnYWNvbl90ZXh0X2ZvcmNl
+KCkpIHsNCj4+PiArCWludCByZXQ7DQo+Pj4gKw0KPj4+ICsJcmV0ID0gZHJtX2NoZWNrX21v
+ZGVzZXQoKTsNCj4+PiArCWlmIChyZXQpDQo+Pj4gICAgCQlEUk1fSU5GTygiJXMgZHJpdmVy
+IGlzIGRpc2FibGVkXG4iLCBkcml2ZXItPm5hbWUpOw0KPj4+IC0JCXJldHVybiAtRU5PREVW
+Ow0KPj4+IC0JfQ0KPj4+ICAgIA0KPj4+IC0JcmV0dXJuIDA7DQo+Pj4gKwlyZXR1cm4gcmV0
+Ow0KPj4+ICAgIH0NCj4+PiAgICBFWFBPUlRfU1lNQk9MKGRybV9kcnZfZW5hYmxlZCk7DQo+
+Pj4gICAgDQo+Pj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fbm9tb2Rlc2V0
+LmMgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX25vbW9kZXNldC5jDQo+Pj4gbmV3IGZpbGUgbW9k
+ZSAxMDA2NDQNCj4+PiBpbmRleCAwMDAwMDAwMDAwMDAuLjY2ODNlMzk2ZDJjNQ0KPj4+IC0t
+LSAvZGV2L251bGwNCj4+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX25vbW9kZXNldC5j
+DQo+Pj4gQEAgLTAsMCArMSwyNiBAQA0KPj4+ICsvLyBTUERYLUxpY2Vuc2UtSWRlbnRpZmll
+cjogR1BMLTIuMA0KPj4+ICsNCj4+PiArI2luY2x1ZGUgPGxpbnV4L21vZHVsZS5oPg0KPj4+
+ICsjaW5jbHVkZSA8bGludXgvdHlwZXMuaD4NCj4+PiArDQo+Pj4gK3N0YXRpYyBib29sIGRy
+bV9ub21vZGVzZXQ7DQo+Pj4gKw0KPj4+ICtpbnQgZHJtX2NoZWNrX21vZGVzZXQodm9pZCkN
+Cj4+PiArew0KPj4+ICsJcmV0dXJuIGRybV9ub21vZGVzZXQgPyAtRU5PREVWIDogMDsNCj4+
+PiArfQ0KPj4+ICtFWFBPUlRfU1lNQk9MKGRybV9jaGVja19tb2Rlc2V0KTsNCj4+PiArDQo+
+Pj4gK3N0YXRpYyBpbnQgX19pbml0IGRpc2FibGVfbW9kZXNldChjaGFyICpzdHIpDQo+Pj4g
+K3sNCj4+PiArCWRybV9ub21vZGVzZXQgPSB0cnVlOw0KPj4+ICsNCj4+PiArCXByX3dhcm4o
+IllvdSBoYXZlIGJvb3RlZCB3aXRoIG5vbW9kZXNldC4gVGhpcyBtZWFucyB5b3VyIEdQVSBk
+cml2ZXJzIGFyZSBESVNBQkxFRFxuIik7DQo+Pj4gKwlwcl93YXJuKCJBbnkgdmlkZW8gcmVs
+YXRlZCBmdW5jdGlvbmFsaXR5IHdpbGwgYmUgc2V2ZXJlbHkgZGVncmFkZWQsIGFuZCB5b3Ug
+bWF5IG5vdCBldmVuIGJlIGFibGUgdG8gc3VzcGVuZCB0aGUgc3lzdGVtIHByb3Blcmx5XG4i
+KTsNCj4+PiArCXByX3dhcm4oIlVubGVzcyB5b3UgYWN0dWFsbHkgdW5kZXJzdGFuZCB3aGF0
+IG5vbW9kZXNldCBkb2VzLCB5b3Ugc2hvdWxkIHJlYm9vdCB3aXRob3V0IGVuYWJsaW5nIGl0
+XG4iKTsNCj4+DQo+PiBJJ2QgdXBkYXRlIHRoaXMgdGV4dCB0byBiZSBsZXNzIHNlbnNhdGlv
+bmFsLg0KPj4NCj4+PiArDQo+Pj4gKwlyZXR1cm4gMTsNCj4+PiArfQ0KPj4+ICsNCj4+PiAr
+LyogRGlzYWJsZSBrZXJuZWwgbW9kZXNldHRpbmcgKi8NCj4+PiArX19zZXR1cCgibm9tb2Rl
+c2V0IiwgZGlzYWJsZV9tb2Rlc2V0KTsNCj4+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUv
+ZHJtL2k5MTUvaTkxNV9tb2R1bGUuYyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2k5MTVfbW9k
+dWxlLmMNCj4+PiBpbmRleCA0NWNiM2U1NDBlZmYuLmM4OTBjMWNhMjBjNCAxMDA2NDQNCj4+
+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9pOTE1X21vZHVsZS5jDQo+Pj4gKysrIGIv
+ZHJpdmVycy9ncHUvZHJtL2k5MTUvaTkxNV9tb2R1bGUuYw0KPj4+IEBAIC00LDggKzQsNiBA
+QA0KPj4+ICAgICAqIENvcHlyaWdodCDCqSAyMDIxIEludGVsIENvcnBvcmF0aW9uDQo+Pj4g
+ICAgICovDQo+Pj4gICAgDQo+Pj4gLSNpbmNsdWRlIDxsaW51eC9jb25zb2xlLmg+DQo+Pj4g
+LQ0KPj4NCj4+IFRoZXNlIGNoYW5nZXMgc2hvdWxkIGJlIGluIHBhdGNoIDE/DQo+Pg0KPj4+
+ICAgICNpbmNsdWRlICJnZW0vaTkxNV9nZW1fY29udGV4dC5oIg0KPj4+ICAgICNpbmNsdWRl
+ICJnZW0vaTkxNV9nZW1fb2JqZWN0LmgiDQo+Pj4gICAgI2luY2x1ZGUgImk5MTVfYWN0aXZl
+LmgiDQo+Pj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9tZ2FnMjAwL21nYWcyMDBf
+ZHJ2LmMgYi9kcml2ZXJzL2dwdS9kcm0vbWdhZzIwMC9tZ2FnMjAwX2Rydi5jDQo+Pj4gaW5k
+ZXggMmE1ODEwOTRiYTJiLi44ZTAwMGNhYzExYmEgMTAwNjQ0DQo+Pj4gLS0tIGEvZHJpdmVy
+cy9ncHUvZHJtL21nYWcyMDAvbWdhZzIwMF9kcnYuYw0KPj4+ICsrKyBiL2RyaXZlcnMvZ3B1
+L2RybS9tZ2FnMjAwL21nYWcyMDBfZHJ2LmMNCj4+PiBAQCAtNiw3ICs2LDYgQEANCj4+PiAg
+ICAgKiAgICAgICAgICBEYXZlIEFpcmxpZQ0KPj4+ICAgICAqLw0KPj4+ICAgIA0KPj4+IC0j
+aW5jbHVkZSA8bGludXgvY29uc29sZS5oPg0KPj4+ICAgICNpbmNsdWRlIDxsaW51eC9tb2R1
+bGUuaD4NCj4+PiAgICAjaW5jbHVkZSA8bGludXgvcGNpLmg+DQo+Pj4gICAgI2luY2x1ZGUg
+PGxpbnV4L3ZtYWxsb2MuaD4NCj4+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL25v
+dXZlYXUvbm91dmVhdV9kcm0uYyBiL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25vdXZlYXVf
+ZHJtLmMNCj4+PiBpbmRleCA4ODQ0ZDM2MDJkODcuLmJkMTQ1NjUyMWI3YyAxMDA2NDQNCj4+
+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X2RybS5jDQo+Pj4gKysr
+IGIvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV9kcm0uYw0KPj4+IEBAIC0yMiw3
+ICsyMiw2IEBADQo+Pj4gICAgICogQXV0aG9yczogQmVuIFNrZWdncw0KPj4+ICAgICAqLw0K
+Pj4+ICAgIA0KPj4+IC0jaW5jbHVkZSA8bGludXgvY29uc29sZS5oPg0KPj4+ICAgICNpbmNs
+dWRlIDxsaW51eC9kZWxheS5oPg0KPj4+ICAgICNpbmNsdWRlIDxsaW51eC9tb2R1bGUuaD4N
+Cj4+PiAgICAjaW5jbHVkZSA8bGludXgvcGNpLmg+DQo+Pj4gZGlmZiAtLWdpdCBhL2RyaXZl
+cnMvZ3B1L2RybS9xeGwvcXhsX2Rydi5jIGIvZHJpdmVycy9ncHUvZHJtL3F4bC9xeGxfZHJ2
+LmMNCj4+PiBpbmRleCAzYWMyZWYyYmY1NDUuLmZmMDcwYWM3NjExMSAxMDA2NDQNCj4+PiAt
+LS0gYS9kcml2ZXJzL2dwdS9kcm0vcXhsL3F4bF9kcnYuYw0KPj4+ICsrKyBiL2RyaXZlcnMv
+Z3B1L2RybS9xeGwvcXhsX2Rydi5jDQo+Pj4gQEAgLTI5LDcgKzI5LDYgQEANCj4+PiAgICAN
+Cj4+PiAgICAjaW5jbHVkZSAicXhsX2Rydi5oIg0KPj4+ICAgIA0KPj4+IC0jaW5jbHVkZSA8
+bGludXgvY29uc29sZS5oPg0KPj4+ICAgICNpbmNsdWRlIDxsaW51eC9tb2R1bGUuaD4NCj4+
+PiAgICAjaW5jbHVkZSA8bGludXgvcGNpLmg+DQo+Pj4gICAgI2luY2x1ZGUgPGxpbnV4L3Zn
+YWFyYi5oPg0KPj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVv
+bl9kcnYuYyBiL2RyaXZlcnMvZ3B1L2RybS9yYWRlb24vcmFkZW9uX2Rydi5jDQo+Pj4gaW5k
+ZXggNTZkNjg4YzA0MzQ2Li5mNTljYzk3MWVjOTUgMTAwNjQ0DQo+Pj4gLS0tIGEvZHJpdmVy
+cy9ncHUvZHJtL3JhZGVvbi9yYWRlb25fZHJ2LmMNCj4+PiArKysgYi9kcml2ZXJzL2dwdS9k
+cm0vcmFkZW9uL3JhZGVvbl9kcnYuYw0KPj4+IEBAIC0zMSw3ICszMSw2IEBADQo+Pj4gICAg
+DQo+Pj4gICAgDQo+Pj4gICAgI2luY2x1ZGUgPGxpbnV4L2NvbXBhdC5oPg0KPj4+IC0jaW5j
+bHVkZSA8bGludXgvY29uc29sZS5oPg0KPj4+ICAgICNpbmNsdWRlIDxsaW51eC9tb2R1bGUu
+aD4NCj4+PiAgICAjaW5jbHVkZSA8bGludXgvcG1fcnVudGltZS5oPg0KPj4+ICAgICNpbmNs
+dWRlIDxsaW51eC92Z2Ffc3dpdGNoZXJvby5oPg0KPj4+IGRpZmYgLS1naXQgYS9kcml2ZXJz
+L2dwdS9kcm0vdGlueS9ib2Nocy5jIGIvZHJpdmVycy9ncHUvZHJtL3RpbnkvYm9jaHMuYw0K
+Pj4+IGluZGV4IGVlNmIxZmY5MTI4Yi4uNmU5YTMxZjFhMGYzIDEwMDY0NA0KPj4+IC0tLSBh
+L2RyaXZlcnMvZ3B1L2RybS90aW55L2JvY2hzLmMNCj4+PiArKysgYi9kcml2ZXJzL2dwdS9k
+cm0vdGlueS9ib2Nocy5jDQo+Pj4gQEAgLTEsNiArMSw1IEBADQo+Pj4gICAgLy8gU1BEWC1M
+aWNlbnNlLUlkZW50aWZpZXI6IEdQTC0yLjAtb3ItbGF0ZXINCj4+PiAgICANCj4+PiAtI2lu
+Y2x1ZGUgPGxpbnV4L2NvbnNvbGUuaD4NCj4+PiAgICAjaW5jbHVkZSA8bGludXgvcGNpLmg+
+DQo+Pj4gICAgDQo+Pj4gICAgI2luY2x1ZGUgPGRybS9kcm1fYXBlcnR1cmUuaD4NCj4+PiBk
+aWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3RpbnkvY2lycnVzLmMgYi9kcml2ZXJzL2dw
+dS9kcm0vdGlueS9jaXJydXMuYw0KPj4+IGluZGV4IDQ3MDZjNWJjMzA2Ny4uNjU5MjA4ZDVh
+ZWY5IDEwMDY0NA0KPj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS90aW55L2NpcnJ1cy5jDQo+
+Pj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3RpbnkvY2lycnVzLmMNCj4+PiBAQCAtMTYsNyAr
+MTYsNiBAQA0KPj4+ICAgICAqIENvcHlyaWdodCAxOTk5LTIwMDEgSmVmZiBHYXJ6aWsgPGpn
+YXJ6aWtAcG9ib3guY29tPg0KPj4+ICAgICAqLw0KPj4+ICAgIA0KPj4+IC0jaW5jbHVkZSA8
+bGludXgvY29uc29sZS5oPg0KPj4+ICAgICNpbmNsdWRlIDxsaW51eC9kbWEtYnVmLW1hcC5o
+Pg0KPj4+ICAgICNpbmNsdWRlIDxsaW51eC9tb2R1bGUuaD4NCj4+PiAgICAjaW5jbHVkZSA8
+bGludXgvcGNpLmg+DQo+Pj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS92Ym94dmlk
+ZW8vdmJveF9kcnYuYyBiL2RyaXZlcnMvZ3B1L2RybS92Ym94dmlkZW8vdmJveF9kcnYuYw0K
+Pj4+IGluZGV4IGU0Mzc3YzM3Y2YzMy4uYjFlNjNmZDU0M2JiIDEwMDY0NA0KPj4+IC0tLSBh
+L2RyaXZlcnMvZ3B1L2RybS92Ym94dmlkZW8vdmJveF9kcnYuYw0KPj4+ICsrKyBiL2RyaXZl
+cnMvZ3B1L2RybS92Ym94dmlkZW8vdmJveF9kcnYuYw0KPj4+IEBAIC03LDcgKzcsNiBAQA0K
+Pj4+ICAgICAqICAgICAgICAgIE1pY2hhZWwgVGhheWVyIDxtaWNoYWVsLnRoYXllckBvcmFj
+bGUuY29tLA0KPj4+ICAgICAqICAgICAgICAgIEhhbnMgZGUgR29lZGUgPGhkZWdvZWRlQHJl
+ZGhhdC5jb20+DQo+Pj4gICAgICovDQo+Pj4gLSNpbmNsdWRlIDxsaW51eC9jb25zb2xlLmg+
+DQo+Pj4gICAgI2luY2x1ZGUgPGxpbnV4L21vZHVsZS5oPg0KPj4+ICAgICNpbmNsdWRlIDxs
+aW51eC9wY2kuaD4NCj4+PiAgICAjaW5jbHVkZSA8bGludXgvdnRfa2Vybi5oPg0KPj4+IGRp
+ZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vdmlydGlvL3ZpcnRncHVfZHJ2LmMgYi9kcml2
+ZXJzL2dwdS9kcm0vdmlydGlvL3ZpcnRncHVfZHJ2LmMNCj4+PiBpbmRleCAyODIwMGRmYmEy
+ZDEuLmJhOWMwYzJmOGFlNiAxMDA2NDQNCj4+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vdmly
+dGlvL3ZpcnRncHVfZHJ2LmMNCj4+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vdmlydGlvL3Zp
+cnRncHVfZHJ2LmMNCj4+PiBAQCAtMjcsNyArMjcsNiBAQA0KPj4+ICAgICAqLw0KPj4+ICAg
+IA0KPj4+ICAgICNpbmNsdWRlIDxsaW51eC9tb2R1bGUuaD4NCj4+PiAtI2luY2x1ZGUgPGxp
+bnV4L2NvbnNvbGUuaD4NCj4+PiAgICAjaW5jbHVkZSA8bGludXgvcGNpLmg+DQo+Pj4gICAg
+I2luY2x1ZGUgPGxpbnV4L3BvbGwuaD4NCj4+PiAgICAjaW5jbHVkZSA8bGludXgvd2FpdC5o
+Pg0KPj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Ztd2dmeF9kcnYu
+YyBiL2RyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X2Rydi5jDQo+Pj4gaW5kZXggMDVl
+OTk0OTI5M2Q1Li4xMTVlYzk1MTgyNzcgMTAwNjQ0DQo+Pj4gLS0tIGEvZHJpdmVycy9ncHUv
+ZHJtL3Ztd2dmeC92bXdnZnhfZHJ2LmMNCj4+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vdm13
+Z2Z4L3Ztd2dmeF9kcnYuYw0KPj4+IEBAIC0yNSw3ICsyNSw2IEBADQo+Pj4gICAgICoNCj4+
+PiAgICAgKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioq
+KioqKioqKioqKioqKioqKioqKioqKioqKiovDQo+Pj4gICAgDQo+Pj4gLSNpbmNsdWRlIDxs
+aW51eC9jb25zb2xlLmg+DQo+Pj4gICAgI2luY2x1ZGUgPGxpbnV4L2RtYS1tYXBwaW5nLmg+
+DQo+Pj4gICAgI2luY2x1ZGUgPGxpbnV4L21vZHVsZS5oPg0KPj4+ICAgICNpbmNsdWRlIDxs
+aW51eC9wY2kuaD4NCj4+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy92aWRlby9jb25zb2xlL3Zn
+YWNvbi5jIGIvZHJpdmVycy92aWRlby9jb25zb2xlL3ZnYWNvbi5jDQo+Pj4gaW5kZXggZWY5
+YzU3Y2UwOTA2Li5kNDMyMGIxNDc5NTYgMTAwNjQ0DQo+Pj4gLS0tIGEvZHJpdmVycy92aWRl
+by9jb25zb2xlL3ZnYWNvbi5jDQo+Pj4gKysrIGIvZHJpdmVycy92aWRlby9jb25zb2xlL3Zn
+YWNvbi5jDQo+Pj4gQEAgLTk3LDMwICs5Nyw5IEBAIHN0YXRpYyBpbnQgCQl2Z2FfdmlkZW9f
+Zm9udF9oZWlnaHQ7DQo+Pj4gICAgc3RhdGljIGludCAJCXZnYV9zY2FuX2xpbmVzCQlfX3Jl
+YWRfbW9zdGx5Ow0KPj4+ICAgIHN0YXRpYyB1bnNpZ25lZCBpbnQgCXZnYV9yb2xsZWRfb3Zl
+cjsgLyogbGFzdCB2Y19vcmlnaW4gb2Zmc2V0IGJlZm9yZSB3cmFwICovDQo+Pj4gICAgDQo+
+Pj4gLXN0YXRpYyBib29sIHZnYWNvbl90ZXh0X21vZGVfZm9yY2U7DQo+Pj4gICAgc3RhdGlj
+IGJvb2wgdmdhX2hhcmRzY3JvbGxfZW5hYmxlZDsNCj4+PiAgICBzdGF0aWMgYm9vbCB2Z2Ff
+aGFyZHNjcm9sbF91c2VyX2VuYWJsZSA9IHRydWU7DQo+Pj4gICAgDQo+Pj4gLWJvb2wgdmdh
+Y29uX3RleHRfZm9yY2Uodm9pZCkNCj4+PiAtew0KPj4+IC0JcmV0dXJuIHZnYWNvbl90ZXh0
+X21vZGVfZm9yY2U7DQo+Pj4gLX0NCj4+PiAtRVhQT1JUX1NZTUJPTCh2Z2Fjb25fdGV4dF9m
+b3JjZSk7DQo+Pj4gLQ0KPj4+IC1zdGF0aWMgaW50IF9faW5pdCB0ZXh0X21vZGUoY2hhciAq
+c3RyKQ0KPj4+IC17DQo+Pj4gLQl2Z2Fjb25fdGV4dF9tb2RlX2ZvcmNlID0gdHJ1ZTsNCj4+
+PiAtDQo+Pj4gLQlwcl93YXJuKCJZb3UgaGF2ZSBib290ZWQgd2l0aCBub21vZGVzZXQuIFRo
+aXMgbWVhbnMgeW91ciBHUFUgZHJpdmVycyBhcmUgRElTQUJMRURcbiIpOw0KPj4+IC0JcHJf
+d2FybigiQW55IHZpZGVvIHJlbGF0ZWQgZnVuY3Rpb25hbGl0eSB3aWxsIGJlIHNldmVyZWx5
+IGRlZ3JhZGVkLCBhbmQgeW91IG1heSBub3QgZXZlbiBiZSBhYmxlIHRvIHN1c3BlbmQgdGhl
+IHN5c3RlbSBwcm9wZXJseVxuIik7DQo+Pj4gLQlwcl93YXJuKCJVbmxlc3MgeW91IGFjdHVh
+bGx5IHVuZGVyc3RhbmQgd2hhdCBub21vZGVzZXQgZG9lcywgeW91IHNob3VsZCByZWJvb3Qg
+d2l0aG91dCBlbmFibGluZyBpdFxuIik7DQo+Pj4gLQ0KPj4+IC0JcmV0dXJuIDE7DQo+Pj4g
+LX0NCj4+PiAtDQo+Pj4gLS8qIGZvcmNlIHRleHQgbW9kZSAtIHVzZWQgYnkga2VybmVsIG1v
+ZGVzZXR0aW5nICovDQo+Pj4gLV9fc2V0dXAoIm5vbW9kZXNldCIsIHRleHRfbW9kZSk7DQo+
+Pj4gLQ0KPj4+ICAgIHN0YXRpYyBpbnQgX19pbml0IG5vX3Njcm9sbChjaGFyICpzdHIpDQo+
+Pj4gICAgew0KPj4+ICAgIAkvKg0KPj4+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2RybS9kcm1f
+bW9kZV9jb25maWcuaCBiL2luY2x1ZGUvZHJtL2RybV9tb2RlX2NvbmZpZy5oDQo+Pj4gaW5k
+ZXggNDhiN2RlODBkYWY1Li4xODk4MmQzNTA3ZTQgMTAwNjQ0DQo+Pj4gLS0tIGEvaW5jbHVk
+ZS9kcm0vZHJtX21vZGVfY29uZmlnLmgNCj4+PiArKysgYi9pbmNsdWRlL2RybS9kcm1fbW9k
+ZV9jb25maWcuaA0KPj4+IEBAIC05NjksNCArOTY5LDEwIEBAIHN0YXRpYyBpbmxpbmUgaW50
+IGRybV9tb2RlX2NvbmZpZ19pbml0KHN0cnVjdCBkcm1fZGV2aWNlICpkZXYpDQo+Pj4gICAg
+dm9pZCBkcm1fbW9kZV9jb25maWdfcmVzZXQoc3RydWN0IGRybV9kZXZpY2UgKmRldik7DQo+
+Pj4gICAgdm9pZCBkcm1fbW9kZV9jb25maWdfY2xlYW51cChzdHJ1Y3QgZHJtX2RldmljZSAq
+ZGV2KTsNCj4+PiAgICANCj4+PiArI2lmZGVmIENPTkZJR19WR0FfQ09OU09MRQ0KPj4+ICtl
+eHRlcm4gaW50IGRybV9jaGVja19tb2Rlc2V0KHZvaWQpOw0KPj4+ICsjZWxzZQ0KPj4+ICtz
+dGF0aWMgaW5saW5lIGludCBkcm1fY2hlY2tfbW9kZXNldCh2b2lkKSB7IHJldHVybiAwOyB9
+DQo+Pj4gKyNlbmRpZg0KPj4+ICsNCj4+PiAgICAjZW5kaWYNCj4+PiBkaWZmIC0tZ2l0IGEv
+aW5jbHVkZS9saW51eC9jb25zb2xlLmggYi9pbmNsdWRlL2xpbnV4L2NvbnNvbGUuaA0KPj4+
+IGluZGV4IDIwODc0ZGI1MGJjOC4uZDRkZDgzODQ4OThiIDEwMDY0NA0KPj4+IC0tLSBhL2lu
+Y2x1ZGUvbGludXgvY29uc29sZS5oDQo+Pj4gKysrIGIvaW5jbHVkZS9saW51eC9jb25zb2xl
+LmgNCj4+PiBAQCAtMjE3LDEyICsyMTcsNiBAQCBleHRlcm4gYXRvbWljX3QgaWdub3JlX2Nv
+bnNvbGVfbG9ja193YXJuaW5nOw0KPj4+ICAgICNkZWZpbmUgVkVTQV9IU1lOQ19TVVNQRU5E
+ICAgICAgMg0KPj4+ICAgICNkZWZpbmUgVkVTQV9QT1dFUkRPV04gICAgICAgICAgMw0KPj4+
+ICAgIA0KPj4+IC0jaWZkZWYgQ09ORklHX1ZHQV9DT05TT0xFDQo+Pj4gLWV4dGVybiBib29s
+IHZnYWNvbl90ZXh0X2ZvcmNlKHZvaWQpOw0KPj4+IC0jZWxzZQ0KPj4+IC1zdGF0aWMgaW5s
+aW5lIGJvb2wgdmdhY29uX3RleHRfZm9yY2Uodm9pZCkgeyByZXR1cm4gZmFsc2U7IH0NCj4+
+PiAtI2VuZGlmDQo+Pj4gLQ0KPj4+ICAgIGV4dGVybiB2b2lkIGNvbnNvbGVfaW5pdCh2b2lk
+KTsNCj4+PiAgICANCj4+PiAgICAvKiBGb3IgZGVmZXJyZWQgY29uc29sZSB0YWtlb3ZlciAq
+Lw0KPj4+DQo+IA0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIg
+RGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCk1heGZl
+bGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQ0KKEhSQiAzNjgwOSwgQUcgTsO8
+cm5iZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6IEl2byBUb3Rldg0K
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/gpu/drm/drm_gem_shmem_helper.c        | 78 ++++++++-----------
- drivers/gpu/drm/lima/lima_gem.c               | 10 +--
- drivers/gpu/drm/lima/lima_sched.c             |  4 +-
- drivers/gpu/drm/panfrost/panfrost_drv.c       |  2 +-
- drivers/gpu/drm/panfrost/panfrost_gem.c       |  8 +-
- .../gpu/drm/panfrost/panfrost_gem_shrinker.c  |  2 +-
- drivers/gpu/drm/panfrost/panfrost_mmu.c       |  5 +-
- drivers/gpu/drm/panfrost/panfrost_perfcnt.c   |  6 +-
- drivers/gpu/drm/v3d/v3d_bo.c                  |  8 +-
- drivers/gpu/drm/virtio/virtgpu_object.c       | 12 +--
- include/drm/drm_gem_shmem_helper.h            | 65 +++++++++-------
- 11 files changed, 100 insertions(+), 100 deletions(-)
+--------------l4WtE5NDCwhX3Yej90putktx--
 
-diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
-index 72ac263f20be..6521b0604a0f 100644
---- a/drivers/gpu/drm/drm_gem_shmem_helper.c
-+++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-@@ -117,15 +117,15 @@ struct drm_gem_shmem_object *drm_gem_shmem_create(struct drm_device *dev, size_t
- EXPORT_SYMBOL_GPL(drm_gem_shmem_create);
- 
- /**
-- * drm_gem_shmem_free_object - Free resources associated with a shmem GEM object
-- * @obj: GEM object to free
-+ * drm_gem_shmem_free - Free resources associated with a shmem GEM object
-+ * @shmem: shmem GEM object to free
-  *
-  * This function cleans up the GEM object state and frees the memory used to
-  * store the object itself.
-  */
--void drm_gem_shmem_free_object(struct drm_gem_object *obj)
-+void drm_gem_shmem_free(struct drm_gem_shmem_object *shmem)
- {
--	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
-+	struct drm_gem_object *obj = &shmem->base;
- 
- 	WARN_ON(shmem->vmap_use_count);
- 
-@@ -149,7 +149,7 @@ void drm_gem_shmem_free_object(struct drm_gem_object *obj)
- 	mutex_destroy(&shmem->vmap_lock);
- 	kfree(shmem);
- }
--EXPORT_SYMBOL_GPL(drm_gem_shmem_free_object);
-+EXPORT_SYMBOL_GPL(drm_gem_shmem_free);
- 
- static int drm_gem_shmem_get_pages_locked(struct drm_gem_shmem_object *shmem)
- {
-@@ -244,7 +244,7 @@ EXPORT_SYMBOL(drm_gem_shmem_put_pages);
- 
- /**
-  * drm_gem_shmem_pin - Pin backing pages for a shmem GEM object
-- * @obj: GEM object
-+ * @shmem: shmem GEM object
-  *
-  * This function makes sure the backing pages are pinned in memory while the
-  * buffer is exported.
-@@ -252,10 +252,8 @@ EXPORT_SYMBOL(drm_gem_shmem_put_pages);
-  * Returns:
-  * 0 on success or a negative error code on failure.
-  */
--int drm_gem_shmem_pin(struct drm_gem_object *obj)
-+int drm_gem_shmem_pin(struct drm_gem_shmem_object *shmem)
- {
--	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
--
- 	WARN_ON(shmem->base.import_attach);
- 
- 	return drm_gem_shmem_get_pages(shmem);
-@@ -264,15 +262,13 @@ EXPORT_SYMBOL(drm_gem_shmem_pin);
- 
- /**
-  * drm_gem_shmem_unpin - Unpin backing pages for a shmem GEM object
-- * @obj: GEM object
-+ * @shmem: shmem GEM object
-  *
-  * This function removes the requirement that the backing pages are pinned in
-  * memory.
-  */
--void drm_gem_shmem_unpin(struct drm_gem_object *obj)
-+void drm_gem_shmem_unpin(struct drm_gem_shmem_object *shmem)
- {
--	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
--
- 	WARN_ON(shmem->base.import_attach);
- 
- 	drm_gem_shmem_put_pages(shmem);
-@@ -346,9 +342,8 @@ static int drm_gem_shmem_vmap_locked(struct drm_gem_shmem_object *shmem, struct
-  * Returns:
-  * 0 on success or a negative error code on failure.
-  */
--int drm_gem_shmem_vmap(struct drm_gem_object *obj, struct dma_buf_map *map)
-+int drm_gem_shmem_vmap(struct drm_gem_shmem_object *shmem, struct dma_buf_map *map)
- {
--	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
- 	int ret;
- 
- 	ret = mutex_lock_interruptible(&shmem->vmap_lock);
-@@ -394,10 +389,8 @@ static void drm_gem_shmem_vunmap_locked(struct drm_gem_shmem_object *shmem,
-  * This function hides the differences between dma-buf imported and natively
-  * allocated objects.
-  */
--void drm_gem_shmem_vunmap(struct drm_gem_object *obj, struct dma_buf_map *map)
-+void drm_gem_shmem_vunmap(struct drm_gem_shmem_object *shmem, struct dma_buf_map *map)
- {
--	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
--
- 	mutex_lock(&shmem->vmap_lock);
- 	drm_gem_shmem_vunmap_locked(shmem, map);
- 	mutex_unlock(&shmem->vmap_lock);
-@@ -432,10 +425,8 @@ drm_gem_shmem_create_with_handle(struct drm_file *file_priv,
- /* Update madvise status, returns true if not purged, else
-  * false or -errno.
-  */
--int drm_gem_shmem_madvise(struct drm_gem_object *obj, int madv)
-+int drm_gem_shmem_madvise(struct drm_gem_shmem_object *shmem, int madv)
- {
--	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
--
- 	mutex_lock(&shmem->pages_lock);
- 
- 	if (shmem->madv >= 0)
-@@ -449,14 +440,14 @@ int drm_gem_shmem_madvise(struct drm_gem_object *obj, int madv)
- }
- EXPORT_SYMBOL(drm_gem_shmem_madvise);
- 
--void drm_gem_shmem_purge_locked(struct drm_gem_object *obj)
-+void drm_gem_shmem_purge_locked(struct drm_gem_shmem_object *shmem)
- {
-+	struct drm_gem_object *obj = &shmem->base;
- 	struct drm_device *dev = obj->dev;
--	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
- 
- 	WARN_ON(!drm_gem_shmem_is_purgeable(shmem));
- 
--	dma_unmap_sgtable(obj->dev->dev, shmem->sgt, DMA_BIDIRECTIONAL, 0);
-+	dma_unmap_sgtable(dev->dev, shmem->sgt, DMA_BIDIRECTIONAL, 0);
- 	sg_free_table(shmem->sgt);
- 	kfree(shmem->sgt);
- 	shmem->sgt = NULL;
-@@ -475,18 +466,15 @@ void drm_gem_shmem_purge_locked(struct drm_gem_object *obj)
- 	 */
- 	shmem_truncate_range(file_inode(obj->filp), 0, (loff_t)-1);
- 
--	invalidate_mapping_pages(file_inode(obj->filp)->i_mapping,
--			0, (loff_t)-1);
-+	invalidate_mapping_pages(file_inode(obj->filp)->i_mapping, 0, (loff_t)-1);
- }
- EXPORT_SYMBOL(drm_gem_shmem_purge_locked);
- 
--bool drm_gem_shmem_purge(struct drm_gem_object *obj)
-+bool drm_gem_shmem_purge(struct drm_gem_shmem_object *shmem)
- {
--	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
--
- 	if (!mutex_trylock(&shmem->pages_lock))
- 		return false;
--	drm_gem_shmem_purge_locked(obj);
-+	drm_gem_shmem_purge_locked(shmem);
- 	mutex_unlock(&shmem->pages_lock);
- 
- 	return true;
-@@ -594,7 +582,7 @@ static const struct vm_operations_struct drm_gem_shmem_vm_ops = {
- 
- /**
-  * drm_gem_shmem_mmap - Memory-map a shmem GEM object
-- * @obj: gem object
-+ * @shmem: shmem GEM object
-  * @vma: VMA for the area to be mapped
-  *
-  * This function implements an augmented version of the GEM DRM file mmap
-@@ -603,9 +591,9 @@ static const struct vm_operations_struct drm_gem_shmem_vm_ops = {
-  * Returns:
-  * 0 on success or a negative error code on failure.
-  */
--int drm_gem_shmem_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma)
-+int drm_gem_shmem_mmap(struct drm_gem_shmem_object *shmem, struct vm_area_struct *vma)
- {
--	struct drm_gem_shmem_object *shmem;
-+	struct drm_gem_object *obj = &shmem->base;
- 	int ret;
- 
- 	if (obj->import_attach) {
-@@ -616,8 +604,6 @@ int drm_gem_shmem_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma)
- 		return dma_buf_mmap(obj->dma_buf, vma, 0);
- 	}
- 
--	shmem = to_drm_gem_shmem_obj(obj);
--
- 	ret = drm_gem_shmem_get_pages(shmem);
- 	if (ret) {
- 		drm_gem_vm_close(vma);
-@@ -636,15 +622,13 @@ EXPORT_SYMBOL_GPL(drm_gem_shmem_mmap);
- 
- /**
-  * drm_gem_shmem_print_info() - Print &drm_gem_shmem_object info for debugfs
-+ * @shmem: shmem GEM object
-  * @p: DRM printer
-  * @indent: Tab indentation level
-- * @obj: GEM object
-  */
--void drm_gem_shmem_print_info(struct drm_printer *p, unsigned int indent,
--			      const struct drm_gem_object *obj)
-+void drm_gem_shmem_print_info(const struct drm_gem_shmem_object *shmem,
-+			      struct drm_printer *p, unsigned int indent)
- {
--	const struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
--
- 	drm_printf_indent(p, indent, "pages_use_count=%u\n", shmem->pages_use_count);
- 	drm_printf_indent(p, indent, "vmap_use_count=%u\n", shmem->vmap_use_count);
- 	drm_printf_indent(p, indent, "vaddr=%p\n", shmem->vaddr);
-@@ -654,7 +638,7 @@ EXPORT_SYMBOL(drm_gem_shmem_print_info);
- /**
-  * drm_gem_shmem_get_sg_table - Provide a scatter/gather table of pinned
-  *                              pages for a shmem GEM object
-- * @obj: GEM object
-+ * @shmem: shmem GEM object
-  *
-  * This function exports a scatter/gather table suitable for PRIME usage by
-  * calling the standard DMA mapping API.
-@@ -665,9 +649,9 @@ EXPORT_SYMBOL(drm_gem_shmem_print_info);
-  * Returns:
-  * A pointer to the scatter/gather table of pinned pages or NULL on failure.
-  */
--struct sg_table *drm_gem_shmem_get_sg_table(struct drm_gem_object *obj)
-+struct sg_table *drm_gem_shmem_get_sg_table(struct drm_gem_shmem_object *shmem)
- {
--	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
-+	struct drm_gem_object *obj = &shmem->base;
- 
- 	WARN_ON(shmem->base.import_attach);
- 
-@@ -678,7 +662,7 @@ EXPORT_SYMBOL_GPL(drm_gem_shmem_get_sg_table);
- /**
-  * drm_gem_shmem_get_pages_sgt - Pin pages, dma map them, and return a
-  *				 scatter/gather table for a shmem GEM object.
-- * @obj: GEM object
-+ * @shmem: shmem GEM object
-  *
-  * This function returns a scatter/gather table suitable for driver usage. If
-  * the sg table doesn't exist, the pages are pinned, dma-mapped, and a sg
-@@ -691,10 +675,10 @@ EXPORT_SYMBOL_GPL(drm_gem_shmem_get_sg_table);
-  * Returns:
-  * A pointer to the scatter/gather table of pinned pages or errno on failure.
-  */
--struct sg_table *drm_gem_shmem_get_pages_sgt(struct drm_gem_object *obj)
-+struct sg_table *drm_gem_shmem_get_pages_sgt(struct drm_gem_shmem_object *shmem)
- {
-+	struct drm_gem_object *obj = &shmem->base;
- 	int ret;
--	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
- 	struct sg_table *sgt;
- 
- 	if (shmem->sgt)
-@@ -706,7 +690,7 @@ struct sg_table *drm_gem_shmem_get_pages_sgt(struct drm_gem_object *obj)
- 	if (ret)
- 		return ERR_PTR(ret);
- 
--	sgt = drm_gem_shmem_get_sg_table(&shmem->base);
-+	sgt = drm_gem_shmem_get_sg_table(shmem);
- 	if (IS_ERR(sgt)) {
- 		ret = PTR_ERR(sgt);
- 		goto err_put_pages;
-diff --git a/drivers/gpu/drm/lima/lima_gem.c b/drivers/gpu/drm/lima/lima_gem.c
-index a5580bd6522c..2723d333c608 100644
---- a/drivers/gpu/drm/lima/lima_gem.c
-+++ b/drivers/gpu/drm/lima/lima_gem.c
-@@ -127,7 +127,7 @@ int lima_gem_create_handle(struct drm_device *dev, struct drm_file *file,
- 		if (err)
- 			goto out;
- 	} else {
--		struct sg_table *sgt = drm_gem_shmem_get_pages_sgt(obj);
-+		struct sg_table *sgt = drm_gem_shmem_get_pages_sgt(shmem);
- 
- 		if (IS_ERR(sgt)) {
- 			err = PTR_ERR(sgt);
-@@ -151,7 +151,7 @@ static void lima_gem_free_object(struct drm_gem_object *obj)
- 	if (!list_empty(&bo->va))
- 		dev_err(obj->dev->dev, "lima gem free bo still has va\n");
- 
--	drm_gem_shmem_free_object(obj);
-+	drm_gem_shmem_free(&bo->base);
- }
- 
- static int lima_gem_object_open(struct drm_gem_object *obj, struct drm_file *file)
-@@ -179,7 +179,7 @@ static int lima_gem_pin(struct drm_gem_object *obj)
- 	if (bo->heap_size)
- 		return -EINVAL;
- 
--	return drm_gem_shmem_pin(obj);
-+	return drm_gem_shmem_pin(&bo->base);
- }
- 
- static int lima_gem_vmap(struct drm_gem_object *obj, struct dma_buf_map *map)
-@@ -189,7 +189,7 @@ static int lima_gem_vmap(struct drm_gem_object *obj, struct dma_buf_map *map)
- 	if (bo->heap_size)
- 		return -EINVAL;
- 
--	return drm_gem_shmem_vmap(obj, map);
-+	return drm_gem_shmem_vmap(&bo->base, map);
- }
- 
- static int lima_gem_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma)
-@@ -199,7 +199,7 @@ static int lima_gem_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma)
- 	if (bo->heap_size)
- 		return -EINVAL;
- 
--	return drm_gem_shmem_mmap(obj, vma);
-+	return drm_gem_shmem_mmap(&bo->base, vma);
- }
- 
- static const struct drm_gem_object_funcs lima_gem_funcs = {
-diff --git a/drivers/gpu/drm/lima/lima_sched.c b/drivers/gpu/drm/lima/lima_sched.c
-index 99d5f6f1a882..5612d73f238f 100644
---- a/drivers/gpu/drm/lima/lima_sched.c
-+++ b/drivers/gpu/drm/lima/lima_sched.c
-@@ -371,7 +371,7 @@ static void lima_sched_build_error_task_list(struct lima_sched_task *task)
- 		} else {
- 			buffer_chunk->size = lima_bo_size(bo);
- 
--			ret = drm_gem_shmem_vmap(&bo->base.base, &map);
-+			ret = drm_gem_shmem_vmap(&bo->base, &map);
- 			if (ret) {
- 				kvfree(et);
- 				goto out;
-@@ -379,7 +379,7 @@ static void lima_sched_build_error_task_list(struct lima_sched_task *task)
- 
- 			memcpy(buffer_chunk + 1, map.vaddr, buffer_chunk->size);
- 
--			drm_gem_shmem_vunmap(&bo->base.base, &map);
-+			drm_gem_shmem_vunmap(&bo->base, &map);
- 		}
- 
- 		buffer_chunk = (void *)(buffer_chunk + 1) + buffer_chunk->size;
-diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
-index 82ad9a67f251..96bb5a465627 100644
---- a/drivers/gpu/drm/panfrost/panfrost_drv.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-@@ -427,7 +427,7 @@ static int panfrost_ioctl_madvise(struct drm_device *dev, void *data,
- 		}
- 	}
- 
--	args->retained = drm_gem_shmem_madvise(gem_obj, args->madv);
-+	args->retained = drm_gem_shmem_madvise(&bo->base, args->madv);
- 
- 	if (args->retained) {
- 		if (args->madv == PANFROST_MADV_DONTNEED)
-diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.c b/drivers/gpu/drm/panfrost/panfrost_gem.c
-index be1cc6579a71..6d9bdb9180cb 100644
---- a/drivers/gpu/drm/panfrost/panfrost_gem.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_gem.c
-@@ -49,7 +49,7 @@ static void panfrost_gem_free_object(struct drm_gem_object *obj)
- 		kvfree(bo->sgts);
- 	}
- 
--	drm_gem_shmem_free_object(obj);
-+	drm_gem_shmem_free(&bo->base);
- }
- 
- struct panfrost_gem_mapping *
-@@ -187,10 +187,12 @@ void panfrost_gem_close(struct drm_gem_object *obj, struct drm_file *file_priv)
- 
- static int panfrost_gem_pin(struct drm_gem_object *obj)
- {
--	if (to_panfrost_bo(obj)->is_heap)
-+	struct panfrost_gem_object *bo = to_panfrost_bo(obj);
-+
-+	if (bo->is_heap)
- 		return -EINVAL;
- 
--	return drm_gem_shmem_pin(obj);
-+	return drm_gem_shmem_pin(&bo->base);
- }
- 
- static const struct drm_gem_object_funcs panfrost_gem_funcs = {
-diff --git a/drivers/gpu/drm/panfrost/panfrost_gem_shrinker.c b/drivers/gpu/drm/panfrost/panfrost_gem_shrinker.c
-index 1b9f68d8e9aa..b0142341e223 100644
---- a/drivers/gpu/drm/panfrost/panfrost_gem_shrinker.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_gem_shrinker.c
-@@ -52,7 +52,7 @@ static bool panfrost_gem_purge(struct drm_gem_object *obj)
- 		goto unlock_mappings;
- 
- 	panfrost_gem_teardown_mappings_locked(bo);
--	drm_gem_shmem_purge_locked(obj);
-+	drm_gem_shmem_purge_locked(&bo->base);
- 	ret = true;
- 
- 	mutex_unlock(&shmem->pages_lock);
-diff --git a/drivers/gpu/drm/panfrost/panfrost_mmu.c b/drivers/gpu/drm/panfrost/panfrost_mmu.c
-index f51d3f791a17..39562f2d11a4 100644
---- a/drivers/gpu/drm/panfrost/panfrost_mmu.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c
-@@ -304,7 +304,8 @@ static int mmu_map_sg(struct panfrost_device *pfdev, struct panfrost_mmu *mmu,
- int panfrost_mmu_map(struct panfrost_gem_mapping *mapping)
- {
- 	struct panfrost_gem_object *bo = mapping->obj;
--	struct drm_gem_object *obj = &bo->base.base;
-+	struct drm_gem_shmem_object *shmem = &bo->base;
-+	struct drm_gem_object *obj = &shmem->base;
- 	struct panfrost_device *pfdev = to_panfrost_device(obj->dev);
- 	struct sg_table *sgt;
- 	int prot = IOMMU_READ | IOMMU_WRITE;
-@@ -315,7 +316,7 @@ int panfrost_mmu_map(struct panfrost_gem_mapping *mapping)
- 	if (bo->noexec)
- 		prot |= IOMMU_NOEXEC;
- 
--	sgt = drm_gem_shmem_get_pages_sgt(obj);
-+	sgt = drm_gem_shmem_get_pages_sgt(shmem);
- 	if (WARN_ON(IS_ERR(sgt)))
- 		return PTR_ERR(sgt);
- 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_perfcnt.c b/drivers/gpu/drm/panfrost/panfrost_perfcnt.c
-index e116a4d9b8e5..1d36df5af98d 100644
---- a/drivers/gpu/drm/panfrost/panfrost_perfcnt.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_perfcnt.c
-@@ -105,7 +105,7 @@ static int panfrost_perfcnt_enable_locked(struct panfrost_device *pfdev,
- 		goto err_close_bo;
- 	}
- 
--	ret = drm_gem_shmem_vmap(&bo->base, &map);
-+	ret = drm_gem_shmem_vmap(bo, &map);
- 	if (ret)
- 		goto err_put_mapping;
- 	perfcnt->buf = map.vaddr;
-@@ -164,7 +164,7 @@ static int panfrost_perfcnt_enable_locked(struct panfrost_device *pfdev,
- 	return 0;
- 
- err_vunmap:
--	drm_gem_shmem_vunmap(&bo->base, &map);
-+	drm_gem_shmem_vunmap(bo, &map);
- err_put_mapping:
- 	panfrost_gem_mapping_put(perfcnt->mapping);
- err_close_bo:
-@@ -194,7 +194,7 @@ static int panfrost_perfcnt_disable_locked(struct panfrost_device *pfdev,
- 		  GPU_PERFCNT_CFG_MODE(GPU_PERFCNT_CFG_MODE_OFF));
- 
- 	perfcnt->user = NULL;
--	drm_gem_shmem_vunmap(&perfcnt->mapping->obj->base.base, &map);
-+	drm_gem_shmem_vunmap(&perfcnt->mapping->obj->base, &map);
- 	perfcnt->buf = NULL;
- 	panfrost_gem_close(&perfcnt->mapping->obj->base.base, file_priv);
- 	panfrost_mmu_as_put(pfdev, perfcnt->mapping->mmu);
-diff --git a/drivers/gpu/drm/v3d/v3d_bo.c b/drivers/gpu/drm/v3d/v3d_bo.c
-index b50677beb6ac..0d9af62f69ad 100644
---- a/drivers/gpu/drm/v3d/v3d_bo.c
-+++ b/drivers/gpu/drm/v3d/v3d_bo.c
-@@ -47,7 +47,7 @@ void v3d_free_object(struct drm_gem_object *obj)
- 	/* GPU execution may have dirtied any pages in the BO. */
- 	bo->base.pages_mark_dirty_on_put = true;
- 
--	drm_gem_shmem_free_object(obj);
-+	drm_gem_shmem_free(&bo->base);
- }
- 
- static const struct drm_gem_object_funcs v3d_gem_funcs = {
-@@ -95,7 +95,7 @@ v3d_bo_create_finish(struct drm_gem_object *obj)
- 	/* So far we pin the BO in the MMU for its lifetime, so use
- 	 * shmem's helper for getting a lifetime sgt.
- 	 */
--	sgt = drm_gem_shmem_get_pages_sgt(&bo->base.base);
-+	sgt = drm_gem_shmem_get_pages_sgt(&bo->base);
- 	if (IS_ERR(sgt))
- 		return PTR_ERR(sgt);
- 
-@@ -141,7 +141,7 @@ struct v3d_bo *v3d_bo_create(struct drm_device *dev, struct drm_file *file_priv,
- 	return bo;
- 
- free_obj:
--	drm_gem_shmem_free_object(&shmem_obj->base);
-+	drm_gem_shmem_free(shmem_obj);
- 	return ERR_PTR(ret);
- }
- 
-@@ -159,7 +159,7 @@ v3d_prime_import_sg_table(struct drm_device *dev,
- 
- 	ret = v3d_bo_create_finish(obj);
- 	if (ret) {
--		drm_gem_shmem_free_object(obj);
-+		drm_gem_shmem_free(&to_v3d_bo(obj)->base);
- 		return ERR_PTR(ret);
- 	}
- 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_object.c b/drivers/gpu/drm/virtio/virtgpu_object.c
-index 698431d233b8..187e10da2f17 100644
---- a/drivers/gpu/drm/virtio/virtgpu_object.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_object.c
-@@ -79,10 +79,10 @@ void virtio_gpu_cleanup_object(struct virtio_gpu_object *bo)
- 			sg_free_table(shmem->pages);
- 			kfree(shmem->pages);
- 			shmem->pages = NULL;
--			drm_gem_shmem_unpin(&bo->base.base);
-+			drm_gem_shmem_unpin(&bo->base);
- 		}
- 
--		drm_gem_shmem_free_object(&bo->base.base);
-+		drm_gem_shmem_free(&bo->base);
- 	} else if (virtio_gpu_is_vram(bo)) {
- 		struct virtio_gpu_object_vram *vram = to_virtio_gpu_vram(bo);
- 
-@@ -156,7 +156,7 @@ static int virtio_gpu_object_shmem_init(struct virtio_gpu_device *vgdev,
- 	struct scatterlist *sg;
- 	int si, ret;
- 
--	ret = drm_gem_shmem_pin(&bo->base.base);
-+	ret = drm_gem_shmem_pin(&bo->base);
- 	if (ret < 0)
- 		return -EINVAL;
- 
-@@ -166,9 +166,9 @@ static int virtio_gpu_object_shmem_init(struct virtio_gpu_device *vgdev,
- 	 * dma-ops. This is discouraged for other drivers, but should be fine
- 	 * since virtio_gpu doesn't support dma-buf import from other devices.
- 	 */
--	shmem->pages = drm_gem_shmem_get_sg_table(&bo->base.base);
-+	shmem->pages = drm_gem_shmem_get_sg_table(&bo->base);
- 	if (!shmem->pages) {
--		drm_gem_shmem_unpin(&bo->base.base);
-+		drm_gem_shmem_unpin(&bo->base);
- 		return -EINVAL;
- 	}
- 
-@@ -276,6 +276,6 @@ int virtio_gpu_object_create(struct virtio_gpu_device *vgdev,
- err_put_id:
- 	virtio_gpu_resource_id_put(vgdev, bo->hw_res_handle);
- err_free_gem:
--	drm_gem_shmem_free_object(&shmem_obj->base);
-+	drm_gem_shmem_free(shmem_obj);
- 	return ret;
- }
-diff --git a/include/drm/drm_gem_shmem_helper.h b/include/drm/drm_gem_shmem_helper.h
-index efc59dd4aeeb..d829cb3e0b98 100644
---- a/include/drm/drm_gem_shmem_helper.h
-+++ b/include/drm/drm_gem_shmem_helper.h
-@@ -107,16 +107,17 @@ struct drm_gem_shmem_object {
- 	container_of(obj, struct drm_gem_shmem_object, base)
- 
- struct drm_gem_shmem_object *drm_gem_shmem_create(struct drm_device *dev, size_t size);
--void drm_gem_shmem_free_object(struct drm_gem_object *obj);
-+void drm_gem_shmem_free(struct drm_gem_shmem_object *shmem);
- 
- int drm_gem_shmem_get_pages(struct drm_gem_shmem_object *shmem);
- void drm_gem_shmem_put_pages(struct drm_gem_shmem_object *shmem);
--int drm_gem_shmem_pin(struct drm_gem_object *obj);
--void drm_gem_shmem_unpin(struct drm_gem_object *obj);
--int drm_gem_shmem_vmap(struct drm_gem_object *obj, struct dma_buf_map *map);
--void drm_gem_shmem_vunmap(struct drm_gem_object *obj, struct dma_buf_map *map);
-+int drm_gem_shmem_pin(struct drm_gem_shmem_object *shmem);
-+void drm_gem_shmem_unpin(struct drm_gem_shmem_object *shmem);
-+int drm_gem_shmem_vmap(struct drm_gem_shmem_object *shmem, struct dma_buf_map *map);
-+void drm_gem_shmem_vunmap(struct drm_gem_shmem_object *shmem, struct dma_buf_map *map);
-+int drm_gem_shmem_mmap(struct drm_gem_shmem_object *shmem, struct vm_area_struct *vma);
- 
--int drm_gem_shmem_madvise(struct drm_gem_object *obj, int madv);
-+int drm_gem_shmem_madvise(struct drm_gem_shmem_object *shmem, int madv);
- 
- static inline bool drm_gem_shmem_is_purgeable(struct drm_gem_shmem_object *shmem)
- {
-@@ -125,18 +126,14 @@ static inline bool drm_gem_shmem_is_purgeable(struct drm_gem_shmem_object *shmem
- 		!shmem->base.dma_buf && !shmem->base.import_attach;
- }
- 
--void drm_gem_shmem_purge_locked(struct drm_gem_object *obj);
--bool drm_gem_shmem_purge(struct drm_gem_object *obj);
-+void drm_gem_shmem_purge_locked(struct drm_gem_shmem_object *shmem);
-+bool drm_gem_shmem_purge(struct drm_gem_shmem_object *shmem);
- 
--int drm_gem_shmem_dumb_create(struct drm_file *file, struct drm_device *dev,
--			      struct drm_mode_create_dumb *args);
--
--int drm_gem_shmem_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma);
--
--void drm_gem_shmem_print_info(struct drm_printer *p, unsigned int indent,
--			      const struct drm_gem_object *obj);
-+struct sg_table *drm_gem_shmem_get_sg_table(struct drm_gem_shmem_object *shmem);
-+struct sg_table *drm_gem_shmem_get_pages_sgt(struct drm_gem_shmem_object *shmem);
- 
--struct sg_table *drm_gem_shmem_get_sg_table(struct drm_gem_object *obj);
-+void drm_gem_shmem_print_info(const struct drm_gem_shmem_object *shmem,
-+			      struct drm_printer *p, unsigned int indent);
- 
- /*
-  * GEM object functions
-@@ -151,7 +148,9 @@ struct sg_table *drm_gem_shmem_get_sg_table(struct drm_gem_object *obj);
-  */
- static inline void drm_gem_shmem_object_free(struct drm_gem_object *obj)
- {
--	drm_gem_shmem_free_object(obj);
-+	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
-+
-+	drm_gem_shmem_free(shmem);
- }
- 
- /**
-@@ -166,7 +165,9 @@ static inline void drm_gem_shmem_object_free(struct drm_gem_object *obj)
- static inline void drm_gem_shmem_object_print_info(struct drm_printer *p, unsigned int indent,
- 						   const struct drm_gem_object *obj)
- {
--	drm_gem_shmem_print_info(p, indent, obj);
-+	const struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
-+
-+	drm_gem_shmem_print_info(shmem, p, indent);
- }
- 
- /**
-@@ -178,7 +179,9 @@ static inline void drm_gem_shmem_object_print_info(struct drm_printer *p, unsign
-  */
- static inline int drm_gem_shmem_object_pin(struct drm_gem_object *obj)
- {
--	return drm_gem_shmem_pin(obj);
-+	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
-+
-+	return drm_gem_shmem_pin(shmem);
- }
- 
- /**
-@@ -190,7 +193,9 @@ static inline int drm_gem_shmem_object_pin(struct drm_gem_object *obj)
-  */
- static inline void drm_gem_shmem_object_unpin(struct drm_gem_object *obj)
- {
--	drm_gem_shmem_unpin(obj);
-+	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
-+
-+	drm_gem_shmem_unpin(shmem);
- }
- 
- /**
-@@ -205,7 +210,9 @@ static inline void drm_gem_shmem_object_unpin(struct drm_gem_object *obj)
-  */
- static inline struct sg_table *drm_gem_shmem_object_get_sg_table(struct drm_gem_object *obj)
- {
--	return drm_gem_shmem_get_sg_table(obj);
-+	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
-+
-+	return drm_gem_shmem_get_sg_table(shmem);
- }
- 
- /*
-@@ -221,7 +228,9 @@ static inline struct sg_table *drm_gem_shmem_object_get_sg_table(struct drm_gem_
-  */
- static inline int drm_gem_shmem_object_vmap(struct drm_gem_object *obj, struct dma_buf_map *map)
- {
--	return drm_gem_shmem_vmap(obj, map);
-+	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
-+
-+	return drm_gem_shmem_vmap(shmem, map);
- }
- 
- /*
-@@ -234,7 +243,9 @@ static inline int drm_gem_shmem_object_vmap(struct drm_gem_object *obj, struct d
-  */
- static inline void drm_gem_shmem_object_vunmap(struct drm_gem_object *obj, struct dma_buf_map *map)
- {
--	drm_gem_shmem_vunmap(obj, map);
-+	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
-+
-+	drm_gem_shmem_vunmap(shmem, map);
- }
- 
- /**
-@@ -250,7 +261,9 @@ static inline void drm_gem_shmem_object_vunmap(struct drm_gem_object *obj, struc
-  */
- static inline int drm_gem_shmem_object_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma)
- {
--	return drm_gem_shmem_mmap(obj, vma);
-+	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
-+
-+	return drm_gem_shmem_mmap(shmem, vma);
- }
- 
- /*
-@@ -261,8 +274,8 @@ struct drm_gem_object *
- drm_gem_shmem_prime_import_sg_table(struct drm_device *dev,
- 				    struct dma_buf_attachment *attach,
- 				    struct sg_table *sgt);
--
--struct sg_table *drm_gem_shmem_get_pages_sgt(struct drm_gem_object *obj);
-+int drm_gem_shmem_dumb_create(struct drm_file *file, struct drm_device *dev,
-+			      struct drm_mode_create_dumb *args);
- 
- /**
-  * DRM_GEM_SHMEM_DRIVER_OPS - Default shmem GEM operations
--- 
-2.33.1
+--------------zl0Oh59VDXN0QB6wEYp8aODT
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmGE+70FAwAAAAAACgkQlh/E3EQov+BH
+Bw//ficIfs5und3AvRNRvqP7fYQyqGJZzZWv5yi7/7ZFMufHfnTZI34+p6Roz85l6FBTdU4Jx6wK
+RwEEoKmbyaLZU6eS47P5AMuxo96Y3d51Z5TAz8fYOPIc7UHjmew3PigmFx8uYzIhOY3FE3knt9rJ
+4HgjHLHEq/UlaBBY++QClyp/OuxgCdgvX0QxpgKujPaVbJR5VNqcIJz2F2fKYqyiNjh/3j6WWQt5
+31hOHBE+JzRbRba6YkXyIYlOjFbAOvzERFC82WXS9oT02GkxFNLdN6X3OaszC33hBusJOYN4tNQX
+vwqm9QPDMI8i6OM3k+KwCuqpkGU9tvRERvaFGQTHo3aXSMNgwN+77HLr4R1p8E5XOh3CDW4LeHOd
+OpM6zduW+zeNGnUzT1tOYMzsNpO28xi175evsagMoWIQIvw8BqgA+sMDjvI1lD2+pTQ3SqVBvOhE
+od/KGJfCr3nXQSq7ojiQqGJSiBIzmA+MwIcEjkIzNAmcEMD/FhT+Jr5VlZI+XSLGbIS5aMn/6elZ
+QKIGIJkpR+7rR+RBIsCJPMFU00AMQfA10g67G1eo7nOBY6k4JlsojxTWE4ojqqNuvA8sAzcxZu+6
+fMLld3Fb7TZ4lRugs9x/f4bCW9kY/PsBucA/W/cTkXDePbcY8A/GrqBDTR+8NrG/2sFa4Q6leag9
+uro=
+=B9Me
+-----END PGP SIGNATURE-----
+
+--------------zl0Oh59VDXN0QB6wEYp8aODT--
