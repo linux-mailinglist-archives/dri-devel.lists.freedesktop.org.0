@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41F06445E4F
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Nov 2021 04:05:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 065D2445E53
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Nov 2021 04:05:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF31C6E591;
-	Fri,  5 Nov 2021 03:05:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B5CC86E5A1;
+	Fri,  5 Nov 2021 03:05:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf2f.google.com (mail-qv1-xf2f.google.com
- [IPv6:2607:f8b0:4864:20::f2f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D12DC6E593
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Nov 2021 03:05:20 +0000 (UTC)
-Received: by mail-qv1-xf2f.google.com with SMTP id j9so6581699qvm.10
- for <dri-devel@lists.freedesktop.org>; Thu, 04 Nov 2021 20:05:20 -0700 (PDT)
+Received: from mail-qk1-x72b.google.com (mail-qk1-x72b.google.com
+ [IPv6:2607:f8b0:4864:20::72b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 727896E5A1
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Nov 2021 03:05:25 +0000 (UTC)
+Received: by mail-qk1-x72b.google.com with SMTP id bm28so7655647qkb.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 04 Nov 2021 20:05:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=poorly.run; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=p29jzjn+HciZTKz27UBXeqRtt6jrYIq3wM4tpoc5cfM=;
- b=W3ZFF4OzpqXBx7l8s8Hp21cuwa2rPHqlccIfRMgsKQC+qqylzTSs/hsK4F2Npg1VIt
- 2842O751JM4bJ9qTmPqpV4GUNnyF13Gekwl+rtPUvk5UQqc99nFnAlm3bg4hn9DoTD8t
- EEIQwJrTs3KHwK27wdfw5qmcNxNiYHyxLS5Afh+tYLjRMg4co/hsnJmPjugdVwy3Esl1
- MrtINU1i/tOHKAMtBWuulTJfaodNBdTQdfSxGsONUIIE36s10MBM4EELYo5rXKfjQg3B
- atwQFhGqGpsjcuij335zJpLoodi2ZmbrW81FOYf1t+TRbgUOz3BWp408+c59pQq164n8
- Njmg==
+ bh=Xv7HG/Q+S/fL5JaTuonxECkNCYcwf+YUpIYNlE1OLuA=;
+ b=G0mnld0dMm0VxznH8Ud5Dg05i6jsVWo3+IaaczBhvKR6gHY7wCpK8tSO7uGIInKHVe
+ HOJsIx6IEPcx8Dq2No9Ya3LHXW3FYZ6k68YbPbKdwD/4GR44GQmpiVJR6kU6cgFgnUPe
+ E+UKZvmj4QoHwE5VbnPjOTaHqWp8ORsKnjL83f7PSh9S8EROPZuW8UMwXu9Eaqgohd4N
+ 0TC4rakOzWnT9GhZ3nmkzXJQGZegSjliC0ifXn6Aru6lsUHlfyYHjmi69Ws5zWH8vC3l
+ AUCmSDtu6udS13HZ+N/JC4K4jV2kdJmQt0aiq5zdXRMoMiTPDNQd1jb6/BPXnW0JwHmM
+ JuUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=p29jzjn+HciZTKz27UBXeqRtt6jrYIq3wM4tpoc5cfM=;
- b=AAoHqx1Zkqrc0DvLjFvq5D5x1TKcCiDTOEtiTIiAveeQLTIYzMMWeJ+d3MdhprztjQ
- qlYkFu+DOtc5wzC2zTUaTP6q8C+qI7l+lRKRh8xhy08vWg3A48GsWSu3UClO9coJSjrA
- /J/mHmrD0K8CW6XqgBmILiaxrzWlPROGrhrVcFek8kJ7cmaW67dH/lzNWN4nP7uBwuc7
- t+u/J0qWnAfeaz2G11XIvyU54eZC6dSG+Cyj8kY50Jbvjtfws94eMsxOQCsOXNqyDmc+
- l/HuLJU83sUvRKJ39faQu5FSrwJ4Et4wgN38BL5TTlmjIoTatyvuWbCV8yApguFhLRwn
- O45g==
-X-Gm-Message-State: AOAM531dPbRV1b4m89oSY3bERDhtTdV68zMXOuwFbTQlW+Io/q0d+ros
- JAP8MlZYujDoJAi0idC9qeIfR536SDJnPg==
-X-Google-Smtp-Source: ABdhPJxjpqaOuejmdoVnBRmMROAdccqiWmk/TA4c8Co84JjNZbbGXmcOjN0wLslqkbGBCU5dnpp3gw==
-X-Received: by 2002:a05:6214:f09:: with SMTP id
- gw9mr21017353qvb.36.1636081519728; 
- Thu, 04 Nov 2021 20:05:19 -0700 (PDT)
+ bh=Xv7HG/Q+S/fL5JaTuonxECkNCYcwf+YUpIYNlE1OLuA=;
+ b=qlGvT7kWjxIgZk8j6lfeT5cxPGs1xAuSZ52xsT4gHxvi9Lra9FYgyNKyMUSSwIC9uh
+ iYjEovOG6MK8Nb3BJ5lQZqg5tY51QGpQFVfhytrU7yrJs5G7I77UVY8uzUqJSm8Gxrox
+ T4vMVv+BrCry9n6cENQiNfkvOUty0ktoVBvj2j1GgoMRnK4OBygQqOqIf9tr+m4xP0pv
+ sH2MKvayJbxIu4Vro1Z2ImVC3mIvbC7+BI66YpgBnTS4HruewD5q+Enh2XAdZm38prxE
+ H0tLixlLR6Wv+LDzrIMt4Qowh8cdsoTKp8FdqYHaGiOW34VaFu6MOYZauvbytNfA95Up
+ eANA==
+X-Gm-Message-State: AOAM530St5LUwqCYAQBH5h1AXY+0tiPHI0LMWkKaiU2fXr00FtnMjh0C
+ FFfD/9Obifa5Pfd1ncmoobNeeWHWJddIRA==
+X-Google-Smtp-Source: ABdhPJygzG95k4Zn6GZwVmYDW+120k0m+f9VXzNWsZgmBSDaREhsbJgYBcWCqYqOZQVrTTNxxcr6Pw==
+X-Received: by 2002:a05:620a:20d9:: with SMTP id
+ f25mr12159152qka.54.1636081524408; 
+ Thu, 04 Nov 2021 20:05:24 -0700 (PDT)
 Received: from localhost ([167.100.64.199])
- by smtp.gmail.com with ESMTPSA id s18sm5475605qtw.33.2021.11.04.20.05.19
+ by smtp.gmail.com with ESMTPSA id bq30sm5052740qkb.6.2021.11.04.20.05.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 Nov 2021 20:05:19 -0700 (PDT)
+ Thu, 04 Nov 2021 20:05:24 -0700 (PDT)
 From: Sean Paul <sean@poorly.run>
 To: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
  freedreno@lists.freedesktop.org
-Subject: [PATCH v4 08/14] drm/msm/dpu_kms: Re-order dpu includes
-Date: Thu,  4 Nov 2021 23:04:25 -0400
-Message-Id: <20211105030434.2828845-9-sean@poorly.run>
+Subject: [PATCH v4 09/14] drm/msm/dpu: Remove useless checks in dpu_encoder
+Date: Thu,  4 Nov 2021 23:04:26 -0400
+Message-Id: <20211105030434.2828845-10-sean@poorly.run>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211105030434.2828845-1-sean@poorly.run>
 References: <20211105030434.2828845-1-sean@poorly.run>
@@ -79,15 +79,15 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Sean Paul <seanpaul@chromium.org>
 
-Make includes alphabetical in dpu_kms.c
+A couple more useless checks to remove in dpu_encoder.
 
-Reviewed-by: Abhinav Kumar <abhinavk@codeaurora.org>
 Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+Reviewed-by: Abhinav Kumar <abhinavk@codeaurora.org>
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Sean Paul <seanpaul@chromium.org>
-Link: https://patchwork.freedesktop.org/patch/msgid/20210913175747.47456-9-sean@poorly.run #v1
-Link: https://patchwork.freedesktop.org/patch/msgid/20210915203834.1439-9-sean@poorly.run #v2
-Link: https://patchwork.freedesktop.org/patch/msgid/20211001151145.55916-9-sean@poorly.run #v3
+Link: https://patchwork.freedesktop.org/patch/msgid/20210913175747.47456-10-sean@poorly.run #v1
+Link: https://patchwork.freedesktop.org/patch/msgid/20210915203834.1439-10-sean@poorly.run #v2
+Link: https://patchwork.freedesktop.org/patch/msgid/20211001151145.55916-10-sean@poorly.run #v3
 
 Changes in v2:
 -None
@@ -96,32 +96,39 @@ Changes in v3:
 Changes in v4:
 -None
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 12 ------------
+ 1 file changed, 12 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-index a15b26428280..66b7df7daa6a 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-@@ -21,14 +21,14 @@
- #include "msm_gem.h"
- #include "disp/msm_disp_snapshot.h"
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+index e7ee4cfb8461..cc57c615be67 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+@@ -1148,10 +1148,6 @@ static void dpu_encoder_virt_enable(struct drm_encoder *drm_enc)
+ 	struct msm_drm_private *priv;
+ 	struct drm_display_mode *cur_mode = NULL;
  
--#include "dpu_kms.h"
- #include "dpu_core_irq.h"
-+#include "dpu_crtc.h"
-+#include "dpu_encoder.h"
- #include "dpu_formats.h"
- #include "dpu_hw_vbif.h"
--#include "dpu_vbif.h"
--#include "dpu_encoder.h"
-+#include "dpu_kms.h"
- #include "dpu_plane.h"
--#include "dpu_crtc.h"
-+#include "dpu_vbif.h"
+-	if (!drm_enc) {
+-		DPU_ERROR("invalid encoder\n");
+-		return;
+-	}
+ 	dpu_enc = to_dpu_encoder_virt(drm_enc);
  
- #define CREATE_TRACE_POINTS
- #include "dpu_trace.h"
+ 	mutex_lock(&dpu_enc->enc_lock);
+@@ -1197,14 +1193,6 @@ static void dpu_encoder_virt_disable(struct drm_encoder *drm_enc)
+ 	struct msm_drm_private *priv;
+ 	int i = 0;
+ 
+-	if (!drm_enc) {
+-		DPU_ERROR("invalid encoder\n");
+-		return;
+-	} else if (!drm_enc->dev) {
+-		DPU_ERROR("invalid dev\n");
+-		return;
+-	}
+-
+ 	dpu_enc = to_dpu_encoder_virt(drm_enc);
+ 	DPU_DEBUG_ENC(dpu_enc, "\n");
+ 
 -- 
 Sean Paul, Software Engineer, Google / Chromium OS
 
