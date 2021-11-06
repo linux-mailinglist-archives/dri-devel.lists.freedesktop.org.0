@@ -2,42 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AEC1446F71
-	for <lists+dri-devel@lfdr.de>; Sat,  6 Nov 2021 18:46:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99F43447030
+	for <lists+dri-devel@lfdr.de>; Sat,  6 Nov 2021 20:35:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF6976E054;
-	Sat,  6 Nov 2021 17:46:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 451156E0BF;
+	Sat,  6 Nov 2021 19:35:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.smtp.larsendata.com (mx1.smtp.larsendata.com
- [91.221.196.215])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C392B6E054
- for <dri-devel@lists.freedesktop.org>; Sat,  6 Nov 2021 17:46:28 +0000 (UTC)
-Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
- by mx1.smtp.larsendata.com (Halon) with ESMTPS
- id 80062e4f-3f29-11ec-9c3f-0050568c148b;
- Sat, 06 Nov 2021 17:46:41 +0000 (UTC)
-Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
- [80.162.45.141])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F00E96E0BF
+ for <dri-devel@lists.freedesktop.org>; Sat,  6 Nov 2021 19:35:14 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- (Authenticated sender: sam@ravnborg.org)
- by mail01.mxhotel.dk (Postfix) with ESMTPSA id F10F8194B13;
- Sat,  6 Nov 2021 18:46:24 +0100 (CET)
-Date: Sat, 6 Nov 2021 18:46:23 +0100
-X-Report-Abuse-To: abuse@mxhotel.dk
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Michael Nazzareno Trimarchi <michael@amarulasolutions.com>
-Subject: Re: [PATCH 0/5] Add support for Wanchanglong panel used in px30-evb
- v11
-Message-ID: <YYa/bzvB8/a/JdON@ravnborg.org>
-References: <20211016102232.202119-1-michael@amarulasolutions.com>
- <YWrFIz08A8ZVKXvi@ravnborg.org>
- <CAOf5uwnv=MxqK772YJ3mggkqFQJW+Z3_WrCNHgDPTpDH8d-2Xw@mail.gmail.com>
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 46CE12171F;
+ Sat,  6 Nov 2021 19:35:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1636227313; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=5D/EvtfQAj4wvspwPbd79LEEeiKkU4WNjg4xKiX4H7E=;
+ b=0BQpqv/Fi8WEKJvFjOf9j7KsG30YsKsa6cB8ZQrSoAka66ebVbfwjPWz4LpoylYsf1pt38
+ PAjHVusD8As2XaVCz+0tSM18TtQuAY5L/mCNQf/wZpXeVeMcN2azIKmXpaoYo9fqn05md0
+ lwLRK1ORaMdobbTaNU6/PgQxJplIEt4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1636227313;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=5D/EvtfQAj4wvspwPbd79LEEeiKkU4WNjg4xKiX4H7E=;
+ b=iP9aR7b9xMeCarp9AXAxmYxCWo3zJywkz2IqvlcT0H0gyznyTsnDvfoXybyE3TI/0ITSKd
+ yamf/sq6e4ntsFDw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E539313A1D;
+ Sat,  6 Nov 2021 19:35:12 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id cBLSNvDYhmEdLQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Sat, 06 Nov 2021 19:35:12 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@linux.ie,
+ daniel@ffwll.ch, noralf@tronnes.org, marcel@ziswiler.com,
+ naresh.kamboju@linaro.org
+Subject: [RESEND PATCH v2 0/2] drm: Small CMA cleanups
+Date: Sat,  6 Nov 2021 20:35:07 +0100
+Message-Id: <20211106193509.17472-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAOf5uwnv=MxqK772YJ3mggkqFQJW+Z3_WrCNHgDPTpDH8d-2Xw@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,40 +63,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linux-aspeed@lists.ozlabs.org, linux-mips@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-sunxi@lists.linux.dev,
+ linux-renesas-soc@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-amlogic@lists.infradead.org, linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Michael,
+(no changes; resending for kernel CI)
 
-On Thu, Nov 04, 2021 at 02:19:33PM +0100, Michael Nazzareno Trimarchi wrote:
-> Hi Sam
-> 
-> On Sat, Oct 16, 2021 at 2:27 PM Sam Ravnborg <sam@ravnborg.org> wrote:
-> >
-> > Hi Michael,
-> >
-> > On Sat, Oct 16, 2021 at 10:22:27AM +0000, Michael Trimarchi wrote:
-> > > This patch series add support for W552946ABA panel. This panel is used
-> > > in px30-evb v11. All the patches can be applied on top of drm-fixes
-> > > branch. The last patch is suppose to fix a race when the panel is built
-> > > in. Tested on px30 evb
-> > >
-> > > Michael Trimarchi (5):
-> > >   dt-bindings: vendor-prefix: add Wanchanglong Electronics Technology
-> > >   drm/panel: ilitek-ili9881d: add support for Wanchanglong W552946ABA
-> > >     panel
-> > >   dt-bindings: ili9881c: add compatible string for Wanchanglong
-> > >     w552946aba
-> > >   drm/panel: ilitek-ili9881c: Make gpio-reset optional
-> > The four patches has been applied to drm-misc-next.
-> >
-> 
-> I sent another fix on the same panel. Are those patches queued on some tree?
-The patches was applied to drm-misc-next branch of the drm-misc tree.
-Around -rc2 time you will see these patches in -next.
+Remove CMA dependencies from MIPI-DBI and replace the config
+symbol DRM_KMS_CMA_HELPER with DRM_KMS_HELPER. This allows to
+link drm_fb_cma_helper.o into a helper library.
 
-	Sam
+Thomas Zimmermann (2):
+  drm/mipi-dbi: Remove dependency on GEM CMA helper library
+  drm: Remove CONFIG_DRM_KMS_CMA_HELPER option
+
+ drivers/gpu/drm/Kconfig                 |  7 -----
+ drivers/gpu/drm/Makefile                |  2 +-
+ drivers/gpu/drm/arm/Kconfig             |  2 --
+ drivers/gpu/drm/arm/display/Kconfig     |  1 -
+ drivers/gpu/drm/aspeed/Kconfig          |  1 -
+ drivers/gpu/drm/atmel-hlcdc/Kconfig     |  1 -
+ drivers/gpu/drm/drm_mipi_dbi.c          | 34 ++++++++++++++++++-------
+ drivers/gpu/drm/fsl-dcu/Kconfig         |  1 -
+ drivers/gpu/drm/hisilicon/kirin/Kconfig |  1 -
+ drivers/gpu/drm/imx/Kconfig             |  2 +-
+ drivers/gpu/drm/imx/dcss/Kconfig        |  2 +-
+ drivers/gpu/drm/ingenic/Kconfig         |  1 -
+ drivers/gpu/drm/kmb/Kconfig             |  1 -
+ drivers/gpu/drm/mcde/Kconfig            |  1 -
+ drivers/gpu/drm/meson/Kconfig           |  1 -
+ drivers/gpu/drm/mxsfb/Kconfig           |  2 +-
+ drivers/gpu/drm/panel/Kconfig           |  2 +-
+ drivers/gpu/drm/pl111/Kconfig           |  1 -
+ drivers/gpu/drm/rcar-du/Kconfig         |  1 -
+ drivers/gpu/drm/shmobile/Kconfig        |  1 -
+ drivers/gpu/drm/sti/Kconfig             |  1 -
+ drivers/gpu/drm/stm/Kconfig             |  1 -
+ drivers/gpu/drm/sun4i/Kconfig           |  1 -
+ drivers/gpu/drm/tidss/Kconfig           |  1 -
+ drivers/gpu/drm/tilcdc/Kconfig          |  1 -
+ drivers/gpu/drm/tiny/Kconfig            | 20 +++++++--------
+ drivers/gpu/drm/tve200/Kconfig          |  1 -
+ drivers/gpu/drm/vc4/Kconfig             |  1 -
+ drivers/gpu/drm/xlnx/Kconfig            |  1 -
+ 29 files changed, 40 insertions(+), 53 deletions(-)
+
+
+base-commit: c2502072fe2bd823d59749dca7fde064b345e61c
+--
+2.33.1
+
