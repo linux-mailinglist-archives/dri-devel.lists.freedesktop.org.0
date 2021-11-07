@@ -2,65 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D42BA4472B7
-	for <lists+dri-devel@lfdr.de>; Sun,  7 Nov 2021 12:27:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80C7B44730B
+	for <lists+dri-devel@lfdr.de>; Sun,  7 Nov 2021 14:21:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A6F66F9A0;
-	Sun,  7 Nov 2021 11:27:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A01E6E09A;
+	Sun,  7 Nov 2021 13:21:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com
- [IPv6:2a00:1450:4864:20::233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A96CD6F9A0
- for <dri-devel@lists.freedesktop.org>; Sun,  7 Nov 2021 11:27:43 +0000 (UTC)
-Received: by mail-lj1-x233.google.com with SMTP id m5so5368998ljp.4
- for <dri-devel@lists.freedesktop.org>; Sun, 07 Nov 2021 03:27:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=Hw3f8A0xcfp+7fY6nrzS0qknZ7hBjGetCtJNzksT3bY=;
- b=UOJL2G1EuqbvTl2obX2pjQi2CKbdJtX1VOat5e8yBVHE/gXvnBqcPSw6kyVR2Pg5RB
- MvF80OX4cuZJiaJnDiJQbDqFvZOpLulRCdjvShi/vgri/+NGZuVFoKz9dXRNvYuJf7e4
- etvX77J7TkcPPPFZJEJiEpCjKSjPe5xCGp6x3SDGog3L37Hk0OEsNRzqjkvL97agl9C2
- JzJaJeJmF0ZB0ROEZqVcizAqJ/wc5JkP+eGpjqfz8EZRBs5F4fuA09wv6k/ZctPaqTI0
- WAs49QB6aBW6bI5JHN0xIH8vmtOsr76596T61ynM2lhtATBjCVnO+fhfSybGZqD4N5EM
- zQhw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=Hw3f8A0xcfp+7fY6nrzS0qknZ7hBjGetCtJNzksT3bY=;
- b=njSM0ZOaZWbmt6rQVbkBL6g23VSWffuWJxZhWggKORxY4Hm3Dtp96CK8+6qbp1kGXf
- py2M24Fi4ndbI4pB1cJ0kt3q+6+VYQMqg5W5ZX5PXzl7X6qqs1UM83cHFC/p9gn3ZT9w
- agKDlX/Sc3jyf+jxlEyLwf+CHtL/zwUJgGem1tEVj1C1TBSoAYta0w65U5BqfIENWdTG
- mjNj0LM/6w3mY2Hd1FdMwrrnlxSUSxpGoSUeAe2O62NItkb+ak+bBEu3+EiqNQc4BFof
- 4gv53YM7MRAKwGxF9jVH6ugyiqw5BaI/ByLn0Zcn3d8V+4lJDWWejHqa8L/EUJ44yRNP
- WmAQ==
-X-Gm-Message-State: AOAM530TclAdIuHlhgTM0QOoGdyzJdneiyJI4sjicCwdawsQ0K1TAGsE
- l0YL1RHLo/iq2dCF9cV2nkw=
-X-Google-Smtp-Source: ABdhPJwYd+I1A0Kh2oykxpNkiiKobsvCFTSDJtzYP9pc+/C9cZzw4UvDTLU0siLRKHUJ4YFoUvqCWQ==
-X-Received: by 2002:a2e:814b:: with SMTP id t11mr3582438ljg.171.1636284461914; 
- Sun, 07 Nov 2021 03:27:41 -0800 (PST)
-Received: from localhost.localdomain ([37.45.143.17])
- by smtp.gmail.com with ESMTPSA id r127sm1450062lff.62.2021.11.07.03.27.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 07 Nov 2021 03:27:41 -0800 (PST)
-Received: from jek by localhost.localdomain with local (Exim 4.95)
- (envelope-from <jekhor@gmail.com>) id 1mjgKq-000DNe-8X;
- Sun, 07 Nov 2021 14:27:40 +0300
-Date: Sun, 7 Nov 2021 14:27:40 +0300
-From: Yauhen Kharuzhy <jekhor@gmail.com>
-To: Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: [PATCH] drm: panel-orientation-quirks: Add quirk for the Lenovo
- Yoga Book X91F/L
-Message-ID: <YYe4LKExKYvLiy/Y@jeknote.loshitsa1.net>
-References: <20211106130227.11927-1-hdegoede@redhat.com>
- <YYb6r8+aw1bR9R4z@jeknote.loshitsa1.net>
- <YYemqI7MP/rdKuq9@ravnborg.org>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A9B256E09A
+ for <dri-devel@lists.freedesktop.org>; Sun,  7 Nov 2021 13:21:28 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 7849C6120D
+ for <dri-devel@lists.freedesktop.org>; Sun,  7 Nov 2021 13:21:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1636291288;
+ bh=DVe7LXwzF+IK/K4SIBseulnz1v1tXMaksNLWgsTJBh4=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=AenS9yMBCOWAioJT36xbT46CRuAzxg43oF++RPyZzWY5GCg+TyLTM5l/T83HQjUhw
+ 8fDcu+QI/BpOcHXWAO3p0NxzmXf2Mrt8ZsIt0TYopNg9LDPRUBu44DK0MrjqoD+Vec
+ Zhzu8i5T4rFRQDMsLmU2UOnbNSY6vosoCNc8K7cq5TkumwSYrxbKI+NXI56HuAAI3+
+ +gbI4GFztw6cI+8YhDZWoOl62F2ery4QHRsJyTPNuT0auhbb+AoEuDjVVOUWK0fUOS
+ h0a3fJRDwhTa7RhfR2zaAo9ubQDhjzvH5Dwd79VX0MUHao99UC6VH1yNxbxQsZ1nAr
+ HM+KIT3xwL9RQ==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id 708E960FE7; Sun,  7 Nov 2021 13:21:28 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 214921] amdgpu hangs HP Laptop on shutdown
+Date: Sun, 07 Nov 2021 13:21:28 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: spasswolf@web.de
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cf_kernel_version
+Message-ID: <bug-214921-2300-iCkwPp2XCQ@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-214921-2300@https.bugzilla.kernel.org/>
+References: <bug-214921-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YYemqI7MP/rdKuq9@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,31 +65,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Hans de Goede <hdegoede@redhat.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Nov 07, 2021 at 11:12:56AM +0100, Sam Ravnborg wrote:
-> Hi Yauhen,
-> On Sun, Nov 07, 2021 at 12:59:11AM +0300, Yauhen Kharuzhy wrote:
-> > On Sat, Nov 06, 2021 at 02:02:27PM +0100, Hans de Goede wrote:
-> > > The Lenovo Yoga Book X91F/L uses a panel which has been mounted
-> > > 90 degrees rotated. Add a quirk for this.
-> > 
-> > Tested on my Yoga Book, works.
-> Great - and then it would be prudent that you acknowledge this with:
-> Tested-by: Yauhen Kharuzhy <jekhor@gmail.com>
-> 
-> A "Tested-by:" is in many cases better than an Acked-by: because you
-> actually applied the patch, build it and verified that it works.
-> Where an Acked-by: is just to say that you have looked at the patch and
-> agrees with the patch.
-> 
-> So a Tested-by: gives you the credit you deserve here.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D214921
 
-Yes, of course. I forgot about such option.
+spasswolf@web.de changed:
 
-Tested-by: Yauhen Kharuzhy <jekhor@gmail.com>
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+     Kernel Version|5.15                        |5.15, 5.15.1
 
--- 
-Yauhen Kharuzhy
+--- Comment #3 from spasswolf@web.de ---
+Shutdown still hangs with linux-5.15.1.
+This fixes the shutdown issue for me:
+diff -aur linux-5.15.1.orig/drivers/gpu/drm/amd/amdgpu/uvd_v6_0.c
+linux-5.15.1/drivers/gpu/drm/amd/amdgpu/uvd_v6_0.c
+--- linux-5.15.1.orig/drivers/gpu/drm/amd/amdgpu/uvd_v6_0.c     2021-11-06
+14:13:31.000000000 +0100
++++ linux-5.15.1/drivers/gpu/drm/amd/amdgpu/uvd_v6_0.c  2021-11-07
+14:19:39.194630084 +0100
+@@ -554,18 +554,6 @@
+         * jobs for clockgating/powergating/dpm setting to
+         * ->set_powergating_state().
+         */
+-       cancel_delayed_work_sync(&adev->uvd.idle_work);
+-
+-       if (adev->pm.dpm_enabled) {
+-               amdgpu_dpm_enable_uvd(adev, false);
+-       } else {
+-               amdgpu_asic_set_uvd_clocks(adev, 0, 0);
+-               /* shutdown the UVD block */
+-               amdgpu_device_ip_set_powergating_state(adev,
+AMD_IP_BLOCK_TYPE_UVD,
+-                                                      AMD_PG_STATE_GATE);
+-               amdgpu_device_ip_set_clockgating_state(adev,
+AMD_IP_BLOCK_TYPE_UVD,
+-                                                      AMD_CG_STATE_GATE);
+-       }
+
+        if (RREG32(mmUVD_STATUS) !=3D 0)
+                uvd_v6_0_stop(adev);
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
