@@ -1,42 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21941447647
-	for <lists+dri-devel@lfdr.de>; Sun,  7 Nov 2021 23:31:32 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7108B447670
+	for <lists+dri-devel@lfdr.de>; Sun,  7 Nov 2021 23:48:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B779089DDF;
-	Sun,  7 Nov 2021 22:31:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 891296E5BE;
+	Sun,  7 Nov 2021 22:48:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B99489DDF;
- Sun,  7 Nov 2021 22:31:25 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4HnTVZ1jgRz4xd4;
- Mon,  8 Nov 2021 09:31:17 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1636324281;
- bh=9Z5GYdWA78hrsdCWSQ0i9WtTgQ98iIso88MZBedtccY=;
- h=Date:From:To:Cc:Subject:From;
- b=f3MuNWNv9vKPg87fW5H/sVmBgXMepxqtJOBGuVdmAMEAWTwU6iKdidcKY9sbGXMfy
- lUAIg0CM/CSahYfxUiI5gnc+uueJR0s0SPHUVx5VasIuvs4HWPIY5WubRSpbYpvJ2Z
- DgNSSkA7EiGGdxmuRf5kpXMwJRyfAO3WBgv7WjGbp3WkRdW9TtWO27zbg/xI8HJ/Vx
- G09fponfjEMjacfE7WzCW+M9fi2lt1Hjc+Ro5rzW42Djc6GxLP9yutSYz+afNi89bt
- M+bo3odiRZbb7Teejfcc5mgBXfLBcpWs0TiD9OkSvnKZseXQpD/n0yBPfmakqRE31s
- BVLvFcK08YL4Q==
-Date: Mon, 8 Nov 2021 09:31:14 +1100
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>, Intel Graphics
- <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>
-Subject: linux-next: manual merge of the drm-misc tree with the origin tree
-Message-ID: <20211108093114.12dde19b@canb.auug.org.au>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1FFCC6E5BE
+ for <dri-devel@lists.freedesktop.org>; Sun,  7 Nov 2021 22:48:52 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id A61F76139E
+ for <dri-devel@lists.freedesktop.org>; Sun,  7 Nov 2021 22:48:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1636325331;
+ bh=P21O1C5MfLAGWDyiOF+OHD74S3lOVBG6x76z4HENNKQ=;
+ h=From:To:Subject:Date:From;
+ b=WMQ9fdZpqEpku/w6H8DIOiOuxNNm9O6Lr4Gncwkzj6h4fKcElH1bfTQoibxTBvDMG
+ kD68fWbMGVloV0d40cLnq7L0HknA2BcY+l7icYuqFK8y70oi/eZHM38dkrhzuPNGIB
+ au0mUUAGSivLsZuar0Myf0tMkelcAbGZ3hYqAgRisofFLgFKhVeZ6kzkx9H79I9Ern
+ DXgUIqVMxHMbP1aDeE5W95IdFGuipOBXeMbiki+kIOk3OwxMO495FE5dIli7/26+m5
+ 8JMkLXYwsIGHMVwztp5p8rASTyjn3DguqubFFpRaow4fwlO0lSmHVS9CyeoDohciS4
+ mtIGMSV0ER0qA==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id 9BCC960FE7; Sun,  7 Nov 2021 22:48:51 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 214963] New: [amdgpu] resuming from suspend fails when IOMMU is
+ missing
+Date: Sun, 07 Nov 2021 22:48:51 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: spasswolf@web.de
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
+ priority component assigned_to reporter cf_regression
+Message-ID: <bug-214963-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/xVuPQyygmteliXR405bmI+I";
- protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,79 +66,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Jason Gunthorpe <jgg@ziepe.ca>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Jason Gunthorpe <jgg@nvidia.com>, Alex Deucher <alexander.deucher@amd.com>,
- Colin Ian King <colin.king@canonical.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/xVuPQyygmteliXR405bmI+I
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+https://bugzilla.kernel.org/show_bug.cgi?id=3D214963
 
-Hi all,
+            Bug ID: 214963
+           Summary: [amdgpu] resuming from suspend fails when IOMMU is
+                    missing
+           Product: Drivers
+           Version: 2.5
+    Kernel Version: 5.15.0, 5.15.1
+          Hardware: All
+                OS: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: Video(DRI - non Intel)
+          Assignee: drivers_video-dri@kernel-bugs.osdl.org
+          Reporter: spasswolf@web.de
+        Regression: No
 
-Today's linux-next merge of the drm-misc tree got a conflict in:
+On the HP bw064-ng Laptop the BIOS does not correctly initialize the IOMMU.
+This brakes resuming from suspend:
+Nov  7 23:23:02 bart kernel: [   96.378265] kfd kfd: amdgpu: Failed to resu=
+me
+IOMMU for device 1002:9874
+Nov  7 23:23:02 bart kernel: [   96.378271] amdgpu 0000:00:01.0: amdgpu:
+amdgpu_device_ip_resume failed (-6).
+Nov  7 23:23:02 bart kernel: [   96.378274] PM: dpm_run_callback():
+pci_pm_resume+0x0/0x110 returns -6
+Nov  7 23:23:02 bart kernel: [   96.378283] amdgpu 0000:00:01.0: PM: failed=
+ to
+resume async: error -6
 
-  drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
+leading to the follow up errors:
+Nov 7 23:23:03 bart kernel: [   97.580799] [drm]
+perform_link_training_with_retries: Link training attempt 1 of 4 failed
+...
+Nov  7 23:23:04 bart kernel: [   98.646241] [drm]
+perform_link_training_with_retries: Link training attempt 2 of 4 failed
+...
+Nov  7 23:23:05 bart kernel: [   99.709472] [drm]
+perform_link_training_with_retries: Link training attempt 3 of 4 failed
+Nov  7 23:23:06 bart kernel: [  100.772840] [drm] enabling link 0 failed: 15
+Nov  7 23:23:22 bart kernel: [  106.160854] [drm:amdgpu_dm_atomic_commit_ta=
+il
+[amdgpu]] *ERROR* Waiting for fences timed out!
+Nov  7 23:23:22 bart kernel: [  116.397484]
+[drm:drm_atomic_helper_wait_for_flip_done] *ERROR* [CRTC:47:crtc-0] flip_do=
+ne
+timed out
 
-between commit:
+Simply changing the amdgpu_device_ip function in
+drivers/gpu/drm/amd/amdgpu/amdgpu_device.c to
+static int amdgpu_device_ip_resume(struct amdgpu_device *adev)
+{
+        int r;
 
-  9ae807f0ec6a ("drm/amdgpu: clean up inconsistent indenting")
+#if 0=20
+        r =3D amdgpu_amdkfd_resume_iommu(adev);
+        if (r)
+                return r;
+#endif
 
-from the origin tree and commit:
+        r =3D amdgpu_device_ip_resume_phase1(adev);
+        if (r)
+                return r;
 
-  0d979509539e ("drm/ttm: remove ttm_bo_vm_insert_huge()")
+        r =3D amdgpu_device_fw_loading(adev);
+        if (r)
+                return r;
 
-from the drm-misc tree.
+        r =3D amdgpu_device_ip_resume_phase2(adev);
 
-I fixed it up (see below) and can carry the fix as necessary. This
-is now fixed as far as linux-next is concerned, but any non trivial
-conflicts should be mentioned to your upstream maintainer when your tree
-is submitted for merging.  You may also want to consider cooperating
-with the maintainer of the conflicting tree to minimise any particularly
-complex conflicts.
+        return r;
+}
+makes resuming from suspend work for me again. But of course this is not a
+viable solution as on systems with working IOMMU this is needed.
+One could probably add a flag so that in case of missing IOMMU
+amdgpu_amdkfd_resume_iommu returns 0.
 
 --=20
-Cheers,
-Stephen Rothwell
+You may reply to this email to add a comment.
 
-diff --cc drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
-index a573424a6e0b,a1e63ba4c54a..000000000000
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
-@@@ -60,9 -60,10 +60,9 @@@ static vm_fault_t amdgpu_gem_fault(stru
-  			goto unlock;
-  		}
- =20
- -		 ret =3D ttm_bo_vm_fault_reserved(vmf, vmf->vma->vm_page_prot,
- -						TTM_BO_VM_NUM_PREFAULT);
- -
- -		 drm_dev_exit(idx);
- +		ret =3D ttm_bo_vm_fault_reserved(vmf, vmf->vma->vm_page_prot,
-- 					       TTM_BO_VM_NUM_PREFAULT, 1);
-++					       TTM_BO_VM_NUM_PREFAULT);
- +		drm_dev_exit(idx);
-  	} else {
-  		ret =3D ttm_bo_vm_dummy_page(vmf, vmf->vma->vm_page_prot);
-  	}
-
---Sig_/xVuPQyygmteliXR405bmI+I
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmGIU7IACgkQAVBC80lX
-0GzmTAf9HYnSJ+9qZoiBiBmrkMU2I9mv4K1XRQmu/9ShHGdTV3/eb7ImO/q9HHOD
-YAafVU6JOjuvNTTfouoM1o1CEhPuetF0wyTRYJI0QzJchrUsQlBhpff/SHcaNbfl
-RzBbn+dAx+kRfqIBiYzBYuVI8xoov/5PhhsnxUnis0uz9XZP+40UDTBtrWkBFXu3
-Oii5r+BsbIg0VBvpuvYi+9vA7RozQn957fL0OfXk4GhWHImTm0rucIHPsD9fwb3E
-8zuAZfCIsXO86SQP8lV/R9qmYAT0KxJsmJdhAKdclSrpsTWqRxRyfhcQSVbKcfbs
-UsiUr5FtMnVs7TR9ghnDG5CM0eDwdw==
-=9aE7
------END PGP SIGNATURE-----
-
---Sig_/xVuPQyygmteliXR405bmI+I--
+You are receiving this mail because:
+You are watching the assignee of the bug.=
