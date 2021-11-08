@@ -1,54 +1,82 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 938FD449C0F
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Nov 2021 19:57:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EA496449C29
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Nov 2021 20:05:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 214AC6E222;
-	Mon,  8 Nov 2021 18:57:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 617606E59F;
+	Mon,  8 Nov 2021 19:05:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.domeneshop.no (smtp.domeneshop.no
- [IPv6:2a01:5b40:0:3005::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ECB3E6E222
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Nov 2021 18:57:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
- ; s=ds202012;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
- MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=3ZEIejB1KmN7Tvumn+Q8xoy05D91sldAVAMCnu3bH2A=; b=oWnPxKGfEP7c8zwds8Q5X/hmgF
- 3MaxLCux8b3gq5oGzQBU8QsQVs7f5xVvIV9sm0Xin32uoqFZgnPhPK8cnoD3U3Y8+JEpuD4ufOWNt
- dATmecMG13tdMtaREfpAW3NZ9lau2LLpe3+1BNKUBloEM6DWem7YYyCbrILbzLTSRZUnDKuX9nhNn
- 6e2+vSVWeiONZ3jB/G5dKDmmAjxwMOB0dwZ4Jo5hxoHwZsvYr2OP9yUagDiu4Oidg3WzZgF1lAzYp
- hq5j1WH0wXCX3hGYD4g9grUopc+IdAyIeWicGT8LfZ0WIrfR41qmPMDnY7rhMEQs3wDP6K5a0yojX
- 2IfiAJMg==;
-Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:52048
- helo=[192.168.10.61])
- by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <noralf@tronnes.org>)
- id 1mk9pX-0000LX-GN; Mon, 08 Nov 2021 19:57:19 +0100
-Subject: Re: [PATCH v2 7/9] drm/simpledrm: Enable FB_DAMAGE_CLIPS property
-To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
- airlied@linux.ie, mripard@kernel.org, maarten.lankhorst@linux.intel.com,
- drawat.floss@gmail.com, airlied@redhat.com, kraxel@redhat.com,
- david@lechnology.com, sam@ravnborg.org, javierm@redhat.com,
- kernel@amanoeldawod.com, dirty.ice.hu@gmail.com, michael+lkml@stapelberg.ch,
- aros@gmx.com, joshua@stroblindustries.com, arnd@arndb.de
+X-Greylist: delayed 457 seconds by postgrey-1.36 at gabe;
+ Mon, 08 Nov 2021 19:05:52 UTC
+Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
+ [66.111.4.229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E7BEB6E59D
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Nov 2021 19:05:52 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailnew.nyi.internal (Postfix) with ESMTP id EF97C580896;
+ Mon,  8 Nov 2021 13:58:11 -0500 (EST)
+Received: from imap45 ([10.202.2.95])
+ by compute3.internal (MEProxy); Mon, 08 Nov 2021 13:58:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ amanoeldawod.com; h=mime-version:message-id:in-reply-to
+ :references:date:from:to:cc:subject:content-type
+ :content-transfer-encoding; s=fm3; bh=dt/S3nH6/2Gr1X8YGWm3DV3sRU
+ zueTM4oni+e1bTbiw=; b=Rs+sisQoRrIyUwE9hUky1dkgj0sHEhbgWyI3xZug3a
+ Sbi0f1+dgsMLSUezPy8+E12tG2FG/PAnR6HxY0TKn1o0XvoUD2BrXXL8NwZ/rm5n
+ 6yPoV41nA+b2w3IqlwUFACwZlruGoPcuTuh9akyPH+gLA71k7fsKpQTvTrvfOS1/
+ MJLw7z1vVxjgEHG7XUyv9vVkatX0TYczwB/kxIlCqyc015omx+sAskQb/S0nP7HZ
+ 4xJ9goKkHHZ9H9YypWlG1w3/Y7UNdTO6v4VWScM7BU1UD73ULtmww7+x8Rsvz7X9
+ NpLDKCk+O6S9FtOiO1DFdLKW0EsKGssgpg93ATXdACFg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:in-reply-to:message-id:mime-version:references
+ :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm1; bh=dt/S3nH6/2Gr1X8YGWm3DV3sRUzueTM4oni+e1bTb
+ iw=; b=YReC95rjCjY2Q1RPx6GtY/CUIdG+oacm4CVjSMLT9i+PcE0kfl3akdAe5
+ ExoiYnNDAh2/Q/Ks/unjwhRYU/6dQiR+YPibJ23DF8JRhjISJrjLqzV4TL3tdzW3
+ A1X4mz+ftbP9thrxVlyJ7XPS51xMyO25TIx/bYkDa+VmZO3YifI9pmEcu/8awE6Y
+ BtDUsAvb45uGzzgfrDTolpw3DX/baibWDRab/kAjXKdoVohO31ko7wuMoRtlHVto
+ IL5ohXFcArKXlTpiUNcV+tX/tJcXFV67OxoKDdYyegzUDdCxqPpw3r5UKe8/Q6re
+ tc5fspkK/NtehEZojqL6myZKg8J1Q==
+X-ME-Sender: <xms:Q3OJYYXl23mMOIq3A4Y_2Q-XRBsmW3nE87puCQqMwb7lFhGIAYwZ-w>
+ <xme:Q3OJYclTaKf9Ic2iuFNRqyvgyptsYjNWRSS3KDtmtOiS6Lx-Q75UOO9A1ml6wffbq
+ qEtSMy1OS9fagXWphI>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddruddvgdduudeiucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepofgfggfkjghffffhvffutgfgsehtqhertderreejnecuhfhrohhmpedftehm
+ rghnohgvlhcuffgrfihougdfuceokhgvrhhnvghlsegrmhgrnhhovghluggrfihougdrtg
+ homheqnecuggftrfgrthhtvghrnhepvdeuffeiffejjefftdeijeeifeeiuefgteekkedu
+ ffekieefgfdtgfeikeehhfehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpe
+ hmrghilhhfrhhomhepkhgvrhhnvghlsegrmhgrnhhovghluggrfihougdrtghomh
+X-ME-Proxy: <xmx:Q3OJYcaaXoVY9gESxUiwc90Oo13FWi-X1lINE12mWqlXmYtJwStjxQ>
+ <xmx:Q3OJYXU2wW9o2fvVOy0dfNPbYY5ZBEMJjabiFiUrHJzECa65jkWMOA>
+ <xmx:Q3OJYSkSURLyNyDnXV21JCicjU0JhBKEGj2VGjgVtqsiVr0fejm5FQ>
+ <xmx:Q3OJYRqRx2BP_FVmYsc8NLaghsaCysB7i47l6m6UQl1p4M4RurRnPQ>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id 6775524A0074; Mon,  8 Nov 2021 13:58:11 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.5.0-alpha0-1369-gd055fb5e7c-fm-20211018.002-gd055fb5e
+Mime-Version: 1.0
+Message-Id: <944752ef-ad6a-4e42-8754-54a58c7f50ef@www.fastmail.com>
+In-Reply-To: <20211101141532.26655-4-tzimmermann@suse.de>
 References: <20211101141532.26655-1-tzimmermann@suse.de>
- <20211101141532.26655-8-tzimmermann@suse.de>
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-Message-ID: <6cf78eae-796d-f5a2-e93f-624599af4944@tronnes.org>
-Date: Mon, 8 Nov 2021 19:57:14 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
-MIME-Version: 1.0
-In-Reply-To: <20211101141532.26655-8-tzimmermann@suse.de>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+ <20211101141532.26655-4-tzimmermann@suse.de>
+Date: Mon, 08 Nov 2021 13:57:42 -0500
+From: "Amanoel Dawod" <kernel@amanoeldawod.com>
+To: "Thomas Zimmermann" <tzimmermann@suse.de>, daniel@ffwll.ch,
+ airlied@linux.ie, mripard@kernel.org, maarten.lankhorst@linux.intel.com,
+ noralf@tronnes.org, drawat.floss@gmail.com, airlied@redhat.com,
+ kraxel@redhat.com, david@lechnology.com, sam@ravnborg.org,
+ javierm@redhat.com, dirty.ice.hu@gmail.com, michael+lkml@stapelberg.ch,
+ aros@gmx.com, joshua@stroblindustries.com, arnd@arndb.de
+Subject: Re: [PATCH v2 3/9] drm/format-helper: Add destination-buffer pitch to
+ drm_fb_swab()
+Content-Type: text/plain;charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,104 +94,152 @@ Cc: linux-hyperv@vger.kernel.org, dri-devel@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
-
-Den 01.11.2021 15.15, skrev Thomas Zimmermann:
-> Enable the FB_DAMAGE_CLIPS property to reduce display-update
-> overhead. Also fixes a warning in the kernel log.
-> 
->   simple-framebuffer simple-framebuffer.0: [drm] drm_plane_enable_fb_damage_clips() not called
-> 
-> Fix the computation of the blit rectangle. This wasn't an issue so
-> far, as simpledrm always blitted the full framebuffer. The code now
-> supports damage clipping and virtual screen sizes.
-> 
+On Mon, Nov 1, 2021, at 10:15 AM, Thomas Zimmermann wrote:
+> Add destination-buffer pitch as argument to drm_fb_swab(). Done for
+> consistency with the rest of the interface.
+>
+> v2:
+> 	* update documentation (Noralf)
+>
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Tested-by: Noralf Tr=C3=B8nnes <noralf@tronnes.org>
+> Reviewed-by: Noralf Tr=C3=B8nnes <noralf@tronnes.org>
 > ---
->  drivers/gpu/drm/tiny/simpledrm.c | 30 ++++++++++++++++++++++--------
->  1 file changed, 22 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/tiny/simpledrm.c b/drivers/gpu/drm/tiny/simpledrm.c
-> index 571f716ff427..e872121e9fb0 100644
-> --- a/drivers/gpu/drm/tiny/simpledrm.c
-> +++ b/drivers/gpu/drm/tiny/simpledrm.c
-> @@ -642,7 +642,7 @@ simpledrm_simple_display_pipe_enable(struct drm_simple_display_pipe *pipe,
->  	void *vmap = shadow_plane_state->data[0].vaddr; /* TODO: Use mapping abstraction */
->  	struct drm_device *dev = &sdev->dev;
->  	void __iomem *dst = sdev->screen_base;
-> -	struct drm_rect clip;
-> +	struct drm_rect src_clip, dst_clip;
->  	int idx;
->  
->  	if (!fb)
-> @@ -651,10 +651,14 @@ simpledrm_simple_display_pipe_enable(struct drm_simple_display_pipe *pipe,
->  	if (!drm_dev_enter(dev, &idx))
+>  drivers/gpu/drm/drm_format_helper.c | 21 ++++++++++++++++-----
+>  drivers/gpu/drm/drm_mipi_dbi.c      |  2 +-
+>  drivers/gpu/drm/gud/gud_pipe.c      |  2 +-
+>  include/drm/drm_format_helper.h     |  5 +++--
+>  4 files changed, 21 insertions(+), 9 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/drm_format_helper.c=20
+> b/drivers/gpu/drm/drm_format_helper.c
+> index fac37c697d8b..dac355320287 100644
+> --- a/drivers/gpu/drm/drm_format_helper.c
+> +++ b/drivers/gpu/drm/drm_format_helper.c
+> @@ -101,6 +101,7 @@ EXPORT_SYMBOL(drm_fb_memcpy_toio);
+>  /**
+>   * drm_fb_swab - Swap bytes into clip buffer
+>   * @dst: Destination buffer
+> + * @dst_pitch: Number of bytes between two consecutive scanlines=20
+> within dst
+>   * @src: Source buffer
+>   * @fb: DRM framebuffer
+>   * @clip: Clip rectangle area to copy
+> @@ -110,21 +111,27 @@ EXPORT_SYMBOL(drm_fb_memcpy_toio);
+>   * time to speed up slow uncached reads.
+>   *
+>   * This function does not apply clipping on dst, i.e. the destination
+> - * is a small buffer containing the clip rect only.
+> + * is at the top-left corner.
+>   */
+> -void drm_fb_swab(void *dst, void *src, struct drm_framebuffer *fb,
+> -		 struct drm_rect *clip, bool cached)
+> +void drm_fb_swab(void *dst, unsigned int dst_pitch, const void *src,
+> +		 const struct drm_framebuffer *fb, const struct drm_rect *clip,
+> +		 bool cached)
+>  {
+>  	u8 cpp =3D fb->format->cpp[0];
+>  	size_t len =3D drm_rect_width(clip) * cpp;
+> -	u16 *src16, *dst16 =3D dst;
+> -	u32 *src32, *dst32 =3D dst;
+> +	const u16 *src16;
+> +	const u32 *src32;
+> +	u16 *dst16;
+> +	u32 *dst32;
+>  	unsigned int x, y;
+>  	void *buf =3D NULL;
+>=20
+>  	if (WARN_ON_ONCE(cpp !=3D 2 && cpp !=3D 4))
 >  		return;
->  
-> -	drm_rect_init(&clip, 0, 0, fb->width, fb->height);
-> +	drm_rect_fp_to_int(&src_clip, &plane_state->src);
->  
-> -	dst += drm_fb_clip_offset(sdev->pitch, sdev->format, &clip);
-> -	drm_fb_blit_toio(dst, sdev->pitch, sdev->format->format, vmap, fb, &clip);
-> +	dst_clip = plane_state->dst;
-> +	if (!drm_rect_intersect(&dst_clip, &src_clip))
-> +		return;
-
-You're inside drm_dev_enter here so can't just return. Move
-drm_dev_enter after this like you do in update().
-
+>=20
+> +	if (!dst_pitch)
+> +		dst_pitch =3D len;
 > +
-> +	dst += drm_fb_clip_offset(sdev->pitch, sdev->format, &dst_clip);
-> +	drm_fb_blit_toio(dst, sdev->pitch, sdev->format->format, vmap, fb, &src_clip);
->  
->  	drm_dev_exit(idx);
->  }
-> @@ -686,20 +690,28 @@ simpledrm_simple_display_pipe_update(struct drm_simple_display_pipe *pipe,
->  	struct drm_framebuffer *fb = plane_state->fb;
->  	struct drm_device *dev = &sdev->dev;
->  	void __iomem *dst = sdev->screen_base;
-> -	struct drm_rect clip;
-> +	struct drm_rect damage_clip, src_clip, dst_clip;
->  	int idx;
->  
->  	if (!fb)
->  		return;
->  
-> -	if (!drm_atomic_helper_damage_merged(old_plane_state, plane_state, &clip))
-> +	if (!drm_atomic_helper_damage_merged(old_plane_state, plane_state, &damage_clip))
-> +		return;
+>  	if (!cached)
+>  		buf =3D kmalloc(len, GFP_KERNEL);
+>=20
+> @@ -140,6 +147,9 @@ void drm_fb_swab(void *dst, void *src, struct=20
+> drm_framebuffer *fb,
+>  			src32 =3D src;
+>  		}
+>=20
+> +		dst16 =3D dst;
+> +		dst32 =3D dst;
 > +
+>  		for (x =3D clip->x1; x < clip->x2; x++) {
+>  			if (cpp =3D=3D 4)
+>  				*dst32++ =3D swab32(*src32++);
+> @@ -148,6 +158,7 @@ void drm_fb_swab(void *dst, void *src, struct=20
+> drm_framebuffer *fb,
+>  		}
+>=20
+>  		src +=3D fb->pitches[0];
+> +		dst +=3D dst_pitch;
+>  	}
+>=20
+>  	kfree(buf);
+> diff --git a/drivers/gpu/drm/drm_mipi_dbi.c=20
+> b/drivers/gpu/drm/drm_mipi_dbi.c
+> index c09df8b06c7a..7ce89917d761 100644
+> --- a/drivers/gpu/drm/drm_mipi_dbi.c
+> +++ b/drivers/gpu/drm/drm_mipi_dbi.c
+> @@ -211,7 +211,7 @@ int mipi_dbi_buf_copy(void *dst, struct=20
+> drm_framebuffer *fb,
+>  	switch (fb->format->format) {
+>  	case DRM_FORMAT_RGB565:
+>  		if (swap)
+> -			drm_fb_swab(dst, src, fb, clip, !gem->import_attach);
+> +			drm_fb_swab(dst, 0, src, fb, clip, !gem->import_attach);
+>  		else
+>  			drm_fb_memcpy(dst, 0, src, fb, clip);
+>  		break;
+> diff --git a/drivers/gpu/drm/gud/gud_pipe.c=20
+> b/drivers/gpu/drm/gud/gud_pipe.c
+> index a92112ffd37a..e0b117b2559f 100644
+> --- a/drivers/gpu/drm/gud/gud_pipe.c
+> +++ b/drivers/gpu/drm/gud/gud_pipe.c
+> @@ -201,7 +201,7 @@ static int gud_prep_flush(struct gud_device *gdrm,=20
+> struct drm_framebuffer *fb,
+>  			len =3D gud_xrgb8888_to_color(buf, format, vaddr, fb, rect);
+>  		}
+>  	} else if (gud_is_big_endian() && format->cpp[0] > 1) {
+> -		drm_fb_swab(buf, vaddr, fb, rect, !import_attach);
+> +		drm_fb_swab(buf, 0, vaddr, fb, rect, !import_attach);
+>  	} else if (compression && !import_attach && pitch =3D=3D fb->pitches=
+[0]) {
+>  		/* can compress directly from the framebuffer */
+>  		buf =3D vaddr + rect->y1 * pitch;
+> diff --git a/include/drm/drm_format_helper.h=20
+> b/include/drm/drm_format_helper.h
+> index 1fc3ba7b6060..ddcba5abe306 100644
+> --- a/include/drm/drm_format_helper.h
+> +++ b/include/drm/drm_format_helper.h
+> @@ -17,8 +17,9 @@ void drm_fb_memcpy(void *dst, unsigned int dst_pitch=
+,=20
+> const void *vaddr,
+>  		   const struct drm_framebuffer *fb, const struct drm_rect *clip);
+>  void drm_fb_memcpy_toio(void __iomem *dst, unsigned int dst_pitch,=20
+> const void *vaddr,
+>  			const struct drm_framebuffer *fb, const struct drm_rect *clip);
+> -void drm_fb_swab(void *dst, void *src, struct drm_framebuffer *fb,
+> -		 struct drm_rect *clip, bool cached);
+> +void drm_fb_swab(void *dst, unsigned int dst_pitch, const void *src,
+> +		 const struct drm_framebuffer *fb, const struct drm_rect *clip,
+> +		 bool cached);
+>  void drm_fb_xrgb8888_to_rgb332(void *dst, void *vaddr, struct=20
+> drm_framebuffer *fb,
+>  			       struct drm_rect *clip);
+>  void drm_fb_xrgb8888_to_rgb565(void *dst, void *vaddr,
+> --=20
+> 2.33.1
 
-The following check, isn't that the same check that has just happened in
-drm_atomic_helper_damage_iter_next()?
+Applying this fails for me (tested against 5.14 and 5.15 trees).
+Example:
+patching file include/drm/drm_format_helper.h
+Hunk #1 FAILED at 17.
 
-Noralf.
-
-> +	drm_rect_fp_to_int(&src_clip, &plane_state->src);
-> +	if (!drm_rect_intersect(&src_clip, &damage_clip))
-> +		return;
-> +
-> +	dst_clip = plane_state->dst;
-> +	if (!drm_rect_intersect(&dst_clip, &src_clip))
->  		return;
->  
->  	if (!drm_dev_enter(dev, &idx))
->  		return;
->  
-> -	dst += drm_fb_clip_offset(sdev->pitch, sdev->format, &clip);
-> -	drm_fb_blit_toio(dst, sdev->pitch, sdev->format->format, vmap, fb, &clip);
-> +	dst += drm_fb_clip_offset(sdev->pitch, sdev->format, &dst_clip);
-> +	drm_fb_blit_toio(dst, sdev->pitch, sdev->format->format, vmap, fb, &src_clip);
->  
->  	drm_dev_exit(idx);
->  }
-> @@ -794,6 +806,8 @@ static int simpledrm_device_init_modeset(struct simpledrm_device *sdev)
->  	if (ret)
->  		return ret;
->  
-> +	drm_plane_enable_fb_damage_clips(&pipe->plane);
-> +
->  	drm_mode_config_reset(dev);
->  
->  	return 0;
-> 
+--=20
+thanks,
+Amanoel
