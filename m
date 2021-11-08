@@ -1,64 +1,126 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85FE7449E33
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Nov 2021 22:28:50 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E1A3449E4B
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Nov 2021 22:36:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5CA9489E41;
-	Mon,  8 Nov 2021 21:28:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D4F6D6E245;
+	Mon,  8 Nov 2021 21:36:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
- [IPv6:2a00:1450:4864:20::136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C67989E41;
- Mon,  8 Nov 2021 21:27:25 +0000 (UTC)
-Received: by mail-lf1-x136.google.com with SMTP id l22so12521396lfg.7;
- Mon, 08 Nov 2021 13:27:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=szzjjGu57F1UNGE99GMCdFzS2u7sEVVtyt9kYnjiTBc=;
- b=je3jIHscqh1oMlgYYnMqkd3p7nakiJzMBsjbL3FMk6yJmdxWnH+KVIooFnp/x1qrL4
- G70YO/w+6ur5ldwzfchwQy95JMJMtpxjQeHsunKn474pvKO/QOrajQVaILiMdqrn3cLz
- Kz1oDLrzCq/u1vcZtSpnZuZAMWYC3VInhfaDv1O2hb1y8CU2wBcCuO9lIUB0OO74YylL
- fCalrqjDxR44dmKD1ASDPVwHnn2jvU55V4yL6C+Ttk3hVgqHtys+rxTTvJ0TbOYtUmqd
- IjOCV8o/lPhdS/LJztPsxuPes+N1rW8eHZ3F58tqxu1jJghSmHuEjDaiUdFFgksg94yE
- lbCQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=szzjjGu57F1UNGE99GMCdFzS2u7sEVVtyt9kYnjiTBc=;
- b=nRTNN90Fh0Y831HAzWA2Q/gMxzwlEFvGO1QRW6gpS+NqWHLseqt7IMxRCHWRKeodbS
- p+URx1ylc3W+ZMSsK+jjmnCF47PPvPaPCMz0egpbKpR6iC5kpJSKc+M0bpq4y7Shz+jl
- SWMjtJxoXEbhh+U8pnQ86O8nWzQZhFwaGO+ySlycNKaEUnG+S8zYB+nyNgNHjpReDGQZ
- XzP/UG8puvp+ueDgyJ6EF07QjIgXUJyeIU0mlyVy8jg4LqpJwLXAnhHGda0kDDnP4CZC
- eQmOZ/S5K5/B5ZLO591k2YVbdvJFBOsUYiMQa1TdjVLqhn2E9lOZjXSMfsQJ940X5UxK
- gYaA==
-X-Gm-Message-State: AOAM5321n1E7adXYujL4P1ImF5o3Hy7kVK6/jYwzis7N6BiYiuerAnzK
- MTmBaNdrLZ+4Zl7Zu/DoTm6V/XCQ05s=
-X-Google-Smtp-Source: ABdhPJx/ToKd4a6+WOfSeorR6LEm/MGsIroD/Jc8tEr9dguE45/BO3wnDlqPmabD9Rl4xp0t8Qnjwg==
-X-Received: by 2002:a19:7709:: with SMTP id s9mr2240852lfc.682.1636406843756; 
- Mon, 08 Nov 2021 13:27:23 -0800 (PST)
-Received: from zhiwang1-mobl.lan (88-115-161-74.elisa-laajakaista.fi.
- [88.115.161.74])
- by smtp.gmail.com with ESMTPSA id y11sm212671ljh.54.2021.11.08.13.27.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Nov 2021 13:27:23 -0800 (PST)
-From: Zhi Wang <zhi.wang.linux@gmail.com>
-X-Google-Original-From: Zhi Wang <zhi.a.wang@intel.com>
-To: jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
- rodrigo.vivi@intel.com, zhenyuw@linux.intel.com, zhi.a.wang@intel.com,
- jgg@nvidia.com, intel-gfx@lists.freedesktop.org,
- intel-gvt-dev@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, hch@lst.de
-Subject: [PATCH 3/3] i915/gvt: Use the initial HW state snapshot saved in i915
-Date: Mon,  8 Nov 2021 16:27:18 -0500
-Message-Id: <20211108212718.10576-3-zhi.a.wang@intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20211108212718.10576-1-zhi.a.wang@intel.com>
-References: <20211108212718.10576-1-zhi.a.wang@intel.com>
-X-Mailman-Approved-At: Mon, 08 Nov 2021 21:28:39 +0000
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com
+ (mail-bn1nam07on2046.outbound.protection.outlook.com [40.107.212.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B36A26E29D;
+ Mon,  8 Nov 2021 21:36:30 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Ru/fza6XspOxT0s03bWPTr8vMzUjHxBBYTVvY6HZhtWpteQdYbcgiSJ+r0FvU4O43pCHOBkeBtX462Vh4NmFqeqWa9JUgrPkZE3ifIZbt0T4adW/xcpn4+q0Wp570YvGSmUWBTLz85422/CAl0JeeYKRFpDBWqBmYOuwkIq7WspyhWlFQbeeHoH2VEPJvMXwCTX8m9OWVLhu3hkL6ypHaK8UpVxWXs/SO8w9pOv0xEPzDXfjLQqg5v3tgxe+ZuD3d1LS2UGDDMl2zzyebt0Trm2+tJrRbbiZd9ayfMyimbt5RCpxKsFrSVdDBSszM2sE2mx6/CD5PZ9kEhddY81CbQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=PuoIfhv+proPdNwElPVjr3vSTDTeG8ip6jt0twe7x+U=;
+ b=H3Sc88yL2saJTFW59+2OBJZtT3U/2Op88yJimFuIiHyfg48+GfnfMGYSLPaGX4WWMpMoKV1X6/I7KmAC6a4FYsqwPgg0lBFv3jzjP7if33dIqN12P9GNs6E/CUNUY4juYtv+VYxNS84zcI2e6rUCGw4HFyCF1VfMYRi5OTBsG6t5JRsQ9JMyqMJidFv/eDsXy9lEpz1nf5DV4aXLeS3MZ8/A0N2pqdth8s7+6BEFQm/A0KsU/BzZofmyoiMy5uC312JkbcJwqe5B1ozhq4aIPlG4Va9I9KJjSwu5YnmBK5OZ3odeZZfZybPrMGQmdZBEFxvgmEvCuPuAzcnXZn/6bQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PuoIfhv+proPdNwElPVjr3vSTDTeG8ip6jt0twe7x+U=;
+ b=cissT8J90dtgctNskazGrr5AnxsStKx9kKDFY9/LO5ru6PFhQHBKxrBw2+UY0BinWFat5m0m4+yFy9VZSvXcFE+ctgxoyqWhZmEyOkdx8r29fFQUuMmm84eRTP+2yaH6UB4KX3OJyOhrZnh/yY+/vm5pyYvVNmiayK8EdxZJIk4=
+Authentication-Results: intel.com; dkim=none (message not signed)
+ header.d=none;intel.com; dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB4342.namprd12.prod.outlook.com (2603:10b6:208:264::7)
+ by MN2PR12MB4255.namprd12.prod.outlook.com (2603:10b6:208:198::12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4669.11; Mon, 8 Nov
+ 2021 21:36:28 +0000
+Received: from MN2PR12MB4342.namprd12.prod.outlook.com
+ ([fe80::6972:7084:df02:6dc3]) by MN2PR12MB4342.namprd12.prod.outlook.com
+ ([fe80::6972:7084:df02:6dc3%9]) with mapi id 15.20.4669.016; Mon, 8 Nov 2021
+ 21:36:27 +0000
+Message-ID: <09e9294f-71cb-fa93-4214-0769f7505b0b@amd.com>
+Date: Tue, 9 Nov 2021 03:15:38 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH 3/8] drm: implement top-down allocation method
+Content-Language: en-US
+To: Matthew Auld <matthew.auld@intel.com>, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+References: <20211025130033.1547667-1-Arunpravin.PaneerSelvam@amd.com>
+ <a5fcbbc3-6c06-d676-3403-1e77a04ddde5@intel.com>
+From: Arunpravin <arunpravin.paneerselvam@amd.com>
+In-Reply-To: <a5fcbbc3-6c06-d676-3403-1e77a04ddde5@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BMXPR01CA0012.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:b00:d::22) To MN2PR12MB4342.namprd12.prod.outlook.com
+ (2603:10b6:208:264::7)
+MIME-Version: 1.0
+Received: from [10.138.142.32] (165.204.156.251) by
+ BMXPR01CA0012.INDPRD01.PROD.OUTLOOK.COM (2603:1096:b00:d::22) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4669.10 via Frontend Transport; Mon, 8 Nov 2021 21:36:24 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: e7d583bf-7d55-4e66-5212-08d9a2ffd21c
+X-MS-TrafficTypeDiagnostic: MN2PR12MB4255:
+X-Microsoft-Antispam-PRVS: <MN2PR12MB4255359236CE9E7C6929DFBFE4919@MN2PR12MB4255.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 9hEoJe9TIsoA/mVR5TzfF/ln3Jb0boUUqic3EM8PFAMDhBOxCJ4xTXlicMhve2B5deifRdDl4hJzs4lZyTmZxTVIEr1evNyWAoBdg3AT+MNDajDn3g5QUmj6t9GyXb6uJutq88b/RMG3D2NwlZuWrmOedM6lLAIdVKYpDx6fUxk3xlKQ3xrfVA629QUrsLwpKADDEARcAx5Tw0ooJnfbQuFuTmMIk8y0dPxk4mM2P01eZ6XK4vP6IkxGjzka7CKq6jjEbRAetBtf5dYplMYc/EDZhGmOBjt2HN2F6ymnZwiFsFXxpSdE+hfGZIqGOaXgkJfPrRvsN3hryV8SG23AJMsWR+rLaHMGoU28GIlL+0w/C+N6zI33V4pCcpXeB9alXf4kVhYGzlJfev/hY5cCQgEqALl37CWCT6qo75/6VxZrJilUs9b2Q7D3ZOnNe34uHP18Cv3RhMsDg4vGE+hBpdaSFqHHrKm0w1q4yePHcH7vC4vkWILebphOYL3/Aq8SOdgUwUcN+h+yDe+Vlz3rbzvJ9FMh6Vmpe7QH0wCNVvhPa4LGC6QW36wDYxUmBAvDUwsEHjOPEQAhw/2C2YASHCu/X4ympy7LWWUV55FxdHfpjyCD0YSN4912LkAUVeIezR0HTr3VBATnatEbyBXHqbINh+Ry5FNUHSwb8qI38cRGdikIy8OsKVGP5zWN/o37sQ5ZdOfTtot5HZpeIMnXUdJXiup+0pIGWntwi1IZ/FA=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB4342.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(31696002)(956004)(86362001)(2616005)(2906002)(53546011)(4326008)(36756003)(31686004)(26005)(66556008)(186003)(5660300002)(6666004)(83380400001)(16576012)(6486002)(316002)(8936002)(508600001)(8676002)(38100700002)(66476007)(66946007)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?N1EzQzlKbEJxYVZtZWc3cDZDUFd2V3ZHanFvWTRDMlZWR283Umd4TEdvWUZk?=
+ =?utf-8?B?R01PVGdlK0xyMzBLei8wdElFQy95OVNkSEpXM283VStmVmR0K0dtUTF5emtZ?=
+ =?utf-8?B?WGt3Y09qSzFjc3JzWHpiUU84T1d0c0NYSldMdVNTc3N5bEtTbnk2OTI4eHJU?=
+ =?utf-8?B?K1BuZ2p3UlQ4ZUtWaWsxVTZsUTNrRG9hQm1hYXFMUUZPZEgrL3NjNDdYL01p?=
+ =?utf-8?B?QkMxeUlGbFExRkEwQjZVZWRGbkRRNUFCcUNTc1hjbTJjRnhqOVlVSHRlaU1X?=
+ =?utf-8?B?T3AzODNRTjlEejI3NnBuUUUvQ0ptZkdGSmYwZys3QTVaWlVhWlVZSlNTUGYr?=
+ =?utf-8?B?dWRjM0ZqajMrMzg2aEVQSGtVczIra0xTeEFZQ3FKdjJqcnp4QkZXbjRUNFpr?=
+ =?utf-8?B?WGdudkJrSGwyWWZVbUJZWTRzdFRGbVo2Z3d0Y0xmbzVNN0ozd3VkZEZjenNl?=
+ =?utf-8?B?WXR5d0xiWmdwaVZLWUU1QlJVc2Q4cFJDRUVrcGcreTJCczF1YTdUOXZMTGNh?=
+ =?utf-8?B?d0lSU1lZWkF6Tkw4OTJ5c1ArdzRwblVOaEMzVU8rOGxmK3NiRk5aVjlqenpR?=
+ =?utf-8?B?MmhZTXpTZ1dhemp5bGtaUHpUSGNwS2xEeDFqUUdhYWtGZmlSUEJQM2ZqbFJr?=
+ =?utf-8?B?VlpOOFZjV3JMUzlCSVdXaVJ4RUdjcDZiVUlGMzJsTjQ0Y2lGQkxUV3Q4MzlM?=
+ =?utf-8?B?SWpWS2ZTcjhIS3RTUkJZNnAyYkxxZHVOR285L2NDY2dDM1cwMFdOQkVvY0VQ?=
+ =?utf-8?B?YzJnWHRjT2FlNHJuaHJjanFOczA0L1V0TUMrMkdoNWpObXJmUTVhc2ZVZ1Qx?=
+ =?utf-8?B?T1JIWmJtTmNiVndYRWs3dnFwUTM4WXJXMkdxcTdIbnBaaHZ3d0xNOW9OODVZ?=
+ =?utf-8?B?dWs4a2JyRXFnTlFJaUtlUWFLVnREdTkyWHlzZk9oUExUR3hrdytJT1RXNmZa?=
+ =?utf-8?B?NkZZaUpMSUhrVG40K2szbXA2S0FSdzl6SHhkUEhoMWpOSWFCa0RKZlNpbHVs?=
+ =?utf-8?B?YWFVbzY4Q0xGZVdLbFJzTFdxaW9HZlMwclFjTmdOWllSTExhdytIM0VWSnhT?=
+ =?utf-8?B?TnVQVkdMbGRibGw2WDBoSks4K2Z0L1EvckR5aDhCZDVCTGJyOGw0KytnOHR3?=
+ =?utf-8?B?MjdpQzVHcjh3UlNFYVgvakF1UDZxZnRCTHFrOVpkaDhuNGR4VlNHME9Nc1Y0?=
+ =?utf-8?B?TDRVTEJKWU1RRGIxZmQ4NmdNTkxxOWlUbjk5TU5OelZ4a09FQlM2b2JwNzR5?=
+ =?utf-8?B?UER0N1ZKSkdobHRNNFV4OWpPNzZtVDI1YTJxaEpTaUxaaXN2V1FyZXVSeVJs?=
+ =?utf-8?B?N1JvRFZhb0ovVU96bjJaRCt0UGN0djg5MEUvYnN6OHR4NlppdFpTdnFmYytF?=
+ =?utf-8?B?cTBmR0o1c0V6Y3RzUndxcndGT0xiN1J0UndRVmpSMm1vdGxGQUlXMGJ4SkpG?=
+ =?utf-8?B?Qzk4M0M3SU42MkVvRmJhNG4wNUc0TEZjRHFnT0hocU5qOWMwcEt5RjVlY3VF?=
+ =?utf-8?B?SG0zUUhXKy9wU1FhY0tBaVFVK0IzVkQ5UHZJdmJNUG04aHBFRVB2SlMyVGpS?=
+ =?utf-8?B?eHloMExwVlNmYW5wWVRsRXR2ZytXZS8wZ2hvZEhUWDRIQ3JPK2NtbWNQYm9l?=
+ =?utf-8?B?VUlBc1lYZ2gxUC9WNElvdWsvdWhuSE5IVVpzeHFyYnBjRldkdDZlTWV4RnJx?=
+ =?utf-8?B?TXdoeGt4SjdiYnc0d0lQeFVqV1lRVkNJYjM5QWtwZmJVNmZ2MkxacklkcXpS?=
+ =?utf-8?B?eXloNjI0ZkNuTEcxNUJRblJSK3AzYWR4cjFrSjk1a0o4ckE5U3Z1OEJYZWZJ?=
+ =?utf-8?B?UWNKSjNwcDBYRzEwYk0yWklMcFpNbE1aTmZmck4xZzNtbmNLdmNHck0zUEtE?=
+ =?utf-8?B?Q1ZoYTVEZExVcVUzYU1pdktVNlB1K3ZLb0tnWmtEZDRsOWVzL2daczNMYUYr?=
+ =?utf-8?B?dlVSVE1kaWR5SDhHY2Y5Sm41Zm5XY0hIdm45bll3NTlqVXMyQVM3dzA1UTFR?=
+ =?utf-8?B?WlhyZGdDMFUvQ0xXOFVmVElYNGhmNDl2ZzRpcVpuN3lyY3ZackpUM2dRL1dz?=
+ =?utf-8?B?b09rSlpWNWc1dDc4eHVFRGpvSUI1dFNnTkdKQ29RMmRhWTF2NjBtNEVaNE9L?=
+ =?utf-8?B?b0oxTlZxdDZZMHkrOUVYbmVEUHZEUTcvenpmK3Eyc2pWU09Oek00K2xTOGdW?=
+ =?utf-8?Q?81pSvvgWpFJ9DXUOmiJFXJQ=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e7d583bf-7d55-4e66-5212-08d9a2ffd21c
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4342.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Nov 2021 21:36:27.8163 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Cfqv21Kl2q/nogTX5gxsh6P2FgIVg40XyCoyMfg2NSFfyq/PLypeuaWxEPa69hN8/rS4d0liTb8Fv7JaNzWe7g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4255
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,175 +133,131 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Zhi Wang <zhi.wang.linux@gmail.com>
+Cc: alexander.deucher@amd.com, tzimmermann@suse.de, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Zhi Wang <zhi.wang.linux@gmail.com>
 
-The code of saving initial HW state snapshot has been moved into i915.
-Let the GVT-g core logic use that snapshot.
 
-Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: Zhenyu Wang <zhenyuw@linux.intel.com>
-Cc: Zhi Wang <zhi.a.wang@intel.com>
-Cc: Christoph Hellwig <hch@lst.de>
-Cc: Jason Gunthorpe <jgg@nvidia.com>
-Signed-off-by: Zhi Wang <zhi.wang.linux@gmail.com>
----
- drivers/gpu/drm/i915/gvt/cfg_space.c |  2 +-
- drivers/gpu/drm/i915/gvt/firmware.c  | 45 ++++------------------------
- drivers/gpu/drm/i915/gvt/gvt.h       |  2 --
- drivers/gpu/drm/i915/gvt/mmio.c      |  2 +-
- 4 files changed, 7 insertions(+), 44 deletions(-)
+On 04/11/21 12:14 am, Matthew Auld wrote:
+> On 25/10/2021 14:00, Arunpravin wrote:
+>> Implemented a function which walk through the order list,
+>> compares the offset and returns the maximum offset block,
+>> this method is unpredictable in obtaining the high range
+>> address blocks which depends on allocation and deallocation.
+>> for instance, if driver requests address at a low specific
+>> range, allocator traverses from the root block and splits
+>> the larger blocks until it reaches the specific block and
+>> in the process of splitting, lower orders in the freelist
+>> are occupied with low range address blocks and for the
+>> subsequent TOPDOWN memory request we may return the low
+>> range blocks.To overcome this issue, we may go with the
+>> below approach.
+>>
+>> The other approach, sorting each order list entries in
+>> ascending order and compares the last entry of each
+>> order list in the freelist and return the max block.
+>> This creates sorting overhead on every drm_buddy_free()
+>> request and split up of larger blocks for a single page
+>> request.
+>>
+>> Signed-off-by: Arunpravin <Arunpravin.PaneerSelvam@amd.com>
+>> ---
+>>   drivers/gpu/drm/drm_buddy.c | 42 +++++++++++++++++++++++++++++++------
+>>   include/drm/drm_buddy.h     |  1 +
+>>   2 files changed, 37 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/drm_buddy.c b/drivers/gpu/drm/drm_buddy.c
+>> index 406e3d521903..9d3547bcc5da 100644
+>> --- a/drivers/gpu/drm/drm_buddy.c
+>> +++ b/drivers/gpu/drm/drm_buddy.c
+>> @@ -362,6 +362,27 @@ alloc_range(struct drm_buddy_mm *mm,
+>>   	return ERR_PTR(err);
+>>   }
+>>   
+>> +static struct drm_buddy_block *
+>> +get_maxblock(struct list_head *head)
+>> +{
+>> +	struct drm_buddy_block *max_block = NULL, *node;
+>> +
+>> +	max_block = list_first_entry_or_null(head,
+>> +					     struct drm_buddy_block,
+>> +					     link);
+>> +
+>> +	if (!max_block)
+>> +		return NULL;
+>> +
+>> +	list_for_each_entry(node, head, link) {
+>> +		if (drm_buddy_block_offset(node) >
+>> +				drm_buddy_block_offset(max_block))
+> 
+> Alignment.
+[Arun] ok
+> 
+>> +			max_block = node;
+>> +	}
+> 
+> I suppose there will be pathological cases where this will unnecessarily 
+> steal the mappable portion? But in practice maybe this is good enough?
+[Arun] we can go with the other approach, sorting each order list
+entries in ascending order and compares the last entry of each order
+list in the freelist and return the max block. I think this creates
+sorting overhead on every drm_buddy_free() request and (max_order -
+requested_order) iterations on every top_down allocation request.
 
-diff --git a/drivers/gpu/drm/i915/gvt/cfg_space.c b/drivers/gpu/drm/i915/gvt/cfg_space.c
-index b490e3db2e38..51588ca95113 100644
---- a/drivers/gpu/drm/i915/gvt/cfg_space.c
-+++ b/drivers/gpu/drm/i915/gvt/cfg_space.c
-@@ -379,7 +379,7 @@ void intel_vgpu_init_cfg_space(struct intel_vgpu *vgpu,
- 	u16 *gmch_ctl;
- 	u8 next;
- 
--	memcpy(vgpu_cfg_space(vgpu), gvt->firmware.cfg_space,
-+	memcpy(vgpu_cfg_space(vgpu), gvt->hw_state.cfg_space,
- 	       info->cfg_space_size);
- 
- 	if (!primary) {
-diff --git a/drivers/gpu/drm/i915/gvt/firmware.c b/drivers/gpu/drm/i915/gvt/firmware.c
-index 1a8274a3f4b1..a98af544abca 100644
---- a/drivers/gpu/drm/i915/gvt/firmware.c
-+++ b/drivers/gpu/drm/i915/gvt/firmware.c
-@@ -66,13 +66,6 @@ static struct bin_attribute firmware_attr = {
- 	.mmap = NULL,
- };
- 
--static int mmio_snapshot_handler(struct intel_gvt *gvt, u32 offset, void *data)
--{
--	*(u32 *)(data + offset) = intel_uncore_read_notrace(gvt->gt->uncore,
--							    _MMIO(offset));
--	return 0;
--}
--
- static int expose_firmware_sysfs(struct intel_gvt *gvt)
- {
- 	struct intel_gvt_device_info *info = &gvt->device_info;
-@@ -81,7 +74,7 @@ static int expose_firmware_sysfs(struct intel_gvt *gvt)
- 	void *firmware;
- 	void *p;
- 	unsigned long size, crc32_start;
--	int i, ret;
-+	int ret;
- 
- 	size = sizeof(*h) + info->mmio_size + info->cfg_space_size;
- 	firmware = vzalloc(size);
-@@ -99,17 +92,11 @@ static int expose_firmware_sysfs(struct intel_gvt *gvt)
- 
- 	p = firmware + h->cfg_space_offset;
- 
--	for (i = 0; i < h->cfg_space_size; i += 4)
--		pci_read_config_dword(pdev, i, p + i);
--
--	memcpy(gvt->firmware.cfg_space, p, info->cfg_space_size);
-+	memcpy(gvt->hw_state.cfg_space, p, info->cfg_space_size);
- 
- 	p = firmware + h->mmio_offset;
- 
--	/* Take a snapshot of hw mmio registers. */
--	intel_gvt_for_each_tracked_mmio(gvt, mmio_snapshot_handler, p);
--
--	memcpy(gvt->firmware.mmio, p, info->mmio_size);
-+	memcpy(gvt->hw_state.mmio, p, info->mmio_size);
- 
- 	crc32_start = offsetof(struct gvt_firmware_header, crc32) + 4;
- 	h->crc32 = crc32_le(0, firmware + crc32_start, size - crc32_start);
-@@ -142,9 +129,6 @@ void intel_gvt_free_firmware(struct intel_gvt *gvt)
- {
- 	if (!gvt->firmware.firmware_loaded)
- 		clean_firmware_sysfs(gvt);
--
--	kfree(gvt->firmware.cfg_space);
--	vfree(gvt->firmware.mmio);
- }
- 
- static int verify_firmware(struct intel_gvt *gvt,
-@@ -204,36 +188,17 @@ static int verify_firmware(struct intel_gvt *gvt,
-  */
- int intel_gvt_load_firmware(struct intel_gvt *gvt)
- {
--	struct intel_gvt_device_info *info = &gvt->device_info;
- 	struct pci_dev *pdev = to_pci_dev(gvt->gt->i915->drm.dev);
- 	struct intel_gvt_firmware *firmware = &gvt->firmware;
- 	struct gvt_firmware_header *h;
- 	const struct firmware *fw;
- 	char *path;
--	void *mem;
- 	int ret;
- 
- 	path = kmalloc(PATH_MAX, GFP_KERNEL);
- 	if (!path)
- 		return -ENOMEM;
- 
--	mem = kmalloc(info->cfg_space_size, GFP_KERNEL);
--	if (!mem) {
--		kfree(path);
--		return -ENOMEM;
--	}
--
--	firmware->cfg_space = mem;
--
--	mem = vmalloc(info->mmio_size);
--	if (!mem) {
--		kfree(path);
--		kfree(firmware->cfg_space);
--		return -ENOMEM;
--	}
--
--	firmware->mmio = mem;
--
- 	sprintf(path, "%s/vid_0x%04x_did_0x%04x_rid_0x%02x.golden_hw_state",
- 		 GVT_FIRMWARE_PATH, pdev->vendor, pdev->device,
- 		 pdev->revision);
-@@ -256,9 +221,9 @@ int intel_gvt_load_firmware(struct intel_gvt *gvt)
- 
- 	h = (struct gvt_firmware_header *)fw->data;
- 
--	memcpy(firmware->cfg_space, fw->data + h->cfg_space_offset,
-+	memcpy(gvt->hw_state.cfg_space, fw->data + h->cfg_space_offset,
- 	       h->cfg_space_size);
--	memcpy(firmware->mmio, fw->data + h->mmio_offset,
-+	memcpy(gvt->hw_state.mmio, fw->data + h->mmio_offset,
- 	       h->mmio_size);
- 
- 	release_firmware(fw);
-diff --git a/drivers/gpu/drm/i915/gvt/gvt.h b/drivers/gpu/drm/i915/gvt/gvt.h
-index 1defee730cf3..4e2fd564abea 100644
---- a/drivers/gpu/drm/i915/gvt/gvt.h
-+++ b/drivers/gpu/drm/i915/gvt/gvt.h
-@@ -280,8 +280,6 @@ struct intel_gvt_mmio {
- };
- 
- struct intel_gvt_firmware {
--	void *cfg_space;
--	void *mmio;
- 	bool firmware_loaded;
- };
- 
-diff --git a/drivers/gpu/drm/i915/gvt/mmio.c b/drivers/gpu/drm/i915/gvt/mmio.c
-index 24210b1eaec5..63f806113560 100644
---- a/drivers/gpu/drm/i915/gvt/mmio.c
-+++ b/drivers/gpu/drm/i915/gvt/mmio.c
-@@ -241,7 +241,7 @@ void intel_vgpu_reset_mmio(struct intel_vgpu *vgpu, bool dmlr)
- {
- 	struct intel_gvt *gvt = vgpu->gvt;
- 	const struct intel_gvt_device_info *info = &gvt->device_info;
--	void  *mmio = gvt->firmware.mmio;
-+	void  *mmio = gvt->hw_state.mmio;
- 
- 	if (dmlr) {
- 		memcpy(vgpu->mmio.vreg, mmio, info->mmio_size);
--- 
-2.25.1
-
+With this method, there will be no unnecessary steal of the mappable
+portion, but I guess there might be a performance hit.
+> 
+>> +
+>> +	return max_block;
+>> +}
+>> +
+>>   static struct drm_buddy_block *
+>>   alloc_from_freelist(struct drm_buddy_mm *mm,
+>>   		    unsigned int order,
+>> @@ -372,13 +393,22 @@ alloc_from_freelist(struct drm_buddy_mm *mm,
+>>   	int err;
+>>   
+>>   	for (i = order; i <= mm->max_order; ++i) {
+>> -		if (!list_empty(&mm->free_list[i])) {
+>> -			block = list_first_entry_or_null(&mm->free_list[i],
+>> -							 struct drm_buddy_block,
+>> -							 link);
+>> +		if (flags & DRM_BUDDY_TOPDOWN_ALLOCATION) {
+>> +			if (!list_empty(&mm->free_list[i])) {
+> 
+> AFAIK no need to keep checking list_empty(), below also.
+[Arun] ok
+> 
+>> +				block = get_maxblock(&mm->free_list[i]);
+>>   
+>> -			if (block)
+>> -				break;
+>> +				if (block)
+>> +					break;
+>> +			}
+>> +		} else {
+>> +			if (!list_empty(&mm->free_list[i])) {
+>> +				block = list_first_entry_or_null(&mm->free_list[i],
+>> +								 struct drm_buddy_block,
+>> +								 link);
+>> +
+>> +				if (block)
+>> +					break;
+>> +			}
+>>   		}
+>>   	}
+>>   
+>> diff --git a/include/drm/drm_buddy.h b/include/drm/drm_buddy.h
+>> index c7bb5509a7ad..cd8021d2d6e7 100644
+>> --- a/include/drm/drm_buddy.h
+>> +++ b/include/drm/drm_buddy.h
+>> @@ -28,6 +28,7 @@
+>>   })
+>>   
+>>   #define DRM_BUDDY_RANGE_ALLOCATION (1 << 0)
+>> +#define DRM_BUDDY_TOPDOWN_ALLOCATION (1 << 1)
+>>   
+>>   struct drm_buddy_block {
+>>   #define DRM_BUDDY_HEADER_OFFSET GENMASK_ULL(63, 12)
+>>
