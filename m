@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59AD444A0F6
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Nov 2021 02:04:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCB9044A104
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Nov 2021 02:04:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B4696E217;
-	Tue,  9 Nov 2021 01:04:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D1E6A6E219;
+	Tue,  9 Nov 2021 01:04:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A934A6E217;
- Tue,  9 Nov 2021 01:04:00 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E101B61A6D;
- Tue,  9 Nov 2021 01:03:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 177CC6E219
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Nov 2021 01:04:28 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 062FF61A65;
+ Tue,  9 Nov 2021 01:04:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1636419840;
- bh=S7Dw+3DdnT9UPzw6RE9uFMMvxAPcKRqS9QoHw4jsG5M=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=jXsSdehrrkRFc8RSq9cpIKOgZcGSq0ehk2Tt0nnDaHQxYR8j1sKQr00+p4w1l2fB2
- E/xiJ5OkFlmlzQuIcogvEDr9rqlKS3+NAc+/Lg+NY1rQhPDv+KokKVkSZ/LP+zAUFu
- 0WOdaf3abp1nyf1coPf8rPrn+NNQDN8bAvn2DLB0u6tWYll3PvFHFCPQu5+dM6NON3
- BZwXWw86luODNP479mkpk2X2LWx+Oay0vUFBwE9OLLzR710i1z33Jcm/sRJHVwmeOw
- BjxUYyy+GaCqA/3smrwLVLBxcccUvjkgGVQZnNx1yvzUVqYnHihimF+eVMMEGPMBja
- 67wzgFq/GDCcw==
+ s=k20201202; t=1636419867;
+ bh=EjAYMVikh+ar3WB5M1uox3DB/K28A+dIc56LbYZC5DM=;
+ h=From:To:Cc:Subject:Date:From;
+ b=HOmHWeZwe/pmGdxGA/dPvGuYezpwn9XKxb6tBdJXWRLTX3Jw/ShH4W2Kwf1ps7Nn1
+ CWsPBn4nyEtCjOgPM7C9/QJs33PrM9Yx7LIw4AafS1tx/mXMP0QFA7sgJqYHqh6pjC
+ N+RAHYNzNo1Jj3EE+c4EDZpJ7jjttZIFNFaosyGHKN98KBFxAqq8MPvL1/l24AyI3F
+ y9d3dSS6AstJ26O2Fktx7cOPAFM7XeCmZ1XwqUjiOO4Urf1Brd0jIncZWzk/poQe7M
+ +uHlOOxDdKqMgRhIhej8tdr6ltUOnhxonICz0BImogAb1EFcxb5zD8Llfyp5oBNYL3
+ aROQucGEJwDmA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 022/101] drm/amdgpu: Fix MMIO access page fault
-Date: Mon,  8 Nov 2021 12:47:12 -0500
-Message-Id: <20211108174832.1189312-22-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 01/74] dma-buf: WARN on dmabuf release with
+ pending attachments
+Date: Mon,  8 Nov 2021 12:48:28 -0500
+Message-Id: <20211108174942.1189927-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20211108174832.1189312-1-sashal@kernel.org>
-References: <20211108174832.1189312-1-sashal@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -49,100 +49,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, guchun.chen@amd.com, airlied@linux.ie,
- satyajit.sahu@amd.com, Oak.Zeng@amd.com, Xinhui.Pan@amd.com,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>, lee.jones@linaro.org,
- James Zhu <James.Zhu@amd.com>, leo.liu@amd.com, christian.koenig@amd.com
+Cc: Sasha Levin <sashal@kernel.org>, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, Charan Teja Reddy <charante@codeaurora.org>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+From: Charan Teja Reddy <charante@codeaurora.org>
 
-[ Upstream commit c03509cbc01559549700e14c4a6239f2572ab4ba ]
+[ Upstream commit f492283b157053e9555787262f058ae33096f568 ]
 
-Add more guards to MMIO access post device
-unbind/unplug
+It is expected from the clients to follow the below steps on an imported
+dmabuf fd:
+a) dmabuf = dma_buf_get(fd) // Get the dmabuf from fd
+b) dma_buf_attach(dmabuf); // Clients attach to the dmabuf
+   o Here the kernel does some slab allocations, say for
+dma_buf_attachment and may be some other slab allocation in the
+dmabuf->ops->attach().
+c) Client may need to do dma_buf_map_attachment().
+d) Accordingly dma_buf_unmap_attachment() should be called.
+e) dma_buf_detach () // Clients detach to the dmabuf.
+   o Here the slab allocations made in b) are freed.
+f) dma_buf_put(dmabuf) // Can free the dmabuf if it is the last
+reference.
 
-Bug: https://bugs.archlinux.org/task/72092?project=1&order=dateopened&sort=desc&pagenum=1
-Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
-Reviewed-by: James Zhu <James.Zhu@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Now say an erroneous client failed at step c) above thus it directly
+called dma_buf_put(), step f) above. Considering that it may be the last
+reference to the dmabuf, buffer will be freed with pending attachments
+left to the dmabuf which can show up as the 'memory leak'. This should
+at least be reported as the WARN().
+
+Signed-off-by: Charan Teja Reddy <charante@codeaurora.org>
+Reviewed-by: Christian König <christian.koenig@amd.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/1627043468-16381-1-git-send-email-charante@codeaurora.org
+Signed-off-by: Christian König <christian.koenig@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/vcn_v2_0.c |  8 ++++++--
- drivers/gpu/drm/amd/amdgpu/vcn_v2_5.c | 17 +++++++++++------
- 2 files changed, 17 insertions(+), 8 deletions(-)
+ drivers/dma-buf/dma-buf.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/vcn_v2_0.c b/drivers/gpu/drm/amd/amdgpu/vcn_v2_0.c
-index f493b5c3d382b..79bcc78f77045 100644
---- a/drivers/gpu/drm/amd/amdgpu/vcn_v2_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/vcn_v2_0.c
-@@ -22,6 +22,7 @@
-  */
+diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+index 758de0e9b2ddc..16bbc9bc9e6d1 100644
+--- a/drivers/dma-buf/dma-buf.c
++++ b/drivers/dma-buf/dma-buf.c
+@@ -79,6 +79,7 @@ static void dma_buf_release(struct dentry *dentry)
+ 	if (dmabuf->resv == (struct dma_resv *)&dmabuf[1])
+ 		dma_resv_fini(dmabuf->resv);
  
- #include <linux/firmware.h>
-+#include <drm/drm_drv.h>
- 
- #include "amdgpu.h"
- #include "amdgpu_vcn.h"
-@@ -192,11 +193,14 @@ static int vcn_v2_0_sw_init(void *handle)
-  */
- static int vcn_v2_0_sw_fini(void *handle)
- {
--	int r;
-+	int r, idx;
- 	struct amdgpu_device *adev = (struct amdgpu_device *)handle;
- 	volatile struct amdgpu_fw_shared *fw_shared = adev->vcn.inst->fw_shared_cpu_addr;
- 
--	fw_shared->present_flag_0 = 0;
-+	if (drm_dev_enter(&adev->ddev, &idx)) {
-+		fw_shared->present_flag_0 = 0;
-+		drm_dev_exit(idx);
-+	}
- 
- 	amdgpu_virt_free_mm_table(adev);
- 
-diff --git a/drivers/gpu/drm/amd/amdgpu/vcn_v2_5.c b/drivers/gpu/drm/amd/amdgpu/vcn_v2_5.c
-index ce64d4016f903..381839d005db9 100644
---- a/drivers/gpu/drm/amd/amdgpu/vcn_v2_5.c
-+++ b/drivers/gpu/drm/amd/amdgpu/vcn_v2_5.c
-@@ -22,6 +22,7 @@
-  */
- 
- #include <linux/firmware.h>
-+#include <drm/drm_drv.h>
- 
- #include "amdgpu.h"
- #include "amdgpu_vcn.h"
-@@ -233,17 +234,21 @@ static int vcn_v2_5_sw_init(void *handle)
-  */
- static int vcn_v2_5_sw_fini(void *handle)
- {
--	int i, r;
-+	int i, r, idx;
- 	struct amdgpu_device *adev = (struct amdgpu_device *)handle;
- 	volatile struct amdgpu_fw_shared *fw_shared;
- 
--	for (i = 0; i < adev->vcn.num_vcn_inst; i++) {
--		if (adev->vcn.harvest_config & (1 << i))
--			continue;
--		fw_shared = adev->vcn.inst[i].fw_shared_cpu_addr;
--		fw_shared->present_flag_0 = 0;
-+	if (drm_dev_enter(&adev->ddev, &idx)) {
-+		for (i = 0; i < adev->vcn.num_vcn_inst; i++) {
-+			if (adev->vcn.harvest_config & (1 << i))
-+				continue;
-+			fw_shared = adev->vcn.inst[i].fw_shared_cpu_addr;
-+			fw_shared->present_flag_0 = 0;
-+		}
-+		drm_dev_exit(idx);
- 	}
- 
-+
- 	if (amdgpu_sriov_vf(adev))
- 		amdgpu_virt_free_mm_table(adev);
- 
++	WARN_ON(!list_empty(&dmabuf->attachments));
+ 	module_put(dmabuf->owner);
+ 	kfree(dmabuf->name);
+ 	kfree(dmabuf);
 -- 
 2.33.0
 
