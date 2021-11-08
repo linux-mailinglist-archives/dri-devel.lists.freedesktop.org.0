@@ -2,42 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8069E449BAF
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Nov 2021 19:33:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B902D449BB0
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Nov 2021 19:33:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 455896E2EF;
-	Mon,  8 Nov 2021 18:33:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B68D66E301;
+	Mon,  8 Nov 2021 18:33:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ixit.cz (ixit.cz [94.230.151.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 16F7E6E2C0
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Nov 2021 18:33:37 +0000 (UTC)
-Received: from localhost.localdomain (ip-89-176-96-70.net.upcbroadband.cz
- [89.176.96.70])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by ixit.cz (Postfix) with ESMTPSA id 69D5120064;
- Mon,  8 Nov 2021 19:33:33 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
- t=1636396413;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=SYqiyfi+3LLQOhgIjPN+BSk4wD1o6OGfvuU5++WE4bY=;
- b=VkDvwfZGh/xG+Amnk/ymrl1ZPYnxvkpz8BlSEx7ZDzLG56ck4luz9o6IPw5qWYHj1IIugJ
- lpzWKJmGpSbeATPvaH68zgxFOQRFGtgs3N6Rwy/FUyTQIXNRmyJ/cZpxPnX/DG1QBxwyre
- n8K/P7qbCfXIIYbPwLjdNChcFMvfmw8=
-From: David Heidelberg <david@ixit.cz>
-To: Hans de Goede <hdegoede@redhat.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Subject: [PATCH] dt-bindings: display: sync formats with simplefb.h
-Date: Mon,  8 Nov 2021 19:33:22 +0100
-Message-Id: <20211108183322.68192-1-david@ixit.cz>
-X-Mailer: git-send-email 2.33.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Received: from mo4-p02-ob.smtp.rzone.de (mo4-p02-ob.smtp.rzone.de
+ [81.169.146.168])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A3F2C6E2F2
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Nov 2021 18:33:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1636396431;
+ s=strato-dkim-0002; d=goldelico.com;
+ h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
+ From:Subject:Sender;
+ bh=V9Iis9hGWtZOgUPU1mqg1irQSYLApnWnzQFHO9gUfwI=;
+ b=D9aOeIJ1Ym/PITlBZv2L+vSVbh9zw/E080wuh9vTMvTh9wmswt66zbcUOlmdBLNLk6
+ fj3VraebsAAPkBFkGmd6F6xmARMCZVrsXHvqlCTFNhDi1NqAjATz5cevLLLtF1ipPd+F
+ c78Q1vM5EtEkQOJwwArjsYEtV7hIxwZ/ERKOt526VSm8aLnrmw8M9YRTUwDvOTdD7cP9
+ REICA5IcDu/oUTNE2vLiw/sbaxWDQgUuRUMeSdaYNWk/LIN+9lkh6sHTrkXC51DsCrHU
+ VajNNoLLmKZoJRiYuC2g9vhMlleoIBlhRj3p513oRFqvO+B5G5gTBSmX9vIje1J78IpA
+ B7oQ==
+Authentication-Results: strato.com;
+    dkim=none
+X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj7gpw91N5y2S3gMZ+"
+X-RZG-CLASS-ID: mo00
+Received: from imac.fritz.box by smtp.strato.de (RZmta 47.34.1 DYNA|AUTH)
+ with ESMTPSA id 902c63xA8IXnMN2
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1
+ with 256 ECDH bits, eq. 3072 bits RSA))
+ (Client did not present a certificate);
+ Mon, 8 Nov 2021 19:33:49 +0100 (CET)
+Content-Type: text/plain;
+	charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.21\))
+Subject: Re: [PATCH v5 2/7] drm/ingenic: Add support for JZ4780 and HDMI output
+From: "H. Nikolaus Schaller" <hns@goldelico.com>
+In-Reply-To: <RIL92R.MLAZ6CTO865E1@crapouillou.net>
+Date: Mon, 8 Nov 2021 19:33:48 +0100
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <ACEFD0BB-1FCF-4EEB-A40F-1F2543A05BF4@goldelico.com>
+References: <cover.1633436959.git.hns@goldelico.com>
+ <2c7d0aa7d3ef480ebb996d37c27cbaa6f722728b.1633436959.git.hns@goldelico.com>
+ <FXTI0R.3FZIJZ7UYSNQ@crapouillou.net>
+ <7CEBB741-2218-40A7-9800-B3A154895274@goldelico.com>
+ <Q6U72R.9HY4TXLC6RWV2@crapouillou.net>
+ <229EBE4C-6555-41DE-962F-D82798AEC650@goldelico.com>
+ <HQY82R.69JHJIC64HDO1@crapouillou.net>
+ <2E32F572-72D0-44E7-A700-AF8A2D37BFDA@goldelico.com>
+ <ZA692R.GHQL6RBCLFB12@crapouillou.net>
+ <D0809E59-DCB5-46CE-BE5E-D2A5D2ECA6F0@goldelico.com>
+ <BVH92R.0VU3IKPQTLX9@crapouillou.net>
+ <2F8A88BC-2696-491B-9C01-7D07A3B3670A@goldelico.com>
+ <RIL92R.MLAZ6CTO865E1@crapouillou.net>
+To: Paul Cercueil <paul@crapouillou.net>
+X-Mailer: Apple Mail (2.3445.104.21)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,49 +70,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- David Heidelberg <david@ixit.cz>, ~okias/devicetree@lists.sr.ht
+Cc: Mark Rutland <mark.rutland@arm.com>, Paul Boddie <paul@boddie.org.uk>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ linux-mips <linux-mips@vger.kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Miquel Raynal <miquel.raynal@bootlin.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS <devicetree@vger.kernel.org>,
+ Kees Cook <keescook@chromium.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Mark Brown <broonie@kernel.org>, Maxime Ripard <maxime@cerno.tech>,
+ Discussions about the Letux Kernel <letux-kernel@openphoenux.org>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Liam Girdwood <lgirdwood@gmail.com>, Robert Foss <robert.foss@linaro.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ "Eric W. Biederman" <ebiederm@xmission.com>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Sync all formats from simplefb.h into documentation.
+Hi Paul,
 
-Signed-off-by: David Heidelberg <david@ixit.cz>
----
- .../bindings/display/simple-framebuffer.yaml         | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+> Am 08.11.2021 um 18:49 schrieb Paul Cercueil <paul@crapouillou.net>:
+>=20
+>>> Variant 4: the variant #2 without the changes to the DTSI files.
+>> Hm. If there is no cache and we can safely remove tight boundary =
+checking (by JZ_REG_LCD_SIZE1) for jz4725/40/70 (by not fixing DTSI) why =
+do we still need the max_register calculation from DTSI specifically for =
+jz4780 and at all?
+>=20
+> It's better to have the .max_register actually set to the proper =
+value. Then reading the registers from debugfs =
+(/sys/kernel/debug/regmap/) will print the actual list of registers =
+without bogus values. If .max_register is set too high, it will end up =
+reading outside the registers area.
 
-diff --git a/Documentation/devicetree/bindings/display/simple-framebuffer.yaml b/Documentation/devicetree/bindings/display/simple-framebuffer.yaml
-index c2499a7906f5..44a29d813f14 100644
---- a/Documentation/devicetree/bindings/display/simple-framebuffer.yaml
-+++ b/Documentation/devicetree/bindings/display/simple-framebuffer.yaml
-@@ -83,13 +83,25 @@ properties:
-   format:
-     description: >
-       Format of the framebuffer:
-+        * `a1r5g5b5` - 16-bit pixels, d[15]=a, d[14:10]=r, d[9:5]=g, d[4:0]=b
-+        * `a2r10g10b10` - 32-bit pixels, d[31:30]=a, d[29:20]=r, d[19:10]=g, d[9:0]=b
-         * `a8b8g8r8` - 32-bit pixels, d[31:24]=a, d[23:16]=b, d[15:8]=g, d[7:0]=r
-+        * `a8r8g8b8` - 32-bit pixels, d[31:24]=a, d[23:16]=r, d[15:8]=g, d[7:0]=b
-         * `r5g6b5` - 16-bit pixels, d[15:11]=r, d[10:5]=g, d[4:0]=b
-+        * `r5g5b5a1` - 16-bit pixels, d[15:11]=r, d[10:6]=g, d[5:1]=b d[1:0]=a
-+        * `r8g8b8` - 24-bit pixels, d[23:16]=r, d[15:8]=g, d[7:0]=b
-+        * `x1r5g5b5` - 16-bit pixels, d[14:10]=r, d[9:5]=g, d[4:0]=b
-         * `x2r10g10b10` - 32-bit pixels, d[29:20]=r, d[19:10]=g, d[9:0]=b
-         * `x8r8g8b8` - 32-bit pixels, d[23:16]=r, d[15:8]=g, d[7:0]=b
-     enum:
-+      - a1r5g5b5
-+      - a2r10g10b10
-       - a8b8g8r8
-+      - a8r8g8b8
-       - r5g6b5
-+      - r5g5b5a1
-+      - r8g8b8
-+      - x1r5g5b5
-       - x2r10g10b10
-       - x8r8g8b8
- 
--- 
-2.33.0
+Ok, that is a good reason to convince me.
 
+> On Ingenic SoCs such reads just return 0, but on some other SoCs it =
+can lock up the system.
+
+Yes, I know some of these...
+
+> So the best way forward is to have .max_register computed from the =
+register area's size, and fix the DTSI with the proper sizes. Since your =
+JZ4780 code needs to update .max_register anyway it's a good moment to =
+add this patch, and the DTSI files can be fixed later (by me or whoever =
+is up to the task).
+
+Well, it would already be part of my Variant #2 (untested). So I could =
+simply split it up further and you can test the pure dtsi changes and =
+apply them later or modify if that makes problems. Saves you a little =
+work. BTW: the jz4740 seems to have even less registers (last register =
+seems to be LCDCMD1 @ 0x1305005C).
+
+>=20
+> Fixing the DTS is not a problem in any way, btw. We just need to =
+ensure that the drivers still work with old DTB files, which will be the =
+case here.
+
+Yes, that is right since the new values are smaller than the originals.
+
+Ok, then let's do it that way.
+
+BR and thanks,
+Nikolaus=
