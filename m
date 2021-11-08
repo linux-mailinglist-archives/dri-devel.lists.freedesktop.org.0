@@ -1,65 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFE5E4481C3
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Nov 2021 15:28:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AE33D44974C
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Nov 2021 15:59:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 60CB86E96A;
-	Mon,  8 Nov 2021 14:28:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B2BE16E9A3;
+	Mon,  8 Nov 2021 14:59:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0EA366E96A
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Nov 2021 14:28:51 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id B08D41FD50;
- Mon,  8 Nov 2021 14:28:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1636381729; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=vGSAJuzDE+ow2YU8o0uvQO+L1+wARe42Qt1VZLAC+t0=;
- b=JWrnLIoplwTvpsLCB6Jyk5mViprnd5BbDXuXbKwcFQwbMZLCpgOhogAsdU5tciQzjhBV8C
- SQzw+nW4NrefyRG7/GfNpwgySmOarwrDeRpLmYi5pk+Mwo0WDb4Jp0dpqW0lDs+a2Tx0gx
- YNPDoV63nDIwnlyxEs5/qUm3X4wjjk0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1636381729;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=vGSAJuzDE+ow2YU8o0uvQO+L1+wARe42Qt1VZLAC+t0=;
- b=z1rkkFNr05FDwwy++6+/JYXpS8cCbJVTGIFLhEC18cGPtncbpCPaVHnesiUfIv0HkZHGbv
- rUoxNzYM/+Vg7tCA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7E78913BA0;
- Mon,  8 Nov 2021 14:28:49 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id yP7oHCE0iWHAJgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Mon, 08 Nov 2021 14:28:49 +0000
-Message-ID: <2601406e-e959-5ad1-73fa-8aabd77e68c5@suse.de>
-Date: Mon, 8 Nov 2021 15:28:48 +0100
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
+ [IPv6:2a00:1450:4864:20::435])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0039E6E488
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Nov 2021 14:59:25 +0000 (UTC)
+Received: by mail-wr1-x435.google.com with SMTP id b12so27401481wrh.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Nov 2021 06:59:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=S+RzlQF0wFoIQgC5v/TwQIZ9+duGCqlZYcz5HSc4X/M=;
+ b=U0845iBSN2FBOm0A4s1eLW65e98XvhIQlCkiQ3Kocou2jGgrRPFZbR0qHa1DAKkpth
+ 4O8ReRJcn/KVFLpsF8mvMxRSa+DTTgcRE2LzBQOS3wMcNz3efpTwewZL3B5vb3JlSyLP
+ zmddos+Va2MiVIhOIMIXYigYfwJknD+zhOTKg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=S+RzlQF0wFoIQgC5v/TwQIZ9+duGCqlZYcz5HSc4X/M=;
+ b=yxQ+nGe5Cs7hzl0vvbpOhhEZoCPm3DRh6WFAUxyaLAUAcSBdjLW0ZfX8B0CdPTubCX
+ f/2ekZGqhM77nBroLAZfiu328nExNx7BCVgZEdxCGVI15NApeepfNAk0xj1rzGDrLLTK
+ nBPITRSG43Lelvd3jT+pK5rdpUvcK6DR7mV2E2jYR+WN0cPt2uzJdQa/odgAQrPZqvvZ
+ DmDQPJfM1/ZSXxUdDm5Ljcy7zymCHyQMeEoqkECj+1EaJc88llwCuY02NRS4w3FteLg6
+ 2m2UEc6C9DuADX9QD8mZuCCgOUUwmKXYgHhqi22Ic2pCQNP1zVH6kw8LF5gOALCNF2wE
+ Ki/A==
+X-Gm-Message-State: AOAM530XxQUG1/5mAGuAVrabP6l3ZOebsW+aZL6oOFtS2j7aba+ufcFd
+ rSQIlP+x4HBxxIXAAduRNVo8mw==
+X-Google-Smtp-Source: ABdhPJyJ9YHyQsRcLboR7A1C2i9Y9jYI28l4sF5U5ca2SpxnlsdwtY6GBa4TvhkkUploF3We4Zdhng==
+X-Received: by 2002:a5d:6d01:: with SMTP id e1mr391983wrq.157.1636383564582;
+ Mon, 08 Nov 2021 06:59:24 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id j11sm3013349wrt.3.2021.11.08.06.59.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 08 Nov 2021 06:59:24 -0800 (PST)
+Date: Mon, 8 Nov 2021 15:59:22 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Subject: Re: Questions about KMS flip
+Message-ID: <YYk7SkflDx8ToqYG@phenom.ffwll.local>
+References: <579d0f44-bb85-11b2-d326-35a0b7c5d0de@amd.com>
+ <5c242319-ade3-5621-6429-f77b17c34de5@amd.com>
+ <YYV0W1CxT5torU7u@phenom.ffwll.local>
+ <64e70779-7c33-7849-aa29-aeaee4a89005@amd.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.1
-Subject: Re: [PATCH] drm/drm_plane.h: fix a typo: not -> note
-Content-Language: en-US
-To: Sui Jingfeng <15330273260@189.cn>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>
-References: <20211108132008.3631-1-15330273260@189.cn>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20211108132008.3631-1-15330273260@189.cn>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------OtlOtyfcgU6FYtxlMam1ECrF"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <64e70779-7c33-7849-aa29-aeaee4a89005@amd.com>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,80 +70,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: suijingfeng <suijingfeng@loongson.cn>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Michel =?iso-8859-1?Q?D=E4nzer?= <michel@daenzer.net>,
+ dri-devel <dri-devel@lists.freedesktop.org>, "Kazlauskas,
+ Nicholas" <Nicholas.Kazlauskas@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------OtlOtyfcgU6FYtxlMam1ECrF
-Content-Type: multipart/mixed; boundary="------------CB9JmSlVS02yw0q36kGGKf88";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Sui Jingfeng <15330273260@189.cn>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- suijingfeng <suijingfeng@loongson.cn>
-Message-ID: <2601406e-e959-5ad1-73fa-8aabd77e68c5@suse.de>
-Subject: Re: [PATCH] drm/drm_plane.h: fix a typo: not -> note
-References: <20211108132008.3631-1-15330273260@189.cn>
-In-Reply-To: <20211108132008.3631-1-15330273260@189.cn>
+On Mon, Nov 08, 2021 at 08:44:24AM +0100, Christian König wrote:
+> Am 05.11.21 um 19:13 schrieb Daniel Vetter:
+> > On Thu, Nov 04, 2021 at 12:44:34PM -0400, Harry Wentland wrote:
+> > > +Nick
+> > > 
+> > > It looks to be the old drm_plane_state->fb holds that reference. See dm_plane_helper_cleanup_fb() in amdgpu_dm.c.
+> > Yup plane state holds reference for its entire existing (well this holds
+> > in general as design principle for atomic state structs, just makes life
+> > easier). And the plane state is guaranteed to exist from when we first pin
+> > (prepare_fb plane hook) to when it's getting unpinned (cleanup_fb plane
+> > hook).
+> > 
+> > Out of curiosity, what's blowing up?
+> 
+> The TTM pin count warning. What happens is that we try to free up a BO while
+> it is still being pinned.
+> 
+> My best guess is that some DMA-buf client is doing something wrong, but it
+> could of course also be that the BO was pinned for scanout.
 
---------------CB9JmSlVS02yw0q36kGGKf88
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+We check in dma_buf_release whether there's anything left over, so I think
+the dma-buf scenario is rather unlikely.
 
-SGkNCg0KQW0gMDguMTEuMjEgdW0gMTQ6MjAgc2NocmllYiBTdWkgSmluZ2Zlbmc6DQo+IEZy
-b206IHN1aWppbmdmZW5nIDxzdWlqaW5nZmVuZ0Bsb29uZ3Nvbi5jbj4NCj4gDQo+IFNpZ25l
-ZC1vZmYtYnk6IHN1aWppbmdmZW5nIDxzdWlqaW5nZmVuZ0Bsb29uZ3Nvbi5jbj4NCg0KVGhp
-cyB3YXMgZml4ZWQgYSB3aGlsZSBhZ28uIFsxXSBJZiB5b3Ugd2FudCB0byB3b3JrIG9uIHRo
-ZSBEUk0gDQpmcmFtZXdvcmssIHBsZWFzZSB1c2UgdGhlIGxhdGVzdCByZXBvc2l0b3J5IGZy
-b20gZHJtLXRpcC4gWzJdDQoNCkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoNClsxXSANCmh0dHBz
-Oi8vY2dpdC5mcmVlZGVza3RvcC5vcmcvZHJtL2RybS1taXNjL2NvbW1pdC8/aWQ9NDA4N2Qy
-ZmIyODZjODVhMWJkZTcyZTc1MjNjNDk2MDgwZWYzOTAzNQ0KWzJdIGh0dHBzOi8vY2dpdC5m
-cmVlZGVza3RvcC5vcmcvZHJtL2RybS10aXAvDQoNCj4gLS0tDQo+ICAgaW5jbHVkZS9kcm0v
-ZHJtX3BsYW5lLmggfCAyICstDQo+ICAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCsp
-LCAxIGRlbGV0aW9uKC0pDQo+IA0KPiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS9kcm0vZHJtX3Bs
-YW5lLmggYi9pbmNsdWRlL2RybS9kcm1fcGxhbmUuaA0KPiBpbmRleCBmZWQ5N2UzNTYyNmYu
-LjBjMTEwMmRjNGQ4OCAxMDA2NDQNCj4gLS0tIGEvaW5jbHVkZS9kcm0vZHJtX3BsYW5lLmgN
-Cj4gKysrIGIvaW5jbHVkZS9kcm0vZHJtX3BsYW5lLmgNCj4gQEAgLTQzLDcgKzQzLDcgQEAg
-ZW51bSBkcm1fc2NhbGluZ19maWx0ZXIgew0KPiAgIC8qKg0KPiAgICAqIHN0cnVjdCBkcm1f
-cGxhbmVfc3RhdGUgLSBtdXRhYmxlIHBsYW5lIHN0YXRlDQo+ICAgICoNCj4gLSAqIFBsZWFz
-ZSBub3QgdGhhdCB0aGUgZGVzdGluYXRpb24gY29vcmRpbmF0ZXMgQGNydGNfeCwgQGNydGNf
-eSwgQGNydGNfaCBhbmQNCj4gKyAqIFBsZWFzZSBub3RlIHRoYXQgdGhlIGRlc3RpbmF0aW9u
-IGNvb3JkaW5hdGVzIEBjcnRjX3gsIEBjcnRjX3ksIEBjcnRjX2ggYW5kDQo+ICAgICogQGNy
-dGNfdyBhbmQgdGhlIHNvdXJjZSBjb29yZGluYXRlcyBAc3JjX3gsIEBzcmNfeSwgQHNyY19o
-IGFuZCBAc3JjX3cgYXJlIHRoZQ0KPiAgICAqIHJhdyBjb29yZGluYXRlcyBwcm92aWRlZCBi
-eSB1c2Vyc3BhY2UuIERyaXZlcnMgc2hvdWxkIHVzZQ0KPiAgICAqIGRybV9hdG9taWNfaGVs
-cGVyX2NoZWNrX3BsYW5lX3N0YXRlKCkgYW5kIG9ubHkgdXNlIHRoZSBkZXJpdmVkIHJlY3Rh
-bmdsZXMgaW4NCj4gDQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZl
-ciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KTWF4
-ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBHZXJtYW55DQooSFJCIDM2ODA5LCBBRyBO
-w7xybmJlcmcpDQpHZXNjaMOkZnRzZsO8aHJlcjogSXZvIFRvdGV2DQo=
+I guess worst case we could add a cookie struct to dma_buf_pin that you
+need to pass to dma_buf_unpin, and wherein we can capture a backtrace. Or
+maybe implement that in ttm even. Otherwise I don't have good ideas.
+-Daniel
 
---------------CB9JmSlVS02yw0q36kGGKf88--
+> 
+> Christian.
+> 
+> > -Daniel
+> > 
+> > > Harry
+> > > 
+> > > On 2021-11-04 08:51, Christian König wrote:
+> > > > Hi guys,
+> > > > 
+> > > > adding the usual suspects which might know that of hand: When we do a KMS page flip, who keeps the reference to the BO while it is scanned out?
+> > > > 
+> > > > We are running into warning backtraces from TTM which look more than odd.
+> > > > 
+> > > > Thanks,
+> > > > Christian.
+> 
 
---------------OtlOtyfcgU6FYtxlMam1ECrF
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmGJNCAFAwAAAAAACgkQlh/E3EQov+Dw
-fw//TxnsWQDHBrQt3WhJCBD66qJQDrzNOEVXaKUIBmASL/+bfboKhezEHmbOYgaBkGX/WUkTx6lZ
-VOo+lPDFibh3HufsvxlOI8cHurrvq0hACzmuwwGTmecSnGflMjs71Ex+lSwKJ6hRv199hoNGHUbA
-lWTr04aNps7yGd4W2ZxY0knZRiQ3V2+6nEwKOzUqfFQmCup8t5YSygSg0c04ot3cWGVWeH4wC2Wv
-1Njd1bwUFWkIJwQzGm4j4Hjz4SAC0xuvtxoyxCSYC/J08L5qgWyfbHb1MA9YT+CqvBYHEvMhjemy
-glx3SrwsFqURqeUcAPoCYvQmudgcRPpZBJBSH06qFGOtfMSMEgiv34pThz62BvHSuTiFwCjZf5gL
-oVkNSueuyAEAJDYxzX7icbKluf4f3Zz9iYD0FpoP8Cl15QsuD1JhimG+tfgTXjWmJKR5aoIcy6+a
-Awsis4qMD+V0MJV/NQBdjHrrAFJ0u91VLpI29Vwk4KwOkOdGjEMhF7NNq5+HLOMupNJQp8xbmNEd
-mwaqVmMav25uVhRoofSh+mCDMgVXTfvuVxjsYPcqNs/KkUZMjF7kOPIUqyowjvmq5aSlx2Mmj159
-LOK1HHrfX2znEz6LjYbCr9+0O3NjGYvoa4rb++/luEJIc4GEyGPZ95lkAiwllxcVoebUxHDeUqWq
-0zg=
-=gBPj
------END PGP SIGNATURE-----
-
---------------OtlOtyfcgU6FYtxlMam1ECrF--
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
