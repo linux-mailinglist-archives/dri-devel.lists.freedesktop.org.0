@@ -1,59 +1,127 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA76C449D22
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Nov 2021 21:39:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 600B0449D33
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Nov 2021 21:45:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 791456E223;
-	Mon,  8 Nov 2021 20:39:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4FF526E2F2;
+	Mon,  8 Nov 2021 20:45:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABE666E223
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Nov 2021 20:39:12 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1636403952; h=Message-Id: Date: Subject: Cc: To: From:
- Sender; bh=kBesm0Q8LIo36KtkurWUv8WvrMHHxT3AGY+5Lzo2Pqk=;
- b=lLU0bhGYYyl1/JSp4VAgDVewPvcfLuXhjRXtUZmz7v640OEAFXKWSCY6YutYGM+nIZz40zJr
- l26xCGbQ0b31JpE9wSU4GHMW97L2IJFs3RZqinuCUOj0xQ92ZixI7882x++n54VTaVeZ7MYa
- q2VeGc8hZiBWjDkHsQDGa+GF8Yo=
-X-Mailgun-Sending-Ip: 198.61.254.9
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n06.prod.us-west-2.postgun.com with SMTP id
- 61898aeefacd20d79527e4b8 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 08 Nov 2021 20:39:10
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id CDB34C4360C; Mon,  8 Nov 2021 20:39:10 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
- SPF_FAIL autolearn=no autolearn_force=no version=3.4.0
-Received: from khsieh-linux1.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: khsieh)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id D5AA1C4338F;
- Mon,  8 Nov 2021 20:39:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.codeaurora.org D5AA1C4338F
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=fail (p=none dis=none) header.from=quicinc.com
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=fail smtp.mailfrom=quicinc.com
-From: Kuogee Hsieh <quic_khsieh@quicinc.com>
-To: robdclark@gmail.com, sean@poorly.run, swboyd@chromium.org,
- vkoul@kernel.org, daniel@ffwll.ch, airlied@linux.ie, agross@kernel.org,
- dmitry.baryshkov@linaro.org, bjorn.andersson@linaro.org
-Subject: [PATCH v2] drm/msm/dp: do not initialize phy until plugin interrupt
- received
-Date: Mon,  8 Nov 2021 12:39:00 -0800
-Message-Id: <1636403940-3541-1-git-send-email-quic_khsieh@quicinc.com>
-X-Mailer: git-send-email 2.7.4
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2079.outbound.protection.outlook.com [40.107.243.79])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F0A6B6E2F2
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Nov 2021 20:45:06 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=V5IBeL48sAcv1DtZua1gwfl2PUHsywUK98y9GyHUV/z+amOqmTzHqZPmg9GxES/JPcNqW498hbgHwx6MWm6YYiapL7Qq1WN+6IP5lhKZdL5fbSe3WMFjbUc3iJzN1YtAtoR/41AGNw1LGkDHIclgGWucUDRjdd64NGdxlMU5sZzzPmFJKfWJ743w3iyST1ROZHILcpj3jfYWpLU4FjlgXlUkC91U2w4SRsLbNMbsisrWap8wXMpHRF1c0YmBPLSPPa3ghGGpFaFTMwNgYFff/YyLpdggmW8Vvh9ktqPjSc4d9nHL5NSo+Gpqn5vlmHg9UgIYMLE/s0jYNZaL6FYlZQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Bof0wziqj9/FSiw0gkUB7NHmzvqBjUXLkjJlO4sCuwo=;
+ b=fSfEsEOXHZ4DPItfGI3mZKIWiZfWjAG/KvZDnNs/zR3OXdrjWn/CtZXqsUZH0J2C7f2c1q3nRuCKiSU/ikr/pRAVbSyKwveIg8eiZfIucPAqqW7EC4bf7epya/65xQem0V/nTlKbSBY6/YTnKYWE3fx36/M6vST6WgegK0ELkMqERfbjOcW9AxBEvuxAntUfBngMorPy/aqua1VNZE7xyx3RyT8RmUhHTQaN7wu26YWdduMDk4Tv3FU+5X4YJRN1/rb5EIvX+unH6QpyDL6bvioeOgLWumFNIpRcvR2glz8BwQi3uBsDisfUgj9j0jLh+bxem3rYRMTCbbRpNPcMhg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vmware.com; dmarc=pass action=none header.from=vmware.com;
+ dkim=pass header.d=vmware.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vmware.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Bof0wziqj9/FSiw0gkUB7NHmzvqBjUXLkjJlO4sCuwo=;
+ b=V87nzShp/vFuy+W5hfarlFMzPY/R3r4/IExrquoif+VTR40rKyo49B4fwDSbUhPcQJrCDDWnm+2U/AM/kpq/Irhi+61LnTNr2MSQ4IcZpn5LROZmwVGJNJhfZ0LllhgrQ8tR2YpTuc+JbD4vrqyg2u1i2hpQ96hk9xKJ9hYVCl8=
+Received: from BY3PR05MB8531.namprd05.prod.outlook.com (2603:10b6:a03:3ce::6)
+ by BYAPR05MB4133.namprd05.prod.outlook.com (2603:10b6:a02:83::11)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4690.8; Mon, 8 Nov
+ 2021 20:45:04 +0000
+Received: from BY3PR05MB8531.namprd05.prod.outlook.com
+ ([fe80::fd9a:e92c:5d9e:9f6d]) by BY3PR05MB8531.namprd05.prod.outlook.com
+ ([fe80::fd9a:e92c:5d9e:9f6d%9]) with mapi id 15.20.4690.010; Mon, 8 Nov 2021
+ 20:45:04 +0000
+From: Nadav Amit <namit@vmware.com>
+To: "srivatsa@csail.mit.edu" <srivatsa@csail.mit.edu>
+Subject: Re: [PATCH 2/2] MAINTAINERS: Mark VMware mailing list entries as
+ private
+Thread-Topic: [PATCH 2/2] MAINTAINERS: Mark VMware mailing list entries as
+ private
+Thread-Index: AQHX1N78hdP2HY1w7EKJ7QP4MiAOaqv6GUMA
+Date: Mon, 8 Nov 2021 20:45:04 +0000
+Message-ID: <6BC382F6-6CAE-4C20-AA2D-50905CC263BB@vmware.com>
+References: <163640336232.62866.489924062999332446.stgit@srivatsa-dev>
+ <163640339370.62866.3435211389009241865.stgit@srivatsa-dev>
+In-Reply-To: <163640339370.62866.3435211389009241865.stgit@srivatsa-dev>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3654.120.0.1.13)
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vmware.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: f5c59bd4-98f1-44bc-7b1b-08d9a2f8a487
+x-ms-traffictypediagnostic: BYAPR05MB4133:
+x-ld-processed: b39138ca-3cee-4b4a-a4d6-cd83d9dd62f0,ExtAddr
+x-microsoft-antispam-prvs: <BYAPR05MB4133FA7FE1AE95E07CD9A13FD0919@BYAPR05MB4133.namprd05.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8273;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: DSyCgmyfscjrriLwUIl7uK/G0rPlpSUl5Q4lbiNydX7bV2RUiwCFGObVlQsaLnM05gjV5oO/Ak0hVswEPCtFwhJ188AM/4rh3D0agNKv6kJ/VsqSTF60aXJGO8yxaOp5uRjtEVsqvE/DUetUCiXwGCfPcv10W/AHCVbfNTENLP4GytZSmI/yMxPXpa90vUDDXkwTN1OqpB1MCCm7wUjxQN8i3UnAZFF1vKxyL8x1kNruICekl4t06K40qRaxPEXoPwhn0pKYjlMr5AZIf9u2qnKTHuuG+SZ48hsM9oDFvxmF1x6ftKboERwN9+DYwaXSG+tKirGhzGxcJDfoKgn3hav5T9phs36zZ8mxA9Y2IuHdxZUb4ineDqXWjW3u/mz82bsGxcPYGHNPc2fmTC8lps4fT+9nrrWo0FEmtEnO8F0/vzBXFmswPvZZEBNMJ1JQXQrO5XQT+roDqu4mSYujSWt0FIzJgJSm7kKOnJeXU9JB0S1nBEf9ryvTpSe0/cjI/ejG+sLPG1by0jTmmXd6Gz0Os8qvE8n45WwHWhfiRWW2t3LtbKqCTMC9pBzZnSNuF0m1ui3kOfQHHQmWZP9C6N6JLcW7j3wOPYunH171AlLIY5M6SA+AZj/wenofpNjZ2E6+52Gj5BXSRxdzLwlrtB4/GWKZka7mXzeh6UzU7FGAMYrrwnifjwYdqT25WfjOq+gXtA60b3IhVRycAbk7HygYmxOpsBwYXX1ZeMbL1gYsXjJZUXE2npoS/+OixPHPHBX2jR/IDsWBVvRo17TQpe05b4vdIu/lTSydNOsgKcvqmqwxFMosqd7tlrxMYpRu
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BY3PR05MB8531.namprd05.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(54906003)(64756008)(66556008)(6916009)(66476007)(66446008)(122000001)(38070700005)(316002)(38100700002)(83380400001)(33656002)(2906002)(66946007)(71200400001)(7416002)(6486002)(8676002)(53546011)(76116006)(6506007)(4326008)(2616005)(186003)(86362001)(4744005)(5660300002)(8936002)(6512007)(26005)(508600001)(36756003)(45980500001)(223123001)(130980200001);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?VUFMVmlXYlRFUytKT05NVXpqcTJWRVdXY3dZditWNlYxaHA3VW8rOWlrdzhy?=
+ =?utf-8?B?OS8wRTl2alJNZFBEK2pLbDRVQVRrY0N1aEVwdzRFOWtMeU1UNGpiK0FUcTcz?=
+ =?utf-8?B?dDVaRWoxV1JyVHMyd1c2ZHdJS2U4RXpwT3F0VDJudi84V2FxeWhkUjYwb0w1?=
+ =?utf-8?B?R3hHQ1NpakljM3V1dm15TDQzSlhXUTVIMzhHeWo1TUZGbW9nUDhtQW5ld1FK?=
+ =?utf-8?B?UUpxblBpQi9zWlZ4YzM1bjRBQ05ReklHNVFQb0czODRod09ZTWEydUxkdTQy?=
+ =?utf-8?B?VTFjWnhIei92aU5tbWJHNGtnTFd3T0d5QndKaDYwOW04bkwyVkQ0Q0N3YzN1?=
+ =?utf-8?B?eFdNdnRKMy9xSytaVEs1RWhGeUJ3cVlZRXVJL2JpMDJVNjVsK0FDbVJxNWRr?=
+ =?utf-8?B?Q3lOZkdMZTFxUi8rNDVUclBzV0dmVzZKQU5aY0dQR29uak5vT2hobUhaWTc4?=
+ =?utf-8?B?QUVhWHBFdE16dlFzalowYzR6dHZUajIyQVBWUDVocjNHY2ZJSUkrMyt6QVdO?=
+ =?utf-8?B?UmFmbnVjUXQvdS9mdVczQUljVURlUFRCMGlGdzNtYUJkMXVYSHludEd6NUx1?=
+ =?utf-8?B?N3dUbDdZeDQ1RnhGbUgrdElHYmRsSmZRaGNwdVd5eXQ1Zk9yVnJIeWRBWDY4?=
+ =?utf-8?B?eGdWNlEvd0hxR2FENStHakZxZlJJWm8zVitoY1hZbVR0V0l0OWtsdDRkU3gx?=
+ =?utf-8?B?WHNWei9yTngxZnV1U3JER2pkYUhyUDNpemk5Ym42T3ZnREt2VGJLL0dSb21u?=
+ =?utf-8?B?UGVpR1o3VnV3WlFneDBTUTFIK29xU2J4UmlLSFZVRlhyMmhEd1RxOHk1MFky?=
+ =?utf-8?B?b0NHQ1FvMVRFL3cwNFQxMVBIY2M4Q1NuTkhRK3NvVm1ybWl3alNiWXV4Y3Bv?=
+ =?utf-8?B?QlY0dnZOeUhrNVV4c3dxTDFmVWhPczJtaG9vRFhPUzJKUUtKUFoxVlBhMDZJ?=
+ =?utf-8?B?KzRMdGM5bjBIR3pKUnFHazBob0VieThKTU1TWE0vK2wxK1IwQ1UyVmlUYmkr?=
+ =?utf-8?B?RHQxU0VQekJjNFZ3OXpQY1VDUzFzUnZPL294S2VKQmcyVk4xS1dkWTRkeW5s?=
+ =?utf-8?B?MUErS3NEMnFyNExwQTcwcThpQ0p3ODNGNWNBYllwbEVGN3cxNWlDNjdIOE1D?=
+ =?utf-8?B?K05nZXJqL0MvUThBeGkwUFdoellqVzY4b1Fha1N0SERWbTFLeHlqUFVlR2FN?=
+ =?utf-8?B?SlhrckFjU3lyd0pwN0JRSEtZaVZnZGdZRkw4WExqRTVpMWh0ZEtMc24zeGlV?=
+ =?utf-8?B?SWRXUjkwM2ZPOFN2TjFrMGtOcFIxT3lhT1E4VHlaZnJMUG5LQ1ZIM1Znczl5?=
+ =?utf-8?B?ODA5OUpNcU5GdDNMM1hWY3VmaGdvcVoxWmYzYlFTZHhaYzNlUjYzQjkwNVMz?=
+ =?utf-8?B?blg1dWl2bm45dS9vM0ZNSXNsZ20yWnUxU2RKdnFlaHFKbDhxcFFFMWJEUkdR?=
+ =?utf-8?B?MXl4aVJtVmZXeDh1cDZYRzNrN2ZZeW52c1E2ZllOaVhBL0dZWjF6QUlvamtu?=
+ =?utf-8?B?U2tRbUlSa2NCVTl6cyswdUhWa1RwSGlXZndCVVp4ZTVHcHRremRtM2x4eEZq?=
+ =?utf-8?B?VVdvd1U3dmQvQkppUEJoR0M0L2FjcTJJYStSSGVyNHFrMjg0amRzK1A2RlBY?=
+ =?utf-8?B?VmhlQ0pvYitDcW91OXhXMGcvekEva3hwM0tpd1NMVkRvb1FMN3BrSVQ1Y2Jt?=
+ =?utf-8?B?ZmZuUnRTb3NZbU9ra3RhN1NGa2lXVi9xMTNlU3BWM0NaSFl3TmQ4U1l6NzNm?=
+ =?utf-8?B?ZGxBeVpSRXdibkJQOE5ITGFHbnFNWU9Lc3Q3QWJtSGFnNFhGSmJTOUVXTmc4?=
+ =?utf-8?B?ekpYajNIbkhOUGcybGE4YWJWOGNQMFU4dFNsV3hHdXhObkRTNkpUZnJaeElr?=
+ =?utf-8?B?TE9XdGRxaU1Ebm1STHByYjhtcWk3VWtEcmwxandLMWYzdTAvSWtxci9yZGlw?=
+ =?utf-8?B?U1JwdEY0a00vaFFYeEVsbE02dFVBZVZvOW9XOFIyZWV4SkxpejllNXlDQm1D?=
+ =?utf-8?B?a1ZzcTJZRFNZdU1abjI1ZWRVTTl3NkM5Y2VkTXc0c0Z6VVBNT2JmSUdrTTl0?=
+ =?utf-8?B?SzhvNnRkNnFMb0FyU3JIVVV1cDEyRC9CbEhpbGEvdlJZalRab1hVN25YQXhY?=
+ =?utf-8?B?NVhGL243Mk1MRDAzNW8raFRnSHBGUVJuSTMyMnlhckNlV2laOWYwQ0hYWlRC?=
+ =?utf-8?Q?n4VYqgaa0B75ZPzwFotH1l0=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <2061AF2DBE2C40449B11647852B51B1D@namprd05.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: vmware.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BY3PR05MB8531.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f5c59bd4-98f1-44bc-7b1b-08d9a2f8a487
+X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Nov 2021 20:45:04.3516 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b39138ca-3cee-4b4a-a4d6-cd83d9dd62f0
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: LbAvAPijp5mgc5VK5c669y4u0aYbFFQMQndRbezPaTsLPYd//7GruNY23u33v8jwF2bXyPD7MJNWqPF9fuE/nw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR05MB4133
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,418 +134,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, quic_abhinavk@quicinc.com,
- dri-devel@lists.freedesktop.org, quic_khsieh@quicinc.com,
- Kuogee Hsieh <khsieh@codeaurora.org>, aravindh@codeaurora.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: Juergen Gross <jgross@suse.com>, Alexey Makhalov <amakhalov@vmware.com>,
+ Ronak Doshi <doshir@vmware.com>,
+ "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+ Anish Swaminathan <anishs@vmware.com>, Pv-drivers <Pv-drivers@vmware.com>,
+ "netdev@vger.kernel.org" <netdev@vger.kernel.org>, X86 ML <x86@kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "virtualization@lists.linux-foundation.org"
+ <virtualization@lists.linux-foundation.org>,
+ Keerthana Kalyanasundaram <keerthanak@vmware.com>,
+ Vishal Bhakta <vbhakta@vmware.com>,
+ Linux-graphics-maintainer <Linux-graphics-maintainer@vmware.com>,
+ Srivatsa Bhat <srivatsab@vmware.com>,
+ "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+ Vivek Thampi <vithampi@vmware.com>, Deep Shah <sdeep@vmware.com>,
+ "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Kuogee Hsieh <khsieh@codeaurora.org>
-
-Combo phy supports both USB and DP simultaneously. There may has a
-possible conflict during phy initialization phase between USB and
-DP driver which may cause USB phy timeout when USB tries to power
-up its phy. This patch has the DP driver not initialize its phy
-during DP driver initialization phase. Instead DP driver only enable
-required regulators and clocks so that it is able to receive HPD
-interrupts after completion of initialization phase. DP driver will
-initialize its phy when HPD plug-in interrupt received.
-This patch also provides a positive side effects which balance regulator
-enable count since regulator only enabled at initialize phase and resume
-and disabled at followed suspend.
-
-Changes in V2:
--- removed unnecessary dp_ctrl NULL check
--- removed unnecessary phy init_count and power_count DRM_DEBUG_DP logs
--- remove flip parameter out of dp_ctrl_irq_enable()
--- add fixes tag
-
-Fixes: e91e3065a806 ("drm/msm/dp: Add DP compliance tests on Snapdragon Chipsets")
-
-Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
----
- drivers/gpu/drm/msm/dp/dp_ctrl.c    | 87 ++++++++++++++++---------------------
- drivers/gpu/drm/msm/dp/dp_ctrl.h    |  9 ++--
- drivers/gpu/drm/msm/dp/dp_display.c | 83 ++++++++++++++++++++++++++---------
- 3 files changed, 105 insertions(+), 74 deletions(-)
-
-diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-index 7ec155d..4788e8c 100644
---- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
-+++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-@@ -1364,60 +1364,54 @@ static int dp_ctrl_enable_stream_clocks(struct dp_ctrl_private *ctrl)
- 	return ret;
- }
- 
--int dp_ctrl_host_init(struct dp_ctrl *dp_ctrl, bool flip, bool reset)
-+void dp_ctrl_irq_enable(struct dp_ctrl *dp_ctrl)
-+{
-+	struct dp_ctrl_private *ctrl;
-+
-+	ctrl = container_of(dp_ctrl, struct dp_ctrl_private, dp_ctrl);
-+
-+	dp_catalog_ctrl_reset(ctrl->catalog);
-+
-+	dp_catalog_ctrl_enable_irq(ctrl->catalog, true);
-+}
-+
-+void dp_ctrl_irq_disable(struct dp_ctrl *dp_ctrl)
-+{
-+	struct dp_ctrl_private *ctrl;
-+
-+	ctrl = container_of(dp_ctrl, struct dp_ctrl_private, dp_ctrl);
-+
-+	dp_catalog_ctrl_reset(ctrl->catalog);
-+
-+	dp_catalog_ctrl_enable_irq(ctrl->catalog, false);
-+}
-+
-+void dp_ctrl_phy_init(struct dp_ctrl *dp_ctrl)
- {
- 	struct dp_ctrl_private *ctrl;
- 	struct dp_io *dp_io;
- 	struct phy *phy;
- 
--	if (!dp_ctrl) {
--		DRM_ERROR("Invalid input data\n");
--		return -EINVAL;
--	}
--
- 	ctrl = container_of(dp_ctrl, struct dp_ctrl_private, dp_ctrl);
- 	dp_io = &ctrl->parser->io;
- 	phy = dp_io->phy;
- 
--	ctrl->dp_ctrl.orientation = flip;
--
--	if (reset)
--		dp_catalog_ctrl_reset(ctrl->catalog);
--
--	DRM_DEBUG_DP("flip=%d\n", flip);
- 	dp_catalog_ctrl_phy_reset(ctrl->catalog);
- 	phy_init(phy);
--	dp_catalog_ctrl_enable_irq(ctrl->catalog, true);
--
--	return 0;
- }
- 
--/**
-- * dp_ctrl_host_deinit() - Uninitialize DP controller
-- * @dp_ctrl: Display Port Driver data
-- *
-- * Perform required steps to uninitialize DP controller
-- * and its resources.
-- */
--void dp_ctrl_host_deinit(struct dp_ctrl *dp_ctrl)
-+void dp_ctrl_phy_exit(struct dp_ctrl *dp_ctrl)
- {
- 	struct dp_ctrl_private *ctrl;
- 	struct dp_io *dp_io;
- 	struct phy *phy;
- 
--	if (!dp_ctrl) {
--		DRM_ERROR("Invalid input data\n");
--		return;
--	}
--
- 	ctrl = container_of(dp_ctrl, struct dp_ctrl_private, dp_ctrl);
- 	dp_io = &ctrl->parser->io;
- 	phy = dp_io->phy;
- 
--	dp_catalog_ctrl_enable_irq(ctrl->catalog, false);
-+	dp_catalog_ctrl_phy_reset(ctrl->catalog);
- 	phy_exit(phy);
--
--	DRM_DEBUG_DP("Host deinitialized successfully\n");
- }
- 
- static bool dp_ctrl_use_fixed_nvid(struct dp_ctrl_private *ctrl)
-@@ -1895,8 +1889,14 @@ int dp_ctrl_off_link_stream(struct dp_ctrl *dp_ctrl)
- 		return ret;
- 	}
- 
-+	DRM_DEBUG_DP("Before, phy=%x init_count=%d power_on=%d\n",
-+		(u32)(uintptr_t)phy, phy->init_count, phy->power_count);
-+
- 	phy_power_off(phy);
- 
-+	DRM_DEBUG_DP("After, phy=%x init_count=%d power_on=%d\n",
-+		(u32)(uintptr_t)phy, phy->init_count, phy->power_count);
-+
- 	/* aux channel down, reinit phy */
- 	phy_exit(phy);
- 	phy_init(phy);
-@@ -1905,23 +1905,6 @@ int dp_ctrl_off_link_stream(struct dp_ctrl *dp_ctrl)
- 	return ret;
- }
- 
--void dp_ctrl_off_phy(struct dp_ctrl *dp_ctrl)
--{
--	struct dp_ctrl_private *ctrl;
--	struct dp_io *dp_io;
--	struct phy *phy;
--
--	ctrl = container_of(dp_ctrl, struct dp_ctrl_private, dp_ctrl);
--	dp_io = &ctrl->parser->io;
--	phy = dp_io->phy;
--
--	dp_catalog_ctrl_reset(ctrl->catalog);
--
--	phy_exit(phy);
--
--	DRM_DEBUG_DP("DP off phy done\n");
--}
--
- int dp_ctrl_off(struct dp_ctrl *dp_ctrl)
- {
- 	struct dp_ctrl_private *ctrl;
-@@ -1949,10 +1932,14 @@ int dp_ctrl_off(struct dp_ctrl *dp_ctrl)
- 		DRM_ERROR("Failed to disable link clocks. ret=%d\n", ret);
- 	}
- 
-+	DRM_DEBUG_DP("Before, phy=%x init_count=%d power_on=%d\n",
-+		(u32)(uintptr_t)phy, phy->init_count, phy->power_count);
-+
- 	phy_power_off(phy);
--	phy_exit(phy);
- 
--	DRM_DEBUG_DP("DP off done\n");
-+	DRM_DEBUG_DP("After, phy=%x init_count=%d power_on=%d\n",
-+		(u32)(uintptr_t)phy, phy->init_count, phy->power_count);
-+
- 	return ret;
- }
- 
-diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.h b/drivers/gpu/drm/msm/dp/dp_ctrl.h
-index 2363a2d..30f9414 100644
---- a/drivers/gpu/drm/msm/dp/dp_ctrl.h
-+++ b/drivers/gpu/drm/msm/dp/dp_ctrl.h
-@@ -19,12 +19,9 @@ struct dp_ctrl {
- 	u32 pixel_rate;
- };
- 
--int dp_ctrl_host_init(struct dp_ctrl *dp_ctrl, bool flip, bool reset);
--void dp_ctrl_host_deinit(struct dp_ctrl *dp_ctrl);
- int dp_ctrl_on_link(struct dp_ctrl *dp_ctrl);
- int dp_ctrl_on_stream(struct dp_ctrl *dp_ctrl);
- int dp_ctrl_off_link_stream(struct dp_ctrl *dp_ctrl);
--void dp_ctrl_off_phy(struct dp_ctrl *dp_ctrl);
- int dp_ctrl_off(struct dp_ctrl *dp_ctrl);
- void dp_ctrl_push_idle(struct dp_ctrl *dp_ctrl);
- void dp_ctrl_isr(struct dp_ctrl *dp_ctrl);
-@@ -34,4 +31,10 @@ struct dp_ctrl *dp_ctrl_get(struct device *dev, struct dp_link *link,
- 			struct dp_power *power, struct dp_catalog *catalog,
- 			struct dp_parser *parser);
- 
-+void dp_ctrl_irq_enable(struct dp_ctrl *dp_ctrl);
-+void dp_ctrl_irq_disable(struct dp_ctrl *dp_ctrl);
-+void dp_ctrl_phy_init(struct dp_ctrl *dp_ctrl);
-+void dp_ctrl_phy_exit(struct dp_ctrl *dp_ctrl);
-+void dp_ctrl_irq_phy_exit(struct dp_ctrl *dp_ctrl);
-+
- #endif /* _DP_CTRL_H_ */
-diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index e41dd40..c15f466 100644
---- a/drivers/gpu/drm/msm/dp/dp_display.c
-+++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -84,6 +84,7 @@ struct dp_display_private {
- 
- 	/* state variables */
- 	bool core_initialized;
-+	bool phy_initialized;
- 	bool hpd_irq_on;
- 	bool audio_supported;
- 
-@@ -387,7 +388,7 @@ static int dp_display_process_hpd_high(struct dp_display_private *dp)
- 	return rc;
- }
- 
--static void dp_display_host_init(struct dp_display_private *dp, int reset)
-+static void dp_display_host_init(struct dp_display_private *dp)
- {
- 	bool flip = false;
- 
-@@ -400,12 +401,42 @@ static void dp_display_host_init(struct dp_display_private *dp, int reset)
- 	if (dp->usbpd->orientation == ORIENTATION_CC2)
- 		flip = true;
- 
--	dp_power_init(dp->power, flip);
--	dp_ctrl_host_init(dp->ctrl, flip, reset);
-+	dp_power_init(dp->power, false);
-+	dp_ctrl_irq_enable(dp->ctrl);
-+
-+	/*
-+	 * eDP is the embedded primary display and has its own phy
-+	 * initialize phy immediately
-+	 */
-+	if (dp->dp_display.connector_type == DRM_MODE_CONNECTOR_eDP)
-+		dp_ctrl_phy_init(dp->ctrl);
-+
- 	dp_aux_init(dp->aux);
- 	dp->core_initialized = true;
- }
- 
-+static void dp_display_host_phy_init(struct dp_display_private *dp)
-+{
-+	DRM_DEBUG_DP("core_init=%d phy_init=%d\n",
-+			dp->core_initialized, dp->phy_initialized);
-+
-+	if (!dp->phy_initialized) {
-+		dp_ctrl_phy_init(dp->ctrl);
-+		dp->phy_initialized = true;
-+	}
-+}
-+
-+static void dp_display_host_phy_exit(struct dp_display_private *dp)
-+{
-+	DRM_DEBUG_DP("core_init=%d phy_init=%d\n",
-+			dp->core_initialized, dp->phy_initialized);
-+
-+	if (dp->phy_initialized) {
-+		dp_ctrl_phy_exit(dp->ctrl);
-+		dp->phy_initialized = false;
-+	}
-+}
-+
- static void dp_display_host_deinit(struct dp_display_private *dp)
- {
- 	if (!dp->core_initialized) {
-@@ -413,7 +444,7 @@ static void dp_display_host_deinit(struct dp_display_private *dp)
- 		return;
- 	}
- 
--	dp_ctrl_host_deinit(dp->ctrl);
-+	dp_ctrl_irq_disable(dp->ctrl);
- 	dp_aux_deinit(dp->aux);
- 	dp_power_deinit(dp->power);
- 
-@@ -424,7 +455,7 @@ static int dp_display_usbpd_configure_cb(struct device *dev)
- {
- 	struct dp_display_private *dp = dev_get_dp_display_private(dev);
- 
--	dp_display_host_init(dp, true);
-+	dp_display_host_phy_init(dp);
- 
- 	return dp_display_process_hpd_high(dp);
- }
-@@ -551,7 +582,7 @@ static int dp_hpd_plug_handle(struct dp_display_private *dp, u32 data)
- 		dp->hpd_state = ST_DISCONNECTED;
- 
- 		if (ret == -ECONNRESET) { /* cable unplugged */
--			dp->core_initialized = false;
-+			dp->phy_initialized = false;
- 		}
- 
- 	} else {
-@@ -623,9 +654,8 @@ static int dp_hpd_unplug_handle(struct dp_display_private *dp, u32 data)
- 	if (state == ST_DISCONNECTED) {
- 		/* triggered by irq_hdp with sink_count = 0 */
- 		if (dp->link->sink_count == 0) {
--			dp_ctrl_off_phy(dp->ctrl);
-+			dp_display_host_phy_exit(dp);
- 			hpd->hpd_high = 0;
--			dp->core_initialized = false;
- 		}
- 		mutex_unlock(&dp->event_mutex);
- 		return 0;
-@@ -716,7 +746,7 @@ static int dp_irq_hpd_handle(struct dp_display_private *dp, u32 data)
- 
- 	ret = dp_display_usbpd_attention_cb(&dp->pdev->dev);
- 	if (ret == -ECONNRESET) { /* cable unplugged */
--		dp->core_initialized = false;
-+		dp->phy_initialized = false;
- 	}
- 	DRM_DEBUG_DP("hpd_state=%d\n", state);
- 
-@@ -918,12 +948,19 @@ static int dp_display_disable(struct dp_display_private *dp, u32 data)
- 
- 	dp_display->audio_enabled = false;
- 
--	/* triggered by irq_hpd with sink_count = 0 */
- 	if (dp->link->sink_count == 0) {
-+		/*
-+		 * irq_hpd with sink_count = 0
-+		 * hdmi unplugged out of dongle
-+		 */
- 		dp_ctrl_off_link_stream(dp->ctrl);
- 	} else {
-+		/*
-+		 * unplugged interrupt
-+		 * dongle unplugged out of DUT
-+		 */
- 		dp_ctrl_off(dp->ctrl);
--		dp->core_initialized = false;
-+		dp_display_host_phy_exit(dp);
- 	}
- 
- 	dp_power_panel_on(dp->power, false);
-@@ -1059,7 +1096,7 @@ void msm_dp_snapshot(struct msm_disp_state *disp_state, struct msm_dp *dp)
- static void dp_display_config_hpd(struct dp_display_private *dp)
- {
- 
--	dp_display_host_init(dp, true);
-+	dp_display_host_init(dp);
- 	dp_catalog_ctrl_hpd_config(dp->catalog);
- 
- 	/* Enable interrupt first time
-@@ -1338,20 +1375,22 @@ static int dp_pm_resume(struct device *dev)
- 	dp->hpd_state = ST_DISCONNECTED;
- 
- 	/* turn on dp ctrl/phy */
--	dp_display_host_init(dp, true);
-+	dp_display_host_init(dp);
- 
- 	dp_catalog_ctrl_hpd_config(dp->catalog);
- 
--	/*
--	 * set sink to normal operation mode -- D0
--	 * before dpcd read
--	 */
--	dp_link_psm_config(dp->link, &dp->panel->link_info, false);
--
- 	if (dp_catalog_link_is_connected(dp->catalog)) {
-+		/*
-+		 * set sink to normal operation mode -- D0
-+		 * before dpcd read
-+		 */
-+		dp_display_host_phy_init(dp);
-+		dp_link_psm_config(dp->link, &dp->panel->link_info, false);
- 		sink_count = drm_dp_read_sink_count(dp->aux);
- 		if (sink_count < 0)
- 			sink_count = 0;
-+
-+		dp_display_host_phy_exit(dp);
- 	}
- 
- 	dp->link->sink_count = sink_count;
-@@ -1399,6 +1438,8 @@ static int dp_pm_suspend(struct device *dev)
- 		dp_display_host_deinit(dp);
- 	}
- 
-+	dp_display_host_phy_exit(dp);
-+
- 	dp->hpd_state = ST_SUSPENDED;
- 
- 	/* host_init will be called at pm_resume */
-@@ -1473,7 +1514,7 @@ void msm_dp_irq_postinstall(struct msm_dp *dp_display)
- 		enable_irq(dp->irq);
- 		dp_hpd_connect(dp->usbpd, true);
- 	} else {
--		dp_add_event(dp, EV_HPD_INIT_SETUP, 0, dp->id * 10);
-+		dp_add_event(dp, EV_HPD_INIT_SETUP, 0, 0);
- 	}
- }
- 
-@@ -1567,7 +1608,7 @@ int msm_dp_display_enable(struct msm_dp *dp, struct drm_encoder *encoder)
- 	state =  dp_display->hpd_state;
- 
- 	if (state == ST_DISPLAY_OFF)
--		dp_display_host_init(dp_display, true);
-+		dp_display_host_phy_init(dp_display);
- 
- 	dp_display_enable(dp_display, 0);
- 
--- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
-
+DQoNCj4gT24gTm92IDgsIDIwMjEsIGF0IDEyOjMwIFBNLCBTcml2YXRzYSBTLiBCaGF0IDxzcml2
+YXRzYUBjc2FpbC5taXQuZWR1PiB3cm90ZToNCj4gDQo+IEZyb206IFNyaXZhdHNhIFMuIEJoYXQg
+KFZNd2FyZSkgPHNyaXZhdHNhQGNzYWlsLm1pdC5lZHU+DQo+IA0KPiBWTXdhcmUgbWFpbGluZyBs
+aXN0cyBpbiB0aGUgTUFJTlRBSU5FUlMgZmlsZSBhcmUgcHJpdmF0ZSBsaXN0cyBtZWFudA0KPiBm
+b3IgVk13YXJlLWludGVybmFsIHJldmlldy9ub3RpZmljYXRpb24gZm9yIHBhdGNoZXMgdG8gdGhl
+IHJlc3BlY3RpdmUNCj4gc3Vic3lzdGVtcy4gU28sIGluIGFuIGVhcmxpZXIgZGlzY3Vzc2lvbiBb
+MV1bMl0sIGl0IHdhcyByZWNvbW1lbmRlZCB0bw0KPiBtYXJrIHRoZW0gYXMgc3VjaC4gVXBkYXRl
+IGFsbCB0aGUgcmVtYWluaW5nIFZNd2FyZSBtYWlsaW5nIGxpc3QNCj4gcmVmZXJlbmNlcyB0byB1
+c2UgdGhhdCBmb3JtYXQgLS0gIkw6IGxpc3RAYWRkcmVzcyAocHJpdmF0ZSnigJ0uDQoNCkFja2Vk
+LWJ5OiBOYWRhdiBBbWl0IDxuYW1pdEB2bXdhcmUuY29tPg0KDQoNCg0K
