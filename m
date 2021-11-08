@@ -1,45 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7F22449B38
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Nov 2021 18:58:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DAF82449B25
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Nov 2021 18:55:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EAA786E0D9;
-	Mon,  8 Nov 2021 17:58:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9BCDB6E15F;
+	Mon,  8 Nov 2021 17:55:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8771A6E0D9
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Nov 2021 17:58:03 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10162"; a="229752914"
-X-IronPort-AV: E=Sophos;i="5.87,218,1631602800"; d="scan'208";a="229752914"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Nov 2021 09:55:10 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.87,218,1631602800"; d="scan'208";a="499953121"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
- by fmsmga007.fm.intel.com with SMTP; 08 Nov 2021 09:55:01 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Mon, 08 Nov 2021 19:55:00 +0200
-Date: Mon, 8 Nov 2021 19:55:00 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Maxime Ripard <maxime@cerno.tech>
-Subject: Re: [PATCH 02/13] drm/connector: Add helper to check if a mode
- requires scrambling
-Message-ID: <YYlkdHzW4ir07Gtk@intel.com>
-References: <20211102145944.259181-1-maxime@cerno.tech>
- <20211102145944.259181-3-maxime@cerno.tech>
- <YYP+MX9gxZVafhKk@intel.com> <YYVxtp9PZiR3ZOjp@phenom.ffwll.local>
- <YYV0bArjRbvYJ2K2@intel.com>
- <20211108155834.6zz236ll75bxwcrk@gilmour>
+Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com
+ [IPv6:2607:f8b0:4864:20::229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 96FB66E0EA
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Nov 2021 17:55:43 +0000 (UTC)
+Received: by mail-oi1-x229.google.com with SMTP id bf8so10899087oib.6
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Nov 2021 09:55:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=LhWfz+5JE21inJr4S250OgcbtsWmt4NJR6DvKNs5YBk=;
+ b=NLZ/NWmaut34l69Gi0IMn3FhSPoI8MJxyT511eGKct44ivuZgMwua7hT0tOyLsDZUP
+ TrgDXxUaUA7ChA+L3cFnC1wxXZ9OKrp2DAiclSjd/0dAqPiEQUMxdLhwh7TJBeW62J0y
+ sxa7L/gO7PUUgBqELeaWYWMpjfyrDPN5orMWbR0tgee7qH946wvFrwRkNxmCE20baibN
+ k+IRalaydJaBo+7hWaDZNjCRUOsSOX8GaiuqRGVUZ8nIAxdWVmPEL4ubW46Kx7KoptLH
+ NXfufoYJtTJtYYpAQh2ZV1xuOG4OC8fEO2gNDc7SVhOr6lUM1CgDwpMx+e8MVxkv1JSD
+ yRuA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=LhWfz+5JE21inJr4S250OgcbtsWmt4NJR6DvKNs5YBk=;
+ b=kf1Qqbr9G8tlMDNPiTP8oEmpOh/U7rQnh1oSchzby4AUPxVaua67lLADjcUQT+z3FT
+ h12/WeF3Rrx3me5a+0JA0L/d3XZoRmDc6C0oCXpGZIJU71twX8bLWhwO49Ju41O5Lpti
+ kONChfVSt826WZy90yARrVm+fZhFPUFUyht7kx1x3Z+g0yYqCvZq9DgtLUO5cfDnZlkC
+ ZmjpBO9nBO7sABx2CzFq3bXZNUbM8IMdESbutlWsAb+7jnZriHTtMLxn2uGKMldfzI3c
+ UleytIxJ1mbAFCEm1x38Phf2m224v1ep1OjceXscFMQ89yxm4oj2W285rhdpOqBfxFSn
+ g9ZA==
+X-Gm-Message-State: AOAM530puklKxwGI4td4pqoYW72WNDC4W7c9pbzxqOeLhE/TZcrTLa4+
+ H9A8LTn87bB3kmIpvGeDIai+Gw==
+X-Google-Smtp-Source: ABdhPJz9eQvKIrPc8ta+sw34+CJDdEJVNU0OWR59hAmfrup/u3GDs03M3CvU50HHVxV7g2TUwoHwZA==
+X-Received: by 2002:a05:6808:128d:: with SMTP id
+ a13mr98463oiw.29.1636394142851; 
+ Mon, 08 Nov 2021 09:55:42 -0800 (PST)
+Received: from ripper (104-57-184-186.lightspeed.austtx.sbcglobal.net.
+ [104.57.184.186])
+ by smtp.gmail.com with ESMTPSA id c16sm6822645oiw.31.2021.11.08.09.55.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 08 Nov 2021 09:55:42 -0800 (PST)
+Date: Mon, 8 Nov 2021 09:57:19 -0800
+From: Bjorn Andersson <bjorn.andersson@linaro.org>
+To: Rob Clark <robdclark@gmail.com>
+Subject: Re: [PATCH] iommu/arm-smmu-qcom: Fix TTBR0 read
+Message-ID: <YYlk/2VZCzX6tokf@ripper>
+References: <20211108171724.470973-1-robdclark@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20211108155834.6zz236ll75bxwcrk@gilmour>
-X-Patchwork-Hint: comment
+In-Reply-To: <20211108171724.470973-1-robdclark@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,92 +69,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Emma Anholt <emma@anholt.net>, Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- David Airlie <airlied@linux.ie>, Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org, Jonathan Hunter <jonathanh@nvidia.com>,
- Thierry Reding <thierry.reding@gmail.com>, linux-tegra@vger.kernel.org,
- Daniel Vetter <daniel.vetter@intel.com>, Phil Elwell <phil@raspberrypi.com>,
- Dom Cobley <dom@raspberrypi.com>
+Cc: Rob Clark <robdclark@chromium.org>,
+ Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
+ open list <linux-kernel@vger.kernel.org>, Will Deacon <will@kernel.org>,
+ linux-arm-msm@vger.kernel.org, Joerg Roedel <joro@8bytes.org>,
+ Robin Murphy <robin.murphy@arm.com>, dri-devel@lists.freedesktop.org,
+ Jordan Crouse <jordan@cosmicpenguin.net>, Eric Anholt <eric@anholt.net>,
+ iommu@lists.linux-foundation.org, freedreno@lists.freedesktop.org,
+ "moderated list:ARM SMMU DRIVERS" <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Nov 08, 2021 at 04:58:34PM +0100, Maxime Ripard wrote:
-> On Fri, Nov 05, 2021 at 08:14:04PM +0200, Ville Syrjälä wrote:
-> > On Fri, Nov 05, 2021 at 07:02:30PM +0100, Daniel Vetter wrote:
-> > > On Thu, Nov 04, 2021 at 05:37:21PM +0200, Ville Syrjälä wrote:
-> > > > On Tue, Nov 02, 2021 at 03:59:33PM +0100, Maxime Ripard wrote:
-> > > > > --- a/include/drm/drm_modes.h
-> > > > > +++ b/include/drm/drm_modes.h
-> > > > > @@ -424,6 +424,21 @@ static inline bool drm_mode_is_stereo(const struct drm_display_mode *mode)
-> > > > >  	return mode->flags & DRM_MODE_FLAG_3D_MASK;
-> > > > >  }
-> > > > >  
-> > > > > +/**
-> > > > > + * drm_mode_hdmi_requires_scrambling - Checks if a mode requires HDMI Scrambling
-> > > > > + * @mode: DRM display mode
-> > > > > + *
-> > > > > + * Checks if a given display mode requires the scrambling to be enabled.
-> > > > > + *
-> > > > > + * Returns:
-> > > > > + * A boolean stating whether it's required or not.
-> > > > > + */
-> > > > > +static inline bool
-> > > > > +drm_mode_hdmi_requires_scrambling(const struct drm_display_mode *mode)
-> > > > > +{
-> > > > > +	return mode->clock > DRM_HDMI_14_MAX_TMDS_CLK_KHZ;
-> > > > > +}
-> > > > 
-> > > > That's only correct for 8bpc. The actual limit is on the TMDS clock (or
-> > > > rather TMDS character rate as HDMI 2.0 calls it due to the 1/1 vs. 1/4
-> > > > magic for the actually transmitted TMDS clock).
-> > > 
-> > > Yeah we might need to add the bus format for the cable here too, to make
-> > > this complete.
-> > 
-> > I don't think we have a usable thing for that on the drm level, so
-> > would need to invent something. Oh, and the mode->clock vs. 
-> > mode->crtc_clock funny business also limits the usability of this
-> > approach. So probably just easiest to pass in the the driver calculated
-> > TMDS clock instead.
-> 
-> If we look at all (I think?) the existing users of scrambling in KMS as
-> of 5.15, only i915 seems to use crtc_clock (which, in retrospect, seems
-> to be the right thing to do), and only i915 and dw-hdmi use an output
-> format, i915 rolling its own, and dw-hdmi using the mbus formats.
-> 
-> I think using the mbus format here makes the most sense: i915 already is
-> rolling a whole bunch of other code, and we use the mbus defines for the
-> bridge format enumeration as well which is probably going to have some
-> interaction.
-> 
-> I'm not quite sure what to do next though. The whole point of that
-> series is to streamline as much as possible the scrambling and TMDS
-> ratio setup to avoid the duplication we already have in the drivers that
-> support it, every one using the mostly-the-same-but-slightly-different
-> logic to configure it.
-> 
-> The mode is fortunately stored in generic structures so it's easy to
-> make that decision. Having to take into account the output format
-> however makes it mandatory to move the bus format in the
-> drm_connector_state(?) structure too.
+On Mon 08 Nov 09:17 PST 2021, Rob Clark wrote:
 
-I think involving state objects and the like is just going to make
-it harder to share code between all drivers, if that is the goal.
-Just a few tiny helpers I think is what would allow the broadest 
-reuse. I guess you could build additional midlayer on top of those
-for some drivers if you wish.
+> From: Rob Clark <robdclark@chromium.org>
+> 
+> It is a 64b register, lets not lose the upper bits.
+> 
+> Fixes: ab5df7b953d8 ("iommu/arm-smmu-qcom: Add an adreno-smmu-priv callback to get pagefault info")
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
 
-As for the bus_format stuff, that looks at the same time overkill,
-and insufficiently documented. I guess its main purpose is to exactly
-defines how some digtal bus works, which makes sense when you're
-chaining a bunch of random chips together. But looks overly complicated
-to me for defining what to output from a HDMI encoder. Looking at the
-defines I wouldn't even know what to use for HDMI actually. All we
-really want is RGB 4:4:4 vs. YCbCr 4:4:4 vs. YCbCr 4:2:2 vs. YCbCr 4:2:0.
-Beyond that level of detail we don't care how each bit gets transferred
-etc. Hence enum intel_output_format in i915.
+Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
 
--- 
-Ville Syrjälä
-Intel
+Regards,
+Bjorn
+
+> ---
+>  drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c b/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
+> index 55690af1b25d..c998960495b4 100644
+> --- a/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
+> +++ b/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
+> @@ -51,7 +51,7 @@ static void qcom_adreno_smmu_get_fault_info(const void *cookie,
+>  	info->fsynr1 = arm_smmu_cb_read(smmu, cfg->cbndx, ARM_SMMU_CB_FSYNR1);
+>  	info->far = arm_smmu_cb_readq(smmu, cfg->cbndx, ARM_SMMU_CB_FAR);
+>  	info->cbfrsynra = arm_smmu_gr1_read(smmu, ARM_SMMU_GR1_CBFRSYNRA(cfg->cbndx));
+> -	info->ttbr0 = arm_smmu_cb_read(smmu, cfg->cbndx, ARM_SMMU_CB_TTBR0);
+> +	info->ttbr0 = arm_smmu_cb_readq(smmu, cfg->cbndx, ARM_SMMU_CB_TTBR0);
+>  	info->contextidr = arm_smmu_cb_read(smmu, cfg->cbndx, ARM_SMMU_CB_CONTEXTIDR);
+>  }
+>  
+> -- 
+> 2.31.1
+> 
