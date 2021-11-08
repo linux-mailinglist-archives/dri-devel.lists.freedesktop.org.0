@@ -1,36 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70A1244A0CD
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Nov 2021 02:03:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 59AD444A0F6
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Nov 2021 02:04:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C0C056E20F;
-	Tue,  9 Nov 2021 01:03:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B4696E217;
+	Tue,  9 Nov 2021 01:04:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC8846E20F
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Nov 2021 01:03:27 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 434DB61A40;
- Tue,  9 Nov 2021 01:03:26 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A934A6E217;
+ Tue,  9 Nov 2021 01:04:00 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E101B61A6D;
+ Tue,  9 Nov 2021 01:03:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1636419807;
- bh=J+9a7HvsDpfZX5pr+eHK/9873DzeEp73a/U84jEMpmI=;
+ s=k20201202; t=1636419840;
+ bh=S7Dw+3DdnT9UPzw6RE9uFMMvxAPcKRqS9QoHw4jsG5M=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=TcAPbxSXYOrzT1pHtbfU5kLkX8pwtd/MAE/owSv98dSe2//E+FYZUSm+yWot9KiIB
- NiQHtLjL42du4vdHcIFuP91FnfF4S3l+ufFhVsNlE/nJPWxj8W1UyPYpHxg+8ksNEM
- P+mreNATlAprlcs3qJSkOSULsG6JFzaq0DGmABX49z2v3bEq1vqibr2zdwOdN7c7gk
- zINYwhrcsRegzegddfUTrtfGPu7Q5ipG4x6pj6rvQz9/kVpPvpquD/mZIEmXop8GPo
- 3uOxdfLd4jFfSFA1dsam45eaHRmwaiG0ETb6wluu1zwZFCh6TtJ/iVY64CPb45W0eX
- QNZIipyCwP88Q==
+ b=jXsSdehrrkRFc8RSq9cpIKOgZcGSq0ehk2Tt0nnDaHQxYR8j1sKQr00+p4w1l2fB2
+ E/xiJ5OkFlmlzQuIcogvEDr9rqlKS3+NAc+/Lg+NY1rQhPDv+KokKVkSZ/LP+zAUFu
+ 0WOdaf3abp1nyf1coPf8rPrn+NNQDN8bAvn2DLB0u6tWYll3PvFHFCPQu5+dM6NON3
+ BZwXWw86luODNP479mkpk2X2LWx+Oay0vUFBwE9OLLzR710i1z33Jcm/sRJHVwmeOw
+ BjxUYyy+GaCqA/3smrwLVLBxcccUvjkgGVQZnNx1yvzUVqYnHihimF+eVMMEGPMBja
+ 67wzgFq/GDCcw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 007/101] drm/panel-orientation-quirks: add Valve
- Steam Deck
-Date: Mon,  8 Nov 2021 12:46:57 -0500
-Message-Id: <20211108174832.1189312-7-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 022/101] drm/amdgpu: Fix MMIO access page fault
+Date: Mon,  8 Nov 2021 12:47:12 -0500
+Message-Id: <20211108174832.1189312-22-sashal@kernel.org>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211108174832.1189312-1-sashal@kernel.org>
 References: <20211108174832.1189312-1-sashal@kernel.org>
@@ -50,51 +49,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, tzimmermann@suse.de, airlied@linux.ie,
- Emil Velikov <emil.l.velikov@gmail.com>, Hans de Goede <hdegoede@redhat.com>,
- dri-devel@lists.freedesktop.org, Jared Baldridge <jrb@expunge.us>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Sam Ravnborg <sam@ravnborg.org>
+Cc: Sasha Levin <sashal@kernel.org>, guchun.chen@amd.com, airlied@linux.ie,
+ satyajit.sahu@amd.com, Oak.Zeng@amd.com, Xinhui.Pan@amd.com,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>, lee.jones@linaro.org,
+ James Zhu <James.Zhu@amd.com>, leo.liu@amd.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Simon Ser <contact@emersion.fr>
+From: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
 
-[ Upstream commit 9eeb7b4e40bfd69d8aaa920c7e9df751c9e11dce ]
+[ Upstream commit c03509cbc01559549700e14c4a6239f2572ab4ba ]
 
-Valve's Steam Deck has a 800x1280 LCD screen.
+Add more guards to MMIO access post device
+unbind/unplug
 
-Signed-off-by: Simon Ser <contact@emersion.fr>
-Cc: Jared Baldridge <jrb@expunge.us>
-Cc: Emil Velikov <emil.l.velikov@gmail.com>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Hans de Goede <hdegoede@redhat.com>
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20210911102430.253986-1-contact@emersion.fr
+Bug: https://bugs.archlinux.org/task/72092?project=1&order=dateopened&sort=desc&pagenum=1
+Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+Reviewed-by: James Zhu <James.Zhu@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/drm_panel_orientation_quirks.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ drivers/gpu/drm/amd/amdgpu/vcn_v2_0.c |  8 ++++++--
+ drivers/gpu/drm/amd/amdgpu/vcn_v2_5.c | 17 +++++++++++------
+ 2 files changed, 17 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-index b2a650674cd36..492746ba9a391 100644
---- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
-+++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-@@ -249,6 +249,13 @@ static const struct dmi_system_id orientation_data[] = {
- 		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "Galaxy Book 10.6"),
- 		},
- 		.driver_data = (void *)&lcd1280x1920_rightside_up,
-+	}, {	/* Valve Steam Deck */
-+		.matches = {
-+		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "Valve"),
-+		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "Jupiter"),
-+		  DMI_EXACT_MATCH(DMI_PRODUCT_VERSION, "1"),
-+		},
-+		.driver_data = (void *)&lcd800x1280_rightside_up,
- 	}, {	/* VIOS LTH17 */
- 		.matches = {
- 		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "VIOS"),
+diff --git a/drivers/gpu/drm/amd/amdgpu/vcn_v2_0.c b/drivers/gpu/drm/amd/amdgpu/vcn_v2_0.c
+index f493b5c3d382b..79bcc78f77045 100644
+--- a/drivers/gpu/drm/amd/amdgpu/vcn_v2_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/vcn_v2_0.c
+@@ -22,6 +22,7 @@
+  */
+ 
+ #include <linux/firmware.h>
++#include <drm/drm_drv.h>
+ 
+ #include "amdgpu.h"
+ #include "amdgpu_vcn.h"
+@@ -192,11 +193,14 @@ static int vcn_v2_0_sw_init(void *handle)
+  */
+ static int vcn_v2_0_sw_fini(void *handle)
+ {
+-	int r;
++	int r, idx;
+ 	struct amdgpu_device *adev = (struct amdgpu_device *)handle;
+ 	volatile struct amdgpu_fw_shared *fw_shared = adev->vcn.inst->fw_shared_cpu_addr;
+ 
+-	fw_shared->present_flag_0 = 0;
++	if (drm_dev_enter(&adev->ddev, &idx)) {
++		fw_shared->present_flag_0 = 0;
++		drm_dev_exit(idx);
++	}
+ 
+ 	amdgpu_virt_free_mm_table(adev);
+ 
+diff --git a/drivers/gpu/drm/amd/amdgpu/vcn_v2_5.c b/drivers/gpu/drm/amd/amdgpu/vcn_v2_5.c
+index ce64d4016f903..381839d005db9 100644
+--- a/drivers/gpu/drm/amd/amdgpu/vcn_v2_5.c
++++ b/drivers/gpu/drm/amd/amdgpu/vcn_v2_5.c
+@@ -22,6 +22,7 @@
+  */
+ 
+ #include <linux/firmware.h>
++#include <drm/drm_drv.h>
+ 
+ #include "amdgpu.h"
+ #include "amdgpu_vcn.h"
+@@ -233,17 +234,21 @@ static int vcn_v2_5_sw_init(void *handle)
+  */
+ static int vcn_v2_5_sw_fini(void *handle)
+ {
+-	int i, r;
++	int i, r, idx;
+ 	struct amdgpu_device *adev = (struct amdgpu_device *)handle;
+ 	volatile struct amdgpu_fw_shared *fw_shared;
+ 
+-	for (i = 0; i < adev->vcn.num_vcn_inst; i++) {
+-		if (adev->vcn.harvest_config & (1 << i))
+-			continue;
+-		fw_shared = adev->vcn.inst[i].fw_shared_cpu_addr;
+-		fw_shared->present_flag_0 = 0;
++	if (drm_dev_enter(&adev->ddev, &idx)) {
++		for (i = 0; i < adev->vcn.num_vcn_inst; i++) {
++			if (adev->vcn.harvest_config & (1 << i))
++				continue;
++			fw_shared = adev->vcn.inst[i].fw_shared_cpu_addr;
++			fw_shared->present_flag_0 = 0;
++		}
++		drm_dev_exit(idx);
+ 	}
+ 
++
+ 	if (amdgpu_sriov_vf(adev))
+ 		amdgpu_virt_free_mm_table(adev);
+ 
 -- 
 2.33.0
 
