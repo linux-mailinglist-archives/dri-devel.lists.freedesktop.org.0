@@ -1,48 +1,23 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B902D449BB0
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Nov 2021 19:33:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9204D449C02
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Nov 2021 19:53:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B68D66E301;
-	Mon,  8 Nov 2021 18:33:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E5DA6E1B6;
+	Mon,  8 Nov 2021 18:53:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mo4-p02-ob.smtp.rzone.de (mo4-p02-ob.smtp.rzone.de
- [81.169.146.168])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A3F2C6E2F2
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Nov 2021 18:33:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1636396431;
- s=strato-dkim-0002; d=goldelico.com;
- h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
- From:Subject:Sender;
- bh=V9Iis9hGWtZOgUPU1mqg1irQSYLApnWnzQFHO9gUfwI=;
- b=D9aOeIJ1Ym/PITlBZv2L+vSVbh9zw/E080wuh9vTMvTh9wmswt66zbcUOlmdBLNLk6
- fj3VraebsAAPkBFkGmd6F6xmARMCZVrsXHvqlCTFNhDi1NqAjATz5cevLLLtF1ipPd+F
- c78Q1vM5EtEkQOJwwArjsYEtV7hIxwZ/ERKOt526VSm8aLnrmw8M9YRTUwDvOTdD7cP9
- REICA5IcDu/oUTNE2vLiw/sbaxWDQgUuRUMeSdaYNWk/LIN+9lkh6sHTrkXC51DsCrHU
- VajNNoLLmKZoJRiYuC2g9vhMlleoIBlhRj3p513oRFqvO+B5G5gTBSmX9vIje1J78IpA
- B7oQ==
-Authentication-Results: strato.com;
-    dkim=none
-X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj7gpw91N5y2S3gMZ+"
-X-RZG-CLASS-ID: mo00
-Received: from imac.fritz.box by smtp.strato.de (RZmta 47.34.1 DYNA|AUTH)
- with ESMTPSA id 902c63xA8IXnMN2
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1
- with 256 ECDH bits, eq. 3072 bits RSA))
- (Client did not present a certificate);
- Mon, 8 Nov 2021 19:33:49 +0100 (CET)
-Content-Type: text/plain;
-	charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.21\))
+Received: from aposti.net (aposti.net [89.234.176.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E29B6E1B5
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Nov 2021 18:53:40 +0000 (UTC)
+Date: Mon, 08 Nov 2021 18:53:24 +0000
+From: Paul Cercueil <paul@crapouillou.net>
 Subject: Re: [PATCH v5 2/7] drm/ingenic: Add support for JZ4780 and HDMI output
-From: "H. Nikolaus Schaller" <hns@goldelico.com>
-In-Reply-To: <RIL92R.MLAZ6CTO865E1@crapouillou.net>
-Date: Mon, 8 Nov 2021 19:33:48 +0100
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <ACEFD0BB-1FCF-4EEB-A40F-1F2543A05BF4@goldelico.com>
+To: "H. Nikolaus Schaller" <hns@goldelico.com>
+Message-Id: <0HO92R.RF221XL59J3I1@crapouillou.net>
+In-Reply-To: <ACEFD0BB-1FCF-4EEB-A40F-1F2543A05BF4@goldelico.com>
 References: <cover.1633436959.git.hns@goldelico.com>
  <2c7d0aa7d3ef480ebb996d37c27cbaa6f722728b.1633436959.git.hns@goldelico.com>
  <FXTI0R.3FZIJZ7UYSNQ@crapouillou.net>
@@ -56,8 +31,10 @@ References: <cover.1633436959.git.hns@goldelico.com>
  <BVH92R.0VU3IKPQTLX9@crapouillou.net>
  <2F8A88BC-2696-491B-9C01-7D07A3B3670A@goldelico.com>
  <RIL92R.MLAZ6CTO865E1@crapouillou.net>
-To: Paul Cercueil <paul@crapouillou.net>
-X-Mailer: Apple Mail (2.3445.104.21)
+ <ACEFD0BB-1FCF-4EEB-A40F-1F2543A05BF4@goldelico.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,49 +67,61 @@ Cc: Mark Rutland <mark.rutland@arm.com>, Paul Boddie <paul@boddie.org.uk>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Paul,
+Hi Nikolaus,
 
-> Am 08.11.2021 um 18:49 schrieb Paul Cercueil <paul@crapouillou.net>:
+Le lun., nov. 8 2021 at 19:33:48 +0100, H. Nikolaus Schaller=20
+<hns@goldelico.com> a =E9crit :
+> Hi Paul,
 >=20
->>> Variant 4: the variant #2 without the changes to the DTSI files.
->> Hm. If there is no cache and we can safely remove tight boundary =
-checking (by JZ_REG_LCD_SIZE1) for jz4725/40/70 (by not fixing DTSI) why =
-do we still need the max_register calculation from DTSI specifically for =
-jz4780 and at all?
+>>  Am 08.11.2021 um 18:49 schrieb Paul Cercueil <paul@crapouillou.net>:
+>>=20
+>>>>  Variant 4: the variant #2 without the changes to the DTSI files.
+>>>  Hm. If there is no cache and we can safely remove tight boundary=20
+>>> checking (by JZ_REG_LCD_SIZE1) for jz4725/40/70 (by not fixing=20
+>>> DTSI) why do we still need the max_register calculation from DTSI=20
+>>> specifically for jz4780 and at all?
+>>=20
+>>  It's better to have the .max_register actually set to the proper=20
+>> value. Then reading the registers from debugfs=20
+>> (/sys/kernel/debug/regmap/) will print the actual list of registers=20
+>> without bogus values. If .max_register is set too high, it will end=20
+>> up reading outside the registers area.
 >=20
-> It's better to have the .max_register actually set to the proper =
-value. Then reading the registers from debugfs =
-(/sys/kernel/debug/regmap/) will print the actual list of registers =
-without bogus values. If .max_register is set too high, it will end up =
-reading outside the registers area.
-
-Ok, that is a good reason to convince me.
-
-> On Ingenic SoCs such reads just return 0, but on some other SoCs it =
-can lock up the system.
-
-Yes, I know some of these...
-
-> So the best way forward is to have .max_register computed from the =
-register area's size, and fix the DTSI with the proper sizes. Since your =
-JZ4780 code needs to update .max_register anyway it's a good moment to =
-add this patch, and the DTSI files can be fixed later (by me or whoever =
-is up to the task).
-
-Well, it would already be part of my Variant #2 (untested). So I could =
-simply split it up further and you can test the pure dtsi changes and =
-apply them later or modify if that makes problems. Saves you a little =
-work. BTW: the jz4740 seems to have even less registers (last register =
-seems to be LCDCMD1 @ 0x1305005C).
-
+> Ok, that is a good reason to convince me.
 >=20
-> Fixing the DTS is not a problem in any way, btw. We just need to =
-ensure that the drivers still work with old DTB files, which will be the =
-case here.
+>>  On Ingenic SoCs such reads just return 0, but on some other SoCs it=20
+>> can lock up the system.
+>=20
+> Yes, I know some of these...
+>=20
+>>  So the best way forward is to have .max_register computed from the=20
+>> register area's size, and fix the DTSI with the proper sizes. Since=20
+>> your JZ4780 code needs to update .max_register anyway it's a good=20
+>> moment to add this patch, and the DTSI files can be fixed later (by=20
+>> me or whoever is up to the task).
+>=20
+> Well, it would already be part of my Variant #2 (untested). So I=20
+> could simply split it up further and you can test the pure dtsi=20
+> changes and apply them later or modify if that makes problems. Saves=20
+> you a little work. BTW: the jz4740 seems to have even less registers=20
+> (last register seems to be LCDCMD1 @ 0x1305005C).
 
-Yes, that is right since the new values are smaller than the originals.
+Sure, if you want. Send the DTSI patch(es) separate from this patchset=20
+then.
 
-Ok, then let's do it that way.
+>>=20
+>>  Fixing the DTS is not a problem in any way, btw. We just need to=20
+>> ensure that the drivers still work with old DTB files, which will be=20
+>> the case here.
+>=20
+> Yes, that is right since the new values are smaller than the=20
+> originals.
+>=20
+> Ok, then let's do it that way.
 
-BR and thanks,
-Nikolaus=
+Great. Waiting for your v6 then.
+
+Cheers,
+-Paul
+
+
