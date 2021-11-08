@@ -1,76 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C8E24498CA
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Nov 2021 16:58:43 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B4CE64498D1
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Nov 2021 17:01:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F1996E1A7;
-	Mon,  8 Nov 2021 15:58:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A4A776E20B;
+	Mon,  8 Nov 2021 16:00:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
- [66.111.4.230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B248A6E1A7
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Nov 2021 15:58:38 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id D491D58079C;
- Mon,  8 Nov 2021 10:58:37 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute6.internal (MEProxy); Mon, 08 Nov 2021 10:58:37 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=GDGBKLqsXucgJZv4oQj5QE89wMt
- W+wTyGvv0GI+MQ18=; b=cNFW3T8QTDTcwFKSUJTTabtY0ynmIQFuznxeO1WXlFV
- nwtPMasTYLWRFRVlJqyFWfZRrzDJk7w3RtuuB+j4Gq/RYABSOHML+zhivtpTO3Q7
- kW/K9lNHDghyFsz/KUQTpb3/rfWc6GKJ5XFv+SIDxSowgh6xsimRhLXyZaqW8bMd
- tzV+dRUfFTeWA8Lcl3Whsh1PN2sqHauADBzuFw0B5vDZe33z9hVrsvW68GKzjHH7
- /7X1yWRBgRw/wcU71wWmw3UIusw1ia7V0FK5B59IMy8IM3+ietGBZUcXttviUmfs
- v81JI9vciRT3ExjD4OzWnJsIANGD0FwbBMplTlXt5RQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=GDGBKL
- qsXucgJZv4oQj5QE89wMtW+wTyGvv0GI+MQ18=; b=NkeqNIi7j8NIhjl56GOWHP
- jOu7vHwsYsRPOApzDR8DD56iq1wS4MmKa6YMpV18KW+9sm7ApIh3Gj10BFmj0kUP
- oHEkNjv5rEDxQYmkkm9a9Pk/kSWWWkZmVLuMAO+M34iibt6+72e05I8uXFUXH/NJ
- srjJn6hNW6MT7DkHTpgfBorpvS2+OKc1avge2NbiMurjUOiMkDTlQ6IHlseE3hZY
- iVwITwt/S9VYkwvgZK+bUI52HuF4H2EMRPB27UsVcWxaM10wZiZ2bRtbOW6yGrYr
- gHSg5IXLX+IFLvt/mvWiarjSHGpLkBGBuUu0AB6JtvHrnPA+NKRzrfoBChtWLA4A
- ==
-X-ME-Sender: <xms:LUmJYUXuRsgqG5Q-UGyYKpYye25-8Bb0ZSoToh2V_LanPdIpo-Hu4g>
- <xme:LUmJYYmN18XSYXuZPtHLfApgACvrCLqhv4Hlu_deuVtReao6w2FO6r38gzDq1Ok-u
- SD1GRmhDIPjb70km2g>
-X-ME-Received: <xmr:LUmJYYaxnCWgVUAFhRvHx-SzbmwxUkg8dYt-QsneG8Acfu-j-x6Rj5eTChezj1JuQcXa5lcTEXDrOKYDqCtbYDQxkGfp0yHA0k7ZOoG_>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddruddvgdekudcutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesghdtreertddtudenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
- gvrhhnpeduvdduhfekkeehgffftefflefgffdtheffudffgeevteffheeuiedvvdejvdfg
- veenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
- igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:LUmJYTVmoetK1Ep2e8AbUi-HO_HuoMhnsNL8vsV23x23E4Vp85iu-Q>
- <xmx:LUmJYenmq8BkTfW_t_4kkojdCnEQ7DHuYC4ra6a2-m25_x797VkQkA>
- <xmx:LUmJYYdDWegTkDFdMBGrYc-e4q-xKjD5I8X4Awjz3g1gPhrUd0D1yw>
- <xmx:LUmJYZ-evYnevbPchgf_HML44I9PSPX5agZpKUBuPre6hI3YdKF--A>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 8 Nov 2021 10:58:36 -0500 (EST)
-Date: Mon, 8 Nov 2021 16:58:34 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Subject: Re: [PATCH 02/13] drm/connector: Add helper to check if a mode
- requires scrambling
-Message-ID: <20211108155834.6zz236ll75bxwcrk@gilmour>
-References: <20211102145944.259181-1-maxime@cerno.tech>
- <20211102145944.259181-3-maxime@cerno.tech>
- <YYP+MX9gxZVafhKk@intel.com> <YYVxtp9PZiR3ZOjp@phenom.ffwll.local>
- <YYV0bArjRbvYJ2K2@intel.com>
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
+ [IPv6:2a00:1450:4864:20::336])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 64A186E20B
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Nov 2021 16:00:54 +0000 (UTC)
+Received: by mail-wm1-x336.google.com with SMTP id y196so13418206wmc.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Nov 2021 08:00:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=RfWyEQwza/OwACjecFkQjUgoXfm8j4XemNjlMTml08o=;
+ b=JfaZvyEvStfyqgEP/9WUxufFOVOaULE0tDcZ0Ad/pSS5n/GOy04MYgIYT1Npr59nKz
+ m2SHj6K/DVZ4hHMh0Au15BuvIwSo3iGcKLj7MtdW0CLiwgC+UXKN6cjb+8DxhIqxLR4o
+ m3eG62kLIvLnqW79y2FGXeLokNKRwgbTSbcJA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=RfWyEQwza/OwACjecFkQjUgoXfm8j4XemNjlMTml08o=;
+ b=V5wEvTdi3DNhyIm0hM7o8qmfsi20FyKLgDPOWijHy2UnZT/Vd3fydY0deYzvmzfw8p
+ vjFW6ZyFzrfW8eXWUNfhzi2DjfGIIokjVp2JGGE2EW3uOKjLWBNC5F4z6RYnJOm7D2Xt
+ pbJnYa0kB743EtdMeF7cWhWRBCPeGnI8G53fwi4Pe1cz6u1B80JmaCjgRqTt7DbxB8DK
+ ivvgcVAzCaLXe0FK/CWYGSTsIeq1XmErenBDyunCyIZTKF8tBMI+YBkLtEHsYSmO1736
+ g1UJUI3wvoQHjtWvbnaUqJY/1teTqTk8Su9QnNhARXimNE9hvhH+6EtQMX33+L65JnEg
+ bcjg==
+X-Gm-Message-State: AOAM532BmsQdoJeTV4foIDvAkomU/O5oDLbKP6dXcM6aP6pFGP74a73O
+ IPdlhD6/TBIeuWuDNrt3eQAVJA==
+X-Google-Smtp-Source: ABdhPJwh5fh6M1FZgSUx1+dw/CYXE2vsuPwXb0dO5810Y//fvEM44R6UgTiLYzXx87Z7ap2LR/UqgQ==
+X-Received: by 2002:a05:600c:1906:: with SMTP id
+ j6mr42358718wmq.141.1636387252833; 
+ Mon, 08 Nov 2021 08:00:52 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id d15sm14592998wri.50.2021.11.08.08.00.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 08 Nov 2021 08:00:52 -0800 (PST)
+Date: Mon, 8 Nov 2021 17:00:50 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Jocelyn Falempe <jfalempe@redhat.com>
+Subject: Re: [PATCH v2] drm/fb-helper: Call drm_fb_helper_hotplug_event()
+ when releasing drm master
+Message-ID: <YYlJsmrlDH5yW6nf@phenom.ffwll.local>
+References: <20211108153453.51240-1-jfalempe@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="xgtaknx57htu4h3l"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YYV0bArjRbvYJ2K2@intel.com>
+In-Reply-To: <20211108153453.51240-1-jfalempe@redhat.com>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,100 +67,128 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Emma Anholt <emma@anholt.net>, Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- David Airlie <airlied@linux.ie>, Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org, Jonathan Hunter <jonathanh@nvidia.com>,
- Thierry Reding <thierry.reding@gmail.com>, linux-tegra@vger.kernel.org,
- Daniel Vetter <daniel.vetter@intel.com>, Phil Elwell <phil@raspberrypi.com>,
- Dom Cobley <dom@raspberrypi.com>
+Cc: michel@daenzer.net, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, Nov 08, 2021 at 04:34:53PM +0100, Jocelyn Falempe wrote:
+> When using Xorg/Logind and an external monitor connected with an MST dock.
+> After disconnecting the external monitor, switching to VT may not work,
+> the (internal) monitor sill display Xorg, and you can't see what you are
+> typing in the VT.
+> 
+> This is related to commit e2809c7db818 ("drm/fb_helper: move deferred fb
+> checking into restore mode (v2)")
+> 
+> When switching to VT, with Xorg and logind, if there
+> are pending hotplug event (like MST unplugged), the hotplug path
+> may not be fulfilled, because logind may drop the master a bit later.
+> It leads to the console not showing up on the monitor.
+> 
+> So when dropping the drm master, call the delayed hotplug function if
+> needed.
+> 
+> v2: rewrote the patch by calling the hotplug function after dropping master
+> 
+> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
 
---xgtaknx57htu4h3l
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Lastclose console restore is a very gross hack, and generally doesn't work
+well.
 
-On Fri, Nov 05, 2021 at 08:14:04PM +0200, Ville Syrj=E4l=E4 wrote:
-> On Fri, Nov 05, 2021 at 07:02:30PM +0100, Daniel Vetter wrote:
-> > On Thu, Nov 04, 2021 at 05:37:21PM +0200, Ville Syrj=E4l=E4 wrote:
-> > > On Tue, Nov 02, 2021 at 03:59:33PM +0100, Maxime Ripard wrote:
-> > > > --- a/include/drm/drm_modes.h
-> > > > +++ b/include/drm/drm_modes.h
-> > > > @@ -424,6 +424,21 @@ static inline bool drm_mode_is_stereo(const st=
-ruct drm_display_mode *mode)
-> > > >  	return mode->flags & DRM_MODE_FLAG_3D_MASK;
-> > > >  }
-> > > > =20
-> > > > +/**
-> > > > + * drm_mode_hdmi_requires_scrambling - Checks if a mode requires H=
-DMI Scrambling
-> > > > + * @mode: DRM display mode
-> > > > + *
-> > > > + * Checks if a given display mode requires the scrambling to be en=
-abled.
-> > > > + *
-> > > > + * Returns:
-> > > > + * A boolean stating whether it's required or not.
-> > > > + */
-> > > > +static inline bool
-> > > > +drm_mode_hdmi_requires_scrambling(const struct drm_display_mode *m=
-ode)
-> > > > +{
-> > > > +	return mode->clock > DRM_HDMI_14_MAX_TMDS_CLK_KHZ;
-> > > > +}
-> > >=20
-> > > That's only correct for 8bpc. The actual limit is on the TMDS clock (=
-or
-> > > rather TMDS character rate as HDMI 2.0 calls it due to the 1/1 vs. 1/4
-> > > magic for the actually transmitted TMDS clock).
-> >=20
-> > Yeah we might need to add the bus format for the cable here too, to make
-> > this complete.
->=20
-> I don't think we have a usable thing for that on the drm level, so
-> would need to invent something. Oh, and the mode->clock vs.=20
-> mode->crtc_clock funny business also limits the usability of this
-> approach. So probably just easiest to pass in the the driver calculated
-> TMDS clock instead.
+The way this is supposed to work is:
+- userspace drops drm master (because drm master always wins)
+- userspace switches the console back to text mode (which will restore the
+  console)
 
-If we look at all (I think?) the existing users of scrambling in KMS as
-of 5.15, only i915 seems to use crtc_clock (which, in retrospect, seems
-to be the right thing to do), and only i915 and dw-hdmi use an output
-format, i915 rolling its own, and dw-hdmi using the mbus formats.
+I guess we could also do this from dropmaster once more (like from
+lastclose), but that really feels like papering over userspace bugs. And
+given what a massive mess this entire area is already, I'm not eager to
+add more hacks here.
 
-I think using the mbus format here makes the most sense: i915 already is
-rolling a whole bunch of other code, and we use the mbus defines for the
-bridge format enumeration as well which is probably going to have some
-interaction.
+So ... can't we fix userspace?
 
-I'm not quite sure what to do next though. The whole point of that
-series is to streamline as much as possible the scrambling and TMDS
-ratio setup to avoid the duplication we already have in the drivers that
-support it, every one using the mostly-the-same-but-slightly-different
-logic to configure it.
+Ofc if it's a regression then that's different, but then I think we need a
+bit clearer implementation. I'm not clear on why you clear the callback
+(plus the locking looks busted).
+-Daniel
 
-The mode is fortunately stored in generic structures so it's easy to
-make that decision. Having to take into account the output format
-however makes it mandatory to move the bus format in the
-drm_connector_state(?) structure too.
+> ---
+>  drivers/gpu/drm/drm_auth.c      | 7 +++++++
+>  drivers/gpu/drm/drm_fb_helper.c | 6 +++---
+>  include/drm/drm_fb_helper.h     | 4 +++-
+>  3 files changed, 13 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_auth.c b/drivers/gpu/drm/drm_auth.c
+> index 60a6b21474b1..73acf1994d49 100644
+> --- a/drivers/gpu/drm/drm_auth.c
+> +++ b/drivers/gpu/drm/drm_auth.c
+> @@ -35,6 +35,7 @@
+>  #include <drm/drm_file.h>
+>  #include <drm/drm_lease.h>
+>  #include <drm/drm_print.h>
+> +#include <drm/drm_fb_helper.h>
+>  
+>  #include "drm_internal.h"
+>  #include "drm_legacy.h"
+> @@ -321,6 +322,12 @@ int drm_dropmaster_ioctl(struct drm_device *dev, void *data,
+>  	}
+>  
+>  	drm_drop_master(dev, file_priv);
+> +
+> +	mutex_unlock(&dev->master_mutex);
+> +	if (dev->fb_helper && dev->fb_helper->delayed_hotplug)
+> +		dev->fb_helper->delayed_hotplug(dev->fb_helper);
+> +	return ret;
+> +
+>  out_unlock:
+>  	mutex_unlock(&dev->master_mutex);
+>  	return ret;
+> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
+> index 8e7a124d6c5a..e8d8cc3f47c3 100644
+> --- a/drivers/gpu/drm/drm_fb_helper.c
+> +++ b/drivers/gpu/drm/drm_fb_helper.c
+> @@ -252,9 +252,9 @@ __drm_fb_helper_restore_fbdev_mode_unlocked(struct drm_fb_helper *fb_helper,
+>  		ret = drm_client_modeset_commit(&fb_helper->client);
+>  	}
+>  
+> -	do_delayed = fb_helper->delayed_hotplug;
+> +	do_delayed = (fb_helper->delayed_hotplug != NULL);
+>  	if (do_delayed)
+> -		fb_helper->delayed_hotplug = false;
+> +		fb_helper->delayed_hotplug = NULL;
+>  	mutex_unlock(&fb_helper->lock);
+>  
+>  	if (do_delayed)
+> @@ -1966,7 +1966,7 @@ int drm_fb_helper_hotplug_event(struct drm_fb_helper *fb_helper)
+>  	}
+>  
+>  	if (!fb_helper->fb || !drm_master_internal_acquire(fb_helper->dev)) {
+> -		fb_helper->delayed_hotplug = true;
+> +		fb_helper->delayed_hotplug = drm_fb_helper_hotplug_event;
+>  		mutex_unlock(&fb_helper->lock);
+>  		return err;
+>  	}
+> diff --git a/include/drm/drm_fb_helper.h b/include/drm/drm_fb_helper.h
+> index 3af4624368d8..c2131d1a0e23 100644
+> --- a/include/drm/drm_fb_helper.h
+> +++ b/include/drm/drm_fb_helper.h
+> @@ -160,8 +160,10 @@ struct drm_fb_helper {
+>  	 * A hotplug was received while fbdev wasn't in control of the DRM
+>  	 * device, i.e. another KMS master was active. The output configuration
+>  	 * needs to be reprobe when fbdev is in control again.
+> +	 * NULL, or a pointer to the hotplug function, so it can be called
+> +	 * by the drm drop function directly.
+>  	 */
+> -	bool delayed_hotplug;
+> +	int (*delayed_hotplug)(struct drm_fb_helper *helper);
+>  
+>  	/**
+>  	 * @deferred_setup:
+> -- 
+> 2.33.1
+> 
 
-It's already in the bridge_state though, so should we take the final
-bridge format as the cable format if it's tied to a bridge?
-
-Maxime
-
---xgtaknx57htu4h3l
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYYlJKgAKCRDj7w1vZxhR
-xdTmAQCYyR6ooj+GVU69Oh06Ug442R0aK7g89ZBZBwxfGLt8SgEA3fw21eNOtPUv
-orlcPTbMxfPcjs2s5i12xUsUgWY+vww=
-=bsEq
------END PGP SIGNATURE-----
-
---xgtaknx57htu4h3l--
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
