@@ -1,59 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56BBD449B2C
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Nov 2021 18:56:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C89A449B84
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Nov 2021 19:16:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 594C789B22;
-	Mon,  8 Nov 2021 17:56:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A99768999E;
+	Mon,  8 Nov 2021 18:16:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com
- [IPv6:2607:f8b0:4864:20::102a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 01A9D89B20;
- Mon,  8 Nov 2021 17:56:21 +0000 (UTC)
-Received: by mail-pj1-x102a.google.com with SMTP id v23so6738817pjr.5;
- Mon, 08 Nov 2021 09:56:21 -0800 (PST)
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
+ [IPv6:2a00:1450:4864:20::134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 606B58999E
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Nov 2021 18:16:10 +0000 (UTC)
+Received: by mail-lf1-x134.google.com with SMTP id bu18so38357146lfb.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Nov 2021 10:16:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=xoKlavGZxr6dec4Eua5L/nU42iXPOyi8Il8xPrpTM04=;
- b=C1JnwVwkyS4l5aZtJE5WdEAc5jjNH5NSibAJqMBoxhQLU7W2NjzhTKxJ2aFI3l+uvo
- PZ9o9piRrMdYmJSuVTsvMIluA07xXA0zrDSpwAXoQn83dWLskJ6qUKUAfs740sraBLRK
- 71AkeMYIJs3nzQCYX595PZZwrp0Vio2kRkp60Kd/8hU1NcC4qreyZLxS+fXm1udH0utm
- PIM6pI+DZnxdNw+qiZUO2L10CEoazD9ZQhcl/koaoCxcVeAM6+O2fY8F3fL72yWMzTL5
- jCn1qh/L181V1qreeIKAtUoWQg4M3oXrSIuI9lZwI0pMtDFoS9HlbJ7d4WzimVbCv2QZ
- yWig==
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=ayfVWyvCKWObtEefpUK8XiDUodN1RBTjoIq7oKL3uI8=;
+ b=psSuSdjeBh18x7/UZOLKYBZ050xV58E8myXKgo3MzqnBgaLSlTfDeB/Ih/DhJOKXCK
+ JY/VGKOm85LNgvzMOlB/NITTvk00vhg+Zs+EYtYOL8gPxCdC/DqHzeCy59PWmR/5BwS5
+ EKQhxhOcmMYxZhAKG7ebJd81iZclDmD6aKsbW/LiR/7faDuaOyUNLO40+1fTUuTWnpIa
+ cKACbu7rch+9+KBFhUPBmCS6DMAesFG5gmdZgS/dKgdCMMvaWI2XnvcRDZ5WawOP12Ku
+ lVL1daDvmHqKvdDnI4C8a8JA2aRSxZtoxJzRZZrrtZZ1H7QYFRKKDOzai4CsXjdNm/4G
+ 3/7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=xoKlavGZxr6dec4Eua5L/nU42iXPOyi8Il8xPrpTM04=;
- b=a3DN9GY30yqBSJhSaUnsf76zrZQeErUezbTC3PmUDlKWY2SFqtpTcdPLZBXLZCUV01
- 47Tb814z8n2yjK/1Ww2K7VYUDtKqo5v0aE+FLQJD3IMh3oq70wXupmxFWwhnTMgwpw65
- Mlb0UkNUxCqCwW4GAzZ7SZsXB/mUvzouNAGxU7ph4BVlgShS9L+ya79qpY9u+otigmvd
- dLLmQ3DSaAa88W9AoHl21v4sr+IB2s4SZA5B34DLZKplDI0vIvCrOJDkOgWG/W12al7v
- gSY/L4OepHpiwZ6WXBQuWtwoOqCp9RwJG4rMWAmHOPs02tokP1T0WoOERUJjeHjjPVIH
- Lk6w==
-X-Gm-Message-State: AOAM532MSFLMR2ylcs0rnDmEUhlrjKsMttYqEqR/+Rno5bENL2mANgU9
- Lam+cF5tbwBGWsQ9JHLrzwYAMAFZJxU=
-X-Google-Smtp-Source: ABdhPJzjLrMyYoznDRHV57IpXix2EYUTbgIrc9dklIedNrGBxjCwEe/OeIJy9kGFbwNJbU28cJ1aAQ==
-X-Received: by 2002:a17:903:246:b0:13f:2ff9:8b93 with SMTP id
- j6-20020a170903024600b0013f2ff98b93mr1099932plh.54.1636394180901; 
- Mon, 08 Nov 2021 09:56:20 -0800 (PST)
-Received: from localhost (c-73-25-156-94.hsd1.or.comcast.net. [73.25.156.94])
- by smtp.gmail.com with ESMTPSA id
- k18sm4295941pgb.70.2021.11.08.09.56.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Nov 2021 09:56:20 -0800 (PST)
-From: Rob Clark <robdclark@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/msm: Do hw_init() before capturing GPU state
-Date: Mon,  8 Nov 2021 10:01:22 -0800
-Message-Id: <20211108180122.487859-1-robdclark@gmail.com>
-X-Mailer: git-send-email 2.31.1
+ bh=ayfVWyvCKWObtEefpUK8XiDUodN1RBTjoIq7oKL3uI8=;
+ b=fB1THYaNKP3NxKsXRlk6aq/2epFp5qp6SUmaKXjFzWTDGu8eVMClE59UTvT1EiXtWJ
+ iAAyFAuys496YUIEYNEDuhPc6PbU2h1XAgaU0kRIrMSTGip1bg5h9lerG8NFaI6RJLoE
+ oIF6/ZpRRYlyOQTGdJwfRertJmLYEcKarKIsvNR4pzZhgmmHuuD5inxJg5bDDIru2KzH
+ qbTF7GuN1xD0DLzlB30iHNok383m+L2sPGBvVODDc/xFjigP34p65UtpMorsiXI4b3Tj
+ VTvIkVNNhsp8pqhcCcmpO/W7w9SoLX+HCHwYBChWcoDyvjAF400vf0pqAMkRqM3vdTys
+ 62IQ==
+X-Gm-Message-State: AOAM533k44ifE7418bVyQU1fdYLU9cGIP7xn3SXaq9EYOkwZPl8T9bTG
+ yRgMMqni/CuJ5CZsatZ3tzU=
+X-Google-Smtp-Source: ABdhPJyw6zaSueLH/5aKdZcN/z/zoQiQgNJHp6iKp8Ju3dgdqhN1PM6gmF8jtVPvRuuqQbclaHls8g==
+X-Received: by 2002:ac2:4c50:: with SMTP id o16mr1106096lfk.517.1636395368730; 
+ Mon, 08 Nov 2021 10:16:08 -0800 (PST)
+Received: from [192.168.2.145] (79-139-188-96.dynamic.spd-mgts.ru.
+ [79.139.188.96])
+ by smtp.googlemail.com with ESMTPSA id g10sm318910lfv.113.2021.11.08.10.16.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 08 Nov 2021 10:16:08 -0800 (PST)
+Subject: Re: [PATCH v1 2/2] drm/tegra: Use drm_dp_aux_register_ddc/chardev()
+ helpers
+To: Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Lyude Paul <lyude@redhat.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@linux.ie>, Thomas Graichen
+ <thomas.graichen@gmail.com>, dri-devel@lists.freedesktop.org,
+ linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20211107230821.13511-1-digetx@gmail.com>
+ <20211107230821.13511-2-digetx@gmail.com>
+ <YYk/jfcceun/Qleq@phenom.ffwll.local>
+From: Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <0a2c02ae-3fe1-e384-28d3-13e13801d675@gmail.com>
+Date: Mon, 8 Nov 2021 21:16:07 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
+In-Reply-To: <YYk/jfcceun/Qleq@phenom.ffwll.local>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,40 +81,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, open list <linux-kernel@vger.kernel.org>,
- Jordan Crouse <jordan@cosmicpenguin.net>, Sean Paul <sean@poorly.run>,
- freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Clark <robdclark@chromium.org>
+08.11.2021 18:17, Daniel Vetter пишет:
+> On Mon, Nov 08, 2021 at 02:08:21AM +0300, Dmitry Osipenko wrote:
+>> Use drm_dp_aux_register_ddc/chardev() helpers that allow to register I2C
+>> adapter separately from the character device. This fixes broken display
+>> panel driver of Acer Chromebook CB5-311 that fails to probe starting with
+>> v5.13 kernel when DP AUX registration order was changed. Tegra SOR driver
+>> is never probed now using the new registration order because tegra-output
+>> always fails with -EPROBE_DEFER due to missing display panel that requires
+>> DP AUX DDC to be registered first. The offending commit made DDC to be
+>> registered after SOR's output, which can't ever happen. Use new helpers
+>> to restore the registration order and revive display panel.
+> 
+> This feels a bit backward, I think the clean solution would be to untangle
+> the SOR loading from the panel driver loading, and then only block
+> registering the overall drm_device on both drivers having loaded.
 
-In particular, we need to ensure all the necessary blocks are switched
-to 64b mode (a5xx+) otherwise the high bits of the address of the BO to
-snapshot state into will be ignored, resulting in:
+Sounds impossible.
 
-  *** gpu fault: ttbr0=0000000000000000 iova=0000000000012000 dir=READ type=TRANSLATION source=CP (0,0,0,0)
-  platform 506a000.gmu: [drm:a6xx_gmu_set_oob] *ERROR* Timeout waiting for GMU OOB set BOOT_SLUMBER: 0x0
+1. DRM device can be created only when all components are ready, panel
+is one of the components.
 
-Fixes: 4f776f4511c7 ("drm/msm/gpu: Convert the GPU show function to use the GPU state")
-Signed-off-by: Rob Clark <robdclark@chromium.org>
----
- drivers/gpu/drm/msm/msm_debugfs.c | 1 +
- 1 file changed, 1 insertion(+)
+2. SOR driver is controlling panel and programs h/w based on panel presence.
 
-diff --git a/drivers/gpu/drm/msm/msm_debugfs.c b/drivers/gpu/drm/msm/msm_debugfs.c
-index b4d1a5162d1c..956b1efc3721 100644
---- a/drivers/gpu/drm/msm/msm_debugfs.c
-+++ b/drivers/gpu/drm/msm/msm_debugfs.c
-@@ -77,6 +77,7 @@ static int msm_gpu_open(struct inode *inode, struct file *file)
- 		goto free_priv;
- 
- 	pm_runtime_get_sync(&gpu->pdev->dev);
-+	msm_gpu_hw_init(gpu);
- 	show_priv->state = gpu->funcs->gpu_state_get(gpu);
- 	pm_runtime_put_sync(&gpu->pdev->dev);
- 
--- 
-2.31.1
+3. Panel can't become ready until DP AUX DDC is created.
 
+4. DP AUX DDC can't be created until DRM device is created.
+
+5. Go to 1.
+
+Even if there is an option to somehow rewrite Tegra DRM driver to
+accommodate it to the desired driver model, it won't be something
+portable to stable kernels.
+
+> This here at least feels like a game of whack-a-mole, if like every driver
+> needs its own careful staging of everything.
+
+That is inevitable because each hardware design is individual.
