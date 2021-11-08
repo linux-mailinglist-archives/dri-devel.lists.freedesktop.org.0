@@ -1,40 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9204D449C02
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Nov 2021 19:53:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 938FD449C0F
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Nov 2021 19:57:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E5DA6E1B6;
-	Mon,  8 Nov 2021 18:53:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 214AC6E222;
+	Mon,  8 Nov 2021 18:57:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E29B6E1B5
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Nov 2021 18:53:40 +0000 (UTC)
-Date: Mon, 08 Nov 2021 18:53:24 +0000
-From: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH v5 2/7] drm/ingenic: Add support for JZ4780 and HDMI output
-To: "H. Nikolaus Schaller" <hns@goldelico.com>
-Message-Id: <0HO92R.RF221XL59J3I1@crapouillou.net>
-In-Reply-To: <ACEFD0BB-1FCF-4EEB-A40F-1F2543A05BF4@goldelico.com>
-References: <cover.1633436959.git.hns@goldelico.com>
- <2c7d0aa7d3ef480ebb996d37c27cbaa6f722728b.1633436959.git.hns@goldelico.com>
- <FXTI0R.3FZIJZ7UYSNQ@crapouillou.net>
- <7CEBB741-2218-40A7-9800-B3A154895274@goldelico.com>
- <Q6U72R.9HY4TXLC6RWV2@crapouillou.net>
- <229EBE4C-6555-41DE-962F-D82798AEC650@goldelico.com>
- <HQY82R.69JHJIC64HDO1@crapouillou.net>
- <2E32F572-72D0-44E7-A700-AF8A2D37BFDA@goldelico.com>
- <ZA692R.GHQL6RBCLFB12@crapouillou.net>
- <D0809E59-DCB5-46CE-BE5E-D2A5D2ECA6F0@goldelico.com>
- <BVH92R.0VU3IKPQTLX9@crapouillou.net>
- <2F8A88BC-2696-491B-9C01-7D07A3B3670A@goldelico.com>
- <RIL92R.MLAZ6CTO865E1@crapouillou.net>
- <ACEFD0BB-1FCF-4EEB-A40F-1F2543A05BF4@goldelico.com>
+Received: from smtp.domeneshop.no (smtp.domeneshop.no
+ [IPv6:2a01:5b40:0:3005::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ECB3E6E222
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Nov 2021 18:57:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+ ; s=ds202012;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
+ MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=3ZEIejB1KmN7Tvumn+Q8xoy05D91sldAVAMCnu3bH2A=; b=oWnPxKGfEP7c8zwds8Q5X/hmgF
+ 3MaxLCux8b3gq5oGzQBU8QsQVs7f5xVvIV9sm0Xin32uoqFZgnPhPK8cnoD3U3Y8+JEpuD4ufOWNt
+ dATmecMG13tdMtaREfpAW3NZ9lau2LLpe3+1BNKUBloEM6DWem7YYyCbrILbzLTSRZUnDKuX9nhNn
+ 6e2+vSVWeiONZ3jB/G5dKDmmAjxwMOB0dwZ4Jo5hxoHwZsvYr2OP9yUagDiu4Oidg3WzZgF1lAzYp
+ hq5j1WH0wXCX3hGYD4g9grUopc+IdAyIeWicGT8LfZ0WIrfR41qmPMDnY7rhMEQs3wDP6K5a0yojX
+ 2IfiAJMg==;
+Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:52048
+ helo=[192.168.10.61])
+ by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <noralf@tronnes.org>)
+ id 1mk9pX-0000LX-GN; Mon, 08 Nov 2021 19:57:19 +0100
+Subject: Re: [PATCH v2 7/9] drm/simpledrm: Enable FB_DAMAGE_CLIPS property
+To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
+ airlied@linux.ie, mripard@kernel.org, maarten.lankhorst@linux.intel.com,
+ drawat.floss@gmail.com, airlied@redhat.com, kraxel@redhat.com,
+ david@lechnology.com, sam@ravnborg.org, javierm@redhat.com,
+ kernel@amanoeldawod.com, dirty.ice.hu@gmail.com, michael+lkml@stapelberg.ch,
+ aros@gmx.com, joshua@stroblindustries.com, arnd@arndb.de
+References: <20211101141532.26655-1-tzimmermann@suse.de>
+ <20211101141532.26655-8-tzimmermann@suse.de>
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+Message-ID: <6cf78eae-796d-f5a2-e93f-624599af4944@tronnes.org>
+Date: Mon, 8 Nov 2021 19:57:14 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20211101141532.26655-8-tzimmermann@suse.de>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,81 +61,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, Paul Boddie <paul@boddie.org.uk>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- linux-mips <linux-mips@vger.kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>, Sam Ravnborg <sam@ravnborg.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS <devicetree@vger.kernel.org>,
- Kees Cook <keescook@chromium.org>, Jonas Karlman <jonas@kwiboo.se>,
- Mark Brown <broonie@kernel.org>, Maxime Ripard <maxime@cerno.tech>,
- Discussions about the Letux Kernel <letux-kernel@openphoenux.org>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Liam Girdwood <lgirdwood@gmail.com>, Robert Foss <robert.foss@linaro.org>,
- linux-kernel <linux-kernel@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>,
- "Eric W. Biederman" <ebiederm@xmission.com>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: linux-hyperv@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Nikolaus,
-
-Le lun., nov. 8 2021 at 19:33:48 +0100, H. Nikolaus Schaller=20
-<hns@goldelico.com> a =E9crit :
-> Hi Paul,
->=20
->>  Am 08.11.2021 um 18:49 schrieb Paul Cercueil <paul@crapouillou.net>:
->>=20
->>>>  Variant 4: the variant #2 without the changes to the DTSI files.
->>>  Hm. If there is no cache and we can safely remove tight boundary=20
->>> checking (by JZ_REG_LCD_SIZE1) for jz4725/40/70 (by not fixing=20
->>> DTSI) why do we still need the max_register calculation from DTSI=20
->>> specifically for jz4780 and at all?
->>=20
->>  It's better to have the .max_register actually set to the proper=20
->> value. Then reading the registers from debugfs=20
->> (/sys/kernel/debug/regmap/) will print the actual list of registers=20
->> without bogus values. If .max_register is set too high, it will end=20
->> up reading outside the registers area.
->=20
-> Ok, that is a good reason to convince me.
->=20
->>  On Ingenic SoCs such reads just return 0, but on some other SoCs it=20
->> can lock up the system.
->=20
-> Yes, I know some of these...
->=20
->>  So the best way forward is to have .max_register computed from the=20
->> register area's size, and fix the DTSI with the proper sizes. Since=20
->> your JZ4780 code needs to update .max_register anyway it's a good=20
->> moment to add this patch, and the DTSI files can be fixed later (by=20
->> me or whoever is up to the task).
->=20
-> Well, it would already be part of my Variant #2 (untested). So I=20
-> could simply split it up further and you can test the pure dtsi=20
-> changes and apply them later or modify if that makes problems. Saves=20
-> you a little work. BTW: the jz4740 seems to have even less registers=20
-> (last register seems to be LCDCMD1 @ 0x1305005C).
-
-Sure, if you want. Send the DTSI patch(es) separate from this patchset=20
-then.
-
->>=20
->>  Fixing the DTS is not a problem in any way, btw. We just need to=20
->> ensure that the drivers still work with old DTB files, which will be=20
->> the case here.
->=20
-> Yes, that is right since the new values are smaller than the=20
-> originals.
->=20
-> Ok, then let's do it that way.
-
-Great. Waiting for your v6 then.
-
-Cheers,
--Paul
 
 
+Den 01.11.2021 15.15, skrev Thomas Zimmermann:
+> Enable the FB_DAMAGE_CLIPS property to reduce display-update
+> overhead. Also fixes a warning in the kernel log.
+> 
+>   simple-framebuffer simple-framebuffer.0: [drm] drm_plane_enable_fb_damage_clips() not called
+> 
+> Fix the computation of the blit rectangle. This wasn't an issue so
+> far, as simpledrm always blitted the full framebuffer. The code now
+> supports damage clipping and virtual screen sizes.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>  drivers/gpu/drm/tiny/simpledrm.c | 30 ++++++++++++++++++++++--------
+>  1 file changed, 22 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/tiny/simpledrm.c b/drivers/gpu/drm/tiny/simpledrm.c
+> index 571f716ff427..e872121e9fb0 100644
+> --- a/drivers/gpu/drm/tiny/simpledrm.c
+> +++ b/drivers/gpu/drm/tiny/simpledrm.c
+> @@ -642,7 +642,7 @@ simpledrm_simple_display_pipe_enable(struct drm_simple_display_pipe *pipe,
+>  	void *vmap = shadow_plane_state->data[0].vaddr; /* TODO: Use mapping abstraction */
+>  	struct drm_device *dev = &sdev->dev;
+>  	void __iomem *dst = sdev->screen_base;
+> -	struct drm_rect clip;
+> +	struct drm_rect src_clip, dst_clip;
+>  	int idx;
+>  
+>  	if (!fb)
+> @@ -651,10 +651,14 @@ simpledrm_simple_display_pipe_enable(struct drm_simple_display_pipe *pipe,
+>  	if (!drm_dev_enter(dev, &idx))
+>  		return;
+>  
+> -	drm_rect_init(&clip, 0, 0, fb->width, fb->height);
+> +	drm_rect_fp_to_int(&src_clip, &plane_state->src);
+>  
+> -	dst += drm_fb_clip_offset(sdev->pitch, sdev->format, &clip);
+> -	drm_fb_blit_toio(dst, sdev->pitch, sdev->format->format, vmap, fb, &clip);
+> +	dst_clip = plane_state->dst;
+> +	if (!drm_rect_intersect(&dst_clip, &src_clip))
+> +		return;
+
+You're inside drm_dev_enter here so can't just return. Move
+drm_dev_enter after this like you do in update().
+
+> +
+> +	dst += drm_fb_clip_offset(sdev->pitch, sdev->format, &dst_clip);
+> +	drm_fb_blit_toio(dst, sdev->pitch, sdev->format->format, vmap, fb, &src_clip);
+>  
+>  	drm_dev_exit(idx);
+>  }
+> @@ -686,20 +690,28 @@ simpledrm_simple_display_pipe_update(struct drm_simple_display_pipe *pipe,
+>  	struct drm_framebuffer *fb = plane_state->fb;
+>  	struct drm_device *dev = &sdev->dev;
+>  	void __iomem *dst = sdev->screen_base;
+> -	struct drm_rect clip;
+> +	struct drm_rect damage_clip, src_clip, dst_clip;
+>  	int idx;
+>  
+>  	if (!fb)
+>  		return;
+>  
+> -	if (!drm_atomic_helper_damage_merged(old_plane_state, plane_state, &clip))
+> +	if (!drm_atomic_helper_damage_merged(old_plane_state, plane_state, &damage_clip))
+> +		return;
+> +
+
+The following check, isn't that the same check that has just happened in
+drm_atomic_helper_damage_iter_next()?
+
+Noralf.
+
+> +	drm_rect_fp_to_int(&src_clip, &plane_state->src);
+> +	if (!drm_rect_intersect(&src_clip, &damage_clip))
+> +		return;
+> +
+> +	dst_clip = plane_state->dst;
+> +	if (!drm_rect_intersect(&dst_clip, &src_clip))
+>  		return;
+>  
+>  	if (!drm_dev_enter(dev, &idx))
+>  		return;
+>  
+> -	dst += drm_fb_clip_offset(sdev->pitch, sdev->format, &clip);
+> -	drm_fb_blit_toio(dst, sdev->pitch, sdev->format->format, vmap, fb, &clip);
+> +	dst += drm_fb_clip_offset(sdev->pitch, sdev->format, &dst_clip);
+> +	drm_fb_blit_toio(dst, sdev->pitch, sdev->format->format, vmap, fb, &src_clip);
+>  
+>  	drm_dev_exit(idx);
+>  }
+> @@ -794,6 +806,8 @@ static int simpledrm_device_init_modeset(struct simpledrm_device *sdev)
+>  	if (ret)
+>  		return ret;
+>  
+> +	drm_plane_enable_fb_damage_clips(&pipe->plane);
+> +
+>  	drm_mode_config_reset(dev);
+>  
+>  	return 0;
+> 
