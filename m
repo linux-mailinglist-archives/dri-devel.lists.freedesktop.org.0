@@ -1,62 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB851447CDA
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Nov 2021 10:32:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 72D5C447CF0
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Nov 2021 10:37:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 27F366EAB5;
-	Mon,  8 Nov 2021 09:32:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ABFC16EB38;
+	Mon,  8 Nov 2021 09:37:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 787816E96B;
- Mon,  8 Nov 2021 09:31:55 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id EE7161FD73;
- Mon,  8 Nov 2021 09:31:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1636363913; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=iFX6g2U4lCPJlQ4y9xNiSO1NBDbbfw0S6VbPUEzKoCs=;
- b=bZj3Kf4S2Gg4O1LGCo3xc0GgCof9WslYMkRx4L0on7XRb2xNFXWkmhB7twq8QKltU3alCk
- 0yd9TwIxBfmTHXSTWPKhr1DgH+fJikNXVmEIgmD0gEvbGDyNIHHGIXgylBsO6RAPvJYw+x
- 1xElp+4jkiM8PogKaoPWQ43ovDdYIwo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1636363913;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=iFX6g2U4lCPJlQ4y9xNiSO1NBDbbfw0S6VbPUEzKoCs=;
- b=1M6yoX3NxNogcy7Vi+VT4PaNj34CfkAtXYYm9MIv/9H98U1aaMdxY1Gr8N/QU2h8Yth6HF
- rWEgG9obULjTkNDw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B34AE13B04;
- Mon,  8 Nov 2021 09:31:53 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id wEbnKonuiGFXfAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Mon, 08 Nov 2021 09:31:53 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: daniel@ffwll.ch, airlied@linux.ie, mripard@kernel.org,
- maarten.lankhorst@linux.intel.com
-Subject: [PATCH v2 3/3] drm/shmem-helper: Pass GEM shmem object in public
- interfaces
-Date: Mon,  8 Nov 2021 10:31:49 +0100
-Message-Id: <20211108093149.7226-4-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20211108093149.7226-1-tzimmermann@suse.de>
-References: <20211108093149.7226-1-tzimmermann@suse.de>
+Received: from aposti.net (aposti.net [89.234.176.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 625C86EB34
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Nov 2021 09:37:45 +0000 (UTC)
+Date: Mon, 08 Nov 2021 09:37:29 +0000
+From: Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [PATCH v5 2/7] drm/ingenic: Add support for JZ4780 and HDMI output
+To: "H. Nikolaus Schaller" <hns@goldelico.com>
+Message-Id: <HQY82R.69JHJIC64HDO1@crapouillou.net>
+In-Reply-To: <229EBE4C-6555-41DE-962F-D82798AEC650@goldelico.com>
+References: <cover.1633436959.git.hns@goldelico.com>
+ <2c7d0aa7d3ef480ebb996d37c27cbaa6f722728b.1633436959.git.hns@goldelico.com>
+ <FXTI0R.3FZIJZ7UYSNQ@crapouillou.net>
+ <7CEBB741-2218-40A7-9800-B3A154895274@goldelico.com>
+ <Q6U72R.9HY4TXLC6RWV2@crapouillou.net>
+ <229EBE4C-6555-41DE-962F-D82798AEC650@goldelico.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,720 +39,288 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>, lima@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org
+Cc: Mark Rutland <mark.rutland@arm.com>, Paul Boddie <paul@boddie.org.uk>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ linux-mips <linux-mips@vger.kernel.org>, Andrzej Hajda <a.hajda@samsung.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Miquel Raynal <miquel.raynal@bootlin.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS <devicetree@vger.kernel.org>,
+ Kees Cook <keescook@chromium.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Mark Brown <broonie@kernel.org>, Maxime Ripard <maxime@cerno.tech>,
+ Discussions about the Letux Kernel <letux-kernel@openphoenux.org>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Liam Girdwood <lgirdwood@gmail.com>, Robert Foss <robert.foss@linaro.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ "Eric W. Biederman" <ebiederm@xmission.com>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Change all GEM SHMEM object functions that receive a GEM object
-of type struct drm_gem_object to expect an object of type
-struct drm_gem_shmem_object instead.
+Hi Nikolaus,
 
-This change reduces the number of upcasts from struct drm_gem_object
-by moving them into callers. The C compiler can now verify that the
-GEM SHMEM functions are called with the correct type.
+Le dim., nov. 7 2021 at 21:25:38 +0100, H. Nikolaus Schaller=20
+<hns@goldelico.com> a =E9crit :
+> Hi Paul,
+>=20
+>>  Am 07.11.2021 um 20:01 schrieb Paul Cercueil <paul@crapouillou.net>:
+>>=20
+>>  Hi Nikolaus,
+>>=20
+>>  Le dim., nov. 7 2021 at 14:41:18 +0100, H. Nikolaus Schaller=20
+>> <hns@goldelico.com> a =E9crit :
+>>>  Hi Paul,
+>>>  sorry for the delay in getting back to this, but I was distracted=20
+>>> by more urgent topics.
+>>>>  Am 05.10.2021 um 22:22 schrieb Paul Cercueil=20
+>>>> <paul@crapouillou.net>:
+>>>>  Hi Nikolaus,
+>>>>  Le mar., oct. 5 2021 at 14:29:14 +0200, H. Nikolaus Schaller=20
+>>>> <hns@goldelico.com> a =E9crit :
+>>>>>  From: Paul Boddie <paul@boddie.org.uk>
+>>>>>  Add support for the LCD controller present on JZ4780 SoCs.
+>>>>>  This SoC uses 8-byte descriptors which extend the current
+>>>>>  4-byte descriptors used for other Ingenic SoCs.
+>>>>>  Tested on MIPS Creator CI20 board.
+>>>>>  Signed-off-by: Paul Boddie <paul@boddie.org.uk>
+>>>>>  Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+>>>>>  Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
+>>>>>  ---
+>>>>>  drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 85=20
+>>>>> +++++++++++++++++++++--
+>>>>>  drivers/gpu/drm/ingenic/ingenic-drm.h     | 42 +++++++++++
+>>>>>  2 files changed, 122 insertions(+), 5 deletions(-)
+>>>>>  diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c=20
+>>>>> b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+>>>>>  index f73522bdacaa..e2df4b085905 100644
+>>>>>  --- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+>>>>>  +++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+>>>>>  @@ -6,6 +6,7 @@
+>>>>>  			case DRM_FORMAT_XRGB8888:
+>>>>>  +				hwdesc->cpos |=3D JZ_LCD_CPOS_BPP_18_24;
+>>>>>  +				break;
+>>>>>  +			}
+>>>>>  +			hwdesc->cpos |=3D JZ_LCD_CPOS_PREMULTIPLY_LCD |
+>>>>>  +					    (JZ_LCD_CPOS_COEFFICIENT_1_ALPHA1 <<
+>>>>>  +					     JZ_LCD_CPOS_COEFFICIENT_OFFSET);
+>>>>  Knowing that OSD mode doesn't really work with this patch, I=20
+>>>> doubt you need to configure per-plane alpha blending.
+>>>  Well, we can not omit setting some CPOS_COEFFICIENT different from=20
+>>> 0.
+>>>  This would mean to multiply all values with 0, i.e. gives a black=20
+>>> screen.
+>>>  So at least we have to apply JZ_LCD_CPOS_COEFFICIENT_1.
+>>>  JZ_LCD_CPOS_PREMULTIPLY_LCD is not relevant in the non-alpha case.
+>>=20
+>>  hwdesc->cpos =3D JZ_LCD_CPOS_COEFFICIENT_1 <<=20
+>> JZ_LCD_CPOS_COEFFICIENT_OFFSET;
+>=20
+> Exactly what I wrote and did test.
+>=20
+>>=20
+>>  That's enough to get an image.
+>=20
+> Fine that we can agree on that.
+>=20
+>>=20
+>>>  But then, why not do it right from the beginning?
+>>=20
+>>  Because there's no way to test alpha blending without getting the=20
+>> overlay plane to work first.
+>>=20
+>>>>  	}
+>>>>  +	regmap_config =3D ingenic_drm_regmap_config;
+>>>>  +	regmap_config.max_register =3D soc_info->max_reg;
+>>>>  	priv->map =3D devm_regmap_init_mmio(dev, base,
+>>>>  -					  &ingenic_drm_regmap_config);
+>>>>  +					  &regmap_config);
+>>>>  I remember saying to split this change into its own patch :)
+>>>  Yes, I remember as well, but it does not make sense to me.
+>>>  A first patch would introduce regmap_config. This needs=20
+>>> soc_info->max_reg
+>>>  to be defined as a struct component.
+>>>  This requires all soc_info to be updated for all SoC (w/o=20
+>>> jz4780_soc_info
+>>>  in this first patch because it has not been added yet) to a=20
+>>> constant (!)
+>>>  JZ_REG_LCD_SIZE1.
+>>>  And the second patch would then add jz4780_soc_info and set its=20
+>>> max_reg to
+>>>  a different value.
+>>=20
+>>  Correct, that's how it should be.
+>=20
+> Well, if you prefer separating things that are deeply related into=20
+> two commits...
+>=20
+>>=20
+>>  Note that you can do even better, set the .max_register field=20
+>> according to the memory resource you get from DTS. Have a look at=20
+>> the pinctrl driver which does exactly this.
+>=20
+> That is an interesting idea. Although I don't see where
+>=20
+> https://elixir.bootlin.com/linux/latest/source/drivers/pinctrl/pinctrl-in=
+genic.c#L4171
+>=20
+> does make use of the memory resource from DTS. It just reads two=20
+> values from the ingenic_chip_info instead of one I do read from=20
+> soc_info.
 
-For consistency, the patch also renames drm_gem_shmem_free_object to
-drm_gem_shmem_free. It further updates documentation for a number of
-functions.
+It overrides the .max_register from a static regmap_config instance.=20
+You can do the same, calculating the .max_register from the memory=20
+resource you get from DT. I'm sure you guys can figure it out.
 
-v2:
-	* mention _object_ callbacks in docs (Daniel)
+> If you see it I'd prefer to leave this patch to you (as it is not=20
+> jz4780 related except that jz4780 needs it to be in place) and then I=20
+> can simply make use of it for adding jz4780+hdmi.
+>=20
+>>=20
+>>>  IMHO, such a separate first patch has no benefit independent from=20
+>>> adding
+>>>  jz4780 support, as far as I can see.
+>>>  If your fear issues with bisectability:
+>>>  - code has been tested
+>>>  - if this fails, bisect will still point to this patch, where it=20
+>>> is easy to locate
+>>=20
+>>  It's not about bisectability. One functional change per patch, and=20
+>> patches should be as atomic as possible.
+>=20
+> Well, it was atomic: "add jz4780+hdmi functionality" or not. Now we=20
+> separate into "preparation for adding jz4780" and "really adding".=20
+> Yes, you can split atoms into quarks...
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
----
- drivers/gpu/drm/drm_gem_shmem_helper.c        | 83 ++++++++-----------
- drivers/gpu/drm/lima/lima_gem.c               | 10 +--
- drivers/gpu/drm/lima/lima_sched.c             |  4 +-
- drivers/gpu/drm/panfrost/panfrost_drv.c       |  2 +-
- drivers/gpu/drm/panfrost/panfrost_gem.c       |  8 +-
- .../gpu/drm/panfrost/panfrost_gem_shrinker.c  |  2 +-
- drivers/gpu/drm/panfrost/panfrost_mmu.c       |  5 +-
- drivers/gpu/drm/panfrost/panfrost_perfcnt.c   |  6 +-
- drivers/gpu/drm/v3d/v3d_bo.c                  |  8 +-
- drivers/gpu/drm/virtio/virtgpu_object.c       | 12 +--
- include/drm/drm_gem_shmem_helper.h            | 65 +++++++++------
- 11 files changed, 105 insertions(+), 100 deletions(-)
+And that's how it should be done. Lots of small atomic patches are much=20
+easier to review than a few big patches.
 
-diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
-index 72ac263f20be..dfff073bf1e8 100644
---- a/drivers/gpu/drm/drm_gem_shmem_helper.c
-+++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-@@ -27,6 +27,11 @@
-  *
-  * This library provides helpers for GEM objects backed by shmem buffers
-  * allocated using anonymous pageable memory.
-+ *
-+ * Functions that operate on the GEM object receive struct &drm_gem_shmem_object.
-+ * For GEM callback helpers in struct &drm_gem_object functions, see likewise
-+ * named functions with an _object_ infix (e.g., drm_gem_shmem_object_vmap() wraps
-+ * drm_gem_shmem_vmap()). These helpers perform the necessary type conversion.
-  */
- 
- static const struct drm_gem_object_funcs drm_gem_shmem_funcs = {
-@@ -117,15 +122,15 @@ struct drm_gem_shmem_object *drm_gem_shmem_create(struct drm_device *dev, size_t
- EXPORT_SYMBOL_GPL(drm_gem_shmem_create);
- 
- /**
-- * drm_gem_shmem_free_object - Free resources associated with a shmem GEM object
-- * @obj: GEM object to free
-+ * drm_gem_shmem_free - Free resources associated with a shmem GEM object
-+ * @shmem: shmem GEM object to free
-  *
-  * This function cleans up the GEM object state and frees the memory used to
-  * store the object itself.
-  */
--void drm_gem_shmem_free_object(struct drm_gem_object *obj)
-+void drm_gem_shmem_free(struct drm_gem_shmem_object *shmem)
- {
--	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
-+	struct drm_gem_object *obj = &shmem->base;
- 
- 	WARN_ON(shmem->vmap_use_count);
- 
-@@ -149,7 +154,7 @@ void drm_gem_shmem_free_object(struct drm_gem_object *obj)
- 	mutex_destroy(&shmem->vmap_lock);
- 	kfree(shmem);
- }
--EXPORT_SYMBOL_GPL(drm_gem_shmem_free_object);
-+EXPORT_SYMBOL_GPL(drm_gem_shmem_free);
- 
- static int drm_gem_shmem_get_pages_locked(struct drm_gem_shmem_object *shmem)
- {
-@@ -244,7 +249,7 @@ EXPORT_SYMBOL(drm_gem_shmem_put_pages);
- 
- /**
-  * drm_gem_shmem_pin - Pin backing pages for a shmem GEM object
-- * @obj: GEM object
-+ * @shmem: shmem GEM object
-  *
-  * This function makes sure the backing pages are pinned in memory while the
-  * buffer is exported.
-@@ -252,10 +257,8 @@ EXPORT_SYMBOL(drm_gem_shmem_put_pages);
-  * Returns:
-  * 0 on success or a negative error code on failure.
-  */
--int drm_gem_shmem_pin(struct drm_gem_object *obj)
-+int drm_gem_shmem_pin(struct drm_gem_shmem_object *shmem)
- {
--	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
--
- 	WARN_ON(shmem->base.import_attach);
- 
- 	return drm_gem_shmem_get_pages(shmem);
-@@ -264,15 +267,13 @@ EXPORT_SYMBOL(drm_gem_shmem_pin);
- 
- /**
-  * drm_gem_shmem_unpin - Unpin backing pages for a shmem GEM object
-- * @obj: GEM object
-+ * @shmem: shmem GEM object
-  *
-  * This function removes the requirement that the backing pages are pinned in
-  * memory.
-  */
--void drm_gem_shmem_unpin(struct drm_gem_object *obj)
-+void drm_gem_shmem_unpin(struct drm_gem_shmem_object *shmem)
- {
--	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
--
- 	WARN_ON(shmem->base.import_attach);
- 
- 	drm_gem_shmem_put_pages(shmem);
-@@ -346,9 +347,8 @@ static int drm_gem_shmem_vmap_locked(struct drm_gem_shmem_object *shmem, struct
-  * Returns:
-  * 0 on success or a negative error code on failure.
-  */
--int drm_gem_shmem_vmap(struct drm_gem_object *obj, struct dma_buf_map *map)
-+int drm_gem_shmem_vmap(struct drm_gem_shmem_object *shmem, struct dma_buf_map *map)
- {
--	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
- 	int ret;
- 
- 	ret = mutex_lock_interruptible(&shmem->vmap_lock);
-@@ -394,10 +394,8 @@ static void drm_gem_shmem_vunmap_locked(struct drm_gem_shmem_object *shmem,
-  * This function hides the differences between dma-buf imported and natively
-  * allocated objects.
-  */
--void drm_gem_shmem_vunmap(struct drm_gem_object *obj, struct dma_buf_map *map)
-+void drm_gem_shmem_vunmap(struct drm_gem_shmem_object *shmem, struct dma_buf_map *map)
- {
--	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
--
- 	mutex_lock(&shmem->vmap_lock);
- 	drm_gem_shmem_vunmap_locked(shmem, map);
- 	mutex_unlock(&shmem->vmap_lock);
-@@ -432,10 +430,8 @@ drm_gem_shmem_create_with_handle(struct drm_file *file_priv,
- /* Update madvise status, returns true if not purged, else
-  * false or -errno.
-  */
--int drm_gem_shmem_madvise(struct drm_gem_object *obj, int madv)
-+int drm_gem_shmem_madvise(struct drm_gem_shmem_object *shmem, int madv)
- {
--	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
--
- 	mutex_lock(&shmem->pages_lock);
- 
- 	if (shmem->madv >= 0)
-@@ -449,14 +445,14 @@ int drm_gem_shmem_madvise(struct drm_gem_object *obj, int madv)
- }
- EXPORT_SYMBOL(drm_gem_shmem_madvise);
- 
--void drm_gem_shmem_purge_locked(struct drm_gem_object *obj)
-+void drm_gem_shmem_purge_locked(struct drm_gem_shmem_object *shmem)
- {
-+	struct drm_gem_object *obj = &shmem->base;
- 	struct drm_device *dev = obj->dev;
--	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
- 
- 	WARN_ON(!drm_gem_shmem_is_purgeable(shmem));
- 
--	dma_unmap_sgtable(obj->dev->dev, shmem->sgt, DMA_BIDIRECTIONAL, 0);
-+	dma_unmap_sgtable(dev->dev, shmem->sgt, DMA_BIDIRECTIONAL, 0);
- 	sg_free_table(shmem->sgt);
- 	kfree(shmem->sgt);
- 	shmem->sgt = NULL;
-@@ -475,18 +471,15 @@ void drm_gem_shmem_purge_locked(struct drm_gem_object *obj)
- 	 */
- 	shmem_truncate_range(file_inode(obj->filp), 0, (loff_t)-1);
- 
--	invalidate_mapping_pages(file_inode(obj->filp)->i_mapping,
--			0, (loff_t)-1);
-+	invalidate_mapping_pages(file_inode(obj->filp)->i_mapping, 0, (loff_t)-1);
- }
- EXPORT_SYMBOL(drm_gem_shmem_purge_locked);
- 
--bool drm_gem_shmem_purge(struct drm_gem_object *obj)
-+bool drm_gem_shmem_purge(struct drm_gem_shmem_object *shmem)
- {
--	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
--
- 	if (!mutex_trylock(&shmem->pages_lock))
- 		return false;
--	drm_gem_shmem_purge_locked(obj);
-+	drm_gem_shmem_purge_locked(shmem);
- 	mutex_unlock(&shmem->pages_lock);
- 
- 	return true;
-@@ -594,7 +587,7 @@ static const struct vm_operations_struct drm_gem_shmem_vm_ops = {
- 
- /**
-  * drm_gem_shmem_mmap - Memory-map a shmem GEM object
-- * @obj: gem object
-+ * @shmem: shmem GEM object
-  * @vma: VMA for the area to be mapped
-  *
-  * This function implements an augmented version of the GEM DRM file mmap
-@@ -603,9 +596,9 @@ static const struct vm_operations_struct drm_gem_shmem_vm_ops = {
-  * Returns:
-  * 0 on success or a negative error code on failure.
-  */
--int drm_gem_shmem_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma)
-+int drm_gem_shmem_mmap(struct drm_gem_shmem_object *shmem, struct vm_area_struct *vma)
- {
--	struct drm_gem_shmem_object *shmem;
-+	struct drm_gem_object *obj = &shmem->base;
- 	int ret;
- 
- 	if (obj->import_attach) {
-@@ -616,8 +609,6 @@ int drm_gem_shmem_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma)
- 		return dma_buf_mmap(obj->dma_buf, vma, 0);
- 	}
- 
--	shmem = to_drm_gem_shmem_obj(obj);
--
- 	ret = drm_gem_shmem_get_pages(shmem);
- 	if (ret) {
- 		drm_gem_vm_close(vma);
-@@ -636,15 +627,13 @@ EXPORT_SYMBOL_GPL(drm_gem_shmem_mmap);
- 
- /**
-  * drm_gem_shmem_print_info() - Print &drm_gem_shmem_object info for debugfs
-+ * @shmem: shmem GEM object
-  * @p: DRM printer
-  * @indent: Tab indentation level
-- * @obj: GEM object
-  */
--void drm_gem_shmem_print_info(struct drm_printer *p, unsigned int indent,
--			      const struct drm_gem_object *obj)
-+void drm_gem_shmem_print_info(const struct drm_gem_shmem_object *shmem,
-+			      struct drm_printer *p, unsigned int indent)
- {
--	const struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
--
- 	drm_printf_indent(p, indent, "pages_use_count=%u\n", shmem->pages_use_count);
- 	drm_printf_indent(p, indent, "vmap_use_count=%u\n", shmem->vmap_use_count);
- 	drm_printf_indent(p, indent, "vaddr=%p\n", shmem->vaddr);
-@@ -654,7 +643,7 @@ EXPORT_SYMBOL(drm_gem_shmem_print_info);
- /**
-  * drm_gem_shmem_get_sg_table - Provide a scatter/gather table of pinned
-  *                              pages for a shmem GEM object
-- * @obj: GEM object
-+ * @shmem: shmem GEM object
-  *
-  * This function exports a scatter/gather table suitable for PRIME usage by
-  * calling the standard DMA mapping API.
-@@ -665,9 +654,9 @@ EXPORT_SYMBOL(drm_gem_shmem_print_info);
-  * Returns:
-  * A pointer to the scatter/gather table of pinned pages or NULL on failure.
-  */
--struct sg_table *drm_gem_shmem_get_sg_table(struct drm_gem_object *obj)
-+struct sg_table *drm_gem_shmem_get_sg_table(struct drm_gem_shmem_object *shmem)
- {
--	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
-+	struct drm_gem_object *obj = &shmem->base;
- 
- 	WARN_ON(shmem->base.import_attach);
- 
-@@ -678,7 +667,7 @@ EXPORT_SYMBOL_GPL(drm_gem_shmem_get_sg_table);
- /**
-  * drm_gem_shmem_get_pages_sgt - Pin pages, dma map them, and return a
-  *				 scatter/gather table for a shmem GEM object.
-- * @obj: GEM object
-+ * @shmem: shmem GEM object
-  *
-  * This function returns a scatter/gather table suitable for driver usage. If
-  * the sg table doesn't exist, the pages are pinned, dma-mapped, and a sg
-@@ -691,10 +680,10 @@ EXPORT_SYMBOL_GPL(drm_gem_shmem_get_sg_table);
-  * Returns:
-  * A pointer to the scatter/gather table of pinned pages or errno on failure.
-  */
--struct sg_table *drm_gem_shmem_get_pages_sgt(struct drm_gem_object *obj)
-+struct sg_table *drm_gem_shmem_get_pages_sgt(struct drm_gem_shmem_object *shmem)
- {
-+	struct drm_gem_object *obj = &shmem->base;
- 	int ret;
--	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
- 	struct sg_table *sgt;
- 
- 	if (shmem->sgt)
-@@ -706,7 +695,7 @@ struct sg_table *drm_gem_shmem_get_pages_sgt(struct drm_gem_object *obj)
- 	if (ret)
- 		return ERR_PTR(ret);
- 
--	sgt = drm_gem_shmem_get_sg_table(&shmem->base);
-+	sgt = drm_gem_shmem_get_sg_table(shmem);
- 	if (IS_ERR(sgt)) {
- 		ret = PTR_ERR(sgt);
- 		goto err_put_pages;
-diff --git a/drivers/gpu/drm/lima/lima_gem.c b/drivers/gpu/drm/lima/lima_gem.c
-index a5580bd6522c..2723d333c608 100644
---- a/drivers/gpu/drm/lima/lima_gem.c
-+++ b/drivers/gpu/drm/lima/lima_gem.c
-@@ -127,7 +127,7 @@ int lima_gem_create_handle(struct drm_device *dev, struct drm_file *file,
- 		if (err)
- 			goto out;
- 	} else {
--		struct sg_table *sgt = drm_gem_shmem_get_pages_sgt(obj);
-+		struct sg_table *sgt = drm_gem_shmem_get_pages_sgt(shmem);
- 
- 		if (IS_ERR(sgt)) {
- 			err = PTR_ERR(sgt);
-@@ -151,7 +151,7 @@ static void lima_gem_free_object(struct drm_gem_object *obj)
- 	if (!list_empty(&bo->va))
- 		dev_err(obj->dev->dev, "lima gem free bo still has va\n");
- 
--	drm_gem_shmem_free_object(obj);
-+	drm_gem_shmem_free(&bo->base);
- }
- 
- static int lima_gem_object_open(struct drm_gem_object *obj, struct drm_file *file)
-@@ -179,7 +179,7 @@ static int lima_gem_pin(struct drm_gem_object *obj)
- 	if (bo->heap_size)
- 		return -EINVAL;
- 
--	return drm_gem_shmem_pin(obj);
-+	return drm_gem_shmem_pin(&bo->base);
- }
- 
- static int lima_gem_vmap(struct drm_gem_object *obj, struct dma_buf_map *map)
-@@ -189,7 +189,7 @@ static int lima_gem_vmap(struct drm_gem_object *obj, struct dma_buf_map *map)
- 	if (bo->heap_size)
- 		return -EINVAL;
- 
--	return drm_gem_shmem_vmap(obj, map);
-+	return drm_gem_shmem_vmap(&bo->base, map);
- }
- 
- static int lima_gem_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma)
-@@ -199,7 +199,7 @@ static int lima_gem_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma)
- 	if (bo->heap_size)
- 		return -EINVAL;
- 
--	return drm_gem_shmem_mmap(obj, vma);
-+	return drm_gem_shmem_mmap(&bo->base, vma);
- }
- 
- static const struct drm_gem_object_funcs lima_gem_funcs = {
-diff --git a/drivers/gpu/drm/lima/lima_sched.c b/drivers/gpu/drm/lima/lima_sched.c
-index 99d5f6f1a882..5612d73f238f 100644
---- a/drivers/gpu/drm/lima/lima_sched.c
-+++ b/drivers/gpu/drm/lima/lima_sched.c
-@@ -371,7 +371,7 @@ static void lima_sched_build_error_task_list(struct lima_sched_task *task)
- 		} else {
- 			buffer_chunk->size = lima_bo_size(bo);
- 
--			ret = drm_gem_shmem_vmap(&bo->base.base, &map);
-+			ret = drm_gem_shmem_vmap(&bo->base, &map);
- 			if (ret) {
- 				kvfree(et);
- 				goto out;
-@@ -379,7 +379,7 @@ static void lima_sched_build_error_task_list(struct lima_sched_task *task)
- 
- 			memcpy(buffer_chunk + 1, map.vaddr, buffer_chunk->size);
- 
--			drm_gem_shmem_vunmap(&bo->base.base, &map);
-+			drm_gem_shmem_vunmap(&bo->base, &map);
- 		}
- 
- 		buffer_chunk = (void *)(buffer_chunk + 1) + buffer_chunk->size;
-diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
-index 82ad9a67f251..96bb5a465627 100644
---- a/drivers/gpu/drm/panfrost/panfrost_drv.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-@@ -427,7 +427,7 @@ static int panfrost_ioctl_madvise(struct drm_device *dev, void *data,
- 		}
- 	}
- 
--	args->retained = drm_gem_shmem_madvise(gem_obj, args->madv);
-+	args->retained = drm_gem_shmem_madvise(&bo->base, args->madv);
- 
- 	if (args->retained) {
- 		if (args->madv == PANFROST_MADV_DONTNEED)
-diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.c b/drivers/gpu/drm/panfrost/panfrost_gem.c
-index be1cc6579a71..6d9bdb9180cb 100644
---- a/drivers/gpu/drm/panfrost/panfrost_gem.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_gem.c
-@@ -49,7 +49,7 @@ static void panfrost_gem_free_object(struct drm_gem_object *obj)
- 		kvfree(bo->sgts);
- 	}
- 
--	drm_gem_shmem_free_object(obj);
-+	drm_gem_shmem_free(&bo->base);
- }
- 
- struct panfrost_gem_mapping *
-@@ -187,10 +187,12 @@ void panfrost_gem_close(struct drm_gem_object *obj, struct drm_file *file_priv)
- 
- static int panfrost_gem_pin(struct drm_gem_object *obj)
- {
--	if (to_panfrost_bo(obj)->is_heap)
-+	struct panfrost_gem_object *bo = to_panfrost_bo(obj);
-+
-+	if (bo->is_heap)
- 		return -EINVAL;
- 
--	return drm_gem_shmem_pin(obj);
-+	return drm_gem_shmem_pin(&bo->base);
- }
- 
- static const struct drm_gem_object_funcs panfrost_gem_funcs = {
-diff --git a/drivers/gpu/drm/panfrost/panfrost_gem_shrinker.c b/drivers/gpu/drm/panfrost/panfrost_gem_shrinker.c
-index 1b9f68d8e9aa..b0142341e223 100644
---- a/drivers/gpu/drm/panfrost/panfrost_gem_shrinker.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_gem_shrinker.c
-@@ -52,7 +52,7 @@ static bool panfrost_gem_purge(struct drm_gem_object *obj)
- 		goto unlock_mappings;
- 
- 	panfrost_gem_teardown_mappings_locked(bo);
--	drm_gem_shmem_purge_locked(obj);
-+	drm_gem_shmem_purge_locked(&bo->base);
- 	ret = true;
- 
- 	mutex_unlock(&shmem->pages_lock);
-diff --git a/drivers/gpu/drm/panfrost/panfrost_mmu.c b/drivers/gpu/drm/panfrost/panfrost_mmu.c
-index f51d3f791a17..39562f2d11a4 100644
---- a/drivers/gpu/drm/panfrost/panfrost_mmu.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c
-@@ -304,7 +304,8 @@ static int mmu_map_sg(struct panfrost_device *pfdev, struct panfrost_mmu *mmu,
- int panfrost_mmu_map(struct panfrost_gem_mapping *mapping)
- {
- 	struct panfrost_gem_object *bo = mapping->obj;
--	struct drm_gem_object *obj = &bo->base.base;
-+	struct drm_gem_shmem_object *shmem = &bo->base;
-+	struct drm_gem_object *obj = &shmem->base;
- 	struct panfrost_device *pfdev = to_panfrost_device(obj->dev);
- 	struct sg_table *sgt;
- 	int prot = IOMMU_READ | IOMMU_WRITE;
-@@ -315,7 +316,7 @@ int panfrost_mmu_map(struct panfrost_gem_mapping *mapping)
- 	if (bo->noexec)
- 		prot |= IOMMU_NOEXEC;
- 
--	sgt = drm_gem_shmem_get_pages_sgt(obj);
-+	sgt = drm_gem_shmem_get_pages_sgt(shmem);
- 	if (WARN_ON(IS_ERR(sgt)))
- 		return PTR_ERR(sgt);
- 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_perfcnt.c b/drivers/gpu/drm/panfrost/panfrost_perfcnt.c
-index e116a4d9b8e5..1d36df5af98d 100644
---- a/drivers/gpu/drm/panfrost/panfrost_perfcnt.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_perfcnt.c
-@@ -105,7 +105,7 @@ static int panfrost_perfcnt_enable_locked(struct panfrost_device *pfdev,
- 		goto err_close_bo;
- 	}
- 
--	ret = drm_gem_shmem_vmap(&bo->base, &map);
-+	ret = drm_gem_shmem_vmap(bo, &map);
- 	if (ret)
- 		goto err_put_mapping;
- 	perfcnt->buf = map.vaddr;
-@@ -164,7 +164,7 @@ static int panfrost_perfcnt_enable_locked(struct panfrost_device *pfdev,
- 	return 0;
- 
- err_vunmap:
--	drm_gem_shmem_vunmap(&bo->base, &map);
-+	drm_gem_shmem_vunmap(bo, &map);
- err_put_mapping:
- 	panfrost_gem_mapping_put(perfcnt->mapping);
- err_close_bo:
-@@ -194,7 +194,7 @@ static int panfrost_perfcnt_disable_locked(struct panfrost_device *pfdev,
- 		  GPU_PERFCNT_CFG_MODE(GPU_PERFCNT_CFG_MODE_OFF));
- 
- 	perfcnt->user = NULL;
--	drm_gem_shmem_vunmap(&perfcnt->mapping->obj->base.base, &map);
-+	drm_gem_shmem_vunmap(&perfcnt->mapping->obj->base, &map);
- 	perfcnt->buf = NULL;
- 	panfrost_gem_close(&perfcnt->mapping->obj->base.base, file_priv);
- 	panfrost_mmu_as_put(pfdev, perfcnt->mapping->mmu);
-diff --git a/drivers/gpu/drm/v3d/v3d_bo.c b/drivers/gpu/drm/v3d/v3d_bo.c
-index b50677beb6ac..0d9af62f69ad 100644
---- a/drivers/gpu/drm/v3d/v3d_bo.c
-+++ b/drivers/gpu/drm/v3d/v3d_bo.c
-@@ -47,7 +47,7 @@ void v3d_free_object(struct drm_gem_object *obj)
- 	/* GPU execution may have dirtied any pages in the BO. */
- 	bo->base.pages_mark_dirty_on_put = true;
- 
--	drm_gem_shmem_free_object(obj);
-+	drm_gem_shmem_free(&bo->base);
- }
- 
- static const struct drm_gem_object_funcs v3d_gem_funcs = {
-@@ -95,7 +95,7 @@ v3d_bo_create_finish(struct drm_gem_object *obj)
- 	/* So far we pin the BO in the MMU for its lifetime, so use
- 	 * shmem's helper for getting a lifetime sgt.
- 	 */
--	sgt = drm_gem_shmem_get_pages_sgt(&bo->base.base);
-+	sgt = drm_gem_shmem_get_pages_sgt(&bo->base);
- 	if (IS_ERR(sgt))
- 		return PTR_ERR(sgt);
- 
-@@ -141,7 +141,7 @@ struct v3d_bo *v3d_bo_create(struct drm_device *dev, struct drm_file *file_priv,
- 	return bo;
- 
- free_obj:
--	drm_gem_shmem_free_object(&shmem_obj->base);
-+	drm_gem_shmem_free(shmem_obj);
- 	return ERR_PTR(ret);
- }
- 
-@@ -159,7 +159,7 @@ v3d_prime_import_sg_table(struct drm_device *dev,
- 
- 	ret = v3d_bo_create_finish(obj);
- 	if (ret) {
--		drm_gem_shmem_free_object(obj);
-+		drm_gem_shmem_free(&to_v3d_bo(obj)->base);
- 		return ERR_PTR(ret);
- 	}
- 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_object.c b/drivers/gpu/drm/virtio/virtgpu_object.c
-index 698431d233b8..187e10da2f17 100644
---- a/drivers/gpu/drm/virtio/virtgpu_object.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_object.c
-@@ -79,10 +79,10 @@ void virtio_gpu_cleanup_object(struct virtio_gpu_object *bo)
- 			sg_free_table(shmem->pages);
- 			kfree(shmem->pages);
- 			shmem->pages = NULL;
--			drm_gem_shmem_unpin(&bo->base.base);
-+			drm_gem_shmem_unpin(&bo->base);
- 		}
- 
--		drm_gem_shmem_free_object(&bo->base.base);
-+		drm_gem_shmem_free(&bo->base);
- 	} else if (virtio_gpu_is_vram(bo)) {
- 		struct virtio_gpu_object_vram *vram = to_virtio_gpu_vram(bo);
- 
-@@ -156,7 +156,7 @@ static int virtio_gpu_object_shmem_init(struct virtio_gpu_device *vgdev,
- 	struct scatterlist *sg;
- 	int si, ret;
- 
--	ret = drm_gem_shmem_pin(&bo->base.base);
-+	ret = drm_gem_shmem_pin(&bo->base);
- 	if (ret < 0)
- 		return -EINVAL;
- 
-@@ -166,9 +166,9 @@ static int virtio_gpu_object_shmem_init(struct virtio_gpu_device *vgdev,
- 	 * dma-ops. This is discouraged for other drivers, but should be fine
- 	 * since virtio_gpu doesn't support dma-buf import from other devices.
- 	 */
--	shmem->pages = drm_gem_shmem_get_sg_table(&bo->base.base);
-+	shmem->pages = drm_gem_shmem_get_sg_table(&bo->base);
- 	if (!shmem->pages) {
--		drm_gem_shmem_unpin(&bo->base.base);
-+		drm_gem_shmem_unpin(&bo->base);
- 		return -EINVAL;
- 	}
- 
-@@ -276,6 +276,6 @@ int virtio_gpu_object_create(struct virtio_gpu_device *vgdev,
- err_put_id:
- 	virtio_gpu_resource_id_put(vgdev, bo->hw_res_handle);
- err_free_gem:
--	drm_gem_shmem_free_object(&shmem_obj->base);
-+	drm_gem_shmem_free(shmem_obj);
- 	return ret;
- }
-diff --git a/include/drm/drm_gem_shmem_helper.h b/include/drm/drm_gem_shmem_helper.h
-index 765cc4c63496..790e5e667870 100644
---- a/include/drm/drm_gem_shmem_helper.h
-+++ b/include/drm/drm_gem_shmem_helper.h
-@@ -107,16 +107,17 @@ struct drm_gem_shmem_object {
- 	container_of(obj, struct drm_gem_shmem_object, base)
- 
- struct drm_gem_shmem_object *drm_gem_shmem_create(struct drm_device *dev, size_t size);
--void drm_gem_shmem_free_object(struct drm_gem_object *obj);
-+void drm_gem_shmem_free(struct drm_gem_shmem_object *shmem);
- 
- int drm_gem_shmem_get_pages(struct drm_gem_shmem_object *shmem);
- void drm_gem_shmem_put_pages(struct drm_gem_shmem_object *shmem);
--int drm_gem_shmem_pin(struct drm_gem_object *obj);
--void drm_gem_shmem_unpin(struct drm_gem_object *obj);
--int drm_gem_shmem_vmap(struct drm_gem_object *obj, struct dma_buf_map *map);
--void drm_gem_shmem_vunmap(struct drm_gem_object *obj, struct dma_buf_map *map);
-+int drm_gem_shmem_pin(struct drm_gem_shmem_object *shmem);
-+void drm_gem_shmem_unpin(struct drm_gem_shmem_object *shmem);
-+int drm_gem_shmem_vmap(struct drm_gem_shmem_object *shmem, struct dma_buf_map *map);
-+void drm_gem_shmem_vunmap(struct drm_gem_shmem_object *shmem, struct dma_buf_map *map);
-+int drm_gem_shmem_mmap(struct drm_gem_shmem_object *shmem, struct vm_area_struct *vma);
- 
--int drm_gem_shmem_madvise(struct drm_gem_object *obj, int madv);
-+int drm_gem_shmem_madvise(struct drm_gem_shmem_object *shmem, int madv);
- 
- static inline bool drm_gem_shmem_is_purgeable(struct drm_gem_shmem_object *shmem)
- {
-@@ -125,18 +126,14 @@ static inline bool drm_gem_shmem_is_purgeable(struct drm_gem_shmem_object *shmem
- 		!shmem->base.dma_buf && !shmem->base.import_attach;
- }
- 
--void drm_gem_shmem_purge_locked(struct drm_gem_object *obj);
--bool drm_gem_shmem_purge(struct drm_gem_object *obj);
-+void drm_gem_shmem_purge_locked(struct drm_gem_shmem_object *shmem);
-+bool drm_gem_shmem_purge(struct drm_gem_shmem_object *shmem);
- 
--int drm_gem_shmem_dumb_create(struct drm_file *file, struct drm_device *dev,
--			      struct drm_mode_create_dumb *args);
--
--int drm_gem_shmem_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma);
--
--void drm_gem_shmem_print_info(struct drm_printer *p, unsigned int indent,
--			      const struct drm_gem_object *obj);
-+struct sg_table *drm_gem_shmem_get_sg_table(struct drm_gem_shmem_object *shmem);
-+struct sg_table *drm_gem_shmem_get_pages_sgt(struct drm_gem_shmem_object *shmem);
- 
--struct sg_table *drm_gem_shmem_get_sg_table(struct drm_gem_object *obj);
-+void drm_gem_shmem_print_info(const struct drm_gem_shmem_object *shmem,
-+			      struct drm_printer *p, unsigned int indent);
- 
- /*
-  * GEM object functions
-@@ -151,7 +148,9 @@ struct sg_table *drm_gem_shmem_get_sg_table(struct drm_gem_object *obj);
-  */
- static inline void drm_gem_shmem_object_free(struct drm_gem_object *obj)
- {
--	drm_gem_shmem_free_object(obj);
-+	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
-+
-+	drm_gem_shmem_free(shmem);
- }
- 
- /**
-@@ -166,7 +165,9 @@ static inline void drm_gem_shmem_object_free(struct drm_gem_object *obj)
- static inline void drm_gem_shmem_object_print_info(struct drm_printer *p, unsigned int indent,
- 						   const struct drm_gem_object *obj)
- {
--	drm_gem_shmem_print_info(p, indent, obj);
-+	const struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
-+
-+	drm_gem_shmem_print_info(shmem, p, indent);
- }
- 
- /**
-@@ -178,7 +179,9 @@ static inline void drm_gem_shmem_object_print_info(struct drm_printer *p, unsign
-  */
- static inline int drm_gem_shmem_object_pin(struct drm_gem_object *obj)
- {
--	return drm_gem_shmem_pin(obj);
-+	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
-+
-+	return drm_gem_shmem_pin(shmem);
- }
- 
- /**
-@@ -190,7 +193,9 @@ static inline int drm_gem_shmem_object_pin(struct drm_gem_object *obj)
-  */
- static inline void drm_gem_shmem_object_unpin(struct drm_gem_object *obj)
- {
--	drm_gem_shmem_unpin(obj);
-+	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
-+
-+	drm_gem_shmem_unpin(shmem);
- }
- 
- /**
-@@ -205,7 +210,9 @@ static inline void drm_gem_shmem_object_unpin(struct drm_gem_object *obj)
-  */
- static inline struct sg_table *drm_gem_shmem_object_get_sg_table(struct drm_gem_object *obj)
- {
--	return drm_gem_shmem_get_sg_table(obj);
-+	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
-+
-+	return drm_gem_shmem_get_sg_table(shmem);
- }
- 
- /*
-@@ -221,7 +228,9 @@ static inline struct sg_table *drm_gem_shmem_object_get_sg_table(struct drm_gem_
-  */
- static inline int drm_gem_shmem_object_vmap(struct drm_gem_object *obj, struct dma_buf_map *map)
- {
--	return drm_gem_shmem_vmap(obj, map);
-+	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
-+
-+	return drm_gem_shmem_vmap(shmem, map);
- }
- 
- /*
-@@ -234,7 +243,9 @@ static inline int drm_gem_shmem_object_vmap(struct drm_gem_object *obj, struct d
-  */
- static inline void drm_gem_shmem_object_vunmap(struct drm_gem_object *obj, struct dma_buf_map *map)
- {
--	drm_gem_shmem_vunmap(obj, map);
-+	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
-+
-+	drm_gem_shmem_vunmap(shmem, map);
- }
- 
- /**
-@@ -250,7 +261,9 @@ static inline void drm_gem_shmem_object_vunmap(struct drm_gem_object *obj, struc
-  */
- static inline int drm_gem_shmem_object_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma)
- {
--	return drm_gem_shmem_mmap(obj, vma);
-+	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
-+
-+	return drm_gem_shmem_mmap(shmem, vma);
- }
- 
- /*
-@@ -261,8 +274,8 @@ struct drm_gem_object *
- drm_gem_shmem_prime_import_sg_table(struct drm_device *dev,
- 				    struct dma_buf_attachment *attach,
- 				    struct sg_table *sgt);
--
--struct sg_table *drm_gem_shmem_get_pages_sgt(struct drm_gem_object *obj);
-+int drm_gem_shmem_dumb_create(struct drm_file *file, struct drm_device *dev,
-+			      struct drm_mode_create_dumb *args);
- 
- /**
-  * DRM_GEM_SHMEM_DRIVER_OPS - Default shmem GEM operations
--- 
-2.33.1
+> BTW: without adding jz4780_soc_info there is not even a functional=20
+> change. Just the constant is made dependent on the .compatible entry.=20
+> And since it is initialized to the same constant value in all cases,=20
+> it is still a constant. A very very clever compiler could find out=20
+> that regmap_config.max_register =3D soc_info->max_reg is a NOOP and=20
+> produce the same code as before by avoiding the copy operation of=20
+> regmap_config =3D ingenic_drm_regmap_config.
+>=20
+>>=20
+>>>  So I leave it in v6 unsplitted.
+>>>>>  	if (IS_ERR(priv->map)) {
+>>>>>  		dev_err(dev, "Failed to create regmap\n");
+>>>>>  		return PTR_ERR(priv->map);
+>>>>>  @@ -1274,7 +1319,7 @@ static int ingenic_drm_bind(struct device=20
+>>>>> *dev, bool has_components)
+>>>>>  	/* Enable OSD if available */
+>>>>>  	if (soc_info->has_osd)
+>>>>>  -		regmap_write(priv->map, JZ_REG_LCD_OSDC, JZ_LCD_OSDC_OSDEN);
+>>>>>  +		regmap_set_bits(priv->map, JZ_REG_LCD_OSDC,=20
+>>>>> JZ_LCD_OSDC_OSDEN);
+>>>>  This change is unrelated to this patch, and I'm not even sure=20
+>>>> it's a valid change. The driver shouldn't rely on previous=20
+>>>> register values.
+>>>  I think I already commented that I think the driver should also=20
+>>> not reset
+>>>  previous register values to zero.
+>>=20
+>>  You did comment this, yes, but I don't agree. The driver *should*=20
+>> reset the registers to zero. It should *not* have to rely on=20
+>> whatever was configured before.
+>>=20
+>>  Even if I did agree, this is a functional change unrelated to=20
+>> JZ4780 support, so it would have to be splitted to its own patch.
+>=20
+> Well it is in preparation of setting more bits that are only=20
+> available for the jz4780.
+>=20
+> But it will be splitted into its own patch for other reasons - if we=20
+> ever make osd working...
+>=20
+>>=20
+>>>  If I counted correctly this register has 18 bits which seem to=20
+>>> include
+>>>  some interrupt masks (which could be initialized somewhere else)=20
+>>> and we
+>>>  write a constant 0x1.
+>>>  Of course most other bits are clearly OSD related (alpha blending),
+>>>  i.e. they can have any value (incl. 0) if OSD is disabled. But=20
+>>> here we
+>>>  enable it. I think there may be missing some setting for the other=20
+>>> bits.
+>>>  So are you sure, that we can unconditionally reset *all* bits
+>>>  except JZ_LCD_OSDC_OSDEN for the jz4780?
+>>>  Well I have no experience with OSD being enabled at all. I.e. I=20
+>>> have no
+>>>  test scenario.
+>>>  So we can leave it out in v6.
+>=20
+> So we agree as here well.
+>=20
+>>>>>=20
+>>>>>  +	}
+>>>>  As I said in your v4... You don't need to add this here. The=20
+>>>> ingenic-dw-hdmi.c should take care of registering its driver.
+>>>  Well, I can not identify any difference in code structure to the=20
+>>> IPU code.
+>>>  The Makefile (after our patch) looks like:
+>>>  obj-$(CONFIG_DRM_INGENIC) +=3D ingenic-drm.o
+>>>  ingenic-drm-y =3D ingenic-drm-drv.o
+>>>  ingenic-drm-$(CONFIG_DRM_INGENIC_IPU) +=3D ingenic-ipu.o
+>>>  ingenic-drm-$(CONFIG_DRM_INGENIC_DW_HDMI) +=3D ingenic-dw-hdmi.o
+>>>  which means that ingenic-dw-hdmi.o is also compiled into=20
+>>> ingenic-drm,
+>>>  like ingenic-drm-drv.o and ingenic-ipu.o - if CONFIGured. If not,=20
+>>> there
+>>>  are these IS_ENABLED() tests to guard against compiler errors.
+>>>  Is there any technical reason to request a driver structure and=20
+>>> registration
+>>>  different from IPU here?
+>>=20
+>>  There is no reason to have ingenic-dw-hdmi built into the=20
+>> ingenic-drm module. It should be a separate module.
+>>=20
+>>>  Why not having ingenic-ipu.c taking care of registering its driver=20
+>>> as well?
+>>=20
+>>  IIRC ingenic-ipu.c was built into the ingenic-drm at the beginning=20
+>> because of circular dependencies between the IPU and main DRM=20
+>> driver. I think ingenic-ipu.c could be its own module now. That's=20
+>> something I will test soon.
+>=20
+> Ok, that was the piece of information I was missing. I always thought=20
+> that the way IPU is integrated is the best one and there is some=20
+> special requirement. And it shows how we should do it.
+>=20
+> So I'll wait until I see your proposal for IPU.
+
+Don't need to wait for me - just create a standard platform_driver=20
+module for the HDMI code. Since it won't touch the ingenic-drm-drv.c=20
+file, if I later patch the IPU code to be its own module, it won't=20
+conflict.
+
+Cheers,
+-Paul
+
+>>=20
+>>>  As soon as this is clarified, I can post a v6.
+>>>  Hm. I am not familiar with how ingenic_drm_crtc_atomic_check()
+>>>  would be notified about planes. Which configuration parameters
+>>>  should be checked for?
+>>=20
+>>  You know that the &ingenic_drm->f0 plane cannot be used (right=20
+>> now), so in ingenic_drm_plane_atomic_check() just:
+>>=20
+>>  if (plane =3D=3D &priv->f0 && crtc)
+>>    return -EINVAL;
+>=20
+> Ok, that is simple to add. Prepared for v6.
+>=20
+> So v6 is to be postponed by the patch for setting up=20
+> regmap_config.max_register and the separation of the IPU driver so=20
+> that it does not interfere.
+>=20
+> BR and thanks for all comments,
+> Nikolaus
+>=20
+
 
