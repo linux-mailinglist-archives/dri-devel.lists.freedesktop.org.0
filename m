@@ -1,60 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 045C644B3D2
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Nov 2021 21:15:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F71D44B3D5
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Nov 2021 21:19:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 64664895C4;
-	Tue,  9 Nov 2021 20:15:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA59C6E029;
+	Tue,  9 Nov 2021 20:19:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1240D89A76
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Nov 2021 20:15:30 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1636488931; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=a09cOZWdnZMjA1kVCCnNCaZU5c3H1BpzYjmM+qEEkaU=;
- b=Vq/XQumb2/sYbojo08fUU3xudsrLKlz42fpKrDTHhRBLiQIsRVGp668qrIBQyMCfxwJwMlkH
- G/44I7mJluxfs03NzdU+p0zpGLpIs7F049WcTd1BlSCiZcz+CgIgd3Y/n1dxTDCuUX+rLMk4
- RjqPp3xTYrC2MCHg9NfNFS2tmVU=
-X-Mailgun-Sending-Ip: 69.72.43.7
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n02.prod.us-west-2.postgun.com with SMTP id
- 618ad6d29198e3b25650cb26 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 09 Nov 2021 20:15:14
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 38B50C43618; Tue,  9 Nov 2021 20:15:14 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
- URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
- (No client certificate requested) (Authenticated sender: abhinavk)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 19640C4338F;
- Tue,  9 Nov 2021 20:15:13 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date: Tue, 09 Nov 2021 12:15:13 -0800
-From: abhinavk@codeaurora.org
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [Freedreno] [PATCH v2 16/22] drm/msm/dpu: do not limit the zpos
- property
-In-Reply-To: <20210705012115.4179824-17-dmitry.baryshkov@linaro.org>
-References: <20210705012115.4179824-1-dmitry.baryshkov@linaro.org>
- <20210705012115.4179824-17-dmitry.baryshkov@linaro.org>
-Message-ID: <3a48e580272ceb9d5d499455d8f35630@codeaurora.org>
-X-Sender: abhinavk@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+Received: from mo4-p02-ob.smtp.rzone.de (mo4-p02-ob.smtp.rzone.de
+ [85.215.255.83])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 025116E029
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Nov 2021 20:19:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1636489159;
+ s=strato-dkim-0002; d=goldelico.com;
+ h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
+ From:Subject:Sender;
+ bh=JxqM8I/z35C5+6J2ZygkF2pjyw7aqUpyOwISg707hYI=;
+ b=P4Q/O7R+6NMMrAlpZFc7SF8DTNcYUMrpfKvHu32CezOknO1/Yo3Iu2tZJRnS+B6797
+ 76Ib13MWNlnm3EMFJNL6+52AE4zRb0dQk3vI7FuUH7PpE4G/5iJKdR1zgUmly5toHPYt
+ WpTZh+y/F854ldxMHS1w1pphUwbZrRs7lxq5KjUdeBq9uoS8gv6VuMH1QzTQ0Up9B/tb
+ LsO+WBhZEYSz7IMIuHEkewh4vZVYNysaKyWP3OB4cZtp84qHRbfXjv1lFEbB4oTyP37T
+ dpbgYNVlCNj/DN1H9+nsVOQ4piaKfjU+96mmNhQLO4J9q35XkcpvMewwjw4HOZjPA5LZ
+ EzEQ==
+Authentication-Results: strato.com;
+    dkim=none
+X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj7gpw91N5y2S3i8cT6Q=="
+X-RZG-CLASS-ID: mo00
+Received: from imac.fritz.box by smtp.strato.de (RZmta 47.34.5 DYNA|AUTH)
+ with ESMTPSA id Y02aa4xA9KJI0YI
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1
+ with 256 ECDH bits, eq. 3072 bits RSA))
+ (Client did not present a certificate);
+ Tue, 9 Nov 2021 21:19:18 +0100 (CET)
+Content-Type: text/plain;
+	charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.21\))
+Subject: Re: [PATCH v5 5/7] MIPS: DTS: jz4780: Account for Synopsys HDMI
+ driver and LCD controllers
+From: "H. Nikolaus Schaller" <hns@goldelico.com>
+In-Reply-To: <BDU72R.SAKM4CQWCUKI2@crapouillou.net>
+Date: Tue, 9 Nov 2021 21:19:17 +0100
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <BF6CBFFA-E8AA-4CCE-A587-4D5D647DEC64@goldelico.com>
+References: <cover.1633436959.git.hns@goldelico.com>
+ <c243176cb5e5a3ab5df1fe77f9246b6d5ec4f88e.1633436959.git.hns@goldelico.com>
+ <O7VI0R.CRIG8R7O0OOI3@crapouillou.net> <3514743.EH6qe8WxYI@jason>
+ <N3YI0R.7ZLKK5JTBXW63@crapouillou.net>
+ <95D1DE70-DDF4-419B-8F0C-E9A6E0995D1F@goldelico.com>
+ <BDU72R.SAKM4CQWCUKI2@crapouillou.net>
+To: Paul Cercueil <paul@crapouillou.net>
+X-Mailer: Apple Mail (2.3445.104.21)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,80 +64,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Jonathan Marek <jonathan@marek.ca>,
- Stephen Boyd <sboyd@kernel.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
- David Airlie <airlied@linux.ie>, Sean Paul <sean@poorly.run>
+Cc: Mark Rutland <mark.rutland@arm.com>, Paul Boddie <paul@boddie.org.uk>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ linux-mips <linux-mips@vger.kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Miquel Raynal <miquel.raynal@bootlin.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS <devicetree@vger.kernel.org>,
+ Kees Cook <keescook@chromium.org>, Jon as Karlman <jonas@kwiboo.se>,
+ Mark Brown <broonie@kernel.org>, Maxime Ripard <maxime@cerno.tech>,
+ Discussions about the Letux Kernel <letux-kernel@openphoenux.org>,
+ Ezequiel Garcia <ezequiel@collabora.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Liam Girdwood <lgirdwood@gmail.com>, Robert Foss <robert.foss@linaro.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ "Eric W. Biederman" <ebiederm@xmission.com>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-07-04 18:21, Dmitry Baryshkov wrote:
-> Stop limiting zpos property values, we use normalized_zpos anyway. And
-> nothing stops userspace from assigning several planes to a single zpos
-> (it is a userspace bug, but the kernel is forgiving about it).
+Hi Paul,
 
-Userspace assigning several planes to a single zpos was intended to 
-identify
-cases where src split can be used. Downstream does not use normalized 
-zpos,
-hence it did not come across as a bug but mostly as a way to identify 
-when
-usermode needs src split to be enabled based on the composition 
-strategy.
+> Am 07.11.2021 um 20:05 schrieb Paul Cercueil <paul@crapouillou.net>:
+>=20
+>> 6. Therefore I think it *may* work overclocked with 48MHz
+>> but is not guaranteed or reliable above 27 MHz.
+>> So everything is ok here.
+>=20
+> One thing though - the "assigned-clocks" and "assigned-clock-rates", =
+while it works here, should be moved to the CGU node, to respect the =
+YAML schemas.
 
-We can talk about that more in the rest of the patches of this series.
+Trying to do this seems to break boot.
 
-For this one, I only have a couple of questions:
+I can boot up to=20
 
-1) Across different vendors, some have gone with limiting the zpos and 
-some have gone with
-the max, so is there an issue with sticking with the max_blend_stages 
-limit?
+[    8.312926] dw-hdmi-ingenic 10180000.hdmi: registered DesignWare HDMI =
+I2C bus driver
 
-2) If there is no hard reason to make this change, I think its better to 
-keep it the way it is.
+and
 
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 11 +----------
->  1 file changed, 1 insertion(+), 10 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> index 8ed7b8f0db69..3850f2714bf3 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> @@ -44,7 +44,6 @@
->  #define DPU_NAME_SIZE  12
-> 
->  #define DPU_PLANE_COLOR_FILL_FLAG	BIT(31)
-> -#define DPU_ZPOS_MAX 255
-> 
->  /* multirect rect index */
->  enum {
-> @@ -1374,7 +1373,6 @@ struct drm_plane *dpu_plane_init(struct 
-> drm_device *dev,
->  	struct dpu_plane *pdpu;
->  	struct msm_drm_private *priv = dev->dev_private;
->  	struct dpu_kms *kms = to_dpu_kms(priv->kms);
-> -	int zpos_max = DPU_ZPOS_MAX;
->  	uint32_t num_formats;
->  	int ret = -EINVAL;
-> 
-> @@ -1412,14 +1410,7 @@ struct drm_plane *dpu_plane_init(struct 
-> drm_device *dev,
-> 
->  	pdpu->catalog = kms->catalog;
-> 
-> -	if (kms->catalog->mixer_count &&
-> -		kms->catalog->mixer[0].sblk->maxblendstages) {
-> -		zpos_max = kms->catalog->mixer[0].sblk->maxblendstages - 1;
-> -		if (zpos_max > DPU_STAGE_MAX - DPU_STAGE_0 - 1)
-> -			zpos_max = DPU_STAGE_MAX - DPU_STAGE_0 - 1;
-> -	}
-> -
-> -	ret = drm_plane_create_zpos_property(plane, 0, 0, zpos_max);
-> +	ret = drm_plane_create_zpos_property(plane, 0, 0, 255);
->  	if (ret)
->  		DPU_ERROR("failed to install zpos property, rc = %d\n", ret);
+[   11.366899] [drm] Initialized ingenic-drm 1.1.0 20200716 for =
+13050000.lcdc0 on minor 0
+
+but then the boot process becomes slow and hangs. Last sign of activity =
+is
+
+[   19.347659] hub 1-0:1.0: USB hub found
+[   19.353478] hub 1-0:1.0: 1 port detected
+[   32.321760] wlan0_power: disabling
+
+What I did was to just move
+
+		assigned-clocks =3D <&cgu JZ4780_CLK_HDMI>;
+		assigned-clock-rates =3D <27000000>;
+
+from
+
+	hdmi: hdmi@10180000 {
+
+to
+
+	cgu: jz4780-cgu@10000000 {
+
+Does this mean the clock is assigned too early or too late?
+
+Do you have any suggestions since I don't know the details of CGU.
+
+BR and thanks,
+Nikolaus
+
