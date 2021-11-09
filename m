@@ -1,57 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D819544B457
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Nov 2021 21:54:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C9B9944B488
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Nov 2021 22:15:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 079846E8F8;
-	Tue,  9 Nov 2021 20:54:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 162846E897;
+	Tue,  9 Nov 2021 21:15:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com
- [IPv6:2607:f8b0:4864:20::52a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 901EF6E8F8
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Nov 2021 20:54:22 +0000 (UTC)
-Received: by mail-pg1-x52a.google.com with SMTP id n23so217172pgh.8
- for <dri-devel@lists.freedesktop.org>; Tue, 09 Nov 2021 12:54:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gateworks-com.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=WchpmjZD1OSc7yUgT0U6rjFk5M2YOtX4+fqDhK7nVN8=;
- b=K+Fw/EtsFCkpgtkhypIoPV6wt8V8/zgoqUcJxRJX1ONyC0snUO9cW/s9lINjW4TCRr
- iau3at50DTpK1nN1h0ZRd3P913NjD2heh7pWic++5wNTER3OgO9fURRw1PFIsSWf6YKN
- wS/LcGp2I3v3SVJMnE9QIHnGoIb0nYa+0XCirnmuuYYNXAtE10NETiPT/7SLDOeOzBcF
- XpqsJg30Lv8Pe9VAXT47o/Iq8JuIzect/Qsg29l0s1SG9SC0qZdILhb6MgXX2tin4wFx
- ZlHSj8NHwhNCwOBl3Jt0eqD1WVH/SEKAEuBjFrBDg6pw7rhtyUitzsuIvSzIvepA1ywW
- F+mA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=WchpmjZD1OSc7yUgT0U6rjFk5M2YOtX4+fqDhK7nVN8=;
- b=qsMwkwuop6vjvUkFagq5jzEgZmeiasZrRW82Y79kxQgVZ3njZzgjsMSsx1jBoaw5Eo
- iw0PXCHNUGX2Nvz3EnOJQ5Zr5xxFFOz1TesSYfu0ZUFJ7FxyonmW8liBOp1qaksYug0T
- pioWn4wqCArmYWr1nXEDv2xaaGIUhhcXSVJDfFSFizlNztsMlCqsWurjNFwm7T+NobbG
- tKhM5EhRfRu1qKCAmjZ922X6G2ScdsHG4GAg5B6HuT4e6f7etKrz8ii7lOnVEDvCksTP
- tADL9AmWldDjTgssWEOVTsXh9iEv4sWrdMEsSlO1kHDyaZCOVAWHRPdk28JAFqvhyCjH
- FqBg==
-X-Gm-Message-State: AOAM532/LqWXdqjxtW1DuEl4v4aGT7IKgrhrxeNEkDaPKwnofc29/R/Z
- ATI69gyEfy+X2b1S1z23dfMjY92hjnltojwbTdWerg==
-X-Google-Smtp-Source: ABdhPJw4aTPT56fd1n3CSEYSNtjUKe/aTFfOVpZa1DsiccMIi7R5+fss6zDRP/1w+0E19Y4uDHs4hewkcr5gYFWvqHs=
-X-Received: by 2002:a63:6bca:: with SMTP id g193mr8178072pgc.358.1636491262029; 
- Tue, 09 Nov 2021 12:54:22 -0800 (PST)
-MIME-Version: 1.0
-References: <20211109173357.780-1-tharvey@gateworks.com>
- <CAHCN7xJAW40xvLpBttWRfbv=Pz=HeCbX+g2uZa6CabiqLqG3PA@mail.gmail.com>
- <aa73406a-7007-0d66-40ba-dd1d71780249@denx.de>
-In-Reply-To: <aa73406a-7007-0d66-40ba-dd1d71780249@denx.de>
-From: Tim Harvey <tharvey@gateworks.com>
-Date: Tue, 9 Nov 2021 12:54:10 -0800
-Message-ID: <CAJ+vNU1fJwimBO3t42wmgBzS8t2iyj=TfL9=chPW-OMbFz1S0A@mail.gmail.com>
-Subject: Re: [RFC] arm64: dts: imx8mm: Add MIPI and LCDIF nodes
-To: Marek Vasut <marex@denx.de>
-Content-Type: text/plain; charset="UTF-8"
+Received: from mo4-p03-ob.smtp.rzone.de (mo4-p03-ob.smtp.rzone.de
+ [81.169.146.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7FFDE6E897
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Nov 2021 21:15:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1636492464;
+ s=strato-dkim-0002; d=goldelico.com;
+ h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
+ From:Subject:Sender;
+ bh=quLu7mS7NCzSVjkHuzT3rgqoZ7lnZyxc90gs5rG1UFg=;
+ b=D2LLh5em7bNfkxFpNKYI4ke/zCaEhrT46dLU/hyC0OcN3rA7mgQ6GyXpv6LNY6VS9V
+ STjYbaos7o1qS7xUrW/YXncEKOC6xz16tJKAbPWFMvdVAxxAswHkGbmb2BgQvnj49Ur8
+ av1ht+6HJm/hzQXERImagp2t4MFWoW9ETljOmXXNlHePeCvDzW6atF/BnJ/WTj++eQs7
+ Ple58DB0NYkekyj/TB3pbeysVqiIj7DCLSxNfFMeasMX49Ra9tEi7VhEP8aeHnHHKll8
+ 8m/rOOaNZgBj3ZOEVgUDdrILc76NNLgR1CVuUU2AhPeFwjQtBeCwa3Vk5WEH4LNTj9bv
+ Lm+g==
+Authentication-Results: strato.com;
+    dkim=none
+X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj7gpw91N5y2S3i8cT6Q=="
+X-RZG-CLASS-ID: mo00
+Received: from imac.fritz.box by smtp.strato.de (RZmta 47.34.5 DYNA|AUTH)
+ with ESMTPSA id Y02aa4xA9LEN0iJ
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1
+ with 256 ECDH bits, eq. 3072 bits RSA))
+ (Client did not present a certificate);
+ Tue, 9 Nov 2021 22:14:23 +0100 (CET)
+Content-Type: text/plain;
+	charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.21\))
+Subject: Re: [Letux-kernel] [PATCH v5 5/7] MIPS: DTS: jz4780: Account for
+ Synopsys HDMI driver and LCD controllers
+From: "H. Nikolaus Schaller" <hns@goldelico.com>
+In-Reply-To: <4DCFE008-A619-465F-9124-F58AC36A2B08@goldelico.com>
+Date: Tue, 9 Nov 2021 22:14:22 +0100
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <108FD13E-F623-493D-8091-1E0D73479A4D@goldelico.com>
+References: <cover.1633436959.git.hns@goldelico.com>
+ <c243176cb5e5a3ab5df1fe77f9246b6d5ec4f88e.1633436959.git.hns@goldelico.com>
+ <O7VI0R.CRIG8R7O0OOI3@crapouillou.net> <3514743.EH6qe8WxYI@jason>
+ <N3YI0R.7ZLKK5JTBXW63@crapouillou.net>
+ <95D1DE70-DDF4-419B-8F0C-E9A6E0995D1F@goldelico.com>
+ <BDU72R.SAKM4CQWCUKI2@crapouillou.net>
+ <BF6CBFFA-E8AA-4CCE-A587-4D5D647DEC64@goldelico.com>
+ <6WNB2R.GJ2KT1BB7QOY1@crapouillou.net>
+ <4DCFE008-A619-465F-9124-F58AC36A2B08@goldelico.com>
+To: Paul Cercueil <paul@crapouillou.net>
+X-Mailer: Apple Mail (2.3445.104.21)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,146 +67,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Adam Ford <aford173@gmail.com>, Michael Tretter <m.tretter@pengutronix.de>,
+Cc: Mark Rutland <mark.rutland@arm.com>, Paul Boddie <paul@boddie.org.uk>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
  dri-devel <dri-devel@lists.freedesktop.org>,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Jagan Teki <jagan@amarulasolutions.com>,
- Tommaso Merciai <tomm.merciai@gmail.com>, NXP Linux Team <linux-imx@nxp.com>
+ Liam Girdwood <lgirdwood@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Miquel Raynal <miquel.raynal@bootlin.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ linux-mips <linux-mips@vger.kernel.org>,
+ OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS <devicetree@vger.kernel.org>,
+ Kees Cook <keescook@chromium.org>, Jon as Karlman <jonas@kwiboo.se>,
+ Mark Brown <broonie@kernel.org>, Maxime Ripard <maxime@cerno.tech>,
+ Discussions about the Letux Kernel <letux-kernel@openphoenux.org>,
+ Ezequiel Garcia <ezequiel@collabora.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ Robert Foss <robert.foss@linaro.org>, Rob Herring <robh+dt@kernel.org>,
+ "Eric W. Biederman" <ebiederm@xmission.com>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 9, 2021 at 12:39 PM Marek Vasut <marex@denx.de> wrote:
->
-> On 11/9/21 8:35 PM, Adam Ford wrote:
->
-> [...]
->
-> >> diff --git a/arch/arm64/boot/dts/freescale/imx8mm.dtsi b/arch/arm64/boot/dts/freescale/imx8mm.dtsi
-> >> index 208a0ed840f4..195dcbff7058 100644
-> >> --- a/arch/arm64/boot/dts/freescale/imx8mm.dtsi
-> >> +++ b/arch/arm64/boot/dts/freescale/imx8mm.dtsi
-> >> @@ -188,6 +188,12 @@
-> >>                  clock-output-names = "clk_ext4";
-> >>          };
-> >>
-> >> +       mipi_phy: mipi-video-phy {
-> >> +               compatible = "fsl,imx8mm-mipi-video-phy";
-> >> +               syscon = <&disp_blk_ctrl>;
-> >> +               #phy-cells = <1>;
-> >> +       };
-> >> +
-> >>          psci {
-> >>                  compatible = "arm,psci-1.0";
-> >>                  method = "smc";
-> >> @@ -1068,6 +1074,68 @@
-> >>                          #size-cells = <1>;
-> >>                          ranges = <0x32c00000 0x32c00000 0x400000>;
-> >>
-> >> +                       lcdif: lcdif@32e00000 {
-> >> +                               #address-cells = <1>;
-> >> +                               #size-cells = <0>;
-> >> +                               compatible = "fsl,imx8mm-lcdif", "fsl,imx6sx-lcdif";
-> >
-> > The compatible "imx6sx-lcdif" implies MXSFB_V6.  FWICT, it is like
-> > MXSFB_V4, but with overlays and those overlays have more registers
-> > configured in the mxsfb_kms driver.  Have you tried using imx28-lcdif
-> > to see if it makes a difference?
->
-> Indeed, MX6SX has AS overlay plane support, MX{2,}8 does not.
->
-> LCDIFv3 (as NXP calls it) in MX8MP is like LCDIFv6 (in MX6SX) with
-> slightly reordered register bits, but nothing like LCDIF rev3 (in MX23)
-> ... just to make sure there is no confusion.
->
-> [...]
->
-> >> +                       mipi_dsi: mipi_dsi@32e10000 {
-> >> +                               #address-cells = <1>;
-> >> +                               #size-cells = <0>;
-> >> +                               compatible = "fsl,imx8mm-mipi-dsim";
-> >> +                               reg = <0x32e10000 0x400>;
-> >> +                               clocks = <&clk IMX8MM_CLK_DSI_CORE>,
-> >> +                                        <&clk IMX8MM_CLK_DSI_PHY_REF>;
-> >> +                               clock-names = "bus_clk", "sclk_mipi";
-> >> +                               assigned-clocks = <&clk IMX8MM_CLK_DSI_CORE>,
-> >> +                                                 <&clk IMX8MM_VIDEO_PLL1_OUT>,
-> >> +                                                 <&clk IMX8MM_CLK_DSI_PHY_REF>;
-> >> +                               assigned-clock-parents = <&clk IMX8MM_SYS_PLL1_266M>,
-> >> +                                                        <&clk IMX8MM_VIDEO_PLL1_BYPASS>,
-> >> +                                                        <&clk IMX8MM_VIDEO_PLL1_OUT>;
-> >> +                               assigned-clock-rates = <266000000>, <594000000>, <27000000>;
-> >> +                               interrupts = <GIC_SPI 18 IRQ_TYPE_LEVEL_HIGH>;
-> >> +                               phys = <&mipi_phy 0>;
-> >> +                               phy-names = "dsim";
-> >> +                               power-domains = <&disp_blk_ctrl IMX8MM_DISPBLK_PD_MIPI_DSI>;
-> >> +                               samsung,burst-clock-frequency = <891000000>;
-> >> +                               samsung,esc-clock-frequency = <54000000>;
-> >> +                               samsung,pll-clock-frequency = <27000000>;
->
-> This 27 MHz is really IMX8MM_CLK_DSI_PHY_REF and
-> samsung,burst-clock-frequency is really the DSI link clock which is
-> panel/bridge specific ... but, why do we need to specify such policy in
-> DT rather than have the panel/bridge drivers negotiate the best clock
-> settings with DSIM bridge driver ? This should be something which should
-> be implemented in the DRM subsystem, not hard-coded in DT. These ad-hoc
-> samsung,*-clock-frequency properties shouldn't even be needed then.
->
-> Also, are the DSIM bindings stable now ?
 
-Thanks Marek.
 
-No, there is no dsim driver yet. I'm not clear if there is still
-dissagreement on if the drm/exynos driver can be split up or if a
-whole new somewhat duplicate driver needs to be made. I know Jagan
-also has a series he is working on that uses drm/exynos which I
-believe he will share an update on in a day or so.
+> Am 09.11.2021 um 21:42 schrieb H. Nikolaus Schaller =
+<hns@goldelico.com>:
+>=20
+>> So you want to update these properties to add the HDMI clock setting, =
+like this:
+>>=20
+>> 	assigned-clocks =3D <&cgu JZ4780_CLK_OTGPHY>, <&cgu =
+JZ4780_CLK_RTC>, <&cgu JZ4780_CLK_HDMI>;
+>> 	assigned-clock-parents =3D <0>, <&cgu JZ4780_CLK_RTCLK>;
+>> 	assigned-clock-rates =3D <48000000>, <0>, <27000000>;
+>=20
+> Will give it a try.
 
-I'm still using the work that Michael [1] and you [2] did a long time back.
+Yes, works. So v6 is not far away.
 
-I had this solution working on a 5.10 kernel but it was based on the
-old unapproved IMX8MM blk-ctl and pd drivers. Therefore I believe the
-issue I'm having is something not setup correctly with blk-ctl per my
-dt settings or perhaps something missing from the blk-ctl driver like
-Adam found [3]
+BR,
+Nikolaus
 
-I am hanging at:
-[    1.064088] imx_pgc_power_up gpumix
-[    1.077506] imx_pgc_power_down gpumix
-[    1.097685] imx8m_blk_ctrl_power_on dispblk-mipi-dsi
-[    1.102682] imx_pgc_power_up dispmix
-[    1.106825] imx_pgc_power_up mipi
-[    1.110232] imx-dsim-dsi 32e10000.mipi_dsi: supply vddcore not
-found, using dummy regulator
-[    1.118760] imx-dsim-dsi 32e10000.mipi_dsi: supply vddio not found,
-using dummy regulator
-[    1.127361] imx-dsim-dsi 32e10000.mipi_dsi: [drm] *ERROR* modalias
-failure on /soc@0/bus@32c00000/mipi_dsi@32e10000/port@0
-[    1.138676] imx8m_blk_ctrl_power_off dispblk-mipi-dsi
-[    1.143788] imx_pgc_power_down mipi
-[    1.145278] imx8m_blk_ctrl_power_on dispblk-lcdif
-[    1.147316] imx_pgc_power_down dispmix
-[    1.155804] imx_pgc_power_up dispmix
-[    1.159820] [drm:drm_bridge_attach] *ERROR* failed to attach bridge
-/soc@0/bus@32c00000/mipi_dsi@32e10000 to encoder None-34: -517
-^^^ this is just a defer
-[    1.171789] imx8m_blk_ctrl_power_off dispblk-lcdif
-[    1.176655] imx_pgc_power_down dispmix
-[    1.181790] libphy: fec_enet_mii_bus: probed
-[    3.915806] panel-simple panel: Expected bpc in {6,8} but got: 0
-^^^ not sure what this is but had it back in my 5.10 solution as well
-so did not investigate
-[    3.921912] imx8m_blk_ctrl_power_on dispblk-mipi-dsi
-[    3.926936] imx_pgc_power_up dispmix
-[    3.931109] imx_pgc_power_up mipi
-[    3.935409] imx8m_blk_ctrl_power_on dispblk-lcdif
-[    3.940547] imx8m_blk_ctrl_power_off dispblk-lcdif
-[    3.945626] [drm] Initialized mxsfb-drm 1.0.0 20160824 for
-32e00000.lcdif on minor 0
-^^^ not clear why dispblk-lcdif got disabled here
-
-Best regards,
-
-Tim
-[1] https://patchwork.kernel.org/project/dri-devel/list/?series=347439&archive=both&state=*
-[2] https://patchwork.kernel.org/project/linux-arm-kernel/list/?series=359775&archive=both&state=*
-[3] https://patchwork.kernel.org/project/linux-arm-kernel/patch/20211106155427.753197-1-aford173@gmail.com/
