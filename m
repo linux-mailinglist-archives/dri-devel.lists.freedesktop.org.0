@@ -2,115 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A9DF44A5F7
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Nov 2021 05:57:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C0C644A65E
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Nov 2021 06:34:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D78CC89EB8;
-	Tue,  9 Nov 2021 04:57:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 992806E32A;
+	Tue,  9 Nov 2021 05:34:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout1.samsung.com (mailout1.samsung.com [203.254.224.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A66289F06
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Nov 2021 04:57:47 +0000 (UTC)
-Received: from epcas1p2.samsung.com (unknown [182.195.41.46])
- by mailout1.samsung.com (KnoxPortal) with ESMTP id
- 20211109045745epoutp0128ac28e6e39284b1712ea5650a8be851~1x_5DbxaT0218802188epoutp01P
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Nov 2021 04:57:45 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com
- 20211109045745epoutp0128ac28e6e39284b1712ea5650a8be851~1x_5DbxaT0218802188epoutp01P
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1636433865;
- bh=ANh3cRKm36WmEPwoAPLZp935d6WceP07H6l2ech2/Hc=;
- h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
- b=IecfXSdX64/SEd8VWbb/8WXCnIaYGeI/HbYBp4f6aTXstSu97tSkWZkGBUEMaFgFC
- yAFxhFtazNBA7PL92QiQyP1TB0LuLosgyMpYC40WsxwraCl6NlPUgM4L+vvmj3MMR9
- IH6UwhNITaTb2UmLkETWto7Nuw3csdrCLSruWv4E=
-Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
- epcas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20211109045745epcas1p241828c9a74fb4b6120bfff7ca0719c92~1x_4el3W60690306903epcas1p2G;
- Tue,  9 Nov 2021 04:57:45 +0000 (GMT)
-Received: from epsmges1p1.samsung.com (unknown [182.195.38.235]) by
- epsnrtp3.localdomain (Postfix) with ESMTP id 4HpG1r6GVvz4x9R0; Tue,  9 Nov
- 2021 04:57:36 +0000 (GMT)
-Received: from epcas1p3.samsung.com ( [182.195.41.47]) by
- epsmges1p1.samsung.com (Symantec Messaging Gateway) with SMTP id
- 23.2B.64085.ABFF9816; Tue,  9 Nov 2021 13:57:30 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
- epcas1p4.samsung.com (KnoxPortal) with ESMTPA id
- 20211109045730epcas1p4a5295673a5aad41d1b0c8b5ea68636dd~1x_rFtcz30646206462epcas1p4R;
- Tue,  9 Nov 2021 04:57:30 +0000 (GMT)
-Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
- epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20211109045730epsmtrp1213b89479be836f60004e73dd7eb7b8a~1x_rE1PHb1318413184epsmtrp1u;
- Tue,  9 Nov 2021 04:57:30 +0000 (GMT)
-X-AuditID: b6c32a35-9adff7000000fa55-c9-6189ffbaeeb6
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
- epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
- 5C.BF.08738.ABFF9816; Tue,  9 Nov 2021 13:57:30 +0900 (KST)
-Received: from [10.113.221.211] (unknown [10.113.221.211]) by
- epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20211109045730epsmtip2305d4d7a3be6744286980fba874b0a67~1x_qwWiAs1204612046epsmtip2U;
- Tue,  9 Nov 2021 04:57:30 +0000 (GMT)
-Subject: Re: [PATCH 1/3] drm/exynox: Implement mmap as GEM object function
-To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
- airlied@linux.ie, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- jy0922.shim@samsung.com, sw0312.kim@samsung.com, kyungmin.park@samsung.com,
- krzysztof.kozlowski@canonical.com, oleksandr_andrushchenko@epam.com
-From: Inki Dae <inki.dae@samsung.com>
-Message-ID: <f88911b4-b5a7-abf1-4294-8e593b049448@samsung.com>
-Date: Tue, 9 Nov 2021 14:08:25 +0900
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D89976E32A
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Nov 2021 05:34:34 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 1B1F921B06;
+ Tue,  9 Nov 2021 05:34:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+ t=1636436073; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=25xyWJJliRTmh2VW41Gr038sYdV14J8Jet0MH+0nmRc=;
+ b=YFtzPnXqG67rjcdQsp5lPWm1fNyQb9weZabWSAy9opVyfNCeSNE9TQrEJI67FA5fFtvYSk
+ UjUHjg4l1zda4NZshFvs2ysrDGpnMKdhHQ/BqcBOV8MMnX1dShLwur4h16FgvC1WyeeniV
+ ireRCYpnLH0OrmtKH2jjH0KtmgSwyJ0=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7D1F813A9D;
+ Tue,  9 Nov 2021 05:34:32 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id spzKHGgIimGncwAAMHmgww
+ (envelope-from <jgross@suse.com>); Tue, 09 Nov 2021 05:34:32 +0000
+To: "Srivatsa S. Bhat" <srivatsa@csail.mit.edu>, x86@kernel.org,
+ pv-drivers@vmware.com
+References: <163640336232.62866.489924062999332446.stgit@srivatsa-dev>
+ <163640339370.62866.3435211389009241865.stgit@srivatsa-dev>
+From: Juergen Gross <jgross@suse.com>
+Subject: Re: [PATCH 2/2] MAINTAINERS: Mark VMware mailing list entries as
+ private
+Message-ID: <05804bc2-60fb-b1f8-c0c4-ad7b1c45462a@suse.com>
+Date: Tue, 9 Nov 2021 06:34:31 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-In-Reply-To: <20211108102846.309-2-tzimmermann@suse.de>
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA01Tf1AUdRyd7+7eskei2ynyDQru1mwGjB8nHOwhh4yZs2DjgExZOIUbrNzF
- /er2aFSkMIoBFOKEAi9EmI6ow/EEDwTMmmAAGQihYcQcERJqgkQOEG3GceyOxeK/9z7z3vd9
- 3/cHgUrGcX9CozdzJj2rpXBvrK07ODz0ytNiNmIhgS4d6kfop20WlB5dnsfpv+6MYHTz3D8I
- /cun97zolqkbIrr6+o8IXb/QitGFxd+KaFfTvHtWMYPTznsWEf3IWYEkrGes+aU4c7uhAzBX
- H9ZhTIu9GGcuP5wUMbX9KczEyT6EuWT7hOl2jWJMmdMOmEsDucxSS2DyurTsODXHZnImKafP
- MGRq9Fkqam9q+mvpiugIeahcScdQUj2r41TU7jeSQ/dotO4ilPQjVpvjHiWzPE+Fx8eZDDlm
- Tqo28GYVxRkztUaFMYxndXyOPitMz5lj5RER2xVu4aFs9VzfNG4cVh4puDaB5IOq8BIgJiAZ
- BSseLIhKgDchIdsBHG2+ighkEcCljkFcIEsAtleWoc8sjXeLV1WdADYNtaySeQAbT9e4VQSx
- kUyCdYvPeeabyBoETtmeAA9ByTIAf+5exjxL4eRWaPluAvdgHzIeOi9WrmCMfBleKRlCPNiX
- fAc+6e8UCZrnYf+Z6RWvmIyB9jnbih4l/eCt6XOIgINgQevXqCcMki4C3u2qRYR974bLpd8A
- AW+Es31OLwH7w5kvCr0EQwGAluoBRCBFAI5PjWGCKhL+1FCBeLqhZDB0dK6enwx2PD4LhOT1
- 8P7yKZFHAkkfWFQoESQU7B25uZoL4bDNgguYgc03z6PlQGZd0826po91TR/r/8F1ALODzZyR
- 12VxvNwo/+/CMwy6FrDyzkMU7cAy5wrrAggBugAkUGqTz52eIlbik8kePcaZDOmmHC3HdwGF
- +7QtqL9vhsH9UfTmdHmUMiIqentkFC2PllN+PkuBH7ISMos1c9kcZ+RMz3wIIfbPR/K9q05V
- 9spEDZN9O4sOSvZc/O1WuE23v/f3A6mJYztiljc4J9+jt73oCC6MZpPGbUpkMQ858bH2cn39
- Z7INSpmGUxCNuQF/Hzx+9M05ac9g/dIP5bHDryRc+FW1GQbMgrRcu/hLv/DW761f7X2rad5x
- Yv+f7xaXtw0ZxCFiWcpZ1+dBSTvyetTKsl1bHah+y8AHfacr+AMXQtGTqfuuM2l5kZr5xNqa
- bVsKz7lUs2kvjUTFByeeCXk7rCrF1XHYrts5wxy69rrsyDrNLvHgH/dL21BD+lhAucM4zDqw
- B8czlIE3jBmvliy84Jsp5eCx2MfnqzlV0O1R8b448pHzffKwmcJ4NSsPQU08+y8YGzrVcAQA
- AA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrJIsWRmVeSWpSXmKPExsWy7bCSvO6u/52JBkePKFr0njvJZPF/20Rm
- iytf37NZvLh3kcVi49sfTBZnm96wW2x6fI3VYsb5fUwWCz9uZbFo61zGavFh9Xug2OSXbBZb
- 3kxktfi+ZTKTA5/HrIZeNo87S3cyeuz9toDFY9OqTjaP7d8esHrMOxnocb/7OJPH5iX1Hoc/
- XGHx6NuyitFj8+lqj8+b5AJ4orhsUlJzMstSi/TtErgy3h5/wlZwwbKi+cR9pgbG6fpdjJwc
- EgImEssfdTKB2EICOxglvr5V62LkAIpLSGzZygFhCkscPlzcxcgFVPGWUeJ2z0UmkLiwgJfE
- gk/cIHERgTlMEj8nH2ADcZgF+hgl7nQeZoLo2M4osefUFVaQBWwCqhITV9xnA7F5BewktmyY
- AmazCKhI7O46B3aEqECkRNOJrVA1ghInZz5hAbE5BcwlVr1dAhZnFlCX+DPvEjOELS5x68l8
- JghbXqJ562zmCYxCs5C0z0LSMgtJyywkLQsYWVYxSqYWFOem5xYbFhjlpZbrFSfmFpfmpesl
- 5+duYgTHrpbWDsY9qz7oHWJk4mA8xCjBwawkwnvvaEeiEG9KYmVValF+fFFpTmrxIUZpDhYl
- cd4LXSfjhQTSE0tSs1NTC1KLYLJMHJxSDUwp0tJ1z7V4blzgKf9+a/ePxxt/1WbeedhyluFC
- WFkJs3v6xpNSL638pzEr/JqTlXpLOYblb+SvA7mztHW/5h0/d3tO7p8OnrtZ6w5Js+ywrpx8
- brtzZVScssWl3Xwi1avfLi9nzLow/93x8w+PxM8S6f1T9drZZKXQBpGrtrHXeH1L/v9ckLGp
- Yb/mpenaMgW1/gXeEpM+vqnZFqI2s6bXKsUr+RRHWpqt3+ypSz7/3Nz+0O/SRIebRo7nT1y/
- nPdY7ZFZNVd39sRF9aJz8+f3TGprW2lZ+Px0tPmpKrMZtjUdSufnCHJW6m6W3mnIqcXod3lV
- 5tUZfxzTzP2cnfNtRfRt9mRFF+46XOP7Q1aJpTgj0VCLuag4EQCAp9CVTAMAAA==
-X-CMS-MailID: 20211109045730epcas1p4a5295673a5aad41d1b0c8b5ea68636dd
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: SVC_REQ_APPROVE
-CMS-TYPE: 101P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20211108102856epcas1p3c75e195fee7701b637f1c872ca0c7f93
-References: <20211108102846.309-1-tzimmermann@suse.de>
- <CGME20211108102856epcas1p3c75e195fee7701b637f1c872ca0c7f93@epcas1p3.samsung.com>
- <20211108102846.309-2-tzimmermann@suse.de>
+In-Reply-To: <163640339370.62866.3435211389009241865.stgit@srivatsa-dev>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="al1MqEmNzTaRWgbdIcvBJCOhrC2hGsWXq"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,208 +63,246 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: xen-devel@lists.xenproject.org, linux-samsung-soc@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org
+Cc: amakhalov@vmware.com, Ronak Doshi <doshir@vmware.com>,
+ linux-scsi@vger.kernel.org, anishs@vmware.com,
+ Vishal Bhakta <vbhakta@vmware.com>, netdev@vger.kernel.org, sdeep@vmware.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org, keerthanak@vmware.com,
+ linux-rdma@vger.kernel.org, linux-graphics-maintainer@vmware.com,
+ srivatsab@vmware.com, linux-input@vger.kernel.org,
+ Nadav Amit <namit@vmware.com>, Vivek Thampi <vithampi@vmware.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--al1MqEmNzTaRWgbdIcvBJCOhrC2hGsWXq
+Content-Type: multipart/mixed; boundary="W6JL2G1FAlQS9hzWi03hu2aIhExlEcuAp";
+ protected-headers="v1"
+From: Juergen Gross <jgross@suse.com>
+To: "Srivatsa S. Bhat" <srivatsa@csail.mit.edu>, x86@kernel.org,
+ pv-drivers@vmware.com
+Cc: Nadav Amit <namit@vmware.com>, Vivek Thampi <vithampi@vmware.com>,
+ Vishal Bhakta <vbhakta@vmware.com>, Ronak Doshi <doshir@vmware.com>,
+ linux-graphics-maintainer@vmware.com, dri-devel@lists.freedesktop.org,
+ linux-rdma@vger.kernel.org, linux-scsi@vger.kernel.org,
+ netdev@vger.kernel.org, linux-input@vger.kernel.org,
+ Zack Rusin <zackr@vmware.com>, sdeep@vmware.com, amakhalov@vmware.com,
+ virtualization@lists.linux-foundation.org, keerthanak@vmware.com,
+ srivatsab@vmware.com, anishs@vmware.com, linux-kernel@vger.kernel.org
+Message-ID: <05804bc2-60fb-b1f8-c0c4-ad7b1c45462a@suse.com>
+Subject: Re: [PATCH 2/2] MAINTAINERS: Mark VMware mailing list entries as
+ private
+References: <163640336232.62866.489924062999332446.stgit@srivatsa-dev>
+ <163640339370.62866.3435211389009241865.stgit@srivatsa-dev>
+In-Reply-To: <163640339370.62866.3435211389009241865.stgit@srivatsa-dev>
 
-Really sorry for late. I saw this patch in my mailbox just before. Seems I missed it due to a typo, exynox.
-I will review and apply this patch ASAP.
+--W6JL2G1FAlQS9hzWi03hu2aIhExlEcuAp
+Content-Type: multipart/mixed;
+ boundary="------------641FCF0DF0F5BF271A32D69F"
+Content-Language: en-US
 
-Thanks,
-Inki Dae
+This is a multi-part message in MIME format.
+--------------641FCF0DF0F5BF271A32D69F
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-21. 11. 8. 오후 7:28에 Thomas Zimmermann 이(가) 쓴 글:
-> Moving the driver-specific mmap code into a GEM object function allows
-> for using DRM helpers for various mmap callbacks.
-> 
-> The respective exynos functions are being removed. The file_operations
-> structure exynos_drm_driver_fops is now being created by the helper macro
-> DEFINE_DRM_GEM_FOPS().
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+On 08.11.21 21:30, Srivatsa S. Bhat wrote:
+> From: Srivatsa S. Bhat (VMware) <srivatsa@csail.mit.edu>
+>=20
+> VMware mailing lists in the MAINTAINERS file are private lists meant
+> for VMware-internal review/notification for patches to the respective
+> subsystems. So, in an earlier discussion [1][2], it was recommended to
+> mark them as such. Update all the remaining VMware mailing list
+> references to use that format -- "L: list@address (private)".
+>=20
+> [1]. https://lore.kernel.org/r/YPfp0Ff6KuyPlyrc@kroah.com
+> [2]. https://lore.kernel.org/r/1626861766-11115-1-git-send-email-jhanse=
+n@vmware.com
+>=20
+> Signed-off-by: Srivatsa S. Bhat (VMware) <srivatsa@csail.mit.edu>
+> Cc: Nadav Amit <namit@vmware.com>
+> Cc: Vivek Thampi <vithampi@vmware.com>
+> Cc: Vishal Bhakta <vbhakta@vmware.com>
+> Cc: Ronak Doshi <doshir@vmware.com>
+> Cc: pv-drivers@vmware.com
+> Cc: linux-graphics-maintainer@vmware.com
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-rdma@vger.kernel.org
+> Cc: linux-scsi@vger.kernel.org
+> Cc: netdev@vger.kernel.org
+> Cc: linux-input@vger.kernel.org
+> Acked-by: Zack Rusin <zackr@vmware.com>
 > ---
->  drivers/gpu/drm/exynos/exynos_drm_drv.c   | 13 ++-----
->  drivers/gpu/drm/exynos/exynos_drm_fbdev.c | 20 ++---------
->  drivers/gpu/drm/exynos/exynos_drm_gem.c   | 43 +++++------------------
->  drivers/gpu/drm/exynos/exynos_drm_gem.h   |  5 ---
->  4 files changed, 13 insertions(+), 68 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/exynos/exynos_drm_drv.c b/drivers/gpu/drm/exynos/exynos_drm_drv.c
-> index d8f1cf4d6b69..9743b6b17447 100644
-> --- a/drivers/gpu/drm/exynos/exynos_drm_drv.c
-> +++ b/drivers/gpu/drm/exynos/exynos_drm_drv.c
-> @@ -102,16 +102,7 @@ static const struct drm_ioctl_desc exynos_ioctls[] = {
->  			DRM_RENDER_ALLOW),
->  };
->  
-> -static const struct file_operations exynos_drm_driver_fops = {
-> -	.owner		= THIS_MODULE,
-> -	.open		= drm_open,
-> -	.mmap		= exynos_drm_gem_mmap,
-> -	.poll		= drm_poll,
-> -	.read		= drm_read,
-> -	.unlocked_ioctl	= drm_ioctl,
-> -	.compat_ioctl = drm_compat_ioctl,
-> -	.release	= drm_release,
-> -};
-> +DEFINE_DRM_GEM_FOPS(exynos_drm_driver_fops);
->  
->  static const struct drm_driver exynos_drm_driver = {
->  	.driver_features	= DRIVER_MODESET | DRIVER_GEM
-> @@ -124,7 +115,7 @@ static const struct drm_driver exynos_drm_driver = {
->  	.prime_fd_to_handle	= drm_gem_prime_fd_to_handle,
->  	.gem_prime_import	= exynos_drm_gem_prime_import,
->  	.gem_prime_import_sg_table	= exynos_drm_gem_prime_import_sg_table,
-> -	.gem_prime_mmap		= exynos_drm_gem_prime_mmap,
-> +	.gem_prime_mmap		= drm_gem_prime_mmap,
->  	.ioctls			= exynos_ioctls,
->  	.num_ioctls		= ARRAY_SIZE(exynos_ioctls),
->  	.fops			= &exynos_drm_driver_fops,
-> diff --git a/drivers/gpu/drm/exynos/exynos_drm_fbdev.c b/drivers/gpu/drm/exynos/exynos_drm_fbdev.c
-> index 5147f5929be7..02c97b9ca926 100644
-> --- a/drivers/gpu/drm/exynos/exynos_drm_fbdev.c
-> +++ b/drivers/gpu/drm/exynos/exynos_drm_fbdev.c
-> @@ -15,6 +15,7 @@
->  #include <drm/drm_crtc.h>
->  #include <drm/drm_fb_helper.h>
->  #include <drm/drm_fourcc.h>
-> +#include <drm/drm_prime.h>
->  #include <drm/drm_probe_helper.h>
->  #include <drm/exynos_drm.h>
->  
-> @@ -39,25 +40,8 @@ static int exynos_drm_fb_mmap(struct fb_info *info,
->  	struct drm_fb_helper *helper = info->par;
->  	struct exynos_drm_fbdev *exynos_fbd = to_exynos_fbdev(helper);
->  	struct exynos_drm_gem *exynos_gem = exynos_fbd->exynos_gem;
-> -	unsigned long vm_size;
-> -	int ret;
-> -
-> -	vma->vm_flags |= VM_IO | VM_DONTEXPAND | VM_DONTDUMP;
-> -
-> -	vm_size = vma->vm_end - vma->vm_start;
-> -
-> -	if (vm_size > exynos_gem->size)
-> -		return -EINVAL;
->  
-> -	ret = dma_mmap_attrs(to_dma_dev(helper->dev), vma, exynos_gem->cookie,
-> -			     exynos_gem->dma_addr, exynos_gem->size,
-> -			     exynos_gem->dma_attrs);
-> -	if (ret < 0) {
-> -		DRM_DEV_ERROR(to_dma_dev(helper->dev), "failed to mmap.\n");
-> -		return ret;
-> -	}
-> -
-> -	return 0;
-> +	return drm_gem_prime_mmap(&exynos_gem->base, vma);
->  }
->  
->  static const struct fb_ops exynos_drm_fb_ops = {
-> diff --git a/drivers/gpu/drm/exynos/exynos_drm_gem.c b/drivers/gpu/drm/exynos/exynos_drm_gem.c
-> index 4396224227d1..c4b63902ee7a 100644
-> --- a/drivers/gpu/drm/exynos/exynos_drm_gem.c
-> +++ b/drivers/gpu/drm/exynos/exynos_drm_gem.c
-> @@ -17,6 +17,8 @@
->  #include "exynos_drm_drv.h"
->  #include "exynos_drm_gem.h"
->  
-> +static int exynos_drm_gem_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma);
-> +
->  static int exynos_drm_alloc_buf(struct exynos_drm_gem *exynos_gem, bool kvmap)
->  {
->  	struct drm_device *dev = exynos_gem->base.dev;
-> @@ -135,6 +137,7 @@ static const struct vm_operations_struct exynos_drm_gem_vm_ops = {
->  static const struct drm_gem_object_funcs exynos_drm_gem_object_funcs = {
->  	.free = exynos_drm_gem_free_object,
->  	.get_sg_table = exynos_drm_gem_prime_get_sg_table,
-> +	.mmap = exynos_drm_gem_mmap,
->  	.vm_ops = &exynos_drm_gem_vm_ops,
->  };
->  
-> @@ -354,12 +357,16 @@ int exynos_drm_gem_dumb_create(struct drm_file *file_priv,
->  	return 0;
->  }
->  
-> -static int exynos_drm_gem_mmap_obj(struct drm_gem_object *obj,
-> -				   struct vm_area_struct *vma)
-> +static int exynos_drm_gem_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma)
->  {
->  	struct exynos_drm_gem *exynos_gem = to_exynos_gem(obj);
->  	int ret;
->  
-> +	if (obj->import_attach)
-> +		return dma_buf_mmap(obj->dma_buf, vma, 0);
-> +
-> +	vma->vm_flags |= VM_IO | VM_DONTEXPAND | VM_DONTDUMP;
-> +
->  	DRM_DEV_DEBUG_KMS(to_dma_dev(obj->dev), "flags = 0x%x\n",
->  			  exynos_gem->flags);
->  
-> @@ -385,26 +392,6 @@ static int exynos_drm_gem_mmap_obj(struct drm_gem_object *obj,
->  	return ret;
->  }
->  
-> -int exynos_drm_gem_mmap(struct file *filp, struct vm_area_struct *vma)
-> -{
-> -	struct drm_gem_object *obj;
-> -	int ret;
-> -
-> -	/* set vm_area_struct. */
-> -	ret = drm_gem_mmap(filp, vma);
-> -	if (ret < 0) {
-> -		DRM_ERROR("failed to mmap.\n");
-> -		return ret;
-> -	}
-> -
-> -	obj = vma->vm_private_data;
-> -
-> -	if (obj->import_attach)
-> -		return dma_buf_mmap(obj->dma_buf, vma, 0);
-> -
-> -	return exynos_drm_gem_mmap_obj(obj, vma);
-> -}
-> -
->  /* low-level interface prime helpers */
->  struct drm_gem_object *exynos_drm_gem_prime_import(struct drm_device *dev,
->  					    struct dma_buf *dma_buf)
-> @@ -466,15 +453,3 @@ exynos_drm_gem_prime_import_sg_table(struct drm_device *dev,
->  	exynos_gem->sgt = sgt;
->  	return &exynos_gem->base;
->  }
-> -
-> -int exynos_drm_gem_prime_mmap(struct drm_gem_object *obj,
-> -			      struct vm_area_struct *vma)
-> -{
-> -	int ret;
-> -
-> -	ret = drm_gem_mmap_obj(obj, obj->size, vma);
-> -	if (ret < 0)
-> -		return ret;
-> -
-> -	return exynos_drm_gem_mmap_obj(obj, vma);
-> -}
-> diff --git a/drivers/gpu/drm/exynos/exynos_drm_gem.h b/drivers/gpu/drm/exynos/exynos_drm_gem.h
-> index a23272fb96fb..79d7e1a87419 100644
-> --- a/drivers/gpu/drm/exynos/exynos_drm_gem.h
-> +++ b/drivers/gpu/drm/exynos/exynos_drm_gem.h
-> @@ -96,9 +96,6 @@ int exynos_drm_gem_dumb_create(struct drm_file *file_priv,
->  			       struct drm_device *dev,
->  			       struct drm_mode_create_dumb *args);
->  
-> -/* set vm_flags and we can change the vm attribute to other one at here. */
-> -int exynos_drm_gem_mmap(struct file *filp, struct vm_area_struct *vma);
-> -
->  /* low-level interface prime helpers */
->  struct drm_gem_object *exynos_drm_gem_prime_import(struct drm_device *dev,
->  					    struct dma_buf *dma_buf);
-> @@ -107,7 +104,5 @@ struct drm_gem_object *
->  exynos_drm_gem_prime_import_sg_table(struct drm_device *dev,
->  				     struct dma_buf_attachment *attach,
->  				     struct sg_table *sgt);
-> -int exynos_drm_gem_prime_mmap(struct drm_gem_object *obj,
-> -			      struct vm_area_struct *vma);
->  
->  #endif
-> 
+>=20
+>   MAINTAINERS |   16 ++++++++--------
+>   1 file changed, 8 insertions(+), 8 deletions(-)
+>=20
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 118cf8170d02..3e92176e68fb 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -6134,8 +6134,8 @@ T:	git git://anongit.freedesktop.org/drm/drm-misc=
+
+>   F:	drivers/gpu/drm/vboxvideo/
+>  =20
+>   DRM DRIVER FOR VMWARE VIRTUAL GPU
+> -M:	"VMware Graphics" <linux-graphics-maintainer@vmware.com>
+>   M:	Zack Rusin <zackr@vmware.com>
+> +L:	linux-graphics-maintainer@vmware.com (private)
+>   L:	dri-devel@lists.freedesktop.org
+>   S:	Supported
+>   T:	git git://anongit.freedesktop.org/drm/drm-misc
+> @@ -20032,7 +20032,7 @@ F:	tools/testing/vsock/
+>  =20
+>   VMWARE BALLOON DRIVER
+>   M:	Nadav Amit <namit@vmware.com>
+> -M:	"VMware, Inc." <pv-drivers@vmware.com>
+> +L:	pv-drivers@vmware.com (private)
+>   L:	linux-kernel@vger.kernel.org
+>   S:	Maintained
+>   F:	drivers/misc/vmw_balloon.c
+> @@ -20050,14 +20050,14 @@ F:	arch/x86/kernel/cpu/vmware.c
+>  =20
+>   VMWARE PVRDMA DRIVER
+>   M:	Adit Ranadive <aditr@vmware.com>
+> -M:	VMware PV-Drivers <pv-drivers@vmware.com>
+> +L:	pv-drivers@vmware.com (private)
+>   L:	linux-rdma@vger.kernel.org
+>   S:	Maintained
+>   F:	drivers/infiniband/hw/vmw_pvrdma/
+>  =20
+>   VMware PVSCSI driver
+>   M:	Vishal Bhakta <vbhakta@vmware.com>
+> -M:	VMware PV-Drivers <pv-drivers@vmware.com>
+> +L:	pv-drivers@vmware.com (private)
+>   L:	linux-scsi@vger.kernel.org
+>   S:	Maintained
+>   F:	drivers/scsi/vmw_pvscsi.c
+> @@ -20065,7 +20065,7 @@ F:	drivers/scsi/vmw_pvscsi.h
+>  =20
+>   VMWARE VIRTUAL PTP CLOCK DRIVER
+>   M:	Vivek Thampi <vithampi@vmware.com>
+> -M:	"VMware, Inc." <pv-drivers@vmware.com>
+> +L:	pv-drivers@vmware.com (private)
+
+Maybe replace "(private)" with "(mail alias)"?
+
+This makes it rather clear that it is a valid address to send patches
+to, but there isn't public read access like to a ML.
+
+
+Juergen
+
+--------------641FCF0DF0F5BF271A32D69F
+Content-Type: application/pgp-keys;
+ name="OpenPGP_0xB0DE9DD628BF132F.asc"
+Content-Transfer-Encoding: quoted-printable
+Content-Description: OpenPGP public key
+Content-Disposition: attachment;
+ filename="OpenPGP_0xB0DE9DD628BF132F.asc"
+
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+
+xsBNBFOMcBYBCACgGjqjoGvbEouQZw/ToiBg9W98AlM2QHV+iNHsEs7kxWhKMjrioyspZKOBy=
+cWx
+w3ie3j9uvg9EOB3aN4xiTv4qbnGiTr3oJhkB1gsb6ToJQZ8uxGq2kaV2KL9650I1SJvedYm8O=
+f8Z
+d621lSmoKOwlNClALZNew72NjJLEzTalU1OdT7/i1TXkH09XSSI8mEQ/ouNcMvIJNwQpd369y=
+9bf
+IhWUiVXEK7MlRgUG6MvIj6Y3Am/BBLUVbDa4+gmzDC9ezlZkTZG2t14zWPvxXP3FAp2pkW0xq=
+G7/
+377qptDmrk42GlSKN4z76ELnLxussxc7I2hx18NUcbP8+uty4bMxABEBAAHNHEp1ZXJnZW4gR=
+3Jv
+c3MgPGpnQHBmdXBmLm5ldD7CwHkEEwECACMFAlOMcBYCGwMHCwkIBwMCAQYVCAIJCgsEFgIDA=
+QIe
+AQIXgAAKCRCw3p3WKL8TL0KdB/93FcIZ3GCNwFU0u3EjNbNjmXBKDY4FUGNQH2lvWAUy+dnyT=
+hpw
+dtF/jQ6j9RwE8VP0+NXcYpGJDWlNb9/JmYqLiX2Q3TyevpB0CA3dbBQp0OW0fgCetToGIQrg0=
+MbD
+1C/sEOv8Mr4NAfbauXjZlvTj30H2jO0u+6WGM6nHwbh2l5O8ZiHkH32iaSTfN7Eu5RnNVUJbv=
+oPH
+Z8SlM4KWm8rG+lIkGurqqu5gu8q8ZMKdsdGC4bBxdQKDKHEFExLJK/nRPFmAuGlId1E3fe10v=
+5QL
++qHI3EIPtyfE7i9Hz6rVwi7lWKgh7pe0ZvatAudZ+JNIlBKptb64FaiIOAWDCx1SzR9KdWVyZ=
+2Vu
+IEdyb3NzIDxqZ3Jvc3NAc3VzZS5jb20+wsB5BBMBAgAjBQJTjHCvAhsDBwsJCAcDAgEGFQgCC=
+QoL
+BBYCAwECHgECF4AACgkQsN6d1ii/Ey/HmQf/RtI7kv5A2PS4RF7HoZhPVPogNVbC4YA6lW7Dr=
+Wf0
+teC0RR3MzXfy6pJ+7KLgkqMlrAbN/8Dvjoz78X+5vhH/rDLa9BuZQlhFmvcGtCF8eR0T1v0nC=
+/nu
+AFVGy+67q2DH8As3KPu0344TBDpAvr2uYM4tSqxK4DURx5INz4ZZ0WNFHcqsfvlGJALDeE0Lh=
+ITT
+d9jLzdDad1pQSToCnLl6SBJZjDOX9QQcyUigZFtCXFst4dlsvddrxyqT1f17+2cFSdu7+ynLm=
+XBK
+7abQ3rwJY8SbRO2iRulogc5vr/RLMMlscDAiDkaFQWLoqHHOdfO9rURssHNN8WkMnQfvUewRz=
+80h
+SnVlcmdlbiBHcm9zcyA8amdyb3NzQG5vdmVsbC5jb20+wsB5BBMBAgAjBQJTjHDXAhsDBwsJC=
+AcD
+AgEGFQgCCQoLBBYCAwECHgECF4AACgkQsN6d1ii/Ey8PUQf/ehmgCI9jB9hlgexLvgOtf7PJn=
+FOX
+gMLdBQgBlVPO3/D9R8LtF9DBAFPNhlrsfIG/SqICoRCqUcJ96Pn3P7UUinFG/I0ECGF4EvTE1=
+jnD
+kfJZr6jrbjgyoZHiw/4BNwSTL9rWASyLgqlA8u1mf+c2yUwcGhgkRAd1gOwungxcwzwqgljf0=
+N51
+N5JfVRHRtyfwq/ge+YEkDGcTU6Y0sPOuj4Dyfm8fJzdfHNQsWq3PnczLVELStJNdapwPOoE+l=
+otu
+fe3AM2vAEYJ9rTz3Cki4JFUsgLkHFqGZarrPGi1eyQcXeluldO3m91NK/1xMI3/+8jbO0tsn1=
+tqS
+EUGIJi7ox80eSnVlcmdlbiBHcm9zcyA8amdyb3NzQHN1c2UuZGU+wsB5BBMBAgAjBQJTjHDrA=
+hsD
+BwsJCAcDAgEGFQgCCQoLBBYCAwECHgECF4AACgkQsN6d1ii/Ey+LhQf9GL45eU5vOowA2u5N3=
+g3O
+ZUEBmDHVVbqMtzwlmNC4k9Kx39r5s2vcFl4tXqW7g9/ViXYuiDXb0RfUpZiIUW89siKrkzmQ5=
+dM7
+wRqzgJpJwK8Bn2MIxAKArekWpiCKvBOB/Cc+3EXE78XdlxLyOi/NrmSGRIov0karw2RzMNOu5=
+D+j
+LRZQd1Sv27AR+IP3I8U4aqnhLpwhK7MEy9oCILlgZ1QZe49kpcumcZKORmzBTNh30FVKK1Evm=
+V2x
+AKDoaEOgQB4iFQLhJCdP1I5aSgM5IVFdn7v5YgEYuJYx37IoN1EblHI//x/e2AaIHpzK5h88N=
+Eaw
+QsaNRpNSrcfbFmAg987ATQRTjHAWAQgAyzH6AOODMBjgfWE9VeCgsrwH3exNAU32gLq2xvjpW=
+nHI
+s98ndPUDpnoxWQugJ6MpMncr0xSwFmHEgnSEjK/PAjppgmyc57BwKII3sV4on+gDVFJR6Y8ZR=
+wgn
+BC5mVM6JjQ5xDk8WRXljExRfUX9pNhdE5eBOZJrDRoLUmmjDtKzWaDhIg/+1Hzz93X4fCQkNV=
+bVF
+LELU9bMaLPBG/x5q4iYZ2k2ex6d47YE1ZFdMm6YBYMOljGkZKwYde5ldM9mo45mmwe0icXKLk=
+pEd
+IXKTZeKDO+Hdv1aqFuAcccTg9RXDQjmwhC3yEmrmcfl0+rPghO0Iv3OOImwTEe4co3c1mwARA=
+QAB
+wsBfBBgBAgAJBQJTjHAWAhsMAAoJELDendYovxMvQ/gH/1ha96vm4P/L+bQpJwrZ/dneZcmEw=
+Tbe
+8YFsw2V/Buv6Z4Mysln3nQK5ZadD534CF7TDVft7fC4tU4PONxF5D+/tvgkPfDAfF77zy2AH1=
+vJz
+Q1fOU8lYFpZXTXIHb+559UqvIB8AdgR3SAJGHHt4RKA0F7f5ipYBBrC6cyXJyyoprT10EMvU8=
+VGi
+wXvTyJz3fjoYsdFzpWPlJEBRMedCot60g5dmbdrZ5DWClAr0yau47zpWj3enf1tLWaqcsuylW=
+svi
+uGjKGw7KHQd3bxALOknAp4dN3QwBYCKuZ7AddY9yjynVaD5X7nF9nO5BjR/i1DG86lem3iBDX=
+zXs
+ZDn8R38=3D
+=3D2wuH
+-----END PGP PUBLIC KEY BLOCK-----
+
+--------------641FCF0DF0F5BF271A32D69F--
+
+--W6JL2G1FAlQS9hzWi03hu2aIhExlEcuAp--
+
+--al1MqEmNzTaRWgbdIcvBJCOhrC2hGsWXq
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsB5BAABCAAjFiEEhRJncuj2BJSl0Jf3sN6d1ii/Ey8FAmGKCGcFAwAAAAAACgkQsN6d1ii/Ey8u
+mAf9Eohn0vhRkZfBHW2PFyfa0gZy/DBnsmYZqD0AlEU0pdjXa8N6Tb/wi3M5766KlH/8jeYwhAgt
+ufbWa0xahKxCM2me8vcPYnTOBnDAgQbYy2FX2wvwIeEI4+VGOFg5N6V01t0wil/Ir+PanX8qpVsk
+dFszyJmdghQS1CI0gmJuPpWclILZ/Z0PqS/L0IhNj+aS/6Z7VdghUOiszYdyxQg83zTNQaJQL0eH
+5CHayDfrVrHtyhkGOB2wOntPfn2mHdk/baAARc7D1cPq8jxnUBWbiIrXha1WLaQE07/yM7jjItaF
+ei6KlBukKfmo5aoDnH9X1wOzB43CsDDVCAysHkGPoQ==
+=Y9rQ
+-----END PGP SIGNATURE-----
+
+--al1MqEmNzTaRWgbdIcvBJCOhrC2hGsWXq--
