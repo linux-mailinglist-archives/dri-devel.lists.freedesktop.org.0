@@ -2,48 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6319F44ADEE
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Nov 2021 13:51:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9A5F44AE62
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Nov 2021 14:04:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C931789B60;
-	Tue,  9 Nov 2021 12:51:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 778526E89E;
+	Tue,  9 Nov 2021 13:04:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 297E1890BE
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Nov 2021 12:51:02 +0000 (UTC)
-X-UUID: dfddb90385ce49dba2cc3e10efc79903-20211109
-X-UUID: dfddb90385ce49dba2cc3e10efc79903-20211109
-Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by
- mailgw02.mediatek.com (envelope-from <yunfei.dong@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1353559595; Tue, 09 Nov 2021 20:51:00 +0800
-Received: from mtkexhb01.mediatek.inc (172.21.101.102) by
- mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Tue, 9 Nov 2021 20:50:59 +0800
-Received: from mtkmbs10n2.mediatek.inc (172.21.101.183) by
- mtkexhb01.mediatek.inc (172.21.101.102) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Tue, 9 Nov 2021 20:50:58 +0800
-Received: from localhost.localdomain (10.17.3.154) by mtkmbs10n2.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.2.792.3 via Frontend
- Transport; Tue, 9 Nov 2021 20:50:56 +0800
-From: Yunfei Dong <yunfei.dong@mediatek.com>
-To: Yunfei Dong <yunfei.dong@mediatek.com>, Alexandre Courbot
- <acourbot@chromium.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, "Tzung-Bi
- Shih" <tzungbi@chromium.org>, Tiffany Lin <tiffany.lin@mediatek.com>,
- Andrew-CT Chen <andrew-ct.chen@mediatek.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Rob Herring <robh+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>, Tomasz Figa <tfiga@google.com>
-Subject: [PATCH v9, 19/19] media: mtk-vcodec: Remove mtk_vcodec_release_enc_pm
-Date: Tue, 9 Nov 2021 20:50:30 +0800
-Message-ID: <20211109125030.26299-20-yunfei.dong@mediatek.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211109125030.26299-1-yunfei.dong@mediatek.com>
-References: <20211109125030.26299-1-yunfei.dong@mediatek.com>
+Received: from smtp.domeneshop.no (smtp.domeneshop.no
+ [IPv6:2a01:5b40:0:3005::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4DEBA6E89E
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Nov 2021 13:04:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+ ; s=ds202012;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
+ MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=ZNSEhLFWrkLL9EmRr49v/5HyMGUEzRlkNEyGiRw0RGI=; b=fBWuBjwxB83X6fFfkpBpG1AN29
+ NzY0JkAZuKcDXJ0O5s4xb6wzvzEGhdQTOh1r1Bz6Wl/snFkeDjkG8uUw6R7HKZ2cN0LIM4Nvw8cHh
+ aBiA2FeAvn52QQWLW28NRHJrpXZmeHaKa/fbaLQfBWHbZpEoKxUvBQ/3CJTRFfczyqm9adOPktAsR
+ JNBp7IZAifIRUQLPr6/ooyMijUwqPqZId+vBWmZpyAvZu2qWKbeRXsfOvFS5ipCn/pOJhjLYiO+lG
+ MQvaSjtox2JP+jrV7Yn1oQ3dwX1JQP2ZLKJB/2iicRcibIwlZVzT5wylpiaUlvyZcb0MH/dGe+dbm
+ +BsGELwQ==;
+Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:54309
+ helo=[192.168.10.61])
+ by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <noralf@tronnes.org>)
+ id 1mkQnt-0006xp-UN; Tue, 09 Nov 2021 14:04:45 +0100
+Subject: Re: [PATCH v2 7/9] drm/simpledrm: Enable FB_DAMAGE_CLIPS property
+To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
+ airlied@linux.ie, mripard@kernel.org, maarten.lankhorst@linux.intel.com,
+ drawat.floss@gmail.com, airlied@redhat.com, kraxel@redhat.com,
+ david@lechnology.com, sam@ravnborg.org, javierm@redhat.com,
+ kernel@amanoeldawod.com, dirty.ice.hu@gmail.com, michael+lkml@stapelberg.ch,
+ aros@gmx.com, joshua@stroblindustries.com, arnd@arndb.de
+References: <20211101141532.26655-1-tzimmermann@suse.de>
+ <20211101141532.26655-8-tzimmermann@suse.de>
+ <974e10bb-ae58-d1c1-a89e-881b39da4930@tronnes.org>
+ <b5e514a7-74f3-d072-cfba-80ff05c2669c@suse.de>
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+Message-ID: <1b1e8a38-2ad6-406e-0d07-bd28dcba08a3@tronnes.org>
+Date: Tue, 9 Nov 2021 14:04:40 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
+In-Reply-To: <b5e514a7-74f3-d072-cfba-80ff05c2669c@suse.de>
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,117 +63,164 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Irui Wang <irui.wang@mediatek.com>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- srv_heupstream@mediatek.com, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel <dri-devel@lists.freedesktop.org>,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-mediatek@lists.infradead.org, Hsin-Yi Wang <hsinyi@chromium.org>,
- Fritz Koenig <frkoenig@chromium.org>,
- Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Cc: linux-hyperv@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There are only two lines in mtk_vcodec_release_enc_pm, using
-pm_runtime_disable and put_device instead directly.
 
-Move pm_runtime_enable outside mtk_vcodec_release_enc_pm to symmetry with
-pm_runtime_disable, after that, rename mtk_vcodec_init_enc_pm to *_clk since
-it only has clock operations now.
 
-Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
-Co-developed-by: Yong Wu <yong.wu@mediatek.com>
----
-add new to remove: mtk_vcodec_release_enc_pm
----
- drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c | 9 ++++++---
- drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.c  | 9 +--------
- drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.h  | 3 +--
- 3 files changed, 8 insertions(+), 13 deletions(-)
+Den 09.11.2021 13.38, skrev Thomas Zimmermann:
+> 
+> 
+> Am 08.11.21 um 21:55 schrieb Noralf Trønnes:
+>>
+>>
+>> Den 01.11.2021 15.15, skrev Thomas Zimmermann:
+>>> Enable the FB_DAMAGE_CLIPS property to reduce display-update
+>>> overhead. Also fixes a warning in the kernel log.
+>>>
+>>>    simple-framebuffer simple-framebuffer.0: [drm]
+>>> drm_plane_enable_fb_damage_clips() not called
+>>>
+>>> Fix the computation of the blit rectangle. This wasn't an issue so
+>>> far, as simpledrm always blitted the full framebuffer. The code now
+>>> supports damage clipping and virtual screen sizes.
+>>>
+>>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>>> ---
+>>>   drivers/gpu/drm/tiny/simpledrm.c | 30 ++++++++++++++++++++++--------
+>>>   1 file changed, 22 insertions(+), 8 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/tiny/simpledrm.c
+>>> b/drivers/gpu/drm/tiny/simpledrm.c
+>>> index 571f716ff427..e872121e9fb0 100644
+>>> --- a/drivers/gpu/drm/tiny/simpledrm.c
+>>> +++ b/drivers/gpu/drm/tiny/simpledrm.c
+>>> @@ -642,7 +642,7 @@ simpledrm_simple_display_pipe_enable(struct
+>>> drm_simple_display_pipe *pipe,
+>>>       void *vmap = shadow_plane_state->data[0].vaddr; /* TODO: Use
+>>> mapping abstraction */
+>>>       struct drm_device *dev = &sdev->dev;
+>>>       void __iomem *dst = sdev->screen_base;
+>>> -    struct drm_rect clip;
+>>> +    struct drm_rect src_clip, dst_clip;
+>>>       int idx;
+>>>         if (!fb)
+>>> @@ -651,10 +651,14 @@ simpledrm_simple_display_pipe_enable(struct
+>>> drm_simple_display_pipe *pipe,
+>>>       if (!drm_dev_enter(dev, &idx))
+>>>           return;
+>>>   -    drm_rect_init(&clip, 0, 0, fb->width, fb->height);
+>>> +    drm_rect_fp_to_int(&src_clip, &plane_state->src);
+>>>   -    dst += drm_fb_clip_offset(sdev->pitch, sdev->format, &clip);
+>>> -    drm_fb_blit_toio(dst, sdev->pitch, sdev->format->format, vmap,
+>>> fb, &clip);
+>>> +    dst_clip = plane_state->dst;
+>>
+>> I assume that src_clip and dst_clip are of the same size, since scaling
+>> is not supported. What prevents dst_clip from being bigger than the
+>> buffer that's being blitted into? Where is that bounds checking done?
+> 
+> The value of dst_clip comes from plane_state->dst, which gets
+> initialized in drm_atomic_helper_check_plane_state(). [1] The fields are
+> taken from the crtc_{x,y,w,h} values by drm_plane_get_dest(). [2] For
+> primary planes, the crtc_{x,y,w,h} values are initialized in
+> __drm_atomic_helper_set_config() to the size of the display. [3] That
+> size comes directly from the current video mode. [4] From all I can see
+> this cannot overflow.
+> 
 
-diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c
-index 0f326d82dea0..7816efb90cbe 100644
---- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c
-+++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c
-@@ -11,6 +11,7 @@
- #include <linux/module.h>
- #include <linux/of_device.h>
- #include <linux/of.h>
-+#include <linux/pm_runtime.h>
- #include <media/v4l2-event.h>
- #include <media/v4l2-mem2mem.h>
- #include <media/videobuf2-dma-contig.h>
-@@ -260,7 +261,7 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
- 		return PTR_ERR(dev->fw_handler);
- 
- 	dev->venc_pdata = of_device_get_match_data(&pdev->dev);
--	ret = mtk_vcodec_init_enc_pm(dev);
-+	ret = mtk_vcodec_init_enc_clk(dev);
- 	if (ret < 0) {
- 		dev_err(&pdev->dev, "Failed to get mtk vcodec clock source!");
- 		goto err_enc_pm;
-@@ -372,7 +373,8 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
- err_enc_alloc:
- 	v4l2_device_unregister(&dev->v4l2_dev);
- err_res:
--	mtk_vcodec_release_enc_pm(dev);
-+	pm_runtime_disable(dev->pm.dev);
-+	put_device(dev->pm.larbvenc);
- err_enc_pm:
- 	mtk_vcodec_fw_release(dev->fw_handler);
- 	return ret;
-@@ -462,7 +464,8 @@ static int mtk_vcodec_enc_remove(struct platform_device *pdev)
- 		video_unregister_device(dev->vfd_enc);
- 
- 	v4l2_device_unregister(&dev->v4l2_dev);
--	mtk_vcodec_release_enc_pm(dev);
-+	pm_runtime_disable(dev->pm.dev);
-+	put_device(dev->pm.larbvenc);
- 	mtk_vcodec_fw_release(dev->fw_handler);
- 	return 0;
- }
-diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.c
-index 0c8c8f86788c..0825c6ec4eb7 100644
---- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.c
-+++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.c
-@@ -13,7 +13,7 @@
- #include "mtk_vcodec_enc_pm.h"
- #include "mtk_vcodec_util.h"
- 
--int mtk_vcodec_init_enc_pm(struct mtk_vcodec_dev *mtkdev)
-+int mtk_vcodec_init_enc_clk(struct mtk_vcodec_dev *mtkdev)
- {
- 	struct device_node *node;
- 	struct platform_device *pdev;
-@@ -86,13 +86,6 @@ int mtk_vcodec_init_enc_pm(struct mtk_vcodec_dev *mtkdev)
- 	return ret;
- }
- 
--void mtk_vcodec_release_enc_pm(struct mtk_vcodec_dev *mtkdev)
--{
--	pm_runtime_disable(mtkdev->pm.dev);
--	put_device(mtkdev->pm.larbvenc);
--}
--
--
- void mtk_vcodec_enc_clock_on(struct mtk_vcodec_pm *pm)
- {
- 	struct mtk_vcodec_clk *enc_clk = &pm->venc_clk;
-diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.h b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.h
-index b7ecdfd74823..bc455cefc0cd 100644
---- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.h
-+++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.h
-@@ -9,8 +9,7 @@
- 
- #include "mtk_vcodec_drv.h"
- 
--int mtk_vcodec_init_enc_pm(struct mtk_vcodec_dev *dev);
--void mtk_vcodec_release_enc_pm(struct mtk_vcodec_dev *dev);
-+int mtk_vcodec_init_enc_clk(struct mtk_vcodec_dev *dev);
- 
- void mtk_vcodec_enc_clock_on(struct mtk_vcodec_pm *pm);
- void mtk_vcodec_enc_clock_off(struct mtk_vcodec_pm *pm);
--- 
-2.25.1
+Ok, that takes care of the upper bound.
 
+There's this in drm_atomic_helper_check_plane_state():
+
+	plane_state->visible = drm_rect_clip_scaled(src, dst, &clip);
+
+	if (!plane_state->visible)
+		/*
+		 * Plane isn't visible; some drivers can handle this
+		 * so we just return success here.  Drivers that can't
+		 * (including those that use the primary plane helper's
+		 * update function) will return an error from their
+		 * update_plane handler.
+		 */
+		return 0;
+
+drm_atomic_helper_damage_merged() checks ->visible and returns false if
+it is not set so update() is good on the lower bound.
+
+Maybe it's necessary to check ->visible here in enable() before doing
+the blit?
+
+Noralf.
+
+> Best regards
+> Thomas
+> 
+> [1]
+> https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/drm_atomic_helper.c#L807
+> 
+> [2]
+> https://elixir.bootlin.com/linux/latest/source/include/drm/drm_plane.h#L257
+> [3]
+> https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/drm_atomic.c#L1590
+> 
+> [4]
+> https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/drm_modes.c#L788
+> 
+> 
+>>
+>> Noralf.
+>>
+>>> +    if (!drm_rect_intersect(&dst_clip, &src_clip))
+>>> +        return;
+>>> +
+>>> +    dst += drm_fb_clip_offset(sdev->pitch, sdev->format, &dst_clip);
+>>> +    drm_fb_blit_toio(dst, sdev->pitch, sdev->format->format, vmap,
+>>> fb, &src_clip);
+>>>         drm_dev_exit(idx);
+>>>   }
+>>> @@ -686,20 +690,28 @@ simpledrm_simple_display_pipe_update(struct
+>>> drm_simple_display_pipe *pipe,
+>>>       struct drm_framebuffer *fb = plane_state->fb;
+>>>       struct drm_device *dev = &sdev->dev;
+>>>       void __iomem *dst = sdev->screen_base;
+>>> -    struct drm_rect clip;
+>>> +    struct drm_rect damage_clip, src_clip, dst_clip;
+>>>       int idx;
+>>>         if (!fb)
+>>>           return;
+>>>   -    if (!drm_atomic_helper_damage_merged(old_plane_state,
+>>> plane_state, &clip))
+>>> +    if (!drm_atomic_helper_damage_merged(old_plane_state,
+>>> plane_state, &damage_clip))
+>>> +        return;
+>>> +
+>>> +    drm_rect_fp_to_int(&src_clip, &plane_state->src);
+>>> +    if (!drm_rect_intersect(&src_clip, &damage_clip))
+>>> +        return;
+>>> +
+>>> +    dst_clip = plane_state->dst;
+>>> +    if (!drm_rect_intersect(&dst_clip, &src_clip))
+>>>           return;
+>>>         if (!drm_dev_enter(dev, &idx))
+>>>           return;
+>>>   -    dst += drm_fb_clip_offset(sdev->pitch, sdev->format, &clip);
+>>> -    drm_fb_blit_toio(dst, sdev->pitch, sdev->format->format, vmap,
+>>> fb, &clip);
+>>> +    dst += drm_fb_clip_offset(sdev->pitch, sdev->format, &dst_clip);
+>>> +    drm_fb_blit_toio(dst, sdev->pitch, sdev->format->format, vmap,
+>>> fb, &src_clip);
+>>>         drm_dev_exit(idx);
+>>>   }
+>>> @@ -794,6 +806,8 @@ static int simpledrm_device_init_modeset(struct
+>>> simpledrm_device *sdev)
+>>>       if (ret)
+>>>           return ret;
+>>>   +    drm_plane_enable_fb_damage_clips(&pipe->plane);
+>>> +
+>>>       drm_mode_config_reset(dev);
+>>>         return 0;
+>>>
+> 
