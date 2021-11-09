@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9219C44B4DB
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Nov 2021 22:39:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4DB444B4E4
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Nov 2021 22:46:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B6086E893;
-	Tue,  9 Nov 2021 21:39:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 31228893BC;
+	Tue,  9 Nov 2021 21:46:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from desiato.infradead.org (desiato.infradead.org
- [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 18D6D6E893
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Nov 2021 21:39:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
- References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=hfoJ3mdhOp2wVVmk0izPdp4ZzIGt68u9ejlAidoV8lo=; b=db9/rIn0TZoh+TBuGUP9/OW5of
- PycxW9RB/VkwZeSGcorbwmwTqYGld7zd3DS/IPxU16pe9s9iyIHJr/k1URpNf9gxLrKkr29kSbdrK
- BEs6GVFVPRpx6n6Zyg1Kq0gKncfBo0putXZJKcGzKwlxUJIhxefx9QUJi2LrgrBcTBQcLQ5fJWaET
- U1ilvDKABydsQFPJ63NP1hJE2tfaK+X+LRz9UaROBzo1e1zCPPpYzx7sXtWYX86hcEe6nT6mzEwIG
- piMU7RNEwMe5tDPoEdh0F360CFIQLSl16Eg40x4UKOe4yOJgypGi+uJOb5NR0KOmXEay5AdgNuFVe
- X9sx/Sdw==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100]
- helo=worktop.programming.kicks-ass.net)
- by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mkYpL-00F8sM-M5; Tue, 09 Nov 2021 21:38:48 +0000
-Received: by worktop.programming.kicks-ass.net (Postfix, from userid 1000)
- id 3A03F9862D2; Tue,  9 Nov 2021 22:38:47 +0100 (CET)
-Date: Tue, 9 Nov 2021 22:38:47 +0100
-From: Peter Zijlstra <peterz@infradead.org>
-To: Sultan Alsawaf <sultan@kerneltoast.com>
-Subject: Re: printk deadlock due to double lock attempt on current CPU's
- runqueue
-Message-ID: <20211109213847.GY174703@worktop.programming.kicks-ass.net>
-References: <YYrU2PdmdNkulWSM@sultan-box.localdomain>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B315F89203;
+ Tue,  9 Nov 2021 21:46:00 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10163"; a="293382470"
+X-IronPort-AV: E=Sophos;i="5.87,221,1631602800"; d="scan'208";a="293382470"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Nov 2021 13:46:00 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.87,221,1631602800"; d="scan'208";a="533834234"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
+ by orsmga001.jf.intel.com with SMTP; 09 Nov 2021 13:45:55 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Tue, 09 Nov 2021 23:45:54 +0200
+Date: Tue, 9 Nov 2021 23:45:54 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Harry Wentland <harry.wentland@amd.com>
+Subject: Re: [RFC v2 05/22] drm/i915/xelpd: Define Degamma Lut range struct
+ for HDR planes
+Message-ID: <YYrsErnyQ6oOFDps@intel.com>
+References: <20210906213904.27918-1-uma.shankar@intel.com>
+ <20210906213904.27918-6-uma.shankar@intel.com>
+ <bc7e37d4-e8be-73ce-5478-02a0d5474a15@amd.com>
+ <YYUqwCBQwfL0SABl@intel.com>
+ <5c7b65b6-69ed-2259-0edd-cf04cffa9231@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <YYrU2PdmdNkulWSM@sultan-box.localdomain>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <5c7b65b6-69ed-2259-0edd-cf04cffa9231@amd.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,61 +52,140 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Juri Lelli <juri.lelli@redhat.com>, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, Ben Segall <bsegall@google.com>,
- Vincent Guittot <vincent.guittot@linaro.org>,
- Anton Vorontsov <anton@enomsg.org>, Ingo Molnar <mingo@redhat.com>,
- Mel Gorman <mgorman@suse.de>, Petr Mladek <pmladek@suse.com>,
- Kees Cook <keescook@chromium.org>, John Ogness <john.ogness@linutronix.de>,
- Steven Rostedt <rostedt@goodmis.org>,
- Dietmar Eggemann <dietmar.eggemann@arm.com>, Tony Luck <tony.luck@intel.com>,
- linux-kernel@vger.kernel.org, Sergey Senozhatsky <senozhatsky@chromium.org>,
- mkoutny@suse.com, Thomas Zimmermann <tzimmermann@suse.de>,
- Colin Cross <ccross@android.com>,
- Daniel Bristot de Oliveira <bristot@redhat.com>
+Cc: Shashank.Sharma@amd.com, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, sebastian@sebastianwick.net,
+ Uma Shankar <uma.shankar@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 09, 2021 at 12:06:48PM -0800, Sultan Alsawaf wrote:
-> Hi,
+On Tue, Nov 09, 2021 at 03:19:47PM -0500, Harry Wentland wrote:
+> On 2021-11-05 08:59, Ville Syrjälä wrote:
+> > On Wed, Nov 03, 2021 at 11:10:37AM -0400, Harry Wentland wrote:
+> >>
+> >>
+> >> On 2021-09-06 17:38, Uma Shankar wrote:
+> >>> Define the structure with XE_LPD degamma lut ranges. HDR and SDR
+> >>> planes have different capabilities, implemented respective
+> >>> structure for the HDR planes.
+> >>>
+> >>> Signed-off-by: Uma Shankar <uma.shankar@intel.com>
+> >>> ---
+> >>>  drivers/gpu/drm/i915/display/intel_color.c | 52 ++++++++++++++++++++++
+> >>>  1 file changed, 52 insertions(+)
+> >>>
+> >>> diff --git a/drivers/gpu/drm/i915/display/intel_color.c b/drivers/gpu/drm/i915/display/intel_color.c
+> >>> index afcb4bf3826c..6403bd74324b 100644
+> >>> --- a/drivers/gpu/drm/i915/display/intel_color.c
+> >>> +++ b/drivers/gpu/drm/i915/display/intel_color.c
+> >>> @@ -2092,6 +2092,58 @@ static void icl_read_luts(struct intel_crtc_state *crtc_state)
+> >>>  	}
+> >>>  }
+> >>>  
+> >>> + /* FIXME input bpc? */
+> >>> +__maybe_unused
+> >>> +static const struct drm_color_lut_range d13_degamma_hdr[] = {
+> >>> +	/* segment 1 */
+> >>> +	{
+> >>> +		.flags = (DRM_MODE_LUT_GAMMA |
+> >>> +			  DRM_MODE_LUT_REFLECT_NEGATIVE |
+> >>> +			  DRM_MODE_LUT_INTERPOLATE |
+> >>> +			  DRM_MODE_LUT_NON_DECREASING),
+> >>> +		.count = 128,
+> >>
+> >> Is the distribution of the 128 entries uniform?
+> > 
+> > I guess this is the plane gamma thing despite being in intel_color.c,
+> > so yeah I think that's correct.
+> > 
+> >> If so, is a
+> >> uniform distribution of 128 points across most of the LUT
+> >> good enough for HDR with 128 entries?
+> > 
+> > No idea how good this actually is. It is .24 so at least
+> > it does have a fair bit of precision.
+> > 
 > 
-> I encountered a printk deadlock on 5.13 which appears to still affect the latest
-> kernel. The deadlock occurs due to printk being used while having the current
-> CPU's runqueue locked, and the underlying framebuffer console attempting to lock
-> the same runqueue when printk tries to flush the log buffer.
+> Precision is good but you also need enough samples. Though that's
+> probably less my concern and more your concern and should become
+> apparent once its used.
 
-Yes, that's a known 'feature' of some consoles. printk() is in the
-process of being reworked to not call con->write() from the printk()
-calling context, which would go a long way towards fixing this.
+Yeah, for pipe gamma we have a few different variants with
+non-uniform spacing of the samples. But not here AFAICS for 
+whatever reason.
 
->   #27 [ffffc900005b8e28] enqueue_task_fair at ffffffff8129774a  <-- SCHED_WARN_ON(rq->tmp_alone_branch != &rq->leaf_cfs_rq_list);
->   #28 [ffffc900005b8ec0] activate_task at ffffffff8125625d
->   #29 [ffffc900005b8ef0] ttwu_do_activate at ffffffff81257943
->   #30 [ffffc900005b8f28] sched_ttwu_pending at ffffffff8125c71f <-- locks this CPU's runqueue
->   #31 [ffffc900005b8fa0] flush_smp_call_function_queue at ffffffff813c6833
->   #32 [ffffc900005b8fd8] generic_smp_call_function_single_interrupt at ffffffff813c7f58
->   #33 [ffffc900005b8fe0] __sysvec_call_function_single at ffffffff810f1456
->   #34 [ffffc900005b8ff0] sysvec_call_function_single at ffffffff831ec1bc
->   --- <IRQ stack> ---
->   #35 [ffffc9000019fda8] sysvec_call_function_single at ffffffff831ec1bc
->       RIP: ffffffff831ed06e  RSP: ffffed10438a6a49  RFLAGS: 00000001
->       RAX: ffff888100d832c0  RBX: 0000000000000000  RCX: 1ffff92000033fd7
->       RDX: 0000000000000000  RSI: ffff888100d832c0  RDI: ffffed10438a6a49
->       RBP: ffffffff831ec166   R8: dffffc0000000000   R9: 0000000000000000
->       R10: ffffffff83400e22  R11: 0000000000000000  R12: ffffffff831ed83e
->       R13: 0000000000000000  R14: ffffc9000019fde8  R15: ffffffff814d4d9d
->       ORIG_RAX: ffff88821c53524b  CS: 0001  SS: ef073a2
->   WARNING: possibly bogus exception frame
-> ----------------------->8-----------------------
 > 
-> The catalyst is that CONFIG_SCHED_DEBUG is enabled and the tmp_alone_branch
-> assertion fails (Peter, is this bad?).
+> >>
+> >>> +		.input_bpc = 24, .output_bpc = 16,
+> >>> +		.start = 0, .end = (1 << 24) - 1,
+> >>> +		.min = 0, .max = (1 << 24) - 1,
+> >>> +	},
+> >>> +	/* segment 2 */
+> >>> +	{
+> >>> +		.flags = (DRM_MODE_LUT_GAMMA |
+> >>> +			  DRM_MODE_LUT_REFLECT_NEGATIVE |
+> >>> +			  DRM_MODE_LUT_INTERPOLATE |
+> >>> +			  DRM_MODE_LUT_REUSE_LAST |
+> >>> +			  DRM_MODE_LUT_NON_DECREASING),
+> >>> +		.count = 1,
+> >>> +		.input_bpc = 24, .output_bpc = 16,
+> >>> +		.start = (1 << 24) - 1, .end = 1 << 24,
+> >>
+> >> .start and .end are only a single entry apart. Is this correct?
+> > 
+> > One think I wanted to do is simplify this stuff by getting rid of
+> > .end entirely. So I think this should just be '.start=1<<24' (or
+> > whatever way we decide to specify the input precision, which is
+> > I think another slightly open question).
+> > 
+> > So for this thing we could just have:
+> > { .count = 128, .min = 0, .max = (1 << 24) - 1, .start = 0       },
+> > { .count = 1,   .min = 0, .max = (7 << 24) - 1, .start = 1 << 24 },
+> > { .count = 1,   .min = 0, .max = (7 << 24) - 1, .start = 3 << 24 },
+> > { .count = 1,   .min = 0, .max = (7 << 24) - 1, .start = 7 << 24 },
+> > 
+> > + flags/etc. which I left out for brevity.
+> > 
+> 
+> Makes sense. I like this.
+> 
+> > So that is trying to indicate that the first 129 entries are equally
+> > spaced, and would be used to interpolate for input values [0.0,1.0).
+> > Input values [1.0,3.0) would interpolate between entry 128 and 129,
+> > and [3.0,7.0) would interpolate between entry 129 and 130.
+> > 
+> 
+> What in the segment definition defines the 1.0 mark? In your example
+> it seems to be at (1 << 24) but then we would have values that go
+> beyond the input_bpc for the last three segments.
 
-Yes, that's not good. IIRC Vincent and Michal were looking at that code
-recently.
+Yes, input_bpc would define the precision of the input values (.start).
+so 1.0 would be at 1<<input_bpc. Tne range of input values is allowed to
+extend outside the 0.0-1.0 range.
 
-> I'm not sure what the *correct* solution is here (don't use printk while having
-> a runqueue locked? don't use schedule_work() from the fbcon path? tell printk
-> to use one of its lock-less backends?), so I've cc'd all the relevant folks.
+> 
+> How about output_bpc? Would output_bpc somehow limit the U32.32 (or
+> S31.32) entries, and if so, how?
 
-I'm a firm believer in early_printk serial consoles.
+output_bpc would define the actual precision of the output values,
+so again 1.0 would be 1<<output_bpc, and .min and .max define the
+min/max values (which can extend outside the 0.0-1.0 range). The
+alternative I guess would be to not have .output_bpc at all and
+just have .min/.max be s32.32 values. Though then you can't tell
+what the actual precision is. Same could be done for .input_bpc
+I suppose.
+
+> 
+> Or should we treat input_/output_bpc only as capability reporting, so
+> userspace can calculate the possible error when programming the LUT?
+> Again, this leaves us with the question what the input_/output_bpc
+> means for our PWL entries.
+
+Yeah, I mostly thought they might be interesting if userspace wants
+to know the exact precision. But not strictly necessary if you want
+just to go generate a "close enough" curve. 
+
+What's PWL?
+
+-- 
+Ville Syrjälä
+Intel
