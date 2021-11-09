@@ -2,74 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF36144AA72
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Nov 2021 10:19:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50DB244AA80
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Nov 2021 10:22:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 813D36E9F0;
-	Tue,  9 Nov 2021 09:19:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2572B6EA1F;
+	Tue,  9 Nov 2021 09:22:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
- [IPv6:2a00:1450:4864:20::434])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 69D096E9F0
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Nov 2021 09:19:33 +0000 (UTC)
-Received: by mail-wr1-x434.google.com with SMTP id b12so31779953wrh.4
- for <dri-devel@lists.freedesktop.org>; Tue, 09 Nov 2021 01:19:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to; bh=7tokRF/FVlwuKlYK0+nIVx5Z3Xcvz1VhwMbFjVHQ51U=;
- b=KhnKo5mMFpVopf630w1tivsAqagAbuC+kPV9SqhdLQ780GfI81VnY2Lrd4TZw9/SPD
- IxN517AMfx8Ny1Ncpyf+GsLXNM90xtngjB/DMJ/rdKlRUa2h3Rv/eyGYCO8bdt5SXrXO
- pyo78/RPlkkCKH7k9VspiValrCmYWBlS4UMWE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :content-transfer-encoding:in-reply-to;
- bh=7tokRF/FVlwuKlYK0+nIVx5Z3Xcvz1VhwMbFjVHQ51U=;
- b=SU8ZOLjwz77gd0bwogr0IBgkXEbPrqIUiOH3uW6hEE4L4YUW10mAF56+Wa51z66Ebb
- eKWZAbqoNLT6Oy9tU8GmHDG9NcuWv1GTtjsW4D+XDPROsUDLKu8fkrR9/5iXGhcHEX2Z
- +a5quqYrHMXCnmXoVCLPC0IM/6pSvKkqVFZ4ambuFPzi787rCeWBQF3OCUsSVt6RaEPU
- /vR47exePP32D0PqAVhk+wlOKjdfS+1FOcU454go93rZIsF8GToiIvDibM1wTMz6p14U
- tljz5KKiXoahXdf3pPK1ObzMNrwbu06OQzvcBUoLfJPCKXj/m0Hnt2DtQsOhHv1NY36k
- fChQ==
-X-Gm-Message-State: AOAM531X2PQ7CkDgDTqAFSQSFaWhqz38fwwnH24C415pzm5hp6UjY0fC
- ppqgsxZ42YQ8N3YgjPscpQ698A==
-X-Google-Smtp-Source: ABdhPJyhl4rnIDo8s67BBa3FpOq8w2dJxJWsiwIIUG7H8BtsauFJhUGPnqaQiD8vEe7kDCDAYjmyEw==
-X-Received: by 2002:adf:df89:: with SMTP id z9mr7260671wrl.336.1636449572025; 
- Tue, 09 Nov 2021 01:19:32 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id m2sm1901543wml.15.2021.11.09.01.19.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Nov 2021 01:19:31 -0800 (PST)
-Date: Tue, 9 Nov 2021 10:19:29 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Dmitry Osipenko <digetx@gmail.com>
-Subject: Re: [PATCH v1 2/2] drm/tegra: Use drm_dp_aux_register_ddc/chardev()
- helpers
-Message-ID: <YYo9IXjevmstSREu@phenom.ffwll.local>
-Mail-Followup-To: Dmitry Osipenko <digetx@gmail.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Lyude Paul <lyude@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@linux.ie>,
- Thomas Graichen <thomas.graichen@gmail.com>,
- dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20211107230821.13511-1-digetx@gmail.com>
- <20211107230821.13511-2-digetx@gmail.com>
- <YYk/jfcceun/Qleq@phenom.ffwll.local>
- <0a2c02ae-3fe1-e384-28d3-13e13801d675@gmail.com>
+Received: from mail-40136.proton.ch (mail-40136.proton.ch [185.70.40.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE6906EA21
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Nov 2021 09:22:29 +0000 (UTC)
+Date: Tue, 09 Nov 2021 09:22:26 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail; t=1636449747;
+ bh=QVgJ6mYrWm8AKVHyTJa+baXr7jpRyUsoWGTxdVG4oT4=;
+ h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
+ b=ZFYlkLFMSWDbCOt8ko2W18YrYy1zzD/8r5F2MRzPJ1ksT675lWJbMP4C72x3/rUWY
+ NRo9VpWnz2xEr5uZObQFDDr8eaiPD1Ex70iGgrYaqqWBO3DUOIQDkn+oWjHDJWBcRp
+ nylBeIG7FFKTsuaJhUCeJg9+SqPmz0XwQ//aJO8YvR4glsWD3u6Pq1zW0iuxtaky3l
+ K7LJmbcGHDiIIomlwQ/XbtasqTM/pkxxbHdktSAjTtzrvyXXW8hVCvk7sPx09mtVG9
+ EDX8peiyMoDV07oyfcbn/auGvIa1nZyvifrp+Fn9B9gAa5zRPMDoKHOlVcXzk08GCM
+ ZgZ3JsmdMtmkw==
+To: Daniel Vetter <daniel@ffwll.ch>
+From: Simon Ser <contact@emersion.fr>
+Subject: Re: [PATCH] doc: gpu: Add document describing buffer exchange
+Message-ID: <gwWWtf19snTx_NBQ-FQykK8Kt1Fcp4mzdlMt0dTjF3W3VX5pB2xqGcC_Y8gSxd53tk8nv2Qu6yecK6g3UIktFRTHUXsT-89G6UFZy7bjYQQ=@emersion.fr>
+In-Reply-To: <YYo7wHBACwgwy3W+@phenom.ffwll.local>
+References: <20210905122742.86029-1-daniels@collabora.com>
+ <AqG6tXWB4u3qhQs6QV8AkOhbOhpAsenbzEKPlyG4IRBDtqevEHfx61dGX80b1U49N-nnoovcWzW1smGRlK6OhRrFkonCSFMalVxbhgdoNuE=@emersion.fr>
+ <f27654e4-3abb-3950-1629-c32b881332ed@nvidia.com>
+ <YYo7wHBACwgwy3W+@phenom.ffwll.local>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <0a2c02ae-3fe1-e384-28d3-13e13801d675@gmail.com>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+ DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
+ autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+ mailout.protonmail.ch
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,75 +52,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- Thomas Graichen <thomas.graichen@gmail.com>, linux-kernel@vger.kernel.org,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-tegra@vger.kernel.org
+Reply-To: Simon Ser <contact@emersion.fr>
+Cc: James Jones <jajones@nvidia.com>, Daniel Stone <daniels@collabora.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Nov 08, 2021 at 09:16:07PM +0300, Dmitry Osipenko wrote:
-> 08.11.2021 18:17, Daniel Vetter пишет:
-> > On Mon, Nov 08, 2021 at 02:08:21AM +0300, Dmitry Osipenko wrote:
-> >> Use drm_dp_aux_register_ddc/chardev() helpers that allow to register I2C
-> >> adapter separately from the character device. This fixes broken display
-> >> panel driver of Acer Chromebook CB5-311 that fails to probe starting with
-> >> v5.13 kernel when DP AUX registration order was changed. Tegra SOR driver
-> >> is never probed now using the new registration order because tegra-output
-> >> always fails with -EPROBE_DEFER due to missing display panel that requires
-> >> DP AUX DDC to be registered first. The offending commit made DDC to be
-> >> registered after SOR's output, which can't ever happen. Use new helpers
-> >> to restore the registration order and revive display panel.
-> > 
-> > This feels a bit backward, I think the clean solution would be to untangle
-> > the SOR loading from the panel driver loading, and then only block
-> > registering the overall drm_device on both drivers having loaded.
-> 
-> Sounds impossible.
-> 
-> 1. DRM device can be created only when all components are ready, panel
-> is one of the components.
+On Tuesday, November 9th, 2021 at 10:13, Daniel Vetter <daniel@ffwll.ch> wr=
+ote:
 
-Nope. drm_device can be instantiated whenever you feel like.
-drm_dev_register can only be called when it's all fully set up. Absolutely
-nothing would work if drm_device wouldn't support this two-stage setup.
+> On Mon, Nov 08, 2021 at 04:18:22PM -0800, James Jones wrote:
+> > On 9/6/21 5:28 AM, Simon Ser wrote:
+> > > > Since there's a lot of confusion around this, document both the rul=
+es
+> > > > and the best practice around negotiating, allocating, importing, an=
+d
+> > > > using buffers when crossing context/process/device/subsystem bounda=
+ries.
+> > > >
+> > > > This ties up all of dmabuf, formats and modifiers, and their usage.
+> > > >
+> > > > Signed-off-by: Daniel Stone <daniels@collabora.com>
+> > >
+> > > Thanks a lot for this write-up! This looks very good to me, a few com=
+ments
+> > > below.
+> >
+> > Agreed, it would be awesome if this were merged somewhere. IMHO, a lot =
+of
+> > the non-trivial/typo suggestions below could be taken care of as follow=
+-on
+> > patches, as the content here is better in than out, even if it could be
+> > clarified a bit.
+>
+> Seconded on just landing this without trying to perfect it first, because
+> I was just looking for it and didn't find it anywhere :-/
 
-So sequence:
-
-1. drm_dev_init
-
-2. bind sor driver
-
-3. create dp aux ddc
-
-4. bind panel
-
-5. yay we have everything, drm_dev_register
-
-This should work, and it's designed to work like this actually. You
-couldn't write big complex drivers otherwise.
--Daniel
-
-> 
-> 2. SOR driver is controlling panel and programs h/w based on panel presence.
-> 
-> 3. Panel can't become ready until DP AUX DDC is created.
-> 
-> 4. DP AUX DDC can't be created until DRM device is created.
-> 
-> 5. Go to 1.
-> 
-> Even if there is an option to somehow rewrite Tegra DRM driver to
-> accommodate it to the desired driver model, it won't be something
-> portable to stable kernels.
-> 
-> > This here at least feels like a game of whack-a-mole, if like every driver
-> > needs its own careful staging of everything.
-> 
-> That is inevitable because each hardware design is individual.
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Let me know if you lack time for this daniels, I can work on a new version.
+I don't want this to be lost in review limbo!
