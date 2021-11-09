@@ -1,58 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 276A244AA8A
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Nov 2021 10:24:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E40A44AA99
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Nov 2021 10:30:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 31EE56EA56;
-	Tue,  9 Nov 2021 09:24:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D3D3E6EAC2;
+	Tue,  9 Nov 2021 09:29:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
- [IPv6:2a00:1450:4864:20::435])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E2246EA55
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Nov 2021 09:24:37 +0000 (UTC)
-Received: by mail-wr1-x435.google.com with SMTP id u18so31763355wrg.5
- for <dri-devel@lists.freedesktop.org>; Tue, 09 Nov 2021 01:24:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=m955TQZGk9XrTyVWYClDym18dqFygGlN45TEs7nw+Co=;
- b=MMnfXuIkwsAsu0pA2DIf4osYOaLx1VlFUFhxWkZ9iiNryC6sjlU7XFxrTy+a8hnokC
- aDjdZUWpaNz1BxXiWj6+FlvzYCLCAPxrZ0Yd5cvw8IPLBParBUGPlhleZKsTH8jpG7Fh
- 6pJtjALV5+v+42qKa3pqEBYxFeW4xAyG1wZEk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=m955TQZGk9XrTyVWYClDym18dqFygGlN45TEs7nw+Co=;
- b=rWkK+nr33CKGGGWawQZTv0i5855D0AXwRvy4cD7B1yob1XYxxJfu6BjzNSuSlF9Xe4
- seohkoFNT2IGVyCfSeBylF3qnjC/Qv+dat5JheG8TTnNJeH2YhS/FRgR9OwF5evx9KZC
- w9XrqgLlcF56UUc2sisiyA7mZ9zZz87qQVkfgYQICtDWKFyp80FP2s1hTF9Tugcc5PLo
- 64iYXfm2VhZl92YQ6R/G7GugTOl6YmgMxkiq2WAoPt3UtnbSv4et9JMddLYzB2pyX1/w
- Ugk2XNQKUO0uwZeKyCG9iwL33RDDwWgFOF5NHyYLlP8vFc0TrDBEwIb+tJTZ5w4T3Jop
- 8sPw==
-X-Gm-Message-State: AOAM530eOpJupLMVEi35xU4XYk9NVt+uj+vPQdk5mFYhBuIOxiaIusQC
- p7O2TXKr8EAMfIfXg4uJEuF+BA==
-X-Google-Smtp-Source: ABdhPJxaRIVkvmieaiggWKmZte2XA6U+ZWCofOiYXBdl+zPumYQxV4Q9P1JHaLTgPU5cj4DYRIN66w==
-X-Received: by 2002:adf:e747:: with SMTP id c7mr7404940wrn.38.1636449875705;
- Tue, 09 Nov 2021 01:24:35 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id r17sm2157377wmq.11.2021.11.09.01.24.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Nov 2021 01:24:35 -0800 (PST)
-Date: Tue, 9 Nov 2021 10:24:33 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Simon Ser <contact@emersion.fr>
+Received: from mail-4022.proton.ch (mail-4022.proton.ch [185.70.40.22])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B091A6EAC2
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Nov 2021 09:29:57 +0000 (UTC)
+Date: Tue, 09 Nov 2021 09:29:54 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail; t=1636450195;
+ bh=/JucvsG+2Uip2FHpv39gbX4OxJ6Tkg3ui7rdDzLp3hg=;
+ h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
+ b=i7Hu9chRgvwDN1/otDGNYob/gw2AVfIYbtDUt58hkKsUgE3AgL0lyCKrkAxGKLal7
+ ajwjQ563RuCGNvgPXBkjIgJWnUG4V53ZJq5WlVqYJKmmO3PnzUzYjqQyXscOlrFK6Y
+ jJM77ze0jNYX+OFiEyN90qrTaI3nauMkg7Mf587hU7fDC0UDHOSMzZAPpXwZ0qrvZU
+ kiuFuYP5xk/IWAZfmsUZfJSlJP60xxLn4/SYPIcxyjGyfDpIuJzrR6Jk4BfDbp0RgF
+ Zesf/rNMMWaUTuwAVibEbemwNkt0XScxPSyraiLQikYPwSHD0Tk+j+3mXsNSucimN0
+ N6cgZlS+heUbQ==
+To: Daniel Vetter <daniel@ffwll.ch>
+From: Simon Ser <contact@emersion.fr>
 Subject: Re: [PATCH] drm: document DRM_IOCTL_MODE_GETFB2
-Message-ID: <YYo+UeTjGWU11+u6@phenom.ffwll.local>
+Message-ID: <dGeG3QxOQ1QX1zh8rppvlkgIaYW-tP1fPJ_08FlKMZyl1l52qjBm7Aisp898z4wW-PmPfQ66gXNUTsfBG7sBvfF_QC13yaHXRdyxySfQDKg=@emersion.fr>
+In-Reply-To: <YYo+UeTjGWU11+u6@phenom.ffwll.local>
 References: <20211109085601.170275-1-contact@emersion.fr>
+ <YYo+UeTjGWU11+u6@phenom.ffwll.local>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211109085601.170275-1-contact@emersion.fr>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+ DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
+ autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+ mailout.protonmail.ch
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,77 +50,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: Simon Ser <contact@emersion.fr>
 Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 09, 2021 at 08:56:10AM +0000, Simon Ser wrote:
-> There are a few details specific to the GETFB2 IOCTL.
-> 
-> It's not immediately clear how user-space should check for the
-> number of planes. Suggest using the pitches field.
-> 
-> The modifier array is filled with zeroes, ie. DRM_FORMAT_MOD_LINEAR.
-> So explicitly tell user-space to not look at it unless the flag is
-> set.
-> 
-> Signed-off-by: Simon Ser <contact@emersion.fr>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Pekka Paalanen <ppaalanen@gmail.com>
-> ---
->  include/uapi/drm/drm.h | 16 ++++++++++++++++
->  1 file changed, 16 insertions(+)
-> 
-> diff --git a/include/uapi/drm/drm.h b/include/uapi/drm/drm.h
-> index 3b810b53ba8b..9809078b0f51 100644
-> --- a/include/uapi/drm/drm.h
-> +++ b/include/uapi/drm/drm.h
-> @@ -1096,6 +1096,22 @@ extern "C" {
->  #define DRM_IOCTL_SYNCOBJ_TRANSFER	DRM_IOWR(0xCC, struct drm_syncobj_transfer)
->  #define DRM_IOCTL_SYNCOBJ_TIMELINE_SIGNAL	DRM_IOWR(0xCD, struct drm_syncobj_timeline_array)
->  
-> +/**
-> + * DRM_IOCTL_MODE_GETFB2 - Get framebuffer metadata.
-> + *
-> + * This queries metadata about a framebuffer. User-space fills
-> + * &drm_mode_fb_cmd2.fb_id as the input, and the kernels fills the rest of the
-> + * struct as the output.
-> + *
-> + * If the client is not DRM master and doesn't have &CAP_SYS_ADMIN,
-> + * &drm_mode_fb_cmd2.handles will be zeroed. Planes are valid until one has a
-> + * zero &drm_mode_fb_cmd2.pitches -- this can be used to compute the number of
-> + * planes.
+On Tuesday, November 9th, 2021 at 10:24, Daniel Vetter <daniel@ffwll.ch> wr=
+ote:
 
-Maybe explain that when actually importing the buffer userspace should
-look for non-zeor handles instead, since some drivers/formats leave a
-silly pitch value behind. Or at least I think that can happen. Just for
-additional robustness?
+> On Tue, Nov 09, 2021 at 08:56:10AM +0000, Simon Ser wrote:
+> > There are a few details specific to the GETFB2 IOCTL.
+> >
+> > It's not immediately clear how user-space should check for the
+> > number of planes. Suggest using the pitches field.
+> >
+> > The modifier array is filled with zeroes, ie. DRM_FORMAT_MOD_LINEAR.
+> > So explicitly tell user-space to not look at it unless the flag is
+> > set.
+> >
+> > Signed-off-by: Simon Ser <contact@emersion.fr>
+> > Cc: Daniel Vetter <daniel@ffwll.ch>
+> > Cc: Pekka Paalanen <ppaalanen@gmail.com>
+> > ---
+> >  include/uapi/drm/drm.h | 16 ++++++++++++++++
+> >  1 file changed, 16 insertions(+)
+> >
+> > diff --git a/include/uapi/drm/drm.h b/include/uapi/drm/drm.h
+> > index 3b810b53ba8b..9809078b0f51 100644
+> > --- a/include/uapi/drm/drm.h
+> > +++ b/include/uapi/drm/drm.h
+> > @@ -1096,6 +1096,22 @@ extern "C" {
+> >  #define DRM_IOCTL_SYNCOBJ_TRANSFER=09DRM_IOWR(0xCC, struct drm_syncobj=
+_transfer)
+> >  #define DRM_IOCTL_SYNCOBJ_TIMELINE_SIGNAL=09DRM_IOWR(0xCD, struct drm_=
+syncobj_timeline_array)
+> >
+> > +/**
+> > + * DRM_IOCTL_MODE_GETFB2 - Get framebuffer metadata.
+> > + *
+> > + * This queries metadata about a framebuffer. User-space fills
+> > + * &drm_mode_fb_cmd2.fb_id as the input, and the kernels fills the res=
+t of the
+> > + * struct as the output.
+> > + *
+> > + * If the client is not DRM master and doesn't have &CAP_SYS_ADMIN,
+> > + * &drm_mode_fb_cmd2.handles will be zeroed. Planes are valid until on=
+e has a
+> > + * zero &drm_mode_fb_cmd2.pitches -- this can be used to compute the n=
+umber of
+> > + * planes.
+>
+> Maybe explain that when actually importing the buffer userspace should
+> look for non-zeor handles instead, since some drivers/formats leave a
+> silly pitch value behind. Or at least I think that can happen. Just for
+> additional robustness?
 
-> + *
-> + * If the framebuffer has a format modifier, &DRM_MODE_FB_MODIFIERS will be set
-> + * in &drm_mode_fb_cmd2.flags. Otherwise, &drm_mode_fb_cmd2.modifier has
-> + * undefined contents.
+The IOCTL zeroes out the arrays at the start, so should be fine.
 
-Uh is this true? We should always clear values to avoid accidental leaks
-and stuff.
+handles will all be zero if user-space is unprivileged, so can't use them t=
+o
+figure out the number of planes.
 
-> + */
+> > + *
+> > + * If the framebuffer has a format modifier, &DRM_MODE_FB_MODIFIERS wi=
+ll be set
+> > + * in &drm_mode_fb_cmd2.flags. Otherwise, &drm_mode_fb_cmd2.modifier h=
+as
+> > + * undefined contents.
+>
+> Uh is this true? We should always clear values to avoid accidental leaks
+> and stuff.
 
-I think kerneldoc for drm_mode_fb_cmd2 would be neat too, so we can
-document how pitch is supposed to work and all that stuff.
+See the commit message: the modifier array is zeroed, which means it's fill=
+ed
+with DRM_FORMAT_MOD_LINEAR instead of DRM_FORMAT_MOD_INVALID -- this as goo=
+d as
+undefined contents for me.
 
-Anyway lgtm otherwise.
--Daniel
+Since this is a pretty good footgun, maybe we should change this? But the d=
+ocs
+would still need to tell userspace to not look at the array because older
+kernels will still exist.
 
->  #define DRM_IOCTL_MODE_GETFB2		DRM_IOWR(0xCE, struct drm_mode_fb_cmd2)
->  
->  /*
-> -- 
-> 2.33.1
-> 
-> 
+> > + */
+>
+> I think kerneldoc for drm_mode_fb_cmd2 would be neat too, so we can
+> document how pitch is supposed to work and all that stuff.
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Agreed, maybe will take a stab at this once this one is merged.
