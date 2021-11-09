@@ -1,54 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09F5E44AEB0
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Nov 2021 14:24:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E09F44AEC9
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Nov 2021 14:31:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C6CA96E889;
-	Tue,  9 Nov 2021 13:23:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DDC986E52D;
+	Tue,  9 Nov 2021 13:31:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x82a.google.com (mail-qt1-x82a.google.com
- [IPv6:2607:f8b0:4864:20::82a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9CFCD6E88B
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Nov 2021 13:23:54 +0000 (UTC)
-Received: by mail-qt1-x82a.google.com with SMTP id m25so7470971qtq.13
- for <dri-devel@lists.freedesktop.org>; Tue, 09 Nov 2021 05:23:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=0DLOTiy6uZY8gn6Kg56dLhNVby+whfyfkmUWkLQ+UOA=;
- b=f8pVbfVtU3/8Nlsv80NbQejsTjrSvwbHd+l3a81MOru4mYEVYBqz0mSC6JdLqmKQTB
- /vnbji78y6ZeGFXlWOwg45m5JuCR5r8KfUjjj0AKi/c7LyAasT8E7TH69Ff4mofhe8uc
- 6B9/raP1Wv8x4/57E/wDz1hS3mHcwWGrpd927pvnFBCClMpXNxdehbZaeGVwCKbHEfte
- bepk/oR4z7+8X+cnmYIXpfjLIzSs6DKfJO6pXWynlecutd/1P1GGu5at1UUXoAwi3Rmx
- qcd2ylczNGOxNbiNbZ7Nzz2WGyW2msrH9dCoecEqqHbvqGWXw7Ja2AZfEoWtwsHttlW4
- WC3Q==
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
+ [IPv6:2a00:1450:4864:20::431])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 30AF46E52D
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Nov 2021 13:31:26 +0000 (UTC)
+Received: by mail-wr1-x431.google.com with SMTP id r8so32908521wra.7
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 Nov 2021 05:31:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+ h=subject:to:cc:references:from:organization:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=86AV8AGEuTtJ4QffylmpIPKjMvHuoI8bxs5hQf8llAY=;
+ b=w9xzeAza8KlZFaX42qelc+S/cMdIW6ChIbaV1DojbWJGCo6izMck9QurORlvxNYCGl
+ jUG7+qdVbnEaYxkBaAXheWPGbGsDPYH/kbaagSlzq9BG79Lnt1ocOi8Ou3GmDpjayisw
+ 7SXG4PPXVrnUvmFxtKSrq0S+/rGxj7Aptr29Oa/CjB9cvy+heJnXM6xzReA2FEWbPilU
+ cNdI+hjqzrLnfjP/IWqqQc2lWFHhLhXpBcL9Frbe5GwnUd0Y54OkUzcj/9tAeOG8Meq3
+ mJz5xRvEGLni6IiihikoAWsjrFuQMLrHW6g4fbUEQ6zKTDy0OwXJ7ADJFRvqzOyfJEdk
+ AcJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=0DLOTiy6uZY8gn6Kg56dLhNVby+whfyfkmUWkLQ+UOA=;
- b=x4pWfdrFoSpJK6P62NtixF/2FwfL+krJWlGi4NZmylQ9cg+QHteZyLQd1GNnjzGXMm
- 0Cip5SU/yy/UR11WiULBwPzD9zeXs9pLQ/AdO8I8suc0anT4d7Hev0Q6J5tNePMLgOhF
- zAjDTq2AnnzWygsSIun7A/DvMuwXXH2wObaKn1g3U5tk4zZS97Yhrd0VpuJWp4DnhWif
- 68US5s0yEGoF5lrQdZQ5tfeK2cKYUlHb7cShv1yz+ed7ewTrazJklj8ncvbNG7M6CDs0
- 9MEJjhNIWuStpdtC/OEqMeTZa+y/kAaf3x/KfD6dCcYghud5zcYmXa91aoOqAftTYwNh
- JQDQ==
-X-Gm-Message-State: AOAM533MsNCnn/DB4/53vVBl4X6WaRDoBxdqdtAIzk0olm/H5ecbuiWp
- ToAgQD5Qf6cmAa+STc6tR68oPhKLMPmo+q1txWdCcg==
-X-Google-Smtp-Source: ABdhPJxHnSv1ag1UA5YDSEU6aEzZr4vb+6lgWQ1FhKR8ZuYwYjGVbuwc6M+VdPn4JgyJsr8SfH25i8l+XgtGybnggEs=
-X-Received: by 2002:ac8:57cb:: with SMTP id w11mr8208764qta.285.1636464233688; 
- Tue, 09 Nov 2021 05:23:53 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:organization
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=86AV8AGEuTtJ4QffylmpIPKjMvHuoI8bxs5hQf8llAY=;
+ b=Ymncf00SOA0sScXIauDLegmz50mW4u77kz0/OOTvWonfMiIDzdnCGGz9XOJvq673p4
+ IXVgE+/wcLgsGPTlCtld0ILFiz/dLoHKYvG4SWzAyp4T2ABNsYwv6RtzMbzUpyDeSW+a
+ i/7dztfadxVS7mf5RpNr7TwwWMbz7xwkTH9gZ4fjFYliyEeFLFmoh0IPo65a36M5SM5X
+ cUH/NnlGxAI+WqGdaADNk1iELPVhvCtLALNy86N+Wv7gRRLEgMl5SMJC5gfclJLVLUAA
+ KxlrrvmpksbNQjmKNAOGwFs5Wj/GTkRUZrUW1hFSBAn9Q1z1Y1TiO9TR2V28m8DYbe2P
+ BbzA==
+X-Gm-Message-State: AOAM530PeWoirHVJZNvyzXsazA21keZCatMZR2p9tOhOKZUS47Im7Ywe
+ cAmYkI6lc/dBiCbChF1ARKXkQw==
+X-Google-Smtp-Source: ABdhPJyGHoEJzjWdRkYqJG2Ek7+KWBAquFYh3T0VagyVJWHMCZtR7xbZfgCkAvAlNmTBhjyD2W3fUw==
+X-Received: by 2002:adf:f90a:: with SMTP id b10mr9613473wrr.255.1636464684324; 
+ Tue, 09 Nov 2021 05:31:24 -0800 (PST)
+Received: from ?IPv6:2001:861:44c0:66c0:d284:de3f:b3d6:f714?
+ ([2001:861:44c0:66c0:d284:de3f:b3d6:f714])
+ by smtp.gmail.com with ESMTPSA id c15sm19538391wrs.19.2021.11.09.05.31.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 09 Nov 2021 05:31:23 -0800 (PST)
+Subject: Re: [PATCH v6 9/9] drm/omap: Add a 'right overlay' to plane state
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+References: <20211018142842.2511200-1-narmstrong@baylibre.com>
+ <20211018142842.2511200-10-narmstrong@baylibre.com>
+ <8fbf92ae-3802-94b6-6ad8-af669974aaf1@ideasonboard.com>
+From: Neil Armstrong <narmstrong@baylibre.com>
+Organization: Baylibre
+Message-ID: <ed30f74f-033f-6e53-9873-ac2abb7ece12@baylibre.com>
+Date: Tue, 9 Nov 2021 14:31:22 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-References: <1636451248-18889-1-git-send-email-quic_mkrishn@quicinc.com>
-In-Reply-To: <1636451248-18889-1-git-send-email-quic_mkrishn@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Tue, 9 Nov 2021 16:23:42 +0300
-Message-ID: <CAA8EJppuuuY+Oksjv8_U80icK-mr5gjgix6DCnyoMDBwHf4A5w@mail.gmail.com>
-Subject: Re: [PATCH v3] drm/msm: use compatible lists to find mdp node
-To: Krishna Manikandan <quic_mkrishn@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <8fbf92ae-3802-94b6-6ad8-af669974aaf1@ideasonboard.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,125 +77,165 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_kalyant@quicinc.com, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- swboyd@chromium.org, freedreno@lists.freedesktop.org
+Cc: khilman@baylibre.com, linux-omap@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 9 Nov 2021 at 12:47, Krishna Manikandan
-<quic_mkrishn@quicinc.com> wrote:
->
-> In the current implementation, substring comparison
-> using device node name is used to find mdp node
-> during driver probe. Use compatible string list instead
-> of node name to get mdp node from the parent mdss node.
->
-> Signed-off-by: Krishna Manikandan <quic_mkrishn@quicinc.com>
->
-> Changes in v2:
->   - Use compatible lists instead of duplicate string
->     check (Stephen Boyd)
->
-> Changes in v3:
->   - Use match tables to find the mdp node (Stephen Boyd)
-> ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c  | 3 ++-
->  drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c | 3 ++-
->  drivers/gpu/drm/msm/msm_drv.c            | 7 ++++---
->  drivers/gpu/drm/msm/msm_kms.h            | 3 +++
->  4 files changed, 11 insertions(+), 5 deletions(-)
->
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> index ad247c0..c778b6d 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> @@ -1273,7 +1273,7 @@ static const struct dev_pm_ops dpu_pm_ops = {
->                                 pm_runtime_force_resume)
->  };
->
-> -static const struct of_device_id dpu_dt_match[] = {
-> +const struct of_device_id dpu_dt_match[] = {
->         { .compatible = "qcom,sdm845-dpu", },
->         { .compatible = "qcom,sc7180-dpu", },
->         { .compatible = "qcom,sc7280-dpu", },
-> @@ -1282,6 +1282,7 @@ static const struct of_device_id dpu_dt_match[] = {
->         {}
->  };
->  MODULE_DEVICE_TABLE(of, dpu_dt_match);
-> +EXPORT_SYMBOL(dpu_dt_match);
+Hi,
 
-There is no need to export these symbols, as they will be used within
-the module.
+On 27/10/2021 14:50, Tomi Valkeinen wrote:
+> On 18/10/2021 17:28, Neil Armstrong wrote:
+>> From: Benoit Parrot <bparrot@ti.com>
+>>
+>> If the drm_plane has a source width that's greater than the max width
+>> supported by a single hw overlay, then we assign a 'r_overlay' to it in
+>> omap_plane_atomic_check().
+>>
+>> Both overlays should have the capabilities required to handle the source
+>> framebuffer. The only parameters that vary between the left and right
+>> hwoverlays are the src_w, crtc_w, src_x and crtc_x as we just even chop
+>> the fb into left and right halves.
+>>
+>> We also take care of not creating odd width size when dealing with YUV
+>> formats.
+>>
+>> Since both halves need to be 'appear' side by side the zpos is
+>> recalculated when dealing with dual overlay cases so that the other
+>> planes zpos is consistent.
+>>
+>> Depending on user space usage it is possible that on occasion the number
+>> of requested planes exceeds the numbers of overlays required to display
+>> them. In that case a failure would be returned for the plane that cannot
+>> be handled at that time. It is up to user space to make sure the H/W
+>> resource are not over-subscribed.
+>>
+>> Signed-off-by: Benoit Parrot <bparrot@ti.com>
+>> Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
+>> ---
+>>   drivers/gpu/drm/omapdrm/omap_drv.c     |  91 ++++++++++++++++++-
+>>   drivers/gpu/drm/omapdrm/omap_fb.c      |  33 ++++++-
+>>   drivers/gpu/drm/omapdrm/omap_fb.h      |   4 +-
+>>   drivers/gpu/drm/omapdrm/omap_overlay.c |  23 ++++-
+>>   drivers/gpu/drm/omapdrm/omap_overlay.h |   3 +-
+>>   drivers/gpu/drm/omapdrm/omap_plane.c   | 120 +++++++++++++++++++++++--
+>>   drivers/gpu/drm/omapdrm/omap_plane.h   |   1 +
+>>   7 files changed, 263 insertions(+), 12 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/omapdrm/omap_drv.c b/drivers/gpu/drm/omapdrm/omap_drv.c
+>> index c7912374d393..f088b6313950 100644
+>> --- a/drivers/gpu/drm/omapdrm/omap_drv.c
+>> +++ b/drivers/gpu/drm/omapdrm/omap_drv.c
+>> @@ -117,6 +117,95 @@ static void omap_atomic_commit_tail(struct drm_atomic_state *old_state)
+>>       dispc_runtime_put(priv->dispc);
+>>   }
+>>   +static int drm_atomic_state_normalized_zpos_cmp(const void *a, const void *b)
+>> +{
+>> +    const struct drm_plane_state *sa = *(struct drm_plane_state **)a;
+>> +    const struct drm_plane_state *sb = *(struct drm_plane_state **)b;
+>> +
+>> +    if (sa->normalized_zpos != sb->normalized_zpos)
+>> +        return sa->normalized_zpos - sb->normalized_zpos;
+>> +    else
+>> +        return sa->plane->base.id - sb->plane->base.id;
+>> +}
+> 
+> I think this, or the function below, needs a comment. I don't think it's obvious what's the logic here. It's mostly a copy of drm_atomic_normalize_zpos and drm_atomic_helper_crtc_normalize_zpos, if I'm not mistaken, it migth be good to point out what the difference is.
 
->
->  static struct platform_driver dpu_driver = {
->         .probe = dpu_dev_probe,
-> diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
-> index 7b24224..8b97008 100644
-> --- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
-> +++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
-> @@ -1031,13 +1031,14 @@ static const struct dev_pm_ops mdp5_pm_ops = {
->         SET_RUNTIME_PM_OPS(mdp5_runtime_suspend, mdp5_runtime_resume, NULL)
->  };
->
-> -static const struct of_device_id mdp5_dt_match[] = {
-> +const struct of_device_id mdp5_dt_match[] = {
->         { .compatible = "qcom,mdp5", },
->         /* to support downstream DT files */
->         { .compatible = "qcom,mdss_mdp", },
->         {}
->  };
->  MODULE_DEVICE_TABLE(of, mdp5_dt_match);
-> +EXPORT_SYMBOL(mdp5_dt_match);
->
->  static struct platform_driver mdp5_driver = {
->         .probe = mdp5_dev_probe,
-> diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-> index 7936e8d..445788f 100644
-> --- a/drivers/gpu/drm/msm/msm_drv.c
-> +++ b/drivers/gpu/drm/msm/msm_drv.c
-> @@ -1277,9 +1277,10 @@ static int add_components_mdp(struct device *mdp_dev,
->         return 0;
->  }
->
-> -static int compare_name_mdp(struct device *dev, void *data)
-> +static int find_mdp_node(struct device *dev, void *data)
->  {
-> -       return (strstr(dev_name(dev), "mdp") != NULL);
-> +       return of_match_node(dpu_dt_match, dev->of_node) ||
-> +               of_match_node(mdp5_dt_match, dev->of_node);
->  }
->
->  static int add_display_components(struct platform_device *pdev,
-> @@ -1304,7 +1305,7 @@ static int add_display_components(struct platform_device *pdev,
->                         return ret;
->                 }
->
-> -               mdp_dev = device_find_child(dev, NULL, compare_name_mdp);
-> +               mdp_dev = device_find_child(dev, NULL, find_mdp_node);
->                 if (!mdp_dev) {
->                         DRM_DEV_ERROR(dev, "failed to find MDSS MDP node\n");
->                         of_platform_depopulate(dev);
-> diff --git a/drivers/gpu/drm/msm/msm_kms.h b/drivers/gpu/drm/msm/msm_kms.h
-> index 6a42b81..8b132c8 100644
-> --- a/drivers/gpu/drm/msm/msm_kms.h
-> +++ b/drivers/gpu/drm/msm/msm_kms.h
-> @@ -198,6 +198,9 @@ struct msm_kms *mdp4_kms_init(struct drm_device *dev);
->  struct msm_kms *mdp5_kms_init(struct drm_device *dev);
->  struct msm_kms *dpu_kms_init(struct drm_device *dev);
->
-> +extern const struct of_device_id dpu_dt_match[];
-> +extern const struct of_device_id mdp5_dt_match[];
-> +
->  struct msm_mdss_funcs {
->         int (*enable)(struct msm_mdss *mdss);
->         int (*disable)(struct msm_mdss *mdss);
-> --
-> 2.7.4
->
+It's explained in the commit message:
+>> Since both halves need to be 'appear' side by side the zpos is
+>> recalculated when dealing with dual overlay cases so that the other
+>> planes zpos is consistent.
 
+Not sure what to add more, should I add it as comment in the code ?
 
--- 
-With best wishes
-Dmitry
+> 
+> I'm also wondering if these normalize_zpos functions should be split to a separate patch (without the is_omap_plane_dual_overlay call part).
+
+It's tied to the introduction of 'right overlay', impossible to implement it without the
+dual overlays functions and variables.
+
+> 
+>> +static int omap_atomic_update_normalize_zpos(struct drm_device *dev,
+>> +                         struct drm_atomic_state *state)
+>> +{
+>> +    struct drm_crtc *crtc;
+>> +    struct drm_crtc_state *old_state, *new_state;
+>> +    struct drm_plane *plane;
+>> +    int c, i, n, inc;
+>> +    int total_planes = dev->mode_config.num_total_plane;
+>> +    struct drm_plane_state **states;
+>> +    int ret = 0;
+>> +
+>> +    states = kmalloc_array(total_planes, sizeof(*states), GFP_KERNEL);
+>> +    if (!states)
+>> +        return -ENOMEM;
+>> +
+>> +    for_each_oldnew_crtc_in_state(state, crtc, old_state, new_state, c) {
+>> +        if (old_state->plane_mask == new_state->plane_mask &&
+>> +            !new_state->zpos_changed)
+>> +            continue;
+>> +
+>> +        /* Reset plane increment and index value for every crtc */
+>> +        n = 0;
+>> +
+>> +        /*
+>> +         * Normalization process might create new states for planes
+>> +         * which normalized_zpos has to be recalculated.
+>> +         */
+>> +        drm_for_each_plane_mask(plane, dev, new_state->plane_mask) {
+>> +            struct drm_plane_state *plane_state =
+>> +                drm_atomic_get_plane_state(new_state->state,
+>> +                               plane);
+>> +            if (IS_ERR(plane_state)) {
+>> +                ret = PTR_ERR(plane_state);
+>> +                goto done;
+>> +            }
+>> +            states[n++] = plane_state;
+>> +        }
+>> +
+>> +        sort(states, n, sizeof(*states),
+>> +             drm_atomic_state_normalized_zpos_cmp, NULL);
+>> +
+>> +        for (i = 0, inc = 0; i < n; i++) {
+>> +            plane = states[i]->plane;
+>> +
+>> +            states[i]->normalized_zpos = i + inc;
+>> +            DRM_DEBUG_ATOMIC("[PLANE:%d:%s] updated normalized zpos value %d\n",
+>> +                     plane->base.id, plane->name,
+>> +                     states[i]->normalized_zpos);
+>> +
+>> +            if (is_omap_plane_dual_overlay(states[i]))
+>> +                inc++;
+>> +        }
+>> +        new_state->zpos_changed = true;
+>> +    }
+>> +
+>> +done:
+>> +    kfree(states);
+>> +    return ret;
+>> +}
+>> +
+>> +static int omap_atomic_check(struct drm_device *dev,
+>> +                 struct drm_atomic_state *state)
+>> +{
+>> +    int ret;
+>> +
+>> +    ret = drm_atomic_helper_check(dev, state);
+>> +    if (ret)
+>> +        return ret;
+>> +
+>> +    if (dev->mode_config.normalize_zpos) {
+>> +        ret = omap_atomic_update_normalize_zpos(dev, state);
+>> +        if (ret)
+>> +            return ret;
+>> +    }
+>> +
+>> +    return 0;
+>> +}
+>> +
+
+[...]
+
+Thanks,
+Neil
