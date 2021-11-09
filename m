@@ -1,150 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C647744ACDD
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Nov 2021 12:49:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A332B44AD65
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Nov 2021 13:18:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 785C86E8A3;
-	Tue,  9 Nov 2021 11:49:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 59E236E8E2;
+	Tue,  9 Nov 2021 12:18:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com
- [205.220.177.32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F7F96E8A3;
- Tue,  9 Nov 2021 11:49:12 +0000 (UTC)
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1A9A078e017419; 
- Tue, 9 Nov 2021 11:49:08 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=date : from : to : cc
- : subject : message-id : content-type : mime-version; s=corp-2021-07-09;
- bh=h5/eBmu47csnu766K5nMaghwmJ3AsR23URowhF9jqUk=;
- b=gBo1OYI1aVJw8EmjeMDrCNXC/YFXz96bpf+DljjSCpDE0SsZQhy7e5NWKtg2hV+Gb8X/
- SGH/bfuLtmLpUzmIshRPODx2YjnSU4hjAHak2+pL6QECWHU/K+z5Tgr8kviAd/LVEaBb
- j3C92cTJxQMfvPjl0BvwTvgrrXhGBXvohWuxZ1IuY7Sli6x2UOWmrekJDigdEunWO5IP
- YIgkXgbGQx6MLoupMdh11vHoiE47XDY0sC2FtZQiQULqyXjslxry573rD4+VESWwGKmD
- Wgaos0DMpmanNF9/36wT3c0XvWhocXg0/RlzwjPLUIT2Je+N6mmocYABW9QrbxkgaME2 FQ== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by mx0b-00069f02.pphosted.com with ESMTP id 3c6sbk9xm3-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 09 Nov 2021 11:49:08 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 1A9BkFx4125893;
- Tue, 9 Nov 2021 11:49:07 GMT
-Received: from nam11-dm6-obe.outbound.protection.outlook.com
- (mail-dm6nam11lp2173.outbound.protection.outlook.com [104.47.57.173])
- by aserp3020.oracle.com with ESMTP id 3c5hh3g1rf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 09 Nov 2021 11:49:07 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BLlTOvNQLtNq0KprxFdC5fBWRyZjtCnYUOmLwL2T1+cP3A+miXx7qJd8iSx4Fu9GoooRaJGnVaBii3bPiF4MEYWSFNiFE1N5PCpE1ZgBNR9wRv4w4AP1bRJbfd+YC9LO5DhFpWqeODTqfxwEx1dC3XuPn9Z3PsITWafRUGW+EySQ2oCiYSDBnd29pfTFeiVLC1W4/nAYiASSmQSY+GQRJElQh0TcyakZ0VMRx35wZyufYBQ7CWH/LLLKXSxtYNPKqqWPQNpcflrpv571GupNiwDtfXVJ/uXElSpeU8cy/b9RsLb/UvNyqV5/b+k9lIm4mQq3KA1BcEmIAO22mw2vGg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=h5/eBmu47csnu766K5nMaghwmJ3AsR23URowhF9jqUk=;
- b=lp2XUe7fUZJ75gH2XA9iSGoKrR8g4Ryv0eGQs1pr8f++nW1ZsPN6KeQaZxLWmPYuLPiMgnQVKYL+08lZTm/JWbTqlHHbAV9LM8UVUdwIRnmxHr7k/GzuWN6tTmoxIswUdhHfsKGYmMwwsNSXiNv3tqVmvjpn7mfrUF80aFttv6zLFUPsSjASuKZF1aBPFdQwtOqfhNoKcjgEJxyZSoF1M8TKqcbO8WlL0e0icPW8kL5JGcagtohuTwE6R0gTUpk0KJn53utJGn4uH9L6wYOtf2+07Haf76WGOEjhkCoeB6QCsM3RoL4ZIQ9SfZNh94FEHDnc7EKhodCUuBVzEa5R/A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=h5/eBmu47csnu766K5nMaghwmJ3AsR23URowhF9jqUk=;
- b=Vo4VkvVSt8jwxVttV/A8XiFxKxWNbB1vrN8KbWPv++AbmtySCMvrdl17H3VFq/LCrOitgOOu61HQuImYhTLTF8X/Xc7XmLpVQOV/3T+MmxtNTdZMdsDSN9oXeFAwih1cCELkfGeLotW/evOYbAxf+TSh39KWiCVd2O/KuPkkvEg=
-Authentication-Results: linux.intel.com; dkim=none (message not signed)
- header.d=none; linux.intel.com; dmarc=none action=none header.from=oracle.com; 
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by MWHPR10MB1999.namprd10.prod.outlook.com
- (2603:10b6:300:10a::22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4669.15; Tue, 9 Nov
- 2021 11:49:05 +0000
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::d409:11b5:5eb2:6be9]) by MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::d409:11b5:5eb2:6be9%5]) with mapi id 15.20.4690.015; Tue, 9 Nov 2021
- 11:49:05 +0000
-Date: Tue, 9 Nov 2021 14:48:50 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Subject: [PATCH] drm/i915: pin: delete duplicate check in
- intel_pin_and_fence_fb_obj()
-Message-ID: <20211109114850.GB16587@kili>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-ClientProxiedBy: AS9PR06CA0085.eurprd06.prod.outlook.com
- (2603:10a6:20b:464::15) To MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28)
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 303746E892;
+ Tue,  9 Nov 2021 12:18:12 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10162"; a="232678112"
+X-IronPort-AV: E=Sophos;i="5.87,220,1631602800"; d="scan'208";a="232678112"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Nov 2021 04:18:11 -0800
+X-IronPort-AV: E=Sophos;i="5.87,220,1631602800"; d="scan'208";a="503483050"
+Received: from fmpluck-mobl.ger.corp.intel.com (HELO tursulin-mobl2.home)
+ ([10.213.200.63])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Nov 2021 04:18:09 -0800
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+To: Intel-gfx@lists.freedesktop.org
+Subject: [PATCH] drm/i915: Use per device iommu check
+Date: Tue,  9 Nov 2021 12:17:59 +0000
+Message-Id: <20211109121759.170915-1-tvrtko.ursulin@linux.intel.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Received: from kili (102.222.70.114) by
- AS9PR06CA0085.eurprd06.prod.outlook.com (2603:10a6:20b:464::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4669.11 via Frontend
- Transport; Tue, 9 Nov 2021 11:49:00 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ed380d19-2ba8-44c5-53db-08d9a376ee3a
-X-MS-TrafficTypeDiagnostic: MWHPR10MB1999:
-X-Microsoft-Antispam-PRVS: <MWHPR10MB1999BD33A0C4973E01DE763E8E929@MWHPR10MB1999.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1303;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 2g+/54rzoNnEcQ48IW5r/eqebNnJEnruECDE55D04ORIBeYJjcOpQDiR/Pa++6VNA/1dWhYThcZZE5QcNZlnmjJdvS9p1nX5qlzz+ml1sPVDsOhAfxWOlPsRHWFsW1qBwvj0SreV999iLHEBxd+Pc27uePVON1ocMKhHYdHtjEwRlZ9cwPG4zoZcOyXSBOlkiPk+234VO1lI7EQla4JPEHL4IyJdEkuJ+3IPrkdqk3llIFREDGPD0TCC0w0MvcA249Qs+GDyc8RQkoW1PMZZgRKF1KyQj+sWzkVUPXqluNMyXZ54OMxpCdRWD4ZW2zK/ZE4yC+NbPSPDoNwfu665UPtGxNHmUjVStbe7XadofeFrkltdz9Qj0oY/ubcWnP2sSlmDdQ+3wt1asWUuO6eMqS3pYo817VCNhCXFjVakgl92tU8Ob+yXJ9VUB+ejygHTcfML5/9Wt7Y2cLHC+8lVtdfrsgNKXJ6YWu1QXs4fzONLYoblKVYFBBdkri2W620t0wPWTTrpWC2idZ4x8Uq5ha6LSJO97cJvRbg2wQhyDqgiEdesAEtr+PCb6HLXwITPMZTHpxhlBZSHH04RyBDQyPMXiO6Ur2bMhV1Ugd11BO84fr5J5lJCaH2TbmlLWSFJaIJZBGx5eLsd2T7B0kwT4l3Sr2ukwNyLidLpakTIS2QdUpJwK7zhY/JkQBGCBzBpmEauOudzWpxTn0XU61z8FA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MWHPR1001MB2365.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(366004)(8936002)(33656002)(508600001)(7416002)(55016002)(110136005)(6496006)(26005)(186003)(9576002)(33716001)(54906003)(52116002)(86362001)(4326008)(4744005)(316002)(44832011)(9686003)(66946007)(38350700002)(38100700002)(6666004)(1076003)(83380400001)(956004)(5660300002)(2906002)(66556008)(66476007)(8676002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?X71ahBYabDTAW64PSpuHuafVUiqeCbCPU2E8fO6BERM76PN2Rw0cz9U93RHh?=
- =?us-ascii?Q?Z4yZMG50omytQMCBXCJiZJaUUnMB8wXZHCYrUzqcnO/JD6AVaXxHxqAdq1H4?=
- =?us-ascii?Q?q9fo+1S2JfZNfRR2UZ/J+zJi5xSBlJ7ViAXducQXMfvvQ4W/xUDaFlVi4d1x?=
- =?us-ascii?Q?C3Coo/VB1G3k/JFDvLn1XRx7ToJGnnuNzPFptqY+JiUTuDBvn24fYrhrqPIA?=
- =?us-ascii?Q?hLdFiTsc/AY3FpcrKo1EYmQpFODr0C0QgvEPBsRofJdNUynlj79f9oR6+wBr?=
- =?us-ascii?Q?DAFUAyugKiGSaDHZ//qHSBARkrp3q0dDFFbiBCJnKV18IPEQQwZIiZqWbUbc?=
- =?us-ascii?Q?RbvLkr02P7sjEnCoDvpwaxxAwgNdG7/DHVoMHBZMJoXQQoIFqPn/1w2glYPv?=
- =?us-ascii?Q?DbzTCvdZIdCXDQbi87t9T8scUu8vBTnt0WAup9BBPW2n5WYZXrcOZfrw++wv?=
- =?us-ascii?Q?52/fjG05squHbdJ4UBgQOeaZ0GAb6/xrPDK9V7QnjP/rlfQM0XdZWfnySNHm?=
- =?us-ascii?Q?zQIc0dN0UN/9iNB6O14AnGchcD7oVXF47XrlhKmeNc2gIxW/0MV9+pwiJDgw?=
- =?us-ascii?Q?SeaBMF8+/EFk6px1OzviHZjlifdYklWPgB2DAW6RmmJh0fUNsTQtE7EBecmd?=
- =?us-ascii?Q?Ju+U2cmWTT/nqdlHTTI14TJPJzObipOiBUBW6jvpWhvhdhTXm8jRQ7RseYYR?=
- =?us-ascii?Q?4Btg4lTdCoFQcLhjFc7YZvYFDDDdKtoU8tiFssvSVNK/PJtQa1vYdY+n+vMO?=
- =?us-ascii?Q?Z9Ex+1L0wJnJlIDWGDrEW+JIFCsSsPcWP3X2T3UA1nW5P8sbQD8hDckP2nHd?=
- =?us-ascii?Q?L7hGIQ0f6mpfa0YZ4E/1SbZU28pCxwttX1EP2VsitaLriDWeCz3aLi6Mwa7o?=
- =?us-ascii?Q?hOgp0u/iJSSlu5CN7r++VxjSnD4730KQjU3IODhWbxugv2gFqyWkNiX33gFH?=
- =?us-ascii?Q?uqKykrWcPX70Mxfu/bnLP4ZbnWSL7yu7dSpRD5lA/qjtHztEZ9r73rykJIc0?=
- =?us-ascii?Q?sTf/uUDGrc1pYIFGEbWBUA6JLVnAIGPwYL2Gv5Ln44sXyIKO0nfabMSA/CYe?=
- =?us-ascii?Q?042I+EBfcIirEhPFxphnTc6DPhMLmsdwS8HGj4u9txa49fTMf1rUjT6nUM25?=
- =?us-ascii?Q?oVWDPnHuVzZwsHbozlEO+qrTfZ0zdchfSzBznH4GdrUWVNvuqubVzcyKW4aM?=
- =?us-ascii?Q?n0NEttFaTjP/edrxELIcFfqcbvJlqtni3OTQMM+66X5QvLkq+zqhoWRdN4be?=
- =?us-ascii?Q?OgP1DsOuVgatGffhQtVKOZLv5oyf6m1nzWMH4I/SsvfC2GByzb6TaNPmORux?=
- =?us-ascii?Q?07vyFPhIhQNtMLcFTRfP+QUj3JCkKdfybj15NZP0yraqFAu8PKLdSXvNJOgJ?=
- =?us-ascii?Q?2QGaCxFvtKze9RjGWl/c0upQr0SpPCLriJfM7TD1MkUgdfOXHBJSrW2R0LzJ?=
- =?us-ascii?Q?SoAeeMWjCriB7VMky2YZFmDoXfZmOSgHeoJd1Z51GBgY+8OnzM9ifCora28T?=
- =?us-ascii?Q?akbt1+ke8DJkpY/Y1atfmy4chh8H71cYeoapy4iag/IOI5BR7aZu/n/qR0/A?=
- =?us-ascii?Q?ehPLv9E9i+fS2R8BFQQZPRcxbemcRPbw3lvuYK+ccMl/eJQ6QxWHlvr/wgr+?=
- =?us-ascii?Q?26tdtguyzIcpzXP3cfImeEKB6Vg12AJv/dmbGIrKWkoEUZia+S9z4ZR9qbax?=
- =?us-ascii?Q?CXN2zJHfz3kpAD11IP6tfhqe1BI=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ed380d19-2ba8-44c5-53db-08d9a376ee3a
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Nov 2021 11:49:05.1741 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ndI0KZmS987gtV4LaePrYe1IqmUBIr9keDTuf57OVggKn0y+fnuO1CZXp4b2r9D0NOC866qOHkCt/BY34p4CiSW10qBPE5YThQweGA8r/HM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR10MB1999
-X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10162
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
- bulkscore=0 mlxscore=0
- malwarescore=0 spamscore=0 adultscore=0 suspectscore=0 mlxlogscore=999
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
- definitions=main-2111090071
-X-Proofpoint-GUID: Zmkst-Q9M7DnMZpUOZWwJtpvE81UvX2x
-X-Proofpoint-ORIG-GUID: Zmkst-Q9M7DnMZpUOZWwJtpvE81UvX2x
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -157,43 +42,270 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
- kernel-janitors@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Dave Airlie <airlied@redhat.com>
+Cc: Lu Baolu <baolu.lu@linux.intel.com>, dri-devel@lists.freedesktop.org,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The "ret" variable is checked on the previous line so we know it's
-zero.  No need to check again.
+From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 
-Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+On igfx + dgfx setups, it appears that intel_iommu=igfx_off option only
+disables the igfx iommu. Stop relying on global intel_iommu_gfx_mapped
+and probe presence of iommu domain per device to accurately reflect its
+status.
+
+Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: Lu Baolu <baolu.lu@linux.intel.com>
 ---
- drivers/gpu/drm/i915/display/intel_fb_pin.c | 12 +++++-------
- 1 file changed, 5 insertions(+), 7 deletions(-)
+Baolu, is my understanding here correct? Maybe I am confused by both
+intel_iommu_gfx_mapped and dmar_map_gfx being globals in the intel_iommu
+driver. But it certainly appears the setup can assign some iommu ops (and
+assign the discrete i915 to iommu group) when those two are set to off.
+---
+ drivers/gpu/drm/i915/display/intel_bw.c      |  2 +-
+ drivers/gpu/drm/i915/display/intel_display.c |  2 +-
+ drivers/gpu/drm/i915/display/intel_fbc.c     |  2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_stolen.c   |  2 +-
+ drivers/gpu/drm/i915/gem/i915_gemfs.c        |  2 +-
+ drivers/gpu/drm/i915/gt/intel_ggtt.c         |  4 ++--
+ drivers/gpu/drm/i915/i915_debugfs.c          |  1 +
+ drivers/gpu/drm/i915/i915_drv.c              |  7 +++++++
+ drivers/gpu/drm/i915/i915_drv.h              | 13 +++++++------
+ drivers/gpu/drm/i915/i915_gpu_error.c        |  5 +----
+ drivers/gpu/drm/i915/intel_device_info.c     | 14 +-------------
+ drivers/gpu/drm/i915/intel_pm.c              |  2 +-
+ 12 files changed, 25 insertions(+), 31 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_fb_pin.c b/drivers/gpu/drm/i915/display/intel_fb_pin.c
-index 3f77f3013584..3b20f69e0240 100644
---- a/drivers/gpu/drm/i915/display/intel_fb_pin.c
-+++ b/drivers/gpu/drm/i915/display/intel_fb_pin.c
-@@ -142,13 +142,11 @@ intel_pin_and_fence_fb_obj(struct drm_framebuffer *fb,
- 	if (ret)
- 		goto err;
+diff --git a/drivers/gpu/drm/i915/display/intel_bw.c b/drivers/gpu/drm/i915/display/intel_bw.c
+index 8d9d888e9316..a4d8088e4f71 100644
+--- a/drivers/gpu/drm/i915/display/intel_bw.c
++++ b/drivers/gpu/drm/i915/display/intel_bw.c
+@@ -490,7 +490,7 @@ static unsigned int intel_bw_data_rate(struct drm_i915_private *dev_priv,
+ 	for_each_pipe(dev_priv, pipe)
+ 		data_rate += bw_state->data_rate[pipe];
  
--	if (!ret) {
--		vma = i915_gem_object_pin_to_display_plane(obj, &ww, alignment,
--							   view, pinctl);
--		if (IS_ERR(vma)) {
--			ret = PTR_ERR(vma);
--			goto err_unpin;
--		}
-+	vma = i915_gem_object_pin_to_display_plane(obj, &ww, alignment,
-+						   view, pinctl);
-+	if (IS_ERR(vma)) {
-+		ret = PTR_ERR(vma);
-+		goto err_unpin;
+-	if (DISPLAY_VER(dev_priv) >= 13 && intel_vtd_active())
++	if (DISPLAY_VER(dev_priv) >= 13 && intel_vtd_active(dev_priv))
+ 		data_rate = data_rate * 105 / 100;
+ 
+ 	return data_rate;
+diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
+index 29392dfc46c8..80d206f3e9da 100644
+--- a/drivers/gpu/drm/i915/display/intel_display.c
++++ b/drivers/gpu/drm/i915/display/intel_display.c
+@@ -1315,7 +1315,7 @@ static bool needs_async_flip_vtd_wa(const struct intel_crtc_state *crtc_state)
+ {
+ 	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->dev);
+ 
+-	return crtc_state->uapi.async_flip && intel_vtd_active() &&
++	return crtc_state->uapi.async_flip && intel_vtd_active(i915) &&
+ 		(DISPLAY_VER(i915) == 9 || IS_BROADWELL(i915) || IS_HASWELL(i915));
+ }
+ 
+diff --git a/drivers/gpu/drm/i915/display/intel_fbc.c b/drivers/gpu/drm/i915/display/intel_fbc.c
+index 834eb4cc7c10..0ccbfc9e4101 100644
+--- a/drivers/gpu/drm/i915/display/intel_fbc.c
++++ b/drivers/gpu/drm/i915/display/intel_fbc.c
+@@ -1539,7 +1539,7 @@ static int intel_sanitize_fbc_option(struct drm_i915_private *dev_priv)
+ static bool need_fbc_vtd_wa(struct drm_i915_private *dev_priv)
+ {
+ 	/* WaFbcTurnOffFbcWhenHyperVisorIsUsed:skl,bxt */
+-	if (intel_vtd_active() &&
++	if (intel_vtd_active(dev_priv) &&
+ 	    (IS_SKYLAKE(dev_priv) || IS_BROXTON(dev_priv))) {
+ 		drm_info(&dev_priv->drm,
+ 			 "Disabling framebuffer compression (FBC) to prevent screen flicker with VT-d enabled\n");
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
+index ddd37ccb1362..cf100c0ea3b7 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
+@@ -399,7 +399,7 @@ static int i915_gem_init_stolen(struct intel_memory_region *mem)
+ 		return 0;
  	}
  
- 	if (uses_fence && i915_vma_is_map_and_fenceable(vma)) {
+-	if (intel_vtd_active() && GRAPHICS_VER(i915) < 8) {
++	if (intel_vtd_active(i915) && GRAPHICS_VER(i915) < 8) {
+ 		drm_notice(&i915->drm,
+ 			   "%s, disabling use of stolen memory\n",
+ 			   "DMAR active");
+diff --git a/drivers/gpu/drm/i915/gem/i915_gemfs.c b/drivers/gpu/drm/i915/gem/i915_gemfs.c
+index dbdbdc344d87..11cd66d183e6 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gemfs.c
++++ b/drivers/gpu/drm/i915/gem/i915_gemfs.c
+@@ -31,7 +31,7 @@ int i915_gemfs_init(struct drm_i915_private *i915)
+ 	 */
+ 
+ 	opts = NULL;
+-	if (intel_vtd_active()) {
++	if (intel_vtd_active(i915)) {
+ 		if (IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE)) {
+ 			static char huge_opt[] = "huge=within_size"; /* r/w */
+ 
+diff --git a/drivers/gpu/drm/i915/gt/intel_ggtt.c b/drivers/gpu/drm/i915/gt/intel_ggtt.c
+index 1fb4a03d7ac3..ddb4a9d039d4 100644
+--- a/drivers/gpu/drm/i915/gt/intel_ggtt.c
++++ b/drivers/gpu/drm/i915/gt/intel_ggtt.c
+@@ -104,7 +104,7 @@ static bool needs_idle_maps(struct drm_i915_private *i915)
+ 	 * Query intel_iommu to see if we need the workaround. Presumably that
+ 	 * was loaded first.
+ 	 */
+-	if (!intel_vtd_active())
++	if (!intel_vtd_active(i915))
+ 		return false;
+ 
+ 	if (GRAPHICS_VER(i915) == 5 && IS_MOBILE(i915))
+@@ -1231,7 +1231,7 @@ int i915_ggtt_probe_hw(struct drm_i915_private *i915)
+ 	if (ret)
+ 		return ret;
+ 
+-	if (intel_vtd_active())
++	if (intel_vtd_active(i915))
+ 		drm_info(&i915->drm, "VT-d active for gfx access\n");
+ 
+ 	return 0;
+diff --git a/drivers/gpu/drm/i915/i915_debugfs.c b/drivers/gpu/drm/i915/i915_debugfs.c
+index fe638b5da7c0..390d541f64ea 100644
+--- a/drivers/gpu/drm/i915/i915_debugfs.c
++++ b/drivers/gpu/drm/i915/i915_debugfs.c
+@@ -65,6 +65,7 @@ static int i915_capabilities(struct seq_file *m, void *data)
+ 
+ 	intel_device_info_print_static(INTEL_INFO(i915), &p);
+ 	intel_device_info_print_runtime(RUNTIME_INFO(i915), &p);
++	i915_print_iommu_status(i915, &p);
+ 	intel_gt_info_print(&i915->gt.info, &p);
+ 	intel_driver_caps_print(&i915->caps, &p);
+ 
+diff --git a/drivers/gpu/drm/i915/i915_drv.c b/drivers/gpu/drm/i915/i915_drv.c
+index f184b44d05f2..8efd0ad5bef0 100644
+--- a/drivers/gpu/drm/i915/i915_drv.c
++++ b/drivers/gpu/drm/i915/i915_drv.c
+@@ -733,6 +733,12 @@ static void i915_driver_unregister(struct drm_i915_private *dev_priv)
+ 	i915_gem_driver_unregister(dev_priv);
+ }
+ 
++void
++i915_print_iommu_status(struct drm_i915_private *i915, struct drm_printer *p)
++{
++	drm_printf(p, "iommu: %s\n", enableddisabled(intel_vtd_active(i915)));
++}
++
+ static void i915_welcome_messages(struct drm_i915_private *dev_priv)
+ {
+ 	if (drm_debug_enabled(DRM_UT_DRIVER)) {
+@@ -748,6 +754,7 @@ static void i915_welcome_messages(struct drm_i915_private *dev_priv)
+ 
+ 		intel_device_info_print_static(INTEL_INFO(dev_priv), &p);
+ 		intel_device_info_print_runtime(RUNTIME_INFO(dev_priv), &p);
++		i915_print_iommu_status(dev_priv, &p);
+ 		intel_gt_info_print(&dev_priv->gt.info, &p);
+ 	}
+ 
+diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
+index e967cd08f23e..9fb38a54f1fe 100644
+--- a/drivers/gpu/drm/i915/i915_drv.h
++++ b/drivers/gpu/drm/i915/i915_drv.h
+@@ -1763,26 +1763,27 @@ static inline bool run_as_guest(void)
+ #define HAS_D12_PLANE_MINIMIZATION(dev_priv) (IS_ROCKETLAKE(dev_priv) || \
+ 					      IS_ALDERLAKE_S(dev_priv))
+ 
+-static inline bool intel_vtd_active(void)
++static inline bool intel_vtd_active(struct drm_i915_private *i915)
+ {
+-#ifdef CONFIG_INTEL_IOMMU
+-	if (intel_iommu_gfx_mapped)
++	if (iommu_get_domain_for_dev(i915->drm.dev))
+ 		return true;
+-#endif
+ 
+ 	/* Running as a guest, we assume the host is enforcing VT'd */
+ 	return run_as_guest();
+ }
+ 
++void
++i915_print_iommu_status(struct drm_i915_private *i915, struct drm_printer *p);
++
+ static inline bool intel_scanout_needs_vtd_wa(struct drm_i915_private *dev_priv)
+ {
+-	return GRAPHICS_VER(dev_priv) >= 6 && intel_vtd_active();
++	return GRAPHICS_VER(dev_priv) >= 6 && intel_vtd_active(dev_priv);
+ }
+ 
+ static inline bool
+ intel_ggtt_update_needs_vtd_wa(struct drm_i915_private *i915)
+ {
+-	return IS_BROXTON(i915) && intel_vtd_active();
++	return IS_BROXTON(i915) && intel_vtd_active(i915);
+ }
+ 
+ static inline bool
+diff --git a/drivers/gpu/drm/i915/i915_gpu_error.c b/drivers/gpu/drm/i915/i915_gpu_error.c
+index aa2b3aad9643..7672927ed10b 100644
+--- a/drivers/gpu/drm/i915/i915_gpu_error.c
++++ b/drivers/gpu/drm/i915/i915_gpu_error.c
+@@ -1750,10 +1750,7 @@ static void capture_gen(struct i915_gpu_coredump *error)
+ 	error->wakelock = atomic_read(&i915->runtime_pm.wakeref_count);
+ 	error->suspended = i915->runtime_pm.suspended;
+ 
+-	error->iommu = -1;
+-#ifdef CONFIG_INTEL_IOMMU
+-	error->iommu = intel_iommu_gfx_mapped;
+-#endif
++	error->iommu = intel_vtd_active(i915);
+ 	error->reset_count = i915_reset_count(&i915->gpu_error);
+ 	error->suspend_count = i915->suspend_count;
+ 
+diff --git a/drivers/gpu/drm/i915/intel_device_info.c b/drivers/gpu/drm/i915/intel_device_info.c
+index 6e6b317bc33c..e6605b5181a5 100644
+--- a/drivers/gpu/drm/i915/intel_device_info.c
++++ b/drivers/gpu/drm/i915/intel_device_info.c
+@@ -83,17 +83,6 @@ const char *intel_platform_name(enum intel_platform platform)
+ 	return platform_names[platform];
+ }
+ 
+-static const char *iommu_name(void)
+-{
+-	const char *msg = "n/a";
+-
+-#ifdef CONFIG_INTEL_IOMMU
+-	msg = enableddisabled(intel_iommu_gfx_mapped);
+-#endif
+-
+-	return msg;
+-}
+-
+ void intel_device_info_print_static(const struct intel_device_info *info,
+ 				    struct drm_printer *p)
+ {
+@@ -114,7 +103,6 @@ void intel_device_info_print_static(const struct intel_device_info *info,
+ 		drm_printf(p, "display version: %u\n", info->display.ver);
+ 
+ 	drm_printf(p, "gt: %d\n", info->gt);
+-	drm_printf(p, "iommu: %s\n", iommu_name());
+ 	drm_printf(p, "memory-regions: %x\n", info->memory_regions);
+ 	drm_printf(p, "page-sizes: %x\n", info->page_sizes);
+ 	drm_printf(p, "platform: %s\n", intel_platform_name(info->platform));
+@@ -374,7 +362,7 @@ void intel_device_info_runtime_init(struct drm_i915_private *dev_priv)
+ 			info->display.has_dsc = 0;
+ 	}
+ 
+-	if (GRAPHICS_VER(dev_priv) == 6 && intel_vtd_active()) {
++	if (GRAPHICS_VER(dev_priv) == 6 && intel_vtd_active(dev_priv)) {
+ 		drm_info(&dev_priv->drm,
+ 			 "Disabling ppGTT for VT-d support\n");
+ 		info->ppgtt_type = INTEL_PPGTT_NONE;
+diff --git a/drivers/gpu/drm/i915/intel_pm.c b/drivers/gpu/drm/i915/intel_pm.c
+index 59adf0ce6719..f5b567f87c24 100644
+--- a/drivers/gpu/drm/i915/intel_pm.c
++++ b/drivers/gpu/drm/i915/intel_pm.c
+@@ -98,7 +98,7 @@ static void gen9_init_clock_gating(struct drm_i915_private *dev_priv)
+ 		 * "Plane N strech max must be programmed to 11b (x1)
+ 		 *  when Async flips are enabled on that plane."
+ 		 */
+-		if (!IS_GEMINILAKE(dev_priv) && intel_vtd_active())
++		if (!IS_GEMINILAKE(dev_priv) && intel_vtd_active(dev_priv))
+ 			intel_uncore_rmw(&dev_priv->uncore, CHICKEN_PIPESL_1(pipe),
+ 					 SKL_PLANE1_STRETCH_MAX_MASK, SKL_PLANE1_STRETCH_MAX_X1);
+ 	}
 -- 
-2.20.1
+2.30.2
 
