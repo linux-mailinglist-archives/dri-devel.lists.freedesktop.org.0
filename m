@@ -2,57 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A9EF44B0B0
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Nov 2021 16:52:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1566844B0DF
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Nov 2021 17:12:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1542F89CAA;
-	Tue,  9 Nov 2021 15:52:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 579E389D44;
+	Tue,  9 Nov 2021 16:12:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.domeneshop.no (smtp.domeneshop.no
- [IPv6:2a01:5b40:0:3005::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A17756E11C
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Nov 2021 15:52:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
- ; s=ds202012;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
- MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=K2jLWUxWVafTg6XNbuqQwSi/vlAJC5JC6VJT4lSLReA=; b=iPEDjmY4B+l5EgynojlyxUZtqa
- PYzpXHGLgun/+/iMFbKBQV1JftMh5fgtt+xl+IqF8Hn5oPfzXT0808tCeg+nrjsdnVcVSYJRrjS6i
- IGu8iiyCBaCgfpWei3QoRMC0cw6X7kREadu+SB+PumNhHBWjj0MkUM/YskCwqpRjvvaD0z22IcDSa
- vFldWUMNvxp3Rzu84TUUtnw+Wjnkh+6MWaKFJvHqOzSNgpVXztYTQFhwJB51P1Zo2ucmHsrD3AtUG
- sydZM8HYnflVH6XQsn5QbhWZMUa+CnHIeo7AMr6+7dRjrag0VVJXnLR4I4KB4o17e7h+yIaRaP86U
- /PuF/a/g==;
-Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:60908
- helo=[192.168.10.61])
- by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <noralf@tronnes.org>)
- id 1mkTQH-0004KK-6r; Tue, 09 Nov 2021 16:52:33 +0100
-Subject: Re: [PATCH v2 7/9] drm/simpledrm: Enable FB_DAMAGE_CLIPS property
-To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
- airlied@linux.ie, mripard@kernel.org, maarten.lankhorst@linux.intel.com,
- drawat.floss@gmail.com, airlied@redhat.com, kraxel@redhat.com,
- david@lechnology.com, sam@ravnborg.org, javierm@redhat.com,
- kernel@amanoeldawod.com, dirty.ice.hu@gmail.com, michael+lkml@stapelberg.ch,
- aros@gmx.com, joshua@stroblindustries.com, arnd@arndb.de
-References: <20211101141532.26655-1-tzimmermann@suse.de>
- <20211101141532.26655-8-tzimmermann@suse.de>
- <974e10bb-ae58-d1c1-a89e-881b39da4930@tronnes.org>
- <b5e514a7-74f3-d072-cfba-80ff05c2669c@suse.de>
- <1b1e8a38-2ad6-406e-0d07-bd28dcba08a3@tronnes.org>
- <bb71f9a7-9fd0-ac91-749d-b9241290c45d@suse.de>
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-Message-ID: <6caaace4-27e5-2ac9-9c84-40d7b8ffcb1e@tronnes.org>
-Date: Tue, 9 Nov 2021 16:52:29 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
+ [IPv6:2a00:1450:4864:20::32e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC5C489D44;
+ Tue,  9 Nov 2021 16:12:04 +0000 (UTC)
+Received: by mail-wm1-x32e.google.com with SMTP id 133so16323360wme.0;
+ Tue, 09 Nov 2021 08:12:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=KYMC5u7/Ae62YrmoU00vw7hWLz92vSlo4JocNf0Htnk=;
+ b=nBPUFUIkEZfaMn+igdxTihp13PWx4+RNd4h+Zukt1ZOJB1v8NvEfEXpM9VWB1BHdMc
+ 39Gra9xnwedrsx7ZatEaSmZqBhG0d+X3u05dWXaGsovf3xyr2lHytbDeCMUX5OLVDxdt
+ BC5tB1T9lzHfSx7co8EG+RR3eDB3uAIoMlfP+pFVDaxeDgTgzQYRRrjjSkdmNuPm1TLh
+ 2o9Pzrg90Ht3HOXMeEncA0ouJDatgi5OjXLscI/RiUxYfGmndPBroYCOLzLHZLTW6VGD
+ wqrBTdP27rYPkmOdW4l5qrzvQoTDLUb5Fcjtv9lX9t/7HpYLBt57wAV55U0sAxhM0CrY
+ seaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=KYMC5u7/Ae62YrmoU00vw7hWLz92vSlo4JocNf0Htnk=;
+ b=Jcbx7xeu2ictka5aiOL8LxRA3pVwlTzRp2KbDqgpEMH6fKrS0/kLEuyGj/ohuKQlo5
+ GVh6bxd6tSpnXeflipOn04P2M0C29xs56iDxqkw7rB6+w0gam8TGk8JR3Ly6QRWq28wp
+ 7uwm48khtwqs6nk57sR/LqNrY/0puG51kNjyCTZlhhsSLCPhv+2KOqPDFCY1AGk0MYkn
+ MYIc2s9dyNbKUBw1scrddP5cIBT/AbZevQLJDrPVX8/dlDU8sAKXZk5Rn+5tAPQumi6A
+ ZKvUPa9vXpN+TWCxf0J+CSTQyAI2x1BDv07ff20kcCTDs4pzGr4XWWOiqyY2OTOxZ+7T
+ Yd5Q==
+X-Gm-Message-State: AOAM531sMGoyoBxWTfLyFgeJcFm99NDR7XavGmrsPOYrppVPwm9/Nq+Q
+ pB9LTtvx7ToEdupXXEfWWIvX2df7A3/heIuNtrU=
+X-Google-Smtp-Source: ABdhPJw/Y/P6D270bcQtXGRElScfCFycpWcHhf5icFlUTilz5c5V5YdGuxruBoWhXTDchI0XC26rk+u/CCuBTtpTgOY=
+X-Received: by 2002:a05:600c:1d01:: with SMTP id
+ l1mr8629429wms.44.1636474323365; 
+ Tue, 09 Nov 2021 08:12:03 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <bb71f9a7-9fd0-ac91-749d-b9241290c45d@suse.de>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+References: <1630406139-19621-1-git-send-email-Monk.Liu@amd.com>
+ <1630406139-19621-2-git-send-email-Monk.Liu@amd.com>
+ <YS4nlkpjeitiwFy1@phenom.ffwll.local>
+ <YS4oMrFTj0+wmMbY@phenom.ffwll.local>
+ <BL1PR12MB5269292A3E9E6014043C280E84CD9@BL1PR12MB5269.namprd12.prod.outlook.com>
+ <CAF6AEGsELL5WmxJKqyfF69OnVaK6+SnAREvjtFSHBZrm3Gdp7g@mail.gmail.com>
+ <YYo6U6D2dxQ7Y6Gn@phenom.ffwll.local>
+In-Reply-To: <YYo6U6D2dxQ7Y6Gn@phenom.ffwll.local>
+From: Rob Clark <robdclark@gmail.com>
+Date: Tue, 9 Nov 2021 08:17:01 -0800
+Message-ID: <CAF6AEGvGQP-6eNevDyS9sXg+6qOKMrG7h5rwhKO=v8L5mQOiUA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] drm/sched: serialize job_timeout and scheduler
+To: Daniel Vetter <daniel@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,210 +70,283 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-hyperv@vger.kernel.org, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>, "Liu,
+ Monk" <Monk.Liu@amd.com>, "Chen, Jingwen" <Jingwen.Chen@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, Nov 9, 2021 at 1:07 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+>
+> On Mon, Nov 08, 2021 at 03:39:17PM -0800, Rob Clark wrote:
+> > I stumbled across this thread when I ran into the same issue, while
+> > working out how to move drm/msm to use scheduler's retire +
+> > timeout/recovery (and get rid of our own mirror list of in-flight
+> > jobs).  We already have hw error detection enabled, and it can signal
+> > quite fast, so assuming the first job on the list is the guilty job
+> > just won't work.
+> >
+> > But I was considering a slightly different approach to fixing this,
+> > instead just handling it all in drm_sched_main() and getting rid of
+> > the complicated kthread parking gymnastics.  Ie. something along the
+> > lines of:
+>
+> So handling timeouts in the main sched thread wont work as soon as you
+> have multiple engines and reset that impacts across engines:
+>
+> - Nothing is simplified since you still need to stop the other scheduler
+>   threads.
+>
+> - You get deadlocks if 2 schedulers time out at the same time, and both
+>   want to stop the other one.
+>
+> Hence workqueue. Now the rule for the wq is that you can only have one pe=
+r
+> reset domain, so
+> - single engine you just take the one drm/sched provides
+> - if reset affects all your engines in the chip, then you allocate on in
+>   the drm_device and pass that to all
+> - if you have a complex of gpus all interconnected (e.g. xgmi hive for
+>   amd), then it's one wq for the entire hive
+>
+> _All_ reset related things must be run on that workqueue or things breaks=
+,
+> which means if you get hw fault that also needs to be run there. I guess
+> we should either patch drm/sched to check you call that function from the
+> right workqueue, or just handle it internally.
 
+Hmm, ok.. I guess it would be useful to better document the reasoning
+for the current design, that would have steered me more towards the
+approach taken in this patch.
 
-Den 09.11.2021 15.56, skrev Thomas Zimmermann:
-> Hi,
-> 
-> thanks for looking through all this code.
-> 
-> Am 09.11.21 um 14:04 schrieb Noralf Trønnes:
->>
->>
->> Den 09.11.2021 13.38, skrev Thomas Zimmermann:
->>>
->>>
->>> Am 08.11.21 um 21:55 schrieb Noralf Trønnes:
->>>>
->>>>
->>>> Den 01.11.2021 15.15, skrev Thomas Zimmermann:
->>>>> Enable the FB_DAMAGE_CLIPS property to reduce display-update
->>>>> overhead. Also fixes a warning in the kernel log.
->>>>>
->>>>>     simple-framebuffer simple-framebuffer.0: [drm]
->>>>> drm_plane_enable_fb_damage_clips() not called
->>>>>
->>>>> Fix the computation of the blit rectangle. This wasn't an issue so
->>>>> far, as simpledrm always blitted the full framebuffer. The code now
->>>>> supports damage clipping and virtual screen sizes.
->>>>>
->>>>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->>>>> ---
->>>>>    drivers/gpu/drm/tiny/simpledrm.c | 30
->>>>> ++++++++++++++++++++++--------
->>>>>    1 file changed, 22 insertions(+), 8 deletions(-)
->>>>>
->>>>> diff --git a/drivers/gpu/drm/tiny/simpledrm.c
->>>>> b/drivers/gpu/drm/tiny/simpledrm.c
->>>>> index 571f716ff427..e872121e9fb0 100644
->>>>> --- a/drivers/gpu/drm/tiny/simpledrm.c
->>>>> +++ b/drivers/gpu/drm/tiny/simpledrm.c
->>>>> @@ -642,7 +642,7 @@ simpledrm_simple_display_pipe_enable(struct
->>>>> drm_simple_display_pipe *pipe,
->>>>>        void *vmap = shadow_plane_state->data[0].vaddr; /* TODO: Use
->>>>> mapping abstraction */
->>>>>        struct drm_device *dev = &sdev->dev;
->>>>>        void __iomem *dst = sdev->screen_base;
->>>>> -    struct drm_rect clip;
->>>>> +    struct drm_rect src_clip, dst_clip;
->>>>>        int idx;
->>>>>          if (!fb)
->>>>> @@ -651,10 +651,14 @@ simpledrm_simple_display_pipe_enable(struct
->>>>> drm_simple_display_pipe *pipe,
->>>>>        if (!drm_dev_enter(dev, &idx))
->>>>>            return;
->>>>>    -    drm_rect_init(&clip, 0, 0, fb->width, fb->height);
->>>>> +    drm_rect_fp_to_int(&src_clip, &plane_state->src);
->>>>>    -    dst += drm_fb_clip_offset(sdev->pitch, sdev->format, &clip);
->>>>> -    drm_fb_blit_toio(dst, sdev->pitch, sdev->format->format, vmap,
->>>>> fb, &clip);
->>>>> +    dst_clip = plane_state->dst;
->>>>
->>>> I assume that src_clip and dst_clip are of the same size, since scaling
->>>> is not supported. What prevents dst_clip from being bigger than the
->>>> buffer that's being blitted into? Where is that bounds checking done?
->>>
->>> The value of dst_clip comes from plane_state->dst, which gets
->>> initialized in drm_atomic_helper_check_plane_state(). [1] The fields are
->>> taken from the crtc_{x,y,w,h} values by drm_plane_get_dest(). [2] For
->>> primary planes, the crtc_{x,y,w,h} values are initialized in
->>> __drm_atomic_helper_set_config() to the size of the display. [3] That
->>> size comes directly from the current video mode. [4] From all I can see
->>> this cannot overflow.
->>>
->>
->> Ok, that takes care of the upper bound.
->>
->> There's this in drm_atomic_helper_check_plane_state():
->>
->>     plane_state->visible = drm_rect_clip_scaled(src, dst, &clip);
->>
->>     if (!plane_state->visible)
->>         /*
->>          * Plane isn't visible; some drivers can handle this
->>          * so we just return success here.  Drivers that can't
->>          * (including those that use the primary plane helper's
->>          * update function) will return an error from their
->>          * update_plane handler.
->>          */
->>         return 0;
->>
->> drm_atomic_helper_damage_merged() checks ->visible and returns false if
->> it is not set so update() is good on the lower bound.
->>
->> Maybe it's necessary to check ->visible here in enable() before doing
->> the blit?
-> 
-> Is it even possible to create an invisible primary plane here? We cannot
-> scale [1] and if the primary plane is smaller than the framebuffer, we
-> hit the case at [2]. The only way I can see this is that the visibility
-> test at [3] succeeds. That would require a framebuffer of size 0. That's
-> impossible from the code in frambuffer_check(). [4] Unless there's some
-> corner case, we're good here.
+BR,
+-R
 
-Ok, thanks.
-
-Noralf.
-
-> 
-> However, I think that drm_atomic_check_plane_state() could later be
-> improved to handle the 'visible' field in a more sophisticated way.
-> 
-> Best regards
-> Thomas
-> 
-> [1]
-> https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/drm_simple_kms_helper.c#L227
-> 
-> [2]
-> https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/drm_atomic_helper.c#L854
-> 
-> [3]
-> https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/drm_atomic_helper.c#L844
-> 
-> [4]
-> https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/drm_framebuffer.c#L185
-> 
-> 
->>
->> Noralf.
->>
->>> Best regards
->>> Thomas
->>>
->>> [1]
->>> https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/drm_atomic_helper.c#L807
->>>
->>>
->>> [2]
->>> https://elixir.bootlin.com/linux/latest/source/include/drm/drm_plane.h#L257
->>>
->>> [3]
->>> https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/drm_atomic.c#L1590
->>>
->>>
->>> [4]
->>> https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/drm_modes.c#L788
->>>
->>>
->>>
->>>>
->>>> Noralf.
->>>>
->>>>> +    if (!drm_rect_intersect(&dst_clip, &src_clip))
->>>>> +        return;
->>>>> +
->>>>> +    dst += drm_fb_clip_offset(sdev->pitch, sdev->format, &dst_clip);
->>>>> +    drm_fb_blit_toio(dst, sdev->pitch, sdev->format->format, vmap,
->>>>> fb, &src_clip);
->>>>>          drm_dev_exit(idx);
->>>>>    }
->>>>> @@ -686,20 +690,28 @@ simpledrm_simple_display_pipe_update(struct
->>>>> drm_simple_display_pipe *pipe,
->>>>>        struct drm_framebuffer *fb = plane_state->fb;
->>>>>        struct drm_device *dev = &sdev->dev;
->>>>>        void __iomem *dst = sdev->screen_base;
->>>>> -    struct drm_rect clip;
->>>>> +    struct drm_rect damage_clip, src_clip, dst_clip;
->>>>>        int idx;
->>>>>          if (!fb)
->>>>>            return;
->>>>>    -    if (!drm_atomic_helper_damage_merged(old_plane_state,
->>>>> plane_state, &clip))
->>>>> +    if (!drm_atomic_helper_damage_merged(old_plane_state,
->>>>> plane_state, &damage_clip))
->>>>> +        return;
->>>>> +
->>>>> +    drm_rect_fp_to_int(&src_clip, &plane_state->src);
->>>>> +    if (!drm_rect_intersect(&src_clip, &damage_clip))
->>>>> +        return;
->>>>> +
->>>>> +    dst_clip = plane_state->dst;
->>>>> +    if (!drm_rect_intersect(&dst_clip, &src_clip))
->>>>>            return;
->>>>>          if (!drm_dev_enter(dev, &idx))
->>>>>            return;
->>>>>    -    dst += drm_fb_clip_offset(sdev->pitch, sdev->format, &clip);
->>>>> -    drm_fb_blit_toio(dst, sdev->pitch, sdev->format->format, vmap,
->>>>> fb, &clip);
->>>>> +    dst += drm_fb_clip_offset(sdev->pitch, sdev->format, &dst_clip);
->>>>> +    drm_fb_blit_toio(dst, sdev->pitch, sdev->format->format, vmap,
->>>>> fb, &src_clip);
->>>>>          drm_dev_exit(idx);
->>>>>    }
->>>>> @@ -794,6 +806,8 @@ static int simpledrm_device_init_modeset(struct
->>>>> simpledrm_device *sdev)
->>>>>        if (ret)
->>>>>            return ret;
->>>>>    +    drm_plane_enable_fb_damage_clips(&pipe->plane);
->>>>> +
->>>>>        drm_mode_config_reset(dev);
->>>>>          return 0;
->>>>>
->>>
-> 
+> -Daniel
+>
+> >
+> > ---------------------
+> > diff --git a/drivers/gpu/drm/scheduler/sched_main.c
+> > b/drivers/gpu/drm/scheduler/sched_main.c
+> > index 67382621b429..4d6ce775c316 100644
+> > --- a/drivers/gpu/drm/scheduler/sched_main.c
+> > +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> > @@ -764,6 +764,45 @@ static bool drm_sched_blocked(struct
+> > drm_gpu_scheduler *sched)
+> >         return false;
+> >  }
+> >
+> > +static bool handle_timeout(struct drm_gpu_scheduler *sched)
+> > +{
+> > +       struct drm_sched_job *bad;
+> > +
+> > +       if (!sched->has_timeout)
+> > +               return false;
+> > +
+> > +       sched->has_timeout =3D false;
+> > +
+> > +       spin_lock(&sched->job_list_lock);
+> > +       bad =3D list_first_entry_or_null(&sched->pending_list,
+> > +                                      struct drm_sched_job, list);
+> > +
+> > +       if (!bad) {
+> > +               spin_unlock(&sched->job_list_lock);
+> > +               return false;
+> > +       }
+> > +
+> > +       spin_unlock(&sched->job_list_lock);
+> > +
+> > +       if (sched->timeout_wq =3D=3D system_wq) {
+> > +               /*
+> > +                * If driver has no specific requirements about seriali=
+zing
+> > +                * reset wrt. other engines, just call timedout_job() d=
+irectly
+> > +                */
+> > +               sched->ops->timedout_job(job);
+> > +       } else {
+> > +               /*
+> > +                * Otherwise queue it on timeout_wq and wait for it to =
+complete
+> > +                */
+> > +               ... more typing needed here ...
+> > +       }
+> > +
+> > +       if (sched->free_guilty) {
+> > +               sched->ops->free_job(job);
+> > +               sched->free_guilty =3D false;
+> > +       }
+> > +}
+> > +
+> >  /**
+> >   * drm_sched_main - main scheduler thread
+> >   *
+> > @@ -787,6 +826,7 @@ static int drm_sched_main(void *param)
+> >
+> >                 wait_event_interruptible(sched->wake_up_worker,
+> >                                          (cleanup_job =3D
+> > drm_sched_get_cleanup_job(sched)) ||
+> > +                                        handle_timeout(sched) ||
+> >                                          (!drm_sched_blocked(sched) &&
+> >                                           (entity =3D
+> > drm_sched_select_entity(sched))) ||
+> >                                          kthread_should_stop());
+> > ---------------------
+> >
+> > drm_sched_fault() and the sw timeout handler would just set
+> > sched->has_timeout and kick sched->wake_up_worker.
+> >
+> > And since we handle the timeout case after
+> > drm_sched_get_cleanup_job(), we know that all of the successfully
+> > completed jobs have already been popped off the list, and won't be
+> > unfairly maligned.
+> >
+> > BR,
+> > -R
+> >
+> > On Tue, Aug 31, 2021 at 6:29 PM Liu, Monk <Monk.Liu@amd.com> wrote:
+> > >
+> > > [AMD Official Use Only]
+> > >
+> > > Okay, I will reprepare this patch
+> > >
+> > > Thanks
+> > >
+> > > ------------------------------------------
+> > > Monk Liu | Cloud-GPU Core team
+> > > ------------------------------------------
+> > >
+> > > -----Original Message-----
+> > > From: Daniel Vetter <daniel@ffwll.ch>
+> > > Sent: Tuesday, August 31, 2021 9:02 PM
+> > > To: Liu, Monk <Monk.Liu@amd.com>
+> > > Cc: amd-gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org; C=
+hen, Jingwen <Jingwen.Chen@amd.com>
+> > > Subject: Re: [PATCH 2/2] drm/sched: serialize job_timeout and schedul=
+er
+> > >
+> > > On Tue, Aug 31, 2021 at 02:59:02PM +0200, Daniel Vetter wrote:
+> > > > Can we please have some actual commit message here, with detailed
+> > > > explanation of the race/bug/whatever, how you fix it and why this i=
+s
+> > > > the best option?
+> > > >
+> > > > On Tue, Aug 31, 2021 at 06:35:39PM +0800, Monk Liu wrote:
+> > > > > tested-by: jingwen chen <jingwen.chen@amd.com>
+> > > > > Signed-off-by: Monk Liu <Monk.Liu@amd.com>
+> > > > > Signed-off-by: jingwen chen <jingwen.chen@amd.com>
+> > > > > ---
+> > > > >  drivers/gpu/drm/scheduler/sched_main.c | 24
+> > > > > ++++--------------------
+> > > > >  1 file changed, 4 insertions(+), 20 deletions(-)
+> > > > >
+> > > > > diff --git a/drivers/gpu/drm/scheduler/sched_main.c
+> > > > > b/drivers/gpu/drm/scheduler/sched_main.c
+> > > > > index ecf8140..894fdb24 100644
+> > > > > --- a/drivers/gpu/drm/scheduler/sched_main.c
+> > > > > +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> > > > > @@ -319,19 +319,17 @@ static void drm_sched_job_timedout(struct w=
+ork_struct *work)
+> > > > >     sched =3D container_of(work, struct drm_gpu_scheduler,
+> > > > > work_tdr.work);
+> > > > >
+> > > > >     /* Protects against concurrent deletion in
+> > > > > drm_sched_get_cleanup_job */
+> > > > > +   if (!__kthread_should_park(sched->thread))
+> > > >
+> > > > This is a __ function, i.e. considered internal, and it's lockless
+> > > > atomic, i.e. unordered. And you're not explaining why this works.
+> > > >
+> > > > Iow it's probably buggy, and an just unconditionally parking the
+> > > > kthread is probably the right thing to do. If it's not the right th=
+ing
+> > > > to do, there's a bug here for sure.
+> > >
+> > > Also why don't we reuse the function drivers already have to stop a s=
+cheduler thread? We seem to have two kthread_park now, that's probably one =
+too much.
+> > > -Daniel
+> > >
+> > > > > +           kthread_park(sched->thread);
+> > > > > +
+> > > > >     spin_lock(&sched->job_list_lock);
+> > > > >     job =3D list_first_entry_or_null(&sched->pending_list,
+> > > > >                                    struct drm_sched_job, list);
+> > > > >
+> > > > >     if (job) {
+> > > > > -           /*
+> > > > > -            * Remove the bad job so it cannot be freed by concur=
+rent
+> > > > > -            * drm_sched_cleanup_jobs. It will be reinserted back=
+ after sched->thread
+> > > > > -            * is parked at which point it's safe.
+> > > > > -            */
+> > > > > -           list_del_init(&job->list);
+> > > > >             spin_unlock(&sched->job_list_lock);
+> > > > >
+> > > > > +           /* vendor's timeout_job should call drm_sched_start()=
+ */
+> > > > >             status =3D job->sched->ops->timedout_job(job);
+> > > > >
+> > > > >             /*
+> > > > > @@ -393,20 +391,6 @@ void drm_sched_stop(struct drm_gpu_scheduler=
+ *sched, struct drm_sched_job *bad)
+> > > > >     kthread_park(sched->thread);
+> > > > >
+> > > > >     /*
+> > > > > -    * Reinsert back the bad job here - now it's safe as
+> > > > > -    * drm_sched_get_cleanup_job cannot race against us and relea=
+se the
+> > > > > -    * bad job at this point - we parked (waited for) any in prog=
+ress
+> > > > > -    * (earlier) cleanups and drm_sched_get_cleanup_job will not =
+be called
+> > > > > -    * now until the scheduler thread is unparked.
+> > > > > -    */
+> > > > > -   if (bad && bad->sched =3D=3D sched)
+> > > > > -           /*
+> > > > > -            * Add at the head of the queue to reflect it was the=
+ earliest
+> > > > > -            * job extracted.
+> > > > > -            */
+> > > > > -           list_add(&bad->list, &sched->pending_list);
+> > > > > -
+> > > > > -   /*
+> > > > >      * Iterate the job list from later to  earlier one and either=
+ deactive
+> > > > >      * their HW callbacks or remove them from pending list if the=
+y already
+> > > > >      * signaled.
+> > > > > --
+> > > > > 2.7.4
+> > > > >
+> > > >
+> > > > --
+> > > > Daniel Vetter
+> > > > Software Engineer, Intel Corporation
+> > > > https://nam11.safelinks.protection.outlook.com/?url=3Dhttp%3A%2F%2F=
+blog.
+> > > > ffwll.ch%2F&amp;data=3D04%7C01%7CMonk.Liu%40amd.com%7C298815bea18f4=
+fbf76
+> > > > b308d96c7f7a8b%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C6376601=
+170
+> > > > 51194614%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMz=
+IiL
+> > > > CJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=3DQzgCU7%2BPdA0aWL5%=
+2BJLg
+> > > > KeKbGaMMGqeGI9KE0P0LXlN4%3D&amp;reserved=3D0
+> > >
+> > > --
+> > > Daniel Vetter
+> > > Software Engineer, Intel Corporation
+> > > https://nam11.safelinks.protection.outlook.com/?url=3Dhttp%3A%2F%2Fbl=
+og.ffwll.ch%2F&amp;data=3D04%7C01%7CMonk.Liu%40amd.com%7C298815bea18f4fbf76=
+b308d96c7f7a8b%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637660117051194=
+614%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1=
+haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=3DQzgCU7%2BPdA0aWL5%2BJLgKeKbGaMMGqeGI=
+9KE0P0LXlN4%3D&amp;reserved=3D0
+>
+> --
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
