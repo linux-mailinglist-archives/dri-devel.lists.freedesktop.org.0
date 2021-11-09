@@ -2,62 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1566844B0DF
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Nov 2021 17:12:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 704AF44B15C
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Nov 2021 17:41:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 579E389D44;
-	Tue,  9 Nov 2021 16:12:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E79789CAC;
+	Tue,  9 Nov 2021 16:41:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
- [IPv6:2a00:1450:4864:20::32e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC5C489D44;
- Tue,  9 Nov 2021 16:12:04 +0000 (UTC)
-Received: by mail-wm1-x32e.google.com with SMTP id 133so16323360wme.0;
- Tue, 09 Nov 2021 08:12:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=KYMC5u7/Ae62YrmoU00vw7hWLz92vSlo4JocNf0Htnk=;
- b=nBPUFUIkEZfaMn+igdxTihp13PWx4+RNd4h+Zukt1ZOJB1v8NvEfEXpM9VWB1BHdMc
- 39Gra9xnwedrsx7ZatEaSmZqBhG0d+X3u05dWXaGsovf3xyr2lHytbDeCMUX5OLVDxdt
- BC5tB1T9lzHfSx7co8EG+RR3eDB3uAIoMlfP+pFVDaxeDgTgzQYRRrjjSkdmNuPm1TLh
- 2o9Pzrg90Ht3HOXMeEncA0ouJDatgi5OjXLscI/RiUxYfGmndPBroYCOLzLHZLTW6VGD
- wqrBTdP27rYPkmOdW4l5qrzvQoTDLUb5Fcjtv9lX9t/7HpYLBt57wAV55U0sAxhM0CrY
- seaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=KYMC5u7/Ae62YrmoU00vw7hWLz92vSlo4JocNf0Htnk=;
- b=Jcbx7xeu2ictka5aiOL8LxRA3pVwlTzRp2KbDqgpEMH6fKrS0/kLEuyGj/ohuKQlo5
- GVh6bxd6tSpnXeflipOn04P2M0C29xs56iDxqkw7rB6+w0gam8TGk8JR3Ly6QRWq28wp
- 7uwm48khtwqs6nk57sR/LqNrY/0puG51kNjyCTZlhhsSLCPhv+2KOqPDFCY1AGk0MYkn
- MYIc2s9dyNbKUBw1scrddP5cIBT/AbZevQLJDrPVX8/dlDU8sAKXZk5Rn+5tAPQumi6A
- ZKvUPa9vXpN+TWCxf0J+CSTQyAI2x1BDv07ff20kcCTDs4pzGr4XWWOiqyY2OTOxZ+7T
- Yd5Q==
-X-Gm-Message-State: AOAM531sMGoyoBxWTfLyFgeJcFm99NDR7XavGmrsPOYrppVPwm9/Nq+Q
- pB9LTtvx7ToEdupXXEfWWIvX2df7A3/heIuNtrU=
-X-Google-Smtp-Source: ABdhPJw/Y/P6D270bcQtXGRElScfCFycpWcHhf5icFlUTilz5c5V5YdGuxruBoWhXTDchI0XC26rk+u/CCuBTtpTgOY=
-X-Received: by 2002:a05:600c:1d01:: with SMTP id
- l1mr8629429wms.44.1636474323365; 
- Tue, 09 Nov 2021 08:12:03 -0800 (PST)
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B6D4B6E5C8;
+ Tue,  9 Nov 2021 16:41:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1636476098; x=1668012098;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=nRETC3qc+Ukc/ah/liL4gTsIAi1bSb6yJzKSP1WeUYA=;
+ b=UrtAi/9Y6NN5ePRHlx/YRlEPnkShaRAY2AE2/qk4ZD31xwfQ9rPwP0p9
+ mz5N8xCbRiyUKXaAtBmhuh/76SKurQQkA4Eb0cdNYHhoT7ydXB/FzqPTy
+ 3d4NJjW8scNIp9oQkoH8G4YzTioGcTRsHu5ZGqrmSna6ZZbY7XbfMBtdg o=;
+Received: from ironmsg08-lv.qualcomm.com ([10.47.202.152])
+ by alexa-out.qualcomm.com with ESMTP; 09 Nov 2021 08:41:37 -0800
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg08-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Nov 2021 08:41:36 -0800
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.922.7; 
+ Tue, 9 Nov 2021 08:41:35 -0800
+Received: from [10.110.41.32] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.922.7; Tue, 9 Nov 2021
+ 08:41:34 -0800
+Message-ID: <d25ccef7-2d01-c337-ef5f-62a29de16a0e@quicinc.com>
+Date: Tue, 9 Nov 2021 08:41:33 -0800
 MIME-Version: 1.0
-References: <1630406139-19621-1-git-send-email-Monk.Liu@amd.com>
- <1630406139-19621-2-git-send-email-Monk.Liu@amd.com>
- <YS4nlkpjeitiwFy1@phenom.ffwll.local>
- <YS4oMrFTj0+wmMbY@phenom.ffwll.local>
- <BL1PR12MB5269292A3E9E6014043C280E84CD9@BL1PR12MB5269.namprd12.prod.outlook.com>
- <CAF6AEGsELL5WmxJKqyfF69OnVaK6+SnAREvjtFSHBZrm3Gdp7g@mail.gmail.com>
- <YYo6U6D2dxQ7Y6Gn@phenom.ffwll.local>
-In-Reply-To: <YYo6U6D2dxQ7Y6Gn@phenom.ffwll.local>
-From: Rob Clark <robdclark@gmail.com>
-Date: Tue, 9 Nov 2021 08:17:01 -0800
-Message-ID: <CAF6AEGvGQP-6eNevDyS9sXg+6qOKMrG7h5rwhKO=v8L5mQOiUA@mail.gmail.com>
-Subject: Re: [PATCH 2/2] drm/sched: serialize job_timeout and scheduler
-To: Daniel Vetter <daniel@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.1
+Subject: Re: [PATCH v3] drm/msm/dp: do not initialize phy until plugin
+ interrupt received
+Content-Language: en-US
+To: Bjorn Andersson <bjorn.andersson@linaro.org>
+References: <1636414933-5103-1-git-send-email-quic_khsieh@quicinc.com>
+ <YYnA0vlRmeTIjk2p@ripper>
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+In-Reply-To: <YYnA0vlRmeTIjk2p@ripper>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,283 +65,441 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>, "Liu,
- Monk" <Monk.Liu@amd.com>, "Chen, Jingwen" <Jingwen.Chen@amd.com>
+Cc: quic_abhinavk@quicinc.com, airlied@linux.ie,
+ freedreno@lists.freedesktop.org, vkoul@kernel.org,
+ dri-devel@lists.freedesktop.org, swboyd@chromium.org,
+ Kuogee Hsieh <khsieh@codeaurora.org>, agross@kernel.org,
+ linux-arm-msm@vger.kernel.org, dmitry.baryshkov@linaro.org,
+ aravindh@codeaurora.org, sean@poorly.run, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 9, 2021 at 1:07 AM Daniel Vetter <daniel@ffwll.ch> wrote:
->
-> On Mon, Nov 08, 2021 at 03:39:17PM -0800, Rob Clark wrote:
-> > I stumbled across this thread when I ran into the same issue, while
-> > working out how to move drm/msm to use scheduler's retire +
-> > timeout/recovery (and get rid of our own mirror list of in-flight
-> > jobs).  We already have hw error detection enabled, and it can signal
-> > quite fast, so assuming the first job on the list is the guilty job
-> > just won't work.
-> >
-> > But I was considering a slightly different approach to fixing this,
-> > instead just handling it all in drm_sched_main() and getting rid of
-> > the complicated kthread parking gymnastics.  Ie. something along the
-> > lines of:
->
-> So handling timeouts in the main sched thread wont work as soon as you
-> have multiple engines and reset that impacts across engines:
->
-> - Nothing is simplified since you still need to stop the other scheduler
->   threads.
->
-> - You get deadlocks if 2 schedulers time out at the same time, and both
->   want to stop the other one.
->
-> Hence workqueue. Now the rule for the wq is that you can only have one pe=
-r
-> reset domain, so
-> - single engine you just take the one drm/sched provides
-> - if reset affects all your engines in the chip, then you allocate on in
->   the drm_device and pass that to all
-> - if you have a complex of gpus all interconnected (e.g. xgmi hive for
->   amd), then it's one wq for the entire hive
->
-> _All_ reset related things must be run on that workqueue or things breaks=
-,
-> which means if you get hw fault that also needs to be run there. I guess
-> we should either patch drm/sched to check you call that function from the
-> right workqueue, or just handle it internally.
 
-Hmm, ok.. I guess it would be useful to better document the reasoning
-for the current design, that would have steered me more towards the
-approach taken in this patch.
-
-BR,
--R
-
-> -Daniel
+On 11/8/2021 4:29 PM, Bjorn Andersson wrote:
+> On Mon 08 Nov 15:42 PST 2021, Kuogee Hsieh wrote:
 >
-> >
-> > ---------------------
-> > diff --git a/drivers/gpu/drm/scheduler/sched_main.c
-> > b/drivers/gpu/drm/scheduler/sched_main.c
-> > index 67382621b429..4d6ce775c316 100644
-> > --- a/drivers/gpu/drm/scheduler/sched_main.c
-> > +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> > @@ -764,6 +764,45 @@ static bool drm_sched_blocked(struct
-> > drm_gpu_scheduler *sched)
-> >         return false;
-> >  }
-> >
-> > +static bool handle_timeout(struct drm_gpu_scheduler *sched)
-> > +{
-> > +       struct drm_sched_job *bad;
-> > +
-> > +       if (!sched->has_timeout)
-> > +               return false;
-> > +
-> > +       sched->has_timeout =3D false;
-> > +
-> > +       spin_lock(&sched->job_list_lock);
-> > +       bad =3D list_first_entry_or_null(&sched->pending_list,
-> > +                                      struct drm_sched_job, list);
-> > +
-> > +       if (!bad) {
-> > +               spin_unlock(&sched->job_list_lock);
-> > +               return false;
-> > +       }
-> > +
-> > +       spin_unlock(&sched->job_list_lock);
-> > +
-> > +       if (sched->timeout_wq =3D=3D system_wq) {
-> > +               /*
-> > +                * If driver has no specific requirements about seriali=
-zing
-> > +                * reset wrt. other engines, just call timedout_job() d=
-irectly
-> > +                */
-> > +               sched->ops->timedout_job(job);
-> > +       } else {
-> > +               /*
-> > +                * Otherwise queue it on timeout_wq and wait for it to =
-complete
-> > +                */
-> > +               ... more typing needed here ...
-> > +       }
-> > +
-> > +       if (sched->free_guilty) {
-> > +               sched->ops->free_job(job);
-> > +               sched->free_guilty =3D false;
-> > +       }
-> > +}
-> > +
-> >  /**
-> >   * drm_sched_main - main scheduler thread
-> >   *
-> > @@ -787,6 +826,7 @@ static int drm_sched_main(void *param)
-> >
-> >                 wait_event_interruptible(sched->wake_up_worker,
-> >                                          (cleanup_job =3D
-> > drm_sched_get_cleanup_job(sched)) ||
-> > +                                        handle_timeout(sched) ||
-> >                                          (!drm_sched_blocked(sched) &&
-> >                                           (entity =3D
-> > drm_sched_select_entity(sched))) ||
-> >                                          kthread_should_stop());
-> > ---------------------
-> >
-> > drm_sched_fault() and the sw timeout handler would just set
-> > sched->has_timeout and kick sched->wake_up_worker.
-> >
-> > And since we handle the timeout case after
-> > drm_sched_get_cleanup_job(), we know that all of the successfully
-> > completed jobs have already been popped off the list, and won't be
-> > unfairly maligned.
-> >
-> > BR,
-> > -R
-> >
-> > On Tue, Aug 31, 2021 at 6:29 PM Liu, Monk <Monk.Liu@amd.com> wrote:
-> > >
-> > > [AMD Official Use Only]
-> > >
-> > > Okay, I will reprepare this patch
-> > >
-> > > Thanks
-> > >
-> > > ------------------------------------------
-> > > Monk Liu | Cloud-GPU Core team
-> > > ------------------------------------------
-> > >
-> > > -----Original Message-----
-> > > From: Daniel Vetter <daniel@ffwll.ch>
-> > > Sent: Tuesday, August 31, 2021 9:02 PM
-> > > To: Liu, Monk <Monk.Liu@amd.com>
-> > > Cc: amd-gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org; C=
-hen, Jingwen <Jingwen.Chen@amd.com>
-> > > Subject: Re: [PATCH 2/2] drm/sched: serialize job_timeout and schedul=
-er
-> > >
-> > > On Tue, Aug 31, 2021 at 02:59:02PM +0200, Daniel Vetter wrote:
-> > > > Can we please have some actual commit message here, with detailed
-> > > > explanation of the race/bug/whatever, how you fix it and why this i=
-s
-> > > > the best option?
-> > > >
-> > > > On Tue, Aug 31, 2021 at 06:35:39PM +0800, Monk Liu wrote:
-> > > > > tested-by: jingwen chen <jingwen.chen@amd.com>
-> > > > > Signed-off-by: Monk Liu <Monk.Liu@amd.com>
-> > > > > Signed-off-by: jingwen chen <jingwen.chen@amd.com>
-> > > > > ---
-> > > > >  drivers/gpu/drm/scheduler/sched_main.c | 24
-> > > > > ++++--------------------
-> > > > >  1 file changed, 4 insertions(+), 20 deletions(-)
-> > > > >
-> > > > > diff --git a/drivers/gpu/drm/scheduler/sched_main.c
-> > > > > b/drivers/gpu/drm/scheduler/sched_main.c
-> > > > > index ecf8140..894fdb24 100644
-> > > > > --- a/drivers/gpu/drm/scheduler/sched_main.c
-> > > > > +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> > > > > @@ -319,19 +319,17 @@ static void drm_sched_job_timedout(struct w=
-ork_struct *work)
-> > > > >     sched =3D container_of(work, struct drm_gpu_scheduler,
-> > > > > work_tdr.work);
-> > > > >
-> > > > >     /* Protects against concurrent deletion in
-> > > > > drm_sched_get_cleanup_job */
-> > > > > +   if (!__kthread_should_park(sched->thread))
-> > > >
-> > > > This is a __ function, i.e. considered internal, and it's lockless
-> > > > atomic, i.e. unordered. And you're not explaining why this works.
-> > > >
-> > > > Iow it's probably buggy, and an just unconditionally parking the
-> > > > kthread is probably the right thing to do. If it's not the right th=
-ing
-> > > > to do, there's a bug here for sure.
-> > >
-> > > Also why don't we reuse the function drivers already have to stop a s=
-cheduler thread? We seem to have two kthread_park now, that's probably one =
-too much.
-> > > -Daniel
-> > >
-> > > > > +           kthread_park(sched->thread);
-> > > > > +
-> > > > >     spin_lock(&sched->job_list_lock);
-> > > > >     job =3D list_first_entry_or_null(&sched->pending_list,
-> > > > >                                    struct drm_sched_job, list);
-> > > > >
-> > > > >     if (job) {
-> > > > > -           /*
-> > > > > -            * Remove the bad job so it cannot be freed by concur=
-rent
-> > > > > -            * drm_sched_cleanup_jobs. It will be reinserted back=
- after sched->thread
-> > > > > -            * is parked at which point it's safe.
-> > > > > -            */
-> > > > > -           list_del_init(&job->list);
-> > > > >             spin_unlock(&sched->job_list_lock);
-> > > > >
-> > > > > +           /* vendor's timeout_job should call drm_sched_start()=
- */
-> > > > >             status =3D job->sched->ops->timedout_job(job);
-> > > > >
-> > > > >             /*
-> > > > > @@ -393,20 +391,6 @@ void drm_sched_stop(struct drm_gpu_scheduler=
- *sched, struct drm_sched_job *bad)
-> > > > >     kthread_park(sched->thread);
-> > > > >
-> > > > >     /*
-> > > > > -    * Reinsert back the bad job here - now it's safe as
-> > > > > -    * drm_sched_get_cleanup_job cannot race against us and relea=
-se the
-> > > > > -    * bad job at this point - we parked (waited for) any in prog=
-ress
-> > > > > -    * (earlier) cleanups and drm_sched_get_cleanup_job will not =
-be called
-> > > > > -    * now until the scheduler thread is unparked.
-> > > > > -    */
-> > > > > -   if (bad && bad->sched =3D=3D sched)
-> > > > > -           /*
-> > > > > -            * Add at the head of the queue to reflect it was the=
- earliest
-> > > > > -            * job extracted.
-> > > > > -            */
-> > > > > -           list_add(&bad->list, &sched->pending_list);
-> > > > > -
-> > > > > -   /*
-> > > > >      * Iterate the job list from later to  earlier one and either=
- deactive
-> > > > >      * their HW callbacks or remove them from pending list if the=
-y already
-> > > > >      * signaled.
-> > > > > --
-> > > > > 2.7.4
-> > > > >
-> > > >
-> > > > --
-> > > > Daniel Vetter
-> > > > Software Engineer, Intel Corporation
-> > > > https://nam11.safelinks.protection.outlook.com/?url=3Dhttp%3A%2F%2F=
-blog.
-> > > > ffwll.ch%2F&amp;data=3D04%7C01%7CMonk.Liu%40amd.com%7C298815bea18f4=
-fbf76
-> > > > b308d96c7f7a8b%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C6376601=
-170
-> > > > 51194614%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMz=
-IiL
-> > > > CJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=3DQzgCU7%2BPdA0aWL5%=
-2BJLg
-> > > > KeKbGaMMGqeGI9KE0P0LXlN4%3D&amp;reserved=3D0
-> > >
-> > > --
-> > > Daniel Vetter
-> > > Software Engineer, Intel Corporation
-> > > https://nam11.safelinks.protection.outlook.com/?url=3Dhttp%3A%2F%2Fbl=
-og.ffwll.ch%2F&amp;data=3D04%7C01%7CMonk.Liu%40amd.com%7C298815bea18f4fbf76=
-b308d96c7f7a8b%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637660117051194=
-614%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1=
-haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=3DQzgCU7%2BPdA0aWL5%2BJLgKeKbGaMMGqeGI=
-9KE0P0LXlN4%3D&amp;reserved=3D0
+>> From: Kuogee Hsieh <khsieh@codeaurora.org>
+>>
+>> Combo phy supports both USB and DP simultaneously. There may has a
+>> possible conflict during phy initialization phase between USB and
+>> DP driver which may cause USB phy timeout when USB tries to power
+>> up its phy. This patch has the DP driver not initialize its phy
+>> during DP driver initialization phase. Instead DP driver only enable
+>> required regulators and clocks so that it is able to receive HPD
+>> interrupts after completion of initialization phase. DP driver will
+>> initialize its phy when HPD plug-in interrupt received.
+>> This patch also provides a positive side effects which balance regulator
+>> enable count since regulator only enabled at initialize phase and resume
+>> and disabled at followed suspend.
+>>
+> I thought you said that you (someone) will attempt to resolve the
+> described error in the QMP driver, making this patch unnecessary.
 >
-> --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
+> That said, are there any other benefits to this patch? I.e. does it make
+> sense not to initialize the phy when there's no cable connected for
+> power purposed etc?
+> If so this patch looks reasonable in itself, but the commit message is
+> wrong.
+>
+> Thanks,
+> Bjorn
+
+sorry for the confusing.
+
+I will redo the commit test.
+
+Thanks,
+
+>> Changes in V2:
+>> -- removed unnecessary dp_ctrl NULL check
+>> -- removed unnecessary phy init_count and power_count DRM_DEBUG_DP logs
+>> -- remove flip parameter out of dp_ctrl_irq_enable()
+>> -- add fixes tag
+>>
+>> Changes in V3:
+>> -- call dp_display_host_phy_init() instead of dp_ctrl_phy_init() at dp_display_host_init() for eDP
+>>
+>> Fixes: e91e3065a806 ("drm/msm/dp: Add DP compliance tests on Snapdragon Chipsets")
+>>
+>> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+>> ---
+>>   drivers/gpu/drm/msm/dp/dp_ctrl.c    | 87 ++++++++++++++++---------------------
+>>   drivers/gpu/drm/msm/dp/dp_ctrl.h    |  9 ++--
+>>   drivers/gpu/drm/msm/dp/dp_display.c | 83 ++++++++++++++++++++++++++---------
+>>   3 files changed, 105 insertions(+), 74 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+>> index 7ec155d..4788e8c 100644
+>> --- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
+>> +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+>> @@ -1364,60 +1364,54 @@ static int dp_ctrl_enable_stream_clocks(struct dp_ctrl_private *ctrl)
+>>   	return ret;
+>>   }
+>>   
+>> -int dp_ctrl_host_init(struct dp_ctrl *dp_ctrl, bool flip, bool reset)
+>> +void dp_ctrl_irq_enable(struct dp_ctrl *dp_ctrl)
+>> +{
+>> +	struct dp_ctrl_private *ctrl;
+>> +
+>> +	ctrl = container_of(dp_ctrl, struct dp_ctrl_private, dp_ctrl);
+>> +
+>> +	dp_catalog_ctrl_reset(ctrl->catalog);
+>> +
+>> +	dp_catalog_ctrl_enable_irq(ctrl->catalog, true);
+>> +}
+>> +
+>> +void dp_ctrl_irq_disable(struct dp_ctrl *dp_ctrl)
+>> +{
+>> +	struct dp_ctrl_private *ctrl;
+>> +
+>> +	ctrl = container_of(dp_ctrl, struct dp_ctrl_private, dp_ctrl);
+>> +
+>> +	dp_catalog_ctrl_reset(ctrl->catalog);
+>> +
+>> +	dp_catalog_ctrl_enable_irq(ctrl->catalog, false);
+>> +}
+>> +
+>> +void dp_ctrl_phy_init(struct dp_ctrl *dp_ctrl)
+>>   {
+>>   	struct dp_ctrl_private *ctrl;
+>>   	struct dp_io *dp_io;
+>>   	struct phy *phy;
+>>   
+>> -	if (!dp_ctrl) {
+>> -		DRM_ERROR("Invalid input data\n");
+>> -		return -EINVAL;
+>> -	}
+>> -
+>>   	ctrl = container_of(dp_ctrl, struct dp_ctrl_private, dp_ctrl);
+>>   	dp_io = &ctrl->parser->io;
+>>   	phy = dp_io->phy;
+>>   
+>> -	ctrl->dp_ctrl.orientation = flip;
+>> -
+>> -	if (reset)
+>> -		dp_catalog_ctrl_reset(ctrl->catalog);
+>> -
+>> -	DRM_DEBUG_DP("flip=%d\n", flip);
+>>   	dp_catalog_ctrl_phy_reset(ctrl->catalog);
+>>   	phy_init(phy);
+>> -	dp_catalog_ctrl_enable_irq(ctrl->catalog, true);
+>> -
+>> -	return 0;
+>>   }
+>>   
+>> -/**
+>> - * dp_ctrl_host_deinit() - Uninitialize DP controller
+>> - * @dp_ctrl: Display Port Driver data
+>> - *
+>> - * Perform required steps to uninitialize DP controller
+>> - * and its resources.
+>> - */
+>> -void dp_ctrl_host_deinit(struct dp_ctrl *dp_ctrl)
+>> +void dp_ctrl_phy_exit(struct dp_ctrl *dp_ctrl)
+>>   {
+>>   	struct dp_ctrl_private *ctrl;
+>>   	struct dp_io *dp_io;
+>>   	struct phy *phy;
+>>   
+>> -	if (!dp_ctrl) {
+>> -		DRM_ERROR("Invalid input data\n");
+>> -		return;
+>> -	}
+>> -
+>>   	ctrl = container_of(dp_ctrl, struct dp_ctrl_private, dp_ctrl);
+>>   	dp_io = &ctrl->parser->io;
+>>   	phy = dp_io->phy;
+>>   
+>> -	dp_catalog_ctrl_enable_irq(ctrl->catalog, false);
+>> +	dp_catalog_ctrl_phy_reset(ctrl->catalog);
+>>   	phy_exit(phy);
+>> -
+>> -	DRM_DEBUG_DP("Host deinitialized successfully\n");
+>>   }
+>>   
+>>   static bool dp_ctrl_use_fixed_nvid(struct dp_ctrl_private *ctrl)
+>> @@ -1895,8 +1889,14 @@ int dp_ctrl_off_link_stream(struct dp_ctrl *dp_ctrl)
+>>   		return ret;
+>>   	}
+>>   
+>> +	DRM_DEBUG_DP("Before, phy=%x init_count=%d power_on=%d\n",
+>> +		(u32)(uintptr_t)phy, phy->init_count, phy->power_count);
+>> +
+>>   	phy_power_off(phy);
+>>   
+>> +	DRM_DEBUG_DP("After, phy=%x init_count=%d power_on=%d\n",
+>> +		(u32)(uintptr_t)phy, phy->init_count, phy->power_count);
+>> +
+>>   	/* aux channel down, reinit phy */
+>>   	phy_exit(phy);
+>>   	phy_init(phy);
+>> @@ -1905,23 +1905,6 @@ int dp_ctrl_off_link_stream(struct dp_ctrl *dp_ctrl)
+>>   	return ret;
+>>   }
+>>   
+>> -void dp_ctrl_off_phy(struct dp_ctrl *dp_ctrl)
+>> -{
+>> -	struct dp_ctrl_private *ctrl;
+>> -	struct dp_io *dp_io;
+>> -	struct phy *phy;
+>> -
+>> -	ctrl = container_of(dp_ctrl, struct dp_ctrl_private, dp_ctrl);
+>> -	dp_io = &ctrl->parser->io;
+>> -	phy = dp_io->phy;
+>> -
+>> -	dp_catalog_ctrl_reset(ctrl->catalog);
+>> -
+>> -	phy_exit(phy);
+>> -
+>> -	DRM_DEBUG_DP("DP off phy done\n");
+>> -}
+>> -
+>>   int dp_ctrl_off(struct dp_ctrl *dp_ctrl)
+>>   {
+>>   	struct dp_ctrl_private *ctrl;
+>> @@ -1949,10 +1932,14 @@ int dp_ctrl_off(struct dp_ctrl *dp_ctrl)
+>>   		DRM_ERROR("Failed to disable link clocks. ret=%d\n", ret);
+>>   	}
+>>   
+>> +	DRM_DEBUG_DP("Before, phy=%x init_count=%d power_on=%d\n",
+>> +		(u32)(uintptr_t)phy, phy->init_count, phy->power_count);
+>> +
+>>   	phy_power_off(phy);
+>> -	phy_exit(phy);
+>>   
+>> -	DRM_DEBUG_DP("DP off done\n");
+>> +	DRM_DEBUG_DP("After, phy=%x init_count=%d power_on=%d\n",
+>> +		(u32)(uintptr_t)phy, phy->init_count, phy->power_count);
+>> +
+>>   	return ret;
+>>   }
+>>   
+>> diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.h b/drivers/gpu/drm/msm/dp/dp_ctrl.h
+>> index 2363a2d..30f9414 100644
+>> --- a/drivers/gpu/drm/msm/dp/dp_ctrl.h
+>> +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.h
+>> @@ -19,12 +19,9 @@ struct dp_ctrl {
+>>   	u32 pixel_rate;
+>>   };
+>>   
+>> -int dp_ctrl_host_init(struct dp_ctrl *dp_ctrl, bool flip, bool reset);
+>> -void dp_ctrl_host_deinit(struct dp_ctrl *dp_ctrl);
+>>   int dp_ctrl_on_link(struct dp_ctrl *dp_ctrl);
+>>   int dp_ctrl_on_stream(struct dp_ctrl *dp_ctrl);
+>>   int dp_ctrl_off_link_stream(struct dp_ctrl *dp_ctrl);
+>> -void dp_ctrl_off_phy(struct dp_ctrl *dp_ctrl);
+>>   int dp_ctrl_off(struct dp_ctrl *dp_ctrl);
+>>   void dp_ctrl_push_idle(struct dp_ctrl *dp_ctrl);
+>>   void dp_ctrl_isr(struct dp_ctrl *dp_ctrl);
+>> @@ -34,4 +31,10 @@ struct dp_ctrl *dp_ctrl_get(struct device *dev, struct dp_link *link,
+>>   			struct dp_power *power, struct dp_catalog *catalog,
+>>   			struct dp_parser *parser);
+>>   
+>> +void dp_ctrl_irq_enable(struct dp_ctrl *dp_ctrl);
+>> +void dp_ctrl_irq_disable(struct dp_ctrl *dp_ctrl);
+>> +void dp_ctrl_phy_init(struct dp_ctrl *dp_ctrl);
+>> +void dp_ctrl_phy_exit(struct dp_ctrl *dp_ctrl);
+>> +void dp_ctrl_irq_phy_exit(struct dp_ctrl *dp_ctrl);
+>> +
+>>   #endif /* _DP_CTRL_H_ */
+>> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+>> index e41dd40..2f113ff 100644
+>> --- a/drivers/gpu/drm/msm/dp/dp_display.c
+>> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+>> @@ -84,6 +84,7 @@ struct dp_display_private {
+>>   
+>>   	/* state variables */
+>>   	bool core_initialized;
+>> +	bool phy_initialized;
+>>   	bool hpd_irq_on;
+>>   	bool audio_supported;
+>>   
+>> @@ -387,7 +388,29 @@ static int dp_display_process_hpd_high(struct dp_display_private *dp)
+>>   	return rc;
+>>   }
+>>   
+>> -static void dp_display_host_init(struct dp_display_private *dp, int reset)
+>> +static void dp_display_host_phy_init(struct dp_display_private *dp)
+>> +{
+>> +	DRM_DEBUG_DP("core_init=%d phy_init=%d\n",
+>> +			dp->core_initialized, dp->phy_initialized);
+>> +
+>> +	if (!dp->phy_initialized) {
+>> +		dp_ctrl_phy_init(dp->ctrl);
+>> +		dp->phy_initialized = true;
+>> +	}
+>> +}
+>> +
+>> +static void dp_display_host_phy_exit(struct dp_display_private *dp)
+>> +{
+>> +	DRM_DEBUG_DP("core_init=%d phy_init=%d\n",
+>> +			dp->core_initialized, dp->phy_initialized);
+>> +
+>> +	if (dp->phy_initialized) {
+>> +		dp_ctrl_phy_exit(dp->ctrl);
+>> +		dp->phy_initialized = false;
+>> +	}
+>> +}
+>> +
+>> +static void dp_display_host_init(struct dp_display_private *dp)
+>>   {
+>>   	bool flip = false;
+>>   
+>> @@ -400,8 +423,16 @@ static void dp_display_host_init(struct dp_display_private *dp, int reset)
+>>   	if (dp->usbpd->orientation == ORIENTATION_CC2)
+>>   		flip = true;
+>>   
+>> -	dp_power_init(dp->power, flip);
+>> -	dp_ctrl_host_init(dp->ctrl, flip, reset);
+>> +	dp_power_init(dp->power, false);
+>> +	dp_ctrl_irq_enable(dp->ctrl);
+>> +
+>> +	/*
+>> +	 * eDP is the embedded primary display and has its own phy
+>> +	 * initialize phy immediately
+>> +	 */
+>> +	if (dp->dp_display.connector_type == DRM_MODE_CONNECTOR_eDP)
+>> +		dp_display_host_phy_init(dp);
+>> +
+>>   	dp_aux_init(dp->aux);
+>>   	dp->core_initialized = true;
+>>   }
+>> @@ -413,7 +444,7 @@ static void dp_display_host_deinit(struct dp_display_private *dp)
+>>   		return;
+>>   	}
+>>   
+>> -	dp_ctrl_host_deinit(dp->ctrl);
+>> +	dp_ctrl_irq_disable(dp->ctrl);
+>>   	dp_aux_deinit(dp->aux);
+>>   	dp_power_deinit(dp->power);
+>>   
+>> @@ -424,7 +455,7 @@ static int dp_display_usbpd_configure_cb(struct device *dev)
+>>   {
+>>   	struct dp_display_private *dp = dev_get_dp_display_private(dev);
+>>   
+>> -	dp_display_host_init(dp, true);
+>> +	dp_display_host_phy_init(dp);
+>>   
+>>   	return dp_display_process_hpd_high(dp);
+>>   }
+>> @@ -551,7 +582,7 @@ static int dp_hpd_plug_handle(struct dp_display_private *dp, u32 data)
+>>   		dp->hpd_state = ST_DISCONNECTED;
+>>   
+>>   		if (ret == -ECONNRESET) { /* cable unplugged */
+>> -			dp->core_initialized = false;
+>> +			dp->phy_initialized = false;
+>>   		}
+>>   
+>>   	} else {
+>> @@ -623,9 +654,8 @@ static int dp_hpd_unplug_handle(struct dp_display_private *dp, u32 data)
+>>   	if (state == ST_DISCONNECTED) {
+>>   		/* triggered by irq_hdp with sink_count = 0 */
+>>   		if (dp->link->sink_count == 0) {
+>> -			dp_ctrl_off_phy(dp->ctrl);
+>> +			dp_display_host_phy_exit(dp);
+>>   			hpd->hpd_high = 0;
+>> -			dp->core_initialized = false;
+>>   		}
+>>   		mutex_unlock(&dp->event_mutex);
+>>   		return 0;
+>> @@ -716,7 +746,7 @@ static int dp_irq_hpd_handle(struct dp_display_private *dp, u32 data)
+>>   
+>>   	ret = dp_display_usbpd_attention_cb(&dp->pdev->dev);
+>>   	if (ret == -ECONNRESET) { /* cable unplugged */
+>> -		dp->core_initialized = false;
+>> +		dp->phy_initialized = false;
+>>   	}
+>>   	DRM_DEBUG_DP("hpd_state=%d\n", state);
+>>   
+>> @@ -918,12 +948,19 @@ static int dp_display_disable(struct dp_display_private *dp, u32 data)
+>>   
+>>   	dp_display->audio_enabled = false;
+>>   
+>> -	/* triggered by irq_hpd with sink_count = 0 */
+>>   	if (dp->link->sink_count == 0) {
+>> +		/*
+>> +		 * irq_hpd with sink_count = 0
+>> +		 * hdmi unplugged out of dongle
+>> +		 */
+>>   		dp_ctrl_off_link_stream(dp->ctrl);
+>>   	} else {
+>> +		/*
+>> +		 * unplugged interrupt
+>> +		 * dongle unplugged out of DUT
+>> +		 */
+>>   		dp_ctrl_off(dp->ctrl);
+>> -		dp->core_initialized = false;
+>> +		dp_display_host_phy_exit(dp);
+>>   	}
+>>   
+>>   	dp_power_panel_on(dp->power, false);
+>> @@ -1059,7 +1096,7 @@ void msm_dp_snapshot(struct msm_disp_state *disp_state, struct msm_dp *dp)
+>>   static void dp_display_config_hpd(struct dp_display_private *dp)
+>>   {
+>>   
+>> -	dp_display_host_init(dp, true);
+>> +	dp_display_host_init(dp);
+>>   	dp_catalog_ctrl_hpd_config(dp->catalog);
+>>   
+>>   	/* Enable interrupt first time
+>> @@ -1338,20 +1375,22 @@ static int dp_pm_resume(struct device *dev)
+>>   	dp->hpd_state = ST_DISCONNECTED;
+>>   
+>>   	/* turn on dp ctrl/phy */
+>> -	dp_display_host_init(dp, true);
+>> +	dp_display_host_init(dp);
+>>   
+>>   	dp_catalog_ctrl_hpd_config(dp->catalog);
+>>   
+>> -	/*
+>> -	 * set sink to normal operation mode -- D0
+>> -	 * before dpcd read
+>> -	 */
+>> -	dp_link_psm_config(dp->link, &dp->panel->link_info, false);
+>> -
+>>   	if (dp_catalog_link_is_connected(dp->catalog)) {
+>> +		/*
+>> +		 * set sink to normal operation mode -- D0
+>> +		 * before dpcd read
+>> +		 */
+>> +		dp_display_host_phy_init(dp);
+>> +		dp_link_psm_config(dp->link, &dp->panel->link_info, false);
+>>   		sink_count = drm_dp_read_sink_count(dp->aux);
+>>   		if (sink_count < 0)
+>>   			sink_count = 0;
+>> +
+>> +		dp_display_host_phy_exit(dp);
+>>   	}
+>>   
+>>   	dp->link->sink_count = sink_count;
+>> @@ -1399,6 +1438,8 @@ static int dp_pm_suspend(struct device *dev)
+>>   		dp_display_host_deinit(dp);
+>>   	}
+>>   
+>> +	dp_display_host_phy_exit(dp);
+>> +
+>>   	dp->hpd_state = ST_SUSPENDED;
+>>   
+>>   	/* host_init will be called at pm_resume */
+>> @@ -1473,7 +1514,7 @@ void msm_dp_irq_postinstall(struct msm_dp *dp_display)
+>>   		enable_irq(dp->irq);
+>>   		dp_hpd_connect(dp->usbpd, true);
+>>   	} else {
+>> -		dp_add_event(dp, EV_HPD_INIT_SETUP, 0, dp->id * 10);
+>> +		dp_add_event(dp, EV_HPD_INIT_SETUP, 0, 0);
+>>   	}
+>>   }
+>>   
+>> @@ -1567,7 +1608,7 @@ int msm_dp_display_enable(struct msm_dp *dp, struct drm_encoder *encoder)
+>>   	state =  dp_display->hpd_state;
+>>   
+>>   	if (state == ST_DISPLAY_OFF)
+>> -		dp_display_host_init(dp_display, true);
+>> +		dp_display_host_phy_init(dp_display);
+>>   
+>>   	dp_display_enable(dp_display, 0);
+>>   
+>> -- 
+>> The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+>> a Linux Foundation Collaborative Project
+>>
