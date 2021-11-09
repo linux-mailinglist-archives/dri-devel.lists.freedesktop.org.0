@@ -1,35 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13A4A44B270
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Nov 2021 19:07:14 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 47A8C44B210
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Nov 2021 18:37:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E2648966B;
-	Tue,  9 Nov 2021 18:07:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D57856E439;
+	Tue,  9 Nov 2021 17:37:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1987 seconds by postgrey-1.36 at gabe;
- Tue, 09 Nov 2021 18:07:10 UTC
-Received: from finn.localdomain (finn.gateworks.com [108.161.129.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B2678966B
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Nov 2021 18:07:10 +0000 (UTC)
-Received: from 068-189-091-139.biz.spectrum.com ([68.189.91.139]
- helo=tharvey.pdc.gateworks.com)
- by finn.localdomain with esmtp (Exim 4.93)
- (envelope-from <tharvey@gateworks.com>)
- id 1mkV0R-0084wp-E2; Tue, 09 Nov 2021 17:33:59 +0000
-From: Tim Harvey <tharvey@gateworks.com>
-To: Jagan Teki <jagan@amarulasolutions.com>,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- dri-devel@lists.freedesktop.org, NXP Linux Team <linux-imx@nxp.com>,
- Marek Vasut <marex@denx.de>, Fabio Estevam <festevam@gmail.com>,
- Adam Ford <aford173@gmail.com>, Tommaso Merciai <tomm.merciai@gmail.com>,
- Lucas Stach <l.stach@pengutronix.de>
-Subject: [RFC] arm64: dts: imx8mm: Add MIPI and LCDIF nodes
-Date: Tue,  9 Nov 2021 09:33:57 -0800
-Message-Id: <20211109173357.780-1-tharvey@gateworks.com>
-X-Mailer: git-send-email 2.17.1
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E6C2B6E439;
+ Tue,  9 Nov 2021 17:36:58 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10163"; a="293339849"
+X-IronPort-AV: E=Sophos;i="5.87,220,1631602800"; d="scan'208";a="293339849"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Nov 2021 09:35:56 -0800
+X-IronPort-AV: E=Sophos;i="5.87,220,1631602800"; d="scan'208";a="669492423"
+Received: from fmpluck-mobl.ger.corp.intel.com (HELO [10.213.200.63])
+ ([10.213.200.63])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Nov 2021 09:35:54 -0800
+Subject: Re: [Intel-gfx] [PATCH] drm/i915: Use per device iommu check
+To: Lucas De Marchi <lucas.demarchi@intel.com>
+References: <20211109121759.170915-1-tvrtko.ursulin@linux.intel.com>
+ <20211109171926.vrb5juvp64mv65b4@ldmartin-desk2>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+Message-ID: <bcb8736d-a46a-a756-e6ca-7872a21b075c@linux.intel.com>
+Date: Tue, 9 Nov 2021 17:35:53 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
+MIME-Version: 1.0
+In-Reply-To: <20211109171926.vrb5juvp64mv65b4@ldmartin-desk2>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,121 +49,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Lu Baolu <baolu.lu@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add nodes for MIPI DSI and LCDIF on IMX8MM
 
-I'm currently working with a set of patches to convert drm/exynos 
-to a bridge [1] and add IMX8MM support [2] in order to get IMX8MM DSI
-working for display with a Raspberry Pi DSI touchscreen compatible with
-a Toshiba TC358762 DSI bridge and Powertip PH800480T013-IDF02
-touchscreen.
+On 09/11/2021 17:19, Lucas De Marchi wrote:
+> On Tue, Nov 09, 2021 at 12:17:59PM +0000, Tvrtko Ursulin wrote:
+>> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>>
+>> On igfx + dgfx setups, it appears that intel_iommu=igfx_off option only
+>> disables the igfx iommu. Stop relying on global intel_iommu_gfx_mapped
+>> and probe presence of iommu domain per device to accurately reflect its
+>> status.
+> 
+> nice, I was just starting to look into thus but for another reason: we
+> are adding support for other archs, like aarch64, and the global from here
+> was a problem
 
-I had this working on a 5.10 kernel with the old blk-ctl and
-power-domain drivers that didn't make it into mainline but my 5.15
-series with blk-ctl backported from next hangs right after
-"[drm] Initialized mxsfb-drm 1.0.0 20160824 for 32e00000.lcdif on minor 0"
-so I assume I have a power-domain not getting enabled.
+Yes I realized the other iommu angle as well. To do this properly we 
+need to sort the intel_vtd_active call sites into at least two buckets - 
+which are truly about VT-d and which are just IOMMU.
 
-Please let me know if you see an issue with the way I've configured
-power-domain or clocks here.
+For instance the THP decision in i915_gemfs.co would be "are we behind 
+any iommu". Some other call sites are possibly only about the bugs in 
+the igfx iommu. Not sure if there is a third bucket for any potential 
+differences between igfx iommu and other Intel iommu in case of dgfx.
 
-Best Regards,
+I'd like to hear from Baolu as well to confirm if intel_iommu driver is 
+handling igfx + dgfx correctly in respect to the two global variables I 
+mention in the commit message.
 
-Tim
-[1] https://patchwork.kernel.org/project/dri-devel/list/?series=347439&archive=both&state=*
-[2] https://patchwork.kernel.org/project/linux-arm-kernel/list/?series=359775&archive=both&state=*
----
- arch/arm64/boot/dts/freescale/imx8mm.dtsi | 68 +++++++++++++++++++++++
- 1 file changed, 68 insertions(+)
+> should we change drivers/gpu/drm/i915/Kconfig.debug to stop selecting
+> CONFIG_INTEL_IOMMU and CONFIG_INTEL_IOMMU_DEFAULT_ON?
 
-diff --git a/arch/arm64/boot/dts/freescale/imx8mm.dtsi b/arch/arm64/boot/dts/freescale/imx8mm.dtsi
-index 208a0ed840f4..195dcbff7058 100644
---- a/arch/arm64/boot/dts/freescale/imx8mm.dtsi
-+++ b/arch/arm64/boot/dts/freescale/imx8mm.dtsi
-@@ -188,6 +188,12 @@
- 		clock-output-names = "clk_ext4";
- 	};
- 
-+	mipi_phy: mipi-video-phy {
-+		compatible = "fsl,imx8mm-mipi-video-phy";
-+		syscon = <&disp_blk_ctrl>;
-+		#phy-cells = <1>;
-+	};
-+
- 	psci {
- 		compatible = "arm,psci-1.0";
- 		method = "smc";
-@@ -1068,6 +1074,68 @@
- 			#size-cells = <1>;
- 			ranges = <0x32c00000 0x32c00000 0x400000>;
- 
-+			lcdif: lcdif@32e00000 {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+				compatible = "fsl,imx8mm-lcdif", "fsl,imx6sx-lcdif";
-+				reg = <0x32e00000 0x10000>;
-+				clocks = <&clk IMX8MM_CLK_LCDIF_PIXEL>,
-+					 <&clk IMX8MM_CLK_DISP_AXI_ROOT>,
-+					 <&clk IMX8MM_CLK_DISP_APB_ROOT>;
-+				clock-names = "pix", "disp_axi", "axi";
-+				assigned-clocks = <&clk IMX8MM_CLK_LCDIF_PIXEL>,
-+						  <&clk IMX8MM_CLK_DISP_AXI>,
-+						  <&clk IMX8MM_CLK_DISP_APB>;
-+				assigned-clock-parents = <&clk IMX8MM_VIDEO_PLL1_OUT>,
-+							 <&clk IMX8MM_SYS_PLL2_1000M>,
-+							 <&clk IMX8MM_SYS_PLL1_800M>;
-+				assigned-clock-rate = <594000000>, <500000000>, <200000000>;
-+				interrupts = <GIC_SPI 5 IRQ_TYPE_LEVEL_HIGH>;
-+				power-domains = <&disp_blk_ctrl IMX8MM_DISPBLK_PD_LCDIF>;
-+				status = "disabled";
-+
-+				port@0 {
-+					reg = <0>;
-+
-+					lcdif_to_dsim: endpoint {
-+						remote-endpoint = <&dsim_from_lcdif>;
-+					};
-+				};
-+			};
-+
-+			mipi_dsi: mipi_dsi@32e10000 {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+				compatible = "fsl,imx8mm-mipi-dsim";
-+				reg = <0x32e10000 0x400>;
-+				clocks = <&clk IMX8MM_CLK_DSI_CORE>,
-+					 <&clk IMX8MM_CLK_DSI_PHY_REF>;
-+				clock-names = "bus_clk", "sclk_mipi";
-+				assigned-clocks = <&clk IMX8MM_CLK_DSI_CORE>,
-+						  <&clk IMX8MM_VIDEO_PLL1_OUT>,
-+						  <&clk IMX8MM_CLK_DSI_PHY_REF>;
-+				assigned-clock-parents = <&clk IMX8MM_SYS_PLL1_266M>,
-+							 <&clk IMX8MM_VIDEO_PLL1_BYPASS>,
-+							 <&clk IMX8MM_VIDEO_PLL1_OUT>;
-+				assigned-clock-rates = <266000000>, <594000000>, <27000000>;
-+				interrupts = <GIC_SPI 18 IRQ_TYPE_LEVEL_HIGH>;
-+				phys = <&mipi_phy 0>;
-+				phy-names = "dsim";
-+				power-domains = <&disp_blk_ctrl IMX8MM_DISPBLK_PD_MIPI_DSI>;
-+				samsung,burst-clock-frequency = <891000000>;
-+				samsung,esc-clock-frequency = <54000000>;
-+				samsung,pll-clock-frequency = <27000000>;
-+				status = "disabled";
-+
-+				port@0 {
-+					reg = <0>;
-+
-+					dsim_from_lcdif: endpoint {
-+						remote-endpoint = <&lcdif_to_dsim>;
-+					};
-+				};
-+			};
-+
- 			csi: csi@32e20000 {
- 				compatible = "fsl,imx8mm-csi", "fsl,imx7-csi";
- 				reg = <0x32e20000 0x1000>;
--- 
-2.17.1
+Don't know. For debug it is useful since it can catch more issues but 
+whether or not kconfig can be improved to select the right one for the 
+platform? I guess select X if X86, select Y if Z?
 
+Regards,
+
+Tvrtko
