@@ -1,42 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47A8C44B210
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Nov 2021 18:37:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3638E44B212
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Nov 2021 18:38:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D57856E439;
-	Tue,  9 Nov 2021 17:37:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D8B116E437;
+	Tue,  9 Nov 2021 17:38:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E6C2B6E439;
- Tue,  9 Nov 2021 17:36:58 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10163"; a="293339849"
-X-IronPort-AV: E=Sophos;i="5.87,220,1631602800"; d="scan'208";a="293339849"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Nov 2021 09:35:56 -0800
-X-IronPort-AV: E=Sophos;i="5.87,220,1631602800"; d="scan'208";a="669492423"
-Received: from fmpluck-mobl.ger.corp.intel.com (HELO [10.213.200.63])
- ([10.213.200.63])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Nov 2021 09:35:54 -0800
-Subject: Re: [Intel-gfx] [PATCH] drm/i915: Use per device iommu check
-To: Lucas De Marchi <lucas.demarchi@intel.com>
-References: <20211109121759.170915-1-tvrtko.ursulin@linux.intel.com>
- <20211109171926.vrb5juvp64mv65b4@ldmartin-desk2>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-Message-ID: <bcb8736d-a46a-a756-e6ca-7872a21b075c@linux.intel.com>
-Date: Tue, 9 Nov 2021 17:35:53 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com
+ [IPv6:2a00:1450:4864:20::530])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E566F6E5A3
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Nov 2021 17:38:30 +0000 (UTC)
+Received: by mail-ed1-x530.google.com with SMTP id f8so79921953edy.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 Nov 2021 09:38:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=A9E8XpGt9Id5ZZSuwCFFlN1voqoc3gGd1K8qDWIcEeo=;
+ b=bJciuYdLH7xxuaQOYFZwx92QdQKvM/m1+45cYqjjbj1+YHuXcNrvKvqRNQsEADA91Y
+ H96OzUG81NICSYiiOkPLwxj3y0xdzppQYbBVNf2UU6Yhk6sR9OI/4oyS7uYaJRQkD9I7
+ nvIT93EnIDGh9HFzDGG/fv5VrPODu9VoMEaQs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=A9E8XpGt9Id5ZZSuwCFFlN1voqoc3gGd1K8qDWIcEeo=;
+ b=c4eW74OQD3oAjX82oVVHcFFBUFryrnV5zGJC2zHnDfaUOFK5T5+QrCrz1uVGt0++NB
+ R6K/7Bq1QuBtqDNUtgs1Z2CMfBkT1VR4hIZNoaWxS28aC1A4BBOpmVAvgtgkHXhjcTL5
+ rPt0nPdVWH7iYmongZbJRF87V2QqYFBbAN5c9J3IzCqghkxd4HGIq5X/XeXuka/vdobq
+ G+0e92i1/ws7RL0fCP5rGnKuT+ph9nn+lUD4YvKPemh5WdmzwPZWIpBAgGR8mBJd4pWv
+ yHTFEUJseV60wQfsEBILwXZlPIQTWCTHedV5PehKvb1FsKzZ3L3ssKRmbYDyw3cPYv2D
+ aG3Q==
+X-Gm-Message-State: AOAM530Fma+XpJWWPt2+2oC8s8wGDf95HWygZ2cEDHX+Xdgp0tS21mwT
+ uRYBFJ1idgEH4siIf92EBrBMGDfuaFxd0pxm4w3LWw==
+X-Google-Smtp-Source: ABdhPJy3jZjo7AoKemu76ikvz5C4nttoEfEhvfyPeFrK58W0+UEYjwxUYkBWrlmm+aoCQ3PLDykqg8fvrO3kJuadMMI=
+X-Received: by 2002:a17:907:1c82:: with SMTP id
+ nb2mr11576949ejc.218.1636479508422; 
+ Tue, 09 Nov 2021 09:38:28 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20211109171926.vrb5juvp64mv65b4@ldmartin-desk2>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20211109173357.780-1-tharvey@gateworks.com>
+In-Reply-To: <20211109173357.780-1-tharvey@gateworks.com>
+From: Jagan Teki <jagan@amarulasolutions.com>
+Date: Tue, 9 Nov 2021 23:08:17 +0530
+Message-ID: <CAMty3ZBEt5_zcBu0=f5WzbV8DUwsB+fz0vdA3GdOXF84zm16Jw@mail.gmail.com>
+Subject: Re: [RFC] arm64: dts: imx8mm: Add MIPI and LCDIF nodes
+To: Tim Harvey <tharvey@gateworks.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,45 +60,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Lu Baolu <baolu.lu@linux.intel.com>
+Cc: Marek Vasut <marex@denx.de>, dri-devel@lists.freedesktop.org,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Tommaso Merciai <tomm.merciai@gmail.com>, Adam Ford <aford173@gmail.com>,
+ NXP Linux Team <linux-imx@nxp.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, Nov 9, 2021 at 11:04 PM Tim Harvey <tharvey@gateworks.com> wrote:
+>
+> Add nodes for MIPI DSI and LCDIF on IMX8MM
+>
+> I'm currently working with a set of patches to convert drm/exynos
+> to a bridge [1] and add IMX8MM support [2] in order to get IMX8MM DSI
+> working for display with a Raspberry Pi DSI touchscreen compatible with
+> a Toshiba TC358762 DSI bridge and Powertip PH800480T013-IDF02
+> touchscreen.
+>
+> I had this working on a 5.10 kernel with the old blk-ctl and
+> power-domain drivers that didn't make it into mainline but my 5.15
+> series with blk-ctl backported from next hangs right after
+> "[drm] Initialized mxsfb-drm 1.0.0 20160824 for 32e00000.lcdif on minor 0"
+> so I assume I have a power-domain not getting enabled.
+>
+> Please let me know if you see an issue with the way I've configured
+> power-domain or clocks here.
 
-On 09/11/2021 17:19, Lucas De Marchi wrote:
-> On Tue, Nov 09, 2021 at 12:17:59PM +0000, Tvrtko Ursulin wrote:
->> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->>
->> On igfx + dgfx setups, it appears that intel_iommu=igfx_off option only
->> disables the igfx iommu. Stop relying on global intel_iommu_gfx_mapped
->> and probe presence of iommu domain per device to accurately reflect its
->> status.
-> 
-> nice, I was just starting to look into thus but for another reason: we
-> are adding support for other archs, like aarch64, and the global from here
-> was a problem
+I'm reworking back on top of drm-misc-next, may be I will let you know
+in couple of days.
 
-Yes I realized the other iommu angle as well. To do this properly we 
-need to sort the intel_vtd_active call sites into at least two buckets - 
-which are truly about VT-d and which are just IOMMU.
-
-For instance the THP decision in i915_gemfs.co would be "are we behind 
-any iommu". Some other call sites are possibly only about the bugs in 
-the igfx iommu. Not sure if there is a third bucket for any potential 
-differences between igfx iommu and other Intel iommu in case of dgfx.
-
-I'd like to hear from Baolu as well to confirm if intel_iommu driver is 
-handling igfx + dgfx correctly in respect to the two global variables I 
-mention in the commit message.
-
-> should we change drivers/gpu/drm/i915/Kconfig.debug to stop selecting
-> CONFIG_INTEL_IOMMU and CONFIG_INTEL_IOMMU_DEFAULT_ON?
-
-Don't know. For debug it is useful since it can catch more issues but 
-whether or not kconfig can be improved to select the right one for the 
-platform? I guess select X if X86, select Y if Z?
-
-Regards,
-
-Tvrtko
+Jagan.
