@@ -2,34 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51EB744CDEE
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Nov 2021 00:33:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7300144CDFA
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Nov 2021 00:44:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C43646E811;
-	Wed, 10 Nov 2021 23:33:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D2946E872;
+	Wed, 10 Nov 2021 23:44:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB2EE6E811;
- Wed, 10 Nov 2021 23:33:46 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10164"; a="213538463"
-X-IronPort-AV: E=Sophos;i="5.87,225,1631602800"; d="scan'208";a="213538463"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Nov 2021 15:33:46 -0800
-X-IronPort-AV: E=Sophos;i="5.87,225,1631602800"; d="scan'208";a="492326515"
-Received: from dbstims-dev.fm.intel.com ([10.1.27.167])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Nov 2021 15:33:45 -0800
-Date: Wed, 10 Nov 2021 15:33:44 -0800
-From: "Stimson, Dale B" <dale.b.stimson@intel.com>
-To: Matt Roper <matthew.d.roper@intel.com>
-Subject: Re: [PATCH v3 05/10] drm/i915: Prepare for multiple gts
-Message-ID: <20211110233339.GA33600@dbstims-dev.fm.intel.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 23DC86E872
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Nov 2021 23:44:38 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id CB62661215
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Nov 2021 23:44:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1636587877;
+ bh=tNuTlrHWGE+Z0hSbDhzc5cC2P1bkOz1bdceXuc6tczY=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=DtmVzRXRi35OFVa+cDa59SuRmOgtFH4WTY9ggDf05OH/g0cJVLyrCtPlDELDuyjs4
+ HPcIrFQW3kLicJJKo93X+6YNql2x+bXU2bd3DPp8vyV2VPqaVdUESjGp5CiAcfRGtg
+ uQtsnW3f36AZq8xvuzt1rTEvxPqUnIEgnc8kv2WJZR42ya634MO4K6yx3r5phb7l07
+ I21XC59ipPcpn+9sHUgJIX04SO3pp1xp7imU7u0/bGEJM8E92cRS2iARuiQd7qGimM
+ e4eedgmBYY76pP/gId1+JzSCfGPzFkji6LyDfM6y5GctzOxZRkS7jEXGk65HkSrGEj
+ DVM/o6D6b0ZsQ==
+Received: by mail-ed1-f48.google.com with SMTP id b15so16835191edd.7
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Nov 2021 15:44:37 -0800 (PST)
+X-Gm-Message-State: AOAM533zdD1OVdDPImCetPtnbrfKGmLT3kD8jtGIqpKb7U0amEHVS7wi
+ cQGZ+gmt3LWUZQceWHMOAz5EfXC5fLcYl5oiAw==
+X-Google-Smtp-Source: ABdhPJxPM+iJrWweTxqkGYiKTC6CPQq+dea1dJwUYBTxgig+CXWzriyYaEuROEnaX87n0vMt/CBJIg772yACqw4SaE4=
+X-Received: by 2002:a50:e608:: with SMTP id y8mr3901852edm.39.1636587876158;
+ Wed, 10 Nov 2021 15:44:36 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.9.4 (2018-02-28)
+References: <20211029075203.17093-1-nancy.lin@mediatek.com>
+ <20211029075203.17093-20-nancy.lin@mediatek.com>
+In-Reply-To: <20211029075203.17093-20-nancy.lin@mediatek.com>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Thu, 11 Nov 2021 07:44:43 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_8OBL=btK8yHnn-_LDQS-_mCHDhFnZyPBrcNw2TnR_iog@mail.gmail.com>
+Message-ID: <CAAOTY_8OBL=btK8yHnn-_LDQS-_mCHDhFnZyPBrcNw2TnR_iog@mail.gmail.com>
+Subject: Re: [PATCH v7 19/20] drm/mediatek: modify mediatek-drm for mt8195
+ multi mmsys support
+To: "Nancy.Lin" <nancy.lin@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,306 +56,527 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: andi.shyti@intel.com, Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- intel-gfx@lists.freedesktop.org, Lucas De Marchi <lucas.demarchi@intel.com>,
- dri-devel@lists.freedesktop.org,
- Venkata Sandeep Dhanalakota <venkata.s.dhanalakota@intel.com>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ srv_heupstream <srv_heupstream@mediatek.com>,
+ DTML <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
+ "jason-jh . lin" <jason-jh.lin@mediatek.com>, singo.chang@mediatek.com,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Yongqiang Niu <yongqiang.niu@mediatek.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[Redundant sending of this email due to some mail issues]
+Hi, Nancy:
 
-On 2021-10-28 20:28:12, Matt Roper wrote:
-> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-> 
-> Add some basic plumbing to support more than one dynamically allocated
-> struct intel_gt.  Up to four gts are supported in i915->gts[], with slot
-> zero shadowing the existing i915->gt to enable source compatibility with
-> legacy driver paths.  A for_each_gt macro is added to iterate over the
-> GTs and will be used by upcoming patches that convert various parts of
-> the driver to be multi-gt aware.
-> 
-> v2:
->  - Rename init function to i915_init_tile_memory() and move it to
->    i915_drv.c. (Lucas)
->  - Squash in patch from Sandeep to release the per-gt resources during
->    driver teardown.
-> 
-> Cc: Lucas De Marchi <lucas.demarchi@intel.com>
-> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-> Signed-off-by: Venkata Sandeep Dhanalakota <venkata.s.dhanalakota@intel.com>
-> Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
+Nancy.Lin <nancy.lin@mediatek.com> =E6=96=BC 2021=E5=B9=B410=E6=9C=8829=E6=
+=97=A5 =E9=80=B1=E4=BA=94 =E4=B8=8B=E5=8D=883:52=E5=AF=AB=E9=81=93=EF=BC=9A
+>
+> MT8195 have two mmsys. Modify drm for MT8195 multi-mmsys support.
+> The two mmsys (vdosys0 and vdosys1) will bring up two drm drivers,
+> only one drm driver register as the drm device.
+> Each drm driver binds its own component. The last bind drm driver
+> allocates and registers the drm device to drm core.
+> Each crtc path is created with the corresponding drm driver data.
+>
+> Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
 > ---
->  drivers/gpu/drm/i915/gt/intel_gt.c         | 57 +++++++++++++++++++---
->  drivers/gpu/drm/i915/gt/intel_gt.h         |  6 +++
->  drivers/gpu/drm/i915/gt/intel_gt_types.h   |  2 +
->  drivers/gpu/drm/i915/i915_drv.c            | 30 +++++++++++-
->  drivers/gpu/drm/i915/i915_drv.h            |  6 +++
->  drivers/gpu/drm/i915/intel_memory_region.h |  3 ++
->  6 files changed, 96 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
-> index 098cd8843c38..d02a09653033 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gt.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_gt.c
-> @@ -23,10 +23,13 @@
->  #include "shmem_utils.h"
->  #include "pxp/intel_pxp.h"
->  
-> -void intel_gt_init_early(struct intel_gt *gt, struct drm_i915_private *i915)
-> +static void
-> +__intel_gt_init_early(struct intel_gt *gt,
-> +		      struct intel_uncore *uncore,
-> +		      struct drm_i915_private *i915)
+>  drivers/gpu/drm/mediatek/mtk_drm_crtc.c |  24 +-
+>  drivers/gpu/drm/mediatek/mtk_drm_crtc.h |   3 +-
+>  drivers/gpu/drm/mediatek/mtk_drm_drv.c  | 301 ++++++++++++++++++------
+>  drivers/gpu/drm/mediatek/mtk_drm_drv.h  |   9 +-
+>  4 files changed, 249 insertions(+), 88 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/me=
+diatek/mtk_drm_crtc.c
+> index ea285795776f..25580106a2c4 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+> @@ -846,21 +846,28 @@ static int mtk_drm_crtc_init_comp_planes(struct drm=
+_device *drm_dev,
+>  }
+>
+>  int mtk_drm_crtc_create(struct drm_device *drm_dev,
+> -                       const enum mtk_ddp_comp_id *path, unsigned int pa=
+th_len)
+> +                       const enum mtk_ddp_comp_id *path, unsigned int pa=
+th_len,
+> +                       int priv_data_index)
 >  {
->  	gt->i915 = i915;
-> -	gt->uncore = &i915->uncore;
-> +	gt->uncore = uncore;
->  
->  	spin_lock_init(&gt->irq_lock);
->  
-> @@ -49,10 +52,15 @@ void intel_gt_init_early(struct intel_gt *gt, struct drm_i915_private *i915)
->  int intel_gt_probe_lmem(struct intel_gt *gt)
->  {
->  	struct drm_i915_private *i915 = gt->i915;
-> +	unsigned int instance = gt->info.id;
->  	struct intel_memory_region *mem;
->  	int id;
->  	int err;
->  
-> +	id = INTEL_REGION_LMEM + instance;
-> +	if (drm_WARN_ON(&i915->drm, id >= INTEL_REGION_STOLEN_SMEM))
-> +		return -ENODEV;
+>         struct mtk_drm_private *priv =3D drm_dev->dev_private;
+>         struct device *dev =3D drm_dev->dev;
+>         struct mtk_drm_crtc *mtk_crtc;
+>         unsigned int num_comp_planes =3D 0;
+> -       int pipe =3D priv->num_pipes;
+>         int ret;
+>         int i;
+>         bool has_ctm =3D false;
+>         uint gamma_lut_size =3D 0;
+> +       struct drm_crtc *tmp;
+> +       int crtc_i =3D 0;
+>
+>         if (!path)
+>                 return 0;
+>
+> +       priv =3D priv->all_drm_private[priv_data_index];
 > +
->  	mem = intel_gt_setup_lmem(gt);
->  	if (mem == ERR_PTR(-ENODEV))
->  		mem = intel_gt_setup_fake_lmem(gt);
-> @@ -67,9 +75,8 @@ int intel_gt_probe_lmem(struct intel_gt *gt)
->  		return err;
->  	}
->  
-> -	id = INTEL_REGION_LMEM;
+> +       drm_for_each_crtc(tmp, drm_dev)
+> +               crtc_i++;
+> +
+>         for (i =3D 0; i < path_len; i++) {
+>                 enum mtk_ddp_comp_id comp_id =3D path[i];
+>                 struct device_node *node;
+> @@ -872,7 +879,7 @@ int mtk_drm_crtc_create(struct drm_device *drm_dev,
+>                 if (!node) {
+>                         dev_info(dev,
+>                                  "Not creating crtc %d because component =
+%d is disabled or missing\n",
+> -                                pipe, comp_id);
+> +                                crtc_i, comp_id);
+>                         return 0;
+>                 }
+>
+> @@ -925,29 +932,28 @@ int mtk_drm_crtc_create(struct drm_device *drm_dev,
+>
+>         for (i =3D 0; i < mtk_crtc->ddp_comp_nr; i++) {
+>                 ret =3D mtk_drm_crtc_init_comp_planes(drm_dev, mtk_crtc, =
+i,
+> -                                                   pipe);
+> +                                                   crtc_i);
+>                 if (ret)
+>                         return ret;
+>         }
+>
+> -       ret =3D mtk_drm_crtc_init(drm_dev, mtk_crtc, pipe);
+> +       ret =3D mtk_drm_crtc_init(drm_dev, mtk_crtc, crtc_i);
+>         if (ret < 0)
+>                 return ret;
+>
+>         if (gamma_lut_size)
+>                 drm_mode_crtc_set_gamma_size(&mtk_crtc->base, gamma_lut_s=
+ize);
+>         drm_crtc_enable_color_mgmt(&mtk_crtc->base, 0, has_ctm, gamma_lut=
+_size);
+> -       priv->num_pipes++;
+>         mutex_init(&mtk_crtc->hw_lock);
+>
+>  #if IS_REACHABLE(CONFIG_MTK_CMDQ)
+> +       i =3D (priv->data->mmsys_dev_num > 1) ? 0 : drm_crtc_index(&mtk_c=
+rtc->base);
+
+I think even though mmsys_dev_num > 1, each mmsys could have more than one =
+crtc.
+
+>         mtk_crtc->cmdq_client.client.dev =3D mtk_crtc->mmsys_dev;
+>         mtk_crtc->cmdq_client.client.tx_block =3D false;
+>         mtk_crtc->cmdq_client.client.knows_txdone =3D true;
+>         mtk_crtc->cmdq_client.client.rx_callback =3D ddp_cmdq_cb;
+>         mtk_crtc->cmdq_client.chan =3D
+> -                       mbox_request_channel(&mtk_crtc->cmdq_client.clien=
+t,
+> -                                            drm_crtc_index(&mtk_crtc->ba=
+se));
+> +                       mbox_request_channel(&mtk_crtc->cmdq_client.clien=
+t, i);
+>         if (IS_ERR(mtk_crtc->cmdq_client.chan)) {
+>                 dev_dbg(dev, "mtk_crtc %d failed to create mailbox client=
+, writing register by CPU now\n",
+>                         drm_crtc_index(&mtk_crtc->base));
+> @@ -957,7 +963,7 @@ int mtk_drm_crtc_create(struct drm_device *drm_dev,
+>         if (mtk_crtc->cmdq_client.chan) {
+>                 ret =3D of_property_read_u32_index(priv->mutex_node,
+>                                                  "mediatek,gce-events",
+> -                                                drm_crtc_index(&mtk_crtc=
+->base),
+> +                                                i,
+>                                                  &mtk_crtc->cmdq_event);
+>                 if (ret) {
+>                         dev_dbg(dev, "mtk_crtc %d failed to get mediatek,=
+gce-events property\n",
+> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.h b/drivers/gpu/drm/me=
+diatek/mtk_drm_crtc.h
+> index cb9a36c48d4f..a57eb12d7c05 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.h
+> +++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.h
+> @@ -17,7 +17,8 @@
+>  void mtk_drm_crtc_commit(struct drm_crtc *crtc);
+>  int mtk_drm_crtc_create(struct drm_device *drm_dev,
+>                         const enum mtk_ddp_comp_id *path,
+> -                       unsigned int path_len);
+> +                       unsigned int path_len,
+> +                       int priv_data_index);
+>  int mtk_drm_crtc_plane_check(struct drm_crtc *crtc, struct drm_plane *pl=
+ane,
+>                              struct mtk_plane_state *state);
+>  void mtk_drm_crtc_async_update(struct drm_crtc *crtc, struct drm_plane *=
+plane,
+> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/med=
+iatek/mtk_drm_drv.c
+> index 274a5bb10851..eedf10ed30c8 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+> @@ -196,6 +196,8 @@ static const struct mtk_mmsys_driver_data mt2701_mmsy=
+s_driver_data =3D {
+>         .ext_path =3D mt2701_mtk_ddp_ext,
+>         .ext_len =3D ARRAY_SIZE(mt2701_mtk_ddp_ext),
+>         .shadow_register =3D true,
+> +       .mmsys_id =3D 0,
+
+global variable is initialized to zero, so remove this.
+
+> +       .mmsys_dev_num =3D 1,
+>  };
+>
+
+[snip]
+
+> +
+> +static bool mtk_drm_find_mmsys_comp(struct mtk_drm_private *private, int=
+ comp_id)
+> +{
+> +       const struct mtk_mmsys_driver_data *drv_data =3D private->data;
+> +       int i;
+> +
+> +       if (drv_data->mmsys_dev_num =3D=3D 1)
+> +               return true;
+> +
+> +       if (drv_data->main_path)
+> +               for (i =3D 0; i < drv_data->main_len; i++)
+> +                       if (drv_data->main_path[i] =3D=3D comp_id)
+> +                               return true;
+> +
+> +       if (drv_data->ext_path)
+> +               for (i =3D 0; i < drv_data->ext_len; i++)
+> +                       if (drv_data->ext_path[i] =3D=3D comp_id)
+> +                               return true;
+> +
+> +       if (drv_data->third_path)
+> +               for (i =3D 0; i < drv_data->third_len; i++)
+> +                       if (drv_data->third_path[i] =3D=3D comp_id)
+> +                               return true;
+> +
+> +       return false;
+> +}
+> +
+>  static int mtk_drm_kms_init(struct drm_device *drm)
+>  {
+>         struct mtk_drm_private *private =3D drm->dev_private;
+> +       struct mtk_drm_private *priv_n;
+>         struct platform_device *pdev;
+> -       struct device_node *np;
+> +       struct device_node *np =3D NULL;
+>         struct device *dma_dev;
+> -       int ret;
 > -
->  	mem->id = id;
-> +	mem->instance = instance;
->  
->  	intel_memory_region_set_name(mem, "local%u", mem->instance);
->  
-> @@ -80,6 +87,11 @@ int intel_gt_probe_lmem(struct intel_gt *gt)
->  	return 0;
+> -       if (!iommu_present(&platform_bus_type))
+> -               return -EPROBE_DEFER;
+> -
+> -       pdev =3D of_find_device_by_node(private->mutex_node);
+> -       if (!pdev) {
+> -               dev_err(drm->dev, "Waiting for disp-mutex device %pOF\n",
+> -                       private->mutex_node);
+> -               of_node_put(private->mutex_node);
+> -               return -EPROBE_DEFER;
+> -       }
+> -       private->mutex_dev =3D &pdev->dev;
+> +       int ret, i, j;
+>
+>         ret =3D drmm_mode_config_init(drm);
+>         if (ret)
+> @@ -283,33 +384,57 @@ static int mtk_drm_kms_init(struct drm_device *drm)
+>         drm->mode_config.funcs =3D &mtk_drm_mode_config_funcs;
+>         drm->mode_config.helper_private =3D &mtk_drm_mode_config_helpers;
+>
+> -       ret =3D component_bind_all(drm->dev, drm);
+> -       if (ret)
+> -               goto put_mutex_dev;
+> +       for (i =3D 0; i < private->data->mmsys_dev_num; i++) {
+> +               drm->dev_private =3D private->all_drm_private[i];
+> +               ret =3D component_bind_all(private->all_drm_private[i]->d=
+ev, drm);
+> +               if (ret)
+> +                       goto put_mutex_dev;
+> +       }
+>
+>         /*
+>          * We currently support two fixed data streams, each optional,
+>          * and each statically assigned to a crtc:
+>          * OVL0 -> COLOR0 -> AAL -> OD -> RDMA0 -> UFOE -> DSI0 ...
+>          */
+> -       ret =3D mtk_drm_crtc_create(drm, private->data->main_path,
+> -                                 private->data->main_len);
+> -       if (ret < 0)
+> -               goto err_component_unbind;
+> -       /* ... and OVL1 -> COLOR1 -> GAMMA -> RDMA1 -> DPI0. */
+> -       ret =3D mtk_drm_crtc_create(drm, private->data->ext_path,
+> -                                 private->data->ext_len);
+> -       if (ret < 0)
+> -               goto err_component_unbind;
+> -
+> -       ret =3D mtk_drm_crtc_create(drm, private->data->third_path,
+> -                                 private->data->third_len);
+> -       if (ret < 0)
+> -               goto err_component_unbind;
+> +       for (i =3D 0; i < MAX_CRTC; i++) {
+
+I think the i-for-loop is redundant.
+
+> +               for (j =3D 0; j < private->data->mmsys_dev_num; j++) {
+> +                       priv_n =3D private->all_drm_private[j];
+> +
+> +                       if (i =3D=3D 0 && priv_n->data->main_len) {
+> +                               ret =3D mtk_drm_crtc_create(drm, priv_n->=
+data->main_path,
+> +                                                         priv_n->data->m=
+ain_len, j);
+> +                               if (ret)
+> +                                       goto err_component_unbind;
+> +
+> +                               if (!np)
+> +                                       np =3D priv_n->comp_node[priv_n->=
+data->main_path[0]];
+> +
+> +                               continue;
+> +                       } else if (i =3D=3D 1 && priv_n->data->ext_len) {
+> +                               ret =3D mtk_drm_crtc_create(drm, priv_n->=
+data->ext_path,
+> +                                                         priv_n->data->e=
+xt_len, j);
+> +                               if (ret)
+> +                                       goto err_component_unbind;
+> +
+> +                               if (!np)
+> +                                       np =3D priv_n->comp_node[priv_n->=
+data->ext_path[0]];
+> +
+> +                               continue;
+> +                       } else if (i =3D=3D 2 && priv_n->data->third_len)=
+ {
+> +                               ret =3D mtk_drm_crtc_create(drm, priv_n->=
+data->third_path,
+> +                                                         priv_n->data->t=
+hird_len, j);
+> +                               if (ret)
+> +                                       goto err_component_unbind;
+> +
+> +                               if (!np)
+> +                                       np =3D priv_n->comp_node[priv_n->=
+data->third_path[0]];
+
+Here assume that all mmsys use the same iommu (maybe in some SoC each
+mmsys use different iommu), so add comment for this.
+
+> +
+> +                               continue;
+> +                       }
+> +               }
+> +       }
+>
+>         /* Use OVL device for all DMA memory allocations */
+> -       np =3D private->comp_node[private->data->main_path[0]] ?:
+> -            private->comp_node[private->data->ext_path[0]];
+>         pdev =3D of_find_device_by_node(np);
+>         if (!pdev) {
+>                 ret =3D -ENODEV;
+> @@ -318,7 +443,8 @@ static int mtk_drm_kms_init(struct drm_device *drm)
+>         }
+>
+>         dma_dev =3D &pdev->dev;
+> -       private->dma_dev =3D dma_dev;
+> +       for (i =3D 0; i < private->data->mmsys_dev_num; i++)
+> +               private->all_drm_private[i]->dma_dev =3D dma_dev;
+>
+>         /*
+>          * Configure the DMA segment size to make sure we get contiguous =
+IOVA
+> @@ -340,9 +466,12 @@ static int mtk_drm_kms_init(struct drm_device *drm)
+>         return 0;
+>
+>  err_component_unbind:
+> -       component_unbind_all(drm->dev, drm);
+> +       for (i =3D 0; i < private->data->mmsys_dev_num; i++)
+> +               component_unbind_all(private->all_drm_private[i]->dev, dr=
+m);
+>  put_mutex_dev:
+> -       put_device(private->mutex_dev);
+> +       for (i =3D 0; i < private->data->mmsys_dev_num; i++)
+> +               put_device(private->all_drm_private[i]->mutex_dev);
+> +
+>         return ret;
 >  }
->  
-> +void intel_gt_init_early(struct intel_gt *gt, struct drm_i915_private *i915)
-> +{
-> +	__intel_gt_init_early(gt, &i915->uncore, i915);
-> +}
-> +
->  void intel_gt_init_hw_early(struct intel_gt *gt, struct i915_ggtt *ggtt)
+>
+> @@ -395,15 +524,36 @@ static int compare_of(struct device *dev, void *dat=
+a)
+>  static int mtk_drm_bind(struct device *dev)
 >  {
->  	gt->ggtt = ggtt;
-> @@ -903,9 +915,29 @@ u32 intel_gt_read_register_fw(struct intel_gt *gt, i915_reg_t reg)
->  static int
->  intel_gt_tile_setup(struct intel_gt *gt, unsigned int id, phys_addr_t phys_addr)
+>         struct mtk_drm_private *private =3D dev_get_drvdata(dev);
+> +       struct platform_device *pdev;
+>         struct drm_device *drm;
+> -       int ret;
+> +       int ret, i;
+> +
+> +       if (!iommu_present(&platform_bus_type))
+> +               return -EPROBE_DEFER;
+> +
+> +       pdev =3D of_find_device_by_node(private->mutex_node);
+> +       if (!pdev) {
+> +               dev_err(dev, "Waiting for disp-mutex device %pOF\n",
+> +                       private->mutex_node);
+> +               of_node_put(private->mutex_node);
+> +               return -EPROBE_DEFER;
+> +       }
+> +
+> +       private->mutex_dev =3D &pdev->dev;
+> +       private->mtk_drm_bound =3D true;
+> +       private->dev =3D dev;
+> +
+> +       if (!mtk_drm_get_all_drm_priv(dev))
+> +               return 0;
+>
+>         drm =3D drm_dev_alloc(&mtk_drm_driver, dev);
+>         if (IS_ERR(drm))
+>                 return PTR_ERR(drm);
+>
+> -       drm->dev_private =3D private;
+> -       private->drm =3D drm;
+> +       private->drm_master =3D true;
+> +               drm->dev_private =3D private;
+
+indent.
+
+> +       for (i =3D 0; i < private->data->mmsys_dev_num; i++)
+> +               private->all_drm_private[i]->drm =3D drm;
+>
+>         ret =3D mtk_drm_kms_init(drm);
+>         if (ret < 0)
+> @@ -428,10 +578,14 @@ static void mtk_drm_unbind(struct device *dev)
 >  {
-> +	struct drm_i915_private *i915 = gt->i915;
-> +	struct intel_uncore *uncore;
-> +	struct intel_uncore_mmio_debug *mmio_debug;
->  	int ret;
->  
-> -	intel_uncore_init_early(gt->uncore, gt);
-> +	if (id) {
-> +		uncore = kzalloc(sizeof(*uncore), GFP_KERNEL);
-> +		if (!uncore)
-> +			return -ENOMEM;
-> +
-> +		mmio_debug = kzalloc(sizeof(*mmio_debug), GFP_KERNEL);
-> +		if (!mmio_debug) {
-> +			kfree(uncore);
-> +			return -ENOMEM;
-> +		}
-> +
-> +		__intel_gt_init_early(gt, uncore, i915);
-> +	} else {
-> +		uncore = &i915->uncore;
-> +		mmio_debug = &i915->mmio_debug;
-> +	}
-> +
-> +	intel_uncore_init_early(uncore, gt);
->  
->  	ret = intel_uncore_setup_mmio(gt->uncore, phys_addr);
->  	if (ret)
-> @@ -920,6 +952,11 @@ static void
->  intel_gt_tile_cleanup(struct intel_gt *gt)
->  {
->  	intel_uncore_cleanup_mmio(gt->uncore);
-> +
-> +	if (gt->info.id) {
-> +		kfree(gt->uncore);
-> +		kfree(gt);
-> +	}
+>         struct mtk_drm_private *private =3D dev_get_drvdata(dev);
+>
+> -       drm_dev_unregister(private->drm);
+> -       mtk_drm_kms_deinit(private->drm);
+> -       drm_dev_put(private->drm);
+> -       private->num_pipes =3D 0;
+> +       /* for multi mmsys dev, unregister drm dev in mmsys master */
+> +       if (private->data->mmsys_id =3D=3D 0) {
+
+The master mmsys register drm device, why mmsys 0 unregister drm device?
+
+> +               drm_dev_unregister(private->drm);
+> +               mtk_drm_kms_deinit(private->drm);
+> +               drm_dev_put(private->drm);
+> +       }
+> +       private->mtk_drm_bound =3D false;
+> +       private->drm_master =3D false;
+>         private->drm =3D NULL;
 >  }
->  
->  int intel_gt_probe_all(struct drm_i915_private *i915)
-> @@ -937,13 +974,21 @@ int intel_gt_probe_all(struct drm_i915_private *i915)
->  	if (ret)
->  		return ret;
->  
-> +	i915->gts[0] = &i915->gt;
-> +
->  	/* TODO: add more tiles */
->  	return 0;
->  }
->  
->  void intel_gt_release_all(struct drm_i915_private *i915)
+>
+> @@ -546,54 +700,40 @@ static const struct of_device_id mtk_ddp_comp_dt_id=
+s[] =3D {
+>         { }
+>  };
+>
+> -static const struct of_device_id mtk_drm_of_ids[] =3D {
+> -       { .compatible =3D "mediatek,mt2701-mmsys",
+> -         .data =3D &mt2701_mmsys_driver_data},
+> -       { .compatible =3D "mediatek,mt7623-mmsys",
+> -         .data =3D &mt7623_mmsys_driver_data},
+> -       { .compatible =3D "mediatek,mt2712-mmsys",
+> -         .data =3D &mt2712_mmsys_driver_data},
+> -       { .compatible =3D "mediatek,mt8167-mmsys",
+> -         .data =3D &mt8167_mmsys_driver_data},
+> -       { .compatible =3D "mediatek,mt8173-mmsys",
+> -         .data =3D &mt8173_mmsys_driver_data},
+> -       { .compatible =3D "mediatek,mt8183-mmsys",
+> -         .data =3D &mt8183_mmsys_driver_data},
+> -       { .compatible =3D "mediatek,mt8192-mmsys",
+> -         .data =3D &mt8192_mmsys_driver_data},
+> -       {.compatible =3D "mediatek,mt8195-vdosys0",
+> -         .data =3D &mt8195_vdosys0_driver_data},
+> -       { }
+> -};
+> -MODULE_DEVICE_TABLE(of, mtk_drm_of_ids);
+> -
+>  static int mtk_drm_probe(struct platform_device *pdev)
 >  {
-> -	intel_gt_tile_cleanup(&i915->gt);
-> +	struct intel_gt *gt;
-> +	unsigned int id;
+>         struct device *dev =3D &pdev->dev;
+>         struct device_node *phandle =3D dev->parent->of_node;
+>         const struct of_device_id *of_id;
+> +       const struct mtk_mmsys_driver_data *drv_data;
+>         struct mtk_drm_private *private;
+>         struct device_node *node;
+>         struct component_match *match =3D NULL;
+>         int ret;
+>         int i;
+>
+> +       of_id =3D of_match_node(mtk_drm_of_ids, phandle);
+> +       if (!of_id)
+> +               return -ENODEV;
 > +
-> +	for_each_gt(i915, id, gt) {
-> +		intel_gt_tile_cleanup(gt);
-> +		i915->gts[id] = NULL;
-> +	}
->  }
->  
->  void intel_gt_info_print(const struct intel_gt_info *info,
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gt.h b/drivers/gpu/drm/i915/gt/intel_gt.h
-> index 68cdf042ad88..a59521a8c96c 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gt.h
-> +++ b/drivers/gpu/drm/i915/gt/intel_gt.h
-> @@ -88,6 +88,12 @@ u32 intel_gt_read_register_fw(struct intel_gt *gt, i915_reg_t reg);
->  int intel_gt_probe_all(struct drm_i915_private *i915);
->  void intel_gt_release_all(struct drm_i915_private *i915);
->  
-> +#define for_each_gt(i915__, id__, gt__) \
-> +	for ((id__) = 0; \
-> +	     (id__) < I915_MAX_TILES; \
-> +	     (id__)++) \
-> +		for_each_if(((gt__) = (i915__)->gts[(id__)]))
+> +       drv_data =3D of_id->data;
+>         private =3D devm_kzalloc(dev, sizeof(*private), GFP_KERNEL);
+>         if (!private)
+>                 return -ENOMEM;
+>
+> +       private->all_drm_private =3D devm_kmalloc_array(dev, drv_data->mm=
+sys_dev_num,
+> +                                                     sizeof(*private->al=
+l_drm_private),
+> +                                                     GFP_KERNEL);
+> +       if (!private->all_drm_private)
+> +               return -ENOMEM;
+> +
+> +       private->data =3D drv_data;
+>         private->mmsys_dev =3D dev->parent;
+>         if (!private->mmsys_dev) {
+>                 dev_err(dev, "Failed to get MMSYS device\n");
+>                 return -ENODEV;
+>         }
+>
+> -       of_id =3D of_match_node(mtk_drm_of_ids, phandle);
+> -       if (!of_id)
+> -               return -ENODEV;
+> -
+> -       private->data =3D of_id->data;
+> -
+>         /* Iterate over sibling DISP function blocks */
+>         for_each_child_of_node(phandle->parent, node) {
+>                 const struct of_device_id *of_id;
+> @@ -613,7 +753,13 @@ static int mtk_drm_probe(struct platform_device *pde=
+v)
+>                 comp_type =3D (enum mtk_ddp_comp_type)of_id->data;
+>
+>                 if (comp_type =3D=3D MTK_DISP_MUTEX) {
+> -                       private->mutex_node =3D of_node_get(node);
+> +                       int id;
+> +
+> +                       id =3D of_alias_get_id(node, "mutex");
+> +                       if (id < 0 || id =3D=3D drv_data->mmsys_id) {
+> +                               private->mutex_node =3D of_node_get(node)=
+;
+> +                               dev_dbg(dev, "get mutex for mmsys %d", dr=
+v_data->mmsys_id);
+> +                       }
+>                         continue;
+>                 }
+>
+> @@ -624,6 +770,9 @@ static int mtk_drm_probe(struct platform_device *pdev=
+)
+>                         continue;
+>                 }
+>
+> +               if (!mtk_drm_find_mmsys_comp(private, comp_id))
+> +                       continue;
 
-In this patch set, symbol I915_MAX_TILES is introduced.
-In a later patch set of this series, I915_MAX_TILES is renamed to I915_MAX_GTS.
-How about using name I915_MAX_GTS consistently through the patch series?
+Without this, this patch still work. So remove this. If you still want
+this modification, separate this to another patch.
 
-It will make the history easier to understand, and should this patch series
-be merged in pieces, it will avoid having to do the rename in software that
-depends on this.
+Regards,
+Chun-Kuang.
 
 > +
->  void intel_gt_info_print(const struct intel_gt_info *info,
->  			 struct drm_printer *p);
->  
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_types.h b/drivers/gpu/drm/i915/gt/intel_gt_types.h
-> index 66143316d92e..7311e485faae 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gt_types.h
-> +++ b/drivers/gpu/drm/i915/gt/intel_gt_types.h
-> @@ -186,6 +186,8 @@ struct intel_gt {
->  	phys_addr_t phys_addr;
->  
->  	struct intel_gt_info {
-> +		unsigned int id;
-> +
->  		intel_engine_mask_t engine_mask;
->  
->  		u32 l3bank_mask;
-> diff --git a/drivers/gpu/drm/i915/i915_drv.c b/drivers/gpu/drm/i915/i915_drv.c
-> index 000b1b070155..fde148d6777e 100644
-> --- a/drivers/gpu/drm/i915/i915_drv.c
-> +++ b/drivers/gpu/drm/i915/i915_drv.c
-> @@ -382,10 +382,14 @@ static int i915_driver_early_probe(struct drm_i915_private *dev_priv)
->   */
->  static void i915_driver_late_release(struct drm_i915_private *dev_priv)
->  {
-> +	struct intel_gt *gt;
-> +	unsigned int id;
-> +
->  	intel_irq_fini(dev_priv);
->  	intel_power_domains_cleanup(dev_priv);
->  	i915_gem_cleanup_early(dev_priv);
-> -	intel_gt_driver_late_release(&dev_priv->gt);
-> +	for_each_gt(dev_priv, id, gt)
-> +		intel_gt_driver_late_release(gt);
->  	intel_region_ttm_device_fini(dev_priv);
->  	vlv_suspend_cleanup(dev_priv);
->  	i915_workqueues_cleanup(dev_priv);
-> @@ -512,6 +516,28 @@ static int i915_set_dma_info(struct drm_i915_private *i915)
->  	return ret;
->  }
->  
-> +/**
-> + * i915_init_tile_memory - initialize per-tile memory
-> + * @i915: valid i915 instance
-> + *
-> + * Current multi-tile platforms include a GT and a memory region within each
-> + * tile.  We need to initialize each.
-> + */
-> +static int i915_init_tile_memory(struct drm_i915_private *i915)
-> +{
-> +	struct intel_gt *gt;
-> +	unsigned int id;
-> +	int ret;
-> +
-> +	for_each_gt(i915, id, gt) {
-> +		ret = intel_gt_probe_lmem(gt);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->  /**
->   * i915_driver_hw_probe - setup state requiring device access
->   * @dev_priv: device private
-> @@ -579,7 +605,7 @@ static int i915_driver_hw_probe(struct drm_i915_private *dev_priv)
->  
->  	intel_gt_init_hw_early(&dev_priv->gt, &dev_priv->ggtt);
->  
-> -	ret = intel_gt_probe_lmem(&dev_priv->gt);
-> +	ret = i915_init_tile_memory(dev_priv);
->  	if (ret)
->  		goto err_mem_regions;
->  
-> diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
-> index 19e6700a4315..10a4817e397d 100644
-> --- a/drivers/gpu/drm/i915/i915_drv.h
-> +++ b/drivers/gpu/drm/i915/i915_drv.h
-> @@ -1193,6 +1193,12 @@ struct drm_i915_private {
->  	/* Abstract the submission mechanism (legacy ringbuffer or execlists) away */
->  	struct intel_gt gt;
->  
-> +	/*
-> +	 * i915->gts[0] == &i915->gt
-> +	 */
-> +#define I915_MAX_TILES 4
-> +	struct intel_gt *gts[I915_MAX_TILES];
-> +
-
-If possible, it would be good to define I915_MAX_TILES (or I915_MAX_GTS, per
-the comment above) in a more basic header file.  Maybe gt/intel_gt_types.h
-or maybe something even more basic?  The reason is to avoid requiring that
-other header files include this fairly complex i915_drv.h when all they want
-is the simple constant I915_MAX_TILES/I915_MAX_GTS.
-
->  	struct {
->  		struct i915_gem_contexts {
->  			spinlock_t lock; /* locks list */
-> diff --git a/drivers/gpu/drm/i915/intel_memory_region.h b/drivers/gpu/drm/i915/intel_memory_region.h
-> index 3feae3353d33..d255e4bffb23 100644
-> --- a/drivers/gpu/drm/i915/intel_memory_region.h
-> +++ b/drivers/gpu/drm/i915/intel_memory_region.h
-> @@ -31,6 +31,9 @@ enum intel_memory_type {
->  enum intel_region_id {
->  	INTEL_REGION_SMEM = 0,
->  	INTEL_REGION_LMEM,
-> +	INTEL_REGION_LMEM1,
-> +	INTEL_REGION_LMEM2,
-> +	INTEL_REGION_LMEM3,
->  	INTEL_REGION_STOLEN_SMEM,
->  	INTEL_REGION_STOLEN_LMEM,
->  	INTEL_REGION_UNKNOWN, /* Should be last */
-> -- 
-> 2.33.0
-> 
-
------ End forwarded message -----
+>                 private->comp_node[comp_id] =3D of_node_get(node);
+>
+>                 /*
