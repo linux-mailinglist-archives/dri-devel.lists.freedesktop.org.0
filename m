@@ -1,53 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E61BB44BEA3
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Nov 2021 11:30:09 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0709B44BEA5
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Nov 2021 11:30:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1ACD76EB16;
-	Wed, 10 Nov 2021 10:30:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 20D806EB3A;
+	Wed, 10 Nov 2021 10:30:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com
- [IPv6:2607:f8b0:4864:20::52f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D0786EB16
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Nov 2021 10:30:06 +0000 (UTC)
-Received: by mail-pg1-x52f.google.com with SMTP id n23so1855878pgh.8
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Nov 2021 02:30:06 -0800 (PST)
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com
+ [IPv6:2607:f8b0:4864:20::62c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7206B6EB31
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Nov 2021 10:30:18 +0000 (UTC)
+Received: by mail-pl1-x62c.google.com with SMTP id q17so2568995plr.11
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Nov 2021 02:30:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=rtnO7Bm6moxapJOpDmqW3UadGBsmBZSmf1oZQVTs5BY=;
- b=P3Zjx0Hyq+32RzMf/e+0TH7R6bZPDc1VQVGRm6mJklPXjJ3E2y7zll3a/h5hwzInd2
- d63C9cHfkm618jGYGz2nEbxTURHcRncu7AQy7kda908zmtTJmYdpod2M+GxzBQkOgAaW
- 3pyJW9FPadAoWPwK/fx0Dc1zYve3/+A99znjsQy0RNF26CBDA/mW1FQOyXjer+8hdQVg
- KHPaswheEtKBH09v60AmcUAH3/2TMbbowGDQYdmswgZ4HnwD6jwN7jpBmhO36SZb2VhP
- uAzn+IF5SvZbDi5vO8caloxssl1Sqt0FspfoohNqFJyd62Cg6vs5JINLSu6arcJ/cviJ
- L0bg==
+ :cc; bh=/H97nPqB7O+Ha49bdQqeIeu5pMRHp/3DE9p9icaUgqM=;
+ b=PUuEyw9XBots469I4b/mSNfuAjfpd7qQMzH59EqV6M8zrGuW5q/CfOy/XJM/r7hsaF
+ ndro4ZRi2k2UFXbYR7Y2TD+wsPKHpZaqWMHSaQC5u0vRq/R4W4M75LnQ6wwHqTSRhgjA
+ gNhSq0Dc8jWZWpqCIgVAsX8h+/O3mbrRqDeGIUv2lwZ2U3bRdIAyjPOH7bVnTrFrFM5/
+ FjN72YqxEMlv/SAj8JL4+P+sZFmb9ZhnqE0y/Dg5uFA/hcBKG1196tdQW2bAJXYHe/fz
+ wZWqGkamOre8skZ1KLmAgmEvyTB8aiEzTVhVd5dmXMR4WSLYYi9i0jUTIq125egaczwZ
+ gM+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=rtnO7Bm6moxapJOpDmqW3UadGBsmBZSmf1oZQVTs5BY=;
- b=sATxEipVv+QwdHWUpOmxn1eKcBMVbF1x1HfWKBsHdorzbRsKJBJ+sIeBqo4+xGteZz
- 25zZkFrD4pr7LZJdnAgHtGnkFHfaUEZJRWeH9HTj+kl9sXjVxpTRzPVwIYUu16VcGcjF
- A4TXLZdthwPPLudEZ+7ualElcnjPZnuFkJYZR2/Ds7WNDuvhPQaltmt7lkXtRHbiosxj
- byFejLp/WP4YeMzlD9a6p6J80HMWvCNcbDw86/8s/o6325ly7ZhnhK4bbfxoJoW9e5ES
- 0pXRAdF23+lNBrOH+4NAUoWPkgCP6nKRSkUFy9Zz81TTrOHl53PRTitW4pFij8SZdi9r
- y5Pg==
-X-Gm-Message-State: AOAM531apnp69WZ4ImDBK1hgHjHQKWAsF18JX7+7w+zHvO3YxiGOu/nv
- DM1ohTRLLPtnwmnbXRwGHkbgBGM5pvj8Q27zUnzk4A==
-X-Google-Smtp-Source: ABdhPJybXxLo5OYv4x3FX2EtYjPECd+qMB38G5dsYqeB2wevijTEozvPGP7GKTPKRoWDFUr1d6wpqdx/mT+1NE8lE1U=
-X-Received: by 2002:a63:9518:: with SMTP id p24mr11113932pgd.80.1636540205425; 
- Wed, 10 Nov 2021 02:30:05 -0800 (PST)
+ bh=/H97nPqB7O+Ha49bdQqeIeu5pMRHp/3DE9p9icaUgqM=;
+ b=4cKHBsEv6L7PeOLQo24WnqVhKVJahLHwuq1HdVkkbqHHl2X8rw3G/633E1H71ULQit
+ Lwo1IcukWbNLjnfx+rIHcf9Gxg4K8wPN5X7D3N54VxpWrRYC24nzkE7hEDGm8/cOzrzJ
+ PcJhiIDxKKA/uTqbv807m2MjmAJ7ALFG0Es8/tV71U+8R2IU44dwx2wvOPzHgNzQ3qHF
+ KR0LlCCG4LmL9u71XK+SixmOtYrFQIUQ1x3s+5jmx0Q6v6dFl0cUG6q0FLkF/y1paiOo
+ ZXVUp1v6y4OZfsfbjKAdGJJq3in8GqzcpNGiGIjTayAOiuxo57URsF/N0HA46OIa1Qqc
+ sZMQ==
+X-Gm-Message-State: AOAM530SgfcAmCSdZbrEMTnEL5Jp6nUSpG5141HY+CsYhupLzT6mV4D8
+ w6ZGV9dgz1iABhhgGXBAqTr8jYqwkPZWYiA91MpUgw==
+X-Google-Smtp-Source: ABdhPJz1qeQBdRPNXYe0xOwKF+EIkcWuZ9iABV9TtnSScZMDJCzYb6hg0DTj4FGiTtJpUHr1yfmX7QThpigva/yBGZE=
+X-Received: by 2002:a17:90b:4ac1:: with SMTP id
+ mh1mr15543616pjb.30.1636540217454; 
+ Wed, 10 Nov 2021 02:30:17 -0800 (PST)
 MIME-Version: 1.0
 References: <20211109125030.26299-1-yunfei.dong@mediatek.com>
- <20211109125030.26299-4-yunfei.dong@mediatek.com>
-In-Reply-To: <20211109125030.26299-4-yunfei.dong@mediatek.com>
+ <20211109125030.26299-5-yunfei.dong@mediatek.com>
+In-Reply-To: <20211109125030.26299-5-yunfei.dong@mediatek.com>
 From: Tzung-Bi Shih <tzungbi@google.com>
-Date: Wed, 10 Nov 2021 18:29:54 +0800
-Message-ID: <CA+Px+wXw96jDAbtuJ-Mt5MnY9D4xPX-6wGZq5U_hwhrg+5UNPA@mail.gmail.com>
-Subject: Re: [PATCH v9, 03/19] media: mtk-vcodec: Refactor vcodec pm interface
+Date: Wed, 10 Nov 2021 18:30:06 +0800
+Message-ID: <CA+Px+wU6iwjisS1_Mdxdt6eb4pjLQp_Z16bA_ewEhCe80worKw@mail.gmail.com>
+Subject: Re: [PATCH v9,
+ 04/19] media: mtk-vcodec: Build decoder pm file as module
 To: Yunfei Dong <Yunfei.Dong@mediatek.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -79,9 +81,10 @@ Cc: Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 09, 2021 at 08:50:14PM +0800, Yunfei Dong wrote:
-> Reviewed-By: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+On Tue, Nov 09, 2021 at 08:50:15PM +0800, Yunfei Dong wrote:
+> Need to build decoder pm file as module for main device
+> and subdev use the same pm interface.
 
-s/B/b/, the suggested tag name is "Reviewed-by"[1].
-
-[1]: https://www.kernel.org/doc/html/latest/process/submitting-patches.html#using-reported-by-tested-by-reviewed-by-suggested-by-and-fixes
+Why does it need to be a module?  Could you provide more explanation
+in the commit message?  For example, any compile errors under some
+circumstances?
