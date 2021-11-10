@@ -1,46 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D02F344CDA0
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Nov 2021 00:06:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C919844CDA4
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Nov 2021 00:07:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B86089B4D;
-	Wed, 10 Nov 2021 23:06:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C006C89FF7;
+	Wed, 10 Nov 2021 23:07:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org
- [IPv6:2404:9400:2:0:216:3eff:fee2:21ea])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A753589B97;
- Wed, 10 Nov 2021 23:06:11 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4HqL7D6gbSz4xct;
- Thu, 11 Nov 2021 10:06:00 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1636585564;
- bh=WGth6Po766mR2Bwdj56BJ4xzcwyQf12GeSKl7w0pB1s=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=mL46uQR3bdilrY3xaNL8NxPS8So/sLwGhTcF+g3JsrHp9AKnpOdXyKbxOHsnina8F
- wqSaNrEjM2amn+nYYRw/FxfHtls5g/bFWBoWO1bpMl2eJQO+RZpMcEBJZTLxQafI5j
- noqSKGovaaYGeBUYNBHMK6aXocYq0E3nTMyYy1bn4TL14zmFiArgaXxUFhn4zmMKxC
- fiXDVUSx4Q5UgEfAqyz8qNcstOD6I5Tc2ESrICKIRP/MzrvYx/TQZ2mxsGC949lw5N
- etjLNu3RVw1zky5DjFlycIhDyY+DDYz+4JoYQt5Ad1YHgsn5dxKFPBfbaQSyaN2DJj
- k3elrwHMBXIPA==
-Date: Thu, 11 Nov 2021 10:05:59 +1100
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Dave Airlie <airlied@linux.ie>
-Subject: Re: linux-next: manual merge of the char-misc tree with the
- drm-intel tree
-Message-ID: <20211111100559.394264fd@canb.auug.org.au>
-In-Reply-To: <20211105125122.21d336ac@canb.auug.org.au>
-References: <20211028182753.56b6a174@canb.auug.org.au>
- <20211105125122.21d336ac@canb.auug.org.au>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5AB9189FF7
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Nov 2021 23:07:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1636585645;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=fNqnwKhWBogq634MYnDNtILb7/Z3YcmwIVgNJ2lvEOU=;
+ b=gBpgSucys6aHe3aQoyfyChavrP2pjPHGfyhcHF37bBJ6TCGYqgh1QaZ21dxQDFZUwXDJY7
+ Pdv8Jp88dnuITv4peHxdoew818dgguKVnD7X08/Ta+EbMDPF8z3bqurBViWnNf7L+iL4AO
+ ern81on1udo/Y/m1TZMTHtlXBXb6Ros=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-561-rJB5JeyaMY6OCkiFHilVag-1; Wed, 10 Nov 2021 18:07:22 -0500
+X-MC-Unique: rJB5JeyaMY6OCkiFHilVag-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ b133-20020a1c808b000000b0032cdd691994so3814972wmd.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Nov 2021 15:07:22 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=fNqnwKhWBogq634MYnDNtILb7/Z3YcmwIVgNJ2lvEOU=;
+ b=BQw0JhlmF4MOHxcuNsTK/FDK34gonLcOF9/5qaa6qrn1+niN2brjjlmzzc+lU5XZ94
+ csSRdlaEaBmN9h7zY5hGuHUZYBR8wqppueWhch4d6twnRO9NlxGmkGcMAirg59jW9i50
+ T6AvBUeaUq+6jYWpwTa30SAg5UPN0Ge8JvjZr3b66sYfWSMhrCA+nGIDM/tzPuY5Xivt
+ 2lfOWk478k40V3A3aSZViOlzOK/lASWL2IKuMta6Fc9xqkwW3JtY3m2IoGzHdGI4m8n6
+ CJV0tRLjiDgJy1ai9Zm2vKdIM+9zY0TmmeL5+UODMNRzTdyXUKsLY5UR01p42xExPKpT
+ iLjQ==
+X-Gm-Message-State: AOAM532/YPa5Iwu4aS0dfIzLwlenlYTXiK1zRVzqcWQ9/q21SFMpQNHQ
+ 2EIAeCLlP4kNUx9UNRg8phqDZpzreeVJS+V6Jt2O8Bg7rIfb5C0Ic4vPlbm1zLHXXMV+vPXJOh1
+ fFqIyMj+Xrz1utroGLQms+ex9K5TH
+X-Received: by 2002:a7b:c24a:: with SMTP id b10mr3225569wmj.166.1636585641559; 
+ Wed, 10 Nov 2021 15:07:21 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwl8v+8TdkAuH6HhmNcnUIDPdJyrAREIk366BfGPfLKWxfIMdkdjMj7Jyx5DErLhB6++HOAsQ==
+X-Received: by 2002:a7b:c24a:: with SMTP id b10mr3225528wmj.166.1636585641310; 
+ Wed, 10 Nov 2021 15:07:21 -0800 (PST)
+Received: from [192.168.1.102] ([92.176.231.106])
+ by smtp.gmail.com with ESMTPSA id c6sm8755344wmq.46.2021.11.10.15.07.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 10 Nov 2021 15:07:21 -0800 (PST)
+Message-ID: <627b6cd1-3446-5e55-ea38-5283a186af39@redhat.com>
+Date: Thu, 11 Nov 2021 00:07:19 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/YboB6En.F/MYPMFwqD8kBhN";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [REGRESSION]: drivers/firmware: move x86 Generic System
+ Framebuffers support
+To: Ilya Trukhanov <lahvuun@gmail.com>, stable@vger.kernel.org
+References: <20211110200253.rfudkt3edbd3nsyj@lahvuun>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <20211110200253.rfudkt3edbd3nsyj@lahvuun>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,95 +84,134 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Greg KH <greg@kroah.com>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- DRI <dri-devel@lists.freedesktop.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Matthew Auld <matthew.auld@intel.com>
+Cc: len.brown@intel.com, linux-efi@vger.kernel.org, regressions@lists.linux.dev,
+ rafael@kernel.org, pavel@ucw.cz, linux-pm@vger.kernel.org,
+ dri-devel <dri-devel@lists.freedesktop.org>, tzimmermann@suse.de,
+ ardb@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/YboB6En.F/MYPMFwqD8kBhN
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+[ adding dri-devel mailing list as Cc ]
 
-Hi all,
+Hello Ilya,
 
-On Fri, 5 Nov 2021 12:51:22 +1100 Stephen Rothwell <sfr@canb.auug.org.au> w=
-rote:
+On 11/10/21 21:02, Ilya Trukhanov wrote:
+> Suspend-to-RAM with elogind under Wayland stopped working in 5.15.
+> 
+> This occurs with 5.15, 5.15.1 and latest master at
+> 89d714ab6043bca7356b5c823f5335f5dce1f930. 5.14 and earlier releases work
+> fine.
+> 
+> git bisect gives d391c58271072d0b0fad93c82018d495b2633448.
 >
-> On Thu, 28 Oct 2021 18:27:53 +1100 Stephen Rothwell <sfr@canb.auug.org.au=
-> wrote:
-> >=20
-> > Today's linux-next merge of the char-misc tree got a conflict in:
-> >=20
-> >   drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
-> >=20
-> > between commit:
-> >=20
-> >   5740211ea442 ("drm/i915/dmabuf: fix broken build")
-> >=20
-> > from the drm-intel tree and commit:
-> >=20
-> >   16b0314aa746 ("dma-buf: move dma-buf symbols into the DMA_BUF module =
-namespace")
-> >=20
-> > from the char-misc tree.
-> >=20
-> > I fixed it up (see below) and can carry the fix as necessary. This
-> > is now fixed as far as linux-next is concerned, but any non trivial
-> > conflicts should be mentioned to your upstream maintainer when your tree
-> > is submitted for merging.  You may also want to consider cooperating
-> > with the maintainer of the conflicting tree to minimise any particularly
-> > complex conflicts.
-> >=20
-> > diff --cc drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
-> > index a45d0ec2c5b6,abb854281347..000000000000
-> > --- a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
-> > +++ b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
-> > @@@ -12,13 -13,8 +13,15 @@@
-> >   #include "i915_gem_object.h"
-> >   #include "i915_scatterlist.h"
-> >  =20
-> >  +#if defined(CONFIG_X86)
-> >  +#include <asm/smp.h>
-> >  +#else
-> >  +#define wbinvd_on_all_cpus() \
-> >  +	pr_warn(DRIVER_NAME ": Missing cache flush in %s\n", __func__)
-> >  +#endif
-> >  +
-> > + MODULE_IMPORT_NS(DMA_BUF);
-> > +=20
-> >   I915_SELFTEST_DECLARE(static bool force_different_devices;)
-> >  =20
-> >   static struct drm_i915_gem_object *dma_buf_to_obj(struct dma_buf *buf=
-) =20
->=20
-> This is now a conflict between the drm-intel tree and Linux' tree.
 
-This is now a conflict between the drm tree and Linus' tree.
+That's strange because this patch is just moving code around, there shouldn't
+be any functional changes...
 
---=20
-Cheers,
-Stephen Rothwell
+> To reproduce:
+> - Use elogind and Linux 5.15.1 with CONFIG_SYSFB_SIMPLEFB=n.
+> - Start a Wayland session. I tested sway and weston, neither worked.
+> - In a terminal emulator (I used alacritty) execute `loginctl suspend`.
+> 
+> Normally after the last step the system would suspend, but it no longer
+> does so after I upgraded to Linux 5.15. After running `loginctl suspend`
+> in dmesg I get the following:
+> [  103.098782] elogind-daemon[2357]: Suspending system...
+> [  103.098794] PM: suspend entry (deep)
+> [  103.124621] Filesystems sync: 0.025 seconds
+> 
+> But nothing happens afterwards.
+> 
+> Suspend works as expected if I do any of the following:
+> - Revert d391c58271072d0b0fad93c82018d495b2633448.
+> - Build with CONFIG_SYSFB_SIMPLEFB=y.
 
---Sig_/YboB6En.F/MYPMFwqD8kBhN
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+Can you please share the kernel boot log for any of these cases too ?
 
------BEGIN PGP SIGNATURE-----
+> - Suspend from tty, even if a Wayland session is running in parallel.
+> - Suspend from under an X11 session.
+> - Suspend with `echo mem > /sys/power/state`.
+> 
+> If I attach strace to the elogind-daemon process after running
+> `loginctl suspend` then the system immediately suspends. However, if
+> I attach strace *prior* to running `loginctl suspend` then no suspend,
+> and the process gets stuck on a write syscall to `/sys/power/state`.
+> 
+> I "traced" a little bit with printk (sorry, I don't know of a better
+> way) and the call chain is as follows:
+> state_store -> pm_suspend -> enter_state -> suspend_prepare
+> -> pm_prepare_console -> vt_move_to_console -> vt_waitactive
+> -> __vt_event_wait
+> 
+> __vt_event_wait just waits until wait_event_interruptible completes, but
+> it never does (not until I attach to elogind-daemon with strace, at
+> least). I did not follow the chain further.
+> 
+> - Linux version 5.15.1 (lahvuun@lahvuun) (gcc (Gentoo 11.2.0 p1) 11.2.0,
+>   GNU ld (Gentoo 2.37_p1 p0) 2.37) #51 SMP PREEMPT Tue Nov 9 23:39:25
+>   EET 2021
+> - Gentoo Linux 2.8
+> - x86_64 AuthenticAMD
+> - dmesg: https://pastebin.com/duj33bY8
+> - .config: https://pastebin.com/7Hew1g0T
+> 
 
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmGMUFcACgkQAVBC80lX
-0Gzhlgf9FCXy9EWd6FHRo67EWaB+eT6QO1AGTvYOprpPFhvEDDXzoYm0QPf9I9eC
-rhGx2TLIkvWOkVsGlI4i6OVvo6+lLrDhsOi1gij/Kh2u1BmndeCFmGvRtQ7vrlRV
-h9YTPATe1YOi9OPWe0Qju0FOIXzzGBJZMs8P27CiWl4Vkc8IvFsOPaqqWIC0ynQe
-mOOazd+eruf6ExtDoYA0GHE951H3Bon1ULHZhY5JIYcmTXMrcmcuLAQkLcDxCzWB
-ypP7ZARXc8mgRlMEKiQx8kLJOSOSXVlTPUdDl6L55I9uUToh0F1BoG0hYylyrgGA
-zUl/8Mlk60WCpu0Z4gUCc/oR4uRhSA==
-=8WAF
------END PGP SIGNATURE-----
+Looking at your .config and dmesg output, my guess is that is related to the
+fact that you have both CONFIG_FB_EFI=y and CONFIG_DRM_AMDGPU=y.
 
---Sig_/YboB6En.F/MYPMFwqD8kBhN--
+The code that adds the "efi-framebuffer" platform device used to be in the
+arch/x86/kernel/sysfb.c file but now is in drivers/firmware/sysfb.c, and it
+could affect the order in which the device <--> driver matching happens.
+
+From your kernel boot log:
+
+...
+[    0.375796] [drm] amdgpu kernel modesetting enabled.
+[    0.375819] amdgpu: CRAT table disabled by module option
+[    0.375823] amdgpu: Virtual CRAT table created for CPU
+[    0.375831] amdgpu: Topology: Add CPU node
+[    0.375865] amdgpu 0000:0a:00.0: vgaarb: deactivate vga console
+[    0.375911] [drm] initializing kernel modesetting (VEGA10 0x1002:0x687F 0x1DA2:0xE376 0xC3).
+...
+[    0.868997] fbcon: amdgpu (fb0) is primary device
+[    1.004397] Console: switching to colour frame buffer device 240x67
+[    1.017815] amdgpu 0000:0a:00.0: [drm] fb0: amdgpu frame buffer device
+...
+[    1.133997] efifb: probing for efifb
+[    1.134716] efifb: framebuffer at 0xe0000000, using 8100k, total 8100k
+[    1.135438] efifb: mode is 1920x1080x32, linelength=7680, pages=1
+[    1.136180] efifb: scrolling: redraw
+[    1.136891] efifb: Truecolor: size=8:8:8:8, shift=24:16:8:0
+[    1.137638] fb1: EFI VGA frame buffer device
+
+Usually the efifb is to have early framebuffer output before the native DRM
+driver probes, but in your case is the opposite. This wouldn't happen if the
+amdpug driver was built as a module.
+
+Probably before the mentioned commit, the efifb driver was probed earlier and
+then the amdgpu driver would had removed the conflicting efifb framebuffer
+before registering its DRM device. But that doesn't happen here and the efifb
+framebuffer is still around since is registered after the one for the amdgpu.
+
+Which would explain why also works with CONFIG_SYSFB_SIMPLEFB=y for you, since
+in that case a "simple-framebuffer" platform device is added instead of an
+"efi-framebuffer". But since neither CONFIG_FB_SIMPLE nor CONFIG_DRM_SIMPLEDRM
+are enabled in your kernel config, no device driver will match that device.
+
+This is just a guess though. Would be good if you could test following cases:
+
+1) CONFIG_FB_EFI not set
+2) CONFIG_FB_EFI=y and CONFIG_DRM_AMDGPU=m
+3) CONFIG_SYSFB_SIMPLEFB=y and CONFIG_FB_SIMPLE=y
+
+And for each check /proc/fb, the kernel boot log, and if Suspend-to-RAM works.
+
+If the explanation above is correct, then I would expect (1) and (2) to work and
+(3) to also fail.
+
+Best regards,
+-- 
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
+
