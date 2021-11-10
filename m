@@ -1,39 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44E6344C5CB
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Nov 2021 18:16:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 12B1544C5FF
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Nov 2021 18:32:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 27F436E504;
-	Wed, 10 Nov 2021 17:16:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 65D556EA4C;
+	Wed, 10 Nov 2021 17:32:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from outgoing-stata.csail.mit.edu (outgoing-stata.csail.mit.edu
- [128.30.2.210])
- by gabe.freedesktop.org (Postfix) with ESMTP id 065CF6E5A0
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Nov 2021 17:16:54 +0000 (UTC)
-Received: from [128.177.79.46] (helo=csail.mit.edu)
- by outgoing-stata.csail.mit.edu with esmtpsa (TLS1.2:RSA_AES_256_CBC_SHA1:256)
- (Exim 4.82) (envelope-from <srivatsa@csail.mit.edu>)
- id 1mkrDM-000Nx5-Kq; Wed, 10 Nov 2021 12:16:48 -0500
-Date: Wed, 10 Nov 2021 09:20:00 -0800
-From: "Srivatsa S. Bhat" <srivatsa@csail.mit.edu>
-To: Joe Perches <joe@perches.com>
-Subject: Re: [PATCH 2/2] MAINTAINERS: Mark VMware mailing list entries as
- private
-Message-ID: <20211110172000.GA121926@csail.mit.edu>
-References: <163640336232.62866.489924062999332446.stgit@srivatsa-dev>
- <163640339370.62866.3435211389009241865.stgit@srivatsa-dev>
- <5179a7c097e0bb88f95642a394f53c53e64b66b1.camel@perches.com>
- <cb03ca42-b777-3d1a-5aba-b01cd19efa9a@csail.mit.edu>
- <dcbd19fcd1625146f4db267f84abd7412513d20e.camel@perches.com>
- <5C24FB2A-D2C0-4D95-A0C0-B48C4B8D5AF4@vmware.com>
- <1875b0458294d23d8e3260d2824894b095d6a62d.camel@perches.com>
+Received: from mail-yb1-xb31.google.com (mail-yb1-xb31.google.com
+ [IPv6:2607:f8b0:4864:20::b31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F3ACB6EA4C
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Nov 2021 17:32:53 +0000 (UTC)
+Received: by mail-yb1-xb31.google.com with SMTP id y68so3088522ybe.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Nov 2021 09:32:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=2Ki3P9X5iAUdYZKy//3Ks2lLDQcL+FOfzU1hc4CtIPQ=;
+ b=p6kP+jQuzJEniUc/rvb8Zjvwzk8ENdCndpvr4O0SK7KvT4MOSwLm1rMIRj3xUNlMgC
+ UfEfM8XtAZ7aRmNnJedpOjlf0o0YgLjCQfNgNC1kgQfpdBcE9GnC8YrplxCDwpBriea6
+ CfWEPg3xsB+7ZSoFaamwWeWQu6ZaOEknBY+wEi4qkZyJIq72Ke/+VkSRjZYAIVz5VkbC
+ 6+2cYGQ/YwIADG8TLmswYkjLdkOJlTHbAitiOdzey+EykaQjmbgIbkY2A0ophR9pEK/C
+ ov08lX2LW2F6L1ZjWUMoeXaUtqE6UW4G0HZSVOhcSL2CKj+HCfRGJxXW6wxGmVjOZMo3
+ Bovw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=2Ki3P9X5iAUdYZKy//3Ks2lLDQcL+FOfzU1hc4CtIPQ=;
+ b=wbr8HQqfH/+5wBHYLs8CrsFkehP+GX7ZoMsj3bN34PfHpnljSJ2T3FGMSYzXc2Gy3Q
+ pkANMrVZVep7tJYzshKCO86eJwikHmkxJ6We+mjhF6g1RZCsqwuO4HkNTVUCOb0IrPg/
+ QTWMUxI23nzYmWwY3NIm6JBSF6yPBeYqstDHd28R01hGrVDWfF9JyZflAWsH242VvDAE
+ 1rmxK0DknG7kgD21rM9DPWpLPJ7KSokbmyBrpXPzW6qzyRvhRAxjN7zdmfNB5ZodhsCZ
+ m/AaJ9skJgY+q2+jBviHk9jwCuptKS2YKaZq3G+zqVba7/rQtZrbPYlrOwtZcIi8OUH9
+ HOdg==
+X-Gm-Message-State: AOAM532k7XeoH8vDNZ2IHiLmVv1FlpW5A0mmHzt7kr1q9L5G9dq6HdIU
+ G45VD55lmbbT7EIlMX9+xhwNVKJ1+XzdK5IRGoQ=
+X-Google-Smtp-Source: ABdhPJzMyYTcUsbIv2/QVdrC8iidtoFqD9R+aZdZhI8ER4M8Gf+tMHcLWc0CvTlr+OyMXEgTCM9BSk4uFGi3uSB5fY4=
+X-Received: by 2002:a25:bc44:: with SMTP id d4mr937697ybk.263.1636565573162;
+ Wed, 10 Nov 2021 09:32:53 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1875b0458294d23d8e3260d2824894b095d6a62d.camel@perches.com>
+References: <20211026113409.7242-1-igormtorrente@gmail.com>
+ <20211109113253.480ee93b@eldfell>
+In-Reply-To: <20211109113253.480ee93b@eldfell>
+From: Igor Torrente <igormtorrente@gmail.com>
+Date: Wed, 10 Nov 2021 14:32:26 -0300
+Message-ID: <CAOA8r4G50U0fxSfU0HZtZoZCK6fngPmxL3cM4LVpLQn=HfZG_Q@mail.gmail.com>
+Subject: Re: [PATCH v2 0/8] Add new formats support to vkms
+To: Pekka Paalanen <ppaalanen@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,182 +62,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ronak Doshi <doshir@vmware.com>, Pv-drivers <Pv-drivers@vmware.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Linux Virtualization <virtualization@lists.linux-foundation.org>,
- Nadav Amit <namit@vmware.com>, Alexey Makhalov <amakhalov@vmware.com>,
- Srivatsa Bhat <srivatsab@vmware.com>, Deep Shah <sdeep@vmware.com>,
- "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
- Vishal Bhakta <vbhakta@vmware.com>, X86 ML <x86@kernel.org>,
- Linux-graphics-maintainer <Linux-graphics-maintainer@vmware.com>,
- "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
- Keerthana Kalyanasundaram <keerthanak@vmware.com>,
- Thomas Gleixner <tglx@linutronix.de>, Juergen Gross <jgross@suse.com>,
- Anish Swaminathan <anishs@vmware.com>,
- "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
- LKML <linux-kernel@vger.kernel.org>,
- "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Vivek Thampi <vithampi@vmware.com>
+Cc: hamohammed.sa@gmail.com, Thomas Zimmermann <tzimmermann@suse.de>,
+ rodrigosiqueiramelo@gmail.com, airlied@linux.ie,
+ Leandro Ribeiro <leandro.ribeiro@collabora.com>, melissa.srw@gmail.com,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 09, 2021 at 01:57:31PM -0800, Joe Perches wrote:
-> On Tue, 2021-11-09 at 00:58 +0000, Nadav Amit wrote:
-> > > On Nov 8, 2021, at 4:37 PM, Joe Perches <joe@perches.com> wrote:
-> > > On Mon, 2021-11-08 at 16:22 -0800, Srivatsa S. Bhat wrote:
-> > > 
-> > > So it's an exploder not an actual maintainer and it likely isn't
-> > > publically archived with any normal list mechanism.
-> > > 
-> > > So IMO "private" isn't appropriate.  Neither is "L:"
-> > > Perhaps just mark it as what it is as an "exploder".
-> > > 
-> > > Or maybe these blocks should be similar to:
-> > > 
-> > > M:	Name of Lead Developer <somebody@vmware.com>
-> > > M:	VMware <foo> maintainers <linux-<foo>-maintainers@vmlinux.com>
-> 
-> Maybe adding entries like
-> 
-> M:	Named maintainer <whoever@vmware.com>
-> R:	VMware <foo> reviewers <linux-<foo>-maintainers@vmware.com>
-> 
-> would be best/simplest.
-> 
+Hi Pekka,
 
-Sure, that sounds good to me. I also considered adding "(email alias)"
-like Juergen suggested, but I think the R: entry is clear enough.
-Please find the updated patch below.
+On Tue, Nov 9, 2021 at 6:32 AM Pekka Paalanen <ppaalanen@gmail.com> wrote:
+>
+> On Tue, 26 Oct 2021 08:34:00 -0300
+> Igor Torrente <igormtorrente@gmail.com> wrote:
+>
+> > Summary
+> > =======
+> > This series of patches refactor some vkms components in order to introduce
+> > new formats to the planes and writeback connector.
+> >
+> > Now in the blend function, the plane's pixels are converted to ARGB16161616
+> > and then blended together.
+> >
+> > The CRC is calculated based on the ARGB1616161616 buffer. And if required,
+> > this buffer is copied/converted to the writeback buffer format.
+> >
+> > And to handle the pixel conversion, new functions were added to convert
+> > from a specific format to ARGB16161616 (the reciprocal is also true).
+> >
+> > Tests
+> > =====
+> > This patch series was tested using the following igt tests:
+> > -t ".*kms_plane.*"
+> > -t ".*kms_writeback.*"
+> > -t ".*kms_cursor_crc*"
+> > -t ".*kms_flip.*"
+> >
+> > New tests passing
+> > -------------------
+> > - pipe-A-cursor-size-change
+> > - pipe-A-cursor-alpha-transparent
+> >
+> > Performance
+> > -----------
+> > Following some optimization proposed by Pekka Paalanen, now the code
+> > runs way faster than V1 and slightly faster than the current implementation.
+> >
+> > |                          Frametime                          |
+> > |:---------------:|:---------:|:--------------:|:------------:|
+> > |  implmentation  |  Current  |  Per-pixel(V1) | Per-line(V2) |
+> > | frametime range |  8~22 ms  |    32~56 ms    |    6~19 ms   |
+> > |     Average     |  10.0 ms  |     35.8 ms    |    8.6 ms    |
+>
+> Wow, that's much better than I expected.
+>
+> What is your benchmark? That is, what program do you use and what
+> operations does it trigger to produce these measurements? What are the
+> sizes of all the planes/buffers involved? What kind of CPU was this ran
+> on?
 
----
+1 and 2) I just measured the frametime of the IGT test ".*kms_cursor_crc*"
+using jiffies. I Collected all the frametimes, put all of them into a
+spreadsheet, calculated some values and drew some histograms.
 
-From f66faa238facf504cfc66325912ce7af8cbf79ec Mon Sep 17 00:00:00 2001
-From: "Srivatsa S. Bhat (VMware)" <srivatsa@csail.mit.edu>
-Date: Mon, 8 Nov 2021 11:46:57 -0800
-Subject: [PATCH v2 2/2] MAINTAINERS: Mark VMware mailing list entries as email
- aliases
+I mean, it is not the best benchmark, but at least give an idea of what
+is happening.
 
-VMware mailing lists in the MAINTAINERS file are private lists meant
-for VMware-internal review/notification for patches to the respective
-subsystems. Anyone can post to these addresses, but there is no public
-read access like open mailing lists, which makes them more like email
-aliases instead (to reach out to reviewers).
+3) The primary plane was 1024x768, but the cursor plane
+varies between the tests. All XRGB_8888, if I'm not mistaken.
 
-So update all the VMware mailing list references in the MAINTAINERS
-file to mark them as such, using "R: email-alias@vmware.com".
+4) I tested it on a Qemu VM running on the Intel core i5 4440. ~3.3GHz
 
-Signed-off-by: Srivatsa S. Bhat (VMware) <srivatsa@csail.mit.edu>
-Cc: Zack Rusin <zackr@vmware.com>
-Cc: Nadav Amit <namit@vmware.com>
-Cc: Vivek Thampi <vithampi@vmware.com>
-Cc: Vishal Bhakta <vbhakta@vmware.com>
-Cc: Ronak Doshi <doshir@vmware.com>
-Cc: pv-drivers@vmware.com
-Cc: linux-graphics-maintainer@vmware.com
-Cc: dri-devel@lists.freedesktop.org
-Cc: linux-rdma@vger.kernel.org
-Cc: linux-scsi@vger.kernel.org
-Cc: netdev@vger.kernel.org
-Cc: linux-input@vger.kernel.org
----
- MAINTAINERS | 22 +++++++++++-----------
- 1 file changed, 11 insertions(+), 11 deletions(-)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 118cf8170d02..4372d79027e9 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -6134,8 +6134,8 @@ T:	git git://anongit.freedesktop.org/drm/drm-misc
- F:	drivers/gpu/drm/vboxvideo/
- 
- DRM DRIVER FOR VMWARE VIRTUAL GPU
--M:	"VMware Graphics" <linux-graphics-maintainer@vmware.com>
- M:	Zack Rusin <zackr@vmware.com>
-+R:	VMware Graphics Reviewers <linux-graphics-maintainer@vmware.com>
- L:	dri-devel@lists.freedesktop.org
- S:	Supported
- T:	git git://anongit.freedesktop.org/drm/drm-misc
-@@ -14189,7 +14189,7 @@ F:	include/uapi/linux/ppdev.h
- PARAVIRT_OPS INTERFACE
- M:	Juergen Gross <jgross@suse.com>
- M:	Srivatsa S. Bhat (VMware) <srivatsa@csail.mit.edu>
--L:	pv-drivers@vmware.com (private)
-+R:	VMware PV-Drivers Reviewers <pv-drivers@vmware.com>
- L:	virtualization@lists.linux-foundation.org
- L:	x86@kernel.org
- S:	Supported
-@@ -20032,7 +20032,7 @@ F:	tools/testing/vsock/
- 
- VMWARE BALLOON DRIVER
- M:	Nadav Amit <namit@vmware.com>
--M:	"VMware, Inc." <pv-drivers@vmware.com>
-+R:	VMware PV-Drivers Reviewers <pv-drivers@vmware.com>
- L:	linux-kernel@vger.kernel.org
- S:	Maintained
- F:	drivers/misc/vmw_balloon.c
-@@ -20040,7 +20040,7 @@ F:	drivers/misc/vmw_balloon.c
- VMWARE HYPERVISOR INTERFACE
- M:	Srivatsa S. Bhat (VMware) <srivatsa@csail.mit.edu>
- M:	Alexey Makhalov <amakhalov@vmware.com>
--L:	pv-drivers@vmware.com (private)
-+R:	VMware PV-Drivers Reviewers <pv-drivers@vmware.com>
- L:	virtualization@lists.linux-foundation.org
- L:	x86@kernel.org
- S:	Supported
-@@ -20050,14 +20050,14 @@ F:	arch/x86/kernel/cpu/vmware.c
- 
- VMWARE PVRDMA DRIVER
- M:	Adit Ranadive <aditr@vmware.com>
--M:	VMware PV-Drivers <pv-drivers@vmware.com>
-+R:	VMware PV-Drivers Reviewers <pv-drivers@vmware.com>
- L:	linux-rdma@vger.kernel.org
- S:	Maintained
- F:	drivers/infiniband/hw/vmw_pvrdma/
- 
- VMware PVSCSI driver
- M:	Vishal Bhakta <vbhakta@vmware.com>
--M:	VMware PV-Drivers <pv-drivers@vmware.com>
-+R:	VMware PV-Drivers Reviewers <pv-drivers@vmware.com>
- L:	linux-scsi@vger.kernel.org
- S:	Maintained
- F:	drivers/scsi/vmw_pvscsi.c
-@@ -20065,7 +20065,7 @@ F:	drivers/scsi/vmw_pvscsi.h
- 
- VMWARE VIRTUAL PTP CLOCK DRIVER
- M:	Vivek Thampi <vithampi@vmware.com>
--M:	"VMware, Inc." <pv-drivers@vmware.com>
-+R:	VMware PV-Drivers Reviewers <pv-drivers@vmware.com>
- L:	netdev@vger.kernel.org
- S:	Supported
- F:	drivers/ptp/ptp_vmw.c
-@@ -20073,14 +20073,14 @@ F:	drivers/ptp/ptp_vmw.c
- VMWARE VMCI DRIVER
- M:	Jorgen Hansen <jhansen@vmware.com>
- M:	Vishnu Dasa <vdasa@vmware.com>
-+R:	VMware PV-Drivers Reviewers <pv-drivers@vmware.com>
- L:	linux-kernel@vger.kernel.org
--L:	pv-drivers@vmware.com (private)
- S:	Maintained
- F:	drivers/misc/vmw_vmci/
- 
- VMWARE VMMOUSE SUBDRIVER
--M:	"VMware Graphics" <linux-graphics-maintainer@vmware.com>
--M:	"VMware, Inc." <pv-drivers@vmware.com>
-+R:	VMware Graphics Reviewers <linux-graphics-maintainer@vmware.com>
-+R:	VMware PV-Drivers Reviewers <pv-drivers@vmware.com>
- L:	linux-input@vger.kernel.org
- S:	Maintained
- F:	drivers/input/mouse/vmmouse.c
-@@ -20088,7 +20088,7 @@ F:	drivers/input/mouse/vmmouse.h
- 
- VMWARE VMXNET3 ETHERNET DRIVER
- M:	Ronak Doshi <doshir@vmware.com>
--M:	pv-drivers@vmware.com
-+R:	VMware PV-Drivers Reviewers <pv-drivers@vmware.com>
- L:	netdev@vger.kernel.org
- S:	Maintained
- F:	drivers/net/vmxnet3/
--- 
-2.25.1
-
+>
+>
+> Thanks,
+> pq
+>
+> >
+> > Writeback test
+> > --------------
+> > During the development of this patch series, I discovered that the
+> > writeback-check-output test wasn't filling the plane correctly.
+> >
+> > So, currently, this patch series is failing in this test. But I sent a
+> > patch to igt to fix it[1].
+> >
+> > XRGB to ARGB behavior
+> > =====================
+> > During the development, I decided to always fill the alpha channel of
+> > the output pixel whenever the conversion from a format without an alpha
+> > channel to ARGB16161616 is necessary. Therefore, I ignore the value
+> > received from the XRGB and overwrite the value with 0xFFFF.
+> >
+> > ---
+> > Igor Torrente (8):
+> >   drm: vkms: Replace the deprecated drm_mode_config_init
+> >   drm: vkms: Alloc the compose frame using vzalloc
+> >   drm: vkms: Replace hardcoded value of `vkms_composer.map` to
+> >     DRM_FORMAT_MAX_PLANES
+> >   drm: vkms: Add fb information to `vkms_writeback_job`
+> >   drm: drm_atomic_helper: Add a new helper to deal with the writeback
+> >     connector validation
+> >   drm: vkms: Refactor the plane composer to accept new formats
+> >   drm: vkms: Exposes ARGB_1616161616 and adds XRGB_16161616 formats
+> >   drm: vkms: Add support to the RGB565 format
+> >
+> >  drivers/gpu/drm/drm_atomic_helper.c   |  47 ++++
+> >  drivers/gpu/drm/vkms/vkms_composer.c  | 329 +++++++++++++++-----------
+> >  drivers/gpu/drm/vkms/vkms_drv.c       |   6 +-
+> >  drivers/gpu/drm/vkms/vkms_drv.h       |  14 +-
+> >  drivers/gpu/drm/vkms/vkms_formats.h   | 252 ++++++++++++++++++++
+> >  drivers/gpu/drm/vkms/vkms_plane.c     |  17 +-
+> >  drivers/gpu/drm/vkms/vkms_writeback.c |  33 ++-
+> >  include/drm/drm_atomic_helper.h       |   3 +
+> >  8 files changed, 545 insertions(+), 156 deletions(-)
+> >  create mode 100644 drivers/gpu/drm/vkms/vkms_formats.h
+> >
+>
