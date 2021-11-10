@@ -1,72 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE58844C221
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Nov 2021 14:32:14 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D9A4044C281
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Nov 2021 14:49:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C09FE6E24D;
-	Wed, 10 Nov 2021 13:32:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C5D56E484;
+	Wed, 10 Nov 2021 13:49:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 782956E1F6
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Nov 2021 13:32:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636551130;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=R5O82lGkB3NN23PTLRdAp79haIJ8wleiAOOJrRsNtqo=;
- b=HusnHholkqAASGoYz+FDYUcwNTg7XSCS6eZGUo9OHzQxjFp0/8Ii/DZCUmXbMzSkwfMhko
- lg+hS9F8Qmj7DjJKT9x8vp90gzNIblUkM8NpbTZ/qJE40JMLM2BepHnLO3KE1Cki8TgaxP
- Jztm+PEoBPft6BVyAWtYNy1eSksLyNI=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-215-hlQqVcFAMM2PEncE2B6Ivg-1; Wed, 10 Nov 2021 08:32:00 -0500
-X-MC-Unique: hlQqVcFAMM2PEncE2B6Ivg-1
-Received: by mail-wm1-f72.google.com with SMTP id
- o10-20020a05600c4fca00b0033312e1ed8bso1201165wmq.2
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Nov 2021 05:32:00 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=R5O82lGkB3NN23PTLRdAp79haIJ8wleiAOOJrRsNtqo=;
- b=ISuCz2k0IHlz3G5RrF+gRUWQIiO2jfE/k2TTO+rL0AWWcb1S7yJBA7zmtiqo2wUMPr
- edo9zunp4Sya+xM4cnCzhKHL+JoTPvKHwXIqEzs2+++R77F25edjKmKHLd74myw7tins
- H+b26SaB9LzjsOtcUtnNus778NMK4A21gTc8izIYNKl9bVmXT8HJbj7rUrsEvT2WTmD/
- T6Ga0QxOd3w9hdaxUbxWGsM7YbwbcuglgTBsUl+ut65E6zWcmWRfdaqGvRVvT4mX7YtN
- NBOSAvdJPtlhGKvq/lDaCpmqHjjCd8MBGJCyV7ZsNaIiKNpv3aSC9dX4YzKhe7gKq9eB
- S+jA==
-X-Gm-Message-State: AOAM5328J1CBJjdGqR6qVMWP59Grsnw/hnT3Kj/C69+xxXSn78ywfjHO
- /UYEntwP9xDwcXHUiZomhpioah9MIOYtQ4Di65byRktNChNmDkl15DKz3qqOHyQ867McwoL+9Kp
- J9tSXNl0+jfxAHVn+Sj892vTl58G6WsblMXgDo9NOk/sO6vA1WbS7/g7xOq8OtwBTRO1ei7P3co
- 2vlfY=
-X-Received: by 2002:a1c:1b08:: with SMTP id b8mr15869364wmb.28.1636551119553; 
- Wed, 10 Nov 2021 05:31:59 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzGGGzVwTOL8QLg2ck4YLOC7KbDdKHAN5gKNStHaLSAVi4yTBuNpaQQHI7zqpuTdkyTPJCjnA==
-X-Received: by 2002:a1c:1b08:: with SMTP id b8mr15869311wmb.28.1636551119225; 
- Wed, 10 Nov 2021 05:31:59 -0800 (PST)
-Received: from kherbst.pingu.com (ip1f10bb48.dynamic.kabel-deutschland.de.
- [31.16.187.72])
- by smtp.gmail.com with ESMTPSA id 9sm30391203wry.0.2021.11.10.05.31.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Nov 2021 05:31:58 -0800 (PST)
-From: Karol Herbst <kherbst@redhat.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] MAINTAINERS: update information for nouveau
-Date: Wed, 10 Nov 2021 14:31:57 +0100
-Message-Id: <20211110133157.553251-1-kherbst@redhat.com>
-X-Mailer: git-send-email 2.33.1
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 55A336E484;
+ Wed, 10 Nov 2021 13:49:53 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10163"; a="219872669"
+X-IronPort-AV: E=Sophos;i="5.87,223,1631602800"; d="scan'208";a="219872669"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Nov 2021 05:49:52 -0800
+X-IronPort-AV: E=Sophos;i="5.87,223,1631602800"; d="scan'208";a="492101967"
+Received: from skofoed-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.249.254.124])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Nov 2021 05:49:48 -0800
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kherbst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20211109075957.GC27339@lst.de>
+References: <20211102070601.155501-1-hch@lst.de>
+ <163603075885.4807.880888219859400958@jlahtine-mobl.ger.corp.intel.com>
+ <20211109075957.GC27339@lst.de>
+Subject: Re: refactor the i915 GVT support and move to the modern mdev API v2
+To: Christoph Hellwig <hch@lst.de>
+From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Message-ID: <163655218578.6332.7934375733343731100@jlahtine-mobl.ger.corp.intel.com>
+User-Agent: alot/0.8.1
+Date: Wed, 10 Nov 2021 15:49:45 +0200
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,61 +48,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Karol Herbst <kherbst@redhat.com>, David Airlie <airlied@linux.ie>,
- nouveau@lists.freedesktop.org, Ben Skeggs <bskeggs@redhat.com>
+Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Jason Gunthorpe <jgg@nvidia.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gvt-dev@lists.freedesktop.org,
+ Christoph Hellwig <hch@lst.de>, Zhi Wang <zhi.a.wang@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Some side notes on this. Atm we do want to use gitlab for bug tracking and
-merge requests. But due to the nature of the current linux kernel
-development, we can only do so for nouveau internal changes.
+Quoting Christoph Hellwig (2021-11-09 09:59:57)
+> On Thu, Nov 04, 2021 at 02:59:18PM +0200, Joonas Lahtinen wrote:
+> > The minimal we should do is to eliminate the double underscore
+> > prefixed functions. But I would prefer to have the symbol exports by
+> > default so that we can enable the functionality just by loading the
+> > module.
+>=20
+> I'm fine with exporting by default, but just loading won't really work
+> even with that:
+>=20
+>  - there are a bunch of IS_ENABLED conditionals in the i915 (although
+>    they look like minor optimizations to me).
 
-Everything else still needs to be sent as emails and this is also includes
-changes to UAPI etc.
+I'd assume the golden state capture being the one with biggest impact.
 
-Anyway, if somebody wants to submit patches via gitlab, they are free to
-do so and this should just make this more official and documented.
+>  - the enable_gvt needs to be set, although after this refactor this
+>    option is completely pointless and should probably be enabled
 
-People listed as maintainers are such that have push access to drm-misc
-(where changes are pushed to after landing in gitlab) and are known
-nouveau developers.
-We did this already for some trivial changes and critical bug fixes
-already, we just weren't thinking about updating the MAINTAINERS file.
+Indeed. Hope is that modprobe/rmmod would be enough to enable/disable.
+This should help any distros intending to enable the feature, too.
 
-Cc: Ben Skeggs <bskeggs@redhat.com>
-Cc: Lyude Paul <lyude@redhat.com>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org
-Cc: nouveau@lists.freedesktop.org
-Signed-off-by: Karol Herbst <kherbst@redhat.com>
----
- MAINTAINERS | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+So mostly about making sure the IS_ENABLED portions in base i915
+operation are not too invasive.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 8805df335326..270dc9c0a427 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -5961,10 +5961,17 @@ F:	drivers/gpu/drm/panel/panel-novatek-nt36672a.c
- 
- DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS
- M:	Ben Skeggs <bskeggs@redhat.com>
-+M:	Karol Herbst <kherbst@redhat.com>
-+M:	Lyude Paul <lyude@redhat.com>
- L:	dri-devel@lists.freedesktop.org
- L:	nouveau@lists.freedesktop.org
- S:	Supported
--T:	git git://github.com/skeggsb/linux
-+W:	https://nouveau.freedesktop.org/
-+Q:	https://patchwork.freedesktop.org/project/nouveau/
-+Q:	https://gitlab.freedesktop.org/drm/nouveau/-/merge_requests
-+B:	https://gitlab.freedesktop.org/drm/nouveau/-/issues
-+C:	irc://irc.oftc.net/nouveau
-+T:	git https://gitlab.freedesktop.org/drm/nouveau.git
- F:	drivers/gpu/drm/nouveau/
- F:	include/uapi/drm/nouveau_drm.h
- 
--- 
-2.33.1
+>  - the enable_guc option needs to be disable for gvt to work.
 
+On the GVT supported platforms GuC is disabled by default, so it should
+be fine. We can change the logic to opposite to disable the feature if
+the enable_guc unsafe modparam is used.
+
+Regards, Joonas
