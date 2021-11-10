@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 697FD44C3C9
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Nov 2021 16:02:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51B5044C3B1
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Nov 2021 16:02:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7936B6E588;
-	Wed, 10 Nov 2021 15:02:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E06D56E487;
+	Wed, 10 Nov 2021 15:02:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
  [185.132.182.106])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 773586E524
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Nov 2021 15:02:30 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B3BED6E487
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Nov 2021 15:02:22 +0000 (UTC)
 Received: from pps.filterd (m0046668.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 1AABtael015784;
+ by mx07-00178001.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 1AABtZBw015764;
  Wed, 10 Nov 2021 16:01:51 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-type; s=selector1;
- bh=tWFs/ry4/KSL5vVL8SHvxrfU4Kk4X6t32X10Gk/tZqc=;
- b=SzTfv8zpP7pC4W7be9E7Usy7PlKyzGher+oUnypj7ReodZDbMiicz2j/mPRjIpIThiiu
- qMsXo9KsKjLYYNRTcotzpOmB6GwlLmbq9XmmO0H8+5nrQxAKt/YwuzsF1X1IX5UpqWLf
- uBUNmuf46CSDkjxPLuo4tV2UsJ8Qb1mYP8jMkZvbdlhVuzV7wPGqV+ufx5LF1mwcbM0V
- oZISh+z62Ln1YtnTEKQp9bTA2DjDuwAimhvhWV7Mf4ZJsw8r5eszTER8Om9pYld1SxhA
- i7d0W9vXdv3IT31tBMchh4/b21zRXJIt1DCyy3emXTs6MnR+poKEjN2KtoK803Brnf9T 4Q== 
+ bh=fy0nJ4jsnYOrNbmlnWpKKRsONkGfDSFo37lhgrdZifo=;
+ b=jCblevN4sArT3TbOfud8zxCq510ZtTMzk0aebTHg9A8mMWr4mHYulSD4POfb3PkRdJw/
+ f3psof2GVLL5A0ahcjIdxuKwQh/qmwB/ZHhVdF42ENbIlsAkpaHcrQ44oMs5SNCo1IGs
+ V/1EERuuFD9AZ1eHoARiAxoA59FBLifz03K90sjv2OCsNStKTSdItvQLmsGmZ5udzfc+
+ 2yv9CsZ4R8bb0KKCDBg7iE+p5zfOBhTmpNAMDa4g43gHBCC+iqKjTddE2ktYRpmG3/W1
+ Pg1qPjJR6dr2Vm77FT7oueoLlDUM2+hTpmmSw2ukMZGby9fRv1BY6i9wXixO1xE9c/FN QA== 
 Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
- by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3c8dmw16ab-1
+ by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3c8dmw16ag-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Wed, 10 Nov 2021 16:01:51 +0100
 Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 69195100038;
- Wed, 10 Nov 2021 16:01:50 +0100 (CET)
+ by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 327AB100039;
+ Wed, 10 Nov 2021 16:01:51 +0100 (CET)
 Received: from Webmail-eu.st.com (sfhdag2node2.st.com [10.75.127.5])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 4BE70207568;
- Wed, 10 Nov 2021 16:01:50 +0100 (CET)
-Received: from localhost (10.75.127.50) by SFHDAG2NODE2.st.com (10.75.127.5)
- with Microsoft SMTP Server (TLS) id 15.0.1497.18; Wed, 10 Nov 2021 16:01:49
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 154B5207568;
+ Wed, 10 Nov 2021 16:01:51 +0100 (CET)
+Received: from localhost (10.75.127.49) by SFHDAG2NODE2.st.com (10.75.127.5)
+ with Microsoft SMTP Server (TLS) id 15.0.1497.18; Wed, 10 Nov 2021 16:01:50
  +0100
 From: <patrice.chotard@foss.st.com>
 To: Rob Herring <robh+dt@kernel.org>, maxime coquelin
@@ -93,17 +93,17 @@ To: Rob Herring <robh+dt@kernel.org>, maxime coquelin
  Christophe Kerello <christophe.kerello@foss.st.com>, pascal Paillet
  <p.paillet@foss.st.com>, Giuseppe Cavallaro <peppe.cavallaro@st.com>, "Jose
  Abreu" <joabreu@synopsys.com>, Le Ray <erwan.leray@foss.st.com>
-Subject: [PATCH v3 1/5] dt-bindings: timer: Update maintainers for st,
- stm32-timer
-Date: Wed, 10 Nov 2021 16:01:40 +0100
-Message-ID: <20211110150144.18272-2-patrice.chotard@foss.st.com>
+Subject: [PATCH v3 2/5] dt-bindings: mfd: timers: Update maintainers for st,
+ stm32-timers
+Date: Wed, 10 Nov 2021 16:01:41 +0100
+Message-ID: <20211110150144.18272-3-patrice.chotard@foss.st.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20211110150144.18272-1-patrice.chotard@foss.st.com>
 References: <20211110150144.18272-1-patrice.chotard@foss.st.com>
 MIME-Version: 1.0
 Content-Type: text/plain
-X-Originating-IP: [10.75.127.50]
-X-ClientProxiedBy: SFHDAG1NODE2.st.com (10.75.127.2) To SFHDAG2NODE2.st.com
+X-Originating-IP: [10.75.127.49]
+X-ClientProxiedBy: SFHDAG2NODE3.st.com (10.75.127.6) To SFHDAG2NODE2.st.com
  (10.75.127.5)
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
@@ -137,27 +137,25 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Patrice Chotard <patrice.chotard@foss.st.com>
 
-Benjamin has left the company, add Fabrice and myself as maintainers.
+Benjamin has left the company, remove his name from maintainers.
 
 Signed-off-by: Patrice Chotard <patrice.chotard@foss.st.com>
 ---
- Documentation/devicetree/bindings/timer/st,stm32-timer.yaml | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ Documentation/devicetree/bindings/mfd/st,stm32-timers.yaml | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/timer/st,stm32-timer.yaml b/Documentation/devicetree/bindings/timer/st,stm32-timer.yaml
-index 176aa3c9baf8..937aa8a56366 100644
---- a/Documentation/devicetree/bindings/timer/st,stm32-timer.yaml
-+++ b/Documentation/devicetree/bindings/timer/st,stm32-timer.yaml
-@@ -7,7 +7,8 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
- title: STMicroelectronics STM32 general-purpose 16 and 32 bits timers bindings
+diff --git a/Documentation/devicetree/bindings/mfd/st,stm32-timers.yaml b/Documentation/devicetree/bindings/mfd/st,stm32-timers.yaml
+index dace35362a7a..210a7c85b884 100644
+--- a/Documentation/devicetree/bindings/mfd/st,stm32-timers.yaml
++++ b/Documentation/devicetree/bindings/mfd/st,stm32-timers.yaml
+@@ -17,7 +17,6 @@ description: |
+       programmable prescaler.
  
  maintainers:
 -  - Benjamin Gaignard <benjamin.gaignard@st.com>
-+  - Fabrice Gasnier <fabrice.gasnier@foss.st.com>
-+  - Patrice Chotard <patrice.chotard@foss.st.com>
+   - Fabrice Gasnier <fabrice.gasnier@st.com>
  
  properties:
-   compatible:
 -- 
 2.17.1
 
