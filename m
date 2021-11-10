@@ -2,34 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5396044BC0A
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Nov 2021 08:16:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8E7944BC0B
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Nov 2021 08:16:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 65A7D72BBD;
-	Wed, 10 Nov 2021 07:16:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6575C72BC5;
+	Wed, 10 Nov 2021 07:16:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
+X-Greylist: delayed 364 seconds by postgrey-1.36 at gabe;
+ Wed, 10 Nov 2021 07:16:32 UTC
 Received: from out0.migadu.com (out0.migadu.com [94.23.1.103])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1451372BBE;
- Wed, 10 Nov 2021 07:16:33 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0210B72BBD;
+ Wed, 10 Nov 2021 07:16:32 +0000 (UTC)
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1636528225;
+ t=1636528228;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=fG3gkDcQonf6Prf1+ZK3uzrJ/B8Z3f4W3CT7fjv7dVU=;
- b=s6oAroCIAjjg89u3xzpyPBEk9g2CgYdiy97XvqCfgjhnoDQB7SHXcz8mbWjx1ZadqkH3QI
- b8GMkg99nGk/Qwc9wz46pRfXGAcInIlV6UnxEYUfZ9NPG0YiksDCLZiKd4rQBw7sFd4nHC
- gfy8WmHkcnBptEtAdTbknVamk27f4tI=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=52hDwFdHAjiZoG9Q/bzx1ezVMXrxPGDvDEDmf2w9Y78=;
+ b=xDahg9GRMSpf03AEb/QIANJDqVfuDNgbznz1T8OVJ4PhZyjBhYHiKV0k/gCdhsJOzhi81d
+ Mejw21OvY0CTv4WdC2zjDP5+Xvy7pmTcUWPV4KNbMoTc5Pv2y4NlR1SDekHrhZ9u4CGy9W
+ ppXszT/mMkmOkHe4GRXMdhpwZG7ZA+g=
 From: Jackie Liu <liu.yun@linux.dev>
 To: robdclark@gmail.com,
 	sean@poorly.run,
 	airlied@linux.ie
-Subject: [PATCH 1/3] drm/msm/hdmi: fix build without CONFIG_COMMON_CLK
-Date: Wed, 10 Nov 2021 15:09:48 +0800
-Message-Id: <20211110070950.3355597-1-liu.yun@linux.dev>
+Subject: [PATCH 2/3] drm/msm/dp: displayPort driver need algorithm rational
+Date: Wed, 10 Nov 2021 15:09:49 +0800
+Message-Id: <20211110070950.3355597-2-liu.yun@linux.dev>
+In-Reply-To: <20211110070950.3355597-1-liu.yun@linux.dev>
+References: <20211110070950.3355597-1-liu.yun@linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Migadu-Flow: FLOW_OUT
@@ -54,33 +59,31 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Jackie Liu <liuyun01@kylinos.cn>
 
-HDMI 8996 PHY/PLL support need common clk. avoid like:
+Let's select RATIONAL with dp driver. avoid like:
 
 [...]
-x86_64-linux-gnu-ld: drivers/gpu/drm/msm/hdmi/hdmi_phy.o:(.rodata+0x3e0): undefined reference to `msm_hdmi_phy_8996_cfg'
+x86_64-linux-gnu-ld: drivers/gpu/drm/msm/dp/dp_catalog.o: in function `dp_catalog_ctrl_config_msa':
+dp_catalog.c:(.text+0x57e): undefined reference to `rational_best_approximation'
 
-Fixes: e17afdceb4f2 ("drm/msm/hdmi: HDMI 8996 PHY/PLL support")
+Fixes: c943b4948b58 ("drm/msm/dp: add displayPort driver support")
 Reported-by: kernelbot <kernel-bot@kylinos.cn>
 Signed-off-by: Jackie Liu <liuyun01@kylinos.cn>
 ---
- drivers/gpu/drm/msm/hdmi/hdmi_phy.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/gpu/drm/msm/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/msm/hdmi/hdmi_phy.c b/drivers/gpu/drm/msm/hdmi/hdmi_phy.c
-index 16b0e8836d27..84d7f79f1aa8 100644
---- a/drivers/gpu/drm/msm/hdmi/hdmi_phy.c
-+++ b/drivers/gpu/drm/msm/hdmi/hdmi_phy.c
-@@ -192,8 +192,10 @@ static const struct of_device_id msm_hdmi_phy_dt_match[] = {
- 	  .data = &msm_hdmi_phy_8x74_cfg },
- 	{ .compatible = "qcom,hdmi-phy-8084",
- 	  .data = &msm_hdmi_phy_8x74_cfg },
-+#ifdef CONFIG_COMMON_CLK
- 	{ .compatible = "qcom,hdmi-phy-8996",
- 	  .data = &msm_hdmi_phy_8996_cfg },
-+#endif
- 	{}
- };
- 
+diff --git a/drivers/gpu/drm/msm/Kconfig b/drivers/gpu/drm/msm/Kconfig
+index ae11061727ff..617dcb799156 100644
+--- a/drivers/gpu/drm/msm/Kconfig
++++ b/drivers/gpu/drm/msm/Kconfig
+@@ -65,6 +65,7 @@ config DRM_MSM_HDMI_HDCP
+ config DRM_MSM_DP
+ 	bool "Enable DisplayPort support in MSM DRM driver"
+ 	depends on DRM_MSM
++	select RATIONAL
+ 	default y
+ 	help
+ 	  Compile in support for DP driver in MSM DRM driver. DP external
 -- 
 2.25.1
 
