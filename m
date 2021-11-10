@@ -1,48 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADBF444C060
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Nov 2021 12:55:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE41C44C0B5
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Nov 2021 13:04:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B59416EB2B;
-	Wed, 10 Nov 2021 11:55:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 76CCA6E02E;
+	Wed, 10 Nov 2021 12:04:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0DDC26EB2B;
- Wed, 10 Nov 2021 11:55:25 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10163"; a="256345449"
-X-IronPort-AV: E=Sophos;i="5.87,223,1631602800"; d="scan'208";a="256345449"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Nov 2021 03:55:12 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.87,223,1631602800"; d="scan'208";a="582689846"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
- by FMSMGA003.fm.intel.com with SMTP; 10 Nov 2021 03:55:09 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Wed, 10 Nov 2021 13:55:06 +0200
-Date: Wed, 10 Nov 2021 13:55:06 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Pekka Paalanen <ppaalanen@gmail.com>
-Subject: Re: [RFC v2 02/22] drm: Add Enhanced Gamma and color lut range
- attributes
-Message-ID: <YYuzGhHZiMQ79h8l@intel.com>
-References: <20210906213904.27918-1-uma.shankar@intel.com>
- <20210906213904.27918-3-uma.shankar@intel.com>
- <d67a9761-91b4-3432-dd55-f85bb0657b68@amd.com>
- <20211104103827.2cf48bb7@eldfell>
- <5780b3b6-5b12-df66-03be-5f1918d28989@amd.com>
- <20211108115427.5c3f162e@eldfell>
- <8f189780-707d-0dda-778f-1a42b74ff4ae@amd.com>
- <YYrv6Mlp0K+9pZ+A@intel.com> <20211110104924.08c3b744@eldfell>
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3FC246E02E;
+ Wed, 10 Nov 2021 12:04:19 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10163"; a="213383885"
+X-IronPort-AV: E=Sophos;i="5.87,223,1631602800"; d="scan'208";a="213383885"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Nov 2021 04:04:18 -0800
+X-IronPort-AV: E=Sophos;i="5.87,223,1631602800"; d="scan'208";a="503939072"
+Received: from blu2-mobl3.ccr.corp.intel.com (HELO [10.254.212.217])
+ ([10.254.212.217])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Nov 2021 04:04:16 -0800
+Message-ID: <7b2e1427-69cf-8f5d-0c15-73c4e602953d@linux.intel.com>
+Date: Wed, 10 Nov 2021 20:04:14 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH] drm/i915: Use per device iommu check
+Content-Language: en-US
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Intel-gfx@lists.freedesktop.org
+References: <20211109121759.170915-1-tvrtko.ursulin@linux.intel.com>
+ <6e8c55a7-45b6-57ab-35f7-d522401efccb@linux.intel.com>
+ <4d1a0ab9-e0d8-2ed9-1fc4-9ffaf2f19bef@linux.intel.com>
+From: Lu Baolu <baolu.lu@linux.intel.com>
+In-Reply-To: <4d1a0ab9-e0d8-2ed9-1fc4-9ffaf2f19bef@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20211110104924.08c3b744@eldfell>
-X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,91 +50,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Shashank.Sharma@amd.com, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, sebastian@sebastianwick.net,
- Uma Shankar <uma.shankar@intel.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>, dri-devel@lists.freedesktop.org,
+ baolu.lu@linux.intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Nov 10, 2021 at 10:49:24AM +0200, Pekka Paalanen wrote:
-> On Wed, 10 Nov 2021 00:02:16 +0200
-> Ville Syrj�l� <ville.syrjala@linux.intel.com> wrote:
+On 2021/11/10 17:30, Tvrtko Ursulin wrote:
 > 
-> > On Tue, Nov 09, 2021 at 03:47:58PM -0500, Harry Wentland wrote:
-> > > On 2021-11-08 04:54, Pekka Paalanen wrote:  
-> > > > On Thu, 4 Nov 2021 12:27:56 -0400
-> > > > Harry Wentland <harry.wentland@amd.com> wrote:
-> > > >   
-> > > >> On 2021-11-04 04:38, Pekka Paalanen wrote:  
-> > > >>> On Wed, 3 Nov 2021 11:08:13 -0400
-> > > >>> Harry Wentland <harry.wentland@amd.com> wrote:
-> > > >>>     
-> > > >>>> On 2021-09-06 17:38, Uma Shankar wrote:    
-> > > >>>>> Existing LUT precision structure is having only 16 bit
-> > > >>>>> precision. This is not enough for upcoming enhanced hardwares
-> > > >>>>> and advance usecases like HDR processing. Hence added a new
-> > > >>>>> structure with 32 bit precision values.
-> > > >>>>>
-> > > >>>>> This also defines a new structure to define color lut ranges,
-> > > >>>>> along with related macro definitions and enums. This will help
-> > > >>>>> describe multi segmented lut ranges in the hardware.
-> > > >>>>>
-> > > >>>>> Signed-off-by: Uma Shankar <uma.shankar@intel.com>
-> > > >>>>> ---
-> > > >>>>>  include/uapi/drm/drm_mode.h | 58 +++++++++++++++++++++++++++++++++++++
-> > > >>>>>  1 file changed, 58 insertions(+)
+> On 10/11/2021 07:12, Lu Baolu wrote:
+>> Hi Tvrtko,
+>>
+>> On 2021/11/9 20:17, Tvrtko Ursulin wrote:
+>>> From: Tvrtko Ursulin<tvrtko.ursulin@intel.com>
+>>>
+>>> On igfx + dgfx setups, it appears that intel_iommu=igfx_off option only
+>>> disables the igfx iommu. Stop relying on global intel_iommu_gfx_mapped
+>>> and probe presence of iommu domain per device to accurately reflect its
+>>> status.
+>>>
+>>> Signed-off-by: Tvrtko Ursulin<tvrtko.ursulin@intel.com>
+>>> Cc: Lu Baolu<baolu.lu@linux.intel.com>
+>>> ---
+>>> Baolu, is my understanding here correct? Maybe I am confused by both
+>>> intel_iommu_gfx_mapped and dmar_map_gfx being globals in the intel_iommu
+>>> driver. But it certainly appears the setup can assign some iommu ops 
+>>> (and
+>>> assign the discrete i915 to iommu group) when those two are set to off.
+>>
+>> diff --git a/drivers/gpu/drm/i915/i915_drv.h 
+>> b/drivers/gpu/drm/i915/i915_drv.h
+>> index e967cd08f23e..9fb38a54f1fe 100644
+>> --- a/drivers/gpu/drm/i915/i915_drv.h
+>> +++ b/drivers/gpu/drm/i915/i915_drv.h
+>> @@ -1763,26 +1763,27 @@ static inline bool run_as_guest(void)
+>>   #define HAS_D12_PLANE_MINIMIZATION(dev_priv) 
+>> (IS_ROCKETLAKE(dev_priv) || \
+>>                             IS_ALDERLAKE_S(dev_priv))
+>>
+>> -static inline bool intel_vtd_active(void)
+>> +static inline bool intel_vtd_active(struct drm_i915_private *i915)
+>>   {
+>> -#ifdef CONFIG_INTEL_IOMMU
+>> -    if (intel_iommu_gfx_mapped)
+>> +    if (iommu_get_domain_for_dev(i915->drm.dev))
+>>           return true;
+>> -#endif
+>>
+>>       /* Running as a guest, we assume the host is enforcing VT'd */
+>>       return run_as_guest();
+>>   }
+>>
+>> Have you verified this change? I am afraid that
+>> iommu_get_domain_for_dev() always gets a valid iommu domain even
+>> intel_iommu_gfx_mapped == 0.
 > 
-> ...
+> Yes it seems to work as is:
 > 
-> > > >> If the framebuffer is not in FP16 the question then becomes how
-> > > >> the integer pixel values relate to LUT addressing.  
-> > > > 
-> > > > Traditionally, and in any API I've seen (GL, Vulkan), a usual mapping
-> > > > is to match minimum unsigned integer value to 0.0, and unsigned maximum
-> > > > integer value to 1.0. This is how things work on the cable too, right?
-> > > > (Also taking full vs. limited range video signal into account. And
-> > > > conversion to cable-YUV if that happens.)
-> > > > 
-> > > > If you want integer format FB values to map to something else, then you
-> > > > have to tag the FB with that range information, somehow. New UAPI.
-> > > >   
-> > > 
-> > > On the cable we send integer values, not floating point. AMD HW uses
-> > > floating point internally, though, and the PWL API defines floating
-> > > point entries, so on some level we need to be clear what the floating
-> > > point entries mean. Either we document that to be [0.0, 1.0] or we
-> > > have some UAPI to define it. I'm leaning toward the latter but have
-> > > to think about it some more.  
-> > 
-> > As for Intel hw if you have an integer pixel value of 0xff... (with
-> > however many bits you have with a specific pixel format) it will get
-> > extended to 0.fff... (to whatever precision the pipe has internally).
-> > So if we go by that a fixed point 1.0 value in the proposed
-> > drm_color_lut_range would be considered just outside the gamut. And
-> > pretty sure fp16 input of 1.0 should also result in a 0.fff... internal
-> > value as well [1]. I think that definition pretty much matches how GL
-> > UNORM<->float conversion works as well.
+> default:
 > 
-> Does it work that way in GL though?
+> # grep -i iommu /sys/kernel/debug/dri/*/i915_capabilities
+> /sys/kernel/debug/dri/0/i915_capabilities:iommu: enabled
+> /sys/kernel/debug/dri/1/i915_capabilities:iommu: enabled
 > 
-> I've always thought that with GL_UNSIGNED_BYTE, 0xff maps to 1.0, not
-> 255.0/256.0.
+> intel_iommu=igfx_off:
 > 
-> Taking a random spec: OpenGL ES 2.0.25
+> # grep -i iommu /sys/kernel/debug/dri/*/i915_capabilities
+> /sys/kernel/debug/dri/0/i915_capabilities:iommu: disabled
+> /sys/kernel/debug/dri/1/i915_capabilities:iommu: enabled
 > 
-> Section 2.1.2 Data Conversions says:
-> 
-> 	Normalized unsigned integers represent numbers in the range
-> 	[0, 1]. The conversion from a normalized unsigned integer c to
-> 	the corresponding floating-point f is defined as
-> 	f = c / (2^b - 1)
-> 
-> Note how the divisor has -1.
+> On my system dri device 0 is integrated graphics and 1 is discrete.
 
-That seems to match what I said, or at least tried to say (~0 <-> 1.0 in
-float). drm_color_lut_range being fixed point would follow the ~0 side of
-that. Or at least that interpretation would very easily map to our hw.
+The drm device 0 has a dedicated iommu. When the user request igfx not
+mapped, the VT-d implementation will turn it off to save power. But for
+shared iommu, you definitely will get it enabled.
 
--- 
-Ville Syrj�l�
-Intel
+Best regards,
+baolu
