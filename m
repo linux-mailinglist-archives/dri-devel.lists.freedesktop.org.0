@@ -2,62 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3472A44C898
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Nov 2021 20:09:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 781EF44C89B
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Nov 2021 20:09:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A45076E329;
-	Wed, 10 Nov 2021 19:09:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D9FC56E03D;
+	Wed, 10 Nov 2021 19:09:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
- [IPv6:2a00:1450:4864:20::429])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7778C6E105
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Nov 2021 19:09:31 +0000 (UTC)
-Received: by mail-wr1-x429.google.com with SMTP id i5so5821316wrb.2
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Nov 2021 11:09:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=pqTtvsJvFDR96EKSx1b5ZcJqIA6TjVY8DfdfVOQQVkg=;
- b=OraYSJLA7D1e+oAnvKBTUMG0wtMZ2I6D8QLv9+XaEhce03siSYaxzm58bn5DazpP2t
- f1exfW7FSxxnV/vfFJAcG8QbcZRMrwxX9qYJEtdu9fYqQSVFe5PNjb1fszlRu5dRGnL3
- shMm+rMdH0A77Mlfi/dy0SOdoZnbFOQO1uQFU86iFHA1GQMJgVQ7Piw3/PJYtM2X8sYS
- AvC6Ox5AqpxJ1VaKdYVTUYXIQbkYo6Ox8mVeYeF/dSSSGt+GzDOv3rsZNvT2czw1RXCb
- IGjoqmhnsrTkJlJNnWKecTYMIXewmDT0Gs68F7Kbne4QOdGFvVUJ62mJUuU4QrcX2iwf
- ZCjw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=pqTtvsJvFDR96EKSx1b5ZcJqIA6TjVY8DfdfVOQQVkg=;
- b=gAndztZ51NxHzSP0ORGnPlXXuU44TbAxLKDL9Rh0ztzHvAZzvKaWDqcTdgAZl65L8P
- GbVbQiYrax70Rd60Hn2oAN2mm4DNwasf+c0L0A09913s4G0cuLhSkkJ3psJZjC+KGZsK
- ma44hSqtgv8jtso0n7PfmRV/E+HCC4ZmZir47knHIdA+1AYLhqDYwUyZlLF52wngtWpX
- i1Fsbtt3CyF0YVT2UoCdy+YCfbpb7/iKKdAou+d5i8R5cikOVK8YKkGRppODHKrJ+JKr
- 53Sb9RCM1F2iNo8NrS92GjQjmUjjHUb2yPG/JERLp32sTVGLiDxYWps8nNg7mp+KOTpk
- d8og==
-X-Gm-Message-State: AOAM531hnkZgjxDGUC71vWebX/sxF9VuZacm4rklT3PRoosCtfMQxgSw
- vXCJ3Uyf5DrAmX98BkEP6+0=
-X-Google-Smtp-Source: ABdhPJyCmpq9lwW4IvHHyGzr8+6vKj4LGQQ8kLz7wGpBXQJHt+QjAVGJT6iIUpyLzITJtdy/87iWRQ==
-X-Received: by 2002:adf:e38d:: with SMTP id e13mr1632784wrm.402.1636571370063; 
- Wed, 10 Nov 2021 11:09:30 -0800 (PST)
-Received: from kista.localnet (cpe-86-58-29-253.static.triera.net.
- [86.58.29.253])
- by smtp.gmail.com with ESMTPSA id k8sm659793wrn.91.2021.11.10.11.09.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Nov 2021 11:09:29 -0800 (PST)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: airlied@linux.ie, daniel@ffwll.ch, wens@csie.org, mripard@kernel.org,
- Julian Braha <julianbraha@gmail.com>
-Subject: Re: [PATCH] [PATCH v2] drm/sun4i: fix unmet dependency on
- RESET_CONTROLLER for PHY_SUN6I_MIPI_DPHY
-Date: Wed, 10 Nov 2021 20:09:27 +0100
-Message-ID: <2602978.mvXUDI8C0e@kista>
-In-Reply-To: <20211109032351.43322-1-julianbraha@gmail.com>
-References: <20211109032351.43322-1-julianbraha@gmail.com>
+Received: from outgoing-stata.csail.mit.edu (outgoing-stata.csail.mit.edu
+ [128.30.2.210])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 5E48E6E03D
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Nov 2021 19:09:55 +0000 (UTC)
+Received: from [128.177.79.46] (helo=csail.mit.edu)
+ by outgoing-stata.csail.mit.edu with esmtpsa (TLS1.2:RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.82) (envelope-from <srivatsa@csail.mit.edu>)
+ id 1mksyl-000UxK-A3; Wed, 10 Nov 2021 14:09:51 -0500
+Date: Wed, 10 Nov 2021 11:13:03 -0800
+From: "Srivatsa S. Bhat" <srivatsa@csail.mit.edu>
+To: Nadav Amit <namit@vmware.com>
+Subject: Re: [PATCH 2/2] MAINTAINERS: Mark VMware mailing list entries as
+ private
+Message-ID: <20211110191303.GA122235@csail.mit.edu>
+References: <163640336232.62866.489924062999332446.stgit@srivatsa-dev>
+ <163640339370.62866.3435211389009241865.stgit@srivatsa-dev>
+ <5179a7c097e0bb88f95642a394f53c53e64b66b1.camel@perches.com>
+ <cb03ca42-b777-3d1a-5aba-b01cd19efa9a@csail.mit.edu>
+ <dcbd19fcd1625146f4db267f84abd7412513d20e.camel@perches.com>
+ <5C24FB2A-D2C0-4D95-A0C0-B48C4B8D5AF4@vmware.com>
+ <1875b0458294d23d8e3260d2824894b095d6a62d.camel@perches.com>
+ <20211110172000.GA121926@csail.mit.edu>
+ <F21C4118-BFDE-4DA7-B42F-90EC71CFED57@vmware.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <F21C4118-BFDE-4DA7-B42F-90EC71CFED57@vmware.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,40 +49,134 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, fazilyildiran@gmail.com,
- linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
- linux-sunxi@lists.linux.dev
+Cc: Ronak Doshi <doshir@vmware.com>, Pv-drivers <Pv-drivers@vmware.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Linux Virtualization <virtualization@lists.linux-foundation.org>,
+ Alexey Makhalov <amakhalov@vmware.com>, Srivatsa Bhat <srivatsab@vmware.com>,
+ Deep Shah <sdeep@vmware.com>,
+ "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+ Vishal Bhakta <vbhakta@vmware.com>, X86 ML <x86@kernel.org>,
+ Linux-graphics-maintainer <Linux-graphics-maintainer@vmware.com>,
+ "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+ Keerthana Kalyanasundaram <keerthanak@vmware.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Juergen Gross <jgross@suse.com>,
+ Anish Swaminathan <anishs@vmware.com>,
+ "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Joe Perches <joe@perches.com>,
+ Vivek Thampi <vithampi@vmware.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Julian,
-
-Dne torek, 09. november 2021 ob 04:23:51 CET je Julian Braha napisal(a):
-> When PHY_SUN6I_MIPI_DPHY is selected, and RESET_CONTROLLER
-> is not selected, Kbuild gives the following warning:
+On Wed, Nov 10, 2021 at 05:40:09PM +0000, Nadav Amit wrote:
 > 
-> WARNING: unmet direct dependencies detected for PHY_SUN6I_MIPI_DPHY
->   Depends on [n]: (ARCH_SUNXI [=n] || COMPILE_TEST [=y]) && HAS_IOMEM [=y] 
-&& COMMON_CLK [=y] && RESET_CONTROLLER [=n]
->   Selected by [y]:
->   - DRM_SUN6I_DSI [=y] && HAS_IOMEM [=y] && DRM_SUN4I [=y]
 > 
-> This is because DRM_SUN6I_DSI selects PHY_SUN6I_MIPI_DPHY
-> without selecting or depending on RESET_CONTROLLER, despite
-> PHY_SUN6I_MIPI_DPHY depending on RESET_CONTROLLER.
+> > On Nov 10, 2021, at 9:20 AM, Srivatsa S. Bhat <srivatsa@csail.mit.edu> wrote:
+> > 
+> > On Tue, Nov 09, 2021 at 01:57:31PM -0800, Joe Perches wrote:
+> >> On Tue, 2021-11-09 at 00:58 +0000, Nadav Amit wrote:
+> >>>> On Nov 8, 2021, at 4:37 PM, Joe Perches <joe@perches.com> wrote:
+> >>>> On Mon, 2021-11-08 at 16:22 -0800, Srivatsa S. Bhat wrote:
+> >>>> 
+> >>>> So it's an exploder not an actual maintainer and it likely isn't
+> >>>> publically archived with any normal list mechanism.
+> >>>> 
+> >>>> So IMO "private" isn't appropriate.  Neither is "L:"
+> >>>> Perhaps just mark it as what it is as an "exploder".
+> >>>> 
+> >>>> Or maybe these blocks should be similar to:
+> >>>> 
+> >>>> M:	Name of Lead Developer <somebody@vmware.com>
+> >>>> M:	VMware <foo> maintainers <linux-<foo>-maintainers@vmlinux.com>
+> >> 
+> >> Maybe adding entries like
+> >> 
+> >> M:	Named maintainer <whoever@vmware.com>
+> >> R:	VMware <foo> reviewers <linux-<foo>-maintainers@vmware.com>
+> >> 
+> >> would be best/simplest.
+> >> 
+> > 
+> > Sure, that sounds good to me. I also considered adding "(email alias)"
+> > like Juergen suggested, but I think the R: entry is clear enough.
+> > Please find the updated patch below.
+> > 
+> > ---
+> > 
+> > From f66faa238facf504cfc66325912ce7af8cbf79ec Mon Sep 17 00:00:00 2001
+> > From: "Srivatsa S. Bhat (VMware)" <srivatsa@csail.mit.edu>
+> > Date: Mon, 8 Nov 2021 11:46:57 -0800
+> > Subject: [PATCH v2 2/2] MAINTAINERS: Mark VMware mailing list entries as email
+> > aliases
+> > 
+> > VMware mailing lists in the MAINTAINERS file are private lists meant
+> > for VMware-internal review/notification for patches to the respective
+> > subsystems. Anyone can post to these addresses, but there is no public
+> > read access like open mailing lists, which makes them more like email
+> > aliases instead (to reach out to reviewers).
+> > 
+> > So update all the VMware mailing list references in the MAINTAINERS
+> > file to mark them as such, using "R: email-alias@vmware.com".
+> > 
+> > Signed-off-by: Srivatsa S. Bhat (VMware) <srivatsa@csail.mit.edu>
+> > Cc: Zack Rusin <zackr@vmware.com>
+> > Cc: Nadav Amit <namit@vmware.com>
+> > Cc: Vivek Thampi <vithampi@vmware.com>
+> > Cc: Vishal Bhakta <vbhakta@vmware.com>
+> > Cc: Ronak Doshi <doshir@vmware.com>
+> > Cc: pv-drivers@vmware.com
+> > Cc: linux-graphics-maintainer@vmware.com
+> > Cc: dri-devel@lists.freedesktop.org
+> > Cc: linux-rdma@vger.kernel.org
+> > Cc: linux-scsi@vger.kernel.org
+> > Cc: netdev@vger.kernel.org
+> > Cc: linux-input@vger.kernel.org
+> > ---
+> > MAINTAINERS | 22 +++++++++++-----------
+> > 1 file changed, 11 insertions(+), 11 deletions(-)
+> > 
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index 118cf8170d02..4372d79027e9 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -6134,8 +6134,8 @@ T:	git git://anongit.freedesktop.org/drm/drm-misc
+> > F:	drivers/gpu/drm/vboxvideo/
+> > 
+> > DRM DRIVER FOR VMWARE VIRTUAL GPU
+> > -M:	"VMware Graphics" <linux-graphics-maintainer@vmware.com>
+> > M:	Zack Rusin <zackr@vmware.com>
+> > +R:	VMware Graphics Reviewers <linux-graphics-maintainer@vmware.com>
+> > L:	dri-devel@lists.freedesktop.org
+> > S:	Supported
+> > T:	git git://anongit.freedesktop.org/drm/drm-misc
+> > @@ -14189,7 +14189,7 @@ F:	include/uapi/linux/ppdev.h
+> > PARAVIRT_OPS INTERFACE
+> > M:	Juergen Gross <jgross@suse.com>
+> > M:	Srivatsa S. Bhat (VMware) <srivatsa@csail.mit.edu>
+> > -L:	pv-drivers@vmware.com (private)
+> > +R:	VMware PV-Drivers Reviewers <pv-drivers@vmware.com>
 > 
-> These unmet dependency bugs were detected by Kismet,
-> a static analysis tool for Kconfig. Please advise if this
-> is not the appropriate solution.
+> This patch that you just sent seems to go on top of the previous patches
+> (as it removes "L: pv-drivers@vmware.com (private)”).
 > 
-> v2:
-> Fixed indentation to match the rest of the file.
+
+Actually, that's a bit misleading, since I had corrected that entry in
+the first patch itself, while adding myself as the maintainer. So
+there are still only 2 patches in this series right now.
+
+Thanks for pointing this out! I'll move the VMware list modifications
+out of the first patch, to avoid confusion.
+
+> Since the patches were still not merged, I would presume you should squash
+> the old 2/2 with this new patch and send v3 of these patches.
 > 
-> Signed-off-by: Julian Braha <julianbraha@gmail.com>
 
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+I'll send out a v3, and also add Zack Rusin as the maintainer for the
+vmmouse sub-driver, since it does not have a named maintainer at the
+moment (Zack indicated that he will be taking up the maintainership).
 
-Best regards,
-Jernej
+Thank you!
 
-
+Regards,
+Srivatsa
