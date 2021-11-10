@@ -2,48 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBDBC44BEDF
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Nov 2021 11:37:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6F9044BEE5
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Nov 2021 11:37:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 733176EA0E;
-	Wed, 10 Nov 2021 10:37:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7ECB76EB93;
+	Wed, 10 Nov 2021 10:37:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 742EE6E993
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D2DDC6E8FC
  for <dri-devel@lists.freedesktop.org>; Wed, 10 Nov 2021 10:37:07 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id E86B01FD72;
- Wed, 10 Nov 2021 10:37:05 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 5EC0B21B1F;
+ Wed, 10 Nov 2021 10:37:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1636540625; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1636540626; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2YqnD8zkPrkePIikFNj/hk0utbl5+W8BHa4ZzNUoHfw=;
- b=ntZhrMK6OyXkekk0vXUTlBNIIcuNDSSKDz6TUOwfhI+sgotzSNfiSH7w3JWCGadlJCxyVI
- FpZrLGb7Lz1rtGHn0DMoioKvqmScBS0DudLFyHpX032F9rz96cTBsR9aIhf7ZP7Xid+gz/
- bWrJo0e5QppvzwjvSgE3vssW6Ninax0=
+ bh=YBHgiHuqCfBFiBqdtgPNsgJGdnZyaBZsccEznn1hKBw=;
+ b=rf8ivSq1SHp46/kL25egK5q5pkVrxXL+tceKviPPSoyaES2RFJrmL5mGFDBHHprb+iJmf3
+ GI9sf79+TbExAHaygp7GsZw1lJ7I0jfsmAHPBvzueuJt8jJcXjmbY+GKNRdwiZgscBlCq6
+ K7B7T2nJDWfU9fQAjFHSbByHugoO/o0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1636540625;
+ s=susede2_ed25519; t=1636540626;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2YqnD8zkPrkePIikFNj/hk0utbl5+W8BHa4ZzNUoHfw=;
- b=BuiSGkJXw0hAGrtBq9wQriHwh7jXEnE8RvoBmcuK8K2VThv6kmfXmQXNUbMyzxYku02rn2
- aI8VK3LrqjrvNdBg==
+ bh=YBHgiHuqCfBFiBqdtgPNsgJGdnZyaBZsccEznn1hKBw=;
+ b=OwSyyupumV2ZJysBOrL4DXt/KXdf1kDttRQCcN5VAuKqRlYGS/xxgy0nf5FzO/qyXsiTd9
+ crJ3Q8omiqAnaLCQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8225D13E72;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id EE9B113BEA;
  Wed, 10 Nov 2021 10:37:05 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id IAzOHtGgi2EnPAAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id WM4YOdGgi2EnPAAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Wed, 10 Nov 2021 10:37:05 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch, airlied@linux.ie, mripard@kernel.org,
@@ -53,9 +53,9 @@ To: daniel@ffwll.ch, airlied@linux.ie, mripard@kernel.org,
  kernel@amanoeldawod.com, dirty.ice.hu@gmail.com,
  michael+lkml@stapelberg.ch, aros@gmx.com, joshua@stroblindustries.com,
  arnd@arndb.de
-Subject: [PATCH v3 5/9] drm/format-helper: Streamline blit-helper interface
-Date: Wed, 10 Nov 2021 11:36:58 +0100
-Message-Id: <20211110103702.374-6-tzimmermann@suse.de>
+Subject: [PATCH v3 6/9] drm/fb-helper: Allocate shadow buffer of surface height
+Date: Wed, 10 Nov 2021 11:36:59 +0100
+Message-Id: <20211110103702.374-7-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211110103702.374-1-tzimmermann@suse.de>
 References: <20211110103702.374-1-tzimmermann@suse.de>
@@ -79,179 +79,28 @@ Cc: linux-hyperv@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Move destination-buffer clipping from format-helper blit function into
-caller. Rename drm_fb_blit_rect_dstclip() to drm_fb_blit_toio(). Done for
-consistency with the rest of the interface. Remove drm_fb_blit_dstclip(),
-which isn't required.
+Allocating a shadow buffer of the height of the buffer object does
+not support fbdev overallocation. Use surface height instead.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Reviewed-by: Noralf Trønnes <noralf@tronnes.org>
 ---
- drivers/gpu/drm/drm_format_helper.c | 51 ++++-------------------------
- drivers/gpu/drm/tiny/simpledrm.c    | 14 +++++---
- include/drm/drm_format_helper.h     | 10 ++----
- 3 files changed, 19 insertions(+), 56 deletions(-)
+ drivers/gpu/drm/drm_fb_helper.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/drm_format_helper.c b/drivers/gpu/drm/drm_format_helper.c
-index 0c8933390fdd..2fd5098d5b55 100644
---- a/drivers/gpu/drm/drm_format_helper.c
-+++ b/drivers/gpu/drm/drm_format_helper.c
-@@ -472,7 +472,7 @@ void drm_fb_xrgb8888_to_gray8(void *dst, unsigned int dst_pitch, const void *vad
- EXPORT_SYMBOL(drm_fb_xrgb8888_to_gray8);
+diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
+index 8e7a124d6c5a..9727a59d35fd 100644
+--- a/drivers/gpu/drm/drm_fb_helper.c
++++ b/drivers/gpu/drm/drm_fb_helper.c
+@@ -2338,7 +2338,7 @@ static int drm_fb_helper_generic_probe(struct drm_fb_helper *fb_helper,
+ 		return PTR_ERR(fbi);
  
- /**
-- * drm_fb_blit_rect_dstclip - Copy parts of a framebuffer to display memory
-+ * drm_fb_blit_toio - Copy parts of a framebuffer to display memory
-  * @dst:	The display memory to copy to
-  * @dst_pitch:	Number of bytes between two consecutive scanlines within dst
-  * @dst_format:	FOURCC code of the display's color format
-@@ -484,17 +484,14 @@ EXPORT_SYMBOL(drm_fb_xrgb8888_to_gray8);
-  * formats of the display and the framebuffer mismatch, the blit function
-  * will attempt to convert between them.
-  *
-- * Use drm_fb_blit_dstclip() to copy the full framebuffer.
-- *
-  * Returns:
-  * 0 on success, or
-  * -EINVAL if the color-format conversion failed, or
-  * a negative error code otherwise.
-  */
--int drm_fb_blit_rect_dstclip(void __iomem *dst, unsigned int dst_pitch,
--			     uint32_t dst_format, void *vmap,
--			     struct drm_framebuffer *fb,
--			     struct drm_rect *clip)
-+int drm_fb_blit_toio(void __iomem *dst, unsigned int dst_pitch, uint32_t dst_format,
-+		     const void *vmap, const struct drm_framebuffer *fb,
-+		     const struct drm_rect *clip)
- {
- 	uint32_t fb_format = fb->format->format;
+ 	fbi->fbops = &drm_fbdev_fb_ops;
+-	fbi->screen_size = fb->height * fb->pitches[0];
++	fbi->screen_size = sizes->surface_height * fb->pitches[0];
+ 	fbi->fix.smem_len = fbi->screen_size;
  
-@@ -505,20 +502,16 @@ int drm_fb_blit_rect_dstclip(void __iomem *dst, unsigned int dst_pitch,
- 		dst_format = DRM_FORMAT_XRGB8888;
- 
- 	if (dst_format == fb_format) {
--		dst += clip_offset(clip, dst_pitch, fb->format->cpp[0]);
- 		drm_fb_memcpy_toio(dst, dst_pitch, vmap, fb, clip);
- 		return 0;
- 
- 	} else if (dst_format == DRM_FORMAT_RGB565) {
- 		if (fb_format == DRM_FORMAT_XRGB8888) {
--			dst += clip_offset(clip, dst_pitch, fb->format->cpp[0]);
--			drm_fb_xrgb8888_to_rgb565_toio(dst, dst_pitch, vmap, fb, clip,
--						       false);
-+			drm_fb_xrgb8888_to_rgb565_toio(dst, dst_pitch, vmap, fb, clip, false);
- 			return 0;
- 		}
- 	} else if (dst_format == DRM_FORMAT_RGB888) {
- 		if (fb_format == DRM_FORMAT_XRGB8888) {
--			dst += clip_offset(clip, dst_pitch, fb->format->cpp[0]);
- 			drm_fb_xrgb8888_to_rgb888_toio(dst, dst_pitch, vmap, fb, clip);
- 			return 0;
- 		}
-@@ -526,36 +519,4 @@ int drm_fb_blit_rect_dstclip(void __iomem *dst, unsigned int dst_pitch,
- 
- 	return -EINVAL;
- }
--EXPORT_SYMBOL(drm_fb_blit_rect_dstclip);
--
--/**
-- * drm_fb_blit_dstclip - Copy framebuffer to display memory
-- * @dst:	The display memory to copy to
-- * @dst_pitch:	Number of bytes between two consecutive scanlines within dst
-- * @dst_format:	FOURCC code of the display's color format
-- * @vmap:	The framebuffer memory to copy from
-- * @fb:		The framebuffer to copy from
-- *
-- * This function copies a full framebuffer to display memory. If the formats
-- * of the display and the framebuffer mismatch, the copy function will
-- * attempt to convert between them.
-- *
-- * See drm_fb_blit_rect_dstclip() for more information.
-- *
-- * Returns:
-- * 0 on success, or a negative error code otherwise.
-- */
--int drm_fb_blit_dstclip(void __iomem *dst, unsigned int dst_pitch,
--			uint32_t dst_format, void *vmap,
--			struct drm_framebuffer *fb)
--{
--	struct drm_rect fullscreen = {
--		.x1 = 0,
--		.x2 = fb->width,
--		.y1 = 0,
--		.y2 = fb->height,
--	};
--	return drm_fb_blit_rect_dstclip(dst, dst_pitch, dst_format, vmap, fb,
--					&fullscreen);
--}
--EXPORT_SYMBOL(drm_fb_blit_dstclip);
-+EXPORT_SYMBOL(drm_fb_blit_toio);
-diff --git a/drivers/gpu/drm/tiny/simpledrm.c b/drivers/gpu/drm/tiny/simpledrm.c
-index 481b48bde047..571f716ff427 100644
---- a/drivers/gpu/drm/tiny/simpledrm.c
-+++ b/drivers/gpu/drm/tiny/simpledrm.c
-@@ -641,6 +641,8 @@ simpledrm_simple_display_pipe_enable(struct drm_simple_display_pipe *pipe,
- 	struct drm_framebuffer *fb = plane_state->fb;
- 	void *vmap = shadow_plane_state->data[0].vaddr; /* TODO: Use mapping abstraction */
- 	struct drm_device *dev = &sdev->dev;
-+	void __iomem *dst = sdev->screen_base;
-+	struct drm_rect clip;
- 	int idx;
- 
- 	if (!fb)
-@@ -649,8 +651,11 @@ simpledrm_simple_display_pipe_enable(struct drm_simple_display_pipe *pipe,
- 	if (!drm_dev_enter(dev, &idx))
- 		return;
- 
--	drm_fb_blit_dstclip(sdev->screen_base, sdev->pitch,
--			    sdev->format->format, vmap, fb);
-+	drm_rect_init(&clip, 0, 0, fb->width, fb->height);
-+
-+	dst += drm_fb_clip_offset(sdev->pitch, sdev->format, &clip);
-+	drm_fb_blit_toio(dst, sdev->pitch, sdev->format->format, vmap, fb, &clip);
-+
- 	drm_dev_exit(idx);
- }
- 
-@@ -680,6 +685,7 @@ simpledrm_simple_display_pipe_update(struct drm_simple_display_pipe *pipe,
- 	void *vmap = shadow_plane_state->data[0].vaddr; /* TODO: Use mapping abstraction */
- 	struct drm_framebuffer *fb = plane_state->fb;
- 	struct drm_device *dev = &sdev->dev;
-+	void __iomem *dst = sdev->screen_base;
- 	struct drm_rect clip;
- 	int idx;
- 
-@@ -692,8 +698,8 @@ simpledrm_simple_display_pipe_update(struct drm_simple_display_pipe *pipe,
- 	if (!drm_dev_enter(dev, &idx))
- 		return;
- 
--	drm_fb_blit_rect_dstclip(sdev->screen_base, sdev->pitch,
--				 sdev->format->format, vmap, fb, &clip);
-+	dst += drm_fb_clip_offset(sdev->pitch, sdev->format, &clip);
-+	drm_fb_blit_toio(dst, sdev->pitch, sdev->format->format, vmap, fb, &clip);
- 
- 	drm_dev_exit(idx);
- }
-diff --git a/include/drm/drm_format_helper.h b/include/drm/drm_format_helper.h
-index 6b366f422a24..97e4c3223af3 100644
---- a/include/drm/drm_format_helper.h
-+++ b/include/drm/drm_format_helper.h
-@@ -36,12 +36,8 @@ void drm_fb_xrgb8888_to_rgb888_toio(void __iomem *dst, unsigned int dst_pitch,
- void drm_fb_xrgb8888_to_gray8(void *dst, unsigned int dst_pitch, const void *vaddr,
- 			      const struct drm_framebuffer *fb, const struct drm_rect *clip);
- 
--int drm_fb_blit_rect_dstclip(void __iomem *dst, unsigned int dst_pitch,
--			     uint32_t dst_format, void *vmap,
--			     struct drm_framebuffer *fb,
--			     struct drm_rect *rect);
--int drm_fb_blit_dstclip(void __iomem *dst, unsigned int dst_pitch,
--			uint32_t dst_format, void *vmap,
--			struct drm_framebuffer *fb);
-+int drm_fb_blit_toio(void __iomem *dst, unsigned int dst_pitch, uint32_t dst_format,
-+		     const void *vmap, const struct drm_framebuffer *fb,
-+		     const struct drm_rect *rect);
- 
- #endif /* __LINUX_DRM_FORMAT_HELPER_H */
+ 	drm_fb_helper_fill_info(fbi, fb_helper, sizes);
 -- 
 2.33.1
 
