@@ -1,43 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6D4644C312
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Nov 2021 15:38:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B0DB44C361
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Nov 2021 15:50:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A3636E231;
-	Wed, 10 Nov 2021 14:38:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 34A916E49F;
+	Wed, 10 Nov 2021 14:50:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id E36666E231;
- Wed, 10 Nov 2021 14:38:11 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 48264139F;
- Wed, 10 Nov 2021 06:38:11 -0800 (PST)
-Received: from [10.57.81.233] (unknown [10.57.81.233])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 42E073F718;
- Wed, 10 Nov 2021 06:38:10 -0800 (PST)
-Message-ID: <9463fda7-d215-6c14-3ca7-a2ff94349c3e@arm.com>
-Date: Wed, 10 Nov 2021 14:37:48 +0000
+Received: from EX13-EDG-OU-001.vmware.com (ex13-edg-ou-001.vmware.com
+ [208.91.0.189])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2AE3D6E49F
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Nov 2021 14:50:41 +0000 (UTC)
+Received: from sc9-mailhost3.vmware.com (10.113.161.73) by
+ EX13-EDG-OU-001.vmware.com (10.113.208.155) with Microsoft SMTP Server id
+ 15.0.1156.6; Wed, 10 Nov 2021 06:50:37 -0800
+Received: from vmware.com (unknown [10.21.244.144])
+ by sc9-mailhost3.vmware.com (Postfix) with ESMTP id B1CC4204A2;
+ Wed, 10 Nov 2021 06:50:39 -0800 (PST)
+From: Zack Rusin <zackr@vmware.com>
+To: <dri-devel@lists.freedesktop.org>
+Subject: [PATCH v4] drm/ttm: Clarify that the TTM_PL_SYSTEM is under TTMs
+ control
+Date: Wed, 10 Nov 2021 09:50:34 -0500
+Message-ID: <20211110145034.487512-1-zackr@vmware.com>
+X-Mailer: git-send-email 2.32.0
+In-Reply-To: <3687c5f0-edb9-3cdb-2bb7-e45549a1cfb8@amd.com>
+References: <3687c5f0-edb9-3cdb-2bb7-e45549a1cfb8@amd.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH] drm/i915: Use per device iommu check
-Content-Language: en-GB
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Lu Baolu <baolu.lu@linux.intel.com>, Intel-gfx@lists.freedesktop.org
-References: <20211109121759.170915-1-tvrtko.ursulin@linux.intel.com>
- <6e8c55a7-45b6-57ab-35f7-d522401efccb@linux.intel.com>
- <4d1a0ab9-e0d8-2ed9-1fc4-9ffaf2f19bef@linux.intel.com>
- <7b2e1427-69cf-8f5d-0c15-73c4e602953d@linux.intel.com>
- <2a1ae709-19f8-7983-b171-98ec2f3f010a@linux.intel.com>
- <4c5ab72f-aaff-8b92-7471-44dd907cf2f6@linux.intel.com>
- <215fa7de-4ed7-1da5-724e-006e36286c08@linux.intel.com>
-From: Robin Murphy <robin.murphy@arm.com>
-In-Reply-To: <215fa7de-4ed7-1da5-724e-006e36286c08@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
+Received-SPF: None (EX13-EDG-OU-001.vmware.com: zackr@vmware.com does not
+ designate permitted sender hosts)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,128 +45,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-11-10 14:11, Tvrtko Ursulin wrote:
-> 
-> On 10/11/2021 12:35, Lu Baolu wrote:
->> On 2021/11/10 20:08, Tvrtko Ursulin wrote:
->>>
->>> On 10/11/2021 12:04, Lu Baolu wrote:
->>>> On 2021/11/10 17:30, Tvrtko Ursulin wrote:
->>>>>
->>>>> On 10/11/2021 07:12, Lu Baolu wrote:
->>>>>> Hi Tvrtko,
->>>>>>
->>>>>> On 2021/11/9 20:17, Tvrtko Ursulin wrote:
->>>>>>> From: Tvrtko Ursulin<tvrtko.ursulin@intel.com>
->>>>>>>
->>>>>>> On igfx + dgfx setups, it appears that intel_iommu=igfx_off 
->>>>>>> option only
->>>>>>> disables the igfx iommu. Stop relying on global 
->>>>>>> intel_iommu_gfx_mapped
->>>>>>> and probe presence of iommu domain per device to accurately 
->>>>>>> reflect its
->>>>>>> status.
->>>>>>>
->>>>>>> Signed-off-by: Tvrtko Ursulin<tvrtko.ursulin@intel.com>
->>>>>>> Cc: Lu Baolu<baolu.lu@linux.intel.com>
->>>>>>> ---
->>>>>>> Baolu, is my understanding here correct? Maybe I am confused by both
->>>>>>> intel_iommu_gfx_mapped and dmar_map_gfx being globals in the 
->>>>>>> intel_iommu
->>>>>>> driver. But it certainly appears the setup can assign some iommu 
->>>>>>> ops (and
->>>>>>> assign the discrete i915 to iommu group) when those two are set 
->>>>>>> to off.
->>>>>>
->>>>>> diff --git a/drivers/gpu/drm/i915/i915_drv.h 
->>>>>> b/drivers/gpu/drm/i915/i915_drv.h
->>>>>> index e967cd08f23e..9fb38a54f1fe 100644
->>>>>> --- a/drivers/gpu/drm/i915/i915_drv.h
->>>>>> +++ b/drivers/gpu/drm/i915/i915_drv.h
->>>>>> @@ -1763,26 +1763,27 @@ static inline bool run_as_guest(void)
->>>>>>   #define HAS_D12_PLANE_MINIMIZATION(dev_priv) 
->>>>>> (IS_ROCKETLAKE(dev_priv) || \
->>>>>>                             IS_ALDERLAKE_S(dev_priv))
->>>>>>
->>>>>> -static inline bool intel_vtd_active(void)
->>>>>> +static inline bool intel_vtd_active(struct drm_i915_private *i915)
->>>>>>   {
->>>>>> -#ifdef CONFIG_INTEL_IOMMU
->>>>>> -    if (intel_iommu_gfx_mapped)
->>>>>> +    if (iommu_get_domain_for_dev(i915->drm.dev))
->>>>>>           return true;
->>>>>> -#endif
->>>>>>
->>>>>>       /* Running as a guest, we assume the host is enforcing VT'd */
->>>>>>       return run_as_guest();
->>>>>>   }
->>>>>>
->>>>>> Have you verified this change? I am afraid that
->>>>>> iommu_get_domain_for_dev() always gets a valid iommu domain even
->>>>>> intel_iommu_gfx_mapped == 0.
->>>>>
->>>>> Yes it seems to work as is:
->>>>>
->>>>> default:
->>>>>
->>>>> # grep -i iommu /sys/kernel/debug/dri/*/i915_capabilities
->>>>> /sys/kernel/debug/dri/0/i915_capabilities:iommu: enabled
->>>>> /sys/kernel/debug/dri/1/i915_capabilities:iommu: enabled
->>>>>
->>>>> intel_iommu=igfx_off:
->>>>>
->>>>> # grep -i iommu /sys/kernel/debug/dri/*/i915_capabilities
->>>>> /sys/kernel/debug/dri/0/i915_capabilities:iommu: disabled
->>>>> /sys/kernel/debug/dri/1/i915_capabilities:iommu: enabled
->>>>>
->>>>> On my system dri device 0 is integrated graphics and 1 is discrete.
->>>>
->>>> The drm device 0 has a dedicated iommu. When the user request igfx not
->>>> mapped, the VT-d implementation will turn it off to save power. But for
->>>> shared iommu, you definitely will get it enabled.
->>>
->>> Sorry I am not following, what exactly do you mean? Is there a 
->>> platform with integrated graphics without a dedicated iommu, in which 
->>> case intel_iommu=igfx_off results in intel_iommu_gfx_mapped == 0 and 
->>> iommu_get_domain_for_dev returning non-NULL?
->>
->> Your code always work for an igfx with a dedicated iommu. This might be
->> always true on today's platforms. But from driver's point of view, we
->> should not make such assumption.
->>
->> For example, if the iommu implementation decides not to turn off the
->> graphic iommu (perhaps due to some hw quirk or for graphic
->> virtualization), your code will be broken.
-> 
-> If I got it right, this would go back to your earlier recommendation to 
-> have the check look like this:
-> 
-> static bool intel_vtd_active(struct drm_i915_private *i915)
-> {
->          struct iommu_domain *domain;
-> 
->          domain = iommu_get_domain_for_dev(i915->drm.dev);
->          if (domain && (domain->type & __IOMMU_DOMAIN_PAGING))
->                  return true;
->      ...
-> 
-> This would be okay as a first step?
-> 
-> Elsewhere in the thread Robin suggested looking at the dec->dma_ops and 
-> comparing against iommu_dma_ops. These two solution would be effectively 
-> the same?
+TTM takes full control over TTM_PL_SYSTEM placed buffers. This makes
+driver internal usage of TTM_PL_SYSTEM prone to errors because it
+requires the drivers to manually handle all interactions between TTM
+which can swap out those buffers whenever it thinks it's the right
+thing to do and driver.
 
-Effectively, yes. See iommu_setup_dma_ops() - the only way to end up 
-with iommu_dma_ops is if a managed translation domain is present; if the 
-IOMMU is present but the default domain type has been set to passthrough 
-(either globally or forced for the given device) it will do nothing and 
-leave you with dma-direct, while if the IOMMU has been ignored entirely 
-then it should never even be called. Thus it neatly encapsulates what 
-you're after here.
+CPU buffers which need to be fenced and shared with accelerators should
+be placed in driver specific placements that can explicitly handle
+CPU/accelerator buffer fencing.
+Currently, apart, from things silently failing nothing is enforcing
+that requirement which means that it's easy for drivers and new
+developers to get this wrong. To avoid the confusion we can document
+this requirement and clarify the solution.
 
-Cheers,
-Robin.
+This came up during a discussion on dri-devel:
+https://lore.kernel.org/dri-devel/232f45e9-8748-1243-09bf-56763e6668b3@amd.com
+
+Signed-off-by: Zack Rusin <zackr@vmware.com>
+Cc: Christian König <christian.koenig@amd.com>
+Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+---
+ include/drm/ttm/ttm_placement.h | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
+diff --git a/include/drm/ttm/ttm_placement.h b/include/drm/ttm/ttm_placement.h
+index 76d1b9119a2b..8074d0f6cae5 100644
+--- a/include/drm/ttm/ttm_placement.h
++++ b/include/drm/ttm/ttm_placement.h
+@@ -35,6 +35,17 @@
+ 
+ /*
+  * Memory regions for data placement.
++ *
++ * Buffers placed in TTM_PL_SYSTEM are considered under TTMs control and can
++ * be swapped out whenever TTMs thinks it is a good idea.
++ * In cases where drivers would like to use TTM_PL_SYSTEM as a valid
++ * placement they need to be able to handle the issues that arise due to the
++ * above manually.
++ *
++ * For BO's which reside in system memory but for which the accelerator
++ * requires direct access (i.e. their usage needs to be synchronized
++ * between the CPU and accelerator via fences) a new, driver private
++ * placement that can handle such scenarios is a good idea.
+  */
+ 
+ #define TTM_PL_SYSTEM           0
+-- 
+2.32.0
+
