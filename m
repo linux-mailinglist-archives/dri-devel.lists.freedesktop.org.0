@@ -2,59 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D02D344BF05
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Nov 2021 11:46:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72F1C44BF0A
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Nov 2021 11:48:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 62C406E943;
-	Wed, 10 Nov 2021 10:46:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 39EF36EE4D;
+	Wed, 10 Nov 2021 10:48:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
- [IPv6:2a00:1450:4864:20::535])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 09A3D6E928
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Nov 2021 10:46:52 +0000 (UTC)
-Received: by mail-ed1-x535.google.com with SMTP id v11so8678838edc.9
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Nov 2021 02:46:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=CJ8BKvr5XUSO/Vo4sS7QvREYUZiUN+4dM8bteUPX/YU=;
- b=a5PDaYRSHhLE0B/0FQ+MlW7rePX4lX8rMFt04k9jy714oeV6rCydngg+4chiEab4BB
- 0et1lR5054ugeHjiqzoRhGkDg1UoJWAzmwRFvIlBA+ugUkN39qs5cm5is5LIv5WH2xEf
- oEhqQbxoFXx4fNzwMrzHIsDeA0puwKDSYP3nc=
+Received: from mail-qt1-x82f.google.com (mail-qt1-x82f.google.com
+ [IPv6:2607:f8b0:4864:20::82f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F6286EE49;
+ Wed, 10 Nov 2021 10:48:49 +0000 (UTC)
+Received: by mail-qt1-x82f.google.com with SMTP id l8so1678363qtk.6;
+ Wed, 10 Nov 2021 02:48:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=nk2Suy6J3YiB0zzsECNTnASz9gapNF6qF2MzFjIeiJI=;
+ b=Eee4hv4Z4DBmibFUQLzPLHqyo9306QED/4FNETfu6p/G9npPXvQ+IhvGwHdkfhCKC6
+ 3+ugW/L3QF5I6SfrY+WZaigkIqLU6L0Hq+IhmNBZXkSzWRjxjUtlF96XShIU1J53ZW2z
+ q56cp1Q+d0DEk6+V8zrA1VVA9Mt6PnPnUYxXWch0r3MeFRtfQ6PqyBYtqcjqHyu6laB3
+ SM9I19kWbbmOIkfCQMK1zSKPsm5MmswnM30YPg9j12X7azzU7J4bonHNLMS/gs6uG5O1
+ RpuN1opbYn3HJCXBYPiogU/TVQ5T3przhJlRGrJ2wYT67WS1YvXJTGm22lMuFj2LyoI+
+ 7qeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=CJ8BKvr5XUSO/Vo4sS7QvREYUZiUN+4dM8bteUPX/YU=;
- b=lRYmh7z8Nh14rjAMwDost83XLAoIXRdPw5hupVzaHQoeKDmiL+hCF8RSkvoVQv3QLs
- gwKizZHYf9Nq2RI2MBTvBx67vl/mNI2QQkf79xA0/YJJiGkoZvgHd9Vm/8T7HZG9HTQM
- x3vvnqtoAxa7tz2Agd7hsaXIJfCACjymsHSi0fZ/Fe5W5NAPvnrISggHuc8xiVkyAvQd
- WcBEkhds5avjldYEl9YSodDzevK+viBq+HfawbDzPZNsnorEFQC4F6271vAiuX+XJHT2
- iiMny2G5e3h5XauVuWJTBEAV0EBaAkXpqi5o8iRALG9JzUPPkUqsqCUKeb3oAcEUS9sf
- oWgg==
-X-Gm-Message-State: AOAM5325M2kR/WBYlPhiDCz/alxMZvYWBfv5n/aOeYiy2KLxSCFcLy0w
- cRk0TqbLEWHUU6YZFolzFmw6Eg==
-X-Google-Smtp-Source: ABdhPJzex3EJLJxKesbpcXVhuXhXz8mKsgkAvORtmUcskNu2IAPYg8LWXRVSpkQDC+igoNaKseVJbA==
-X-Received: by 2002:aa7:d546:: with SMTP id u6mr20545346edr.311.1636541210512; 
- Wed, 10 Nov 2021 02:46:50 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id z10sm14094307edd.12.2021.11.10.02.46.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Nov 2021 02:46:50 -0800 (PST)
-Date: Wed, 10 Nov 2021 11:46:48 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 3/3] drm: Update documentation and TODO of gem_prime_mmap
- hook
-Message-ID: <YYujGLFf+spiXMil@phenom.ffwll.local>
-References: <20211108102846.309-1-tzimmermann@suse.de>
- <20211108102846.309-4-tzimmermann@suse.de>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=nk2Suy6J3YiB0zzsECNTnASz9gapNF6qF2MzFjIeiJI=;
+ b=3niUu/5SUnsPlb+9qsjh6s4K2RjO9w5Lkon+0tlEYB+TSGnlahGaQ4kgU7TbpEh90F
+ tswv/t+D5bObjG+S/R9fIvmy9uCgyJ50y7PT+eOb43ZO/WAN4oBUMepVZB0KlokTBQuG
+ kjgSAvuYaMxfJ2M9CqTXiGlnKWHw5OEQkcERYfMcJjl9m5vgwMq5Th3mwZecn9qiAee/
+ CEY3ZFjB34b5wDPBv9g1hvvw+I+t8P5t/YV3ozjw774JaYcN+qdPX/kt3sHzE9CtMGlB
+ TyKT5DmnWtXuGayQgapAAMo10148JAOmqX/hHgvYJSF3RxE5M4fBobvVe7iI6PtNpV4d
+ /JPg==
+X-Gm-Message-State: AOAM533PqOnqfcGEK6blcseStByfX9zA2X6zMSpHwaCcvZKh4UjIItj/
+ h6Uaj68wRCOWDdyffPZnL3ppvxHSgvzdUI+OLmYb1xVJW88=
+X-Google-Smtp-Source: ABdhPJxDJ+BqeHH0XvqQ8TLhsnNiwHhU2UsFTgaT6VUWge6F3SdXuvUE4DmJceGgFkZVpHSzusxrmAoLlwX7qvftd8g=
+X-Received: by 2002:a05:622a:1209:: with SMTP id
+ y9mr16730883qtx.13.1636541328409; 
+ Wed, 10 Nov 2021 02:48:48 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211108102846.309-4-tzimmermann@suse.de>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+References: <20211109122037.171128-1-tvrtko.ursulin@linux.intel.com>
+In-Reply-To: <20211109122037.171128-1-tvrtko.ursulin@linux.intel.com>
+From: Matthew Auld <matthew.william.auld@gmail.com>
+Date: Wed, 10 Nov 2021 10:48:21 +0000
+Message-ID: <CAM0jSHOyj3ydgn-bZwk69RfpZLcG03Td_kxowEoJ1fg5PO=W3A@mail.gmail.com>
+Subject: Re: [PATCH] drm/i915: Skip error capture when wedged on init
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,83 +62,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc@vger.kernel.org, jy0922.shim@samsung.com,
- krzysztof.kozlowski@canonical.com, airlied@linux.ie, sw0312.kim@samsung.com,
- oleksandr_andrushchenko@epam.com, kyungmin.park@samsung.com,
- dri-devel@lists.freedesktop.org, xen-devel@lists.xenproject.org,
- linux-arm-kernel@lists.infradead.org
+Cc: Intel Graphics Development <Intel-gfx@lists.freedesktop.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Nov 08, 2021 at 11:28:46AM +0100, Thomas Zimmermann wrote:
-> The hook gem_prime_mmap in struct drm_driver is deprecated. Document
-> the new requirements.
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+On Tue, 9 Nov 2021 at 12:20, Tvrtko Ursulin
+<tvrtko.ursulin@linux.intel.com> wrote:
+>
+> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>
+> Trying to capture uninitialised engines when we wedged on init ends in
+> tears. Skip that together with uC capture, since failure to initialise the
+> latter can actually be one of the reasons for wedging on init.
+>
+> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+This fixes the issue with missing GuC wedging the GPU and then blowing
+up when trying to use the driver?
+
+Reviewed-by: Matthew Auld <matthew.auld@intel.com>
 
 > ---
->  Documentation/gpu/todo.rst | 11 -----------
->  include/drm/drm_drv.h      | 11 +++++++----
->  2 files changed, 7 insertions(+), 15 deletions(-)
-> 
-> diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-> index 60d1d7ee0719..6593c4c4006e 100644
-> --- a/Documentation/gpu/todo.rst
-> +++ b/Documentation/gpu/todo.rst
-> @@ -268,17 +268,6 @@ Contact: Daniel Vetter
->  
->  Level: Intermediate
->  
-> -Clean up mmap forwarding
-> -------------------------
-> -
-> -A lot of drivers forward gem mmap calls to dma-buf mmap for imported buffers.
-> -And also a lot of them forward dma-buf mmap to the gem mmap implementations.
-> -There's drm_gem_prime_mmap() for this now, but still needs to be rolled out.
-> -
-> -Contact: Daniel Vetter
-> -
-> -Level: Intermediate
-> -
->  Generic fbdev defio support
->  ---------------------------
->  
-> diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
-> index 0cd95953cdf5..a84eb4028e5b 100644
-> --- a/include/drm/drm_drv.h
-> +++ b/include/drm/drm_drv.h
-> @@ -345,11 +345,14 @@ struct drm_driver {
->  	 * mmap hook for GEM drivers, used to implement dma-buf mmap in the
->  	 * PRIME helpers.
->  	 *
-> -	 * FIXME: There's way too much duplication going on here, and also moved
-> -	 * to &drm_gem_object_funcs.
-> +	 * This hook only exists for historical reasons. Drivers must use
-> +	 * drm_gem_prime_mmap() to implement it.
-> +	 *
-> +	 * FIXME: Convert all drivers to implement mmap in struct
-> +	 * &drm_gem_object_funcs and inline drm_gem_prime_mmap() into
-> +	 * its callers. This hook should be removed afterwards.
-
-I think at least i915 has different semantics between dma-buf mmap and gem
-mmap in some cases, so this might be tricky to achieve. But I think
-everywhere else this should be solid.
--Daniel
-
->  	 */
-> -	int (*gem_prime_mmap)(struct drm_gem_object *obj,
-> -				struct vm_area_struct *vma);
-> +	int (*gem_prime_mmap)(struct drm_gem_object *obj, struct vm_area_struct *vma);
->  
->  	/**
->  	 * @dumb_create:
-> -- 
-> 2.33.1
-> 
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+>  drivers/gpu/drm/i915/i915_gpu_error.c | 10 +++++++---
+>  1 file changed, 7 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/i915_gpu_error.c b/drivers/gpu/drm/i915/i915_gpu_error.c
+> index 2a2d7643b551..aa2b3aad9643 100644
+> --- a/drivers/gpu/drm/i915/i915_gpu_error.c
+> +++ b/drivers/gpu/drm/i915/i915_gpu_error.c
+> @@ -1866,10 +1866,14 @@ i915_gpu_coredump(struct intel_gt *gt, intel_engine_mask_t engine_mask)
+>                 }
+>
+>                 gt_record_info(error->gt);
+> -               gt_record_engines(error->gt, engine_mask, compress);
+>
+> -               if (INTEL_INFO(i915)->has_gt_uc)
+> -                       error->gt->uc = gt_record_uc(error->gt, compress);
+> +               if (!intel_gt_has_unrecoverable_error(gt)) {
+> +                       gt_record_engines(error->gt, engine_mask, compress);
+> +
+> +                       if (INTEL_INFO(i915)->has_gt_uc)
+> +                               error->gt->uc = gt_record_uc(error->gt,
+> +                                                            compress);
+> +               }
+>
+>                 i915_vma_capture_finish(error->gt, compress);
+>
+> --
+> 2.30.2
+>
