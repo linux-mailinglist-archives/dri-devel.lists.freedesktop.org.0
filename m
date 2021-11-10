@@ -2,65 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF3B844C8A5
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Nov 2021 20:10:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 914DF44C8E5
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Nov 2021 20:20:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3012F6E0C5;
-	Wed, 10 Nov 2021 19:10:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 17FEB6E4F9;
+	Wed, 10 Nov 2021 19:20:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com
- [IPv6:2a00:1450:4864:20::32c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D18C6E05F;
- Wed, 10 Nov 2021 19:10:30 +0000 (UTC)
-Received: by mail-wm1-x32c.google.com with SMTP id
- b184-20020a1c1bc1000000b0033140bf8dd5so2717058wmb.5; 
- Wed, 10 Nov 2021 11:10:30 -0800 (PST)
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
+ [IPv6:2a00:1450:4864:20::434])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A19F16E4F9
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Nov 2021 19:20:09 +0000 (UTC)
+Received: by mail-wr1-x434.google.com with SMTP id s13so5840648wrb.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Nov 2021 11:20:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=yLs5chTYGj0in0rN4ZentgVDMtbmnaGGpUafWh3bMsQ=;
- b=SvV1TyrHMRJHtcTmBaNe4PZ4qg835KSR/RnFFkvBSG70tL0+yLEstCx9YUnumuvIC0
- gldfDpTrGLxKCUCS7U0uq2RstEFUg2WKYz9wiefJmSCLKgKprPoEOJaguJkDxpbFYnAQ
- 6jptVtjqJiIdHVFyEprFCaSrQ7lkCotlWMv3e55BcVeUCKD7hjf0AfSjhIv7KDBgIRMY
- g3Oady0ruE4eZPkiUJ8hEm6ruKobgKQFYnzbLAeKVEzEnYtJKZM/oJeSytarEkG8b6i3
- cRRcmIG0bbuR2AePssGSTsfz0wwb3r6bSzKpIUkqugBmKkj4P0ZM5A3r28uHaTPEv+Os
- Zfhw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=Wel6pilwDQh+J/gem87j8LshxcVMW1VIsxazNd0cXWs=;
+ b=So5x8dQurXJxS+4trJo2fR9qGGZzfIMwFqojWWVX4YGqFIz5vDQL/7cox9Nqzd2nmS
+ FVWIY4+YbywlogWvmfninC1MUo/9j/umJKn/PHMGRzWtQbVwi5qLTvuoonEmE661kobY
+ WC3OT/2fleolmG6zTD5BCV+UuI5FeTUKSSFsuZcOUW0sV8u26fOF72+MME/1Qg/ZEms+
+ Tg91MWcZy1D3kRtMrjbQnqeKiGU8KIqdBfEijRLGcKkm2qq4DmqzD7uACTmvUWjuIZ8o
+ L/rNJwLTq/UJtZKhkDdIahIfY25TwAuI2yL81Qirsh9YqHBh/Dycy9+CDSghk5oFVU9q
+ Jcfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=yLs5chTYGj0in0rN4ZentgVDMtbmnaGGpUafWh3bMsQ=;
- b=LSHYpPyNGRhmhcNM+vN3TlNv30lh/vr1JGt4v3YR6cNCa7yCmMQidqo4kXx9Xd6MUW
- 0TXYYTxAKqXMosL1y38YTi6wuDs/H6VPABIvpyha7/RSSQhYMOaQir2aL6KFSMMHeWzF
- d4yvCDhmp9oba4Dbv0IZ5ijXeRgpNGsijQLJvI1fGW0LIT/ooYzUijmAlMfrtmgP3/e8
- 13lqodg0YchOEDybXdCsCUxentaXY4cheBmzIPnBHH9pOfNs/wbFaj18MQ9ORIOIr+Io
- KiZ7dvivp3dEzgoGel2YE3EI7kbM0Egby8GKoCPcEYTv7Itf8caCocTL2jD+V80d+scB
- azHA==
-X-Gm-Message-State: AOAM531fk2abPWEF7s0/0s7O5yACo+fjl5iKFcqzr0VLMKwJPPv8zzrA
- Y7YkjAHz+vQ6KO+aVx/FJqS2ZuN6zO8mkGOIAyo=
-X-Google-Smtp-Source: ABdhPJxG3xo3BCopHN4pqvIx1rb+qYxwQpIs5HU2Tqpwu05sAbky8//kmauZvY/PtrOknWb+Ith+o3nMBI0U5U/zcIs=
-X-Received: by 2002:a05:600c:4f87:: with SMTP id
- n7mr1621657wmq.168.1636571428736; 
- Wed, 10 Nov 2021 11:10:28 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=Wel6pilwDQh+J/gem87j8LshxcVMW1VIsxazNd0cXWs=;
+ b=nm6yNozSfG/N2ssyt74WnsCDPliJFkOlqsU5SS2+/8+h3ps5hfayrEnxBTSuwkEVPB
+ CFPIu0dkRX+OhgOXWw/qkYXZ50KuSQlShZpywaCn4NtKgEnDhXjX1Y7KjR7GdWgbEBOd
+ D2o8Gv9I+lw51I9E4Mu2sfQAUlxa+05pqYnU8Axe0khCAgmj8984DcxdVP8VPYVX/9Ue
+ vcV17+sqGwvTL+L3YWAXkhDvUvwsrceJGH2AUhr2lpiy0SZNCG1JtA2mDhlkb1PUrQzb
+ qAUnbvpiOsGNdTezzy9HQoy7BncWjB3u3hgtQfde+LeUZSTWpf2ACdtZrwvoFsepcmgz
+ Ln0w==
+X-Gm-Message-State: AOAM530WD2F3YdoCZpUbFWBQN9sxyHsV6AB/uw8/Gi4y3mkD7qfgukGH
+ 4ICv17IBuLTRxwu7tsUj1ZzQXuVzImU=
+X-Google-Smtp-Source: ABdhPJzhllPLHbIxmy8REeDtsaHpQplCe9EN39q7wcVyZtop6YVZsvXBwXpfo98cNzaYFpG1nGjA+A==
+X-Received: by 2002:adf:d091:: with SMTP id y17mr1698240wrh.418.1636572008022; 
+ Wed, 10 Nov 2021 11:20:08 -0800 (PST)
+Received: from kista.localnet (cpe-86-58-29-253.static.triera.net.
+ [86.58.29.253])
+ by smtp.gmail.com with ESMTPSA id z6sm867158wmp.1.2021.11.10.11.20.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 10 Nov 2021 11:20:07 -0800 (PST)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: a.hajda@samsung.com, Laurent.pinchart@ideasonboard.com,
+ robert.foss@linaro.org, jonas@kwiboo.se,
+ Neil Armstrong <narmstrong@baylibre.com>
+Subject: Re: [PATCH] drm/bridge: dw-hdmi: handle ELD when
+ DRM_BRIDGE_ATTACH_NO_CONNECTOR
+Date: Wed, 10 Nov 2021 20:20:06 +0100
+Message-ID: <5763693.lOV4Wx5bFT@kista>
+In-Reply-To: <20211029135947.3022875-1-narmstrong@baylibre.com>
+References: <20211029135947.3022875-1-narmstrong@baylibre.com>
 MIME-Version: 1.0
-References: <1630406139-19621-1-git-send-email-Monk.Liu@amd.com>
- <1630406139-19621-2-git-send-email-Monk.Liu@amd.com>
- <YS4nlkpjeitiwFy1@phenom.ffwll.local>
- <YS4oMrFTj0+wmMbY@phenom.ffwll.local>
- <BL1PR12MB5269292A3E9E6014043C280E84CD9@BL1PR12MB5269.namprd12.prod.outlook.com>
- <CAF6AEGsELL5WmxJKqyfF69OnVaK6+SnAREvjtFSHBZrm3Gdp7g@mail.gmail.com>
- <YYo6U6D2dxQ7Y6Gn@phenom.ffwll.local>
- <CAF6AEGvGQP-6eNevDyS9sXg+6qOKMrG7h5rwhKO=v8L5mQOiUA@mail.gmail.com>
- <YYuVyRlAATYO4ptP@phenom.ffwll.local>
-In-Reply-To: <YYuVyRlAATYO4ptP@phenom.ffwll.local>
-From: Rob Clark <robdclark@gmail.com>
-Date: Wed, 10 Nov 2021 11:15:26 -0800
-Message-ID: <CAF6AEGvm9qPwxz24oZFfAdj046sbGJS3OCacoR5DW4xqESEy9w@mail.gmail.com>
-Subject: Re: [PATCH 2/2] drm/sched: serialize job_timeout and scheduler
-To: Daniel Vetter <daniel@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,328 +71,169 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>, "Liu,
- Monk" <Monk.Liu@amd.com>, "Chen, Jingwen" <Jingwen.Chen@amd.com>
+Cc: Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Nov 10, 2021 at 1:50 AM Daniel Vetter <daniel@ffwll.ch> wrote:
->
-> On Tue, Nov 09, 2021 at 08:17:01AM -0800, Rob Clark wrote:
-> > On Tue, Nov 9, 2021 at 1:07 AM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > >
-> > > On Mon, Nov 08, 2021 at 03:39:17PM -0800, Rob Clark wrote:
-> > > > I stumbled across this thread when I ran into the same issue, while
-> > > > working out how to move drm/msm to use scheduler's retire +
-> > > > timeout/recovery (and get rid of our own mirror list of in-flight
-> > > > jobs).  We already have hw error detection enabled, and it can sign=
-al
-> > > > quite fast, so assuming the first job on the list is the guilty job
-> > > > just won't work.
-> > > >
-> > > > But I was considering a slightly different approach to fixing this,
-> > > > instead just handling it all in drm_sched_main() and getting rid of
-> > > > the complicated kthread parking gymnastics.  Ie. something along th=
-e
-> > > > lines of:
-> > >
-> > > So handling timeouts in the main sched thread wont work as soon as yo=
-u
-> > > have multiple engines and reset that impacts across engines:
-> > >
-> > > - Nothing is simplified since you still need to stop the other schedu=
-ler
-> > >   threads.
-> > >
-> > > - You get deadlocks if 2 schedulers time out at the same time, and bo=
-th
-> > >   want to stop the other one.
-> > >
-> > > Hence workqueue. Now the rule for the wq is that you can only have on=
-e per
-> > > reset domain, so
-> > > - single engine you just take the one drm/sched provides
-> > > - if reset affects all your engines in the chip, then you allocate on=
- in
-> > >   the drm_device and pass that to all
-> > > - if you have a complex of gpus all interconnected (e.g. xgmi hive fo=
-r
-> > >   amd), then it's one wq for the entire hive
-> > >
-> > > _All_ reset related things must be run on that workqueue or things br=
-eaks,
-> > > which means if you get hw fault that also needs to be run there. I gu=
-ess
-> > > we should either patch drm/sched to check you call that function from=
- the
-> > > right workqueue, or just handle it internally.
-> >
-> > Hmm, ok.. I guess it would be useful to better document the reasoning
-> > for the current design, that would have steered me more towards the
-> > approach taken in this patch.
->
-> Maybe this was because you worked on an old kernel? Boris did update the
-> kerneldoc as part of making gpu reset work for panfrost, which has this
-> multi-engine reset problem. If that's not yet clear then we need to
-> improve the docs further.
+Hi Neil,
 
-I saw that, and understood the ordered wq.. but missed the implication
-regarding having to park other scheduler kthreads
+sorry for late response.
 
-BR,
--R
+Dne petek, 29. oktober 2021 ob 15:59:47 CET je Neil Armstrong napisal(a):
+> The current ELD handling takes the internal connector ELD buffer and
+> shares it to the I2S and AHB sub-driver.
+> 
+> But with DRM_BRIDGE_ATTACH_NO_CONNECTOR, the connector is created
+> elsewhere (not not), and an eventual connector is known only
 
-> AMD's problem is even worse, because their reset domain is the entire xgm=
-i
-> hive, so multiple pci devices.
->
-> Also there might more issues in drm/sched ofc, e.g. I've looked a bit at
-> ordering/barriers and I'm pretty sure a lot are still missing. Or at leas=
-t
-> we should have comments in the code explaining why it all works.
-> -Daniel
->
-> >
-> > BR,
-> > -R
-> >
-> > > -Daniel
-> > >
-> > > >
-> > > > ---------------------
-> > > > diff --git a/drivers/gpu/drm/scheduler/sched_main.c
-> > > > b/drivers/gpu/drm/scheduler/sched_main.c
-> > > > index 67382621b429..4d6ce775c316 100644
-> > > > --- a/drivers/gpu/drm/scheduler/sched_main.c
-> > > > +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> > > > @@ -764,6 +764,45 @@ static bool drm_sched_blocked(struct
-> > > > drm_gpu_scheduler *sched)
-> > > >         return false;
-> > > >  }
-> > > >
-> > > > +static bool handle_timeout(struct drm_gpu_scheduler *sched)
-> > > > +{
-> > > > +       struct drm_sched_job *bad;
-> > > > +
-> > > > +       if (!sched->has_timeout)
-> > > > +               return false;
-> > > > +
-> > > > +       sched->has_timeout =3D false;
-> > > > +
-> > > > +       spin_lock(&sched->job_list_lock);
-> > > > +       bad =3D list_first_entry_or_null(&sched->pending_list,
-> > > > +                                      struct drm_sched_job, list);
-> > > > +
-> > > > +       if (!bad) {
-> > > > +               spin_unlock(&sched->job_list_lock);
-> > > > +               return false;
-> > > > +       }
-> > > > +
-> > > > +       spin_unlock(&sched->job_list_lock);
-> > > > +
-> > > > +       if (sched->timeout_wq =3D=3D system_wq) {
-> > > > +               /*
-> > > > +                * If driver has no specific requirements about ser=
-ializing
-> > > > +                * reset wrt. other engines, just call timedout_job=
-() directly
-> > > > +                */
-> > > > +               sched->ops->timedout_job(job);
-> > > > +       } else {
-> > > > +               /*
-> > > > +                * Otherwise queue it on timeout_wq and wait for it=
- to complete
-> > > > +                */
-> > > > +               ... more typing needed here ...
-> > > > +       }
-> > > > +
-> > > > +       if (sched->free_guilty) {
-> > > > +               sched->ops->free_job(job);
-> > > > +               sched->free_guilty =3D false;
-> > > > +       }
-> > > > +}
-> > > > +
-> > > >  /**
-> > > >   * drm_sched_main - main scheduler thread
-> > > >   *
-> > > > @@ -787,6 +826,7 @@ static int drm_sched_main(void *param)
-> > > >
-> > > >                 wait_event_interruptible(sched->wake_up_worker,
-> > > >                                          (cleanup_job =3D
-> > > > drm_sched_get_cleanup_job(sched)) ||
-> > > > +                                        handle_timeout(sched) ||
-> > > >                                          (!drm_sched_blocked(sched)=
- &&
-> > > >                                           (entity =3D
-> > > > drm_sched_select_entity(sched))) ||
-> > > >                                          kthread_should_stop());
-> > > > ---------------------
-> > > >
-> > > > drm_sched_fault() and the sw timeout handler would just set
-> > > > sched->has_timeout and kick sched->wake_up_worker.
-> > > >
-> > > > And since we handle the timeout case after
-> > > > drm_sched_get_cleanup_job(), we know that all of the successfully
-> > > > completed jobs have already been popped off the list, and won't be
-> > > > unfairly maligned.
-> > > >
-> > > > BR,
-> > > > -R
-> > > >
-> > > > On Tue, Aug 31, 2021 at 6:29 PM Liu, Monk <Monk.Liu@amd.com> wrote:
-> > > > >
-> > > > > [AMD Official Use Only]
-> > > > >
-> > > > > Okay, I will reprepare this patch
-> > > > >
-> > > > > Thanks
-> > > > >
-> > > > > ------------------------------------------
-> > > > > Monk Liu | Cloud-GPU Core team
-> > > > > ------------------------------------------
-> > > > >
-> > > > > -----Original Message-----
-> > > > > From: Daniel Vetter <daniel@ffwll.ch>
-> > > > > Sent: Tuesday, August 31, 2021 9:02 PM
-> > > > > To: Liu, Monk <Monk.Liu@amd.com>
-> > > > > Cc: amd-gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.or=
-g; Chen, Jingwen <Jingwen.Chen@amd.com>
-> > > > > Subject: Re: [PATCH 2/2] drm/sched: serialize job_timeout and sch=
-eduler
-> > > > >
-> > > > > On Tue, Aug 31, 2021 at 02:59:02PM +0200, Daniel Vetter wrote:
-> > > > > > Can we please have some actual commit message here, with detail=
-ed
-> > > > > > explanation of the race/bug/whatever, how you fix it and why th=
-is is
-> > > > > > the best option?
-> > > > > >
-> > > > > > On Tue, Aug 31, 2021 at 06:35:39PM +0800, Monk Liu wrote:
-> > > > > > > tested-by: jingwen chen <jingwen.chen@amd.com>
-> > > > > > > Signed-off-by: Monk Liu <Monk.Liu@amd.com>
-> > > > > > > Signed-off-by: jingwen chen <jingwen.chen@amd.com>
-> > > > > > > ---
-> > > > > > >  drivers/gpu/drm/scheduler/sched_main.c | 24
-> > > > > > > ++++--------------------
-> > > > > > >  1 file changed, 4 insertions(+), 20 deletions(-)
-> > > > > > >
-> > > > > > > diff --git a/drivers/gpu/drm/scheduler/sched_main.c
-> > > > > > > b/drivers/gpu/drm/scheduler/sched_main.c
-> > > > > > > index ecf8140..894fdb24 100644
-> > > > > > > --- a/drivers/gpu/drm/scheduler/sched_main.c
-> > > > > > > +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> > > > > > > @@ -319,19 +319,17 @@ static void drm_sched_job_timedout(stru=
-ct work_struct *work)
-> > > > > > >     sched =3D container_of(work, struct drm_gpu_scheduler,
-> > > > > > > work_tdr.work);
-> > > > > > >
-> > > > > > >     /* Protects against concurrent deletion in
-> > > > > > > drm_sched_get_cleanup_job */
-> > > > > > > +   if (!__kthread_should_park(sched->thread))
-> > > > > >
-> > > > > > This is a __ function, i.e. considered internal, and it's lockl=
-ess
-> > > > > > atomic, i.e. unordered. And you're not explaining why this work=
-s.
-> > > > > >
-> > > > > > Iow it's probably buggy, and an just unconditionally parking th=
-e
-> > > > > > kthread is probably the right thing to do. If it's not the righ=
-t thing
-> > > > > > to do, there's a bug here for sure.
-> > > > >
-> > > > > Also why don't we reuse the function drivers already have to stop=
- a scheduler thread? We seem to have two kthread_park now, that's probably =
-one too much.
-> > > > > -Daniel
-> > > > >
-> > > > > > > +           kthread_park(sched->thread);
-> > > > > > > +
-> > > > > > >     spin_lock(&sched->job_list_lock);
-> > > > > > >     job =3D list_first_entry_or_null(&sched->pending_list,
-> > > > > > >                                    struct drm_sched_job, list=
-);
-> > > > > > >
-> > > > > > >     if (job) {
-> > > > > > > -           /*
-> > > > > > > -            * Remove the bad job so it cannot be freed by co=
-ncurrent
-> > > > > > > -            * drm_sched_cleanup_jobs. It will be reinserted =
-back after sched->thread
-> > > > > > > -            * is parked at which point it's safe.
-> > > > > > > -            */
-> > > > > > > -           list_del_init(&job->list);
-> > > > > > >             spin_unlock(&sched->job_list_lock);
-> > > > > > >
-> > > > > > > +           /* vendor's timeout_job should call drm_sched_sta=
-rt() */
-> > > > > > >             status =3D job->sched->ops->timedout_job(job);
-> > > > > > >
-> > > > > > >             /*
-> > > > > > > @@ -393,20 +391,6 @@ void drm_sched_stop(struct drm_gpu_sched=
-uler *sched, struct drm_sched_job *bad)
-> > > > > > >     kthread_park(sched->thread);
-> > > > > > >
-> > > > > > >     /*
-> > > > > > > -    * Reinsert back the bad job here - now it's safe as
-> > > > > > > -    * drm_sched_get_cleanup_job cannot race against us and r=
-elease the
-> > > > > > > -    * bad job at this point - we parked (waited for) any in =
-progress
-> > > > > > > -    * (earlier) cleanups and drm_sched_get_cleanup_job will =
-not be called
-> > > > > > > -    * now until the scheduler thread is unparked.
-> > > > > > > -    */
-> > > > > > > -   if (bad && bad->sched =3D=3D sched)
-> > > > > > > -           /*
-> > > > > > > -            * Add at the head of the queue to reflect it was=
- the earliest
-> > > > > > > -            * job extracted.
-> > > > > > > -            */
-> > > > > > > -           list_add(&bad->list, &sched->pending_list);
-> > > > > > > -
-> > > > > > > -   /*
-> > > > > > >      * Iterate the job list from later to  earlier one and ei=
-ther deactive
-> > > > > > >      * their HW callbacks or remove them from pending list if=
- they already
-> > > > > > >      * signaled.
-> > > > > > > --
-> > > > > > > 2.7.4
-> > > > > > >
-> > > > > >
-> > > > > > --
-> > > > > > Daniel Vetter
-> > > > > > Software Engineer, Intel Corporation
-> > > > > > https://nam11.safelinks.protection.outlook.com/?url=3Dhttp%3A%2=
-F%2Fblog.
-> > > > > > ffwll.ch%2F&amp;data=3D04%7C01%7CMonk.Liu%40amd.com%7C298815bea=
-18f4fbf76
-> > > > > > b308d96c7f7a8b%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637=
-6601170
-> > > > > > 51194614%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2=
-luMzIiL
-> > > > > > CJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=3DQzgCU7%2BPdA0a=
-WL5%2BJLg
-> > > > > > KeKbGaMMGqeGI9KE0P0LXlN4%3D&amp;reserved=3D0
-> > > > >
-> > > > > --
-> > > > > Daniel Vetter
-> > > > > Software Engineer, Intel Corporation
-> > > > > https://nam11.safelinks.protection.outlook.com/?url=3Dhttp%3A%2F%=
-2Fblog.ffwll.ch%2F&amp;data=3D04%7C01%7CMonk.Liu%40amd.com%7C298815bea18f4f=
-bf76b308d96c7f7a8b%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C63766011705=
-1194614%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI=
-6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=3DQzgCU7%2BPdA0aWL5%2BJLgKeKbGaMMG=
-qeGI9KE0P0LXlN4%3D&amp;reserved=3D0
-> > >
-> > > --
-> > > Daniel Vetter
-> > > Software Engineer, Intel Corporation
-> > > http://blog.ffwll.ch
->
-> --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
+^ typo, 2x "not"
+
+Other than that, it looks good.
+
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+
+Best regards,
+Jernej
+
+> if the bridge chain up to a connector is enabled.
+> 
+> The current dw-hdmi code gets the current connector from
+> atomic_enable() so use the already stored connector pointer and
+> replace the buffer pointer with a callback returning the current
+> connector ELD buffer.
+> 
+> Since a connector is not always available, either pass an empty
+> ELD to the alsa HDMI driver or don't call snd_pcm_hw_constraint_eld()
+> in AHB driver.
+> 
+> Reported-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+> Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
+> ---
+>  drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c | 10 +++++++---
+>  drivers/gpu/drm/bridge/synopsys/dw-hdmi-audio.h     |  4 ++--
+>  drivers/gpu/drm/bridge/synopsys/dw-hdmi-i2s-audio.c |  9 ++++++++-
+>  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c           | 12 ++++++++++--
+>  4 files changed, 27 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c b/drivers/
+gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c
+> index d0db1acf11d7..7d2ed0ed2fe2 100644
+> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c
+> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c
+> @@ -320,13 +320,17 @@ static int dw_hdmi_open(struct snd_pcm_substream 
+*substream)
+>  	struct snd_pcm_runtime *runtime = substream->runtime;
+>  	struct snd_dw_hdmi *dw = substream->private_data;
+>  	void __iomem *base = dw->data.base;
+> +	u8 *eld;
+>  	int ret;
+>  
+>  	runtime->hw = dw_hdmi_hw;
+>  
+> -	ret = snd_pcm_hw_constraint_eld(runtime, dw->data.eld);
+> -	if (ret < 0)
+> -		return ret;
+> +	eld = dw->data.get_eld(dw->data.hdmi);
+> +	if (eld) {
+> +		ret = snd_pcm_hw_constraint_eld(runtime, eld);
+> +		if (ret < 0)
+> +			return ret;
+> +	}
+>  
+>  	ret = snd_pcm_limit_hw_rates(runtime);
+>  	if (ret < 0)
+> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-audio.h b/drivers/gpu/
+drm/bridge/synopsys/dw-hdmi-audio.h
+> index cb07dc0da5a7..f72d27208ebe 100644
+> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-audio.h
+> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-audio.h
+> @@ -9,15 +9,15 @@ struct dw_hdmi_audio_data {
+>  	void __iomem *base;
+>  	int irq;
+>  	struct dw_hdmi *hdmi;
+> -	u8 *eld;
+> +	u8 *(*get_eld)(struct dw_hdmi *hdmi);
+>  };
+>  
+>  struct dw_hdmi_i2s_audio_data {
+>  	struct dw_hdmi *hdmi;
+> -	u8 *eld;
+>  
+>  	void (*write)(struct dw_hdmi *hdmi, u8 val, int offset);
+>  	u8 (*read)(struct dw_hdmi *hdmi, int offset);
+> +	u8 *(*get_eld)(struct dw_hdmi *hdmi);
+>  };
+>  
+>  #endif
+> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-i2s-audio.c b/drivers/
+gpu/drm/bridge/synopsys/dw-hdmi-i2s-audio.c
+> index feb04f127b55..f50b47ac11a8 100644
+> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-i2s-audio.c
+> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-i2s-audio.c
+> @@ -135,8 +135,15 @@ static int dw_hdmi_i2s_get_eld(struct device *dev, void 
+*data, uint8_t *buf,
+>  			       size_t len)
+>  {
+>  	struct dw_hdmi_i2s_audio_data *audio = data;
+> +	u8 *eld;
+> +
+> +	eld = audio->get_eld(audio->hdmi);
+> +	if (eld)
+> +		memcpy(buf, eld, min_t(size_t, MAX_ELD_BYTES, len));
+> +	else
+> +		/* Pass en empty ELD if connector not available */
+> +		memset(buf, 0, len);
+>  
+> -	memcpy(buf, audio->eld, min_t(size_t, MAX_ELD_BYTES, len));
+>  	return 0;
+>  }
+>  
+> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/
+bridge/synopsys/dw-hdmi.c
+> index 62ae63565d3a..54d8fdad395f 100644
+> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> @@ -757,6 +757,14 @@ static void hdmi_enable_audio_clk(struct dw_hdmi *hdmi, 
+bool enable)
+>  	hdmi_writeb(hdmi, hdmi->mc_clkdis, HDMI_MC_CLKDIS);
+>  }
+>  
+> +static u8 *hdmi_audio_get_eld(struct dw_hdmi *hdmi)
+> +{
+> +	if (!hdmi->curr_conn)
+> +		return NULL;
+> +
+> +	return hdmi->curr_conn->eld;
+> +}
+> +
+>  static void dw_hdmi_ahb_audio_enable(struct dw_hdmi *hdmi)
+>  {
+>  	hdmi_set_cts_n(hdmi, hdmi->audio_cts, hdmi->audio_n);
+> @@ -3432,7 +3440,7 @@ struct dw_hdmi *dw_hdmi_probe(struct platform_device 
+*pdev,
+>  		audio.base = hdmi->regs;
+>  		audio.irq = irq;
+>  		audio.hdmi = hdmi;
+> -		audio.eld = hdmi->connector.eld;
+> +		audio.get_eld = hdmi_audio_get_eld;
+>  		hdmi->enable_audio = dw_hdmi_ahb_audio_enable;
+>  		hdmi->disable_audio = dw_hdmi_ahb_audio_disable;
+>  
+> @@ -3445,7 +3453,7 @@ struct dw_hdmi *dw_hdmi_probe(struct platform_device 
+*pdev,
+>  		struct dw_hdmi_i2s_audio_data audio;
+>  
+>  		audio.hdmi	= hdmi;
+> -		audio.eld	= hdmi->connector.eld;
+> +		audio.get_eld	= hdmi_audio_get_eld;
+>  		audio.write	= hdmi_writeb;
+>  		audio.read	= hdmi_readb;
+>  		hdmi->enable_audio = dw_hdmi_i2s_audio_enable;
+> -- 
+> 2.25.1
+> 
+> 
+
+
