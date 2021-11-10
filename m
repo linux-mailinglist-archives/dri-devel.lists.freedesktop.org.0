@@ -2,44 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3A5444BDE1
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Nov 2021 10:35:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50CFA44BDE9
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Nov 2021 10:37:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 384426E123;
-	Wed, 10 Nov 2021 09:35:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 043E56E2A3;
+	Wed, 10 Nov 2021 09:37:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C7ADF6E105;
- Wed, 10 Nov 2021 09:35:45 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10163"; a="256326633"
-X-IronPort-AV: E=Sophos;i="5.87,223,1631602800"; d="scan'208";a="256326633"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Nov 2021 01:35:45 -0800
-X-IronPort-AV: E=Sophos;i="5.87,223,1631602800"; d="scan'208";a="582594619"
-Received: from dkeohane-mobl1.ger.corp.intel.com (HELO [10.213.222.153])
- ([10.213.222.153])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Nov 2021 01:35:44 -0800
-Subject: Re: [Intel-gfx] [PATCH] drm/i915: Use per device iommu check
-To: Lu Baolu <baolu.lu@linux.intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>
-References: <20211109121759.170915-1-tvrtko.ursulin@linux.intel.com>
- <20211109171926.vrb5juvp64mv65b4@ldmartin-desk2>
- <bcb8736d-a46a-a756-e6ca-7872a21b075c@linux.intel.com>
- <de8337fc-09c8-3c9c-1e30-34737afa50a8@linux.intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-Message-ID: <60635c85-8a0d-51b2-18d1-c4e2eb9e9536@linux.intel.com>
-Date: Wed, 10 Nov 2021 09:35:43 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
+ [IPv6:2a00:1450:4864:20::535])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F03A6E2A3
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Nov 2021 09:37:30 +0000 (UTC)
+Received: by mail-ed1-x535.google.com with SMTP id x15so8149022edv.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Nov 2021 01:37:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=ChO8dXpRdBd9VPlzr8T0hSf0ouf3LTb8saLsKMYhRk4=;
+ b=UfVlQOF9esGlpotawOMw8sCJXrWktXR4niiMHxuRJefTcqgU80GQ6kzs5ECZH3qpzf
+ i4aT+SI4vgLm8Idj8TtlkXWeyPt/2baUP+CfNZ26E7mOQpMcW349C03zuhxYN+J7Ba8s
+ FJ0RA2xwLkErE+oQyI24cWBdAVrSdRdmHCUYk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=ChO8dXpRdBd9VPlzr8T0hSf0ouf3LTb8saLsKMYhRk4=;
+ b=nAwxirOFwd9ejXEQKE1oEN3GzOWrgCOUlD3iok39RZP3qwc/hvmo+0PJo1jxGuXFeZ
+ 3/ufSKb/kqK97hohKEx6WCxOoATrhjV8AzNrLlBYPNADXxXFtB4IgYoJ+8uhxFkx/QGx
+ LObG6AmKpIUSWL209Sh1h7ddt7Zm47gSbXWzYVO3xgLe/AfEBaZdLT8h6uZwBEnGz9TV
+ cLzQEa9NyzKTS2agmyCCJgcvOo7qdPLCueli9fBLRXowMKBL8o9yrfoFMWc5NX+t/Hu3
+ nFJevl2oAO5DcDS6uN+DAcdD/Q8iqY2q58sb7yvOoSi6z3N+aRO7w/yhwoXe6p7XFPny
+ A5Qw==
+X-Gm-Message-State: AOAM530sZnGUbjdl8KJAyRFgPm7V3L193pFS6tKyuSQJxwKs5CuhzMm+
+ 419JEk+C61+Xvrv9NeyLtFW5UA==
+X-Google-Smtp-Source: ABdhPJyGmVdvVE9HpSMVH29kiytl0Kpov+cLP0PHo9fDDLP7o0Z/i8nHJ+2xuA+4OI9gr/xkt5MRMA==
+X-Received: by 2002:a17:907:7094:: with SMTP id
+ yj20mr18988259ejb.265.1636537049013; 
+ Wed, 10 Nov 2021 01:37:29 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id y6sm12917452edc.17.2021.11.10.01.37.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 10 Nov 2021 01:37:28 -0800 (PST)
+Date: Wed, 10 Nov 2021 10:37:26 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Peter Zijlstra <peterz@infradead.org>
+Subject: Re: printk deadlock due to double lock attempt on current CPU's
+ runqueue
+Message-ID: <YYuS1uNhxWOEX1Ci@phenom.ffwll.local>
+Mail-Followup-To: Peter Zijlstra <peterz@infradead.org>,
+ Sultan Alsawaf <sultan@kerneltoast.com>,
+ Anton Vorontsov <anton@enomsg.org>, Ben Segall <bsegall@google.com>,
+ Colin Cross <ccross@android.com>,
+ Daniel Bristot de Oliveira <bristot@redhat.com>,
+ David Airlie <airlied@linux.ie>,
+ Dietmar Eggemann <dietmar.eggemann@arm.com>,
+ dri-devel@lists.freedesktop.org, Ingo Molnar <mingo@redhat.com>,
+ John Ogness <john.ogness@linutronix.de>,
+ Juri Lelli <juri.lelli@redhat.com>,
+ Kees Cook <keescook@chromium.org>, linux-kernel@vger.kernel.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Mel Gorman <mgorman@suse.de>,
+ Petr Mladek <pmladek@suse.com>,
+ Sergey Senozhatsky <senozhatsky@chromium.org>,
+ Steven Rostedt <rostedt@goodmis.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Tony Luck <tony.luck@intel.com>,
+ Vincent Guittot <vincent.guittot@linaro.org>, mkoutny@suse.com
+References: <YYrU2PdmdNkulWSM@sultan-box.localdomain>
+ <20211109213847.GY174703@worktop.programming.kicks-ass.net>
 MIME-Version: 1.0
-In-Reply-To: <de8337fc-09c8-3c9c-1e30-34737afa50a8@linux.intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211109213847.GY174703@worktop.programming.kicks-ass.net>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,65 +88,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: Juri Lelli <juri.lelli@redhat.com>, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, Ben Segall <bsegall@google.com>,
+ Sultan Alsawaf <sultan@kerneltoast.com>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ Anton Vorontsov <anton@enomsg.org>, Ingo Molnar <mingo@redhat.com>,
+ Mel Gorman <mgorman@suse.de>, Petr Mladek <pmladek@suse.com>,
+ Kees Cook <keescook@chromium.org>, John Ogness <john.ogness@linutronix.de>,
+ Steven Rostedt <rostedt@goodmis.org>,
+ Dietmar Eggemann <dietmar.eggemann@arm.com>, Tony Luck <tony.luck@intel.com>,
+ linux-kernel@vger.kernel.org, Sergey Senozhatsky <senozhatsky@chromium.org>,
+ mkoutny@suse.com, Thomas Zimmermann <tzimmermann@suse.de>,
+ Colin Cross <ccross@android.com>,
+ Daniel Bristot de Oliveira <bristot@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 10/11/2021 07:25, Lu Baolu wrote:
-> On 2021/11/10 1:35, Tvrtko Ursulin wrote:
->>
->> On 09/11/2021 17:19, Lucas De Marchi wrote:
->>> On Tue, Nov 09, 2021 at 12:17:59PM +0000, Tvrtko Ursulin wrote:
->>>> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->>>>
->>>> On igfx + dgfx setups, it appears that intel_iommu=igfx_off option only
->>>> disables the igfx iommu. Stop relying on global intel_iommu_gfx_mapped
->>>> and probe presence of iommu domain per device to accurately reflect its
->>>> status.
->>>
->>> nice, I was just starting to look into thus but for another reason: we
->>> are adding support for other archs, like aarch64, and the global from 
->>> here
->>> was a problem
->>
->> Yes I realized the other iommu angle as well. To do this properly we 
->> need to sort the intel_vtd_active call sites into at least two buckets 
->> - which are truly about VT-d and which are just IOMMU.
->>
->> For instance the THP decision in i915_gemfs.co would be "are we behind 
->> any iommu". Some other call sites are possibly only about the bugs in 
->> the igfx iommu. Not sure if there is a third bucket for any potential 
->> differences between igfx iommu and other Intel iommu in case of dgfx.
->>
->> I'd like to hear from Baolu as well to confirm if intel_iommu driver 
->> is handling igfx + dgfx correctly in respect to the two global 
->> variables I mention in the commit message.
+On Tue, Nov 09, 2021 at 10:38:47PM +0100, Peter Zijlstra wrote:
+> On Tue, Nov 09, 2021 at 12:06:48PM -0800, Sultan Alsawaf wrote:
+> > Hi,
+> > 
+> > I encountered a printk deadlock on 5.13 which appears to still affect the latest
+> > kernel. The deadlock occurs due to printk being used while having the current
+> > CPU's runqueue locked, and the underlying framebuffer console attempting to lock
+> > the same runqueue when printk tries to flush the log buffer.
 > 
-> I strongly agree that the drivers should call the IOMMU interface
-> directly for portability. For Intel graphic driver, we have two issues:
+> Yes, that's a known 'feature' of some consoles. printk() is in the
+> process of being reworked to not call con->write() from the printk()
+> calling context, which would go a long way towards fixing this.
+
+I'm a bit out of the loop but from lwn articles my understanding is that
+part of upstreaming from -rt we no longer have the explicit "I'm a safe
+console for direct printing" opt-in. Which I get from a backwards compat
+pov, but I still think for at least fbcon we really should never attempt a
+direct printk con->write, it's just all around terrible.
+
+And it's getting worse by the year:
+- direct scanout displays (i.e. just a few mmio writes and it will show
+  up) are on the way out at least in laptops, everyone gets self-refresh
+  (dp psr) under software control, so without being able to kick a kthread
+  off nothing shows up except more oopses
+
+- because of the impendence mismatch between fbdev and drm-kms we even go
+  ever more this direction for dumb framebuffers, including the firmware
+  boot-up framebuffer simpledrm. This could perhaps be fixed with a new
+  dedicate console driver directly on top of drm-kms, but that's on the
+  wishlist for years and I don't see anyone typing that.
+
+So yeah for fbcon at least I think we really should throw out direct
+con->write from printk completely.
+
+Also adding John Ogness.
+-Daniel
+
 > 
-> #1) driver asks vt-d driver for identity map with intel_iommu=igfx_off.
-> #2) driver query the status with a global intel_iommu_gfx_mapped.
+> >   #27 [ffffc900005b8e28] enqueue_task_fair at ffffffff8129774a  <-- SCHED_WARN_ON(rq->tmp_alone_branch != &rq->leaf_cfs_rq_list);
+> >   #28 [ffffc900005b8ec0] activate_task at ffffffff8125625d
+> >   #29 [ffffc900005b8ef0] ttwu_do_activate at ffffffff81257943
+> >   #30 [ffffc900005b8f28] sched_ttwu_pending at ffffffff8125c71f <-- locks this CPU's runqueue
+> >   #31 [ffffc900005b8fa0] flush_smp_call_function_queue at ffffffff813c6833
+> >   #32 [ffffc900005b8fd8] generic_smp_call_function_single_interrupt at ffffffff813c7f58
+> >   #33 [ffffc900005b8fe0] __sysvec_call_function_single at ffffffff810f1456
+> >   #34 [ffffc900005b8ff0] sysvec_call_function_single at ffffffff831ec1bc
+> >   --- <IRQ stack> ---
+> >   #35 [ffffc9000019fda8] sysvec_call_function_single at ffffffff831ec1bc
+> >       RIP: ffffffff831ed06e  RSP: ffffed10438a6a49  RFLAGS: 00000001
+> >       RAX: ffff888100d832c0  RBX: 0000000000000000  RCX: 1ffff92000033fd7
+> >       RDX: 0000000000000000  RSI: ffff888100d832c0  RDI: ffffed10438a6a49
+> >       RBP: ffffffff831ec166   R8: dffffc0000000000   R9: 0000000000000000
+> >       R10: ffffffff83400e22  R11: 0000000000000000  R12: ffffffff831ed83e
+> >       R13: 0000000000000000  R14: ffffc9000019fde8  R15: ffffffff814d4d9d
+> >       ORIG_RAX: ffff88821c53524b  CS: 0001  SS: ef073a2
+> >   WARNING: possibly bogus exception frame
+> > ----------------------->8-----------------------
+> > 
+> > The catalyst is that CONFIG_SCHED_DEBUG is enabled and the tmp_alone_branch
+> > assertion fails (Peter, is this bad?).
 > 
-> We need to solve these two problems step by step. This patch is
-> definitely a good start point.
+> Yes, that's not good. IIRC Vincent and Michal were looking at that code
+> recently.
+> 
+> > I'm not sure what the *correct* solution is here (don't use printk while having
+> > a runqueue locked? don't use schedule_work() from the fbcon path? tell printk
+> > to use one of its lock-less backends?), so I've cc'd all the relevant folks.
+> 
+> I'm a firm believer in early_printk serial consoles.
 
-(I should have really consolidated the thread, but never mind now.)
-
-You mean good starting point for the discussion or between your first 
-and second email you started thinking it may even work?
-
-Because as I wrote in the other email, it appears to work. But I fully 
-accept it may be by accident and you may suggest a proper API to be 
-added to the IOMMU core, which I would then be happy to use.
-
-If maybe not immediately, perhaps we could start with this patch and 
-going forward add something more detailed. Like for instance allowing us 
-to query the name/id of the iommu driver in case i915 needs to apply 
-different quirks across them? Not sure how feasible that would be, but 
-at the moment the need does sound plausible to me.
-
-Regards,
-
-Tvrtko
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
