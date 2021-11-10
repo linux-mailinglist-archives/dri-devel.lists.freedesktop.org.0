@@ -2,42 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68F7C44BE80
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Nov 2021 11:22:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27F0044BE86
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Nov 2021 11:24:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A5BA6E1D2;
-	Wed, 10 Nov 2021 10:22:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 161DB6EC41;
+	Wed, 10 Nov 2021 10:24:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 01C356E1D2
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Nov 2021 10:22:23 +0000 (UTC)
-Received: from [192.168.1.111] (91-158-153-130.elisa-laajakaista.fi
- [91.158.153.130])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 92509D8B;
- Wed, 10 Nov 2021 11:22:21 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1636539742;
- bh=Kb2mqQcYSIR30c1c/QCzqZNgi4OO/yDrYs6SnhNUIuQ=;
- h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=aPLuUzA685pqCn694mGfTKHYBiuVhIufJVoMO2GulmQVv36CE3Ox+BK4MACzJ+hDp
- 8oKRyKHUh5zgtOZOi+SmyS85U7loN3CDuB7b85TZSQgdx7YQjWP0lX8HRyKEE8Npcg
- 2Z+4dZxUZ3O9UinQJ7cGN0hnmawutZyeFLSpw6Y0=
-Subject: Re: [PATCH] drm/omap: increase DSS5 max tv pclk to 192MHz
-To: Neil Armstrong <narmstrong@baylibre.com>
-References: <20211012133939.2145462-1-narmstrong@baylibre.com>
- <b0683f52-abde-cb11-c88c-dd05645945a0@baylibre.com>
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Message-ID: <f6bc98f1-2a1e-1fd9-6efe-37193b835b0d@ideasonboard.com>
-Date: Wed, 10 Nov 2021 12:22:18 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 153196EC41
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Nov 2021 10:24:28 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10163"; a="231366141"
+X-IronPort-AV: E=Sophos;i="5.87,223,1631602800"; d="scan'208";a="231366141"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Nov 2021 02:24:27 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.87,223,1631602800"; d="scan'208";a="501330380"
+Received: from black.fi.intel.com ([10.237.72.28])
+ by fmsmga007.fm.intel.com with ESMTP; 10 Nov 2021 02:24:25 -0800
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+ id 963FD155; Wed, 10 Nov 2021 12:24:27 +0200 (EET)
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v1 1/1] drm: Replace kernel.h with the necessary inclusions
+Date: Wed, 10 Nov 2021 12:24:23 +0200
+Message-Id: <20211110102423.54282-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-In-Reply-To: <b0683f52-abde-cb11-c88c-dd05645945a0@baylibre.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,70 +45,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: khilman@baylibre.com, Tomi Valkeinen <tomi.valkeinen@ti.com>,
- linux-omap@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: David Airlie <airlied@linux.ie>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 09/11/2021 15:33, Neil Armstrong wrote:
-> Hi Tomi,
-> 
-> On 12/10/2021 15:39, Neil Armstrong wrote:
->> From: Tomi Valkeinen <tomi.valkeinen@ti.com>
->>
->> DSS5's maximum tv pclk rate (i.e. HDMI) is set to 186MHz, which comes
->> from the TRM (DPLL_HDMI_CLK1 frequency must be lower than 186 MHz). To
->> support DRA76's wide screen HDMI feature, we need to increase this
->> maximum rate.
->>
->> Testing shows that the PLL seems to work fine even with ~240MHz clocks,
->> and even the HDMI output at that clock is stable enough for monitors to
->> show a picture. This holds true for all DRA7 and AM5 SoCs (and probably
->> also for OMAP5).
->>
->> However, the highest we can go without big refactoring to the clocking
->> code is 192MHz, as that is the DSS func clock we get from the PRCM. So,
->> increase the max HDMI pixel clock to 192MHz for now, to allow some more
->> 2k+ modes to work.
->>
->> This patch never had a clear confirmation from HW people, but this
->> change stayed on production trees for multiple years without any report
->> on an eventual breakage.
->>
->> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
->> Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
->> ---
->>   drivers/gpu/drm/omapdrm/dss/dispc.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> Tomi,
->>
->> I slighly changed the commit message to point the fact this patch has been
->> used in production fort years without any sign of breakage.
->>
->> Neil
->>
->> diff --git a/drivers/gpu/drm/omapdrm/dss/dispc.c b/drivers/gpu/drm/omapdrm/dss/dispc.c
->> index 5619420cc2cc..3c4a4991e45a 100644
->> --- a/drivers/gpu/drm/omapdrm/dss/dispc.c
->> +++ b/drivers/gpu/drm/omapdrm/dss/dispc.c
->> @@ -4458,7 +4458,7 @@ static const struct dispc_features omap54xx_dispc_feats = {
->>   	.mgr_width_max		=	4096,
->>   	.mgr_height_max		=	4096,
->>   	.max_lcd_pclk		=	170000000,
->> -	.max_tv_pclk		=	186000000,
->> +	.max_tv_pclk		=	192000000,
->>   	.max_downscale		=	4,
->>   	.max_line_width		=	2048,
->>   	.min_pcd		=	1,
->>
->> base-commit: e4e737bb5c170df6135a127739a9e6148ee3da82
->>
-> 
-> Gentle ping,
+When kernel.h is used in the headers it adds a lot into dependency hell,
+especially when there are circular dependencies are involved.
 
-Thanks, I'll apply this to drm-misc-next.
+Replace kernel.h inclusion with the list of what is really being used.
 
-  Tomi
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+---
+ include/drm/drm_gem_ttm_helper.h  | 2 +-
+ include/drm/drm_gem_vram_helper.h | 2 +-
+ include/drm/drm_mm.h              | 4 +++-
+ 3 files changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/include/drm/drm_gem_ttm_helper.h b/include/drm/drm_gem_ttm_helper.h
+index c1aa02bd4c89..78040f6cc6f3 100644
+--- a/include/drm/drm_gem_ttm_helper.h
++++ b/include/drm/drm_gem_ttm_helper.h
+@@ -3,7 +3,7 @@
+ #ifndef DRM_GEM_TTM_HELPER_H
+ #define DRM_GEM_TTM_HELPER_H
+ 
+-#include <linux/kernel.h>
++#include <linux/container_of.h>
+ 
+ #include <drm/drm_device.h>
+ #include <drm/drm_gem.h>
+diff --git a/include/drm/drm_gem_vram_helper.h b/include/drm/drm_gem_vram_helper.h
+index d3cf06c9af65..b4ce27a72773 100644
+--- a/include/drm/drm_gem_vram_helper.h
++++ b/include/drm/drm_gem_vram_helper.h
+@@ -11,8 +11,8 @@
+ #include <drm/ttm/ttm_bo_api.h>
+ #include <drm/ttm/ttm_bo_driver.h>
+ 
++#include <linux/container_of.h>
+ #include <linux/dma-buf-map.h>
+-#include <linux/kernel.h> /* for container_of() */
+ 
+ struct drm_mode_create_dumb;
+ struct drm_plane;
+diff --git a/include/drm/drm_mm.h b/include/drm/drm_mm.h
+index 9b4292f229c6..ac33ba1b18bc 100644
+--- a/include/drm/drm_mm.h
++++ b/include/drm/drm_mm.h
+@@ -39,13 +39,15 @@
+  */
+ #include <linux/bug.h>
+ #include <linux/rbtree.h>
+-#include <linux/kernel.h>
++#include <linux/limits.h>
+ #include <linux/mm_types.h>
+ #include <linux/list.h>
+ #include <linux/spinlock.h>
+ #ifdef CONFIG_DRM_DEBUG_MM
+ #include <linux/stackdepot.h>
+ #endif
++#include <linux/types.h>
++
+ #include <drm/drm_print.h>
+ 
+ #ifdef CONFIG_DRM_DEBUG_MM
+-- 
+2.33.0
 
