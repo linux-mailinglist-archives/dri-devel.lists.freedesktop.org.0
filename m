@@ -2,62 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2886944C28E
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Nov 2021 14:54:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0171644C2CA
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Nov 2021 15:11:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 73C736E4F8;
-	Wed, 10 Nov 2021 13:54:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 915416E1A3;
+	Wed, 10 Nov 2021 14:11:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A2F16E4F8
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Nov 2021 13:54:40 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 798C71FD74;
- Wed, 10 Nov 2021 13:54:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1636552478; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=8VUOWPq28Zr/dzCZjs3WDK3GbYBhLb5gkJbhc8O3Mt0=;
- b=AREqCHCfL/KqARISnEw0mHyKyuNavCV7jSggRazLzocvDUiz9nAn9OiVPz8KvNuCgTBzla
- H4JHUdE512Jk7uy+49z2Wl4OZqYVO3e15UJrB22vnRHrlBLOwnAaY7XkRwKCHveTzxN5gh
- zui/NWWpkYM9Kjar7P41/6Pf1kr3RqQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1636552478;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=8VUOWPq28Zr/dzCZjs3WDK3GbYBhLb5gkJbhc8O3Mt0=;
- b=Z7TMCJP+xbozipeIMsKOqMJFYrlqg5dIdGxtg11ddu0StzT+CkH5E6j3sHQXgzgDnp/okB
- 4liHNN446+7I6SCg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 46D3413BFF;
- Wed, 10 Nov 2021 13:54:38 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id XaQAEB7Pi2HNLAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Wed, 10 Nov 2021 13:54:38 +0000
-Message-ID: <887a15cb-3a3b-4ba2-aa0f-a241e70a19fa@suse.de>
-Date: Wed, 10 Nov 2021 14:54:37 +0100
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B3416E1A3;
+ Wed, 10 Nov 2021 14:11:38 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10163"; a="256367227"
+X-IronPort-AV: E=Sophos;i="5.87,223,1631602800"; d="scan'208";a="256367227"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Nov 2021 06:11:23 -0800
+X-IronPort-AV: E=Sophos;i="5.87,223,1631602800"; d="scan'208";a="582721529"
+Received: from dkeohane-mobl1.ger.corp.intel.com (HELO [10.213.222.153])
+ ([10.213.222.153])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Nov 2021 06:11:21 -0800
+Subject: Re: [PATCH] drm/i915: Use per device iommu check
+To: Lu Baolu <baolu.lu@linux.intel.com>, Intel-gfx@lists.freedesktop.org
+References: <20211109121759.170915-1-tvrtko.ursulin@linux.intel.com>
+ <6e8c55a7-45b6-57ab-35f7-d522401efccb@linux.intel.com>
+ <4d1a0ab9-e0d8-2ed9-1fc4-9ffaf2f19bef@linux.intel.com>
+ <7b2e1427-69cf-8f5d-0c15-73c4e602953d@linux.intel.com>
+ <2a1ae709-19f8-7983-b171-98ec2f3f010a@linux.intel.com>
+ <4c5ab72f-aaff-8b92-7471-44dd907cf2f6@linux.intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+Message-ID: <215fa7de-4ed7-1da5-724e-006e36286c08@linux.intel.com>
+Date: Wed, 10 Nov 2021 14:11:19 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.1
-Subject: Re: [PATCH v1 1/1] drm: Replace kernel.h with the necessary inclusions
+In-Reply-To: <4c5ab72f-aaff-8b92-7471-44dd907cf2f6@linux.intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20211110102423.54282-1-andriy.shevchenko@linux.intel.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20211110102423.54282-1-andriy.shevchenko@linux.intel.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------kNnrg6100HvqdEZyDADWTlJs"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,97 +53,121 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>
+Cc: Robin Murphy <robin.murphy@arm.com>, dri-devel@lists.freedesktop.org,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------kNnrg6100HvqdEZyDADWTlJs
-Content-Type: multipart/mixed; boundary="------------NAqjOnV40TzpAO02AzBOuA0P";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>
-Message-ID: <887a15cb-3a3b-4ba2-aa0f-a241e70a19fa@suse.de>
-Subject: Re: [PATCH v1 1/1] drm: Replace kernel.h with the necessary
- inclusions
-References: <20211110102423.54282-1-andriy.shevchenko@linux.intel.com>
-In-Reply-To: <20211110102423.54282-1-andriy.shevchenko@linux.intel.com>
 
---------------NAqjOnV40TzpAO02AzBOuA0P
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+On 10/11/2021 12:35, Lu Baolu wrote:
+> On 2021/11/10 20:08, Tvrtko Ursulin wrote:
+>>
+>> On 10/11/2021 12:04, Lu Baolu wrote:
+>>> On 2021/11/10 17:30, Tvrtko Ursulin wrote:
+>>>>
+>>>> On 10/11/2021 07:12, Lu Baolu wrote:
+>>>>> Hi Tvrtko,
+>>>>>
+>>>>> On 2021/11/9 20:17, Tvrtko Ursulin wrote:
+>>>>>> From: Tvrtko Ursulin<tvrtko.ursulin@intel.com>
+>>>>>>
+>>>>>> On igfx + dgfx setups, it appears that intel_iommu=igfx_off option 
+>>>>>> only
+>>>>>> disables the igfx iommu. Stop relying on global 
+>>>>>> intel_iommu_gfx_mapped
+>>>>>> and probe presence of iommu domain per device to accurately 
+>>>>>> reflect its
+>>>>>> status.
+>>>>>>
+>>>>>> Signed-off-by: Tvrtko Ursulin<tvrtko.ursulin@intel.com>
+>>>>>> Cc: Lu Baolu<baolu.lu@linux.intel.com>
+>>>>>> ---
+>>>>>> Baolu, is my understanding here correct? Maybe I am confused by both
+>>>>>> intel_iommu_gfx_mapped and dmar_map_gfx being globals in the 
+>>>>>> intel_iommu
+>>>>>> driver. But it certainly appears the setup can assign some iommu 
+>>>>>> ops (and
+>>>>>> assign the discrete i915 to iommu group) when those two are set to 
+>>>>>> off.
+>>>>>
+>>>>> diff --git a/drivers/gpu/drm/i915/i915_drv.h 
+>>>>> b/drivers/gpu/drm/i915/i915_drv.h
+>>>>> index e967cd08f23e..9fb38a54f1fe 100644
+>>>>> --- a/drivers/gpu/drm/i915/i915_drv.h
+>>>>> +++ b/drivers/gpu/drm/i915/i915_drv.h
+>>>>> @@ -1763,26 +1763,27 @@ static inline bool run_as_guest(void)
+>>>>>   #define HAS_D12_PLANE_MINIMIZATION(dev_priv) 
+>>>>> (IS_ROCKETLAKE(dev_priv) || \
+>>>>>                             IS_ALDERLAKE_S(dev_priv))
+>>>>>
+>>>>> -static inline bool intel_vtd_active(void)
+>>>>> +static inline bool intel_vtd_active(struct drm_i915_private *i915)
+>>>>>   {
+>>>>> -#ifdef CONFIG_INTEL_IOMMU
+>>>>> -    if (intel_iommu_gfx_mapped)
+>>>>> +    if (iommu_get_domain_for_dev(i915->drm.dev))
+>>>>>           return true;
+>>>>> -#endif
+>>>>>
+>>>>>       /* Running as a guest, we assume the host is enforcing VT'd */
+>>>>>       return run_as_guest();
+>>>>>   }
+>>>>>
+>>>>> Have you verified this change? I am afraid that
+>>>>> iommu_get_domain_for_dev() always gets a valid iommu domain even
+>>>>> intel_iommu_gfx_mapped == 0.
+>>>>
+>>>> Yes it seems to work as is:
+>>>>
+>>>> default:
+>>>>
+>>>> # grep -i iommu /sys/kernel/debug/dri/*/i915_capabilities
+>>>> /sys/kernel/debug/dri/0/i915_capabilities:iommu: enabled
+>>>> /sys/kernel/debug/dri/1/i915_capabilities:iommu: enabled
+>>>>
+>>>> intel_iommu=igfx_off:
+>>>>
+>>>> # grep -i iommu /sys/kernel/debug/dri/*/i915_capabilities
+>>>> /sys/kernel/debug/dri/0/i915_capabilities:iommu: disabled
+>>>> /sys/kernel/debug/dri/1/i915_capabilities:iommu: enabled
+>>>>
+>>>> On my system dri device 0 is integrated graphics and 1 is discrete.
+>>>
+>>> The drm device 0 has a dedicated iommu. When the user request igfx not
+>>> mapped, the VT-d implementation will turn it off to save power. But for
+>>> shared iommu, you definitely will get it enabled.
+>>
+>> Sorry I am not following, what exactly do you mean? Is there a 
+>> platform with integrated graphics without a dedicated iommu, in which 
+>> case intel_iommu=igfx_off results in intel_iommu_gfx_mapped == 0 and 
+>> iommu_get_domain_for_dev returning non-NULL?
+> 
+> Your code always work for an igfx with a dedicated iommu. This might be
+> always true on today's platforms. But from driver's point of view, we
+> should not make such assumption.
+> 
+> For example, if the iommu implementation decides not to turn off the
+> graphic iommu (perhaps due to some hw quirk or for graphic
+> virtualization), your code will be broken.
 
-SGkNCg0KQW0gMTAuMTEuMjEgdW0gMTE6MjQgc2NocmllYiBBbmR5IFNoZXZjaGVua286DQo+
-IFdoZW4ga2VybmVsLmggaXMgdXNlZCBpbiB0aGUgaGVhZGVycyBpdCBhZGRzIGEgbG90IGlu
-dG8gZGVwZW5kZW5jeSBoZWxsLA0KPiBlc3BlY2lhbGx5IHdoZW4gdGhlcmUgYXJlIGNpcmN1
-bGFyIGRlcGVuZGVuY2llcyBhcmUgaW52b2x2ZWQuDQo+IA0KPiBSZXBsYWNlIGtlcm5lbC5o
-IGluY2x1c2lvbiB3aXRoIHRoZSBsaXN0IG9mIHdoYXQgaXMgcmVhbGx5IGJlaW5nIHVzZWQu
-DQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBBbmR5IFNoZXZjaGVua28gPGFuZHJpeS5zaGV2Y2hl
-bmtvQGxpbnV4LmludGVsLmNvbT4NCj4gLS0tDQo+ICAgaW5jbHVkZS9kcm0vZHJtX2dlbV90
-dG1faGVscGVyLmggIHwgMiArLQ0KPiAgIGluY2x1ZGUvZHJtL2RybV9nZW1fdnJhbV9oZWxw
-ZXIuaCB8IDIgKy0NCj4gICBpbmNsdWRlL2RybS9kcm1fbW0uaCAgICAgICAgICAgICAgfCA0
-ICsrKy0NCj4gICAzIGZpbGVzIGNoYW5nZWQsIDUgaW5zZXJ0aW9ucygrKSwgMyBkZWxldGlv
-bnMoLSkNCj4gDQo+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2RybS9kcm1fZ2VtX3R0bV9oZWxw
-ZXIuaCBiL2luY2x1ZGUvZHJtL2RybV9nZW1fdHRtX2hlbHBlci5oDQo+IGluZGV4IGMxYWEw
-MmJkNGM4OS4uNzgwNDBmNmNjNmYzIDEwMDY0NA0KPiAtLS0gYS9pbmNsdWRlL2RybS9kcm1f
-Z2VtX3R0bV9oZWxwZXIuaA0KPiArKysgYi9pbmNsdWRlL2RybS9kcm1fZ2VtX3R0bV9oZWxw
-ZXIuaA0KPiBAQCAtMyw3ICszLDcgQEANCj4gICAjaWZuZGVmIERSTV9HRU1fVFRNX0hFTFBF
-Ul9IDQo+ICAgI2RlZmluZSBEUk1fR0VNX1RUTV9IRUxQRVJfSA0KPiAgIA0KPiAtI2luY2x1
-ZGUgPGxpbnV4L2tlcm5lbC5oPg0KPiArI2luY2x1ZGUgPGxpbnV4L2NvbnRhaW5lcl9vZi5o
-Pg0KDQpJIGJ1aWx0IHRoaXMgcGF0Y2ggb24gYSByZWNlbnQgZHJtLW1pc2MtbmV4dCwgYnV0
-IHRoZXJlJ3Mgbm8gDQpsaW51eC9jb250YWluZXJfb2YuaA0KDQpCZXN0IHJlZ2FyZHMNClRo
-b21hcw0KDQo+ICAgDQo+ICAgI2luY2x1ZGUgPGRybS9kcm1fZGV2aWNlLmg+DQo+ICAgI2lu
-Y2x1ZGUgPGRybS9kcm1fZ2VtLmg+DQo+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2RybS9kcm1f
-Z2VtX3ZyYW1faGVscGVyLmggYi9pbmNsdWRlL2RybS9kcm1fZ2VtX3ZyYW1faGVscGVyLmgN
-Cj4gaW5kZXggZDNjZjA2YzlhZjY1Li5iNGNlMjdhNzI3NzMgMTAwNjQ0DQo+IC0tLSBhL2lu
-Y2x1ZGUvZHJtL2RybV9nZW1fdnJhbV9oZWxwZXIuaA0KPiArKysgYi9pbmNsdWRlL2RybS9k
-cm1fZ2VtX3ZyYW1faGVscGVyLmgNCj4gQEAgLTExLDggKzExLDggQEANCj4gICAjaW5jbHVk
-ZSA8ZHJtL3R0bS90dG1fYm9fYXBpLmg+DQo+ICAgI2luY2x1ZGUgPGRybS90dG0vdHRtX2Jv
-X2RyaXZlci5oPg0KPiAgIA0KPiArI2luY2x1ZGUgPGxpbnV4L2NvbnRhaW5lcl9vZi5oPg0K
-PiAgICNpbmNsdWRlIDxsaW51eC9kbWEtYnVmLW1hcC5oPg0KPiAtI2luY2x1ZGUgPGxpbnV4
-L2tlcm5lbC5oPiAvKiBmb3IgY29udGFpbmVyX29mKCkgKi8NCj4gICANCj4gICBzdHJ1Y3Qg
-ZHJtX21vZGVfY3JlYXRlX2R1bWI7DQo+ICAgc3RydWN0IGRybV9wbGFuZTsNCj4gZGlmZiAt
-LWdpdCBhL2luY2x1ZGUvZHJtL2RybV9tbS5oIGIvaW5jbHVkZS9kcm0vZHJtX21tLmgNCj4g
-aW5kZXggOWI0MjkyZjIyOWM2Li5hYzMzYmExYjE4YmMgMTAwNjQ0DQo+IC0tLSBhL2luY2x1
-ZGUvZHJtL2RybV9tbS5oDQo+ICsrKyBiL2luY2x1ZGUvZHJtL2RybV9tbS5oDQo+IEBAIC0z
-OSwxMyArMzksMTUgQEANCj4gICAgKi8NCj4gICAjaW5jbHVkZSA8bGludXgvYnVnLmg+DQo+
-ICAgI2luY2x1ZGUgPGxpbnV4L3JidHJlZS5oPg0KPiAtI2luY2x1ZGUgPGxpbnV4L2tlcm5l
-bC5oPg0KPiArI2luY2x1ZGUgPGxpbnV4L2xpbWl0cy5oPg0KPiAgICNpbmNsdWRlIDxsaW51
-eC9tbV90eXBlcy5oPg0KPiAgICNpbmNsdWRlIDxsaW51eC9saXN0Lmg+DQo+ICAgI2luY2x1
-ZGUgPGxpbnV4L3NwaW5sb2NrLmg+DQo+ICAgI2lmZGVmIENPTkZJR19EUk1fREVCVUdfTU0N
-Cj4gICAjaW5jbHVkZSA8bGludXgvc3RhY2tkZXBvdC5oPg0KPiAgICNlbmRpZg0KPiArI2lu
-Y2x1ZGUgPGxpbnV4L3R5cGVzLmg+DQo+ICsNCj4gICAjaW5jbHVkZSA8ZHJtL2RybV9wcmlu
-dC5oPg0KPiAgIA0KPiAgICNpZmRlZiBDT05GSUdfRFJNX0RFQlVHX01NDQo+IA0KDQotLSAN
-ClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNv
-ZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5IE7D
-vHJuYmVyZywgR2VybWFueQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0
-c2bDvGhyZXI6IEl2byBUb3Rldg0K
+If I got it right, this would go back to your earlier recommendation to 
+have the check look like this:
 
---------------NAqjOnV40TzpAO02AzBOuA0P--
+static bool intel_vtd_active(struct drm_i915_private *i915)
+{
+         struct iommu_domain *domain;
 
---------------kNnrg6100HvqdEZyDADWTlJs
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+         domain = iommu_get_domain_for_dev(i915->drm.dev);
+         if (domain && (domain->type & __IOMMU_DOMAIN_PAGING))
+                 return true;
+	...
 
------BEGIN PGP SIGNATURE-----
+This would be okay as a first step?
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmGLzx0FAwAAAAAACgkQlh/E3EQov+B/
-RRAAs094WveDyBpl1gjBDkybhubiJOuKwc2MldCL0+nHuQ3zbCQ7reCqflbedhEUMO1cCXt1ZEhT
-wzyUguUFFYCHi4atLRFF6ajOnJSz4DS3zYRnqWZeF/dVJeVsob5qXLYgdMT+xxosOYG+nt3tpAN6
-EVDgMKgjg8Nh0qgkZ8dNN9AWqSZTJpKAoPtWY+Dx6F0PS42wkoSuKda87NVByaDDAikBu9BNx3Oh
-AA2kPhPUkMZAdYmYunuDEuEq+0KL+MQnmfoCT0VbUT4cD6OPIgnJmENQmbYeqSWHh8F8za+Zvmod
-PjzMJX3gHgCyLfT1PDvs3YvpnJakDrxILXx7mMRbURoxrpiOPpqiUmSPFxIxhab8pIIh6RLyHpZh
-ZB/tXH8KSX32q5ZWNBESIWMz80TYH6FC/sfl9IivSY7joYDg53AA6dDRMTbY4d11V80cWcafx7rd
-8Ksw0TvWOuQZOZs9w6jBUHJvf/+771uV20E2zRAUmqvEV19X2UFxazxV+BkH3EH/GDNk2DsqIDfN
-vr/cQ/QBo2ZsRxdrUq/nE7xX47mGIh3x68nUlxaTNerngRKQ25b/Vc5wn6FobuuA45+gVkhMODAE
-joUeueBjLxK+wfLkk78sCU/rbygJElty8eUbuyIMjyGr1q3aQ5tXMilHXrqF5lXNCLzIWkWNa2Te
-3Eg=
-=PvGj
------END PGP SIGNATURE-----
+Elsewhere in the thread Robin suggested looking at the dec->dma_ops and 
+comparing against iommu_dma_ops. These two solution would be effectively 
+the same?
 
---------------kNnrg6100HvqdEZyDADWTlJs--
+Regards,
+
+Tvrtko
