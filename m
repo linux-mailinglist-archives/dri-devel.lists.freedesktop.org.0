@@ -2,44 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B32B244C162
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Nov 2021 13:35:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9274444C17A
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Nov 2021 13:42:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 57DA86E09C;
-	Wed, 10 Nov 2021 12:35:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9BCAC6E0BE;
+	Wed, 10 Nov 2021 12:42:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B721F6E441;
- Wed, 10 Nov 2021 12:35:13 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10163"; a="219553381"
-X-IronPort-AV: E=Sophos;i="5.87,223,1631602800"; d="scan'208";a="219553381"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Nov 2021 04:35:13 -0800
-X-IronPort-AV: E=Sophos;i="5.87,223,1631602800"; d="scan'208";a="503947510"
-Received: from blu2-mobl3.ccr.corp.intel.com (HELO [10.254.212.217])
- ([10.254.212.217])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Nov 2021 04:35:11 -0800
-Message-ID: <4c5ab72f-aaff-8b92-7471-44dd907cf2f6@linux.intel.com>
-Date: Wed, 10 Nov 2021 20:35:08 +0800
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 277D26E0BE
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Nov 2021 12:42:37 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: dafna) with ESMTPSA id B677A1F45422
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
+ t=1636548155; bh=ZsdqjNJRTzFZxNm9jZSSqsLxhmhLOYqnDc2uooP2j4s=;
+ h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+ b=UY7+1wlDPgAYmS8fH5yNoKPbqU3ypTNCdTx5M1AUZspII1o1AWL/PACLBfyZSdH3T
+ Qj02/9mxmAGUOY6J6zEnDw0gHcierAn1+t9d/QKQwdlROSvQatKPajO0Bkxk5L99C2
+ ZgFX/psZdl4NMT+rW6JRbQzM1es+mmYX+Gu1OEW5Vu/os5VlMrP2OjNE5Z2tNYDL3m
+ PFU3EyRjbKyRCJIQNTLMVWS5RpLv1ilP7TLbungFd84idK3Hm1+UCHUssLwfRKRV7A
+ DYC11vpP7u0kU1y8z4E+W/yeHPF2N20rHefr6EJWPBg8NM3C79rW/akkKeEr4f+1s2
+ Icwv+4/bByHTg==
+Subject: Re: [PATCH v2 1/3] drm/bridge: parade-ps8640: Don't try to enable VDO
+ if poweron fails
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ a.hajda@samsung.com
+References: <20211102093618.114928-1-angelogioacchino.delregno@collabora.com>
+From: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Message-ID: <18ac7077-2926-0817-e3bf-023187bbc4f3@collabora.com>
+Date: Wed, 10 Nov 2021 14:42:32 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
+In-Reply-To: <20211102093618.114928-1-angelogioacchino.delregno@collabora.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Intel-gfx@lists.freedesktop.org
-References: <20211109121759.170915-1-tvrtko.ursulin@linux.intel.com>
- <6e8c55a7-45b6-57ab-35f7-d522401efccb@linux.intel.com>
- <4d1a0ab9-e0d8-2ed9-1fc4-9ffaf2f19bef@linux.intel.com>
- <7b2e1427-69cf-8f5d-0c15-73c4e602953d@linux.intel.com>
- <2a1ae709-19f8-7983-b171-98ec2f3f010a@linux.intel.com>
-From: Lu Baolu <baolu.lu@linux.intel.com>
-Subject: Re: [PATCH] drm/i915: Use per device iommu check
-In-Reply-To: <2a1ae709-19f8-7983-b171-98ec2f3f010a@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,99 +51,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>, dri-devel@lists.freedesktop.org,
- baolu.lu@linux.intel.com
+Cc: jonas@kwiboo.se, airlied@linux.ie, robert.foss@linaro.org,
+ dri-devel@lists.freedesktop.org, narmstrong@baylibre.com,
+ linux-kernel@vger.kernel.org, jernej.skrabec@gmail.com,
+ Laurent.pinchart@ideasonboard.com, kernel@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021/11/10 20:08, Tvrtko Ursulin wrote:
+
+
+On 02.11.21 11:36, AngeloGioacchino Del Regno wrote:
+> If the bridge cannot get powered on, there's no reason to try to
+> communicate with it: change the ps8640_bridge_poweron function to
+> return an error value to the caller, so that we can avoid calling
+> ps8640_bridge_vdo_control() in ps8640_pre_enable() if the poweron
+> sequence fails.
 > 
-> On 10/11/2021 12:04, Lu Baolu wrote:
->> On 2021/11/10 17:30, Tvrtko Ursulin wrote:
->>>
->>> On 10/11/2021 07:12, Lu Baolu wrote:
->>>> Hi Tvrtko,
->>>>
->>>> On 2021/11/9 20:17, Tvrtko Ursulin wrote:
->>>>> From: Tvrtko Ursulin<tvrtko.ursulin@intel.com>
->>>>>
->>>>> On igfx + dgfx setups, it appears that intel_iommu=igfx_off option 
->>>>> only
->>>>> disables the igfx iommu. Stop relying on global intel_iommu_gfx_mapped
->>>>> and probe presence of iommu domain per device to accurately reflect 
->>>>> its
->>>>> status.
->>>>>
->>>>> Signed-off-by: Tvrtko Ursulin<tvrtko.ursulin@intel.com>
->>>>> Cc: Lu Baolu<baolu.lu@linux.intel.com>
->>>>> ---
->>>>> Baolu, is my understanding here correct? Maybe I am confused by both
->>>>> intel_iommu_gfx_mapped and dmar_map_gfx being globals in the 
->>>>> intel_iommu
->>>>> driver. But it certainly appears the setup can assign some iommu 
->>>>> ops (and
->>>>> assign the discrete i915 to iommu group) when those two are set to 
->>>>> off.
->>>>
->>>> diff --git a/drivers/gpu/drm/i915/i915_drv.h 
->>>> b/drivers/gpu/drm/i915/i915_drv.h
->>>> index e967cd08f23e..9fb38a54f1fe 100644
->>>> --- a/drivers/gpu/drm/i915/i915_drv.h
->>>> +++ b/drivers/gpu/drm/i915/i915_drv.h
->>>> @@ -1763,26 +1763,27 @@ static inline bool run_as_guest(void)
->>>>   #define HAS_D12_PLANE_MINIMIZATION(dev_priv) 
->>>> (IS_ROCKETLAKE(dev_priv) || \
->>>>                             IS_ALDERLAKE_S(dev_priv))
->>>>
->>>> -static inline bool intel_vtd_active(void)
->>>> +static inline bool intel_vtd_active(struct drm_i915_private *i915)
->>>>   {
->>>> -#ifdef CONFIG_INTEL_IOMMU
->>>> -    if (intel_iommu_gfx_mapped)
->>>> +    if (iommu_get_domain_for_dev(i915->drm.dev))
->>>>           return true;
->>>> -#endif
->>>>
->>>>       /* Running as a guest, we assume the host is enforcing VT'd */
->>>>       return run_as_guest();
->>>>   }
->>>>
->>>> Have you verified this change? I am afraid that
->>>> iommu_get_domain_for_dev() always gets a valid iommu domain even
->>>> intel_iommu_gfx_mapped == 0.
->>>
->>> Yes it seems to work as is:
->>>
->>> default:
->>>
->>> # grep -i iommu /sys/kernel/debug/dri/*/i915_capabilities
->>> /sys/kernel/debug/dri/0/i915_capabilities:iommu: enabled
->>> /sys/kernel/debug/dri/1/i915_capabilities:iommu: enabled
->>>
->>> intel_iommu=igfx_off:
->>>
->>> # grep -i iommu /sys/kernel/debug/dri/*/i915_capabilities
->>> /sys/kernel/debug/dri/0/i915_capabilities:iommu: disabled
->>> /sys/kernel/debug/dri/1/i915_capabilities:iommu: enabled
->>>
->>> On my system dri device 0 is integrated graphics and 1 is discrete.
->>
->> The drm device 0 has a dedicated iommu. When the user request igfx not
->> mapped, the VT-d implementation will turn it off to save power. But for
->> shared iommu, you definitely will get it enabled.
+> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+
+Reviewed-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+
+> ---
+>   drivers/gpu/drm/bridge/parade-ps8640.c | 14 +++++++++-----
+>   1 file changed, 9 insertions(+), 5 deletions(-)
 > 
-> Sorry I am not following, what exactly do you mean? Is there a platform 
-> with integrated graphics without a dedicated iommu, in which case 
-> intel_iommu=igfx_off results in intel_iommu_gfx_mapped == 0 and 
-> iommu_get_domain_for_dev returning non-NULL?
-
-Your code always work for an igfx with a dedicated iommu. This might be
-always true on today's platforms. But from driver's point of view, we
-should not make such assumption.
-
-For example, if the iommu implementation decides not to turn off the
-graphic iommu (perhaps due to some hw quirk or for graphic
-virtualization), your code will be broken.
-
-Best regards,
-baolu
+> diff --git a/drivers/gpu/drm/bridge/parade-ps8640.c b/drivers/gpu/drm/bridge/parade-ps8640.c
+> index 4b36e4dc78f1..8c5402947b3c 100644
+> --- a/drivers/gpu/drm/bridge/parade-ps8640.c
+> +++ b/drivers/gpu/drm/bridge/parade-ps8640.c
+> @@ -293,19 +293,19 @@ static int ps8640_bridge_vdo_control(struct ps8640 *ps_bridge,
+>   	return 0;
+>   }
+>   
+> -static void ps8640_bridge_poweron(struct ps8640 *ps_bridge)
+> +static int ps8640_bridge_poweron(struct ps8640 *ps_bridge)
+>   {
+>   	struct regmap *map = ps_bridge->regmap[PAGE2_TOP_CNTL];
+>   	int ret, status;
+>   
+>   	if (ps_bridge->powered)
+> -		return;
+> +		return 0;
+>   
+>   	ret = regulator_bulk_enable(ARRAY_SIZE(ps_bridge->supplies),
+>   				    ps_bridge->supplies);
+>   	if (ret < 0) {
+>   		DRM_ERROR("cannot enable regulators %d\n", ret);
+> -		return;
+> +		return ret;
+>   	}
+>   
+>   	gpiod_set_value(ps_bridge->gpio_powerdown, 0);
+> @@ -352,11 +352,13 @@ static void ps8640_bridge_poweron(struct ps8640 *ps_bridge)
+>   
+>   	ps_bridge->powered = true;
+>   
+> -	return;
+> +	return 0;
+>   
+>   err_regulators_disable:
+>   	regulator_bulk_disable(ARRAY_SIZE(ps_bridge->supplies),
+>   			       ps_bridge->supplies);
+> +
+> +	return ret;
+>   }
+>   
+>   static void ps8640_bridge_poweroff(struct ps8640 *ps_bridge)
+> @@ -381,7 +383,9 @@ static void ps8640_pre_enable(struct drm_bridge *bridge)
+>   	struct ps8640 *ps_bridge = bridge_to_ps8640(bridge);
+>   	int ret;
+>   
+> -	ps8640_bridge_poweron(ps_bridge);
+> +	ret = ps8640_bridge_poweron(ps_bridge);
+> +	if (ret)
+> +		return;
+>   
+>   	ret = ps8640_bridge_vdo_control(ps_bridge, ENABLE);
+>   	if (ret < 0)
+> 
