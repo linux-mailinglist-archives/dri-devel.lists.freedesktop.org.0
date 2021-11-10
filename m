@@ -1,54 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBA5D44C522
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Nov 2021 17:36:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E533544C52C
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Nov 2021 17:38:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 60AEB6EB67;
-	Wed, 10 Nov 2021 16:36:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A3A236EB8E;
+	Wed, 10 Nov 2021 16:38:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x332.google.com (mail-ot1-x332.google.com
- [IPv6:2607:f8b0:4864:20::332])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9CD1B6EB67;
- Wed, 10 Nov 2021 16:36:40 +0000 (UTC)
-Received: by mail-ot1-x332.google.com with SMTP id
- x19-20020a9d7053000000b0055c8b39420bso4767112otj.1; 
- Wed, 10 Nov 2021 08:36:40 -0800 (PST)
+Received: from mail-ot1-x331.google.com (mail-ot1-x331.google.com
+ [IPv6:2607:f8b0:4864:20::331])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 44BEA6EB8E;
+ Wed, 10 Nov 2021 16:38:30 +0000 (UTC)
+Received: by mail-ot1-x331.google.com with SMTP id
+ b5-20020a9d60c5000000b0055c6349ff22so4700465otk.13; 
+ Wed, 10 Nov 2021 08:38:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=34q8TP/FdpNNcC4qaqVLk8YGFJoEHKKC5e9KJhJR34M=;
- b=EYeT0zn+F7PuJHoM4eY4rPwqvLJrhnfcezHwOLSWUF7gmmJPNHECFdbLaQKpTW8UEh
- UjH/FM+jMjWNQVjOu+Vx2gWNaOCaybIdbhwEqHJfepbzMQUQjzBHPRgbNr6GViImou53
- LxCm1yAFloZb7f7jH1oQaTh1VQ/1ASYA/thgJNp0U6Ygxp76CQJEHM418KtbtiN+bGIv
- fLIzZ8FFOtrP6usxKGFMzepI4umrRJCqIAHToZZxKm9uSv94ixxsZaD4Rzih/q+loZ9T
- /fb1jlP7E30RghmjKxuOvcOoM4mpdNeXge460RzxjvXtqr77q1kOSXfJEjy+9JG3pkdM
- qX5w==
+ :cc; bh=8O7Ml++eH7v9/z2actv39rMvzGZ2e5JQKOxsiMZkTw8=;
+ b=QrM7VQvAnnZJ+TvjkxLiZWGPxMIb6hTI8O6pku+JNbhr+GNHksX50FBzWCL1NcPRrr
+ ydiJVDCElnod0CfXF2MmbbFg5JO2BXRZBCH14a/m5izYRxI8ohrc44PuyhY7I383RMWt
+ DqjUlJPcD1KmcXUx+uSc4ioHT5lmNYExE5E6Oi95EgoFBSfsdWvHoT7Syq138NPWdFdm
+ zfm/hQk7HxfTd237Z/PAW2EeQVH3NT0S0dtcZkrxVurbweYQwrNTT/5T4s7NpPbkWOL1
+ zA/qePUjm60vNWz/y1vrd2rcQcSY3QmexqZBO+KwlB5bMib1W5IJdDnoj5t2U3X1RpfB
+ WQNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=34q8TP/FdpNNcC4qaqVLk8YGFJoEHKKC5e9KJhJR34M=;
- b=Yvuc7KdKwbBxHHOOtq2ALxq9UezhmjdkZqgOh7L7K/HhV3GCWcb8+07F3r0GWhwxTF
- k+OLE9a8A55AdgplAv92DVbzYuUD3z3IGGLdUrsH5sezA7rNyCxckAK0p98Catw5ow4i
- s51IhioXH9lCsL+3Xs0dQutUswuRaUduG7c9eLCOMZNt3Iz1F7YOxxcWO0RYxyOcxCvi
- 71SzYylPD5AkHVqUFijLPRaHFiOUlH7gAfR17cGRPY0tMK/Xds/OjRoSw0+JYKkcmKVg
- BqjYyApr/wAxAN8XzQgvnpyJAFAo6ezS8pckkSWitExDHjLm9C8avv/xI3vjBTd7UlJb
- aBhw==
-X-Gm-Message-State: AOAM532BoYPcTZCQBiUE59PmIBTnE51DYdzjoVzHTz97+NJAXj6vESRa
- WUQcr2Yb9FfSZPaKyeNMSdPV+GV07AiXJdB8wtQ=
-X-Google-Smtp-Source: ABdhPJwpD6xChUUgRNOjree36MS1YJc+NNz3RmjGufQp5s4j9TIsPda0h6FvC/5YL5SaGc6+w6OFhq0BGW9R16c49dM=
-X-Received: by 2002:a9d:67c1:: with SMTP id c1mr432516otn.299.1636562199962;
- Wed, 10 Nov 2021 08:36:39 -0800 (PST)
+ bh=8O7Ml++eH7v9/z2actv39rMvzGZ2e5JQKOxsiMZkTw8=;
+ b=xdmrXEQsxcHQI3R1sz+KYP+0fvG37tlMjvEquIvuGfcveEX7SsRubTik1ju5emLkI1
+ Esa0vq0VxuuIO4ApNEiSPrbW03cfDtSt4CjHJe1Ik/rxRYTGCKkcto4qxldQPVNf1b9g
+ eUtDEhqH8E3bU6U7hrR0YuHLr2xke7NfpiiIYoXH/xxYTK9tAdxG7qTVuFBrnbzbqfMM
+ aTOUm2zCO0qnLATmSY6yYKtyqgm9UP+JG6+YbcVaj5xxB7n7Y+IgsjIIKDFRialWCXmU
+ 4LlRaZo02bLAtvxIwZVP3FsIeF4tpbnvSA+EPW++moS+nZpqsuHw4teoHt4Mu2XbZrO9
+ TSew==
+X-Gm-Message-State: AOAM532H+0V36RbHAqQ/xfkON3RA+KDP0cCbfR4nwKV8uXlNqzQsEjrS
+ MAf69QZCDZvzng24FouKIwcDnRPOA5FVcXzyeqI=
+X-Google-Smtp-Source: ABdhPJx1W5gm5rRuISODGf7o+AkWxNCzJKvkNJD+nfmrH51sWHNEB4hodQX5h1cBPs9UGfyTt5Kb+f3snNFQM3W6aL4=
+X-Received: by 2002:a9d:6855:: with SMTP id c21mr432308oto.357.1636562309606; 
+ Wed, 10 Nov 2021 08:38:29 -0800 (PST)
 MIME-Version: 1.0
-References: <20211110094242.67668-1-vulab@iscas.ac.cn>
-In-Reply-To: <20211110094242.67668-1-vulab@iscas.ac.cn>
+References: <20211110055303.136782-1-ran.jianping@zte.com.cn>
+In-Reply-To: <20211110055303.136782-1-ran.jianping@zte.com.cn>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 10 Nov 2021 11:36:28 -0500
-Message-ID: <CADnq5_PL7Y8y0Laf7yt-hpwgLHjFtQOZtX=m4iooBvxLuU0Ptg@mail.gmail.com>
-Subject: Re: [PATCH] drm/radeon: correct indentation
-To: vulab@iscas.ac.cn
+Date: Wed, 10 Nov 2021 11:38:18 -0500
+Message-ID: <CADnq5_OsymFzMqPGGkpST-Bm6rL_6tw_xjW9Lm-hTZsrNZoKvA@mail.gmail.com>
+Subject: Re: [PATCH] drm/amdgpu: remove unneeded variable
+To: CGEL <cgel.zte@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -62,11 +62,14 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@linux.ie>, xinhui pan <Xinhui.Pan@amd.com>,
- LKML <linux-kernel@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, "Deucher,
- Alexander" <alexander.deucher@amd.com>,
+Cc: xinhui pan <Xinhui.Pan@amd.com>, Chengming Gui <Jack.Gui@amd.com>,
+ Dave Airlie <airlied@linux.ie>, Zeal Robot <zealci@zte.com.cn>, "Lazar,
+ Lijo" <lijo.lazar@amd.com>, LKML <linux-kernel@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, "Tuikov,
+ Luben" <luben.tuikov@amd.com>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>, "Deucher,
+ Alexander" <alexander.deucher@amd.com>, ran jianping <ran.jianping@zte.com.cn>,
+ "Quan, Evan" <evan.quan@amd.com>, Kenneth Feng <kenneth.feng@amd.com>,
  Christian Koenig <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
@@ -75,28 +78,44 @@ Applied.  Thanks!
 
 Alex
 
-On Wed, Nov 10, 2021 at 11:08 AM Xu Wang <vulab@iscas.ac.cn> wrote:
+On Wed, Nov 10, 2021 at 12:53 AM <cgel.zte@gmail.com> wrote:
 >
-> Correct indentation in radeon_driver_load_kms.
+> From: ran jianping <ran.jianping@zte.com.cn>
 >
-> Signed-off-by: Xu Wang <vulab@iscas.ac.cn>
+> Fix the following coccicheck review:
+> ./drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c:1174:14-18
+> :Unneeded variable
+>
+> Remove unneeded variable used to store return value.
+>
+> Reported-by: Zeal Robot <zealci@zte.com.cn>
+> Signed-off-by: ran jianping <ran.jianping@zte.com.cn>
 > ---
->  drivers/gpu/drm/radeon/radeon_kms.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/radeon/radeon_kms.c b/drivers/gpu/drm/radeon/radeon_kms.c
-> index 482fb0ae6cb5..7afe28408085 100644
-> --- a/drivers/gpu/drm/radeon/radeon_kms.c
-> +++ b/drivers/gpu/drm/radeon/radeon_kms.c
-> @@ -168,7 +168,7 @@ int radeon_driver_load_kms(struct drm_device *dev, unsigned long flags)
->         if (!r) {
->                 acpi_status = radeon_acpi_init(rdev);
->                 if (acpi_status)
-> -               dev_dbg(dev->dev, "Error during ACPI methods call\n");
-> +                       dev_dbg(dev->dev, "Error during ACPI methods call\n");
->         }
+> diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c b/drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c
+> index a4108025fe29..b0bb389185d5 100644
+> --- a/drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c
+> +++ b/drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c
+> @@ -1171,7 +1171,7 @@ static int sienna_cichlid_force_clk_levels(struct smu_context *smu,
+>                                    enum smu_clk_type clk_type, uint32_t mask)
+>  {
+>         struct amdgpu_device *adev = smu->adev;
+> -       int ret = 0, size = 0;
+> +       int ret = 0;
+>         uint32_t soft_min_level = 0, soft_max_level = 0, min_freq = 0, max_freq = 0;
 >
->         if (radeon_is_px(dev)) {
+>         soft_min_level = mask ? (ffs(mask) - 1) : 0;
+> @@ -1216,7 +1216,7 @@ static int sienna_cichlid_force_clk_levels(struct smu_context *smu,
+>         if ((clk_type == SMU_GFXCLK) || (clk_type == SMU_SCLK))
+>                 amdgpu_gfx_off_ctrl(adev, true);
+>
+> -       return size;
+> +       return 0;
+>  }
+>
+>  static int sienna_cichlid_populate_umd_state_clk(struct smu_context *smu)
 > --
 > 2.25.1
 >
