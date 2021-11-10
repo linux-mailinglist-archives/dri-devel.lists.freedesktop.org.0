@@ -2,48 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFC6C44BED4
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Nov 2021 11:37:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8088744BEE1
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Nov 2021 11:37:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD1C56E993;
-	Wed, 10 Nov 2021 10:37:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 19F1F6EAB7;
+	Wed, 10 Nov 2021 10:37:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1BB6C6E993
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7DDDD6E8FC
  for <dri-devel@lists.freedesktop.org>; Wed, 10 Nov 2021 10:37:06 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 9979E1FD6C;
- Wed, 10 Nov 2021 10:37:04 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 0ABB621B13;
+ Wed, 10 Nov 2021 10:37:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1636540624; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1636540625; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6Uox26hfGAxUir8Z3x3Gg+71akV/5SDwhx20aAdBcJo=;
- b=rd0fE4oXDkUFNJfAp69JZ1RRz5ZlyhgT9gz/FbJlitzg7N+VPLRj8LtmC5d6Fy594XH5OL
- SNB28UPUSsW52k+L+/8Ds30HIyV2DFzbBmgwa9BbAZl2H4I1VBrTSSNM6bW/TrJfrnheMC
- MFdJtGQkhQ0ApGF+nlNotq8r8/nB5yk=
+ bh=m9IsAhUPp4YEufnjjVcnaYqYgvCaKcbK5WsfVABAW7A=;
+ b=0PhI+KHWA5yYPHzW0Ywf4aOR815ANoQiQSlAYxYy0o0e9q+oOeV2NLViDw808TdCdlk8y6
+ dE7z3jYZwAsbMRwrESp3RdSZR+2aFmTdRHLjXVOViANiKfuFtwE6Vsv9fOpmM+mYQo2Bg4
+ oEr9WxCTCpZU9rsGLLant/0UXzBoFkI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1636540624;
+ s=susede2_ed25519; t=1636540625;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6Uox26hfGAxUir8Z3x3Gg+71akV/5SDwhx20aAdBcJo=;
- b=KwP5jldZ7imB8YzogYMnIzFIX7WeZ9YZrX6wG/mBhtIItqaMMwHZMlc9AltewE/qTyaWeB
- jTS7qnm6FL5c3nCg==
+ bh=m9IsAhUPp4YEufnjjVcnaYqYgvCaKcbK5WsfVABAW7A=;
+ b=yAybQkpN/teF20r0stTpghgve5nS55S7+g4N797Ysjw+D5L41zTepVkKLiOhzK4GdSmQRv
+ m37jeofL/GYxuDAA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 37DC813BEA;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9D2A413E72;
  Wed, 10 Nov 2021 10:37:04 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id AImwDNCgi2EnPAAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id 2E6GJdCgi2EnPAAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Wed, 10 Nov 2021 10:37:04 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch, airlied@linux.ie, mripard@kernel.org,
@@ -53,10 +53,10 @@ To: daniel@ffwll.ch, airlied@linux.ie, mripard@kernel.org,
  kernel@amanoeldawod.com, dirty.ice.hu@gmail.com,
  michael+lkml@stapelberg.ch, aros@gmx.com, joshua@stroblindustries.com,
  arnd@arndb.de
-Subject: [PATCH v3 2/9] drm/format-helper: Rework format-helper memcpy
- functions
-Date: Wed, 10 Nov 2021 11:36:55 +0100
-Message-Id: <20211110103702.374-3-tzimmermann@suse.de>
+Subject: [PATCH v3 3/9] drm/format-helper: Add destination-buffer pitch to
+ drm_fb_swab()
+Date: Wed, 10 Nov 2021 11:36:56 +0100
+Message-Id: <20211110103702.374-4-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211110103702.374-1-tzimmermann@suse.de>
 References: <20211110103702.374-1-tzimmermann@suse.de>
@@ -80,241 +80,127 @@ Cc: linux-hyperv@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Move destination-buffer clipping from all format-helper memcpy
-function into callers. Support destination-buffer pitch. Only
-distinguish between system and I/O memory, but use same logic
-everywhere.
+Add destination-buffer pitch as argument to drm_fb_swab(). Done for
+consistency with the rest of the interface.
+
+v2:
+	* update documentation (Noralf)
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Tested-by: Noralf Trønnes <noralf@tronnes.org>
 Reviewed-by: Noralf Trønnes <noralf@tronnes.org>
 ---
- drivers/gpu/drm/drm_format_helper.c         | 35 ++++++++++++---------
- drivers/gpu/drm/drm_mipi_dbi.c              |  2 +-
- drivers/gpu/drm/gud/gud_pipe.c              |  2 +-
- drivers/gpu/drm/hyperv/hyperv_drm_modeset.c |  5 ++-
- drivers/gpu/drm/mgag200/mgag200_mode.c      |  4 ++-
- drivers/gpu/drm/tiny/cirrus.c               | 14 +++++----
- include/drm/drm_format_helper.h             |  9 +++---
- 7 files changed, 41 insertions(+), 30 deletions(-)
+ drivers/gpu/drm/drm_format_helper.c | 21 ++++++++++++++++-----
+ drivers/gpu/drm/drm_mipi_dbi.c      |  2 +-
+ drivers/gpu/drm/gud/gud_pipe.c      |  2 +-
+ include/drm/drm_format_helper.h     |  5 +++--
+ 4 files changed, 21 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_format_helper.c b/drivers/gpu/drm/drm_format_helper.c
-index 677e62e39f72..fac37c697d8b 100644
+index fac37c697d8b..dac355320287 100644
 --- a/drivers/gpu/drm/drm_format_helper.c
 +++ b/drivers/gpu/drm/drm_format_helper.c
-@@ -41,58 +41,62 @@ EXPORT_SYMBOL(drm_fb_clip_offset);
+@@ -101,6 +101,7 @@ EXPORT_SYMBOL(drm_fb_memcpy_toio);
  /**
-  * drm_fb_memcpy - Copy clip buffer
+  * drm_fb_swab - Swap bytes into clip buffer
   * @dst: Destination buffer
 + * @dst_pitch: Number of bytes between two consecutive scanlines within dst
-  * @vaddr: Source buffer
+  * @src: Source buffer
   * @fb: DRM framebuffer
   * @clip: Clip rectangle area to copy
+@@ -110,21 +111,27 @@ EXPORT_SYMBOL(drm_fb_memcpy_toio);
+  * time to speed up slow uncached reads.
   *
   * This function does not apply clipping on dst, i.e. the destination
 - * is a small buffer containing the clip rect only.
 + * is at the top-left corner.
   */
--void drm_fb_memcpy(void *dst, void *vaddr, struct drm_framebuffer *fb,
--		   struct drm_rect *clip)
-+void drm_fb_memcpy(void *dst, unsigned int dst_pitch, const void *vaddr,
-+		   const struct drm_framebuffer *fb, const struct drm_rect *clip)
+-void drm_fb_swab(void *dst, void *src, struct drm_framebuffer *fb,
+-		 struct drm_rect *clip, bool cached)
++void drm_fb_swab(void *dst, unsigned int dst_pitch, const void *src,
++		 const struct drm_framebuffer *fb, const struct drm_rect *clip,
++		 bool cached)
  {
- 	unsigned int cpp = fb->format->cpp[0];
- 	size_t len = (clip->x2 - clip->x1) * cpp;
- 	unsigned int y, lines = clip->y2 - clip->y1;
+ 	u8 cpp = fb->format->cpp[0];
+ 	size_t len = drm_rect_width(clip) * cpp;
+-	u16 *src16, *dst16 = dst;
+-	u32 *src32, *dst32 = dst;
++	const u16 *src16;
++	const u32 *src32;
++	u16 *dst16;
++	u32 *dst32;
+ 	unsigned int x, y;
+ 	void *buf = NULL;
+ 
+ 	if (WARN_ON_ONCE(cpp != 2 && cpp != 4))
+ 		return;
  
 +	if (!dst_pitch)
 +		dst_pitch = len;
 +
- 	vaddr += clip_offset(clip, fb->pitches[0], cpp);
- 	for (y = 0; y < lines; y++) {
- 		memcpy(dst, vaddr, len);
- 		vaddr += fb->pitches[0];
--		dst += len;
+ 	if (!cached)
+ 		buf = kmalloc(len, GFP_KERNEL);
+ 
+@@ -140,6 +147,9 @@ void drm_fb_swab(void *dst, void *src, struct drm_framebuffer *fb,
+ 			src32 = src;
+ 		}
+ 
++		dst16 = dst;
++		dst32 = dst;
++
+ 		for (x = clip->x1; x < clip->x2; x++) {
+ 			if (cpp == 4)
+ 				*dst32++ = swab32(*src32++);
+@@ -148,6 +158,7 @@ void drm_fb_swab(void *dst, void *src, struct drm_framebuffer *fb,
+ 		}
+ 
+ 		src += fb->pitches[0];
 +		dst += dst_pitch;
  	}
- }
- EXPORT_SYMBOL(drm_fb_memcpy);
  
- /**
-- * drm_fb_memcpy_dstclip - Copy clip buffer
-+ * drm_fb_memcpy_toio - Copy clip buffer
-  * @dst: Destination buffer (iomem)
-  * @dst_pitch: Number of bytes between two consecutive scanlines within dst
-  * @vaddr: Source buffer
-  * @fb: DRM framebuffer
-  * @clip: Clip rectangle area to copy
-  *
-- * This function applies clipping on dst, i.e. the destination is a
-- * full (iomem) framebuffer but only the clip rect content is copied over.
-+ * This function does not apply clipping on dst, i.e. the destination
-+ * is at the top-left corner.
-  */
--void drm_fb_memcpy_dstclip(void __iomem *dst, unsigned int dst_pitch,
--			   void *vaddr, struct drm_framebuffer *fb,
--			   struct drm_rect *clip)
-+void drm_fb_memcpy_toio(void __iomem *dst, unsigned int dst_pitch, const void *vaddr,
-+			const struct drm_framebuffer *fb, const struct drm_rect *clip)
- {
- 	unsigned int cpp = fb->format->cpp[0];
--	unsigned int offset = clip_offset(clip, dst_pitch, cpp);
- 	size_t len = (clip->x2 - clip->x1) * cpp;
- 	unsigned int y, lines = clip->y2 - clip->y1;
- 
--	vaddr += offset;
--	dst += offset;
-+	if (!dst_pitch)
-+		dst_pitch = len;
-+
-+	vaddr += clip_offset(clip, fb->pitches[0], cpp);
- 	for (y = 0; y < lines; y++) {
- 		memcpy_toio(dst, vaddr, len);
- 		vaddr += fb->pitches[0];
- 		dst += dst_pitch;
- 	}
- }
--EXPORT_SYMBOL(drm_fb_memcpy_dstclip);
-+EXPORT_SYMBOL(drm_fb_memcpy_toio);
- 
- /**
-  * drm_fb_swab - Swap bytes into clip buffer
-@@ -481,7 +485,8 @@ int drm_fb_blit_rect_dstclip(void __iomem *dst, unsigned int dst_pitch,
- 		dst_format = DRM_FORMAT_XRGB8888;
- 
- 	if (dst_format == fb_format) {
--		drm_fb_memcpy_dstclip(dst, dst_pitch, vmap, fb, clip);
-+		dst += clip_offset(clip, dst_pitch, fb->format->cpp[0]);
-+		drm_fb_memcpy_toio(dst, dst_pitch, vmap, fb, clip);
- 		return 0;
- 
- 	} else if (dst_format == DRM_FORMAT_RGB565) {
+ 	kfree(buf);
 diff --git a/drivers/gpu/drm/drm_mipi_dbi.c b/drivers/gpu/drm/drm_mipi_dbi.c
-index 71b646c4131f..c09df8b06c7a 100644
+index c09df8b06c7a..7ce89917d761 100644
 --- a/drivers/gpu/drm/drm_mipi_dbi.c
 +++ b/drivers/gpu/drm/drm_mipi_dbi.c
-@@ -213,7 +213,7 @@ int mipi_dbi_buf_copy(void *dst, struct drm_framebuffer *fb,
+@@ -211,7 +211,7 @@ int mipi_dbi_buf_copy(void *dst, struct drm_framebuffer *fb,
+ 	switch (fb->format->format) {
+ 	case DRM_FORMAT_RGB565:
  		if (swap)
- 			drm_fb_swab(dst, src, fb, clip, !gem->import_attach);
+-			drm_fb_swab(dst, src, fb, clip, !gem->import_attach);
++			drm_fb_swab(dst, 0, src, fb, clip, !gem->import_attach);
  		else
--			drm_fb_memcpy(dst, src, fb, clip);
-+			drm_fb_memcpy(dst, 0, src, fb, clip);
+ 			drm_fb_memcpy(dst, 0, src, fb, clip);
  		break;
- 	case DRM_FORMAT_XRGB8888:
- 		drm_fb_xrgb8888_to_rgb565(dst, src, fb, clip, swap);
 diff --git a/drivers/gpu/drm/gud/gud_pipe.c b/drivers/gpu/drm/gud/gud_pipe.c
-index daf75c178c2b..a92112ffd37a 100644
+index a92112ffd37a..e0b117b2559f 100644
 --- a/drivers/gpu/drm/gud/gud_pipe.c
 +++ b/drivers/gpu/drm/gud/gud_pipe.c
-@@ -206,7 +206,7 @@ static int gud_prep_flush(struct gud_device *gdrm, struct drm_framebuffer *fb,
+@@ -201,7 +201,7 @@ static int gud_prep_flush(struct gud_device *gdrm, struct drm_framebuffer *fb,
+ 			len = gud_xrgb8888_to_color(buf, format, vaddr, fb, rect);
+ 		}
+ 	} else if (gud_is_big_endian() && format->cpp[0] > 1) {
+-		drm_fb_swab(buf, vaddr, fb, rect, !import_attach);
++		drm_fb_swab(buf, 0, vaddr, fb, rect, !import_attach);
+ 	} else if (compression && !import_attach && pitch == fb->pitches[0]) {
  		/* can compress directly from the framebuffer */
  		buf = vaddr + rect->y1 * pitch;
- 	} else {
--		drm_fb_memcpy(buf, vaddr, fb, rect);
-+		drm_fb_memcpy(buf, 0, vaddr, fb, rect);
- 	}
- 
- 	memset(req, 0, sizeof(*req));
-diff --git a/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c b/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c
-index 8c97a20dfe23..93f51e70a951 100644
---- a/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c
-+++ b/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c
-@@ -23,13 +23,16 @@ static int hyperv_blit_to_vram_rect(struct drm_framebuffer *fb,
- 				    struct drm_rect *rect)
- {
- 	struct hyperv_drm_device *hv = to_hv(fb->dev);
-+	void __iomem *dst = hv->vram;
- 	void *vmap = map->vaddr; /* TODO: Use mapping abstraction properly */
- 	int idx;
- 
- 	if (!drm_dev_enter(&hv->dev, &idx))
- 		return -ENODEV;
- 
--	drm_fb_memcpy_dstclip(hv->vram, fb->pitches[0], vmap, fb, rect);
-+	dst += drm_fb_clip_offset(fb->pitches[0], fb->format, rect);
-+	drm_fb_memcpy_toio(dst, fb->pitches[0], vmap, fb, rect);
-+
- 	drm_dev_exit(idx);
- 
- 	return 0;
-diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c b/drivers/gpu/drm/mgag200/mgag200_mode.c
-index fd98e8bbc550..b983541a4c53 100644
---- a/drivers/gpu/drm/mgag200/mgag200_mode.c
-+++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
-@@ -847,9 +847,11 @@ static void
- mgag200_handle_damage(struct mga_device *mdev, struct drm_framebuffer *fb,
- 		      struct drm_rect *clip, const struct dma_buf_map *map)
- {
-+	void __iomem *dst = mdev->vram;
- 	void *vmap = map->vaddr; /* TODO: Use mapping abstraction properly */
- 
--	drm_fb_memcpy_dstclip(mdev->vram, fb->pitches[0], vmap, fb, clip);
-+	dst += drm_fb_clip_offset(fb->pitches[0], fb->format, clip);
-+	drm_fb_memcpy_toio(dst, fb->pitches[0], vmap, fb, clip);
- 
- 	/* Always scanout image at VRAM offset 0 */
- 	mgag200_set_startadd(mdev, (u32)0);
-diff --git a/drivers/gpu/drm/tiny/cirrus.c b/drivers/gpu/drm/tiny/cirrus.c
-index 4611ec408506..5344e506e8a9 100644
---- a/drivers/gpu/drm/tiny/cirrus.c
-+++ b/drivers/gpu/drm/tiny/cirrus.c
-@@ -317,28 +317,30 @@ static int cirrus_fb_blit_rect(struct drm_framebuffer *fb, const struct dma_buf_
- 			       struct drm_rect *rect)
- {
- 	struct cirrus_device *cirrus = to_cirrus(fb->dev);
-+	void __iomem *dst = cirrus->vram;
- 	void *vmap = map->vaddr; /* TODO: Use mapping abstraction properly */
- 	int idx;
- 
- 	if (!drm_dev_enter(&cirrus->dev, &idx))
- 		return -ENODEV;
- 
--	if (cirrus->cpp == fb->format->cpp[0])
--		drm_fb_memcpy_dstclip(cirrus->vram, fb->pitches[0],
--				      vmap, fb, rect);
-+	if (cirrus->cpp == fb->format->cpp[0]) {
-+		dst += drm_fb_clip_offset(fb->pitches[0], fb->format, rect);
-+		drm_fb_memcpy_toio(dst, fb->pitches[0], vmap, fb, rect);
- 
--	else if (fb->format->cpp[0] == 4 && cirrus->cpp == 2)
-+	} else if (fb->format->cpp[0] == 4 && cirrus->cpp == 2) {
- 		drm_fb_xrgb8888_to_rgb565_dstclip(cirrus->vram,
- 						  cirrus->pitch,
- 						  vmap, fb, rect, false);
- 
--	else if (fb->format->cpp[0] == 4 && cirrus->cpp == 3)
-+	} else if (fb->format->cpp[0] == 4 && cirrus->cpp == 3) {
- 		drm_fb_xrgb8888_to_rgb888_dstclip(cirrus->vram,
- 						  cirrus->pitch,
- 						  vmap, fb, rect);
- 
--	else
-+	} else {
- 		WARN_ON_ONCE("cpp mismatch");
-+	}
- 
- 	drm_dev_exit(idx);
- 
 diff --git a/include/drm/drm_format_helper.h b/include/drm/drm_format_helper.h
-index f5a8b334b18d..1fc3ba7b6060 100644
+index 1fc3ba7b6060..ddcba5abe306 100644
 --- a/include/drm/drm_format_helper.h
 +++ b/include/drm/drm_format_helper.h
-@@ -13,11 +13,10 @@ struct drm_rect;
- unsigned int drm_fb_clip_offset(unsigned int pitch, const struct drm_format_info *format,
- 				const struct drm_rect *clip);
- 
--void drm_fb_memcpy(void *dst, void *vaddr, struct drm_framebuffer *fb,
--		   struct drm_rect *clip);
--void drm_fb_memcpy_dstclip(void __iomem *dst, unsigned int dst_pitch, void *vaddr,
--			   struct drm_framebuffer *fb,
--			   struct drm_rect *clip);
-+void drm_fb_memcpy(void *dst, unsigned int dst_pitch, const void *vaddr,
-+		   const struct drm_framebuffer *fb, const struct drm_rect *clip);
-+void drm_fb_memcpy_toio(void __iomem *dst, unsigned int dst_pitch, const void *vaddr,
-+			const struct drm_framebuffer *fb, const struct drm_rect *clip);
- void drm_fb_swab(void *dst, void *src, struct drm_framebuffer *fb,
- 		 struct drm_rect *clip, bool cached);
+@@ -17,8 +17,9 @@ void drm_fb_memcpy(void *dst, unsigned int dst_pitch, const void *vaddr,
+ 		   const struct drm_framebuffer *fb, const struct drm_rect *clip);
+ void drm_fb_memcpy_toio(void __iomem *dst, unsigned int dst_pitch, const void *vaddr,
+ 			const struct drm_framebuffer *fb, const struct drm_rect *clip);
+-void drm_fb_swab(void *dst, void *src, struct drm_framebuffer *fb,
+-		 struct drm_rect *clip, bool cached);
++void drm_fb_swab(void *dst, unsigned int dst_pitch, const void *src,
++		 const struct drm_framebuffer *fb, const struct drm_rect *clip,
++		 bool cached);
  void drm_fb_xrgb8888_to_rgb332(void *dst, void *vaddr, struct drm_framebuffer *fb,
+ 			       struct drm_rect *clip);
+ void drm_fb_xrgb8888_to_rgb565(void *dst, void *vaddr,
 -- 
 2.33.1
 
