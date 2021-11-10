@@ -2,41 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 781EF44C89B
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Nov 2021 20:09:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF3B844C8A5
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Nov 2021 20:10:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D9FC56E03D;
-	Wed, 10 Nov 2021 19:09:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3012F6E0C5;
+	Wed, 10 Nov 2021 19:10:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from outgoing-stata.csail.mit.edu (outgoing-stata.csail.mit.edu
- [128.30.2.210])
- by gabe.freedesktop.org (Postfix) with ESMTP id 5E48E6E03D
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Nov 2021 19:09:55 +0000 (UTC)
-Received: from [128.177.79.46] (helo=csail.mit.edu)
- by outgoing-stata.csail.mit.edu with esmtpsa (TLS1.2:RSA_AES_256_CBC_SHA1:256)
- (Exim 4.82) (envelope-from <srivatsa@csail.mit.edu>)
- id 1mksyl-000UxK-A3; Wed, 10 Nov 2021 14:09:51 -0500
-Date: Wed, 10 Nov 2021 11:13:03 -0800
-From: "Srivatsa S. Bhat" <srivatsa@csail.mit.edu>
-To: Nadav Amit <namit@vmware.com>
-Subject: Re: [PATCH 2/2] MAINTAINERS: Mark VMware mailing list entries as
- private
-Message-ID: <20211110191303.GA122235@csail.mit.edu>
-References: <163640336232.62866.489924062999332446.stgit@srivatsa-dev>
- <163640339370.62866.3435211389009241865.stgit@srivatsa-dev>
- <5179a7c097e0bb88f95642a394f53c53e64b66b1.camel@perches.com>
- <cb03ca42-b777-3d1a-5aba-b01cd19efa9a@csail.mit.edu>
- <dcbd19fcd1625146f4db267f84abd7412513d20e.camel@perches.com>
- <5C24FB2A-D2C0-4D95-A0C0-B48C4B8D5AF4@vmware.com>
- <1875b0458294d23d8e3260d2824894b095d6a62d.camel@perches.com>
- <20211110172000.GA121926@csail.mit.edu>
- <F21C4118-BFDE-4DA7-B42F-90EC71CFED57@vmware.com>
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com
+ [IPv6:2a00:1450:4864:20::32c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D18C6E05F;
+ Wed, 10 Nov 2021 19:10:30 +0000 (UTC)
+Received: by mail-wm1-x32c.google.com with SMTP id
+ b184-20020a1c1bc1000000b0033140bf8dd5so2717058wmb.5; 
+ Wed, 10 Nov 2021 11:10:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=yLs5chTYGj0in0rN4ZentgVDMtbmnaGGpUafWh3bMsQ=;
+ b=SvV1TyrHMRJHtcTmBaNe4PZ4qg835KSR/RnFFkvBSG70tL0+yLEstCx9YUnumuvIC0
+ gldfDpTrGLxKCUCS7U0uq2RstEFUg2WKYz9wiefJmSCLKgKprPoEOJaguJkDxpbFYnAQ
+ 6jptVtjqJiIdHVFyEprFCaSrQ7lkCotlWMv3e55BcVeUCKD7hjf0AfSjhIv7KDBgIRMY
+ g3Oady0ruE4eZPkiUJ8hEm6ruKobgKQFYnzbLAeKVEzEnYtJKZM/oJeSytarEkG8b6i3
+ cRRcmIG0bbuR2AePssGSTsfz0wwb3r6bSzKpIUkqugBmKkj4P0ZM5A3r28uHaTPEv+Os
+ Zfhw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=yLs5chTYGj0in0rN4ZentgVDMtbmnaGGpUafWh3bMsQ=;
+ b=LSHYpPyNGRhmhcNM+vN3TlNv30lh/vr1JGt4v3YR6cNCa7yCmMQidqo4kXx9Xd6MUW
+ 0TXYYTxAKqXMosL1y38YTi6wuDs/H6VPABIvpyha7/RSSQhYMOaQir2aL6KFSMMHeWzF
+ d4yvCDhmp9oba4Dbv0IZ5ijXeRgpNGsijQLJvI1fGW0LIT/ooYzUijmAlMfrtmgP3/e8
+ 13lqodg0YchOEDybXdCsCUxentaXY4cheBmzIPnBHH9pOfNs/wbFaj18MQ9ORIOIr+Io
+ KiZ7dvivp3dEzgoGel2YE3EI7kbM0Egby8GKoCPcEYTv7Itf8caCocTL2jD+V80d+scB
+ azHA==
+X-Gm-Message-State: AOAM531fk2abPWEF7s0/0s7O5yACo+fjl5iKFcqzr0VLMKwJPPv8zzrA
+ Y7YkjAHz+vQ6KO+aVx/FJqS2ZuN6zO8mkGOIAyo=
+X-Google-Smtp-Source: ABdhPJxG3xo3BCopHN4pqvIx1rb+qYxwQpIs5HU2Tqpwu05sAbky8//kmauZvY/PtrOknWb+Ith+o3nMBI0U5U/zcIs=
+X-Received: by 2002:a05:600c:4f87:: with SMTP id
+ n7mr1621657wmq.168.1636571428736; 
+ Wed, 10 Nov 2021 11:10:28 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <F21C4118-BFDE-4DA7-B42F-90EC71CFED57@vmware.com>
+References: <1630406139-19621-1-git-send-email-Monk.Liu@amd.com>
+ <1630406139-19621-2-git-send-email-Monk.Liu@amd.com>
+ <YS4nlkpjeitiwFy1@phenom.ffwll.local>
+ <YS4oMrFTj0+wmMbY@phenom.ffwll.local>
+ <BL1PR12MB5269292A3E9E6014043C280E84CD9@BL1PR12MB5269.namprd12.prod.outlook.com>
+ <CAF6AEGsELL5WmxJKqyfF69OnVaK6+SnAREvjtFSHBZrm3Gdp7g@mail.gmail.com>
+ <YYo6U6D2dxQ7Y6Gn@phenom.ffwll.local>
+ <CAF6AEGvGQP-6eNevDyS9sXg+6qOKMrG7h5rwhKO=v8L5mQOiUA@mail.gmail.com>
+ <YYuVyRlAATYO4ptP@phenom.ffwll.local>
+In-Reply-To: <YYuVyRlAATYO4ptP@phenom.ffwll.local>
+From: Rob Clark <robdclark@gmail.com>
+Date: Wed, 10 Nov 2021 11:15:26 -0800
+Message-ID: <CAF6AEGvm9qPwxz24oZFfAdj046sbGJS3OCacoR5DW4xqESEy9w@mail.gmail.com>
+Subject: Re: [PATCH 2/2] drm/sched: serialize job_timeout and scheduler
+To: Daniel Vetter <daniel@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,134 +73,328 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ronak Doshi <doshir@vmware.com>, Pv-drivers <Pv-drivers@vmware.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Linux Virtualization <virtualization@lists.linux-foundation.org>,
- Alexey Makhalov <amakhalov@vmware.com>, Srivatsa Bhat <srivatsab@vmware.com>,
- Deep Shah <sdeep@vmware.com>,
- "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
- Vishal Bhakta <vbhakta@vmware.com>, X86 ML <x86@kernel.org>,
- Linux-graphics-maintainer <Linux-graphics-maintainer@vmware.com>,
- "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
- Keerthana Kalyanasundaram <keerthanak@vmware.com>,
- Thomas Gleixner <tglx@linutronix.de>, Juergen Gross <jgross@suse.com>,
- Anish Swaminathan <anishs@vmware.com>,
- "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
- LKML <linux-kernel@vger.kernel.org>,
- "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Joe Perches <joe@perches.com>,
- Vivek Thampi <vithampi@vmware.com>
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>, "Liu,
+ Monk" <Monk.Liu@amd.com>, "Chen, Jingwen" <Jingwen.Chen@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Nov 10, 2021 at 05:40:09PM +0000, Nadav Amit wrote:
-> 
-> 
-> > On Nov 10, 2021, at 9:20 AM, Srivatsa S. Bhat <srivatsa@csail.mit.edu> wrote:
-> > 
-> > On Tue, Nov 09, 2021 at 01:57:31PM -0800, Joe Perches wrote:
-> >> On Tue, 2021-11-09 at 00:58 +0000, Nadav Amit wrote:
-> >>>> On Nov 8, 2021, at 4:37 PM, Joe Perches <joe@perches.com> wrote:
-> >>>> On Mon, 2021-11-08 at 16:22 -0800, Srivatsa S. Bhat wrote:
-> >>>> 
-> >>>> So it's an exploder not an actual maintainer and it likely isn't
-> >>>> publically archived with any normal list mechanism.
-> >>>> 
-> >>>> So IMO "private" isn't appropriate.  Neither is "L:"
-> >>>> Perhaps just mark it as what it is as an "exploder".
-> >>>> 
-> >>>> Or maybe these blocks should be similar to:
-> >>>> 
-> >>>> M:	Name of Lead Developer <somebody@vmware.com>
-> >>>> M:	VMware <foo> maintainers <linux-<foo>-maintainers@vmlinux.com>
-> >> 
-> >> Maybe adding entries like
-> >> 
-> >> M:	Named maintainer <whoever@vmware.com>
-> >> R:	VMware <foo> reviewers <linux-<foo>-maintainers@vmware.com>
-> >> 
-> >> would be best/simplest.
-> >> 
-> > 
-> > Sure, that sounds good to me. I also considered adding "(email alias)"
-> > like Juergen suggested, but I think the R: entry is clear enough.
-> > Please find the updated patch below.
-> > 
-> > ---
-> > 
-> > From f66faa238facf504cfc66325912ce7af8cbf79ec Mon Sep 17 00:00:00 2001
-> > From: "Srivatsa S. Bhat (VMware)" <srivatsa@csail.mit.edu>
-> > Date: Mon, 8 Nov 2021 11:46:57 -0800
-> > Subject: [PATCH v2 2/2] MAINTAINERS: Mark VMware mailing list entries as email
-> > aliases
-> > 
-> > VMware mailing lists in the MAINTAINERS file are private lists meant
-> > for VMware-internal review/notification for patches to the respective
-> > subsystems. Anyone can post to these addresses, but there is no public
-> > read access like open mailing lists, which makes them more like email
-> > aliases instead (to reach out to reviewers).
-> > 
-> > So update all the VMware mailing list references in the MAINTAINERS
-> > file to mark them as such, using "R: email-alias@vmware.com".
-> > 
-> > Signed-off-by: Srivatsa S. Bhat (VMware) <srivatsa@csail.mit.edu>
-> > Cc: Zack Rusin <zackr@vmware.com>
-> > Cc: Nadav Amit <namit@vmware.com>
-> > Cc: Vivek Thampi <vithampi@vmware.com>
-> > Cc: Vishal Bhakta <vbhakta@vmware.com>
-> > Cc: Ronak Doshi <doshir@vmware.com>
-> > Cc: pv-drivers@vmware.com
-> > Cc: linux-graphics-maintainer@vmware.com
-> > Cc: dri-devel@lists.freedesktop.org
-> > Cc: linux-rdma@vger.kernel.org
-> > Cc: linux-scsi@vger.kernel.org
-> > Cc: netdev@vger.kernel.org
-> > Cc: linux-input@vger.kernel.org
-> > ---
-> > MAINTAINERS | 22 +++++++++++-----------
-> > 1 file changed, 11 insertions(+), 11 deletions(-)
-> > 
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index 118cf8170d02..4372d79027e9 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -6134,8 +6134,8 @@ T:	git git://anongit.freedesktop.org/drm/drm-misc
-> > F:	drivers/gpu/drm/vboxvideo/
-> > 
-> > DRM DRIVER FOR VMWARE VIRTUAL GPU
-> > -M:	"VMware Graphics" <linux-graphics-maintainer@vmware.com>
-> > M:	Zack Rusin <zackr@vmware.com>
-> > +R:	VMware Graphics Reviewers <linux-graphics-maintainer@vmware.com>
-> > L:	dri-devel@lists.freedesktop.org
-> > S:	Supported
-> > T:	git git://anongit.freedesktop.org/drm/drm-misc
-> > @@ -14189,7 +14189,7 @@ F:	include/uapi/linux/ppdev.h
-> > PARAVIRT_OPS INTERFACE
-> > M:	Juergen Gross <jgross@suse.com>
-> > M:	Srivatsa S. Bhat (VMware) <srivatsa@csail.mit.edu>
-> > -L:	pv-drivers@vmware.com (private)
-> > +R:	VMware PV-Drivers Reviewers <pv-drivers@vmware.com>
-> 
-> This patch that you just sent seems to go on top of the previous patches
-> (as it removes "L: pv-drivers@vmware.com (private)”).
-> 
+On Wed, Nov 10, 2021 at 1:50 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+>
+> On Tue, Nov 09, 2021 at 08:17:01AM -0800, Rob Clark wrote:
+> > On Tue, Nov 9, 2021 at 1:07 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+> > >
+> > > On Mon, Nov 08, 2021 at 03:39:17PM -0800, Rob Clark wrote:
+> > > > I stumbled across this thread when I ran into the same issue, while
+> > > > working out how to move drm/msm to use scheduler's retire +
+> > > > timeout/recovery (and get rid of our own mirror list of in-flight
+> > > > jobs).  We already have hw error detection enabled, and it can sign=
+al
+> > > > quite fast, so assuming the first job on the list is the guilty job
+> > > > just won't work.
+> > > >
+> > > > But I was considering a slightly different approach to fixing this,
+> > > > instead just handling it all in drm_sched_main() and getting rid of
+> > > > the complicated kthread parking gymnastics.  Ie. something along th=
+e
+> > > > lines of:
+> > >
+> > > So handling timeouts in the main sched thread wont work as soon as yo=
+u
+> > > have multiple engines and reset that impacts across engines:
+> > >
+> > > - Nothing is simplified since you still need to stop the other schedu=
+ler
+> > >   threads.
+> > >
+> > > - You get deadlocks if 2 schedulers time out at the same time, and bo=
+th
+> > >   want to stop the other one.
+> > >
+> > > Hence workqueue. Now the rule for the wq is that you can only have on=
+e per
+> > > reset domain, so
+> > > - single engine you just take the one drm/sched provides
+> > > - if reset affects all your engines in the chip, then you allocate on=
+ in
+> > >   the drm_device and pass that to all
+> > > - if you have a complex of gpus all interconnected (e.g. xgmi hive fo=
+r
+> > >   amd), then it's one wq for the entire hive
+> > >
+> > > _All_ reset related things must be run on that workqueue or things br=
+eaks,
+> > > which means if you get hw fault that also needs to be run there. I gu=
+ess
+> > > we should either patch drm/sched to check you call that function from=
+ the
+> > > right workqueue, or just handle it internally.
+> >
+> > Hmm, ok.. I guess it would be useful to better document the reasoning
+> > for the current design, that would have steered me more towards the
+> > approach taken in this patch.
+>
+> Maybe this was because you worked on an old kernel? Boris did update the
+> kerneldoc as part of making gpu reset work for panfrost, which has this
+> multi-engine reset problem. If that's not yet clear then we need to
+> improve the docs further.
 
-Actually, that's a bit misleading, since I had corrected that entry in
-the first patch itself, while adding myself as the maintainer. So
-there are still only 2 patches in this series right now.
+I saw that, and understood the ordered wq.. but missed the implication
+regarding having to park other scheduler kthreads
 
-Thanks for pointing this out! I'll move the VMware list modifications
-out of the first patch, to avoid confusion.
+BR,
+-R
 
-> Since the patches were still not merged, I would presume you should squash
-> the old 2/2 with this new patch and send v3 of these patches.
-> 
-
-I'll send out a v3, and also add Zack Rusin as the maintainer for the
-vmmouse sub-driver, since it does not have a named maintainer at the
-moment (Zack indicated that he will be taking up the maintainership).
-
-Thank you!
-
-Regards,
-Srivatsa
+> AMD's problem is even worse, because their reset domain is the entire xgm=
+i
+> hive, so multiple pci devices.
+>
+> Also there might more issues in drm/sched ofc, e.g. I've looked a bit at
+> ordering/barriers and I'm pretty sure a lot are still missing. Or at leas=
+t
+> we should have comments in the code explaining why it all works.
+> -Daniel
+>
+> >
+> > BR,
+> > -R
+> >
+> > > -Daniel
+> > >
+> > > >
+> > > > ---------------------
+> > > > diff --git a/drivers/gpu/drm/scheduler/sched_main.c
+> > > > b/drivers/gpu/drm/scheduler/sched_main.c
+> > > > index 67382621b429..4d6ce775c316 100644
+> > > > --- a/drivers/gpu/drm/scheduler/sched_main.c
+> > > > +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> > > > @@ -764,6 +764,45 @@ static bool drm_sched_blocked(struct
+> > > > drm_gpu_scheduler *sched)
+> > > >         return false;
+> > > >  }
+> > > >
+> > > > +static bool handle_timeout(struct drm_gpu_scheduler *sched)
+> > > > +{
+> > > > +       struct drm_sched_job *bad;
+> > > > +
+> > > > +       if (!sched->has_timeout)
+> > > > +               return false;
+> > > > +
+> > > > +       sched->has_timeout =3D false;
+> > > > +
+> > > > +       spin_lock(&sched->job_list_lock);
+> > > > +       bad =3D list_first_entry_or_null(&sched->pending_list,
+> > > > +                                      struct drm_sched_job, list);
+> > > > +
+> > > > +       if (!bad) {
+> > > > +               spin_unlock(&sched->job_list_lock);
+> > > > +               return false;
+> > > > +       }
+> > > > +
+> > > > +       spin_unlock(&sched->job_list_lock);
+> > > > +
+> > > > +       if (sched->timeout_wq =3D=3D system_wq) {
+> > > > +               /*
+> > > > +                * If driver has no specific requirements about ser=
+ializing
+> > > > +                * reset wrt. other engines, just call timedout_job=
+() directly
+> > > > +                */
+> > > > +               sched->ops->timedout_job(job);
+> > > > +       } else {
+> > > > +               /*
+> > > > +                * Otherwise queue it on timeout_wq and wait for it=
+ to complete
+> > > > +                */
+> > > > +               ... more typing needed here ...
+> > > > +       }
+> > > > +
+> > > > +       if (sched->free_guilty) {
+> > > > +               sched->ops->free_job(job);
+> > > > +               sched->free_guilty =3D false;
+> > > > +       }
+> > > > +}
+> > > > +
+> > > >  /**
+> > > >   * drm_sched_main - main scheduler thread
+> > > >   *
+> > > > @@ -787,6 +826,7 @@ static int drm_sched_main(void *param)
+> > > >
+> > > >                 wait_event_interruptible(sched->wake_up_worker,
+> > > >                                          (cleanup_job =3D
+> > > > drm_sched_get_cleanup_job(sched)) ||
+> > > > +                                        handle_timeout(sched) ||
+> > > >                                          (!drm_sched_blocked(sched)=
+ &&
+> > > >                                           (entity =3D
+> > > > drm_sched_select_entity(sched))) ||
+> > > >                                          kthread_should_stop());
+> > > > ---------------------
+> > > >
+> > > > drm_sched_fault() and the sw timeout handler would just set
+> > > > sched->has_timeout and kick sched->wake_up_worker.
+> > > >
+> > > > And since we handle the timeout case after
+> > > > drm_sched_get_cleanup_job(), we know that all of the successfully
+> > > > completed jobs have already been popped off the list, and won't be
+> > > > unfairly maligned.
+> > > >
+> > > > BR,
+> > > > -R
+> > > >
+> > > > On Tue, Aug 31, 2021 at 6:29 PM Liu, Monk <Monk.Liu@amd.com> wrote:
+> > > > >
+> > > > > [AMD Official Use Only]
+> > > > >
+> > > > > Okay, I will reprepare this patch
+> > > > >
+> > > > > Thanks
+> > > > >
+> > > > > ------------------------------------------
+> > > > > Monk Liu | Cloud-GPU Core team
+> > > > > ------------------------------------------
+> > > > >
+> > > > > -----Original Message-----
+> > > > > From: Daniel Vetter <daniel@ffwll.ch>
+> > > > > Sent: Tuesday, August 31, 2021 9:02 PM
+> > > > > To: Liu, Monk <Monk.Liu@amd.com>
+> > > > > Cc: amd-gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.or=
+g; Chen, Jingwen <Jingwen.Chen@amd.com>
+> > > > > Subject: Re: [PATCH 2/2] drm/sched: serialize job_timeout and sch=
+eduler
+> > > > >
+> > > > > On Tue, Aug 31, 2021 at 02:59:02PM +0200, Daniel Vetter wrote:
+> > > > > > Can we please have some actual commit message here, with detail=
+ed
+> > > > > > explanation of the race/bug/whatever, how you fix it and why th=
+is is
+> > > > > > the best option?
+> > > > > >
+> > > > > > On Tue, Aug 31, 2021 at 06:35:39PM +0800, Monk Liu wrote:
+> > > > > > > tested-by: jingwen chen <jingwen.chen@amd.com>
+> > > > > > > Signed-off-by: Monk Liu <Monk.Liu@amd.com>
+> > > > > > > Signed-off-by: jingwen chen <jingwen.chen@amd.com>
+> > > > > > > ---
+> > > > > > >  drivers/gpu/drm/scheduler/sched_main.c | 24
+> > > > > > > ++++--------------------
+> > > > > > >  1 file changed, 4 insertions(+), 20 deletions(-)
+> > > > > > >
+> > > > > > > diff --git a/drivers/gpu/drm/scheduler/sched_main.c
+> > > > > > > b/drivers/gpu/drm/scheduler/sched_main.c
+> > > > > > > index ecf8140..894fdb24 100644
+> > > > > > > --- a/drivers/gpu/drm/scheduler/sched_main.c
+> > > > > > > +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> > > > > > > @@ -319,19 +319,17 @@ static void drm_sched_job_timedout(stru=
+ct work_struct *work)
+> > > > > > >     sched =3D container_of(work, struct drm_gpu_scheduler,
+> > > > > > > work_tdr.work);
+> > > > > > >
+> > > > > > >     /* Protects against concurrent deletion in
+> > > > > > > drm_sched_get_cleanup_job */
+> > > > > > > +   if (!__kthread_should_park(sched->thread))
+> > > > > >
+> > > > > > This is a __ function, i.e. considered internal, and it's lockl=
+ess
+> > > > > > atomic, i.e. unordered. And you're not explaining why this work=
+s.
+> > > > > >
+> > > > > > Iow it's probably buggy, and an just unconditionally parking th=
+e
+> > > > > > kthread is probably the right thing to do. If it's not the righ=
+t thing
+> > > > > > to do, there's a bug here for sure.
+> > > > >
+> > > > > Also why don't we reuse the function drivers already have to stop=
+ a scheduler thread? We seem to have two kthread_park now, that's probably =
+one too much.
+> > > > > -Daniel
+> > > > >
+> > > > > > > +           kthread_park(sched->thread);
+> > > > > > > +
+> > > > > > >     spin_lock(&sched->job_list_lock);
+> > > > > > >     job =3D list_first_entry_or_null(&sched->pending_list,
+> > > > > > >                                    struct drm_sched_job, list=
+);
+> > > > > > >
+> > > > > > >     if (job) {
+> > > > > > > -           /*
+> > > > > > > -            * Remove the bad job so it cannot be freed by co=
+ncurrent
+> > > > > > > -            * drm_sched_cleanup_jobs. It will be reinserted =
+back after sched->thread
+> > > > > > > -            * is parked at which point it's safe.
+> > > > > > > -            */
+> > > > > > > -           list_del_init(&job->list);
+> > > > > > >             spin_unlock(&sched->job_list_lock);
+> > > > > > >
+> > > > > > > +           /* vendor's timeout_job should call drm_sched_sta=
+rt() */
+> > > > > > >             status =3D job->sched->ops->timedout_job(job);
+> > > > > > >
+> > > > > > >             /*
+> > > > > > > @@ -393,20 +391,6 @@ void drm_sched_stop(struct drm_gpu_sched=
+uler *sched, struct drm_sched_job *bad)
+> > > > > > >     kthread_park(sched->thread);
+> > > > > > >
+> > > > > > >     /*
+> > > > > > > -    * Reinsert back the bad job here - now it's safe as
+> > > > > > > -    * drm_sched_get_cleanup_job cannot race against us and r=
+elease the
+> > > > > > > -    * bad job at this point - we parked (waited for) any in =
+progress
+> > > > > > > -    * (earlier) cleanups and drm_sched_get_cleanup_job will =
+not be called
+> > > > > > > -    * now until the scheduler thread is unparked.
+> > > > > > > -    */
+> > > > > > > -   if (bad && bad->sched =3D=3D sched)
+> > > > > > > -           /*
+> > > > > > > -            * Add at the head of the queue to reflect it was=
+ the earliest
+> > > > > > > -            * job extracted.
+> > > > > > > -            */
+> > > > > > > -           list_add(&bad->list, &sched->pending_list);
+> > > > > > > -
+> > > > > > > -   /*
+> > > > > > >      * Iterate the job list from later to  earlier one and ei=
+ther deactive
+> > > > > > >      * their HW callbacks or remove them from pending list if=
+ they already
+> > > > > > >      * signaled.
+> > > > > > > --
+> > > > > > > 2.7.4
+> > > > > > >
+> > > > > >
+> > > > > > --
+> > > > > > Daniel Vetter
+> > > > > > Software Engineer, Intel Corporation
+> > > > > > https://nam11.safelinks.protection.outlook.com/?url=3Dhttp%3A%2=
+F%2Fblog.
+> > > > > > ffwll.ch%2F&amp;data=3D04%7C01%7CMonk.Liu%40amd.com%7C298815bea=
+18f4fbf76
+> > > > > > b308d96c7f7a8b%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637=
+6601170
+> > > > > > 51194614%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2=
+luMzIiL
+> > > > > > CJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=3DQzgCU7%2BPdA0a=
+WL5%2BJLg
+> > > > > > KeKbGaMMGqeGI9KE0P0LXlN4%3D&amp;reserved=3D0
+> > > > >
+> > > > > --
+> > > > > Daniel Vetter
+> > > > > Software Engineer, Intel Corporation
+> > > > > https://nam11.safelinks.protection.outlook.com/?url=3Dhttp%3A%2F%=
+2Fblog.ffwll.ch%2F&amp;data=3D04%7C01%7CMonk.Liu%40amd.com%7C298815bea18f4f=
+bf76b308d96c7f7a8b%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C63766011705=
+1194614%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI=
+6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=3DQzgCU7%2BPdA0aWL5%2BJLgKeKbGaMMG=
+qeGI9KE0P0LXlN4%3D&amp;reserved=3D0
+> > >
+> > > --
+> > > Daniel Vetter
+> > > Software Engineer, Intel Corporation
+> > > http://blog.ffwll.ch
+>
+> --
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
