@@ -1,49 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8765D44CB8B
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Nov 2021 23:06:09 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B12B44CB8C
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Nov 2021 23:06:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0EC0C8949C;
+	by gabe.freedesktop.org (Postfix) with ESMTP id BAA3E895E1;
 	Wed, 10 Nov 2021 22:06:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 435 seconds by postgrey-1.36 at gabe;
- Wed, 10 Nov 2021 09:50:22 UTC
-Received: from cstnet.cn (smtp23.cstnet.cn [159.226.251.23])
- by gabe.freedesktop.org (Postfix) with ESMTP id C59EB6F882;
- Wed, 10 Nov 2021 09:50:22 +0000 (UTC)
-Received: from localhost.localdomain (unknown [124.16.141.244])
- by APP-03 (Coremail) with SMTP id rQCowABXNu0llIthwD2hBg--.55254S2;
- Wed, 10 Nov 2021 17:43:02 +0800 (CST)
-From: Xu Wang <vulab@iscas.ac.cn>
-To: alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- airlied@linux.ie, daniel@ffwll.ch
-Subject: [PATCH] drm/radeon: correct indentation
-Date: Wed, 10 Nov 2021 09:42:42 +0000
-Message-Id: <20211110094242.67668-1-vulab@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
+ [IPv6:2a00:1450:4864:20::42e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF2966E1F6
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Nov 2021 19:36:37 +0000 (UTC)
+Received: by mail-wr1-x42e.google.com with SMTP id d27so5879129wrb.6
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Nov 2021 11:36:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=googlemail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=6Z8SMunWQcnk6H7z0v7bcp6qKVk9GWG+Oiz8OpqEszI=;
+ b=oXIysTlNVbQRqVPcfuFaK+8pnGVtAvR/go8VDsPZbXbW5IRK582fEcwaxvWkrVUkts
+ 6CvO/a6K4cVEdcVhI+g3uCdJEWfbM1jjpH3wn55zbMO85O1CaLALThPknDVyX6E/JYP8
+ +wDF9Z00irYxSgWcn0u5TTF//8gXbJLRv98DwMozzFwWUA9ZEHeZfo02lG9sYfTETJuA
+ QeG1Xi0dt8qbLwiFGl5x42+vjdhw9xt5Z7HDi9dzNhL83GQz/dg+um6DyVVPvNzlBgU/
+ CDJBufGmQrvh9auLzKZSXbU+qLVofPHj3Vpq0iyoUekogBz89p7xWmFEnFIwQ7//eadF
+ xh9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=6Z8SMunWQcnk6H7z0v7bcp6qKVk9GWG+Oiz8OpqEszI=;
+ b=OESOHT4dLrZ/eE1aIj+S8qn36nY/vELW9vBlyErxFZTzRKIik9YTtGuwBqK8qkciFd
+ iVvYH213FYBoJkP60Ohe3qGu5Xf2bfOZ+bigmB4sLWj9Zyi6neQEdn5eCWac3X6G6uUF
+ CxSSBZC6k4ESfHrm+9DBqfdxpI7NqZVjN5GgukVmSZM5khviqGLM41jkfh9ixZYLjy3D
+ 2J1TYSy6dmN/+v0s+c55NIe4R2bvLZCnwFb6SftZzsYFRnKXeF4GaDrEx8cm/x0xrR2z
+ p2d0Gs4mu9EkMJeNBbCLleMahmtBkRIqW50UE5o9UNF33KwIja3iG1iDW4KgAwrv7Ap7
+ vowg==
+X-Gm-Message-State: AOAM533TCFepJuBrfVkCNKinRlotwMAkHvVsACCKAl1edSPEu4KarmlE
+ lTx36alvqiB+2+VYj+RQc/PAx+FI4g==
+X-Google-Smtp-Source: ABdhPJyEPqNej1qS/wX6Ss4Bd6tM6SnB5Dz2gtv4liSwPZVQZWxIX1ItETpYJTswugwKLMv+oNRcZA==
+X-Received: by 2002:a5d:534b:: with SMTP id t11mr1807334wrv.75.1636572996346; 
+ Wed, 10 Nov 2021 11:36:36 -0800 (PST)
+Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net.
+ [80.193.200.194])
+ by smtp.gmail.com with ESMTPSA id h204sm650777wmh.33.2021.11.10.11.36.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 10 Nov 2021 11:36:36 -0800 (PST)
+From: Colin Ian King <colin.i.king@googlemail.com>
+X-Google-Original-From: Colin Ian King <colin.i.king@gmail.com>
+To: Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Melissa Wen <mwen@igalia.com>,
+ Iago Toral Quiroga <itoral@igalia.com>, dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/v3d: pass null pointers using NULL
+Date: Wed, 10 Nov 2021 19:36:35 +0000
+Message-Id: <20211110193635.312328-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: rQCowABXNu0llIthwD2hBg--.55254S2
-X-Coremail-Antispam: 1UD129KBjvdXoWrKFy7GrWxArWDGw47Gw48WFg_yoW3WrgE9F
- 10vasruas8K3Z2vFnruF1rAr9FyF4F9Fs3Gw18KryfKry7ZFyxZa9avF17Xr45XF4DGFnx
- Aw48try3ArZxujkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUIcSsGvfJTRUUUb2kYjsxI4VWkKwAYFVCjjxCrM7AC8VAFwI0_Gr0_Xr1l1xkIjI8I
- 6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM2
- 8CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0
- cI8IcVCY1x0267AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I
- 8E87Iv6xkF7I0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI
- 64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AKxVWUJVW8Jw
- Am72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lc2xSY4AK67AK6r4fMxAIw28I
- cxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2
- IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI
- 42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42
- IY6xAIw20EY4v20xvaj40_Wr1j6rW3Jr1lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2
- z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU5yxRPUUUUU==
-X-Originating-IP: [124.16.141.244]
-X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiBggBA10TfvQVEgAAsP
 X-Mailman-Approved-At: Wed, 10 Nov 2021 22:06:02 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -57,31 +72,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Correct indentation in radeon_driver_load_kms.
+There are a couple of calls that are passing null pointers as
+integer zeros rather than NULL. Fix this by using NULL instead.
 
-Signed-off-by: Xu Wang <vulab@iscas.ac.cn>
+Fixes: 07c2a41658c4 ("drm/v3d: alloc and init job in one shot")
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
 ---
- drivers/gpu/drm/radeon/radeon_kms.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/v3d/v3d_gem.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/radeon/radeon_kms.c b/drivers/gpu/drm/radeon/radeon_kms.c
-index 482fb0ae6cb5..7afe28408085 100644
---- a/drivers/gpu/drm/radeon/radeon_kms.c
-+++ b/drivers/gpu/drm/radeon/radeon_kms.c
-@@ -168,7 +168,7 @@ int radeon_driver_load_kms(struct drm_device *dev, unsigned long flags)
- 	if (!r) {
- 		acpi_status = radeon_acpi_init(rdev);
- 		if (acpi_status)
--		dev_dbg(dev->dev, "Error during ACPI methods call\n");
-+			dev_dbg(dev->dev, "Error during ACPI methods call\n");
- 	}
+diff --git a/drivers/gpu/drm/v3d/v3d_gem.c b/drivers/gpu/drm/v3d/v3d_gem.c
+index e47ae40a865a..c7ed2e1cbab6 100644
+--- a/drivers/gpu/drm/v3d/v3d_gem.c
++++ b/drivers/gpu/drm/v3d/v3d_gem.c
+@@ -774,7 +774,7 @@ v3d_submit_cl_ioctl(struct drm_device *dev, void *data,
  
- 	if (radeon_is_px(dev)) {
+ 	if (args->flags & DRM_V3D_SUBMIT_CL_FLUSH_CACHE) {
+ 		ret = v3d_job_init(v3d, file_priv, (void *)&clean_job, sizeof(*clean_job),
+-				   v3d_job_free, 0, 0, V3D_CACHE_CLEAN);
++				   v3d_job_free, 0, NULL, V3D_CACHE_CLEAN);
+ 		if (ret)
+ 			goto fail;
+ 
+@@ -1007,7 +1007,7 @@ v3d_submit_csd_ioctl(struct drm_device *dev, void *data,
+ 		goto fail;
+ 
+ 	ret = v3d_job_init(v3d, file_priv, (void *)&clean_job, sizeof(*clean_job),
+-			   v3d_job_free, 0, 0, V3D_CACHE_CLEAN);
++			   v3d_job_free, 0, NULL, V3D_CACHE_CLEAN);
+ 	if (ret)
+ 		goto fail;
+ 
 -- 
-2.25.1
+2.32.0
 
