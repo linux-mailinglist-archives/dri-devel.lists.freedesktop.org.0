@@ -1,53 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FDFB44C160
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Nov 2021 13:34:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B32B244C162
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Nov 2021 13:35:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E24A6E03E;
-	Wed, 10 Nov 2021 12:34:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 57DA86E09C;
+	Wed, 10 Nov 2021 12:35:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.domeneshop.no (smtp.domeneshop.no
- [IPv6:2a01:5b40:0:3005::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F376F6E03E
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Nov 2021 12:34:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
- ; s=ds202012;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
- MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=xun289VLWWZ82saKfNnf5+f3tJJ0jkNDF5lxfzbWlmM=; b=QFuXmqRSBOQITyzJYF6V1YmiS0
- h2SeY3zlP8LbZEBribxQij+PUF98b77082ErPi+XFtV9WTx8Lm2caNKvwYBlmMrEGX1Do3ySBaQJK
- 78Ae91Xix1ZRqgoxdADS7DupOSZCrsdJfztx6U5sBqa5ub5sGLciU8kdCxIETfHBvpAarGnXSoCzh
- 1NKMZD8Uo75gKvsoBj7jhkAThGCO7SD24bkCC7ojIdSKEIcBKeHDdb6BYWsGm8O40Gx5k7Z3CMADk
- MpPiel7BDPK3RsZqvq1UN9WlgNgGcVJpp6L/3iUgN0BySvFRynZNTfngQOUe61KMN5PgoS6HwF5BC
- 87oT5RGg==;
-Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:52473
- helo=[192.168.10.61])
- by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <noralf@tronnes.org>)
- id 1mkmnq-0005OW-GL; Wed, 10 Nov 2021 13:34:10 +0100
-Subject: Re: [PATCH v3 7/9] drm/simpledrm: Enable FB_DAMAGE_CLIPS property
-To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
- airlied@linux.ie, mripard@kernel.org, maarten.lankhorst@linux.intel.com,
- drawat.floss@gmail.com, airlied@redhat.com, kraxel@redhat.com,
- david@lechnology.com, sam@ravnborg.org, javierm@redhat.com,
- kernel@amanoeldawod.com, dirty.ice.hu@gmail.com, michael+lkml@stapelberg.ch,
- aros@gmx.com, joshua@stroblindustries.com, arnd@arndb.de
-References: <20211110103702.374-1-tzimmermann@suse.de>
- <20211110103702.374-8-tzimmermann@suse.de>
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-Message-ID: <0e762e67-b18f-3cbd-b401-d6766a7168a3@tronnes.org>
-Date: Wed, 10 Nov 2021 13:34:05 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B721F6E441;
+ Wed, 10 Nov 2021 12:35:13 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10163"; a="219553381"
+X-IronPort-AV: E=Sophos;i="5.87,223,1631602800"; d="scan'208";a="219553381"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Nov 2021 04:35:13 -0800
+X-IronPort-AV: E=Sophos;i="5.87,223,1631602800"; d="scan'208";a="503947510"
+Received: from blu2-mobl3.ccr.corp.intel.com (HELO [10.254.212.217])
+ ([10.254.212.217])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Nov 2021 04:35:11 -0800
+Message-ID: <4c5ab72f-aaff-8b92-7471-44dd907cf2f6@linux.intel.com>
+Date: Wed, 10 Nov 2021 20:35:08 +0800
 MIME-Version: 1.0
-In-Reply-To: <20211110103702.374-8-tzimmermann@suse.de>
-Content-Type: text/plain; charset=utf-8
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Content-Language: en-US
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Intel-gfx@lists.freedesktop.org
+References: <20211109121759.170915-1-tvrtko.ursulin@linux.intel.com>
+ <6e8c55a7-45b6-57ab-35f7-d522401efccb@linux.intel.com>
+ <4d1a0ab9-e0d8-2ed9-1fc4-9ffaf2f19bef@linux.intel.com>
+ <7b2e1427-69cf-8f5d-0c15-73c4e602953d@linux.intel.com>
+ <2a1ae709-19f8-7983-b171-98ec2f3f010a@linux.intel.com>
+From: Lu Baolu <baolu.lu@linux.intel.com>
+Subject: Re: [PATCH] drm/i915: Use per device iommu check
+In-Reply-To: <2a1ae709-19f8-7983-b171-98ec2f3f010a@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -61,28 +52,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-hyperv@vger.kernel.org, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>, dri-devel@lists.freedesktop.org,
+ baolu.lu@linux.intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 2021/11/10 20:08, Tvrtko Ursulin wrote:
+> 
+> On 10/11/2021 12:04, Lu Baolu wrote:
+>> On 2021/11/10 17:30, Tvrtko Ursulin wrote:
+>>>
+>>> On 10/11/2021 07:12, Lu Baolu wrote:
+>>>> Hi Tvrtko,
+>>>>
+>>>> On 2021/11/9 20:17, Tvrtko Ursulin wrote:
+>>>>> From: Tvrtko Ursulin<tvrtko.ursulin@intel.com>
+>>>>>
+>>>>> On igfx + dgfx setups, it appears that intel_iommu=igfx_off option 
+>>>>> only
+>>>>> disables the igfx iommu. Stop relying on global intel_iommu_gfx_mapped
+>>>>> and probe presence of iommu domain per device to accurately reflect 
+>>>>> its
+>>>>> status.
+>>>>>
+>>>>> Signed-off-by: Tvrtko Ursulin<tvrtko.ursulin@intel.com>
+>>>>> Cc: Lu Baolu<baolu.lu@linux.intel.com>
+>>>>> ---
+>>>>> Baolu, is my understanding here correct? Maybe I am confused by both
+>>>>> intel_iommu_gfx_mapped and dmar_map_gfx being globals in the 
+>>>>> intel_iommu
+>>>>> driver. But it certainly appears the setup can assign some iommu 
+>>>>> ops (and
+>>>>> assign the discrete i915 to iommu group) when those two are set to 
+>>>>> off.
+>>>>
+>>>> diff --git a/drivers/gpu/drm/i915/i915_drv.h 
+>>>> b/drivers/gpu/drm/i915/i915_drv.h
+>>>> index e967cd08f23e..9fb38a54f1fe 100644
+>>>> --- a/drivers/gpu/drm/i915/i915_drv.h
+>>>> +++ b/drivers/gpu/drm/i915/i915_drv.h
+>>>> @@ -1763,26 +1763,27 @@ static inline bool run_as_guest(void)
+>>>>   #define HAS_D12_PLANE_MINIMIZATION(dev_priv) 
+>>>> (IS_ROCKETLAKE(dev_priv) || \
+>>>>                             IS_ALDERLAKE_S(dev_priv))
+>>>>
+>>>> -static inline bool intel_vtd_active(void)
+>>>> +static inline bool intel_vtd_active(struct drm_i915_private *i915)
+>>>>   {
+>>>> -#ifdef CONFIG_INTEL_IOMMU
+>>>> -    if (intel_iommu_gfx_mapped)
+>>>> +    if (iommu_get_domain_for_dev(i915->drm.dev))
+>>>>           return true;
+>>>> -#endif
+>>>>
+>>>>       /* Running as a guest, we assume the host is enforcing VT'd */
+>>>>       return run_as_guest();
+>>>>   }
+>>>>
+>>>> Have you verified this change? I am afraid that
+>>>> iommu_get_domain_for_dev() always gets a valid iommu domain even
+>>>> intel_iommu_gfx_mapped == 0.
+>>>
+>>> Yes it seems to work as is:
+>>>
+>>> default:
+>>>
+>>> # grep -i iommu /sys/kernel/debug/dri/*/i915_capabilities
+>>> /sys/kernel/debug/dri/0/i915_capabilities:iommu: enabled
+>>> /sys/kernel/debug/dri/1/i915_capabilities:iommu: enabled
+>>>
+>>> intel_iommu=igfx_off:
+>>>
+>>> # grep -i iommu /sys/kernel/debug/dri/*/i915_capabilities
+>>> /sys/kernel/debug/dri/0/i915_capabilities:iommu: disabled
+>>> /sys/kernel/debug/dri/1/i915_capabilities:iommu: enabled
+>>>
+>>> On my system dri device 0 is integrated graphics and 1 is discrete.
+>>
+>> The drm device 0 has a dedicated iommu. When the user request igfx not
+>> mapped, the VT-d implementation will turn it off to save power. But for
+>> shared iommu, you definitely will get it enabled.
+> 
+> Sorry I am not following, what exactly do you mean? Is there a platform 
+> with integrated graphics without a dedicated iommu, in which case 
+> intel_iommu=igfx_off results in intel_iommu_gfx_mapped == 0 and 
+> iommu_get_domain_for_dev returning non-NULL?
 
+Your code always work for an igfx with a dedicated iommu. This might be
+always true on today's platforms. But from driver's point of view, we
+should not make such assumption.
 
-Den 10.11.2021 11.37, skrev Thomas Zimmermann:
-> Enable the FB_DAMAGE_CLIPS property to reduce display-update
-> overhead. Also fixes a warning in the kernel log.
-> 
->   simple-framebuffer simple-framebuffer.0: [drm] drm_plane_enable_fb_damage_clips() not called
-> 
-> Fix the computation of the blit rectangle. This wasn't an issue so
-> far, as simpledrm always blitted the full framebuffer. The code now
-> supports damage clipping and virtual screen sizes.
-> 
-> v3:
-> 	* fix drm_dev_enter() error path (Noralf)
-> 	* remove unnecessary clipping from update function (Noralf)
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
+For example, if the iommu implementation decides not to turn off the
+graphic iommu (perhaps due to some hw quirk or for graphic
+virtualization), your code will be broken.
 
-Reviewed-by: Noralf Trønnes <noralf@tronnes.org>
+Best regards,
+baolu
