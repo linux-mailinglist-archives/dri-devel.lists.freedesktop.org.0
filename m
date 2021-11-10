@@ -2,58 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06CC344BA26
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Nov 2021 02:58:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CE5844BA2D
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Nov 2021 03:07:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F4816E3B7;
-	Wed, 10 Nov 2021 01:58:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 419E26E5D5;
+	Wed, 10 Nov 2021 02:07:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf29.google.com (mail-qv1-xf29.google.com
- [IPv6:2607:f8b0:4864:20::f29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 226166E3B7
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Nov 2021 01:58:32 +0000 (UTC)
-Received: by mail-qv1-xf29.google.com with SMTP id v2so821458qve.11
- for <dri-devel@lists.freedesktop.org>; Tue, 09 Nov 2021 17:58:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=HqZCX1MCv43dkPkUD+9wFNRRgwIOAeVThyPIqXHsR2Y=;
- b=lrFpKxSt9B3R233SnxJPeqgxAfo/p6iplRPtzt1nBRyY9kgppfITLl/XSUavCZqw/l
- 8rs0L1mqusVfI1jmdnFP5tPa1kBVyw5M/nA+JwcyolEg9GUpn6TmbED75TtGlpcCtpMr
- /7fG8OcHhvQFU2UKde+46ZJXBUy2x8HqbMnjVvnOV6Y9p9vBM32o/agmj107K0AfXrDg
- PL9CCa8oO6fk/1ncRPZsoXzFFfWQEhCFgcrofTFfDziwPCkpQ8ZbkpyaN4adZfwjis3m
- hVEZLzcesjIvFvY9O6C2Kc2/sRgY9ubnF17CYZdfBisBLBdE3e96mIbQ7RRAL6zHArbp
- Z9yQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=HqZCX1MCv43dkPkUD+9wFNRRgwIOAeVThyPIqXHsR2Y=;
- b=QzYDCqIJmi1tMMJ4rDENP0UN0xu2jcqXyJ7GhJ6am82fP+3pOfU3kPN3PSZmDkPS9s
- SXCv0hfOUgwUdnwnbDTtn3rqAunGAS6YG1FAblkd5RLawbf/0+xEa0qAAuGzlNP2uA4s
- ZLEXw0LeKQMURAILKylzO0Fe7aXgf57/Eq/i0Lqy+GH9lcKPnw0M2moMeI4elAF5Z9V/
- rwHHU7Wv5PldTto5OUag4NoddIZWtaEdIjN9KL2wJ1ghZtwjuRxHZc7qfBy462Ub1abQ
- jpyrtoT+smRVm/RI6sQ1m8TvxaWRi1wQkeVOmnFM8ucaHuYsd1JxY/sLJNKMSeHRrkYZ
- 9HFA==
-X-Gm-Message-State: AOAM532Vlu4nDsGuj2joxSHyDMmy+GTA+SM64bZLRyVmC3ntx+SMDR82
- 684ahHTp0M1wPYUzfqRmkU8vy1lQ3wOhWuMDBzArBw==
-X-Google-Smtp-Source: ABdhPJzTCuDgwJ0uuBJD9MLiduF9ay+dCcYlRgUVJPUCQebCF6N3LvzjQUuFCtFt1YCmn2opuXxyrlj4IyApX21iJTw=
-X-Received: by 2002:ad4:5def:: with SMTP id jn15mr5710516qvb.27.1636509511027; 
- Tue, 09 Nov 2021 17:58:31 -0800 (PST)
+Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2CD346E8AD
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Nov 2021 02:07:03 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1636510026; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=UTykqthGx7J/wYBF36U925g4w3yMNYE0twqFd2mbmJ0=;
+ b=S8Xyk7LdU5kToK69NB5SwAg+rZYewEeNtw45KlIOU3oz+/PQfP2yXAs1kTcZQd0O1/EjptMO
+ s9HZkfPx4kFh8ztiGRD0/yASkYz0AGBt7yyAbuzPRsBHZYrSkN2V3tcfhneMYnZfTh7lQeKB
+ VEzyIGXwDQJqgCytxN4708sct5o=
+X-Mailgun-Sending-Ip: 198.61.254.9
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n06.prod.us-west-2.postgun.com with SMTP id
+ 618b293efacd20d795199721 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 10 Nov 2021 02:06:54
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 40B03C43619; Wed, 10 Nov 2021 02:06:54 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00
+ autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested) (Authenticated sender: abhinavk)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id F1E5EC4338F;
+ Wed, 10 Nov 2021 02:06:52 +0000 (UTC)
 MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date: Tue, 09 Nov 2021 18:06:52 -0800
+From: abhinavk@codeaurora.org
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [Freedreno] [PATCH v2 20/22] drm/msm/dpu: fix smart dma support
+In-Reply-To: <20210705012115.4179824-21-dmitry.baryshkov@linaro.org>
 References: <20210705012115.4179824-1-dmitry.baryshkov@linaro.org>
- <20210705012115.4179824-17-dmitry.baryshkov@linaro.org>
- <3a48e580272ceb9d5d499455d8f35630@codeaurora.org>
- <CAA8EJpoKiu32oqGLpus-W8Z1ifKKVyAyOOp9kPF6NnxRLS6+fw@mail.gmail.com>
- <08150e6e9df2ebbbfee71b6b7f2ea395@codeaurora.org>
-In-Reply-To: <08150e6e9df2ebbbfee71b6b7f2ea395@codeaurora.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Wed, 10 Nov 2021 04:58:19 +0300
-Message-ID: <CAA8EJppNnfK3Ra=fmpNRBxFmivnbW8hT3T9ckAy8xa0VCHwzHA@mail.gmail.com>
-Subject: Re: [Freedreno] [PATCH v2 16/22] drm/msm/dpu: do not limit the zpos
- property
-To: abhinavk@codeaurora.org
-Content-Type: text/plain; charset="UTF-8"
+ <20210705012115.4179824-21-dmitry.baryshkov@linaro.org>
+Message-ID: <d616a12acce1a525fb312f811a92840d@codeaurora.org>
+X-Sender: abhinavk@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,121 +66,162 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, Jonathan Marek <jonathan@marek.ca>,
+Cc: freedreno@lists.freedesktop.org, Jonathan Marek <jonathan@marek.ca>,
  Stephen Boyd <sboyd@kernel.org>, linux-arm-msm@vger.kernel.org,
  dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
- David Airlie <airlied@linux.ie>, freedreno@lists.freedesktop.org
+ David Airlie <airlied@linux.ie>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 10 Nov 2021 at 04:35, <abhinavk@codeaurora.org> wrote:
->
-> On 2021-11-09 12:21, Dmitry Baryshkov wrote:
-> > On Tue, 9 Nov 2021 at 23:15, <abhinavk@codeaurora.org> wrote:
-> >>
-> >> On 2021-07-04 18:21, Dmitry Baryshkov wrote:
-> >> > Stop limiting zpos property values, we use normalized_zpos anyway. And
-> >> > nothing stops userspace from assigning several planes to a single zpos
-> >> > (it is a userspace bug, but the kernel is forgiving about it).
-> >>
-> >> Userspace assigning several planes to a single zpos was intended to
-> >> identify
-> >> cases where src split can be used. Downstream does not use normalized
-> >> zpos,
-> >> hence it did not come across as a bug but mostly as a way to identify
-> >> when
-> >> usermode needs src split to be enabled based on the composition
-> >> strategy.
-> >>
-> >> We can talk about that more in the rest of the patches of this series.
-> >>
-> >> For this one, I only have a couple of questions:
-> >>
-> >> 1) Across different vendors, some have gone with limiting the zpos and
-> >> some have gone with
-> >> the max, so is there an issue with sticking with the max_blend_stages
-> >> limit?
-> >>
-> >> 2) If there is no hard reason to make this change, I think its better
-> >> to
-> >> keep it the way it is.
-> >
-> > Short answer to both questions: we want to have more planes than the
-> > max_blend_stages. So we should remove the limit.
-> >
-> > Consider this to be a unification with MDP5, which uses 255 here.
->
-> Alright, one minor comment below.
->
-> Also, what you have mentioned now "wanting to have more planes than
-> blend stages"
-> should goto the commit text and the userspace bug part can be omitted as
-> its technically
-> isnt a bug but just the way we intended it to be.
+On 2021-07-04 18:21, Dmitry Baryshkov wrote:
+> Downstream driver uses dpu->caps->smart_dma_rev to update
+> sspp->cap->features with the bit corresponding to the supported 
+> SmartDMA
+> version. Upstream driver does not do this, resulting in SSPP subdriver
+> not enbaling setup_multirect callback. Make SSPP subdriver check global
+> smart_dma_rev to decide if setup_multirect should be enabled.
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-It still is a bug. See
-https://www.kernel.org/doc/html/latest/gpu/drm-kms.html#plane-abstraction,
-"zpos" description:
-'User-space may set mutable zpos properties so that multiple active
-planes on the same CRTC have identical zpos values. This is a
-user-space bug...'
+Instead of this approach, we can OR the DPU_SSPP_SMART_DMA_* to the 
+features list?
 
->
->
-> >
-> >>
-> >> >
-> >> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> >> > ---
-> >> >  drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 11 +----------
-> >> >  1 file changed, 1 insertion(+), 10 deletions(-)
-> >> >
-> >> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> >> > b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> >> > index 8ed7b8f0db69..3850f2714bf3 100644
-> >> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> >> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> >> > @@ -44,7 +44,6 @@
-> >> >  #define DPU_NAME_SIZE  12
-> >> >
-> >> >  #define DPU_PLANE_COLOR_FILL_FLAG    BIT(31)
-> >> > -#define DPU_ZPOS_MAX 255
-> instead of getting rid of this, you can use this macro below where 255
-> is hardcoded.
-
-Ack
-
-> >> >
-> >> >  /* multirect rect index */
-> >> >  enum {
-> >> > @@ -1374,7 +1373,6 @@ struct drm_plane *dpu_plane_init(struct
-> >> > drm_device *dev,
-> >> >       struct dpu_plane *pdpu;
-> >> >       struct msm_drm_private *priv = dev->dev_private;
-> >> >       struct dpu_kms *kms = to_dpu_kms(priv->kms);
-> >> > -     int zpos_max = DPU_ZPOS_MAX;
-> >> >       uint32_t num_formats;
-> >> >       int ret = -EINVAL;
-> >> >
-> >> > @@ -1412,14 +1410,7 @@ struct drm_plane *dpu_plane_init(struct
-> >> > drm_device *dev,
-> >> >
-> >> >       pdpu->catalog = kms->catalog;
-> >> >
-> >> > -     if (kms->catalog->mixer_count &&
-> >> > -             kms->catalog->mixer[0].sblk->maxblendstages) {
-> >> > -             zpos_max = kms->catalog->mixer[0].sblk->maxblendstages - 1;
-> >> > -             if (zpos_max > DPU_STAGE_MAX - DPU_STAGE_0 - 1)
-> >> > -                     zpos_max = DPU_STAGE_MAX - DPU_STAGE_0 - 1;
-> >> > -     }
-> >> > -
-> >> > -     ret = drm_plane_create_zpos_property(plane, 0, 0, zpos_max);
-> >> > +     ret = drm_plane_create_zpos_property(plane, 0, 0, 255);
-> >> >       if (ret)
-> >> >               DPU_ERROR("failed to install zpos property, rc = %d\n", ret);
-
-
-
--- 
-With best wishes
-Dmitry
+> ---
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 10 +++++-----
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h | 16 ++++++++++++----
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c    |  9 +++++----
+>  3 files changed, 22 insertions(+), 13 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> index b8e0fece1f0b..d2321648b8d2 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> @@ -185,7 +185,7 @@ static const struct dpu_caps sdm845_dpu_caps = {
+>  	.max_mixer_width = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
+>  	.max_mixer_blendstages = 0xb,
+>  	.qseed_type = DPU_SSPP_SCALER_QSEED3,
+> -	.smart_dma_rev = DPU_SSPP_SMART_DMA_V2,
+> +	.smart_dma_rev = DPU_SMART_DMA_V2,
+>  	.ubwc_version = DPU_HW_UBWC_VER_20,
+>  	.has_src_split = true,
+>  	.has_dim_layer = true,
+> @@ -203,7 +203,7 @@ static const struct dpu_caps sc7180_dpu_caps = {
+>  	.max_mixer_width = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
+>  	.max_mixer_blendstages = 0x9,
+>  	.qseed_type = DPU_SSPP_SCALER_QSEED4,
+> -	.smart_dma_rev = DPU_SSPP_SMART_DMA_V2,
+> +	.smart_dma_rev = DPU_SMART_DMA_V2,
+>  	.ubwc_version = DPU_HW_UBWC_VER_20,
+>  	.has_dim_layer = true,
+>  	.has_idle_pc = true,
+> @@ -217,7 +217,7 @@ static const struct dpu_caps sm8150_dpu_caps = {
+>  	.max_mixer_width = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
+>  	.max_mixer_blendstages = 0xb,
+>  	.qseed_type = DPU_SSPP_SCALER_QSEED3,
+> -	.smart_dma_rev = DPU_SSPP_SMART_DMA_V2, /* TODO: v2.5 */
+> +	.smart_dma_rev = DPU_SMART_DMA_V2, /* TODO: v2.5 */
+>  	.ubwc_version = DPU_HW_UBWC_VER_30,
+>  	.has_src_split = true,
+>  	.has_dim_layer = true,
+> @@ -235,7 +235,7 @@ static const struct dpu_caps sm8250_dpu_caps = {
+>  	.max_mixer_width = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
+>  	.max_mixer_blendstages = 0xb,
+>  	.qseed_type = DPU_SSPP_SCALER_QSEED3LITE,
+> -	.smart_dma_rev = DPU_SSPP_SMART_DMA_V2, /* TODO: v2.5 */
+> +	.smart_dma_rev = DPU_SMART_DMA_V2, /* TODO: v2.5 */
+>  	.ubwc_version = DPU_HW_UBWC_VER_40,
+>  	.has_src_split = true,
+>  	.has_dim_layer = true,
+> @@ -251,7 +251,7 @@ static const struct dpu_caps sc7280_dpu_caps = {
+>  	.max_mixer_width = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
+>  	.max_mixer_blendstages = 0x7,
+>  	.qseed_type = DPU_SSPP_SCALER_QSEED4,
+> -	.smart_dma_rev = DPU_SSPP_SMART_DMA_V2,
+> +	.smart_dma_rev = DPU_SMART_DMA_V2,
+>  	.ubwc_version = DPU_HW_UBWC_VER_30,
+>  	.has_dim_layer = true,
+>  	.has_idle_pc = true,
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> index f3c5aa3f4b3f..66d7b43c0019 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> @@ -70,6 +70,18 @@ enum {
+>  	DPU_HW_UBWC_VER_40 = 0x400,
+>  };
+> 
+> +/**
+> + * SmartDMA support
+> + * @DPU_SMART_DMA_UNSUPPORTED,   SmartDMA not support
+> + * @DPU_SMART_DMA_V1,   SmartDMA 1.0 support
+> + * @DPU_SMART_DMA_V2,   SmartDMA 2.0 support
+> + */
+> +enum {
+> +	DPU_SMART_DMA_UNSUPPORTED,
+> +	DPU_SMART_DMA_V1,
+> +	DPU_SMART_DMA_V2,
+> +};
+> +
+>  /**
+>   * MDP TOP BLOCK features
+>   * @DPU_MDP_PANIC_PER_PIPE Panic configuration needs to be be done per 
+> pipe
+> @@ -104,8 +116,6 @@ enum {
+>   * @DPU_SSPP_QOS,            SSPP support QoS control, 
+> danger/safe/creq
+>   * @DPU_SSPP_QOS_8LVL,       SSPP support 8-level QoS control
+>   * @DPU_SSPP_EXCL_RECT,      SSPP supports exclusion rect
+> - * @DPU_SSPP_SMART_DMA_V1,   SmartDMA 1.0 support
+> - * @DPU_SSPP_SMART_DMA_V2,   SmartDMA 2.0 support
+>   * @DPU_SSPP_TS_PREFILL      Supports prefill with traffic shaper
+>   * @DPU_SSPP_TS_PREFILL_REC1 Supports prefill with traffic shaper 
+> multirec
+>   * @DPU_SSPP_CDP             Supports client driven prefetch
+> @@ -124,8 +134,6 @@ enum {
+>  	DPU_SSPP_QOS,
+>  	DPU_SSPP_QOS_8LVL,
+>  	DPU_SSPP_EXCL_RECT,
+> -	DPU_SSPP_SMART_DMA_V1,
+> -	DPU_SSPP_SMART_DMA_V2,
+>  	DPU_SSPP_TS_PREFILL,
+>  	DPU_SSPP_TS_PREFILL_REC1,
+>  	DPU_SSPP_CDP,
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
+> b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
+> index 2be43d5a235a..f93cdeb08ac7 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
+> @@ -648,7 +648,8 @@ static void dpu_hw_sspp_setup_cdp(struct 
+> dpu_hw_pipe *ctx,
+>  }
+> 
+>  static void _setup_layer_ops(struct dpu_hw_pipe *c,
+> -		unsigned long features)
+> +		unsigned long features,
+> +		int smart_dma_rev)
+>  {
+>  	if (test_bit(DPU_SSPP_SRC, &features)) {
+>  		c->ops.setup_format = dpu_hw_sspp_setup_format;
+> @@ -669,8 +670,8 @@ static void _setup_layer_ops(struct dpu_hw_pipe *c,
+>  		test_bit(DPU_SSPP_CSC_10BIT, &features))
+>  		c->ops.setup_csc = dpu_hw_sspp_setup_csc;
+> 
+> -	if (test_bit(DPU_SSPP_SMART_DMA_V1, &c->cap->features) ||
+> -		test_bit(DPU_SSPP_SMART_DMA_V2, &c->cap->features))
+> +	if (smart_dma_rev == DPU_SMART_DMA_V1 ||
+> +	    smart_dma_rev == DPU_SMART_DMA_V2)
+>  		c->ops.setup_multirect = dpu_hw_sspp_setup_multirect;
+> 
+>  	if (test_bit(DPU_SSPP_SCALER_QSEED3, &features) ||
+> @@ -731,7 +732,7 @@ struct dpu_hw_pipe *dpu_hw_sspp_init(enum dpu_sspp 
+> idx,
+>  	hw_pipe->mdp = &catalog->mdp[0];
+>  	hw_pipe->idx = idx;
+>  	hw_pipe->cap = cfg;
+> -	_setup_layer_ops(hw_pipe, hw_pipe->cap->features);
+> +	_setup_layer_ops(hw_pipe, hw_pipe->cap->features,
+> catalog->caps->smart_dma_rev);
+> 
+>  	return hw_pipe;
+>  }
