@@ -2,54 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5273C44B995
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Nov 2021 01:25:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE51944B999
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Nov 2021 01:30:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 077856E416;
-	Wed, 10 Nov 2021 00:24:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 156196F9A4;
+	Wed, 10 Nov 2021 00:30:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com
- [IPv6:2a00:1450:4864:20::532])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 827AD6E416
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Nov 2021 00:24:57 +0000 (UTC)
-Received: by mail-ed1-x532.google.com with SMTP id c8so3203867ede.13
- for <dri-devel@lists.freedesktop.org>; Tue, 09 Nov 2021 16:24:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=cbV1zZ53Ye+VsWDk6PAcIMOeQNeEh9gJGX69zuF5qCY=;
- b=amP0VyF2u6MbwusnnCkzmrEAl6rT2/KtCm3C8sxGEb8JsKS2BdKKzPTs1+F9Ea0V0L
- x5T3B/U0RC0kS1TJKlWj28FopXHXzzgXtZdHoEjJQlNLiSeF/diYh3Ws85TewHaV5QqK
- qnAwHfitAVboKaoZo0nuIVCwv1MAS8aRPjAZSm4KiBwRjMeFiGdQkPk+vRjtWKtXRAok
- QeyzxMSNSvo3Z2ha1EgvYao9CBLxxWFD1R11zQ2+9OVmi713O35w65Llb8r6ZBx+gspa
- 0rPzQPMf7/IjOQW2Op+DAejmHskCmJ3vKOONoHgrR2kH2wh2sfKKlMr64IlqMkkQQRlp
- F66Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=cbV1zZ53Ye+VsWDk6PAcIMOeQNeEh9gJGX69zuF5qCY=;
- b=NyAKjWvCChEzrPPjGUqDou9b4AqY3rrFMk6dZqK9u6rDx5uZMoYkGHZmlk1AFK3keu
- 5DoSSktTK7wQzwm6zt6on8psGz+FdCMx8kXa2Fxq0wCsMjh2qWhF+orfdWPon4x2dPOP
- YRULaCTY3RnE+QJU/i6fkZESiPvv10duh4+TxcNGDY8bLaQJGYjJm6M+hAkHLZk0Q3Ps
- PN9BWooz/Tt8bDYRFdxaBbzo4q90p/qupegwo9noFniDbIYMm8dHX7BVWmDoGZnpFx9B
- SsWv5d6wfNIfA+DiAWsX8UMN91BKpylYDu40E1jC/ilwmOe6ijyw+PRc+fySF2HnxIEQ
- O/bw==
-X-Gm-Message-State: AOAM533Uy1mn18FFOTF7yqNCJfU1xoI5J8cLxel0QkWYveWItH9Vt1M9
- HNpadB++umCcGVh34/RgK1Uj/44q44xjfk+MPP46k/oYL70=
-X-Google-Smtp-Source: ABdhPJxh+76brtUKZ4As5AwcNuq2tM7FYtS2W51h2JQVa6HBbKJvYbAAARiQ9+qtS5xkfu2sCuLMdUTYMECylXEnkDI=
-X-Received: by 2002:a17:906:ca18:: with SMTP id
- jt24mr14765582ejb.325.1636503895724; 
- Tue, 09 Nov 2021 16:24:55 -0800 (PST)
+Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A8A16F997
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Nov 2021 00:30:39 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1636504241; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=riQLO85yIpD4XnF2cVveAsrWXW/y1r+/wm2BI5Zf3UQ=;
+ b=rTc6VGJM+jF40qppDeVdJsUv4jJb9A1d9tdFlrhl0NvCjR1L1S2svgvFPs+njDw/KsypPScI
+ Ucgq4ovo+AMe5Rn8wX1ysTbIrq2apzM9dPc84EKOY3F2Ouvf2WgY487+qSz8miLtFkGEj2Wc
+ ZxbtHRFst7vQ6qR/zpjVcuVPkdQ=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n02.prod.us-east-1.postgun.com with SMTP id
+ 618b12a31b212dbdbde6b4e8 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 10 Nov 2021 00:30:27
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 48B78C4360D; Wed, 10 Nov 2021 00:30:26 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+ URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested) (Authenticated sender: abhinavk)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id A7F31C4360C;
+ Wed, 10 Nov 2021 00:30:23 +0000 (UTC)
 MIME-Version: 1.0
-References: <20211109173357.780-1-tharvey@gateworks.com>
-In-Reply-To: <20211109173357.780-1-tharvey@gateworks.com>
-From: Adam Ford <aford173@gmail.com>
-Date: Tue, 9 Nov 2021 18:24:44 -0600
-Message-ID: <CAHCN7xKBMRRUO87Y9cn-885ESWvKbz_-EzGS9q3oXKy8KmpMpA@mail.gmail.com>
-Subject: Re: [RFC] arm64: dts: imx8mm: Add MIPI and LCDIF nodes
-To: Tim Harvey <tharvey@gateworks.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date: Tue, 09 Nov 2021 16:30:23 -0800
+From: abhinavk@codeaurora.org
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [Freedreno] [PATCH v2 17/22] drm/msm/dpu: add support for SSPP
+ allocation to RM
+In-Reply-To: <20210705012115.4179824-18-dmitry.baryshkov@linaro.org>
+References: <20210705012115.4179824-1-dmitry.baryshkov@linaro.org>
+ <20210705012115.4179824-18-dmitry.baryshkov@linaro.org>
+Message-ID: <7e23a6de417871cfbdc8cd30ec439939@codeaurora.org>
+X-Sender: abhinavk@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,153 +67,306 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, dri-devel <dri-devel@lists.freedesktop.org>,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Jagan Teki <jagan@amarulasolutions.com>,
- Tommaso Merciai <tomm.merciai@gmail.com>, NXP Linux Team <linux-imx@nxp.com>
+Cc: freedreno@lists.freedesktop.org, Jonathan Marek <jonathan@marek.ca>,
+ Stephen Boyd <sboyd@kernel.org>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
+ David Airlie <airlied@linux.ie>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 9, 2021 at 11:34 AM Tim Harvey <tharvey@gateworks.com> wrote:
->
-> Add nodes for MIPI DSI and LCDIF on IMX8MM
->
-> I'm currently working with a set of patches to convert drm/exynos
-> to a bridge [1] and add IMX8MM support [2] in order to get IMX8MM DSI
-> working for display with a Raspberry Pi DSI touchscreen compatible with
-> a Toshiba TC358762 DSI bridge and Powertip PH800480T013-IDF02
-> touchscreen.
->
-> I had this working on a 5.10 kernel with the old blk-ctl and
-> power-domain drivers that didn't make it into mainline but my 5.15
-> series with blk-ctl backported from next hangs right after
-> "[drm] Initialized mxsfb-drm 1.0.0 20160824 for 32e00000.lcdif on minor 0"
-> so I assume I have a power-domain not getting enabled.
->
-> Please let me know if you see an issue with the way I've configured
-> power-domain or clocks here.
->
-> Best Regards,
->
-> Tim
-> [1] https://patchwork.kernel.org/project/dri-devel/list/?series=347439&archive=both&state=*
-> [2] https://patchwork.kernel.org/project/linux-arm-kernel/list/?series=359775&archive=both&state=*
+On 2021-07-04 18:21, Dmitry Baryshkov wrote:
+> Add support for handling and allocting SSPP blocks through the resource
+> manager. Handling code is not converted to use it though.
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
+Conceptually this is identical to the previous attempt from QC on this:
+
+https://patchwork.kernel.org/project/dri-devel/patch/1529499020-8499-5-git-send-email-skolluku@codeaurora.org/
+
+So I wanted to get your comments on the foll questions:
+
+1) Originally the idea was that to add 4K support to DPU, we will expand 
+on top of your series.
+ From our prior discussion on why the previous QC attempt was not taken 
+over to add multirect support, the reason
+was that it removed mutirect support which is was actually the end goal 
+of this series. The end goal of the previous
+attempt was to add 4K support hence looks like multirect was given lower 
+priority and removed that time and not added
+back.
+
+But overall idea is the same which is to allocate hw sspps for drm 
+planes to suit the requirement needed in the dpu_rm.
+
+So to add 4K support on top of this series, we would just have to tweak 
+dpu_rm_get_sspp to allocate 2x hw sspps right?
+
+
+2) If the sspps are going to be iterated over a loop potentially every 
+frame in the atomic check, wouldnt there be
+a performance hit due to this?
+
+> +retry_loop:
+> +	for (i = 0; i < ARRAY_SIZE(rm->sspp_blks) && pipe == SSPP_NONE; i++) 
+> {
+
+This is where some help from usermode will help to optimize number of 
+atomic_checks coming in.
+If usermode tries atomic_checks too many times there can be potential 
+glitches with this. Is that something
+factored into this design?
+
+
+
 > ---
->  arch/arm64/boot/dts/freescale/imx8mm.dtsi | 68 +++++++++++++++++++++++
->  1 file changed, 68 insertions(+)
->
-> diff --git a/arch/arm64/boot/dts/freescale/imx8mm.dtsi b/arch/arm64/boot/dts/freescale/imx8mm.dtsi
-> index 208a0ed840f4..195dcbff7058 100644
-> --- a/arch/arm64/boot/dts/freescale/imx8mm.dtsi
-> +++ b/arch/arm64/boot/dts/freescale/imx8mm.dtsi
-> @@ -188,6 +188,12 @@
->                 clock-output-names = "clk_ext4";
->         };
->
-> +       mipi_phy: mipi-video-phy {
-> +               compatible = "fsl,imx8mm-mipi-video-phy";
-> +               syscon = <&disp_blk_ctrl>;
-> +               #phy-cells = <1>;
-> +       };
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h | 10 +++
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h     |  1 +
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c   | 18 ++---
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c      | 81 +++++++++++++++++++++
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h      |  6 ++
+>  5 files changed, 104 insertions(+), 12 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
+> b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
+> index 00098e33391e..c5ac8defa073 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
+> @@ -387,6 +387,16 @@ struct dpu_hw_pipe {
+>  	struct dpu_hw_sspp_ops ops;
+>  };
+> 
+> +/**
+> + * to_dpu_hw_pipe - convert base object dpu_hw_base to container
+> + * @hw: Pointer to base hardware block
+> + * return: Pointer to hardware block container
+> + */
+> +static inline struct dpu_hw_pipe *to_dpu_hw_pipe(struct dpu_hw_blk 
+> *hw)
+> +{
+> +	return container_of(hw, struct dpu_hw_pipe, base);
+> +}
 > +
->         psci {
->                 compatible = "arm,psci-1.0";
->                 method = "smc";
-> @@ -1068,6 +1074,68 @@
->                         #size-cells = <1>;
->                         ranges = <0x32c00000 0x32c00000 0x400000>;
->
-> +                       lcdif: lcdif@32e00000 {
-> +                               #address-cells = <1>;
-> +                               #size-cells = <0>;
-
-If there is only 1 port I don't think you need address-cells and
-size-cells.  See more below....
-
-> +                               compatible = "fsl,imx8mm-lcdif", "fsl,imx6sx-lcdif";
-> +                               reg = <0x32e00000 0x10000>;
-> +                               clocks = <&clk IMX8MM_CLK_LCDIF_PIXEL>,
-> +                                        <&clk IMX8MM_CLK_DISP_AXI_ROOT>,
-> +                                        <&clk IMX8MM_CLK_DISP_APB_ROOT>;
-> +                               clock-names = "pix", "disp_axi", "axi";
-> +                               assigned-clocks = <&clk IMX8MM_CLK_LCDIF_PIXEL>,
-> +                                                 <&clk IMX8MM_CLK_DISP_AXI>,
-> +                                                 <&clk IMX8MM_CLK_DISP_APB>;
-> +                               assigned-clock-parents = <&clk IMX8MM_VIDEO_PLL1_OUT>,
-> +                                                        <&clk IMX8MM_SYS_PLL2_1000M>,
-> +                                                        <&clk IMX8MM_SYS_PLL1_800M>;
-> +                               assigned-clock-rate = <594000000>, <500000000>, <200000000>;
-> +                               interrupts = <GIC_SPI 5 IRQ_TYPE_LEVEL_HIGH>;
-> +                               power-domains = <&disp_blk_ctrl IMX8MM_DISPBLK_PD_LCDIF>;
-> +                               status = "disabled";
+>  /**
+>   * dpu_hw_sspp_init - initializes the sspp hw driver object.
+>   * Should be called once before accessing every pipe.
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
+> b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
+> index ab65c817eb42..04a2ab548f54 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
+> @@ -159,6 +159,7 @@ struct dpu_global_state {
+>  	uint32_t ctl_to_enc_id[CTL_MAX - CTL_0];
+>  	uint32_t intf_to_enc_id[INTF_MAX - INTF_0];
+>  	uint32_t dspp_to_enc_id[DSPP_MAX - DSPP_0];
+> +	uint32_t pipe_to_plane_id[SSPP_MAX - SSPP_NONE];
+>  };
+> 
+>  struct dpu_global_state
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> index 3850f2714bf3..61008e8afb0a 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> @@ -1234,8 +1234,6 @@ static void dpu_plane_destroy(struct drm_plane 
+> *plane)
+>  		/* this will destroy the states as well */
+>  		drm_plane_cleanup(plane);
+> 
+> -		dpu_hw_sspp_destroy(pdpu->pipe_hw);
+> -
+>  		kfree(pdpu);
+>  	}
+>  }
+> @@ -1389,14 +1387,13 @@ struct drm_plane *dpu_plane_init(struct 
+> drm_device *dev,
+>  	pdpu->pipe = pipe;
+> 
+>  	/* initialize underlying h/w driver */
+> -	pdpu->pipe_hw = dpu_hw_sspp_init(pipe, kms->mmio, kms->catalog);
+> -	if (IS_ERR(pdpu->pipe_hw)) {
+> -		DPU_ERROR("[%u]SSPP init failed\n", pipe);
+> -		ret = PTR_ERR(pdpu->pipe_hw);
+> +	if (!kms->rm.sspp_blks[pipe - SSPP_NONE])
+>  		goto clean_plane;
+> -	} else if (!pdpu->pipe_hw->cap || !pdpu->pipe_hw->cap->sblk) {
+> +	pdpu->pipe_hw = to_dpu_hw_pipe(kms->rm.sspp_blks[pipe - SSPP_NONE]);
 > +
-> +                               port@0 {
-> +                                       reg = <0>;
-
-This should be just "port {" and we can get rid of the @0 and the "reg=0"
-
-This eliminates some build warnings.
+> +	if (!pdpu->pipe_hw->cap || !pdpu->pipe_hw->cap->sblk) {
+>  		DPU_ERROR("[%u]SSPP init returned invalid cfg\n", pipe);
+> -		goto clean_sspp;
+> +		goto clean_plane;
+>  	}
+> 
+>  	format_list = pdpu->pipe_hw->cap->sblk->format_list;
+> @@ -1406,7 +1403,7 @@ struct drm_plane *dpu_plane_init(struct 
+> drm_device *dev,
+>  				format_list, num_formats,
+>  				supported_format_modifiers, type, NULL);
+>  	if (ret)
+> -		goto clean_sspp;
+> +		goto clean_plane;
+> 
+>  	pdpu->catalog = kms->catalog;
+> 
+> @@ -1432,9 +1429,6 @@ struct drm_plane *dpu_plane_init(struct 
+> drm_device *dev,
+>  					pipe, plane->base.id);
+>  	return plane;
+> 
+> -clean_sspp:
+> -	if (pdpu && pdpu->pipe_hw)
+> -		dpu_hw_sspp_destroy(pdpu->pipe_hw);
+>  clean_plane:
+>  	kfree(pdpu);
+>  	return ERR_PTR(ret);
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+> b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+> index f9c83d6e427a..21c9e513f1f6 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+> @@ -8,6 +8,7 @@
+>  #include "dpu_hw_lm.h"
+>  #include "dpu_hw_ctl.h"
+>  #include "dpu_hw_pingpong.h"
+> +#include "dpu_hw_sspp.h"
+>  #include "dpu_hw_intf.h"
+>  #include "dpu_hw_dspp.h"
+>  #include "dpu_hw_merge3d.h"
+> @@ -35,6 +36,14 @@ int dpu_rm_destroy(struct dpu_rm *rm)
+>  {
+>  	int i;
+> 
+> +	for (i = 0; i < ARRAY_SIZE(rm->sspp_blks); i++) {
+> +		struct dpu_hw_pipe *hw;
 > +
-> +                                       lcdif_to_dsim: endpoint {
-> +                                               remote-endpoint = <&dsim_from_lcdif>;
-> +                                       };
-> +                               };
-> +                       };
+> +		if (rm->sspp_blks[i]) {
+> +			hw = to_dpu_hw_pipe(rm->sspp_blks[i]);
+> +			dpu_hw_sspp_destroy(hw);
+> +		}
+> +	}
+>  	for (i = 0; i < ARRAY_SIZE(rm->pingpong_blks); i++) {
+>  		struct dpu_hw_pingpong *hw;
+> 
+> @@ -166,6 +175,24 @@ int dpu_rm_init(struct dpu_rm *rm,
+>  		rm->pingpong_blks[pp->id - PINGPONG_0] = &hw->base;
+>  	}
+> 
+> +	for (i = 0; i < cat->sspp_count; i++) {
+> +		struct dpu_hw_pipe *hw;
+> +		const struct dpu_sspp_cfg *sspp = &cat->sspp[i];
 > +
-> +                       mipi_dsi: mipi_dsi@32e10000 {
-> +                               #address-cells = <1>;
-> +                               #size-cells = <0>;
-
-I think this should move into a sub node...see below
-
-> +                               compatible = "fsl,imx8mm-mipi-dsim";
-> +                               reg = <0x32e10000 0x400>;
-> +                               clocks = <&clk IMX8MM_CLK_DSI_CORE>,
-> +                                        <&clk IMX8MM_CLK_DSI_PHY_REF>;
-> +                               clock-names = "bus_clk", "sclk_mipi";
-> +                               assigned-clocks = <&clk IMX8MM_CLK_DSI_CORE>,
-> +                                                 <&clk IMX8MM_VIDEO_PLL1_OUT>,
-> +                                                 <&clk IMX8MM_CLK_DSI_PHY_REF>;
-> +                               assigned-clock-parents = <&clk IMX8MM_SYS_PLL1_266M>,
-> +                                                        <&clk IMX8MM_VIDEO_PLL1_BYPASS>,
-> +                                                        <&clk IMX8MM_VIDEO_PLL1_OUT>;
-> +                               assigned-clock-rates = <266000000>, <594000000>, <27000000>;
-> +                               interrupts = <GIC_SPI 18 IRQ_TYPE_LEVEL_HIGH>;
-> +                               phys = <&mipi_phy 0>;
-> +                               phy-names = "dsim";
-
-I think the mipi_phy is the equivalent to the mipi_rst_mask in the
-power domain I added to the CSI.  Looking through the NXP 5.10 kernel,
- BIT(17) is the reset for the MIPI_DSI.  I haven't tried it yet, but
-it makes me assume that BIT(16) is for the MIPI_CSI.
-
-Both bits are set in the imx-atf code, and the documentation isn't
-clear, but I tweaked the blk-ctrl driver to only set BIT(16) for the
-mipi_rst_mask on the CSI.  I still get some hanging, so it's not any
-better that way.
-
-> +                               power-domains = <&disp_blk_ctrl IMX8MM_DISPBLK_PD_MIPI_DSI>;
-> +                               samsung,burst-clock-frequency = <891000000>;
-> +                               samsung,esc-clock-frequency = <54000000>;
-> +                               samsung,pll-clock-frequency = <27000000>;
-> +                               status = "disabled";
+> +		if (sspp->id <= SSPP_NONE || sspp->id >= SSPP_MAX) {
+> +			DPU_ERROR("skip sspp %d with invalid id\n", sspp->id);
+> +			continue;
+> +		}
+> +		hw = dpu_hw_sspp_init(sspp->id, mmio, cat);
+> +		if (IS_ERR_OR_NULL(hw)) {
+> +			rc = PTR_ERR(hw);
+> +			DPU_ERROR("failed sspp object creation: err %d\n",
+> +				rc);
+> +			goto fail;
+> +		}
+> +		rm->sspp_blks[sspp->id - SSPP_NONE] = &hw->base;
+> +	}
 > +
-
-Add a subnode called "ports" and move address-cells and size-cells
-into it along wtih "port@0"
-
-> +                               port@0 {
-> +                                       reg = <0>;
+>  	for (i = 0; i < cat->intf_count; i++) {
+>  		struct dpu_hw_intf *hw;
+>  		const struct dpu_intf_cfg *intf = &cat->intf[i];
+> @@ -660,3 +687,57 @@ int dpu_rm_get_assigned_resources(struct dpu_rm 
+> *rm,
+> 
+>  	return num_blks;
+>  }
 > +
-> +                                       dsim_from_lcdif: endpoint {
-> +                                               remote-endpoint = <&lcdif_to_dsim>;
-> +                                       };
-> +                               };
-> +                       };
+> +enum dpu_sspp dpu_rm_get_sspp(struct dpu_rm *rm, struct
+> dpu_global_state *global_state, uint32_t plane_id, bool yuv, bool
+> scale)
+> +{
+> +	int i;
+> +	enum dpu_sspp pipe = SSPP_NONE;
+> +	struct dpu_hw_pipe *pipe_hw;
+> +	bool retry = false;
 > +
->                         csi: csi@32e20000 {
->                                 compatible = "fsl,imx8mm-csi", "fsl,imx7-csi";
->                                 reg = <0x32e20000 0x1000>;
-> --
-> 2.17.1
->
+> +retry_loop:
+> +	for (i = 0; i < ARRAY_SIZE(rm->sspp_blks) && pipe == SSPP_NONE; i++) 
+> {
+> +		if (!rm->sspp_blks[i])
+> +			continue;
+> +		if (reserved_by_other(global_state->pipe_to_plane_id, i, plane_id))
+> +			continue;
+> +
+> +		pipe_hw = to_dpu_hw_pipe(rm->sspp_blks[i]);
+> +
+> +		/* skip incompatible planes */
+> +		if (scale && !(pipe_hw->cap->features & DPU_SSPP_SCALER))
+> +			continue;
+> +
+> +		if (yuv && (!(pipe_hw->cap->features & DPU_SSPP_SCALER) ||
+> +			    !(pipe_hw->cap->features & DPU_SSPP_CSC_ANY)))
+> +			continue;
+> +
+> +		/* For non-yuv, non-scaled planes try to find simple (DMA)
+> +		 * plane, fallback to VIG on a second try.
+> +		 *
+> +		 * This way we'd leave VIG pipes to be later used for YUV formats.
+> +		 */
+> +
+> +		if (!scale && !yuv && !retry &&
+> +		    (pipe_hw->cap->features & (DPU_SSPP_SCALER | DPU_SSPP_CSC_ANY)))
+> +			continue;
+> +
+> +		pipe = i + SSPP_NONE;
+> +	};
+> +
+> +	if (!scale && !yuv && !retry && pipe == SSPP_NONE) {
+> +		retry = true;
+> +		goto retry_loop;
+> +	}
+> +
+> +	if (pipe != SSPP_NONE)
+> +		global_state->pipe_to_plane_id[pipe - SSPP_NONE] = plane_id;
+> +
+> +	return pipe;
+> +}
+> +
+> +void dpu_rm_release_sspp(struct dpu_rm *rm, struct dpu_global_state
+> *global_state, uint32_t plane_id)
+> +{
+> +	_dpu_rm_clear_mapping(global_state->pipe_to_plane_id,
+> +			ARRAY_SIZE(global_state->pipe_to_plane_id), plane_id);
+> +}
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
+> b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
+> index 1f12c8d5b8aa..b759fe39f6d6 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
+> @@ -16,6 +16,7 @@ struct dpu_global_state;
+>  /**
+>   * struct dpu_rm - DPU dynamic hardware resource manager
+>   * @pingpong_blks: array of pingpong hardware resources
+> + * @sspp_blks: array of sspp hardware resources
+>   * @mixer_blks: array of layer mixer hardware resources
+>   * @ctl_blks: array of ctl hardware resources
+>   * @intf_blks: array of intf hardware resources
+> @@ -25,6 +26,7 @@ struct dpu_global_state;
+>   */
+>  struct dpu_rm {
+>  	struct dpu_hw_blk *pingpong_blks[PINGPONG_MAX - PINGPONG_0];
+> +	struct dpu_hw_blk *sspp_blks[SSPP_MAX - SSPP_NONE];
+>  	struct dpu_hw_blk *mixer_blks[LM_MAX - LM_0];
+>  	struct dpu_hw_blk *ctl_blks[CTL_MAX - CTL_0];
+>  	struct dpu_hw_blk *intf_blks[INTF_MAX - INTF_0];
+> @@ -88,5 +90,9 @@ void dpu_rm_release(struct dpu_global_state 
+> *global_state,
+>  int dpu_rm_get_assigned_resources(struct dpu_rm *rm,
+>  	struct dpu_global_state *global_state, uint32_t enc_id,
+>  	enum dpu_hw_blk_type type, struct dpu_hw_blk **blks, int blks_size);
+> +
+> +enum dpu_sspp dpu_rm_get_sspp(struct dpu_rm *rm, struct
+> dpu_global_state *global_state, uint32_t plane_id, bool yuv, bool
+> scale);
+> +void dpu_rm_release_sspp(struct dpu_rm *rm, struct dpu_global_state
+> *global_state, uint32_t plane_id);
+> +
+>  #endif /* __DPU_RM_H__ */
