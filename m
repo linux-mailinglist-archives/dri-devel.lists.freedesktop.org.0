@@ -1,57 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C85B744D363
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Nov 2021 09:48:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8B6744D3F3
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Nov 2021 10:21:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA8D06E9EE;
-	Thu, 11 Nov 2021 08:48:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F3A968967A;
+	Thu, 11 Nov 2021 09:21:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 451136E9D4;
- Thu, 11 Nov 2021 08:48:46 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 8F96A21B2B;
- Thu, 11 Nov 2021 08:48:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1636620524; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D6128967A
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Nov 2021 09:21:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1636622464;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding;
- bh=po9C3M3KbuxkTrJ8RdbbNvKns+qCxEzjBqaykTrhByU=;
- b=lLzOuUBy0qPFAcg+ukJsKAMKmpbuRz53hFC4Iw52jdkazu3ZgZLJ2oSA1tRiqU63GdYXbO
- KbPUfrqMct+PGSgbmi4P5gU2zXZoowb2BT/TwJdvf61GZ1cD4V1Lzay/wptATmd2H5Ebsh
- 49BgFqumWOi8YnkovZ0GqG64dy+9Sa0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1636620524;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=po9C3M3KbuxkTrJ8RdbbNvKns+qCxEzjBqaykTrhByU=;
- b=frGpslBk4cE511VS5uaiuAmYSr32Y4LfkwHk4LTCohxzz9X0+4Z7a1EJW+tZWvMFheYaUW
- +C8DZIAlEG50qPDw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 53FEB13D4A;
- Thu, 11 Nov 2021 08:48:44 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id i6ejE+zYjGFQUwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Thu, 11 Nov 2021 08:48:44 +0000
-Date: Thu, 11 Nov 2021 09:48:42 +0100
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-misc-fixes
-Message-ID: <YYzY6jeox9EeI15i@linux-uq9g.fritz.box>
+ bh=M7EnEFZM8hpmKbZzBB2524z5yoBtQtMivZ7RH2EH6gg=;
+ b=Fz857kvyCpBWhNBYAeEqbyt4dfyml2DWLsmdH0E2ww8hlKqRLgqfpsCVvv4ELSpVXIGjHD
+ ljXJsjMKHk5m3juTEEBqobxjqyqEkxmZp17pUgQ4lCP5EU8hY1q9ryyI8El+LwlLRV3qsl
+ 6InmbOmkqSkrOHbcDBU+dBYJp0QAkdA=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-416-oI1CdzPKPB-MPUibGwC87A-1; Thu, 11 Nov 2021 04:21:03 -0500
+X-MC-Unique: oI1CdzPKPB-MPUibGwC87A-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ 201-20020a1c04d2000000b003335bf8075fso1532088wme.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Nov 2021 01:21:03 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=M7EnEFZM8hpmKbZzBB2524z5yoBtQtMivZ7RH2EH6gg=;
+ b=o+LlSNKG5DPRXO1q+Y3l2uT1cRiBaKlFRzYteeHrbSKjkdwyaJanH1BpvbFXDWUQby
+ ETsfYDukdKLQJ6ej2X5sGM1KgV59C1ULS2pRAp3/H0dDG+usawWIoyHm1nrur2Dg7muP
+ wLJbxlsTza4qoHzsdFr7QNIv5kTw4jufqRQrDIEh8aEea5qN+y34gRSUBk5XBK1zJpQv
+ fXjn/iBnz1d1do2KhKLiiRs9p/xzTgh+N2d7XgO36pqRnbmZbkNxJHfAhXBMldD1XIfr
+ O0jVU7blN27XuJ2Ez1hE5HCwOiiHzEhnFqpXlEet3fXwi1b+gGtxJBCtKXRE1bnD5dJ1
+ rj2A==
+X-Gm-Message-State: AOAM530Pxu6E5OfHM+yPW4I9DNZ/RD7TI9JpIS+KnUhF56mixixMugcy
+ /4AarbhkeqcNe6aONMoRzRZ/thGcp4yzpTIg+7I64n4JpzVlQK4CFwstsYBqTl3ouEBK6YDSpoY
+ gXqDNBOOI9FYKZ2bF8SRoyMYzXDfy
+X-Received: by 2002:a5d:6e8c:: with SMTP id k12mr6960351wrz.401.1636622461413; 
+ Thu, 11 Nov 2021 01:21:01 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwoCpfVGEoP5JTD2lYYhZ8BrAUpodfbF1IJMQ5/neOUnHUU1QzYlFJgKjg18hFHJMVZCV5Zog==
+X-Received: by 2002:a5d:6e8c:: with SMTP id k12mr6960329wrz.401.1636622461175; 
+ Thu, 11 Nov 2021 01:21:01 -0800 (PST)
+Received: from minerva.home ([92.176.231.106])
+ by smtp.gmail.com with ESMTPSA id c6sm10242842wmq.46.2021.11.11.01.21.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 11 Nov 2021 01:21:00 -0800 (PST)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH] fbdev: Prevent probing generic drivers if a FB is already
+ registered
+Date: Thu, 11 Nov 2021 10:20:53 +0100
+Message-Id: <20211111092053.1328304-1-javierm@redhat.com>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,80 +78,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
- intel-gfx@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Ilya Trukhanov <lahvuun@gmail.com>,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave and Daniel,
+The efifb and simplefb drivers just render to a pre-allocated frame buffer
+and rely on the display hardware being initialized before the kernel boots.
 
-here's this week's PR for drm-misc-fixes. I'm sending it as Maarten and
-Maxime are both on vacation this week.
+But if another driver already probed correctly and registered a fbdev, the
+generic drivers shouldn't be probed since an actual driver for the display
+hardware is already present.
 
-Best regards
-Thomas
+Reported-by: Ilya Trukhanov <lahvuun@gmail.com>
+Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+---
 
-drm-misc-fixes-2021-11-11:
- * dma-buf: name_lock fixes
- * prime: Keep object ref during mmap
- * nouveau: Fix a refcount issue; Fix device removal; Protect client
-   list with dedicated mutex; Fix address CE0 address calculation
- * ttm: Fix race condition during BO eviction
-The following changes since commit 61b1d445f3bfe4c3ba4335ceeb7e8ba688fd31e2:
+ drivers/video/fbdev/efifb.c    | 6 ++++++
+ drivers/video/fbdev/simplefb.c | 6 ++++++
+ 2 files changed, 12 insertions(+)
 
-  drm: panel-orientation-quirks: Add quirk for GPD Win3 (2021-10-26 20:57:10 +0200)
+diff --git drivers/video/fbdev/efifb.c drivers/video/fbdev/efifb.c
+index edca3703b964..76325c07cf0c 100644
+--- drivers/video/fbdev/efifb.c
++++ drivers/video/fbdev/efifb.c
+@@ -351,6 +351,12 @@ static int efifb_probe(struct platform_device *dev)
+ 	char *option = NULL;
+ 	efi_memory_desc_t md;
+ 
++	if (num_registered_fb > 0) {
++		dev_err(&dev->dev,
++			"efifb: a framebuffer is already registered\n");
++		return -EINVAL;
++	}
++
+ 	if (screen_info.orig_video_isVGA != VIDEO_TYPE_EFI || pci_dev_disabled)
+ 		return -ENODEV;
+ 
+diff --git drivers/video/fbdev/simplefb.c drivers/video/fbdev/simplefb.c
+index 62f0ded70681..55c1f54d7663 100644
+--- drivers/video/fbdev/simplefb.c
++++ drivers/video/fbdev/simplefb.c
+@@ -407,6 +407,12 @@ static int simplefb_probe(struct platform_device *pdev)
+ 	struct simplefb_par *par;
+ 	struct resource *mem;
+ 
++	if (num_registered_fb > 0) {
++		dev_err(&pdev->dev,
++			"simplefb: a framebuffer is already registered\n");
++		return -EINVAL;
++	}
++
+ 	if (fb_get_options("simplefb", NULL))
+ 		return -ENODEV;
+ 
+-- 
+2.33.1
 
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-fixes-2021-11-11
-
-for you to fetch changes up to 7120a447c7fe37a123ab7a63afefdbf0787b9002:
-
-  drm/ttm: Double check mem_type of BO while eviction (2021-11-11 09:08:08 +0100)
-
-----------------------------------------------------------------
- * dma-buf: name_lock fixes
- * prime: Keep object ref during mmap
- * nouveau: Fix a refcount issue; Fix device removal; Protect client
-   list with dedicated mutex; Fix address CE0 address calculation
- * ttm: Fix race condition during BO eviction
-
-----------------------------------------------------------------
-Anand K Mistry (1):
-      drm/prime: Fix use after free in mmap with drm_gem_ttm_mmap
-
-Ben Skeggs (1):
-      ce/gf100: fix incorrect CE0 address calculation on some GPUs
-
-Chenyuan Mi (1):
-      drm/nouveau/svm: Fix refcount leak bug and missing check against null bug
-
-Guangming Cao (1):
-      dma-buf: acquire name lock before read/write dma_buf.name
-
-Jeremy Cline (3):
-      drm/nouveau: use drm_dev_unplug() during device removal
-      drm/nouveau: Add a dedicated mutex for the clients list
-      drm/nouveau: clean up all clients on device removal
-
-xinhui pan (1):
-      drm/ttm: Double check mem_type of BO while eviction
-
- drivers/dma-buf/dma-buf.c                         |  3 ++
- drivers/gpu/drm/drm_prime.c                       |  6 ++--
- drivers/gpu/drm/nouveau/nouveau_drm.c             | 42 ++++++++++++++++++++---
- drivers/gpu/drm/nouveau/nouveau_drv.h             |  5 +++
- drivers/gpu/drm/nouveau/nouveau_svm.c             |  4 +++
- drivers/gpu/drm/nouveau/nvkm/engine/ce/gt215.c    |  2 +-
- drivers/gpu/drm/nouveau/nvkm/engine/device/base.c |  3 +-
- drivers/gpu/drm/ttm/ttm_bo.c                      |  3 +-
- 8 files changed, 57 insertions(+), 11 deletions(-)
-
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 Nürnberg, Germany
-(HRB 36809, AG Nürnberg)
-Geschäftsführer: Ivo Totev
