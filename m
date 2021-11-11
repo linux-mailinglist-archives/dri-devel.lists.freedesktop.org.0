@@ -1,45 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66FFD44D2B3
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Nov 2021 08:50:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B0B8844D254
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Nov 2021 08:15:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C3266EA28;
-	Thu, 11 Nov 2021 07:50:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 33C0E6E92C;
+	Thu, 11 Nov 2021 07:15:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 429 seconds by postgrey-1.36 at gabe;
- Thu, 11 Nov 2021 03:40:32 UTC
-Received: from qq.com (smtpbg465.qq.com [59.36.132.35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4CD3D6E85C;
- Thu, 11 Nov 2021 03:40:31 +0000 (UTC)
-X-QQ-mid: bizesmtp54t1636601555t45jsico
-Received: from localhost.localdomain (unknown [113.57.152.160])
- by esmtp6.qq.com (ESMTP) with 
- id ; Thu, 11 Nov 2021 11:32:28 +0800 (CST)
-X-QQ-SSF: 01400000002000B0E000B00B0000000
-X-QQ-FEAT: 0Eq+cbWb7RxGihMVh/8acEZ0o4ZW2aFncchquYndHLD9hp+YJ3afPEWy1mqcW
- 4YflMIpR0C2NGQ30aoXyAn8jPofjp8EJ9tmYl6nwy7UauNbg7WvcwIud6AXaPW4J5q2rwk6
- v5h9I4qrwn7CW35o9iP2vzXRwfWqmlTtepHUnvmHg3HEyecCR0o8/ZSV07zUzvv++ho1EeE
- 0N7g3UcnWJhy4czFUSqMTszRqhusbDyk5DVU7Y9bDF7MaKXTGEAMaR1jzHtnPBxHn0K1Koe
- 3ZIDs/s7c8SCtGokzxmgGjktihcx5mHLdhRceq5Z3u+IRqDscx/AkZFZMsGhg4j5Y7S8UwG
- DV57HBt1vXDPlqcQxolsJDZ3gqbzw==
-X-QQ-GoodBg: 2
-From: hongao <hongao@uniontech.com>
-To: alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- airlied@linux.ie, daniel@ffwll.ch
-Subject: [PATCH] drm/amdgpu: fix set scaling mode Full/Full aspect/Center not
- works on vga and dvi connectors
-Date: Thu, 11 Nov 2021 11:32:07 +0800
-Message-Id: <20211111033207.28565-1-hongao@uniontech.com>
-X-Mailer: git-send-email 2.20.1
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5007C6E8B6;
+ Thu, 11 Nov 2021 07:15:20 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10164"; a="212896378"
+X-IronPort-AV: E=Sophos;i="5.87,225,1631602800"; d="scan'208";a="212896378"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Nov 2021 23:15:19 -0800
+X-IronPort-AV: E=Sophos;i="5.87,225,1631602800"; d="scan'208";a="452627294"
+Received: from clanggaa-mobl1.ger.corp.intel.com (HELO
+ thellstr-mobl1.intel.com) ([10.249.254.199])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Nov 2021 23:15:17 -0800
+From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH 0/6] drm/i915/ttm: Async migration
+Date: Thu, 11 Nov 2021 08:14:56 +0100
+Message-Id: <20211111071502.16826-1-thomas.hellstrom@linux.intel.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:uniontech.com:qybgforeign:qybgforeign1
-X-QQ-Bgrelay: 1
-X-Mailman-Approved-At: Thu, 11 Nov 2021 07:50:31 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,41 +44,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hongao <hongao@uniontech.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ matthew.auld@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-amdgpu_connector_vga_get_modes missed function amdgpu_get_native_mode
-which assign amdgpu_encoder->native_mode with *preferred_mode result in
-amdgpu_encoder->native_mode.clock always be 0. That will cause
-amdgpu_connector_set_property returned early on:
-if ((rmx_type != DRM_MODE_SCALE_NONE) &&
-	(amdgpu_encoder->native_mode.clock == 0))
-when we try to set scaling mode Full/Full aspect/Center.
-Add the missing function to amdgpu_connector_vga_get_mode can fix this.
-It also works on dvi connectors because
-amdgpu_connector_dvi_helper_funcs.get_mode use the same method.
+This patch series deals with async migration and async vram management.
+It still leaves an important part out, which is async unbinding which
+will reduce latency further, at least when trying to migrate already active
+objects.
 
-Signed-off-by: hongao <hongao@uniontech.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c | 1 +
- 1 file changed, 1 insertion(+)
+Patches 1/6 and 2/6 deal with accessing and waiting for the TTM moving
+fence from i915 GEM.
+Patch 3 is pure code reorganization, no functional change.
+Patch 4 breaks a refcounting loop involving the TTM moving fence.
+Patch 5 uses TTM to implement the ttm move() callback async, it also
+introduces a utility to collect dependencies and turn them into a
+single dma_fence, which is needed for the intel_migrate code.
+This also affects the gem object migrate code so.
+Patch 6 makes the object copy utility async as well, mainly for future
+users since the only current user, suspend backup and restore, typically
+will want to sync anyway.
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
-index b9c11c2b2885..0de66f59adb8 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
-@@ -827,6 +827,7 @@ static int amdgpu_connector_vga_get_modes(struct drm_connector *connector)
- 
- 	amdgpu_connector_get_edid(connector);
- 	ret = amdgpu_connector_ddc_get_modes(connector);
-+	amdgpu_get_native_mode(connector);
- 
- 	return ret;
- }
+Maarten Lankhorst (2):
+  drm/i915: Add functions to set/get moving fence
+  drm/i915: Add support for asynchronous moving fence waiting
+
+Thomas Hellström (4):
+  drm/i915/ttm: Move the i915_gem_obj_copy_ttm() function
+  drm/i915/ttm: Break refcounting loops at device region unref time
+  drm/i915/ttm: Implement asynchronous TTM moves
+  drm/i915/ttm: Update i915_gem_obj_copy_ttm() to be asynchronous
+
+ drivers/gpu/drm/i915/display/intel_fbdev.c    |   7 +-
+ drivers/gpu/drm/i915/display/intel_overlay.c  |   2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_object.c    |  37 ++
+ drivers/gpu/drm/i915/gem/i915_gem_object.h    |   9 +
+ drivers/gpu/drm/i915/gem/i915_gem_pages.c     |   6 +
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.c       |  58 +--
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.h       |   6 +-
+ drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c  | 396 ++++++++++++++++--
+ drivers/gpu/drm/i915/gem/i915_gem_ttm_move.h  |  10 +-
+ drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.c    |   3 +
+ drivers/gpu/drm/i915/gem/i915_gem_wait.c      |   4 +-
+ .../i915/gem/selftests/i915_gem_coherency.c   |   4 +-
+ .../drm/i915/gem/selftests/i915_gem_mman.c    |  18 +-
+ drivers/gpu/drm/i915/gt/intel_region_lmem.c   |   1 +
+ drivers/gpu/drm/i915/i915_vma.c               |  39 +-
+ drivers/gpu/drm/i915/i915_vma.h               |   3 +
+ drivers/gpu/drm/i915/intel_memory_region.c    |   5 +-
+ drivers/gpu/drm/i915/intel_memory_region.h    |   1 +
+ drivers/gpu/drm/i915/intel_region_ttm.c       |  28 ++
+ drivers/gpu/drm/i915/intel_region_ttm.h       |   2 +
+ drivers/gpu/drm/i915/selftests/i915_vma.c     |   4 +-
+ 21 files changed, 535 insertions(+), 108 deletions(-)
+
 -- 
-2.20.1
-
-
+2.31.1
 
