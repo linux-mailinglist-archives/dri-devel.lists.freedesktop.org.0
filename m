@@ -1,35 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D2CF44DAE1
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Nov 2021 17:59:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E615E44DB04
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Nov 2021 18:15:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 164976EA31;
-	Thu, 11 Nov 2021 16:58:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C44C6E18F;
+	Thu, 11 Nov 2021 17:15:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6AFFE6EA31
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Nov 2021 16:58:48 +0000 (UTC)
+Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B87726E19C
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Nov 2021 17:15:14 +0000 (UTC)
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
  q=dns/txt; 
- s=smtp; t=1636649936; h=Content-Transfer-Encoding: Content-Type:
+ s=smtp; t=1636650917; h=Content-Transfer-Encoding: Content-Type:
  In-Reply-To: From: References: Cc: To: Subject: MIME-Version: Date:
- Message-ID: Sender; bh=Fm+8CbAWSdAcP/8qZCXokIpOIPGShPhL8uLwQhrTmh8=;
- b=QoL/P/IXYL7hRGUXmw8x3Aum2Eg7yTHmHy5PICgWOrG30AI2vf1JcjE4Drmzu+w7J3cy20OS
- AFHeODFEcTIvjQNVrgx5WBEjoTDyQRKNidVkLk5MWcyk3Ywr/VegEaOxJLmz/0OdMsFkzjPI
- IWwOZhakLxG1rZuAv60aspD05xI=
-X-Mailgun-Sending-Ip: 69.72.43.7
+ Message-ID: Sender; bh=9ATOQmqTmW60i4WG7OBHPJjTDiTX5iJKy/x0ZGMNLKw=;
+ b=dTfNWs/jT517Xwb0Rz7ZergzzAizCuJLCVZClS9UOalR8vlyIA82ceDz+tBqkCDlepJYq8P6
+ PXHoEJo2Ly8qzyGOTUH6zBI3ejpBk6ej19Enu32xhRlN/ejliDAEGqdPBvP9avy7YSVnXpCB
+ z/g0ZM264NK4nGWKJZmYzHussaE=
+X-Mailgun-Sending-Ip: 198.61.254.9
 X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
 Received: from smtp.codeaurora.org
  (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
  smtp-out-n06.prod.us-east-1.postgun.com with SMTP id
- 618d4bb1c51781f169c7e4ce (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 11 Nov 2021 16:58:25
+ 618d4f9cc51781f169eadb36 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 11 Nov 2021 17:15:08
  GMT
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 867C5C43460; Thu, 11 Nov 2021 16:58:24 +0000 (UTC)
+ id 0CB70C43617; Thu, 11 Nov 2021 17:15:08 +0000 (UTC)
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
  aws-us-west-2-caf-mail-1.web.codeaurora.org
 X-Spam-Level: 
@@ -39,25 +39,25 @@ X-Spam-Status: No, score=-6.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
 Received: from [192.168.1.16] (unknown [117.210.184.103])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested) (Authenticated sender: akhilpo)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 158DFC4338F;
- Thu, 11 Nov 2021 16:58:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.codeaurora.org 158DFC4338F
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id A096AC4338F;
+ Thu, 11 Nov 2021 17:14:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.codeaurora.org A096AC4338F
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
  dmarc=none (p=none dis=none) header.from=codeaurora.org
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
  spf=fail smtp.mailfrom=codeaurora.org
-Message-ID: <ce362bf0-3fac-79d9-41c0-05920cdbbd9e@codeaurora.org>
-Date: Thu, 11 Nov 2021 22:28:16 +0530
+Message-ID: <89cbb324-b111-657f-fb3c-8ece3c21017b@codeaurora.org>
+Date: Thu, 11 Nov 2021 22:44:56 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
  Thunderbird/91.1.1
-Subject: Re: [PATCH 4/5] drm/msm: Handle fence rollover
+Subject: Re: [PATCH 5/5] drm/msm: Add debugfs to disable hw err handling
 Content-Language: en-US
 To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
 References: <20211109181117.591148-1-robdclark@gmail.com>
- <20211109181117.591148-5-robdclark@gmail.com>
+ <20211109181117.591148-6-robdclark@gmail.com>
 From: Akhil P Oommen <akhilpo@codeaurora.org>
-In-Reply-To: <20211109181117.591148-5-robdclark@gmail.com>
+In-Reply-To: <20211109181117.591148-6-robdclark@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -73,97 +73,114 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Rob Clark <robdclark@chromium.org>, freedreno@lists.freedesktop.org,
- David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- open list <linux-kernel@vger.kernel.org>,
- Jordan Crouse <jordan@cosmicpenguin.net>, Sean Paul <sean@poorly.run>
+ Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
+ Jonathan Marek <jonathan@marek.ca>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, Sharat Masetty <smasetty@codeaurora.org>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Douglas Anderson <dianders@chromium.org>,
+ Jordan Crouse <jordan@cosmicpenguin.net>, Yangtao Li <tiny.windzz@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>,
+ open list <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 11/9/2021 11:41 PM, Rob Clark wrote:
 > From: Rob Clark <robdclark@chromium.org>
 > 
-> Add some helpers for fence comparision, which handle rollover properly,
-> and stop open coding fence seqno comparisions.
+> Add a debugfs interface to ignore hw error irqs, in order to force
+> fallback to sw hangcheck mechanism.  Because the hw error detection is
+> pretty good on newer gens, we need this for igt tests to test the sw
+> hang detection.
 > 
 > Signed-off-by: Rob Clark <robdclark@chromium.org>
 > ---
->   drivers/gpu/drm/msm/msm_fence.h | 12 ++++++++++++
->   drivers/gpu/drm/msm/msm_gpu.c   |  6 +++---
->   drivers/gpu/drm/msm/msm_gpu.h   |  2 +-
->   3 files changed, 16 insertions(+), 4 deletions(-)
+>   drivers/gpu/drm/msm/adreno/a5xx_gpu.c | 6 ++++++
+>   drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 4 ++++
+>   drivers/gpu/drm/msm/msm_debugfs.c     | 3 +++
+>   drivers/gpu/drm/msm/msm_drv.h         | 9 +++++++++
+>   4 files changed, 22 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/msm/msm_fence.h b/drivers/gpu/drm/msm/msm_fence.h
-> index 4783db528bcc..17ee3822b423 100644
-> --- a/drivers/gpu/drm/msm/msm_fence.h
-> +++ b/drivers/gpu/drm/msm/msm_fence.h
-> @@ -60,4 +60,16 @@ void msm_update_fence(struct msm_fence_context *fctx, uint32_t fence);
+> diff --git a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
+> index 6163990a4d09..ec8e043c9d38 100644
+> --- a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
+> +++ b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
+> @@ -1252,6 +1252,7 @@ static void a5xx_fault_detect_irq(struct msm_gpu *gpu)
 >   
->   struct dma_fence * msm_fence_alloc(struct msm_fence_context *fctx);
+>   static irqreturn_t a5xx_irq(struct msm_gpu *gpu)
+>   {
+> +	struct msm_drm_private *priv = gpu->dev->dev_private;
+>   	u32 status = gpu_read(gpu, REG_A5XX_RBBM_INT_0_STATUS);
 >   
-> +static inline bool
-> +fence_before(uint32_t a, uint32_t b)
-> +{
-> +   return (int32_t)(a - b) < 0;
-
-This is good enough when a and b have close values. And that is a good 
-assumption for KMD generated seqno.
+>   	/*
+> @@ -1261,6 +1262,11 @@ static irqreturn_t a5xx_irq(struct msm_gpu *gpu)
+>   	gpu_write(gpu, REG_A5XX_RBBM_INT_CLEAR_CMD,
+>   		status & ~A5XX_RBBM_INT_0_MASK_RBBM_AHB_ERROR);
+>   
+> +	if (priv->disable_err_irq) {
+> +		status &= A5XX_RBBM_INT_0_MASK_CP_CACHE_FLUSH_TS |
+> +			  A5XX_RBBM_INT_0_MASK_CP_SW;
+> +	}
+> +
+>   	/* Pass status to a5xx_rbbm_err_irq because we've already cleared it */
+>   	if (status & RBBM_ERROR_MASK)
+>   		a5xx_rbbm_err_irq(gpu, status);
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> index 3d2da81cb2c9..8a2af3a27e33 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> @@ -1373,10 +1373,14 @@ static void a6xx_fault_detect_irq(struct msm_gpu *gpu)
+>   
+>   static irqreturn_t a6xx_irq(struct msm_gpu *gpu)
+>   {
+> +	struct msm_drm_private *priv = gpu->dev->dev_private;
+>   	u32 status = gpu_read(gpu, REG_A6XX_RBBM_INT_0_STATUS);
+>   
+>   	gpu_write(gpu, REG_A6XX_RBBM_INT_CLEAR_CMD, status);
+>   
+> +	if (priv->disable_err_irq)
+> +		status &= A6XX_RBBM_INT_0_MASK_CP_CACHE_FLUSH_TS;
+> +
+>   	if (status & A6XX_RBBM_INT_0_MASK_RBBM_HANG_DETECT)
+>   		a6xx_fault_detect_irq(gpu);
+>   
+> diff --git a/drivers/gpu/drm/msm/msm_debugfs.c b/drivers/gpu/drm/msm/msm_debugfs.c
+> index 6a99e8b5d25d..956b1efc3721 100644
+> --- a/drivers/gpu/drm/msm/msm_debugfs.c
+> +++ b/drivers/gpu/drm/msm/msm_debugfs.c
+> @@ -242,6 +242,9 @@ void msm_debugfs_init(struct drm_minor *minor)
+>   	debugfs_create_u32("hangcheck_period_ms", 0600, minor->debugfs_root,
+>   		&priv->hangcheck_period);
+>   
+> +	debugfs_create_bool("disable_err_irq", 0600, minor->debugfs_root,
+> +		&priv->disable_err_irq);
+> +
+>   	debugfs_create_file("shrink", S_IRWXU, minor->debugfs_root,
+>   		dev, &shrink_fops);
+>   
+> diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
+> index 2943c21d9aac..a8da7a7efb84 100644
+> --- a/drivers/gpu/drm/msm/msm_drv.h
+> +++ b/drivers/gpu/drm/msm/msm_drv.h
+> @@ -246,6 +246,15 @@ struct msm_drm_private {
+>   
+>   	/* For hang detection, in ms */
+>   	unsigned int hangcheck_period;
+> +
+> +	/**
+> +	 * disable_err_irq:
+> +	 *
+> +	 * Disable handling of GPU hw error interrupts, to force fallback to
+> +	 * sw hangcheck timer.  Written (via debugfs) by igt tests to test
+> +	 * the sw hangcheck mechanism.
+> +	 */
+> +	bool disable_err_irq;
+>   };
+>   
+>   struct msm_format {
+> 
 
 Reviewed-by: Akhil P Oommen <akhilpo@codeaurora.org>
 
 -Akhil.
-
-> +}
-> +
-> +static inline bool
-> +fence_after(uint32_t a, uint32_t b)
-> +{
-> +   return (int32_t)(a - b) > 0;
-> +}
-> +
->   #endif
-> diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
-> index 13de1241d595..0f78c2615272 100644
-> --- a/drivers/gpu/drm/msm/msm_gpu.c
-> +++ b/drivers/gpu/drm/msm/msm_gpu.c
-> @@ -172,7 +172,7 @@ static void update_fences(struct msm_gpu *gpu, struct msm_ringbuffer *ring,
->   
->   	spin_lock_irqsave(&ring->submit_lock, flags);
->   	list_for_each_entry(submit, &ring->submits, node) {
-> -		if (submit->seqno > fence)
-> +		if (fence_after(submit->seqno, fence))
->   			break;
->   
->   		msm_update_fence(submit->ring->fctx,
-> @@ -509,7 +509,7 @@ static void hangcheck_handler(struct timer_list *t)
->   	if (fence != ring->hangcheck_fence) {
->   		/* some progress has been made.. ya! */
->   		ring->hangcheck_fence = fence;
-> -	} else if (fence < ring->seqno) {
-> +	} else if (fence_before(fence, ring->seqno)) {
->   		/* no progress and not done.. hung! */
->   		ring->hangcheck_fence = fence;
->   		DRM_DEV_ERROR(dev->dev, "%s: hangcheck detected gpu lockup rb %d!\n",
-> @@ -523,7 +523,7 @@ static void hangcheck_handler(struct timer_list *t)
->   	}
->   
->   	/* if still more pending work, reset the hangcheck timer: */
-> -	if (ring->seqno > ring->hangcheck_fence)
-> +	if (fence_after(ring->seqno, ring->hangcheck_fence))
->   		hangcheck_timer_reset(gpu);
->   
->   	/* workaround for missing irq: */
-> diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gpu.h
-> index 0dcc31c27ac3..bd4e0024033e 100644
-> --- a/drivers/gpu/drm/msm/msm_gpu.h
-> +++ b/drivers/gpu/drm/msm/msm_gpu.h
-> @@ -258,7 +258,7 @@ static inline bool msm_gpu_active(struct msm_gpu *gpu)
->   	for (i = 0; i < gpu->nr_rings; i++) {
->   		struct msm_ringbuffer *ring = gpu->rb[i];
->   
-> -		if (ring->seqno > ring->memptrs->fence)
-> +		if (fence_after(ring->seqno, ring->memptrs->fence))
->   			return true;
->   	}
->   
-> 
-
