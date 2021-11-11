@@ -1,62 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 574FF44D445
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Nov 2021 10:46:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BB9644D472
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Nov 2021 10:55:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A6F7B6E99B;
-	Thu, 11 Nov 2021 09:46:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A2FA6EA6E;
+	Thu, 11 Nov 2021 09:55:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com
- [IPv6:2a00:1450:4864:20::143])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 979E889F41
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Nov 2021 09:46:09 +0000 (UTC)
-Received: by mail-lf1-x143.google.com with SMTP id f18so12835202lfv.6
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Nov 2021 01:46:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=0q6p/cCy1L7rtbdao2N6XJU09vOh7583TxUgPjltnK0=;
- b=VVBulXe/meWXE52CaMuEgtKBmAlFTh5Ob9BWY9MmrKfwiU8yEb+1fcWs5VDypH9zpn
- byDzP+HOqT/FPMQpek2jA0Hr8k3Lyoon7/IctB0KhX4oYhw1GQQ9RcfZEQA5BapC/ufH
- Ocu02K70x4b08gOJDqIc7rPwve22RaBNeSrNPRC2EoV5mgFQbrPcVercf38hP++8xvCR
- ty0SzA34/5aL7vQANBmCjsdAsxrl1GTHyoVgP11LvugWiYm0FFfvG+mCaUZgpEZgYHra
- 7CBx+PtnnsrHLt4qec9oBND+AXeay5/GMal96EhxBg4VqdJEdgdDd5FsuYtPMa9GuGNk
- ldAg==
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
+ [IPv6:2a00:1450:4864:20::32b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A43146EA6E
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Nov 2021 09:55:04 +0000 (UTC)
+Received: by mail-wm1-x32b.google.com with SMTP id
+ g191-20020a1c9dc8000000b0032fbf912885so3985615wme.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Nov 2021 01:55:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=bdsCoAnax0xMdSi3LEgeLkYD/HFUU9RT8hDhS95OAt0=;
+ b=Pvr6LjVy0p4znnuxieeKa3HPTeRFxZ+3knxotyGb0PFNzFJ4xM/abD+ljU/qbLS9aR
+ 5QrmdMZmVTweFvDlm2eLs44xWhyVo1EBNNm2nIWCe+7jkOi+vZBd8ZaHb6Q7ZgYPqtQp
+ kLq9fvUodqqeqMnMOUsVbbtGxI7f175Jrdez0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=0q6p/cCy1L7rtbdao2N6XJU09vOh7583TxUgPjltnK0=;
- b=OsppNPHvjLGpcj2t4TdQHwbFI0j0E4TOxPbGksYpF47qkQxZA4B7M4ljzzEZTFhDFz
- nDkOPIcpVKAZ71HQOgN1WM5AyZ22Jdtffmf1RMJ93cJ4GPQvl3DaaRNArfu2a0eQAUza
- v9x3xPJQGWDmaJbTagSLxilyOQJO/Mdtfn6B4pL4TI0ZSBSn3muSjOmHGUYAsofOFpVP
- odQbSViP/77P/pdksH2M1CRo26tj82Oi0vPbbJ9gPiczSwmC9tcWfAVylwDMddGN4udt
- +46RVH3YUiZGIH8jyxhy6lGBTUR1sfiJj6aXeiueT48zrx05TsoWHx2RFDQD98ZmPuVy
- jpew==
-X-Gm-Message-State: AOAM531kwPigAiIqXB1JnoSDx5f/tWvYhx7MeUS8Wu93ZYuCpHkj1a7B
- nAArZ/TNBlO5bmFC4Cg9GCs=
-X-Google-Smtp-Source: ABdhPJy1hVz0pr6fk5+dFK2LQdhVIhiMUtF63t82eMQ5Kq0Xu3gVUbCBahzfH3HX1MHMwGbzqHxnPQ==
-X-Received: by 2002:a05:6512:1096:: with SMTP id
- j22mr5298763lfg.237.1636623967897; 
- Thu, 11 Nov 2021 01:46:07 -0800 (PST)
-Received: from eldfell ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id c4sm264930lfb.200.2021.11.11.01.46.07
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=bdsCoAnax0xMdSi3LEgeLkYD/HFUU9RT8hDhS95OAt0=;
+ b=DnU0hMHRQaGiRxf5e43FaWtmn6NKBM4Qw1lCIsXgSG+GQjfKzTded3FHWoVxngNy8C
+ Pg1DduRQoRmJQNUq5SpLueKkCPm4bR3cGHyVcQsUDQrQ9rOIfXtdZu5XmKRFuW0LzEWo
+ 9SoGjm4fZ7K5fSD1qOJpa0H3MvNhuCETouD51PyUJN0PsS0bQz4bQY7ByjluxJewTIxv
+ akwtcuJk7HapI/D3xY4LRX+U5T9L9QsOlDl1525RTGJCu+P863Boa1lS9sGB2RjiNg+v
+ YslCzNTR4DUJfyobrtMo0SmgNX6stHar9iAMreCRn4gBPWR6TJp19DNpJz6Quq0NHr+b
+ RcJQ==
+X-Gm-Message-State: AOAM533kivBSfU0eyff6UH9UCQKuPZTTLtPxY5W9tHTXnblAcns7zEDk
+ xzZ6iIZkR3MhZJnMbczODSFlvg==
+X-Google-Smtp-Source: ABdhPJzZD6hXg1vjTxLyAuHF9yWYrd++DYJyRcez14UgECfYo+Da2LILIKoHIcu0e84TnnarVAnjJw==
+X-Received: by 2002:a7b:c1cb:: with SMTP id a11mr7024713wmj.30.1636624503159; 
+ Thu, 11 Nov 2021 01:55:03 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id p19sm2521931wmq.4.2021.11.11.01.55.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Nov 2021 01:46:07 -0800 (PST)
-Date: Thu, 11 Nov 2021 11:46:04 +0200
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Daniel Vetter <daniel@ffwll.ch>, Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH] drm: document DRM_IOCTL_MODE_GETFB2
-Message-ID: <20211111114604.614e24ed@eldfell>
-In-Reply-To: <YYo+UeTjGWU11+u6@phenom.ffwll.local>
-References: <20211109085601.170275-1-contact@emersion.fr>
- <YYo+UeTjGWU11+u6@phenom.ffwll.local>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+ Thu, 11 Nov 2021 01:55:02 -0800 (PST)
+Date: Thu, 11 Nov 2021 10:54:33 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Javier Martinez Canillas <javierm@redhat.com>
+Subject: Re: [PATCH] fbdev: Prevent probing generic drivers if a FB is
+ already registered
+Message-ID: <YYzoWTMBkC64a4Cn@phenom.ffwll.local>
+Mail-Followup-To: Javier Martinez Canillas <javierm@redhat.com>,
+ linux-kernel@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Ilya Trukhanov <lahvuun@gmail.com>
+References: <20211111092053.1328304-1-javierm@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/QbfSqjE1rcRGjCJ+130fRs_";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211111092053.1328304-1-javierm@redhat.com>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,134 +73,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Ilya Trukhanov <lahvuun@gmail.com>,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/QbfSqjE1rcRGjCJ+130fRs_
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On Thu, Nov 11, 2021 at 10:20:53AM +0100, Javier Martinez Canillas wrote:
+> The efifb and simplefb drivers just render to a pre-allocated frame buffer
+> and rely on the display hardware being initialized before the kernel boots.
+> 
+> But if another driver already probed correctly and registered a fbdev, the
+> generic drivers shouldn't be probed since an actual driver for the display
+> hardware is already present.
+> 
+> Reported-by: Ilya Trukhanov <lahvuun@gmail.com>
+> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
 
-On Tue, 9 Nov 2021 10:24:33 +0100
-Daniel Vetter <daniel@ffwll.ch> wrote:
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-> On Tue, Nov 09, 2021 at 08:56:10AM +0000, Simon Ser wrote:
-> > There are a few details specific to the GETFB2 IOCTL.
-> >=20
-> > It's not immediately clear how user-space should check for the
-> > number of planes. Suggest using the pitches field.
-> >=20
-> > The modifier array is filled with zeroes, ie. DRM_FORMAT_MOD_LINEAR.
-> > So explicitly tell user-space to not look at it unless the flag is
-> > set.
-> >=20
-> > Signed-off-by: Simon Ser <contact@emersion.fr>
-> > Cc: Daniel Vetter <daniel@ffwll.ch>
-> > Cc: Pekka Paalanen <ppaalanen@gmail.com>
-> > ---
-> >  include/uapi/drm/drm.h | 16 ++++++++++++++++
-> >  1 file changed, 16 insertions(+)
+Also Cc: stable@vger.kernel.org?
 
-Hi Simon,
+btw time to organize drm-misc commit rights so you can push stuff like
+this?
+-Daniel
 
-Regardless of your debate with danvet, this sounds fine to me, so
+> ---
+> 
+>  drivers/video/fbdev/efifb.c    | 6 ++++++
+>  drivers/video/fbdev/simplefb.c | 6 ++++++
+>  2 files changed, 12 insertions(+)
+> 
+> diff --git drivers/video/fbdev/efifb.c drivers/video/fbdev/efifb.c
+> index edca3703b964..76325c07cf0c 100644
+> --- drivers/video/fbdev/efifb.c
+> +++ drivers/video/fbdev/efifb.c
+> @@ -351,6 +351,12 @@ static int efifb_probe(struct platform_device *dev)
+>  	char *option = NULL;
+>  	efi_memory_desc_t md;
+>  
+> +	if (num_registered_fb > 0) {
+> +		dev_err(&dev->dev,
+> +			"efifb: a framebuffer is already registered\n");
+> +		return -EINVAL;
+> +	}
+> +
+>  	if (screen_info.orig_video_isVGA != VIDEO_TYPE_EFI || pci_dev_disabled)
+>  		return -ENODEV;
+>  
+> diff --git drivers/video/fbdev/simplefb.c drivers/video/fbdev/simplefb.c
+> index 62f0ded70681..55c1f54d7663 100644
+> --- drivers/video/fbdev/simplefb.c
+> +++ drivers/video/fbdev/simplefb.c
+> @@ -407,6 +407,12 @@ static int simplefb_probe(struct platform_device *pdev)
+>  	struct simplefb_par *par;
+>  	struct resource *mem;
+>  
+> +	if (num_registered_fb > 0) {
+> +		dev_err(&pdev->dev,
+> +			"simplefb: a framebuffer is already registered\n");
+> +		return -EINVAL;
+> +	}
+> +
+>  	if (fb_get_options("simplefb", NULL))
+>  		return -ENODEV;
+>  
+> -- 
+> 2.33.1
+> 
 
-Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-
-
-> >=20
-> > diff --git a/include/uapi/drm/drm.h b/include/uapi/drm/drm.h
-> > index 3b810b53ba8b..9809078b0f51 100644
-> > --- a/include/uapi/drm/drm.h
-> > +++ b/include/uapi/drm/drm.h
-> > @@ -1096,6 +1096,22 @@ extern "C" {
-> >  #define DRM_IOCTL_SYNCOBJ_TRANSFER	DRM_IOWR(0xCC, struct drm_syncobj_t=
-ransfer)
-> >  #define DRM_IOCTL_SYNCOBJ_TIMELINE_SIGNAL	DRM_IOWR(0xCD, struct drm_sy=
-ncobj_timeline_array)
-> > =20
-> > +/**
-> > + * DRM_IOCTL_MODE_GETFB2 - Get framebuffer metadata.
-> > + *
-> > + * This queries metadata about a framebuffer. User-space fills
-> > + * &drm_mode_fb_cmd2.fb_id as the input, and the kernels fills the res=
-t of the
-> > + * struct as the output.
-> > + *
-> > + * If the client is not DRM master and doesn't have &CAP_SYS_ADMIN,
-> > + * &drm_mode_fb_cmd2.handles will be zeroed. Planes are valid until on=
-e has a
-> > + * zero &drm_mode_fb_cmd2.pitches -- this can be used to compute the n=
-umber of
-> > + * planes. =20
->=20
-> Maybe explain that when actually importing the buffer userspace should
-> look for non-zeor handles instead, since some drivers/formats leave a
-> silly pitch value behind. Or at least I think that can happen. Just for
-> additional robustness?
-
-Sounds like pitch is literally undefined sometimes as well. What else
-would one call "silly" than undefined. Maybe implementation defined,
-but that's not better.
-
->=20
-> > + *
-> > + * If the framebuffer has a format modifier, &DRM_MODE_FB_MODIFIERS wi=
-ll be set
-> > + * in &drm_mode_fb_cmd2.flags. Otherwise, &drm_mode_fb_cmd2.modifier h=
-as
-> > + * undefined contents. =20
->=20
-> Uh is this true? We should always clear values to avoid accidental leaks
-> and stuff.
-
-This is userspace facing documentation, so saying "is undefined" is
-perfectly fine. It just means "expect garbage here, so don't even
-look", not that the kernel must literally leave that memory
-uninitialized.
-
-
-Thanks,
-pq
-
->=20
-> > + */ =20
->=20
-> I think kerneldoc for drm_mode_fb_cmd2 would be neat too, so we can
-> document how pitch is supposed to work and all that stuff.
->=20
-> Anyway lgtm otherwise.
-> -Daniel
->=20
-> >  #define DRM_IOCTL_MODE_GETFB2		DRM_IOWR(0xCE, struct drm_mode_fb_cmd2)
-> > =20
-> >  /*
-> > --=20
-> > 2.33.1
-> >=20
-> >  =20
->=20
-
-
---Sig_/QbfSqjE1rcRGjCJ+130fRs_
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmGM5lwACgkQI1/ltBGq
-qqeawQ//VS1eacudVwFkcEDdA6ieutqwK5scuk5+ONLsh6oA0K+D1PGuSwppGwIX
-37il01GVOAfTNwnvSYtqSazJHKLfYs7W93CcJPbsYkDwGNM+vAnGE+c2fqbkpDIX
-C5GO5O+rg7zzBqtkBrZoUEWl9KI2vX9+gJ1Jhy+rlEsv/XFSlMXaQ3q96/DtZNpx
-8kOxQh8Kvbkb2WUJJkMjT0Us/ThA5gYMqIhOaoqhOqK9iqLzdWi4pzBRWfwKm2Iu
-aDvBsV8crreYTReoFdQg25CeJK3ieslkmK7ZH1+iMcggqMs/gCYvDr3bpqXG1Dt/
-93cDHx+S29fQtdLS6pKRIF174HIoYaRbxGFPTcqoyZrZUU1VnnbYDftkuZQ2VjiC
-/PkMzIJEj41nRVC2lgekqo0WiWR2AFGGWhjf17WhED6MTn3LnWEUYp4O6JPCQEls
-N8mPFiC+Ptj1iwXrx5D1pxHB2R56EtIY3zZrbEEsGmVYdEityWtnXY34xJi/XKjv
-yTxnMy/90xVVAkO0wYLcSEHmfQnlvkrHPMMZTHJfmpOFdn80XRg4Jo+J7aNBR5b+
-/zDWqRkgiWwScp+W1a2eJ0GgKm+r5beiOq9TMpf1HRZAmA2JDTNPI5OBPiSS7Dhs
-hQfvedk6C6C6pPDy3LlMW28bdc6gz8sbrOGVxEdeUJeEvkqydj4=
-=Bclb
------END PGP SIGNATURE-----
-
---Sig_/QbfSqjE1rcRGjCJ+130fRs_--
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
