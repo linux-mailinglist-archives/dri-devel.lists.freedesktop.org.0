@@ -1,60 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5ED844D58E
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Nov 2021 12:09:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 615F744D599
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Nov 2021 12:11:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 330EC6EA4D;
-	Thu, 11 Nov 2021 11:09:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C4EBC6E8E6;
+	Thu, 11 Nov 2021 11:11:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com
- [IPv6:2a00:1450:4864:20::22a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B19A6EA4D
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Nov 2021 11:08:59 +0000 (UTC)
-Received: by mail-lj1-x22a.google.com with SMTP id k2so3675175lji.4
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Nov 2021 03:08:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=4OLolgHA/HZYT2rnWHwKI95WEbZYNP1Z6xadiZqSkAA=;
- b=HKpH7YiBinHFDFQWt7YhkBj7IT11LAvzwUKbwIRuniIIKTA9zIGCIxaDsUdEGAzwDq
- a9SNCvkYAu+kbgBahw/3uk3NWA9rBSt1whwlLbbb6ufyyIg+R7PQj00LplnqbJY+RCMp
- H0SS64KBf3oMtUcNn2qMFIeZ91rkZmXMfo3Or6oKYdbg3LdVrdSRekVRHyMjR6HT2KMm
- ejBAYIgEcG0fe3tQ2skd5Gu7dNR+nuWQGiQVAQbsJ501RcbODtifNeEt/WvfNkOv5sGc
- aaQylUhq29PjHfcxUv/nxHrr6qzg2E1w2iEe69/P8JG109/VEgSQ5NQZOS/E0TQieFZb
- 690Q==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 795FF6E8E6
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Nov 2021 11:11:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1636629107;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=6eGvVdE+WOQI0n1vAW2uJhdmDZdRKNo3k8x27QeGSUs=;
+ b=eKOztse8CSQD9JC3+iWzBWFKxfQNS4zoQkg0JrUNG450+BZzGfR/Dsi/0EMg4MXw+9C4rj
+ laJ7IiSlkkdU0NzTWUF3ooq8uBJYCizeOBPWw8AWvZ3xqnr/OjOtVI+Aa06/zz7Tetc5ZV
+ nvPXeSLLb1z49LqmlwPWTTwrpQSFKvw=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-158-kubZhsKVPyKb9tiAVB4X3A-1; Thu, 11 Nov 2021 06:11:46 -0500
+X-MC-Unique: kubZhsKVPyKb9tiAVB4X3A-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ m18-20020a05600c3b1200b0033283ea5facso1637557wms.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Nov 2021 03:11:45 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=4OLolgHA/HZYT2rnWHwKI95WEbZYNP1Z6xadiZqSkAA=;
- b=esU7Tp4nVdRj6eiJRFa1ydDCvWtYsstDOmJa9si9qR0wqGW42sWt3V5QLqD8Hr5uFB
- 5js9v4b9ueaDQP+zYGOqyBnarixiWQKC3duDbRKD2C0x1fCbKi1LkNNpPhuT2QM+CHjv
- 0pfhs7RznO9G2KSTkqv35MPsc4rC3A1j9LtzUU5bsrac+l/gjtlZgyt3z4IEgib6kP4/
- xKk1UseIBXPJ/Wv2JnKFaSqXoY1KrQCoCJagubBdldKdQjD3hOFAAqUh+3NnhLJQj//2
- MSdgFpYjaKZqTcJuWg+Any5N3CRLulXvhvTw5Amk3HB661L1pXLJuniXQDLQY450pr+o
- aPKA==
-X-Gm-Message-State: AOAM531cV6OUFxrk1xY0zUpElNn54j+8BNzGHUi4CXd1JTT6d4C5XpIp
- cGR7ysAeLf1S3t8ioPoad1M=
-X-Google-Smtp-Source: ABdhPJz/obRvgjXZrwby5tVAb79YzDHYN3jdsBmVfnS6loq7mokj4uTcGqgNPfUbfz3jXtppmE0y6w==
-X-Received: by 2002:a2e:a602:: with SMTP id v2mr6136546ljp.504.1636628938217; 
- Thu, 11 Nov 2021 03:08:58 -0800 (PST)
-Received: from eldfell ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id o1sm240526ljj.33.2021.11.11.03.08.57
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=6eGvVdE+WOQI0n1vAW2uJhdmDZdRKNo3k8x27QeGSUs=;
+ b=URgwRMIswSj0HFkFZf71AmYJ4U98AT38XeivMRhbIqSfOc9zp5ukP+MC0PC6r4VzuE
+ bPMPmns0G1acL9pzXZT6inSbIs5dbN0GRbz7WhBtnZGYpvDHxTTsbonuu4EXSOty6j00
+ O/hI/S5xpjEXWp/jsYRwXZn7pfprXH90HpU05+dlMAJy/ku9wjbGlpzhHMtTYtCv4WVq
+ iSuzdY+w5zTFgBLzHyMf8sePQw75lkNOS1VcsaeJujFncr7vx3+mj2YRfkaVLroifD4F
+ /bAwnxf87oMT2UAcNPypPBq8jncNzj2LFvHrxK8tOa7O3eqwwljjLUSg4qJip5u4ri9f
+ Q/6g==
+X-Gm-Message-State: AOAM5338fP5aRQKTSX/b4nqESfZJXvJ0aOPxOCaQ2vQPN1WRH5yVIwd3
+ cnnxT1a5ahIj14/FlMbdYQ5W4bmYy3zHq1Nz/tc4dwk9Hz/EgTJ0PQ+GfkuYWrAOnmmfW584R+1
+ zYzYAqBDMkoS/o9TCjOC7j/B5OdU+
+X-Received: by 2002:a5d:548d:: with SMTP id h13mr7729990wrv.30.1636629104856; 
+ Thu, 11 Nov 2021 03:11:44 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwpiIEii6T7ztWVEFXdyjsxYX2ZgZCjRy/OqBzYjm9qowfTgAkURfVua5FAPoeW2C2TpR0nOg==
+X-Received: by 2002:a5d:548d:: with SMTP id h13mr7729960wrv.30.1636629104600; 
+ Thu, 11 Nov 2021 03:11:44 -0800 (PST)
+Received: from minerva.redhat.com ([92.176.231.106])
+ by smtp.gmail.com with ESMTPSA id f7sm7937292wmg.6.2021.11.11.03.11.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Nov 2021 03:08:57 -0800 (PST)
-Date: Thu, 11 Nov 2021 13:08:47 +0200
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH] drm: pre-fill getfb2 modifier array with INVALID
-Message-ID: <20211111130847.58fe3b17@eldfell>
-In-Reply-To: <20211111101049.269349-1-contact@emersion.fr>
-References: <20211111101049.269349-1-contact@emersion.fr>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+ Thu, 11 Nov 2021 03:11:44 -0800 (PST)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH v2] fbdev: Prevent probing generic drivers if a FB is already
+ registered
+Date: Thu, 11 Nov 2021 12:11:20 +0100
+Message-Id: <20211111111120.1344613-1-javierm@redhat.com>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/xXf710iH6Oo+v1wVG37/B6w";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,74 +78,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Daniel Stone <daniels@collabora.com>
+Cc: linux-fbdev@vger.kernel.org, Thorsten Leemhuis <regressions@leemhuis.info>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
+ Hans de Goede <hdegoede@redhat.com>, Peter Jones <pjones@redhat.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Ilya Trukhanov <lahvuun@gmail.com>,
+ Borislav Petkov <bp@suse.de>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/xXf710iH6Oo+v1wVG37/B6w
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+The efifb and simplefb drivers just render to a pre-allocated frame buffer
+and rely on the display hardware being initialized before the kernel boots.
 
-On Thu, 11 Nov 2021 10:10:54 +0000
-Simon Ser <contact@emersion.fr> wrote:
+But if another driver already probed correctly and registered a fbdev, the
+generic drivers shouldn't be probed since an actual driver for the display
+hardware is already present.
 
-> User-space shouldn't look up the modifier array when the modifier
-> flag is missing, but at the moment no docs make this clear (working
-> on it). Right now the modifier array is pre-filled with zeroes, aka.
-> LINEAR. Instead, pre-fill with INVALID to avoid footguns.
->=20
-> This is a uAPI change, but OTOH any user-space which looks up the
-> modifier array without checking the flag is broken already, so
-> should be fine.
->=20
-> Signed-off-by: Simon Ser <contact@emersion.fr>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Pekka Paalanen <ppaalanen@gmail.com>
-> Cc: Daniel Stone <daniels@collabora.com>
-> ---
->  drivers/gpu/drm/drm_framebuffer.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/gpu/drm/drm_framebuffer.c b/drivers/gpu/drm/drm_fram=
-ebuffer.c
-> index 07f5abc875e9..f7041c0a0407 100644
-> --- a/drivers/gpu/drm/drm_framebuffer.c
-> +++ b/drivers/gpu/drm/drm_framebuffer.c
-> @@ -601,7 +601,7 @@ int drm_mode_getfb2_ioctl(struct drm_device *dev,
->  		r->handles[i] =3D 0;
->  		r->pitches[i] =3D 0;
->  		r->offsets[i] =3D 0;
-> -		r->modifier[i] =3D 0;
-> +		r->modifier[i] =3D DRM_FORMAT_MOD_INVALID;
->  	}
-> =20
->  	for (i =3D 0; i < fb->format->num_planes; i++) {
+This is more likely to occur after commit d391c5827107 ("drivers/firmware:
+move x86 Generic System Framebuffers support") since the "efi-framebuffer"
+and "simple-framebuffer" platform devices are registered at a later time.
 
-Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+Link: https://lore.kernel.org/r/20211110200253.rfudkt3edbd3nsyj@lahvuun/
+Fixes: d391c5827107 ("drivers/firmware: move x86 Generic System Framebuffers support")
+Reported-by: Ilya Trukhanov <lahvuun@gmail.com>
+Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+---
 
+Changes in v2:
+- Add a Link: tag with a reference to the bug report (Thorsten Leemhuis).
+- Add a comment explaining why the probe fails earlier (Daniel Vetter).
+- Add a Fixes: tag for stable to pick the fix (Daniel Vetter).
+- Add Daniel Vetter's Reviewed-by: tag.
+- Improve the commit message and mention the culprit commit
 
-Thanks,
-pq
+ drivers/video/fbdev/efifb.c    | 11 +++++++++++
+ drivers/video/fbdev/simplefb.c | 11 +++++++++++
+ 2 files changed, 22 insertions(+)
 
---Sig_/xXf710iH6Oo+v1wVG37/B6w
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+diff --git drivers/video/fbdev/efifb.c drivers/video/fbdev/efifb.c
+index edca3703b964..ea42ba6445b2 100644
+--- drivers/video/fbdev/efifb.c
++++ drivers/video/fbdev/efifb.c
+@@ -351,6 +351,17 @@ static int efifb_probe(struct platform_device *dev)
+ 	char *option = NULL;
+ 	efi_memory_desc_t md;
+ 
++	/*
++	 * Generic drivers must not be registered if a framebuffer exists.
++	 * If a native driver was probed, the display hardware was already
++	 * taken and attempting to use the system framebuffer is dangerous.
++	 */
++	if (num_registered_fb > 0) {
++		dev_err(&dev->dev,
++			"efifb: a framebuffer is already registered\n");
++		return -EINVAL;
++	}
++
+ 	if (screen_info.orig_video_isVGA != VIDEO_TYPE_EFI || pci_dev_disabled)
+ 		return -ENODEV;
+ 
+diff --git drivers/video/fbdev/simplefb.c drivers/video/fbdev/simplefb.c
+index 62f0ded70681..b63074fd892e 100644
+--- drivers/video/fbdev/simplefb.c
++++ drivers/video/fbdev/simplefb.c
+@@ -407,6 +407,17 @@ static int simplefb_probe(struct platform_device *pdev)
+ 	struct simplefb_par *par;
+ 	struct resource *mem;
+ 
++	/*
++	 * Generic drivers must not be registered if a framebuffer exists.
++	 * If a native driver was probed, the display hardware was already
++	 * taken and attempting to use the system framebuffer is dangerous.
++	 */
++	if (num_registered_fb > 0) {
++		dev_err(&pdev->dev,
++			"simplefb: a framebuffer is already registered\n");
++		return -EINVAL;
++	}
++
+ 	if (fb_get_options("simplefb", NULL))
+ 		return -ENODEV;
+ 
+-- 
+2.33.1
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmGM+b8ACgkQI1/ltBGq
-qqdRpA/+JSB2adKrOu03tpD4lgv3kwtF5SHy/wWWDm1c9F3KEA1xHhLEujX6przD
-mi2/2vNH0TXCzfWaHTpR5Dnhshnw5MyeOcxxXIheQd/QDUTwtQerdHlgl4vKHYR8
-1dpavZFx1s95tMQzV3niDXg+zQwiXPkCdH7Zn4SyVlo2PInc0CdxHcdqZMyaXQZ5
-NKlOGL5wT0AZSlu6DOHTtPn2lSCFGO1MPwe7po52cc5Vt9S2yFYsakE2qVPuEPsZ
-aO2rvs7qJ5n8/NqdrsD0JnrozeMy2MkM7QAgjrs2mGqaVqeS1l2Fl/DVKY7wpElz
-rDvyNSQ7GMnmhOi0RwH3lublPB3WALrPSFISi/Lv/beHSGSI+LK1X8LEwZeQOWOU
-n8gHRCpLsj0iCszMTmw1Uq/RW9SVf7vUN10dUSY2jb5YLH3FhFo5+B4SzaSKIq0h
-jTwjaNSYA7iCkvIvXEinRoRt38iPZFgYZAgkKAcKUgoW3OhfoINSa+sIAPbqgCsK
-3WyrdiiuwiLIqomnQ9e5xAzcM3uYZ0SexUhkugn+9TWVxfX2DNZw/L1EDtxzchYy
-Uqhw3IgOh7+0klCpy+KfUwpwC5e5OIBDHcI6SS5JtOUNliRu60xjiNzqpiscTBPx
-DGQwC0I4IO7v1LOfAGT9oyifAJhGlr6DJwCeTmbGLLdE+gOgbpM=
-=pSEZ
------END PGP SIGNATURE-----
-
---Sig_/xXf710iH6Oo+v1wVG37/B6w--
