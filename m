@@ -2,81 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F30B144D404
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Nov 2021 10:25:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACB2344D407
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Nov 2021 10:27:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B21286E9D6;
-	Thu, 11 Nov 2021 09:25:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 859C96E9FE;
+	Thu, 11 Nov 2021 09:27:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 85A1E6E9D6
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Nov 2021 09:25:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636622702;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 17EF76E9FE
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Nov 2021 09:27:10 +0000 (UTC)
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+ by smtp-out2.suse.de (Postfix) with ESMTP id 5B54C1FD29;
+ Thu, 11 Nov 2021 09:27:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+ t=1636622827; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=XoIxLEENy2F1Zskv5/PoD5j6jmD+4MPXDSF/F9jQnm4=;
- b=fIdtkvcLKxpF2DkB6uq94K6ypuYiSOt8YtzgSQRuauP/YFLJcCL6DwiCqf7oPXyBQoobRK
- Fq1byusw+UnoMtkPjmI1LiGsNQc115UR3gvRFBVKtJtBZvoHCRgLfJ2B5HX6ofGEmyNbud
- yOuipmZ3ODdfJLM6yjL80shTUXcMe7o=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-121-G8yBC_f0PpymW3MEqliFBQ-1; Thu, 11 Nov 2021 04:24:59 -0500
-X-MC-Unique: G8yBC_f0PpymW3MEqliFBQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- l4-20020a05600c1d0400b00332f47a0fa3so2393681wms.8
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Nov 2021 01:24:59 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:from:to:cc:references:in-reply-to
- :content-transfer-encoding;
- bh=XoIxLEENy2F1Zskv5/PoD5j6jmD+4MPXDSF/F9jQnm4=;
- b=JMQto/uv4CHbIjzShIJ27QIGU3wirZYGtlGCLHfdQuc1xOAsXJ7crV5N0RA9nmvYhS
- hU8f0lDvORmgxOS4EBOEQLq4y1UYlZieH09NJPQ/NcuV7mmKpfR2cHli1MqWr7rJVrw2
- oyEJKLnFFLvb4Jbg7jx2VL+b/yuu6uI6M5A8vzd7MS9ELomEigcTaUspSV58tlGcUuEq
- jdNyyKGzRJibuIKd5kC5qU6Tt/3cI13XFeuzdBpPnuyJhZErIm796W81gnYXFjry96xi
- /DS9t7ePyWkC+xh9X8VQgVtNrbSld8mHOU0Tr64b+1+z4H2MNSy7e6FlGpq+ENSjU/pf
- TOLQ==
-X-Gm-Message-State: AOAM530AnsQbXg7qNWLgy/w2oYK6ZlHBxCijo+FIEglJKggUHbZtb0nC
- FBCegUo///asWkvUMX3UHP6xSDC7QsW0qNOOXvBvpgJFQ6fq/NOV6qUmqsaZnk/PtPg4nVw+ab8
- 2DhWymM+KF+GYF7bNpN4xJ7GE0fVt
-X-Received: by 2002:a05:6000:18ad:: with SMTP id
- b13mr7062533wri.195.1636622698149; 
- Thu, 11 Nov 2021 01:24:58 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJz/L5EBwaiQ5M/k0471vvBJxC4do3fiwU7k3yCJtLLPx+phRd7gimWqthqE//nDPulozzVurg==
-X-Received: by 2002:a05:6000:18ad:: with SMTP id
- b13mr7062518wri.195.1636622697991; 
- Thu, 11 Nov 2021 01:24:57 -0800 (PST)
-Received: from [192.168.1.102] ([92.176.231.106])
- by smtp.gmail.com with ESMTPSA id l26sm2293227wms.15.2021.11.11.01.24.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 11 Nov 2021 01:24:57 -0800 (PST)
-Message-ID: <1ddb9e88-1ef8-9888-113b-fd2a2759f019@redhat.com>
-Date: Thu, 11 Nov 2021 10:24:56 +0100
+ bh=pl6aAvDoTx6EdeF3PlSqs4c8bMd7axYmKzOYDsF5224=;
+ b=En04iaVMWrZRqB7CcOMiYmOz7s7M5ASxSf/5/slytEjXMAyyLB7xo155L8gXz04268QjUf
+ MqZSRmmG478bkrPYtZs4dne43QMHz+h6EDa8HvEIC1+X+Ao26+F2SQ0UwmFG33a0q06jiJ
+ uBC5LH7JDN2wEmUYYqQGljwjQFsGyi0=
+Received: from suse.cz (unknown [10.100.216.66])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by relay2.suse.de (Postfix) with ESMTPS id C9647A3B84;
+ Thu, 11 Nov 2021 09:27:06 +0000 (UTC)
+Date: Thu, 11 Nov 2021 10:27:06 +0100
+From: Petr Mladek <pmladek@suse.com>
+To: Peter Zijlstra <peterz@infradead.org>,
+ Sultan Alsawaf <sultan@kerneltoast.com>,
+ Anton Vorontsov <anton@enomsg.org>, Ben Segall <bsegall@google.com>,
+ Colin Cross <ccross@android.com>,
+ Daniel Bristot de Oliveira <bristot@redhat.com>,
+ David Airlie <airlied@linux.ie>,
+ Dietmar Eggemann <dietmar.eggemann@arm.com>,
+ dri-devel@lists.freedesktop.org, Ingo Molnar <mingo@redhat.com>,
+ John Ogness <john.ogness@linutronix.de>,
+ Juri Lelli <juri.lelli@redhat.com>,
+ Kees Cook <keescook@chromium.org>, linux-kernel@vger.kernel.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Mel Gorman <mgorman@suse.de>,
+ Sergey Senozhatsky <senozhatsky@chromium.org>,
+ Steven Rostedt <rostedt@goodmis.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Tony Luck <tony.luck@intel.com>,
+ Vincent Guittot <vincent.guittot@linaro.org>, mkoutny@suse.com
+Subject: Re: printk deadlock due to double lock attempt on current CPU's
+ runqueue
+Message-ID: <YYzh6rxX6tY8/d+L@alley>
+References: <YYrU2PdmdNkulWSM@sultan-box.localdomain>
+ <20211109213847.GY174703@worktop.programming.kicks-ass.net>
+ <YYuS1uNhxWOEX1Ci@phenom.ffwll.local>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [REGRESSION]: drivers/firmware: move x86 Generic System
- Framebuffers support
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Ilya Trukhanov <lahvuun@gmail.com>
-References: <20211110200253.rfudkt3edbd3nsyj@lahvuun>
- <627b6cd1-3446-5e55-ea38-5283a186af39@redhat.com>
- <20211111004539.vd7nl3duciq72hkf@lahvuun>
- <af0552fb-5fb5-acae-2813-86c32e008e58@redhat.com>
-In-Reply-To: <af0552fb-5fb5-acae-2813-86c32e008e58@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YYuS1uNhxWOEX1Ci@phenom.ffwll.local>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,34 +69,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: len.brown@intel.com, linux-efi@vger.kernel.org, regressions@lists.linux.dev,
- linux-pm@vger.kernel.org, pavel@ucw.cz, rafael@kernel.org,
- stable@vger.kernel.org, dri-devel <dri-devel@lists.freedesktop.org>,
- tzimmermann@suse.de, ardb@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/11/21 08:31, Javier Martinez Canillas wrote:
-
-[snip]
-
->>> And for each check /proc/fb, the kernel boot log, and if Suspend-to-RAM works.
->>>
->>> If the explanation above is correct, then I would expect (1) and (2) to work and
->>> (3) to also fail.
->>>
+On Wed 2021-11-10 10:37:26, Daniel Vetter wrote:
+> On Tue, Nov 09, 2021 at 10:38:47PM +0100, Peter Zijlstra wrote:
+> > On Tue, Nov 09, 2021 at 12:06:48PM -0800, Sultan Alsawaf wrote:
+> > > Hi,
+> > > 
+> > > I encountered a printk deadlock on 5.13 which appears to still affect the latest
+> > > kernel. The deadlock occurs due to printk being used while having the current
+ > > > CPU's runqueue locked, and the underlying framebuffer console attempting to lock
+> > > the same runqueue when printk tries to flush the log buffer.
+> > 
+> > Yes, that's a known 'feature' of some consoles. printk() is in the
+> > process of being reworked to not call con->write() from the printk()
+> > calling context, which would go a long way towards fixing this.
 > 
-> Your testing confirms my assumptions. I'll check how this could be solved to
-> prevent the efifb driver to be probed if there's already a framebuffer device.
+> And it's getting worse by the year:
+> - direct scanout displays (i.e. just a few mmio writes and it will show
+>   up) are on the way out at least in laptops, everyone gets self-refresh
+>   (dp psr) under software control, so without being able to kick a kthread
+>   off nothing shows up except more oopses
+
+printk() tries to avoid this problem by waking processes via
+irq_vork(). For example, it is used for waking userspace log
+daemons, see wake_up_klogd().
+
+There is one hidden wake_up_process() in up() of @console_sem.
+It is "less" critical because it calls the wake_up() only when
+there is another process waiting for console_lock(). It must
+be a non-printk caller because printk() uses trylock and does
+not add waiters. So, there is a non-trivial chance to avoid
+the deadlock and the messages.
+
+I wonder if fbdev might use the same trick.
+
+> - because of the impendence mismatch between fbdev and drm-kms we even go
+>   ever more this direction for dumb framebuffers, including the firmware
+>   boot-up framebuffer simpledrm. This could perhaps be fixed with a new
+>   dedicate console driver directly on top of drm-kms, but that's on the
+>   wishlist for years and I don't see anyone typing that.
 > 
+> So yeah for fbcon at least I think we really should throw out direct
+> con->write from printk completely.
 
-I've posted [0] which does this and also for the simplefb driver.
+Yup, that would be great.
 
-[0]: https://lore.kernel.org/dri-devel/20211111092053.1328304-1-javierm@redhat.com/T/#u
+Well, I guess that it would be available only for a panic mode when it
+will not race with other users?
 
-Best regards,
--- 
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
-
+Best Regards,
+Petr
