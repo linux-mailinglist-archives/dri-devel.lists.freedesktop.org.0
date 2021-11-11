@@ -1,64 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0918B44DDB0
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Nov 2021 23:03:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8784844DE00
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Nov 2021 23:56:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 26C3F6E9C9;
-	Thu, 11 Nov 2021 22:02:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 651D16E23B;
+	Thu, 11 Nov 2021 22:56:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd2e.google.com (mail-io1-xd2e.google.com
- [IPv6:2607:f8b0:4864:20::d2e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 34B606E985;
- Thu, 11 Nov 2021 22:02:44 +0000 (UTC)
-Received: by mail-io1-xd2e.google.com with SMTP id y16so8765911ioc.8;
- Thu, 11 Nov 2021 14:02:44 -0800 (PST)
+Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com
+ [IPv6:2607:f8b0:4864:20::631])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A48A889F73;
+ Thu, 11 Nov 2021 22:56:46 +0000 (UTC)
+Received: by mail-pl1-x631.google.com with SMTP id n8so6944517plf.4;
+ Thu, 11 Nov 2021 14:56:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=vpU+SSLFFT68FpBw2vFN+h9yffUizferjvptZotty9E=;
- b=PXwPCeebAKMhIluHtIjmrJ7zxCYSLLRcDFNABTvSwcImCglpOyAocqa5WoM6YWBLLo
- JOH9rNgGyrzOfQ5x2t5MUzaNvgmNniIzUEnlDPtn4dq4E41wnSs4UH1LJhwYTCSZ1jnM
- AGO8F/BNrMciuOhBJ4PWmuN3LAfOu1xQ6iPIG8FxvdoFieu7H9fJLtIan541L0rqoA1i
- oSm2lAt/uYuKQqu1XVqMD/1szRxKbnFFkSJ9stahaR3wbTa2Tm+qH/+HFcIpOC6rVHGw
- 2cmxHJr5VJ92VP7WrqA9PptOX9f1ARBj2qieuH1nGyRFBD18j51rOSeRsez3zPMRpDRo
- LVJQ==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Us4tGKVuy84GQN/3zBQwXhskHA7JZIC6EUBgOL1w6LM=;
+ b=efuXP0kyqAYesmA+FSLFpubdX/c6qq23Hf/aM+tpQqgSbfL2LWu3oA3620a6/Rg3ki
+ WS54KTtFwQNDIkkghAWVKXrI5t3WxV6Op1bamA57H3Qs8toELsakj+F6yFh6ofKgNrTR
+ mRp5dQOF8h6b2+Zt72msBfW/43H+6WR1ZaVew4Elq6DTuvtuG/KWTvgz3u8kjG4HgjOE
+ UGx51XrMP5mV/yzkQcxWGQJA+HqFguzlYauCcl5fi2Yy37uppUGSfkfFtVmtC9K0ap2n
+ P8geBzbGT/teHyVtFYpfyv6ZdsycGViqVkcxc74VI9oPbyZ968Wf92ch6HiuIW11EVMS
+ gfZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=vpU+SSLFFT68FpBw2vFN+h9yffUizferjvptZotty9E=;
- b=3LJjcdAuQCGXr8cCBz/U1rgZsPD1eo0ATfG1AOnloXmw2r4tSgTNopqrnmn6+XnyFt
- KflLi0DnhW+tNg9BgXc9x7CvHL54q3AjeR5unOIjkifJh8YX40l7j8Eij++pvuam49YU
- +scavi5xrYJObMYDeIKZiIPF6etY4F6BrLVSJ9lTgdR6/VlX33uGySBQO3Mn3rXTUh7U
- hrrFWE14QJc3goyBfTdGz6ziGOJtYl9L6uHgOkwSxUZl+luwzb2VG1kgDra84oiNUEly
- XTC/+pZzH7jDLMIBFpMi8tqQCLWXDb4KHwua0+dN8NySyo1ZxjJLnbEvAn8m5olm9rE8
- GCYg==
-X-Gm-Message-State: AOAM5325H5N1Jt76kzhg/AzPNTExAmoK9L4JChQJNeWkEYmb+W1PxkjS
- nGXZLtK6fDX+oNNkJmN1Ig0=
-X-Google-Smtp-Source: ABdhPJxxj67R7bRoywrgZoZMCh5rlt/jJbjUlBYigfEjiF9DP1SCPjJkC7fRk7xYRcebAho0F9tTQQ==
-X-Received: by 2002:a02:ceb9:: with SMTP id z25mr7777239jaq.121.1636668163065; 
- Thu, 11 Nov 2021 14:02:43 -0800 (PST)
-Received: from frodo.. (c-24-9-77-57.hsd1.co.comcast.net. [24.9.77.57])
- by smtp.googlemail.com with ESMTPSA id t5sm2612315ilp.8.2021.11.11.14.02.41
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Us4tGKVuy84GQN/3zBQwXhskHA7JZIC6EUBgOL1w6LM=;
+ b=UOzb73aA8trjBuEFT/8XyBXe4gv/XGS6da8btJzKPtYKkzWWOuljD0GW8d5khtWlhO
+ UbGwuJKtk2SjqxkhMD36ZY7nkJ9x8vyPetrsJ5d3cOko6JLuynoKWRCAIHQrd9AtGPyq
+ 5gDfnWuClwFDNnV41POEhiXD8kMmsDXBbTsZwQSML37qhKmFtuEqlCimitZR5T507eLo
+ RJTLT/OFm61ROh6YB6EcKGz7PMGsnMbo75a3SjbCGnHYzGpCJ2Xq2xexVvlGdkikx+iy
+ wFxJoAyhq9sEVM6JBvRPOdM2R3Fh+YCktRaR8PjDn8696hM/si20bCwZRRGPjTZa8zk8
+ bJ9A==
+X-Gm-Message-State: AOAM531oeZD5GI4gEnmy7KFbu0cbHuK9e6wN2zI08ToSirNuibKi5IeO
+ 2/NuFeujjIDpt3xwnW5SpXZTby56PZY=
+X-Google-Smtp-Source: ABdhPJxzLoUDpGbeEKgMeFQIidYBUmjLSz1CcxOTtPlDb8kswpEAqycoskD1Agwh8sdTasjwF0AJDg==
+X-Received: by 2002:a17:902:9888:b0:142:8731:4b55 with SMTP id
+ s8-20020a170902988800b0014287314b55mr2988189plp.51.1636671405481; 
+ Thu, 11 Nov 2021 14:56:45 -0800 (PST)
+Received: from localhost (c-73-25-156-94.hsd1.or.comcast.net. [73.25.156.94])
+ by smtp.gmail.com with ESMTPSA id
+ 4sm3047418pgj.63.2021.11.11.14.56.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Nov 2021 14:02:42 -0800 (PST)
-From: Jim Cromie <jim.cromie@gmail.com>
-To: jbaron@akamai.com, gregkh@linuxfoundation.org, robdclark@gmail.com,
- sean@poorly.run, daniel.vetter@ffwll.ch, seanpaul@chromium.org,
- lyude@redhat.com, linux-kernel@vger.kernel.org, rostedt@goodmis.org,
- mathieu.desnoyers@efficios.com, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org
-Subject: [PATCH v10 10/10] drm: use DEFINE_DYNAMIC_DEBUG_TRACE_GROUPS in 3
- places
-Date: Thu, 11 Nov 2021 15:02:06 -0700
-Message-Id: <20211111220206.121610-11-jim.cromie@gmail.com>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20211111220206.121610-1-jim.cromie@gmail.com>
-References: <20211111220206.121610-1-jim.cromie@gmail.com>
+ Thu, 11 Nov 2021 14:56:44 -0800 (PST)
+From: Rob Clark <robdclark@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/msm: Make a6xx_gpu_set_freq() static
+Date: Thu, 11 Nov 2021 15:01:49 -0800
+Message-Id: <20211111230151.765228-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -73,90 +67,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_saipraka@quicinc.com, arnd@arndb.de, jim.cromie@gmail.com,
- catalin.marinas@arm.com, linux-arm-msm@vger.kernel.org, mingo@redhat.com,
- quic_psodagud@quicinc.com, maz@kernel.org, will@kernel.org,
- linux-arm-kernel@lists.infradead.org
+Cc: Rob Clark <robdclark@chromium.org>,
+ Douglas Anderson <dianders@chromium.org>, kernel test robot <lkp@intel.com>,
+ Jonathan Marek <jonathan@marek.ca>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, Sharat Masetty <smasetty@codeaurora.org>,
+ Akhil P Oommen <akhilpo@codeaurora.org>,
+ Jordan Crouse <jordan@cosmicpenguin.net>, Sean Paul <sean@poorly.run>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno@lists.freedesktop.org, open list <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-add sysfs knobs to enable modules' pr_debug()s ---> tracefs
+From: Rob Clark <robdclark@chromium.org>
 
-Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
+Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: Rob Clark <robdclark@chromium.org>
 ---
- drivers/gpu/drm/amd/display/dc/core/dc_debug.c |  8 ++++++++
- drivers/gpu/drm/drm_print.c                    | 13 ++++++++++---
- drivers/gpu/drm/i915/intel_gvt.c               | 15 ++++++++++++---
- 3 files changed, 30 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_debug.c b/drivers/gpu/drm/amd/display/dc/core/dc_debug.c
-index e49a755c6a69..58c56c1708e7 100644
---- a/drivers/gpu/drm/amd/display/dc/core/dc_debug.c
-+++ b/drivers/gpu/drm/amd/display/dc/core/dc_debug.c
-@@ -80,6 +80,14 @@ DEFINE_DYNAMIC_DEBUG_LOG_GROUPS(debug_dc, __debug_dc,
- 				DC_DYNDBG_BITMAP_DESC(debug_dc),
- 				amdgpu_bitmap);
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+index 8a2af3a27e33..dcde5eff931d 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+@@ -1641,7 +1641,7 @@ static unsigned long a6xx_gpu_busy(struct msm_gpu *gpu)
+ 	return (unsigned long)busy_time;
+ }
  
-+#if defined(CONFIG_TRACING)
-+
-+unsigned long __trace_dc;
-+EXPORT_SYMBOL(__trace_dc);
-+DEFINE_DYNAMIC_DEBUG_LOG_GROUPS(trace_dc, __trace_dc,
-+				DC_DYNDBG_BITMAP_DESC(trace_dc),
-+				amdgpu_bitmap);
-+#endif
- #endif
- 
- #define DC_LOGGER_INIT(logger)
-diff --git a/drivers/gpu/drm/drm_print.c b/drivers/gpu/drm/drm_print.c
-index d5e0ffad467b..ee20e9c14ce9 100644
---- a/drivers/gpu/drm/drm_print.c
-+++ b/drivers/gpu/drm/drm_print.c
-@@ -72,9 +72,16 @@ static struct dyndbg_bitdesc drm_dyndbg_bitmap[] = {
- 	[8] = { DRM_DBG_CAT_DP },
- 	[9] = { DRM_DBG_CAT_DRMRES }
- };
--DEFINE_DYNAMIC_DEBUG_BITGRPS(debug, __drm_debug, DRM_DEBUG_DESC,
--			     drm_dyndbg_bitmap);
--
-+DEFINE_DYNAMIC_DEBUG_LOG_GROUPS(debug, __drm_debug, DRM_DEBUG_DESC,
-+				drm_dyndbg_bitmap);
-+
-+#ifdef CONFIG_TRACING
-+struct trace_array *trace_arr;
-+unsigned long __drm_trace;
-+EXPORT_SYMBOL(__drm_trace);
-+DEFINE_DYNAMIC_DEBUG_TRACE_GROUPS(trace, __drm_trace, DRM_DEBUG_DESC,
-+				  drm_dyndbg_bitmap);
-+#endif
- #endif
- 
- void __drm_puts_coredump(struct drm_printer *p, const char *str)
-diff --git a/drivers/gpu/drm/i915/intel_gvt.c b/drivers/gpu/drm/i915/intel_gvt.c
-index efaac5777873..84348d4aedf6 100644
---- a/drivers/gpu/drm/i915/intel_gvt.c
-+++ b/drivers/gpu/drm/i915/intel_gvt.c
-@@ -195,8 +195,17 @@ static struct dyndbg_bitdesc i915_dyndbg_bitmap[] = {
- 	help_(7, "gvt:render:")						\
- 	help_(8, "gvt:sched:")
- 
--DEFINE_DYNAMIC_DEBUG_BITGRPS(debug_gvt, __gvt_debug,
--			     I915_GVT_CATEGORIES(debug_gvt),
--			     i915_dyndbg_bitmap);
-+DEFINE_DYNAMIC_DEBUG_LOG_GROUPS(debug_gvt, __gvt_debug,
-+				I915_GVT_CATEGORIES(debug_gvt),
-+				i915_dyndbg_bitmap);
- 
-+#if defined(CONFIG_TRACING)
-+
-+unsigned long __gvt_trace;
-+EXPORT_SYMBOL(__gvt_trace);
-+DEFINE_DYNAMIC_DEBUG_TRACE_GROUPS(trace_gvt, __gvt_trace,
-+				  I915_GVT_CATEGORIES(trace_gvt),
-+				  i915_dyndbg_bitmap);
-+
-+#endif
- #endif
+-void a6xx_gpu_set_freq(struct msm_gpu *gpu, struct dev_pm_opp *opp)
++static void a6xx_gpu_set_freq(struct msm_gpu *gpu, struct dev_pm_opp *opp)
+ {
+ 	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+ 	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
 -- 
 2.31.1
 
