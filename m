@@ -1,39 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7985344D15A
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Nov 2021 06:13:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1268144D168
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Nov 2021 06:20:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F3FA86E910;
-	Thu, 11 Nov 2021 05:12:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 468256E8D0;
+	Thu, 11 Nov 2021 05:20:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F6EF6E90C;
- Thu, 11 Nov 2021 05:12:58 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10164"; a="293677348"
-X-IronPort-AV: E=Sophos;i="5.87,225,1631602800"; d="scan'208";a="293677348"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Nov 2021 21:12:57 -0800
-X-IronPort-AV: E=Sophos;i="5.87,225,1631602800"; d="scan'208";a="602485156"
-Received: from mdroper-desk1.fm.intel.com (HELO
- mdroper-desk1.amr.corp.intel.com) ([10.1.27.134])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Nov 2021 21:12:57 -0800
-Date: Wed, 10 Nov 2021 21:12:56 -0800
-From: Matt Roper <matthew.d.roper@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: Re: [PATCH v3 02/10] drm/i915: split general MMIO setup from per-GT
- uncore init
-Message-ID: <20211111051256.GW137318@mdroper-desk1.amr.corp.intel.com>
-References: <20211029032817.3747750-1-matthew.d.roper@intel.com>
- <20211029032817.3747750-3-matthew.d.roper@intel.com>
+Received: from smtprelay.hostedemail.com (smtprelay0066.hostedemail.com
+ [216.40.44.66])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BDB316E8D0
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Nov 2021 05:20:01 +0000 (UTC)
+Received: from omf18.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+ by smtprelay01.hostedemail.com (Postfix) with ESMTP id 8B8FC101EABB1;
+ Thu, 11 Nov 2021 05:20:00 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by
+ omf18.hostedemail.com (Postfix) with ESMTPA id 1C9ADC0002F4; 
+ Thu, 11 Nov 2021 05:19:53 +0000 (UTC)
+Message-ID: <d7f3fec79287a149d6edc828583a771c84646b42.camel@perches.com>
+Subject: Re: [PATCH v3 3/3] MAINTAINERS: Mark VMware mailing list entries as
+ email aliases
+From: Joe Perches <joe@perches.com>
+To: Jakub Kicinski <kuba@kernel.org>, "Srivatsa S. Bhat"
+ <srivatsa@csail.mit.edu>
+Date: Wed, 10 Nov 2021 21:19:53 -0800
+In-Reply-To: <20211110173935.45a9f495@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+References: <163657479269.84207.13658789048079672839.stgit@srivatsa-dev>
+ <163657493334.84207.11063282485812745766.stgit@srivatsa-dev>
+ <20211110173935.45a9f495@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.40.4-1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211029032817.3747750-3-matthew.d.roper@intel.com>
+Content-Transfer-Encoding: 7bit
+X-Stat-Signature: ztcifz3jtb55m8w5484sjq3xynbqoduh
+X-Rspamd-Server: rspamout03
+X-Rspamd-Queue-Id: 1C9ADC0002F4
+X-Spam-Status: No, score=-1.31
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX1+SDIVTNx+3zME4BO7OMP/EAp4Y+zdx/2M=
+X-HE-Tag: 1636607993-497590
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,165 +53,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>, andi.shyti@intel.com,
- Andi Shyti <andi.shyti@linux.intel.com>, dri-devel@lists.freedesktop.org
+Cc: Ronak Doshi <doshir@vmware.com>, pv-drivers@vmware.com,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
+ Nadav Amit <namit@vmware.com>, amakhalov@vmware.com, srivatsab@vmware.com,
+ sdeep@vmware.com, linux-scsi@vger.kernel.org,
+ Vishal Bhakta <vbhakta@vmware.com>, x86@kernel.org,
+ linux-graphics-maintainer@vmware.com, linux-input@vger.kernel.org,
+ rostedt@goodmis.org, keerthanak@vmware.com, jgross@suse.com, anishs@vmware.com,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-rdma@vger.kernel.org, Vivek Thampi <vithampi@vmware.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 28, 2021 at 08:28:09PM -0700, Matt Roper wrote:
-> From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+On Wed, 2021-11-10 at 17:39 -0800, Jakub Kicinski wrote:
+> On Wed, 10 Nov 2021 12:09:06 -0800 Srivatsa S. Bhat wrote:
+> >  DRM DRIVER FOR VMWARE VIRTUAL GPU
+> > -M:	"VMware Graphics" <linux-graphics-maintainer@vmware.com>
+> >  M:	Zack Rusin <zackr@vmware.com>
+> > +R:	VMware Graphics Reviewers <linux-graphics-maintainer@vmware.com>
+> >  L:	dri-devel@lists.freedesktop.org
+> >  S:	Supported
+> >  T:	git git://anongit.freedesktop.org/drm/drm-misc
 > 
-> In coming patches we'll be doing the actual tile initialization between
-> these two uncore init phases.
+> It'd be preferable for these corporate entries to be marked or
+> otherwise distinguishable so that we can ignore them when we try 
+> to purge MAINTAINERS from developers who stopped participating.
 > 
-> Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-> Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
-> Reviewed-by: Lucas De Marchi <lucas.demarchi@intel.com>
-> Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
+> These addresses will never show up in a commit tag which is normally
+> sign of inactivity.
 
-Since the first two patches of this series are fully reviewed and have a
-clean CI pass of their own
-(https://lists.freedesktop.org/archives/intel-gfx-trybot/2021-November/126547.html),
-I've applied them to drm-intel-gt-next while we continue refactoring the
-rest of the series.
+Funny.
 
-Thanks for the reviews.
+The link below is from over 5 years ago.
 
+https://lore.kernel.org/lkml/1472081625.3746.217.camel@perches.com/
 
-Matt
+Almost all of those entries are still in MAINTAINERS.
 
-> ---
->  drivers/gpu/drm/i915/i915_drv.c     |  9 ++++++++-
->  drivers/gpu/drm/i915/intel_uncore.c | 17 +++--------------
->  drivers/gpu/drm/i915/intel_uncore.h |  2 ++
->  3 files changed, 13 insertions(+), 15 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/i915_drv.c b/drivers/gpu/drm/i915/i915_drv.c
-> index 1e5b75ae9932..b9fed62806f8 100644
-> --- a/drivers/gpu/drm/i915/i915_drv.c
-> +++ b/drivers/gpu/drm/i915/i915_drv.c
-> @@ -416,10 +416,14 @@ static int i915_driver_mmio_probe(struct drm_i915_private *dev_priv)
->  	if (ret < 0)
->  		return ret;
->  
-> -	ret = intel_uncore_init_mmio(&dev_priv->uncore);
-> +	ret = intel_uncore_setup_mmio(&dev_priv->uncore);
->  	if (ret < 0)
->  		goto err_bridge;
->  
-> +	ret = intel_uncore_init_mmio(&dev_priv->uncore);
-> +	if (ret)
-> +		goto err_mmio;
-> +
->  	/* Try to make sure MCHBAR is enabled before poking at it */
->  	intel_setup_mchbar(dev_priv);
->  	intel_device_info_runtime_init(dev_priv);
-> @@ -436,6 +440,8 @@ static int i915_driver_mmio_probe(struct drm_i915_private *dev_priv)
->  err_uncore:
->  	intel_teardown_mchbar(dev_priv);
->  	intel_uncore_fini_mmio(&dev_priv->uncore);
-> +err_mmio:
-> +	intel_uncore_cleanup_mmio(&dev_priv->uncore);
->  err_bridge:
->  	pci_dev_put(dev_priv->bridge_dev);
->  
-> @@ -450,6 +456,7 @@ static void i915_driver_mmio_release(struct drm_i915_private *dev_priv)
->  {
->  	intel_teardown_mchbar(dev_priv);
->  	intel_uncore_fini_mmio(&dev_priv->uncore);
-> +	intel_uncore_cleanup_mmio(&dev_priv->uncore);
->  	pci_dev_put(dev_priv->bridge_dev);
->  }
->  
-> diff --git a/drivers/gpu/drm/i915/intel_uncore.c b/drivers/gpu/drm/i915/intel_uncore.c
-> index 722910d02b5f..abdac78d3976 100644
-> --- a/drivers/gpu/drm/i915/intel_uncore.c
-> +++ b/drivers/gpu/drm/i915/intel_uncore.c
-> @@ -2020,7 +2020,7 @@ static int i915_pmic_bus_access_notifier(struct notifier_block *nb,
->  	return NOTIFY_OK;
->  }
->  
-> -static int uncore_mmio_setup(struct intel_uncore *uncore)
-> +int intel_uncore_setup_mmio(struct intel_uncore *uncore)
->  {
->  	struct drm_i915_private *i915 = uncore->i915;
->  	struct pci_dev *pdev = to_pci_dev(i915->drm.dev);
-> @@ -2053,7 +2053,7 @@ static int uncore_mmio_setup(struct intel_uncore *uncore)
->  	return 0;
->  }
->  
-> -static void uncore_mmio_cleanup(struct intel_uncore *uncore)
-> +void intel_uncore_cleanup_mmio(struct intel_uncore *uncore)
->  {
->  	struct pci_dev *pdev = to_pci_dev(uncore->i915->drm.dev);
->  
-> @@ -2146,10 +2146,6 @@ int intel_uncore_init_mmio(struct intel_uncore *uncore)
->  	struct drm_i915_private *i915 = uncore->i915;
->  	int ret;
->  
-> -	ret = uncore_mmio_setup(uncore);
-> -	if (ret)
-> -		return ret;
-> -
->  	/*
->  	 * The boot firmware initializes local memory and assesses its health.
->  	 * If memory training fails, the punit will have been instructed to
-> @@ -2170,7 +2166,7 @@ int intel_uncore_init_mmio(struct intel_uncore *uncore)
->  	} else {
->  		ret = uncore_forcewake_init(uncore);
->  		if (ret)
-> -			goto out_mmio_cleanup;
-> +			return ret;
->  	}
->  
->  	/* make sure fw funcs are set if and only if we have fw*/
-> @@ -2192,11 +2188,6 @@ int intel_uncore_init_mmio(struct intel_uncore *uncore)
->  		drm_dbg(&i915->drm, "unclaimed mmio detected on uncore init, clearing\n");
->  
->  	return 0;
-> -
-> -out_mmio_cleanup:
-> -	uncore_mmio_cleanup(uncore);
-> -
-> -	return ret;
->  }
->  
->  /*
-> @@ -2261,8 +2252,6 @@ void intel_uncore_fini_mmio(struct intel_uncore *uncore)
->  		intel_uncore_fw_domains_fini(uncore);
->  		iosf_mbi_punit_release();
->  	}
-> -
-> -	uncore_mmio_cleanup(uncore);
->  }
->  
->  static const struct reg_whitelist {
-> diff --git a/drivers/gpu/drm/i915/intel_uncore.h b/drivers/gpu/drm/i915/intel_uncore.h
-> index 3248e4e2c540..d1d17b04e29f 100644
-> --- a/drivers/gpu/drm/i915/intel_uncore.h
-> +++ b/drivers/gpu/drm/i915/intel_uncore.h
-> @@ -218,11 +218,13 @@ void
->  intel_uncore_mmio_debug_init_early(struct intel_uncore_mmio_debug *mmio_debug);
->  void intel_uncore_init_early(struct intel_uncore *uncore,
->  			     struct drm_i915_private *i915);
-> +int intel_uncore_setup_mmio(struct intel_uncore *uncore);
->  int intel_uncore_init_mmio(struct intel_uncore *uncore);
->  void intel_uncore_prune_engine_fw_domains(struct intel_uncore *uncore,
->  					  struct intel_gt *gt);
->  bool intel_uncore_unclaimed_mmio(struct intel_uncore *uncore);
->  bool intel_uncore_arm_unclaimed_mmio_detection(struct intel_uncore *uncore);
-> +void intel_uncore_cleanup_mmio(struct intel_uncore *uncore);
->  void intel_uncore_fini_mmio(struct intel_uncore *uncore);
->  void intel_uncore_suspend(struct intel_uncore *uncore);
->  void intel_uncore_resume_early(struct intel_uncore *uncore);
-> -- 
-> 2.33.0
-> 
+I think the concept of purging is a non-issue.
 
--- 
-Matt Roper
-Graphics Software Engineer
-VTT-OSGC Platform Enablement
-Intel Corporation
-(916) 356-2795
