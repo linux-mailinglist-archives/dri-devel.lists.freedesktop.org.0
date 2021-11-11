@@ -2,63 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE25344DD6C
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Nov 2021 22:58:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88DA844DD76
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Nov 2021 23:02:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 44D996E32F;
-	Thu, 11 Nov 2021 21:58:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB1FB6E444;
+	Thu, 11 Nov 2021 22:02:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA50F6E32F;
- Thu, 11 Nov 2021 21:58:39 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10165"; a="256734021"
-X-IronPort-AV: E=Sophos;i="5.87,227,1631602800"; d="scan'208";a="256734021"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Nov 2021 13:58:39 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.87,227,1631602800"; d="scan'208";a="670426298"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
- by orsmga005.jf.intel.com with ESMTP; 11 Nov 2021 13:58:38 -0800
-Received: from bgsmsx604.gar.corp.intel.com (10.67.234.6) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Thu, 11 Nov 2021 13:58:37 -0800
-Received: from bgsmsx604.gar.corp.intel.com (10.67.234.6) by
- BGSMSX604.gar.corp.intel.com (10.67.234.6) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Fri, 12 Nov 2021 03:28:35 +0530
-Received: from bgsmsx604.gar.corp.intel.com ([10.67.234.6]) by
- BGSMSX604.gar.corp.intel.com ([10.67.234.6]) with mapi id 15.01.2242.012;
- Fri, 12 Nov 2021 03:28:35 +0530
-From: "Shankar, Uma" <uma.shankar@intel.com>
-To: Harry Wentland <harry.wentland@amd.com>, =?utf-8?B?VmlsbGUgU3lyasOkbMOk?=
- <ville.syrjala@linux.intel.com>
-Subject: RE: [RFC v2 05/22] drm/i915/xelpd: Define Degamma Lut range struct
- for HDR planes
-Thread-Topic: [RFC v2 05/22] drm/i915/xelpd: Define Degamma Lut range struct
- for HDR planes
-Thread-Index: AQHXo2JRAHlJ3agYdUaywR8buXbaL6v+e3SAgAAX2oCAAJuYgP//r0yAgABnYSA=
-Date: Thu, 11 Nov 2021 21:58:35 +0000
-Message-ID: <965b42dd64844e7c8c1b0af7582a4306@intel.com>
-References: <20210906213904.27918-1-uma.shankar@intel.com>
- <20210906213904.27918-6-uma.shankar@intel.com>
- <52ce874c-64ae-d7a9-bc4e-255cfa49f410@amd.com> <YY1H//+XISVMFZNL@intel.com>
- <edc4b80279354ec7bcdb0a890dae7d79@intel.com>
- <4a26ada6-feaa-76df-3ffe-d694e367d809@amd.com>
-In-Reply-To: <4a26ada6-feaa-76df-3ffe-d694e367d809@amd.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-dlp-version: 11.6.200.16
-x-originating-ip: [10.223.10.1]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Received: from mail-io1-xd33.google.com (mail-io1-xd33.google.com
+ [IPv6:2607:f8b0:4864:20::d33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F05D6E3F4;
+ Thu, 11 Nov 2021 22:02:13 +0000 (UTC)
+Received: by mail-io1-xd33.google.com with SMTP id k21so8791222ioh.4;
+ Thu, 11 Nov 2021 14:02:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=W0un44DHPF22aIu/HzLHma+ZAGuW3yhyQnyzoD6Bo4g=;
+ b=LsPGof+zsUFAVyeeuWMR8rDTyfXXZteC5O6U+uTIqDG0dmpHnvGSBPuAE1Ep3ZGjoW
+ chAGE5CJEECetg8w7TPZ9khCi6BMRIm7GKcd1UyTczg6lyrFUh7T0faa2dorBtfoL/9/
+ DyZ9CJkdT6dhVy7VCoCY9/i48ts1cglC4+tmIzGcNFRSIFuBEPzszCz3oWOdQeA0Spf2
+ gI8eaCja1joJdIaJpOkex4VaUgHkEqYV97oNWr2xlwOR4afIFCcQfklfQy3q+JJNRP7f
+ YGLb7AlgVFuo8MkeYYAL1JkIQmrsokF73vh1bMsmN+VZns84uzuRAZHWeUxNZ13CzOhw
+ Ca1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=W0un44DHPF22aIu/HzLHma+ZAGuW3yhyQnyzoD6Bo4g=;
+ b=xJUPMJG4zofHSHq9qXFyFFYc2G3w1F/Zy0SFFY13HxnalLinVURkGu3f16KXsXaZra
+ 5Qsk7X6StH/wWVCZ86B4uffMcPoONuQZwQJ+gTipSdKSJRJ33q6q36wDzHI4kJOPy+mb
+ p61oZKOh3X21NBlo7zRmXakto/2nI111idHCYGNie/EEw14XNuRAOKWZWXUJZk6oPUMY
+ 8lEYQ29y3jPTy8S/7fBWwj7X2dlleCSHbqUfgaQeWG7hWE/h2qc83HnQkrDGibQf1mQq
+ p7f5Iwx3lA9sLRQHkJOUiGtB7m9nkGRLj+p0q/cxrQlcrSSI3O7f4BI9nVWW4iCDmFvw
+ ofgA==
+X-Gm-Message-State: AOAM531FRvFnT0tOJFQI2qVo/cSDuwv8EHhFI2yinNCUWoIRvKc7o5zN
+ 1pHB3CDgfUgu4+JUIiyI6VI=
+X-Google-Smtp-Source: ABdhPJzs6rZ8CI3ZcO3tiNDiGEXL5v28XlBw3PrkhFHmmi3ZAJA4is7Z6XBwGrA6mAdZC8h8pl/vGw==
+X-Received: by 2002:a05:6638:2402:: with SMTP id
+ z2mr1084436jat.122.1636668132873; 
+ Thu, 11 Nov 2021 14:02:12 -0800 (PST)
+Received: from frodo.. (c-24-9-77-57.hsd1.co.comcast.net. [24.9.77.57])
+ by smtp.googlemail.com with ESMTPSA id t5sm2612315ilp.8.2021.11.11.14.02.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 11 Nov 2021 14:02:12 -0800 (PST)
+From: Jim Cromie <jim.cromie@gmail.com>
+To: jbaron@akamai.com, gregkh@linuxfoundation.org, robdclark@gmail.com,
+ sean@poorly.run, daniel.vetter@ffwll.ch, seanpaul@chromium.org,
+ lyude@redhat.com, linux-kernel@vger.kernel.org, rostedt@goodmis.org,
+ mathieu.desnoyers@efficios.com, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org
+Subject: [PATCH v10 00/10 RESEND] use DYNAMIC_DEBUG to implement DRM.debug &
+ DRM.trace
+Date: Thu, 11 Nov 2021 15:01:56 -0700
+Message-Id: <20211111220206.121610-1-jim.cromie@gmail.com>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,147 +72,214 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Shashank.Sharma@amd.com" <Shashank.Sharma@amd.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "sebastian@sebastianwick.net" <sebastian@sebastianwick.net>
+Cc: quic_saipraka@quicinc.com, arnd@arndb.de, jim.cromie@gmail.com,
+ catalin.marinas@arm.com, linux-arm-msm@vger.kernel.org, mingo@redhat.com,
+ quic_psodagud@quicinc.com, maz@kernel.org, will@kernel.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogSGFycnkgV2VudGxhbmQg
-PGhhcnJ5LndlbnRsYW5kQGFtZC5jb20+DQo+IFNlbnQ6IEZyaWRheSwgTm92ZW1iZXIgMTIsIDIw
-MjEgMjo0MSBBTQ0KPiBUbzogU2hhbmthciwgVW1hIDx1bWEuc2hhbmthckBpbnRlbC5jb20+OyBW
-aWxsZSBTeXJqw6Rsw6QNCj4gPHZpbGxlLnN5cmphbGFAbGludXguaW50ZWwuY29tPg0KPiBDYzog
-aW50ZWwtZ2Z4QGxpc3RzLmZyZWVkZXNrdG9wLm9yZzsgZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNr
-dG9wLm9yZzsNCj4gcHBhYWxhbmVuQGdtYWlsLmNvbTsgYnJpYW4uc3RhcmtleUBhcm0uY29tOyBz
-ZWJhc3RpYW5Ac2ViYXN0aWFud2ljay5uZXQ7DQo+IFNoYXNoYW5rLlNoYXJtYUBhbWQuY29tDQo+
-IFN1YmplY3Q6IFJlOiBbUkZDIHYyIDA1LzIyXSBkcm0vaTkxNS94ZWxwZDogRGVmaW5lIERlZ2Ft
-bWEgTHV0IHJhbmdlIHN0cnVjdCBmb3INCj4gSERSIHBsYW5lcw0KPiANCj4gDQo+IA0KPiBPbiAy
-MDIxLTExLTExIDE1OjQyLCBTaGFua2FyLCBVbWEgd3JvdGU6DQo+ID4NCj4gPg0KPiA+PiAtLS0t
-LU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiA+PiBGcm9tOiBWaWxsZSBTeXJqw6Rsw6QgPHZpbGxl
-LnN5cmphbGFAbGludXguaW50ZWwuY29tPg0KPiA+PiBTZW50OiBUaHVyc2RheSwgTm92ZW1iZXIg
-MTEsIDIwMjEgMTA6MTMgUE0NCj4gPj4gVG86IEhhcnJ5IFdlbnRsYW5kIDxoYXJyeS53ZW50bGFu
-ZEBhbWQuY29tPg0KPiA+PiBDYzogU2hhbmthciwgVW1hIDx1bWEuc2hhbmthckBpbnRlbC5jb20+
-Ow0KPiA+PiBpbnRlbC1nZnhAbGlzdHMuZnJlZWRlc2t0b3Aub3JnOyBkcmktIGRldmVsQGxpc3Rz
-LmZyZWVkZXNrdG9wLm9yZzsNCj4gPj4gcHBhYWxhbmVuQGdtYWlsLmNvbTsgYnJpYW4uc3Rhcmtl
-eUBhcm0uY29tOw0KPiA+PiBzZWJhc3RpYW5Ac2ViYXN0aWFud2ljay5uZXQ7IFNoYXNoYW5rLlNo
-YXJtYUBhbWQuY29tDQo+ID4+IFN1YmplY3Q6IFJlOiBbUkZDIHYyIDA1LzIyXSBkcm0vaTkxNS94
-ZWxwZDogRGVmaW5lIERlZ2FtbWEgTHV0IHJhbmdlDQo+ID4+IHN0cnVjdCBmb3IgSERSIHBsYW5l
-cw0KPiA+Pg0KPiA+PiBPbiBUaHUsIE5vdiAxMSwgMjAyMSBhdCAxMDoxNzoxN0FNIC0wNTAwLCBI
-YXJyeSBXZW50bGFuZCB3cm90ZToNCj4gPj4+DQo+ID4+Pg0KPiA+Pj4gT24gMjAyMS0wOS0wNiAx
-NzozOCwgVW1hIFNoYW5rYXIgd3JvdGU6DQo+ID4+Pj4gRGVmaW5lIHRoZSBzdHJ1Y3R1cmUgd2l0
-aCBYRV9MUEQgZGVnYW1tYSBsdXQgcmFuZ2VzLiBIRFIgYW5kIFNEUg0KPiA+Pj4+IHBsYW5lcyBo
-YXZlIGRpZmZlcmVudCBjYXBhYmlsaXRpZXMsIGltcGxlbWVudGVkIHJlc3BlY3RpdmUNCj4gPj4+
-PiBzdHJ1Y3R1cmUgZm9yIHRoZSBIRFIgcGxhbmVzLg0KPiA+Pj4+DQo+ID4+Pj4gU2lnbmVkLW9m
-Zi1ieTogVW1hIFNoYW5rYXIgPHVtYS5zaGFua2FyQGludGVsLmNvbT4NCj4gPj4+PiAtLS0NCj4g
-Pj4+PiAgZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9jb2xvci5jIHwgNTINCj4g
-Pj4+PiArKysrKysrKysrKysrKysrKysrKysrDQo+ID4+Pj4gIDEgZmlsZSBjaGFuZ2VkLCA1MiBp
-bnNlcnRpb25zKCspDQo+ID4+Pj4NCj4gPj4+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJt
-L2k5MTUvZGlzcGxheS9pbnRlbF9jb2xvci5jDQo+ID4+Pj4gYi9kcml2ZXJzL2dwdS9kcm0vaTkx
-NS9kaXNwbGF5L2ludGVsX2NvbG9yLmMNCj4gPj4+PiBpbmRleCBhZmNiNGJmMzgyNmMuLjY0MDNi
-ZDc0MzI0YiAxMDA2NDQNCj4gPj4+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5
-L2ludGVsX2NvbG9yLmMNCj4gPj4+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5
-L2ludGVsX2NvbG9yLmMNCj4gPj4+PiBAQCAtMjA5Miw2ICsyMDkyLDU4IEBAIHN0YXRpYyB2b2lk
-IGljbF9yZWFkX2x1dHMoc3RydWN0DQo+ID4+Pj4gaW50ZWxfY3J0Y19zdGF0ZQ0KPiA+PiAqY3J0
-Y19zdGF0ZSkNCj4gPj4+PiAgCX0NCj4gPj4+PiAgfQ0KPiA+Pj4+DQo+ID4+Pj4gKyAvKiBGSVhN
-RSBpbnB1dCBicGM/ICovDQo+ID4+Pj4gK19fbWF5YmVfdW51c2VkDQo+ID4+Pj4gK3N0YXRpYyBj
-b25zdCBzdHJ1Y3QgZHJtX2NvbG9yX2x1dF9yYW5nZSBkMTNfZGVnYW1tYV9oZHJbXSA9IHsNCj4g
-Pj4+PiArCS8qIHNlZ21lbnQgMSAqLw0KPiA+Pj4+ICsJew0KPiA+Pj4+ICsJCS5mbGFncyA9IChE
-Uk1fTU9ERV9MVVRfR0FNTUEgfA0KPiA+Pj4+ICsJCQkgIERSTV9NT0RFX0xVVF9SRUZMRUNUX05F
-R0FUSVZFIHwNCj4gPj4+PiArCQkJICBEUk1fTU9ERV9MVVRfSU5URVJQT0xBVEUgfA0KPiA+Pj4+
-ICsJCQkgIERSTV9NT0RFX0xVVF9OT05fREVDUkVBU0lORyksDQo+ID4+Pj4gKwkJLmNvdW50ID0g
-MTI4LA0KPiA+Pj4+ICsJCS5pbnB1dF9icGMgPSAyNCwgLm91dHB1dF9icGMgPSAxNiwNCj4gPj4+
-PiArCQkuc3RhcnQgPSAwLCAuZW5kID0gKDEgPDwgMjQpIC0gMSwNCj4gPj4+PiArCQkubWluID0g
-MCwgLm1heCA9ICgxIDw8IDI0KSAtIDEsDQo+ID4+Pj4gKwl9LA0KPiA+Pj4+ICsJLyogc2VnbWVu
-dCAyICovDQo+ID4+Pj4gKwl7DQo+ID4+Pj4gKwkJLmZsYWdzID0gKERSTV9NT0RFX0xVVF9HQU1N
-QSB8DQo+ID4+Pj4gKwkJCSAgRFJNX01PREVfTFVUX1JFRkxFQ1RfTkVHQVRJVkUgfA0KPiA+Pj4+
-ICsJCQkgIERSTV9NT0RFX0xVVF9JTlRFUlBPTEFURSB8DQo+ID4+Pj4gKwkJCSAgRFJNX01PREVf
-TFVUX1JFVVNFX0xBU1QgfA0KPiA+Pj4+ICsJCQkgIERSTV9NT0RFX0xVVF9OT05fREVDUkVBU0lO
-RyksDQo+ID4+Pj4gKwkJLmNvdW50ID0gMSwNCj4gPj4+PiArCQkuaW5wdXRfYnBjID0gMjQsIC5v
-dXRwdXRfYnBjID0gMTYsDQo+ID4+Pj4gKwkJLnN0YXJ0ID0gKDEgPDwgMjQpIC0gMSwgLmVuZCA9
-IDEgPDwgMjQsDQo+ID4+Pj4gKwkJLm1pbiA9IDAsIC5tYXggPSAoMSA8PCAyNykgLSAxLA0KPiA+
-Pj4+ICsJfSwNCj4gPj4+PiArCS8qIFNlZ21lbnQgMyAqLw0KPiA+Pj4+ICsJew0KPiA+Pj4+ICsJ
-CS5mbGFncyA9IChEUk1fTU9ERV9MVVRfR0FNTUEgfA0KPiA+Pj4+ICsJCQkgIERSTV9NT0RFX0xV
-VF9SRUZMRUNUX05FR0FUSVZFIHwNCj4gPj4+PiArCQkJICBEUk1fTU9ERV9MVVRfSU5URVJQT0xB
-VEUgfA0KPiA+Pj4+ICsJCQkgIERSTV9NT0RFX0xVVF9SRVVTRV9MQVNUIHwNCj4gPj4+PiArCQkJ
-ICBEUk1fTU9ERV9MVVRfTk9OX0RFQ1JFQVNJTkcpLA0KPiA+Pj4+ICsJCS5jb3VudCA9IDEsDQo+
-ID4+Pj4gKwkJLmlucHV0X2JwYyA9IDI0LCAub3V0cHV0X2JwYyA9IDE2LA0KPiA+Pj4+ICsJCS5z
-dGFydCA9IDEgPDwgMjQsIC5lbmQgPSAzIDw8IDI0LA0KPiA+Pj4+ICsJCS5taW4gPSAwLCAubWF4
-ID0gKDEgPDwgMjcpIC0gMSwNCj4gPj4+PiArCX0sDQo+ID4+Pj4gKwkvKiBTZWdtZW50IDQgKi8N
-Cj4gPj4+PiArCXsNCj4gPj4+PiArCQkuZmxhZ3MgPSAoRFJNX01PREVfTFVUX0dBTU1BIHwNCj4g
-Pj4+PiArCQkJICBEUk1fTU9ERV9MVVRfUkVGTEVDVF9ORUdBVElWRSB8DQo+ID4+Pj4gKwkJCSAg
-RFJNX01PREVfTFVUX0lOVEVSUE9MQVRFIHwNCj4gPj4+PiArCQkJICBEUk1fTU9ERV9MVVRfUkVV
-U0VfTEFTVCB8DQo+ID4+Pj4gKwkJCSAgRFJNX01PREVfTFVUX05PTl9ERUNSRUFTSU5HKSwNCj4g
-Pj4+PiArCQkuY291bnQgPSAxLA0KPiA+Pj4+ICsJCS5pbnB1dF9icGMgPSAyNCwgLm91dHB1dF9i
-cGMgPSAxNiwNCj4gPj4+PiArCQkuc3RhcnQgPSAzIDw8IDI0LCAuZW5kID0gNyA8PCAyNCwNCj4g
-Pj4+PiArCQkubWluID0gMCwgLm1heCA9ICgxIDw8IDI3KSAtIDEsDQo+ID4+Pj4gKwl9LA0KPiA+
-Pj4+ICt9Ow0KPiA+Pj4NCj4gPj4+IElmIEkgdW5kZXJzdGFuZCB0aGlzIHJpZ2h0LCB1c2Vyc3Bh
-Y2Ugd291bGQgbmVlZCB0aGlzIGRlZmluaXRpb24gaW4NCj4gPj4+IG9yZGVyIHRvIHBvcHVsYXRl
-IHRoZSBkZWdhbW1hIGJsb2IuIFNob3VsZCB0aGlzIHNpdCBpbiBhIFVBUEkgaGVhZGVyPw0KPiA+
-DQo+ID4gSGkgSGFycnksIFBla2thIGFuZCBWaWxsZSwNCj4gPiBTb3JyeSBmb3IgYmVpbmcgYSBi
-aXQgbGF0ZSBvbiB0aGUgcmVwbGllcywgZ290IHNpZGUgdHJhY2tlZCB3aXRoIHZhcmlvdXMgaXNz
-dWVzLg0KPiA+IEkgYW0gYmFjayBvbiB0aGlzLiBBcG9sb2dpZXMgZm9yIGRlbGF5Lg0KPiA+DQo+
-ID4+IE15IG9yaWdpbmFsIGlkZWEgKG5vdCBzdXJlIGl0J3MgZnVsbHkgcmVhbGl6ZWQgaW4gdGhp
-cyBzZXJpZXMpIGlzIHRvDQo+ID4+IGhhdmUgYSBuZXcgR0FNTUFfTU9ERS9ldGMuIGVudW0gcHJv
-cGVydHkgb24gZWFjaCBjcnRjIChvciBwbGFuZSkgZm9yDQo+ID4+IHdoaWNoIGVhY2ggZW51bSB2
-YWx1ZSBwb2ludHMgdG8gYSBrZXJuZWwgcHJvdmlkZWQgYmxvYiB0aGF0IGNvbnRhaW5zIG9uZSBv
-Zg0KPiB0aGVzZSBMVVQgZGVzY3JpcHRvcnMuDQo+ID4+IFVzZXJzcGFjZSBjYW4gdGhlbiBxdWVy
-eSB0aGVtIGR5bmFtaWNhbGx5IGFuZCBwaWNrIHRoZSBiZXN0IG9uZSBmb3INCj4gPj4gaXRzIGN1
-cnJlbnQgdXNlIGNhc2UuDQo+ID4NCj4gPiBXZSBoYXZlIHRoaXMgYXMgcGFydCBvZiB0aGUgc2Vy
-aWVzIFZpbGxlLiBQYXRjaCAzIG9mIHRoaXMgc2VyaWVzDQo+ID4gY3JlYXRlcyBhIERFR0FNTUFf
-TU9ERSBwcm9wZXJ0eSBqdXN0IGZvciB0aGlzLiBXaXRoIHRoYXQgdXNlcnNwYWNlIGNhbg0KPiA+
-IGp1c3QgcXVlcnkgdGhlIGJsb2JfaWQncyBhbmQgd2lsbCBnZXQgdGhlIHZhcmlvdXMgZGVnYW1t
-YSBtb2RlIHBvc3NpYmxlIGFuZCB0aGUNCj4gcmVzcGVjdGl2ZSBzZWdtZW50IGFuZCBsdXQgZGlz
-dHJpYnV0aW9ucy4NCj4gPg0KPiA+IFRoaXMgd2lsbCBiZSBnZW5lcmljLCBzbyBmb3IgdXNlcnNw
-YWNlIGl0IHNob3VsZCBqdXN0IGJlIGFibGUgdG8gcXVlcnkNCj4gPiB0aGlzIGFuZCBwYXJzZSBh
-bmQgZ2V0IHRoZSBsdXQgZGlzdHJpYnV0aW9uIGFuZCBzZWdtZW50IHJhbmdlcy4NCj4gPg0KPiAN
-Cj4gVGhhbmtzIGZvciB0aGUgZXhwbGFuYXRpb24uDQo+IA0KPiBVbWEsIGhhdmUgeW91IGhhZCBh
-IGNoYW5jZSB0byBza2V0Y2ggc29tZSBvZiB0aGlzIG91dCBpbiBJR1Q/IEknbSB0cnlpbmcgdG8g
-c2VlIGhvdw0KPiB1c2Vyc3BhY2Ugd291bGQgZG8gdGhpcyBpbiBwcmFjdGljZSBhbmQgd2lsbCB0
-cnkgdG8gc2tldGNoIGFuIElHVCB0ZXN0IGZvciB0aGlzIG15c2VsZiwNCj4gYnV0IGlmIHlvdSBo
-YXZlIGl0IGFscmVhZHkgd2UgY291bGQgc2hhcmUgdGhlIGVmZm9ydC4NCg0KWWVzIEhhcnJ5LCB3
-ZSBkbyBoYXZlIHNvbWUgc2FtcGxlIElHVCdzIHRvIHRlc3QgdGhpcy4gV2lsbCBzZW5kIHRob3Nl
-IG91dCBhbmQgd2lsbCBjb3B5DQp5b3UgYW5kIGFsbCB0aGUgc3Rha2Vob2xkZXJzLg0KDQo+ID4+
-IFRoZSBhbGdvcml0aG0gZm9yIGNob29zaW5nIHRoZSBiZXN0IG9uZSBtaWdodCBiZSBzb21ldGhp
-bmcgbGlrZToNCj4gPj4gLSBwcmVmZXIgTFVUIHdpdGggYnBjID49IEZCIGJwYywgYnV0IHBlcmhh
-cHMgbm90IG5lZWRsZXNzbHkgaGlnaCBicGMNCj4gPj4gLSBwcmVmZXIgaW50ZXJwb2xhdGVkIHZz
-LiBkaXJlY3QgbG9va3VwIGJhc2VkIG9uIGN1cnJlbnQgbmVlZHMgKGVnLiBYDQo+ID4+ICAgY291
-bGQgcHJlZmVyIGRpcmVjdCBsb29rdXAgdG8gZ2V0IGRpcmVjdGNvbG9yIHZpc3VhbHMpLg0KPiA+
-PiAtIHByZWZlciBvbmUgd2l0aCBleHRlbmRlZCByYW5nZSB2YWx1ZXMgaWYgbmVlZGVkDQo+ID4+
-IC0gZm9yIEhEUiBwcmVmZXIgc21hbGxlciBzdGVwIHNpemUgaW4gZGFyayB0b25lcywNCj4gPj4g
-ICBmb3IgU0RSIHBlcmhhcHMgcHJlZmVyIGEgbW9yZSB1bmlmb3JtIHN0ZXAgc2l6ZQ0KPiA+Pg0K
-PiA+PiBPciBtYXliZSB3ZSBzaG91bGQgaW5jbHVkZSBzb21lIGtpbmQgb2YgdXNhZ2UgaGludHMg
-YXMgd2VsbD8NCj4gPg0KPiA+IEkgdGhpbmsgdGhlIHNlZ21lbnQgcmFuZ2UgYW5kIGRpc3RyaWJ1
-dGlvbiBvZiBsdXQgc2hvdWxkIGJlIGVub3VnaCBmb3INCj4gPiBhIHVzZXJzcGFjZSB0byBwaWNr
-IHRoZSByaWdodCBvbmVzLCBidXQgd2UgY2FuIGFkZCBzb21lIGV4YW1wbGVzIGluIFVBUEkNCj4g
-ZGVzY3JpcHRpb25zIGFzIGhpbnRzLg0KPiA+DQo+IA0KPiBUaGUgcmFuZ2UgbWlnaHQgYmUgZW5v
-dWdoLCBidXQgd2UncmUgYWxyZWFkeSBwYXJzaW5nIGhpbnRzIGxpa2UgIkdBTU1BIg0KPiBvciAi
-REVHQU1NQSIuIEkgd29uZGVyIGlmIGl0IHdvdWxkIG1ha2Ugc2Vuc2UgdG8gYWRkIGEgZmxhZyBm
-b3IgIkhEUiIgb3IgIlNEUiIgYXMNCj4gd2VsbC4NCg0KT24gSW50ZWwgaGFyZHdhcmUsIHdlIGRp
-ZmZlcmVudGlhdGUgdGhpcyB3aXRoIHByZWNpc2lvbiBhbmQgaGF2ZSBIRFIgcGxhbmVzICh0aGV5
-IGhhdmUgZXh0cmENCkx1dCBwcmVjaXNpb24gYW5kIHNhbXBsZXMpIHNlcGFyYXRlbHkgY2FsbGVk
-IG91dC4gV2UgY291bGQgYWRkIFNEUi9IRFIgRkxBRyBhcyB3ZWxsLg0KDQo+ID4+IEFuZCBJIHdh
-cyB0aGlua2luZyBvZiBldmVuIGFkZGluZyBhIG5ldyBwcm9wZXJ0eSB0eXBlIChlZy4NCj4gPj4g
-RU5VTV9CTE9CKSBqdXN0IGZvciB0aGlzIHNvcnQgb2YgdXNlY2FzZS4gVGhhdCBjb3VsZCBsZXQg
-dXMgaGF2ZSBhDQo+ID4+IGJpdCBtb3JlIGdlbmVyaWMgY29kZSB0byBkbyBhbGwgdGhlIHZhbGlk
-YXRpb24gYXJvdW5kIHRoZSBwcm9wZXJ0eSB2YWx1ZXMgYW5kDQo+IHdoYXRub3QuDQo+ID4+DQo+
-ID4+IFRoZSBvbmUgbmFnZ2luZyBjb25jZXJuIEkgcmVhbGx5IGhhdmUgd2l0aCBHQU1NQV9NT0RF
-IGlzIGhvdyBhIG1peCBvZg0KPiA+PiBvbGQgYW5kIG5ldyB1c2Vyc3BhY2Ugd291bGQgd29yay4g
-VGhvdWdoIHRoYXQgaXMgbW9yZSBvZiBhIGdlbmVyaWMNCj4gPj4gaXNzdWUgd2l0aCBhbnkgbmV3
-IHByb3BlcnR5IHJlYWxseS4NCj4gPg0KPiA+IEZvciBwbGFuZSBwcm9wZXJ0aWVzIGdldHRpbmcg
-YWRkZWQgbmV3bHksIG9sZCB1c2Vyc3BhY2Ugd2lsbCBub3QgZ2V0IGl0IHNvIEkgdGhpbmsNCj4g
-dGhpcyBzaG91bGQgYmUgb2suDQo+ID4gTmV3ZXIgdXNlcnNwYWNlIHdpbGwgaW1wbGVtZW50IHRo
-aXMgYW5kIGdldCB0aGUgbmV3IGZ1bmN0aW9uYWxpdHkuDQo+ID4gUHJvYmxlbSB3aWxsIGJlIGlu
-IGV4dGVuZGluZyB0aGlzIHRvIGNydGMgd2hlcmUgd2UgaGF2ZSBhIGxlZ2FjeQ0KPiA+IGJhZ2dh
-Z2UsIHRoZSBjbGllbnQgY2FwcyBhcHByb2FjaCBtYXkgaGVscCB1cyB0aGVyZS4gSGF2ZSBpdCBh
-cyBwYXJ0DQo+ID4gb2Ygc2VwYXJhdGUgc2VyaWVzIGp1c3QgdG8gbm90IG1peCBpdCB3aXRoIHRo
-aXMgbmV3IHBsYW5lIHN0dWZmLCB0aG91Z2ggdGhlIGlkZWENCj4gcmVtYWlucyBzYW1lIGJhc2Vk
-IG9uIHlvdXIgZGVzaWduLiBTZXJpZXMgYmVsb3cgZm9yIHJlZmVyZW5jZToNCj4gPiBodHRwczov
-L3BhdGNod29yay5mcmVlZGVza3RvcC5vcmcvc2VyaWVzLzkwODIxLz4+DQo+IA0KPiBDb3VsZCB3
-ZSBqdXN0IGFzc3VtZSB3ZSBkbyBhIHVuaWZvcm0gTFVUIGlmIHVzZXJzcGFjZSBkb2Vzbid0IHNl
-dCBhIF9NT0RFIGVudW0NCj4gdmFsdWUgZm9yIHRoZSByZXNwZWN0aXZlIGdhbW1hPw0KPiANCj4g
-TWF5YmUgdGhlIF9NT0RFIHNob3VsZCBoYXZlIGEgZGVmYXVsdCBlbnVtIHZhbHVlIHRoYXQgbWVh
-bnMgYSB1bmlmb3JtIChsZWdhY3kpDQo+IExVVC4NCg0KWWVhaCB3ZSBjb3VsZCBoYXZlIHRoaXMg
-YW5kIGRvY3VtZW50IHRoZSBiZWhhdmlvciBpbiBVQVBJIGRlc2NyaXB0aW9uLg0KDQpSZWdhcmRz
-LA0KVW1hIFNoYW5rYXINCg0KPiBIYXJyeQ0KPiANCj4gPiBSZWdhcmRzLA0KPiA+IFVtYSBTaGFu
-a2FyDQo+ID4NCj4gPj4gLS0NCj4gPj4gVmlsbGUgU3lyasOkbMOkDQo+ID4+IEludGVsDQoNCg==
+Hi Jason, Greg, DRM-everyone, everyone,
+
+resend to add more people, after rebasing on master to pick up
+306589856399 drm/print: Add deprecation notes to DRM_...() functions
+
+This patchset has 3 separate but related parts:
+
+1. DEFINE_DYNAMIC_DEBUG_BITGRPS macro [patch 1/10]
+
+   Declares DRM.debug style bitmap, bits control pr_debugs by matching formats
+   Adds callback to translate bits to $cmd > dynamic_debug/control
+   This could obsolete EXPORT(dynamic_debug_exec_queries) not included.
+
+   /* anticipated_usage */
+   static struct dyndbg_desc drm_categories_map[] = {
+   	  [0] = { DRM_DBG_CAT_CORE },
+	  [1] = { DRM_DBG_CAT_DRIVER },
+	  [2] = { DRM_DBG_CAT_KMS },
+	  [3] = { DRM_DBG_CAT_PRIME }, ... };
+
+   DEFINE_DYNAMIC_DEBUG_BITGRPS(debug, __drm_debug,
+				" bits control drm.debug categories ",
+				drm_categories_map);
+
+   Please consider this patch for -next/now/current:
+   - new interface, new code, no users to break
+   - allows DRM folks to consider in earnest.
+   - api bikeshedding to do ?
+     struct dyndbg_desc isnt that great a name, others too probably.
+
+2. use (1) to reimplement drm.debug [patches 3-7]:
+
+   1st in amdgpu & i915 to control existing pr_debugs by their formats
+   POC for (1)
+   then in drm-print, for all drm.debug API users
+   has kernel-footprint impact:
+      amdgpu has ~3k pr_debugs.  (120kb callsite data)
+      i915.ko has ~2k  
+
+   avoids drm_debug_enabled(), gives NOOP savings & new flexibility.
+   changes drm.debug categories from enum to format-prefix-string
+   alters in-log format to include the format-prefix-string
+   Daniel Vetter liked this at -v3
+   https://lore.kernel.org/lkml/YPbPvm%2FxcBlTK1wq@phenom.ffwll.local/
+   Im sure Ive (still) missed stuff.
+
+
+3. separately, Sean Paul proposed: drm.trace to mirror drm.debug to tracefs
+   https://patchwork.freedesktop.org/series/78133/
+
+He argues:
+   tracefs is fast/lightweight compared to syslog
+   independent selection (of drm categories) to tracefs
+       gives tailored traffic w.o flooding syslog
+
+ISTM he's correct.  So it follows that write-to-tracefs is also a good
+feature for dyndbg, where its then available for all pr_debug users,
+including all of drm, on a per-site basis, via echo +T >control.  (iff
+CONFIG_TRACING).
+
+So basically, I borg'd his:
+   [patch 14/14] drm/print: Add tracefs support to the drm logging helpers
+
+Then I added a T flag, so it can be toggled from shell:
+
+   # turn on all drm's pr_debug --> tracefs
+   echo module drm +T > /proc/dynamic_debug/control
+
+It appears to just work: (RFC)
+
+The instance name is a placeholder, per-module subdirs kinda fits the
+tracefs pattern, but full mod/file-basename/function/line feels like
+overkill, mod/basename-func.line would flatten it nicely. RFC.
+
+
+[root@gandalf dyndbg-tracefs]# pwd
+/sys/kernel/tracing/instances/dyndbg-tracefs
+[root@gandalf dyndbg-tracefs]# echo 1 > /sys/module/drm/parameters/trace
+[root@gandalf dyndbg-tracefs]# head -n16 trace | sed -e 's/^#//'
+ tracer: nop
+
+ entries-in-buffer/entries-written: 405/405   #P:24
+
+                                _-----=> irqs-off
+                               / _----=> need-resched
+                              | / _---=> hardirq/softirq
+                              || / _--=> preempt-depth
+                              ||| / _-=> migrate-disable
+                              |||| /     delay
+           TASK-PID     CPU#  |||||  TIMESTAMP  FUNCTION
+              | |         |   |||||     |         |
+           <...>-2254    [000] .....  7040.894352: __dynamic_pr_debug: drm:core: comm="gnome-shel:cs0" pid=2254, dev=0xe200, auth=1, AMDGPU_CS
+           <...>-2207    [015] .....  7040.894654: __dynamic_pr_debug: drm:core: comm="gnome-shell" pid=2207, dev=0xe200, auth=1, DRM_IOCTL_MODE_ADDFB2
+           <...>-2207    [015] .....  7040.995403: __dynamic_pr_debug: drm:core: comm="gnome-shell" pid=2207, dev=0xe200, auth=1, DRM_IOCTL_MODE_RMFB
+           <...>-2207    [015] .....  7040.995413: __dynamic_pr_debug: drm:core: OBJ ID: 121 (2)
+
+This is the pr-debug doing most of that logging: (from dynamic_debug/control)
+
+  drivers/gpu/drm/drm_ioctl.c:866 [drm]drm_ioctl =T "drm:core: comm=\042%s\042 pid=%d, dev=0x%lx, auth=%d, %s\012"
+
+Turning on decoration flags changes the trace:
+
+  echo module drm format drm:core: +mflt > /proc/dynamic_debug/control 
+
+           TASK-PID     CPU#  |||||  TIMESTAMP  FUNCTION
+              | |         |   |||||     |         |
+           <...>-2254    [003] ..... 15980.936660: __dynamic_pr_debug: [2254] drm:drm_ioctl:866: drm:core: comm="gnome-shel:cs0" pid=2254, dev=0xe200, auth=1, AMDGPU_CS
+           <...>-2207    [015] ..... 15980.936966: __dynamic_pr_debug: [2207] drm:drm_ioctl:866: drm:core: comm="gnome-shell" pid=2207, dev=0xe200, auth=1, DRM_IOCTL_MODE_ADDFB2
+           <...>-2207    [015] ..... 15981.037727: __dynamic_pr_debug: [2207] drm:drm_ioctl:866: drm:core: comm="gnome-shell" pid=2207, dev=0xe200, auth=1, DRM_IOCTL_MODE_RMFB
+           <...>-2207    [015] ..... 15981.037739: __dynamic_pr_debug: [2207] drm:drm_mode_object_put:195: drm:core: OBJ ID: 124 (2)
+           <...>-2207    [015] ..... 15981.037742: __dynamic_pr_debug: [2207] drm:drm_mode_object_put:195: drm:core: OBJ ID: 124 (1)
+
+The FUNCTION could stand tweaking (to match the callsite in the
+control file, cited above), or perhaps replaced by the 'mfl'
+decorations; the 't' flag is redundant for trace. Meh.
+
+SELFTEST
+
+A previous version of this patchset added test_dynamic_debug.ko, but
+it relied upon code I ripped out when I made tracefs available by
+default (without modules having to register 1st).  So it fails 10/29
+tests, which counted +T sites executed, via side effect.
+
+TODO: userspace selftest
+
+  # to set expected tracing activity
+  echo module test_dynamic_debug function do_debugging +T > control
+
+  # run do_debugging function (todo: add sysfs knob) 
+  echo 2 > /sys/module/test-dynamic-debug/parameters/run_me
+
+If thats wrapped in the right trace_on, trace_pipe, etc incantations,
+the +T enabled pr_debugs in do_debugging() can be counted, compared
+against expectations, and passed or failed.
+
+change since v9:
+. patch confict against drm-misc resolved
+. s/CATEGORIES/BITGRPS/ in 1/10 - keep name generic: bitmap + groups
+. CATEGORIES is drm term, use it there only
+. fix api friction wrt drm.trace knob
+  2 separate macros: DEFINE_DYNAMIC_DEBUG_{LOG,TRACE}_GROUPS - JBaron
+
+v9: https://patchwork.freedesktop.org/series/96327/
+v8: https://patchwork.freedesktop.org/series/93914/
+    https://lore.kernel.org/lkml/20210915163957.2949166-1-jim.cromie@gmail.com/
+
+The major change since v8 is that +T now works for all users, if
+CONFIG_TRACING=y, otherwise it complains/errors.
+
+SUMMARY
+
+- drm as dyndbg user adds almost 9k callsites to kernel running this patchset
+  substantial footprint
+  substantial source of pr-debug-trace events (not all, but some useful)
+
+[jimc@gandalf wk-next]$ wc /proc/dynamic_debug/control 
+8927 71062 1099699 /proc/dynamic_debug/control
+[jimc@gandalf wk-next]$ uname -a
+Linux gandalf 5.15.0-rh2-12144-g5d5db04dfb0c #3 SMP PREEMPT Thu Nov 11 10:5
+
+- pr_debug as event provider
+  using exported trace_array_printk 
+  cheap with JUMP_LABEL
+  precise, ad-hoc or organized callsite enablement
+  callsite descriptor is in its interface, so are VARARGS
+  inspectable, extensible wo api churn,
+  iff trace_array_printk can do it.
+
+
+Jim Cromie (10):
+  dyndbg: add DEFINE_DYNAMIC_DEBUG_BITGRPS macro and callbacks
+  drm: fix doc grammar
+  amdgpu: use dyndbg.BITGRPS to control existing pr_debugs
+  i915/gvt: trim spaces from pr_debug "gvt: core:" prefixes
+  i915/gvt: use dyndbg.BITGRPS for existing pr_debugs
+  drm_print: add choice to use dynamic debug in drm-debug
+  drm_print: instrument drm_debug_enabled
+  dyndbg: add print-to-tracefs, selftest with it - RFC
+  dyndbg: create DEFINE_DYNAMIC_DEBUG_LOG|TRACE_GROUPS
+  drm: use DEFINE_DYNAMIC_DEBUG_TRACE_GROUPS in 3 places
+
+ .../admin-guide/dynamic-debug-howto.rst       |   7 +-
+ MAINTAINERS                                   |   1 +
+ drivers/gpu/drm/Kconfig                       |  26 ++
+ drivers/gpu/drm/Makefile                      |   2 +
+ drivers/gpu/drm/amd/amdgpu/Makefile           |   2 +
+ .../gpu/drm/amd/display/dc/core/dc_debug.c    |  55 ++++-
+ drivers/gpu/drm/drm_print.c                   |  62 +++--
+ drivers/gpu/drm/i915/Makefile                 |   2 +
+ drivers/gpu/drm/i915/gvt/debug.h              |  18 +-
+ drivers/gpu/drm/i915/intel_gvt.c              |  47 ++++
+ include/drm/drm_drv.h                         |   2 +-
+ include/drm/drm_print.h                       | 182 +++++++++++---
+ include/linux/dynamic_debug.h                 |  88 ++++++-
+ lib/Kconfig.debug                             |  11 +
+ lib/Makefile                                  |   1 +
+ lib/dynamic_debug.c                           | 203 ++++++++++++++--
+ lib/test_dynamic_debug.c                      | 222 ++++++++++++++++++
+ 17 files changed, 843 insertions(+), 88 deletions(-)
+ create mode 100644 lib/test_dynamic_debug.c
+
+-- 
+2.31.1
+
