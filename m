@@ -1,49 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B1EC44D0D7
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Nov 2021 05:16:03 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7985344D15A
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Nov 2021 06:13:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 57CA76EA19;
-	Thu, 11 Nov 2021 04:15:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F3FA86E910;
+	Thu, 11 Nov 2021 05:12:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C9F06EA28
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Nov 2021 04:15:34 +0000 (UTC)
-X-UUID: 40e0de87e8594595bb138c794b9ee8e3-20211111
-X-UUID: 40e0de87e8594595bb138c794b9ee8e3-20211111
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
- mailgw01.mediatek.com (envelope-from <yunfei.dong@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 75772754; Thu, 11 Nov 2021 12:15:30 +0800
-Received: from mtkexhb02.mediatek.inc (172.21.101.103) by
- mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Thu, 11 Nov 2021 12:15:29 +0800
-Received: from mtkmbs10n2.mediatek.inc (172.21.101.183) by
- mtkexhb02.mediatek.inc (172.21.101.103) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Thu, 11 Nov 2021 12:15:28 +0800
-Received: from localhost.localdomain (10.17.3.154) by mtkmbs10n2.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.2.792.3 via Frontend
- Transport; Thu, 11 Nov 2021 12:15:26 +0800
-From: Yunfei Dong <yunfei.dong@mediatek.com>
-To: Yunfei Dong <yunfei.dong@mediatek.com>, Alexandre Courbot
- <acourbot@chromium.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, "Tzung-Bi
- Shih" <tzungbi@chromium.org>, Tiffany Lin <tiffany.lin@mediatek.com>,
- Andrew-CT Chen <andrew-ct.chen@mediatek.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Rob Herring <robh+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>, Tomasz Figa <tfiga@google.com>
-Subject: [PATCH v10, 19/19] media: mtk-vcodec: Remove mtk_vcodec_release_enc_pm
-Date: Thu, 11 Nov 2021 12:15:00 +0800
-Message-ID: <20211111041500.17363-20-yunfei.dong@mediatek.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211111041500.17363-1-yunfei.dong@mediatek.com>
-References: <20211111041500.17363-1-yunfei.dong@mediatek.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F6EF6E90C;
+ Thu, 11 Nov 2021 05:12:58 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10164"; a="293677348"
+X-IronPort-AV: E=Sophos;i="5.87,225,1631602800"; d="scan'208";a="293677348"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Nov 2021 21:12:57 -0800
+X-IronPort-AV: E=Sophos;i="5.87,225,1631602800"; d="scan'208";a="602485156"
+Received: from mdroper-desk1.fm.intel.com (HELO
+ mdroper-desk1.amr.corp.intel.com) ([10.1.27.134])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Nov 2021 21:12:57 -0800
+Date: Wed, 10 Nov 2021 21:12:56 -0800
+From: Matt Roper <matthew.d.roper@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: Re: [PATCH v3 02/10] drm/i915: split general MMIO setup from per-GT
+ uncore init
+Message-ID: <20211111051256.GW137318@mdroper-desk1.amr.corp.intel.com>
+References: <20211029032817.3747750-1-matthew.d.roper@intel.com>
+ <20211029032817.3747750-3-matthew.d.roper@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-MTK: N
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211029032817.3747750-3-matthew.d.roper@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,115 +46,165 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Irui Wang <irui.wang@mediatek.com>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- srv_heupstream@mediatek.com, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel <dri-devel@lists.freedesktop.org>,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-mediatek@lists.infradead.org, Hsin-Yi Wang <hsinyi@chromium.org>,
- Fritz Koenig <frkoenig@chromium.org>,
- Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>, andi.shyti@intel.com,
+ Andi Shyti <andi.shyti@linux.intel.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There are only two lines in mtk_vcodec_release_enc_pm, using
-pm_runtime_disable and put_device instead directly.
+On Thu, Oct 28, 2021 at 08:28:09PM -0700, Matt Roper wrote:
+> From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+> 
+> In coming patches we'll be doing the actual tile initialization between
+> these two uncore init phases.
+> 
+> Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+> Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
+> Reviewed-by: Lucas De Marchi <lucas.demarchi@intel.com>
+> Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
 
-Move pm_runtime_enable outside mtk_vcodec_release_enc_pm to symmetry with
-pm_runtime_disable, after that, rename mtk_vcodec_init_enc_pm to *_clk since
-it only has clock operations now.
+Since the first two patches of this series are fully reviewed and have a
+clean CI pass of their own
+(https://lists.freedesktop.org/archives/intel-gfx-trybot/2021-November/126547.html),
+I've applied them to drm-intel-gt-next while we continue refactoring the
+rest of the series.
 
-Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
-Co-developed-by: Yong Wu <yong.wu@mediatek.com>
----
- drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c | 9 ++++++---
- drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.c  | 9 +--------
- drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.h  | 3 +--
- 3 files changed, 8 insertions(+), 13 deletions(-)
+Thanks for the reviews.
 
-diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c
-index 0f326d82dea0..7816efb90cbe 100644
---- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c
-+++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c
-@@ -11,6 +11,7 @@
- #include <linux/module.h>
- #include <linux/of_device.h>
- #include <linux/of.h>
-+#include <linux/pm_runtime.h>
- #include <media/v4l2-event.h>
- #include <media/v4l2-mem2mem.h>
- #include <media/videobuf2-dma-contig.h>
-@@ -260,7 +261,7 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
- 		return PTR_ERR(dev->fw_handler);
- 
- 	dev->venc_pdata = of_device_get_match_data(&pdev->dev);
--	ret = mtk_vcodec_init_enc_pm(dev);
-+	ret = mtk_vcodec_init_enc_clk(dev);
- 	if (ret < 0) {
- 		dev_err(&pdev->dev, "Failed to get mtk vcodec clock source!");
- 		goto err_enc_pm;
-@@ -372,7 +373,8 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
- err_enc_alloc:
- 	v4l2_device_unregister(&dev->v4l2_dev);
- err_res:
--	mtk_vcodec_release_enc_pm(dev);
-+	pm_runtime_disable(dev->pm.dev);
-+	put_device(dev->pm.larbvenc);
- err_enc_pm:
- 	mtk_vcodec_fw_release(dev->fw_handler);
- 	return ret;
-@@ -462,7 +464,8 @@ static int mtk_vcodec_enc_remove(struct platform_device *pdev)
- 		video_unregister_device(dev->vfd_enc);
- 
- 	v4l2_device_unregister(&dev->v4l2_dev);
--	mtk_vcodec_release_enc_pm(dev);
-+	pm_runtime_disable(dev->pm.dev);
-+	put_device(dev->pm.larbvenc);
- 	mtk_vcodec_fw_release(dev->fw_handler);
- 	return 0;
- }
-diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.c
-index 0c8c8f86788c..0825c6ec4eb7 100644
---- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.c
-+++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.c
-@@ -13,7 +13,7 @@
- #include "mtk_vcodec_enc_pm.h"
- #include "mtk_vcodec_util.h"
- 
--int mtk_vcodec_init_enc_pm(struct mtk_vcodec_dev *mtkdev)
-+int mtk_vcodec_init_enc_clk(struct mtk_vcodec_dev *mtkdev)
- {
- 	struct device_node *node;
- 	struct platform_device *pdev;
-@@ -86,13 +86,6 @@ int mtk_vcodec_init_enc_pm(struct mtk_vcodec_dev *mtkdev)
- 	return ret;
- }
- 
--void mtk_vcodec_release_enc_pm(struct mtk_vcodec_dev *mtkdev)
--{
--	pm_runtime_disable(mtkdev->pm.dev);
--	put_device(mtkdev->pm.larbvenc);
--}
--
--
- void mtk_vcodec_enc_clock_on(struct mtk_vcodec_pm *pm)
- {
- 	struct mtk_vcodec_clk *enc_clk = &pm->venc_clk;
-diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.h b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.h
-index b7ecdfd74823..bc455cefc0cd 100644
---- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.h
-+++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.h
-@@ -9,8 +9,7 @@
- 
- #include "mtk_vcodec_drv.h"
- 
--int mtk_vcodec_init_enc_pm(struct mtk_vcodec_dev *dev);
--void mtk_vcodec_release_enc_pm(struct mtk_vcodec_dev *dev);
-+int mtk_vcodec_init_enc_clk(struct mtk_vcodec_dev *dev);
- 
- void mtk_vcodec_enc_clock_on(struct mtk_vcodec_pm *pm);
- void mtk_vcodec_enc_clock_off(struct mtk_vcodec_pm *pm);
+
+Matt
+
+> ---
+>  drivers/gpu/drm/i915/i915_drv.c     |  9 ++++++++-
+>  drivers/gpu/drm/i915/intel_uncore.c | 17 +++--------------
+>  drivers/gpu/drm/i915/intel_uncore.h |  2 ++
+>  3 files changed, 13 insertions(+), 15 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/i915_drv.c b/drivers/gpu/drm/i915/i915_drv.c
+> index 1e5b75ae9932..b9fed62806f8 100644
+> --- a/drivers/gpu/drm/i915/i915_drv.c
+> +++ b/drivers/gpu/drm/i915/i915_drv.c
+> @@ -416,10 +416,14 @@ static int i915_driver_mmio_probe(struct drm_i915_private *dev_priv)
+>  	if (ret < 0)
+>  		return ret;
+>  
+> -	ret = intel_uncore_init_mmio(&dev_priv->uncore);
+> +	ret = intel_uncore_setup_mmio(&dev_priv->uncore);
+>  	if (ret < 0)
+>  		goto err_bridge;
+>  
+> +	ret = intel_uncore_init_mmio(&dev_priv->uncore);
+> +	if (ret)
+> +		goto err_mmio;
+> +
+>  	/* Try to make sure MCHBAR is enabled before poking at it */
+>  	intel_setup_mchbar(dev_priv);
+>  	intel_device_info_runtime_init(dev_priv);
+> @@ -436,6 +440,8 @@ static int i915_driver_mmio_probe(struct drm_i915_private *dev_priv)
+>  err_uncore:
+>  	intel_teardown_mchbar(dev_priv);
+>  	intel_uncore_fini_mmio(&dev_priv->uncore);
+> +err_mmio:
+> +	intel_uncore_cleanup_mmio(&dev_priv->uncore);
+>  err_bridge:
+>  	pci_dev_put(dev_priv->bridge_dev);
+>  
+> @@ -450,6 +456,7 @@ static void i915_driver_mmio_release(struct drm_i915_private *dev_priv)
+>  {
+>  	intel_teardown_mchbar(dev_priv);
+>  	intel_uncore_fini_mmio(&dev_priv->uncore);
+> +	intel_uncore_cleanup_mmio(&dev_priv->uncore);
+>  	pci_dev_put(dev_priv->bridge_dev);
+>  }
+>  
+> diff --git a/drivers/gpu/drm/i915/intel_uncore.c b/drivers/gpu/drm/i915/intel_uncore.c
+> index 722910d02b5f..abdac78d3976 100644
+> --- a/drivers/gpu/drm/i915/intel_uncore.c
+> +++ b/drivers/gpu/drm/i915/intel_uncore.c
+> @@ -2020,7 +2020,7 @@ static int i915_pmic_bus_access_notifier(struct notifier_block *nb,
+>  	return NOTIFY_OK;
+>  }
+>  
+> -static int uncore_mmio_setup(struct intel_uncore *uncore)
+> +int intel_uncore_setup_mmio(struct intel_uncore *uncore)
+>  {
+>  	struct drm_i915_private *i915 = uncore->i915;
+>  	struct pci_dev *pdev = to_pci_dev(i915->drm.dev);
+> @@ -2053,7 +2053,7 @@ static int uncore_mmio_setup(struct intel_uncore *uncore)
+>  	return 0;
+>  }
+>  
+> -static void uncore_mmio_cleanup(struct intel_uncore *uncore)
+> +void intel_uncore_cleanup_mmio(struct intel_uncore *uncore)
+>  {
+>  	struct pci_dev *pdev = to_pci_dev(uncore->i915->drm.dev);
+>  
+> @@ -2146,10 +2146,6 @@ int intel_uncore_init_mmio(struct intel_uncore *uncore)
+>  	struct drm_i915_private *i915 = uncore->i915;
+>  	int ret;
+>  
+> -	ret = uncore_mmio_setup(uncore);
+> -	if (ret)
+> -		return ret;
+> -
+>  	/*
+>  	 * The boot firmware initializes local memory and assesses its health.
+>  	 * If memory training fails, the punit will have been instructed to
+> @@ -2170,7 +2166,7 @@ int intel_uncore_init_mmio(struct intel_uncore *uncore)
+>  	} else {
+>  		ret = uncore_forcewake_init(uncore);
+>  		if (ret)
+> -			goto out_mmio_cleanup;
+> +			return ret;
+>  	}
+>  
+>  	/* make sure fw funcs are set if and only if we have fw*/
+> @@ -2192,11 +2188,6 @@ int intel_uncore_init_mmio(struct intel_uncore *uncore)
+>  		drm_dbg(&i915->drm, "unclaimed mmio detected on uncore init, clearing\n");
+>  
+>  	return 0;
+> -
+> -out_mmio_cleanup:
+> -	uncore_mmio_cleanup(uncore);
+> -
+> -	return ret;
+>  }
+>  
+>  /*
+> @@ -2261,8 +2252,6 @@ void intel_uncore_fini_mmio(struct intel_uncore *uncore)
+>  		intel_uncore_fw_domains_fini(uncore);
+>  		iosf_mbi_punit_release();
+>  	}
+> -
+> -	uncore_mmio_cleanup(uncore);
+>  }
+>  
+>  static const struct reg_whitelist {
+> diff --git a/drivers/gpu/drm/i915/intel_uncore.h b/drivers/gpu/drm/i915/intel_uncore.h
+> index 3248e4e2c540..d1d17b04e29f 100644
+> --- a/drivers/gpu/drm/i915/intel_uncore.h
+> +++ b/drivers/gpu/drm/i915/intel_uncore.h
+> @@ -218,11 +218,13 @@ void
+>  intel_uncore_mmio_debug_init_early(struct intel_uncore_mmio_debug *mmio_debug);
+>  void intel_uncore_init_early(struct intel_uncore *uncore,
+>  			     struct drm_i915_private *i915);
+> +int intel_uncore_setup_mmio(struct intel_uncore *uncore);
+>  int intel_uncore_init_mmio(struct intel_uncore *uncore);
+>  void intel_uncore_prune_engine_fw_domains(struct intel_uncore *uncore,
+>  					  struct intel_gt *gt);
+>  bool intel_uncore_unclaimed_mmio(struct intel_uncore *uncore);
+>  bool intel_uncore_arm_unclaimed_mmio_detection(struct intel_uncore *uncore);
+> +void intel_uncore_cleanup_mmio(struct intel_uncore *uncore);
+>  void intel_uncore_fini_mmio(struct intel_uncore *uncore);
+>  void intel_uncore_suspend(struct intel_uncore *uncore);
+>  void intel_uncore_resume_early(struct intel_uncore *uncore);
+> -- 
+> 2.33.0
+> 
+
 -- 
-2.25.1
-
+Matt Roper
+Graphics Software Engineer
+VTT-OSGC Platform Enablement
+Intel Corporation
+(916) 356-2795
