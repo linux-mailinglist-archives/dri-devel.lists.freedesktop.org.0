@@ -1,52 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 198B644D8B0
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Nov 2021 15:57:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C38B144D8DC
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Nov 2021 16:06:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 411AA6E19A;
-	Thu, 11 Nov 2021 14:57:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C54AE89BAE;
+	Thu, 11 Nov 2021 15:06:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com
- [209.85.167.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ECF276E19A
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Nov 2021 14:57:29 +0000 (UTC)
-Received: by mail-oi1-f172.google.com with SMTP id q124so12058472oig.3
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Nov 2021 06:57:29 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
- :message-id;
- bh=qNEjXj/HNgs612CxAaN/7ARospzmOAVl901gKnKjQak=;
- b=WxE2x5Ja6+p3hKwOgKTeWclqvQ/RWbhbWrHWtcWKE5YQlkRTk68LEv56mTGGD0uFMx
- 7upDztINyZ8J7h2AX6ged0YngYtBHJBbUzz9Fn6FqvNLpIRylnvQN7HE1sqLOeWxNefJ
- M/aM0dWDvTM/Wg1vvEFUQ8Aa7EFOBDaZg5Rt467DMn7b0xdof3nwZ1O/No36KtCei7w+
- kiGN/4lUFLv1oevaO3vEunQ9RJidYtznDQVXcFZ2Bf3iadokhcQtQ1qh6rDa/vm49tGR
- vUNId41jvrjfEU/Q4X+gp6y4x+AbOnF/KSda0a2QKD3pklWVLua/mMOK65q46OBhtaR1
- sj8w==
-X-Gm-Message-State: AOAM530jWYf+1i5pk+slHc+AaMFsxKpGytvLslm5Li3qkAiTmPcAIBDo
- Yev9ZHPd77sSzOhNCskj1g==
-X-Google-Smtp-Source: ABdhPJwLcneflSvlTMqVQa7wx8N++jT4UqWGoLvdDyD7I/PEJOPtmHneR0Q6RSCyi4LFQ9/yRsBRiw==
-X-Received: by 2002:a54:4616:: with SMTP id p22mr19795772oip.96.1636642649070; 
- Thu, 11 Nov 2021 06:57:29 -0800 (PST)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net.
- [66.90.148.213])
- by smtp.gmail.com with ESMTPSA id 187sm680123oig.19.2021.11.11.06.57.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Nov 2021 06:57:28 -0800 (PST)
-Received: (nullmailer pid 3774080 invoked by uid 1000);
- Thu, 11 Nov 2021 14:57:26 -0000
-From: Rob Herring <robh@kernel.org>
-To: "H. Nikolaus Schaller" <hns@goldelico.com>
-In-Reply-To: <70f2abb5277369721cb352eb50daa407bee3fd04.1636573413.git.hns@goldelico.com>
-References: <cover.1636573413.git.hns@goldelico.com>
- <70f2abb5277369721cb352eb50daa407bee3fd04.1636573413.git.hns@goldelico.com>
-Subject: Re: [PATCH v6 3/8] dt-bindings: display: Add ingenic,
- jz4780-dw-hdmi DT Schema
-Date: Thu, 11 Nov 2021 08:57:26 -0600
-Message-Id: <1636642646.871896.3774079.nullmailer@robh.at.kernel.org>
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B37489BA5;
+ Thu, 11 Nov 2021 15:06:15 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10164"; a="213650384"
+X-IronPort-AV: E=Sophos;i="5.87,226,1631602800"; d="scan'208";a="213650384"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Nov 2021 07:06:14 -0800
+X-IronPort-AV: E=Sophos;i="5.87,226,1631602800"; d="scan'208";a="589986603"
+Received: from hscahill-mobl.ger.corp.intel.com (HELO [10.213.223.189])
+ ([10.213.223.189])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Nov 2021 07:06:13 -0800
+Subject: Re: [PATCH] drm/i915: Use per device iommu check
+To: Lu Baolu <baolu.lu@linux.intel.com>, Intel-gfx@lists.freedesktop.org
+References: <20211109121759.170915-1-tvrtko.ursulin@linux.intel.com>
+ <6e8c55a7-45b6-57ab-35f7-d522401efccb@linux.intel.com>
+ <4d1a0ab9-e0d8-2ed9-1fc4-9ffaf2f19bef@linux.intel.com>
+ <7b2e1427-69cf-8f5d-0c15-73c4e602953d@linux.intel.com>
+ <2a1ae709-19f8-7983-b171-98ec2f3f010a@linux.intel.com>
+ <4c5ab72f-aaff-8b92-7471-44dd907cf2f6@linux.intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+Message-ID: <24c75ce7-1b14-42e1-a4d4-943e472aed68@linux.intel.com>
+Date: Thu, 11 Nov 2021 15:06:11 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
+MIME-Version: 1.0
+In-Reply-To: <4c5ab72f-aaff-8b92-7471-44dd907cf2f6@linux.intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,66 +53,158 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, Paul Boddie <paul@boddie.org.uk>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Paul Cercueil <paul@crapouillou.net>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>, Sam Ravnborg <sam@ravnborg.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, linux-mips@vger.kernel.org,
- devicetree@vger.kernel.org, Kees Cook <keescook@chromium.org>,
- Jonas Karlman <jonas@kwiboo.se>, Mark Brown <broonie@kernel.org>,
- Maxime Ripard <maxime@cerno.tech>, letux-kernel@openphoenux.org,
- Ezequiel Garcia <ezequiel@collabora.com>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Liam Girdwood <lgirdwood@gmail.com>, Robert Foss <robert.foss@linaro.org>,
- Rob Herring <robh+dt@kernel.org>, "Eric W. Biederman" <ebiederm@xmission.com>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: dri-devel@lists.freedesktop.org, Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 10 Nov 2021 20:43:28 +0100, H. Nikolaus Schaller wrote:
-> From: Sam Ravnborg <sam@ravnborg.org>
+
+On 10/11/2021 12:35, Lu Baolu wrote:
+> On 2021/11/10 20:08, Tvrtko Ursulin wrote:
+>>
+>> On 10/11/2021 12:04, Lu Baolu wrote:
+>>> On 2021/11/10 17:30, Tvrtko Ursulin wrote:
+>>>>
+>>>> On 10/11/2021 07:12, Lu Baolu wrote:
+>>>>> Hi Tvrtko,
+>>>>>
+>>>>> On 2021/11/9 20:17, Tvrtko Ursulin wrote:
+>>>>>> From: Tvrtko Ursulin<tvrtko.ursulin@intel.com>
+>>>>>>
+>>>>>> On igfx + dgfx setups, it appears that intel_iommu=igfx_off option 
+>>>>>> only
+>>>>>> disables the igfx iommu. Stop relying on global 
+>>>>>> intel_iommu_gfx_mapped
+>>>>>> and probe presence of iommu domain per device to accurately 
+>>>>>> reflect its
+>>>>>> status.
+>>>>>>
+>>>>>> Signed-off-by: Tvrtko Ursulin<tvrtko.ursulin@intel.com>
+>>>>>> Cc: Lu Baolu<baolu.lu@linux.intel.com>
+>>>>>> ---
+>>>>>> Baolu, is my understanding here correct? Maybe I am confused by both
+>>>>>> intel_iommu_gfx_mapped and dmar_map_gfx being globals in the 
+>>>>>> intel_iommu
+>>>>>> driver. But it certainly appears the setup can assign some iommu 
+>>>>>> ops (and
+>>>>>> assign the discrete i915 to iommu group) when those two are set to 
+>>>>>> off.
+>>>>>
+>>>>> diff --git a/drivers/gpu/drm/i915/i915_drv.h 
+>>>>> b/drivers/gpu/drm/i915/i915_drv.h
+>>>>> index e967cd08f23e..9fb38a54f1fe 100644
+>>>>> --- a/drivers/gpu/drm/i915/i915_drv.h
+>>>>> +++ b/drivers/gpu/drm/i915/i915_drv.h
+>>>>> @@ -1763,26 +1763,27 @@ static inline bool run_as_guest(void)
+>>>>>   #define HAS_D12_PLANE_MINIMIZATION(dev_priv) 
+>>>>> (IS_ROCKETLAKE(dev_priv) || \
+>>>>>                             IS_ALDERLAKE_S(dev_priv))
+>>>>>
+>>>>> -static inline bool intel_vtd_active(void)
+>>>>> +static inline bool intel_vtd_active(struct drm_i915_private *i915)
+>>>>>   {
+>>>>> -#ifdef CONFIG_INTEL_IOMMU
+>>>>> -    if (intel_iommu_gfx_mapped)
+>>>>> +    if (iommu_get_domain_for_dev(i915->drm.dev))
+>>>>>           return true;
+>>>>> -#endif
+>>>>>
+>>>>>       /* Running as a guest, we assume the host is enforcing VT'd */
+>>>>>       return run_as_guest();
+>>>>>   }
+>>>>>
+>>>>> Have you verified this change? I am afraid that
+>>>>> iommu_get_domain_for_dev() always gets a valid iommu domain even
+>>>>> intel_iommu_gfx_mapped == 0.
+>>>>
+>>>> Yes it seems to work as is:
+>>>>
+>>>> default:
+>>>>
+>>>> # grep -i iommu /sys/kernel/debug/dri/*/i915_capabilities
+>>>> /sys/kernel/debug/dri/0/i915_capabilities:iommu: enabled
+>>>> /sys/kernel/debug/dri/1/i915_capabilities:iommu: enabled
+>>>>
+>>>> intel_iommu=igfx_off:
+>>>>
+>>>> # grep -i iommu /sys/kernel/debug/dri/*/i915_capabilities
+>>>> /sys/kernel/debug/dri/0/i915_capabilities:iommu: disabled
+>>>> /sys/kernel/debug/dri/1/i915_capabilities:iommu: enabled
+>>>>
+>>>> On my system dri device 0 is integrated graphics and 1 is discrete.
+>>>
+>>> The drm device 0 has a dedicated iommu. When the user request igfx not
+>>> mapped, the VT-d implementation will turn it off to save power. But for
+>>> shared iommu, you definitely will get it enabled.
+>>
+>> Sorry I am not following, what exactly do you mean? Is there a 
+>> platform with integrated graphics without a dedicated iommu, in which 
+>> case intel_iommu=igfx_off results in intel_iommu_gfx_mapped == 0 and 
+>> iommu_get_domain_for_dev returning non-NULL?
 > 
-> Add DT bindings for the hdmi driver for the Ingenic JZ4780 SoC.
-> Based on .txt binding from Zubair Lutfullah Kakakhel
+> Your code always work for an igfx with a dedicated iommu. This might be
+> always true on today's platforms. But from driver's point of view, we
+> should not make such assumption.
 > 
-> We also add add generic ddc-i2c-bus to synopsys,dw-hdmi.yaml
-> 
-> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
-> Cc: Rob Herring <robh@kernel.org>
-> Cc: devicetree@vger.kernel.org
-> ---
->  .../display/bridge/synopsys,dw-hdmi.yaml      |  3 +
->  .../bindings/display/ingenic-jz4780-hdmi.yaml | 76 +++++++++++++++++++
->  2 files changed, 79 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/ingenic-jz4780-hdmi.yaml
-> 
+> For example, if the iommu implementation decides not to turn off the
+> graphic iommu (perhaps due to some hw quirk or for graphic
+> virtualization), your code will be broken.
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+I tried your suggestion (checking for __IOMMU_DOMAIN_PAGING) and it works better, however I have observed one odd behaviour (for me at least).
 
-yamllint warnings/errors:
-./Documentation/devicetree/bindings/display/ingenic-jz4780-hdmi.yaml:36:5: [warning] wrong indentation: expected 2 but found 4 (indentation)
+In short - why does the DMAR mode for the discrete device change depending on igfx_off parameter?
 
-dtschema/dtc warnings/errors:
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/ingenic-jz4780-hdmi.example.dt.yaml: hdmi@10180000: 'clock-names', 'ddc-i2c-bus', 'interrupt-parent', 'interrupts', 'reg' do not match any of the regexes: 'pinctrl-[0-9]+'
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/ingenic-jz4780-hdmi.yaml
+Consider the laptop has these two graphics cards:
 
-doc reference errors (make refcheckdocs):
+# cat /sys/kernel/debug/dri/0/name
+i915 dev=0000:00:02.0 unique=0000:00:02.0 # integrated
 
-See https://patchwork.ozlabs.org/patch/1553577
+# cat /sys/kernel/debug/dri/1/name
+i915 dev=0000:03:00.0 unique=0000:03:00.0 # discrete
 
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
+Booting with different options:
+===============================
 
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
+default / intel_iommu=on
+------------------------
 
-pip3 install dtschema --upgrade
+# cat /sys/class/iommu/dmar0/devices/0000:00:02.0/iommu_group/type
+DMA-FQ
+# cat /sys/class/iommu/dmar2/devices/0000:03:00.0/iommu_group/type
+DMA-FQ
 
-Please check and re-submit.
+# grep -i iommu /sys/kernel/debug/dri/*/i915_capabilities
+/sys/kernel/debug/dri/0/i915_capabilities:iommu: enabled
+/sys/kernel/debug/dri/1/i915_capabilities:iommu: enabled
 
+All good.
+
+intel_iommu=igfx_off
+--------------------
+
+## no dmar0 in sysfs
+# cat /sys/class/iommu/dmar2/devices/0000:03:00.0/iommu_group/type
+identity
+
+Unexpected!?
+
+# grep -i iommu /sys/kernel/debug/dri/*/i915_capabilities
+/sys/kernel/debug/dri/0/i915_capabilities:iommu: disabled
+/sys/kernel/debug/dri/1/i915_capabilities:iommu: disabled # At least the i915 patch detects it correctly.
+
+intel_iommu=off
+---------------
+
+## no dmar0 in sysfs
+## no dmar2 in sysfs
+
+# grep -i iommu /sys/kernel/debug/dri/*/i915_capabilities
+/sys/kernel/debug/dri/0/i915_capabilities:iommu: disabled
+/sys/kernel/debug/dri/1/i915_capabilities:iommu: disabled
+
+All good.
+
+The fact discrete graphics changes from translated to pass-through when igfx_off is set is surprising to me. Is this a bug?
+
+Regards,
+
+Tvrtko
