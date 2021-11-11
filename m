@@ -1,63 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F42144D33B
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Nov 2021 09:32:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C85B744D363
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Nov 2021 09:48:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A51266E930;
-	Thu, 11 Nov 2021 08:32:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA8D06E9EE;
+	Thu, 11 Nov 2021 08:48:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
- [IPv6:2a00:1450:4864:20::134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5FEA46E930
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Nov 2021 08:32:22 +0000 (UTC)
-Received: by mail-lf1-x134.google.com with SMTP id bu18so12540103lfb.0
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Nov 2021 00:32:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=bAWgbXXJaehgCQZ0mNxyAnkzOz3XcEB3SFmXvKYyHQA=;
- b=WWu7o0Ebxv5vxjMOO74RStR75VA+A0Z6DIchSWcuBJsFfxoOu1PSkAPZoOQGLVyMaE
- TS0HNemSIu4VIUeCjSXHNM+bMwnV6IhQHrunxgUq1tLnUEPw4OR75M1MFFuJhkDVEXJ7
- efCQEKdtnfcayOMM2iqRf8JGG5OnlZ6Yd+86h5LXrFA5QCUlPy4fibYOksJwp9zznwou
- 2mjmUsDvPVVdX5EFA2DFyGdEDqfZFkE5dPWVsMeveaIlCSlvHIVWir+ZUI3U2+ioAIHr
- MFGT3P1JqTCHp0gj8AAFlIKMfBsggfgkMN3Hoaz4o1YR7RR97XcItvCIZN80dO58Qcy/
- k08A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=bAWgbXXJaehgCQZ0mNxyAnkzOz3XcEB3SFmXvKYyHQA=;
- b=yHGDSAx4yLrT8/URaDpC+2ob/34YnaTG6CYHMOWP3ULWDh8tOouO+Rxzt7+iUbxbr1
- I9h3iYKqPnfK0sJHW4wzJaNL6fEmHl3s2ef1McR5ENN5B1yG7XmWhetVsrLTao7XepY1
- /SH5ZWDAqCpHR4ab73wb1i29ImnFQ7oDhCt6Mi8rfEWg1mGF9V6j27VD9/4N/iQpatui
- 9rsB9ziXoRwy0KHKAtBah61DD//lL0h182jFR0jlne86TPFjrC0aMwhzeyEeG9uP+U2R
- 9gs/aWaTdFFGjc/6IkS8yPt3+15ZhjYJguK6qG+S6QBYLv3PAjyM6Bmd+hqtnCAJdyI+
- B1TQ==
-X-Gm-Message-State: AOAM530CexsUmkUDnIXVOjLIk5zovj1y3+wjOKgCPH7w2ktaLbQFmgSf
- 1NB+rreC26CqcyEtqT6fH7g=
-X-Google-Smtp-Source: ABdhPJwDB042Di1WT7liMCbw4AGKaH65w2zLPTQOAB8sjT28R/9hRNPR4aRk/T7oPLOB59hfeEyG9A==
-X-Received: by 2002:a05:6512:2609:: with SMTP id
- bt9mr4876548lfb.202.1636619540536; 
- Thu, 11 Nov 2021 00:32:20 -0800 (PST)
-Received: from eldfell ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id o15sm220281lfu.283.2021.11.11.00.32.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Nov 2021 00:32:20 -0800 (PST)
-Date: Thu, 11 Nov 2021 10:32:16 +0200
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Igor Torrente <igormtorrente@gmail.com>
-Subject: Re: [PATCH v2 0/8] Add new formats support to vkms
-Message-ID: <20211111103216.23149c57@eldfell>
-In-Reply-To: <CAOA8r4G50U0fxSfU0HZtZoZCK6fngPmxL3cM4LVpLQn=HfZG_Q@mail.gmail.com>
-References: <20211026113409.7242-1-igormtorrente@gmail.com>
- <20211109113253.480ee93b@eldfell>
- <CAOA8r4G50U0fxSfU0HZtZoZCK6fngPmxL3cM4LVpLQn=HfZG_Q@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 451136E9D4;
+ Thu, 11 Nov 2021 08:48:46 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 8F96A21B2B;
+ Thu, 11 Nov 2021 08:48:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1636620524; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=po9C3M3KbuxkTrJ8RdbbNvKns+qCxEzjBqaykTrhByU=;
+ b=lLzOuUBy0qPFAcg+ukJsKAMKmpbuRz53hFC4Iw52jdkazu3ZgZLJ2oSA1tRiqU63GdYXbO
+ KbPUfrqMct+PGSgbmi4P5gU2zXZoowb2BT/TwJdvf61GZ1cD4V1Lzay/wptATmd2H5Ebsh
+ 49BgFqumWOi8YnkovZ0GqG64dy+9Sa0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1636620524;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=po9C3M3KbuxkTrJ8RdbbNvKns+qCxEzjBqaykTrhByU=;
+ b=frGpslBk4cE511VS5uaiuAmYSr32Y4LfkwHk4LTCohxzz9X0+4Z7a1EJW+tZWvMFheYaUW
+ +C8DZIAlEG50qPDw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 53FEB13D4A;
+ Thu, 11 Nov 2021 08:48:44 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id i6ejE+zYjGFQUwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Thu, 11 Nov 2021 08:48:44 +0000
+Date: Thu, 11 Nov 2021 09:48:42 +0100
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PULL] drm-misc-fixes
+Message-ID: <YYzY6jeox9EeI15i@linux-uq9g.fritz.box>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/aAKq8mR.Zj_FBjo9G8rgMH.";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,133 +64,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hamohammed.sa@gmail.com, Thomas Zimmermann <tzimmermann@suse.de>,
- rodrigosiqueiramelo@gmail.com, airlied@linux.ie,
- Leandro Ribeiro <leandro.ribeiro@collabora.com>, melissa.srw@gmail.com,
- dri-devel@lists.freedesktop.org
+Cc: dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
+ intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/aAKq8mR.Zj_FBjo9G8rgMH.
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Hi Dave and Daniel,
 
-On Wed, 10 Nov 2021 14:32:26 -0300
-Igor Torrente <igormtorrente@gmail.com> wrote:
+here's this week's PR for drm-misc-fixes. I'm sending it as Maarten and
+Maxime are both on vacation this week.
 
-> Hi Pekka,
->=20
-> On Tue, Nov 9, 2021 at 6:32 AM Pekka Paalanen <ppaalanen@gmail.com> wrote:
-> >
-> > On Tue, 26 Oct 2021 08:34:00 -0300
-> > Igor Torrente <igormtorrente@gmail.com> wrote:
-> > =20
-> > > Summary
-> > > =3D=3D=3D=3D=3D=3D=3D
-> > > This series of patches refactor some vkms components in order to intr=
-oduce
-> > > new formats to the planes and writeback connector.
-> > >
-> > > Now in the blend function, the plane's pixels are converted to ARGB16=
-161616
-> > > and then blended together.
-> > >
-> > > The CRC is calculated based on the ARGB1616161616 buffer. And if requ=
-ired,
-> > > this buffer is copied/converted to the writeback buffer format.
-> > >
-> > > And to handle the pixel conversion, new functions were added to conve=
-rt
-> > > from a specific format to ARGB16161616 (the reciprocal is also true).
-> > >
-> > > Tests
-> > > =3D=3D=3D=3D=3D
-> > > This patch series was tested using the following igt tests:
-> > > -t ".*kms_plane.*"
-> > > -t ".*kms_writeback.*"
-> > > -t ".*kms_cursor_crc*"
-> > > -t ".*kms_flip.*"
-> > >
-> > > New tests passing
-> > > -------------------
-> > > - pipe-A-cursor-size-change
-> > > - pipe-A-cursor-alpha-transparent
-> > >
-> > > Performance
-> > > -----------
-> > > Following some optimization proposed by Pekka Paalanen, now the code
-> > > runs way faster than V1 and slightly faster than the current implemen=
-tation.
-> > >
-> > > |                          Frametime                          |
-> > > |:---------------:|:---------:|:--------------:|:------------:|
-> > > |  implmentation  |  Current  |  Per-pixel(V1) | Per-line(V2) |
-> > > | frametime range |  8~22 ms  |    32~56 ms    |    6~19 ms   |
-> > > |     Average     |  10.0 ms  |     35.8 ms    |    8.6 ms    | =20
-> >
-> > Wow, that's much better than I expected.
-> >
-> > What is your benchmark? That is, what program do you use and what
-> > operations does it trigger to produce these measurements? What are the
-> > sizes of all the planes/buffers involved? What kind of CPU was this ran
-> > on? =20
->=20
-> 1 and 2) I just measured the frametime of the IGT test ".*kms_cursor_crc*"
-> using jiffies. I Collected all the frametimes, put all of them into a
-> spreadsheet, calculated some values and drew some histograms.
->=20
-> I mean, it is not the best benchmark, but at least give an idea of what
-> is happening.
->=20
-> 3) The primary plane was 1024x768, but the cursor plane
-> varies between the tests. All XRGB_8888, if I'm not mistaken.
->=20
-> 4) I tested it on a Qemu VM running on the Intel core i5 4440. ~3.3GHz
+Best regards
+Thomas
 
-Hi Igor,
+drm-misc-fixes-2021-11-11:
+ * dma-buf: name_lock fixes
+ * prime: Keep object ref during mmap
+ * nouveau: Fix a refcount issue; Fix device removal; Protect client
+   list with dedicated mutex; Fix address CE0 address calculation
+ * ttm: Fix race condition during BO eviction
+The following changes since commit 61b1d445f3bfe4c3ba4335ceeb7e8ba688fd31e2:
 
-alright, that analysis sounds fine, even though varying cursor plane
-size is casting some ambiguity on the results.
+  drm: panel-orientation-quirks: Add quirk for GPD Win3 (2021-10-26 20:57:10 +0200)
 
-If you want to dig deeper into measuring this, I would suggest some
-scenarios if at all possible:
+are available in the Git repository at:
 
-- large primary plane and large cursor plane with 100% overlap, to
-  measure the raw pixel throughput
+  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-fixes-2021-11-11
 
-- large primary plane and small cursor plane with 100% overlap, to
-  measure the efficiency of skipping pixels that do not need blending
+for you to fetch changes up to 7120a447c7fe37a123ab7a63afefdbf0787b9002:
 
-- large primary plane and large cursor plane with only a little
-  overlap (cursor largely off-screen), to measure the efficiency of
-  skipping pixels that do not contribute to the end result at all
+  drm/ttm: Double check mem_type of BO while eviction (2021-11-11 09:08:08 +0100)
 
-But that's only curiosity, I think your existing benchmarks sound
-perfectly fine as the difference is so big.
+----------------------------------------------------------------
+ * dma-buf: name_lock fixes
+ * prime: Keep object ref during mmap
+ * nouveau: Fix a refcount issue; Fix device removal; Protect client
+   list with dedicated mutex; Fix address CE0 address calculation
+ * ttm: Fix race condition during BO eviction
 
+----------------------------------------------------------------
+Anand K Mistry (1):
+      drm/prime: Fix use after free in mmap with drm_gem_ttm_mmap
 
-Thanks,
-pq
+Ben Skeggs (1):
+      ce/gf100: fix incorrect CE0 address calculation on some GPUs
 
---Sig_/aAKq8mR.Zj_FBjo9G8rgMH.
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+Chenyuan Mi (1):
+      drm/nouveau/svm: Fix refcount leak bug and missing check against null bug
 
------BEGIN PGP SIGNATURE-----
+Guangming Cao (1):
+      dma-buf: acquire name lock before read/write dma_buf.name
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmGM1RAACgkQI1/ltBGq
-qqccjw/+NaIAuS5yjND9W+LPJZ6qAEJ2F5MhH86jmZxxj/9MOD6wn6ZSNRXJYqWO
-PJkCoYx9pGaAzLiXvU0NhHe7V8Bt0RkAdH0B4HdNkzXaJ6uExc36kmDAFeFAY9kA
-b2clmUZ/g2d9QLAitRdFzfZE8RYeC/hhZ0nynoOg6NwEEdYB76dlOTjg1y49d/lQ
-Xv6Ey+O9uXH7hAMdSIB4NjDiyDLHJQRJW6zBF8VCmwv4cVuVtwKpNTAFkjJVJY1e
-8i8idGeGrGZbgMLo5dQrFYBGEv3ah8NVoliaS7lUBIE5EAFZnaTHyDgRcgnFYkiC
-+vCr68X/ywoZs1byB+6KJYpCp8QNEba97564TZ7TNogsn3/tI4PQcy5dtNKVRfLQ
-soviDa0lFgu+uZc9QLZckZWtJW6Cg5am4R9EvmigNWT9mHSW9Kk9hXOx+CWaCDlw
-Wx/HYRYaDocuhxHBhBaY+iUc0b7napeW4kNG+pUROVhYLa046/cyaXDDLUd1v6Hj
-KlBxNFuvNLgoqCCG5wNAFkqM2+LXxt6a/cfNw361+FKH+oWfdGnrwIdy22l7PKso
-QhiM0v+SDH1po/l5YuXJFGtC4p/ycAUA3d+YQDKTHIBpIwEqBK90VAMgnQc3S/kR
-0EFgnljpEKeLbIaA0HPWI34I+Wq/S8U83Ecv/DNl5/8xNuGNxRE=
-=Jg9X
------END PGP SIGNATURE-----
+Jeremy Cline (3):
+      drm/nouveau: use drm_dev_unplug() during device removal
+      drm/nouveau: Add a dedicated mutex for the clients list
+      drm/nouveau: clean up all clients on device removal
 
---Sig_/aAKq8mR.Zj_FBjo9G8rgMH.--
+xinhui pan (1):
+      drm/ttm: Double check mem_type of BO while eviction
+
+ drivers/dma-buf/dma-buf.c                         |  3 ++
+ drivers/gpu/drm/drm_prime.c                       |  6 ++--
+ drivers/gpu/drm/nouveau/nouveau_drm.c             | 42 ++++++++++++++++++++---
+ drivers/gpu/drm/nouveau/nouveau_drv.h             |  5 +++
+ drivers/gpu/drm/nouveau/nouveau_svm.c             |  4 +++
+ drivers/gpu/drm/nouveau/nvkm/engine/ce/gt215.c    |  2 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/device/base.c |  3 +-
+ drivers/gpu/drm/ttm/ttm_bo.c                      |  3 +-
+ 8 files changed, 57 insertions(+), 11 deletions(-)
+
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 Nürnberg, Germany
+(HRB 36809, AG Nürnberg)
+Geschäftsführer: Ivo Totev
