@@ -2,121 +2,121 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02F0144D4BE
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Nov 2021 11:08:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4D3244D4C6
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Nov 2021 11:09:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 369E86EA50;
-	Thu, 11 Nov 2021 10:08:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 00B5A6EA5F;
+	Thu, 11 Nov 2021 10:09:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2063.outbound.protection.outlook.com [40.107.236.63])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B3ED6EA4E;
- Thu, 11 Nov 2021 10:08:17 +0000 (UTC)
+ (mail-bn8nam11on2050.outbound.protection.outlook.com [40.107.236.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 35FEA6EA5E;
+ Thu, 11 Nov 2021 10:09:04 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TZYIG9m8XV6sB1Qq+fRwnxOaLM4o3rSJC4LB9zvIlQplINgdRZADgy1OSakJOGPUBvNPr+mV8U8f5p/uVB/zEpLaHM2fV9BC+Z97wP9ZmsIymkRFG77PEZsG2bMdU2My8Pwo+o4J1nQiynmW4j45IbJSFYKizGDcOn9fmz/d0CW/6BjgKg/o7buNwdiw//F4DBT+Yab4zb8NG20UsXycGS5urAuIBkuBzYVvrqO+0LCvmTe+cHAm6L+iT8Ywk2sxrjW/3xf7l/98zgXwkGJtI9x6atVm3rye9CBsuiq1N82Ugqaq3wrHh3QACu7iTq8U3+t8aawSEjyydj4zeTXdTg==
+ b=mFzybV/a7ZW3W7tKuVBd8YBanJT9+nUh2ObhLVlRqLfbK5EAha5NDpJQlwzLYewuDtRSl6RzggNBis15S78xxzHIFhYSUnj789HlmEAbcmATHFCKLrmIK9AEh6/MCpnlEloM4E9VViZwuATJ47JumAfdgKwGX3JGR1q7RTeGJjoUEn5zeKLJV26ep4B2QXO3uA4yfr9KJwb+UdMTZthxvbSM2iB6NlX2yAuv6gbmHgtYwMen4iaDKbCHJ3yImePTc+rN4H2m9S9vFcwK1DaA3U5Ky544RSV6YsVsP7FlalqQC+pZMRq/BDtw8PQu+WFFtMhsoxmVcbN/h7Ix9grfbQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=yDakdmS8Ns2yx01X/GkqqaFrmu8HJQI6fZ0e8Bz1j2k=;
- b=eiRERAWLlJV+fePoQTFGUV+uvEOEAI+0lI4fr4WFnQTFh+WxzpWuY+BZc/gEc/w1W603WKga+4CZrJbON1cwKc8BFe32anCA5rVSkALzvXbiVXy/MhVrI/3Uj2MHLXpcRFfSuP41D0IVwAIFSsBooCWrpMqTBqNNARYv0+J4Ovzm6m6W1XzC7ZikMYjMd2CRpA/5EVGlkjskWwHPmenFVe4+HyYKgOATEcpDsoMFUU9XA3j/qKqG6ssN6mC+tcWrutd1/YK97LS6ErGEnJENaDBJTZNIfWR442J5MIbE/+8iJbOhfWQIvQS4wklgoa5izflGuVuLaPpvjh1e4h6mlQ==
+ bh=7SgO7lqiy7UjBoRYyDrne3XjjKDGpEH4VAiBYQ5pBEE=;
+ b=ahkV9UiOHW573fPdLG8pPSu5DoBo75eDZRoqAeUunckg0xW/9miq8Y4PnourGkSZof8DvVm9l8jBsKlNkWidphvG+FXO0GvnEcGkqyAZBci9SdstWYO/jAFg0EdT4ZEjdqQSOzB0fUaorc1ceYtE0UeGlgKMttaguU1wHvDZMfvyDaEmtdC6SwhtFLcWIsbfQAUrErX0ia2ugolaz7LzoldtfSi+24p+yBZWpQxVo4aA5e1+oWO40kSXk/5jlyZZ2N/Y+Wo+YyM+IdZ19dVQ/vGGC6hygO4pXpSPVSfxoQkk0VPixAvi61zQcBwLcgfe7OEgOwefbkbwNcHnoHvmmg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yDakdmS8Ns2yx01X/GkqqaFrmu8HJQI6fZ0e8Bz1j2k=;
- b=lC2eGXWtLFonQKNN0t0cvVckXOsKzJD8snphRA9Xy1gxxeVeQ6w16jCKafOE9d6h6eMIH5gde00xfITcuF/DJYKfsu24buC1Rm6M7oqBKrBweSRGLGzR6L9RxL1iscUE/wFvzOlaAz9Sahnkn4KQc5dF27P1e1Ez+RhDibnba60=
+ bh=7SgO7lqiy7UjBoRYyDrne3XjjKDGpEH4VAiBYQ5pBEE=;
+ b=3k39H/0thu/E3Y02EhJ8PVpJ7IKjVrAe5NZ/prqtF0/pQVB/5q159jTl9oLfJw6NApvBMw9f+AVbyXf98/6Zx2olpQtNL5e73SN6ZTtK0Yl2SAm263q0FT/xDkDG3Sxh2QeTtNRF18BeUO0AKMSf/SBYL2xD6FxRsptWzKGrF2U=
 Authentication-Results: vger.kernel.org; dkim=none (message not signed)
  header.d=none;vger.kernel.org; dmarc=none action=none header.from=amd.com;
 Received: from MWHPR1201MB0192.namprd12.prod.outlook.com
  (2603:10b6:301:5a::14) by MW3PR12MB4586.namprd12.prod.outlook.com
  (2603:10b6:303:53::7) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4669.11; Thu, 11 Nov
- 2021 10:08:15 +0000
+ 2021 10:08:56 +0000
 Received: from MWHPR1201MB0192.namprd12.prod.outlook.com
  ([fe80::2d02:26e7:a2d0:3769]) by MWHPR1201MB0192.namprd12.prod.outlook.com
  ([fe80::2d02:26e7:a2d0:3769%5]) with mapi id 15.20.4669.018; Thu, 11 Nov 2021
- 10:08:15 +0000
-Subject: Re: [PATCH] drm/amd/display: clean up some inconsistent indenting
+ 10:08:56 +0000
+Subject: Re: [PATCH] drm/amd/display: Clean up some inconsistent indenting
 To: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>, alexander.deucher@amd.com
-References: <1636624728-85197-1-git-send-email-jiapeng.chong@linux.alibaba.com>
+References: <1636625005-87952-1-git-send-email-jiapeng.chong@linux.alibaba.com>
 From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <7dc5f830-36af-4d8f-4e45-03d73141db9b@amd.com>
-Date: Thu, 11 Nov 2021 11:08:06 +0100
+Message-ID: <abc4159c-e903-9265-826e-b44b387a7fcf@amd.com>
+Date: Thu, 11 Nov 2021 11:08:50 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
-In-Reply-To: <1636624728-85197-1-git-send-email-jiapeng.chong@linux.alibaba.com>
+In-Reply-To: <1636625005-87952-1-git-send-email-jiapeng.chong@linux.alibaba.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-X-ClientProxiedBy: AM8P190CA0018.EURP190.PROD.OUTLOOK.COM
- (2603:10a6:20b:219::23) To MWHPR1201MB0192.namprd12.prod.outlook.com
+X-ClientProxiedBy: AM8P190CA0025.EURP190.PROD.OUTLOOK.COM
+ (2603:10a6:20b:219::30) To MWHPR1201MB0192.namprd12.prod.outlook.com
  (2603:10b6:301:5a::14)
 MIME-Version: 1.0
 Received: from [192.168.178.21] (79.194.4.163) by
- AM8P190CA0018.EURP190.PROD.OUTLOOK.COM (2603:10a6:20b:219::23) with Microsoft
+ AM8P190CA0025.EURP190.PROD.OUTLOOK.COM (2603:10a6:20b:219::30) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4690.19 via Frontend Transport; Thu, 11 Nov 2021 10:08:11 +0000
+ 15.20.4669.11 via Frontend Transport; Thu, 11 Nov 2021 10:08:54 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: cc449c63-d1fe-4e8c-f5c4-08d9a4fb2ca9
+X-MS-Office365-Filtering-Correlation-Id: cbef5118-9e50-4ec6-0fea-08d9a4fb45bd
 X-MS-TrafficTypeDiagnostic: MW3PR12MB4586:
-X-Microsoft-Antispam-PRVS: <MW3PR12MB45865EC4F7EEABF97DED302983949@MW3PR12MB4586.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4125;
+X-Microsoft-Antispam-PRVS: <MW3PR12MB45863E77A362DF20A539DB3083949@MW3PR12MB4586.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:626;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: DwfvZcO5YYIQCDWgOmZNI+pZ5b1XznE7qaeTa3+mf65TXE05j2kwSXVYBFIOylsji6rbRF1A7UmjbZP2czi9PgV6W/4rLcsj9Op1o9YtjWEhTfUH9PzXWvGIuvtBivWiejGVd1fawfawJOBITx7t5YK2QnV4j8yk+wtv770he/G7CNAi24HQynlmv3femVqqGr/4wYW5k8C28G9nxBBf3uxeoUr0h23lkZcjuLr3rpxUKiaW8LDgvfKFSi43pIhX6Yt16Xsh5HzeR8IJhbtQ9+zloXEMwTbUvKrnZ/INdmW7igYn95YOyjhgy5Yg5S/Jg6LZ2vKYaPeclkaz+FzuBRDmXAyVSIb7IW5eooiAhjUvHHe0IQQ/kiyOFWnJbhGszp1BKSpS34taTOtlcFgFa5vMkiFYTQ6ZUvzQWKEzPMg5ZoLIRvtoHyyR8eL+6hFosVD5mtbYW+Io/9v6JN7FcR3n5t5EaXM/e7y/dVIhU13r3rrpLrQRhVsqfkQvEugWGD7eICy6LyIqP5l5OCyJfLSwalacQNLy2pO7bk/1PW8bzmNPStHtZ1u7Oq40hPAvmFiXK5bDf8kSkORH+KG+vrpT+TnwaCoUdA1rJmPZ/ROPX5kGTxGf5wqQBKHEyAP/rKA/iLMLdLhtMymsEVunF9Dor48cgMluyfgb+KquZQ8TkHctamnVdVkc6CzOvlTsLlZEr1cdm/jThaL6/KjlIZlNzaMwTdh3csvCeebv0BzVhLk0TZEkZ/+glJdXAKCn
+X-Microsoft-Antispam-Message-Info: XCY6uHF7JhuCprRugvAneyfDPcP69S0YUgWE0nocRijFAyGwWpbUfXdL+DHdp1lTLLmzF9koy44Bdt/shawX4hMN2ZPf76YqJ+h/NnR+X6wDsbC5gym3l01r/rZHCWujqZb8FsDppiyJLR7mE9b2OFo2CBibE030uzUs1WTlv3X+qiG3gXlrpliHJJe3MI44bfCz67D9BFTsX4Qeg8Sup/vLyZKtZQUbPBDCD6kbZlWIhAZp+Qe5DH11DF4UTp6rR3P0acpt6xoQM+79YonnFE2u0JhZYDVJV/fqfs5EQdalwjfAWqQ62sSCtgG+kwN6eMoS0i0EXbobBbj9mT6sn6KTnSyL27LxvEDDCGb09xqYdwnJs1Y6UVXXu5J7JrPhfhS1U9OydjvWgmkBZL+PXk4gwfBKocOMGrJQeWvQvjxhA0ckcdB79VrLjQuBSoT1DlxtpGkg3b8JY01Dt7xSSfuwh0czyfeAaBH907IWVRNmhlxdUcE2SKHALUjO1MxAV9UteJQBPZgC6sAzwD6YkonDNov5Tlq1vcgqmQ2993hr3rbttXuitQ0tzYuR18oINi6CuL3N/kKUYoa04pTBHDKJ94bdefxIlQPUet01KFYJQIF2rNZs0lf24KmYlmnTFPd3yFUt8vQjYDkd0jRhoELrNbc7ykwTgScSaUJO9M+r0FZfuinjOB59KNiOFMj8j0V29/Qmg/9SL8yFnws9B0c/pQshRWt5Hv2yZu8ho/w=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:MWHPR1201MB0192.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(2906002)(6636002)(956004)(2616005)(8936002)(4326008)(66476007)(66556008)(66946007)(316002)(6666004)(508600001)(5660300002)(31686004)(8676002)(83380400001)(6486002)(16576012)(26005)(86362001)(36756003)(31696002)(38100700002)(186003)(45980500001)(43740500002);
+ SFS:(4636009)(366004)(2906002)(6636002)(956004)(2616005)(8936002)(4326008)(66476007)(66556008)(66946007)(316002)(6666004)(66574015)(508600001)(5660300002)(31686004)(8676002)(83380400001)(6486002)(16576012)(26005)(86362001)(36756003)(31696002)(38100700002)(186003)(45980500001)(43740500002);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RkozMytLYjFLT2J1RWlUMisxMjFjZ3JBOFpHYjRBOTREYVJPTmRwSjNSVjJN?=
- =?utf-8?B?cExyWmI4ME9SSnNIZXZnL2p0UFFXWS9xRm5SaFMwTHc2eDA3MHVRQmUrTEtI?=
- =?utf-8?B?b0tMbUlxUHo1Y1U3Ui9BNjBaQ1pOR0N3M3UwN1M4cnJKMkdqcy9ZN1dRRHFK?=
- =?utf-8?B?T2NhYTRBbTFqOWU2dWt4bFM3M2p4ZkZtWFhUdDNRWWQ5NWE4UmpXdWhZaWVJ?=
- =?utf-8?B?c2FRQTB2V1EzRGp1ZkVzMzJhdkVXaUFEUXB2UXdSKzdESE52Qll3Y2k2SUJa?=
- =?utf-8?B?U25acUpnOENObmFBWmZ4NDY4TmZ6eFdsSmhhMVJNT250VDBTcFFPd1M3YUQ3?=
- =?utf-8?B?WVRaWUF5OVNiQTE0L1dOSGYwSlh3R1c0MEsyWDlFc28yMHc5dEFSMW51ZDNH?=
- =?utf-8?B?cWVOZ1VvSS81ekRMNXFZT3hGT3lYWUNRR0Z3WTIwSjd4QThjM2Q5Z2lIdnBO?=
- =?utf-8?B?aEd4Nnc0dVdkUmlGUng4aTN4ajNNL0JxaFJsUURXS1dwbFBmZzlBNDc1Q0FL?=
- =?utf-8?B?Vi94UGFpaGUyLzJ5NGlIbWVjc2tTR04rcGk5OG1tbkVDS3JOdG1GZ1Fmc2wx?=
- =?utf-8?B?QUYvbGdUWWx1N3N2cW1DWkZERXJYYXZkUkVTT0t3d0VWWWw4cHd3YWcyVGow?=
- =?utf-8?B?SmFzWmFUOEkrL2tyUW0wTjhPbUpVNnBUc3hUdVlUUWtER2EzdWFzS2l0by9h?=
- =?utf-8?B?VXc4YlR1K2cyRm9mZHU5Q2IrZnR1bVVmUlRuYzlmaWZTVGk5QTFUWEdhODhV?=
- =?utf-8?B?a29WOVlpMmJBK1d1dFBhUmVxMEpPR3pmbkhMeWJmK3lKVTc2QzdHK2xidVIw?=
- =?utf-8?B?RFVuVzdhNzhtQ2dUdWt0UW1hOVJySWRMTVBtaGhoM2FTdkJ2VFVtVFJ6MTF6?=
- =?utf-8?B?REx0dW9jYTMvNEQ5STZPWEk1UHFoV0doZGlUR1diOVVMS0VTZ3dOb2VtQjF1?=
- =?utf-8?B?cWJaMmQ0TS9ySVJ0ejhYTWt2V2xHZ2Y2YTRWRnlNcm11bDhNUlk5dW56emM4?=
- =?utf-8?B?N1cwRkpFRVNvcVJla3VnL3N3SGd2ajNkbEs2cDFCdWlYa3ljeXF0MlppK2VB?=
- =?utf-8?B?NGxyek1WdExLMzZBMHAzc2JwWDJra0YrdVUyU1NvdFlXRWNZOWFIekpYcmFq?=
- =?utf-8?B?ZWRtK0VwTDZVcU5EU3hqTmJGd1pnQUFSK3ptQlhjV2Y2K096Q3JWVXBCb3Rn?=
- =?utf-8?B?aDJlUzV6NGFWY0dwYlhsY3IyRk8yaWFlQzBTVHZ6YnVBeHJReHNneGVhcklr?=
- =?utf-8?B?OGNCVS9pQmRISUxqNUlQbG1veHZheEhVd01ERmg4d1k4Q3MvRWFQMDN6R2Nz?=
- =?utf-8?B?MStMYlJKRGFJYkxRbVQxYTNVZzA4R1RxN0syWnk0WGU4bXFQNlM3cHZ1QnV4?=
- =?utf-8?B?czdQRXEvMndSSnp4dlpGQWZsZk1kT1BZazAvU1EzajRpR3RIc0hUQzZjN1NL?=
- =?utf-8?B?MXQyM3VaVG9PTHpLVlVoM1A2b0VRVk15VDM1MHRhcExXbUExanQweFhQeEtI?=
- =?utf-8?B?UFlpS1cxWUs5M2s4bVRhREVpK09NYzlHMmxtTTNqcHovL3NMbkZGTVBHYVZv?=
- =?utf-8?B?MHcyeXYyMlNTcHQ3bm5WWGlMWW85b1MrYjUwQTYxSkYzOVlKR0hUUEMxN1po?=
- =?utf-8?B?TXArY2dSMi9HUXhrTEVIZHErajV5QUhyK0xCeXA5RUhwRDZtczFzSWZrc1ZE?=
- =?utf-8?B?YmtZc0wzT1RSRU10VWF5eWdTMmtEak0rVzBsSXprR2hWQ01tc29YWXBxcDFo?=
- =?utf-8?B?MHd5aWMxaWxSLzNWVTExY1hxUjgxMTZ5RmVJVSt0c1daQ0hva3U1QkwrQVph?=
- =?utf-8?B?V1FsMFBNcUErNm1ZVExoUitUS1IzbW40SFlSSWx2cjMrZllBbHV6dzExbVhB?=
- =?utf-8?B?WkRVbmVEU2pFcCtnRk9aZm5LVUptOGZRbkxTRmhpTkUzelNoREZDL09CTmNl?=
- =?utf-8?B?ckJKblhXdTRsZHJiM2JRY1dOc3ZzWWw1akdFUktvV3B1ancwWGhQeGdSWGVX?=
- =?utf-8?B?d2htUCt6ZlAzeGxaMFl2SHJsalppNHk5TWxJZVA5MVY5a2pEckx6SVVQNDBE?=
- =?utf-8?B?TGhMTXBCQ3FOcFIvcjZ2MFNSbHJNQm5yNmo5YVN3bTJDUEFYTXJ6dWRpRWN3?=
- =?utf-8?Q?C+zM=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eWZKd0hKNUJtY1hqa2JUak5jZHIxUytJOTVHZXJuNHhPa3Z4NTNXaFhCaUw5?=
+ =?utf-8?B?enVLWWtTT21TY05PRE5KOUJ3Qzg0QitqaEk4eTZNYzVScHNuNUR5NG1RK1lk?=
+ =?utf-8?B?T1VLS3lHYWg4TFlPT21BRkJFdmFYZ2d6cHE3bW5PaGUvK0RWbE9SREVuaHFw?=
+ =?utf-8?B?S2FRcDFJU0hUMG4xSExYUDlZNnFQcjV4QWwyOWo0VzZRQzZaWkFWOWUzaGYy?=
+ =?utf-8?B?cVVvdFNWZDN3THlmT3hsTFVmRndYY1BDNm9Mc3pVeCt4aElLZStuOC9lWWtw?=
+ =?utf-8?B?ajRoaktWZDRRNlhrQ0JUd2wyRmExd3BNMGYwSTNMS1VUWmp6cU1VTnowb0M4?=
+ =?utf-8?B?QWF6aUovalBjMk12WWhTWTFIRVBYTk94di9ZSFh1SnRENjhkQTFLNHlzNlhk?=
+ =?utf-8?B?VGozYnJ6ZTZoY3hGZ29sZExiMy82em5UbjFZckQzKzVHa0I0WHZ6eHBCbnhr?=
+ =?utf-8?B?bThJNFlSTEM1bmg3ZjNrWlYvNGhpK0h3d09CZlpvOTVodEFoZ25Jdm94SFZQ?=
+ =?utf-8?B?RW11KzMwRDRGVUI5ZG1NYjRwREJUVjBzazRXTlhPb2hqeEJuTklwRXV4Q21O?=
+ =?utf-8?B?QzRtL2hMeUV3cTdDTXhlVnNCSmRIazNwUTZPdWJEZGY2eVp0RFowTU1IeUVM?=
+ =?utf-8?B?NGhQU1VTWmtHa2hjd0J1RlU1UmF3WG5hdnRaYTBZYm52bzhRaHpjTXF1ejFk?=
+ =?utf-8?B?T09HNjQ4MUc0YUR4VlhrNUVmVDlPY09NWUVRTFZWZVowQkZHVlRvQnhGZCtp?=
+ =?utf-8?B?LzlXcVp1SjVocFhGdGgxR2NmSU5UVmd6SWRkdEdsLzkzNHJMTlk0NEpMczBT?=
+ =?utf-8?B?SzkrS2ppdWlqWGM3d0VRYWVNYkJjVDhEUWh5bHpWVUdRUmUyM1Y3c0JaMjlQ?=
+ =?utf-8?B?Y1d4K2tPRk94a0lrWU9Wa01WcmEzemd2ejNWRU1wZlg2d3ZObHg3V1hXWDRM?=
+ =?utf-8?B?RW5mT21FSE1qTGpvaEs4ZC9TUTQ3ekk1eHYySzh6S1ZJVFpFR01GMzFNYVZr?=
+ =?utf-8?B?aktCQ01kRzBFMGl6azlDdDNXdVhQZDNjczF3OEhKREduRWs0eXRlS2RmMlg2?=
+ =?utf-8?B?UGFsbWdCQTNqL0VhNGlZcUtVaDhvdHFzTnc2WmJodGR0bFlMakp4cUlld3NU?=
+ =?utf-8?B?NHE1b2NUYzIzamZjVGNIVnB2NzR2RkEyOWlLRVRSVDNGaFV4T1JZd3Zaa0Zi?=
+ =?utf-8?B?V0t0aURGakV0MkZGQ3VSaVFkWnAwUFYxQkN2eGVXR3ZuZHRsM2hRUkdGM3Ar?=
+ =?utf-8?B?TVB2Z1EyclJxd1lRM3JRYkQ0T2kwUzFlSjJ3emNyN25jMmdmZWJ5aVVUY05l?=
+ =?utf-8?B?M3lTd2l4OFNHMzVzSXhHSXY2MzVMSkYwUUdvNTBHTDVkejZ6MW1zZEM3OGMz?=
+ =?utf-8?B?ZDNyQnZTQ1h5UlJkSmFuTmFuTXJJVEQ1VkFSQW5PVndUYU85RDhuQ1ZNdWlS?=
+ =?utf-8?B?UTk2VnJXWUdHS2lESFZWRWtnN2I3RUwzb01JaWh5TFM4NHV5WG1xVEJvRXQz?=
+ =?utf-8?B?QlRrRUZVVm93d25iUHJYQmhNNUtMa293OElTamFRWFFIZUVucWtLWndJNGN5?=
+ =?utf-8?B?ckNkM1NjSnVsTHNDc00rZFdYM0RJRFlFRFNPa01ISk1kMWZFQktUZzhiL1da?=
+ =?utf-8?B?SkJhREhQUE92VWdHM2dOOWRTY2I1amRnNk9xV2hnc2tvNFZQb1FLT29SbFNP?=
+ =?utf-8?B?TjdkNjlnbWJwU0RrLzBkcVQrRnJUZGM2YUYzTjk3UTFsazhadVN1ZE1qb2dl?=
+ =?utf-8?B?SWIwL2l2T0gwcFBWQUpJNUtCZmpSU1Z0U1FBOVpFUTFhSyt6Y3dmcEpZU0dF?=
+ =?utf-8?B?Tmt6UUFFRG9jcmI0eEFLdVV3ZmxaZjZYSndDd3FvOW9heXRuYXJNM0ZTaTF4?=
+ =?utf-8?B?WHNWZitUcG4wRUJYbWFUdytYTnpPejJjRndPN2t0V0hFUitPcXU0Uyt2N1Ew?=
+ =?utf-8?B?VTg0QjdCdDVnTXZ5U2NJdHAwZFNMVWZET2FqQ1dNSGZNV1dCdm5DeVlBY0tY?=
+ =?utf-8?B?QlNtclNpWWtLbENsc0hlU1JzZXFHTVUxdFEzZUxkenZKanZUWmhMVlhaK3N0?=
+ =?utf-8?B?MmtvSUNGQWcwZHlMMHZmNDg4cU5SK21qdEh5cnQrajNMWjBEY2tielNuUE5U?=
+ =?utf-8?Q?FKUA=3D?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cc449c63-d1fe-4e8c-f5c4-08d9a4fb2ca9
+X-MS-Exchange-CrossTenant-Network-Message-Id: cbef5118-9e50-4ec6-0fea-08d9a4fb45bd
 X-MS-Exchange-CrossTenant-AuthSource: MWHPR1201MB0192.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Nov 2021 10:08:14.9885 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Nov 2021 10:08:56.4710 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: qMZzgwXDMV3mZWK0x/Q2n0WLs7RFcdXNWmJK64dgKc1hVbITyE5GEJFFUnwCS1aG
+X-MS-Exchange-CrossTenant-UserPrincipalName: dnYd7NSTqsLbv8g404mQIm8rLHCW47ScqTzt71rilMH2KO/+JpN/tp40BmmGer6+
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR12MB4586
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -135,217 +135,35 @@ Cc: airlied@linux.ie, Xinhui.Pan@amd.com, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 11.11.21 um 10:58 schrieb Jiapeng Chong:
+
+
+Am 11.11.21 um 11:03 schrieb Jiapeng Chong:
 > Eliminate the follow smatch warning:
 >
-> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_debugfs.c:2245
-> dp_dsc_slice_bpg_offset_read() warn: inconsistent indenting.
->
-> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_debugfs.c:2044
-> dp_dsc_pic_width_read() warn: inconsistent indenting.
->
-> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_debugfs.c:2101
-> dp_dsc_pic_height_read() warn: inconsistent indenting.
->
-> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_debugfs.c:2173
-> dp_dsc_chunk_size_read() warn: inconsistent indenting.
->
-> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_debugfs.c:1868
-> dp_dsc_bits_per_pixel_read() warn: inconsistent indenting.
->
-> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_debugfs.c:1965
-> dp_dsc_bits_per_pixel_write() warn: inconsistent indenting.
->
-> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_debugfs.c:1787
-> dp_dsc_slice_height_write() warn: inconsistent indenting.
->
-> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_debugfs.c:1602
-> dp_dsc_slice_width_write() warn: inconsistent indenting.
->
-> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_debugfs.c:1687
-> dp_dsc_slice_height_read() warn: inconsistent indenting.
->
-> vers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_debugfs.c:1417
-> dp_dsc_clock_en_write() warn: inconsistent indenting.
->
-> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_debugfs.c:1502
-> dp_dsc_slice_width_read() warn: inconsistent indenting.
->
-> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_debugfs.c:1315
-> dp_dsc_clock_en_read() warn: inconsistent indenting.
+> drivers/gpu/drm/amd/amdgpu/../display/dmub/src/dmub_srv.c:622
+> dmub_srv_cmd_execute() warn: inconsistent indenting.
 >
 > Reported-by: Abaci Robot <abaci@linux.alibaba.com>
 > Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
 
-Looks like the same code was copied over and over again, maybe make this 
-an even wider cleanup and add a helper function to find the pipe_ctx for 
-a specific dc_link.
-
-Regards,
-Christian.
+Reviewed-by: Christian König <christian.koenig@amd.com>
 
 > ---
->   .../drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c  | 72 +++++++++++-----------
->   1 file changed, 36 insertions(+), 36 deletions(-)
+>   drivers/gpu/drm/amd/display/dmub/src/dmub_srv.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
-> index 9d43ecb..50ef248 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
-> @@ -1312,9 +1312,9 @@ static ssize_t dp_dsc_clock_en_read(struct file *f, char __user *buf,
+> diff --git a/drivers/gpu/drm/amd/display/dmub/src/dmub_srv.c b/drivers/gpu/drm/amd/display/dmub/src/dmub_srv.c
+> index 56a0332..e9fadf1 100644
+> --- a/drivers/gpu/drm/amd/display/dmub/src/dmub_srv.c
+> +++ b/drivers/gpu/drm/amd/display/dmub/src/dmub_srv.c
+> @@ -618,8 +618,8 @@ enum dmub_status dmub_srv_cmd_execute(struct dmub_srv *dmub)
+>   	 * read back stale, fully invalid or partially invalid data.
+>   	 */
+>   	dmub_rb_flush_pending(&dmub->inbox1_rb);
+> +	dmub->hw_funcs.set_inbox1_wptr(dmub, dmub->inbox1_rb.wrpt);
 >   
->   	for (i = 0; i < MAX_PIPES; i++) {
->   		pipe_ctx = &aconnector->dc_link->dc->current_state->res_ctx.pipe_ctx[i];
-> -			if (pipe_ctx && pipe_ctx->stream &&
-> -			    pipe_ctx->stream->link == aconnector->dc_link)
-> -				break;
-> +		if (pipe_ctx && pipe_ctx->stream &&
-> +		    pipe_ctx->stream->link == aconnector->dc_link)
-> +			break;
->   	}
+> -		dmub->hw_funcs.set_inbox1_wptr(dmub, dmub->inbox1_rb.wrpt);
+>   	return DMUB_STATUS_OK;
+>   }
 >   
->   	if (!pipe_ctx)
-> @@ -1414,9 +1414,9 @@ static ssize_t dp_dsc_clock_en_write(struct file *f, const char __user *buf,
->   
->   	for (i = 0; i < MAX_PIPES; i++) {
->   		pipe_ctx = &aconnector->dc_link->dc->current_state->res_ctx.pipe_ctx[i];
-> -			if (pipe_ctx && pipe_ctx->stream &&
-> -			    pipe_ctx->stream->link == aconnector->dc_link)
-> -				break;
-> +		if (pipe_ctx && pipe_ctx->stream &&
-> +		    pipe_ctx->stream->link == aconnector->dc_link)
-> +			break;
->   	}
->   
->   	if (!pipe_ctx || !pipe_ctx->stream)
-> @@ -1499,9 +1499,9 @@ static ssize_t dp_dsc_slice_width_read(struct file *f, char __user *buf,
->   
->   	for (i = 0; i < MAX_PIPES; i++) {
->   		pipe_ctx = &aconnector->dc_link->dc->current_state->res_ctx.pipe_ctx[i];
-> -			if (pipe_ctx && pipe_ctx->stream &&
-> -			    pipe_ctx->stream->link == aconnector->dc_link)
-> -				break;
-> +		if (pipe_ctx && pipe_ctx->stream &&
-> +		    pipe_ctx->stream->link == aconnector->dc_link)
-> +			break;
->   	}
->   
->   	if (!pipe_ctx)
-> @@ -1599,9 +1599,9 @@ static ssize_t dp_dsc_slice_width_write(struct file *f, const char __user *buf,
->   
->   	for (i = 0; i < MAX_PIPES; i++) {
->   		pipe_ctx = &aconnector->dc_link->dc->current_state->res_ctx.pipe_ctx[i];
-> -			if (pipe_ctx && pipe_ctx->stream &&
-> -			    pipe_ctx->stream->link == aconnector->dc_link)
-> -				break;
-> +		if (pipe_ctx && pipe_ctx->stream &&
-> +		    pipe_ctx->stream->link == aconnector->dc_link)
-> +			break;
->   	}
->   
->   	if (!pipe_ctx || !pipe_ctx->stream)
-> @@ -1684,9 +1684,9 @@ static ssize_t dp_dsc_slice_height_read(struct file *f, char __user *buf,
->   
->   	for (i = 0; i < MAX_PIPES; i++) {
->   		pipe_ctx = &aconnector->dc_link->dc->current_state->res_ctx.pipe_ctx[i];
-> -			if (pipe_ctx && pipe_ctx->stream &&
-> -			    pipe_ctx->stream->link == aconnector->dc_link)
-> -				break;
-> +		if (pipe_ctx && pipe_ctx->stream &&
-> +		    pipe_ctx->stream->link == aconnector->dc_link)
-> +			break;
->   	}
->   
->   	if (!pipe_ctx)
-> @@ -1784,9 +1784,9 @@ static ssize_t dp_dsc_slice_height_write(struct file *f, const char __user *buf,
->   
->   	for (i = 0; i < MAX_PIPES; i++) {
->   		pipe_ctx = &aconnector->dc_link->dc->current_state->res_ctx.pipe_ctx[i];
-> -			if (pipe_ctx && pipe_ctx->stream &&
-> -			    pipe_ctx->stream->link == aconnector->dc_link)
-> -				break;
-> +		if (pipe_ctx && pipe_ctx->stream &&
-> +		    pipe_ctx->stream->link == aconnector->dc_link)
-> +			break;
->   	}
->   
->   	if (!pipe_ctx || !pipe_ctx->stream)
-> @@ -1865,9 +1865,9 @@ static ssize_t dp_dsc_bits_per_pixel_read(struct file *f, char __user *buf,
->   
->   	for (i = 0; i < MAX_PIPES; i++) {
->   		pipe_ctx = &aconnector->dc_link->dc->current_state->res_ctx.pipe_ctx[i];
-> -			if (pipe_ctx && pipe_ctx->stream &&
-> -			    pipe_ctx->stream->link == aconnector->dc_link)
-> -				break;
-> +		if (pipe_ctx && pipe_ctx->stream &&
-> +		    pipe_ctx->stream->link == aconnector->dc_link)
-> +			break;
->   	}
->   
->   	if (!pipe_ctx)
-> @@ -1962,9 +1962,9 @@ static ssize_t dp_dsc_bits_per_pixel_write(struct file *f, const char __user *bu
->   
->   	for (i = 0; i < MAX_PIPES; i++) {
->   		pipe_ctx = &aconnector->dc_link->dc->current_state->res_ctx.pipe_ctx[i];
-> -			if (pipe_ctx && pipe_ctx->stream &&
-> -			    pipe_ctx->stream->link == aconnector->dc_link)
-> -				break;
-> +		if (pipe_ctx && pipe_ctx->stream &&
-> +		    pipe_ctx->stream->link == aconnector->dc_link)
-> +			break;
->   	}
->   
->   	if (!pipe_ctx || !pipe_ctx->stream)
-> @@ -2041,9 +2041,9 @@ static ssize_t dp_dsc_pic_width_read(struct file *f, char __user *buf,
->   
->   	for (i = 0; i < MAX_PIPES; i++) {
->   		pipe_ctx = &aconnector->dc_link->dc->current_state->res_ctx.pipe_ctx[i];
-> -			if (pipe_ctx && pipe_ctx->stream &&
-> -			    pipe_ctx->stream->link == aconnector->dc_link)
-> -				break;
-> +		if (pipe_ctx && pipe_ctx->stream &&
-> +		    pipe_ctx->stream->link == aconnector->dc_link)
-> +			break;
->   	}
->   
->   	if (!pipe_ctx)
-> @@ -2098,9 +2098,9 @@ static ssize_t dp_dsc_pic_height_read(struct file *f, char __user *buf,
->   
->   	for (i = 0; i < MAX_PIPES; i++) {
->   		pipe_ctx = &aconnector->dc_link->dc->current_state->res_ctx.pipe_ctx[i];
-> -			if (pipe_ctx && pipe_ctx->stream &&
-> -			    pipe_ctx->stream->link == aconnector->dc_link)
-> -				break;
-> +		if (pipe_ctx && pipe_ctx->stream &&
-> +		    pipe_ctx->stream->link == aconnector->dc_link)
-> +			break;
->   	}
->   
->   	if (!pipe_ctx)
-> @@ -2170,9 +2170,9 @@ static ssize_t dp_dsc_chunk_size_read(struct file *f, char __user *buf,
->   
->   	for (i = 0; i < MAX_PIPES; i++) {
->   		pipe_ctx = &aconnector->dc_link->dc->current_state->res_ctx.pipe_ctx[i];
-> -			if (pipe_ctx && pipe_ctx->stream &&
-> -			    pipe_ctx->stream->link == aconnector->dc_link)
-> -				break;
-> +		if (pipe_ctx && pipe_ctx->stream &&
-> +		    pipe_ctx->stream->link == aconnector->dc_link)
-> +			break;
->   	}
->   
->   	if (!pipe_ctx)
-> @@ -2242,9 +2242,9 @@ static ssize_t dp_dsc_slice_bpg_offset_read(struct file *f, char __user *buf,
->   
->   	for (i = 0; i < MAX_PIPES; i++) {
->   		pipe_ctx = &aconnector->dc_link->dc->current_state->res_ctx.pipe_ctx[i];
-> -			if (pipe_ctx && pipe_ctx->stream &&
-> -			    pipe_ctx->stream->link == aconnector->dc_link)
-> -				break;
-> +		if (pipe_ctx && pipe_ctx->stream &&
-> +		    pipe_ctx->stream->link == aconnector->dc_link)
-> +			break;
->   	}
->   
->   	if (!pipe_ctx)
 
