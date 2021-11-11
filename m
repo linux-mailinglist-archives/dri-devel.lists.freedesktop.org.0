@@ -2,33 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56DFE44D257
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Nov 2021 08:15:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D06044D25B
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Nov 2021 08:15:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 82D1E6E933;
-	Thu, 11 Nov 2021 07:15:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CCA726E986;
+	Thu, 11 Nov 2021 07:15:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0BB346E945;
- Thu, 11 Nov 2021 07:15:23 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10164"; a="212896393"
-X-IronPort-AV: E=Sophos;i="5.87,225,1631602800"; d="scan'208";a="212896393"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B60EF6E945;
+ Thu, 11 Nov 2021 07:15:24 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10164"; a="212896398"
+X-IronPort-AV: E=Sophos;i="5.87,225,1631602800"; d="scan'208";a="212896398"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Nov 2021 23:15:22 -0800
-X-IronPort-AV: E=Sophos;i="5.87,225,1631602800"; d="scan'208";a="452627319"
+ 10 Nov 2021 23:15:24 -0800
+X-IronPort-AV: E=Sophos;i="5.87,225,1631602800"; d="scan'208";a="452627331"
 Received: from clanggaa-mobl1.ger.corp.intel.com (HELO
  thellstr-mobl1.intel.com) ([10.249.254.199])
  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Nov 2021 23:15:20 -0800
+ 10 Nov 2021 23:15:22 -0800
 From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/6] drm/i915: Add support for asynchronous moving fence
- waiting
-Date: Thu, 11 Nov 2021 08:14:58 +0100
-Message-Id: <20211111071502.16826-3-thomas.hellstrom@linux.intel.com>
+Subject: [PATCH 3/6] drm/i915/ttm: Move the i915_gem_obj_copy_ttm() function
+Date: Thu, 11 Nov 2021 08:14:59 +0100
+Message-Id: <20211111071502.16826-4-thomas.hellstrom@linux.intel.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211111071502.16826-1-thomas.hellstrom@linux.intel.com>
 References: <20211111071502.16826-1-thomas.hellstrom@linux.intel.com>
@@ -52,287 +51,201 @@ Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Move the i915_gem_obj_copy_ttm() function to i915_gem_ttm_move.h.
+This will help keep a number of functions static when introducing
+async moves.
 
-For now, we will only allow async migration when TTM is used,
-so the paths we care about are related to TTM.
-
-The mmap path is handled by having the fence in ttm_bo->moving,
-when pinning, the binding only becomes available after the moving
-fence is signaled, and pinning a cpu map will only work after
-the moving fence signals.
-
-This should close all holes where userspace can read a buffer
-before it's fully migrated.
-
-Co-developed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 ---
- drivers/gpu/drm/i915/display/intel_fbdev.c    |  7 ++--
- drivers/gpu/drm/i915/display/intel_overlay.c  |  2 +-
- drivers/gpu/drm/i915/gem/i915_gem_pages.c     |  6 +++
- .../i915/gem/selftests/i915_gem_coherency.c   |  4 +-
- .../drm/i915/gem/selftests/i915_gem_mman.c    | 18 +++++----
- drivers/gpu/drm/i915/i915_vma.c               | 39 ++++++++++++++++++-
- drivers/gpu/drm/i915/i915_vma.h               |  3 ++
- drivers/gpu/drm/i915/selftests/i915_vma.c     |  4 +-
- 8 files changed, 66 insertions(+), 17 deletions(-)
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.c      | 47 ---------------
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.h      |  4 --
+ drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c | 63 ++++++++++++++++----
+ drivers/gpu/drm/i915/gem/i915_gem_ttm_move.h | 10 ++--
+ drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.c   |  1 +
+ 5 files changed, 56 insertions(+), 69 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_fbdev.c b/drivers/gpu/drm/i915/display/intel_fbdev.c
-index adc3a81be9f7..b1796084596b 100644
---- a/drivers/gpu/drm/i915/display/intel_fbdev.c
-+++ b/drivers/gpu/drm/i915/display/intel_fbdev.c
-@@ -265,10 +265,11 @@ static int intelfb_create(struct drm_fb_helper *helper,
- 		info->fix.smem_len = vma->node.size;
- 	}
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+index 68cfe6e9ceab..537a81445b90 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+@@ -1063,50 +1063,3 @@ i915_gem_ttm_system_setup(struct drm_i915_private *i915,
+ 	intel_memory_region_set_name(mr, "system-ttm");
+ 	return mr;
+ }
+-
+-/**
+- * i915_gem_obj_copy_ttm - Copy the contents of one ttm-based gem object to
+- * another
+- * @dst: The destination object
+- * @src: The source object
+- * @allow_accel: Allow using the blitter. Otherwise TTM memcpy is used.
+- * @intr: Whether to perform waits interruptible:
+- *
+- * Note: The caller is responsible for assuring that the underlying
+- * TTM objects are populated if needed and locked.
+- *
+- * Return: Zero on success. Negative error code on error. If @intr == true,
+- * then it may return -ERESTARTSYS or -EINTR.
+- */
+-int i915_gem_obj_copy_ttm(struct drm_i915_gem_object *dst,
+-			  struct drm_i915_gem_object *src,
+-			  bool allow_accel, bool intr)
+-{
+-	struct ttm_buffer_object *dst_bo = i915_gem_to_ttm(dst);
+-	struct ttm_buffer_object *src_bo = i915_gem_to_ttm(src);
+-	struct ttm_operation_ctx ctx = {
+-		.interruptible = intr,
+-	};
+-	struct i915_refct_sgt *dst_rsgt;
+-	int ret;
+-
+-	assert_object_held(dst);
+-	assert_object_held(src);
+-
+-	/*
+-	 * Sync for now. This will change with async moves.
+-	 */
+-	ret = ttm_bo_wait_ctx(dst_bo, &ctx);
+-	if (!ret)
+-		ret = ttm_bo_wait_ctx(src_bo, &ctx);
+-	if (ret)
+-		return ret;
+-
+-	dst_rsgt = i915_ttm_resource_get_st(dst, dst_bo->resource);
+-	__i915_ttm_move(src_bo, false, dst_bo->resource, dst_bo->ttm,
+-			dst_rsgt, allow_accel);
+-
+-	i915_refct_sgt_put(dst_rsgt);
+-
+-	return 0;
+-}
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.h b/drivers/gpu/drm/i915/gem/i915_gem_ttm.h
+index 074a7c08ff31..82cdabb542be 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.h
++++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.h
+@@ -49,10 +49,6 @@ int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
+ 			       resource_size_t page_size,
+ 			       unsigned int flags);
  
--	vaddr = i915_vma_pin_iomap(vma);
-+	vaddr = i915_vma_pin_iomap_unlocked(vma);
- 	if (IS_ERR(vaddr)) {
--		drm_err(&dev_priv->drm,
--			"Failed to remap framebuffer into virtual memory\n");
-+		if (vaddr != ERR_PTR(-EINTR) && vaddr != ERR_PTR(-ERESTARTSYS))
-+			drm_err(&dev_priv->drm,
-+				"Failed to remap framebuffer into virtual memory\n");
- 		ret = PTR_ERR(vaddr);
- 		goto out_unpin;
- 	}
-diff --git a/drivers/gpu/drm/i915/display/intel_overlay.c b/drivers/gpu/drm/i915/display/intel_overlay.c
-index 7e3f5c6ca484..21593f3f2664 100644
---- a/drivers/gpu/drm/i915/display/intel_overlay.c
-+++ b/drivers/gpu/drm/i915/display/intel_overlay.c
-@@ -1357,7 +1357,7 @@ static int get_registers(struct intel_overlay *overlay, bool use_phys)
- 		overlay->flip_addr = sg_dma_address(obj->mm.pages->sgl);
- 	else
- 		overlay->flip_addr = i915_ggtt_offset(vma);
--	overlay->regs = i915_vma_pin_iomap(vma);
-+	overlay->regs = i915_vma_pin_iomap_unlocked(vma);
- 	i915_vma_unpin(vma);
+-int i915_gem_obj_copy_ttm(struct drm_i915_gem_object *dst,
+-			  struct drm_i915_gem_object *src,
+-			  bool allow_accel, bool intr);
+-
+ /* Internal I915 TTM declarations and definitions below. */
  
- 	if (IS_ERR(overlay->regs)) {
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_pages.c b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
-index c4f684b7cc51..49c6e55c68ce 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_pages.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
-@@ -418,6 +418,12 @@ void *i915_gem_object_pin_map(struct drm_i915_gem_object *obj,
- 	}
- 
- 	if (!ptr) {
-+		err = i915_gem_object_wait_moving_fence(obj, true);
-+		if (err) {
-+			ptr = ERR_PTR(err);
-+			goto err_unpin;
-+		}
-+
- 		if (GEM_WARN_ON(type == I915_MAP_WC &&
- 				!static_cpu_has(X86_FEATURE_PAT)))
- 			ptr = ERR_PTR(-ENODEV);
-diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_coherency.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_coherency.c
-index 13b088cc787e..067c512961ba 100644
---- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_coherency.c
-+++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_coherency.c
-@@ -101,7 +101,7 @@ static int gtt_set(struct context *ctx, unsigned long offset, u32 v)
- 
- 	intel_gt_pm_get(vma->vm->gt);
- 
--	map = i915_vma_pin_iomap(vma);
-+	map = i915_vma_pin_iomap_unlocked(vma);
- 	i915_vma_unpin(vma);
- 	if (IS_ERR(map)) {
- 		err = PTR_ERR(map);
-@@ -134,7 +134,7 @@ static int gtt_get(struct context *ctx, unsigned long offset, u32 *v)
- 
- 	intel_gt_pm_get(vma->vm->gt);
- 
--	map = i915_vma_pin_iomap(vma);
-+	map = i915_vma_pin_iomap_unlocked(vma);
- 	i915_vma_unpin(vma);
- 	if (IS_ERR(map)) {
- 		err = PTR_ERR(map);
-diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
-index 6d30cdfa80f3..b2627eab71ac 100644
---- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
-+++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
-@@ -125,11 +125,12 @@ static int check_partial_mapping(struct drm_i915_gem_object *obj,
- 	n = page - view.partial.offset;
- 	GEM_BUG_ON(n >= view.partial.size);
- 
--	io = i915_vma_pin_iomap(vma);
-+	io = i915_vma_pin_iomap_unlocked(vma);
- 	i915_vma_unpin(vma);
- 	if (IS_ERR(io)) {
--		pr_err("Failed to iomap partial view: offset=%lu; err=%d\n",
--		       page, (int)PTR_ERR(io));
-+		if (io != ERR_PTR(-EINTR) && io != ERR_PTR(-ERESTARTSYS))
-+			pr_err("Failed to iomap partial view: offset=%lu; err=%d\n",
-+			       page, (int)PTR_ERR(io));
- 		err = PTR_ERR(io);
- 		goto out;
- 	}
-@@ -219,11 +220,12 @@ static int check_partial_mappings(struct drm_i915_gem_object *obj,
- 		n = page - view.partial.offset;
- 		GEM_BUG_ON(n >= view.partial.size);
- 
--		io = i915_vma_pin_iomap(vma);
-+		io = i915_vma_pin_iomap_unlocked(vma);
- 		i915_vma_unpin(vma);
- 		if (IS_ERR(io)) {
--			pr_err("Failed to iomap partial view: offset=%lu; err=%d\n",
--			       page, (int)PTR_ERR(io));
-+			if (io != ERR_PTR(-EINTR) && io != ERR_PTR(-ERESTARTSYS))
-+				pr_err("Failed to iomap partial view: offset=%lu; err=%d\n",
-+				       page, (int)PTR_ERR(io));
- 			return PTR_ERR(io);
- 		}
- 
-@@ -773,7 +775,7 @@ static int gtt_set(struct drm_i915_gem_object *obj)
- 		return PTR_ERR(vma);
- 
- 	intel_gt_pm_get(vma->vm->gt);
--	map = i915_vma_pin_iomap(vma);
-+	map = i915_vma_pin_iomap_unlocked(vma);
- 	i915_vma_unpin(vma);
- 	if (IS_ERR(map)) {
- 		err = PTR_ERR(map);
-@@ -799,7 +801,7 @@ static int gtt_check(struct drm_i915_gem_object *obj)
- 		return PTR_ERR(vma);
- 
- 	intel_gt_pm_get(vma->vm->gt);
--	map = i915_vma_pin_iomap(vma);
-+	map = i915_vma_pin_iomap_unlocked(vma);
- 	i915_vma_unpin(vma);
- 	if (IS_ERR(map)) {
- 		err = PTR_ERR(map);
-diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
-index 8781c4f61952..120bae524425 100644
---- a/drivers/gpu/drm/i915/i915_vma.c
-+++ b/drivers/gpu/drm/i915/i915_vma.c
-@@ -431,6 +431,13 @@ int i915_vma_bind(struct i915_vma *vma,
- 			work->pinned = i915_gem_object_get(vma->obj);
- 		}
- 	} else {
-+		if (vma->obj) {
-+			int ret;
-+
-+			ret = i915_gem_object_wait_moving_fence(vma->obj, true);
-+			if (ret)
-+				return ret;
-+		}
- 		vma->ops->bind_vma(vma->vm, NULL, vma, cache_level, bind_flags);
- 	}
- 
-@@ -455,6 +462,10 @@ void __iomem *i915_vma_pin_iomap(struct i915_vma *vma)
- 
- 	ptr = READ_ONCE(vma->iomap);
- 	if (ptr == NULL) {
-+		err = i915_gem_object_wait_moving_fence(vma->obj, true);
-+		if (err)
-+			goto err;
-+
- 		/*
- 		 * TODO: consider just using i915_gem_object_pin_map() for lmem
- 		 * instead, which already supports mapping non-contiguous chunks
-@@ -496,6 +507,25 @@ void __iomem *i915_vma_pin_iomap(struct i915_vma *vma)
- 	return IO_ERR_PTR(err);
+ #define I915_PL_LMEM0 TTM_PL_PRIV
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
+index ef22d4ed66ad..f35b386c56ca 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
+@@ -378,18 +378,10 @@ i915_ttm_memcpy_work_arm(struct i915_ttm_memcpy_work *work,
+ 	return &work->fence;
  }
  
-+void __iomem *i915_vma_pin_iomap_unlocked(struct i915_vma *vma)
+-/**
+- * __i915_ttm_move - helper to perform TTM moves or clears.
+- * @bo: The source buffer object.
+- * @clear: Whether this is a clear operation.
+- * @dst_mem: The destination ttm resource.
+- * @dst_ttm: The destination ttm page vector.
+- * @dst_rsgt: The destination refcounted sg-list.
+- * @allow_accel: Whether to allow acceleration.
+- */
+-void __i915_ttm_move(struct ttm_buffer_object *bo, bool clear,
+-		     struct ttm_resource *dst_mem, struct ttm_tt *dst_ttm,
+-		     struct i915_refct_sgt *dst_rsgt, bool allow_accel)
++static void __i915_ttm_move(struct ttm_buffer_object *bo, bool clear,
++			    struct ttm_resource *dst_mem,
++			    struct ttm_tt *dst_ttm,
++			    struct i915_refct_sgt *dst_rsgt, bool allow_accel)
+ {
+ 	struct i915_ttm_memcpy_work *copy_work = NULL;
+ 	struct i915_ttm_memcpy_arg _arg, *arg = &_arg;
+@@ -521,3 +513,50 @@ int i915_ttm_move(struct ttm_buffer_object *bo, bool evict,
+ 	i915_ttm_adjust_gem_after_move(obj);
+ 	return 0;
+ }
++
++/**
++ * i915_gem_obj_copy_ttm - Copy the contents of one ttm-based gem object to
++ * another
++ * @dst: The destination object
++ * @src: The source object
++ * @allow_accel: Allow using the blitter. Otherwise TTM memcpy is used.
++ * @intr: Whether to perform waits interruptible:
++ *
++ * Note: The caller is responsible for assuring that the underlying
++ * TTM objects are populated if needed and locked.
++ *
++ * Return: Zero on success. Negative error code on error. If @intr == true,
++ * then it may return -ERESTARTSYS or -EINTR.
++ */
++int i915_gem_obj_copy_ttm(struct drm_i915_gem_object *dst,
++			  struct drm_i915_gem_object *src,
++			  bool allow_accel, bool intr)
 +{
-+	struct i915_gem_ww_ctx ww;
-+	void __iomem *map;
-+	int err;
++	struct ttm_buffer_object *dst_bo = i915_gem_to_ttm(dst);
++	struct ttm_buffer_object *src_bo = i915_gem_to_ttm(src);
++	struct ttm_operation_ctx ctx = {
++		.interruptible = intr,
++	};
++	struct i915_refct_sgt *dst_rsgt;
++	int ret;
 +
-+	for_i915_gem_ww(&ww, err, true) {
-+		err = i915_gem_object_lock(vma->obj, &ww);
-+		if (err)
-+			continue;
++	assert_object_held(dst);
++	assert_object_held(src);
 +
-+		map = i915_vma_pin_iomap(vma);
-+	}
-+	if (err)
-+		map = IO_ERR_PTR(err);
++	/*
++	 * Sync for now. This will change with async moves.
++	 */
++	ret = ttm_bo_wait_ctx(dst_bo, &ctx);
++	if (!ret)
++		ret = ttm_bo_wait_ctx(src_bo, &ctx);
++	if (ret)
++		return ret;
 +
-+	return map;
++	dst_rsgt = i915_ttm_resource_get_st(dst, dst_bo->resource);
++	__i915_ttm_move(src_bo, false, dst_bo->resource, dst_bo->ttm,
++			dst_rsgt, allow_accel);
++
++	i915_refct_sgt_put(dst_rsgt);
++
++	return 0;
 +}
-+
- void i915_vma_flush_writes(struct i915_vma *vma)
- {
- 	if (i915_vma_unset_ggtt_write(vma))
-@@ -870,6 +900,7 @@ int i915_vma_pin_ww(struct i915_vma *vma, struct i915_gem_ww_ctx *ww,
- 		    u64 size, u64 alignment, u64 flags)
- {
- 	struct i915_vma_work *work = NULL;
-+	struct dma_fence *moving = NULL;
- 	intel_wakeref_t wakeref = 0;
- 	unsigned int bound;
- 	int err;
-@@ -895,7 +926,8 @@ int i915_vma_pin_ww(struct i915_vma *vma, struct i915_gem_ww_ctx *ww,
- 	if (flags & PIN_GLOBAL)
- 		wakeref = intel_runtime_pm_get(&vma->vm->i915->runtime_pm);
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.h b/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.h
+index 75b87e752af2..d2e7f149e05c 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.h
++++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.h
+@@ -23,13 +23,11 @@ int i915_ttm_move_notify(struct ttm_buffer_object *bo);
+ I915_SELFTEST_DECLARE(void i915_ttm_migrate_set_failure_modes(bool gpu_migration,
+ 							      bool work_allocation));
  
--	if (flags & vma->vm->bind_async_flags) {
-+	moving = i915_gem_object_get_moving_fence(vma->obj);
-+	if (flags & vma->vm->bind_async_flags || moving) {
- 		/* lock VM */
- 		err = i915_vm_lock_objects(vma->vm, ww);
- 		if (err)
-@@ -909,6 +941,8 @@ int i915_vma_pin_ww(struct i915_vma *vma, struct i915_gem_ww_ctx *ww,
+-/* Internal I915 TTM declarations and definitions below. */
++int i915_gem_obj_copy_ttm(struct drm_i915_gem_object *dst,
++			  struct drm_i915_gem_object *src,
++			  bool allow_accel, bool intr);
  
- 		work->vm = i915_vm_get(vma->vm);
+-void __i915_ttm_move(struct ttm_buffer_object *bo, bool clear,
+-		     struct ttm_resource *dst_mem,
+-		     struct ttm_tt *dst_ttm,
+-		     struct i915_refct_sgt *dst_rsgt,
+-		     bool allow_accel);
++/* Internal I915 TTM declarations and definitions below. */
  
-+		dma_fence_work_chain(&work->base, moving);
-+
- 		/* Allocate enough page directories to used PTE */
- 		if (vma->vm->allocate_va_range) {
- 			err = i915_vm_alloc_pt_stash(vma->vm,
-@@ -1013,7 +1047,10 @@ int i915_vma_pin_ww(struct i915_vma *vma, struct i915_gem_ww_ctx *ww,
- err_rpm:
- 	if (wakeref)
- 		intel_runtime_pm_put(&vma->vm->i915->runtime_pm, wakeref);
-+	if (moving)
-+		dma_fence_put(moving);
- 	vma_put_pages(vma);
-+
- 	return err;
- }
+ int i915_ttm_move(struct ttm_buffer_object *bo, bool evict,
+ 		  struct ttm_operation_ctx *ctx,
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.c
+index 3b6d14b5c604..60d10ab55d1e 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.c
+@@ -12,6 +12,7 @@
  
-diff --git a/drivers/gpu/drm/i915/i915_vma.h b/drivers/gpu/drm/i915/i915_vma.h
-index 648dbe744c96..1812b2904a31 100644
---- a/drivers/gpu/drm/i915/i915_vma.h
-+++ b/drivers/gpu/drm/i915/i915_vma.h
-@@ -326,6 +326,9 @@ static inline bool i915_node_color_differs(const struct drm_mm_node *node,
-  * Returns a valid iomapped pointer or ERR_PTR.
-  */
- void __iomem *i915_vma_pin_iomap(struct i915_vma *vma);
-+
-+void __iomem *i915_vma_pin_iomap_unlocked(struct i915_vma *vma);
-+
- #define IO_ERR_PTR(x) ((void __iomem *)ERR_PTR(x))
+ #include "gem/i915_gem_region.h"
+ #include "gem/i915_gem_ttm.h"
++#include "gem/i915_gem_ttm_move.h"
+ #include "gem/i915_gem_ttm_pm.h"
  
  /**
-diff --git a/drivers/gpu/drm/i915/selftests/i915_vma.c b/drivers/gpu/drm/i915/selftests/i915_vma.c
-index 1f10fe36619b..85f43b209890 100644
---- a/drivers/gpu/drm/i915/selftests/i915_vma.c
-+++ b/drivers/gpu/drm/i915/selftests/i915_vma.c
-@@ -1005,7 +1005,7 @@ static int igt_vma_remapped_gtt(void *arg)
- 
- 			GEM_BUG_ON(vma->ggtt_view.type != *t);
- 
--			map = i915_vma_pin_iomap(vma);
-+			map = i915_vma_pin_iomap_unlocked(vma);
- 			i915_vma_unpin(vma);
- 			if (IS_ERR(map)) {
- 				err = PTR_ERR(map);
-@@ -1036,7 +1036,7 @@ static int igt_vma_remapped_gtt(void *arg)
- 
- 			GEM_BUG_ON(vma->ggtt_view.type != I915_GGTT_VIEW_NORMAL);
- 
--			map = i915_vma_pin_iomap(vma);
-+			map = i915_vma_pin_iomap_unlocked(vma);
- 			i915_vma_unpin(vma);
- 			if (IS_ERR(map)) {
- 				err = PTR_ERR(map);
 -- 
 2.31.1
 
