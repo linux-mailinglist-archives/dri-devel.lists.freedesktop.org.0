@@ -2,65 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BB9644D472
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Nov 2021 10:55:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B586544D489
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Nov 2021 10:59:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A2FA6EA6E;
-	Thu, 11 Nov 2021 09:55:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 76B526E9F4;
+	Thu, 11 Nov 2021 09:59:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
- [IPv6:2a00:1450:4864:20::32b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A43146EA6E
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Nov 2021 09:55:04 +0000 (UTC)
-Received: by mail-wm1-x32b.google.com with SMTP id
- g191-20020a1c9dc8000000b0032fbf912885so3985615wme.4
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Nov 2021 01:55:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=bdsCoAnax0xMdSi3LEgeLkYD/HFUU9RT8hDhS95OAt0=;
- b=Pvr6LjVy0p4znnuxieeKa3HPTeRFxZ+3knxotyGb0PFNzFJ4xM/abD+ljU/qbLS9aR
- 5QrmdMZmVTweFvDlm2eLs44xWhyVo1EBNNm2nIWCe+7jkOi+vZBd8ZaHb6Q7ZgYPqtQp
- kLq9fvUodqqeqMnMOUsVbbtGxI7f175Jrdez0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=bdsCoAnax0xMdSi3LEgeLkYD/HFUU9RT8hDhS95OAt0=;
- b=DnU0hMHRQaGiRxf5e43FaWtmn6NKBM4Qw1lCIsXgSG+GQjfKzTded3FHWoVxngNy8C
- Pg1DduRQoRmJQNUq5SpLueKkCPm4bR3cGHyVcQsUDQrQ9rOIfXtdZu5XmKRFuW0LzEWo
- 9SoGjm4fZ7K5fSD1qOJpa0H3MvNhuCETouD51PyUJN0PsS0bQz4bQY7ByjluxJewTIxv
- akwtcuJk7HapI/D3xY4LRX+U5T9L9QsOlDl1525RTGJCu+P863Boa1lS9sGB2RjiNg+v
- YslCzNTR4DUJfyobrtMo0SmgNX6stHar9iAMreCRn4gBPWR6TJp19DNpJz6Quq0NHr+b
- RcJQ==
-X-Gm-Message-State: AOAM533kivBSfU0eyff6UH9UCQKuPZTTLtPxY5W9tHTXnblAcns7zEDk
- xzZ6iIZkR3MhZJnMbczODSFlvg==
-X-Google-Smtp-Source: ABdhPJzZD6hXg1vjTxLyAuHF9yWYrd++DYJyRcez14UgECfYo+Da2LILIKoHIcu0e84TnnarVAnjJw==
-X-Received: by 2002:a7b:c1cb:: with SMTP id a11mr7024713wmj.30.1636624503159; 
- Thu, 11 Nov 2021 01:55:03 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id p19sm2521931wmq.4.2021.11.11.01.55.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Nov 2021 01:55:02 -0800 (PST)
-Date: Thu, 11 Nov 2021 10:54:33 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Javier Martinez Canillas <javierm@redhat.com>
-Subject: Re: [PATCH] fbdev: Prevent probing generic drivers if a FB is
- already registered
-Message-ID: <YYzoWTMBkC64a4Cn@phenom.ffwll.local>
-Mail-Followup-To: Javier Martinez Canillas <javierm@redhat.com>,
- linux-kernel@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Ilya Trukhanov <lahvuun@gmail.com>
-References: <20211111092053.1328304-1-javierm@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211111092053.1328304-1-javierm@redhat.com>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+Received: from out30-130.freemail.mail.aliyun.com
+ (out30-130.freemail.mail.aliyun.com [115.124.30.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A3236EA55
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Nov 2021 09:59:21 +0000 (UTC)
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R151e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=e01e04423;
+ MF=jiapeng.chong@linux.alibaba.com; NM=1; PH=DS; RN=9; SR=0;
+ TI=SMTPD_---0Uw1deKi_1636624734; 
+Received: from
+ j63c13417.sqa.eu95.tbsite.net(mailfrom:jiapeng.chong@linux.alibaba.com
+ fp:SMTPD_---0Uw1deKi_1636624734) by smtp.aliyun-inc.com(127.0.0.1);
+ Thu, 11 Nov 2021 17:59:17 +0800
+From: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+To: alexander.deucher@amd.com
+Subject: [PATCH] drm/amd/display: clean up some inconsistent indenting
+Date: Thu, 11 Nov 2021 17:58:48 +0800
+Message-Id: <1636624728-85197-1-git-send-email-jiapeng.chong@linux.alibaba.com>
+X-Mailer: git-send-email 1.8.3.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,77 +39,217 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Ilya Trukhanov <lahvuun@gmail.com>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>, airlied@linux.ie,
+ Xinhui.Pan@amd.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Nov 11, 2021 at 10:20:53AM +0100, Javier Martinez Canillas wrote:
-> The efifb and simplefb drivers just render to a pre-allocated frame buffer
-> and rely on the display hardware being initialized before the kernel boots.
-> 
-> But if another driver already probed correctly and registered a fbdev, the
-> generic drivers shouldn't be probed since an actual driver for the display
-> hardware is already present.
-> 
-> Reported-by: Ilya Trukhanov <lahvuun@gmail.com>
-> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+Eliminate the follow smatch warning:
 
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_debugfs.c:2245
+dp_dsc_slice_bpg_offset_read() warn: inconsistent indenting.
 
-Also Cc: stable@vger.kernel.org?
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_debugfs.c:2044
+dp_dsc_pic_width_read() warn: inconsistent indenting.
 
-btw time to organize drm-misc commit rights so you can push stuff like
-this?
--Daniel
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_debugfs.c:2101
+dp_dsc_pic_height_read() warn: inconsistent indenting.
 
-> ---
-> 
->  drivers/video/fbdev/efifb.c    | 6 ++++++
->  drivers/video/fbdev/simplefb.c | 6 ++++++
->  2 files changed, 12 insertions(+)
-> 
-> diff --git drivers/video/fbdev/efifb.c drivers/video/fbdev/efifb.c
-> index edca3703b964..76325c07cf0c 100644
-> --- drivers/video/fbdev/efifb.c
-> +++ drivers/video/fbdev/efifb.c
-> @@ -351,6 +351,12 @@ static int efifb_probe(struct platform_device *dev)
->  	char *option = NULL;
->  	efi_memory_desc_t md;
->  
-> +	if (num_registered_fb > 0) {
-> +		dev_err(&dev->dev,
-> +			"efifb: a framebuffer is already registered\n");
-> +		return -EINVAL;
-> +	}
-> +
->  	if (screen_info.orig_video_isVGA != VIDEO_TYPE_EFI || pci_dev_disabled)
->  		return -ENODEV;
->  
-> diff --git drivers/video/fbdev/simplefb.c drivers/video/fbdev/simplefb.c
-> index 62f0ded70681..55c1f54d7663 100644
-> --- drivers/video/fbdev/simplefb.c
-> +++ drivers/video/fbdev/simplefb.c
-> @@ -407,6 +407,12 @@ static int simplefb_probe(struct platform_device *pdev)
->  	struct simplefb_par *par;
->  	struct resource *mem;
->  
-> +	if (num_registered_fb > 0) {
-> +		dev_err(&pdev->dev,
-> +			"simplefb: a framebuffer is already registered\n");
-> +		return -EINVAL;
-> +	}
-> +
->  	if (fb_get_options("simplefb", NULL))
->  		return -ENODEV;
->  
-> -- 
-> 2.33.1
-> 
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_debugfs.c:2173
+dp_dsc_chunk_size_read() warn: inconsistent indenting.
 
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_debugfs.c:1868
+dp_dsc_bits_per_pixel_read() warn: inconsistent indenting.
+
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_debugfs.c:1965
+dp_dsc_bits_per_pixel_write() warn: inconsistent indenting.
+
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_debugfs.c:1787
+dp_dsc_slice_height_write() warn: inconsistent indenting.
+
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_debugfs.c:1602
+dp_dsc_slice_width_write() warn: inconsistent indenting.
+
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_debugfs.c:1687
+dp_dsc_slice_height_read() warn: inconsistent indenting.
+
+vers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_debugfs.c:1417
+dp_dsc_clock_en_write() warn: inconsistent indenting.
+
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_debugfs.c:1502
+dp_dsc_slice_width_read() warn: inconsistent indenting.
+
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_debugfs.c:1315
+dp_dsc_clock_en_read() warn: inconsistent indenting.
+
+Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+---
+ .../drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c  | 72 +++++++++++-----------
+ 1 file changed, 36 insertions(+), 36 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
+index 9d43ecb..50ef248 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
+@@ -1312,9 +1312,9 @@ static ssize_t dp_dsc_clock_en_read(struct file *f, char __user *buf,
+ 
+ 	for (i = 0; i < MAX_PIPES; i++) {
+ 		pipe_ctx = &aconnector->dc_link->dc->current_state->res_ctx.pipe_ctx[i];
+-			if (pipe_ctx && pipe_ctx->stream &&
+-			    pipe_ctx->stream->link == aconnector->dc_link)
+-				break;
++		if (pipe_ctx && pipe_ctx->stream &&
++		    pipe_ctx->stream->link == aconnector->dc_link)
++			break;
+ 	}
+ 
+ 	if (!pipe_ctx)
+@@ -1414,9 +1414,9 @@ static ssize_t dp_dsc_clock_en_write(struct file *f, const char __user *buf,
+ 
+ 	for (i = 0; i < MAX_PIPES; i++) {
+ 		pipe_ctx = &aconnector->dc_link->dc->current_state->res_ctx.pipe_ctx[i];
+-			if (pipe_ctx && pipe_ctx->stream &&
+-			    pipe_ctx->stream->link == aconnector->dc_link)
+-				break;
++		if (pipe_ctx && pipe_ctx->stream &&
++		    pipe_ctx->stream->link == aconnector->dc_link)
++			break;
+ 	}
+ 
+ 	if (!pipe_ctx || !pipe_ctx->stream)
+@@ -1499,9 +1499,9 @@ static ssize_t dp_dsc_slice_width_read(struct file *f, char __user *buf,
+ 
+ 	for (i = 0; i < MAX_PIPES; i++) {
+ 		pipe_ctx = &aconnector->dc_link->dc->current_state->res_ctx.pipe_ctx[i];
+-			if (pipe_ctx && pipe_ctx->stream &&
+-			    pipe_ctx->stream->link == aconnector->dc_link)
+-				break;
++		if (pipe_ctx && pipe_ctx->stream &&
++		    pipe_ctx->stream->link == aconnector->dc_link)
++			break;
+ 	}
+ 
+ 	if (!pipe_ctx)
+@@ -1599,9 +1599,9 @@ static ssize_t dp_dsc_slice_width_write(struct file *f, const char __user *buf,
+ 
+ 	for (i = 0; i < MAX_PIPES; i++) {
+ 		pipe_ctx = &aconnector->dc_link->dc->current_state->res_ctx.pipe_ctx[i];
+-			if (pipe_ctx && pipe_ctx->stream &&
+-			    pipe_ctx->stream->link == aconnector->dc_link)
+-				break;
++		if (pipe_ctx && pipe_ctx->stream &&
++		    pipe_ctx->stream->link == aconnector->dc_link)
++			break;
+ 	}
+ 
+ 	if (!pipe_ctx || !pipe_ctx->stream)
+@@ -1684,9 +1684,9 @@ static ssize_t dp_dsc_slice_height_read(struct file *f, char __user *buf,
+ 
+ 	for (i = 0; i < MAX_PIPES; i++) {
+ 		pipe_ctx = &aconnector->dc_link->dc->current_state->res_ctx.pipe_ctx[i];
+-			if (pipe_ctx && pipe_ctx->stream &&
+-			    pipe_ctx->stream->link == aconnector->dc_link)
+-				break;
++		if (pipe_ctx && pipe_ctx->stream &&
++		    pipe_ctx->stream->link == aconnector->dc_link)
++			break;
+ 	}
+ 
+ 	if (!pipe_ctx)
+@@ -1784,9 +1784,9 @@ static ssize_t dp_dsc_slice_height_write(struct file *f, const char __user *buf,
+ 
+ 	for (i = 0; i < MAX_PIPES; i++) {
+ 		pipe_ctx = &aconnector->dc_link->dc->current_state->res_ctx.pipe_ctx[i];
+-			if (pipe_ctx && pipe_ctx->stream &&
+-			    pipe_ctx->stream->link == aconnector->dc_link)
+-				break;
++		if (pipe_ctx && pipe_ctx->stream &&
++		    pipe_ctx->stream->link == aconnector->dc_link)
++			break;
+ 	}
+ 
+ 	if (!pipe_ctx || !pipe_ctx->stream)
+@@ -1865,9 +1865,9 @@ static ssize_t dp_dsc_bits_per_pixel_read(struct file *f, char __user *buf,
+ 
+ 	for (i = 0; i < MAX_PIPES; i++) {
+ 		pipe_ctx = &aconnector->dc_link->dc->current_state->res_ctx.pipe_ctx[i];
+-			if (pipe_ctx && pipe_ctx->stream &&
+-			    pipe_ctx->stream->link == aconnector->dc_link)
+-				break;
++		if (pipe_ctx && pipe_ctx->stream &&
++		    pipe_ctx->stream->link == aconnector->dc_link)
++			break;
+ 	}
+ 
+ 	if (!pipe_ctx)
+@@ -1962,9 +1962,9 @@ static ssize_t dp_dsc_bits_per_pixel_write(struct file *f, const char __user *bu
+ 
+ 	for (i = 0; i < MAX_PIPES; i++) {
+ 		pipe_ctx = &aconnector->dc_link->dc->current_state->res_ctx.pipe_ctx[i];
+-			if (pipe_ctx && pipe_ctx->stream &&
+-			    pipe_ctx->stream->link == aconnector->dc_link)
+-				break;
++		if (pipe_ctx && pipe_ctx->stream &&
++		    pipe_ctx->stream->link == aconnector->dc_link)
++			break;
+ 	}
+ 
+ 	if (!pipe_ctx || !pipe_ctx->stream)
+@@ -2041,9 +2041,9 @@ static ssize_t dp_dsc_pic_width_read(struct file *f, char __user *buf,
+ 
+ 	for (i = 0; i < MAX_PIPES; i++) {
+ 		pipe_ctx = &aconnector->dc_link->dc->current_state->res_ctx.pipe_ctx[i];
+-			if (pipe_ctx && pipe_ctx->stream &&
+-			    pipe_ctx->stream->link == aconnector->dc_link)
+-				break;
++		if (pipe_ctx && pipe_ctx->stream &&
++		    pipe_ctx->stream->link == aconnector->dc_link)
++			break;
+ 	}
+ 
+ 	if (!pipe_ctx)
+@@ -2098,9 +2098,9 @@ static ssize_t dp_dsc_pic_height_read(struct file *f, char __user *buf,
+ 
+ 	for (i = 0; i < MAX_PIPES; i++) {
+ 		pipe_ctx = &aconnector->dc_link->dc->current_state->res_ctx.pipe_ctx[i];
+-			if (pipe_ctx && pipe_ctx->stream &&
+-			    pipe_ctx->stream->link == aconnector->dc_link)
+-				break;
++		if (pipe_ctx && pipe_ctx->stream &&
++		    pipe_ctx->stream->link == aconnector->dc_link)
++			break;
+ 	}
+ 
+ 	if (!pipe_ctx)
+@@ -2170,9 +2170,9 @@ static ssize_t dp_dsc_chunk_size_read(struct file *f, char __user *buf,
+ 
+ 	for (i = 0; i < MAX_PIPES; i++) {
+ 		pipe_ctx = &aconnector->dc_link->dc->current_state->res_ctx.pipe_ctx[i];
+-			if (pipe_ctx && pipe_ctx->stream &&
+-			    pipe_ctx->stream->link == aconnector->dc_link)
+-				break;
++		if (pipe_ctx && pipe_ctx->stream &&
++		    pipe_ctx->stream->link == aconnector->dc_link)
++			break;
+ 	}
+ 
+ 	if (!pipe_ctx)
+@@ -2242,9 +2242,9 @@ static ssize_t dp_dsc_slice_bpg_offset_read(struct file *f, char __user *buf,
+ 
+ 	for (i = 0; i < MAX_PIPES; i++) {
+ 		pipe_ctx = &aconnector->dc_link->dc->current_state->res_ctx.pipe_ctx[i];
+-			if (pipe_ctx && pipe_ctx->stream &&
+-			    pipe_ctx->stream->link == aconnector->dc_link)
+-				break;
++		if (pipe_ctx && pipe_ctx->stream &&
++		    pipe_ctx->stream->link == aconnector->dc_link)
++			break;
+ 	}
+ 
+ 	if (!pipe_ctx)
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+1.8.3.1
+
