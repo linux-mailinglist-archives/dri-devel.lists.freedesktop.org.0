@@ -2,65 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EC5844DA53
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Nov 2021 17:25:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C611344DA7F
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Nov 2021 17:31:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D7506E980;
-	Thu, 11 Nov 2021 16:25:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1EA0289BCD;
+	Thu, 11 Nov 2021 16:31:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x130.google.com (mail-il1-x130.google.com
- [IPv6:2607:f8b0:4864:20::130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 355CD6E980
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Nov 2021 16:25:53 +0000 (UTC)
-Received: by mail-il1-x130.google.com with SMTP id h23so6366543ila.4
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Nov 2021 08:25:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com
+ [IPv6:2a00:1450:4864:20::52e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B253589BCD
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Nov 2021 16:31:24 +0000 (UTC)
+Received: by mail-ed1-x52e.google.com with SMTP id z21so26381691edb.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Nov 2021 08:31:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=VRqJqxxlJwIYS/ddfWmMHHNu+A1m8d9KAG8ft6WQNF0=;
- b=XqMsalAhGNfKo2UQ15NOwdV10LFRX/uoJ6VsXV+BlFHTzxtfrp+8eIku4RA5nHMVXx
- 9jvaPrDxo/eWbMVFOawlms6+NaGXadnzwLg6FXzlSSlmL4UjUZRUAsI9kymDAMNy/K8a
- 8g9ksjnXnM+dZWUP+yDsT+8fZzkaeNl0xqZEg=
+ :cc; bh=2W/CJnbZvaclrdnTWqFvW5r3qoblU7sV66cxT+4XUYk=;
+ b=QZVeh2HTaIPC4eZQZC+/jsl6xl96fBlcvKxZIBARGeZmF34gFvKjGoMcZ6SZfOjZ+0
+ dD0Wam8t8DTEiJ6t1haFC78pvk/FgXeuOjuxmFAS1MLl/Cot8J7zYGLlaDn0ZZFvlHN+
+ AmMTIR2xGG8sFJtZHLB6HtuWUhVEhtt7L7AEY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=VRqJqxxlJwIYS/ddfWmMHHNu+A1m8d9KAG8ft6WQNF0=;
- b=6EbZaE+iq+pyyJlXPtScKUvo9bIxREnaBXdabuaM2Xkgzkjs+LjIyK0PT3sp6cdGeb
- FhdCFNNJLuP+UQ4t+45GVSSoMxt9imzqACLdexVFZHLUQU2vLQAquCS+ay3a21DaMnne
- 6yvEgLJgKlCRgJ/f7ShdrWPDRLWDfTjmftctf/rvZhVjrcVWVqfHbWpfVzS9uuoZRhXp
- BMEncdD0fQr3sfCDcYHaEKkuaxKdhxG6VQk/tLhTxP+eM/Jbs3uraJqJDmP3m4vpn0L5
- AFq8sHi5euDLKhxZ7muWbtsx7INP6fSCSLIKMYff75e2fdVm/FU9a9zjTFr3IV1CI0lQ
- RQdQ==
-X-Gm-Message-State: AOAM532+70PdhvDyrxc77Xg16f9vQtg+21XKCH8uHA7ZOKqjV7hzFbFT
- qwcDA/P/nLvGJae6l6l+NmZrqeSKbcz5gg==
-X-Google-Smtp-Source: ABdhPJxCtRHLS55q5UaqwHmUXSw6IlfMQV1w7tdUGV3mTRWJ2a29ShLdCZD/Ygzni3Zmv+uxXo3qGw==
-X-Received: by 2002:a05:6e02:b2a:: with SMTP id
- e10mr4815440ilu.186.1636647952155; 
- Thu, 11 Nov 2021 08:25:52 -0800 (PST)
-Received: from mail-io1-f45.google.com (mail-io1-f45.google.com.
- [209.85.166.45])
- by smtp.gmail.com with ESMTPSA id k8sm2004499ils.79.2021.11.11.08.25.51
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 11 Nov 2021 08:25:51 -0800 (PST)
-Received: by mail-io1-f45.google.com with SMTP id k22so7540427iol.13
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Nov 2021 08:25:51 -0800 (PST)
-X-Received: by 2002:a05:6602:2d84:: with SMTP id
- k4mr5635223iow.168.1636647950862; 
- Thu, 11 Nov 2021 08:25:50 -0800 (PST)
+ bh=2W/CJnbZvaclrdnTWqFvW5r3qoblU7sV66cxT+4XUYk=;
+ b=ciBiiN83/c8A93o992PNOq8t7OoXSTzCOj16An2YNHEfmQq06Pk/rAtw1Rg5sfoCEZ
+ LawB5cFaMqf0aFu/Ymar5Y6lhb1ESHKwrf+BEmeAX5AFArKGIaLfSYttXETuhNz4ERBZ
+ MAuBcipxTuZEwqn3ftoRGXuTGq4OoVVIsuxZR0LEOgt8T9dJ/Jn0pSps4ht0C9GsV213
+ vVEQM01rx0PMnxPF5/F1g+V9eY4GDyoQenEn/nP9F/nnjxTSdA4++QCN+41Ow4VvnhyI
+ SlZ2/pwLUOoRatl4cXtNdyuGzeM3tBkXtxC611gGe4ER/LXm5TlEOzSTBr1BCgmOcPrx
+ jOlA==
+X-Gm-Message-State: AOAM532MMxXUb2dUVzqhUJXVFEJMgyPiTEcFdW7o7nP2k4kzA26+DqVe
+ BIw0c18tXAdbBvY/GruO7ONppqvxdEoMbH7X8cyF5g==
+X-Google-Smtp-Source: ABdhPJxQKs37pCERI5cN22bck98CiSH+JurGR8wJGn8XxiTi2OyxFS6les3G4QX7RPcXOfvUetkwMQf7HIdMXlr+Mo4=
+X-Received: by 2002:a17:907:1c82:: with SMTP id
+ nb2mr10745488ejc.218.1636648281498; 
+ Thu, 11 Nov 2021 08:31:21 -0800 (PST)
 MIME-Version: 1.0
-References: <20211028105754.v5.1.I828f5db745535fb7e36e8ffdd62d546f6d08b6d1@changeid>
- <CA+cxXh=VOkRnkgfxq8DVes=xCvR=691eY-ViQxME2fHMgt1q8Q@mail.gmail.com>
- <CAD=FV=Vm1X3xFFkffigKr9z_FuTeA0Z70+_0NVfWcSZy90J-Zw@mail.gmail.com>
-In-Reply-To: <CAD=FV=Vm1X3xFFkffigKr9z_FuTeA0Z70+_0NVfWcSZy90J-Zw@mail.gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 11 Nov 2021 08:25:38 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=XCLczUhVV7ZqOjCvParO9KO3e=0a3xLBWoTXW5KZczsQ@mail.gmail.com>
-Message-ID: <CAD=FV=XCLczUhVV7ZqOjCvParO9KO3e=0a3xLBWoTXW5KZczsQ@mail.gmail.com>
-Subject: Re: [PATCH v5 1/2] drm/bridge: parade-ps8640: Enable runtime power
- management
-To: Philip Chen <philipchen@chromium.org>
+References: <20211111101456.584061-1-jagan@amarulasolutions.com>
+ <20211111101456.584061-3-jagan@amarulasolutions.com>
+ <0bcc7911-e747-68af-05bc-902b22b94673@denx.de>
+In-Reply-To: <0bcc7911-e747-68af-05bc-902b22b94673@denx.de>
+From: Jagan Teki <jagan@amarulasolutions.com>
+Date: Thu, 11 Nov 2021 22:01:10 +0530
+Message-ID: <CAMty3ZDFtdqcnPMCRU0d+=O_WQF+ejyP9q73Fst-hjg-oxE5Ug@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 2/3] arm64: dts: imx8mm: Add MIPI DSI pipeline
+To: Marek Vasut <marex@denx.de>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Dae <inki.dae@samsung.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -74,87 +64,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>, Robert Foss <robert.foss@linaro.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Neil Armstrong <narmstrong@baylibre.com>, LKML <linux-kernel@vger.kernel.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Stephen Boyd <swboyd@chromium.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: Peng Fan <peng.fan@nxp.com>, dri-devel@lists.freedesktop.org,
+ Adam Ford <aford173@gmail.com>, Matteo Lisi <matteo.lisi@engicam.com>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ NXP Linux Team <linux-imx@nxp.com>, Shawn Guo <shawnguo@kernel.org>,
+ linux-amarula@amarulasolutions.com, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Thu, Nov 11, 2021 at 3:51 PM Marek Vasut <marex@denx.de> wrote:
+>
+> On 11/11/21 11:14 AM, Jagan Teki wrote:
+>
+> [...]
+>
+> > +                     dsi: dsi@32e10000 {
+> > +                             compatible = "fsl,imx8mm-mipi-dsim";
+> > +                             reg = <0x32e10000 0x400>;
+> > +                             clocks = <&clk IMX8MM_CLK_DSI_CORE>,
+> > +                                      <&clk IMX8MM_CLK_DSI_PHY_REF>;
+> > +                             clock-names = "bus_clk", "sclk_mipi";
+> > +                             assigned-clocks = <&clk IMX8MM_CLK_DSI_CORE>,
+> > +                                               <&clk IMX8MM_VIDEO_PLL1_OUT>,
+> > +                                               <&clk IMX8MM_CLK_DSI_PHY_REF>;
+> > +                             assigned-clock-parents = <&clk IMX8MM_SYS_PLL1_266M>,
+> > +                                                      <&clk IMX8MM_VIDEO_PLL1_BYPASS>,
+> > +                                                      <&clk IMX8MM_VIDEO_PLL1_OUT>;
+> > +                             assigned-clock-rates = <266000000>, <594000000>, <27000000>;
+> > +                             interrupts = <GIC_SPI 18 IRQ_TYPE_LEVEL_HIGH>;
+> > +                             phys = <&mipi_phy 0>;
+> > +                             phy-names = "dsim";
+> > +                             power-domains = <&disp_blk_ctrl IMX8MM_DISPBLK_PD_MIPI_DSI>;
+> > +                             samsung,burst-clock-frequency = <891000000>;
+> > +                             samsung,esc-clock-frequency = <54000000>;
+> > +                             samsung,pll-clock-frequency = <27000000>;
+> > +                             status = "disabled";
+>
+>
+> This 27 MHz is really IMX8MM_CLK_DSI_PHY_REF and
+> samsung,burst-clock-frequency is really the DSI link clock which is
+> panel/bridge specific ... but, why do we need to specify such policy in
+> DT rather than have the panel/bridge drivers negotiate the best clock
+> settings with DSIM bridge driver ? This should be something which should
+> be implemented in the DRM subsystem, not hard-coded in DT. These ad-hoc
+> samsung,*-clock-frequency properties shouldn't even be needed then.
 
-On Thu, Oct 28, 2021 at 12:39 PM Doug Anderson <dianders@chromium.org> wrote:
->
-> Hi,
->
-> On Thu, Oct 28, 2021 at 11:02 AM Philip Chen <philipchen@chromium.org> wrote:
-> >
-> > Add "Sam Ravnborg <sam@ravnborg.org>" to cc list for vis.
-> > Remove "Andrzej Hajda <a.hajda@samsung.com>" from cc list as the
-> > address can't be found.
->
-> Looking at <https://lore.kernel.org/all/b2fb88db-009e-4b38-dc3d-5ce9163257de@samsung.com/>,
-> it should be Andrzej Hajda <andrzej.hajda@intel.com>. I've added.
->
->
-> > On Thu, Oct 28, 2021 at 10:58 AM Philip Chen <philipchen@chromium.org> wrote:
-> > >
-> > > Fit ps8640 driver into runtime power management framework:
-> > >
-> > > First, break _poweron() to 3 parts: (1) turn on power and wait for
-> > > ps8640's internal MCU to finish init (2) check panel HPD (which is
-> > > proxied by GPIO9) (3) the other configs. As runtime_resume() can be
-> > > called before panel is powered, we only add (1) to _resume() and leave
-> > > (2)(3) to _pre_enable(). We also add (2) to _aux_transfer() as we want
-> > > to ensure panel HPD is asserted before we start AUX CH transactions.
-> > >
-> > > Second, the original driver has a mysterious delay of 50 ms between (2)
-> > > and (3). Since Parade's support can't explain what the delay is for,
-> > > and we don't see removing the delay break any boards at hand, remove
-> > > the delay to fit into this driver change.
-> > >
-> > > In addition, rename "powered" to "pre_enabled" and don't check for it
-> > > in the pm_runtime calls. The pm_runtime calls are already refcounted
-> > > so there's no reason to check there. The other user of "powered",
-> > > _get_edid(), only cares if pre_enable() has already been called.
-> > >
-> > > Lastly, change some existing DRM_...() logging to dev_...() along the
-> > > way, since DRM_...() seem to be deprecated in [1].
-> > >
-> > > [1] https://patchwork.freedesktop.org/patch/454760/
-> > >
-> > > Signed-off-by: Philip Chen <philipchen@chromium.org>
-> > > Reviewed-by: Douglas Anderson <dianders@chromium.org>
-> > > Reviewed-by: Stephen Boyd <swboyd@chromium.org>
-> > > ---
-> > > In v3, I added pm_suspend_ignore_children() in ps8640_probe().
-> > > Also, I moved the change of "put_sync_suspend" from patch 2/2 to here.
-> > > But I forgot to mention both changes. So edit v3 change log retroactively.
-> > >
-> > > In v4, I moved the change of "ps8640_ensure_hpd" return data type
-> > > from patch 2/2 to here. But I forgot to mention it. So edit v4 change log
-> > > retroactively.
-> > >
-> > > Changes in v5:
-> > > - Move the implementation of _runtime_disable() around to resolve merge
-> > >   conflict when rebasing.
-> > > - Improve the document for how autosuspend_delay is picked.
->
-> The new text looks good to me, thanks!
->
-> Since this is from @chromium.org and only reviewed-by @chromium.org
-> people, I'll plan to give it a 2-week snooze to give others ample time
-> to comment on these two patches. If 2 weeks pass w/ no comments then
-> I'll land to drm-misc-next. If someone gives an Ack and/or Reviewed-by
-> then I'll likely land sooner.
+This look confusion for me, all three clock are used it directly from
+exynos. and these indeed are computing pll for this bridge and clock
+control of dsim registers are updated from this out come values. No
+thoughts as of now how to handle these externally and update the
+internal register based on those out come values.
 
-My 2-week snooze went off, so this is now pushed to drm-misc-next
-fixing a small whitespace warning that the dim tool complained about.
+>
+> Also, are the DSIM bindings stable now ?
 
-e9d9f9582c3d drm/bridge: parade-ps8640: Populate devices on aux-bus
-826cff3f7ebb drm/bridge: parade-ps8640: Enable runtime power management
+Issue still lies on exynos dsi side, the final driver is not binding
+properly. I'm trying to send the next version patches only for
+existing exynos dsi to convert into bridge. and subsequently adding
+i.mx8mm specifics. More problem for me to test it on exynos boards, i
+don't have any either.
 
--Doug
+Jagan.
