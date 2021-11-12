@@ -2,45 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48FE044E93B
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Nov 2021 15:54:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B005144E977
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Nov 2021 16:03:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E5D376ED8A;
-	Fri, 12 Nov 2021 14:54:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD9586EAC6;
+	Fri, 12 Nov 2021 15:03:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 351246ED83;
- Fri, 12 Nov 2021 14:54:40 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10165"; a="296576949"
-X-IronPort-AV: E=Sophos;i="5.87,229,1631602800"; d="scan'208";a="296576949"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Nov 2021 06:54:39 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.87,229,1631602800"; d="scan'208";a="453170148"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
- by orsmga006.jf.intel.com with SMTP; 12 Nov 2021 06:54:35 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Fri, 12 Nov 2021 16:54:35 +0200
-Date: Fri, 12 Nov 2021 16:54:35 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Harry Wentland <harry.wentland@amd.com>
-Subject: Re: [RFC v2 05/22] drm/i915/xelpd: Define Degamma Lut range struct
- for HDR planes
-Message-ID: <YY6AK/sTiWooE+rQ@intel.com>
-References: <20210906213904.27918-1-uma.shankar@intel.com>
- <20210906213904.27918-6-uma.shankar@intel.com>
- <52ce874c-64ae-d7a9-bc4e-255cfa49f410@amd.com>
- <YY1H//+XISVMFZNL@intel.com>
- <edc4b80279354ec7bcdb0a890dae7d79@intel.com>
- <4a26ada6-feaa-76df-3ffe-d694e367d809@amd.com>
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
+ [IPv6:2a00:1450:4864:20::431])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2AB896EAC6;
+ Fri, 12 Nov 2021 15:03:41 +0000 (UTC)
+Received: by mail-wr1-x431.google.com with SMTP id b12so16057624wrh.4;
+ Fri, 12 Nov 2021 07:03:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=ICfZz6qpvCwy49JeWEKdT7liF7vXWYTFBWJG5poMPUM=;
+ b=UCwg3+r8AsBltCAXSYCDB+fe3YMsuWdU6WrPc0tMscg2u5d4LY1ElyFG3y4VYqETi+
+ wWzfb4hSF3E0hBHGqeSAzlRqMaiMEvC7wa724buL/cY05WuikvX4h0b1s7OJJVymv9+A
+ 9narbMwXQnpYwMnIQ3EX+0/uz2bcWtG2uvvkGfRJcR4wCLiL3iCmrUsTUfjCELMVvmha
+ 9rBZjPnxNOt7efsU6f0Nu24cq0AdDustR4/YlqRGuWdH2GGLmeGO26AGeS/aHK5rfhqJ
+ ecV1B1sYSBp+9rfBPJthyK+4QzmptY4/XIKOj+o3P1I+bIQuQuYMta8SpXtGSs4j7b7i
+ QALA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=ICfZz6qpvCwy49JeWEKdT7liF7vXWYTFBWJG5poMPUM=;
+ b=qanjlmqOBqeZkVfavurzWDBOfd3xZGVLvT8zuyawO/pMfSqafwQrsZpFgbQSh8QJIp
+ 1FMJIWuP8NHVyg3yr+wVytaojE1Ovy9vpAABtoeQONMmbFMW5XZScqycf1mOfhZj7/XU
+ bxOU9OwM1l+qIaZuHItwnBcQjoncwre5dJkeQhnnBLFsRdDjcFv0AOXwNeREGlsukXT0
+ C9mNp5dJOFN4f7EXSa9JMawUX284xA125dQhAaxOdjDwJR07LtLzYs1O1+W54kUXtL2d
+ 6JOg6Q5MnQ5oYnpaeUdIHTNy0Cs62UwIsR4S93ZPwIsjLRiO2WSQV2FBRcp5J5HcMjbi
+ XQrg==
+X-Gm-Message-State: AOAM5333ScZ5+UMDC1EwK2aSkNjCNJKJZyspjD+3nAcsKqd2nX2F9HY7
+ cuVXV03IcGu2bteUCsL+sVBB7dO7zz0=
+X-Google-Smtp-Source: ABdhPJxXXqGKmnhW/7OU68Se8POe3mC2FpVLTfdkde6NiEyNHW3JPvAM6MLl9B34/sDEeGkIQi/iwQ==
+X-Received: by 2002:a05:6000:1043:: with SMTP id
+ c3mr18672681wrx.64.1636729419736; 
+ Fri, 12 Nov 2021 07:03:39 -0800 (PST)
+Received: from ?IPv6:2a02:908:1252:fb60:6e65:9f86:85:5884?
+ ([2a02:908:1252:fb60:6e65:9f86:85:5884])
+ by smtp.gmail.com with ESMTPSA id r17sm6693147wmq.11.2021.11.12.07.03.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 12 Nov 2021 07:03:39 -0800 (PST)
+Subject: Re: Questions about KMS flip
+To: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Harry Wentland <harry.wentland@amd.com>,
+ "Kazlauskas, Nicholas" <Nicholas.Kazlauskas@amd.com>,
+ "Yu, Lang" <Lang.Yu@amd.com>
+References: <579d0f44-bb85-11b2-d326-35a0b7c5d0de@amd.com>
+ <5c242319-ade3-5621-6429-f77b17c34de5@amd.com>
+ <YYV0W1CxT5torU7u@phenom.ffwll.local>
+ <64e70779-7c33-7849-aa29-aeaee4a89005@amd.com>
+ <YYk7SkflDx8ToqYG@phenom.ffwll.local>
+ <4ba7e3f8-7956-882a-6888-57e2448b907d@amd.com>
+ <YYvIfXy9bwPokiK9@phenom.ffwll.local>
+ <ab2fb071-12ab-da99-53c9-1411ca9acdaa@amd.com>
+ <9a5b8470-d02d-71b4-4a89-6d6c32fdfa5d@daenzer.net>
+ <88dfe9b4-e170-2d6b-604b-03af5d57152b@daenzer.net>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <735f8781-982b-a09f-32fe-fded0024a587@gmail.com>
+Date: Fri, 12 Nov 2021 16:03:37 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+In-Reply-To: <88dfe9b4-e170-2d6b-604b-03af5d57152b@daenzer.net>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <4a26ada6-feaa-76df-3ffe-d694e367d809@amd.com>
-X-Patchwork-Hint: comment
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,178 +86,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Shashank.Sharma@amd.com" <Shashank.Sharma@amd.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "sebastian@sebastianwick.net" <sebastian@sebastianwick.net>, "Shankar,
- Uma" <uma.shankar@intel.com>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Nov 11, 2021 at 04:10:41PM -0500, Harry Wentland wrote:
-> 
-> 
-> On 2021-11-11 15:42, Shankar, Uma wrote:
-> > 
-> > 
-> >> -----Original Message-----
-> >> From: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> >> Sent: Thursday, November 11, 2021 10:13 PM
-> >> To: Harry Wentland <harry.wentland@amd.com>
-> >> Cc: Shankar, Uma <uma.shankar@intel.com>; intel-gfx@lists.freedesktop.org; dri-
-> >> devel@lists.freedesktop.org; ppaalanen@gmail.com; brian.starkey@arm.com;
-> >> sebastian@sebastianwick.net; Shashank.Sharma@amd.com
-> >> Subject: Re: [RFC v2 05/22] drm/i915/xelpd: Define Degamma Lut range struct for
-> >> HDR planes
-> >>
-> >> On Thu, Nov 11, 2021 at 10:17:17AM -0500, Harry Wentland wrote:
-> >>>
-> >>>
-> >>> On 2021-09-06 17:38, Uma Shankar wrote:
-> >>>> Define the structure with XE_LPD degamma lut ranges. HDR and SDR
-> >>>> planes have different capabilities, implemented respective structure
-> >>>> for the HDR planes.
-> >>>>
-> >>>> Signed-off-by: Uma Shankar <uma.shankar@intel.com>
-> >>>> ---
-> >>>>  drivers/gpu/drm/i915/display/intel_color.c | 52
-> >>>> ++++++++++++++++++++++
-> >>>>  1 file changed, 52 insertions(+)
-> >>>>
-> >>>> diff --git a/drivers/gpu/drm/i915/display/intel_color.c
-> >>>> b/drivers/gpu/drm/i915/display/intel_color.c
-> >>>> index afcb4bf3826c..6403bd74324b 100644
-> >>>> --- a/drivers/gpu/drm/i915/display/intel_color.c
-> >>>> +++ b/drivers/gpu/drm/i915/display/intel_color.c
-> >>>> @@ -2092,6 +2092,58 @@ static void icl_read_luts(struct intel_crtc_state
-> >> *crtc_state)
-> >>>>  	}
-> >>>>  }
-> >>>>
-> >>>> + /* FIXME input bpc? */
-> >>>> +__maybe_unused
-> >>>> +static const struct drm_color_lut_range d13_degamma_hdr[] = {
-> >>>> +	/* segment 1 */
-> >>>> +	{
-> >>>> +		.flags = (DRM_MODE_LUT_GAMMA |
-> >>>> +			  DRM_MODE_LUT_REFLECT_NEGATIVE |
-> >>>> +			  DRM_MODE_LUT_INTERPOLATE |
-> >>>> +			  DRM_MODE_LUT_NON_DECREASING),
-> >>>> +		.count = 128,
-> >>>> +		.input_bpc = 24, .output_bpc = 16,
-> >>>> +		.start = 0, .end = (1 << 24) - 1,
-> >>>> +		.min = 0, .max = (1 << 24) - 1,
-> >>>> +	},
-> >>>> +	/* segment 2 */
-> >>>> +	{
-> >>>> +		.flags = (DRM_MODE_LUT_GAMMA |
-> >>>> +			  DRM_MODE_LUT_REFLECT_NEGATIVE |
-> >>>> +			  DRM_MODE_LUT_INTERPOLATE |
-> >>>> +			  DRM_MODE_LUT_REUSE_LAST |
-> >>>> +			  DRM_MODE_LUT_NON_DECREASING),
-> >>>> +		.count = 1,
-> >>>> +		.input_bpc = 24, .output_bpc = 16,
-> >>>> +		.start = (1 << 24) - 1, .end = 1 << 24,
-> >>>> +		.min = 0, .max = (1 << 27) - 1,
-> >>>> +	},
-> >>>> +	/* Segment 3 */
-> >>>> +	{
-> >>>> +		.flags = (DRM_MODE_LUT_GAMMA |
-> >>>> +			  DRM_MODE_LUT_REFLECT_NEGATIVE |
-> >>>> +			  DRM_MODE_LUT_INTERPOLATE |
-> >>>> +			  DRM_MODE_LUT_REUSE_LAST |
-> >>>> +			  DRM_MODE_LUT_NON_DECREASING),
-> >>>> +		.count = 1,
-> >>>> +		.input_bpc = 24, .output_bpc = 16,
-> >>>> +		.start = 1 << 24, .end = 3 << 24,
-> >>>> +		.min = 0, .max = (1 << 27) - 1,
-> >>>> +	},
-> >>>> +	/* Segment 4 */
-> >>>> +	{
-> >>>> +		.flags = (DRM_MODE_LUT_GAMMA |
-> >>>> +			  DRM_MODE_LUT_REFLECT_NEGATIVE |
-> >>>> +			  DRM_MODE_LUT_INTERPOLATE |
-> >>>> +			  DRM_MODE_LUT_REUSE_LAST |
-> >>>> +			  DRM_MODE_LUT_NON_DECREASING),
-> >>>> +		.count = 1,
-> >>>> +		.input_bpc = 24, .output_bpc = 16,
-> >>>> +		.start = 3 << 24, .end = 7 << 24,
-> >>>> +		.min = 0, .max = (1 << 27) - 1,
-> >>>> +	},
-> >>>> +};
-> >>>
-> >>> If I understand this right, userspace would need this definition in
-> >>> order to populate the degamma blob. Should this sit in a UAPI header?
-> > 
-> > Hi Harry, Pekka and Ville,
-> > Sorry for being a bit late on the replies, got side tracked with various issues.
-> > I am back on this. Apologies for delay.
-> > 
-> >> My original idea (not sure it's fully realized in this series) is to have a new
-> >> GAMMA_MODE/etc. enum property on each crtc (or plane) for which each enum
-> >> value points to a kernel provided blob that contains one of these LUT descriptors.
-> >> Userspace can then query them dynamically and pick the best one for its current use
-> >> case.
-> > 
-> > We have this as part of the series Ville. Patch 3 of this series creates a DEGAMMA_MODE
-> > property just for this. With that userspace can just query the blob_id's and will get the
-> > various degamma mode possible and the respective segment and lut distributions.
-> > 
-> > This will be generic, so for userspace it should just be able to query this and parse and get
-> > the lut distribution and segment ranges.
-> > 
-> 
-> Thanks for the explanation.
-> 
-> Uma, have you had a chance to sketch some of this out in IGT? I'm trying
-> to see how userspace would do this in practice and will try to sketch an
-> IGT test for this myself, but if you have it already we could share the
-> effort.
-> 
-> >> The algorithm for choosing the best one might be something like:
-> >> - prefer LUT with bpc >= FB bpc, but perhaps not needlessly high bpc
-> >> - prefer interpolated vs. direct lookup based on current needs (eg. X
-> >>   could prefer direct lookup to get directcolor visuals).
-> >> - prefer one with extended range values if needed
-> >> - for HDR prefer smaller step size in dark tones,
-> >>   for SDR perhaps prefer a more uniform step size
-> >>
-> >> Or maybe we should include some kind of usage hints as well?
-> > 
-> > I think the segment range and distribution of lut should be enough for a userspace
-> > to pick the right ones, but we can add some examples in UAPI descriptions as hints.
-> > 
-> 
-> The range might be enough, but we're already parsing hints like "GAMMA"
-> or "DEGAMMA". I wonder if it would make sense to add a flag for "HDR" or
-> "SDR" as well.
-> 
-> >> And I was thinking of even adding a new property type (eg.
-> >> ENUM_BLOB) just for this sort of usecase. That could let us have a bit more generic
-> >> code to do all the validation around the property values and whatnot.
-> >>
-> >> The one nagging concern I really have with GAMMA_MODE is how a mix of old and
-> >> new userspace would work. Though that is more of a generic issue with any new
-> >> property really.
-> > 
-> > For plane properties getting added newly, old userspace will not get it so I think this should be ok.
-> > Newer userspace will implement this and get the new functionality.
-> > Problem will be in extending this to crtc where we have a legacy baggage, the client caps approach
-> > may help us there. Have it as part of separate series just to not mix it with this new plane stuff, though
-> > the idea remains same based on your design. Series below for reference:
-> > https://patchwork.freedesktop.org/series/90821/>> 
-> 
-> Could we just assume we do a uniform LUT if userspace doesn't
-> set a _MODE enum value for the respective gamma?
-> 
-> Maybe the _MODE should have a default enum value that means
-> a uniform (legacy) LUT.
 
-Yeah, it definitely needs a default like that. But the problem arises
-when new userspace sets it to something else and then hands the reins
-over to some old userspace that doesn't know how to reset it back to
-default.
 
--- 
-Ville Syrjälä
-Intel
+Am 12.11.21 um 15:30 schrieb Michel DÃ¤nzer:
+> On 2021-11-12 15:29, Michel DÃ¤nzer wrote:
+>> On 2021-11-12 13:47, Christian KÃ¶nig wrote:
+>>> Anyway this unfortunately turned out to be work for Harray and Nicholas. In detail it's about this bug report here: https://bugzilla.kernel.org/show_bug.cgi?id=214621
+>>>
+>>> Lang was able to reproduce the issue and narrow it down to the pin in amdgpu_display_crtc_page_flip_target().
+>>>
+>>> In other words we somehow have an unbalanced pinning of the scanout buffer in DC.
+>> DC doesn't use amdgpu_display_crtc_page_flip_target AFAICT. The corresponding pin with DC would be in dm_plane_helper_prepare_fb, paired with the unpin in
+>> dm_plane_helper_cleanup_fb.
+>>
+>>
+>> With non-DC, the pin in amdgpu_display_crtc_page_flip_target is paired with the unpin in dm_plane_helper_cleanup_fb
+> This should say amdgpu_display_unpin_work_func.
+
+Ah! So that is the classic (e.g. non atomic) path?
+
+>> & dce_v*_crtc_disable. One thing I notice is that the pin is guarded by if (!adev->enable_virtual_display), but the unpins seem unconditional. So could this be about virtual display, and the problem is actually trying to unpin a BO that was never pinned?
+
+Nope, my educated guess is rather that we free up the BO before 
+amdgpu_display_unpin_work_func is called.
+
+E.g. not pin unbalance, but rather use after free.
+
+Regards,
+Christian.
