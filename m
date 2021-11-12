@@ -2,55 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D87D44DF3B
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Nov 2021 01:38:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85C0744DF6E
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Nov 2021 01:57:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9707E6E94D;
-	Fri, 12 Nov 2021 00:38:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 764756EB28;
+	Fri, 12 Nov 2021 00:57:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com
- [IPv6:2607:f8b0:4864:20::435])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C90DD6E94D
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Nov 2021 00:38:21 +0000 (UTC)
-Received: by mail-pf1-x435.google.com with SMTP id x64so7024072pfd.6
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Nov 2021 16:38:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gateworks-com.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=6V0YnnkWAGWiDmZp2NjWEznJa73Yi3xUG8ZLOn1q/Ek=;
- b=cLMvhV4oZxE15N+mSTNdBHjBLxrKePFf01qAgNgyJX1bbqJZzZ5HQyQP1FAjVqrrVZ
- HZDefmqrgCsWGUCxfRxJxIPr2gddCZPSeYxU39sJCqPLesoAgPxAtP9gD/0dRRBViyhq
- MlSnrLdRhIP5mQ7331JLVanifvBZZ1M4vT5dEEph+zp6lsJmMKuqBVZVCwgHWTOTkfX/
- rPcIYr61SUJubQFPuti0aU/Z438en7VsYAbuPamf5TKFE3SjyYbkX9hd7feZfK0ewsOz
- DRVnKk5BEgYQLcnAtxXAM2ySdAFSA0OEeA5CQZxrcfK0eri0khoO4G6r8Wn/v2IRuwVN
- dVGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=6V0YnnkWAGWiDmZp2NjWEznJa73Yi3xUG8ZLOn1q/Ek=;
- b=yKqYakqoFRj83kCEabnCJ7USzDLR9wxjQ+BMT+3PfkKmJt8ynoITKh4pks2f/8ubwG
- G2fm9HM8upjOgD1jUP862w3ooJn3du2VYqzzENNByigYY2Iy5WS5Y0tLwTjl2q7Aq0Lv
- cbvHeGrIo8RqqH5vXKd9g/Us3c2MjLcmpIdy2YQhOMVeQiRqPPE8NIvbYYpZqCPS9k1g
- DfF0tsbTDDmgXPRJw4ftfQS/Uo4TXA/snnOMSIs32P6JdqTqojNrDa2gnBI2+4azj6dM
- facNM5+oAEqh8f+yD+ENkeyHcYJW7xRNq1IvDsWV3vFiJvf/SQ0jX3piwR9onKdvMdJ0
- PUNQ==
-X-Gm-Message-State: AOAM5336yaC0AHi0qupD1zlP72ey7oQQcnJB2SmznPbyETkabv5Ju9c8
- jlMQnIf23NHggsNAbhUV/hvbuHkDtVFvGqjRki8nFg==
-X-Google-Smtp-Source: ABdhPJxaCFDAIhmCkXGL8hllEw8h73+sJwzBBj0q4Odpc93JOWrcVnEA1nrzNasBIza5BdOzQ0Lp3M4dqoieeVJ5FR4=
-X-Received: by 2002:a63:5f56:: with SMTP id t83mr7396167pgb.432.1636677501335; 
- Thu, 11 Nov 2021 16:38:21 -0800 (PST)
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 77A196EB28;
+ Fri, 12 Nov 2021 00:57:35 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10165"; a="230510952"
+X-IronPort-AV: E=Sophos;i="5.87,227,1631602800"; d="scan'208";a="230510952"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Nov 2021 16:57:34 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.87,227,1631602800"; d="scan'208";a="452955248"
+Received: from allen-box.sh.intel.com (HELO [10.239.159.118])
+ ([10.239.159.118])
+ by orsmga006.jf.intel.com with ESMTP; 11 Nov 2021 16:57:32 -0800
+Subject: Re: [PATCH] drm/i915: Use per device iommu check
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Intel-gfx@lists.freedesktop.org
+References: <20211109121759.170915-1-tvrtko.ursulin@linux.intel.com>
+ <6e8c55a7-45b6-57ab-35f7-d522401efccb@linux.intel.com>
+ <4d1a0ab9-e0d8-2ed9-1fc4-9ffaf2f19bef@linux.intel.com>
+ <7b2e1427-69cf-8f5d-0c15-73c4e602953d@linux.intel.com>
+ <2a1ae709-19f8-7983-b171-98ec2f3f010a@linux.intel.com>
+ <4c5ab72f-aaff-8b92-7471-44dd907cf2f6@linux.intel.com>
+ <24c75ce7-1b14-42e1-a4d4-943e472aed68@linux.intel.com>
+From: Lu Baolu <baolu.lu@linux.intel.com>
+Message-ID: <2a99dbb9-9ed2-2e3e-b329-21730056d940@linux.intel.com>
+Date: Fri, 12 Nov 2021 08:53:10 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-References: <20211111101456.584061-1-jagan@amarulasolutions.com>
- <20211111101456.584061-2-jagan@amarulasolutions.com>
-In-Reply-To: <20211111101456.584061-2-jagan@amarulasolutions.com>
-From: Tim Harvey <tharvey@gateworks.com>
-Date: Thu, 11 Nov 2021 16:38:10 -0800
-Message-ID: <CAJ+vNU0fdSmhQqw-__8ndkeXrbwFEKOb5G0wukfG7h9g6YKJ8g@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 1/3] arm64: dts: imx8mm: Add eLCDIF node support
-To: Jagan Teki <jagan@amarulasolutions.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <24c75ce7-1b14-42e1-a4d4-943e472aed68@linux.intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,63 +54,173 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>,
- Device Tree Mailing List <devicetree@vger.kernel.org>,
- Peng Fan <peng.fan@nxp.com>, Matteo Lisi <matteo.lisi@engicam.com>,
- Adam Ford <aford173@gmail.com>,
- DRI mailing list <dri-devel@lists.freedesktop.org>,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- NXP Linux Team <linux-imx@nxp.com>, Shawn Guo <shawnguo@kernel.org>,
- linux-amarula <linux-amarula@amarulasolutions.com>,
- Linux ARM Mailing List <linux-arm-kernel@lists.infradead.org>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>, dri-devel@lists.freedesktop.org,
+ baolu.lu@linux.intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Nov 11, 2021 at 2:15 AM Jagan Teki <jagan@amarulasolutions.com> wrote:
->
-> Add eLCDIF controller node for i.MX8MM.
->
+On 11/11/21 11:06 PM, Tvrtko Ursulin wrote:
+> 
+> On 10/11/2021 12:35, Lu Baolu wrote:
+>> On 2021/11/10 20:08, Tvrtko Ursulin wrote:
+>>>
+>>> On 10/11/2021 12:04, Lu Baolu wrote:
+>>>> On 2021/11/10 17:30, Tvrtko Ursulin wrote:
+>>>>>
+>>>>> On 10/11/2021 07:12, Lu Baolu wrote:
+>>>>>> Hi Tvrtko,
+>>>>>>
+>>>>>> On 2021/11/9 20:17, Tvrtko Ursulin wrote:
+>>>>>>> From: Tvrtko Ursulin<tvrtko.ursulin@intel.com>
+>>>>>>>
+>>>>>>> On igfx + dgfx setups, it appears that intel_iommu=igfx_off 
+>>>>>>> option only
+>>>>>>> disables the igfx iommu. Stop relying on global 
+>>>>>>> intel_iommu_gfx_mapped
+>>>>>>> and probe presence of iommu domain per device to accurately 
+>>>>>>> reflect its
+>>>>>>> status.
+>>>>>>>
+>>>>>>> Signed-off-by: Tvrtko Ursulin<tvrtko.ursulin@intel.com>
+>>>>>>> Cc: Lu Baolu<baolu.lu@linux.intel.com>
+>>>>>>> ---
+>>>>>>> Baolu, is my understanding here correct? Maybe I am confused by both
+>>>>>>> intel_iommu_gfx_mapped and dmar_map_gfx being globals in the 
+>>>>>>> intel_iommu
+>>>>>>> driver. But it certainly appears the setup can assign some iommu 
+>>>>>>> ops (and
+>>>>>>> assign the discrete i915 to iommu group) when those two are set 
+>>>>>>> to off.
+>>>>>>
+>>>>>> diff --git a/drivers/gpu/drm/i915/i915_drv.h 
+>>>>>> b/drivers/gpu/drm/i915/i915_drv.h
+>>>>>> index e967cd08f23e..9fb38a54f1fe 100644
+>>>>>> --- a/drivers/gpu/drm/i915/i915_drv.h
+>>>>>> +++ b/drivers/gpu/drm/i915/i915_drv.h
+>>>>>> @@ -1763,26 +1763,27 @@ static inline bool run_as_guest(void)
+>>>>>>   #define HAS_D12_PLANE_MINIMIZATION(dev_priv) 
+>>>>>> (IS_ROCKETLAKE(dev_priv) || \
+>>>>>>                             IS_ALDERLAKE_S(dev_priv))
+>>>>>>
+>>>>>> -static inline bool intel_vtd_active(void)
+>>>>>> +static inline bool intel_vtd_active(struct drm_i915_private *i915)
+>>>>>>   {
+>>>>>> -#ifdef CONFIG_INTEL_IOMMU
+>>>>>> -    if (intel_iommu_gfx_mapped)
+>>>>>> +    if (iommu_get_domain_for_dev(i915->drm.dev))
+>>>>>>           return true;
+>>>>>> -#endif
+>>>>>>
+>>>>>>       /* Running as a guest, we assume the host is enforcing VT'd */
+>>>>>>       return run_as_guest();
+>>>>>>   }
+>>>>>>
+>>>>>> Have you verified this change? I am afraid that
+>>>>>> iommu_get_domain_for_dev() always gets a valid iommu domain even
+>>>>>> intel_iommu_gfx_mapped == 0.
+>>>>>
+>>>>> Yes it seems to work as is:
+>>>>>
+>>>>> default:
+>>>>>
+>>>>> # grep -i iommu /sys/kernel/debug/dri/*/i915_capabilities
+>>>>> /sys/kernel/debug/dri/0/i915_capabilities:iommu: enabled
+>>>>> /sys/kernel/debug/dri/1/i915_capabilities:iommu: enabled
+>>>>>
+>>>>> intel_iommu=igfx_off:
+>>>>>
+>>>>> # grep -i iommu /sys/kernel/debug/dri/*/i915_capabilities
+>>>>> /sys/kernel/debug/dri/0/i915_capabilities:iommu: disabled
+>>>>> /sys/kernel/debug/dri/1/i915_capabilities:iommu: enabled
+>>>>>
+>>>>> On my system dri device 0 is integrated graphics and 1 is discrete.
+>>>>
+>>>> The drm device 0 has a dedicated iommu. When the user request igfx not
+>>>> mapped, the VT-d implementation will turn it off to save power. But for
+>>>> shared iommu, you definitely will get it enabled.
+>>>
+>>> Sorry I am not following, what exactly do you mean? Is there a 
+>>> platform with integrated graphics without a dedicated iommu, in which 
+>>> case intel_iommu=igfx_off results in intel_iommu_gfx_mapped == 0 and 
+>>> iommu_get_domain_for_dev returning non-NULL?
+>>
+>> Your code always work for an igfx with a dedicated iommu. This might be
+>> always true on today's platforms. But from driver's point of view, we
+>> should not make such assumption.
+>>
+>> For example, if the iommu implementation decides not to turn off the
+>> graphic iommu (perhaps due to some hw quirk or for graphic
+>> virtualization), your code will be broken.
+> 
+> I tried your suggestion (checking for __IOMMU_DOMAIN_PAGING) and it 
+> works better, however I have observed one odd behaviour (for me at least).
+> 
+> In short - why does the DMAR mode for the discrete device change 
+> depending on igfx_off parameter?
+> 
+> Consider the laptop has these two graphics cards:
+> 
+> # cat /sys/kernel/debug/dri/0/name
+> i915 dev=0000:00:02.0 unique=0000:00:02.0 # integrated
+> 
+> # cat /sys/kernel/debug/dri/1/name
+> i915 dev=0000:03:00.0 unique=0000:03:00.0 # discrete
+> 
+> Booting with different options:
+> ===============================
+> 
+> default / intel_iommu=on
+> ------------------------
+> 
+> # cat /sys/class/iommu/dmar0/devices/0000:00:02.0/iommu_group/type
+> DMA-FQ
+> # cat /sys/class/iommu/dmar2/devices/0000:03:00.0/iommu_group/type
+> DMA-FQ
+> 
+> # grep -i iommu /sys/kernel/debug/dri/*/i915_capabilities
+> /sys/kernel/debug/dri/0/i915_capabilities:iommu: enabled
+> /sys/kernel/debug/dri/1/i915_capabilities:iommu: enabled
+> 
+> All good.
+> 
+> intel_iommu=igfx_off
+> --------------------
+> 
+> ## no dmar0 in sysfs
+> # cat /sys/class/iommu/dmar2/devices/0000:03:00.0/iommu_group/type
+> identity
+> 
+> Unexpected!?
+> 
+> # grep -i iommu /sys/kernel/debug/dri/*/i915_capabilities
+> /sys/kernel/debug/dri/0/i915_capabilities:iommu: disabled
+> /sys/kernel/debug/dri/1/i915_capabilities:iommu: disabled # At least the 
+> i915 patch detects it correctly.
+> 
+> intel_iommu=off
+> ---------------
+> 
+> ## no dmar0 in sysfs
+> ## no dmar2 in sysfs
+> 
+> # grep -i iommu /sys/kernel/debug/dri/*/i915_capabilities
+> /sys/kernel/debug/dri/0/i915_capabilities:iommu: disabled
+> /sys/kernel/debug/dri/1/i915_capabilities:iommu: disabled
+> 
+> All good.
+> 
+> The fact discrete graphics changes from translated to pass-through when 
+> igfx_off is set is surprising to me. Is this a bug?
 
-Jagan,
+The existing VT-d implementation doesn't distinguish igfx from dgfx. It
+only checks whether the device is of a display class:
 
-It doesn't look like you sent this to the Device Tree mainling list so
-I added that to cc.
+#define IS_GFX_DEVICE(pdev) ((pdev->class >> 16) == PCI_BASE_CLASS_DISPLAY)
 
-> Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
-> ---
->  arch/arm64/boot/dts/freescale/imx8mm.dtsi | 19 +++++++++++++++++++
->  1 file changed, 19 insertions(+)
->
-> diff --git a/arch/arm64/boot/dts/freescale/imx8mm.dtsi b/arch/arm64/boot/dts/freescale/imx8mm.dtsi
-> index c2f3f118f82e..caeb93313413 100644
-> --- a/arch/arm64/boot/dts/freescale/imx8mm.dtsi
-> +++ b/arch/arm64/boot/dts/freescale/imx8mm.dtsi
-> @@ -1068,6 +1068,25 @@ aips4: bus@32c00000 {
->                         #size-cells = <1>;
->                         ranges = <0x32c00000 0x32c00000 0x400000>;
->
-> +                       lcdif: lcdif@32e00000 {
-> +                               compatible = "fsl,imx28-lcdif";
-> +                               reg = <0x32e00000 0x10000>;
-> +                               clocks = <&clk IMX8MM_CLK_LCDIF_PIXEL>,
-> +                                        <&clk IMX8MM_CLK_DISP_AXI_ROOT>,
-> +                                        <&clk IMX8MM_CLK_DISP_APB_ROOT>;
-> +                               clock-names = "pix", "disp_axi", "axi";
-> +                               assigned-clocks = <&clk IMX8MM_CLK_LCDIF_PIXEL>,
-> +                                                 <&clk IMX8MM_CLK_DISP_AXI>,
-> +                                                 <&clk IMX8MM_CLK_DISP_APB>;
-> +                               assigned-clock-parents = <&clk IMX8MM_VIDEO_PLL1_OUT>,
-> +                                                        <&clk IMX8MM_SYS_PLL2_1000M>,
-> +                                                        <&clk IMX8MM_SYS_PLL1_800M>;
-> +                               assigned-clock-rate = <594000000>, <500000000>, <200000000>;
-> +                               interrupts = <GIC_SPI 5 IRQ_TYPE_LEVEL_HIGH>;
-> +                               power-domains = <&disp_blk_ctrl IMX8MM_DISPBLK_PD_LCDIF>;
-> +                               status = "disabled";
-> +                       };
-> +
->                         disp_blk_ctrl: blk-ctrl@32e28000 {
->                                 compatible = "fsl,imx8mm-disp-blk-ctrl", "syscon";
->                                 reg = <0x32e28000 0x100>;
-> --
-> 2.25.1
->
+When igfx_off is specified, all graphic devices will put into pass-
+through (the same meaning as identity mapping) mode. For igfx, since
+the iommu is always dedicated, hence it further turn off the iommu
+(hence there's no iommu domain) to save power.
+
+Best regards,
+baolu
