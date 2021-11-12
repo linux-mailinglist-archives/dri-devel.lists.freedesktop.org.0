@@ -1,62 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00AD644E38D
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Nov 2021 09:58:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D036544E391
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Nov 2021 10:01:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 76E6A6EB2D;
-	Fri, 12 Nov 2021 08:58:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A74E6EC3E;
+	Fri, 12 Nov 2021 09:01:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com
- [IPv6:2a00:1450:4864:20::530])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 31F356EB2D
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Nov 2021 08:58:43 +0000 (UTC)
-Received: by mail-ed1-x530.google.com with SMTP id f4so34863426edx.12
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Nov 2021 00:58:43 -0800 (PST)
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
+ [IPv6:2a00:1450:4864:20::32e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D4E46EC3E
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Nov 2021 09:01:33 +0000 (UTC)
+Received: by mail-wm1-x32e.google.com with SMTP id i12so6293440wmq.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Nov 2021 01:01:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=+znnpPsESBlujb7K3oTRKkOtPPV29IZGAcpuh5izcVQ=;
- b=J946xO4vZzyakkfvuWZqa3+jrp3butsoAKkXXjuOMe+/bcuQ/OVfzYYvhP7GPOv5kI
- 7unQsmaTYEE5Rkyf8tM+c964VYqoIF21ep6ra7vWTJChf80rKYlSRI9w3weC8izvuPwj
- Rg/MWQoSPlLj2aPjTmdE5qqQYoYyZSw4mhCmQ=
+ d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+ h=subject:to:cc:references:from:organization:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=6zeYKv3UUBY47fsPaTEYjO4IJtTKePNyCptB9i6Qx6Q=;
+ b=5roulA2RPyDqYkQQOois0Vwc2MUfueT2BMNXq/h1K9U8zOvM2wweKLg2jdeuF3qEdz
+ hNA/HZX1YOzV7kwfTS/7yXzFtxlxEWY1swr6wK9lW6qa7IMOBb2PC88Bg4aXgJ4xYUKI
+ h+yw40BCJHAfr4DGfZfewvly3EvvptH22j2NmDPp9LONDpAUfIJdVqn/XwdsxxDjH4lp
+ NFD6DhMTEwTTysi+nCdljFq9kGpx7h/cEbtQxcDm5eWzHhl0LU8e2NkGARI8I2Rl9Mq3
+ y+/WBKaC+dEgSCX7KsFs8V8fFZc4TlDZFu+Ng9JZeBSDUguy0CuNJnQPpP2yzduKXEuN
+ 4QvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=+znnpPsESBlujb7K3oTRKkOtPPV29IZGAcpuh5izcVQ=;
- b=tTu6fNMOgiQaarlsJV0Pp5ioAciIBAUFjiNme6TufAlLSpF7A8lXfAHPZLDS/pvE3M
- Wl/gOH7EnDvrNjD/Ol5EXPK5jsV442hE6Rpqzj0Ki/S3D/qlWxDP6jJOt7BQCCtWZs0P
- U8Sf7dOHMbVCO/rotCKcRrL9S9SjwFy89npPgW/79/5G3qOGmb0o2KEx4980Ji/sYfQ7
- EF5mgZoAsQPbbHSlpwiXxbIGFVcC1fMOOo64pir1vR8goPoyKWFPbsJrJZu/liaRRimV
- ZwaOttkTsiTpIO1Ex53+Q4aAcXsr0qvOpbn7Al1Vn109xOoo4Hw63u87sM+4L/ffE8nt
- HmTQ==
-X-Gm-Message-State: AOAM5338McRgAgxUFE7DbJx0XGBHVkUfvOx9ukYMyiLMX3bSa8lGU6q+
- 9r2EwjtQp29cGOedEWIX1Jyq2qbqMkgd3rVY8BCETg==
-X-Google-Smtp-Source: ABdhPJyUOWypQROhAJEozilKTKVMCFercGUBsJwKN5CQp3QS3AnM/9mahVogf4RBsGKu3slyuSeby5/gqUFASsMMxmo=
-X-Received: by 2002:a17:906:e115:: with SMTP id
- gj21mr17412905ejb.348.1636707521668; 
- Fri, 12 Nov 2021 00:58:41 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:organization
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=6zeYKv3UUBY47fsPaTEYjO4IJtTKePNyCptB9i6Qx6Q=;
+ b=snEqrrd4/K9GUi6OqSC7Twn9lJoYejdioQYvux3z82GFwFnezmLQ5hwIQKWBItVtna
+ c1OjyoJ+tcD1dw4VrUZZHYHSE56fzNL6VSAIkmzT3OiCE/5mbtfyjaqi1f9rSOLRG+ch
+ iUFG+zYFn1EPLlo2cIU6W79xeZXccWj7AFM7dCsgnMDZo+M6roZ84hEwtvY1clHfZLyE
+ HQ0bsnogngslh7uE/vvd08ohvu2d/IPU+WlroTRgQBYJxcPDdW1fdWmLWqQsMRyLnG9T
+ BKOOifiPrcIp01Yh6A9eo8YyeMZ8eQyiyzB4zHPXKbZJO57TLmMXEOVmstZmqLboVbib
+ Gnog==
+X-Gm-Message-State: AOAM533WkU0MMIKHWvooQLguyGhDfq5kkE++xz4dwaeTblDpSFa95jB6
+ gSHu14h1zW7En+Ns1f0BuDXwNw==
+X-Google-Smtp-Source: ABdhPJz6bTGxdajoaeMUPV93t2bbfAlMXb+J0jsSds0VxHFXOBwH8fjF9tZgdC/VafO1uJySMTDKbw==
+X-Received: by 2002:a05:600c:1f13:: with SMTP id
+ bd19mr16669651wmb.9.1636707691963; 
+ Fri, 12 Nov 2021 01:01:31 -0800 (PST)
+Received: from [172.20.10.7] ([37.165.179.130])
+ by smtp.gmail.com with ESMTPSA id e12sm6363948wrq.20.2021.11.12.01.01.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 12 Nov 2021 01:01:31 -0800 (PST)
+Subject: Re: [PATCH] drm/bridge: dw-hdmi: handle ELD when
+ DRM_BRIDGE_ATTACH_NO_CONNECTOR
+To: =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
+ a.hajda@samsung.com, Laurent.pinchart@ideasonboard.com,
+ robert.foss@linaro.org, jonas@kwiboo.se
+References: <20211029135947.3022875-1-narmstrong@baylibre.com>
+ <5763693.lOV4Wx5bFT@kista>
+From: Neil Armstrong <narmstrong@baylibre.com>
+Organization: Baylibre
+Message-ID: <fa1e0e69-bb37-272b-cfb4-4f45df8a0fa1@baylibre.com>
+Date: Fri, 12 Nov 2021 10:01:29 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-References: <20211109173357.780-1-tharvey@gateworks.com>
- <CAHCN7xJAW40xvLpBttWRfbv=Pz=HeCbX+g2uZa6CabiqLqG3PA@mail.gmail.com>
- <aa73406a-7007-0d66-40ba-dd1d71780249@denx.de>
- <CAJ+vNU1fJwimBO3t42wmgBzS8t2iyj=TfL9=chPW-OMbFz1S0A@mail.gmail.com>
- <CAMty3ZAEdtMG2cco0DN93MO0De3fUAhsQVpi_qQ2r8grQbCdpg@mail.gmail.com>
- <CAMty3ZAGtZaqaU0BhW3Usbmk7FUVMT3MTzH6kcDL_7st2oecSA@mail.gmail.com>
- <CAJ+vNU2MFj5rS8pRW4+7VAdXfnjBgVECb2SDSP=KAeKZf5WYqQ@mail.gmail.com>
- <20211112084159.GA9119@pengutronix.de>
-In-Reply-To: <20211112084159.GA9119@pengutronix.de>
-From: Jagan Teki <jagan@amarulasolutions.com>
-Date: Fri, 12 Nov 2021 14:28:30 +0530
-Message-ID: <CAMty3ZCwCx+CHk5Tggtjc7770LEZ9rYAt+HJkEc51PMGegADWQ@mail.gmail.com>
-Subject: Re: [RFC] arm64: dts: imx8mm: Add MIPI and LCDIF nodes
-To: Michael Tretter <m.tretter@pengutronix.de>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Dae <inki.dae@samsung.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <5763693.lOV4Wx5bFT@kista>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,202 +79,181 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, dri-devel <dri-devel@lists.freedesktop.org>,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Tommaso Merciai <tomm.merciai@gmail.com>, Adam Ford <aford173@gmail.com>,
- NXP Linux Team <linux-imx@nxp.com>
+Cc: Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Nov 12, 2021 at 2:12 PM Michael Tretter
-<m.tretter@pengutronix.de> wrote:
->
-> On Thu, 11 Nov 2021 13:21:03 -0800, Tim Harvey wrote:
-> > On Thu, Nov 11, 2021 at 2:19 AM Jagan Teki <jagan@amarulasolutions.com> wrote:
-> > > On Wed, Nov 10, 2021 at 11:58 PM Jagan Teki <jagan@amarulasolutions.com> wrote:
-> > > > On Wed, Nov 10, 2021 at 2:24 AM Tim Harvey <tharvey@gateworks.com> wrote:
-> > > > > On Tue, Nov 9, 2021 at 12:39 PM Marek Vasut <marex@denx.de> wrote:
-> > > > > > On 11/9/21 8:35 PM, Adam Ford wrote:
-> > > > > >
-> > > > > > [...]
-> > > > > >
-> > > > > > >> diff --git a/arch/arm64/boot/dts/freescale/imx8mm.dtsi b/arch/arm64/boot/dts/freescale/imx8mm.dtsi
-> > > > > > >> index 208a0ed840f4..195dcbff7058 100644
-> > > > > > >> --- a/arch/arm64/boot/dts/freescale/imx8mm.dtsi
-> > > > > > >> +++ b/arch/arm64/boot/dts/freescale/imx8mm.dtsi
-> > > > > > >> @@ -188,6 +188,12 @@
-> > > > > > >>                  clock-output-names = "clk_ext4";
-> > > > > > >>          };
-> > > > > > >>
-> > > > > > >> +       mipi_phy: mipi-video-phy {
-> > > > > > >> +               compatible = "fsl,imx8mm-mipi-video-phy";
-> > > > > > >> +               syscon = <&disp_blk_ctrl>;
-> > > > > > >> +               #phy-cells = <1>;
-> > > > > > >> +       };
-> > > > > > >> +
-> > > > > > >>          psci {
-> > > > > > >>                  compatible = "arm,psci-1.0";
-> > > > > > >>                  method = "smc";
-> > > > > > >> @@ -1068,6 +1074,68 @@
-> > > > > > >>                          #size-cells = <1>;
-> > > > > > >>                          ranges = <0x32c00000 0x32c00000 0x400000>;
-> > > > > > >>
-> > > > > > >> +                       lcdif: lcdif@32e00000 {
-> > > > > > >> +                               #address-cells = <1>;
-> > > > > > >> +                               #size-cells = <0>;
-> > > > > > >> +                               compatible = "fsl,imx8mm-lcdif", "fsl,imx6sx-lcdif";
-> > > > > > >
-> > > > > > > The compatible "imx6sx-lcdif" implies MXSFB_V6.  FWICT, it is like
-> > > > > > > MXSFB_V4, but with overlays and those overlays have more registers
-> > > > > > > configured in the mxsfb_kms driver.  Have you tried using imx28-lcdif
-> > > > > > > to see if it makes a difference?
-> > > > > >
-> > > > > > Indeed, MX6SX has AS overlay plane support, MX{2,}8 does not.
-> > > > > >
-> > > > > > LCDIFv3 (as NXP calls it) in MX8MP is like LCDIFv6 (in MX6SX) with
-> > > > > > slightly reordered register bits, but nothing like LCDIF rev3 (in MX23)
-> > > > > > ... just to make sure there is no confusion.
-> > > > > >
-> > > > > > [...]
-> > > > > >
-> > > > > > >> +                       mipi_dsi: mipi_dsi@32e10000 {
-> > > > > > >> +                               #address-cells = <1>;
-> > > > > > >> +                               #size-cells = <0>;
-> > > > > > >> +                               compatible = "fsl,imx8mm-mipi-dsim";
-> > > > > > >> +                               reg = <0x32e10000 0x400>;
-> > > > > > >> +                               clocks = <&clk IMX8MM_CLK_DSI_CORE>,
-> > > > > > >> +                                        <&clk IMX8MM_CLK_DSI_PHY_REF>;
-> > > > > > >> +                               clock-names = "bus_clk", "sclk_mipi";
-> > > > > > >> +                               assigned-clocks = <&clk IMX8MM_CLK_DSI_CORE>,
-> > > > > > >> +                                                 <&clk IMX8MM_VIDEO_PLL1_OUT>,
-> > > > > > >> +                                                 <&clk IMX8MM_CLK_DSI_PHY_REF>;
-> > > > > > >> +                               assigned-clock-parents = <&clk IMX8MM_SYS_PLL1_266M>,
-> > > > > > >> +                                                        <&clk IMX8MM_VIDEO_PLL1_BYPASS>,
-> > > > > > >> +                                                        <&clk IMX8MM_VIDEO_PLL1_OUT>;
-> > > > > > >> +                               assigned-clock-rates = <266000000>, <594000000>, <27000000>;
-> > > > > > >> +                               interrupts = <GIC_SPI 18 IRQ_TYPE_LEVEL_HIGH>;
-> > > > > > >> +                               phys = <&mipi_phy 0>;
-> > > > > > >> +                               phy-names = "dsim";
-> > > > > > >> +                               power-domains = <&disp_blk_ctrl IMX8MM_DISPBLK_PD_MIPI_DSI>;
-> > > > > > >> +                               samsung,burst-clock-frequency = <891000000>;
-> > > > > > >> +                               samsung,esc-clock-frequency = <54000000>;
-> > > > > > >> +                               samsung,pll-clock-frequency = <27000000>;
-> > > > > >
-> > > > > > This 27 MHz is really IMX8MM_CLK_DSI_PHY_REF and
-> > > > > > samsung,burst-clock-frequency is really the DSI link clock which is
-> > > > > > panel/bridge specific ... but, why do we need to specify such policy in
-> > > > > > DT rather than have the panel/bridge drivers negotiate the best clock
-> > > > > > settings with DSIM bridge driver ? This should be something which should
-> > > > > > be implemented in the DRM subsystem, not hard-coded in DT. These ad-hoc
-> > > > > > samsung,*-clock-frequency properties shouldn't even be needed then.
-> > > > > >
-> > > > > > Also, are the DSIM bindings stable now ?
-> > > > >
-> > > > > Thanks Marek.
-> > > > >
-> > > > > No, there is no dsim driver yet. I'm not clear if there is still
-> > > > > dissagreement on if the drm/exynos driver can be split up or if a
-> > > > > whole new somewhat duplicate driver needs to be made. I know Jagan
-> > > > > also has a series he is working on that uses drm/exynos which I
-> > > > > believe he will share an update on in a day or so.
-> > > > >
-> > > > > I'm still using the work that Michael [1] and you [2] did a long time back.
-> > > > >
-> > > > > I had this solution working on a 5.10 kernel but it was based on the
-> > > > > old unapproved IMX8MM blk-ctl and pd drivers. Therefore I believe the
-> > > > > issue I'm having is something not setup correctly with blk-ctl per my
-> > > > > dt settings or perhaps something missing from the blk-ctl driver like
-> > > > > Adam found [3]
-> > > > >
-> > > > > I am hanging at:
-> > > > > [    1.064088] imx_pgc_power_up gpumix
-> > > > > [    1.077506] imx_pgc_power_down gpumix
-> > > > > [    1.097685] imx8m_blk_ctrl_power_on dispblk-mipi-dsi
-> > > > > [    1.102682] imx_pgc_power_up dispmix
-> > > > > [    1.106825] imx_pgc_power_up mipi
-> > > > > [    1.110232] imx-dsim-dsi 32e10000.mipi_dsi: supply vddcore not
-> > > > > found, using dummy regulator
-> > > > > [    1.118760] imx-dsim-dsi 32e10000.mipi_dsi: supply vddio not found,
-> > > > > using dummy regulator
-> > > > > [    1.127361] imx-dsim-dsi 32e10000.mipi_dsi: [drm] *ERROR* modalias
-> > > > > failure on /soc@0/bus@32c00000/mipi_dsi@32e10000/port@0
-> > > > > [    1.138676] imx8m_blk_ctrl_power_off dispblk-mipi-dsi
-> > > > > [    1.143788] imx_pgc_power_down mipi
-> > > > > [    1.145278] imx8m_blk_ctrl_power_on dispblk-lcdif
-> > > > > [    1.147316] imx_pgc_power_down dispmix
-> > > > > [    1.155804] imx_pgc_power_up dispmix
-> > > > > [    1.159820] [drm:drm_bridge_attach] *ERROR* failed to attach bridge
-> > > > > /soc@0/bus@32c00000/mipi_dsi@32e10000 to encoder None-34: -517
-> > > > > ^^^ this is just a defer
-> > > > > [    1.171789] imx8m_blk_ctrl_power_off dispblk-lcdif
-> > > > > [    1.176655] imx_pgc_power_down dispmix
-> > > > > [    1.181790] libphy: fec_enet_mii_bus: probed
-> > > > > [    3.915806] panel-simple panel: Expected bpc in {6,8} but got: 0
-> > > > > ^^^ not sure what this is but had it back in my 5.10 solution as well
-> > > > > so did not investigate
-> > > > > [    3.921912] imx8m_blk_ctrl_power_on dispblk-mipi-dsi
-> > > > > [    3.926936] imx_pgc_power_up dispmix
-> > > > > [    3.931109] imx_pgc_power_up mipi
-> > > > > [    3.935409] imx8m_blk_ctrl_power_on dispblk-lcdif
-> > > > > [    3.940547] imx8m_blk_ctrl_power_off dispblk-lcdif
-> > > > > [    3.945626] [drm] Initialized mxsfb-drm 1.0.0 20160824 for
-> > > > > 32e00000.lcdif on minor 0
-> > > > > ^^^ not clear why dispblk-lcdif got disabled here
-> > > >
-> > > > I've reproduced this. look like lcdif power-domains are not notified
-> > > > ON. checking on the power-sequence for lcdif side. old patches from
-> > > > Lucas on v5.13 seems working as expected.
-> > >
-> > > I've found the issue on lcdif atomic_enable, where the bus format is
-> > > retrieved from NULL bus_state. Here is the diff for it.
-> > >
-> > > --- a/drivers/gpu/drm/mxsfb/mxsfb_kms.c
-> > > +++ b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
-> > > @@ -359,13 +359,14 @@ static void mxsfb_crtc_atomic_enable(struct
-> > > drm_crtc *crtc,
-> > >         drm_crtc_vblank_on(crtc);
-> > >
-> > >         /* If there is a bridge attached to the LCDIF, use its bus format */
-> > > -       if (mxsfb->bridge) {
-> > > +       if (mxsfb->bridge && state) {
-> > >                 bridge_state =
-> > >                         drm_atomic_get_new_bridge_state(state,
-> > >                                                         mxsfb->bridge);
-> > > -               bus_format = bridge_state->input_bus_cfg.format;
-> > > +               if (bridge_state)
-> > > +                       bus_format = bridge_state->input_bus_cfg.format;
-> > >'
-> > > I believe this can be fixed via DSIM bridge. working on for those
-> > > changes, the key challenges is to make the DSIM to work even for
-> > > exynos, which indeed blocker for me to validate in hardware (i don't
-> > > have DSI based exynos).
-> > >
-> > > Meanwhile, I have posed RFC for DSIM DTS changes, please check it here.
-> > > https://patchwork.kernel.org/project/dri-devel/cover/20211111101456.584061-1-jagan@amarulasolutions.com/
-> > >
-> >
-> > Jagan,
-> >
-> > Thank you! This does resolve the hang on my end as well. I will look
-> > at your 'arm64: imx8mm: Add MIPI DSI support' series.
-> >
-> > There was some discussion regarding giving up on trying to split up
-> > the exynos driver such that it could work with IMX8MM vs just
-> > duplicating it. I thought the recommendation was to duplicate it as it
-> > wasn't clear if there was a way to split it out without breaking
-> > current exynos DSI but I'll have to see if I can find the thread.
->
-> The thread is here:
->
-> https://lore.kernel.org/all/CAKMK7uF0B1TrtVX+9Whasz49quha_is+77z2wX3c06BsWRiPcQ@mail.gmail.com/
->
-> Duplicating seems to be the best way forward, because the Exynos driver
-> exposes some special behavior (discussed earlier in the same thread), which
-> isn't compatible with how bridges work.
+Hi Jernej,
 
-Not quite sure about it. Laurent and Inki had similar discussion and
-looking for common bridge [1].
+On 10/11/2021 20:20, Jernej Škrabec wrote:
+> Hi Neil,
+> 
+> sorry for late response.
+> 
+> Dne petek, 29. oktober 2021 ob 15:59:47 CET je Neil Armstrong napisal(a):
+>> The current ELD handling takes the internal connector ELD buffer and
+>> shares it to the I2S and AHB sub-driver.
+>>
+>> But with DRM_BRIDGE_ATTACH_NO_CONNECTOR, the connector is created
+>> elsewhere (not not), and an eventual connector is known only
+> 
+> ^ typo, 2x "not"
 
-[1] https://patchwork.kernel.org/project/linux-arm-kernel/patch/20210704090230.26489-7-jagan@amarulasolutions.com/
+thx, fixing while applying !
 
-Jagan.
+> 
+> Other than that, it looks good.
+> 
+> Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+
+Applying to drm-misc-next
+
+Thanks,
+Neil
+
+> 
+> Best regards,
+> Jernej
+> 
+>> if the bridge chain up to a connector is enabled.
+>>
+>> The current dw-hdmi code gets the current connector from
+>> atomic_enable() so use the already stored connector pointer and
+>> replace the buffer pointer with a callback returning the current
+>> connector ELD buffer.
+>>
+>> Since a connector is not always available, either pass an empty
+>> ELD to the alsa HDMI driver or don't call snd_pcm_hw_constraint_eld()
+>> in AHB driver.
+>>
+>> Reported-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+>> Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
+>> ---
+>>  drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c | 10 +++++++---
+>>  drivers/gpu/drm/bridge/synopsys/dw-hdmi-audio.h     |  4 ++--
+>>  drivers/gpu/drm/bridge/synopsys/dw-hdmi-i2s-audio.c |  9 ++++++++-
+>>  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c           | 12 ++++++++++--
+>>  4 files changed, 27 insertions(+), 8 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c b/drivers/
+> gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c
+>> index d0db1acf11d7..7d2ed0ed2fe2 100644
+>> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c
+>> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c
+>> @@ -320,13 +320,17 @@ static int dw_hdmi_open(struct snd_pcm_substream 
+> *substream)
+>>  	struct snd_pcm_runtime *runtime = substream->runtime;
+>>  	struct snd_dw_hdmi *dw = substream->private_data;
+>>  	void __iomem *base = dw->data.base;
+>> +	u8 *eld;
+>>  	int ret;
+>>  
+>>  	runtime->hw = dw_hdmi_hw;
+>>  
+>> -	ret = snd_pcm_hw_constraint_eld(runtime, dw->data.eld);
+>> -	if (ret < 0)
+>> -		return ret;
+>> +	eld = dw->data.get_eld(dw->data.hdmi);
+>> +	if (eld) {
+>> +		ret = snd_pcm_hw_constraint_eld(runtime, eld);
+>> +		if (ret < 0)
+>> +			return ret;
+>> +	}
+>>  
+>>  	ret = snd_pcm_limit_hw_rates(runtime);
+>>  	if (ret < 0)
+>> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-audio.h b/drivers/gpu/
+> drm/bridge/synopsys/dw-hdmi-audio.h
+>> index cb07dc0da5a7..f72d27208ebe 100644
+>> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-audio.h
+>> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-audio.h
+>> @@ -9,15 +9,15 @@ struct dw_hdmi_audio_data {
+>>  	void __iomem *base;
+>>  	int irq;
+>>  	struct dw_hdmi *hdmi;
+>> -	u8 *eld;
+>> +	u8 *(*get_eld)(struct dw_hdmi *hdmi);
+>>  };
+>>  
+>>  struct dw_hdmi_i2s_audio_data {
+>>  	struct dw_hdmi *hdmi;
+>> -	u8 *eld;
+>>  
+>>  	void (*write)(struct dw_hdmi *hdmi, u8 val, int offset);
+>>  	u8 (*read)(struct dw_hdmi *hdmi, int offset);
+>> +	u8 *(*get_eld)(struct dw_hdmi *hdmi);
+>>  };
+>>  
+>>  #endif
+>> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-i2s-audio.c b/drivers/
+> gpu/drm/bridge/synopsys/dw-hdmi-i2s-audio.c
+>> index feb04f127b55..f50b47ac11a8 100644
+>> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-i2s-audio.c
+>> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-i2s-audio.c
+>> @@ -135,8 +135,15 @@ static int dw_hdmi_i2s_get_eld(struct device *dev, void 
+> *data, uint8_t *buf,
+>>  			       size_t len)
+>>  {
+>>  	struct dw_hdmi_i2s_audio_data *audio = data;
+>> +	u8 *eld;
+>> +
+>> +	eld = audio->get_eld(audio->hdmi);
+>> +	if (eld)
+>> +		memcpy(buf, eld, min_t(size_t, MAX_ELD_BYTES, len));
+>> +	else
+>> +		/* Pass en empty ELD if connector not available */
+>> +		memset(buf, 0, len);
+>>  
+>> -	memcpy(buf, audio->eld, min_t(size_t, MAX_ELD_BYTES, len));
+>>  	return 0;
+>>  }
+>>  
+>> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/
+> bridge/synopsys/dw-hdmi.c
+>> index 62ae63565d3a..54d8fdad395f 100644
+>> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+>> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+>> @@ -757,6 +757,14 @@ static void hdmi_enable_audio_clk(struct dw_hdmi *hdmi, 
+> bool enable)
+>>  	hdmi_writeb(hdmi, hdmi->mc_clkdis, HDMI_MC_CLKDIS);
+>>  }
+>>  
+>> +static u8 *hdmi_audio_get_eld(struct dw_hdmi *hdmi)
+>> +{
+>> +	if (!hdmi->curr_conn)
+>> +		return NULL;
+>> +
+>> +	return hdmi->curr_conn->eld;
+>> +}
+>> +
+>>  static void dw_hdmi_ahb_audio_enable(struct dw_hdmi *hdmi)
+>>  {
+>>  	hdmi_set_cts_n(hdmi, hdmi->audio_cts, hdmi->audio_n);
+>> @@ -3432,7 +3440,7 @@ struct dw_hdmi *dw_hdmi_probe(struct platform_device 
+> *pdev,
+>>  		audio.base = hdmi->regs;
+>>  		audio.irq = irq;
+>>  		audio.hdmi = hdmi;
+>> -		audio.eld = hdmi->connector.eld;
+>> +		audio.get_eld = hdmi_audio_get_eld;
+>>  		hdmi->enable_audio = dw_hdmi_ahb_audio_enable;
+>>  		hdmi->disable_audio = dw_hdmi_ahb_audio_disable;
+>>  
+>> @@ -3445,7 +3453,7 @@ struct dw_hdmi *dw_hdmi_probe(struct platform_device 
+> *pdev,
+>>  		struct dw_hdmi_i2s_audio_data audio;
+>>  
+>>  		audio.hdmi	= hdmi;
+>> -		audio.eld	= hdmi->connector.eld;
+>> +		audio.get_eld	= hdmi_audio_get_eld;
+>>  		audio.write	= hdmi_writeb;
+>>  		audio.read	= hdmi_readb;
+>>  		hdmi->enable_audio = dw_hdmi_i2s_audio_enable;
+>> -- 
+>> 2.25.1
+>>
+>>
+> 
+> 
+
