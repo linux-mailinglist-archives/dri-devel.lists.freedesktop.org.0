@@ -1,57 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5CAE44E92C
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Nov 2021 15:48:00 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 48FE044E93B
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Nov 2021 15:54:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C7B189E0D;
-	Fri, 12 Nov 2021 14:47:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E5D376ED8A;
+	Fri, 12 Nov 2021 14:54:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com
- [209.85.210.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C48E6E047
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Nov 2021 14:47:54 +0000 (UTC)
-Received: by mail-ot1-f52.google.com with SMTP id
- a23-20020a9d4717000000b0056c15d6d0caso7030940otf.12
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Nov 2021 06:47:54 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=MqpVUsLYNqsJjO4ImeTejjx8SUZnfDjbhJPSiiUyJOQ=;
- b=Wiwjnds4Tey/cJdAo0Iy15WP1zLRYUAtnuaPzlHH4rH2W5SnQUGixJekqUPY4kjmy4
- C0pRemEGt+8dy61lu1CimbKIGU8OJ/MGV7rUPpMTWoa71y1RmjzAOtXpB7yPPacAkXIR
- IBnTflCKGaLqpYF84ubkF9j/X8E0QzvgmJJX4XmDijibml9xvJaDWj8sNqK6vTTnTJQ0
- 3BgrHBFh2LvgD1oIY2yHoZAqLmUAG+U3HNb7bkSMaPSRbzj43bSi6jAwGt15i6xyW3GQ
- 4VebnTjGo6ea18CiIw3SAcoh7xw6+4PMCwQAetHJut76i8ORev+Ej15pOZICpNJVS3Fl
- 5oXg==
-X-Gm-Message-State: AOAM53214g+GWsl/jGX+Wd5NTRKKHP0LyLUmu/7xjmpY58pz0XjxaNDI
- HuHjpyClj3xYw8yXLieH8w==
-X-Google-Smtp-Source: ABdhPJzDQAhXlkjwRvi5urW+7d003gcUAFjnSG2AHX4B3iXy467gNUrRe93n1Idba1w8d58aLwaeMw==
-X-Received: by 2002:a9d:326:: with SMTP id 35mr11139198otv.41.1636728473571;
- Fri, 12 Nov 2021 06:47:53 -0800 (PST)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net.
- [66.90.148.213])
- by smtp.gmail.com with ESMTPSA id g26sm1280650ots.25.2021.11.12.06.47.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Nov 2021 06:47:52 -0800 (PST)
-Received: (nullmailer pid 2736205 invoked by uid 1000);
- Fri, 12 Nov 2021 14:47:46 -0000
-Date: Fri, 12 Nov 2021 08:47:46 -0600
-From: Rob Herring <robh@kernel.org>
-To: "H. Nikolaus Schaller" <hns@goldelico.com>
-Subject: Re: [PATCH v6 3/8] dt-bindings: display: Add ingenic,jz4780-dw-hdmi
- DT Schema
-Message-ID: <YY5+kgNRlKHIGPlO@robh.at.kernel.org>
-References: <cover.1636573413.git.hns@goldelico.com>
- <70f2abb5277369721cb352eb50daa407bee3fd04.1636573413.git.hns@goldelico.com>
- <1636642646.871896.3774079.nullmailer@robh.at.kernel.org>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 351246ED83;
+ Fri, 12 Nov 2021 14:54:40 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10165"; a="296576949"
+X-IronPort-AV: E=Sophos;i="5.87,229,1631602800"; d="scan'208";a="296576949"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Nov 2021 06:54:39 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.87,229,1631602800"; d="scan'208";a="453170148"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
+ by orsmga006.jf.intel.com with SMTP; 12 Nov 2021 06:54:35 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Fri, 12 Nov 2021 16:54:35 +0200
+Date: Fri, 12 Nov 2021 16:54:35 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Harry Wentland <harry.wentland@amd.com>
+Subject: Re: [RFC v2 05/22] drm/i915/xelpd: Define Degamma Lut range struct
+ for HDR planes
+Message-ID: <YY6AK/sTiWooE+rQ@intel.com>
+References: <20210906213904.27918-1-uma.shankar@intel.com>
+ <20210906213904.27918-6-uma.shankar@intel.com>
+ <52ce874c-64ae-d7a9-bc4e-255cfa49f410@amd.com>
+ <YY1H//+XISVMFZNL@intel.com>
+ <edc4b80279354ec7bcdb0a890dae7d79@intel.com>
+ <4a26ada6-feaa-76df-3ffe-d694e367d809@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <1636642646.871896.3774079.nullmailer@robh.at.kernel.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <4a26ada6-feaa-76df-3ffe-d694e367d809@amd.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,61 +53,178 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, Paul Boddie <paul@boddie.org.uk>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Paul Cercueil <paul@crapouillou.net>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>, Sam Ravnborg <sam@ravnborg.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, linux-mips@vger.kernel.org,
- devicetree@vger.kernel.org, Kees Cook <keescook@chromium.org>,
- Jonas Karlman <jonas@kwiboo.se>, Mark Brown <broonie@kernel.org>,
- Maxime Ripard <maxime@cerno.tech>, letux-kernel@openphoenux.org,
- Ezequiel Garcia <ezequiel@collabora.com>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Liam Girdwood <lgirdwood@gmail.com>, Robert Foss <robert.foss@linaro.org>,
- "Eric W. Biederman" <ebiederm@xmission.com>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: "Shashank.Sharma@amd.com" <Shashank.Sharma@amd.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "sebastian@sebastianwick.net" <sebastian@sebastianwick.net>, "Shankar,
+ Uma" <uma.shankar@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Nov 11, 2021 at 08:57:26AM -0600, Rob Herring wrote:
-> On Wed, 10 Nov 2021 20:43:28 +0100, H. Nikolaus Schaller wrote:
-> > From: Sam Ravnborg <sam@ravnborg.org>
+On Thu, Nov 11, 2021 at 04:10:41PM -0500, Harry Wentland wrote:
+> 
+> 
+> On 2021-11-11 15:42, Shankar, Uma wrote:
 > > 
-> > Add DT bindings for the hdmi driver for the Ingenic JZ4780 SoC.
-> > Based on .txt binding from Zubair Lutfullah Kakakhel
 > > 
-> > We also add add generic ddc-i2c-bus to synopsys,dw-hdmi.yaml
+> >> -----Original Message-----
+> >> From: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> >> Sent: Thursday, November 11, 2021 10:13 PM
+> >> To: Harry Wentland <harry.wentland@amd.com>
+> >> Cc: Shankar, Uma <uma.shankar@intel.com>; intel-gfx@lists.freedesktop.org; dri-
+> >> devel@lists.freedesktop.org; ppaalanen@gmail.com; brian.starkey@arm.com;
+> >> sebastian@sebastianwick.net; Shashank.Sharma@amd.com
+> >> Subject: Re: [RFC v2 05/22] drm/i915/xelpd: Define Degamma Lut range struct for
+> >> HDR planes
+> >>
+> >> On Thu, Nov 11, 2021 at 10:17:17AM -0500, Harry Wentland wrote:
+> >>>
+> >>>
+> >>> On 2021-09-06 17:38, Uma Shankar wrote:
+> >>>> Define the structure with XE_LPD degamma lut ranges. HDR and SDR
+> >>>> planes have different capabilities, implemented respective structure
+> >>>> for the HDR planes.
+> >>>>
+> >>>> Signed-off-by: Uma Shankar <uma.shankar@intel.com>
+> >>>> ---
+> >>>>  drivers/gpu/drm/i915/display/intel_color.c | 52
+> >>>> ++++++++++++++++++++++
+> >>>>  1 file changed, 52 insertions(+)
+> >>>>
+> >>>> diff --git a/drivers/gpu/drm/i915/display/intel_color.c
+> >>>> b/drivers/gpu/drm/i915/display/intel_color.c
+> >>>> index afcb4bf3826c..6403bd74324b 100644
+> >>>> --- a/drivers/gpu/drm/i915/display/intel_color.c
+> >>>> +++ b/drivers/gpu/drm/i915/display/intel_color.c
+> >>>> @@ -2092,6 +2092,58 @@ static void icl_read_luts(struct intel_crtc_state
+> >> *crtc_state)
+> >>>>  	}
+> >>>>  }
+> >>>>
+> >>>> + /* FIXME input bpc? */
+> >>>> +__maybe_unused
+> >>>> +static const struct drm_color_lut_range d13_degamma_hdr[] = {
+> >>>> +	/* segment 1 */
+> >>>> +	{
+> >>>> +		.flags = (DRM_MODE_LUT_GAMMA |
+> >>>> +			  DRM_MODE_LUT_REFLECT_NEGATIVE |
+> >>>> +			  DRM_MODE_LUT_INTERPOLATE |
+> >>>> +			  DRM_MODE_LUT_NON_DECREASING),
+> >>>> +		.count = 128,
+> >>>> +		.input_bpc = 24, .output_bpc = 16,
+> >>>> +		.start = 0, .end = (1 << 24) - 1,
+> >>>> +		.min = 0, .max = (1 << 24) - 1,
+> >>>> +	},
+> >>>> +	/* segment 2 */
+> >>>> +	{
+> >>>> +		.flags = (DRM_MODE_LUT_GAMMA |
+> >>>> +			  DRM_MODE_LUT_REFLECT_NEGATIVE |
+> >>>> +			  DRM_MODE_LUT_INTERPOLATE |
+> >>>> +			  DRM_MODE_LUT_REUSE_LAST |
+> >>>> +			  DRM_MODE_LUT_NON_DECREASING),
+> >>>> +		.count = 1,
+> >>>> +		.input_bpc = 24, .output_bpc = 16,
+> >>>> +		.start = (1 << 24) - 1, .end = 1 << 24,
+> >>>> +		.min = 0, .max = (1 << 27) - 1,
+> >>>> +	},
+> >>>> +	/* Segment 3 */
+> >>>> +	{
+> >>>> +		.flags = (DRM_MODE_LUT_GAMMA |
+> >>>> +			  DRM_MODE_LUT_REFLECT_NEGATIVE |
+> >>>> +			  DRM_MODE_LUT_INTERPOLATE |
+> >>>> +			  DRM_MODE_LUT_REUSE_LAST |
+> >>>> +			  DRM_MODE_LUT_NON_DECREASING),
+> >>>> +		.count = 1,
+> >>>> +		.input_bpc = 24, .output_bpc = 16,
+> >>>> +		.start = 1 << 24, .end = 3 << 24,
+> >>>> +		.min = 0, .max = (1 << 27) - 1,
+> >>>> +	},
+> >>>> +	/* Segment 4 */
+> >>>> +	{
+> >>>> +		.flags = (DRM_MODE_LUT_GAMMA |
+> >>>> +			  DRM_MODE_LUT_REFLECT_NEGATIVE |
+> >>>> +			  DRM_MODE_LUT_INTERPOLATE |
+> >>>> +			  DRM_MODE_LUT_REUSE_LAST |
+> >>>> +			  DRM_MODE_LUT_NON_DECREASING),
+> >>>> +		.count = 1,
+> >>>> +		.input_bpc = 24, .output_bpc = 16,
+> >>>> +		.start = 3 << 24, .end = 7 << 24,
+> >>>> +		.min = 0, .max = (1 << 27) - 1,
+> >>>> +	},
+> >>>> +};
+> >>>
+> >>> If I understand this right, userspace would need this definition in
+> >>> order to populate the degamma blob. Should this sit in a UAPI header?
 > > 
-> > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> > Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
-> > Cc: Rob Herring <robh@kernel.org>
-> > Cc: devicetree@vger.kernel.org
-> > ---
-> >  .../display/bridge/synopsys,dw-hdmi.yaml      |  3 +
-> >  .../bindings/display/ingenic-jz4780-hdmi.yaml | 76 +++++++++++++++++++
-
-This goes in display/bridge/. And use compatible string for the file 
-name: ingenic,jz4780-hdmi.yaml
-
-> >  2 files changed, 79 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/display/ingenic-jz4780-hdmi.yaml
+> > Hi Harry, Pekka and Ville,
+> > Sorry for being a bit late on the replies, got side tracked with various issues.
+> > I am back on this. Apologies for delay.
+> > 
+> >> My original idea (not sure it's fully realized in this series) is to have a new
+> >> GAMMA_MODE/etc. enum property on each crtc (or plane) for which each enum
+> >> value points to a kernel provided blob that contains one of these LUT descriptors.
+> >> Userspace can then query them dynamically and pick the best one for its current use
+> >> case.
+> > 
+> > We have this as part of the series Ville. Patch 3 of this series creates a DEGAMMA_MODE
+> > property just for this. With that userspace can just query the blob_id's and will get the
+> > various degamma mode possible and the respective segment and lut distributions.
+> > 
+> > This will be generic, so for userspace it should just be able to query this and parse and get
+> > the lut distribution and segment ranges.
 > > 
 > 
-> My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-> on your patch (DT_CHECKER_FLAGS is new in v5.13):
+> Thanks for the explanation.
 > 
-> yamllint warnings/errors:
-> ./Documentation/devicetree/bindings/display/ingenic-jz4780-hdmi.yaml:36:5: [warning] wrong indentation: expected 2 but found 4 (indentation)
+> Uma, have you had a chance to sketch some of this out in IGT? I'm trying
+> to see how userspace would do this in practice and will try to sketch an
+> IGT test for this myself, but if you have it already we could share the
+> effort.
 > 
-> dtschema/dtc warnings/errors:
-> /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/ingenic-jz4780-hdmi.example.dt.yaml: hdmi@10180000: 'clock-names', 'ddc-i2c-bus', 'interrupt-parent', 'interrupts', 'reg' do not match any of the regexes: 'pinctrl-[0-9]+'
-> 	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/ingenic-jz4780-hdmi.yaml
+> >> The algorithm for choosing the best one might be something like:
+> >> - prefer LUT with bpc >= FB bpc, but perhaps not needlessly high bpc
+> >> - prefer interpolated vs. direct lookup based on current needs (eg. X
+> >>   could prefer direct lookup to get directcolor visuals).
+> >> - prefer one with extended range values if needed
+> >> - for HDR prefer smaller step size in dark tones,
+> >>   for SDR perhaps prefer a more uniform step size
+> >>
+> >> Or maybe we should include some kind of usage hints as well?
+> > 
+> > I think the segment range and distribution of lut should be enough for a userspace
+> > to pick the right ones, but we can add some examples in UAPI descriptions as hints.
+> > 
+> 
+> The range might be enough, but we're already parsing hints like "GAMMA"
+> or "DEGAMMA". I wonder if it would make sense to add a flag for "HDR" or
+> "SDR" as well.
+> 
+> >> And I was thinking of even adding a new property type (eg.
+> >> ENUM_BLOB) just for this sort of usecase. That could let us have a bit more generic
+> >> code to do all the validation around the property values and whatnot.
+> >>
+> >> The one nagging concern I really have with GAMMA_MODE is how a mix of old and
+> >> new userspace would work. Though that is more of a generic issue with any new
+> >> property really.
+> > 
+> > For plane properties getting added newly, old userspace will not get it so I think this should be ok.
+> > Newer userspace will implement this and get the new functionality.
+> > Problem will be in extending this to crtc where we have a legacy baggage, the client caps approach
+> > may help us there. Have it as part of separate series just to not mix it with this new plane stuff, though
+> > the idea remains same based on your design. Series below for reference:
+> > https://patchwork.freedesktop.org/series/90821/>> 
+> 
+> Could we just assume we do a uniform LUT if userspace doesn't
+> set a _MODE enum value for the respective gamma?
+> 
+> Maybe the _MODE should have a default enum value that means
+> a uniform (legacy) LUT.
 
-I think you need to use 'unevaluatedPropertes' instead of 
-'additionalProperties' if you are getting these properties from 
-synopsys,dw-hdmi.yaml.
+Yeah, it definitely needs a default like that. But the problem arises
+when new userspace sets it to something else and then hands the reins
+over to some old userspace that doesn't know how to reset it back to
+default.
 
-Rob
+-- 
+Ville Syrjälä
+Intel
