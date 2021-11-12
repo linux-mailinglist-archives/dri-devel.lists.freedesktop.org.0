@@ -2,57 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD3E144E062
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Nov 2021 03:39:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9E7E44E090
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Nov 2021 03:52:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5AA6B6E3F7;
-	Fri, 12 Nov 2021 02:39:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D84C6E4AD;
+	Fri, 12 Nov 2021 02:52:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com
- [IPv6:2607:f8b0:4864:20::632])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F4D26E3F7
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Nov 2021 02:39:52 +0000 (UTC)
-Received: by mail-pl1-x632.google.com with SMTP id o14so7292798plg.5
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Nov 2021 18:39:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=IBQs7fu+H8AhiV4259K+BvetOv7yqdM5oNTRoi6ACrs=;
- b=Ww7izhamLDzitGvxzmrbd8T9UJu0DrgvgwVdVPnzlFy1KwkvBANXJyNdPxT1iS0ATZ
- oqREhDd8QuyjT2sTMwAsPzsZXYVpezaBa+jxl9MtM9ermq7Wv021wHk3ROso60QJT7Na
- ZuzwI18yC78qYW034X7l4DOgj9rCVfE07bitdST6r4FaBQMJKl6Uc/XrHLNK2TbgLOQH
- 2gWjh2o4h2weHoYj60+o6hCnSIeGCu/z0G9AaYggLfTYDK+9WlW6YDh3HoGXxT+e9KjV
- sRtlTm+ajfgDvScafHZJV1I/i6OTpStCNatEZPavuDNNZsK4UZc9sac7TCRCS5LMbRIS
- G7iA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=IBQs7fu+H8AhiV4259K+BvetOv7yqdM5oNTRoi6ACrs=;
- b=nGinc2SZFm7izWAm2lI8FHp3y8cLPg7VGTxHWfDqCCJ+VF0amEWrN+XPDlZFxU6H+a
- 6lyuf3uwSlj6HaNCedmrPB58h5NPDESt0g1EO7yPY8YPKibne2DzwNyyWuMn1KzrI7jp
- xWOPEO6nuXzIcEb37d7VbQZPaXTn4GS2auHbRVFbrCi0xJUsuFnSmhwCEecnMP6Zt/uX
- meQfaIINjASwgGG6xse20DJTmJzrMLZG0UntCb/q2/APOhZrQEvwGgz6jaIL8RK3zBBh
- BbQNsfqCf2iwVAW0506tFOF+crz2lXTn9YPqOi9pAeHR5uiGi9f36x4tauFJVbnNyq0l
- NEPQ==
-X-Gm-Message-State: AOAM530Mee02GmWvKQcTOMhtfTpYx7A2maXV63M17STT9GMxZK0lFJE5
- eNaTOE1rgtJYgNb9PggA/J0=
-X-Google-Smtp-Source: ABdhPJxOgVjtPLmL63yp3nVk7hGgiVBT66VPfdt2aXgEFQ7/vsDQrDhZnNdkEggqxLpxr6b9zO7edQ==
-X-Received: by 2002:a17:902:9897:b0:143:84c3:4341 with SMTP id
- s23-20020a170902989700b0014384c34341mr4293767plp.64.1636684792166; 
- Thu, 11 Nov 2021 18:39:52 -0800 (PST)
-Received: from localhost.localdomain ([193.203.214.57])
- by smtp.gmail.com with ESMTPSA id 32sm3353102pgn.31.2021.11.11.18.39.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Nov 2021 18:39:51 -0800 (PST)
-From: cgel.zte@gmail.com
-X-Google-Original-From: chi.minghao@zte.com.cn
-To: thierry.reding@gmail.com
-Subject: [PATCH] fs:btrfs: remove unneeded variable
-Date: Fri, 12 Nov 2021 02:39:47 +0000
-Message-Id: <20211112023947.4999-1-chi.minghao@zte.com.cn>
-X-Mailer: git-send-email 2.25.1
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B63936E4AD;
+ Fri, 12 Nov 2021 02:52:30 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10165"; a="233006304"
+X-IronPort-AV: E=Sophos;i="5.87,227,1631602800"; d="scan'208";a="233006304"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Nov 2021 18:52:30 -0800
+X-IronPort-AV: E=Sophos;i="5.87,227,1631602800"; d="scan'208";a="504705021"
+Received: from orsosgc001.jf.intel.com ([10.165.21.154])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Nov 2021 18:52:30 -0800
+From: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/i915/pmu: Increase the live_engine_busy_stats sample
+ period
+Date: Thu, 11 Nov 2021 18:52:22 -0800
+Message-Id: <20211112025222.61031-1-umesh.nerlige.ramappa@intel.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -67,45 +43,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, Zeal Robot <zealci@zte.com.cm>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- jonathanh@nvidia.com, chiminghao <chi.minghao@zte.com.cn>,
- linux-tegra@vger.kernel.org
+Cc: Matthew Brost <matthew.brost@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, john.c.harrison@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: chiminghao <chi.minghao@zte.com.cn>
+Irrespective of the backend for request submissions, busyness for an
+engine with an active context is calculated using:
 
-Fix the following coccicheck REVIEW:
-./fs/btrfs/extent_map.c:299:5-8 REVIEW Unneeded variable
+busyness = total + (current_time - context_switch_in_time)
 
-Reported-by: Zeal Robot <zealci@zte.com.cm>
-Signed-off-by: chiminghao <chi.minghao@zte.com.cn>
+In execlists mode of operation, the context switch events are handled
+by the CPU. Context switch in/out time and current_time are captured
+in CPU time domain using ktime_get().
+
+In GuC mode of submission, context switch events are handled by GuC and
+the times in the above formula are captured in GT clock domain. This
+information is shared with the CPU through shared memory. This results
+in 2 caveats:
+
+1) The time taken between start of a batch and the time that CPU is able
+to see the context_switch_in_time in shared memory is dependent on GuC
+and memory bandwidth constraints.
+
+2) Determining current_time requires an MMIO read that can take anywhere
+between a few us to a couple ms. A reference CPU time is captured soon
+after reading the MMIO so that the caller can compare the cpu delta
+between 2 busyness samples. The issue here is that the CPU delta and the
+busyness delta can be skewed because of the time taken to read the
+register.
+
+These 2 factors affect the accuracy of the selftest -
+live_engine_busy_stats. For (1) the selftest waits until busyness stats
+are visible to the CPU. The effects of (2) are more prominent for the
+current busyness sample period of 100 us. Increase the busyness sample
+period from 100 us to 10 ms to overccome (2).
+
+Signed-off-by: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
 ---
- fs/btrfs/extent_map.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/gpu/drm/i915/gt/selftest_engine_pm.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/fs/btrfs/extent_map.c b/fs/btrfs/extent_map.c
-index 5a36add21305..1dcb5486ccb6 100644
---- a/fs/btrfs/extent_map.c
-+++ b/fs/btrfs/extent_map.c
-@@ -296,7 +296,6 @@ static void try_merge_map(struct extent_map_tree *tree, struct extent_map *em)
- int unpin_extent_cache(struct extent_map_tree *tree, u64 start, u64 len,
- 		       u64 gen)
- {
--	int ret = 0;
- 	struct extent_map *em;
- 	bool prealloc = false;
- 
-@@ -328,7 +327,7 @@ int unpin_extent_cache(struct extent_map_tree *tree, u64 start, u64 len,
- 	free_extent_map(em);
- out:
- 	write_unlock(&tree->lock);
--	return ret;
-+	return 0;
- 
- }
- 
+diff --git a/drivers/gpu/drm/i915/gt/selftest_engine_pm.c b/drivers/gpu/drm/i915/gt/selftest_engine_pm.c
+index 0bfd738dbf3a..96cc565afa78 100644
+--- a/drivers/gpu/drm/i915/gt/selftest_engine_pm.c
++++ b/drivers/gpu/drm/i915/gt/selftest_engine_pm.c
+@@ -316,7 +316,7 @@ static int live_engine_busy_stats(void *arg)
+ 		ENGINE_TRACE(engine, "measuring busy time\n");
+ 		preempt_disable();
+ 		de = intel_engine_get_busy_time(engine, &t[0]);
+-		udelay(100);
++		udelay(10000);
+ 		de = ktime_sub(intel_engine_get_busy_time(engine, &t[1]), de);
+ 		preempt_enable();
+ 		dt = ktime_sub(t[1], t[0]);
 -- 
-2.25.1
+2.20.1
 
