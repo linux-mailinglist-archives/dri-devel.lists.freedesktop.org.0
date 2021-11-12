@@ -1,82 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A398644EC06
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Nov 2021 18:33:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 19F7944EC33
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Nov 2021 18:50:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 603346E948;
-	Fri, 12 Nov 2021 17:33:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C32C6E0B6;
+	Fri, 12 Nov 2021 17:50:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-00190b01.pphosted.com (mx0a-00190b01.pphosted.com
- [IPv6:2620:100:9001:583::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C81FD6E948;
- Fri, 12 Nov 2021 17:33:07 +0000 (UTC)
-Received: from pps.filterd (m0050093.ppops.net [127.0.0.1])
- by m0050093.ppops.net-00190b01. (8.16.1.2/8.16.1.2) with ESMTP id
- 1ACEa4Ps002486; Fri, 12 Nov 2021 17:32:25 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=akamai.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=jan2016.eng;
- bh=FTlTtb3zf+ArAjPKIlpds0r2Pc/R15ABpwRa+8kNx84=;
- b=Qrku+j2FDb2T7/JmMNGQ2mv2vlFdhF6hqFjwF1Fq3FKW8o2YjSRtVKGqfmP2AelRdZ8s
- lsj6/aPejEpLyBQvimPJs1zgzO46h80TyrEOErCxUMLqfKe83hj40XY5XqJyOE1AQiZR
- kCFdqFjL2gtLX4v0515fB6n4osEADBgS5S3wC6Xyn/TcT6mX/qWzS0wFtEgqQ44Bb5t6
- w5qj7G3vorPJ8ISSDqeZYZmk936QqH/F0nMaonYn0MaqDE99wXHnRxuOK8nEZoRUml8U
- 4+95GVpu49sERr+PXbHpx7c/pMoRnbS3XuhHhZC5wttSpC6XYpK+hwquxUfjRZ4Gkzut yg== 
-Received: from prod-mail-ppoint6 (prod-mail-ppoint6.akamai.com [184.51.33.61]
- (may be forged))
- by m0050093.ppops.net-00190b01. (PPS) with ESMTPS id 3c98cd39x0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 12 Nov 2021 17:32:25 +0000
-Received: from pps.filterd (prod-mail-ppoint6.akamai.com [127.0.0.1])
- by prod-mail-ppoint6.akamai.com (8.16.1.2/8.16.1.2) with SMTP id
- 1ACH53PX024205; Fri, 12 Nov 2021 12:32:24 -0500
-Received: from prod-mail-relay11.akamai.com ([172.27.118.250])
- by prod-mail-ppoint6.akamai.com with ESMTP id 3c81umn6j7-1;
- Fri, 12 Nov 2021 12:32:24 -0500
-Received: from [0.0.0.0] (prod-ssh-gw01.bos01.corp.akamai.com [172.27.119.138])
- by prod-mail-relay11.akamai.com (Postfix) with ESMTP id 9B1E627A16;
- Fri, 12 Nov 2021 17:32:23 +0000 (GMT)
-Subject: Re: [PATCH v10 08/10] dyndbg: add print-to-tracefs, selftest with it
- - RFC
-To: Steven Rostedt <rostedt@goodmis.org>
-References: <20211111220206.121610-1-jim.cromie@gmail.com>
- <20211111220206.121610-9-jim.cromie@gmail.com>
- <20211112114953.GA1381@axis.com>
- <f3914fa9-8b22-d54e-3f77-d998e74094b9@akamai.com>
- <20211112120721.3a4827ce@gandalf.local.home>
-From: Jason Baron <jbaron@akamai.com>
-Message-ID: <cfbc074c-73a5-b6be-580b-dae398d95d6b@akamai.com>
-Date: Fri, 12 Nov 2021 12:32:23 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+Received: from outgoing-stata.csail.mit.edu (outgoing-stata.csail.mit.edu
+ [128.30.2.210])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 17D686E0B6
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Nov 2021 17:50:52 +0000 (UTC)
+Received: from c-24-16-8-193.hsd1.wa.comcast.net ([24.16.8.193]
+ helo=srivatsab-a02.vmware.com)
+ by outgoing-stata.csail.mit.edu with esmtpsa (TLS1.2:RSA_AES_128_CBC_SHA1:128)
+ (Exim 4.82) (envelope-from <srivatsa@csail.mit.edu>)
+ id 1mlahI-0006py-1E; Fri, 12 Nov 2021 12:50:44 -0500
+Subject: Re: [PATCH v3 3/3] MAINTAINERS: Mark VMware mailing list entries as
+ email aliases
+To: Jakub Kicinski <kuba@kernel.org>, Joe Perches <joe@perches.com>
+References: <163657479269.84207.13658789048079672839.stgit@srivatsa-dev>
+ <163657493334.84207.11063282485812745766.stgit@srivatsa-dev>
+ <20211110173935.45a9f495@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+ <d7f3fec79287a149d6edc828583a771c84646b42.camel@perches.com>
+ <20211111055554.4f257fd2@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+From: "Srivatsa S. Bhat" <srivatsa@csail.mit.edu>
+Message-ID: <fd9df647-4c1a-b4fb-159b-4876bc5cd0b6@csail.mit.edu>
+Date: Fri, 12 Nov 2021 09:50:33 -0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.12.0
 MIME-Version: 1.0
-In-Reply-To: <20211112120721.3a4827ce@gandalf.local.home>
+In-Reply-To: <20211111055554.4f257fd2@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.425, 18.0.790
- definitions=2021-11-12_05:2021-11-11,
- 2021-11-12 signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- bulkscore=0 phishscore=0
- malwarescore=0 adultscore=0 spamscore=0 mlxlogscore=799 mlxscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
- definitions=main-2111120096
-X-Proofpoint-ORIG-GUID: whcCdKJ9XqGmPezo_Z88Q4exD-BG-aSS
-X-Proofpoint-GUID: whcCdKJ9XqGmPezo_Z88Q4exD-BG-aSS
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
- definitions=2021-11-12_05,2021-11-12_01,2020-04-07_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 impostorscore=0
- phishscore=0
- suspectscore=0 bulkscore=0 lowpriorityscore=0 clxscore=1015 adultscore=0
- mlxlogscore=842 malwarescore=0 priorityscore=1501 spamscore=0 mlxscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
- definitions=main-2111120097
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,59 +48,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_saipraka@quicinc.com, catalin.marinas@arm.com,
- dri-devel@lists.freedesktop.org, will@kernel.org, maz@kernel.org,
- Vincent Whitchurch <vincent.whitchurch@axis.com>,
- amd-gfx@lists.freedesktop.org, mingo@redhat.com, daniel.vetter@ffwll.ch,
- arnd@arndb.de, linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- seanpaul@chromium.org, intel-gvt-dev@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, sean@poorly.run,
- Jim Cromie <jim.cromie@gmail.com>, gregkh@linuxfoundation.org,
- linux-kernel@vger.kernel.org, quic_psodagud@quicinc.com,
- mathieu.desnoyers@efficios.com
+Cc: Ronak Doshi <doshir@vmware.com>, pv-drivers@vmware.com,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
+ Nadav Amit <namit@vmware.com>, amakhalov@vmware.com, srivatsa@csail.mit.edu,
+ srivatsab@vmware.com, sdeep@vmware.com, linux-scsi@vger.kernel.org,
+ Vishal Bhakta <vbhakta@vmware.com>, x86@kernel.org,
+ linux-graphics-maintainer@vmware.com, linux-input@vger.kernel.org,
+ rostedt@goodmis.org, keerthanak@vmware.com, jgross@suse.com, anishs@vmware.com,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-rdma@vger.kernel.org, Vivek Thampi <vithampi@vmware.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
+[ Resending since my previous reply didn't reach the mailing lists. ]
 
-On 11/12/21 12:07 PM, Steven Rostedt wrote:
-> On Fri, 12 Nov 2021 10:08:41 -0500
-> Jason Baron <jbaron@akamai.com> wrote:
-> 
->>> A key difference between that patchset and this patch (besides that
->>> small fact that I used +x instead of +T) was that my patchset allowed
->>> the dyndbg trace to be emitted to the main buffer and did not force them
->>> to be in an instance-specific buffer.  
+On 11/11/21 5:55 AM, Jakub Kicinski wrote:
+> On Wed, 10 Nov 2021 21:19:53 -0800 Joe Perches wrote:
+>> On Wed, 2021-11-10 at 17:39 -0800, Jakub Kicinski wrote:
+>>> On Wed, 10 Nov 2021 12:09:06 -0800 Srivatsa S. Bhat wrote:  
+>>>>  DRM DRIVER FOR VMWARE VIRTUAL GPU
+>>>> -M:	"VMware Graphics" <linux-graphics-maintainer@vmware.com>
+>>>>  M:	Zack Rusin <zackr@vmware.com>
+>>>> +R:	VMware Graphics Reviewers <linux-graphics-maintainer@vmware.com>
+>>>>  L:	dri-devel@lists.freedesktop.org
+>>>>  S:	Supported
+>>>>  T:	git git://anongit.freedesktop.org/drm/drm-misc  
+>>>
+>>> It'd be preferable for these corporate entries to be marked or
+>>> otherwise distinguishable so that we can ignore them when we try 
+>>> to purge MAINTAINERS from developers who stopped participating.
+>>>
+>>> These addresses will never show up in a commit tag which is normally
+>>> sign of inactivity.  
 >>
->> Yes, I agree I'd prefer that we print here to the 'main' buffer - it seems to keep things simpler and easier to combine the output from different
->> sources as you mentioned.
+>> Funny.
+>>
+>> The link below is from over 5 years ago.
+>>
+>> https://lore.kernel.org/lkml/1472081625.3746.217.camel@perches.com/
+>>
+>> Almost all of those entries are still in MAINTAINERS.
+>>
+>> I think the concept of purging is a non-issue.
 > 
-> I do not want anything to print to the "main buffer" that can not be
-> filtered or turned off by the tracing infrastructure itself (aka tracefs
-> file system).
+> I cleaned networking in January and intend to do it again in 2 months.
+> See:
 > 
-> Once we allow that, then the trace file will become useless because
-> everything will write to the main buffer and fill it with noise.
+> 054c4610bd05 MAINTAINERS: dccp: move Gerrit Renker to CREDITS
+> 4f3786e01194 MAINTAINERS: ipvs: move Wensong Zhang to CREDITS
+> 0e4ed0b62b5a MAINTAINERS: tls: move Aviad to CREDITS
+> c41efbf2ad56 MAINTAINERS: ena: remove Zorik Machulsky from reviewers
+> 5e62d124f75a MAINTAINERS: vrf: move Shrijeet to CREDITS
+> 09cd3f4683a9 MAINTAINERS: net: move Alexey Kuznetsov to CREDITS
+> 93089de91e85 MAINTAINERS: altx: move Jay Cliburn to CREDITS
+> 8b0f64b113d6 MAINTAINERS: remove names from mailing list maintainers
 > 
-> Events that can be enabled and disabled from tracefs are fine, as they can
-> be limited. This is why I added that nasty warning if people leave around
-> trace_printk(), because it does exactly this (write to the main buffer).
-> It's fine for debugging a custom kernel, but should never be enabled in
-> something that is shipped, or part of mainline.
-> 
-> -- Steve
-> 
+I'm assuming the purging is not totally automated, is it? As long as
+the entries are informative to a human reader, it should be possible
+to skip the relevant ones when purging inactive entries.
 
-Ok, it looks like Vincent's patch defines a dyndbg event and then uses
-'trace_dyndbg()' to output to the 'main' log. So all dynamic output to
-the 'main' ftrace buffer goes through that event if I understand it
-correctly. Here's a pointer to it for reference:
+I believe this patch makes the situation better than it is currently
+(at least for the human reader), by marking lists without public
+read-access in a format that is more appropriate. In the future, we
+could perhaps improve on it to ease automation too, but for now I
+think it is worthwhile to merge this change (unless there are strong
+objections or better alternatives that everyone agrees on).
 
-https://lore.kernel.org/lkml/20200825153338.17061-3-vincent.whitchurch@axis.com/
-
-Would you be ok with that approach?
-
-Thanks,
-
--Jason
-
+Regards,
+Srivatsa
