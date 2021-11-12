@@ -2,39 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19F7944EC33
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Nov 2021 18:50:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7BDA44EC45
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Nov 2021 18:54:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C32C6E0B6;
-	Fri, 12 Nov 2021 17:50:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DAF7B6E8EC;
+	Fri, 12 Nov 2021 17:54:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from outgoing-stata.csail.mit.edu (outgoing-stata.csail.mit.edu
- [128.30.2.210])
- by gabe.freedesktop.org (Postfix) with ESMTP id 17D686E0B6
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Nov 2021 17:50:52 +0000 (UTC)
-Received: from c-24-16-8-193.hsd1.wa.comcast.net ([24.16.8.193]
- helo=srivatsab-a02.vmware.com)
- by outgoing-stata.csail.mit.edu with esmtpsa (TLS1.2:RSA_AES_128_CBC_SHA1:128)
- (Exim 4.82) (envelope-from <srivatsa@csail.mit.edu>)
- id 1mlahI-0006py-1E; Fri, 12 Nov 2021 12:50:44 -0500
-Subject: Re: [PATCH v3 3/3] MAINTAINERS: Mark VMware mailing list entries as
- email aliases
-To: Jakub Kicinski <kuba@kernel.org>, Joe Perches <joe@perches.com>
-References: <163657479269.84207.13658789048079672839.stgit@srivatsa-dev>
- <163657493334.84207.11063282485812745766.stgit@srivatsa-dev>
- <20211110173935.45a9f495@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
- <d7f3fec79287a149d6edc828583a771c84646b42.camel@perches.com>
- <20211111055554.4f257fd2@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-From: "Srivatsa S. Bhat" <srivatsa@csail.mit.edu>
-Message-ID: <fd9df647-4c1a-b4fb-159b-4876bc5cd0b6@csail.mit.edu>
-Date: Fri, 12 Nov 2021 09:50:33 -0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.12.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C2EAC6E85F;
+ Fri, 12 Nov 2021 17:54:55 +0000 (UTC)
+Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com
+ [66.24.58.225])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 6771D60EBD;
+ Fri, 12 Nov 2021 17:54:53 +0000 (UTC)
+Date: Fri, 12 Nov 2021 12:54:51 -0500
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Jason Baron <jbaron@akamai.com>
+Subject: Re: [PATCH v10 08/10] dyndbg: add print-to-tracefs, selftest with
+ it - RFC
+Message-ID: <20211112125451.76b00818@gandalf.local.home>
+In-Reply-To: <cfbc074c-73a5-b6be-580b-dae398d95d6b@akamai.com>
+References: <20211111220206.121610-1-jim.cromie@gmail.com>
+ <20211111220206.121610-9-jim.cromie@gmail.com>
+ <20211112114953.GA1381@axis.com>
+ <f3914fa9-8b22-d54e-3f77-d998e74094b9@akamai.com>
+ <20211112120721.3a4827ce@gandalf.local.home>
+ <cfbc074c-73a5-b6be-580b-dae398d95d6b@akamai.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20211111055554.4f257fd2@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -48,72 +47,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ronak Doshi <doshir@vmware.com>, pv-drivers@vmware.com,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
- Nadav Amit <namit@vmware.com>, amakhalov@vmware.com, srivatsa@csail.mit.edu,
- srivatsab@vmware.com, sdeep@vmware.com, linux-scsi@vger.kernel.org,
- Vishal Bhakta <vbhakta@vmware.com>, x86@kernel.org,
- linux-graphics-maintainer@vmware.com, linux-input@vger.kernel.org,
- rostedt@goodmis.org, keerthanak@vmware.com, jgross@suse.com, anishs@vmware.com,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-rdma@vger.kernel.org, Vivek Thampi <vithampi@vmware.com>
+Cc: quic_saipraka@quicinc.com, catalin.marinas@arm.com,
+ dri-devel@lists.freedesktop.org, will@kernel.org, maz@kernel.org,
+ Vincent Whitchurch <vincent.whitchurch@axis.com>,
+ amd-gfx@lists.freedesktop.org, mingo@redhat.com, daniel.vetter@ffwll.ch,
+ arnd@arndb.de, linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ seanpaul@chromium.org, intel-gvt-dev@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, sean@poorly.run,
+ Jim Cromie <jim.cromie@gmail.com>, gregkh@linuxfoundation.org,
+ linux-kernel@vger.kernel.org, quic_psodagud@quicinc.com,
+ mathieu.desnoyers@efficios.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, 12 Nov 2021 12:32:23 -0500
+Jason Baron <jbaron@akamai.com> wrote:
 
-[ Resending since my previous reply didn't reach the mailing lists. ]
-
-On 11/11/21 5:55 AM, Jakub Kicinski wrote:
-> On Wed, 10 Nov 2021 21:19:53 -0800 Joe Perches wrote:
->> On Wed, 2021-11-10 at 17:39 -0800, Jakub Kicinski wrote:
->>> On Wed, 10 Nov 2021 12:09:06 -0800 Srivatsa S. Bhat wrote:  
->>>>  DRM DRIVER FOR VMWARE VIRTUAL GPU
->>>> -M:	"VMware Graphics" <linux-graphics-maintainer@vmware.com>
->>>>  M:	Zack Rusin <zackr@vmware.com>
->>>> +R:	VMware Graphics Reviewers <linux-graphics-maintainer@vmware.com>
->>>>  L:	dri-devel@lists.freedesktop.org
->>>>  S:	Supported
->>>>  T:	git git://anongit.freedesktop.org/drm/drm-misc  
->>>
->>> It'd be preferable for these corporate entries to be marked or
->>> otherwise distinguishable so that we can ignore them when we try 
->>> to purge MAINTAINERS from developers who stopped participating.
->>>
->>> These addresses will never show up in a commit tag which is normally
->>> sign of inactivity.  
->>
->> Funny.
->>
->> The link below is from over 5 years ago.
->>
->> https://lore.kernel.org/lkml/1472081625.3746.217.camel@perches.com/
->>
->> Almost all of those entries are still in MAINTAINERS.
->>
->> I think the concept of purging is a non-issue.
+> Ok, it looks like Vincent's patch defines a dyndbg event and then uses
+> 'trace_dyndbg()' to output to the 'main' log. So all dynamic output to
+> the 'main' ftrace buffer goes through that event if I understand it
+> correctly. Here's a pointer to it for reference:
 > 
-> I cleaned networking in January and intend to do it again in 2 months.
-> See:
+> https://lore.kernel.org/lkml/20200825153338.17061-3-vincent.whitchurch@axis.com/
 > 
-> 054c4610bd05 MAINTAINERS: dccp: move Gerrit Renker to CREDITS
-> 4f3786e01194 MAINTAINERS: ipvs: move Wensong Zhang to CREDITS
-> 0e4ed0b62b5a MAINTAINERS: tls: move Aviad to CREDITS
-> c41efbf2ad56 MAINTAINERS: ena: remove Zorik Machulsky from reviewers
-> 5e62d124f75a MAINTAINERS: vrf: move Shrijeet to CREDITS
-> 09cd3f4683a9 MAINTAINERS: net: move Alexey Kuznetsov to CREDITS
-> 93089de91e85 MAINTAINERS: altx: move Jay Cliburn to CREDITS
-> 8b0f64b113d6 MAINTAINERS: remove names from mailing list maintainers
-> 
-I'm assuming the purging is not totally automated, is it? As long as
-the entries are informative to a human reader, it should be possible
-to skip the relevant ones when purging inactive entries.
+> Would you be ok with that approach?
 
-I believe this patch makes the situation better than it is currently
-(at least for the human reader), by marking lists without public
-read-access in a format that is more appropriate. In the future, we
-could perhaps improve on it to ease automation too, but for now I
-think it is worthwhile to merge this change (unless there are strong
-objections or better alternatives that everyone agrees on).
+Yes that approach is fine, because it doesn't actually go to the main log
+unless you enable the dyndbg trace event in the main buffer. You could
+also enable that event in an instance and have it go there.
 
-Regards,
-Srivatsa
+-- Steve
