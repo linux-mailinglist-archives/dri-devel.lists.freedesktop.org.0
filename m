@@ -2,62 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 218E244E61D
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Nov 2021 13:08:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F3CB44E621
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Nov 2021 13:10:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 826DB6EABC;
-	Fri, 12 Nov 2021 12:08:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 279D56EB7E;
+	Fri, 12 Nov 2021 12:10:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com
- [IPv6:2a00:1450:4864:20::433])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 564BC6EABC
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Nov 2021 12:08:43 +0000 (UTC)
-Received: by mail-wr1-x433.google.com with SMTP id c4so15086452wrd.9
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Nov 2021 04:08:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=otZ0McVJ5SiYRqP7yOEzIbw/1AxWwGOspMcAdakaeds=;
- b=LQvnnW/sBfmRpWNRpou+Po67N6Z73lHiWzAUWeL56rM8KZQ3wcMuaQRgL4/GQOgHAr
- NR1N8PTQ7wPb9IWjzJE/t1++yyiwBNJyVLj/9x1KLhsENhmeUAOwV23X9xgrxu9dlZlK
- seKCNreAhLBnz43Fg9g9UkKZpJNfC9Ft9GORMdYh4HJwBa0vHgHlHtAlp4EhcTk/OdNy
- wRWINay5dRtLg7UIlQbAA7oPswjbqMCoX1c9wJB1r0beZvHgeuw/9uWDWc9AgbQOUVuV
- ksKKfkkdm5ZXqiFm2hH26ZX6Uf503hnuuVwow3sJy2yfebYMkBaHDCTwrwEvvfjVLwkv
- qmSA==
+Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com
+ [IPv6:2a00:1450:4864:20::229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D4546EB7E
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Nov 2021 12:10:50 +0000 (UTC)
+Received: by mail-lj1-x229.google.com with SMTP id e11so18083918ljo.13
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Nov 2021 04:10:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:in-reply-to:references
+ :mime-version; bh=dqMUJxuDqznX8iP/0PGGKyRvFuHRtWMHNTIPIxdJC90=;
+ b=bcYunbF8BibQPFjxUg8F1GFUgtRvXsArQ1YEP99ALIqFGB2BVjZSh70Fn9colQDXto
+ vLDvvJF9+sTYE1p3QmkK0sLWBN4HtfHs2GF36hD0z3uYj4kcMSQh009PyI0Mrl94SCfJ
+ ItDgPnCkVVoKImYmhVaeEJ5CI569lrW6n/kYXFKya+wt5TRs0TgZdPLkSIMlTrzcTX9J
+ 4tcS0HwIbPUkfy53DY0en9X1UipJI189Kuhs2kwJQXGJ5Q38fkEbMfHZtKwaMXFR43NR
+ k2b7V82HV0XFHCy9ij6f8Yg4kkCjsnv3S4Sx+pSqmGHjJSSX/U+6IdybeqpdeyuJ02Pa
+ 5ZAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=otZ0McVJ5SiYRqP7yOEzIbw/1AxWwGOspMcAdakaeds=;
- b=jSR6C/iZ/MvwotBJuPsPc4oKzyKKlK+s3uEeet5iwkrZv6vXuCiryr49mvNppx09fk
- 38Of8KbpA9bLx5xFPA5CRImHo8Tm/kbNdQQfzn55A/Rkof5tQS9S4QLgiOdyudcK3WR/
- 0dzNQfLJ6iVnXEMvloF/Ysda+B4Tay7XmYAPp7Bjv6M2mpwiIJmnSkx998iq5DyX0VpU
- w+pPD6lwBMDsgVyrQU36ukERoAO3nwGOGbyxslputPogAhOMGmFwWBVJjA12Z5pfYNTe
- ocO90RijNwnbOIYp2McL6HJJvAbTqtfnYmTTSvem/54xWKR4F3yfMtvQ90G/HASBX4N/
- FBVw==
-X-Gm-Message-State: AOAM531CjoXdu563rqJketRp+3JNNSWndQZBRCHUgAmCkdmgN1TLVxb2
- c0Q+IEOfYbmFBIfP0IRXCng5vA==
-X-Google-Smtp-Source: ABdhPJxBlMEeY7j5TABoz1gcsiHhfYOgh3JsBIzuuI4vMpGemDgBxW2s1QNyVKfFDMXNmN/UEcWvGA==
-X-Received: by 2002:a5d:6e8c:: with SMTP id k12mr17741380wrz.401.1636718921903; 
- Fri, 12 Nov 2021 04:08:41 -0800 (PST)
-Received: from maple.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net.
- [80.7.220.175])
- by smtp.gmail.com with ESMTPSA id 126sm11086997wmz.28.2021.11.12.04.08.40
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version;
+ bh=dqMUJxuDqznX8iP/0PGGKyRvFuHRtWMHNTIPIxdJC90=;
+ b=6hhGLsjDn3VgC0weprY5ue7bxFYmnmQOechEPVw98+gcPEzJ8JDNRp3P7/do3iR/K6
+ 2o+J3d+/ebG9eTnZ2Wd0gLTpqE2jTw1rspgEEayRZvEoN6S29fGeZY1G/IIsK52As0+R
+ m0zUOBi42CpvnJNwBO/bcEvJ6RRRPuE+59rTBSXAxHukToYhABkyl5w0nJv3LAWNSUpp
+ MUUCJnS030FUDWtsfWZnESg7ILdXzEaXJo9UHrLQXevdb37WzrhmcsdBkNiB6z4oNsFZ
+ dqZ0Z8jTUnAAlzWD+xY29RP2WftU27c1mn52GPx2D6GLqg5ZcrICAOUuLpyE9WL+iXk+
+ ++jA==
+X-Gm-Message-State: AOAM532qbQzhLCelGRxoITWtVxw1fJt838CXnZU9yVppoA1BoLUy+DN1
+ Sdnu921jFDnpyyIzl2fdya0=
+X-Google-Smtp-Source: ABdhPJxDeO1DXoOEP1oUCmoGqHWB4tlPP6UJrYRsRshU8OWxjZLR8seKGkRbqP0+s3OEmA5124ktZg==
+X-Received: by 2002:a2e:3102:: with SMTP id x2mr14417332ljx.276.1636719048742; 
+ Fri, 12 Nov 2021 04:10:48 -0800 (PST)
+Received: from eldfell ([194.136.85.206])
+ by smtp.gmail.com with ESMTPSA id x10sm547260lfg.102.2021.11.12.04.10.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Nov 2021 04:08:41 -0800 (PST)
-Date: Fri, 12 Nov 2021 12:08:39 +0000
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Marijn Suijten <marijn.suijten@somainline.org>
-Subject: Re: [RESEND PATCH v2 04/13] backlight: qcom-wled: Fix off-by-one
- maximum with default num_strings
-Message-ID: <20211112120839.i6g747vewg6bkyk7@maple.lan>
-References: <20211112002706.453289-1-marijn.suijten@somainline.org>
- <20211112002706.453289-5-marijn.suijten@somainline.org>
+ Fri, 12 Nov 2021 04:10:48 -0800 (PST)
+Date: Fri, 12 Nov 2021 14:10:45 +0200
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Javier Martinez Canillas <javierm@redhat.com>
+Subject: Re: [PATCH v4 0/6] Cleanups for the nomodeset kernel command line
+ parameter logic
+Message-ID: <20211112141045.55c8dfdf@eldfell>
+In-Reply-To: <a6014802-7ec0-0470-2dd1-ef650d995a53@redhat.com>
+References: <20211108140648.795268-1-javierm@redhat.com>
+ <a8d93a19-c7e6-f651-a1cb-9e2742383c73@suse.de>
+ <20211112105641.25a4e1a7@eldfell>
+ <CAFOAJEd6wNDF93Z1Y6-62pnRzth9Fg4+56+jqCe2qmHk-adR1w@mail.gmail.com>
+ <f215e009-94af-fdb5-9ab9-ec5806a0c526@suse.de>
+ <20211112122239.26b3787c@eldfell>
+ <5bd4ffa9-f44f-ca34-c346-6c530d31e5ec@suse.de>
+ <a6014802-7ec0-0470-2dd1-ef650d995a53@redhat.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211112002706.453289-5-marijn.suijten@somainline.org>
+Content-Type: multipart/signed; boundary="Sig_/Kl3x8r8jus8qFhy5fBpdX.X";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,81 +75,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-fbdev@vger.kernel.org, Kiran Gunda <kgunda@codeaurora.org>,
- Pavel Dubrova <pashadubrova@gmail.com>,
- Courtney Cavin <courtney.cavin@sonymobile.com>,
- Jami Kettunen <jami.kettunen@somainline.org>,
- Jingoo Han <jingoohan1@gmail.com>, linux-arm-msm@vger.kernel.org,
- Bryan Wu <cooloney@gmail.com>, Konrad Dybcio <konrad.dybcio@somainline.org>,
- linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, Andy Gross <agross@kernel.org>,
- Martin Botka <martin.botka@somainline.org>,
- ~postmarketos/upstreaming@lists.sr.ht,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- phone-devel@vger.kernel.org, Lee Jones <lee.jones@linaro.org>
+Cc: Jani Nikula <jani.nikula@intel.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Michel =?UTF-8?B?RMOkbnplcg==?= <michel@daenzer.net>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Peter Robinson <pbrobinson@gmail.com>, Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Nov 12, 2021 at 01:26:57AM +0100, Marijn Suijten wrote:
-> When not specifying num-strings in the DT the default is used, but +1 is
-> added to it which turns WLED3 into 4 and WLED4/5 into 5 strings instead
-> of 3 and 4 respectively, causing out-of-bounds reads and register
-> read/writes.  This +1 exists for a deficiency in the DT parsing code,
-> and is simply omitted entirely - solving this oob issue - by parsing the
-> property separately much like qcom,enabled-strings.
-> 
-> This also allows more stringent checks on the maximum value when
-> qcom,enabled-strings is provided in the DT.  Note that num-strings is
-> parsed after enabled-strings to give it final sign-off over the length,
-> which DT currently utilizes to get around an incorrect fixed read of
-> four elements from that array (has been addressed in a prior patch).
-> 
-> Fixes: 93c64f1ea1e8 ("leds: add Qualcomm PM8941 WLED driver")
-> Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
-> Reviewed-By: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
-> ---
->  drivers/video/backlight/qcom-wled.c | 51 +++++++++++------------------
->  1 file changed, 19 insertions(+), 32 deletions(-)
-> 
-> diff --git a/drivers/video/backlight/qcom-wled.c b/drivers/video/backlight/qcom-wled.c
-> index 977cd75827d7..c5232478a343 100644
-> --- a/drivers/video/backlight/qcom-wled.c
-> +++ b/drivers/video/backlight/qcom-wled.c
-> @@ -1552,6 +1520,25 @@ static int wled_configure(struct wled *wled)
->  		}
->  	}
-> 
-> +	rc = of_property_read_u32(dev->of_node, "qcom,num-strings", &val);
-> +	if (!rc) {
-> +		if (val < 1 || val > wled->max_string_count) {
-> +			dev_err(dev, "qcom,num-strings must be between 1 and %d\n",
-> +				wled->max_string_count);
-> +			return -EINVAL;
-> +		}
-> +
-> +		if (string_len > 0) {
-> +			dev_warn(dev, "qcom,num-strings and qcom,enabled-strings are ambiguous\n");
+--Sig_/Kl3x8r8jus8qFhy5fBpdX.X
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-This warning occurs even when there is no ambiguity.
+On Fri, 12 Nov 2021 12:20:14 +0100
+Javier Martinez Canillas <javierm@redhat.com> wrote:
 
-This could be:
+> On 11/12/21 11:57, Thomas Zimmermann wrote:
+>=20
+> [snip]
+>=20
+> >>>
+> >>> This is what HW-specific drivers want to query in their init/probing
+> >>> code. The actual semantics of this decision is hidden from the driver.
+> >>> It's also easier to read than the other name IMHO =20
+> >>
+> >> Ok, but what is a "native driver"? Or a "non-native driver"?
+> >> Is that established kernel terminology?
+> >>
+> >> I'd think a non-native driver is something that e.g. ndiswrapper is
+> >> loading. Is simpledrm like ndiswrapper in a sense? IIRC, simpledrm is
+> >> the driver that would not consult this function, right? =20
+> >=20
+> > We use that term for hw-specific drivers. A 'non-native' driver would b=
+e=20
+> > called generic or firmware driver.
+> >=20
+> > My concern with the 'modeset' term is that it exposes an implementation=
+=20
+> > detail, which can mislead a driver to to the wrong thing: a HW-specifc=
+=20
+> > driver that disables it's modesetting functionality would pass the test=
+=20
+> > for (!modeset). But that's not what we want, we want to disable all of=
+=20
+> > the driver and not even load it.
+> >=20
+> > How about we invert the test function and use something like
+> >=20
+> >   bool drm_firmware_drivers_only()
+> > =20
+>=20
+> That name I think is more self explanatory, so it works for me.
 
-	if (string_len > 0 && val != string_len)
-
-The warning should also be below the error message on the next if statement.
-Combined these changes allows us to give a much more helpful and assertive
-warning message:
-
-qcom,num-strings mis-matches and will partially override
-qcom,enabled-strings (remove qcom,num-strings?)
+I'm not going to argue against that. :-)
 
 
-> +			if (val > string_len) {
-> +				dev_err(dev, "qcom,num-strings exceeds qcom,enabled-strings\n");
-> +				return -EINVAL;
-> +			}
-> +		}
+Thanks,
+pq
 
+--Sig_/Kl3x8r8jus8qFhy5fBpdX.X
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
-Daniel.
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmGOWcUACgkQI1/ltBGq
+qqfjPhAAo7roVsEKzK786CitsoAcpU31AmYgEPC+POqP9Eg6GMAhM1YRRg+1w7nE
+1nA8ekOe7G1Z8dzPY57ZOFqdwFuPA8qLgVsZr4EIInxeQZFT2sYy1OiZu/q6FsMQ
+hWQ3sA2ow2Mq8j9Bw1Tgkgs/gmvaGLeQoTg9ICp4p0wB/3JOYejR90+WREaN9uvO
+jmjTq9ge4s31lO7MTRmS+7P3/Nk7uYnNrwmONdswiwg0JMkEiAx4aJm124GGdWpf
+BoTv6gU/78s1v4ym4d5f6U1Ndhrkujf6c37UYdwRblJZ0Rc0wdYPgiY3fgskEXVz
+odElcmDe9+DEXuIAoUkzHsw8Up1sDFkFmGagCH6qw/7+7BY6KOw3YTcf/ATGq9z+
+nx0Qcd/ufK/Ax4TFo4YYTy5yXM+WqnbMMgN+hRPFPARIIzHmHi/5dW7Nr2IaFE/v
+Nmdv05wDx+ggO6/8XOiynel7jAUEWqXthRJvZNQpw9gcllu0W/q+hYd4oTEKCllV
+Ifn33SmAxNCAtmM5z4T23WipxF/RCmf5cQu/VkTd1DSeKSjmjdifzc8mIuMMiBML
+7ux30EsHJ2x3FGyDzhK+uS8tE/rs60pKZS3HaGqKT8++hIIT0OkRJRps3ZQnPumw
+0kmEFgOtmgNezD8zbQcihrOF7eqbjXlv+DUn+p61ZKUXUEv91T0=
+=UVDr
+-----END PGP SIGNATURE-----
+
+--Sig_/Kl3x8r8jus8qFhy5fBpdX.X--
