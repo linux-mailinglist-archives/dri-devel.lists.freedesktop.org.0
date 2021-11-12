@@ -2,83 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 604C044EAE6
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Nov 2021 16:58:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46A2344E9B8
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Nov 2021 16:11:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 92A676EB85;
-	Fri, 12 Nov 2021 15:58:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B7CF6ECE7;
+	Fri, 12 Nov 2021 15:11:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 2957 seconds by postgrey-1.36 at gabe;
- Fri, 12 Nov 2021 15:58:32 UTC
-Received: from mx0b-00190b01.pphosted.com (mx0b-00190b01.pphosted.com
- [IPv6:2620:100:9005:57f::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E63FA6EB2E;
- Fri, 12 Nov 2021 15:58:32 +0000 (UTC)
-Received: from pps.filterd (m0122331.ppops.net [127.0.0.1])
- by mx0b-00190b01.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 1ACCV105004786;
- Fri, 12 Nov 2021 15:08:44 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=akamai.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=jan2016.eng;
- bh=Tc1oqeLZzfNhAszq2bpTX2swrtLZAsuMR3FfV9S+7XQ=;
- b=greD1YrC0B++LQXw2t40C+Al8yoOF4w3jDAlVOkGmQQr/WSHw8hE7xbeRoNazshoypPL
- 5nEgSPPbrQ1Glm4HrH5thJPAvj8Vs8536O+/wM/1i0d/zKHaab12n1Ho10Pm/BjCDirl
- Nt4ML1KC8V3Gjh1s7w0MWIkECUMODFCP+Pvf9VdIzIqjnVgMqR7k4UtAzHBlYVOSJa+e
- 0CrTMzx0QRdmRNzfF07wcdcIy7k77/c8q/cUAv80+vfCY3WfB6gmm6H+Q+rjwYqiDZCS
- NaWBtC9h0tLa9xDjXpAJOuQhY+jZ8J+IUgT2eyYXiO+9QgvTf/hZFeyNVpuGH9pqMRWM Jw== 
-Received: from prod-mail-ppoint7
- (a72-247-45-33.deploy.static.akamaitechnologies.com [72.247.45.33] (may be
- forged))
- by mx0b-00190b01.pphosted.com (PPS) with ESMTPS id 3c9rbgaw4g-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 12 Nov 2021 15:08:44 +0000
-Received: from pps.filterd (prod-mail-ppoint7.akamai.com [127.0.0.1])
- by prod-mail-ppoint7.akamai.com (8.16.1.2/8.16.1.2) with SMTP id
- 1ACF45Mu022259; Fri, 12 Nov 2021 10:08:44 -0500
-Received: from prod-mail-relay18.dfw02.corp.akamai.com ([172.27.165.172])
- by prod-mail-ppoint7.akamai.com with ESMTP id 3c7tffmun3-1;
- Fri, 12 Nov 2021 10:08:43 -0500
-Received: from [0.0.0.0] (unknown [172.27.119.138])
- by prod-mail-relay18.dfw02.corp.akamai.com (Postfix) with ESMTP id 24FAB57B;
- Fri, 12 Nov 2021 15:08:42 +0000 (GMT)
-Subject: Re: [PATCH v10 08/10] dyndbg: add print-to-tracefs, selftest with it
- - RFC
-To: Vincent Whitchurch <vincent.whitchurch@axis.com>,
- Jim Cromie <jim.cromie@gmail.com>
-References: <20211111220206.121610-1-jim.cromie@gmail.com>
- <20211111220206.121610-9-jim.cromie@gmail.com>
- <20211112114953.GA1381@axis.com>
-From: Jason Baron <jbaron@akamai.com>
-Message-ID: <f3914fa9-8b22-d54e-3f77-d998e74094b9@akamai.com>
-Date: Fri, 12 Nov 2021 10:08:41 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com
+ [IPv6:2a00:1450:4864:20::32a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D5BD6ECBF
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Nov 2021 15:11:01 +0000 (UTC)
+Received: by mail-wm1-x32a.google.com with SMTP id
+ c71-20020a1c9a4a000000b0032cdcc8cbafso6983222wme.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Nov 2021 07:11:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=aq9hqCG8idgTpRhc5meZTF7+FM8GBSfO5tUh1K9J7b0=;
+ b=WO+i2o7Jziiy0BtVpnE7pqYL0Q5027w0/uMoDNHjVvdpUzTiDfAeBccQWZBmQR25Pa
+ ZNz2t3TB/E7fImoXUUvEkJLZppUTRR5+3QnuMOTlsqEpKPjrPYZN3DX0SL1tET3NRjSl
+ +C7QsjzBHzc3attCinLB1ljbbfORuLK8C5TQychZ5JkQchTo1UpfYV0+XN34FYOf0XI+
+ 7G7sWuQOV2KaMnQgEO+uEZxxGgk8UBpYTTYVjE9ETukGEb6YbDPuqPmglR6Vyw3+lSOr
+ RcWU/6YLxEzFRter4kowEpfyc/Xz8bQuKkC9b1/tuLAUgdFBzU9ko7gXv31kG5nbCuLc
+ Fi6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=aq9hqCG8idgTpRhc5meZTF7+FM8GBSfO5tUh1K9J7b0=;
+ b=m23tRHhlAOJpgfvw8TzhHAj7XgVmtXm+6cniViLLef1Bgjgz/KOjWGCu31tfZLmaT7
+ xjCLo1kRrwJjCL900Xi2UcFoYhdlnOxcbboOCNObix3lcj5WMInGa1yn0DPQ4GdBNrhQ
+ rVeoYkEAaJusHUqrH8LEDyu3u9JFqvFy/haOT/AVqSn/6hjN4t7P0OFPECl0JbZhYaKI
+ 2NbiSLdx7f5PncZU4iYgdEde3EhnwY+vFcv8QLoEqmTbcs5kA+ldKnvnfMSlfesu/0AO
+ OJDQP9t6GdOAgve+SqwdolgUNCQHN1MnS5vV8MZiYGm7Gs7/kRCxl9Bfwai1WD3AhUh1
+ 2T1g==
+X-Gm-Message-State: AOAM532pD9IdEbMRP2TWilw2hq66uWOLGRQ8E+6Y9Q6pn/f0MmnBhHVQ
+ TwpCSlpCvI4uore4d+rNDN8O7w==
+X-Google-Smtp-Source: ABdhPJwR5hWfk95kDgYfAnrK9AqbZuzMKtLs6G7ePVwgAHK72HqZr2HBm0By7v4Ftl1w7VgCXoj3UA==
+X-Received: by 2002:a05:600c:3b1b:: with SMTP id
+ m27mr18462847wms.125.1636729859565; 
+ Fri, 12 Nov 2021 07:10:59 -0800 (PST)
+Received: from maple.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net.
+ [80.7.220.175])
+ by smtp.gmail.com with ESMTPSA id b197sm5822645wmb.24.2021.11.12.07.10.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 12 Nov 2021 07:10:58 -0800 (PST)
+Date: Fri, 12 Nov 2021 15:10:57 +0000
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Marijn Suijten <marijn.suijten@somainline.org>,
+ phone-devel@vger.kernel.org, Andy Gross <agross@kernel.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Rob Herring <robh+dt@kernel.org>, Lee Jones <lee.jones@linaro.org>,
+ Jingoo Han <jingoohan1@gmail.com>, ~postmarketos/upstreaming@lists.sr.ht,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Martin Botka <martin.botka@somainline.org>,
+ Jami Kettunen <jami.kettunen@somainline.org>,
+ Pavel Dubrova <pashadubrova@gmail.com>,
+ Kiran Gunda <kgunda@codeaurora.org>, Bryan Wu <cooloney@gmail.com>,
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org
+Subject: Re: [RESEND PATCH v2 05/13] backlight: qcom-wled: Override default
+ length with qcom,enabled-strings
+Message-ID: <20211112151057.h474227aln2huf6l@maple.lan>
+References: <20211112002706.453289-1-marijn.suijten@somainline.org>
+ <20211112002706.453289-6-marijn.suijten@somainline.org>
+ <20211112121238.kb3kkt6xzv5so26j@maple.lan>
+ <20211112124522.g7e3m7l2oxxxobof@SoMainline.org>
+ <20211112132336.z2x4bzrfqr4u3jol@maple.lan>
+ <20211112141917.akufukmeyz5enjg3@SoMainline.org>
 MIME-Version: 1.0
-In-Reply-To: <20211112114953.GA1381@axis.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.425, 18.0.790
- definitions=2021-11-12_05:2021-11-11,
- 2021-11-12 signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- malwarescore=0
- adultscore=0 spamscore=0 mlxlogscore=999 phishscore=0 bulkscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2111120086
-X-Proofpoint-GUID: uhHmDAKu5ii3jEYUIQwvrN1aMKrmTEYA
-X-Proofpoint-ORIG-GUID: uhHmDAKu5ii3jEYUIQwvrN1aMKrmTEYA
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
- definitions=2021-11-12_05,2021-11-12_01,2020-04-07_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
- lowpriorityscore=0
- adultscore=0 impostorscore=0 bulkscore=0 mlxscore=0 malwarescore=0
- spamscore=0 priorityscore=1501 clxscore=1011 phishscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
- definitions=main-2111120086
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211112141917.akufukmeyz5enjg3@SoMainline.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,79 +89,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_saipraka@quicinc.com, catalin.marinas@arm.com,
- dri-devel@lists.freedesktop.org, will@kernel.org, maz@kernel.org,
- amd-gfx@lists.freedesktop.org, mingo@redhat.com, daniel.vetter@ffwll.ch,
- arnd@arndb.de, linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- rostedt@goodmis.org, seanpaul@chromium.org,
- intel-gvt-dev@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- sean@poorly.run, gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
- quic_psodagud@quicinc.com, mathieu.desnoyers@efficios.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/12/21 6:49 AM, Vincent Whitchurch wrote:
-> On Thu, Nov 11, 2021 at 03:02:04PM -0700, Jim Cromie wrote:
->> Sean Paul proposed, in:
->> https://urldefense.com/v3/__https://patchwork.freedesktop.org/series/78133/__;!!GjvTz_vk!HcKnMRByYkIdyF1apqQjlN5aBIomzJR1an3YWXM6KXs0EftVMQdrewRA8Dki4A$ 
->> drm/trace: Mirror DRM debug logs to tracefs
->>
->> His patchset's objective is to be able to independently steer some of
->> the drm.debug stream to an alternate tracing destination, by splitting
->> drm_debug_enabled() into syslog & trace flavors, and enabling them
->> separately.  2 advantages were identified:
->>
->> 1- syslog is heavyweight, tracefs is much lighter
->> 2- separate selection of enabled categories means less traffic
->>
->> Dynamic-Debug can do 2nd exceedingly well:
->>
->> A- all work is behind jump-label's NOOP, zero off cost.
->> B- exact site selectivity, precisely the useful traffic.
->>    can tailor enabled set interactively, at shell.
->>
->> Since the tracefs interface is effective for drm (the threads suggest
->> so), adding that interface to dynamic-debug has real potential for
->> everyone including drm.
->>
->> if CONFIG_TRACING:
->>
->> Grab Sean's trace_init/cleanup code, use it to provide tracefs
->> available by default to all pr_debugs.  This will likely need some
->> further per-module treatment; perhaps something reflecting hierarchy
->> of module,file,function,line, maybe with a tuned flattening.
->>
->> endif CONFIG_TRACING
->>
->> Add a new +T flag to enable tracing, independent of +p, and add and
->> use 3 macros: dyndbg_site_is_enabled/logging/tracing(), to encapsulate
->> the flag checks.  Existing code treats T like other flags.
+On Fri, Nov 12, 2021 at 03:19:17PM +0100, Marijn Suijten wrote:
+> On 2021-11-12 13:23:36, Daniel Thompson wrote:
+> > On Fri, Nov 12, 2021 at 01:45:22PM +0100, Marijn Suijten wrote:
+> > > On 2021-11-12 12:12:38, Daniel Thompson wrote:
+> > > > On Fri, Nov 12, 2021 at 01:26:58AM +0100, Marijn Suijten wrote:
+> > > > > The length of qcom,enabled-strings as property array is enough to
+> > > > > determine the number of strings to be enabled, without needing to set
+> > > > > qcom,num-strings to override the default number of strings when less
+> > > > > than the default (which is also the maxium) is provided in DT.
+> > > > > 
+> > > > > Fixes: 775d2ffb4af6 ("backlight: qcom-wled: Restructure the driver for WLED3")
+> > > > > Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
+> > > > > Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+> > > > > ---
+> > > > >  drivers/video/backlight/qcom-wled.c | 2 ++
+> > > > >  1 file changed, 2 insertions(+)
+> > > > > 
+> > > > > diff --git a/drivers/video/backlight/qcom-wled.c b/drivers/video/backlight/qcom-wled.c
+> > > > > index c5232478a343..9bfbf601762a 100644
+> > > > > --- a/drivers/video/backlight/qcom-wled.c
+> > > > > +++ b/drivers/video/backlight/qcom-wled.c
+> > > > > @@ -1518,6 +1518,8 @@ static int wled_configure(struct wled *wled)
+> > > > >  				return -EINVAL;
+> > > > >  			}
+> > > > >  		}
+> > > > > +
+> > > > > +		cfg->num_strings = string_len;
+> > > > 
+> > > > I still don't really understand why this wants to be a separate patch.
+> > > 
+> > > I'm viewing this as a separate issue, and this makes it easier to
+> > > document the change in a loose commit.
+> > > 
+> > > > The warning text emitted by the previous patch (whatever text we agree
+> > > > on) will be nonsense until this patch is applied.
+> > > > 
+> > > > If this patch cannot appear before the warning is introduces then there
+> > > > is no correct order for patches 4 and 5 (which implies they should be the
+> > > > same patch).
+> > > 
+> > > Agreed, this is a weird way of doing things in v2 - the error message is
+> > > printed yet the length of qcom,enabled-strings is always ignored before
+> > > this patch.
+> > > 
+> > > If we were to reorder patch 5 before patch 4 that should also
+> > > temporarily move `cfg->num_strings = cfg->num_strings + 1;` right below
+> > > this `if` so that `qcom,num-strings` remains the definitive way to
+> > > set/override length.  That's doable, and makes it easier to read patch 4
+> > > as that bit of code will be replaced by of_property_read_u32 on that
+> > > exact line.  Let me know which method you prefer.
+> > 
+> > Personally I would just squash them together. There are no redundant
+> > values in the DT that could be fixed until we can use the string_len
+> > to set num_strings.
 > 
-> I posted a patchset a while ago to do something very similar, but that
-> got stalled for some reason and I unfortunately didn't follow it up:
-> 
->  https://urldefense.com/v3/__https://lore.kernel.org/lkml/20200825153338.17061-1-vincent.whitchurch@axis.com/__;!!GjvTz_vk!HcKnMRByYkIdyF1apqQjlN5aBIomzJR1an3YWXM6KXs0EftVMQdrewRGytKHPg$ 
-> 
-> A key difference between that patchset and this patch (besides that
-> small fact that I used +x instead of +T) was that my patchset allowed
-> the dyndbg trace to be emitted to the main buffer and did not force them
-> to be in an instance-specific buffer.
+> Reordering this patch before patch 4 in the way described above should
+> allow just that, except that no warnings will be given for ambiguity
+> until patch 4 is applied after that - which is weird given that that
+> patch only intends the off-by-one error.  Perhaps we should keep the
+> order as it is, but add the ambiguity warning in this patch instead.
 
-Yes, I agree I'd prefer that we print here to the 'main' buffer - it seems to keep things simpler and easier to combine the output from different
-sources as you mentioned.
+That works for me. Sounds good.
 
-Thanks,
 
--Jason
-
-> 
-> That feature is quite important at least for my use case since I often
-> use dyndbg combined with function tracing, and the latter doesn't work
-> on non-main instances according to Documentation/trace/ftrace.rst.
-> 
-> For example, here's a random example of a bootargs from one of my recent
-> debugging sessions:
-> 
->  trace_event=printk:* ftrace_filter=_mmc*,mmc*,sd*,dw_mci*,mci*
->  ftrace=function trace_buf_size=20M dyndbg="file drivers/mmc/* +x"
-> 
+Daniel.
