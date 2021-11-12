@@ -2,78 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B005144E977
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Nov 2021 16:03:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A1FD44E98A
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Nov 2021 16:05:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD9586EAC6;
-	Fri, 12 Nov 2021 15:03:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 004DE6EB4B;
+	Fri, 12 Nov 2021 15:05:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
- [IPv6:2a00:1450:4864:20::431])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2AB896EAC6;
- Fri, 12 Nov 2021 15:03:41 +0000 (UTC)
-Received: by mail-wr1-x431.google.com with SMTP id b12so16057624wrh.4;
- Fri, 12 Nov 2021 07:03:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=ICfZz6qpvCwy49JeWEKdT7liF7vXWYTFBWJG5poMPUM=;
- b=UCwg3+r8AsBltCAXSYCDB+fe3YMsuWdU6WrPc0tMscg2u5d4LY1ElyFG3y4VYqETi+
- wWzfb4hSF3E0hBHGqeSAzlRqMaiMEvC7wa724buL/cY05WuikvX4h0b1s7OJJVymv9+A
- 9narbMwXQnpYwMnIQ3EX+0/uz2bcWtG2uvvkGfRJcR4wCLiL3iCmrUsTUfjCELMVvmha
- 9rBZjPnxNOt7efsU6f0Nu24cq0AdDustR4/YlqRGuWdH2GGLmeGO26AGeS/aHK5rfhqJ
- ecV1B1sYSBp+9rfBPJthyK+4QzmptY4/XIKOj+o3P1I+bIQuQuYMta8SpXtGSs4j7b7i
- QALA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=ICfZz6qpvCwy49JeWEKdT7liF7vXWYTFBWJG5poMPUM=;
- b=qanjlmqOBqeZkVfavurzWDBOfd3xZGVLvT8zuyawO/pMfSqafwQrsZpFgbQSh8QJIp
- 1FMJIWuP8NHVyg3yr+wVytaojE1Ovy9vpAABtoeQONMmbFMW5XZScqycf1mOfhZj7/XU
- bxOU9OwM1l+qIaZuHItwnBcQjoncwre5dJkeQhnnBLFsRdDjcFv0AOXwNeREGlsukXT0
- C9mNp5dJOFN4f7EXSa9JMawUX284xA125dQhAaxOdjDwJR07LtLzYs1O1+W54kUXtL2d
- 6JOg6Q5MnQ5oYnpaeUdIHTNy0Cs62UwIsR4S93ZPwIsjLRiO2WSQV2FBRcp5J5HcMjbi
- XQrg==
-X-Gm-Message-State: AOAM5333ScZ5+UMDC1EwK2aSkNjCNJKJZyspjD+3nAcsKqd2nX2F9HY7
- cuVXV03IcGu2bteUCsL+sVBB7dO7zz0=
-X-Google-Smtp-Source: ABdhPJxXXqGKmnhW/7OU68Se8POe3mC2FpVLTfdkde6NiEyNHW3JPvAM6MLl9B34/sDEeGkIQi/iwQ==
-X-Received: by 2002:a05:6000:1043:: with SMTP id
- c3mr18672681wrx.64.1636729419736; 
- Fri, 12 Nov 2021 07:03:39 -0800 (PST)
-Received: from ?IPv6:2a02:908:1252:fb60:6e65:9f86:85:5884?
- ([2a02:908:1252:fb60:6e65:9f86:85:5884])
- by smtp.gmail.com with ESMTPSA id r17sm6693147wmq.11.2021.11.12.07.03.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 12 Nov 2021 07:03:39 -0800 (PST)
-Subject: Re: Questions about KMS flip
-To: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Harry Wentland <harry.wentland@amd.com>,
- "Kazlauskas, Nicholas" <Nicholas.Kazlauskas@amd.com>,
- "Yu, Lang" <Lang.Yu@amd.com>
-References: <579d0f44-bb85-11b2-d326-35a0b7c5d0de@amd.com>
- <5c242319-ade3-5621-6429-f77b17c34de5@amd.com>
- <YYV0W1CxT5torU7u@phenom.ffwll.local>
- <64e70779-7c33-7849-aa29-aeaee4a89005@amd.com>
- <YYk7SkflDx8ToqYG@phenom.ffwll.local>
- <4ba7e3f8-7956-882a-6888-57e2448b907d@amd.com>
- <YYvIfXy9bwPokiK9@phenom.ffwll.local>
- <ab2fb071-12ab-da99-53c9-1411ca9acdaa@amd.com>
- <9a5b8470-d02d-71b4-4a89-6d6c32fdfa5d@daenzer.net>
- <88dfe9b4-e170-2d6b-604b-03af5d57152b@daenzer.net>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <735f8781-982b-a09f-32fe-fded0024a587@gmail.com>
-Date: Fri, 12 Nov 2021 16:03:37 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B86F6EB4B
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Nov 2021 15:05:49 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id CF80B21993;
+ Fri, 12 Nov 2021 15:05:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1636729547; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=SUwYOnuOmLnzqp0uKpTZ8nTvZlIPGPGWfCv7vH5MrQ4=;
+ b=B2ifuMyrjWf6eBN96poyAC3DN7hRD82jGJvXTP15o4Qfv3BvwDiOUejSE8PBifnhfoMYfL
+ Kt5ccAxxpRpa8P9fuusRAEFidPRaOljIiepGvnGfeS2DCGnI8IE2gKxRdMrqWJBsG7/nvR
+ Vc3ztreMiwU3nmU/mbM0l/c99nxHhE4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1636729547;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=SUwYOnuOmLnzqp0uKpTZ8nTvZlIPGPGWfCv7vH5MrQ4=;
+ b=u/dVSUytay33xu+f0BbZkalkaDo8IZwhmm6FcZmlpaMbp8Y4FjgY6rBiC7S4nPCs0TTlLs
+ XRoz3/zwg/TwVXDQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id AC0C113C75;
+ Fri, 12 Nov 2021 15:05:47 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id VxoRKcuCjmE9VQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Fri, 12 Nov 2021 15:05:47 +0000
+Message-ID: <36f8fdd6-13dc-7a68-6365-ab2152337c33@suse.de>
+Date: Fri, 12 Nov 2021 16:05:47 +0100
 MIME-Version: 1.0
-In-Reply-To: <88dfe9b4-e170-2d6b-604b-03af5d57152b@daenzer.net>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.1
+Subject: Re: [PATCH] drm/cma-helper: Release non-coherent memory with
+ dma_free_noncoherent()
 Content-Language: en-US
+To: paul@crapouillou.net, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, daniel@ffwll.ch, airlied@linux.ie
+References: <20210708175146.10618-1-tzimmermann@suse.de>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20210708175146.10618-1-tzimmermann@suse.de>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------Buuj04kuYv0zv1ldzIYtN7uE"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,36 +71,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------Buuj04kuYv0zv1ldzIYtN7uE
+Content-Type: multipart/mixed; boundary="------------m3aUeYjvfuR1ZKq8C3fXeATj";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: paul@crapouillou.net, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, daniel@ffwll.ch, airlied@linux.ie
+Cc: dri-devel@lists.freedesktop.org
+Message-ID: <36f8fdd6-13dc-7a68-6365-ab2152337c33@suse.de>
+Subject: Re: [PATCH] drm/cma-helper: Release non-coherent memory with
+ dma_free_noncoherent()
+References: <20210708175146.10618-1-tzimmermann@suse.de>
+In-Reply-To: <20210708175146.10618-1-tzimmermann@suse.de>
 
+--------------m3aUeYjvfuR1ZKq8C3fXeATj
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Am 12.11.21 um 15:30 schrieb Michel Dänzer:
-> On 2021-11-12 15:29, Michel Dänzer wrote:
->> On 2021-11-12 13:47, Christian König wrote:
->>> Anyway this unfortunately turned out to be work for Harray and Nicholas. In detail it's about this bug report here: https://bugzilla.kernel.org/show_bug.cgi?id=214621
->>>
->>> Lang was able to reproduce the issue and narrow it down to the pin in amdgpu_display_crtc_page_flip_target().
->>>
->>> In other words we somehow have an unbalanced pinning of the scanout buffer in DC.
->> DC doesn't use amdgpu_display_crtc_page_flip_target AFAICT. The corresponding pin with DC would be in dm_plane_helper_prepare_fb, paired with the unpin in
->> dm_plane_helper_cleanup_fb.
->>
->>
->> With non-DC, the pin in amdgpu_display_crtc_page_flip_target is paired with the unpin in dm_plane_helper_cleanup_fb
-> This should say amdgpu_display_unpin_work_func.
+UGluZyBmb3IgcmV2aWV3Lg0KDQpBbSAwOC4wNy4yMSB1bSAxOTo1MSBzY2hyaWViIFRob21h
+cyBaaW1tZXJtYW5uOg0KPiBUaGUgR0VNIENNQSBoZWxwZXJzIGFsbG9jYXRlIG5vbi1jb2hl
+cmVudCAoaS5lLiwgY2FjaGVkKSBiYWNraW5nIHN0b3JhZ2UNCj4gd2l0aCBkbWFfYWxsb2Nf
+bm9uY29oZXJlbnQoKSwgYnV0IHJlbGVhc2UgaXQgd2l0aCBkbWFfZnJlZV93YygpLiBGaXgg
+dGhpcw0KPiB3aXRoIGEgY2FsbCB0byBkbWFfZnJlZV9ub25jb2hlcmVudCgpLiBXcml0ZWNv
+bWJpbmluZyBzdG9yYWdlIGlzIHN0aWxsDQo+IHJlbGVhc2VkIHdpdGggZG1hX2ZyZWVfd2Mo
+KS4NCj4gDQo+IFNpZ25lZC1vZmYtYnk6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFu
+bkBzdXNlLmRlPg0KPiBGaXhlczogY2Y4Y2NiYzcyZDYxICgiZHJtOiBBZGQgc3VwcG9ydCBm
+b3IgR0VNIGJ1ZmZlcnMgYmFja2VkIGJ5IG5vbi1jb2hlcmVudCBtZW1vcnkiKQ0KPiBDYzog
+UGF1bCBDZXJjdWVpbCA8cGF1bEBjcmFwb3VpbGxvdS5uZXQ+DQo+IENjOiBNYWFydGVuIExh
+bmtob3JzdCA8bWFhcnRlbi5sYW5raG9yc3RAbGludXguaW50ZWwuY29tPg0KPiBDYzogTWF4
+aW1lIFJpcGFyZCA8bXJpcGFyZEBrZXJuZWwub3JnPg0KPiBDYzogRGF2aWQgQWlybGllIDxh
+aXJsaWVkQGxpbnV4LmllPg0KPiBDYzogRGFuaWVsIFZldHRlciA8ZGFuaWVsQGZmd2xsLmNo
+Pg0KPiBDYzogZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZw0KPiAtLS0NCj4gICBk
+cml2ZXJzL2dwdS9kcm0vZHJtX2dlbV9jbWFfaGVscGVyLmMgfCA5ICsrKysrKystLQ0KPiAg
+IDEgZmlsZSBjaGFuZ2VkLCA3IGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pDQo+IA0K
+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2RybV9nZW1fY21hX2hlbHBlci5jIGIv
+ZHJpdmVycy9ncHUvZHJtL2RybV9nZW1fY21hX2hlbHBlci5jDQo+IGluZGV4IGQ1MzM4ODE5
+OWYzNC4uOWQwNTY3NDU1MGE0IDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJt
+X2dlbV9jbWFfaGVscGVyLmMNCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV9nZW1fY21h
+X2hlbHBlci5jDQo+IEBAIC0yMTAsOCArMjEwLDEzIEBAIHZvaWQgZHJtX2dlbV9jbWFfZnJl
+ZV9vYmplY3Qoc3RydWN0IGRybV9nZW1fb2JqZWN0ICpnZW1fb2JqKQ0KPiAgIAkJCWRtYV9i
+dWZfdnVubWFwKGdlbV9vYmotPmltcG9ydF9hdHRhY2gtPmRtYWJ1ZiwgJm1hcCk7DQo+ICAg
+CQlkcm1fcHJpbWVfZ2VtX2Rlc3Ryb3koZ2VtX29iaiwgY21hX29iai0+c2d0KTsNCj4gICAJ
+fSBlbHNlIGlmIChjbWFfb2JqLT52YWRkcikgew0KPiAtCQlkbWFfZnJlZV93YyhnZW1fb2Jq
+LT5kZXYtPmRldiwgY21hX29iai0+YmFzZS5zaXplLA0KPiAtCQkJICAgIGNtYV9vYmotPnZh
+ZGRyLCBjbWFfb2JqLT5wYWRkcik7DQo+ICsJCWlmIChjbWFfb2JqLT5tYXBfbm9uY29oZXJl
+bnQpDQo+ICsJCQlkbWFfZnJlZV9ub25jb2hlcmVudChnZW1fb2JqLT5kZXYtPmRldiwgY21h
+X29iai0+YmFzZS5zaXplLA0KPiArCQkJCQkgICAgIGNtYV9vYmotPnZhZGRyLCBjbWFfb2Jq
+LT5wYWRkciwNCj4gKwkJCQkJICAgICBETUFfVE9fREVWSUNFKTsNCj4gKwkJZWxzZQ0KPiAr
+CQkJZG1hX2ZyZWVfd2MoZ2VtX29iai0+ZGV2LT5kZXYsIGNtYV9vYmotPmJhc2Uuc2l6ZSwN
+Cj4gKwkJCQkgICAgY21hX29iai0+dmFkZHIsIGNtYV9vYmotPnBhZGRyKTsNCj4gICAJfQ0K
+PiAgIA0KPiAgIAlkcm1fZ2VtX29iamVjdF9yZWxlYXNlKGdlbV9vYmopOw0KPiANCg0KLS0g
+DQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBT
+b2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBO
+w7xybmJlcmcsIEdlcm1hbnkNCihIUkIgMzY4MDksIEFHIE7DvHJuYmVyZykNCkdlc2Now6Rm
+dHNmw7xocmVyOiBJdm8gVG90ZXYNCg==
 
-Ah! So that is the classic (e.g. non atomic) path?
+--------------m3aUeYjvfuR1ZKq8C3fXeATj--
 
->> & dce_v*_crtc_disable. One thing I notice is that the pin is guarded by if (!adev->enable_virtual_display), but the unpins seem unconditional. So could this be about virtual display, and the problem is actually trying to unpin a BO that was never pinned?
+--------------Buuj04kuYv0zv1ldzIYtN7uE
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-Nope, my educated guess is rather that we free up the BO before 
-amdgpu_display_unpin_work_func is called.
+-----BEGIN PGP SIGNATURE-----
 
-E.g. not pin unbalance, but rather use after free.
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmGOgssFAwAAAAAACgkQlh/E3EQov+CS
+uw//WONI4MmrGAJrYDSQ1ELU4ekW/DfulHW540wXQu7Ai9zWgQ2DxpjCe17RxKIAt/rO43NDeJFv
+vganjb0UM/GAyxihiPHn7HHK2MJrQUzBw2CJtI+eU3nelyg50qCy31s/d8hmNmJLTj1Dixald4oN
+xND/PaM7J/ZnoL1XFydFf7hHygE61ks1EkSx1aJiXpVAUyQFXuk0QnadAPpRSKTcCOS3DZM5sUFm
+hcRxzo8BYTHNs+qQzqhQdByivx2TpqVksegmp+0lNFjIF5aZs8YKTXyJemPtjgzxRKf4AvTnR4cA
+bBfFIpW/5/S9PtpoMdpQscOMH5/esRDveYBRPu6J49E61li1GMoIcG4ltR1i35mgcJ6CywjcXx3c
+qlZaGprv/O/p6DQ8qVh6+ql1e5Ts1QK3cnRf//c41bfOQ+feYhvQf+jE2/TzlXB0BF7+1WI9T0F0
+U7P3reoTzGsFtcQMrUN7PZkcf5cEmAqWiG5lIJ6nfBN6VzEeINb2HxuRDjN16XnFFZKCc3/q/im0
+u1CB/5Z9NqqZFGTzrkNRUK/9uwPAtM1kHL3O+cGA8Jbq0JD3cqs6dMPnBT2jSmou+MZssA0tIgAG
+yu1L1IS679MWTVSFEDGZZ75ineM00krot8j5c1oXyV6zMtIDK2DF8FH00Txb+ve4ytYNupg/1FqZ
+yYE=
+=Jwd1
+-----END PGP SIGNATURE-----
 
-Regards,
-Christian.
+--------------Buuj04kuYv0zv1ldzIYtN7uE--
