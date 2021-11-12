@@ -1,73 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1519E44EB20
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Nov 2021 17:12:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A1FB44EB69
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Nov 2021 17:32:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 771786EE83;
-	Fri, 12 Nov 2021 16:12:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 51C6E6EBB7;
+	Fri, 12 Nov 2021 16:32:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
- [IPv6:2a00:1450:4864:20::32f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F2DDA6EE8E
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Nov 2021 16:12:23 +0000 (UTC)
-Received: by mail-wm1-x32f.google.com with SMTP id
- y84-20020a1c7d57000000b00330cb84834fso10270694wmc.2
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Nov 2021 08:12:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=twurRhba5qgXRpgexuSI57Dp4Y9u2cq2aOPi/t5IpCg=;
- b=P5AJMChoaTUh2v8lFArlEIxhsCWAkMxOmfTMhbkQvQDPp4rJAdPEpg5fljtJxT16r1
- Vl1X1fTWPLWfziVxg2uS2EQxFUqItRjnMV7PX/rvoynchtAeMIhH/o6qCVyZcKW9MpgF
- 6C4zjXegh05Rxg9jEX8zfB35njzKFfOkhs2DY=
+Received: from mail-il1-x135.google.com (mail-il1-x135.google.com
+ [IPv6:2607:f8b0:4864:20::135])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7FB0E6EBB7
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Nov 2021 16:32:16 +0000 (UTC)
+Received: by mail-il1-x135.google.com with SMTP id x9so9505130ilu.6
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Nov 2021 08:32:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=WZQU60Xp18Hdsmtr7VDsvNRYsO9Fr9Pv2XyHmxjj+mM=;
+ b=KuCqVetYf798pzMpcifYfYBDXK7mJj8RA51iDj8N5l+Hr6lkTUxdpghhQ5jIk36Mth
+ wl4kFkIE3mufICbUYUMyO5l9GhOWg2rrWnFEOtLxzTSdv7cJuUBFXVOo/o8RLBg3Siw8
+ LyHz6ZvZjh2sGHFGCifhnNbxYDuwOX6YT1ZVEMevpd7LFwXs1Rmu9k8DS/5n1pBmSMTT
+ GjeArjcZePLAIQdrnN+IKo11faF3a5gjiLW7Px3vgI8g53ptQX9AJvBHmsU4ZWDM1zfv
+ DQ4Nyq7pXqwd9oFi+UH9P7wsxxQIPhTb4a23Fea4vkvRAKmOI1GxAlJ7R/uy8IamChq4
+ Yhsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=twurRhba5qgXRpgexuSI57Dp4Y9u2cq2aOPi/t5IpCg=;
- b=0SKpY/YPpOPK7fo9qCVkRi8umcjNQZgM4d6zKyDfr9JVobqBbMXkrkHoAnWCQ8IY1s
- mYd46AZ474U00BbC2BoZ44btRWCkFqfAYF9Y6ugJTY8ZyHqgWR/Co06Uri7R6bZCYrbq
- 1XvTlSiUoC7FhFAzBWx4J+Xx3k81AqgHkePul4w0Qw1sj3LWgySFJTtkk0+oFx9ziMAm
- gYYvKUJVEuHkYF71zh0pA9sPWywYseB0LFgGh/r1gixuMvVaqZF+bxoN5Ijbrqo+TxGV
- kNHtaYwbvXGTMHSFfZcl9gPXprKYXzwGaIca6I0ORYFE0irjxICTWzegvx8eDR2l7Mj5
- 21uw==
-X-Gm-Message-State: AOAM5305Psu9RQ6Uoo6a1VWjJA8tBBWLh88L2XF7sqJ735lEayikr/tC
- qt6k5wqtcn6EENwyeLSg+hZ6lQ==
-X-Google-Smtp-Source: ABdhPJyEP4m/8kd4jlKweTPP4u7zakHKKjuN/yJDukwgCYB58zUMCs0ErybOgSz0h1SjnM9VGwNqyA==
-X-Received: by 2002:a05:600c:221a:: with SMTP id
- z26mr36546315wml.20.1636733542549; 
- Fri, 12 Nov 2021 08:12:22 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id o2sm6374468wrg.1.2021.11.12.08.12.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Nov 2021 08:12:22 -0800 (PST)
-Date: Fri, 12 Nov 2021 17:12:20 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH v2] fbdev: Prevent probing generic drivers if a FB is
- already registered
-Message-ID: <YY6SZJM8nDDCAzXU@phenom.ffwll.local>
-Mail-Followup-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Javier Martinez Canillas <javierm@redhat.com>,
- linux-kernel@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Sam Ravnborg <sam@ravnborg.org>, Peter Jones <pjones@redhat.com>,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- Hans de Goede <hdegoede@redhat.com>,
- Ilya Trukhanov <lahvuun@gmail.com>,
- Thorsten Leemhuis <regressions@leemhuis.info>,
- Borislav Petkov <bp@suse.de>
-References: <20211111111120.1344613-1-javierm@redhat.com>
- <YY0A8LOVhs5JbMXW@kroah.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=WZQU60Xp18Hdsmtr7VDsvNRYsO9Fr9Pv2XyHmxjj+mM=;
+ b=O3QdRWqwsqMrIjXEYAhbxrpYxXiOoeBg7JywvL1T4ep+tkWNf46j+ot/9VtIpKSm1f
+ YtJcsGl6IXrUWNLVU+2O2GCJcfx3NBV+BaKMRn7rfYd0/PU1BU/8qi6ytlEDvByWB1e/
+ eZbv9UzDq5qAzaZ0bfkkv0aJHBJF8nOfVr+dgW4ubjRmLcMMcV3QylEzgpUfWQTSUMhO
+ JZWYaIUXLkXZKw39kc3GhmpF7AlVqNXMEG/MLEirPKuGHp/lTfwlnCdxMZ1SikjmdTyl
+ 2sKEaNfMTYSDONJtj3srFqapJujahOKis1GPeUTMRftFYk0c+5cbLZddM3T/OzRrJkne
+ JUEQ==
+X-Gm-Message-State: AOAM530DmclEA+MNrTJbgvOQGSL/bmn5TRpB6zfd7aOt4s7Hy2Syz/rS
+ t2xG/OBVwrzdO2nmWgfeiWJ+kEl7UyCjZpuQ+UHEPw==
+X-Google-Smtp-Source: ABdhPJx2vazsN9hiP4Pi5PPRhbKghUbvJI/jrMtOuxA3B6w+bLX6dIBky+qiit4PlBLgRfNrY9wQl1QF0SBSxiEolaQ=
+X-Received: by 2002:a05:6e02:144e:: with SMTP id
+ p14mr9934206ilo.180.1636734735453; 
+ Fri, 12 Nov 2021 08:32:15 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YY0A8LOVhs5JbMXW@kroah.com>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+References: <20211112084302.2447931-1-yangcong5@huaqin.corp-partner.google.com>
+In-Reply-To: <20211112084302.2447931-1-yangcong5@huaqin.corp-partner.google.com>
+From: Doug Anderson <dianders@google.com>
+Date: Fri, 12 Nov 2021 08:32:04 -0800
+Message-ID: <CAD=FV=XWdA5kC5VpRPNWzCQDJjmDg5s7bP=sa7yVuqnRcxWf+w@mail.gmail.com>
+Subject: Re: [PATCH] drm/bridge: parade-ps8640: Fix additional suspend/resume
+ at bootup
+To: yangcong <yangcong5@huaqin.corp-partner.google.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,52 +63,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Thorsten Leemhuis <regressions@leemhuis.info>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Hans de Goede <hdegoede@redhat.com>,
- Peter Jones <pjones@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Ilya Trukhanov <lahvuun@gmail.com>, Borislav Petkov <bp@suse.de>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: devicetree@vger.kernel.org, philipchen@chromium.org, jonas@kwiboo.se,
+ airlied@linux.ie, robert.foss@linaro.org, dri-devel@lists.freedesktop.org,
+ narmstrong@baylibre.com, linux-kernel@vger.kernel.org,
+ jernej.skrabec@gmail.com, swboyd@chromium.org, a.hajda@samsung.com,
+ laurent.pinchart@ideasonboard.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Nov 11, 2021 at 12:39:28PM +0100, Greg Kroah-Hartman wrote:
-> On Thu, Nov 11, 2021 at 12:11:20PM +0100, Javier Martinez Canillas wrote:
-> > The efifb and simplefb drivers just render to a pre-allocated frame buffer
-> > and rely on the display hardware being initialized before the kernel boots.
-> > 
-> > But if another driver already probed correctly and registered a fbdev, the
-> > generic drivers shouldn't be probed since an actual driver for the display
-> > hardware is already present.
-> > 
-> > This is more likely to occur after commit d391c5827107 ("drivers/firmware:
-> > move x86 Generic System Framebuffers support") since the "efi-framebuffer"
-> > and "simple-framebuffer" platform devices are registered at a later time.
-> > 
-> > Link: https://lore.kernel.org/r/20211110200253.rfudkt3edbd3nsyj@lahvuun/
-> > Fixes: d391c5827107 ("drivers/firmware: move x86 Generic System Framebuffers support")
-> > Reported-by: Ilya Trukhanov <lahvuun@gmail.com>
-> > Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
-> > Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> > ---
-> > 
-> > Changes in v2:
-> > - Add a Link: tag with a reference to the bug report (Thorsten Leemhuis).
-> > - Add a comment explaining why the probe fails earlier (Daniel Vetter).
-> > - Add a Fixes: tag for stable to pick the fix (Daniel Vetter).
-> 
-> That does not mean that it will make it into the stable tree.  Please
-> read:
->     https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
-> for how to do this properly.
+Hi,
 
-Defacto your auto-picker is aggressive enough that just Fixes: is actually
-good enough to get it into stable :-)
+On Fri, Nov 12, 2021 at 12:43 AM yangcong
+<yangcong5@huaqin.corp-partner.google.com> wrote:
+>
+> Through log and waveform, we can see that there will be additional
+> suspend/resume when booting. This timing does not meet the ps8640 spec.
+> It seems that the delay of 500ms does not satisfied drm_panel_get_modes.
+> I increased it to 900ms and it seems that this problem can be solved.
+> To be safe, I'd just round up to a full 1000.
 
-But yeah explicit cc: stable can't hurt.
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Do be clear: I'm still not convinced that the old 500 ms actually
+causes any real problems. I think someone is just measuring with a
+scope and upset that they see the device power on and then power off
+again. In any case, if we can avoid an extra power cycle at boot then
+that seems sane to me. Since this is a tiny change, I'll plan to merge
+it some time next week unless someone yells.
+
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
