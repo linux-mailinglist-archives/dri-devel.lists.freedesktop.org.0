@@ -1,56 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A1FB44EB69
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Nov 2021 17:32:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 96C5D44EBCB
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Nov 2021 18:07:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 51C6E6EBB7;
-	Fri, 12 Nov 2021 16:32:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0617C6ECC9;
+	Fri, 12 Nov 2021 17:07:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x135.google.com (mail-il1-x135.google.com
- [IPv6:2607:f8b0:4864:20::135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7FB0E6EBB7
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Nov 2021 16:32:16 +0000 (UTC)
-Received: by mail-il1-x135.google.com with SMTP id x9so9505130ilu.6
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Nov 2021 08:32:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=WZQU60Xp18Hdsmtr7VDsvNRYsO9Fr9Pv2XyHmxjj+mM=;
- b=KuCqVetYf798pzMpcifYfYBDXK7mJj8RA51iDj8N5l+Hr6lkTUxdpghhQ5jIk36Mth
- wl4kFkIE3mufICbUYUMyO5l9GhOWg2rrWnFEOtLxzTSdv7cJuUBFXVOo/o8RLBg3Siw8
- LyHz6ZvZjh2sGHFGCifhnNbxYDuwOX6YT1ZVEMevpd7LFwXs1Rmu9k8DS/5n1pBmSMTT
- GjeArjcZePLAIQdrnN+IKo11faF3a5gjiLW7Px3vgI8g53ptQX9AJvBHmsU4ZWDM1zfv
- DQ4Nyq7pXqwd9oFi+UH9P7wsxxQIPhTb4a23Fea4vkvRAKmOI1GxAlJ7R/uy8IamChq4
- Yhsg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=WZQU60Xp18Hdsmtr7VDsvNRYsO9Fr9Pv2XyHmxjj+mM=;
- b=O3QdRWqwsqMrIjXEYAhbxrpYxXiOoeBg7JywvL1T4ep+tkWNf46j+ot/9VtIpKSm1f
- YtJcsGl6IXrUWNLVU+2O2GCJcfx3NBV+BaKMRn7rfYd0/PU1BU/8qi6ytlEDvByWB1e/
- eZbv9UzDq5qAzaZ0bfkkv0aJHBJF8nOfVr+dgW4ubjRmLcMMcV3QylEzgpUfWQTSUMhO
- JZWYaIUXLkXZKw39kc3GhmpF7AlVqNXMEG/MLEirPKuGHp/lTfwlnCdxMZ1SikjmdTyl
- 2sKEaNfMTYSDONJtj3srFqapJujahOKis1GPeUTMRftFYk0c+5cbLZddM3T/OzRrJkne
- JUEQ==
-X-Gm-Message-State: AOAM530DmclEA+MNrTJbgvOQGSL/bmn5TRpB6zfd7aOt4s7Hy2Syz/rS
- t2xG/OBVwrzdO2nmWgfeiWJ+kEl7UyCjZpuQ+UHEPw==
-X-Google-Smtp-Source: ABdhPJx2vazsN9hiP4Pi5PPRhbKghUbvJI/jrMtOuxA3B6w+bLX6dIBky+qiit4PlBLgRfNrY9wQl1QF0SBSxiEolaQ=
-X-Received: by 2002:a05:6e02:144e:: with SMTP id
- p14mr9934206ilo.180.1636734735453; 
- Fri, 12 Nov 2021 08:32:15 -0800 (PST)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 168516ECC3;
+ Fri, 12 Nov 2021 17:07:25 +0000 (UTC)
+Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com
+ [66.24.58.225])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id B42A36058D;
+ Fri, 12 Nov 2021 17:07:22 +0000 (UTC)
+Date: Fri, 12 Nov 2021 12:07:21 -0500
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Jason Baron <jbaron@akamai.com>
+Subject: Re: [PATCH v10 08/10] dyndbg: add print-to-tracefs, selftest with
+ it - RFC
+Message-ID: <20211112120721.3a4827ce@gandalf.local.home>
+In-Reply-To: <f3914fa9-8b22-d54e-3f77-d998e74094b9@akamai.com>
+References: <20211111220206.121610-1-jim.cromie@gmail.com>
+ <20211111220206.121610-9-jim.cromie@gmail.com>
+ <20211112114953.GA1381@axis.com>
+ <f3914fa9-8b22-d54e-3f77-d998e74094b9@akamai.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-References: <20211112084302.2447931-1-yangcong5@huaqin.corp-partner.google.com>
-In-Reply-To: <20211112084302.2447931-1-yangcong5@huaqin.corp-partner.google.com>
-From: Doug Anderson <dianders@google.com>
-Date: Fri, 12 Nov 2021 08:32:04 -0800
-Message-ID: <CAD=FV=XWdA5kC5VpRPNWzCQDJjmDg5s7bP=sa7yVuqnRcxWf+w@mail.gmail.com>
-Subject: Re: [PATCH] drm/bridge: parade-ps8640: Fix additional suspend/resume
- at bootup
-To: yangcong <yangcong5@huaqin.corp-partner.google.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,30 +45,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, philipchen@chromium.org, jonas@kwiboo.se,
- airlied@linux.ie, robert.foss@linaro.org, dri-devel@lists.freedesktop.org,
- narmstrong@baylibre.com, linux-kernel@vger.kernel.org,
- jernej.skrabec@gmail.com, swboyd@chromium.org, a.hajda@samsung.com,
- laurent.pinchart@ideasonboard.com
+Cc: quic_saipraka@quicinc.com, catalin.marinas@arm.com,
+ dri-devel@lists.freedesktop.org, will@kernel.org, maz@kernel.org,
+ Vincent Whitchurch <vincent.whitchurch@axis.com>,
+ amd-gfx@lists.freedesktop.org, mingo@redhat.com, daniel.vetter@ffwll.ch,
+ arnd@arndb.de, linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ seanpaul@chromium.org, intel-gvt-dev@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, sean@poorly.run,
+ Jim Cromie <jim.cromie@gmail.com>, gregkh@linuxfoundation.org,
+ linux-kernel@vger.kernel.org, quic_psodagud@quicinc.com,
+ mathieu.desnoyers@efficios.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Fri, 12 Nov 2021 10:08:41 -0500
+Jason Baron <jbaron@akamai.com> wrote:
 
-On Fri, Nov 12, 2021 at 12:43 AM yangcong
-<yangcong5@huaqin.corp-partner.google.com> wrote:
->
-> Through log and waveform, we can see that there will be additional
-> suspend/resume when booting. This timing does not meet the ps8640 spec.
-> It seems that the delay of 500ms does not satisfied drm_panel_get_modes.
-> I increased it to 900ms and it seems that this problem can be solved.
-> To be safe, I'd just round up to a full 1000.
+> > A key difference between that patchset and this patch (besides that
+> > small fact that I used +x instead of +T) was that my patchset allowed
+> > the dyndbg trace to be emitted to the main buffer and did not force them
+> > to be in an instance-specific buffer.  
+> 
+> Yes, I agree I'd prefer that we print here to the 'main' buffer - it seems to keep things simpler and easier to combine the output from different
+> sources as you mentioned.
 
-Do be clear: I'm still not convinced that the old 500 ms actually
-causes any real problems. I think someone is just measuring with a
-scope and upset that they see the device power on and then power off
-again. In any case, if we can avoid an extra power cycle at boot then
-that seems sane to me. Since this is a tiny change, I'll plan to merge
-it some time next week unless someone yells.
+I do not want anything to print to the "main buffer" that can not be
+filtered or turned off by the tracing infrastructure itself (aka tracefs
+file system).
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
+Once we allow that, then the trace file will become useless because
+everything will write to the main buffer and fill it with noise.
+
+Events that can be enabled and disabled from tracefs are fine, as they can
+be limited. This is why I added that nasty warning if people leave around
+trace_printk(), because it does exactly this (write to the main buffer).
+It's fine for debugging a custom kernel, but should never be enabled in
+something that is shipped, or part of mainline.
+
+-- Steve
