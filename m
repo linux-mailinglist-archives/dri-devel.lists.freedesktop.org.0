@@ -2,61 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52DEB44E1D2
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Nov 2021 07:18:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A543A44E209
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Nov 2021 07:48:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB5256EA38;
-	Fri, 12 Nov 2021 06:17:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 30C576E902;
+	Fri, 12 Nov 2021 06:47:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com
- [IPv6:2607:f8b0:4864:20::531])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E4D716E995
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Nov 2021 06:17:55 +0000 (UTC)
-Received: by mail-pg1-x531.google.com with SMTP id r132so5073895pgr.9
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Nov 2021 22:17:55 -0800 (PST)
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com
+ [IPv6:2a00:1450:4864:20::52c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 86A146E978
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Nov 2021 06:47:55 +0000 (UTC)
+Received: by mail-ed1-x52c.google.com with SMTP id z21so33716069edb.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Nov 2021 22:47:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amarulasolutions.com; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Wad9gm8CW+7Vaw+M+Mr+ioYMu34NOVqzp5WCaNgwVbY=;
- b=XBsjNUuyVhMdEj6T7LniJnG0Zs5LA+VbgnGBfQb2/yEIovOQ26QS75TvmwcUxYYj8o
- XUZCGeL55EbUVuh9CaFpgRh4eh21p04ASs/2EMfKq1Id1lCT/03sAdEofOeXLGSZNbCK
- T5+569KWt5KyguW/Cg9aGjBEp2scHHKq1mMzE=
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=aGQaQIxHq2g844QfsGMPavrNU9PqYLl3F+sUaO/zs5c=;
+ b=eNLQ0nGEfwSpK93Neyr1MG2AvFgsK1ofw7iRTeXDk2hoP9ixGveT8vTZ4pxsXnm+Uj
+ ukXEZmp5qCnOq5cYzCp19Hy38gxsHOzXObHDjKtLPTvr47X1UjSGjnKCxKH2ahXLf6Ai
+ r8Z/KgMU0J8YF+IMl6BdEg+WF6HWqaDRAD4kI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Wad9gm8CW+7Vaw+M+Mr+ioYMu34NOVqzp5WCaNgwVbY=;
- b=U2ahbmIEIizOCsrua5tAeGgJkDpgNyLMfKzAKIdz4Sof8iaHQYs7olzpiT/aENGW64
- KVmn1Zi0E2iS7JaMY022mf6VDFlyS+D12T4ukB8BtX8VsJeW4bx2LQHLlfD7TuQCM/vj
- FIFKAhYE5Yre+H+ecbNFV5zkwriNX9BF4G4r3Z1MGQ39P9LjBwjLFqIqBFCOydDMNbxn
- SiFpKkm8ExuM6laevLpZnvfUqqpbCyHobfQJlQL59YP1kLrKx1AAzHFPggIxYggO6UAp
- 8XaRZaFccV5xReiPCOO9CVXJO/Ynu1NFtQ5fjwHz16TavOQ380NUPe1mIglcJz8SPbC0
- iydw==
-X-Gm-Message-State: AOAM530SXKbUVCmBl9ZdimvDA5egtdw3QrN/gP/irFU+lo7LzD+Ar+dw
- YUvL3zwU1LFRqO9O0oyc3EQxYA==
-X-Google-Smtp-Source: ABdhPJzccvCuuKTMzT5Xf+4TNMKBG21tNmi42SFsyLthwZSXilj5YfBBc68olJ3IKJ1pgUcov4iMLA==
-X-Received: by 2002:a05:6a00:158a:b0:49f:be86:c78f with SMTP id
- u10-20020a056a00158a00b0049fbe86c78fmr12004616pfk.56.1636697875509; 
- Thu, 11 Nov 2021 22:17:55 -0800 (PST)
-Received: from localhost.localdomain ([2405:201:c00a:a0a9:de19:8cdf:97cf:a6b1])
- by smtp.gmail.com with ESMTPSA id p3sm4727856pfb.205.2021.11.11.22.17.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Nov 2021 22:17:55 -0800 (PST)
-From: Jagan Teki <jagan@amarulasolutions.com>
-To: Andrzej Hajda <a.hajda@samsung.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Robert Foss <robert.foss@linaro.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>, Heiko Stubner <heiko@sntech.de>,
- Yannick Fertre <yannick.fertre@foss.st.com>
-Subject: [PATCH] drm/bridge: dw-mipi-dsi: Switch to atomic operations
-Date: Fri, 12 Nov 2021 11:47:41 +0530
-Message-Id: <20211112061741.120898-1-jagan@amarulasolutions.com>
-X-Mailer: git-send-email 2.25.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=aGQaQIxHq2g844QfsGMPavrNU9PqYLl3F+sUaO/zs5c=;
+ b=5DOFCCcEBY9BGKyC2X8vXtRBWj4fvhakD6qbLnBc+qnN6l9H+bBkqeJur7N0JJxElw
+ wblK7rnnTbiiZynIPM0O7bc7XMk6ix9QCpdxmqaI+piIVuMXg8bqNBVKnEQ338JvAAQS
+ uH+wj7vpamr+OvXsWUKvFHodLFagicoxMXBZkj3o+QY1ePDkAz0YXYSMQN8+7kth+zPH
+ 3QufE/mA49OOazcsU5j6WyfVkPTTRXHn8yv0aG9hupFJ3Qt47mVshmELsZXyR4XZOizD
+ QBdbmVNrYEDjFsFwNNKPq7VcWD4WkR0M7tVQIeoX2Kz+w35REB5MvAHWiCxU192Igd3V
+ q2dA==
+X-Gm-Message-State: AOAM5338Y3MUrffjO0jZaXjAOA2jlujEtoFd1do8CkuhWWp1VzMxxRqW
+ /+eINxKAXk35XHM768n4CuOGL4kQfmBaM8KCwIvdBg==
+X-Google-Smtp-Source: ABdhPJz9/fDn32MBeFzWgqy88o0sb44J2qy+g4BDsAkX/ek6RjvHYOKtyHgt38zNHolVKYDrGqZfi1iA5OMReOxXDGk=
+X-Received: by 2002:a17:907:6d28:: with SMTP id
+ sa40mr16341369ejc.201.1636699673998; 
+ Thu, 11 Nov 2021 22:47:53 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20211111101456.584061-1-jagan@amarulasolutions.com>
+ <CAJ+vNU2P3rosfJVEDsU4xZWCn40w-yEGrsZiD7YcJ0Z-snH6kA@mail.gmail.com>
+In-Reply-To: <CAJ+vNU2P3rosfJVEDsU4xZWCn40w-yEGrsZiD7YcJ0Z-snH6kA@mail.gmail.com>
+From: Jagan Teki <jagan@amarulasolutions.com>
+Date: Fri, 12 Nov 2021 12:17:43 +0530
+Message-ID: <CAMty3ZC+Xy7xQ0+M4BPXuhyNffcGfDO9S23dkkq-vMJptAkUVA@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 0/3] arm64: imx8mm: Add MIPI DSI support
+To: Tim Harvey <tharvey@gateworks.com>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Dae <inki.dae@samsung.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,70 +63,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-amarula@amarulasolutions.com,
- linux-stm32@st-md-mailman.stormreply.com, dri-devel@lists.freedesktop.org,
- Jagan Teki <jagan@amarulasolutions.com>
+Cc: Marek Vasut <marex@denx.de>, Peng Fan <peng.fan@nxp.com>,
+ Matteo Lisi <matteo.lisi@engicam.com>, Adam Ford <aford173@gmail.com>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>,
+ Michael Tretter <m.tretter@pengutronix.de>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ NXP Linux Team <linux-imx@nxp.com>, Shawn Guo <shawnguo@kernel.org>,
+ linux-amarula <linux-amarula@amarulasolutions.com>,
+ Linux ARM Mailing List <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Replace atomic version of the enable/disable operations to
-continue the transition to the atomic API.
+On Fri, Nov 12, 2021 at 5:40 AM Tim Harvey <tharvey@gateworks.com> wrote:
+>
+> On Thu, Nov 11, 2021 at 2:15 AM Jagan Teki <jagan@amarulasolutions.com> wrote:
+> >
+> > This series support MIPI DSI on i.MX8MM.
+> >
+> > The DSIM bridge still need to work to make it compatible for
+> > exynos drm dsi hardware block.
+> >
+> > This series work directly on to of linux-next with recent
+> > dispmix-blk-ctrl changes.
+> >
+>
+> Jagan,
+>
+> Thanks - I was able to get this series working using the set of
+> exynos/drm patches from Michael submitted back in 2020-09-11:
+> https://patchwork.kernel.org/project/dri-devel/list/?series=347439&archive=both&state=*
+>
+> > Tested on i.Core MX8M Mini SoM with EDIMM2.2 and CTOUCH2
+> > Carrier boards.
+> >
+> > Required changes:
+> > 1. DSIM driver
+> > https://patchwork.kernel.org/project/linux-arm-kernel/cover/20210704090230.26489-1-jagan@amarulasolutions.com/
+>
+> This exynos/drm RFC series you posted back in July was where I
+> recalled the discussion about if the exynos driver could be split up
+> vs duplicating parts of it in a separate driver.
 
-Also added default drm atomic operations for duplicate, destroy
-and reset state API's in order to have smooth transition on
-atomic API's.
+Not sure Laurent, Inki has some discussion about this [1], looks like
+they are still looking for a common driver.
 
-Tested on Engicam i.Core STM32MP1 SoM.
+>
+> There were also some comments about this series. Can you address those
+> comments, rebase and resend?
+>
+> I have not been able to get my hardware to work with this series yet
+> and am still debugging that (currently crashing in
+> samsung_dsim_host_attach)
 
-Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
----
- drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c | 19 ++++++++++++-------
- 1 file changed, 12 insertions(+), 7 deletions(-)
+I've initially tried a separate driver instead of exynos.[2]
 
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-index e44e18a0112a..ff0db96dfcd5 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-@@ -871,7 +871,8 @@ static void dw_mipi_dsi_clear_err(struct dw_mipi_dsi *dsi)
- 	dsi_write(dsi, DSI_INT_MSK1, 0);
- }
- 
--static void dw_mipi_dsi_bridge_post_disable(struct drm_bridge *bridge)
-+static void dw_mipi_dsi_bridge_post_atomic_disable(struct drm_bridge *bridge,
-+						   struct drm_bridge_state *old_bridge_state)
- {
- 	struct dw_mipi_dsi *dsi = bridge_to_dsi(bridge);
- 	const struct dw_mipi_dsi_phy_ops *phy_ops = dsi->plat_data->phy_ops;
-@@ -978,7 +979,8 @@ static void dw_mipi_dsi_bridge_mode_set(struct drm_bridge *bridge,
- 		dw_mipi_dsi_mode_set(dsi->slave, adjusted_mode);
- }
- 
--static void dw_mipi_dsi_bridge_enable(struct drm_bridge *bridge)
-+static void dw_mipi_dsi_bridge_atomic_enable(struct drm_bridge *bridge,
-+					     struct drm_bridge_state *old_bridge_state)
- {
- 	struct dw_mipi_dsi *dsi = bridge_to_dsi(bridge);
- 
-@@ -1032,11 +1034,14 @@ static int dw_mipi_dsi_bridge_attach(struct drm_bridge *bridge,
- }
- 
- static const struct drm_bridge_funcs dw_mipi_dsi_bridge_funcs = {
--	.mode_set     = dw_mipi_dsi_bridge_mode_set,
--	.enable	      = dw_mipi_dsi_bridge_enable,
--	.post_disable = dw_mipi_dsi_bridge_post_disable,
--	.mode_valid   = dw_mipi_dsi_bridge_mode_valid,
--	.attach	      = dw_mipi_dsi_bridge_attach,
-+	.atomic_duplicate_state	= drm_atomic_helper_bridge_duplicate_state,
-+	.atomic_destroy_state	= drm_atomic_helper_bridge_destroy_state,
-+	.atomic_reset		= drm_atomic_helper_bridge_reset,
-+	.atomic_enable		= dw_mipi_dsi_bridge_atomic_enable,
-+	.atomic_post_disable	= dw_mipi_dsi_bridge_post_atomic_disable,
-+	.mode_set		= dw_mipi_dsi_bridge_mode_set,
-+	.mode_valid		= dw_mipi_dsi_bridge_mode_valid,
-+	.attach			= dw_mipi_dsi_bridge_attach,
- };
- 
- #ifdef CONFIG_DEBUG_FS
--- 
-2.25.1
+>
+> > 2. DPHY change
+> > https://www.spinics.net/lists/devicetree/msg381691.html
+>
+> This was originally from Marek submitted on Oct 3 2020: [PATCH] phy:
+> exynos-mipi-video: Add support for NXP i.MX8MM
 
+I'm thinking this may not be required, as dphy reset can now handle
+via blk-ctrl like this [3]. I have tested the reset handling via
+blk-ctrl and it works for me.
+
+>
+> This one seems to have been acked but never got picked up for some reason.
+>
+> Marek, can you add the tags and re-submit?
+>
+> > 3. Bus format fix
+> > https://github.com/openedev/linux/commit/6ca9781ed53ea75e26341dd57250e63794638b20
+> >
+>
+> Jagan, can you submit this?
+
+This is indeed not required, drm handles the bridge state via atomic
+API's. I did check that as well. I will link my latest series soon.
+
+[1] https://patchwork.kernel.org/project/linux-arm-kernel/patch/20210704090230.26489-7-jagan@amarulasolutions.com/
+[2] https://patchwork.kernel.org/project/linux-arm-kernel/cover/20210621072424.111733-1-jagan@amarulasolutions.com/
+[3] https://patchwork.kernel.org/project/linux-arm-kernel/patch/20211106155427.753197-1-aford173@gmail.com/
+
+Jagan.
