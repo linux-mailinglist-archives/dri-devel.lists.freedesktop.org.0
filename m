@@ -1,51 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E841944E83E
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Nov 2021 15:10:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7419F44E847
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Nov 2021 15:13:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E1F406E483;
-	Fri, 12 Nov 2021 14:10:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F0A936E09A;
+	Fri, 12 Nov 2021 14:13:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 955EA6E334;
- Fri, 12 Nov 2021 14:10:51 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10165"; a="213861956"
-X-IronPort-AV: E=Sophos;i="5.87,229,1631602800"; d="scan'208";a="213861956"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EEF0B6E09A;
+ Fri, 12 Nov 2021 14:13:54 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10165"; a="213862363"
+X-IronPort-AV: E=Sophos;i="5.87,229,1631602800"; d="scan'208";a="213862363"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Nov 2021 06:10:45 -0800
-X-IronPort-AV: E=Sophos;i="5.87,229,1631602800"; d="scan'208";a="670661333"
+ 12 Nov 2021 06:13:53 -0800
+X-IronPort-AV: E=Sophos;i="5.87,229,1631602800"; d="scan'208";a="670662018"
 Received: from ggwalsh-mobl.ger.corp.intel.com (HELO [10.213.200.24])
  ([10.213.200.24])
  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Nov 2021 06:10:44 -0800
-Subject: Re: [PATCH] drm/i915: Use per device iommu check
-To: Lu Baolu <baolu.lu@linux.intel.com>, Robin Murphy <robin.murphy@arm.com>, 
- Intel-gfx@lists.freedesktop.org
-References: <20211109121759.170915-1-tvrtko.ursulin@linux.intel.com>
- <6e8c55a7-45b6-57ab-35f7-d522401efccb@linux.intel.com>
- <4d1a0ab9-e0d8-2ed9-1fc4-9ffaf2f19bef@linux.intel.com>
- <7b2e1427-69cf-8f5d-0c15-73c4e602953d@linux.intel.com>
- <2a1ae709-19f8-7983-b171-98ec2f3f010a@linux.intel.com>
- <4c5ab72f-aaff-8b92-7471-44dd907cf2f6@linux.intel.com>
- <215fa7de-4ed7-1da5-724e-006e36286c08@linux.intel.com>
- <9463fda7-d215-6c14-3ca7-a2ff94349c3e@arm.com>
- <bc873275-eb22-0cbd-7ee4-094f210f7ffe@linux.intel.com>
- <8d88c76e-5ca8-5675-a2fb-306b972ad4f5@linux.intel.com>
+ 12 Nov 2021 06:13:52 -0800
+Subject: Re: [Intel-gfx] [PATCH] drm/i915/execlists: Weak parallel submission
+ support for execlists
+To: Matthew Brost <matthew.brost@intel.com>
+References: <20211020214751.34602-1-matthew.brost@intel.com>
+ <c9a1cd3e-dc3a-2b2b-ee37-73c0c50f3f60@intel.com>
+ <20211027191732.GA16188@jons-linux-dev-box>
+ <af017ae0-e826-7b6a-03d7-0e422030da02@intel.com>
+ <20211027201001.GA16265@jons-linux-dev-box>
+ <a86e7ea7-3c70-2540-9538-44adc3d12e52@linux.intel.com>
+ <20211111164946.GA875@jons-linux-dev-box>
 From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
 Organization: Intel Corporation UK Plc
-Message-ID: <9458a40b-ef51-08ee-541f-99679dc47a23@linux.intel.com>
-Date: Fri, 12 Nov 2021 14:10:42 +0000
+Message-ID: <9f67ba17-63ae-9cde-dd22-dc0fe93e6f6f@linux.intel.com>
+Date: Fri, 12 Nov 2021 14:13:50 +0000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <8d88c76e-5ca8-5675-a2fb-306b972ad4f5@linux.intel.com>
+In-Reply-To: <20211111164946.GA875@jons-linux-dev-box>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,183 +55,181 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: intel-gfx@lists.freedesktop.org, daniele.ceraolospurio@intel.com,
+ dri-devel@lists.freedesktop.org, John Harrison <john.c.harrison@intel.com>,
+ tvrtko.ursulin@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 12/11/2021 00:58, Lu Baolu wrote:
-> On 11/11/21 11:18 PM, Tvrtko Ursulin wrote:
+On 11/11/2021 16:49, Matthew Brost wrote:
+> On Mon, Nov 01, 2021 at 10:35:09AM +0000, Tvrtko Ursulin wrote:
 >>
->> On 10/11/2021 14:37, Robin Murphy wrote:
->>> On 2021-11-10 14:11, Tvrtko Ursulin wrote:
->>>>
->>>> On 10/11/2021 12:35, Lu Baolu wrote:
->>>>> On 2021/11/10 20:08, Tvrtko Ursulin wrote:
->>>>>>
->>>>>> On 10/11/2021 12:04, Lu Baolu wrote:
->>>>>>> On 2021/11/10 17:30, Tvrtko Ursulin wrote:
->>>>>>>>
->>>>>>>> On 10/11/2021 07:12, Lu Baolu wrote:
->>>>>>>>> Hi Tvrtko,
->>>>>>>>>
->>>>>>>>> On 2021/11/9 20:17, Tvrtko Ursulin wrote:
->>>>>>>>>> From: Tvrtko Ursulin<tvrtko.ursulin@intel.com>
->>>>>>>>>>
->>>>>>>>>> On igfx + dgfx setups, it appears that intel_iommu=igfx_off 
->>>>>>>>>> option only
->>>>>>>>>> disables the igfx iommu. Stop relying on global 
->>>>>>>>>> intel_iommu_gfx_mapped
->>>>>>>>>> and probe presence of iommu domain per device to accurately 
->>>>>>>>>> reflect its
->>>>>>>>>> status.
->>>>>>>>>>
->>>>>>>>>> Signed-off-by: Tvrtko Ursulin<tvrtko.ursulin@intel.com>
->>>>>>>>>> Cc: Lu Baolu<baolu.lu@linux.intel.com>
->>>>>>>>>> ---
->>>>>>>>>> Baolu, is my understanding here correct? Maybe I am confused 
->>>>>>>>>> by both
->>>>>>>>>> intel_iommu_gfx_mapped and dmar_map_gfx being globals in the 
->>>>>>>>>> intel_iommu
->>>>>>>>>> driver. But it certainly appears the setup can assign some 
->>>>>>>>>> iommu ops (and
->>>>>>>>>> assign the discrete i915 to iommu group) when those two are 
->>>>>>>>>> set to off.
->>>>>>>>>
->>>>>>>>> diff --git a/drivers/gpu/drm/i915/i915_drv.h 
->>>>>>>>> b/drivers/gpu/drm/i915/i915_drv.h
->>>>>>>>> index e967cd08f23e..9fb38a54f1fe 100644
->>>>>>>>> --- a/drivers/gpu/drm/i915/i915_drv.h
->>>>>>>>> +++ b/drivers/gpu/drm/i915/i915_drv.h
->>>>>>>>> @@ -1763,26 +1763,27 @@ static inline bool run_as_guest(void)
->>>>>>>>>   #define HAS_D12_PLANE_MINIMIZATION(dev_priv) 
->>>>>>>>> (IS_ROCKETLAKE(dev_priv) || \
->>>>>>>>>                             IS_ALDERLAKE_S(dev_priv))
->>>>>>>>>
->>>>>>>>> -static inline bool intel_vtd_active(void)
->>>>>>>>> +static inline bool intel_vtd_active(struct drm_i915_private 
->>>>>>>>> *i915)
->>>>>>>>>   {
->>>>>>>>> -#ifdef CONFIG_INTEL_IOMMU
->>>>>>>>> -    if (intel_iommu_gfx_mapped)
->>>>>>>>> +    if (iommu_get_domain_for_dev(i915->drm.dev))
->>>>>>>>>           return true;
->>>>>>>>> -#endif
->>>>>>>>>
->>>>>>>>>       /* Running as a guest, we assume the host is enforcing 
->>>>>>>>> VT'd */
->>>>>>>>>       return run_as_guest();
->>>>>>>>>   }
->>>>>>>>>
->>>>>>>>> Have you verified this change? I am afraid that
->>>>>>>>> iommu_get_domain_for_dev() always gets a valid iommu domain even
->>>>>>>>> intel_iommu_gfx_mapped == 0.
->>>>>>>>
->>>>>>>> Yes it seems to work as is:
->>>>>>>>
->>>>>>>> default:
->>>>>>>>
->>>>>>>> # grep -i iommu /sys/kernel/debug/dri/*/i915_capabilities
->>>>>>>> /sys/kernel/debug/dri/0/i915_capabilities:iommu: enabled
->>>>>>>> /sys/kernel/debug/dri/1/i915_capabilities:iommu: enabled
->>>>>>>>
->>>>>>>> intel_iommu=igfx_off:
->>>>>>>>
->>>>>>>> # grep -i iommu /sys/kernel/debug/dri/*/i915_capabilities
->>>>>>>> /sys/kernel/debug/dri/0/i915_capabilities:iommu: disabled
->>>>>>>> /sys/kernel/debug/dri/1/i915_capabilities:iommu: enabled
->>>>>>>>
->>>>>>>> On my system dri device 0 is integrated graphics and 1 is discrete.
+>> On 27/10/2021 21:10, Matthew Brost wrote:
+>>> On Wed, Oct 27, 2021 at 01:04:49PM -0700, John Harrison wrote:
+>>>> On 10/27/2021 12:17, Matthew Brost wrote:
+>>>>> On Tue, Oct 26, 2021 at 02:58:00PM -0700, John Harrison wrote:
+>>>>>> On 10/20/2021 14:47, Matthew Brost wrote:
+>>>>>>> A weak implementation of parallel submission (multi-bb execbuf IOCTL) for
+>>>>>>> execlists. Doing as little as possible to support this interface for
+>>>>>>> execlists - basically just passing submit fences between each request
+>>>>>>> generated and virtual engines are not allowed. This is on par with what
+>>>>>>> is there for the existing (hopefully soon deprecated) bonding interface.
 >>>>>>>
->>>>>>> The drm device 0 has a dedicated iommu. When the user request 
->>>>>>> igfx not
->>>>>>> mapped, the VT-d implementation will turn it off to save power. 
->>>>>>> But for
->>>>>>> shared iommu, you definitely will get it enabled.
+>>>>>>> We perma-pin these execlists contexts to align with GuC implementation.
+>>>>>>>
+>>>>>>> v2:
+>>>>>>>      (John Harrison)
+>>>>>>>       - Drop siblings array as num_siblings must be 1
+>>>>>>>
+>>>>>>> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+>>>>>>> ---
+>>>>>>>      drivers/gpu/drm/i915/gem/i915_gem_context.c   | 10 +++--
+>>>>>>>      drivers/gpu/drm/i915/gt/intel_context.c       |  4 +-
+>>>>>>>      .../drm/i915/gt/intel_execlists_submission.c  | 44 ++++++++++++++++++-
+>>>>>>>      drivers/gpu/drm/i915/gt/intel_lrc.c           |  2 +
+>>>>>>>      .../gpu/drm/i915/gt/uc/intel_guc_submission.c |  2 -
+>>>>>>>      5 files changed, 52 insertions(+), 10 deletions(-)
+>>>>>>>
+>>>>>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+>>>>>>> index fb33d0322960..35e87a7d0ea9 100644
+>>>>>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
+>>>>>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+>>>>>>> @@ -570,10 +570,6 @@ set_proto_ctx_engines_parallel_submit(struct i915_user_extension __user *base,
+>>>>>>>      	struct intel_engine_cs **siblings = NULL;
+>>>>>>>      	intel_engine_mask_t prev_mask;
+>>>>>>> -	/* FIXME: This is NIY for execlists */
+>>>>>>> -	if (!(intel_uc_uses_guc_submission(&i915->gt.uc)))
+>>>>>>> -		return -ENODEV;
+>>>>>>> -
+>>>>>>>      	if (get_user(slot, &ext->engine_index))
+>>>>>>>      		return -EFAULT;
+>>>>>>> @@ -583,6 +579,12 @@ set_proto_ctx_engines_parallel_submit(struct i915_user_extension __user *base,
+>>>>>>>      	if (get_user(num_siblings, &ext->num_siblings))
+>>>>>>>      		return -EFAULT;
+>>>>>>> +	if (!intel_uc_uses_guc_submission(&i915->gt.uc) && num_siblings != 1) {
+>>>>>>> +		drm_dbg(&i915->drm, "Only 1 sibling (%d) supported in non-GuC mode\n",
+>>>>>>> +			num_siblings);
+>>>>>>> +		return -EINVAL;
+>>>>>>> +	}
+>>>>>>> +
+>>>>>>>      	if (slot >= set->num_engines) {
+>>>>>>>      		drm_dbg(&i915->drm, "Invalid placement value, %d >= %d\n",
+>>>>>>>      			slot, set->num_engines);
+>>>>>>> diff --git a/drivers/gpu/drm/i915/gt/intel_context.c b/drivers/gpu/drm/i915/gt/intel_context.c
+>>>>>>> index 5634d14052bc..1bec92e1d8e6 100644
+>>>>>>> --- a/drivers/gpu/drm/i915/gt/intel_context.c
+>>>>>>> +++ b/drivers/gpu/drm/i915/gt/intel_context.c
+>>>>>>> @@ -79,7 +79,8 @@ static int intel_context_active_acquire(struct intel_context *ce)
+>>>>>>>      	__i915_active_acquire(&ce->active);
+>>>>>>> -	if (intel_context_is_barrier(ce) || intel_engine_uses_guc(ce->engine))
+>>>>>>> +	if (intel_context_is_barrier(ce) || intel_engine_uses_guc(ce->engine) ||
+>>>>>>> +	    intel_context_is_parallel(ce))
+>>>>>>>      		return 0;
+>>>>>>>      	/* Preallocate tracking nodes */
+>>>>>>> @@ -563,7 +564,6 @@ void intel_context_bind_parent_child(struct intel_context *parent,
+>>>>>>>      	 * Callers responsibility to validate that this function is used
+>>>>>>>      	 * correctly but we use GEM_BUG_ON here ensure that they do.
+>>>>>>>      	 */
+>>>>>>> -	GEM_BUG_ON(!intel_engine_uses_guc(parent->engine));
+>>>>>>>      	GEM_BUG_ON(intel_context_is_pinned(parent));
+>>>>>>>      	GEM_BUG_ON(intel_context_is_child(parent));
+>>>>>>>      	GEM_BUG_ON(intel_context_is_pinned(child));
+>>>>>>> diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+>>>>>>> index bedb80057046..2865b422300d 100644
+>>>>>>> --- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+>>>>>>> +++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+>>>>>>> @@ -927,8 +927,7 @@ static void execlists_submit_ports(struct intel_engine_cs *engine)
+>>>>>>>      static bool ctx_single_port_submission(const struct intel_context *ce)
+>>>>>>>      {
+>>>>>>> -	return (IS_ENABLED(CONFIG_DRM_I915_GVT) &&
+>>>>>>> -		intel_context_force_single_submission(ce));
+>>>>>>> +	return intel_context_force_single_submission(ce);
+>>>>>> I think this is actually going to break GVT.
 >>>>>>
->>>>>> Sorry I am not following, what exactly do you mean? Is there a 
->>>>>> platform with integrated graphics without a dedicated iommu, in 
->>>>>> which case intel_iommu=igfx_off results in intel_iommu_gfx_mapped 
->>>>>> == 0 and iommu_get_domain_for_dev returning non-NULL?
+>>>>>> Not so much this change here but the whole use of single submission outside
+>>>>>> of GVT. It looks like the GVT driver overloads the single submission flag to
+>>>>>> tag requests that it owns. If we start using that flag elsewhere when GVT is
+>>>>>> active, I think that will cause much confusion within the GVT code.
+>>>>>>
+>>>>>> The correct fix would be to create a new flag just for GVT usage alongside
+>>>>>> the single submission one. GVT would then set both but only check for its
+>>>>>> own private flag. The parallel code would obviously only set the existing
+>>>>>> single submission flag.
+>>>>>>
+>>>>> Ok, see below.
 >>>>>
->>>>> Your code always work for an igfx with a dedicated iommu. This 
->>>>> might be
->>>>> always true on today's platforms. But from driver's point of view, we
->>>>> should not make such assumption.
+>>>>>>>      }
+>>>>>>>      static bool can_merge_ctx(const struct intel_context *prev,
+>>>>>>> @@ -2598,6 +2597,46 @@ static void execlists_context_cancel_request(struct intel_context *ce,
+>>>>>>>      				      current->comm);
+>>>>>>>      }
+>>>>>>> +static struct intel_context *
+>>>>>>> +execlists_create_parallel(struct intel_engine_cs **engines,
+>>>>>>> +			  unsigned int num_siblings,
+>>>>>>> +			  unsigned int width)
+>>>>>>> +{
+>>>>>>> +	struct intel_context *parent = NULL, *ce, *err;
+>>>>>>> +	int i;
+>>>>>>> +
+>>>>>>> +	GEM_BUG_ON(num_siblings != 1);
+>>>>>>> +
+>>>>>>> +	for (i = 0; i < width; ++i) {
+>>>>>>> +		ce = intel_context_create(engines[i]);
+>>>>>>> +		if (!ce) {
+>>>>>>> +			err = ERR_PTR(-ENOMEM);
+>>>>>>> +			goto unwind;
+>>>>>>> +		}
+>>>>>>> +
+>>>>>>> +		if (i == 0)
+>>>>>>> +			parent = ce;
+>>>>>>> +		else
+>>>>>>> +			intel_context_bind_parent_child(parent, ce);
+>>>>>>> +	}
+>>>>>>> +
+>>>>>>> +	parent->parallel.fence_context = dma_fence_context_alloc(1);
+>>>>>>> +
+>>>>>>> +	intel_context_set_nopreempt(parent);
+>>>>>>> +	intel_context_set_single_submission(parent);
+>>>>>> Can you explain the need for setting single submission?
+>>>>>>
+>>>>> I think I can actually pull this out. This was needed when I tried to
+>>>>> truely implement a guarante that all the parallel requests would be
+>>>>> running simultaneously. Couldn't ever to get that working because of the
+>>>>> mess that is the execlists scheduler - a simple wait at the head of
+>>>>> queue until everyone joined just blew up for whatever reason. I don't
+>>>>> believe this servers a purpose anymore, so I'll just drop it.
 >>>>>
->>>>> For example, if the iommu implementation decides not to turn off the
->>>>> graphic iommu (perhaps due to some hw quirk or for graphic
->>>>> virtualization), your code will be broken.
+>>>>> Matt
+>>>> Is that not going to be a problem? I thought concurrent execution was a
+>>>> fundamental requirement?
 >>>>
->>>> If I got it right, this would go back to your earlier recommendation 
->>>> to have the check look like this:
->>>>
->>>> static bool intel_vtd_active(struct drm_i915_private *i915)
->>>> {
->>>>          struct iommu_domain *domain;
->>>>
->>>>          domain = iommu_get_domain_for_dev(i915->drm.dev);
->>>>          if (domain && (domain->type & __IOMMU_DOMAIN_PAGING))
->>>>                  return true;
->>>>      ...
->>>>
->>>> This would be okay as a first step?
->>>>
->>>> Elsewhere in the thread Robin suggested looking at the dec->dma_ops 
->>>> and comparing against iommu_dma_ops. These two solution would be 
->>>> effectively the same?
 >>>
->>> Effectively, yes. See iommu_setup_dma_ops() - the only way to end up 
->>> with iommu_dma_ops is if a managed translation domain is present; if 
->>> the IOMMU is present but the default domain type has been set to 
->>> passthrough (either globally or forced for the given device) it will 
->>> do nothing and leave you with dma-direct, while if the IOMMU has been 
->>> ignored entirely then it should never even be called. Thus it neatly 
->>> encapsulates what you're after here.
+>>> I don't think so. See the commit message. This implmementation is on par
+>>> with the bonding interface - there is no guarantee whatsoever that with
+>>> the bonding interface bonded requests actually run at the same time. It
+>>> says hopefully these submissions run together. That's what I do in this
+>>> patch too for execlists, hence the 'weak' clause in the commit message.
 >>
->> One concern I have is whether the pass-through mode truly does nothing 
->> or addresses perhaps still go through the dmar hardware just with no 
->> translation?
-> 
-> Pass-through mode means the latter.
-> 
+>> With the new uapi definition implying a stricter guarantee - why not have
+>> this patch use special bb semaphore pre/post-ambles so scheduling behaviour
+>> is closer between the two backends?
 >>
->> If latter then most like for like change is actually exactly what the 
->> first version of my patch did. That is replace intel_iommu_gfx_mapped 
->> with a plain non-NULL check on iommu_get_domain_for_dev.
 > 
-> Depends on what you want here,
-> 
-> #1) the graphic device works in iommu pass-through mode
->     - device have an iommu
->     - but iommu does no translation
->     - the dma transactions go through iommu with the same destination
->       memory address specified by the device;
+> We could do that in a follow up if needed, as this bare minimum to get
+> this uAPI working. The real fix would be update the execlists scheduler
+> to be able to do a join of parallel requests and then schedule them
+> together. Should be fairly simple, tried to do this, but the execlists
+> scheduler is such a mess doing something simple is near impossible. IMO
+> there is little point wasting time on a legacy submission interface.
+> This implementation works as well as the old uAPI, let's get this in and
+> move on.
 
-Do you have any indications of the slowdown this adds?
-
-> #2) the graphic device works without a system iommu
->     - the iommu is off
->     - there's no iommu on the path of DMA transaction.
-> 
-> My suggestion works for #1). Robin's suggestion (device_iommu_mapped())
-> could work for #2).
-
-On the question of what do I want here. It seems that to preserve 
-like-for-like with the current and past i915 usage, ie. 
-intel_iommu_gfx_mapped, the first version of my patch should be used.
-
-In other words if I configure the boot with iommu=pt, then 
-intel_iommu_gfx_mapped is true. So if I add the __IOMMU_DOMAIN_PAGING 
-check, the new intel_vtd_active would return false, where the old 
-version would return true.
-
-So v1 of the patch feels like the safest route given I don't know which 
-workarounds are due remapping slowdown, and which may be present even in 
-the pass-through mode.
-
-I would explain the situation in the comment inside intel_vtd_active for 
-future reference.
+Bashing aside, what downside do you see in just doing what I suggested 
+right now? Code is there and all so it is a simple matter of adding a 
+conditional somewhere to use it. And it would make the behaviour between 
+the two backends closer. So it sounds like a no brainer to me. Or I am 
+missing something?
 
 Regards,
 
