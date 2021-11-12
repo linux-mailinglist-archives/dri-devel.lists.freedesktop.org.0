@@ -2,67 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5364644EDCA
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Nov 2021 21:16:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A997F44EDD3
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Nov 2021 21:18:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D722E6E084;
-	Fri, 12 Nov 2021 20:16:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D57416E2ED;
+	Fri, 12 Nov 2021 20:18:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com
- [IPv6:2a00:1450:4864:20::536])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 779806E084
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Nov 2021 20:16:38 +0000 (UTC)
-Received: by mail-ed1-x536.google.com with SMTP id b15so42071125edd.7
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Nov 2021 12:16:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux-foundation.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Ln4RXyBHR8doDkTvzPRGiuinGe7jyzb0IrpoLwi8jaI=;
- b=NI9uAcinaqpmJx5ILSYb8lXr26e0VJqphVU5LVvNQTyPCe/3VDYqvtuqe+/DyAePMH
- CQZD+o3avI3ug403ryG6GwE0OgouZXhed9c2/svOy5d3J0x/doML+D3z48oU2DmlaBAJ
- L9bpQDojkBXy1zxmyGS4uEKJR7MtcKtD5/luM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Ln4RXyBHR8doDkTvzPRGiuinGe7jyzb0IrpoLwi8jaI=;
- b=TU6gGm5awFOozl4J+egIRqmd/stmPCmtH/6O+3MISuOpDHke2UXYgkVgNovIqupm15
- D4pxMn7hYoZF+T9qwqhcWZU7hoQmYgW1Ntc71yjNhIDYgHyIHAgR059Fyp3FfWHJMGmK
- GvH7IzdYJe9DNrLnicOFmV4qBb6rUTEFwDhz9FT6OvRBBvYL0oaW0IiAzziW5CSGtHhP
- UCkL0b24XFD/FMtGdCtHxinVoFcjBw1iSTXVy8Y8U9GAAf3Vj/jwh2M5JofRO4qzDre7
- AmdqyaX+cNCgaV/gJBe0HqDE42uqxsmV3pgswKJjUtSMTB2ajoxgXTeVU5xGLDfVUDI7
- 7mZQ==
-X-Gm-Message-State: AOAM5334ftHLs8Lg7mto822TJ8fGCY0kRyrC785FMNue/NP0OhZMYzc7
- Bh8+QgaRvAjtCNjnCsBWanLAiXA0uWbjpPFa7vk=
-X-Google-Smtp-Source: ABdhPJxXy7Vj+1t0ej0JUXpQ6kF4svXcJGoNdATE8NDLvalNyE2kWRYe6CkeOKjC6Vg0USV/Fns8BQ==
-X-Received: by 2002:a17:906:1697:: with SMTP id
- s23mr22486996ejd.60.1636748196778; 
- Fri, 12 Nov 2021 12:16:36 -0800 (PST)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com.
- [209.85.128.41])
- by smtp.gmail.com with ESMTPSA id o5sm3775209edc.25.2021.11.12.12.16.36
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 12 Nov 2021 12:16:36 -0800 (PST)
-Received: by mail-wm1-f41.google.com with SMTP id i12so7884509wmq.4
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Nov 2021 12:16:36 -0800 (PST)
-X-Received: by 2002:a05:600c:1914:: with SMTP id
- j20mr37406491wmq.26.1636748195924; 
- Fri, 12 Nov 2021 12:16:35 -0800 (PST)
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B19F76E2ED;
+ Fri, 12 Nov 2021 20:18:35 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10166"; a="230663060"
+X-IronPort-AV: E=Sophos;i="5.87,230,1631602800"; d="scan'208";a="230663060"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Nov 2021 12:18:23 -0800
+X-IronPort-AV: E=Sophos;i="5.87,230,1631602800"; d="scan'208";a="590678546"
+Received: from cheemeig-mobl1.gar.corp.intel.com (HELO [10.212.248.140])
+ ([10.212.248.140])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Nov 2021 12:18:22 -0800
+Subject: Re: [PATCH 0/2] Nuke PAGE_KERNEL_IO
+To: Lucas De Marchi <lucas.demarchi@intel.com>,
+ Peter Zijlstra <peterz@infradead.org>
+References: <20211021181511.1533377-1-lucas.demarchi@intel.com>
+ <20211112190403.GK174703@worktop.programming.kicks-ass.net>
+ <20211112200957.qem4dyjnzjhls4v3@ldmartin-desk2>
+From: Dave Hansen <dave.hansen@intel.com>
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ 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
+ z5cecg==
+Message-ID: <5ad5de1d-1cd3-b1cd-2880-c8df78e4db58@intel.com>
+Date: Fri, 12 Nov 2021 12:18:18 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <CAPM=9txVydO1fy8sEwVXRZF0zPfWwLYrk-UnGeKhRCEvrW4B7Q@mail.gmail.com>
-In-Reply-To: <CAPM=9txVydO1fy8sEwVXRZF0zPfWwLYrk-UnGeKhRCEvrW4B7Q@mail.gmail.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Fri, 12 Nov 2021 12:16:19 -0800
-X-Gmail-Original-Message-ID: <CAHk-=wiZdONN=1Er5eN1bYurrWqhXF7LxQszpPia8hvYUOiZWQ@mail.gmail.com>
-Message-ID: <CAHk-=wiZdONN=1Er5eN1bYurrWqhXF7LxQszpPia8hvYUOiZWQ@mail.gmail.com>
-Subject: Re: [git pull] drm fixes + one missed next for 5.16-rc1
-To: Dave Airlie <airlied@gmail.com>, Matthew Auld <matthew.auld@intel.com>, 
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
- Ashutosh Dixit <ashutosh.dixit@intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20211112200957.qem4dyjnzjhls4v3@ldmartin-desk2>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,40 +93,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: linux-arch@vger.kernel.org, Dave Hansen <dave.hansen@linux.intel.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, intel-gfx@lists.freedesktop.org,
+ x86@kernel.org, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ xen-devel@lists.xenproject.org, Thomas Gleixner <tglx@linutronix.de>,
+ Boris Ostrovsky <boris.ostrovsky@oracle.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Nov 11, 2021 at 7:25 PM Dave Airlie <airlied@gmail.com> wrote:
->
-> I missed a drm-misc-next pull for the main pull last week. It wasn't
-> that major and isn't the bulk of this at all. This has a bunch of
-> fixes all over, a lot for amdgpu and i915.
+On 11/12/21 12:09 PM, Lucas De Marchi wrote:
+> The intention was to merge this through the tip tree. Although now I'm
+> not sure. Options:
+> 
+>     1) take the first patch through the drm-intel tree and apply the
+>        second patch later
+>     2) take everything through the drm tree
+>     3) take everything through the tip tree
+> 
+> What's your preference here?
 
-Ugh.
-
-The i915 conflict was trivial, but made me aware of that absolutely
-disgusting "wbinvd_on_all_cpus()" hack.
-
-And that thing is much too ugly to survive. I made my merge resolution
-remove that disgusting thing.
-
-That driver is x86-only anyway, so it all seemed completely bogus in
-the first place.
-
-And if there is some actual non-x86 work in progress for i915, then
-that wbinvd_on_all_cpus() needs to be replaced with something proper
-and architecture-neutral anyway, most definitely involving a name
-change, and almost certainly also involving a range for the cache
-writeback.
-
-Because that "create broken macro on other architectures" thing is
-*NOT* acceptable.
-
-And I sincerely hope to the gods that no cache-incoherent i915 mess
-ever makes it out of the x86 world. Incoherent IO was always a
-historical mistake and should never ever happen again, so we should
-not spread that horrific pattern around.
-
-                Linus
+It's fine with me to take it through tip unless that causes a problem
+for anyone.  I was planning on doing queuing it after -rc1.
