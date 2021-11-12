@@ -1,45 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E12E44E547
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Nov 2021 11:58:07 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 396C844E509
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Nov 2021 11:56:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE5A96EA9D;
-	Fri, 12 Nov 2021 10:58:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0AEDA6EB7A;
+	Fri, 12 Nov 2021 10:56:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE8006EA9D
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Nov 2021 10:58:03 +0000 (UTC)
-X-UUID: 95b039a4c3644c9fb209da98e0765dc9-20211112
-X-UUID: 95b039a4c3644c9fb209da98e0765dc9-20211112
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
- mailgw02.mediatek.com (envelope-from <yong.wu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 713121679; Fri, 12 Nov 2021 18:57:59 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
- Fri, 12 Nov 2021 18:57:58 +0800
-Received: from localhost.localdomain (10.17.3.154) by mtkcas10.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Fri, 12 Nov 2021 18:57:56 +0800
-From: Yong Wu <yong.wu@mediatek.com>
-To: Matthias Brugger <matthias.bgg@gmail.com>, Joerg Roedel <joro@8bytes.org>, 
- Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski@canonical.com>, David Airlie <airlied@linux.ie>, "Mauro
- Carvalho Chehab" <mchehab@kernel.org>
-Subject: [PATCH v9 15/15] arm64: dts: mediatek: Get rid of mediatek,
- larb for MM nodes
-Date: Fri, 12 Nov 2021 18:55:09 +0800
-Message-ID: <20211112105509.12010-16-yong.wu@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20211112105509.12010-1-yong.wu@mediatek.com>
-References: <20211112105509.12010-1-yong.wu@mediatek.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 697AF89736
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Nov 2021 10:56:20 +0000 (UTC)
+Received: from pendragon.ideasonboard.com
+ (117.145-247-81.adsl-dyn.isp.belgacom.be [81.247.145.117])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 21C263E7;
+ Fri, 12 Nov 2021 11:56:18 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1636714578;
+ bh=fuwaz+CKlu2RUMt1Vi61bVG/G4cZdzUgbJUNiw0wsBM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=QV4puoUKaYheMbYEJ9bC4uUE0RjjG4o95HXr9i8nnzwmTHxSbzCRrbZkGeFKMUsMR
+ M5HLAdLm04qEzD2JqyGwX7CZZdGYH8Bot5jgrOkIGRKyXuGWlcQV9LpItenVOLegfj
+ ZkjZVmDQpTwYzpBuM/ny0ZxQYNaJCLKvHTq8BqTA=
+Date: Fri, 12 Nov 2021 12:55:56 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Jagan Teki <jagan@amarulasolutions.com>
+Subject: Re: [RFC] arm64: dts: imx8mm: Add MIPI and LCDIF nodes
+Message-ID: <YY5IPOjpWPcPrXFw@pendragon.ideasonboard.com>
+References: <20211109173357.780-1-tharvey@gateworks.com>
+ <CAHCN7xJAW40xvLpBttWRfbv=Pz=HeCbX+g2uZa6CabiqLqG3PA@mail.gmail.com>
+ <aa73406a-7007-0d66-40ba-dd1d71780249@denx.de>
+ <CAJ+vNU1fJwimBO3t42wmgBzS8t2iyj=TfL9=chPW-OMbFz1S0A@mail.gmail.com>
+ <CAMty3ZAEdtMG2cco0DN93MO0De3fUAhsQVpi_qQ2r8grQbCdpg@mail.gmail.com>
+ <CAMty3ZAGtZaqaU0BhW3Usbmk7FUVMT3MTzH6kcDL_7st2oecSA@mail.gmail.com>
+ <CAJ+vNU2MFj5rS8pRW4+7VAdXfnjBgVECb2SDSP=KAeKZf5WYqQ@mail.gmail.com>
+ <20211112084159.GA9119@pengutronix.de>
+ <CAMty3ZCwCx+CHk5Tggtjc7770LEZ9rYAt+HJkEc51PMGegADWQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK: N
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAMty3ZCwCx+CHk5Tggtjc7770LEZ9rYAt+HJkEc51PMGegADWQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,218 +54,209 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, Will Deacon <will.deacon@arm.com>,
- dri-devel@lists.freedesktop.org, yf.wang@mediatek.com,
- anthony.huang@mediatek.com, youlin.pei@mediatek.com,
- Evan Green <evgreen@chromium.org>, Eizan Miyamoto <eizan@chromium.org>,
- Matthias Kaehlcke <mka@chromium.org>, linux-arm-kernel@lists.infradead.org,
- mingyuan.ma@mediatek.com, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, Frank Wunderlich <frank-w@public-files.de>,
- libo.kang@mediatek.com, yi.kuo@mediatek.com,
- linux-mediatek@lists.infradead.org, Hsin-Yi Wang <hsinyi@chromium.org>,
- Tiffany Lin <tiffany.lin@mediatek.com>, yong.wu@mediatek.com,
- anan.sun@mediatek.com, srv_heupstream@mediatek.com, acourbot@chromium.org,
- linux-kernel@vger.kernel.org, Tomasz Figa <tfiga@chromium.org>,
- iommu@lists.linux-foundation.org, Robin Murphy <robin.murphy@arm.com>
+Cc: Marek Vasut <marex@denx.de>, Michael Tretter <m.tretter@pengutronix.de>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Tommaso Merciai <tomm.merciai@gmail.com>, Adam Ford <aford173@gmail.com>,
+ NXP Linux Team <linux-imx@nxp.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-After adding device_link between the IOMMU consumer and smi,
-the mediatek,larb is unnecessary now.
+On Fri, Nov 12, 2021 at 02:28:30PM +0530, Jagan Teki wrote:
+> On Fri, Nov 12, 2021 at 2:12 PM Michael Tretter wrote:
+> > On Thu, 11 Nov 2021 13:21:03 -0800, Tim Harvey wrote:
+> > > On Thu, Nov 11, 2021 at 2:19 AM Jagan Teki <jagan@amarulasolutions.com> wrote:
+> > > > On Wed, Nov 10, 2021 at 11:58 PM Jagan Teki <jagan@amarulasolutions.com> wrote:
+> > > > > On Wed, Nov 10, 2021 at 2:24 AM Tim Harvey <tharvey@gateworks.com> wrote:
+> > > > > > On Tue, Nov 9, 2021 at 12:39 PM Marek Vasut <marex@denx.de> wrote:
+> > > > > > > On 11/9/21 8:35 PM, Adam Ford wrote:
+> > > > > > >
+> > > > > > > [...]
+> > > > > > >
+> > > > > > > >> diff --git a/arch/arm64/boot/dts/freescale/imx8mm.dtsi b/arch/arm64/boot/dts/freescale/imx8mm.dtsi
+> > > > > > > >> index 208a0ed840f4..195dcbff7058 100644
+> > > > > > > >> --- a/arch/arm64/boot/dts/freescale/imx8mm.dtsi
+> > > > > > > >> +++ b/arch/arm64/boot/dts/freescale/imx8mm.dtsi
+> > > > > > > >> @@ -188,6 +188,12 @@
+> > > > > > > >>                  clock-output-names = "clk_ext4";
+> > > > > > > >>          };
+> > > > > > > >>
+> > > > > > > >> +       mipi_phy: mipi-video-phy {
+> > > > > > > >> +               compatible = "fsl,imx8mm-mipi-video-phy";
+> > > > > > > >> +               syscon = <&disp_blk_ctrl>;
+> > > > > > > >> +               #phy-cells = <1>;
+> > > > > > > >> +       };
+> > > > > > > >> +
+> > > > > > > >>          psci {
+> > > > > > > >>                  compatible = "arm,psci-1.0";
+> > > > > > > >>                  method = "smc";
+> > > > > > > >> @@ -1068,6 +1074,68 @@
+> > > > > > > >>                          #size-cells = <1>;
+> > > > > > > >>                          ranges = <0x32c00000 0x32c00000 0x400000>;
+> > > > > > > >>
+> > > > > > > >> +                       lcdif: lcdif@32e00000 {
+> > > > > > > >> +                               #address-cells = <1>;
+> > > > > > > >> +                               #size-cells = <0>;
+> > > > > > > >> +                               compatible = "fsl,imx8mm-lcdif", "fsl,imx6sx-lcdif";
+> > > > > > > >
+> > > > > > > > The compatible "imx6sx-lcdif" implies MXSFB_V6.  FWICT, it is like
+> > > > > > > > MXSFB_V4, but with overlays and those overlays have more registers
+> > > > > > > > configured in the mxsfb_kms driver.  Have you tried using imx28-lcdif
+> > > > > > > > to see if it makes a difference?
+> > > > > > >
+> > > > > > > Indeed, MX6SX has AS overlay plane support, MX{2,}8 does not.
+> > > > > > >
+> > > > > > > LCDIFv3 (as NXP calls it) in MX8MP is like LCDIFv6 (in MX6SX) with
+> > > > > > > slightly reordered register bits, but nothing like LCDIF rev3 (in MX23)
+> > > > > > > ... just to make sure there is no confusion.
+> > > > > > >
+> > > > > > > [...]
+> > > > > > >
+> > > > > > > >> +                       mipi_dsi: mipi_dsi@32e10000 {
+> > > > > > > >> +                               #address-cells = <1>;
+> > > > > > > >> +                               #size-cells = <0>;
+> > > > > > > >> +                               compatible = "fsl,imx8mm-mipi-dsim";
+> > > > > > > >> +                               reg = <0x32e10000 0x400>;
+> > > > > > > >> +                               clocks = <&clk IMX8MM_CLK_DSI_CORE>,
+> > > > > > > >> +                                        <&clk IMX8MM_CLK_DSI_PHY_REF>;
+> > > > > > > >> +                               clock-names = "bus_clk", "sclk_mipi";
+> > > > > > > >> +                               assigned-clocks = <&clk IMX8MM_CLK_DSI_CORE>,
+> > > > > > > >> +                                                 <&clk IMX8MM_VIDEO_PLL1_OUT>,
+> > > > > > > >> +                                                 <&clk IMX8MM_CLK_DSI_PHY_REF>;
+> > > > > > > >> +                               assigned-clock-parents = <&clk IMX8MM_SYS_PLL1_266M>,
+> > > > > > > >> +                                                        <&clk IMX8MM_VIDEO_PLL1_BYPASS>,
+> > > > > > > >> +                                                        <&clk IMX8MM_VIDEO_PLL1_OUT>;
+> > > > > > > >> +                               assigned-clock-rates = <266000000>, <594000000>, <27000000>;
+> > > > > > > >> +                               interrupts = <GIC_SPI 18 IRQ_TYPE_LEVEL_HIGH>;
+> > > > > > > >> +                               phys = <&mipi_phy 0>;
+> > > > > > > >> +                               phy-names = "dsim";
+> > > > > > > >> +                               power-domains = <&disp_blk_ctrl IMX8MM_DISPBLK_PD_MIPI_DSI>;
+> > > > > > > >> +                               samsung,burst-clock-frequency = <891000000>;
+> > > > > > > >> +                               samsung,esc-clock-frequency = <54000000>;
+> > > > > > > >> +                               samsung,pll-clock-frequency = <27000000>;
+> > > > > > >
+> > > > > > > This 27 MHz is really IMX8MM_CLK_DSI_PHY_REF and
+> > > > > > > samsung,burst-clock-frequency is really the DSI link clock which is
+> > > > > > > panel/bridge specific ... but, why do we need to specify such policy in
+> > > > > > > DT rather than have the panel/bridge drivers negotiate the best clock
+> > > > > > > settings with DSIM bridge driver ? This should be something which should
+> > > > > > > be implemented in the DRM subsystem, not hard-coded in DT. These ad-hoc
+> > > > > > > samsung,*-clock-frequency properties shouldn't even be needed then.
+> > > > > > >
+> > > > > > > Also, are the DSIM bindings stable now ?
+> > > > > >
+> > > > > > Thanks Marek.
+> > > > > >
+> > > > > > No, there is no dsim driver yet. I'm not clear if there is still
+> > > > > > dissagreement on if the drm/exynos driver can be split up or if a
+> > > > > > whole new somewhat duplicate driver needs to be made. I know Jagan
+> > > > > > also has a series he is working on that uses drm/exynos which I
+> > > > > > believe he will share an update on in a day or so.
+> > > > > >
+> > > > > > I'm still using the work that Michael [1] and you [2] did a long time back.
+> > > > > >
+> > > > > > I had this solution working on a 5.10 kernel but it was based on the
+> > > > > > old unapproved IMX8MM blk-ctl and pd drivers. Therefore I believe the
+> > > > > > issue I'm having is something not setup correctly with blk-ctl per my
+> > > > > > dt settings or perhaps something missing from the blk-ctl driver like
+> > > > > > Adam found [3]
+> > > > > >
+> > > > > > I am hanging at:
+> > > > > > [    1.064088] imx_pgc_power_up gpumix
+> > > > > > [    1.077506] imx_pgc_power_down gpumix
+> > > > > > [    1.097685] imx8m_blk_ctrl_power_on dispblk-mipi-dsi
+> > > > > > [    1.102682] imx_pgc_power_up dispmix
+> > > > > > [    1.106825] imx_pgc_power_up mipi
+> > > > > > [    1.110232] imx-dsim-dsi 32e10000.mipi_dsi: supply vddcore not
+> > > > > > found, using dummy regulator
+> > > > > > [    1.118760] imx-dsim-dsi 32e10000.mipi_dsi: supply vddio not found,
+> > > > > > using dummy regulator
+> > > > > > [    1.127361] imx-dsim-dsi 32e10000.mipi_dsi: [drm] *ERROR* modalias
+> > > > > > failure on /soc@0/bus@32c00000/mipi_dsi@32e10000/port@0
+> > > > > > [    1.138676] imx8m_blk_ctrl_power_off dispblk-mipi-dsi
+> > > > > > [    1.143788] imx_pgc_power_down mipi
+> > > > > > [    1.145278] imx8m_blk_ctrl_power_on dispblk-lcdif
+> > > > > > [    1.147316] imx_pgc_power_down dispmix
+> > > > > > [    1.155804] imx_pgc_power_up dispmix
+> > > > > > [    1.159820] [drm:drm_bridge_attach] *ERROR* failed to attach bridge
+> > > > > > /soc@0/bus@32c00000/mipi_dsi@32e10000 to encoder None-34: -517
+> > > > > > ^^^ this is just a defer
+> > > > > > [    1.171789] imx8m_blk_ctrl_power_off dispblk-lcdif
+> > > > > > [    1.176655] imx_pgc_power_down dispmix
+> > > > > > [    1.181790] libphy: fec_enet_mii_bus: probed
+> > > > > > [    3.915806] panel-simple panel: Expected bpc in {6,8} but got: 0
+> > > > > > ^^^ not sure what this is but had it back in my 5.10 solution as well
+> > > > > > so did not investigate
+> > > > > > [    3.921912] imx8m_blk_ctrl_power_on dispblk-mipi-dsi
+> > > > > > [    3.926936] imx_pgc_power_up dispmix
+> > > > > > [    3.931109] imx_pgc_power_up mipi
+> > > > > > [    3.935409] imx8m_blk_ctrl_power_on dispblk-lcdif
+> > > > > > [    3.940547] imx8m_blk_ctrl_power_off dispblk-lcdif
+> > > > > > [    3.945626] [drm] Initialized mxsfb-drm 1.0.0 20160824 for
+> > > > > > 32e00000.lcdif on minor 0
+> > > > > > ^^^ not clear why dispblk-lcdif got disabled here
+> > > > >
+> > > > > I've reproduced this. look like lcdif power-domains are not notified
+> > > > > ON. checking on the power-sequence for lcdif side. old patches from
+> > > > > Lucas on v5.13 seems working as expected.
+> > > >
+> > > > I've found the issue on lcdif atomic_enable, where the bus format is
+> > > > retrieved from NULL bus_state. Here is the diff for it.
+> > > >
+> > > > --- a/drivers/gpu/drm/mxsfb/mxsfb_kms.c
+> > > > +++ b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
+> > > > @@ -359,13 +359,14 @@ static void mxsfb_crtc_atomic_enable(struct
+> > > > drm_crtc *crtc,
+> > > >         drm_crtc_vblank_on(crtc);
+> > > >
+> > > >         /* If there is a bridge attached to the LCDIF, use its bus format */
+> > > > -       if (mxsfb->bridge) {
+> > > > +       if (mxsfb->bridge && state) {
+> > > >                 bridge_state =
+> > > >                         drm_atomic_get_new_bridge_state(state,
+> > > >                                                         mxsfb->bridge);
+> > > > -               bus_format = bridge_state->input_bus_cfg.format;
+> > > > +               if (bridge_state)
+> > > > +                       bus_format = bridge_state->input_bus_cfg.format;
+> > > >'
+> > > > I believe this can be fixed via DSIM bridge. working on for those
+> > > > changes, the key challenges is to make the DSIM to work even for
+> > > > exynos, which indeed blocker for me to validate in hardware (i don't
+> > > > have DSI based exynos).
+> > > >
+> > > > Meanwhile, I have posed RFC for DSIM DTS changes, please check it here.
+> > > > https://patchwork.kernel.org/project/dri-devel/cover/20211111101456.584061-1-jagan@amarulasolutions.com/
+> > > >
+> > >
+> > > Jagan,
+> > >
+> > > Thank you! This does resolve the hang on my end as well. I will look
+> > > at your 'arm64: imx8mm: Add MIPI DSI support' series.
+> > >
+> > > There was some discussion regarding giving up on trying to split up
+> > > the exynos driver such that it could work with IMX8MM vs just
+> > > duplicating it. I thought the recommendation was to duplicate it as it
+> > > wasn't clear if there was a way to split it out without breaking
+> > > current exynos DSI but I'll have to see if I can find the thread.
+> >
+> > The thread is here:
+> >
+> > https://lore.kernel.org/all/CAKMK7uF0B1TrtVX+9Whasz49quha_is+77z2wX3c06BsWRiPcQ@mail.gmail.com/
+> >
+> > Duplicating seems to be the best way forward, because the Exynos driver
+> > exposes some special behavior (discussed earlier in the same thread), which
+> > isn't compatible with how bridges work.
 
-CC: Matthias Brugger <matthias.bgg@gmail.com>
-Signed-off-by: Yong Wu <yong.wu@mediatek.com>
-Reviewed-by: Evan Green <evgreen@chromium.org>
----
- arch/arm64/boot/dts/mediatek/mt8173.dtsi | 16 ----------------
- arch/arm64/boot/dts/mediatek/mt8183.dtsi |  6 ------
- 2 files changed, 22 deletions(-)
+This seems to tbe the crux of the issue. I don't see what would be
+specific to Exynos there, those issues should be fixed globally. If the
+DRM bridge API can't support some use cases, it should be improved.
 
-diff --git a/arch/arm64/boot/dts/mediatek/mt8173.dtsi b/arch/arm64/boot/dts/mediatek/mt8173.dtsi
-index d9e005ae5bb0..205c221696a6 100644
---- a/arch/arm64/boot/dts/mediatek/mt8173.dtsi
-+++ b/arch/arm64/boot/dts/mediatek/mt8173.dtsi
-@@ -1009,7 +1009,6 @@
- 				 <&mmsys CLK_MM_MUTEX_32K>;
- 			power-domains = <&spm MT8173_POWER_DOMAIN_MM>;
- 			iommus = <&iommu M4U_PORT_MDP_RDMA0>;
--			mediatek,larb = <&larb0>;
- 			mediatek,vpu = <&vpu>;
- 		};
- 
-@@ -1020,7 +1019,6 @@
- 				 <&mmsys CLK_MM_MUTEX_32K>;
- 			power-domains = <&spm MT8173_POWER_DOMAIN_MM>;
- 			iommus = <&iommu M4U_PORT_MDP_RDMA1>;
--			mediatek,larb = <&larb4>;
- 		};
- 
- 		mdp_rsz0: rsz@14003000 {
-@@ -1050,7 +1048,6 @@
- 			clocks = <&mmsys CLK_MM_MDP_WDMA>;
- 			power-domains = <&spm MT8173_POWER_DOMAIN_MM>;
- 			iommus = <&iommu M4U_PORT_MDP_WDMA>;
--			mediatek,larb = <&larb0>;
- 		};
- 
- 		mdp_wrot0: wrot@14007000 {
-@@ -1059,7 +1056,6 @@
- 			clocks = <&mmsys CLK_MM_MDP_WROT0>;
- 			power-domains = <&spm MT8173_POWER_DOMAIN_MM>;
- 			iommus = <&iommu M4U_PORT_MDP_WROT0>;
--			mediatek,larb = <&larb0>;
- 		};
- 
- 		mdp_wrot1: wrot@14008000 {
-@@ -1068,7 +1064,6 @@
- 			clocks = <&mmsys CLK_MM_MDP_WROT1>;
- 			power-domains = <&spm MT8173_POWER_DOMAIN_MM>;
- 			iommus = <&iommu M4U_PORT_MDP_WROT1>;
--			mediatek,larb = <&larb4>;
- 		};
- 
- 		ovl0: ovl@1400c000 {
-@@ -1078,7 +1073,6 @@
- 			power-domains = <&spm MT8173_POWER_DOMAIN_MM>;
- 			clocks = <&mmsys CLK_MM_DISP_OVL0>;
- 			iommus = <&iommu M4U_PORT_DISP_OVL0>;
--			mediatek,larb = <&larb0>;
- 			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0xc000 0x1000>;
- 		};
- 
-@@ -1089,7 +1083,6 @@
- 			power-domains = <&spm MT8173_POWER_DOMAIN_MM>;
- 			clocks = <&mmsys CLK_MM_DISP_OVL1>;
- 			iommus = <&iommu M4U_PORT_DISP_OVL1>;
--			mediatek,larb = <&larb4>;
- 			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0xd000 0x1000>;
- 		};
- 
-@@ -1100,7 +1093,6 @@
- 			power-domains = <&spm MT8173_POWER_DOMAIN_MM>;
- 			clocks = <&mmsys CLK_MM_DISP_RDMA0>;
- 			iommus = <&iommu M4U_PORT_DISP_RDMA0>;
--			mediatek,larb = <&larb0>;
- 			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0xe000 0x1000>;
- 		};
- 
-@@ -1111,7 +1103,6 @@
- 			power-domains = <&spm MT8173_POWER_DOMAIN_MM>;
- 			clocks = <&mmsys CLK_MM_DISP_RDMA1>;
- 			iommus = <&iommu M4U_PORT_DISP_RDMA1>;
--			mediatek,larb = <&larb4>;
- 			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0xf000 0x1000>;
- 		};
- 
-@@ -1122,7 +1113,6 @@
- 			power-domains = <&spm MT8173_POWER_DOMAIN_MM>;
- 			clocks = <&mmsys CLK_MM_DISP_RDMA2>;
- 			iommus = <&iommu M4U_PORT_DISP_RDMA2>;
--			mediatek,larb = <&larb4>;
- 			mediatek,gce-client-reg = <&gce SUBSYS_1401XXXX 0 0x1000>;
- 		};
- 
-@@ -1133,7 +1123,6 @@
- 			power-domains = <&spm MT8173_POWER_DOMAIN_MM>;
- 			clocks = <&mmsys CLK_MM_DISP_WDMA0>;
- 			iommus = <&iommu M4U_PORT_DISP_WDMA0>;
--			mediatek,larb = <&larb0>;
- 			mediatek,gce-client-reg = <&gce SUBSYS_1401XXXX 0x1000 0x1000>;
- 		};
- 
-@@ -1144,7 +1133,6 @@
- 			power-domains = <&spm MT8173_POWER_DOMAIN_MM>;
- 			clocks = <&mmsys CLK_MM_DISP_WDMA1>;
- 			iommus = <&iommu M4U_PORT_DISP_WDMA1>;
--			mediatek,larb = <&larb4>;
- 			mediatek,gce-client-reg = <&gce SUBSYS_1401XXXX 0x2000 0x1000>;
- 		};
- 
-@@ -1395,7 +1383,6 @@
- 			      <0 0x16027800 0 0x800>,	/* VDEC_HWB */
- 			      <0 0x16028400 0 0x400>;	/* VDEC_HWG */
- 			interrupts = <GIC_SPI 204 IRQ_TYPE_LEVEL_LOW>;
--			mediatek,larb = <&larb1>;
- 			iommus = <&iommu M4U_PORT_HW_VDEC_MC_EXT>,
- 				 <&iommu M4U_PORT_HW_VDEC_PP_EXT>,
- 				 <&iommu M4U_PORT_HW_VDEC_AVC_MV_EXT>,
-@@ -1463,7 +1450,6 @@
- 			compatible = "mediatek,mt8173-vcodec-enc";
- 			reg = <0 0x18002000 0 0x1000>;	/* VENC_SYS */
- 			interrupts = <GIC_SPI 198 IRQ_TYPE_LEVEL_LOW>;
--			mediatek,larb = <&larb3>;
- 			iommus = <&iommu M4U_PORT_VENC_RCPU>,
- 				 <&iommu M4U_PORT_VENC_REC>,
- 				 <&iommu M4U_PORT_VENC_BSDMA>,
-@@ -1491,7 +1477,6 @@
- 			clock-names = "jpgdec-smi",
- 				      "jpgdec";
- 			power-domains = <&spm MT8173_POWER_DOMAIN_VENC>;
--			mediatek,larb = <&larb3>;
- 			iommus = <&iommu M4U_PORT_JPGDEC_WDMA>,
- 				 <&iommu M4U_PORT_JPGDEC_BSDMA>;
- 		};
-@@ -1525,7 +1510,6 @@
- 				 <&iommu M4U_PORT_VENC_CUR_CHROMA_SET2>,
- 				 <&iommu M4U_PORT_VENC_REF_LUMA_SET2>,
- 				 <&iommu M4U_PORT_VENC_REC_CHROMA_SET2>;
--			mediatek,larb = <&larb5>;
- 			mediatek,vpu = <&vpu>;
- 			clocks = <&topckgen CLK_TOP_VENC_LT_SEL>;
- 			clock-names = "venc_lt_sel";
-diff --git a/arch/arm64/boot/dts/mediatek/mt8183.dtsi b/arch/arm64/boot/dts/mediatek/mt8183.dtsi
-index bead8e486239..d214ff0f4f59 100644
---- a/arch/arm64/boot/dts/mediatek/mt8183.dtsi
-+++ b/arch/arm64/boot/dts/mediatek/mt8183.dtsi
-@@ -1239,7 +1239,6 @@
- 			power-domains = <&spm MT8183_POWER_DOMAIN_DISP>;
- 			clocks = <&mmsys CLK_MM_DISP_OVL0>;
- 			iommus = <&iommu M4U_PORT_DISP_OVL0>;
--			mediatek,larb = <&larb0>;
- 			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0x8000 0x1000>;
- 		};
- 
-@@ -1250,7 +1249,6 @@
- 			power-domains = <&spm MT8183_POWER_DOMAIN_DISP>;
- 			clocks = <&mmsys CLK_MM_DISP_OVL0_2L>;
- 			iommus = <&iommu M4U_PORT_DISP_2L_OVL0_LARB0>;
--			mediatek,larb = <&larb0>;
- 			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0x9000 0x1000>;
- 		};
- 
-@@ -1261,7 +1259,6 @@
- 			power-domains = <&spm MT8183_POWER_DOMAIN_DISP>;
- 			clocks = <&mmsys CLK_MM_DISP_OVL1_2L>;
- 			iommus = <&iommu M4U_PORT_DISP_2L_OVL1_LARB0>;
--			mediatek,larb = <&larb0>;
- 			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0xa000 0x1000>;
- 		};
- 
-@@ -1272,7 +1269,6 @@
- 			power-domains = <&spm MT8183_POWER_DOMAIN_DISP>;
- 			clocks = <&mmsys CLK_MM_DISP_RDMA0>;
- 			iommus = <&iommu M4U_PORT_DISP_RDMA0>;
--			mediatek,larb = <&larb0>;
- 			mediatek,rdma-fifo-size = <5120>;
- 			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0xb000 0x1000>;
- 		};
-@@ -1284,7 +1280,6 @@
- 			power-domains = <&spm MT8183_POWER_DOMAIN_DISP>;
- 			clocks = <&mmsys CLK_MM_DISP_RDMA1>;
- 			iommus = <&iommu M4U_PORT_DISP_RDMA1>;
--			mediatek,larb = <&larb0>;
- 			mediatek,rdma-fifo-size = <2048>;
- 			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0xc000 0x1000>;
- 		};
-@@ -1441,7 +1436,6 @@
- 			compatible = "mediatek,mt8183-jpgenc", "mediatek,mtk-jpgenc";
- 			reg = <0 0x17030000 0 0x1000>;
- 			interrupts = <GIC_SPI 249 IRQ_TYPE_LEVEL_LOW>;
--			mediatek,larb = <&larb4>;
- 			iommus = <&iommu M4U_PORT_JPGENC_RDMA>,
- 				 <&iommu M4U_PORT_JPGENC_BSDMA>;
- 			power-domains = <&spm MT8183_POWER_DOMAIN_VENC>;
+> Not quite sure about it. Laurent and Inki had similar discussion and
+> looking for common bridge [1].
+> 
+> [1] https://patchwork.kernel.org/project/linux-arm-kernel/patch/20210704090230.26489-7-jagan@amarulasolutions.com/
+
 -- 
-2.18.0
+Regards,
 
+Laurent Pinchart
