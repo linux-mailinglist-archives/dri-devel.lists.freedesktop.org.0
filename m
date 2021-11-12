@@ -2,65 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E16D044E770
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Nov 2021 14:33:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 375FC44E771
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Nov 2021 14:33:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F07456E051;
-	Fri, 12 Nov 2021 13:32:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C3F6589020;
+	Fri, 12 Nov 2021 13:33:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 801CC89010
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Nov 2021 13:32:56 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B08D089EA9
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Nov 2021 13:32:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636723975;
+ s=mimecast20190719; t=1636723978;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3FqzlM6+St6bQetl39I3gwMqH+GHqZeZ7fYAU6/+0T4=;
- b=RI6DuPi0QABK0o3jmrqBE2n6lxRbjS/gn56u9K1xk8s0rwkQbqb7+oc+WB0JG/O4y1vU4v
- KBiYci0++Ph1ZhxtaYW/oqzPkNn54OWYUZkZQxBjmHdjwKCwRMtmyWiyAt5W5P+rAoV7kk
- +yI1xJecOS8FwAC5PxKpy9PiJleVGNg=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-444-_qgKGqaRMvmOyxubFS1Yng-1; Fri, 12 Nov 2021 08:32:54 -0500
-X-MC-Unique: _qgKGqaRMvmOyxubFS1Yng-1
-Received: by mail-wm1-f71.google.com with SMTP id
- b133-20020a1c808b000000b0032cdd691994so6303620wmd.1
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Nov 2021 05:32:54 -0800 (PST)
+ bh=AaO3QXEQbXfVqe2t/6/9SpNrbCP6PsY29GvZKutU2UA=;
+ b=B/3wHHBXHAbiPWFaj34Zx/2KdsdWLDneuNKhD+upUnVQ6IquN+qz+oBr9yC72DDNa6WR6R
+ TxbWhLr0baKMvCgjAW5eo4qM7rP+b8CUO4xf+qRqMCel6/iyn2wZI81R7gwhkjvbBrjyRI
+ lklK1hafCidd/cq4hfYqCyiiQhJfNFU=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-337-eHv9QZWMN2KZjpkI6k-B5Q-1; Fri, 12 Nov 2021 08:32:55 -0500
+X-MC-Unique: eHv9QZWMN2KZjpkI6k-B5Q-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ z126-20020a1c7e84000000b003335e5dc26bso3012771wmc.8
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Nov 2021 05:32:55 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=3FqzlM6+St6bQetl39I3gwMqH+GHqZeZ7fYAU6/+0T4=;
- b=rfBau/8SykUiSFeRg1ZG/+lcab9pV3XpXjDjf5rN8IecJdkTwAjBMNtvoWH85FZ8kj
- afkS2Pn5NCHz2wWQkAz7oMgoZ5n6gROAMl5I7HTctjL5tuOIAMSIT1nSbbLnfjXm5M2I
- gyLmUJmoNTu8k+tvWrMPbCbSsEIVBHoi+SvbzUwZPyZIWuASZGR3zeT4DjyEh6t/MlXz
- E4DEamEe7OGAM882FmlSe0xjrW4GW+mMXXV6dJnR1Z7n0bu5DrwHcOVmOsEsxEO0bbwX
- tDN5VGLuifxAe5cUJ/TEW0AAw/KxCAROpve6nKzzjemdkTvxwnxyrF0uYZBq6Pj/6wj8
- PxUQ==
-X-Gm-Message-State: AOAM530wuh31r8IFs7bkvdlnwuZmNuzhYB3xe9AREYpNjX8YNGdfU7FL
- 2V/7FuxNFaqLWCSge47sQejYvPUMsS4UjoaDbTGhEPPl1BgK8ny6s3vXJyh1YU2+ByMhHeZJrsS
- msRNHA9HYFjtwZj7B9vi1P8f5PfP7
-X-Received: by 2002:a05:600c:c1:: with SMTP id
- u1mr34049722wmm.163.1636723973510; 
- Fri, 12 Nov 2021 05:32:53 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxXhf8o+Hmrcc8jR2g8wf726UvSKzVQSsR1IKzZrdqoEz7h67KIvU9EZPqzf/sK1e/whAJWug==
-X-Received: by 2002:a05:600c:c1:: with SMTP id
- u1mr34049692wmm.163.1636723973313; 
- Fri, 12 Nov 2021 05:32:53 -0800 (PST)
+ bh=AaO3QXEQbXfVqe2t/6/9SpNrbCP6PsY29GvZKutU2UA=;
+ b=HQ/dRLAkBV330ejq/ZLkhJhWrmYmSXSJn09KHPpi7EIenrefW1od4Udg+rK3F7ZRiK
+ QGqeSPrXRPl+Mv7ISiM1yXpZVFhoIO+t6Jopz57uYuJ1mslDQde5wCDzj9aEH9HbX4+w
+ 8wZfdBklSyqR704m8Rf7Jcoawo9w9Wxg/xdy6h0L6K5qwRWAaApaoa50Smat0cUFbCPU
+ meKC4KbKgepC7HeON4w0oXocSxdDC9XonVF9k6DZTsXuJFddO7koe6bVaW7y97UbVncy
+ +eeVbcC5oA3YOYIP1LIkyPtlN0ZMtOd9XYK8BgnGgf4+xsE32V730B8IDfZlUqBtAD6t
+ R8AA==
+X-Gm-Message-State: AOAM530BL3hDJWhkJ+PJAkocNNbh3oEcDGtQsYwripK2CmfEkJdTJUsi
+ I2MsUqpVk+eTqy1YQp4P3AEbOHoKCWLd1TXiyBS3VAK/H++QxHyzD4VtqRf55kNtkoJqpqD41DE
+ brlKb5FRRRg5dd4BWMf8defD/feCT
+X-Received: by 2002:adf:ce8b:: with SMTP id r11mr18856986wrn.294.1636723974602; 
+ Fri, 12 Nov 2021 05:32:54 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwFhz4WOPQz4XIIQurMGjApmL4pEhOMydaNTrPkUDoEb55215QS7i1Xxt0f2vAEHuNr9oDRQA==
+X-Received: by 2002:adf:ce8b:: with SMTP id r11mr18856946wrn.294.1636723974379; 
+ Fri, 12 Nov 2021 05:32:54 -0800 (PST)
 Received: from minerva.home ([92.176.231.106])
- by smtp.gmail.com with ESMTPSA id z12sm5733470wrv.78.2021.11.12.05.32.52
+ by smtp.gmail.com with ESMTPSA id z12sm5733470wrv.78.2021.11.12.05.32.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Nov 2021 05:32:53 -0800 (PST)
+ Fri, 12 Nov 2021 05:32:54 -0800 (PST)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH v5 5/6] Documentation/admin-guide: Document nomodeset kernel
- parameter
-Date: Fri, 12 Nov 2021 14:32:29 +0100
-Message-Id: <20211112133230.1595307-6-javierm@redhat.com>
+Subject: [PATCH v5 6/6] drm: Make the nomodeset message less sensational
+Date: Fri, 12 Nov 2021 14:32:30 +0100
+Message-Id: <20211112133230.1595307-7-javierm@redhat.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211112133230.1595307-1-javierm@redhat.com>
 References: <20211112133230.1595307-1-javierm@redhat.com>
@@ -69,8 +66,8 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,12 +88,13 @@ Cc: Pekka Paalanen <pekka.paalanen@collabora.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The nomodeset kernel command line parameter is not documented. Its name
-is quite vague and is not intuitive what's the behaviour when it is set.
+The message printed when nomodeset is present in the kernel command line
+makes it look as if the parameter must never be used and it's a bad idea.
 
-Document in kernel-parameters.txt what actually happens when nomodeset
-is used. That way, users could know if they want to enable this option.
+But there are valid reasons to use this parameter and the message should
+not imply otherwise. Change the text to be more accurate and restrained.
 
+Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
 Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
 Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
 Acked-by: Jani Nikula <jani.nikula@intel.com>
@@ -106,30 +104,27 @@ Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
 (no changes since v4)
 
 Changes in v4:
-- Don't mention the simpledrm driver and instead explain in high level
-  terms what the nomodeset option is about.
+- Don't mention DRM drivers in the kernel message and instead explain
+  that only the system framebuffer will be available.
 
- Documentation/admin-guide/kernel-parameters.txt | 7 +++++++
- 1 file changed, 7 insertions(+)
+ drivers/gpu/drm/drm_nomodeset.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git Documentation/admin-guide/kernel-parameters.txt Documentation/admin-guide/kernel-parameters.txt
-index 91ba391f9b32..f6434aff943d 100644
---- Documentation/admin-guide/kernel-parameters.txt
-+++ Documentation/admin-guide/kernel-parameters.txt
-@@ -3521,6 +3521,13 @@
- 			shutdown the other cpus.  Instead use the REBOOT_VECTOR
- 			irq.
+diff --git drivers/gpu/drm/drm_nomodeset.c drivers/gpu/drm/drm_nomodeset.c
+index 287edfb18b5d..f3978d5bd3a1 100644
+--- drivers/gpu/drm/drm_nomodeset.c
++++ drivers/gpu/drm/drm_nomodeset.c
+@@ -15,9 +15,7 @@ static int __init disable_modeset(char *str)
+ {
+ 	drm_nomodeset = true;
  
-+	nomodeset	Disable kernel modesetting. DRM drivers will not perform
-+			display-mode changes or accelerated rendering. Only the
-+			system framebuffer will be available for use if this was
-+			set-up by the firmware or boot loader.
-+
-+			Useful as fallback, or for testing and debugging.
-+
- 	nomodule	Disable module load
+-	pr_warn("You have booted with nomodeset. This means your GPU drivers are DISABLED\n");
+-	pr_warn("Any video related functionality will be severely degraded, and you may not even be able to suspend the system properly\n");
+-	pr_warn("Unless you actually understand what nomodeset does, you should reboot without enabling it\n");
++	pr_warn("Booted with the nomodeset parameter. Only the system framebuffer will be available\n");
  
- 	nopat		[X86] Disable PAT (page attribute table extension of
+ 	return 1;
+ }
 -- 
 2.33.1
 
