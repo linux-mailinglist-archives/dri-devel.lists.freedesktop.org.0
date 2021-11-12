@@ -1,69 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85CCA44EEC8
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Nov 2021 22:43:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B16144EEDE
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Nov 2021 22:50:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B43456E0E8;
-	Fri, 12 Nov 2021 21:43:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 214836E283;
+	Fri, 12 Nov 2021 21:50:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m-r2.th.seeweb.it (m-r2.th.seeweb.it
- [IPv6:2001:4b7a:2000:18::171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 23CAF6E0E8
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Nov 2021 21:43:41 +0000 (UTC)
-Received: from SoMainline.org (94-209-165-62.cable.dynamic.v4.ziggo.nl
- [94.209.165.62])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 3F3CF3F248;
- Fri, 12 Nov 2021 22:43:39 +0100 (CET)
-Date: Fri, 12 Nov 2021 22:43:37 +0100
-From: Marijn Suijten <marijn.suijten@somainline.org>
-To: Daniel Thompson <daniel.thompson@linaro.org>,
- phone-devel@vger.kernel.org, Andy Gross <agross@kernel.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Rob Herring <robh+dt@kernel.org>, Lee Jones <lee.jones@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>, ~postmarketos/upstreaming@lists.sr.ht,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- Martin Botka <martin.botka@somainline.org>,
- Jami Kettunen <jami.kettunen@somainline.org>,
- Pavel Dubrova <pashadubrova@gmail.com>,
- Kiran Gunda <kgunda@codeaurora.org>, Bryan Wu <cooloney@gmail.com>,
- linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org, Courtney Cavin <courtney.cavin@sonymobile.com>
-Subject: Re: [RESEND PATCH v2 04/13] backlight: qcom-wled: Fix off-by-one
- maximum with default num_strings
-Message-ID: <20211112214337.r5xrpeyjgdygzc3n@SoMainline.org>
-Mail-Followup-To: Marijn Suijten <marijn.suijten@somainline.org>,
- Daniel Thompson <daniel.thompson@linaro.org>,
- phone-devel@vger.kernel.org, Andy Gross <agross@kernel.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Rob Herring <robh+dt@kernel.org>, Lee Jones <lee.jones@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>,
- ~postmarketos/upstreaming@lists.sr.ht,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- Martin Botka <martin.botka@somainline.org>,
- Jami Kettunen <jami.kettunen@somainline.org>,
- Pavel Dubrova <pashadubrova@gmail.com>,
- Kiran Gunda <kgunda@codeaurora.org>, Bryan Wu <cooloney@gmail.com>,
- linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org,
- Courtney Cavin <courtney.cavin@sonymobile.com>
-References: <20211112002706.453289-1-marijn.suijten@somainline.org>
- <20211112002706.453289-5-marijn.suijten@somainline.org>
- <20211112120839.i6g747vewg6bkyk7@maple.lan>
- <20211112123501.pz5e6g7gavlinung@SoMainline.org>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 69A116E283
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Nov 2021 21:50:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1636753850;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=5Y/KeYMkZrPqzaUQAesZ7C9fuu2vX4Qc2wHFhCuxHro=;
+ b=T3EObmWFO9QkVckKT1cPi8M1wRRX7BBkEopsJegJShyEVJZjRi64hR4SXnWYDrP0Y9gWyS
+ LeCEqgMUpjWtoFECTHey/MrzrIY0OHWeKJXgFMFRNoNuDoUmC9vM7FzkK69EtUFneZiJYq
+ TRG80dfTcDTxdOYoxlq+8FK1xtasoN4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-141-F1BMakDrPAylDQ6GhAQ91w-1; Fri, 12 Nov 2021 16:50:48 -0500
+X-MC-Unique: F1BMakDrPAylDQ6GhAQ91w-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4E100806668;
+ Fri, 12 Nov 2021 21:50:45 +0000 (UTC)
+Received: from emerald.redhat.com (unknown [10.22.34.12])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 589BE19729;
+ Fri, 12 Nov 2021 21:50:26 +0000 (UTC)
+From: Lyude Paul <lyude@redhat.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH] drm/i915/dp: Perform 30ms delay after source OUI write
+Date: Fri, 12 Nov 2021 16:50:11 -0500
+Message-Id: <20211112215016.270267-1-lyude@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211112123501.pz5e6g7gavlinung@SoMainline.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,63 +56,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ David Airlie <airlied@linux.ie>, Anshuman Gupta <anshuman.gupta@intel.com>,
+ open list <linux-kernel@vger.kernel.org>,
+ Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>,
+ Manasi Navare <manasi.d.navare@intel.com>, Uma Shankar <uma.shankar@intel.com>,
+ stable@vger.kernel.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ =?UTF-8?q?Jos=C3=A9=20Roberto=20de=20Souza?= <jose.souza@intel.com>,
+ Dave Airlie <airlied@redhat.com>, Ankit Nautiyal <ankit.k.nautiyal@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-11-12 13:35:03, Marijn Suijten wrote:
-> On 2021-11-12 12:08:39, Daniel Thompson wrote:
-> > On Fri, Nov 12, 2021 at 01:26:57AM +0100, Marijn Suijten wrote:
-> > > When not specifying num-strings in the DT the default is used, but +1 is
-> > > added to it which turns WLED3 into 4 and WLED4/5 into 5 strings instead
-> > > of 3 and 4 respectively, causing out-of-bounds reads and register
-> > > read/writes.  This +1 exists for a deficiency in the DT parsing code,
-> > > and is simply omitted entirely - solving this oob issue - by parsing the
-> > > property separately much like qcom,enabled-strings.
-> > > 
-> > > This also allows more stringent checks on the maximum value when
-> > > qcom,enabled-strings is provided in the DT.  Note that num-strings is
-> > > parsed after enabled-strings to give it final sign-off over the length,
-> > > which DT currently utilizes to get around an incorrect fixed read of
-> > > four elements from that array (has been addressed in a prior patch).
-> > > 
-> > > Fixes: 93c64f1ea1e8 ("leds: add Qualcomm PM8941 WLED driver")
-> > > Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
-> > > Reviewed-By: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
-> > > ---
-> > >  drivers/video/backlight/qcom-wled.c | 51 +++++++++++------------------
-> > >  1 file changed, 19 insertions(+), 32 deletions(-)
-> > > 
-> > > diff --git a/drivers/video/backlight/qcom-wled.c b/drivers/video/backlight/qcom-wled.c
-> > > index 977cd75827d7..c5232478a343 100644
-> > > --- a/drivers/video/backlight/qcom-wled.c
-> > > +++ b/drivers/video/backlight/qcom-wled.c
-> > > @@ -1552,6 +1520,25 @@ static int wled_configure(struct wled *wled)
-> > >  		}
-> > >  	}
-> > > 
-> > > +	rc = of_property_read_u32(dev->of_node, "qcom,num-strings", &val);
-> > > +	if (!rc) {
-> > > +		if (val < 1 || val > wled->max_string_count) {
-> > > +			dev_err(dev, "qcom,num-strings must be between 1 and %d\n",
-> > > +				wled->max_string_count);
-> > > +			return -EINVAL;
-> > > +		}
-> > > +
-> > > +		if (string_len > 0) {
-> > > +			dev_warn(dev, "qcom,num-strings and qcom,enabled-strings are ambiguous\n");
-> > 
-> > The warning should also be below the error message on the next if statement.
-> 
-> Agreed.
+While working on supporting the Intel HDR backlight interface, I noticed
+that there's a couple of laptops that will very rarely manage to boot up
+without detecting Intel HDR backlight support - even though it's supported
+on the system. One example of such a laptop is the Lenovo P17 1st
+generation.
 
-Thinking about this again while reworking the patches, I initially put
-this above the error to make DT writers aware.  There's no point telling
-them that their values are out of sync (num-strings >
-len(enabled-strings)), when they "shouldn't even" (don't need to) set
-both in the first place.  They might needlessly fix the discrepancy, see
-the driver finally probe (working backlight) and carry on without
-noticing this warning that now appears.
+Following some investigation Ville Syrjälä did through the docs they have
+available to them, they discovered that there's actually supposed to be a
+30ms wait after writing the source OUI before we begin setting up the rest
+of the backlight interface.
 
-Sorry for bringing this back up, but I'm curious about your opinion.
+This seems to be correct, as adding this 30ms delay seems to have
+completely fixed the probing issues I was previously seeing. So - let's
+start performing a 30ms wait after writing the OUI, which we do in a manner
+similar to how we keep track of PPS delays (e.g. record the timestamp of
+the OUI write, and then wait for however many ms are left since that
+timestamp right before we interact with the backlight) in order to avoid
+waiting any longer then we need to. As well, this also avoids us performing
+this delay on systems where we don't end up using the HDR backlight
+interface.
 
-- Marijn
+Signed-off-by: Lyude Paul <lyude@redhat.com>
+Fixes: 4a8d79901d5b ("drm/i915/dp: Enable Intel's HDR backlight interface (only SDR for now)")
+Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Cc: <stable@vger.kernel.org> # v5.12+
+---
+ drivers/gpu/drm/i915/display/intel_display_types.h    |  3 +++
+ drivers/gpu/drm/i915/display/intel_dp.c               |  3 +++
+ drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c | 11 +++++++++++
+ 3 files changed, 17 insertions(+)
+
+diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
+index ea1e8a6e10b0..b9c967837872 100644
+--- a/drivers/gpu/drm/i915/display/intel_display_types.h
++++ b/drivers/gpu/drm/i915/display/intel_display_types.h
+@@ -1653,6 +1653,9 @@ struct intel_dp {
+ 	struct intel_dp_pcon_frl frl;
+ 
+ 	struct intel_psr psr;
++
++	/* When we last wrote the OUI for eDP */
++	unsigned long last_oui_write;
+ };
+ 
+ enum lspcon_vendor {
+diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
+index 0a424bf69396..77d9a9390c1e 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp.c
++++ b/drivers/gpu/drm/i915/display/intel_dp.c
+@@ -29,6 +29,7 @@
+ #include <linux/i2c.h>
+ #include <linux/notifier.h>
+ #include <linux/slab.h>
++#include <linux/timekeeping.h>
+ #include <linux/types.h>
+ 
+ #include <asm/byteorder.h>
+@@ -2010,6 +2011,8 @@ intel_edp_init_source_oui(struct intel_dp *intel_dp, bool careful)
+ 
+ 	if (drm_dp_dpcd_write(&intel_dp->aux, DP_SOURCE_OUI, oui, sizeof(oui)) < 0)
+ 		drm_err(&i915->drm, "Failed to write source OUI\n");
++
++	intel_dp->last_oui_write = jiffies;
+ }
+ 
+ /* If the device supports it, try to set the power state appropriately */
+diff --git a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
+index 569d17b4d00f..2c35b999ec2c 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
++++ b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
+@@ -96,6 +96,13 @@
+ #define INTEL_EDP_BRIGHTNESS_OPTIMIZATION_1                            0x359
+ 
+ /* Intel EDP backlight callbacks */
++static void
++wait_for_oui(struct drm_i915_private *i915, struct intel_dp *intel_dp)
++{
++	drm_dbg_kms(&i915->drm, "Performing OUI wait\n");
++	wait_remaining_ms_from_jiffies(intel_dp->last_oui_write, 30);
++}
++
+ static bool
+ intel_dp_aux_supports_hdr_backlight(struct intel_connector *connector)
+ {
+@@ -106,6 +113,8 @@ intel_dp_aux_supports_hdr_backlight(struct intel_connector *connector)
+ 	int ret;
+ 	u8 tcon_cap[4];
+ 
++	wait_for_oui(i915, intel_dp);
++
+ 	ret = drm_dp_dpcd_read(aux, INTEL_EDP_HDR_TCON_CAP0, tcon_cap, sizeof(tcon_cap));
+ 	if (ret != sizeof(tcon_cap))
+ 		return false;
+@@ -204,6 +213,8 @@ intel_dp_aux_hdr_enable_backlight(const struct intel_crtc_state *crtc_state,
+ 	int ret;
+ 	u8 old_ctrl, ctrl;
+ 
++	wait_for_oui(i915, intel_dp);
++
+ 	ret = drm_dp_dpcd_readb(&intel_dp->aux, INTEL_EDP_HDR_GETSET_CTRL_PARAMS, &old_ctrl);
+ 	if (ret != 1) {
+ 		drm_err(&i915->drm, "Failed to read current backlight control mode: %d\n", ret);
+-- 
+2.31.1
+
