@@ -1,34 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A732244DEE6
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Nov 2021 01:27:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 71E2644DEF8
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Nov 2021 01:27:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C196B6E9D0;
-	Fri, 12 Nov 2021 00:27:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 791106E9CF;
+	Fri, 12 Nov 2021 00:27:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay04.th.seeweb.it (relay04.th.seeweb.it [5.144.164.165])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 120676E9CF
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Nov 2021 00:27:12 +0000 (UTC)
+Received: from relay02.th.seeweb.it (relay02.th.seeweb.it [5.144.164.163])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F6E46E9D0
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Nov 2021 00:27:13 +0000 (UTC)
 Received: from Marijn-Arch-PC.localdomain
  (94-209-165-62.cable.dynamic.v4.ziggo.nl [94.209.165.62])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 032B4203C6;
- Fri, 12 Nov 2021 01:27:09 +0100 (CET)
+ by m-r1.th.seeweb.it (Postfix) with ESMTPSA id E3F94203C9;
+ Fri, 12 Nov 2021 01:27:10 +0100 (CET)
 From: Marijn Suijten <marijn.suijten@somainline.org>
 To: phone-devel@vger.kernel.org, Andy Gross <agross@kernel.org>,
  Bjorn Andersson <bjorn.andersson@linaro.org>,
  Rob Herring <robh+dt@kernel.org>, Lee Jones <lee.jones@linaro.org>,
  Daniel Thompson <daniel.thompson@linaro.org>,
  Jingoo Han <jingoohan1@gmail.com>
-Subject: [RESEND PATCH v2 01/13] backlight: qcom-wled: Validate enabled string
- indices in DT
-Date: Fri, 12 Nov 2021 01:26:54 +0100
-Message-Id: <20211112002706.453289-2-marijn.suijten@somainline.org>
+Subject: [RESEND PATCH v2 02/13] backlight: qcom-wled: Pass number of elements
+ to read to read_u32_array
+Date: Fri, 12 Nov 2021 01:26:55 +0100
+Message-Id: <20211112002706.453289-3-marijn.suijten@somainline.org>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211112002706.453289-1-marijn.suijten@somainline.org>
 References: <20211112002706.453289-1-marijn.suijten@somainline.org>
@@ -58,50 +58,46 @@ Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The strings passed in DT may possibly cause out-of-bounds register
-accesses and should be validated before use.
+of_property_read_u32_array takes the number of elements to read as last
+argument. This does not always need to be 4 (sizeof(u32)) but should
+instead be the size of the array in DT as read just above with
+of_property_count_elems_of_size.
+
+To not make such an error go unnoticed again the driver now bails
+accordingly when of_property_read_u32_array returns an error.
+Surprisingly the indentation of newlined arguments is lining up again
+after prepending `rc = `.
 
 Fixes: 775d2ffb4af6 ("backlight: qcom-wled: Restructure the driver for WLED3")
 Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
 Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
 ---
- drivers/video/backlight/qcom-wled.c | 18 +++++++++++++++++-
- 1 file changed, 17 insertions(+), 1 deletion(-)
+ drivers/video/backlight/qcom-wled.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/video/backlight/qcom-wled.c b/drivers/video/backlight/qcom-wled.c
-index d094299c2a48..8a42ed89c59c 100644
+index 8a42ed89c59c..d413b913fef3 100644
 --- a/drivers/video/backlight/qcom-wled.c
 +++ b/drivers/video/backlight/qcom-wled.c
-@@ -1528,12 +1528,28 @@ static int wled_configure(struct wled *wled)
- 	string_len = of_property_count_elems_of_size(dev->of_node,
- 						     "qcom,enabled-strings",
- 						     sizeof(u32));
--	if (string_len > 0)
-+	if (string_len > 0) {
-+		if (string_len > wled->max_string_count) {
-+			dev_err(dev, "Cannot have more than %d strings\n",
-+				wled->max_string_count);
-+			return -EINVAL;
-+		}
-+
- 		of_property_read_u32_array(dev->of_node,
+@@ -1535,10 +1535,15 @@ static int wled_configure(struct wled *wled)
+ 			return -EINVAL;
+ 		}
+
+-		of_property_read_u32_array(dev->of_node,
++		rc = of_property_read_u32_array(dev->of_node,
  						"qcom,enabled-strings",
  						wled->cfg.enabled_strings,
- 						sizeof(u32));
-
-+		for (i = 0; i < string_len; ++i) {
-+			if (wled->cfg.enabled_strings[i] >= wled->max_string_count) {
-+				dev_err(dev,
-+					"qcom,enabled-strings index %d at %d is out of bounds\n",
-+					wled->cfg.enabled_strings[i], i);
-+				return -EINVAL;
-+			}
+-						sizeof(u32));
++						string_len);
++		if (rc) {
++			dev_err(dev, "Failed to read %d elements from qcom,enabled-strings: %d\n",
++				string_len, rc);
++			return rc;
 +		}
-+	}
-+
- 	return 0;
- }
 
+ 		for (i = 0; i < string_len; ++i) {
+ 			if (wled->cfg.enabled_strings[i] >= wled->max_string_count) {
 --
 2.33.0
 
