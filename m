@@ -1,60 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04E1044E58C
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Nov 2021 12:24:43 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E1E444E5D3
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Nov 2021 12:54:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 652006E4C5;
-	Fri, 12 Nov 2021 11:24:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8AFA26ED84;
+	Fri, 12 Nov 2021 11:54:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com
- [IPv6:2607:f8b0:4864:20::1030])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C84006E4C5
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Nov 2021 11:24:38 +0000 (UTC)
-Received: by mail-pj1-x1030.google.com with SMTP id
- w33-20020a17090a6ba400b001a722a06212so6012927pjj.0
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Nov 2021 03:24:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=T9wqkH9bvAwB8f9F9+uOBqJWqvyAq2GKd5TaGm+pXFw=;
- b=k7djde65D5+bmsyDgCCkkGPdyGUKZx5wHM2Gz/IZywZVkhc/emt5dcOQ3YPEMCPZay
- jiJA9vkV4aUT9EIoVvs6ixJuh8KL3RRSE3avHfdgNsUbxUz5hFUTThi+HHTU+JGRdLaZ
- jmSQZ2ubSqFZClQ1bzewDUOhe0MnDKUb9M4Ac=
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
+ [IPv6:2a00:1450:4864:20::429])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 579BF6ECDE
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Nov 2021 11:54:53 +0000 (UTC)
+Received: by mail-wr1-x429.google.com with SMTP id i5so15089269wrb.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Nov 2021 03:54:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=xz6YO9tCi5FN4wwADc5RuSYXbQOxI0FfjZ6/8K/fqrM=;
+ b=GasCN4JtdArIIS+5Qcq84OctFN9Jpn3uAD/FCH0Ygj+/MKZXblNqSGH+Zswh5qq5pV
+ vl9VqzCF7wn1QPA5OxLualPg+dWN5hGHFNadLz023hDpSTa06QRyke2y/R/9nwgPf/lR
+ WAVwVWPjDZTxvsKwciHcisC0Y1A69IjDTNsBGWnR0UXfmWeyPVBF5DadotRaJzsfzuff
+ P9DfrJKJQ1JQwk6xtekeOJ+UrNdmNiVOzeBh4WWYLSyRB5BdY2CVvJqMduWGFkQVbuoI
+ nv+PJiiyw494bYgAsQvevPDDFfkdQSo+JPrbKYRUzvvPMV7F74H/aeot0ChaCVHRMUPq
+ LUJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=T9wqkH9bvAwB8f9F9+uOBqJWqvyAq2GKd5TaGm+pXFw=;
- b=HSXSINXpSLp/rDYpTAs8WMuy2zTYzDW5ewP/AM1zcSwdxvgMd1gK/7hHjg0QgBT71c
- D9+ZwF57nnCQTRkOmlpid0Kn6QoVA1Eg4ROCciezH9VQwTuE12i5bf/sJGs2RCQXY+o6
- RdwBXPr0eeF7tWLV/fidyP85BWvp2vR1BbQEOO120ciTzEqRAG46OEttC/p0SdCiltjO
- IRgVSWv78n+/HDoGlMXiGCLRGobz/H0CQ5AkZ+hFTVNAoZA+lzXG+FApw7whMSuvfOGh
- 9gYPvEhT0A8fT+bLxfv8VZUwX+e2VeShtKIHQhnn0M4S8ge4YUoGdFPqH9yO7EfLqEfU
- ICnA==
-X-Gm-Message-State: AOAM531qqZXmgTaEiaoZllNr13TJiswXaYYlzg3HxkP5WYLUWPCWcGRA
- AYmr+gpKe77i9ZVhwnT5PmS24g==
-X-Google-Smtp-Source: ABdhPJyM2vw9g4VA5zsJdYxFWjZh3TPf2EHpv8A/1s8edDOEdfNdR8rUMtnS/ylrCpGHjtadhkTwWg==
-X-Received: by 2002:a17:90b:4c44:: with SMTP id
- np4mr16710355pjb.195.1636716278293; 
- Fri, 12 Nov 2021 03:24:38 -0800 (PST)
-Received: from hsinyi-z840.tpe.corp.google.com
- ([2401:fa00:1:10:6a1a:b806:e064:392a])
- by smtp.gmail.com with ESMTPSA id j9sm3431093pgt.54.2021.11.12.03.24.35
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=xz6YO9tCi5FN4wwADc5RuSYXbQOxI0FfjZ6/8K/fqrM=;
+ b=ZKjiJK50WyRG1lyWTVlTluverp4oZnqL1fpYOqDGhGtJQIF0Z1jinjtaCvpQuoLxsv
+ wIaLi7FhBrXcLlLbB9o/iBAg+GDitp87ffL1nH+7X4hKlHNa4zm136yV6ADk8NN89WA4
+ rc73nO8xq3PKhzAsM7AamCnVv3Bt+7NCL8WspkM2CuOXModm1ci+l2pCZzNSPXVD2cQL
+ 2ResPDfmmOiX9OaE8G+OOkspYMnqBdKCAhxSLkANxmFzp8qivBF8/i6bOzNhJMNhzFp7
+ 87+Xtlw5N1Z361uXXPuDg/MX9DTxIRyk5vxkJoBWxuNsCRSkm2V3HX5ly/dsCSLpmjK7
+ AOLw==
+X-Gm-Message-State: AOAM531bF1naBjhrgexdU9+m9xin21CxU6rbsu3Y11XJz9xzHp41maJ7
+ dYnENkyIwBJMR9fy3BEWPqCQvw==
+X-Google-Smtp-Source: ABdhPJzKY1hxDEOL1WG7UNNqDzCOwMyQuKQTZu3mQhH9+LDBluzp2qvZX7JbowsrVOatJpuxV8ukdg==
+X-Received: by 2002:a5d:6d88:: with SMTP id l8mr17459513wrs.270.1636718091828; 
+ Fri, 12 Nov 2021 03:54:51 -0800 (PST)
+Received: from maple.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net.
+ [80.7.220.175])
+ by smtp.gmail.com with ESMTPSA id g13sm5191616wmk.37.2021.11.12.03.54.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Nov 2021 03:24:37 -0800 (PST)
-From: Hsin-Yi Wang <hsinyi@chromium.org>
-To: Robert Foss <robert.foss@linaro.org>,
-	Sam Ravnborg <sam@ravnborg.org>
-Subject: [PATCH] drm/bridge: anx7625: Fix edid_read break case in
- sp_tx_edid_read()
-Date: Fri, 12 Nov 2021 19:24:33 +0800
-Message-Id: <20211112112433.942075-1-hsinyi@chromium.org>
-X-Mailer: git-send-email 2.34.0.rc1.387.gb447b232ab-goog
+ Fri, 12 Nov 2021 03:54:51 -0800 (PST)
+Date: Fri, 12 Nov 2021 11:54:49 +0000
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Marijn Suijten <marijn.suijten@somainline.org>
+Subject: Re: [RESEND PATCH v2 01/13] backlight: qcom-wled: Validate enabled
+ string indices in DT
+Message-ID: <20211112115449.pg2h3gjzxok6dqho@maple.lan>
+References: <20211112002706.453289-1-marijn.suijten@somainline.org>
+ <20211112002706.453289-2-marijn.suijten@somainline.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211112002706.453289-2-marijn.suijten@somainline.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,41 +70,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nicolas Boichat <drinkcat@chromium.org>, Pi-Hsun Shih <pihsun@chromium.org>,
- Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, Neil Armstrong <narmstrong@baylibre.com>,
- linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Andrzej Hajda <a.hajda@samsung.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Hsin-Yi Wang <hsinyi@chromium.org>, Tzung-Bi Shih <tzungbi@google.com>,
- Xin Ji <xji@analogixsemi.com>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, Kiran Gunda <kgunda@codeaurora.org>,
+ Pavel Dubrova <pashadubrova@gmail.com>,
+ Jami Kettunen <jami.kettunen@somainline.org>,
+ Jingoo Han <jingoohan1@gmail.com>, linux-arm-msm@vger.kernel.org,
+ Bryan Wu <cooloney@gmail.com>, Konrad Dybcio <konrad.dybcio@somainline.org>,
+ linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, Andy Gross <agross@kernel.org>,
+ Martin Botka <martin.botka@somainline.org>,
+ ~postmarketos/upstreaming@lists.sr.ht,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ phone-devel@vger.kernel.org, Lee Jones <lee.jones@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-edid_read() was assumed to return 0 on success. After
-7f16d0f3b8e2("drm/bridge: anx7625: Propagate errors from sp_tx_rst_aux()"),
-the function can return >= 0 for successful case. Fix the g_edid_break
-condition in sp_tx_edid_read().
+On Fri, Nov 12, 2021 at 01:26:54AM +0100, Marijn Suijten wrote:
+> The strings passed in DT may possibly cause out-of-bounds register
+> accesses and should be validated before use.
+> 
+> Fixes: 775d2ffb4af6 ("backlight: qcom-wled: Restructure the driver for WLED3")
+> Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
+> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
 
-Fixes: 7f16d0f3b8e2("drm/bridge: anx7625: Propagate errors from sp_tx_rst_aux()")
-Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
----
- drivers/gpu/drm/bridge/analogix/anx7625.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
 
-diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
-index 1a871f6b6822ee..392203b576042b 100644
---- a/drivers/gpu/drm/bridge/analogix/anx7625.c
-+++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
-@@ -826,7 +826,7 @@ static int sp_tx_edid_read(struct anx7625_data *ctx,
- 				g_edid_break = edid_read(ctx, offset,
- 							 pblock_buf);
- 
--				if (g_edid_break)
-+				if (g_edid_break < 0)
- 					break;
- 
- 				memcpy(&pedid_blocks_buf[offset],
--- 
-2.34.0.rc1.387.gb447b232ab-goog
 
+Daniel.
