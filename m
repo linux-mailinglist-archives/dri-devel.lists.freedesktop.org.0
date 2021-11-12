@@ -2,70 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9421144E764
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Nov 2021 14:32:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D4B044E768
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Nov 2021 14:33:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F19DF6E071;
-	Fri, 12 Nov 2021 13:32:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 982A488EF2;
+	Fri, 12 Nov 2021 13:32:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A00C6E071
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Nov 2021 13:32:51 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C16AD6E3D2
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Nov 2021 13:32:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636723970;
+ s=mimecast20190719; t=1636723972;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=uBWkInz0f1J6G4VWIx0eG6QJ5CEmZf0S6yUp5qm/mCw=;
- b=HjplO5EVPWmVuWT5kuSDWoj05vrFR04oORuMvAKJWEB4IKT+PaSBYIyKet9gOH+3gp5w5F
- m+vijjUv5o0TKcs9fpJBDOmArWI5RuhLxVeX6jTXE0L5vSvJmTUMaaumpn/0IEIyWE+Dx8
- BZY0Np6FttCFV9cC0CfliHoHafbnfYI=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-40-ULbZGJyNPyCneP5iunHmRw-1; Fri, 12 Nov 2021 08:32:48 -0500
-X-MC-Unique: ULbZGJyNPyCneP5iunHmRw-1
-Received: by mail-wr1-f69.google.com with SMTP id
- y4-20020adfd084000000b00186b16950f3so1590225wrh.14
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Nov 2021 05:32:48 -0800 (PST)
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=VLaL9JZ/L/NQxIKHNVpbSM1dEcBi90FRvIYDc1fdXrY=;
+ b=HJdXKNRr5Po2APyCkfj+TG9Qr2Fc2UzO+uDWr5DU2CooMHceg1MqoF69NZYYhis+4UgSIZ
+ Ui29wdibioIi5AFHsPCf96kjpF1M7h1oNXfzghy58jg8fZau3D1D0mOe93DrK08+uEzBk+
+ QsQVj3QySmMixE6DJhpy3HIMBsuE48U=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-142-tT17PCDPOy-NEKloPm6n5w-1; Fri, 12 Nov 2021 08:32:49 -0500
+X-MC-Unique: tT17PCDPOy-NEKloPm6n5w-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ g80-20020a1c2053000000b003331a764709so6305245wmg.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Nov 2021 05:32:49 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=uBWkInz0f1J6G4VWIx0eG6QJ5CEmZf0S6yUp5qm/mCw=;
- b=DdEEv2JfuH+MJq6S7PDxwiPybghj3VZak6AhMCR21UzD7p6sZybkcW+CzDXdO0aTOh
- ylMkdUux2s8rdTRkXWFzgszCvf7ducD0jdro8Ea+xJsxG11pAV4ii7NfNy9hwy3cx1Xh
- KYHR3PJt8/u2UJY3QtZzSUKpHPcEtMsXFt8cWVKf/5/ckCjEF95uMht8YemjFoYnYMjf
- CdGwBUX2Gbas/n5aNHHdK4ZIZaFDR+V1rDuhD4dhsPdUfyB2lBKC5OTUqc6PUsX65yKF
- 0UhGG63WxUNfX5lqHOkTDipgxurkdUrpJ+NdnrGh/KNhXAALvWDsji2oqsKR4bPIDqgc
- qaow==
-X-Gm-Message-State: AOAM532ZCCm4/tPxleiRlU7e+pdN6KDOG2DWSgwK24pP0Sm7rAJpEWVk
- T4vquQxjnMm2Xt+galbVKS2yx1vRZDslAnRZtB5QQSF4J+0fZTwEC3EfC100/WyceA3qvCkWFgM
- 84kN+ZnjSXq+DRap/LuIl1J+868hO
-X-Received: by 2002:a5d:6151:: with SMTP id y17mr18894053wrt.275.1636723967719; 
- Fri, 12 Nov 2021 05:32:47 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJweFQRkr0PyXjrBf8oym4Y4OL7IMWD4cJ/wYupxgVKu0oGzEp1nKDEvel2QElYeV46gqHNjEA==
-X-Received: by 2002:a5d:6151:: with SMTP id y17mr18894012wrt.275.1636723967473; 
- Fri, 12 Nov 2021 05:32:47 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=VLaL9JZ/L/NQxIKHNVpbSM1dEcBi90FRvIYDc1fdXrY=;
+ b=hI7ReFNNQxkgAep8zmqEnayTfTdiY/jkyl3hNE9bmTig+km8OVYo73uzyZcSgQRXQC
+ 7dkbA+8XRi3LiZQFmWV+XNTX+7gftEQGTgmKjBFJegkOcsQsESEsEPZ9tn0TSSkElMDM
+ WR4KgPoECdorlyl30In3ZynG5vfPt6L1hVHeVFjDunYXklT0KnJEpuorj4BiDRL+VZzR
+ IcPWbJwmuIvvUTYC6Sqz7fBUUgiwJ9NoPXkeFKUjLYKv9XSPiQXmwn7iHANPR2hMNrSM
+ D1xEYqRDNs+hOJVu2zAi9+TXa/CW9rfvnK93HrXmncPZKL4LGIJB9GXB4uQYJgcv07cD
+ em7Q==
+X-Gm-Message-State: AOAM530kKqcSxPltykd2a6ao5uau+55SjbNw42jkkzR/6I8cDrhWYL/a
+ umKXrTc+bgrpdKodbCorhPO9wFlvixl7TXE0tb1f3a2G9RRJMaPkWS38FUfDlXQ2uDZeFRKO3cx
+ fCYLweQVCvhAjh7Cp7xGIYdH4aDGD
+X-Received: by 2002:a5d:4989:: with SMTP id r9mr19032571wrq.14.1636723968589; 
+ Fri, 12 Nov 2021 05:32:48 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyf3Es8c/GzYUbtaVdHj/i+lj1ZAXpyeetue9BBTgBWOxPQKZ1EhV8CzIyD0A5jk57GUqcR0A==
+X-Received: by 2002:a5d:4989:: with SMTP id r9mr19032550wrq.14.1636723968436; 
+ Fri, 12 Nov 2021 05:32:48 -0800 (PST)
 Received: from minerva.home ([92.176.231.106])
- by smtp.gmail.com with ESMTPSA id z12sm5733470wrv.78.2021.11.12.05.32.46
+ by smtp.gmail.com with ESMTPSA id z12sm5733470wrv.78.2021.11.12.05.32.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Nov 2021 05:32:47 -0800 (PST)
+ Fri, 12 Nov 2021 05:32:48 -0800 (PST)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH v5 0/6] Cleanups for the nomodeset kernel command line
- parameter logic
-Date: Fri, 12 Nov 2021 14:32:24 +0100
-Message-Id: <20211112133230.1595307-1-javierm@redhat.com>
+Subject: [PATCH v5 1/6] drm: Don't print messages if drivers are disabled due
+ nomodeset
+Date: Fri, 12 Nov 2021 14:32:25 +0100
+Message-Id: <20211112133230.1595307-2-javierm@redhat.com>
 X-Mailer: git-send-email 2.33.1
+In-Reply-To: <20211112133230.1595307-1-javierm@redhat.com>
+References: <20211112133230.1595307-1-javierm@redhat.com>
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,92 +89,60 @@ Cc: Pekka Paalanen <pekka.paalanen@collabora.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There is a lot of historical baggage on this parameter. It is defined in
-the vgacon driver as nomodeset, but its set function is called text_mode()
-and the value queried with a function named vgacon_text_force().
+The nomodeset kernel parameter handler already prints a message that the
+DRM drivers will be disabled, so there's no need for drivers to do that.
 
-All this implies that it's about forcing text mode for VGA, yet it is not
-used in neither vgacon nor other console driver. The only users for these
-are DRM drivers, that check for the vgacon_text_force() return value to
-determine whether the driver should be loaded or not.
+Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
+Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+Acked-by: Jani Nikula <jani.nikula@intel.com>
+Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+---
 
-That makes it quite confusing to read the code, because the variables and
-function names don't reflect what they actually do and also are not in the
-same subsystem as the drivers that make use of them.
+(no changes since v1)
 
-This patch-set attempts to cleanup the code by moving the nomodseset param
-to the DRM subsystem and do some renaming to make their intention clearer.
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c | 4 +---
+ drivers/gpu/drm/radeon/radeon_drv.c     | 8 ++------
+ 2 files changed, 3 insertions(+), 9 deletions(-)
 
-This is a v5 of the patches, that just renames the function used by drivers
-to check to drm_firmware_drivers_only(). Other than that is the same as v4.
-
-Patch #1 and #2 are just trivial cleanups.
-
-Patch #3 moves the nomodeset boot option to the DRM subsystem and renames
-the variables and functions names.
-
-Patch #4 removes the relationship between the nomodeset parameter and the
-CONFIG_VGA_CONSOLE Kconfig symbol.
-
-Patch #5 adds nomodeset to the kernel parameters documentation.
-
-Patch #6 improves the message when nomodeset is enabled to make it more
-accurate and less sensational.
-
-Changes in v5:
-- Rename drm_get_modeset() to drm_firmware_drivers_only().
-
-Changes in v4:
-- Don't mention the simpledrm driver and instead explain in high level
-  terms what the nomodeset option is about.
-- Don't mention DRM drivers in the kernel message and instead explain
-  that only the system framebuffer will be available.
-
-Changes in v3:
-- Drop the drm_drv_enabled() function and just call to drm_get_modeset().
-- Make drm_get_modeset() just a getter function and don't return an error.
-- Move independent cleanups in drivers as separate preparatory patches.
-
-Changes in v2:
-- Conditionally build drm_nomodeset.o if CONFIG_VGA_CONSOLE is set.
-- Squash patches to move nomodeset logic to DRM and do the renaming.
-- Name the function drm_check_modeset() and make it return -ENODEV.
-- Squash patch to add drm_drv_enabled() and make drivers use it.
-- Make the drivers changes before moving nomodeset logic to DRM.
-- Make drm_drv_enabled() return an errno and -ENODEV if nomodeset.
-- Remove debug and error messages in drivers.
-
-Javier Martinez Canillas (6):
-  drm: Don't print messages if drivers are disabled due nomodeset
-  drm/vboxvideo: Drop CONFIG_VGA_CONSOLE guard to call
-    vgacon_text_force()
-  drm: Move nomodeset kernel parameter to the DRM subsystem
-  drm: Decouple nomodeset from CONFIG_VGA_CONSOLE
-  Documentation/admin-guide: Document nomodeset kernel parameter
-  drm: Make the nomodeset message less sensational
-
- .../admin-guide/kernel-parameters.txt         |  7 ++++++
- drivers/gpu/drm/Kconfig                       |  6 +++++
- drivers/gpu/drm/Makefile                      |  2 ++
- drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c       |  5 +---
- drivers/gpu/drm/ast/ast_drv.c                 |  3 +--
- drivers/gpu/drm/drm_nomodeset.c               | 24 +++++++++++++++++++
- drivers/gpu/drm/i915/i915_module.c            |  4 ++--
- drivers/gpu/drm/mgag200/mgag200_drv.c         |  3 +--
- drivers/gpu/drm/nouveau/nouveau_drm.c         |  4 ++--
- drivers/gpu/drm/qxl/qxl_drv.c                 |  3 +--
- drivers/gpu/drm/radeon/radeon_drv.c           |  9 ++-----
- drivers/gpu/drm/tiny/bochs.c                  |  3 +--
- drivers/gpu/drm/tiny/cirrus.c                 |  4 ++--
- drivers/gpu/drm/vboxvideo/vbox_drv.c          |  5 +---
- drivers/gpu/drm/virtio/virtgpu_drv.c          |  3 +--
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.c           |  3 +--
- drivers/video/console/vgacon.c                | 21 ----------------
- include/drm/drm_drv.h                         |  1 +
- include/linux/console.h                       |  6 -----
- 19 files changed, 56 insertions(+), 60 deletions(-)
- create mode 100644 drivers/gpu/drm/drm_nomodeset.c
-
+diff --git drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+index c718fb5f3f8a..289d04999ced 100644
+--- drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
++++ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+@@ -2514,10 +2514,8 @@ static int __init amdgpu_init(void)
+ {
+ 	int r;
+ 
+-	if (vgacon_text_force()) {
+-		DRM_ERROR("VGACON disables amdgpu kernel modesetting.\n");
++	if (vgacon_text_force())
+ 		return -EINVAL;
+-	}
+ 
+ 	r = amdgpu_sync_init();
+ 	if (r)
+diff --git drivers/gpu/drm/radeon/radeon_drv.c drivers/gpu/drm/radeon/radeon_drv.c
+index b74cebca1f89..380adc61e71c 100644
+--- drivers/gpu/drm/radeon/radeon_drv.c
++++ drivers/gpu/drm/radeon/radeon_drv.c
+@@ -637,15 +637,11 @@ static struct pci_driver radeon_kms_pci_driver = {
+ 
+ static int __init radeon_module_init(void)
+ {
+-	if (vgacon_text_force() && radeon_modeset == -1) {
+-		DRM_INFO("VGACON disable radeon kernel modesetting.\n");
++	if (vgacon_text_force() && radeon_modeset == -1)
+ 		radeon_modeset = 0;
+-	}
+ 
+-	if (radeon_modeset == 0) {
+-		DRM_ERROR("No UMS support in radeon module!\n");
++	if (radeon_modeset == 0)
+ 		return -EINVAL;
+-	}
+ 
+ 	DRM_INFO("radeon kernel modesetting enabled.\n");
+ 	radeon_register_atpx_handler();
 -- 
 2.33.1
 
