@@ -2,84 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A997F44EDD3
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Nov 2021 21:18:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91F3D44EDE5
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Nov 2021 21:27:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D57416E2ED;
-	Fri, 12 Nov 2021 20:18:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 89A5A6EA3A;
+	Fri, 12 Nov 2021 20:27:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B19F76E2ED;
- Fri, 12 Nov 2021 20:18:35 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10166"; a="230663060"
-X-IronPort-AV: E=Sophos;i="5.87,230,1631602800"; d="scan'208";a="230663060"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Nov 2021 12:18:23 -0800
-X-IronPort-AV: E=Sophos;i="5.87,230,1631602800"; d="scan'208";a="590678546"
-Received: from cheemeig-mobl1.gar.corp.intel.com (HELO [10.212.248.140])
- ([10.212.248.140])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Nov 2021 12:18:22 -0800
-Subject: Re: [PATCH 0/2] Nuke PAGE_KERNEL_IO
-To: Lucas De Marchi <lucas.demarchi@intel.com>,
- Peter Zijlstra <peterz@infradead.org>
-References: <20211021181511.1533377-1-lucas.demarchi@intel.com>
- <20211112190403.GK174703@worktop.programming.kicks-ass.net>
- <20211112200957.qem4dyjnzjhls4v3@ldmartin-desk2>
-From: Dave Hansen <dave.hansen@intel.com>
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- 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
- z5cecg==
-Message-ID: <5ad5de1d-1cd3-b1cd-2880-c8df78e4db58@intel.com>
-Date: Fri, 12 Nov 2021 12:18:18 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2036D6EA3A
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Nov 2021 20:26:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1636748819;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=2hKzFqAYpjnD27jwSRYJVURcWAC9c1KmAhVPUzr+uD0=;
+ b=CYo6BxoY/AFZkwfyUrFRyYJCvpYmH5HOWyZpprdpUfxahzWjO7xbQf7sMDYR04UsqnLyLe
+ fhKoMs+0nxWTcAvoehX+3MFoDiUu7xvommgNY4PNC69ucAcKNqZbDKXHoRkdNOofqgIg/R
+ Zqoqp4aRjt9GKchqQJwUJ1QAq9p9SW0=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-218-Xk0EVzNROBiy-fL9czhFWw-1; Fri, 12 Nov 2021 15:26:55 -0500
+X-MC-Unique: Xk0EVzNROBiy-fL9czhFWw-1
+Received: by mail-qk1-f199.google.com with SMTP id
+ v13-20020a05620a440d00b00468380f4407so827770qkp.17
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Nov 2021 12:26:55 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:organization:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=2hKzFqAYpjnD27jwSRYJVURcWAC9c1KmAhVPUzr+uD0=;
+ b=ILaO5yJD3Z7b3mejHtScVznii9+UTgXOoyOlz3TnAvP7hv8LNUQiqc0ImcRcNtr4mI
+ TdZ7s4VP0IfE2WyUcvId1+5PqCiaICqqrrAO021B1JMa4SKZSMfzx+kNiw9N+2nxuARX
+ YS3UKLm1F4ioemS2RcWgKM38JkJ0eDsQR8nWPQNn//UT9wosCXJmqNaax8+iKhjaN9MQ
+ iH2/sX1OJ5/OOovbHmwnjtyM2rSn9TPq7hdjVOhybLRTre+2Z6dtSUGWGV+lX6KEhJjB
+ znMVCh9ZvsAyL46S7h0WtN0OhJ3h3UIDigHKAhsM6TiQyvCHwolnqe92H6WxXjPdJ7Ig
+ kG3Q==
+X-Gm-Message-State: AOAM533bbWo2VHMd3hbzETQckWDS7gxHr3uoP56Q150UvAmg2t1uz4pq
+ 81ODKhJ4fLZBmUqU0AMepTHvVVzFnpOpsYb3YZcAhQVrZf+3V8WumK1aLM4y1OPBdVTqVjq8FBq
+ aezyHa7i8UdOqA+8zikNPX4lYjqti
+X-Received: by 2002:ad4:4452:: with SMTP id l18mr17371096qvt.8.1636748815206; 
+ Fri, 12 Nov 2021 12:26:55 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwCPD/xZBoIMM5Ht3JzQLe4OXeLMU7YK9BDgdA3kBtg895uCJ29aXlgQmKeeSXxnoIE8A5fMA==
+X-Received: by 2002:ad4:4452:: with SMTP id l18mr17371052qvt.8.1636748814948; 
+ Fri, 12 Nov 2021 12:26:54 -0800 (PST)
+Received: from [192.168.8.138] (pool-96-230-249-157.bstnma.fios.verizon.net.
+ [96.230.249.157])
+ by smtp.gmail.com with ESMTPSA id t11sm3167889qkm.96.2021.11.12.12.26.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 12 Nov 2021 12:26:54 -0800 (PST)
+Message-ID: <be1833c5d27e666b760c729fc112d1bbd7b7a269.camel@redhat.com>
+Subject: Re: [PATCH v1 2/2] drm/tegra: Use drm_dp_aux_register_ddc/chardev()
+ helpers
+From: Lyude Paul <lyude@redhat.com>
+To: Dmitry Osipenko <digetx@gmail.com>, Thierry Reding
+ <thierry.reding@gmail.com>
+Date: Fri, 12 Nov 2021 15:26:53 -0500
+In-Reply-To: <5ee3f964-39ec-f6e2-5a01-230532a8b17e@gmail.com>
+References: <20211107230821.13511-1-digetx@gmail.com>
+ <20211107230821.13511-2-digetx@gmail.com>
+ <YYk/jfcceun/Qleq@phenom.ffwll.local>
+ <0a2c02ae-3fe1-e384-28d3-13e13801d675@gmail.com>
+ <YYo9IXjevmstSREu@phenom.ffwll.local>
+ <857a48ae-9ff4-89fe-11ce-5f1573763941@gmail.com>
+ <efdc184a-5aa3-1141-7d74-23d29da41f2d@gmail.com>
+ <71fcbc09-5b60-ee76-49b2-94adc965eda5@gmail.com>
+ <49ffd29b-eb64-e0ca-410c-44074673d740@gmail.com>
+ <YY5HfUUSmnr6qQSU@orome.fritz.box>
+ <5ee3f964-39ec-f6e2-5a01-230532a8b17e@gmail.com>
+Organization: Red Hat Inc.
+User-Agent: Evolution 3.40.4 (3.40.4-2.fc34)
 MIME-Version: 1.0
-In-Reply-To: <20211112200957.qem4dyjnzjhls4v3@ldmartin-desk2>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -93,25 +95,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arch@vger.kernel.org, Dave Hansen <dave.hansen@linux.intel.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, intel-gfx@lists.freedesktop.org,
- x86@kernel.org, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- xen-devel@lists.xenproject.org, Thomas Gleixner <tglx@linutronix.de>,
- Boris Ostrovsky <boris.ostrovsky@oracle.com>
+Cc: David Airlie <airlied@linux.ie>,
+ Thomas Graichen <thomas.graichen@gmail.com>, linux-kernel@vger.kernel.org,
+ Jonathan Hunter <jonathanh@nvidia.com>, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-tegra@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/12/21 12:09 PM, Lucas De Marchi wrote:
-> The intention was to merge this through the tip tree. Although now I'm
-> not sure. Options:
+On Fri, 2021-11-12 at 17:32 +0300, Dmitry Osipenko wrote:
+> 12.11.2021 13:52, Thierry Reding пишет:
+> > On Tue, Nov 09, 2021 at 05:39:02PM +0300, Dmitry Osipenko wrote:
+> > > 09.11.2021 17:17, Dmitry Osipenko пишет:
+> > > > 09.11.2021 17:08, Dmitry Osipenko пишет:
+> > > > > > +static void host1x_drm_dev_deinit(struct host1x_device *dev)
+> > > > > > +{
+> > > > > > +       struct drm_device *drm = dev_get_drvdata(&dev->dev);
+> > > > > And platform_unregister_drivers() should be moved here.
+> > > > > 
+> > > > 
+> > > > Nah, that should cause deadlock. This ad-hoc is too lame.
+> > > 
+> > > Actually, there is no problem here as I see now. The host1x driver
+> > > populates DT nodes after host1x_register() [1], meaning that Host1x DRM
+> > > will be always inited first.
+> > > 
+> > > [1]
+> > > https://elixir.bootlin.com/linux/v5.15/source/drivers/gpu/host1x/dev.c#L475
+> > > 
+> > > Still I'm not a fan of the ad-hoc solution.
+> > 
+> > Could we not fix this by making the panel "hot-pluggable"? I don't think
+> > there's anything inherent to the driver that would prevent doing so. The
+> > original reason for why things are as intertwined as they are now is
+> > because back at the time deferred framebuffer creation didn't exist. In
+> > fact I added deferred framebuffer support with Daniel's help precisely
+> > to fix a similar issue for things like HDMI and DP.
 > 
->     1) take the first patch through the drm-intel tree and apply the
->        second patch later
->     2) take everything through the drm tree
->     3) take everything through the tip tree
+> I don't understand what do you mean by "hot-pluggable", panel is static.
+> Please either clarify more or type the patch.
 > 
-> What's your preference here?
+> Keep in mind that fix should be simple and portable because stable
+> kernels are wrecked.
+> 
+> > With HDMI and DP it's slightly less critical, because a lack of mode
+> > support would've created a 1024x768 framebuffer, which most HDMI/DP
+> > monitors support. However, with panels we need to ensure that the exact
+> > mode from the panel is used to create the framebuffer, so it can only be
+> > created when the panel is available.
+> > 
+> > But, given that deferred framebuffer creation works now (which allows
+> > the framebuffer console to show up at the preferred resolution for HDMI
+> > and DP), even if a monitor is attached only after the driver has probed
+> > already, we should be able to make something like that work with panels
+> > as well.
+> 
+> BTW, I see now that DPAUX I2C transfer helper may access
+> aux->drm_device. Hence v1 patch isn't correct anyways.
 
-It's fine with me to take it through tip unless that causes a problem
-for anyone.  I was planning on doing queuing it after -rc1.
+JFYI - unless I'm misunderstanding you, the aux->drm_dev accesses in the DPAUX
+i2c transfer functions are just from the various drm_{dbg,err,etc.} calls,
+which means that they all should be able to handle aux->drm_dev being NULL. If
+you can set aux->drm_dev before i2c transfers start that's more ideal, since
+otherwise you'll see the AUX device name as "(null)" in the kernel log, but
+any point before device registration should work.
+
+> 
+> For now I'll try to test more the ad-hoc variant with Thomas and send it
+> as v2 if we won't have a better solution.
+> 
+
+-- 
+Cheers,
+ Lyude Paul (she/her)
+ Software Engineer at Red Hat
+
