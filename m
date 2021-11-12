@@ -1,23 +1,23 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B1D344DF10
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Nov 2021 01:27:49 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5436844DF19
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Nov 2021 01:27:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 45B146EAAA;
-	Fri, 12 Nov 2021 00:27:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A61436EAC0;
+	Fri, 12 Nov 2021 00:27:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay03.th.seeweb.it (relay03.th.seeweb.it [5.144.164.164])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 12B866E9D3
+Received: from relay04.th.seeweb.it (relay04.th.seeweb.it [5.144.164.165])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 07BFE6E9D3
  for <dri-devel@lists.freedesktop.org>; Fri, 12 Nov 2021 00:27:22 +0000 (UTC)
 Received: from Marijn-Arch-PC.localdomain
  (94-209-165-62.cable.dynamic.v4.ziggo.nl [94.209.165.62])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 1A98F203CD;
+ by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 052E1203C9;
  Fri, 12 Nov 2021 01:27:20 +0100 (CET)
 From: Marijn Suijten <marijn.suijten@somainline.org>
 To: phone-devel@vger.kernel.org, Andy Gross <agross@kernel.org>,
@@ -25,10 +25,10 @@ To: phone-devel@vger.kernel.org, Andy Gross <agross@kernel.org>,
  Rob Herring <robh+dt@kernel.org>, Lee Jones <lee.jones@linaro.org>,
  Daniel Thompson <daniel.thompson@linaro.org>,
  Jingoo Han <jingoohan1@gmail.com>
-Subject: [RESEND PATCH v2 12/13] arm64: dts: qcom: Move WLED num-strings from
- pmi8994 to sony-xperia-tone
-Date: Fri, 12 Nov 2021 01:27:05 +0100
-Message-Id: <20211112002706.453289-13-marijn.suijten@somainline.org>
+Subject: [RESEND PATCH v2 13/13] arm64: dt: qcom: pm660l: Remove
+ board-specific WLED configuration
+Date: Fri, 12 Nov 2021 01:27:06 +0100
+Message-Id: <20211112002706.453289-14-marijn.suijten@somainline.org>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211112002706.453289-1-marijn.suijten@somainline.org>
 References: <20211112002706.453289-1-marijn.suijten@somainline.org>
@@ -58,41 +58,36 @@ Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The number of WLED strings used by a certain platform depend on the
-panel connected to that board and may not be the same for every user of
-pmi8994.
+This string- and electrical configuration depend on the board and panel,
+and should hence not be defined generically for every user of pm660l.
+SoMainline will pick this configuration again when enabling WLED on the
+Sony Nile platform.
 
+Fixes: 7b56a804e58b ("arm64: dts: qcom: pm660l: Add WLED support")
 Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
 Reviewed-By: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
 ---
- arch/arm64/boot/dts/qcom/msm8996-sony-xperia-tone.dtsi | 1 +
- arch/arm64/boot/dts/qcom/pmi8994.dtsi                  | 1 -
- 2 files changed, 1 insertion(+), 1 deletion(-)
+ arch/arm64/boot/dts/qcom/pm660l.dtsi | 7 -------
+ 1 file changed, 7 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/qcom/msm8996-sony-xperia-tone.dtsi b/arch/arm64/boot/dts/qcom/msm8996-sony-xperia-tone.dtsi
-index 507396c4d23b..ff7f39d29dd5 100644
---- a/arch/arm64/boot/dts/qcom/msm8996-sony-xperia-tone.dtsi
-+++ b/arch/arm64/boot/dts/qcom/msm8996-sony-xperia-tone.dtsi
-@@ -620,6 +620,7 @@ pmi8994_s11: s11 {
- &pmi8994_wled {
- 	status = "okay";
- 	default-brightness = <512>;
-+	qcom,num-strings = <3>;
- };
+diff --git a/arch/arm64/boot/dts/qcom/pm660l.dtsi b/arch/arm64/boot/dts/qcom/pm660l.dtsi
+index 05086cbe573b..cfef42353611 100644
+--- a/arch/arm64/boot/dts/qcom/pm660l.dtsi
++++ b/arch/arm64/boot/dts/qcom/pm660l.dtsi
+@@ -72,13 +72,6 @@ pm660l_wled: leds@d800 {
+ 			interrupt-names = "ovp";
+ 			label = "backlight";
 
- &rpm_requests {
-diff --git a/arch/arm64/boot/dts/qcom/pmi8994.dtsi b/arch/arm64/boot/dts/qcom/pmi8994.dtsi
-index 89ba4146e747..6e7c252568e6 100644
---- a/arch/arm64/boot/dts/qcom/pmi8994.dtsi
-+++ b/arch/arm64/boot/dts/qcom/pmi8994.dtsi
-@@ -38,7 +38,6 @@ pmi8994_wled: wled@d800 {
- 			reg = <0xd800 0xd900>;
- 			interrupts = <3 0xd8 0x02 IRQ_TYPE_EDGE_RISING>;
- 			interrupt-names = "short";
--			qcom,num-strings = <3>;
- 			qcom,cabc;
- 			qcom,external-pfet;
+-			qcom,switching-freq = <800>;
+-			qcom,ovp-millivolt = <29600>;
+-			qcom,current-boost-limit = <970>;
+-			qcom,current-limit-microamp = <20000>;
+-			qcom,num-strings = <2>;
+-			qcom,enabled-strings = <0 1>;
+-
  			status = "disabled";
+ 		};
+
 --
 2.33.0
 
