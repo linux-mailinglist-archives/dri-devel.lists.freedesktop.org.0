@@ -1,42 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B93344EAC3
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Nov 2021 16:44:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CDA444EAFA
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Nov 2021 17:02:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7FC806E07B;
-	Fri, 12 Nov 2021 15:44:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 79BFD6EC2E;
+	Fri, 12 Nov 2021 16:02:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5CBA289DF9;
- Fri, 12 Nov 2021 15:44:07 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10165"; a="319354451"
-X-IronPort-AV: E=Sophos;i="5.87,229,1631602800"; d="scan'208";a="319354451"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Nov 2021 07:44:06 -0800
-X-IronPort-AV: E=Sophos;i="5.87,229,1631602800"; d="scan'208";a="534816908"
-Received: from druttled-mobl1.ger.corp.intel.com (HELO [10.252.21.12])
- ([10.252.21.12])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Nov 2021 07:44:05 -0800
-Message-ID: <231e81f0-765b-9ebf-ffd6-067f245f3a46@intel.com>
-Date: Fri, 12 Nov 2021 15:44:03 +0000
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 037A46EBA8;
+ Fri, 12 Nov 2021 16:02:49 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10165"; a="233096888"
+X-IronPort-AV: E=Sophos;i="5.87,229,1631602800"; d="scan'208";a="233096888"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Nov 2021 08:01:17 -0800
+X-IronPort-AV: E=Sophos;i="5.87,229,1631602800"; d="scan'208";a="733699957"
+Received: from mdroper-desk1.fm.intel.com ([10.1.27.134])
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Nov 2021 08:01:16 -0800
+From: Matt Roper <matthew.d.roper@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH] drm/i915: Don't read query SSEU for non-existent slice 0 on
+ old platforms
+Date: Fri, 12 Nov 2021 08:01:07 -0800
+Message-Id: <20211112160107.1593906-1-matthew.d.roper@intel.com>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v3] drm/i915: Skip error capture when wedged on init
-Content-Language: en-GB
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Intel-gfx@lists.freedesktop.org
-References: <20211110114327.200470-1-tvrtko.ursulin@linux.intel.com>
- <20211111130634.266098-1-tvrtko.ursulin@linux.intel.com>
-From: Matthew Auld <matthew.auld@intel.com>
-In-Reply-To: <20211111130634.266098-1-tvrtko.ursulin@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,64 +42,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/11/2021 13:06, Tvrtko Ursulin wrote:
-> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-> 
-> Trying to capture uninitialised engines when we wedged on init ends in
-> tears. Skip that together with uC capture, since failure to initialise the
-> latter can actually be one of the reasons for wedging on init.
-> 
-> v2:
->   * Use i915_disable_error_state when wedging on init/fini.
-> 
-> v3:
->   * Handle mock tests.
-> 
-> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-> Reviewed-by: Matthew Auld <matthew.auld@intel.com> # v1
+Pre-HSW platforms don't use the gt SSEU structures; this means that
+calling intel_sseu_get_subslices() on slice 0 for these platforms will
+trip a GEM_BUG_ON(slice >= sseu->max_slices) warning.
 
-Assuming this works locally, r-b still stands.
+Let's move the DSS lookup for a DG2 workaround into a helper function
+that will only get called after we've already decided that we're on a
+DG2 platform.
 
-> ---
->   drivers/gpu/drm/i915/gt/intel_reset.c            | 2 ++
->   drivers/gpu/drm/i915/selftests/mock_gem_device.c | 2 ++
->   2 files changed, 4 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/intel_reset.c b/drivers/gpu/drm/i915/gt/intel_reset.c
-> index 51b56b8e5003..0fbd6dbadce7 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_reset.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_reset.c
-> @@ -1448,6 +1448,7 @@ void intel_gt_set_wedged_on_init(struct intel_gt *gt)
->   	BUILD_BUG_ON(I915_RESET_ENGINE + I915_NUM_ENGINES >
->   		     I915_WEDGED_ON_INIT);
->   	intel_gt_set_wedged(gt);
-> +	i915_disable_error_state(gt->i915, -ENODEV);
->   	set_bit(I915_WEDGED_ON_INIT, &gt->reset.flags);
->   
->   	/* Wedged on init is non-recoverable */
-> @@ -1457,6 +1458,7 @@ void intel_gt_set_wedged_on_init(struct intel_gt *gt)
->   void intel_gt_set_wedged_on_fini(struct intel_gt *gt)
->   {
->   	intel_gt_set_wedged(gt);
-> +	i915_disable_error_state(gt->i915, -ENODEV);
->   	set_bit(I915_WEDGED_ON_FINI, &gt->reset.flags);
->   	intel_gt_retire_requests(gt); /* cleanup any wedged requests */
->   }
-> diff --git a/drivers/gpu/drm/i915/selftests/mock_gem_device.c b/drivers/gpu/drm/i915/selftests/mock_gem_device.c
-> index 9ab3f284d1dd..d0e2e61de8d4 100644
-> --- a/drivers/gpu/drm/i915/selftests/mock_gem_device.c
-> +++ b/drivers/gpu/drm/i915/selftests/mock_gem_device.c
-> @@ -177,6 +177,8 @@ struct drm_i915_private *mock_gem_device(void)
->   
->   	mock_uncore_init(&i915->uncore, i915);
->   
-> +	spin_lock_init(&i915->gpu_error.lock);
-> +
->   	i915_gem_init__mm(i915);
->   	intel_gt_init_early(&i915->gt, i915);
->   	atomic_inc(&i915->gt.wakeref.count); /* disable; no hw support */
-> 
+Fixes: 645cc0b9d972 ("drm/i915/dg2: Add initial gt/ctx/engine workarounds")
+Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
+---
+ drivers/gpu/drm/i915/gt/intel_workarounds.c | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/i915/gt/intel_workarounds.c b/drivers/gpu/drm/i915/gt/intel_workarounds.c
+index 51591119da15..a9727447c037 100644
+--- a/drivers/gpu/drm/i915/gt/intel_workarounds.c
++++ b/drivers/gpu/drm/i915/gt/intel_workarounds.c
+@@ -2019,11 +2019,18 @@ engine_fake_wa_init(struct intel_engine_cs *engine, struct i915_wa_list *wal)
+ 				    CMD_CCTL_MOCS_OVERRIDE(mocs, mocs));
+ 	}
+ }
++
++static bool needs_wa_1308578152(struct intel_engine_cs *engine)
++{
++	u64 dss_mask = intel_sseu_get_subslices(&engine->gt->info.sseu, 0);
++
++	return (dss_mask & GENMASK(GEN_DSS_PER_GSLICE - 1, 0)) == 0;
++}
++
+ static void
+ rcs_engine_wa_init(struct intel_engine_cs *engine, struct i915_wa_list *wal)
+ {
+ 	struct drm_i915_private *i915 = engine->i915;
+-	u64 dss_mask = intel_sseu_get_subslices(&engine->gt->info.sseu, 0);
+ 
+ 	if (IS_DG2_GRAPHICS_STEP(engine->i915, G11, STEP_A0, STEP_B0)) {
+ 		/* Wa_14013392000:dg2_g11 */
+@@ -2057,7 +2064,7 @@ rcs_engine_wa_init(struct intel_engine_cs *engine, struct i915_wa_list *wal)
+ 
+ 	/* Wa_1308578152:dg2_g10 when first gslice is fused off */
+ 	if (IS_DG2_GRAPHICS_STEP(engine->i915, G10, STEP_B0, STEP_C0) &&
+-	    (dss_mask & GENMASK(GEN_DSS_PER_GSLICE - 1, 0)) == 0) {
++	    needs_wa_1308578152(engine)) {
+ 		wa_masked_dis(wal, GEN12_CS_DEBUG_MODE1_CCCSUNIT_BE_COMMON,
+ 			      GEN12_REPLAY_MODE_GRANULARITY);
+ 	}
+-- 
+2.33.0
+
