@@ -2,55 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A978C44E1CD
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Nov 2021 07:17:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52DEB44E1D2
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Nov 2021 07:18:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 31DF96E990;
-	Fri, 12 Nov 2021 06:17:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB5256EA38;
+	Fri, 12 Nov 2021 06:17:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com
- [IPv6:2607:f8b0:4864:20::534])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DAAE86E990;
- Fri, 12 Nov 2021 06:17:00 +0000 (UTC)
-Received: by mail-pg1-x534.google.com with SMTP id h63so351543pgc.12;
- Thu, 11 Nov 2021 22:17:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com
+ [IPv6:2607:f8b0:4864:20::531])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E4D716E995
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Nov 2021 06:17:55 +0000 (UTC)
+Received: by mail-pg1-x531.google.com with SMTP id r132so5073895pgr.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Nov 2021 22:17:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=KTlvF4aJyyBVvpF5MzM91QUQSnsEWekyAttC+hNhxt0=;
- b=EL5+LlxnlvReaYBhiejsr1zFND5Oab45kcPyAjDopD22f7pDXXPd087rMz6BKug2ao
- 2h25n6bt0a24gD2a9B0kEbbIDfNp4gNSKx8//L6ONNyicFNpvHbIl5Pv+zgQjm7e+m1i
- rE0OtT0ipEOW5s4IZsayNvkpb3aebdtbeHHWcr/iQcAL5Bu72OazuevJWGGzkWkDZtN3
- 1HO/03I5/i/YKp1uu0l2asR+0bexVG4PIcCWc4zR3/Ga9ixF+Dp2Jmo7iZqQxBnM7O8P
- jGkwx5Fi1Dqp4biuQnmBpJXmHh5tsA+SVGPyfIvjUfnr+su/VUfV3wVAib6VpN8bbKWW
- sjeg==
+ bh=Wad9gm8CW+7Vaw+M+Mr+ioYMu34NOVqzp5WCaNgwVbY=;
+ b=XBsjNUuyVhMdEj6T7LniJnG0Zs5LA+VbgnGBfQb2/yEIovOQ26QS75TvmwcUxYYj8o
+ XUZCGeL55EbUVuh9CaFpgRh4eh21p04ASs/2EMfKq1Id1lCT/03sAdEofOeXLGSZNbCK
+ T5+569KWt5KyguW/Cg9aGjBEp2scHHKq1mMzE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=KTlvF4aJyyBVvpF5MzM91QUQSnsEWekyAttC+hNhxt0=;
- b=drV9aimd0Go9M7N6NWNtHL4ne3fQWbEdWqlC2KsVs3tiOu0ej7Rb4Cknt2NTbaxY9p
- gqTLdfK5Sj5DvI/+ykE+nA3VDSKv+XFpdvYVnGxClj3oFWvGTuWOSlHuPL1J2yDj6O2Y
- hMf7vPStNu6lkEZXC6syLfJOb46e2fdftXbK1k6jezaYOMZJACqvwKvA4FhUP5gIiVFT
- wy4a+MaFfNVWnWBIuRQiHYG+U3xUtzx7rZHCmltrIz64VyShLqJ5T6AUcyOcm6+ijcul
- nI2ISk8Cy6Enyc/yhLWYAl74aSBTYguHl6o6hVOn09MW1YtXoKLv+xgRHKn/puAN+8i2
- yRLQ==
-X-Gm-Message-State: AOAM530bgyjw3HqGM5eRp5vwZw4ajLqo1oVpYdKTRmim1hY4Zhbq+lH+
- VwX/jNuzXTeTVAF348Au4Iw=
-X-Google-Smtp-Source: ABdhPJxkOxAft+m9QreNLLuSoiEnM7+2OnxWlWqcVG4wSOaUHimcvgfO1FMGP0U4nwVSfUeIFaVOfw==
-X-Received: by 2002:a63:5009:: with SMTP id e9mr2651164pgb.346.1636697820324; 
- Thu, 11 Nov 2021 22:17:00 -0800 (PST)
-Received: from localhost.localdomain ([193.203.214.57])
- by smtp.gmail.com with ESMTPSA id mg12sm9939611pjb.10.2021.11.11.22.16.56
+ bh=Wad9gm8CW+7Vaw+M+Mr+ioYMu34NOVqzp5WCaNgwVbY=;
+ b=U2ahbmIEIizOCsrua5tAeGgJkDpgNyLMfKzAKIdz4Sof8iaHQYs7olzpiT/aENGW64
+ KVmn1Zi0E2iS7JaMY022mf6VDFlyS+D12T4ukB8BtX8VsJeW4bx2LQHLlfD7TuQCM/vj
+ FIFKAhYE5Yre+H+ecbNFV5zkwriNX9BF4G4r3Z1MGQ39P9LjBwjLFqIqBFCOydDMNbxn
+ SiFpKkm8ExuM6laevLpZnvfUqqpbCyHobfQJlQL59YP1kLrKx1AAzHFPggIxYggO6UAp
+ 8XaRZaFccV5xReiPCOO9CVXJO/Ynu1NFtQ5fjwHz16TavOQ380NUPe1mIglcJz8SPbC0
+ iydw==
+X-Gm-Message-State: AOAM530SXKbUVCmBl9ZdimvDA5egtdw3QrN/gP/irFU+lo7LzD+Ar+dw
+ YUvL3zwU1LFRqO9O0oyc3EQxYA==
+X-Google-Smtp-Source: ABdhPJzccvCuuKTMzT5Xf+4TNMKBG21tNmi42SFsyLthwZSXilj5YfBBc68olJ3IKJ1pgUcov4iMLA==
+X-Received: by 2002:a05:6a00:158a:b0:49f:be86:c78f with SMTP id
+ u10-20020a056a00158a00b0049fbe86c78fmr12004616pfk.56.1636697875509; 
+ Thu, 11 Nov 2021 22:17:55 -0800 (PST)
+Received: from localhost.localdomain ([2405:201:c00a:a0a9:de19:8cdf:97cf:a6b1])
+ by smtp.gmail.com with ESMTPSA id p3sm4727856pfb.205.2021.11.11.22.17.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Nov 2021 22:16:59 -0800 (PST)
-From: cgel.zte@gmail.com
-X-Google-Original-From: ye.guojin@zte.com.cn
-To: harry.wentland@amd.com
-Subject: [PATCH] drm/amd/display: fix cond_no_effect.cocci warnings
-Date: Fri, 12 Nov 2021 06:16:51 +0000
-Message-Id: <20211112061651.6509-1-ye.guojin@zte.com.cn>
+ Thu, 11 Nov 2021 22:17:55 -0800 (PST)
+From: Jagan Teki <jagan@amarulasolutions.com>
+To: Andrzej Hajda <a.hajda@samsung.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Robert Foss <robert.foss@linaro.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Heiko Stubner <heiko@sntech.de>,
+ Yannick Fertre <yannick.fertre@foss.st.com>
+Subject: [PATCH] drm/bridge: dw-mipi-dsi: Switch to atomic operations
+Date: Fri, 12 Nov 2021 11:47:41 +0530
+Message-Id: <20211112061741.120898-1-jagan@amarulasolutions.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -66,53 +69,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dmytro.Laktyushkin@amd.com, sunpeng.li@amd.com,
- linux-kernel@vger.kernel.org, Zeal Robot <zealci@zte.com.cn>,
- Xinhui.Pan@amd.com, Rodrigo.Siqueira@amd.com, amd-gfx@lists.freedesktop.org,
- nicholas.kazlauskas@amd.com, airlied@linux.ie, Jerry.Zuo@amd.com,
- vladimir.stempen@amd.com, dri-devel@lists.freedesktop.org,
- alexander.deucher@amd.com, Ye Guojin <ye.guojin@zte.com.cn>, Jun.Lei@amd.com,
- christian.koenig@amd.com, Jimmy.Kizito@amd.com
+Cc: linux-amarula@amarulasolutions.com,
+ linux-stm32@st-md-mailman.stormreply.com, dri-devel@lists.freedesktop.org,
+ Jagan Teki <jagan@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Ye Guojin <ye.guojin@zte.com.cn>
+Replace atomic version of the enable/disable operations to
+continue the transition to the atomic API.
 
-This was found by coccicheck:
-./drivers/gpu/drm/amd/display/dc/core/dc_resource.c, 2516, 7-9, WARNING
-possible condition with no effect (if == else)
+Also added default drm atomic operations for duplicate, destroy
+and reset state API's in order to have smooth transition on
+atomic API's.
 
-hdmi_info.bits.YQ0_YQ1 is always YYC_QUANTIZATION_LIMITED_RANGE.
+Tested on Engicam i.Core STM32MP1 SoM.
 
-Reported-by: Zeal Robot <zealci@zte.com.cn>
-Signed-off-by: Ye Guojin <ye.guojin@zte.com.cn>
+Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
 ---
- drivers/gpu/drm/amd/display/dc/core/dc_resource.c | 12 +-----------
- 1 file changed, 1 insertion(+), 11 deletions(-)
+ drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c | 19 ++++++++++++-------
+ 1 file changed, 12 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_resource.c b/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
-index fabe1b83bd4f..564163a85d2c 100644
---- a/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
-+++ b/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
-@@ -2509,17 +2509,7 @@ static void set_avi_info_frame(
+diff --git a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
+index e44e18a0112a..ff0db96dfcd5 100644
+--- a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
++++ b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
+@@ -871,7 +871,8 @@ static void dw_mipi_dsi_clear_err(struct dw_mipi_dsi *dsi)
+ 	dsi_write(dsi, DSI_INT_MSK1, 0);
+ }
  
- 	/* TODO : We should handle YCC quantization */
- 	/* but we do not have matrix calculation */
--	if (stream->qy_bit == 1) {
--		if (color_space == COLOR_SPACE_SRGB ||
--			color_space == COLOR_SPACE_2020_RGB_FULLRANGE)
--			hdmi_info.bits.YQ0_YQ1 = YYC_QUANTIZATION_LIMITED_RANGE;
--		else if (color_space == COLOR_SPACE_SRGB_LIMITED ||
--					color_space == COLOR_SPACE_2020_RGB_LIMITEDRANGE)
--			hdmi_info.bits.YQ0_YQ1 = YYC_QUANTIZATION_LIMITED_RANGE;
--		else
--			hdmi_info.bits.YQ0_YQ1 = YYC_QUANTIZATION_LIMITED_RANGE;
--	} else
--		hdmi_info.bits.YQ0_YQ1 = YYC_QUANTIZATION_LIMITED_RANGE;
-+	hdmi_info.bits.YQ0_YQ1 = YYC_QUANTIZATION_LIMITED_RANGE;
+-static void dw_mipi_dsi_bridge_post_disable(struct drm_bridge *bridge)
++static void dw_mipi_dsi_bridge_post_atomic_disable(struct drm_bridge *bridge,
++						   struct drm_bridge_state *old_bridge_state)
+ {
+ 	struct dw_mipi_dsi *dsi = bridge_to_dsi(bridge);
+ 	const struct dw_mipi_dsi_phy_ops *phy_ops = dsi->plat_data->phy_ops;
+@@ -978,7 +979,8 @@ static void dw_mipi_dsi_bridge_mode_set(struct drm_bridge *bridge,
+ 		dw_mipi_dsi_mode_set(dsi->slave, adjusted_mode);
+ }
  
- 	///VIC
- 	format = stream->timing.timing_3d_format;
+-static void dw_mipi_dsi_bridge_enable(struct drm_bridge *bridge)
++static void dw_mipi_dsi_bridge_atomic_enable(struct drm_bridge *bridge,
++					     struct drm_bridge_state *old_bridge_state)
+ {
+ 	struct dw_mipi_dsi *dsi = bridge_to_dsi(bridge);
+ 
+@@ -1032,11 +1034,14 @@ static int dw_mipi_dsi_bridge_attach(struct drm_bridge *bridge,
+ }
+ 
+ static const struct drm_bridge_funcs dw_mipi_dsi_bridge_funcs = {
+-	.mode_set     = dw_mipi_dsi_bridge_mode_set,
+-	.enable	      = dw_mipi_dsi_bridge_enable,
+-	.post_disable = dw_mipi_dsi_bridge_post_disable,
+-	.mode_valid   = dw_mipi_dsi_bridge_mode_valid,
+-	.attach	      = dw_mipi_dsi_bridge_attach,
++	.atomic_duplicate_state	= drm_atomic_helper_bridge_duplicate_state,
++	.atomic_destroy_state	= drm_atomic_helper_bridge_destroy_state,
++	.atomic_reset		= drm_atomic_helper_bridge_reset,
++	.atomic_enable		= dw_mipi_dsi_bridge_atomic_enable,
++	.atomic_post_disable	= dw_mipi_dsi_bridge_post_atomic_disable,
++	.mode_set		= dw_mipi_dsi_bridge_mode_set,
++	.mode_valid		= dw_mipi_dsi_bridge_mode_valid,
++	.attach			= dw_mipi_dsi_bridge_attach,
+ };
+ 
+ #ifdef CONFIG_DEBUG_FS
 -- 
 2.25.1
 
