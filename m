@@ -1,62 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52E3844E386
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Nov 2021 09:56:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 00AD644E38D
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Nov 2021 09:58:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 73C8D6ECEB;
-	Fri, 12 Nov 2021 08:56:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 76E6A6EB2D;
+	Fri, 12 Nov 2021 08:58:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com
- [IPv6:2a00:1450:4864:20::230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 01A446ECEB
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Nov 2021 08:56:46 +0000 (UTC)
-Received: by mail-lj1-x230.google.com with SMTP id d11so17234147ljg.8
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Nov 2021 00:56:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=cNgVZZKOCYjO8aZeMeqpgqX7WaeUWkekQxuJ4nUnitk=;
- b=n/q1LVVxcot3fRPvjszV3Dra1zjHj8g7nyiUf31WKYpdJnGrqPp7znRWGEeAK6P+zX
- msSQYBqbTo4gHYDrL/TQxP906VH4m3/iwBGyCpYBsx1iHWbAJjeWXYpXF88FMVMAQf4v
- uBZzzFsSd0P8m3gLPUjX9Qr3zI/6AF+5sk71wJdo0zMqIGCYmpp4ajJFz+trIOwy29LD
- pgSPqp4BGXyGCqwp0kz0GIDXK6D4WKdPAfvW7LYMxYSx4EOGB/6F05Xdf3/iYliIcu/I
- B51YZuhBty+0yrRGkC/kaewl6f4bL+62ETjga0+CDLjqwGe9KlIc6nezPZ152RSQHjM7
- eWog==
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com
+ [IPv6:2a00:1450:4864:20::530])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 31F356EB2D
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Nov 2021 08:58:43 +0000 (UTC)
+Received: by mail-ed1-x530.google.com with SMTP id f4so34863426edx.12
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Nov 2021 00:58:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=+znnpPsESBlujb7K3oTRKkOtPPV29IZGAcpuh5izcVQ=;
+ b=J946xO4vZzyakkfvuWZqa3+jrp3butsoAKkXXjuOMe+/bcuQ/OVfzYYvhP7GPOv5kI
+ 7unQsmaTYEE5Rkyf8tM+c964VYqoIF21ep6ra7vWTJChf80rKYlSRI9w3weC8izvuPwj
+ Rg/MWQoSPlLj2aPjTmdE5qqQYoYyZSw4mhCmQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=cNgVZZKOCYjO8aZeMeqpgqX7WaeUWkekQxuJ4nUnitk=;
- b=Df989TOqtp4t2Qunp031814hu4Ji2x5xN0BRzc4MKneP/B3IQoBp/0M0qhvaSlYYS/
- PPP1CoD6pooES7/7NCdeGziic/+CYe9Ifv5AOY2u594UoIrn1ZtSnILP+g4BbAqBJLgD
- V9Ac6uZxG3bRp2T4XIM8ighEzO9Z2CbF1ceD5G4iFp/F4fOFban7AyHl5JLpOUPCjFi9
- rihZ7vR8hl2/30m4QEJYn31tgHQvJay/bVamUZcelOBqwlJHgeCJ0Wz7Wy34oCPzKpAj
- 2cowCTWa4aijftL8FX/afjpUpdCK1lFeOsyUFKdVZ3yzgoqLJIkZJ4zmZADA+aqw7yK3
- EXRQ==
-X-Gm-Message-State: AOAM533ut741uggyWKKsO12wpGzJjOzVFkX9lOw2bYklx3V7ScQ+z/H2
- 1vwzNObv1nDg29iKlDznw7A=
-X-Google-Smtp-Source: ABdhPJzcd3s+9vYrm35DotnNE5RhLld35PuxjHrn9/w6VRq3fuTs4/fBgQymTn0uTegb8obp9d29IA==
-X-Received: by 2002:a2e:984f:: with SMTP id e15mr13609968ljj.427.1636707405277; 
- Fri, 12 Nov 2021 00:56:45 -0800 (PST)
-Received: from eldfell ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id h1sm503878lfp.249.2021.11.12.00.56.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Nov 2021 00:56:45 -0800 (PST)
-Date: Fri, 12 Nov 2021 10:56:41 +0200
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Javier Martinez Canillas <javierm@redhat.com>
-Subject: Re: [PATCH v4 0/6] Cleanups for the nomodeset kernel command line
- parameter logic
-Message-ID: <20211112105641.25a4e1a7@eldfell>
-In-Reply-To: <a8d93a19-c7e6-f651-a1cb-9e2742383c73@suse.de>
-References: <20211108140648.795268-1-javierm@redhat.com>
- <a8d93a19-c7e6-f651-a1cb-9e2742383c73@suse.de>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=+znnpPsESBlujb7K3oTRKkOtPPV29IZGAcpuh5izcVQ=;
+ b=tTu6fNMOgiQaarlsJV0Pp5ioAciIBAUFjiNme6TufAlLSpF7A8lXfAHPZLDS/pvE3M
+ Wl/gOH7EnDvrNjD/Ol5EXPK5jsV442hE6Rpqzj0Ki/S3D/qlWxDP6jJOt7BQCCtWZs0P
+ U8Sf7dOHMbVCO/rotCKcRrL9S9SjwFy89npPgW/79/5G3qOGmb0o2KEx4980Ji/sYfQ7
+ EF5mgZoAsQPbbHSlpwiXxbIGFVcC1fMOOo64pir1vR8goPoyKWFPbsJrJZu/liaRRimV
+ ZwaOttkTsiTpIO1Ex53+Q4aAcXsr0qvOpbn7Al1Vn109xOoo4Hw63u87sM+4L/ffE8nt
+ HmTQ==
+X-Gm-Message-State: AOAM5338McRgAgxUFE7DbJx0XGBHVkUfvOx9ukYMyiLMX3bSa8lGU6q+
+ 9r2EwjtQp29cGOedEWIX1Jyq2qbqMkgd3rVY8BCETg==
+X-Google-Smtp-Source: ABdhPJyUOWypQROhAJEozilKTKVMCFercGUBsJwKN5CQp3QS3AnM/9mahVogf4RBsGKu3slyuSeby5/gqUFASsMMxmo=
+X-Received: by 2002:a17:906:e115:: with SMTP id
+ gj21mr17412905ejb.348.1636707521668; 
+ Fri, 12 Nov 2021 00:58:41 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/uDmoW7.odYc6tgDH2PISEz2";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+References: <20211109173357.780-1-tharvey@gateworks.com>
+ <CAHCN7xJAW40xvLpBttWRfbv=Pz=HeCbX+g2uZa6CabiqLqG3PA@mail.gmail.com>
+ <aa73406a-7007-0d66-40ba-dd1d71780249@denx.de>
+ <CAJ+vNU1fJwimBO3t42wmgBzS8t2iyj=TfL9=chPW-OMbFz1S0A@mail.gmail.com>
+ <CAMty3ZAEdtMG2cco0DN93MO0De3fUAhsQVpi_qQ2r8grQbCdpg@mail.gmail.com>
+ <CAMty3ZAGtZaqaU0BhW3Usbmk7FUVMT3MTzH6kcDL_7st2oecSA@mail.gmail.com>
+ <CAJ+vNU2MFj5rS8pRW4+7VAdXfnjBgVECb2SDSP=KAeKZf5WYqQ@mail.gmail.com>
+ <20211112084159.GA9119@pengutronix.de>
+In-Reply-To: <20211112084159.GA9119@pengutronix.de>
+From: Jagan Teki <jagan@amarulasolutions.com>
+Date: Fri, 12 Nov 2021 14:28:30 +0530
+Message-ID: <CAMty3ZCwCx+CHk5Tggtjc7770LEZ9rYAt+HJkEc51PMGegADWQ@mail.gmail.com>
+Subject: Re: [RFC] arm64: dts: imx8mm: Add MIPI and LCDIF nodes
+To: Michael Tretter <m.tretter@pengutronix.de>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Dae <inki.dae@samsung.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,186 +69,202 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jani Nikula <jani.nikula@intel.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Michel =?UTF-8?B?RMOkbnplcg==?= <michel@daenzer.net>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Peter Robinson <pbrobinson@gmail.com>, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Marek Vasut <marex@denx.de>, dri-devel <dri-devel@lists.freedesktop.org>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Tommaso Merciai <tomm.merciai@gmail.com>, Adam Ford <aford173@gmail.com>,
+ NXP Linux Team <linux-imx@nxp.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/uDmoW7.odYc6tgDH2PISEz2
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On Fri, Nov 12, 2021 at 2:12 PM Michael Tretter
+<m.tretter@pengutronix.de> wrote:
+>
+> On Thu, 11 Nov 2021 13:21:03 -0800, Tim Harvey wrote:
+> > On Thu, Nov 11, 2021 at 2:19 AM Jagan Teki <jagan@amarulasolutions.com> wrote:
+> > > On Wed, Nov 10, 2021 at 11:58 PM Jagan Teki <jagan@amarulasolutions.com> wrote:
+> > > > On Wed, Nov 10, 2021 at 2:24 AM Tim Harvey <tharvey@gateworks.com> wrote:
+> > > > > On Tue, Nov 9, 2021 at 12:39 PM Marek Vasut <marex@denx.de> wrote:
+> > > > > > On 11/9/21 8:35 PM, Adam Ford wrote:
+> > > > > >
+> > > > > > [...]
+> > > > > >
+> > > > > > >> diff --git a/arch/arm64/boot/dts/freescale/imx8mm.dtsi b/arch/arm64/boot/dts/freescale/imx8mm.dtsi
+> > > > > > >> index 208a0ed840f4..195dcbff7058 100644
+> > > > > > >> --- a/arch/arm64/boot/dts/freescale/imx8mm.dtsi
+> > > > > > >> +++ b/arch/arm64/boot/dts/freescale/imx8mm.dtsi
+> > > > > > >> @@ -188,6 +188,12 @@
+> > > > > > >>                  clock-output-names = "clk_ext4";
+> > > > > > >>          };
+> > > > > > >>
+> > > > > > >> +       mipi_phy: mipi-video-phy {
+> > > > > > >> +               compatible = "fsl,imx8mm-mipi-video-phy";
+> > > > > > >> +               syscon = <&disp_blk_ctrl>;
+> > > > > > >> +               #phy-cells = <1>;
+> > > > > > >> +       };
+> > > > > > >> +
+> > > > > > >>          psci {
+> > > > > > >>                  compatible = "arm,psci-1.0";
+> > > > > > >>                  method = "smc";
+> > > > > > >> @@ -1068,6 +1074,68 @@
+> > > > > > >>                          #size-cells = <1>;
+> > > > > > >>                          ranges = <0x32c00000 0x32c00000 0x400000>;
+> > > > > > >>
+> > > > > > >> +                       lcdif: lcdif@32e00000 {
+> > > > > > >> +                               #address-cells = <1>;
+> > > > > > >> +                               #size-cells = <0>;
+> > > > > > >> +                               compatible = "fsl,imx8mm-lcdif", "fsl,imx6sx-lcdif";
+> > > > > > >
+> > > > > > > The compatible "imx6sx-lcdif" implies MXSFB_V6.  FWICT, it is like
+> > > > > > > MXSFB_V4, but with overlays and those overlays have more registers
+> > > > > > > configured in the mxsfb_kms driver.  Have you tried using imx28-lcdif
+> > > > > > > to see if it makes a difference?
+> > > > > >
+> > > > > > Indeed, MX6SX has AS overlay plane support, MX{2,}8 does not.
+> > > > > >
+> > > > > > LCDIFv3 (as NXP calls it) in MX8MP is like LCDIFv6 (in MX6SX) with
+> > > > > > slightly reordered register bits, but nothing like LCDIF rev3 (in MX23)
+> > > > > > ... just to make sure there is no confusion.
+> > > > > >
+> > > > > > [...]
+> > > > > >
+> > > > > > >> +                       mipi_dsi: mipi_dsi@32e10000 {
+> > > > > > >> +                               #address-cells = <1>;
+> > > > > > >> +                               #size-cells = <0>;
+> > > > > > >> +                               compatible = "fsl,imx8mm-mipi-dsim";
+> > > > > > >> +                               reg = <0x32e10000 0x400>;
+> > > > > > >> +                               clocks = <&clk IMX8MM_CLK_DSI_CORE>,
+> > > > > > >> +                                        <&clk IMX8MM_CLK_DSI_PHY_REF>;
+> > > > > > >> +                               clock-names = "bus_clk", "sclk_mipi";
+> > > > > > >> +                               assigned-clocks = <&clk IMX8MM_CLK_DSI_CORE>,
+> > > > > > >> +                                                 <&clk IMX8MM_VIDEO_PLL1_OUT>,
+> > > > > > >> +                                                 <&clk IMX8MM_CLK_DSI_PHY_REF>;
+> > > > > > >> +                               assigned-clock-parents = <&clk IMX8MM_SYS_PLL1_266M>,
+> > > > > > >> +                                                        <&clk IMX8MM_VIDEO_PLL1_BYPASS>,
+> > > > > > >> +                                                        <&clk IMX8MM_VIDEO_PLL1_OUT>;
+> > > > > > >> +                               assigned-clock-rates = <266000000>, <594000000>, <27000000>;
+> > > > > > >> +                               interrupts = <GIC_SPI 18 IRQ_TYPE_LEVEL_HIGH>;
+> > > > > > >> +                               phys = <&mipi_phy 0>;
+> > > > > > >> +                               phy-names = "dsim";
+> > > > > > >> +                               power-domains = <&disp_blk_ctrl IMX8MM_DISPBLK_PD_MIPI_DSI>;
+> > > > > > >> +                               samsung,burst-clock-frequency = <891000000>;
+> > > > > > >> +                               samsung,esc-clock-frequency = <54000000>;
+> > > > > > >> +                               samsung,pll-clock-frequency = <27000000>;
+> > > > > >
+> > > > > > This 27 MHz is really IMX8MM_CLK_DSI_PHY_REF and
+> > > > > > samsung,burst-clock-frequency is really the DSI link clock which is
+> > > > > > panel/bridge specific ... but, why do we need to specify such policy in
+> > > > > > DT rather than have the panel/bridge drivers negotiate the best clock
+> > > > > > settings with DSIM bridge driver ? This should be something which should
+> > > > > > be implemented in the DRM subsystem, not hard-coded in DT. These ad-hoc
+> > > > > > samsung,*-clock-frequency properties shouldn't even be needed then.
+> > > > > >
+> > > > > > Also, are the DSIM bindings stable now ?
+> > > > >
+> > > > > Thanks Marek.
+> > > > >
+> > > > > No, there is no dsim driver yet. I'm not clear if there is still
+> > > > > dissagreement on if the drm/exynos driver can be split up or if a
+> > > > > whole new somewhat duplicate driver needs to be made. I know Jagan
+> > > > > also has a series he is working on that uses drm/exynos which I
+> > > > > believe he will share an update on in a day or so.
+> > > > >
+> > > > > I'm still using the work that Michael [1] and you [2] did a long time back.
+> > > > >
+> > > > > I had this solution working on a 5.10 kernel but it was based on the
+> > > > > old unapproved IMX8MM blk-ctl and pd drivers. Therefore I believe the
+> > > > > issue I'm having is something not setup correctly with blk-ctl per my
+> > > > > dt settings or perhaps something missing from the blk-ctl driver like
+> > > > > Adam found [3]
+> > > > >
+> > > > > I am hanging at:
+> > > > > [    1.064088] imx_pgc_power_up gpumix
+> > > > > [    1.077506] imx_pgc_power_down gpumix
+> > > > > [    1.097685] imx8m_blk_ctrl_power_on dispblk-mipi-dsi
+> > > > > [    1.102682] imx_pgc_power_up dispmix
+> > > > > [    1.106825] imx_pgc_power_up mipi
+> > > > > [    1.110232] imx-dsim-dsi 32e10000.mipi_dsi: supply vddcore not
+> > > > > found, using dummy regulator
+> > > > > [    1.118760] imx-dsim-dsi 32e10000.mipi_dsi: supply vddio not found,
+> > > > > using dummy regulator
+> > > > > [    1.127361] imx-dsim-dsi 32e10000.mipi_dsi: [drm] *ERROR* modalias
+> > > > > failure on /soc@0/bus@32c00000/mipi_dsi@32e10000/port@0
+> > > > > [    1.138676] imx8m_blk_ctrl_power_off dispblk-mipi-dsi
+> > > > > [    1.143788] imx_pgc_power_down mipi
+> > > > > [    1.145278] imx8m_blk_ctrl_power_on dispblk-lcdif
+> > > > > [    1.147316] imx_pgc_power_down dispmix
+> > > > > [    1.155804] imx_pgc_power_up dispmix
+> > > > > [    1.159820] [drm:drm_bridge_attach] *ERROR* failed to attach bridge
+> > > > > /soc@0/bus@32c00000/mipi_dsi@32e10000 to encoder None-34: -517
+> > > > > ^^^ this is just a defer
+> > > > > [    1.171789] imx8m_blk_ctrl_power_off dispblk-lcdif
+> > > > > [    1.176655] imx_pgc_power_down dispmix
+> > > > > [    1.181790] libphy: fec_enet_mii_bus: probed
+> > > > > [    3.915806] panel-simple panel: Expected bpc in {6,8} but got: 0
+> > > > > ^^^ not sure what this is but had it back in my 5.10 solution as well
+> > > > > so did not investigate
+> > > > > [    3.921912] imx8m_blk_ctrl_power_on dispblk-mipi-dsi
+> > > > > [    3.926936] imx_pgc_power_up dispmix
+> > > > > [    3.931109] imx_pgc_power_up mipi
+> > > > > [    3.935409] imx8m_blk_ctrl_power_on dispblk-lcdif
+> > > > > [    3.940547] imx8m_blk_ctrl_power_off dispblk-lcdif
+> > > > > [    3.945626] [drm] Initialized mxsfb-drm 1.0.0 20160824 for
+> > > > > 32e00000.lcdif on minor 0
+> > > > > ^^^ not clear why dispblk-lcdif got disabled here
+> > > >
+> > > > I've reproduced this. look like lcdif power-domains are not notified
+> > > > ON. checking on the power-sequence for lcdif side. old patches from
+> > > > Lucas on v5.13 seems working as expected.
+> > >
+> > > I've found the issue on lcdif atomic_enable, where the bus format is
+> > > retrieved from NULL bus_state. Here is the diff for it.
+> > >
+> > > --- a/drivers/gpu/drm/mxsfb/mxsfb_kms.c
+> > > +++ b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
+> > > @@ -359,13 +359,14 @@ static void mxsfb_crtc_atomic_enable(struct
+> > > drm_crtc *crtc,
+> > >         drm_crtc_vblank_on(crtc);
+> > >
+> > >         /* If there is a bridge attached to the LCDIF, use its bus format */
+> > > -       if (mxsfb->bridge) {
+> > > +       if (mxsfb->bridge && state) {
+> > >                 bridge_state =
+> > >                         drm_atomic_get_new_bridge_state(state,
+> > >                                                         mxsfb->bridge);
+> > > -               bus_format = bridge_state->input_bus_cfg.format;
+> > > +               if (bridge_state)
+> > > +                       bus_format = bridge_state->input_bus_cfg.format;
+> > >'
+> > > I believe this can be fixed via DSIM bridge. working on for those
+> > > changes, the key challenges is to make the DSIM to work even for
+> > > exynos, which indeed blocker for me to validate in hardware (i don't
+> > > have DSI based exynos).
+> > >
+> > > Meanwhile, I have posed RFC for DSIM DTS changes, please check it here.
+> > > https://patchwork.kernel.org/project/dri-devel/cover/20211111101456.584061-1-jagan@amarulasolutions.com/
+> > >
+> >
+> > Jagan,
+> >
+> > Thank you! This does resolve the hang on my end as well. I will look
+> > at your 'arm64: imx8mm: Add MIPI DSI support' series.
+> >
+> > There was some discussion regarding giving up on trying to split up
+> > the exynos driver such that it could work with IMX8MM vs just
+> > duplicating it. I thought the recommendation was to duplicate it as it
+> > wasn't clear if there was a way to split it out without breaking
+> > current exynos DSI but I'll have to see if I can find the thread.
+>
+> The thread is here:
+>
+> https://lore.kernel.org/all/CAKMK7uF0B1TrtVX+9Whasz49quha_is+77z2wX3c06BsWRiPcQ@mail.gmail.com/
+>
+> Duplicating seems to be the best way forward, because the Exynos driver
+> exposes some special behavior (discussed earlier in the same thread), which
+> isn't compatible with how bridges work.
 
-On Mon, 8 Nov 2021 15:17:13 +0100
-Thomas Zimmermann <tzimmermann@suse.de> wrote:
+Not quite sure about it. Laurent and Inki had similar discussion and
+looking for common bridge [1].
 
-> Hi
->=20
-> Am 08.11.21 um 15:06 schrieb Javier Martinez Canillas:
-> > There is a lot of historical baggage on this parameter. It is defined in
-> > the vgacon driver as nomodeset, but its set function is called text_mod=
-e()
-> > and the value queried with a function named vgacon_text_force().
-> >=20
-> > All this implies that it's about forcing text mode for VGA, yet it is n=
-ot
-> > used in neither vgacon nor other console driver. The only users for the=
-se
-> > are DRM drivers, that check for the vgacon_text_force() return value to
-> > determine whether the driver should be loaded or not.
-> >=20
-> > That makes it quite confusing to read the code, because the variables a=
-nd
-> > function names don't reflect what they actually do and also are not in =
-the
-> > same subsystem as the drivers that make use of them.
-> >=20
-> > This patch-set attempts to cleanup the code by moving the nomodseset pa=
-ram
-> > to the DRM subsystem and do some renaming to make their intention clear=
-er.
-> >=20
-> > This is a v4 of the patches, that address issues pointed out by Thomas
-> > Zimmermann in v3: https://lkml.org/lkml/2021/11/8/384
-> >=20
-> > Patch #1 and #2 are just trivial cleanups.
-> >=20
-> > Patch #3 moves the nomodeset boot option to the DRM subsystem and renam=
-es
-> > the variables and functions names.
-> >=20
-> > Patch #4 removes the relationship between the nomodeset parameter and t=
-he
-> > CONFIG_VGA_CONSOLE Kconfig symbol.
-> >=20
-> > Patch #5 adds nomodeset to the kernel parameters documentation.
-> >=20
-> > Patch #6 improves the message when nomodeset is enabled to make it more
-> > accurate and less sensational. =20
->=20
-> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+[1] https://patchwork.kernel.org/project/linux-arm-kernel/patch/20210704090230.26489-7-jagan@amarulasolutions.com/
 
-Hi,
-
-these ideas make sense to me, so FWIW,
-
-Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-
-There is one nitpick I'd like to ask about:
-
-+bool drm_get_modeset(void)
-+{
-+	return !drm_nomodeset;
-+}
-+EXPORT_SYMBOL(drm_get_modeset);
-
-Doesn't "get" have a special meaning in the kernel land, like "take a
-strong reference on an object and return it"?
-
-As this is just returning bool without changing anything, the usual
-word to use is "is". Since this function is also used at most once per
-driver, which is rarely, it could have a long and descriptive name.
-
-For example:
-
-bool drm_is_modeset_driver_allowed(void);
-
-- "drm" is the namespace
-- "is" implies it is a read-only boolean inspection
-- "modeset" is the feature being checked
-- "driver" implies it is supposed gate driver loading or
-  initialization, rather than modesets after drivers have loaded
-- "allowed" says it is asking about general policy rather than what a
-  driver does
-
-Just a bikeshed, I'll leave it to actual kernel devs to say if this
-would be more appropriate or worth it.
-
-
-Thanks,
-pq
-
->=20
-> Best regards
-> Thomas
->=20
-> >=20
-> > Changes in v4:
-> > - Don't mention the simpledrm driver and instead explain in high level
-> >    terms what the nomodeset option is about.
-> > - Don't mention DRM drivers in the kernel message and instead explain
-> >    that only the system framebuffer will be available.
-> >=20
-> > Changes in v3:
-> > - Drop the drm_drv_enabled() function and just call to drm_get_modeset(=
-).
-> > - Make drm_get_modeset() just a getter function and don't return an err=
-or.
-> > - Move independent cleanups in drivers as separate preparatory patches.
-> >=20
-> > Changes in v2:
-> > - Conditionally build drm_nomodeset.o if CONFIG_VGA_CONSOLE is set.
-> > - Squash patches to move nomodeset logic to DRM and do the renaming.
-> > - Name the function drm_check_modeset() and make it return -ENODEV.
-> > - Squash patch to add drm_drv_enabled() and make drivers use it.
-> > - Make the drivers changes before moving nomodeset logic to DRM.
-> > - Make drm_drv_enabled() return an errno and -ENODEV if nomodeset.
-> > - Remove debug and error messages in drivers.
-> >=20
-> > Javier Martinez Canillas (6):
-> >    drm: Don't print messages if drivers are disabled due nomodeset
-> >    drm/vboxvideo: Drop CONFIG_VGA_CONSOLE guard to call
-> >      vgacon_text_force()
-> >    drm: Move nomodeset kernel parameter to the DRM subsystem
-> >    drm: Decouple nomodeset from CONFIG_VGA_CONSOLE
-> >    Documentation/admin-guide: Document nomodeset kernel parameter
-> >    drm: Make the nomodeset message less sensational
-> >=20
-> >   .../admin-guide/kernel-parameters.txt         |  7 ++++++
-> >   drivers/gpu/drm/Kconfig                       |  6 +++++
-> >   drivers/gpu/drm/Makefile                      |  2 ++
-> >   drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c       |  6 ++---
-> >   drivers/gpu/drm/ast/ast_drv.c                 |  4 ++--
-> >   drivers/gpu/drm/drm_nomodeset.c               | 24 +++++++++++++++++++
-> >   drivers/gpu/drm/i915/i915_module.c            |  4 ++--
-> >   drivers/gpu/drm/mgag200/mgag200_drv.c         |  4 ++--
-> >   drivers/gpu/drm/nouveau/nouveau_drm.c         |  4 ++--
-> >   drivers/gpu/drm/qxl/qxl_drv.c                 |  4 ++--
-> >   drivers/gpu/drm/radeon/radeon_drv.c           | 10 +++-----
-> >   drivers/gpu/drm/tiny/bochs.c                  |  4 ++--
-> >   drivers/gpu/drm/tiny/cirrus.c                 |  5 ++--
-> >   drivers/gpu/drm/vboxvideo/vbox_drv.c          |  6 ++---
-> >   drivers/gpu/drm/virtio/virtgpu_drv.c          |  4 ++--
-> >   drivers/gpu/drm/vmwgfx/vmwgfx_drv.c           |  4 ++--
-> >   drivers/video/console/vgacon.c                | 21 ----------------
-> >   include/drm/drm_mode_config.h                 |  2 ++
-> >   include/linux/console.h                       |  6 -----
-> >   19 files changed, 67 insertions(+), 60 deletions(-)
-> >   create mode 100644 drivers/gpu/drm/drm_nomodeset.c
-> >  =20
->=20
-
-
---Sig_/uDmoW7.odYc6tgDH2PISEz2
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmGOLEkACgkQI1/ltBGq
-qqeYCBAAjfpJUBiErXdArAOPClITMDPIkF6RinQevM2YjJX1nJIkCnSl24xjbu5Q
-y5TJO5LQgt/uU4QWlJXcsgHUgh8xbj76D6mlab5cJdMMbNRc5FitUuHIwfxEcGY8
-Rjr81VxhDBy7fPUX2SSdEgZfiChqw4OmaljsbqR/ewPmVrmDWui6Nsuqla4GYV/M
-CRg4Sp0HsIO6b6l5dsuJdSNfq7YOQlQLf8/VEA+ttC4ZMlzZHPLnbe+o/DFHtQNl
-gnrRB2+je5RhPLln+hx+m7THTef1Iog5jWTlENFbJ/Tza2WBWkRZZ15g84R74TrA
-24PvqkP8s1wflfn9reQG/Z9Z6jKP8d1/4GFDto+tPbd4j3NqcO6D7TxmlWxrXvia
-yIuXxH4Xwei4HFhU60pUs/NOFQsSG4Faqt7SzWPL4UaRdo+45IFkdTl6xlwLj45d
-ELxok2mjF9jpXyQBkOF20y8NysSEAiUBGAwJF8EoE4Nb5uB3lPPvGJ3RGnGYSwHv
-bixQd8YovE+VmYctKAyu7Q7H+m+6RDPrR2uaKGcZWXnC7gZK/ShTBQ51OVFHal7u
-6cuASNf9LwpLdZmz9OibrKEQcR6qbBawoHXkbNo2Bn7EUz9Ns634AXU+U9L+g9Sz
-oOHKxww3B7J0fB0jdIaA8AR0iN1oKJiIScFIvme2/9ONLpV5vzg=
-=2BCR
------END PGP SIGNATURE-----
-
---Sig_/uDmoW7.odYc6tgDH2PISEz2--
+Jagan.
