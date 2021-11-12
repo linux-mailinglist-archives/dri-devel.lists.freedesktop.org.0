@@ -2,74 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AD8644E8FF
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Nov 2021 15:32:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5CAE44E92C
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Nov 2021 15:48:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C4926EB6B;
-	Fri, 12 Nov 2021 14:32:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C7B189E0D;
+	Fri, 12 Nov 2021 14:47:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com
- [IPv6:2a00:1450:4864:20::229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B6DE6EB6B
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Nov 2021 14:32:46 +0000 (UTC)
-Received: by mail-lj1-x229.google.com with SMTP id e9so18891401ljl.5
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Nov 2021 06:32:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Jt2s5eE/KZv2f777KX1QTyz+OLPwPl/PkMsoEbWrCGs=;
- b=i23UwZ6HE1MO8waAeRtHPEn5k2yNK9USGUt+trHLji3BvDimp03/SrKGm5JUcuPans
- V2/TQzharlHbqb+MaQ1aMV27Gs8R3tAuLPvDAjlf/zDn20Fbec0kYackzhXzZLqy8xn9
- aKXx/PgK0jKx1h/u7Wym5icG4tk83l0fRUIOBrGhQgv/KOoNf4W+SwqcmBWdaoEUpDeD
- EOQQbi+V7qBN2WeS2dUcCBnvlxlHnlJ6YTJWP0TxpLJp9L8HZaKDePAwt9caVX2rmlro
- K7Cf9DvOJ5Om9RDx7yiHFE1+L9udwpYmvO4rC29zzz8XQ0/qmvrn3wH/gZsH0UTAVs4P
- Vopw==
+Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com
+ [209.85.210.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C48E6E047
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Nov 2021 14:47:54 +0000 (UTC)
+Received: by mail-ot1-f52.google.com with SMTP id
+ a23-20020a9d4717000000b0056c15d6d0caso7030940otf.12
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Nov 2021 06:47:54 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Jt2s5eE/KZv2f777KX1QTyz+OLPwPl/PkMsoEbWrCGs=;
- b=6hDTXgWVuo859CUvgPGslD8jHJ1Xy+AHObm8QUNsAHr1E4pCLwCBZeZ4wLnyRkOowQ
- Grq3IoP+LWEfI41q2u4U9azfBMOPdwaYVlendVNffgQ0XtUwWJKppKlVvCmhFaO5uh5N
- H866V8UiIGUFycdBMbwx5RCbnhcSt16xDH8RgyfWoAJaVSSt+d26bNqmHNTUruBZdPeL
- p71Xwn4YriRzXaOdLoNQgfa6RZ3yhSmnXu0MwJpbBu8Ybe9BPzBrOd2BraiOEcNdc/2Q
- 1LXZixERSV9minTaC2WKBc1Ds4SXFpA6WgKXa2lwgjRk0CbeD9ZR0oEn6voIY288hk4l
- AU7w==
-X-Gm-Message-State: AOAM532SUG2Ss3TtG59paVYPD7ZyxQhxlJjt4ltyGzNCtiTqTe9UFx4I
- oET/FveCb9AIJRY77za2Dm0=
-X-Google-Smtp-Source: ABdhPJxBQ423Ld/XMxX+l3TnJVKv96QnKYPBK0REIsPD1NSxn+CW9FihZYNXZBK1woVGv7zwysv0DA==
-X-Received: by 2002:a2e:a376:: with SMTP id i22mr15560272ljn.201.1636727564749; 
- Fri, 12 Nov 2021 06:32:44 -0800 (PST)
-Received: from [192.168.2.145] (79-139-177-117.dynamic.spd-mgts.ru.
- [79.139.177.117])
- by smtp.googlemail.com with ESMTPSA id bn3sm573660ljb.7.2021.11.12.06.32.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 12 Nov 2021 06:32:44 -0800 (PST)
-Subject: Re: [PATCH v1 2/2] drm/tegra: Use drm_dp_aux_register_ddc/chardev()
- helpers
-To: Thierry Reding <thierry.reding@gmail.com>
-References: <20211107230821.13511-1-digetx@gmail.com>
- <20211107230821.13511-2-digetx@gmail.com>
- <YYk/jfcceun/Qleq@phenom.ffwll.local>
- <0a2c02ae-3fe1-e384-28d3-13e13801d675@gmail.com>
- <YYo9IXjevmstSREu@phenom.ffwll.local>
- <857a48ae-9ff4-89fe-11ce-5f1573763941@gmail.com>
- <efdc184a-5aa3-1141-7d74-23d29da41f2d@gmail.com>
- <71fcbc09-5b60-ee76-49b2-94adc965eda5@gmail.com>
- <49ffd29b-eb64-e0ca-410c-44074673d740@gmail.com>
- <YY5HfUUSmnr6qQSU@orome.fritz.box>
-From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <5ee3f964-39ec-f6e2-5a01-230532a8b17e@gmail.com>
-Date: Fri, 12 Nov 2021 17:32:43 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=MqpVUsLYNqsJjO4ImeTejjx8SUZnfDjbhJPSiiUyJOQ=;
+ b=Wiwjnds4Tey/cJdAo0Iy15WP1zLRYUAtnuaPzlHH4rH2W5SnQUGixJekqUPY4kjmy4
+ C0pRemEGt+8dy61lu1CimbKIGU8OJ/MGV7rUPpMTWoa71y1RmjzAOtXpB7yPPacAkXIR
+ IBnTflCKGaLqpYF84ubkF9j/X8E0QzvgmJJX4XmDijibml9xvJaDWj8sNqK6vTTnTJQ0
+ 3BgrHBFh2LvgD1oIY2yHoZAqLmUAG+U3HNb7bkSMaPSRbzj43bSi6jAwGt15i6xyW3GQ
+ 4VebnTjGo6ea18CiIw3SAcoh7xw6+4PMCwQAetHJut76i8ORev+Ej15pOZICpNJVS3Fl
+ 5oXg==
+X-Gm-Message-State: AOAM53214g+GWsl/jGX+Wd5NTRKKHP0LyLUmu/7xjmpY58pz0XjxaNDI
+ HuHjpyClj3xYw8yXLieH8w==
+X-Google-Smtp-Source: ABdhPJzDQAhXlkjwRvi5urW+7d003gcUAFjnSG2AHX4B3iXy467gNUrRe93n1Idba1w8d58aLwaeMw==
+X-Received: by 2002:a9d:326:: with SMTP id 35mr11139198otv.41.1636728473571;
+ Fri, 12 Nov 2021 06:47:53 -0800 (PST)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net.
+ [66.90.148.213])
+ by smtp.gmail.com with ESMTPSA id g26sm1280650ots.25.2021.11.12.06.47.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 12 Nov 2021 06:47:52 -0800 (PST)
+Received: (nullmailer pid 2736205 invoked by uid 1000);
+ Fri, 12 Nov 2021 14:47:46 -0000
+Date: Fri, 12 Nov 2021 08:47:46 -0600
+From: Rob Herring <robh@kernel.org>
+To: "H. Nikolaus Schaller" <hns@goldelico.com>
+Subject: Re: [PATCH v6 3/8] dt-bindings: display: Add ingenic,jz4780-dw-hdmi
+ DT Schema
+Message-ID: <YY5+kgNRlKHIGPlO@robh.at.kernel.org>
+References: <cover.1636573413.git.hns@goldelico.com>
+ <70f2abb5277369721cb352eb50daa407bee3fd04.1636573413.git.hns@goldelico.com>
+ <1636642646.871896.3774079.nullmailer@robh.at.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <YY5HfUUSmnr6qQSU@orome.fritz.box>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1636642646.871896.3774079.nullmailer@robh.at.kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,61 +64,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- Thomas Graichen <thomas.graichen@gmail.com>, linux-kernel@vger.kernel.org,
- Jonathan Hunter <jonathanh@nvidia.com>, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-tegra@vger.kernel.org
+Cc: Mark Rutland <mark.rutland@arm.com>, Paul Boddie <paul@boddie.org.uk>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Paul Cercueil <paul@crapouillou.net>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Miquel Raynal <miquel.raynal@bootlin.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, linux-mips@vger.kernel.org,
+ devicetree@vger.kernel.org, Kees Cook <keescook@chromium.org>,
+ Jonas Karlman <jonas@kwiboo.se>, Mark Brown <broonie@kernel.org>,
+ Maxime Ripard <maxime@cerno.tech>, letux-kernel@openphoenux.org,
+ Ezequiel Garcia <ezequiel@collabora.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Liam Girdwood <lgirdwood@gmail.com>, Robert Foss <robert.foss@linaro.org>,
+ "Eric W. Biederman" <ebiederm@xmission.com>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-12.11.2021 13:52, Thierry Reding пишет:
-> On Tue, Nov 09, 2021 at 05:39:02PM +0300, Dmitry Osipenko wrote:
->> 09.11.2021 17:17, Dmitry Osipenko пишет:
->>> 09.11.2021 17:08, Dmitry Osipenko пишет:
->>>>> +static void host1x_drm_dev_deinit(struct host1x_device *dev)
->>>>> +{
->>>>> +	struct drm_device *drm = dev_get_drvdata(&dev->dev);
->>>> And platform_unregister_drivers() should be moved here.
->>>>
->>>
->>> Nah, that should cause deadlock. This ad-hoc is too lame.
->>
->> Actually, there is no problem here as I see now. The host1x driver
->> populates DT nodes after host1x_register() [1], meaning that Host1x DRM
->> will be always inited first.
->>
->> [1]
->> https://elixir.bootlin.com/linux/v5.15/source/drivers/gpu/host1x/dev.c#L475
->>
->> Still I'm not a fan of the ad-hoc solution.
+On Thu, Nov 11, 2021 at 08:57:26AM -0600, Rob Herring wrote:
+> On Wed, 10 Nov 2021 20:43:28 +0100, H. Nikolaus Schaller wrote:
+> > From: Sam Ravnborg <sam@ravnborg.org>
+> > 
+> > Add DT bindings for the hdmi driver for the Ingenic JZ4780 SoC.
+> > Based on .txt binding from Zubair Lutfullah Kakakhel
+> > 
+> > We also add add generic ddc-i2c-bus to synopsys,dw-hdmi.yaml
+> > 
+> > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> > Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
+> > Cc: Rob Herring <robh@kernel.org>
+> > Cc: devicetree@vger.kernel.org
+> > ---
+> >  .../display/bridge/synopsys,dw-hdmi.yaml      |  3 +
+> >  .../bindings/display/ingenic-jz4780-hdmi.yaml | 76 +++++++++++++++++++
+
+This goes in display/bridge/. And use compatible string for the file 
+name: ingenic,jz4780-hdmi.yaml
+
+> >  2 files changed, 79 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/display/ingenic-jz4780-hdmi.yaml
+> > 
 > 
-> Could we not fix this by making the panel "hot-pluggable"? I don't think
-> there's anything inherent to the driver that would prevent doing so. The
-> original reason for why things are as intertwined as they are now is
-> because back at the time deferred framebuffer creation didn't exist. In
-> fact I added deferred framebuffer support with Daniel's help precisely
-> to fix a similar issue for things like HDMI and DP.
-
-I don't understand what do you mean by "hot-pluggable", panel is static.
-Please either clarify more or type the patch.
-
-Keep in mind that fix should be simple and portable because stable
-kernels are wrecked.
-
-> With HDMI and DP it's slightly less critical, because a lack of mode
-> support would've created a 1024x768 framebuffer, which most HDMI/DP
-> monitors support. However, with panels we need to ensure that the exact
-> mode from the panel is used to create the framebuffer, so it can only be
-> created when the panel is available.
+> My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+> on your patch (DT_CHECKER_FLAGS is new in v5.13):
 > 
-> But, given that deferred framebuffer creation works now (which allows
-> the framebuffer console to show up at the preferred resolution for HDMI
-> and DP), even if a monitor is attached only after the driver has probed
-> already, we should be able to make something like that work with panels
-> as well.
+> yamllint warnings/errors:
+> ./Documentation/devicetree/bindings/display/ingenic-jz4780-hdmi.yaml:36:5: [warning] wrong indentation: expected 2 but found 4 (indentation)
+> 
+> dtschema/dtc warnings/errors:
+> /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/ingenic-jz4780-hdmi.example.dt.yaml: hdmi@10180000: 'clock-names', 'ddc-i2c-bus', 'interrupt-parent', 'interrupts', 'reg' do not match any of the regexes: 'pinctrl-[0-9]+'
+> 	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/ingenic-jz4780-hdmi.yaml
 
-BTW, I see now that DPAUX I2C transfer helper may access
-aux->drm_device. Hence v1 patch isn't correct anyways.
+I think you need to use 'unevaluatedPropertes' instead of 
+'additionalProperties' if you are getting these properties from 
+synopsys,dw-hdmi.yaml.
 
-For now I'll try to test more the ad-hoc variant with Thomas and send it
-as v2 if we won't have a better solution.
+Rob
