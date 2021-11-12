@@ -2,38 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 296D044EE3A
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Nov 2021 21:57:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A70744EE55
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Nov 2021 22:04:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E747D6E0B8;
-	Fri, 12 Nov 2021 20:57:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F2BD6E0D0;
+	Fri, 12 Nov 2021 21:04:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 098CE6E0AD;
- Fri, 12 Nov 2021 20:57:29 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10166"; a="233050003"
-X-IronPort-AV: E=Sophos;i="5.87,230,1631602800"; d="scan'208";a="233050003"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Nov 2021 12:57:29 -0800
-X-IronPort-AV: E=Sophos;i="5.87,230,1631602800"; d="scan'208";a="643718298"
-Received: from jons-linux-dev-box.fm.intel.com (HELO jons-linux-dev-box)
- ([10.1.27.20])
- by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Nov 2021 12:57:29 -0800
-Date: Fri, 12 Nov 2021 12:51:51 -0800
-From: Matthew Brost <matthew.brost@intel.com>
-To: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
-Subject: Re: [PATCH] drm/i915/pmu: Increase the live_engine_busy_stats sample
- period
-Message-ID: <20211112205151.GA9801@jons-linux-dev-box>
-References: <20211112025222.61031-1-umesh.nerlige.ramappa@intel.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 92E6B6E0B9;
+ Fri, 12 Nov 2021 21:04:47 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E791961073;
+ Fri, 12 Nov 2021 21:04:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1636751087;
+ bh=2qqkfvtrJGfj9ZmJlWd38i/WX7gF70C3dBf8RQ5wumo=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=nWKXnUDGWsUMLljZWwy6cLNXVB7K6pvM4TVC63shKrCJ5ntl7jiI7TyjgjN/DaUgG
+ 1tszX3FTcILOCU+Nzwm1U1DTeeCfmc/WUEkmjj0f2OPtZuWxsclChON1UpBvydc0VV
+ 4NhNTvosABJqwc7rr070zxyPklpS/MA+wM61TaEwbyFSLKlpKflfSgfjzebN7VrtDp
+ Olj/uhTTwVazAwg4w2O8yXqbf3mnsbcd++WIU1H6g9zf7z2EhgQoVCfrBTIgSNHU4X
+ Tzyg3w+4BNBZsfP4xd3pLcCvxFOtB5vPBNK2VyW4vLOnAv9iFTU+8bLAw0Zw0cp0A5
+ kWvXSr6aG3QmA==
+Message-ID: <d7c27a98-a2da-17c8-22c3-e13fadbb9a8c@kernel.org>
+Date: Fri, 12 Nov 2021 13:04:46 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211112025222.61031-1-umesh.nerlige.ramappa@intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH 0/2] Nuke PAGE_KERNEL_IO
+Content-Language: en-US
+To: Lucas De Marchi <lucas.demarchi@intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ x86@kernel.org
+References: <20211021181511.1533377-1-lucas.demarchi@intel.com>
+From: Andy Lutomirski <luto@kernel.org>
+In-Reply-To: <20211021181511.1533377-1-lucas.demarchi@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,68 +51,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, john.c.harrison@intel.com,
- dri-devel@lists.freedesktop.org
+Cc: linux-arch@vger.kernel.org, Peter Zijlstra <peterz@infradead.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Dave Hansen <dave.hansen@linux.intel.com>, linux-kernel@vger.kernel.org,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ xen-devel@lists.xenproject.org, Thomas Gleixner <tglx@linutronix.de>,
+ Boris Ostrovsky <boris.ostrovsky@oracle.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Nov 11, 2021 at 06:52:22PM -0800, Umesh Nerlige Ramappa wrote:
-> Irrespective of the backend for request submissions, busyness for an
-> engine with an active context is calculated using:
+On 10/21/21 11:15, Lucas De Marchi wrote:
+> Last user of PAGE_KERNEL_IO is the i915 driver. While removing it from
+> there as we seek to bring the driver to other architectures, Daniel
+> suggested that we could finish the cleanup and remove it altogether,
+> through the tip tree. So here I'm sending both commits needed for that.
 > 
-> busyness = total + (current_time - context_switch_in_time)
+> Lucas De Marchi (2):
+>    drm/i915/gem: stop using PAGE_KERNEL_IO
+>    x86/mm: nuke PAGE_KERNEL_IO
 > 
-> In execlists mode of operation, the context switch events are handled
-> by the CPU. Context switch in/out time and current_time are captured
-> in CPU time domain using ktime_get().
+>   arch/x86/include/asm/fixmap.h             | 2 +-
+>   arch/x86/include/asm/pgtable_types.h      | 7 -------
+>   arch/x86/mm/ioremap.c                     | 2 +-
+>   arch/x86/xen/setup.c                      | 2 +-
+>   drivers/gpu/drm/i915/gem/i915_gem_pages.c | 4 ++--
+>   include/asm-generic/fixmap.h              | 2 +-
+>   6 files changed, 6 insertions(+), 13 deletions(-)
 > 
-> In GuC mode of submission, context switch events are handled by GuC and
-> the times in the above formula are captured in GT clock domain. This
-> information is shared with the CPU through shared memory. This results
-> in 2 caveats:
-> 
-> 1) The time taken between start of a batch and the time that CPU is able
-> to see the context_switch_in_time in shared memory is dependent on GuC
-> and memory bandwidth constraints.
-> 
-> 2) Determining current_time requires an MMIO read that can take anywhere
-> between a few us to a couple ms. A reference CPU time is captured soon
-> after reading the MMIO so that the caller can compare the cpu delta
-> between 2 busyness samples. The issue here is that the CPU delta and the
-> busyness delta can be skewed because of the time taken to read the
-> register.
-> 
-> These 2 factors affect the accuracy of the selftest -
-> live_engine_busy_stats. For (1) the selftest waits until busyness stats
-> are visible to the CPU. The effects of (2) are more prominent for the
-> current busyness sample period of 100 us. Increase the busyness sample
-> period from 100 us to 10 ms to overccome (2).
-> 
-> Signed-off-by: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
 
-Explaination of increased wait period makes sense to me.
-
-With that:
-Reviewed-by: Matthew Brost <matthew.brost@intel.com>
-
-> ---
->  drivers/gpu/drm/i915/gt/selftest_engine_pm.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/selftest_engine_pm.c b/drivers/gpu/drm/i915/gt/selftest_engine_pm.c
-> index 0bfd738dbf3a..96cc565afa78 100644
-> --- a/drivers/gpu/drm/i915/gt/selftest_engine_pm.c
-> +++ b/drivers/gpu/drm/i915/gt/selftest_engine_pm.c
-> @@ -316,7 +316,7 @@ static int live_engine_busy_stats(void *arg)
->  		ENGINE_TRACE(engine, "measuring busy time\n");
->  		preempt_disable();
->  		de = intel_engine_get_busy_time(engine, &t[0]);
-> -		udelay(100);
-> +		udelay(10000);
->  		de = ktime_sub(intel_engine_get_busy_time(engine, &t[1]), de);
->  		preempt_enable();
->  		dt = ktime_sub(t[1], t[0]);
-> -- 
-> 2.20.1
-> 
+Acked-by: Andy Lutomirski <luto@kernel.org>
