@@ -2,37 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9CA244F3C7
-	for <lists+dri-devel@lfdr.de>; Sat, 13 Nov 2021 15:51:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73F5D44F448
+	for <lists+dri-devel@lfdr.de>; Sat, 13 Nov 2021 18:07:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A954D6FAA2;
-	Sat, 13 Nov 2021 14:51:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 643F3730C2;
+	Sat, 13 Nov 2021 17:07:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC3406FA75
- for <dri-devel@lists.freedesktop.org>; Sat, 13 Nov 2021 14:51:51 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D720B60F55;
- Sat, 13 Nov 2021 14:51:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1636815111;
- bh=jGmB9l12slqlYECZsKytyWyiLK/2uH6ek7dFjEWaY9M=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=RpdF23io7YzBaTvc+iWU2wbo9cdR8LikD4vYTTckkLuzfagJfNDdNbVEALjOK4K/D
- T4PAIVoDTSeZ388GpoA7cIEBZGvlRKOqpAi1eEAuT4kL/7K+lyKMEexPNZqUzZKJDU
- jS3NpIunGH8zjxJ/gcLs52OG5f5X9ioSdRSggV5I=
-Date: Sat, 13 Nov 2021 15:51:48 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Gurchetan Singh <gurchetansingh@chromium.org>
-Subject: Re: [PATCH v3 11/12] drm/virtio: implement context init: add
- virtio_gpu_fence_event
-Message-ID: <YY/RBOdU6+SgbRrq@kroah.com>
-References: <20210921232024.817-1-gurchetansingh@chromium.org>
- <20210921232024.817-12-gurchetansingh@chromium.org>
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com
+ [IPv6:2a00:1450:4864:20::529])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA0A9730C2
+ for <dri-devel@lists.freedesktop.org>; Sat, 13 Nov 2021 17:07:09 +0000 (UTC)
+Received: by mail-ed1-x529.google.com with SMTP id r12so51308008edt.6
+ for <dri-devel@lists.freedesktop.org>; Sat, 13 Nov 2021 09:07:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linux-foundation.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=nRHTN+KJ/0jakG/3S1m86FduFSvoZNR/waj5CoABhhY=;
+ b=AI5EgBuhXv3ifPQ/QJGAcgXo9vjiG/by8UhhOa7KCZNrvEzzpepwyfZxQwC1UOwsTg
+ 3NZXmVOf8DUa+Rt2QZOWgxDJuoswYf8qCtbhrV+XAj0eYtpUMzeJaj3aEp1I532no0eE
+ 8qsaWz4Ud04P5QaZPk1SnPlYrcPiAhAz2LsOE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=nRHTN+KJ/0jakG/3S1m86FduFSvoZNR/waj5CoABhhY=;
+ b=24ueAgQtSsFPhwDhsVON+QHxuulK/Hov13Eg2uoQa8LWsRQOaTzSsl/eCQUTP24Nvs
+ U8yVOXvLwarvmwK+Y808zgUUwDiQ2NuD6CEzBG4s1WIV5Z+9bKx4PswXucKxARi5bhgU
+ /0WOiKOgGae8weIee0Bn0B6PsUqhK6uo1LSqqD93swiZ1KF/uP1PGbl0wgiBYmyrraG/
+ 6+sKFWTHDpWyBeKZ1qgNt6cFGTpOTx52bPEfkDgjyroojiADhYPMuPEtswqQE/7WUU1w
+ raRczsfdirY52bCm0Yz467hchIQtWf/5oj8pmPmw4/FypZyTFKdnAAK9p/3cOXQoeoR+
+ jhYA==
+X-Gm-Message-State: AOAM531xNwtvzJfhXBj/6C2SuRZ9b6bwMs2lT5RztIwSWJLMo51WUjrV
+ dAwGxL3k5mdJ+XbmmcDAGu05SR+WbqXiBaPWVRqbUA==
+X-Google-Smtp-Source: ABdhPJwGP1iH54aBaYVC33bjqbgQctUZp4Pi4rXKBOfxyi1+bPS5kw2APZGmPTqMUBDICCtmS9pO8y+RNk0rZrzATh4=
+X-Received: by 2002:a05:6402:5146:: with SMTP id
+ n6mr24252309edd.126.1636823228182; 
+ Sat, 13 Nov 2021 09:07:08 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210921232024.817-12-gurchetansingh@chromium.org>
+References: <CADVatmOuOk6RoZF=M9sZm2L=9NuDDsSNNCJJbAtkgScG0og1Ww@mail.gmail.com>
+ <CADVatmP_Sn+SS5Yu5+7sJJ5SVpcaZcW8Z_Bj5vmYz9g3kJD86g@mail.gmail.com>
+In-Reply-To: <CADVatmP_Sn+SS5Yu5+7sJJ5SVpcaZcW8Z_Bj5vmYz9g3kJD86g@mail.gmail.com>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Sat, 13 Nov 2021 09:06:57 -0800
+Message-ID: <CAADWXX80QGk7MwZ7A-n+1+GHv=yrA0qrw-70Z=pFSEsc3UXfgQ@mail.gmail.com>
+Subject: Re: regression with mainline kernel
+To: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,37 +61,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: virtio-dev@lists.oasis-open.org, kraxel@redhat.com,
- dri-devel@lists.freedesktop.org
+Cc: linux-kernel <linux-kernel@vger.kernel.org>,
+ Nicholas Verne <nverne@chromium.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 21, 2021 at 04:20:23PM -0700, Gurchetan Singh wrote:
-> Similar to DRM_VMW_EVENT_FENCE_SIGNALED.  Sends a pollable event
-> to the DRM file descriptor when a fence on a specific ring is
-> signaled.
-> 
-> One difference is the event is not exposed via the UAPI -- this is
-> because host responses are on a shared memory buffer of type
-> BLOB_MEM_GUEST [this is the common way to receive responses with
-> virtgpu].  As such, there is no context specific read(..)
-> implementation either -- just a poll(..) implementation.
-> 
-> Signed-off-by: Gurchetan Singh <gurchetansingh@chromium.org>
-> Acked-by: Nicholas Verne <nverne@chromium.org>
-> ---
->  drivers/gpu/drm/virtio/virtgpu_drv.c   | 43 +++++++++++++++++++++++++-
->  drivers/gpu/drm/virtio/virtgpu_drv.h   |  7 +++++
->  drivers/gpu/drm/virtio/virtgpu_fence.c | 10 ++++++
->  drivers/gpu/drm/virtio/virtgpu_ioctl.c | 34 ++++++++++++++++++++
->  4 files changed, 93 insertions(+), 1 deletion(-)
+[ Hmm. This email was marked as spam for me. I see no obvious reason
+for it being marked as spam, but it happens.. ]
 
-This commit seems to cause a crash in a virtual drm gpu driver for
-Android.  I have reverted this, and the next commit in the series from
-Linus's tree and all is good again.
+On Thu, Nov 11, 2021 at 12:52 PM Sudip Mukherjee
+<sudipm.mukherjee@gmail.com> wrote:
+>
+> # first bad commit: [cd7f5ca33585918febe5e2f6dc090a21cfa775b0]
+> drm/virtio: implement context init: add virtio_gpu_fence_event
 
-Any ideas?
+Hmm. Judging from your automated screenshots, the login never appears.
 
-thanks,
+> And, indeed reverting cd7f5ca33585 on top of debe436e77c7 has fixed
+> the problem I was seeing on my qemu test of x86_64. The qemu image is
+> based on Ubuntu.
 
-greg k-h
+Presumably either that commit is somehow buggy in itself - or it does
+exactly what it means to do, and the new poll() semantics just
+confuses the heck out of the X server (or wayland or whatever).
+
+And honestly, if I read that thing correctly, the patch is entirely
+broken. The new poll function (virtio_gpu_poll()) will unconditionally
+remove the first event from the event list, and then report "Yeah, I
+had events".
+
+This is completely bogus for a few reasons:
+
+ - poll() really should be idempotent, because the poll function gets
+called multiple times
+
+ - it doesn't even seem to check that the event that it removes is the
+new VIRTGPU_EVENT_FENCE_SIGNALED_INTERNAL kind of event, so it will
+unconditionally just remove random events.
+
+ - it does seem to check the "vfpriv->ring_idx_mask" and do the old
+thing if that is zero, but I see absolutely no reason for that (and
+that check itself has caused problems, see below)
+
+Honestly, my reaction to this all is that that commit is fundamentally
+broken and probably should be reverted regardless as "this commit does
+bad things".
+
+HOWEVER - it has had a fix for a NULL pointer dereference in the
+meantime - can you check whether the current top of tree happens to
+work for you? Maybe your problem isn't due to "that commit does
+unnatural things", but simply due to the bug fixed in d89c0c8322ec
+("drm/virtio: Fix NULL dereference error in virtio_gpu_poll").
+
+And if it's still broken with that commit, I'll happily revert it and
+people need to go back to the drawing board.
+
+In fact, I would really suggest that people look at that
+virtio_gpu_poll() function regardless. That odd "let's unconditionally
+just drop events in the poll function is really REALLY broken
+behavior.
+
+              Linus
