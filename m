@@ -2,51 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2A9F44FA9C
-	for <lists+dri-devel@lfdr.de>; Sun, 14 Nov 2021 20:37:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E4CA44FA9D
+	for <lists+dri-devel@lfdr.de>; Sun, 14 Nov 2021 20:37:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F8B66E8A3;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A0266E8A9;
 	Sun, 14 Nov 2021 19:36:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
- [IPv6:2a00:1450:4864:20::131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A9E46E89E
- for <dri-devel@lists.freedesktop.org>; Sun, 14 Nov 2021 19:36:16 +0000 (UTC)
-Received: by mail-lf1-x131.google.com with SMTP id c32so37576062lfv.4
- for <dri-devel@lists.freedesktop.org>; Sun, 14 Nov 2021 11:36:16 -0800 (PST)
+Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com
+ [IPv6:2a00:1450:4864:20::233])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A6446E889
+ for <dri-devel@lists.freedesktop.org>; Sun, 14 Nov 2021 19:36:17 +0000 (UTC)
+Received: by mail-lj1-x233.google.com with SMTP id u22so23882082lju.7
+ for <dri-devel@lists.freedesktop.org>; Sun, 14 Nov 2021 11:36:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=R96ZVkrOm8k9eme6iC5AQ0TJyD6674Gzc/J8B1BaX4Y=;
- b=pu/yGPsLEDe9IItqNvKzJsJFt2lff0MaRwJLSl41zMSMTg1VKgxgyq7njVJtGIq/zV
- Jh5A1EiZAPAzRcphr8k9JkTk/GdzvIDVHElPNy5aqIoi5jifzXZ6Zbyh99KqUV1SKI/+
- WwBp6wxfGwT8R57QNlOkQb5vrjU+EN0cANdM1iw9BuQhXMikOVOOB85f7mZvOygiAVDz
- MQS9GBnCp4OylwxvkmN0N89qkV1fpxkWMjD7l2RoUkpdjU9SJ9VPeAxgdui3GZAJMA6H
- s2cHlBeybXqVqp6TjxGlOp9+B3HpZ0KQfMMUEoT32sJ6GOszAWkELRNEvcasdz10lhPq
- dq7Q==
+ bh=sZaFVtpBhvHAmMFnYXrdI6yBX8tiXL7MPx1l1jZHuR0=;
+ b=fLHUwBYGBLKd3GfT6c04suoeZEh9A5iy4f7dbZf27Owpw/MhlF6HBJHopzbHCT8T2t
+ P8qtr4khEDOLByggvoXBgXX1b+KLgv6XkWJTOvQ3LLV15hyF7AsvMRKMTA9TZFor+UyZ
+ r1Jxm7K3LfkcKhysHMHOQzhPiV6+nbrehuwe9mdHkmJjkCCXDcnYhAY660oup/59USw3
+ xHY7i4lOZsVFVfsbmQyfQWFYbdQL++t0xcMc/gUwckE9VbfJ4xzZT2ZxVFlBfkaRxvHj
+ mCBXgx3Ll0Dq80TTHM9LURT7inYnqb5Dwdhm9BVxIngx1RLVS5vQccIGM75D0r3khKEX
+ 8yug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=R96ZVkrOm8k9eme6iC5AQ0TJyD6674Gzc/J8B1BaX4Y=;
- b=UVQ36udS1GxktkIpEZInkie8nOz7I5VTl8GN91H7HAxfParNAA2EEVev+TKow5BTQH
- vHZMRS0rylcVlCWFDyHldcTaB412pqzAWuy2dx6NKot+oXQow6eozyAePYybzInxLDKI
- g6hzH+xhdc9J5b/Naf+gywMxQdxgoHXezCjASkBI+i7hvtCW2nvSR4BAIdpABA8K+7Xv
- wPpTg+q/A4MhfmYn/pmwqx/BpP2K/14I93oZ/GBfTMa2+EEqQe7OZ1InGg2Gg12YWBCH
- 57enulAeCYM5bF2pMo+IBlb+U3ebN/tANT2U6qII3NCfP1iyPgHaLUsGRyCwF9iekDrN
- dShw==
-X-Gm-Message-State: AOAM530CYYgFbSRDeu7UGtauD+jOEziWCjEHHhPFpZsQtyc/U4xwwbeu
- 0gY78YBa8ZXh0GfONjzyzgk=
-X-Google-Smtp-Source: ABdhPJzlwYC1hwYYztjf+6/SjjR7JY2xogYzsbi2Cl87vNS63Vq2h5JBnrFdgAskMZApl0sE7g1IBw==
-X-Received: by 2002:a05:6512:3a5:: with SMTP id
- v5mr30215930lfp.250.1636918574815; 
- Sun, 14 Nov 2021 11:36:14 -0800 (PST)
+ bh=sZaFVtpBhvHAmMFnYXrdI6yBX8tiXL7MPx1l1jZHuR0=;
+ b=jWog7yXoqnRZU3Gr3eBrmKNy8LNu9vfXyzDlhBS2bYs0J6SXAgEZnru6YDTpff7xYI
+ P++MPmtqH9j5IslEIh9FFVv2fD6sZ70LhZhbYAo/PQB7c4UafJSb5fSx1nC99/h098jF
+ WLhZwU3Bp2u/oS5727zkllMrMUJK6gQwujc4nDvDcXIJzlvrYCb9i8S4XfC5kWG0MjEJ
+ mEZ2khdD0b9qcco6A5VAq0PeaRNnyHgL21H4606Rr681T4kS0Ddtr5nWYjqXfjAIWimK
+ b9ahyGcxk1koC9TU6h9I7YbPjcDJQIQqvGIrAkqxyNHEEPd1WaAH158QprDiiJx56isA
+ AXNg==
+X-Gm-Message-State: AOAM530suY8NBFf+QqB92VXFBg9UTlLE7Pm9BCalrOEUQ3ytm+LoTCDS
+ 3G3vAPf1M25NFQBbDBtUidc=
+X-Google-Smtp-Source: ABdhPJw6I+WteFPmQ/qGp5X6cybP4+3HgEU12txqDFBpe2CWU1nZ0mPATllX4aKI7vm8vkokfRp3/w==
+X-Received: by 2002:a2e:4b0a:: with SMTP id y10mr32913891lja.334.1636918575744; 
+ Sun, 14 Nov 2021 11:36:15 -0800 (PST)
 Received: from localhost.localdomain (46-138-46-211.dynamic.spd-mgts.ru.
  [46.138.46.211])
- by smtp.gmail.com with ESMTPSA id p18sm1191280lfu.127.2021.11.14.11.36.13
+ by smtp.gmail.com with ESMTPSA id p18sm1191280lfu.127.2021.11.14.11.36.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 14 Nov 2021 11:36:14 -0800 (PST)
+ Sun, 14 Nov 2021 11:36:15 -0800 (PST)
 From: Dmitry Osipenko <digetx@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
  Jonathan Hunter <jonathanh@nvidia.com>,
@@ -57,9 +56,9 @@ To: Thierry Reding <thierry.reding@gmail.com>,
  =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
  Nishanth Menon <nm@ti.com>, Adrian Hunter <adrian.hunter@intel.com>,
  Michael Turquette <mturquette@baylibre.com>
-Subject: [PATCH v15 19/39] bus: tegra-gmi: Add runtime PM and OPP support
-Date: Sun, 14 Nov 2021 22:34:15 +0300
-Message-Id: <20211114193435.7705-20-digetx@gmail.com>
+Subject: [PATCH v15 20/39] pwm: tegra: Add runtime PM and OPP support
+Date: Sun, 14 Nov 2021 22:34:16 +0300
+Message-Id: <20211114193435.7705-21-digetx@gmail.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211114193435.7705-1-digetx@gmail.com>
 References: <20211114193435.7705-1-digetx@gmail.com>
@@ -84,129 +83,202 @@ Cc: linux-pwm@vger.kernel.org, linux-pm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The GMI bus on Tegra belongs to the core power domain and we're going to
-enable GENPD support for the core domain. Now GMI must be resumed using
-runtime PM API in order to initialize the GMI power state. Add runtime PM
-and OPP support to the GMI driver.
+The PWM on Tegra belongs to the core power domain and we're going to
+enable GENPD support for the core domain. Now PWM must be resumed using
+runtime PM API in order to initialize the PWM power state. The PWM clock
+rate must be changed using OPP API that will reconfigure the power domain
+performance state in accordance to the rate. Add runtime PM and OPP
+support to the PWM driver.
 
 Reviewed-by: Ulf Hansson <ulf.hansson@linaro.org>
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/bus/tegra-gmi.c | 50 ++++++++++++++++++++++++++++++++++++-----
- 1 file changed, 44 insertions(+), 6 deletions(-)
+ drivers/pwm/pwm-tegra.c | 82 ++++++++++++++++++++++++++++++++---------
+ 1 file changed, 64 insertions(+), 18 deletions(-)
 
-diff --git a/drivers/bus/tegra-gmi.c b/drivers/bus/tegra-gmi.c
-index a6570789f7af..35b59f92fa66 100644
---- a/drivers/bus/tegra-gmi.c
-+++ b/drivers/bus/tegra-gmi.c
-@@ -13,8 +13,11 @@
- #include <linux/io.h>
+diff --git a/drivers/pwm/pwm-tegra.c b/drivers/pwm/pwm-tegra.c
+index 11a10b575ace..18cf974ac776 100644
+--- a/drivers/pwm/pwm-tegra.c
++++ b/drivers/pwm/pwm-tegra.c
+@@ -42,12 +42,16 @@
  #include <linux/module.h>
+ #include <linux/of.h>
  #include <linux/of_device.h>
++#include <linux/pm_opp.h>
+ #include <linux/pwm.h>
+ #include <linux/platform_device.h>
+ #include <linux/pinctrl/consumer.h>
 +#include <linux/pm_runtime.h>
+ #include <linux/slab.h>
  #include <linux/reset.h>
  
 +#include <soc/tegra/common.h>
 +
- #define TEGRA_GMI_CONFIG		0x00
- #define TEGRA_GMI_CONFIG_GO		BIT(31)
- #define TEGRA_GMI_BUS_WIDTH_32BIT	BIT(30)
-@@ -54,9 +57,10 @@ static int tegra_gmi_enable(struct tegra_gmi *gmi)
+ #define PWM_ENABLE	(1 << 31)
+ #define PWM_DUTY_WIDTH	8
+ #define PWM_DUTY_SHIFT	16
+@@ -145,7 +149,7 @@ static int tegra_pwm_config(struct pwm_chip *chip, struct pwm_device *pwm,
+ 		required_clk_rate =
+ 			(NSEC_PER_SEC / period_ns) << PWM_DUTY_WIDTH;
+ 
+-		err = clk_set_rate(pc->clk, required_clk_rate);
++		err = dev_pm_opp_set_rate(pc->dev, required_clk_rate);
+ 		if (err < 0)
+ 			return -EINVAL;
+ 
+@@ -181,8 +185,8 @@ static int tegra_pwm_config(struct pwm_chip *chip, struct pwm_device *pwm,
+ 	 * before writing the register. Otherwise, keep it enabled.
+ 	 */
+ 	if (!pwm_is_enabled(pwm)) {
+-		err = clk_prepare_enable(pc->clk);
+-		if (err < 0)
++		err = pm_runtime_resume_and_get(pc->dev);
++		if (err)
+ 			return err;
+ 	} else
+ 		val |= PWM_ENABLE;
+@@ -193,7 +197,7 @@ static int tegra_pwm_config(struct pwm_chip *chip, struct pwm_device *pwm,
+ 	 * If the PWM is not enabled, turn the clock off again to save power.
+ 	 */
+ 	if (!pwm_is_enabled(pwm))
+-		clk_disable_unprepare(pc->clk);
++		pm_runtime_put(pc->dev);
+ 
+ 	return 0;
+ }
+@@ -204,8 +208,8 @@ static int tegra_pwm_enable(struct pwm_chip *chip, struct pwm_device *pwm)
+ 	int rc = 0;
+ 	u32 val;
+ 
+-	rc = clk_prepare_enable(pc->clk);
+-	if (rc < 0)
++	rc = pm_runtime_resume_and_get(pc->dev);
++	if (rc)
+ 		return rc;
+ 
+ 	val = pwm_readl(pc, pwm->hwpwm);
+@@ -224,7 +228,7 @@ static void tegra_pwm_disable(struct pwm_chip *chip, struct pwm_device *pwm)
+ 	val &= ~PWM_ENABLE;
+ 	pwm_writel(pc, pwm->hwpwm, val);
+ 
+-	clk_disable_unprepare(pc->clk);
++	pm_runtime_put_sync(pc->dev);
+ }
+ 
+ static const struct pwm_ops tegra_pwm_ops = {
+@@ -256,11 +260,20 @@ static int tegra_pwm_probe(struct platform_device *pdev)
+ 	if (IS_ERR(pwm->clk))
+ 		return PTR_ERR(pwm->clk);
+ 
++	ret = devm_tegra_core_dev_init_opp_table_common(&pdev->dev);
++	if (ret)
++		return ret;
++
++	pm_runtime_enable(&pdev->dev);
++	ret = pm_runtime_resume_and_get(&pdev->dev);
++	if (ret)
++		return ret;
++
+ 	/* Set maximum frequency of the IP */
+-	ret = clk_set_rate(pwm->clk, pwm->soc->max_frequency);
++	ret = dev_pm_opp_set_rate(pwm->dev, pwm->soc->max_frequency);
+ 	if (ret < 0) {
+ 		dev_err(&pdev->dev, "Failed to set max frequency: %d\n", ret);
+-		return ret;
++		goto put_pm;
+ 	}
+ 
+ 	/*
+@@ -278,7 +291,7 @@ static int tegra_pwm_probe(struct platform_device *pdev)
+ 	if (IS_ERR(pwm->rst)) {
+ 		ret = PTR_ERR(pwm->rst);
+ 		dev_err(&pdev->dev, "Reset control is not found: %d\n", ret);
+-		return ret;
++		goto put_pm;
+ 	}
+ 
+ 	reset_control_deassert(pwm->rst);
+@@ -291,10 +304,16 @@ static int tegra_pwm_probe(struct platform_device *pdev)
+ 	if (ret < 0) {
+ 		dev_err(&pdev->dev, "pwmchip_add() failed: %d\n", ret);
+ 		reset_control_assert(pwm->rst);
+-		return ret;
++		goto put_pm;
+ 	}
+ 
++	pm_runtime_put(&pdev->dev);
++
+ 	return 0;
++put_pm:
++	pm_runtime_put_sync_suspend(&pdev->dev);
++	pm_runtime_force_suspend(&pdev->dev);
++	return ret;
+ }
+ 
+ static int tegra_pwm_remove(struct platform_device *pdev)
+@@ -305,20 +324,44 @@ static int tegra_pwm_remove(struct platform_device *pdev)
+ 
+ 	reset_control_assert(pc->rst);
+ 
++	pm_runtime_force_suspend(&pdev->dev);
++
+ 	return 0;
+ }
+ 
+-#ifdef CONFIG_PM_SLEEP
+-static int tegra_pwm_suspend(struct device *dev)
++static int __maybe_unused tegra_pwm_runtime_suspend(struct device *dev)
  {
- 	int err;
- 
--	err = clk_prepare_enable(gmi->clk);
--	if (err < 0) {
--		dev_err(gmi->dev, "failed to enable clock: %d\n", err);
-+	pm_runtime_enable(gmi->dev);
-+	err = pm_runtime_resume_and_get(gmi->dev);
-+	if (err) {
-+		pm_runtime_disable(gmi->dev);
- 		return err;
- 	}
- 
-@@ -83,7 +87,9 @@ static void tegra_gmi_disable(struct tegra_gmi *gmi)
- 	writel(config, gmi->base + TEGRA_GMI_CONFIG);
- 
- 	reset_control_assert(gmi->rst);
--	clk_disable_unprepare(gmi->clk);
-+
-+	pm_runtime_put_sync_suspend(gmi->dev);
-+	pm_runtime_force_suspend(gmi->dev);
- }
- 
- static int tegra_gmi_parse_dt(struct tegra_gmi *gmi)
-@@ -213,6 +219,7 @@ static int tegra_gmi_probe(struct platform_device *pdev)
- 	if (!gmi)
- 		return -ENOMEM;
- 
-+	platform_set_drvdata(pdev, gmi);
- 	gmi->dev = dev;
- 
- 	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-@@ -232,6 +239,10 @@ static int tegra_gmi_probe(struct platform_device *pdev)
- 		return PTR_ERR(gmi->rst);
- 	}
- 
-+	err = devm_tegra_core_dev_init_opp_table_common(&pdev->dev);
-+	if (err)
-+		return err;
-+
- 	err = tegra_gmi_parse_dt(gmi);
- 	if (err)
- 		return err;
-@@ -247,8 +258,6 @@ static int tegra_gmi_probe(struct platform_device *pdev)
- 		return err;
- 	}
- 
--	platform_set_drvdata(pdev, gmi);
--
- 	return 0;
- }
- 
-@@ -262,6 +271,34 @@ static int tegra_gmi_remove(struct platform_device *pdev)
- 	return 0;
- }
- 
-+static int __maybe_unused tegra_gmi_runtime_resume(struct device *dev)
-+{
-+	struct tegra_gmi *gmi = dev_get_drvdata(dev);
+-	return pinctrl_pm_select_sleep_state(dev);
++	struct tegra_pwm_chip *pc = dev_get_drvdata(dev);
 +	int err;
 +
-+	err = clk_prepare_enable(gmi->clk);
-+	if (err < 0) {
-+		dev_err(gmi->dev, "failed to enable clock: %d\n", err);
++	clk_disable_unprepare(pc->clk);
++
++	err = pinctrl_pm_select_sleep_state(dev);
++	if (err) {
++		clk_prepare_enable(pc->clk);
 +		return err;
 +	}
 +
 +	return 0;
-+}
+ }
+ 
+-static int tegra_pwm_resume(struct device *dev)
++static int __maybe_unused tegra_pwm_runtime_resume(struct device *dev)
+ {
+-	return pinctrl_pm_select_default_state(dev);
++	struct tegra_pwm_chip *pc = dev_get_drvdata(dev);
++	int err;
 +
-+static int __maybe_unused tegra_gmi_runtime_suspend(struct device *dev)
-+{
-+	struct tegra_gmi *gmi = dev_get_drvdata(dev);
++	err = pinctrl_pm_select_default_state(dev);
++	if (err)
++		return err;
 +
-+	clk_disable_unprepare(gmi->clk);
++	err = clk_prepare_enable(pc->clk);
++	if (err) {
++		pinctrl_pm_select_sleep_state(dev);
++		return err;
++	}
 +
 +	return 0;
-+}
-+
-+static const struct dev_pm_ops tegra_gmi_pm = {
-+	SET_RUNTIME_PM_OPS(tegra_gmi_runtime_suspend, tegra_gmi_runtime_resume,
+ }
+-#endif
+ 
+ static const struct tegra_pwm_soc tegra20_pwm_soc = {
+ 	.num_channels = 4,
+@@ -344,7 +387,10 @@ static const struct of_device_id tegra_pwm_of_match[] = {
+ MODULE_DEVICE_TABLE(of, tegra_pwm_of_match);
+ 
+ static const struct dev_pm_ops tegra_pwm_pm_ops = {
+-	SET_SYSTEM_SLEEP_PM_OPS(tegra_pwm_suspend, tegra_pwm_resume)
++	SET_RUNTIME_PM_OPS(tegra_pwm_runtime_suspend, tegra_pwm_runtime_resume,
 +			   NULL)
-+};
-+
- static const struct of_device_id tegra_gmi_id_table[] = {
- 	{ .compatible = "nvidia,tegra20-gmi", },
- 	{ .compatible = "nvidia,tegra30-gmi", },
-@@ -275,6 +312,7 @@ static struct platform_driver tegra_gmi_driver = {
- 	.driver = {
- 		.name		= "tegra-gmi",
- 		.of_match_table	= tegra_gmi_id_table,
-+		.pm = &tegra_gmi_pm,
- 	},
++	SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
++				pm_runtime_force_resume)
  };
- module_platform_driver(tegra_gmi_driver);
+ 
+ static struct platform_driver tegra_pwm_driver = {
 -- 
 2.33.1
 
