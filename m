@@ -1,52 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C844544FAA3
-	for <lists+dri-devel@lfdr.de>; Sun, 14 Nov 2021 20:37:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D9E9E44FA75
+	for <lists+dri-devel@lfdr.de>; Sun, 14 Nov 2021 20:37:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F42216E8BC;
-	Sun, 14 Nov 2021 19:36:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9FBE36E889;
+	Sun, 14 Nov 2021 19:36:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
- [IPv6:2a00:1450:4864:20::12a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A3B986E87B
- for <dri-devel@lists.freedesktop.org>; Sun, 14 Nov 2021 19:36:12 +0000 (UTC)
-Received: by mail-lf1-x12a.google.com with SMTP id c32so37575829lfv.4
- for <dri-devel@lists.freedesktop.org>; Sun, 14 Nov 2021 11:36:12 -0800 (PST)
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
+ [IPv6:2a00:1450:4864:20::132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E339D6E888
+ for <dri-devel@lists.freedesktop.org>; Sun, 14 Nov 2021 19:36:13 +0000 (UTC)
+Received: by mail-lf1-x132.google.com with SMTP id z34so37500833lfu.8
+ for <dri-devel@lists.freedesktop.org>; Sun, 14 Nov 2021 11:36:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Z5LZNzGJpLsApxqpURZGyur77JxFewe+cdR7kou+Iuc=;
- b=qmZz34wSh7u9dpKcs7jjNaOLOzbV2HaJkselRvIcb5m4ECncO8n6gjyzaDtheiKqq4
- iKudJUQ48V0w7/2y5vAwZNT+9t05V3D5q3Cswe4mszHsaBJKVbbm1YOkLWAVU6sJ7NNM
- YVJCct5KhZ9RA7+E2b+XIeFmVqyQQMPlHO5xb7RPtb5Kft2cTeAFC0CGoFQbj1O0Lztc
- FV3rZqQutBFNaZaZ7BYrhPnrpHJ+3j+VP91/nSefV1gHXlcYTDhTDKBdyPW3YCW+Ax8y
- uNRIWx1HFgS9GVs6pQJgKCmkUwCD0cmiarkmfvQ+KJoTYXcHOdtxiJ/Wub6Vi/UoeFfs
- yJrg==
+ bh=pQQ64DHAwVUDK+O7zZPErxA1rL3KEtXVNyJE4UYdy5Q=;
+ b=RRycqGZwIueXzgKSSOzpwNjNa6o/QJ+QS7jxDbxPJ+hGPatfo5zz8HTxHc2u9t62NH
+ 7JOaNBfaZj4waNTd+FUfABgSPWSlQCC2E5ejfGtAUYhhhDqRwCuRCjKc+Ajb9aGFQeNR
+ DdsvjPwCmZltNAdZr0oYyOItqi/KK3HPfaLD6twSiLCuqvZQ4bxvjTQkDAgRY10tDQVT
+ xaYLXs5Hn+Q1JoCQkbivp2aYQKkAt2KTeClhJDfRLWY5eE36FFYlyUQTZLHsA/V51KWL
+ 54Z/xObrEUu4htF7XcIWl74EZeRoJuAPh+T6wqIOBr/Fh/SG5+MdVYHSgicWWWKHPTrC
+ R/kw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Z5LZNzGJpLsApxqpURZGyur77JxFewe+cdR7kou+Iuc=;
- b=mnpPddgXfUiNPhbLUlcORd/SWdRIYw4n4VnKukT0iVP5MfaPd8XWvWR8hmkX96lB+r
- O/8ZEzulaXRMWJZiCu6X3XtflxsoCJE+RkUxLryZtb3vqhvbCvmu5M0oQsvept7wbtAC
- XlPVxi08mpgACAY1jVo6SGfUVagJI6TjVux3DJOTZbEfODHmQxFbXSbF4EB35OBj3XvF
- 193Ps31EjpHTU9hqLD+b3LHUerzkdK9A835NkVqVuCh6vTuE6V4XjySxoBfZZut+Qey5
- H78SPYC4OYnkJjk4laM8J6kFot0I9a+C4KOEldgtIdNm6uy+P7gu9wYdzF/+/3ck/UR9
- HYfA==
-X-Gm-Message-State: AOAM533O1ma9rpsphQXeJzLNpitccXi3v0tn+3nQHhd6dsvVfmcMElEX
- 88DVdQT8IDi/uQVdUC52qdY=
-X-Google-Smtp-Source: ABdhPJzHcx/oQdmNE+7tf2qpDNOBRjQYKFGCCSffWCINlASE9wLhUWY/zBszI1SZMZN2XEG8jP3Vzw==
-X-Received: by 2002:a05:6512:39c4:: with SMTP id
- k4mr28631313lfu.79.1636918571054; 
- Sun, 14 Nov 2021 11:36:11 -0800 (PST)
+ bh=pQQ64DHAwVUDK+O7zZPErxA1rL3KEtXVNyJE4UYdy5Q=;
+ b=YC6MGTLdBTTVXu4scPd7pg9YVtUiOP/h1glX3gdd3bwguNzlHt92xOGnt0T8nPQcWx
+ i+fq+YobJEb5N+tFsR0NuNg28a5N8QtkV0niD7yIr7Imcn7WrpY6dYwG186FGbbLdV89
+ dPTHDwl8LygryMmDm4igUDCMWf7yXwhLmAHLoYzEyQrAgMuP81p0jUVz4WKRpbrf+cM4
+ M2Sg4pubyOGjP8bvJ9st6L/ofL0xKMKOY5LxrL799jBalZVT4fbX9avCAjnYh5D+jmyv
+ 87nML5LT9CZaJNCOXCixsPxdpwCdIocwjJTYht2kFIQ1863NN4XChy7aYnFmUWgJ3feo
+ RHyA==
+X-Gm-Message-State: AOAM5331pMvODOeNJ9VM5IVJC1BcFg5j7RAJ2PBevfMKANRSiifRi5D9
+ BlY/atim1550sw9rnLW+jH8=
+X-Google-Smtp-Source: ABdhPJx8rfbMoBXZQtumsweyBh+F01dCj6bDPAYPmXKgdBjuaP6k7Gj2NTx2ugCwz9uGwHNl7tiXxw==
+X-Received: by 2002:a05:6512:3b90:: with SMTP id
+ g16mr28888069lfv.216.1636918572036; 
+ Sun, 14 Nov 2021 11:36:12 -0800 (PST)
 Received: from localhost.localdomain (46-138-46-211.dynamic.spd-mgts.ru.
  [46.138.46.211])
- by smtp.gmail.com with ESMTPSA id p18sm1191280lfu.127.2021.11.14.11.36.10
+ by smtp.gmail.com with ESMTPSA id p18sm1191280lfu.127.2021.11.14.11.36.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 14 Nov 2021 11:36:10 -0800 (PST)
+ Sun, 14 Nov 2021 11:36:11 -0800 (PST)
 From: Dmitry Osipenko <digetx@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
  Jonathan Hunter <jonathanh@nvidia.com>,
@@ -57,9 +57,10 @@ To: Thierry Reding <thierry.reding@gmail.com>,
  =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
  Nishanth Menon <nm@ti.com>, Adrian Hunter <adrian.hunter@intel.com>,
  Michael Turquette <mturquette@baylibre.com>
-Subject: [PATCH v15 15/39] drm/tegra: nvdec: Stop channel on suspend
-Date: Sun, 14 Nov 2021 22:34:11 +0300
-Message-Id: <20211114193435.7705-16-digetx@gmail.com>
+Subject: [PATCH v15 16/39] drm/tegra: submit: Remove pm_runtime_enabled()
+ checks
+Date: Sun, 14 Nov 2021 22:34:12 +0300
+Message-Id: <20211114193435.7705-17-digetx@gmail.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211114193435.7705-1-digetx@gmail.com>
 References: <20211114193435.7705-1-digetx@gmail.com>
@@ -84,107 +85,46 @@ Cc: linux-pwm@vger.kernel.org, linux-pm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CDMA must be stopped before hardware is suspended. Add channel stopping
-to RPM suspend callback. Add system level suspend-resume callbacks.
-
-Runtime PM initialization is moved to host1x client init phase because
-RPM callback now uses host1x channel that is available only when host1x
-client is registered.
+Runtime PM is now universally available, make it mandatory by removing
+the pm_runtime_enabled() checks.
 
 Reviewed-by: Ulf Hansson <ulf.hansson@linaro.org>
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/gpu/drm/tegra/nvdec.c | 29 ++++++++++++++++++-----------
- 1 file changed, 18 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/tegra/submit.c | 13 +++++--------
+ 1 file changed, 5 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/tegra/nvdec.c b/drivers/gpu/drm/tegra/nvdec.c
-index 791bf1acf5f0..15f036e09e5c 100644
---- a/drivers/gpu/drm/tegra/nvdec.c
-+++ b/drivers/gpu/drm/tegra/nvdec.c
-@@ -113,9 +113,13 @@ static int nvdec_init(struct host1x_client *client)
- 		goto free_channel;
+diff --git a/drivers/gpu/drm/tegra/submit.c b/drivers/gpu/drm/tegra/submit.c
+index c32698404e36..3bbd8de5711c 100644
+--- a/drivers/gpu/drm/tegra/submit.c
++++ b/drivers/gpu/drm/tegra/submit.c
+@@ -504,8 +504,7 @@ static void release_job(struct host1x_job *job)
+ 	kfree(job_data->used_mappings);
+ 	kfree(job_data);
+ 
+-	if (pm_runtime_enabled(client->base.dev))
+-		pm_runtime_put_autosuspend(client->base.dev);
++	pm_runtime_put_autosuspend(client->base.dev);
+ }
+ 
+ int tegra_drm_ioctl_channel_submit(struct drm_device *drm, void *data,
+@@ -589,12 +588,10 @@ int tegra_drm_ioctl_channel_submit(struct drm_device *drm, void *data,
  	}
  
-+	pm_runtime_enable(client->dev);
-+	pm_runtime_use_autosuspend(client->dev);
-+	pm_runtime_set_autosuspend_delay(client->dev, 500);
-+
- 	err = tegra_drm_register_client(tegra, drm);
- 	if (err < 0)
--		goto free_syncpt;
-+		goto disable_rpm;
- 
- 	/*
- 	 * Inherit the DMA parameters (such as maximum segment size) from the
-@@ -125,7 +129,10 @@ static int nvdec_init(struct host1x_client *client)
- 
- 	return 0;
- 
--free_syncpt:
-+disable_rpm:
-+	pm_runtime_dont_use_autosuspend(client->dev);
-+	pm_runtime_force_suspend(client->dev);
-+
- 	host1x_syncpt_put(client->syncpts[0]);
- free_channel:
- 	host1x_channel_put(nvdec->channel);
-@@ -150,10 +157,15 @@ static int nvdec_exit(struct host1x_client *client)
- 	if (err < 0)
- 		return err;
- 
-+	pm_runtime_dont_use_autosuspend(client->dev);
-+	pm_runtime_force_suspend(client->dev);
-+
- 	host1x_syncpt_put(client->syncpts[0]);
- 	host1x_channel_put(nvdec->channel);
- 	host1x_client_iommu_detach(client);
- 
-+	nvdec->channel = NULL;
-+
- 	if (client->group) {
- 		dma_unmap_single(nvdec->dev, nvdec->falcon.firmware.phys,
- 				 nvdec->falcon.firmware.size, DMA_TO_DEVICE);
-@@ -268,6 +280,8 @@ static __maybe_unused int nvdec_runtime_suspend(struct device *dev)
- {
- 	struct nvdec *nvdec = dev_get_drvdata(dev);
- 
-+	host1x_channel_stop(nvdec->channel);
-+
- 	clk_disable_unprepare(nvdec->clk);
- 
- 	return 0;
-@@ -412,10 +426,6 @@ static int nvdec_probe(struct platform_device *pdev)
- 		goto exit_falcon;
+ 	/* Boot engine. */
+-	if (pm_runtime_enabled(context->client->base.dev)) {
+-		err = pm_runtime_resume_and_get(context->client->base.dev);
+-		if (err < 0) {
+-			SUBMIT_ERR(context, "could not power up engine: %d", err);
+-			goto unpin_job;
+-		}
++	err = pm_runtime_resume_and_get(context->client->base.dev);
++	if (err < 0) {
++		SUBMIT_ERR(context, "could not power up engine: %d", err);
++		goto unpin_job;
  	}
  
--	pm_runtime_enable(&pdev->dev);
--	pm_runtime_set_autosuspend_delay(&pdev->dev, 500);
--	pm_runtime_use_autosuspend(&pdev->dev);
--
- 	return 0;
- 
- exit_falcon:
-@@ -436,11 +446,6 @@ static int nvdec_remove(struct platform_device *pdev)
- 		return err;
- 	}
- 
--	if (pm_runtime_enabled(&pdev->dev))
--		pm_runtime_disable(&pdev->dev);
--	else
--		nvdec_runtime_suspend(&pdev->dev);
--
- 	falcon_exit(&nvdec->falcon);
- 
- 	return 0;
-@@ -448,6 +453,8 @@ static int nvdec_remove(struct platform_device *pdev)
- 
- static const struct dev_pm_ops nvdec_pm_ops = {
- 	SET_RUNTIME_PM_OPS(nvdec_runtime_suspend, nvdec_runtime_resume, NULL)
-+	SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
-+				pm_runtime_force_resume)
- };
- 
- struct platform_driver tegra_nvdec_driver = {
+ 	job->user_data = job_data;
 -- 
 2.33.1
 
