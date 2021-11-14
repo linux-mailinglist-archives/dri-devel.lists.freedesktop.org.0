@@ -2,57 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C22B244FB93
-	for <lists+dri-devel@lfdr.de>; Sun, 14 Nov 2021 21:31:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15B3844FBB0
+	for <lists+dri-devel@lfdr.de>; Sun, 14 Nov 2021 22:01:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A17796E082;
-	Sun, 14 Nov 2021 20:31:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A0E6F6E088;
+	Sun, 14 Nov 2021 21:00:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 02ED46E088
- for <dri-devel@lists.freedesktop.org>; Sun, 14 Nov 2021 20:31:44 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id B0B7C6112E
- for <dri-devel@lists.freedesktop.org>; Sun, 14 Nov 2021 20:31:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1636921904;
- bh=Bdr4mkUC21qrHcz8Pj9pVNYf2YXhMhTqaPYh0izBU+E=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=dMDC4Y4b/nDKjzkfNdVwLvN1KWU/evJrMghTgQvY+ysyqQfqhXvc7B5DbPUBbmSyw
- 59yt5yc4//iiIxa4Msl4oCPUrYuekVa7HGV3Z//75bCjV2LQAqmHVIjYVRKAD2i84/
- ZB9GnU/QIJyqkuR6m17VsHiQ1JG8udniQYEGyRQyihDACkIn5aTWeKNjW6h7qpHOQ4
- OcC250QHYtJjlJjLWThZl8FgSvRMyqwkl6knLlajK2qTtSsSM0CcBywKBVr3EdG6By
- 9+3uxYTEw9CZMdL4ja5UdrimULyZXFBPpDQ1vnFFsufjl6bskMyMlzjXi/fYNhLVmy
- N21EgzOQoBnWQ==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id A303A60F5B; Sun, 14 Nov 2021 20:31:44 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 214921] amdgpu hangs HP Laptop on shutdown
-Date: Sun, 14 Nov 2021 20:31:44 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: spasswolf@web.de
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cf_kernel_version
-Message-ID: <bug-214921-2300-YWUyVjChSd@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-214921-2300@https.bugzilla.kernel.org/>
-References: <bug-214921-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
+ [IPv6:2a00:1450:4864:20::535])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ABE846E088
+ for <dri-devel@lists.freedesktop.org>; Sun, 14 Nov 2021 21:00:56 +0000 (UTC)
+Received: by mail-ed1-x535.google.com with SMTP id v11so62692541edc.9
+ for <dri-devel@lists.freedesktop.org>; Sun, 14 Nov 2021 13:00:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=VLydiT80fkzm1nSBPnsz/oh91R9+RWCWhLY9vbO/POc=;
+ b=HremuCy+b4/gXnq04jxWJOwd+GtHq4kDaqtxzuqZ6yoo2e6E0mh8//7cnW08QrZiYw
+ mXsDxvvWGNseMbnktMAxQt9Bta9YvNDFFKgmTNO7+zwpmhkUwdulkayrnL1G94UWxmjO
+ lD8KNcl1KesfISQbLm31YKTDMiveW4G9F7J6atWnA2PPezgNwphGLpTGHNxCNK6WLD4t
+ ko+WifWaEqPh3E3LhZEt/SAKwgnfCByI2d5HqsP9KbL0jfaSx9GicFWsP+MCkL417aal
+ kXMT720ZoEZ3TuTMu7i/yAmgAuZ51m+Kjthtv1CApwjbaAb4wtFbiVtPWT2qcrDsxdyP
+ V8jw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=VLydiT80fkzm1nSBPnsz/oh91R9+RWCWhLY9vbO/POc=;
+ b=WuYRGfxWeeBNRCmn06iqtDQ1Fdy49QjDmMxZe+WhLwM4AamIdZCgHISSc05O9FOZ6w
+ R/lTtf45dQUBGcTG5hBLPx/E6Xbz17sBi5WtFzYJeFcV6lI3hekavRw7gp4NIMqjWLJa
+ Leh7LpiG4KcSzZhtMM7ELDZztKu1DZIlNfYA28+xHx6PLPRtqnLUkgNh2l5oQxgATUCy
+ OwR2FOSjexp+Cq/wV8QZAWkRHaCXEbGXCXGrTLlmuKvbj5Rmsqvp5YI4dVbgu8cU2JP9
+ Os5KRrjsdDxf6asbkEirLupzbv5RMq21bgOb388fqbA70iwpNV23kEypz09uq5b+MGQv
+ RVhA==
+X-Gm-Message-State: AOAM530vqor5JQcSjb32qWTuboAvOt38zuPMcL5+FXBqUDuI8glxx70G
+ ZwHkadPmzxQLcAPcLX7MZekejEzUDRORbLwREl8=
+X-Google-Smtp-Source: ABdhPJzc0w601CEdSXYexgtN/EWynGjvsNEqRo7PjVsoHtwd3a61oAD0Q2tHz+1U6Bx6o7qDQ8XPzxzD7Zv0T4bjxN0=
+X-Received: by 2002:a17:906:5d06:: with SMTP id
+ g6mr42995465ejt.3.1636923655147; 
+ Sun, 14 Nov 2021 13:00:55 -0800 (PST)
 MIME-Version: 1.0
+References: <CAPM=9txVydO1fy8sEwVXRZF0zPfWwLYrk-UnGeKhRCEvrW4B7Q@mail.gmail.com>
+ <CAHk-=wiZdONN=1Er5eN1bYurrWqhXF7LxQszpPia8hvYUOiZWQ@mail.gmail.com>
+In-Reply-To: <CAHk-=wiZdONN=1Er5eN1bYurrWqhXF7LxQszpPia8hvYUOiZWQ@mail.gmail.com>
+From: Dave Airlie <airlied@gmail.com>
+Date: Mon, 15 Nov 2021 07:00:42 +1000
+Message-ID: <CAPM=9tw=NTZ-1NbGupgg42gOA1aFKZ2C6wt++q5BxaocaUbmFA@mail.gmail.com>
+Subject: Re: [git pull] drm fixes + one missed next for 5.16-rc1
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,65 +63,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Ashutosh Dixit <ashutosh.dixit@intel.com>,
+ Matthew Auld <matthew.auld@intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D214921
+On Sat, 13 Nov 2021 at 06:16, Linus Torvalds
+<torvalds@linux-foundation.org> wrote:
+>
+> On Thu, Nov 11, 2021 at 7:25 PM Dave Airlie <airlied@gmail.com> wrote:
+> >
+> > I missed a drm-misc-next pull for the main pull last week. It wasn't
+> > that major and isn't the bulk of this at all. This has a bunch of
+> > fixes all over, a lot for amdgpu and i915.
+>
+> Ugh.
+>
+> The i915 conflict was trivial, but made me aware of that absolutely
+> disgusting "wbinvd_on_all_cpus()" hack.
+>
+> And that thing is much too ugly to survive. I made my merge resolution
+> remove that disgusting thing.
+>
+> That driver is x86-only anyway, so it all seemed completely bogus in
+> the first place.
+>
+> And if there is some actual non-x86 work in progress for i915, then
+> that wbinvd_on_all_cpus() needs to be replaced with something proper
+> and architecture-neutral anyway, most definitely involving a name
+> change, and almost certainly also involving a range for the cache
+> writeback.
+>
+> Because that "create broken macro on other architectures" thing is
+> *NOT* acceptable.
+>
+> And I sincerely hope to the gods that no cache-incoherent i915 mess
+> ever makes it out of the x86 world. Incoherent IO was always a
+> historical mistake and should never ever happen again, so we should
+> not spread that horrific pattern around.
 
-spasswolf@web.de changed:
+i915 will no longer be x86-64 only in theory, since Intel now produces
+PCIe graphics cards using the same hw designs. These shouldn't AFAIK
+require the same incoherent architecture, though PCIe unsnooped
+transactions are a thing in the real world.
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-     Kernel Version|5.15, 5.15.1                |5.15, 5.15.1,
-                   |                            |5.15.0-next-20211112
+The thing is the same driver needs to build/work for the integrated
+and discrete cards, hence this hack, but I'm sure someone can Intel
+can do better.
 
---- Comment #4 from spasswolf@web.de ---
-This still bug is still present in the 5.15.0-next-20211112 where it breaks
-suspend:
+I'll leave it to Daniel to figure out who/how.
 
-static int uvd_v6_0_suspend(void *handle)
-{
-        int r;
-        struct amdgpu_device *adev =3D (struct amdgpu_device *)handle;
-
-        /*
-         * Proper cleanups before halting the HW engine:
-         *   - cancel the delayed idle work
-         *   - enable powergating
-         *   - enable clockgating
-         *   - disable dpm
-         *
-         * TODO: to align with the VCN implementation, move the
-         * jobs for clockgating/powergating/dpm setting to
-         * ->set_powergating_state().
-         */
-#if 0
-        cancel_delayed_work_sync(&adev->uvd.idle_work);
-
-        if (adev->pm.dpm_enabled) {
-                amdgpu_dpm_enable_uvd(adev, false);
-        } else {
-                amdgpu_asic_set_uvd_clocks(adev, 0, 0);
-                /* shutdown the UVD block */
-                amdgpu_device_ip_set_powergating_state(adev,
-AMD_IP_BLOCK_TYPE_UVD,
-                                                       AMD_PG_STATE_GATE);
-                amdgpu_device_ip_set_clockgating_state(adev,
-AMD_IP_BLOCK_TYPE_UVD,
-                                                       AMD_CG_STATE_GATE);
-        }
-#endif
-
-        r =3D uvd_v6_0_hw_fini(adev);
-        if (r)
-                return r;
-
-        return amdgpu_uvd_suspend(adev);
-}
-This makes suspend work again.
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+Dave.
