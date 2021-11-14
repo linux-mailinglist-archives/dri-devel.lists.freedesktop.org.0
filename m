@@ -2,54 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15B3844FBB0
-	for <lists+dri-devel@lfdr.de>; Sun, 14 Nov 2021 22:01:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C578444FBC6
+	for <lists+dri-devel@lfdr.de>; Sun, 14 Nov 2021 22:19:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A0E6F6E088;
-	Sun, 14 Nov 2021 21:00:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9EDAC89FE6;
+	Sun, 14 Nov 2021 21:19:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
- [IPv6:2a00:1450:4864:20::535])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABE846E088
- for <dri-devel@lists.freedesktop.org>; Sun, 14 Nov 2021 21:00:56 +0000 (UTC)
-Received: by mail-ed1-x535.google.com with SMTP id v11so62692541edc.9
- for <dri-devel@lists.freedesktop.org>; Sun, 14 Nov 2021 13:00:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com
+ [IPv6:2a00:1450:4864:20::52e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B7C2089FE6
+ for <dri-devel@lists.freedesktop.org>; Sun, 14 Nov 2021 21:19:42 +0000 (UTC)
+Received: by mail-ed1-x52e.google.com with SMTP id x15so62820182edv.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 14 Nov 2021 13:19:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linux-foundation.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=VLydiT80fkzm1nSBPnsz/oh91R9+RWCWhLY9vbO/POc=;
- b=HremuCy+b4/gXnq04jxWJOwd+GtHq4kDaqtxzuqZ6yoo2e6E0mh8//7cnW08QrZiYw
- mXsDxvvWGNseMbnktMAxQt9Bta9YvNDFFKgmTNO7+zwpmhkUwdulkayrnL1G94UWxmjO
- lD8KNcl1KesfISQbLm31YKTDMiveW4G9F7J6atWnA2PPezgNwphGLpTGHNxCNK6WLD4t
- ko+WifWaEqPh3E3LhZEt/SAKwgnfCByI2d5HqsP9KbL0jfaSx9GicFWsP+MCkL417aal
- kXMT720ZoEZ3TuTMu7i/yAmgAuZ51m+Kjthtv1CApwjbaAb4wtFbiVtPWT2qcrDsxdyP
- V8jw==
+ :cc; bh=kLOzaJoltjKDQvEecFuRyMKdXpesuCtjS9ImEoetX68=;
+ b=A6imnwSJ5wijhFoiuKjwmqxVd2U5hUIwuDALT577iJiJfKzSv3cYYkDsVT0CmJpHjf
+ 5Fku9qXEQDUbAYgg+dxRr5Iab7Cnp7PIDhz1EmhL9SVS6htM66mxHHcZasRZYpGwAAYD
+ gQ4EfHLNgnsPG4SxZkDwu/bu2O3ew33sMOq1s=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=VLydiT80fkzm1nSBPnsz/oh91R9+RWCWhLY9vbO/POc=;
- b=WuYRGfxWeeBNRCmn06iqtDQ1Fdy49QjDmMxZe+WhLwM4AamIdZCgHISSc05O9FOZ6w
- R/lTtf45dQUBGcTG5hBLPx/E6Xbz17sBi5WtFzYJeFcV6lI3hekavRw7gp4NIMqjWLJa
- Leh7LpiG4KcSzZhtMM7ELDZztKu1DZIlNfYA28+xHx6PLPRtqnLUkgNh2l5oQxgATUCy
- OwR2FOSjexp+Cq/wV8QZAWkRHaCXEbGXCXGrTLlmuKvbj5Rmsqvp5YI4dVbgu8cU2JP9
- Os5KRrjsdDxf6asbkEirLupzbv5RMq21bgOb388fqbA70iwpNV23kEypz09uq5b+MGQv
- RVhA==
-X-Gm-Message-State: AOAM530vqor5JQcSjb32qWTuboAvOt38zuPMcL5+FXBqUDuI8glxx70G
- ZwHkadPmzxQLcAPcLX7MZekejEzUDRORbLwREl8=
-X-Google-Smtp-Source: ABdhPJzc0w601CEdSXYexgtN/EWynGjvsNEqRo7PjVsoHtwd3a61oAD0Q2tHz+1U6Bx6o7qDQ8XPzxzD7Zv0T4bjxN0=
-X-Received: by 2002:a17:906:5d06:: with SMTP id
- g6mr42995465ejt.3.1636923655147; 
- Sun, 14 Nov 2021 13:00:55 -0800 (PST)
+ bh=kLOzaJoltjKDQvEecFuRyMKdXpesuCtjS9ImEoetX68=;
+ b=DOj/NTP1ZijJTLmrwPpiNviY4K/+h7MEoDkPpIiS/Do/DDjhGmIjAmPOacc2TA+e3L
+ Q+Z2oK26WQ25/0i0Htmf/jwe+VtMCQ2t2V+9XsH0HY/QbV3s8Yg89dycuF3oPg2yts6p
+ aglGnhEgIZwOcyy5GZg9asSMV+9CZlx0v7e1L86mHoInScXrmIwUk7FI3ENPLuU436Gq
+ eTW8fdJO78Tz0iSYV/geFZz2OgJ3HE48dSqv4UsEdMzWk3BTXZeDuV0CHl9Z/Aee7LnB
+ Bkpvuy/y/Gb5DKY4bKn5oPgcvhyzVUVuCXG9l6clkqwB0ZpqUbnZncLiHGnMp2RFLeZ3
+ iF7Q==
+X-Gm-Message-State: AOAM53294cfHAQr+hEnHeGvn+xF9+h7E4Uwy2O1sbrLuwT6KESdPl6q4
+ 8sFVcZQEXiS9Fvu2hryammNY9TE5di9x7oJy
+X-Google-Smtp-Source: ABdhPJz/WjhVvjhC4NJLf0knzKOUI+LdUrxT+Wu4mVWio+XqpZ2z/Aed6wdm7cme0bfGtXG8d6l7tw==
+X-Received: by 2002:a17:907:72cf:: with SMTP id
+ du15mr42686639ejc.167.1636924780565; 
+ Sun, 14 Nov 2021 13:19:40 -0800 (PST)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com.
+ [209.85.128.51])
+ by smtp.gmail.com with ESMTPSA id z25sm5299766ejd.80.2021.11.14.13.19.39
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 14 Nov 2021 13:19:40 -0800 (PST)
+Received: by mail-wm1-f51.google.com with SMTP id o29so12227961wms.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 14 Nov 2021 13:19:39 -0800 (PST)
+X-Received: by 2002:a7b:c005:: with SMTP id c5mr55506005wmb.155.1636924779662; 
+ Sun, 14 Nov 2021 13:19:39 -0800 (PST)
 MIME-Version: 1.0
 References: <CAPM=9txVydO1fy8sEwVXRZF0zPfWwLYrk-UnGeKhRCEvrW4B7Q@mail.gmail.com>
  <CAHk-=wiZdONN=1Er5eN1bYurrWqhXF7LxQszpPia8hvYUOiZWQ@mail.gmail.com>
-In-Reply-To: <CAHk-=wiZdONN=1Er5eN1bYurrWqhXF7LxQszpPia8hvYUOiZWQ@mail.gmail.com>
-From: Dave Airlie <airlied@gmail.com>
-Date: Mon, 15 Nov 2021 07:00:42 +1000
-Message-ID: <CAPM=9tw=NTZ-1NbGupgg42gOA1aFKZ2C6wt++q5BxaocaUbmFA@mail.gmail.com>
+ <CAPM=9tw=NTZ-1NbGupgg42gOA1aFKZ2C6wt++q5BxaocaUbmFA@mail.gmail.com>
+In-Reply-To: <CAPM=9tw=NTZ-1NbGupgg42gOA1aFKZ2C6wt++q5BxaocaUbmFA@mail.gmail.com>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Sun, 14 Nov 2021 13:19:23 -0800
+X-Gmail-Original-Message-ID: <CAHk-=wjpPWyH5ff0LE8Mmt6OEiYbD3LwpvpD==FFZfTMTzL2FQ@mail.gmail.com>
+Message-ID: <CAHk-=wjpPWyH5ff0LE8Mmt6OEiYbD3LwpvpD==FFZfTMTzL2FQ@mail.gmail.com>
 Subject: Re: [git pull] drm fixes + one missed next for 5.16-rc1
-To: Linus Torvalds <torvalds@linux-foundation.org>
+To: Dave Airlie <airlied@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,49 +81,31 @@ Cc: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 13 Nov 2021 at 06:16, Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
+On Sun, Nov 14, 2021 at 1:00 PM Dave Airlie <airlied@gmail.com> wrote:
 >
-> On Thu, Nov 11, 2021 at 7:25 PM Dave Airlie <airlied@gmail.com> wrote:
-> >
-> > I missed a drm-misc-next pull for the main pull last week. It wasn't
-> > that major and isn't the bulk of this at all. This has a bunch of
-> > fixes all over, a lot for amdgpu and i915.
->
-> Ugh.
->
-> The i915 conflict was trivial, but made me aware of that absolutely
-> disgusting "wbinvd_on_all_cpus()" hack.
->
-> And that thing is much too ugly to survive. I made my merge resolution
-> remove that disgusting thing.
->
-> That driver is x86-only anyway, so it all seemed completely bogus in
-> the first place.
->
-> And if there is some actual non-x86 work in progress for i915, then
-> that wbinvd_on_all_cpus() needs to be replaced with something proper
-> and architecture-neutral anyway, most definitely involving a name
-> change, and almost certainly also involving a range for the cache
-> writeback.
->
-> Because that "create broken macro on other architectures" thing is
-> *NOT* acceptable.
->
-> And I sincerely hope to the gods that no cache-incoherent i915 mess
-> ever makes it out of the x86 world. Incoherent IO was always a
-> historical mistake and should never ever happen again, so we should
-> not spread that horrific pattern around.
+> i915 will no longer be x86-64 only in theory, since Intel now produces
+> PCIe graphics cards using the same hw designs.
 
-i915 will no longer be x86-64 only in theory, since Intel now produces
-PCIe graphics cards using the same hw designs. These shouldn't AFAIK
-require the same incoherent architecture, though PCIe unsnooped
-transactions are a thing in the real world.
+Well, at least in my tree, it still has the "depends on X86", along
+with several other x86-only things (like "select INTEL_GTT", which is
+also x86-only)
 
-The thing is the same driver needs to build/work for the integrated
-and discrete cards, hence this hack, but I'm sure someone can Intel
-can do better.
+So by the time that non-x86 theory becomes reality, hopefully the i915
+people will also have figured out how to do the cache flushing
+properly.
 
-I'll leave it to Daniel to figure out who/how.
+And hopefully that "do it properly" ends up being simply that the
+particular configuration that ends up being portable simply doesn't
+need to do it at all and can statically just not build it,
+sidestepping the issue entirely.
 
-Dave.
+Fingers crossed.
+
+.. of course, I'm also sure some clueless hardware engineer is still
+convinced that non-coherent IO is the way to go for graphics, and that
+doing cross-CPU IPIs to write back all caches is somehow still a valid
+model. Because some people were still convinced about that not _that_
+long ago. Hopefully reality (perhaps in the form of Apple) has caused
+people to finally reconsider.
+
+                 Linus
