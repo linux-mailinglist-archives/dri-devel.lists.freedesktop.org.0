@@ -1,51 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7DAF44FA9E
-	for <lists+dri-devel@lfdr.de>; Sun, 14 Nov 2021 20:37:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8990244FA7E
+	for <lists+dri-devel@lfdr.de>; Sun, 14 Nov 2021 20:37:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C019D6E898;
-	Sun, 14 Nov 2021 19:36:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 193B46E88C;
+	Sun, 14 Nov 2021 19:36:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com
- [IPv6:2a00:1450:4864:20::234])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 90D746E88C
- for <dri-devel@lists.freedesktop.org>; Sun, 14 Nov 2021 19:36:14 +0000 (UTC)
-Received: by mail-lj1-x234.google.com with SMTP id k2so23198891lji.4
- for <dri-devel@lists.freedesktop.org>; Sun, 14 Nov 2021 11:36:14 -0800 (PST)
+Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com
+ [IPv6:2a00:1450:4864:20::22e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8AE126E891
+ for <dri-devel@lists.freedesktop.org>; Sun, 14 Nov 2021 19:36:15 +0000 (UTC)
+Received: by mail-lj1-x22e.google.com with SMTP id k23so2603406lje.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 14 Nov 2021 11:36:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=v6s6Y176eM92G3urbum9u/lfNUjhQPz0PnC0xf51/Fs=;
- b=kxmpEbZsrYeuGpqvbXc+Y8jZAlLJKCqpQBqiX14xcPNo7jWOif712vX9/s7aimAjhi
- YlY1eZBNNhv8sH07VxmpkcWoRB5FkOi2x7UH4ysKqiuo9ZeygWmjFchBWyl5IvdNe1x9
- W6/jLsjVHU9iNo6DImtU3xKQA7iA2/YLiZ85KxS7Js4K8lr3hA+Ubb7yvhmkDD67Gbya
- 9iMutsmj2gnHivXOKQKOeIociZQX4TNmJFEEKOsORmG4OqPf5OJ5rLJ/r06qYwzkcW+W
- bXuDh2C/jegF+xaTP7aASTYY7QaqfViuvpE+tlPjWCX8Epa5nf9+PqjPZiddJVOFLAdW
- MjOQ==
+ bh=igwS03O+cCyV7lRXH4y+t79qa1UqfsZF14OJ7wQIlV8=;
+ b=C5D6+9Oi4+zld99F7pD08yGwYAU/NhQ1zTxCubY9k9Q8ArIwQ69vlKmCRsKoXeRKIk
+ OX2pzAIglw37ncb/6VdTw3vgOg4G9+o0uaEAQPXrY766n5lFtp70AahsXXiIztYsM6sN
+ 2AerMVbL+60qRu/h+pVmAsvJ04XOqbY4dhZQLrXfzlmQjNqxFJ2JPR8/iDtx4dLIygDb
+ 97YYYR77U5qidcfs3B/Y/hwnDOXLGmLw753xcgIxFyAYRwC+eBqQw8FJ9Y81sJJOxELY
+ e3XRW0brm1XNu15emeSs1ko9BeBH3twg8EzMjoT2KLHgEOWgtUmdUs4AqLOJJPK9Bvgu
+ xlng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=v6s6Y176eM92G3urbum9u/lfNUjhQPz0PnC0xf51/Fs=;
- b=sj97euZDI1xz/3gmt4t6VDy50zSVNHxugVl/mUZDYsuLf6aYLyn7JNATtcr4lDXCCP
- JTlHpCy5dCVRDW+E9ddPGWKM/CCuftCPgqQtUtwfk5CPps6Lpdx6O1k/g3I3+dwoaHej
- 155BO/HdqHOz+7qIRggL5/u9AV45KMc7BdgGb7YfmQ3K8oeUgYl7i6uMNFS1YqQlD+Rp
- j0WvmzJtKM0S0jRAWS2tudyJEzsL9tJNGAxmZRm/m8/JPRqm+3NT9XGxjm6TECClyv4n
- 3CAxpR6PbfkX9ViErnmy9YHgXxzsuEvaTnm13RkWKcT+8aXIjV/0x52T6Obvt2mpXqbU
- 780g==
-X-Gm-Message-State: AOAM5301XFFFjYV3mBcqwt6dnNu+Z3skZBfI1E0csgkkRQsl9oNC8+EW
- 2y/V0t9LJWfDrS2ixW6w7+w=
-X-Google-Smtp-Source: ABdhPJzT77hE2tzcj0ks3igJnufShKNdn8bWLA/wWGFj5JjeIPuW5/f+fNS9AU9jzf3kemhW8YnJyg==
-X-Received: by 2002:a2e:b058:: with SMTP id d24mr32403728ljl.237.1636918572975; 
- Sun, 14 Nov 2021 11:36:12 -0800 (PST)
+ bh=igwS03O+cCyV7lRXH4y+t79qa1UqfsZF14OJ7wQIlV8=;
+ b=ra2QgQc408lqvGCk5BqwU0iemwW98X9p6egMsgdYC+6tLIlC3ucwzJwUHKWN0eXJBW
+ ENgoP/N8NwwZS8BRunavxKkmt0AMiRC/zcX36+2X1/JBerSZmcW0jAZSlcogPIlcC4gE
+ 3wU9eEhhjvreczmn+8H70X5fREODx0/vgS1GLJ0M+fYCIl6BUhoQvR6zwz1NAxiXlQu9
+ AQznE2AZG6iz3aPpfhpTJI20lJ+/3EOsnHl4IOZLfC1qVcIfrS5PtpoqM9UDo5onWlsf
+ +RHYewejJRjDzBBqa/0f2felpiE/vYDgM0XxJkR1zW4Jffsfs7ia3U54UbUnT283B6r1
+ UQxQ==
+X-Gm-Message-State: AOAM533drWYMaUhf7PBeE0jhU6E4XdxFayMg4gIlxhNzt8xN5c04RoP4
+ y8yJzvX0XFswRuiOqsOr+Io=
+X-Google-Smtp-Source: ABdhPJxzW6RpNn1G2z9kncHPO6MlT6lQe7RN8J0/juGjF+3+fRMv30TCmD0lR7cBVyAACR0eZglRJw==
+X-Received: by 2002:a2e:9349:: with SMTP id m9mr34179775ljh.178.1636918573891; 
+ Sun, 14 Nov 2021 11:36:13 -0800 (PST)
 Received: from localhost.localdomain (46-138-46-211.dynamic.spd-mgts.ru.
  [46.138.46.211])
- by smtp.gmail.com with ESMTPSA id p18sm1191280lfu.127.2021.11.14.11.36.12
+ by smtp.gmail.com with ESMTPSA id p18sm1191280lfu.127.2021.11.14.11.36.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 14 Nov 2021 11:36:12 -0800 (PST)
+ Sun, 14 Nov 2021 11:36:13 -0800 (PST)
 From: Dmitry Osipenko <digetx@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
  Jonathan Hunter <jonathanh@nvidia.com>,
@@ -56,10 +56,9 @@ To: Thierry Reding <thierry.reding@gmail.com>,
  =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
  Nishanth Menon <nm@ti.com>, Adrian Hunter <adrian.hunter@intel.com>,
  Michael Turquette <mturquette@baylibre.com>
-Subject: [PATCH v15 17/39] drm/tegra: submit: Add missing
- pm_runtime_mark_last_busy()
-Date: Sun, 14 Nov 2021 22:34:13 +0300
-Message-Id: <20211114193435.7705-18-digetx@gmail.com>
+Subject: [PATCH v15 18/39] usb: chipidea: tegra: Add runtime PM and OPP support
+Date: Sun, 14 Nov 2021 22:34:14 +0300
+Message-Id: <20211114193435.7705-19-digetx@gmail.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211114193435.7705-1-digetx@gmail.com>
 References: <20211114193435.7705-1-digetx@gmail.com>
@@ -84,27 +83,136 @@ Cc: linux-pwm@vger.kernel.org, linux-pm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Runtime PM auto-suspension doesn't work without pm_runtime_mark_last_busy(),
-add it.
+The Tegra USB controller belongs to the core power domain and we're going
+to enable GENPD support for the core domain. Now USB controller must be
+resumed using runtime PM API in order to initialize the USB power state.
+We already support runtime PM for the CI device, but CI's PM is separated
+from the RPM managed by tegra-usb driver. Add runtime PM and OPP support
+to the driver.
 
+Acked-by: Peter Chen <peter.chen@kernel.org>
 Reviewed-by: Ulf Hansson <ulf.hansson@linaro.org>
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/gpu/drm/tegra/submit.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/usb/chipidea/ci_hdrc_tegra.c | 53 ++++++++++++++++++++++++----
+ 1 file changed, 46 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/tegra/submit.c b/drivers/gpu/drm/tegra/submit.c
-index 3bbd8de5711c..6d6dd8c35475 100644
---- a/drivers/gpu/drm/tegra/submit.c
-+++ b/drivers/gpu/drm/tegra/submit.c
-@@ -504,6 +504,7 @@ static void release_job(struct host1x_job *job)
- 	kfree(job_data->used_mappings);
- 	kfree(job_data);
+diff --git a/drivers/usb/chipidea/ci_hdrc_tegra.c b/drivers/usb/chipidea/ci_hdrc_tegra.c
+index 60361141ac04..a72a9474afea 100644
+--- a/drivers/usb/chipidea/ci_hdrc_tegra.c
++++ b/drivers/usb/chipidea/ci_hdrc_tegra.c
+@@ -7,6 +7,7 @@
+ #include <linux/io.h>
+ #include <linux/module.h>
+ #include <linux/of_device.h>
++#include <linux/pm_runtime.h>
+ #include <linux/reset.h>
  
-+	pm_runtime_mark_last_busy(client->base.dev);
- 	pm_runtime_put_autosuspend(client->base.dev);
+ #include <linux/usb.h>
+@@ -15,6 +16,8 @@
+ #include <linux/usb/of.h>
+ #include <linux/usb/phy.h>
+ 
++#include <soc/tegra/common.h>
++
+ #include "../host/ehci.h"
+ 
+ #include "ci.h"
+@@ -278,6 +281,8 @@ static int tegra_usb_probe(struct platform_device *pdev)
+ 	if (!usb)
+ 		return -ENOMEM;
+ 
++	platform_set_drvdata(pdev, usb);
++
+ 	soc = of_device_get_match_data(&pdev->dev);
+ 	if (!soc) {
+ 		dev_err(&pdev->dev, "failed to match OF data\n");
+@@ -296,11 +301,14 @@ static int tegra_usb_probe(struct platform_device *pdev)
+ 		return err;
+ 	}
+ 
+-	err = clk_prepare_enable(usb->clk);
+-	if (err < 0) {
+-		dev_err(&pdev->dev, "failed to enable clock: %d\n", err);
++	err = devm_tegra_core_dev_init_opp_table_common(&pdev->dev);
++	if (err)
++		return err;
++
++	pm_runtime_enable(&pdev->dev);
++	err = pm_runtime_resume_and_get(&pdev->dev);
++	if (err)
+ 		return err;
+-	}
+ 
+ 	if (device_property_present(&pdev->dev, "nvidia,needs-double-reset"))
+ 		usb->needs_double_reset = true;
+@@ -320,8 +328,6 @@ static int tegra_usb_probe(struct platform_device *pdev)
+ 	if (err)
+ 		goto fail_power_off;
+ 
+-	platform_set_drvdata(pdev, usb);
+-
+ 	/* setup and register ChipIdea HDRC device */
+ 	usb->soc = soc;
+ 	usb->data.name = "tegra-usb";
+@@ -350,7 +356,9 @@ static int tegra_usb_probe(struct platform_device *pdev)
+ phy_shutdown:
+ 	usb_phy_shutdown(usb->phy);
+ fail_power_off:
+-	clk_disable_unprepare(usb->clk);
++	pm_runtime_put_sync_suspend(&pdev->dev);
++	pm_runtime_force_suspend(&pdev->dev);
++
+ 	return err;
  }
  
+@@ -360,15 +368,46 @@ static int tegra_usb_remove(struct platform_device *pdev)
+ 
+ 	ci_hdrc_remove_device(usb->dev);
+ 	usb_phy_shutdown(usb->phy);
++
++	pm_runtime_put_sync_suspend(&pdev->dev);
++	pm_runtime_force_suspend(&pdev->dev);
++
++	return 0;
++}
++
++static int __maybe_unused tegra_usb_runtime_resume(struct device *dev)
++{
++	struct tegra_usb *usb = dev_get_drvdata(dev);
++	int err;
++
++	err = clk_prepare_enable(usb->clk);
++	if (err < 0) {
++		dev_err(dev, "failed to enable clock: %d\n", err);
++		return err;
++	}
++
++	return 0;
++}
++
++static int __maybe_unused tegra_usb_runtime_suspend(struct device *dev)
++{
++	struct tegra_usb *usb = dev_get_drvdata(dev);
++
+ 	clk_disable_unprepare(usb->clk);
+ 
+ 	return 0;
+ }
+ 
++static const struct dev_pm_ops tegra_usb_pm = {
++	SET_RUNTIME_PM_OPS(tegra_usb_runtime_suspend, tegra_usb_runtime_resume,
++			   NULL)
++};
++
+ static struct platform_driver tegra_usb_driver = {
+ 	.driver = {
+ 		.name = "tegra-usb",
+ 		.of_match_table = tegra_usb_of_match,
++		.pm = &tegra_usb_pm,
+ 	},
+ 	.probe = tegra_usb_probe,
+ 	.remove = tegra_usb_remove,
 -- 
 2.33.1
 
