@@ -1,44 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB2E944F764
-	for <lists+dri-devel@lfdr.de>; Sun, 14 Nov 2021 11:05:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 67A5144F785
+	for <lists+dri-devel@lfdr.de>; Sun, 14 Nov 2021 12:12:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C74189D1D;
-	Sun, 14 Nov 2021 10:05:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF29589CA8;
+	Sun, 14 Nov 2021 11:12:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 432 seconds by postgrey-1.36 at gabe;
- Fri, 12 Nov 2021 11:57:09 UTC
-Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0EDF26ED9F;
- Fri, 12 Nov 2021 11:57:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=axis.com; q=dns/txt; s=axis-central1; t=1636718229;
- x=1668254229; h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=pKNzvHA+abG5/SB0rgSIMnr0AelDwIA74K7UU91Gfho=;
- b=krDLYRCh9mmz1cbv5/Y+yut07sDSuXqpKS5KIxJE6CGhU53rGnB2wSUS
- S/HZxvMX232pvyeFYMcihhMfY54fSu5iAsy4lhkQPtB4IFs+6Uv1Iyibi
- yF6AQ3iF5UemhTCc7G9ccwlDig/T8rKjscuzPhTN6UeOqkkwnyOpzB86d
- MrClvjWTuvRARyhaDbLov8IFJ3DvKrWXJJ7igqnGAGtTRLVABqM7bv5yT
- litYiMmweysBpuXw/RJcV9w4HDwoMjJ/nyzVRjQHjxzJ78MuLSWl3Q5oA
- 3faKB9aTcZX+3d38xyAS/yTI1bZv0ZfNf2OfmNP27sn3KVIfuD+spD8zX Q==;
-Date: Fri, 12 Nov 2021 12:49:54 +0100
-From: Vincent Whitchurch <vincent.whitchurch@axis.com>
-To: Jim Cromie <jim.cromie@gmail.com>
-Subject: Re: [PATCH v10 08/10] dyndbg: add print-to-tracefs, selftest with it
- - RFC
-Message-ID: <20211112114953.GA1381@axis.com>
-References: <20211111220206.121610-1-jim.cromie@gmail.com>
- <20211111220206.121610-9-jim.cromie@gmail.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A71D989C9D;
+ Sun, 14 Nov 2021 11:12:29 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10167"; a="233258155"
+X-IronPort-AV: E=Sophos;i="5.87,233,1631602800"; d="scan'208";a="233258155"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Nov 2021 03:12:29 -0800
+X-IronPort-AV: E=Sophos;i="5.87,233,1631602800"; d="scan'208";a="505519817"
+Received: from clanggaa-mobl1.ger.corp.intel.com (HELO
+ thellstr-mobl1.intel.com) ([10.249.254.235])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Nov 2021 03:12:27 -0800
+From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH v3 0/6] drm/i915/ttm: Async migration
+Date: Sun, 14 Nov 2021 12:12:12 +0100
+Message-Id: <20211114111218.623138-1-thomas.hellstrom@linux.intel.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20211111220206.121610-9-jim.cromie@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Mailman-Approved-At: Sun, 14 Nov 2021 10:05:32 +0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,70 +44,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_saipraka@quicinc.com, catalin.marinas@arm.com,
- dri-devel@lists.freedesktop.org, will@kernel.org, maz@kernel.org,
- amd-gfx@lists.freedesktop.org, mingo@redhat.com, daniel.vetter@ffwll.ch,
- arnd@arndb.de, linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- rostedt@goodmis.org, jbaron@akamai.com, seanpaul@chromium.org,
- intel-gvt-dev@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- sean@poorly.run, gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
- quic_psodagud@quicinc.com, mathieu.desnoyers@efficios.com
+Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ matthew.auld@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Nov 11, 2021 at 03:02:04PM -0700, Jim Cromie wrote:
-> Sean Paul proposed, in:
-> https://patchwork.freedesktop.org/series/78133/
-> drm/trace: Mirror DRM debug logs to tracefs
-> 
-> His patchset's objective is to be able to independently steer some of
-> the drm.debug stream to an alternate tracing destination, by splitting
-> drm_debug_enabled() into syslog & trace flavors, and enabling them
-> separately.  2 advantages were identified:
-> 
-> 1- syslog is heavyweight, tracefs is much lighter
-> 2- separate selection of enabled categories means less traffic
-> 
-> Dynamic-Debug can do 2nd exceedingly well:
-> 
-> A- all work is behind jump-label's NOOP, zero off cost.
-> B- exact site selectivity, precisely the useful traffic.
->    can tailor enabled set interactively, at shell.
-> 
-> Since the tracefs interface is effective for drm (the threads suggest
-> so), adding that interface to dynamic-debug has real potential for
-> everyone including drm.
-> 
-> if CONFIG_TRACING:
-> 
-> Grab Sean's trace_init/cleanup code, use it to provide tracefs
-> available by default to all pr_debugs.  This will likely need some
-> further per-module treatment; perhaps something reflecting hierarchy
-> of module,file,function,line, maybe with a tuned flattening.
-> 
-> endif CONFIG_TRACING
-> 
-> Add a new +T flag to enable tracing, independent of +p, and add and
-> use 3 macros: dyndbg_site_is_enabled/logging/tracing(), to encapsulate
-> the flag checks.  Existing code treats T like other flags.
+This patch series deals with async migration and async vram management.
+It still leaves an important part out, which is async unbinding which
+will reduce latency further, at least when trying to migrate already active
+objects.
 
-I posted a patchset a while ago to do something very similar, but that
-got stalled for some reason and I unfortunately didn't follow it up:
+Patches 1/6 and 2/6 deal with accessing and waiting for the TTM moving
+fence from i915 GEM.
+Patch 3 is pure code reorganization, no functional change.
+Patch 4 breaks a refcounting loop involving the TTM moving fence.
+Patch 5 uses TTM to implement the ttm move() callback async, it also
+introduces a utility to collect dependencies and turn them into a
+single dma_fence, which is needed for the intel_migrate code.
+This also affects the gem object migrate code so.
+Patch 6 makes the object copy utility async as well, mainly for future
+users since the only current user, suspend backup and restore, typically
+will want to sync anyway.
 
- https://lore.kernel.org/lkml/20200825153338.17061-1-vincent.whitchurch@axis.com/
+v2:
+- Fix a couple of SPARSE warnings.
+v3:
+- Fix a NULL pointer dereference.
 
-A key difference between that patchset and this patch (besides that
-small fact that I used +x instead of +T) was that my patchset allowed
-the dyndbg trace to be emitted to the main buffer and did not force them
-to be in an instance-specific buffer.
+Maarten Lankhorst (2):
+  drm/i915: Add functions to set/get moving fence
+  drm/i915: Add support for asynchronous moving fence waiting
 
-That feature is quite important at least for my use case since I often
-use dyndbg combined with function tracing, and the latter doesn't work
-on non-main instances according to Documentation/trace/ftrace.rst.
+Thomas Hellström (4):
+  drm/i915/ttm: Move the i915_gem_obj_copy_ttm() function
+  drm/i915/ttm: Break refcounting loops at device region unref time
+  drm/i915/ttm: Implement asynchronous TTM moves
+  drm/i915/ttm: Update i915_gem_obj_copy_ttm() to be asynchronous
 
-For example, here's a random example of a bootargs from one of my recent
-debugging sessions:
+ drivers/gpu/drm/i915/display/intel_fbdev.c    |   7 +-
+ drivers/gpu/drm/i915/display/intel_overlay.c  |   2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_object.c    |  37 ++
+ drivers/gpu/drm/i915/gem/i915_gem_object.h    |   9 +
+ drivers/gpu/drm/i915/gem/i915_gem_pages.c     |   6 +
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.c       |  58 +--
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.h       |   6 +-
+ drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c  | 396 ++++++++++++++++--
+ drivers/gpu/drm/i915/gem/i915_gem_ttm_move.h  |  10 +-
+ drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.c    |   3 +
+ drivers/gpu/drm/i915/gem/i915_gem_wait.c      |   4 +-
+ .../i915/gem/selftests/i915_gem_coherency.c   |   4 +-
+ .../drm/i915/gem/selftests/i915_gem_mman.c    |  22 +-
+ drivers/gpu/drm/i915/gt/intel_region_lmem.c   |   1 +
+ drivers/gpu/drm/i915/i915_vma.c               |  39 +-
+ drivers/gpu/drm/i915/i915_vma.h               |   3 +
+ drivers/gpu/drm/i915/intel_memory_region.c    |   5 +-
+ drivers/gpu/drm/i915/intel_memory_region.h    |   1 +
+ drivers/gpu/drm/i915/intel_region_ttm.c       |  28 ++
+ drivers/gpu/drm/i915/intel_region_ttm.h       |   2 +
+ drivers/gpu/drm/i915/selftests/i915_vma.c     |   4 +-
+ 21 files changed, 538 insertions(+), 109 deletions(-)
 
- trace_event=printk:* ftrace_filter=_mmc*,mmc*,sd*,dw_mci*,mci*
- ftrace=function trace_buf_size=20M dyndbg="file drivers/mmc/* +x"
+-- 
+2.31.1
 
