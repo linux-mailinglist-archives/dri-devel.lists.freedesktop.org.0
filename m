@@ -2,39 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA89B44F791
-	for <lists+dri-devel@lfdr.de>; Sun, 14 Nov 2021 12:13:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05DA244F850
+	for <lists+dri-devel@lfdr.de>; Sun, 14 Nov 2021 15:03:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A76589E5B;
-	Sun, 14 Nov 2021 11:12:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 96C0589CC9;
+	Sun, 14 Nov 2021 14:03:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E0DC89E59;
- Sun, 14 Nov 2021 11:12:40 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10167"; a="233258163"
-X-IronPort-AV: E=Sophos;i="5.87,233,1631602800"; d="scan'208";a="233258163"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Nov 2021 03:12:40 -0800
-X-IronPort-AV: E=Sophos;i="5.87,233,1631602800"; d="scan'208";a="505519871"
-Received: from clanggaa-mobl1.ger.corp.intel.com (HELO
- thellstr-mobl1.intel.com) ([10.249.254.235])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Nov 2021 03:12:38 -0800
-From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 6/6] drm/i915/ttm: Update i915_gem_obj_copy_ttm() to be
- asynchronous
-Date: Sun, 14 Nov 2021 12:12:18 +0100
-Message-Id: <20211114111218.623138-7-thomas.hellstrom@linux.intel.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20211114111218.623138-1-thomas.hellstrom@linux.intel.com>
-References: <20211114111218.623138-1-thomas.hellstrom@linux.intel.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6CF4289CC9
+ for <dri-devel@lists.freedesktop.org>; Sun, 14 Nov 2021 14:03:48 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 3E80561177
+ for <dri-devel@lists.freedesktop.org>; Sun, 14 Nov 2021 14:03:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1636898628;
+ bh=E47lnyPEOypPdj7OIKhHP/CrJhGF/jflRrA6XUBkRyA=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=RgmJYVQtBm66JlOa1+uPjq8Tr04Zqa1pBJfpabokKO/WIorJMv2p6RUYt6c09lAce
+ rtVIcDq6VmOQedLShPcgG9K0QcELzjhlpNikfS1HEh7mKrXRV0dI5jv+Rvaicri+1t
+ Ctb1Qs+scVWO6FYG2Mj7zprng4btJza+jYfGeULOPLpRBAF4UffwfpxNx2pF35cC6R
+ TWFRG4OJXpa+zZyMlRUkXAAVGRIOsLG0XeTKbYUR8/CHksB6T9CqSNDRtlBS5HIELm
+ 1eRdC7Yq0BMhRG2TabqEAHGa1cffLCaBC/nT3aVn22dVKARjoUaD94vuDLAMw6z1Jx
+ 6qe5ryrwbhq3w==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id 30ED560EE0; Sun, 14 Nov 2021 14:03:48 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 213823] Broken power management for amdgpu
+Date: Sun, 14 Nov 2021 14:03:47 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: high
+X-Bugzilla-Who: bruno.n.pagani@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-213823-2300-ShdXU0JFUo@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-213823-2300@https.bugzilla.kernel.org/>
+References: <bug-213823-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,107 +65,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- matthew.auld@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Update the copy function i915_gem_obj_copy_ttm() to be asynchronous for
-future users and update the only current user to sync the objects
-as needed after this function.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D213823
 
-Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
----
- drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c | 40 ++++++++++++++------
- drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.c   |  2 +
- 2 files changed, 30 insertions(+), 12 deletions(-)
+--- Comment #6 from Bruno Pagani (bruno.n.pagani@gmail.com) ---
+So while I still don=E2=80=99t have time to setup bisecting, I=E2=80=99m no=
+w affected even on
+LTS kernel. Also, I=E2=80=99ve been in touch with other users having a simi=
+lar laptop
+(the XPS version instead of the Precision, but still KabyLake-G), and they
+don=E2=80=99t seem affected. Thus I=E2=80=99m not sure anymore this is a ke=
+rnel issue (and
+whether BOCO vs ATPX is relevant). Where should I seek for guidance in
+understanding why my dGPU stays stuck in D0 instead of going into D3? Is th=
+is
+or https://gitlab.freedesktop.org/drm/amd and appropriate place?
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
-index ae2c49fc3500..53ed3972c7be 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
-@@ -811,33 +811,49 @@ int i915_gem_obj_copy_ttm(struct drm_i915_gem_object *dst,
- 		.interruptible = intr,
- 	};
- 	struct i915_refct_sgt *dst_rsgt;
--	struct dma_fence *copy_fence;
--	int ret;
-+	struct dma_fence *copy_fence, *dep_fence;
-+	struct i915_deps deps;
-+	int ret, shared_err;
- 
- 	assert_object_held(dst);
- 	assert_object_held(src);
-+	i915_deps_init(&deps, GFP_KERNEL | __GFP_NORETRY | __GFP_NOWARN);
- 
- 	/*
--	 * Sync for now. This will change with async moves.
-+	 * We plan to add a shared fence only for the source. If that
-+	 * fails, we await all source fences before commencing
-+	 * the copy instead of only the exclusive.
- 	 */
--	ret = ttm_bo_wait_ctx(dst_bo, &ctx);
-+	shared_err = dma_resv_reserve_shared(src_bo->base.resv, 1);
-+	ret = i915_deps_add_resv(&deps, dst_bo->base.resv, true, false, &ctx);
- 	if (!ret)
--		ret = ttm_bo_wait_ctx(src_bo, &ctx);
-+		ret = i915_deps_add_resv(&deps, src_bo->base.resv,
-+					 !!shared_err, false, &ctx);
- 	if (ret)
- 		return ret;
- 
-+	dep_fence = i915_deps_to_fence(&deps, &ctx);
-+	if (IS_ERR(dep_fence))
-+		return PTR_ERR(dep_fence);
-+
- 	dst_rsgt = i915_ttm_resource_get_st(dst, dst_bo->resource);
- 	copy_fence = __i915_ttm_move(src_bo, false, dst_bo->resource,
--				     dst_bo->ttm, dst_rsgt, allow_accel, NULL);
-+				     dst_bo->ttm, dst_rsgt, allow_accel,
-+				     dep_fence);
- 
- 	i915_refct_sgt_put(dst_rsgt);
--	if (IS_ERR(copy_fence))
--		return PTR_ERR(copy_fence);
-+	if (IS_ERR_OR_NULL(copy_fence))
-+		return PTR_ERR_OR_ZERO(copy_fence);
- 
--	if (copy_fence) {
--		dma_fence_wait(copy_fence, false);
--		dma_fence_put(copy_fence);
--	}
-+	dma_resv_add_excl_fence(dst_bo->base.resv, copy_fence);
-+
-+	/* If we failed to reserve a shared slot, add an exclusive fence */
-+	if (shared_err)
-+		dma_resv_add_excl_fence(src_bo->base.resv, copy_fence);
-+	else
-+		dma_resv_add_shared_fence(src_bo->base.resv, copy_fence);
-+
-+	dma_fence_put(copy_fence);
- 
- 	return 0;
- }
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.c
-index 60d10ab55d1e..9aad84059d56 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.c
-@@ -80,6 +80,7 @@ static int i915_ttm_backup(struct i915_gem_apply_to_region *apply,
- 
- 	err = i915_gem_obj_copy_ttm(backup, obj, pm_apply->allow_gpu, false);
- 	GEM_WARN_ON(err);
-+	ttm_bo_wait_ctx(backup_bo, &ctx);
- 
- 	obj->ttm.backup = backup;
- 	return 0;
-@@ -170,6 +171,7 @@ static int i915_ttm_restore(struct i915_gem_apply_to_region *apply,
- 		err = i915_gem_obj_copy_ttm(obj, backup, pm_apply->allow_gpu,
- 					    false);
- 		GEM_WARN_ON(err);
-+		ttm_bo_wait_ctx(backup_bo, &ctx);
- 
- 		obj->ttm.backup = NULL;
- 		err = 0;
--- 
-2.31.1
+--=20
+You may reply to this email to add a comment.
 
+You are receiving this mail because:
+You are watching the assignee of the bug.=
