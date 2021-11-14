@@ -2,33 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0188E44F9C2
-	for <lists+dri-devel@lfdr.de>; Sun, 14 Nov 2021 18:22:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0073244F9C8
+	for <lists+dri-devel@lfdr.de>; Sun, 14 Nov 2021 18:25:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 30E3F89D9B;
-	Sun, 14 Nov 2021 17:22:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 454D989E08;
+	Sun, 14 Nov 2021 17:25:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from msg-6.mailo.com (ip-16.mailobj.net [213.182.54.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 21CCB89D9B
- for <dri-devel@lists.freedesktop.org>; Sun, 14 Nov 2021 17:22:29 +0000 (UTC)
+Received: from msg-1.mailo.com (msg-1.mailo.com [213.182.54.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 45F6B89E08
+ for <dri-devel@lists.freedesktop.org>; Sun, 14 Nov 2021 17:25:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=net-c.es; s=mailo;
- t=1636910547; bh=ouC+WUn2gRf3LHjFVtn8+sUr7bZQ3mClM1PNxAFisak=;
+ t=1636910735; bh=YL8QxEqNBC7NF/lUy9cu80V8Cn9iyM9CqJhhPYgB9fI=;
  h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
  MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To;
- b=uyMntpd/1ur9/ZqVKvR1BVg5eK5g4FQCI1sA7wU1XBbjsYmESk5qbLj8OulT3DlLv
- JS/vHesPbQDCtGbGqDtE+KWYAse5kLhFbMaAbd5YpUWPWbfxaWxZC9hCiKC9GU4DlG
- GEl4U4b5CXK7aZG0d7jzXqs7XBHvNrFpGukX0afo=
-Received: by b-3.in.mailobj.net [192.168.90.13] with ESMTP
+ b=ZyXLLxIu7dwvHvQdqCP/4L5AGjlT+8mIg698HNmWAI0RAiyEmyn7cflHszJMTYWgP
+ zPBqemqCyD8nU1IqSOyP98dv4AnOo5ZaDe9oYh/4xo52qEP8xMIP2YZusLSqxoSb4n
+ cf5yclqNPEzdkYUMaKVzzAlX4ixqhHBLpKVVPqlU=
+Received: by b-6.in.mailobj.net [192.168.90.16] with ESMTP
  via ip-206.mailobj.net [213.182.55.206]
- Sun, 14 Nov 2021 18:22:27 +0100 (CET)
-X-EA-Auth: TOHMKM1hRUJleg3Jjv897pLAvl0qJAwGJBLfCFMw6iWzckJsvcOsr4+mnN7T1U1KdF83P8lXOgmy6kUfCeQNkyjVtSN6AGnK
-Date: Sun, 14 Nov 2021 18:22:25 +0100
+ Sun, 14 Nov 2021 18:25:35 +0100 (CET)
+X-EA-Auth: naIjc+o1ihuzFGvNcUHOqb0iLtdoSd90JiUQBxc3xof4KWiAQhiFN7sZVxnxbYcM+By0njb3qZkiubCHVNNRCEmSXRXEVbO0
+Date: Sun, 14 Nov 2021 18:25:33 +0100
 From: Claudio Suarez <cssk@net-c.es>
 To: dri-devel@lists.freedesktop.org
 Subject: Re: [PATCH] drm: change logs to print connectors in the form
  CONNECTOR:id:name
-Message-ID: <YZFF0bS5BTIaDDM/@gineta.localdomain>
+Message-ID: <YZFGjY+p/4E/2gHN@gineta.localdomain>
 References: <YZARol5A5hS+5a5m@gineta.localdomain>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
@@ -50,11 +50,6 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: David Airlie <airlied@linux.ie>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-
-
-+CC: Ville Syrjälä <ville.syrjala@linux.intel.com>
-+CC: Daniel Vetter <daniel@ffwll.ch>
-
 
 On Sat, Nov 13, 2021 at 08:27:30PM +0100, Claudio Suarez wrote:
 > The prefered way to log connectors is [CONNECTOR:id:name]. Change it in
