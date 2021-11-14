@@ -1,58 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05DA244F850
-	for <lists+dri-devel@lfdr.de>; Sun, 14 Nov 2021 15:03:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C398244F87B
+	for <lists+dri-devel@lfdr.de>; Sun, 14 Nov 2021 15:25:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 96C0589CC9;
-	Sun, 14 Nov 2021 14:03:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 517C889E86;
+	Sun, 14 Nov 2021 14:25:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6CF4289CC9
- for <dri-devel@lists.freedesktop.org>; Sun, 14 Nov 2021 14:03:48 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 3E80561177
- for <dri-devel@lists.freedesktop.org>; Sun, 14 Nov 2021 14:03:48 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 288FD89E86
+ for <dri-devel@lists.freedesktop.org>; Sun, 14 Nov 2021 14:25:50 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A7C5461027;
+ Sun, 14 Nov 2021 14:25:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1636898628;
- bh=E47lnyPEOypPdj7OIKhHP/CrJhGF/jflRrA6XUBkRyA=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=RgmJYVQtBm66JlOa1+uPjq8Tr04Zqa1pBJfpabokKO/WIorJMv2p6RUYt6c09lAce
- rtVIcDq6VmOQedLShPcgG9K0QcELzjhlpNikfS1HEh7mKrXRV0dI5jv+Rvaicri+1t
- Ctb1Qs+scVWO6FYG2Mj7zprng4btJza+jYfGeULOPLpRBAF4UffwfpxNx2pF35cC6R
- TWFRG4OJXpa+zZyMlRUkXAAVGRIOsLG0XeTKbYUR8/CHksB6T9CqSNDRtlBS5HIELm
- 1eRdC7Yq0BMhRG2TabqEAHGa1cffLCaBC/nT3aVn22dVKARjoUaD94vuDLAMw6z1Jx
- 6qe5ryrwbhq3w==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 30ED560EE0; Sun, 14 Nov 2021 14:03:48 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 213823] Broken power management for amdgpu
-Date: Sun, 14 Nov 2021 14:03:47 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: high
-X-Bugzilla-Who: bruno.n.pagani@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-213823-2300-ShdXU0JFUo@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-213823-2300@https.bugzilla.kernel.org/>
-References: <bug-213823-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+ s=k20201202; t=1636899949;
+ bh=ZV2Hx3+pIL6mKU8se/mh5FSio88H9eOPjUCiqqBfNMY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=WEXnx6VbLq/G2BMMPxLRQ7erP972PFzRoh0VTTIJKNZMRst2e9JgagN4H/KGNaG1F
+ O9mxp+qs7h8l1cvr6dgs2wVo2R+uDexa4twqzLBQyg9lDdAIZZNmhyg2JOcy7NqIm2
+ +/TAd42dHuaga7bCxwMnOVWjZBTRpDQIGtW4Wh6OI/wNUg3dYxKmDe7BwPbTJxjUzN
+ PE84zJNVgFZpigvIy4Qvu7Gd7yUSaYfpWX5aPunG3QkGxYRp668Um3fDSycfg0YFFA
+ CHDy81cKJLPRZeg4CrXOBH+IIEaTljLV3Y5vd7sZ5eUj8ysfIs0L3bekdoe1yQ4xkp
+ TcoWd7YsZL+Dg==
+Date: Sun, 14 Nov 2021 09:25:48 -0500
+From: Sasha Levin <sashal@kernel.org>
+To: Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: AUTOSEL series truncated was -- Re: [PATCH AUTOSEL 5.15 001/146]
+ dma-buf: WARN on dmabuf release with pending attachments
+Message-ID: <YZEcbEY4HkvZYdOh@sashalap>
+References: <20211108174453.1187052-1-sashal@kernel.org>
+ <20211109075423.GA16766@amd>
+ <3957633e-9596-e329-c79b-b45e9993d139@infradead.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <3957633e-9596-e329-c79b-b45e9993d139@infradead.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,26 +49,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ linaro-mm-sig@lists.linaro.org, Charan Teja Reddy <charante@codeaurora.org>,
+ dri-devel@lists.freedesktop.org, Pavel Machek <pavel@ucw.cz>,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D213823
+On Tue, Nov 09, 2021 at 08:05:23AM -0800, Randy Dunlap wrote:
+>On 11/8/21 11:54 PM, Pavel Machek wrote:
+>>Hi!
+>>
+>>This series is truncated .. I only got first patches. Similary, 5.10
+>>series is truncated, [PATCH AUTOSEL 5.10 035/101] media: s5p-mfc: Add
+>>checking to s5p_mfc_probe... is last one I got.
+>>
+>>I got all the patches before that, so I believe it is not problem on
+>>my side, but I'd not mind someone confirming they are seeing the same
+>>problem...
+>
+>Yes, several of the patch series were incomplete for me also...
 
---- Comment #6 from Bruno Pagani (bruno.n.pagani@gmail.com) ---
-So while I still don=E2=80=99t have time to setup bisecting, I=E2=80=99m no=
-w affected even on
-LTS kernel. Also, I=E2=80=99ve been in touch with other users having a simi=
-lar laptop
-(the XPS version instead of the Precision, but still KabyLake-G), and they
-don=E2=80=99t seem affected. Thus I=E2=80=99m not sure anymore this is a ke=
-rnel issue (and
-whether BOCO vs ATPX is relevant). Where should I seek for guidance in
-understanding why my dGPU stays stuck in D0 instead of going into D3? Is th=
-is
-or https://gitlab.freedesktop.org/drm/amd and appropriate place?
+Odd. I'll keep a closer look next time I send a series out to figure out
+what's going on.
 
---=20
-You may reply to this email to add a comment.
+Thanks for the heads-up!
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+-- 
+Thanks,
+Sasha
