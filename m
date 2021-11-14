@@ -1,59 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B3EA44FB67
-	for <lists+dri-devel@lfdr.de>; Sun, 14 Nov 2021 21:05:00 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C1AB44FB6A
+	for <lists+dri-devel@lfdr.de>; Sun, 14 Nov 2021 21:05:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB4B789DF9;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 06D5389E03;
 	Sun, 14 Nov 2021 20:04:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com
- [IPv6:2a00:1450:4864:20::235])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A41389DF9
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
+ [IPv6:2a00:1450:4864:20::12e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B1B9189DF9
  for <dri-devel@lists.freedesktop.org>; Sun, 14 Nov 2021 20:04:49 +0000 (UTC)
-Received: by mail-lj1-x235.google.com with SMTP id u22so23986607lju.7
+Received: by mail-lf1-x12e.google.com with SMTP id b40so37660546lfv.10
  for <dri-devel@lists.freedesktop.org>; Sun, 14 Nov 2021 12:04:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=McOiS/Q0CFO6uwemy53qifQP3mC9vDonaeYr2NzuA14=;
- b=URyDiCvf5kN1pLBxwuj/DOsEWXm3s7PlS6sTafNgjKH+ktnvoqAplLPWskoD/ZKgez
- WSiAiARt1Drp0Sfd8wXjpfzqTd/tCoeldnrn/UiHUwPT29g3HXB/KuUL7QrUr+2dBB3q
- PaEZPXHe58MEcEzrZpfDAfIdJH4G1XDpxCeNMZ9pLHfKvdlzfOTQnHxNLCDYR9sX9SCd
- /IhO3vKZqjSF+W42ADM1/bgD9OlRlkxBli0RMI0qAxhtpxM0lCADzJISbsylnInEWlSc
- /qkUNv2os3SdBSwiE0ISwO2GbupYIM9auJ3oywIFpzjpcpWptEyjCReJvfp4e0HB7XgP
- cDgg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=96RcEWyK1nEHA7WMjfyQIixAVj6RLVNjCyJp7XEuCRk=;
+ b=disv6LmuT2rNE98rR+GMp34NKFi2GwApxd95lZEKlpP3tkxbT4QA2R0U6qD3IiA8hI
+ f/vtQEBUJlM+Apez7FVu8BGzTrxXjoTf/97Onsizhxb9C7PGsS9lcH3damLK/xq4LR9J
+ P6O4wKht25ycSyEu9sS8/puay2MbCA7ISLNITPVhSejhd5JlezxOFsB/wkYOfg4v6xrd
+ ZrCe7GhfQAqTVkpfoLIH9JkSv9tr9CPk12vFKyLTCB3gzlaZmhKDzhwts0LX9iJ1OZtz
+ zYWXmYFRRR6VFZaP3dPepzjeWLEgQWAerSobVuCmgEDP6yma1oVcgLGgLeXKCZxK4CS8
+ wWVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=McOiS/Q0CFO6uwemy53qifQP3mC9vDonaeYr2NzuA14=;
- b=5HAEZlWGAHc8tRFeKl5NDRVLVEtQ7akMdU4moFDHiqQU0TDQ9vlGym7qDZ05bzImxN
- ZGQ805R5xfqhhEPqYFyf5EMkILSi3IJo1WutLjvwo+jN74YTebojwr47d0Wfn46EwMOd
- d0tzvu1gxDojsLcgtc4VK2DIOhH8T70i46aNpqyycQ9YynDakIp9/1dB7m2LZiJYoMw0
- FYmdf53yaxE2CGH8sCL0ITmASrvW/DRI4Y2bvugbreKzMntjdvKNlRrCx5lK5GE2+Nvb
- iIpPISjn86c8KNoaWUTpfgmTiC81o5WzQhXi7wM28z5IMdlDjGXwceRhw0q2VoRAI/hB
- Xkjw==
-X-Gm-Message-State: AOAM532qy8jpajwXfZXRhbofkD9NcuHHxLT0b82Y1uJxubuGgNFGTj74
- RG77At1DI02DLcSh1Dsrojo=
-X-Google-Smtp-Source: ABdhPJxxL1WqMIAul+o3bZ58Im+ZHiPvwoqlenuOM6pTc/79qVsFAir5bH4M6ujqa4zF5rDn5okzJw==
-X-Received: by 2002:a2e:a882:: with SMTP id m2mr34863256ljq.416.1636920287459; 
- Sun, 14 Nov 2021 12:04:47 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=96RcEWyK1nEHA7WMjfyQIixAVj6RLVNjCyJp7XEuCRk=;
+ b=nTToAn2CyDIUvTUbHaF6iCCtmuO/yeTZcdV5zPYn79PKKm2sGtSt+oDJ2MSNagh0/V
+ +pDYwo56OVAelD3XCHLAW4Kx8JPhFsCJR5G8zKfPG/M60046IB/0SDeKkBjHVpXjiMZ6
+ uCX9xMol07kuKG2WAFURwKaFuwk9+u8MziasYxGevvywgOnOYsU2f8EosM/861ksm1AX
+ 8c1HmcR4nWgaO+QLqS5IYgTFWvCMekgMwMA0+EXOkgDBD8JBEmUiNWHV63IIayNDmynN
+ rrLivW/tGVSwZzkhq8mlSaBcKc5tAuD4ZxfHcEL5686A2CKnj7ye97ojvdC+uppLgB4J
+ nmtw==
+X-Gm-Message-State: AOAM531jzSCehHBFaBqooI7WmeHvySqFJ0JyXPK2Ov1nfCo5tQQUtRy6
+ em7uKX3tRHnDrbAs6/laUW0=
+X-Google-Smtp-Source: ABdhPJxAdg84UeMZ1sSQ0Lsp7SztH6mQo1weUbFhj2NuaWEpLOrH3fM4OrYOvEcRloQ0i8QcuWbYgg==
+X-Received: by 2002:ac2:4292:: with SMTP id m18mr29904021lfh.539.1636920288127; 
+ Sun, 14 Nov 2021 12:04:48 -0800 (PST)
 Received: from localhost.localdomain (46-138-46-211.dynamic.spd-mgts.ru.
  [46.138.46.211])
- by smtp.gmail.com with ESMTPSA id g4sm1193914lfv.288.2021.11.14.12.04.46
+ by smtp.gmail.com with ESMTPSA id g4sm1193914lfv.288.2021.11.14.12.04.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Sun, 14 Nov 2021 12:04:47 -0800 (PST)
 From: Dmitry Osipenko <digetx@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
  Rob Herring <robh+dt@kernel.org>, David Airlie <airlied@linux.ie>,
  Daniel Vetter <daniel@ffwll.ch>, Svyatoslav Ryhel <clamor95@gmail.com>
-Subject: [PATCH v1 0/2] Support HannStar HSD101PWW2 display panel
-Date: Sun, 14 Nov 2021 23:04:29 +0300
-Message-Id: <20211114200431.28484-1-digetx@gmail.com>
+Subject: [PATCH v1 1/2] dt-bindings: display: simple: Add HannStar HSD101PWW2
+Date: Sun, 14 Nov 2021 23:04:30 +0300
+Message-Id: <20211114200431.28484-2-digetx@gmail.com>
 X-Mailer: git-send-email 2.33.1
+In-Reply-To: <20211114200431.28484-1-digetx@gmail.com>
+References: <20211114200431.28484-1-digetx@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -73,17 +75,29 @@ Cc: linux-tegra@vger.kernel.org, devicetree@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for HannStar HSD101PWW2 display panel used by ASUS Transformer
-TF201T tablet device.
+From: Svyatoslav Ryhel <clamor95@gmail.com>
 
-Svyatoslav Ryhel (2):
-  dt-bindings: display: simple: Add HannStar HSD101PWW2
-  drm/panel: simple: Add support for HannStar HSD101PWW2 panel
+Add HannStar HSD101PWW2 10.1" WXGA (1280x800) TFT-LCD LVDS panel
+to the list of compatibles.
 
- .../bindings/display/panel/panel-simple.yaml  |  2 ++
- drivers/gpu/drm/panel/panel-simple.c          | 28 +++++++++++++++++++
- 2 files changed, 30 insertions(+)
+Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+---
+ .../devicetree/bindings/display/panel/panel-simple.yaml         | 2 ++
+ 1 file changed, 2 insertions(+)
 
+diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+index f3c9395d23b6..ecb9a79c2e78 100644
+--- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
++++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+@@ -156,6 +156,8 @@ properties:
+       - hannstar,hsd070pww1
+         # HannStar Display Corp. HSD100PXN1 10.1" XGA LVDS panel
+       - hannstar,hsd100pxn1
++        # HannStar Display Corp. HSD101PWW2 10.1" WXGA (1280x800) LVDS panel
++      - hannstar,hsd101pww2
+         # Hitachi Ltd. Corporation 9" WVGA (800x480) TFT LCD panel
+       - hit,tx23d38vm0caa
+         # InfoVision Optoelectronics M133NWF4 R0 13.3" FHD (1920x1080) TFT LCD panel
 -- 
 2.33.1
 
