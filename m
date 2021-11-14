@@ -1,65 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C578444FBC6
-	for <lists+dri-devel@lfdr.de>; Sun, 14 Nov 2021 22:19:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EC0444FBE6
+	for <lists+dri-devel@lfdr.de>; Sun, 14 Nov 2021 22:56:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9EDAC89FE6;
-	Sun, 14 Nov 2021 21:19:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2FEE789BB0;
+	Sun, 14 Nov 2021 21:56:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com
- [IPv6:2a00:1450:4864:20::52e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B7C2089FE6
- for <dri-devel@lists.freedesktop.org>; Sun, 14 Nov 2021 21:19:42 +0000 (UTC)
-Received: by mail-ed1-x52e.google.com with SMTP id x15so62820182edv.1
- for <dri-devel@lists.freedesktop.org>; Sun, 14 Nov 2021 13:19:42 -0800 (PST)
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
+ [IPv6:2a00:1450:4864:20::535])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E91589BB0
+ for <dri-devel@lists.freedesktop.org>; Sun, 14 Nov 2021 21:56:51 +0000 (UTC)
+Received: by mail-ed1-x535.google.com with SMTP id z5so3123569edd.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 14 Nov 2021 13:56:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux-foundation.org; s=google;
+ d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=kLOzaJoltjKDQvEecFuRyMKdXpesuCtjS9ImEoetX68=;
- b=A6imnwSJ5wijhFoiuKjwmqxVd2U5hUIwuDALT577iJiJfKzSv3cYYkDsVT0CmJpHjf
- 5Fku9qXEQDUbAYgg+dxRr5Iab7Cnp7PIDhz1EmhL9SVS6htM66mxHHcZasRZYpGwAAYD
- gQ4EfHLNgnsPG4SxZkDwu/bu2O3ew33sMOq1s=
+ :cc; bh=z+a45scJUghbWle9ZBsDg+s+2wzuH5GEQRWeFAD8t7E=;
+ b=AKBJYmPfyiaYmwd7oyncnL6zw9NtPWAJSbT7wJ9CoM5XRX4y7lYR4azZmAWJhnkbx3
+ wApEFEVRRFjCRlk8LcnF6jhjQwm5wv7r4B6Skyc7KmZmOOftQeLeqyS9W4PEM5aCIXOK
+ 3C2t8LKXJCZlA74FYaRzy+O2yuqZGrD9mvi+IO33lc7L6Yucfzu+gveGnyIDEh2HehQo
+ GXFDuQDrEVz3+SlIQXV7z/Scjb381zZkmaPcGnIu7xzfs3l25xVRGofL7jjsWciVrfFx
+ LQ7c+cenNltzXc/rnPZhVahuvpT8J2ioVmkhvGdpu+lB9nG1RnYh946IZT2OyC/m7P+O
+ T77w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=kLOzaJoltjKDQvEecFuRyMKdXpesuCtjS9ImEoetX68=;
- b=DOj/NTP1ZijJTLmrwPpiNviY4K/+h7MEoDkPpIiS/Do/DDjhGmIjAmPOacc2TA+e3L
- Q+Z2oK26WQ25/0i0Htmf/jwe+VtMCQ2t2V+9XsH0HY/QbV3s8Yg89dycuF3oPg2yts6p
- aglGnhEgIZwOcyy5GZg9asSMV+9CZlx0v7e1L86mHoInScXrmIwUk7FI3ENPLuU436Gq
- eTW8fdJO78Tz0iSYV/geFZz2OgJ3HE48dSqv4UsEdMzWk3BTXZeDuV0CHl9Z/Aee7LnB
- Bkpvuy/y/Gb5DKY4bKn5oPgcvhyzVUVuCXG9l6clkqwB0ZpqUbnZncLiHGnMp2RFLeZ3
- iF7Q==
-X-Gm-Message-State: AOAM53294cfHAQr+hEnHeGvn+xF9+h7E4Uwy2O1sbrLuwT6KESdPl6q4
- 8sFVcZQEXiS9Fvu2hryammNY9TE5di9x7oJy
-X-Google-Smtp-Source: ABdhPJz/WjhVvjhC4NJLf0knzKOUI+LdUrxT+Wu4mVWio+XqpZ2z/Aed6wdm7cme0bfGtXG8d6l7tw==
-X-Received: by 2002:a17:907:72cf:: with SMTP id
- du15mr42686639ejc.167.1636924780565; 
- Sun, 14 Nov 2021 13:19:40 -0800 (PST)
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com.
- [209.85.128.51])
- by smtp.gmail.com with ESMTPSA id z25sm5299766ejd.80.2021.11.14.13.19.39
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 14 Nov 2021 13:19:40 -0800 (PST)
-Received: by mail-wm1-f51.google.com with SMTP id o29so12227961wms.2
- for <dri-devel@lists.freedesktop.org>; Sun, 14 Nov 2021 13:19:39 -0800 (PST)
-X-Received: by 2002:a7b:c005:: with SMTP id c5mr55506005wmb.155.1636924779662; 
- Sun, 14 Nov 2021 13:19:39 -0800 (PST)
+ bh=z+a45scJUghbWle9ZBsDg+s+2wzuH5GEQRWeFAD8t7E=;
+ b=WVkglk2e1WzUgeQt6S+wsYIy7ef1KHauuAw7BlNgK1n3+5FK9j23VyWNqb8FCNr4f2
+ lXjyTWn4yEeqZkG/74QiCd9Rnla3wFYnxtk1HwkX9Ew2FeXiHaokf0aeXAKBsvA5o/KQ
+ H6JkiBPHnVKFixw2widpbqz80JNjSLReIRHRkd+TTDTzBnoRQID5bB+SwZ6K2JamxTcm
+ hThqjNX8wk1jDEa2a4Ohz41MyhI22KFYRksVrWSQP2VkVeez46mXBlb5+STsZZpoaMki
+ Q730b37HH1ZvBAF+sASmWzT95meVofLutckk0VgXlOUwL9vOWobaM2kKEq2A2dLJehjh
+ tIwA==
+X-Gm-Message-State: AOAM533h/Ptf2KSbz1w2qh3v1k9P+w1fExzrLuXPXtOY2TNK75HASF56
+ kYsjETqoNLk4Up62KF4nwtsMsv6VqJHbaPXOyHKMSQ==
+X-Google-Smtp-Source: ABdhPJyomQczgvwHG7w6id4jh3N0ebh0Ihr1LveJ55TvN/g341+OWtesIcRAQSmVB1tvezeAr3cMSOUbMM62omekLG0=
+X-Received: by 2002:a05:6402:190d:: with SMTP id
+ e13mr47552746edz.339.1636927009693; 
+ Sun, 14 Nov 2021 13:56:49 -0800 (PST)
 MIME-Version: 1.0
-References: <CAPM=9txVydO1fy8sEwVXRZF0zPfWwLYrk-UnGeKhRCEvrW4B7Q@mail.gmail.com>
- <CAHk-=wiZdONN=1Er5eN1bYurrWqhXF7LxQszpPia8hvYUOiZWQ@mail.gmail.com>
- <CAPM=9tw=NTZ-1NbGupgg42gOA1aFKZ2C6wt++q5BxaocaUbmFA@mail.gmail.com>
-In-Reply-To: <CAPM=9tw=NTZ-1NbGupgg42gOA1aFKZ2C6wt++q5BxaocaUbmFA@mail.gmail.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Sun, 14 Nov 2021 13:19:23 -0800
-X-Gmail-Original-Message-ID: <CAHk-=wjpPWyH5ff0LE8Mmt6OEiYbD3LwpvpD==FFZfTMTzL2FQ@mail.gmail.com>
-Message-ID: <CAHk-=wjpPWyH5ff0LE8Mmt6OEiYbD3LwpvpD==FFZfTMTzL2FQ@mail.gmail.com>
-Subject: Re: [git pull] drm fixes + one missed next for 5.16-rc1
-To: Dave Airlie <airlied@gmail.com>
+References: <20211111041500.17363-1-yunfei.dong@mediatek.com>
+ <20211111041500.17363-16-yunfei.dong@mediatek.com>
+In-Reply-To: <20211111041500.17363-16-yunfei.dong@mediatek.com>
+From: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Date: Sun, 14 Nov 2021 18:56:37 -0300
+Message-ID: <CAAEAJfBWgP1fMsEQQEa=2Rk810oHzDo609TzicYgwPbU8AMunQ@mail.gmail.com>
+Subject: Re: [PATCH v10, 15/19] dt-bindings: media: mtk-vcodec: Adds decoder
+ dt-bindings for mt8192
+To: Yunfei Dong <yunfei.dong@mediatek.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,39 +65,205 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, LKML <linux-kernel@vger.kernel.org>,
+Cc: Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+ Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
  dri-devel <dri-devel@lists.freedesktop.org>,
- Ashutosh Dixit <ashutosh.dixit@intel.com>,
- Matthew Auld <matthew.auld@intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>
+ Irui Wang <irui.wang@mediatek.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Project_Global_Chrome_Upstream_Group
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+ Fritz Koenig <frkoenig@chromium.org>,
+ linux-media <linux-media@vger.kernel.org>,
+ devicetree <devicetree@vger.kernel.org>, Tzung-Bi Shih <tzungbi@chromium.org>,
+ Tomasz Figa <tfiga@google.com>, Rob Herring <robh+dt@kernel.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ Tiffany Lin <tiffany.lin@mediatek.com>,
+ linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+ Alexandre Courbot <acourbot@chromium.org>,
+ srv_heupstream <srv_heupstream@mediatek.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Nov 14, 2021 at 1:00 PM Dave Airlie <airlied@gmail.com> wrote:
+Yunfei,
+
+On Thu, 11 Nov 2021 at 01:15, Yunfei Dong <yunfei.dong@mediatek.com> wrote:
 >
-> i915 will no longer be x86-64 only in theory, since Intel now produces
-> PCIe graphics cards using the same hw designs.
+> Adds decoder dt-bindings for mt8192.
+>
+> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+> ---
+>  .../media/mediatek,vcodec-subdev-decoder.yaml | 261 ++++++++++++++++++
+>  1 file changed, 261 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-decoder.yaml
+>
+> diff --git a/Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-decoder.yaml b/Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-decoder.yaml
+> new file mode 100644
+> index 000000000000..1886fae6e39d
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-decoder.yaml
+> @@ -0,0 +1,261 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +
+> +%YAML 1.2
+> +---
+> +$id: "http://devicetree.org/schemas/media/mediatek,vcodec-subdev-decoder.yaml#"
+> +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
+> +
+> +title: Mediatek Video Decode Accelerator With Multi Hardware
+> +
+> +maintainers:
+> +  - Yunfei Dong <yunfei.dong@mediatek.com>
+> +
+> +description: |
+> +  Mediatek Video Decode is the video decode hardware present in Mediatek
+> +  SoCs which supports high resolution decoding functionalities. Required
+> +  main and subdev device node.
+> +
+> +  About the Decoder Hardware Block Diagram, please check below:
+> +
+> +    +---------------------------------+------------------------------------+
+> +    |                                 |                                    |
+> +    | input -> lat HW -> lat buffer --|--> lat buffer -> core HW -> output
+ |
 
-Well, at least in my tree, it still has the "depends on X86", along
-with several other x86-only things (like "select INTEL_GTT", which is
-also x86-only)
+To be completely honest, I can't really understand what is the meaning
+of the blocks
+with input -> lat hw -> lat buffer, and how this means lat- and core-
+are children of some parent.
 
-So by the time that non-x86 theory becomes reality, hopefully the i915
-people will also have figured out how to do the cache flushing
-properly.
+> +    |            ||                   |                     ||             |
+> +    +------------||-------------------+---------------------||-------------+
+> +                 ||       lat thread  |  core thread        ||     <parent>
+> +    -------------||-----------------------------------------||----------------
+> +                 ||                                         ||     <child>
+> +                 \/ <----------------HW index-------------->\/
+> +           +------------------------------------------------------+
+> +           |                    enable/disable                    |
+> +           |           clk     power    irq    iommu port         |
+> +           |                 (lat/lat soc/core0/core1)            |
+> +           +------------------------------------------------------+
+> +
+> +  As above, <parent> mean in main device, <child> mean in subdev device. The information
+> +  of each hardware will be stored in subdev device. There are two workqueues in main device:
+> +  lat and core. Enable/disable the lat clk/power/irq when lat need to work through hardware
+> +  index, core is the same.
+> +
+> +  Normally the smi common may not the same for each hardware, can't combine all hardware in
+> +  one node, or leading to iommu fault when access dram data.
+> +
 
-And hopefully that "do it properly" ends up being simply that the
-particular configuration that ends up being portable simply doesn't
-need to do it at all and can statically just not build it,
-sidestepping the issue entirely.
+To what extent the lat- and core- devices are really "children"
+or "subdevices" of the  video-codec@16000000 device?
 
-Fingers crossed.
+I.e. what resources do they share? What are the details of
+their bus topology?
 
-.. of course, I'm also sure some clueless hardware engineer is still
-convinced that non-coherent IO is the way to go for graphics, and that
-doing cross-CPU IPIs to write back all caches is somehow still a valid
-model. Because some people were still convinced about that not _that_
-long ago. Hopefully reality (perhaps in the form of Apple) has caused
-people to finally reconsider.
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/memory/mt8192-larb-port.h>
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +    #include <dt-bindings/clock/mt8192-clk.h>
+> +    #include <dt-bindings/power/mt8192-power.h>
+> +
+> +    video-codec@16000000 {
+> +        compatible = "mediatek,mt8192-vcodec-dec";
+> +        reg = <0x16000000 0x1000>;             /* VDEC_SYS */
+> +        mediatek,scp = <&scp>;
+> +        iommus = <&iommu0 M4U_PORT_L4_VDEC_MC_EXT>;
+> +        dma-ranges = <0x1 0x0 0x0 0x40000000 0x0 0xfff00000>;
+> +        #address-cells = <1>;
+> +        #size-cells = <1>;
+> +        ranges;
+> +        vcodec-lat@16010000 {
+> +            compatible = "mediatek,mtk-vcodec-lat";
+> +            reg = <0x16010000 0x800>;
+> +            interrupts = <GIC_SPI 426 IRQ_TYPE_LEVEL_HIGH 0>;
+> +            iommus = <&iommu0 M4U_PORT_L5_VDEC_LAT0_VLD_EXT>,
+> +                <&iommu0 M4U_PORT_L5_VDEC_LAT0_VLD2_EXT>,
+> +                <&iommu0 M4U_PORT_L5_VDEC_LAT0_AVC_MV_EXT>,
+> +                <&iommu0 M4U_PORT_L5_VDEC_LAT0_PRED_RD_EXT>,
+> +                <&iommu0 M4U_PORT_L5_VDEC_LAT0_TILE_EXT>,
+> +                <&iommu0 M4U_PORT_L5_VDEC_LAT0_WDMA_EXT>,
+> +                <&iommu0 M4U_PORT_L5_VDEC_LAT0_RG_CTRL_DMA_EXT>,
+> +                <&iommu0 M4U_PORT_L5_VDEC_UFO_ENC_EXT>;
+> +            clocks = <&topckgen CLK_TOP_VDEC_SEL>,
+> +                <&vdecsys_soc CLK_VDEC_SOC_VDEC>,
+> +                <&vdecsys_soc CLK_VDEC_SOC_LAT>,
+> +                <&vdecsys_soc CLK_VDEC_SOC_LARB1>,
+> +                <&topckgen CLK_TOP_MAINPLL_D4>;
+> +            clock-names = "sel", "soc-vdec", "soc-lat", "vdec", "top";
+> +            assigned-clocks = <&topckgen CLK_TOP_VDEC_SEL>;
+> +            assigned-clock-parents = <&topckgen CLK_TOP_MAINPLL_D4>;
+> +            power-domains = <&spm MT8192_POWER_DOMAIN_VDEC>;
+> +        };
+> +
+> +        vcodec-core@16025000 {
+> +            compatible = "mediatek,mtk-vcodec-core";
+> +            reg = <0x16025000 0x1000>;
 
-                 Linus
+The children address space might need some thinking.
+In other words,
+
+video-codec@16000000 {
+
+  vcodec-lat@16010000 {
+  }
+
+  vcodec-core@16025000 {
+  }
+}
+
+Your proposal has vcodec-lat as children of video-codec, but its address space
+are really on the same level, instead of children being contained in
+the parent address space:
+
+video-codec@16000000 {
+
+  vcodec-lat@10000 {
+  }
+
+  vcodec-core@25000 {
+  }
+}
+
+I think this last tree makes more sense from a device-tree point of view.
+The ranges property allows you to put the right translation information,
+so the device driver itself will get the correct address 0x16000000 + 0x25000.
+
+You might find that the ranges property is tricky to understand at first.
+
+Thanks,
+Ezequiel
+
+
+> +            interrupts = <GIC_SPI 425 IRQ_TYPE_LEVEL_HIGH 0>;
+> +            iommus = <&iommu0 M4U_PORT_L4_VDEC_MC_EXT>,
+> +                <&iommu0 M4U_PORT_L4_VDEC_UFO_EXT>,
+> +                <&iommu0 M4U_PORT_L4_VDEC_PP_EXT>,
+> +                <&iommu0 M4U_PORT_L4_VDEC_PRED_RD_EXT>,
+> +                <&iommu0 M4U_PORT_L4_VDEC_PRED_WR_EXT>,
+> +                <&iommu0 M4U_PORT_L4_VDEC_PPWRAP_EXT>,
+> +                <&iommu0 M4U_PORT_L4_VDEC_TILE_EXT>,
+> +                <&iommu0 M4U_PORT_L4_VDEC_VLD_EXT>,
+> +                <&iommu0 M4U_PORT_L4_VDEC_VLD2_EXT>,
+> +                <&iommu0 M4U_PORT_L4_VDEC_AVC_MV_EXT>,
+> +                <&iommu0 M4U_PORT_L4_VDEC_RG_CTRL_DMA_EXT>;
+> +            clocks = <&topckgen CLK_TOP_VDEC_SEL>,
+> +                <&vdecsys CLK_VDEC_VDEC>,
+> +                <&vdecsys CLK_VDEC_LAT>,
+> +                <&vdecsys CLK_VDEC_LARB1>,
+> +                <&topckgen CLK_TOP_MAINPLL_D4>;
+> +            clock-names = "sel", "soc-vdec", "soc-lat", "vdec", "top";
+> +            assigned-clocks = <&topckgen CLK_TOP_VDEC_SEL>;
+> +            assigned-clock-parents = <&topckgen CLK_TOP_MAINPLL_D4>;
+> +            power-domains = <&spm MT8192_POWER_DOMAIN_VDEC2>;
+> +        };
+> +    };
+> --
+> 2.25.1
+>
