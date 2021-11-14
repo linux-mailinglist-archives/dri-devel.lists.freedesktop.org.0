@@ -1,62 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7144244FB66
-	for <lists+dri-devel@lfdr.de>; Sun, 14 Nov 2021 21:04:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1233D44FB79
+	for <lists+dri-devel@lfdr.de>; Sun, 14 Nov 2021 21:07:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3FA1689E06;
-	Sun, 14 Nov 2021 20:04:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8516589E39;
+	Sun, 14 Nov 2021 20:07:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com
  [IPv6:2a00:1450:4864:20::232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7206489DF9
- for <dri-devel@lists.freedesktop.org>; Sun, 14 Nov 2021 20:04:50 +0000 (UTC)
-Received: by mail-lj1-x232.google.com with SMTP id z8so30770837ljz.9
- for <dri-devel@lists.freedesktop.org>; Sun, 14 Nov 2021 12:04:50 -0800 (PST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A5EFD89E32
+ for <dri-devel@lists.freedesktop.org>; Sun, 14 Nov 2021 20:07:43 +0000 (UTC)
+Received: by mail-lj1-x232.google.com with SMTP id e9so30812985ljl.5
+ for <dri-devel@lists.freedesktop.org>; Sun, 14 Nov 2021 12:07:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=TQZiCP3YzsvmkZD6Z7bgEa5sOkxvqLSTLRbNZEye2ZI=;
- b=difuj7H0lMKtMdGpF58hKW0rW15oFUmE9nHNa5fgB5JyPAIwrd/q4KDiFFNYJmgRUV
- ezka4FNHAL0Pt/N/ezShb39s1xCVjJlTj/LwrL/hXvd3LOZdu7pSIHALHzWciZrQGKxp
- XSuxmd2b39Z4fQhAi+cjCQtwDUK/YwGdpx3yo2hlKIcOmfAXgrZvK/hWmoP1nKii75kf
- qJLKfLEswgB+hjxT+fRFRiMWSFEcnD4eiLmk9CqRVtj8x6Gc2m4oA5qlgCGqi8F39vk8
- azDOwp0/9s2sg9HxdPjZ9dQOsIEXahSFJ2LnsiPsTid9TMPFUxMFYzvam8TbHKEmEeVX
- 5PoA==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=RU5xQBUXxAeOsUcVaTk34EpclecVINBtsFN9IeNqsuo=;
+ b=NpYYTlu7BX++Go6BCjD6CgDjUxAaCvoDImAAVO7yqyhvPBDBZdWGxPwMm9nFsOrrJ0
+ g2IwkSTGrldOrGj6q+vbr5gXMEyteOjPp+uS/q+DJiJ4Pw3nUwJWGuCIgASE/iKfzyMe
+ 4B0jzNLv2slniVlPWRcx3PXDqvYP8+sOh0ujsFfaZkQBGdlmAUIo36H8NXSXCcHBXW8e
+ S0LF1tfX9sNOuniDjLDITbFWGERFHSx0eOK/S8mEEcIVOXB9JwsUIstWLyHpN8rCPPyH
+ QDFEv3HinBEvc21V21MBLi7fAS6D2N55JBAom47xmMdAWWaovYHVijW+zlXbds41mNJ0
+ 8iKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=TQZiCP3YzsvmkZD6Z7bgEa5sOkxvqLSTLRbNZEye2ZI=;
- b=rKXsxt6scKZA+a8P+q8R27M2nJKaxLidfP1uT4h98KAqzL6yRkuZ3lEO7Q+VgmZiJ7
- WGWy/0R6I6iLeiIUE0+vSj7fmEPwJP1aNW0Vj49Vl9+EXIcjETnf1R8JvuWRz27OAsQ6
- FZO05Cb3QuO6TI1ZnY02jkMg7nl73wargj3bMwEH7hfQMHQXjTsBQ+suYmDEcUvfHZIH
- okeWgWCt7/dEn/Dukoa0lpQBbERl2eAOYNluxo+FTNQhmYyUn0xkV4y3oePU3/sHoThT
- nvyqKOPb96aYf/4eca6UMybeegc+Sk1ihJ3C9nihFrUzChYCAurJQgjW/3ZBGLs3bWse
- IkeQ==
-X-Gm-Message-State: AOAM530ILFG4gPIXzmeJXdoyau2gv5CEdUwX6gt+yWOeF+me9cH8fFJE
- EzD/o38UXlC9l9S9Fq0ERFM=
-X-Google-Smtp-Source: ABdhPJz2wSMbwjLGs/janFR3xlIJsEDFVX/vf7X8IKymWar31yaYnOoG+z12y9naoTLURsf8eNZu7g==
-X-Received: by 2002:a2e:890d:: with SMTP id d13mr32746484lji.396.1636920288791; 
- Sun, 14 Nov 2021 12:04:48 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=RU5xQBUXxAeOsUcVaTk34EpclecVINBtsFN9IeNqsuo=;
+ b=yJltcBu9xUQ1oOChy6TX4te5h26eeB8Fmw4MY8yQgfb/Tab2ty0g3fjaHrVkTD4zzf
+ HdfpHJqbVDSv06zZ0qeOEHP2euMgx6/NhU5NXlzNOw2cAqkXhm0Aen2tFcrCV8lMyo4T
+ hqPz1OZVivBIQ7Ywclq7DPnCGPku+tf8AS93xOJdZxAQK6wp4NU9nV0uVP6m3JopLGor
+ sCamxwL6Mvgr+hAzsDSXPHcHsG/M3kxQOg5RHJrse/dSvO8XD/7JsZi8Hw9hSklBVTBt
+ +iIzJIJgd6TpRIu5qJvdAWUtwf8MdfhnfCuFI4x1xV8WVlsFN4kkQj4/ctkO7G5XaMZz
+ Fqhw==
+X-Gm-Message-State: AOAM532rlbXkJEShyt3LJD51jIEbDLUkCqSx3pKJPmLOHpKVSZrt2SdC
+ DLunGLTxIPzyyDUCpaHj4aI=
+X-Google-Smtp-Source: ABdhPJxprP1KeRUC1FhoUhxkXRU3cVbkUfd7QCJSTsCGLNIkePAMX/w/gCEaOn5x+tU6H8IpjYk5+g==
+X-Received: by 2002:a2e:a90e:: with SMTP id j14mr31880345ljq.299.1636920462053; 
+ Sun, 14 Nov 2021 12:07:42 -0800 (PST)
 Received: from localhost.localdomain (46-138-46-211.dynamic.spd-mgts.ru.
  [46.138.46.211])
- by smtp.gmail.com with ESMTPSA id g4sm1193914lfv.288.2021.11.14.12.04.48
+ by smtp.gmail.com with ESMTPSA id d30sm1204644lfv.58.2021.11.14.12.07.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 14 Nov 2021 12:04:48 -0800 (PST)
+ Sun, 14 Nov 2021 12:07:41 -0800 (PST)
 From: Dmitry Osipenko <digetx@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
  Rob Herring <robh+dt@kernel.org>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Svyatoslav Ryhel <clamor95@gmail.com>
-Subject: [PATCH v1 2/2] drm/panel: simple: Add support for HannStar HSD101PWW2
- panel
-Date: Sun, 14 Nov 2021 23:04:31 +0300
-Message-Id: <20211114200431.28484-3-digetx@gmail.com>
+ Daniel Vetter <daniel@ffwll.ch>, Anton Bambura <jenneron@protonmail.com>
+Subject: [PATCH v1 0/2] Support Sharp LQ101R1SX03 display panel
+Date: Sun, 14 Nov 2021 23:07:15 +0300
+Message-Id: <20211114200717.28986-1-digetx@gmail.com>
 X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20211114200431.28484-1-digetx@gmail.com>
-References: <20211114200431.28484-1-digetx@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -76,62 +73,17 @@ Cc: linux-tegra@vger.kernel.org, devicetree@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Svyatoslav Ryhel <clamor95@gmail.com>
+Add support for Sharp LQ101R1SX03 display panel used by ASUS Transformer
+TF701T tablet device.
 
-Add definition of the HannStar HSD101PWW2 Rev0-A00/A01 LCD
-SuperIPS+ HD panel.
+Anton Bambura (2):
+  dt-bindings: sharp,lq101r1sx01: Add compatible for LQ101R1SX03
+  drm/panel: sharp: lq101r1sx01: Support LQ101R1SX03
 
-Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
----
- drivers/gpu/drm/panel/panel-simple.c | 28 ++++++++++++++++++++++++++++
- 1 file changed, 28 insertions(+)
+ .../devicetree/bindings/display/panel/sharp,lq101r1sx01.yaml  | 4 +++-
+ drivers/gpu/drm/panel/panel-sharp-lq101r1sx01.c               | 1 +
+ 2 files changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index eb475a3a774b..8b7033048f83 100644
---- a/drivers/gpu/drm/panel/panel-simple.c
-+++ b/drivers/gpu/drm/panel/panel-simple.c
-@@ -1927,6 +1927,31 @@ static const struct panel_desc hannstar_hsd100pxn1 = {
- 	.connector_type = DRM_MODE_CONNECTOR_LVDS,
- };
- 
-+static const struct display_timing hannstar_hsd101pww2_timing = {
-+	.pixelclock = { 64300000, 71100000, 82000000 },
-+	.hactive = { 1280, 1280, 1280 },
-+	.hfront_porch = { 1, 1, 10 },
-+	.hback_porch = { 1, 1, 10 },
-+	.hsync_len = { 58, 158, 661 },
-+	.vactive = { 800, 800, 800 },
-+	.vfront_porch = { 1, 1, 10 },
-+	.vback_porch = { 1, 1, 10 },
-+	.vsync_len = { 1, 21, 203 },
-+	.flags = DISPLAY_FLAGS_DE_HIGH,
-+};
-+
-+static const struct panel_desc hannstar_hsd101pww2 = {
-+	.timings = &hannstar_hsd101pww2_timing,
-+	.num_timings = 1,
-+	.bpc = 8,
-+	.size = {
-+		.width = 217,
-+		.height = 136,
-+	},
-+	.bus_format = MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,
-+	.connector_type = DRM_MODE_CONNECTOR_LVDS,
-+};
-+
- static const struct drm_display_mode hitachi_tx23d38vm0caa_mode = {
- 	.clock = 33333,
- 	.hdisplay = 800,
-@@ -3725,6 +3750,9 @@ static const struct of_device_id platform_of_match[] = {
- 	}, {
- 		.compatible = "hannstar,hsd100pxn1",
- 		.data = &hannstar_hsd100pxn1,
-+	}, {
-+		.compatible = "hannstar,hsd101pww2",
-+		.data = &hannstar_hsd101pww2,
- 	}, {
- 		.compatible = "hit,tx23d38vm0caa",
- 		.data = &hitachi_tx23d38vm0caa
 -- 
 2.33.1
 
