@@ -1,38 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F14B45026B
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 11:24:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C8D7450264
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 11:24:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D7436EB86;
-	Mon, 15 Nov 2021 10:24:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F3A246E3C4;
+	Mon, 15 Nov 2021 10:24:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out0.migadu.com (out0.migadu.com [94.23.1.103])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5869E6E938
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 10:24:44 +0000 (UTC)
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1636971881;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=Cz3g4Xx4a1qWFGtMUnYFptcAg79/8gM3RKl+Oky5ivU=;
- b=U5IBmBfva1AYPklYbaTkZo/2MYAbBdnkARowj8D+mGnvATdjZq3+ZuHz+O5qIetjsxxCka
- BT+3r4L4CJ2K7va0XepGC848A1PRXVLmOKwX2G8B8GsZckZXbdJaF1a9peD1SeUUHo0UhY
- RsLNraK2OyaVRyhwMtnCpAfC1j5LU1Y=
-From: Jackie Liu <liu.yun@linux.dev>
-To: robdclark@gmail.com, sean@poorly.run, airlied@linux.ie,
- jsanka@codeaurora.org
-Subject: [PATCH] drm/msm/dp: remove deadcode on dpu_encoder_setup
-Date: Mon, 15 Nov 2021 18:24:11 +0800
-Message-Id: <20211115102411.2578262-1-liu.yun@linux.dev>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 244756E8A6
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 10:24:31 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10168"; a="319626546"
+X-IronPort-AV: E=Sophos;i="5.87,236,1631602800"; d="scan'208";a="319626546"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Nov 2021 02:24:30 -0800
+X-IronPort-AV: E=Sophos;i="5.87,236,1631602800"; d="scan'208";a="505861951"
+Received: from csrini4x-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.251.218.37])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Nov 2021 02:24:28 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Claudio Suarez <cssk@net-c.es>, Sam Ravnborg <sam@ravnborg.org>, Daniel
+ Vetter <daniel@ffwll.ch>, Ville =?utf-8?B?U3lyasOkbMOk?=
+ <ville.syrjala@linux.intel.com>
+Subject: Re: [PATCH] drm: change logs to print connectors in the form
+ CONNECTOR:id:name
+In-Reply-To: <YZFIvfY1j0f3pVQt@gineta.localdomain>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <YZARol5A5hS+5a5m@gineta.localdomain>
+ <YZAikieq4bwrJ58c@ravnborg.org> <YZFIvfY1j0f3pVQt@gineta.localdomain>
+Date: Mon, 15 Nov 2021 12:24:26 +0200
+Message-ID: <87fsrx3eed.fsf@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
-X-Migadu-Auth-User: liu.yun@linux.dev
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,80 +49,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Jackie Liu <liuyun01@kylinos.cn>
+On Sun, 14 Nov 2021, Claudio Suarez <cssk@net-c.es> wrote:
+> On Sat, Nov 13, 2021 at 09:39:46PM +0100, Sam Ravnborg wrote:
+>> Hi Claudio,
+>>=20
+>> On Sat, Nov 13, 2021 at 08:27:30PM +0100, Claudio Suarez wrote:
+>> > The prefered way to log connectors is [CONNECTOR:id:name]. Change it in
+>> > drm core programs.
+>> >=20
+>> > Suggested-by: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
+>> > Signed-off-by: Claudio Suarez <cssk@net-c.es>
+>>=20
+>> While touching all these logging calls, could you convernt them to the
+>> newer drm_dbg_kms variants?
+>> DRM_DEBUG_* are all deprecated.
+>>=20
+>
+> Yes, I can, but it is recommended to do it in a different patch:
+>
+> https://www.kernel.org/doc/html/latest/process/submitting-patches.html#se=
+parate-your-changes
+>
+> C&P:
+> "Separate your changes
+> Separate each logical change into a separate patch.
+> For example, if your changes include both bug fixes and performance enhan=
+cements..."
+>
+>
+> I will study and send a new separate patch with your suggestion.
 
-Nobody care about drm_enc on dpu_encoder_setup, cleanup.
+I feel these logging changes are the types of changes where I'd err on
+the side of fewer patches than strictly following the above guidelines.
 
-[...]
-*** CID 1493979:  Possible Control flow issues  (DEADCODE)
-/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c: 2186 in dpu_encoder_setup()
-2180
-2181     	return ret;
-2182
-2183     fail:
-2184     	DPU_ERROR("failed to create encoder\n");
-2185     	if (drm_enc)
->>>     CID 1493979:  Possible Control flow issues  (DEADCODE)
->>>     Execution cannot reach this statement: "dpu_encoder_destroy(drm_enc);".
-2186     		dpu_encoder_destroy(drm_enc);
-2187
-2188     	return ret;
-2189
-2190
-2191     }
-[...]
+BR,
+Jani.
 
-Addresses-Coverity: ("Logically dead code")
-Fixes: 25fdd5933e4c ("drm/msm: Add SDM845 DPU support")
-Signed-off-by: Jackie Liu <liuyun01@kylinos.cn>
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 13 +++----------
- 1 file changed, 3 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-index e7ee4cfb8461..67c1a979ad98 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-@@ -2146,15 +2146,16 @@ int dpu_encoder_setup(struct drm_device *dev, struct drm_encoder *enc,
- {
- 	struct msm_drm_private *priv = dev->dev_private;
- 	struct dpu_kms *dpu_kms = to_dpu_kms(priv->kms);
--	struct drm_encoder *drm_enc = NULL;
- 	struct dpu_encoder_virt *dpu_enc = NULL;
- 	int ret = 0;
- 
- 	dpu_enc = to_dpu_encoder_virt(enc);
- 
- 	ret = dpu_encoder_setup_display(dpu_enc, dpu_kms, disp_info);
--	if (ret)
-+	if (ret) {
-+		DPU_ERROR("failed to create encoder\n");
- 		goto fail;
-+	}
- 
- 	atomic_set(&dpu_enc->frame_done_timeout_ms, 0);
- 	timer_setup(&dpu_enc->frame_done_timer,
-@@ -2178,16 +2179,8 @@ int dpu_encoder_setup(struct drm_device *dev, struct drm_encoder *enc,
- 
- 	DPU_DEBUG_ENC(dpu_enc, "created\n");
- 
--	return ret;
--
- fail:
--	DPU_ERROR("failed to create encoder\n");
--	if (drm_enc)
--		dpu_encoder_destroy(drm_enc);
--
- 	return ret;
--
--
- }
- 
- struct drm_encoder *dpu_encoder_init(struct drm_device *dev,
--- 
-2.25.1
+>
+> Best regards,
+> Claudio Suarez
+>
+>
+>
 
+--=20
+Jani Nikula, Intel Open Source Graphics Center
