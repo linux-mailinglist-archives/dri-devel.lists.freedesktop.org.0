@@ -2,33 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FDEB450067
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 09:55:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F3E3450068
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 09:55:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F25926E97B;
-	Mon, 15 Nov 2021 08:55:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 95B4C6E975;
+	Mon, 15 Nov 2021 08:55:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 865C26E972
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 08:55:06 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 1C1DE63227;
- Mon, 15 Nov 2021 08:54:59 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE27A6E975
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 08:55:12 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A02B96322E;
+ Mon, 15 Nov 2021 08:55:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1636966506;
- bh=6T6nVYUZYeuHx0KVvy6d2aAfM4hqSW/xkD9UxCrEiew=;
+ s=k20201202; t=1636966512;
+ bh=0aNffjFyOwM4u0Oo7aAQAYOuioDBDQQgvS3dt9nDAoY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=XE1rkoS26Hg1qVOUe/8JhihPWyqzwdxtSu6KpZSliRxpkj1mrD33TUzc4f3D7Z563
- QLiO1buUzxFjE4Smwu3DKTXQuDLm+gytZAgIqSOnAvyzoAXeDNMVaxRSz5FfYVxdzx
- fxlDZ6etPDPs4+Tui9Els9qLGXd+sLiGd5gsTfkJ6/smITicktBYHNkHB4AAvmw0pc
- NRLtSgumom3wapnQ8lOIVnzIUsTm+82JiaSwVIuKcuOx5tpNurM5w5orGkJkyh4UkT
- ImBiCpR78cdAYk6E0uXXpxENctgamiDTvLJByR5cyn6kcnDn0EUp+6TdkBa4HYzUNn
- uP4cknrvguDtA==
+ b=lAj0mIyHUENlkP6yrlZxkqYSD5hocgglcT83E2dvJW5vsfypS+bCmhcsFYUNOkxLb
+ VGm36iEtIrx5MsVBXb22F/vG+l2XPNfSwWhLmNnpXY2YEg1WtV9h7uDQ4GwxtuNv9L
+ drDvkpdeYSJiDY3sEkXjDYk0eXhjJUhkOOej7yEfUcc6kxARiOwLRZ91ApCbkZq51a
+ 1DlM4aygC8K+7tMPsuyHuPXgtlhUMsrKFmzWe5QnTopYr5GRXxpXJp9kRg4sUJG2px
+ 7btIXMzPZaupxro9KeNOsc8eN7Q4CrodjLRdG9uMjUnyKFs+UCAV79ctDov27Vvgoc
+ 1WIStRJ1SW5ww==
 From: Arnd Bergmann <arnd@kernel.org>
 To: Vinod Koul <vkoul@kernel.org>
-Subject: [PATCH 03/11] mmc: bcm2835: stop setting chan_config->slave_id
-Date: Mon, 15 Nov 2021 09:53:55 +0100
-Message-Id: <20211115085403.360194-4-arnd@kernel.org>
+Subject: [PATCH 04/11] dmaengine: shdma: remove legacy slave_id parsing
+Date: Mon, 15 Nov 2021 09:53:56 +0100
+Message-Id: <20211115085403.360194-5-arnd@kernel.org>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20211115085403.360194-1-arnd@kernel.org>
 References: <20211115085403.360194-1-arnd@kernel.org>
@@ -70,34 +70,37 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Arnd Bergmann <arnd@arndb.de>
 
-The field is not interpreted by the DMA engine driver, as all the data
-is passed from devicetree instead. Remove the assignment so the field
-can eventually be deleted.
+The slave device is picked through either devicetree or a filter
+function, and any remaining out-of-tree drivers would have warned
+about this usage since 2015.
+
+Stop interpreting the field finally so it can be removed from
+the interface.
 
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- drivers/mmc/host/bcm2835.c | 2 --
- 1 file changed, 2 deletions(-)
+ drivers/dma/sh/shdma-base.c | 8 --------
+ 1 file changed, 8 deletions(-)
 
-diff --git a/drivers/mmc/host/bcm2835.c b/drivers/mmc/host/bcm2835.c
-index 8c2361e66277..463b707d9e99 100644
---- a/drivers/mmc/host/bcm2835.c
-+++ b/drivers/mmc/host/bcm2835.c
-@@ -1293,14 +1293,12 @@ static int bcm2835_add_host(struct bcm2835_host *host)
+diff --git a/drivers/dma/sh/shdma-base.c b/drivers/dma/sh/shdma-base.c
+index 7f72b3f4cd1a..41c6bc650fa3 100644
+--- a/drivers/dma/sh/shdma-base.c
++++ b/drivers/dma/sh/shdma-base.c
+@@ -786,14 +786,6 @@ static int shdma_config(struct dma_chan *chan,
+ 	if (!config)
+ 		return -EINVAL;
  
- 		host->dma_cfg_tx.src_addr_width = DMA_SLAVE_BUSWIDTH_4_BYTES;
- 		host->dma_cfg_tx.dst_addr_width = DMA_SLAVE_BUSWIDTH_4_BYTES;
--		host->dma_cfg_tx.slave_id = 13;		/* DREQ channel */
- 		host->dma_cfg_tx.direction = DMA_MEM_TO_DEV;
- 		host->dma_cfg_tx.src_addr = 0;
- 		host->dma_cfg_tx.dst_addr = host->phys_addr + SDDATA;
- 
- 		host->dma_cfg_rx.src_addr_width = DMA_SLAVE_BUSWIDTH_4_BYTES;
- 		host->dma_cfg_rx.dst_addr_width = DMA_SLAVE_BUSWIDTH_4_BYTES;
--		host->dma_cfg_rx.slave_id = 13;		/* DREQ channel */
- 		host->dma_cfg_rx.direction = DMA_DEV_TO_MEM;
- 		host->dma_cfg_rx.src_addr = host->phys_addr + SDDATA;
- 		host->dma_cfg_rx.dst_addr = 0;
+-	/*
+-	 * overriding the slave_id through dma_slave_config is deprecated,
+-	 * but possibly some out-of-tree drivers still do it.
+-	 */
+-	if (WARN_ON_ONCE(config->slave_id &&
+-			 config->slave_id != schan->real_slave_id))
+-		schan->real_slave_id = config->slave_id;
+-
+ 	/*
+ 	 * We could lock this, but you shouldn't be configuring the
+ 	 * channel, while using it...
 -- 
 2.30.2
 
