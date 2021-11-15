@@ -2,36 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8F604501BA
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 10:51:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8553F4501AA
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 10:49:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 28F3A6EC9B;
-	Mon, 15 Nov 2021 09:51:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 44F1D6E9F8;
+	Mon, 15 Nov 2021 09:49:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD03D6ECA3;
- Mon, 15 Nov 2021 09:51:04 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10168"; a="232133824"
-X-IronPort-AV: E=Sophos;i="5.87,236,1631602800"; d="scan'208";a="232133824"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Nov 2021 01:51:03 -0800
-X-IronPort-AV: E=Sophos;i="5.87,236,1631602800"; d="scan'208";a="535447391"
-Received: from bhanu-nuclab.iind.intel.com ([10.145.162.173])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Nov 2021 01:50:59 -0800
-From: Bhanuprakash Modem <bhanuprakash.modem@intel.com>
-To: igt-dev@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [i-g-t 14/14] tests/kms_color_chamelium: Extended IGT tests to
- support logarithmic gamma mode
-Date: Mon, 15 Nov 2021 15:17:59 +0530
-Message-Id: <20211115094759.520955-15-bhanuprakash.modem@intel.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20211115094759.520955-1-bhanuprakash.modem@intel.com>
-References: <20211115094759.520955-1-bhanuprakash.modem@intel.com>
+Received: from netline-mail3.netline.ch (mail.netline.ch [148.251.143.180])
+ by gabe.freedesktop.org (Postfix) with ESMTP id E60C76E8A1;
+ Mon, 15 Nov 2021 09:49:40 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by netline-mail3.netline.ch (Postfix) with ESMTP id 1F22C202022;
+ Mon, 15 Nov 2021 10:49:40 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at netline-mail3.netline.ch
+Received: from netline-mail3.netline.ch ([127.0.0.1])
+ by localhost (netline-mail3.netline.ch [127.0.0.1]) (amavisd-new, port 10024)
+ with LMTP id jWPVwulGQ3re; Mon, 15 Nov 2021 10:49:39 +0100 (CET)
+Received: from thor (24.99.2.85.dynamic.wline.res.cust.swisscom.ch
+ [85.2.99.24])
+ by netline-mail3.netline.ch (Postfix) with ESMTPA id BC963202021;
+ Mon, 15 Nov 2021 10:49:39 +0100 (CET)
+Received: from [127.0.0.1] by thor with esmtp (Exim 4.95)
+ (envelope-from <michel@daenzer.net>) id 1mmYcN-000SmL-6r;
+ Mon, 15 Nov 2021 10:49:39 +0100
+Message-ID: <f1b88742-b07e-5973-1e30-9674a5950bf3@daenzer.net>
+Date: Mon, 15 Nov 2021 10:49:39 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Content-Language: en-CA
+To: Lang Yu <Lang.Yu@amd.com>
+References: <YYk7SkflDx8ToqYG@phenom.ffwll.local>
+ <4ba7e3f8-7956-882a-6888-57e2448b907d@amd.com>
+ <YYvIfXy9bwPokiK9@phenom.ffwll.local>
+ <ab2fb071-12ab-da99-53c9-1411ca9acdaa@amd.com>
+ <9a5b8470-d02d-71b4-4a89-6d6c32fdfa5d@daenzer.net>
+ <88dfe9b4-e170-2d6b-604b-03af5d57152b@daenzer.net>
+ <735f8781-982b-a09f-32fe-fded0024a587@gmail.com>
+ <58097218-40dd-55fd-32d2-2a299d39230f@daenzer.net>
+ <YZIA/dkvjuMsup24@lang-desktop>
+ <cadb9503-b390-e254-ffba-5e2e11f100cc@daenzer.net>
+ <YZIiqM6PKKL/ZMNy@lang-desktop>
+From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>
+Subject: Re: Questions about KMS flip
+In-Reply-To: <YZIiqM6PKKL/ZMNy@lang-desktop>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -46,116 +61,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kunal Joshi <kunal1.joshi@intel.com>,
- Mukunda Pramodh Kumar <mukunda.pramodh.kumar@intel.com>,
- Juha-Pekka Heikkila <juhapekka.heikkila@gmail.com>,
- Uma Shankar <uma.shankar@intel.com>,
- Bhanuprakash Modem <bhanuprakash.modem@intel.com>
+Cc: Christian KKKnig <ckoenig.leichtzumerken@gmail.com>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, "Kazlauskas,
+ Nicholas" <Nicholas.Kazlauskas@amd.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Christian KKKnig <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Extended IGT tests to support logarithmic gamma mode on pipe
+On 2021-11-15 10:04, Lang Yu wrote:
+> On Mon, Nov 15, 2021 at 09:38:47AM +0100, Michel DDDnzer wrote:
+>> On 2021-11-15 07:41, Lang Yu wrote:
+>>> On Fri, Nov 12, 2021 at 05:10:27PM +0100, Michel DDDnzer wrote:
+>>>> On 2021-11-12 16:03, Christian König wrote:
+>>>>> Am 12.11.21 um 15:30 schrieb Michel Dänzer:
+>>>>>> On 2021-11-12 15:29, Michel Dänzer wrote:
+>>>>>>> On 2021-11-12 13:47, Christian König wrote:
+>>>>>>>> Anyway this unfortunately turned out to be work for Harray and Nicholas. In detail it's about this bug report here: https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fbugzilla.kernel.org%2Fshow_bug.cgi%3Fid%3D214621&amp;data=04%7C01%7CLang.Yu%40amd.com%7C766e41a1c30544442b6b08d9a81358b0%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637725623316543180%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=od%2BNksWOff%2FtsuAYZLX7lIJFQJMY2OScVqhLclPYWAQ%3D&amp;reserved=0
+>>>>>>>>
+>>>>>>>> Lang was able to reproduce the issue and narrow it down to the pin in amdgpu_display_crtc_page_flip_target().
+>>>>>>>>
+>>>>>>>> In other words we somehow have an unbalanced pinning of the scanout buffer in DC.
+>>>>>>> DC doesn't use amdgpu_display_crtc_page_flip_target AFAICT. The corresponding pin with DC would be in dm_plane_helper_prepare_fb, paired with the unpin in
+>>>>>>> dm_plane_helper_cleanup_fb.
+>>>>>>>
+>>>>>>>
+>>>>>>> With non-DC, the pin in amdgpu_display_crtc_page_flip_target is paired with the unpin in dm_plane_helper_cleanup_fb
+>>>>>> This should say amdgpu_display_unpin_work_func.
+>>>>>
+>>>>> Ah! So that is the classic (e.g. non atomic) path?
+>>>>
+>>>> Presumably.
+>>>>
+>>>>
+>>>>>>> & dce_v*_crtc_disable. One thing I notice is that the pin is guarded by if (!adev->enable_virtual_display), but the unpins seem unconditional. So could this be about virtual display, and the problem is actually trying to unpin a BO that was never pinned?
+>>>>>
+>>>>> Nope, my educated guess is rather that we free up the BO before amdgpu_display_unpin_work_func is called.
+>>>>>
+>>>>> E.g. not pin unbalance, but rather use after free.
+>>>>
+>>>> amdgpu_display_crtc_page_flip_target calls amdgpu_bo_ref(work->old_abo), and amdgpu_display_unpin_work_func calls amdgpu_bo_unref(&work->old_abo) only after amdgpu_bo_unpin. So what you describe could only happen if there's an imbalance elsewhere such that amdgpu_bo_unref is called more often than amdgpu_bo_ref, or maybe if amdgpu_bo_reserve fails in amdgpu_display_unpin_work_func (in which case the "failed to reserve buffer after flip" error message should appear in dmesg).
+>>>
+>>>
+>>> Actually, each call to amdgpu_display_crtc_page_flip_target() will
+>>>
+>>> 1, init a work(amdgpu_display_unpin_work_func) to unpin an old buffer
+>>>    (crtc->primary->fb), the work will be queued in dce_vX_0_pageflip_irq().
+>>>
+>>> 2, pin a new buffer, assign it to crtc->primary->fb. But how to unpin it?
+>>>    Next call.
+>>>
+>>> The problem is the pinned buffer of last call to 
+>>> amdgpu_display_crtc_page_flip_target() is not unpinned.
+>>
+>> It's unpinned in dce_v*_0_crtc_disable.
+> 
+> I just found crtc->primary->fb is NULL when came in dce_v*_0_crtc_disable().
+> So it's not unpinned...
 
-Cc: Harry Wentland <harry.wentland@amd.com>
-Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-Cc: Juha-Pekka Heikkila <juhapekka.heikkila@gmail.com>
-Cc: Kunal Joshi <kunal1.joshi@intel.com>
-Cc: Uma Shankar <uma.shankar@intel.com>
-Signed-off-by: Mukunda Pramodh Kumar <mukunda.pramodh.kumar@intel.com>
-Signed-off-by: Bhanuprakash Modem <bhanuprakash.modem@intel.com>
----
- tests/kms_color_chamelium.c | 40 ++++++++++++++++++++++++++++++++++---
- 1 file changed, 37 insertions(+), 3 deletions(-)
+__drm_helper_disable_unused_functions sets crtc->primary->fb = NULL only after calling crtc_funcs->disable. Maybe this path can get hit for a CRTC which was already disabled, in which case crtc->primary->fb == NULL in dce_v*_0_crtc_disable is harmless.
 
-diff --git a/tests/kms_color_chamelium.c b/tests/kms_color_chamelium.c
-index af820565d3..26e940f4c1 100644
---- a/tests/kms_color_chamelium.c
-+++ b/tests/kms_color_chamelium.c
-@@ -317,10 +317,21 @@ static void test_pipe_gamma(data_t *data,
- 		igt_assert(fbref_id);
- 
- 		igt_plane_set_fb(primary, &fb_modeset);
-+
-+		/* Reset the color properties */
- 		disable_ctm(primary->pipe);
- 		disable_degamma(primary->pipe);
--		set_gamma(data, primary->pipe, gamma_full);
-+		disable_gamma(primary->pipe);
- 		igt_display_commit(&data->display);
-+		igt_wait_for_vblank(data->drm_fd,
-+				    data->display.pipes[primary->pipe->pipe].crtc_offset);
-+
-+		if (igt_pipe_obj_has_prop(primary->pipe, IGT_CRTC_GAMMA_MODE)) {
-+			set_advance_gamma(data, primary->pipe, MAX_GAMMA);
-+		} else {
-+			set_gamma(data, primary->pipe, gamma_full);
-+			igt_display_commit(&data->display);
-+		}
- 
- 		/* Draw solid colors with no gamma transformation. */
- 		paint_rectangles(data, mode, red_green_blue, &fbref);
-@@ -343,6 +354,7 @@ static void test_pipe_gamma(data_t *data,
- 					      frame_fullcolors, &fbref,
- 					      CHAMELIUM_CHECK_ANALOG);
- 
-+		/* Cleanup */
- 		disable_gamma(primary->pipe);
- 		igt_plane_set_fb(primary, NULL);
- 		igt_output_set_pipe(output, PIPE_NONE);
-@@ -431,7 +443,10 @@ static bool test_pipe_ctm(data_t *data,
- 
- 		if (memcmp(before, after, sizeof(color_t))) {
- 			set_degamma(data, primary->pipe, degamma_linear);
--			set_gamma(data, primary->pipe, gamma_linear);
-+			if (igt_pipe_obj_has_prop(primary->pipe, IGT_CRTC_GAMMA_MODE))
-+				disable_gamma(primary->pipe);
-+			else
-+				set_gamma(data, primary->pipe, gamma_linear);
- 		} else {
- 			/* Disable Degamma and Gamma for ctm max test */
- 			disable_degamma(primary->pipe);
-@@ -465,6 +480,12 @@ static bool test_pipe_ctm(data_t *data,
- 		igt_output_set_pipe(output, PIPE_NONE);
- 	}
- 
-+	/* Cleanup */
-+	disable_gamma(primary->pipe);
-+	disable_degamma(primary->pipe);
-+	disable_ctm(primary->pipe);
-+	igt_display_commit(&data->display);
-+
- 	free_lut(degamma_linear);
- 	free_lut(gamma_linear);
- 
-@@ -561,7 +582,14 @@ static void test_pipe_limited_range_ctm(data_t *data,
- 		igt_plane_set_fb(primary, &fb_modeset);
- 
- 		set_degamma(data, primary->pipe, degamma_linear);
--		set_gamma(data, primary->pipe, gamma_linear);
-+		/*
-+		 * No need of linear gamma for limited range ctm test
-+		 * Not extending for new API interface.
-+		 */
-+		if (igt_pipe_obj_has_prop(primary->pipe, IGT_CRTC_GAMMA_MODE))
-+			disable_gamma(primary->pipe);
-+		else
-+			set_gamma(data, primary->pipe, gamma_linear);
- 		set_ctm(primary->pipe, ctm);
- 
- 		igt_output_set_prop_value(output,
-@@ -598,6 +626,12 @@ static void test_pipe_limited_range_ctm(data_t *data,
- 
- 	}
- 
-+	/* Cleanup */
-+	disable_gamma(primary->pipe);
-+	disable_degamma(primary->pipe);
-+	disable_ctm(primary->pipe);
-+	igt_display_commit(&data->display);
-+
- 	free_lut(gamma_linear);
- 	free_lut(degamma_linear);
- 
+Have you checked for the issue I described below? Should be pretty easy to catch.
+
+
+>> I think I've found the problem though: dce_v*_0_crtc_do_set_base pin the BO from target_fb unconditionally, but unpin the BO from the fb parameter only if it's different from the former. So if they're the same, the BO's pin count is incremented by 1.
+
+
 -- 
-2.32.0
-
+Earthling Michel Dänzer            |                  https://redhat.com
+Libre software enthusiast          |         Mesa and Xwayland developer
