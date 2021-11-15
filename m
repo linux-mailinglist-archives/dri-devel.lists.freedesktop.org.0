@@ -2,27 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B1DF4507B0
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 15:57:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55A1D4507BD
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 15:59:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 96E816EB36;
-	Mon, 15 Nov 2021 14:57:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 905E26E484;
+	Mon, 15 Nov 2021 14:59:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F1B556EB36
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 14:57:48 +0000 (UTC)
-Date: Mon, 15 Nov 2021 14:57:37 +0000
-From: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH 00/15] iio: buffer-dma: write() and new DMABUF based API
-To: Daniel Vetter <daniel@ffwll.ch>
-Message-Id: <18CM2R.6UYFWJDX5UQD@crapouillou.net>
-In-Reply-To: <YZJwnPbgCOdeKq6S@phenom.ffwll.local>
-References: <20211115141925.60164-1-paul@crapouillou.net>
- <YZJwnPbgCOdeKq6S@phenom.ffwll.local>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC5AA6E1E9;
+ Mon, 15 Nov 2021 14:58:59 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10168"; a="233396522"
+X-IronPort-AV: E=Sophos;i="5.87,236,1631602800"; d="scan'208";a="233396522"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Nov 2021 06:58:58 -0800
+X-IronPort-AV: E=Sophos;i="5.87,236,1631602800"; d="scan'208";a="505945303"
+Received: from rakeshr1-mobl1.amr.corp.intel.com (HELO intel.com)
+ ([10.255.37.176])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Nov 2021 06:58:57 -0800
+Date: Mon, 15 Nov 2021 09:58:56 -0500
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Subject: Re: [Intel-gfx] [PATCH v2 1/1] drm/i915/rpm: Enable runtime pm
+ autosuspend by default
+Message-ID: <YZJ1sPvyQc/erb0+@intel.com>
+References: <20211115102610.3141720-1-tilak.tangudu@intel.com>
+ <20211115102610.3141720-2-tilak.tangudu@intel.com>
+ <871r3h3ao6.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <871r3h3ao6.fsf@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -35,149 +47,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Michael Hennerich <Michael.Hennerich@analog.com>, linux-iio@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, Alexandru Ardelean <ardeleanalex@gmail.com>,
- Christian =?iso-8859-1?b?S/ZuaWc=?= <christian.koenig@amd.com>,
- Jonathan Cameron <jic23@kernel.org>, linux-media@vger.kernel.org
+Cc: intel-gfx@lists.freedesktop.org, Tilak Tangudu <tilak.tangudu@intel.com>,
+ ville.syrjala@intel.com, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Daniel,
+On Mon, Nov 15, 2021 at 01:44:57PM +0200, Jani Nikula wrote:
+> On Mon, 15 Nov 2021, Tilak Tangudu <tilak.tangudu@intel.com> wrote:
+> 
+> The actual commit message with explanations why it will work now and
+> didn't work before go here.
 
-Le lun., nov. 15 2021 at 15:37:16 +0100, Daniel Vetter=20
-<daniel@ffwll.ch> a =E9crit :
-> On Mon, Nov 15, 2021 at 02:19:10PM +0000, Paul Cercueil wrote:
->>  Hi Jonathan,
->>=20
->>  This patchset introduces a new userspace interface based on DMABUF
->>  objects, to complement the existing fileio based API.
->>=20
->>  The advantage of this DMABUF based interface vs. the fileio
->>  interface, is that it avoids an extra copy of the data between the
->>  kernel and userspace. This is particularly userful for high-speed
->>  devices which produce several megabytes or even gigabytes of data=20
->> per
->>  second.
->>=20
->>  The first few patches [01/15] to [03/15] are not really related, but
->>  allow to reduce the size of the patches that introduce the new API.
->>=20
->>  Patch [04/15] to [06/15] enables write() support to the buffer-dma
->>  implementation of the buffer API, to continue the work done by
->>  Mihail Chindris.
->>=20
->>  Patches [07/15] to [12/15] introduce the new DMABUF based API.
->>=20
->>  Patches [13/15] and [14/15] add support for cyclic buffers, only=20
->> through
->>  the new API. A cyclic buffer will be repeated on the output until=20
->> the
->>  buffer is disabled.
->>=20
->>  Patch [15/15] adds documentation about the new API.
->>=20
->>  For now, the API allows you to alloc DMABUF objects and mmap() them=20
->> to
->>  read or write the samples. It does not yet allow to import DMABUFs
->>  parented to other subsystems, but that should eventually be possible
->>  once it's wired.
->>=20
->>  This patchset is inspired by the "mmap interface" that was=20
->> previously
->>  submitted by Alexandru Ardelean and Lars-Peter Clausen, so it would=20
->> be
->>  great if I could get a review from you guys. Alexandru's commit was
->>  signed with his @analog.com address but he doesn't work at ADI=20
->> anymore,
->>  so I believe I'll need him to sign with a new email.
->=20
-> Why dma-buf? dma-buf looks like something super generic and useful,=20
-> until
-> you realize that there's a metric ton of gpu/accelerator bagage piled=20
-> in.
-> So unless buffer sharing with a gpu/video/accel/whatever device is the
-> goal here, and it's just for a convenient way to get at buffer=20
-> handles,
-> this doesn't sound like a good idea.
+The truth is that:
 
-Good question. The first reason is that a somewhat similar API was=20
-intented before[1], but refused upstream as it was kind of re-inventing=20
-the wheel.
+1. We don't have a good track of *all* the issues with the past attempts.
+2. But apparently in every attempt we hit some other bug, like the latest
+   one with GuC PM...
+3. All the attempts we also tried to do multiple changes at the same time,
+   including reducing the autosuspend delay.
 
-The second reason, is that we want to be able to share buffers too, not=20
-with gpu/video but with the network (zctap) and in the future with USB=20
-(functionFS) too.
+> Just the changelog will not be enough.
 
-[1]:=20
-https://lore.kernel.org/linux-iio/20210217073638.21681-1-alexandru.ardelean=
-@analog.com/T/
+But yes, you are absolutely right here. changelogs are not enough and
+we need some explanation in the commit itself.
 
-> Also if the idea is to this with gpus/accelerators then I'd really=20
-> like to
-> see the full thing, since most likely at that point you also want
-> dma_fence. And once we talk dma_fence things get truly horrible from a
-> locking pov :-( Or well, just highly constrained and I get to review=20
-> what
-> iio is doing with these buffers to make sure it all fits.
+I'd suggest something like:
 
-There is some dma_fence action in patch #10, which is enough for the=20
-userspace apps to use the API.
+"""
+Let's enable runtime pm autosuspend by default everywhere. So we can
+allow D3hot and bigger power savings on idle scenarios.
 
-What "horribleness" are we talking about here? It doesn't look that=20
-scary to me, but I certainly don't have the complete picture.
+But at this time let's not touch the autosuspend_delay time,
+what caused some regression on our previous attempt.
 
-Cheers,
--Paul
+Also, the latest identified issue on GuC PM has been fixed by
+1a52faed3131 ("drm/i915/guc: Take GT PM ref when deregistering context")
 
-> Cheers, Daniel
->=20
->>=20
->>  Cheers,
->>  -Paul
->>=20
->>  Alexandru Ardelean (1):
->>    iio: buffer-dma: split iio_dma_buffer_fileio_free() function
->>=20
->>  Paul Cercueil (14):
->>    iio: buffer-dma: Get rid of incoming/outgoing queues
->>    iio: buffer-dma: Remove unused iio_buffer_block struct
->>    iio: buffer-dma: Use round_down() instead of rounddown()
->>    iio: buffer-dma: Enable buffer write support
->>    iio: buffer-dmaengine: Support specifying buffer direction
->>    iio: buffer-dmaengine: Enable write support
->>    iio: core: Add new DMABUF interface infrastructure
->>    iio: buffer-dma: Use DMABUFs instead of custom solution
->>    iio: buffer-dma: Implement new DMABUF based userspace API
->>    iio: buffer-dma: Boost performance using write-combine cache=20
->> setting
->>    iio: buffer-dmaengine: Support new DMABUF based userspace API
->>    iio: core: Add support for cyclic buffers
->>    iio: buffer-dmaengine: Add support for cyclic buffers
->>    Documentation: iio: Document high-speed DMABUF based API
->>=20
->>   Documentation/driver-api/dma-buf.rst          |   2 +
->>   Documentation/iio/dmabuf_api.rst              |  94 +++
->>   Documentation/iio/index.rst                   |   2 +
->>   drivers/iio/adc/adi-axi-adc.c                 |   3 +-
->>   drivers/iio/buffer/industrialio-buffer-dma.c  | 670=20
->> ++++++++++++++----
->>   .../buffer/industrialio-buffer-dmaengine.c    |  42 +-
->>   drivers/iio/industrialio-buffer.c             |  49 ++
->>   include/linux/iio/buffer-dma.h                |  43 +-
->>   include/linux/iio/buffer-dmaengine.h          |   5 +-
->>   include/linux/iio/buffer_impl.h               |   8 +
->>   include/uapi/linux/iio/buffer.h               |  30 +
->>   11 files changed, 783 insertions(+), 165 deletions(-)
->>   create mode 100644 Documentation/iio/dmabuf_api.rst
->>=20
->>  --
->>  2.33.0
->>=20
->=20
-> --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
+"""
 
+While writing that I remembered that we cannot do this just yet.
+We need to do a further work and block the d3cold on discrete.
+D3cold is not ready yet and enabling this autosuspend by default
+will blow up some discrete experimental usages of upstream i915
+out there. Let's protect that first.
 
+Thanks,
+Rodrigo.
+
+> 
+> BR,
+> Jani.
+> 
+> 
+> > v1: Enable runtime pm autosuspend by default for Gen12
+> > and later versions.
+> >
+> > v2: Enable runtime pm autosuspend by default for all
+> > platforms(Syrjala Ville)
+> >
+> > Signed-off-by: Tilak Tangudu <tilak.tangudu@intel.com>
+> > ---
+> >  drivers/gpu/drm/i915/intel_runtime_pm.c | 3 +++
+> >  1 file changed, 3 insertions(+)
+> >
+> > diff --git a/drivers/gpu/drm/i915/intel_runtime_pm.c b/drivers/gpu/drm/i915/intel_runtime_pm.c
+> > index eaf7688f517d..f26ed1427fdc 100644
+> > --- a/drivers/gpu/drm/i915/intel_runtime_pm.c
+> > +++ b/drivers/gpu/drm/i915/intel_runtime_pm.c
+> > @@ -600,6 +600,9 @@ void intel_runtime_pm_enable(struct intel_runtime_pm *rpm)
+> >  		pm_runtime_use_autosuspend(kdev);
+> >  	}
+> >  
+> > +	/* Enable by default */
+> > +	pm_runtime_allow(kdev);
+> > +
+> >  	/*
+> >  	 * The core calls the driver load handler with an RPM reference held.
+> >  	 * We drop that here and will reacquire it during unloading in
+> 
+> -- 
+> Jani Nikula, Intel Open Source Graphics Center
