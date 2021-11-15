@@ -1,40 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55A344519CB
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Nov 2021 00:25:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 60C3F451A54
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Nov 2021 00:34:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DBBAC6E4F9;
-	Mon, 15 Nov 2021 23:25:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B32E78926B;
+	Mon, 15 Nov 2021 23:34:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 371EF6E4F9
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 23:25:54 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 4BAAB61882;
- Mon, 15 Nov 2021 23:25:53 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4839D8926B
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 23:34:21 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 1E2A563256
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 23:34:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1637018754;
- bh=rGYlQyxDaD3rF9edRUkWserAGW/waRNxxYO5X77TR0A=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=rHNtf20mOE69yBjq72LUkrANiH0nkEAgcXR7+XtZn5SkPFrx8uLyyYouV+vaWhJdb
- evf224lm2E+vdylYG396rGdoKa0fYKULmw71l3rWcdMVh1MIPBP8qRCkbiGBDB1lNE
- NPvVTe6XjPhS3ShdrbAM/oYdLu4LA+DcQq6MeFE/2SiXN1AkiOZqUt0ISNdc9EDxM2
- 3D3IxCQ8sjPwOXZng7CRhMsNaVyQk9u7d858/12Rh0W/5oIeLxWWx9v3q8Pan4AknW
- TksRUI9MN8a7f6x7p8wjWqwAyEu5TU0KzutxtdEOGAPKuf+8XRf6PUsVMkhvSufNbx
- gEFhF/ecEICoQ==
-Date: Mon, 15 Nov 2021 17:30:58 -0600
-From: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH] fbdev: sh7760fb: document fallthrough cases
-Message-ID: <20211115233058.GA116241@embeddedor>
-References: <20211115063257.14369-1-rdunlap@infradead.org>
- <CAMuHMdWerZGYz_i8oBK4-ZC+AHZm8c0VW7CXDRX=2PxboWFZ-w@mail.gmail.com>
+ s=k20201202; t=1637019261;
+ bh=TImIHqbp486HLuwHQvsUohXCnLk5VoW2gEDqvRP9Bv8=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=uJTH4aXwYaa+dSQMHLezRwehNizg4YsBHW4nowq/m7HD+udnSv4giJGTdAAJuKhQd
+ OWbn3oaOB7gt7gEUN4e0GyWusfn1wGRLjmgvQQj877n1sEok1yrLjVlBdNJjUpDHYW
+ mBy0cE6ycLj8/jYrJLVhAexR4HvSlvcjqDuaE8vA3JkSbQrXVYdsHHOssizJV0m2Wl
+ Fmh0LtLVsSrZX9GPG31ubLoOf58pUQK+n3B5rPcB7QMRw1TWKaX9d4LU+xs9zXhaVe
+ Hn/LpJ2cbVCekxxaoFEOAXcMlW+NdflLDago6i+ZuZHO4eq/eqP8jk4AalYShi+UcK
+ jx2t0pvwrgX9Q==
+Received: by mail-ed1-f49.google.com with SMTP id z10so52659064edc.11
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 15:34:21 -0800 (PST)
+X-Gm-Message-State: AOAM530kj7SfUW3lvfzuP5RQ1wHrvpFvSCUN35GocnZF9U7osAJ+Ta1T
+ n4zrvmCZGp4V65U12mM5R1L200esdX3mD163AA==
+X-Google-Smtp-Source: ABdhPJyigb0xM4tUbMt5283H/raL8mEwtPWWbhCfWI/2StAgMHYuqxQHh9LRuw1npThsAwOZ+I4iT2VnrXstnJeipDM=
+X-Received: by 2002:aa7:d3d0:: with SMTP id o16mr3686530edr.159.1637019259273; 
+ Mon, 15 Nov 2021 15:34:19 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdWerZGYz_i8oBK4-ZC+AHZm8c0VW7CXDRX=2PxboWFZ-w@mail.gmail.com>
+References: <20210930155222.5861-1-yongqiang.niu@mediatek.com>
+ <20210930155222.5861-2-yongqiang.niu@mediatek.com>
+In-Reply-To: <20210930155222.5861-2-yongqiang.niu@mediatek.com>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Tue, 16 Nov 2021 07:34:08 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_8++T24XmaxneZCEqiWSMmUG=EEd5Jhs+6Szn9fQACt-Q@mail.gmail.com>
+Message-ID: <CAAOTY_8++T24XmaxneZCEqiWSMmUG=EEd5Jhs+6Szn9fQACt-Q@mail.gmail.com>
+Subject: Re: [PATCH v10, 1/5] drm/mediatek: add component OVL_2L2
+To: Yongqiang Niu <yongqiang.niu@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,44 +55,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Rich Felker <dalias@libc.org>,
- Nobuhiro Iwamatsu <iwamatsu.nobuhiro@renesas.com>,
- Yoshinori Sato <ysato@users.sourceforge.jp>,
- Linux-sh list <linux-sh@vger.kernel.org>,
- Manuel Lauss <mano@roarinelk.homelinux.net>,
- Randy Dunlap <rdunlap@infradead.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ DTML <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
+ Jassi Brar <jassisinghbrar@gmail.com>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
  DRI Development <dri-devel@lists.freedesktop.org>,
- linux-hardening@vger.kernel.org
+ Dennis YC Hsieh <dennis-yc.hsieh@mediatek.com>,
+ Fabien Parent <fparent@baylibre.com>, Rob Herring <robh+dt@kernel.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Nov 15, 2021 at 09:35:09AM +0100, Geert Uytterhoeven wrote:
-> On Mon, Nov 15, 2021 at 7:33 AM Randy Dunlap <rdunlap@infradead.org> wrote:
-> > Fix fallthrough warnings in sh776fb.c:
-> >
-> > ../drivers/video/fbdev/sh7760fb.c: In function 'sh7760fb_get_color_info':
-> > ../drivers/video/fbdev/sh7760fb.c:138:23: warning: this statement may fall through [-Wimplicit-fallthrough=]
-> >   138 |                 lgray = 1;
-> > ../drivers/video/fbdev/sh7760fb.c:143:23: warning: this statement may fall through [-Wimplicit-fallthrough=]
-> >   143 |                 lgray = 1;
-> >
-> > Just document the current state of code execution/flow.
-> >
-> > Fixes: 4a25e41831ee ("video: sh7760fb: SH7760/SH7763 LCDC framebuffer driver")
-> > Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> 
-> Section 30.4.4 ("Data Format") of the SH7760 Group Hardware
-> Manual confirms fall-through is appropriate here (especially for
-> the odd 6 bpp mode).
-> 
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Hi, Yongqiang:
 
-I'm taking this in my -next tree[1].
+Yongqiang Niu <yongqiang.niu@mediatek.com> =E6=96=BC 2021=E5=B9=B49=E6=9C=
+=8830=E6=97=A5 =E9=80=B1=E5=9B=9B =E4=B8=8B=E5=8D=8811:52=E5=AF=AB=E9=81=93=
+=EF=BC=9A
+>
+> This patch add component OVL_2L2
 
-Thanks
---
-Gustavo
+Applied to mediatek-drm-next [1], thanks.
 
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/gustavoars/linux.git/log/?h=for-next/kspp-misc-fixes
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git/=
+log/?h=3Dmediatek-drm-next
+
+Regards,
+Chun-Kuang.
+
+>
+> Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
+> Reviewed-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+> Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
+> ---
+>  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c b/drivers/gpu/dr=
+m/mediatek/mtk_drm_ddp_comp.c
+> index 33e8789fde8a..4a2abcf3e5f9 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
+> @@ -353,6 +353,7 @@ static const struct mtk_ddp_comp_match mtk_ddp_matche=
+s[DDP_COMPONENT_ID_MAX] =3D {
+>         [DDP_COMPONENT_OVL1]    =3D { MTK_DISP_OVL,       1, &ddp_ovl },
+>         [DDP_COMPONENT_OVL_2L0] =3D { MTK_DISP_OVL_2L,    0, &ddp_ovl },
+>         [DDP_COMPONENT_OVL_2L1] =3D { MTK_DISP_OVL_2L,    1, &ddp_ovl },
+> +       [DDP_COMPONENT_OVL_2L2] =3D { MTK_DISP_OVL_2L,    2, &ddp_ovl },
+>         [DDP_COMPONENT_PWM0]    =3D { MTK_DISP_PWM,       0, NULL },
+>         [DDP_COMPONENT_PWM1]    =3D { MTK_DISP_PWM,       1, NULL },
+>         [DDP_COMPONENT_PWM2]    =3D { MTK_DISP_PWM,       2, NULL },
+> --
+> 2.25.1
+>
