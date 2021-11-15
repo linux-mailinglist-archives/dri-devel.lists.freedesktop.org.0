@@ -2,52 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AB42450804
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 16:15:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7733B45082F
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 16:23:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 470646E1A3;
-	Mon, 15 Nov 2021 15:15:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 87E48892E4;
+	Mon, 15 Nov 2021 15:23:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2782C6E1E9
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 15:15:18 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id F24AB63212
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 15:15:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1636989318;
- bh=caNhQR6MItqyqj8aVGADFWmRHHEWyDNeG1UmwE7ptic=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=V/bQc6DKqJJ9P37PTBVcjhzef7pDvNHRvr3F3EgUQSqR6cy9gSS6hyzZDciApni0a
- 3QMWN6MNNmORUy4BghYhYSm0TENrtMowNG+BxfSpe4F6N3jXjJPkkbXvN49Ox0bMTt
- fWhgBksXDZXchbDYG70HcbRVWZGHGtswftEIz2iyfbKUP7KKPZVOsGmmLlIrKIXyeJ
- gzuikhV7beCSHi+4AycaC9/XDi8NPveqOXyRlBsMjwDJnNyhOY3SSISSPPYeOikYGF
- 0Xs8EXetoSOIeENEILqVUTpQifde5TJSWu7mnaCK9kgeWQDH6Cm3MkdBV5hVy9UqQz
- 656gt9SaY+hCg==
-Received: by mail-wm1-f43.google.com with SMTP id
- k37-20020a05600c1ca500b00330cb84834fso330198wms.2
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 07:15:17 -0800 (PST)
-X-Gm-Message-State: AOAM5323/cUBDTw0YkoY8EjUO1/qRQjntTb302RSfzENS1n1RLKWZKqY
- emPOG/V6Tni6wFIPd3XzzaKYl44zSOc5zqaEpZw=
-X-Google-Smtp-Source: ABdhPJy8n2MSwzh6suyWZ9JESZ+B+WCCwhvtwsBUIZeDj84QhV0+ZckRDxWsOxlhdmOo7jylNl8QiKm3gBRShRPmqHI=
-X-Received: by 2002:a1c:2382:: with SMTP id j124mr42651026wmj.35.1636989316377; 
- Mon, 15 Nov 2021 07:15:16 -0800 (PST)
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D1F0D89276
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 15:23:00 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10168"; a="294279316"
+X-IronPort-AV: E=Sophos;i="5.87,236,1631602800"; d="scan'208";a="294279316"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Nov 2021 07:23:00 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.87,236,1631602800"; d="scan'208";a="505955812"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
+ by orsmga008.jf.intel.com with SMTP; 15 Nov 2021 07:22:57 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Mon, 15 Nov 2021 17:22:57 +0200
+Date: Mon, 15 Nov 2021 17:22:57 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Simon Ser <contact@emersion.fr>
+Subject: Re: [PATCH] drm: pre-fill getfb2 modifier array with INVALID
+Message-ID: <YZJ7UcXdNIvk918E@intel.com>
+References: <20211111101049.269349-1-contact@emersion.fr>
+ <YY0RjSE7mI4kkKNJ@intel.com>
+ <D-6FSEcdyTRAZxrnW6mcb0iOVY3NfKMbT8WS7-f9Wn4i9jQ0YbmInyMwZRwb_aLzPvUSWz_KPs34RQ1tkCb3xuISVkTyjkmV5aMfGcdkQl8=@emersion.fr>
 MIME-Version: 1.0
-References: <20211115085403.360194-1-arnd@kernel.org>
- <20211115085403.360194-2-arnd@kernel.org>
- <647b842d-76a1-7a96-3ea7-8a37b62bc18e@metafoo.de>
- <CAK8P3a2EVseM4t=e982fFhzBGSZxZ2_V-FHwr-fQPd-bkAKaJg@mail.gmail.com>
- <d2dd42fc-e58a-0c06-7f7e-a6a2161c368d@metafoo.de>
- <5737810c-420a-2f8d-99bf-24a2558d5855@gmail.com>
-In-Reply-To: <5737810c-420a-2f8d-99bf-24a2558d5855@gmail.com>
-From: Arnd Bergmann <arnd@kernel.org>
-Date: Mon, 15 Nov 2021 16:15:00 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a1dGSF-S4msKKWvPYORwYCFvtkNSJwkhtxvETgiQjC7_Q@mail.gmail.com>
-Message-ID: <CAK8P3a1dGSF-S4msKKWvPYORwYCFvtkNSJwkhtxvETgiQjC7_Q@mail.gmail.com>
-Subject: Re: [PATCH 01/11] ASoC: dai_dma: remove slave_id field
-To: Dmitry Osipenko <digetx@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <D-6FSEcdyTRAZxrnW6mcb0iOVY3NfKMbT8WS7-f9Wn4i9jQ0YbmInyMwZRwb_aLzPvUSWz_KPs34RQ1tkCb3xuISVkTyjkmV5aMfGcdkQl8=@emersion.fr>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,46 +49,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ALSA Development Mailing List <alsa-devel@alsa-project.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- "open list:TEGRA ARCHITECTURE SUPPORT" <linux-tegra@vger.kernel.org>,
- Laxman Dewangan <ldewangan@nvidia.com>,
- linux-mtd <linux-mtd@lists.infradead.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- linux-spi <linux-spi@vger.kernel.org>, Robert Jarzmik <robert.jarzmik@free.fr>,
- Chunyan Zhang <zhang.lyra@gmail.com>, linux-staging@lists.linux.dev,
- Michal Simek <michal.simek@xilinx.com>, Jon Hunter <jonathanh@nvidia.com>,
- Andy Gross <agross@kernel.org>,
- bcm-kernel-feedback-list <bcm-kernel-feedback-list@broadcom.com>,
- "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
- Orson Zhai <orsonzhai@gmail.com>, Nicolas Saenz Julienne <nsaenz@kernel.org>,
- Arnd Bergmann <arnd@arndb.de>, Manivannan Sadhasivam <mani@kernel.org>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>, dmaengine@vger.kernel.org,
- Mark Brown <broonie@kernel.org>,
- "moderated list:BROADCOM BCM2835 ARM ARCHITECTURE"
- <linux-rpi-kernel@lists.infradead.org>, Jaroslav Kysela <perex@perex.cz>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Scott Branden <sbranden@broadcom.com>, Hyun Kwon <hyun.kwon@xilinx.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-mmc <linux-mmc@vger.kernel.org>, Takashi Iwai <tiwai@suse.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Vinod Koul <vkoul@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
- Baolin Wang <baolin.wang7@gmail.com>
+Cc: Daniel Stone <daniels@collabora.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Nov 15, 2021 at 3:46 PM Dmitry Osipenko <digetx@gmail.com> wrote:
-> 15.11.2021 14:53, Lars-Peter Clausen =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
-> That Tegra SPDIF driver was never used. Still there is a growing
-> interest nowadays in making it alive by implementing HDMI audio support
-> for Tegra20 SoC. It was on my todo list for a long time, I'll try to
-> prioritize that work 5.17, it shouldn't take much effort.
->
-> The slave_id should be removed anyways, it won't be needed.
+On Mon, Nov 15, 2021 at 09:18:42AM +0000, Simon Ser wrote:
+> On Thursday, November 11th, 2021 at 13:50, Ville Syrjälä <ville.syrjala@linux.intel.com> wrote:
+> 
+> > On Thu, Nov 11, 2021 at 10:10:54AM +0000, Simon Ser wrote:
+> > > User-space shouldn't look up the modifier array when the modifier
+> > > flag is missing, but at the moment no docs make this clear (working
+> > > on it). Right now the modifier array is pre-filled with zeroes, aka.
+> > > LINEAR. Instead, pre-fill with INVALID to avoid footguns.
+> > >
+> > > This is a uAPI change, but OTOH any user-space which looks up the
+> > > modifier array without checking the flag is broken already, so
+> > > should be fine.
+> > >
+> > > Signed-off-by: Simon Ser <contact@emersion.fr>
+> > > Cc: Daniel Vetter <daniel@ffwll.ch>
+> > > Cc: Pekka Paalanen <ppaalanen@gmail.com>
+> > > Cc: Daniel Stone <daniels@collabora.com>
+> >
+> > Isn't this going to break the test where we pass the get
+> > getfb2 result back into addfb2?
+> 
+> Shouldn't be the case, since the kernel will ignore modifiers if the
+> flag isn't set.
 
-Ok, thanks for the background, I'll mention that in the changelog text then=
-.
+if (r->modifier[i] && !(r->flags & DRM_MODE_FB_MODIFIERS)) {
+	DRM_DEBUG_KMS("bad fb modifier %llu for plane %d\n",
+		r->modifier[i], i);
+	return -EINVAL;
+}
 
-     Arnd
+-- 
+Ville Syrjälä
+Intel
