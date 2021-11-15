@@ -2,38 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5FF445095B
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 17:16:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66355450985
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 17:20:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D59076E0C6;
-	Mon, 15 Nov 2021 16:16:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CEEC96E110;
+	Mon, 15 Nov 2021 16:20:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C79676E0C9
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 16:16:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xff.cz; s=mail;
- t=1636992994; bh=8zqmyxJ6YLBvDZxUVYwaR/a20Z2lqXCiiNweymKA6Ds=;
- h=Date:From:To:Cc:Subject:X-My-GPG-KeyId:References:From;
- b=FaDAPdfXjJfWoCTcGyrkIT+hH+zFptwTgmpDtMhxfjXrykTpetI43uyzyUBPEdYHY
- CWdgPk/MHqQPetz8sN9Xh/Rr3leLbpPrfhidbQGTpgOmyoynddz3Dr5MFS112Z2O6z
- zzs42Zxnq46B5jBpI8UxKrdeTOcTQuicJRgWQfK8=
-Date: Mon, 15 Nov 2021 17:16:34 +0100
-From: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: Panic with linus/master and panfrost
-Message-ID: <20211115161634.jkgfmknuvlkbzkbp@core>
-X-My-GPG-KeyId: EBFBDDE11FB918D44D1F56C1F9F0A873BE9777ED
- <https://xff.cz/key.txt>
-References: <20211114234045.cc5tearljna2ywij@core>
- <CAPj87rPxtQVQnrs0BiXy0H1viF-oMNeCCP_Aptsxt_sgeK+CpA@mail.gmail.com>
- <CAKMK7uGd+W3yOr2wGRREW08pcX=g1UPvkX4n13dVo7YdQ4dpxg@mail.gmail.com>
- <20211115160436.llmlb3j6quts2frz@core>
+Received: from mail-vk1-f171.google.com (mail-vk1-f171.google.com
+ [209.85.221.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EFFEC6E110
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 16:20:50 +0000 (UTC)
+Received: by mail-vk1-f171.google.com with SMTP id d130so9476267vke.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 08:20:50 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=GHbFsAYOPumvboD3uCH/py8mrfSZqewFYFUyg3SH2X4=;
+ b=IjYP7YhjFkSsowZQ1QkM3ibaBr0R4b6AmU2DPgyh9W1AqMQt4TIngv8gbedYmHGFb3
+ sCdVOf4aUl944Koqr7BeO5cFMYBG0jY7gUul08xiG8KbZgFyf2w9HWrWcIiwaQ4rf0wS
+ BUi4gGJgfecR4GEhf+v2wmW3xdZ1E9mHexNmoYLtV7STPzyFJtwkM+Leb3bkq2yJ8dBi
+ 5AUYL9DCMK6bisiV5IM+pFsKBxWTV1t1rW4JPseWOTqmV3xPNBgQbMQT60TMwYVeUEvS
+ tb947N+xrFsnbywWhH34Wtn2tfXlv3Vi0Y0JhGM5CXVuSC9hHfS9cUI7fzbb+r/8RBv7
+ dayA==
+X-Gm-Message-State: AOAM532gPJiIK+qH4awjZSBFbbkHCeeeghhgJIthCSsmAmnGliv0mAEX
+ q92Plb1fIoF/Nsu4XOq5+MJHB+LVfqkfrg==
+X-Google-Smtp-Source: ABdhPJyBqYofwX2i6YnYZ7nZoMSdo8ey8J/ssT8VHO9xpUaxVZfwKEi6atX5UMN8fYaDBwCz3kxypQ==
+X-Received: by 2002:a1f:18cb:: with SMTP id 194mr61018746vky.16.1636993247452; 
+ Mon, 15 Nov 2021 08:20:47 -0800 (PST)
+Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com.
+ [209.85.222.45])
+ by smtp.gmail.com with ESMTPSA id y22sm9275995vsy.33.2021.11.15.08.20.46
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 15 Nov 2021 08:20:47 -0800 (PST)
+Received: by mail-ua1-f45.google.com with SMTP id o1so3171379uap.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 08:20:46 -0800 (PST)
+X-Received: by 2002:a05:6102:e82:: with SMTP id
+ l2mr44043532vst.37.1636993246647; 
+ Mon, 15 Nov 2021 08:20:46 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20211115160436.llmlb3j6quts2frz@core>
+References: <20211111111120.1344613-1-javierm@redhat.com>
+In-Reply-To: <20211111111120.1344613-1-javierm@redhat.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 15 Nov 2021 17:20:35 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWA2V_KDpcpMw3yRKmN+6YDjmysJoz6D-6JjJs-3+XYTQ@mail.gmail.com>
+Message-ID: <CAMuHMdWA2V_KDpcpMw3yRKmN+6YDjmysJoz6D-6JjJs-3+XYTQ@mail.gmail.com>
+Subject: Re: [PATCH v2] fbdev: Prevent probing generic drivers if a FB is
+ already registered
+To: Javier Martinez Canillas <javierm@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,132 +65,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>, dri-devel@lists.freedesktop.org,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ Thorsten Leemhuis <regressions@leemhuis.info>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Hans de Goede <hdegoede@redhat.com>, Peter Jones <pjones@redhat.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Ilya Trukhanov <lahvuun@gmail.com>,
+ Borislav Petkov <bp@suse.de>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Nov 15, 2021 at 05:04:36PM +0100, megi xff wrote:
-> On Mon, Nov 15, 2021 at 04:05:02PM +0100, Daniel Vetter wrote:
-> > You need
-> > 
-> > commit 13e9e30cafea10dff6bc8d63a38a61249e83fd65
-> > Author: Christian König <christian.koenig@amd.com>
-> > Date:   Mon Oct 18 21:27:55 2021 +0200
-> > 
-> >    drm/scheduler: fix drm_sched_job_add_implicit_dependencies
-> 
-> Thank you, that fixed the panic. :)
+Hi Javier,
 
-I spoke too soon. Panic is gone, but I still see (immediately after
-starting Xorg):
+On Thu, Nov 11, 2021 at 12:13 PM Javier Martinez Canillas
+<javierm@redhat.com> wrote:
+> The efifb and simplefb drivers just render to a pre-allocated frame buffer
+> and rely on the display hardware being initialized before the kernel boots.
+>
+> But if another driver already probed correctly and registered a fbdev, the
+> generic drivers shouldn't be probed since an actual driver for the display
+> hardware is already present.
+>
+> This is more likely to occur after commit d391c5827107 ("drivers/firmware:
+> move x86 Generic System Framebuffers support") since the "efi-framebuffer"
+> and "simple-framebuffer" platform devices are registered at a later time.
+>
+> Link: https://lore.kernel.org/r/20211110200253.rfudkt3edbd3nsyj@lahvuun/
+> Fixes: d391c5827107 ("drivers/firmware: move x86 Generic System Framebuffers support")
+> Reported-by: Ilya Trukhanov <lahvuun@gmail.com>
+> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> ---
+>
+> Changes in v2:
+> - Add a Link: tag with a reference to the bug report (Thorsten Leemhuis).
+> - Add a comment explaining why the probe fails earlier (Daniel Vetter).
+> - Add a Fixes: tag for stable to pick the fix (Daniel Vetter).
+> - Add Daniel Vetter's Reviewed-by: tag.
+> - Improve the commit message and mention the culprit commit
+>
+>  drivers/video/fbdev/efifb.c    | 11 +++++++++++
+>  drivers/video/fbdev/simplefb.c | 11 +++++++++++
+>  2 files changed, 22 insertions(+)
+>
+> diff --git drivers/video/fbdev/efifb.c drivers/video/fbdev/efifb.c
+> index edca3703b964..ea42ba6445b2 100644
+> --- drivers/video/fbdev/efifb.c
+> +++ drivers/video/fbdev/efifb.c
+> @@ -351,6 +351,17 @@ static int efifb_probe(struct platform_device *dev)
+>         char *option = NULL;
+>         efi_memory_desc_t md;
+>
+> +       /*
+> +        * Generic drivers must not be registered if a framebuffer exists.
+> +        * If a native driver was probed, the display hardware was already
+> +        * taken and attempting to use the system framebuffer is dangerous.
+> +        */
+> +       if (num_registered_fb > 0) {
 
-[   13.290795] ------------[ cut here ]------------
-[   13.291103] refcount_t: addition on 0; use-after-free.
-[   13.291495] WARNING: CPU: 5 PID: 548 at lib/refcount.c:25 refcount_warn_saturate+0x98/0x140
-[   13.292124] Modules linked in:
-[   13.292285] CPU: 5 PID: 548 Comm: Xorg Not tainted 5.16.0-rc1-00414-g21a254904a26 #29
-[   13.292857] Hardware name: Pine64 PinePhonePro (DT)
-[   13.293172] pstate: 40000005 (nZcv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-[   13.293669] pc : refcount_warn_saturate+0x98/0x140
-[   13.293977] lr : refcount_warn_saturate+0x98/0x140
-[   13.294285] sp : ffff8000129a3b50
-[   13.294464] x29: ffff8000129a3b50 x28: ffff8000129a3d50 x27: ffff000017ec4b00
-[   13.294979] x26: 0000000000000001 x25: 0000000000000001 x24: ffff0000127cca48
-[   13.295494] x23: ffff000017d19b00 x22: 000000000000000a x21: 0000000000000001
-[   13.296006] x20: ffff000017e15500 x19: ffff000012980580 x18: 0000000000000003
-[   13.296520] x17: 0000000000000000 x16: 0000000000000000 x15: ffff8000129a3b58
-[   13.297033] x14: ffffffffffffffff x13: 2e656572662d7265 x12: 7466612d65737520
-[   13.297546] x11: 3b30206e6f206e6f x10: ffff800011d6e8a0 x9 : ffff80001022f37c
-[   13.298059] x8 : 00000000ffffefff x7 : ffff800011dc68a0 x6 : 0000000000000001
-[   13.298573] x5 : 0000000000000000 x4 : ffff0000f77a9788 x3 : ffff0000f77b56f0
-[   13.299085] x2 : ffff0000f77a9788 x1 : ffff8000e5eb1000 x0 : 000000000000002a
-[   13.299600] Call trace:
-[   13.299704]  refcount_warn_saturate+0x98/0x140
-[   13.299981]  drm_sched_job_add_implicit_dependencies+0x90/0xdc
-[   13.300385]  panfrost_job_push+0xd0/0x1d4
-[   13.300628]  panfrost_ioctl_submit+0x34c/0x440
-[   13.300906]  drm_ioctl_kernel+0x9c/0x154
-[   13.301142]  drm_ioctl+0x1f0/0x410
-[   13.301330]  __arm64_sys_ioctl+0xb4/0xdc
-[   13.301566]  invoke_syscall+0x4c/0x110
-[   13.301787]  el0_svc_common.constprop.0+0x48/0xf0
-[   13.302090]  do_el0_svc+0x2c/0x90
-[   13.302271]  el0_svc+0x14/0x50
-[   13.302431]  el0t_64_sync_handler+0x9c/0x120
-[   13.302693]  el0t_64_sync+0x158/0x15c
-[   13.302904] ---[ end trace 8c211e57f89714c8 ]---
-[   13.303211] ------------[ cut here ]------------
-[   13.303504] refcount_t: underflow; use-after-free.
-[   13.303820] WARNING: CPU: 5 PID: 548 at lib/refcount.c:28 refcount_warn_saturate+0xec/0x140
-[   13.304439] Modules linked in:
-[   13.304596] CPU: 5 PID: 548 Comm: Xorg Tainted: G        W         5.16.0-rc1-00414-g21a254904a26 #29
-[   13.305286] Hardware name: Pine64 PinePhonePro (DT)
-[   13.305600] pstate: 40000005 (nZcv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-[   13.306095] pc : refcount_warn_saturate+0xec/0x140
-[   13.306402] lr : refcount_warn_saturate+0xec/0x140
-[   13.306710] sp : ffff8000129a3b70
-[   13.306887] x29: ffff8000129a3b70 x28: ffff8000129a3d50 x27: ffff000017ec4b00
-[   13.307401] x26: 0000000000000001 x25: 0000000000000001 x24: 0000000000000000
-[   13.307914] x23: 00000000ffffffff x22: ffff0000129807c0 x21: ffff000012980580
-[   13.308428] x20: ffff000017c54d00 x19: 0000000000000000 x18: 0000000000000003
-[   13.308942] x17: 0000000000000000 x16: 0000000000000000 x15: ffff8000129a3b58
-[   13.309454] x14: ffffffffffffffff x13: 2e656572662d7265 x12: 7466612d65737520
-[   13.309967] x11: 3b776f6c66726564 x10: ffff800011d6e8a0 x9 : ffff80001017893c
-[   13.310480] x8 : 00000000ffffefff x7 : ffff800011dc68a0 x6 : 0000000000000001
-[   13.310993] x5 : ffff0000f77a9788 x4 : 0000000000000000 x3 : 0000000000000027
-[   13.311506] x2 : 0000000000000023 x1 : ffff0000f77a9790 x0 : 0000000000000026
-[   13.312020] Call trace:
-[   13.312123]  refcount_warn_saturate+0xec/0x140
-[   13.312401]  dma_resv_add_excl_fence+0x1a8/0x1bc
-[   13.312700]  panfrost_job_push+0x174/0x1d4
-[   13.312949]  panfrost_ioctl_submit+0x34c/0x440
-[   13.313229]  drm_ioctl_kernel+0x9c/0x154
-[   13.313464]  drm_ioctl+0x1f0/0x410
-[   13.313651]  __arm64_sys_ioctl+0xb4/0xdc
-[   13.313884]  invoke_syscall+0x4c/0x110
-[   13.314103]  el0_svc_common.constprop.0+0x48/0xf0
-[   13.314405]  do_el0_svc+0x2c/0x90
-[   13.314586]  el0_svc+0x14/0x50
-[   13.314745]  el0t_64_sync_handler+0x9c/0x120
-[   13.315007]  el0t_64_sync+0x158/0x15c
-[   13.315217] ---[ end trace 8c211e57f89714c9 ]---
+Who says this registered fbdev is driving the same hardware as efifb?
+This might be e.g. a small external display connected to i2c or spi.
 
-In dmesg. So this looks like some independent issue.
+> +               dev_err(&dev->dev,
+> +                       "efifb: a framebuffer is already registered\n");
+> +               return -EINVAL;
+> +       }
+> +
+>         if (screen_info.orig_video_isVGA != VIDEO_TYPE_EFI || pci_dev_disabled)
+>                 return -ENODEV;
+>
+> diff --git drivers/video/fbdev/simplefb.c drivers/video/fbdev/simplefb.c
+> index 62f0ded70681..b63074fd892e 100644
+> --- drivers/video/fbdev/simplefb.c
+> +++ drivers/video/fbdev/simplefb.c
+> @@ -407,6 +407,17 @@ static int simplefb_probe(struct platform_device *pdev)
+>         struct simplefb_par *par;
+>         struct resource *mem;
+>
+> +       /*
+> +        * Generic drivers must not be registered if a framebuffer exists.
+> +        * If a native driver was probed, the display hardware was already
+> +        * taken and attempting to use the system framebuffer is dangerous.
+> +        */
+> +       if (num_registered_fb > 0) {
 
-kind regards,
-	o.
+Likewise.
 
-> kind regards,
-> 	Ondrej
-> 
-> > which Christian pushed to drm-misc-next instead of drm-misc-fixes. I
-> > already asked Christian in some other thread to cherry-pick it over.
-> > -Daniel
-> > 
-> > On Mon, Nov 15, 2021 at 3:56 PM Daniel Stone <daniel@fooishbar.org> wrote:
-> > > Hi Ondrej,
-> > >
-> > > On Mon, 15 Nov 2021 at 07:35, Ondřej Jirman <megi@xff.cz> wrote:
-> > > > I'm getting some fence refcounting related panics with the current
-> > > > Linus's master branch:
-> > > >
-> > > > It happens immediately whenever I start Xorg or sway.
-> > > >
-> > > > Anyone has any ideas where to start looking? It works fine with v5.15.
-> > > >
-> > > > (sorry for the interleaved log, it's coming from multiple CPUs at once
-> > > > I guess)
-> > >
-> > > Thanks a lot for the report - are you able to bisect this please?
-> > >
-> > > Cheers,
-> > > Daniel
-> > 
-> > 
-> > 
-> > --
-> > Daniel Vetter
-> > Software Engineer, Intel Corporation
-> > http://blog.ffwll.ch
+> +               dev_err(&pdev->dev,
+> +                       "simplefb: a framebuffer is already registered\n");
+> +               return -EINVAL;
+> +       }
+> +
+>         if (fb_get_options("simplefb", NULL))
+>                 return -ENODEV;
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
