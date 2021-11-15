@@ -1,39 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65A014509A9
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 17:31:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 70DA74509B2
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 17:32:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D2136E1F8;
-	Mon, 15 Nov 2021 16:31:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 17F856E3AE;
+	Mon, 15 Nov 2021 16:32:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D1386E1B6;
- Mon, 15 Nov 2021 16:31:21 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10169"; a="230934523"
-X-IronPort-AV: E=Sophos;i="5.87,236,1631602800"; d="scan'208";a="230934523"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Nov 2021 08:30:58 -0800
-X-IronPort-AV: E=Sophos;i="5.87,236,1631602800"; d="scan'208";a="735037090"
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C6E3F6E235;
+ Mon, 15 Nov 2021 16:32:19 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10169"; a="213508243"
+X-IronPort-AV: E=Sophos;i="5.87,236,1631602800"; d="scan'208";a="213508243"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Nov 2021 08:32:19 -0800
+X-IronPort-AV: E=Sophos;i="5.87,236,1631602800"; d="scan'208";a="644883614"
 Received: from mvaradha-mobl.amr.corp.intel.com (HELO ldmartin-desk2)
  ([10.209.108.39])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Nov 2021 08:30:57 -0800
-Date: Mon, 15 Nov 2021 08:30:57 -0800
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Nov 2021 08:32:19 -0800
+Date: Mon, 15 Nov 2021 08:32:18 -0800
 From: Lucas De Marchi <lucas.demarchi@intel.com>
 To: Jani Nikula <jani.nikula@intel.com>
-Subject: Re: [Intel-gfx] [PATCH 2/3] agp/intel-gtt: Replace kernel.h with the
- necessary inclusions
-Message-ID: <20211115163057.w6ua2hsxdkspiz5n@ldmartin-desk2>
+Subject: Re: [Intel-gfx] [PATCH 3/3] agp/intel-gtt: reduce intel-gtt
+ dependencies more
+Message-ID: <20211115163218.syonn22nnawhwreu@ldmartin-desk2>
 References: <cover.1636977089.git.jani.nikula@intel.com>
- <4d6a976459547407979f4b4c05a52785523e6bd8.1636977089.git.jani.nikula@intel.com>
+ <7bcaa1684587b9b008d3c41468fb40e63c54fbc7.1636977089.git.jani.nikula@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-In-Reply-To: <4d6a976459547407979f4b4c05a52785523e6bd8.1636977089.git.jani.nikula@intel.com>
+In-Reply-To: <7bcaa1684587b9b008d3c41468fb40e63c54fbc7.1636977089.git.jani.nikula@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,15 +52,11 @@ Cc: intel-gfx@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Nov 15, 2021 at 01:53:12PM +0200, Jani Nikula wrote:
->From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+On Mon, Nov 15, 2021 at 01:53:13PM +0200, Jani Nikula wrote:
+>Don't include stuff on behalf of users if they're not strictly necessary
+>for the header.
 >
->When kernel.h is used in the headers it adds a lot into dependency hell,
->especially when there are circular dependencies are involved.
->
->Replace kernel.h inclusion with the list of what is really being used.
->
->Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+>Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 >Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 
 
