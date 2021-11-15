@@ -2,54 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C22C4510A4
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 19:48:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6587451141
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 20:02:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 977C06E40D;
-	Mon, 15 Nov 2021 18:48:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A993D6E3F9;
+	Mon, 15 Nov 2021 19:01:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
- [199.106.114.38])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BAB086E40D;
- Mon, 15 Nov 2021 18:48:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1637002134; x=1668538134;
- h=from:to:cc:subject:date:message-id:mime-version;
- bh=T3m8/OwfQlRsocFHXiMSl/dQb1w8kjptz3g5xrIMTmE=;
- b=vgIdnjFO0A1eblqZGso+n7Lx37f8LKYEVKDwHpdHvGnRPibtF1EW1sxw
- z4+u4ZmBpjPaaF/xT4MkgFE1dKReXB9QdGZ3c5l4DYh//3t+zGaKdyBhN
- 9XccLTQhA6AtSrcIKO7Y4CL2GM3fZkzQWkY0OaTr66NaLKhNvUlIh8Zcw U=;
-Received: from unknown (HELO ironmsg01-sd.qualcomm.com) ([10.53.140.141])
- by alexa-out-sd-01.qualcomm.com with ESMTP; 15 Nov 2021 10:48:54 -0800
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg01-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Nov 2021 10:48:53 -0800
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.922.19; Mon, 15 Nov 2021 10:48:53 -0800
-Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.922.19; Mon, 15 Nov 2021 10:48:52 -0800
-From: Kuogee Hsieh <quic_khsieh@quicinc.com>
-To: <robdclark@gmail.com>, <sean@poorly.run>, <swboyd@chromium.org>,
- <vkoul@kernel.org>, <daniel@ffwll.ch>, <airlied@linux.ie>,
- <agross@kernel.org>, <dmitry.baryshkov@linaro.org>,
- <bjorn.andersson@linaro.org>
-Subject: [PATCH v3] drm/msm/dp: employ bridge mechanism for display enable and
- disable
-Date: Mon, 15 Nov 2021 10:48:43 -0800
-Message-ID: <1637002123-18682-1-git-send-email-quic_khsieh@quicinc.com>
-X-Mailer: git-send-email 2.7.4
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DAB8F6E836
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 19:01:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1637002916;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=y+AGOj0vGT7Kx30tbYhHAuBiiveQewuzvTLITCIbAlE=;
+ b=RSAOz7iHIV+qCUWVoiIoekdEBBhbHqez5J8Iy+AUavRmqgZDVedmK+ruo9h5D9eQEXq0/3
+ l8lwYyHZolCckylJfgijUrxS/DV2In9KGbSJFQBQEyyxHmhU4asF4y+HMeUyUqii1b4s4B
+ E8+ROodYEbCRTY995j6RDYlrq5LA6ok=
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-380-wfwK4oCXMzyAHCSpJoz4vg-1; Mon, 15 Nov 2021 14:01:54 -0500
+X-MC-Unique: wfwK4oCXMzyAHCSpJoz4vg-1
+Received: by mail-qt1-f199.google.com with SMTP id
+ h20-20020ac85e14000000b002b2e9555bb1so3818812qtx.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 11:01:54 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:organization:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=y+AGOj0vGT7Kx30tbYhHAuBiiveQewuzvTLITCIbAlE=;
+ b=VMelSXHP5OtalqyAWxRDaBEOeU4F+UX2+BarRW/Av2EBNuPJKhO2b77pJkPUd4CDC8
+ 3apNPdeFSeTp23agJC/XWe001lxVS5n8mmO+Zr9IH3SoKmg40AA/ZA1f8CUkR9S+NbXz
+ WgBpwiDKCgF9+COEozjtNISkeQLtVTWFh8Kc8+cZ3Vkj1tytIXvyJFWu0LjKMz6RcptN
+ 6Mfv3b8z258DF5X5gmcSTadFM7N7hhGb+qbiGgXuepwlIMOuQKIUWJsDt2r5qPesEF9g
+ yoMi6yuaVWp9/T9N2oTQUsN/f8r/DXJbMiRxoLU/4WAkjrDOYA4KEtJUbaOSJEmWCfCZ
+ RCJw==
+X-Gm-Message-State: AOAM531nvbZYLtlN6D77YObQyYPR4oprwRZm+as5JjDX8YgZvOhe5MYh
+ J9lbR+S6QAF6y6ZhHflLTtNUk0CijQAvvQiwIAlN4dT1kUnT2ymYz9J5vj1LxfHVAnIL7K3HF9M
+ ocG//NUPEKHi5+mPa810F/rKCdGGM
+X-Received: by 2002:a05:620a:f0f:: with SMTP id
+ v15mr1120722qkl.234.1637002913814; 
+ Mon, 15 Nov 2021 11:01:53 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyYZPe8/3uNMDNiTOoujpcwLTZha3L5CanGCs37GOSaS1MP2LuI/ABPevQjIL09HltkORj3SA==
+X-Received: by 2002:a05:620a:f0f:: with SMTP id
+ v15mr1120685qkl.234.1637002913512; 
+ Mon, 15 Nov 2021 11:01:53 -0800 (PST)
+Received: from [192.168.8.138] (pool-96-230-249-157.bstnma.fios.verizon.net.
+ [96.230.249.157])
+ by smtp.gmail.com with ESMTPSA id c11sm3782284qtb.8.2021.11.15.11.01.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 15 Nov 2021 11:01:52 -0800 (PST)
+Message-ID: <548e59a951a662304a281239a8a964dc9a19b368.camel@redhat.com>
+Subject: Re: [PATCH] drm/i915/dp: Perform 30ms delay after source OUI write
+From: Lyude Paul <lyude@redhat.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>, intel-gfx@lists.freedesktop.org
+Date: Mon, 15 Nov 2021 14:01:51 -0500
+In-Reply-To: <878rxp3d1n.fsf@intel.com>
+References: <20211112215016.270267-1-lyude@redhat.com>
+ <878rxp3d1n.fsf@intel.com>
+Organization: Red Hat Inc.
+User-Agent: Evolution 3.40.4 (3.40.4-2.fc34)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,284 +86,165 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, quic_abhinavk@quicinc.com,
- dri-devel@lists.freedesktop.org, quic_khsieh@quicinc.com,
- aravindh@codeaurora.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ David Airlie <airlied@linux.ie>, Anshuman Gupta <anshuman.gupta@intel.com>,
+ open list <linux-kernel@vger.kernel.org>, stable@vger.kernel.org,
+ Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>,
+ Manasi Navare <manasi.d.navare@intel.com>, Uma Shankar <uma.shankar@intel.com>,
+ =?ISO-8859-1?Q?Jos=E9?= Roberto de Souza <jose.souza@intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Dave Airlie <airlied@redhat.com>,
+ Ankit Nautiyal <ankit.k.nautiyal@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently the msm_dp_*** functions implement the same sequence which would
-happen when drm_bridge is used. hence get rid of this intermediate layer
-and align with the drm_bridge usage to avoid customized implementation.
+On Mon, 2021-11-15 at 12:53 +0200, Jani Nikula wrote:
+> On Fri, 12 Nov 2021, Lyude Paul <lyude@redhat.com> wrote:
+> > While working on supporting the Intel HDR backlight interface, I noticed
+> > that there's a couple of laptops that will very rarely manage to boot up
+> > without detecting Intel HDR backlight support - even though it's supported
+> > on the system. One example of such a laptop is the Lenovo P17 1st
+> > generation.
+> > 
+> > Following some investigation Ville Syrjälä did through the docs they have
+> > available to them, they discovered that there's actually supposed to be a
+> > 30ms wait after writing the source OUI before we begin setting up the rest
+> > of the backlight interface.
+> > 
+> > This seems to be correct, as adding this 30ms delay seems to have
+> > completely fixed the probing issues I was previously seeing. So - let's
+> > start performing a 30ms wait after writing the OUI, which we do in a
+> > manner
+> > similar to how we keep track of PPS delays (e.g. record the timestamp of
+> > the OUI write, and then wait for however many ms are left since that
+> > timestamp right before we interact with the backlight) in order to avoid
+> > waiting any longer then we need to. As well, this also avoids us
+> > performing
+> > this delay on systems where we don't end up using the HDR backlight
+> > interface.
+> 
+> Ugh. Thanks for digging into this.
 
-Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+haha, np! You should thank Ville for finding the hidden docs that told us
+about this :).
 
-Changes in v2:
--- revise commit text
--- rename dp_bridge to msm_dp_bridge
--- delete empty functions
+> 
+> The only thing that I dislike with the implementation is splitting the
+> implementation to two places. See how well we've managed to shove all of
+> the PPS waits inside intel_pps.c. Almost all of intel_dp->pps is managed
+> within intel_pps.c.
 
-Changes in 3:
--- replace kzalloc() with devm_kzalloc()
--- replace __dp_display_enable() with dp_display_enable()
--- replace __dp_display_disable() with dp_display_disable()
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 21 -------
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c     |  7 +++
- drivers/gpu/drm/msm/dp/dp_display.c         |  4 +-
- drivers/gpu/drm/msm/dp/dp_display.h         |  1 +
- drivers/gpu/drm/msm/dp/dp_drm.c             | 91 +++++++++++++++++++++++++++++
- drivers/gpu/drm/msm/msm_drv.h               | 16 +++--
- 6 files changed, 113 insertions(+), 27 deletions(-)
+gotcha, I think I meant to do this after I got things working but forgot
+before I sent this out, will respin ASAP
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-index 31050aa..c4e08c4 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-@@ -1003,9 +1003,6 @@ static void dpu_encoder_virt_mode_set(struct drm_encoder *drm_enc,
- 
- 	trace_dpu_enc_mode_set(DRMID(drm_enc));
- 
--	if (drm_enc->encoder_type == DRM_MODE_ENCODER_TMDS)
--		msm_dp_display_mode_set(dpu_enc->dp, drm_enc, mode, adj_mode);
--
- 	list_for_each_entry(conn_iter, connector_list, head)
- 		if (conn_iter->encoder == drm_enc)
- 			conn = conn_iter;
-@@ -1181,14 +1178,6 @@ static void dpu_encoder_virt_enable(struct drm_encoder *drm_enc)
- 
- 	_dpu_encoder_virt_enable_helper(drm_enc);
- 
--	if (drm_enc->encoder_type == DRM_MODE_ENCODER_TMDS) {
--		ret = msm_dp_display_enable(dpu_enc->dp, drm_enc);
--		if (ret) {
--			DPU_ERROR_ENC(dpu_enc, "dp display enable failed: %d\n",
--				ret);
--			goto out;
--		}
--	}
- 	dpu_enc->enabled = true;
- 
- out:
-@@ -1214,11 +1203,6 @@ static void dpu_encoder_virt_disable(struct drm_encoder *drm_enc)
- 	/* wait for idle */
- 	dpu_encoder_wait_for_event(drm_enc, MSM_ENC_TX_COMPLETE);
- 
--	if (drm_enc->encoder_type == DRM_MODE_ENCODER_TMDS) {
--		if (msm_dp_display_pre_disable(dpu_enc->dp, drm_enc))
--			DPU_ERROR_ENC(dpu_enc, "dp display push idle failed\n");
--	}
--
- 	dpu_encoder_resource_control(drm_enc, DPU_ENC_RC_EVENT_PRE_STOP);
- 
- 	for (i = 0; i < dpu_enc->num_phys_encs; i++) {
-@@ -1243,11 +1227,6 @@ static void dpu_encoder_virt_disable(struct drm_encoder *drm_enc)
- 
- 	DPU_DEBUG_ENC(dpu_enc, "encoder disabled\n");
- 
--	if (drm_enc->encoder_type == DRM_MODE_ENCODER_TMDS) {
--		if (msm_dp_display_disable(dpu_enc->dp, drm_enc))
--			DPU_ERROR_ENC(dpu_enc, "dp display disable failed\n");
--	}
--
- 	mutex_unlock(&dpu_enc->enc_lock);
- }
- 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-index 27d98b5..d16337f 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-@@ -557,6 +557,13 @@ static int _dpu_kms_initialize_displayport(struct drm_device *dev,
- 				  encoder->base.id, rc);
- 			return rc;
- 		}
-+
-+		rc = msm_dp_bridge_init(priv->dp[i], dev, encoder);
-+		if (rc) {
-+			DPU_ERROR("failed to setup DPU bridge %d: rc:%d\n",
-+				encoder->base.id, rc);
-+			return rc;
-+		}
- 	}
- 
- 	return rc;
-diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index 2f113ff..51770a4 100644
---- a/drivers/gpu/drm/msm/dp/dp_display.c
-+++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -1674,8 +1674,8 @@ int msm_dp_display_disable(struct msm_dp *dp, struct drm_encoder *encoder)
- }
- 
- void msm_dp_display_mode_set(struct msm_dp *dp, struct drm_encoder *encoder,
--				struct drm_display_mode *mode,
--				struct drm_display_mode *adjusted_mode)
-+				const struct drm_display_mode *mode,
-+				const struct drm_display_mode *adjusted_mode)
- {
- 	struct dp_display_private *dp_display;
- 
-diff --git a/drivers/gpu/drm/msm/dp/dp_display.h b/drivers/gpu/drm/msm/dp/dp_display.h
-index 76f45f9..2237e80 100644
---- a/drivers/gpu/drm/msm/dp/dp_display.h
-+++ b/drivers/gpu/drm/msm/dp/dp_display.h
-@@ -13,6 +13,7 @@
- struct msm_dp {
- 	struct drm_device *drm_dev;
- 	struct device *codec_dev;
-+	struct drm_bridge *bridge;
- 	struct drm_connector *connector;
- 	struct drm_encoder *encoder;
- 	struct drm_panel *drm_panel;
-diff --git a/drivers/gpu/drm/msm/dp/dp_drm.c b/drivers/gpu/drm/msm/dp/dp_drm.c
-index f33e315..b341f1f 100644
---- a/drivers/gpu/drm/msm/dp/dp_drm.c
-+++ b/drivers/gpu/drm/msm/dp/dp_drm.c
-@@ -5,12 +5,21 @@
- 
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_atomic.h>
-+#include <drm/drm_bridge.h>
- #include <drm/drm_crtc.h>
- 
- #include "msm_drv.h"
- #include "msm_kms.h"
- #include "dp_drm.h"
- 
-+
-+struct msm_dp_bridge {
-+	struct drm_bridge bridge;
-+	struct msm_dp *dp_display;
-+};
-+
-+#define to_dp_display(x)     container_of((x), struct msm_dp_bridge, bridge)
-+
- struct dp_connector {
- 	struct drm_connector base;
- 	struct msm_dp *dp_display;
-@@ -162,3 +171,85 @@ struct drm_connector *dp_drm_connector_init(struct msm_dp *dp_display)
- 
- 	return connector;
- }
-+
-+static int dp_bridge_attach(struct drm_bridge *drm_bridge,
-+				enum drm_bridge_attach_flags flags)
-+{
-+	return 0;
-+}
-+
-+static void dp_bridge_mode_set(struct drm_bridge *drm_bridge,
-+				const struct drm_display_mode *mode,
-+				const struct drm_display_mode *adjusted_mode)
-+{
-+	struct msm_dp_bridge *dp_bridge = to_dp_display(drm_bridge);
-+	struct msm_dp *dp_display = dp_bridge->dp_display;
-+
-+	msm_dp_display_mode_set(dp_display, drm_bridge->encoder, mode, adjusted_mode);
-+}
-+
-+static void dp_bridge_enable(struct drm_bridge *drm_bridge)
-+{
-+	struct msm_dp_bridge *dp_bridge = to_dp_display(drm_bridge);
-+	struct msm_dp *dp_display = dp_bridge->dp_display;
-+
-+	msm_dp_display_enable(dp_display, drm_bridge->encoder);
-+}
-+
-+static void dp_bridge_disable(struct drm_bridge *drm_bridge)
-+{
-+	struct msm_dp_bridge *dp_bridge = to_dp_display(drm_bridge);
-+	struct msm_dp *dp_display = dp_bridge->dp_display;
-+
-+	msm_dp_display_pre_disable(dp_display, drm_bridge->encoder);
-+}
-+
-+static void dp_bridge_post_disable(struct drm_bridge *drm_bridge)
-+{
-+	struct msm_dp_bridge *dp_bridge = to_dp_display(drm_bridge);
-+	struct msm_dp *dp_display = dp_bridge->dp_display;
-+
-+	msm_dp_display_disable(dp_display, drm_bridge->encoder);
-+}
-+
-+static const struct drm_bridge_funcs dp_bridge_ops = {
-+	.attach       = dp_bridge_attach,
-+	.mode_fixup   = NULL,
-+	.pre_enable   = NULL,
-+	.enable       = dp_bridge_enable,
-+	.disable      = dp_bridge_disable,
-+	.post_disable = dp_bridge_post_disable,
-+	.mode_set     = dp_bridge_mode_set,
-+};
-+
-+int msm_dp_bridge_init(struct msm_dp *dp_display, struct drm_device *dev,
-+			struct drm_encoder *encoder)
-+{
-+	int rc;
-+	struct msm_drm_private *priv;
-+	struct msm_dp_bridge *dp_bridge;
-+	struct drm_bridge *bridge;
-+
-+	dp_bridge = devm_kzalloc(dev->dev, sizeof(*dp_bridge), GFP_KERNEL);
-+	if (!dp_bridge)
-+		return -ENOMEM;
-+
-+	dp_bridge->dp_display = dp_display;
-+
-+	bridge = &dp_bridge->bridge;
-+	bridge->funcs = &dp_bridge_ops;
-+	bridge->encoder = encoder;
-+
-+	rc = drm_bridge_attach(encoder, bridge, NULL, DRM_BRIDGE_ATTACH_NO_CONNECTOR);
-+	if (rc) {
-+		DRM_ERROR("failed to attach bridge, rc=%d\n", rc);
-+		kfree(dp_bridge);
-+		return rc;
-+	}
-+
-+	priv = dev->dev_private;
-+	priv->bridges[priv->num_bridges++] = bridge;
-+	dp_display->bridge = bridge;
-+
-+	return 0;
-+}
-diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
-index 4bb797e..9a2092f 100644
---- a/drivers/gpu/drm/msm/msm_drv.h
-+++ b/drivers/gpu/drm/msm/msm_drv.h
-@@ -388,8 +388,10 @@ int msm_dp_display_enable(struct msm_dp *dp, struct drm_encoder *encoder);
- int msm_dp_display_disable(struct msm_dp *dp, struct drm_encoder *encoder);
- int msm_dp_display_pre_disable(struct msm_dp *dp, struct drm_encoder *encoder);
- void msm_dp_display_mode_set(struct msm_dp *dp, struct drm_encoder *encoder,
--				struct drm_display_mode *mode,
--				struct drm_display_mode *adjusted_mode);
-+				const struct drm_display_mode *mode,
-+				const struct drm_display_mode *adjusted_mode);
-+int msm_dp_bridge_init(struct msm_dp *dp_display, struct drm_device *dev,
-+			struct drm_encoder *encoder);
- void msm_dp_irq_postinstall(struct msm_dp *dp_display);
- void msm_dp_snapshot(struct msm_disp_state *disp_state, struct msm_dp *dp_display);
- 
-@@ -426,10 +428,16 @@ static inline int msm_dp_display_pre_disable(struct msm_dp *dp,
- }
- static inline void msm_dp_display_mode_set(struct msm_dp *dp,
- 				struct drm_encoder *encoder,
--				struct drm_display_mode *mode,
--				struct drm_display_mode *adjusted_mode)
-+				const struct drm_display_mode *mode,
-+				const struct drm_display_mode *adjusted_mode)
- {
- }
-+static inline int msm_dp_bridge_init(struct msm_dp *dp_display,
-+				struct drm_device *dev,
-+				struct drm_encoder *encoder)
-+{
-+	return -EINVAL;
-+}
- 
- static inline void msm_dp_irq_postinstall(struct msm_dp *dp_display)
- {
+> 
+> I think I'd actually add a intel_dp_wait_source_oui() or something in
+> intel_dp.c, so all of the details about source OUI and
+> intel_dp->last_oui_write access would be localized.
+> 
+> 
+> BR,
+> Jani.
+> 
+> 
+> > 
+> > Signed-off-by: Lyude Paul <lyude@redhat.com>
+> > Fixes: 4a8d79901d5b ("drm/i915/dp: Enable Intel's HDR backlight interface
+> > (only SDR for now)")
+> > Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> > Cc: <stable@vger.kernel.org> # v5.12+
+> > ---
+> >  drivers/gpu/drm/i915/display/intel_display_types.h    |  3 +++
+> >  drivers/gpu/drm/i915/display/intel_dp.c               |  3 +++
+> >  drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c | 11 +++++++++++
+> >  3 files changed, 17 insertions(+)
+> > 
+> > diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h
+> > b/drivers/gpu/drm/i915/display/intel_display_types.h
+> > index ea1e8a6e10b0..b9c967837872 100644
+> > --- a/drivers/gpu/drm/i915/display/intel_display_types.h
+> > +++ b/drivers/gpu/drm/i915/display/intel_display_types.h
+> > @@ -1653,6 +1653,9 @@ struct intel_dp {
+> >         struct intel_dp_pcon_frl frl;
+> >  
+> >         struct intel_psr psr;
+> > +
+> > +       /* When we last wrote the OUI for eDP */
+> > +       unsigned long last_oui_write;
+> >  };
+> >  
+> >  enum lspcon_vendor {
+> > diff --git a/drivers/gpu/drm/i915/display/intel_dp.c
+> > b/drivers/gpu/drm/i915/display/intel_dp.c
+> > index 0a424bf69396..77d9a9390c1e 100644
+> > --- a/drivers/gpu/drm/i915/display/intel_dp.c
+> > +++ b/drivers/gpu/drm/i915/display/intel_dp.c
+> > @@ -29,6 +29,7 @@
+> >  #include <linux/i2c.h>
+> >  #include <linux/notifier.h>
+> >  #include <linux/slab.h>
+> > +#include <linux/timekeeping.h>
+> >  #include <linux/types.h>
+> >  
+> >  #include <asm/byteorder.h>
+> > @@ -2010,6 +2011,8 @@ intel_edp_init_source_oui(struct intel_dp *intel_dp,
+> > bool careful)
+> >  
+> >         if (drm_dp_dpcd_write(&intel_dp->aux, DP_SOURCE_OUI, oui,
+> > sizeof(oui)) < 0)
+> >                 drm_err(&i915->drm, "Failed to write source OUI\n");
+> > +
+> > +       intel_dp->last_oui_write = jiffies;
+> >  }
+> >  
+> >  /* If the device supports it, try to set the power state appropriately */
+> > diff --git a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
+> > b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
+> > index 569d17b4d00f..2c35b999ec2c 100644
+> > --- a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
+> > +++ b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
+> > @@ -96,6 +96,13 @@
+> >  #define INTEL_EDP_BRIGHTNESS_OPTIMIZATION_1                           
+> > 0x359
+> >  
+> >  /* Intel EDP backlight callbacks */
+> > +static void
+> > +wait_for_oui(struct drm_i915_private *i915, struct intel_dp *intel_dp)
+> > +{
+> > +       drm_dbg_kms(&i915->drm, "Performing OUI wait\n");
+> > +       wait_remaining_ms_from_jiffies(intel_dp->last_oui_write, 30);
+> > +}
+> > +
+> >  static bool
+> >  intel_dp_aux_supports_hdr_backlight(struct intel_connector *connector)
+> >  {
+> > @@ -106,6 +113,8 @@ intel_dp_aux_supports_hdr_backlight(struct
+> > intel_connector *connector)
+> >         int ret;
+> >         u8 tcon_cap[4];
+> >  
+> > +       wait_for_oui(i915, intel_dp);
+> > +
+> >         ret = drm_dp_dpcd_read(aux, INTEL_EDP_HDR_TCON_CAP0, tcon_cap,
+> > sizeof(tcon_cap));
+> >         if (ret != sizeof(tcon_cap))
+> >                 return false;
+> > @@ -204,6 +213,8 @@ intel_dp_aux_hdr_enable_backlight(const struct
+> > intel_crtc_state *crtc_state,
+> >         int ret;
+> >         u8 old_ctrl, ctrl;
+> >  
+> > +       wait_for_oui(i915, intel_dp);
+> > +
+> >         ret = drm_dp_dpcd_readb(&intel_dp->aux,
+> > INTEL_EDP_HDR_GETSET_CTRL_PARAMS, &old_ctrl);
+> >         if (ret != 1) {
+> >                 drm_err(&i915->drm, "Failed to read current backlight
+> > control mode: %d\n", ret);
+> 
+
 -- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
+Cheers,
+ Lyude Paul (she/her)
+ Software Engineer at Red Hat
 
