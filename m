@@ -2,58 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 831684506FF
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 15:31:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46C2B450715
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 15:33:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 11AF46EE13;
-	Mon, 15 Nov 2021 14:31:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D55EB6E284;
+	Mon, 15 Nov 2021 14:33:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com
- [IPv6:2a00:1450:4864:20::52c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ECA786EE13
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 14:31:42 +0000 (UTC)
-Received: by mail-ed1-x52c.google.com with SMTP id c8so72522219ede.13
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 06:31:42 -0800 (PST)
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com
+ [IPv6:2a00:1450:4864:20::536])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 882A16E284
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 14:33:39 +0000 (UTC)
+Received: by mail-ed1-x536.google.com with SMTP id g14so72867037edz.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 06:33:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=fbcTbLjQBdVoRHk/d84kLo+kIQplSoYyq9eL4kalAIg=;
- b=a1ddi0dqXM1l2apNRb4Kl0bLUXWz2/I9l7ZoV7oXxeOKVhPgFEI+5s4Q7R8xy5JJ6g
- /YAEB1aYO949LKPmO5i33ldsEF6m+RPkWE350+UUvzBG3uDSbIuFo1s/SOsFrk4lYw+E
- FmXIvhzNXp9/ak0FV6sVz5FHL9nWwCHFNx1hc=
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=+5JKxf/9NwXzI48yvEFPNLzs+rHTIyDWy7wp0hH0acs=;
+ b=lZNXrB2hnlnLYbVYRGEmoVWLqvtQ4n5HOl8PrxeW/9ZPYCJ84xZ6SIUlxRdctGXYsC
+ GeL/frgkGZ8xuiLqTK09zbywIRB4zh2YM23+Og6TfipO0sQrLOL7t5XSpL3UO3BAPUgx
+ OV961EA0az9VnqSuMn2jaIcpsIWfi6g1hjrWs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=fbcTbLjQBdVoRHk/d84kLo+kIQplSoYyq9eL4kalAIg=;
- b=XDbOr0C12Mirib8rRE550rmhIIgoYAr3/RN6RFlnN2vucuYUy9mN1vPjXzl49iNAOi
- GJe4TEc7Gyuw/kFAsjqkdNvcpoYMPHdkX7B4xg5naBLfnGQ/7EMvnym+4c8/u0UKRY7S
- XcJTlX7B+9ZF/Fksc2lHG9Kjt0z+Tlebuuz6Md/N3JPo8rQ3/DU677CNvG/tY5bXKtut
- VDf9qQkc79v3O9RRVnl1vv46BfZtBHF/gmhaJH+CwJ1c1z0tnc+mc9fFkoRl2BRRpxm0
- UJFLk7XCBgQNU14dOCl8euCFHkn/WE6dVim8yFtMrpXTeVhyKBDAw7UGyaUkHeY3qOUA
- 8d4g==
-X-Gm-Message-State: AOAM531W2u1BBPjVmOBDVd62L6/SRZAXMYswF9unVYkUiBqDKiLhXIwS
- N8ZaNw3fMDIMMLf0kDxes/bqVQ==
-X-Google-Smtp-Source: ABdhPJzNJZLm2iPngWfJxS9XRToP3pQBBsidtsIzut6JD0xBcpCQShNXcyl9Mg6LJAp8FykQiSujcA==
-X-Received: by 2002:a05:6402:3596:: with SMTP id
- y22mr58217917edc.255.1636986701515; 
- Mon, 15 Nov 2021 06:31:41 -0800 (PST)
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=+5JKxf/9NwXzI48yvEFPNLzs+rHTIyDWy7wp0hH0acs=;
+ b=eVOUgGJvjKAXUmzFyNK321io0Gj6h2qzvktHqGyhl2k/6HB4ahn1h95dYLkLRg/iRc
+ otYtOeyTcb4qwgBJRS4MAHqvuLZlNyRdaWt74kqO4pgiXytgCJnw+H0Bwu83VLoTIEq+
+ mXkpbtbNoKfhUf1JLP5gWAc9a1X2VeaP83I98/Ue5m8Pkv5dadoPk/oRjv88lJl5GTww
+ GKPGNF6MRQuPBTq/DTi11VHjJuv5y/YJrUEi7i4zWFoOyOKDT72lMsCenvNNB39d+ipW
+ s2OYPoa8wRS7ZiTwqgqELFR2Lgt/qstINJHWUfqQI/i0gDheDvC/wxtN2I70CeTGv6I8
+ GBUg==
+X-Gm-Message-State: AOAM533Pckj9u55YIu7tbm4Qf7/i9G+aR9rcqUazHrMiW7fW50hGoaqz
+ aOFBqx2EMVmNoCXY4H1zm667AFp+URvCVQ==
+X-Google-Smtp-Source: ABdhPJzi9YvlpMQ7xL54S5XkGrXMCUyexLP9FmMUhXzIH+K/AYpOnyeoV9ZqdS8gLXAfaBERshEzYg==
+X-Received: by 2002:a17:907:7e88:: with SMTP id
+ qb8mr48450516ejc.535.1636986817852; 
+ Mon, 15 Nov 2021 06:33:37 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id lv19sm6965171ejb.54.2021.11.15.06.31.40
+ by smtp.gmail.com with ESMTPSA id hs20sm6609534ejc.26.2021.11.15.06.33.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Nov 2021 06:31:41 -0800 (PST)
-Date: Mon, 15 Nov 2021 15:31:39 +0100
+ Mon, 15 Nov 2021 06:33:37 -0800 (PST)
+Date: Mon, 15 Nov 2021 15:33:34 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Jani Nikula <jani.nikula@intel.com>
-Subject: Re: [Intel-gfx] [PATCH 0/3] drm/i915, agp/intel-ggt: clean up includes
-Message-ID: <YZJvSyQCgWZA1lcb@phenom.ffwll.local>
-References: <cover.1636977089.git.jani.nikula@intel.com>
- <87y25p1vm3.fsf@intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 2/3] drm/vmwgfx: Copy DRM hash-table code into driver
+Message-ID: <YZJvvgduEo+KhYt5@phenom.ffwll.local>
+References: <20211115125539.1730-1-tzimmermann@suse.de>
+ <20211115125539.1730-3-tzimmermann@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <87y25p1vm3.fsf@intel.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20211115125539.1730-3-tzimmermann@suse.de>
 X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,51 +69,840 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- dri-devel@lists.freedesktop.org
+Cc: airlied@linux.ie, ray.huang@amd.com, linux-graphics-maintainer@vmware.com,
+ dri-devel@lists.freedesktop.org, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Nov 15, 2021 at 01:55:32PM +0200, Jani Nikula wrote:
-> On Mon, 15 Nov 2021, Jani Nikula <jani.nikula@intel.com> wrote:
-> > Took Andy's patch [1] and expanded on it a bit.
-> >
-> > BR,
-> > Jani.
-> >
-> >
-> > [1] https://patchwork.freedesktop.org/patch/msgid/20211110102857.59604-1-andriy.shevchenko@linux.intel.com
-> >
-> > Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> >
-> > Andy Shevchenko (1):
-> >   agp/intel-gtt: Replace kernel.h with the necessary inclusions
+On Mon, Nov 15, 2021 at 01:55:38PM +0100, Thomas Zimmermann wrote:
+> Besides some legacy code, vmwgfx is the only user of DRM's hash-
+> table implementation. Copy the code into the driver, so that the
+> core code can be retired.
 > 
-> Forgot to mention, I replaced the drm/i915 prefix with agp/intel-gtt
-> here, no other changes to Andy's patch.
+> No functional changes. However, the real solution for vmwgfx is to
+> use Linux' generic hash-table functions.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+
+Yeah I think the drm hashtab has a bit much a midlayer feel to it, it's
+imo much better to just embed the linux hashtable directly (which should
+also avoid some more pointer chasing, which is the only point really of
+hastables).
+
+On the series:
 
 Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-Also feel free to push through drm-intel.git just in case you wondered
-about that.
+But maybe wait for some t-b from vmwgfx (if you didn't test yourself),
+just to make sure.
 -Daniel
 
+> ---
+>  drivers/gpu/drm/vmwgfx/Makefile            |   2 +-
+>  drivers/gpu/drm/vmwgfx/ttm_object.c        |  52 +++---
+>  drivers/gpu/drm/vmwgfx/ttm_object.h        |   3 +-
+>  drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c |  24 +--
+>  drivers/gpu/drm/vmwgfx/vmwgfx_drv.c        |   2 +-
+>  drivers/gpu/drm/vmwgfx/vmwgfx_drv.h        |   6 +-
+>  drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c    |   2 +-
+>  drivers/gpu/drm/vmwgfx/vmwgfx_hashtab.c    | 199 +++++++++++++++++++++
+>  drivers/gpu/drm/vmwgfx/vmwgfx_hashtab.h    |  83 +++++++++
+>  drivers/gpu/drm/vmwgfx/vmwgfx_validation.c |  22 +--
+>  drivers/gpu/drm/vmwgfx/vmwgfx_validation.h |   7 +-
+>  11 files changed, 342 insertions(+), 60 deletions(-)
+>  create mode 100644 drivers/gpu/drm/vmwgfx/vmwgfx_hashtab.c
+>  create mode 100644 drivers/gpu/drm/vmwgfx/vmwgfx_hashtab.h
 > 
-> >
-> > Jani Nikula (2):
-> >   drm/i915: include intel-gtt.h only where needed
-> >   agp/intel-gtt: reduce intel-gtt dependencies more
-> >
-> >  drivers/char/agp/intel-gtt.c         | 1 +
-> >  drivers/gpu/drm/i915/gt/intel_ggtt.c | 2 ++
-> >  drivers/gpu/drm/i915/gt/intel_gt.c   | 2 ++
-> >  drivers/gpu/drm/i915/i915_drv.h      | 1 -
-> >  include/drm/intel-gtt.h              | 8 +++++---
-> >  5 files changed, 10 insertions(+), 4 deletions(-)
-> 
+> diff --git a/drivers/gpu/drm/vmwgfx/Makefile b/drivers/gpu/drm/vmwgfx/Makefile
+> index bc323f7d4032..e6a6a1edb058 100644
+> --- a/drivers/gpu/drm/vmwgfx/Makefile
+> +++ b/drivers/gpu/drm/vmwgfx/Makefile
+> @@ -1,5 +1,5 @@
+>  # SPDX-License-Identifier: GPL-2.0
+> -vmwgfx-y := vmwgfx_execbuf.o vmwgfx_gmr.o vmwgfx_kms.o vmwgfx_drv.o \
+> +vmwgfx-y := vmwgfx_execbuf.o vmwgfx_gmr.o vmwgfx_hashtab.o vmwgfx_kms.o vmwgfx_drv.o \
+>  	    vmwgfx_ioctl.o vmwgfx_resource.o vmwgfx_ttm_buffer.o \
+>  	    vmwgfx_cmd.o vmwgfx_irq.o vmwgfx_ldu.o vmwgfx_ttm_glue.o \
+>  	    vmwgfx_overlay.o vmwgfx_gmrid_manager.o vmwgfx_fence.o \
+> diff --git a/drivers/gpu/drm/vmwgfx/ttm_object.c b/drivers/gpu/drm/vmwgfx/ttm_object.c
+> index 04789b2bb2a2..123ab2cbec48 100644
+> --- a/drivers/gpu/drm/vmwgfx/ttm_object.c
+> +++ b/drivers/gpu/drm/vmwgfx/ttm_object.c
+> @@ -70,7 +70,7 @@ struct ttm_object_file {
+>  	struct ttm_object_device *tdev;
+>  	spinlock_t lock;
+>  	struct list_head ref_list;
+> -	struct drm_open_hash ref_hash[TTM_REF_NUM];
+> +	struct vmwgfx_open_hash ref_hash[TTM_REF_NUM];
+>  	struct kref refcount;
+>  };
+>  
+> @@ -88,7 +88,7 @@ struct ttm_object_file {
+>  
+>  struct ttm_object_device {
+>  	spinlock_t object_lock;
+> -	struct drm_open_hash object_hash;
+> +	struct vmwgfx_open_hash object_hash;
+>  	atomic_t object_count;
+>  	struct ttm_mem_global *mem_glob;
+>  	struct dma_buf_ops ops;
+> @@ -120,7 +120,7 @@ struct ttm_object_device {
+>  
+>  struct ttm_ref_object {
+>  	struct rcu_head rcu_head;
+> -	struct drm_hash_item hash;
+> +	struct vmwgfx_hash_item hash;
+>  	struct list_head head;
+>  	struct kref kref;
+>  	enum ttm_ref_type ref_type;
+> @@ -244,12 +244,12 @@ void ttm_base_object_unref(struct ttm_base_object **p_base)
+>  struct ttm_base_object *
+>  ttm_base_object_noref_lookup(struct ttm_object_file *tfile, uint32_t key)
+>  {
+> -	struct drm_hash_item *hash;
+> -	struct drm_open_hash *ht = &tfile->ref_hash[TTM_REF_USAGE];
+> +	struct vmwgfx_hash_item *hash;
+> +	struct vmwgfx_open_hash *ht = &tfile->ref_hash[TTM_REF_USAGE];
+>  	int ret;
+>  
+>  	rcu_read_lock();
+> -	ret = drm_ht_find_item_rcu(ht, key, &hash);
+> +	ret = vmwgfx_ht_find_item_rcu(ht, key, &hash);
+>  	if (ret) {
+>  		rcu_read_unlock();
+>  		return NULL;
+> @@ -264,12 +264,12 @@ struct ttm_base_object *ttm_base_object_lookup(struct ttm_object_file *tfile,
+>  					       uint32_t key)
+>  {
+>  	struct ttm_base_object *base = NULL;
+> -	struct drm_hash_item *hash;
+> -	struct drm_open_hash *ht = &tfile->ref_hash[TTM_REF_USAGE];
+> +	struct vmwgfx_hash_item *hash;
+> +	struct vmwgfx_open_hash *ht = &tfile->ref_hash[TTM_REF_USAGE];
+>  	int ret;
+>  
+>  	rcu_read_lock();
+> -	ret = drm_ht_find_item_rcu(ht, key, &hash);
+> +	ret = vmwgfx_ht_find_item_rcu(ht, key, &hash);
+>  
+>  	if (likely(ret == 0)) {
+>  		base = drm_hash_entry(hash, struct ttm_ref_object, hash)->obj;
+> @@ -309,12 +309,12 @@ ttm_base_object_lookup_for_ref(struct ttm_object_device *tdev, uint32_t key)
+>  bool ttm_ref_object_exists(struct ttm_object_file *tfile,
+>  			   struct ttm_base_object *base)
+>  {
+> -	struct drm_open_hash *ht = &tfile->ref_hash[TTM_REF_USAGE];
+> -	struct drm_hash_item *hash;
+> +	struct vmwgfx_open_hash *ht = &tfile->ref_hash[TTM_REF_USAGE];
+> +	struct vmwgfx_hash_item *hash;
+>  	struct ttm_ref_object *ref;
+>  
+>  	rcu_read_lock();
+> -	if (unlikely(drm_ht_find_item_rcu(ht, base->handle, &hash) != 0))
+> +	if (unlikely(vmwgfx_ht_find_item_rcu(ht, base->handle, &hash) != 0))
+>  		goto out_false;
+>  
+>  	/*
+> @@ -346,9 +346,9 @@ int ttm_ref_object_add(struct ttm_object_file *tfile,
+>  		       enum ttm_ref_type ref_type, bool *existed,
+>  		       bool require_existed)
+>  {
+> -	struct drm_open_hash *ht = &tfile->ref_hash[ref_type];
+> +	struct vmwgfx_open_hash *ht = &tfile->ref_hash[ref_type];
+>  	struct ttm_ref_object *ref;
+> -	struct drm_hash_item *hash;
+> +	struct vmwgfx_hash_item *hash;
+>  	struct ttm_mem_global *mem_glob = tfile->tdev->mem_glob;
+>  	struct ttm_operation_ctx ctx = {
+>  		.interruptible = false,
+> @@ -364,7 +364,7 @@ int ttm_ref_object_add(struct ttm_object_file *tfile,
+>  
+>  	while (ret == -EINVAL) {
+>  		rcu_read_lock();
+> -		ret = drm_ht_find_item_rcu(ht, base->handle, &hash);
+> +		ret = vmwgfx_ht_find_item_rcu(ht, base->handle, &hash);
+>  
+>  		if (ret == 0) {
+>  			ref = drm_hash_entry(hash, struct ttm_ref_object, hash);
+> @@ -395,7 +395,7 @@ int ttm_ref_object_add(struct ttm_object_file *tfile,
+>  		kref_init(&ref->kref);
+>  
+>  		spin_lock(&tfile->lock);
+> -		ret = drm_ht_insert_item_rcu(ht, &ref->hash);
+> +		ret = vmwgfx_ht_insert_item_rcu(ht, &ref->hash);
+>  
+>  		if (likely(ret == 0)) {
+>  			list_add_tail(&ref->head, &tfile->ref_list);
+> @@ -423,11 +423,11 @@ ttm_ref_object_release(struct kref *kref)
+>  	    container_of(kref, struct ttm_ref_object, kref);
+>  	struct ttm_base_object *base = ref->obj;
+>  	struct ttm_object_file *tfile = ref->tfile;
+> -	struct drm_open_hash *ht;
+> +	struct vmwgfx_open_hash *ht;
+>  	struct ttm_mem_global *mem_glob = tfile->tdev->mem_glob;
+>  
+>  	ht = &tfile->ref_hash[ref->ref_type];
+> -	(void)drm_ht_remove_item_rcu(ht, &ref->hash);
+> +	(void)vmwgfx_ht_remove_item_rcu(ht, &ref->hash);
+>  	list_del(&ref->head);
+>  	spin_unlock(&tfile->lock);
+>  
+> @@ -443,13 +443,13 @@ ttm_ref_object_release(struct kref *kref)
+>  int ttm_ref_object_base_unref(struct ttm_object_file *tfile,
+>  			      unsigned long key, enum ttm_ref_type ref_type)
+>  {
+> -	struct drm_open_hash *ht = &tfile->ref_hash[ref_type];
+> +	struct vmwgfx_open_hash *ht = &tfile->ref_hash[ref_type];
+>  	struct ttm_ref_object *ref;
+> -	struct drm_hash_item *hash;
+> +	struct vmwgfx_hash_item *hash;
+>  	int ret;
+>  
+>  	spin_lock(&tfile->lock);
+> -	ret = drm_ht_find_item(ht, key, &hash);
+> +	ret = vmwgfx_ht_find_item(ht, key, &hash);
+>  	if (unlikely(ret != 0)) {
+>  		spin_unlock(&tfile->lock);
+>  		return -EINVAL;
+> @@ -483,7 +483,7 @@ void ttm_object_file_release(struct ttm_object_file **p_tfile)
+>  
+>  	spin_unlock(&tfile->lock);
+>  	for (i = 0; i < TTM_REF_NUM; ++i)
+> -		drm_ht_remove(&tfile->ref_hash[i]);
+> +		vmwgfx_ht_remove(&tfile->ref_hash[i]);
+>  
+>  	ttm_object_file_unref(&tfile);
+>  }
+> @@ -505,7 +505,7 @@ struct ttm_object_file *ttm_object_file_init(struct ttm_object_device *tdev,
+>  	INIT_LIST_HEAD(&tfile->ref_list);
+>  
+>  	for (i = 0; i < TTM_REF_NUM; ++i) {
+> -		ret = drm_ht_create(&tfile->ref_hash[i], hash_order);
+> +		ret = vmwgfx_ht_create(&tfile->ref_hash[i], hash_order);
+>  		if (ret) {
+>  			j = i;
+>  			goto out_err;
+> @@ -515,7 +515,7 @@ struct ttm_object_file *ttm_object_file_init(struct ttm_object_device *tdev,
+>  	return tfile;
+>  out_err:
+>  	for (i = 0; i < j; ++i)
+> -		drm_ht_remove(&tfile->ref_hash[i]);
+> +		vmwgfx_ht_remove(&tfile->ref_hash[i]);
+>  
+>  	kfree(tfile);
+>  
+> @@ -536,7 +536,7 @@ ttm_object_device_init(struct ttm_mem_global *mem_glob,
+>  	tdev->mem_glob = mem_glob;
+>  	spin_lock_init(&tdev->object_lock);
+>  	atomic_set(&tdev->object_count, 0);
+> -	ret = drm_ht_create(&tdev->object_hash, hash_order);
+> +	ret = vmwgfx_ht_create(&tdev->object_hash, hash_order);
+>  	if (ret != 0)
+>  		goto out_no_object_hash;
+>  
+> @@ -561,7 +561,7 @@ void ttm_object_device_release(struct ttm_object_device **p_tdev)
+>  
+>  	WARN_ON_ONCE(!idr_is_empty(&tdev->idr));
+>  	idr_destroy(&tdev->idr);
+> -	drm_ht_remove(&tdev->object_hash);
+> +	vmwgfx_ht_remove(&tdev->object_hash);
+>  
+>  	kfree(tdev);
+>  }
+> diff --git a/drivers/gpu/drm/vmwgfx/ttm_object.h b/drivers/gpu/drm/vmwgfx/ttm_object.h
+> index 49b064f0cb19..6885ccbeec7a 100644
+> --- a/drivers/gpu/drm/vmwgfx/ttm_object.h
+> +++ b/drivers/gpu/drm/vmwgfx/ttm_object.h
+> @@ -42,9 +42,8 @@
+>  #include <linux/list.h>
+>  #include <linux/rcupdate.h>
+>  
+> -#include <drm/drm_hashtab.h>
+> -
+>  #include "ttm_memory.h"
+> +#include "vmwgfx_hashtab.h"
+>  
+>  /**
+>   * enum ttm_ref_type
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c b/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c
+> index 8381750db81b..494cb98061f2 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c
+> @@ -42,7 +42,7 @@
+>   */
+>  struct vmw_cmdbuf_res {
+>  	struct vmw_resource *res;
+> -	struct drm_hash_item hash;
+> +	struct vmwgfx_hash_item hash;
+>  	struct list_head head;
+>  	enum vmw_cmdbuf_res_state state;
+>  	struct vmw_cmdbuf_res_manager *man;
+> @@ -59,7 +59,7 @@ struct vmw_cmdbuf_res {
+>   * @resources and @list are protected by the cmdbuf mutex for now.
+>   */
+>  struct vmw_cmdbuf_res_manager {
+> -	struct drm_open_hash resources;
+> +	struct vmwgfx_open_hash resources;
+>  	struct list_head list;
+>  	struct vmw_private *dev_priv;
+>  };
+> @@ -81,11 +81,11 @@ vmw_cmdbuf_res_lookup(struct vmw_cmdbuf_res_manager *man,
+>  		      enum vmw_cmdbuf_res_type res_type,
+>  		      u32 user_key)
+>  {
+> -	struct drm_hash_item *hash;
+> +	struct vmwgfx_hash_item *hash;
+>  	int ret;
+>  	unsigned long key = user_key | (res_type << 24);
+>  
+> -	ret = drm_ht_find_item(&man->resources, key, &hash);
+> +	ret = vmwgfx_ht_find_item(&man->resources, key, &hash);
+>  	if (unlikely(ret != 0))
+>  		return ERR_PTR(ret);
+>  
+> @@ -105,7 +105,7 @@ static void vmw_cmdbuf_res_free(struct vmw_cmdbuf_res_manager *man,
+>  				struct vmw_cmdbuf_res *entry)
+>  {
+>  	list_del(&entry->head);
+> -	WARN_ON(drm_ht_remove_item(&man->resources, &entry->hash));
+> +	WARN_ON(vmwgfx_ht_remove_item(&man->resources, &entry->hash));
+>  	vmw_resource_unreference(&entry->res);
+>  	kfree(entry);
+>  }
+> @@ -167,7 +167,7 @@ void vmw_cmdbuf_res_revert(struct list_head *list)
+>  			vmw_cmdbuf_res_free(entry->man, entry);
+>  			break;
+>  		case VMW_CMDBUF_RES_DEL:
+> -			ret = drm_ht_insert_item(&entry->man->resources, &entry->hash);
+> +			ret = vmwgfx_ht_insert_item(&entry->man->resources, &entry->hash);
+>  			BUG_ON(ret);
+>  			list_move_tail(&entry->head, &entry->man->list);
+>  			entry->state = VMW_CMDBUF_RES_COMMITTED;
+> @@ -206,7 +206,7 @@ int vmw_cmdbuf_res_add(struct vmw_cmdbuf_res_manager *man,
+>  		return -ENOMEM;
+>  
+>  	cres->hash.key = user_key | (res_type << 24);
+> -	ret = drm_ht_insert_item(&man->resources, &cres->hash);
+> +	ret = vmwgfx_ht_insert_item(&man->resources, &cres->hash);
+>  	if (unlikely(ret != 0)) {
+>  		kfree(cres);
+>  		goto out_invalid_key;
+> @@ -244,10 +244,10 @@ int vmw_cmdbuf_res_remove(struct vmw_cmdbuf_res_manager *man,
+>  			  struct vmw_resource **res_p)
+>  {
+>  	struct vmw_cmdbuf_res *entry;
+> -	struct drm_hash_item *hash;
+> +	struct vmwgfx_hash_item *hash;
+>  	int ret;
+>  
+> -	ret = drm_ht_find_item(&man->resources, user_key | (res_type << 24),
+> +	ret = vmwgfx_ht_find_item(&man->resources, user_key | (res_type << 24),
+>  			       &hash);
+>  	if (likely(ret != 0))
+>  		return -EINVAL;
+> @@ -260,7 +260,7 @@ int vmw_cmdbuf_res_remove(struct vmw_cmdbuf_res_manager *man,
+>  		*res_p = NULL;
+>  		break;
+>  	case VMW_CMDBUF_RES_COMMITTED:
+> -		(void) drm_ht_remove_item(&man->resources, &entry->hash);
+> +		(void) vmwgfx_ht_remove_item(&man->resources, &entry->hash);
+>  		list_del(&entry->head);
+>  		entry->state = VMW_CMDBUF_RES_DEL;
+>  		list_add_tail(&entry->head, list);
+> @@ -295,7 +295,7 @@ vmw_cmdbuf_res_man_create(struct vmw_private *dev_priv)
+>  
+>  	man->dev_priv = dev_priv;
+>  	INIT_LIST_HEAD(&man->list);
+> -	ret = drm_ht_create(&man->resources, VMW_CMDBUF_RES_MAN_HT_ORDER);
+> +	ret = vmwgfx_ht_create(&man->resources, VMW_CMDBUF_RES_MAN_HT_ORDER);
+>  	if (ret == 0)
+>  		return man;
+>  
+> @@ -320,7 +320,7 @@ void vmw_cmdbuf_res_man_destroy(struct vmw_cmdbuf_res_manager *man)
+>  	list_for_each_entry_safe(entry, next, &man->list, head)
+>  		vmw_cmdbuf_res_free(man, entry);
+>  
+> -	drm_ht_remove(&man->resources);
+> +	vmwgfx_ht_remove(&man->resources);
+>  	kfree(man);
+>  }
+>  
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+> index ab9a1750e1df..0d6a6ea0574d 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+> @@ -1156,7 +1156,7 @@ static void vmw_driver_unload(struct drm_device *dev)
+>  	unregister_pm_notifier(&dev_priv->pm_nb);
+>  
+>  	if (dev_priv->ctx.res_ht_initialized)
+> -		drm_ht_remove(&dev_priv->ctx.res_ht);
+> +		vmwgfx_ht_remove(&dev_priv->ctx.res_ht);
+>  	vfree(dev_priv->ctx.cmd_bounce);
+>  	if (dev_priv->enable_fb) {
+>  		vmw_fb_off(dev_priv);
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
+> index 858aff99a3fe..530ac1b557f9 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
+> @@ -34,7 +34,6 @@
+>  #include <drm/drm_auth.h>
+>  #include <drm/drm_device.h>
+>  #include <drm/drm_file.h>
+> -#include <drm/drm_hashtab.h>
+>  #include <drm/drm_rect.h>
+>  
+>  #include <drm/ttm/ttm_bo_driver.h>
+> @@ -43,6 +42,7 @@
+>  #include "ttm_object.h"
+>  
+>  #include "vmwgfx_fence.h"
+> +#include "vmwgfx_hashtab.h"
+>  #include "vmwgfx_reg.h"
+>  #include "vmwgfx_validation.h"
+>  
+> @@ -133,7 +133,7 @@ struct vmw_buffer_object {
+>   */
+>  struct vmw_validate_buffer {
+>  	struct ttm_validate_buffer base;
+> -	struct drm_hash_item hash;
+> +	struct vmwgfx_hash_item hash;
+>  	bool validate_as_mob;
+>  };
+>  
+> @@ -406,7 +406,7 @@ struct vmw_ctx_validation_info;
+>   * @ctx: The validation context
+>   */
+>  struct vmw_sw_context{
+> -	struct drm_open_hash res_ht;
+> +	struct vmwgfx_open_hash res_ht;
+>  	bool res_ht_initialized;
+>  	bool kernel;
+>  	struct vmw_fpriv *fp;
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
+> index 5f2ffa9de5c8..986e85b7e616 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
+> @@ -4117,7 +4117,7 @@ int vmw_execbuf_process(struct drm_file *file_priv,
+>  		vmw_binding_state_reset(sw_context->staged_bindings);
+>  
+>  	if (!sw_context->res_ht_initialized) {
+> -		ret = drm_ht_create(&sw_context->res_ht, VMW_RES_HT_ORDER);
+> +		ret = vmwgfx_ht_create(&sw_context->res_ht, VMW_RES_HT_ORDER);
+>  		if (unlikely(ret != 0))
+>  			goto out_unlock;
+>  
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_hashtab.c b/drivers/gpu/drm/vmwgfx/vmwgfx_hashtab.c
+> new file mode 100644
+> index 000000000000..06aebc12774e
+> --- /dev/null
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_hashtab.c
+> @@ -0,0 +1,199 @@
+> +/*
+> + * Copyright 2006 Tungsten Graphics, Inc., Bismarck, ND. USA.
+> + * All Rights Reserved.
+> + *
+> + * Permission is hereby granted, free of charge, to any person obtaining a
+> + * copy of this software and associated documentation files (the
+> + * "Software"), to deal in the Software without restriction, including
+> + * without limitation the rights to use, copy, modify, merge, publish,
+> + * distribute, sub license, and/or sell copies of the Software, and to
+> + * permit persons to whom the Software is furnished to do so, subject to
+> + * the following conditions:
+> + *
+> + * The above copyright notice and this permission notice (including the
+> + * next paragraph) shall be included in all copies or substantial portions
+> + * of the Software.
+> + *
+> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+> + * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL
+> + * THE COPYRIGHT HOLDERS, AUTHORS AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM,
+> + * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+> + * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+> + * USE OR OTHER DEALINGS IN THE SOFTWARE.
+> + */
+> +
+> +/*
+> + * Simple open hash tab implementation.
+> + *
+> + * Authors:
+> + * Thomas Hellström <thomas-at-tungstengraphics-dot-com>
+> + */
+> +
+> +#include <linux/export.h>
+> +#include <linux/hash.h>
+> +#include <linux/mm.h>
+> +#include <linux/rculist.h>
+> +#include <linux/slab.h>
+> +#include <linux/vmalloc.h>
+> +
+> +#include <drm/drm_print.h>
+> +
+> +#include "vmwgfx_hashtab.h"
+> +
+> +int vmwgfx_ht_create(struct vmwgfx_open_hash *ht, unsigned int order)
+> +{
+> +	unsigned int size = 1 << order;
+> +
+> +	ht->order = order;
+> +	ht->table = NULL;
+> +	if (size <= PAGE_SIZE / sizeof(*ht->table))
+> +		ht->table = kcalloc(size, sizeof(*ht->table), GFP_KERNEL);
+> +	else
+> +		ht->table = vzalloc(array_size(size, sizeof(*ht->table)));
+> +	if (!ht->table) {
+> +		DRM_ERROR("Out of memory for hash table\n");
+> +		return -ENOMEM;
+> +	}
+> +	return 0;
+> +}
+> +
+> +void vmwgfx_ht_verbose_list(struct vmwgfx_open_hash *ht, unsigned long key)
+> +{
+> +	struct vmwgfx_hash_item *entry;
+> +	struct hlist_head *h_list;
+> +	unsigned int hashed_key;
+> +	int count = 0;
+> +
+> +	hashed_key = hash_long(key, ht->order);
+> +	DRM_DEBUG("Key is 0x%08lx, Hashed key is 0x%08x\n", key, hashed_key);
+> +	h_list = &ht->table[hashed_key];
+> +	hlist_for_each_entry(entry, h_list, head)
+> +		DRM_DEBUG("count %d, key: 0x%08lx\n", count++, entry->key);
+> +}
+> +
+> +static struct hlist_node *vmwgfx_ht_find_key(struct vmwgfx_open_hash *ht, unsigned long key)
+> +{
+> +	struct vmwgfx_hash_item *entry;
+> +	struct hlist_head *h_list;
+> +	unsigned int hashed_key;
+> +
+> +	hashed_key = hash_long(key, ht->order);
+> +	h_list = &ht->table[hashed_key];
+> +	hlist_for_each_entry(entry, h_list, head) {
+> +		if (entry->key == key)
+> +			return &entry->head;
+> +		if (entry->key > key)
+> +			break;
+> +	}
+> +	return NULL;
+> +}
+> +
+> +static struct hlist_node *vmwgfx_ht_find_key_rcu(struct vmwgfx_open_hash *ht, unsigned long key)
+> +{
+> +	struct vmwgfx_hash_item *entry;
+> +	struct hlist_head *h_list;
+> +	unsigned int hashed_key;
+> +
+> +	hashed_key = hash_long(key, ht->order);
+> +	h_list = &ht->table[hashed_key];
+> +	hlist_for_each_entry_rcu(entry, h_list, head) {
+> +		if (entry->key == key)
+> +			return &entry->head;
+> +		if (entry->key > key)
+> +			break;
+> +	}
+> +	return NULL;
+> +}
+> +
+> +int vmwgfx_ht_insert_item(struct vmwgfx_open_hash *ht, struct vmwgfx_hash_item *item)
+> +{
+> +	struct vmwgfx_hash_item *entry;
+> +	struct hlist_head *h_list;
+> +	struct hlist_node *parent;
+> +	unsigned int hashed_key;
+> +	unsigned long key = item->key;
+> +
+> +	hashed_key = hash_long(key, ht->order);
+> +	h_list = &ht->table[hashed_key];
+> +	parent = NULL;
+> +	hlist_for_each_entry(entry, h_list, head) {
+> +		if (entry->key == key)
+> +			return -EINVAL;
+> +		if (entry->key > key)
+> +			break;
+> +		parent = &entry->head;
+> +	}
+> +	if (parent)
+> +		hlist_add_behind_rcu(&item->head, parent);
+> +	else
+> +		hlist_add_head_rcu(&item->head, h_list);
+> +	return 0;
+> +}
+> +
+> +/*
+> + * Just insert an item and return any "bits" bit key that hasn't been
+> + * used before.
+> + */
+> +int vmwgfx_ht_just_insert_please(struct vmwgfx_open_hash *ht, struct vmwgfx_hash_item *item,
+> +				 unsigned long seed, int bits, int shift,
+> +				 unsigned long add)
+> +{
+> +	int ret;
+> +	unsigned long mask = (1UL << bits) - 1;
+> +	unsigned long first, unshifted_key;
+> +
+> +	unshifted_key = hash_long(seed, bits);
+> +	first = unshifted_key;
+> +	do {
+> +		item->key = (unshifted_key << shift) + add;
+> +		ret = vmwgfx_ht_insert_item(ht, item);
+> +		if (ret)
+> +			unshifted_key = (unshifted_key + 1) & mask;
+> +	} while (ret && (unshifted_key != first));
+> +
+> +	if (ret) {
+> +		DRM_ERROR("Available key bit space exhausted\n");
+> +		return -EINVAL;
+> +	}
+> +	return 0;
+> +}
+> +
+> +int vmwgfx_ht_find_item(struct vmwgfx_open_hash *ht, unsigned long key,
+> +			struct vmwgfx_hash_item **item)
+> +{
+> +	struct hlist_node *list;
+> +
+> +	list = vmwgfx_ht_find_key_rcu(ht, key);
+> +	if (!list)
+> +		return -EINVAL;
+> +
+> +	*item = hlist_entry(list, struct vmwgfx_hash_item, head);
+> +	return 0;
+> +}
+> +
+> +int vmwgfx_ht_remove_key(struct vmwgfx_open_hash *ht, unsigned long key)
+> +{
+> +	struct hlist_node *list;
+> +
+> +	list = vmwgfx_ht_find_key(ht, key);
+> +	if (list) {
+> +		hlist_del_init_rcu(list);
+> +		return 0;
+> +	}
+> +	return -EINVAL;
+> +}
+> +
+> +int vmwgfx_ht_remove_item(struct vmwgfx_open_hash *ht, struct vmwgfx_hash_item *item)
+> +{
+> +	hlist_del_init_rcu(&item->head);
+> +	return 0;
+> +}
+> +
+> +void vmwgfx_ht_remove(struct vmwgfx_open_hash *ht)
+> +{
+> +	if (ht->table) {
+> +		kvfree(ht->table);
+> +		ht->table = NULL;
+> +	}
+> +}
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_hashtab.h b/drivers/gpu/drm/vmwgfx/vmwgfx_hashtab.h
+> new file mode 100644
+> index 000000000000..a9ce12922e21
+> --- /dev/null
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_hashtab.h
+> @@ -0,0 +1,83 @@
+> +/*
+> + * Copyright 2006 Tungsten Graphics, Inc., Bismack, ND. USA.
+> + * All Rights Reserved.
+> + *
+> + * Permission is hereby granted, free of charge, to any person obtaining a
+> + * copy of this software and associated documentation files (the
+> + * "Software"), to deal in the Software without restriction, including
+> + * without limitation the rights to use, copy, modify, merge, publish,
+> + * distribute, sub license, and/or sell copies of the Software, and to
+> + * permit persons to whom the Software is furnished to do so, subject to
+> + * the following conditions:
+> + *
+> + * The above copyright notice and this permission notice (including the
+> + * next paragraph) shall be included in all copies or substantial portions
+> + * of the Software.
+> + *
+> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+> + * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL
+> + * THE COPYRIGHT HOLDERS, AUTHORS AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM,
+> + * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+> + * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+> + * USE OR OTHER DEALINGS IN THE SOFTWARE.
+> + */
+> +
+> +/*
+> + * Simple open hash tab implementation.
+> + *
+> + * Authors:
+> + * Thomas Hellström <thomas-at-tungstengraphics-dot-com>
+> + */
+> +
+> +/*
+> + * TODO: Replace this hashtable with Linux' generic implementation
+> + *       from <linux/hashtable.h>.
+> + */
+> +
+> +#ifndef VMWGFX_HASHTAB_H
+> +#define VMWGFX_HASHTAB_H
+> +
+> +#include <linux/list.h>
+> +
+> +#define drm_hash_entry(_ptr, _type, _member) container_of(_ptr, _type, _member)
+> +
+> +struct vmwgfx_hash_item {
+> +	struct hlist_node head;
+> +	unsigned long key;
+> +};
+> +
+> +struct vmwgfx_open_hash {
+> +	struct hlist_head *table;
+> +	u8 order;
+> +};
+> +
+> +int vmwgfx_ht_create(struct vmwgfx_open_hash *ht, unsigned int order);
+> +int vmwgfx_ht_insert_item(struct vmwgfx_open_hash *ht, struct vmwgfx_hash_item *item);
+> +int vmwgfx_ht_just_insert_please(struct vmwgfx_open_hash *ht, struct vmwgfx_hash_item *item,
+> +				 unsigned long seed, int bits, int shift,
+> +				 unsigned long add);
+> +int vmwgfx_ht_find_item(struct vmwgfx_open_hash *ht, unsigned long key,
+> +			struct vmwgfx_hash_item **item);
+> +
+> +void vmwgfx_ht_verbose_list(struct vmwgfx_open_hash *ht, unsigned long key);
+> +int vmwgfx_ht_remove_key(struct vmwgfx_open_hash *ht, unsigned long key);
+> +int vmwgfx_ht_remove_item(struct vmwgfx_open_hash *ht, struct vmwgfx_hash_item *item);
+> +void vmwgfx_ht_remove(struct vmwgfx_open_hash *ht);
+> +
+> +/*
+> + * RCU-safe interface
+> + *
+> + * The user of this API needs to make sure that two or more instances of the
+> + * hash table manipulation functions are never run simultaneously.
+> + * The lookup function vmwgfx_ht_find_item_rcu may, however, run simultaneously
+> + * with any of the manipulation functions as long as it's called from within
+> + * an RCU read-locked section.
+> + */
+> +#define vmwgfx_ht_insert_item_rcu vmwgfx_ht_insert_item
+> +#define vmwgfx_ht_just_insert_please_rcu vmwgfx_ht_just_insert_please
+> +#define vmwgfx_ht_remove_key_rcu vmwgfx_ht_remove_key
+> +#define vmwgfx_ht_remove_item_rcu vmwgfx_ht_remove_item
+> +#define vmwgfx_ht_find_item_rcu vmwgfx_ht_find_item
+> +
+> +#endif
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_validation.c b/drivers/gpu/drm/vmwgfx/vmwgfx_validation.c
+> index b09094b50c5d..41b7417cb5d3 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_validation.c
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_validation.c
+> @@ -43,7 +43,7 @@
+>   */
+>  struct vmw_validation_bo_node {
+>  	struct ttm_validate_buffer base;
+> -	struct drm_hash_item hash;
+> +	struct vmwgfx_hash_item hash;
+>  	unsigned int coherent_count;
+>  	u32 as_mob : 1;
+>  	u32 cpu_blit : 1;
+> @@ -72,7 +72,7 @@ struct vmw_validation_bo_node {
+>   */
+>  struct vmw_validation_res_node {
+>  	struct list_head head;
+> -	struct drm_hash_item hash;
+> +	struct vmwgfx_hash_item hash;
+>  	struct vmw_resource *res;
+>  	struct vmw_buffer_object *new_backup;
+>  	unsigned long new_backup_offset;
+> @@ -184,9 +184,9 @@ vmw_validation_find_bo_dup(struct vmw_validation_context *ctx,
+>  		return NULL;
+>  
+>  	if (ctx->ht) {
+> -		struct drm_hash_item *hash;
+> +		struct vmwgfx_hash_item *hash;
+>  
+> -		if (!drm_ht_find_item(ctx->ht, (unsigned long) vbo, &hash))
+> +		if (!vmwgfx_ht_find_item(ctx->ht, (unsigned long) vbo, &hash))
+>  			bo_node = container_of(hash, typeof(*bo_node), hash);
+>  	} else {
+>  		struct  vmw_validation_bo_node *entry;
+> @@ -221,9 +221,9 @@ vmw_validation_find_res_dup(struct vmw_validation_context *ctx,
+>  		return NULL;
+>  
+>  	if (ctx->ht) {
+> -		struct drm_hash_item *hash;
+> +		struct vmwgfx_hash_item *hash;
+>  
+> -		if (!drm_ht_find_item(ctx->ht, (unsigned long) res, &hash))
+> +		if (!vmwgfx_ht_find_item(ctx->ht, (unsigned long) res, &hash))
+>  			res_node = container_of(hash, typeof(*res_node), hash);
+>  	} else {
+>  		struct  vmw_validation_res_node *entry;
+> @@ -280,7 +280,7 @@ int vmw_validation_add_bo(struct vmw_validation_context *ctx,
+>  
+>  		if (ctx->ht) {
+>  			bo_node->hash.key = (unsigned long) vbo;
+> -			ret = drm_ht_insert_item(ctx->ht, &bo_node->hash);
+> +			ret = vmwgfx_ht_insert_item(ctx->ht, &bo_node->hash);
+>  			if (ret) {
+>  				DRM_ERROR("Failed to initialize a buffer "
+>  					  "validation entry.\n");
+> @@ -335,7 +335,7 @@ int vmw_validation_add_resource(struct vmw_validation_context *ctx,
+>  
+>  	if (ctx->ht) {
+>  		node->hash.key = (unsigned long) res;
+> -		ret = drm_ht_insert_item(ctx->ht, &node->hash);
+> +		ret = vmwgfx_ht_insert_item(ctx->ht, &node->hash);
+>  		if (ret) {
+>  			DRM_ERROR("Failed to initialize a resource validation "
+>  				  "entry.\n");
+> @@ -688,13 +688,13 @@ void vmw_validation_drop_ht(struct vmw_validation_context *ctx)
+>  		return;
+>  
+>  	list_for_each_entry(entry, &ctx->bo_list, base.head)
+> -		(void) drm_ht_remove_item(ctx->ht, &entry->hash);
+> +		(void) vmwgfx_ht_remove_item(ctx->ht, &entry->hash);
+>  
+>  	list_for_each_entry(val, &ctx->resource_list, head)
+> -		(void) drm_ht_remove_item(ctx->ht, &val->hash);
+> +		(void) vmwgfx_ht_remove_item(ctx->ht, &val->hash);
+>  
+>  	list_for_each_entry(val, &ctx->resource_ctx_list, head)
+> -		(void) drm_ht_remove_item(ctx->ht, &val->hash);
+> +		(void) vmwgfx_ht_remove_item(ctx->ht, &val->hash);
+>  
+>  	ctx->ht = NULL;
+>  }
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_validation.h b/drivers/gpu/drm/vmwgfx/vmwgfx_validation.h
+> index 739906d1b3eb..495fd504b8c6 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_validation.h
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_validation.h
+> @@ -31,9 +31,10 @@
+>  #include <linux/list.h>
+>  #include <linux/ww_mutex.h>
+>  
+> -#include <drm/drm_hashtab.h>
+>  #include <drm/ttm/ttm_execbuf_util.h>
+>  
+> +#include "vmwgfx_hashtab.h"
+> +
+>  #define VMW_RES_DIRTY_NONE 0
+>  #define VMW_RES_DIRTY_SET BIT(0)
+>  #define VMW_RES_DIRTY_CLEAR BIT(1)
+> @@ -73,7 +74,7 @@ struct vmw_validation_mem {
+>   * @total_mem: Amount of reserved memory.
+>   */
+>  struct vmw_validation_context {
+> -	struct drm_open_hash *ht;
+> +	struct vmwgfx_open_hash *ht;
+>  	struct list_head resource_list;
+>  	struct list_head resource_ctx_list;
+>  	struct list_head bo_list;
+> @@ -151,7 +152,7 @@ vmw_validation_set_val_mem(struct vmw_validation_context *ctx,
+>   * available at validation context declaration time
+>   */
+>  static inline void vmw_validation_set_ht(struct vmw_validation_context *ctx,
+> -					 struct drm_open_hash *ht)
+> +					 struct vmwgfx_open_hash *ht)
+>  {
+>  	ctx->ht = ht;
+>  }
 > -- 
-> Jani Nikula, Intel Open Source Graphics Center
+> 2.33.1
+> 
 
 -- 
 Daniel Vetter
