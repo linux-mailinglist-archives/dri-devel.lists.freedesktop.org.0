@@ -1,42 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54A2245127C
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 20:40:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D460745131E
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 20:47:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05C9B6E2D5;
-	Mon, 15 Nov 2021 19:40:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B36EE6E4E6;
+	Mon, 15 Nov 2021 19:46:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from msg-4.mailo.com (ip-15.mailobj.net [213.182.54.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 20B586E2D5
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 19:40:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=net-c.es; s=mailo;
- t=1637005214; bh=DQWfoW6Uy+7g3oQloLB0fs087g2yJkpLOtLI3xn1NyY=;
- h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
- MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To;
- b=ey2rHlD1Fmelc8dn5FtI1ZnrsZW+oh12FE4v+Hleiv8SK/1n+WZcKGAHnutVhda50
- 2CsBPp555xAMx1XREfY1CnXYjlpDGYdQVVpRcQRbNqRlzuPbarJHtjp2A3guQUqczQ
- 9INOoxyRWvl6ean2SsxTcku5D4JoSiMM3FLd8KpI=
-Received: by b-2.in.mailobj.net [192.168.90.12] with ESMTP
- via ip-206.mailobj.net [213.182.55.206]
- Mon, 15 Nov 2021 20:40:14 +0100 (CET)
-X-EA-Auth: 3h3b4Irtuev6Yy+Y6tzFLPgHuSL7tz7pGdXiOo328vMfBlJrvfnUxrwBOSqLkQkaVQUeFInRGCJ+HKDhjHylfAk32ajcFQhU
-Date: Mon, 15 Nov 2021 20:40:12 +0100
-From: Claudio Suarez <cssk@net-c.es>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Subject: Re: [PATCH] drm: change logs to print connectors in the form
- CONNECTOR:id:name
-Message-ID: <YZK3nPgQRYl8ys8t@gineta.localdomain>
-References: <YZARol5A5hS+5a5m@gineta.localdomain>
- <YZAikieq4bwrJ58c@ravnborg.org>
- <YZFIvfY1j0f3pVQt@gineta.localdomain> <87fsrx3eed.fsf@intel.com>
+Received: from m-r2.th.seeweb.it (m-r2.th.seeweb.it
+ [IPv6:2001:4b7a:2000:18::171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 93C80899E6
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 19:46:57 +0000 (UTC)
+Received: from SoMainline.org (94-209-165-62.cable.dynamic.v4.ziggo.nl
+ [94.209.165.62])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by m-r2.th.seeweb.it (Postfix) with ESMTPSA id D97583EEFB;
+ Mon, 15 Nov 2021 20:46:53 +0100 (CET)
+Date: Mon, 15 Nov 2021 20:46:52 +0100
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: Daniel Thompson <daniel.thompson@linaro.org>
+Subject: Re: [RESEND PATCH v2 04/13] backlight: qcom-wled: Fix off-by-one
+ maximum with default num_strings
+Message-ID: <20211115194652.c4g2mg4budf4lkct@SoMainline.org>
+Mail-Followup-To: Marijn Suijten <marijn.suijten@somainline.org>,
+ Daniel Thompson <daniel.thompson@linaro.org>,
+ phone-devel@vger.kernel.org, Andy Gross <agross@kernel.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Rob Herring <robh+dt@kernel.org>, Lee Jones <lee.jones@linaro.org>,
+ Jingoo Han <jingoohan1@gmail.com>,
+ ~postmarketos/upstreaming@lists.sr.ht,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Martin Botka <martin.botka@somainline.org>,
+ Jami Kettunen <jami.kettunen@somainline.org>,
+ Pavel Dubrova <pashadubrova@gmail.com>,
+ Kiran Gunda <kgunda@codeaurora.org>, Bryan Wu <cooloney@gmail.com>,
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org,
+ Courtney Cavin <courtney.cavin@sonymobile.com>
+References: <20211112002706.453289-1-marijn.suijten@somainline.org>
+ <20211112002706.453289-5-marijn.suijten@somainline.org>
+ <20211112120839.i6g747vewg6bkyk7@maple.lan>
+ <20211112123501.pz5e6g7gavlinung@SoMainline.org>
+ <20211112214337.r5xrpeyjgdygzc3n@SoMainline.org>
+ <20211115112327.tklic3fggrv5mzjt@maple.lan>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <87fsrx3eed.fsf@intel.com>
+In-Reply-To: <20211115112327.tklic3fggrv5mzjt@maple.lan>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,61 +65,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, Kiran Gunda <kgunda@codeaurora.org>,
+ Pavel Dubrova <pashadubrova@gmail.com>,
+ Courtney Cavin <courtney.cavin@sonymobile.com>,
+ Jami Kettunen <jami.kettunen@somainline.org>,
+ Jingoo Han <jingoohan1@gmail.com>, linux-arm-msm@vger.kernel.org,
+ Bryan Wu <cooloney@gmail.com>, Konrad Dybcio <konrad.dybcio@somainline.org>,
+ linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, Andy Gross <agross@kernel.org>,
+ Martin Botka <martin.botka@somainline.org>,
+ ~postmarketos/upstreaming@lists.sr.ht,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ phone-devel@vger.kernel.org, Lee Jones <lee.jones@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Nov 15, 2021 at 12:24:26PM +0200, Jani Nikula wrote:
-> On Sun, 14 Nov 2021, Claudio Suarez <cssk@net-c.es> wrote:
-> > On Sat, Nov 13, 2021 at 09:39:46PM +0100, Sam Ravnborg wrote:
-> >> Hi Claudio,
-> >> 
-> >> On Sat, Nov 13, 2021 at 08:27:30PM +0100, Claudio Suarez wrote:
-> >> > The prefered way to log connectors is [CONNECTOR:id:name]. Change it in
-> >> > drm core programs.
-> >> > 
-> >> > Suggested-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> >> > Signed-off-by: Claudio Suarez <cssk@net-c.es>
-> >> 
-> >> While touching all these logging calls, could you convernt them to the
-> >> newer drm_dbg_kms variants?
-> >> DRM_DEBUG_* are all deprecated.
-> >> 
-> >
-> > Yes, I can, but it is recommended to do it in a different patch:
-> >
-> > https://www.kernel.org/doc/html/latest/process/submitting-patches.html#separate-your-changes
-> >
-> > C&P:
-> > "Separate your changes
-> > Separate each logical change into a separate patch.
-> > For example, if your changes include both bug fixes and performance enhancements..."
-> >
-> >
-> > I will study and send a new separate patch with your suggestion.
+On 2021-11-15 11:23:27, Daniel Thompson wrote:
+> On Fri, Nov 12, 2021 at 10:43:37PM +0100, Marijn Suijten wrote:
+> > On 2021-11-12 13:35:03, Marijn Suijten wrote:
+> > > On 2021-11-12 12:08:39, Daniel Thompson wrote:
+> > > > On Fri, Nov 12, 2021 at 01:26:57AM +0100, Marijn Suijten wrote:
+> > > > > When not specifying num-strings in the DT the default is used, but +1 is
+> > > > > added to it which turns WLED3 into 4 and WLED4/5 into 5 strings instead
+> > > > > of 3 and 4 respectively, causing out-of-bounds reads and register
+> > > > > read/writes.  This +1 exists for a deficiency in the DT parsing code,
+> > > > > and is simply omitted entirely - solving this oob issue - by parsing the
+> > > > > property separately much like qcom,enabled-strings.
+> > > > > 
+> > > > > This also allows more stringent checks on the maximum value when
+> > > > > qcom,enabled-strings is provided in the DT.  Note that num-strings is
+> > > > > parsed after enabled-strings to give it final sign-off over the length,
+> > > > > which DT currently utilizes to get around an incorrect fixed read of
+> > > > > four elements from that array (has been addressed in a prior patch).
+> > > > > 
+> > > > > Fixes: 93c64f1ea1e8 ("leds: add Qualcomm PM8941 WLED driver")
+> > > > > Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
+> > > > > Reviewed-By: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+> > > > > ---
+> > > > >  drivers/video/backlight/qcom-wled.c | 51 +++++++++++------------------
+> > > > >  1 file changed, 19 insertions(+), 32 deletions(-)
+> > > > > 
+> > > > > diff --git a/drivers/video/backlight/qcom-wled.c b/drivers/video/backlight/qcom-wled.c
+> > > > > index 977cd75827d7..c5232478a343 100644
+> > > > > --- a/drivers/video/backlight/qcom-wled.c
+> > > > > +++ b/drivers/video/backlight/qcom-wled.c
+> > > > > @@ -1552,6 +1520,25 @@ static int wled_configure(struct wled *wled)
+> > > > >  		}
+> > > > >  	}
+> > > > > 
+> > > > > +	rc = of_property_read_u32(dev->of_node, "qcom,num-strings", &val);
+> > > > > +	if (!rc) {
+> > > > > +		if (val < 1 || val > wled->max_string_count) {
+> > > > > +			dev_err(dev, "qcom,num-strings must be between 1 and %d\n",
+> > > > > +				wled->max_string_count);
+> > > > > +			return -EINVAL;
+> > > > > +		}
+> > > > > +
+> > > > > +		if (string_len > 0) {
+> > > > > +			dev_warn(dev, "qcom,num-strings and qcom,enabled-strings are ambiguous\n");
+> > > > 
+> > > > The warning should also be below the error message on the next if statement.
+> > > 
+> > > Agreed.
+> > 
+> > Thinking about this again while reworking the patches, I initially put
+> > this above the error to make DT writers aware.  There's no point telling
+> > them that their values are out of sync (num-strings >
+> > len(enabled-strings)), when they "shouldn't even" (don't need to) set
+> > both in the first place.  They might needlessly fix the discrepancy, see
+> > the driver finally probe (working backlight) and carry on without
+> > noticing this warning that now appears.
+> > 
+> > Sorry for bringing this back up, but I'm curious about your opinion.
 > 
-> I feel these logging changes are the types of changes where I'd err on
-> the side of fewer patches than strictly following the above guidelines.
+> With a more helpful warning about how to fix then I think it is OK to
+> have both the warning and the error.
 
-To size the problem:
-- there are about 3434 references to DRM_DEBUG_* in all the drm code, all drivers.
-- there are 413 references to DRM_DEBUG_* in the drm core code, only 66 of
-   them are related to connectors.
-- there are 62 references to DRM_ERR* and 7 references to DRM_INFO in
-   the drm core programs.
+Thanks - I presume the message we settled upon last time is helpful
+enough:
 
-I meant I can make two patches:
- 1 - this one with the change to CONNECTOR:id:name (29 changes)
- 2 - a new and bigger patch to change 413 + 62 + 7 references to DRM_{DEBUG,ERR,INFO}
-     in the drm core programs.
+    Only one of qcom,num-strings or qcom,enabled-strings should be set
 
-The second patch will be ready in a few days.
+I'll respin this, together with this warning reordered into the next
+commit, and using __le16 for the cpu_to_le16 output.
 
-Is it a good plan ? or can it be improved ?
-
-Best regards,
-Claudio Suarez.
-
-
-
+- Marijn
