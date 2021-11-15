@@ -2,79 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A152945035A
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 12:23:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEAFC450373
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 12:31:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 00C906E027;
-	Mon, 15 Nov 2021 11:23:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 67B416E063;
+	Mon, 15 Nov 2021 11:31:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
- [IPv6:2a00:1450:4864:20::335])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 082C46E027
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 11:23:32 +0000 (UTC)
-Received: by mail-wm1-x335.google.com with SMTP id
- n33-20020a05600c502100b0032fb900951eso10215855wmr.4
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 03:23:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=f4u4+jt8ypE5xH9p7rgAcXb4lPM3Z6q0r6PSS8fTKHI=;
- b=jP1n/U+yzHcokMi3lhdqzC3if7O6KZkCqx54OxRpYSGay0te96CO0CKrwB0URvPjOR
- 2F6t0UufliWZemKMURzFE4OJKr11+QmpYUn2dL8+sVM92o9JUs0vwdUNggg22vOZUNfm
- 32JfoJLb+kPKfvsh7QVa8RHqdsiFtUG/23lbjAVe1YRDVQI3JZr/lXePgZyxoDTB15YO
- 9tx3yE6/8LpVOZ4Ph+dfvm7gIS0uFXHjNKXJ5pf7RH5g6PgVUugoWIz76W3ot9aKDi/R
- 4RRVUg39s4VFCBkYUtN47Zup0KL1sgfMCVZZigFi6JOKlxp5cPPVHF67zzDS5tePZrRq
- wEPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=f4u4+jt8ypE5xH9p7rgAcXb4lPM3Z6q0r6PSS8fTKHI=;
- b=BAM5xpr9Hm72YUsVltqjAP9Bz5tSCgWHS4KRuU+izb3Sy5dHJeRYrBKCX0DtkT86bn
- 9j+G32ywZXngiHpp46FYkDvDtfMoxr6pIHo9hpO6MTQg0gAojwLjsjloQklrdIvRGsdj
- MGdBgU4sk73HQctX+hdNwzo2id34Bp2mgMdLCi8l2lVItP5hCX/xBQGr4K1p1mL5uX7G
- NNBHHYSvcZvIB50/cJbxipD/F8IwED6mc6Gbs8QOWY1555GqW3jZ8/Nbmf0YWg5ETwWG
- AWQrV0BBErN6Cl8+YQoKd09sYFHL3LQoEGEP8TzMJAmy2r5PFukRGBj7uqLntArJRjeK
- D5ig==
-X-Gm-Message-State: AOAM532hQSMq7UwBf6XoZAXoy1fGjzpyrPPbLRqX5Pk99P0sFroGlfsa
- sD8cDoXKXjJEL5ptl2k2nWhYew==
-X-Google-Smtp-Source: ABdhPJydAY2sk1/zCzZMibQHqVqEhwBELyjB7z2vGpTbcl9BNIGws50Duzyyhd3exyGjYR2A6vmRxw==
-X-Received: by 2002:a1c:540c:: with SMTP id i12mr7957382wmb.33.1636975410470; 
- Mon, 15 Nov 2021 03:23:30 -0800 (PST)
-Received: from maple.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net.
- [80.7.220.175])
- by smtp.gmail.com with ESMTPSA id h7sm13665207wrt.64.2021.11.15.03.23.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Nov 2021 03:23:29 -0800 (PST)
-Date: Mon, 15 Nov 2021 11:23:27 +0000
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Marijn Suijten <marijn.suijten@somainline.org>,
- phone-devel@vger.kernel.org, Andy Gross <agross@kernel.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Rob Herring <robh+dt@kernel.org>, Lee Jones <lee.jones@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>, ~postmarketos/upstreaming@lists.sr.ht,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- Martin Botka <martin.botka@somainline.org>,
- Jami Kettunen <jami.kettunen@somainline.org>,
- Pavel Dubrova <pashadubrova@gmail.com>,
- Kiran Gunda <kgunda@codeaurora.org>, Bryan Wu <cooloney@gmail.com>,
- linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org, Courtney Cavin <courtney.cavin@sonymobile.com>
-Subject: Re: [RESEND PATCH v2 04/13] backlight: qcom-wled: Fix off-by-one
- maximum with default num_strings
-Message-ID: <20211115112327.tklic3fggrv5mzjt@maple.lan>
-References: <20211112002706.453289-1-marijn.suijten@somainline.org>
- <20211112002706.453289-5-marijn.suijten@somainline.org>
- <20211112120839.i6g747vewg6bkyk7@maple.lan>
- <20211112123501.pz5e6g7gavlinung@SoMainline.org>
- <20211112214337.r5xrpeyjgdygzc3n@SoMainline.org>
+Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com
+ [64.147.123.27])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E09F36E063
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 11:31:12 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.west.internal (Postfix) with ESMTP id 70BEA2B0117B;
+ Mon, 15 Nov 2021 06:31:09 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Mon, 15 Nov 2021 06:31:10 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ from:to:cc:subject:date:message-id:content-type:mime-version
+ :content-transfer-encoding; s=fm1; bh=oEPb279Pc8ICHxOjxF4sDkFL+s
+ /davMGKpI867X6PF8=; b=Zp8ep0hNHQS6Py/AgYK2oGRSuIc8KKJtecqBd+zFCH
+ /UyNSYhI5dA0D4FvPyHofOl/lD0IeKboJox/8/Zk+IuhQxPM34kPlbjKPxliy5hc
+ m8OKUuojBOB7gyw5m49i+U/KCh69KnBartF1y+DSYssDVaI+W1a2Z2JCTVOiWELt
+ 3jPUlOsgPZXXDrSyySs4rzDTFNeHxMy902DVwNBUV6KZpwYkNE3fBm+u/KPr2s0C
+ JRJlqlH4x5ObEbjPM0X26tnDCo/BQkwOamDCh7hxSzI74NZey8wuWNR7IjdfJt37
+ Dm+7WLOju2idhKqy30HBNavvuywX0zhGZThyGzYfNxzw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:message-id:mime-version:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=oEPb27
+ 9Pc8ICHxOjxF4sDkFL+s/davMGKpI867X6PF8=; b=ETg29ZlcFmHgF8t+4PoLs6
+ iq8HK5h74SaAgfc1FGkChNU+WvsGMsfGFIHNmMhx0swBxZYVyNr9jk0X+lhHAedu
+ HE5o1xUhicc8GDH8DyEdZJQaafBXg5h9ZtglDcWItdOesAzOYXUofFV78Itln3VX
+ isamYLrDrHpnqOLNuf0hOVKJLOZvmg3Xf32mE/TM2rGfFkdZlnot6/SVpEtamSnF
+ rBDCP0ex6iqxHSkWfzNcH8RQmLH+dJ8+MSB+I9XMs967sy9ZCi3Vd9OMMbDAi1gf
+ 95Aa5GOJ2vBL7G2vb/Lrb3dKZzCnCNSEN7Z715Ty7+wDtIPRRfCf1U4mLixEOU4w
+ ==
+X-ME-Sender: <xms:-0SSYWLwg7oVRgECGl0IVIP8lh-cOkDQI3dlrDSyxQGdXfKjPs6g4A>
+ <xme:-0SSYeKBc9JPVVTRu3rtzPmVOHr2ukMWZCaZ34xrag0TWnMd9AT8LfBV93HO7clhS
+ v6W4703wj3K5JxK5o8>
+X-ME-Received: <xmr:-0SSYWuxlxEJBNbpXoJiaQa0CFXcvECt00Xi0pN4XUB3u6KLGkdVCLsIBncZqGK5Ar1xwTcH3eaXIpxI8DOvZ6-q698WbuyjPc5rEntB>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrfedtgddtfecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefhvffufffkofgtggfgsehtqhertdertdejnecuhfhrohhmpeforgigihhmvgcu
+ tfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrthhtvg
+ hrnhepteeikefgffekgeekledtheduteetjefgkeeuvefhhfetgedugfektdeugeffgfef
+ necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgi
+ himhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:-0SSYbYYhGS1UTRlg6HfqbEs_WUGkUtmnm0PSVxEEwGHpS6Qt1H_pg>
+ <xmx:-0SSYdbNfVKK4knqGPia7vT34gL4HkrNRxAwREML2OJaATYIpMUKpg>
+ <xmx:-0SSYXCErfyH1cFpnrEzH1w1PZSW0jPCnvzOot4e4O_rDVFgFCeXFg>
+ <xmx:_USSYfnSSB0trNP0dacLgWnvlWPPrFL0FHFszUzbjSDc7EjdLRUnpCxjYeY>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 15 Nov 2021 06:31:07 -0500 (EST)
+From: Maxime Ripard <maxime@cerno.tech>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>,
+ Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>
+Subject: [PATCH 0/6] drm/vc4: kms: Misc fixes for HVS commits
+Date: Mon, 15 Nov 2021 12:30:59 +0100
+Message-Id: <20211115113105.103275-1-maxime@cerno.tech>
+X-Mailer: git-send-email 2.33.1
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211112214337.r5xrpeyjgdygzc3n@SoMainline.org>
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,68 +79,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Jian-Hong Pan <jhp@endlessos.org>, dri-devel@lists.freedesktop.org,
+ Phil Elwell <phil@raspberrypi.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Nov 12, 2021 at 10:43:37PM +0100, Marijn Suijten wrote:
-> On 2021-11-12 13:35:03, Marijn Suijten wrote:
-> > On 2021-11-12 12:08:39, Daniel Thompson wrote:
-> > > On Fri, Nov 12, 2021 at 01:26:57AM +0100, Marijn Suijten wrote:
-> > > > When not specifying num-strings in the DT the default is used, but +1 is
-> > > > added to it which turns WLED3 into 4 and WLED4/5 into 5 strings instead
-> > > > of 3 and 4 respectively, causing out-of-bounds reads and register
-> > > > read/writes.  This +1 exists for a deficiency in the DT parsing code,
-> > > > and is simply omitted entirely - solving this oob issue - by parsing the
-> > > > property separately much like qcom,enabled-strings.
-> > > > 
-> > > > This also allows more stringent checks on the maximum value when
-> > > > qcom,enabled-strings is provided in the DT.  Note that num-strings is
-> > > > parsed after enabled-strings to give it final sign-off over the length,
-> > > > which DT currently utilizes to get around an incorrect fixed read of
-> > > > four elements from that array (has been addressed in a prior patch).
-> > > > 
-> > > > Fixes: 93c64f1ea1e8 ("leds: add Qualcomm PM8941 WLED driver")
-> > > > Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
-> > > > Reviewed-By: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
-> > > > ---
-> > > >  drivers/video/backlight/qcom-wled.c | 51 +++++++++++------------------
-> > > >  1 file changed, 19 insertions(+), 32 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/video/backlight/qcom-wled.c b/drivers/video/backlight/qcom-wled.c
-> > > > index 977cd75827d7..c5232478a343 100644
-> > > > --- a/drivers/video/backlight/qcom-wled.c
-> > > > +++ b/drivers/video/backlight/qcom-wled.c
-> > > > @@ -1552,6 +1520,25 @@ static int wled_configure(struct wled *wled)
-> > > >  		}
-> > > >  	}
-> > > > 
-> > > > +	rc = of_property_read_u32(dev->of_node, "qcom,num-strings", &val);
-> > > > +	if (!rc) {
-> > > > +		if (val < 1 || val > wled->max_string_count) {
-> > > > +			dev_err(dev, "qcom,num-strings must be between 1 and %d\n",
-> > > > +				wled->max_string_count);
-> > > > +			return -EINVAL;
-> > > > +		}
-> > > > +
-> > > > +		if (string_len > 0) {
-> > > > +			dev_warn(dev, "qcom,num-strings and qcom,enabled-strings are ambiguous\n");
-> > > 
-> > > The warning should also be below the error message on the next if statement.
-> > 
-> > Agreed.
-> 
-> Thinking about this again while reworking the patches, I initially put
-> this above the error to make DT writers aware.  There's no point telling
-> them that their values are out of sync (num-strings >
-> len(enabled-strings)), when they "shouldn't even" (don't need to) set
-> both in the first place.  They might needlessly fix the discrepancy, see
-> the driver finally probe (working backlight) and carry on without
-> noticing this warning that now appears.
-> 
-> Sorry for bringing this back up, but I'm curious about your opinion.
-
-With a more helpful warning about how to fix then I think it is OK to
-have both the warning and the error.
-
-
-Daniel.
+Hi,=0D
+=0D
+The conversion to DRM commit helpers (f3c420fe19f8, "drm/vc4: kms: Convert =
+to=0D
+atomic helpers") introduced a number of issues in corner cases, most of the=
+m=0D
+showing themselves in the form of either a vblank timeout or use-after-free=
+=0D
+error.=0D
+=0D
+These patches should fix most of them, some of them still being debugged.=0D
+=0D
+Maxime=0D
+=0D
+Maxime Ripard (6):=0D
+  drm/vc4: kms: Wait for the commit before increasing our clock rate=0D
+  drm/vc4: kms: Fix return code check=0D
+  drm/vc4: kms: Add missing drm_crtc_commit_put=0D
+  drm/vc4: kms: Clear the HVS FIFO commit pointer once done=0D
+  drm/vc4: kms: Don't duplicate pending commit=0D
+  drm/vc4: kms: Fix previous HVS commit wait=0D
+=0D
+ drivers/gpu/drm/vc4/vc4_kms.c | 36 ++++++++++++++---------------------=0D
+ 1 file changed, 14 insertions(+), 22 deletions(-)=0D
+=0D
+-- =0D
+2.33.1=0D
+=0D
