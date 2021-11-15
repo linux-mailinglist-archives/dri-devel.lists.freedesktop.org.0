@@ -1,40 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55A1D4507BD
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 15:59:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DCDA44507C2
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 16:01:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 905E26E484;
-	Mon, 15 Nov 2021 14:59:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C5ADA6EB45;
+	Mon, 15 Nov 2021 15:01:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC5AA6E1E9;
- Mon, 15 Nov 2021 14:58:59 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10168"; a="233396522"
-X-IronPort-AV: E=Sophos;i="5.87,236,1631602800"; d="scan'208";a="233396522"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Nov 2021 06:58:58 -0800
-X-IronPort-AV: E=Sophos;i="5.87,236,1631602800"; d="scan'208";a="505945303"
-Received: from rakeshr1-mobl1.amr.corp.intel.com (HELO intel.com)
- ([10.255.37.176])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Nov 2021 06:58:57 -0800
-Date: Mon, 15 Nov 2021 09:58:56 -0500
-From: Rodrigo Vivi <rodrigo.vivi@intel.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Subject: Re: [Intel-gfx] [PATCH v2 1/1] drm/i915/rpm: Enable runtime pm
- autosuspend by default
-Message-ID: <YZJ1sPvyQc/erb0+@intel.com>
-References: <20211115102610.3141720-1-tilak.tangudu@intel.com>
- <20211115102610.3141720-2-tilak.tangudu@intel.com>
- <871r3h3ao6.fsf@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B8C636EAAD;
+ Mon, 15 Nov 2021 15:01:19 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10168"; a="257202914"
+X-IronPort-AV: E=Sophos;i="5.87,236,1631602800"; d="scan'208";a="257202914"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Nov 2021 07:01:19 -0800
+X-IronPort-AV: E=Sophos;i="5.87,236,1631602800"; d="scan'208";a="603868528"
+Received: from smile.fi.intel.com ([10.237.72.184])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Nov 2021 07:01:17 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.95)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1mmdTp-0077l8-Dv; Mon, 15 Nov 2021 17:01:09 +0200
+Date: Mon, 15 Nov 2021 17:01:09 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Jani Nikula <jani.nikula@intel.com>
+Subject: Re: [PATCH 0/3] drm/i915, agp/intel-ggt: clean up includes
+Message-ID: <YZJ2NcvP/SrD+WXU@smile.fi.intel.com>
+References: <cover.1636977089.git.jani.nikula@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <871r3h3ao6.fsf@intel.com>
+In-Reply-To: <cover.1636977089.git.jani.nikula@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,83 +47,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, Tilak Tangudu <tilak.tangudu@intel.com>,
- ville.syrjala@intel.com, dri-devel@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Nov 15, 2021 at 01:44:57PM +0200, Jani Nikula wrote:
-> On Mon, 15 Nov 2021, Tilak Tangudu <tilak.tangudu@intel.com> wrote:
+On Mon, Nov 15, 2021 at 01:53:10PM +0200, Jani Nikula wrote:
+> Took Andy's patch [1] and expanded on it a bit.
+
+Thank you!
+It's always good to have cleanups in the headers,
+Acked-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+for your changes (including ones that you've done against my patch).
+
+> [1] https://patchwork.freedesktop.org/patch/msgid/20211110102857.59604-1-andriy.shevchenko@linux.intel.com
 > 
-> The actual commit message with explanations why it will work now and
-> didn't work before go here.
-
-The truth is that:
-
-1. We don't have a good track of *all* the issues with the past attempts.
-2. But apparently in every attempt we hit some other bug, like the latest
-   one with GuC PM...
-3. All the attempts we also tried to do multiple changes at the same time,
-   including reducing the autosuspend delay.
-
-> Just the changelog will not be enough.
-
-But yes, you are absolutely right here. changelogs are not enough and
-we need some explanation in the commit itself.
-
-I'd suggest something like:
-
-"""
-Let's enable runtime pm autosuspend by default everywhere. So we can
-allow D3hot and bigger power savings on idle scenarios.
-
-But at this time let's not touch the autosuspend_delay time,
-what caused some regression on our previous attempt.
-
-Also, the latest identified issue on GuC PM has been fixed by
-1a52faed3131 ("drm/i915/guc: Take GT PM ref when deregistering context")
-
-"""
-
-While writing that I remembered that we cannot do this just yet.
-We need to do a further work and block the d3cold on discrete.
-D3cold is not ready yet and enabling this autosuspend by default
-will blow up some discrete experimental usages of upstream i915
-out there. Let's protect that first.
-
-Thanks,
-Rodrigo.
-
+> Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 > 
-> BR,
-> Jani.
+> Andy Shevchenko (1):
+>   agp/intel-gtt: Replace kernel.h with the necessary inclusions
 > 
+> Jani Nikula (2):
+>   drm/i915: include intel-gtt.h only where needed
+>   agp/intel-gtt: reduce intel-gtt dependencies more
 > 
-> > v1: Enable runtime pm autosuspend by default for Gen12
-> > and later versions.
-> >
-> > v2: Enable runtime pm autosuspend by default for all
-> > platforms(Syrjala Ville)
-> >
-> > Signed-off-by: Tilak Tangudu <tilak.tangudu@intel.com>
-> > ---
-> >  drivers/gpu/drm/i915/intel_runtime_pm.c | 3 +++
-> >  1 file changed, 3 insertions(+)
-> >
-> > diff --git a/drivers/gpu/drm/i915/intel_runtime_pm.c b/drivers/gpu/drm/i915/intel_runtime_pm.c
-> > index eaf7688f517d..f26ed1427fdc 100644
-> > --- a/drivers/gpu/drm/i915/intel_runtime_pm.c
-> > +++ b/drivers/gpu/drm/i915/intel_runtime_pm.c
-> > @@ -600,6 +600,9 @@ void intel_runtime_pm_enable(struct intel_runtime_pm *rpm)
-> >  		pm_runtime_use_autosuspend(kdev);
-> >  	}
-> >  
-> > +	/* Enable by default */
-> > +	pm_runtime_allow(kdev);
-> > +
-> >  	/*
-> >  	 * The core calls the driver load handler with an RPM reference held.
-> >  	 * We drop that here and will reacquire it during unloading in
+>  drivers/char/agp/intel-gtt.c         | 1 +
+>  drivers/gpu/drm/i915/gt/intel_ggtt.c | 2 ++
+>  drivers/gpu/drm/i915/gt/intel_gt.c   | 2 ++
+>  drivers/gpu/drm/i915/i915_drv.h      | 1 -
+>  include/drm/intel-gtt.h              | 8 +++++---
+>  5 files changed, 10 insertions(+), 4 deletions(-)
 > 
 > -- 
-> Jani Nikula, Intel Open Source Graphics Center
+> 2.30.2
+> 
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
