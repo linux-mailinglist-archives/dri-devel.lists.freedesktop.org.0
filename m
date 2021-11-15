@@ -2,60 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32EB745188E
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 23:59:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 996C6451975
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Nov 2021 00:18:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A0DD46E15F;
-	Mon, 15 Nov 2021 22:59:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0CDF56E1AA;
+	Mon, 15 Nov 2021 23:18:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
- [IPv6:2a00:1450:4864:20::429])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8CDA56E15F
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 22:59:11 +0000 (UTC)
-Received: by mail-wr1-x429.google.com with SMTP id s13so33770534wrb.3
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 14:59:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=v7z8xfsbTONaZ0gDsmgBwlOM401CC81u1A9clOUBzB0=;
- b=C0MaozN1pG8+SS/NNl1/i310ReNAcUrH+PrUPDhxnD+/k1bZwDNsXITIx3C48P6gNZ
- xMznOZnp+iHz3V7ADEUq5WoyAxx4Jaq9vJIeRVkkajqBV30gAumEFnI/x3Q2++AgKnfm
- OmaoEevHlsMaz+Md+UrXcwdfJLNb4IIawcU8pcEzITCJ4MIaaYDL70fhJGFzyP7p/o7c
- kB/xDB2M7Kh52mOK8bNXukpa6Uo1ZVhz+TMzexc9+VOFya2F3RLZIQqabJPE5LBCJBG9
- q8GthgAtsYAj0t+OPWYol7LPPdPUyCfOJOq5mdJpxa5xcXP2ihguRGMrNXqzkxIzvyVc
- z/0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=v7z8xfsbTONaZ0gDsmgBwlOM401CC81u1A9clOUBzB0=;
- b=ty2xKnKS6qUg/XHyi6K+2Kua53oeVaNUpEgk64mi4VMNBLKv2qnDTqZo/N/KiIC4Oy
- phNgaFRPiEkFcUC2or1aWRPMR6sL+GHTVEcYvZR8Pvg3seHR4KJ1Ako42phQUrmGK2sX
- WuoaYHSsHLaBdMfgXtc7KE4Ilb5cf6XLoHKGGbbDlkXOK6yYmRq+JZNBSyC0jlKtH97s
- O6HpPebEcc5WN/UAqq3PmxraFfcvMcHhzV2O3HauKbuLolQ6rYJjzuUTBCN9nUV+qbAz
- VSi///gnRQgNQ5rgA3jNkA4sn4emz/QYDLPqZVAhZaRjBjeCxCXaX3Yk90BQ5+uwak+M
- MTgQ==
-X-Gm-Message-State: AOAM53270Sih/Ixwz5GFAuHTfRI3h2lO1k5zQ79Bzi4J96ItIl5qo1W9
- p0g73qYGzPcbp3VbLU0KEYVQZkxAoONepzvdAZM=
-X-Google-Smtp-Source: ABdhPJwPnisppk9o3YehMwCjz4rgks9GvhO1GO12IBZLOeOHEq2DGzHupZxGHmlKvchrlZfCdEDgJda5Ws49NDj9Fws=
-X-Received: by 2002:adf:f947:: with SMTP id q7mr3363342wrr.260.1637017150041; 
- Mon, 15 Nov 2021 14:59:10 -0800 (PST)
-MIME-Version: 1.0
-References: <20211114234045.cc5tearljna2ywij@core>
- <CAPj87rPxtQVQnrs0BiXy0H1viF-oMNeCCP_Aptsxt_sgeK+CpA@mail.gmail.com>
- <CAKMK7uGd+W3yOr2wGRREW08pcX=g1UPvkX4n13dVo7YdQ4dpxg@mail.gmail.com>
- <20211115160436.llmlb3j6quts2frz@core> <20211115161634.jkgfmknuvlkbzkbp@core>
- <CAF6AEGs7ncX8O78_R5sr3pr=z1H3gUTNSJdQOF22_Qr_VY5hTQ@mail.gmail.com>
-In-Reply-To: <CAF6AEGs7ncX8O78_R5sr3pr=z1H3gUTNSJdQOF22_Qr_VY5hTQ@mail.gmail.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Mon, 15 Nov 2021 15:04:13 -0800
-Message-ID: <CAF6AEGs10VGHGAbOHh4_9+ePJCxE84L0L6k=2y663wAm8tutQA@mail.gmail.com>
-Subject: Re: Panic with linus/master and panfrost
-To: =?UTF-8?Q?Ond=C5=99ej_Jirman?= <megi@xff.cz>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1676C6E1AA
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 23:18:31 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id D39B661A03
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 23:18:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1637018310;
+ bh=oHOlePGMgTo3M8zgSpJ/MN98aWIbbAWTvVao9pQ+d50=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=bthYPxbV3gWvxEQphqzoSZWbet0WE2mjW5hAhd2597ziMs4S4u4GUUUFmFw3bQXHO
+ cJP9RvMAxYTAlfZFRy8X8LSs106iXeQGiGUYdXrQUkLz3ZAjS0g11OSbPnPEP6s5xG
+ dR/KpEg60ZKUKVLQBDzuGuMWHWtyTkr5c9k7g2ZypVpjjQNI1aa/+0BmD073oKXO40
+ Wv6DCDzuT4WdD/KUj1yRfeSqEhbXQd9v9b66ElRgxBNjEczvdfVAJM0zaCQyxTvhGm
+ UliYWHPwd/QDAnETqOZyBWu++wp2Cqpg3nlTGW7vMyu3fKXyLxEz0X2aMqu5D+ER40
+ pp+2WI2fHjbDA==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id CFFFA60F5B; Mon, 15 Nov 2021 23:18:30 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 214963] [amdgpu] resuming from suspend fails when IOMMU is
+ missing
+Date: Mon, 15 Nov 2021 23:18:30 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: spasswolf@web.de
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cf_kernel_version
+Message-ID: <bug-214963-2300-wd1AnRnNgn@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-214963-2300@https.bugzilla.kernel.org/>
+References: <bug-214963-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,173 +66,19 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Nov 15, 2021 at 2:43 PM Rob Clark <robdclark@gmail.com> wrote:
->
-> On Mon, Nov 15, 2021 at 8:16 AM Ond=C5=99ej Jirman <megi@xff.cz> wrote:
-> >
-> > On Mon, Nov 15, 2021 at 05:04:36PM +0100, megi xff wrote:
-> > > On Mon, Nov 15, 2021 at 04:05:02PM +0100, Daniel Vetter wrote:
-> > > > You need
-> > > >
-> > > > commit 13e9e30cafea10dff6bc8d63a38a61249e83fd65
-> > > > Author: Christian K=C3=B6nig <christian.koenig@amd.com>
-> > > > Date:   Mon Oct 18 21:27:55 2021 +0200
-> > > >
-> > > >    drm/scheduler: fix drm_sched_job_add_implicit_dependencies
-> > >
-> > > Thank you, that fixed the panic. :)
-> >
-> > I spoke too soon. Panic is gone, but I still see (immediately after
-> > starting Xorg):
-> >
-> > [   13.290795] ------------[ cut here ]------------
-> > [   13.291103] refcount_t: addition on 0; use-after-free.
-> > [   13.291495] WARNING: CPU: 5 PID: 548 at lib/refcount.c:25 refcount_w=
-arn_saturate+0x98/0x140
-> > [   13.292124] Modules linked in:
-> > [   13.292285] CPU: 5 PID: 548 Comm: Xorg Not tainted 5.16.0-rc1-00414-=
-g21a254904a26 #29
-> > [   13.292857] Hardware name: Pine64 PinePhonePro (DT)
-> > [   13.293172] pstate: 40000005 (nZcv daif -PAN -UAO -TCO -DIT -SSBS BT=
-YPE=3D--)
-> > [   13.293669] pc : refcount_warn_saturate+0x98/0x140
-> > [   13.293977] lr : refcount_warn_saturate+0x98/0x140
-> > [   13.294285] sp : ffff8000129a3b50
-> > [   13.294464] x29: ffff8000129a3b50 x28: ffff8000129a3d50 x27: ffff000=
-017ec4b00
-> > [   13.294979] x26: 0000000000000001 x25: 0000000000000001 x24: ffff000=
-0127cca48
-> > [   13.295494] x23: ffff000017d19b00 x22: 000000000000000a x21: 0000000=
-000000001
-> > [   13.296006] x20: ffff000017e15500 x19: ffff000012980580 x18: 0000000=
-000000003
-> > [   13.296520] x17: 0000000000000000 x16: 0000000000000000 x15: ffff800=
-0129a3b58
-> > [   13.297033] x14: ffffffffffffffff x13: 2e656572662d7265 x12: 7466612=
-d65737520
-> > [   13.297546] x11: 3b30206e6f206e6f x10: ffff800011d6e8a0 x9 : ffff800=
-01022f37c
-> > [   13.298059] x8 : 00000000ffffefff x7 : ffff800011dc68a0 x6 : 0000000=
-000000001
-> > [   13.298573] x5 : 0000000000000000 x4 : ffff0000f77a9788 x3 : ffff000=
-0f77b56f0
-> > [   13.299085] x2 : ffff0000f77a9788 x1 : ffff8000e5eb1000 x0 : 0000000=
-00000002a
-> > [   13.299600] Call trace:
-> > [   13.299704]  refcount_warn_saturate+0x98/0x140
-> > [   13.299981]  drm_sched_job_add_implicit_dependencies+0x90/0xdc
-> > [   13.300385]  panfrost_job_push+0xd0/0x1d4
-> > [   13.300628]  panfrost_ioctl_submit+0x34c/0x440
-> > [   13.300906]  drm_ioctl_kernel+0x9c/0x154
-> > [   13.301142]  drm_ioctl+0x1f0/0x410
-> > [   13.301330]  __arm64_sys_ioctl+0xb4/0xdc
-> > [   13.301566]  invoke_syscall+0x4c/0x110
-> > [   13.301787]  el0_svc_common.constprop.0+0x48/0xf0
-> > [   13.302090]  do_el0_svc+0x2c/0x90
-> > [   13.302271]  el0_svc+0x14/0x50
-> > [   13.302431]  el0t_64_sync_handler+0x9c/0x120
-> > [   13.302693]  el0t_64_sync+0x158/0x15c
-> > [   13.302904] ---[ end trace 8c211e57f89714c8 ]---
-> > [   13.303211] ------------[ cut here ]------------
-> > [   13.303504] refcount_t: underflow; use-after-free.
-> > [   13.303820] WARNING: CPU: 5 PID: 548 at lib/refcount.c:28 refcount_w=
-arn_saturate+0xec/0x140
-> > [   13.304439] Modules linked in:
-> > [   13.304596] CPU: 5 PID: 548 Comm: Xorg Tainted: G        W         5=
-.16.0-rc1-00414-g21a254904a26 #29
-> > [   13.305286] Hardware name: Pine64 PinePhonePro (DT)
-> > [   13.305600] pstate: 40000005 (nZcv daif -PAN -UAO -TCO -DIT -SSBS BT=
-YPE=3D--)
-> > [   13.306095] pc : refcount_warn_saturate+0xec/0x140
-> > [   13.306402] lr : refcount_warn_saturate+0xec/0x140
-> > [   13.306710] sp : ffff8000129a3b70
-> > [   13.306887] x29: ffff8000129a3b70 x28: ffff8000129a3d50 x27: ffff000=
-017ec4b00
-> > [   13.307401] x26: 0000000000000001 x25: 0000000000000001 x24: 0000000=
-000000000
-> > [   13.307914] x23: 00000000ffffffff x22: ffff0000129807c0 x21: ffff000=
-012980580
-> > [   13.308428] x20: ffff000017c54d00 x19: 0000000000000000 x18: 0000000=
-000000003
-> > [   13.308942] x17: 0000000000000000 x16: 0000000000000000 x15: ffff800=
-0129a3b58
-> > [   13.309454] x14: ffffffffffffffff x13: 2e656572662d7265 x12: 7466612=
-d65737520
-> > [   13.309967] x11: 3b776f6c66726564 x10: ffff800011d6e8a0 x9 : ffff800=
-01017893c
-> > [   13.310480] x8 : 00000000ffffefff x7 : ffff800011dc68a0 x6 : 0000000=
-000000001
-> > [   13.310993] x5 : ffff0000f77a9788 x4 : 0000000000000000 x3 : 0000000=
-000000027
-> > [   13.311506] x2 : 0000000000000023 x1 : ffff0000f77a9790 x0 : 0000000=
-000000026
-> > [   13.312020] Call trace:
-> > [   13.312123]  refcount_warn_saturate+0xec/0x140
-> > [   13.312401]  dma_resv_add_excl_fence+0x1a8/0x1bc
-> > [   13.312700]  panfrost_job_push+0x174/0x1d4
-> > [   13.312949]  panfrost_ioctl_submit+0x34c/0x440
-> > [   13.313229]  drm_ioctl_kernel+0x9c/0x154
-> > [   13.313464]  drm_ioctl+0x1f0/0x410
-> > [   13.313651]  __arm64_sys_ioctl+0xb4/0xdc
-> > [   13.313884]  invoke_syscall+0x4c/0x110
-> > [   13.314103]  el0_svc_common.constprop.0+0x48/0xf0
-> > [   13.314405]  do_el0_svc+0x2c/0x90
-> > [   13.314586]  el0_svc+0x14/0x50
-> > [   13.314745]  el0t_64_sync_handler+0x9c/0x120
-> > [   13.315007]  el0t_64_sync+0x158/0x15c
-> > [   13.315217] ---[ end trace 8c211e57f89714c9 ]---
-> >
-> > In dmesg. So this looks like some independent issue.
-> >
->
->
-> I'm seeing something similar with drm/msm, which is, I think, due to
-> the introduction and location of call to drm_sched_job_arm().. I'm
-> still trying to untangle where it should go, but I think undoing
-> 357285a2d1c0 ("drm/msm: Improve drm/sched point of no return rules")
-> would fix it
+https://bugzilla.kernel.org/show_bug.cgi?id=3D214963
 
-ok, disregard that above.. what actually seems to have fixed it for me is:
+spasswolf@web.de changed:
 
-------------
-diff --git a/drivers/gpu/drm/scheduler/sched_main.c
-b/drivers/gpu/drm/scheduler/sched_main.c
-index 94fe51b3caa2..f91fb31ab7a7 100644
---- a/drivers/gpu/drm/scheduler/sched_main.c
-+++ b/drivers/gpu/drm/scheduler/sched_main.c
-@@ -704,12 +704,13 @@ int
-drm_sched_job_add_implicit_dependencies(struct drm_sched_job *job,
-        int ret;
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+     Kernel Version|5.15.0, 5.15.1              |5.15.0, 5.15.1, 5.15.2
 
-        dma_resv_for_each_fence(&cursor, obj->resv, write, fence) {
--               ret =3D drm_sched_job_add_dependency(job, fence);
--               if (ret)
--                       return ret;
--
-                /* Make sure to grab an additional ref on the added fence *=
-/
-                dma_fence_get(fence);
-+               ret =3D drm_sched_job_add_dependency(job, fence);
-+               if (ret) {
-+                       dma_fence_put(fence);
-+                       return ret;
-+               }
-        }
-        return 0;
- }
-------------
+--=20
+You may reply to this email to add a comment.
 
-The problem looks like that drm_sched_job_add_dependencies() was
-dropping the last ref before the dma_fence_get()..
-
-Not sure if I should send a patch or if this can be squashed into the
-existing fix?
-
-BR,
--R
+You are receiving this mail because:
+You are watching the assignee of the bug.=
