@@ -1,34 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B2CF45006B
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 09:55:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DB39F45006C
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 09:55:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E4A36EB80;
-	Mon, 15 Nov 2021 08:55:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F19C6EB9B;
+	Mon, 15 Nov 2021 08:55:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 686E26EB88
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 08:55:32 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 2650E63231;
- Mon, 15 Nov 2021 08:55:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD6A06EB9A
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 08:55:38 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A00EC61BE2;
+ Mon, 15 Nov 2021 08:55:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1636966532;
- bh=rWn7fwL4jE1Ib3BnxgNaC10hhrTID/u9x8pJYbds6hA=;
+ s=k20201202; t=1636966538;
+ bh=2mwiQpykEAXMR4c+gQ0r0Cque843ND6M/qUoWmqOlf8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=rwUrTphlMw8HJ9VnDWmnfi04Z++0QMRlAz95GaW7OS1q8qZNIBTkO5QiaZugxOt8N
- 1mbE/z9LO+912MOTgqOy2Fu3iCnfylRNZNLUEtErYihz3U3/3OKs3xK7fC0hImtGX7
- vvd3cBsUg8KPgEovHhXExGCLl18S9ZT1m5Z7LCfmcsgzx1kJEdB42MUvVK4s2VTYl7
- Jah3Us03hw3EKccqeON6WwAeJJzFj7wvT3lDlSzZkJMfLKbLy1s1f0CeTmN6Jmt3zF
- ke7usfxwY8raXd5BVWxGUFEyZnwrkpaX/uOdw9bVtALCO2Dwk4LWpad8wzTSNIAQKm
- 9X1AzkWRKWXoA==
+ b=pHgGGVZQvgwKAmuviD4hubeWYMREgXxWJfeEBFZjz9j7lBnAjNfaItSixiYQ6tjsd
+ jlNLqSO0tvDtiPP2nku90UBbbEHEImWKTSBEcAumAqCmZQgGOYbpyk8Rb61A5J0ESC
+ 99O3hsO+/+1bwks/a9SZtbcyG0O+O/00i2AbMnY7eG3n//Jaz8vyE/OfHd8obW8zPq
+ 3Ut6okySvy2UdYHuRjo3kbCZGY58jshqcW/NX5g436dbVwon7Kj6IlVof7U6GVjRvg
+ 28QwkGliURHIe9Bf7nzdJhzb6dqoRlNUVZg2hdB7bsOSgpPSdfvbPnSPLYKcfSwNZz
+ a4RwOAKAjsSCg==
 From: Arnd Bergmann <arnd@kernel.org>
 To: Vinod Koul <vkoul@kernel.org>
-Subject: [PATCH 07/11] dmaengine: qcom-adm: stop abusing slave_id config
-Date: Mon, 15 Nov 2021 09:53:59 +0100
-Message-Id: <20211115085403.360194-8-arnd@kernel.org>
+Subject: [PATCH 08/11] dmaengine: xilinx_dpdma: stop using slave_id field
+Date: Mon, 15 Nov 2021 09:54:00 +0100
+Message-Id: <20211115085403.360194-9-arnd@kernel.org>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20211115085403.360194-1-arnd@kernel.org>
 References: <20211115085403.360194-1-arnd@kernel.org>
@@ -70,259 +70,114 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Arnd Bergmann <arnd@arndb.de>
 
-The slave_id was previously used to pick one DMA slave instead of another,
-but this is now done through the DMA descriptors in device tree.
+The display driver wants to pass a custom flag to the DMA engine driver,
+which it started doing by using the slave_id field that was traditionally
+used for a different purpose.
 
-For the qcom_adm driver, the configuration is documented in the DT
-binding to contain a tuple of device identifier and a "crci" field,
-but the implementation ends up using only a single cell for identifying
-the slave, with the crci getting passed in nonstandard properties of
-the device, and passed through the dma driver using the old slave_id
-field. Part of the problem apparently is that the nand driver ends up
-using only a single DMA request ID, but requires distinct values for
-"crci" depending on the type of transfer.
+As there is no longer a correct use for the slave_id field, it should
+really be removed, and the remaining users changed over to something
+different.
 
-Change both the dmaengine driver and the two slave drivers to allow
-the documented binding to work in addition to the ad-hoc passing
-of crci values. In order to no longer abuse the slave_id field, pass
-the data using the "peripheral_config" mechanism instead.
+The new mechanism for passing nonstandard settings is using the
+.peripheral_config field, so use that to pass a newly defined structure
+here, making it clear that this will not work in portable drivers.
 
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- drivers/dma/qcom/qcom_adm.c       | 56 +++++++++++++++++++++++++++----
- drivers/mtd/nand/raw/qcom_nandc.c | 14 ++++++--
- drivers/tty/serial/msm_serial.c   | 15 +++++++--
- include/linux/dma/qcom_adm.h      | 12 +++++++
- 4 files changed, 86 insertions(+), 11 deletions(-)
- create mode 100644 include/linux/dma/qcom_adm.h
+ drivers/dma/xilinx/xilinx_dpdma.c  | 12 ++++++++----
+ drivers/gpu/drm/xlnx/zynqmp_disp.c |  9 +++++++--
+ include/linux/dma/xilinx_dpdma.h   | 11 +++++++++++
+ 3 files changed, 26 insertions(+), 6 deletions(-)
+ create mode 100644 include/linux/dma/xilinx_dpdma.h
 
-diff --git a/drivers/dma/qcom/qcom_adm.c b/drivers/dma/qcom/qcom_adm.c
-index ee78bed8d60d..bb338b303af6 100644
---- a/drivers/dma/qcom/qcom_adm.c
-+++ b/drivers/dma/qcom/qcom_adm.c
-@@ -8,6 +8,7 @@
- #include <linux/device.h>
- #include <linux/dmaengine.h>
- #include <linux/dma-mapping.h>
-+#include <linux/dma/qcom_adm.h>
- #include <linux/init.h>
- #include <linux/interrupt.h>
- #include <linux/io.h>
-@@ -140,6 +141,8 @@ struct adm_chan {
- 
- 	struct adm_async_desc *curr_txd;
- 	struct dma_slave_config slave;
-+	u32 crci;
-+	u32 mux;
- 	struct list_head node;
- 
- 	int error;
-@@ -379,8 +382,8 @@ static struct dma_async_tx_descriptor *adm_prep_slave_sg(struct dma_chan *chan,
- 			return ERR_PTR(-EINVAL);
- 		}
- 
--		crci = achan->slave.slave_id & 0xf;
--		if (!crci || achan->slave.slave_id > 0x1f) {
-+		crci = achan->crci & 0xf;
-+		if (!crci || achan->crci > 0x1f) {
- 			dev_err(adev->dev, "invalid crci value\n");
- 			return ERR_PTR(-EINVAL);
- 		}
-@@ -403,9 +406,7 @@ static struct dma_async_tx_descriptor *adm_prep_slave_sg(struct dma_chan *chan,
- 	if (!async_desc)
- 		return ERR_PTR(-ENOMEM);
- 
--	if (crci)
--		async_desc->mux = achan->slave.slave_id & ADM_CRCI_MUX_SEL ?
--					ADM_CRCI_CTL_MUX_SEL : 0;
-+	async_desc->mux = achan->mux ? ADM_CRCI_CTL_MUX_SEL : 0;
- 	async_desc->crci = crci;
- 	async_desc->blk_size = blk_size;
- 	async_desc->dma_len = single_count * sizeof(struct adm_desc_hw_single) +
-@@ -488,10 +489,13 @@ static int adm_terminate_all(struct dma_chan *chan)
- static int adm_slave_config(struct dma_chan *chan, struct dma_slave_config *cfg)
- {
- 	struct adm_chan *achan = to_adm_chan(chan);
-+	struct qcom_adm_peripheral_config *config = cfg->peripheral_config;
- 	unsigned long flag;
- 
- 	spin_lock_irqsave(&achan->vc.lock, flag);
- 	memcpy(&achan->slave, cfg, sizeof(struct dma_slave_config));
-+	if (cfg->peripheral_size == sizeof(config))
-+		achan->crci = config->crci;
- 	spin_unlock_irqrestore(&achan->vc.lock, flag);
- 
- 	return 0;
-@@ -694,6 +698,45 @@ static void adm_channel_init(struct adm_device *adev, struct adm_chan *achan,
- 	achan->vc.desc_free = adm_dma_free_desc;
- }
- 
-+/**
-+ * adm_dma_xlate
-+ * @dma_spec:	pointer to DMA specifier as found in the device tree
-+ * @ofdma:	pointer to DMA controller data
-+ *
-+ * This can use either 1-cell or 2-cell formats, the first cell
-+ * identifies the slave device, while the optional second cell
-+ * contains the crci value.
-+ *
-+ * Returns pointer to appropriate dma channel on success or NULL on error.
-+ */
-+struct dma_chan *adm_dma_xlate(struct of_phandle_args *dma_spec,
-+			       struct of_dma *ofdma)
-+{
-+	struct dma_device *dev = ofdma->of_dma_data;
-+	struct dma_chan *chan, *candidate = NULL;
-+	struct adm_chan *achan;
-+
-+	if (!dev || dma_spec->args_count > 2)
-+		return NULL;
-+
-+	list_for_each_entry(chan, &dev->channels, device_node)
-+		if (chan->chan_id == dma_spec->args[0]) {
-+			candidate = chan;
-+			break;
-+		}
-+
-+	if (!candidate)
-+		return NULL;
-+
-+	achan = to_adm_chan(candidate);
-+	if (dma_spec->args_count == 2)
-+		achan->crci = dma_spec->args[1];
-+	else
-+		achan->crci = 0;
-+
-+	return dma_get_slave_channel(candidate);
-+}
-+
- static int adm_dma_probe(struct platform_device *pdev)
- {
- 	struct adm_device *adev;
-@@ -838,8 +881,7 @@ static int adm_dma_probe(struct platform_device *pdev)
- 		goto err_disable_clks;
- 	}
- 
--	ret = of_dma_controller_register(pdev->dev.of_node,
--					 of_dma_xlate_by_chan_id,
-+	ret = of_dma_controller_register(pdev->dev.of_node, adm_dma_xlate,
- 					 &adev->common);
- 	if (ret)
- 		goto err_unregister_dma;
-diff --git a/drivers/mtd/nand/raw/qcom_nandc.c b/drivers/mtd/nand/raw/qcom_nandc.c
-index 04e6f7b26706..7c6efa3b6255 100644
---- a/drivers/mtd/nand/raw/qcom_nandc.c
-+++ b/drivers/mtd/nand/raw/qcom_nandc.c
-@@ -6,6 +6,7 @@
+diff --git a/drivers/dma/xilinx/xilinx_dpdma.c b/drivers/dma/xilinx/xilinx_dpdma.c
+index ce5c66e6897d..e2c1ef7a659c 100644
+--- a/drivers/dma/xilinx/xilinx_dpdma.c
++++ b/drivers/dma/xilinx/xilinx_dpdma.c
+@@ -12,6 +12,7 @@
  #include <linux/clk.h>
- #include <linux/slab.h>
- #include <linux/bitops.h>
-+#include <linux/dma/qcom_adm.h>
+ #include <linux/debugfs.h>
+ #include <linux/delay.h>
++#include <linux/dma/xilinx_dpdma.h>
+ #include <linux/dmaengine.h>
+ #include <linux/dmapool.h>
+ #include <linux/interrupt.h>
+@@ -1273,6 +1274,7 @@ static int xilinx_dpdma_config(struct dma_chan *dchan,
+ 			       struct dma_slave_config *config)
+ {
+ 	struct xilinx_dpdma_chan *chan = to_xilinx_chan(dchan);
++	struct xilinx_dpdma_peripheral_config *pconfig;
+ 	unsigned long flags;
+ 
+ 	/*
+@@ -1285,11 +1287,13 @@ static int xilinx_dpdma_config(struct dma_chan *dchan,
+ 	spin_lock_irqsave(&chan->lock, flags);
+ 
+ 	/*
+-	 * Abuse the slave_id to indicate that the channel is part of a video
+-	 * group.
++	 * Abuse the peripheral_config to indicate that the channel is part
++	 * of a video group.
+ 	 */
+-	if (chan->id <= ZYNQMP_DPDMA_VIDEO2)
+-		chan->video_group = config->slave_id != 0;
++	pconfig = config->peripheral_config;
++	if (chan->id <= ZYNQMP_DPDMA_VIDEO2 &&
++	    config->peripheral_size == sizeof(*pconfig))
++		chan->video_group = pconfig->video_group;
+ 
+ 	spin_unlock_irqrestore(&chan->lock, flags);
+ 
+diff --git a/drivers/gpu/drm/xlnx/zynqmp_disp.c b/drivers/gpu/drm/xlnx/zynqmp_disp.c
+index ff2b308d8651..11c409cbc88e 100644
+--- a/drivers/gpu/drm/xlnx/zynqmp_disp.c
++++ b/drivers/gpu/drm/xlnx/zynqmp_disp.c
+@@ -24,6 +24,7 @@
+ 
+ #include <linux/clk.h>
+ #include <linux/delay.h>
++#include <linux/dma/xilinx_dpdma.h>
  #include <linux/dma-mapping.h>
  #include <linux/dmaengine.h>
  #include <linux/module.h>
-@@ -952,6 +953,7 @@ static int prep_adm_dma_desc(struct qcom_nand_controller *nandc, bool read,
- 	struct dma_async_tx_descriptor *dma_desc;
- 	struct scatterlist *sgl;
- 	struct dma_slave_config slave_conf;
-+	struct qcom_adm_peripheral_config periph_conf = {};
- 	enum dma_transfer_direction dir_eng;
- 	int ret;
+@@ -1058,14 +1059,18 @@ static void zynqmp_disp_layer_set_format(struct zynqmp_disp_layer *layer,
+ 	zynqmp_disp_avbuf_set_format(layer->disp, layer, layer->disp_fmt);
  
-@@ -983,11 +985,19 @@ static int prep_adm_dma_desc(struct qcom_nand_controller *nandc, bool read,
- 	if (read) {
- 		slave_conf.src_maxburst = 16;
- 		slave_conf.src_addr = nandc->base_dma + reg_off;
--		slave_conf.slave_id = nandc->data_crci;
-+		if (nandc->data_crci) {
-+			periph_conf.crci = nandc->data_crci;
-+			slave_conf.peripheral_config = &periph_conf;
-+			slave_conf.peripheral_size = sizeof(periph_conf);
-+		}
- 	} else {
- 		slave_conf.dst_maxburst = 16;
- 		slave_conf.dst_addr = nandc->base_dma + reg_off;
--		slave_conf.slave_id = nandc->cmd_crci;
-+		if (nandc->cmd_crci) {
-+			periph_conf.crci = nandc->cmd_crci;
-+			slave_conf.peripheral_config = &periph_conf;
-+			slave_conf.peripheral_size = sizeof(periph_conf);
-+		}
- 	}
+ 	/*
+-	 * Set slave_id for each DMA channel to indicate they're part of a
++	 * Set pconfig for each DMA channel to indicate they're part of a
+ 	 * video group.
+ 	 */
+ 	for (i = 0; i < info->num_planes; i++) {
+ 		struct zynqmp_disp_layer_dma *dma = &layer->dmas[i];
++		struct xilinx_dpdma_peripheral_config pconfig = {
++			.video_group = true,
++		};
+ 		struct dma_slave_config config = {
+ 			.direction = DMA_MEM_TO_DEV,
+-			.slave_id = 1,
++			.peripheral_config = &pconfig,
++			.peripheral_size = sizeof(pconfig),
+ 		};
  
- 	ret = dmaengine_slave_config(nandc->chan, &slave_conf);
-diff --git a/drivers/tty/serial/msm_serial.c b/drivers/tty/serial/msm_serial.c
-index fcef7a961430..c6be09f44dc1 100644
---- a/drivers/tty/serial/msm_serial.c
-+++ b/drivers/tty/serial/msm_serial.c
-@@ -9,6 +9,7 @@
- 
- #include <linux/kernel.h>
- #include <linux/atomic.h>
-+#include <linux/dma/qcom_adm.h>
- #include <linux/dma-mapping.h>
- #include <linux/dmaengine.h>
- #include <linux/module.h>
-@@ -290,6 +291,7 @@ static void msm_request_tx_dma(struct msm_port *msm_port, resource_size_t base)
- {
- 	struct device *dev = msm_port->uart.dev;
- 	struct dma_slave_config conf;
-+	struct qcom_adm_peripheral_config periph_conf = {};
- 	struct msm_dma *dma;
- 	u32 crci = 0;
- 	int ret;
-@@ -308,7 +310,11 @@ static void msm_request_tx_dma(struct msm_port *msm_port, resource_size_t base)
- 	conf.device_fc = true;
- 	conf.dst_addr = base + UARTDM_TF;
- 	conf.dst_maxburst = UARTDM_BURST_SIZE;
--	conf.slave_id = crci;
-+	if (crci) {
-+		conf.peripheral_config = &periph_conf;
-+		conf.peripheral_size = sizeof(periph_conf);
-+		periph_conf.crci = crci;
-+	}
- 
- 	ret = dmaengine_slave_config(dma->chan, &conf);
- 	if (ret)
-@@ -333,6 +339,7 @@ static void msm_request_rx_dma(struct msm_port *msm_port, resource_size_t base)
- {
- 	struct device *dev = msm_port->uart.dev;
- 	struct dma_slave_config conf;
-+	struct qcom_adm_peripheral_config periph_conf = {};
- 	struct msm_dma *dma;
- 	u32 crci = 0;
- 	int ret;
-@@ -355,7 +362,11 @@ static void msm_request_rx_dma(struct msm_port *msm_port, resource_size_t base)
- 	conf.device_fc = true;
- 	conf.src_addr = base + UARTDM_RF;
- 	conf.src_maxburst = UARTDM_BURST_SIZE;
--	conf.slave_id = crci;
-+	if (crci) {
-+		conf.peripheral_config = &periph_conf;
-+		conf.peripheral_size = sizeof(periph_conf);
-+		periph_conf.crci = crci;
-+	}
- 
- 	ret = dmaengine_slave_config(dma->chan, &conf);
- 	if (ret)
-diff --git a/include/linux/dma/qcom_adm.h b/include/linux/dma/qcom_adm.h
+ 		dmaengine_slave_config(dma->chan, &config);
+diff --git a/include/linux/dma/xilinx_dpdma.h b/include/linux/dma/xilinx_dpdma.h
 new file mode 100644
-index 000000000000..af20df674f0c
+index 000000000000..83a1377f03f8
 --- /dev/null
-+++ b/include/linux/dma/qcom_adm.h
-@@ -0,0 +1,12 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+#ifndef __LINUX_DMA_QCOM_ADM_H
-+#define __LINUX_DMA_QCOM_ADM_H
++++ b/include/linux/dma/xilinx_dpdma.h
+@@ -0,0 +1,11 @@
++// SPDX-License-Identifier: GPL-2.0
++#ifndef __LINUX_DMA_XILINX_DPDMA_H
++#define __LINUX_DMA_XILINX_DPDMA_H
 +
 +#include <linux/types.h>
 +
-+struct qcom_adm_peripheral_config {
-+	u32 crci;
-+	u32 mux;
++struct xilinx_dpdma_peripheral_config {
++	bool video_group;
 +};
 +
-+#endif /* __LINUX_DMA_QCOM_ADM_H */
++#endif /* __LINUX_DMA_XILINX_DPDMA_H */
 -- 
 2.30.2
 
