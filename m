@@ -2,21 +2,21 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48C3145068B
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 15:19:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F98145068D
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 15:19:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E1D546EDE7;
-	Mon, 15 Nov 2021 14:19:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 214F26EAA8;
+	Mon, 15 Nov 2021 14:19:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 645A96EDE6
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 14:19:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 25EB46EAA8
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 14:19:54 +0000 (UTC)
 From: Paul Cercueil <paul@crapouillou.net>
 To: Jonathan Cameron <jic23@kernel.org>
-Subject: [PATCH 02/15] iio: buffer-dma: Remove unused iio_buffer_block struct
-Date: Mon, 15 Nov 2021 14:19:12 +0000
-Message-Id: <20211115141925.60164-3-paul@crapouillou.net>
+Subject: [PATCH 03/15] iio: buffer-dma: Use round_down() instead of rounddown()
+Date: Mon, 15 Nov 2021 14:19:13 +0000
+Message-Id: <20211115141925.60164-4-paul@crapouillou.net>
 In-Reply-To: <20211115141925.60164-1-paul@crapouillou.net>
 References: <20211115141925.60164-1-paul@crapouillou.net>
 MIME-Version: 1.0
@@ -42,32 +42,27 @@ Cc: Paul Cercueil <paul@crapouillou.net>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This structure was never used anywhere, so it can safely be dropped.
-
-It will later be re-introduced as a different structure in a
-different header.
+We know that the buffer's alignment will always be a power of two;
+therefore, we can use the faster round_down() macro.
 
 Signed-off-by: Paul Cercueil <paul@crapouillou.net>
 ---
- include/linux/iio/buffer-dma.h | 5 -----
- 1 file changed, 5 deletions(-)
+ drivers/iio/buffer/industrialio-buffer-dmaengine.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/linux/iio/buffer-dma.h b/include/linux/iio/buffer-dma.h
-index d4ed5ff39d44..a65a005c4a19 100644
---- a/include/linux/iio/buffer-dma.h
-+++ b/include/linux/iio/buffer-dma.h
-@@ -17,11 +17,6 @@ struct iio_dma_buffer_queue;
- struct iio_dma_buffer_ops;
- struct device;
+diff --git a/drivers/iio/buffer/industrialio-buffer-dmaengine.c b/drivers/iio/buffer/industrialio-buffer-dmaengine.c
+index 1ac94c4e9792..f8ce26a24c57 100644
+--- a/drivers/iio/buffer/industrialio-buffer-dmaengine.c
++++ b/drivers/iio/buffer/industrialio-buffer-dmaengine.c
+@@ -67,7 +67,7 @@ static int iio_dmaengine_buffer_submit_block(struct iio_dma_buffer_queue *queue,
+ 	dma_cookie_t cookie;
  
--struct iio_buffer_block {
--	u32 size;
--	u32 bytes_used;
--};
--
- /**
-  * enum iio_block_state - State of a struct iio_dma_buffer_block
-  * @IIO_BLOCK_STATE_DEQUEUED: Block is not queued
+ 	block->bytes_used = min(block->size, dmaengine_buffer->max_size);
+-	block->bytes_used = rounddown(block->bytes_used,
++	block->bytes_used = round_down(block->bytes_used,
+ 			dmaengine_buffer->align);
+ 
+ 	desc = dmaengine_prep_slave_single(dmaengine_buffer->chan,
 -- 
 2.33.0
 
