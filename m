@@ -2,33 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F29E8450069
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 09:55:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4ED5C45006A
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 09:55:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 991226EB81;
-	Mon, 15 Nov 2021 08:55:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D57386EB8A;
+	Mon, 15 Nov 2021 08:55:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 671FC6E98E
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 08:55:19 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 22ED66322D;
- Mon, 15 Nov 2021 08:55:12 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E1CBD6EB8D
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 08:55:25 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 9EF0B6322A;
+ Mon, 15 Nov 2021 08:55:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1636966519;
- bh=dVdHkl1ZmLXmEp0TH/FEFVdiPBDZ+d25p7vGAAo1Op0=;
+ s=k20201202; t=1636966525;
+ bh=5QR5v6614zTOntPsUILdpgvMgyj2h7YC8v32L7VdrY8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=mRK/MrLIW0u6LLOVooQ0gN1KOgXTYhYKylaX2S32I4HonnlCFZurjXmSS8SVAK8uT
- oms9xEfRjWR6ZFbM4n5WvC4swJa/tAasyMhklsk5Ir56gwJUPrslsn7ElKpFldUp/E
- NlCAON7rV+dPkbJZagetmzGzxn9jWITAvoJTC1bh7hJM72/9cXRXvCjnZS1ul8EL2p
- VBOA3hBnrk0Eb28v5ySeU5CAXlmyQ/9KxPR888YYSAX5yJSbDRY/Q7gBtrNNVxZYXZ
- 1ZwPE4au/UVHJxcKYNQikMHfKZ7UNLmAPuOP8AEjGq++T8L8DQUNKbV7hN6zPua+j8
- yXgozqEEWHHIg==
+ b=BVo2LZMTKnvi18fTU1oVyCcq5hSRkXwUKaqwxPxFj8ksBb3j3ZAMGnnyUBzxyju35
+ JD89ztkndvHbilbR165m9u29eYAyiAZP/352auOvSmoASz8QbySIAkx8sx6HqA3Fi+
+ NajC4qp9b42h6JI1IOXBv9o4BCffOY7AZgYVuLKQ7HNB7CtLqpCFYPXpzybPothEc7
+ iVAogxjPLeJtqekWAMFQpZU9AzNb/YLn/6ECUKqDOQJhupZ04BtGq9L1VopOyBhPBv
+ zquvlt2qbQvpw7jHxz0Ax3OX5az2YhpYpHthYZCr7jXdKg9XrvsUnmDM+vt780Vm2H
+ YQtg0r4AXxFjg==
 From: Arnd Bergmann <arnd@kernel.org>
 To: Vinod Koul <vkoul@kernel.org>
-Subject: [PATCH 05/11] dmaengine: pxa/mmp: stop referencing config->slave_id
-Date: Mon, 15 Nov 2021 09:53:57 +0100
-Message-Id: <20211115085403.360194-6-arnd@kernel.org>
+Subject: [PATCH 06/11] dmaengine: sprd: stop referencing config->slave_id
+Date: Mon, 15 Nov 2021 09:53:58 +0100
+Message-Id: <20211115085403.360194-7-arnd@kernel.org>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20211115085403.360194-1-arnd@kernel.org>
 References: <20211115085403.360194-1-arnd@kernel.org>
@@ -70,53 +70,29 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Arnd Bergmann <arnd@arndb.de>
 
-The last driver referencing the slave_id on Marvell PXA and MMP platforms
-was the SPI driver, but this stopped doing so a long time ago, so the
-TODO from the earlier patch can no be removed.
+It appears that the code that reads the slave_id from the channel config
+was copied incorrectly from other drivers. Nothing ever sets this field
+on platforms that use this driver, so remove the reference.
 
-Fixes: b729bf34535e ("spi/pxa2xx: Don't use slave_id of dma_slave_config")
-Fixes: 13b3006b8ebd ("dma: mmp_pdma: add filter function")
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- drivers/dma/mmp_pdma.c | 6 ------
- drivers/dma/pxa_dma.c  | 7 -------
- 2 files changed, 13 deletions(-)
+ drivers/dma/sprd-dma.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/drivers/dma/mmp_pdma.c b/drivers/dma/mmp_pdma.c
-index a23563cd118b..5a53d7fcef01 100644
---- a/drivers/dma/mmp_pdma.c
-+++ b/drivers/dma/mmp_pdma.c
-@@ -727,12 +727,6 @@ static int mmp_pdma_config_write(struct dma_chan *dchan,
+diff --git a/drivers/dma/sprd-dma.c b/drivers/dma/sprd-dma.c
+index 4357d2395e6b..7f158ef5672d 100644
+--- a/drivers/dma/sprd-dma.c
++++ b/drivers/dma/sprd-dma.c
+@@ -795,9 +795,6 @@ static int sprd_dma_fill_desc(struct dma_chan *chan,
+ 		return dst_datawidth;
+ 	}
  
- 	chan->dir = direction;
- 	chan->dev_addr = addr;
--	/* FIXME: drivers should be ported over to use the filter
--	 * function. Once that's done, the following two lines can
--	 * be removed.
--	 */
--	if (cfg->slave_id)
--		chan->drcmr = cfg->slave_id;
- 
- 	return 0;
- }
-diff --git a/drivers/dma/pxa_dma.c b/drivers/dma/pxa_dma.c
-index 52d04641e361..6078cc81892e 100644
---- a/drivers/dma/pxa_dma.c
-+++ b/drivers/dma/pxa_dma.c
-@@ -909,13 +909,6 @@ static void pxad_get_config(struct pxad_chan *chan,
- 		*dcmd |= PXA_DCMD_BURST16;
- 	else if (maxburst == 32)
- 		*dcmd |= PXA_DCMD_BURST32;
+-	if (slave_cfg->slave_id)
+-		schan->dev_id = slave_cfg->slave_id;
 -
--	/* FIXME: drivers should be ported over to use the filter
--	 * function. Once that's done, the following two lines can
--	 * be removed.
--	 */
--	if (chan->cfg.slave_id)
--		chan->drcmr = chan->cfg.slave_id;
- }
+ 	hw->cfg = SPRD_DMA_DONOT_WAIT_BDONE << SPRD_DMA_WAIT_BDONE_OFFSET;
  
- static struct dma_async_tx_descriptor *
+ 	/*
 -- 
 2.30.2
 
