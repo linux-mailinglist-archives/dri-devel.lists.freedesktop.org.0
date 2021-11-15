@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18C5745102A
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 19:40:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85798450DCD
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 19:05:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C3066E804;
-	Mon, 15 Nov 2021 18:40:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 996666E487;
+	Mon, 15 Nov 2021 18:05:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 20E1F6E804;
- Mon, 15 Nov 2021 18:40:27 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 70B586328E;
- Mon, 15 Nov 2021 18:40:26 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B5A86E487;
+ Mon, 15 Nov 2021 18:05:10 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 62B84632F9;
+ Mon, 15 Nov 2021 18:05:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1637001627;
- bh=M3SvlGThEGmBAIM1ZNtPR3eLWV4qwpyTYN7lP2Z8onQ=;
+ s=korg; t=1636999510;
+ bh=XdHzq69UVsgqR64Yin1bH2sBYmYAy/ceHyhnLzd7Ng8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=u8IyG8WDY/gjQuJIs9oXco/kzyYEyQxV32KPuAGtt/ym41HNOPj7aJRj/50feGNvm
- tQKAgRfax+EplWTa2dUDmgxzXAEK7qj1QrQ5EfsjGFxsArWfK/hd5ec1uMZZcNeI+o
- LswrAgiigO1bWiL/z0u70ujP5RJlwf1bf2Sv65Gw=
+ b=WrFa0mcdydFuuH7wqabZrHoJ7NH8W5/pFemcUT/4mT9Qrk589asBlur/Gmw+j4zfz
+ kfV9SrBiR7k0VzlTi3HO8nJCsnlNC8iQpEIUxeIVvFiaLeMy3bGJwodKf3y4X/oaVR
+ ZYSvkPP1JKzQjG7UHQop1hmym6Ptq81EwItkStG8=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH 5.15 261/917] drm/msm: prevent NULL dereference in
+Subject: [PATCH 5.14 280/849] drm/msm: prevent NULL dereference in
  msm_gpu_crashstate_capture()
-Date: Mon, 15 Nov 2021 17:55:56 +0100
-Message-Id: <20211115165437.636623552@linuxfoundation.org>
+Date: Mon, 15 Nov 2021 17:56:03 +0100
+Message-Id: <20211115165429.743976506@linuxfoundation.org>
 X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20211115165428.722074685@linuxfoundation.org>
-References: <20211115165428.722074685@linuxfoundation.org>
+In-Reply-To: <20211115165419.961798833@linuxfoundation.org>
+References: <20211115165419.961798833@linuxfoundation.org>
 User-Agent: quilt/0.66
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -89,10 +89,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
-index 8a3a592da3a4d..2c46cd968ac4c 100644
+index 0ebf7bc6ad097..8236989828ba3 100644
 --- a/drivers/gpu/drm/msm/msm_gpu.c
 +++ b/drivers/gpu/drm/msm/msm_gpu.c
-@@ -296,7 +296,7 @@ static void msm_gpu_crashstate_capture(struct msm_gpu *gpu,
+@@ -404,7 +404,7 @@ static void msm_gpu_crashstate_capture(struct msm_gpu *gpu,
  		state->bos = kcalloc(nr,
  			sizeof(struct msm_gpu_state_bo), GFP_KERNEL);
  
