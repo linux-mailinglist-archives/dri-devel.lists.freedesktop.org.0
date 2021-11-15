@@ -1,43 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EC5B451235
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 20:31:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F9DB451246
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 20:33:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA8D96EA60;
-	Mon, 15 Nov 2021 19:31:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8600E6EA99;
+	Mon, 15 Nov 2021 19:33:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2089.outbound.protection.outlook.com [40.107.223.89])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC3A06E8DA;
- Mon, 15 Nov 2021 19:30:54 +0000 (UTC)
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2042.outbound.protection.outlook.com [40.107.220.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 90C586E03D;
+ Mon, 15 Nov 2021 19:33:27 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EAyjg72HBRtmY9/3KGEaZe+iOF1UQo8NqJhdnvfVV8SLM85Lvx9aUCMdr3jARTpBxsL4IJFz+9/EQP3C/jaTK/upDC4Nf1fms5+Z6M/RoMQet/dLHq8Kc5/dMWbMfukXxxlidRxcmshNnWMBff7whK4vFiAtrBNgitN6v5vF+74WU0Zu1NlcgBsQmU7y7Dr0nd59+EuMYnVosovFTf1+11PVrgWYw6LvoXs63CCEk0iQ1WPpDd7QhnpxVH4vqa7ZTwo30qqMT1AoSDdlfgZ6Lnm+1z1/1WIoXunfxr0YZQb/q8lEZnr7No/nWLv5VbXwMwG+p+bVkvlh9f+8VTxC3Q==
+ b=FHNFPUR1F4ucdtYzzliXS+Eg+T5uVIjqv5mNavgaphlN+jx0U4RMj7vYNExby0t+v/UPxHBZzYyJkicn6+RHz1FmBFSEzikCvrA4ft4vYDt5pY4CTjVgJoXpYnHOeWgN18yhGVFUvn2bg+FT4QAYq40qFACMZYO2nI/iXX/sf7RjZv+GxcEUBiM3GkKFT20WBbegKYiclPf8W9WreK3ONnxp6piN2Sl0yf45aOpwHGW6l5mCD6rQ4FRP8Zq+zjfEz9LipGBnEatwW1DsJTaH9qfuKbdan1HqgLffl3XD1E36UEbqw0wwKQ7AZmWjv1ylcHWEBurP7NX6D7jnkpFvrw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wsrkpUVi3WNypHl5pcq6GxPYH8jyCkc8S9h4vZu1cNY=;
- b=gFXujLVbcgTxp9+aamBrh5E76MMkBLkRxbc8Eg/ahA0M9G6AARWsDVKJw41jBS5aOzFn2TgcBtsUjLQplnuEwON5xHzQZSPRTZoLaIgsuqkrx7VOADTPZR/ARA304Dc2Rfi1p8xgcuzxIjy/M2c2H9XaP/i2W223A1J43xJIr0BQlg6lpMn2wTyaTyKabislGydZjETW1UL5Pnxb2kHOX880Zi8f3RhswnLCEchYJu0y8vVJJABSgJLHskxPTDSjqT30aOEcgPyb8fQARH1hOQllIz0uQ8dUJnob2Yd+o1Q2XgBWI/X2O/e3eJw4QN8XehVf2TbozL/ofU1YjqynZQ==
+ bh=YLqF0BMC+Lpkdl20tM3fsP3f368I9Gx6A/zUulaBmc4=;
+ b=UQsnaUM/L+VIm/nTuPgd2k8qFGUfN5QaWV5kedUQu+QeuIjgfC3q0QxYQ10L7Btk1wWqVpbdSY1FOGLjbZNCjBrzjPa+oAyfHCEgvEdD3Fl3Kmz9+tCucGjjPcbXvwIPD1YNsfMyrhZXyuZoBSTmc2PJQ0pslvs4vu6aUrZIceE//O/AzJpue12npwJRs9budgGVJBrdjWGxDjypgfFTth4qStx7ifrnJzdIM+57hnxHToI4d9ntoooNyWDRDNnmZF6omHNeMuDdEGJ3rpKVcuJiGszSYy3E4ZTThg9sXCXPM5FY6bRA101Fv6FsYT1+flLTsld3rV3euDns8hIeAA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=linux-foundation.org smtp.mailfrom=amd.com;
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wsrkpUVi3WNypHl5pcq6GxPYH8jyCkc8S9h4vZu1cNY=;
- b=z1i4NmFzVPCeqECMUGXB/17B9/HmR4eGm1HU+aB5A7nW/R3yrpL7sK3aJkpR4H1QZrhp3KWvLo0SzkNOi3ympHDcaydzBbRPO/t9xyAZghL6C/9WpNKzh1TB4cVef8hzfmIa03Qak42vCEQHtl47fkIHJlQesxqHC6DoRuGgfqA=
-Received: from CO2PR05CA0107.namprd05.prod.outlook.com (2603:10b6:104:1::33)
- by BY5PR12MB4227.namprd12.prod.outlook.com (2603:10b6:a03:206::21) with
+ bh=YLqF0BMC+Lpkdl20tM3fsP3f368I9Gx6A/zUulaBmc4=;
+ b=YQdsGIjma2OfoJ8QRL1XeSitNiRiB/qO/JqU4XyatBwGwOeQ1mmZce70mP9+Kb5HaOCvCo1775w3cEMGBnOHrGpn6qYocp4gYkFtpq1rMs89B1ZmVAlx+pt3TsnnhbfCz8+cAtrVgb8+dPPe6xwmp1cQCDwyRJMPIlLyQCCdggQ=
+Received: from MW4PR03CA0244.namprd03.prod.outlook.com (2603:10b6:303:b4::9)
+ by MN2PR12MB4566.namprd12.prod.outlook.com (2603:10b6:208:26a::19) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4690.25; Mon, 15 Nov
- 2021 19:30:52 +0000
-Received: from CO1NAM11FT026.eop-nam11.prod.protection.outlook.com
- (2603:10b6:104:1:cafe::3d) by CO2PR05CA0107.outlook.office365.com
- (2603:10b6:104:1::33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4713.16 via Frontend
- Transport; Mon, 15 Nov 2021 19:30:52 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4690.16; Mon, 15 Nov
+ 2021 19:33:25 +0000
+Received: from CO1NAM11FT036.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:303:b4:cafe::76) by MW4PR03CA0244.outlook.office365.com
+ (2603:10b6:303:b4::9) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4690.27 via Frontend
+ Transport; Mon, 15 Nov 2021 19:33:25 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -45,53 +45,51 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CO1NAM11FT026.mail.protection.outlook.com (10.13.175.67) with Microsoft SMTP
+ CO1NAM11FT036.mail.protection.outlook.com (10.13.174.124) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4690.15 via Frontend Transport; Mon, 15 Nov 2021 19:30:51 +0000
+ 15.20.4690.15 via Frontend Transport; Mon, 15 Nov 2021 19:33:22 +0000
 Received: from alex-MS-7B09.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Mon, 15 Nov
- 2021 13:30:43 -0600
+ 2021 13:33:20 -0600
 From: Alex Sierra <alex.sierra@amd.com>
 To: <akpm@linux-foundation.org>, <Felix.Kuehling@amd.com>,
  <linux-mm@kvack.org>, <rcampbell@nvidia.com>, <linux-ext4@vger.kernel.org>,
  <linux-xfs@vger.kernel.org>
-Subject: [PATCH v1 9/9] tools: update test_hmm script to support SP config
-Date: Mon, 15 Nov 2021 13:30:26 -0600
-Message-ID: <20211115193026.27568-10-alex.sierra@amd.com>
+Subject: [PATCH v1 0/2] Remove extra ZONE_DEVICE page refcount  
+Date: Mon, 15 Nov 2021 13:33:04 -0600
+Message-ID: <20211115193306.27734-1-alex.sierra@amd.com>
 X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20211115193026.27568-1-alex.sierra@amd.com>
-References: <20211115193026.27568-1-alex.sierra@amd.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 X-Originating-IP: [10.180.168.240]
 X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 46c44be8-3f9a-4b2e-86e7-08d9a86e6f8b
-X-MS-TrafficTypeDiagnostic: BY5PR12MB4227:
-X-Microsoft-Antispam-PRVS: <BY5PR12MB4227D267C8E8F5345DD1AB37FD989@BY5PR12MB4227.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4714;
+X-MS-Office365-Filtering-Correlation-Id: 04d221db-024e-44c6-73f7-08d9a86ec93c
+X-MS-TrafficTypeDiagnostic: MN2PR12MB4566:
+X-Microsoft-Antispam-PRVS: <MN2PR12MB45663F919337A071273A7730FD989@MN2PR12MB4566.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: +O9GwtK+Hdqghk11SXATYwcmt0sHW30dEiXrAUuan9p6x8GYwPlGeqZvo0RoIL50muGDGc8uclHZ3IWSt/V/s3SEc8tYZ5DkUA+bJpAMLipw1UPJ2mDTQjtFthJV7+GsTCyWHK6siZqNJGjo9ggdtk6qM4jZ5kwnuWZ5807DHAYLjkJ9cRgyi97vZetzpd8Z/OZr4VuotW3a9eiNi6qq2KJnWqI4aljpKDHJ4u+fW4sGsTP19nZHNHcqCTiH5koNx+UQdHR3Ijy5DxVmSYEVtSiXhBurd1w1I1dkNpYuhswaDQfQxojBwWhbvaikFBLVZtmHTZgVJ/p7ZEAoYqkOav50dU4iI1d8YZPMmLg3lix+2ITgw5iS32+ByfCYhsQQF8casa590hT+VSGkJGUTWowavlOoYB5qcLC9tleMuQ1hVWnABXdCD5kVJ5FAUV82o6e99vJZyixW/MBvHiK3GMuZlO2hTEqhLZc05yXxtuKf+UTzznqzBVrEdyTEkTAmHFeB1apsCtdYXy97/oPLW/pZtMGlU1oGzN+Mp19zfXzNcgXcNZpoUdogtL0A8EFcIkxmmVKhmCAi28/s1yqJNRk+0P/q7Fo6L+mN8OEt9GtFXRKiZd7857dG2xJ41n1+GCacWFlKDbWDYGZV32CC3UHakep1Tm5Mx8pmVTiikgKD3CofQNUZSCAL3TVAD4YPvO0+2tqjAs+y1jsx695m0fZnRjOZH0hMj961SXG5J20=
+X-Microsoft-Antispam-Message-Info: 7/IzQs8YAPEmALQXsQypKf57PGKN3SUZ3tPHZJHVZBpkcq7kai7cTdkbb5GvUTYfXt+2v1EA0eYZBpm77p5Y71uPF7aKuLsHR8ZfvN217R1YiT+6eoIwDu3sdjcKFv9vxJbXSe/s8bwGBXhaGPEUbhGflizblYnWrS6rENcJHhHH3hNs5RSA5dSrWkY5vwBA5Mfh/8kFOXro41WJAB4ykEiKLu+i8wuECu9BjlykF9aCfx9T0uYIuhpUI3oOdxI/LQtMasvPYVtDdO16kTwAufcvJTd0DHk9s5K0gnr0lYD797HragCQxKleGJblTC+ojbv2ufEtKxuOYphjYBFlbn//+rNywA1w2Lv9ul4Xqpi+ukrdu/c/6oijacLSDX1REFmDAEIUZqb47fRe/s3FaNw4OJCkww7LDpJjD46cXJq6p3+OFJK3Ba9MzEVSsy2iCNwpO+H5pjtpv+YCquL13pYaw/IemCTMxUJC4n5yv7YdYXCMn+F2WqDMWXvnfoJJT1mI5sv4osWzYay2c+61f2ztykxuf7XVv/9xElOJBlhCYYzL6u9sBooPB/cSZF4B7efc9MXCdO4Ze/l6/8rf6o1iaAwna8PPg/CwkH8hJSTTyAT5ucmnFMlzgxxb61P0ozf961M/iBplgg59ZPFFeAys0CZ/5ZDNTzBoKGt6VhshUFVJ+Q7Hbq4uSgFuop8nUC7oMKYMlhaevKumQbZ517ECivSpmOXopNd4NFsEg6cVVxHPLN0v7nvbzWpShUGsPu6005apuMRLB2N1h1o2zvww3rMrf8il4Km/3uAJ2LsuUDWUouVeOtQB7Umj+iuj
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(4636009)(46966006)(36840700001)(2906002)(426003)(70586007)(70206006)(86362001)(356005)(186003)(8936002)(16526019)(36860700001)(1076003)(82310400003)(6666004)(2616005)(316002)(8676002)(508600001)(336012)(7696005)(7416002)(83380400001)(47076005)(5660300002)(36756003)(81166007)(110136005)(4326008)(54906003)(44832011)(26005)(36900700001);
+ SFS:(4636009)(36840700001)(46966006)(508600001)(83380400001)(8676002)(36756003)(426003)(86362001)(8936002)(2616005)(7696005)(110136005)(316002)(1076003)(36860700001)(5660300002)(81166007)(44832011)(54906003)(82310400003)(70206006)(356005)(70586007)(26005)(7416002)(186003)(47076005)(336012)(4326008)(16526019)(6666004)(966005)(2906002)(36900700001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Nov 2021 19:30:51.9330 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 46c44be8-3f9a-4b2e-86e7-08d9a86e6f8b
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Nov 2021 19:33:22.4127 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 04d221db-024e-44c6-73f7-08d9a86ec93c
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT026.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT036.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4227
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4566
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,68 +107,81 @@ Cc: willy@infradead.org, apopple@nvidia.com, dri-devel@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add two more parameters to set spm_addr_dev0 & spm_addr_dev1
-addresses. These two parameters configure the start SP
-addresses for each device in test_hmm driver.
-Consequently, this configures zone device type as coherent.
+This patch includes Ralph Campbell’s ZONE_DEVICE refcount cleanup and
+additionally the changes necessary to avoid breaking the separately
+submitted MEMORY_DEVICE_COHERENT page migration code.
+Ralph’s original description:
+ZONE_DEVICE struct pages have an extra reference count that complicates
+the code for put_page() and several places in the kernel that need to
+check the reference count to see that a page is not being used (gup,
+compaction, migration, etc.). Clean up the code so the reference count
+doesn't need to be treated specially for ZONE_DEVICE.
+Following a suggestion by Christoph, we attempted to combine this
+cleanup with the device patch migration patch series, however this
+caused xftests 413 to fail with a warning, the root cause of which has
+large kernel footprint than just device memory. Fixing this issue
+properly will require cooperation between multiple development groups
+working across multiple kernel subsystems, as is apparent from the
+discussion under the earlier, combined patch submission.
+We therefore propose to break this work out separately as its own patch,
+so it can receive the cooperative development work it needs. The deep
+problem arises from the get_user_pages API, which has proved troublesome
+for many years. It is possible that a concerted effort to repair this
+particular refcount issue properly will be a step in the direction of
+rationalizing this popular and problematic API.
+In the larger picture, this API rationalization work probably deserves
+an agenda item at the upcoming Filesystem, MM & BPF Summit:
+https://events.linuxfoundation.org/lsfmm/
 
-Signed-off-by: Alex Sierra <alex.sierra@amd.com>
----
- tools/testing/selftests/vm/test_hmm.sh | 20 +++++++++++++++++---
- 1 file changed, 17 insertions(+), 3 deletions(-)
+The wide ranging discussion following previous iterations of the
+migration patchset focused almost exclusively on the refcount cleanup
+patch. The thread is here:
+https://lore.kernel.org/linux-mm/20211014153928.16805-3-alex.sierra@amd.com/
+and links a number of previous threads. It is apparent that there is a
+lot of work in progress by a number of developer groups in parallel,
+and that there are issues with the order in which this work should be
+attempted and merged.
+Jason provided his list of “balls in the air”:
+ - Joao's compound page support for device_dax and more
+ - Alex's DEVICE_COHERENT
+ - The refcount normalization
+ - Removing the pgmap test from GUP
+ - Removing the need for the PUD/PMD/PTE special bit
+ - Removing the need for the PUD/PMD/PTE devmap bit
+ - Remove PUD/PMD vma_is_special
+ - folios for fsdax
+ - shootdown for fsdax
+It is not clear that the refcount cleanup in this patch should be the
+first item on the list to be merged, however it has proved to be a good
+starting point for a cooperative effort to address the underlying
+issues.
+Ralph, if you would prefer to take back “ownership” of this patch, it’s
+yours, otherwise we will be happy to keep it in play and get it merged
+when some other pieces of the puzzle fall into place.
 
-diff --git a/tools/testing/selftests/vm/test_hmm.sh b/tools/testing/selftests/vm/test_hmm.sh
-index 0647b525a625..3eeabe94399f 100755
---- a/tools/testing/selftests/vm/test_hmm.sh
-+++ b/tools/testing/selftests/vm/test_hmm.sh
-@@ -40,7 +40,18 @@ check_test_requirements()
- 
- load_driver()
- {
--	modprobe $DRIVER > /dev/null 2>&1
-+	if [ $# -eq 0 ]; then
-+		modprobe $DRIVER > /dev/null 2>&1
-+	else
-+		if [ $# -eq 2 ]; then
-+			modprobe $DRIVER spm_addr_dev0=$1 spm_addr_dev1=$2
-+				> /dev/null 2>&1
-+		else
-+			echo "Missing module parameters. Make sure pass"\
-+			"spm_addr_dev0 and spm_addr_dev1"
-+			usage
-+		fi
-+	fi
- 	if [ $? == 0 ]; then
- 		major=$(awk "\$2==\"HMM_DMIRROR\" {print \$1}" /proc/devices)
- 		mknod /dev/hmm_dmirror0 c $major 0
-@@ -58,7 +69,7 @@ run_smoke()
- {
- 	echo "Running smoke test. Note, this test provides basic coverage."
- 
--	load_driver
-+	load_driver $1 $2
- 	$(dirname "${BASH_SOURCE[0]}")/hmm-tests
- 	unload_driver
- }
-@@ -75,6 +86,9 @@ usage()
- 	echo "# Smoke testing"
- 	echo "./${TEST_NAME}.sh smoke"
- 	echo
-+	echo "# Smoke testing with SPM enabled"
-+	echo "./${TEST_NAME}.sh smoke <spm_addr_dev0> <spm_addr_dev1>"
-+	echo
- 	exit 0
- }
- 
-@@ -84,7 +98,7 @@ function run_test()
- 		usage
- 	else
- 		if [ "$1" = "smoke" ]; then
--			run_smoke
-+			run_smoke $2 $3
- 		else
- 			usage
- 		fi
+Ralph Campbell (2):
+  ext4/xfs: add page refcount helper
+  mm: remove extra ZONE_DEVICE struct page refcount
+
+ arch/powerpc/kvm/book3s_hv_uvmem.c       |  2 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_migrate.c |  3 +-
+ drivers/gpu/drm/nouveau/nouveau_dmem.c   |  2 +-
+ fs/dax.c                                 |  8 +--
+ fs/ext4/inode.c                          |  5 +-
+ fs/fuse/dax.c                            |  4 +-
+ fs/xfs/xfs_file.c                        |  4 +-
+ include/linux/dax.h                      | 10 ++++
+ include/linux/memremap.h                 |  7 ++-
+ include/linux/mm.h                       | 11 ----
+ lib/test_hmm.c                           |  2 +-
+ mm/internal.h                            |  7 +++
+ mm/memcontrol.c                          |  6 +-
+ mm/memremap.c                            | 72 +++++++-----------------
+ mm/migrate.c                             |  5 --
+ mm/page_alloc.c                          |  3 +
+ mm/swap.c                                | 45 ++-------------
+ 17 files changed, 62 insertions(+), 134 deletions(-)
+
 -- 
 2.32.0
 
