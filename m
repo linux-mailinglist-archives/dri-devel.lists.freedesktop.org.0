@@ -1,52 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E34B24505B5
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 14:40:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D09D4505B6
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 14:40:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 82DBE6E0E6;
-	Mon, 15 Nov 2021 13:40:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 069A16E112;
+	Mon, 15 Nov 2021 13:40:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E1006E0E6
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 13:40:17 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 533DC63236
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 13:40:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1636983617;
- bh=wWcBwOu3cL9+U+zjsSAWtUQyMjCz3CDgA4mV4eUmQEI=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=Q4vpjH0uJaOnwWSUMmOGk4RBT6eS8WH2rt9ntVsxRfGOv9U1AcRtQ11fRaF90BIV8
- sqeJ0HBpuF+KPmzxxWjlJGgSJ1OjqCnX5IF3kDB9UyaLteVQzEs63BelRJSGp/MN27
- rl3mqKgow43UyjRBZHGLKQ4QfjwptO5RKrADCb33Z2mbHzpBKSuGr6uGe5kRDEdiBG
- HHrLzrj7SUybGgQXnJJsO7yrqVHV48pmOVUw23xSRWxB7Me79U0ZJtPK4hVpkgoTGX
- utmi82G0Uxv9J6Q2ftbl+jiVLtnlcx62LHYmA20iHfeUpWAVrLzRRvgSwCTpk4pzn6
- ofL6tkRYcgMKA==
-Received: by mail-wr1-f47.google.com with SMTP id s13so30845515wrb.3
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 05:40:17 -0800 (PST)
-X-Gm-Message-State: AOAM531dwQoo1dJ1OgKd+VDZKlQL61m3md8RYBmvv0hoeXkq3t0mcxmC
- lcihX40lZSknhk5/77g0g8lLhlU3lIjCDa/CTDQ=
-X-Google-Smtp-Source: ABdhPJydx+lGNyCCL10Ss+u6AlrY7F7Dh3irA5L/rafXQwz2EG7YLwST7GsA7bIvQOTqpVGT64n5uQbouKk1WaS2cho=
-X-Received: by 2002:adf:f088:: with SMTP id n8mr7443019wro.411.1636983615679; 
- Mon, 15 Nov 2021 05:40:15 -0800 (PST)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B4F346E112
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 13:40:26 +0000 (UTC)
+Received: from pendragon.ideasonboard.com
+ (117.145-247-81.adsl-dyn.isp.belgacom.be [81.247.145.117])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 47C5A93;
+ Mon, 15 Nov 2021 14:40:25 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1636983625;
+ bh=hJqaKcHD1tvfKC6NFjnSHYUW3wehP5+Dmgbtxqf+8zQ=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=AxiKFOk5iTvVxI/yEVENpB1U2CTNCAovSME4Jb+3anmDsLWMLUTkiUoxJ+CoWJjb5
+ HTSKDKNcQOSFRQ1pbaAK9iEiqbZmflasoexeJRxm/pPExeotlFm62Q4P68cUtGxlrp
+ RfgJ5lEZRxjFYWCnhC+A9uz+fM4Hx3QBnlm1W3Bw=
+Date: Mon, 15 Nov 2021 15:40:03 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 1/3] drm/cma-helper: Move driver and file ops to the end
+ of header
+Message-ID: <YZJjMwKpiedhcjyg@pendragon.ideasonboard.com>
+References: <20211115120148.21766-1-tzimmermann@suse.de>
+ <20211115120148.21766-2-tzimmermann@suse.de>
 MIME-Version: 1.0
-References: <20211115085403.360194-1-arnd@kernel.org>
- <20211115085403.360194-9-arnd@kernel.org>
- <YZIk6cVb7XibrMjf@pendragon.ideasonboard.com>
- <CAK8P3a1Fu11-e0CK2of8u3ebdjom84UKuXhBKi5FUs5ZPPdOVA@mail.gmail.com>
- <YZJJVA/92KYH8hQL@pendragon.ideasonboard.com>
- <CAK8P3a27rPBVbU-PrYR0BE4KV2DyJk7FoXaeDS=FU1=_RSwoQQ@mail.gmail.com>
- <YZJbLol1llm+puDT@pendragon.ideasonboard.com>
-In-Reply-To: <YZJbLol1llm+puDT@pendragon.ideasonboard.com>
-From: Arnd Bergmann <arnd@kernel.org>
-Date: Mon, 15 Nov 2021 14:39:59 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a16s6dwvb-7REjF-pmnKod2qQRq+mta-g8pDXbQpGQvHA@mail.gmail.com>
-Message-ID: <CAK8P3a16s6dwvb-7REjF-pmnKod2qQRq+mta-g8pDXbQpGQvHA@mail.gmail.com>
-Subject: Re: [PATCH 08/11] dmaengine: xilinx_dpdma: stop using slave_id field
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20211115120148.21766-2-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,53 +48,179 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ALSA Development Mailing List <alsa-devel@alsa-project.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- "open list:TEGRA ARCHITECTURE SUPPORT" <linux-tegra@vger.kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- linux-mtd <linux-mtd@lists.infradead.org>,
- linux-spi <linux-spi@vger.kernel.org>, Robert Jarzmik <robert.jarzmik@free.fr>,
- Chunyan Zhang <zhang.lyra@gmail.com>, linux-staging@lists.linux.dev,
- Michal Simek <michal.simek@xilinx.com>, Jon Hunter <jonathanh@nvidia.com>,
- Andy Gross <agross@kernel.org>,
- bcm-kernel-feedback-list <bcm-kernel-feedback-list@broadcom.com>,
- "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
- Orson Zhai <orsonzhai@gmail.com>, Nicolas Saenz Julienne <nsaenz@kernel.org>,
- Arnd Bergmann <arnd@arndb.de>, Manivannan Sadhasivam <mani@kernel.org>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>, dmaengine@vger.kernel.org,
- Mark Brown <broonie@kernel.org>,
- "moderated list:BROADCOM BCM2835 ARM ARCHITECTURE"
- <linux-rpi-kernel@lists.infradead.org>, Jaroslav Kysela <perex@perex.cz>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Scott Branden <sbranden@broadcom.com>, Hyun Kwon <hyun.kwon@xilinx.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-mmc <linux-mmc@vger.kernel.org>, Takashi Iwai <tiwai@suse.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Vinod Koul <vkoul@kernel.org>, Laxman Dewangan <ldewangan@nvidia.com>,
- Baolin Wang <baolin.wang7@gmail.com>
+Cc: emma@anholt.net, airlied@linux.ie, linux-renesas-soc@vger.kernel.org,
+ kieran.bingham+renesas@ideasonboard.com, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Nov 15, 2021 at 2:05 PM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
-> On Mon, Nov 15, 2021 at 01:38:07PM +0100, Arnd Bergmann wrote:
-> > On Mon, Nov 15, 2021 at 12:49 PM Laurent Pinchart wrote:
-> >
-> > Right. I wonder if there is even a point in using the dmaengine API
-> > in that case, I think for other single-purpose drivers we tend to just
-> > integrate the functionality in the client driver. No point changing this
-> > now of course, but it does feel odd.
->
-> I agree, and that's what I would have done as well, if it wasn't for the
-> fact that the DMA engine also supports a second client for audio. This
-> isn't supported in upstream yet. We could still have created an ad-hoc
-> solution, possibly based on the components framework, but the DMA engine
-> subsystem wasn't a bad fit.
+Hi Thomas,
 
-Ah, makes sense. In this case, I guess the data could have been
-part of the DMA specifier after all, in a second cell after the
-channel number.
+Thank you for the patch.
 
-        Arnd
+On Mon, Nov 15, 2021 at 01:01:46PM +0100, Thomas Zimmermann wrote:
+> Restructure the header file for CMA helpers by moving declarations
+> for driver and file operations to the end of the file. No functional
+> changes.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+
+I'm not sure to see what we gain from this, but I don't mind.
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> ---
+>  include/drm/drm_gem_cma_helper.h | 114 ++++++++++++++++---------------
+>  1 file changed, 60 insertions(+), 54 deletions(-)
+> 
+> diff --git a/include/drm/drm_gem_cma_helper.h b/include/drm/drm_gem_cma_helper.h
+> index cd13508acbc1..e0fb7a0cf03f 100644
+> --- a/include/drm/drm_gem_cma_helper.h
+> +++ b/include/drm/drm_gem_cma_helper.h
+> @@ -32,77 +32,40 @@ struct drm_gem_cma_object {
+>  #define to_drm_gem_cma_obj(gem_obj) \
+>  	container_of(gem_obj, struct drm_gem_cma_object, base)
+>  
+> -#ifndef CONFIG_MMU
+> -#define DRM_GEM_CMA_UNMAPPED_AREA_FOPS \
+> -	.get_unmapped_area	= drm_gem_cma_get_unmapped_area,
+> -#else
+> -#define DRM_GEM_CMA_UNMAPPED_AREA_FOPS
+> -#endif
+> -
+> -/**
+> - * DEFINE_DRM_GEM_CMA_FOPS() - macro to generate file operations for CMA drivers
+> - * @name: name for the generated structure
+> - *
+> - * This macro autogenerates a suitable &struct file_operations for CMA based
+> - * drivers, which can be assigned to &drm_driver.fops. Note that this structure
+> - * cannot be shared between drivers, because it contains a reference to the
+> - * current module using THIS_MODULE.
+> - *
+> - * Note that the declaration is already marked as static - if you need a
+> - * non-static version of this you're probably doing it wrong and will break the
+> - * THIS_MODULE reference by accident.
+> - */
+> -#define DEFINE_DRM_GEM_CMA_FOPS(name) \
+> -	static const struct file_operations name = {\
+> -		.owner		= THIS_MODULE,\
+> -		.open		= drm_open,\
+> -		.release	= drm_release,\
+> -		.unlocked_ioctl	= drm_ioctl,\
+> -		.compat_ioctl	= drm_compat_ioctl,\
+> -		.poll		= drm_poll,\
+> -		.read		= drm_read,\
+> -		.llseek		= noop_llseek,\
+> -		.mmap		= drm_gem_mmap,\
+> -		DRM_GEM_CMA_UNMAPPED_AREA_FOPS \
+> -	}
+> -
+>  /* free GEM object */
+>  void drm_gem_cma_free_object(struct drm_gem_object *gem_obj);
+>  
+> -/* create memory region for DRM framebuffer */
+> -int drm_gem_cma_dumb_create_internal(struct drm_file *file_priv,
+> -				     struct drm_device *drm,
+> -				     struct drm_mode_create_dumb *args);
+> -
+> -/* create memory region for DRM framebuffer */
+> -int drm_gem_cma_dumb_create(struct drm_file *file_priv,
+> -			    struct drm_device *drm,
+> -			    struct drm_mode_create_dumb *args);
+> -
+>  /* allocate physical memory */
+>  struct drm_gem_cma_object *drm_gem_cma_create(struct drm_device *drm,
+>  					      size_t size);
+>  
+>  extern const struct vm_operations_struct drm_gem_cma_vm_ops;
+>  
+> -#ifndef CONFIG_MMU
+> -unsigned long drm_gem_cma_get_unmapped_area(struct file *filp,
+> -					    unsigned long addr,
+> -					    unsigned long len,
+> -					    unsigned long pgoff,
+> -					    unsigned long flags);
+> -#endif
+> -
+>  void drm_gem_cma_print_info(struct drm_printer *p, unsigned int indent,
+>  			    const struct drm_gem_object *obj);
+>  
+>  struct sg_table *drm_gem_cma_get_sg_table(struct drm_gem_object *obj);
+> +int drm_gem_cma_vmap(struct drm_gem_object *obj, struct dma_buf_map *map);
+> +int drm_gem_cma_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma);
+> +
+> +/*
+> + * Driver ops
+> + */
+> +
+> +/* create memory region for DRM framebuffer */
+> +int drm_gem_cma_dumb_create_internal(struct drm_file *file_priv,
+> +				     struct drm_device *drm,
+> +				     struct drm_mode_create_dumb *args);
+> +
+> +/* create memory region for DRM framebuffer */
+> +int drm_gem_cma_dumb_create(struct drm_file *file_priv,
+> +			    struct drm_device *drm,
+> +			    struct drm_mode_create_dumb *args);
+> +
+>  struct drm_gem_object *
+>  drm_gem_cma_prime_import_sg_table(struct drm_device *dev,
+>  				  struct dma_buf_attachment *attach,
+>  				  struct sg_table *sgt);
+> -int drm_gem_cma_vmap(struct drm_gem_object *obj, struct dma_buf_map *map);
+> -int drm_gem_cma_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma);
+>  
+>  /**
+>   * DRM_GEM_CMA_DRIVER_OPS_WITH_DUMB_CREATE - CMA GEM driver operations
+> @@ -185,4 +148,47 @@ drm_gem_cma_prime_import_sg_table_vmap(struct drm_device *drm,
+>  				       struct dma_buf_attachment *attach,
+>  				       struct sg_table *sgt);
+>  
+> +/*
+> + * File ops
+> + */
+> +
+> +#ifndef CONFIG_MMU
+> +unsigned long drm_gem_cma_get_unmapped_area(struct file *filp,
+> +					    unsigned long addr,
+> +					    unsigned long len,
+> +					    unsigned long pgoff,
+> +					    unsigned long flags);
+> +#define DRM_GEM_CMA_UNMAPPED_AREA_FOPS \
+> +	.get_unmapped_area	= drm_gem_cma_get_unmapped_area,
+> +#else
+> +#define DRM_GEM_CMA_UNMAPPED_AREA_FOPS
+> +#endif
+> +
+> +/**
+> + * DEFINE_DRM_GEM_CMA_FOPS() - macro to generate file operations for CMA drivers
+> + * @name: name for the generated structure
+> + *
+> + * This macro autogenerates a suitable &struct file_operations for CMA based
+> + * drivers, which can be assigned to &drm_driver.fops. Note that this structure
+> + * cannot be shared between drivers, because it contains a reference to the
+> + * current module using THIS_MODULE.
+> + *
+> + * Note that the declaration is already marked as static - if you need a
+> + * non-static version of this you're probably doing it wrong and will break the
+> + * THIS_MODULE reference by accident.
+> + */
+> +#define DEFINE_DRM_GEM_CMA_FOPS(name) \
+> +	static const struct file_operations name = {\
+> +		.owner		= THIS_MODULE,\
+> +		.open		= drm_open,\
+> +		.release	= drm_release,\
+> +		.unlocked_ioctl	= drm_ioctl,\
+> +		.compat_ioctl	= drm_compat_ioctl,\
+> +		.poll		= drm_poll,\
+> +		.read		= drm_read,\
+> +		.llseek		= noop_llseek,\
+> +		.mmap		= drm_gem_mmap,\
+> +		DRM_GEM_CMA_UNMAPPED_AREA_FOPS \
+> +	}
+> +
+>  #endif /* __DRM_GEM_CMA_HELPER_H__ */
+
+-- 
+Regards,
+
+Laurent Pinchart
