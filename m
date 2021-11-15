@@ -1,35 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4ADA5450054
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 09:54:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C1C6450056
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 09:54:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 700D96E923;
-	Mon, 15 Nov 2021 08:54:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B0D36E92A;
+	Mon, 15 Nov 2021 08:54:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD7E56E923
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 08:54:46 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 9880061BE2;
- Mon, 15 Nov 2021 08:54:40 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E5906E92A
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 08:54:53 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 1F29161BF5;
+ Mon, 15 Nov 2021 08:54:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1636966486;
- bh=1h0g2AYqXFphX4dDyELLl2t7YQIUXZ6UIHT7JYg2iMs=;
- h=From:To:Cc:Subject:Date:From;
- b=kv+C8zB0tbPMdXf3ORNkXrRH4MrGq92/hxOUWQ7rrNLjPwyN92rkebIKY8icgiOfU
- pMdG65xZlUKOnr8NUOP6pmXxc3gZzuCmcsiwcDOb6St8hs6LkWB6n1ZZo98RlrnVvp
- FkqOBIn33Yi9JZOuQ6miAmszWpYRosGKoEiu9hmpXWXS0VgUXakje0NXKySH0Rz+mZ
- 5B6hNND+tRm0kn91fmSGmzeWYTduFgTH0JLa1xNb8xKQOI2gwIYz/OsIEp39PngVMt
- ez7HK1j37N1+6Gl5sR4/i/hvvdNCZ5Sdb+Rvh2P8BC4uYTPFd5lIc2Ou5i9m3hH8E0
- 48X4U7Q98MS4A==
+ s=k20201202; t=1636966493;
+ bh=wn57j1S+OVDPjchxqdayqaIicCxtINUEg6GRzjIlw5A=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=YpPwnQ+ZywWiftbIGbvSME2DSkHoKYPFuU4+pHFPnVCL6fAFGd6mYmtgljVBSkmRJ
+ pW1JZbsvnPgbWG3BIB1WxilpINGEKjCw9qhXl3qcYTQJs2ryMXJDzUYFTmV+bJ9clv
+ 93VV93b94yY9B4TxZ7B7hXK8AU350k/nQ0LP+ecDwB1REeriP9jE3UDWkfZnuLaeVM
+ cjhwo1GJ6NlZbpRmqItwSJjTxt9iFUH4XKy1kf5swVCl5yYiAgReOUL0BXKR3AN91G
+ tnDG8UAkjd/mH7+NAsriu0rVVog9i3scmEbYwpdOQPUe3HixNhQXEB6g/mtLNh/erJ
+ SzxSnZNolHWtg==
 From: Arnd Bergmann <arnd@kernel.org>
 To: Vinod Koul <vkoul@kernel.org>
-Subject: [PATCH 00/11] dmaengine: kill off dma_slave_config->slave_id
-Date: Mon, 15 Nov 2021 09:53:52 +0100
-Message-Id: <20211115085403.360194-1-arnd@kernel.org>
+Subject: [PATCH 01/11] ASoC: dai_dma: remove slave_id field
+Date: Mon, 15 Nov 2021 09:53:53 +0100
+Message-Id: <20211115085403.360194-2-arnd@kernel.org>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20211115085403.360194-1-arnd@kernel.org>
+References: <20211115085403.360194-1-arnd@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -68,94 +70,70 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Arnd Bergmann <arnd@arndb.de>
 
-I recently came across some new uses of the 'slave_id' field that
-I had (almost) removed a few years ago. There are no legitimate
-uses of this field in the kernel, only a few stale references and
-two drivers that abuse the field as a side-channel between the
-dmaengine driver and its client.
+This field is never set, and serves no purpose, so remove it.
 
-Let's change the xilinx and qualcomm drivers to use the documented
-side-channel (peripheral_data) instead, and remove the remnants of
-it to prevent new users from coming in.
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+ include/sound/dmaengine_pcm.h   | 2 --
+ sound/core/pcm_dmaengine.c      | 5 ++---
+ sound/soc/tegra/tegra20_spdif.c | 1 -
+ 3 files changed, 2 insertions(+), 6 deletions(-)
 
-As the last patch in the series depends on all the others, it would
-be nice have everything merged into the dmaengine tree for v5.17.
-
-       Arnd
-
-Arnd Bergmann (11):
-  ASoC: dai_dma: remove slave_id field
-  spi: pic32: stop setting dma_config->slave_id
-  mmc: bcm2835: stop setting chan_config->slave_id
-  dmaengine: shdma: remove legacy slave_id parsing
-  dmaengine: pxa/mmp: stop referencing config->slave_id
-  dmaengine: sprd: stop referencing config->slave_id
-  dmaengine: qcom-adm: stop abusing slave_id config
-  dmaengine: xilinx_dpdma: stop using slave_id field
-  dmaengine: tegra20-apb: stop checking config->slave_id
-  staging: ralink-gdma: stop using slave_id config
-  dmaengine: remove slave_id config field
-
- drivers/dma/mmp_pdma.c                    |  6 ---
- drivers/dma/pxa_dma.c                     |  7 ---
- drivers/dma/qcom/qcom_adm.c               | 56 ++++++++++++++++++++---
- drivers/dma/sh/shdma-base.c               |  8 ----
- drivers/dma/sprd-dma.c                    |  3 --
- drivers/dma/tegra20-apb-dma.c             |  6 ---
- drivers/dma/xilinx/xilinx_dpdma.c         | 12 +++--
- drivers/gpu/drm/xlnx/zynqmp_disp.c        |  9 +++-
- drivers/mmc/host/bcm2835.c                |  2 -
- drivers/mtd/nand/raw/qcom_nandc.c         | 14 +++++-
- drivers/spi/spi-pic32.c                   |  2 -
- drivers/staging/ralink-gdma/ralink-gdma.c | 12 ++---
- drivers/tty/serial/msm_serial.c           | 15 +++++-
- include/linux/dma/qcom_adm.h              | 12 +++++
- include/linux/dma/xilinx_dpdma.h          | 11 +++++
- include/linux/dmaengine.h                 |  4 --
- include/sound/dmaengine_pcm.h             |  2 -
- sound/core/pcm_dmaengine.c                |  5 +-
- sound/soc/tegra/tegra20_spdif.c           |  1 -
- 19 files changed, 119 insertions(+), 68 deletions(-)
- create mode 100644 include/linux/dma/qcom_adm.h
- create mode 100644 include/linux/dma/xilinx_dpdma.h
-
+diff --git a/include/sound/dmaengine_pcm.h b/include/sound/dmaengine_pcm.h
+index 9144bd547851..7403870c28bd 100644
+--- a/include/sound/dmaengine_pcm.h
++++ b/include/sound/dmaengine_pcm.h
+@@ -58,7 +58,6 @@ struct dma_chan *snd_dmaengine_pcm_get_chan(struct snd_pcm_substream *substream)
+  * @maxburst: Maximum number of words(note: words, as in units of the
+  * src_addr_width member, not bytes) that can be send to or received from the
+  * DAI in one burst.
+- * @slave_id: Slave requester id for the DMA channel.
+  * @filter_data: Custom DMA channel filter data, this will usually be used when
+  * requesting the DMA channel.
+  * @chan_name: Custom channel name to use when requesting DMA channel.
+@@ -72,7 +71,6 @@ struct snd_dmaengine_dai_dma_data {
+ 	dma_addr_t addr;
+ 	enum dma_slave_buswidth addr_width;
+ 	u32 maxburst;
+-	unsigned int slave_id;
+ 	void *filter_data;
+ 	const char *chan_name;
+ 	unsigned int fifo_size;
+diff --git a/sound/core/pcm_dmaengine.c b/sound/core/pcm_dmaengine.c
+index af08bb4bf578..6762fb2083e1 100644
+--- a/sound/core/pcm_dmaengine.c
++++ b/sound/core/pcm_dmaengine.c
+@@ -91,8 +91,8 @@ EXPORT_SYMBOL_GPL(snd_hwparams_to_dma_slave_config);
+  * @dma_data: DAI DMA data
+  * @slave_config: DMA slave configuration
+  *
+- * Initializes the {dst,src}_addr, {dst,src}_maxburst, {dst,src}_addr_width and
+- * slave_id fields of the DMA slave config from the same fields of the DAI DMA
++ * Initializes the {dst,src}_addr, {dst,src}_maxburst, {dst,src}_addr_width
++ * fields of the DMA slave config from the same fields of the DAI DMA
+  * data struct. The src and dst fields will be initialized depending on the
+  * direction of the substream. If the substream is a playback stream the dst
+  * fields will be initialized, if it is a capture stream the src fields will be
+@@ -124,7 +124,6 @@ void snd_dmaengine_pcm_set_config_from_dai_data(
+ 			slave_config->src_addr_width = dma_data->addr_width;
+ 	}
+ 
+-	slave_config->slave_id = dma_data->slave_id;
+ 	slave_config->peripheral_config = dma_data->peripheral_config;
+ 	slave_config->peripheral_size = dma_data->peripheral_size;
+ }
+diff --git a/sound/soc/tegra/tegra20_spdif.c b/sound/soc/tegra/tegra20_spdif.c
+index 9fdc82d58db3..1c3385da6f82 100644
+--- a/sound/soc/tegra/tegra20_spdif.c
++++ b/sound/soc/tegra/tegra20_spdif.c
+@@ -284,7 +284,6 @@ static int tegra20_spdif_platform_probe(struct platform_device *pdev)
+ 	spdif->playback_dma_data.addr = mem->start + TEGRA20_SPDIF_DATA_OUT;
+ 	spdif->playback_dma_data.addr_width = DMA_SLAVE_BUSWIDTH_4_BYTES;
+ 	spdif->playback_dma_data.maxburst = 4;
+-	spdif->playback_dma_data.slave_id = dmareq->start;
+ 
+ 	pm_runtime_enable(&pdev->dev);
+ 
 -- 
 2.30.2
 
-Cc: Andy Gross <agross@kernel.org>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Arnd Bergmann <arnd@arndb.de>
-Cc: Baolin Wang <baolin.wang7@gmail.com>
-Cc: Bjorn Andersson <bjorn.andersson@linaro.org>
-Cc: Chunyan Zhang <zhang.lyra@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Hyun Kwon <hyun.kwon@xilinx.com>
-Cc: Jaroslav Kysela <perex@perex.cz>
-Cc: Jon Hunter <jonathanh@nvidia.com>
-Cc: Lars-Peter Clausen <lars@metafoo.de>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Laxman Dewangan <ldewangan@nvidia.com>
-Cc: Manivannan Sadhasivam <mani@kernel.org>
-Cc: Mark Brown <broonie@kernel.org>
-Cc: Michal Simek <michal.simek@xilinx.com>
-Cc: Nicolas Saenz Julienne <nsaenz@kernel.org>
-Cc: Orson Zhai <orsonzhai@gmail.com>
-Cc: Robert Jarzmik <robert.jarzmik@free.fr>
-Cc: Scott Branden <sbranden@broadcom.com>
-Cc: Takashi Iwai <tiwai@suse.com>
-Cc: Thierry Reding <thierry.reding@gmail.com>
-Cc: Vinod Koul <vkoul@kernel.org>
-Cc: alsa-devel@alsa-project.org
-Cc: bcm-kernel-feedback-list@broadcom.com
-Cc: dmaengine@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-arm-msm@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Cc: linux-mmc@vger.kernel.org
-Cc: linux-mtd@lists.infradead.org
-Cc: linux-rpi-kernel@lists.infradead.org
-Cc: linux-serial@vger.kernel.org
-Cc: linux-spi@vger.kernel.org
-Cc: linux-staging@lists.linux.dev
-Cc: linux-tegra@vger.kernel.org
