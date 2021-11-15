@@ -2,67 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A77C450731
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 15:37:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C2FC450761
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 15:44:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E86D6EAC7;
-	Mon, 15 Nov 2021 14:37:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE0AB6E0A1;
+	Mon, 15 Nov 2021 14:44:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
- [IPv6:2a00:1450:4864:20::535])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B24156EAC7
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 14:37:20 +0000 (UTC)
-Received: by mail-ed1-x535.google.com with SMTP id m20so27070216edc.5
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 06:37:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=XiioWyqrq1D1dF9ZTugSJzsFvT/FPXCXiHcWrTggW1A=;
- b=FLdgxwJMdDUlwR0XKZUGvkuM2MNDSQ4GskVPXHQWieDno5xyhAkQ/RY6avWmujJ9BR
- OjFK/wuJ5u0TGea1y4NcILj+0ZBLckYJFooRvADUDIPpG12CBSoYlD1JXYloPbk/zK4c
- OX1wlFQSE1qbbROjeihgOQJAJ/lfWJLFcbRGw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=XiioWyqrq1D1dF9ZTugSJzsFvT/FPXCXiHcWrTggW1A=;
- b=mJwH89OhGhJDsIEOCygy5FJGlbKRH1G7fCIe0eKa9eXmithUPsjgXarikQfgQkZDNf
- aLhvlSbqCLzcQOqLpPQ5JJlMKR3k3B5ojY52GjR7YW1UjL6rYVF0f20ABIvMQFFe6FS9
- BJQzgaMMUzm2n4sUzXcasGX/T6iCSGb7v2uo+SjsODW489muBxTvc1/dMHAHWeenrOK+
- tWEfm1UkJV/aQK9gW7ezr7yxgnJns55Mc7ghCFmhHub8ZZIEqD8CZ/PkHVywFOFtCUfa
- AujApa/rJktBHpukEDWvYtQpeVLY+2NNJXJxL11WYoXWWnEYwqhGX0RNzIcRujCLOReH
- /UBg==
-X-Gm-Message-State: AOAM530LWEDSVAgn+vxwKjI5iAhiCMGRvZU1juu5ZZpSHBQTiJiOHjB3
- yFLFbAlvetdIKdSEVtWKnwJ30W54Z/3MBA==
-X-Google-Smtp-Source: ABdhPJxXT/JTqH/P5/5MlVaHqEvS+WUgUgsUsgOfhK+nTHEXsPIZlCeVRsLARxXY95P+DTZWZPXr6g==
-X-Received: by 2002:aa7:c155:: with SMTP id r21mr21275479edp.124.1636987039311; 
- Mon, 15 Nov 2021 06:37:19 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id kw10sm6507786ejc.71.2021.11.15.06.37.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Nov 2021 06:37:18 -0800 (PST)
-Date: Mon, 15 Nov 2021 15:37:16 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH 00/15] iio: buffer-dma: write() and new DMABUF based API
-Message-ID: <YZJwnPbgCOdeKq6S@phenom.ffwll.local>
-Mail-Followup-To: Paul Cercueil <paul@crapouillou.net>,
- Jonathan Cameron <jic23@kernel.org>,
- Michael Hennerich <Michael.Hennerich@analog.com>,
- linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- linaro-mm-sig@lists.linaro.org,
- Alexandru Ardelean <ardeleanalex@gmail.com>,
- linux-media@vger.kernel.org
-References: <20211115141925.60164-1-paul@crapouillou.net>
+Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A2F6E6E0A1
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 14:43:59 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1636987439; h=Content-Transfer-Encoding: Content-Type:
+ In-Reply-To: From: References: Cc: To: Subject: MIME-Version: Date:
+ Message-ID: Sender; bh=7XCMV7JuJ0TbWXeHCYx30uBSDutsKDC797uPkQLu/NE=;
+ b=seNibXUxOFev7PPqYBPqOn3Wj+4yjRfDGBZuYH3npAhNWiEWgfbizuL7U0ZTzGixduQ5huCW
+ NPrNDZ7oH6KrWDcemWpw7pSZYRaMQmhGJOplGaLqZnSGE64nswC5JKbRLjQXlA9SmBXtZPJp
+ HueSGCIlEDquymbVxkD8sfhrZQw=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n01.prod.us-west-2.postgun.com with SMTP id
+ 6192722d4db4233966ba7b78 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 15 Nov 2021 14:43:57
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 3D066C4360D; Mon, 15 Nov 2021 14:43:57 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-5.2 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+ NICE_REPLY_A,SPF_FAIL,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+ version=3.4.0
+Received: from [192.168.1.5] (unknown [59.89.226.177])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: akhilpo)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 795E8C43460;
+ Mon, 15 Nov 2021 14:43:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.codeaurora.org 795E8C43460
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=fail smtp.mailfrom=codeaurora.org
+Message-ID: <36c9f669-c2d2-8a63-db96-31165caeeffb@codeaurora.org>
+Date: Mon, 15 Nov 2021 20:13:47 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211115141925.60164-1-paul@crapouillou.net>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.1
+Subject: Re: [PATCH 2/2] drm/msm: Restore error return on invalid fence
+Content-Language: en-US
+To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
+References: <20211111192457.747899-1-robdclark@gmail.com>
+ <20211111192457.747899-3-robdclark@gmail.com>
+From: Akhil P Oommen <akhilpo@codeaurora.org>
+In-Reply-To: <20211111192457.747899-3-robdclark@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,108 +72,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Michael Hennerich <Michael.Hennerich@analog.com>, linux-iio@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, Alexandru Ardelean <ardeleanalex@gmail.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Jonathan Cameron <jic23@kernel.org>, linux-media@vger.kernel.org
+Cc: Rob Clark <robdclark@chromium.org>, freedreno@lists.freedesktop.org,
+ David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ open list <linux-kernel@vger.kernel.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Sean Paul <sean@poorly.run>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Nov 15, 2021 at 02:19:10PM +0000, Paul Cercueil wrote:
-> Hi Jonathan,
+On 11/12/2021 12:54 AM, Rob Clark wrote:
+> From: Rob Clark <robdclark@chromium.org>
 > 
-> This patchset introduces a new userspace interface based on DMABUF
-> objects, to complement the existing fileio based API.
+> When converting to use an idr to map userspace fence seqno values back
+> to a dma_fence, we lost the error return when userspace passes seqno
+> that is larger than the last submitted fence.  Restore this check.
 > 
-> The advantage of this DMABUF based interface vs. the fileio
-> interface, is that it avoids an extra copy of the data between the
-> kernel and userspace. This is particularly userful for high-speed
-> devices which produce several megabytes or even gigabytes of data per
-> second.
+> Reported-by: Akhil P Oommen <akhilpo@codeaurora.org>
+> Fixes: a61acbbe9cf8 ("drm/msm: Track "seqno" fences by idr")
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> ---
+> Note: I will rebase "drm/msm: Handle fence rollover" on top of this,
+> to simplify backporting this patch to stable kernels
 > 
-> The first few patches [01/15] to [03/15] are not really related, but
-> allow to reduce the size of the patches that introduce the new API.
+>   drivers/gpu/drm/msm/msm_drv.c        | 6 ++++++
+>   drivers/gpu/drm/msm/msm_gem_submit.c | 1 +
+>   drivers/gpu/drm/msm/msm_gpu.h        | 3 +++
+>   3 files changed, 10 insertions(+)
 > 
-> Patch [04/15] to [06/15] enables write() support to the buffer-dma
-> implementation of the buffer API, to continue the work done by
-> Mihail Chindris.
-> 
-> Patches [07/15] to [12/15] introduce the new DMABUF based API.
-> 
-> Patches [13/15] and [14/15] add support for cyclic buffers, only through
-> the new API. A cyclic buffer will be repeated on the output until the
-> buffer is disabled.
-> 
-> Patch [15/15] adds documentation about the new API.
-> 
-> For now, the API allows you to alloc DMABUF objects and mmap() them to
-> read or write the samples. It does not yet allow to import DMABUFs
-> parented to other subsystems, but that should eventually be possible
-> once it's wired.
-> 
-> This patchset is inspired by the "mmap interface" that was previously
-> submitted by Alexandru Ardelean and Lars-Peter Clausen, so it would be
-> great if I could get a review from you guys. Alexandru's commit was
-> signed with his @analog.com address but he doesn't work at ADI anymore,
-> so I believe I'll need him to sign with a new email.
+> diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+> index cb14d997c174..56500eb5219e 100644
+> --- a/drivers/gpu/drm/msm/msm_drv.c
+> +++ b/drivers/gpu/drm/msm/msm_drv.c
+> @@ -967,6 +967,12 @@ static int wait_fence(struct msm_gpu_submitqueue *queue, uint32_t fence_id,
+>   	struct dma_fence *fence;
+>   	int ret;
+>   
+> +	if (fence_id > queue->last_fence) {
 
-Why dma-buf? dma-buf looks like something super generic and useful, until
-you realize that there's a metric ton of gpu/accelerator bagage piled in.
-So unless buffer sharing with a gpu/video/accel/whatever device is the
-goal here, and it's just for a convenient way to get at buffer handles,
-this doesn't sound like a good idea.
+But fence_id can wrap around and then this check won't be valid.
 
-Also if the idea is to this with gpus/accelerators then I'd really like to
-see the full thing, since most likely at that point you also want
-dma_fence. And once we talk dma_fence things get truly horrible from a
-locking pov :-( Or well, just highly constrained and I get to review what
-iio is doing with these buffers to make sure it all fits.
+-Akhil.
 
-Cheers, Daniel
-
-> 
-> Cheers,
-> -Paul
-> 
-> Alexandru Ardelean (1):
->   iio: buffer-dma: split iio_dma_buffer_fileio_free() function
-> 
-> Paul Cercueil (14):
->   iio: buffer-dma: Get rid of incoming/outgoing queues
->   iio: buffer-dma: Remove unused iio_buffer_block struct
->   iio: buffer-dma: Use round_down() instead of rounddown()
->   iio: buffer-dma: Enable buffer write support
->   iio: buffer-dmaengine: Support specifying buffer direction
->   iio: buffer-dmaengine: Enable write support
->   iio: core: Add new DMABUF interface infrastructure
->   iio: buffer-dma: Use DMABUFs instead of custom solution
->   iio: buffer-dma: Implement new DMABUF based userspace API
->   iio: buffer-dma: Boost performance using write-combine cache setting
->   iio: buffer-dmaengine: Support new DMABUF based userspace API
->   iio: core: Add support for cyclic buffers
->   iio: buffer-dmaengine: Add support for cyclic buffers
->   Documentation: iio: Document high-speed DMABUF based API
-> 
->  Documentation/driver-api/dma-buf.rst          |   2 +
->  Documentation/iio/dmabuf_api.rst              |  94 +++
->  Documentation/iio/index.rst                   |   2 +
->  drivers/iio/adc/adi-axi-adc.c                 |   3 +-
->  drivers/iio/buffer/industrialio-buffer-dma.c  | 670 ++++++++++++++----
->  .../buffer/industrialio-buffer-dmaengine.c    |  42 +-
->  drivers/iio/industrialio-buffer.c             |  49 ++
->  include/linux/iio/buffer-dma.h                |  43 +-
->  include/linux/iio/buffer-dmaengine.h          |   5 +-
->  include/linux/iio/buffer_impl.h               |   8 +
->  include/uapi/linux/iio/buffer.h               |  30 +
->  11 files changed, 783 insertions(+), 165 deletions(-)
->  create mode 100644 Documentation/iio/dmabuf_api.rst
-> 
-> -- 
-> 2.33.0
+> +		DRM_ERROR_RATELIMITED("waiting on invalid fence: %u (of %u)\n",
+> +				      fence_id, queue->last_fence);
+> +		return -EINVAL;
+> +	}
+> +
+>   	/*
+>   	 * Map submitqueue scoped "seqno" (which is actually an idr key)
+>   	 * back to underlying dma-fence
+> diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
+> index 151d19e4453c..a38f23be497d 100644
+> --- a/drivers/gpu/drm/msm/msm_gem_submit.c
+> +++ b/drivers/gpu/drm/msm/msm_gem_submit.c
+> @@ -911,6 +911,7 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
+>   	drm_sched_entity_push_job(&submit->base, queue->entity);
+>   
+>   	args->fence = submit->fence_id;
+> +	queue->last_fence = submit->fence_id;
+>   
+>   	msm_reset_syncobjs(syncobjs_to_reset, args->nr_in_syncobjs);
+>   	msm_process_post_deps(post_deps, args->nr_out_syncobjs,
+> diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gpu.h
+> index bd4e0024033e..e73a5bb03544 100644
+> --- a/drivers/gpu/drm/msm/msm_gpu.h
+> +++ b/drivers/gpu/drm/msm/msm_gpu.h
+> @@ -376,6 +376,8 @@ static inline int msm_gpu_convert_priority(struct msm_gpu *gpu, int prio,
+>    * @ring_nr:   the ringbuffer used by this submitqueue, which is determined
+>    *             by the submitqueue's priority
+>    * @faults:    the number of GPU hangs associated with this submitqueue
+> + * @last_fence: the sequence number of the last allocated fence (for error
+> + *             checking)
+>    * @ctx:       the per-drm_file context associated with the submitqueue (ie.
+>    *             which set of pgtables do submits jobs associated with the
+>    *             submitqueue use)
+> @@ -391,6 +393,7 @@ struct msm_gpu_submitqueue {
+>   	u32 flags;
+>   	u32 ring_nr;
+>   	int faults;
+> +	uint32_t last_fence;
+>   	struct msm_file_private *ctx;
+>   	struct list_head node;
+>   	struct idr fence_idr;
 > 
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
