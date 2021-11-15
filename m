@@ -1,43 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A64D7450393
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 12:36:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 10FB44503A1
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 12:38:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8262E6E90E;
-	Mon, 15 Nov 2021 11:35:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 35E806E92B;
+	Mon, 15 Nov 2021 11:38:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7CDCC6E90E
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 11:35:57 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10168"; a="213457567"
-X-IronPort-AV: E=Sophos;i="5.87,236,1631602800"; d="scan'208";a="213457567"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Nov 2021 03:35:57 -0800
-X-IronPort-AV: E=Sophos;i="5.87,236,1631602800"; d="scan'208";a="505887119"
-Received: from smile.fi.intel.com ([10.237.72.184])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Nov 2021 03:35:55 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.95)
- (envelope-from <andy.shevchenko@gmail.com>) id 1mmaH5-0072mi-3s;
- Mon, 15 Nov 2021 13:35:47 +0200
-Date: Mon, 15 Nov 2021 13:35:46 +0200
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v1 1/1] drm: Replace kernel.h with the necessary inclusions
-Message-ID: <YZJGEi6Qqh1aGCxa@smile.fi.intel.com>
-References: <20211110102423.54282-1-andriy.shevchenko@linux.intel.com>
- <887a15cb-3a3b-4ba2-aa0f-a241e70a19fa@suse.de>
- <CAHp75VdY57xQBLN8vT3RdagQx=4kLx69qAyuzLwqTvNGC2xUbQ@mail.gmail.com>
- <d536e7d2-891e-e0a8-6abc-6694987a65f7@suse.de>
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com
+ [IPv6:2a00:1450:4864:20::433])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C26B16E92B
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 11:38:36 +0000 (UTC)
+Received: by mail-wr1-x433.google.com with SMTP id d5so30070203wrc.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 03:38:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=wECB8Odve8M6ApPsX4FLwbNORmpbNOWeDrC7D87THPA=;
+ b=rOOD66sAr/gPFYySdX4jAJtAumwH55agqU6FjPjdq8n4+DSmmNDGMEmEWZN+hGOVSI
+ QOHilEQiPItA50fpVuibDmmTJGF7LWoNb2EbWMvmOmSd1fwq/JL1C0QWywTh+cl8QsTJ
+ xkxfdW5N7uImM2zDiI/6ceqCUpW6GQ27k9L07rcpPuLIi6UShpKMXc+X158QtepT9XGs
+ i221RT2e+gtwzrz9y+iAf7vDROEqLxb6DZv488TVtm+vn87lu9vIFFeagdhc13cYnGG6
+ qG4jhR3m4vMZm1ksTO2sHAB2gyHZG8aD6e85FZxzb3QM4R5iNL8skSEo960u4mfY2UAw
+ y+uA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=wECB8Odve8M6ApPsX4FLwbNORmpbNOWeDrC7D87THPA=;
+ b=CqyGbrbYbDqcMasL6wPRnlEVRciGBKM52Jjcavz5TgIvPAeHu7kVMSr0c2j4JpM0IA
+ n/SY6+v/R9DJ6orr1n9oxO9eepAn2w02Ix+XsodTU5qyCYkEq8Y+HIR2SamDb9DtCfKA
+ 47Ygi6Ws07BM1jExO19PLUcxeq2ZlcwcF6lHVlxY7ImIULL+iGKWm1mlS70WcWeu55un
+ Rvw9NVRgbw8I8+HJLs/A+V2e4OrSC4n8UmDoQEu7csjHPF2u4IziJw24M9paaPwZbXki
+ 9hmGD+Stkt8Gldvg9ShPnTilaIr7ISQV1klFyPy1DOUWXCHcqX15q42c03MpeS3vJWd9
+ EJ3Q==
+X-Gm-Message-State: AOAM533r1GP2RZpG6v/CX6HBIwQBib2x1X8YFj9f3WROiBE1Ugn/lUNX
+ F0vHY1jaBHF9Gy/Iux44fkibrQ==
+X-Google-Smtp-Source: ABdhPJxblwpG4OXJ/jt54vhrD7w5/uHn5GsBdY4QtO/lT+xZrnupLotEmBZoHheg2Ad1pFFf1hX43g==
+X-Received: by 2002:adf:e9c5:: with SMTP id l5mr44846230wrn.218.1636976315312; 
+ Mon, 15 Nov 2021 03:38:35 -0800 (PST)
+Received: from maple.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net.
+ [80.7.220.175])
+ by smtp.gmail.com with ESMTPSA id f7sm16119643wri.74.2021.11.15.03.38.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 15 Nov 2021 03:38:34 -0800 (PST)
+Date: Mon, 15 Nov 2021 11:38:32 +0000
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH] backlight: ili922x: fix kernel-doc warnings & notation
+Message-ID: <20211115113832.rsdx3ziuujrobwxx@maple.lan>
+References: <20211115033925.22024-1-rdunlap@infradead.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <d536e7d2-891e-e0a8-6abc-6694987a65f7@suse.de>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <20211115033925.22024-1-rdunlap@infradead.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,44 +68,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: kernel test robot <lkp@intel.com>, Jingoo Han <jingoohan1@gmail.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Anatolij Gustschin <agust@denx.de>, Lee Jones <lee.jones@linaro.org>,
+ Stefano Babic <sbabic@denx.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Nov 10, 2021 at 05:39:33PM +0100, Thomas Zimmermann wrote:
-> Am 10.11.21 um 17:34 schrieb Andy Shevchenko:
-> > On Wed, Nov 10, 2021 at 3:55 PM Thomas Zimmermann <tzimmermann@suse.de> wrote:
-> > > Am 10.11.21 um 11:24 schrieb Andy Shevchenko:
-
-...
-
-> > > > +#include <linux/container_of.h>
-> > > 
-> > > I built this patch on a recent drm-misc-next, but there's no
-> > > linux/container_of.h
-> > 
-> > Thank you for trying. It's in the upstream, whenever drm-misc-next
-> > switches to newer/newest upstream it will be there. I assume it will
-> > happen after v5.16-rc1?
+On Sun, Nov 14, 2021 at 07:39:25PM -0800, Randy Dunlap wrote:
+> Convert function-like macro comments to kernel-doc notation and
+> fix other kernel-doc warnings:
 > 
-> Yes, we'll certainly backmerge soon after rc1 has been released. If I forget
-> to add the patch then, please send a reminder.
+> drivers/video/backlight/ili922x.c:85: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+>     * START_BYTE(id, rs, rw)
+> drivers/video/backlight/ili922x.c:118: warning: expecting prototype for CHECK_FREQ_REG(spi_device s, spi_transfer x)(). Prototype was for CHECK_FREQ_REG() instead
 > 
-> Once the necessary headers are available,
+> ili922x.c:92: warning: contents before sections
+> ili922x.c:150: warning: No description found for return value of 'ili922x_read_status'
+> ili922x.c:193: warning: No description found for return value of 'ili922x_read'
+> ili922x.c:247: warning: No description found for return value of 'ili922x_write'
+> ili922x.c:353: warning: No description found for return value of 'ili922x_poweron'
+> ili922x.c:382: warning: No description found for return value of 'ili922x_poweroff'
+> 
+> Fixes: 4cfbfa971478 ("video: backlight: add ili922x lcd driver")
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Reported-by: kernel test robot <lkp@intel.com>
+> Cc: Lee Jones <lee.jones@linaro.org>
+> Cc: Daniel Thompson <daniel.thompson@linaro.org>
+> Cc: Jingoo Han <jingoohan1@gmail.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: Stefano Babic <sbabic@denx.de>
+> Cc: Anatolij Gustschin <agust@denx.de>
 
-$ git log --oneline v5.16-rc1 -- include/linux/container_of.h
-e1edc277e6f6 linux/container_of.h: switch to static_assert
-d2a8ebbf8192 kernel.h: split out container_of() and typeof_member() macros
-
-> the patch is
-> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-
-Thanks!
-
--- 
-With Best Regards,
-Andy Shevchenko
+Thanks for the fixes. Just a could of quibbles about full
+stops/periods.
 
 
+> ---
+>  drivers/video/backlight/ili922x.c |   29 ++++++++++++++++++----------
+>  1 file changed, 19 insertions(+), 10 deletions(-)
+> 
+> --- linux-next-20211102.orig/drivers/video/backlight/ili922x.c
+> +++ linux-next-20211102/drivers/video/backlight/ili922x.c
+> @@ -82,13 +82,7 @@
+>  #define START_RW_READ		1
+>  
+>  /**
+> - * START_BYTE(id, rs, rw)
+> - *
+> - * Set the start byte according to the required operation.
+> - * The start byte is defined as:
+> - *   ----------------------------------
+> - *  | 0 | 1 | 1 | 1 | 0 | ID | RS | RW |
+> - *   ----------------------------------
+> + * START_BYTE() - Set the start byte according to the required operation
+
+Missing full stop/period.
+
+
+>   * @id: display's id as set by the manufacturer
+>   * @rs: operation type bit, one of:
+>   *	  - START_RS_INDEX	set the index register
+> @@ -96,14 +90,19 @@
+>   * @rw: read/write operation
+>   *	 - START_RW_WRITE	write
+>   *	 - START_RW_READ	read
+> + *
+> + * The start byte is defined as:
+> + *   ----------------------------------
+> + *  | 0 | 1 | 1 | 1 | 0 | ID | RS | RW |
+> + *   ----------------------------------
+>   */
+>  #define START_BYTE(id, rs, rw)	\
+>  	(0x70 | (((id) & 0x01) << 2) | (((rs) & 0x01) << 1) | ((rw) & 0x01))
+>  
+>  /**
+> - * CHECK_FREQ_REG(spi_device s, spi_transfer x) - Check the frequency
+> - *	for the SPI transfer. According to the datasheet, the controller
+> - *	accept higher frequency for the GRAM transfer, but it requires
+> + * CHECK_FREQ_REG() - Check the frequency for the SPI transfer
+> + *	According to the datasheet, the controller
+> + *	accepts higher frequency for the GRAM transfer, but it requires
+
+Also missing the full stop/period in the first sentence of the summary.
+
+Note that here the missing full stop does not benefit from a new line to
+conceal it and we will generate bad text as a result.
+
+  Check the frequency for the SPI transfer According to the data
+  sheet, the controller accepts...
+
+
+Daniel.
