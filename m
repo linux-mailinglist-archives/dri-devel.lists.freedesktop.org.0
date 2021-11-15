@@ -1,39 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 623A44503D8
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 12:53:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7994C450436
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 13:13:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7936E6E9A8;
-	Mon, 15 Nov 2021 11:53:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 488E66E9BA;
+	Mon, 15 Nov 2021 12:13:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD9566E9A8;
- Mon, 15 Nov 2021 11:53:32 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10168"; a="213459181"
-X-IronPort-AV: E=Sophos;i="5.87,236,1631602800"; d="scan'208";a="213459181"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Nov 2021 03:53:32 -0800
-X-IronPort-AV: E=Sophos;i="5.87,236,1631602800"; d="scan'208";a="671477488"
-Received: from csrini4x-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.251.218.37])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Nov 2021 03:53:30 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 3/3] agp/intel-gtt: reduce intel-gtt dependencies more
-Date: Mon, 15 Nov 2021 13:53:13 +0200
-Message-Id: <7bcaa1684587b9b008d3c41468fb40e63c54fbc7.1636977089.git.jani.nikula@intel.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <cover.1636977089.git.jani.nikula@intel.com>
-References: <cover.1636977089.git.jani.nikula@intel.com>
+Received: from www381.your-server.de (www381.your-server.de [78.46.137.84])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A4226E9BA
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 12:13:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=metafoo.de; 
+ s=default2002;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
+ MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID;
+ bh=toF67llO+BAwsdq0Ra1tOzp5njbcpYDZtx+Ajrw2D5M=; b=Fdhydmz9sHTMX39b4OR+PnWK29
+ ollzQvnmIQR6UYtKJJv+pdNenKDhmJoe1m+AZz1r/UzmBuh/s/zyEVT/qUSOAY+AepfailB3KakGl
+ nzMJPMS8YSL/mnxq67rqUJ7DGip2AxA33Vlw4H7McDxqIsQkCuDgzYTS3PpC3S4JeCR7BBcBbUbNI
+ zMk0Qwr7AHYBGE7YmvvEhxReJcSjOojKOUKKRtntZ7OnV/zed4/BbkqMvJs3SZ7PDbAEwJGvaYuyr
+ n93yvvpN0QrMdCXLyiVSv13S7LoWnUnb5JznQFPOzPr8bw/l91uSL6xCRsqIjm0Tb3QDvxbpszYjo
+ WFHKC7mA==;
+Received: from sslproxy05.your-server.de ([78.46.172.2])
+ by www381.your-server.de with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
+ (Exim 4.92.3) (envelope-from <lars@metafoo.de>)
+ id 1mmaYO-000B0u-Vm; Mon, 15 Nov 2021 12:53:41 +0100
+Received: from [82.135.83.112] (helo=[192.168.178.20])
+ by sslproxy05.your-server.de with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
+ (Exim 4.92) (envelope-from <lars@metafoo.de>)
+ id 1mmaYO-000AKe-8G; Mon, 15 Nov 2021 12:53:40 +0100
+Subject: Re: [PATCH 01/11] ASoC: dai_dma: remove slave_id field
+To: Arnd Bergmann <arnd@kernel.org>
+References: <20211115085403.360194-1-arnd@kernel.org>
+ <20211115085403.360194-2-arnd@kernel.org>
+ <647b842d-76a1-7a96-3ea7-8a37b62bc18e@metafoo.de>
+ <CAK8P3a2EVseM4t=e982fFhzBGSZxZ2_V-FHwr-fQPd-bkAKaJg@mail.gmail.com>
+From: Lars-Peter Clausen <lars@metafoo.de>
+Message-ID: <d2dd42fc-e58a-0c06-7f7e-a6a2161c368d@metafoo.de>
+Date: Mon, 15 Nov 2021 12:53:39 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAK8P3a2EVseM4t=e982fFhzBGSZxZ2_V-FHwr-fQPd-bkAKaJg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Authenticated-Sender: lars@metafoo.de
+X-Virus-Scanned: Clear (ClamAV 0.103.3/26354/Mon Nov 15 10:21:07 2021)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,62 +62,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jani.nikula@intel.com, Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- dri-devel@lists.freedesktop.org
+Cc: ALSA Development Mailing List <alsa-devel@alsa-project.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ "open list:TEGRA ARCHITECTURE SUPPORT" <linux-tegra@vger.kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ linux-mtd <linux-mtd@lists.infradead.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ linux-spi <linux-spi@vger.kernel.org>, Robert Jarzmik <robert.jarzmik@free.fr>,
+ Chunyan Zhang <zhang.lyra@gmail.com>, linux-staging@lists.linux.dev,
+ Michal Simek <michal.simek@xilinx.com>, Jon Hunter <jonathanh@nvidia.com>,
+ Andy Gross <agross@kernel.org>,
+ bcm-kernel-feedback-list <bcm-kernel-feedback-list@broadcom.com>,
+ "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
+ Orson Zhai <orsonzhai@gmail.com>, Nicolas Saenz Julienne <nsaenz@kernel.org>,
+ Arnd Bergmann <arnd@arndb.de>, Manivannan Sadhasivam <mani@kernel.org>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>, dmaengine@vger.kernel.org,
+ Mark Brown <broonie@kernel.org>,
+ "moderated list:BROADCOM BCM2835 ARM ARCHITECTURE"
+ <linux-rpi-kernel@lists.infradead.org>, Jaroslav Kysela <perex@perex.cz>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Scott Branden <sbranden@broadcom.com>, Hyun Kwon <hyun.kwon@xilinx.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-mmc <linux-mmc@vger.kernel.org>, Takashi Iwai <tiwai@suse.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Vinod Koul <vkoul@kernel.org>, Laxman Dewangan <ldewangan@nvidia.com>,
+ Baolin Wang <baolin.wang7@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Don't include stuff on behalf of users if they're not strictly necessary
-for the header.
+On 11/15/21 11:42 AM, Arnd Bergmann wrote:
+> On Mon, Nov 15, 2021 at 11:14 AM Lars-Peter Clausen <lars@metafoo.de> wrote:
+>> On 11/15/21 9:53 AM, Arnd Bergmann wrote:
+>>> From: Arnd Bergmann <arnd@arndb.de>
+>>>
+>>> This field is never set, and serves no purpose, so remove it.
+>> I agree that we should remove it. Its been legacy support code for a
+>> while, but the description that there is no user is not right.
+>>
+>> The tegra20_spdif driver obviously uses it and that user is removed in
+>> this patch. I think it makes sense to split that out into a separate
+>> patch with a description why the driver will still work even with
+>> slave_id removed. Maybe the best is to remove the whole tegra20_spdif
+>> driver.
+> Ok, I'll split out the tegra patch and try to come up with a better
+> description for it. What I saw in that driver is it just passes down the
+> slave_id number from a 'struct resource', but there is nothing in
+> the kernel that sets up this resource.
+>
+> Do you or someone else have more information on the state of this
+> driver? I can see that it does not contain any of_device_id based
+> probing, so it seems that this is either dead code, the platform_device
+> gets created by some other code that is no longer compatible with
+> this driver.
 
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Signed-off-by: Jani Nikula <jani.nikula@intel.com>
----
- drivers/char/agp/intel-gtt.c         | 1 +
- drivers/gpu/drm/i915/gt/intel_ggtt.c | 1 +
- include/drm/intel-gtt.h              | 3 +--
- 3 files changed, 3 insertions(+), 2 deletions(-)
+I've looked into this a while back, when I tried to remove slave_id. And 
+as far as I can tell there were never any in-tree users of this driver, 
+even back when we used platform board files. Maybe somebody from Nvidia 
+knows if there are out-of-tree users.
 
-diff --git a/drivers/char/agp/intel-gtt.c b/drivers/char/agp/intel-gtt.c
-index 5bfdf222d5f9..c53cc9868cd8 100644
---- a/drivers/char/agp/intel-gtt.c
-+++ b/drivers/char/agp/intel-gtt.c
-@@ -20,6 +20,7 @@
- #include <linux/kernel.h>
- #include <linux/pagemap.h>
- #include <linux/agp_backend.h>
-+#include <linux/intel-iommu.h>
- #include <linux/delay.h>
- #include <asm/smp.h>
- #include "agp.h"
-diff --git a/drivers/gpu/drm/i915/gt/intel_ggtt.c b/drivers/gpu/drm/i915/gt/intel_ggtt.c
-index 0c956e5e7fc7..555111c3bee5 100644
---- a/drivers/gpu/drm/i915/gt/intel_ggtt.c
-+++ b/drivers/gpu/drm/i915/gt/intel_ggtt.c
-@@ -3,6 +3,7 @@
-  * Copyright © 2020 Intel Corporation
-  */
- 
-+#include <linux/agp_backend.h>
- #include <linux/stop_machine.h>
- 
- #include <asm/set_memory.h>
-diff --git a/include/drm/intel-gtt.h b/include/drm/intel-gtt.h
-index 4e5f8e7e25d0..67530bfef129 100644
---- a/include/drm/intel-gtt.h
-+++ b/include/drm/intel-gtt.h
-@@ -4,10 +4,9 @@
- #ifndef _DRM_INTEL_GTT_H
- #define	_DRM_INTEL_GTT_H
- 
--#include <linux/agp_backend.h>
--#include <linux/intel-iommu.h>
- #include <linux/types.h>
- 
-+struct agp_bridge_data;
- struct pci_dev;
- struct sg_table;
- 
--- 
-2.30.2
+- Lars
 
