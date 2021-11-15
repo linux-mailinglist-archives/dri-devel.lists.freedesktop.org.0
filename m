@@ -1,25 +1,25 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32FEE4506AD
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 15:22:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1983B4506AE
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 15:23:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 153716EE05;
-	Mon, 15 Nov 2021 14:22:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 58AB66E40A;
+	Mon, 15 Nov 2021 14:22:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D3F7F6EE05
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 14:22:50 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 800BA6E40A
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 14:22:57 +0000 (UTC)
 From: Paul Cercueil <paul@crapouillou.net>
 To: Jonathan Cameron <jic23@kernel.org>
-Subject: [PATCH 12/15] iio: buffer-dmaengine: Support new DMABUF based
- userspace API
-Date: Mon, 15 Nov 2021 14:22:40 +0000
-Message-Id: <20211115142243.60605-1-paul@crapouillou.net>
-In-Reply-To: <20211115141925.60164-1-paul@crapouillou.net>
+Subject: [PATCH 13/15] iio: core: Add support for cyclic buffers
+Date: Mon, 15 Nov 2021 14:22:41 +0000
+Message-Id: <20211115142243.60605-2-paul@crapouillou.net>
+In-Reply-To: <20211115142243.60605-1-paul@crapouillou.net>
 References: <20211115141925.60164-1-paul@crapouillou.net>
+ <20211115142243.60605-1-paul@crapouillou.net>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -43,28 +43,48 @@ Cc: Paul Cercueil <paul@crapouillou.net>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use the functions provided by the buffer-dma core to implement the
-DMABUF userspace API in the buffer-dmaengine IIO buffer implementation.
+Introduce a new flag IIO_BUFFER_DMABUF_CYCLIC in the "flags" field of
+the iio_dmabuf uapi structure.
+
+When set, the DMABUF enqueued with the enqueue ioctl will be endlessly
+repeated on the TX output, until the buffer is disabled.
 
 Signed-off-by: Paul Cercueil <paul@crapouillou.net>
 ---
- drivers/iio/buffer/industrialio-buffer-dmaengine.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/iio/industrialio-buffer.c | 5 +++++
+ include/uapi/linux/iio/buffer.h   | 3 ++-
+ 2 files changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/iio/buffer/industrialio-buffer-dmaengine.c b/drivers/iio/buffer/industrialio-buffer-dmaengine.c
-index 5cde8fd81c7f..57a8b2e4ba3c 100644
---- a/drivers/iio/buffer/industrialio-buffer-dmaengine.c
-+++ b/drivers/iio/buffer/industrialio-buffer-dmaengine.c
-@@ -133,6 +133,9 @@ static const struct iio_buffer_access_funcs iio_dmaengine_buffer_ops = {
- 	.space_available = iio_dma_buffer_space_available,
- 	.release = iio_dmaengine_buffer_release,
+diff --git a/drivers/iio/industrialio-buffer.c b/drivers/iio/industrialio-buffer.c
+index 30910e6c2346..41bc51c88002 100644
+--- a/drivers/iio/industrialio-buffer.c
++++ b/drivers/iio/industrialio-buffer.c
+@@ -1600,6 +1600,11 @@ static int iio_buffer_enqueue_dmabuf(struct iio_buffer *buffer,
+ 	if (dmabuf.flags & ~IIO_BUFFER_DMABUF_SUPPORTED_FLAGS)
+ 		return -EINVAL;
  
-+	.alloc_dmabuf = iio_dma_buffer_alloc_dmabuf,
-+	.enqueue_dmabuf = iio_dma_buffer_enqueue_dmabuf,
++	/* Cyclic flag is only supported on output buffers */
++	if ((dmabuf.flags & IIO_BUFFER_DMABUF_CYCLIC) &&
++	    buffer->direction != IIO_BUFFER_DIRECTION_OUT)
++		return -EINVAL;
 +
- 	.modes = INDIO_BUFFER_HARDWARE,
- 	.flags = INDIO_BUFFER_FLAG_FIXED_WATERMARK,
- };
+ 	return buffer->access->enqueue_dmabuf(buffer, &dmabuf);
+ }
+ 
+diff --git a/include/uapi/linux/iio/buffer.h b/include/uapi/linux/iio/buffer.h
+index e4621b926262..2d541d038c02 100644
+--- a/include/uapi/linux/iio/buffer.h
++++ b/include/uapi/linux/iio/buffer.h
+@@ -7,7 +7,8 @@
+ 
+ #include <linux/types.h>
+ 
+-#define IIO_BUFFER_DMABUF_SUPPORTED_FLAGS	0x00000000
++#define IIO_BUFFER_DMABUF_CYCLIC		(1 << 0)
++#define IIO_BUFFER_DMABUF_SUPPORTED_FLAGS	0x00000001
+ 
+ /**
+  * struct iio_dmabuf_alloc_req - Descriptor for allocating IIO DMABUFs
 -- 
 2.33.0
 
