@@ -1,26 +1,26 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CA4845119E
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 20:09:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C3AA4511C2
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 20:11:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B6E9B6E079;
-	Mon, 15 Nov 2021 19:09:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 870C76E570;
+	Mon, 15 Nov 2021 19:11:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7828D6E079
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 19:09:23 +0000 (UTC)
-Date: Mon, 15 Nov 2021 19:09:07 +0000
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F157E6E570
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 19:11:53 +0000 (UTC)
+Date: Mon, 15 Nov 2021 19:11:39 +0000
 From: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH v6 1/8] drm/ingenic: prepare ingenic drm for later
- addition of JZ4780
+Subject: Re: [PATCH v6 5/8] MIPS: DTS: jz4780: Account for Synopsys HDMI
+ driver and LCD controllers
 To: "H. Nikolaus Schaller" <hns@goldelico.com>
-Message-Id: <7VNM2R.1CHJIFHQDLSS@crapouillou.net>
-In-Reply-To: <122791473d61add6992310cec267ffde2607a2df.1636573413.git.hns@goldelico.com>
+Message-Id: <FZNM2R.PEN9N8R45O3F2@crapouillou.net>
+In-Reply-To: <c9f9fc1d5b796b7a78e7e27849abb435c6bcbc43.1636573413.git.hns@goldelico.com>
 References: <cover.1636573413.git.hns@goldelico.com>
- <122791473d61add6992310cec267ffde2607a2df.1636573413.git.hns@goldelico.com>
+ <c9f9fc1d5b796b7a78e7e27849abb435c6bcbc43.1636573413.git.hns@goldelico.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1; format=flowed
 Content-Transfer-Encoding: quoted-printable
@@ -56,76 +56,84 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi Nikolaus,
 
-I will look at the patches in depth in the coming days.
-
-
-Le mer., nov. 10 2021 at 20:43:26 +0100, H. Nikolaus Schaller=20
+Le mer., nov. 10 2021 at 20:43:30 +0100, H. Nikolaus Schaller=20
 <hns@goldelico.com> a =E9crit :
-> This changes the way the regmap is allocated to prepare for the
-> later addition of the JZ4780 which has more registers and bits
-> than the others.
+> From: Paul Boddie <paul@boddie.org.uk>
 >=20
-> Therefore we make the regmap as big as the reg property in
-> the device tree tells.
+> A specialisation of the generic Synopsys HDMI driver is employed for=20
+> JZ4780
+> HDMI support. This requires a new driver, plus device tree and=20
+> configuration
+> modifications.
 >=20
-> Suggested-by: Paul Cercueil <paul@crapouillou.net>
+> Signed-off-by: Paul Boddie <paul@boddie.org.uk>
 > Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
 > ---
->  drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 9 ++++++---
->  1 file changed, 6 insertions(+), 3 deletions(-)
+>  arch/mips/boot/dts/ingenic/jz4780.dtsi | 40=20
+> ++++++++++++++++++++++++++
+>  1 file changed, 40 insertions(+)
 >=20
-> diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c=20
-> b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-> index 462bc0f35f1bf..4abfe5b094174 100644
-> --- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-> +++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-> @@ -173,7 +173,6 @@ static const struct regmap_config=20
-> ingenic_drm_regmap_config =3D {
->  	.val_bits =3D 32,
->  	.reg_stride =3D 4,
+> diff --git a/arch/mips/boot/dts/ingenic/jz4780.dtsi=20
+> b/arch/mips/boot/dts/ingenic/jz4780.dtsi
+> index 9e34f433b9b58..98cc3360bbbb9 100644
+> --- a/arch/mips/boot/dts/ingenic/jz4780.dtsi
+> +++ b/arch/mips/boot/dts/ingenic/jz4780.dtsi
+> @@ -424,6 +424,46 @@ i2c4: i2c@10054000 {
+>  		status =3D "disabled";
+>  	};
 >=20
-> -	.max_register =3D JZ_REG_LCD_SIZE1,
->  	.writeable_reg =3D ingenic_drm_writeable_reg,
->  };
->=20
-> @@ -1011,6 +1010,8 @@ static int ingenic_drm_bind(struct device *dev,=20
-> bool has_components)
->  	struct ingenic_drm_bridge *ib;
->  	struct drm_device *drm;
->  	void __iomem *base;
-> +	struct resource *res;
-> +	struct regmap_config regmap_config;
->  	long parent_rate;
->  	unsigned int i, clone_mask =3D 0;
->  	int ret, irq;
-> @@ -1056,14 +1057,16 @@ static int ingenic_drm_bind(struct device=20
-> *dev, bool has_components)
->  	drm->mode_config.funcs =3D &ingenic_drm_mode_config_funcs;
->  	drm->mode_config.helper_private =3D &ingenic_drm_mode_config_helpers;
->=20
-> -	base =3D devm_platform_ioremap_resource(pdev, 0);
-> +	base =3D devm_platform_get_and_ioremap_resource(pdev, 0, &res);
->  	if (IS_ERR(base)) {
->  		dev_err(dev, "Failed to get memory resource\n");
->  		return PTR_ERR(base);
->  	}
->=20
-> +	regmap_config =3D ingenic_drm_regmap_config;
-> +	regmap_config.max_register =3D res->end - res->start - 4;
+> +	hdmi: hdmi@10180000 {
+> +		compatible =3D "ingenic,jz4780-dw-hdmi";
+> +		reg =3D <0x10180000 0x8000>;
+> +		reg-io-width =3D <4>;
+> +
+> +		clocks =3D <&cgu JZ4780_CLK_AHB0>, <&cgu JZ4780_CLK_HDMI>;
+> +		clock-names =3D "iahb", "isfr";
+> +
+> +		interrupt-parent =3D <&intc>;
+> +		interrupts =3D <3>;
+> +
+> +		status =3D "disabled";
+> +	};
+> +
+> +	lcdc0: lcdc0@13050000 {
+> +		compatible =3D "ingenic,jz4780-lcd";
+> +		reg =3D <0x13050000 0x1800>;
+> +
+> +		clocks =3D <&cgu JZ4780_CLK_TVE>, <&cgu JZ4780_CLK_LCD0PIXCLK>;
+> +		clock-names =3D "lcd", "lcd_pclk";
+> +
+> +		interrupt-parent =3D <&intc>;
+> +		interrupts =3D <31>;
+> +
+> +		status =3D "disabled";
+> +	};
+> +
+> +	lcdc1: lcdc1@130a0000 {
+> +		compatible =3D "ingenic,jz4780-lcd";
+> +		reg =3D <0x130a0000 0x1800>;
+> +
+> +		clocks =3D <&cgu JZ4780_CLK_TVE>, <&cgu JZ4780_CLK_LCD1PIXCLK>;
+> +		clock-names =3D "lcd", "lcd_pclk";
+> +
+> +		interrupt-parent =3D <&intc>;
+> +		interrupts =3D <31>;
 
-Just a quick feedback here: I just tested and it's actually just=20
-(res->end - res->start), otherwise the last register of the memory area=20
-set in DT is inaccessible.
+You have the two LCD controllers wired to the same interrupt, that=20
+can't be right.
+
+ From what I can read in the PM the LCD1 IRQ is number 23.
 
 Cheers,
 -Paul
 
->  	priv->map =3D devm_regmap_init_mmio(dev, base,
-> -					  &ingenic_drm_regmap_config);
-> +					  &regmap_config);
->  	if (IS_ERR(priv->map)) {
->  		dev_err(dev, "Failed to create regmap\n");
->  		return PTR_ERR(priv->map);
+> +
+> +		status =3D "disabled";
+> +	};
+> +
+>  	nemc: nemc@13410000 {
+>  		compatible =3D "ingenic,jz4780-nemc", "simple-mfd";
+>  		reg =3D <0x13410000 0x10000>;
 > --
 > 2.33.0
 >=20
