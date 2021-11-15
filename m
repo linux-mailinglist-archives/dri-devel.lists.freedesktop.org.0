@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D66664500DC
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 10:10:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 048C14500F0
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 10:14:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 860AD6EC7D;
-	Mon, 15 Nov 2021 09:10:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 609A36E453;
+	Mon, 15 Nov 2021 09:14:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 788066EC7D
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 09:10:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E63776E453
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 09:14:40 +0000 (UTC)
 Received: from pendragon.ideasonboard.com
  (117.145-247-81.adsl-dyn.isp.belgacom.be [81.247.145.117])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2837F9CA;
- Mon, 15 Nov 2021 10:10:17 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 68509D3E;
+ Mon, 15 Nov 2021 10:14:39 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1636967417;
- bh=bs5FwrGJKmZiUyJUhZtsFFkCbThCR2+MNX7sYGLdInI=;
+ s=mail; t=1636967679;
+ bh=Mqu9AjHOXNqVwePLKX9nbSoWI9lixf+/xad48n+NCXQ=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=dnjNnE+BxQubVBzyvt35tp9eSPunAc+NOuowzVjMVfnO6jqLw3nMEngEl53CjbMh0
- UYxBQSy9hDC4AXM+j7bivGr1bDYL75caLR3Kpvgip4jQNeMxX1tvkF1//Xh3honHLn
- XZyCAuT51XsudJZ+zXrp60OeLJ0gprUub8NgbGw0=
-Date: Mon, 15 Nov 2021 11:09:54 +0200
+ b=KmpIYw6iL+QGg/jQfPaAXjxBhbT8ed5+LXpS9Vfki8On0XIjUU+Fxa8QV1Z77Uq7z
+ y6IDsVjB8zbvUKldzAH2W1BEVsA/FZvp6/ibJRVnAxSdL6j4sHfh4FyJeHP6WjIk0w
+ BufJuEgiIHtwCFssoB38BxxBci3DM0+P7P/jbs7w=
+Date: Mon, 15 Nov 2021 11:14:17 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Arnd Bergmann <arnd@kernel.org>
-Subject: Re: [PATCH 04/11] dmaengine: shdma: remove legacy slave_id parsing
-Message-ID: <YZIj4iKUsj/QQ+BH@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 08/11] dmaengine: xilinx_dpdma: stop using slave_id field
+Message-ID: <YZIk6cVb7XibrMjf@pendragon.ideasonboard.com>
 References: <20211115085403.360194-1-arnd@kernel.org>
- <20211115085403.360194-5-arnd@kernel.org>
+ <20211115085403.360194-9-arnd@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20211115085403.360194-5-arnd@kernel.org>
+In-Reply-To: <20211115085403.360194-9-arnd@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,43 +73,132 @@ Hi Arnd,
 
 Thank you for the patch.
 
-On Mon, Nov 15, 2021 at 09:53:56AM +0100, Arnd Bergmann wrote:
+On Mon, Nov 15, 2021 at 09:54:00AM +0100, Arnd Bergmann wrote:
 > From: Arnd Bergmann <arnd@arndb.de>
 > 
-> The slave device is picked through either devicetree or a filter
-> function, and any remaining out-of-tree drivers would have warned
-> about this usage since 2015.
+> The display driver wants to pass a custom flag to the DMA engine driver,
+> which it started doing by using the slave_id field that was traditionally
+> used for a different purpose.
 > 
-> Stop interpreting the field finally so it can be removed from
-> the interface.
+> As there is no longer a correct use for the slave_id field, it should
+> really be removed, and the remaining users changed over to something
+> different.
+> 
+> The new mechanism for passing nonstandard settings is using the
+> .peripheral_config field, so use that to pass a newly defined structure
+> here, making it clear that this will not work in portable drivers.
 > 
 > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+>  drivers/dma/xilinx/xilinx_dpdma.c  | 12 ++++++++----
+>  drivers/gpu/drm/xlnx/zynqmp_disp.c |  9 +++++++--
+>  include/linux/dma/xilinx_dpdma.h   | 11 +++++++++++
+>  3 files changed, 26 insertions(+), 6 deletions(-)
+>  create mode 100644 include/linux/dma/xilinx_dpdma.h
+> 
+> diff --git a/drivers/dma/xilinx/xilinx_dpdma.c b/drivers/dma/xilinx/xilinx_dpdma.c
+> index ce5c66e6897d..e2c1ef7a659c 100644
+> --- a/drivers/dma/xilinx/xilinx_dpdma.c
+> +++ b/drivers/dma/xilinx/xilinx_dpdma.c
+> @@ -12,6 +12,7 @@
+>  #include <linux/clk.h>
+>  #include <linux/debugfs.h>
+>  #include <linux/delay.h>
+> +#include <linux/dma/xilinx_dpdma.h>
+>  #include <linux/dmaengine.h>
+>  #include <linux/dmapool.h>
+>  #include <linux/interrupt.h>
+> @@ -1273,6 +1274,7 @@ static int xilinx_dpdma_config(struct dma_chan *dchan,
+>  			       struct dma_slave_config *config)
+>  {
+>  	struct xilinx_dpdma_chan *chan = to_xilinx_chan(dchan);
+> +	struct xilinx_dpdma_peripheral_config *pconfig;
+>  	unsigned long flags;
+>  
+>  	/*
+> @@ -1285,11 +1287,13 @@ static int xilinx_dpdma_config(struct dma_chan *dchan,
+>  	spin_lock_irqsave(&chan->lock, flags);
+>  
+>  	/*
+> -	 * Abuse the slave_id to indicate that the channel is part of a video
+> -	 * group.
+> +	 * Abuse the peripheral_config to indicate that the channel is part
+
+Is it still an abuse, or is this now the right way to pass custom data
+to the DMA engine driver ?
+
+> +	 * of a video group.
+>  	 */
+> -	if (chan->id <= ZYNQMP_DPDMA_VIDEO2)
+> -		chan->video_group = config->slave_id != 0;
+> +	pconfig = config->peripheral_config;
+
+This could be moved to the variable declaration above, up to you.
+
+> +	if (chan->id <= ZYNQMP_DPDMA_VIDEO2 &&
+> +	    config->peripheral_size == sizeof(*pconfig))
+
+Silently ignoring a size mismatch isn't nice. Could we validate the size
+at the beginning of the function and return an error ?
+
+With these issues addressed,
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-> ---
->  drivers/dma/sh/shdma-base.c | 8 --------
->  1 file changed, 8 deletions(-)
-> 
-> diff --git a/drivers/dma/sh/shdma-base.c b/drivers/dma/sh/shdma-base.c
-> index 7f72b3f4cd1a..41c6bc650fa3 100644
-> --- a/drivers/dma/sh/shdma-base.c
-> +++ b/drivers/dma/sh/shdma-base.c
-> @@ -786,14 +786,6 @@ static int shdma_config(struct dma_chan *chan,
->  	if (!config)
->  		return -EINVAL;
+> +		chan->video_group = pconfig->video_group;
 >  
-> -	/*
-> -	 * overriding the slave_id through dma_slave_config is deprecated,
-> -	 * but possibly some out-of-tree drivers still do it.
-> -	 */
-> -	if (WARN_ON_ONCE(config->slave_id &&
-> -			 config->slave_id != schan->real_slave_id))
-> -		schan->real_slave_id = config->slave_id;
-> -
+>  	spin_unlock_irqrestore(&chan->lock, flags);
+>  
+> diff --git a/drivers/gpu/drm/xlnx/zynqmp_disp.c b/drivers/gpu/drm/xlnx/zynqmp_disp.c
+> index ff2b308d8651..11c409cbc88e 100644
+> --- a/drivers/gpu/drm/xlnx/zynqmp_disp.c
+> +++ b/drivers/gpu/drm/xlnx/zynqmp_disp.c
+> @@ -24,6 +24,7 @@
+>  
+>  #include <linux/clk.h>
+>  #include <linux/delay.h>
+> +#include <linux/dma/xilinx_dpdma.h>
+>  #include <linux/dma-mapping.h>
+>  #include <linux/dmaengine.h>
+>  #include <linux/module.h>
+> @@ -1058,14 +1059,18 @@ static void zynqmp_disp_layer_set_format(struct zynqmp_disp_layer *layer,
+>  	zynqmp_disp_avbuf_set_format(layer->disp, layer, layer->disp_fmt);
+>  
 >  	/*
->  	 * We could lock this, but you shouldn't be configuring the
->  	 * channel, while using it...
+> -	 * Set slave_id for each DMA channel to indicate they're part of a
+> +	 * Set pconfig for each DMA channel to indicate they're part of a
+>  	 * video group.
+>  	 */
+>  	for (i = 0; i < info->num_planes; i++) {
+>  		struct zynqmp_disp_layer_dma *dma = &layer->dmas[i];
+> +		struct xilinx_dpdma_peripheral_config pconfig = {
+> +			.video_group = true,
+> +		};
+>  		struct dma_slave_config config = {
+>  			.direction = DMA_MEM_TO_DEV,
+> -			.slave_id = 1,
+> +			.peripheral_config = &pconfig,
+> +			.peripheral_size = sizeof(pconfig),
+>  		};
+>  
+>  		dmaengine_slave_config(dma->chan, &config);
+> diff --git a/include/linux/dma/xilinx_dpdma.h b/include/linux/dma/xilinx_dpdma.h
+> new file mode 100644
+> index 000000000000..83a1377f03f8
+> --- /dev/null
+> +++ b/include/linux/dma/xilinx_dpdma.h
+> @@ -0,0 +1,11 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +#ifndef __LINUX_DMA_XILINX_DPDMA_H
+> +#define __LINUX_DMA_XILINX_DPDMA_H
+> +
+> +#include <linux/types.h>
+> +
+> +struct xilinx_dpdma_peripheral_config {
+> +	bool video_group;
+> +};
+> +
+> +#endif /* __LINUX_DMA_XILINX_DPDMA_H */
 
 -- 
 Regards,
