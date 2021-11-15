@@ -2,40 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4792A4514E7
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 21:18:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C970645150D
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 21:22:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 718BB6E0FE;
-	Mon, 15 Nov 2021 20:18:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8BF9B6E105;
+	Mon, 15 Nov 2021 20:21:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 413AB6E0FE
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 20:18:08 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10169"; a="230984620"
-X-IronPort-AV: E=Sophos;i="5.87,237,1631602800"; d="scan'208";a="230984620"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Nov 2021 12:18:07 -0800
-X-IronPort-AV: E=Sophos;i="5.87,237,1631602800"; d="scan'208";a="506081883"
-Received: from csrini4x-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.251.218.37])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Nov 2021 12:18:02 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Claudio Suarez <cssk@net-c.es>
-Subject: Re: [PATCH] drm: change logs to print connectors in the form
- CONNECTOR:id:name
-In-Reply-To: <YZK3nPgQRYl8ys8t@gineta.localdomain>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <YZARol5A5hS+5a5m@gineta.localdomain>
- <YZAikieq4bwrJ58c@ravnborg.org> <YZFIvfY1j0f3pVQt@gineta.localdomain>
- <87fsrx3eed.fsf@intel.com> <YZK3nPgQRYl8ys8t@gineta.localdomain>
-Date: Mon, 15 Nov 2021 22:17:58 +0200
-Message-ID: <87fsrx18cp.fsf@intel.com>
+Received: from mail-qk1-x72e.google.com (mail-qk1-x72e.google.com
+ [IPv6:2607:f8b0:4864:20::72e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 104E96E101
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 20:21:55 +0000 (UTC)
+Received: by mail-qk1-x72e.google.com with SMTP id t83so15807382qke.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 12:21:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=poorly.run; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=5o8M4nFYDYsXR2dAp4MjnyBhftAYPugH5C5KzkFvDAY=;
+ b=eXQOHRDYDbMhSygSwb1AraY3AWGEdei454ZaQccAceVCTSwuCDYUxKcBnznvL11mUB
+ IG6Gsp8ElDGMw0JjWSt7gr4NXS3o/1RgahiPVqOkhjZVeEFAvIZ+PYRUnkFeHU5kurwd
+ X/rlEdoZ6TlsCMlNbNDQG43iQbZMF56osDjJbUjMwMid6EH4vTC6QkDMuWCjXjv1p7+V
+ 7Y6RKuaUq6sy1EnkmPls9Bmwh1gBQJNqmxmcCA/U8YjdnxAkpgmfVJWg1h7sQjwGexsw
+ XzSfmYr981gGtmPXkhn2cBQTd6riVWT78of7aqQAqXiEtrrVKg0Nbb+wWy61gDFyvOJm
+ OixQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=5o8M4nFYDYsXR2dAp4MjnyBhftAYPugH5C5KzkFvDAY=;
+ b=DcHpc88wlGMYIrKEWeAcVAixDA8BDDdTcYum8KKQkVuUfo824yx2FQxDaUQIWT9qJ1
+ H3EPBveqnIBoioCy4AeYjRNP3f/+wUuRdFBOR8sYUSlMzYQ//sWGohofA8oTxwMhn3qe
+ WtnAL6SNn1mDUJZld7lC/2/ra3siF7wcQSTSa+rBfYn0lzMPRMKpuFfsjHcbosYut8xM
+ wCwvVhF/jp3wqVhMQIb6b/zL+CYW/Pk6cwW64iGf863cnpxKWS/Q+EFWEt2GbK0zwviP
+ DQyzC9dObpUQo84vyChxhYRnn0gPW9x0ZSXttb2wygyoivZaIHlQnB/sFRdTJ6vNgvg4
+ ABBA==
+X-Gm-Message-State: AOAM533xpTdJoTUOS9y5rmm/E3fBy7mZF8zfxJ8npJmohudxrTjpDjjT
+ K/yVOixQjP1zSv70UdzmU1gCOAi5DtAsGA==
+X-Google-Smtp-Source: ABdhPJzv1kubhtztfKiDVpyMZPRNywUjLC7v4bCYsxPDUvwntv2nGtkJYzSCWj+8Kn6sZWmwu60FDg==
+X-Received: by 2002:a05:620a:4712:: with SMTP id
+ bs18mr1540805qkb.246.1637007713882; 
+ Mon, 15 Nov 2021 12:21:53 -0800 (PST)
+Received: from localhost (29.46.245.35.bc.googleusercontent.com.
+ [35.245.46.29])
+ by smtp.gmail.com with ESMTPSA id t11sm6851413qkp.56.2021.11.15.12.21.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 15 Nov 2021 12:21:53 -0800 (PST)
+From: Sean Paul <sean@poorly.run>
+To: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org
+Subject: [PATCH v4.5 12/14] dt-bindings: msm/dp: Add bindings for HDCP
+ registers
+Date: Mon, 15 Nov 2021 20:21:48 +0000
+Message-Id: <20211115202153.117244-1-sean@poorly.run>
+X-Mailer: git-send-email 2.34.0.rc1.387.gb447b232ab-goog
+In-Reply-To: <YY7lb9k2UArZf7I/@robh.at.kernel.org>
+References: <YY7lb9k2UArZf7I/@robh.at.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,81 +71,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: devicetree@vger.kernel.org, jani.nikula@intel.com,
+ linux-arm-msm@vger.kernel.org, abhinavk@codeaurora.org, swboyd@chromium.org,
+ khsieh@codeaurora.org, David Airlie <airlied@linux.ie>, robh+dt@kernel.org,
+ seanpaul@chromium.org, bjorn.andersson@linaro.org, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 15 Nov 2021, Claudio Suarez <cssk@net-c.es> wrote:
-> On Mon, Nov 15, 2021 at 12:24:26PM +0200, Jani Nikula wrote:
->> On Sun, 14 Nov 2021, Claudio Suarez <cssk@net-c.es> wrote:
->> > On Sat, Nov 13, 2021 at 09:39:46PM +0100, Sam Ravnborg wrote:
->> >> Hi Claudio,
->> >>=20
->> >> On Sat, Nov 13, 2021 at 08:27:30PM +0100, Claudio Suarez wrote:
->> >> > The prefered way to log connectors is [CONNECTOR:id:name]. Change i=
-t in
->> >> > drm core programs.
->> >> >=20
->> >> > Suggested-by: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.co=
-m>
->> >> > Signed-off-by: Claudio Suarez <cssk@net-c.es>
->> >>=20
->> >> While touching all these logging calls, could you convernt them to the
->> >> newer drm_dbg_kms variants?
->> >> DRM_DEBUG_* are all deprecated.
->> >>=20
->> >
->> > Yes, I can, but it is recommended to do it in a different patch:
->> >
->> > https://www.kernel.org/doc/html/latest/process/submitting-patches.html=
-#separate-your-changes
->> >
->> > C&P:
->> > "Separate your changes
->> > Separate each logical change into a separate patch.
->> > For example, if your changes include both bug fixes and performance en=
-hancements..."
->> >
->> >
->> > I will study and send a new separate patch with your suggestion.
->>=20
->> I feel these logging changes are the types of changes where I'd err on
->> the side of fewer patches than strictly following the above guidelines.
->
-> To size the problem:
-> - there are about 3434 references to DRM_DEBUG_* in all the drm code, all=
- drivers.
-> - there are 413 references to DRM_DEBUG_* in the drm core code, only 66 of
->    them are related to connectors.
-> - there are 62 references to DRM_ERR* and 7 references to DRM_INFO in
->    the drm core programs.
->
-> I meant I can make two patches:
->  1 - this one with the change to CONNECTOR:id:name (29 changes)
->  2 - a new and bigger patch to change 413 + 62 + 7 references to DRM_{DEB=
-UG,ERR,INFO}
->      in the drm core programs.
+From: Sean Paul <seanpaul@chromium.org>
 
-The second one is an on-going change that will have to happen gradually,
-file by file. Changing connector references while at it seems like a
-reasonable drive-by-change to me. (Others may disagree.)
+This patch adds the bindings for the MSM DisplayPort HDCP registers
+which are required to write the HDCP key into the display controller as
+well as the registers to enable HDCP authentication/key
+exchange/encryption.
 
-> The second patch will be ready in a few days.
->
-> Is it a good plan ? or can it be improved ?
+We'll use a new compatible string for this since the fields are optional.
 
-It can't be a single patch. It needs to be split to smaller changes.
+Cc: Rob Herring <robh@kernel.org>
+Cc: Stephen Boyd <swboyd@chromium.org>
+Signed-off-by: Sean Paul <seanpaul@chromium.org>
+Link: https://patchwork.freedesktop.org/patch/msgid/20210913175747.47456-13-sean@poorly.run #v1
+Link: https://patchwork.freedesktop.org/patch/msgid/20210915203834.1439-13-sean@poorly.run #v2
+Link: https://patchwork.freedesktop.org/patch/msgid/20211001151145.55916-13-sean@poorly.run #v3
+Link: https://patchwork.freedesktop.org/patch/msgid/20211105030434.2828845-13-sean@poorly.run #v4
 
-BR,
-Jani.
+Changes in v2:
+-Drop register range names (Stephen)
+-Fix yaml errors (Rob)
+Changes in v3:
+-Add new compatible string for dp-hdcp
+-Add descriptions to reg
+-Add minItems/maxItems to reg
+-Make reg depend on the new hdcp compatible string
+Changes in v4:
+-Rebase on Bjorn's multi-dp patchset
+Changes in v4.5:
+-Remove maxItems from reg (Rob)
+-Remove leading zeros in example (Rob)
+---
+ .../devicetree/bindings/display/msm/dp-controller.yaml     | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
->
-> Best regards,
-> Claudio Suarez.
->
->
->
+diff --git a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
+index b36d74c1da7c..aff7d45ba6ed 100644
+--- a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
++++ b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
+@@ -21,12 +21,15 @@ properties:
+       - qcom,sc8180x-edp
+ 
+   reg:
++    minItems: 5
+     items:
+       - description: ahb register block
+       - description: aux register block
+       - description: link register block
+       - description: p0 register block
+       - description: p1 register block
++      - description: (Optional) Registers for HDCP device key injection
++      - description: (Optional) Registers for HDCP TrustZone interaction
+ 
+   interrupts:
+     maxItems: 1
+@@ -111,7 +114,9 @@ examples:
+               <0xae90200 0x200>,
+               <0xae90400 0xc00>,
+               <0xae91000 0x400>,
+-              <0xae91400 0x400>;
++              <0xae91400 0x400>,
++              <0xaed1000 0x174>,
++              <0xaee1000 0x2c>;
+         interrupt-parent = <&mdss>;
+         interrupts = <12>;
+         clocks = <&dispcc DISP_CC_MDSS_AHB_CLK>,
+-- 
+Sean Paul, Software Engineer, Google / Chromium OS
 
---=20
-Jani Nikula, Intel Open Source Graphics Center
