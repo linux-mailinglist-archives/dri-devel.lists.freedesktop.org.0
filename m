@@ -2,38 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D421F450BBB
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 18:26:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D56D450D5B
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 18:53:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 49CA86EE58;
-	Mon, 15 Nov 2021 17:26:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 83CED6EE11;
+	Mon, 15 Nov 2021 17:53:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C11E6EE2A;
- Mon, 15 Nov 2021 17:26:39 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10169"; a="319697811"
-X-IronPort-AV: E=Sophos;i="5.87,237,1631602800"; d="scan'208";a="319697811"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Nov 2021 09:26:39 -0800
-X-IronPort-AV: E=Sophos;i="5.87,237,1631602800"; d="scan'208";a="506012232"
-Received: from csrini4x-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.251.218.37])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Nov 2021 09:26:36 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [Intel-gfx] [PATCH 0/3] drm/i915, agp/intel-ggt: clean up includes
-In-Reply-To: <87lf1p1nko.fsf@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <cover.1636977089.git.jani.nikula@intel.com>
- <87y25p1vm3.fsf@intel.com> <YZJvSyQCgWZA1lcb@phenom.ffwll.local>
- <87lf1p1nko.fsf@intel.com>
-Date: Mon, 15 Nov 2021 19:26:34 +0200
-Message-ID: <87ilwt1gad.fsf@intel.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA2556EE11
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 17:53:13 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id A1BE063415
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 17:53:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1636998793;
+ bh=SlnGlUCxvlFcxbnWJJdBxUNKHlue3Ojy4AfgzepD86s=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=p+nxm0ra83E+MlzddW9h9DGaWhtBnQy8th/jYKOjQMLu8VaX/J8VkMkL+ekBEVETq
+ o8yeP0tEbLXWbK4nN5+nqmxz+MTjnhyxiOHNtAuupj0Mmqz9VSb9bbcs6upS2pQEIk
+ VmHA1lm0KW5LZBE/yyTojYVcZXenCkkgV5FbgoQ+oO51iQCBBWY+AcZBEtqlp+qXs6
+ AzTOAD6jwrqUbieL8k3YdlMrajbU4Ih3LpxBmQHKGcT/Hh94gwdd+YCC+0g4AZDVMb
+ 2xoMkU7cYLYRm7rquzkz//fK/kz2hrpNxOl+DeGLpS64igdieF/rlfkm8I0iwNMglX
+ HC6hlTstGHE4w==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id 9BB4F60F46; Mon, 15 Nov 2021 17:53:13 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 215025] [amdgpu] Thinkpad A275 hangs on shutdown / screen does
+ not turn on after reboot
+Date: Mon, 15 Nov 2021 17:53:13 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: alexdeucher@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-215025-2300-nv21V5s1sY@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-215025-2300@https.bugzilla.kernel.org/>
+References: <bug-215025-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,68 +66,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 15 Nov 2021, Jani Nikula <jani.nikula@intel.com> wrote:
-> On Mon, 15 Nov 2021, Daniel Vetter <daniel@ffwll.ch> wrote:
->> On Mon, Nov 15, 2021 at 01:55:32PM +0200, Jani Nikula wrote:
->>> On Mon, 15 Nov 2021, Jani Nikula <jani.nikula@intel.com> wrote:
->>> > Took Andy's patch [1] and expanded on it a bit.
->>> >
->>> > BR,
->>> > Jani.
->>> >
->>> >
->>> > [1] https://patchwork.freedesktop.org/patch/msgid/20211110102857.59604-1-andriy.shevchenko@linux.intel.com
->>> >
->>> > Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
->>> >
->>> > Andy Shevchenko (1):
->>> >   agp/intel-gtt: Replace kernel.h with the necessary inclusions
->>> 
->>> Forgot to mention, I replaced the drm/i915 prefix with agp/intel-gtt
->>> here, no other changes to Andy's patch.
->>
->> Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
->>
->> Also feel free to push through drm-intel.git just in case you wondered
->> about that.
->
-> Thanks; that's what I was planning on doing anyway. ;)
+https://bugzilla.kernel.org/show_bug.cgi?id=3D215025
 
-And pushed to drm-intel-next, thanks for the patch, acks and reviews.
+Alex Deucher (alexdeucher@gmail.com) changed:
 
-BR,
-Jani.
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |alexdeucher@gmail.com
 
+--- Comment #5 from Alex Deucher (alexdeucher@gmail.com) ---
+Please include your dmesg output.  Does this patch fix it?
+https://patchwork.freedesktop.org/series/96646/
 
->
-> BR,
-> Jani.
->
->
->
->> -Daniel
->>
->>> 
->>> >
->>> > Jani Nikula (2):
->>> >   drm/i915: include intel-gtt.h only where needed
->>> >   agp/intel-gtt: reduce intel-gtt dependencies more
->>> >
->>> >  drivers/char/agp/intel-gtt.c         | 1 +
->>> >  drivers/gpu/drm/i915/gt/intel_ggtt.c | 2 ++
->>> >  drivers/gpu/drm/i915/gt/intel_gt.c   | 2 ++
->>> >  drivers/gpu/drm/i915/i915_drv.h      | 1 -
->>> >  include/drm/intel-gtt.h              | 8 +++++---
->>> >  5 files changed, 10 insertions(+), 4 deletions(-)
->>> 
->>> -- 
->>> Jani Nikula, Intel Open Source Graphics Center
+--=20
+You may reply to this email to add a comment.
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
+You are receiving this mail because:
+You are watching the assignee of the bug.=
