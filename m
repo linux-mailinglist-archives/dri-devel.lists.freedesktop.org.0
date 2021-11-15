@@ -2,30 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FDEA44FFCB
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 09:10:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB22D450004
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 09:35:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C2AB6E93C;
-	Mon, 15 Nov 2021 08:10:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 771BF6E866;
+	Mon, 15 Nov 2021 08:35:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out30-43.freemail.mail.aliyun.com
- (out30-43.freemail.mail.aliyun.com [115.124.30.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5DE3E6E937
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 08:10:30 +0000 (UTC)
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R591e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=e01e04395; MF=yang.lee@linux.alibaba.com;
- NM=1; PH=DS; RN=11; SR=0; TI=SMTPD_---0Uwbsgz4_1636963823; 
-Received: from
- j63c13417.sqa.eu95.tbsite.net(mailfrom:yang.lee@linux.alibaba.com
- fp:SMTPD_---0Uwbsgz4_1636963823) by smtp.aliyun-inc.com(127.0.0.1);
- Mon, 15 Nov 2021 16:10:25 +0800
-From: Yang Li <yang.lee@linux.alibaba.com>
-To: daniel@ffwll.ch
-Subject: [PATCH -next] drm/amd/display: check top_pipe_to_program pointer
-Date: Mon, 15 Nov 2021 16:10:19 +0800
-Message-Id: <1636963819-19726-1-git-send-email-yang.lee@linux.alibaba.com>
-X-Mailer: git-send-email 1.8.3.1
+Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com
+ [209.85.222.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3EBAB6E866
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 08:35:23 +0000 (UTC)
+Received: by mail-ua1-f53.google.com with SMTP id b17so33314125uas.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 00:35:23 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=PmBiLQLwGk4BtQ4xIuEDuY7kvhhjd5riXXU4uoLcz30=;
+ b=meYrEGfnJlxyUlndmn6/EJgLoUy2U9352WYvzzs3OeLmxGDW2nODY2rWdQgJr/hvB2
+ RJz4ydPBuVcI7Sz2lzAdz1KDimOue8BC2cVS6Zo6Z9XSflnfzSFsX4faMBaV4ev9YhMu
+ ZJ3f0HXG1RBC0uT2rIPqp6hLeCVnKUkn/XYSgiSVXqMMpISDOwO3vBKSWiK5eSp8R2Z+
+ DUSWlvxzU0F5Lbbu2NaWYoIpPqdxad0YXEL0K/5bj64r8l/y8/hF/TeZUKFMbKQjZHbV
+ LU2don/G8Hv7LAt6ibhFCWgc4yFqEW2Kw7JbXYPpyy/3hhVWVAdoFsrHUzqcnkyueltf
+ 1opA==
+X-Gm-Message-State: AOAM531/Ez6Q3Cq+Xs8ZfLSM+cefpZVz48d+texdl2RCUdh+ldVintD+
+ hV6sWLW4BSul+vh+V9JNjMheN7NOxnNhbA==
+X-Google-Smtp-Source: ABdhPJzDiEVYN/2mnLh+KRZKG5W2o+mnmahUv3kxpk6ht0mqXHByEJGPGB3NgDMi7ntk9dQXEhqtbQ==
+X-Received: by 2002:ab0:6f14:: with SMTP id r20mr38174041uah.22.1636965322249; 
+ Mon, 15 Nov 2021 00:35:22 -0800 (PST)
+Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com.
+ [209.85.222.52])
+ by smtp.gmail.com with ESMTPSA id c11sm8862581vsh.22.2021.11.15.00.35.21
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 15 Nov 2021 00:35:21 -0800 (PST)
+Received: by mail-ua1-f52.google.com with SMTP id y5so15282016ual.7
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 00:35:21 -0800 (PST)
+X-Received: by 2002:a9f:248b:: with SMTP id 11mr52047394uar.14.1636965320871; 
+ Mon, 15 Nov 2021 00:35:20 -0800 (PST)
+MIME-Version: 1.0
+References: <20211115063257.14369-1-rdunlap@infradead.org>
+In-Reply-To: <20211115063257.14369-1-rdunlap@infradead.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 15 Nov 2021 09:35:09 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWerZGYz_i8oBK4-ZC+AHZm8c0VW7CXDRX=2PxboWFZ-w@mail.gmail.com>
+Message-ID: <CAMuHMdWerZGYz_i8oBK4-ZC+AHZm8c0VW7CXDRX=2PxboWFZ-w@mail.gmail.com>
+Subject: Re: [PATCH] fbdev: sh7760fb: document fallthrough cases
+To: Randy Dunlap <rdunlap@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -38,46 +63,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, llvm@lists.linux.dev, Rodrigo.Siqueira@amd.com,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- sunpeng.li@amd.com, Yang Li <yang.lee@linux.alibaba.com>,
- dri-devel@lists.freedesktop.org, christian.koenig@amd.com
+Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ Rich Felker <dalias@libc.org>,
+ Nobuhiro Iwamatsu <iwamatsu.nobuhiro@renesas.com>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Linux-sh list <linux-sh@vger.kernel.org>,
+ Manuel Lauss <mano@roarinelk.homelinux.net>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Clang static analysis reports this error
+On Mon, Nov 15, 2021 at 7:33 AM Randy Dunlap <rdunlap@infradead.org> wrote:
+> Fix fallthrough warnings in sh776fb.c:
+>
+> ../drivers/video/fbdev/sh7760fb.c: In function 'sh7760fb_get_color_info':
+> ../drivers/video/fbdev/sh7760fb.c:138:23: warning: this statement may fall through [-Wimplicit-fallthrough=]
+>   138 |                 lgray = 1;
+> ../drivers/video/fbdev/sh7760fb.c:143:23: warning: this statement may fall through [-Wimplicit-fallthrough=]
+>   143 |                 lgray = 1;
+>
+> Just document the current state of code execution/flow.
+>
+> Fixes: 4a25e41831ee ("video: sh7760fb: SH7760/SH7763 LCDC framebuffer driver")
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
 
-drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc.c:2870:7: warning:
-Dereference of null pointer [clang-analyzer-core.NullDereference]
-                if
-(top_pipe_to_program->stream_res.tg->funcs->lock_doublebuffer_enable) {
-                    ^
+Section 30.4.4 ("Data Format") of the SH7760 Group Hardware
+Manual confirms fall-through is appropriate here (especially for
+the odd 6 bpp mode).
 
-top_pipe_to_program being NULL is caught as an error
-But then it is used to report the error.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-So add a check before using it.
+Gr{oetje,eeting}s,
 
-Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
----
- drivers/gpu/drm/amd/display/dc/core/dc.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+                        Geert
 
-diff --git a/drivers/gpu/drm/amd/display/dc/core/dc.c b/drivers/gpu/drm/amd/display/dc/core/dc.c
-index 39ad385..34382d0 100644
---- a/drivers/gpu/drm/amd/display/dc/core/dc.c
-+++ b/drivers/gpu/drm/amd/display/dc/core/dc.c
-@@ -2867,7 +2867,8 @@ static void commit_planes_for_stream(struct dc *dc,
- #endif
- 
- 	if ((update_type != UPDATE_TYPE_FAST) && stream->update_flags.bits.dsc_changed)
--		if (top_pipe_to_program->stream_res.tg->funcs->lock_doublebuffer_enable) {
-+		if (top_pipe_to_program &&
-+			top_pipe_to_program->stream_res.tg->funcs->lock_doublebuffer_enable) {
- 			if (should_use_dmub_lock(stream->link)) {
- 				union dmub_hw_lock_flags hw_locks = { 0 };
- 				struct dmub_hw_lock_inst_flags inst_flags = { 0 };
--- 
-1.8.3.1
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
