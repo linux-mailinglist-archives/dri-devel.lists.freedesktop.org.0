@@ -1,54 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FADB4504BC
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 13:55:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EA16E4504BE
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 13:55:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 66B296ECCE;
-	Mon, 15 Nov 2021 12:55:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC5166EC2A;
+	Mon, 15 Nov 2021 12:55:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 67CDC6EB8B
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B34686EC2A
  for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 12:55:44 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id F3E5621A72;
- Mon, 15 Nov 2021 12:55:42 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 4A9BF1FD43;
+ Mon, 15 Nov 2021 12:55:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1636980943; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=XOqYVfR/Sl28Bq6B8tv0SnwQcN/asOW3bafnOIzrHT8=;
- b=LfXNzom5N4jnBw+OMnw29VicjGuTa/nElI5PExLCJ0Km/C4ycJXq3tzhuzftLVbRdGvWss
- ONmmVPEeKOPhYagEcb0FTFk0JuvZFgYGHNufhugBtDOVb9D3ezFXWClzk+rOIO9+nE/1qJ
- mUzaf3ftSAb/PExR5AlzkOiPyDQ42qM=
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=P7V53C8fvmgv92PqwJ0X6M7C6lJXV2cgybHZ4ypTxsM=;
+ b=rQ55gV3AVxK+sQajeLyY6octuLXUXwmrmDMWkqqvxZ150YxBvC3WnvSnCAlkqDHv1QwZVK
+ /MOHQpl9+Zkhhmcsq5A2ZEhbMjXDvAAcM0wZEBpSUPqNXS6wj+AvrHQJUUQGAk+Cx2Heh6
+ 6gRAOD+IQ2FcOsC3fiM1htU45BsVv9o=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1636980943;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=XOqYVfR/Sl28Bq6B8tv0SnwQcN/asOW3bafnOIzrHT8=;
- b=cBqsECSeB8nb5R5rID2qLzBrj5D+C01EMUt/Ir37/VB3c1kndCa4rmPsdUyu6mzxQxNbzW
- PejonVpuzOrA+dBQ==
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=P7V53C8fvmgv92PqwJ0X6M7C6lJXV2cgybHZ4ypTxsM=;
+ b=AK49sXe6iZDAozqxNrMuJWasVANh/hhrz7r2hWe8sbXVgWZ3HknOkZPOlCKfFP3RAzm1Jr
+ WwO42k2OiK45AiDQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id BA7C713D86;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0243413E6D;
  Mon, 15 Nov 2021 12:55:42 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id nNGfLM5YkmEFcwAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id ODZCO85YkmEFcwAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Mon, 15 Nov 2021 12:55:42 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch, airlied@linux.ie, zackr@vmware.com,
  linux-graphics-maintainer@vmware.com, christian.koenig@amd.com,
  ray.huang@amd.com, mripard@kernel.org, maarten.lankhorst@linux.intel.com
-Subject: [PATCH 0/3] drm: Make DRM hashtable legacy
-Date: Mon, 15 Nov 2021 13:55:36 +0100
-Message-Id: <20211115125539.1730-1-tzimmermann@suse.de>
+Subject: [PATCH 1/3] drm/ttm: Don't include drm_hashtab.h
+Date: Mon, 15 Nov 2021 13:55:37 +0100
+Message-Id: <20211115125539.1730-2-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.33.1
+In-Reply-To: <20211115125539.1730-1-tzimmermann@suse.de>
+References: <20211115125539.1730-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -67,44 +73,26 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Clean up the last non-legacy users of DRM's hashtable code and put
-the code behind CONFIG_DRM_LEGACY.
+Remove the include statement for drm_hashtab.h. It's not required
+by TTM.
 
-TTM only includes the header file, but does not use the hashtable.
-The vmwgfx driver uses the hashtable internally. Copy the DRM code
-into the driver. A later patchset should probably update vmwgfx to
-use Linux' hashtable. Finally, make the core hashtable code legacy.
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+---
+ include/drm/ttm/ttm_bo_api.h | 1 -
+ 1 file changed, 1 deletion(-)
 
-Built with/without CONFIG_DRM_LEGACY set.
-
-Thomas Zimmermann (3):
-  drm/ttm: Don't include drm_hashtab.h
-  drm/vmwgfx: Copy DRM hash-table code into driver
-  drm: Declare hashtable as legacy
-
- drivers/gpu/drm/Makefile                      |   6 +-
- drivers/gpu/drm/drm_hashtab.c                 |  10 +-
- drivers/gpu/drm/drm_legacy.h                  |  40 +++-
- drivers/gpu/drm/vmwgfx/Makefile               |   2 +-
- drivers/gpu/drm/vmwgfx/ttm_object.c           |  52 ++---
- drivers/gpu/drm/vmwgfx/ttm_object.h           |   3 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c    |  24 +--
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.c           |   2 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.h           |   6 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c       |   2 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_hashtab.c       | 199 ++++++++++++++++++
- .../gpu/drm/vmwgfx/vmwgfx_hashtab.h           |  54 ++---
- drivers/gpu/drm/vmwgfx/vmwgfx_validation.c    |  22 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_validation.h    |   7 +-
- include/drm/drm_device.h                      |   5 +-
- include/drm/drm_legacy.h                      |  15 +-
- include/drm/ttm/ttm_bo_api.h                  |   1 -
- 17 files changed, 347 insertions(+), 103 deletions(-)
- create mode 100644 drivers/gpu/drm/vmwgfx/vmwgfx_hashtab.c
- rename include/drm/drm_hashtab.h => drivers/gpu/drm/vmwgfx/vmwgfx_hashtab.h (58%)
-
-
-base-commit: 9fccd12cfac1c863fa46d4d17c2d8ac25a44b190
---
+diff --git a/include/drm/ttm/ttm_bo_api.h b/include/drm/ttm/ttm_bo_api.h
+index cd785cfa3123..c17b2df9178b 100644
+--- a/include/drm/ttm/ttm_bo_api.h
++++ b/include/drm/ttm/ttm_bo_api.h
+@@ -32,7 +32,6 @@
+ #define _TTM_BO_API_H_
+ 
+ #include <drm/drm_gem.h>
+-#include <drm/drm_hashtab.h>
+ #include <drm/drm_vma_manager.h>
+ #include <linux/kref.h>
+ #include <linux/list.h>
+-- 
 2.33.1
 
