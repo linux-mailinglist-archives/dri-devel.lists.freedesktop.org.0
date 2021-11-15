@@ -2,57 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D460745131E
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 20:47:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 621854513D5
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 21:04:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B36EE6E4E6;
-	Mon, 15 Nov 2021 19:46:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 47CCD6E05F;
+	Mon, 15 Nov 2021 20:04:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m-r2.th.seeweb.it (m-r2.th.seeweb.it
- [IPv6:2001:4b7a:2000:18::171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 93C80899E6
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 19:46:57 +0000 (UTC)
-Received: from SoMainline.org (94-209-165-62.cable.dynamic.v4.ziggo.nl
- [94.209.165.62])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by m-r2.th.seeweb.it (Postfix) with ESMTPSA id D97583EEFB;
- Mon, 15 Nov 2021 20:46:53 +0100 (CET)
-Date: Mon, 15 Nov 2021 20:46:52 +0100
-From: Marijn Suijten <marijn.suijten@somainline.org>
-To: Daniel Thompson <daniel.thompson@linaro.org>
-Subject: Re: [RESEND PATCH v2 04/13] backlight: qcom-wled: Fix off-by-one
- maximum with default num_strings
-Message-ID: <20211115194652.c4g2mg4budf4lkct@SoMainline.org>
-Mail-Followup-To: Marijn Suijten <marijn.suijten@somainline.org>,
- Daniel Thompson <daniel.thompson@linaro.org>,
- phone-devel@vger.kernel.org, Andy Gross <agross@kernel.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Rob Herring <robh+dt@kernel.org>, Lee Jones <lee.jones@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>,
- ~postmarketos/upstreaming@lists.sr.ht,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- Martin Botka <martin.botka@somainline.org>,
- Jami Kettunen <jami.kettunen@somainline.org>,
- Pavel Dubrova <pashadubrova@gmail.com>,
- Kiran Gunda <kgunda@codeaurora.org>, Bryan Wu <cooloney@gmail.com>,
- linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org,
- Courtney Cavin <courtney.cavin@sonymobile.com>
-References: <20211112002706.453289-1-marijn.suijten@somainline.org>
- <20211112002706.453289-5-marijn.suijten@somainline.org>
- <20211112120839.i6g747vewg6bkyk7@maple.lan>
- <20211112123501.pz5e6g7gavlinung@SoMainline.org>
- <20211112214337.r5xrpeyjgdygzc3n@SoMainline.org>
- <20211115112327.tklic3fggrv5mzjt@maple.lan>
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com
+ [IPv6:2a00:1450:4864:20::533])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D8A856E05F
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 20:04:25 +0000 (UTC)
+Received: by mail-ed1-x533.google.com with SMTP id x15so77099719edv.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 12:04:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=avw/UKfu2PzAZJI1w2c24kauPrcOE4xj7UX8G3nGvcI=;
+ b=AF1rbCnFuXBX374jx1K0fMCODOq21RWz16PGozqnhr6ea+zaalwmS9x07TXihmsWJ+
+ 8t1NeGdVm3oUIjs/jux3UIifR38+0Z0iN/sKpmE8mlyncjKkO/+9iDC40ThDx5cox4lB
+ jyLPm/+v0hlFffRnkAWhGeRiof6pSrGozR0K0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=avw/UKfu2PzAZJI1w2c24kauPrcOE4xj7UX8G3nGvcI=;
+ b=zEqtn031eoNPXzJlGHBxq0QhIqQ0Mg4N9mhJrPMI8P/rGQwNMm2pGnx1y8deoUzN+Z
+ F0D/xddFQd73IV2nsf2QwaYGloj9RiF9qgJsVNl4wEFuXYNESi7eJPk1GC1sKJ58MrEu
+ wqGAYGNcxEqtMHoGJ6bczUO7/cCTBQTL2rlq+04tqP3Q0N7KPpivookZUe/ccMUor9fl
+ QKQ1YQLYo4lHW+6cT98452OVQwpUMpFJUo08KfwchQDn6IcdHQmrsGBFhD5GjfaW61t5
+ qUVRr0jQb25xUTybUCsouSfDPTBgcO7gf3g5tKncHpHlDSl23l0wlFNYFlhNRrYEiXQT
+ M+tg==
+X-Gm-Message-State: AOAM5336IiTlXO6SbtGqpXi8sCqsDMUHUBvvG6aNBdt/fuvMHZNkv2uF
+ 5s/3iaGL06kZ2o/A8gk6jpEoNYGLCbeBJA==
+X-Google-Smtp-Source: ABdhPJxYiI0awb6Ro7YXBA4NPyEAszutvKfl37/nWKzh/vpzEWCjY8qRY3VFSychMqscpVqpS6o7eA==
+X-Received: by 2002:a17:907:9484:: with SMTP id
+ dm4mr1961894ejc.307.1637006663634; 
+ Mon, 15 Nov 2021 12:04:23 -0800 (PST)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com.
+ [209.85.128.48])
+ by smtp.gmail.com with ESMTPSA id hp3sm7202937ejc.61.2021.11.15.12.04.22
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 15 Nov 2021 12:04:23 -0800 (PST)
+Received: by mail-wm1-f48.google.com with SMTP id
+ az33-20020a05600c602100b00333472fef04so147548wmb.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 12:04:22 -0800 (PST)
+X-Received: by 2002:a1c:98ca:: with SMTP id a193mr1265779wme.162.1637006662072; 
+ Mon, 15 Nov 2021 12:04:22 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211115112327.tklic3fggrv5mzjt@maple.lan>
+References: <20211115175800.773-1-gurchetansingh@google.com>
+In-Reply-To: <20211115175800.773-1-gurchetansingh@google.com>
+From: Gurchetan Singh <gurchetansingh@chromium.org>
+Date: Mon, 15 Nov 2021 12:04:09 -0800
+X-Gmail-Original-Message-ID: <CAAfnVBnP3EheTKA08L-YFfBR9B9MtUaEZJcrQUhBOn_rGmHxVw@mail.gmail.com>
+Message-ID: <CAAfnVBnP3EheTKA08L-YFfBR9B9MtUaEZJcrQUhBOn_rGmHxVw@mail.gmail.com>
+Subject: Re: [PATCH] drm/virtio: add null check in virtio_gpu_poll
+To: dri-devel@lists.freedesktop.org
+Content-Type: multipart/alternative; boundary="000000000000972d6d05d0d950d2"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,89 +71,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-fbdev@vger.kernel.org, Kiran Gunda <kgunda@codeaurora.org>,
- Pavel Dubrova <pashadubrova@gmail.com>,
- Courtney Cavin <courtney.cavin@sonymobile.com>,
- Jami Kettunen <jami.kettunen@somainline.org>,
- Jingoo Han <jingoohan1@gmail.com>, linux-arm-msm@vger.kernel.org,
- Bryan Wu <cooloney@gmail.com>, Konrad Dybcio <konrad.dybcio@somainline.org>,
- linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, Andy Gross <agross@kernel.org>,
- Martin Botka <martin.botka@somainline.org>,
- ~postmarketos/upstreaming@lists.sr.ht,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- phone-devel@vger.kernel.org, Lee Jones <lee.jones@linaro.org>
+Cc: kraxel@redhat.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-11-15 11:23:27, Daniel Thompson wrote:
-> On Fri, Nov 12, 2021 at 10:43:37PM +0100, Marijn Suijten wrote:
-> > On 2021-11-12 13:35:03, Marijn Suijten wrote:
-> > > On 2021-11-12 12:08:39, Daniel Thompson wrote:
-> > > > On Fri, Nov 12, 2021 at 01:26:57AM +0100, Marijn Suijten wrote:
-> > > > > When not specifying num-strings in the DT the default is used, but +1 is
-> > > > > added to it which turns WLED3 into 4 and WLED4/5 into 5 strings instead
-> > > > > of 3 and 4 respectively, causing out-of-bounds reads and register
-> > > > > read/writes.  This +1 exists for a deficiency in the DT parsing code,
-> > > > > and is simply omitted entirely - solving this oob issue - by parsing the
-> > > > > property separately much like qcom,enabled-strings.
-> > > > > 
-> > > > > This also allows more stringent checks on the maximum value when
-> > > > > qcom,enabled-strings is provided in the DT.  Note that num-strings is
-> > > > > parsed after enabled-strings to give it final sign-off over the length,
-> > > > > which DT currently utilizes to get around an incorrect fixed read of
-> > > > > four elements from that array (has been addressed in a prior patch).
-> > > > > 
-> > > > > Fixes: 93c64f1ea1e8 ("leds: add Qualcomm PM8941 WLED driver")
-> > > > > Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
-> > > > > Reviewed-By: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
-> > > > > ---
-> > > > >  drivers/video/backlight/qcom-wled.c | 51 +++++++++++------------------
-> > > > >  1 file changed, 19 insertions(+), 32 deletions(-)
-> > > > > 
-> > > > > diff --git a/drivers/video/backlight/qcom-wled.c b/drivers/video/backlight/qcom-wled.c
-> > > > > index 977cd75827d7..c5232478a343 100644
-> > > > > --- a/drivers/video/backlight/qcom-wled.c
-> > > > > +++ b/drivers/video/backlight/qcom-wled.c
-> > > > > @@ -1552,6 +1520,25 @@ static int wled_configure(struct wled *wled)
-> > > > >  		}
-> > > > >  	}
-> > > > > 
-> > > > > +	rc = of_property_read_u32(dev->of_node, "qcom,num-strings", &val);
-> > > > > +	if (!rc) {
-> > > > > +		if (val < 1 || val > wled->max_string_count) {
-> > > > > +			dev_err(dev, "qcom,num-strings must be between 1 and %d\n",
-> > > > > +				wled->max_string_count);
-> > > > > +			return -EINVAL;
-> > > > > +		}
-> > > > > +
-> > > > > +		if (string_len > 0) {
-> > > > > +			dev_warn(dev, "qcom,num-strings and qcom,enabled-strings are ambiguous\n");
-> > > > 
-> > > > The warning should also be below the error message on the next if statement.
-> > > 
-> > > Agreed.
-> > 
-> > Thinking about this again while reworking the patches, I initially put
-> > this above the error to make DT writers aware.  There's no point telling
-> > them that their values are out of sync (num-strings >
-> > len(enabled-strings)), when they "shouldn't even" (don't need to) set
-> > both in the first place.  They might needlessly fix the discrepancy, see
-> > the driver finally probe (working backlight) and carry on without
-> > noticing this warning that now appears.
-> > 
-> > Sorry for bringing this back up, but I'm curious about your opinion.
-> 
-> With a more helpful warning about how to fix then I think it is OK to
-> have both the warning and the error.
+--000000000000972d6d05d0d950d2
+Content-Type: text/plain; charset="UTF-8"
 
-Thanks - I presume the message we settled upon last time is helpful
-enough:
+On Mon, Nov 15, 2021 at 9:58 AM Gurchetan Singh <gurchetansingh@chromium.org>
+wrote:
 
-    Only one of qcom,num-strings or qcom,enabled-strings should be set
+> From: Gurchetan Singh <gurchetansingh@chromium.org>
+>
+> If vfpriv is null, we shouldn't check vfpriv->ring_idx_mask.
+>
+> Signed-off-by: Gurchetan Singh <gurchetansingh@chromium.org>
+> ---
+>  drivers/gpu/drm/virtio/virtgpu_drv.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.c
+> b/drivers/gpu/drm/virtio/virtgpu_drv.c
+> index 749db18dcfa2..7975ea06b316 100644
+> --- a/drivers/gpu/drm/virtio/virtgpu_drv.c
+> +++ b/drivers/gpu/drm/virtio/virtgpu_drv.c
+> @@ -166,7 +166,7 @@ static __poll_t virtio_gpu_poll(struct file *filp,
+>         struct drm_pending_event *e = NULL;
+>         __poll_t mask = 0;
+>
+> -       if (!vfpriv->ring_idx_mask)
+> +       if (!vfpriv || !vfpriv->ring_idx_mask)
+>                 return drm_poll(filp, wait);
+>
+>         poll_wait(filp, &drm_file->event_wait, wait);
+>
 
-I'll respin this, together with this warning reordered into the next
-commit, and using __le16 for the cpu_to_le16 output.
+Nevermind, looks like fix was merged in the main tree and will make it back
+to to drm-misc-next:
 
-- Marijn
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=d89c0c8322ecdc9a2ec84b959b6f766be082da76
+
+-- 
+> 2.34.0.rc1.387.gb447b232ab-goog
+>
+>
+
+--000000000000972d6d05d0d950d2
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Mon, Nov 15, 2021 at 9:58 AM Gurch=
+etan Singh &lt;<a href=3D"mailto:gurchetansingh@chromium.org" target=3D"_bl=
+ank">gurchetansingh@chromium.org</a>&gt; wrote:<br></div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex">From: Gurchetan Singh &lt;<a href=3D"mailt=
+o:gurchetansingh@chromium.org" target=3D"_blank">gurchetansingh@chromium.or=
+g</a>&gt;<br>
+<br>
+If vfpriv is null, we shouldn&#39;t check vfpriv-&gt;ring_idx_mask.<br>
+<br>
+Signed-off-by: Gurchetan Singh &lt;<a href=3D"mailto:gurchetansingh@chromiu=
+m.org" target=3D"_blank">gurchetansingh@chromium.org</a>&gt;<br>
+---<br>
+=C2=A0drivers/gpu/drm/virtio/virtgpu_drv.c | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.c b/drivers/gpu/drm/virtio/=
+virtgpu_drv.c<br>
+index 749db18dcfa2..7975ea06b316 100644<br>
+--- a/drivers/gpu/drm/virtio/virtgpu_drv.c<br>
++++ b/drivers/gpu/drm/virtio/virtgpu_drv.c<br>
+@@ -166,7 +166,7 @@ static __poll_t virtio_gpu_poll(struct file *filp,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct drm_pending_event *e =3D NULL;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 __poll_t mask =3D 0;<br>
+<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0if (!vfpriv-&gt;ring_idx_mask)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if (!vfpriv || !vfpriv-&gt;ring_idx_mask)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return drm_poll(fil=
+p, wait);<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 poll_wait(filp, &amp;drm_file-&gt;event_wait, w=
+ait);<br></blockquote><div><br></div><div>Nevermind, looks like fix was mer=
+ged in the main tree and will make it back to to drm-misc-next:</div><div><=
+br></div><div><a href=3D"https://git.kernel.org/pub/scm/linux/kernel/git/to=
+rvalds/linux.git/commit/?id=3Dd89c0c8322ecdc9a2ec84b959b6f766be082da76" rel=
+=3D"noreferrer" target=3D"_blank">https://git.kernel.org/pub/scm/linux/kern=
+el/git/torvalds/linux.git/commit/?id=3Dd89c0c8322ecdc9a2ec84b959b6f766be082=
+da76</a><br></div><div><br></div><blockquote class=3D"gmail_quote" style=3D=
+"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-le=
+ft:1ex">
+-- <br>
+2.34.0.rc1.387.gb447b232ab-goog<br>
+<br>
+</blockquote></div></div>
+
+--000000000000972d6d05d0d950d2--
