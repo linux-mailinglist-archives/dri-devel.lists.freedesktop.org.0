@@ -1,74 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8709B450389
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 12:33:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A64D7450393
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 12:36:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B67756E8D6;
-	Mon, 15 Nov 2021 11:33:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8262E6E90E;
+	Mon, 15 Nov 2021 11:35:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com
- [64.147.123.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A4D6E6E8AC
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 11:33:51 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.west.internal (Postfix) with ESMTP id 13A073200A1E;
- Mon, 15 Nov 2021 06:33:51 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Mon, 15 Nov 2021 06:33:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=i6Cp4qqoOBe14ZgFWLAnguHBRY9
- thtZqs5YYbssWhX0=; b=NRbP1yBJmz2P9nb7MivqC0/3CxdbP8+xYnAn2Skx0hR
- /Z07i4CrjCGWQKonsv09s8rFUd7BtR0IG8hZoBpDu7YxsrgJuA0MWpwWPARvnccR
- mUF4OxXSt1D4llDbBx8i8GyM5hoa2AHA0fZGm7dVV4yOOQX4skbdBjJ8wENsPODQ
- n+17ypNL8T1CTFNESWtlX+vcE2zlcNblTPR0y7mK7jqDsVZQMEyZU5ZEkLGdBi4l
- f+BHYErVFTWbK3cRdAX24NRL0zZ6gjyc9c+KWzklZHacs+CE/9dE6G2y78X/cQFm
- xGyiu1NpuEy4EhsjvF/3ivu1O5knvlV/2L7UZqwVo0w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=i6Cp4q
- qoOBe14ZgFWLAnguHBRY9thtZqs5YYbssWhX0=; b=DRDkjLm0UenOCxmrHgaxQ1
- fAHJLauMvW8AUo2mgrTLyIOXJjdyJIl/wNdn5rA/WpbzK0tx3QHRe4TE4Mkh47uo
- CZvPHYTHc4Uzxp80VJEbnzMP3Ej32L41tpcJOsE536J294I2ysIj1TL13vZNSQ17
- DYu+EkQ5ec6XJCHgQxI10hPfH8k4HZadHsUkXQglIqRMGB/I9FJPpeQgzZgnMY7u
- Pt2IbRkKiTRXvDBVyuRptgj5cDtv/bwP0NHn2avSdSd9g823WNCZa5JC0HTyI7wH
- Fd6jxU1KdE3Vf8syQOntggFxjDSkgb+aOlJsiHvgrV4Wauq0/wLeRRZG6+t4PtRA
- ==
-X-ME-Sender: <xms:nkWSYW7_PnTi9oBt4u-7-eIqVtoDL-DqhweAm0Co47X-eeu1UFx-Rw>
- <xme:nkWSYf6xrT0wg_6Ne8hXgzsGJMo8P8aEXWqmnUgiIBOFjIv9jtUOch3r2tYxFA5TS
- c3rrXtFEgyjbMdRJG0>
-X-ME-Received: <xmr:nkWSYVdVZ6ImQq-qnVBaVRo9mrqNJH4b5Ojer4OuVlRzDSVlV66EHdBw9MpZOg4k_yKvAd6r0RyISRdkJhwB00pG_mduazpS03YhH4Ll>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrfedtgddtfecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
- gvrhhnpeeivdfhtdfggefgleffgfetieevvefhtddvhfehfefgfffhuefhtdeufeevhfel
- vdenucffohhmrghinhepghhithhhuhgsrdgtohhmpdhkvghrnhgvlhdrohhrghenucevlh
- hushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvges
- tggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:nkWSYTLswl-a2ySU3LpHw05-gpRVKl7nwU-kH8u8gcrpW9XLNN2Qbg>
- <xmx:nkWSYaJBjzxcMJEuie9fkr2dzWNzVSlAP_H_PzlTla36wSHtuuZUpQ>
- <xmx:nkWSYUwaNfyQvYfWIrPVdt57USbW6YntoxPgYsiOp8_DP_8hrn_NCQ>
- <xmx:nkWSYRUhcJ8tNIpWPgGHGfseDXomfVp6CmegIYkiX-pHfGqMGOCkPg>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 15 Nov 2021 06:33:50 -0500 (EST)
-Date: Mon, 15 Nov 2021 12:33:48 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Jian-Hong Pan <jhp@endlessos.org>
-Subject: Re: [BUG] VC4 DRM waiting for flip down makes UI freeze a while with
- kernel 5.15
-Message-ID: <20211115113348.aylgkwrmaaomqrp4@gilmour>
-References: <CAPpJ_ecMSA8A=c=3KDOb59M=+go7DYH4dNNbE2cqYgDioO=MRQ@mail.gmail.com>
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7CDCC6E90E
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 11:35:57 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10168"; a="213457567"
+X-IronPort-AV: E=Sophos;i="5.87,236,1631602800"; d="scan'208";a="213457567"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Nov 2021 03:35:57 -0800
+X-IronPort-AV: E=Sophos;i="5.87,236,1631602800"; d="scan'208";a="505887119"
+Received: from smile.fi.intel.com ([10.237.72.184])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Nov 2021 03:35:55 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.95)
+ (envelope-from <andy.shevchenko@gmail.com>) id 1mmaH5-0072mi-3s;
+ Mon, 15 Nov 2021 13:35:47 +0200
+Date: Mon, 15 Nov 2021 13:35:46 +0200
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v1 1/1] drm: Replace kernel.h with the necessary inclusions
+Message-ID: <YZJGEi6Qqh1aGCxa@smile.fi.intel.com>
+References: <20211110102423.54282-1-andriy.shevchenko@linux.intel.com>
+ <887a15cb-3a3b-4ba2-aa0f-a241e70a19fa@suse.de>
+ <CAHp75VdY57xQBLN8vT3RdagQx=4kLx69qAyuzLwqTvNGC2xUbQ@mail.gmail.com>
+ <d536e7d2-891e-e0a8-6abc-6694987a65f7@suse.de>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="qpgvaecxcpaoyprl"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAPpJ_ecMSA8A=c=3KDOb59M=+go7DYH4dNNbE2cqYgDioO=MRQ@mail.gmail.com>
+In-Reply-To: <d536e7d2-891e-e0a8-6abc-6694987a65f7@suse.de>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,67 +50,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, linux@endlessos.org
+Cc: David Airlie <airlied@linux.ie>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, Nov 10, 2021 at 05:39:33PM +0100, Thomas Zimmermann wrote:
+> Am 10.11.21 um 17:34 schrieb Andy Shevchenko:
+> > On Wed, Nov 10, 2021 at 3:55 PM Thomas Zimmermann <tzimmermann@suse.de> wrote:
+> > > Am 10.11.21 um 11:24 schrieb Andy Shevchenko:
 
---qpgvaecxcpaoyprl
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+...
 
-Hi,
+> > > > +#include <linux/container_of.h>
+> > > 
+> > > I built this patch on a recent drm-misc-next, but there's no
+> > > linux/container_of.h
+> > 
+> > Thank you for trying. It's in the upstream, whenever drm-misc-next
+> > switches to newer/newest upstream it will be there. I assume it will
+> > happen after v5.16-rc1?
+> 
+> Yes, we'll certainly backmerge soon after rc1 has been released. If I forget
+> to add the patch then, please send a reminder.
+> 
+> Once the necessary headers are available,
 
-On Fri, Nov 12, 2021 at 11:22:49AM +0800, Jian-Hong Pan wrote:
-> Hi,
->=20
-> I tested Linux mainline kernel 5.15 (aarch64) with enabled VC4 on RPi 4B.=
- I
-> notice UI freezes a while (about 10 seconds) some times.
->=20
-> The kernel shows the error message during the time:
->=20
-> [drm:drm_crtc_commit_wait] *ERROR* flip_done timed out
-> [drm:drm_atomic_helper_wait_for_flip_done] *ERROR* [CRTC:68:crtc-3]
-> flip_done timed out
-> [drm:drm_atomic_helper_wait_for_dependencies] *ERROR* [CRTC:68:crtc-3]
-> commit wait timed out
-> [drm:drm_crtc_commit_wait] *ERROR* flip_done timed out
-> vc4-drm gpu: [drm] *ERROR* Timed out waiting for commit
->=20
-> Here is the full log:
-> https://github.com/lategoodbye/rpi-zero/files/7518076/dmesg-5.15.log
->=20
-> It is easy to reproduce this issue by invoking GL related things, for
-> example "es2gears".
->=20
-> After detail test, I found it is related to these commits:
-> * f3c420fe19f8 ("drm/vc4: kms: Convert to atomic helpers")
-> * 82faa3276012 ("drm/vc4: kms: Remove async modeset semaphore")
->=20
-> This issue cannot be reproduced after I revert the commits.
+$ git log --oneline v5.16-rc1 -- include/linux/container_of.h
+e1edc277e6f6 linux/container_of.h: switch to static_assert
+d2a8ebbf8192 kernel.h: split out container_of() and typeof_member() macros
 
-I've been working on those regressions recently, and just sent all the
-fixes I have so far:
-https://lore.kernel.org/dri-devel/20211115113105.103275-1-maxime@cerno.tech/
+> the patch is
+> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-Based on the symptoms you provided, I think it should be fixed with
-those patches
+Thanks!
 
-Let me know how it goes
-Maxime
+-- 
+With Best Regards,
+Andy Shevchenko
 
---qpgvaecxcpaoyprl
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYZJFnAAKCRDj7w1vZxhR
-xcKCAP4y9pmb6MnR5yzUyTIh8aA79lOK/NloUXd70TR0mU0WPwEA2w14ccqMXubE
-kMenwG5Vky1y6x12a9PCIwtTidqSjQk=
-=ufoo
------END PGP SIGNATURE-----
-
---qpgvaecxcpaoyprl--
