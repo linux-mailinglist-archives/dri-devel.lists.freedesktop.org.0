@@ -1,46 +1,81 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D78BB450578
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 14:29:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 50F444505B3
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 14:39:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A13A989F43;
-	Mon, 15 Nov 2021 13:29:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 501D26E0DD;
+	Mon, 15 Nov 2021 13:39:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BEC9C89F43;
- Mon, 15 Nov 2021 13:29:54 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10168"; a="213471288"
-X-IronPort-AV: E=Sophos;i="5.87,236,1631602800"; d="scan'208";a="213471288"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Nov 2021 05:29:54 -0800
-X-IronPort-AV: E=Sophos;i="5.87,236,1631602800"; d="scan'208";a="454023814"
-Received: from ldyrga-mobl1.ger.corp.intel.com (HELO [10.249.254.10])
- ([10.249.254.10])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Nov 2021 05:29:52 -0800
-Message-ID: <0cad8a60-6518-9b3a-4d4a-08e1e26174c5@linux.intel.com>
-Date: Mon, 15 Nov 2021 14:29:49 +0100
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B796F6E0DD
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 13:39:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1636983572;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=8OabhRogKKU88EQ/oED192PH0+Y7gbvATCMmsCL5PyM=;
+ b=LTVSaek/CjieRr7wG2CgfeQliK/Aeyqq2qU7NErlND9Jj2eFJwwZfi8DTmfFw6QAJrRLyy
+ BI8JyHcMxAi4U1o6/5ePQgX5ZfFxihjmsxPh6IA7m2ukd4aLu4wSfFchVg/5CWw+PhnBwE
+ JgbtqPhjfJrzsdJ0o+jNAsCmJc2fWiE=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-241-VC-OWiobM42iOIWQCahTlA-1; Mon, 15 Nov 2021 08:39:31 -0500
+X-MC-Unique: VC-OWiobM42iOIWQCahTlA-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ b1-20020a5d6341000000b001901ddd352eso2783709wrw.7
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 05:39:31 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=8OabhRogKKU88EQ/oED192PH0+Y7gbvATCMmsCL5PyM=;
+ b=Lnq+Wy5of8LiPcJgiB3nHIjmhMLlmd7s2yGd/QipXITjvP2omNADjYxe52hqzC13/T
+ h47R/g8FaNBBja1hCHrUUDAQiIoikR6zezdaKeMHmnvD3HGgMznzRdtJPn1NCXkHTFqx
+ NaOS8E5GurV1H/mg5LK/mOf7N7oPVN8f/tsnBhYSvF4eKfM2iFATPZkKYwpDeOYtnq6r
+ gIV0UtXXbMhn5Yte/Tts6g+qHgmZ1DdjC0ExbRT59OjOEkMmuXx6bR/YaGSH/TpojoHV
+ N+fNKr8SMH2m60VKVwH0vy/qDu52O0mhVM/kzbjZd46ZH9YPEF3bMdllKZFaohE2sUAi
+ nYOA==
+X-Gm-Message-State: AOAM530TxccZn7tlcFFA1RCByP6Id/VdfWXR8I67ciVjDYjrPCFhj1cJ
+ Cacr+5Jz9sssLvBzd8r/TP0A0ZoHHkj3IeJlnT+NWfjuo71+ORdva0EWwvsx6ChkRJQSp6xt0N9
+ +Fc1Gd/xRaWG9pMcW2tDgLmf4hyU4
+X-Received: by 2002:a05:600c:282:: with SMTP id
+ 2mr60293018wmk.91.1636983570070; 
+ Mon, 15 Nov 2021 05:39:30 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy9lL+TreGvijFGWZi02IHJJjC1iAPNX09M4oBZ7Kcz4kpGDAxbD7G4qyXCoLqgv+hbQ8cNXw==
+X-Received: by 2002:a05:600c:282:: with SMTP id
+ 2mr60292982wmk.91.1636983569839; 
+ Mon, 15 Nov 2021 05:39:29 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:c:37e0:cb60:a1c5:8a09:190d?
+ ([2a01:e0a:c:37e0:cb60:a1c5:8a09:190d])
+ by smtp.gmail.com with ESMTPSA id t9sm15312222wrx.72.2021.11.15.05.39.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 15 Nov 2021 05:39:29 -0800 (PST)
+Message-ID: <8f3d5358-b49b-27d3-bbcd-622dbc248faf@redhat.com>
+Date: Mon, 15 Nov 2021 14:39:28 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.2.0
-Subject: Re: [PATCH v3 2/6] drm/i915: Add support for asynchronous moving
- fence waiting
+Subject: Re: [PATCH v2] drm/fb-helper: Call drm_fb_helper_hotplug_event() when
+ releasing drm master
+To: Daniel Vetter <daniel@ffwll.ch>
+References: <20211108153453.51240-1-jfalempe@redhat.com>
+ <YYlJsmrlDH5yW6nf@phenom.ffwll.local>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <YYlJsmrlDH5yW6nf@phenom.ffwll.local>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jfalempe@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-To: Matthew Auld <matthew.auld@intel.com>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-References: <20211114111218.623138-1-thomas.hellstrom@linux.intel.com>
- <20211114111218.623138-3-thomas.hellstrom@linux.intel.com>
- <7a20547f-0189-1072-ec90-9fdb9e3f5e04@intel.com>
- <f7eed120-d956-cba4-6e0d-92b58cdef692@linux.intel.com>
- <2bfe4b1f-3643-161c-b23c-ac4cd60f73f1@intel.com>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
-In-Reply-To: <2bfe4b1f-3643-161c-b23c-ac4cd60f73f1@intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,261 +88,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: michel@daenzer.net, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 11/15/21 14:13, Matthew Auld wrote:
-> On 15/11/2021 12:42, Thomas Hellström wrote:
+On 08/11/2021 17:00, Daniel Vetter wrote:
+> On Mon, Nov 08, 2021 at 04:34:53PM +0100, Jocelyn Falempe wrote:
+>> When using Xorg/Logind and an external monitor connected with an MST dock.
+>> After disconnecting the external monitor, switching to VT may not work,
+>> the (internal) monitor sill display Xorg, and you can't see what you are
+>> typing in the VT.
 >>
->> On 11/15/21 13:36, Matthew Auld wrote:
->>> On 14/11/2021 11:12, Thomas Hellström wrote:
->>>> From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
->>>>
->>>> For now, we will only allow async migration when TTM is used,
->>>> so the paths we care about are related to TTM.
->>>>
->>>> The mmap path is handled by having the fence in ttm_bo->moving,
->>>> when pinning, the binding only becomes available after the moving
->>>> fence is signaled, and pinning a cpu map will only work after
->>>> the moving fence signals.
->>>>
->>>> This should close all holes where userspace can read a buffer
->>>> before it's fully migrated.
->>>>
->>>> v2:
->>>> - Fix a couple of SPARSE warnings
->>>> v3:
->>>> - Fix a NULL pointer dereference
->>>>
->>>> Co-developed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
->>>> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
->>>> Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
->>>> ---
->>>>   drivers/gpu/drm/i915/display/intel_fbdev.c    |  7 ++--
->>>>   drivers/gpu/drm/i915/display/intel_overlay.c  |  2 +-
->>>>   drivers/gpu/drm/i915/gem/i915_gem_pages.c     |  6 +++
->>>>   .../i915/gem/selftests/i915_gem_coherency.c   |  4 +-
->>>>   .../drm/i915/gem/selftests/i915_gem_mman.c    | 22 ++++++-----
->>>>   drivers/gpu/drm/i915/i915_vma.c               | 39 
->>>> ++++++++++++++++++-
->>>>   drivers/gpu/drm/i915/i915_vma.h               |  3 ++
->>>>   drivers/gpu/drm/i915/selftests/i915_vma.c     |  4 +-
->>>>   8 files changed, 69 insertions(+), 18 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/i915/display/intel_fbdev.c 
->>>> b/drivers/gpu/drm/i915/display/intel_fbdev.c
->>>> index adc3a81be9f7..5902ad0c2bd8 100644
->>>> --- a/drivers/gpu/drm/i915/display/intel_fbdev.c
->>>> +++ b/drivers/gpu/drm/i915/display/intel_fbdev.c
->>>> @@ -265,11 +265,12 @@ static int intelfb_create(struct 
->>>> drm_fb_helper *helper,
->>>>           info->fix.smem_len = vma->node.size;
->>>>       }
->>>>   -    vaddr = i915_vma_pin_iomap(vma);
->>>> +    vaddr = i915_vma_pin_iomap_unlocked(vma);
->>>>       if (IS_ERR(vaddr)) {
->>>> -        drm_err(&dev_priv->drm,
->>>> -            "Failed to remap framebuffer into virtual memory\n");
->>>>           ret = PTR_ERR(vaddr);
->>>> +        if (ret != -EINTR && ret != -ERESTARTSYS)
->>>> +            drm_err(&dev_priv->drm,
->>>> +                "Failed to remap framebuffer into virtual memory\n");
->>>>           goto out_unpin;
->>>>       }
->>>>       info->screen_base = vaddr;
->>>> diff --git a/drivers/gpu/drm/i915/display/intel_overlay.c 
->>>> b/drivers/gpu/drm/i915/display/intel_overlay.c
->>>> index 7e3f5c6ca484..21593f3f2664 100644
->>>> --- a/drivers/gpu/drm/i915/display/intel_overlay.c
->>>> +++ b/drivers/gpu/drm/i915/display/intel_overlay.c
->>>> @@ -1357,7 +1357,7 @@ static int get_registers(struct intel_overlay 
->>>> *overlay, bool use_phys)
->>>>           overlay->flip_addr = sg_dma_address(obj->mm.pages->sgl);
->>>>       else
->>>>           overlay->flip_addr = i915_ggtt_offset(vma);
->>>> -    overlay->regs = i915_vma_pin_iomap(vma);
->>>> +    overlay->regs = i915_vma_pin_iomap_unlocked(vma);
->>>>       i915_vma_unpin(vma);
->>>>         if (IS_ERR(overlay->regs)) {
->>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_pages.c 
->>>> b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
->>>> index c4f684b7cc51..49c6e55c68ce 100644
->>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_pages.c
->>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
->>>> @@ -418,6 +418,12 @@ void *i915_gem_object_pin_map(struct 
->>>> drm_i915_gem_object *obj,
->>>>       }
->>>>         if (!ptr) {
->>>> +        err = i915_gem_object_wait_moving_fence(obj, true);
->>>> +        if (err) {
->>>> +            ptr = ERR_PTR(err);
->>>> +            goto err_unpin;
->>>> +        }
->>>> +
->>>>           if (GEM_WARN_ON(type == I915_MAP_WC &&
->>>>                   !static_cpu_has(X86_FEATURE_PAT)))
->>>>               ptr = ERR_PTR(-ENODEV);
->>>> diff --git 
->>>> a/drivers/gpu/drm/i915/gem/selftests/i915_gem_coherency.c 
->>>> b/drivers/gpu/drm/i915/gem/selftests/i915_gem_coherency.c
->>>> index 13b088cc787e..067c512961ba 100644
->>>> --- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_coherency.c
->>>> +++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_coherency.c
->>>> @@ -101,7 +101,7 @@ static int gtt_set(struct context *ctx, 
->>>> unsigned long offset, u32 v)
->>>>         intel_gt_pm_get(vma->vm->gt);
->>>>   -    map = i915_vma_pin_iomap(vma);
->>>> +    map = i915_vma_pin_iomap_unlocked(vma);
->>>>       i915_vma_unpin(vma);
->>>>       if (IS_ERR(map)) {
->>>>           err = PTR_ERR(map);
->>>> @@ -134,7 +134,7 @@ static int gtt_get(struct context *ctx, 
->>>> unsigned long offset, u32 *v)
->>>>         intel_gt_pm_get(vma->vm->gt);
->>>>   -    map = i915_vma_pin_iomap(vma);
->>>> +    map = i915_vma_pin_iomap_unlocked(vma);
->>>>       i915_vma_unpin(vma);
->>>>       if (IS_ERR(map)) {
->>>>           err = PTR_ERR(map);
->>>> diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c 
->>>> b/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
->>>> index 6d30cdfa80f3..5d54181c2145 100644
->>>> --- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
->>>> +++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
->>>> @@ -125,12 +125,13 @@ static int check_partial_mapping(struct 
->>>> drm_i915_gem_object *obj,
->>>>       n = page - view.partial.offset;
->>>>       GEM_BUG_ON(n >= view.partial.size);
->>>>   -    io = i915_vma_pin_iomap(vma);
->>>> +    io = i915_vma_pin_iomap_unlocked(vma);
->>>>       i915_vma_unpin(vma);
->>>>       if (IS_ERR(io)) {
->>>> -        pr_err("Failed to iomap partial view: offset=%lu; err=%d\n",
->>>> -               page, (int)PTR_ERR(io));
->>>>           err = PTR_ERR(io);
->>>> +        if (err != -EINTR && err != -ERESTARTSYS)
->>>> +            pr_err("Failed to iomap partial view: offset=%lu; 
->>>> err=%d\n",
->>>> +                   page, err);
->>>>           goto out;
->>>>       }
->>>>   @@ -219,12 +220,15 @@ static int check_partial_mappings(struct 
->>>> drm_i915_gem_object *obj,
->>>>           n = page - view.partial.offset;
->>>>           GEM_BUG_ON(n >= view.partial.size);
->>>>   -        io = i915_vma_pin_iomap(vma);
->>>> +        io = i915_vma_pin_iomap_unlocked(vma);
->>>>           i915_vma_unpin(vma);
->>>>           if (IS_ERR(io)) {
->>>> -            pr_err("Failed to iomap partial view: offset=%lu; 
->>>> err=%d\n",
->>>> -                   page, (int)PTR_ERR(io));
->>>> -            return PTR_ERR(io);
->>>> +            int err = PTR_ERR(io);
->>>> +
->>>> +            if (err != -EINTR && err != -ERESTARTSYS)
->>>> +                pr_err("Failed to iomap partial view: offset=%lu; 
->>>> err=%d\n",
->>>> +                       page, err);
->>>> +            return err;
->>>>           }
->>>>             iowrite32(page, io + n * PAGE_SIZE / sizeof(*io));
->>>> @@ -773,7 +777,7 @@ static int gtt_set(struct drm_i915_gem_object 
->>>> *obj)
->>>>           return PTR_ERR(vma);
->>>>         intel_gt_pm_get(vma->vm->gt);
->>>> -    map = i915_vma_pin_iomap(vma);
->>>> +    map = i915_vma_pin_iomap_unlocked(vma);
->>>>       i915_vma_unpin(vma);
->>>>       if (IS_ERR(map)) {
->>>>           err = PTR_ERR(map);
->>>> @@ -799,7 +803,7 @@ static int gtt_check(struct drm_i915_gem_object 
->>>> *obj)
->>>>           return PTR_ERR(vma);
->>>>         intel_gt_pm_get(vma->vm->gt);
->>>> -    map = i915_vma_pin_iomap(vma);
->>>> +    map = i915_vma_pin_iomap_unlocked(vma);
->>>>       i915_vma_unpin(vma);
->>>>       if (IS_ERR(map)) {
->>>>           err = PTR_ERR(map);
->>>> diff --git a/drivers/gpu/drm/i915/i915_vma.c 
->>>> b/drivers/gpu/drm/i915/i915_vma.c
->>>> index 8781c4f61952..069f22b3cd48 100644
->>>> --- a/drivers/gpu/drm/i915/i915_vma.c
->>>> +++ b/drivers/gpu/drm/i915/i915_vma.c
->>>> @@ -431,6 +431,13 @@ int i915_vma_bind(struct i915_vma *vma,
->>>>               work->pinned = i915_gem_object_get(vma->obj);
->>>>           }
->>>>       } else {
->>>> +        if (vma->obj) {
->>>> +            int ret;
->>>> +
->>>> +            ret = i915_gem_object_wait_moving_fence(vma->obj, true);
->>>> +            if (ret)
->>>> +                return ret;
->>>> +        }
->>>>           vma->ops->bind_vma(vma->vm, NULL, vma, cache_level, 
->>>> bind_flags);
->>>>       }
->>>>   @@ -455,6 +462,10 @@ void __iomem *i915_vma_pin_iomap(struct 
->>>> i915_vma *vma)
->>>>         ptr = READ_ONCE(vma->iomap);
->>>>       if (ptr == NULL) {
->>>> +        err = i915_gem_object_wait_moving_fence(vma->obj, true);
->>>> +        if (err)
->>>> +            goto err;
->>>> +
->>>>           /*
->>>>            * TODO: consider just using i915_gem_object_pin_map() 
->>>> for lmem
->>>>            * instead, which already supports mapping non-contiguous 
->>>> chunks
->>>> @@ -496,6 +507,25 @@ void __iomem *i915_vma_pin_iomap(struct 
->>>> i915_vma *vma)
->>>>       return IO_ERR_PTR(err);
->>>>   }
->>>>   +void __iomem *i915_vma_pin_iomap_unlocked(struct i915_vma *vma)
->>>> +{
->>>> +    struct i915_gem_ww_ctx ww;
->>>> +    void __iomem *map;
->>>> +    int err;
->>>> +
->>>> +    for_i915_gem_ww(&ww, err, true) {
->>>> +        err = i915_gem_object_lock(vma->obj, &ww);
->>>> +        if (err)
->>>> +            continue;
->>>> +
->>>> +        map = i915_vma_pin_iomap(vma);
->>>> +    }
->>>> +    if (err)
->>>> +        map = IO_ERR_PTR(err);
->>>> +
->>>> +    return map;
->>>> +}
->>>
->>> What is the reason for this change? Is this strictly related to this 
->>> series/commit?
+>> This is related to commit e2809c7db818 ("drm/fb_helper: move deferred fb
+>> checking into restore mode (v2)")
 >>
->> Yes, it's because pulling out the moving fence requires the dma_resv 
->> lock.
->
-> Ok, I was thinking that vma_pin_iomap is only ever called on an 
-> already bound GGTT vma, for which we do a syncronous wait_for_bind, 
-> but maybe that's not always true?
->
-Hmm, Good point. We should probably replace that vma_pin_iomap stuff 
-with an assert that the
-binding fence is indeed signaled and error free? Because if binding 
-succeeded, no need to check the moving fence.
-
-/Thomas
-
-
-
-> Reviewed-by: Matthew Auld <matthew.auld@intel.com>
->
+>> When switching to VT, with Xorg and logind, if there
+>> are pending hotplug event (like MST unplugged), the hotplug path
+>> may not be fulfilled, because logind may drop the master a bit later.
+>> It leads to the console not showing up on the monitor.
 >>
->> /Thomas
+>> So when dropping the drm master, call the delayed hotplug function if
+>> needed.
 >>
+>> v2: rewrote the patch by calling the hotplug function after dropping master
 >>
+>> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+> 
+> Lastclose console restore is a very gross hack, and generally doesn't work
+> well.
+> 
+> The way this is supposed to work is:
+> - userspace drops drm master (because drm master always wins)
+> - userspace switches the console back to text mode (which will restore the
+>    console)
+> 
+> I guess we could also do this from dropmaster once more (like from
+> lastclose), but that really feels like papering over userspace bugs. And
+> given what a massive mess this entire area is already, I'm not eager to
+> add more hacks here.
+> 
+> So ... can't we fix userspace?
+
+I'm investigating if we can fix the userspace (Xorg/logind in this case).
+
+Basically there are 2 ioctl to switch to VT, and the kernel wants to 
+have DRM_IOCTL_DROP_MASTER, called before VT_RELDISP.
+The issue is that logind monitor /sys/class/tty/tty0/active to drop drm 
+master, so it occurs only after Xorg has done VT_RELDISP.
+
+Here are the call stack of both ioctl:
+
+Call stack in Xorg:
+
+ioctl(13, VT_RELDISP, 0x1)        = 0
+/usr/lib64/libc.so.6(ioctl+0xb) [0x10739b]
+/usr/libexec/Xorg(xf86VTLeave+0x150) [0x9c780]
+/usr/libexec/Xorg(WakeupHandler+0xb9) [0x5f969]
+/usr/libexec/Xorg(WaitForSomething+0x1ce) [0x1b5aee]
+/usr/libexec/Xorg(main+0x4fc) [0x48bbc]
+/usr/lib64/libc.so.6(__libc_start_call_main+0x7f) [0x2d55f]
+/usr/lib64/libc.so.6(__libc_start_main@@GLIBC_2.34+0x7b) [0x2d60b]
+/usr/libexec/Xorg(_start+0x24) [0x49674]
+
+Call stack in logind:
+
+ioctl(33, DRM_IOCTL_DROP_MASTER, 0) = 0
+/usr/lib64/libc.so.6(ioctl+0xb) [0x10739b]
+/usr/lib/systemd/systemd-logind(session_device_stop+0x4b)
+/usr/lib/systemd/systemd-logind(session_device_pause_all+0x67)
+/usr/lib/systemd/systemd-logind(seat_set_active.isra.0+0x5d)
+/usr/lib/systemd/systemd-logind(seat_read_active_vt.isra.0+0x139)
+/usr/lib/systemd/systemd-logind(manager_dispatch_console+0x25)
+/usr/lib/systemd/libsystemd-shared-249.so(source_dispatch+0x513)
+/usr/lib/systemd/libsystemd-shared-249.so(sd_event_dispatch+0x10c)
+/usr/lib/systemd/libsystemd-shared-249.so(sd_event_run+0x117)
+/usr/lib/systemd/systemd-logind(main+0x1b12) [0xff02]
+
+We probably have to patch both logind and Xorg, and introduce a new dbus 
+message, to fix this in userspace.
+
+Also I didn't see in the kernel documentation, where the order of these 
+two ioctl is specified. Maybe we should add a clear statement about this ?
+
+> 
+> Ofc if it's a regression then that's different, but then I think we need a
+> bit clearer implementation. I'm not clear on why you clear the callback
+> (plus the locking looks busted).
+> -Daniel
+
+-- 
+
+Jocelyn
+
