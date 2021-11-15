@@ -1,39 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9C0A452A9A
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Nov 2021 07:24:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 596E8452C9D
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Nov 2021 09:22:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 65EE46EDBF;
-	Tue, 16 Nov 2021 06:24:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EDA086EE1C;
+	Tue, 16 Nov 2021 08:22:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 61CA06EDBF;
- Tue, 16 Nov 2021 06:24:19 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C1A0A614C8;
- Tue, 16 Nov 2021 06:24:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1637043859;
- bh=9JLy3WeI3hgc2qnNfS8pLzvLY1KoU8y2UppMi4uDgCU=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=lIE+cuBE1w+gB4DcCAS23QNvS0s7yNtJ+xSSx7MePAr7MPgSR4PZQ+oUTpOhUr7Rn
- yI4FazZa9ZPze5BbfCFWX5swFod8ITxDnAozbdsEoMouFAt+po9AdK7TMP9CyjXlkf
- ixGlBgoHJ/IM3b/YZ7I9yg2LwDU8y4wdZi/GeDQ3a+qtS15kzl3kOR07W8DP5KIxJF
- kYlQ4rrHBjq9gS5AvdPO/6SASJtEGiIROg8Yvj6NIfrCS0MB0PfIqeOPPu8XAEp6HA
- 4PMz9oMHo4SZwQaPjkPUzhiL/zMK5JEeLf1BJey4veRdqPBUWssvZ/xKL/S56DjFAr
- xufKpabs2Eoww==
-From: Vinod Koul <vkoul@kernel.org>
-To: Rob Clark <robdclark@gmail.com>
-Subject: [PATCH v3 13/13] drm/msm/dsi: Pass DSC params to drm_panel
-Date: Tue, 16 Nov 2021 11:52:56 +0530
-Message-Id: <20211116062256.2417186-14-vkoul@kernel.org>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20211116062256.2417186-1-vkoul@kernel.org>
-References: <20211116062256.2417186-1-vkoul@kernel.org>
+X-Greylist: delayed 455 seconds by postgrey-1.36 at gabe;
+ Mon, 15 Nov 2021 16:09:37 UTC
+Received: from node.akkea.ca (li1434-30.members.linode.com [45.33.107.30])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8AE976E0A6
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 16:09:37 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by node.akkea.ca (Postfix) with ESMTP id 9719B5DE02F;
+ Mon, 15 Nov 2021 16:02:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=akkea.ca; s=mail;
+ t=1636992121; bh=9HCm74kmLej6uZvnc+Jiw+vlQTg3fDIin0BTbXZI4JE=;
+ h=From:To:Cc:Subject:Date;
+ b=UrsM7o0LNweHYdsuci+94sY6mmLbd4D1j+oxptcPAKDJC09Flz8NBsEPwegN1jie7
+ C1zvmsF5Is2zwZdDJFdKBn/djRwUGYt8qQAD0+fAG1/SDnh8jsbKqJEd26nCiTnUKk
+ zcts+xprIiV+a0Zeg5R1UTpsAynKOzwm+fk3C5w4=
+X-Virus-Scanned: Debian amavisd-new at mail.akkea.ca
+Received: from node.akkea.ca ([127.0.0.1])
+ by localhost (mail.akkea.ca [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id Si97c3LbDJVX; Mon, 15 Nov 2021 16:02:00 +0000 (UTC)
+Received: from midas.localdomain (S0106788a2041785e.gv.shawcable.net
+ [70.66.86.75])
+ by node.akkea.ca (Postfix) with ESMTPSA id 7F8385DE01D;
+ Mon, 15 Nov 2021 16:02:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=akkea.ca; s=mail;
+ t=1636992120; bh=9HCm74kmLej6uZvnc+Jiw+vlQTg3fDIin0BTbXZI4JE=;
+ h=From:To:Cc:Subject:Date;
+ b=GtXvJDtgW7fqQ9ZaIQ7Xljs23Hs8Yvops0NMI7kZuwTFwKV/rwlenobDPBygAaJa/
+ /0YG1AEseqfuOuf3InjmRKNCus1RouuLv4l0/FXfiKc/xCQDdNXWp6QxUzlQtyxj8B
+ u7jNfpfpRFIFHX+b9NSwsITUwIODDeC5VbnF2Ie4=
+From: Angus Ainslie <angus@akkea.ca>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH] drm: drm_probe_helper: add modes upto 1920x1080
+Date: Mon, 15 Nov 2021 08:01:35 -0800
+Message-Id: <20211115160135.25451-1-angus@akkea.ca>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Tue, 16 Nov 2021 08:22:24 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,74 +59,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jonathan Marek <jonathan@marek.ca>, Jeffrey Hugo <jeffrey.l.hugo@gmail.com>,
- David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, Abhinav Kumar <abhinavk@codeaurora.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, Vinod Koul <vkoul@kernel.org>,
- dri-devel@lists.freedesktop.org,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno@lists.freedesktop.org
+Cc: kernel@puri.sm, David Airlie <airlied@linux.ie>,
+ Angus Ainslie <angus@akkea.ca>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When DSC is enabled, we need to pass the DSC parameters to panel driver
-as well, so add a dsc parameter in panel and set it when DSC is enabled
+Lots of monitors nowdays support more than 1024x768 so if the EDID is
+unknown then add resolutions upto 1920x1080.
 
-Signed-off-by: Vinod Koul <vkoul@kernel.org>
+Signed-off-by: Angus Ainslie <angus@akkea.ca>
 ---
- drivers/gpu/drm/msm/dsi/dsi_host.c | 16 +++++++++++++++-
- include/drm/drm_panel.h            |  7 +++++++
- 2 files changed, 22 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/drm_probe_helper.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
-index 2c14c36f0b3d..3d5773fcf496 100644
---- a/drivers/gpu/drm/msm/dsi/dsi_host.c
-+++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
-@@ -2159,11 +2159,25 @@ int msm_dsi_host_modeset_init(struct mipi_dsi_host *host,
- 	struct msm_dsi_host *msm_host = to_msm_dsi_host(host);
- 	const struct msm_dsi_cfg_handler *cfg_hnd = msm_host->cfg_hnd;
- 	struct msm_drm_private *priv;
-+	struct drm_panel *panel;
- 	int ret;
+diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_probe_helper.c
+index e7e1ee2aa352..5ad66ae9916e 100644
+--- a/drivers/gpu/drm/drm_probe_helper.c
++++ b/drivers/gpu/drm/drm_probe_helper.c
+@@ -517,7 +517,7 @@ int drm_helper_probe_single_connector_modes(struct drm_connector *connector,
  
- 	msm_host->dev = dev;
-+	panel = msm_dsi_host_get_panel(&msm_host->base);
- 	priv = dev->dev_private;
--	priv->dsc = msm_host->dsc;
-+
-+	if (panel && panel->dsc) {
-+		struct msm_display_dsc_config *dsc = priv->dsc;
-+
-+		if (!dsc) {
-+			dsc = kzalloc(sizeof(*dsc), GFP_KERNEL);
-+			if (!dsc)
-+				return -ENOMEM;
-+			dsc->drm = panel->dsc;
-+			priv->dsc = dsc;
-+			msm_host->dsc = dsc;
-+		}
-+	}
- 
- 	ret = cfg_hnd->ops->tx_buf_alloc(msm_host, SZ_4K);
- 	if (ret) {
-diff --git a/include/drm/drm_panel.h b/include/drm/drm_panel.h
-index 4602f833eb51..eb8ae9bf32ed 100644
---- a/include/drm/drm_panel.h
-+++ b/include/drm/drm_panel.h
-@@ -171,6 +171,13 @@ struct drm_panel {
- 	 * Panel entry in registry.
- 	 */
- 	struct list_head list;
-+
-+	/**
-+	 * @dsc:
-+	 *
-+	 * Panel DSC pps payload to be sent
-+	 */
-+	struct drm_dsc_config *dsc;
- };
- 
- void drm_panel_init(struct drm_panel *panel, struct device *dev,
+ 	if (count == 0 && (connector->status == connector_status_connected ||
+ 			   connector->status == connector_status_unknown))
+-		count = drm_add_modes_noedid(connector, 1024, 768);
++		count = drm_add_modes_noedid(connector, 1920, 1080);
+ 	count += drm_helper_probe_add_cmdline_mode(connector);
+ 	if (count == 0)
+ 		goto prune;
 -- 
-2.31.1
+2.25.1
 
