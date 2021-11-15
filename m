@@ -2,52 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01E90450011
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 09:38:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4ADA5450054
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 09:54:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D42D86EAA7;
-	Mon, 15 Nov 2021 08:38:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 700D96E923;
+	Mon, 15 Nov 2021 08:54:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from netline-mail3.netline.ch (mail.netline.ch [148.251.143.180])
- by gabe.freedesktop.org (Postfix) with ESMTP id 9AE976EAA7;
- Mon, 15 Nov 2021 08:38:49 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by netline-mail3.netline.ch (Postfix) with ESMTP id 6C3A8202022;
- Mon, 15 Nov 2021 09:38:48 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at netline-mail3.netline.ch
-Received: from netline-mail3.netline.ch ([127.0.0.1])
- by localhost (netline-mail3.netline.ch [127.0.0.1]) (amavisd-new, port 10024)
- with LMTP id 4T_6P52zjLa2; Mon, 15 Nov 2021 09:38:48 +0100 (CET)
-Received: from thor (24.99.2.85.dynamic.wline.res.cust.swisscom.ch
- [85.2.99.24])
- by netline-mail3.netline.ch (Postfix) with ESMTPA id 18A73202021;
- Mon, 15 Nov 2021 09:38:48 +0100 (CET)
-Received: from [127.0.0.1] by thor with esmtp (Exim 4.95)
- (envelope-from <michel@daenzer.net>) id 1mmXVn-000S2V-Kh;
- Mon, 15 Nov 2021 09:38:47 +0100
-Message-ID: <cadb9503-b390-e254-ffba-5e2e11f100cc@daenzer.net>
-Date: Mon, 15 Nov 2021 09:38:47 +0100
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD7E56E923
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 08:54:46 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 9880061BE2;
+ Mon, 15 Nov 2021 08:54:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1636966486;
+ bh=1h0g2AYqXFphX4dDyELLl2t7YQIUXZ6UIHT7JYg2iMs=;
+ h=From:To:Cc:Subject:Date:From;
+ b=kv+C8zB0tbPMdXf3ORNkXrRH4MrGq92/hxOUWQ7rrNLjPwyN92rkebIKY8icgiOfU
+ pMdG65xZlUKOnr8NUOP6pmXxc3gZzuCmcsiwcDOb6St8hs6LkWB6n1ZZo98RlrnVvp
+ FkqOBIn33Yi9JZOuQ6miAmszWpYRosGKoEiu9hmpXWXS0VgUXakje0NXKySH0Rz+mZ
+ 5B6hNND+tRm0kn91fmSGmzeWYTduFgTH0JLa1xNb8xKQOI2gwIYz/OsIEp39PngVMt
+ ez7HK1j37N1+6Gl5sR4/i/hvvdNCZ5Sdb+Rvh2P8BC4uYTPFd5lIc2Ou5i9m3hH8E0
+ 48X4U7Q98MS4A==
+From: Arnd Bergmann <arnd@kernel.org>
+To: Vinod Koul <vkoul@kernel.org>
+Subject: [PATCH 00/11] dmaengine: kill off dma_slave_config->slave_id
+Date: Mon, 15 Nov 2021 09:53:52 +0100
+Message-Id: <20211115085403.360194-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Content-Language: en-CA
-To: Lang Yu <Lang.Yu@amd.com>
-References: <YYV0W1CxT5torU7u@phenom.ffwll.local>
- <64e70779-7c33-7849-aa29-aeaee4a89005@amd.com>
- <YYk7SkflDx8ToqYG@phenom.ffwll.local>
- <4ba7e3f8-7956-882a-6888-57e2448b907d@amd.com>
- <YYvIfXy9bwPokiK9@phenom.ffwll.local>
- <ab2fb071-12ab-da99-53c9-1411ca9acdaa@amd.com>
- <9a5b8470-d02d-71b4-4a89-6d6c32fdfa5d@daenzer.net>
- <88dfe9b4-e170-2d6b-604b-03af5d57152b@daenzer.net>
- <735f8781-982b-a09f-32fe-fded0024a587@gmail.com>
- <58097218-40dd-55fd-32d2-2a299d39230f@daenzer.net>
- <YZIA/dkvjuMsup24@lang-desktop>
-From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>
-Subject: Re: Questions about KMS flip
-In-Reply-To: <YZIA/dkvjuMsup24@lang-desktop>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -61,63 +44,118 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>, "Kazlauskas,
- Nicholas" <Nicholas.Kazlauskas@amd.com>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc: alsa-devel@alsa-project.org, dri-devel@lists.freedesktop.org,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, linux-tegra@vger.kernel.org,
+ Thierry Reding <thierry.reding@gmail.com>, linux-mtd@lists.infradead.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ linux-spi@vger.kernel.org, Robert Jarzmik <robert.jarzmik@free.fr>,
+ Chunyan Zhang <zhang.lyra@gmail.com>, linux-staging@lists.linux.dev,
+ Michal Simek <michal.simek@xilinx.com>, Jon Hunter <jonathanh@nvidia.com>,
+ Andy Gross <agross@kernel.org>, bcm-kernel-feedback-list@broadcom.com,
+ linux-serial@vger.kernel.org, Orson Zhai <orsonzhai@gmail.com>,
+ Nicolas Saenz Julienne <nsaenz@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ Manivannan Sadhasivam <mani@kernel.org>, linux-arm-msm@vger.kernel.org,
+ dmaengine@vger.kernel.org, Mark Brown <broonie@kernel.org>,
+ linux-rpi-kernel@lists.infradead.org, Jaroslav Kysela <perex@perex.cz>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ linux-arm-kernel@lists.infradead.org, Scott Branden <sbranden@broadcom.com>,
+ Hyun Kwon <hyun.kwon@xilinx.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-mmc@vger.kernel.org,
+ Takashi Iwai <tiwai@suse.com>, linux-kernel@vger.kernel.org,
+ Laxman Dewangan <ldewangan@nvidia.com>, Baolin Wang <baolin.wang7@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-11-15 07:41, Lang Yu wrote:
-> On Fri, Nov 12, 2021 at 05:10:27PM +0100, Michel DDDnzer wrote:
->> On 2021-11-12 16:03, Christian König wrote:
->>> Am 12.11.21 um 15:30 schrieb Michel Dänzer:
->>>> On 2021-11-12 15:29, Michel Dänzer wrote:
->>>>> On 2021-11-12 13:47, Christian König wrote:
->>>>>> Anyway this unfortunately turned out to be work for Harray and Nicholas. In detail it's about this bug report here: https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fbugzilla.kernel.org%2Fshow_bug.cgi%3Fid%3D214621&amp;data=04%7C01%7CLang.Yu%40amd.com%7Cca557eab16864ab544a108d9a5f6f288%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637723302338811983%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=9oG6k22BVp%2BkSvRX6uMlGXc6G%2BA5UL0Qy3W5iDTpvzs%3D&amp;reserved=0
->>>>>>
->>>>>> Lang was able to reproduce the issue and narrow it down to the pin in amdgpu_display_crtc_page_flip_target().
->>>>>>
->>>>>> In other words we somehow have an unbalanced pinning of the scanout buffer in DC.
->>>>> DC doesn't use amdgpu_display_crtc_page_flip_target AFAICT. The corresponding pin with DC would be in dm_plane_helper_prepare_fb, paired with the unpin in
->>>>> dm_plane_helper_cleanup_fb.
->>>>>
->>>>>
->>>>> With non-DC, the pin in amdgpu_display_crtc_page_flip_target is paired with the unpin in dm_plane_helper_cleanup_fb
->>>> This should say amdgpu_display_unpin_work_func.
->>>
->>> Ah! So that is the classic (e.g. non atomic) path?
->>
->> Presumably.
->>
->>
->>>>> & dce_v*_crtc_disable. One thing I notice is that the pin is guarded by if (!adev->enable_virtual_display), but the unpins seem unconditional. So could this be about virtual display, and the problem is actually trying to unpin a BO that was never pinned?
->>>
->>> Nope, my educated guess is rather that we free up the BO before amdgpu_display_unpin_work_func is called.
->>>
->>> E.g. not pin unbalance, but rather use after free.
->>
->> amdgpu_display_crtc_page_flip_target calls amdgpu_bo_ref(work->old_abo), and amdgpu_display_unpin_work_func calls amdgpu_bo_unref(&work->old_abo) only after amdgpu_bo_unpin. So what you describe could only happen if there's an imbalance elsewhere such that amdgpu_bo_unref is called more often than amdgpu_bo_ref, or maybe if amdgpu_bo_reserve fails in amdgpu_display_unpin_work_func (in which case the "failed to reserve buffer after flip" error message should appear in dmesg).
-> 
-> 
-> Actually, each call to amdgpu_display_crtc_page_flip_target() will
-> 
-> 1, init a work(amdgpu_display_unpin_work_func) to unpin an old buffer
->    (crtc->primary->fb), the work will be queued in dce_vX_0_pageflip_irq().
-> 
-> 2, pin a new buffer, assign it to crtc->primary->fb. But how to unpin it?
->    Next call.
-> 
-> The problem is the pinned buffer of last call to 
-> amdgpu_display_crtc_page_flip_target() is not unpinned.
+From: Arnd Bergmann <arnd@arndb.de>
 
-It's unpinned in dce_v*_0_crtc_disable.
+I recently came across some new uses of the 'slave_id' field that
+I had (almost) removed a few years ago. There are no legitimate
+uses of this field in the kernel, only a few stale references and
+two drivers that abuse the field as a side-channel between the
+dmaengine driver and its client.
 
+Let's change the xilinx and qualcomm drivers to use the documented
+side-channel (peripheral_data) instead, and remove the remnants of
+it to prevent new users from coming in.
 
-I think I've found the problem though: dce_v*_0_crtc_do_set_base pin the BO from target_fb unconditionally, but unpin the BO from the fb parameter only if it's different from the former. So if they're the same, the BO's pin count is incremented by 1.
+As the last patch in the series depends on all the others, it would
+be nice have everything merged into the dmaengine tree for v5.17.
 
+       Arnd
+
+Arnd Bergmann (11):
+  ASoC: dai_dma: remove slave_id field
+  spi: pic32: stop setting dma_config->slave_id
+  mmc: bcm2835: stop setting chan_config->slave_id
+  dmaengine: shdma: remove legacy slave_id parsing
+  dmaengine: pxa/mmp: stop referencing config->slave_id
+  dmaengine: sprd: stop referencing config->slave_id
+  dmaengine: qcom-adm: stop abusing slave_id config
+  dmaengine: xilinx_dpdma: stop using slave_id field
+  dmaengine: tegra20-apb: stop checking config->slave_id
+  staging: ralink-gdma: stop using slave_id config
+  dmaengine: remove slave_id config field
+
+ drivers/dma/mmp_pdma.c                    |  6 ---
+ drivers/dma/pxa_dma.c                     |  7 ---
+ drivers/dma/qcom/qcom_adm.c               | 56 ++++++++++++++++++++---
+ drivers/dma/sh/shdma-base.c               |  8 ----
+ drivers/dma/sprd-dma.c                    |  3 --
+ drivers/dma/tegra20-apb-dma.c             |  6 ---
+ drivers/dma/xilinx/xilinx_dpdma.c         | 12 +++--
+ drivers/gpu/drm/xlnx/zynqmp_disp.c        |  9 +++-
+ drivers/mmc/host/bcm2835.c                |  2 -
+ drivers/mtd/nand/raw/qcom_nandc.c         | 14 +++++-
+ drivers/spi/spi-pic32.c                   |  2 -
+ drivers/staging/ralink-gdma/ralink-gdma.c | 12 ++---
+ drivers/tty/serial/msm_serial.c           | 15 +++++-
+ include/linux/dma/qcom_adm.h              | 12 +++++
+ include/linux/dma/xilinx_dpdma.h          | 11 +++++
+ include/linux/dmaengine.h                 |  4 --
+ include/sound/dmaengine_pcm.h             |  2 -
+ sound/core/pcm_dmaengine.c                |  5 +-
+ sound/soc/tegra/tegra20_spdif.c           |  1 -
+ 19 files changed, 119 insertions(+), 68 deletions(-)
+ create mode 100644 include/linux/dma/qcom_adm.h
+ create mode 100644 include/linux/dma/xilinx_dpdma.h
 
 -- 
-Earthling Michel Dänzer            |                  https://redhat.com
-Libre software enthusiast          |         Mesa and Xwayland developer
+2.30.2
+
+Cc: Andy Gross <agross@kernel.org>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Arnd Bergmann <arnd@arndb.de>
+Cc: Baolin Wang <baolin.wang7@gmail.com>
+Cc: Bjorn Andersson <bjorn.andersson@linaro.org>
+Cc: Chunyan Zhang <zhang.lyra@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Hyun Kwon <hyun.kwon@xilinx.com>
+Cc: Jaroslav Kysela <perex@perex.cz>
+Cc: Jon Hunter <jonathanh@nvidia.com>
+Cc: Lars-Peter Clausen <lars@metafoo.de>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Laxman Dewangan <ldewangan@nvidia.com>
+Cc: Manivannan Sadhasivam <mani@kernel.org>
+Cc: Mark Brown <broonie@kernel.org>
+Cc: Michal Simek <michal.simek@xilinx.com>
+Cc: Nicolas Saenz Julienne <nsaenz@kernel.org>
+Cc: Orson Zhai <orsonzhai@gmail.com>
+Cc: Robert Jarzmik <robert.jarzmik@free.fr>
+Cc: Scott Branden <sbranden@broadcom.com>
+Cc: Takashi Iwai <tiwai@suse.com>
+Cc: Thierry Reding <thierry.reding@gmail.com>
+Cc: Vinod Koul <vkoul@kernel.org>
+Cc: alsa-devel@alsa-project.org
+Cc: bcm-kernel-feedback-list@broadcom.com
+Cc: dmaengine@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-arm-msm@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-mmc@vger.kernel.org
+Cc: linux-mtd@lists.infradead.org
+Cc: linux-rpi-kernel@lists.infradead.org
+Cc: linux-serial@vger.kernel.org
+Cc: linux-spi@vger.kernel.org
+Cc: linux-staging@lists.linux.dev
+Cc: linux-tegra@vger.kernel.org
