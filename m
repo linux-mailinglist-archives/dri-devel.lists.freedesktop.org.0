@@ -1,61 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CA534503EE
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 13:02:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C7C8450403
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 13:04:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 564BF6EA84;
-	Mon, 15 Nov 2021 12:01:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C733A6EAB4;
+	Mon, 15 Nov 2021 12:04:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE2416EA74
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 12:01:51 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 5E705218CE;
- Mon, 15 Nov 2021 12:01:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1636977710; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=aDYPBUZdNd5y1kHP7/4hoFTT6Jm4CGMFYfRzM5ER2f4=;
- b=U14zIigR8+cIO+SWltpvE2Hy6lZtDR3+3phBb9/5FGRz7wf7FfhWvol8LC6UBnuwZQGLBB
- HhJTuLmWr8O5gu7IG1K7xmHb20qLR7hiLG9I9Yg9seslEhOWW70bDzj6hmFW5ekS+5tWz6
- KarX75J/boplcv34aR7p6ghOhdnQq00=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1636977710;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=aDYPBUZdNd5y1kHP7/4hoFTT6Jm4CGMFYfRzM5ER2f4=;
- b=tOnyvhHfHhfo9FwY7untV7ufXANhyaXjbsf1wQVPuK4CBfv5zTOpA9Cr59zO71cqoQlBXW
- cfLHENtM+t0cGwDg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 25E5E13E37;
- Mon, 15 Nov 2021 12:01:50 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id gOtFCC5MkmHKVgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Mon, 15 Nov 2021 12:01:50 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: daniel@ffwll.ch, airlied@linux.ie, mripard@kernel.org,
- maarten.lankhorst@linux.intel.com, laurent.pinchart@ideasonboard.com,
- kieran.bingham+renesas@ideasonboard.com, emma@anholt.net
-Subject: [PATCH 3/3] drm/cma-helper: Pass GEM CMA object in public interfaces
-Date: Mon, 15 Nov 2021 13:01:48 +0100
-Message-Id: <20211115120148.21766-4-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20211115120148.21766-1-tzimmermann@suse.de>
-References: <20211115120148.21766-1-tzimmermann@suse.de>
+Received: from netline-mail3.netline.ch (mail.netline.ch [148.251.143.180])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 567A56EA7B;
+ Mon, 15 Nov 2021 12:04:17 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by netline-mail3.netline.ch (Postfix) with ESMTP id 82FDD202024;
+ Mon, 15 Nov 2021 13:04:16 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at netline-mail3.netline.ch
+Received: from netline-mail3.netline.ch ([127.0.0.1])
+ by localhost (netline-mail3.netline.ch [127.0.0.1]) (amavisd-new, port 10024)
+ with LMTP id egoHZeRvx0mx; Mon, 15 Nov 2021 13:04:16 +0100 (CET)
+Received: from thor (24.99.2.85.dynamic.wline.res.cust.swisscom.ch
+ [85.2.99.24])
+ by netline-mail3.netline.ch (Postfix) with ESMTPA id 2C23F202020;
+ Mon, 15 Nov 2021 13:04:16 +0100 (CET)
+Received: from [127.0.0.1] by thor with esmtp (Exim 4.95)
+ (envelope-from <michel@daenzer.net>) id 1mmaid-000Tmm-Fq;
+ Mon, 15 Nov 2021 13:04:15 +0100
+Message-ID: <e44a237c-0073-2eec-1a47-c5faf99f77b4@daenzer.net>
+Date: Mon, 15 Nov 2021 13:04:15 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Content-Language: en-CA
+To: Lang Yu <Lang.Yu@amd.com>
+References: <YYvIfXy9bwPokiK9@phenom.ffwll.local>
+ <ab2fb071-12ab-da99-53c9-1411ca9acdaa@amd.com>
+ <9a5b8470-d02d-71b4-4a89-6d6c32fdfa5d@daenzer.net>
+ <88dfe9b4-e170-2d6b-604b-03af5d57152b@daenzer.net>
+ <735f8781-982b-a09f-32fe-fded0024a587@gmail.com>
+ <58097218-40dd-55fd-32d2-2a299d39230f@daenzer.net>
+ <YZIA/dkvjuMsup24@lang-desktop>
+ <cadb9503-b390-e254-ffba-5e2e11f100cc@daenzer.net>
+ <YZIiqM6PKKL/ZMNy@lang-desktop>
+ <f1b88742-b07e-5973-1e30-9674a5950bf3@daenzer.net>
+ <YZJFHMEqm1oz7QJN@lang-desktop>
+From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>
+Subject: Re: Questions about KMS flip
+In-Reply-To: <YZJFHMEqm1oz7QJN@lang-desktop>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,294 +61,113 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-renesas-soc@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org
+Cc: Christian KKKnig <ckoenig.leichtzumerken@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>, "Kazlauskas,
+ Nicholas" <Nicholas.Kazlauskas@amd.com>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Christian KKKnig <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Change all GEM CMA object functions that receive a GEM object
-of type struct drm_gem_object to expect an object of type
-struct drm_gem_cma_object instead.
+On 2021-11-15 12:31, Lang Yu wrote:
+> On Mon, Nov 15, 2021 at 10:49:39AM +0100, Michel DDDnzer wrote:
+>> On 2021-11-15 10:04, Lang Yu wrote:
+>>> On Mon, Nov 15, 2021 at 09:38:47AM +0100, Michel DDDnzer wrote:
+>>>> On 2021-11-15 07:41, Lang Yu wrote:
+>>>>> On Fri, Nov 12, 2021 at 05:10:27PM +0100, Michel DDDnzer wrote:
+>>>>>> On 2021-11-12 16:03, Christian König wrote:
+>>>>>>> Am 12.11.21 um 15:30 schrieb Michel Dänzer:
+>>>>>>>> On 2021-11-12 15:29, Michel Dänzer wrote:
+>>>>>>>>> On 2021-11-12 13:47, Christian König wrote:
+>>>>>>>>>> Anyway this unfortunately turned out to be work for Harray and Nicholas. In detail it's about this bug report here: https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fbugzilla.kernel.org%2Fshow_bug.cgi%3Fid%3D214621&amp;data=04%7C01%7CLang.Yu%40amd.com%7Cee54c4d055d040ef9f8b08d9a81d3eb9%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637725665833112900%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=7nwIYd1um420XHVpOzeIvz37%2FLQqHF%2F6aRKfzgxUTnM%3D&amp;reserved=0
+>>>>>>>>>>
+>>>>>>>>>> Lang was able to reproduce the issue and narrow it down to the pin in amdgpu_display_crtc_page_flip_target().
+>>>>>>>>>>
+>>>>>>>>>> In other words we somehow have an unbalanced pinning of the scanout buffer in DC.
+>>>>>>>>> DC doesn't use amdgpu_display_crtc_page_flip_target AFAICT. The corresponding pin with DC would be in dm_plane_helper_prepare_fb, paired with the unpin in
+>>>>>>>>> dm_plane_helper_cleanup_fb.
+>>>>>>>>>
+>>>>>>>>>
+>>>>>>>>> With non-DC, the pin in amdgpu_display_crtc_page_flip_target is paired with the unpin in dm_plane_helper_cleanup_fb
+>>>>>>>> This should say amdgpu_display_unpin_work_func.
+>>>>>>>
+>>>>>>> Ah! So that is the classic (e.g. non atomic) path?
+>>>>>>
+>>>>>> Presumably.
+>>>>>>
+>>>>>>
+>>>>>>>>> & dce_v*_crtc_disable. One thing I notice is that the pin is guarded by if (!adev->enable_virtual_display), but the unpins seem unconditional. So could this be about virtual display, and the problem is actually trying to unpin a BO that was never pinned?
+>>>>>>>
+>>>>>>> Nope, my educated guess is rather that we free up the BO before amdgpu_display_unpin_work_func is called.
+>>>>>>>
+>>>>>>> E.g. not pin unbalance, but rather use after free.
+>>>>>>
+>>>>>> amdgpu_display_crtc_page_flip_target calls amdgpu_bo_ref(work->old_abo), and amdgpu_display_unpin_work_func calls amdgpu_bo_unref(&work->old_abo) only after amdgpu_bo_unpin. So what you describe could only happen if there's an imbalance elsewhere such that amdgpu_bo_unref is called more often than amdgpu_bo_ref, or maybe if amdgpu_bo_reserve fails in amdgpu_display_unpin_work_func (in which case the "failed to reserve buffer after flip" error message should appear in dmesg).
+>>>>>
+>>>>>
+>>>>> Actually, each call to amdgpu_display_crtc_page_flip_target() will
+>>>>>
+>>>>> 1, init a work(amdgpu_display_unpin_work_func) to unpin an old buffer
+>>>>>    (crtc->primary->fb), the work will be queued in dce_vX_0_pageflip_irq().
+>>>>>
+>>>>> 2, pin a new buffer, assign it to crtc->primary->fb. But how to unpin it?
+>>>>>    Next call.
+>>>>>
+>>>>> The problem is the pinned buffer of last call to 
+>>>>> amdgpu_display_crtc_page_flip_target() is not unpinned.
+>>>>
+>>>> It's unpinned in dce_v*_0_crtc_disable.
+>>>
+>>> I just found crtc->primary->fb is NULL when came in dce_v*_0_crtc_disable().
+>>> So it's not unpinned...
+>>
+>> __drm_helper_disable_unused_functions sets crtc->primary->fb = NULL only after calling crtc_funcs->disable. Maybe this path can get hit for a CRTC which was already disabled, in which case crtc->primary->fb == NULL in dce_v*_0_crtc_disable is harmless.
+>>
+>> Have you checked for the issue I described below? Should be pretty easy to catch.
+>>
+>>
+>>>> I think I've found the problem though: dce_v*_0_crtc_do_set_base pin the BO from target_fb unconditionally, but unpin the BO from the fb parameter only if it's different from the former. So if they're the same, the BO's pin count is incremented by 1.
+> 
+> Form my observations, amdgpu_bo_unpin() in dce_v*_0_crtc_disable() is
+> never called.
 
-This change reduces the number of upcasts from struct drm_gem_object
-by moving them into callers. The C compiler can now verify that the
-GEM CMA functions are called with the correct type.
+It would be expected to happen when the screen turns off, e.g. due to DPMS.
 
-For consistency, the patch also renames drm_gem_cma_free_object to
-drm_gem_cma_free. It further updates documentation for a number of
-functions.
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/gpu/drm/drm_gem_cma_helper.c | 52 +++++++++++++---------------
- drivers/gpu/drm/vc4/vc4_bo.c         |  4 +--
- include/drm/drm_gem_cma_helper.h     | 39 ++++++++++++---------
- 3 files changed, 48 insertions(+), 47 deletions(-)
+> Though a single call to dce_v*_0_crtc_do_set_base() will 
+> only pin the BO, I found it will be unpinned in next call to 
+> dce_v*_0_crtc_do_set_base().
 
-diff --git a/drivers/gpu/drm/drm_gem_cma_helper.c b/drivers/gpu/drm/drm_gem_cma_helper.c
-index 27ccb71e3d66..7d4895de9e0d 100644
---- a/drivers/gpu/drm/drm_gem_cma_helper.c
-+++ b/drivers/gpu/drm/drm_gem_cma_helper.c
-@@ -32,6 +32,10 @@
-  * The DRM GEM/CMA helpers use this allocator as a means to provide buffer
-  * objects that are physically contiguous in memory. This is useful for
-  * display drivers that are unable to map scattered buffers via an IOMMU.
-+ *
-+ * For GEM callback helpers in struct &drm_gem_object functions, see likewise
-+ * named functions with an _object_ infix (e.g., drm_gem_cma_object_vmap() wraps
-+ * drm_gem_cma_vmap()). These helpers perform the necessary type conversion.
-  */
- 
- static const struct drm_gem_object_funcs drm_gem_cma_default_funcs = {
-@@ -192,16 +196,16 @@ drm_gem_cma_create_with_handle(struct drm_file *file_priv,
- }
- 
- /**
-- * drm_gem_cma_free_object - free resources associated with a CMA GEM object
-- * @gem_obj: GEM object to free
-+ * drm_gem_cma_free - free resources associated with a CMA GEM object
-+ * @cma_obj: CMA GEM object to free
-  *
-  * This function frees the backing memory of the CMA GEM object, cleans up the
-  * GEM object state and frees the memory used to store the object itself.
-  * If the buffer is imported and the virtual address is set, it is released.
-  */
--void drm_gem_cma_free_object(struct drm_gem_object *gem_obj)
-+void drm_gem_cma_free(struct drm_gem_cma_object *cma_obj)
- {
--	struct drm_gem_cma_object *cma_obj = to_drm_gem_cma_obj(gem_obj);
-+	struct drm_gem_object *gem_obj = &cma_obj->base;
- 	struct dma_buf_map map = DMA_BUF_MAP_INIT_VADDR(cma_obj->vaddr);
- 
- 	if (gem_obj->import_attach) {
-@@ -222,7 +226,7 @@ void drm_gem_cma_free_object(struct drm_gem_object *gem_obj)
- 
- 	kfree(cma_obj);
- }
--EXPORT_SYMBOL_GPL(drm_gem_cma_free_object);
-+EXPORT_SYMBOL_GPL(drm_gem_cma_free);
- 
- /**
-  * drm_gem_cma_dumb_create_internal - create a dumb buffer object
-@@ -369,18 +373,15 @@ EXPORT_SYMBOL_GPL(drm_gem_cma_get_unmapped_area);
- 
- /**
-  * drm_gem_cma_print_info() - Print &drm_gem_cma_object info for debugfs
-+ * @cma_obj: CMA GEM object
-  * @p: DRM printer
-  * @indent: Tab indentation level
-- * @obj: GEM object
-  *
-- * This function can be used as the &drm_driver->gem_print_info callback.
-- * It prints paddr and vaddr for use in e.g. debugfs output.
-+ * This function prints paddr and vaddr for use in e.g. debugfs output.
-  */
--void drm_gem_cma_print_info(struct drm_printer *p, unsigned int indent,
--			    const struct drm_gem_object *obj)
-+void drm_gem_cma_print_info(const struct drm_gem_cma_object *cma_obj,
-+			    struct drm_printer *p, unsigned int indent)
- {
--	const struct drm_gem_cma_object *cma_obj = to_drm_gem_cma_obj(obj);
--
- 	drm_printf_indent(p, indent, "paddr=%pad\n", &cma_obj->paddr);
- 	drm_printf_indent(p, indent, "vaddr=%p\n", cma_obj->vaddr);
- }
-@@ -389,7 +390,7 @@ EXPORT_SYMBOL(drm_gem_cma_print_info);
- /**
-  * drm_gem_cma_get_sg_table - provide a scatter/gather table of pinned
-  *     pages for a CMA GEM object
-- * @obj: GEM object
-+ * @cma_obj: CMA GEM object
-  *
-  * This function exports a scatter/gather table by calling the standard
-  * DMA mapping API.
-@@ -397,9 +398,9 @@ EXPORT_SYMBOL(drm_gem_cma_print_info);
-  * Returns:
-  * A pointer to the scatter/gather table of pinned pages or NULL on failure.
-  */
--struct sg_table *drm_gem_cma_get_sg_table(struct drm_gem_object *obj)
-+struct sg_table *drm_gem_cma_get_sg_table(struct drm_gem_cma_object *cma_obj)
- {
--	struct drm_gem_cma_object *cma_obj = to_drm_gem_cma_obj(obj);
-+	struct drm_gem_object *obj = &cma_obj->base;
- 	struct sg_table *sgt;
- 	int ret;
- 
-@@ -465,22 +466,19 @@ EXPORT_SYMBOL_GPL(drm_gem_cma_prime_import_sg_table);
- /**
-  * drm_gem_cma_vmap - map a CMA GEM object into the kernel's virtual
-  *     address space
-- * @obj: GEM object
-+ * @cma_obj: CMA GEM object
-  * @map: Returns the kernel virtual address of the CMA GEM object's backing
-  *       store.
-  *
-- * This function maps a buffer into the kernel's
-- * virtual address space. Since the CMA buffers are already mapped into the
-- * kernel virtual address space this simply returns the cached virtual
-- * address.
-+ * This function maps a buffer into the kernel's virtual address space.
-+ * Since the CMA buffers are already mapped into the kernel virtual address
-+ * space this simply returns the cached virtual address.
-  *
-  * Returns:
-  * 0 on success, or a negative error code otherwise.
-  */
--int drm_gem_cma_vmap(struct drm_gem_object *obj, struct dma_buf_map *map)
-+int drm_gem_cma_vmap(struct drm_gem_cma_object *cma_obj, struct dma_buf_map *map)
- {
--	struct drm_gem_cma_object *cma_obj = to_drm_gem_cma_obj(obj);
--
- 	dma_buf_map_set_vaddr(map, cma_obj->vaddr);
- 
- 	return 0;
-@@ -489,7 +487,7 @@ EXPORT_SYMBOL_GPL(drm_gem_cma_vmap);
- 
- /**
-  * drm_gem_cma_mmap - memory-map an exported CMA GEM object
-- * @obj: GEM object
-+ * @cma_obj: CMA GEM object
-  * @vma: VMA for the area to be mapped
-  *
-  * This function maps a buffer into a userspace process's address space.
-@@ -499,9 +497,9 @@ EXPORT_SYMBOL_GPL(drm_gem_cma_vmap);
-  * Returns:
-  * 0 on success or a negative error code on failure.
-  */
--int drm_gem_cma_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma)
-+int drm_gem_cma_mmap(struct drm_gem_cma_object *cma_obj, struct vm_area_struct *vma)
- {
--	struct drm_gem_cma_object *cma_obj;
-+	struct drm_gem_object *obj = &cma_obj->base;
- 	int ret;
- 
- 	/*
-@@ -512,8 +510,6 @@ int drm_gem_cma_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma)
- 	vma->vm_pgoff -= drm_vma_node_start(&obj->vma_node);
- 	vma->vm_flags &= ~VM_PFNMAP;
- 
--	cma_obj = to_drm_gem_cma_obj(obj);
--
- 	if (cma_obj->map_noncoherent) {
- 		vma->vm_page_prot = vm_get_page_prot(vma->vm_flags);
- 
-diff --git a/drivers/gpu/drm/vc4/vc4_bo.c b/drivers/gpu/drm/vc4/vc4_bo.c
-index 830756b3159e..6d1281a343e9 100644
---- a/drivers/gpu/drm/vc4/vc4_bo.c
-+++ b/drivers/gpu/drm/vc4/vc4_bo.c
-@@ -177,7 +177,7 @@ static void vc4_bo_destroy(struct vc4_bo *bo)
- 		bo->validated_shader = NULL;
- 	}
- 
--	drm_gem_cma_free_object(obj);
-+	drm_gem_cma_free(&bo->base);
- }
- 
- static void vc4_bo_remove_from_cache(struct vc4_bo *bo)
-@@ -720,7 +720,7 @@ static int vc4_gem_object_mmap(struct drm_gem_object *obj, struct vm_area_struct
- 		return -EINVAL;
- 	}
- 
--	return drm_gem_cma_mmap(obj, vma);
-+	return drm_gem_cma_mmap(&bo->base, vma);
- }
- 
- static const struct vm_operations_struct vc4_vm_ops = {
-diff --git a/include/drm/drm_gem_cma_helper.h b/include/drm/drm_gem_cma_helper.h
-index 56d2f9fdf9ac..adb507a9dbf0 100644
---- a/include/drm/drm_gem_cma_helper.h
-+++ b/include/drm/drm_gem_cma_helper.h
-@@ -32,28 +32,23 @@ struct drm_gem_cma_object {
- #define to_drm_gem_cma_obj(gem_obj) \
- 	container_of(gem_obj, struct drm_gem_cma_object, base)
- 
--/* free GEM object */
--void drm_gem_cma_free_object(struct drm_gem_object *gem_obj);
--
--/* allocate physical memory */
- struct drm_gem_cma_object *drm_gem_cma_create(struct drm_device *drm,
- 					      size_t size);
-+void drm_gem_cma_free(struct drm_gem_cma_object *cma_obj);
-+void drm_gem_cma_print_info(const struct drm_gem_cma_object *cma_obj,
-+			    struct drm_printer *p, unsigned int indent);
-+struct sg_table *drm_gem_cma_get_sg_table(struct drm_gem_cma_object *cma_obj);
-+int drm_gem_cma_vmap(struct drm_gem_cma_object *cma_obj, struct dma_buf_map *map);
-+int drm_gem_cma_mmap(struct drm_gem_cma_object *cma_obj, struct vm_area_struct *vma);
- 
- extern const struct vm_operations_struct drm_gem_cma_vm_ops;
- 
--void drm_gem_cma_print_info(struct drm_printer *p, unsigned int indent,
--			    const struct drm_gem_object *obj);
--
--struct sg_table *drm_gem_cma_get_sg_table(struct drm_gem_object *obj);
--int drm_gem_cma_vmap(struct drm_gem_object *obj, struct dma_buf_map *map);
--int drm_gem_cma_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma);
--
- /*
-  * GEM object functions
-  */
- 
- /**
-- * drm_gem_cma_object_free - GEM object function for drm_gem_cma_free_object()
-+ * drm_gem_cma_object_free - GEM object function for drm_gem_cma_free()
-  * @obj: GEM object to free
-  *
-  * This function wraps drm_gem_cma_free_object(). Drivers that employ the CMA helpers
-@@ -61,7 +56,9 @@ int drm_gem_cma_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma);
-  */
- static inline void drm_gem_cma_object_free(struct drm_gem_object *obj)
- {
--	drm_gem_cma_free_object(obj);
-+	struct drm_gem_cma_object *cma_obj = to_drm_gem_cma_obj(obj);
-+
-+	drm_gem_cma_free(cma_obj);
- }
- 
- /**
-@@ -76,7 +73,9 @@ static inline void drm_gem_cma_object_free(struct drm_gem_object *obj)
- static inline void drm_gem_cma_object_print_info(struct drm_printer *p, unsigned int indent,
- 						 const struct drm_gem_object *obj)
- {
--	drm_gem_cma_print_info(p, indent, obj);
-+	const struct drm_gem_cma_object *cma_obj = to_drm_gem_cma_obj(obj);
-+
-+	drm_gem_cma_print_info(cma_obj, p, indent);
- }
- 
- /**
-@@ -91,7 +90,9 @@ static inline void drm_gem_cma_object_print_info(struct drm_printer *p, unsigned
-  */
- static inline struct sg_table *drm_gem_cma_object_get_sg_table(struct drm_gem_object *obj)
- {
--	return drm_gem_cma_get_sg_table(obj);
-+	struct drm_gem_cma_object *cma_obj = to_drm_gem_cma_obj(obj);
-+
-+	return drm_gem_cma_get_sg_table(cma_obj);
- }
- 
- /*
-@@ -107,7 +108,9 @@ static inline struct sg_table *drm_gem_cma_object_get_sg_table(struct drm_gem_ob
-  */
- static inline int drm_gem_cma_object_vmap(struct drm_gem_object *obj, struct dma_buf_map *map)
- {
--	return drm_gem_cma_vmap(obj, map);
-+	struct drm_gem_cma_object *cma_obj = to_drm_gem_cma_obj(obj);
-+
-+	return drm_gem_cma_vmap(cma_obj, map);
- }
- 
- /**
-@@ -123,7 +126,9 @@ static inline int drm_gem_cma_object_vmap(struct drm_gem_object *obj, struct dma
-  */
- static inline int drm_gem_cma_object_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma)
- {
--	return drm_gem_cma_mmap(obj, vma);
-+	struct drm_gem_cma_object *cma_obj = to_drm_gem_cma_obj(obj);
-+
-+	return drm_gem_cma_mmap(cma_obj, vma);
- }
- 
- /*
+Yeah, that's the normal case when the new BO is different from the old one.
+
+To catch the case I described, try something like
+
+diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c b/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c
+
+index 18a7b3bd633b..5726bd87a355 100644
+
+--- a/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c
+
++++ b/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c
+
+@@ -1926,6 +1926,7 @@ static int dce_v11_0_crtc_do_set_base(struct drm_crtc *crtc,
+
+                return r;
+
+
+
+        if (!atomic) {
+
++               WARN_ON_ONCE(target_fb == fb);
+
+                r = amdgpu_bo_pin(abo, AMDGPU_GEM_DOMAIN_VRAM);
+
+                if (unlikely(r != 0)) {
+
+                        amdgpu_bo_unreserve(abo);
+
+
+
 -- 
-2.33.1
-
+Earthling Michel Dänzer            |                  https://redhat.com
+Libre software enthusiast          |         Mesa and Xwayland developer
