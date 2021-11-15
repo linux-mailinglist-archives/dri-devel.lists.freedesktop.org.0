@@ -1,43 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8B41450485
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 13:37:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D68545048A
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 13:38:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 730916E041;
-	Mon, 15 Nov 2021 12:36:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 655426E0D6;
+	Mon, 15 Nov 2021 12:38:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 332406E030;
- Mon, 15 Nov 2021 12:36:53 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10168"; a="214153566"
-X-IronPort-AV: E=Sophos;i="5.87,236,1631602800"; d="scan'208";a="214153566"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Nov 2021 04:36:52 -0800
-X-IronPort-AV: E=Sophos;i="5.87,236,1631602800"; d="scan'208";a="566425557"
-Received: from jmegan-mobl.ger.corp.intel.com (HELO [10.252.8.73])
- ([10.252.8.73])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Nov 2021 04:36:50 -0800
-Message-ID: <7a20547f-0189-1072-ec90-9fdb9e3f5e04@intel.com>
-Date: Mon, 15 Nov 2021 12:36:47 +0000
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5BAB66E0D6
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 12:38:25 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 2D0E76137B
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 12:38:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1636979905;
+ bh=0vPaiFLUq2SXWicOiHJ0dTL68j+HqvYqhdUUZpm4Lbg=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=I+1x2XZxjf0LcgW3lMmbiJPZ71Bi+3kqOGuAZRKXN1JfNBFrZaiB21OzI8/74f0h0
+ Qq9j3mNJNww5Ebh37UUU7T73Uy/xgxrT9Cch7mYImOv2H/bbOmofM9xkajEGTkGGUU
+ hGAI73KgAeiXM888w+zysyYQTZ4yYyjDXcXqXXwQJ8IyYB0pf/b0pqA/XCjqw9IpRl
+ yCWpvb6UA7WovNrxde2iEzHRITt42AWtZE7nvXGbJMW3vN4eAR3DyqEs1DZrNZzLk2
+ tuMyHLag1K86+X0psZqBhLcvq1czh8i8zV/S46+iyDlDN0sbFnwCD3e9XH7d1GqYQT
+ IxYpNW3g9oKFg==
+Received: by mail-wm1-f47.google.com with SMTP id
+ az33-20020a05600c602100b00333472fef04so14934100wmb.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 04:38:25 -0800 (PST)
+X-Gm-Message-State: AOAM532qIsd0BbGFA9WrkBrMLhcrkhPJ751Jh78JB8VBjJyy8zuICLJI
+ 3gYFtaFYapL2s5hrEg4KrmPjFP87QSp0XkycEMc=
+X-Google-Smtp-Source: ABdhPJwFTprJJd11s9duELVend6oLQx+lemeU4w9vOaJiXxZUrLq0sghW72KOFAqYJMNV8KCFht4GWVIPZFIhNgyYas=
+X-Received: by 2002:a1c:770e:: with SMTP id t14mr58047076wmi.173.1636979903584; 
+ Mon, 15 Nov 2021 04:38:23 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v3 2/6] drm/i915: Add support for asynchronous moving
- fence waiting
-Content-Language: en-GB
-To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-References: <20211114111218.623138-1-thomas.hellstrom@linux.intel.com>
- <20211114111218.623138-3-thomas.hellstrom@linux.intel.com>
-From: Matthew Auld <matthew.auld@intel.com>
-In-Reply-To: <20211114111218.623138-3-thomas.hellstrom@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20211115085403.360194-1-arnd@kernel.org>
+ <20211115085403.360194-9-arnd@kernel.org>
+ <YZIk6cVb7XibrMjf@pendragon.ideasonboard.com>
+ <CAK8P3a1Fu11-e0CK2of8u3ebdjom84UKuXhBKi5FUs5ZPPdOVA@mail.gmail.com>
+ <YZJJVA/92KYH8hQL@pendragon.ideasonboard.com>
+In-Reply-To: <YZJJVA/92KYH8hQL@pendragon.ideasonboard.com>
+From: Arnd Bergmann <arnd@kernel.org>
+Date: Mon, 15 Nov 2021 13:38:07 +0100
+X-Gmail-Original-Message-ID: <CAK8P3a27rPBVbU-PrYR0BE4KV2DyJk7FoXaeDS=FU1=_RSwoQQ@mail.gmail.com>
+Message-ID: <CAK8P3a27rPBVbU-PrYR0BE4KV2DyJk7FoXaeDS=FU1=_RSwoQQ@mail.gmail.com>
+Subject: Re: [PATCH 08/11] dmaengine: xilinx_dpdma: stop using slave_id field
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,304 +58,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: ALSA Development Mailing List <alsa-devel@alsa-project.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ "open list:TEGRA ARCHITECTURE SUPPORT" <linux-tegra@vger.kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ linux-mtd <linux-mtd@lists.infradead.org>,
+ linux-spi <linux-spi@vger.kernel.org>, Robert Jarzmik <robert.jarzmik@free.fr>,
+ Chunyan Zhang <zhang.lyra@gmail.com>, linux-staging@lists.linux.dev,
+ Michal Simek <michal.simek@xilinx.com>, Jon Hunter <jonathanh@nvidia.com>,
+ Andy Gross <agross@kernel.org>,
+ bcm-kernel-feedback-list <bcm-kernel-feedback-list@broadcom.com>,
+ "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
+ Orson Zhai <orsonzhai@gmail.com>, Nicolas Saenz Julienne <nsaenz@kernel.org>,
+ Arnd Bergmann <arnd@arndb.de>, Manivannan Sadhasivam <mani@kernel.org>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>, dmaengine@vger.kernel.org,
+ Mark Brown <broonie@kernel.org>,
+ "moderated list:BROADCOM BCM2835 ARM ARCHITECTURE"
+ <linux-rpi-kernel@lists.infradead.org>, Jaroslav Kysela <perex@perex.cz>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Scott Branden <sbranden@broadcom.com>, Hyun Kwon <hyun.kwon@xilinx.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-mmc <linux-mmc@vger.kernel.org>, Takashi Iwai <tiwai@suse.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Vinod Koul <vkoul@kernel.org>, Laxman Dewangan <ldewangan@nvidia.com>,
+ Baolin Wang <baolin.wang7@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 14/11/2021 11:12, Thomas Hellström wrote:
-> From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> 
-> For now, we will only allow async migration when TTM is used,
-> so the paths we care about are related to TTM.
-> 
-> The mmap path is handled by having the fence in ttm_bo->moving,
-> when pinning, the binding only becomes available after the moving
-> fence is signaled, and pinning a cpu map will only work after
-> the moving fence signals.
-> 
-> This should close all holes where userspace can read a buffer
-> before it's fully migrated.
-> 
-> v2:
-> - Fix a couple of SPARSE warnings
-> v3:
-> - Fix a NULL pointer dereference
-> 
-> Co-developed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> ---
->   drivers/gpu/drm/i915/display/intel_fbdev.c    |  7 ++--
->   drivers/gpu/drm/i915/display/intel_overlay.c  |  2 +-
->   drivers/gpu/drm/i915/gem/i915_gem_pages.c     |  6 +++
->   .../i915/gem/selftests/i915_gem_coherency.c   |  4 +-
->   .../drm/i915/gem/selftests/i915_gem_mman.c    | 22 ++++++-----
->   drivers/gpu/drm/i915/i915_vma.c               | 39 ++++++++++++++++++-
->   drivers/gpu/drm/i915/i915_vma.h               |  3 ++
->   drivers/gpu/drm/i915/selftests/i915_vma.c     |  4 +-
->   8 files changed, 69 insertions(+), 18 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/display/intel_fbdev.c b/drivers/gpu/drm/i915/display/intel_fbdev.c
-> index adc3a81be9f7..5902ad0c2bd8 100644
-> --- a/drivers/gpu/drm/i915/display/intel_fbdev.c
-> +++ b/drivers/gpu/drm/i915/display/intel_fbdev.c
-> @@ -265,11 +265,12 @@ static int intelfb_create(struct drm_fb_helper *helper,
->   		info->fix.smem_len = vma->node.size;
->   	}
->   
-> -	vaddr = i915_vma_pin_iomap(vma);
-> +	vaddr = i915_vma_pin_iomap_unlocked(vma);
->   	if (IS_ERR(vaddr)) {
-> -		drm_err(&dev_priv->drm,
-> -			"Failed to remap framebuffer into virtual memory\n");
->   		ret = PTR_ERR(vaddr);
-> +		if (ret != -EINTR && ret != -ERESTARTSYS)
-> +			drm_err(&dev_priv->drm,
-> +				"Failed to remap framebuffer into virtual memory\n");
->   		goto out_unpin;
->   	}
->   	info->screen_base = vaddr;
-> diff --git a/drivers/gpu/drm/i915/display/intel_overlay.c b/drivers/gpu/drm/i915/display/intel_overlay.c
-> index 7e3f5c6ca484..21593f3f2664 100644
-> --- a/drivers/gpu/drm/i915/display/intel_overlay.c
-> +++ b/drivers/gpu/drm/i915/display/intel_overlay.c
-> @@ -1357,7 +1357,7 @@ static int get_registers(struct intel_overlay *overlay, bool use_phys)
->   		overlay->flip_addr = sg_dma_address(obj->mm.pages->sgl);
->   	else
->   		overlay->flip_addr = i915_ggtt_offset(vma);
-> -	overlay->regs = i915_vma_pin_iomap(vma);
-> +	overlay->regs = i915_vma_pin_iomap_unlocked(vma);
->   	i915_vma_unpin(vma);
->   
->   	if (IS_ERR(overlay->regs)) {
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_pages.c b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
-> index c4f684b7cc51..49c6e55c68ce 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_pages.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
-> @@ -418,6 +418,12 @@ void *i915_gem_object_pin_map(struct drm_i915_gem_object *obj,
->   	}
->   
->   	if (!ptr) {
-> +		err = i915_gem_object_wait_moving_fence(obj, true);
-> +		if (err) {
-> +			ptr = ERR_PTR(err);
-> +			goto err_unpin;
-> +		}
-> +
->   		if (GEM_WARN_ON(type == I915_MAP_WC &&
->   				!static_cpu_has(X86_FEATURE_PAT)))
->   			ptr = ERR_PTR(-ENODEV);
-> diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_coherency.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_coherency.c
-> index 13b088cc787e..067c512961ba 100644
-> --- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_coherency.c
-> +++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_coherency.c
-> @@ -101,7 +101,7 @@ static int gtt_set(struct context *ctx, unsigned long offset, u32 v)
->   
->   	intel_gt_pm_get(vma->vm->gt);
->   
-> -	map = i915_vma_pin_iomap(vma);
-> +	map = i915_vma_pin_iomap_unlocked(vma);
->   	i915_vma_unpin(vma);
->   	if (IS_ERR(map)) {
->   		err = PTR_ERR(map);
-> @@ -134,7 +134,7 @@ static int gtt_get(struct context *ctx, unsigned long offset, u32 *v)
->   
->   	intel_gt_pm_get(vma->vm->gt);
->   
-> -	map = i915_vma_pin_iomap(vma);
-> +	map = i915_vma_pin_iomap_unlocked(vma);
->   	i915_vma_unpin(vma);
->   	if (IS_ERR(map)) {
->   		err = PTR_ERR(map);
-> diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
-> index 6d30cdfa80f3..5d54181c2145 100644
-> --- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
-> +++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
-> @@ -125,12 +125,13 @@ static int check_partial_mapping(struct drm_i915_gem_object *obj,
->   	n = page - view.partial.offset;
->   	GEM_BUG_ON(n >= view.partial.size);
->   
-> -	io = i915_vma_pin_iomap(vma);
-> +	io = i915_vma_pin_iomap_unlocked(vma);
->   	i915_vma_unpin(vma);
->   	if (IS_ERR(io)) {
-> -		pr_err("Failed to iomap partial view: offset=%lu; err=%d\n",
-> -		       page, (int)PTR_ERR(io));
->   		err = PTR_ERR(io);
-> +		if (err != -EINTR && err != -ERESTARTSYS)
-> +			pr_err("Failed to iomap partial view: offset=%lu; err=%d\n",
-> +			       page, err);
->   		goto out;
->   	}
->   
-> @@ -219,12 +220,15 @@ static int check_partial_mappings(struct drm_i915_gem_object *obj,
->   		n = page - view.partial.offset;
->   		GEM_BUG_ON(n >= view.partial.size);
->   
-> -		io = i915_vma_pin_iomap(vma);
-> +		io = i915_vma_pin_iomap_unlocked(vma);
->   		i915_vma_unpin(vma);
->   		if (IS_ERR(io)) {
-> -			pr_err("Failed to iomap partial view: offset=%lu; err=%d\n",
-> -			       page, (int)PTR_ERR(io));
-> -			return PTR_ERR(io);
-> +			int err = PTR_ERR(io);
-> +
-> +			if (err != -EINTR && err != -ERESTARTSYS)
-> +				pr_err("Failed to iomap partial view: offset=%lu; err=%d\n",
-> +				       page, err);
-> +			return err;
->   		}
->   
->   		iowrite32(page, io + n * PAGE_SIZE / sizeof(*io));
-> @@ -773,7 +777,7 @@ static int gtt_set(struct drm_i915_gem_object *obj)
->   		return PTR_ERR(vma);
->   
->   	intel_gt_pm_get(vma->vm->gt);
-> -	map = i915_vma_pin_iomap(vma);
-> +	map = i915_vma_pin_iomap_unlocked(vma);
->   	i915_vma_unpin(vma);
->   	if (IS_ERR(map)) {
->   		err = PTR_ERR(map);
-> @@ -799,7 +803,7 @@ static int gtt_check(struct drm_i915_gem_object *obj)
->   		return PTR_ERR(vma);
->   
->   	intel_gt_pm_get(vma->vm->gt);
-> -	map = i915_vma_pin_iomap(vma);
-> +	map = i915_vma_pin_iomap_unlocked(vma);
->   	i915_vma_unpin(vma);
->   	if (IS_ERR(map)) {
->   		err = PTR_ERR(map);
-> diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
-> index 8781c4f61952..069f22b3cd48 100644
-> --- a/drivers/gpu/drm/i915/i915_vma.c
-> +++ b/drivers/gpu/drm/i915/i915_vma.c
-> @@ -431,6 +431,13 @@ int i915_vma_bind(struct i915_vma *vma,
->   			work->pinned = i915_gem_object_get(vma->obj);
->   		}
->   	} else {
-> +		if (vma->obj) {
-> +			int ret;
-> +
-> +			ret = i915_gem_object_wait_moving_fence(vma->obj, true);
-> +			if (ret)
-> +				return ret;
-> +		}
->   		vma->ops->bind_vma(vma->vm, NULL, vma, cache_level, bind_flags);
->   	}
->   
-> @@ -455,6 +462,10 @@ void __iomem *i915_vma_pin_iomap(struct i915_vma *vma)
->   
->   	ptr = READ_ONCE(vma->iomap);
->   	if (ptr == NULL) {
-> +		err = i915_gem_object_wait_moving_fence(vma->obj, true);
-> +		if (err)
-> +			goto err;
-> +
->   		/*
->   		 * TODO: consider just using i915_gem_object_pin_map() for lmem
->   		 * instead, which already supports mapping non-contiguous chunks
-> @@ -496,6 +507,25 @@ void __iomem *i915_vma_pin_iomap(struct i915_vma *vma)
->   	return IO_ERR_PTR(err);
->   }
->   
-> +void __iomem *i915_vma_pin_iomap_unlocked(struct i915_vma *vma)
-> +{
-> +	struct i915_gem_ww_ctx ww;
-> +	void __iomem *map;
-> +	int err;
-> +
-> +	for_i915_gem_ww(&ww, err, true) {
-> +		err = i915_gem_object_lock(vma->obj, &ww);
-> +		if (err)
-> +			continue;
-> +
-> +		map = i915_vma_pin_iomap(vma);
-> +	}
-> +	if (err)
-> +		map = IO_ERR_PTR(err);
-> +
-> +	return map;
-> +}
+On Mon, Nov 15, 2021 at 12:49 PM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+> On Mon, Nov 15, 2021 at 11:21:30AM +0100, Arnd Bergmann wrote:
+> > On Mon, Nov 15, 2021 at 10:14 AM Laurent Pinchart wrote:
+> > > On Mon, Nov 15, 2021 at 09:54:00AM +0100, Arnd Bergmann wrote:
+> > > > @@ -1285,11 +1287,13 @@ static int xilinx_dpdma_config(struct dma_chan *dchan,
+> > > >       spin_lock_irqsave(&chan->lock, flags);
+> > > >
+> > > >       /*
+> > > > -      * Abuse the slave_id to indicate that the channel is part of a video
+> > > > -      * group.
+> > > > +      * Abuse the peripheral_config to indicate that the channel is part
+> > >
+> > > Is it still an abuse, or is this now the right way to pass custom data
+> > > to the DMA engine driver ?
+> >
+> > It doesn't make the driver any more portable, but it's now being
+> > more explicit about it. As far as I can tell, this is the best way
+> > to pass data that cannot be expressed through the regular interfaces
+> > in DT and the dmaengine API.
+> >
+> > Ideally there would be a generic way to pass this flag, but I couldn't
+> > figure out what this is actually doing, or whether there is a better
+> > way. Maybe Vinod has an idea.
+>
+> I don't think we need a generic API in this case. The DMA engine is
+> specific to the display device, I don't foresee a need to mix-n-match.
 
-What is the reason for this change? Is this strictly related to this 
-series/commit?
 
-> +
->   void i915_vma_flush_writes(struct i915_vma *vma)
->   {
->   	if (i915_vma_unset_ggtt_write(vma))
-> @@ -870,6 +900,7 @@ int i915_vma_pin_ww(struct i915_vma *vma, struct i915_gem_ww_ctx *ww,
->   		    u64 size, u64 alignment, u64 flags)
->   {
->   	struct i915_vma_work *work = NULL;
-> +	struct dma_fence *moving = NULL;
->   	intel_wakeref_t wakeref = 0;
->   	unsigned int bound;
->   	int err;
-> @@ -895,7 +926,8 @@ int i915_vma_pin_ww(struct i915_vma *vma, struct i915_gem_ww_ctx *ww,
->   	if (flags & PIN_GLOBAL)
->   		wakeref = intel_runtime_pm_get(&vma->vm->i915->runtime_pm);
->   
-> -	if (flags & vma->vm->bind_async_flags) {
-> +	moving = vma->obj ? i915_gem_object_get_moving_fence(vma->obj) : NULL;
-> +	if (flags & vma->vm->bind_async_flags || moving) {
->   		/* lock VM */
->   		err = i915_vm_lock_objects(vma->vm, ww);
->   		if (err)
-> @@ -909,6 +941,8 @@ int i915_vma_pin_ww(struct i915_vma *vma, struct i915_gem_ww_ctx *ww,
->   
->   		work->vm = i915_vm_get(vma->vm);
->   
-> +		dma_fence_work_chain(&work->base, moving);
-> +
->   		/* Allocate enough page directories to used PTE */
->   		if (vma->vm->allocate_va_range) {
->   			err = i915_vm_alloc_pt_stash(vma->vm,
-> @@ -1013,7 +1047,10 @@ int i915_vma_pin_ww(struct i915_vma *vma, struct i915_gem_ww_ctx *ww,
->   err_rpm:
->   	if (wakeref)
->   		intel_runtime_pm_put(&vma->vm->i915->runtime_pm, wakeref);
-> +	if (moving)
-> +		dma_fence_put(moving);
->   	vma_put_pages(vma);
-> +
->   	return err;
->   }
->   
-> diff --git a/drivers/gpu/drm/i915/i915_vma.h b/drivers/gpu/drm/i915/i915_vma.h
-> index 648dbe744c96..1812b2904a31 100644
-> --- a/drivers/gpu/drm/i915/i915_vma.h
-> +++ b/drivers/gpu/drm/i915/i915_vma.h
-> @@ -326,6 +326,9 @@ static inline bool i915_node_color_differs(const struct drm_mm_node *node,
->    * Returns a valid iomapped pointer or ERR_PTR.
->    */
->   void __iomem *i915_vma_pin_iomap(struct i915_vma *vma);
-> +
-> +void __iomem *i915_vma_pin_iomap_unlocked(struct i915_vma *vma);
-> +
->   #define IO_ERR_PTR(x) ((void __iomem *)ERR_PTR(x))
->   
->   /**
-> diff --git a/drivers/gpu/drm/i915/selftests/i915_vma.c b/drivers/gpu/drm/i915/selftests/i915_vma.c
-> index 1f10fe36619b..85f43b209890 100644
-> --- a/drivers/gpu/drm/i915/selftests/i915_vma.c
-> +++ b/drivers/gpu/drm/i915/selftests/i915_vma.c
-> @@ -1005,7 +1005,7 @@ static int igt_vma_remapped_gtt(void *arg)
->   
->   			GEM_BUG_ON(vma->ggtt_view.type != *t);
->   
-> -			map = i915_vma_pin_iomap(vma);
-> +			map = i915_vma_pin_iomap_unlocked(vma);
->   			i915_vma_unpin(vma);
->   			if (IS_ERR(map)) {
->   				err = PTR_ERR(map);
-> @@ -1036,7 +1036,7 @@ static int igt_vma_remapped_gtt(void *arg)
->   
->   			GEM_BUG_ON(vma->ggtt_view.type != I915_GGTT_VIEW_NORMAL);
->   
-> -			map = i915_vma_pin_iomap(vma);
-> +			map = i915_vma_pin_iomap_unlocked(vma);
->   			i915_vma_unpin(vma);
->   			if (IS_ERR(map)) {
->   				err = PTR_ERR(map);
-> 
+Right. I wonder if there is even a point in using the dmaengine API
+in that case, I think for other single-purpose drivers we tend to just
+integrate the functionality in the client driver. No point changing this
+now of course, but it does feel odd.
+
+From my earlier reading of the driver, my impression was that this
+is just a memory-to-memory device, so it could be used that way
+as well, but does need a flag when working on the video memory.
+I couldn't quite make sense of that though.
+
+> >         /*
+> >          * Use the peripheral_config to indicate that the channel is part
+> >          * of a video group. This requires matching use of the custom
+> >          * structure in each driver.
+> >          */
+> >         pconfig = config->peripheral_config;
+> >         if (WARN_ON(config->peripheral_size != 0 &&
+> >                     config->peripheral_size != sizeof(*pconfig)))
+> >                 return -EINVAL;
+>
+> How about
+>
+>         if (WARN_ON(config->peripheral_config &&
+>                     config->peripheral_size != sizeof(*pconfig)))
+>
+> >
+> >         spin_lock_irqsave(&chan->lock, flags);
+> >         if (chan->id <= ZYNQMP_DPDMA_VIDEO2 &&
+> >             config->peripheral_size == sizeof(*pconfig))
+>
+> And here you can test pconfig != NULL.
+
+Good idea. Changed now, using 'if (pconfig)' without the '!= NULL'
+in both expressions.
+
+        Arnd
