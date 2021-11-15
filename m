@@ -2,73 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 296AE4503C4
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 12:49:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDE9B4503C7
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 12:50:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 832276E061;
-	Mon, 15 Nov 2021 11:49:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4169B6E938;
+	Mon, 15 Nov 2021 11:50:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
- [IPv6:2a00:1450:4864:20::435])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DAC546E926;
- Mon, 15 Nov 2021 11:49:05 +0000 (UTC)
-Received: by mail-wr1-x435.google.com with SMTP id t30so30060606wra.10;
- Mon, 15 Nov 2021 03:49:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-transfer-encoding:content-language;
- bh=F9Fa9nV2d1oN0zSyfwagffKh9yytiJ7gGM/yAK7IOVY=;
- b=N1gksOf+HQ35CVcZoqzQzpTqmczAKWCVPasTjHCJXRNDvFq8CKqd2YnmfVFW0XrVs+
- 5bUfQFJtCH9HtvVP4newx5mWyPWyUWW40E9xuCz3iQ7dART24Nf8UP2aYIb1siaqxRJ7
- QqVz5aBrnFVo8j0C5BLfFjp8x13Qe5HYv4kzDgEJQrPiUGIn6Dusagj8ewPZZTyve13P
- FxKXrl1EqG/4CddeJLTSyQBZ4cz0O7XoMAPexILNpj2aiJ7X75Q3+UOOa1oPv2UT5DfJ
- aqrbCBXvLO5KCXCwwdg8Kca2GRqSKX2lmpINd+wb26mrPbTrDpCPXLjLcGQBRXyIv3Ug
- 8w5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=F9Fa9nV2d1oN0zSyfwagffKh9yytiJ7gGM/yAK7IOVY=;
- b=KEDZlP3l7zfJDLmxkCEwgeT6I+sSN23izZHn2NSY202sWJOry9V8fd8eOjff02qnZW
- yG57123FHvAwZErU1mlvww/ZWvwaE+DZIMLxvRKb2/FZ8iaSvzx17ERjwT7ppKI8TvsF
- KwTD4CQ3Dweh+woJt7oo3RWIs1CKTw84YRckLs/MTgOApxngQ9EChPZEU7KkmIAWMLij
- X+NF/oB0zcRwCD55k+mINWAlb8HoXEYi5Z/lqVnyfA9ZjcNPDfv+12knrMHSYv2R++FT
- sJ90LJnsQeeFyeaIu0wXBWn4carDE+ZC1c9Ljt/RjTMQwUFsjP2BhgV6JovQB7vwf3t2
- w8qA==
-X-Gm-Message-State: AOAM5306EAgRogoHj6qvJRqmeCM4zpK52P1p4VcCmsf6MpC9/St1Wj/Q
- j7rVDZVY1R4oR4/6HDG1bIw=
-X-Google-Smtp-Source: ABdhPJzugAmCckcr+WT+yOHGwg2UX+IBqinv3ZVNQqngdscuwZUtPNkDJ02Qr3ZLyHJofxNhZd4cMQ==
-X-Received: by 2002:adf:ce08:: with SMTP id p8mr23055236wrn.154.1636976944428; 
- Mon, 15 Nov 2021 03:49:04 -0800 (PST)
-Received: from ?IPv6:2a02:908:1252:fb60:bf0c:d52c:6ba0:cfc6?
- ([2a02:908:1252:fb60:bf0c:d52c:6ba0:cfc6])
- by smtp.gmail.com with ESMTPSA id d6sm14045603wrx.60.2021.11.15.03.49.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 15 Nov 2021 03:49:04 -0800 (PST)
-Subject: Re: [PATCH] drm/amd/amdgpu: cleanup the code style a bit
-To: Bernard Zhao <bernard@vivo.com>, Alex Deucher
- <alexander.deucher@amd.com>, =?UTF-8?Q?Christian_K=c3=b6nig?=
- <christian.koenig@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Jingwen Chen <Jingwen.Chen2@amd.com>, Candice Li <candice.li@amd.com>,
- John Clements <john.clements@amd.com>, Monk liu <monk.liu@amd.com>,
- Peng Ju Zhou <PengJu.Zhou@amd.com>, Jiawei Gu <Jiawei.Gu@amd.com>,
- Bokun Zhang <bokun.zhang@amd.com>, Zhigang Luo <zhigang.luo@amd.com>,
- Lee Jones <lee.jones@linaro.org>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20211115070714.7007-1-bernard@vivo.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <ebcf8b30-7311-9d77-07ab-1b92756c0ae0@gmail.com>
-Date: Mon, 15 Nov 2021 12:49:02 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C2BB6E938
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 11:50:04 +0000 (UTC)
+Received: from pendragon.ideasonboard.com
+ (117.145-247-81.adsl-dyn.isp.belgacom.be [81.247.145.117])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8A4AB9CA;
+ Mon, 15 Nov 2021 12:50:02 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1636977002;
+ bh=8re/QsV/3GPHXV9j74dqu0H+3pTypCailVuz8uMMvrE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=DTtRDp36OT7fx+mEQdB5Q6I6Uf3svTjc7O60k3oZ4d4LDZwX9gRNLXKCFKYdS58b6
+ iochdzQTE6K7vejlHf4MMrQFHA3VGrfZCRSuARACO154L7RPOUcQFEq3FEieaAnbP9
+ 1Q/7byArzgxRl2K9AECFy7SDhkfUFmq2YmZNiRrQ=
+Date: Mon, 15 Nov 2021 13:49:40 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Arnd Bergmann <arnd@kernel.org>
+Subject: Re: [PATCH 08/11] dmaengine: xilinx_dpdma: stop using slave_id field
+Message-ID: <YZJJVA/92KYH8hQL@pendragon.ideasonboard.com>
+References: <20211115085403.360194-1-arnd@kernel.org>
+ <20211115085403.360194-9-arnd@kernel.org>
+ <YZIk6cVb7XibrMjf@pendragon.ideasonboard.com>
+ <CAK8P3a1Fu11-e0CK2of8u3ebdjom84UKuXhBKi5FUs5ZPPdOVA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20211115070714.7007-1-bernard@vivo.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAK8P3a1Fu11-e0CK2of8u3ebdjom84UKuXhBKi5FUs5ZPPdOVA@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,47 +49,118 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: ALSA Development Mailing List <alsa-devel@alsa-project.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ "open list:TEGRA ARCHITECTURE SUPPORT" <linux-tegra@vger.kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ linux-mtd <linux-mtd@lists.infradead.org>,
+ linux-spi <linux-spi@vger.kernel.org>, Robert Jarzmik <robert.jarzmik@free.fr>,
+ Chunyan Zhang <zhang.lyra@gmail.com>, linux-staging@lists.linux.dev,
+ Michal Simek <michal.simek@xilinx.com>, Jon Hunter <jonathanh@nvidia.com>,
+ Andy Gross <agross@kernel.org>,
+ bcm-kernel-feedback-list <bcm-kernel-feedback-list@broadcom.com>,
+ "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
+ Orson Zhai <orsonzhai@gmail.com>, Nicolas Saenz Julienne <nsaenz@kernel.org>,
+ Arnd Bergmann <arnd@arndb.de>, Manivannan Sadhasivam <mani@kernel.org>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>, dmaengine@vger.kernel.org,
+ Mark Brown <broonie@kernel.org>,
+ "moderated list:BROADCOM BCM2835 ARM ARCHITECTURE"
+ <linux-rpi-kernel@lists.infradead.org>, Jaroslav Kysela <perex@perex.cz>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Scott Branden <sbranden@broadcom.com>, Hyun Kwon <hyun.kwon@xilinx.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-mmc <linux-mmc@vger.kernel.org>, Takashi Iwai <tiwai@suse.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Vinod Koul <vkoul@kernel.org>, Laxman Dewangan <ldewangan@nvidia.com>,
+ Baolin Wang <baolin.wang7@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 15.11.21 um 08:07 schrieb Bernard Zhao:
-> This change is to cleanup the code style a bit.
+Hi Arnd,
 
-To be honest I think the old style looked better. It took me a moment to 
-validate this now.
+On Mon, Nov 15, 2021 at 11:21:30AM +0100, Arnd Bergmann wrote:
+> On Mon, Nov 15, 2021 at 10:14 AM Laurent Pinchart wrote:
+> > On Mon, Nov 15, 2021 at 09:54:00AM +0100, Arnd Bergmann wrote:
+> > > @@ -1285,11 +1287,13 @@ static int xilinx_dpdma_config(struct dma_chan *dchan,
+> > >       spin_lock_irqsave(&chan->lock, flags);
+> > >
+> > >       /*
+> > > -      * Abuse the slave_id to indicate that the channel is part of a video
+> > > -      * group.
+> > > +      * Abuse the peripheral_config to indicate that the channel is part
+> >
+> > Is it still an abuse, or is this now the right way to pass custom data
+> > to the DMA engine driver ?
+> 
+> It doesn't make the driver any more portable, but it's now being
+> more explicit about it. As far as I can tell, this is the best way
+> to pass data that cannot be expressed through the regular interfaces
+> in DT and the dmaengine API.
+> 
+> Ideally there would be a generic way to pass this flag, but I couldn't
+> figure out what this is actually doing, or whether there is a better
+> way. Maybe Vinod has an idea.
 
-What you could to instead is to have goto style error handling which 
-would make this a bit more cleaner I think.
+I don't think we need a generic API in this case. The DMA engine is
+specific to the display device, I don't foresee a need to mix-n-match.
 
-Christian.
+> I'll change s/Abuse/Use/ for the moment until I get a definite answer.
+> 
+> > > +      * of a video group.
+> > >        */
+> > > -     if (chan->id <= ZYNQMP_DPDMA_VIDEO2)
+> > > -             chan->video_group = config->slave_id != 0;
+> > > +     pconfig = config->peripheral_config;
+> >
+> > This could be moved to the variable declaration above, up to you.
+> 
+> I considered that but since it doesn't fit in a normal 80-column
+> line, it seemed best to do it here.
+> 
+> > > +     if (chan->id <= ZYNQMP_DPDMA_VIDEO2 &&
+> > > +         config->peripheral_size == sizeof(*pconfig))
+> >
+> > Silently ignoring a size mismatch isn't nice. Could we validate the size
+> > at the beginning of the function and return an error ?
+> 
+> Yes, good idea. Since this would mean a bug in another driver,
+> I'll add a WARN_ON() as well to make it clear which driver caused it.
+> This is what I have now, let me know if you have any further suggestions:
+> 
+>         /*
+>          * Use the peripheral_config to indicate that the channel is part
+>          * of a video group. This requires matching use of the custom
+>          * structure in each driver.
+>          */
+>         pconfig = config->peripheral_config;
+>         if (WARN_ON(config->peripheral_size != 0 &&
+>                     config->peripheral_size != sizeof(*pconfig)))
+>                 return -EINVAL;
 
->
-> Signed-off-by: Bernard Zhao <bernard@vivo.com>
-> ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_virt.c | 10 ++++++----
->   1 file changed, 6 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_virt.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_virt.c
-> index 04cf9b207e62..90070b41136a 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_virt.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_virt.c
-> @@ -286,12 +286,14 @@ static int amdgpu_virt_init_ras_err_handler_data(struct amdgpu_device *adev)
->   		return -ENOMEM;
->   
->   	bps = kmalloc_array(align_space, sizeof((*data)->bps), GFP_KERNEL);
-> +	if (!bps) {
-> +		kfree(*data);
-> +		return -ENOMEM;
-> +	}
->   	bps_bo = kmalloc_array(align_space, sizeof((*data)->bps_bo), GFP_KERNEL);
-> -
-> -	if (!bps || !bps_bo) {
-> -		kfree(bps);
-> -		kfree(bps_bo);
-> +	if (!bps_bo) {
->   		kfree(*data);
-> +		kfree(bps);
->   		return -ENOMEM;
->   	}
->   
+How about
 
+ 	if (WARN_ON(config->peripheral_config &&
+		    config->peripheral_size != sizeof(*pconfig)))
+
+> 
+>         spin_lock_irqsave(&chan->lock, flags);
+>         if (chan->id <= ZYNQMP_DPDMA_VIDEO2 &&
+>             config->peripheral_size == sizeof(*pconfig))
+
+And here you can test pconfig != NULL.
+
+>                 chan->video_group = pconfig->video_group;
+>         spin_unlock_irqrestore(&chan->lock, flags);
+> 
+>         return 0;
+> 
+> > With these issues addressed,
+> >
+> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+-- 
+Regards,
+
+Laurent Pinchart
