@@ -2,36 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 393A94503DD
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 12:55:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E68984503EB
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 13:01:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 519956E123;
-	Mon, 15 Nov 2021 11:55:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B61636EA77;
+	Mon, 15 Nov 2021 12:01:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 563336E123;
- Mon, 15 Nov 2021 11:55:36 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10168"; a="220635789"
-X-IronPort-AV: E=Sophos;i="5.87,236,1631602800"; d="scan'208";a="220635789"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Nov 2021 03:55:35 -0800
-X-IronPort-AV: E=Sophos;i="5.87,236,1631602800"; d="scan'208";a="505891946"
-Received: from csrini4x-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.251.218.37])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Nov 2021 03:55:34 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: Re: [PATCH 0/3] drm/i915, agp/intel-ggt: clean up includes
-In-Reply-To: <cover.1636977089.git.jani.nikula@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <cover.1636977089.git.jani.nikula@intel.com>
-Date: Mon, 15 Nov 2021 13:55:32 +0200
-Message-ID: <87y25p1vm3.fsf@intel.com>
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 053176EA74
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 12:01:51 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 8E9C11FD67;
+ Mon, 15 Nov 2021 12:01:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1636977709; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=Roq9KIrJ5NH1GtmGpzHmXzH2zR1Gn+P59CyYumnHUwM=;
+ b=hp0vnWEUm/lz8cB0nk6BROWkBGdTUXGflSl2GPm3WkAN19XWaT4Xc7ZhqR4v4krZnsvWgq
+ J4gjqhFIqk/f/c3zS4yPl88gEqY+bsP9/ZivxJprOmmilGWQfjQ5vzXQquFPd9eeu0fdRu
+ /eylOysvxSCcdigrdO1kcO0wrtzcLNA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1636977709;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=Roq9KIrJ5NH1GtmGpzHmXzH2zR1Gn+P59CyYumnHUwM=;
+ b=8u2IJ56Rzthay+Rv68HgqpyV0ASj334y38SnHz/7oSt6KkA5mnWOL2iipikunhXqdGU8Qu
+ C0ThfnQ0IkGn0pDg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 528D213E37;
+ Mon, 15 Nov 2021 12:01:49 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id TV0iEy1MkmHKVgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Mon, 15 Nov 2021 12:01:49 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: daniel@ffwll.ch, airlied@linux.ie, mripard@kernel.org,
+ maarten.lankhorst@linux.intel.com, laurent.pinchart@ideasonboard.com,
+ kieran.bingham+renesas@ideasonboard.com, emma@anholt.net
+Subject: [PATCH 0/3] drm/cma-helper: Clean up public interface
+Date: Mon, 15 Nov 2021 13:01:45 +0100
+Message-Id: <20211115120148.21766-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,39 +63,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+Cc: linux-renesas-soc@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
  dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 15 Nov 2021, Jani Nikula <jani.nikula@intel.com> wrote:
-> Took Andy's patch [1] and expanded on it a bit.
->
-> BR,
-> Jani.
->
->
-> [1] https://patchwork.freedesktop.org/patch/msgid/20211110102857.59604-1-andriy.shevchenko@linux.intel.com
->
-> Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
->
-> Andy Shevchenko (1):
->   agp/intel-gtt: Replace kernel.h with the necessary inclusions
+Convert GEM CMA functions to accept struct drm_gem_cma_object, provide
+small wrappers for GEM object callbacks and update all users. Brings
+up the interface to the pattern used in SHMEM and VRAM helpers.
 
-Forgot to mention, I replaced the drm/i915 prefix with agp/intel-gtt
-here, no other changes to Andy's patch.
+Converting all GEM object functions to use drm_gem_cma_object enables
+type checking by the C compiler. Previous callers could have passed any
+implementation of drm_gem_object to the GEM CMA helpers. It also
+removes upcasting in the GEM functions and simplifies the caller side.
+No functional changes.
 
->
-> Jani Nikula (2):
->   drm/i915: include intel-gtt.h only where needed
->   agp/intel-gtt: reduce intel-gtt dependencies more
->
->  drivers/char/agp/intel-gtt.c         | 1 +
->  drivers/gpu/drm/i915/gt/intel_ggtt.c | 2 ++
->  drivers/gpu/drm/i915/gt/intel_gt.c   | 2 ++
->  drivers/gpu/drm/i915/i915_drv.h      | 1 -
->  include/drm/intel-gtt.h              | 8 +++++---
->  5 files changed, 10 insertions(+), 4 deletions(-)
+For GEM object callbacks, the CMA helper library now provides a
+number of small wrappers that do the necessary upcasting. Again no
+functional changes.
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
+Thomas Zimmermann (3):
+  drm/cma-helper: Move driver and file ops to the end of header
+  drm/cma-helper: Export dedicated wrappers for GEM object functions
+  drm/cma-helper: Pass GEM CMA object in public interfaces
+
+ drivers/gpu/drm/drm_gem_cma_helper.c  |  73 +++++-----
+ drivers/gpu/drm/rcar-du/rcar_du_kms.c |  10 +-
+ drivers/gpu/drm/vc4/vc4_bo.c          |   8 +-
+ include/drm/drm_gem_cma_helper.h      | 189 +++++++++++++++++++-------
+ 4 files changed, 180 insertions(+), 100 deletions(-)
+
+
+base-commit: 9fccd12cfac1c863fa46d4d17c2d8ac25a44b190
+--
+2.33.1
+
