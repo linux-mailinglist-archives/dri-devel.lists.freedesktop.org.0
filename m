@@ -2,41 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D91E4504AE
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 13:44:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FADB4504BC
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 13:55:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 67DCE6EC73;
-	Mon, 15 Nov 2021 12:44:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 66B296ECCE;
+	Mon, 15 Nov 2021 12:55:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A38FF6EC69;
- Mon, 15 Nov 2021 12:44:49 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10168"; a="214154360"
-X-IronPort-AV: E=Sophos;i="5.87,236,1631602800"; d="scan'208";a="214154360"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Nov 2021 04:44:49 -0800
-X-IronPort-AV: E=Sophos;i="5.87,236,1631602800"; d="scan'208";a="454012443"
-Received: from ldyrga-mobl1.ger.corp.intel.com (HELO [10.249.254.10])
- ([10.249.254.10])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Nov 2021 04:44:47 -0800
-Message-ID: <df4eb5b5-d49f-c30a-1143-0c447caa2948@linux.intel.com>
-Date: Mon, 15 Nov 2021 13:44:46 +0100
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 67CDC6EB8B
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 12:55:44 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id F3E5621A72;
+ Mon, 15 Nov 2021 12:55:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1636980943; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=XOqYVfR/Sl28Bq6B8tv0SnwQcN/asOW3bafnOIzrHT8=;
+ b=LfXNzom5N4jnBw+OMnw29VicjGuTa/nElI5PExLCJ0Km/C4ycJXq3tzhuzftLVbRdGvWss
+ ONmmVPEeKOPhYagEcb0FTFk0JuvZFgYGHNufhugBtDOVb9D3ezFXWClzk+rOIO9+nE/1qJ
+ mUzaf3ftSAb/PExR5AlzkOiPyDQ42qM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1636980943;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=XOqYVfR/Sl28Bq6B8tv0SnwQcN/asOW3bafnOIzrHT8=;
+ b=cBqsECSeB8nb5R5rID2qLzBrj5D+C01EMUt/Ir37/VB3c1kndCa4rmPsdUyu6mzxQxNbzW
+ PejonVpuzOrA+dBQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id BA7C713D86;
+ Mon, 15 Nov 2021 12:55:42 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id nNGfLM5YkmEFcwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Mon, 15 Nov 2021 12:55:42 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: daniel@ffwll.ch, airlied@linux.ie, zackr@vmware.com,
+ linux-graphics-maintainer@vmware.com, christian.koenig@amd.com,
+ ray.huang@amd.com, mripard@kernel.org, maarten.lankhorst@linux.intel.com
+Subject: [PATCH 0/3] drm: Make DRM hashtable legacy
+Date: Mon, 15 Nov 2021 13:55:36 +0100
+Message-Id: <20211115125539.1730-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v3 1/6] drm/i915: Add functions to set/get moving fence
-Content-Language: en-US
-To: Matthew Auld <matthew.auld@intel.com>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-References: <20211114111218.623138-1-thomas.hellstrom@linux.intel.com>
- <20211114111218.623138-2-thomas.hellstrom@linux.intel.com>
- <bc238bbf-a4df-7b97-ba18-d6c5cc93827e@intel.com>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
-In-Reply-To: <bc238bbf-a4df-7b97-ba18-d6c5cc93827e@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -50,57 +63,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Clean up the last non-legacy users of DRM's hashtable code and put
+the code behind CONFIG_DRM_LEGACY.
 
-On 11/15/21 13:39, Matthew Auld wrote:
-> On 14/11/2021 11:12, Thomas Hellström wrote:
->> From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
->>
->> We want to get rid of i915_vma tracking to simplify the code and
->> lifetimes. Add a way to set/put the moving fence, in preparation for
->> removing the tracking.
->>
->> Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
->> ---
->>   drivers/gpu/drm/i915/gem/i915_gem_object.c | 37 ++++++++++++++++++++++
->>   drivers/gpu/drm/i915/gem/i915_gem_object.h |  9 ++++++
->>   2 files changed, 46 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.c 
->> b/drivers/gpu/drm/i915/gem/i915_gem_object.c
->> index 591ee3cb7275..ec4313836597 100644
->> --- a/drivers/gpu/drm/i915/gem/i915_gem_object.c
->> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object.c
->> @@ -33,6 +33,7 @@
->>   #include "i915_gem_object.h"
->>   #include "i915_memcpy.h"
->>   #include "i915_trace.h"
->> +#include "i915_gem_ttm.h"
->>     static struct kmem_cache *slab_objects;
->>   @@ -726,6 +727,42 @@ static const struct drm_gem_object_funcs 
->> i915_gem_object_funcs = {
->>       .export = i915_gem_prime_export,
->>   };
->>   +struct dma_fence *
->> +i915_gem_object_get_moving_fence(struct drm_i915_gem_object *obj)
->> +{
->> +    return dma_fence_get(i915_gem_to_ttm(obj)->moving);
->> +}
->> +
->> +void i915_gem_object_set_moving_fence(struct drm_i915_gem_object *obj,
->> +                      struct dma_fence *fence)
->> +{
->> +    dma_fence_put(i915_gem_to_ttm(obj)->moving);
->> +
->> +    i915_gem_to_ttm(obj)->moving = dma_fence_get(fence);
->> +}
->
-> Are these also assert_object_held()? Should we maybe squash this patch 
-> with the first user?
+TTM only includes the header file, but does not use the hashtable.
+The vmwgfx driver uses the hashtable internally. Copy the DRM code
+into the driver. A later patchset should probably update vmwgfx to
+use Linux' hashtable. Finally, make the core hashtable code legacy.
 
-Yes these are also assert_object_held(). We could probably squash these, 
-yes.
+Built with/without CONFIG_DRM_LEGACY set.
 
+Thomas Zimmermann (3):
+  drm/ttm: Don't include drm_hashtab.h
+  drm/vmwgfx: Copy DRM hash-table code into driver
+  drm: Declare hashtable as legacy
+
+ drivers/gpu/drm/Makefile                      |   6 +-
+ drivers/gpu/drm/drm_hashtab.c                 |  10 +-
+ drivers/gpu/drm/drm_legacy.h                  |  40 +++-
+ drivers/gpu/drm/vmwgfx/Makefile               |   2 +-
+ drivers/gpu/drm/vmwgfx/ttm_object.c           |  52 ++---
+ drivers/gpu/drm/vmwgfx/ttm_object.h           |   3 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c    |  24 +--
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.c           |   2 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.h           |   6 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c       |   2 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_hashtab.c       | 199 ++++++++++++++++++
+ .../gpu/drm/vmwgfx/vmwgfx_hashtab.h           |  54 ++---
+ drivers/gpu/drm/vmwgfx/vmwgfx_validation.c    |  22 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_validation.h    |   7 +-
+ include/drm/drm_device.h                      |   5 +-
+ include/drm/drm_legacy.h                      |  15 +-
+ include/drm/ttm/ttm_bo_api.h                  |   1 -
+ 17 files changed, 347 insertions(+), 103 deletions(-)
+ create mode 100644 drivers/gpu/drm/vmwgfx/vmwgfx_hashtab.c
+ rename include/drm/drm_hashtab.h => drivers/gpu/drm/vmwgfx/vmwgfx_hashtab.h (58%)
+
+
+base-commit: 9fccd12cfac1c863fa46d4d17c2d8ac25a44b190
+--
+2.33.1
 
