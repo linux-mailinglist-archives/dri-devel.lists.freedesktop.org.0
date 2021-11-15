@@ -1,48 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F6D545025B
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 11:23:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F14B45026B
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 11:24:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 490C66E488;
-	Mon, 15 Nov 2021 10:23:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D7436EB86;
+	Mon, 15 Nov 2021 10:24:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 994C46E3C4
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 10:23:41 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 6BC3A63214
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 10:23:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1636971821;
- bh=/t8XfUWWM8z249haMNnkzo9rz3rqA5hhnI/QUDdDTws=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=BuOY5ELTwM8ARl8dht0vPj74GqpW7Omi9ye6DZXl4ISYUdhHvn/MD+ynDDUT+QFtA
- v8L7yTHPnv3tNZT+6a7jmvQiyHLX42OhSBtuErgkkpXMWboLAxbpYYXhkMyhP3kE41
- WUL+WGa8r2Ml5m1pmbyJCKNiWaAA/tcOe62yL/fiNo14Evo43QgmMCKuyU9uToylcA
- J85yoCIJTYPD2hiiYP9cnEUTFS41uyXrFoia9J9lYRG9OY91kMrhg72OL5ozjj1uQi
- 01RuRIianAw8FITBywentT0od4DYro7YDzqlmkyd3IDz3Pd+duWc1lFOAhroRxLO8P
- vWZ7OvjtlSIUw==
-Received: by mail-wr1-f42.google.com with SMTP id d27so29623166wrb.6
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 02:23:41 -0800 (PST)
-X-Gm-Message-State: AOAM532bFu4tBr2vRRyUgUKr2NDM970gSNDkdeSusIeji+QweyKpaMT5
- 4qQDAdzcrg6qhDQcahYZjx95dRQn/sqCKN4WUO8=
-X-Google-Smtp-Source: ABdhPJzrg17TRzVZ0g7WiohBQZUnVilsZRnhlMklfo7pQF89sOPyjg8lWeE+TbAhUi7fYkrm+wuR9SFoHCL7lz7Lazw=
-X-Received: by 2002:adf:df89:: with SMTP id z9mr45210699wrl.336.1636971819867; 
- Mon, 15 Nov 2021 02:23:39 -0800 (PST)
+Received: from out0.migadu.com (out0.migadu.com [94.23.1.103])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5869E6E938
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 10:24:44 +0000 (UTC)
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1636971881;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Cz3g4Xx4a1qWFGtMUnYFptcAg79/8gM3RKl+Oky5ivU=;
+ b=U5IBmBfva1AYPklYbaTkZo/2MYAbBdnkARowj8D+mGnvATdjZq3+ZuHz+O5qIetjsxxCka
+ BT+3r4L4CJ2K7va0XepGC848A1PRXVLmOKwX2G8B8GsZckZXbdJaF1a9peD1SeUUHo0UhY
+ RsLNraK2OyaVRyhwMtnCpAfC1j5LU1Y=
+From: Jackie Liu <liu.yun@linux.dev>
+To: robdclark@gmail.com, sean@poorly.run, airlied@linux.ie,
+ jsanka@codeaurora.org
+Subject: [PATCH] drm/msm/dp: remove deadcode on dpu_encoder_setup
+Date: Mon, 15 Nov 2021 18:24:11 +0800
+Message-Id: <20211115102411.2578262-1-liu.yun@linux.dev>
 MIME-Version: 1.0
-References: <20211115085403.360194-1-arnd@kernel.org>
- <20211115085403.360194-11-arnd@kernel.org>
- <CAMhs-H98kPNqH491+X0Mp81Ng++v1aQ=97XSHEhs+vx3g8W_4A@mail.gmail.com>
-In-Reply-To: <CAMhs-H98kPNqH491+X0Mp81Ng++v1aQ=97XSHEhs+vx3g8W_4A@mail.gmail.com>
-From: Arnd Bergmann <arnd@kernel.org>
-Date: Mon, 15 Nov 2021 11:23:24 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a2hfcbTJ-yKik1hN35dTdqhjhCd=3X6G_hW4MXRHDVrfA@mail.gmail.com>
-Message-ID: <CAK8P3a2hfcbTJ-yKik1hN35dTdqhjhCd=3X6G_hW4MXRHDVrfA@mail.gmail.com>
-Subject: Re: [PATCH 10/11] staging: ralink-gdma: stop using slave_id config
-To: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
+X-Migadu-Auth-User: liu.yun@linux.dev
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,46 +45,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ALSA Development Mailing List <alsa-devel@alsa-project.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- "open list:TEGRA ARCHITECTURE SUPPORT" <linux-tegra@vger.kernel.org>,
- Laxman Dewangan <ldewangan@nvidia.com>,
- linux-mtd <linux-mtd@lists.infradead.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- linux-spi <linux-spi@vger.kernel.org>, Robert Jarzmik <robert.jarzmik@free.fr>,
- Chunyan Zhang <zhang.lyra@gmail.com>, linux-staging@lists.linux.dev,
- Michal Simek <michal.simek@xilinx.com>, Jon Hunter <jonathanh@nvidia.com>,
- Andy Gross <agross@kernel.org>,
- bcm-kernel-feedback-list <bcm-kernel-feedback-list@broadcom.com>,
- "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
- Orson Zhai <orsonzhai@gmail.com>, Nicolas Saenz Julienne <nsaenz@kernel.org>,
- Arnd Bergmann <arnd@arndb.de>, Manivannan Sadhasivam <mani@kernel.org>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>, dmaengine@vger.kernel.org,
- Mark Brown <broonie@kernel.org>,
- "moderated list:BROADCOM BCM2835 ARM ARCHITECTURE"
- <linux-rpi-kernel@lists.infradead.org>, Jaroslav Kysela <perex@perex.cz>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Scott Branden <sbranden@broadcom.com>, Hyun Kwon <hyun.kwon@xilinx.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-mmc <linux-mmc@vger.kernel.org>, Takashi Iwai <tiwai@suse.com>,
- linux-kernel <linux-kernel@vger.kernel.org>, Vinod Koul <vkoul@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Baolin Wang <baolin.wang7@gmail.com>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Nov 15, 2021 at 10:55 AM Sergio Paracuellos
-<sergio.paracuellos@gmail.com> wrote:
-> On Mon, Nov 15, 2021 at 9:55 AM Arnd Bergmann <arnd@kernel.org> wrote:
-> > ---
-> >  drivers/staging/ralink-gdma/ralink-gdma.c | 12 +++++-------
-> >  1 file changed, 5 insertions(+), 7 deletions(-)
->
-> This driver has been already deleted from the staging tree. See [0].
+From: Jackie Liu <liuyun01@kylinos.cn>
 
-Ok, thanks! I'll just leave out the patch from future submissions, and remove
-it completely once your commit hits mainline.
+Nobody care about drm_enc on dpu_encoder_setup, cleanup.
 
-       Arnd
+[...]
+*** CID 1493979:  Possible Control flow issues  (DEADCODE)
+/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c: 2186 in dpu_encoder_setup()
+2180
+2181     	return ret;
+2182
+2183     fail:
+2184     	DPU_ERROR("failed to create encoder\n");
+2185     	if (drm_enc)
+>>>     CID 1493979:  Possible Control flow issues  (DEADCODE)
+>>>     Execution cannot reach this statement: "dpu_encoder_destroy(drm_enc);".
+2186     		dpu_encoder_destroy(drm_enc);
+2187
+2188     	return ret;
+2189
+2190
+2191     }
+[...]
+
+Addresses-Coverity: ("Logically dead code")
+Fixes: 25fdd5933e4c ("drm/msm: Add SDM845 DPU support")
+Signed-off-by: Jackie Liu <liuyun01@kylinos.cn>
+---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 13 +++----------
+ 1 file changed, 3 insertions(+), 10 deletions(-)
+
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+index e7ee4cfb8461..67c1a979ad98 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+@@ -2146,15 +2146,16 @@ int dpu_encoder_setup(struct drm_device *dev, struct drm_encoder *enc,
+ {
+ 	struct msm_drm_private *priv = dev->dev_private;
+ 	struct dpu_kms *dpu_kms = to_dpu_kms(priv->kms);
+-	struct drm_encoder *drm_enc = NULL;
+ 	struct dpu_encoder_virt *dpu_enc = NULL;
+ 	int ret = 0;
+ 
+ 	dpu_enc = to_dpu_encoder_virt(enc);
+ 
+ 	ret = dpu_encoder_setup_display(dpu_enc, dpu_kms, disp_info);
+-	if (ret)
++	if (ret) {
++		DPU_ERROR("failed to create encoder\n");
+ 		goto fail;
++	}
+ 
+ 	atomic_set(&dpu_enc->frame_done_timeout_ms, 0);
+ 	timer_setup(&dpu_enc->frame_done_timer,
+@@ -2178,16 +2179,8 @@ int dpu_encoder_setup(struct drm_device *dev, struct drm_encoder *enc,
+ 
+ 	DPU_DEBUG_ENC(dpu_enc, "created\n");
+ 
+-	return ret;
+-
+ fail:
+-	DPU_ERROR("failed to create encoder\n");
+-	if (drm_enc)
+-		dpu_encoder_destroy(drm_enc);
+-
+ 	return ret;
+-
+-
+ }
+ 
+ struct drm_encoder *dpu_encoder_init(struct drm_device *dev,
+-- 
+2.25.1
+
