@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E9E64517B0
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 23:39:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F2EC64517B3
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 23:40:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D318A6E1F6;
-	Mon, 15 Nov 2021 22:39:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 88ED56E247;
+	Mon, 15 Nov 2021 22:40:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C3726E1F6
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 22:39:34 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 5352463212
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 22:39:34 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 732B56E247
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 22:40:23 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 4A49063211
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 22:40:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1637015974;
- bh=h+12AnJKDOX9tFKomygJKU7OkJgusnd07I5pKtTLLMU=;
+ s=k20201202; t=1637016023;
+ bh=oJRppMes/dSnj9gHgfbqo3vUypthCcUVZOCxeVFf9Hw=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=SWjGNIOoSSOhkXDKpZQiq73F68tdnCdjPcZjYuyo79KHyPRrEQFvZKJSKzvyN6rtg
- XTx13KIiI8EM7CaY62x0AvWxtwjyQfgkRkilFbCsnwdJ5EJnEFZgFvV89F2yp4AFFb
- W4W9GZCVCqgNvLqfOCB6t9m/hjn5kU+HWdDb1Jzld7sDbxFuPJFPMWxyFGtADdMTXx
- UcBKzaDBApDq83hN47QZ8yUwQMZ79vKr7el8Gb+R6xZ9PWkxgC4eWej1kZU8NSpeYS
- WGddyC8lbSc8ckP5MVlkHqImkxr7LmIaOa5rXYGmmqQ0Wjrcb3gaQW8ezoyO4+5qNF
- 6bDhW9plLPTEg==
+ b=Qr/wZ5+PH1auoB/BSPG+ywpS/WoSNL9jPlyr83dYhoQvcyBV+vJUNizv2KnEr3CBx
+ wG7WLqHHVT18uZW6Jn8LWdJWj0nRnHRNz+es8Q0frl/UsMkxn7U6u6Jc6xmddI7XE+
+ OzBHdXVK4fXAB+vq6BaHJAmm4pyj7GpV1gchM9qelEK4oNfr8pBWC2FNi1MEzYhD9I
+ 8LCLkERxbycO+YPQNCKr8CGoh9RiA3WdtxxnZeYhOjRqOOZE9CFv3xxK0ae5f/z3G5
+ jYZMqf9U4hiIbPw7qiAOdMiRB0z+5ZSfAlfpf5LQLxpcKOhKMBGm5rGkAshiXrBw1D
+ Zmz0A1+wORTKg==
 Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 4B6E860F9D; Mon, 15 Nov 2021 22:39:34 +0000 (UTC)
+ id 47BE660F9D; Mon, 15 Nov 2021 22:40:23 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 215025] [amdgpu] Thinkpad A275 hangs on shutdown / screen does
  not turn on after reboot
-Date: Mon, 15 Nov 2021 22:39:33 +0000
+Date: Mon, 15 Nov 2021 22:40:23 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -45,8 +45,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-215025-2300-azqb7NkCM2@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-215025-2300-dcxX7qBEGb@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-215025-2300@https.bugzilla.kernel.org/>
 References: <bug-215025-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -71,10 +71,8 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D215025
 
---- Comment #6 from Bjoern Franke (bjo@nord-west.org) ---
-Created attachment 299595
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D299595&action=3Dedit
-dmesg
+--- Comment #7 from Bjoern Franke (bjo@nord-west.org) ---
+The patch fixes it, thanks.
 
 --=20
 You may reply to this email to add a comment.
