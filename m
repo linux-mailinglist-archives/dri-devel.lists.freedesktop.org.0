@@ -1,43 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 087F8450277
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 11:25:03 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E45E450284
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Nov 2021 11:26:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 120FC6E8A6;
-	Mon, 15 Nov 2021 10:25:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 91F216E927;
+	Mon, 15 Nov 2021 10:26:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-4022.proton.ch (mail-4022.proton.ch [185.70.40.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E8F06E8E2
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 10:24:59 +0000 (UTC)
-Date: Mon, 15 Nov 2021 10:24:54 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail; t=1636971897;
- bh=L5quzF5nCycoEMtAtq1LGWLs42kPlj3RNDtMOjMojjc=;
- h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
- b=rFMYvRiqr8uIZKqh/OqxSZGFwP5teHxTRvFX3I+ytD47zO0MMS7Ta/XAlTVWvzstk
- AGFDuHmz/rt6qemCxtqGp+nzRATfvXoDKHbX5mtAWMpNyb4vj3bjkVGfzQd0pPJGPA
- 8qTdQ+15wDq3Dv3iRubPBmXN9TwR+JpyLnLw3Hb/ko9QQz3NC8D3mLR/oloHCEyvmK
- knNxoDpI8yKyfPelb/JptS/wGYqKJFLEv4+bDM6WdmwBN031nuqJ0YZfK8D8mkY3sc
- gpBMK16LYIJ2hHEzmVNeh6YU4lECWeaLocNKlH4QpQio6yRPLUCRrS13LlfqW3CjXt
- GSKFnNyBXyH3w==
-To: Jani Nikula <jani.nikula@linux.intel.com>
-From: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH] drm: change logs to print connectors in the form
- CONNECTOR:id:name
-Message-ID: <FA_pOwZDBfWW7NDxnHcCdMMqwbgstLNzftE9m4Dgtyewq8lYjHNSsdBZWpO_ULCLt2hCO0SVW5xku_qcEghQMtawUVdbmQeu7c4hBtg19pQ=@emersion.fr>
-In-Reply-To: <87ilwt3ei7.fsf@intel.com>
-References: <YZARol5A5hS+5a5m@gineta.localdomain> <87ilwt3ei7.fsf@intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D5AC6E8E2;
+ Mon, 15 Nov 2021 10:26:28 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10168"; a="296845732"
+X-IronPort-AV: E=Sophos;i="5.87,236,1631602800"; d="scan'208";a="296845732"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Nov 2021 02:26:27 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.87,236,1631602800"; d="scan'208";a="592053757"
+Received: from tilak-nuc8i7beh.iind.intel.com ([10.145.162.9])
+ by fmsmga002.fm.intel.com with ESMTP; 15 Nov 2021 02:26:24 -0800
+From: Tilak Tangudu <tilak.tangudu@intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH v2 0/1] drm/i915/rpm: Enable runtime pm autosuspend by default
+Date: Mon, 15 Nov 2021 15:56:09 +0530
+Message-Id: <20211115102610.3141720-1-tilak.tangudu@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
- DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
- autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
- mailout.protonmail.ch
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,18 +42,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Simon Ser <contact@emersion.fr>
-Cc: David Airlie <airlied@linux.ie>, Sam Ravnborg <sam@ravnborg.org>,
- Claudio Suarez <cssk@net-c.es>, dri-devel@lists.freedesktop.org
+Cc: tilak.tangudu@intel.com, ville.syrjala@intel.com, anshuman.gupta@intel.com,
+ jon.ewins@intel.com, badal.nilawar@intel.com, rodrigo.vivi@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Monday, November 15th, 2021 at 11:22, Jani Nikula <jani.nikula@linux.int=
-el.com> wrote:
+Enable runtime pm autosuspend by default for all
+platforms
 
-> - Adding drm_dbg_connector() which would take drm_connector as context,
->   and do drm_dbg_kms() with the above prefix.
+Signed-off-by: Tilak Tangudu <tilak.tangudu@intel.com>
 
-This wouldn't work great in case multiple connectors/planes/etc are involve=
-d,
-or when drm_dbg_atomic() is used.
+Tilak Tangudu (1):
+  drm/i915/rpm: Enable runtime pm autosuspend by default
+
+ drivers/gpu/drm/i915/intel_runtime_pm.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+-- 
+2.25.1
+
