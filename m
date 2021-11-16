@@ -1,34 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 259EF452A7F
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Nov 2021 07:23:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1776A452A84
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Nov 2021 07:23:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B0276EA19;
-	Tue, 16 Nov 2021 06:23:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 562076EA1B;
+	Tue, 16 Nov 2021 06:23:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA2556EA19;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B0B0C6EA1B;
+ Tue, 16 Nov 2021 06:23:38 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 1D0F061C14;
  Tue, 16 Nov 2021 06:23:33 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0974661A79;
- Tue, 16 Nov 2021 06:23:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1637043813;
- bh=+Q35wlrJhS3ekzEcoZnges6CzmvNvy+xiOTKkLMooOo=;
+ s=k20201202; t=1637043818;
+ bh=8Tn4eiu65chTlV9GpBsJxq5woJ47j+59RWB1tmI83cE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=JhXSbOYx3vcjTJAPf1WdNFzd2QwCvyh+5BAonxLHMZ1faM7TJNtDqp0JA6JvseQC1
- 2CxzaYymCrEqj61A9EXYWJ8B4a0ma9QnKX+JStOF5T3wopd8kyLXBx/T4P2hGsR9i2
- IoDDL0acwnNLnIlpdd5NPHSLMYqDWZ8W4/wneh4CnJXqFU+eJZrIu4PehhYo129crf
- OfzmxQJhAam8ZxzUwSLddm/FM84LPQ31ZjtKMNxpeXjejDj5/gW7JldIyqlOy2OU+B
- 6cM646KXWfq5iCK1vbhNtLnaq+54BE9J5FB3p7gsrJXfCIqfYBookVCHeJX4W0Ad74
- 5PrMlPwRuReDg==
+ b=cOuRuvZtjfsE0It8VEGTpy3Wwp6qZBnwj4yG/IeJsbM0EEIPQcW5h3M92ijROHTIT
+ hkSmay/9hCXFPuSj9KrJlsiFo7Z7JQUP6bkd5OYLlOxohDbtsqm7PHV4CkUBMGWf/5
+ b8ctW/gxleUF0bA5UtTGHq+KkbPioHP/NKfXCSx+2HGXb+jVGNOn2WrOdOLwDtJlsF
+ sWb/X35t2wYSOoVuJeGiHRDyY4sA6vuzgcLqBW9b09zGn98t9K9Er3od3ifYlqeLlD
+ 8JPkC9EU1isS8S+7BN4buOsm1pI/TGmogMoLQ3uJOYFRlAymoLG+IDYIbbdKmMhaj6
+ C7nH1JOJbzT+A==
 From: Vinod Koul <vkoul@kernel.org>
 To: Rob Clark <robdclark@gmail.com>
-Subject: [PATCH v3 04/13] drm/msm/disp/dpu1: Add DSC for SDM845 to hw_catalog
-Date: Tue, 16 Nov 2021 11:52:47 +0530
-Message-Id: <20211116062256.2417186-5-vkoul@kernel.org>
+Subject: [PATCH v3 05/13] drm/msm/disp/dpu1: Don't use DSC with mode_3d
+Date: Tue, 16 Nov 2021 11:52:48 +0530
+Message-Id: <20211116062256.2417186-6-vkoul@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211116062256.2417186-1-vkoul@kernel.org>
 References: <20211116062256.2417186-1-vkoul@kernel.org>
@@ -56,52 +56,90 @@ Cc: Jonathan Marek <jonathan@marek.ca>, Jeffrey Hugo <jeffrey.l.hugo@gmail.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This adds SDM845 DSC blocks into hw_catalog
+We cannot enable mode_3d when we are using the DSC. So pass
+configuration to detect DSC is enabled and not enable mode_3d
+when we are using DSC
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+We add a helper dpu_encoder_helper_get_dsc() to detect dsc
+enabled and pass this to .setup_intf_cfg()
+
 Signed-off-by: Vinod Koul <vkoul@kernel.org>
 ---
- .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    | 20 +++++++++++++++++++
- 1 file changed, 20 insertions(+)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h     | 11 +++++++++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c |  2 ++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c           |  3 ++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h           |  2 ++
+ 4 files changed, 17 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-index ce6f32a919e5..c773bbe57b6b 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-@@ -821,6 +821,24 @@ static const struct dpu_pingpong_cfg sc7280_pp[] = {
- 	PP_BLK("pingpong_2", PINGPONG_2, 0x6b000, 0, sc7280_pp_sblk, -1, -1),
- 	PP_BLK("pingpong_3", PINGPONG_3, 0x6c000, 0, sc7280_pp_sblk, -1, -1),
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
+index e7270eb6b84b..efb85d595598 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
+@@ -332,6 +332,17 @@ static inline enum dpu_3d_blend_mode dpu_encoder_helper_get_3d_blend_mode(
+ 	return BLEND_3D_NONE;
+ }
+ 
++static inline bool dpu_encoder_helper_get_dsc(struct dpu_encoder_phys *phys_enc)
++{
++	struct drm_encoder *drm_enc = phys_enc->parent;
++	struct msm_drm_private *priv = drm_enc->dev->dev_private;
++
++	if (priv->dsc)
++		return priv->dsc->dsc_mask;
++
++	return 0;
++}
++
+ /**
+  * dpu_encoder_helper_split_config - split display configuration helper function
+  *	This helper function may be used by physical encoders to configure
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
+index 34a6940d12c5..f3f00f4d0193 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
+@@ -70,6 +70,8 @@ static void _dpu_encoder_phys_cmd_update_intf_cfg(
+ 	intf_cfg.intf_mode_sel = DPU_CTL_MODE_SEL_CMD;
+ 	intf_cfg.stream_sel = cmd_enc->stream_sel;
+ 	intf_cfg.mode_3d = dpu_encoder_helper_get_3d_blend_mode(phys_enc);
++	intf_cfg.dsc = dpu_encoder_helper_get_dsc(phys_enc);
++
+ 	ctl->ops.setup_intf_cfg(ctl, &intf_cfg);
+ }
+ 
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+index 64740ddb983e..36831457a91b 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+@@ -519,7 +519,8 @@ static void dpu_hw_ctl_intf_cfg(struct dpu_hw_ctl *ctx,
+ 
+ 	intf_cfg |= (cfg->intf & 0xF) << 4;
+ 
+-	if (cfg->mode_3d) {
++	/* In DSC we can't set merge, so check for dsc too */
++	if (cfg->mode_3d && !cfg->dsc) {
+ 		intf_cfg |= BIT(19);
+ 		intf_cfg |= (cfg->mode_3d - 0x1) << 20;
+ 	}
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
+index 806c171e5df2..9847c9c46d6f 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
+@@ -40,6 +40,7 @@ struct dpu_hw_stage_cfg {
+  * @merge_3d:              3d merge block used
+  * @intf_mode_sel:         Interface mode, cmd / vid
+  * @stream_sel:            Stream selection for multi-stream interfaces
++ * @dsc:                   DSC BIT masks
+  */
+ struct dpu_hw_intf_cfg {
+ 	enum dpu_intf intf;
+@@ -47,6 +48,7 @@ struct dpu_hw_intf_cfg {
+ 	enum dpu_merge_3d merge_3d;
+ 	enum dpu_ctl_mode_sel intf_mode_sel;
+ 	int stream_sel;
++	unsigned int dsc;
  };
-+
-+/*************************************************************
-+ * DSC sub blocks config
-+ *************************************************************/
-+#define DSC_BLK(_name, _id, _base) \
-+	{\
-+	.name = _name, .id = _id, \
-+	.base = _base, .len = 0x140, \
-+	.features = 0, \
-+	}
-+
-+static struct dpu_dsc_cfg sdm845_dsc[] = {
-+	DSC_BLK("dsc_0", DSC_0, 0x80000),
-+	DSC_BLK("dsc_1", DSC_1, 0x80400),
-+	DSC_BLK("dsc_2", DSC_2, 0x80800),
-+	DSC_BLK("dsc_3", DSC_3, 0x80c00),
-+};
-+
- /*************************************************************
-  * INTF sub blocks config
-  *************************************************************/
-@@ -1124,6 +1142,8 @@ static void sdm845_cfg_init(struct dpu_mdss_cfg *dpu_cfg)
- 		.mixer = sdm845_lm,
- 		.pingpong_count = ARRAY_SIZE(sdm845_pp),
- 		.pingpong = sdm845_pp,
-+		.dsc_count = ARRAY_SIZE(sdm845_dsc),
-+		.dsc = sdm845_dsc,
- 		.intf_count = ARRAY_SIZE(sdm845_intf),
- 		.intf = sdm845_intf,
- 		.vbif_count = ARRAY_SIZE(sdm845_vbif),
+ 
+ /**
 -- 
 2.31.1
 
