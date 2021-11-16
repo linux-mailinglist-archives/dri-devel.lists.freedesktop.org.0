@@ -2,39 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 535844539C0
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Nov 2021 20:05:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB2E44539F6
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Nov 2021 20:18:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F9D06E111;
-	Tue, 16 Nov 2021 19:05:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D4A166E10F;
+	Tue, 16 Nov 2021 19:18:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 76CD66E0FB
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Nov 2021 19:05:05 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 148D56321B;
- Tue, 16 Nov 2021 19:05:03 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 25FBB6E10F
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Nov 2021 19:18:00 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D661E63223;
+ Tue, 16 Nov 2021 19:17:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1637089505;
- bh=pUC+/2H427L7tAVUY+8YM20rMCV65nBnq4xSfR84FZc=;
+ s=k20201202; t=1637090279;
+ bh=EjfK6ywtkTbYiXTxOr4yEkJELrvwgwMVwqnEQgNPO2Q=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=arWDxm81MhlbXKoc6f9V25if+gxL5Fjf6hKZbroC6mJOnpdJVyv20RJvFA00Jt/aN
- kDsO78F+7Ueg3j1OE3PMDqmexiiaI+ufVrbBt+aPK+jH8roAZf/fU4vdj9hdgkCh5y
- EBFpR9ZT/vHA/tmAs9Hx0tmmx1svYpssTEDLsf+zO0AFpZLlOPJgXwVoJrK5Ux4Fep
- Yn1hmu6kGH6HuVE8E1+CEROqEV2TEV6XS3Bt74abSMp1JHx9FxGS4QpM3oDObylhyX
- YoZ91Z6NsGnqg4ylp+Mx7BTPV9IEqJxMN9lZLhssmFBTu8xyVYy4VOT86FnqHqRDwx
- 9kcz7Dh0DJW1A==
+ b=frWfIpfU8B8hdkehcTUBtDi0OnSNOB/Kx9yM4kvNjk0KQY6XP2Q4N/+wyYk453KVB
+ qKPWbovxQmJnL5hkSZ78JlgSCKz8hkfog2Y3udhiAz6b1orNHa5g0GeBwrWj8MU+f/
+ gObcCeD9SXptakUNFJFu1FwXYyNCs6us0dDhqXaelLJhY0EgxC4mGKHH6SLytM+oTA
+ +p7TSvdz14QHPT25mEfOSCoZkWkBp8exNTz2nuJ9Il5cHJdJYtTFNmJJ4qxrB75NZa
+ dPpWzEMfNBn8LTQ6753Sg2CxnpOv82xgEq8+Mg0cf/ZAJGCEfq6Avw18ut9jJhJgOZ
+ UxkF/T+6gpiCg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 08/65] drm/virtio: fix the missed
- drm_gem_object_put() in virtio_gpu_user_framebuffer_create()
-Date: Tue, 16 Nov 2021 14:03:28 -0500
-Message-Id: <20211116190443.2418144-8-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 03/65] backlight: Propagate errors from
+ get_brightness()
+Date: Tue, 16 Nov 2021 14:16:48 -0500
+Message-Id: <20211116191754.2419097-3-sashal@kernel.org>
 X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20211116190443.2418144-1-sashal@kernel.org>
-References: <20211116190443.2418144-1-sashal@kernel.org>
+In-Reply-To: <20211116191754.2419097-1-sashal@kernel.org>
+References: <20211116191754.2419097-1-sashal@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -50,43 +51,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, airlied@linux.ie,
- dri-devel@lists.freedesktop.org, Jing Xiangfeng <jingxiangfeng@huawei.com>,
- Gerd Hoffmann <kraxel@redhat.com>, virtualization@lists.linux-foundation.org
+Cc: Sasha Levin <sashal@kernel.org>,
+ Daniel Thompson <daniel.thompson@linaro.org>, jingoohan1@gmail.com,
+ =?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <linux@weissschuh.net>,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ Lee Jones <lee.jones@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Jing Xiangfeng <jingxiangfeng@huawei.com>
+From: Thomas Weißschuh <linux@weissschuh.net>
 
-[ Upstream commit a63f393dd7e1ebee707c9dee1d197fdc33d6486b ]
+[ Upstream commit 563edf85ce18a90dd0a7b39e279a691d937205f6 ]
 
-virtio_gpu_user_framebuffer_create() misses to call drm_gem_object_put()
-in an error path. Add the missed function call to fix it.
+backlight.h documents "struct backlight_ops->get_brightness()" to return
+a negative errno on failure.
 
-Signed-off-by: Jing Xiangfeng <jingxiangfeng@huawei.com>
-Link: http://patchwork.freedesktop.org/patch/msgid/1633770560-11658-1-git-send-email-jingxiangfeng@huawei.com
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+So far these errors have not been handled in the backlight core.
+This leads to negative values being exposed through sysfs although only
+positive values are documented to be reported.
+
+Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
+Signed-off-by: Lee Jones <lee.jones@linaro.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/virtio/virtgpu_display.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/video/backlight/backlight.c | 22 +++++++++++++++++-----
+ 1 file changed, 17 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_display.c b/drivers/gpu/drm/virtio/virtgpu_display.c
-index a6caebd4a0dd6..5b00310ac4cd4 100644
---- a/drivers/gpu/drm/virtio/virtgpu_display.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_display.c
-@@ -308,8 +308,10 @@ virtio_gpu_user_framebuffer_create(struct drm_device *dev,
- 		return ERR_PTR(-EINVAL);
+diff --git a/drivers/video/backlight/backlight.c b/drivers/video/backlight/backlight.c
+index 537fe1b376ad7..4658cfb75aa28 100644
+--- a/drivers/video/backlight/backlight.c
++++ b/drivers/video/backlight/backlight.c
+@@ -292,10 +292,13 @@ static ssize_t actual_brightness_show(struct device *dev,
+ 	struct backlight_device *bd = to_backlight_device(dev);
  
- 	virtio_gpu_fb = kzalloc(sizeof(*virtio_gpu_fb), GFP_KERNEL);
--	if (virtio_gpu_fb == NULL)
-+	if (virtio_gpu_fb == NULL) {
-+		drm_gem_object_put(obj);
- 		return ERR_PTR(-ENOMEM);
+ 	mutex_lock(&bd->ops_lock);
+-	if (bd->ops && bd->ops->get_brightness)
+-		rc = sprintf(buf, "%d\n", bd->ops->get_brightness(bd));
+-	else
++	if (bd->ops && bd->ops->get_brightness) {
++		rc = bd->ops->get_brightness(bd);
++		if (rc >= 0)
++			rc = sprintf(buf, "%d\n", rc);
++	} else {
+ 		rc = sprintf(buf, "%d\n", bd->props.brightness);
 +	}
+ 	mutex_unlock(&bd->ops_lock);
  
- 	ret = virtio_gpu_framebuffer_init(dev, virtio_gpu_fb, mode_cmd, obj);
- 	if (ret) {
+ 	return rc;
+@@ -381,9 +384,18 @@ ATTRIBUTE_GROUPS(bl_device);
+ void backlight_force_update(struct backlight_device *bd,
+ 			    enum backlight_update_reason reason)
+ {
++	int brightness;
++
+ 	mutex_lock(&bd->ops_lock);
+-	if (bd->ops && bd->ops->get_brightness)
+-		bd->props.brightness = bd->ops->get_brightness(bd);
++	if (bd->ops && bd->ops->get_brightness) {
++		brightness = bd->ops->get_brightness(bd);
++		if (brightness >= 0)
++			bd->props.brightness = brightness;
++		else
++			dev_err(&bd->dev,
++				"Could not update brightness from device: %pe\n",
++				ERR_PTR(brightness));
++	}
+ 	mutex_unlock(&bd->ops_lock);
+ 	backlight_generate_event(bd, reason);
+ }
 -- 
 2.33.0
 
