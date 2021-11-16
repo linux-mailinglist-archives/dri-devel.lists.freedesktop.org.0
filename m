@@ -1,78 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77B2B452A51
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Nov 2021 07:05:43 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD5DE452A27
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Nov 2021 06:59:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C6F696E8F5;
-	Tue, 16 Nov 2021 06:05:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 193956E8D0;
+	Tue, 16 Nov 2021 05:59:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 427 seconds by postgrey-1.36 at gabe;
- Tue, 16 Nov 2021 06:05:38 UTC
-Received: from mx6.ucr.edu (mx.ucr.edu [138.23.62.71])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2630E6E8F5
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Nov 2021 06:05:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=ucr.edu; i=@ucr.edu; q=dns/txt; s=selector3;
- t=1637042738; x=1668578738;
- h=mime-version:references:in-reply-to:from:date:message-id:
- subject:to:cc; bh=Z3Zujelhp95n7JiGO15pEnuj1r6cZj7PyaJcCYcZCrc=;
- b=PkgmIRsNGXr03C1mGjncXZO+aF7UffQCP7Mkx5l//5VS4N8U18xPAjna
- uhI5t71/WLtin+5QWRSYFhunhgPOefiPz1jkXxEkWaHxLeTq0tH/xarat
- rKmgMTKYBmz1Nup0fUReyfTfvvBs+EHiC1h5ro0rfFEX9KY7FSwIMBn2h
- /JydcC6NP+URJUwFrQzz5aev5t7Eu0t2j70HT6iN5VbDYJLTKguZzp26O
- CAnw7pH8Nt/feQBQSfmD4jX8hGTTWFxfxhv2uRrHEErCilzrhRvQMxhxd
- 8rSRcSHxAjv7uOvoW3Cy60KwR5erwmaMnMYUrEvHJr+divhYONrR0hV5J w==;
-IronPort-SDR: T2f+r5babBzCENavGGkd/RXXkDIiYg1TQhku1G2F7vQXbqel8OQXh41bqtQkpJYsrWnpXn9O8K
- MjtPowIEzmaRvZJSjQchLwWjhqqnaDLMzY3ooLbwMWbfRH0EbQsPnwd98XUcjJx2ynNG2dLdK4
- OBOvHQK+unX7rBTXy4WyT9nDGeMkGc1kMsWnlnUQuevfplh0154QYpLiSSMjM38Co6P4oCXlur
- ru2+wmrDcvz7gJtPdkafJt8ssL7Td/xH//J/z1tUNgn3bsDTZfDPhVMGfocdjWcmGU64fVkV11
- 3DR4jfkM/FPflYVxVBBHB8qv
-X-IronPort-AV: E=Sophos;i="5.87,238,1631602800"; d="scan'208";a="258779262"
-Received: from mail-yb1-f199.google.com ([209.85.219.199])
- by smtpmx6.ucr.edu with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 15 Nov 2021 21:58:31 -0800
-Received: by mail-yb1-f199.google.com with SMTP id
- v7-20020a25ab87000000b005c2130838beso30785536ybi.0
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Nov 2021 21:58:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucr.edu; s=rmail;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=8/XhVolQXCHPmPCzdRzFWhpIuM6H2Dzx9QQPO3TDOnQ=;
- b=f867r1i2Ostx6BltPr4Oc+FLyknNCfRZZ8l/kHRJB8wnAdh1Z+85jOUgfhVaqYWG43
- PnHHT6jy+L7VBZdHouMBNsvuWuuto8figPchs2mldQ8qtJC5qaOraraScvZVlbxxkf4L
- SkpkgUNLz56wCGs3dil3hUuNC1TeoZwqBwW/w=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=8/XhVolQXCHPmPCzdRzFWhpIuM6H2Dzx9QQPO3TDOnQ=;
- b=ciHHS4SzdRimwT/g+x+b9MvZWPe24crMyi8AHwKofGw8zDInJ7UtkP2UR3bgdrFA0y
- T1Is/T3uZ1hweoexfCzNMQjJ66W8W4P0Sj6NoKuF08VuUOSumuUdO2MpAaCz2ms58che
- kTfuydwepje78j3XtMrCZAeXHRjI/3dOrKNHQ7QOTRNgdiWadNB/Ef5sYsB0Vp17brqC
- 9cY8mwurr8K2lf5R+aA1i4vTAs1YJP0rIzFBCyLovtv3kzZiHW09WcNdhKQswDNdAADs
- 8rbKXVL6D5X3Sk2jETGh0Ig4p2L9M4j+FcPEMpf5vocBELJTPpd+s0SU62JeFY4083tT
- xwIw==
-X-Gm-Message-State: AOAM532rxoWm0W7L1OtJz1TWBx5JC2Gk5q1/4UsdmfjeUsYgWFYre2lx
- 9m1FVoyR15oehZ2PqAQwIeErFymIVQ+M1l/NkjNBdM5WfHp49nwYpUnxoTWszkux1+6mikBcg7D
- +xvSSYmORcO1w7vJ7E3gij4D3cPV2/01pcW77unoc/ALvKg==
-X-Received: by 2002:a25:d103:: with SMTP id i3mr5547193ybg.260.1637042310179; 
- Mon, 15 Nov 2021 21:58:30 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxwUr/rkQjN0wPIocSPR9Ha22HtX3sCwe21HdQmlEhLyrgEeqa6u/wE7tEwiSL8OX/t6aAWemYEafgo1TEtMxs=
-X-Received: by 2002:a25:d103:: with SMTP id i3mr5547162ybg.260.1637042309942; 
- Mon, 15 Nov 2021 21:58:29 -0800 (PST)
+Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4AA026E910
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Nov 2021 05:59:07 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1637042347; h=Content-Transfer-Encoding: Content-Type:
+ In-Reply-To: From: References: Cc: To: Subject: MIME-Version: Date:
+ Message-ID: Sender; bh=mfaGGc9Z/93V1SAUCYag5AJsRAW8ssnfhJC7pEfuuos=;
+ b=cHGJi47osK7gxakWhZNhjLITLevEvqm00MawKvXC8utn++00Vzn48bn+HztGEx06khRmW4zW
+ vh/7IAXMRBGKRwhuh0tE3uXIo1O0AESAmB6BgpWbgurUUwdLEzRJK0ThhDRiU9uA04/cWPcz
+ pEs9l9L3kIhiaUSxB2Ki7AoEJes=
+X-Mailgun-Sending-Ip: 198.61.254.9
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n01.prod.us-west-2.postgun.com with SMTP id
+ 619348aa4db4233966e10c13 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 16 Nov 2021 05:59:06
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 20B4EC43618; Tue, 16 Nov 2021 05:59:06 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-4.3 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+ NICE_REPLY_A,SPF_FAIL autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from [192.168.1.5] (unknown [59.89.226.177])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: akhilpo)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 47E4FC4338F;
+ Tue, 16 Nov 2021 05:58:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.codeaurora.org 47E4FC4338F
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=fail smtp.mailfrom=codeaurora.org
+Message-ID: <32e0798f-37b5-e255-7e1d-fab3af4858b0@codeaurora.org>
+Date: Tue, 16 Nov 2021 11:28:57 +0530
 MIME-Version: 1.0
-References: <CABvMjLTVZaU8vMW__2BDo6FnjFa_bsh2S-kEmg=KV4KTsFiUzA@mail.gmail.com>
- <CACO55tuDQ9UC2rr=_Hsowvujk49oNK1zWfHj3jMnhEqsTAnh0Q@mail.gmail.com>
-In-Reply-To: <CACO55tuDQ9UC2rr=_Hsowvujk49oNK1zWfHj3jMnhEqsTAnh0Q@mail.gmail.com>
-From: Yizhuo Zhai <yzhai003@ucr.edu>
-Date: Mon, 15 Nov 2021 21:58:19 -0800
-Message-ID: <CABvMjLSFLpG4=+tE3Sr2wfRsEuKLXMm++Xx+JNmA8YXptgzkmw@mail.gmail.com>
-Subject: Re: [PATCH] drm/nouveau/core: fix the uninitialized use in
- nvkm_ioctl_map()
-To: Karol Herbst <kherbst@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.1
+Subject: Re: [PATCH 2/2] drm/msm: Restore error return on invalid fence
+Content-Language: en-US
+To: Rob Clark <robdclark@gmail.com>
+References: <20211111192457.747899-1-robdclark@gmail.com>
+ <20211111192457.747899-3-robdclark@gmail.com>
+ <36c9f669-c2d2-8a63-db96-31165caeeffb@codeaurora.org>
+ <CAF6AEGvMf2pQO9LmUanOGzWgU34=gO3ZPPH=6dea=AvfavWTVg@mail.gmail.com>
+From: Akhil P Oommen <akhilpo@codeaurora.org>
+In-Reply-To: <CAF6AEGvMf2pQO9LmUanOGzWgU34=gO3ZPPH=6dea=AvfavWTVg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,57 +73,107 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, nouveau <nouveau@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Ben Skeggs <bskeggs@redhat.com>
+Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Sean Paul <sean@poorly.run>, freedreno <freedreno@lists.freedesktop.org>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Karol:
-Thanks for the feedback, the patch might be too old to apply to the
-latest code tree. Let me check and get back to you soon.
+On 11/15/2021 10:26 PM, Rob Clark wrote:
+> On Mon, Nov 15, 2021 at 6:43 AM Akhil P Oommen <akhilpo@codeaurora.org> wrote:
+>>
+>> On 11/12/2021 12:54 AM, Rob Clark wrote:
+>>> From: Rob Clark <robdclark@chromium.org>
+>>>
+>>> When converting to use an idr to map userspace fence seqno values back
+>>> to a dma_fence, we lost the error return when userspace passes seqno
+>>> that is larger than the last submitted fence.  Restore this check.
+>>>
+>>> Reported-by: Akhil P Oommen <akhilpo@codeaurora.org>
+>>> Fixes: a61acbbe9cf8 ("drm/msm: Track "seqno" fences by idr")
+>>> Signed-off-by: Rob Clark <robdclark@chromium.org>
+>>> ---
+>>> Note: I will rebase "drm/msm: Handle fence rollover" on top of this,
+>>> to simplify backporting this patch to stable kernels
+>>>
+>>>    drivers/gpu/drm/msm/msm_drv.c        | 6 ++++++
+>>>    drivers/gpu/drm/msm/msm_gem_submit.c | 1 +
+>>>    drivers/gpu/drm/msm/msm_gpu.h        | 3 +++
+>>>    3 files changed, 10 insertions(+)
+>>>
+>>> diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+>>> index cb14d997c174..56500eb5219e 100644
+>>> --- a/drivers/gpu/drm/msm/msm_drv.c
+>>> +++ b/drivers/gpu/drm/msm/msm_drv.c
+>>> @@ -967,6 +967,12 @@ static int wait_fence(struct msm_gpu_submitqueue *queue, uint32_t fence_id,
+>>>        struct dma_fence *fence;
+>>>        int ret;
+>>>
+>>> +     if (fence_id > queue->last_fence) {
+>>
+>> But fence_id can wrap around and then this check won't be valid.
+> 
+> that is correct, but see my note about rebasing "drm/msm: Handle fence
+> rollover" on top of this patch, so this patch could be more easily
+> cherry-picked to stable/lts branches
+> 
+> BR,
+> -R
 
-On Sat, Nov 13, 2021 at 12:22 PM Karol Herbst <kherbst@redhat.com> wrote:
->
-> something seems to have messed with the patch so it doesn't apply correctly.
->
-> On Thu, Jun 17, 2021 at 9:39 AM Yizhuo Zhai <yzhai003@ucr.edu> wrote:
-> >
-> > In function nvkm_ioctl_map(), the variable "type" could be
-> > uninitialized if "nvkm_object_map()" returns error code,
-> > however, it does not check the return value and directly
-> > use the "type" in the if statement, which is potentially
-> > unsafe.
-> >
-> > Signed-off-by: Yizhuo <yzhai003@ucr.edu>
-> > ---
-> >  drivers/gpu/drm/nouveau/nvkm/core/ioctl.c | 2 ++
-> >  1 file changed, 2 insertions(+)
-> >
-> > diff --git a/drivers/gpu/drm/nouveau/nvkm/core/ioctl.c
-> > b/drivers/gpu/drm/nouveau/nvkm/core/ioctl.c
-> > index d777df5a64e6..7f2e8482f167 100644
-> > --- a/drivers/gpu/drm/nouveau/nvkm/core/ioctl.c
-> > +++ b/drivers/gpu/drm/nouveau/nvkm/core/ioctl.c
-> > @@ -266,6 +266,8 @@ nvkm_ioctl_map(struct nvkm_client *client,
-> >                 ret = nvkm_object_map(object, data, size, &type,
-> >                                       &args->v0.handle,
-> >                                       &args->v0.length);
-> > +               if (ret)
-> > +                       return ret;
-> >                 if (type == NVKM_OBJECT_MAP_IO)
-> >                         args->v0.type = NVIF_IOCTL_MAP_V0_IO;
-> >                 else
-> > --
-> > 2.17.1
-> >
->
+Missed that. Thanks.
 
+Reviewed-by: Akhil P Oommen <akhilpo@codeaurora.org>
 
--- 
-Kind Regards,
+-Akhil.
+> 
+>> -Akhil.
+>>
+>>> +             DRM_ERROR_RATELIMITED("waiting on invalid fence: %u (of %u)\n",
+>>> +                                   fence_id, queue->last_fence);
+>>> +             return -EINVAL;
+>>> +     }
+>>> +
+>>>        /*
+>>>         * Map submitqueue scoped "seqno" (which is actually an idr key)
+>>>         * back to underlying dma-fence
+>>> diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
+>>> index 151d19e4453c..a38f23be497d 100644
+>>> --- a/drivers/gpu/drm/msm/msm_gem_submit.c
+>>> +++ b/drivers/gpu/drm/msm/msm_gem_submit.c
+>>> @@ -911,6 +911,7 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
+>>>        drm_sched_entity_push_job(&submit->base, queue->entity);
+>>>
+>>>        args->fence = submit->fence_id;
+>>> +     queue->last_fence = submit->fence_id;
+>>>
+>>>        msm_reset_syncobjs(syncobjs_to_reset, args->nr_in_syncobjs);
+>>>        msm_process_post_deps(post_deps, args->nr_out_syncobjs,
+>>> diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gpu.h
+>>> index bd4e0024033e..e73a5bb03544 100644
+>>> --- a/drivers/gpu/drm/msm/msm_gpu.h
+>>> +++ b/drivers/gpu/drm/msm/msm_gpu.h
+>>> @@ -376,6 +376,8 @@ static inline int msm_gpu_convert_priority(struct msm_gpu *gpu, int prio,
+>>>     * @ring_nr:   the ringbuffer used by this submitqueue, which is determined
+>>>     *             by the submitqueue's priority
+>>>     * @faults:    the number of GPU hangs associated with this submitqueue
+>>> + * @last_fence: the sequence number of the last allocated fence (for error
+>>> + *             checking)
+>>>     * @ctx:       the per-drm_file context associated with the submitqueue (ie.
+>>>     *             which set of pgtables do submits jobs associated with the
+>>>     *             submitqueue use)
+>>> @@ -391,6 +393,7 @@ struct msm_gpu_submitqueue {
+>>>        u32 flags;
+>>>        u32 ring_nr;
+>>>        int faults;
+>>> +     uint32_t last_fence;
+>>>        struct msm_file_private *ctx;
+>>>        struct list_head node;
+>>>        struct idr fence_idr;
+>>>
+>>
 
-Yizhuo Zhai
-
-Computer Science, Graduate Student
-University of California, Riverside
