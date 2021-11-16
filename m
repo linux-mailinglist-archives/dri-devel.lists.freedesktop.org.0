@@ -1,42 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9785A45291F
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Nov 2021 05:29:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D7DF8452A20
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Nov 2021 06:58:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E4B996E5BD;
-	Tue, 16 Nov 2021 04:29:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B4D26E0C1;
+	Tue, 16 Nov 2021 05:58:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F5736E5BD
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Nov 2021 04:29:00 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 66AA16023D;
- Tue, 16 Nov 2021 04:28:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1637036939;
- bh=rcwRBlCKqfF/fOP7nToqyQtxiDrvbRwb9qhV9pcd3SE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=WCkkYmiCsuCs6VTYyStyePuhjavoZznkD15Pfk4kfmFcnpOyhqwefXwCEerdsi5BB
- gaxqtKh7IVnWz3O+cSAsdJUjs6zKFkagpHyNquC8O99klBS/lKo/7gFtT7CHdCC6ar
- 6K/pSsHI8+2FH3V1I1L7V2qq8dmjNebnK0MyEtDZ/hdrNv4x1IyseRUmNFq3EiZJ7c
- 1oiPRI0DMs2kje0Hvslatdsud/obFQMRW9uHW8NpKk4mIv94ytNZbHvJadN/Nn9YZY
- tGLIxmhA6nCk6OcdFZAV34UHFuwVplf/2bcz9WsNFmm3THY7N2KypMCnwedbGoDGcy
- AW5qdaBZVvhpQ==
-Date: Tue, 16 Nov 2021 09:58:54 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Arnd Bergmann <arnd@kernel.org>
-Subject: Re: [PATCH 08/11] dmaengine: xilinx_dpdma: stop using slave_id field
-Message-ID: <YZMzhoWX0S5oPI6j@matsya>
-References: <20211115085403.360194-1-arnd@kernel.org>
- <20211115085403.360194-9-arnd@kernel.org>
- <YZIk6cVb7XibrMjf@pendragon.ideasonboard.com>
- <CAK8P3a1Fu11-e0CK2of8u3ebdjom84UKuXhBKi5FUs5ZPPdOVA@mail.gmail.com>
+X-Greylist: delayed 429 seconds by postgrey-1.36 at gabe;
+ Tue, 16 Nov 2021 05:58:28 UTC
+Received: from qq.com (smtpbg456.qq.com [59.36.132.123])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 960D06E8D0;
+ Tue, 16 Nov 2021 05:58:28 +0000 (UTC)
+X-QQ-mid: bizesmtp42t1637041833t56n8jsa
+Received: from localhost.localdomain (unknown [124.126.19.250])
+ by esmtp6.qq.com (ESMTP) with 
+ id ; Tue, 16 Nov 2021 13:50:32 +0800 (CST)
+X-QQ-SSF: 01400000002000B0G000B00A0000000
+X-QQ-FEAT: 0VgNaGdhy9gMzxiMf1vmpjJbNpQ/R/ZOeZ0tS/XNDElwqgpr4Swqsek2YJaCD
+ cziT7dWpG99gNhZes+Eql5RTGoAx2xSjd1Pw+aU9sSvzp0tiKfo1TQC9GmyO4+8kSKl68Yq
+ TVMAPW/mA0Kb3dMLZXWaa23CFclqHcPBU5QgNKZBDKqWI/+IlJfm3aP0N4H371ykVGAFHgx
+ XgUA1vQtlW9hnw+iVWNZGCygwzL4obN9r36Nmkfk3JSslx52Z3YiRG943brxIHHY+xvUqA6
+ 8LSSWRMwlpLowvCePefZimT/O1Ivshy7bwlYLIILabMJrX/ljNh8AXi2ZIvg7LYCuMGq4OS
+ dUS9TRGSjqzWRY3kXUJ20T5WdFyvGQJuyl7Fdu9gfrxxrH+xag=
+X-QQ-GoodBg: 2
+From: zhaoxiao <zhaoxiao@uniontech.com>
+To: airlied@linux.ie,
+	daniel@ffwll.ch
+Subject: [PATCH] drm/radeon:WARNING opportunity for max()
+Date: Tue, 16 Nov 2021 13:50:31 +0800
+Message-Id: <20211116055031.31621-1-zhaoxiao@uniontech.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAK8P3a1Fu11-e0CK2of8u3ebdjom84UKuXhBKi5FUs5ZPPdOVA@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtp:uniontech.com:qybgforeign:qybgforeign5
+X-QQ-Bgrelay: 1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,66 +50,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ALSA Development Mailing List <alsa-devel@alsa-project.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- "open list:TEGRA ARCHITECTURE SUPPORT" <linux-tegra@vger.kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- linux-mtd <linux-mtd@lists.infradead.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- linux-spi <linux-spi@vger.kernel.org>, Robert Jarzmik <robert.jarzmik@free.fr>,
- Chunyan Zhang <zhang.lyra@gmail.com>, linux-staging@lists.linux.dev,
- Michal Simek <michal.simek@xilinx.com>, Jon Hunter <jonathanh@nvidia.com>,
- Andy Gross <agross@kernel.org>,
- bcm-kernel-feedback-list <bcm-kernel-feedback-list@broadcom.com>,
- "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
- Orson Zhai <orsonzhai@gmail.com>, Nicolas Saenz Julienne <nsaenz@kernel.org>,
- Arnd Bergmann <arnd@arndb.de>, Manivannan Sadhasivam <mani@kernel.org>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>, dmaengine@vger.kernel.org,
- Mark Brown <broonie@kernel.org>,
- "moderated list:BROADCOM BCM2835 ARM ARCHITECTURE"
- <linux-rpi-kernel@lists.infradead.org>, Jaroslav Kysela <perex@perex.cz>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Scott Branden <sbranden@broadcom.com>, Hyun Kwon <hyun.kwon@xilinx.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-mmc <linux-mmc@vger.kernel.org>, Takashi Iwai <tiwai@suse.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Laxman Dewangan <ldewangan@nvidia.com>, Baolin Wang <baolin.wang7@gmail.com>
+Cc: zhaoxiao <zhaoxiao@uniontech.com>, Xinhui.Pan@amd.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, alexander.deucher@amd.com,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 15-11-21, 11:21, Arnd Bergmann wrote:
-> On Mon, Nov 15, 2021 at 10:14 AM Laurent Pinchart
-> <laurent.pinchart@ideasonboard.com> wrote:
-> > On Mon, Nov 15, 2021 at 09:54:00AM +0100, Arnd Bergmann wrote:
-> > > @@ -1285,11 +1287,13 @@ static int xilinx_dpdma_config(struct dma_chan *dchan,
-> > >       spin_lock_irqsave(&chan->lock, flags);
-> > >
-> > >       /*
-> > > -      * Abuse the slave_id to indicate that the channel is part of a video
-> > > -      * group.
-> > > +      * Abuse the peripheral_config to indicate that the channel is part
-> >
-> > Is it still an abuse, or is this now the right way to pass custom data
-> > to the DMA engine driver ?
-> 
-> It doesn't make the driver any more portable, but it's now being
-> more explicit about it. As far as I can tell, this is the best way
-> to pass data that cannot be expressed through the regular interfaces
-> in DT and the dmaengine API.
-> 
-> Ideally there would be a generic way to pass this flag, but I couldn't
-> figure out what this is actually doing, or whether there is a better
-> way. Maybe Vinod has an idea.
-> 
-> I'll change s/Abuse/Use/ for the moment until I get a definite answer.
+Fix following coccicheck warning:
+drivers/gpu/drm/radeon/r100.c:3450:26-27: WARNING opportunity for max()
+drivers/gpu/drm/radeon/r100.c:2812:23-24: WARNING opportunity for max()
 
-I would feel this is still not use for the peripheral_config, but lets
-keep it to get rid of slave_id.
+Signed-off-by: zhaoxiao <zhaoxiao@uniontech.com>
+---
+ drivers/gpu/drm/radeon/r100.c | 10 ++--------
+ 1 file changed, 2 insertions(+), 8 deletions(-)
 
-Also, I would be better if this was moved to DT as the next cell, don't
-recall why that was not done/feasible.
-
+diff --git a/drivers/gpu/drm/radeon/r100.c b/drivers/gpu/drm/radeon/r100.c
+index 2dd85ba1faa2..c65ee6f44af2 100644
+--- a/drivers/gpu/drm/radeon/r100.c
++++ b/drivers/gpu/drm/radeon/r100.c
+@@ -2809,10 +2809,7 @@ void r100_vram_init_sizes(struct radeon_device *rdev)
+ 		if (rdev->mc.aper_size > config_aper_size)
+ 			config_aper_size = rdev->mc.aper_size;
+ 
+-		if (config_aper_size > rdev->mc.real_vram_size)
+-			rdev->mc.mc_vram_size = config_aper_size;
+-		else
+-			rdev->mc.mc_vram_size = rdev->mc.real_vram_size;
++		rdev->mc.mc_vram_size = max(config_aper_size, rdev->mc.real_vram_size);
+ 	}
+ }
+ 
+@@ -3447,10 +3444,7 @@ void r100_bandwidth_update(struct radeon_device *rdev)
+ 	mc_latency_mclk.full += disp_latency_overhead.full + cur_latency_mclk.full;
+ 	mc_latency_sclk.full += disp_latency_overhead.full + cur_latency_sclk.full;
+ 
+-	if (mc_latency_mclk.full > mc_latency_sclk.full)
+-		disp_latency.full = mc_latency_mclk.full;
+-	else
+-		disp_latency.full = mc_latency_sclk.full;
++	disp_latency.full = max(mc_latency_mclk.full, mc_latency_sclk.full);
+ 
+ 	/* setup Max GRPH_STOP_REQ default value */
+ 	if (ASIC_IS_RV100(rdev))
 -- 
-~Vinod
+2.20.1
+
+
+
