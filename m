@@ -2,74 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B99DF45344B
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Nov 2021 15:35:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F260F45349A
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Nov 2021 15:48:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 249386E11E;
-	Tue, 16 Nov 2021 14:35:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 80EA56EA36;
+	Tue, 16 Nov 2021 14:48:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com
- [64.147.123.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 84FA46E11E
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Nov 2021 14:35:14 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailout.west.internal (Postfix) with ESMTP id 5C8523200F76;
- Tue, 16 Nov 2021 09:35:13 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute6.internal (MEProxy); Tue, 16 Nov 2021 09:35:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=Kqnv2tIYf/B23
- 8nXcJbzP5y+cD2Jp2CMJrf76vGTrUw=; b=fDyHaw6mtbglLdvJUNxlh3lZOVIeK
- eA57TBVPevKdvEa6hnCkSJQv3fxzUzga6tHlCGrDmX40SlwyLJ8qwj1uSg9/g05f
- OBgw+uEIhF/j10tzSJvYAClNcdMGg517libINAL3aZwSY+h6HD+SSGYlyLB8Hn9O
- kk9np3ue+uwkfxDHPydgCezjWNWgpqTvWw31S94EHPjnBGHUk1WFPLkB5NdDXaRH
- aprEWBf8ECU2cuUPg7tYDWydKb7CIHf3kBaC5VJwbzMLFsDfoRJypeYSOIWGbJOj
- 3hgo/lGew1o+GlVwoFeurV3HOf/X7TGHmTTupc7uo1n/ctiwGAQ16+4Uw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=Kqnv2tIYf/B238nXcJbzP5y+cD2Jp2CMJrf76vGTrUw=; b=E5DpxCqy
- 4VshVMg0eZwG8A2/HVAUJu1VsV1IbzR6ASSmO5tUmRtGTUczCh94Tiyc3CCXYM0n
- tsDNP5kK89KszodFzAYVz1QnwTpUDhFt84TtTRNK8EKfRSTDfzBR5Kg+GdSbnBOt
- WQqHdhmgyK8NRzw/dxUmFnKvE+z9WGW1/zQ7cntTOBhjicFNS8K0OBYnVJDeccpQ
- OqnhYVWP9BwuZKO9f58Kqu9QF/SBsYmMPVeddq44wx/1HR6ozjhe/TaVnNmJj1Vk
- p4GChFPZ1E36QRG3gSZp8/0MxfkUmmIBdyAUbzkdujIFtH7xUrif5Se43gzFEFi7
- Se7NQMyoPare8g==
-X-ME-Sender: <xms:n8GTYbASTfkEvt7IsYGDyr5rneG6zTw5TlN6M6FK13OYCF93lKU-kA>
- <xme:n8GTYRgx0YZINTt-lyofEpJ6EUnsbhewo8104Y6bTSuh27kSENWKHD39wPXTGy11z
- PRZleRO8i3kcJnuc9g>
-X-ME-Received: <xmr:n8GTYWnPrWL-_-NiSftasnsFes2mTaovNAPyVgua1ttN5qpOrrDkYECx3XGT1xx1J472sZmYoi_ZvXCMnE2SmmPv4g-TAEQWocljlvxB>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrfedvgdeigecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenog
- evohgrshhtrghlqdfhgeduvddqtddvucdludehtddmnecujfgurhephffvufffkffojghf
- ggfgsedtkeertdertddtnecuhfhrohhmpeforgigihhmvgcutfhiphgrrhguuceomhgrgi
- himhgvsegtvghrnhhordhtvggthheqnecuggftrfgrthhtvghrnhepveejieejtdevgfff
- gfejuefggfeutdelteekgeetueeftddutddtgfffhffgueffnecuffhomhgrihhnpeguvg
- hvihgtvghtrhgvvgdrohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhep
- mhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:n8GTYdwRCbQxhk_9n_aH_hCXCGNNIs8NeWsIZIrkn-SBcUO2btQAMw>
- <xmx:n8GTYQQH_Ei14rfJe85EfTCP6mSQiYbj6JJoyDqi63c1nWTj0vKxTw>
- <xmx:n8GTYQYxM_L7a5jITL-DHlSMxIcizK9xrVGmZ0zjKQAJF_lEq_-YSg>
- <xmx:oMGTYTFkA_0fvZLO-4JF-oM_YSGJJbyuMa_YOmJdac1NN4P-UjTyPw>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 16 Nov 2021 09:35:11 -0500 (EST)
-From: Maxime Ripard <maxime@cerno.tech>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
- Rob Herring <robh+dt@kernel.org>, Frank Rowand <frowand.list@gmail.com>
-Subject: [PATCH 2/2] dt-bindings: panel: Introduce a panel-lvds binding
-Date: Tue, 16 Nov 2021 15:35:03 +0100
-Message-Id: <20211116143503.385807-2-maxime@cerno.tech>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20211116143503.385807-1-maxime@cerno.tech>
-References: <20211116143503.385807-1-maxime@cerno.tech>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1EF1A6EA6F;
+ Tue, 16 Nov 2021 14:48:53 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10169"; a="319918353"
+X-IronPort-AV: E=Sophos;i="5.87,239,1631602800"; d="scan'208";a="319918353"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Nov 2021 06:48:52 -0800
+X-IronPort-AV: E=Sophos;i="5.87,239,1631602800"; d="scan'208";a="506460562"
+Received: from jprocter-mobl.amr.corp.intel.com (HELO intel.com)
+ ([10.255.39.135])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Nov 2021 06:48:51 -0800
+Date: Tue, 16 Nov 2021 09:48:49 -0500
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: Tilak Tangudu <tilak.tangudu@intel.com>
+Subject: Re: [Intel-gfx] [PATCH] drm/i915: Disable D3Cold in s2idle and
+ runtime pm
+Message-ID: <YZPE0RAanOjyWCmK@intel.com>
+References: <20211115154054.3220476-1-tilak.tangudu@intel.com>
+ <YZKzBI6znwQwWBpI@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YZKzBI6znwQwWBpI@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,83 +46,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Maxime Ripard <maxime@cerno.tech>,
- dri-devel@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Following the previous patch, let's introduce a generic panel-lvds
-binding that documents the panels that don't have any particular
-constraint documented.
+On Mon, Nov 15, 2021 at 02:20:36PM -0500, Rodrigo Vivi wrote:
+> On Mon, Nov 15, 2021 at 09:10:54PM +0530, Tilak Tangudu wrote:
+> > s2idle and runtime pm puts the pci gfx device in D3Hot, ACPI runtime
+> > monitors the pci tree,if it sees complete tree as D3Hot,it transitions
+> > the device to D3Cold.But i915 do not have D3Cold support in S2idle or in
+> > runtime pm. so disabling D3cold in above flows and its FIXME.
+> > 
+> > Added pci D3Cold enable/disable in s2idle and runtime suspend/resume
+> > flows.
+> > 
+> > Signed-off-by: Tilak Tangudu <tilak.tangudu@intel.com>
+> 
+> Just for the clear record, I always preferred the unconditional disallow
+> of d3cold, but it looks some internal experiments for s3/s4 failed with that
+> and this approach here was the safest one, so let's move with this and
+> prevent the d3cold for now and then allow the runtime_pm autosuspend
+> enabled by default everywhere.
+> 
+> Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
 
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
----
- .../bindings/display/panel/panel-lvds.yaml    | 56 +++++++++++++++++++
- 1 file changed, 56 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/panel/panel-lvds.yaml
+and pushed, thanks for the patch.
 
-diff --git a/Documentation/devicetree/bindings/display/panel/panel-lvds.yaml b/Documentation/devicetree/bindings/display/panel/panel-lvds.yaml
-new file mode 100644
-index 000000000000..f6ce8e29391e
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/panel/panel-lvds.yaml
-@@ -0,0 +1,56 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/panel/panel-lvds.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Generic LVDS Display Panel Device Tree Bindings
-+
-+maintainers:
-+  - Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-+  - Thierry Reding <thierry.reding@gmail.com>
-+
-+allOf:
-+  - $ref: panel-common.yaml#
-+  - $ref: lvds.yaml#
-+
-+select:
-+  properties:
-+    compatible:
-+      contains:
-+        const: panel-lvds
-+
-+  not:
-+    properties:
-+      compatible:
-+        contains:
-+          enum:
-+              - advantech,idk-1110wr
-+              - innolux,ee101ia-01d
-+              - mitsubishi,aa104xd12
-+              - mitsubishi,aa121td01
-+              - sgd,gktw70sdae4se
-+
-+  required:
-+    - compatible
-+
-+properties:
-+  compatible:
-+    items:
-+      - enum:
-+          - auo,b101ew05
-+          - tbs,a711-panel
-+
-+      - const: panel-lvds
-+
-+unevaluatedProperties: false
-+
-+required:
-+  - compatible
-+  - data-mapping
-+  - width-mm
-+  - height-mm
-+  - panel-timing
-+  - port
-+
-+...
--- 
-2.33.1
-
+> 
+> > ---
+> >  drivers/gpu/drm/i915/i915_drv.c | 19 +++++++++++++++++++
+> >  1 file changed, 19 insertions(+)
+> > 
+> > diff --git a/drivers/gpu/drm/i915/i915_drv.c b/drivers/gpu/drm/i915/i915_drv.c
+> > index 46bf3315f616..af6868f12ef0 100644
+> > --- a/drivers/gpu/drm/i915/i915_drv.c
+> > +++ b/drivers/gpu/drm/i915/i915_drv.c
+> > @@ -1194,6 +1194,14 @@ static int i915_drm_suspend_late(struct drm_device *dev, bool hibernation)
+> >  		goto out;
+> >  	}
+> >  
+> > +	/*
+> > +	 * FIXME: Temporary hammer to avoid freezing the machine on our DGFX
+> > +	 * This should be totally removed when we handle the pci states properly
+> > +	 * on runtime PM and on s2idle cases.
+> > +	 */
+> > +	if (suspend_to_idle(dev_priv))
+> > +		pci_d3cold_disable(pdev);
+> > +
+> >  	pci_disable_device(pdev);
+> >  	/*
+> >  	 * During hibernation on some platforms the BIOS may try to access
+> > @@ -1357,6 +1365,8 @@ static int i915_drm_resume_early(struct drm_device *dev)
+> >  
+> >  	pci_set_master(pdev);
+> >  
+> > +	pci_d3cold_enable(pdev);
+> > +
+> >  	disable_rpm_wakeref_asserts(&dev_priv->runtime_pm);
+> >  
+> >  	ret = vlv_resume_prepare(dev_priv, false);
+> > @@ -1533,6 +1543,7 @@ static int intel_runtime_suspend(struct device *kdev)
+> >  {
+> >  	struct drm_i915_private *dev_priv = kdev_to_i915(kdev);
+> >  	struct intel_runtime_pm *rpm = &dev_priv->runtime_pm;
+> > +	struct pci_dev *pdev = to_pci_dev(dev_priv->drm.dev);
+> >  	int ret;
+> >  
+> >  	if (drm_WARN_ON_ONCE(&dev_priv->drm, !HAS_RUNTIME_PM(dev_priv)))
+> > @@ -1578,6 +1589,12 @@ static int intel_runtime_suspend(struct device *kdev)
+> >  		drm_err(&dev_priv->drm,
+> >  			"Unclaimed access detected prior to suspending\n");
+> >  
+> > +	/*
+> > +	 * FIXME: Temporary hammer to avoid freezing the machine on our DGFX
+> > +	 * This should be totally removed when we handle the pci states properly
+> > +	 * on runtime PM and on s2idle cases.
+> > +	 */
+> > +	pci_d3cold_disable(pdev);
+> >  	rpm->suspended = true;
+> >  
+> >  	/*
+> > @@ -1616,6 +1633,7 @@ static int intel_runtime_resume(struct device *kdev)
+> >  {
+> >  	struct drm_i915_private *dev_priv = kdev_to_i915(kdev);
+> >  	struct intel_runtime_pm *rpm = &dev_priv->runtime_pm;
+> > +	struct pci_dev *pdev = to_pci_dev(dev_priv->drm.dev);
+> >  	int ret;
+> >  
+> >  	if (drm_WARN_ON_ONCE(&dev_priv->drm, !HAS_RUNTIME_PM(dev_priv)))
+> > @@ -1628,6 +1646,7 @@ static int intel_runtime_resume(struct device *kdev)
+> >  
+> >  	intel_opregion_notify_adapter(dev_priv, PCI_D0);
+> >  	rpm->suspended = false;
+> > +	pci_d3cold_enable(pdev);
+> >  	if (intel_uncore_unclaimed_mmio(&dev_priv->uncore))
+> >  		drm_dbg(&dev_priv->drm,
+> >  			"Unclaimed access during suspend, bios?\n");
+> > -- 
+> > 2.25.1
+> > 
