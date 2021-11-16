@@ -1,65 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42009452D6A
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Nov 2021 10:00:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6874D452D6C
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Nov 2021 10:01:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 712E86EE02;
-	Tue, 16 Nov 2021 08:59:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03D886EE1B;
+	Tue, 16 Nov 2021 09:01:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C447A6EE02
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Nov 2021 08:59:57 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 38294212BA;
- Tue, 16 Nov 2021 08:59:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1637053196; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=peXc3CdwxJ9JZwOJGgsu2d/39R9KDIXaiMxW3GQCW+Y=;
- b=KFZUGcq3vpH3rhqBBLFv+umjZe26aKoxFGmNLJ5/b09JKQLgwZnyluyVgjQdyp0ACj4X1y
- GRqGYj98Vpuvb/Kv5xqbt3WL4Sy4E7RjJfkFOE+VBZ7VnN3bpw8nqJWzo2L10kj1d8EsXI
- rk6iY/fVmswkrJN4aSnM9qcQtbHc8+o=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1637053196;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=peXc3CdwxJ9JZwOJGgsu2d/39R9KDIXaiMxW3GQCW+Y=;
- b=wp+l4m963m9QIVyJQ9tHbnkGRQR2+NziyRjKTwN36CKhwltFMPdMQf+UeKllFav+xqtrSs
- JaNtd52rKlf6sjCA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0E62613BF2;
- Tue, 16 Nov 2021 08:59:56 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id +kxfAgxzk2HrewAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Tue, 16 Nov 2021 08:59:56 +0000
-Message-ID: <25711ad9-935b-86c5-3a9f-3963bef3d1d1@suse.de>
-Date: Tue, 16 Nov 2021 09:59:55 +0100
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9929E6EE1B
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Nov 2021 09:01:03 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10169"; a="233487929"
+X-IronPort-AV: E=Sophos;i="5.87,238,1631602800"; d="scan'208";a="233487929"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Nov 2021 01:01:03 -0800
+X-IronPort-AV: E=Sophos;i="5.87,238,1631602800"; d="scan'208";a="645396834"
+Received: from pheino-mobl.ger.corp.intel.com (HELO [10.249.254.142])
+ ([10.249.254.142])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Nov 2021 01:01:01 -0800
+Message-ID: <7196ce91-5897-3088-e7f4-f9c5b04152d9@linux.intel.com>
+Date: Tue, 16 Nov 2021 10:00:59 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH 1/3] drm/cma-helper: Move driver and file ops to the end
- of header
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v4] drm/ttm: Clarify that the TTM_PL_SYSTEM is under TTMs
+ control
 Content-Language: en-US
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20211115120148.21766-1-tzimmermann@suse.de>
- <20211115120148.21766-2-tzimmermann@suse.de>
- <YZJjMwKpiedhcjyg@pendragon.ideasonboard.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <YZJjMwKpiedhcjyg@pendragon.ideasonboard.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------HLLlAqKGpnD5TGnLdMMDVynV"
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Zack Rusin <zackr@vmware.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+References: <3687c5f0-edb9-3cdb-2bb7-e45549a1cfb8@amd.com>
+ <20211110145034.487512-1-zackr@vmware.com>
+ <61aa563096a20dca80b4cc48037998b932c2e4fc.camel@vmware.com>
+ <48dbcca4-a47b-28c5-9163-5a1e8960639e@linux.intel.com>
+ <a5a987cd-493f-a089-d3d6-5c4e2fb171e8@amd.com>
+ <52b8c310-ebab-a68e-a2f2-62a56b5216e3@linux.intel.com>
+ <112af1da-87ff-ee03-9461-e23173e84e86@amd.com>
+ <ddc99a8c-0887-9fc3-718e-98963723415c@linux.intel.com>
+ <5609a30f-2625-9b27-6ad6-4c6d73fb10f6@amd.com>
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
+In-Reply-To: <5609a30f-2625-9b27-6ad6-4c6d73fb10f6@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,179 +58,153 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, linux-renesas-soc@vger.kernel.org,
- kieran.bingham+renesas@ideasonboard.com, dri-devel@lists.freedesktop.org,
- emma@anholt.net
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------HLLlAqKGpnD5TGnLdMMDVynV
-Content-Type: multipart/mixed; boundary="------------E3hY3Q1neSAyHDIcWMWa0JHi";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: emma@anholt.net, airlied@linux.ie, linux-renesas-soc@vger.kernel.org,
- kieran.bingham+renesas@ideasonboard.com, dri-devel@lists.freedesktop.org
-Message-ID: <25711ad9-935b-86c5-3a9f-3963bef3d1d1@suse.de>
-Subject: Re: [PATCH 1/3] drm/cma-helper: Move driver and file ops to the end
- of header
-References: <20211115120148.21766-1-tzimmermann@suse.de>
- <20211115120148.21766-2-tzimmermann@suse.de>
- <YZJjMwKpiedhcjyg@pendragon.ideasonboard.com>
-In-Reply-To: <YZJjMwKpiedhcjyg@pendragon.ideasonboard.com>
 
---------------E3hY3Q1neSAyHDIcWMWa0JHi
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+On 11/16/21 09:54, Christian König wrote:
+> Am 16.11.21 um 09:33 schrieb Thomas Hellström:
+>> On 11/16/21 09:20, Christian König wrote:
+>>> Am 16.11.21 um 08:43 schrieb Thomas Hellström:
+>>>> On 11/16/21 08:19, Christian König wrote:
+>>>>> Am 13.11.21 um 12:26 schrieb Thomas Hellström:
+>>>>>> Hi, Zack,
+>>>>>>
+>>>>>> On 11/11/21 17:44, Zack Rusin wrote:
+>>>>>>> On Wed, 2021-11-10 at 09:50 -0500, Zack Rusin wrote:
+>>>>>>>> TTM takes full control over TTM_PL_SYSTEM placed buffers. This 
+>>>>>>>> makes
+>>>>>>>> driver internal usage of TTM_PL_SYSTEM prone to errors because it
+>>>>>>>> requires the drivers to manually handle all interactions 
+>>>>>>>> between TTM
+>>>>>>>> which can swap out those buffers whenever it thinks it's the right
+>>>>>>>> thing to do and driver.
+>>>>>>>>
+>>>>>>>> CPU buffers which need to be fenced and shared with accelerators
+>>>>>>>> should
+>>>>>>>> be placed in driver specific placements that can explicitly handle
+>>>>>>>> CPU/accelerator buffer fencing.
+>>>>>>>> Currently, apart, from things silently failing nothing is 
+>>>>>>>> enforcing
+>>>>>>>> that requirement which means that it's easy for drivers and new
+>>>>>>>> developers to get this wrong. To avoid the confusion we can 
+>>>>>>>> document
+>>>>>>>> this requirement and clarify the solution.
+>>>>>>>>
+>>>>>>>> This came up during a discussion on dri-devel:
+>>>>>>>> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.kernel.org%2Fdri-devel%2F232f45e9-8748-1243-09bf-56763e6668b3%40amd.com&amp;data=04%7C01%7Cchristian.koenig%40amd.com%7C582935bfd2d94d97fa4808d9a8dbd574%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637726484406316306%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=4p9KuhMpWHabLEuIvJB2JEuKRhYx2gUuDywUuZ86s0o%3D&amp;reserved=0 
+>>>>>>>>
+>>>>>>
+>>>>>> I took a slightly deeper look into this. I think we need to 
+>>>>>> formalize this a bit more to understand pros and cons and what 
+>>>>>> the restrictions are really all about. Anybody looking at the 
+>>>>>> prevous discussion will mostly see arguments similar to "this is 
+>>>>>> stupid and difficult" and "it has always been this way" which are 
+>>>>>> not really constructive.
+>>>>>>
+>>>>>> First disregarding all accounting stuff, I think this all boils 
+>>>>>> down to TTM_PL_SYSTEM having three distinct states:
+>>>>>> 1) POPULATED
+>>>>>> 2) LIMBO (Or whatever we want to call it. No pages present)
+>>>>>> 3) SWAPPED.
+>>>>>>
+>>>>>> The ttm_bo_move_memcpy() helper understands these, and any 
+>>>>>> standalone driver implementation of the move() callback 
+>>>>>> _currently_ needs to understand these as well, unless using the 
+>>>>>> ttm_bo_move_memcpy() helper.
+>>>>>>
+>>>>>> Now using a bounce domain to proxy SYSTEM means that the driver 
+>>>>>> can forget about the SWAPPED state, it's automatically handled by 
+>>>>>> the move setup code. However, another pitfall is LIMBO, in that 
+>>>>>> if when you move from SYSTEM/LIMBO to your bounce domain, the BO 
+>>>>>> will be populated. So any naive accelerated move() implementation 
+>>>>>> creating a 1GB BO in fixed memory, like VRAM, will needlessly 
+>>>>>> allocate and free 1GB of system memory in the process instead of 
+>>>>>> just performing a clear operation. Looks like amdgpu suffers from 
+>>>>>> this?
+>>>>>>
+>>>>>> I think what is really needed is either
+>>>>>>
+>>>>>> a) A TTM helper that helps move callback implementations resolve 
+>>>>>> the issues populating system from LIMBO or SWAP, and then also 
+>>>>>> formalize driver notification for swapping. At a minimum, I think 
+>>>>>> the swap_notify() callback needs to be able to return a late error.
+>>>>>>
+>>>>>> b) Make LIMBO and SWAPPED distinct memory regions. (I think I'd 
+>>>>>> vote for this without looking into it in detail).
+>>>>>>
+>>>>>> In both these cases, we should really make SYSTEM bindable by 
+>>>>>> GPU, otherwise we'd just be trading one pitfall for another 
+>>>>>> related without really resolving the root problem.
+>>>>>>
+>>>>>> As for fencing not being supported by SYSTEM, I'm not sure why we 
+>>>>>> don't want this, because it would for example prohibit async 
+>>>>>> ttm_move_memcpy(), and also, async unbinding of ttm_tt memory 
+>>>>>> like MOB on vmgfx. (I think it's still sync).
+>>>>>>
+>>>>>> There might be an accounting issue related to this as well, but I 
+>>>>>> guess Christian would need to chime in on this. If so, I think it 
+>>>>>> needs to be well understood and documented (in TTM, not in AMD 
+>>>>>> drivers).
+>>>>>
+>>>>> I think the problem goes deeper than what has been mentioned here 
+>>>>> so far.
+>>>>>
+>>>>> Having fences attached to BOs in the system domain is probably ok, 
+>>>>> but the key point is that the BOs in the system domain are under 
+>>>>> TTMs control and should not be touched by the driver.
+>>>>>
+>>>>> What we have now is that TTMs internals like the allocation state 
+>>>>> of BOs in system memory (the populated, limbo, swapped you 
+>>>>> mentioned above) is leaking into the drivers and I think exactly 
+>>>>> that is the part which doesn't work reliable here. You can of 
+>>>>> course can get that working, but that requires knowledge of the 
+>>>>> internal state which in my eyes was always illegal.
+>>>>>
+>>>> Well, I tend to agree to some extent, but then, like said above 
+>>>> even disregarding swap will cause trouble with the limbo state, 
+>>>> because the driver's move callback would need knowledge of that to 
+>>>> implement moves limbo -> vram efficiently.
+>>>
+>>> Well my long term plan is to audit the code base once more and 
+>>> remove the limbo state from the SYSTEM domain.
+>>>
+>>> E.g. instead of a SYSTEM BO without pages you allocate a BO without 
+>>> a resource in general which is now possible since bo->resource is a 
+>>> pointer.
+>>>
+>>> This would still allow us to allocate "empty shell" BOs. But a 
+>>> validation of those BOs doesn't cause a move, but rather just 
+>>> allocates the resource for the first time.
+>>>
+>>> The problem so far was just that we access bo->resource way to often 
+>>> without checking it.
+>>
+>> So the driver would then at least need to be aware of these empty 
+>> shell bos without resource for their move callbacks? (Again thinking 
+>> of the move from empty shell -> VRAM).
+>
+> My thinking goes more into the direction that this looks like a BO 
+> directly allocated in VRAM to the driver.
+>
+> We could of course also make it a move, but of hand I don't see a 
+> reason for it.
 
-SGkgTGF1cmVudA0KDQpBbSAxNS4xMS4yMSB1bSAxNDo0MCBzY2hyaWViIExhdXJlbnQgUGlu
-Y2hhcnQ6DQo+IEhpIFRob21hcywNCj4gDQo+IFRoYW5rIHlvdSBmb3IgdGhlIHBhdGNoLg0K
-PiANCj4gT24gTW9uLCBOb3YgMTUsIDIwMjEgYXQgMDE6MDE6NDZQTSArMDEwMCwgVGhvbWFz
-IFppbW1lcm1hbm4gd3JvdGU6DQo+PiBSZXN0cnVjdHVyZSB0aGUgaGVhZGVyIGZpbGUgZm9y
-IENNQSBoZWxwZXJzIGJ5IG1vdmluZyBkZWNsYXJhdGlvbnMNCj4+IGZvciBkcml2ZXIgYW5k
-IGZpbGUgb3BlcmF0aW9ucyB0byB0aGUgZW5kIG9mIHRoZSBmaWxlLiBObyBmdW5jdGlvbmFs
-DQo+PiBjaGFuZ2VzLg0KPj4NCj4+IFNpZ25lZC1vZmYtYnk6IFRob21hcyBaaW1tZXJtYW5u
-IDx0emltbWVybWFubkBzdXNlLmRlPg0KPiANCj4gSSdtIG5vdCBzdXJlIHRvIHNlZSB3aGF0
-IHdlIGdhaW4gZnJvbSB0aGlzLCBidXQgSSBkb24ndCBtaW5kLg0KPiANCj4gUmV2aWV3ZWQt
-Ynk6IExhdXJlbnQgUGluY2hhcnQgPGxhdXJlbnQucGluY2hhcnRAaWRlYXNvbmJvYXJkLmNv
-bT4NCg0KVGhhbmtzLiBUaGUgcGF0Y2ggb25seSBwcmVwYXJlcyB0aGUgZmlsZSBzdWNoIHRo
-YXQgdGhlIHJlc3Qgb2YgdGhlIA0Kc2VyaWVzIGxvb2tzIGEgYml0IG5pY2VyLg0KDQpCZXN0
-IHJlZ2FyZHMNClRob21hcw0KDQo+IA0KPj4gLS0tDQo+PiAgIGluY2x1ZGUvZHJtL2RybV9n
-ZW1fY21hX2hlbHBlci5oIHwgMTE0ICsrKysrKysrKysrKysrKystLS0tLS0tLS0tLS0tLS0N
-Cj4+ICAgMSBmaWxlIGNoYW5nZWQsIDYwIGluc2VydGlvbnMoKyksIDU0IGRlbGV0aW9ucygt
-KQ0KPj4NCj4+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2RybS9kcm1fZ2VtX2NtYV9oZWxwZXIu
-aCBiL2luY2x1ZGUvZHJtL2RybV9nZW1fY21hX2hlbHBlci5oDQo+PiBpbmRleCBjZDEzNTA4
-YWNiYzEuLmUwZmI3YTBjZjAzZiAxMDA2NDQNCj4+IC0tLSBhL2luY2x1ZGUvZHJtL2RybV9n
-ZW1fY21hX2hlbHBlci5oDQo+PiArKysgYi9pbmNsdWRlL2RybS9kcm1fZ2VtX2NtYV9oZWxw
-ZXIuaA0KPj4gQEAgLTMyLDc3ICszMiw0MCBAQCBzdHJ1Y3QgZHJtX2dlbV9jbWFfb2JqZWN0
-IHsNCj4+ICAgI2RlZmluZSB0b19kcm1fZ2VtX2NtYV9vYmooZ2VtX29iaikgXA0KPj4gICAJ
-Y29udGFpbmVyX29mKGdlbV9vYmosIHN0cnVjdCBkcm1fZ2VtX2NtYV9vYmplY3QsIGJhc2Up
-DQo+PiAgIA0KPj4gLSNpZm5kZWYgQ09ORklHX01NVQ0KPj4gLSNkZWZpbmUgRFJNX0dFTV9D
-TUFfVU5NQVBQRURfQVJFQV9GT1BTIFwNCj4+IC0JLmdldF91bm1hcHBlZF9hcmVhCT0gZHJt
-X2dlbV9jbWFfZ2V0X3VubWFwcGVkX2FyZWEsDQo+PiAtI2Vsc2UNCj4+IC0jZGVmaW5lIERS
-TV9HRU1fQ01BX1VOTUFQUEVEX0FSRUFfRk9QUw0KPj4gLSNlbmRpZg0KPj4gLQ0KPj4gLS8q
-Kg0KPj4gLSAqIERFRklORV9EUk1fR0VNX0NNQV9GT1BTKCkgLSBtYWNybyB0byBnZW5lcmF0
-ZSBmaWxlIG9wZXJhdGlvbnMgZm9yIENNQSBkcml2ZXJzDQo+PiAtICogQG5hbWU6IG5hbWUg
-Zm9yIHRoZSBnZW5lcmF0ZWQgc3RydWN0dXJlDQo+PiAtICoNCj4+IC0gKiBUaGlzIG1hY3Jv
-IGF1dG9nZW5lcmF0ZXMgYSBzdWl0YWJsZSAmc3RydWN0IGZpbGVfb3BlcmF0aW9ucyBmb3Ig
-Q01BIGJhc2VkDQo+PiAtICogZHJpdmVycywgd2hpY2ggY2FuIGJlIGFzc2lnbmVkIHRvICZk
-cm1fZHJpdmVyLmZvcHMuIE5vdGUgdGhhdCB0aGlzIHN0cnVjdHVyZQ0KPj4gLSAqIGNhbm5v
-dCBiZSBzaGFyZWQgYmV0d2VlbiBkcml2ZXJzLCBiZWNhdXNlIGl0IGNvbnRhaW5zIGEgcmVm
-ZXJlbmNlIHRvIHRoZQ0KPj4gLSAqIGN1cnJlbnQgbW9kdWxlIHVzaW5nIFRISVNfTU9EVUxF
-Lg0KPj4gLSAqDQo+PiAtICogTm90ZSB0aGF0IHRoZSBkZWNsYXJhdGlvbiBpcyBhbHJlYWR5
-IG1hcmtlZCBhcyBzdGF0aWMgLSBpZiB5b3UgbmVlZCBhDQo+PiAtICogbm9uLXN0YXRpYyB2
-ZXJzaW9uIG9mIHRoaXMgeW91J3JlIHByb2JhYmx5IGRvaW5nIGl0IHdyb25nIGFuZCB3aWxs
-IGJyZWFrIHRoZQ0KPj4gLSAqIFRISVNfTU9EVUxFIHJlZmVyZW5jZSBieSBhY2NpZGVudC4N
-Cj4+IC0gKi8NCj4+IC0jZGVmaW5lIERFRklORV9EUk1fR0VNX0NNQV9GT1BTKG5hbWUpIFwN
-Cj4+IC0Jc3RhdGljIGNvbnN0IHN0cnVjdCBmaWxlX29wZXJhdGlvbnMgbmFtZSA9IHtcDQo+
-PiAtCQkub3duZXIJCT0gVEhJU19NT0RVTEUsXA0KPj4gLQkJLm9wZW4JCT0gZHJtX29wZW4s
-XA0KPj4gLQkJLnJlbGVhc2UJPSBkcm1fcmVsZWFzZSxcDQo+PiAtCQkudW5sb2NrZWRfaW9j
-dGwJPSBkcm1faW9jdGwsXA0KPj4gLQkJLmNvbXBhdF9pb2N0bAk9IGRybV9jb21wYXRfaW9j
-dGwsXA0KPj4gLQkJLnBvbGwJCT0gZHJtX3BvbGwsXA0KPj4gLQkJLnJlYWQJCT0gZHJtX3Jl
-YWQsXA0KPj4gLQkJLmxsc2VlawkJPSBub29wX2xsc2VlayxcDQo+PiAtCQkubW1hcAkJPSBk
-cm1fZ2VtX21tYXAsXA0KPj4gLQkJRFJNX0dFTV9DTUFfVU5NQVBQRURfQVJFQV9GT1BTIFwN
-Cj4+IC0JfQ0KPj4gLQ0KPj4gICAvKiBmcmVlIEdFTSBvYmplY3QgKi8NCj4+ICAgdm9pZCBk
-cm1fZ2VtX2NtYV9mcmVlX29iamVjdChzdHJ1Y3QgZHJtX2dlbV9vYmplY3QgKmdlbV9vYmop
-Ow0KPj4gICANCj4+IC0vKiBjcmVhdGUgbWVtb3J5IHJlZ2lvbiBmb3IgRFJNIGZyYW1lYnVm
-ZmVyICovDQo+PiAtaW50IGRybV9nZW1fY21hX2R1bWJfY3JlYXRlX2ludGVybmFsKHN0cnVj
-dCBkcm1fZmlsZSAqZmlsZV9wcml2LA0KPj4gLQkJCQkgICAgIHN0cnVjdCBkcm1fZGV2aWNl
-ICpkcm0sDQo+PiAtCQkJCSAgICAgc3RydWN0IGRybV9tb2RlX2NyZWF0ZV9kdW1iICphcmdz
-KTsNCj4+IC0NCj4+IC0vKiBjcmVhdGUgbWVtb3J5IHJlZ2lvbiBmb3IgRFJNIGZyYW1lYnVm
-ZmVyICovDQo+PiAtaW50IGRybV9nZW1fY21hX2R1bWJfY3JlYXRlKHN0cnVjdCBkcm1fZmls
-ZSAqZmlsZV9wcml2LA0KPj4gLQkJCSAgICBzdHJ1Y3QgZHJtX2RldmljZSAqZHJtLA0KPj4g
-LQkJCSAgICBzdHJ1Y3QgZHJtX21vZGVfY3JlYXRlX2R1bWIgKmFyZ3MpOw0KPj4gLQ0KPj4g
-ICAvKiBhbGxvY2F0ZSBwaHlzaWNhbCBtZW1vcnkgKi8NCj4+ICAgc3RydWN0IGRybV9nZW1f
-Y21hX29iamVjdCAqZHJtX2dlbV9jbWFfY3JlYXRlKHN0cnVjdCBkcm1fZGV2aWNlICpkcm0s
-DQo+PiAgIAkJCQkJICAgICAgc2l6ZV90IHNpemUpOw0KPj4gICANCj4+ICAgZXh0ZXJuIGNv
-bnN0IHN0cnVjdCB2bV9vcGVyYXRpb25zX3N0cnVjdCBkcm1fZ2VtX2NtYV92bV9vcHM7DQo+
-PiAgIA0KPj4gLSNpZm5kZWYgQ09ORklHX01NVQ0KPj4gLXVuc2lnbmVkIGxvbmcgZHJtX2dl
-bV9jbWFfZ2V0X3VubWFwcGVkX2FyZWEoc3RydWN0IGZpbGUgKmZpbHAsDQo+PiAtCQkJCQkg
-ICAgdW5zaWduZWQgbG9uZyBhZGRyLA0KPj4gLQkJCQkJICAgIHVuc2lnbmVkIGxvbmcgbGVu
-LA0KPj4gLQkJCQkJICAgIHVuc2lnbmVkIGxvbmcgcGdvZmYsDQo+PiAtCQkJCQkgICAgdW5z
-aWduZWQgbG9uZyBmbGFncyk7DQo+PiAtI2VuZGlmDQo+PiAtDQo+PiAgIHZvaWQgZHJtX2dl
-bV9jbWFfcHJpbnRfaW5mbyhzdHJ1Y3QgZHJtX3ByaW50ZXIgKnAsIHVuc2lnbmVkIGludCBp
-bmRlbnQsDQo+PiAgIAkJCSAgICBjb25zdCBzdHJ1Y3QgZHJtX2dlbV9vYmplY3QgKm9iaik7
-DQo+PiAgIA0KPj4gICBzdHJ1Y3Qgc2dfdGFibGUgKmRybV9nZW1fY21hX2dldF9zZ190YWJs
-ZShzdHJ1Y3QgZHJtX2dlbV9vYmplY3QgKm9iaik7DQo+PiAraW50IGRybV9nZW1fY21hX3Zt
-YXAoc3RydWN0IGRybV9nZW1fb2JqZWN0ICpvYmosIHN0cnVjdCBkbWFfYnVmX21hcCAqbWFw
-KTsNCj4+ICtpbnQgZHJtX2dlbV9jbWFfbW1hcChzdHJ1Y3QgZHJtX2dlbV9vYmplY3QgKm9i
-aiwgc3RydWN0IHZtX2FyZWFfc3RydWN0ICp2bWEpOw0KPj4gKw0KPj4gKy8qDQo+PiArICog
-RHJpdmVyIG9wcw0KPj4gKyAqLw0KPj4gKw0KPj4gKy8qIGNyZWF0ZSBtZW1vcnkgcmVnaW9u
-IGZvciBEUk0gZnJhbWVidWZmZXIgKi8NCj4+ICtpbnQgZHJtX2dlbV9jbWFfZHVtYl9jcmVh
-dGVfaW50ZXJuYWwoc3RydWN0IGRybV9maWxlICpmaWxlX3ByaXYsDQo+PiArCQkJCSAgICAg
-c3RydWN0IGRybV9kZXZpY2UgKmRybSwNCj4+ICsJCQkJICAgICBzdHJ1Y3QgZHJtX21vZGVf
-Y3JlYXRlX2R1bWIgKmFyZ3MpOw0KPj4gKw0KPj4gKy8qIGNyZWF0ZSBtZW1vcnkgcmVnaW9u
-IGZvciBEUk0gZnJhbWVidWZmZXIgKi8NCj4+ICtpbnQgZHJtX2dlbV9jbWFfZHVtYl9jcmVh
-dGUoc3RydWN0IGRybV9maWxlICpmaWxlX3ByaXYsDQo+PiArCQkJICAgIHN0cnVjdCBkcm1f
-ZGV2aWNlICpkcm0sDQo+PiArCQkJICAgIHN0cnVjdCBkcm1fbW9kZV9jcmVhdGVfZHVtYiAq
-YXJncyk7DQo+PiArDQo+PiAgIHN0cnVjdCBkcm1fZ2VtX29iamVjdCAqDQo+PiAgIGRybV9n
-ZW1fY21hX3ByaW1lX2ltcG9ydF9zZ190YWJsZShzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LA0K
-Pj4gICAJCQkJICBzdHJ1Y3QgZG1hX2J1Zl9hdHRhY2htZW50ICphdHRhY2gsDQo+PiAgIAkJ
-CQkgIHN0cnVjdCBzZ190YWJsZSAqc2d0KTsNCj4+IC1pbnQgZHJtX2dlbV9jbWFfdm1hcChz
-dHJ1Y3QgZHJtX2dlbV9vYmplY3QgKm9iaiwgc3RydWN0IGRtYV9idWZfbWFwICptYXApOw0K
-Pj4gLWludCBkcm1fZ2VtX2NtYV9tbWFwKHN0cnVjdCBkcm1fZ2VtX29iamVjdCAqb2JqLCBz
-dHJ1Y3Qgdm1fYXJlYV9zdHJ1Y3QgKnZtYSk7DQo+PiAgIA0KPj4gICAvKioNCj4+ICAgICog
-RFJNX0dFTV9DTUFfRFJJVkVSX09QU19XSVRIX0RVTUJfQ1JFQVRFIC0gQ01BIEdFTSBkcml2
-ZXIgb3BlcmF0aW9ucw0KPj4gQEAgLTE4NSw0ICsxNDgsNDcgQEAgZHJtX2dlbV9jbWFfcHJp
-bWVfaW1wb3J0X3NnX3RhYmxlX3ZtYXAoc3RydWN0IGRybV9kZXZpY2UgKmRybSwNCj4+ICAg
-CQkJCSAgICAgICBzdHJ1Y3QgZG1hX2J1Zl9hdHRhY2htZW50ICphdHRhY2gsDQo+PiAgIAkJ
-CQkgICAgICAgc3RydWN0IHNnX3RhYmxlICpzZ3QpOw0KPj4gICANCj4+ICsvKg0KPj4gKyAq
-IEZpbGUgb3BzDQo+PiArICovDQo+PiArDQo+PiArI2lmbmRlZiBDT05GSUdfTU1VDQo+PiAr
-dW5zaWduZWQgbG9uZyBkcm1fZ2VtX2NtYV9nZXRfdW5tYXBwZWRfYXJlYShzdHJ1Y3QgZmls
-ZSAqZmlscCwNCj4+ICsJCQkJCSAgICB1bnNpZ25lZCBsb25nIGFkZHIsDQo+PiArCQkJCQkg
-ICAgdW5zaWduZWQgbG9uZyBsZW4sDQo+PiArCQkJCQkgICAgdW5zaWduZWQgbG9uZyBwZ29m
-ZiwNCj4+ICsJCQkJCSAgICB1bnNpZ25lZCBsb25nIGZsYWdzKTsNCj4+ICsjZGVmaW5lIERS
-TV9HRU1fQ01BX1VOTUFQUEVEX0FSRUFfRk9QUyBcDQo+PiArCS5nZXRfdW5tYXBwZWRfYXJl
-YQk9IGRybV9nZW1fY21hX2dldF91bm1hcHBlZF9hcmVhLA0KPj4gKyNlbHNlDQo+PiArI2Rl
-ZmluZSBEUk1fR0VNX0NNQV9VTk1BUFBFRF9BUkVBX0ZPUFMNCj4+ICsjZW5kaWYNCj4+ICsN
-Cj4+ICsvKioNCj4+ICsgKiBERUZJTkVfRFJNX0dFTV9DTUFfRk9QUygpIC0gbWFjcm8gdG8g
-Z2VuZXJhdGUgZmlsZSBvcGVyYXRpb25zIGZvciBDTUEgZHJpdmVycw0KPj4gKyAqIEBuYW1l
-OiBuYW1lIGZvciB0aGUgZ2VuZXJhdGVkIHN0cnVjdHVyZQ0KPj4gKyAqDQo+PiArICogVGhp
-cyBtYWNybyBhdXRvZ2VuZXJhdGVzIGEgc3VpdGFibGUgJnN0cnVjdCBmaWxlX29wZXJhdGlv
-bnMgZm9yIENNQSBiYXNlZA0KPj4gKyAqIGRyaXZlcnMsIHdoaWNoIGNhbiBiZSBhc3NpZ25l
-ZCB0byAmZHJtX2RyaXZlci5mb3BzLiBOb3RlIHRoYXQgdGhpcyBzdHJ1Y3R1cmUNCj4+ICsg
-KiBjYW5ub3QgYmUgc2hhcmVkIGJldHdlZW4gZHJpdmVycywgYmVjYXVzZSBpdCBjb250YWlu
-cyBhIHJlZmVyZW5jZSB0byB0aGUNCj4+ICsgKiBjdXJyZW50IG1vZHVsZSB1c2luZyBUSElT
-X01PRFVMRS4NCj4+ICsgKg0KPj4gKyAqIE5vdGUgdGhhdCB0aGUgZGVjbGFyYXRpb24gaXMg
-YWxyZWFkeSBtYXJrZWQgYXMgc3RhdGljIC0gaWYgeW91IG5lZWQgYQ0KPj4gKyAqIG5vbi1z
-dGF0aWMgdmVyc2lvbiBvZiB0aGlzIHlvdSdyZSBwcm9iYWJseSBkb2luZyBpdCB3cm9uZyBh
-bmQgd2lsbCBicmVhayB0aGUNCj4+ICsgKiBUSElTX01PRFVMRSByZWZlcmVuY2UgYnkgYWNj
-aWRlbnQuDQo+PiArICovDQo+PiArI2RlZmluZSBERUZJTkVfRFJNX0dFTV9DTUFfRk9QUyhu
-YW1lKSBcDQo+PiArCXN0YXRpYyBjb25zdCBzdHJ1Y3QgZmlsZV9vcGVyYXRpb25zIG5hbWUg
-PSB7XA0KPj4gKwkJLm93bmVyCQk9IFRISVNfTU9EVUxFLFwNCj4+ICsJCS5vcGVuCQk9IGRy
-bV9vcGVuLFwNCj4+ICsJCS5yZWxlYXNlCT0gZHJtX3JlbGVhc2UsXA0KPj4gKwkJLnVubG9j
-a2VkX2lvY3RsCT0gZHJtX2lvY3RsLFwNCj4+ICsJCS5jb21wYXRfaW9jdGwJPSBkcm1fY29t
-cGF0X2lvY3RsLFwNCj4+ICsJCS5wb2xsCQk9IGRybV9wb2xsLFwNCj4+ICsJCS5yZWFkCQk9
-IGRybV9yZWFkLFwNCj4+ICsJCS5sbHNlZWsJCT0gbm9vcF9sbHNlZWssXA0KPj4gKwkJLm1t
-YXAJCT0gZHJtX2dlbV9tbWFwLFwNCj4+ICsJCURSTV9HRU1fQ01BX1VOTUFQUEVEX0FSRUFf
-Rk9QUyBcDQo+PiArCX0NCj4+ICsNCj4+ICAgI2VuZGlmIC8qIF9fRFJNX0dFTV9DTUFfSEVM
-UEVSX0hfXyAqLw0KPiANCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJp
-dmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpN
-YXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkNCihIUkIgMzY4MDksIEFH
-IE7DvHJuYmVyZykNCkdlc2Now6RmdHNmw7xocmVyOiBJdm8gVG90ZXYNCg==
+As long as there is a way to provide accelerated VRAM clearing if 
+necessary the directly allocated view sounds fine with me. (Looking at 
+amdgpu it looks like you clear on resource destroy? I'm not fully sure 
+that would work with all i915 use cases)
 
---------------E3hY3Q1neSAyHDIcWMWa0JHi--
+/Thomas
 
---------------HLLlAqKGpnD5TGnLdMMDVynV
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
 
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmGTcwsFAwAAAAAACgkQlh/E3EQov+B/
-NQ/+OQIOQF98/dQ4oWL9kBUDasZ5yNzlkYPYAStL8nLsNp8Zcatcp/6bbOIYGTSwr68mb6pClPGH
-ZQ+b2xO+yx91f3lGDSlmthUALWeKRnYlwuwqbQcKpdpe2bFqJKvmz8DI2mhopuzhgZRdnvfnPVpG
-rftTw1xvKqKbV71k4ioduZHj//3RPIKia1aVAq0hORXuVmrCOAeKSW3kCUQs7WWjKZ/r1ls+SOqw
-uqi4Swuw0zYW+BKJ90Tb+3tpFZQOdQ47thTgYfMIOB/DiXUyGApmDNLFJfykjC7MQ1uiNBxSNMLC
-+nnVrJxtI7JPw5Ylz8C2o4N1G4iDNnpbMpgynYJosy9QRpQBnJerg/j1sNATcFTdzvLJqHX2XVAT
-PvLh8Z+HNaqnmAemu5hyqZRac1PiuzwOONO0d/kOS6JbneAqZQ0otHsbtzJo80Fhn0I5u/YowXz1
-PGDYydU+AuYv1l8g8vRhS+f48e28n/n/TatvOkfsSVPqOzvrOvuNwPKTyD2sGyFV3W8FTg+gnDmf
-3jW0SCm4nr569X3lAX5qZMyT/CSstQ1fxM/+5ZXbPxnVGCLKOaiCOLAsJVBd0h6b3bXhI0fA1zFP
-/8EMB0zqnOpToH92FVxeXMFieNPZwthW/MDOcjoneZyPnrKi40U0FfgLqyqXBkJ1HIw/E9WtB2Zr
-xDI=
-=5kxY
------END PGP SIGNATURE-----
-
---------------HLLlAqKGpnD5TGnLdMMDVynV--
+>
+> Christian.
+>
+>>
+>> Thanks,
+>>
+>> /Thomas
+>>
+>>
+>
