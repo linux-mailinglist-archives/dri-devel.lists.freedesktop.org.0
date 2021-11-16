@@ -2,36 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1DB34534B2
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Nov 2021 15:53:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E5BC453590
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Nov 2021 16:18:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BCA7A6E093;
-	Tue, 16 Nov 2021 14:53:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 11DAB89C9C;
+	Tue, 16 Nov 2021 15:18:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A8E666E093;
- Tue, 16 Nov 2021 14:53:41 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10169"; a="257462525"
-X-IronPort-AV: E=Sophos;i="5.87,239,1631602800"; d="scan'208";a="257462525"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Nov 2021 06:53:41 -0800
-X-IronPort-AV: E=Sophos;i="5.87,239,1631602800"; d="scan'208";a="454476963"
-Received: from jprocter-mobl.amr.corp.intel.com (HELO intel.com)
- ([10.255.39.135])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Nov 2021 06:53:39 -0800
-Date: Tue, 16 Nov 2021 09:53:38 -0500
-From: Rodrigo Vivi <rodrigo.vivi@intel.com>
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Subject: Re: [Intel-gfx] [PATCH] drm/i915/guc: fix NULL vs IS_ERR() checking
-Message-ID: <YZPF8vuxAsLmWQln@intel.com>
-References: <20211116114916.GB11936@kili>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE34989C9C
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Nov 2021 15:18:04 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3636761BF9;
+ Tue, 16 Nov 2021 15:18:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1637075884;
+ bh=u9SX2DemwNFaZqmFy59yqo9oEg0cChgWWEB6OGLB9B8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=suJJZDR37V7bf1Km41/8+po9hiQyBQu6v8pz7aiayZKgaP4YGrH6GwX8QmljT3IJs
+ t7zEBsESPRI8iYKvRHbFCAFhBIRcW5UMKRsAgoNGP2DsB9RqYztqx0IMnR5k+1b+C+
+ b7lB3HwqJ4CM3vUstnx9ibvx8a7YSloLbtWnAVTsIcQmnMrfdZ5plrzflInS1UmWr4
+ yIBBEJwHZBSRrLw4LU6JPpt474HOcwFgtEJnkZjnXclzFXkAsE0z1ZmspLFIRPT36S
+ GGJb/sL5J3OZdconz+Y5OZXdbIq8x0p+R/kIZ9SEFdA2AWhIICo0hkP8kBEuLcaTCE
+ tzQq2wXYKsUbA==
+Date: Tue, 16 Nov 2021 08:17:59 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Arnd Bergmann <arnd@kernel.org>
+Subject: Re: [PATCH] omapfb: add one more "fallthrough" statement
+Message-ID: <YZPLpxGXVyaaKZsm@archlinux-ax161>
+References: <20211116092204.4116587-1-arnd@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211116114916.GB11936@kili>
+In-Reply-To: <20211116092204.4116587-1-arnd@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,40 +46,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthew Brost <matthew.brost@intel.com>, David Airlie <airlied@linux.ie>,
- intel-gfx@lists.freedesktop.org, kernel-janitors@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Chris Wilson <chris@chris-wilson.co.uk>
+Cc: linux-fbdev@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+ llvm@lists.linux.dev, Nick Desaulniers <ndesaulniers@google.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-omap@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 16, 2021 at 02:49:16PM +0300, Dan Carpenter wrote:
-> The intel_engine_create_virtual() function does not return NULL.  It
-> returns error pointers.
+On Tue, Nov 16, 2021 at 10:21:54AM +0100, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
 > 
-> Fixes: e5e32171a2cf ("drm/i915/guc: Connect UAPI to GuC multi-lrc interface")
-> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+> clang warns about one missing fallthrough that gcc ignores:
+> 
+> drivers/video/fbdev/omap/omapfb_main.c:1558:2: error: unannotated fall-through between switch labels [-Werror,-Wimplicit-fallthrough]
+> 
+> Add it here as well.
+> 
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
-Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Reviewed-by: Nathan Chancellor <nathan@kernel.org>
 
 > ---
->  drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  drivers/video/fbdev/omap/omapfb_main.c | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> index 38b47e73e35d..c48557dfa04c 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> @@ -3080,8 +3080,8 @@ guc_create_parallel(struct intel_engine_cs **engines,
->  
->  		ce = intel_engine_create_virtual(siblings, num_siblings,
->  						 FORCE_VIRTUAL);
-> -		if (!ce) {
-> -			err = ERR_PTR(-ENOMEM);
-> +		if (IS_ERR(ce)) {
-> +			err = ERR_CAST(ce);
->  			goto unwind;
->  		}
->  
+> diff --git a/drivers/video/fbdev/omap/omapfb_main.c b/drivers/video/fbdev/omap/omapfb_main.c
+> index 3d090d2d9ed9..a6a8404d1462 100644
+> --- a/drivers/video/fbdev/omap/omapfb_main.c
+> +++ b/drivers/video/fbdev/omap/omapfb_main.c
+> @@ -1555,6 +1555,7 @@ static void omapfb_free_resources(struct omapfb_device *fbdev, int state)
+>  	case 1:
+>  		dev_set_drvdata(fbdev->dev, NULL);
+>  		kfree(fbdev);
+> +		fallthrough;
+>  	case 0:
+>  		/* nothing to free */
+>  		break;
 > -- 
-> 2.20.1
+> 2.29.2
 > 
