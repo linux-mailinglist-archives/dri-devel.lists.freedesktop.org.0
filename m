@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A191453AC9
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Nov 2021 21:18:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17153453ACB
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Nov 2021 21:18:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 283A96E16D;
+	by gabe.freedesktop.org (Postfix) with ESMTP id ADF4D6E165;
 	Tue, 16 Nov 2021 20:18:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2069.outbound.protection.outlook.com [40.107.94.69])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D05C56E165;
- Tue, 16 Nov 2021 20:18:41 +0000 (UTC)
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2064.outbound.protection.outlook.com [40.107.236.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 666456E165;
+ Tue, 16 Nov 2021 20:18:43 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bjE2zcOoqzV+Psbl3MpkdK0djSsdNYGxsmXraoJpVWLELyN7sVS35i1gSm6mlRVMCOx/Tye77k0vOlHumCEUPKDGiOlrrOJnkeDaDWO+zGDRURoFmblhvi6dFFXtvxLodvhAi6g5Z/+js4q3HJxGcRGAf37Uv3PR8V5F9hsL+x2r4gAzCMM/58WP7lmjbq1oVOlSiYktDHwf+i9IFVCvmvfdOqebc85FGwuWn7Xjv82P2Elvb2G/VnrnOYotcsylWJdod/5ynK8315gjgkqDW3GtGHs1RL6WvZvuMzjLM/NYBG5SRfsgAfdQ46T9SDeK6TR7Z6NbuY9RYPf0w9iATA==
+ b=S1adkK5Ls5TMs8g65/79TeCJv71EFS+XrDxW6I8hbVv//PTBCV1JFkhYOhF7Vr3tzGFss/eEbAqBFS7TxyzYyJKF/uGXWRcRNPaCWhMnZUxgKog04wFnP5LrH2z/1xHvqPW4lUHMmjPMjmmSSVITj7v4+A2QbrIZsupduWUgOujx0wuRq3fFAQWUB3lnI0N5x8xOtYiLBqM7PcVFtw9tthbhJgXfSkuMS1oY7tnd6SKuNbvsN6asYxJk2u2Eh11rQdmhFyBjbpD/1Xn6DFIT8o61qI1LE/kD/skD+fNInnHIdMEU54bBY1DX1AlNrrWq4Mad0CGbD/Go4zj7A8pD7A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=WY/e0c05I/NOYXGUrSHS3UtcHr5LR2PDcdWEWKvnJnU=;
- b=c6WIjSXGxVmAwF3TshSSg4+lrXk/a03XJK3Yd7I+hiDgeUkj/5hRaslm+UlawZIaFePyVYqrJFA4Y0vI56h81Yi1PQal06kDdxO0lfdJjU9UFrj5e80pUHGE9IKwe8JTsDEWFw7ERcdTb9XyjMu4tiuMZUXKKYw8Xgx2oOJYTcJfS79BFXSjeM1gQRhBkI4g+kxWO1vnavKn+FiIMZI7SSgGIGf882UtM7w3eG1xWzq6/KrdhCOqOrU94VsAfRLD81fqZColqUXMdP0vutFgO0d4l/9RYGsYNAqERWZERtR8pCFFDkTTYs2OnBRVXm0RHc2Adr1lLU1rfY/0FVRFzA==
+ bh=HE/n8ohd/65hGitw20EDDoODN2On/Xw1MOCO+ZgGsGo=;
+ b=Qk9jvO6ZmApIc6NXO8E61SpSSDeHBJwwFA93hqI8EtcyJehe7CCuUQ7wuobj+2/y4DlXPGbw3AoztJCliv52IXwOrDgLkN0gfxaKDPmS6GFgxo1xc6G4fvLgLTQIFHg+f2m9qEHfdepsQ0i26g5Xc2LqVvgLar51kcb/mUAGh0wuirhKvHlfGLHOzjl0RRBta0I+/pMwXAS8d24PwX4921BBdpGfnUQRRgggo25kuw2ql0ZPbJZlz+nwB/HDnVjvdVvK1rqFCgY+0gENCFLAbnm6WQ7N3Yt9JEu0vYMVnIiEzs7WjiVHL79tyZ4JsjM5ttTMRR/R6FoZm4yyk+2DLA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WY/e0c05I/NOYXGUrSHS3UtcHr5LR2PDcdWEWKvnJnU=;
- b=YY2pv03pNui7+R/paz2+t9GKFRiYdEEpSu77kTdF73yFhE7P/Qyr5kkx3bwPanmGvm8ZRRAbf8Oh2MplBlVzm7LybBv77uGEvhDI4CbFgaRaQCkW3F2pj9r1Co7B59fobTi8Ot+2MS4VnQSlAYbsQ2ul8E4q9PwrzQ7M6Kc2N5s=
-Received: from CO2PR04CA0106.namprd04.prod.outlook.com (2603:10b6:104:6::32)
- by BN8PR12MB4594.namprd12.prod.outlook.com (2603:10b6:408:a2::30) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4713.19; Tue, 16 Nov
- 2021 20:18:36 +0000
-Received: from CO1NAM11FT050.eop-nam11.prod.protection.outlook.com
- (2603:10b6:104:6:cafe::43) by CO2PR04CA0106.outlook.office365.com
- (2603:10b6:104:6::32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4713.19 via Frontend
- Transport; Tue, 16 Nov 2021 20:18:36 +0000
+ bh=HE/n8ohd/65hGitw20EDDoODN2On/Xw1MOCO+ZgGsGo=;
+ b=VJ4a8fL9KPlE0aCQZILAlU+sWTa5E5qRjY1IFRThsOb8eXXEkhjTyxqEMayCnOYR+HkUsYh8FpHvixbldNbewLJ9kyoC3TmfYCqx5tOTulmGOutymbW438yWLTAztwZwEcDcfIJ+7ZwHEl/NaHi2SNqFX/BvAwLhC2kQUvoZqQQ=
+Received: from MW4PR03CA0115.namprd03.prod.outlook.com (2603:10b6:303:b7::30)
+ by BYAPR12MB3013.namprd12.prod.outlook.com (2603:10b6:a03:a9::27)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4690.26; Tue, 16 Nov
+ 2021 20:18:39 +0000
+Received: from CO1NAM11FT005.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:303:b7:cafe::77) by MW4PR03CA0115.outlook.office365.com
+ (2603:10b6:303:b7::30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4690.27 via Frontend
+ Transport; Tue, 16 Nov 2021 20:18:39 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -45,19 +45,19 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CO1NAM11FT050.mail.protection.outlook.com (10.13.174.79) with Microsoft SMTP
+ CO1NAM11FT005.mail.protection.outlook.com (10.13.174.147) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4690.15 via Frontend Transport; Tue, 16 Nov 2021 20:18:35 +0000
+ 15.20.4690.19 via Frontend Transport; Tue, 16 Nov 2021 20:18:39 +0000
 Received: from rtg-amd.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Tue, 16 Nov
- 2021 14:18:32 -0600
+ 2021 14:18:35 -0600
 From: Arunpravin <Arunpravin.PaneerSelvam@amd.com>
 To: <dri-devel@lists.freedesktop.org>, <intel-gfx@lists.freedesktop.org>,
  <amd-gfx@lists.freedesktop.org>
-Subject: [PATCH v3 3/6] drm: implement top-down allocation method
-Date: Wed, 17 Nov 2021 01:48:04 +0530
-Message-ID: <20211116201807.147486-3-Arunpravin.PaneerSelvam@amd.com>
+Subject: [PATCH v3 4/6] drm: implement a method to free unused pages
+Date: Wed, 17 Nov 2021 01:48:05 +0530
+Message-ID: <20211116201807.147486-4-Arunpravin.PaneerSelvam@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211116201807.147486-1-Arunpravin.PaneerSelvam@amd.com>
 References: <20211116201807.147486-1-Arunpravin.PaneerSelvam@amd.com>
@@ -69,28 +69,28 @@ X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 78493919-486c-4e29-3faa-08d9a93e4501
-X-MS-TrafficTypeDiagnostic: BN8PR12MB4594:
-X-Microsoft-Antispam-PRVS: <BN8PR12MB45943910B4852575F5EE1B32E4999@BN8PR12MB4594.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4941;
+X-MS-Office365-Filtering-Correlation-Id: 782a010f-7ac8-4a67-ff02-08d9a93e4719
+X-MS-TrafficTypeDiagnostic: BYAPR12MB3013:
+X-Microsoft-Antispam-PRVS: <BYAPR12MB3013F52B2D7DEAC4E59DD5F2E4999@BYAPR12MB3013.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2958;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 6xvOSyVioRsCNX9olplieyCyMG1WD7tf/xCl4JFMeh5ba2TDhlrWzmbq3yKrcD12spHZ128Ttw9u+kPW8lNnLgO14FMAqMNogNBnyF1/l1bp0uYfSTPidi4LqCSOsslGoeJkQNXvYEWdRpY/zx46GAD30d6OjI/AMDGhB/tCQ6Az2Pgeo0fLWX2mFIa9id6rn0z8Jm/d1HmvrSiaJ934QO159uF0gPhfPeDZ4cJKLw7oIJtqO1LqlaXVquW6iOeWJYPnwcy1PTyoF7zeZ2p2GXCIU+PPh9OHYSRHPlDw383L4uhfIVxZ4txayXpF5qjrqB1MnVc8YQCAa4s2Fm9/HydzTNiafwuC9oyQnPhqk/AdWCABNAVtVVbyLVc5+KXZyYj0lSydJGMG4Z76dTMJcBYPgelIu/VXEfs+C1yhZqHMOJ/01omeOo7S77pGPApHfox1fVsTHi0KK5XXB7wuO+e2Z7pEQsLoFk1umbxknKeuQsEvBYT0DZOrWyVV4qS7EgeFsPzmhoppRJCcLKVp1PbVYy8saCy82Bhtn8xayfkU+k7VtlUbmEFRWA+0MxlXlNjDRW4db5tslD+oc3e3HtG5iSLwsX7fuwG8Cy28eZ3q5ovPxjb/5zvq35kqwYBe9CO3NblYyfHKv5Dy9zHa2MN9CUUGrgl0rUX7qQ9VfHvRqsZfG5fpSBoG36810c4SiG+MCk7nYYJxwJb//EAM//DmB1bQkaG2hKnG/vG0nXY=
+X-Microsoft-Antispam-Message-Info: cER20Ri60h5WxW6ADCuEG2rUhlp4GPo6gzK8DqW0r60m1NnnhTL46xffDTvW1JorrfmzGNvRIz11EdHTMVC5sD5UqS6TnpaUdYdR0GwJJMyNLayPg2EWI4LQsAN8ZNLGc5vWoGx3MkThqG7TSohf8OAhLNJe/XHQdAnKYn1GYA7CfS3kbzK5UEMMsIdTXSEOVCbo8okIS5+oLT2YqQzKpmUQyk9R8Vd4QNmxIwaKJ998lGXI0J7kxacrzeZyZK2A28Ikzu9ZMm6sKMSJyquLX1hGuv4DbubeoxnNuT2mApx1L7sbUMY20xKkKZT9Pmsr7cJQ/dIn6od4ROPUXs23UL3OQm2MDCvuX2zaIDqm/MOFZxTk6o0deuHHOMwglkTLthoAO50vDDAd151grEJwgtbBCmafkFZplNk0ZYofruwHjiLtt1jTBWZCLUIB7Oh5a/2exYUbzqaNU5U8lnraQPt7tGrerhNUhz1jRMjxbSQie2s9eVUVUmzVweZf/0iNqisZLbM6U/JaiwhacqyVAskurPleu3tNL6SJgoo2mpOt6UdDQo/+ejYOATByYpfhrwyUiKmFCo8N8aSZUyTkUbgTQ/DDG1TMY9shHkN2pLPqj4NqGQWrNgOKbmQ2icILkn26W8LIYmzNFoor7s5TOFh3c0IkZeEDWCyJS2bazBX/2yGge0Wpzg7jWjsmCP0WJKfuynDgNrtTODsifx9LHz7+70TDx7zCIYWCO09Hb60=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(4636009)(46966006)(36840700001)(82310400003)(316002)(1076003)(86362001)(47076005)(6666004)(426003)(36860700001)(26005)(7696005)(110136005)(508600001)(54906003)(5660300002)(16526019)(8936002)(81166007)(2616005)(336012)(356005)(4326008)(70586007)(8676002)(83380400001)(36756003)(2906002)(70206006)(186003)(36900700001);
+ SFS:(4636009)(36840700001)(46966006)(316002)(5660300002)(2906002)(70586007)(356005)(47076005)(82310400003)(110136005)(1076003)(186003)(16526019)(36860700001)(2616005)(83380400001)(508600001)(36756003)(70206006)(86362001)(54906003)(336012)(4326008)(426003)(6666004)(8676002)(7696005)(8936002)(26005)(81166007)(36900700001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Nov 2021 20:18:35.8453 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 78493919-486c-4e29-3faa-08d9a93e4501
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Nov 2021 20:18:39.4019 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 782a010f-7ac8-4a67-ff02-08d9a93e4719
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT050.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT005.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR12MB4594
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB3013
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,119 +108,183 @@ Cc: Arunpravin <Arunpravin.PaneerSelvam@amd.com>, matthew.auld@intel.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Implemented a function which walk through the order list,
-compares the offset and returns the maximum offset block,
-this method is unpredictable in obtaining the high range
-address blocks which depends on allocation and deallocation.
-for instance, if driver requests address at a low specific
-range, allocator traverses from the root block and splits
-the larger blocks until it reaches the specific block and
-in the process of splitting, lower orders in the freelist
-are occupied with low range address blocks and for the
-subsequent TOPDOWN memory request we may return the low
-range blocks.To overcome this issue, we may go with the
-below approach.
+On contiguous allocation, we round up the size
+to the *next* power of 2, implement a function
+to free the unused pages after the newly allocate block.
 
-The other approach, sorting each order list entries in
-ascending order and compares the last entry of each
-order list in the freelist and return the max block.
-This creates sorting overhead on every drm_buddy_free()
-request and split up of larger blocks for a single page
-request.
-
-v2:
-  - Fix alignment issues(Matthew Auld)
-  - Remove unnecessary list_empty check(Matthew Auld)
+v2(Matthew Auld):
+  - replace function name 'drm_buddy_free_unused_pages' with
+    drm_buddy_block_trim
+  - replace input argument name 'actual_size' with 'new_size'
+  - add more validation checks for input arguments
+  - add overlaps check to avoid needless searching and splitting
   - merged the below patch to see the feature in action
-    - add top-down alloc support to i915 driver
+    - add free unused pages support to i915 driver
+  - lock drm_buddy_block_trim() function as it calls mark_free/mark_split
+    are all globally visible
 
 Signed-off-by: Arunpravin <Arunpravin.PaneerSelvam@amd.com>
 ---
- drivers/gpu/drm/drm_buddy.c                   | 36 ++++++++++++++++---
- drivers/gpu/drm/i915/i915_ttm_buddy_manager.c |  3 ++
- include/drm/drm_buddy.h                       |  1 +
- 3 files changed, 35 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/drm_buddy.c                   | 108 ++++++++++++++++++
+ drivers/gpu/drm/i915/i915_ttm_buddy_manager.c |  10 ++
+ include/drm/drm_buddy.h                       |   4 +
+ 3 files changed, 122 insertions(+)
 
 diff --git a/drivers/gpu/drm/drm_buddy.c b/drivers/gpu/drm/drm_buddy.c
-index c9b18a29f8d1..0a9db2981188 100644
+index 0a9db2981188..943fe2ad27bf 100644
 --- a/drivers/gpu/drm/drm_buddy.c
 +++ b/drivers/gpu/drm/drm_buddy.c
-@@ -361,6 +361,26 @@ alloc_range(struct drm_buddy_mm *mm,
- 	return ERR_PTR(err);
+@@ -284,6 +284,114 @@ static inline bool contains(u64 s1, u64 e1, u64 s2, u64 e2)
+ 	return s1 <= s2 && e1 >= e2;
  }
  
-+static struct drm_buddy_block *
-+get_maxblock(struct list_head *head)
++/**
++ * drm_buddy_block_trim - free unused pages
++ *
++ * @mm: DRM buddy manager
++ * @new_size: original size requested
++ * @blocks: output list head to add allocated blocks
++ *
++ * For contiguous allocation, we round up the size to the nearest
++ * power of two value, drivers consume *actual* size, so remaining
++ * portions are unused and it can be freed.
++ *
++ * Returns:
++ * 0 on success, error code on failure.
++ */
++int drm_buddy_block_trim(struct drm_buddy_mm *mm,
++			 u64 new_size,
++			 struct list_head *blocks)
 +{
-+	struct drm_buddy_block *max_block = NULL, *node;
++	struct drm_buddy_block *block;
++	struct drm_buddy_block *buddy;
++	u64 new_start;
++	u64 new_end;
++	LIST_HEAD(dfs);
++	u64 count = 0;
++	int err;
 +
-+	max_block = list_first_entry_or_null(head,
-+					     struct drm_buddy_block,
-+					     link);
-+	if (!max_block)
-+		return NULL;
++	if (!list_is_singular(blocks))
++		return -EINVAL;
 +
-+	list_for_each_entry(node, head, link) {
-+		if (drm_buddy_block_offset(node) >
-+		    drm_buddy_block_offset(max_block))
-+			max_block = node;
-+	}
++	block = list_first_entry(blocks,
++				 struct drm_buddy_block,
++				 link);
 +
-+	return max_block;
++	if (!drm_buddy_block_is_allocated(block))
++		return -EINVAL;
++
++	if (new_size > drm_buddy_block_size(mm, block))
++		return -EINVAL;
++
++	if (!new_size && !IS_ALIGNED(new_size, mm->chunk_size))
++		return -EINVAL;
++
++	if (new_size == drm_buddy_block_size(mm, block))
++		return 0;
++
++	list_del(&block->link);
++
++	new_start = drm_buddy_block_offset(block);
++	new_end = new_start + new_size - 1;
++
++	mark_free(mm, block);
++
++	list_add(&block->tmp_link, &dfs);
++
++	do {
++		u64 block_start;
++		u64 block_end;
++
++		block = list_first_entry_or_null(&dfs,
++						 struct drm_buddy_block,
++						 tmp_link);
++		if (!block)
++			break;
++
++		list_del(&block->tmp_link);
++
++		if (count == new_size)
++			return 0;
++
++		block_start = drm_buddy_block_offset(block);
++		block_end = block_start + drm_buddy_block_size(mm, block) - 1;
++
++		if (!overlaps(new_start, new_end, block_start, block_end))
++			continue;
++
++		if (contains(new_start, new_end, block_start, block_end)) {
++			BUG_ON(!drm_buddy_block_is_free(block));
++
++			/* Allocate only required blocks */
++			mark_allocated(block);
++			mm->avail -= drm_buddy_block_size(mm, block);
++			list_add_tail(&block->link, blocks);
++			count += drm_buddy_block_size(mm, block);
++			continue;
++		}
++
++		if (!drm_buddy_block_is_split(block)) {
++			err = split_block(mm, block);
++			if (unlikely(err))
++				goto err_undo;
++		}
++
++		list_add(&block->right->tmp_link, &dfs);
++		list_add(&block->left->tmp_link, &dfs);
++	} while (1);
++
++	return -ENOSPC;
++
++err_undo:
++	buddy = get_buddy(block);
++	if (buddy &&
++	    (drm_buddy_block_is_free(block) &&
++	     drm_buddy_block_is_free(buddy)))
++		__drm_buddy_free(mm, block);
++	return err;
 +}
++EXPORT_SYMBOL(drm_buddy_block_trim);
 +
  static struct drm_buddy_block *
- alloc_from_freelist(struct drm_buddy_mm *mm,
- 		    unsigned int order,
-@@ -371,11 +391,17 @@ alloc_from_freelist(struct drm_buddy_mm *mm,
- 	int err;
- 
- 	for (i = order; i <= mm->max_order; ++i) {
--		block = list_first_entry_or_null(&mm->free_list[i],
--						 struct drm_buddy_block,
--						 link);
--		if (block)
--			break;
-+		if (flags & DRM_BUDDY_TOPDOWN_ALLOCATION) {
-+			block = get_maxblock(&mm->free_list[i]);
-+			if (block)
-+				break;
-+		} else {
-+			block = list_first_entry_or_null(&mm->free_list[i],
-+							 struct drm_buddy_block,
-+							 link);
-+			if (block)
-+				break;
-+		}
- 	}
- 
- 	if (!block)
+ alloc_range(struct drm_buddy_mm *mm,
+ 	    u64 start, u64 end,
 diff --git a/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c b/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
-index 9e3d130c3f42..b6ed5b37cf18 100644
+index b6ed5b37cf18..5e1f8c443058 100644
 --- a/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
 +++ b/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
-@@ -53,6 +53,9 @@ static int i915_ttm_buddy_man_alloc(struct ttm_resource_manager *man,
- 	INIT_LIST_HEAD(&bman_res->blocks);
- 	bman_res->mm = mm;
+@@ -97,6 +97,16 @@ static int i915_ttm_buddy_man_alloc(struct ttm_resource_manager *man,
+ 	if (unlikely(err))
+ 		goto err_free_blocks;
  
-+	if (place->flags & TTM_PL_FLAG_TOPDOWN)
-+		bman_res->flags |= DRM_BUDDY_TOPDOWN_ALLOCATION;
++	if (place->flags & TTM_PL_FLAG_CONTIGUOUS) {
++		mutex_lock(&bman->lock);
++		err = drm_buddy_block_trim(mm,
++				(u64)n_pages << PAGE_SHIFT,
++				&bman_res->blocks);
++		mutex_unlock(&bman->lock);
++		if (unlikely(err))
++			goto err_free_blocks;
++	}
 +
- 	if (place->fpfn || lpfn != man->size)
- 		bman_res->flags |= DRM_BUDDY_RANGE_ALLOCATION;
+ 	*res = &bman_res->base;
+ 	return 0;
  
 diff --git a/include/drm/drm_buddy.h b/include/drm/drm_buddy.h
-index 2ec3cbc9d5d7..cbe5e648440a 100644
+index cbe5e648440a..36e8f548acf7 100644
 --- a/include/drm/drm_buddy.h
 +++ b/include/drm/drm_buddy.h
-@@ -28,6 +28,7 @@
- })
+@@ -145,6 +145,10 @@ int drm_buddy_alloc(struct drm_buddy_mm *mm,
+ 		    struct list_head *blocks,
+ 		    unsigned long flags);
  
- #define DRM_BUDDY_RANGE_ALLOCATION (1 << 0)
-+#define DRM_BUDDY_TOPDOWN_ALLOCATION (1 << 1)
++int drm_buddy_block_trim(struct drm_buddy_mm *mm,
++			 u64 new_size,
++			 struct list_head *blocks);
++
+ void drm_buddy_free(struct drm_buddy_mm *mm, struct drm_buddy_block *block);
  
- struct drm_buddy_block {
- #define DRM_BUDDY_HEADER_OFFSET GENMASK_ULL(63, 12)
+ void drm_buddy_free_list(struct drm_buddy_mm *mm, struct list_head *objects);
 -- 
 2.25.1
 
