@@ -2,47 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADBFC452C4C
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Nov 2021 09:01:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09AF6452C6D
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Nov 2021 09:09:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F61B6EDA2;
-	Tue, 16 Nov 2021 08:01:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A1E5B6E213;
+	Tue, 16 Nov 2021 08:09:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2051.outbound.protection.outlook.com [40.107.92.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4AEA36E8CE;
- Tue, 16 Nov 2021 08:01:02 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dnzepoWojghugJLllPi7i8IIOeoUBHMB1DMrWbJLFMyLKb2S9mc0LDH4FbOjSvOP7gIRca3ipxB8bbD9R0obcMt9jAUeK5NVrIVi1BnOXlBRLtKjtS9e0MdBCBrVbsTSFDkER2XEwJL2JZYrd2A2TiE1e698zW/GewgETNzsuCAR0w90MnKr7qrZfwzoBx7clMYt/PqK6rauowhsF0XqvpwwuIlYCLUnTg7indDRi6yIWsVhYhi4NC5kGdBD2Cj06c+MTjd+6AVVhDYzM32aQHH/z7OnNRS6rTcYRANEBypOKJ73edJVUCVQvmEpLlCGl6yPE2L+g9YNnUI/R4MNDA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=B3rqjOWJkpl8Lwzo3CD/iemNVUkgaWQpZ1JvGOKFl1o=;
- b=bDO1Z0HPih+csXdq7UA7x/O8WJALQC3ON6pf5RIgsLUKfy40m5Jfn+/GQ06mFIouFUAEirpUFv1B2kgLH4RGRYD/ZV4Ft45NpVlMQfoCwQ/xaP2dJasR4KDVfdTDwp/ayvWoRxEjY3z4LgPvaCute0mciOC51j+LRgsjpD6mjDa5KCrWoT3B56JWC9QvMlkAzeaBfrUwL21OAloXb5lDyy2ULew1EnUnfzGOCu/nNeSieCKA/kkotx0UsZAkRrSUBP56G8lRvh/hoAt6W9AXJjsLKJcRG4onHm0WfiZ4sEa4ZVTq/BkK4MgMJUqhiZo/mcNAKtTkrPj3opCAQaHQ9A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=B3rqjOWJkpl8Lwzo3CD/iemNVUkgaWQpZ1JvGOKFl1o=;
- b=eA9EJon4teQ3Bgaec2ftipGZ1sUqu8YSwo/FqsNZpIMNAh+Nh0GusIEVpENKX0q09znsa9VlDeVAOF1+viBVe9xGaM+D/YYY0D6Gg0j5p6cTE+mjdIAcGxdSICOHhswKfgQxiWS9ffUYAcYhSsYIN2HWa8hCRt45x3bYRe+KRGE=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM6PR12MB4250.namprd12.prod.outlook.com (2603:10b6:5:21a::9) by
- DM6PR12MB2938.namprd12.prod.outlook.com (2603:10b6:5:18a::31) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4690.16; Tue, 16 Nov 2021 08:01:00 +0000
-Received: from DM6PR12MB4250.namprd12.prod.outlook.com
- ([fe80::711a:4c44:b4a7:4afa]) by DM6PR12MB4250.namprd12.prod.outlook.com
- ([fe80::711a:4c44:b4a7:4afa%8]) with mapi id 15.20.4690.027; Tue, 16 Nov 2021
- 08:01:00 +0000
-Date: Tue, 16 Nov 2021 16:00:19 +0800
-From: Lang Yu <Lang.Yu@amd.com>
-To: Christian Koenig <ckoenig.leichtzumerken@gmail.com>
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com
+ [IPv6:2a00:1450:4864:20::32c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F3026E213;
+ Tue, 16 Nov 2021 08:09:14 +0000 (UTC)
+Received: by mail-wm1-x32c.google.com with SMTP id p18so6732404wmq.5;
+ Tue, 16 Nov 2021 00:09:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=aGBZk8gTfQGCLicjsCXmXtl4JymR9yPdWumY2S8vuHM=;
+ b=DhKvVcIGRnxNR5rULkwrnXv0X6nbAaknmGfsDAL9UhrprDcbdtaPYQ2f2D4p2JJJa2
+ N0CLnUsRydvGLZ8T0kWW84iUQuVrxIk9XBqdw+/2sGXiSV4wZyzcvw9TAywjxnU62RjE
+ 9U3P3f2455lJc/F1Anx5OmFx0uTUJ64w8YyofTbJ4j6KVyCjvBNRoNdw3xYYj4S/LD/z
+ b+IOGh3e7OWhoXWHXLfErf21BU8ElSj3K0jjZw3E9/xfN7hm99/Gl6+lEkwdhFIWeqOS
+ dcflenUF2MZtH9Y17aIom/btFcqLA8+gfWIgz0BN/dfd9KIKWxtmD8b+vKAzU0MRcVSm
+ sXZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=aGBZk8gTfQGCLicjsCXmXtl4JymR9yPdWumY2S8vuHM=;
+ b=WrRFkcuL+Wmv8NdIbQ1s88pmNJG5BtY85mx17JP7qkPSY1iyhvtvdPVdB9QYaoua4/
+ EgYyRRWx08DxAofyL5vHWzLQoHDBm98VU4hHp8p3EY8ojpb9jDKVkZwH7HUQ7E2rqUYH
+ mxKbCjYym+YsrYtOGvnEATQYCYTDbvGzFpEG2cef6re6Dz9steun3ZpIysPxjoRDVmBb
+ FBLqve9/2ymSM9OZFE29nWT5T1wo/yagNtdjbERXTqmwO8hiCfSCJsxcTTcl0Me37r6N
+ UWpKlTjE1cwvA+wEsfiOZFeWDCSjyzZEhNPmahPZ5j10wHMwkkICPPLzYapQzIvrYBtU
+ 7PPg==
+X-Gm-Message-State: AOAM532xoctpLHhBLg7qgEOCVcIFXpiQcqf6V/WT08rAf45RmBRKNcRk
+ eGCo8n1Ht+3ghPv4WmRFEss=
+X-Google-Smtp-Source: ABdhPJx/a5DOIpzn+Z14aEoPOg77NS54BM2humiPMKXGjUG9tx6v65Pd/VdP8ObW6pkIRrVNpoTIMQ==
+X-Received: by 2002:a05:600c:4154:: with SMTP id
+ h20mr65322935wmm.189.1637050152945; 
+ Tue, 16 Nov 2021 00:09:12 -0800 (PST)
+Received: from [192.168.178.21] (p57b0b77b.dip0.t-ipconnect.de.
+ [87.176.183.123])
+ by smtp.gmail.com with ESMTPSA id t8sm16666557wrv.30.2021.11.16.00.09.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 16 Nov 2021 00:09:12 -0800 (PST)
 Subject: Re: Questions about KMS flip
-Message-ID: <YZNlE9bZSJmTvS6d@lang-desktop>
+To: Lang Yu <Lang.Yu@amd.com>
 References: <735f8781-982b-a09f-32fe-fded0024a587@gmail.com>
  <58097218-40dd-55fd-32d2-2a299d39230f@daenzer.net>
  <YZIA/dkvjuMsup24@lang-desktop>
@@ -53,69 +60,17 @@ References: <735f8781-982b-a09f-32fe-fded0024a587@gmail.com>
  <e44a237c-0073-2eec-1a47-c5faf99f77b4@daenzer.net>
  <YZMlGSA9iG3aVCUu@lang-desktop>
  <391ee32e-f1b1-d92b-c9f3-17dbc0a9d690@gmail.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <391ee32e-f1b1-d92b-c9f3-17dbc0a9d690@gmail.com>
-X-ClientProxiedBy: HKAPR04CA0017.apcprd04.prod.outlook.com
- (2603:1096:203:d0::27) To DM6PR12MB4250.namprd12.prod.outlook.com
- (2603:10b6:5:21a::9)
+ <YZNlE9bZSJmTvS6d@lang-desktop>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <52cc2823-35b3-0cb1-2119-82a3677e9b99@gmail.com>
+Date: Tue, 16 Nov 2021 09:09:11 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Received: from lang-desktop (165.204.134.244) by
- HKAPR04CA0017.apcprd04.prod.outlook.com (2603:1096:203:d0::27) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4690.15 via Frontend Transport; Tue, 16 Nov 2021 08:00:57 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 99b9b1de-2476-451b-83ff-08d9a8d73a32
-X-MS-TrafficTypeDiagnostic: DM6PR12MB2938:
-X-Microsoft-Antispam-PRVS: <DM6PR12MB2938C77AF46984931FF91DFEFB999@DM6PR12MB2938.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Ra4rQw/WwUuAzDTLQ+yc13mAQg+its5bljn1qNZ2NP+x22JLbnW036vhSRNKBlkylxdSWx5u/MCAw7B3nIpEYLJH/b+1R3p6hrI5W19Phq0ZIirnmmjM1ne1bGDercnJbiiZGBFVMDNYfk423JOWdMI0b8fh2HBvDBYnY1rKz/eX09aP1x4ipp6anm8EeMU2eAc+COP7jHmXizsJk5RKGA7Xg73jaN8142quCY/ExdILCRpAfxnzkOyWq1dDxvlPCfSnG8Ui0iAE3J3149SrbtNhfVUFlyidOL5HHuoyOK1736FQlM1Nu/515PSZyDJ7PV5RiPFmZcakUzMOstfGG2bkh8xk41e+9BWays6o5iDoOk5YF9+rkx9uocH7eVxR1jBkkGhRhGcyVUOxZ4jX3gk+3T8hs6GGDdg1TxGuYzvra27X2HL/Rsh1aPRLvXDwM8M2ZCvgSk4xj4KCHvVsD1EtyuR1ZkLkCfFNH3gN5ZuKoh6HTvRtEAB3NjTbk+stiQaZ6lp45dufASb2r2ES5lkrTbuja8Ix0gVDHbI8AjG/7xDFS8ADJsgP8/M1fPVIHamQr9wJinZxqHZYT7zJcinb2KBuM0vmC5NFGV47BiStcDucmbJsV09ug0CXLYjrO2jdVPtY7pvCSJVABqXaEA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR12MB4250.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(5660300002)(86362001)(33716001)(38100700002)(9686003)(956004)(6496006)(3480700007)(186003)(316002)(83380400001)(55016002)(8676002)(4326008)(2906002)(508600001)(6666004)(26005)(8936002)(6916009)(54906003)(66556008)(66946007)(66476007);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?vvpkEBwDDoY7zIl7jlAHAvNeA11wcHGTdmfjNiSccE0hNWZoQbx2fR40dq5C?=
- =?us-ascii?Q?qaca4mQHcdVLPJH0lE1lUs2ddQO6GI/0RZ0hJu1+3SJu+ilzFdSJNwzvNNrQ?=
- =?us-ascii?Q?fIJJFz8qyiT2rhWcx56UHNKSfRxteOAA2QBwI0XRJkHtc2XnfZf7PlpW90ho?=
- =?us-ascii?Q?jjHIwJS0TRz1a7AlTk9C/U/ms5l5J4Uf4LaGspqfZ+DXipWn+6wIX121xQCI?=
- =?us-ascii?Q?ZI8ohPkyfXuBi82FDNWebjFYYYWheoe+FGEi4KLlYqFkkW2xzw12JhpHZMzu?=
- =?us-ascii?Q?yuTZ3F/3Rso7WfFslMGVvr8i4yBf3/NOqrRpVIJXhD8DyVv6w3NYZxg6HHHB?=
- =?us-ascii?Q?O1ldN0STTfBHAAawExjjVJ43Tf0kNT16Y3hN5rk1cPjgKC8P9Oz1XUQD+ntk?=
- =?us-ascii?Q?x9St32PItZrq3sk/bDWDH9NwMrjSYAslsfvIwCsQL4mJ4r2Wn48DZxnBAAyX?=
- =?us-ascii?Q?tkP7CyN7YYjLxALBtY6LFej7jAFc9rUQfn53Sq8NGaDtWAtQitFX+006u2yK?=
- =?us-ascii?Q?Fsqzrj3mel4Sg4ZwS8ZRS4ui2OJxRZoI487FFkM5pyYW2Qi9bL1L8TI/z3Wp?=
- =?us-ascii?Q?tXygb/B9clysdJE56IYTp3SpuDZVI3eXkggb6HRK/rNCdZuVTbodvPxOF7U3?=
- =?us-ascii?Q?hg3W0C7xGszVS8osgnxWgNwa+s+fdOjTwJX4SZgMmxgClcWXUcOT4sgPlg35?=
- =?us-ascii?Q?ALGyxHq5OM5hoNGYd7eZgxdOoNVITFKGXzKO2qmSe6ZrDdJ0sjIm9h1eoLll?=
- =?us-ascii?Q?eky1cfaV8Rx69TU7OvWMRLe0gd8a+gsvnYxCD/DtfzABsWDAz9u54FBLFuiS?=
- =?us-ascii?Q?ikHWEB7JSSZfwjZpMsTsbFE1+hQyMd5R6/J/PSARJSBK2hGuhWJQQ56g5Ztf?=
- =?us-ascii?Q?lZK2cmGu/GVpoMGxgR2r3qnnoLXU/00FYU+YgGH9GJVgrve3qPrV8VWF1DAO?=
- =?us-ascii?Q?qIl9m9C8pLpiovKslc2fKlVVP4BLTpsG51rKtuv3w/1IdMrtDxPGZYT4bX2H?=
- =?us-ascii?Q?uCOQjJx0nOxC9pFREUCxauAVASDbmZU9dj4kE69FLYPKfCSYXhQeqLuPRJ3w?=
- =?us-ascii?Q?DcbZJmgt9hqQJgQoRdBpwlRyir4WKw5bysq2y4alfoSTHhWQcufTjW1LXXKG?=
- =?us-ascii?Q?KiSlrJoHRz3axbWDyoZSxJjF5tZvSWL9zJrEWL7rO24eft4lUWMaXtVgenRq?=
- =?us-ascii?Q?CnyIlsnWHsV4f+oKVD8TG5Ul3j2qY93KlNRsks7vwwLIJiZla0WV+mZPpi66?=
- =?us-ascii?Q?MJ2YghM1d8XYdK0DHnOkQX5+QO9cxaVhaGFMF63vsj0gm8HSM03txIRlw7Bf?=
- =?us-ascii?Q?f4/CpIwWP6NHrT4jTKLa0DEs64p0PI72m4ytW89kM08pQG2j5Pt9QHmlI//A?=
- =?us-ascii?Q?FdEj7Hy7fEurIF0R0xohJHljanWKsXYMlQ87c5oADfU2JBXSmCx+Zy+peMDx?=
- =?us-ascii?Q?zJoZ8ECf8LYo8WlCcx5LZKgMW653Qf3JqtH0C3ZjaE1xF36eqJE2Ut8uwO0t?=
- =?us-ascii?Q?bTf4M1I4xzscj0kBY+2PGUtxTZ6b5K1s3Qjh9fMQZWaGprVXR5B5pKQz89bx?=
- =?us-ascii?Q?lWAI4P+C5v2LtfVwlf3c4069BZqLoS0DJUVHTifYUl8yVYmXU5O3CRLkMJOG?=
- =?us-ascii?Q?zMC52i+EHaSIpZquADO4Pjk=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 99b9b1de-2476-451b-83ff-08d9a8d73a32
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB4250.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Nov 2021 08:00:59.8883 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: F4v8S7ps2z5GD3xrJM6t7BsmSzkhxXy6K26Dsh0lh72n/NoElny+XPsK28LGmQ2iizNt/tlUEvQADkURY2X+xA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB2938
+In-Reply-To: <YZNlE9bZSJmTvS6d@lang-desktop>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -136,85 +91,94 @@ Cc: dri-devel <dri-devel@lists.freedesktop.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 16, 2021 at 08:14:08AM +0100, Christian KKKnig wrote:
-> Am 16.11.21 um 04:27 schrieb Lang Yu:
-> > On Mon, Nov 15, 2021 at 01:04:15PM +0100, Michel DDDnzer wrote:
-> > > [SNIP]
-> > > > Though a single call to dce_v*_0_crtc_do_set_base() will
-> > > > only pin the BO, I found it will be unpinned in next call to
-> > > > dce_v*_0_crtc_do_set_base().
-> > > Yeah, that's the normal case when the new BO is different from the old one.
-> > > 
-> > > To catch the case I described, try something like
-> > > 
-> > > diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c b/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c
-> > > 
-> > > index 18a7b3bd633b..5726bd87a355 100644
-> > > 
-> > > --- a/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c
-> > > 
-> > > +++ b/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c
-> > > 
-> > > @@ -1926,6 +1926,7 @@ static int dce_v11_0_crtc_do_set_base(struct drm_crtc *crtc,
-> > > 
-> > >                  return r;
-> > > 
-> > > 
-> > > 
-> > >          if (!atomic) {
-> > > 
-> > > +               WARN_ON_ONCE(target_fb == fb);
-> > > 
-> > >                  r = amdgpu_bo_pin(abo, AMDGPU_GEM_DOMAIN_VRAM);
-> > > 
-> > >                  if (unlikely(r != 0)) {
-> > > 
-> > >                          amdgpu_bo_unreserve(abo);
-> > > 
-> > I did some tests, the warning can be triggered.
-> > 
-> > pin/unpin operations in *_crtc_do_set_base() and
-> > amdgpu_display_crtc_page_flip_target() are mixed.
-> 
-> Ok sounds like we narrowed down the root cause pretty well.
-> 
-> Question is now how can we fix this? Just not pin the BO when target_fb ==
-> fb?
+Am 16.11.21 um 09:00 schrieb Lang Yu:
+> On Tue, Nov 16, 2021 at 08:14:08AM +0100, Christian KKKnig wrote:
+>> Am 16.11.21 um 04:27 schrieb Lang Yu:
+>>> On Mon, Nov 15, 2021 at 01:04:15PM +0100, Michel DDDnzer wrote:
+>>>> [SNIP]
+>>>>> Though a single call to dce_v*_0_crtc_do_set_base() will
+>>>>> only pin the BO, I found it will be unpinned in next call to
+>>>>> dce_v*_0_crtc_do_set_base().
+>>>> Yeah, that's the normal case when the new BO is different from the old one.
+>>>>
+>>>> To catch the case I described, try something like
+>>>>
+>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c b/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c
+>>>>
+>>>> index 18a7b3bd633b..5726bd87a355 100644
+>>>>
+>>>> --- a/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c
+>>>>
+>>>> +++ b/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c
+>>>>
+>>>> @@ -1926,6 +1926,7 @@ static int dce_v11_0_crtc_do_set_base(struct drm_crtc *crtc,
+>>>>
+>>>>                   return r;
+>>>>
+>>>>
+>>>>
+>>>>           if (!atomic) {
+>>>>
+>>>> +               WARN_ON_ONCE(target_fb == fb);
+>>>>
+>>>>                   r = amdgpu_bo_pin(abo, AMDGPU_GEM_DOMAIN_VRAM);
+>>>>
+>>>>                   if (unlikely(r != 0)) {
+>>>>
+>>>>                           amdgpu_bo_unreserve(abo);
+>>>>
+>>> I did some tests, the warning can be triggered.
+>>>
+>>> pin/unpin operations in *_crtc_do_set_base() and
+>>> amdgpu_display_crtc_page_flip_target() are mixed.
+>> Ok sounds like we narrowed down the root cause pretty well.
+>>
+>> Question is now how can we fix this? Just not pin the BO when target_fb ==
+>> fb?
+> That worked. I did a few simple tests and didn't observe ttm_bo_release warnings
+> any more.
+>
+> The pin/unpin logic,
+>
+> 1, fist crtc_mode_set, dce_v*_0_crtc_do_set_base() pins crtc->primary->fb(new),
+> old_fb is NULL.
+>
+> 2, second crtc_mode_set, dce_v*_0_crtc_do_set_base() pins crtc->primary->fb(new),
+> unpins old fb.
+>
+> 3, amdgpu_display_crtc_page_flip_target() pin/unpin operations.
+>
+> 4, third crtc_mode_set, dce_v*_0_crtc_do_set_base() pins crtc->primary->fb(new),
+> unpins old fb (it is pinned in last call to amdgpu_display_crtc_page_flip_target)
+>
+> 5, amdgpu_display_crtc_page_flip_target() pin/unpin operations.
+>
+> .....
+>
+> x, reboot, amdgpu_display_suspend_helper() is called, the last pinned fb was unpinned.
+>
+> And I didn't observe amdgpu_bo_unpin() in dce_v*_0_crtc_disable() is called.
+>
+> If the logic is wrong, please correct me.
 
-That worked. I did a few simple tests and didn't observe ttm_bo_release warnings 
-any more.
+I can't fully judge because I'm not that deep with my head in the old 
+display code, but from a ten mile high view it sounds sane to me. Michel 
+what do you think?
 
-The pin/unpin logic,
+BTW: Nicholas are there any plans to get rid of all that stuff? It would 
+be a really nice cleanup of rather flaky code I think.
 
-1, fist crtc_mode_set, dce_v*_0_crtc_do_set_base() pins crtc->primary->fb(new),
-old_fb is NULL.
+Thanks,
+Christian.
 
-2, second crtc_mode_set, dce_v*_0_crtc_do_set_base() pins crtc->primary->fb(new),
-unpins old fb.
+>
+> Regards,
+> Lang
+>
+>> Thanks,
+>> Christian.
+>>
+>>> Regards,
+>>> Lang
+>>>
 
-3, amdgpu_display_crtc_page_flip_target() pin/unpin operations.
-
-4, third crtc_mode_set, dce_v*_0_crtc_do_set_base() pins crtc->primary->fb(new),
-unpins old fb (it is pinned in last call to amdgpu_display_crtc_page_flip_target)
-
-5, amdgpu_display_crtc_page_flip_target() pin/unpin operations.
-
-.....
-
-x, reboot, amdgpu_display_suspend_helper() is called, the last pinned fb was unpinned.
-
-And I didn't observe amdgpu_bo_unpin() in dce_v*_0_crtc_disable() is called.
-
-If the logic is wrong, please correct me.
-
-Regards,
-Lang
-
-> Thanks,
-> Christian.
-> 
-> > 
-> > Regards,
-> > Lang
-> > 
-> 
