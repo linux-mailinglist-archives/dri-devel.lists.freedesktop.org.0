@@ -2,40 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB2E44539F6
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Nov 2021 20:18:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E133E453A02
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Nov 2021 20:18:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D4A166E10F;
-	Tue, 16 Nov 2021 19:18:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 401476E11A;
+	Tue, 16 Nov 2021 19:18:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 25FBB6E10F
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Nov 2021 19:18:00 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D661E63223;
- Tue, 16 Nov 2021 19:17:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C6C656E118
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Nov 2021 19:18:13 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 354526322C;
+ Tue, 16 Nov 2021 19:18:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1637090279;
- bh=EjfK6ywtkTbYiXTxOr4yEkJELrvwgwMVwqnEQgNPO2Q=;
+ s=k20201202; t=1637090293;
+ bh=cnE1MXGiLmPpRtN/cnvdTU1sq0u1ItfQ4UaqvApuf0A=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=frWfIpfU8B8hdkehcTUBtDi0OnSNOB/Kx9yM4kvNjk0KQY6XP2Q4N/+wyYk453KVB
- qKPWbovxQmJnL5hkSZ78JlgSCKz8hkfog2Y3udhiAz6b1orNHa5g0GeBwrWj8MU+f/
- gObcCeD9SXptakUNFJFu1FwXYyNCs6us0dDhqXaelLJhY0EgxC4mGKHH6SLytM+oTA
- +p7TSvdz14QHPT25mEfOSCoZkWkBp8exNTz2nuJ9Il5cHJdJYtTFNmJJ4qxrB75NZa
- dPpWzEMfNBn8LTQ6753Sg2CxnpOv82xgEq8+Mg0cf/ZAJGCEfq6Avw18ut9jJhJgOZ
- UxkF/T+6gpiCg==
+ b=lutaWK18GV7fGck6kElTwzvbshsZ5Qst04PLv8J4HfFMHIP2gG5ACORHLtU0HgX4H
+ d1odNUziYDBRkFEUU9tVd7l0Hfong8KukKShvt8ksdMIjQ/NmkuKfkrCkOssaA/Rgx
+ xN5B3/YN38ChxO4c4JmeB3DClzV2fB7PhvDVLdD3ICJQC45EGQjygtY2ymcc7PFPc6
+ KvfLhBkk5k3oCR4Lf0SYxzakRlrwE3BRm6YLA7ffT/ib7J5/NRlhZdE25CPo9bQ/Nt
+ uvWS/zZ4FkA2S9WzQ4+lyPsTTE0QViwAddSuatkzggsHB+SJYB/r3NMXmoPpwF4XyW
+ we74fO48JkjdA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 03/65] backlight: Propagate errors from
- get_brightness()
-Date: Tue, 16 Nov 2021 14:16:48 -0500
-Message-Id: <20211116191754.2419097-3-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 07/65] fbdev: fbmem: Fix double free of
+ 'fb_info->pixmap.addr'
+Date: Tue, 16 Nov 2021 14:16:52 -0500
+Message-Id: <20211116191754.2419097-7-sashal@kernel.org>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211116191754.2419097-1-sashal@kernel.org>
 References: <20211116191754.2419097-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -51,75 +50,106 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>,
- Daniel Thompson <daniel.thompson@linaro.org>, jingoohan1@gmail.com,
- =?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <linux@weissschuh.net>,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- Lee Jones <lee.jones@linaro.org>
+Cc: Sasha Levin <sashal@kernel.org>, linux-fbdev@vger.kernel.org,
+ xiyuyang19@fudan.edu.cn, geert+renesas@glider.be,
+ penguin-kernel@i-love.sakura.ne.jp, daniel.vetter@ffwll.ch,
+ Zheyu Ma <zheyuma97@gmail.com>, willy@infradead.org,
+ william.kucharski@oracle.com, dri-devel@lists.freedesktop.org,
+ thunder.leizhen@huawei.com, Sam Ravnborg <sam@ravnborg.org>,
+ linux@roeck-us.net
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Thomas Weißschuh <linux@weissschuh.net>
+From: Zheyu Ma <zheyuma97@gmail.com>
 
-[ Upstream commit 563edf85ce18a90dd0a7b39e279a691d937205f6 ]
+[ Upstream commit 2c0c19b681d5a331b53aab0d170f72a87c7bff12 ]
 
-backlight.h documents "struct backlight_ops->get_brightness()" to return
-a negative errno on failure.
+savagefb and some other drivers call kfree to free 'info->pixmap.addr'
+even after calling unregister_framebuffer, which may cause double free.
 
-So far these errors have not been handled in the backlight core.
-This leads to negative values being exposed through sysfs although only
-positive values are documented to be reported.
+Fix this by setting 'fb_info->pixmap.addr' to NULL after kfree in
+unregister_framebuffer.
 
-Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
-Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
-Signed-off-by: Lee Jones <lee.jones@linaro.org>
+The following log reveals it:
+
+[   37.318872] BUG: KASAN: double-free or invalid-free in kfree+0x13e/0x290
+[   37.319369]
+[   37.320803] Call Trace:
+[   37.320992]  dump_stack_lvl+0xa8/0xd1
+[   37.321274]  print_address_description+0x87/0x3b0
+[   37.321632]  ? kfree+0x13e/0x290
+[   37.321879]  ? kfree+0x13e/0x290
+[   37.322126]  ? kfree+0x13e/0x290
+[   37.322374]  kasan_report_invalid_free+0x58/0x90
+[   37.322724]  ____kasan_slab_free+0x123/0x140
+[   37.323049]  __kasan_slab_free+0x11/0x20
+[   37.323347]  slab_free_freelist_hook+0x81/0x150
+[   37.323689]  ? savagefb_remove+0xa1/0xc0 [savagefb]
+[   37.324066]  kfree+0x13e/0x290
+[   37.324304]  savagefb_remove+0xa1/0xc0 [savagefb]
+[   37.324655]  pci_device_remove+0xa9/0x250
+[   37.324959]  ? pci_device_probe+0x7d0/0x7d0
+[   37.325273]  device_release_driver_internal+0x4f7/0x7a0
+[   37.325666]  driver_detach+0x1e8/0x2c0
+[   37.325952]  bus_remove_driver+0x134/0x290
+[   37.326262]  ? sysfs_remove_groups+0x97/0xb0
+[   37.326584]  driver_unregister+0x77/0xa0
+[   37.326883]  pci_unregister_driver+0x2c/0x1c0
+[   37.336124]
+[   37.336245] Allocated by task 5465:
+[   37.336507]  ____kasan_kmalloc+0xb5/0xe0
+[   37.336801]  __kasan_kmalloc+0x9/0x10
+[   37.337069]  kmem_cache_alloc_trace+0x12b/0x220
+[   37.337405]  register_framebuffer+0x3f3/0xa00
+[   37.337731]  foo_register_framebuffer+0x3b/0x50 [savagefb]
+[   37.338136]
+[   37.338255] Freed by task 5475:
+[   37.338492]  kasan_set_track+0x3d/0x70
+[   37.338774]  kasan_set_free_info+0x23/0x40
+[   37.339081]  ____kasan_slab_free+0x10b/0x140
+[   37.339399]  __kasan_slab_free+0x11/0x20
+[   37.339694]  slab_free_freelist_hook+0x81/0x150
+[   37.340034]  kfree+0x13e/0x290
+[   37.340267]  do_unregister_framebuffer+0x21c/0x3d0
+[   37.340624]  unregister_framebuffer+0x23/0x40
+[   37.340950]  savagefb_remove+0x45/0xc0 [savagefb]
+[   37.341302]  pci_device_remove+0xa9/0x250
+[   37.341603]  device_release_driver_internal+0x4f7/0x7a0
+[   37.341990]  driver_detach+0x1e8/0x2c0
+[   37.342272]  bus_remove_driver+0x134/0x290
+[   37.342577]  driver_unregister+0x77/0xa0
+[   37.342873]  pci_unregister_driver+0x2c/0x1c0
+[   37.343196]  cleanup_module+0x15/0x1c [savagefb]
+[   37.343543]  __se_sys_delete_module+0x398/0x490
+[   37.343881]  __x64_sys_delete_module+0x56/0x60
+[   37.344221]  do_syscall_64+0x4d/0xc0
+[   37.344492]  entry_SYSCALL_64_after_hwframe+0x44/0xae
+
+Signed-off-by: Zheyu Ma <zheyuma97@gmail.com>
+Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+Link: https://patchwork.freedesktop.org/patch/msgid/1633848148-29747-1-git-send-email-zheyuma97@gmail.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/video/backlight/backlight.c | 22 +++++++++++++++++-----
- 1 file changed, 17 insertions(+), 5 deletions(-)
+ drivers/video/fbdev/core/fbmem.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/video/backlight/backlight.c b/drivers/video/backlight/backlight.c
-index 537fe1b376ad7..4658cfb75aa28 100644
---- a/drivers/video/backlight/backlight.c
-+++ b/drivers/video/backlight/backlight.c
-@@ -292,10 +292,13 @@ static ssize_t actual_brightness_show(struct device *dev,
- 	struct backlight_device *bd = to_backlight_device(dev);
- 
- 	mutex_lock(&bd->ops_lock);
--	if (bd->ops && bd->ops->get_brightness)
--		rc = sprintf(buf, "%d\n", bd->ops->get_brightness(bd));
--	else
-+	if (bd->ops && bd->ops->get_brightness) {
-+		rc = bd->ops->get_brightness(bd);
-+		if (rc >= 0)
-+			rc = sprintf(buf, "%d\n", rc);
-+	} else {
- 		rc = sprintf(buf, "%d\n", bd->props.brightness);
-+	}
- 	mutex_unlock(&bd->ops_lock);
- 
- 	return rc;
-@@ -381,9 +384,18 @@ ATTRIBUTE_GROUPS(bl_device);
- void backlight_force_update(struct backlight_device *bd,
- 			    enum backlight_update_reason reason)
+diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
+index 7420d2c16e47e..826175ad88a2f 100644
+--- a/drivers/video/fbdev/core/fbmem.c
++++ b/drivers/video/fbdev/core/fbmem.c
+@@ -1702,8 +1702,11 @@ static void do_unregister_framebuffer(struct fb_info *fb_info)
  {
-+	int brightness;
-+
- 	mutex_lock(&bd->ops_lock);
--	if (bd->ops && bd->ops->get_brightness)
--		bd->props.brightness = bd->ops->get_brightness(bd);
-+	if (bd->ops && bd->ops->get_brightness) {
-+		brightness = bd->ops->get_brightness(bd);
-+		if (brightness >= 0)
-+			bd->props.brightness = brightness;
-+		else
-+			dev_err(&bd->dev,
-+				"Could not update brightness from device: %pe\n",
-+				ERR_PTR(brightness));
+ 	unlink_framebuffer(fb_info);
+ 	if (fb_info->pixmap.addr &&
+-	    (fb_info->pixmap.flags & FB_PIXMAP_DEFAULT))
++	    (fb_info->pixmap.flags & FB_PIXMAP_DEFAULT)) {
+ 		kfree(fb_info->pixmap.addr);
++		fb_info->pixmap.addr = NULL;
 +	}
- 	mutex_unlock(&bd->ops_lock);
- 	backlight_generate_event(bd, reason);
- }
++
+ 	fb_destroy_modelist(&fb_info->modelist);
+ 	registered_fb[fb_info->node] = NULL;
+ 	num_registered_fb--;
 -- 
 2.33.0
 
