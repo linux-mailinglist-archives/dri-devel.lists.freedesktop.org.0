@@ -1,55 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E091453319
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Nov 2021 14:46:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id ECFF245331A
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Nov 2021 14:46:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A35286ECD3;
-	Tue, 16 Nov 2021 13:45:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 90D976ECDD;
+	Tue, 16 Nov 2021 13:45:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com
- [IPv6:2607:f8b0:4864:20::636])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 875BF6EDDE
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Nov 2021 09:50:15 +0000 (UTC)
-Received: by mail-pl1-x636.google.com with SMTP id y7so17032073plp.0
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Nov 2021 01:50:15 -0800 (PST)
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com
+ [IPv6:2607:f8b0:4864:20::102c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7208C6EA96
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Nov 2021 09:50:50 +0000 (UTC)
+Received: by mail-pj1-x102c.google.com with SMTP id iq11so15303343pjb.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Nov 2021 01:50:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=LOEo7+eEw7HOmFubNhZ5NIb+kpAjTOtWN/+/owTaRTQ=;
- b=lg9HAcs2AQJqwWwikf1xHuQykcP79WUH7MT8HXFxMccsym9AafWmijDfhnYN3IoL1n
- sCpQHuwA5+jhCEoEYCIb+y+unEBRQu3KKD1Dbslf5hQmMxoDMIbutJMfca4UlZcvK41b
- qes4oeREIyGgdWeqjv3KMc6JFd+E/Pm/pIh/7BG1E5+8SLEBgZ3kDYnzioKkZINroEEG
- sNxTqo1aqhCYSNWoRDtkavrL3cF1Wt0H+sMunaGS4OoCQIGiC5qCwt02Nn8aUEyCzZNg
- 3tKexTVRSn75VsedToXCGH8ntvBgaDVv5VLWiSBOD1uc/rCiWnwK0Nfr9de4KUQHGeqs
- 17hg==
+ :cc; bh=Jbl1bKB28ZQInN+16uM3WF1uI4nnrdBSKaIDe4FDIn4=;
+ b=NczuZoG9lJzIkj+khBgbYgrCnlf/dviLGHYxxjBvLZqdX3qYA8iMv51JgOHt0AbHSJ
+ i8vVjtkhFLiVROY5Cq3hxHvFZWODNrlxIUPm2/Ux4G4h2oTOGtPy6xmP/leu9oyI5yhW
+ YJDsKLi1482S1NFJaNCVtV0NaKmHYhV0vzw2SAHlaTmPQ3lBjcc+4BCnOCgLTvH15G9T
+ 8Qh+vFs+AM70fyR+tS52pq3WG/LyD6v5e06PK6rjmgek5L+dR4IuhntQIYVpbvyBXUFP
+ Y2jR1djZSSTrGPex0XjKwTrPtyC1/BOvUeMh7p+OtUDfJPAUGGRrQHW+VGdIUxfDTh3k
+ 5tTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=LOEo7+eEw7HOmFubNhZ5NIb+kpAjTOtWN/+/owTaRTQ=;
- b=AyUneU4sukr/1nR3Ly0nOf3seRVvKPA8M/kfICYis1OF8Tx/J6Yy7YJLKKGiQ8XVwj
- EFBdO7UFKXKHKlx1d3Ii2X5owrwcQZ84KYTikO35wDv5xs0agNGTZFw/idrBGH4YOw55
- 2ydZ9JQD0Kp8KekYxLKYgYdqTUyga9HVfxAcTOAtYZ955SMuEYLLoHc2OA2OaOfekUxn
- 1zTm0gJC1qTL5nCZk7C4FHcGbo2ABSVxqjsKFdoT08OmXTXRZrtpiISLQ/8L1pe5eE6/
- c/Il8tcSA6QaRsnWwyCRdkAtXckkpUV6TKlgB+Wcnx0IQgcZoko0Njc/4gj43ozlsyYG
- Yv3Q==
-X-Gm-Message-State: AOAM5331sERhszhbfpFPngCykculOaZNiRLBFPXjEFClFQiV7aBil7Nf
- Qzi4cde93z6ZCq5NZxT3dLe4NK3Hlt5Em/1/lWJUKPVBA58=
-X-Google-Smtp-Source: ABdhPJxjkwFXdhzCHzbozqRCnmGohriRD2ActA2SYX/tVP+evd9ZLHyQZfBC+bl7MpvRwzONNxG00ZpuXMx27S39qkk=
-X-Received: by 2002:a17:902:748c:b0:142:5f2f:1828 with SMTP id
- h12-20020a170902748c00b001425f2f1828mr43623292pll.4.1637056215138; Tue, 16
- Nov 2021 01:50:15 -0800 (PST)
+ bh=Jbl1bKB28ZQInN+16uM3WF1uI4nnrdBSKaIDe4FDIn4=;
+ b=0EtPS4zL5hgJOkIdxq2SSaYjE1/XxssBzVEMXV0cP/MgFGEogdxZ1im674blSgj5mt
+ mPpLfOcxm503573FZ/JMI84qZPcYLDLX6BDmaWZkZj5jo7bu6i0hHhjhhJJ2HVnDw4q3
+ wDidlOHy4BC3sxle3zjdJ+59lQ/1JjZs5OdP3smAMBDB6xivjnUVLU2wWByccFE4v+oM
+ USu4do5x2LMQNijS4xBy2sQIBDOjqWXD3crHmQ75gvA6m6bB9vGKFJqX8lrKs9gm6hiE
+ GHb8EERy10j6C+Ni4++7kEpa7ps5RAc9ZcaEro3Ay/Bw3HNR68xFqJL1IH8yMPipAeCB
+ TRjw==
+X-Gm-Message-State: AOAM531Y+u4lse7rx0Nm2LjNMYz9eYdBwXpXilxaZE4qje2jlIafRHvn
+ 6CDwaIn4h+a6C18CVRy//WTPuptUJEE7ewYMuNc=
+X-Google-Smtp-Source: ABdhPJx0v8IzfnU05ejmdXMqJmDMXeb3PF++qh8Md5OR3XMUslrUChQ77cv06uovViNWiQhcy4Q3KXk00wiWecHoznA=
+X-Received: by 2002:a17:90a:e54c:: with SMTP id
+ ei12mr73525634pjb.81.1637056250074; 
+ Tue, 16 Nov 2021 01:50:50 -0800 (PST)
 MIME-Version: 1.0
 References: <20211115141925.60164-1-paul@crapouillou.net>
  <20211115142243.60605-1-paul@crapouillou.net>
- <20211115142243.60605-2-paul@crapouillou.net>
-In-Reply-To: <20211115142243.60605-2-paul@crapouillou.net>
+ <20211115142243.60605-3-paul@crapouillou.net>
+In-Reply-To: <20211115142243.60605-3-paul@crapouillou.net>
 From: Alexandru Ardelean <ardeleanalex@gmail.com>
-Date: Tue, 16 Nov 2021 11:50:03 +0200
-Message-ID: <CA+U=DsoJWgifThUwcQ61M6851H7JVKH2s_O3=JJ0CsPeX8wdoA@mail.gmail.com>
-Subject: Re: [PATCH 13/15] iio: core: Add support for cyclic buffers
+Date: Tue, 16 Nov 2021 11:50:38 +0200
+Message-ID: <CA+U=Dsp4P_q6gS9-iS1BujGfhia=uEjBZFy_VEZqFwT-rCOXQQ@mail.gmail.com>
+Subject: Re: [PATCH 14/15] iio: buffer-dmaengine: Add support for cyclic
+ buffers
 To: Paul Cercueil <paul@crapouillou.net>
 Content-Type: text/plain; charset="UTF-8"
 X-Mailman-Approved-At: Tue, 16 Nov 2021 13:45:51 +0000
@@ -73,53 +74,79 @@ Cc: Michael Hennerich <Michael.Hennerich@analog.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Nov 15, 2021 at 4:22 PM Paul Cercueil <paul@crapouillou.net> wrote:
+On Mon, Nov 15, 2021 at 4:23 PM Paul Cercueil <paul@crapouillou.net> wrote:
 >
-> Introduce a new flag IIO_BUFFER_DMABUF_CYCLIC in the "flags" field of
-> the iio_dmabuf uapi structure.
->
-> When set, the DMABUF enqueued with the enqueue ioctl will be endlessly
-> repeated on the TX output, until the buffer is disabled.
+> Handle the IIO_BUFFER_DMABUF_CYCLIC flag to support cyclic buffers.
 >
 
 Reviewed-by: Alexandru Ardelean <ardeleanalex@gmail.com>
 
 > Signed-off-by: Paul Cercueil <paul@crapouillou.net>
 > ---
->  drivers/iio/industrialio-buffer.c | 5 +++++
->  include/uapi/linux/iio/buffer.h   | 3 ++-
->  2 files changed, 7 insertions(+), 1 deletion(-)
+>  drivers/iio/buffer/industrialio-buffer-dma.c      |  1 +
+>  .../iio/buffer/industrialio-buffer-dmaengine.c    | 15 ++++++++++++---
+>  include/linux/iio/buffer-dma.h                    |  3 +++
+>  3 files changed, 16 insertions(+), 3 deletions(-)
 >
-> diff --git a/drivers/iio/industrialio-buffer.c b/drivers/iio/industrialio-buffer.c
-> index 30910e6c2346..41bc51c88002 100644
-> --- a/drivers/iio/industrialio-buffer.c
-> +++ b/drivers/iio/industrialio-buffer.c
-> @@ -1600,6 +1600,11 @@ static int iio_buffer_enqueue_dmabuf(struct iio_buffer *buffer,
->         if (dmabuf.flags & ~IIO_BUFFER_DMABUF_SUPPORTED_FLAGS)
+> diff --git a/drivers/iio/buffer/industrialio-buffer-dma.c b/drivers/iio/buffer/industrialio-buffer-dma.c
+> index fb39054d8c15..6658f103ee17 100644
+> --- a/drivers/iio/buffer/industrialio-buffer-dma.c
+> +++ b/drivers/iio/buffer/industrialio-buffer-dma.c
+> @@ -933,6 +933,7 @@ int iio_dma_buffer_enqueue_dmabuf(struct iio_buffer *buffer,
+>         }
+>
+>         dma_block->bytes_used = iio_dmabuf->bytes_used ?: dma_block->size;
+> +       dma_block->cyclic = iio_dmabuf->flags & IIO_BUFFER_DMABUF_CYCLIC;
+>
+>         switch (dma_block->state) {
+>         case IIO_BLOCK_STATE_QUEUED:
+> diff --git a/drivers/iio/buffer/industrialio-buffer-dmaengine.c b/drivers/iio/buffer/industrialio-buffer-dmaengine.c
+> index 57a8b2e4ba3c..952e2160a11e 100644
+> --- a/drivers/iio/buffer/industrialio-buffer-dmaengine.c
+> +++ b/drivers/iio/buffer/industrialio-buffer-dmaengine.c
+> @@ -81,9 +81,18 @@ static int iio_dmaengine_buffer_submit_block(struct iio_dma_buffer_queue *queue,
+>         if (!block->bytes_used || block->bytes_used > max_size)
 >                 return -EINVAL;
 >
-> +       /* Cyclic flag is only supported on output buffers */
-> +       if ((dmabuf.flags & IIO_BUFFER_DMABUF_CYCLIC) &&
-> +           buffer->direction != IIO_BUFFER_DIRECTION_OUT)
-> +               return -EINVAL;
+> -       desc = dmaengine_prep_slave_single(dmaengine_buffer->chan,
+> -               block->phys_addr, block->bytes_used, dma_dir,
+> -               DMA_PREP_INTERRUPT);
+> +       if (block->cyclic) {
+> +               desc = dmaengine_prep_dma_cyclic(dmaengine_buffer->chan,
+> +                                                block->phys_addr,
+> +                                                block->size,
+> +                                                block->bytes_used,
+> +                                                dma_dir, 0);
+> +       } else {
+> +               desc = dmaengine_prep_slave_single(dmaengine_buffer->chan,
+> +                                                  block->phys_addr,
+> +                                                  block->bytes_used, dma_dir,
+> +                                                  DMA_PREP_INTERRUPT);
+> +       }
+>         if (!desc)
+>                 return -ENOMEM;
+>
+> diff --git a/include/linux/iio/buffer-dma.h b/include/linux/iio/buffer-dma.h
+> index 85e55fe35282..27639fdf7b54 100644
+> --- a/include/linux/iio/buffer-dma.h
+> +++ b/include/linux/iio/buffer-dma.h
+> @@ -42,6 +42,7 @@ enum iio_block_state {
+>   * @phys_addr: Physical address of the blocks memory
+>   * @queue: Parent DMA buffer queue
+>   * @state: Current state of the block
+> + * @cyclic: True if this is a cyclic buffer
+>   * @fileio: True if this buffer is used for fileio mode
+>   * @dmabuf: Underlying DMABUF object
+>   */
+> @@ -65,6 +66,8 @@ struct iio_dma_buffer_block {
+>          */
+>         enum iio_block_state state;
+>
+> +       bool cyclic;
 > +
->         return buffer->access->enqueue_dmabuf(buffer, &dmabuf);
->  }
->
-> diff --git a/include/uapi/linux/iio/buffer.h b/include/uapi/linux/iio/buffer.h
-> index e4621b926262..2d541d038c02 100644
-> --- a/include/uapi/linux/iio/buffer.h
-> +++ b/include/uapi/linux/iio/buffer.h
-> @@ -7,7 +7,8 @@
->
->  #include <linux/types.h>
->
-> -#define IIO_BUFFER_DMABUF_SUPPORTED_FLAGS      0x00000000
-> +#define IIO_BUFFER_DMABUF_CYCLIC               (1 << 0)
-> +#define IIO_BUFFER_DMABUF_SUPPORTED_FLAGS      0x00000001
->
->  /**
->   * struct iio_dmabuf_alloc_req - Descriptor for allocating IIO DMABUFs
+>         bool fileio;
+>         struct dma_buf *dmabuf;
+>  };
 > --
 > 2.33.0
 >
