@@ -2,143 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AEEA4547B7
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Nov 2021 14:47:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60B894547EB
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Nov 2021 15:00:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B98E6E197;
-	Wed, 17 Nov 2021 13:47:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C29056E09E;
+	Wed, 17 Nov 2021 14:00:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com
- [205.220.165.32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4709E6E197
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Nov 2021 13:47:40 +0000 (UTC)
-Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1AHD5O9B009089; 
- Wed, 17 Nov 2021 13:47:37 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=date : from : to : cc
- : subject : message-id : content-type : mime-version; s=corp-2021-07-09;
- bh=1FDhe4fzU0KvGay0RAZ2jkFuVeJ+zuHF452BNSMRCvs=;
- b=SRlnl6Qc6CRx2rV4aUSbaQuQHXJlyQQe72e1wTaXjUBc1nUXfMOookRVHwHL49JSUq98
- Grwcf4WSqtWdrRTdbK562WeTUYpwV/yVua+R2JZyHjbm7WvFQECIWXpBoWFasxwY77wx
- 1w+VDZRuag57Kynh9SXKNJafM0J6pb6kHBCWj5HtbiYeCJfCudZqo7+32v0Zb0ejSn90
- JCvWZvZPrOdrdRpnWUW8IOPb3Ur3xjHVjsVOzZPgiShn+bwJiObY3a0vNTa8S6m1xcLl
- rveCyEdnLE5bFWESNXQvPOk9DQy1jCJHesQbbTO2zsCoLn1Wjn0ZzgPS/236F8t6yhmb GQ== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by mx0b-00069f02.pphosted.com with ESMTP id 3cd2ajg864-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 17 Nov 2021 13:47:36 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 1AHDehfR158474;
- Wed, 17 Nov 2021 13:47:33 GMT
-Received: from nam12-dm6-obe.outbound.protection.outlook.com
- (mail-dm6nam12lp2172.outbound.protection.outlook.com [104.47.59.172])
- by aserp3020.oracle.com with ESMTP id 3ca566yde7-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 17 Nov 2021 13:47:33 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BmiOq28NBzC/CZhreEx+CvYAfeIVhrDKdUD4wXtbEgRbD07CiyzWSyOm2B3f/N4AQGqsycFb3at98hN+wy5wBz6mx3iyWMuZhe715OU4G0qiZTbELiDFhf1MuXtCVb1HV+imHUxKP3rzGLcOR+fzClGqkNrB/1rtq2ECZkuDJzqBPuAUAcC9hirSZFXjQIMEVy6x4PDKeN3jJSXndriOI/o5jgoDfVb2iFM9r1N/MuENDz27qGei6Txw2Bz5hWAtl3svyx1XfkcJH0+qAXAOl5QVFxr4gw6geMs2fvNArseYznRCR0YLiXAZ/nEDxL/hPCvBKgIAO2bPeIUN4tSMEA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1FDhe4fzU0KvGay0RAZ2jkFuVeJ+zuHF452BNSMRCvs=;
- b=SWsiQ98JkMbDmgN3mlVxh4QlKugy8ArzOs/BRDS5cyCx7nPrsb+j+4rHIxwZms7mwpG2MMWqZK64yXWyTdPm7xP2sjNX+xI+RYaSTz8iA7sA6/Ld+DSEMorH/bzSgyK1Fqm5++Av7CuMA4Xu7BnqhlHSy0V1XB4dBbM8gAU5lYPStu3V5sKMwQd/oAXKRpStNsqphHWRk3NHrbYFMl2A5+vLyHatiJlbuLrPaaROwuMadzA7S9RJbdQzGyla3+JZXPZLtvuSW2tsZaKPKoVv6HPjSa4tiC7Xy5GmBB4thJvld4AoQPEVm6OM3SmcfyqehWP1fFKA85Sw+yk/Httz0Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1FDhe4fzU0KvGay0RAZ2jkFuVeJ+zuHF452BNSMRCvs=;
- b=ivlC+HY9RmYB+ID0TexH76bA0jim5dBMLfB3XGtc5aMjjOXNBGY16OcMDhrX0vWz8QcpYOu+QRrsgWJ5Zisz+zkc9+cqg3UBRWOsI1sBSnkTUdmMADYwu9wTkx0OL2EJQCXfHFnfoUIn2z9SZ+rB6y553IfVsvAFg5R8kRxvTyU=
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by MWHPR10MB1776.namprd10.prod.outlook.com
- (2603:10b6:301:4::7) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4713.19; Wed, 17 Nov
- 2021 13:47:31 +0000
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::d409:11b5:5eb2:6be9]) by MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::d409:11b5:5eb2:6be9%5]) with mapi id 15.20.4690.016; Wed, 17 Nov 2021
- 13:47:31 +0000
-Date: Wed, 17 Nov 2021 16:47:20 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: xji@analogixsemi.com
-Subject: [bug report] drm/bridge: anx7625: Add anx7625 MIPI DSI/DPI to DP
-Message-ID: <20211117134720.GA6968@kili>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-ClientProxiedBy: ZR0P278CA0022.CHEP278.PROD.OUTLOOK.COM
- (2603:10a6:910:1c::9) To MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28)
+Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com
+ [IPv6:2607:f8b0:4864:20::535])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F2DD6E226
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Nov 2021 14:00:19 +0000 (UTC)
+Received: by mail-pg1-x535.google.com with SMTP id s138so2336260pgs.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Nov 2021 06:00:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=OH6t+6GIHRg0CG1WLw2l583TcotSnecp5ZKg3XsxKq4=;
+ b=ImseyeJrN9aNnVJwlmMsLJjwzLQWDpwWdK+SiqOIycbcFMCDRMonQ6/TSVls8RgDdZ
+ sLW9X/aLzT6yALgv5qEjpHWSHG154iv3K6z3PVVuAz5PAT2o6acFdnfjPk2g+O7EClYv
+ gpMvPhhOxdabdgf5Ejzrz8bKBjcLnGe24vZGRepIZDu4L/MABxZ/lOUknHKcowll7cIZ
+ cGxsD70bldSz5bkcBK5PDE2QbdvcLg5XQgNpZd7o5YD3dw5In9m078Tlbg2NmH3yk3MV
+ mtRLN2ubJEc0Cd2WQnaPV0C8rRaXjJA8O7yU3c9oyBp3KbJNYB6TU+rINfal1O50sgIL
+ gcIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=OH6t+6GIHRg0CG1WLw2l583TcotSnecp5ZKg3XsxKq4=;
+ b=mYqXFZvSW3GSdvRJXcHPTAiSHrh5NwIWFjfwzixkkAYoEYNTFb0SaPcpnfWHz1oRiA
+ 3QyPD5GqDmyb9PAtIVwd9pPevgboVKETSP6Xj6lQd4PWKFeTQs9s6pGE92FAR2F2c2tj
+ jjZ4q1saoI8ZsvEaN2G+3w8hyWoLvHNz/aVfJ3wzoBD+tfLXcjQB6yYWfEygRmPf5Wtx
+ EpLgW+YMfWtgSVJUog7h7EgsKaIPyj6aJpWMNzgCsjDGcFM7+bTLLirxU9gBCtW9jnQB
+ 76FawOf6dqqkzPCMOX9mV5oQp/46Wd279Oqw9dyRXojxQz+uifg2zjf+eG/9XHM1nPMo
+ SFhQ==
+X-Gm-Message-State: AOAM531jwQLqDCIt/qwoXd1jgJLJtZPLgvGugkqmeEz5uSWNA9giLdnu
+ c5kULfC1N6r0Da3OcZ9yTeBdaRabfTTKqC44CwyoEg==
+X-Google-Smtp-Source: ABdhPJxgLSxww5kuJzc6S+KFRA2AXFiV5ZpCLeyHJ2zPUYXN7gXRZmxtxajvD5DacB2ZtDMiQhDxeKpaLxanteBbE6E=
+X-Received: by 2002:a63:8a4a:: with SMTP id y71mr5315024pgd.378.1637157618452; 
+ Wed, 17 Nov 2021 06:00:18 -0800 (PST)
 MIME-Version: 1.0
-Received: from kili (102.222.70.114) by ZR0P278CA0022.CHEP278.PROD.OUTLOOK.COM
- (2603:10a6:910:1c::9) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4690.26 via Frontend
- Transport; Wed, 17 Nov 2021 13:47:29 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: a8ddb2eb-aea4-4fbf-56d2-08d9a9d0cd71
-X-MS-TrafficTypeDiagnostic: MWHPR10MB1776:
-X-Microsoft-Antispam-PRVS: <MWHPR10MB17768F42AF395AB4C3A0EA468E9A9@MWHPR10MB1776.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 4zSuBfofwJRlWu6sgXrB9d2lU893y0s/KhXCpDkUmNjZRA48fAymm1mAkxcm/UEldEocbkRjH7k4cS+nbCCiUkvw5O+qV+uNtMUY1VRYFQR+kWLNs7xP7JoLgDuT8IO5BN00FvENFrksE+0zxKMaHsZs2yNZt2xaBmMYG8V7QE8dGpr78hxXNiBdPfbHSet2AsacvqvxJt0XLLQQWtPLaObFvXhQcVmjtLqW+aSbpf4HLoHnuig9R2Hjjv7y9cZiOj7CqAa/DXXx1VUpZLTxr5+mUyQnQc4Dh0M1Nv8zRGkQQXRkb+G9N81fUPST3w9nKW4nMW6BdfeTGh/3UOwbXOwTRmcVSQhFkUJGpkJk8zIltDz0GrRB6AM2+IfuaMKhnufofKyJ7xM1SbAzBz8QO2oRwyJMPD0FAovVA6VsLqAEimvPlxYhZRYxI5IBJe5C3xIOiyeF5h1NdUZR8dPcF2mo9lodonZTdleYSPBlan4lVeVOv0bkw000Um7pInZQFSp+E5v1V7iGW+9qsJeAOXIRL2XFORHWfM/t+vg1kUxCii2G8OfWLwbigUVqeaULWKe6VDko18HFmYvwCa6XqOWND3fHMDSln6Na9XyTkTp+h4KPvME0LPmVYqTjyR5q8izGWhTVsdQw9TgsqPzb0xWA5+HGF+gw3w6ACCqQMEBCpdvW1y8HgyOsLsVVwRfi6cl/O9VWJj0m0AfXXXeiVw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MWHPR1001MB2365.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(366004)(9576002)(956004)(186003)(1076003)(83380400001)(316002)(508600001)(33656002)(6666004)(38350700002)(66476007)(6916009)(8936002)(38100700002)(8676002)(26005)(66946007)(4326008)(5660300002)(2906002)(9686003)(52116002)(6496006)(66556008)(33716001)(44832011)(55016002)(86362001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?UwTz9fms9sCxc6ndPEYNIHBMkasii5y5RjdEWY5ERwVp6Z8WPCuAfTuD6HEd?=
- =?us-ascii?Q?mvUjYPtd/tk0zcQvPb5zzpkhPYauDyKx+F0LUAOYYgLYW7Q/DnZ9MFXFQplj?=
- =?us-ascii?Q?CApE4gpOWPE2ml3t6rQmY3kEPIfhih7JdkP3vC9A0wxB/1/fNGciwbRq6e1z?=
- =?us-ascii?Q?bWMnN5mpDNuPqV4HauzL/U0ergh8pdd3JUDZzVgqZRdLO64VkunNa6GoSTtb?=
- =?us-ascii?Q?yleKGxtkFu/Jn7BvQmr/uljhzFEfD3P1+29RcOrz5EY+VUqCS1S7V7YuZiwS?=
- =?us-ascii?Q?inHqalBW6BYdC3opkHzlLibp8Z5RHobIp2aAVrqjsb0k0G46NIlRjslo1X4R?=
- =?us-ascii?Q?eV2WLOyBYgk23qR+HWGybF37pkogARSdHSJ4Gex/z8NUKcF8bKFDLg6sU39C?=
- =?us-ascii?Q?qUoFDhUxcOTIEqGxYgMSk9yHnX/QHlUovVN3Xievp1IpnXDGvOEndnwYRI/H?=
- =?us-ascii?Q?oINvmJU5v40xiWSUIPeVPrwWYusutCn8+YQs+qzHqucbDjAilh3kGildvDXq?=
- =?us-ascii?Q?SpJyJdsB7AapYQCQkhfo0DOZrwYirfrJObhddRAgWRnNA9hhZLap0JiMmS4p?=
- =?us-ascii?Q?F5jNOP0KXdZjcLS1JaedM3uu7UgbmrdveWcmtDalP8CpDyJaWs6FO2rCx2oe?=
- =?us-ascii?Q?q6PzHFwLolju9x/ED7GwpF/89TXFtJsBoA03sQeEJ/w1+Vhfj07w8gcEiiw3?=
- =?us-ascii?Q?nyRz9H46Wb54WGQSd5zwl83ZjOMe9I3QNKFqAF49ijFxx5DPqbHJDkpZfSJs?=
- =?us-ascii?Q?kTBrUiDMDN6OpGpFXiZLHr10QgYtYWDz+ikWbp9A/sUylevqseR5DD1u32Kk?=
- =?us-ascii?Q?zhlvbuGbgjapAVRn48OuGUtkPL2aWxtN5nbisBYcjFVpP0DjE188Z+ME4PYN?=
- =?us-ascii?Q?KgCakoM2oOfw87ReWZlKGAHbAn81q6Zge9uuja8timlw0wDv8Rxaw0z0s6ql?=
- =?us-ascii?Q?DwDBJTPuokLCUjPvG/3HAq8xkxMAb4b1MwcBPDJ7GM5bu/BZDWeYK3Md55AF?=
- =?us-ascii?Q?jlHLdZnEk3huWpI3inuPhz+c/coF0SFDFG6ox9Qr1i6hJ+OJ8Ig62QU3nS4S?=
- =?us-ascii?Q?kcYy8cEbLimS30qR+X+e3YrmVlZkXAM/51IhaOt/EPrP2IzXUeBDrOCn6kB9?=
- =?us-ascii?Q?OEUYB4cEh6HL5I+92KQBap16Ep3N9YdkqPYE4qDT2cc5Vq8A7+mU8BVPOl9M?=
- =?us-ascii?Q?7dsKI4p1+hnpBNxYxrkv50dG7vjc6GO3GDAYobcLkHUeXwNcrH0NoD1BQXie?=
- =?us-ascii?Q?dRf6xbUh+LfiiU/A3Eoebj9wFmadqblK814iLxA4L+S4LVJ0jxdxuQwLPUd/?=
- =?us-ascii?Q?WQRblF9j1fJ4iiR6/FWCGw6feb2kRVGzgxzHdVRtVzLuSjO9+Bbxg5jcXB71?=
- =?us-ascii?Q?9l2Y5u4ZTFMDlTRP261NOgZ800wBIB1gdcD7Y6HyrmOevrnA68j1pqwLulC1?=
- =?us-ascii?Q?MqI2gRXfWGWEFz9axq3C+3XLYlPU0eqvZEguKXWOKC8ZVNQUDypze+KII30B?=
- =?us-ascii?Q?q7f9DIm8UtFMe05mndLcnEykQLgIuH9aHTODOIjZHbdT7VZeMj5PjZ3skERf?=
- =?us-ascii?Q?pd9XJMTijJ75qRiRxQB3rTV4HXy4VCND4wjKDRMohQeoFSigyV9Sj89tyOKr?=
- =?us-ascii?Q?N7uG1LiCuzVot12h38G6KKaYRYCox18/koVvcW9Iy+UzjxvR/rO1fEwxPD4i?=
- =?us-ascii?Q?OKyNVmoWrnX1ldHRL5NCC74PCtM=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a8ddb2eb-aea4-4fbf-56d2-08d9a9d0cd71
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Nov 2021 13:47:31.6043 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Zh9frtA7EWuoM1RHHViw/PqMFJqi2qldX4EmBOmg/kdCcm7uqthwRSGBUHQTcSwAQFJWutAQeSlfC5Un0H01l4mCAQE9AkChlxeV7sAKDbc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR10MB1776
-X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10170
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=899
- adultscore=0 mlxscore=0
- spamscore=0 malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
- definitions=main-2111170070
-X-Proofpoint-GUID: ugSPaGuERYP0tlyqifkluZ6Cp3KR1guu
-X-Proofpoint-ORIG-GUID: ugSPaGuERYP0tlyqifkluZ6Cp3KR1guu
+References: <20211005202322.700909-1-hdegoede@redhat.com>
+ <20211005202322.700909-11-hdegoede@redhat.com>
+In-Reply-To: <20211005202322.700909-11-hdegoede@redhat.com>
+From: Rajat Jain <rajatja@google.com>
+Date: Wed, 17 Nov 2021 05:59:42 -0800
+Message-ID: <CACK8Z6GWdv9cbzk+8Ym90+3FjeToarhBjON8RGXQ9Dc0_zAKtg@mail.gmail.com>
+Subject: Re: [PATCH 10/10] drm/i915: Add privacy-screen support (v3)
+To: Hans de Goede <hdegoede@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -151,51 +62,153 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Mark Pearson <markpearson@lenovo.com>,
+ Marco Trevisan <marco.trevisan@canonical.com>,
+ Sebastien Bacher <seb128@ubuntu.com>, David Airlie <airlied@linux.ie>,
+ Emil Velikov <emil.l.velikov@gmail.com>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ platform-driver-x86@vger.kernel.org, Mark Gross <markgross@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Andy Shevchenko <andy@infradead.org>,
+ Mario Limonciello <mario.limonciello@outlook.com>,
+ Pekka Paalanen <pekka.paalanen@collabora.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Xin Ji,
+Hello Hans,
 
-The patch 8bdfc5dae4e3: "drm/bridge: anx7625: Add anx7625 MIPI
-DSI/DPI to DP" from Sep 18, 2020, leads to the following Smatch
-static checker warning:
+I'm working on my platform's privacy-screen support based on your
+patches, and had some (I know late) questions. Would be great if you
+could please help answer. Please see inline.
 
-	drivers/gpu/drm/bridge/analogix/anx7625.c:1050 anx7625_init_gpio()
-	warn: 'platform->pdata.gpio_p_on' could be an error pointer
+On Tue, Oct 5, 2021 at 1:25 PM Hans de Goede <hdegoede@redhat.com> wrote:
+>
+> Add support for eDP panels with a built-in privacy screen using the
+> new drm_privacy_screen class.
+>
+> Changes in v3:
+> - Move drm_privacy_screen_get() call to intel_ddi_init_dp_connector()
+>
+> Changes in v2:
+> - Call drm_connector_update_privacy_screen() from
+>   intel_enable_ddi_dp() / intel_ddi_update_pipe_dp() instead of adding a
+>   for_each_new_connector_in_state() loop to intel_atomic_commit_tail()
+> - Move the probe-deferral check to the intel_modeset_probe_defer() helper
+>
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> ---
+>  drivers/gpu/drm/i915/display/intel_atomic.c  |  1 +
+>  drivers/gpu/drm/i915/display/intel_ddi.c     | 16 ++++++++++++++++
+>  drivers/gpu/drm/i915/display/intel_display.c | 10 ++++++++++
+>  3 files changed, 27 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/i915/display/intel_atomic.c b/drivers/gpu/drm/i915/display/intel_atomic.c
+> index b4e7ac51aa31..a62550711e98 100644
+> --- a/drivers/gpu/drm/i915/display/intel_atomic.c
+> +++ b/drivers/gpu/drm/i915/display/intel_atomic.c
+> @@ -139,6 +139,7 @@ int intel_digital_connector_atomic_check(struct drm_connector *conn,
+>             new_conn_state->base.picture_aspect_ratio != old_conn_state->base.picture_aspect_ratio ||
+>             new_conn_state->base.content_type != old_conn_state->base.content_type ||
+>             new_conn_state->base.scaling_mode != old_conn_state->base.scaling_mode ||
+> +           new_conn_state->base.privacy_screen_sw_state != old_conn_state->base.privacy_screen_sw_state ||
+>             !drm_connector_atomic_hdr_metadata_equal(old_state, new_state))
+>                 crtc_state->mode_changed = true;
+>
+> diff --git a/drivers/gpu/drm/i915/display/intel_ddi.c b/drivers/gpu/drm/i915/display/intel_ddi.c
+> index 0d4cf7fa8720..272714e07cc6 100644
+> --- a/drivers/gpu/drm/i915/display/intel_ddi.c
+> +++ b/drivers/gpu/drm/i915/display/intel_ddi.c
+> @@ -25,6 +25,7 @@
+>   *
+>   */
+>
+> +#include <drm/drm_privacy_screen_consumer.h>
+>  #include <drm/drm_scdc_helper.h>
+>
+>  #include "i915_drv.h"
+> @@ -2946,6 +2947,7 @@ static void intel_enable_ddi_dp(struct intel_atomic_state *state,
+>         if (port == PORT_A && DISPLAY_VER(dev_priv) < 9)
+>                 intel_dp_stop_link_train(intel_dp, crtc_state);
+>
+> +       drm_connector_update_privacy_screen(conn_state);
+>         intel_edp_backlight_on(crtc_state, conn_state);
+>
+>         if (!dig_port->lspcon.active || dig_port->dp.has_hdmi_sink)
+> @@ -3161,6 +3163,7 @@ static void intel_ddi_update_pipe_dp(struct intel_atomic_state *state,
+>         intel_drrs_update(intel_dp, crtc_state);
+>
+>         intel_backlight_update(state, encoder, crtc_state, conn_state);
+> +       drm_connector_update_privacy_screen(conn_state);
+>  }
+>
+>  void intel_ddi_update_pipe(struct intel_atomic_state *state,
+> @@ -3979,6 +3982,19 @@ intel_ddi_init_dp_connector(struct intel_digital_port *dig_port)
+>                 return NULL;
+>         }
+>
+> +       if (dig_port->base.type == INTEL_OUTPUT_EDP) {
+> +               struct drm_device *dev = dig_port->base.base.dev;
+> +               struct drm_privacy_screen *privacy_screen;
+> +
+> +               privacy_screen = drm_privacy_screen_get(dev->dev, NULL);
 
-	drivers/gpu/drm/bridge/analogix/anx7625.c:1050 anx7625_init_gpio()
-	warn: 'platform->pdata.gpio_reset' could be an error pointer
+Why pass NULL for con_id? Can we pass something more meaningful (e.g.
+"eDP-1") so that the non-KMS platform components that provide the
+privacy-screen can provide a more specific lookup? Or is that
+information (connector name) not available at the time this call is
+being made?
 
-drivers/gpu/drm/bridge/analogix/anx7625.c
-    1037 static void anx7625_init_gpio(struct anx7625_data *platform)
-    1038 {
-    1039         struct device *dev = &platform->client->dev;
-    1040 
-    1041         DRM_DEV_DEBUG_DRIVER(dev, "init gpio\n");
-    1042 
-    1043         /* Gpio for chip power enable */
-    1044         platform->pdata.gpio_p_on =
-    1045                 devm_gpiod_get_optional(dev, "enable", GPIOD_OUT_LOW);
-    1046         /* Gpio for chip reset */
-    1047         platform->pdata.gpio_reset =
-    1048                 devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_LOW);
-    1049 
---> 1050         if (platform->pdata.gpio_p_on && platform->pdata.gpio_reset) {
-    1051                 platform->pdata.low_power_mode = 1;
-    1052                 DRM_DEV_DEBUG_DRIVER(dev, "low power mode, pon %d, reset %d.\n",
-    1053                                      desc_to_gpio(platform->pdata.gpio_p_on),
-                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^
-    1054                                      desc_to_gpio(platform->pdata.gpio_reset));
-                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^
-This will crash here but only when there is an error and debugging is
-enabled.
+Thanks,
 
-    1055         } else {
-    1056                 platform->pdata.low_power_mode = 0;
-    1057                 DRM_DEV_DEBUG_DRIVER(dev, "not low power mode.\n");
-    1058         }
-    1059 }
+Rajat
 
-regards,
-dan carpenter
+
+> +               if (!IS_ERR(privacy_screen)) {
+> +                       drm_connector_attach_privacy_screen_provider(&connector->base,
+> +                                                                    privacy_screen);
+> +               } else if (PTR_ERR(privacy_screen) != -ENODEV) {
+> +                       drm_warn(dev, "Error getting privacy-screen\n");
+> +               }
+> +       }
+> +
+>         return connector;
+>  }
+>
+> diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
+> index 86dbe366a907..84715a779d9d 100644
+> --- a/drivers/gpu/drm/i915/display/intel_display.c
+> +++ b/drivers/gpu/drm/i915/display/intel_display.c
+> @@ -42,6 +42,7 @@
+>  #include <drm/drm_edid.h>
+>  #include <drm/drm_fourcc.h>
+>  #include <drm/drm_plane_helper.h>
+> +#include <drm/drm_privacy_screen_consumer.h>
+>  #include <drm/drm_probe_helper.h>
+>  #include <drm/drm_rect.h>
+>
+> @@ -12769,6 +12770,8 @@ void intel_modeset_driver_remove_nogem(struct drm_i915_private *i915)
+>
+>  bool intel_modeset_probe_defer(struct pci_dev *pdev)
+>  {
+> +       struct drm_privacy_screen *privacy_screen;
+> +
+>         /*
+>          * apple-gmux is needed on dual GPU MacBook Pro
+>          * to probe the panel if we're the inactive GPU.
+> @@ -12776,6 +12779,13 @@ bool intel_modeset_probe_defer(struct pci_dev *pdev)
+>         if (vga_switcheroo_client_probe_defer(pdev))
+>                 return true;
+>
+> +       /* If the LCD panel has a privacy-screen, wait for it */
+> +       privacy_screen = drm_privacy_screen_get(&pdev->dev, NULL);
+> +       if (IS_ERR(privacy_screen) && PTR_ERR(privacy_screen) == -EPROBE_DEFER)
+> +               return true;
+> +
+> +       drm_privacy_screen_put(privacy_screen);
+> +
+>         return false;
+>  }
+>
+> --
+> 2.31.1
+>
