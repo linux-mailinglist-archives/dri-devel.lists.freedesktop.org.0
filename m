@@ -1,38 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0433B4548D9
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Nov 2021 15:32:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AE96454861
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Nov 2021 15:19:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5766E6E4BB;
-	Wed, 17 Nov 2021 14:32:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A39C76E051;
+	Wed, 17 Nov 2021 14:19:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 985 seconds by postgrey-1.36 at gabe;
- Wed, 17 Nov 2021 14:32:43 UTC
-Received: from fireflyinternet.com (unknown [77.68.26.236])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 829E76E483;
- Wed, 17 Nov 2021 14:32:43 +0000 (UTC)
-X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
- x-ip-name=78.156.69.177; 
-Received: from localhost (unverified [78.156.69.177]) 
- by fireflyinternet.com (Firefly Internet (M1)) with ESMTP (TLS) id
- 151790-1500050 for multiple; Wed, 17 Nov 2021 14:16:15 +0000
-Content-Type: text/plain; charset="utf-8"
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
+ [IPv6:2a00:1450:4864:20::42f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D2406E051
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Nov 2021 14:19:34 +0000 (UTC)
+Received: by mail-wr1-x42f.google.com with SMTP id u18so5029327wrg.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Nov 2021 06:19:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=lTpj41wlatlvEOOTWdJ86pNPmWOe3YwQkPPBmTMqboc=;
+ b=JAdqxb+JXPDYkJ4L3U+qtUjTyDRVILudB+ekQB8hrB4HvMWoAyu17hDsX+UQu98u82
+ gf+Q4Z8fa0Q9QcU05jSWkPodrCBusHbS53m0ihmeyl30Q174dCACsgAJzQ9UzbRjSWLa
+ Z8pNp9stptvgYUsSLNWBAV81CWmclWaFXbOT8qh7ksthrzQ0CUvZbiDSaR+FqrEbePyD
+ pKoRnk95KTO/FWCNxf/Rh+A0vk0+Gn+jqOUrFYppH9UdY1E4Tcr8pA2lV1FM/kgTx1Ct
+ 9uWZETSRtLCPhqeSGp6VCPVR1Pk9xFQFGfcP+h2Zd0Xn3bFv5lguVDsDPNNHPVwtsUQN
+ OzGQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=lTpj41wlatlvEOOTWdJ86pNPmWOe3YwQkPPBmTMqboc=;
+ b=Gt1ItHuR9QKPw6at4BLj+pRf+C0ikZ2yDZGHJ296M1boumXIyS/bJBgsd3FHIPl1X8
+ tWms9W7KwrPeOF/lxh2OnuYCheZebmaaM3EfHmb4tl6bRYT67EWuOb4VROsjPgC83L0a
+ 5LfwXSsAaQqG8J3Kjp6cJBrr2F+TXof1Mmg3e5+vLd97PLu2N2eb2qmq9A7yY9Ka+YCA
+ VwTcxzUPRlP8ZlkkiNUygFp9GBtWpAU4itIF6UmrdmUtD9XzKPoFdWZi8+lo4Vs/qFkY
+ JJ9otRbR8ivaY48fLBD+rxMUtcb3Kr7aHWzY4fj4ji7PMUKgMPJXFYxbq7H3ueTDL4K/
+ NHqw==
+X-Gm-Message-State: AOAM531DOfHYCMr8URcjH8Q6YIDCrvz8Vei77Gs7iB/z4q8r0vBIkot+
+ 9kToh9l8NzR4BUMNaWcHii8ZtQ==
+X-Google-Smtp-Source: ABdhPJyYPnJS7Jg9fL1Eq8HVSMnUZMbxBCIgntBBvJCs083MNBAlOxqTGfl9JHof6Nok6LbpWat1WA==
+X-Received: by 2002:adf:cd02:: with SMTP id w2mr20112636wrm.269.1637158772243; 
+ Wed, 17 Nov 2021 06:19:32 -0800 (PST)
+Received: from localhost.localdomain ([2001:861:44c0:66c0:f98b:434c:566c:492d])
+ by smtp.gmail.com with ESMTPSA id o10sm33803wri.15.2021.11.17.06.19.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 17 Nov 2021 06:19:31 -0800 (PST)
+From: Neil Armstrong <narmstrong@baylibre.com>
+To: tomba@kernel.org
+Subject: [PATCH v7 0/9] drm/omap: Add virtual-planes support
+Date: Wed, 17 Nov 2021 15:19:19 +0100
+Message-Id: <20211117141928.771082-1-narmstrong@baylibre.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20211117133456.688802-3-andi.shyti@linux.intel.com>
-References: <20211117133456.688802-1-andi.shyti@linux.intel.com>
- <20211117133456.688802-3-andi.shyti@linux.intel.com>
-Subject: Re: [Intel-gfx] [PATCH 2/2] drm/i915: Rename gt to gt0
-From: Chris Wilson <chris@chris-wilson.co.uk>
-To: Andi Shyti <andi.shyti@linux.intel.com>,
- DRI Devel <dri-devel@lists.freedesktop.org>,
- Intel GFX <intel-gfx@lists.freedesktop.org>
-Date: Wed, 17 Nov 2021 14:16:13 +0000
-Message-ID: <163715857341.11567.6516227738264680366@build.alporthouse.com>
-User-Agent: alot/0.9
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4068; h=from:subject;
+ bh=IufT1SRAVR2kpm7z++ON7/GsKopsfuGddFs3YpdyjY8=;
+ b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBhlQ9J5eEPQrJZXDY4Bc+LEhAr/2d0iETg/wocCPiz
+ 6hqEIzKJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCYZUPSQAKCRB33NvayMhJ0boYD/
+ 9VoM8FycW/3lBTMY4hPsXUmiRFFsczJBeiEPAXyCOiJpIgXyrM1VSHqYkSbjamfK7h0pM2rLBYssjt
+ PA2gp4Pc3XVsRGQe9fgJCzR08253zi9dpMB93OXljmB9HmzTskuoPvf9zRzGl0asi77ozKY7649ZPH
+ QLDCEe2kfGxdHI6B+P8MCNXPxNZVlVTxpKomH8T/BdgItHf7Xo4Rs/11qLHQFu3e8U72PXsJwti/Yp
+ N8N22OpDYALfyUXM77qxRPrW91l9dnqMeC1sLouyOe+MWZ8TV+F0T+ZdDdZ0wl4e+aHq3MR0dwvmlv
+ BNqgenY/2uTL1+B+7z/Ygj7oQ/QaVYFBWotSMusTd14wPWxhyyDhT3SwD4ybvfUu2rXFpjZ5i4cy03
+ 7rCbbPSXNX2DzUQ2lRD7iy2UZasnEACHnET8Mt+0D2I5S6wtP7CI1S8mAxMjN85I0dTHqVQqxIx29c
+ YCbZatkx17/CgiHmZLXyGqTPZIIyq9JZuBalNqUQmxMHoxyKTs8Qc6qzjnFYNDv3s1CLEetUH+XNGV
+ gnwrSIn+TA8FoB2+yvwcSupXAW+JHdaMhFmYqHJMe5fLo63fUB9UVwQCTm3ozHz7rY8vEAklUKmRT8
+ xtasRzlm4jwywT52qn/iefCKVI/IXaZzFj2chlPWDSHMyV7asVS6BIlwAOKQ==
+X-Developer-Key: i=narmstrong@baylibre.com; a=openpgp;
+ fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,138 +81,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>, Michał Winiarski <michal.winiarski@intel.com>
+Cc: khilman@baylibre.com, linux-omap@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Neil Armstrong <narmstrong@baylibre.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Andi Shyti (2021-11-17 13:34:56)
-> diff --git a/drivers/gpu/drm/i915/display/intel_atomic_plane.c b/drivers/=
-gpu/drm/i915/display/intel_atomic_plane.c
-> index 089fb4658b216..0bbf8c0c42eac 100644
-> --- a/drivers/gpu/drm/i915/display/intel_atomic_plane.c
-> +++ b/drivers/gpu/drm/i915/display/intel_atomic_plane.c
-> @@ -817,7 +817,7 @@ intel_prepare_plane_fb(struct drm_plane *_plane,
->          * maximum clocks following a vblank miss (see do_rps_boost()).
->          */
->         if (!state->rps_interactive) {
-> -               intel_rps_mark_interactive(&dev_priv->gt.rps, true);
-> +               intel_rps_mark_interactive(&dev_priv->gt0.rps, true);
+This patchset is the follow-up the v4 patchset from Benoit Parrot at [1].
 
-This should be across all gt, so probably wants a fresh interface that
-takes i915 and does for_each_gt in a later patch. (Since we could be
-rendering on a remote tile to present on a display.)
+This patch series adds virtual-plane support to omapdrm driver to allow the use
+of display wider than 2048 pixels.
 
->                 state->rps_interactive =3D true;
->         }
-> =20
-> @@ -851,7 +851,7 @@ intel_cleanup_plane_fb(struct drm_plane *plane,
->                 return;
-> =20
->         if (state->rps_interactive) {
-> -               intel_rps_mark_interactive(&dev_priv->gt.rps, false);
-> +               intel_rps_mark_interactive(&dev_priv->gt0.rps, false);
->                 state->rps_interactive =3D false;
->         }
-> =20
-> diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/d=
-rm/i915/display/intel_display.c
-> index 0ceee8ac66717..d4fcd8f236476 100644
-> --- a/drivers/gpu/drm/i915/display/intel_display.c
-> +++ b/drivers/gpu/drm/i915/display/intel_display.c
-> @@ -838,7 +838,7 @@ __intel_display_resume(struct drm_device *dev,
->  static bool gpu_reset_clobbers_display(struct drm_i915_private *dev_priv)
->  {
->         return (INTEL_INFO(dev_priv)->gpu_reset_clobbers_display &&
-> -               intel_has_gpu_reset(&dev_priv->gt));
-> +               intel_has_gpu_reset(&dev_priv->gt0));
+In order to do so we introduce the concept of hw_overlay which can then be
+dynamically allocated to a plane. When the requested output width exceed what
+be supported by one overlay a second is then allocated if possible to handle
+display wider then 2048.
 
-All these display consumers probably want to use
-dev_priv->ggtt->vm.gt, since the scanout capable GGTT would seem to be
-the defining feature.
+This series replaces an earlier series which was DT based and using statically
+allocated resources.
 
-to_scanout_gt(i915) ?
+This implementation is inspired from the work done in msm/disp/mdp5
+driver.
 
->  static bool pxp_is_borked(struct drm_i915_gem_object *obj)
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/dr=
-m/i915/gem/i915_gem_context.c
-> index ebd775cb1661c..c62253d0af044 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> @@ -237,7 +237,7 @@ static int proto_context_set_persistence(struct drm_i=
-915_private *i915,
->                  * colateral damage, and we should not pretend we can by
->                  * exposing the interface.
->                  */
-> -               if (!intel_has_reset_engine(&i915->gt))
-> +               if (!intel_has_reset_engine(&i915->gt0))
->                         return -ENODEV;
+Changes since v6 at [3]:
+- Patch 1: Added comment for drm_atomic_helper_check_plane_state, added Reviewed-by
+- Patch 2: added Reviewed-by
+- Patch 3: added Reviewed-by
+- Patch 4: added Reviewed-by
+- Patch 5: added Reviewed-by
+- Patch 6: No changes
+- Patch 7: No changes
+- Patch 8: Reformatted omap_plane_atomic_print_state() output for overlays
+- Patch 9: Added a comment of the utility of the local omap_atomic_update_normalize_zpos() + atomic_print_state() reformat
 
-Prep for all gt. A lot of these need an all-gt interface so we don't
-have for_each_gt spread all other the place.
+Changes since v5 at [2]:
+- Patch 1: renamed width/height_fp to max_width/height
+- Patch 2: no changes
+- Patch 3: removed possible_crtcs stuff,
+	added cleanup on failure to allocate,
+	removed name in omap_plane struct & plane_id_to_name in omap_plane.c,
+	switched all omap_plane->name to plane->name or omap_plane->id
+- Patch 4: aligned omap_plane_atomic_duplicate_state the the crtc style
+- Patch 5: removed glob_obj_lock & reformated global state declaration in omap_drv.h
+- Patch 6: moved drm_atomic_helper_check_plane_state() from atomic_check() in separate commit,
+	removed zpos change, updated debug messages to be useful,
+	renamed omap_overlay_disable() to omap_overlay_update_state(),
+	added useful comments for omap_overlay_assign() & omap_overlay_update_state(),
+	simplified omap_overlay_assign() & omap_overlay_update_state() for actual use-cases,
+	refactored omap_plane_atomic_check() changes to be cleaner & simpler
+- Patch 7: no changes (except possible_crtcs print removal)
+- Patch 8: Reformated omap_plane_atomic_check() & omap_overlay_assign() changes to match previous patches layout 
 
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c b/drivers/gpu/d=
-rm/i915/gem/i915_gem_ttm_move.c
-> index ef22d4ed66ad6..69ad407eb15f3 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
-> @@ -166,7 +166,7 @@ static struct dma_fence *i915_ttm_accel_move(struct t=
-tm_buffer_object *bo,
->         enum i915_cache_level src_level, dst_level;
->         int ret;
-> =20
-> -       if (!i915->gt.migrate.context || intel_gt_is_wedged(&i915->gt))
-> +       if (!i915->gt0.migrate.context || intel_gt_is_wedged(&i915->gt0))
+Changes since v4 at [1]:
+- rebased on v5.15-rc2
+- adapted to drm_atomic_get_new/old_plane_state()
+- tested on Beagle-x15
+- checked for non-regression on Beagle-x15
+- removed unused "state" variable in omap_global_state
 
-This should already be looking at lmem->gt
+[1] https://lore.kernel.org/all/20181012201703.29065-1-bparrot@ti.com/
+[2] https://lore.kernel.org/all/20210923070701.145377-1-narmstrong@baylibre.com/
+[3] https://lore.kernel.org/all/20211018142842.2511200-1-narmstrong@baylibre.com
 
-> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_user.c b/drivers/gpu/dr=
-m/i915/gt/intel_engine_user.c
-> index 8f8bea08e734d..176ea5c7d422f 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_engine_user.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_engine_user.c
-> @@ -116,7 +116,7 @@ static void set_scheduler_caps(struct drm_i915_privat=
-e *i915)
->                         disabled |=3D (I915_SCHEDULER_CAP_ENABLED |
->                                      I915_SCHEDULER_CAP_PRIORITY);
-> =20
-> -               if (intel_uc_uses_guc_submission(&i915->gt.uc))
-> +               if (intel_uc_uses_guc_submission(&i915->gt0.uc))
+Benoit Parrot (8):
+  drm/omap: Add ability to check if requested plane modes can be
+    supported
+  drm/omap: Add ovl checking funcs to dispc_ops
+  drm/omap: introduce omap_hw_overlay
+  drm/omap: omap_plane: subclass drm_plane_state
+  drm/omap: Add global state as a private atomic object
+  drm/omap: dynamically assign hw overlays to planes
+  drm/omap: add plane_atomic_print_state support
+  drm/omap: Add a 'right overlay' to plane state
 
-This shouldn't be looking at gt at all, but if it must, that information
-must be coming via engine->gt. Kind of renders the mapping moot
-currently.
-> diff --git a/drivers/gpu/drm/i915/gt/intel_rps.c b/drivers/gpu/drm/i915/g=
-t/intel_rps.c
-> index 07ff7ba7b2b71..63089e671a242 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_rps.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_rps.c
-> @@ -2302,7 +2302,7 @@ unsigned long i915_read_mch_val(void)
->                 return 0;
-> =20
->         with_intel_runtime_pm(&i915->runtime_pm, wakeref) {
-> -               struct intel_ips *ips =3D &i915->gt.rps.ips;
-> +               struct intel_ips *ips =3D &i915->gt0.rps.ips;
+Neil Armstrong (1):
+  drm/omap: add sanity plane state check
 
-Make mchdev_get() return the gt or rps, at the slight cost of making the
-drm_dev_put() more complicated (but can be pushed into a mchdev_put for
-symmetry).
+ drivers/gpu/drm/omapdrm/Makefile       |   1 +
+ drivers/gpu/drm/omapdrm/dss/dispc.c    |  31 ++-
+ drivers/gpu/drm/omapdrm/dss/dss.h      |   5 +
+ drivers/gpu/drm/omapdrm/omap_drv.c     | 196 +++++++++++++-
+ drivers/gpu/drm/omapdrm/omap_drv.h     |  24 ++
+ drivers/gpu/drm/omapdrm/omap_fb.c      |  33 ++-
+ drivers/gpu/drm/omapdrm/omap_fb.h      |   4 +-
+ drivers/gpu/drm/omapdrm/omap_overlay.c | 212 +++++++++++++++
+ drivers/gpu/drm/omapdrm/omap_overlay.h |  35 +++
+ drivers/gpu/drm/omapdrm/omap_plane.c   | 349 +++++++++++++++++++++----
+ drivers/gpu/drm/omapdrm/omap_plane.h   |   1 +
+ 11 files changed, 832 insertions(+), 59 deletions(-)
+ create mode 100644 drivers/gpu/drm/omapdrm/omap_overlay.c
+ create mode 100644 drivers/gpu/drm/omapdrm/omap_overlay.h
 
-> diff --git a/drivers/gpu/drm/i915/gt/intel_workarounds.c b/drivers/gpu/dr=
-m/i915/gt/intel_workarounds.c
-> index a9727447c0379..4bfedc04f5c70 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_workarounds.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_workarounds.c
-> @@ -936,7 +936,7 @@ hsw_gt_workarounds_init(struct intel_gt *gt, struct i=
-915_wa_list *wal)
->  static void
->  gen9_wa_init_mcr(struct drm_i915_private *i915, struct i915_wa_list *wal)
->  {
-> -       const struct sseu_dev_info *sseu =3D &i915->gt.info.sseu;
-> +       const struct sseu_dev_info *sseu =3D &i915->gt0.info.sseu;
 
-This feels like it should be pulling from uncore->gt, since the MCR is
-across an uncore.
+base-commit: 49c39ec4670a8f045729e3717af2e1a74caf89a5
+-- 
+2.25.1
 
-Overall though, rather than introduce bare &i915->gt0, how about pulling in
-the patch for to_gt(i915)?
--Chris
