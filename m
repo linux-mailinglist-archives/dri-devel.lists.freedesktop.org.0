@@ -1,55 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60B894547EB
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Nov 2021 15:00:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C7D48454839
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Nov 2021 15:09:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C29056E09E;
-	Wed, 17 Nov 2021 14:00:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1F586E3E3;
+	Wed, 17 Nov 2021 14:09:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com
- [IPv6:2607:f8b0:4864:20::535])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F2DD6E226
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Nov 2021 14:00:19 +0000 (UTC)
-Received: by mail-pg1-x535.google.com with SMTP id s138so2336260pgs.4
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Nov 2021 06:00:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=OH6t+6GIHRg0CG1WLw2l583TcotSnecp5ZKg3XsxKq4=;
- b=ImseyeJrN9aNnVJwlmMsLJjwzLQWDpwWdK+SiqOIycbcFMCDRMonQ6/TSVls8RgDdZ
- sLW9X/aLzT6yALgv5qEjpHWSHG154iv3K6z3PVVuAz5PAT2o6acFdnfjPk2g+O7EClYv
- gpMvPhhOxdabdgf5Ejzrz8bKBjcLnGe24vZGRepIZDu4L/MABxZ/lOUknHKcowll7cIZ
- cGxsD70bldSz5bkcBK5PDE2QbdvcLg5XQgNpZd7o5YD3dw5In9m078Tlbg2NmH3yk3MV
- mtRLN2ubJEc0Cd2WQnaPV0C8rRaXjJA8O7yU3c9oyBp3KbJNYB6TU+rINfal1O50sgIL
- gcIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=OH6t+6GIHRg0CG1WLw2l583TcotSnecp5ZKg3XsxKq4=;
- b=mYqXFZvSW3GSdvRJXcHPTAiSHrh5NwIWFjfwzixkkAYoEYNTFb0SaPcpnfWHz1oRiA
- 3QyPD5GqDmyb9PAtIVwd9pPevgboVKETSP6Xj6lQd4PWKFeTQs9s6pGE92FAR2F2c2tj
- jjZ4q1saoI8ZsvEaN2G+3w8hyWoLvHNz/aVfJ3wzoBD+tfLXcjQB6yYWfEygRmPf5Wtx
- EpLgW+YMfWtgSVJUog7h7EgsKaIPyj6aJpWMNzgCsjDGcFM7+bTLLirxU9gBCtW9jnQB
- 76FawOf6dqqkzPCMOX9mV5oQp/46Wd279Oqw9dyRXojxQz+uifg2zjf+eG/9XHM1nPMo
- SFhQ==
-X-Gm-Message-State: AOAM531jwQLqDCIt/qwoXd1jgJLJtZPLgvGugkqmeEz5uSWNA9giLdnu
- c5kULfC1N6r0Da3OcZ9yTeBdaRabfTTKqC44CwyoEg==
-X-Google-Smtp-Source: ABdhPJxgLSxww5kuJzc6S+KFRA2AXFiV5ZpCLeyHJ2zPUYXN7gXRZmxtxajvD5DacB2ZtDMiQhDxeKpaLxanteBbE6E=
-X-Received: by 2002:a63:8a4a:: with SMTP id y71mr5315024pgd.378.1637157618452; 
- Wed, 17 Nov 2021 06:00:18 -0800 (PST)
+Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
+ [66.111.4.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1755E6E3D6
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Nov 2021 14:09:07 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.nyi.internal (Postfix) with ESMTP id 3F30F5C01D9;
+ Wed, 17 Nov 2021 09:09:05 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute5.internal (MEProxy); Wed, 17 Nov 2021 09:09:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ from:to:cc:subject:date:message-id:content-type:mime-version
+ :content-transfer-encoding; s=fm1; bh=w32oeM9Am+1mdq+38r0Dx3KDGF
+ KzDewpUGPl3LQfuIQ=; b=RtGJ0OZxpsue0iYXWQ+WmW6ZJUYJv2KLTfT8ChmvsK
+ PkeY30Jp37WfcMie5wjzSfcM4Jqd5V3rCWQW5qptBRMcA5PiD4UGmGFsI6o5yNTh
+ UgerR3wXoBU8fmUXeQ9BCCGgJYnZi1vMjFJfXsDIjr8WSpftVn91upYmCjrHoUto
+ DtMWF9Mt3E6VRzO+0uvyBqXDdPWCtge/AuCmhWWawMdum0ooWcfCwzDVzTwLZxqo
+ jUwjfLq7xEPLBa/EfV4soZK4HuU9Jemj5PHN50/wywRFQqLISgBgIdx/VEg9mUBb
+ 1klEp+zax6BZAActzsas6fB7F3Cok/BxBOYAUeNhW69Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:message-id:mime-version:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=w32oeM
+ 9Am+1mdq+38r0Dx3KDGFKzDewpUGPl3LQfuIQ=; b=Cw4pVudKJ1K99S/+uYyb6n
+ mZblfd2+xdt9GhiFNnUwVijE2M3zRLv0VluewwUAC4umMvOUE9zfC0gr8JiOZYRM
+ MH0o/Bpmk6CxkyvHdKwGIp28VKpYyRTmUKoZDUHXi8NpYkCIu0P4wKjaA5+s13Kw
+ AFrjPMIUM5hucFrvQlDr6g6jXVePzGnq+gMBp2t/X1tOCRLyzeT9CBv6fv8WOWGS
+ 12wzfIHVZl3VJKrmAA6wTerplrX49Ue1QSx/gzNpoFO3wpK02bmf0YG5eyphx8ph
+ sQMIJp9SjvuGaVWtfzVnZYwoXvpHBmJUsT68w0/NikkyH3VlixGgMHfuIbviBYBg
+ ==
+X-ME-Sender: <xms:_wyVYZOGA0E49mkLQchi06mw6IJVY9H67TIV3TbkgiFjNzfk94bAbg>
+ <xme:_wyVYb964qodjmixR5aXVANUcbmZMxyp4V0Am7NwRou2oyY_uNeE1MiaTBnELJqzy
+ 5S4DEqlPaR_552-Kro>
+X-ME-Received: <xmr:_wyVYYQ1Kv6x3wRQQSxg17H0mPNM8o2SFgdzOWFkul4IPiNNeYMsaEV4eY5jG9DBz0a56ZGgM2A9qmXeOkCQvibOuPfN0IHQd51TY8iuYgE>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrfeeggdehhecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefhvffufffkofgtggfgsehtqhertdertdejnecuhfhrohhmpeforgigihhmvgcu
+ tfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrthhtvg
+ hrnhepteeikefgffekgeekledtheduteetjefgkeeuvefhhfetgedugfektdeugeffgfef
+ necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgi
+ himhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:_wyVYVvNoDbuI35oZYg5vTsgOkLKXiqq9frX08P_ENQ6TM8-_iy_bw>
+ <xmx:_wyVYRf2HjHvft09qDCRmYGAlPEdzghU-73Vg-7sHr-mvvjZ4-6PRQ>
+ <xmx:_wyVYR0OYgsm0iG6Ug4zk3PZ5m1iDlab50VZAe3wVvpP-uOB2S1rNQ>
+ <xmx:AQ2VYQyHodQ4VpmMQKI878B5RvjNYfN9grBCxgv3kvTAin4okWx99g>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 17 Nov 2021 09:09:03 -0500 (EST)
+From: Maxime Ripard <maxime@cerno.tech>
+To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>
+Subject: [PATCH 0/3] drm/vc4: Support for 30 bits YUV formats
+Date: Wed, 17 Nov 2021 15:08:57 +0100
+Message-Id: <20211117140900.313181-1-maxime@cerno.tech>
+X-Mailer: git-send-email 2.33.1
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20211005202322.700909-1-hdegoede@redhat.com>
- <20211005202322.700909-11-hdegoede@redhat.com>
-In-Reply-To: <20211005202322.700909-11-hdegoede@redhat.com>
-From: Rajat Jain <rajatja@google.com>
-Date: Wed, 17 Nov 2021 05:59:42 -0800
-Message-ID: <CACK8Z6GWdv9cbzk+8Ym90+3FjeToarhBjON8RGXQ9Dc0_zAKtg@mail.gmail.com>
-Subject: Re: [PATCH 10/10] drm/i915: Add privacy-screen support (v3)
-To: Hans de Goede <hdegoede@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,153 +79,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Pearson <markpearson@lenovo.com>,
- Marco Trevisan <marco.trevisan@canonical.com>,
- Sebastien Bacher <seb128@ubuntu.com>, David Airlie <airlied@linux.ie>,
- Emil Velikov <emil.l.velikov@gmail.com>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- platform-driver-x86@vger.kernel.org, Mark Gross <markgross@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Andy Shevchenko <andy@infradead.org>,
- Mario Limonciello <mario.limonciello@outlook.com>,
- Pekka Paalanen <pekka.paalanen@collabora.com>, dri-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, Dom Cobley <dom@raspberrypi.com>,
+ Phil Elwell <phil@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Hans,
-
-I'm working on my platform's privacy-screen support based on your
-patches, and had some (I know late) questions. Would be great if you
-could please help answer. Please see inline.
-
-On Tue, Oct 5, 2021 at 1:25 PM Hans de Goede <hdegoede@redhat.com> wrote:
->
-> Add support for eDP panels with a built-in privacy screen using the
-> new drm_privacy_screen class.
->
-> Changes in v3:
-> - Move drm_privacy_screen_get() call to intel_ddi_init_dp_connector()
->
-> Changes in v2:
-> - Call drm_connector_update_privacy_screen() from
->   intel_enable_ddi_dp() / intel_ddi_update_pipe_dp() instead of adding a
->   for_each_new_connector_in_state() loop to intel_atomic_commit_tail()
-> - Move the probe-deferral check to the intel_modeset_probe_defer() helper
->
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> ---
->  drivers/gpu/drm/i915/display/intel_atomic.c  |  1 +
->  drivers/gpu/drm/i915/display/intel_ddi.c     | 16 ++++++++++++++++
->  drivers/gpu/drm/i915/display/intel_display.c | 10 ++++++++++
->  3 files changed, 27 insertions(+)
->
-> diff --git a/drivers/gpu/drm/i915/display/intel_atomic.c b/drivers/gpu/drm/i915/display/intel_atomic.c
-> index b4e7ac51aa31..a62550711e98 100644
-> --- a/drivers/gpu/drm/i915/display/intel_atomic.c
-> +++ b/drivers/gpu/drm/i915/display/intel_atomic.c
-> @@ -139,6 +139,7 @@ int intel_digital_connector_atomic_check(struct drm_connector *conn,
->             new_conn_state->base.picture_aspect_ratio != old_conn_state->base.picture_aspect_ratio ||
->             new_conn_state->base.content_type != old_conn_state->base.content_type ||
->             new_conn_state->base.scaling_mode != old_conn_state->base.scaling_mode ||
-> +           new_conn_state->base.privacy_screen_sw_state != old_conn_state->base.privacy_screen_sw_state ||
->             !drm_connector_atomic_hdr_metadata_equal(old_state, new_state))
->                 crtc_state->mode_changed = true;
->
-> diff --git a/drivers/gpu/drm/i915/display/intel_ddi.c b/drivers/gpu/drm/i915/display/intel_ddi.c
-> index 0d4cf7fa8720..272714e07cc6 100644
-> --- a/drivers/gpu/drm/i915/display/intel_ddi.c
-> +++ b/drivers/gpu/drm/i915/display/intel_ddi.c
-> @@ -25,6 +25,7 @@
->   *
->   */
->
-> +#include <drm/drm_privacy_screen_consumer.h>
->  #include <drm/drm_scdc_helper.h>
->
->  #include "i915_drv.h"
-> @@ -2946,6 +2947,7 @@ static void intel_enable_ddi_dp(struct intel_atomic_state *state,
->         if (port == PORT_A && DISPLAY_VER(dev_priv) < 9)
->                 intel_dp_stop_link_train(intel_dp, crtc_state);
->
-> +       drm_connector_update_privacy_screen(conn_state);
->         intel_edp_backlight_on(crtc_state, conn_state);
->
->         if (!dig_port->lspcon.active || dig_port->dp.has_hdmi_sink)
-> @@ -3161,6 +3163,7 @@ static void intel_ddi_update_pipe_dp(struct intel_atomic_state *state,
->         intel_drrs_update(intel_dp, crtc_state);
->
->         intel_backlight_update(state, encoder, crtc_state, conn_state);
-> +       drm_connector_update_privacy_screen(conn_state);
->  }
->
->  void intel_ddi_update_pipe(struct intel_atomic_state *state,
-> @@ -3979,6 +3982,19 @@ intel_ddi_init_dp_connector(struct intel_digital_port *dig_port)
->                 return NULL;
->         }
->
-> +       if (dig_port->base.type == INTEL_OUTPUT_EDP) {
-> +               struct drm_device *dev = dig_port->base.base.dev;
-> +               struct drm_privacy_screen *privacy_screen;
-> +
-> +               privacy_screen = drm_privacy_screen_get(dev->dev, NULL);
-
-Why pass NULL for con_id? Can we pass something more meaningful (e.g.
-"eDP-1") so that the non-KMS platform components that provide the
-privacy-screen can provide a more specific lookup? Or is that
-information (connector name) not available at the time this call is
-being made?
-
-Thanks,
-
-Rajat
-
-
-> +               if (!IS_ERR(privacy_screen)) {
-> +                       drm_connector_attach_privacy_screen_provider(&connector->base,
-> +                                                                    privacy_screen);
-> +               } else if (PTR_ERR(privacy_screen) != -ENODEV) {
-> +                       drm_warn(dev, "Error getting privacy-screen\n");
-> +               }
-> +       }
-> +
->         return connector;
->  }
->
-> diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
-> index 86dbe366a907..84715a779d9d 100644
-> --- a/drivers/gpu/drm/i915/display/intel_display.c
-> +++ b/drivers/gpu/drm/i915/display/intel_display.c
-> @@ -42,6 +42,7 @@
->  #include <drm/drm_edid.h>
->  #include <drm/drm_fourcc.h>
->  #include <drm/drm_plane_helper.h>
-> +#include <drm/drm_privacy_screen_consumer.h>
->  #include <drm/drm_probe_helper.h>
->  #include <drm/drm_rect.h>
->
-> @@ -12769,6 +12770,8 @@ void intel_modeset_driver_remove_nogem(struct drm_i915_private *i915)
->
->  bool intel_modeset_probe_defer(struct pci_dev *pdev)
->  {
-> +       struct drm_privacy_screen *privacy_screen;
-> +
->         /*
->          * apple-gmux is needed on dual GPU MacBook Pro
->          * to probe the panel if we're the inactive GPU.
-> @@ -12776,6 +12779,13 @@ bool intel_modeset_probe_defer(struct pci_dev *pdev)
->         if (vga_switcheroo_client_probe_defer(pdev))
->                 return true;
->
-> +       /* If the LCD panel has a privacy-screen, wait for it */
-> +       privacy_screen = drm_privacy_screen_get(&pdev->dev, NULL);
-> +       if (IS_ERR(privacy_screen) && PTR_ERR(privacy_screen) == -EPROBE_DEFER)
-> +               return true;
-> +
-> +       drm_privacy_screen_put(privacy_screen);
-> +
->         return false;
->  }
->
-> --
-> 2.31.1
->
+Hi,=0D
+=0D
+Here are a few patches adding support for the P030 and the BT709 and BT2020=
+=0D
+colorspaces.=0D
+=0D
+Let me know what you think,=0D
+Maxime=0D
+=0D
+Dave Stevenson (3):=0D
+  drm/fourcc: Add packed 10bit YUV 4:2:0 format=0D
+  drm/vc4: plane: Add support for DRM_FORMAT_P030=0D
+  drm/vc4: plane: Add support for YUV color encodings and ranges=0D
+=0D
+ drivers/gpu/drm/drm_fourcc.c    |   3 +=0D
+ drivers/gpu/drm/vc4/vc4_plane.c | 169 ++++++++++++++++++++++++++------=0D
+ drivers/gpu/drm/vc4/vc4_regs.h  |  19 +++-=0D
+ include/uapi/drm/drm_fourcc.h   |  11 +++=0D
+ 4 files changed, 167 insertions(+), 35 deletions(-)=0D
+=0D
+-- =0D
+2.33.1=0D
+=0D
