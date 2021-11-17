@@ -2,79 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5E54454B0D
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Nov 2021 17:33:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 071AA454B10
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Nov 2021 17:35:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4ED3A89C6A;
-	Wed, 17 Nov 2021 16:33:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7486389C0A;
+	Wed, 17 Nov 2021 16:35:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1101C89D40
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Nov 2021 16:33:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637166807;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=FOhG48xSjuHSVPDHQxfhP6Tk9A7OLeP6W1wQQNgRhLg=;
- b=bdmnkANXYBfugsf0mKDSFGR/3Qw3ADcy29qbz8g3zDfEqFi1Uujy5goK3gd/8Jgw0c9XA/
- m+706o5L9FwSnX/nokxWvgvjkNh9Hw4ESP8o9oDMqX/c7Nm4ARFXGGNwdFHXrZmDuwM1sq
- jS2A/6MwJAUxgnpgRHXc3Fwm63GPL/k=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-402-T2oFD4b1MguGej59YwY7Qg-1; Wed, 17 Nov 2021 11:33:25 -0500
-X-MC-Unique: T2oFD4b1MguGej59YwY7Qg-1
-Received: by mail-ed1-f71.google.com with SMTP id
- b15-20020aa7c6cf000000b003e7cf0f73daso2587283eds.22
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Nov 2021 08:33:25 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=FOhG48xSjuHSVPDHQxfhP6Tk9A7OLeP6W1wQQNgRhLg=;
- b=1ZbPFAhwcExA1E2UCM3Kf7Lc0ayDeuyYoQl86adjpKSJ6nqnwHoSi1jxUIbD/fs0kt
- OKpWG1rMJoMXSGLEnt59UnXNVvuhlms+37CirUQv67/1jc580fMu1uvbcCciGqRLSf5L
- MCSKIABkNiC7/pvAoeysGWa+cSMZhFA+e4znrp7JhUUN+9MLDTa7MmwyRdBC+dJwwU5n
- AtskP/MW4BwZXAcrgFDc0odef+zEk6RrWK/VTbAmNzJTI0bT+7Loj9OB49KUIYycpBLk
- 1+Nqg+uJDohrSuk+OACil8W/hkqPitcOkpSg4fGN9zuFx1s2uarJnkOMTav3VRGj0UT9
- skNQ==
-X-Gm-Message-State: AOAM531WJK3RIFtVEp0NWel5COgI1H9gIiWsjk/fFHI+a7Is9m02crjq
- GF6kmIyRwSu/SIrNXFPh19Q0vaT5Sb0wOR5wUgV4TfENB99VnZnwgU6eFpGUY7+/ql/LHOS4raB
- UivegMFfhLpmC8xvfMAKqpfxfTr01
-X-Received: by 2002:a50:c3cc:: with SMTP id i12mr23905406edf.350.1637166804570; 
- Wed, 17 Nov 2021 08:33:24 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxWn9cDAy0xoqCMNvaHDdIccZp5gKbxEwx8Z8DBYWpVDPwyDa0ysdIlJa07poBZgaH96qvudQ==
-X-Received: by 2002:a50:c3cc:: with SMTP id i12mr23905349edf.350.1637166804315; 
- Wed, 17 Nov 2021 08:33:24 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c1e:bf00:1054:9d19:e0f0:8214?
- (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl.
- [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
- by smtp.gmail.com with ESMTPSA id j15sm159037edl.34.2021.11.17.08.33.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 17 Nov 2021 08:33:23 -0800 (PST)
-Message-ID: <ae08b6c4-5f91-b6a3-873d-138fe5b3b83f@redhat.com>
-Date: Wed, 17 Nov 2021 17:33:22 +0100
+X-Greylist: delayed 97326 seconds by postgrey-1.36 at gabe;
+ Wed, 17 Nov 2021 16:35:09 UTC
+Received: from lithium.sammserver.com (lithium.sammserver.com [168.119.122.30])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F30A389C0A;
+ Wed, 17 Nov 2021 16:35:09 +0000 (UTC)
+Received: from mail.sammserver.com (sammserver.wg [10.32.40.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (Client did not present a certificate)
+ by lithium.sammserver.com (Postfix) with ESMTPS id 1CFCF3115D1B;
+ Wed, 17 Nov 2021 17:35:08 +0100 (CET)
+Received: from fastboi.localdomain (fastboi.wg [10.32.40.5])
+ by mail.sammserver.com (Postfix) with ESMTP id 2D0EA2742A;
+ Wed, 17 Nov 2021 17:35:03 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cavoj.net; s=email;
+ t=1637166907; bh=P95aqAblyIRdPhZaJuBRn13+iNWgUj3nl9a0v2P9fdM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Zb7ad8szCEnGsDNp/ZwRqrU69MggWUDFEgk/n5lSkOSmMOK9Fu30fKo7uLXD0uY3V
+ 5uunESTCyR2zemJTj7Axk99yayJWEDUjH7QCY7RUk7RFQjGgZs6XzCJyJfrZ7oVSVn
+ /dmdN4S+tLx/lNXrVQNs3MpR59w3M32InIBexoTE=
+Received: by fastboi.localdomain (Postfix, from userid 1000)
+ id 1A1D71421378; Wed, 17 Nov 2021 17:35:03 +0100 (CET)
+Date: Wed, 17 Nov 2021 17:35:03 +0100
+From: Samuel =?utf-8?B?xIxhdm9q?= <samuel@cavoj.net>
+To: "Li, Roman" <Roman.Li@amd.com>
+Subject: Re: Backlight control broken on UM325 (OLED) on 5.15 (bisected)
+Message-ID: <20211117163503.crld3a43wecdapwv@fastboi.localdomain>
+References: <20211114105657.b57pjojiv72iopg5@fastboi.localdomain>
+ <CADnq5_NF++xE6Jj32Wy2ZGALo4pOGt3yTCoj5HU37tKO3Ce=Fg@mail.gmail.com>
+ <20211116133259.svayrqaiivaubkjp@fastboi.localdomain>
+ <BN6PR1201MB00849879DB7D939C0B29AB43899A9@BN6PR1201MB0084.namprd12.prod.outlook.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH 03/10] drm/privacy-screen: Add X86 specific arch init code
-To: Rajat Jain <rajatja@google.com>
-References: <20211005202322.700909-1-hdegoede@redhat.com>
- <20211005202322.700909-4-hdegoede@redhat.com>
- <CACK8Z6EhQnn6xiGsYvx-GyEs==-LDC642OFjPH7mBbMpPYvn_A@mail.gmail.com>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <CACK8Z6EhQnn6xiGsYvx-GyEs==-LDC642OFjPH7mBbMpPYvn_A@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <BN6PR1201MB00849879DB7D939C0B29AB43899A9@BN6PR1201MB0084.namprd12.prod.outlook.com>
+X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00,
+ URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.6
+X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on sammserver.tu
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,194 +60,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Pearson <markpearson@lenovo.com>,
- Marco Trevisan <marco.trevisan@canonical.com>,
- Sebastien Bacher <seb128@ubuntu.com>, David Airlie <airlied@linux.ie>,
- Emil Velikov <emil.l.velikov@gmail.com>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- platform-driver-x86@vger.kernel.org, Mark Gross <markgross@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Andy Shevchenko <andy@infradead.org>,
- Mario Limonciello <mario.limonciello@outlook.com>,
- Pekka Paalanen <pekka.paalanen@collabora.com>, dri-devel@lists.freedesktop.org
+Cc: "Li, Sun peng \(Leo\)" <Sunpeng.Li@amd.com>,
+ LKML <linux-kernel@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, "Deucher,
+ Alexander" <Alexander.Deucher@amd.com>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Rajat,
+Hi Roman,
 
-On 11/17/21 15:13, Rajat Jain wrote:
-> Hello Hans,
+On 17.11.2021 15:26, Li, Roman wrote:
+> [Public]
 > 
-> On Tue, Oct 5, 2021 at 1:23 PM Hans de Goede <hdegoede@redhat.com> wrote:
->>
->> Add X86 specific arch init code, which fills the privacy-screen lookup
->> table by checking for various vendor specific ACPI interfaces for
->> controlling the privacy-screen.
->>
->> This initial version only checks for the Lenovo Thinkpad specific ACPI
->> methods for privacy-screen control.
->>
->> Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
->> Reviewed-by: Lyude Paul <lyude@redhat.com>
->> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
->> ---
->>  drivers/gpu/drm/Makefile                 |  2 +-
->>  drivers/gpu/drm/drm_privacy_screen_x86.c | 86 ++++++++++++++++++++++++
->>  include/drm/drm_privacy_screen_machine.h |  5 ++
->>  3 files changed, 92 insertions(+), 1 deletion(-)
->>  create mode 100644 drivers/gpu/drm/drm_privacy_screen_x86.c
->>
->> diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
->> index 788fc37096f6..12997ca5670d 100644
->> --- a/drivers/gpu/drm/Makefile
->> +++ b/drivers/gpu/drm/Makefile
->> @@ -32,7 +32,7 @@ drm-$(CONFIG_OF) += drm_of.o
->>  drm-$(CONFIG_PCI) += drm_pci.o
->>  drm-$(CONFIG_DEBUG_FS) += drm_debugfs.o drm_debugfs_crc.o
->>  drm-$(CONFIG_DRM_LOAD_EDID_FIRMWARE) += drm_edid_load.o
->> -drm-$(CONFIG_DRM_PRIVACY_SCREEN) += drm_privacy_screen.o
->> +drm-$(CONFIG_DRM_PRIVACY_SCREEN) += drm_privacy_screen.o drm_privacy_screen_x86.o
->>
->>  obj-$(CONFIG_DRM_DP_AUX_BUS) += drm_dp_aux_bus.o
->>
->> diff --git a/drivers/gpu/drm/drm_privacy_screen_x86.c b/drivers/gpu/drm/drm_privacy_screen_x86.c
->> new file mode 100644
->> index 000000000000..a2cafb294ca6
->> --- /dev/null
->> +++ b/drivers/gpu/drm/drm_privacy_screen_x86.c
->> @@ -0,0 +1,86 @@
->> +// SPDX-License-Identifier: MIT
->> +/*
->> + * Copyright (C) 2020 Red Hat, Inc.
->> + *
->> + * Authors:
->> + * Hans de Goede <hdegoede@redhat.com>
->> + */
->> +
->> +#include <linux/acpi.h>
->> +#include <drm/drm_privacy_screen_machine.h>
->> +
->> +#ifdef CONFIG_X86
->> +static struct drm_privacy_screen_lookup arch_lookup;
->> +
->> +struct arch_init_data {
->> +       struct drm_privacy_screen_lookup lookup;
->> +       bool (*detect)(void);
->> +};
->> +
->> +#if IS_ENABLED(CONFIG_THINKPAD_ACPI)
->> +static acpi_status __init acpi_set_handle(acpi_handle handle, u32 level,
->> +                                         void *context, void **return_value)
->> +{
->> +       *(acpi_handle *)return_value = handle;
->> +       return AE_CTRL_TERMINATE;
->> +}
->> +
->> +static bool __init detect_thinkpad_privacy_screen(void)
->> +{
->> +       union acpi_object obj = { .type = ACPI_TYPE_INTEGER };
->> +       struct acpi_object_list args = { .count = 1, .pointer = &obj, };
->> +       acpi_handle ec_handle = NULL;
->> +       unsigned long long output;
->> +       acpi_status status;
->> +
->> +       /* Get embedded-controller handle */
->> +       status = acpi_get_devices("PNP0C09", acpi_set_handle, NULL, &ec_handle);
->> +       if (ACPI_FAILURE(status) || !ec_handle)
->> +               return false;
->> +
->> +       /* And call the privacy-screen get-status method */
->> +       status = acpi_evaluate_integer(ec_handle, "HKEY.GSSS", &args, &output);
->> +       if (ACPI_FAILURE(status))
->> +               return false;
->> +
->> +       return (output & 0x10000) ? true : false;
->> +}
->> +#endif
->> +
->> +static const struct arch_init_data arch_init_data[] __initconst = {
->> +#if IS_ENABLED(CONFIG_THINKPAD_ACPI)
->> +       {
->> +               .lookup = {
->> +                       .dev_id = NULL,
->> +                       .con_id = NULL,
->> +                       .provider = "privacy_screen-thinkpad_acpi",
->> +               },
->> +               .detect = detect_thinkpad_privacy_screen,
->> +       },
->> +#endif
->> +};
+> Hi Samuel,
 > 
-> As I'm trying to add privacy-screen support for my platform, I'm
-> trying to understand if my platform needs to make an entry in this
-> static list.
+> Can you please try: https://patchwork.freedesktop.org/patch/463485/ ?
+
+Yup, that did the trick. Works as before. Thank you very much.
+
+Samuel
+
 > 
-> Do I understand it right that the reason you needed this static list
-> (and this whole file really), instead of just doing a
-> drm_privacy_screen_lookup_add() in the platform code in
-> thinkpad_acpi.c, was because that code was executed AFTER the
-> drm_connectors had already initialized> 
-> In other words, the privacy-screen providers (platform code) need to
-> register a privacy-screen and a lookup structure, BEFORE the drm
-> connectors are initialized. If the platform code that provides a
-> privacy-screen is executed AFTER the drm-connector initializes, then
-> we need an entry in this static list, so that the drm probe (for i915
-> atleast) is DEFERRED until the privacy-screen provider registers the
-> privacy-screen?
+> Thanks,
+> Roman
 > 
-> OTOH, if the platform can register a privacy-screen and a lookup
-> function (via drm_privacy_screen_lookup_add()) BEFORE drm probe, then
-> I do not need an entry in this static list.
-> 
-> Is this correct understanding?
-
-Yes, this is all here to deal with probe-ordering.
-
-On a platform where the link between connectors and device-tree
-is available in something like devicetree this all becomes
-much easier.
-
-The i915 code does a:
-
-       privacy_screen = drm_privacy_screen_get(&pdev->dev, NULL);
-       if (IS_ERR(privacy_screen) && PTR_ERR(privacy_screen) == -EPROBE_DEFER)
-               return true;
-
-Early on to determine if there is a privacy_screen device it needs
-to wait for.
-
-With devicetree you can just scan for connector fwnodes under
-pdev->dev.fwnode and if any of those declare a link to a privacy_screen
-check if the provider if that screen is ready and if not return -EPROBE_DEFER.
-
-Rather then hardcoding "eDP-1" as con_id as I suggested before I guess
-it would be good to have a generic:
-
-int drm_privacy_screen_providers_ready(struct device *dev);
-
-helper which always returns either 0 or -EPROBE_DEFER.
-
-For devicetree this could check all connector fwnodes and for
-non-devicetree fallsback to the current:
-
-       privacy_screen = drm_privacy_screen_get(&pdev->dev, NULL);
-       if (IS_ERR(privacy_screen) && PTR_ERR(privacy_screen) == -EPROBE_DEFER)
-               return -EPROBE_DEFER;
-
-code.
-
-Then there is no need to hardcode "eDP-1" here.
-
-This way you won't even have to ensure that the privacy_screen gets
-registered first, instead you are correctly having the i915 probe defer
-until the privacy_screen(s) get registered.
-
-Either way you definitely should NOT need to add entries to this static
-table on a devicetree based platform.
-
-I hope this helps, if anything is not clear please keep asking questions.
-
-Regards,
-
-Hans
-
+> > -----Original Message-----
+> > From: Samuel Čavoj <samuel@cavoj.net>
+> > Sent: Tuesday, November 16, 2021 8:33 AM
+> > To: Alex Deucher <alexdeucher@gmail.com>
+> > Cc: Deucher, Alexander <Alexander.Deucher@amd.com>; Li, Sun peng (Leo)
+> > <Sunpeng.Li@amd.com>; Li, Roman <Roman.Li@amd.com>; Maling list - DRI
+> > developers <dri-devel@lists.freedesktop.org>; LKML <linux-
+> > kernel@vger.kernel.org>; amd-gfx list <amd-gfx@lists.freedesktop.org>
+> > Subject: Re: Backlight control broken on UM325 (OLED) on 5.15 (bisected)
+> >
+> > Hi Alex,
+> >
+> > thank you for your response.
+> >
+> > On 15.11.2021 10:43, Alex Deucher wrote:
+> > > [...]
+> > >
+> > > That patch adds support for systems with multiple backlights.  Do you
+> > > have multiple backlight devices now?  If so, does the other one work?
+> >
+> > No, there is still only one backlight device -- amdgpu_bl0.
+> > >
+> > > Can you also try this patch?
+> > >
+> > > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
+> > > b/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
+> > > index 4811b0faafd9..67163c9d49e6 100644
+> > > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
+> > > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
+> > > @@ -854,8 +854,8 @@ int amdgpu_acpi_init(struct amdgpu_device *adev)
+> > >                 if (amdgpu_device_has_dc_support(adev)) {  #if
+> > > defined(CONFIG_DRM_AMD_DC)
+> > >                         struct amdgpu_display_manager *dm = &adev->dm;
+> > > -                       if (dm->backlight_dev[0])
+> > > -                               atif->bd = dm->backlight_dev[0];
+> > > +                       if (dm->backlight_dev[1])
+> > > +                               atif->bd = dm->backlight_dev[1];
+> > >  #endif
+> > >                 } else {
+> > >                         struct drm_encoder *tmp;
+> > >
+> >
+> > There is no difference in behaviour after applying the patch.
+> >
+> > Samuel
+> >
+> > >
+> > > Alex
+> > >
+> > > >
+> > > > Regards,
+> > > > Samuel Čavoj
+> > > >
+> > > > [0]:
+> > > > https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fww
+> > > >
+> > w.reddit.com%2Fr%2FAMDLaptops%2Fcomments%2Fqst0fm%2Fafter_updating
+> > _t
+> > > >
+> > o_linux_515_my_brightness%2F&amp;data=04%7C01%7CRoman.Li%40amd.co
+> > m%7
+> > > >
+> > Ce1c766a2f7014cdb664308d9a9059cc6%7C3dd8961fe4884e608e11a82d994e1
+> > 83d
+> > > >
+> > %7C0%7C0%7C637726663861883494%7CUnknown%7CTWFpbGZsb3d8eyJWIjoi
+> > MC4wLj
+> > > >
+> > AwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;s
+> > dat
+> > > >
+> > a=hfsaEzng9%2FjAI2F%2BKg87Tv2Mu%2FfPurCQELr62%2B%2FVF%2BQ%3D&a
+> > mp;res
+> > > > erved=0
