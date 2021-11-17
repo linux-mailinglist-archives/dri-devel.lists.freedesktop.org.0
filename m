@@ -2,30 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5418A45558F
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Nov 2021 08:29:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A32E455582
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Nov 2021 08:28:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 964436E9C9;
-	Thu, 18 Nov 2021 07:28:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EDAE76E925;
+	Thu, 18 Nov 2021 07:28:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9BD1C6E09A
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Nov 2021 14:34:18 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D47356E420
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Nov 2021 14:34:02 +0000 (UTC)
 Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28])
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <sha@pengutronix.de>)
- id 1mnM0e-0005te-FA; Wed, 17 Nov 2021 15:34:00 +0100
+ id 1mnM0e-0005tf-FA; Wed, 17 Nov 2021 15:34:00 +0100
 Received: from sha by dude02.hi.pengutronix.de with local (Exim 4.94.2)
  (envelope-from <sha@pengutronix.de>)
- id 1mnM0b-001P6K-2l; Wed, 17 Nov 2021 15:33:57 +0100
+ id 1mnM0b-001P6N-3F; Wed, 17 Nov 2021 15:33:57 +0100
 From: Sascha Hauer <s.hauer@pengutronix.de>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 05/12] of: graph: Allow disabled endpoints
-Date: Wed, 17 Nov 2021 15:33:40 +0100
-Message-Id: <20211117143347.314294-6-s.hauer@pengutronix.de>
+Subject: [PATCH 06/12] dt-bindings: of: graph: Allow disabled endpoints
+Date: Wed, 17 Nov 2021 15:33:41 +0100
+Message-Id: <20211117143347.314294-7-s.hauer@pengutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211117143347.314294-1-s.hauer@pengutronix.de>
 References: <20211117143347.314294-1-s.hauer@pengutronix.de>
@@ -66,41 +66,28 @@ that make sense for the given hardware are enabled at board level.
 
 Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
 ---
- drivers/gpu/drm/drm_of.c | 6 ++----
- drivers/of/property.c    | 3 +++
- 2 files changed, 5 insertions(+), 4 deletions(-)
+ .../devicetree/bindings/media/video-interfaces.yaml       | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_of.c b/drivers/gpu/drm/drm_of.c
-index 37c34146eea83..c2fd9fe505767 100644
---- a/drivers/gpu/drm/drm_of.c
-+++ b/drivers/gpu/drm/drm_of.c
-@@ -67,10 +67,8 @@ uint32_t drm_of_find_possible_crtcs(struct drm_device *dev,
+diff --git a/Documentation/devicetree/bindings/media/video-interfaces.yaml b/Documentation/devicetree/bindings/media/video-interfaces.yaml
+index 4391dce2caee6..d7e516cd66f5f 100644
+--- a/Documentation/devicetree/bindings/media/video-interfaces.yaml
++++ b/Documentation/devicetree/bindings/media/video-interfaces.yaml
+@@ -84,6 +84,14 @@ properties:
+       source) by the master device (data sink). In the master mode the data
+       source device is also the source of the synchronization signals.
  
- 	for_each_endpoint_of_node(port, ep) {
- 		remote_port = of_graph_get_remote_port(ep);
--		if (!remote_port) {
--			of_node_put(ep);
--			return 0;
--		}
-+		if (!remote_port)
-+			continue;
- 
- 		possible_crtcs |= drm_of_crtc_port_mask(dev, remote_port);
- 
-diff --git a/drivers/of/property.c b/drivers/of/property.c
-index a3483484a5a2a..40f8da7baa0a9 100644
---- a/drivers/of/property.c
-+++ b/drivers/of/property.c
-@@ -730,6 +730,9 @@ EXPORT_SYMBOL(of_graph_get_endpoint_by_regs);
-  */
- struct device_node *of_graph_get_remote_endpoint(const struct device_node *node)
- {
-+	if (!of_device_is_available(node))
-+		return NULL;
++  status:
++    enum:
++      - ok
++      - okay
++      - disabled
++    description:
++      Enables or disables the link. Disabled links are ignored.
 +
- 	/* Get remote endpoint node. */
- 	return of_parse_phandle(node, "remote-endpoint", 0);
- }
+   bus-type:
+     $ref: /schemas/types.yaml#/definitions/uint32
+     enum:
 -- 
 2.30.2
 
