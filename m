@@ -2,38 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3B794540DE
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Nov 2021 07:27:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA43545410C
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Nov 2021 07:42:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B54AC6E406;
-	Wed, 17 Nov 2021 06:27:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 19BD389EAE;
+	Wed, 17 Nov 2021 06:42:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bombadil.infradead.org (bombadil.infradead.org
- [IPv6:2607:7c80:54:e::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9483E6E406
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Nov 2021 06:27:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
- Content-ID:Content-Description:In-Reply-To:References;
- bh=u9TsPfVua2pwgRzMzKBVPHm36omW56UbBxtvj9Ocw54=; b=njoPg6BUseWHQbB5/AdOoGllFW
- wq2z+48UGzdBL4b1Yi6fsYRMo46LYrahgc76iif1KX3VRanpst2g3djxbUw3VRokOHInqKb+Jt0Gd
- F8CZl5FvvBlU0s5x9Uqp4hswI47kD89reJ3fxVXvTn1JW8PPPPGk3z6jM/MaKoqlMaW3mZVnP/71W
- nBJaOoCCl7qmJBmPhMvv4ueMHBoHcC5p2JlGAn9J9OaBfi2fxSh2oqkBr9awRZTwCytKDrL4o1fqB
- yjNzwMdmlHdM573FNKsP1vHf6E7vzSDRpqeBPpSfgv39Ltkmhy1ZAF2NekmoNpZS7UhkvIy8SrSs4
- KsVlb5Mw==;
-Received: from [2601:1c0:6280:3f0::aa0b] (helo=bombadil.infradead.org)
- by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mnEPR-003TQW-5q; Wed, 17 Nov 2021 06:27:05 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/panel-edp: modify Kconfig to prevent build error
-Date: Tue, 16 Nov 2021 22:27:04 -0800
-Message-Id: <20211117062704.14671-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.31.1
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A04389EAC
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Nov 2021 06:42:06 +0000 (UTC)
+X-UUID: c6ead053af32427fa624fbeb8ec6c4fe-20211117
+X-UUID: c6ead053af32427fa624fbeb8ec6c4fe-20211117
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
+ mailgw02.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1315790216; Wed, 17 Nov 2021 14:42:00 +0800
+Received: from mtkexhb02.mediatek.inc (172.21.101.103) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.2.792.15; Wed, 17 Nov 2021 14:41:59 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by mtkexhb02.mediatek.inc
+ (172.21.101.103) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Wed, 17 Nov 2021 14:41:59 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas10.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
+ Frontend Transport; Wed, 17 Nov 2021 14:41:59 +0800
+From: jason-jh.lin <jason-jh.lin@mediatek.com>
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel
+ <p.zabel@pengutronix.de>, Matthias Brugger <matthias.bgg@gmail.com>, "Jassi
+ Brar" <jassisinghbrar@gmail.com>
+Subject: Fix drm suspend and resume issue
+Date: Wed, 17 Nov 2021 14:41:55 +0800
+Message-ID: <20211117064158.27451-1-jason-jh.lin@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,45 +51,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel test robot <lkp@intel.com>, Arnd Bergmann <arnd@arndb.de>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Randy Dunlap <rdunlap@infradead.org>,
- Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
- Douglas Anderson <dianders@chromium.org>,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
+Cc: fshao@chromium.org, David Airlie <airlied@linux.ie>,
+ "jason-jh.lin" <jason-jh.lin@mediatek.com>, singo.chang@mediatek.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ tzungbi@google.com, nancy.lin@mediatek.com, linux-mediatek@lists.infradead.org,
+ hsinyi@chromium.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When CONFIG_DRM_KMS_HELPER=m and CONFIG_DRM_PANEL_EDP=y,
-there is a build error in gpu/drm/panel/panel-edp.o:
+Subject: [PATCH 0/3] Fix drm suspend and resume issue
 
-arm-linux-gnueabi-ld: drivers/gpu/drm/panel/panel-edp.o: in function `panel_edp_probe':
-panel-edp.c:(.text+0xf38): undefined reference to `drm_panel_dp_aux_backlight'
+1. When the hardwire components on crtc is using GCE to configure their
+   register, cmdq_suspend may be called.
+   So add cmdq_mbox_flush to clear all tasks and release GCE clocks
+   before cmdq_suspend.
 
-Fix this by limiting DRM_PANEL_DEP by the value of the DRM_KMS_HELPER
-symbol.
+2. The suspend and resume order of components on crtc can be guaranteed
+   by the same power-domain, but cmdq can not.
+   So add devlink to cmdq dev make sure the order of suspend and resume:
+   cmdq_suspend is latter than drm_suspend and
+   cmdq_resume is earlier than drm_resume.
 
-Fixes: 5f04e7ce392d ("drm/panel-edp: Split eDP panels out of panel-simple")
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Reported-by: kernel test robot <lkp@intel.com>
-Cc: Arnd Bergmann <arnd@arndb.de>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Javier Martinez Canillas <javierm@redhat.com>
-Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: Douglas Anderson <dianders@chromium.org>
-Cc: Linus Walleij <linus.walleij@linaro.org>
-Cc: Thierry Reding <thierry.reding@gmail.com>
-Cc: dri-devel@lists.freedesktop.org
----
- drivers/gpu/drm/panel/Kconfig |    1 +
- 1 file changed, 1 insertion(+)
+jason-jh.lin (3):
+  mialbox: move cmdq suspend,resume and remove after cmdq_mbox_flush
+  mailbox: add cmdq_mbox_flush to clear all task before suspend
+  drm/mediatek: add devlink to cmdq dev
 
---- linux-next-20211117.orig/drivers/gpu/drm/panel/Kconfig
-+++ linux-next-20211117/drivers/gpu/drm/panel/Kconfig
-@@ -104,6 +104,7 @@ config DRM_PANEL_EDP
- 	depends on OF
- 	depends on BACKLIGHT_CLASS_DEVICE
- 	depends on PM
-+	depends on DRM_KMS_HELPER
- 	select VIDEOMODE_HELPERS
- 	select DRM_DP_AUX_BUS
- 	help
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.c | 13 ++++
+ drivers/mailbox/mtk-cmdq-mailbox.c      | 81 ++++++++++++-------------
+ 2 files changed, 52 insertions(+), 42 deletions(-)
+
+-- 
+2.18.0
+
