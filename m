@@ -1,35 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2CEE45496C
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Nov 2021 15:59:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 75CCA45496E
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Nov 2021 15:59:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2596B6E4B0;
-	Wed, 17 Nov 2021 14:59:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA7276E51D;
+	Wed, 17 Nov 2021 14:59:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 2211 seconds by postgrey-1.36 at gabe;
- Wed, 17 Nov 2021 14:59:07 UTC
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A4AC76E046
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Nov 2021 14:59:07 +0000 (UTC)
+Received: from mail.marcansoft.com (marcansoft.com [IPv6:2a01:298:fe:f::2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BEE666E51D
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Nov 2021 14:59:10 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
  (Authenticated sender: hector@marcansoft.com)
- by mail.marcansoft.com (Postfix) with ESMTPSA id 6AC8841F28;
- Wed, 17 Nov 2021 14:59:03 +0000 (UTC)
+ by mail.marcansoft.com (Postfix) with ESMTPSA id 7ED0141F55;
+ Wed, 17 Nov 2021 14:59:06 +0000 (UTC)
 From: Hector Martin <marcan@marcan.st>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
  Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH 0/3] drm/simpledrm: Apple M1 / DT platform support fixes
-Date: Wed, 17 Nov 2021 23:58:26 +0900
-Message-Id: <20211117145829.204360-1-marcan@marcan.st>
+Subject: [PATCH 1/3] drm/simpledrm: Bind to OF framebuffers in /chosen
+Date: Wed, 17 Nov 2021 23:58:27 +0900
+Message-Id: <20211117145829.204360-2-marcan@marcan.st>
 X-Mailer: git-send-email 2.33.0
+In-Reply-To: <20211117145829.204360-1-marcan@marcan.st>
+References: <20211117145829.204360-1-marcan@marcan.st>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -49,27 +49,49 @@ Cc: Hector Martin <marcan@marcan.st>, dri-devel@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi DRM folks,
+This matches the simplefb behavior; these nodes are not matched by the
+standard OF machinery. This fixes a regression when simpledrm replaces
+simeplefb.
 
-This short series makes simpledrm work on Apple M1 (including Pro/Max)
-platforms the way simplefb already does, by adding XRGB2101010 support
-and making it bind to framebuffers in /chosen the same way simplefb
-does.
+Signed-off-by: Hector Martin <marcan@marcan.st>
+---
+ drivers/gpu/drm/tiny/simpledrm.c | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
-This avoids breaking the bootloader-provided framebuffer console when
-simpledrm is selected to replace simplefb, as these FBs always seem to
-be 10-bit (at least when a real screen is attached).
-
-Hector Martin (3):
-  drm/simpledrm: Bind to OF framebuffers in /chosen
-  drm/format-helper: Add drm_fb_xrgb8888_to_xrgb2101010_dstclip()
-  drm/simpledrm: Enable XRGB2101010 format
-
- drivers/gpu/drm/drm_format_helper.c | 64 +++++++++++++++++++++++++++++
- drivers/gpu/drm/tiny/simpledrm.c    | 19 ++++++++-
- include/drm/drm_format_helper.h     |  4 ++
- 3 files changed, 86 insertions(+), 1 deletion(-)
-
+diff --git a/drivers/gpu/drm/tiny/simpledrm.c b/drivers/gpu/drm/tiny/simpledrm.c
+index 481b48bde047..2c84f2ea1fa2 100644
+--- a/drivers/gpu/drm/tiny/simpledrm.c
++++ b/drivers/gpu/drm/tiny/simpledrm.c
+@@ -2,6 +2,7 @@
+ 
+ #include <linux/clk.h>
+ #include <linux/of_clk.h>
++#include <linux/of_platform.h>
+ #include <linux/platform_data/simplefb.h>
+ #include <linux/platform_device.h>
+ #include <linux/regulator/consumer.h>
+@@ -897,5 +898,21 @@ static struct platform_driver simpledrm_platform_driver = {
+ 
+ module_platform_driver(simpledrm_platform_driver);
+ 
++static int __init simpledrm_init(void)
++{
++	struct device_node *np;
++
++	if (IS_ENABLED(CONFIG_OF_ADDRESS) && of_chosen) {
++		for_each_child_of_node(of_chosen, np) {
++			if (of_device_is_compatible(np, "simple-framebuffer"))
++				of_platform_device_create(np, NULL, NULL);
++		}
++	}
++
++	return 0;
++}
++
++fs_initcall(simpledrm_init);
++
+ MODULE_DESCRIPTION(DRIVER_DESC);
+ MODULE_LICENSE("GPL v2");
 -- 
 2.33.0
 
