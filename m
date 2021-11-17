@@ -2,40 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76335454B86
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Nov 2021 18:02:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BDB0454C88
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Nov 2021 18:52:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 967A66E41B;
-	Wed, 17 Nov 2021 17:02:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E8036E3DA;
+	Wed, 17 Nov 2021 17:52:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD4026E153
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Nov 2021 17:02:42 +0000 (UTC)
-Received: from pendragon.ideasonboard.com
- (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3A8DCE7;
- Wed, 17 Nov 2021 18:02:41 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1637168561;
- bh=o22ULqTwaYVqhi4MuajTZOxo0Y+YXB95Tev8CMJcCMk=;
- h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
- b=hOJFfAdFL7OEJsEpm9GwJvQ+zqASWx2gHglkOOhnWoph6KoAyxvTjjoWSKI00D1yK
- 3tnmfT+DRr0DfIO1JBUISqd+srJy0gO2ymZ+WqG5pSkXjgJXyj4txWjRFdSqmvZB0f
- rZz2f9IJ7p2vifg7apWMAWCCDA2zltyzhq06cij4=
-Content-Type: text/plain; charset="utf-8"
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD93C6E153;
+ Wed, 17 Nov 2021 17:52:34 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10171"; a="294831154"
+X-IronPort-AV: E=Sophos;i="5.87,241,1631602800"; d="scan'208";a="294831154"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Nov 2021 09:52:33 -0800
+X-IronPort-AV: E=Sophos;i="5.87,241,1631602800"; d="scan'208";a="586736930"
+Received: from ianock-mobl1.ger.corp.intel.com (HELO [10.252.8.140])
+ ([10.252.8.140])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Nov 2021 09:52:31 -0800
+Message-ID: <2091645b-d4f9-a6f4-834c-87d9a5d81423@intel.com>
+Date: Wed, 17 Nov 2021 17:52:29 +0000
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <CAD=FV=VM9H8Fow49V2eLs2Jfv6DmPYpDGNyHicc_802RksTZYQ@mail.gmail.com>
-References: <20211117163239.529781-1-kieran.bingham+renesas@ideasonboard.com>
- <CAD=FV=VM9H8Fow49V2eLs2Jfv6DmPYpDGNyHicc_802RksTZYQ@mail.gmail.com>
-Subject: Re: [PATCH] gpu: drm: panel-edp: Fix edp_panel_entry documentation
-From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-To: Doug Anderson <dianders@chromium.org>
-Date: Wed, 17 Nov 2021 17:02:38 +0000
-Message-ID: <163716855845.420308.7037966419706240111@Monstersaurus>
-User-Agent: alot/0.10
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v3 1/6] drm: move the buddy allocator from i915 into
+ common drm
+Content-Language: en-GB
+To: Arunpravin <Arunpravin.PaneerSelvam@amd.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org
+References: <20211116201807.147486-1-Arunpravin.PaneerSelvam@amd.com>
+From: Matthew Auld <matthew.auld@intel.com>
+In-Reply-To: <20211116201807.147486-1-Arunpravin.PaneerSelvam@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,49 +50,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, open list <linux-kernel@vger.kernel.org>,
- dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: alexander.deucher@amd.com, tzimmermann@suse.de, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Doug Anderson (2021-11-17 16:49:43)
-> Hi,
->=20
-> On Wed, Nov 17, 2021 at 8:32 AM Kieran Bingham
-> <kieran.bingham+renesas@ideasonboard.com> wrote:
-> >
-> > The edp_panel_entry members 'delay' and 'name' are documented, but
-> > without the correct syntax for kernel doc.
-> >
-> > This generates the following warnings:
-> >
-> > drivers/gpu/drm/panel/panel-edp.c:204: warning: Function parameter or m=
-ember 'delay' not described in 'edp_panel_entry'
-> > drivers/gpu/drm/panel/panel-edp.c:204: warning: Function parameter or m=
-ember 'name' not described in 'edp_panel_entry'
-> >
-> > Fix them accordingly.
-> >
-> > Fixes: 5540cf8f3e8d ("drm/panel-edp: Implement generic "edp-panel"s pro=
-bed by EDID")
-> > Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> > ---
-> >  drivers/gpu/drm/panel/panel-edp.c | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
->=20
-> Thanks! Pushed to drm-misc-next (though technically it's a fix, it
-> didn't seem urgent enough to go through -fixes. Hopefully this is OK).
->=20
+On 16/11/2021 20:18, Arunpravin wrote:
+> Move the base i915 buddy allocator code into drm
+> - Move i915_buddy.h to include/drm
+> - Move i915_buddy.c to drm root folder
+> - Rename "i915" string with "drm" string wherever applicable
+> - Rename "I915" string with "DRM" string wherever applicable
+> - Fix header file dependencies
+> - Fix alignment issues
+> - add Makefile support for drm buddy
+> - export functions and write kerneldoc description
+> - Remove i915 selftest config check condition as buddy selftest
+>    will be moved to drm selftest folder
+> 
+> cleanup i915 buddy references in i915 driver module
+> and replace with drm buddy
+> 
+> v2:
+>    - include header file in alphabetical order (Thomas)
+>    - merged changes listed in the body section into a single patch
+>      to keep the build intact (Christian, Jani)
+> 
+> Signed-off-by: Arunpravin <Arunpravin.PaneerSelvam@amd.com>
 
-Certainly, I agree it's not urgent. I wasn't even sure if I should add
-the Fixes tag, but I figured if I left it out someone would jump in with
-it ;-)
-
-> 1e66f04c14ab gpu: drm: panel-edp: Fix edp_panel_entry documentation
->=20
-> -Doug
-
-Thanks
-
-Kieran
+Any ideas for what to do with the existing selftests? Currently this 
+series doesn't build yet for i915 due to this, and prevents throwing the 
+series at CI.
