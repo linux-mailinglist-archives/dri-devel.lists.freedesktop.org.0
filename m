@@ -1,42 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6ADB454335
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Nov 2021 10:00:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 80657454417
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Nov 2021 10:45:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B70F16E580;
-	Wed, 17 Nov 2021 08:59:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 78BDC6EA16;
+	Wed, 17 Nov 2021 09:45:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 05D0A6E3A0
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Nov 2021 08:59:29 +0000 (UTC)
-X-UUID: a4cd6a6f819148b49070ee53fc1e3e2d-20211117
-X-UUID: a4cd6a6f819148b49070ee53fc1e3e2d-20211117
-Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by
- mailgw02.mediatek.com (envelope-from <nancy.lin@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 86311188; Wed, 17 Nov 2021 16:59:25 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
- Wed, 17 Nov 2021 16:59:24 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas10.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
- Frontend Transport; Wed, 17 Nov 2021 16:59:23 +0800
-From: Nancy.Lin <nancy.lin@mediatek.com>
-To: CK Hu <ck.hu@mediatek.com>
-Subject: [PATCH v8 22/22] drm/mediatek: add mediatek-drm of vdosys1 support
- for MT8195
-Date: Wed, 17 Nov 2021 16:59:19 +0800
-Message-ID: <20211117085919.28691-23-nancy.lin@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20211117085919.28691-1-nancy.lin@mediatek.com>
-References: <20211117085919.28691-1-nancy.lin@mediatek.com>
+Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
+ [66.111.4.224])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A0D96E92D
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Nov 2021 09:45:35 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailnew.nyi.internal (Postfix) with ESMTP id CDDA258082C;
+ Wed, 17 Nov 2021 04:45:31 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute3.internal (MEProxy); Wed, 17 Nov 2021 04:45:31 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ from:to:cc:subject:date:message-id:content-type:mime-version
+ :content-transfer-encoding; s=fm1; bh=ekf9vvCWfLNoSjVEXV4DBI29ZU
+ qfpHxwPzoBJFFnGlc=; b=P4evg08MecqlLumYRn8QndAEXrs+/iJm6R0Ty+x7UM
+ 62Q59fp0ynTFDMk5aFR04apSz1VADfOO5ZSop0rYeIvd/EwmOHsA/Fysuo4YMjH2
+ 0iN/o+ypkq8v6fRBygaM1haaDv5eNkP+4ZO1xYvmyXKDBCSQUsUkKfgzHaX80+8m
+ vd8uMcuZZyf0t69m5+EXEGgNZ1p+5E6yklmaZhbxM3pp+RGjRpvs2SOBp5hOjj9D
+ TRLwh9RI9pA8FSk85XcBrIdSSZJr5t3gYNhMM0wxXIaELRQp6yElnFtYejkeikGM
+ XxuYd8H100UE66mIY2cFkfii5vWrDlhrwJFv27NUw8gg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:message-id:mime-version:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=ekf9vv
+ CWfLNoSjVEXV4DBI29ZUqfpHxwPzoBJFFnGlc=; b=HpHRdddOKEdflxjZDdIf9N
+ HvgdZdbjhRv+6H0Istn4yNtuLqBsb2m2y5PpGYK0kV1QiC+NedcQ0XSYWEiAKisW
+ t5HnF+WLfZ9tHkFncsQ5QGeu/2KP2FrU3T422Ym827Qg9RjqafaHVXk//eiINLH3
+ /kzJxGJw1Q338yi6PRjv8+1cjIu1F+uFZU5IubtubhShL4a7+M4e8H9PV1Qew4sk
+ MYU3JYIoq+nSy5OSiUw+rkwzvW7Wg+0l4vI5oaTHUc7qO67h9diz3Ywp3Gm/Gr1w
+ JNfuGu1+5l01rewxxuJ/byq+2g9ixiXodW9kmaeaNYIIReE8NrVt1fgYdLSNgDUQ
+ ==
+X-ME-Sender: <xms:Os-UYYN1n05mmRPcfrtHx2VEmOE7F_1I6Cj-jxAJZzx0UbBE9Nyi0g>
+ <xme:Os-UYe_WMvS_wgF_JSj6V27n31XSXWEPuInGf4GTXsEHAetsAhZwUYBL-Hu79al7j
+ 8chkM1_c8Z_JSx2RZ4>
+X-ME-Received: <xmr:Os-UYfSVdATDDAvi-gunQ_tAwHu7Vux0hMRCmkqSqrtBOPEAmtP8sg0WOxcXPwQLqWPsJe4SFfbEIF8WEARF_8FD3Eqzyahsay-8abFJRtE>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrfeeggddtfecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefhvffufffkofgtggfgsehtqhertdertdejnecuhfhrohhmpeforgigihhmvgcu
+ tfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrthhtvg
+ hrnhepteeikefgffekgeekledtheduteetjefgkeeuvefhhfetgedugfektdeugeffgfef
+ necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgi
+ himhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:Os-UYQt9ML7c0juaaJJATX84szjrzzKixhEOlwHRxfJNgcZCsNODNQ>
+ <xmx:Os-UYQfkZJfdTsQZda-2I1pz2IKhQvPSkc77Dc6LCCvPKstkH1nQAw>
+ <xmx:Os-UYU39LeS8XL2pOTRkNr99gJ0QReIB23DTHPbcutvhGQJC-mtB3g>
+ <xmx:O8-UYY72WpGZPN21qYUswdFAeXi7AzjcPL91BhmnO1_NmjTQwcrdZg>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 17 Nov 2021 04:45:30 -0500 (EST)
+From: Maxime Ripard <maxime@cerno.tech>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>,
+ Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>
+Subject: [PATCH v2 0/6] drm/vc4: kms: Misc fixes for HVS commits
+Date: Wed, 17 Nov 2021 10:45:21 +0100
+Message-Id: <20211117094527.146275-1-maxime@cerno.tech>
+X-Mailer: git-send-email 2.33.1
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK: N
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,66 +79,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, srv_heupstream@mediatek.com,
- devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
- "jason-jh . lin" <jason-jh.lin@mediatek.com>, singo.chang@mediatek.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Yongqiang Niu <yongqiang.niu@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
- linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
- "Nancy . Lin" <nancy.lin@mediatek.com>, linux-arm-kernel@lists.infradead.org
+Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Jian-Hong Pan <jhp@endlessos.org>, dri-devel@lists.freedesktop.org,
+ Phil Elwell <phil@raspberrypi.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add driver data of mt8195 vdosys1 to mediatek-drm.
-
-Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
----
- drivers/gpu/drm/mediatek/mtk_drm_drv.c | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
-
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-index 96f505b2e571..a333732cb875 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-@@ -190,6 +190,14 @@ static const enum mtk_ddp_comp_id mt8195_mtk_ddp_main[] = {
- 	DDP_COMPONENT_DP_INTF0,
- };
- 
-+static const enum mtk_ddp_comp_id mt8195_mtk_ddp_ext[] = {
-+	DDP_COMPONENT_OVL_ADAPTOR,
-+	DDP_COMPONENT_MERGE5,
-+	DDP_COMPONENT_DP_INTF1,
-+};
-+
-+static const int mt8195_vdosys1_mtk_cmdq_mbox[] = {-1, 0, -1};
-+
- static const struct mtk_mmsys_driver_data mt2701_mmsys_driver_data = {
- 	.main_path = mt2701_mtk_ddp_main,
- 	.main_len = ARRAY_SIZE(mt2701_mtk_ddp_main),
-@@ -254,6 +262,14 @@ static const struct mtk_mmsys_driver_data mt8195_vdosys0_driver_data = {
- 	.mmsys_dev_num = 2,
- };
- 
-+static const struct mtk_mmsys_driver_data mt8195_vdosys1_driver_data = {
-+	.ext_path = mt8195_mtk_ddp_ext,
-+	.ext_len = ARRAY_SIZE(mt8195_mtk_ddp_ext),
-+	.mmsys_id = 1,
-+	.mmsys_dev_num = 2,
-+	.mbox_index = mt8195_vdosys1_mtk_cmdq_mbox,
-+};
-+
- static const struct of_device_id mtk_drm_of_ids[] = {
- 	{ .compatible = "mediatek,mt2701-mmsys",
- 	  .data = &mt2701_mmsys_driver_data},
-@@ -271,6 +287,8 @@ static const struct of_device_id mtk_drm_of_ids[] = {
- 	  .data = &mt8192_mmsys_driver_data},
- 	{ .compatible = "mediatek,mt8195-vdosys0",
- 	  .data = &mt8195_vdosys0_driver_data},
-+	{ .compatible = "mediatek,mt8195-vdosys1",
-+	  .data = &mt8195_vdosys1_driver_data},
- 	{ }
- };
- MODULE_DEVICE_TABLE(of, mtk_drm_of_ids);
--- 
-2.18.0
-
+Hi,=0D
+=0D
+The conversion to DRM commit helpers (f3c420fe19f8, "drm/vc4: kms: Convert =
+to=0D
+atomic helpers") introduced a number of issues in corner cases, most of the=
+m=0D
+showing themselves in the form of either a vblank timeout or use-after-free=
+=0D
+error.=0D
+=0D
+These patches should fix most of them, some of them still being debugged.=0D
+=0D
+Maxime=0D
+=0D
+Changes from v1:=0D
+  - Prevent a null pointer dereference=0D
+=0D
+Maxime Ripard (6):=0D
+  drm/vc4: kms: Wait for the commit before increasing our clock rate=0D
+  drm/vc4: kms: Fix return code check=0D
+  drm/vc4: kms: Add missing drm_crtc_commit_put=0D
+  drm/vc4: kms: Clear the HVS FIFO commit pointer once done=0D
+  drm/vc4: kms: Don't duplicate pending commit=0D
+  drm/vc4: kms: Fix previous HVS commit wait=0D
+=0D
+ drivers/gpu/drm/vc4/vc4_kms.c | 42 ++++++++++++++++-------------------=0D
+ 1 file changed, 19 insertions(+), 23 deletions(-)=0D
+=0D
+-- =0D
+2.33.1=0D
+=0D
