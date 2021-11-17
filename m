@@ -1,35 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 805D2454B19
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Nov 2021 17:38:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F1E6454B28
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Nov 2021 17:39:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A28C089DC0;
-	Wed, 17 Nov 2021 16:38:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD51E6E1BA;
+	Wed, 17 Nov 2021 16:39:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 71D4389D84
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Nov 2021 16:38:05 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 2F0AC61C4F
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Nov 2021 16:38:05 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 88B2D6E0A2
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Nov 2021 16:39:00 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 62C66613A7
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Nov 2021 16:39:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1637167085;
- bh=97vfyNRyg8WY6lYDcvTCyvnKbXPHUR0/7k+Q5FajVeE=;
+ s=k20201202; t=1637167140;
+ bh=IBTk6ZG94seyhfkhVddW+i9+2Y8E9GikzQpSx7hTjUY=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=GHOc7gJ2vDApCM0AO2SLJGOHcK2OQuYU4ENCLg8oeThhKf/kP/OFQqABD6p6Sqnrc
- MSUsgZt22ln505J1fxAnmKkGxkBeNsVmt3mK9twVu2hEXpR+kLhx5jPqjS/NjUFIv8
- hsfaFNM0F3k5/QDuJeEqV0ZyqgK8cSkhSHpQ7JuAV9zpMuNsLvDGiGWmmxiFKcruXc
- MFr90DDA9KW6+ZSljO9mZySifnVEswpF42r07J7/dcrD16FJnL2PEmYSRFNh5xkK/+
- QoeAQVKoFP5USKqXCM1C65WZYMbvJQUFoJAy6lV6EJme56d/gQ39tnZE22bZLExiK/
- 6mZQyOha6AsEg==
+ b=a2iTX68GRjpsqfol2GwjsvriMGVa0LjTNLJfVlirgbBkKd+dSnJNuD23DHHsTr/4I
+ d3aq0prcYkLqi9AgnPZWLTdtgglYeb7SgfrHVu8VUV8qefE20cc0whB9AU/eun2m3M
+ NmWJoJOxI7+UnYmEFEE8Ns0+imyLxaBzQKHquFwFK2oJpUBYSDF4+Cgl6H3RyRJkQd
+ ar2hpg+yI6JlgSii0qip5hFkKvVJI5MAkR24IsYzgbWzNK1RxW+VcCGwo1yzRKHv9w
+ wghk6U4R2/0P5rxUm4Hbv8jWRR8cgHRvr50yJn/kkBI6NJKWwBzZxHaXFroZsIFvpU
+ vDFtTc32jJodA==
 Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 2789360F50; Wed, 17 Nov 2021 16:38:05 +0000 (UTC)
+ id 5F84960F50; Wed, 17 Nov 2021 16:39:00 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 214921] amdgpu hangs HP Laptop on shutdown
-Date: Wed, 17 Nov 2021 16:38:04 +0000
+Subject: [Bug 214859] drm-amdgpu-init-iommu~fd-device-init.patch introduce bug
+Date: Wed, 17 Nov 2021 16:38:59 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -39,15 +39,15 @@ X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
 X-Bugzilla-Who: spasswolf@web.de
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: PATCH_ALREADY_AVAILABLE
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-214921-2300-NVNlG3VXSF@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-214921-2300@https.bugzilla.kernel.org/>
-References: <bug-214921-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-214859-2300-nWuiuJjlax@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-214859-2300@https.bugzilla.kernel.org/>
+References: <bug-214859-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -68,14 +68,16 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D214921
+https://bugzilla.kernel.org/show_bug.cgi?id=3D214859
 
 spasswolf@web.de changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
-         Resolution|---                         |PATCH_ALREADY_AVAILABLE
+                 CC|                            |spasswolf@web.de
+
+--- Comment #8 from spasswolf@web.de ---
+*** Bug 214901 has been marked as a duplicate of this bug. ***
 
 --=20
 You may reply to this email to add a comment.
