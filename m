@@ -1,40 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1116D454D69
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Nov 2021 19:49:54 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B950454D6E
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Nov 2021 19:51:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B909D6E7DA;
-	Wed, 17 Nov 2021 18:49:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B9F906E81F;
+	Wed, 17 Nov 2021 18:51:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 72EAC6E7DA;
- Wed, 17 Nov 2021 18:49:48 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10171"; a="320246545"
-X-IronPort-AV: E=Sophos;i="5.87,241,1631602800"; d="scan'208";a="320246545"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Nov 2021 10:49:48 -0800
-X-IronPort-AV: E=Sophos;i="5.87,241,1631602800"; d="scan'208";a="646128551"
-Received: from rstock-mobl.ger.corp.intel.com (HELO [10.249.254.164])
- ([10.249.254.164])
- by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Nov 2021 10:49:46 -0800
-Message-ID: <9ea7ae8e-c9c4-8b1e-2057-5be69eb35555@linux.intel.com>
-Date: Wed, 17 Nov 2021 19:49:44 +0100
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E95996E7E2;
+ Wed, 17 Nov 2021 18:51:41 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10171"; a="297450041"
+X-IronPort-AV: E=Sophos;i="5.87,241,1631602800"; d="scan'208";a="297450041"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Nov 2021 10:51:41 -0800
+X-IronPort-AV: E=Sophos;i="5.87,241,1631602800"; d="scan'208";a="472839433"
+Received: from mdroper-desk1.fm.intel.com (HELO
+ mdroper-desk1.amr.corp.intel.com) ([10.1.27.134])
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Nov 2021 10:51:41 -0800
+Date: Wed, 17 Nov 2021 10:51:39 -0800
+From: Matt Roper <matthew.d.roper@intel.com>
+To: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+Subject: Re: [Intel-gfx] [PATCH v3 5/5] drm/i915/dg2: extend Wa_1409120013 to
+ DG2
+Message-ID: <20211117185139.GD2020422@mdroper-desk1.amr.corp.intel.com>
+References: <20211116174818.2128062-1-matthew.d.roper@intel.com>
+ <20211116174818.2128062-6-matthew.d.roper@intel.com>
+ <YZVNR9i5nkJZIORP@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v2 1/6] drm/i915: move the pre_pin earlier
-Content-Language: en-US
-To: Matthew Auld <matthew.auld@intel.com>, intel-gfx@lists.freedesktop.org
-References: <20211117142024.1043017-1-matthew.auld@intel.com>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
-In-Reply-To: <20211117142024.1043017-1-matthew.auld@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <YZVNR9i5nkJZIORP@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,88 +48,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, Nov 17, 2021 at 08:43:19PM +0200, Ville Syrj‰l‰ wrote:
+> On Tue, Nov 16, 2021 at 09:48:18AM -0800, Matt Roper wrote:
+> > From: Matt Atwood <matthew.s.atwood@intel.com>
+> > 
+> > Extend existing workaround 1409120013 to DG2.
+> 
+> I don't see this listed for DG2.
 
-On 11/17/21 15:20, Matthew Auld wrote:
-> In intel_context_do_pin_ww, when calling into the pre_pin hook(which is
-> passed the ww context) it could in theory return -EDEADLK(which is very
-> likely with debug kernels), once we start adding more ww locking in there,
-> like in the next patch. If so then we need to be mindful of having to
-> restart the do_pin at this point.
->
-> If this is the kernel_context, or some other early in-kernel context
-> where we have yet to setup the default_state, then we always inhibit the
-> context restore, and instead rely on the delayed active_release to set
-> the CONTEXT_VALID_BIT for us(if we even care), which should indicate
-> that we have context switched away, and that our newly saved context
-> state should now be valid. However, since we currently grab the active
-> reference before the potential ww dance, we can end up setting the
-> CONTEXT_VALID_BIT much too early, if we need to backoff, and then upon
-> re-trying the do_pin, we could potentially cause the hardware to
-> incorrectly load some garbage context state when later context switching
-> to that context, but at the very least this will trigger the
-> GEM_BUG_ON() in __engine_unpark. For now let's just move any ww dance
-> stuff prior to arming the active reference.
->
-> For normal user contexts this shouldn't be a concern, since we should
-> already have the default_state ready when initialising the lrc state,
-> and so there should be no concern with active_release somehow
-> prematurely setting the CONTEXT_VALID_BIT.
->
-> v2(Thomas):
->    - Also re-order the union unwind
->
-> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-> Cc: Thomas Hellstr√∂m <thomas.hellstrom@linux.intel.com>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-
-Reviewed-by: Thomas Hellstr√∂m <thomas.hellstrom@linux.intel.com>
+This seems to be problem with the DG2 query since for some reason they
+marked this workaround as 'driver_change_required' rather than
+'driver_permanent_wa' in the database and that prevents it from showing
+up in some of the queries properly.  The DG2-specific ID number
+to check is 1409222275.
 
 
-> ---
->   drivers/gpu/drm/i915/gt/intel_context.c | 12 ++++++------
->   1 file changed, 6 insertions(+), 6 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/gt/intel_context.c b/drivers/gpu/drm/i915/gt/intel_context.c
-> index 5634d14052bc..4c296de1d67d 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_context.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_context.c
-> @@ -228,17 +228,17 @@ int __intel_context_do_pin_ww(struct intel_context *ce,
->   	if (err)
->   		return err;
->   
-> -	err = i915_active_acquire(&ce->active);
-> +	err = ce->ops->pre_pin(ce, ww, &vaddr);
->   	if (err)
->   		goto err_ctx_unpin;
->   
-> -	err = ce->ops->pre_pin(ce, ww, &vaddr);
-> +	err = i915_active_acquire(&ce->active);
->   	if (err)
-> -		goto err_release;
-> +		goto err_post_unpin;
->   
->   	err = mutex_lock_interruptible(&ce->pin_mutex);
->   	if (err)
-> -		goto err_post_unpin;
-> +		goto err_release;
->   
->   	intel_engine_pm_might_get(ce->engine);
->   
-> @@ -273,11 +273,11 @@ int __intel_context_do_pin_ww(struct intel_context *ce,
->   
->   err_unlock:
->   	mutex_unlock(&ce->pin_mutex);
-> +err_release:
-> +	i915_active_release(&ce->active);
->   err_post_unpin:
->   	if (!handoff)
->   		ce->ops->post_unpin(ce);
-> -err_release:
-> -	i915_active_release(&ce->active);
->   err_ctx_unpin:
->   	intel_context_post_unpin(ce);
->   
+Matt
+
+> 
+> > 
+> > Cc: JosÈ Roberto de Souza <jose.souza@intel.com>
+> > Signed-off-by: Matt Atwood <matthew.s.atwood@intel.com>
+> > Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
+> > ---
+> >  drivers/gpu/drm/i915/intel_pm.c | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/i915/intel_pm.c b/drivers/gpu/drm/i915/intel_pm.c
+> > index 89dc7f69baf3..e721c421cc58 100644
+> > --- a/drivers/gpu/drm/i915/intel_pm.c
+> > +++ b/drivers/gpu/drm/i915/intel_pm.c
+> > @@ -7444,9 +7444,9 @@ static void icl_init_clock_gating(struct drm_i915_private *dev_priv)
+> >  
+> >  static void gen12lp_init_clock_gating(struct drm_i915_private *dev_priv)
+> >  {
+> > -	/* Wa_1409120013:tgl,rkl,adl-s,dg1 */
+> > +	/* Wa_1409120013:tgl,rkl,adl-s,dg1,dg2 */
+> >  	if (IS_TIGERLAKE(dev_priv) || IS_ROCKETLAKE(dev_priv) ||
+> > -	    IS_ALDERLAKE_S(dev_priv) || IS_DG1(dev_priv))
+> > +	    IS_ALDERLAKE_S(dev_priv) || IS_DG1(dev_priv) || IS_DG2(dev_priv))
+> >  		intel_uncore_write(&dev_priv->uncore, ILK_DPFC_CHICKEN,
+> >  				   DPFC_CHICKEN_COMP_DUMMY_PIXEL);
+> >  
+> > -- 
+> > 2.33.0
+> 
+> -- 
+> Ville Syrj‰l‰
+> Intel
+
+-- 
+Matt Roper
+Graphics Software Engineer
+VTT-OSGC Platform Enablement
+Intel Corporation
+(916) 356-2795
