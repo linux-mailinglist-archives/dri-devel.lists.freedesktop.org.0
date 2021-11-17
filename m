@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56A4B454934
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Nov 2021 15:51:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 251EA454938
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Nov 2021 15:51:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A19206E188;
-	Wed, 17 Nov 2021 14:50:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 58A9C6E420;
+	Wed, 17 Nov 2021 14:50:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
  [66.111.4.221])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD2A76E188
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Nov 2021 14:50:52 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id 23FF7580882;
- Wed, 17 Nov 2021 09:50:52 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Wed, 17 Nov 2021 09:50:52 -0500
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 492196E420
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Nov 2021 14:50:55 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 781735808AD;
+ Wed, 17 Nov 2021 09:50:54 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute5.internal (MEProxy); Wed, 17 Nov 2021 09:50:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=23dqcmjSH9B2h
- 73WyYCD5rWytbbg/psxAuav/PZZVQg=; b=MG2lEI8rPFK2Ha+6tbxWgg3qMZreD
- TzODacTLdimFuYRN8UkNSJkzlLg2UCFWYwA6zZ3OhRgvhCnJGjeYBoMD3Cr8/23F
- f8WupOmKUBkP9+Iary7EK6CjU6azQ7FFefwJYdkigi/M3aoVQo1wK3i/1dILAQD+
- eOo+SWtNFSn0/xGdZxryVpnrhEu7qywhwxlLJDIgRe3Jt9gmqMz6dF8DjXfmEu1g
- VTtb5UasGFAGY6RnxSzRF6W7QCKv2Y4q1Univb275yt45ExMRae/vqv05/X/SODb
- OTgzhoR+FE0948ql8YYkCWWKiLw5l7p/xJZMCpAlA3kZ3YZq2N+RJbgaA==
+ :mime-version:content-transfer-encoding; s=fm1; bh=mLLzlElNt+foG
+ XGUbWNPyrcc8VA72A241ZqZ42H44io=; b=YYiHpYbuZNVNZrEMylD4fazPL8e10
+ 5gucWGiPRXU8c0sHxgBNt++bwJf0PbRz2Dwv675dOzFz4zQCeXxWTR21igJMU1ov
+ CLL+dJdOb//UD3Mkx801be/eEI4sNRd7PBXQWuvM+RuF6jI0RpAFOo4OAl6EvSxN
+ tsErbtg0XviT6PYmjwzrlRiwGonoRn3d0LOmeffXowvlDRdPl19S3gK/Im1TqQwj
+ YfyBgF3yjIwIeQ8oxb705pW7I8L3YrrjijVIvjRGnH8m0kCjqm1neYYpOVVP+wcT
+ X41PdaaqSNiKjpS2UXsYsfgt5urqpFgLit9aekX75lLCB7iin1DFTa62w==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=23dqcmjSH9B2h73WyYCD5rWytbbg/psxAuav/PZZVQg=; b=EpF92wSo
- aJS5IZZcQSznSPQLcmMoEQ6reQ/KUXtB7YXBC7ZBudq8WkjfvWw7wNIDVR3NwGM3
- E5GoXJ1pv+Bg7/OguMNVCPnOR0SqqrRJeMP5JT/5Q4jkGtzG/cPokWu/3mqWAL2d
- 9ULv5ji4e5LN3Xk+QCVWOfhn/63Ih/VEcByYcd0mJbdMbvTxGWilb+PWk5HQ8omu
- XLJpJiE9pFpygpkU6yBBERiuC85krn0UKmBKR/OaWgEWMogGEUFNJNPzXJOuro2B
- cSuYK6JM9Vj/LC5gLd0MbJpoN4uwU8F/VO2Vfk5iIn06oxrNvZBDW3qtpP6wyPlJ
- eWWu608MKD6OOw==
-X-ME-Sender: <xms:yxaVYYT4_aUfvLzHMWGr34LcSVH9wTOrJPr19s6c5qk60p1KRRPJRQ>
- <xme:yxaVYVyED7RglqWsobXtBNKh_6dHo8XCsGpI4o85aOmmPjE_gDRGP_xcWWRlpjW8e
- Dzm4dU2U-yRxqxUA10>
-X-ME-Received: <xmr:yxaVYV1btl-tXIkLfGS8IFxscIM-2SLYwKpRbpKFNp4qrQ6_SzoAaUDkisE50goCR4IiqMcGpQCo7Aayka50y0U0XRDIGb-RFH41AOPqrnY>
+ fm1; bh=mLLzlElNt+foGXGUbWNPyrcc8VA72A241ZqZ42H44io=; b=NxMbvxvY
+ t8aZw4YxbS5EkRTxORmcBGt8E30AhU2yL/HU/o3/jCs9r3VlkZ0zamBht/OZFcQt
+ VNZ32RRmaCx8G1De1hcZPtcb1JyLIimghelz42WN1JMbyvf7M0hXdYYDcbp6J0Fr
+ PlWjleifnMIJMj7/5jy747ZBZvW8qdnaZl3lhNR8D/xv/RygWB9ywTgu5BJX2rlc
+ ODkVCJGtcIvFpR1vYIdWPTH2lnppeqwy7BlpP6e10mWoegYZPgGw41+feTkZeuyu
+ jNEPahcLLLW9HGV8Ale0of8vHCh1sS1Km7Gibr1zZf5sd0d4tzK0i/g2r92df2U0
+ C9dWy7MpgT6M+Q==
+X-ME-Sender: <xms:zhaVYYeZv0o5i2O4BJfU_PoUYErdgX3rWWRxBBz6qkdJEWBzUKk5Ig>
+ <xme:zhaVYaPE7dk2FjomC8KAPYaxjhniXszAhM_HkFfVIRlfx8HRfLNrV7lKF-p9O9YqZ
+ N_ypGGgq5EQncfk1iA>
+X-ME-Received: <xmr:zhaVYZiDiwC6RgLHD06QTc1k6-tknHwoyAft-y_9g-uoMkmOqi_Qqb-bxfaMka2OlJJlVBBJdvzXH3Ry7jQZ9KxvDbACHwWjOF5fAqhSYOg>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrfeeggdeifecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihimhgv
  ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
  gvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveevheeh
- vdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
+ vdenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
  igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:yxaVYcDgWbuGoXAfWbhMExzjDx0Wa8a0DtnOnYz_wEZIEwQ3QomV4A>
- <xmx:yxaVYRj2dHJRneNtzMMdzM4B-tLdQ7GEgyf2cCT54_bUvjzaTNr1Aw>
- <xmx:yxaVYYr07P9sk1uPpAwzB9a52UNU-F4mZvMJxX-loLny53cIG1nCng>
- <xmx:zBaVYaZW0cqGFL7_ZpRqxOXWX8XHSN56-9DzrsVORxZtQ84khHCS2g>
+X-ME-Proxy: <xmx:zhaVYd8Dpfh22jL5Sf-sG-iD8RTVkoEJ3ZLAEBDZt3d0jOg2zctIuQ>
+ <xmx:zhaVYUvElE8u0h96OeCQ2LjKHAxuk9e8yQ5xGDN2iZZ-yWeMCn0q4A>
+ <xmx:zhaVYUGSvQpN4r1ynYopdWQhUCW5BRSOLWVNGjkbmTMCuTaVtldwYg>
+ <xmx:zhaVYfkiC5WWNlzdN1o0ausuGVGpvj7Z1umadGWY9BXnPeBbAXetsg>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 17 Nov 2021 09:50:51 -0500 (EST)
+ 17 Nov 2021 09:50:53 -0500 (EST)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Scott Branden <sbranden@broadcom.com>,
  Nicolas Saenz Julienne <nsaenz@kernel.org>,
@@ -64,9 +64,9 @@ To: Scott Branden <sbranden@broadcom.com>,
  Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>
-Subject: [PATCH 4/5] drm/vc4: Notify the firmware when DRM is in charge
-Date: Wed, 17 Nov 2021 15:50:39 +0100
-Message-Id: <20211117145040.334827-5-maxime@cerno.tech>
+Subject: [PATCH 5/5] ARM: dts: rpi: Add the firmware node to vc4
+Date: Wed, 17 Nov 2021 15:50:40 +0100
+Message-Id: <20211117145040.334827-6-maxime@cerno.tech>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211117145040.334827-1-maxime@cerno.tech>
 References: <20211117145040.334827-1-maxime@cerno.tech>
@@ -93,73 +93,29 @@ Cc: devicetree@vger.kernel.org, Dom Cobley <dom@raspberrypi.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Once the call to drm_fb_helper_remove_conflicting_framebuffers() has
-been made, simplefb has been unregistered and the KMS driver is entirely
-in charge of the display.
-
-Thus, we can notify the firmware it can free whatever resource it was
-using to maintain simplefb functional.
+Add the firmware phandle to the vc4 node so that we can send it the
+message that we're done with the firmware display.
 
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_drv.c | 19 +++++++++++++++++++
- drivers/gpu/drm/vc4/vc4_drv.h |  2 ++
- 2 files changed, 21 insertions(+)
+ arch/arm/boot/dts/bcm2835-rpi.dtsi | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_drv.c b/drivers/gpu/drm/vc4/vc4_drv.c
-index 8ab89f805826..d09fa9c130da 100644
---- a/drivers/gpu/drm/vc4/vc4_drv.c
-+++ b/drivers/gpu/drm/vc4/vc4_drv.c
-@@ -37,6 +37,8 @@
- #include <drm/drm_fb_helper.h>
- #include <drm/drm_vblank.h>
+diff --git a/arch/arm/boot/dts/bcm2835-rpi.dtsi b/arch/arm/boot/dts/bcm2835-rpi.dtsi
+index 87ddcad76083..bc5dc51ba579 100644
+--- a/arch/arm/boot/dts/bcm2835-rpi.dtsi
++++ b/arch/arm/boot/dts/bcm2835-rpi.dtsi
+@@ -67,6 +67,10 @@ &usb {
+ 	power-domains = <&power RPI_POWER_DOMAIN_USB>;
+ };
  
-+#include <soc/bcm2835/raspberrypi-firmware.h>
++&vc4 {
++	raspberrypi,firmware = <&firmware>;
++};
 +
- #include "uapi/drm/vc4_drm.h"
- 
- #include "vc4_drv.h"
-@@ -251,10 +253,27 @@ static int vc4_drm_bind(struct device *dev)
- 	if (ret)
- 		return ret;
- 
-+	node = of_parse_phandle(dev->of_node, "raspberrypi,firmware", 0);
-+	if (node) {
-+		vc4->firmware = rpi_firmware_get(node);
-+		of_node_put(node);
-+
-+		if (!vc4->firmware)
-+			return -EPROBE_DEFER;
-+	}
-+
- 	ret = drm_aperture_remove_framebuffers(false, &vc4_drm_driver);
- 	if (ret)
- 		return ret;
- 
-+	if (vc4->firmware) {
-+		ret = rpi_firmware_property(vc4->firmware,
-+					    RPI_FIRMWARE_NOTIFY_DISPLAY_DONE,
-+					    NULL, 0);
-+		if (ret)
-+			drm_warn(drm, "Couldn't stop firmware display driver: %d\n", ret);
-+	}
-+
- 	ret = component_bind_all(dev, drm);
- 	if (ret)
- 		return ret;
-diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
-index 4329e09d357c..b840654c53a9 100644
---- a/drivers/gpu/drm/vc4/vc4_drv.h
-+++ b/drivers/gpu/drm/vc4/vc4_drv.h
-@@ -76,6 +76,8 @@ struct vc4_dev {
- 
- 	unsigned int irq;
- 
-+	struct rpi_firmware *firmware;
-+
- 	struct vc4_hvs *hvs;
- 	struct vc4_v3d *v3d;
- 	struct vc4_dpi *dpi;
+ &vec {
+ 	power-domains = <&power RPI_POWER_DOMAIN_VEC>;
+ 	status = "okay";
 -- 
 2.33.1
 
