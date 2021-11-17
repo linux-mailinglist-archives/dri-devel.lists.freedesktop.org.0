@@ -1,115 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 951F8453DE2
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Nov 2021 02:48:54 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F8AE453E34
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Nov 2021 03:06:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0AB1489E36;
-	Wed, 17 Nov 2021 01:48:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04C4C89B98;
+	Wed, 17 Nov 2021 02:06:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from APC01-SG2-obe.outbound.protection.outlook.com
- (mail-sgaapc01on2118.outbound.protection.outlook.com [40.107.215.118])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A49F89E36
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Nov 2021 01:48:49 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BEqWuqFR3l1e+6saFj4YUyQFQ1lBYzQYIO/umJOooMjpDfm80notCYwh2QERlH6KeScfZMpUyFst+MZySRq6XTU0mC+pOsDOJc4jevHcCC4KK7MoLtul8kPaNBgXyrs1rXCb/XCnzbKN60l99w+5E/nx3mNFyimnNY1NNdD3Kqotu46iftlpVAxkFT2O955xHi5sKFGGVE3+xy1vSzzrElkLBGlGlTPS1pr9CI8wjKMnIbsMjgAubKG/2hkc1HDo/6i0sASNW9WmVLN8VhKC6S7/hNRMRAz8G/3Sc97kVAuQz566QH89uH+IZ4QpO+vQLlrf4aWepxN1tZBIPvQHfw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=prPawOZRd5bkH37BLxibNBJpOMzugeaN2ZNnNfaUYg0=;
- b=n5Eos3p+h4bmfVkLT8/1HIgZ0ldZriOP1/p4IG+VQGmgYGSTKXbkxQ9cHaZntDbUddG5HxyhnYtaAd3ggC09xbMYY9K6v7tvhBU+OaU/4uQ5BkyOnQf2+KBJawk4Tb9HmjdD3LYgmKmcKRnNDwil6E1q2MNE2QfxvEPtHnmeKe8rlh8inX7P9m/g5ofn0HhXsR/s27BRciuoWJnCODMSRCKwioCJlotXhB3K7aeC5nPBAdZGZyKXXXatSDFRMLBnGpb18uDB5TYcFvJNGVa2usidy9ZuRfVchP53EQJ4NHiLDmzRkz+zXmhZEOuQcmwl/gfWtrTzIdldznI5O8vNFw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
- dkim=pass header.d=vivo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo0.onmicrosoft.com; 
- s=selector2-vivo0-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=prPawOZRd5bkH37BLxibNBJpOMzugeaN2ZNnNfaUYg0=;
- b=Fe6vKhb13+mUbkCT6cPe9oPNC88D2AZ+Ii8UkZXx/GXr6QZWthOY6TNE/q27FY50872hBO2/BL0AF+V66/jrfEBjDNpkK81rXBTX7uPiq2wmtHEszPvVTaiH5VvjexC3sqbNESLlXsu996Us5lX10roZrZzsTCQb0w/0TDNtvYI=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vivo.com;
-Received: from PSAPR06MB4021.apcprd06.prod.outlook.com (2603:1096:301:37::11)
- by PS1PR0601MB3691.apcprd06.prod.outlook.com (2603:1096:300:7f::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4690.26; Wed, 17 Nov
- 2021 01:48:44 +0000
-Received: from PSAPR06MB4021.apcprd06.prod.outlook.com
- ([fe80::395a:f2d7:d67f:b385]) by PSAPR06MB4021.apcprd06.prod.outlook.com
- ([fe80::395a:f2d7:d67f:b385%5]) with mapi id 15.20.4690.027; Wed, 17 Nov 2021
- 01:48:43 +0000
-From: Bernard Zhao <bernard@vivo.com>
-To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Lee Jones <lee.jones@linaro.org>, Bernard Zhao <bernard@vivo.com>,
- Lyude Paul <lyude@redhat.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/selftest: fix potential memleak in error branch
-Date: Tue, 16 Nov 2021 17:48:28 -0800
-Message-Id: <20211117014834.36999-1-bernard@vivo.com>
-X-Mailer: git-send-email 2.33.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: HK0PR03CA0117.apcprd03.prod.outlook.com
- (2603:1096:203:b0::33) To PSAPR06MB4021.apcprd06.prod.outlook.com
- (2603:1096:301:37::11)
+Received: from bombadil.infradead.org (bombadil.infradead.org
+ [IPv6:2607:7c80:54:e::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E57DF89B98
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Nov 2021 02:05:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+ Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+ Subject:Sender:Reply-To:Content-ID:Content-Description;
+ bh=4tWYtMZGixA+wvOSftKSlvk/VgodDRuuv8NOVBgK9qA=; b=Adq4v/KWTEM2FdczXpvjs80tIS
+ X+RI8WudlJAsHrDPGPuCobzpS7CFDimDgP4hUO57ijSq+gK2r7RjaX+5aWCUI+kHE5HNNvxAiArb8
+ MS2goqmoJTX+p9hyEsHktic/NtZxDWhf2p4O9b5k/d/KvN0wUtcmJsD2XP8KiNZU8zHfrCWygGZbf
+ 8nS638cYMetvY08LkJYRSgyJFQ4rl780l7P9YO3hEfXv1iAyk81Ac9opUIOH1J54gT/anfierRXVH
+ MxYlvXhSFH2WpfGppH4xw+r0EETjY+4Yny/3LELXc9fz8PIP5eqaU39lCpGtN1ivyUo+nWcfxcO6p
+ 5wtu7BXA==;
+Received: from [2601:1c0:6280:3f0::aa0b]
+ by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1mnAKU-0035bi-Ao; Wed, 17 Nov 2021 02:05:44 +0000
+Subject: Re: Build regressions/improvements in v5.16-rc1
+To: Nick Terrell <terrelln@fb.com>, Helge Deller <deller@gmx.de>
+References: <20211115155105.3797527-1-geert@linux-m68k.org>
+ <CAMuHMdUCsyUxaEf1Lz7+jMnur4ECwK+JoXQqmOCkRKqXdb1hTQ@mail.gmail.com>
+ <fcdead1c-2e26-b8ca-9914-4b3718d8f6d4@gmx.de>
+ <480CE37B-FE60-44EE-B9D2-59A88FDFE809@fb.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <78b2d093-e06c-ba04-9890-69f948bfb937@infradead.org>
+Date: Tue, 16 Nov 2021 18:05:40 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Received: from ubuntu.localdomain (203.90.234.87) by
- HK0PR03CA0117.apcprd03.prod.outlook.com (2603:1096:203:b0::33) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4713.19 via Frontend Transport; Wed, 17 Nov 2021 01:48:42 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: a7067561-5598-4cad-5d33-08d9a96c6306
-X-MS-TrafficTypeDiagnostic: PS1PR0601MB3691:
-X-Microsoft-Antispam-PRVS: <PS1PR0601MB3691F0BEE6FD79614B54FBE1DF9A9@PS1PR0601MB3691.apcprd06.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4125;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: GhKe4G/vtjQBccwrWDep0RtzpKNYmpuTtO13fUv4A59LORLdYscuZy5sMJ+qNLU6PFflmDCfLl16serqH0aksee6uJdoZpbkthfPVXOFU1O3EoTWKe9bVL8QtIdjK7F5Xqam0CHnrRHfpxHZwnI9Tkp+T5eQBu/gn345uG7qR6iLE4TxRGDAvbosKAG4NC0qYiRvUQI80n6uaSV9fqZDDlSsGIaFBeKS/9B8syAiAs4yv++8dKnqvp0K72HJkH+BOGWKskd2eFkl9y1tNr8os3l8XxuafUX4pVb2dzLjMm8+ukEOD0mOA2AZKo2+FMrfKeX56Bt4Jjbr8SoT9RUJ3SUsOsmc2SHmyx9W5NAE7wz8ijhMa+YbbkmmhgOVtKqfGNC2RVKyzqNLkZb9gx4Lrqy/wbGNs9+6kEKPmf/KfkrnuV3UGWMTPrXEEWKF8rlpVEVjpiNKgHm9qc9qBlx6YgGvnS4RmMkyqCBXChIHLZxVB14RoIchwSKm7FIO5RstFbIr6GLHBsYbld3g22Q+emxCku5s6/ETGepN1D1QAVTtoCkBKVoIAS2Yi2JuwKEMr4LTvC8X3+VLy8HgdQqGUE9LaYJS79x8km7eS5c/+4gkM8u7SV7p0cBB3pcU2OOG6ppE1OTaH635K2DH4PW7HWzYaLJbZFdn28jI3aKKenND79idajrJ/v+EET3pAvKvCn3c4Q7+QsDTeiXdajcZkg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PSAPR06MB4021.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(66946007)(6486002)(316002)(956004)(52116002)(36756003)(5660300002)(66476007)(2616005)(66556008)(2906002)(1076003)(4744005)(110136005)(26005)(6666004)(8676002)(186003)(508600001)(6506007)(83380400001)(6512007)(38350700002)(86362001)(38100700002)(8936002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?baZVuAGsgprnYxqUHVTLy7FplaXR8gGD4FeroB7Zd9pawjqsj5MI6/P2feFE?=
- =?us-ascii?Q?PUKVDsu5T0AH1kIyGWnhSLuPHl6Fw3LroSylfTK9uixA/q8MJPUKi7L9BkKS?=
- =?us-ascii?Q?93veLL3a4+SVAvu1wlwSdB5zjjAbsdlkYdSk+fO1HXYdciqJuk4MJviUkz68?=
- =?us-ascii?Q?nYTRTe9JBstMs1TLp44rgni7FiU+axgqEDTAQEb8+8jhAA/tfXxjcbe7W0qs?=
- =?us-ascii?Q?gy0QM0Ej7SdKPkIwzC9cP277HU3ZobhVTFeC12dwkAbmiZukd5bHInusfQWT?=
- =?us-ascii?Q?U3A8WD5F7Lw8/o88LkyXVh6CkAT+WreS9gPXOK6ZD8piWTOw0fBabbNs4W5P?=
- =?us-ascii?Q?A1LBmg3i+0R8v4KM7xp4Odz1FQ7wpy2tsYHCltZc9BxuyqLvkjVc6joIUT30?=
- =?us-ascii?Q?bHkyNV9AdJ0/EbD+04YIhtZXJy97TRHVNGX+rNCN0k4Hp7NVrrcnUaIeUwex?=
- =?us-ascii?Q?Jp3NHD61OHF5Bi25eo7+saVJ5T34BeK04DXkzGpvNOI5gr5Z76roF8TVc+n3?=
- =?us-ascii?Q?s3sjmx6jS9d2QQch+xDGq2eJyl0paKI8g+pRtp4ML1ZGhdTJYle/F8WhCc39?=
- =?us-ascii?Q?o5SQapyBPWslrxq2UlzfM3DWR7MkP1Vm0izSABb7Bz2RIpXbCpEhB/dXWXsz?=
- =?us-ascii?Q?kT1Z/62XJdAF0g71VWcLUq/vSLUKF8yIhVNYbkJ7L+3wRB9GWzsaY3w57Xwv?=
- =?us-ascii?Q?AUEv8u5reWp8oc9Nzs2jjeRGJ8ciVAxZEa/HXfXU9tcLwzJs/dnaomFnfJvX?=
- =?us-ascii?Q?M3qHpFHNdMOMHIEbkzBOAzL64wgMgqhC8fVszBsyvBk3zK4JHvbpJVIQ7j+C?=
- =?us-ascii?Q?xBOn0klrR2o0WCpvtkIeEnjGWF7afyeVRvr2I4ddIHr6R/kq8DxwIaxssqLo?=
- =?us-ascii?Q?sn5G2d4uVvTJrbu/wNyAo3bxQvTW2ekXU8yqrdg68S9Bkm9GOq0u19GMzYrc?=
- =?us-ascii?Q?ckpQCfhnHha5SULgdoAflaakI5Mi9MC95JtHMYvlxFkMrWruz4YAMkVb284h?=
- =?us-ascii?Q?uHNFYu6f63LUH/6hFBvmA4bJwW/NnQ/52TYP5FJMdv96hbNqRxdby6i0CIyL?=
- =?us-ascii?Q?bIWDEDGcSYT74WCuiwPzFixGSOZEopO1YajaS0O3bqhbQh3FFlJ5qtrJZpjg?=
- =?us-ascii?Q?5536pQr5jPIC9qFbwr0tpyVGCni+rysU+I/i/WtyY9Z18JviLPotgj02MQ/E?=
- =?us-ascii?Q?o2PUSrMo7aWbbBaw8SxvblBbU3fuCnOgdNwUjtphF4uWP23UncYB9QYjgvKh?=
- =?us-ascii?Q?4r+cmJKtedWvIhHMozq19bBlyouw6v9HaEBliw8JoWmLlbO5ZrHrPqSSCSA7?=
- =?us-ascii?Q?7jblixRLsGYKG01VD4FYrpS+9+T9lUbdviqrbMdYhwI2g/jKGcHWIjKb8rux?=
- =?us-ascii?Q?cNGAgu7tEA7wdpP35spM2vuKJiB+7S54eC2PgR1mdBHA+RgvLjD6mwk6a1tU?=
- =?us-ascii?Q?S9pjPp4ppUzm02uLVB/A2EDPGuQQNnGdNW7dCIy5jL3ZrbGzsQOn+EyOVjPb?=
- =?us-ascii?Q?6lcsaIWHXWvkAdfvhMqlNaStKkedLN2oNfZX6GamSmFyppObCofEObpnDWcM?=
- =?us-ascii?Q?xrnE/DdsnVqkUHEF/IrxyC/YqTHNHsG9vVzJlBS9Db6aRs1egboHaDOcGH2L?=
- =?us-ascii?Q?kYSmoOqrMNcqxA6uPBIHt64=3D?=
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a7067561-5598-4cad-5d33-08d9a96c6306
-X-MS-Exchange-CrossTenant-AuthSource: PSAPR06MB4021.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Nov 2021 01:48:43.5486 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: OoMUjoPEyfBMHUuQaOc5kwMTSKQYFI42bexYMmcRcPKjEOM1z46B4x8xpwzRgnhWz2M3yj6elaAmIzgHgbAMJA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PS1PR0601MB3691
+In-Reply-To: <480CE37B-FE60-44EE-B9D2-59A88FDFE809@fb.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -122,33 +54,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Peter Zijlstra <peterz@infradead.org>,
+ linux-pci <linux-pci@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Andrey Ryabinin <ryabinin.a.a@gmail.com>, Stan Skowronek <stan@corellium.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>,
+ kasan-dev <kasan-dev@googlegroups.com>,
+ Sergio Paracuellos <sergio.paracuellos@gmail.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Anton Altaparmakov <anton@tuxera.com>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ Joey Gouly <joey.gouly@arm.com>,
+ =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@collabora.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Parisc List <linux-parisc@vger.kernel.org>,
+ "linux-ntfs-dev@lists.sourceforge.net" <linux-ntfs-dev@lists.sourceforge.net>,
+ Hector Martin <marcan@marcan.st>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
+ linuxppc-dev <linuxppc-dev@lists.ozlabs.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch try to fix the potential memleak in error branch.
+On 11/16/21 5:59 PM, Nick Terrell wrote:
+> 
+> 
+>> On Nov 15, 2021, at 8:44 AM, Helge Deller <deller@gmx.de> wrote:
+>>
+>> On 11/15/21 17:12, Geert Uytterhoeven wrote:
+>>> On Mon, Nov 15, 2021 at 4:54 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+>>>> Below is the list of build error/warning regressions/improvements in
+>>>> v5.16-rc1[1] compared to v5.15[2].
+>>>>
+>>>> Summarized:
+>>>>   - build errors: +20/-13
+>>>>   - build warnings: +3/-28
+>>>>
+>>>> Happy fixing! ;-)
+>>>>
+>>>> Thanks to the linux-next team for providing the build service.
+>>>>
+>>>> [1] http://kisskb.ellerman.id.au/kisskb/branch/linus/head/fa55b7dcdc43c1aa1ba12bca9d2dd4318c2a0dbf/  (all 90 configs)
+>>>> [2] http://kisskb.ellerman.id.au/kisskb/branch/linus/head/8bb7eca972ad531c9b149c0a51ab43a417385813/  (all 90 configs)
+>>>>
+>>>>
+>>>> *** ERRORS ***
+>>>>
+>>>> 20 error regressions:
+>>>>   + /kisskb/src/arch/parisc/include/asm/jump_label.h: error: expected ':' before '__stringify':  => 33:4, 18:4
+>>>>   + /kisskb/src/arch/parisc/include/asm/jump_label.h: error: label 'l_yes' defined but not used [-Werror=unused-label]:  => 38:1, 23:1
+>>>
+>>>     due to static_branch_likely() in crypto/api.c
+>>>
+>>> parisc-allmodconfig
+>>
+>> fixed now in the parisc for-next git tree.
+>>
+>>
+>>>>   + /kisskb/src/drivers/gpu/drm/msm/msm_drv.h: error: "COND" redefined [-Werror]:  => 531
+>>>>   + /kisskb/src/lib/zstd/compress/zstd_double_fast.c: error: the frame size of 3252 bytes is larger than 1536 bytes [-Werror=frame-larger-than=]:  => 47:1
+>>>>   + /kisskb/src/lib/zstd/compress/zstd_double_fast.c: error: the frame size of 3360 bytes is larger than 1536 bytes [-Werror=frame-larger-than=]:  => 499:1
+>>>>   + /kisskb/src/lib/zstd/compress/zstd_double_fast.c: error: the frame size of 5344 bytes is larger than 1536 bytes [-Werror=frame-larger-than=]:  => 334:1
+>>>>   + /kisskb/src/lib/zstd/compress/zstd_double_fast.c: error: the frame size of 5380 bytes is larger than 1536 bytes [-Werror=frame-larger-than=]:  => 354:1
+>>>>   + /kisskb/src/lib/zstd/compress/zstd_fast.c: error: the frame size of 1824 bytes is larger than 1536 bytes [-Werror=frame-larger-than=]:  => 372:1
+>>>>   + /kisskb/src/lib/zstd/compress/zstd_fast.c: error: the frame size of 2224 bytes is larger than 1536 bytes [-Werror=frame-larger-than=]:  => 204:1
+>>>>   + /kisskb/src/lib/zstd/compress/zstd_fast.c: error: the frame size of 3800 bytes is larger than 1536 bytes [-Werror=frame-larger-than=]:  => 476:1
+>>>
+>>> parisc-allmodconfig
+>>
+>> parisc needs much bigger frame sizes, so I'm not astonished here.
+>> During the v5.15 cycl I increased it to 1536 (from 1280), so I'm simply tempted to
+>> increase it this time to 4096, unless someone has a better idea....
+> 
+> This patch set should fix the zstd stack size warnings [0]. I’ve
+> verified the fix using the same tooling: gcc-8-hppa-linux-gnu.
+> 
+> I’ll send the PR to Linus tomorrow. I’ve been informed that it
+> isn't strictly necessary to send the patches to the mailing list
+> for bug fixes, but its already done, so I’ll wait and see if there
+> is any feedback.
 
-Signed-off-by: Bernard Zhao <bernard@vivo.com>
----
- drivers/gpu/drm/selftests/test-drm_dp_mst_helper.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+IMO several (or many more) people would disagree with that.
 
-diff --git a/drivers/gpu/drm/selftests/test-drm_dp_mst_helper.c b/drivers/gpu/drm/selftests/test-drm_dp_mst_helper.c
-index 6b4759ed6bfd..dbac073ed385 100644
---- a/drivers/gpu/drm/selftests/test-drm_dp_mst_helper.c
-+++ b/drivers/gpu/drm/selftests/test-drm_dp_mst_helper.c
-@@ -131,8 +131,10 @@ sideband_msg_req_encode_decode(struct drm_dp_sideband_msg_req_body *in)
- 		return false;
- 
- 	txmsg = kzalloc(sizeof(*txmsg), GFP_KERNEL);
--	if (!txmsg)
--		return false;
-+	if (!txmsg) {
-+		result = false;
-+		goto out;
-+	}
- 
- 	drm_dp_encode_sideband_req(in, txmsg);
- 	ret = drm_dp_decode_sideband_req(txmsg, out);
+"strictly?"  OK, it's probably possible that almost any patch
+could be merged without being on a mailing list, but it's not
+desirable (except in the case of "security" patches).
+
 -- 
-2.33.1
-
+~Randy
