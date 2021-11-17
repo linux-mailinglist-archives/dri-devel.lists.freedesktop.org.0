@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12C8C45441B
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Nov 2021 10:45:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61121454418
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Nov 2021 10:45:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 08EFE6E9C1;
-	Wed, 17 Nov 2021 09:45:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 620466E92D;
+	Wed, 17 Nov 2021 09:45:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
  [66.111.4.224])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6FCBF6E9CC
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Nov 2021 09:45:39 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailnew.nyi.internal (Postfix) with ESMTP id C7E8C58082C;
- Wed, 17 Nov 2021 04:45:38 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute1.internal (MEProxy); Wed, 17 Nov 2021 04:45:38 -0500
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 914896E9AE
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Nov 2021 09:45:41 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailnew.nyi.internal (Postfix) with ESMTP id EABB258082C;
+ Wed, 17 Nov 2021 04:45:40 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute6.internal (MEProxy); Wed, 17 Nov 2021 04:45:40 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=rAjeSvERe2N/W
- YLJ9YeTPfCxmvB30dSdBrVz26BBJpM=; b=N/Ueqr+8dDghxj4F1tnOGm04w08T/
- opawbkj6eJghl7at89mgt/wc2z1R5BN95jCZUK6zH1rqnQ/+0Jx3sXlyQfXmSKU1
- fFKpkLFTZv+i7UFE57niMP82hbHCI7Cw1XCgIYuMzeuB04zyT0+IaAzg79n0t7mk
- oP/z4MgTXEe16Lyn1JYp1Tqvi06uFfSIL9d6TiikrGTD6nxSG+k6mieDCydxDr8A
- 8Y5cLcf69GAzbpQjbkrln878Q+MnpoqHCPHkVUdqX3cjlJgapdz36A+Y9Jg1HMmm
- pIJnD8zhgFR8rswFXtjK3iZy2CMZ9pJOgB6x8iclHm+ea0emDYyNgd2Vg==
+ :mime-version:content-transfer-encoding; s=fm1; bh=fXxmxjVhepE3q
+ cmVUCO3YDZGl3sBQb+VLzlC1ueEruI=; b=aV7TsN/agM/Qts4UAGFskyaoBOsl+
+ qpM+Pr7NF2zPCrOR6LE4lTdBDtPDenq/3YZu41bgwb3rwVnso4pBi38fdqAs9fbf
+ ozV04fYANr4Ox5Sqwvig717Z7IcAYnAuGuG29KDS4PW7rc1nlp6IoHIxmrkvqd2h
+ Ip04J7Qdqz5JS0EqNlW97NNf5lZnBt4bxrifAtNOW4kgvPZlbZJdUsz5sv66TTKt
+ BaH8yt7X80nwUQm0yG+lhzbJZ7OL/VSZdsZoJlwRhDL8f6gKAZgBfug7z7fTe7K/
+ efn8sM24xCBvjxXP8IYKfSXGP8nLFbrqlfafX7gynTZv32cIuPevjMjHg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=rAjeSvERe2N/WYLJ9YeTPfCxmvB30dSdBrVz26BBJpM=; b=dbw6jSbV
- 6WzFWoM94q4nmYViN9RPCbBcFbCXqCxpTclBqrIn2WZq+mAd0Wqn6beDqf8q0T/F
- bdF1hsIt50qKmbE4rNsbfcj9SJZ/j+3CATKVZ4WHAEdVkBfWqqcXmt4iIo9giwb3
- xIilDjXAMBpIuKTvFBc8RFugYLbr4FVHwe003dSTWSBCUKMyQOSLJ/s5ESUrz4KW
- XOfXgy1vy88L/n5vJ8q2DEZX4y4pUPsvEIvodjAOQCWArPTfL0A3cx5IJz9furfI
- xYj8j4ID/F2nW1rmkWlXFSHBXweUz+Dk4RNvrq16bf2tUpyI2QvY6sKhrowgPfNG
- EXR20RDJI9QPDg==
-X-ME-Sender: <xms:Qs-UYbWcNqpdHH48VvQC4F4P2HlyvY5F90bgXWj831cLbgbsCrBaAw>
- <xme:Qs-UYTlz3T6CZcUfkTioTgQhj5ITe50D61ANOlDB3peDuASNW8t3p0FCQmAnXCokk
- RYH48YfFXo3Xh42IBg>
-X-ME-Received: <xmr:Qs-UYXadu1fYmlRPK3zzW8ZJz_46yswOjwdITKrxJ3DdH51anO5aCKuQLr_q4TGPPetrLwxmQKokgvjtLNpc3oPVO6JVZcfSyAYqJxh32xs>
+ fm1; bh=fXxmxjVhepE3qcmVUCO3YDZGl3sBQb+VLzlC1ueEruI=; b=V8vFjbmb
+ +QeklnjJp1n9iY08MqJVMi6a4CW2Sx6U9wnq3oHhHorx4U9RS9m5b6vYTWzDPHQb
+ kw6S5HsKWIkdp/lDM2Ue8vHrnmLtiBv4VW6SgpIA1x0YK5aACCerPsjLNBjlB0MM
+ /+Ns8p3Wm6wfPkvM/KN56qpRXSAg55nBqebD1+5REjEXCMmvVFxBpXpagYjFJv9j
+ dcd/7mi9Ve44bJ5HL6yLGk9T8wCTRtIVEmNXJ4X1juDbZ1x2ugWCpB2dP5iFIvvz
+ iVbfpGM+T0Mr6+z065NtGKaR+ATEVy9TE3DF1e1Kthw0AYuDosklL8EywxrzXgks
+ kAER1tm3bB5O8A==
+X-ME-Sender: <xms:RM-UYVr5YuSxVmhWbUG9zfMBUFQ969n2BDEaSH-Megr4AhYQDqhbGg>
+ <xme:RM-UYXojGV0pkznfScvDqXZxiNFquq10m2g-b3bmenpdfjQF8IdVS1f5GYndHmju4
+ Kr0sV247itOBYBkGfA>
+X-ME-Received: <xmr:RM-UYSMPbLGSJ3BSILLehRi3XrPYeMdvNJMH5J0GiMTFG86o921TtYhSCZPNUwVr4oj5ASIdFpLcHJd30oj04m3KwzEg8mT9JELztC5KwsY>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrfeeggddtfecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
@@ -50,19 +50,20 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrfeeggddtfecutefuodetggdote
  gvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveevheeh
  vdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
  igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:Qs-UYWV7BaxMUlb_7Bmxaw7yWw1PAzJjziiRi86SVy0hNzSNFsA5zw>
- <xmx:Qs-UYVkMkr7M3iiYr-AYXal97DWQqfNr7GqbcNhF4BLP0UPSGDqgfQ>
- <xmx:Qs-UYTfUOWzVXqo_bXiTnm4SnEJcbnY_6L3wtyw0g04t09bv2hXz2A>
- <xmx:Qs-UYWg_NJ-ps0k63IsE-NUyJuaDtyT0Jn8uFBmAj2KRkQ57yr5ORA>
+X-ME-Proxy: <xmx:RM-UYQ5QwzNkHQFld2SerWPzqc7KYV7LPcz6P2rqGy2D0eJtR5j96g>
+ <xmx:RM-UYU5uQbHrZk82ALS-OhoVak2IaDhzAuwRGu8HL_EQE-C631eIfw>
+ <xmx:RM-UYYinxBYFXHA5T9JqfU4qp8LapXt-uC2mYoa8tBQETnqgvlDxqw>
+ <xmx:RM-UYVGQpE4F7OENBxW8Nm_Ve3LDgQrHCmanxHoM2ZXxU2fRYwPEKw>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 17 Nov 2021 04:45:38 -0500 (EST)
+ 17 Nov 2021 04:45:40 -0500 (EST)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>,
  Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>
-Subject: [PATCH v2 3/6] drm/vc4: kms: Add missing drm_crtc_commit_put
-Date: Wed, 17 Nov 2021 10:45:24 +0100
-Message-Id: <20211117094527.146275-4-maxime@cerno.tech>
+Subject: [PATCH v2 4/6] drm/vc4: kms: Clear the HVS FIFO commit pointer once
+ done
+Date: Wed, 17 Nov 2021 10:45:25 +0100
+Message-Id: <20211117094527.146275-5-maxime@cerno.tech>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211117094527.146275-1-maxime@cerno.tech>
 References: <20211117094527.146275-1-maxime@cerno.tech>
@@ -88,45 +89,33 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Commit 9ec03d7f1ed3 ("drm/vc4: kms: Wait on previous FIFO users before a
-commit") introduced a global state for the HVS, with each FIFO storing
-the current CRTC commit so that we can properly synchronize commits.
+commit") introduced a wait on the previous commit done on a given HVS
+FIFO.
 
-However, the refcounting was off and we thus ended up leaking the
-drm_crtc_commit structure every commit. Add a drm_crtc_commit_put to
-prevent the leakage.
+However, we never cleared that pointer once done. Since
+drm_crtc_commit_put can free the drm_crtc_commit structure directly if
+we were the last user, this means that it can lead to a use-after free
+if we were to duplicate the state, and that stale pointer would even be
+copied to the new state.
+
+Set the pointer to NULL once we're done with the wait so that we don't
+carry over a pointer to a free'd structure.
 
 Fixes: 9ec03d7f1ed3 ("drm/vc4: kms: Wait on previous FIFO users before a commit")
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_kms.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/vc4/vc4_kms.c | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_kms.c b/drivers/gpu/drm/vc4/vc4_kms.c
-index 3f780c195749..7c1d0c3beba2 100644
+index 7c1d0c3beba2..f80370e87e98 100644
 --- a/drivers/gpu/drm/vc4/vc4_kms.c
 +++ b/drivers/gpu/drm/vc4/vc4_kms.c
-@@ -361,6 +361,7 @@ static void vc4_atomic_commit_tail(struct drm_atomic_state *state)
- 		struct vc4_crtc_state *vc4_crtc_state =
- 			to_vc4_crtc_state(old_crtc_state);
- 		unsigned int channel = vc4_crtc_state->assigned_channel;
-+		struct drm_crtc_commit *commit;
- 		int ret;
- 
- 		if (channel == VC4_HVS_CHANNEL_DISABLED)
-@@ -369,9 +370,15 @@ static void vc4_atomic_commit_tail(struct drm_atomic_state *state)
- 		if (!old_hvs_state->fifo_state[channel].in_use)
- 			continue;
- 
--		ret = drm_crtc_commit_wait(old_hvs_state->fifo_state[channel].pending_commit);
-+		commit = old_hvs_state->fifo_state[channel].pending_commit;
-+		if (!commit)
-+			continue;
-+
-+		ret = drm_crtc_commit_wait(commit);
- 		if (ret)
+@@ -379,6 +379,7 @@ static void vc4_atomic_commit_tail(struct drm_atomic_state *state)
  			drm_err(dev, "Timed out waiting for commit\n");
-+
-+		drm_crtc_commit_put(commit);
+ 
+ 		drm_crtc_commit_put(commit);
++		old_hvs_state->fifo_state[channel].pending_commit = NULL;
  	}
  
  	if (vc4->hvs->hvs5)
