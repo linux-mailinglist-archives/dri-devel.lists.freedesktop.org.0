@@ -2,72 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6F2D45441D
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Nov 2021 10:46:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80957454485
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Nov 2021 11:01:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 826B36E9CC;
-	Wed, 17 Nov 2021 09:45:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03E7D89CBC;
+	Wed, 17 Nov 2021 10:01:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
  [66.111.4.224])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 975C56E9AE
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Nov 2021 09:45:45 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF66989CBC
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Nov 2021 10:01:07 +0000 (UTC)
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id F148558082C;
- Wed, 17 Nov 2021 04:45:44 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Wed, 17 Nov 2021 04:45:44 -0500
+ by mailnew.nyi.internal (Postfix) with ESMTP id 431BF580558;
+ Wed, 17 Nov 2021 05:01:07 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Wed, 17 Nov 2021 05:01:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=Rn2cBDalU27XR
- TGqFcdHSb2S/DgTdkQSCNY7WmbqCjE=; b=cc2Bc2V9kngRQi3zj/iACk4NzzdMt
- nXb/Ojt0OCXZDsVN7bmggNvbmRBrM7DICakPBUTFZC4UokBmhcb3ZtGTHFRLXDpN
- zH4tQ4rHUWi3ppLUfUWqqT0JBx9amQI4sAUrwo0Wqx3yFQd6IRCCgjlmDOKuUjx+
- IP+Vsb+xUpwouIXY7J2kFYBPw7v9LcnV/Za6EKNzn6jxG52Jx2KN0E58iSK7iBBP
- dy7qwZcjyqF9rp+yXGkVwMOUplxCMZHZ20Y4D/P+TZ+Jjhj/RETS205mCuAv4wr5
- sJxj0mQ9bGjramrkJlRxHviiYQDL4ib1p6r8ySrvCdoo6Ykzz/b5b0D8w==
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=Z4rc62NXo9sALoDI2kXA+PvCVrE
+ DdbeQgnJhg+J93hQ=; b=fdZGAPPHuLrcjbKFoJmhsru+A5BHIjEYVdrUGRo6dCS
+ MBc5TiBDcU9j/lUj5BDAkdK3kFUm6L8uBvN5G+3tar5k18LbogiaSVlu9pTzkgim
+ jD0f7/VP32nvuuDyJUn/QRx6tpz4iJgCX5Vod0gxzy/pOjxJwN7UfSDK+wxF9tDe
+ XcGTgCVcv8166pyegIaxY8Z92zOge+b61OamriKHwQIKd6YZoMHqUlpVSJtP1/y5
+ UCxBw9fCKwjdBOyzXEvzUlkEJ4o2VjgUHfPRyHLRe0vL23RQBJpTaSbeN/0uqNBe
+ 2rW+QIgijT8D4fIduKjA6gbmeVAN6jYdkMkBJViPW6Q==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=Rn2cBDalU27XRTGqFcdHSb2S/DgTdkQSCNY7WmbqCjE=; b=XipXw3HD
- q9a+gk9Nbw8hwvh//NB+rpA/dTih4y34l31aiQ4nmNjUvZSOUHiGkk1p4qmyucxs
- AvAybiWkDJjLbbu4PzDG67u5tD2eNta8zbNNXwwWc0qqfZy46OPdlAOBHUVvZmGZ
- fdptREQqeqfLfHyFgrhtrmOAq/EzUfeS4WkWVr5vEkwo8lspmD/Lr+uNjivJAt3l
- oE6WbCdWtBSZ4x8A9KcHQe4wzEAfGu1oCzRH33yTPfQ81qWfvMpadfwRCwehH9kO
- 9NVFII5LE9X+b2SgW8uKn66ccYi6AQOZiM53uOJEMe71eDH/rhvTJHcsfMsLmu7C
- 7rvUrq+mUAkCKg==
-X-ME-Sender: <xms:SM-UYQ8p0q7PSgWhxIvsurlh4RHx182PWhSGiUYZuczCaoG6rRjqBw>
- <xme:SM-UYYsRKWT3iuxIqtN_-cuvGeNpYJIiHW1ohW9eyYIownCwz0I3Ai5yFiqQ0fW8B
- dejlEfdpjQWuBld9FI>
-X-ME-Received: <xmr:SM-UYWCywzicrfIc_9J7mMF6y2HloUVDSjXY4_kXvHgJiyRwWLrwm3n0MvcyQI5t0W6PLSzqGahFly1obGezlSqSBfWiZutKpKAs35Pb7PM>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrfeeggddtfecutefuodetggdotefrodftvf
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=Z4rc62
+ NXo9sALoDI2kXA+PvCVrEDdbeQgnJhg+J93hQ=; b=WvJc5SAqzGihaVtfI1vTqX
+ 5DHyUzf1gGOXMgG81qrXOiLtBw1EYYlkgceqCMMRPBeudxu7KwLu03xBlFZDW+sJ
+ Wj/hPS3417conBlB61vGOLUueo1niC5Ezqfo2+gGvIUq3ncT29/xQhCww3UhMj2r
+ bMB9mw/3K7uQ1KKeAfsvqqE0zB0zBNh+/ray/AdM2zQfpDXyNJJ+VDbHuPOFxE/b
+ 2/FB7y3RdVyRLosM6uQ5N7SimRKyr7ApH8++jR1lkiFFagyHau1bNczgg0Cbc1/z
+ xS+o6ZHIHy22Xvafd8Ztf7pUdsJuPntH3tEkqCADLYJwtEYwPNeqPjPrR1Q9FGyg
+ ==
+X-ME-Sender: <xms:4dKUYbvlYs-fjnnCpLQDrdKd1o0QRJo_DYWA-uYMr4qUb70I287Ppw>
+ <xme:4dKUYcfu22EGVC3bsLl3StqHbxLvrzIkgsDXfixTbRFcgXXY98yj1IQGGOWXt1Rt3
+ frUwezgdokHOJtQwYs>
+X-ME-Received: <xmr:4dKUYezM_-vdJPwmA112RAM6H_DCDB7NeAf6guvjX3pyHnP9O-eiCfEWMXtP_ATe6sZqT5gvv0zSTX3UyQ-hSyUm9hnglMAFiwKqM0GItnc>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrfeeggddthecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihimhgv
+ fjughrpeffhffvuffkfhggtggujgesghdtreertddtudenucfhrhhomhepofgrgihimhgv
  ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
- gvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveevheeh
- vdenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
+ gvrhhnpeduvdduhfekkeehgffftefflefgffdtheffudffgeevteffheeuiedvvdejvdfg
+ veenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
  igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:SM-UYQef-PJRIKuFUKmpZnp89IQzNPRtL3023eLwejyG-5cgGUSh3Q>
- <xmx:SM-UYVPEc7u55QPAk9IeqDKr01Bk3nvVg802POzjXwHjhvD2bzX4pw>
- <xmx:SM-UYanFF0oHZuPAGfsNuAFEg-NN3QpUBcInBRJtWhvE-nZ1GwJNiw>
- <xmx:SM-UYYqPn26A8sRROz_pwoXs_wN4FCh84gxSToo3AIuKISYcfzQL6w>
+X-ME-Proxy: <xmx:4dKUYaO0eSSbsEntUHXLjO-3-Dj5a-nlW6YIsg333Do8qlN71oRphw>
+ <xmx:4dKUYb8fpPwb5rZrOAKdZsapBqu7GXHCLFox8DhgGPFElVgDoef1Yg>
+ <xmx:4dKUYaW6YW2IneBy0MsqJ4W0uKAHTxh8BNvrpnTGixuGssOocmd3wg>
+ <xmx:49KUYeXH_xPF0yuCtyFyj7ukBD3VIbrTOk7mObwMMpL87dn3ekHADQ>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 17 Nov 2021 04:45:44 -0500 (EST)
+ 17 Nov 2021 05:01:05 -0500 (EST)
+Date: Wed, 17 Nov 2021 11:01:03 +0100
 From: Maxime Ripard <maxime@cerno.tech>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>,
- Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>
-Subject: [PATCH v2 6/6] drm/vc4: kms: Fix previous HVS commit wait
-Date: Wed, 17 Nov 2021 10:45:27 +0100
-Message-Id: <20211117094527.146275-7-maxime@cerno.tech>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20211117094527.146275-1-maxime@cerno.tech>
-References: <20211117094527.146275-1-maxime@cerno.tech>
+To: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+Subject: Re: [PATCH 02/13] drm/connector: Add helper to check if a mode
+ requires scrambling
+Message-ID: <20211117100103.xouysycl5lmrescx@gilmour>
+References: <20211102145944.259181-1-maxime@cerno.tech>
+ <20211102145944.259181-3-maxime@cerno.tech>
+ <YYP+MX9gxZVafhKk@intel.com> <YYVxtp9PZiR3ZOjp@phenom.ffwll.local>
+ <YYV0bArjRbvYJ2K2@intel.com>
+ <20211108155834.6zz236ll75bxwcrk@gilmour>
+ <YYlkdHzW4ir07Gtk@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="thlviocxszlf7zcl"
+Content-Disposition: inline
+In-Reply-To: <YYlkdHzW4ir07Gtk@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,92 +85,122 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
+Cc: Emma Anholt <emma@anholt.net>, Tim Gover <tim.gover@raspberrypi.com>,
  Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Jian-Hong Pan <jhp@endlessos.org>, dri-devel@lists.freedesktop.org,
- Phil Elwell <phil@raspberrypi.com>
+ David Airlie <airlied@linux.ie>, Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel@lists.freedesktop.org, Jonathan Hunter <jonathanh@nvidia.com>,
+ Thierry Reding <thierry.reding@gmail.com>, linux-tegra@vger.kernel.org,
+ Daniel Vetter <daniel.vetter@intel.com>, Phil Elwell <phil@raspberrypi.com>,
+ Dom Cobley <dom@raspberrypi.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Our current code is supposed to serialise the commits by waiting for all
-the drm_crtc_commits associated to the previous HVS state.
 
-However, assuming we have two CRTCs running and being configured and we
-configure each one alternatively, we end up in a situation where we're
-not waiting at all.
+--thlviocxszlf7zcl
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Indeed, starting with a state (state 0) where both CRTCs are running,
-and doing a commit (state 1) on the first CRTC (CRTC 0), we'll associate
-its commit to its assigned FIFO in vc4_hvs_state.
+On Mon, Nov 08, 2021 at 07:55:00PM +0200, Ville Syrj=E4l=E4 wrote:
+> On Mon, Nov 08, 2021 at 04:58:34PM +0100, Maxime Ripard wrote:
+> > On Fri, Nov 05, 2021 at 08:14:04PM +0200, Ville Syrj=E4l=E4 wrote:
+> > > On Fri, Nov 05, 2021 at 07:02:30PM +0100, Daniel Vetter wrote:
+> > > > On Thu, Nov 04, 2021 at 05:37:21PM +0200, Ville Syrj=E4l=E4 wrote:
+> > > > > On Tue, Nov 02, 2021 at 03:59:33PM +0100, Maxime Ripard wrote:
+> > > > > > --- a/include/drm/drm_modes.h
+> > > > > > +++ b/include/drm/drm_modes.h
+> > > > > > @@ -424,6 +424,21 @@ static inline bool drm_mode_is_stereo(cons=
+t struct drm_display_mode *mode)
+> > > > > >  	return mode->flags & DRM_MODE_FLAG_3D_MASK;
+> > > > > >  }
+> > > > > > =20
+> > > > > > +/**
+> > > > > > + * drm_mode_hdmi_requires_scrambling - Checks if a mode requir=
+es HDMI Scrambling
+> > > > > > + * @mode: DRM display mode
+> > > > > > + *
+> > > > > > + * Checks if a given display mode requires the scrambling to b=
+e enabled.
+> > > > > > + *
+> > > > > > + * Returns:
+> > > > > > + * A boolean stating whether it's required or not.
+> > > > > > + */
+> > > > > > +static inline bool
+> > > > > > +drm_mode_hdmi_requires_scrambling(const struct drm_display_mod=
+e *mode)
+> > > > > > +{
+> > > > > > +	return mode->clock > DRM_HDMI_14_MAX_TMDS_CLK_KHZ;
+> > > > > > +}
+> > > > >=20
+> > > > > That's only correct for 8bpc. The actual limit is on the TMDS clo=
+ck (or
+> > > > > rather TMDS character rate as HDMI 2.0 calls it due to the 1/1 vs=
+=2E 1/4
+> > > > > magic for the actually transmitted TMDS clock).
+> > > >=20
+> > > > Yeah we might need to add the bus format for the cable here too, to=
+ make
+> > > > this complete.
+> > >=20
+> > > I don't think we have a usable thing for that on the drm level, so
+> > > would need to invent something. Oh, and the mode->clock vs.=20
+> > > mode->crtc_clock funny business also limits the usability of this
+> > > approach. So probably just easiest to pass in the the driver calculat=
+ed
+> > > TMDS clock instead.
+> >=20
+> > If we look at all (I think?) the existing users of scrambling in KMS as
+> > of 5.15, only i915 seems to use crtc_clock (which, in retrospect, seems
+> > to be the right thing to do), and only i915 and dw-hdmi use an output
+> > format, i915 rolling its own, and dw-hdmi using the mbus formats.
+> >=20
+> > I think using the mbus format here makes the most sense: i915 already is
+> > rolling a whole bunch of other code, and we use the mbus defines for the
+> > bridge format enumeration as well which is probably going to have some
+> > interaction.
+> >=20
+> > I'm not quite sure what to do next though. The whole point of that
+> > series is to streamline as much as possible the scrambling and TMDS
+> > ratio setup to avoid the duplication we already have in the drivers that
+> > support it, every one using the mostly-the-same-but-slightly-different
+> > logic to configure it.
+> >=20
+> > The mode is fortunately stored in generic structures so it's easy to
+> > make that decision. Having to take into account the output format
+> > however makes it mandatory to move the bus format in the
+> > drm_connector_state(?) structure too.
+>=20
+> I think involving state objects and the like is just going to make
+> it harder to share code between all drivers, if that is the goal.
+> Just a few tiny helpers I think is what would allow the broadest=20
+> reuse. I guess you could build additional midlayer on top of those
+> for some drivers if you wish.
+>=20
+> As for the bus_format stuff, that looks at the same time overkill,
+> and insufficiently documented. I guess its main purpose is to exactly
+> defines how some digtal bus works, which makes sense when you're
+> chaining a bunch of random chips together. But looks overly complicated
+> to me for defining what to output from a HDMI encoder. Looking at the
+> defines I wouldn't even know what to use for HDMI actually. All we
+> really want is RGB 4:4:4 vs. YCbCr 4:4:4 vs. YCbCr 4:2:2 vs. YCbCr 4:2:0.
+> Beyond that level of detail we don't care how each bit gets transferred
+> etc. Hence enum intel_output_format in i915.
 
-If we get a new commit (state 2), this time affecting the second CRTC
-(CRTC 1), the DRM core will allow both commits to execute in parallel
-(assuming they don't have any share resources).
+I was thinking about this some more, can we leverage struct
+hdmi_colorspace for this? Chances are it's already used by any driver
+that supports YCbCr output to setup the infoframes.
 
-Our code in vc4_atomic_commit_tail is supposed to make sure we only get
-one commit at a time and serialised by order of submission. It does so
-by using for_each_old_crtc_in_state, making sure that the CRTC has a
-FIFO assigned, is used, and has a commit pending. If it does, then we'll
-wait for the commit before going forward.
+Maxime
 
-During the transition from state 0 to state 1, as our old CRTC state we
-get the CRTC 0 state 0, its commit, we wait for it, everything works fine.
+--thlviocxszlf7zcl
+Content-Type: application/pgp-signature; name="signature.asc"
 
-During the transition from state 1 to state 2 though, the use of
-for_each_old_crtc_in_state is wrong. Indeed, while the code assumes it's
-returning the state of the CRTC in the old state (so CRTC 0 state 1), it
-actually returns the old state of the CRTC affected by the current
-commit, so CRTC 0 state 0 since it wasn't part of state 1.
+-----BEGIN PGP SIGNATURE-----
 
-Due to this, if we alternate between the configuration of CRTC 0 and
-CRTC 1, we never actually wait for anything since we should be waiting
-on the other every time, but it never is affected by the previous
-commit.
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYZTS3wAKCRDj7w1vZxhR
+xTmyAQD6f7bBcSo7FKPBzGh+09zx0lQRcHlA3U6Ps1zDXHCc0AEAyejjdg07Q99k
+DauwTfAn9yIIyOSYSnlh6rWuq4HXsgw=
+=gjjc
+-----END PGP SIGNATURE-----
 
-Change the logic to, at every commit, look at every FIFO in the previous
-HVS state, and if it's in use and has a commit associated to it, wait
-for that commit.
-
-Fixes: 9ec03d7f1ed3 ("drm/vc4: kms: Wait on previous FIFO users before a commit")
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
----
- drivers/gpu/drm/vc4/vc4_kms.c | 10 ++--------
- 1 file changed, 2 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/gpu/drm/vc4/vc4_kms.c b/drivers/gpu/drm/vc4/vc4_kms.c
-index d9b3e3ad71ea..b61792d2aa65 100644
---- a/drivers/gpu/drm/vc4/vc4_kms.c
-+++ b/drivers/gpu/drm/vc4/vc4_kms.c
-@@ -337,10 +337,10 @@ static void vc4_atomic_commit_tail(struct drm_atomic_state *state)
- 	struct drm_device *dev = state->dev;
- 	struct vc4_dev *vc4 = to_vc4_dev(dev);
- 	struct vc4_hvs *hvs = vc4->hvs;
--	struct drm_crtc_state *old_crtc_state;
- 	struct drm_crtc_state *new_crtc_state;
- 	struct drm_crtc *crtc;
- 	struct vc4_hvs_state *old_hvs_state;
-+	unsigned int channel;
- 	int i;
- 
- 	for_each_new_crtc_in_state(state, crtc, new_crtc_state, i) {
-@@ -357,16 +357,10 @@ static void vc4_atomic_commit_tail(struct drm_atomic_state *state)
- 	if (IS_ERR(old_hvs_state))
- 		return;
- 
--	for_each_old_crtc_in_state(state, crtc, old_crtc_state, i) {
--		struct vc4_crtc_state *vc4_crtc_state =
--			to_vc4_crtc_state(old_crtc_state);
--		unsigned int channel = vc4_crtc_state->assigned_channel;
-+	for (channel = 0; channel < HVS_NUM_CHANNELS; channel++) {
- 		struct drm_crtc_commit *commit;
- 		int ret;
- 
--		if (channel == VC4_HVS_CHANNEL_DISABLED)
--			continue;
--
- 		if (!old_hvs_state->fifo_state[channel].in_use)
- 			continue;
- 
--- 
-2.33.1
-
+--thlviocxszlf7zcl--
