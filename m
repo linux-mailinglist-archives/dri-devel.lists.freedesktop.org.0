@@ -2,55 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A63D45484A
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Nov 2021 15:14:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0433B4548D9
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Nov 2021 15:32:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2132E6E039;
-	Wed, 17 Nov 2021 14:13:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5766E6E4BB;
+	Wed, 17 Nov 2021 14:32:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com
- [IPv6:2607:f8b0:4864:20::62f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA20C6E039
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Nov 2021 14:13:56 +0000 (UTC)
-Received: by mail-pl1-x62f.google.com with SMTP id p18so2253541plf.13
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Nov 2021 06:13:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=IgStfDj6Zt8/izR4m2I+R4rKgneA+zot1vY4zu2seXI=;
- b=KLnxhrkR1IsKhVwXMgOB+qgWhAUovbWTtfngFa7WnQpekMmfyXMjjK2GRHM3F86m6W
- T07MxTS+lz1/hQpuP5IYM82WR3PiTbWLZINqoK+6dfNisI4iO0f7r2TR2CD10fatZ1xK
- BuMev3ho4tuEmY6afbO+M5c3dxek2pDDEZFVmUamgXuJ/ZskQUl3dw4Tq2pRhEpGgO8Q
- nmMk7T65yvleI7jY1bjeZCWXp7gKFaBddxnO66vl6PKjJpKehq4N+d2Os3IQgy+8dfhE
- uDRO91j84C7c5AUVYAnyiqGNLD7FmLHOSWgEcCu3gsfheQtud3nJEICR5EQq7uFZsAUj
- 5ukg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=IgStfDj6Zt8/izR4m2I+R4rKgneA+zot1vY4zu2seXI=;
- b=zZ+cK7fF5qz6eTioWC30XkJEa9ztYG5ACbNMwYF0ekKcpUAUGhg1RQxrXkSaCNybmo
- 5z7UD8+Wqrg3Y1hwUr7mxXnsvis/D1ZNOQcpBaMfLaQVugxLxaP2bmlU8h6Q2wJz+125
- lW0R3reuLGVTncJX9H+5LEWrBG81G5QCFfjyJFVkkFkXr4YvEJVvE3wZceE+ynftCRRx
- ijhKKDULUhcm3BerbHRlvqdBuu2DTyQ9N9VXCWJyZPkpjUGfhQaIdiOktjGxRyLa7wVv
- GAYzSanjDAn0OC0n3phNVl6QnwxrFSVZhiyIwojo7TLBRAevs+n0w0kfZGBtEEEcgw1h
- uSuQ==
-X-Gm-Message-State: AOAM532Er96isEnI/a3nb0VYGIRl7yvO90m7hn2BX97tPGoiOXAZawR3
- fj0vXdRS/sNIkEqXwCX4BqvbZQrQDxIf4X2HKoVaHg==
-X-Google-Smtp-Source: ABdhPJztN01MsmsVrgqJm5CuFA9id9S1SkYImXP6NdcqtoJxewUiH+wfb1mJfLy/qFsI0HaqCU6n5C79URnCGVfIXbY=
-X-Received: by 2002:a17:902:d50d:b0:141:ea03:5193 with SMTP id
- b13-20020a170902d50d00b00141ea035193mr55802159plg.89.1637158436225; Wed, 17
- Nov 2021 06:13:56 -0800 (PST)
+X-Greylist: delayed 985 seconds by postgrey-1.36 at gabe;
+ Wed, 17 Nov 2021 14:32:43 UTC
+Received: from fireflyinternet.com (unknown [77.68.26.236])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 829E76E483;
+ Wed, 17 Nov 2021 14:32:43 +0000 (UTC)
+X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
+ x-ip-name=78.156.69.177; 
+Received: from localhost (unverified [78.156.69.177]) 
+ by fireflyinternet.com (Firefly Internet (M1)) with ESMTP (TLS) id
+ 151790-1500050 for multiple; Wed, 17 Nov 2021 14:16:15 +0000
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20211005202322.700909-1-hdegoede@redhat.com>
- <20211005202322.700909-4-hdegoede@redhat.com>
-In-Reply-To: <20211005202322.700909-4-hdegoede@redhat.com>
-From: Rajat Jain <rajatja@google.com>
-Date: Wed, 17 Nov 2021 06:13:20 -0800
-Message-ID: <CACK8Z6EhQnn6xiGsYvx-GyEs==-LDC642OFjPH7mBbMpPYvn_A@mail.gmail.com>
-Subject: Re: [PATCH 03/10] drm/privacy-screen: Add X86 specific arch init code
-To: Hans de Goede <hdegoede@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20211117133456.688802-3-andi.shyti@linux.intel.com>
+References: <20211117133456.688802-1-andi.shyti@linux.intel.com>
+ <20211117133456.688802-3-andi.shyti@linux.intel.com>
+Subject: Re: [Intel-gfx] [PATCH 2/2] drm/i915: Rename gt to gt0
+From: Chris Wilson <chris@chris-wilson.co.uk>
+To: Andi Shyti <andi.shyti@linux.intel.com>,
+ DRI Devel <dri-devel@lists.freedesktop.org>,
+ Intel GFX <intel-gfx@lists.freedesktop.org>
+Date: Wed, 17 Nov 2021 14:16:13 +0000
+Message-ID: <163715857341.11567.6516227738264680366@build.alporthouse.com>
+User-Agent: alot/0.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,195 +45,138 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Pearson <markpearson@lenovo.com>,
- Marco Trevisan <marco.trevisan@canonical.com>,
- Sebastien Bacher <seb128@ubuntu.com>, David Airlie <airlied@linux.ie>,
- Emil Velikov <emil.l.velikov@gmail.com>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- platform-driver-x86@vger.kernel.org, Mark Gross <markgross@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Andy Shevchenko <andy@infradead.org>,
- Mario Limonciello <mario.limonciello@outlook.com>,
- Pekka Paalanen <pekka.paalanen@collabora.com>, dri-devel@lists.freedesktop.org
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>, Michał Winiarski <michal.winiarski@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Hans,
+Quoting Andi Shyti (2021-11-17 13:34:56)
+> diff --git a/drivers/gpu/drm/i915/display/intel_atomic_plane.c b/drivers/=
+gpu/drm/i915/display/intel_atomic_plane.c
+> index 089fb4658b216..0bbf8c0c42eac 100644
+> --- a/drivers/gpu/drm/i915/display/intel_atomic_plane.c
+> +++ b/drivers/gpu/drm/i915/display/intel_atomic_plane.c
+> @@ -817,7 +817,7 @@ intel_prepare_plane_fb(struct drm_plane *_plane,
+>          * maximum clocks following a vblank miss (see do_rps_boost()).
+>          */
+>         if (!state->rps_interactive) {
+> -               intel_rps_mark_interactive(&dev_priv->gt.rps, true);
+> +               intel_rps_mark_interactive(&dev_priv->gt0.rps, true);
 
-On Tue, Oct 5, 2021 at 1:23 PM Hans de Goede <hdegoede@redhat.com> wrote:
->
-> Add X86 specific arch init code, which fills the privacy-screen lookup
-> table by checking for various vendor specific ACPI interfaces for
-> controlling the privacy-screen.
->
-> This initial version only checks for the Lenovo Thinkpad specific ACPI
-> methods for privacy-screen control.
->
-> Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
-> Reviewed-by: Lyude Paul <lyude@redhat.com>
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> ---
->  drivers/gpu/drm/Makefile                 |  2 +-
->  drivers/gpu/drm/drm_privacy_screen_x86.c | 86 ++++++++++++++++++++++++
->  include/drm/drm_privacy_screen_machine.h |  5 ++
->  3 files changed, 92 insertions(+), 1 deletion(-)
->  create mode 100644 drivers/gpu/drm/drm_privacy_screen_x86.c
->
-> diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-> index 788fc37096f6..12997ca5670d 100644
-> --- a/drivers/gpu/drm/Makefile
-> +++ b/drivers/gpu/drm/Makefile
-> @@ -32,7 +32,7 @@ drm-$(CONFIG_OF) += drm_of.o
->  drm-$(CONFIG_PCI) += drm_pci.o
->  drm-$(CONFIG_DEBUG_FS) += drm_debugfs.o drm_debugfs_crc.o
->  drm-$(CONFIG_DRM_LOAD_EDID_FIRMWARE) += drm_edid_load.o
-> -drm-$(CONFIG_DRM_PRIVACY_SCREEN) += drm_privacy_screen.o
-> +drm-$(CONFIG_DRM_PRIVACY_SCREEN) += drm_privacy_screen.o drm_privacy_screen_x86.o
->
->  obj-$(CONFIG_DRM_DP_AUX_BUS) += drm_dp_aux_bus.o
->
-> diff --git a/drivers/gpu/drm/drm_privacy_screen_x86.c b/drivers/gpu/drm/drm_privacy_screen_x86.c
-> new file mode 100644
-> index 000000000000..a2cafb294ca6
-> --- /dev/null
-> +++ b/drivers/gpu/drm/drm_privacy_screen_x86.c
-> @@ -0,0 +1,86 @@
-> +// SPDX-License-Identifier: MIT
-> +/*
-> + * Copyright (C) 2020 Red Hat, Inc.
-> + *
-> + * Authors:
-> + * Hans de Goede <hdegoede@redhat.com>
-> + */
-> +
-> +#include <linux/acpi.h>
-> +#include <drm/drm_privacy_screen_machine.h>
-> +
-> +#ifdef CONFIG_X86
-> +static struct drm_privacy_screen_lookup arch_lookup;
-> +
-> +struct arch_init_data {
-> +       struct drm_privacy_screen_lookup lookup;
-> +       bool (*detect)(void);
-> +};
-> +
-> +#if IS_ENABLED(CONFIG_THINKPAD_ACPI)
-> +static acpi_status __init acpi_set_handle(acpi_handle handle, u32 level,
-> +                                         void *context, void **return_value)
-> +{
-> +       *(acpi_handle *)return_value = handle;
-> +       return AE_CTRL_TERMINATE;
-> +}
-> +
-> +static bool __init detect_thinkpad_privacy_screen(void)
-> +{
-> +       union acpi_object obj = { .type = ACPI_TYPE_INTEGER };
-> +       struct acpi_object_list args = { .count = 1, .pointer = &obj, };
-> +       acpi_handle ec_handle = NULL;
-> +       unsigned long long output;
-> +       acpi_status status;
-> +
-> +       /* Get embedded-controller handle */
-> +       status = acpi_get_devices("PNP0C09", acpi_set_handle, NULL, &ec_handle);
-> +       if (ACPI_FAILURE(status) || !ec_handle)
-> +               return false;
-> +
-> +       /* And call the privacy-screen get-status method */
-> +       status = acpi_evaluate_integer(ec_handle, "HKEY.GSSS", &args, &output);
-> +       if (ACPI_FAILURE(status))
-> +               return false;
-> +
-> +       return (output & 0x10000) ? true : false;
-> +}
-> +#endif
-> +
-> +static const struct arch_init_data arch_init_data[] __initconst = {
-> +#if IS_ENABLED(CONFIG_THINKPAD_ACPI)
-> +       {
-> +               .lookup = {
-> +                       .dev_id = NULL,
-> +                       .con_id = NULL,
-> +                       .provider = "privacy_screen-thinkpad_acpi",
-> +               },
-> +               .detect = detect_thinkpad_privacy_screen,
-> +       },
-> +#endif
-> +};
+This should be across all gt, so probably wants a fresh interface that
+takes i915 and does for_each_gt in a later patch. (Since we could be
+rendering on a remote tile to present on a display.)
 
-As I'm trying to add privacy-screen support for my platform, I'm
-trying to understand if my platform needs to make an entry in this
-static list.
-
-Do I understand it right that the reason you needed this static list
-(and this whole file really), instead of just doing a
-drm_privacy_screen_lookup_add() in the platform code in
-thinkpad_acpi.c, was because that code was executed AFTER the
-drm_connectors had already initialized?
-
-In other words, the privacy-screen providers (platform code) need to
-register a privacy-screen and a lookup structure, BEFORE the drm
-connectors are initialized. If the platform code that provides a
-privacy-screen is executed AFTER the drm-connector initializes, then
-we need an entry in this static list, so that the drm probe (for i915
-atleast) is DEFERRED until the privacy-screen provider registers the
-privacy-screen?
-
-OTOH, if the platform can register a privacy-screen and a lookup
-function (via drm_privacy_screen_lookup_add()) BEFORE drm probe, then
-I do not need an entry in this static list.
-
-Is this correct understanding?
-
-Thanks & Best Regards,
-
-Rajat
-
-> +
-> +void __init drm_privacy_screen_lookup_init(void)
-> +{
-> +       int i;
-> +
-> +       for (i = 0; i < ARRAY_SIZE(arch_init_data); i++) {
-> +               if (!arch_init_data[i].detect())
-> +                       continue;
-> +
-> +               pr_info("Found '%s' privacy-screen provider\n",
-> +                       arch_init_data[i].lookup.provider);
-> +
-> +               /* Make a copy because arch_init_data is __initconst */
-> +               arch_lookup = arch_init_data[i].lookup;
-> +               drm_privacy_screen_lookup_add(&arch_lookup);
-> +               break;
-> +       }
-> +}
-> +
-> +void drm_privacy_screen_lookup_exit(void)
-> +{
-> +       if (arch_lookup.provider)
-> +               drm_privacy_screen_lookup_remove(&arch_lookup);
-> +}
-> +#endif /* ifdef CONFIG_X86 */
-> diff --git a/include/drm/drm_privacy_screen_machine.h b/include/drm/drm_privacy_screen_machine.h
-> index aaa0d38cce92..02e5371904d3 100644
-> --- a/include/drm/drm_privacy_screen_machine.h
-> +++ b/include/drm/drm_privacy_screen_machine.h
-> @@ -31,11 +31,16 @@ struct drm_privacy_screen_lookup {
->  void drm_privacy_screen_lookup_add(struct drm_privacy_screen_lookup *lookup);
->  void drm_privacy_screen_lookup_remove(struct drm_privacy_screen_lookup *lookup);
->
-> +#if IS_ENABLED(CONFIG_DRM_PRIVACY_SCREEN) && IS_ENABLED(CONFIG_X86)
-> +void drm_privacy_screen_lookup_init(void);
-> +void drm_privacy_screen_lookup_exit(void);
-> +#else
->  static inline void drm_privacy_screen_lookup_init(void)
+>                 state->rps_interactive =3D true;
+>         }
+> =20
+> @@ -851,7 +851,7 @@ intel_cleanup_plane_fb(struct drm_plane *plane,
+>                 return;
+> =20
+>         if (state->rps_interactive) {
+> -               intel_rps_mark_interactive(&dev_priv->gt.rps, false);
+> +               intel_rps_mark_interactive(&dev_priv->gt0.rps, false);
+>                 state->rps_interactive =3D false;
+>         }
+> =20
+> diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/d=
+rm/i915/display/intel_display.c
+> index 0ceee8ac66717..d4fcd8f236476 100644
+> --- a/drivers/gpu/drm/i915/display/intel_display.c
+> +++ b/drivers/gpu/drm/i915/display/intel_display.c
+> @@ -838,7 +838,7 @@ __intel_display_resume(struct drm_device *dev,
+>  static bool gpu_reset_clobbers_display(struct drm_i915_private *dev_priv)
 >  {
->  }
->  static inline void drm_privacy_screen_lookup_exit(void)
+>         return (INTEL_INFO(dev_priv)->gpu_reset_clobbers_display &&
+> -               intel_has_gpu_reset(&dev_priv->gt));
+> +               intel_has_gpu_reset(&dev_priv->gt0));
+
+All these display consumers probably want to use
+dev_priv->ggtt->vm.gt, since the scanout capable GGTT would seem to be
+the defining feature.
+
+to_scanout_gt(i915) ?
+
+>  static bool pxp_is_borked(struct drm_i915_gem_object *obj)
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/dr=
+m/i915/gem/i915_gem_context.c
+> index ebd775cb1661c..c62253d0af044 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> @@ -237,7 +237,7 @@ static int proto_context_set_persistence(struct drm_i=
+915_private *i915,
+>                  * colateral damage, and we should not pretend we can by
+>                  * exposing the interface.
+>                  */
+> -               if (!intel_has_reset_engine(&i915->gt))
+> +               if (!intel_has_reset_engine(&i915->gt0))
+>                         return -ENODEV;
+
+Prep for all gt. A lot of these need an all-gt interface so we don't
+have for_each_gt spread all other the place.
+
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c b/drivers/gpu/d=
+rm/i915/gem/i915_gem_ttm_move.c
+> index ef22d4ed66ad6..69ad407eb15f3 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
+> @@ -166,7 +166,7 @@ static struct dma_fence *i915_ttm_accel_move(struct t=
+tm_buffer_object *bo,
+>         enum i915_cache_level src_level, dst_level;
+>         int ret;
+> =20
+> -       if (!i915->gt.migrate.context || intel_gt_is_wedged(&i915->gt))
+> +       if (!i915->gt0.migrate.context || intel_gt_is_wedged(&i915->gt0))
+
+This should already be looking at lmem->gt
+
+> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_user.c b/drivers/gpu/dr=
+m/i915/gt/intel_engine_user.c
+> index 8f8bea08e734d..176ea5c7d422f 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_engine_user.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_engine_user.c
+> @@ -116,7 +116,7 @@ static void set_scheduler_caps(struct drm_i915_privat=
+e *i915)
+>                         disabled |=3D (I915_SCHEDULER_CAP_ENABLED |
+>                                      I915_SCHEDULER_CAP_PRIORITY);
+> =20
+> -               if (intel_uc_uses_guc_submission(&i915->gt.uc))
+> +               if (intel_uc_uses_guc_submission(&i915->gt0.uc))
+
+This shouldn't be looking at gt at all, but if it must, that information
+must be coming via engine->gt. Kind of renders the mapping moot
+currently.
+> diff --git a/drivers/gpu/drm/i915/gt/intel_rps.c b/drivers/gpu/drm/i915/g=
+t/intel_rps.c
+> index 07ff7ba7b2b71..63089e671a242 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_rps.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_rps.c
+> @@ -2302,7 +2302,7 @@ unsigned long i915_read_mch_val(void)
+>                 return 0;
+> =20
+>         with_intel_runtime_pm(&i915->runtime_pm, wakeref) {
+> -               struct intel_ips *ips =3D &i915->gt.rps.ips;
+> +               struct intel_ips *ips =3D &i915->gt0.rps.ips;
+
+Make mchdev_get() return the gt or rps, at the slight cost of making the
+drm_dev_put() more complicated (but can be pushed into a mchdev_put for
+symmetry).
+
+> diff --git a/drivers/gpu/drm/i915/gt/intel_workarounds.c b/drivers/gpu/dr=
+m/i915/gt/intel_workarounds.c
+> index a9727447c0379..4bfedc04f5c70 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_workarounds.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_workarounds.c
+> @@ -936,7 +936,7 @@ hsw_gt_workarounds_init(struct intel_gt *gt, struct i=
+915_wa_list *wal)
+>  static void
+>  gen9_wa_init_mcr(struct drm_i915_private *i915, struct i915_wa_list *wal)
 >  {
->  }
-> +#endif
->
->  #endif
-> --
-> 2.31.1
->
+> -       const struct sseu_dev_info *sseu =3D &i915->gt.info.sseu;
+> +       const struct sseu_dev_info *sseu =3D &i915->gt0.info.sseu;
+
+This feels like it should be pulling from uncore->gt, since the MCR is
+across an uncore.
+
+Overall though, rather than introduce bare &i915->gt0, how about pulling in
+the patch for to_gt(i915)?
+-Chris
