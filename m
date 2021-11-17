@@ -1,46 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4015F454957
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Nov 2021 15:54:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B6982454963
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Nov 2021 15:56:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F08B86E507;
-	Wed, 17 Nov 2021 14:54:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 386096E581;
+	Wed, 17 Nov 2021 14:56:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2FFB96E507
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Nov 2021 14:54:51 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0D75361BFA
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Nov 2021 14:54:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1637160891;
- bh=bgjr8yJOWsL+nIbaL9cKsP3o2b2qmUpIgL5aZebelLo=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=JTd+v5Z6z01TfR/bR9dmTn87qBNRyDSSvXGsI6etW0Txeu2IWFcrwMihng3+EG9mz
- LKecFZeu1/tBJmEol1kk0tGJY+wpza49zFtz0zxD9ncwSonfkgf70Oxdjp2X6g3p7T
- fxfHu+nWTwLhQptBX4c71rHmo6sjpTTuzP9WxA62K19TLz9n/CQYcGVv6h1aakx4VA
- B6aTvz9mvI5L/Q0CN+S7SuD97aCm0chOJC/75/rggKjR8MNq103umV7WwdkQlXaank
- n6+8i6L3FxSrCDuN2UNRGsp3YKneIHfGYkdPqzKWyHrPRQD19t3QDXjbbWTemFj2G3
- vv6FvS3XEMRzQ==
-Received: by mail-ed1-f52.google.com with SMTP id w1so12295164edd.10
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Nov 2021 06:54:50 -0800 (PST)
-X-Gm-Message-State: AOAM533O3p/Bdap0xO6bCLBZf5gowtMuGYvbHUstVRid0mFGZSqREaz0
- l8ApTCn1QvHHJSQf7M9d48kYXDqBkFuEWUH4nQ==
-X-Google-Smtp-Source: ABdhPJw0S7ajbekMY4Kz6agkssG2VWOwZDiRqdiVwjh429yqwO31JlqnTUZtYuiwYFavxe4b0vRatEav0QC/Rq3OPEs=
-X-Received: by 2002:a50:8dcb:: with SMTP id s11mr22594000edh.318.1637160889361; 
- Wed, 17 Nov 2021 06:54:49 -0800 (PST)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D80376E581
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Nov 2021 14:56:29 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 1DA9D1FD29;
+ Wed, 17 Nov 2021 14:56:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1637160988; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ULWNdZT5zgP0fGwSkrNsSz9dUlbgfDC0raAB8lnTGyI=;
+ b=dXap3i/LQ8rKcslEtGg3eDHrpA+kh2arhleCPnxMCEFMEmJvxZPtc5Y4hXuMOOsVjWeQrZ
+ SwSNDvGpdRaedbk2swj1E7/RoMp7JhsITJc6Zq8A57tsONAIvqlBEllGKFb7Z+1FwEAS5n
+ iwB3Yi7aRJWknEbNMafeXKrZgkIjYBI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1637160988;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ULWNdZT5zgP0fGwSkrNsSz9dUlbgfDC0raAB8lnTGyI=;
+ b=XBZz+jynCQc4WHLxeddgiEnZnFQCoHNbVvuxARUyir+hA0eFAvujhJLphALvrv8Dw3AxuE
+ luduUBUnHChlnlAw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id DF74313AAD;
+ Wed, 17 Nov 2021 14:56:27 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id pGqBNRsYlWHDAgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Wed, 17 Nov 2021 14:56:27 +0000
+Message-ID: <926ff1f6-2255-4e94-3a24-4fc78260f27d@suse.de>
+Date: Wed, 17 Nov 2021 15:56:27 +0100
 MIME-Version: 1.0
-References: <20211117143347.314294-1-s.hauer@pengutronix.de>
-In-Reply-To: <20211117143347.314294-1-s.hauer@pengutronix.de>
-From: Rob Herring <robh@kernel.org>
-Date: Wed, 17 Nov 2021 08:54:37 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqJxJj2JT-0vN45vYyoy_Sh87NnoTfJQH-4qxRoPNwtj5Q@mail.gmail.com>
-Message-ID: <CAL_JsqJxJj2JT-0vN45vYyoy_Sh87NnoTfJQH-4qxRoPNwtj5Q@mail.gmail.com>
-Subject: Re: [PATCH v1 00/12] drm/rockchip: RK356x VOP2 support
-To: Sascha Hauer <s.hauer@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH] drm/format-helper: Fix dst computation in
+ drm_fb_xrgb8888_to_rgb888_dstclip()
+Content-Language: en-US
+To: Hector Martin <marcan@marcan.st>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>
+References: <20211117142206.197575-1-marcan@marcan.st>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20211117142206.197575-1-marcan@marcan.st>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------8vBjnha6aQYVQUWNP8QSQK2i"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,33 +73,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Sandy Huang <hjc@rock-chips.com>, dri-devel <dri-devel@lists.freedesktop.org>,
- "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
- Michael Riesch <michael.riesch@wolfvision.net>,
- Sascha Hauer <kernel@pengutronix.de>, Peter Geis <pgwipeout@gmail.com>,
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Nov 17, 2021 at 8:34 AM Sascha Hauer <s.hauer@pengutronix.de> wrote:
->
-> This series adds initial graphics support for the Rockchip RK356[68]
-> SoCs.  Graphics support is based around the VOP2 controller which
-> replaces the VOP controller found on earlier Rockchip SoCs. The driver
-> has been tested with HDMI support included in this series and MIPI-DSI
-> which is not included because it needs some more work. The driver is
-> taken from the downstream Rockchip kernel and heavily polished, most non
-> standard features have been removed for now. I tested the driver with
-> the libdrm modetest utility and also with weston with both pixman and
-> panfrost driver support. Michael Riesch reported the driver to work on
-> the RK3566 as well, but device tree support for this SoC is not yet
-> included in this series.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------8vBjnha6aQYVQUWNP8QSQK2i
+Content-Type: multipart/mixed; boundary="------------WtMvvewvWP9vwKls04kxjvwh";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Hector Martin <marcan@marcan.st>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>
+Cc: stable@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Message-ID: <926ff1f6-2255-4e94-3a24-4fc78260f27d@suse.de>
+Subject: Re: [PATCH] drm/format-helper: Fix dst computation in
+ drm_fb_xrgb8888_to_rgb888_dstclip()
+References: <20211117142206.197575-1-marcan@marcan.st>
+In-Reply-To: <20211117142206.197575-1-marcan@marcan.st>
 
-Can you outline what exactly you want to disable? I don't think
-'status' is the right way. I think between the parent device being
-disabled, an incomplete graph and user configuration choice that
-should be enough to disable parts.
+--------------WtMvvewvWP9vwKls04kxjvwh
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Rob
+SGkNCg0KQW0gMTcuMTEuMjEgdW0gMTU6MjIgc2NocmllYiBIZWN0b3IgTWFydGluOg0KPiBU
+aGUgZHN0IHBvaW50ZXIgd2FzIGJlaW5nIGFkdmFuY2VkIGJ5IHRoZSBjbGlwIHdpZHRoLCBu
+b3QgdGhlIGZ1bGwgbGluZQ0KPiBzdHJpZGUsIHJlc3VsdGluZyBpbiBjb3JydXB0aW9uLiBU
+aGUgY2xpcCBvZmZzZXQgd2FzIGFsc28gY2FsY3VsYXRlZA0KPiBpbmNvcnJlY3RseS4NCj4g
+DQo+IENjOiBzdGFibGVAdmdlci5rZXJuZWwub3JnDQo+IFNpZ25lZC1vZmYtYnk6IEhlY3Rv
+ciBNYXJ0aW4gPG1hcmNhbkBtYXJjYW4uc3Q+DQoNClRoYW5rcyBmb3IgeW91ciBwYXRjaCwg
+YnV0IHlvdSdyZSBwcm9iYWJseSBvbiB0aGUgd3JvbmcgYnJhbmNoLiBXZSANCnJld3JvdGUg
+dGhpcyBjb2RlIHJlY2VudGx5IGFuZCBmaXhlZCB0aGUgaXNzdWUgaW4gZHJtLW1pc2MtbmV4
+dC4gWzFdWzJdDQoNCklmIGFueXRoaW5nLCB0aGlzIHBhdGNoIGNvdWxkIGdvIGludG8gc3Rh
+YmxlLiBJZiBhbnlvbmUgd2FudHMgdG8gbWVyZ2UgDQppdCB0aGVyZSwgdGhlbg0KDQpBY2tl
+ZC1ieTogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+DQoNCkJlc3Qg
+cmVnYXJkcw0KVGhvbWFzDQoNClsxXSANCmh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2RyaS1k
+ZXZlbC8yMDIxMTExMDEwMzcwMi4zNzQtNS10emltbWVybWFubkBzdXNlLmRlLw0KWzJdIA0K
+aHR0cHM6Ly9jZ2l0LmZyZWVkZXNrdG9wLm9yZy9kcm0vZHJtLW1pc2MvY29tbWl0Lz9pZD01
+M2JjMjA5OGQyYjZjY2ZmMjVmZTEzZjkzNDVjYmI1YzBlZjM0YTk5DQoNCj4gLS0tDQo+ICAg
+ZHJpdmVycy9ncHUvZHJtL2RybV9mb3JtYXRfaGVscGVyLmMgfCA0ICsrLS0NCj4gICAxIGZp
+bGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQ0KPiANCj4gZGlm
+ZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZm9ybWF0X2hlbHBlci5jIGIvZHJpdmVy
+cy9ncHUvZHJtL2RybV9mb3JtYXRfaGVscGVyLmMNCj4gaW5kZXggZTY3NjkyMTQyMmI4Li4x
+MmJjNmI0NWU5NWIgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZm9ybWF0
+X2hlbHBlci5jDQo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZm9ybWF0X2hlbHBlci5j
+DQo+IEBAIC0zNjYsMTIgKzM2NiwxMiBAQCB2b2lkIGRybV9mYl94cmdiODg4OF90b19yZ2I4
+ODhfZHN0Y2xpcCh2b2lkIF9faW9tZW0gKmRzdCwgdW5zaWduZWQgaW50IGRzdF9waXRjaA0K
+PiAgIAkJcmV0dXJuOw0KPiAgIA0KPiAgIAl2YWRkciArPSBjbGlwX29mZnNldChjbGlwLCBm
+Yi0+cGl0Y2hlc1swXSwgc2l6ZW9mKHUzMikpOw0KPiAtCWRzdCArPSBjbGlwX29mZnNldChj
+bGlwLCBkc3RfcGl0Y2gsIHNpemVvZih1MTYpKTsNCj4gKwlkc3QgKz0gY2xpcF9vZmZzZXQo
+Y2xpcCwgZHN0X3BpdGNoLCAzKTsNCj4gICAJZm9yICh5ID0gMDsgeSA8IGxpbmVzOyB5Kysp
+IHsNCj4gICAJCWRybV9mYl94cmdiODg4OF90b19yZ2I4ODhfbGluZShkYnVmLCB2YWRkciwg
+bGluZXBpeGVscyk7DQo+ICAgCQltZW1jcHlfdG9pbyhkc3QsIGRidWYsIGRzdF9sZW4pOw0K
+PiAgIAkJdmFkZHIgKz0gZmItPnBpdGNoZXNbMF07DQo+IC0JCWRzdCArPSBkc3RfbGVuOw0K
+PiArCQlkc3QgKz0gZHN0X3BpdGNoOw0KPiAgIAl9DQo+ICAgDQo+ICAgCWtmcmVlKGRidWYp
+Ow0KPiANCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVs
+b3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpNYXhmZWxkc3Ry
+LiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkNCihIUkIgMzY4MDksIEFHIE7DvHJuYmVy
+ZykNCkdlc2Now6RmdHNmw7xocmVyOiBJdm8gVG90ZXYNCg==
+
+--------------WtMvvewvWP9vwKls04kxjvwh--
+
+--------------8vBjnha6aQYVQUWNP8QSQK2i
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmGVGBsFAwAAAAAACgkQlh/E3EQov+AH
+CQ//fGP23yvUugjceBxuGQTRrE2FzitmwCqi11IDCu/rVArqcX2nJdY8lplyHCxEGhOBFmaWGCmw
+qbrklvJLXNrsTtbgwt7ErQfhOiopH8cJ9jHwT2DgFHQWb1Qfvuua8cfD19c1mG30uG6j+jah/RkI
+1zd6V3w5LpjDxx8eP7B0yq0lLjvzlwAmk0RPFoj8Eq/CC6SDKF56Tb4K3J6tLkS7wE4CeTmDEauq
+0iwBgvbKpW034NoSaX7sh3HaTUyZD0JUa98vaA1QH4NRbJfTo0qBf6V+/xVw2wBSn2nbj429j/AH
+71s5/vcYXoBEMGu5JiTpeaFYDHNV6j8gfPXFjWSq8/pi32/eppH8pcxMUmQyfyLVrn1Wu8FX73v8
+2dipo/FLrpW1pUyCFNhR6qvISTw+mmTVvRZxqPPh++YNGys7CUuwJCW58LPVytAmBMH1TZZXyObr
+4U06vN9URHHpq7M4cNCq0JaobS+mRdEpqPn7BWIjPGcTUXCRfDJAGsGKE3AJvIlMtJciiQSr/lVB
+F//XUam1NqgLla+WXrJHOTzlOxbI2E/DzwCl3u3DSObaaWdw8P0OeswM9/qx1FTjp3ZRGXSa4KRL
+hMBbeLso8cRyhxaN/V/pNL5+O8Yze3brwCT4k+OQK1q4LJhpLZ0Hr6PCGcv9vQkVevC48aIukiKb
+D7U=
+=V3eb
+-----END PGP SIGNATURE-----
+
+--------------8vBjnha6aQYVQUWNP8QSQK2i--
