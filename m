@@ -1,56 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F23FE454F67
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Nov 2021 22:35:17 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 69D89454F73
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Nov 2021 22:37:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E764789EB7;
-	Wed, 17 Nov 2021 21:35:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 34FDA6E5BF;
+	Wed, 17 Nov 2021 21:37:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x329.google.com (mail-ot1-x329.google.com
- [IPv6:2607:f8b0:4864:20::329])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3DA5F89EB7;
- Wed, 17 Nov 2021 21:35:10 +0000 (UTC)
-Received: by mail-ot1-x329.google.com with SMTP id
- z2-20020a9d71c2000000b0055c6a7d08b8so7158380otj.5; 
- Wed, 17 Nov 2021 13:35:10 -0800 (PST)
+Received: from mail-oi1-x22d.google.com (mail-oi1-x22d.google.com
+ [IPv6:2607:f8b0:4864:20::22d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A0096E546;
+ Wed, 17 Nov 2021 21:37:17 +0000 (UTC)
+Received: by mail-oi1-x22d.google.com with SMTP id m6so9445387oim.2;
+ Wed, 17 Nov 2021 13:37:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=fAbybk/45RMrbU0Skfo3o+U0FCBPe9DYKYw9nVsCH6w=;
- b=fKweHg3TLHziPsmWsqbhdDOV1FGG6kEzinrCY+1v3d9tspMmDzxj3Re/rzdnH3c/gw
- x9pIpqt1WHJFueNn31tXiqptzSZUGpJDSpQJ9G3pp54rarSptb9pUw9X6MhSGnkSWdnQ
- rDL5Wm5rFqCVWA5U+Sn6RBfoOpz9/vaNQp7zv9MMOp7M5c8yknsqNwm6zZioW9yqGTos
- XszLFSkdrl4t2yAad8UQx9nJGq8umisWu5dXG7nmCq7xVyXYLmK2qUCAjxBLSa96lWFC
- hrUaVh8Nqq2di0f3SxcDismOoq1iShPhnzCdHl1KF9DgKLSSFXe5ovyAfpkiU86FIKBS
- EwZQ==
+ :cc:content-transfer-encoding;
+ bh=6s2y1fTtS8lf6NP+/c4Jj61w5cSCKIlT27IH4NZh8QY=;
+ b=IzY64stNZSLG1jDnQarZT7E46remPFZ029D4S/vqqHEmD8VdCjr14Z3AcNv2AxIn3/
+ UERbzYUIueJ9g5p26p7z0J3l+NTHYiB5wqouskDkVQwIiK5CmEbFy52Z03/rSc2qNf5K
+ A94sZTzv9jrfUD7eoRjbvyInwpfHa6D7BngkfpgHy1JLKEVSgdKTFmVMaBUgEjUQHVB1
+ Mcm04hz14NnzO0qzLtGwBbhU8lm9QS+OB5Liz6wnjs9mrtbpNmjmiZGJoqWQ9xO5FrPy
+ hhokYy/HmWtCnnp/5TbMPAu/rnpucLtLbRC7flysMbBdBbpsATf1RHMgS1Ja7QGU4x4d
+ vVPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=fAbybk/45RMrbU0Skfo3o+U0FCBPe9DYKYw9nVsCH6w=;
- b=m1iClYU842m5PZ1Cd4DSh4wzFHm41lfw5octmdrC7ih5VaZxoIFx3ATiXzEihj/S+p
- 38B3qzPvwGLKNkRLdmYnvhmERSjB+/pN9H8oyGHQ/a2tG6SrobkX6uIM1U7nfLEcgC2k
- U1nQcY7M9Ow6V9PVLqRbaPS4ONDQacp8bTasbYWk2BxkgYt62F4e6oG2x/oV12mWl40H
- ALqWE9+/l4KzU3I6pdk+nV+zpnfm5CBol4+FuZryawpG7fhd8AZuD4+0JoQZPFNFqI8e
- uuWaAyw2zJv0rt7iWOeDponCO/n4UeFzeGCFxTjo6RInZBKGmRf1CplJoH/6hS3w6oS+
- DOxQ==
-X-Gm-Message-State: AOAM5338d4f9X7VtJ4LGK9S5PRxqiQDGGr/Xv+oGppV1YMHwU2tfMvjd
- xbvPu40dmSLKQbue2321FZIzBz15g8pDOcHjlEI57g5U
-X-Google-Smtp-Source: ABdhPJzLmY8A8e/jlVJOZ7Zqz1RE/BWM17Kiian6tAwIVuY3frrTFqQLE7tb8ywG727pwGLElJ+afw1NKr2g5kdMgss=
-X-Received: by 2002:a9d:67c1:: with SMTP id c1mr17029494otn.299.1637184909532; 
- Wed, 17 Nov 2021 13:35:09 -0800 (PST)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=6s2y1fTtS8lf6NP+/c4Jj61w5cSCKIlT27IH4NZh8QY=;
+ b=P2x0HVa+uHzCjdbhqg8C0Nek6ptJzNgwFSBjhwrIfwrY8NDZi7g2MHCm2bDLdkBTWB
+ 1dUEQjJwayhJvxk+A2XgxGuqJzwj1b1dTz5mqgqHsCjTU5qOJ2w9dbQAH9LXm6Iu6ueo
+ Le+wd0gjDOfrJBebBInWlcNMIlrxRVui8rIIjfap5aKB1WJMf7AiJmfWZAgiuqdft81i
+ D5GQWZ30stFQPUyZOqK0zJi6PCdFW1x9ynrJnHe9GdJ9kWrGbBVk4djXcdC/FFp/Yk7+
+ vPqHusDq19FAkt+Cq9MLjapyLvwkOE0kyIcro2XegNAMjB+ydgpDqLHcLTUJHyUsjued
+ gA6A==
+X-Gm-Message-State: AOAM532zKdVJRXTujldO/8ZVdBqU+7HDG+0tsn+d29p0YJQq4JRxNjM1
+ GTMsP+pueHZWSPhX7+jXXiMIvOWNnH7tG8CSt2Y=
+X-Google-Smtp-Source: ABdhPJxRBhq8/gv8eMPKGOit+nrmHWfUJX84g36vbajBhRrGeBC4A7eR2tqOn3eN842fWjlV1756/kPkDXA0fJuG49E=
+X-Received: by 2002:a05:6808:44:: with SMTP id
+ v4mr2874414oic.123.1637185036704; 
+ Wed, 17 Nov 2021 13:37:16 -0800 (PST)
 MIME-Version: 1.0
-References: <20211115025901.2598-1-bernard@vivo.com>
- <50ed4525-dbe6-1eac-5b83-4233a18a6176@amd.com>
-In-Reply-To: <50ed4525-dbe6-1eac-5b83-4233a18a6176@amd.com>
+References: <20211116013438.26517-1-bernard@vivo.com>
+ <88328288-ef1f-ef8b-987f-43dc8dc69ee7@gmail.com>
+In-Reply-To: <88328288-ef1f-ef8b-987f-43dc8dc69ee7@gmail.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 17 Nov 2021 16:34:58 -0500
-Message-ID: <CADnq5_NhZD7LLiGPDUOGZ60niANZjw6OEVJie_Otkpf0S-_2PA@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/amdgpu: fix potential memleak
-To: Felix Kuehling <felix.kuehling@amd.com>
+Date: Wed, 17 Nov 2021 16:37:05 -0500
+Message-ID: <CADnq5_O+A8WaZv_+avrmvzt9Jjr7vwkYqnZx7-wkNtzRx0pc9A@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/display: cleanup the code a bit
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,46 +65,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jonathan Kim <jonathan.kim@amd.com>, Kevin Wang <kevin1.wang@amd.com>,
- David Airlie <airlied@linux.ie>, Bernard Zhao <bernard@vivo.com>, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>, LKML <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, shaoyunl <shaoyun.liu@amd.com>,
+Cc: Leo Li <sunpeng.li@amd.com>, Bernard Zhao <bernard@vivo.com>, "Pan,
+ Xinhui" <Xinhui.Pan@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ LKML <linux-kernel@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, David Airlie <airlied@linux.ie>,
  Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>, Tian Tao <tiantao6@hisilicon.com>,
- Evan Quan <evan.quan@amd.com>, John Clements <john.clements@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Hawking Zhang <Hawking.Zhang@amd.com>
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Applied.  Thanks!
 
-Alex
-
-On Mon, Nov 15, 2021 at 10:56 AM Felix Kuehling <felix.kuehling@amd.com> wrote:
+On Tue, Nov 16, 2021 at 4:19 AM Christian K=C3=B6nig
+<ckoenig.leichtzumerken@gmail.com> wrote:
 >
-> Am 2021-11-14 um 9:58 p.m. schrieb Bernard Zhao:
-> > In function amdgpu_get_xgmi_hive, when kobject_init_and_add failed
-> > There is a potential memleak if not call kobject_put.
+> Am 16.11.21 um 02:34 schrieb Bernard Zhao:
+> > In function dc_sink_destruct, kfree will check pointer, no need
+> > to check again.
+> > This change is to cleanup the code a bit.
 > >
 > > Signed-off-by: Bernard Zhao <bernard@vivo.com>
 >
-> Reviewed-by: Felix Kuehling <Felix.Kuehling@amd.com>
->
+> This one and the other patch are Acked-by: Christian K=C3=B6nig
+> <christian.koenig@amd.com>
 >
 > > ---
-> >  drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c | 1 +
-> >  1 file changed, 1 insertion(+)
+> >   drivers/gpu/drm/amd/display/dc/core/dc_sink.c | 10 +---------
+> >   1 file changed, 1 insertion(+), 9 deletions(-)
 > >
-> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c
-> > index 0fad2bf854ae..567df2db23ac 100644
-> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c
-> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c
-> > @@ -386,6 +386,7 @@ struct amdgpu_hive_info *amdgpu_get_xgmi_hive(struct amdgpu_device *adev)
-> >                       "%s", "xgmi_hive_info");
-> >       if (ret) {
-> >               dev_err(adev->dev, "XGMI: failed initializing kobject for xgmi hive\n");
-> > +             kobject_put(&hive->kobj);
-> >               kfree(hive);
-> >               hive = NULL;
-> >               goto pro_end;
+> > diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_sink.c b/drivers/gp=
+u/drm/amd/display/dc/core/dc_sink.c
+> > index a249a0e5edd0..4b5e4d8e7735 100644
+> > --- a/drivers/gpu/drm/amd/display/dc/core/dc_sink.c
+> > +++ b/drivers/gpu/drm/amd/display/dc/core/dc_sink.c
+> > @@ -33,14 +33,6 @@
+> >    * Private functions
+> >    ********************************************************************=
+**********/
+> >
+> > -static void dc_sink_destruct(struct dc_sink *sink)
+> > -{
+> > -     if (sink->dc_container_id) {
+> > -             kfree(sink->dc_container_id);
+> > -             sink->dc_container_id =3D NULL;
+> > -     }
+> > -}
+> > -
+> >   static bool dc_sink_construct(struct dc_sink *sink, const struct dc_s=
+ink_init_data *init_params)
+> >   {
+> >
+> > @@ -75,7 +67,7 @@ void dc_sink_retain(struct dc_sink *sink)
+> >   static void dc_sink_free(struct kref *kref)
+> >   {
+> >       struct dc_sink *sink =3D container_of(kref, struct dc_sink, refco=
+unt);
+> > -     dc_sink_destruct(sink);
+> > +     kfree(sink->dc_container_id);
+> >       kfree(sink);
+> >   }
+> >
+>
