@@ -1,77 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 251EA454938
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Nov 2021 15:51:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4015F454957
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Nov 2021 15:54:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 58A9C6E420;
-	Wed, 17 Nov 2021 14:50:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F08B86E507;
+	Wed, 17 Nov 2021 14:54:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
- [66.111.4.221])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 492196E420
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Nov 2021 14:50:55 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailnew.nyi.internal (Postfix) with ESMTP id 781735808AD;
- Wed, 17 Nov 2021 09:50:54 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Wed, 17 Nov 2021 09:50:54 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=mLLzlElNt+foG
- XGUbWNPyrcc8VA72A241ZqZ42H44io=; b=YYiHpYbuZNVNZrEMylD4fazPL8e10
- 5gucWGiPRXU8c0sHxgBNt++bwJf0PbRz2Dwv675dOzFz4zQCeXxWTR21igJMU1ov
- CLL+dJdOb//UD3Mkx801be/eEI4sNRd7PBXQWuvM+RuF6jI0RpAFOo4OAl6EvSxN
- tsErbtg0XviT6PYmjwzrlRiwGonoRn3d0LOmeffXowvlDRdPl19S3gK/Im1TqQwj
- YfyBgF3yjIwIeQ8oxb705pW7I8L3YrrjijVIvjRGnH8m0kCjqm1neYYpOVVP+wcT
- X41PdaaqSNiKjpS2UXsYsfgt5urqpFgLit9aekX75lLCB7iin1DFTa62w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=mLLzlElNt+foGXGUbWNPyrcc8VA72A241ZqZ42H44io=; b=NxMbvxvY
- t8aZw4YxbS5EkRTxORmcBGt8E30AhU2yL/HU/o3/jCs9r3VlkZ0zamBht/OZFcQt
- VNZ32RRmaCx8G1De1hcZPtcb1JyLIimghelz42WN1JMbyvf7M0hXdYYDcbp6J0Fr
- PlWjleifnMIJMj7/5jy747ZBZvW8qdnaZl3lhNR8D/xv/RygWB9ywTgu5BJX2rlc
- ODkVCJGtcIvFpR1vYIdWPTH2lnppeqwy7BlpP6e10mWoegYZPgGw41+feTkZeuyu
- jNEPahcLLLW9HGV8Ale0of8vHCh1sS1Km7Gibr1zZf5sd0d4tzK0i/g2r92df2U0
- C9dWy7MpgT6M+Q==
-X-ME-Sender: <xms:zhaVYYeZv0o5i2O4BJfU_PoUYErdgX3rWWRxBBz6qkdJEWBzUKk5Ig>
- <xme:zhaVYaPE7dk2FjomC8KAPYaxjhniXszAhM_HkFfVIRlfx8HRfLNrV7lKF-p9O9YqZ
- N_ypGGgq5EQncfk1iA>
-X-ME-Received: <xmr:zhaVYZiDiwC6RgLHD06QTc1k6-tknHwoyAft-y_9g-uoMkmOqi_Qqb-bxfaMka2OlJJlVBBJdvzXH3Ry7jQZ9KxvDbACHwWjOF5fAqhSYOg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrfeeggdeifecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
- gvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveevheeh
- vdenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
- igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:zhaVYd8Dpfh22jL5Sf-sG-iD8RTVkoEJ3ZLAEBDZt3d0jOg2zctIuQ>
- <xmx:zhaVYUvElE8u0h96OeCQ2LjKHAxuk9e8yQ5xGDN2iZZ-yWeMCn0q4A>
- <xmx:zhaVYUGSvQpN4r1ynYopdWQhUCW5BRSOLWVNGjkbmTMCuTaVtldwYg>
- <xmx:zhaVYfkiC5WWNlzdN1o0ausuGVGpvj7Z1umadGWY9BXnPeBbAXetsg>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 17 Nov 2021 09:50:53 -0500 (EST)
-From: Maxime Ripard <maxime@cerno.tech>
-To: Scott Branden <sbranden@broadcom.com>,
- Nicolas Saenz Julienne <nsaenz@kernel.org>,
- Rob Herring <robh+dt@kernel.org>, Frank Rowand <frowand.list@gmail.com>,
- Ray Jui <rjui@broadcom.com>, Florian Fainelli <f.fainelli@gmail.com>,
- Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>
-Subject: [PATCH 5/5] ARM: dts: rpi: Add the firmware node to vc4
-Date: Wed, 17 Nov 2021 15:50:40 +0100
-Message-Id: <20211117145040.334827-6-maxime@cerno.tech>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20211117145040.334827-1-maxime@cerno.tech>
-References: <20211117145040.334827-1-maxime@cerno.tech>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2FFB96E507
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Nov 2021 14:54:51 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 0D75361BFA
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Nov 2021 14:54:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1637160891;
+ bh=bgjr8yJOWsL+nIbaL9cKsP3o2b2qmUpIgL5aZebelLo=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=JTd+v5Z6z01TfR/bR9dmTn87qBNRyDSSvXGsI6etW0Txeu2IWFcrwMihng3+EG9mz
+ LKecFZeu1/tBJmEol1kk0tGJY+wpza49zFtz0zxD9ncwSonfkgf70Oxdjp2X6g3p7T
+ fxfHu+nWTwLhQptBX4c71rHmo6sjpTTuzP9WxA62K19TLz9n/CQYcGVv6h1aakx4VA
+ B6aTvz9mvI5L/Q0CN+S7SuD97aCm0chOJC/75/rggKjR8MNq103umV7WwdkQlXaank
+ n6+8i6L3FxSrCDuN2UNRGsp3YKneIHfGYkdPqzKWyHrPRQD19t3QDXjbbWTemFj2G3
+ vv6FvS3XEMRzQ==
+Received: by mail-ed1-f52.google.com with SMTP id w1so12295164edd.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Nov 2021 06:54:50 -0800 (PST)
+X-Gm-Message-State: AOAM533O3p/Bdap0xO6bCLBZf5gowtMuGYvbHUstVRid0mFGZSqREaz0
+ l8ApTCn1QvHHJSQf7M9d48kYXDqBkFuEWUH4nQ==
+X-Google-Smtp-Source: ABdhPJw0S7ajbekMY4Kz6agkssG2VWOwZDiRqdiVwjh429yqwO31JlqnTUZtYuiwYFavxe4b0vRatEav0QC/Rq3OPEs=
+X-Received: by 2002:a50:8dcb:: with SMTP id s11mr22594000edh.318.1637160889361; 
+ Wed, 17 Nov 2021 06:54:49 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20211117143347.314294-1-s.hauer@pengutronix.de>
+In-Reply-To: <20211117143347.314294-1-s.hauer@pengutronix.de>
+From: Rob Herring <robh@kernel.org>
+Date: Wed, 17 Nov 2021 08:54:37 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqJxJj2JT-0vN45vYyoy_Sh87NnoTfJQH-4qxRoPNwtj5Q@mail.gmail.com>
+Message-ID: <CAL_JsqJxJj2JT-0vN45vYyoy_Sh87NnoTfJQH-4qxRoPNwtj5Q@mail.gmail.com>
+Subject: Re: [PATCH v1 00/12] drm/rockchip: RK356x VOP2 support
+To: Sascha Hauer <s.hauer@pengutronix.de>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,38 +53,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Dom Cobley <dom@raspberrypi.com>,
- Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com,
- linux-rpi-kernel@lists.infradead.org, Phil Elwell <phil@raspberrypi.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Sandy Huang <hjc@rock-chips.com>, dri-devel <dri-devel@lists.freedesktop.org>,
+ "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+ Michael Riesch <michael.riesch@wolfvision.net>,
+ Sascha Hauer <kernel@pengutronix.de>, Peter Geis <pgwipeout@gmail.com>,
+ linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add the firmware phandle to the vc4 node so that we can send it the
-message that we're done with the firmware display.
+On Wed, Nov 17, 2021 at 8:34 AM Sascha Hauer <s.hauer@pengutronix.de> wrote:
+>
+> This series adds initial graphics support for the Rockchip RK356[68]
+> SoCs.  Graphics support is based around the VOP2 controller which
+> replaces the VOP controller found on earlier Rockchip SoCs. The driver
+> has been tested with HDMI support included in this series and MIPI-DSI
+> which is not included because it needs some more work. The driver is
+> taken from the downstream Rockchip kernel and heavily polished, most non
+> standard features have been removed for now. I tested the driver with
+> the libdrm modetest utility and also with weston with both pixman and
+> panfrost driver support. Michael Riesch reported the driver to work on
+> the RK3566 as well, but device tree support for this SoC is not yet
+> included in this series.
 
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
----
- arch/arm/boot/dts/bcm2835-rpi.dtsi | 4 ++++
- 1 file changed, 4 insertions(+)
+Can you outline what exactly you want to disable? I don't think
+'status' is the right way. I think between the parent device being
+disabled, an incomplete graph and user configuration choice that
+should be enough to disable parts.
 
-diff --git a/arch/arm/boot/dts/bcm2835-rpi.dtsi b/arch/arm/boot/dts/bcm2835-rpi.dtsi
-index 87ddcad76083..bc5dc51ba579 100644
---- a/arch/arm/boot/dts/bcm2835-rpi.dtsi
-+++ b/arch/arm/boot/dts/bcm2835-rpi.dtsi
-@@ -67,6 +67,10 @@ &usb {
- 	power-domains = <&power RPI_POWER_DOMAIN_USB>;
- };
- 
-+&vc4 {
-+	raspberrypi,firmware = <&firmware>;
-+};
-+
- &vec {
- 	power-domains = <&power RPI_POWER_DOMAIN_VEC>;
- 	status = "okay";
--- 
-2.33.1
-
+Rob
