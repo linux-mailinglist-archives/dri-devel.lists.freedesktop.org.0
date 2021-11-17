@@ -1,74 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E157454321
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Nov 2021 09:58:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B4D1545432C
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Nov 2021 10:00:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 38E156E2D8;
-	Wed, 17 Nov 2021 08:58:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E125A6E51B;
+	Wed, 17 Nov 2021 08:59:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
- [66.111.4.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D79AE6E321
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Nov 2021 08:58:14 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.nyi.internal (Postfix) with ESMTP id 3E3A95C01C2;
- Wed, 17 Nov 2021 03:58:14 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute1.internal (MEProxy); Wed, 17 Nov 2021 03:58:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=WxhMCF6GieKbc43ugPb4L6qi9Zl
- Qmle6MK84dK980pM=; b=IumAPrVLhryU34QhmDpiBuM/Sz7XvnQDZdEeDfzixO9
- c0yEKaco+nfysd9gJFCUx3G01SZmkBFWFBV91qOFwyqkrx424QYKlUNOX0lMiwPO
- VXoP3iuSc1gvablVWFcfloWnkgMOmIAaX5st8xWRUSmT521OkWr56AYm3S6El+ci
- +bYU3syAmSC/Nu58YJA5NbQpGcqWXOORShn7bLdXEctj8mbxTOUHk8NFVYc61eHG
- 4dsKHZrXrVNS4VDcPO8feezBSAWBsIdntq7p6T6ETq0Gxz4on7Dd4Mqgt6udj2vC
- GgYJbAsBrdDDjM418V5AkWNp/bZVrm7uwfCcF5rya6A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=WxhMCF
- 6GieKbc43ugPb4L6qi9ZlQmle6MK84dK980pM=; b=IqieXIg1CAJtuJsu1SNYpv
- Zm3eANTACXTqrAbGXe5GYoQVPGxqwyyH+lNkc8vK5FyvOX6v88+1vwbVyrEv+slw
- 9pf4Bmt02uvopo89zeUx1pPd32ADaKnsjzVV6IGBH5DcnfpGs2JGCRnii4UAMgOI
- pK/vZeVLouYQGzEO/plsHfj0jIe3mXzzcLJxWU/fdtrw1q5BXr37NHnSxPElpfW0
- E7XuAWlkQJod/98s6VlHZtlCSfBM+K+vtgENI8tVKQvAKpo7ExO2wGBwQPh++IXW
- 0zAnPxxh2gMkpe6LhPr5gQdH3RhCk318sCoHJt7deN2WNhTpvhPH5jPZadcqhbzw
- ==
-X-ME-Sender: <xms:JcSUYbGgJDE6lxhgA4GII9nBb1-MHKGul2bUJLoMPcg1Vt11M9I8_g>
- <xme:JcSUYYWNGb7LbxOodaMZHKPihqtytthTIByDFWS7ZFbfaE-OygAaRh6ik64ipC7xk
- VYsyhZ6tfWKm6_7YRM>
-X-ME-Received: <xmr:JcSUYdIXA6o1zORRlFgNqHgVWVznzsMZo30h8SGcjLgJPDbTxPsjDXv12SAm9VoxU_SFFDN_6XhYAv101PPPMDwemtN1AhXW4-OznkV9F3I>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrfeefgdduvdegucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepleeghfejfeejudduudffjeehheetgfeuvdeijeejvdefhfekveettdehvdfh
- kedvnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpe
- dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:JcSUYZE8M4EbpnXx47_UEBhZVRaAO6jsqPQpWpKn0R6SR1CthUXJ-A>
- <xmx:JcSUYRXUKtvja-h07TXR98wB8zqMAQPyjOaFIbkLgWqD8-SRT8g7Eg>
- <xmx:JcSUYUPHCQbQRpZ4qW6Kixbp4zpYXBcrtFYrK3TvnRv18YbxjcWZ4g>
- <xmx:JsSUYdqYz_O4WZ2blqP931oHlf0ytYqU5-89fP0OgeVdgaFSs3OiLQ>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 17 Nov 2021 03:58:13 -0500 (EST)
-Date: Wed, 17 Nov 2021 09:58:11 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Jian-Hong Pan <jhp@endlessos.org>
-Subject: Re: [PATCH 0/6] drm/vc4: kms: Misc fixes for HVS commits
-Message-ID: <20211117085811.225cwhd5zgiux23w@gilmour>
-References: <20211115113105.103275-1-maxime@cerno.tech>
- <CAPpJ_eezZHUwbbq1r18jSgBrKa4L9dPcohQsCFBV10fD-TpcbA@mail.gmail.com>
- <20211117082454.mcjfeepnrer7on7h@gilmour>
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 490E16E3A0
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Nov 2021 08:59:28 +0000 (UTC)
+X-UUID: 7ec723e0755044f8ae110bf6b9b23eae-20211117
+X-UUID: 7ec723e0755044f8ae110bf6b9b23eae-20211117
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
+ mailgw02.mediatek.com (envelope-from <nancy.lin@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1158990523; Wed, 17 Nov 2021 16:59:22 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
+ Wed, 17 Nov 2021 16:59:21 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas10.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
+ Frontend Transport; Wed, 17 Nov 2021 16:59:20 +0800
+From: Nancy.Lin <nancy.lin@mediatek.com>
+To: CK Hu <ck.hu@mediatek.com>
+Subject: [PATCH v8 00/22] Add MediaTek SoC DRM (vdosys1) support for mt8195
+Date: Wed, 17 Nov 2021 16:58:57 +0800
+Message-ID: <20211117085919.28691-1-nancy.lin@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="wa77uilnrhextvgg"
-Content-Disposition: inline
-In-Reply-To: <20211117082454.mcjfeepnrer7on7h@gilmour>
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,91 +46,144 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- David Airlie <airlied@linux.ie>, dri-devel <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>, Phil Elwell <phil@raspberrypi.com>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, srv_heupstream@mediatek.com,
+ devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ "jason-jh . lin" <jason-jh.lin@mediatek.com>, singo.chang@mediatek.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Yongqiang Niu <yongqiang.niu@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
+ linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
+ "Nancy . Lin" <nancy.lin@mediatek.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+The hardware path of vdosys1 with DPTx output need to go through by several modules, such as, OVL_ADAPTOR and MERGE.
 
---wa77uilnrhextvgg
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Add DRM and these modules support by the patches below:
 
-On Wed, Nov 17, 2021 at 09:24:54AM +0100, Maxime Ripard wrote:
-> Hi,
->=20
-> On Wed, Nov 17, 2021 at 03:08:31PM +0800, Jian-Hong Pan wrote:
-> > Maxime Ripard <maxime@cerno.tech> =E6=96=BC 2021=E5=B9=B411=E6=9C=8815=
-=E6=97=A5 =E9=80=B1=E4=B8=80 =E4=B8=8B=E5=8D=887:31=E5=AF=AB=E9=81=93=EF=BC=
-=9A
-> > >
-> > > Hi,
-> > >
-> > > The conversion to DRM commit helpers (f3c420fe19f8, "drm/vc4: kms: Co=
-nvert to
-> > > atomic helpers") introduced a number of issues in corner cases, most =
-of them
-> > > showing themselves in the form of either a vblank timeout or use-afte=
-r-free
-> > > error.
-> > >
-> > > These patches should fix most of them, some of them still being debug=
-ged.
-> > >
-> > > Maxime
-> > >
-> > > Maxime Ripard (6):
-> > >   drm/vc4: kms: Wait for the commit before increasing our clock rate
-> > >   drm/vc4: kms: Fix return code check
-> > >   drm/vc4: kms: Add missing drm_crtc_commit_put
-> > >   drm/vc4: kms: Clear the HVS FIFO commit pointer once done
-> > >   drm/vc4: kms: Don't duplicate pending commit
-> > >   drm/vc4: kms: Fix previous HVS commit wait
-> > >
-> > >  drivers/gpu/drm/vc4/vc4_kms.c | 36 ++++++++++++++-------------------=
---
-> > >  1 file changed, 14 insertions(+), 22 deletions(-)
-> > >
-> > > --
-> > > 2.33.1
-> > >
-> >=20
-> > Thanks to Maxime's information!
-> >=20
-> > I tried to applied this patch series based on the latest mainline
-> > kernel at commit commit 8ab774587903 ("Merge tag 'trace-v5.16-5' of
-> > git://git.kernel.org/pub/scm/linux/kernel/git/rostedt/linux-trace"),
-> > which almost equals "tags/v5.16-rc1" and tested it on RPi 4B.
-> > However, the system hangs and becomes dead at the kernel message:
-> >=20
-> > [drm] Initialized vc4 0.0.0 20140616 for gpu on minor 0
-> >=20
-> > The full dmesg can be found at
-> > https://bugzilla.kernel.org/attachment.cgi?id=3D299603
-> >=20
-> > If I revert the patch series to the original mainline kernel, system
-> > can boot up.
->=20
-> Can you share a bit more information on the boot setup you have? Do you
-> have a display connected? If so, on both output or just a single one?
+Changes in v8:
+- separate merge async reset to new patch.
+- separate drm ovl_adaptor sub driver to new patch.
+- fix reviewer comment in v7.
 
-Nevermind, I found what the issue is. I'll send a v2 shortly.
+Changes in v7:
+- rebase on vdosys0 series v12 (ref[5])
+- add dma description in ethdr binding document.
+- refine vdosys1 bit definition of mmsys routing table.
+- separate merge modification into 3 pathces.
+- separate mutex modification into 2 patches.
+- add plane color coding for mdp_rdma csc.
+- move mdp_rdma pm control to ovl_adaptor.
+- fix reviewer comment in v6.
 
-Maxime
+Changes in v6:
+- rebase on kernel-5.15-rc1.
+- change mbox label to gce0 for dts node of vdosys1.
+- modify mmsys reset num for mt8195.
+- rebase on vdosys0 series v10. (ref [5])
+- use drm to bring up ovl_adaptor driver.
+- move drm iommu/mutex check from kms init to drm bind.
+- modify rdma binding doc location. (Documentation/devicetree/bindings/arm/)
+- modify for reviewer's comment in v5.
 
---wa77uilnrhextvgg
-Content-Type: application/pgp-signature; name="signature.asc"
+Changes in v5:
+- add mmsys reset controller reference.
 
------BEGIN PGP SIGNATURE-----
+Changes in v4:
+- use merge common driver for merge1~4.
+- refine ovl_adaptor rdma driver.
+- use ovl_adaptor ddp_comp function instead of ethdr.
+- modify for reviewer's comment in v3.
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYZTEIwAKCRDj7w1vZxhR
-xbX5AQCaAcx5YffzEZvrLbElQB8V96U66/yDKqjwKUEagvWVaAEA2a2igyBmy7Ll
-A/7ISJDUYlxCn8umUkTJ1B0zdYEu8gU=
-=+Nao
------END PGP SIGNATURE-----
+Changes in v3:
+- modify for reviewer's comment in v2.
+- add vdosys1 2 pixels align limit.
+- add mixer odd offset support.
 
---wa77uilnrhextvgg--
+Changes in v2:
+- Merge PSEUDO_OVL and ETHDR into one DRM component.
+- Add mmsys config API for vdosys1 hardware setting.
+- Add mmsys reset control using linux reset framework.
+
+Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
+
+This series are based on the following patch:
+[1] arm64: dts: Add Mediatek SoC MT8195 and evaluation board dts and Makefile
+    https://patchwork.kernel.org/project/linux-mediatek/patch/20210601075350.31515-2-seiya.wang@mediatek.com/
+[2] arm64: dts: mt8195: add IOMMU and smi nodes
+    https://patchwork.kernel.org/project/linux-mediatek/patch/20210615173233.26682-15-tinghan.shen@mediatek.com/
+[3] [01/24] dt-bindings: mediatek: mt8195: Add binding for MM IOMMU
+    https://patchwork.kernel.org/project/linux-mediatek/patch/20210630023504.18177-2-yong.wu@mediatek.com/
+[4] Add gce support for mt8195
+    https://patchwork.kernel.org/project/linux-mediatek/list/?series=537069
+[5] Add MediaTek SoC DRM (vdosys0) support for mt8195
+    https://patchwork.kernel.org/project/linux-mediatek/list/?series=570497
+[6] [v8,1/2] dt-bindings: reset: mt8195: add toprgu reset-controller header file
+    https://patchwork.kernel.org/project/linux-mediatek/patch/20210806023606.16867-2-Christine.Zhu@mediatek.com/
+[7] [v3,2/7] dt-bindings: mediatek: Add #reset-cells to mmsys system controller
+    https://patchwork.kernel.org/project/linux-mediatek/patch/20210825122613.v3.2.I3f7f1c9a8e46be07d1757ddf4e0097535f3a7d41@changeid/
+[8] [v4,6/7] soc: mediatek: mmsys: Add reset controller support
+    https://patchwork.kernel.org/project/linux-mediatek/patch/20210930103105.v4.6.I15e2419141a69b2e5c7e700c34d92a69df47e04d@changeid/
+
+Nancy.Lin (22):
+  dt-bindings: mediatek: add vdosys1 RDMA definition for mt8195
+  dt-bindings: mediatek: add vdosys1 MERGE property for mt8195
+  dt-bindings: mediatek: add ethdr definition for mt8195
+  dt-bindings: reset: mt8195: add vdosys1 reset control bit
+  arm64: dts: mt8195: add display node for vdosys1
+  soc: mediatek: add mtk-mmsys support for mt8195 vdosys1
+  soc: mediatek: add mtk-mmsys config API for mt8195 vdosys1
+  soc: mediatek: add cmdq support of mtk-mmsys config API for mt8195
+    vdosys1
+  soc: mediatek: mmsys: modify reset controller for MT8195 vdosys1
+  soc: mediatek: change the mutex defines and the mutex_mod type
+  soc: mediatek: add mtk-mutex support for mt8195 vdosys1
+  drm/mediatek: add display MDP RDMA support for MT8195
+  drm/mediatek: add display merge advance config API for MT8195
+  drm/mediatek: add display merge start/stop API for cmdq support
+  drm/mediatek: add display merge mute/unmute support for MT8195
+  drm/mediatek: add display merge async reset control
+  drm/mediatek: add ETHDR support for MT8195
+  drm/mediatek: add mediatek-drm plane color encoding info
+  drm/mediatek: add ovl_adaptor support for MT8195
+  drm/mediatek: modify mediatek-drm for mt8195 multi mmsys support
+  drm/mediatek: add drm ovl_adaptor sub driver for MT8195
+  drm/mediatek: add mediatek-drm of vdosys1 support for MT8195
+
+ .../arm/mediatek/mediatek,mdp-rdma.yaml       |  77 ++++
+ .../display/mediatek/mediatek,ethdr.yaml      | 147 ++++++
+ .../display/mediatek/mediatek,merge.yaml      |   4 +
+ arch/arm64/boot/dts/mediatek/mt8195.dtsi      | 222 +++++++++
+ drivers/gpu/drm/mediatek/Makefile             |   5 +-
+ drivers/gpu/drm/mediatek/mtk_disp_drv.h       |  28 ++
+ drivers/gpu/drm/mediatek/mtk_disp_merge.c     |  99 +++-
+ .../gpu/drm/mediatek/mtk_disp_ovl_adaptor.c   | 436 ++++++++++++++++++
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.c       |  38 +-
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.h       |   3 +-
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c   |  30 +-
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h   |   1 +
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c        | 344 ++++++++++----
+ drivers/gpu/drm/mediatek/mtk_drm_drv.h        |  11 +-
+ drivers/gpu/drm/mediatek/mtk_drm_plane.c      |   1 +
+ drivers/gpu/drm/mediatek/mtk_drm_plane.h      |   1 +
+ drivers/gpu/drm/mediatek/mtk_ethdr.c          | 387 ++++++++++++++++
+ drivers/gpu/drm/mediatek/mtk_ethdr.h          |  25 +
+ drivers/gpu/drm/mediatek/mtk_mdp_rdma.c       | 316 +++++++++++++
+ drivers/gpu/drm/mediatek/mtk_mdp_rdma.h       |  20 +
+ drivers/soc/mediatek/mt8195-mmsys.h           | 199 ++++++++
+ drivers/soc/mediatek/mtk-mmsys.c              |  80 +++-
+ drivers/soc/mediatek/mtk-mmsys.h              |  12 +
+ drivers/soc/mediatek/mtk-mutex.c              | 296 +++++++-----
+ include/dt-bindings/reset/mt8195-resets.h     |  12 +
+ include/linux/soc/mediatek/mtk-mmsys.h        |  22 +
+ 26 files changed, 2568 insertions(+), 248 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/arm/mediatek/mediatek,mdp-rdma.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,ethdr.yaml
+ create mode 100644 drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c
+ create mode 100644 drivers/gpu/drm/mediatek/mtk_ethdr.c
+ create mode 100644 drivers/gpu/drm/mediatek/mtk_ethdr.h
+ create mode 100644 drivers/gpu/drm/mediatek/mtk_mdp_rdma.c
+ create mode 100644 drivers/gpu/drm/mediatek/mtk_mdp_rdma.h
+
+-- 
+2.18.0
+
