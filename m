@@ -1,56 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B020345425B
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Nov 2021 09:08:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A348A454193
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Nov 2021 08:04:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D27E6E288;
-	Wed, 17 Nov 2021 08:08:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A31206E4A1;
+	Wed, 17 Nov 2021 07:04:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
- [IPv6:2a00:1450:4864:20::42b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2971689A9B
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Nov 2021 04:49:54 +0000 (UTC)
-Received: by mail-wr1-x42b.google.com with SMTP id t30so2004047wra.10
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Nov 2021 20:49:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=SfIdXE0WH+/vIFSkVKDBCLo6eJWcG5HuZohaE9rO5FE=;
- b=Oe+e/sDCKFuptOI1R/2z/UM/mHtttdRGjWwleMKqctj2Wf4SoRKop9H3Mi2Wzl5xbo
- AHNNUcqpPUjyMkApw01c14MFeEREymki1Pk899vBJ5B8B4+FYKrwk6BhOsRGORqo0LnM
- 9PjcwiFgoUX9AUpE/a8YEtI91D179FqqrXCqBu3wzQ48tLnznMxjVjUO2/uBeP28fPc1
- 1SNqre4QSSBnyPVMSRHz7qEHNdwVmhzDGkekgjsgmOY1vBgq3r5tHrjQOpE1OOnMyG4T
- fxyTUGn8/vMwxFTrFII7tRmzLplhAZZCAzSbAU5nTvORJu/Tq/xmlaPyjc2/6qrUQc+a
- J9gg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=SfIdXE0WH+/vIFSkVKDBCLo6eJWcG5HuZohaE9rO5FE=;
- b=ZizfjU+5o3BfHwGFlUsRs44kR+55P7KTJS5TkjGcuoPbOEukcR34jpkfspAhg4CxqY
- vZ0I9REn+ujy71F9cRVxatxoVNj5jc0uKMnc6WlvhqRlTkuxUTixxgq0bNsEida79WXI
- U4COE75eFQjTBLeQLORap5wJYnAfZaA08vQlkv5AnaKJa+uJYNTNBnjuCq/siEO2O4u7
- HvbV+o6Ty+DuficwiDKbQeG3ax3kT/D4bFNK27eME0ILANgKG6MlJ+2jQNEs/NJHCvEu
- 1ZJQlyhQuep6+cUHT7DFO5KGJ/5PFPtx1mWugKL1jn2V3xdUg+I2icIztDlwgTCJXIlS
- bhPQ==
-X-Gm-Message-State: AOAM533Y9wK8Lab9UjIknYJgCFSxnFy1H8sirLVSqqOAH8R+mmDL5pOz
- wh878XDjj369tmjZ83TjTyJhB1xIyZux/AVGr6vvXQ==
-X-Google-Smtp-Source: ABdhPJxQ3qZAVfu+Dz14uYsbaod77tvxJAf5kFUiRHrgGfeGI1lRy0qeP/GcKrerbX7iPzmGxatZqtj/YmrIWd0onO4=
-X-Received: by 2002:adf:e984:: with SMTP id h4mr16600543wrm.149.1637124592648; 
- Tue, 16 Nov 2021 20:49:52 -0800 (PST)
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EDF386E4A1
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Nov 2021 07:04:09 +0000 (UTC)
+X-UUID: ef851fe17b8e4fd193653d4016fe7de3-20211117
+X-UUID: ef851fe17b8e4fd193653d4016fe7de3-20211117
+Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw02.mediatek.com
+ (envelope-from <nancy.lin@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 1859975004; Wed, 17 Nov 2021 15:04:06 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
+ Wed, 17 Nov 2021 15:04:04 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Wed, 17 Nov 2021 15:04:04 +0800
+Message-ID: <853c36b7b4c8dfbf2856b7283219dd3aae363ae9.camel@mediatek.com>
+Subject: Re: [PATCH v7 20/20] drm/mediatek: add mediatek-drm of vdosys1
+ support for MT8195
+From: Nancy.Lin <nancy.lin@mediatek.com>
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Wed, 17 Nov 2021 15:04:04 +0800
+In-Reply-To: <CAAOTY_8zqBxL=1B5whFMUW+WTizhOYZn7+ms=6hCww0KfqBQXw@mail.gmail.com>
+References: <20211029075203.17093-1-nancy.lin@mediatek.com>
+ <20211029075203.17093-21-nancy.lin@mediatek.com>
+ <CAAOTY_8zqBxL=1B5whFMUW+WTizhOYZn7+ms=6hCww0KfqBQXw@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-References: <20211117020724.2647769-1-pcc@google.com>
-In-Reply-To: <20211117020724.2647769-1-pcc@google.com>
-From: Anibal Limon <anibal.limon@linaro.org>
-Date: Tue, 16 Nov 2021 22:49:40 -0600
-Message-ID: <CA+_AqisE1yMvkPvRtp-8ZxMSpuwmfTrETkomfQHgSM-sEazuaQ@mail.gmail.com>
-Subject: Re: [PATCH] lontium-lt9611: check a different register bit for HDMI
- sensing
-To: Peter Collingbourne <pcc@google.com>
-Content-Type: multipart/alternative; boundary="000000000000cc5a4605d0f4c521"
-X-Mailman-Approved-At: Wed, 17 Nov 2021 08:08:06 +0000
+Content-Transfer-Encoding: 8bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,146 +52,420 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Bjorn Andersson <bjorn.andersson@linaro.org>, Vinod Koul <vkoul@kernel.org>,
- Robert Foss <robert.foss@linaro.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: DTML <devicetree@vger.kernel.org>,
+ srv_heupstream <srv_heupstream@mediatek.com>, David
+ Airlie <airlied@linux.ie>, "jason-jh .
+ lin" <jason-jh.lin@mediatek.com>, singo.chang@mediatek.com,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Yongqiang Niu <yongqiang.niu@mediatek.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+ "moderated
+ list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---000000000000cc5a4605d0f4c521
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hi Chun-Kuang,
 
-Dmitry,
+Thanks for the review.
 
-May be this is the reason of my HP monitor not working in RB5.
+On Fri, 2021-11-12 at 07:30 +0800, Chun-Kuang Hu wrote:
+> Hi, Nancy:
+> 
+> Nancy.Lin <nancy.lin@mediatek.com> 於 2021年10月29日 週五 下午3:52寫道：
+> > 
+> > Add driver data of mt8195 vdosys1 to mediatek-drm and the sub
+> > driver.
+> > 
+> > Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
+> > ---
+> >  drivers/gpu/drm/mediatek/mtk_disp_merge.c   |  4 ++
+> >  drivers/gpu/drm/mediatek/mtk_drm_crtc.c     | 13 ++---
+> >  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c | 30 +++++++++--
+> >  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h |  1 +
+> >  drivers/gpu/drm/mediatek/mtk_drm_drv.c      | 56 ++++++++++++++++-
+> > ----
+> >  5 files changed, 78 insertions(+), 26 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/mediatek/mtk_disp_merge.c
+> > b/drivers/gpu/drm/mediatek/mtk_disp_merge.c
+> > index dff2797a2f68..d64846c38fe1 100644
+> > --- a/drivers/gpu/drm/mediatek/mtk_disp_merge.c
+> > +++ b/drivers/gpu/drm/mediatek/mtk_disp_merge.c
+> > @@ -8,6 +8,7 @@
+> >  #include <linux/of_device.h>
+> >  #include <linux/of_irq.h>
+> >  #include <linux/platform_device.h>
+> > +#include <linux/reset.h>
+> >  #include <linux/soc/mediatek/mtk-cmdq.h>
+> > 
+> >  #include "mtk_drm_ddp_comp.h"
+> > @@ -79,6 +80,9 @@ void mtk_merge_stop(struct device *dev)
+> >         struct mtk_disp_merge *priv = dev_get_drvdata(dev);
+> > 
+> >         mtk_merge_stop_cmdq(dev, NULL);
+> > +
+> > +       if (priv->async_clk)
+> > +               device_reset_optional(dev);
+> 
+> Separate this to an merge patch.
+> 
+OK.
+> >  }
+> > 
+> >  void mtk_merge_start_cmdq(struct device *dev, struct cmdq_pkt
+> > *cmdq_pkt)
+> > diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+> > b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+> > index 25580106a2c4..d41bd8201371 100644
+> > --- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+> > +++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+> > @@ -876,15 +876,10 @@ int mtk_drm_crtc_create(struct drm_device
+> > *drm_dev,
+> >                 node = priv->comp_node[comp_id];
+> >                 comp = &priv->ddp_comp[comp_id];
+> > 
+> > -               if (!node) {
+> > -                       dev_info(dev,
+> > -                                "Not creating crtc %d because
+> > component %d is disabled or missing\n",
+> > -                                crtc_i, comp_id);
+> > -                       return 0;
+> > -               }
+> > -
+> > -               if (!comp->dev) {
+> > -                       dev_err(dev, "Component %pOF not
+> > initialized\n", node);
+> > +               if (!node && !comp->dev) {
+> > +                       dev_err(dev,
+> > +                               "Not creating crtc %d because
+> > component %d is disabled, missing or not initialized\n",
+> > +                               crtc_i, comp_id);
+> 
+> Why do this? If this is necessary, separate this to an independent
+> patch.
+
+This is a necessary modification for ovl_adaptor component. Ovl_adaptor
+is brought up by drm driver, no dts device node for it. To modify the
+check missing component logic.
+> 
+> >                         return -ENODEV;
+> >                 }
+> >         }
+> > diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
+> > b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
+> > index eb9835102d79..279087ae889b 100644
+> > --- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
+> > +++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
+> > @@ -385,6 +385,18 @@ static const struct mtk_ddp_comp_funcs
+> > ddp_ufoe = {
+> >         .start = mtk_ufoe_start,
+> >  };
+> > 
+> > +static const struct mtk_ddp_comp_funcs ddp_ovl_adaptor = {
+> > +       .clk_enable = mtk_ovl_adaptor_clk_enable,
+> > +       .clk_disable = mtk_ovl_adaptor_clk_disable,
+> > +       .config = mtk_ovl_adaptor_config,
+> > +       .start = mtk_ovl_adaptor_start,
+> > +       .stop = mtk_ovl_adaptor_stop,
+> > +       .layer_nr = mtk_ovl_adaptor_layer_nr,
+> > +       .layer_config = mtk_ovl_adaptor_layer_config,
+> > +       .enable_vblank = mtk_ovl_adaptor_enable_vblank,
+> > +       .disable_vblank = mtk_ovl_adaptor_disable_vblank,
+> > +};
+> 
+> Separate this to an ovl_adaptor patch.
+> 
+OK
+> > +
+> >  static const char * const mtk_ddp_comp_stem[MTK_DDP_COMP_TYPE_MAX]
+> > = {
+> >         [MTK_DISP_AAL] = "aal",
+> >         [MTK_DISP_BLS] = "bls",
+> > @@ -398,6 +410,7 @@ static const char * const
+> > mtk_ddp_comp_stem[MTK_DDP_COMP_TYPE_MAX] = {
+> >         [MTK_DISP_OD] = "od",
+> >         [MTK_DISP_OVL] = "ovl",
+> >         [MTK_DISP_OVL_2L] = "ovl-2l",
+> > +       [MTK_DISP_OVL_ADAPTOR] = "ovl_adaptor",
+> >         [MTK_DISP_POSTMASK] = "postmask",
+> >         [MTK_DISP_PWM] = "pwm",
+> >         [MTK_DISP_RDMA] = "rdma",
+> > @@ -443,6 +456,7 @@ static const struct mtk_ddp_comp_match
+> > mtk_ddp_matches[DDP_COMPONENT_ID_MAX] = {
+> >         [DDP_COMPONENT_OVL_2L0]         = { MTK_DISP_OVL_2L,    0,
+> > &ddp_ovl },
+> >         [DDP_COMPONENT_OVL_2L1]         = { MTK_DISP_OVL_2L,    1,
+> > &ddp_ovl },
+> >         [DDP_COMPONENT_OVL_2L2]         = { MTK_DISP_OVL_2L,    2,
+> > &ddp_ovl },
+> > +       [DDP_COMPONENT_OVL_ADAPTOR]     = {
+> > MTK_DISP_OVL_ADAPTOR,       0, &ddp_ovl_adaptor },
+> >         [DDP_COMPONENT_POSTMASK0]       = { MTK_DISP_POSTMASK,  0,
+> > &ddp_postmask },
+> >         [DDP_COMPONENT_PWM0]            = { MTK_DISP_PWM,       0,
+> > NULL },
+> >         [DDP_COMPONENT_PWM1]            = { MTK_DISP_PWM,       1,
+> > NULL },
+> > @@ -548,12 +562,17 @@ int mtk_ddp_comp_init(struct device_node
+> > *node, struct mtk_ddp_comp *comp,
+> > 
+> >         comp->id = comp_id;
+> >         comp->funcs = mtk_ddp_matches[comp_id].funcs;
+> > -       comp_pdev = of_find_device_by_node(node);
+> > -       if (!comp_pdev) {
+> > -               DRM_INFO("Waiting for device %s\n", node-
+> > >full_name);
+> > -               return -EPROBE_DEFER;
+> > +       /* Not all drm components have a DTS device node, such as
+> > ovl_adaptor,
+> > +        * which is the drm bring up sub driver
+> > +        */
+> > +       if (node) {
+> > +               comp_pdev = of_find_device_by_node(node);
+> > +               if (!comp_pdev) {
+> > +                       DRM_INFO("Waiting for device %s\n", node-
+> > >full_name);
+> > +                       return -EPROBE_DEFER;
+> > +               }
+> > +               comp->dev = &comp_pdev->dev;
+> 
+> Separate this to an ovl_adaptor patch.
+> 
+OK
+> >         }
+> > -       comp->dev = &comp_pdev->dev;
+> > 
+> >         /* Only DMA capable components need the LARB property */
+> >         if (type == MTK_DISP_OVL ||
+> > @@ -573,6 +592,7 @@ int mtk_ddp_comp_init(struct device_node *node,
+> > struct mtk_ddp_comp *comp,
+> >             type == MTK_DISP_MERGE ||
+> >             type == MTK_DISP_OVL ||
+> >             type == MTK_DISP_OVL_2L ||
+> > +           type == MTK_DISP_OVL_ADAPTOR ||
+> >             type == MTK_DISP_PWM ||
+> >             type == MTK_DISP_RDMA ||
+> >             type == MTK_DPI ||
+> > diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
+> > b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
+> > index 221e2e3a3c8d..5e1404dc20c4 100644
+> > --- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
+> > +++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
+> > @@ -30,6 +30,7 @@ enum mtk_ddp_comp_type {
+> >         MTK_DISP_OD,
+> >         MTK_DISP_OVL,
+> >         MTK_DISP_OVL_2L,
+> > +       MTK_DISP_OVL_ADAPTOR,
+> >         MTK_DISP_POSTMASK,
+> >         MTK_DISP_PWM,
+> >         MTK_DISP_RDMA,
+> > diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+> > b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+> > index eedf10ed30c8..778aec81a0de 100644
+> > --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+> > +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+> > @@ -190,6 +190,12 @@ static const enum mtk_ddp_comp_id
+> > mt8195_mtk_ddp_main[] = {
+> >         DDP_COMPONENT_DP_INTF0,
+> >  };
+> > 
+> > +static const enum mtk_ddp_comp_id mt8195_mtk_ddp_ext[] = {
+> > +       DDP_COMPONENT_OVL_ADAPTOR,
+> > +       DDP_COMPONENT_MERGE5,
+> > +       DDP_COMPONENT_DP_INTF1,
+> > +};
+> > +
+> >  static const struct mtk_mmsys_driver_data mt2701_mmsys_driver_data
+> > = {
+> >         .main_path = mt2701_mtk_ddp_main,
+> >         .main_len = ARRAY_SIZE(mt2701_mtk_ddp_main),
+> > @@ -262,6 +268,13 @@ static const struct mtk_mmsys_driver_data
+> > mt8195_vdosys0_driver_data = {
+> >         .mmsys_dev_num = 2,
+> >  };
+> > 
+> > +static const struct mtk_mmsys_driver_data
+> > mt8195_vdosys1_driver_data = {
+> > +       .ext_path = mt8195_mtk_ddp_ext,
+> > +       .ext_len = ARRAY_SIZE(mt8195_mtk_ddp_ext),
+> > +       .mmsys_id = 1,
+> > +       .mmsys_dev_num = 2,
+> > +};
+> > +
+> >  static const struct of_device_id mtk_drm_of_ids[] = {
+> >         { .compatible = "mediatek,mt2701-mmsys",
+> >           .data = &mt2701_mmsys_driver_data},
+> > @@ -279,6 +292,8 @@ static const struct of_device_id
+> > mtk_drm_of_ids[] = {
+> >           .data = &mt8192_mmsys_driver_data},
+> >         { .compatible = "mediatek,mt8195-vdosys0",
+> >           .data = &mt8195_vdosys0_driver_data},
+> > +       { .compatible = "mediatek,mt8195-vdosys1",
+> > +         .data = &mt8195_vdosys1_driver_data},
+> >         { }
+> >  };
+> >  MODULE_DEVICE_TABLE(of, mtk_drm_of_ids);
+> > @@ -362,9 +377,7 @@ static int mtk_drm_kms_init(struct drm_device
+> > *drm)
+> >  {
+> >         struct mtk_drm_private *private = drm->dev_private;
+> >         struct mtk_drm_private *priv_n;
+> > -       struct platform_device *pdev;
+> > -       struct device_node *np = NULL;
+> > -       struct device *dma_dev;
+> > +       struct device *dma_dev = NULL;
+> >         int ret, i, j;
+> > 
+> >         ret = drmm_mode_config_init(drm);
+> > @@ -406,8 +419,8 @@ static int mtk_drm_kms_init(struct drm_device
+> > *drm)
+> >                                 if (ret)
+> >                                         goto err_component_unbind;
+> > 
+> > -                               if (!np)
+> > -                                       np = priv_n-
+> > >comp_node[priv_n->data->main_path[0]];
+> > +                               if (!dma_dev)
+> > +                                       dma_dev = priv_n-
+> > >ddp_comp[priv_n->data->main_path[0]].dev;
+> > 
+> >                                 continue;
+> >                         } else if (i == 1 && priv_n->data->ext_len) 
+> > {
+> > @@ -416,8 +429,8 @@ static int mtk_drm_kms_init(struct drm_device
+> > *drm)
+> >                                 if (ret)
+> >                                         goto err_component_unbind;
+> > 
+> > -                               if (!np)
+> > -                                       np = priv_n-
+> > >comp_node[priv_n->data->ext_path[0]];
+> > +                               if (!dma_dev)
+> > +                                       dma_dev = priv_n-
+> > >ddp_comp[priv_n->data->ext_path[0]].dev;
+> 
+> Separate this to an independent patch.
+> 
+OK.
+> > 
+> >                                 continue;
+> >                         } else if (i == 2 && priv_n->data-
+> > >third_len) {
+> > @@ -426,8 +439,8 @@ static int mtk_drm_kms_init(struct drm_device
+> > *drm)
+> >                                 if (ret)
+> >                                         goto err_component_unbind;
+> > 
+> > -                               if (!np)
+> > -                                       np = priv_n-
+> > >comp_node[priv_n->data->third_path[0]];
+> > +                               if (!dma_dev)
+> > +                                       dma_dev = priv_n-
+> > >ddp_comp[priv_n->data->third_path[0]].dev;
+> > 
+> >                                 continue;
+> >                         }
+> > @@ -435,14 +448,12 @@ static int mtk_drm_kms_init(struct drm_device
+> > *drm)
+> >         }
+> > 
+> >         /* Use OVL device for all DMA memory allocations */
+> > -       pdev = of_find_device_by_node(np);
+> > -       if (!pdev) {
+> > +       if (!dma_dev) {
+> >                 ret = -ENODEV;
+> >                 dev_err(drm->dev, "Need at least one OVL
+> > device\n");
+> >                 goto err_component_unbind;
+> >         }
+> > 
+> > -       dma_dev = &pdev->dev;
+> >         for (i = 0; i < private->data->mmsys_dev_num; i++)
+> >                 private->all_drm_private[i]->dma_dev = dma_dev;
+> > 
+> > @@ -521,6 +532,11 @@ static int compare_of(struct device *dev, void
+> > *data)
+> >         return dev->of_node == data;
+> >  }
+> > 
+> > +static int compare_dev(struct device *dev, void *data)
+> > +{
+> > +       return dev == (struct device *)data;
+> > +}
+> > +
+> >  static int mtk_drm_bind(struct device *dev)
+> >  {
+> >         struct mtk_drm_private *private = dev_get_drvdata(dev);
+> > @@ -709,6 +725,7 @@ static int mtk_drm_probe(struct platform_device
+> > *pdev)
+> >         struct mtk_drm_private *private;
+> >         struct device_node *node;
+> >         struct component_match *match = NULL;
+> > +       struct platform_device *ovl_adaptor;
+> >         int ret;
+> >         int i;
+> > 
+> > @@ -734,6 +751,19 @@ static int mtk_drm_probe(struct
+> > platform_device *pdev)
+> >                 return -ENODEV;
+> >         }
+> > 
+> > +       /* Bringup ovl_adaptor */
+> > +       if (mtk_drm_find_mmsys_comp(private,
+> > DDP_COMPONENT_OVL_ADAPTOR)) {
+> > +               ovl_adaptor = platform_device_register_data(dev,
+> > "mediatek-disp-ovl-adaptor",
+> > +                                                           PLATFOR
+> > M_DEVID_AUTO,
+> > +                                                           (void
+> > *)private->mmsys_dev,
+> > +                                                           sizeof(
+> > *private->mmsys_dev));
+> > +               private->ddp_comp[DDP_COMPONENT_OVL_ADAPTOR].dev =
+> > &ovl_adaptor->dev;
+> > +               private->comp_node[DDP_COMPONENT_OVL_ADAPTOR] =
+> > ovl_adaptor->dev.of_node;
+> > +               mtk_ddp_comp_init(NULL, &private-
+> > >ddp_comp[DDP_COMPONENT_OVL_ADAPTOR],
+> > +                                 DDP_COMPONENT_OVL_ADAPTOR);
+> > +               component_match_add(dev, &match, compare_dev,
+> > &ovl_adaptor->dev);
+> > +       }
+> 
+> Separate this to an ovl_adaptor patch.
+> 
+> Regards,
+> Chun-Kuang.
+> 
+OK.
 
 Regards,
-Anibal
+Nancy.
+> > +
+> >         /* Iterate over sibling DISP function blocks */
+> >         for_each_child_of_node(phandle->parent, node) {
+> >                 const struct of_device_id *of_id;
+> > @@ -787,6 +817,7 @@ static int mtk_drm_probe(struct platform_device
+> > *pdev)
+> >                     comp_type == MTK_DISP_MERGE ||
+> >                     comp_type == MTK_DISP_OVL ||
+> >                     comp_type == MTK_DISP_OVL_2L ||
+> > +                   comp_type == MTK_DISP_OVL_ADAPTOR ||
+> >                     comp_type == MTK_DISP_RDMA ||
+> >                     comp_type == MTK_DPI ||
+> >                     comp_type == MTK_DSI) {
+> > @@ -889,6 +920,7 @@ static struct platform_driver * const
+> > mtk_drm_drivers[] = {
+> >         &mtk_disp_color_driver,
+> >         &mtk_disp_gamma_driver,
+> >         &mtk_disp_merge_driver,
+> > +       &mtk_disp_ovl_adaptor_driver,
+> >         &mtk_disp_ovl_driver,
+> >         &mtk_disp_rdma_driver,
+> >         &mtk_dpi_driver,
+> > --
+> > 2.18.0
+> > 
 
-El mar., 16 de noviembre de 2021 20:07, Peter Collingbourne <pcc@google.com=
->
-escribi=C3=B3:
-
-> It has been observed that with certain monitors such as the HP Z27n,
-> the register 0x825e reads a value of 0x79 when the HDMI cable is
-> connected and 0x78 when it is disconnected, i.e. bit 0 appears
-> to correspond to the HDMI connection status and bit 2 is never
-> set. Therefore, change the driver to check bit 0 instead of bit 2.
->
-> Signed-off-by: Peter Collingbourne <pcc@google.com>
-> Link:
-> https://linux-review.googlesource.com/id/I7e76411127e1ce4988a3f6d0c8ba5f1=
-c3d880c23
-> ---
-> N.B. I don't currently have easy access to a monitor that works
-> with the existing driver, so it would be great if people with
-> monitors that currently work could test this patch to make sure
-> that it doesn't introduce any regressions. Otherwise I will change
-> it to check both bits.
->
->  drivers/gpu/drm/bridge/lontium-lt9611.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/bridge/lontium-lt9611.c
-> b/drivers/gpu/drm/bridge/lontium-lt9611.c
-> index 29b1ce2140ab..71f1db802916 100644
-> --- a/drivers/gpu/drm/bridge/lontium-lt9611.c
-> +++ b/drivers/gpu/drm/bridge/lontium-lt9611.c
-> @@ -586,7 +586,7 @@ lt9611_connector_detect(struct drm_connector
-> *connector, bool force)
->         int connected =3D 0;
->
->         regmap_read(lt9611->regmap, 0x825e, &reg_val);
-> -       connected  =3D (reg_val & BIT(2));
-> +       connected  =3D (reg_val & BIT(0));
->
->         lt9611->status =3D connected ?  connector_status_connected :
->                                 connector_status_disconnected;
-> @@ -926,7 +926,7 @@ static enum drm_connector_status
-> lt9611_bridge_detect(struct drm_bridge *bridge)
->         int connected;
->
->         regmap_read(lt9611->regmap, 0x825e, &reg_val);
-> -       connected  =3D reg_val & BIT(2);
-> +       connected  =3D reg_val & BIT(0);
->
->         lt9611->status =3D connected ?  connector_status_connected :
->                                 connector_status_disconnected;
-> --
-> 2.34.0.rc1.387.gb447b232ab-goog
->
->
-
---000000000000cc5a4605d0f4c521
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div dir=3D"auto">Dmitry,</div><div dir=3D"auto"><br></di=
-v>May be this is the reason of my HP monitor not working in RB5.<div dir=3D=
-"auto"><br></div><div dir=3D"auto">Regards,</div><div dir=3D"auto">Anibal</=
-div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_at=
-tr">El mar., 16 de noviembre de 2021 20:07, Peter Collingbourne &lt;<a href=
-=3D"mailto:pcc@google.com">pcc@google.com</a>&gt; escribi=C3=B3:<br></div><=
-blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px=
- #ccc solid;padding-left:1ex">It has been observed that with certain monito=
-rs such as the HP Z27n,<br>
-the register 0x825e reads a value of 0x79 when the HDMI cable is<br>
-connected and 0x78 when it is disconnected, i.e. bit 0 appears<br>
-to correspond to the HDMI connection status and bit 2 is never<br>
-set. Therefore, change the driver to check bit 0 instead of bit 2.<br>
-<br>
-Signed-off-by: Peter Collingbourne &lt;<a href=3D"mailto:pcc@google.com" ta=
-rget=3D"_blank" rel=3D"noreferrer">pcc@google.com</a>&gt;<br>
-Link: <a href=3D"https://linux-review.googlesource.com/id/I7e76411127e1ce49=
-88a3f6d0c8ba5f1c3d880c23" rel=3D"noreferrer noreferrer" target=3D"_blank">h=
-ttps://linux-review.googlesource.com/id/I7e76411127e1ce4988a3f6d0c8ba5f1c3d=
-880c23</a><br>
----<br>
-N.B. I don&#39;t currently have easy access to a monitor that works<br>
-with the existing driver, so it would be great if people with<br>
-monitors that currently work could test this patch to make sure<br>
-that it doesn&#39;t introduce any regressions. Otherwise I will change<br>
-it to check both bits.<br>
-<br>
-=C2=A0drivers/gpu/drm/bridge/lontium-lt9611.c | 4 ++--<br>
-=C2=A01 file changed, 2 insertions(+), 2 deletions(-)<br>
-<br>
-diff --git a/drivers/gpu/drm/bridge/lontium-lt9611.c b/drivers/gpu/drm/brid=
-ge/lontium-lt9611.c<br>
-index 29b1ce2140ab..71f1db802916 100644<br>
---- a/drivers/gpu/drm/bridge/lontium-lt9611.c<br>
-+++ b/drivers/gpu/drm/bridge/lontium-lt9611.c<br>
-@@ -586,7 +586,7 @@ lt9611_connector_detect(struct drm_connector *connector=
-, bool force)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 int connected =3D 0;<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 regmap_read(lt9611-&gt;regmap, 0x825e, &amp;reg=
-_val);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0connected=C2=A0 =3D (reg_val &amp; BIT(2));<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0connected=C2=A0 =3D (reg_val &amp; BIT(0));<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 lt9611-&gt;status =3D connected ?=C2=A0 connect=
-or_status_connected :<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 connector_status_disconnected;<br>
-@@ -926,7 +926,7 @@ static enum drm_connector_status lt9611_bridge_detect(s=
-truct drm_bridge *bridge)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 int connected;<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 regmap_read(lt9611-&gt;regmap, 0x825e, &amp;reg=
-_val);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0connected=C2=A0 =3D reg_val &amp; BIT(2);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0connected=C2=A0 =3D reg_val &amp; BIT(0);<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 lt9611-&gt;status =3D connected ?=C2=A0 connect=
-or_status_connected :<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 connector_status_disconnected;<br>
--- <br>
-2.34.0.rc1.387.gb447b232ab-goog<br>
-<br>
-</blockquote></div>
-
---000000000000cc5a4605d0f4c521--
