@@ -1,55 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E198454115
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Nov 2021 07:43:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C812145411C
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Nov 2021 07:44:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0836489B3B;
-	Wed, 17 Nov 2021 06:43:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C1FD6E241;
+	Wed, 17 Nov 2021 06:44:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x236.google.com (mail-oi1-x236.google.com
- [IPv6:2607:f8b0:4864:20::236])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D88FB89B3B
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Nov 2021 06:43:41 +0000 (UTC)
-Received: by mail-oi1-x236.google.com with SMTP id s139so4145222oie.13
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Nov 2021 22:43:41 -0800 (PST)
+Received: from mail-ot1-x32f.google.com (mail-ot1-x32f.google.com
+ [IPv6:2607:f8b0:4864:20::32f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD2B36E249
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Nov 2021 06:44:41 +0000 (UTC)
+Received: by mail-ot1-x32f.google.com with SMTP id
+ v15-20020a9d604f000000b0056cdb373b82so2967986otj.7
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Nov 2021 22:44:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:in-reply-to:references:from:user-agent:date:message-id
  :subject:to:cc;
- bh=yTAfmJ0bF8bSpAIUOFMDRewe/b9IF2HUsW2XZzfQGbY=;
- b=cDTxUGFgV+D2sWJDHB8Zi9H3rp6GLIGbwCi5qGeau2co/SriSjaDiymu3yDRMT1rF5
- 4a6UtJ7a6xWVyKz8fWziI1O/HDtR/5w9dXosg9B+rWhGtewQxhYEoSFzoY1eyJMEaqwK
- nwkal6A6S+uqNqnk52M/yvJgNQF8JtK9UimdA=
+ bh=4KLLnT3lbE++1zW9IFNlDp63h9Sm/+5C3hvYnuVhVto=;
+ b=Pou//tJ+XTHrkeW/AllQYZpDimofzYxEc7jVKrltzTA3GjLP7+nyqqdUg7UgoOcl0P
+ NeahRDIxD6QXIcKG5oT/GnvwX2bYABXdVEn8lxIwicbPnLhKrhPeq8CxOAxtQwleVefn
+ o33v1ohDjye4Z3ztHsH0vrGjImvOhvUoqvRRM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:in-reply-to:references:from
  :user-agent:date:message-id:subject:to:cc;
- bh=yTAfmJ0bF8bSpAIUOFMDRewe/b9IF2HUsW2XZzfQGbY=;
- b=6/aYAkjxvr+PxWdCSg75EwAiKkiq6xvr8ZE5l5vF9rm/9aGm7eOBS1kBNPvBGCUjjy
- ZNH7OtQW9kxiIKMFuOKXaaT7EQoo10QjLjoesNr0DWZqzd4ch03ZYJdANWvnb89FBoqM
- GMqCmKzP8WxCCySv11+fYq8qDnFl+Vukzski2uroJnPS81oMo+oSH5YGZ4e+ifGyEdS7
- v8RNroigL2fuO2mbLsp6DVAqfAq0j3KRl6r8/8GKCIMnOO0k1Te9knd1pMOXY5hNuHTl
- EBxzSmytmPXtFM/GmkaTBEeXpoTfOCDw2o+RhHZqdKJyITRmmNTXJnJLZa2hnlIq5Brs
- f/WA==
-X-Gm-Message-State: AOAM531U+Wf7DNKhziaw2pF1UFOCtb8SUuiDKwPfM+dbBClonfloG31o
- 5MdBLdro8ppdvgGpW1H4k/l/jGhJAZd/LURk9njnikGrAjU=
-X-Google-Smtp-Source: ABdhPJy9zCKUwdtUbQh78Q+Mv0EaKjj2J6iuCujpOCBSenzXXg7GYdTuGTdgDNcZxW1F9VTN+CjK8QtCOOdSrwB/lfM=
-X-Received: by 2002:a05:6808:211f:: with SMTP id
- r31mr12120140oiw.64.1637131421167; 
- Tue, 16 Nov 2021 22:43:41 -0800 (PST)
+ bh=4KLLnT3lbE++1zW9IFNlDp63h9Sm/+5C3hvYnuVhVto=;
+ b=ndRenL7zAqP0dy/3ztibo/u7ggukrIp9UHLkmfDR0uFRZNvvaJZiIeZCepGNPp0iho
+ M5IER11iBG//kG5Qdz+TgP5zduA8vMTHmVdZmtXBQNssY50P82QUQJ/s5LWK3H4bPLMc
+ ibHewiHK3FxJ9pYJhlcKAurwf8gf4K2rac9BVQk+cVhdWmLkE4u8tO+IYvlriz05rGDS
+ wwKrI5a7FfavpH6lQcDeDMFFWg9dtO+Eu0Sb6LsHRMptvqYUNuxh9gZFggBRJ2QiR2RF
+ IaqkNBzkTuBuXpxMXHXdJHoymAIU8h0KFQmX1UOE+Txy8hDsbyg5YnYjaJkutM6oBa/r
+ wgZA==
+X-Gm-Message-State: AOAM533yW4bD9umV4KsA5+ggHdXpNeKoDQqTUhUQ5mfr5VJowPx5xvK6
+ JC8y4DDsjU+8zTEeATRw013Qv9nmAxYzu0pGh9daIw==
+X-Google-Smtp-Source: ABdhPJzyXkbDI3NrFOfsZtutYyMeBpAr8cH2dtM4PqNy4KOdAZHLaC2NYpVU1JLU58nPIOoLn0OLZ322dDNO0JgsrYU=
+X-Received: by 2002:a9d:7655:: with SMTP id o21mr11601317otl.126.1637131480911; 
+ Tue, 16 Nov 2021 22:44:40 -0800 (PST)
 Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 16 Nov 2021 22:43:40 -0800
+ HTTPREST; Tue, 16 Nov 2021 22:44:40 -0800
 MIME-Version: 1.0
-In-Reply-To: <1637046458-20607-3-git-send-email-quic_sbillaka@quicinc.com>
+In-Reply-To: <1637046458-20607-4-git-send-email-quic_sbillaka@quicinc.com>
 References: <1637046458-20607-1-git-send-email-quic_sbillaka@quicinc.com>
- <1637046458-20607-3-git-send-email-quic_sbillaka@quicinc.com>
+ <1637046458-20607-4-git-send-email-quic_sbillaka@quicinc.com>
 From: Stephen Boyd <swboyd@chromium.org>
 User-Agent: alot/0.9.1
-Date: Tue, 16 Nov 2021 22:43:40 -0800
-Message-ID: <CAE-0n52n1qzrODJuFN7pnWvj-31uGop9h+HTUY7wXuuX_sO2SQ@mail.gmail.com>
-Subject: Re: [PATCH v1 2/3] phy: qcom: Add support for eDP PHY on sc7280
+Date: Tue, 16 Nov 2021 22:44:40 -0800
+Message-ID: <CAE-0n50jpAq7jynEL5opHJd06zThUaWVzLvc_zidi-qYUxiwcQ@mail.gmail.com>
+Subject: Re: [PATCH v1 3/3] phy: qcom: Program SSC only if supported by sink
 To: Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
  dri-devel@lists.freedesktop.org, 
  freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, 
@@ -72,11 +72,15 @@ Cc: quic_kalyant@quicinc.com, dianders@chromium.org, quic_abhinavk@quicinc.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Sankeerth Billakanti (2021-11-15 23:07:37)
-> The sc7280 platform supports native eDP controller and PHY.
-> This change will add support for the eDP PHY on sc7280.
+Quoting Sankeerth Billakanti (2021-11-15 23:07:38)
+> Some legacy eDP sinks may not support SSC. The support for SSC is
+> indicated through an opts flag from the controller driver. This
+> change will enable SSC only if the sink supports it.
 >
 > Signed-off-by: Sankeerth Billakanti <quic_sbillaka@quicinc.com>
 > ---
+
+I suppose as long as the existing user has already chosen to set the
+opts in the controller driver then this is fine.
 
 Reviewed-by: Stephen Boyd <swboyd@chromium.org>
