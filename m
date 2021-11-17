@@ -2,53 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11FFB454201
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Nov 2021 08:43:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F97345424B
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Nov 2021 09:03:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DBC826E4E3;
-	Wed, 17 Nov 2021 07:43:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F47A6E8AC;
+	Wed, 17 Nov 2021 08:03:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 98FBB6E4E3
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Nov 2021 07:43:30 +0000 (UTC)
-X-UUID: 6ed102d4661e4d06ad62646c1e584092-20211117
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=X3bIeS3Z/0BzYf5jDamSICI7AYymSKxCG9LklXxvROs=; 
- b=YB8p1urC1QjrruAJbccsDVhmAB2eTZsFS2t4swNF86HtT466EFnAyHy95Jyg58uEwbfilNYz6WPGlEm6ZqqPd5rkvrqe+dDAezgOEyJFxiBllXg5HOVyy7C9hpMsXPJ9jDJt1sC/Pp5iGvUtCkMakEduUiULFmL9Wd4n7KA6wZ0=;
-X-UUID: 6ed102d4661e4d06ad62646c1e584092-20211117
-Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw01.mediatek.com
- (envelope-from <yongqiang.niu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 463318559; Wed, 17 Nov 2021 15:43:24 +0800
-Received: from mtkexhb01.mediatek.inc (172.21.101.102) by
- mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Wed, 17 Nov 2021 15:43:23 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by mtkexhb01.mediatek.inc
- (172.21.101.102) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Wed, 17 Nov 2021 15:43:23 +0800
-Received: from mhfsdcap04 (10.17.3.154) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Wed, 17 Nov 2021 15:43:22 +0800
-Message-ID: <c0d4ebd1c550384fbd21609ab93f1e573c7044d9.camel@mediatek.com>
-Subject: Re: [PATCH v2, 1/1] mailbox: cmdq: add instruction time-out
- interrupt support
-From: yongqiang.niu <yongqiang.niu@mediatek.com>
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Wed, 17 Nov 2021 15:43:21 +0800
-In-Reply-To: <CAAOTY_9xhga5yP7OVB6npPesTHc8UR3WydwOvY=Fvo-CCawxLg@mail.gmail.com>
-References: <20210930131850.21202-1-yongqiang.niu@mediatek.com>
- <20210930131850.21202-2-yongqiang.niu@mediatek.com>
- <CAAOTY_82OaLAz0o6BUcogQ=xgYTsFJSov=J72UzMwwq3YtkPdg@mail.gmail.com>
- <ffe2d4aaf4f884c4de2d2a157d08087cef3e6a0f.camel@mediatek.com>
- <CAAOTY_9xhga5yP7OVB6npPesTHc8UR3WydwOvY=Fvo-CCawxLg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+X-Greylist: delayed 303 seconds by postgrey-1.36 at gabe;
+ Wed, 17 Nov 2021 08:03:53 UTC
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB2C36E8AC
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Nov 2021 08:03:53 +0000 (UTC)
+Received: from mail-wm1-f51.google.com ([209.85.128.51]) by
+ mrelayeu.kundenserver.de (mreue107 [213.165.67.113]) with ESMTPSA (Nemesis)
+ id 1MGhi0-1ms9Na1jEY-00DqG4 for <dri-devel@lists.freedesktop.org>; Wed, 17
+ Nov 2021 08:58:48 +0100
+Received: by mail-wm1-f51.google.com with SMTP id
+ 67-20020a1c1946000000b0030d4c90fa87so1382224wmz.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Nov 2021 23:58:48 -0800 (PST)
+X-Gm-Message-State: AOAM530qWytJyrxeTQcFif8wrGwo6kLCFoUwDU2E9HFhies+NdDXM/cX
+ wjFjpiC/q34H7SvSOZb4abzmztUaRwQ2c0i2AZ8=
+X-Google-Smtp-Source: ABdhPJxQ+x4Y1Ck1Hf5j/rHJ6qKfOAzp3wcdUpbV+b0x9HS0VH1nbg7XR0thXzSRbQKN9uAm9cLnpA/Gc9tUBUrm4hA=
+X-Received: by 2002:a1c:770e:: with SMTP id t14mr74998462wmi.173.1637135927739; 
+ Tue, 16 Nov 2021 23:58:47 -0800 (PST)
 MIME-Version: 1.0
-X-MTK: N
-Content-Transfer-Encoding: base64
+References: <20211117062704.14671-1-rdunlap@infradead.org>
+In-Reply-To: <20211117062704.14671-1-rdunlap@infradead.org>
+From: Arnd Bergmann <arnd@arndb.de>
+Date: Wed, 17 Nov 2021 08:58:31 +0100
+X-Gmail-Original-Message-ID: <CAK8P3a1cayrsR9J+G6bAkZjK-hGaNzqSQAxB5LS4pvJm_rtpHQ@mail.gmail.com>
+Message-ID: <CAK8P3a1cayrsR9J+G6bAkZjK-hGaNzqSQAxB5LS4pvJm_rtpHQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/panel-edp: modify Kconfig to prevent build error
+To: Randy Dunlap <rdunlap@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:EBwO2u1H65DXk7852mCHX5AwieQpRzyCOoaAc3AyAJdijg4uosk
+ Cjzqs+ndveRs7yLqfR7QdclnjI/lU8acJUouZRS3R9gBSJRHRCJuEDB02dr0kXKuI5hIzFc
+ NCLz6Gj7mpB9A/vAUSnfIIQpFMHViwwWUssds2rrjHLJbpF3NQsjz6EzeDVtYpXoxj0Wa48
+ v/B0oeu5U6pUlXWf54S/w==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:hm7qFah1s+8=:FoLcZ1rXrCVVAUcByWi88M
+ 6AYM+kyrsfFb8thNGUBl6iGvRJz1DIKZ4eWZi5XT16a5VHcs44BU4DzRcsdxy0sLWNAsporx1
+ YoVW5FmQ85U7qyviHy2mI2+ZMmhAhwB+pIsb5kyIotFD7A0UMjTiK7R8II/2PwMrUgh6yO4mx
+ S2Za2l1jjjSPxgmd3agXTvXw+DY1Hnjpw4Scv2522DsMsYX4nC+iW3xvr1pcnvjaa026Lsp5c
+ 8vAjvRRHBIpFAwWMmSQMdY8wiNFmhOfktpugQDvGts+Za/dN7YeA0nhMsSUzZNx45q6g5C69L
+ tfXRXWIcrYiBQoT1VmPyqlSxDEfKJzlQ3DuJ06X5AzzhuvrbvsPX19GNP66t333jpqxizwUWT
+ GNynl6X7ul+3gLsLuYOkJOKBYVOTDaVB6VwB5fXLL6PwFiMctaM+AduwEVClQaEKqpVvRKxiF
+ XxuqSrbiDtymTU6x7+Bsu5B0fVcE3z5MUzIDkMZTepgw4Be8plZ0ETUbuHLnFPUvZL2DU38en
+ sHFa1YRv7rd9y/ui2uSyKzuv2hqC3CYIgBpqrWdjy0TDgAFARUexcxCiKgjmBvkVAVmMXwmmH
+ OHkvRfYOfsu0Wnh+JYTo4bt7unqhuurIx7s9TfmWdPAZhSk/snT74BHr1ykahog4CJXOdzwKQ
+ +MekiBQU8VXKPhFKYPrOyRblGGpmCzsIYmZIPseOkTpFGH0U9SfYbEVgARyM2tlkan22toDbe
+ xXnc95BKLM4nQJ+XbV8dN0oYYiz1AbrFNbbxz11MynO2B4KnSlQJtopl16WExqh3hIIyWYw3K
+ fSkEVdzEhMYvTDrwkAAR+iF0Uwe0mgwexF1c4aZCX0oljwCiSg=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,94 +66,119 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: DTML <devicetree@vger.kernel.org>,
- Project_Global_Chrome_Upstream_Group@mediatek.com, David
- Airlie <airlied@linux.ie>, Jassi Brar <jassisinghbrar@gmail.com>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>, Dennis YC
- Hsieh <dennis-yc.hsieh@mediatek.com>, Fabien Parent <fparent@baylibre.com>,
- Rob Herring <robh+dt@kernel.org>, "moderated
- list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Hsin-Yi Wang <hsinyi@chromium.org>, Matthias Brugger <matthias.bgg@gmail.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: Douglas Anderson <dianders@chromium.org>, kernel test robot <lkp@intel.com>,
+ Arnd Bergmann <arnd@arndb.de>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCAyMDIxLTEwLTA4IGF0IDIyOjU1ICswODAwLCBDaHVuLUt1YW5nIEh1IHdyb3RlOg0K
-PiBIaSwgWW9uZ3FpYW5nOg0KPiANCj4geW9uZ3FpYW5nLm5pdSA8eW9uZ3FpYW5nLm5pdUBtZWRp
-YXRlay5jb20+IOaWvCAyMDIx5bm0MTDmnIg45pelIOmAseS6lCDkuIrljYg5OjQ55a+r6YGT77ya
-DQo+ID4gDQo+ID4gT24gVHVlLCAyMDIxLTEwLTA1IGF0IDA3OjQxICswODAwLCBDaHVuLUt1YW5n
-IEh1IHdyb3RlOg0KPiA+ID4gSGksIFlvbmdxaWFuZzoNCj4gPiA+IA0KPiA+ID4gWW9uZ3FpYW5n
-IE5pdSA8eW9uZ3FpYW5nLm5pdUBtZWRpYXRlay5jb20+IOaWvCAyMDIx5bm0OeaciDMw5pelIOmA
-seWbmw0KPiA+ID4g5LiL5Y2IOToxOOWvq+mBk++8mg0KPiA+ID4gPiANCj4gPiA+ID4gYWRkIHRp
-bWUtb3V0IGN5Y2xlIHNldHRpbmcgdG8gbWFrZSBzdXJlIHRpbWUtb3V0IGludGVycnVwdCBpcnEN
-Cj4gPiA+ID4gd2lsbCBoYXBwZW5lZCB3aGVuIGluc3RydWN0aW9uIHRpbWUtb3V0IGZvciB3YWl0
-IGFuZCBwb2xsDQo+ID4gPiA+IA0KPiA+ID4gPiBTaWduZWQtb2ZmLWJ5OiBZb25ncWlhbmcgTml1
-IDx5b25ncWlhbmcubml1QG1lZGlhdGVrLmNvbT4NCj4gPiA+ID4gLS0tDQo+ID4gPiA+ICBkcml2
-ZXJzL21haWxib3gvbXRrLWNtZHEtbWFpbGJveC5jIHwgMTEgKysrKysrKysrKysNCj4gPiA+ID4g
-IDEgZmlsZSBjaGFuZ2VkLCAxMSBpbnNlcnRpb25zKCspDQo+ID4gPiA+IA0KPiA+ID4gPiBkaWZm
-IC0tZ2l0IGEvZHJpdmVycy9tYWlsYm94L210ay1jbWRxLW1haWxib3guYw0KPiA+ID4gPiBiL2Ry
-aXZlcnMvbWFpbGJveC9tdGstY21kcS1tYWlsYm94LmMNCj4gPiA+ID4gaW5kZXggNjQxNzVhODkz
-MzEyLi4xOTdiMDMyMjJmOTQgMTAwNjQ0DQo+ID4gPiA+IC0tLSBhL2RyaXZlcnMvbWFpbGJveC9t
-dGstY21kcS1tYWlsYm94LmMNCj4gPiA+ID4gKysrIGIvZHJpdmVycy9tYWlsYm94L210ay1jbWRx
-LW1haWxib3guYw0KPiA+ID4gPiBAQCAtMzYsNiArMzYsNyBAQA0KPiA+ID4gPiAgI2RlZmluZSBD
-TURRX1RIUl9FTkRfQUREUiAgICAgICAgICAgICAgMHgyNA0KPiA+ID4gPiAgI2RlZmluZSBDTURR
-X1RIUl9XQUlUX1RPS0VOICAgICAgICAgICAgMHgzMA0KPiA+ID4gPiAgI2RlZmluZSBDTURRX1RI
-Ul9QUklPUklUWSAgICAgICAgICAgICAgMHg0MA0KPiA+ID4gPiArI2RlZmluZSBDTURRX1RIUl9J
-TlNUTl9USU1FT1VUX0NZQ0xFUyAgMHg1MA0KPiA+ID4gPiANCj4gPiA+ID4gICNkZWZpbmUgR0NF
-X0dDVExfVkFMVUUgICAgICAgICAgICAgICAgIDB4NDgNCj4gPiA+ID4gDQo+ID4gPiA+IEBAIC01
-NCw2ICs1NSwxNSBAQA0KPiA+ID4gPiAgI2RlZmluZSBDTURRX0pVTVBfQllfT0ZGU0VUICAgICAg
-ICAgICAgMHgxMDAwMDAwMA0KPiA+ID4gPiAgI2RlZmluZSBDTURRX0pVTVBfQllfUEEgICAgICAg
-ICAgICAgICAgICAgICAgICAweDEwMDAwMDAxDQo+ID4gPiA+IA0KPiA+ID4gPiArLyoNCj4gPiA+
-ID4gKyAqIGluc3RydWN0aW9uIHRpbWUtb3V0DQo+ID4gPiA+ICsgKiBjeWNsZXMgdG8gaXNzdWUg
-aW5zdHJ1Y3Rpb24gdGltZS1vdXQgaW50ZXJydXB0IGZvciB3YWl0IGFuZA0KPiA+ID4gPiBwb2xs
-IGluc3RydWN0aW9ucw0KPiA+ID4gPiArICogR0NFIGF4aV9jbG9jayAxNTZNSHoNCj4gPiA+ID4g
-KyAqIDEgY3ljbGUgPSA2LjQxbnMNCj4gPiA+ID4gKyAqIGluc3RydWN0aW9uIHRpbWUgb3V0IDJe
-MjIqMio2LjQxbnMgPSA1M21zDQo+ID4gPiANCj4gPiA+IEZvciBkaWZmZXJlbnQgY2xpZW50cywg
-dGhlIHRpbWVvdXQgdmFsdWUgd291bGQgYmUgZGlmZmVyZW50LCBhbmQNCj4gPiA+IGVhY2gNCj4g
-PiA+IGNsaWVudCBjb3VsZCB1c2UgdGltZXIgdG8gZGV0ZWN0IHRpbWVvdXQsIHNvIGl0J3Mgbm90
-IG5lY2Vzc2FyeQ0KPiA+ID4gdG8NCj4gPiA+IGVuYWJsZSB0aW1lb3V0IGluIGNtZHEgZHJpdmVy
-Lg0KPiA+ID4gDQo+ID4gPiBSZWdhcmRzLA0KPiA+ID4gQ2h1bi1LdWFuZy4NCj4gPiANCj4gPiBp
-ZiB3ZSBkbyBub3Qgc2V0IGNtZHEgaGFyZHdhcmUgdGltZW91dCwgdGhpcyBjb25kaXRpb24gd2ls
-bCBuZXZlcg0KPiA+IGhhcHBlbg0KPiA+IGNtZHFfdGhyZWFkX2lycV9oYW5kbGVyDQo+ID4gaWYg
-KGlycV9mbGFnICYgQ01EUV9USFJfSVJRX0VSUk9SKQ0KPiA+ICAgICAgICAgICAgICAgICBlcnIg
-PSB0cnVlOw0KPiA+IA0KPiA+IGFuZCBubyBlcnJvciBjYWxsYmFjaw0KPiA+IGVsc2UgaWYgKGVy
-cikgew0KPiA+ICAgICAgICAgICAgICAgICAgICAgICAgIGNtZHFfdGFza19leGVjX2RvbmUodGFz
-aywgLUVOT0VYRUMpOw0KPiA+ICAgICAgICAgICAgICAgICAgICAgICAgIGNtZHFfdGFza19oYW5k
-bGVfZXJyb3IoY3Vycl90YXNrKTsNCj4gPiAgICAgICAgICAgICAgICAgICAgICAgICBrZnJlZSh0
-YXNrKTsNCj4gPiAgICAgICAgICAgICAgICAgfQ0KPiA+IHRoZSBjbGllbnQgd2lsbCBuZXZlciBy
-ZWNlaXZlZCB0aGUgZXJyb3IgY2FsbGJhY2ssIGNtZHEgaGFyZHdhcmUNCj4gPiB3aWxsDQo+ID4g
-cG9sbCB0aGUgZXZlbnQgZm9yIGV2ZXIgYW5kIG5vIHJlcG9ydCB0aW1lb3V0DQo+IA0KPiBJIHRo
-aW5rIHRoZXJlIGFyZSB0d28gd2F5IHRvIGltcGxlbWVudCB0aGUgdGltZW91dCBtZWNoYW5pc20u
-IFRoZQ0KPiBmaXJzdCB3YXkgaXMgdG8gdXNlIHRoZSBHQ0UgaGFyZHdhcmUgdG8gZGV0ZWN0IHRp
-bWVvdXQuIFRoZSBzZWNvbmQNCj4gd2F5DQo+IGlzIHRoYXQgY2xpZW50IGRyaXZlciB1c2UgdGlt
-ZXIgdG8gZGV0ZWN0IHRpbWVvdXQsIHdoZW4gaXQncyB0aW1lb3V0LA0KPiB1c2UgbWJveF9mbHVz
-aCgpIHRvIGNsZWFuIHVwIHRoZSBwYWNrZXRzIGluIG10ayBjbWRxIGRyaXZlciwgYW5kDQo+IHJl
-bW92ZSB0aGUgZXJyb3IgaGFuZGxlIGluIGlycSBoYW5kbGVyLg0KPiBJZiB5b3UgdGhpbmsgdGhl
-IGZpcnN0IHdheSBpcyBiZXR0ZXIsIEkgdGhpbmsgeW91IHNob3VsZCBwYXNzIHRoZQ0KPiB0aW1l
-b3V0IHZhbHVlIGZyb20gY2xpZW50IGRyaXZlciB0byBjbWRxIGRyaXZlciBiZWNhdXNlIGVhY2gg
-Y2xpZW50DQo+IGRyaXZlciBoYXMgZGlmZmVyZW50IHRpbWVvdXQgdmFsdWUuIEFuZCB0aGUgR0NF
-IGNsb2NrIG1heSBiZQ0KPiBkaWZmZXJlbnQNCj4gaW4gZWFjaCBTb0MsIHNvIHVzZSBjbGtfZ2V0
-X3JhdGUoKSB0byBnZXQgdGhlIGNsb2NrIGZyZXF1ZW5jeSBmb3INCj4gZGlmZmVyZW50IFNvQy4N
-Cj4gDQo+IFJlZ2FyZHMsDQo+IENodW4tS3VhbmcuDQoNCnRoaXMgcGF0Y2ggb25seSB1c2VkIGZv
-ciBtZHAgaW5zdHJ1Y3Rpb24gZXJyb3IgYW5kIGFuZCB0cmlnZ2VyIGh3DQp0aW1lb3V0IGZsb3cs
-IGl0IGlzIGZvciBkZWJ1ZywgaSB3aWxsIGFiYW5kb24gdGhpcyBwYXRjaCBhbmQgd2lsbCBub3QN
-CnNlbmQgdXBzdHJlYW0gYW55bW9yZS4NCg0KPiANCj4gPiA+IA0KPiA+ID4gPiArICovDQo+ID4g
-PiA+ICsjZGVmaW5lIENNRFFfSU5TVE5fVElNRU9VVF9DWUNMRVMgICAgICAyMg0KPiA+ID4gPiAr
-DQo+ID4gPiA+ICBzdHJ1Y3QgY21kcV90aHJlYWQgew0KPiA+ID4gPiAgICAgICAgIHN0cnVjdCBt
-Ym94X2NoYW4gICAgICAgICpjaGFuOw0KPiA+ID4gPiAgICAgICAgIHZvaWQgX19pb21lbSAgICAg
-ICAgICAgICpiYXNlOw0KPiA+ID4gPiBAQCAtMzc2LDYgKzM4Niw3IEBAIHN0YXRpYyBpbnQgY21k
-cV9tYm94X3NlbmRfZGF0YShzdHJ1Y3QNCj4gPiA+ID4gbWJveF9jaGFuDQo+ID4gPiA+ICpjaGFu
-LCB2b2lkICpkYXRhKQ0KPiA+ID4gPiAgICAgICAgICAgICAgICAgd3JpdGVsKCh0YXNrLT5wYV9i
-YXNlICsgcGt0LT5jbWRfYnVmX3NpemUpID4+DQo+ID4gPiA+IGNtZHEtDQo+ID4gPiA+ID4gc2hp
-ZnRfcGEsDQo+ID4gPiA+IA0KPiA+ID4gPiAgICAgICAgICAgICAgICAgICAgICAgIHRocmVhZC0+
-YmFzZSArIENNRFFfVEhSX0VORF9BRERSKTsNCj4gPiA+ID4gDQo+ID4gPiA+ICsgICAgICAgICAg
-ICAgICB3cml0ZWwoQ01EUV9JTlNUTl9USU1FT1VUX0NZQ0xFUywgdGhyZWFkLT5iYXNlDQo+ID4g
-PiA+ICsNCj4gPiA+ID4gQ01EUV9USFJfSU5TVE5fVElNRU9VVF9DWUNMRVMpOw0KPiA+ID4gPiAg
-ICAgICAgICAgICAgICAgd3JpdGVsKHRocmVhZC0+cHJpb3JpdHksIHRocmVhZC0+YmFzZSArDQo+
-ID4gPiA+IENNRFFfVEhSX1BSSU9SSVRZKTsNCj4gPiA+ID4gICAgICAgICAgICAgICAgIHdyaXRl
-bChDTURRX1RIUl9JUlFfRU4sIHRocmVhZC0+YmFzZSArDQo+ID4gPiA+IENNRFFfVEhSX0lSUV9F
-TkFCTEUpOw0KPiA+ID4gPiAgICAgICAgICAgICAgICAgd3JpdGVsKENNRFFfVEhSX0VOQUJMRUQs
-IHRocmVhZC0+YmFzZSArDQo+ID4gPiA+IENNRFFfVEhSX0VOQUJMRV9UQVNLKTsNCj4gPiA+ID4g
-LS0NCj4gPiA+ID4gMi4yNS4xDQo+ID4gPiA+IA0K
+On Wed, Nov 17, 2021 at 7:27 AM Randy Dunlap <rdunlap@infradead.org> wrote:
+>
+> When CONFIG_DRM_KMS_HELPER=m and CONFIG_DRM_PANEL_EDP=y,
+> there is a build error in gpu/drm/panel/panel-edp.o:
+>
+> arm-linux-gnueabi-ld: drivers/gpu/drm/panel/panel-edp.o: in function `panel_edp_probe':
+> panel-edp.c:(.text+0xf38): undefined reference to `drm_panel_dp_aux_backlight'
+>
+> Fix this by limiting DRM_PANEL_DEP by the value of the DRM_KMS_HELPER
+> symbol.
 
+I think the analysis is correct, but this is not the correct fix since
+DRM_KMS_HELPER
+is not user-selectable. (Almost) all other drivers that rely on DRM_KMS_HELPER
+use 'select' for this, and mixing the two risks running into circular
+dependencies.
+
+I see that there are already some 'depends on DRM_KMS_HELPER' in bridge
+and panel drivers, so it's possible that we have to fix them all at the same to
+do this right. I ran into another problem like this the other day and
+I'm currently
+testing with the patch below, but I have not posted that yet since I am not
+fully convinced that this is the correct fix either.
+
+        Arnd
+---
+commit a836092fedaac66af03ea9ed7cb13214fd2ab8a2
+Author: Arnd Bergmann <arnd@arndb.de>
+Date:   Mon Nov 15 16:54:04 2021 +0100
+
+    drm/mipi-dbi: select CONFIG_DRM_KMS_HELPER
+
+    The driver fails to build when the KMS helpers are disabled:
+
+    ld.lld: error: undefined symbol: drm_gem_fb_get_obj
+    >>> referenced by drm_mipi_dbi.c
+    >>>               gpu/drm/drm_mipi_dbi.o:(mipi_dbi_buf_copy) in
+archive drivers/built-in.a
+    >>> referenced by drm_mipi_dbi.c
+    >>>               gpu/drm/drm_mipi_dbi.o:(mipi_dbi_fb_dirty) in
+archive drivers/built-in.a
+
+    ld.lld: error: undefined symbol: drm_gem_fb_begin_cpu_access
+    >>> referenced by drm_mipi_dbi.c
+    >>>               gpu/drm/drm_mipi_dbi.o:(mipi_dbi_buf_copy) in
+archive drivers/built-in.a
+
+    ld.lld: error: undefined symbol: drm_fb_swab
+    >>> referenced by drm_mipi_dbi.c
+    >>>               gpu/drm/drm_mipi_dbi.o:(mipi_dbi_buf_copy) in
+archive drivers/built-in.a
+
+    ld.lld: error: undefined symbol: drm_fb_xrgb8888_to_rgb565
+    >>> referenced by drm_mipi_dbi.c
+    >>>               gpu/drm/drm_mipi_dbi.o:(mipi_dbi_buf_copy) in
+archive drivers/built-in.a
+
+    ld.lld: error: undefined symbol: drm_fb_memcpy
+    >>> referenced by drm_mipi_dbi.c
+    >>>               gpu/drm/drm_mipi_dbi.o:(mipi_dbi_buf_copy) in
+archive drivers/built-in.a
+
+    This is fairly hard to hit in randconfig drivers, but it eventually
+    did trigger for me in a configuration where all other DRM drivers
+    are loadable modules, but DRM_PANEL_WIDECHIPS_WS2401 was built-in.
+
+    Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+
+diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+index 0039df26854b..a03c2761c5f9 100644
+--- a/drivers/gpu/drm/Kconfig
++++ b/drivers/gpu/drm/Kconfig
+@@ -29,6 +29,7 @@ menuconfig DRM
+
+ config DRM_MIPI_DBI
+        tristate
++       select DRM_KMS_HELPER
+        depends on DRM
+
+ config DRM_MIPI_DSI
+diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
+index 431b6e12a81f..17a8d603e7d8 100644
+--- a/drivers/gpu/drm/bridge/Kconfig
++++ b/drivers/gpu/drm/bridge/Kconfig
+@@ -8,7 +8,6 @@ config DRM_BRIDGE
+ config DRM_PANEL_BRIDGE
+        def_bool y
+        depends on DRM_BRIDGE
+-       depends on DRM_KMS_HELPER
+        select DRM_PANEL
+        help
+          DRM bridge wrapper of DRM panels
+diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
+index cfc8d644cedf..40ec20f3552d 100644
+--- a/drivers/gpu/drm/panel/Kconfig
++++ b/drivers/gpu/drm/panel/Kconfig
+@@ -140,9 +140,8 @@ config DRM_PANEL_ILITEK_IL9322
+ config DRM_PANEL_ILITEK_ILI9341
+        tristate "Ilitek ILI9341 240x320 QVGA panels"
+        depends on OF && SPI
+-       depends on DRM_KMS_HELPER
+-       depends on DRM_KMS_CMA_HELPER
+        depends on BACKLIGHT_CLASS_DEVICE
++       select DRM_KMS_CMA_HELPER
+        select DRM_MIPI_DBI
+        help
+          Say Y here if you want to enable support for Ilitek IL9341
