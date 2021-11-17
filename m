@@ -2,31 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6196B45558E
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Nov 2021 08:29:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AA10455585
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Nov 2021 08:28:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 406276EB5C;
-	Thu, 18 Nov 2021 07:28:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D8A4A6E9BB;
+	Thu, 18 Nov 2021 07:28:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B82A56E334
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB70E6E420
  for <dri-devel@lists.freedesktop.org>; Wed, 17 Nov 2021 14:34:10 +0000 (UTC)
 Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28])
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <sha@pengutronix.de>)
- id 1mnM0e-0005ta-FN; Wed, 17 Nov 2021 15:34:00 +0100
+ id 1mnM0e-0005tb-F5; Wed, 17 Nov 2021 15:34:00 +0100
 Received: from sha by dude02.hi.pengutronix.de with local (Exim 4.94.2)
  (envelope-from <sha@pengutronix.de>)
- id 1mnM0b-001P68-0Q; Wed, 17 Nov 2021 15:33:57 +0100
+ id 1mnM0b-001P6B-11; Wed, 17 Nov 2021 15:33:57 +0100
 From: Sascha Hauer <s.hauer@pengutronix.de>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 01/12] dt-bindings: display: rockchip: Add compatible for
- rk3568 HDMI
-Date: Wed, 17 Nov 2021 15:33:36 +0100
-Message-Id: <20211117143347.314294-2-s.hauer@pengutronix.de>
+Subject: [PATCH 02/12] drm/rockchip: dw_hdmi: Do not leave clock enabled in
+ error case
+Date: Wed, 17 Nov 2021 15:33:37 +0100
+Message-Id: <20211117143347.314294-3-s.hauer@pengutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211117143347.314294-1-s.hauer@pengutronix.de>
 References: <20211117143347.314294-1-s.hauer@pengutronix.de>
@@ -59,45 +59,47 @@ Cc: devicetree@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+The driver returns an error when devm_phy_optional_get() fails leaving
+the previously enabled clock turned on. Change order and enable the
+clock only after the phy has been acquired.
 
-Define a new compatible for rk3568 HDMI.
-This version of HDMI hardware block needs two new clocks hclk_vio and hclk
-to provide phy reference clocks.
-
-Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Reviewed-by: Rob Herring <robh@kernel.org>
-Link: https://lore.kernel.org/r/20210707120323.401785-2-benjamin.gaignard@collabora.com
 Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
 ---
- .../bindings/display/rockchip/rockchip,dw-hdmi.yaml         | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
-index da3b889ad8fcd..53fa42479d5b7 100644
---- a/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
-+++ b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
-@@ -23,6 +23,7 @@ properties:
-       - rockchip,rk3288-dw-hdmi
-       - rockchip,rk3328-dw-hdmi
-       - rockchip,rk3399-dw-hdmi
-+      - rockchip,rk3568-dw-hdmi
+diff --git a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
+index 830bdd5e9b7ce..8677c82716784 100644
+--- a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
++++ b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
+@@ -529,13 +529,6 @@ static int dw_hdmi_rockchip_bind(struct device *dev, struct device *master,
+ 		return ret;
+ 	}
  
-   reg-io-width:
-     const: 4
-@@ -49,8 +50,11 @@ properties:
-           - vpll
-       - enum:
-           - grf
-+          - hclk_vio
-+          - vpll
-+      - enum:
-+          - hclk
-           - vpll
--      - const: vpll
+-	ret = clk_prepare_enable(hdmi->vpll_clk);
+-	if (ret) {
+-		DRM_DEV_ERROR(hdmi->dev, "Failed to enable HDMI vpll: %d\n",
+-			      ret);
+-		return ret;
+-	}
+-
+ 	hdmi->phy = devm_phy_optional_get(dev, "hdmi");
+ 	if (IS_ERR(hdmi->phy)) {
+ 		ret = PTR_ERR(hdmi->phy);
+@@ -544,6 +537,13 @@ static int dw_hdmi_rockchip_bind(struct device *dev, struct device *master,
+ 		return ret;
+ 	}
  
-   ddc-i2c-bus:
-     $ref: /schemas/types.yaml#/definitions/phandle
++	ret = clk_prepare_enable(hdmi->vpll_clk);
++	if (ret) {
++		DRM_DEV_ERROR(hdmi->dev, "Failed to enable HDMI vpll: %d\n",
++			      ret);
++		return ret;
++	}
++
+ 	drm_encoder_helper_add(encoder, &dw_hdmi_rockchip_encoder_helper_funcs);
+ 	drm_simple_encoder_init(drm, encoder, DRM_MODE_ENCODER_TMDS);
+ 
 -- 
 2.30.2
 
