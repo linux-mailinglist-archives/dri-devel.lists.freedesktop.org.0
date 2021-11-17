@@ -2,61 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E689F454CC5
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Nov 2021 19:05:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D797F454CC9
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Nov 2021 19:06:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 86A8D6E4B5;
-	Wed, 17 Nov 2021 18:05:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6EEB76E08A;
+	Wed, 17 Nov 2021 18:06:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
- [IPv6:2a00:1450:4864:20::131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F8506E4C5
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Nov 2021 18:05:37 +0000 (UTC)
-Received: by mail-lf1-x131.google.com with SMTP id t26so12488957lfk.9
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Nov 2021 10:05:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=goPjarRaFDhR5RKzDZXMFKr9KKxmBjam0CLChkgNBPk=;
- b=la62jfOG5N0u9pLWKDbxj+bMTXQgU5GnVosWOnM1Orb3DcUpao+LlY+8MOaD/fIkrz
- ub++EVJQ/byA1YDFNU0tWpK4zvUplKSQkJtkZrU7u/Yt+KFO8FDTrSsTy5LVdk8ItYtb
- oIfasY1g0BRFF6u1YkQn1dEU9/QoSSSoYNxF6uB7RMXOaabgzV2Wiy2HnTraNRgbvzs4
- y+qptb0hqmJwp8WxUW5USJHD4/VxUhnsck5A6CYRNQpe+Xud2MKtga9QdDm3h3kvK8v/
- Qnd9mfVSjy6L/GfuXfoMbSKyEBtmYeMF+ILF33nKGSTnvl/ZhjfbCM146pWCNm39tiYI
- 4hWw==
+Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com
+ [IPv6:2607:f8b0:4864:20::52c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8FA5A6E08A
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Nov 2021 18:06:50 +0000 (UTC)
+Received: by mail-pg1-x52c.google.com with SMTP id h63so2933748pgc.12
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Nov 2021 10:06:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=kEiryAVVZ/D8gLvMToaX9fceSwD/Bq+hkZKd0gW7iok=;
+ b=i0RITzUYBRV0LjY37YCbHSEEpJMtjzsInL3RQzSoNCftFW++iGYSj70kL311wCFROG
+ ST4qJSefVEEJs5pH/K9Y+EVP+ZSodmJ15oMa53zX60lK282+cUqJEzaiB/T2p8kS7Ya1
+ Yga1NhFD4YrnR4nsJfK0OSbhOTlcUVpSeCLnmLPzBO7IAnZpxKJGG4nbNm1DwQucgmrP
+ Em3jMouKLaAcdnQiwjaDCbefgptpjqY0nFJ7ueBLCMkfp8m5MiDmYMaUft9Z4fQOdlBL
+ LhDBpxWyJIazWXo60BN7m3KT3OqStEzVhqKMNjy3lKdYJYtXBOJsmszQn816599QqzFv
+ Ufig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=goPjarRaFDhR5RKzDZXMFKr9KKxmBjam0CLChkgNBPk=;
- b=orfF1Asq2Y8sqRime9hcCyiUadWR5CKZ/bx9JdKPQ2TusytUabImAxcEuyEKwuS/rz
- uf77er4aIjuOb+w3KL9WQNGGKfPwrq7ouniXGIi1VMaAmKzm1G9PjkNd9yA+227oAALA
- RJol8RYzDfE25mmhgEXNP1aWfRHElwcjSFP1laMudcS0LfruWLGZWZexaLH7hOnoz6JJ
- sPEXxv+UCeAkr2S9Ksl92EGWEuH3yQAr0+7EF5O1xHwT4AtmQGk13YbIJy4jVjQWQMmj
- 8iI6ff4eRChYuGwOoUsEqF3JfY+oLG+niBZGFrDvFLQo+Q7TMn+GICx/MGXN4Glf3dmw
- akBg==
-X-Gm-Message-State: AOAM533EfuqvOceb47vZmtBjhfEVpnvl/sxZq8vWgQaQZOFt42sZsyla
- wPB1VIrRZ/mfy6xGFUeuLcI7vJIo0/U=
-X-Google-Smtp-Source: ABdhPJx6+4q0npbUXEfpAcmjPMhq1fVBLVq2/D1U5rYLTr1eorQjxaKaz34IrXxQROiPzcdC5BTpTw==
-X-Received: by 2002:a2e:a378:: with SMTP id i24mr10122647ljn.290.1637172335571; 
- Wed, 17 Nov 2021 10:05:35 -0800 (PST)
-Received: from archbook.localnet (84-72-105-84.dclient.hispeed.ch.
- [84.72.105.84])
- by smtp.gmail.com with ESMTPSA id p10sm65212lja.0.2021.11.17.10.05.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Nov 2021 10:05:35 -0800 (PST)
-From: Nicolas Frattaroli <frattaroli.nicolas@gmail.com>
-To: dri-devel@lists.freedesktop.org, Sascha Hauer <s.hauer@pengutronix.de>
-Subject: Re: [PATCH 12/12] drm: rockchip: Add VOP2 driver
-Date: Wed, 17 Nov 2021 19:05:33 +0100
-Message-ID: <7182753.rMVL1d3Icj@archbook>
-In-Reply-To: <20211117143347.314294-13-s.hauer@pengutronix.de>
-References: <20211117143347.314294-1-s.hauer@pengutronix.de>
- <20211117143347.314294-13-s.hauer@pengutronix.de>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=kEiryAVVZ/D8gLvMToaX9fceSwD/Bq+hkZKd0gW7iok=;
+ b=VOi+9niNh+oWnZOk32MEyAG8Wr5Jbr+uyuL7tmB+i9HPGAcLZ/Xd74QqZ1v8OwW4g7
+ j3A8xi4t/B3Hz855Ny2kekgF6EGGXaJxu5+Q5IUiLC8qE7bu3wPoyG9+BD4R04uVdXKU
+ EUDOZquo2ayXGfN7JP5FyEejzyOT9zPnxs+QERfIV4iprEemG16lgJUX7RM/VvcQR6Zd
+ AO6xsHe3VAtMxulXb6orcY4SXo0cKUbHo8Xx6Tw7MZBOvYB7wfnMBveFmGLcjK57DENU
+ o0xl1CvuhSMZRhXHikVv+7Ea4G4WkGl+jRjASe5LLHQ6zAtggsJ5L5k6xJKjsFdsXQ05
+ WCPg==
+X-Gm-Message-State: AOAM5339x2ezdxAaBYwT0FlXe9BhXBeIwMbbFzM7r9OQJFXYi3JhCpG8
+ E2uawsRI1Twet+Tb21r3VCqp0NsvU3oW3gf5/W3p4A==
+X-Google-Smtp-Source: ABdhPJzSC3pfdhJQCGKleY7misUlcM1F/lV9hyKH4JMy3q3t4ioTcFij6WMQpP3q6KXhXP7jG+BJ3gsbBeCH2odPz74=
+X-Received: by 2002:a63:9042:: with SMTP id a63mr6444420pge.345.1637172409725; 
+ Wed, 17 Nov 2021 10:06:49 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+References: <20211021031027.537-1-gurchetansingh@chromium.org>
+ <YXFWYlC2nr4scxtz@phenom.ffwll.local>
+ <CAC_TJvfZu2Y16WS1ZZAagvAyTo42wpGWeJnzhFiAw2iEAi65pg@mail.gmail.com>
+ <CAC_TJvcmghJ25m=+Ai71Ftt3mW9nYAP8UwwZwL1R8GDLVzUnLA@mail.gmail.com>
+In-Reply-To: <CAC_TJvcmghJ25m=+Ai71Ftt3mW9nYAP8UwwZwL1R8GDLVzUnLA@mail.gmail.com>
+From: Kalesh Singh <kaleshsingh@google.com>
+Date: Wed, 17 Nov 2021 10:06:38 -0800
+Message-ID: <CAC_TJvcLcD37+Q4CNH3LutkvbiNjD3-y0FaH3T=2R6oUjjnZCQ@mail.gmail.com>
+Subject: Re: [RFC PATCH 0/8] GPU memory tracepoints
+To: Daniel Vetter <daniel@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,49 +66,186 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Sandy Huang <hjc@rock-chips.com>, linux-rockchip@lists.infradead.org,
- Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
- Peter Geis <pgwipeout@gmail.com>, linux-arm-kernel@lists.infradead.org
+Cc: Mark Underwood <Mark.Underwood@arm.com>,
+ Stephen Mansfield <Stephen.Mansfield@imgtec.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, Kenny.Ho@amd.com,
+ Lingfeng Yang <lfy@google.com>, Steven Rostedt <rostedt@goodmis.org>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Peiyong Lin <lpy@google.com>,
+ John Reitan <John.Reitan@arm.com>, Yiwei Zhang <zzyiwei@google.com>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>,
+ Gary Sweet <gary.sweet@broadcom.com>,
+ android-kernel-team <android-kernel-team@google.com>,
+ Hridya Valsaraju <hridya@google.com>, "Deucher,
+ Alexander" <Alexander.Deucher@amd.com>,
+ =?UTF-8?Q?=C3=98rjan_Eide?= <Orjan.Eide@arm.com>,
+ Suren Baghdasaryan <surenb@google.com>, Chris Forbes <chrisforbes@google.com>,
+ John Reck <jreck@google.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mittwoch, 17. November 2021 15:33:47 CET Sascha Hauer wrote:
-> The VOP2 unit is found on Rockchip SoCs beginning with rk3566/rk3568.
-> It replaces the VOP unit found in the older Rockchip SoCs.
-> 
-> This driver has been derived from the downstream Rockchip Kernel and
-> heavily modified:
-> 
-> - All nonstandard DRM properties have been removed
-> - dropped struct vop2_plane_state and pass around less data between
->   functions
-> - Dropped all DRM_FORMAT_* not known on upstream
-> - rework register access to get rid of excessively used macros
-> 
-> The driver is tested with HDMI and MIPI-DSI display on a RK3568-EVB
-> board. Overlay support is tested with the modetest utility. AFBC support
-> is still present in the driver, but currently untested due to the lack
-> of suitable image sources. Also the driver has been tested with weston
-> using pixman and (yet to be upstreamed) panfrost driver support.
-> 
-> Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
-> ---
+On Mon, Nov 1, 2021 at 11:54 AM Kalesh Singh <kaleshsingh@google.com> wrote=
+:
+>
+> On Thu, Oct 21, 2021 at 3:38 PM Kalesh Singh <kaleshsingh@google.com> wro=
+te:
+> >
+> > On Thu, Oct 21, 2021 at 5:00 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+> > >
+> > > On Wed, Oct 20, 2021 at 08:10:19PM -0700, Gurchetan Singh wrote:
+> > > > This is latest iteration of GPU memory tracepoints [1].
+> > > >
+> > > > In the past, there were questions about the "big picture" of memory
+> > > > accounting [2], especially given related work on dma-buf heaps and =
+DRM
+> > > > cgroups [3].  Also, there was a desire for a non-driver specific so=
+lution.
+> > > >
+> > > > The great news is the dma-buf heaps work as recently landed [4].  I=
+t uses
+> > > > sys-fs and the plan is to use it in conjunction with the tracepoint
+> > > > solution [5].  We're aiming for the GPU tracepoint to calculate tot=
+als
+> > > > per DRM-instance (a proxy for per-process on Android) and per-DRM d=
+evice.
+> > > >
+> > > > The cgroups work looks terrific too and hopefully we can deduplicat=
+e code once
+> > > > that's merged.  Though that's abit of an implementation detail, so =
+long as
+> > > > the "GPU tracepoints" +  "dma-buf heap stats" plan sounds good for =
+Android.
+> > >
+> > > Can we please start out with depulicated code, and integrate this wit=
+h
+> > > cgroups?
+> >
+> > Thanks for the comments Dan,
+> >
+> > The cgroups work is currently targeting allocator attribution so it
+> > wouldn=E2=80=99t give insight to shared / imported memory - this is inc=
+luded
+> > as part of the totals in the tracepoint. We will start a separate
+> > discussion with the gpu community on including imported memory into
+> > cgroups design. Who would you recommend to be included? (in case we
+> > don't already know all the interested parties).
+> >
+> > The current tracepoint and the cgroups are not conflicting designs but
+> > rather complimentary. These are some of the gaps which the tracepoint
+> > helps to cover:
+> > 1. Imported gpu memory accounting
+> > 2. The tracepoint can be used to track gpu memory usage over time
+> > (useful to detect memory usage spikes, for example), while cgroups can
+> > be used to view usage as a more granular and static state.
+> > 3. For systems where cgroups aren't enabled the tracepoint data can be
+> > a good alternative to identify memory issues.
+> > 4. Non-drm devices can make use of the tracepoint for reporting.
+> >
+> > It would be great if we can also keep the tracepoint, as we don=E2=80=
+=99t have
+> > another alternative that provides all it offers (cgroups can certainly
+> > be extended to cover some of these),  and it's currently being used by
+> > all Android devices.
+>
+> Hi Daniel,
+>
+> We had a follow up discussion with Kenny on using drm cgroups. In
+> summary, we think that the tracepoints and croups here are orthogonal
+> and should not block each other. Would appreciate any advice you have
+> on moving this forward.
 
-Hi Sascha,
+Hi Daniel,
 
-thank you very much for your work on this! I gave it a try tonight,
-and unfortunately it appears to currently always attempt to use
-1920x1080p60 as the mode regardless of the monitor. For example,
-on an old 720p monitor I had laying around:
+Friendly ping on this. After discussion with Kenny, we think the
+tracepoint and cgroups are complimentary accounting mechanisms. One of
+the main use cases for the tracepoint in Android is for profiling GPU
+memory using tools like perfetto [1], instead of using periodic
+polling. Are there still objections to this? Please advise.
 
-	[  225.732342] rockchip-drm display-subsystem: [drm] Update mode to 1920x1080p60, type: 11 for vp0, output 0x00000800  HDMI0
-
-This results in a broken picture (all white with occasional glitches).
-Somebody else observed the same behaviour on a 1440p monitor.
+[1] https://perfetto.dev/docs/quickstart/android-tracing
 
 Thanks,
-Nicolas Frattaroli
+Kalesh
 
-
+>
+> Thanks,
+> Kalesh
+>
+> >
+> > Thanks,
+> > Kalesh
+> >
+> > >
+> > > The problem with gpu memory account is that everyone wants their own
+> > > thing, they're all slightly differently, and all supported by a diffe=
+rent
+> > > subset of drivers. That doesn't make sense to support in upstream at =
+all.
+> > >
+> > > Please huddle together so that there's one set of "track gpu memory"
+> > > calls, and that does cgroups, tracepoints and everything else that an=
+ OS
+> > > might want to have.
+> > >
+> > > Also ideally this thing works for both integrated soc gpu (including =
+an
+> > > answer for special memory pools like cma) _and_ discrete gpus using t=
+tm.
+> > > Or at least has an answer to both, because again if we end up with to=
+tally
+> > > different tracking for the soc vs the discrete gpu world, we've lost.
+> > > -Daniel
+> > >
+> > > >
+> > > > This series modifies the GPU memory tracepoint API in a non-breakin=
+g fashion
+> > > > (patch 1), and adds accounting via the GEM subsystem (patches 2 -->=
+ 7). Given
+> > > > the multiple places where memory events happen, there's a bunch tra=
+ce events
+> > > > scattered in various places.  The hardest part is allocation, where=
+ each driver
+> > > > has their own API.  If there's a better way, do say so.
+> > > >
+> > > > The last patch is incomplete; we would like general feedback before=
+ proceeding
+> > > > further.
+> > > >
+> > > > [1] https://lore.kernel.org/lkml/20200302235044.59163-1-zzyiwei@goo=
+gle.com/
+> > > > [2] https://lists.freedesktop.org/archives/dri-devel/2021-January/2=
+95120.html
+> > > > [3] https://www.spinics.net/lists/cgroups/msg27867.html
+> > > > [4] https://www.spinics.net/lists/linux-doc/msg97788.html
+> > > > [5] https://source.android.com/devices/graphics/implement-dma-buf-g=
+pu-mem
+> > > >
+> > > > Gurchetan Singh (8):
+> > > >   tracing/gpu: modify gpu_mem_total
+> > > >   drm: add new tracepoint fields to drm_device and drm_file
+> > > >   drm: add helper functions for gpu_mem_total and gpu_mem_instance
+> > > >   drm: start using drm_gem_trace_gpu_mem_total
+> > > >   drm: start using drm_gem_trace_gpu_mem_instance
+> > > >   drm: track real and fake imports in drm_prime_member
+> > > >   drm: trace memory import per DRM file
+> > > >   drm: trace memory import per DRM device
+> > > >
+> > > >  drivers/gpu/drm/Kconfig        |  1 +
+> > > >  drivers/gpu/drm/drm_gem.c      | 65 ++++++++++++++++++++++++++++++=
++++-
+> > > >  drivers/gpu/drm/drm_internal.h |  4 +--
+> > > >  drivers/gpu/drm/drm_prime.c    | 22 +++++++++---
+> > > >  include/drm/drm_device.h       | 16 +++++++++
+> > > >  include/drm/drm_file.h         | 16 +++++++++
+> > > >  include/drm/drm_gem.h          |  7 ++++
+> > > >  include/trace/events/gpu_mem.h | 61 +++++++++++++++++++++---------=
+-
+> > > >  8 files changed, 166 insertions(+), 26 deletions(-)
+> > > >
+> > > > --
+> > > > 2.25.1
+> > > >
+> > >
+> > > --
+> > > Daniel Vetter
+> > > Software Engineer, Intel Corporation
+> > > http://blog.ffwll.ch
