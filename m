@@ -2,53 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B26D4454F75
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Nov 2021 22:37:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BD9E454F80
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Nov 2021 22:40:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F29716E7D9;
-	Wed, 17 Nov 2021 21:37:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 46EA46E858;
+	Wed, 17 Nov 2021 21:40:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x233.google.com (mail-oi1-x233.google.com
- [IPv6:2607:f8b0:4864:20::233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 372756E5C3;
- Wed, 17 Nov 2021 21:37:29 +0000 (UTC)
-Received: by mail-oi1-x233.google.com with SMTP id m6so9446407oim.2;
- Wed, 17 Nov 2021 13:37:29 -0800 (PST)
+Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com
+ [IPv6:2607:f8b0:4864:20::22c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C2BA489A1F;
+ Wed, 17 Nov 2021 21:40:42 +0000 (UTC)
+Received: by mail-oi1-x22c.google.com with SMTP id s139so9302912oie.13;
+ Wed, 17 Nov 2021 13:40:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=tHOwXEnDhV5Lvn6fLJ2J3Qhjgh4hCRR8agBgNQdVXZo=;
- b=NFensp/cPA1OEmRZGoPLqFgBRN1fZFlowMUN/UgDPdZ2bmau6h0cglZJfZf+KmUaiz
- D7O6bNxG3UK48cf+vA75tbzvqNf6wZNLGTOW5KblF4m8QXavEPRW2IJkyZ9WYDoXUje5
- wUW3r+CGqW9LCB+hKbLrekgHKSr43AipIWgTFARQAQ+VgCtiiyfccoYcNsDu633V3ek4
- ++asU6mqQbVMthUt8b0WYRQOZualKKRrETSaf3rQpDmaNIXI1dVo/yqYNt3K77/MGDHk
- pvT3xbnYACMVe/EL7fjSq/ZAINvB3C3ozwJ9vsDDBlhlILWgi1iB75+3Ug99PRNhMmO1
- pYOg==
+ :cc; bh=80qrjaKuckfIxKf3DLVTv6a7iYoyD9Sd1U/A6GrtV40=;
+ b=AjM9ULmodQVC58Cu0Dno9jz4ysnFH2WEnIivupLTuRkk7hn0LPaYS477qAkjYt4T76
+ 4L9um1lijnyvYCMUp3vkHhHEDwwL/1CjaDGhIxJcnnL+2upS7hXM90dXhFInZVc4fUTG
+ ZOwqBRuF+Js5dkKZXWrqx2eXCoY7ZJNxokKNSmIKfQKUma6a8m2ue84OLVluZsP0qKlQ
+ vIYnpkWXh70s1glTHAWmfwHfJwIUmkDDjM2dKUKeRnIEbSnMTK0WtHlJV0cuB4KAtI5t
+ qsIwC5bSbizogJ/rE5xWK/vJwUecbWTGUe64Q0bawFbMB1+1hZ5mf3M0zO8tDfQIhLtu
+ bQYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=tHOwXEnDhV5Lvn6fLJ2J3Qhjgh4hCRR8agBgNQdVXZo=;
- b=BJqmnWcqYvLVLyPrFc0jHfh9sXA/INKTO7IYpGUtzgXY/c+p5YluhI4UxxB1ECEFOS
- ffPHoyD+/jgPasvcGgsRmt7t1KLO2HZa5Vhq7FZ9EHMM2enZQYXpWcpbHgnkQlsoD2uy
- 4CMw8SUwLEecy60Kzfv5CtrUmrebSKSf1RtscRz40YG7ewAlmIYyNRU7dsQZw8nfGczC
- d6cw2JfrNoH0DtG98YX+AupsWJo3oqrtZrhp6vaEqw/6vjiqu3hTmrjLnOTavJFCvQjG
- RICzAEXmK1vyXFYEfQ0RKe451ZWBZUvK9p65eLy5wd7mQ6gXYmIhOrh5pvWMTMDUoS1L
- PFOw==
-X-Gm-Message-State: AOAM532K4oQg880PMBGcsmi9fAbmGXBirSygYKbtBj2Q8vPNtilwL6zj
- x8iQr3W5yzWN0xdMWWV6E/dDaJSgYpf03FVEYuEb/OyU
-X-Google-Smtp-Source: ABdhPJzbXpk+qQXxYSsMkmiv0w/FcSu60ld82pff+Qlf7gVvLN1Q+pDkS9xdiSJjE9Bc+5St9N49Dque5mpBKwgxYHk=
-X-Received: by 2002:a05:6808:300b:: with SMTP id
- ay11mr2845056oib.120.1637185048503; 
- Wed, 17 Nov 2021 13:37:28 -0800 (PST)
+ bh=80qrjaKuckfIxKf3DLVTv6a7iYoyD9Sd1U/A6GrtV40=;
+ b=seY+k5+Jfxlmp4uD+YlKkbCTZE9lXjYVWDtRl9yML6VNB60Gj2pxQMRLngtARsSJj8
+ eg8U8kKIHsaTz0qsihXwZr+/D+e4iac2kkz7Zr9SMgXn/7K8ceq34nZc9yvpum7G1+E9
+ n4RqOZfLKBEO2nfch1taGDu7rs0qYoMLL9jG5a5N2U0j+TpQDIljt610yv14nOMQ1ZgY
+ 5GPMEcjvSCwdXZwFvqzpI2u7bEtivRjsmAN89yZxKJHG1GclXqaB8BpNZ5JDY4YuI4CU
+ TZmep5P0JANFLCt1eqR5EGnaTzpzM/Pu5WJLuKd9zZaw2unWIZZnzWPe0dZyoGG7t4p1
+ +ZFw==
+X-Gm-Message-State: AOAM53297CIr59Lu3K9hbPxV/EgVYELXMe8/8Z5l9trYSalTRZR/nHeW
+ HE7veUhtZbdQy2s3UTD+1QAVoemPnM0HPrDzdB6z8h3S
+X-Google-Smtp-Source: ABdhPJxrs7xTtPn1zFRtZ5i3FY/8UZ/DJotfsZ7+hYwxZMxL6ar5KwSQnPGsPX0qTiwORjQm6ItE+gRSOvERV7I704w=
+X-Received: by 2002:aca:3f87:: with SMTP id m129mr2809816oia.5.1637185242017; 
+ Wed, 17 Nov 2021 13:40:42 -0800 (PST)
 MIME-Version: 1.0
-References: <20211116014752.26868-1-bernard@vivo.com>
-In-Reply-To: <20211116014752.26868-1-bernard@vivo.com>
+References: <1636963819-19726-1-git-send-email-yang.lee@linux.alibaba.com>
+In-Reply-To: <1636963819-19726-1-git-send-email-yang.lee@linux.alibaba.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 17 Nov 2021 16:37:17 -0500
-Message-ID: <CADnq5_PisDB6f8AuUcw2q36mCp7O6dnFDw5od_MGHziMX_Gtgg@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: remove no need NULL check before kfree
-To: Bernard Zhao <bernard@vivo.com>
+Date: Wed, 17 Nov 2021 16:40:31 -0500
+Message-ID: <CADnq5_O+h4J5hYrnODix4_bdMgyZMt-wcUsSWr6DGrWwUkJFog@mail.gmail.com>
+Subject: Re: [PATCH -next] drm/amd/display: check top_pipe_to_program pointer
+To: Yang Li <yang.lee@linux.alibaba.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -62,67 +61,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Solomon Chiu <solomon.chiu@amd.com>, Leo Li <sunpeng.li@amd.com>, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, "Li,
- Roman" <Roman.Li@amd.com>, amd-gfx list <amd-gfx@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>, David Airlie <airlied@linux.ie>,
- Atufa Khan <Atufa.Khan@amd.com>,
- Dmytro Laktyushkin <Dmytro.Laktyushkin@amd.com>,
- Eric Bernstein <Eric.Bernstein@amd.com>,
+Cc: Dave Airlie <airlied@linux.ie>, llvm@lists.linux.dev, "Siqueira,
+ Rodrigo" <Rodrigo.Siqueira@amd.com>, LKML <linux-kernel@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ "Leo \(Sunpeng\) Li" <sunpeng.li@amd.com>,
  Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Jimmy Kizito <Jimmy.Kizito@amd.com>
+ Christian Koenig <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Applied.  Thanks!
 
-On Mon, Nov 15, 2021 at 8:48 PM Bernard Zhao <bernard@vivo.com> wrote:
+On Mon, Nov 15, 2021 at 3:10 AM Yang Li <yang.lee@linux.alibaba.com> wrote:
 >
-> This change is to cleanup the code a bit.
+> Clang static analysis reports this error
 >
-> Signed-off-by: Bernard Zhao <bernard@vivo.com>
+> drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc.c:2870:7: warning:
+> Dereference of null pointer [clang-analyzer-core.NullDereference]
+>                 if
+> (top_pipe_to_program->stream_res.tg->funcs->lock_doublebuffer_enable) {
+>                     ^
+>
+> top_pipe_to_program being NULL is caught as an error
+> But then it is used to report the error.
+>
+> So add a check before using it.
+>
+> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+> Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
 > ---
->  .../drm/amd/display/dc/dcn10/dcn10_resource.c  | 18 ++++++------------
->  1 file changed, 6 insertions(+), 12 deletions(-)
+>  drivers/gpu/drm/amd/display/dc/core/dc.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 >
-> diff --git a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_resource.c b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_resource.c
-> index f37551e00023..0090550d4aee 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_resource.c
-> +++ b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_resource.c
-> @@ -978,10 +978,8 @@ static void dcn10_resource_destruct(struct dcn10_resource_pool *pool)
->                 pool->base.mpc = NULL;
->         }
+> diff --git a/drivers/gpu/drm/amd/display/dc/core/dc.c b/drivers/gpu/drm/amd/display/dc/core/dc.c
+> index 39ad385..34382d0 100644
+> --- a/drivers/gpu/drm/amd/display/dc/core/dc.c
+> +++ b/drivers/gpu/drm/amd/display/dc/core/dc.c
+> @@ -2867,7 +2867,8 @@ static void commit_planes_for_stream(struct dc *dc,
+>  #endif
 >
-> -       if (pool->base.hubbub != NULL) {
-> -               kfree(pool->base.hubbub);
-> -               pool->base.hubbub = NULL;
-> -       }
-> +       kfree(pool->base.hubbub);
-> +       pool->base.hubbub = NULL;
->
->         for (i = 0; i < pool->base.pipe_count; i++) {
->                 if (pool->base.opps[i] != NULL)
-> @@ -1011,14 +1009,10 @@ static void dcn10_resource_destruct(struct dcn10_resource_pool *pool)
->         for (i = 0; i < pool->base.res_cap->num_ddc; i++) {
->                 if (pool->base.engines[i] != NULL)
->                         dce110_engine_destroy(&pool->base.engines[i]);
-> -               if (pool->base.hw_i2cs[i] != NULL) {
-> -                       kfree(pool->base.hw_i2cs[i]);
-> -                       pool->base.hw_i2cs[i] = NULL;
-> -               }
-> -               if (pool->base.sw_i2cs[i] != NULL) {
-> -                       kfree(pool->base.sw_i2cs[i]);
-> -                       pool->base.sw_i2cs[i] = NULL;
-> -               }
-> +               kfree(pool->base.hw_i2cs[i]);
-> +               pool->base.hw_i2cs[i] = NULL;
-> +               kfree(pool->base.sw_i2cs[i]);
-> +               pool->base.sw_i2cs[i] = NULL;
->         }
->
->         for (i = 0; i < pool->base.audio_count; i++) {
+>         if ((update_type != UPDATE_TYPE_FAST) && stream->update_flags.bits.dsc_changed)
+> -               if (top_pipe_to_program->stream_res.tg->funcs->lock_doublebuffer_enable) {
+> +               if (top_pipe_to_program &&
+> +                       top_pipe_to_program->stream_res.tg->funcs->lock_doublebuffer_enable) {
+>                         if (should_use_dmub_lock(stream->link)) {
+>                                 union dmub_hw_lock_flags hw_locks = { 0 };
+>                                 struct dmub_hw_lock_inst_flags inst_flags = { 0 };
 > --
-> 2.33.1
+> 1.8.3.1
 >
