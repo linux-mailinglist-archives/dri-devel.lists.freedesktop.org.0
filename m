@@ -1,34 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B820B4557F9
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Nov 2021 10:26:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 12071455810
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Nov 2021 10:32:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AFB6F6ECFD;
-	Thu, 18 Nov 2021 09:26:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 07B5C6EC67;
+	Thu, 18 Nov 2021 09:32:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C430E6ECFD
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Nov 2021 09:26:34 +0000 (UTC)
-Received: from ip5f5a6e92.dynamic.kabel-deutschland.de ([95.90.110.146]
- helo=diego.localnet)
- by gloria.sntech.de with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.92) (envelope-from <heiko@sntech.de>)
- id 1mndgc-0000UD-Nv; Thu, 18 Nov 2021 10:26:30 +0100
-From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
-To: Sascha Hauer <s.hauer@pengutronix.de>, dri-devel@lists.freedesktop.org,
- Kever Yang <kever.yang@rock-chips.com>
-Subject: Re: [PATCH v1 00/12] drm/rockchip: RK356x VOP2 support
-Date: Thu, 18 Nov 2021 10:26:29 +0100
-Message-ID: <4310886.V3yF0ifEZO@diego>
-In-Reply-To: <3bbf42f3-bd9c-ed66-e421-8d78fbeb22ad@rock-chips.com>
-References: <20211117143347.314294-1-s.hauer@pengutronix.de>
- <3bbf42f3-bd9c-ed66-e421-8d78fbeb22ad@rock-chips.com>
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
+ [IPv6:2a00:1450:4864:20::129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 66FFA6EC51;
+ Thu, 18 Nov 2021 09:32:07 +0000 (UTC)
+Received: by mail-lf1-x129.google.com with SMTP id n12so23040526lfe.1;
+ Thu, 18 Nov 2021 01:32:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:in-reply-to:references
+ :mime-version; bh=H62YmR0r6qfYVYBLURiWsW7XoSm2BAd19sksFF424Ck=;
+ b=QyqqHZwZISovztE/SjwSk/YB6QWa9YprX2SsUEkGsmBj3vpUO2tTB8BX5fZg+nkSUT
+ dvhsyXeQXcsyev6F6ZzrOS5vTKmJpX62eo/vAnIVNN7VhUrmzSbTOtgdiUgDFlmwp9dp
+ /XvL7/t5N08M6LSt+Tem7Z+dVezsk9f90S8+EczUvFvho8sLI3jXNje1UueR4pgwXZEI
+ oB8ijXnQM04oaoUJbNwxKvl/S82u1qx7Qsh++INBffCGoomldUKJ+A0Art2BuIJ7YG4O
+ QeklTorwtZjVHngK9loyU9hA7b4xBDZ1G1vRfKJJ1IHyhpYYP4EpghW+PptvhjB/o6yu
+ CaWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version;
+ bh=H62YmR0r6qfYVYBLURiWsW7XoSm2BAd19sksFF424Ck=;
+ b=wJ4tm3VEHk2fcA1YAm/pNAdWJl9MbNIJGpaBZBDMF3zA3tcieMzgydtUnxjRwEZ6Az
+ ZkL6+u8a+hIKmwGsYpqLpe8RixzCyRZ64VdplIUgqm9aYCeaAnsmzqPAMmUuFfPaqcYC
+ lGZpEoYu1Z8qUQTdhcou+lJeymrp/GWlnCyBGiPzL6bxUPrHVbOmhGvQ1+e7ymH6ZhOc
+ +nlExsjQfFTrEqDuvrfz/BLSIsr/vsPzPeFHH0Wkcta5IFtKlw7m6kCE0nqMe67pUtQ7
+ j1Xzeuzay2IGfKyIjClc7iw+5YP88rktrYRMt5FT9YM2GhGp/9PGSt9n9Umq1tWDQ4Mb
+ 2pTA==
+X-Gm-Message-State: AOAM530nTXD5KBH8tcp0IxJkYVKPlBvzBoMI86ZULLnwKXOy0RgQbAYt
+ uX33TeF/Jc8GtlvkdhW5N4c=
+X-Google-Smtp-Source: ABdhPJxgJBFj6FcreHn1i7lUZ7HQm9U4HwHhj8Z+LClk4uCGwPD0l2RzqDLvqzEovsISy4Ur81dAJA==
+X-Received: by 2002:a05:6512:a8c:: with SMTP id
+ m12mr21420413lfu.149.1637227925735; 
+ Thu, 18 Nov 2021 01:32:05 -0800 (PST)
+Received: from eldfell ([194.136.85.206])
+ by smtp.gmail.com with ESMTPSA id e19sm229557ljn.82.2021.11.18.01.32.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 18 Nov 2021 01:32:05 -0800 (PST)
+Date: Thu, 18 Nov 2021 11:32:02 +0200
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Bhanuprakash Modem <bhanuprakash.modem@intel.com>
+Subject: Re: [i-g-t 08/14] tests/kms_color_chamelium: New subtests for Plane
+ gamma
+Message-ID: <20211118113202.0ff5dcae@eldfell>
+In-Reply-To: <20211115094759.520955-9-bhanuprakash.modem@intel.com>
+References: <20211115094759.520955-1-bhanuprakash.modem@intel.com>
+ <20211115094759.520955-9-bhanuprakash.modem@intel.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; boundary="Sig_//DM7Ix.e0MwQe2XWOMdbvF+";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,99 +70,124 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Peter Geis <pgwipeout@gmail.com>, Sandy Huang <hjc@rock-chips.com>,
- linux-rockchip@lists.infradead.org,
- Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
- =?utf-8?B?6Zer5a2d5Yab?= <andy.yan@rock-chips.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: igt-dev@lists.freedesktop.org, Kunal Joshi <kunal1.joshi@intel.com>,
+ Uma Shankar <uma.shankar@intel.com>, dri-devel@lists.freedesktop.org,
+ Juha-Pekka Heikkila <juhapekka.heikkila@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Kever,
+--Sig_//DM7Ix.e0MwQe2XWOMdbvF+
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Am Donnerstag, 18. November 2021, 02:27:10 CET schrieb Kever Yang:
-> Hi Sascha Hauer,
+On Mon, 15 Nov 2021 15:17:53 +0530
+Bhanuprakash Modem <bhanuprakash.modem@intel.com> wrote:
+
+> To verify Plane gamma, draw 3 gradient rectangles in red, green and blue,
+> with a maxed out gamma LUT and verify we have the same frame dump as
+> drawing solid color rectangles.
 >=20
-> On 2021/11/17 =E4=B8=8B=E5=8D=8810:33, Sascha Hauer wrote:
-> > This series adds initial graphics support for the Rockchip RK356[68]
-> > SoCs.  Graphics support is based around the VOP2 controller which
-> > replaces the VOP controller found on earlier Rockchip SoCs. The driver
-> > has been tested with HDMI support included in this series and MIPI-DSI
-> > which is not included because it needs some more work. The driver is
-> > taken from the downstream Rockchip kernel
+> Cc: Harry Wentland <harry.wentland@amd.com>
+> Cc: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
+> Cc: Juha-Pekka Heikkila <juhapekka.heikkila@gmail.com>
+> Cc: Uma Shankar <uma.shankar@intel.com>
+> Cc: Kunal Joshi <kunal1.joshi@intel.com>
+> Signed-off-by: Bhanuprakash Modem <bhanuprakash.modem@intel.com>
+> ---
+>  tests/kms_color_chamelium.c | 188 +++++++++++++++++++++++++++++++++++-
+>  1 file changed, 187 insertions(+), 1 deletion(-)
 >=20
-> Yes, you do know this is from Rockchip kernel.
->=20
-> Could you point me out where is the information about original author =20
-> in your commit?
+> diff --git a/tests/kms_color_chamelium.c b/tests/kms_color_chamelium.c
+> index 76f82d6d35..b506109271 100644
+> --- a/tests/kms_color_chamelium.c
+> +++ b/tests/kms_color_chamelium.c
+> @@ -24,7 +24,34 @@
+> =20
+>  #include "kms_color_helper.h"
+> =20
+> -IGT_TEST_DESCRIPTION("Test Color Features at Pipe level using Chamelium =
+to verify instead of CRC");
+> +IGT_TEST_DESCRIPTION("Test Color Features at Pipe & Plane level using Ch=
+amelium to verify instead of CRC");
 
-The copyrights for added files seem to have stayed intact.
-=46or example the added rockchip_drm_vop2.c file in patch12
-does contain the copyright as
+Now that you actually can get a captured image of the result with
+Chamelium, I think the tests should be more ambitious. Do not rely on
+identity curves or matrices, nor max LUT, because now you can use a
+difference threshold per pixel when comparing the result with the
+reference.
 
-	Copyright (c) 2020 Rockchip Electronics Co., Ltd.
-	Author: Andy Yan <andy.yan@rock-chips.com>
+Use various non-trivial curves, different for each of red, green and
+blue. Use non-trivial matrices that actually compute mixtures instead
+of just moving red value to the green channel. Use multiple planes
+simultaneously. Use different framebuffer formats, particularly with
+higher than 8 bits per channel, and check the capture has the same
+precision and not truncated to 8 bit.
 
+That kind of tests would have much more proving power, and they also
+help assess the precision of the hardware. Precision is important to
+userspace.
 
-We can of course debate if the commit-author should also be set to
-Andy or another Rockchip engineer, with Sascha adding a=20
-"Co-developed-by" with his credentials.
+These are also tests that userspace projects cannot really execute, they
+do not have labs with Chamelium boards and not all drivers/hardware
+support writeback connectors.
 
-That's probably a nice compromise, I guess.
+> +
+> +#define MAX_SUPPORTED_PLANES 7
+> +#define SDR_PLANE_BASE 3
+> +
+> +typedef bool (*test_t)(data_t*, igt_plane_t*);
+> +
+> +static bool is_hdr_plane(const igt_plane_t *plane)
+> +{
+> +	return plane->index >=3D 0 && plane->index < SDR_PLANE_BASE;
 
+This here again. I guess the previous definition of this function was
+never used?
 
-> >   and heavily polished, most non
-> > standard features have been removed for now.
->=20
-> I don't agree with this, we do believe you have do some clean up to meet=
-=20
-> the requirement
->=20
-> of upstream, but all the framework and feature implement are from=20
-> Rockchip engineer,
->=20
-> we have made a great effort to make everything work which block us to=20
-> upstream this driver for now.
+The same questions.
 
-I don't fully understand what you mean here (language barrier probably),
-but dropping non-essential functionality in a first round is pretty common
-to at least get basic functionality working for everyone. With the special
-features getting added again in later patches over time. This happenened
-on the old vop as well.
-
-And of course, having a kernel that can "just" do normal graphics without
-the additional features is still preferable over having _NO_ graphics suppo=
-rt
-at all ;-)
-
-
-> NAK for this series.
-
-As you might've seen from previous graphics related patches, there
-is a big number of people _and companies_ that seems to want/need
-to work with the rk3566/rk3568 with a kernel based on mainline.
-
-=2D-> Most likely even in real products!
-
-While Rockchip did say that they want to upstream VOP2 support, there
-has been _NO_ movement or even information at all on this over at least
-the last year(!), so it's pretty understandable that developers will do this
-themself at some point, because they don't want to wait anymore for
-something that might never happen.
-
-So a simple "NAK" without additional information is not really helpful here.
-
-If you don't like Sascha's series, I really want to know _WHEN_ Rockchip
-plans on upstreaming at least basic graphis support themself.
-
-The kernel is often called a do-ocracy - the one who does the work, gets
-to decide. So if you really don't like Sascha's series at all, I do expect
-Rockchip to step up and provide a solution themself - and in a usable
-timeframe.
-
-
-Heiko
+> +}
+> +
+> +static bool is_valid_plane(igt_plane_t *plane)
+> +{
+> +	int index =3D plane->index;
+> +
+> +	if (plane->type !=3D DRM_PLANE_TYPE_PRIMARY)
+> +		return false;
+> +
+> +	/*
+> +	 * Test 1 HDR plane, 1 SDR plane.
+> +	 *
+> +	 * 0,1,2 HDR planes
+> +	 * 3,4,5,6 SDR planes
+> +	 *
+> +	 */
+> +	return index >=3D 0 && index < MAX_SUPPORTED_PLANES;
+> +}
 
 
+Thanks,
+pq
+
+--Sig_//DM7Ix.e0MwQe2XWOMdbvF+
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmGWHZIACgkQI1/ltBGq
+qqc3oA//WMsVhJnTNCInZE3ySlFI9iv64HiqC6Zgpy6UBkycCvi/Ugk9LRp9X3CW
+AVAGQ3WkNMNdBCo+CxiGrp0zD8ueiKXYg2SScAm97I/YaY6Umiwu/jNJr+fbY+4a
++STLE4vJtUjcVqtpq32Nh5pUHSb/aJTy6sW3gObTHAYSLBmTa6khtTaIlDcbhPAZ
+4l1Ybk8nGttlkhAwcDpRRA/nJsk72T5nMOD0wS/0Apk2tWus55Us1nhUsCvoMCkr
+gmBIH88f5JsHDG1VAbvPybLu5yBaT+Fscozk0VW53kH08T/VcyvOaUzD83oRz7kT
+rZKZWGeM0QARQss7du9rIKcol2RneTmAD04u5Lyq6PuXM3uiDC/jAJK5EAXJjFFv
+WY4ygMNcpmg+xwc1gyAQYAz6VycqE3dVPE4QTyD5sX8AancX6SUUrlETUKu+4mQ1
+YK/lPoyyBAQDUfrV8LFPmRKlIvxHSGfaA4fwFSZcqAZBNlMiqslkBC7dZaU/LN/G
+Cagp4srRU9ksHJrQFEzAANKdVcmJqbYVEPQMqkptMuWIebXqhGT+y9HJm98IZMS4
++hRrr8EonyYOafbP48Q12xYARrBfXb4L3zRfvmyokuTKgMJOlm1zFlVQmcWvqqch
+je+imQJh2M54UsC1jnjj6H5pE7HlXUlGkn+XGgWMtoKTAsPc2LU=
+=BEwu
+-----END PGP SIGNATURE-----
+
+--Sig_//DM7Ix.e0MwQe2XWOMdbvF+--
