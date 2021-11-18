@@ -1,73 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 819984557E3
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Nov 2021 10:20:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B820B4557F9
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Nov 2021 10:26:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB3B36EC6D;
-	Thu, 18 Nov 2021 09:20:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AFB6F6ECFD;
+	Thu, 18 Nov 2021 09:26:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C7F86EC6D
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Nov 2021 09:20:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1637227213; x=1668763213;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=yNZUM5l+dYJ1D2T3WexBrl09S2UyQ6CTHXDDKPUWb1Y=;
- b=C0gkAY4WXP8dK9c7jqKXL5mBprpa9iMVUNmzLQ1UFaKLRsGxMn5gWPf/
- QDqkGUQHzWQSi4gAmsMdKFQOCgwz2N/KhefDlHQNTSYZWFa7XrsHRoBbC
- qjXZ8QfFS0d0mn1aJmu2m32mYfpJT+heIStAxEBi6HEg8+a1fhaSNjL31
- Mfc0ld4lPESwKe4gp4dQhOuycShcKvF/Jm4Rv0SwSU65/rvpkZG+6g3rV
- 9TjzrIqikdDjsdhJJmEpcy27XvhTV7hWprWw+4pcr1C28+qmVsGcD+Njn
- morSa5avsGZ3IVOhUstGd986+J4KSHAlmUQdpNRGq3phyX0mhPf825Z4V w==;
-X-IronPort-AV: E=Sophos;i="5.87,244,1631570400"; d="scan'208";a="20534721"
-Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
- by mx1-pgp.tq-group.com with ESMTP; 18 Nov 2021 10:20:04 +0100
-Received: from mx1.tq-group.com ([192.168.6.7])
- by tq-pgp-pr1.tq-net.de (PGP Universal service);
- Thu, 18 Nov 2021 10:20:04 +0100
-X-PGP-Universal: processed;
- by tq-pgp-pr1.tq-net.de on Thu, 18 Nov 2021 10:20:04 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1637227204; x=1668763204;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=yNZUM5l+dYJ1D2T3WexBrl09S2UyQ6CTHXDDKPUWb1Y=;
- b=AqrEgKg7hCvJHtT/QAXdjmd551L79lkgSHtLU+xyv4Gp6IcfEJ7ElkhP
- qaYFOgWkLDomNBjzzGL/0aWYA0wJlGMla1sRDAJP/oA/NGPOWLZXtMd3X
- yZtuGUbIev1mAQOQlnZcOAcsz32tjMjq/IlG2fguZOUzLhZXPBChR4358
- 9/d5ZQ9/m8uLpCDZWy1GUnNeUWIJIXwRwZaFM5XqqqUd6kSswo3Mho3nH
- 2JJOkjEUjsW/Zt4u8nhOuctnj7vavdLkahhwaZo1/czJ8coU+SfZroW3P
- H6qSG3BM4fKFGccEDixcBIhwndK2KI9/MqA/hssrSIrwPtO7Q8920KipD A==;
-X-IronPort-AV: E=Sophos;i="5.87,244,1631570400"; d="scan'208";a="20534715"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
- by mx1.tq-group.com with ESMTP; 18 Nov 2021 10:20:03 +0100
-Received: from steina-w.tq-net.de (unknown [10.123.49.12])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id A9D7328007F;
- Thu, 18 Nov 2021 10:20:02 +0100 (CET)
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>, Andrzej Hajda <a.hajda@samsung.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Robert Foss <robert.foss@linaro.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH v4 4/4] drm/bridge: ti-sn65dsi83: Add vcc supply regulator
- support
-Date: Thu, 18 Nov 2021 10:19:55 +0100
-Message-Id: <20211118091955.3009900-5-alexander.stein@ew.tq-group.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211118091955.3009900-1-alexander.stein@ew.tq-group.com>
-References: <20211118091955.3009900-1-alexander.stein@ew.tq-group.com>
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C430E6ECFD
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Nov 2021 09:26:34 +0000 (UTC)
+Received: from ip5f5a6e92.dynamic.kabel-deutschland.de ([95.90.110.146]
+ helo=diego.localnet)
+ by gloria.sntech.de with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.92) (envelope-from <heiko@sntech.de>)
+ id 1mndgc-0000UD-Nv; Thu, 18 Nov 2021 10:26:30 +0100
+From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+To: Sascha Hauer <s.hauer@pengutronix.de>, dri-devel@lists.freedesktop.org,
+ Kever Yang <kever.yang@rock-chips.com>
+Subject: Re: [PATCH v1 00/12] drm/rockchip: RK356x VOP2 support
+Date: Thu, 18 Nov 2021 10:26:29 +0100
+Message-ID: <4310886.V3yF0ifEZO@diego>
+In-Reply-To: <3bbf42f3-bd9c-ed66-e421-8d78fbeb22ad@rock-chips.com>
+References: <20211117143347.314294-1-s.hauer@pengutronix.de>
+ <3bbf42f3-bd9c-ed66-e421-8d78fbeb22ad@rock-chips.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,81 +41,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alexander Stein <alexander.stein@ew.tq-group.com>,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Peter Geis <pgwipeout@gmail.com>, Sandy Huang <hjc@rock-chips.com>,
+ linux-rockchip@lists.infradead.org,
+ Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
+ =?utf-8?B?6Zer5a2d5Yab?= <andy.yan@rock-chips.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VCC needs to be enabled before releasing the enable GPIO.
+Hi Kever,
 
-Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
----
- drivers/gpu/drm/bridge/ti-sn65dsi83.c | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+Am Donnerstag, 18. November 2021, 02:27:10 CET schrieb Kever Yang:
+> Hi Sascha Hauer,
+>=20
+> On 2021/11/17 =E4=B8=8B=E5=8D=8810:33, Sascha Hauer wrote:
+> > This series adds initial graphics support for the Rockchip RK356[68]
+> > SoCs.  Graphics support is based around the VOP2 controller which
+> > replaces the VOP controller found on earlier Rockchip SoCs. The driver
+> > has been tested with HDMI support included in this series and MIPI-DSI
+> > which is not included because it needs some more work. The driver is
+> > taken from the downstream Rockchip kernel
+>=20
+> Yes, you do know this is from Rockchip kernel.
+>=20
+> Could you point me out where is the information about original author =20
+> in your commit?
 
-diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-index 065610edc37a..54d18e82ed74 100644
---- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-+++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-@@ -33,6 +33,7 @@
- #include <linux/of_device.h>
- #include <linux/of_graph.h>
- #include <linux/regmap.h>
-+#include <linux/regulator/consumer.h>
- 
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_bridge.h>
-@@ -143,6 +144,7 @@ struct sn65dsi83 {
- 	struct mipi_dsi_device		*dsi;
- 	struct drm_bridge		*panel_bridge;
- 	struct gpio_desc		*enable_gpio;
-+	struct regulator		*vcc;
- 	int				dsi_lanes;
- 	bool				lvds_dual_link;
- 	bool				lvds_dual_link_even_odd_swap;
-@@ -337,6 +339,12 @@ static void sn65dsi83_atomic_enable(struct drm_bridge *bridge,
- 	u16 val;
- 	int ret;
- 
-+	ret = regulator_enable(ctx->vcc);
-+	if (ret) {
-+		dev_err(ctx->dev, "Failed to enable vcc\n");
-+		return;
-+	}
-+
- 	/* Deassert reset */
- 	gpiod_set_value(ctx->enable_gpio, 1);
- 	usleep_range(1000, 1100);
-@@ -486,11 +494,16 @@ static void sn65dsi83_atomic_disable(struct drm_bridge *bridge,
- 				     struct drm_bridge_state *old_bridge_state)
- {
- 	struct sn65dsi83 *ctx = bridge_to_sn65dsi83(bridge);
-+	int ret;
- 
- 	/* Put the chip in reset, pull EN line low, and assure 10ms reset low timing. */
- 	gpiod_set_value(ctx->enable_gpio, 0);
- 	usleep_range(10000, 11000);
- 
-+	ret = regulator_disable(ctx->vcc);
-+	if (ret)
-+		dev_err(ctx->dev, "Failed to disable vcc: %i\n", ret);
-+
- 	regcache_mark_dirty(ctx->regmap);
- }
- 
-@@ -599,6 +612,12 @@ static int sn65dsi83_parse_dt(struct sn65dsi83 *ctx, enum sn65dsi83_model model)
- 
- 	ctx->panel_bridge = panel_bridge;
- 
-+	ctx->vcc = devm_regulator_get(dev, "vcc");
-+	if (IS_ERR(ctx->vcc))
-+		return dev_err_probe(dev, PTR_ERR(ctx->vcc),
-+				     "Failed to get supply 'vcc': %pe\n",
-+				     ERR_PTR(ret));
-+
- 	return 0;
- }
- 
--- 
-2.25.1
+The copyrights for added files seem to have stayed intact.
+=46or example the added rockchip_drm_vop2.c file in patch12
+does contain the copyright as
+
+	Copyright (c) 2020 Rockchip Electronics Co., Ltd.
+	Author: Andy Yan <andy.yan@rock-chips.com>
+
+
+We can of course debate if the commit-author should also be set to
+Andy or another Rockchip engineer, with Sascha adding a=20
+"Co-developed-by" with his credentials.
+
+That's probably a nice compromise, I guess.
+
+
+> >   and heavily polished, most non
+> > standard features have been removed for now.
+>=20
+> I don't agree with this, we do believe you have do some clean up to meet=
+=20
+> the requirement
+>=20
+> of upstream, but all the framework and feature implement are from=20
+> Rockchip engineer,
+>=20
+> we have made a great effort to make everything work which block us to=20
+> upstream this driver for now.
+
+I don't fully understand what you mean here (language barrier probably),
+but dropping non-essential functionality in a first round is pretty common
+to at least get basic functionality working for everyone. With the special
+features getting added again in later patches over time. This happenened
+on the old vop as well.
+
+And of course, having a kernel that can "just" do normal graphics without
+the additional features is still preferable over having _NO_ graphics suppo=
+rt
+at all ;-)
+
+
+> NAK for this series.
+
+As you might've seen from previous graphics related patches, there
+is a big number of people _and companies_ that seems to want/need
+to work with the rk3566/rk3568 with a kernel based on mainline.
+
+=2D-> Most likely even in real products!
+
+While Rockchip did say that they want to upstream VOP2 support, there
+has been _NO_ movement or even information at all on this over at least
+the last year(!), so it's pretty understandable that developers will do this
+themself at some point, because they don't want to wait anymore for
+something that might never happen.
+
+So a simple "NAK" without additional information is not really helpful here.
+
+If you don't like Sascha's series, I really want to know _WHEN_ Rockchip
+plans on upstreaming at least basic graphis support themself.
+
+The kernel is often called a do-ocracy - the one who does the work, gets
+to decide. So if you really don't like Sascha's series at all, I do expect
+Rockchip to step up and provide a solution themself - and in a usable
+timeframe.
+
+
+Heiko
+
 
