@@ -1,62 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFED845547A
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Nov 2021 06:55:35 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 044D54554DD
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Nov 2021 07:43:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 28BBB6E9B5;
-	Thu, 18 Nov 2021 05:55:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 47FAE6EDA8;
+	Thu, 18 Nov 2021 06:43:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com
- [IPv6:2607:f8b0:4864:20::432])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E9BB6E9B5
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Nov 2021 05:55:32 +0000 (UTC)
-Received: by mail-pf1-x432.google.com with SMTP id m14so4876159pfc.9
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Nov 2021 21:55:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=M6fU9HCOMXaAwWu55zqsqx8GoNSHTp7qVG4HyvmThLM=;
- b=UHufCLPWyoOczeZ10rpOHREDHnb3KpiCBx3l1fTQm5RvUKFPfoiV3nIdNI1zko70SG
- /rKe8N7G0c0n05WH2WbNalEhgCbNcRUSas8ntyCf23nZUCkn6i9wCai27/OIwEMEJyOv
- ThePhBf4AWclUuOtatuS2nfw5iiz775JEIGgnd/uYe4rXrmhZLY9uVjezatexQW9zJlr
- f/ua1KJym4YKdxaoZO7i5Sm2rmE52E/ZEveHM3ZGMEyCS4qLoJEPYgizR4iGB0ez384E
- 65/JeZxmXvJ2XZODMZNCnYNZLTvHyi9Vh/6xPx5IAmj5cvI8gu2XavIl9F9ECYt2hs+g
- UB9w==
+Received: from mail-ot1-x332.google.com (mail-ot1-x332.google.com
+ [IPv6:2607:f8b0:4864:20::332])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2613D6EDA8
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Nov 2021 06:43:52 +0000 (UTC)
+Received: by mail-ot1-x332.google.com with SMTP id
+ h16-20020a9d7990000000b0055c7ae44dd2so9238274otm.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Nov 2021 22:43:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=endlessos.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=VvdfAtLwAasmHkSKe8YbSZ0PSJZUOvQxLTcLQj0dQBA=;
+ b=jSk9Ae8tNyV457zc27+ZdGb/tlctMB/8zYyiy5f9X1VQNvIlC6x3GZtN10lKEC2e4R
+ CbvldDG7P18W2xfYxU9edp6H/27s0odCgixH2UF+ayNw0ZmfXXFDfAyEXywteR7QUdnL
+ dhquMVR4O0VOGGnrqhBMJ4ytJtSUe35rJWTbGy4F/tbfqJbK/WSlRc4pzMNDI7+D6ZWZ
+ W4bF05dWZ/c1wTcNUvyOSUcEnV0f/dhs0I5jlxDEZWmB4hYwYD1oSXUxTsMTyeaOG8oM
+ 30wX7cIURL5qh0EP/wPYXMzwYNCdb/sUJLdmQ98FRt1rQfPkhZWYN4MGXPL5JHOhjqhV
+ Sv9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=M6fU9HCOMXaAwWu55zqsqx8GoNSHTp7qVG4HyvmThLM=;
- b=mtIwJNBPZmsxEU4+QLHfCNdfZ6DRE0yqbKesqzz7gsf6GC5t8+M+51G/5r82Zpw7V+
- cuGDkHSYR6P6TMCCQkhpIFc/HRoUeYZasO1ih75vX2YX/77R7LXiQXE2DCDkMDrMAmzh
- T4NbR9dyiXrhhFJqhRctIzVtzcDCUuMFz1w9gDhjHtkMHuJxJ5ANttkhiFK3Kk0fZYaF
- 6yaXI17nP4IjY3nBf0UFWMpdQNBNSbdpKbhQpGp40MDm/ZUkCq6pGCPQ/D86o3hD/5H1
- DptFsKxcHu+mcZ5RVH+yix5gWn+R5Z4WCNLMPvIpfaOhSsPb2emIEQr1cyeI2TzCyVHh
- B61A==
-X-Gm-Message-State: AOAM533OzU0WVnVYEg3yXwSXEnDw/mju9HrbjDzY7vXFGlHPB1td5qkk
- y8N/7rVxYt2PnKHiqiR9X1FGLw==
-X-Google-Smtp-Source: ABdhPJw1U92hefuFRAL0GmhDcNMuPQUVRaJ5rI4xhjzGg+pVLc+xkbJYl2Vby+uLLS0FJI1gYbeHXQ==
-X-Received: by 2002:a05:6a00:23c8:b0:49f:e054:84d7 with SMTP id
- g8-20020a056a0023c800b0049fe05484d7mr53924075pfc.50.1637214931490; 
- Wed, 17 Nov 2021 21:55:31 -0800 (PST)
-Received: from google.com ([2401:fa00:1:10:8f8:11d:a96a:74d2])
- by smtp.gmail.com with ESMTPSA id u9sm1547277pfi.23.2021.11.17.21.55.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Nov 2021 21:55:31 -0800 (PST)
-Date: Thu, 18 Nov 2021 13:55:27 +0800
-From: Tzung-Bi Shih <tzungbi@google.com>
-To: "jason-jh.lin" <jason-jh.lin@mediatek.com>
-Subject: Re: [PATCH 3/3] drm/mediatek: add devlink to cmdq dev
-Message-ID: <YZXqz6XDChwscDC0@google.com>
-References: <20211117064158.27451-1-jason-jh.lin@mediatek.com>
- <20211117064158.27451-4-jason-jh.lin@mediatek.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=VvdfAtLwAasmHkSKe8YbSZ0PSJZUOvQxLTcLQj0dQBA=;
+ b=U3lf8LNmXw5pTlv8zeoj0tn2er0bj+hdZ3cMqYUo+tvHO9UoVXvJW72VTJFfYM0wO3
+ 0JSCMT0AtucFegL+LDEiIkpb1g0QAu4nOY2YytajBa+B+IUvzwl9ulM/ltbepsGZzAUi
+ vQyV4cZTOWkozg+JZ60yG259GPMYXNLK4l433HFkvRJic49mIbZtSwhisfr+KFCWdyFm
+ zTZCAPMBpJEqkgJPUxhZS/TSokBnrQTYcxOaF7Khywx3ssCL656Pr6tN4+o3rjaH4xlA
+ tAC7vg28aJEq5vbhrw6YynTb+p7agbbE3HGAbsux4o0XpwW+zaJRFNZktujD0zpdHZ8k
+ uoyQ==
+X-Gm-Message-State: AOAM532V1MQmuCBZw5Kiu86+fDFX+zSOOLjXwCn8T12OXdHEleecCwdx
+ M/SXEDfNClQ00xLMHKmJgSQfiGFPQo6SRNa6mGjz6A==
+X-Google-Smtp-Source: ABdhPJwKeELPHiW+wqvsu63mv+xFlFe3h44/sDx2MELbkXRvcjbDkTjV5/e+IzMHzHn3LAhZNKOPfPNrN1uLcBy0GzI=
+X-Received: by 2002:a9d:71dc:: with SMTP id z28mr19652558otj.244.1637217831387; 
+ Wed, 17 Nov 2021 22:43:51 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211117064158.27451-4-jason-jh.lin@mediatek.com>
+References: <20211117094527.146275-1-maxime@cerno.tech>
+In-Reply-To: <20211117094527.146275-1-maxime@cerno.tech>
+From: Jian-Hong Pan <jhp@endlessos.org>
+Date: Thu, 18 Nov 2021 14:42:58 +0800
+Message-ID: <CAPpJ_eewp9Z_xdpmB+E_NFH1GGq8oyckVBmS1PD84CvCRUminQ@mail.gmail.com>
+Subject: Re: [PATCH v2 0/6] drm/vc4: kms: Misc fixes for HVS commits
+To: Maxime Ripard <maxime@cerno.tech>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,41 +65,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, fshao@chromium.org,
- David Airlie <airlied@linux.ie>, singo.chang@mediatek.com,
- Jassi Brar <jassisinghbrar@gmail.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, nancy.lin@mediatek.com,
- linux-mediatek@lists.infradead.org, hsinyi@chromium.org,
- Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ David Airlie <airlied@linux.ie>, dri-devel <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>, Phil Elwell <phil@raspberrypi.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Nov 17, 2021 at 02:41:58PM +0800, jason-jh.lin wrote:
-> @@ -158,6 +159,7 @@ static void mtk_drm_crtc_destroy(struct drm_crtc *crtc)
->  	mtk_drm_cmdq_pkt_destroy(&mtk_crtc->cmdq_handle);
->  
->  	if (mtk_crtc->cmdq_client.chan) {
-> +		device_link_remove(mtk_crtc->drm_dev, mtk_crtc->cmdq_client.chan->mbox->dev);
->  		mbox_free_channel(mtk_crtc->cmdq_client.chan);
->  		mtk_crtc->cmdq_client.chan = NULL;
->  	}
-[...]
-> @@ -956,6 +959,16 @@ int mtk_drm_crtc_create(struct drm_device *drm_dev,
->  	}
->  
->  	if (mtk_crtc->cmdq_client.chan) {
-> +		struct device_link *link;
-> +
-> +		/* add devlink to cmdq dev to make sure suspend/resume order is correct */
-> +		link = device_link_add(dev, mtk_crtc->cmdq_client.chan->mbox->dev,
-> +				       DL_FLAG_PM_RUNTIME | DL_FLAG_STATELESS);
-> +		if (!link) {
-> +			dev_err(dev, "Unable to link dev=%s\n",
-> +				dev_name(mtk_crtc->cmdq_client.chan->mbox->dev));
-> +		}
-> +
+Maxime Ripard <maxime@cerno.tech> =E6=96=BC 2021=E5=B9=B411=E6=9C=8817=E6=
+=97=A5 =E9=80=B1=E4=B8=89 =E4=B8=8B=E5=8D=885:45=E5=AF=AB=E9=81=93=EF=BC=9A
+>
+> Hi,
+>
+> The conversion to DRM commit helpers (f3c420fe19f8, "drm/vc4: kms: Conver=
+t to
+> atomic helpers") introduced a number of issues in corner cases, most of t=
+hem
+> showing themselves in the form of either a vblank timeout or use-after-fr=
+ee
+> error.
+>
+> These patches should fix most of them, some of them still being debugged.
+>
+> Maxime
+>
+> Changes from v1:
+>   - Prevent a null pointer dereference
+>
+> Maxime Ripard (6):
+>   drm/vc4: kms: Wait for the commit before increasing our clock rate
+>   drm/vc4: kms: Fix return code check
+>   drm/vc4: kms: Add missing drm_crtc_commit_put
+>   drm/vc4: kms: Clear the HVS FIFO commit pointer once done
+>   drm/vc4: kms: Don't duplicate pending commit
+>   drm/vc4: kms: Fix previous HVS commit wait
+>
+>  drivers/gpu/drm/vc4/vc4_kms.c | 42 ++++++++++++++++-------------------
+>  1 file changed, 19 insertions(+), 23 deletions(-)
 
-If device_link_add() failed, doesn't mtk_drm_crtc_create() need to return an error and exit?
+I tested the v2 patches based on latest mainline kernel with RPi 4B.
+System can boot up into desktop environment.
 
-OTOH, if device_link_add() failed, won't it bring any side effects to call device_link_remove()?
+Although it still hit the bug [1], which might be under debugging, I
+think these patches LGTM.
+
+[1] https://bugzilla.kernel.org/show_bug.cgi?id=3D214991
+
+Tested-by: Jian-Hong Pan <jhp@endlessos.org>
