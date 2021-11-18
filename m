@@ -1,70 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EC08455225
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Nov 2021 02:23:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E39445522D
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Nov 2021 02:26:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5AF5889FF7;
-	Thu, 18 Nov 2021 01:23:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F8FA6E053;
+	Thu, 18 Nov 2021 01:26:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x332.google.com (mail-ot1-x332.google.com
- [IPv6:2607:f8b0:4864:20::332])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB06689FF7
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Nov 2021 01:23:20 +0000 (UTC)
-Received: by mail-ot1-x332.google.com with SMTP id
- o15-20020a9d410f000000b0055c942cc7a0so8011102ote.8
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Nov 2021 17:23:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kali.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=a2gBb51PSDI2uZh/kk0Tzm+QaarIKPnZpY56tomY9/c=;
- b=L7/XQphn9oytfiHo1dNoGGG2NLFL6122KEbhIzxD1+4DMsfoTLXzHk6LTL4hiuWcUf
- ocpX64aNys4SQUo2OdzUw0nN18tTfFv/DUAcOveK3OQpbJHVF1kA6raIFNGbby7Ggi1V
- 0WZJ2cgOcMBAgGH6B//hiPDJYJ7c0SA58b/e+Ef6Li1gmEGVXFo8vQbxt/iq+dIISJW1
- /nBtLWDRr+casUf2YxAGRR81luqhdcrsmOsF2uIAFuvUW0ih5TaNkKxx1f3my3p8hsPa
- wRjYdquelf3xRPsRQqZx4HH/GGHBOoQLtMBPLA2dbbph33LQFJADZNIdznSNXWyUNGTM
- TKyg==
+Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com
+ [IPv6:2607:f8b0:4864:20::52c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 905FF6E053
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Nov 2021 01:26:07 +0000 (UTC)
+Received: by mail-pg1-x52c.google.com with SMTP id r23so3781219pgu.13
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Nov 2021 17:26:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gateworks-com.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=rj7CqfSY1HHzOxn23/DqCx0bhUcFEMZAPK0AwBGlags=;
+ b=5qlMw/lKuHB2pgh2rtzVfjnEo1TLWEVqUQAauNVUIQH+0bAz77E1t8/q1wLUPKpGeg
+ 7pWzjdklRRlunu3AcNjfNxe4U9vcwye3oY9cxLJvUDnx0+uL6QQyr7WYLI9nVrXA2dEA
+ u3mj1msfHUXZm1R1iOqEzJ6POqlXddnPVBlacS3MuXTroLRi4kbd13z7xOamy1wLZxiB
+ fn3OImQ0NOU2pJuDHl6kyQJrNQ/Ccu9TGCPi5Q/NlO7a+zWW0tp6dLijxnccRWe2dxqR
+ MA+CqdRHx95m3VvxhD7TW/Uhtc9L3HDVmpOBpu9c7IkiAKCPJNt42l+iiyIF21BG6sQu
+ VAaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=a2gBb51PSDI2uZh/kk0Tzm+QaarIKPnZpY56tomY9/c=;
- b=Q37NAWu14zGRSrxekUhXw7ybj0F36I7hSDQFGqdInecfoQlSJD6yxxQ9kWkgTQTwE7
- /16F88GfGXFRWniSQOtzwDfA3kyNtVtXB+tO9sx6+qqHPSiHGFhux8i/Y45jFmQFPtTn
- 5iWuzojS3HOw/oDb196iL8+0uGEXeL5WJScmMJdSuQGO2bAoPrWMs/jsoOSV7FS+0Pad
- bmlAIOCc7wkUDRM9hlbPppaMw5EzMtseqj7Q7IjX/Lvtxs61IUZcTgv7jB+JKCc7YwEZ
- LDoC4K7e/y4XkAhSntc3n4vTIzRJ0xFIn7EzEpW45Jrw2EwdB3G2GzOQ5AAC2VXWWQ7A
- NyWA==
-X-Gm-Message-State: AOAM5314stxAlyY0UkjLFiZQsGvaIU92/DV8eQtaGOjVz56+0aSiEBng
- RBlug0gQcvtNta9oB3a2woLISQ==
-X-Google-Smtp-Source: ABdhPJwt5iqWyw+7+XcHVrcQ0vfSgPSyFiKkhDfr0apjKuD+xkntug2oq0SL7Glq+eCIC4elNfBvhQ==
-X-Received: by 2002:a9d:2282:: with SMTP id y2mr17579213ota.151.1637198599564; 
- Wed, 17 Nov 2021 17:23:19 -0800 (PST)
-Received: from [192.168.11.48] (cpe-173-173-107-246.satx.res.rr.com.
- [173.173.107.246])
- by smtp.gmail.com with ESMTPSA id s17sm304093otp.20.2021.11.17.17.23.18
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 17 Nov 2021 17:23:19 -0800 (PST)
-Message-ID: <0336e09d-59c4-3155-434a-0b04fda15bb6@kali.org>
-Date: Wed, 17 Nov 2021 19:23:17 -0600
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=rj7CqfSY1HHzOxn23/DqCx0bhUcFEMZAPK0AwBGlags=;
+ b=MXC410p0HKEm4fgqij9b9Ch1zCF/WVpVPczN11yFDfbRbb2ik8Fvsa5c3jIzi4fd/k
+ Xe5kNhw0sYnL426uKbFdfm2sz79hM6ABXtO16KkEJEjUYa6ui8WXXHNizwJ5T8CaRcGl
+ c2ByQ8c8uyYFpCbBuhc7d0I+1IEGjehtMpw+Cn1I+XD/NR65M9qdtNqCFtJXSN3jP/cE
+ Fz0LkdukT9YfdCZi3MVkz8XD2tO6F5owsblfqWfktMFydky2swI+LFIJ+osrOuNT+3/r
+ v6ugM2BxERD/rqcVDLgrIN1Li9q8z98GWhkEyyCdJRwsmgNtBAacp82OKpRgp47xZ5DQ
+ KQxg==
+X-Gm-Message-State: AOAM5327C8VWmBLialByw4bNzFMqrXFrD1/Zw4UR+3Mv/2PkIyWcPK2j
+ 74yfMbpqoCHb75edvWkHkodGYwscmjRIfeZKSOHUn2xMINOiFReH
+X-Google-Smtp-Source: ABdhPJz6t6CTX7DXP2DxzKPQgNRxnt2ras3Hb3nxVXmfib09OEGU+8QLC3jsivU+I7R5CZtL0B14zSRrxreDS0zG9yM=
+X-Received: by 2002:aa7:8149:0:b0:44c:916c:1fdb with SMTP id
+ d9-20020aa78149000000b0044c916c1fdbmr11564545pfn.34.1637198767073; Wed, 17
+ Nov 2021 17:26:07 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.3.0
-Subject: Re: [PATCH] drm/scheduler: fix
- drm_sched_job_add_implicit_dependencies harder
-Content-Language: en-US
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Amit Pundir <amit.pundir@linaro.org>, Rob Clark <robdclark@gmail.com>
-References: <20211116155545.473311-1-robdclark@gmail.com>
- <CAMi1Hd0qzu1t6QeZCNgSoTrScZL0_XQnZUPkQ5y7D+oV49GREw@mail.gmail.com>
- <c7741be3-43ec-307b-f5bd-3d19725df76c@amd.com>
-From: Steev Klimaszewski <steev@kali.org>
-In-Reply-To: <c7741be3-43ec-307b-f5bd-3d19725df76c@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+From: Tim Harvey <tharvey@gateworks.com>
+Date: Wed, 17 Nov 2021 17:25:56 -0800
+Message-ID: <CAJ+vNU2A8J_72UgdoBw0Z0T0p1GzwWs-OK3UP14Y7KcoDjFOaQ@mail.gmail.com>
+Subject: RPI 7" display touch controller
+To: Eric Anholt <eric@anholt.net>, Marek Vasut <marex@denx.de>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,36 +60,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, open list <linux-kernel@vger.kernel.org>,
- dri-devel@lists.freedesktop.org
+Cc: DRI mailing list <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Greetings,
 
-On 11/17/21 1:27 AM, Christian König wrote:
-> Am 16.11.21 um 19:30 schrieb Amit Pundir:
->> On Tue, 16 Nov 2021 at 21:21, Rob Clark <robdclark@gmail.com> wrote:
->>> From: Rob Clark <robdclark@chromium.org>
->>>
->>> drm_sched_job_add_dependency() could drop the last ref, so we need 
->>> to do
->>> the dma_fence_get() first.
->>>
->> It fixed the splats I saw on RB5 (sm8250 | A650). Thanks.
->>
->> Tested-by: Amit Pundir <amit.pundir@linaro.org>
->
-> I've added my rb, pushed this with the original fix to drm-misc-fixes 
-> and cleaned up the obvious fallout between drm-misc-fixes and 
-> drm-misc-next in drm-tip.
->
-> Thanks for the help and sorry for the noise,
-> Christian.
->
-I've run into this splat on the Lenovo Yoga C630 on 5.16-rc1 - are these 
-2 patches (which fix it) going to be heading to 5.16 or were they 
-targeted at 5.17?
+I'm trying to get a RPI 7" touchscreen display working on an IMX8MM
+board and while I've been able to get the MIPI DSI display and
+backlight working I still can't seem to figure out the touch
+controller.
 
--- steev
+It's supposed to have an FT5406 controller on it without an interrupt
+so I added polling support drivers/input/touchscreen/edt-ft5x06.c
+which I was able to verify using another touchscreen with that
+controller but when reading data from the FT5406 on the RPI controller
+the data does not make sense.
 
+These panels appear to route the I2C from the FT5406 to a STM32F103
+MPU that then provides a different I2C slave interface to the 15pin
+connector that I'm connected to. On that I2C interface I see an i2c
+slave at 0x45 which is managed by the regulator driver Marek wrote
+(drivers/regulator/rpi-panel-attiny-regulator.c) and there is also an
+i2c slave at 0x38 which I assumed was the FT5406 but I believe the MPU
+is perhaps obfuscating that touch data.
+
+Anyone have any ideas on how to make that touch controller useful?
+
+Best regards,
+
+Tim
