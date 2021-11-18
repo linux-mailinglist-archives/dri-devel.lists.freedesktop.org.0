@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CEBA45593C
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Nov 2021 11:38:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1CA545593B
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Nov 2021 11:38:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC0026EA47;
-	Thu, 18 Nov 2021 10:38:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2EE476EA41;
+	Thu, 18 Nov 2021 10:38:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
  [66.111.4.224])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C6476EA25
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Nov 2021 10:38:38 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailnew.nyi.internal (Postfix) with ESMTP id 59B98580912;
- Thu, 18 Nov 2021 05:38:37 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute1.internal (MEProxy); Thu, 18 Nov 2021 05:38:37 -0500
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B9576EA25
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Nov 2021 10:38:40 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 671DF580912;
+ Thu, 18 Nov 2021 05:38:39 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute6.internal (MEProxy); Thu, 18 Nov 2021 05:38:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=jHyA8Y5c5G7NG
- 1srcuRrrPWlcMapfuRgZ8TVI5U1sjQ=; b=ZdWhygQ5BQUHbtj1LPHKecJwKLMkd
- WtOjevV9hxJFAsR3h0ScKnSEQcx3x8xeP7rATRgfOZ90BNOzc/n2hhVrpoe5Qqff
- 2aL+7VYjv4MphXXtShcPRb8iZVizvhEeW8puiVDiH/AvDWa2pfaY9R2mEvojArMW
- +FCVZh+N2VrHzB7zokh22hc0k9c5XgIl2J0FNS9UmR2wjup/Zb/3X0fAdEo/tinX
- CTJbs/j4WYFdhB6oFX/VoCLpFMhBXXhNUg0pLaq6s3zCnwt2LVzP7ywY6E2graEy
- 4i96JCG93S8nPII6JtkpMriwBfS979dyemcZDE586sVx+8J9BbRZ0AQQw==
+ :mime-version:content-transfer-encoding; s=fm1; bh=dtP9AtLi8RMqE
+ W4MHzzkGHok2CKm2FsAj8GLDbtJ0+I=; b=GOpckAWGIN+J+tZof8HiXS7NK1GwZ
+ Bevqcql1MTqNOPdSJpvFs+XUPhTtZJNHKAZWf1A9wPKqeo8s1VIKSl40SisuRT54
+ uMxoZs3HJ9DhwQLFerQ0XjbD8RUF+FZ3/S5sF5tr9Lw9iScVJwQTGE3FKupoNUok
+ defUHCZZq9AKe/lRhb0Bz64a0RliPdUU4iVq2tJnjAQx0g8c7PLA6ej/ghjFBXEA
+ +AyjaSuyp8XrX0HcsbE/RdaZ3wRFLHb5za5YAH8djHTvZvpL8Cwg35scAdsm7mHC
+ 9JoQPUxchTlpeZRxqT2lcvWaXo6fmzZae7tccWXbt2na/QVwk6jSy9Icw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=jHyA8Y5c5G7NG1srcuRrrPWlcMapfuRgZ8TVI5U1sjQ=; b=meGlrfBd
- Hs9QIYnt/kfo6C60AM40+rk0tSRan65zkLahfnLNsvN6B5HpkUba2Dp/b63FSeRK
- PH8/qzx2KbbmXHQfOflDJZFHaDA+/T4QRqCtMbgr8uN/ouqUR9SJ3P7LDNY3M4GC
- GfKbhU4xiEhpxOrzjVdHa2FoHtBeKo5zUSZuWEG2G7oFktbIlibUPTsv7LtxtGLM
- 0njbYWvm8/amkdrIxT7bmRRj302IAZWEnhR4pqHSt/ZsyTL2uJLzI5DPSDYWu7eQ
- T+VUxKNO9i4SH0C5uJpSt6bmfrN2w53eF7ZPCQq+gNdGojnFv+CwKxW24kMnAS4U
- fElbW/8YMvupTg==
-X-ME-Sender: <xms:LS2WYfckeMJEoNRpvVY4M_0wY3PFsnKlNuD2R8m58v7nN9o25MdsOg>
- <xme:LS2WYVPDB0zjxVt1BdrFLnRbdsW91gzFH2oeQKpZty9pVhC7NbPeNxc7vQjvdCBnZ
- 6tjR36lP29XeaLbKDA>
-X-ME-Received: <xmr:LS2WYYgUr1q1RbnMoKEFZ2Rt178VZZvymGGhln_VJQ_EIsvfB-zDcm2Grh8ZhEVFu0mSG6AIcx5w3dtaroiiXxi2UncdBPMUco0hZ6lFOfk>
+ fm1; bh=dtP9AtLi8RMqEW4MHzzkGHok2CKm2FsAj8GLDbtJ0+I=; b=d5WyIF9e
+ MLqNk2evZQuJTFzyZ0ht5e25DW5RZZf84RfjngHljV3w6F2fwqn3gc2qtcgzeJVJ
+ XK+ShUkEVJmCd0ttmJdWBKdRuXHovt0Xc7h/0z0vJNhnVwYw8quGzneQRcA2L703
+ t08auHCWnqildpVs6kS6v6dmlhf0WTo7zCuK110wI/jcgRHQNlTASnecl/YNp/BT
+ pMfh2dknbABW173HJEjFG9oyCf2ODR9YIL3BRKvDGrhBJ1LDygD4Coi2rvJRI95c
+ pNV1YOpyBjTx28cmoMKx42aNpA2RYqXLnfRqIzjxseGEOLRKy8KY32at7l48wmyW
+ 3bedTICrX+pPSA==
+X-ME-Sender: <xms:Ly2WYcW2xq6WYTU__bSiD8zV0S_oYweOPGzvvmWRb6zqOypDgHf_eQ>
+ <xme:Ly2WYQnsYo7cWe763Mot1ZCOP4REnNGuXaEYSs3piYcAZBQMRXHKP0bkUs7rx1Iq-
+ GC-8_OXAF2fCoI977k>
+X-ME-Received: <xmr:Ly2WYQbu2t3-JYv9HeHouN0IIRsV8w5VzNtiDFyvWu6R4mNkyq5JKBsLKyR-1Z35rbSo2idNCy8_8PuyWP9GY7gfIKT0W_qhBY_h_K5V6eA>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrfeeigdduiecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihimhgv
  ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
  gvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveevheeh
- vdenucevlhhushhtvghrufhiiigvpedvnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
+ vdenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
  igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:LS2WYQ9aQQthwDw3VUm-Hh3FEKTmrGApzHGQ0CKvQm5I4XZQ3DMdrA>
- <xmx:LS2WYbuW1MUN7lQCw3dXRishwhBhSyFbJGEf_-vCv07M0dbqU1fDvQ>
- <xmx:LS2WYfHLOtp2pIv1VhGdZydKyUeZnZor5iVPHNKWaLC4sBbI_FL40g>
- <xmx:LS2WYZIcLep-bpGI7uRO-_VxUCCe8MUXfokN9RgNPH0YvxbhOMyIcg>
+X-ME-Proxy: <xmx:Ly2WYbUofA7VlDbZhfE-X_hiKbrchUeqUtNFawi-JyHB-37zi-7QEw>
+ <xmx:Ly2WYWm3j3B4QmMvmkT_njX_dMzpE-NUlgqwknRPEQW-vF0R8wr-kw>
+ <xmx:Ly2WYQcKrK8Pqp83icfGMGYOa-EBUupsN6xhXkUAKyHGwf3L2OXQrg>
+ <xmx:Ly2WYbjg8BRTAU8-hlPgj2ovKgo9r1-TfzOw0Arab3yL_2gVif5T8g>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 18 Nov 2021 05:38:36 -0500 (EST)
+ 18 Nov 2021 05:38:38 -0500 (EST)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>,
  Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>
-Subject: [PATCH v2 09/13] drm/vc4: hdmi: Simplify the hotplug handling
-Date: Thu, 18 Nov 2021 11:38:10 +0100
-Message-Id: <20211118103814.524670-10-maxime@cerno.tech>
+Subject: [PATCH v2 10/13] drm/vc4: hdmi: Simplify the connector state retrieval
+Date: Thu, 18 Nov 2021 11:38:11 +0100
+Message-Id: <20211118103814.524670-11-maxime@cerno.tech>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211118103814.524670-1-maxime@cerno.tech>
 References: <20211118103814.524670-1-maxime@cerno.tech>
@@ -86,122 +86,54 @@ Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Our detect callback has a bunch of operations to perform depending on
-the current and last status of the connector, such a setting the CEC
-physical address or enabling the scrambling again.
-
-This is currently dealt with a bunch of if / else statetements that make
-it fairly difficult to read and extend.
-
-Let's move all that logic to a function of its own.
+When we have the entire DRM state, retrieving the connector state only
+requires the drm_connector pointer. Fortunately for us, we have
+allocated it as a part of the vc4_hdmi structure, so we can retrieve get
+a pointer by simply accessing our field in that structure.
 
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_hdmi.c | 66 ++++++++++++++++++++++------------
- 1 file changed, 44 insertions(+), 22 deletions(-)
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 21 +++------------------
+ 1 file changed, 3 insertions(+), 18 deletions(-)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index 98f15b11f135..7f44ef08f83a 100644
+index 7f44ef08f83a..db647c01dc0a 100644
 --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
 +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -182,17 +182,53 @@ static void vc4_hdmi_cec_update_clk_div(struct vc4_hdmi *vc4_hdmi) {}
- 
- static void vc4_hdmi_enable_scrambling(struct drm_encoder *encoder);
- 
-+static void vc4_hdmi_handle_hotplug(struct vc4_hdmi *vc4_hdmi,
-+				    enum drm_connector_status status)
-+{
-+	struct drm_connector *connector = &vc4_hdmi->connector;
-+	struct edid *edid;
-+
-+	/*
-+	 * NOTE: This function should really be called with
-+	 * vc4_hdmi->mutex held, but doing so results in reentrancy
-+	 * issues since cec_s_phys_addr_from_edid might call
-+	 * .adap_enable, which leads to that funtion being called with
-+	 * our mutex held.
-+	 *
-+	 * Concurrency isn't an issue at the moment since we don't share
-+	 * any state with any of the other frameworks so we can ignore
-+	 * the lock for now.
-+	 */
-+
-+	if (status == connector->status)
-+		return;
-+
-+	if (status == connector_status_disconnected) {
-+		cec_phys_addr_invalidate(vc4_hdmi->cec_adap);
-+		return;
-+	}
-+
-+	edid = drm_get_edid(connector, vc4_hdmi->ddc);
-+	if (!edid)
-+		return;
-+
-+	cec_s_phys_addr_from_edid(vc4_hdmi->cec_adap, edid);
-+	kfree(edid);
-+
-+	vc4_hdmi_enable_scrambling(&vc4_hdmi->encoder.base.base);
-+}
-+
- static enum drm_connector_status
- vc4_hdmi_connector_detect(struct drm_connector *connector, bool force)
- {
- 	struct vc4_hdmi *vc4_hdmi = connector_to_vc4_hdmi(connector);
--	bool connected = false;
-+	enum drm_connector_status status = connector_status_disconnected;
- 
- 	/*
- 	 * NOTE: This function should really take vc4_hdmi->mutex, but
- 	 * doing so results in reentrancy issues since
--	 * cec_s_phys_addr_from_edid might call .adap_enable, which
--	 * leads to that funtion being called with our mutex held.
-+	 * vc4_hdmi_handle_hotplug() can call into other functions that
-+	 * would take the mutex while it's held here.
- 	 *
- 	 * Concurrency isn't an issue at the moment since we don't share
- 	 * any state with any of the other frameworks so we can ignore
-@@ -203,7 +239,7 @@ vc4_hdmi_connector_detect(struct drm_connector *connector, bool force)
- 
- 	if (vc4_hdmi->hpd_gpio) {
- 		if (gpiod_get_value_cansleep(vc4_hdmi->hpd_gpio))
--			connected = true;
-+			status = connector_status_connected;
- 	} else {
- 		unsigned long flags;
- 		u32 hotplug;
-@@ -213,27 +249,13 @@ vc4_hdmi_connector_detect(struct drm_connector *connector, bool force)
- 		spin_unlock_irqrestore(&vc4_hdmi->hw_lock, flags);
- 
- 		if (hotplug & VC4_HDMI_HOTPLUG_CONNECTED)
--			connected = true;
-+			status = connector_status_connected;
- 	}
- 
--	if (connected) {
--		if (connector->status != connector_status_connected) {
--			struct edid *edid = drm_get_edid(connector, vc4_hdmi->ddc);
--
--			if (edid) {
--				cec_s_phys_addr_from_edid(vc4_hdmi->cec_adap, edid);
--				kfree(edid);
--			}
--		}
--
--		vc4_hdmi_enable_scrambling(&vc4_hdmi->encoder.base.base);
--		pm_runtime_put(&vc4_hdmi->pdev->dev);
--		return connector_status_connected;
--	}
--
--	cec_phys_addr_invalidate(vc4_hdmi->cec_adap);
-+	vc4_hdmi_handle_hotplug(vc4_hdmi, status);
- 	pm_runtime_put(&vc4_hdmi->pdev->dev);
--	return connector_status_disconnected;
-+
-+	return status;
+@@ -1013,30 +1013,15 @@ static void vc4_hdmi_recenter_fifo(struct vc4_hdmi *vc4_hdmi)
+ 		  "VC4_HDMI_FIFO_CTL_RECENTER_DONE");
  }
  
- static void vc4_hdmi_connector_destroy(struct drm_connector *connector)
+-static struct drm_connector_state *
+-vc4_hdmi_encoder_get_connector_state(struct drm_encoder *encoder,
+-				     struct drm_atomic_state *state)
+-{
+-	struct drm_connector_state *conn_state;
+-	struct drm_connector *connector;
+-	unsigned int i;
+-
+-	for_each_new_connector_in_state(state, connector, conn_state, i) {
+-		if (conn_state->best_encoder == encoder)
+-			return conn_state;
+-	}
+-
+-	return NULL;
+-}
+-
+ static void vc4_hdmi_encoder_pre_crtc_configure(struct drm_encoder *encoder,
+ 						struct drm_atomic_state *state)
+ {
++	struct vc4_hdmi *vc4_hdmi = encoder_to_vc4_hdmi(encoder);
++	struct drm_connector *connector = &vc4_hdmi->connector;
+ 	struct drm_connector_state *conn_state =
+-		vc4_hdmi_encoder_get_connector_state(encoder, state);
++		drm_atomic_get_new_connector_state(state, connector);
+ 	struct vc4_hdmi_connector_state *vc4_conn_state =
+ 		conn_state_to_vc4_hdmi_conn_state(conn_state);
+-	struct vc4_hdmi *vc4_hdmi = encoder_to_vc4_hdmi(encoder);
+ 	const struct drm_display_mode *mode = &vc4_hdmi->saved_adjusted_mode;
+ 	unsigned long pixel_rate = vc4_conn_state->pixel_rate;
+ 	unsigned long bvb_rate, hsm_rate;
 -- 
 2.33.1
 
