@@ -2,65 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A31F84557DF
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Nov 2021 10:19:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B2F24557E0
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Nov 2021 10:19:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 43A6E6EC63;
-	Thu, 18 Nov 2021 09:19:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CCB2E6EC64;
+	Thu, 18 Nov 2021 09:19:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 190D96EC64
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Nov 2021 09:19:30 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id B1F34212C2;
- Thu, 18 Nov 2021 09:19:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1637227168; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=k5XhXCzclyhcVE8AjIG3BE7vkD2TC2zFZ/VwltR3irU=;
- b=wF7cVZ858YKrbrkdxVua/OtfvD5QSr/RyZwTmxS5Hc7PWDIehwTTp12UsoWm52vW4TkdDA
- 6Jg9PUS9LK8nyo8dTCBkiyLbXzkexXA2TcjXP0ThG0+Us6qMWJ7huhsBpqXc+DGV4RD7Z8
- YFE8shVJQ9lhXcHtkJZFdeBb0SaCUAY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1637227168;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=k5XhXCzclyhcVE8AjIG3BE7vkD2TC2zFZ/VwltR3irU=;
- b=nQMUHlJ884txvEMvZOmj/V68RO6jO4Bf4d3R1LrlSSLIk8keOWpaiGpRRYf5Pxdmgz1wN3
- XHx3ac4A5g4w4KAg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 85B6413CD1;
- Thu, 18 Nov 2021 09:19:28 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id dvmlH6AalmEnbQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Thu, 18 Nov 2021 09:19:28 +0000
-Message-ID: <f3582c00-925d-91ec-c829-0aaa8f0157c0@suse.de>
-Date: Thu, 18 Nov 2021 10:19:27 +0100
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
+ [IPv6:2a00:1450:4864:20::12a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB13E6EC64;
+ Thu, 18 Nov 2021 09:19:46 +0000 (UTC)
+Received: by mail-lf1-x12a.google.com with SMTP id y26so22683783lfa.11;
+ Thu, 18 Nov 2021 01:19:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:in-reply-to:references
+ :mime-version; bh=oAEcrXsZ8YV8JK/loMplX5ZiUEzT3hYIdQgfET2o1z0=;
+ b=kQKNVy1h7wKfz55zQ96m/EaJ9YLMuJpHdHd07PlQzHa9Yt8twkElaj2s+MmV1uSNMQ
+ Z8KhDlwncpLtHtHKuqJ4BCi+v6wItxIpI/gMCW7Dj80fR7M6LK4gTTwmOb15aBzrxswr
+ YWK3HQWTESESel6Soly8SgXtDuEUoni4x1BiqlJ1d0/6jDesOWIHY3rCNe2T5yvBwhIm
+ kareU+APuDn+iqRVr4FNWptoJMdjd3s6SeKSQl6fqAu8OCCYqaS4bityCNd6gXAC3Nyj
+ XJiHypN4Kj1blE4ie0moVRBY36PPKE+EuAqmXwaAsMaS1wRakvFIUnYf9fMDrPufGzLt
+ +lbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version;
+ bh=oAEcrXsZ8YV8JK/loMplX5ZiUEzT3hYIdQgfET2o1z0=;
+ b=FpavJLOXAjIIO3YkJK6+PVr+RwAIlip7V7eUfjaSo+s1NpaoeR9S2cUVjVxEWB6u9F
+ Y6D0vozXwnWvRdfO87BRpaek7gxP596gVLlbSG5NG8UQNC7/YCZxEiT6++doyXzlJ8In
+ 7Fkq8iiF1YAdUXZ/XM1IoNFgpi3fmRIza75u/ywiULWAC9SMHzllteFlQeMIM95aL5ei
+ mfKoE42uYn1HiuSjKyP95Wr1jObkZu05rhoWxUdNFDXJtSqNgk7ziPmNOkcsjN+1AEw+
+ Yw1ouGtfmEyJgpWBe0ilM3DNiG+B++ZujTu4Mpum5Z4c7bQzickgyaS3NOAnbUnxn733
+ gYrw==
+X-Gm-Message-State: AOAM531eDDGtHi0IcQQmg+UaTMuedSfSDXZyq//kIZINbV9wQBukCmFk
+ uoaWsiYUGdUpdFO+F2gB0Us=
+X-Google-Smtp-Source: ABdhPJysKj/uJioQH2NmwWsU0v9deTwk7ETd3xELuYSBntO1Zmp13FSGR4a8GFZcFD0J9FftbKXGAA==
+X-Received: by 2002:a05:6512:6d1:: with SMTP id
+ u17mr23265050lff.427.1637227184958; 
+ Thu, 18 Nov 2021 01:19:44 -0800 (PST)
+Received: from eldfell ([194.136.85.206])
+ by smtp.gmail.com with ESMTPSA id z28sm227454ljn.77.2021.11.18.01.19.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 18 Nov 2021 01:19:44 -0800 (PST)
+Date: Thu, 18 Nov 2021 11:19:41 +0200
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Bhanuprakash Modem <bhanuprakash.modem@intel.com>
+Subject: Re: [i-g-t 07/14] tests/kms_color: New negative tests for plane
+ level color mgmt
+Message-ID: <20211118111941.764737fb@eldfell>
+In-Reply-To: <20211115094759.520955-8-bhanuprakash.modem@intel.com>
+References: <20211115094759.520955-1-bhanuprakash.modem@intel.com>
+ <20211115094759.520955-8-bhanuprakash.modem@intel.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH 1/3] drm/simpledrm: Bind to OF framebuffers in /chosen
-Content-Language: en-US
-To: Hector Martin <marcan@marcan.st>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>
-References: <20211117145829.204360-1-marcan@marcan.st>
- <20211117145829.204360-2-marcan@marcan.st>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20211117145829.204360-2-marcan@marcan.st>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------8G201RrpdX3UKhxq9YevExVN"
+Content-Type: multipart/signed; boundary="Sig_/6wSi2wncVoIw06chR.cibzR";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,89 +70,230 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: igt-dev@lists.freedesktop.org, Uma Shankar <uma.shankar@intel.com>,
+ dri-devel@lists.freedesktop.org,
+ Juha-Pekka Heikkila <juhapekka.heikkila@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------8G201RrpdX3UKhxq9YevExVN
-Content-Type: multipart/mixed; boundary="------------r3WiQVl2QMmlYdYcpCUMni8j";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Hector Martin <marcan@marcan.st>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, Alyssa Rosenzweig
- <alyssa@rosenzweig.io>, linux-kernel@vger.kernel.org
-Message-ID: <f3582c00-925d-91ec-c829-0aaa8f0157c0@suse.de>
-Subject: Re: [PATCH 1/3] drm/simpledrm: Bind to OF framebuffers in /chosen
-References: <20211117145829.204360-1-marcan@marcan.st>
- <20211117145829.204360-2-marcan@marcan.st>
-In-Reply-To: <20211117145829.204360-2-marcan@marcan.st>
+--Sig_/6wSi2wncVoIw06chR.cibzR
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
---------------r3WiQVl2QMmlYdYcpCUMni8j
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+On Mon, 15 Nov 2021 15:17:52 +0530
+Bhanuprakash Modem <bhanuprakash.modem@intel.com> wrote:
 
-SGkNCg0KQW0gMTcuMTEuMjEgdW0gMTU6NTggc2NocmllYiBIZWN0b3IgTWFydGluOg0KPiBU
-aGlzIG1hdGNoZXMgdGhlIHNpbXBsZWZiIGJlaGF2aW9yOyB0aGVzZSBub2RlcyBhcmUgbm90
-IG1hdGNoZWQgYnkgdGhlDQo+IHN0YW5kYXJkIE9GIG1hY2hpbmVyeS4gVGhpcyBmaXhlcyBh
-IHJlZ3Jlc3Npb24gd2hlbiBzaW1wbGVkcm0gcmVwbGFjZXMNCj4gc2ltZXBsZWZiLg0KPiAN
-Cj4gU2lnbmVkLW9mZi1ieTogSGVjdG9yIE1hcnRpbiA8bWFyY2FuQG1hcmNhbi5zdD4NCj4g
-LS0tDQo+ICAgZHJpdmVycy9ncHUvZHJtL3Rpbnkvc2ltcGxlZHJtLmMgfCAxNyArKysrKysr
-KysrKysrKysrKw0KPiAgIDEgZmlsZSBjaGFuZ2VkLCAxNyBpbnNlcnRpb25zKCspDQo+IA0K
-PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3Rpbnkvc2ltcGxlZHJtLmMgYi9kcml2
-ZXJzL2dwdS9kcm0vdGlueS9zaW1wbGVkcm0uYw0KPiBpbmRleCA0ODFiNDhiZGUwNDcuLjJj
-ODRmMmVhMWZhMiAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3Rpbnkvc2ltcGxl
-ZHJtLmMNCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3Rpbnkvc2ltcGxlZHJtLmMNCj4gQEAg
-LTIsNiArMiw3IEBADQo+ICAgDQo+ICAgI2luY2x1ZGUgPGxpbnV4L2Nsay5oPg0KPiAgICNp
-bmNsdWRlIDxsaW51eC9vZl9jbGsuaD4NCj4gKyNpbmNsdWRlIDxsaW51eC9vZl9wbGF0Zm9y
-bS5oPg0KPiAgICNpbmNsdWRlIDxsaW51eC9wbGF0Zm9ybV9kYXRhL3NpbXBsZWZiLmg+DQo+
-ICAgI2luY2x1ZGUgPGxpbnV4L3BsYXRmb3JtX2RldmljZS5oPg0KPiAgICNpbmNsdWRlIDxs
-aW51eC9yZWd1bGF0b3IvY29uc3VtZXIuaD4NCj4gQEAgLTg5Nyw1ICs4OTgsMjEgQEAgc3Rh
-dGljIHN0cnVjdCBwbGF0Zm9ybV9kcml2ZXIgc2ltcGxlZHJtX3BsYXRmb3JtX2RyaXZlciA9
-IHsNCj4gICANCj4gICBtb2R1bGVfcGxhdGZvcm1fZHJpdmVyKHNpbXBsZWRybV9wbGF0Zm9y
-bV9kcml2ZXIpOw0KPiAgIA0KPiArc3RhdGljIGludCBfX2luaXQgc2ltcGxlZHJtX2luaXQo
-dm9pZCkNCj4gK3sNCj4gKwlzdHJ1Y3QgZGV2aWNlX25vZGUgKm5wOw0KPiArDQo+ICsJaWYg
-KElTX0VOQUJMRUQoQ09ORklHX09GX0FERFJFU1MpICYmIG9mX2Nob3Nlbikgew0KPiArCQlm
-b3JfZWFjaF9jaGlsZF9vZl9ub2RlKG9mX2Nob3NlbiwgbnApIHsNCj4gKwkJCWlmIChvZl9k
-ZXZpY2VfaXNfY29tcGF0aWJsZShucCwgInNpbXBsZS1mcmFtZWJ1ZmZlciIpKQ0KPiArCQkJ
-CW9mX3BsYXRmb3JtX2RldmljZV9jcmVhdGUobnAsIE5VTEwsIE5VTEwpOw0KPiArCQl9DQo+
-ICsJfQ0KPiArDQo+ICsJcmV0dXJuIDA7DQo+ICt9DQo+ICsNCj4gK2ZzX2luaXRjYWxsKHNp
-bXBsZWRybV9pbml0KTsNCj4gKw0KDQpTaW1wbGVkcm0gaXMganVzdCBhIGRyaXZlciwgYnV0
-IHRoaXMgaXMgcGxhdGZvcm0gc2V0dXAgY29kZS4gV2h5IGlzIHRoaXMgDQpjb2RlIGxvY2F0
-ZWQgaGVyZSBhbmQgbm90IHVuZGVyIGFyY2gvIG9yIGRyaXZlcnMvZmlybXdhcmUvPw0KDQpJ
-IGtub3cgdGhhdCBvdGhlciBkcml2ZXJzIGRvIHNpbWlsYXIgdGhpbmdzLCBpdCBkb2Vzbid0
-IHNlZW0gdG8gYmVsb25nIGhlcmUuDQoNCkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoNCj4gICBN
-T0RVTEVfREVTQ1JJUFRJT04oRFJJVkVSX0RFU0MpOw0KPiAgIE1PRFVMRV9MSUNFTlNFKCJH
-UEwgdjIiKTsNCj4gDQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZl
-ciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KTWF4
-ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBHZXJtYW55DQooSFJCIDM2ODA5LCBBRyBO
-w7xybmJlcmcpDQpHZXNjaMOkZnRzZsO8aHJlcjogSXZvIFRvdGV2DQo=
+> Negative check for:
+>  * plane gamma lut sizes
+>  * plane degamma lut sizes
+>  * plane ctm matrix sizes
+>=20
+> Cc: Harry Wentland <harry.wentland@amd.com>
+> Cc: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
+> Cc: Juha-Pekka Heikkila <juhapekka.heikkila@gmail.com>
+> Cc: Uma Shankar <uma.shankar@intel.com>
+> Signed-off-by: Bhanuprakash Modem <bhanuprakash.modem@intel.com>
+> ---
+>  tests/kms_color.c | 127 ++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 127 insertions(+)
+>=20
+> diff --git a/tests/kms_color.c b/tests/kms_color.c
+> index e14b37cb6f..d9fe417ba9 100644
+> --- a/tests/kms_color.c
+> +++ b/tests/kms_color.c
+> @@ -736,6 +736,118 @@ static void test_pipe_limited_range_ctm(data_t *dat=
+a,
+>  }
+>  #endif
+> =20
+> +static bool invalid_plane_gamma_test(data_t *data, igt_plane_t *plane)
+> +{
+> +	igt_display_t *display =3D &data->display;
+> +	drmModePropertyPtr gamma_mode =3D NULL;
+> +	uint32_t i;
+> +
+> +	igt_info("Plane invalid gamma test is running on pipe-%s plane-%s(%s)\n=
+",
+> +			kmstest_pipe_name(plane->pipe->pipe),
+> +			kmstest_plane_type_name(plane->type),
+> +			is_hdr_plane(plane) ? "hdr":"sdr");
+> +
+> +	igt_require(igt_plane_has_prop(plane, IGT_PLANE_GAMMA_MODE));
+> +	igt_require(igt_plane_has_prop(plane, IGT_PLANE_GAMMA_LUT));
+> +
+> +	gamma_mode =3D get_plane_gamma_degamma_mode(plane, IGT_PLANE_GAMMA_MODE=
+);
+> +
+> +	/* Iterate all supported gamma modes. */
+> +	for (i =3D 0; i < gamma_mode->count_enums; i++) {
+> +		segment_data_t *segment_info =3D NULL;
+> +		size_t lut_size =3D 0;
+> +
+> +		/* Ignore 'no gamma' from enum list. */
+> +		if (!strcmp(gamma_mode->enums[i].name, "no gamma"))
+> +			continue;
+> +
+> +		igt_info("Trying to use gamma mode: \'%s\'\n", gamma_mode->enums[i].na=
+me);
+> +
+> +		segment_info =3D get_segment_data(data, gamma_mode->enums[i].value,
+> +				gamma_mode->enums[i].name);
+> +		lut_size =3D sizeof(struct drm_color_lut_ext) * segment_info->entries_=
+count;
+> +
+> +		igt_plane_set_prop_enum(plane, IGT_PLANE_GAMMA_MODE, gamma_mode->enums=
+[i].name);
+> +		invalid_plane_lut_sizes(display, plane,
+> +					IGT_PLANE_GAMMA_LUT,
+> +					lut_size);
+> +
+> +		clear_segment_data(segment_info);
+> +
+> +		/* One enum is enough. */
+> +		break;
+> +	}
+> +
+> +	drmModeFreeProperty(gamma_mode);
+> +
+> +	return true;
+> +}
+> +
+> +static bool invalid_plane_degamma_test(data_t *data, igt_plane_t *plane)
+> +{
+> +	igt_display_t *display =3D &data->display;
+> +	drmModePropertyPtr degamma_mode =3D NULL;
+> +	uint32_t i;
+> +
+> +	igt_info("Plane invalid degamma test is running on pipe-%s plane-%s(%s)=
+\n",
+> +			kmstest_pipe_name(plane->pipe->pipe),
+> +			kmstest_plane_type_name(plane->type),
+> +			is_hdr_plane(plane) ? "hdr":"sdr");
+> +
+> +	igt_require(igt_plane_has_prop(plane, IGT_PLANE_DEGAMMA_MODE));
+> +	igt_require(igt_plane_has_prop(plane, IGT_PLANE_DEGAMMA_LUT));
+> +
+> +	degamma_mode =3D get_plane_gamma_degamma_mode(plane, IGT_PLANE_DEGAMMA_=
+MODE);
+> +
+> +	/* Iterate all supported degamma modes. */
+> +	for (i =3D 0; i < degamma_mode->count_enums; i++) {
+> +		segment_data_t *segment_info =3D NULL;
+> +		size_t lut_size =3D 0;
+> +
+> +		/* Ignore 'no degamma' from enum list. */
+> +		if (!strcmp(degamma_mode->enums[i].name, "no degamma"))
+> +			continue;
+> +
+> +		igt_info("Trying to use degamma mode: \'%s\'\n", degamma_mode->enums[i=
+].name);
+> +
+> +		segment_info =3D get_segment_data(data,
+> +						degamma_mode->enums[i].value,
+> +						degamma_mode->enums[i].name);
+> +		lut_size =3D sizeof(struct drm_color_lut_ext) * segment_info->entries_=
+count * 2;
+> +
+> +		igt_plane_set_prop_enum(plane,
+> +					IGT_PLANE_DEGAMMA_MODE,
+> +					degamma_mode->enums[i].name);
+> +		invalid_plane_lut_sizes(display, plane,
+> +					IGT_PLANE_DEGAMMA_LUT,
+> +					lut_size);
+> +
+> +		clear_segment_data(segment_info);
+> +
+> +		/* One enum is enough. */
+> +		break;
 
---------------r3WiQVl2QMmlYdYcpCUMni8j--
+Why is one enum enough?
 
---------------8G201RrpdX3UKhxq9YevExVN
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+The same question for the other case in this patch.
+
+
+> +	}
+> +
+> +	drmModeFreeProperty(degamma_mode);
+> +
+> +	return true;
+> +}
+> +
+> +static bool invalid_plane_ctm_test(data_t *data, igt_plane_t *plane)
+> +{
+> +	igt_info("Plane invalid CTM test is running on pipe-%s plane-%s(%s)\n",
+> +			kmstest_pipe_name(plane->pipe->pipe),
+> +			kmstest_plane_type_name(plane->type),
+> +			is_hdr_plane(plane) ? "hdr":"sdr");
+> +
+> +	igt_require(igt_plane_has_prop(plane, IGT_PLANE_CTM));
+> +	invalid_plane_lut_sizes(&data->display, plane,
+> +				IGT_PLANE_CTM,
+> +				sizeof(struct drm_color_ctm));
+
+The code says you're trying shove a LUT into a CTM blob. I understand
+that mechanically this is test you want to do, feed a wrong sized blob,
+and in this case the contents do not matter (unlike with actual LUTs),
+but reading this code is completely misleading and does not make sense.
+It takes a while to think about what you actually want to test here,
+and then reverse-engineer the code to understand that that is what
+actually happens, too. That is too much mental burden for the reader to
+realize that this piece of code actually works.
+
+
+Thanks,
+pq
+
+> +
+> +	return true;
+> +}
+> +
+>  static bool plane_gamma_test(data_t *data, igt_plane_t *plane)
+>  {
+>  	igt_output_t *output;
+> @@ -1411,6 +1523,21 @@ static void run_tests_for_plane(data_t *data, enum=
+ pipe pipe)
+>  					ctm_tests[i].iter);
+>  		}
+>  	}
+> +
+> +	igt_describe("Negative check for invalid plane gamma lut sizes");
+> +	igt_subtest_f("pipe-%s-invalid-plane-gamma-lut-sizes",
+> +			kmstest_pipe_name(pipe))
+> +		run_plane_color_test(data, pipe, invalid_plane_gamma_test);
+> +
+> +	igt_describe("Negative check for invalid plane degamma lut sizes");
+> +	igt_subtest_f("pipe-%s-invalid-plane-degamma-lut-sizes",
+> +			kmstest_pipe_name(pipe))
+> +		run_plane_color_test(data, pipe, invalid_plane_degamma_test);
+> +
+> +	igt_describe("Negative check for invalid plane ctm matrix sizes");
+> +	igt_subtest_f("pipe-%s-invalid-plane-ctm-matrix-sizes",
+> +			kmstest_pipe_name(pipe))
+> +		run_plane_color_test(data, pipe, invalid_plane_ctm_test);
+>  }
+> =20
+>  igt_main
+
+
+--Sig_/6wSi2wncVoIw06chR.cibzR
+Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmGWGp8FAwAAAAAACgkQlh/E3EQov+Df
-AA//d29Lm+N4jaqtOFjLSFNPTH/hwnKnHLS5HTBgba6+JqufwccDkAaO71jK/V+GnRO+88jFK574
-HzqqAojrPbbA/AqQAEa/slUHNfpm+osScRbyhWryrtCftPZCYARu+hvrDam0reKZbmHgZN4fFfQb
-id4D25rNfVj6EjIBifM7DjZULTZ4rhBbsn9FnBshRMW5E2KKw2ps5BRV9oFMggHfhr0xUr8R2ozA
-q8FAY8YKlBjzgwvqYt63wUfKI4QEidsLVMDe9WcU0nXwfWuSfAfGaAXWGKH2xOlQxKtX1eCqlaih
-p1klIdlpbqQrifWl7kRUfJ6YQ8LlLMihcqBI8Ov132qN7yAs7KCMtJv9JKGQGxC8nSdBLllk4lsr
-tQ9HEQmxdMV9uW/toL+M4+uLeEV0Q96e6abF1y0YKNwd4h9UBpiLJCNB+oodvU5Vwj415qfMpLv8
-Y1g1U5Yg08mysU2K+rEXWtG0xsFpzw5x8TYuSNbhAH6W4n6Oc0Ww+JbsqUpOZdJfHb2cl9Yn+1Pi
-NZ1paN0fA++U9o4DrFaKHpA1S77BJ/oa5ZrvNk0hiCV9bbxwFDMdVWDLgKvkgla4DYjj7UfIZGNW
-wWa8nPaGgcXUrht66GdafHRpkR2eJu1LaYdkOyD0gvAQxkm/LBfkRaMQ/exbwQcujA5rD9zevj8l
-Z1U=
-=s9yZ
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmGWGq0ACgkQI1/ltBGq
+qqcV1A//ZW1h9slYJ0YGb0gkYB5EoCVK8jOtZ/hNt/TV4aot2qNRxGCgQl7JkVe9
+ok1qYrxpC31tOWrO6Bi6j5YSnRf6jQwqQHLlpED5IQJQRTvrECWRfH27yQsX37aw
+lD6zgJXcJCA3kJiYLxT3Rsmgq/PL7iQ3u903EwO364QnDsLEaSSZ2hdTj1sVueg5
+jLb8ec/vZQGILL//zZPYQX8o3IIkUO1hbyRbkLCalVgRWfTL+YwSlrmeH8PRBSHt
+BgvZ64M6y1Q70yB5s+uav/CxQQyHUqnB+UHUyfhM0L7Kh/6VkTND2I34wLKqO7yI
+iIRehxLYuw8hwALfGnVakml28NoDGaqRORkxM6rw1oroErPM5Skk6sHRDOff4CE8
+86ODb+Vg84guXjq3d5PIlE3EoCitx5S8I8/x6rjx6vMwdJKElvT2PqznLmFT+R6P
+T8R/JPh80YpzHsU1XI/f5HRLOTe5EoYmmmpe6mQLnMo2+YR1TrYeCisYdca7OOyT
+y2E8x/QBWbQLrnaqxvfuB+BsX5/zkWy8cmUkhoZhQanb/v5AA/3lVFYU3aKh0Dly
+6xSWrM276mawC6kvKvsilZAzgnbJagyAo079jMwO/JaF1xAfpej+DIx0Xx+G8YoA
+sQ1mIM+ojXwJq3pfPYPPoRHfTZC7I6GTZ+7DbW1EKSOidXCgWew=
+=lh3s
 -----END PGP SIGNATURE-----
 
---------------8G201RrpdX3UKhxq9YevExVN--
+--Sig_/6wSi2wncVoIw06chR.cibzR--
