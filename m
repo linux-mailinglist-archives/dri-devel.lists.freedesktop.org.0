@@ -1,72 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19E0B45592D
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Nov 2021 11:38:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B61D845592E
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Nov 2021 11:38:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E7BD06E974;
-	Thu, 18 Nov 2021 10:38:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 87C716E9C2;
+	Thu, 18 Nov 2021 10:38:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
  [66.111.4.224])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 092866E970
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Nov 2021 10:38:20 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailnew.nyi.internal (Postfix) with ESMTP id 60ECA580912;
- Thu, 18 Nov 2021 05:38:18 -0500 (EST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 926216E96D
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Nov 2021 10:38:21 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.nyi.internal (Postfix) with ESMTP id EB3CB580916;
+ Thu, 18 Nov 2021 05:38:20 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute3.internal (MEProxy); Thu, 18 Nov 2021 05:38:18 -0500
+ by compute4.internal (MEProxy); Thu, 18 Nov 2021 05:38:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- from:to:cc:subject:date:message-id:content-type:mime-version
- :content-transfer-encoding; s=fm1; bh=f9AWCn1f9NM1P779cGBn/7e6eL
- HMaXXXXAcVhXv/p0k=; b=mcO8yzipcFYwr11NFCy9Fkono2trVfyjiqz8OPlFUl
- yMC9qSJKknwdHpRbdVHHho0I325aIBRaHr2sVStLhzsQAwoaDdJb8PsUIRTSXcRP
- KhschTN/aRtgyrxMEch1xmSoZaU9b0qlmq7YscdS7Oh0F9zRUqPuAFXPdBUTAnp5
- AGiIYdcxQzriyOd02WvTjTx12DbWBMEcWV2pNd+bMGK1cKAMBFP/zxzrjKrPtEBm
- Uzv/zLYIyOraqGFbPEmta4XO+SPsr2s/JkfmCpJwQlOdrmzdUqZNEzVKCGnw1ovH
- X0BHurxDVZp2LxwavytGySC3+XV8LypCPVXAS+4G4Lqw==
+ from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding; s=fm1; bh=G1t7vylcsSNeR
+ l5th91rZ5R4nGF6kCO3PrUHizPzPyE=; b=AoAcN3ZEXets+FLjET8SgEaKQAb9C
+ 76Rs+W+7n3I9cOAD0xQGrHB8Enr8SV0KVt85W2hgp6+PDk2bSEOX+EiB8SOARCri
+ U4p15rb6E/4cZXLPghK2zmhuYvJVrgwVR0dXWBiYvaW3Fg0I2R2fBFrDMb8DLBxV
+ YkvkKQ5XFaeiMOrYg+3xuirzGMxfG1aJWScW4wf+0MOiYlzVNUdVcFyDcbvBpSEk
+ BemRKcRk+SYYt9pu5W9lNOAnmUnvj0UdNzBl0X6bgP9kAFj6KZnGbiapvM6SuGxB
+ ise6gDeyjmNC171n0rDmUTzZ1wG670IWHo5vrhYH5lNO/fooAzG7bzd+w==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:from:message-id:mime-version:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=f9AWCn
- 1f9NM1P779cGBn/7e6eLHMaXXXXAcVhXv/p0k=; b=iwqn3I5FEoRokBPRnVg0Jz
- sJYkA/MFt7lzg9BVhzE1y+qVoIX5uDzaxAaAydiwpIPscEadBLPEzFzhin1RRy9/
- mrJtUySIVAQHEeGSk2RQHgluGZ+ZaxyasyY2VJqXnZUggRxt9vpARGbf6Alxv2ky
- +b8wU93VWUoHiIy+VaO6H+vMt//8aleYC4I2R+pNlcRUXXm+jhFh6JbUOM+ZfRsA
- 8ehtkx8b+LMcOVwzYbKFbfEHerkvs3sf9xZwCG1VrxP/4if0XcGLaWfDlUxMi0Fu
- oj9kaHbLAKaz+JjLpWg+6tWHxNExu6wioUFFdf+zYT3LTtI+m4jArAmE7UBrYk2w
- ==
-X-ME-Sender: <xms:GS2WYVxz43GXca8DEJOe0Y-92QFVLOPNSiJfrqGoYI1rQqaaG3uRRQ>
- <xme:GS2WYVTiQkAV5ldX4Q4K-uDqJKQtdG8ZcKmOsT_7TmYFyvtX2zGVtX2Tbhbd2h3Ra
- sWm3QnJy8T4k4eEHLA>
-X-ME-Received: <xmr:GS2WYfUtouib_bmtvO7YW0qd0HJtAGun5eFw7-1y4Gwd0ys9_l_1ozvXVaclKyF38OsJmFWEJU-WcA381UXPXg0pR5zaGAhzI7if6toiXEo>
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :in-reply-to:message-id:mime-version:references:subject:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm1; bh=G1t7vylcsSNeRl5th91rZ5R4nGF6kCO3PrUHizPzPyE=; b=nPQc/UA/
+ eVKJCdNntMPafUq4vVvaFHHc09tmrVQm2Jqg4NsfcrRa5j8JfIy2HitE2hjoyAGZ
+ x6DFl0C5s81FVdv3HGvTi6RONWNt61WOPAz0KyijXL2MD0YXg2T5+MzeD0UelQF6
+ 9NVrDjUkomJMzT2hDdxWkgm+Yaw0MmHmLtp7CIG/TpZV2weFVYiWLFgGN4phfYEz
+ y4q4OKVSpwAwqmeb30uAwneI8fdbzf10a8bn8VQa9coG2SiZe8J7GRGgaZi730Hu
+ ekGrgL5CdxGtnauphjO2EeFr2dGAo/s0W6uSGVNgEvn8gFp8VDkmfAbJ4NwwBRzo
+ 9hux/uaKnYKn8g==
+X-ME-Sender: <xms:HC2WYcdJtSD2YjzgB8HfNif2OeOXtZ9iSR21maSjK0gyOfFVZIdMrQ>
+ <xme:HC2WYeNP46ovXlCoZUfaLWoOAav3EZfhajU4pGpQP3I2051XOOiaMTy7kOL_nqLnn
+ hPkoFJFl-v_jlpPUhk>
+X-ME-Received: <xmr:HC2WYdhNM3MvNrKJvQ8dt0f7VWUj5LbfEph8cDB4nXit-0tHVGY2L7bgbWjsohSsHrSWgewVWR82YRDHgD6caw_EyCar04imtG4kb5spl-k>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrfeeigdduiecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefhvffufffkofgtggfgsehtqhertdertdejnecuhfhrohhmpeforgigihhmvgcu
- tfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrthhtvg
- hrnhepteetledtudejhffftdeugfduffelleelheejgeegffduvddvgfdvhffhlefgteff
- necuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedtne
- curfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:GS2WYXgbF9sG08xTKP9ZgqPqIG4B_7AU3tJcEZOsq7Ran2l7q-c21Q>
- <xmx:GS2WYXBGaKo7d_tq-BRxR_7S98Mje1F-1oOzHcoKpBrhRfszDy5J_A>
- <xmx:GS2WYQI61c3Di5ubcL1d8A822gzMXmn4-vV4Mpc2ZxdVJ9_gm-lukw>
- <xmx:Gi2WYTsKil6tHwtSsDNVbMkIQ9K4_ZHhwg0_Ow4Q7Wux54-VCwwSWg>
+ fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+ gvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveevheeh
+ vdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
+ igihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:HC2WYR-hy3yXcf_bZFrHkEFPyG0D_YcEcV2IJB0_eMA-dFdveGGhlQ>
+ <xmx:HC2WYYs4TbysFMakoi7qkGWZfwHuQKV4KBLBkMYAuOFJI2qwV8X4Cw>
+ <xmx:HC2WYYGRuLjlqLlT-hAz_28V2PpKKv_F8NI_v0d17b1uHB41K2X4Wg>
+ <xmx:HC2WYaJHFwbY-MiQSu01LwHmX2pCuAXJmPBxge_GyQvsL1Z4NJTmQw>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 18 Nov 2021 05:38:17 -0500 (EST)
+ 18 Nov 2021 05:38:19 -0500 (EST)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>,
  Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>
-Subject: [PATCH v2 00/13] drm: Add generic helpers for HDMI scrambling
-Date: Thu, 18 Nov 2021 11:38:01 +0100
-Message-Id: <20211118103814.524670-1-maxime@cerno.tech>
+Subject: [PATCH v2 01/13] drm/connector: Add helper to check if a mode
+ requires scrambling
+Date: Thu, 18 Nov 2021 11:38:02 +0100
+Message-Id: <20211118103814.524670-2-maxime@cerno.tech>
 X-Mailer: git-send-email 2.33.1
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20211118103814.524670-1-maxime@cerno.tech>
+References: <20211118103814.524670-1-maxime@cerno.tech>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,65 +87,49 @@ Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,=0D
-=0D
-This is a follow-up of the work to support the interactions between the hot=
-plug=0D
-and the scrambling support for vc4:=0D
-=0D
-https://lore.kernel.org/dri-devel/20210507150515.257424-11-maxime@cerno.tec=
-h/=0D
-https://lore.kernel.org/dri-devel/20211025152903.1088803-10-maxime@cerno.te=
-ch/=0D
-=0D
-Ville feedback was that the same discussion happened some time ago for i915=
-,=0D
-and resulted in a function to do an full disable/enable cycle on reconnecti=
-on=0D
-to avoid breaking the HDMI 2.0 spec.=0D
-=0D
-This series improves the current scrambling support by adding generic helpe=
-rs=0D
-for usual scrambling-related operations, and builds upon them to provide a=
-=0D
-generic alternative to intel_hdmi_reset_link.=0D
-=0D
-Let me know what you think,=0D
-Maxime=0D
-=0D
-Changes from v1:=0D
-  - Dropped the 340MHz define=0D
-  - Make drm_mode_hdmi_requires_scrambling use the bpc=0D
-  - Make more drm_display_mode const in vc4=0D
-  - Dropped the tegra conversion=0D
-  - Added more comments=0D
-=0D
-Maxime Ripard (13):=0D
-  drm/connector: Add helper to check if a mode requires scrambling=0D
-  drm/atomic: Add HDMI scrambler state helper=0D
-  drm/atomic: Add HDMI reset link helper=0D
-  drm/scdc: Document hotplug gotchas=0D
-  drm/vc4: hdmi: Constify drm_display_mode=0D
-  drm/vc4: hdmi: Remove unused argument in vc4_hdmi_supports_scrambling=0D
-  drm/vc4: hdmi: Remove mutex in detect=0D
-  drm/vc4: hdmi: Remove HDMI flag from encoder=0D
-  drm/vc4: hdmi: Simplify the hotplug handling=0D
-  drm/vc4: hdmi: Simplify the connector state retrieval=0D
-  drm/vc4: hdmi: Switch to detect_ctx=0D
-  drm/vc4: hdmi: Leverage new SCDC atomic_check=0D
-  drm/vc4: hdmi: Reset link on hotplug=0D
-=0D
- drivers/gpu/drm/drm_atomic_helper.c       | 109 +++++++++=0D
- drivers/gpu/drm/drm_atomic_state_helper.c |  58 +++++=0D
- drivers/gpu/drm/drm_scdc_helper.c         |  13 ++=0D
- drivers/gpu/drm/vc4/vc4_hdmi.c            | 257 ++++++++++------------=0D
- drivers/gpu/drm/vc4/vc4_hdmi.h            |  19 +-=0D
- include/drm/drm_atomic_helper.h           |   3 +=0D
- include/drm/drm_atomic_state_helper.h     |   3 +=0D
- include/drm/drm_connector.h               |  25 +++=0D
- include/drm/drm_modes.h                   |  20 ++=0D
- 9 files changed, 353 insertions(+), 154 deletions(-)=0D
-=0D
--- =0D
-2.33.1=0D
-=0D
+Most drivers supporting the HDMI scrambling seem to have the HDMI 1.4
+maximum frequency open-coded, and a function to test whether a display
+mode is above that threshold to control whether or not scrambling should
+be enabled.
+
+Let's create a common define and helper for drivers to reuse.
+
+Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+---
+ include/drm/drm_modes.h | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
+
+diff --git a/include/drm/drm_modes.h b/include/drm/drm_modes.h
+index 29ba4adf0c53..3bbf98ae59ae 100644
+--- a/include/drm/drm_modes.h
++++ b/include/drm/drm_modes.h
+@@ -424,6 +424,26 @@ static inline bool drm_mode_is_stereo(const struct drm_display_mode *mode)
+ 	return mode->flags & DRM_MODE_FLAG_3D_MASK;
+ }
+ 
++/**
++ * drm_mode_hdmi_requires_scrambling - Checks if a mode requires HDMI Scrambling
++ * @mode: DRM display mode
++ * @bpc: Pixels bit depth
++ *
++ * Checks if a given display mode requires the scrambling to be enabled.
++ *
++ * Returns:
++ * A boolean stating whether it's required or not.
++ */
++static inline bool
++drm_mode_hdmi_requires_scrambling(const struct drm_display_mode *mode,
++				  unsigned char bpc)
++{
++	unsigned long long clock = mode->crtc_clock * bpc;
++	do_div(clock, 8);
++
++	return mode->clock > 340000;
++}
++
+ struct drm_connector;
+ struct drm_cmdline_mode;
+ 
+-- 
+2.33.1
+
