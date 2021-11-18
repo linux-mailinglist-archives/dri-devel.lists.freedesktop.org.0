@@ -2,60 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F1A3455845
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Nov 2021 10:50:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E6C4455853
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Nov 2021 10:53:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04E946E916;
-	Thu, 18 Nov 2021 09:50:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A9556E928;
+	Thu, 18 Nov 2021 09:53:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
- [IPv6:2a00:1450:4864:20::129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 554CF6E916;
- Thu, 18 Nov 2021 09:50:07 +0000 (UTC)
-Received: by mail-lf1-x129.google.com with SMTP id n12so23255947lfe.1;
- Thu, 18 Nov 2021 01:50:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=gq6degwBZPs1ArloybyTVPtiSsZJBAGT8zBXJgqTiIw=;
- b=kisjHdwB5zLMtmFjbef2KYKSkmzQWvOiqOdKhPL7adczBhS6XCPpdawwbHYHlUbMIn
- ytRBAwa/XPa1y2T1WXTVOXXODsKnJyKja1mZScYEqXk+BPGwD8lnSngnG0sS53sCY/Dz
- HIw/QRTPAI0J4iV87G/sob4Un028aJXTWfgi73ajbi0TAkCLMXSJ9fbeLNprm9r5l/vA
- KA/adqUp1LXk7oXr58fzAhyTCtjD9To5QqdFktpNg9/tGBTEzAEIDsJ5NwxHkbyy5tXc
- ouwS6EdtGW5RcfgJCNey9pFbiWHseQgZYC2W+5b89wn0qV4JH4jBqzrrUf4URYHj92QE
- 3vyg==
+Received: from mail-yb1-xb33.google.com (mail-yb1-xb33.google.com
+ [IPv6:2607:f8b0:4864:20::b33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC2036E928
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Nov 2021 09:53:24 +0000 (UTC)
+Received: by mail-yb1-xb33.google.com with SMTP id u60so16259638ybi.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Nov 2021 01:53:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fooishbar-org.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=MSn2l1CqdA8yauQEkr9Er3RNk6u1ntHr6p1PYu6dVHg=;
+ b=dDOwOtPhdIx/Z6wlXdmhq5eHw+zn3sTxhiwhM8bwK0qsSjMrv87LuWgGjB+hvBF1gO
+ KAkU4dZQDEFk8bJ9kl6vT0RtgwW37qkbVh+eqDqShAqujemCxqj74rDSFOBDnmtMWJfd
+ Wa59tfUQ5Xt1k1lQBQPszUiMcZ8ao42aLt6J7mAsB9DeGD6VmaRQyzfWXIkDmTKD0+A5
+ HuGxufiKqxsqU7yk2T68PV36jEw8yr4m0iDPwjA/OGi7c47YWvqgmbA4uEu7zu55DZNI
+ FNJyOcN0GkcuA17E+CIwIzaGXX2Jj3HFsgE8Oi1Na2jK+jRhYQUYpjc4fBnvrmcOh9cL
+ tS2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=gq6degwBZPs1ArloybyTVPtiSsZJBAGT8zBXJgqTiIw=;
- b=a1Nph3CZ3Q/VcNoiNFs/ZjxmPg0+nofRJuITTNWJTbHUeodS/legT8VS0SSznAv+GV
- m+KYkQXTpn+X1+Elnrnxj+C4zCeil3sPYqGclLR0LwEuwXATejOYwTowRy4UtYoaXk2q
- 7R7mN1BTFMrtdRJbcFo938lt3RLGQ1NylAHuDKJWOyrFgmmfL+x/TxJbzBIGyqU428/w
- FHhUSc0QisgLXX0EZPokAw7AftI6galpo3VCzPRharJSPrk0VtH6ThNWPSsht/MhamTO
- h1EPguVgtqtsXtykDd9n1KNunVYEYbY5Q/3SESQDZjzvdcEQtMb5D39rVKTubRbHsK94
- 2QDQ==
-X-Gm-Message-State: AOAM533BwojS9V0nlRAKTLVXa5hREPVt5RIoVxSRHvjD5tYGrMKFY89Z
- UFTzKoTZvh0T9bB28aCmai0=
-X-Google-Smtp-Source: ABdhPJx5ZMxAK9dhZddDATayvhOJjyoOWuerZ29+XnrMz7pFGkO1Yuc9WvmEnxi4Gw6Hj8Kg0Z0XFw==
-X-Received: by 2002:a05:6512:3763:: with SMTP id
- z3mr22105206lft.315.1637229005655; 
- Thu, 18 Nov 2021 01:50:05 -0800 (PST)
-Received: from eldfell ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id v7sm267847ljj.45.2021.11.18.01.50.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 18 Nov 2021 01:50:05 -0800 (PST)
-Date: Thu, 18 Nov 2021 11:50:02 +0200
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Bhanuprakash Modem <bhanuprakash.modem@intel.com>
-Subject: Re: [i-g-t 00/14] Add IGT support for plane color management
-Message-ID: <20211118115002.14003184@eldfell>
-In-Reply-To: <20211115094759.520955-1-bhanuprakash.modem@intel.com>
-References: <20211115094759.520955-1-bhanuprakash.modem@intel.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=MSn2l1CqdA8yauQEkr9Er3RNk6u1ntHr6p1PYu6dVHg=;
+ b=vLQ7NG4E8IHD5vI0FgkhhPEm6vGOsZG5A1EPYVcLNKXDY6NKMZTPMKAwGOOVe52wYN
+ 1KzO40RRDxGFhPrTJNiAWffuwrmv9EuallAEK/24w3QMImvofdpmoOQzHACP/uHqnTgO
+ gagHBFiCT5sU5tAVT18lI+ubXSKZq4zNpKS7pWIxaz7V2rdGJtpg1dKGl8KEyV/ApeMP
+ S4i7tmnn78MWB9K9LWaQhmHcxMbKrvBtcZk3/e6a3FyUYbxU8GQvhSpGHD4ERvVMOy81
+ KTqDOvIwnL4tYyDtpWCvGgKFG1cA5p7EBZjvBETNtcrEPUvR6el/ICe0lCt+Ak3/cxuo
+ 2JaQ==
+X-Gm-Message-State: AOAM530IV/qbK6yLOWZB5pX/Z4aDgBYTCW2AYZIr9uL2C7RBppUk57Jj
+ Ok6CM7r7BtTMAcpJEHIs051EiCdR/K4yv25SvPdwtw==
+X-Google-Smtp-Source: ABdhPJzWC+pD/mBRLS7w06KhnNT4hJCKzQOj9GIHlCC3obzrQKAOBWZGePiBMEvH6LBikSDUuXIczk0NDRtKOW5Pp9o=
+X-Received: by 2002:a25:73d0:: with SMTP id o199mr24604313ybc.87.1637229203749; 
+ Thu, 18 Nov 2021 01:53:23 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/7pYQw2hfzjuE2r=j._k=rHe";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+References: <20211117143347.314294-1-s.hauer@pengutronix.de>
+ <3bbf42f3-bd9c-ed66-e421-8d78fbeb22ad@rock-chips.com>
+ <4310886.V3yF0ifEZO@diego>
+In-Reply-To: <4310886.V3yF0ifEZO@diego>
+From: Daniel Stone <daniel@fooishbar.org>
+Date: Thu, 18 Nov 2021 09:53:11 +0000
+Message-ID: <CAPj87rPNSt7nZX93prAYD3Emf-34RdTZWp_1TOuAybBebObZhQ@mail.gmail.com>
+Subject: Re: [PATCH v1 00/12] drm/rockchip: RK356x VOP2 support
+To: =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,95 +66,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: igt-dev@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>, kernel@pengutronix.de,
+ Sascha Hauer <s.hauer@pengutronix.de>, Kever Yang <kever.yang@rock-chips.com>,
+ dri-devel@lists.freedesktop.org, Sandy Huang <hjc@rock-chips.com>,
+ linux-rockchip@lists.infradead.org,
+ Michael Riesch <michael.riesch@wolfvision.net>,
+ Peter Geis <pgwipeout@gmail.com>,
+ =?UTF-8?B?6Zer5a2d5Yab?= <andy.yan@rock-chips.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/7pYQw2hfzjuE2r=j._k=rHe
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, 15 Nov 2021 15:17:45 +0530
-Bhanuprakash Modem <bhanuprakash.modem@intel.com> wrote:
-
-> From the Plane Color Management feature design, userspace can
-> take the smart blending decisions based on hardware supported
-> plane color features to obtain an accurate color profile.
->=20
-> These IGT patches extend the existing pipe color management
-> tests to the plane level.
->=20
-> Kernel implementation:
-> https://patchwork.freedesktop.org/series/90825/
-
 Hi,
 
-it's really good to get these, but I am worried that the tests here may
-be too easy to pass when trying to ensure the KMS features work
-correctly and in the way real userspace is going to be using them.
+On Thu, 18 Nov 2021 at 09:26, Heiko St=C3=BCbner <heiko@sntech.de> wrote:
+> Am Donnerstag, 18. November 2021, 02:27:10 CET schrieb Kever Yang:
+> > I don't agree with this, we do believe you have do some clean up to mee=
+t
+> > the requirement
+> >
+> > of upstream, but all the framework and feature implement are from
+> > Rockchip engineer,
+> >
+> > we have made a great effort to make everything work which block us to
+> > upstream this driver for now.
+>
+> I don't fully understand what you mean here (language barrier probably),
+> but dropping non-essential functionality in a first round is pretty commo=
+n
+> to at least get basic functionality working for everyone. With the specia=
+l
+> features getting added again in later patches over time. This happenened
+> on the old vop as well.
+>
+> And of course, having a kernel that can "just" do normal graphics without
+> the additional features is still preferable over having _NO_ graphics sup=
+port
+> at all ;-)
+>
+> > NAK for this series.
+>
+> As you might've seen from previous graphics related patches, there
+> is a big number of people _and companies_ that seems to want/need
+> to work with the rk3566/rk3568 with a kernel based on mainline.
+>
+> --> Most likely even in real products!
 
-I also found some things that looked hardware-specific in this code
-that to my understanding is supposed to be generic, and some concerns
-about UAPI as well.
+Yes, we've been trying to ship a real product based on RK356x. We
+started by using the vendor VOP2 driver, but it is broken beyond
+belief. The driver needs a fundamental ground-up rework, and all the
+additional features get in the way of doing this core rework to make
+it actually function correctly.
 
+So, NAK to the NAK. I would like to see the VOP2 support start simple,
+with more features being added one by one.
 
-Thanks,
-pq
+> While Rockchip did say that they want to upstream VOP2 support, there
+> has been _NO_ movement or even information at all on this over at least
+> the last year(!), so it's pretty understandable that developers will do t=
+his
+> themself at some point, because they don't want to wait anymore for
+> something that might never happen.
+>
+> So a simple "NAK" without additional information is not really helpful he=
+re.
+>
+> If you don't like Sascha's series, I really want to know _WHEN_ Rockchip
+> plans on upstreaming at least basic graphis support themself.
+>
+> The kernel is often called a do-ocracy - the one who does the work, gets
+> to decide. So if you really don't like Sascha's series at all, I do expec=
+t
+> Rockchip to step up and provide a solution themself - and in a usable
+> timeframe.
 
-> Bhanuprakash Modem (11):
->   HAX: Get uapi headers to compile the IGT
->   lib/igt_kms: Add plane color mgmt properties
->   kms_color_helper: Add helper functions for plane color mgmt
->   tests/kms_color: New subtests for Plane gamma
->   tests/kms_color: New subtests for Plane degamma
->   tests/kms_color: New subtests for Plane CTM
->   tests/kms_color: New negative tests for plane level color mgmt
->   tests/kms_color_chamelium: New subtests for Plane gamma
->   tests/kms_color_chamelium: New subtests for Plane degamma
->   tests/kms_color_chamelium: New subtests for Plane CTM
->   tests/kms_color_chamelium: Extended IGT tests to support logarithmic
->     gamma mode
->=20
-> Mukunda Pramodh Kumar (3):
->   lib/igt_kms: Add pipe color mgmt properties
->   kms_color_helper: Add helper functions to support logarithmic gamma
->     mode
->   tests/kms_color: Extended IGT tests to support logarithmic gamma mode
->=20
->  include/drm-uapi/drm.h      |  10 +
->  include/drm-uapi/drm_mode.h |  28 ++
->  lib/igt_kms.c               |   6 +
->  lib/igt_kms.h               |   6 +
->  tests/kms_color.c           | 674 +++++++++++++++++++++++++++++++++++-
->  tests/kms_color_chamelium.c | 588 ++++++++++++++++++++++++++++++-
->  tests/kms_color_helper.c    | 300 ++++++++++++++++
->  tests/kms_color_helper.h    |  45 +++
->  8 files changed, 1648 insertions(+), 9 deletions(-)
->=20
-> --
-> 2.32.0
->=20
+Exactly what Heiko said. If you would like to upstream the driver then
+that would be fantastic to see, but I'm afraid you do not get to
+prevent someone else from doing the work themselves.
 
-
---Sig_/7pYQw2hfzjuE2r=j._k=rHe
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmGWIcoACgkQI1/ltBGq
-qqcjkw//QMxPvkyLCrL3oCmAXL5QHBnQlWuyikpXjYjaD8EF63rvspR+9kk0LG9p
-xmuCZw1CRbA9Z45Duqvea1i2wkwPVGeQFg5HFJ5eKDUdT0r3Khy1OHvwyLW5ucEG
-hgsJPyMM8THW7Gu6PKCK2yN4+mIbfHcL5TlCjgetpENPuNHch0wsURl1OY255Ywx
-k0i68l+Gmkc0pg8KdaR3pHFZOYxoN58rKtlUJHiSF18fZr3smqw9sEZz4Eak1soK
-zjIj0Bi2iW/cEsnDcXVof4F/uPwlvWWIc5hbEVJfVlcDGhyslsyqbAnlhx+c00v8
-HMJecg9CdowT7+/puPJOEdeWUub7E8Fg3Y3UmuLYJmBy/mR1RfoM8joBt7U3h/at
-U9l5Ord6uVN1iv/Ik5FdlezlDygmsojQdXCa/Xd1T6jm4JCkzRi7ugkfsvkV8117
-NmEWLQG8Tt4FPLVbwfBpbqc9Os7ydgbyYqRFusCuicZCZBSUzIK1aZSykkJ7D78p
-UwZXotCI2GZv58oPkTBi3HBQUSHixpITJtI2ChoREQr0WvhShqCma1QatuuVL3NU
-j1pnwzl/QM8vsWOX8w30iMcGxRn8UEizMZyOkAgnB1cw5Hid0wW+bDAauN2L/fkg
-xrIeknFzt5NrU5iZH0HvCLys5MvxrGxpVscfUpHCLk3ixgTuuv0=
-=PYbO
------END PGP SIGNATURE-----
-
---Sig_/7pYQw2hfzjuE2r=j._k=rHe--
+Cheers,
+Daniel
