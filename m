@@ -1,65 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27014455765
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Nov 2021 09:53:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A06C64557A2
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Nov 2021 10:02:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F1B4E6EB6B;
-	Thu, 18 Nov 2021 08:53:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB4026EB73;
+	Thu, 18 Nov 2021 09:02:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com
- [IPv6:2a00:1450:4864:20::531])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D1526EB3C
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Nov 2021 08:53:38 +0000 (UTC)
-Received: by mail-ed1-x531.google.com with SMTP id e3so23733231edu.4
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Nov 2021 00:53:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=iszLrNwG8iKTPExf+jY9k4kG3nN1d43+5rl2AJXa4oA=;
- b=YmVeO/pukl/HkDM3AM0NUli//jwQqFdRLaQpaTOhgUyJifPDPajzbPtzC4sCpd+Nwh
- 4NB4z554Cwyy9svCh26o5vcJEOwjTuZUFfQd8BSlFHMTNR7ZTUPGpfql4h+vbsPUlW11
- p90uGBLNS5XwsJSIYC7teAEgXRN5tlQGA9mA8=
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
+ [IPv6:2a00:1450:4864:20::12b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B47B6EB71;
+ Thu, 18 Nov 2021 09:02:41 +0000 (UTC)
+Received: by mail-lf1-x12b.google.com with SMTP id t26so22483438lfk.9;
+ Thu, 18 Nov 2021 01:02:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:in-reply-to:references
+ :mime-version; bh=/OTPrrxqC2xN4BNoipUjYB/ILd/XL3/E8XFBX+HF9N4=;
+ b=JKbQjvr7j+lrFP7X6bzzrhiSvf8aCj+1G04YkthOM4RunZXFJqlM4DCjkY3bjqFdtw
+ W23j8MFVBI4/ylqrBDbzcXYpRhHWgpWuE7zVgrBxoPGM86KVh/3qjNxncESg92c8ShWI
+ PWtaDXJD61lGS1Us+H8aN6xKFoCUh3Xw4WLQcO8KXTjKP9mCEERNilKdZOgpPl3WfH59
+ EBYXK3ZjkMH0SUEKHCtJP9WOCRywPlsSdTn3jQwmJs0NRH1YHg7etZsifJ5LVUkC7PDn
+ rxpA3PvcG8G2SZ1/747UroC5wIGJUKCVV5eSY8Io5p5DSM9RH9CCG2xa3kNEpybT5+Wb
+ tDIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=iszLrNwG8iKTPExf+jY9k4kG3nN1d43+5rl2AJXa4oA=;
- b=xTttzywv6s9NfTqQ+QmbXF1LuO5yWhuSut1z7Tx9KIjb6apGsjBJYA4iFOb76sUWtI
- 8Xe424DTFs0H5fs022oV79zw4poj+OL/7iVFgJb2aEYvgRL04Tp2qQItCpSBQNQdWMBn
- jzeBJ5/sH101SmcaiDuPDeg3XYJOsJpQy1FaIw/oW52voaH3GOMfFy3p7xhkl/ApjzUH
- dVbFD9Kgb/EBAFWF7DybR6fv5G/REzHvJDwPNc1Vw4co9MXMjtk7mXS+K9aiOyaVhp6v
- tJib6k9vZiezRjAVKCJoOzB6i4d/Mj+cJx23wPCgahsM0fplRI7TZG5vQrfKVDpj22ld
- /fMQ==
-X-Gm-Message-State: AOAM533iDbXgFTOcimCdTMwYJ3gLgiXCoclRjIt1cboQzgQ659zTnNPg
- Pdr3p04RE3/3mc92znh67+a9rQ==
-X-Google-Smtp-Source: ABdhPJwmIhKAToYuyvvvTXPNLlsvdp0r/0R4/Vb/lOSXYB6Lk2B1RGOG1TjkzutPhgPb9H0ya3XRyg==
-X-Received: by 2002:a17:907:c15:: with SMTP id
- ga21mr30487840ejc.349.1637225616577; 
- Thu, 18 Nov 2021 00:53:36 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id s4sm1049522ejn.25.2021.11.18.00.53.35
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version;
+ bh=/OTPrrxqC2xN4BNoipUjYB/ILd/XL3/E8XFBX+HF9N4=;
+ b=nCipZNysJ0FGUuSV8eFdhgKTPAI3+6g/DKZS8Cr2mf1Y461V1fon8eYx1k6wThkj5B
+ jvlNVbdH7o39M/spcGpWPPkmx71EphnIWwK4K6jmYXtsoit45o9B6P/o59E0FlzpMPIq
+ 24j+d3vDSTX2ibjFGTHREU1PCOChF7Q7Q8UhHMB0rPWCKHm01HJqprRtFHxDy8AopHFd
+ z3M62GkWV1rDbJPWMnMc5OBj3BKSy3aIoSmL9h2PFVkXdbkjc57Mslf/PPGalicAA3tY
+ 2hQWJWZEaWE2tfvzQdRjNM23h056m/ik9VI7HitidTJ44SX0RQPkC4kI9q5fCsr9j0vV
+ /2Cg==
+X-Gm-Message-State: AOAM533M5RTLuvGWIUQ748OiBmx2uL15VqrSlpI1AQMA/8wUiH9j6aAm
+ 9hJQgDgKSzwZIValr/42tFY=
+X-Google-Smtp-Source: ABdhPJyNky8MtVzDkfalAvE0/HcHOkgDDLsMb/j+aOp+JbDEar3dzl6VlQkdzVNW/zdQvcKa/XUCvw==
+X-Received: by 2002:ac2:5932:: with SMTP id v18mr21755401lfi.611.1637226159688; 
+ Thu, 18 Nov 2021 01:02:39 -0800 (PST)
+Received: from eldfell ([194.136.85.206])
+ by smtp.gmail.com with ESMTPSA id l18sm237831lfc.97.2021.11.18.01.02.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 18 Nov 2021 00:53:35 -0800 (PST)
-Date: Thu, 18 Nov 2021 09:53:34 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Gurchetan Singh <gurchetansingh@chromium.org>
-Subject: Re: [PATCH v3 11/12] drm/virtio: implement context init: add
- virtio_gpu_fence_event
-Message-ID: <YZYUjh73sPYISNKc@phenom.ffwll.local>
-References: <20210921232024.817-1-gurchetansingh@chromium.org>
- <20210921232024.817-12-gurchetansingh@chromium.org>
- <YY/RBOdU6+SgbRrq@kroah.com> <YZJrutLaiwozLfSw@phenom.ffwll.local>
- <bc799da264c045fb9ad9ccad5dfba631@intel.com>
- <YZPRhZDcU3/VYWgb@phenom.ffwll.local>
- <CAAfnVBms1Bi8MnaCZVv=4dgoG+REVzZ-zFq-hRQ-4tCzYBrDdA@mail.gmail.com>
+ Thu, 18 Nov 2021 01:02:39 -0800 (PST)
+Date: Thu, 18 Nov 2021 11:02:33 +0200
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Bhanuprakash Modem <bhanuprakash.modem@intel.com>
+Subject: Re: [i-g-t 04/14] tests/kms_color: New subtests for Plane gamma
+Message-ID: <20211118110233.7fdcc066@eldfell>
+In-Reply-To: <20211115094759.520955-5-bhanuprakash.modem@intel.com>
+References: <20211115094759.520955-1-bhanuprakash.modem@intel.com>
+ <20211115094759.520955-5-bhanuprakash.modem@intel.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAAfnVBms1Bi8MnaCZVv=4dgoG+REVzZ-zFq-hRQ-4tCzYBrDdA@mail.gmail.com>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+Content-Type: multipart/signed; boundary="Sig_/_Qke0eYh.h6d7MR=cf_zjNa";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,167 +68,289 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "virtio-dev@lists.oasis-open.org" <virtio-dev@lists.oasis-open.org>,
- Greg KH <gregkh@linuxfoundation.org>, "Kasireddy,
- Vivek" <vivek.kasireddy@intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "kraxel@redhat.com" <kraxel@redhat.com>
+Cc: igt-dev@lists.freedesktop.org, Uma Shankar <uma.shankar@intel.com>,
+ dri-devel@lists.freedesktop.org,
+ Juha-Pekka Heikkila <juhapekka.heikkila@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 16, 2021 at 06:31:10PM -0800, Gurchetan Singh wrote:
-> On Tue, Nov 16, 2021 at 7:43 AM Daniel Vetter <daniel@ffwll.ch> wrote:
-> 
-> > On Mon, Nov 15, 2021 at 07:26:14PM +0000, Kasireddy, Vivek wrote:
-> > > Hi Daniel, Greg,
-> > >
-> > > If it is the same or a similar crash reported here:
-> > >
-> > https://lists.freedesktop.org/archives/dri-devel/2021-November/330018.html
-> > > and here:
-> > https://lists.freedesktop.org/archives/dri-devel/2021-November/330212.html
-> > > then the fix is already merged:
-> > >
-> > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=d89c0c8322ecdc9a2ec84b959b6f766be082da76
-> 
-> Yeah but that still leaves the problem of why exaxtly virtgpu is
-> > reinventing drm_poll here?
-> 
-> 
-> > Can you please replace it with drm_poll like all other drivers, including
-> > the ones that have private events?
-> >
-> 
-> Hi Daniel,
-> 
-> Allow me to explain the use case a bit.  It's for when virtgpu KMS is not
-> used, but a special Wayland compositor does wayland passthrough instead:
-> 
-> https://www.youtube.com/watch?v=WwrXqDERFm8https://www.youtube.com/watch?v=EkNBsBx501Q
-> 
-> This technique has gained much popularity in the virtualized laptop
-> space, where it offers better performance/user experience than virtgpu
-> KMS.  The relevant paravirtualized userspace is "Sommelier":
-> 
-> https://chromium.googlesource.com/chromiumos/platform2/+/main/vm_tools/sommelier/
-> https://chromium.googlesource.com/chromiumos/platform2/+/main/vm_tools/sommelier/virtualization/virtgpu_channel.cc
-> 
-> Previously, we were using the out-of-tree virtio-wl device and there
-> were many discussions on how we could get this upstream:
-> 
-> https://lists.freedesktop.org/archives/dri-devel/2017-December/160309.html
-> https://lists.oasis-open.org/archives/virtio-dev/202002/msg00005.html
-> 
-> Extending virtgpu was deemed the least intrusive option:
-> 
-> https://www.spinics.net/lists/kvm/msg159206.html
-> 
-> We ultimately settled on the context type abstraction and used
-> virtio_gpu_poll to tell the guest "hey, we have a Wayland event".  The
-> host response is actually in a buffer of type BLOB_MEM_GUEST.
-> 
-> It is possible to use drm_poll(..), but that would have to be
-> accompanied by a drm_read(..).  You'll need to define a dummy
-> VIRTGPU_EVENT_FENCE_SIGNALED in the uapi too.
-> 
-> That's originally how I did it, but some pointed out that's
-> unnecessary since the host response is in the BLOB_MEM_GUEST buffer
-> and virtgpu event is a dummy event.  So we decided just to modify
-> virtio_gpu_poll(..) to have the desired semantics in that case.
-> 
-> For the regular virtio-gpu KMS path, things remain unchanged.
-> 
-> There are of course other ways to do it (perhaps polling a dma_fence),
-> but that was the cleanest way we could find.
-> 
-> It's not rare for virtio to "special things" (see virtio_dma_buf_ops,
-> virtio_dma_ops), since they are in fake devices.
+--Sig_/_Qke0eYh.h6d7MR=cf_zjNa
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-These are all internal interfaces, not uapi.
+On Mon, 15 Nov 2021 15:17:49 +0530
+Bhanuprakash Modem <bhanuprakash.modem@intel.com> wrote:
 
-> We're open to other ideas, but hopefully that answers some of your
-> questions.
+> To verify Plane gamma, draw 3 gradient rectangles in red, green and blue,
+> with a maxed out gamma LUT and verify we have the same CRC as drawing sol=
+id
+> color rectangles.
+>=20
+> Cc: Harry Wentland <harry.wentland@amd.com>
+> Cc: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
+> Cc: Juha-Pekka Heikkila <juhapekka.heikkila@gmail.com>
+> Cc: Uma Shankar <uma.shankar@intel.com>
+> Signed-off-by: Bhanuprakash Modem <bhanuprakash.modem@intel.com>
+> ---
+>  tests/kms_color.c | 179 +++++++++++++++++++++++++++++++++++++++++++++-
+>  1 file changed, 178 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/tests/kms_color.c b/tests/kms_color.c
+> index 775f35964f..b45d66762f 100644
+> --- a/tests/kms_color.c
+> +++ b/tests/kms_color.c
+> @@ -24,7 +24,34 @@
+> =20
+>  #include "kms_color_helper.h"
+> =20
+> -IGT_TEST_DESCRIPTION("Test Color Features at Pipe level");
+> +IGT_TEST_DESCRIPTION("Test Color Features at Pipe & Plane level");
+> +
+> +#define MAX_SUPPORTED_PLANES 7
+> +#define SDR_PLANE_BASE 3
+> +
+> +typedef bool (*test_t)(data_t*, igt_plane_t*);
+> +
+> +static bool is_hdr_plane(const igt_plane_t *plane)
+> +{
+> +	return plane->index >=3D 0 && plane->index < SDR_PLANE_BASE;
 
-Well for one, why does the commit message not explain any of this. You're
-building uapi, which is forever, it's paramount all considerations are
-properly explained.
+How can this be right for all KMS drivers?
 
-Second, I really don't like that youre redefining poll semantics in
-incompatible ways from all other drm drivers. If you want special poll
-semantics then just create a sperate fd for that (or a dma_fence or
-whatever, maybe that saves some typing), but bending the drm fd semantics
-is no good at all. We have tons of different fd with their dedicated
-semantics in drm, trying to shoehorn it all into one just isn't very good
-design.
+What is a HDR plane?
 
-Or do the dummy event which is just the event code, but does not contain
-any data. Either is fine with me.
+> +}
+> +
+> +static bool is_valid_plane(igt_plane_t *plane)
+> +{
+> +	int index =3D plane->index;
+> +
+> +	if (plane->type !=3D DRM_PLANE_TYPE_PRIMARY)
+> +		return false;
+> +
+> +	/*
+> +	 * Test 1 HDR plane, 1 SDR plane.
+> +	 *
+> +	 * 0,1,2 HDR planes
+> +	 * 3,4,5,6 SDR planes
 
-Can you pls do this asap? I really don't want to bake this in as uapi
-which we then have to quirk and support forever. I'd say revert for -rc2
-of these two and then maybe sort it out properly in -next.
+As above, where does this come from? Is this your hardware?
 
-Cheers, Daniel
-> 
-> 
-> > Thanks, Daniel
-> >
-> > >
-> > > Thanks,
-> > > Vivek
-> > >
-> > > > On Sat, Nov 13, 2021 at 03:51:48PM +0100, Greg KH wrote:
-> > > > > On Tue, Sep 21, 2021 at 04:20:23PM -0700, Gurchetan Singh wrote:
-> > > > > > Similar to DRM_VMW_EVENT_FENCE_SIGNALED.  Sends a pollable event
-> > > > > > to the DRM file descriptor when a fence on a specific ring is
-> > > > > > signaled.
-> > > > > >
-> > > > > > One difference is the event is not exposed via the UAPI -- this is
-> > > > > > because host responses are on a shared memory buffer of type
-> > > > > > BLOB_MEM_GUEST [this is the common way to receive responses with
-> > > > > > virtgpu].  As such, there is no context specific read(..)
-> > > > > > implementation either -- just a poll(..) implementation.
-> > > > > >
-> > > > > > Signed-off-by: Gurchetan Singh <gurchetansingh@chromium.org>
-> > > > > > Acked-by: Nicholas Verne <nverne@chromium.org>
-> > > > > > ---
-> > > > > >  drivers/gpu/drm/virtio/virtgpu_drv.c   | 43
-> > +++++++++++++++++++++++++-
-> > > > > >  drivers/gpu/drm/virtio/virtgpu_drv.h   |  7 +++++
-> > > > > >  drivers/gpu/drm/virtio/virtgpu_fence.c | 10 ++++++
-> > > > > >  drivers/gpu/drm/virtio/virtgpu_ioctl.c | 34 ++++++++++++++++++++
-> > > > > >  4 files changed, 93 insertions(+), 1 deletion(-)
-> > > > >
-> > > > > This commit seems to cause a crash in a virtual drm gpu driver for
-> > > > > Android.  I have reverted this, and the next commit in the series
-> > from
-> > > > > Linus's tree and all is good again.
-> > > > >
-> > > > > Any ideas?
-> > > >
-> > > > Well no, but also this patch looks very questionable of hand-rolling
-> > > > drm_poll. Yes you can do driver private events like
-> > > > DRM_VMW_EVENT_FENCE_SIGNALED, that's fine. But you really should not
-> > need
-> > > > to hand-roll the poll callback. vmwgfx (which generally is a very old
-> > > > driver which has lots of custom stuff, so not a great example) doesn't
-> > do
-> > > > that either.
-> > > >
-> > > > So that part should go no matter what I think.
-> > > > -Daniel
-> > > > --
-> > > > Daniel Vetter
-> > > > Software Engineer, Intel Corporation
-> > > > http://blog.ffwll.ch
-> >
-> > --
-> > Daniel Vetter
-> > Software Engineer, Intel Corporation
-> > http://blog.ffwll.ch
-> >
+> +	 *
+> +	 */
+> +	return index >=3D 0 && index < MAX_SUPPORTED_PLANES;
+> +}
+> =20
+>  static void test_pipe_degamma(data_t *data,
+>  			      igt_plane_t *primary)
+> @@ -638,6 +665,122 @@ static void test_pipe_limited_range_ctm(data_t *dat=
+a,
+>  }
+>  #endif
+> =20
+> +static bool plane_gamma_test(data_t *data, igt_plane_t *plane)
+> +{
+> +	igt_output_t *output;
+> +	igt_display_t *display =3D &data->display;
+> +	drmModeModeInfo *mode;
+> +	struct igt_fb fb;
+> +	drmModePropertyPtr gamma_mode =3D NULL;
+> +	uint32_t i;
+> +	bool ret =3D true;
+> +	igt_pipe_crc_t *pipe_crc =3D NULL;
+> +	color_t red_green_blue[] =3D {
+> +		{ 1.0, 0.0, 0.0 },
+> +		{ 0.0, 1.0, 0.0 },
+> +		{ 0.0, 0.0, 1.0 }
+> +	};
+> +
+> +	igt_info("Plane gamma test is running on pipe-%s plane-%s(%s)\n",
+> +			kmstest_pipe_name(plane->pipe->pipe),
+> +			kmstest_plane_type_name(plane->type),
+> +			is_hdr_plane(plane) ? "hdr":"sdr");
+> +
+> +	igt_require(igt_plane_has_prop(plane, IGT_PLANE_GAMMA_MODE));
+> +	igt_require(igt_plane_has_prop(plane, IGT_PLANE_GAMMA_LUT));
+> +
+> +	pipe_crc =3D igt_pipe_crc_new(data->drm_fd,
+> +				  plane->pipe->pipe,
+> +				  INTEL_PIPE_CRC_SOURCE_AUTO);
+> +
+> +	output =3D igt_get_single_output_for_pipe(display, plane->pipe->pipe);
+> +	igt_assert(output);
+> +
+> +	igt_output_set_pipe(output, plane->pipe->pipe);
+> +	mode =3D igt_output_get_mode(output);
+> +
+> +	/* Create a framebuffer at the size of the output. */
+> +	igt_assert(igt_create_fb(data->drm_fd,
+> +			      mode->hdisplay,
+> +			      mode->vdisplay,
+> +			      DRM_FORMAT_XRGB8888,
+> +			      DRM_FORMAT_MOD_LINEAR,
+> +			      &fb));
+> +	igt_plane_set_fb(plane, &fb);
+> +
+> +	/* Disable Pipe color props. */
+> +	disable_ctm(plane->pipe);
+> +	disable_degamma(plane->pipe);
+> +	disable_gamma(plane->pipe);
+> +
+> +	disable_plane_ctm(plane);
+> +	disable_plane_degamma(plane);
+> +	igt_display_commit2(display, display->is_atomic ?
+> +					COMMIT_ATOMIC : COMMIT_LEGACY);
+> +
+> +	gamma_mode =3D get_plane_gamma_degamma_mode(plane, IGT_PLANE_GAMMA_MODE=
+);
+> +
+> +	/* Iterate all supported gamma modes. */
+> +	for (i =3D 0; i < gamma_mode->count_enums; i++) {
+> +		igt_crc_t crc_gamma, crc_fullcolors;
+> +		segment_data_t *segment_info =3D NULL;
+> +		struct drm_color_lut_ext *lut =3D NULL;
+> +		uint32_t lut_size =3D 0;
+> +
+> +		/* Ignore 'no gamma' from enum list. */
+> +		if (!strcmp(gamma_mode->enums[i].name, "no gamma"))
+> +			continue;
+> +
+> +		igt_info("Trying to use gamma mode: \'%s\'\n", gamma_mode->enums[i].na=
+me);
+> +
+> +		/* Draw solid colors with no gamma transformation. */
+> +		disable_plane_gamma(plane);
+> +		paint_rectangles(data, mode, red_green_blue, &fb);
+> +		igt_plane_set_fb(plane, &fb);
+> +		igt_display_commit2(display, display->is_atomic ?
+> +					COMMIT_ATOMIC : COMMIT_LEGACY);
+> +		igt_wait_for_vblank(data->drm_fd,
+> +			display->pipes[plane->pipe->pipe].crtc_offset);
+> +		igt_pipe_crc_collect_crc(pipe_crc, &crc_fullcolors);
+> +
+> +		/* Draw gradient colors with gamma LUT to remap all
+> +		 * values to max red/green/blue.
+> +		 */
+> +		segment_info =3D get_segment_data(data, gamma_mode->enums[i].value,
+> +				gamma_mode->enums[i].name);
+> +		lut_size =3D sizeof(struct drm_color_lut_ext) * segment_info->entries_=
+count;
+> +		lut =3D create_max_lut(segment_info);
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Using max LUT seems like a weak test. I recall seeing problem reports
+related to alpha blending where trying to display an alpha gradient
+essentially resulted in what max LUT would produce.
+
+
+Thanks,
+pq
+
+> +		set_plane_gamma(plane, gamma_mode->enums[i].name, lut, lut_size);
+> +
+> +		paint_gradient_rectangles(data, mode, red_green_blue, &fb);
+> +		igt_plane_set_fb(plane, &fb);
+> +		igt_display_commit2(display, display->is_atomic ?
+> +					COMMIT_ATOMIC : COMMIT_LEGACY);
+> +		igt_wait_for_vblank(data->drm_fd,
+> +			display->pipes[plane->pipe->pipe].crtc_offset);
+> +		igt_pipe_crc_collect_crc(pipe_crc, &crc_gamma);
+> +
+> +		/* Verify that the CRC of the software computed output is
+> +		 * equal to the CRC of the gamma LUT transformation output.
+> +		 */
+> +		ret &=3D igt_check_crc_equal(&crc_gamma, &crc_fullcolors);
+> +
+> +		free(lut);
+> +		clear_segment_data(segment_info);
+> +	}
+> +
+> +	disable_plane_gamma(plane);
+> +	igt_plane_set_fb(plane, NULL);
+> +	igt_output_set_pipe(output, PIPE_NONE);
+> +	igt_display_commit2(display, display->is_atomic ?
+> +					COMMIT_ATOMIC : COMMIT_LEGACY);
+> +
+> +	igt_pipe_crc_free(pipe_crc);
+> +	drmModeFreeProperty(gamma_mode);
+> +
+> +	return ret;
+> +}
+> +
+>  static void
+>  prep_pipe(data_t *data, enum pipe p)
+>  {
+> @@ -890,6 +1033,37 @@ run_invalid_tests_for_pipe(data_t *data, enum pipe =
+p)
+>  		invalid_ctm_matrix_sizes(data, p);
+>  }
+> =20
+> +static void run_plane_color_test(data_t *data, enum pipe pipe, test_t te=
+st)
+> +{
+> +	igt_plane_t *plane;
+> +	int count =3D 0;
+> +
+> +	for_each_plane_on_pipe(&data->display, pipe, plane) {
+> +		if (!is_valid_plane(plane))
+> +			continue;
+> +
+> +		igt_assert(test(data, plane));
+> +
+> +		count++;
+> +	}
+> +
+> +	igt_require_f(count, "No valid planes found.\n");
+> +}
+> +
+> +static void run_tests_for_plane(data_t *data, enum pipe pipe)
+> +{
+> +	igt_fixture {
+> +		igt_require_pipe(&data->display, pipe);
+> +		igt_require_pipe_crc(data->drm_fd);
+> +		igt_require(data->display.pipes[pipe].n_planes > 0);
+> +		igt_display_require_output_on_pipe(&data->display, pipe);
+> +	}
+> +
+> +	igt_describe("Compare maxed out plane gamma LUT and solid color linear =
+LUT");
+> +	igt_subtest_f("pipe-%s-plane-gamma", kmstest_pipe_name(pipe))
+> +		run_plane_color_test(data, pipe, plane_gamma_test);
+> +}
+> +
+>  igt_main
+>  {
+>  	data_t data =3D {};
+> @@ -910,6 +1084,9 @@ igt_main
+> =20
+>  		igt_subtest_group
+>  			run_invalid_tests_for_pipe(&data, pipe);
+> +
+> +		igt_subtest_group
+> +			run_tests_for_plane(&data, pipe);
+>  	}
+> =20
+>  	igt_fixture {
+
+
+--Sig_/_Qke0eYh.h6d7MR=cf_zjNa
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmGWFqoACgkQI1/ltBGq
+qqdT7hAAieL4HIkO/pSjrzX4715OJka9906A8VZRElGpnydpwLpc4jX1whNr0PiT
+qiYDVhWW9yY7RPzpsPQutraCTmRCzx/rXEaVktb1mrq/behfVt8/qlTOf74USStO
+TAVXWpsiXjZWvichJ5XAtE8lB3yi2phZqCq3kl06LgsbgD3hlfNfCpMvHEi0B54f
+kftOvPFGTvqlT1kX5a4xz+RBUTI5b70JPrnG7f5kPF2URD4kIAZ0NH75xpGUknts
+2g03GCQvFILxfZecPlqeoxGilSZ7oYXndws1dXPdgPuKW50aISDAjYgMmMItZoiR
+D1TCK6hZbvmy8mK3qkF331Xhg4Zjlhi5pl1OkKbaiABsvie3VPFSWOAp6trDFS0B
+VKmawZYotfaEwGzfzhhdhwDqZeue00kpu2G6SndaFXkFBSzuwaYWitv9soiGbool
+LScJ6yZ8nW+NfYMoFrDZ73BpOqZa1nXr+GgIWzye7ozORcuk+iIgyLTpiaoX5NPM
+bRazlmRCWkuSbciUupNMRh0M/LYEEV+B8qlScFWTy9RKaTAq41KjK+G+ZZ+4TJVy
+WYD6EGGJwli+nR4CKUODcfQeXbSQy1+nQIlIarGxmnKPRtx/OC9NGzMKP30U/ccx
+c2MVZ6q6ROEDfOFDBEXbo9zKe6me7B7t+EjDHxboUd6DYnrxWQ4=
+=5cGO
+-----END PGP SIGNATURE-----
+
+--Sig_/_Qke0eYh.h6d7MR=cf_zjNa--
