@@ -1,62 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94288455B3A
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Nov 2021 13:07:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B6A2D455B8B
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Nov 2021 13:32:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4ABB76EB39;
-	Thu, 18 Nov 2021 12:07:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 469156E914;
+	Thu, 18 Nov 2021 12:32:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com
- [IPv6:2607:f8b0:4864:20::b29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 854F46EB39
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Nov 2021 12:07:41 +0000 (UTC)
-Received: by mail-yb1-xb29.google.com with SMTP id s186so17212635yba.12
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Nov 2021 04:07:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fooishbar-org.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=xwZffm/5Q8IyR874NzvVEMvt4aoVvniu9ZnJ+G9kWsk=;
- b=gacIVoLMap3lXg4tEH0YwcCLfAkqG5ikXwvtcn15HF9vj31J4B+VGr0sZYN3Je+vAQ
- BaEDod3ldNon04MG0LZoL0x1bEnWZllYeoWfnQFsOJHVAVjSYD66bkMahT/uQyQU/+oc
- zETPeEZ6Fqd0dphOvpeT9KbkEtdYz8hJPH9DMRZZNb6n4xr/T0WmeBZBlMbWs+wj1+VL
- R8N5un9YMXJPuM/g4XfFtPweXpRTGHkX/e6u/dIBJUuMhNtI6+5Rgfq0D9yABnU3caVz
- 7+/tE/MXx648QKl9SCOkT6LZ3YOtQxbIu945mWxzLssEVIJkuj97w7l3IgOnK5KiBfpD
- twZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=xwZffm/5Q8IyR874NzvVEMvt4aoVvniu9ZnJ+G9kWsk=;
- b=lZBTOEK9oFsMn2he+tVLDGdH3kQ0m3h7KaoJkFdzYRZpsjdXWxGETeuzFyv3zJwoXF
- sPlMoXvn3PMja3fJIHOhCbMBOlJA5zR1DbamxQ47kLvRxC4YHGVZFqsQSSeJAFHrfr+g
- 7lzina6OwmnNx4aKYAy5BuEr0XitRhE9BbOBC7qd9N9KqjDKJwRnJcCbYVHqrljkhkbB
- K3EYQi87Q6Jp/tWnJVN53e7lKbRSSUUxpiI8C0PSlbghRyruBM/ViExnkSmvby9Po6uG
- ddSJTijN2Qe/QXXTEPqRzY2ZLHQU2F2rnWlehe0ELuTPNevSf3UKWZtzIIaUFvGXyPwv
- v/FA==
-X-Gm-Message-State: AOAM532cj7y/4r+DoSyRFITht20MFYZS8Rkj5srVrhnRiz4ACy0yijWE
- y/5lfg8NiQ2IxUJoz2lBWFUWHj97QAtjHITKFlmNUw==
-X-Google-Smtp-Source: ABdhPJwqejr342bjBGHcXh7vBbdNrU3UD/weVqxCR1HxxrtvQbdgNXlL1TDGAVwz6geozxJn0DtlK138DNBc8N7xqWw=
-X-Received: by 2002:a05:6902:4d3:: with SMTP id
- v19mr26182915ybs.500.1637237260529; 
- Thu, 18 Nov 2021 04:07:40 -0800 (PST)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AEBD66E914
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Nov 2021 12:32:16 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 87E839DE;
+ Thu, 18 Nov 2021 13:32:14 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1637238734;
+ bh=C5c1xudFIjTUJ99IZiB0OBRFX8l1G1wClAhMB8qfDSA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=FPhGCahWk00vQw8THYh9uluaEsTRM/YCV9JRRiWLBHRKpWHrr4F8J6HddjNDQ+Suc
+ e7H/mJI0ndqW8nV1m5TTVGWfT3welBAxGvYNzAajMMPu67xn3y+Pfvxv6/mYFKl+si
+ sb4Gfjsc9/antl0K34r+vnsjrFTABIwBFWD6ppDo=
+Date: Thu, 18 Nov 2021 14:31:52 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Esaki Tomohito <etom@igel.co.jp>
+Subject: Re: [PATCH] drm: rcar-du: add modifiers support
+Message-ID: <YZZHuNgGr0kZXzyl@pendragon.ideasonboard.com>
+References: <20190509054518.10781-1-etom@igel.co.jp>
+ <20190509071429.GA4773@pendragon.ideasonboard.com>
+ <20217791-f912-0864-48a9-dfacadfb3650@igel.co.jp>
+ <20190511181027.GC13043@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-References: <20211117143347.314294-1-s.hauer@pengutronix.de>
- <3bbf42f3-bd9c-ed66-e421-8d78fbeb22ad@rock-chips.com>
- <4310886.V3yF0ifEZO@diego>
- <CAPj87rPNSt7nZX93prAYD3Emf-34RdTZWp_1TOuAybBebObZhQ@mail.gmail.com>
- <fba695b7-863a-c492-0209-41bc07c7baee@rock-chips.com>
-In-Reply-To: <fba695b7-863a-c492-0209-41bc07c7baee@rock-chips.com>
-From: Daniel Stone <daniel@fooishbar.org>
-Date: Thu, 18 Nov 2021 12:07:27 +0000
-Message-ID: <CAPj87rO86Mom-076Z5QX9hd=0bQi=AQcofkc1fSR4-VV2Zo6aQ@mail.gmail.com>
-Subject: Re: [PATCH v1 00/12] drm/rockchip: RK356x VOP2 support
-To: Kever Yang <kever.yang@rock-chips.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20190511181027.GC13043@pendragon.ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,100 +49,191 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Sascha Hauer <s.hauer@pengutronix.de>, Sandy Huang <hjc@rock-chips.com>,
- dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
- Michael Riesch <michael.riesch@wolfvision.net>,
- Peter Geis <pgwipeout@gmail.com>,
- =?UTF-8?B?6Zer5a2d5Yab?= <andy.yan@rock-chips.com>, kernel@pengutronix.de,
- linux-arm-kernel@lists.infradead.org
+Cc: linux-renesas-soc@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Kever,
+Hello Esaki-san,
 
-On Thu, 18 Nov 2021 at 10:50, Kever Yang <kever.yang@rock-chips.com> wrote:
-> On 2021/11/18 =E4=B8=8B=E5=8D=885:53, Daniel Stone wrote:
-> > Exactly what Heiko said. If you would like to upstream the driver then
-> > that would be fantastic to see, but I'm afraid you do not get to
-> > prevent someone else from doing the work themselves.
->
-> First of all, we never stop any one to doing there work on upstream if
-> the source code is write totally by themselves.
->
-> Second, there are also many modules are upstream by developers based on
-> Rockchip source code, please note that
-> all of them have basic respect to our work, they do communicate with us
-> first.
->
-> But this committer do not take any respect to our engineers and their
-> hard working:
-> - He didn't contact with us;
-> - There isn't  any information about original author in the commit messag=
-e;
->      As I have known, if I use source code from another developer, I
-> need to at least add a "Signed-off-by" with original author;
-> - This commit and mail does not even have a 'CC' to original author.
->
-> I NAK because I  think this is not part of the  open source spirit, and
-> this kind of  behavior should not be encouraged.
+(CC'ing dri-devel and Daniel Stone)
 
-OK, I see where you're coming from, and I agree that the attribution
-should have been handled more carefully.
+On Sat, May 11, 2019 at 09:10:27PM +0300, Laurent Pinchart wrote:
+> On Thu, May 09, 2019 at 06:25:19PM +0900, Esaki Tomohito wrote:
+> > Hi Laurent-san
+> > 
+> > > What's the purpose of this, as it adds no new functionality to the
+> > > driver ? Why is this change needed ?
+> > 
+> > Weston compositor (v5.0.0 or later) uses the DRM API to get the
+> > supported modifiers and determines if the sprite plane can be used by
+> > comparing the modifiers with the client specified modifier.
+> > In currently driver, since the weston doesn't know supported modifiers,
+> > that cannot determine if the received dmabuf can be passed through to
+> > sprite plane.
+> > Since there are R-Car GPU which support linear modifier, the sprite
+> > plane cannot be used in a compositor similar to the weston if client
+> > specify linear modifier.
+> 
+> I don't think the right solution is to expose the linear modifier from
+> all drivers that don't otherwise support modifiers. We should instead
+> fix it either in Weston, and treat drivers that don't support the
+> modifiers API as supporting the linear modifier only, or in the DRM/KMS
+> core by reporting the linear modifier for drivers that don't explicitly
+> support modifiers.
 
-On the other hand, please consider this from the other perspective.
-Sascha has been free to take the downstream Rockchip BSP code and
-attempt to upstream it to the Linux kernel, which you are unhappy
-about. But then the Rockchip driver was developed totally downstream,
-with no attempt to ever communicate with the upstream Linux or DRM/KMS
-developers. Rockchip advertises that it is shipped as a Linux kernel
-with a KMS driver. But we were never informed, or CCed, or anything.
+I've been pointed to
+https://gitlab.freedesktop.org/wlroots/wlroots/-/merge_requests/3350#note_1161827,
+and we had a discussion on the #dri-devel IRC channel today on this
+topic. It turns out I was wrong, not specifying modifiers in userspace
+is different than specifying a linear modifier. This is true for some
+legacy drivers only (e.g. radeon) that pre-date the modifiers API, and
+which select a tiling format internally based on some heuristics.
 
-If you would like the community to more actively work with you - then
-please yourself work more actively with the community. The first
-commit of the VOP2 driver was in July 2020, and that was of the full
-driver so presumably it started quite some time before then. So that
-is a minimum of 17 months that you have had to engage with upstream
-...
+I still don't like this patch though, as it would need to be replicated
+in most drivers. It would be better if we could handle this in the DRM
+core. Daniel kindly offered to summarize the IRC discussion in a reply
+to this e-mail.
 
-Technically, the driver cannot be upstreamed as-is. It looks as if it
-were a pre-atomic driver, that was half-converted to atomic, and then
-has been half-converted to atomic helpers as well. Things like
-reference counting and global state are not handled correctly at all.
-You can see this if you try to run Weston on top of the VOP2 driver:
-the framerate is decimated because the event handling massively
-over-synchronises, and the event timestamps which arrive are
-incorrect. This would be fixed by correctly using the event helpers
-that we have had in the tree for years (which would also eliminate the
-unnecessary framebuffer reference handling). It also does not work
-with the GPU drivers in the tree because it lacks the one-liner to
-correctly handle dma_resv synchronisation, which makes it both too
-fast as it displays content which is not ready, and too slow because
-it can't do it at full frame rate.
+> > On 2019/05/09 16:14, Laurent Pinchart wrote:
+> > > On Thu, May 09, 2019 at 02:45:18PM +0900, Tomohito Esaki wrote:
+> > >> Add support for the linear modifier. Since the rcar-du device supports
+> > >> only linear modifier, this driver doesn't support other modifiers.
+> > > 
+> > > What's the purpose of this, as it adds no new functionality to the
+> > > driver ? Why is this change needed ?
+> > > 
+> > >> Signed-off-by: Tomohito Esaki <etom@igel.co.jp>
+> > >> ---
+> > >>  drivers/gpu/drm/rcar-du/rcar_du_kms.c   | 11 +++++++++++
+> > >>  drivers/gpu/drm/rcar-du/rcar_du_plane.c | 15 ++++++++++++++-
+> > >>  drivers/gpu/drm/rcar-du/rcar_du_vsp.c   | 15 ++++++++++++++-
+> > >>  3 files changed, 39 insertions(+), 2 deletions(-)
+> > >>
+> > >> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+> > >> index 3b7d50a8fb9b..9c5e15a5ab1c 100644
+> > >> --- a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+> > >> +++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+> > >> @@ -214,6 +214,16 @@ rcar_du_fb_create(struct drm_device *dev, struct drm_file *file_priv,
+> > >>  		return ERR_PTR(-EINVAL);
+> > >>  	}
+> > >>  
+> > >> +	/*
+> > >> +	 * Support only LINEAR modifier.
+> > >> +	 */
+> > >> +	if ((mode_cmd->flags & DRM_MODE_FB_MODIFIERS) &&
+> > >> +	    mode_cmd->modifier[0] != DRM_FORMAT_MOD_LINEAR) {
+> > >> +		dev_dbg(dev->dev, "unsupported fb modifier 0x%llx\n",
+> > >> +			mode_cmd->modifier[0]);
+> > >> +		return ERR_PTR(-EINVAL);
+> > >> +	}
+> > >> +
+> > >>  	if (rcdu->info->gen < 3) {
+> > >>  		/*
+> > >>  		 * On Gen2 the DU limits the pitch to 4095 pixels and requires
+> > >> @@ -529,6 +539,7 @@ int rcar_du_modeset_init(struct rcar_du_device *rcdu)
+> > >>  	dev->mode_config.min_width = 0;
+> > >>  	dev->mode_config.min_height = 0;
+> > >>  	dev->mode_config.normalize_zpos = true;
+> > >> +	dev->mode_config.allow_fb_modifiers = true;
+> > >>  	dev->mode_config.funcs = &rcar_du_mode_config_funcs;
+> > >>  	dev->mode_config.helper_private = &rcar_du_mode_config_helper;
+> > >>  
+> > >> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_plane.c b/drivers/gpu/drm/rcar-du/rcar_du_plane.c
+> > >> index c6430027169f..32135ad387fa 100644
+> > >> --- a/drivers/gpu/drm/rcar-du/rcar_du_plane.c
+> > >> +++ b/drivers/gpu/drm/rcar-du/rcar_du_plane.c
+> > >> @@ -726,6 +726,13 @@ static int rcar_du_plane_atomic_get_property(struct drm_plane *plane,
+> > >>  	return 0;
+> > >>  }
+> > >>  
+> > >> +static bool rcar_du_plane_format_mod_supported(struct drm_plane *plane,
+> > >> +					       uint32_t format,
+> > >> +					       uint64_t modifier)
+> > >> +{
+> > >> +	return modifier == DRM_FORMAT_MOD_LINEAR;
+> > >> +}
+> > >> +
+> > >>  static const struct drm_plane_funcs rcar_du_plane_funcs = {
+> > >>  	.update_plane = drm_atomic_helper_update_plane,
+> > >>  	.disable_plane = drm_atomic_helper_disable_plane,
+> > >> @@ -735,6 +742,7 @@ static const struct drm_plane_funcs rcar_du_plane_funcs = {
+> > >>  	.atomic_destroy_state = rcar_du_plane_atomic_destroy_state,
+> > >>  	.atomic_set_property = rcar_du_plane_atomic_set_property,
+> > >>  	.atomic_get_property = rcar_du_plane_atomic_get_property,
+> > >> +	.format_mod_supported = rcar_du_plane_format_mod_supported,
+> > >>  };
+> > >>  
+> > >>  static const uint32_t formats[] = {
+> > >> @@ -750,6 +758,11 @@ static const uint32_t formats[] = {
+> > >>  	DRM_FORMAT_NV16,
+> > >>  };
+> > >>  
+> > >> +static const uint64_t modifiers[] = {
+> > >> +	DRM_FORMAT_MOD_LINEAR,
+> > >> +	DRM_FORMAT_MOD_INVALID,
+> > >> +};
+> > >> +
+> > >>  int rcar_du_planes_init(struct rcar_du_group *rgrp)
+> > >>  {
+> > >>  	struct rcar_du_device *rcdu = rgrp->dev;
+> > >> @@ -776,7 +789,7 @@ int rcar_du_planes_init(struct rcar_du_group *rgrp)
+> > >>  		ret = drm_universal_plane_init(rcdu->ddev, &plane->plane, crtcs,
+> > >>  					       &rcar_du_plane_funcs, formats,
+> > >>  					       ARRAY_SIZE(formats),
+> > >> -					       NULL, type, NULL);
+> > >> +					       modifiers, type, NULL);
+> > >>  		if (ret < 0)
+> > >>  			return ret;
+> > >>  
+> > >> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
+> > >> index 0878accbd134..9d1382b02717 100644
+> > >> --- a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
+> > >> +++ b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
+> > >> @@ -139,6 +139,11 @@ static const u32 formats_kms[] = {
+> > >>  	DRM_FORMAT_YVU444,
+> > >>  };
+> > >>  
+> > >> +static const uint64_t modifiers_kms[] = {
+> > >> +	DRM_FORMAT_MOD_LINEAR,
+> > >> +	DRM_FORMAT_MOD_INVALID,
+> > >> +};
+> > >> +
+> > >>  static const u32 formats_v4l2[] = {
+> > >>  	V4L2_PIX_FMT_RGB332,
+> > >>  	V4L2_PIX_FMT_ARGB444,
+> > >> @@ -344,6 +349,13 @@ static void rcar_du_vsp_plane_reset(struct drm_plane *plane)
+> > >>  	state->state.zpos = plane->type == DRM_PLANE_TYPE_PRIMARY ? 0 : 1;
+> > >>  }
+> > >>  
+> > >> +static bool rcar_du_vsp_plane_format_mod_supported(struct drm_plane *plane,
+> > >> +						   uint32_t format,
+> > >> +						   uint64_t modifier)
+> > >> +{
+> > >> +	return modifier == DRM_FORMAT_MOD_LINEAR;
+> > >> +}
+> > >> +
+> > >>  static const struct drm_plane_funcs rcar_du_vsp_plane_funcs = {
+> > >>  	.update_plane = drm_atomic_helper_update_plane,
+> > >>  	.disable_plane = drm_atomic_helper_disable_plane,
+> > >> @@ -351,6 +363,7 @@ static const struct drm_plane_funcs rcar_du_vsp_plane_funcs = {
+> > >>  	.destroy = drm_plane_cleanup,
+> > >>  	.atomic_duplicate_state = rcar_du_vsp_plane_atomic_duplicate_state,
+> > >>  	.atomic_destroy_state = rcar_du_vsp_plane_atomic_destroy_state,
+> > >> +	.format_mod_supported = rcar_du_vsp_plane_format_mod_supported,
+> > >>  };
+> > >>  
+> > >>  int rcar_du_vsp_init(struct rcar_du_vsp *vsp, struct device_node *np,
+> > >> @@ -397,7 +410,7 @@ int rcar_du_vsp_init(struct rcar_du_vsp *vsp, struct device_node *np,
+> > >>  					       &rcar_du_vsp_plane_funcs,
+> > >>  					       formats_kms,
+> > >>  					       ARRAY_SIZE(formats_kms),
+> > >> -					       NULL, type, NULL);
+> > >> +					       modifiers_kms, type, NULL);
+> > >>  		if (ret < 0)
+> > >>  			return ret;
+> > >>  
 
-Similarly, on the RK3566 EVB, the DSI does not work unless HDMI is
-also active, but when HDMI is active at the same time as DSI, it just
-shows a blank screen. I believe the root cause of this is that the
-VOP2 driver does not use any of the atomic state correctly, and
-instead stores its own state in driver-global structures, using a lot
-of unnecessary mutexes to try to synchronise this state. Not only does
-this synchronisation not actually work, but it causes a severe
-performance degradation due to mutex contention.
+-- 
+Regards,
 
-I believe the best path forward to an upstream VOP2 driver is a patch
-series consisting of:
-  - start from a blank slate, using the atomic framework and helpers
-as they were intended to be, with basic support for the VOP2 and one
-or two connector types, doing linear XRGB only
-  - any cleanups which would enable this to share more code with
-  - add YUV support, including planar buffers
-  - add AFBC support, with the AFBC enable/disable correctly
-synchronised through atomic state (this is necessary since the AFBC
-decoder is not directly on the planes per se but shared)
-  - add more connector types
-  - add writeback support
-  - add other Rockchip-specific codepaths such as HDR10
-
-Cheers,
-Daniel
+Laurent Pinchart
