@@ -1,82 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3BAA455B05
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Nov 2021 12:55:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 94288455B3A
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Nov 2021 13:07:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F08166E90F;
-	Thu, 18 Nov 2021 11:55:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4ABB76EB39;
+	Thu, 18 Nov 2021 12:07:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D26AD6E90F
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Nov 2021 11:55:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637236536;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=YHV71NZdHjF0dSjNAnyjqyFmHT9V0KwMbQdAU2F5t/k=;
- b=A2hbcU8ecTUnJuogSdiDyX8dpiub5bVxi3O2XVCitEnQCHXilAN9VtfD0D07diM41kHQa6
- dkEEMTyLmq7d6jterc66rOO2ArgqjA6Ky2qQ9n0pUjH4gAvpR3MPJH5G3gZBTp0TUcuyoB
- VYg4SAT9EaSVDXubSfHeUVRv7UrmaxI=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-42-a7xaS2r3OSKigROwnKn4bQ-1; Thu, 18 Nov 2021 06:55:34 -0500
-X-MC-Unique: a7xaS2r3OSKigROwnKn4bQ-1
-Received: by mail-ed1-f72.google.com with SMTP id
- m17-20020aa7d351000000b003e7c0bc8523so5082214edr.1
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Nov 2021 03:55:34 -0800 (PST)
+Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com
+ [IPv6:2607:f8b0:4864:20::b29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 854F46EB39
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Nov 2021 12:07:41 +0000 (UTC)
+Received: by mail-yb1-xb29.google.com with SMTP id s186so17212635yba.12
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Nov 2021 04:07:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fooishbar-org.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=xwZffm/5Q8IyR874NzvVEMvt4aoVvniu9ZnJ+G9kWsk=;
+ b=gacIVoLMap3lXg4tEH0YwcCLfAkqG5ikXwvtcn15HF9vj31J4B+VGr0sZYN3Je+vAQ
+ BaEDod3ldNon04MG0LZoL0x1bEnWZllYeoWfnQFsOJHVAVjSYD66bkMahT/uQyQU/+oc
+ zETPeEZ6Fqd0dphOvpeT9KbkEtdYz8hJPH9DMRZZNb6n4xr/T0WmeBZBlMbWs+wj1+VL
+ R8N5un9YMXJPuM/g4XfFtPweXpRTGHkX/e6u/dIBJUuMhNtI6+5Rgfq0D9yABnU3caVz
+ 7+/tE/MXx648QKl9SCOkT6LZ3YOtQxbIu945mWxzLssEVIJkuj97w7l3IgOnK5KiBfpD
+ twZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=YHV71NZdHjF0dSjNAnyjqyFmHT9V0KwMbQdAU2F5t/k=;
- b=MxEAePgyFcGpmyVPmJbOXz3w94lGXdCtWesSh5QUuv1E//5+iREr6oFLtndci/EO6S
- koDysYdVm5iC4rQibkKjWS/EVc+46q7ea4WFMSeiYf4A2zNoKvl94m4GOYymohuiSge1
- VqC9Rqpiav3VXJ5AzaiHrT96dIPaMrADJKDjuEeSKP0CWT03s5ZiKM+Q4/5URo6LGGgS
- BTdxj3OxpYMLTyoTtMzjkcoHAVh1gXkxIkzQjSqFs4KAeD1aIUSwIh1felI4YPg11WPy
- PqiYrB8JsnbTlVdDvEEZ1G+shh2MGjfpKOorwBy0q18QCJFp7FeiULNlyoj6NpH5Tlr9
- fCyw==
-X-Gm-Message-State: AOAM530Apig2lt5RXgLxY9o8kohjMYfI0URJuFBZbqXpDSPuadhhZ4QT
- 7mnV42qNrFpmbPMKRSyXQttwz4s9E9aRoaLWxgdJ5ECDPBrsj1Pn+nmSfNOt3l2ZiREVQ57IrpO
- /iDj0EFAXWvF6JmuoduP19y3X4sk0
-X-Received: by 2002:a50:d883:: with SMTP id p3mr10364221edj.94.1637236533543; 
- Thu, 18 Nov 2021 03:55:33 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwFkn01t7jllZ62lY4O81hHpkBVn331b/td42UUcdBJskqbFnBOSxTrBAdCPP+NFHAOIkmTew==
-X-Received: by 2002:a50:d883:: with SMTP id p3mr10364198edj.94.1637236533433; 
- Thu, 18 Nov 2021 03:55:33 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c1e:bf00:1054:9d19:e0f0:8214?
- (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl.
- [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
- by smtp.gmail.com with ESMTPSA id cs15sm1192253ejc.31.2021.11.18.03.55.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 18 Nov 2021 03:55:33 -0800 (PST)
-Message-ID: <ee7c277d-f556-e3c5-8853-255cc982c767@redhat.com>
-Date: Thu, 18 Nov 2021 12:55:32 +0100
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=xwZffm/5Q8IyR874NzvVEMvt4aoVvniu9ZnJ+G9kWsk=;
+ b=lZBTOEK9oFsMn2he+tVLDGdH3kQ0m3h7KaoJkFdzYRZpsjdXWxGETeuzFyv3zJwoXF
+ sPlMoXvn3PMja3fJIHOhCbMBOlJA5zR1DbamxQ47kLvRxC4YHGVZFqsQSSeJAFHrfr+g
+ 7lzina6OwmnNx4aKYAy5BuEr0XitRhE9BbOBC7qd9N9KqjDKJwRnJcCbYVHqrljkhkbB
+ K3EYQi87Q6Jp/tWnJVN53e7lKbRSSUUxpiI8C0PSlbghRyruBM/ViExnkSmvby9Po6uG
+ ddSJTijN2Qe/QXXTEPqRzY2ZLHQU2F2rnWlehe0ELuTPNevSf3UKWZtzIIaUFvGXyPwv
+ v/FA==
+X-Gm-Message-State: AOAM532cj7y/4r+DoSyRFITht20MFYZS8Rkj5srVrhnRiz4ACy0yijWE
+ y/5lfg8NiQ2IxUJoz2lBWFUWHj97QAtjHITKFlmNUw==
+X-Google-Smtp-Source: ABdhPJwqejr342bjBGHcXh7vBbdNrU3UD/weVqxCR1HxxrtvQbdgNXlL1TDGAVwz6geozxJn0DtlK138DNBc8N7xqWw=
+X-Received: by 2002:a05:6902:4d3:: with SMTP id
+ v19mr26182915ybs.500.1637237260529; 
+ Thu, 18 Nov 2021 04:07:40 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH] drm: panel-orientation-quirks: Add quirk for the Lenovo
- Yoga Book X91F/L
-To: Yauhen Kharuzhy <jekhor@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
-References: <20211106130227.11927-1-hdegoede@redhat.com>
- <YYb6r8+aw1bR9R4z@jeknote.loshitsa1.net> <YYemqI7MP/rdKuq9@ravnborg.org>
- <YYe4LKExKYvLiy/Y@jeknote.loshitsa1.net>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <YYe4LKExKYvLiy/Y@jeknote.loshitsa1.net>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20211117143347.314294-1-s.hauer@pengutronix.de>
+ <3bbf42f3-bd9c-ed66-e421-8d78fbeb22ad@rock-chips.com>
+ <4310886.V3yF0ifEZO@diego>
+ <CAPj87rPNSt7nZX93prAYD3Emf-34RdTZWp_1TOuAybBebObZhQ@mail.gmail.com>
+ <fba695b7-863a-c492-0209-41bc07c7baee@rock-chips.com>
+In-Reply-To: <fba695b7-863a-c492-0209-41bc07c7baee@rock-chips.com>
+From: Daniel Stone <daniel@fooishbar.org>
+Date: Thu, 18 Nov 2021 12:07:27 +0000
+Message-ID: <CAPj87rO86Mom-076Z5QX9hd=0bQi=AQcofkc1fSR4-VV2Zo6aQ@mail.gmail.com>
+Subject: Re: [PATCH v1 00/12] drm/rockchip: RK356x VOP2 support
+To: Kever Yang <kever.yang@rock-chips.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,38 +69,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Sandy Huang <hjc@rock-chips.com>,
+ dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
+ Michael Riesch <michael.riesch@wolfvision.net>,
+ Peter Geis <pgwipeout@gmail.com>,
+ =?UTF-8?B?6Zer5a2d5Yab?= <andy.yan@rock-chips.com>, kernel@pengutronix.de,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Kever,
 
-On 11/7/21 12:27, Yauhen Kharuzhy wrote:
-> On Sun, Nov 07, 2021 at 11:12:56AM +0100, Sam Ravnborg wrote:
->> Hi Yauhen,
->> On Sun, Nov 07, 2021 at 12:59:11AM +0300, Yauhen Kharuzhy wrote:
->>> On Sat, Nov 06, 2021 at 02:02:27PM +0100, Hans de Goede wrote:
->>>> The Lenovo Yoga Book X91F/L uses a panel which has been mounted
->>>> 90 degrees rotated. Add a quirk for this.
->>>
->>> Tested on my Yoga Book, works.
->> Great - and then it would be prudent that you acknowledge this with:
->> Tested-by: Yauhen Kharuzhy <jekhor@gmail.com>
->>
->> A "Tested-by:" is in many cases better than an Acked-by: because you
->> actually applied the patch, build it and verified that it works.
->> Where an Acked-by: is just to say that you have looked at the patch and
->> agrees with the patch.
->>
->> So a Tested-by: gives you the credit you deserve here.
-> 
-> Yes, of course. I forgot about such option.
-> 
-> Tested-by: Yauhen Kharuzhy <jekhor@gmail.com>
+On Thu, 18 Nov 2021 at 10:50, Kever Yang <kever.yang@rock-chips.com> wrote:
+> On 2021/11/18 =E4=B8=8B=E5=8D=885:53, Daniel Stone wrote:
+> > Exactly what Heiko said. If you would like to upstream the driver then
+> > that would be fantastic to see, but I'm afraid you do not get to
+> > prevent someone else from doing the work themselves.
+>
+> First of all, we never stop any one to doing there work on upstream if
+> the source code is write totally by themselves.
+>
+> Second, there are also many modules are upstream by developers based on
+> Rockchip source code, please note that
+> all of them have basic respect to our work, they do communicate with us
+> first.
+>
+> But this committer do not take any respect to our engineers and their
+> hard working:
+> - He didn't contact with us;
+> - There isn't  any information about original author in the commit messag=
+e;
+>      As I have known, if I use source code from another developer, I
+> need to at least add a "Signed-off-by" with original author;
+> - This commit and mail does not even have a 'CC' to original author.
+>
+> I NAK because I  think this is not part of the  open source spirit, and
+> this kind of  behavior should not be encouraged.
 
-Thank you, I've pushed this to drm-misc-next now.
+OK, I see where you're coming from, and I agree that the attribution
+should have been handled more carefully.
 
-Regards,
+On the other hand, please consider this from the other perspective.
+Sascha has been free to take the downstream Rockchip BSP code and
+attempt to upstream it to the Linux kernel, which you are unhappy
+about. But then the Rockchip driver was developed totally downstream,
+with no attempt to ever communicate with the upstream Linux or DRM/KMS
+developers. Rockchip advertises that it is shipped as a Linux kernel
+with a KMS driver. But we were never informed, or CCed, or anything.
 
-Hans
+If you would like the community to more actively work with you - then
+please yourself work more actively with the community. The first
+commit of the VOP2 driver was in July 2020, and that was of the full
+driver so presumably it started quite some time before then. So that
+is a minimum of 17 months that you have had to engage with upstream
+...
 
+Technically, the driver cannot be upstreamed as-is. It looks as if it
+were a pre-atomic driver, that was half-converted to atomic, and then
+has been half-converted to atomic helpers as well. Things like
+reference counting and global state are not handled correctly at all.
+You can see this if you try to run Weston on top of the VOP2 driver:
+the framerate is decimated because the event handling massively
+over-synchronises, and the event timestamps which arrive are
+incorrect. This would be fixed by correctly using the event helpers
+that we have had in the tree for years (which would also eliminate the
+unnecessary framebuffer reference handling). It also does not work
+with the GPU drivers in the tree because it lacks the one-liner to
+correctly handle dma_resv synchronisation, which makes it both too
+fast as it displays content which is not ready, and too slow because
+it can't do it at full frame rate.
+
+Similarly, on the RK3566 EVB, the DSI does not work unless HDMI is
+also active, but when HDMI is active at the same time as DSI, it just
+shows a blank screen. I believe the root cause of this is that the
+VOP2 driver does not use any of the atomic state correctly, and
+instead stores its own state in driver-global structures, using a lot
+of unnecessary mutexes to try to synchronise this state. Not only does
+this synchronisation not actually work, but it causes a severe
+performance degradation due to mutex contention.
+
+I believe the best path forward to an upstream VOP2 driver is a patch
+series consisting of:
+  - start from a blank slate, using the atomic framework and helpers
+as they were intended to be, with basic support for the VOP2 and one
+or two connector types, doing linear XRGB only
+  - any cleanups which would enable this to share more code with
+  - add YUV support, including planar buffers
+  - add AFBC support, with the AFBC enable/disable correctly
+synchronised through atomic state (this is necessary since the AFBC
+decoder is not directly on the planes per se but shared)
+  - add more connector types
+  - add writeback support
+  - add other Rockchip-specific codepaths such as HDR10
+
+Cheers,
+Daniel
