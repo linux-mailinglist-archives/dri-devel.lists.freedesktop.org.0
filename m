@@ -2,41 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6A2D455B8B
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Nov 2021 13:32:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AB74455BF9
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Nov 2021 13:53:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 469156E914;
-	Thu, 18 Nov 2021 12:32:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D74006EA18;
+	Thu, 18 Nov 2021 12:53:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AEBD66E914
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Nov 2021 12:32:16 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 87E839DE;
- Thu, 18 Nov 2021 13:32:14 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1637238734;
- bh=C5c1xudFIjTUJ99IZiB0OBRFX8l1G1wClAhMB8qfDSA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=FPhGCahWk00vQw8THYh9uluaEsTRM/YCV9JRRiWLBHRKpWHrr4F8J6HddjNDQ+Suc
- e7H/mJI0ndqW8nV1m5TTVGWfT3welBAxGvYNzAajMMPu67xn3y+Pfvxv6/mYFKl+si
- sb4Gfjsc9/antl0K34r+vnsjrFTABIwBFWD6ppDo=
-Date: Thu, 18 Nov 2021 14:31:52 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Esaki Tomohito <etom@igel.co.jp>
-Subject: Re: [PATCH] drm: rcar-du: add modifiers support
-Message-ID: <YZZHuNgGr0kZXzyl@pendragon.ideasonboard.com>
-References: <20190509054518.10781-1-etom@igel.co.jp>
- <20190509071429.GA4773@pendragon.ideasonboard.com>
- <20217791-f912-0864-48a9-dfacadfb3650@igel.co.jp>
- <20190511181027.GC13043@pendragon.ideasonboard.com>
+Received: from phobos.denx.de (phobos.denx.de
+ [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5FE5F6EA18
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Nov 2021 12:53:21 +0000 (UTC)
+Received: from [IPv6:::1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id E0B9482982;
+ Thu, 18 Nov 2021 13:53:18 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1637239999;
+ bh=GhTn6ImZXrj8lYcgaYAGRkVx/7Bnm3VwQmY/VykctI4=;
+ h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+ b=QKtt/rWlAi10Jo65VBjNHlDOeofo/nOnXny5FMbeLLmWgFcQUGzt1RYffPgoxZ0+/
+ aBmFc6uAZENZkBMGItcsRooXqTkxTRZt2I0hq0lIqbIlZMEj3Br63rg/kTEbCSL0J2
+ Xo0UZzIUNsQcZXVSKxDwAcW718aj2TifxjmaNlchgOKHs0MRG2NBVZRvmuyn9jekg1
+ ndc0FsBtAwTnwAKgUQOrzOwZ2b9A1MvHptLAGGHH137V5+yZnN0w+S7z2qyqo0SpSO
+ Bfs0JA+LgslofYhCkl0CCtd6xCuqYcx3xjmB6DINDexNC4U6nAZG3Ch1Kpv3dhMLcy
+ l/4uSGxJNt+Tw==
+Subject: Re: RPI 7" display touch controller
+To: Tim Harvey <tharvey@gateworks.com>, Eric Anholt <eric@anholt.net>
+References: <CAJ+vNU2A8J_72UgdoBw0Z0T0p1GzwWs-OK3UP14Y7KcoDjFOaQ@mail.gmail.com>
+From: Marek Vasut <marex@denx.de>
+Message-ID: <e927cb88-3c93-b6df-19f5-b60100fbaea7@denx.de>
+Date: Thu, 18 Nov 2021 13:53:17 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20190511181027.GC13043@pendragon.ideasonboard.com>
+In-Reply-To: <CAJ+vNU2A8J_72UgdoBw0Z0T0p1GzwWs-OK3UP14Y7KcoDjFOaQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.2 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,191 +56,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-renesas-soc@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: DRI mailing list <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Esaki-san,
-
-(CC'ing dri-devel and Daniel Stone)
-
-On Sat, May 11, 2019 at 09:10:27PM +0300, Laurent Pinchart wrote:
-> On Thu, May 09, 2019 at 06:25:19PM +0900, Esaki Tomohito wrote:
-> > Hi Laurent-san
-> > 
-> > > What's the purpose of this, as it adds no new functionality to the
-> > > driver ? Why is this change needed ?
-> > 
-> > Weston compositor (v5.0.0 or later) uses the DRM API to get the
-> > supported modifiers and determines if the sprite plane can be used by
-> > comparing the modifiers with the client specified modifier.
-> > In currently driver, since the weston doesn't know supported modifiers,
-> > that cannot determine if the received dmabuf can be passed through to
-> > sprite plane.
-> > Since there are R-Car GPU which support linear modifier, the sprite
-> > plane cannot be used in a compositor similar to the weston if client
-> > specify linear modifier.
+On 11/18/21 2:25 AM, Tim Harvey wrote:
+> Greetings,
 > 
-> I don't think the right solution is to expose the linear modifier from
-> all drivers that don't otherwise support modifiers. We should instead
-> fix it either in Weston, and treat drivers that don't support the
-> modifiers API as supporting the linear modifier only, or in the DRM/KMS
-> core by reporting the linear modifier for drivers that don't explicitly
-> support modifiers.
+> I'm trying to get a RPI 7" touchscreen display working on an IMX8MM
+> board and while I've been able to get the MIPI DSI display and
+> backlight working I still can't seem to figure out the touch
+> controller.
+> 
+> It's supposed to have an FT5406 controller on it without an interrupt
+> so I added polling support drivers/input/touchscreen/edt-ft5x06.c
+> which I was able to verify using another touchscreen with that
+> controller but when reading data from the FT5406 on the RPI controller
+> the data does not make sense.
+> 
+> These panels appear to route the I2C from the FT5406 to a STM32F103
+> MPU that then provides a different I2C slave interface to the 15pin
+> connector that I'm connected to. On that I2C interface I see an i2c
+> slave at 0x45 which is managed by the regulator driver Marek wrote
+> (drivers/regulator/rpi-panel-attiny-regulator.c) and there is also an
+> i2c slave at 0x38 which I assumed was the FT5406 but I believe the MPU
+> is perhaps obfuscating that touch data.
+> 
+> Anyone have any ideas on how to make that touch controller useful?
 
-I've been pointed to
-https://gitlab.freedesktop.org/wlroots/wlroots/-/merge_requests/3350#note_1161827,
-and we had a discussion on the #dri-devel IRC channel today on this
-topic. It turns out I was wrong, not specifying modifiers in userspace
-is different than specifying a linear modifier. This is true for some
-legacy drivers only (e.g. radeon) that pre-date the modifiers API, and
-which select a tiling format internally based on some heuristics.
-
-I still don't like this patch though, as it would need to be replicated
-in most drivers. It would be better if we could handle this in the DRM
-core. Daniel kindly offered to summarize the IRC discussion in a reply
-to this e-mail.
-
-> > On 2019/05/09 16:14, Laurent Pinchart wrote:
-> > > On Thu, May 09, 2019 at 02:45:18PM +0900, Tomohito Esaki wrote:
-> > >> Add support for the linear modifier. Since the rcar-du device supports
-> > >> only linear modifier, this driver doesn't support other modifiers.
-> > > 
-> > > What's the purpose of this, as it adds no new functionality to the
-> > > driver ? Why is this change needed ?
-> > > 
-> > >> Signed-off-by: Tomohito Esaki <etom@igel.co.jp>
-> > >> ---
-> > >>  drivers/gpu/drm/rcar-du/rcar_du_kms.c   | 11 +++++++++++
-> > >>  drivers/gpu/drm/rcar-du/rcar_du_plane.c | 15 ++++++++++++++-
-> > >>  drivers/gpu/drm/rcar-du/rcar_du_vsp.c   | 15 ++++++++++++++-
-> > >>  3 files changed, 39 insertions(+), 2 deletions(-)
-> > >>
-> > >> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-> > >> index 3b7d50a8fb9b..9c5e15a5ab1c 100644
-> > >> --- a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-> > >> +++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-> > >> @@ -214,6 +214,16 @@ rcar_du_fb_create(struct drm_device *dev, struct drm_file *file_priv,
-> > >>  		return ERR_PTR(-EINVAL);
-> > >>  	}
-> > >>  
-> > >> +	/*
-> > >> +	 * Support only LINEAR modifier.
-> > >> +	 */
-> > >> +	if ((mode_cmd->flags & DRM_MODE_FB_MODIFIERS) &&
-> > >> +	    mode_cmd->modifier[0] != DRM_FORMAT_MOD_LINEAR) {
-> > >> +		dev_dbg(dev->dev, "unsupported fb modifier 0x%llx\n",
-> > >> +			mode_cmd->modifier[0]);
-> > >> +		return ERR_PTR(-EINVAL);
-> > >> +	}
-> > >> +
-> > >>  	if (rcdu->info->gen < 3) {
-> > >>  		/*
-> > >>  		 * On Gen2 the DU limits the pitch to 4095 pixels and requires
-> > >> @@ -529,6 +539,7 @@ int rcar_du_modeset_init(struct rcar_du_device *rcdu)
-> > >>  	dev->mode_config.min_width = 0;
-> > >>  	dev->mode_config.min_height = 0;
-> > >>  	dev->mode_config.normalize_zpos = true;
-> > >> +	dev->mode_config.allow_fb_modifiers = true;
-> > >>  	dev->mode_config.funcs = &rcar_du_mode_config_funcs;
-> > >>  	dev->mode_config.helper_private = &rcar_du_mode_config_helper;
-> > >>  
-> > >> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_plane.c b/drivers/gpu/drm/rcar-du/rcar_du_plane.c
-> > >> index c6430027169f..32135ad387fa 100644
-> > >> --- a/drivers/gpu/drm/rcar-du/rcar_du_plane.c
-> > >> +++ b/drivers/gpu/drm/rcar-du/rcar_du_plane.c
-> > >> @@ -726,6 +726,13 @@ static int rcar_du_plane_atomic_get_property(struct drm_plane *plane,
-> > >>  	return 0;
-> > >>  }
-> > >>  
-> > >> +static bool rcar_du_plane_format_mod_supported(struct drm_plane *plane,
-> > >> +					       uint32_t format,
-> > >> +					       uint64_t modifier)
-> > >> +{
-> > >> +	return modifier == DRM_FORMAT_MOD_LINEAR;
-> > >> +}
-> > >> +
-> > >>  static const struct drm_plane_funcs rcar_du_plane_funcs = {
-> > >>  	.update_plane = drm_atomic_helper_update_plane,
-> > >>  	.disable_plane = drm_atomic_helper_disable_plane,
-> > >> @@ -735,6 +742,7 @@ static const struct drm_plane_funcs rcar_du_plane_funcs = {
-> > >>  	.atomic_destroy_state = rcar_du_plane_atomic_destroy_state,
-> > >>  	.atomic_set_property = rcar_du_plane_atomic_set_property,
-> > >>  	.atomic_get_property = rcar_du_plane_atomic_get_property,
-> > >> +	.format_mod_supported = rcar_du_plane_format_mod_supported,
-> > >>  };
-> > >>  
-> > >>  static const uint32_t formats[] = {
-> > >> @@ -750,6 +758,11 @@ static const uint32_t formats[] = {
-> > >>  	DRM_FORMAT_NV16,
-> > >>  };
-> > >>  
-> > >> +static const uint64_t modifiers[] = {
-> > >> +	DRM_FORMAT_MOD_LINEAR,
-> > >> +	DRM_FORMAT_MOD_INVALID,
-> > >> +};
-> > >> +
-> > >>  int rcar_du_planes_init(struct rcar_du_group *rgrp)
-> > >>  {
-> > >>  	struct rcar_du_device *rcdu = rgrp->dev;
-> > >> @@ -776,7 +789,7 @@ int rcar_du_planes_init(struct rcar_du_group *rgrp)
-> > >>  		ret = drm_universal_plane_init(rcdu->ddev, &plane->plane, crtcs,
-> > >>  					       &rcar_du_plane_funcs, formats,
-> > >>  					       ARRAY_SIZE(formats),
-> > >> -					       NULL, type, NULL);
-> > >> +					       modifiers, type, NULL);
-> > >>  		if (ret < 0)
-> > >>  			return ret;
-> > >>  
-> > >> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-> > >> index 0878accbd134..9d1382b02717 100644
-> > >> --- a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-> > >> +++ b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-> > >> @@ -139,6 +139,11 @@ static const u32 formats_kms[] = {
-> > >>  	DRM_FORMAT_YVU444,
-> > >>  };
-> > >>  
-> > >> +static const uint64_t modifiers_kms[] = {
-> > >> +	DRM_FORMAT_MOD_LINEAR,
-> > >> +	DRM_FORMAT_MOD_INVALID,
-> > >> +};
-> > >> +
-> > >>  static const u32 formats_v4l2[] = {
-> > >>  	V4L2_PIX_FMT_RGB332,
-> > >>  	V4L2_PIX_FMT_ARGB444,
-> > >> @@ -344,6 +349,13 @@ static void rcar_du_vsp_plane_reset(struct drm_plane *plane)
-> > >>  	state->state.zpos = plane->type == DRM_PLANE_TYPE_PRIMARY ? 0 : 1;
-> > >>  }
-> > >>  
-> > >> +static bool rcar_du_vsp_plane_format_mod_supported(struct drm_plane *plane,
-> > >> +						   uint32_t format,
-> > >> +						   uint64_t modifier)
-> > >> +{
-> > >> +	return modifier == DRM_FORMAT_MOD_LINEAR;
-> > >> +}
-> > >> +
-> > >>  static const struct drm_plane_funcs rcar_du_vsp_plane_funcs = {
-> > >>  	.update_plane = drm_atomic_helper_update_plane,
-> > >>  	.disable_plane = drm_atomic_helper_disable_plane,
-> > >> @@ -351,6 +363,7 @@ static const struct drm_plane_funcs rcar_du_vsp_plane_funcs = {
-> > >>  	.destroy = drm_plane_cleanup,
-> > >>  	.atomic_duplicate_state = rcar_du_vsp_plane_atomic_duplicate_state,
-> > >>  	.atomic_destroy_state = rcar_du_vsp_plane_atomic_destroy_state,
-> > >> +	.format_mod_supported = rcar_du_vsp_plane_format_mod_supported,
-> > >>  };
-> > >>  
-> > >>  int rcar_du_vsp_init(struct rcar_du_vsp *vsp, struct device_node *np,
-> > >> @@ -397,7 +410,7 @@ int rcar_du_vsp_init(struct rcar_du_vsp *vsp, struct device_node *np,
-> > >>  					       &rcar_du_vsp_plane_funcs,
-> > >>  					       formats_kms,
-> > >>  					       ARRAY_SIZE(formats_kms),
-> > >> -					       NULL, type, NULL);
-> > >> +					       modifiers_kms, type, NULL);
-> > >>  		if (ret < 0)
-> > >>  			return ret;
-> > >>  
-
--- 
-Regards,
-
-Laurent Pinchart
+Look around:
+https://github.com/dh-electronics/meta-dhsom-stm32-bsp/blob/dunfell-3.1/recipes-kernel/linux/linux-stable/5.10/dh-stm32mp1-dhsom/0038-ARM-dts-stm32-Add-AV96-DTO-for-DH-644-100-DSI-mezzan.patch
