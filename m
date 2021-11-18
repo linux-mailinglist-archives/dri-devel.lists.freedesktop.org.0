@@ -2,96 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C45545556F
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Nov 2021 08:19:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C2A8455550
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Nov 2021 08:13:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E12C6E9FC;
-	Thu, 18 Nov 2021 07:19:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 87B906F403;
+	Thu, 18 Nov 2021 07:13:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2068.outbound.protection.outlook.com [40.107.243.68])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4ACBC6E9F9;
- Thu, 18 Nov 2021 07:19:38 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YEnu6swC7LkALJLSPjNwKUJ4uODs1+TqCPKWCXov4+F2lA0gFOBnC4DQXQue23UJ9p4tPyY4M7BWFJ6YKOFnyPwjQ1lqjkvq3S1XJbS/sUqbAP85PKHrulg+Az2LCjPQcZPlEnZTysoTcA18CMbffIZH0gohPb2l5CmYUEVOScNxubc5Zj+kI+orfobfqs8g9fDMrTaCvyTY8OLS6+UA7IlDNywoY9foWHtJQ+SrtDuG/MVmE4gQLaxZsP4BV9nLDs+BQ8FBxFptWLCTf58Haczkz+5ZhWINuBFZI5sQCMPxG4et2nIs2WgOQhRIJmoU6I6uY+n0tbd4PUcENYs/Qg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=R5FN9rVbtB3KB6qRL22qazT7r2YHkinMizjwZcHDxVM=;
- b=SX58dz6TzLMCNNemIaQxNhXNiRInk2UHWHVE98lbpR+msiT4ibIxlkj2k3APIAsV/4ZgypOQetFt3KMPx3X3VsjmoPflSLU1GAVj/Le5H9zAjyjSRqy1koQ+ZtME8xvPeT6MJ+Snq1MmIQyh2GfQhuPcU/a1i78oiTjccu3R8IBNYO4jZdYgdMEXS/aNwfs1NLq2RtFzHFzHYvQ5rimlx6FWlh2ZO4QbtSU8j9Q8z5OYkGD+I+5rry5sp5k+GwTtrQooZKP1QGNj0mGUWJ8VDFQeF9Qno50VQaPQq5wJuEglV/y9Th62FkOWKir7919vlzcFsQPirTCxMQx/tCHKVA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.112.34) smtp.rcpttodomain=lists.freedesktop.org
- smtp.mailfrom=nvidia.com; dmarc=pass (p=quarantine sp=quarantine pct=100)
- action=none header.from=nvidia.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=R5FN9rVbtB3KB6qRL22qazT7r2YHkinMizjwZcHDxVM=;
- b=gRgTmMrjeGWH5imoYHceR/9PUQMo8Uu2JnV8W7q7EkO4W7IIqsVhkTxVPICHNgup2UZ6DSSAFKpmzOMqtY0pXDhNRUxBtfSkcY+QR2YnAugpjy8iUBN5ZEs7aSzJ9+xoxEX/84NkwvWkJ6NSvDgrxPQOWVo46izXxQrl2uKqxrqPSoZPXAzVPmMAP2DFge2e7rpXa2Vz1O3nT0pmKhtceU7WVeCnxq7TgsOZzdKgbsvac51evX57nEs9Udom0omBhsR55GDxPaIQXDneWuS3CLFp5NEZmpteGo+mnnIA61Ub5D5ho694LGYn5JuzgiJghPKQBZqYm5qDymBybVcv3g==
-Received: from MWHPR17CA0073.namprd17.prod.outlook.com (2603:10b6:300:c2::11)
- by MW2PR12MB2378.namprd12.prod.outlook.com (2603:10b6:907:f::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4690.26; Thu, 18 Nov
- 2021 07:19:35 +0000
-Received: from CO1NAM11FT068.eop-nam11.prod.protection.outlook.com
- (2603:10b6:300:c2:cafe::65) by MWHPR17CA0073.outlook.office365.com
- (2603:10b6:300:c2::11) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4713.19 via Frontend
- Transport; Thu, 18 Nov 2021 07:19:35 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.112.34; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (216.228.112.34) by
- CO1NAM11FT068.mail.protection.outlook.com (10.13.175.142) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.4713.20 via Frontend Transport; Thu, 18 Nov 2021 07:19:34 +0000
-Received: from nvdebian.localnet (172.20.187.6) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.18; Thu, 18 Nov
- 2021 07:19:28 +0000
-From: Alistair Popple <apopple@nvidia.com>
-To: <akpm@linux-foundation.org>, <Felix.Kuehling@amd.com>,
- <linux-mm@kvack.org>, <rcampbell@nvidia.com>, <linux-ext4@vger.kernel.org>,
- <linux-xfs@vger.kernel.org>, Alex Sierra <alex.sierra@amd.com>
-Subject: Re: [PATCH v1 1/9] mm: add zone device coherent type memory support
-Date: Thu, 18 Nov 2021 17:53:49 +1100
-Message-ID: <1997502.P62F5Z1OZk@nvdebian>
-In-Reply-To: <20211115193026.27568-2-alex.sierra@amd.com>
-References: <20211115193026.27568-1-alex.sierra@amd.com>
- <20211115193026.27568-2-alex.sierra@amd.com>
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 649EE6EC77;
+ Thu, 18 Nov 2021 07:13:29 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10171"; a="214847290"
+X-IronPort-AV: E=Sophos;i="5.87,243,1631602800"; d="scan'208";a="214847290"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Nov 2021 23:13:28 -0800
+X-IronPort-AV: E=Sophos;i="5.87,243,1631602800"; d="scan'208";a="605052625"
+Received: from ntaiyeby-mobl1.ger.corp.intel.com (HELO [10.249.254.166])
+ ([10.249.254.166])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Nov 2021 23:13:26 -0800
+Message-ID: <0b607fbe6b5ef6cbeafc7bce0b0739208281eab8.camel@linux.intel.com>
+Subject: Re: [PATCH v3 5/6] drm/i915/ttm: Implement asynchronous TTM moves
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Matthew Auld <matthew.auld@intel.com>, intel-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org
+Date: Thu, 18 Nov 2021 08:13:23 +0100
+In-Reply-To: <12fa8629-d05f-908c-d127-5fe53bc45c1d@intel.com>
+References: <20211114111218.623138-1-thomas.hellstrom@linux.intel.com>
+ <20211114111218.623138-6-thomas.hellstrom@linux.intel.com>
+ <12fa8629-d05f-908c-d127-5fe53bc45c1d@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4 (3.40.4-2.fc34) 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Originating-IP: [172.20.187.6]
-X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
- HQMAIL107.nvidia.com (172.20.187.13)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: da5e6be7-9372-4c0a-fce2-08d9aa63c5f2
-X-MS-TrafficTypeDiagnostic: MW2PR12MB2378:
-X-Microsoft-Antispam-PRVS: <MW2PR12MB237862FA1BA3E95157E38CFEDF9B9@MW2PR12MB2378.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: mnq0/Vv7gEdbC7I6H2gzQr0YxA2KhcsvUWsZyMyOL4osAHHEfu5u6Uqo/EIlCv1p4Ap0BGKdRWzu1CZ4c87Yy/hhsn1t5qLkHUmyzSu8iKuQKfmZkyqo8yY2AuQS4c1TRa8d/aYE0zF84YV9w1c0tPu9caDP5zItP+rLiP+3ojDKdx+vuWOcvyarlQLx+uRGYalBegkQpuYvD2CQJnk2flZfhumK3SEzDTMznY0qLowbJTfIlWqCjoS0ayUE0t30oRmZ0p/bv5I2fb72WoffFlaSFpVLERjL8EwGwtjlMpGQp6S6UkbNaVRyP+V0GRK+w4QP/lL7QW+Pl55kr5XJs7wXcF4teYwRmAZGGa7B5PilSGONPiAV/y45973FWT3zVniKb+E6w1A2fECMhdvZsVkbMFz+YeHZ3uhJ/BlkHaGJFxXnpQoQIAyiqdQi8ruIbJeE3SoGxPKQCP94bsR9PPg7n18MSbh6ImyKT1j+H0jQ2s1r+ortWgI1kb8JlHEKYY3IdPw5AbKQrn3iOD/vEXOai2mQ6mdnxUKHewD8Gb1OHvTAYhG59njNwlqUGqv7LVQSKA1aS3Ps+JPktd+vpoe78EhDHFA2//pxoIJKQPAYkMwdtKr52S+mu0d0Zg+TTM8Qs7X9PwaGsDdOvmVHQSKKHFcq80pltoFN9p/nbVQrroiIkccnrDfNDXqIISd96XZwiTeN78DJOlc28F04JYsIxINgNI4yCh6svd3gTWdnVE3q15NS5O6GD1LL6CXwOIPmUipWTV5360iC9DEjlLf/6M9XFdgF6D4My2Ht7r2OZ9SQLw571hYsw5GWQZ3B
-X-Forefront-Antispam-Report: CIP:216.228.112.34; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:schybrid03.nvidia.com; CAT:NONE;
- SFS:(4636009)(46966006)(36840700001)(6666004)(70586007)(7636003)(70206006)(356005)(186003)(16526019)(82310400003)(83380400001)(33716001)(26005)(8936002)(9576002)(5660300002)(966005)(508600001)(426003)(316002)(47076005)(36860700001)(8676002)(86362001)(2906002)(4326008)(7416002)(54906003)(9686003)(336012)(110136005)(39026012);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Nov 2021 07:19:34.7816 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: da5e6be7-9372-4c0a-fce2-08d9aa63c5f2
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.112.34];
- Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT068.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW2PR12MB2378
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,250 +48,682 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: amd-gfx@lists.freedesktop.org, willy@infradead.org, jglisse@redhat.com,
- dri-devel@lists.freedesktop.org, jgg@nvidia.com, hch@lst.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tuesday, 16 November 2021 6:30:18 AM AEDT Alex Sierra wrote:
-> Device memory that is cache coherent from device and CPU point of view.
-> This is used on platforms that have an advanced system bus (like CAPI
-> or CXL). Any page of a process can be migrated to such memory. However,
-> no one should be allowed to pin such memory so that it can always be
-> evicted.
+Hi, Matthew
+
+Finally got some time to look at this more in-depth, please see below.
+
+On Mon, 2021-11-15 at 17:16 +0000, Matthew Auld wrote:
+> On 14/11/2021 11:12, Thomas Hellström wrote:
+> > Don't wait sync while migrating, but rather make the GPU blit await
+> > the
+> > dependencies and add a moving fence to the object.
+> > 
+> > This also enables asynchronous VRAM management in that on eviction,
+> > rather than waiting for the moving fence to expire before freeing
+> > VRAM,
+> > it is freed immediately and the fence is stored with the VRAM
+> > manager and
+> > handed out to newly allocated objects to await before clears and
+> > swapins,
+> > or for kernel objects before setting up gpu vmas or mapping.
+> > 
+> > To collect dependencies before migrating, add a set of utilities
+> > that
+> > coalesce these to a single dma_fence.
+> > 
+> > What is still missing for fully asynchronous operation is
+> > asynchronous vma
+> > unbinding, which is still to be implemented.
+> > 
+> > This commit substantially reduces execution time in the
+> > gem_lmem_swapping
+> > test.
+> > 
+> > v2:
+> > - Make a couple of functions static.
+> > 
+> > Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> > ---
+> >   drivers/gpu/drm/i915/gem/i915_gem_ttm.c      |  10 +
+> >   drivers/gpu/drm/i915/gem/i915_gem_ttm.h      |   2 +-
+> >   drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c | 329
+> > +++++++++++++++++--
+> >   drivers/gpu/drm/i915/gem/i915_gem_wait.c     |   4 +-
+> >   4 files changed, 318 insertions(+), 27 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> > b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> > index a1df49378a0f..111a4282d779 100644
+> > --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> > +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> > @@ -326,6 +326,9 @@ static bool i915_ttm_eviction_valuable(struct
+> > ttm_buffer_object *bo,
+> >   {
+> >         struct drm_i915_gem_object *obj = i915_ttm_to_gem(bo);
+> >   
+> > +       if (!obj)
+> > +               return false;
+> > +
+> >         /*
+> >          * EXTERNAL objects should never be swapped out by TTM,
+> > instead we need
+> >          * to handle that ourselves. TTM will already skip such
+> > objects for us,
+> > @@ -448,6 +451,10 @@ static int
+> > i915_ttm_shrinker_release_pages(struct drm_i915_gem_object *obj,
+> >         if (bo->ttm->page_flags & TTM_TT_FLAG_SWAPPED)
+> >                 return 0;
+> >   
+> > +       ret = ttm_bo_wait_ctx(bo, &ctx);
+> > +       if (ret)
+> > +               return ret;
 > 
-> Signed-off-by: Alex Sierra <alex.sierra@amd.com>
-> ---
->  include/linux/memremap.h |  8 ++++++++
->  include/linux/mm.h       |  9 +++++++++
->  mm/memcontrol.c          |  6 +++---
->  mm/memory-failure.c      |  6 +++++-
->  mm/memremap.c            |  5 ++++-
->  mm/migrate.c             | 21 +++++++++++++--------
->  6 files changed, 42 insertions(+), 13 deletions(-)
 > 
-> diff --git a/include/linux/memremap.h b/include/linux/memremap.h
-> index c0e9d35889e8..ff4d398edf35 100644
-> --- a/include/linux/memremap.h
-> +++ b/include/linux/memremap.h
-> @@ -39,6 +39,13 @@ struct vmem_altmap {
->   * A more complete discussion of unaddressable memory may be found in
->   * include/linux/hmm.h and Documentation/vm/hmm.rst.
->   *
-> + * MEMORY_DEVICE_COHERENT:
-> + * Device memory that is cache coherent from device and CPU point of view. This
-> + * is used on platforms that have an advanced system bus (like CAPI or CXL). A
-> + * driver can hotplug the device memory using ZONE_DEVICE and with that memory
-> + * type. Any page of a process can be migrated to such memory. However no one
-> + * should be allowed to pin such memory so that it can always be evicted.
-> + *
->   * MEMORY_DEVICE_FS_DAX:
->   * Host memory that has similar access semantics as System RAM i.e. DMA
->   * coherent and supports page pinning. In support of coordinating page
-> @@ -59,6 +66,7 @@ struct vmem_altmap {
->  enum memory_type {
->  	/* 0 is reserved to catch uninitialized type fields */
->  	MEMORY_DEVICE_PRIVATE = 1,
-> +	MEMORY_DEVICE_COHERENT,
->  	MEMORY_DEVICE_FS_DAX,
->  	MEMORY_DEVICE_GENERIC,
->  	MEMORY_DEVICE_PCI_P2PDMA,
-> diff --git a/include/linux/mm.h b/include/linux/mm.h
-> index 73a52aba448f..d23b6ebd2177 100644
-> --- a/include/linux/mm.h
-> +++ b/include/linux/mm.h
-> @@ -1162,6 +1162,7 @@ static inline bool page_is_devmap_managed(struct page *page)
->  		return false;
->  	switch (page->pgmap->type) {
->  	case MEMORY_DEVICE_PRIVATE:
-> +	case MEMORY_DEVICE_COHERENT:
->  	case MEMORY_DEVICE_FS_DAX:
->  		return true;
->  	default:
-> @@ -1191,6 +1192,14 @@ static inline bool is_device_private_page(const struct page *page)
->  		page->pgmap->type == MEMORY_DEVICE_PRIVATE;
->  }
->  
-> +static inline bool is_device_page(const struct page *page)
-> +{
-> +	return IS_ENABLED(CONFIG_DEV_PAGEMAP_OPS) &&
-> +		is_zone_device_page(page) &&
-> +		(page->pgmap->type == MEMORY_DEVICE_PRIVATE ||
-> +		page->pgmap->type == MEMORY_DEVICE_COHERENT);
-> +}
-> +
->  static inline bool is_pci_p2pdma_page(const struct page *page)
->  {
->  	return IS_ENABLED(CONFIG_DEV_PAGEMAP_OPS) &&
-> diff --git a/mm/memcontrol.c b/mm/memcontrol.c
-> index 6da5020a8656..e0275ebe1198 100644
-> --- a/mm/memcontrol.c
-> +++ b/mm/memcontrol.c
-> @@ -5695,8 +5695,8 @@ static int mem_cgroup_move_account(struct page *page,
->   *   2(MC_TARGET_SWAP): if the swap entry corresponding to this pte is a
->   *     target for charge migration. if @target is not NULL, the entry is stored
->   *     in target->ent.
-> - *   3(MC_TARGET_DEVICE): like MC_TARGET_PAGE  but page is MEMORY_DEVICE_PRIVATE
-> - *     (so ZONE_DEVICE page and thus not on the lru).
-> + *   3(MC_TARGET_DEVICE): like MC_TARGET_PAGE  but page is MEMORY_DEVICE_COHERENT
-> + *     or MEMORY_DEVICE_PRIVATE (so ZONE_DEVICE page and thus not on the lru).
->   *     For now we such page is charge like a regular page would be as for all
->   *     intent and purposes it is just special memory taking the place of a
->   *     regular page.
-> @@ -5730,7 +5730,7 @@ static enum mc_target_type get_mctgt_type(struct vm_area_struct *vma,
->  		 */
->  		if (page_memcg(page) == mc.from) {
->  			ret = MC_TARGET_PAGE;
-> -			if (is_device_private_page(page))
-> +			if (is_device_page(page))
->  				ret = MC_TARGET_DEVICE;
->  			if (target)
->  				target->page = page;
-> diff --git a/mm/memory-failure.c b/mm/memory-failure.c
-> index 3e6449f2102a..51b55fc5172c 100644
-> --- a/mm/memory-failure.c
-> +++ b/mm/memory-failure.c
-> @@ -1554,12 +1554,16 @@ static int memory_failure_dev_pagemap(unsigned long pfn, int flags,
->  		goto unlock;
->  	}
->  
-> -	if (pgmap->type == MEMORY_DEVICE_PRIVATE) {
-> +	switch (pgmap->type) {
-> +	case MEMORY_DEVICE_PRIVATE:
-> +	case MEMORY_DEVICE_COHERENT:
->  		/*
->  		 * TODO: Handle HMM pages which may need coordination
->  		 * with device-side memory.
->  		 */
->  		goto unlock;
-> +	default:
-> +		break;
->  	}
->  
->  	/*
-> diff --git a/mm/memremap.c b/mm/memremap.c
-> index ed593bf87109..94d6a1e01d42 100644
-> --- a/mm/memremap.c
-> +++ b/mm/memremap.c
-> @@ -44,6 +44,7 @@ EXPORT_SYMBOL(devmap_managed_key);
->  static void devmap_managed_enable_put(struct dev_pagemap *pgmap)
->  {
->  	if (pgmap->type == MEMORY_DEVICE_PRIVATE ||
-> +	    pgmap->type == MEMORY_DEVICE_COHERENT ||
->  	    pgmap->type == MEMORY_DEVICE_FS_DAX)
->  		static_branch_dec(&devmap_managed_key);
->  }
-> @@ -51,6 +52,7 @@ static void devmap_managed_enable_put(struct dev_pagemap *pgmap)
->  static void devmap_managed_enable_get(struct dev_pagemap *pgmap)
->  {
->  	if (pgmap->type == MEMORY_DEVICE_PRIVATE ||
-> +	    pgmap->type == MEMORY_DEVICE_COHERENT ||
->  	    pgmap->type == MEMORY_DEVICE_FS_DAX)
->  		static_branch_inc(&devmap_managed_key);
->  }
-> @@ -328,6 +330,7 @@ void *memremap_pages(struct dev_pagemap *pgmap, int nid)
->  
->  	switch (pgmap->type) {
->  	case MEMORY_DEVICE_PRIVATE:
-> +	case MEMORY_DEVICE_COHERENT:
->  		if (!IS_ENABLED(CONFIG_DEVICE_PRIVATE)) {
->  			WARN(1, "Device private memory not supported\n");
->  			return ERR_PTR(-EINVAL);
-> @@ -498,7 +501,7 @@ EXPORT_SYMBOL_GPL(get_dev_pagemap);
->  void free_devmap_managed_page(struct page *page)
->  {
->  	/* notify page idle for dax */
-> -	if (!is_device_private_page(page)) {
-> +	if (!is_device_page(page)) {
->  		wake_up_var(&page->_refcount);
->  		return;
->  	}
-> diff --git a/mm/migrate.c b/mm/migrate.c
-> index 1852d787e6ab..f74422a42192 100644
-> --- a/mm/migrate.c
-> +++ b/mm/migrate.c
-> @@ -362,7 +362,7 @@ static int expected_page_refs(struct address_space *mapping, struct page *page)
->  	 * Device private pages have an extra refcount as they are
->  	 * ZONE_DEVICE pages.
->  	 */
-> -	expected_count += is_device_private_page(page);
-> +	expected_count += is_device_page(page);
->  	if (mapping)
->  		expected_count += thp_nr_pages(page) + page_has_private(page);
->  
-> @@ -2503,7 +2503,7 @@ static bool migrate_vma_check_page(struct page *page)
->  		 * FIXME proper solution is to rework migration_entry_wait() so
->  		 * it does not need to take a reference on page.
->  		 */
+> Why do we need this? Also not needed for the above purge case?
 
-Note that I have posted a patch to fix this - see
-https://lore.kernel.org/all/20211118020754.954425-1-apopple@nvidia.com/. This
-looks ok for now assuming coherent pages can never be pinned.
+This is for bos with an on-going async move to system. The
+intel_migrate code doesn't set up vmas, so unbinding doesn't
+necessarily idle. The purge code currently idles in TTM, but in both
+cases we should probably add another argument to
+shrinker_release_pages() and move this wait before purge to return -
+EBUSY unless we have SHRINK_ACTIVE.
 
-However that raises a question - what happens when something calls
-get_user_pages() on a pfn pointing to a coherent device page? I can't see
-anything in this series that prevents pinning of coherent device pages, so we
-can't just assume they aren't pinned.
-
-In the case of device-private pages this is enforced by the fact they never
-have present pte's, so any attempt to GUP them results in a fault. But if I'm
-understanding this series correctly that won't be the case for coherent device
-pages right?
-
-> -		return is_device_private_page(page);
-> +		return is_device_page(page);
->  	}
->  
->  	/* For file back page */
-> @@ -2791,7 +2791,7 @@ EXPORT_SYMBOL(migrate_vma_setup);
->   *     handle_pte_fault()
->   *       do_anonymous_page()
->   * to map in an anonymous zero page but the struct page will be a ZONE_DEVICE
-> - * private page.
-> + * private or coherent page.
->   */
->  static void migrate_vma_insert_page(struct migrate_vma *migrate,
->  				    unsigned long addr,
-> @@ -2867,10 +2867,15 @@ static void migrate_vma_insert_page(struct migrate_vma *migrate,
->  				swp_entry = make_readable_device_private_entry(
->  							page_to_pfn(page));
->  			entry = swp_entry_to_pte(swp_entry);
-> +		} else if (is_device_page(page)) {
-
-How about adding an explicit `is_device_coherent_page()` helper? It would make
-the test more explicit that this is expected to handle just coherent pages and
-I bet there will be future changes that need to differentiate between private
-and coherent pages anyway.
-
-> +			entry = pte_mkold(mk_pte(page,
-> +						 READ_ONCE(vma->vm_page_prot)));
-> +			if (vma->vm_flags & VM_WRITE)
-> +				entry = pte_mkwrite(pte_mkdirty(entry));
->  		} else {
->  			/*
-> -			 * For now we only support migrating to un-addressable
-> -			 * device memory.
-> +			 * We support migrating to private and coherent types
-> +			 * for device zone memory.
->  			 */
->  			pr_warn_once("Unsupported ZONE_DEVICE page type.\n");
->  			goto abort;
-> @@ -2976,10 +2981,10 @@ void migrate_vma_pages(struct migrate_vma *migrate)
->  		mapping = page_mapping(page);
->  
->  		if (is_zone_device_page(newpage)) {
-> -			if (is_device_private_page(newpage)) {
-> +			if (is_device_page(newpage)) {
->  				/*
-> -				 * For now only support private anonymous when
-> -				 * migrating to un-addressable device memory.
-> +				 * For now only support private and coherent
-> +				 * anonymous when migrating to device memory.
->  				 */
->  				if (mapping) {
->  					migrate->src[i] &= ~MIGRATE_PFN_MIGRATE;
 > 
+> > +
+> >         bo->ttm->page_flags |= TTM_TT_FLAG_SWAPPED;
+> >         ret = ttm_bo_validate(bo, &place, &ctx);
+> >         if (ret) {
+> > @@ -549,6 +556,9 @@ static void i915_ttm_swap_notify(struct
+> > ttm_buffer_object *bo)
+> >         struct drm_i915_gem_object *obj = i915_ttm_to_gem(bo);
+> >         int ret = i915_ttm_move_notify(bo);
+> >   
+> > +       if (!obj)
+> > +               return;
+> 
+> It looks like the i915_ttm_move_notify(bo) already dereferenced the
+> GEM 
+> bo. Or did something in there maybe nuke it?
+> 
+> > +
+> >         GEM_WARN_ON(ret);
+> >         GEM_WARN_ON(obj->ttm.cached_io_rsgt);
+> >         if (!ret && obj->mm.madv != I915_MADV_WILLNEED)
+> > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.h
+> > b/drivers/gpu/drm/i915/gem/i915_gem_ttm.h
+> > index 82cdabb542be..9d698ad00853 100644
+> > --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.h
+> > +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.h
+> > @@ -37,7 +37,7 @@ void i915_ttm_bo_destroy(struct ttm_buffer_object
+> > *bo);
+> >   static inline struct drm_i915_gem_object *
+> >   i915_ttm_to_gem(struct ttm_buffer_object *bo)
+> >   {
+> > -       if (GEM_WARN_ON(bo->destroy != i915_ttm_bo_destroy))
+> > +       if (bo->destroy != i915_ttm_bo_destroy)
+> >                 return NULL;
+> 
+> So this would indicate a "ghost" object, or is this something else?
+> How 
+> scared should we be with this, like with the above checking for NULL
+> GEM 
+> object state? In general do you know where we need the above
+> checking?
 
+Yeah, these are ghost objects and this is a major flaw in TTM in that
+some callbacks are per device and not per object. Should have been
+fixed long ago :/. For the ttm_tt callbacks, obj might be NULL but we
+must still be able to cope with that. For other callbacks we should
+ignore the ghost objects. I'll do a second audit here.
 
+> 
+> >   
+> >         return container_of(bo, struct drm_i915_gem_object,
+> > __do_not_access);
+> > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
+> > b/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
+> > index f35b386c56ca..ae2c49fc3500 100644
+> > --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
+> > +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
+> > @@ -3,6 +3,8 @@
+> >    * Copyright © 2021 Intel Corporation
+> >    */
+> >   
+> > +#include <linux/dma-fence-array.h>
+> > +
+> >   #include <drm/ttm/ttm_bo_driver.h>
+> >   
+> >   #include "i915_drv.h"
+> > @@ -41,6 +43,228 @@ void i915_ttm_migrate_set_failure_modes(bool
+> > gpu_migration,
+> >   }
+> >   #endif
+> >   
+> > +/**
+> > + * DOC: Set of utilities to dynamically collect dependencies and
+> > + * eventually coalesce them into a single fence which is fed into
+> > + * the migration code. That single fence is, in the case of
+> > dependencies
+> > + * from multiple contexts, a struct dma_fence_array, since the
+> > + * i915 request code can break that up and await the individual
+> > + * fences.
+> 
+> this? IIUC it looks like TTM expects single context/timeline for 
+> pipelined move, like with that dma_fence_is_later() check in 
+> can link to here?
+
+Yes, currently we only have a single migration fence from the migration
+code so we don't need this for pipelined moves yet. But with async
+unbinding we do, and then we'd have to coalesce the unbind fences
+together with the migration fence (We can allow reading from a bo while
+migrating it) and then feed it to the pipelined move cleanup after
+attaching it to a timeline, (using dma_fence_chain I guess).
+
+> 
+> > + *
+> > + * While collecting the individual dependencies, we store the
+> > refcounted
+> > + * struct dma_fence pointers in a realloc-type-managed pointer
+> > array, since
+> > + * that can be easily fed into a dma_fence_array. Other options
+> > are
+> > + * available, like for example an xarray for similarity with
+> > drm/sched.
+> > + * Can be changed easily if needed.
+> > + *
+> > + * We might want to break this out into a separate file as a
+> > utility.
+> > + */
+> > +
+> > +#define I915_DEPS_MIN_ALLOC_CHUNK 8U
+> > +
+> > +/**
+> > + * struct i915_deps - Collect dependencies into a single dma-fence
+> > + * @single: Storage for pointer if the collection is a single
+> > fence.
+> > + * @fence: Allocated array of fence pointers if more than a single
+> > fence;
+> > + * otherwise points to the address of @single.
+> > + * @num_deps: Current number of dependency fences.
+> > + * @fences_size: Size of the @fences array in number of pointers.
+> > + * @gfp: Allocation mode.
+> > + */
+> > +struct i915_deps {
+> > +       struct dma_fence *single;
+> > +       struct dma_fence **fences;
+> > +       unsigned int num_deps;
+> > +       unsigned int fences_size;
+> > +       gfp_t gfp;
+> > +};
+> > +
+> > +static void i915_deps_reset_fences(struct i915_deps *deps)
+> > +{
+> > +       if (deps->fences != &deps->single)
+> > +               kfree(deps->fences);
+> > +       deps->num_deps = 0;
+> > +       deps->fences_size = 1;
+> > +       deps->fences = &deps->single;
+> > +}
+> > +
+> > +static void i915_deps_init(struct i915_deps *deps, gfp_t gfp)
+> > +{
+> > +       deps->fences = NULL;
+> > +       deps->gfp = gfp;
+> > +       i915_deps_reset_fences(deps);
+> > +}
+> > +
+> > +static void i915_deps_fini(struct i915_deps *deps)
+> > +{
+> > +       unsigned int i;
+> > +
+> > +       for (i = 0; i < deps->num_deps; ++i)
+> > +               dma_fence_put(deps->fences[i]);
+> > +
+> > +       if (deps->fences != &deps->single)
+> > +               kfree(deps->fences);
+> > +}
+> > +
+> > +static int i915_deps_grow(struct i915_deps *deps, struct dma_fence
+> > *fence,
+> > +                         const struct ttm_operation_ctx *ctx)
+> > +{
+> > +       int ret;
+> > +
+> > +       if (deps->num_deps >= deps->fences_size) {
+> > +               unsigned int new_size = 2 * deps->fences_size;
+> > +               struct dma_fence **new_fences;
+> > +
+> > +               new_size = max(new_size,
+> > I915_DEPS_MIN_ALLOC_CHUNK);
+> > +               new_fences = kmalloc_array(new_size,
+> > sizeof(*new_fences), deps->gfp);
+> > +               if (!new_fences)
+> > +                       goto sync;
+> > +
+> > +               memcpy(new_fences, deps->fences,
+> > +                      deps->fences_size * sizeof(*new_fences));
+> > +               swap(new_fences, deps->fences);
+> > +               if (new_fences != &deps->single)
+> > +                       kfree(new_fences);
+> > +               deps->fences_size = new_size;
+> > +       }
+> > +       deps->fences[deps->num_deps++] = dma_fence_get(fence);
+> > +       return 0;
+> > +
+> > +sync:
+> > +       if (ctx->no_wait_gpu) {
+> > +               ret = -EBUSY;
+> > +               goto unref;
+> > +       }
+> > +
+> > +       ret = dma_fence_wait(fence, ctx->interruptible);
+> > +       if (ret)
+> > +               goto unref;
+> > +
+> > +       ret = fence->error;
+> > +       if (ret)
+> > +               goto unref;
+> > +
+> > +       return 0;
+> > +
+> > +unref:
+> > +       i915_deps_fini(deps);
+> > +       return ret;
+> > +}
+> > +
+> > +static int i915_deps_sync(struct i915_deps *deps,
+> > +                         const struct ttm_operation_ctx *ctx)
+> > +{
+> > +       unsigned int i;
+> > +       int ret = 0;
+> > +       struct dma_fence **fences = deps->fences;
+> 
+> Nit: Christmas tree.
+
+Will fix.
+
+> 
+> > +
+> > +       for (i = 0; i < deps->num_deps; ++i, ++fences) {
+> > +               if (ctx->no_wait_gpu) {
+> > +                       ret = -EBUSY;
+> > +                       goto unref;
+> > +               }
+> > +
+> > +               ret = dma_fence_wait(*fences, ctx->interruptible);
+> > +               if (ret)
+> > +                       goto unref;
+> > +
+> > +               ret = (*fences)->error;
+> > +               if (ret)
+> > +                       goto unref;
+> > +       }
+> > +
+> > +       i915_deps_fini(deps);
+> > +       return 0;
+> > +
+> > +unref:
+> > +       i915_deps_fini(deps);
+> > +       return ret;
+> > +}
+> > +
+> > +static int i915_deps_add_dependency(struct i915_deps *deps,
+> > +                                   struct dma_fence *fence,
+> > +                                   const struct ttm_operation_ctx
+> > *ctx)
+> > +{
+> > +       unsigned int i;
+> > +       int ret;
+> > +
+> > +       if (!fence)
+> > +               return 0;
+> > +
+> > +       if (dma_fence_is_signaled(fence)) {
+> > +               ret = fence->error;
+> > +               if (ret)
+> > +                       i915_deps_fini(deps);
+> > +               return ret;
+> > +       }
+> > +
+> > +       for (i = 0; i < deps->num_deps; ++i) {
+> > +               struct dma_fence *entry = deps->fences[i];
+> > +
+> > +               if (!entry->context || entry->context != fence-
+> > >context)
+> > +                       continue;
+> > +
+> > +               if (dma_fence_is_later(fence, entry)) {
+> > +                       dma_fence_put(entry);
+> > +                       deps->fences[i] = dma_fence_get(fence);
+> > +               }
+> > +
+> > +               return 0;
+> > +       }
+> > +
+> > +       return i915_deps_grow(deps, fence, ctx);
+> > +}
+> > +
+> > +static struct dma_fence *i915_deps_to_fence(struct i915_deps
+> > *deps,
+> > +                                           const struct
+> > ttm_operation_ctx *ctx)
+> > +{
+> > +       struct dma_fence_array *array;
+> > +
+> > +       if (deps->num_deps == 0)
+> > +               return NULL;
+> > +
+> > +       if (deps->num_deps == 1) {
+> > +               deps->num_deps = 0;
+> > +               return deps->fences[0];
+> > +       }
+> > +
+> > +       /*
+> > +        * TODO: Alter the allocation mode here to not try too hard
+> > to
+> > +        * make things async.
+> > +        */
+> > +       array = dma_fence_array_create(deps->num_deps, deps-
+> > >fences, 0, 0,
+> > +                                      false);
+> > +       if (!array)
+> > +               return ERR_PTR(i915_deps_sync(deps, ctx));
+> > +
+> > +       deps->fences = NULL;
+> > +       i915_deps_reset_fences(deps);
+> > +
+> > +       return &array->base;
+> > +}
+> > +
+> > +static int i915_deps_add_resv(struct i915_deps *deps, struct
+> > dma_resv *resv,
+> > +                             bool all, const bool no_excl,
+> > +                             const struct ttm_operation_ctx *ctx)
+> > +{
+> > +       struct dma_resv_iter iter;
+> > +       struct dma_fence *fence;
+> > +
+> > +       dma_resv_assert_held(resv);
+> > +       dma_resv_for_each_fence(&iter, resv, all, fence) {
+> > +               int ret;
+> > +
+> > +               if (no_excl && !iter.index)
+> > +                       continue;
+> > +
+> > +               ret = i915_deps_add_dependency(deps, fence, ctx);
+> > +               if (ret)
+> > +                       return ret;
+> > +       }
+> > +
+> > +       return 0;
+> > +}
+> > +
+> >   static enum i915_cache_level
+> >   i915_ttm_cache_level(struct drm_i915_private *i915, struct
+> > ttm_resource *res,
+> >                      struct ttm_tt *ttm)
+> > @@ -156,7 +380,8 @@ static struct dma_fence
+> > *i915_ttm_accel_move(struct ttm_buffer_object *bo,
+> >                                              bool clear,
+> >                                              struct ttm_resource
+> > *dst_mem,
+> >                                              struct ttm_tt
+> > *dst_ttm,
+> > -                                            struct sg_table
+> > *dst_st)
+> > +                                            struct sg_table
+> > *dst_st,
+> > +                                            struct dma_fence *dep)
+> >   {
+> >         struct drm_i915_private *i915 = container_of(bo->bdev,
+> > typeof(*i915),
+> >                                                      bdev);
+> > @@ -180,7 +405,7 @@ static struct dma_fence
+> > *i915_ttm_accel_move(struct ttm_buffer_object *bo,
+> >                         return ERR_PTR(-EINVAL);
+> >   
+> >                 intel_engine_pm_get(i915->gt.migrate.context-
+> > >engine);
+> > -               ret = intel_context_migrate_clear(i915-
+> > >gt.migrate.context, NULL,
+> > +               ret = intel_context_migrate_clear(i915-
+> > >gt.migrate.context, dep,
+> >                                                   dst_st->sgl,
+> > dst_level,
+> >                                                  
+> > i915_ttm_gtt_binds_lmem(dst_mem),
+> >                                                   0, &rq);
+> > @@ -194,7 +419,7 @@ static struct dma_fence
+> > *i915_ttm_accel_move(struct ttm_buffer_object *bo,
+> >                 src_level = i915_ttm_cache_level(i915, bo-
+> > >resource, src_ttm);
+> >                 intel_engine_pm_get(i915->gt.migrate.context-
+> > >engine);
+> >                 ret = intel_context_migrate_copy(i915-
+> > >gt.migrate.context,
+> > -                                                NULL, src_rsgt-
+> > >table.sgl,
+> > +                                                dep, src_rsgt-
+> > >table.sgl,
+> >                                                  src_level,
+> >                                                 
+> > i915_ttm_gtt_binds_lmem(bo->resource),
+> >                                                  dst_st->sgl,
+> > dst_level,
+> > @@ -378,10 +603,11 @@ i915_ttm_memcpy_work_arm(struct
+> > i915_ttm_memcpy_work *work,
+> >         return &work->fence;
+> >   }
+> >   
+> > -static void __i915_ttm_move(struct ttm_buffer_object *bo, bool
+> > clear,
+> > -                           struct ttm_resource *dst_mem,
+> > -                           struct ttm_tt *dst_ttm,
+> > -                           struct i915_refct_sgt *dst_rsgt, bool
+> > allow_accel)
+> > +static struct dma_fence *
+> > +__i915_ttm_move(struct ttm_buffer_object *bo, bool clear,
+> > +               struct ttm_resource *dst_mem, struct ttm_tt
+> > *dst_ttm,
+> > +               struct i915_refct_sgt *dst_rsgt, bool allow_accel,
+> > +               struct dma_fence *move_dep)
+> >   {
+> >         struct i915_ttm_memcpy_work *copy_work = NULL;
+> >         struct i915_ttm_memcpy_arg _arg, *arg = &_arg;
+> > @@ -389,7 +615,7 @@ static void __i915_ttm_move(struct
+> > ttm_buffer_object *bo, bool clear,
+> >   
+> >         if (allow_accel) {
+> >                 fence = i915_ttm_accel_move(bo, clear, dst_mem,
+> > dst_ttm,
+> > -                                           &dst_rsgt->table);
+> > +                                           &dst_rsgt->table,
+> > move_dep);
+> >   
+> >                 /*
+> >                  * We only need to intercept the error when moving
+> > to lmem.
+> > @@ -423,6 +649,11 @@ static void __i915_ttm_move(struct
+> > ttm_buffer_object *bo, bool clear,
+> >   
+> >                 if (!IS_ERR(fence))
+> >                         goto out;
+> > +       } else if (move_dep) {
+> > +               int err = dma_fence_wait(move_dep, true);
+> > +
+> > +               if (err)
+> > +                       return ERR_PTR(err);
+> >         }
+> >   
+> >         /* Error intercept failed or no accelerated migration to
+> > start with */
+> > @@ -433,16 +664,35 @@ static void __i915_ttm_move(struct
+> > ttm_buffer_object *bo, bool clear,
+> >         i915_ttm_memcpy_release(arg);
+> >         kfree(copy_work);
+> >   
+> > -       return;
+> > +       return NULL;
+> >   out:
+> > -       /* Sync here for now, forward the fence to caller when
+> > fully async. */
+> > -       if (fence) {
+> > -               dma_fence_wait(fence, false);
+> > -               dma_fence_put(fence);
+> > -       } else if (copy_work) {
+> > +       if (!fence && copy_work) {
+> >                 i915_ttm_memcpy_release(arg);
+> >                 kfree(copy_work);
+> >         }
+> > +
+> > +       return fence;
+> > +}
+> > +
+> > +static struct dma_fence *prev_fence(struct ttm_buffer_object *bo,
+> > +                                   struct ttm_operation_ctx *ctx)
+> > +{
+> > +       struct i915_deps deps;
+> > +       int ret;
+> > +
+> > +       /*
+> > +        * Instead of trying hard with GFP_KERNEL to allocate
+> > memory,
+> > +        * the dependency collection will just sync if it doesn't
+> > +        * succeed.
+> > +        */
+> > +       i915_deps_init(&deps, GFP_KERNEL | __GFP_NORETRY |
+> > __GFP_NOWARN);
+> > +       ret = i915_deps_add_dependency(&deps, bo->moving, ctx);
+> > +       if (!ret)
+> > +               ret = i915_deps_add_resv(&deps, bo->base.resv,
+> > false, false, ctx);
+> > +       if (ret)
+> > +               return ERR_PTR(ret);
+> > +
+> > +       return i915_deps_to_fence(&deps, ctx);
+> >   }
+> >   
+> >   /**
+> > @@ -462,16 +712,12 @@ int i915_ttm_move(struct ttm_buffer_object
+> > *bo, bool evict,
+> >         struct drm_i915_gem_object *obj = i915_ttm_to_gem(bo);
+> >         struct ttm_resource_manager *dst_man =
+> >                 ttm_manager_type(bo->bdev, dst_mem->mem_type);
+> > +       struct dma_fence *migration_fence = NULL;
+> >         struct ttm_tt *ttm = bo->ttm;
+> >         struct i915_refct_sgt *dst_rsgt;
+> >         bool clear;
+> >         int ret;
+> >   
+> > -       /* Sync for now. We could do the actual copy async. */
+> > -       ret = ttm_bo_wait_ctx(bo, ctx);
+> > -       if (ret)
+> > -               return ret;
+> > -
+> >         ret = i915_ttm_move_notify(bo);
+> >         if (ret)
+> >                 return ret;
+> > @@ -494,10 +740,37 @@ int i915_ttm_move(struct ttm_buffer_object
+> > *bo, bool evict,
+> >                 return PTR_ERR(dst_rsgt);
+> >   
+> >         clear = !i915_ttm_cpu_maps_iomem(bo->resource) && (!ttm ||
+> > !ttm_tt_is_populated(ttm));
+> > -       if (!(clear && ttm && !(ttm->page_flags &
+> > TTM_TT_FLAG_ZERO_ALLOC)))
+> > -               __i915_ttm_move(bo, clear, dst_mem, bo->ttm,
+> > dst_rsgt, true);
+> > +       if (!(clear && ttm && !(ttm->page_flags &
+> > TTM_TT_FLAG_ZERO_ALLOC))) {
+> > +               struct dma_fence *dep = prev_fence(bo, ctx);
+> > +
+> > +               if (IS_ERR(dep)) {
+> > +                       i915_refct_sgt_put(dst_rsgt);
+> > +                       return PTR_ERR(dep);
+> > +               }
+> > +
+> > +               migration_fence = __i915_ttm_move(bo, clear,
+> > dst_mem, bo->ttm,
+> > +                                                 dst_rsgt, true,
+> > dep);
+> > +               dma_fence_put(dep);
+> > +       }
+> > +
+> > +       /* We can possibly get an -ERESTARTSYS here */
+> > +       if (IS_ERR(migration_fence)) {
+> > +               i915_refct_sgt_put(dst_rsgt);
+> > +               return PTR_ERR(migration_fence);
+> > +       }
+> > +
+> > +       if (migration_fence) {
+> > +               ret = ttm_bo_move_accel_cleanup(bo,
+> > migration_fence, evict,
+> > +                                               true, dst_mem);
+> > +               if (ret) {
+> > +                       dma_fence_wait(migration_fence, false);
+> > +                       ttm_bo_move_sync_cleanup(bo, dst_mem);
+> > +               }
+> > +               dma_fence_put(migration_fence);
+> > +       } else {
+> > +               ttm_bo_move_sync_cleanup(bo, dst_mem);
+> > +       }
+> >   
+> > -       ttm_bo_move_sync_cleanup(bo, dst_mem);
+> >         i915_ttm_adjust_domains_after_move(obj);
+> >         i915_ttm_free_cached_io_rsgt(obj);
+> >   
+> > @@ -538,6 +811,7 @@ int i915_gem_obj_copy_ttm(struct
+> > drm_i915_gem_object *dst,
+> >                 .interruptible = intr,
+> >         };
+> >         struct i915_refct_sgt *dst_rsgt;
+> > +       struct dma_fence *copy_fence;
+> >         int ret;
+> >   
+> >         assert_object_held(dst);
+> > @@ -553,10 +827,17 @@ int i915_gem_obj_copy_ttm(struct
+> > drm_i915_gem_object *dst,
+> >                 return ret;
+> >   
+> >         dst_rsgt = i915_ttm_resource_get_st(dst, dst_bo->resource);
+> > -       __i915_ttm_move(src_bo, false, dst_bo->resource, dst_bo-
+> > >ttm,
+> > -                       dst_rsgt, allow_accel);
+> > +       copy_fence = __i915_ttm_move(src_bo, false, dst_bo-
+> > >resource,
+> > +                                    dst_bo->ttm, dst_rsgt,
+> > allow_accel, NULL);
+> >   
+> >         i915_refct_sgt_put(dst_rsgt);
+> > +       if (IS_ERR(copy_fence))
+> > +               return PTR_ERR(copy_fence);
+> > +
+> > +       if (copy_fence) {
+> > +               dma_fence_wait(copy_fence, false);
+> > +               dma_fence_put(copy_fence);
+> > +       }
+> >   
+> >         return 0;
+> >   }
+> > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_wait.c
+> > b/drivers/gpu/drm/i915/gem/i915_gem_wait.c
+> > index f909aaa09d9c..bae65796a6cc 100644
+> > --- a/drivers/gpu/drm/i915/gem/i915_gem_wait.c
+> > +++ b/drivers/gpu/drm/i915/gem/i915_gem_wait.c
+> > @@ -306,6 +306,6 @@ int i915_gem_object_wait_migration(struct
+> > drm_i915_gem_object *obj,
+> >                                    unsigned int flags)
+> >   {
+> >         might_sleep();
+> > -       /* NOP for now. */
+> > -       return 0;
+> > +
+> > +       return i915_gem_object_wait_moving_fence(obj, !!(flags &
+> > I915_WAIT_INTERRUPTIBLE));
+> >   }
+> > 
 
 
