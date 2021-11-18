@@ -2,55 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D53E4565DA
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Nov 2021 23:45:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F056A4565E4
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Nov 2021 23:50:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 257566E1D8;
-	Thu, 18 Nov 2021 22:45:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E28C6E820;
+	Thu, 18 Nov 2021 22:49:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb2e.google.com (mail-yb1-xb2e.google.com
- [IPv6:2607:f8b0:4864:20::b2e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B7C776E1D8;
- Thu, 18 Nov 2021 22:45:50 +0000 (UTC)
-Received: by mail-yb1-xb2e.google.com with SMTP id e71so22625898ybh.10;
- Thu, 18 Nov 2021 14:45:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Drrxg0bait9D2hSu5Rb+lqByc8pviUXeN3/NBO2Mdw0=;
- b=ALelaSYbC0JAGYqDK1XiIqBleMj2mT/SaxMSw+/uyDrnimujzZtPhY0VtYFsUEqaXg
- mm/OIiSTamkgkCAyipQRGpRKcuZzigaaVhPUlGRailSg2QJTWJhHdCoeWjvLxS20SHRH
- MnPT2HsDkPxXMJoHb8O/VXSjN9BcJtZ4sHdihnpPwUo9NaxD2nb+25F+DljhM4n3frHW
- sYys5igeVfB3WFLjkCb44UuoqLV0cu7TknknwZWHXTD2UePVXD4orSxxEC8rNxyxNN/n
- +Ck60VdaF8aV0NEHFVw7d0/Vu3c0omHgS4nnbRsF5PtuMivM7iiNFmlZhhvvfM0SS1QH
- 4Ayw==
+Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com
+ [209.85.167.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E2E36E820
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Nov 2021 22:49:57 +0000 (UTC)
+Received: by mail-oi1-f176.google.com with SMTP id t23so17683213oiw.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Nov 2021 14:49:57 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Drrxg0bait9D2hSu5Rb+lqByc8pviUXeN3/NBO2Mdw0=;
- b=ZZmfDOhhGUFl8JR2JIl/qkCAt2eNtLDpdLfYHpyazJXrfcqC47pMXvgpjuLMkXr7nb
- j5Od12y/d+Y1wSYBZbNYCRv877buH+AHMgMvPeXGohhJ+X8RcLti1lICqO3LCCrirSw+
- 1/WdKyF46/Rw90GiuLge6csRJvsB15ornjsd2uFeOTqLlgYWu83onikfLi3LnBMKc40d
- qZYxKkDc/VABKFsJURzLp4GbBnHHjUTTvggEwdweDWnCXTyMDiis+st2sCaJqJ1FOKrN
- hZEJrAhXqbzAvHzKNAQ/Qeo0PU94fysG1Kj3zs/PjHMcpZur58R9lT2+E2uPeUhmVHvd
- 4yBQ==
-X-Gm-Message-State: AOAM532rLRbY5k1JIEV0Gc9SED7m6pdnpPjckpHNH7OuycrS9+rXYnKK
- hLaoDn3icpTk3/mfhQQdKPeS7r9eq+RFpPjMawe1l2Zs
-X-Google-Smtp-Source: ABdhPJz4F3+J1gbdCBhQ0sBG5pFrqOoaVWVM1MOWWO5ipi7oqJGxkL204p7x7LR7PkF1BEm0c3jhfkDCgRf8F3yERwU=
-X-Received: by 2002:a25:378c:: with SMTP id
- e134mr30130496yba.474.1637275549921; 
- Thu, 18 Nov 2021 14:45:49 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=NEMOVgkvVV2eWKxnp9UBhrGqsYMELkDt/UIMsRouQTI=;
+ b=h3+gAkzul70KJIg3HW/vCf48aL+Fi71LnbHH8joxuiS1P6+TJR1ySgsQf3w7V3Gq6M
+ aapVmKSxqXbMkpMo8B2BUzSu6ggo7OI7X5J4moOj4fBUa6cJgjkv5A9EfeOi+1gF6QWC
+ MCcDsMF9tXLgRDAaxjSU5w3eRCTuwO3obf951tuBCygd+y3Nt/oksj+kabOmMrMKDfrZ
+ lDZ+xI4VYkrDcfD2COpielc1E0ETNfPS3sj57YFWumTkfy0xFguFZMDYqLc3wjLDz1VH
+ wJ2UPKT1dF5kDspx7LKOHSZSvlYfq/TFp6bi+yfpXNMFisadpE4TeOjExpOeFOwzisVR
+ cH1g==
+X-Gm-Message-State: AOAM533MLWKnD2gmPwLS8ZfGe3F/76RZyCjgKgvwjAtXg/Gv0Tv8Uyjw
+ 0+638iJQht5zbPGadfkGQA==
+X-Google-Smtp-Source: ABdhPJyRhCp+Q8aBhg/oMots96pmWF4+WFdd2UzE562Fg4cqxoNVqdfURkh0kxWYoDlO/IZ60UuToA==
+X-Received: by 2002:a05:6808:1784:: with SMTP id
+ bg4mr587209oib.70.1637275796369; 
+ Thu, 18 Nov 2021 14:49:56 -0800 (PST)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net.
+ [66.90.148.213])
+ by smtp.gmail.com with ESMTPSA id e14sm267321oow.3.2021.11.18.14.49.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 18 Nov 2021 14:49:55 -0800 (PST)
+Received: (nullmailer pid 1907489 invoked by uid 1000);
+ Thu, 18 Nov 2021 22:49:54 -0000
+Date: Thu, 18 Nov 2021 16:49:54 -0600
+From: Rob Herring <robh@kernel.org>
+To: Maxime Ripard <maxime@cerno.tech>
+Subject: Re: [PATCH 1/2] dt-bindings: display: Turn lvds.yaml into a generic
+ schema
+Message-ID: <YZbYkpHFc0XzwMOC@robh.at.kernel.org>
+References: <20211116143503.385807-1-maxime@cerno.tech>
 MIME-Version: 1.0
-References: <20211118111314.GB1147@kili>
-In-Reply-To: <20211118111314.GB1147@kili>
-From: Ben Skeggs <skeggsb@gmail.com>
-Date: Fri, 19 Nov 2021 08:45:38 +1000
-Message-ID: <CACAvsv5jiOo+4hvO-G1ojAvrwZDALX7VfAV8-SHnzYak-3mFDA@mail.gmail.com>
-Subject: Re: [Nouveau] [PATCH] drm/nouveau/acr: fix a couple NULL vs IS_ERR()
- checks
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211116143503.385807-1-maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,67 +62,147 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, ML nouveau <nouveau@lists.freedesktop.org>,
- kernel-janitors@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- Ben Skeggs <bskeggs@redhat.com>
+Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ Frank Rowand <frowand.list@gmail.com>, dri-devel@lists.freedesktop.org,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Daniel Vetter <daniel.vetter@intel.com>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 18 Nov 2021 at 21:13, Dan Carpenter <dan.carpenter@oracle.com> wrote:
->
-> The nvkm_acr_lsfw_add() function never returns NULL.  It returns error
-> pointers on error.
->
-> Fixes: 22dcda45a3d1 ("drm/nouveau/acr: implement new subdev to replace "secure boot"")
-> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
-Reviewed-by: Ben Skeggs <bskeggs@redhat.com>
-
+On Tue, Nov 16, 2021 at 03:35:02PM +0100, Maxime Ripard wrote:
+> The lvds.yaml file so far was both defining the generic LVDS properties
+> (such as data-mapping) that could be used for any LVDS sink, but also
+> the panel-lvds binding.
+> 
+> That last binding was to describe LVDS panels simple enough, and had a
+> number of other bindings using it as a base to specialise it further.
+> 
+> However, this situation makes it fairly hard to extend and reuse both
+> the generic parts, and the panel-lvds itself.
+> 
+> Let's remove the panel-lvds parts and leave only the generic LVDS
+> properties.
+> 
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 > ---
->  drivers/gpu/drm/nouveau/nvkm/subdev/acr/gm200.c | 6 ++++--
->  drivers/gpu/drm/nouveau/nvkm/subdev/acr/gp102.c | 6 ++++--
->  2 files changed, 8 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/acr/gm200.c b/drivers/gpu/drm/nouveau/nvkm/subdev/acr/gm200.c
-> index cdb1ead26d84..82b4c8e1457c 100644
-> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/acr/gm200.c
-> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/acr/gm200.c
-> @@ -207,11 +207,13 @@ int
->  gm200_acr_wpr_parse(struct nvkm_acr *acr)
->  {
->         const struct wpr_header *hdr = (void *)acr->wpr_fw->data;
-> +       struct nvkm_acr_lsfw *lsfw;
->
->         while (hdr->falcon_id != WPR_HEADER_V0_FALCON_ID_INVALID) {
->                 wpr_header_dump(&acr->subdev, hdr);
-> -               if (!nvkm_acr_lsfw_add(NULL, acr, NULL, (hdr++)->falcon_id))
-> -                       return -ENOMEM;
-> +               lsfw = nvkm_acr_lsfw_add(NULL, acr, NULL, (hdr++)->falcon_id);
-> +               if (IS_ERR(lsfw))
-> +                       return PTR_ERR(lsfw);
->         }
->
->         return 0;
-> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/acr/gp102.c b/drivers/gpu/drm/nouveau/nvkm/subdev/acr/gp102.c
-> index fb9132a39bb1..fd97a935a380 100644
-> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/acr/gp102.c
-> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/acr/gp102.c
-> @@ -161,11 +161,13 @@ int
->  gp102_acr_wpr_parse(struct nvkm_acr *acr)
->  {
->         const struct wpr_header_v1 *hdr = (void *)acr->wpr_fw->data;
-> +       struct nvkm_acr_lsfw *lsfw;
->
->         while (hdr->falcon_id != WPR_HEADER_V1_FALCON_ID_INVALID) {
->                 wpr_header_v1_dump(&acr->subdev, hdr);
-> -               if (!nvkm_acr_lsfw_add(NULL, acr, NULL, (hdr++)->falcon_id))
-> -                       return -ENOMEM;
-> +               lsfw = nvkm_acr_lsfw_add(NULL, acr, NULL, (hdr++)->falcon_id);
-> +               if (IS_ERR(lsfw))
-> +                       return PTR_ERR(lsfw);
->         }
->
->         return 0;
-> --
-> 2.20.1
->
+>  .../display/panel/advantech,idk-1110wr.yaml   | 17 ++++++++++-
+>  .../display/panel/innolux,ee101ia-01d.yaml    | 21 +++++++++++++-
+>  .../bindings/display/panel/lvds.yaml          | 29 +------------------
+>  .../display/panel/mitsubishi,aa104xd12.yaml   | 17 ++++++++++-
+>  .../display/panel/mitsubishi,aa121td01.yaml   | 17 ++++++++++-
+>  .../display/panel/sgd,gktw70sdae4se.yaml      | 17 ++++++++++-
+>  6 files changed, 85 insertions(+), 33 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/panel/advantech,idk-1110wr.yaml b/Documentation/devicetree/bindings/display/panel/advantech,idk-1110wr.yaml
+> index 93878c2cd370..f27cd2038636 100644
+> --- a/Documentation/devicetree/bindings/display/panel/advantech,idk-1110wr.yaml
+> +++ b/Documentation/devicetree/bindings/display/panel/advantech,idk-1110wr.yaml
+> @@ -11,13 +11,23 @@ maintainers:
+>    - Thierry Reding <thierry.reding@gmail.com>
+>  
+>  allOf:
+> +  - $ref: panel-common.yaml#
+>    - $ref: lvds.yaml#
+>  
+> +select:
+> +  properties:
+> +    compatible:
+> +      contains:
+> +        const: advantech,idk-1110wr
+> +
+> +  required:
+> +    - compatible
+> +
+>  properties:
+>    compatible:
+>      items:
+>        - const: advantech,idk-1110wr
+> -      - {} # panel-lvds, but not listed here to avoid false select
+> +      - const: panel-lvds
+>  
+>    data-mapping:
+>      const: jeida-24
+> @@ -35,6 +45,11 @@ additionalProperties: false
+>  
+>  required:
+>    - compatible
+> +  - data-mapping
+> +  - width-mm
+> +  - height-mm
+> +  - panel-timing
+> +  - port
+>  
+>  examples:
+>    - |+
+> diff --git a/Documentation/devicetree/bindings/display/panel/innolux,ee101ia-01d.yaml b/Documentation/devicetree/bindings/display/panel/innolux,ee101ia-01d.yaml
+> index a69681e724cb..6e06eecac14e 100644
+> --- a/Documentation/devicetree/bindings/display/panel/innolux,ee101ia-01d.yaml
+> +++ b/Documentation/devicetree/bindings/display/panel/innolux,ee101ia-01d.yaml
+> @@ -11,15 +11,26 @@ maintainers:
+>    - Thierry Reding <thierry.reding@gmail.com>
+>  
+>  allOf:
+> +  - $ref: panel-common.yaml#
+>    - $ref: lvds.yaml#
+>  
+> +select:
+> +  properties:
+> +    compatible:
+> +      contains:
+> +        const: innolux,ee101ia-01d
+> +
+> +  required:
+> +    - compatible
+> +
+>  properties:
+>    compatible:
+>      items:
+>        - const: innolux,ee101ia-01d
+> -      - {} # panel-lvds, but not listed here to avoid false select
+> +      - const: panel-lvds
+>  
+>    backlight: true
+> +  data-mapping: true
+>    enable-gpios: true
+>    power-supply: true
+>    width-mm: true
+> @@ -27,5 +38,13 @@ properties:
+>    panel-timing: true
+>    port: true
+>  
+> +required:
+> +  - compatible
+> +  - data-mapping
+> +  - width-mm
+> +  - height-mm
+> +  - panel-timing
+> +  - port
+> +
+>  additionalProperties: false
+>  ...
+> diff --git a/Documentation/devicetree/bindings/display/panel/lvds.yaml b/Documentation/devicetree/bindings/display/panel/lvds.yaml
+> index 49460c9dceea..5281a75c8bb5 100644
+> --- a/Documentation/devicetree/bindings/display/panel/lvds.yaml
+> +++ b/Documentation/devicetree/bindings/display/panel/lvds.yaml
+> @@ -4,7 +4,7 @@
+>  $id: http://devicetree.org/schemas/display/panel/lvds.yaml#
+>  $schema: http://devicetree.org/meta-schemas/core.yaml#
+>  
+> -title: LVDS Display Panel
+> +title: LVDS Display Common Properties
+>  
+>  maintainers:
+>    - Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> @@ -26,18 +26,7 @@ description: |+
+>    Device compatible with those specifications have been marketed under the
+>    FPD-Link and FlatLink brands.
+>  
+> -allOf:
+> -  - $ref: panel-common.yaml#
+> -
+
+I think you can leave this instead of adding everywhere you include 
+lvds.yaml. Either way,
+
+Reviewed-by: Rob Herring <robh@kernel.org>
