@@ -1,59 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E6C4455853
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Nov 2021 10:53:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0131745586F
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Nov 2021 10:59:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A9556E928;
-	Thu, 18 Nov 2021 09:53:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 161306E918;
+	Thu, 18 Nov 2021 09:58:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb33.google.com (mail-yb1-xb33.google.com
- [IPv6:2607:f8b0:4864:20::b33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC2036E928
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Nov 2021 09:53:24 +0000 (UTC)
-Received: by mail-yb1-xb33.google.com with SMTP id u60so16259638ybi.9
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Nov 2021 01:53:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fooishbar-org.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=MSn2l1CqdA8yauQEkr9Er3RNk6u1ntHr6p1PYu6dVHg=;
- b=dDOwOtPhdIx/Z6wlXdmhq5eHw+zn3sTxhiwhM8bwK0qsSjMrv87LuWgGjB+hvBF1gO
- KAkU4dZQDEFk8bJ9kl6vT0RtgwW37qkbVh+eqDqShAqujemCxqj74rDSFOBDnmtMWJfd
- Wa59tfUQ5Xt1k1lQBQPszUiMcZ8ao42aLt6J7mAsB9DeGD6VmaRQyzfWXIkDmTKD0+A5
- HuGxufiKqxsqU7yk2T68PV36jEw8yr4m0iDPwjA/OGi7c47YWvqgmbA4uEu7zu55DZNI
- FNJyOcN0GkcuA17E+CIwIzaGXX2Jj3HFsgE8Oi1Na2jK+jRhYQUYpjc4fBnvrmcOh9cL
- tS2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=MSn2l1CqdA8yauQEkr9Er3RNk6u1ntHr6p1PYu6dVHg=;
- b=vLQ7NG4E8IHD5vI0FgkhhPEm6vGOsZG5A1EPYVcLNKXDY6NKMZTPMKAwGOOVe52wYN
- 1KzO40RRDxGFhPrTJNiAWffuwrmv9EuallAEK/24w3QMImvofdpmoOQzHACP/uHqnTgO
- gagHBFiCT5sU5tAVT18lI+ubXSKZq4zNpKS7pWIxaz7V2rdGJtpg1dKGl8KEyV/ApeMP
- S4i7tmnn78MWB9K9LWaQhmHcxMbKrvBtcZk3/e6a3FyUYbxU8GQvhSpGHD4ERvVMOy81
- KTqDOvIwnL4tYyDtpWCvGgKFG1cA5p7EBZjvBETNtcrEPUvR6el/ICe0lCt+Ak3/cxuo
- 2JaQ==
-X-Gm-Message-State: AOAM530IV/qbK6yLOWZB5pX/Z4aDgBYTCW2AYZIr9uL2C7RBppUk57Jj
- Ok6CM7r7BtTMAcpJEHIs051EiCdR/K4yv25SvPdwtw==
-X-Google-Smtp-Source: ABdhPJzWC+pD/mBRLS7w06KhnNT4hJCKzQOj9GIHlCC3obzrQKAOBWZGePiBMEvH6LBikSDUuXIczk0NDRtKOW5Pp9o=
-X-Received: by 2002:a25:73d0:: with SMTP id o199mr24604313ybc.87.1637229203749; 
- Thu, 18 Nov 2021 01:53:23 -0800 (PST)
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C020C6E918;
+ Thu, 18 Nov 2021 09:58:54 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10171"; a="234100722"
+X-IronPort-AV: E=Sophos;i="5.87,244,1631602800"; d="scan'208";a="234100722"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Nov 2021 01:58:54 -0800
+X-IronPort-AV: E=Sophos;i="5.87,244,1631602800"; d="scan'208";a="473093351"
+Received: from davidmor-mobl1.ger.corp.intel.com (HELO [10.252.9.238])
+ ([10.252.9.238])
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Nov 2021 01:58:53 -0800
+Message-ID: <1fe8005d-912b-1ed8-6b70-d218235a2428@intel.com>
+Date: Thu, 18 Nov 2021 09:58:49 +0000
 MIME-Version: 1.0
-References: <20211117143347.314294-1-s.hauer@pengutronix.de>
- <3bbf42f3-bd9c-ed66-e421-8d78fbeb22ad@rock-chips.com>
- <4310886.V3yF0ifEZO@diego>
-In-Reply-To: <4310886.V3yF0ifEZO@diego>
-From: Daniel Stone <daniel@fooishbar.org>
-Date: Thu, 18 Nov 2021 09:53:11 +0000
-Message-ID: <CAPj87rPNSt7nZX93prAYD3Emf-34RdTZWp_1TOuAybBebObZhQ@mail.gmail.com>
-Subject: Re: [PATCH v1 00/12] drm/rockchip: RK356x VOP2 support
-To: =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v2 1/6] drm/i915: move the pre_pin earlier
+Content-Language: en-GB
+To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org
+References: <20211117142024.1043017-1-matthew.auld@intel.com>
+ <9ea7ae8e-c9c4-8b1e-2057-5be69eb35555@linux.intel.com>
+ <ea91cc10df3f0a5463566c1eea00ff044efe0db4.camel@linux.intel.com>
+From: Matthew Auld <matthew.auld@intel.com>
+In-Reply-To: <ea91cc10df3f0a5463566c1eea00ff044efe0db4.camel@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,84 +50,119 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>, kernel@pengutronix.de,
- Sascha Hauer <s.hauer@pengutronix.de>, Kever Yang <kever.yang@rock-chips.com>,
- dri-devel@lists.freedesktop.org, Sandy Huang <hjc@rock-chips.com>,
- linux-rockchip@lists.infradead.org,
- Michael Riesch <michael.riesch@wolfvision.net>,
- Peter Geis <pgwipeout@gmail.com>,
- =?UTF-8?B?6Zer5a2d5Yab?= <andy.yan@rock-chips.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On 18/11/2021 06:57, Thomas Hellström wrote:
+> On Wed, 2021-11-17 at 19:49 +0100, Thomas Hellström wrote:
+>>
+>> On 11/17/21 15:20, Matthew Auld wrote:
+>>> In intel_context_do_pin_ww, when calling into the pre_pin
+>>> hook(which is
+>>> passed the ww context) it could in theory return -EDEADLK(which is
+>>> very
+>>> likely with debug kernels), once we start adding more ww locking in
+>>> there,
+>>> like in the next patch. If so then we need to be mindful of having
+>>> to
+>>> restart the do_pin at this point.
+>>>
+>>> If this is the kernel_context, or some other early in-kernel
+>>> context
+>>> where we have yet to setup the default_state, then we always
+>>> inhibit the
+>>> context restore, and instead rely on the delayed active_release to
+>>> set
+>>> the CONTEXT_VALID_BIT for us(if we even care), which should
+>>> indicate
+>>> that we have context switched away, and that our newly saved
+>>> context
+>>> state should now be valid. However, since we currently grab the
+>>> active
+>>> reference before the potential ww dance, we can end up setting the
+>>> CONTEXT_VALID_BIT much too early, if we need to backoff, and then
+>>> upon
+>>> re-trying the do_pin, we could potentially cause the hardware to
+>>> incorrectly load some garbage context state when later context
+>>> switching
+>>> to that context, but at the very least this will trigger the
+>>> GEM_BUG_ON() in __engine_unpark. For now let's just move any ww
+>>> dance
+>>> stuff prior to arming the active reference.
+>>>
+>>> For normal user contexts this shouldn't be a concern, since we
+>>> should
+>>> already have the default_state ready when initialising the lrc
+>>> state,
+>>> and so there should be no concern with active_release somehow
+>>> prematurely setting the CONTEXT_VALID_BIT.
+>>>
+>>> v2(Thomas):
+>>>     - Also re-order the union unwind
+> 
+> Oh should this be
+> 
+> s/union/onion/ ?
 
-On Thu, 18 Nov 2021 at 09:26, Heiko St=C3=BCbner <heiko@sntech.de> wrote:
-> Am Donnerstag, 18. November 2021, 02:27:10 CET schrieb Kever Yang:
-> > I don't agree with this, we do believe you have do some clean up to mee=
-t
-> > the requirement
-> >
-> > of upstream, but all the framework and feature implement are from
-> > Rockchip engineer,
-> >
-> > we have made a great effort to make everything work which block us to
-> > upstream this driver for now.
->
-> I don't fully understand what you mean here (language barrier probably),
-> but dropping non-essential functionality in a first round is pretty commo=
-n
-> to at least get basic functionality working for everyone. With the specia=
-l
-> features getting added again in later patches over time. This happenened
-> on the old vop as well.
->
-> And of course, having a kernel that can "just" do normal graphics without
-> the additional features is still preferable over having _NO_ graphics sup=
-port
-> at all ;-)
->
-> > NAK for this series.
->
-> As you might've seen from previous graphics related patches, there
-> is a big number of people _and companies_ that seems to want/need
-> to work with the rk3566/rk3568 with a kernel based on mainline.
->
-> --> Most likely even in real products!
+Oops, will fixup when pushing :)
 
-Yes, we've been trying to ship a real product based on RK356x. We
-started by using the vendor VOP2 driver, but it is broken beyond
-belief. The driver needs a fundamental ground-up rework, and all the
-additional features get in the way of doing this core rework to make
-it actually function correctly.
-
-So, NAK to the NAK. I would like to see the VOP2 support start simple,
-with more features being added one by one.
-
-> While Rockchip did say that they want to upstream VOP2 support, there
-> has been _NO_ movement or even information at all on this over at least
-> the last year(!), so it's pretty understandable that developers will do t=
-his
-> themself at some point, because they don't want to wait anymore for
-> something that might never happen.
->
-> So a simple "NAK" without additional information is not really helpful he=
-re.
->
-> If you don't like Sascha's series, I really want to know _WHEN_ Rockchip
-> plans on upstreaming at least basic graphis support themself.
->
-> The kernel is often called a do-ocracy - the one who does the work, gets
-> to decide. So if you really don't like Sascha's series at all, I do expec=
-t
-> Rockchip to step up and provide a solution themself - and in a usable
-> timeframe.
-
-Exactly what Heiko said. If you would like to upstream the driver then
-that would be fantastic to see, but I'm afraid you do not get to
-prevent someone else from doing the work themselves.
-
-Cheers,
-Daniel
+> 
+> 
+>>>
+>>> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+>>> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+>>> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+>>
+>> Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+>>
+>>
+>>> ---
+>>>    drivers/gpu/drm/i915/gt/intel_context.c | 12 ++++++------
+>>>    1 file changed, 6 insertions(+), 6 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/i915/gt/intel_context.c
+>>> b/drivers/gpu/drm/i915/gt/intel_context.c
+>>> index 5634d14052bc..4c296de1d67d 100644
+>>> --- a/drivers/gpu/drm/i915/gt/intel_context.c
+>>> +++ b/drivers/gpu/drm/i915/gt/intel_context.c
+>>> @@ -228,17 +228,17 @@ int __intel_context_do_pin_ww(struct
+>>> intel_context *ce,
+>>>          if (err)
+>>>                  return err;
+>>>    
+>>> -       err = i915_active_acquire(&ce->active);
+>>> +       err = ce->ops->pre_pin(ce, ww, &vaddr);
+>>>          if (err)
+>>>                  goto err_ctx_unpin;
+>>>    
+>>> -       err = ce->ops->pre_pin(ce, ww, &vaddr);
+>>> +       err = i915_active_acquire(&ce->active);
+>>>          if (err)
+>>> -               goto err_release;
+>>> +               goto err_post_unpin;
+>>>    
+>>>          err = mutex_lock_interruptible(&ce->pin_mutex);
+>>>          if (err)
+>>> -               goto err_post_unpin;
+>>> +               goto err_release;
+>>>    
+>>>          intel_engine_pm_might_get(ce->engine);
+>>>    
+>>> @@ -273,11 +273,11 @@ int __intel_context_do_pin_ww(struct
+>>> intel_context *ce,
+>>>    
+>>>    err_unlock:
+>>>          mutex_unlock(&ce->pin_mutex);
+>>> +err_release:
+>>> +       i915_active_release(&ce->active);
+>>>    err_post_unpin:
+>>>          if (!handoff)
+>>>                  ce->ops->post_unpin(ce);
+>>> -err_release:
+>>> -       i915_active_release(&ce->active);
+>>>    err_ctx_unpin:
+>>>          intel_context_post_unpin(ce);
+>>>    
+> 
+> 
