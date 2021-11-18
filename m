@@ -1,40 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEF04455C24
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Nov 2021 14:03:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8260A455C91
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Nov 2021 14:22:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1032B6E996;
-	Thu, 18 Nov 2021 13:03:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E6486ECDC;
+	Thu, 18 Nov 2021 13:22:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 80BA16E995;
- Thu, 18 Nov 2021 13:03:02 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10171"; a="297596159"
-X-IronPort-AV: E=Sophos;i="5.87,244,1631602800"; d="scan'208";a="297596159"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Nov 2021 05:02:52 -0800
-X-IronPort-AV: E=Sophos;i="5.87,244,1631602800"; d="scan'208";a="455319647"
-Received: from ntaiyeby-mobl1.ger.corp.intel.com (HELO
- thellstr-mobl1.intel.com) ([10.249.254.166])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Nov 2021 05:02:50 -0800
-From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH v4 6/6] drm/i915/ttm: Update i915_gem_obj_copy_ttm() to be
- asynchronous
-Date: Thu, 18 Nov 2021 14:02:30 +0100
-Message-Id: <20211118130230.154988-7-thomas.hellstrom@linux.intel.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20211118130230.154988-1-thomas.hellstrom@linux.intel.com>
-References: <20211118130230.154988-1-thomas.hellstrom@linux.intel.com>
+X-Greylist: delayed 452 seconds by postgrey-1.36 at gabe;
+ Thu, 18 Nov 2021 13:22:09 UTC
+Received: from smtphy.263.net (sg-smtp01.263.net [54.255.195.220])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B21A76ECD9
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Nov 2021 13:22:09 +0000 (UTC)
+Received: from smtp.263.net (unknown [211.157.147.163])
+ by smtphy.263.net (Postfix) with ESMTPS id BD3179E
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Nov 2021 21:14:33 +0800 (CST)
+Received: from regular1.263xmail.com (unknown [192.168.165.233])
+ by smtp.263.net (Postfix) with ESMTP id 5BD6F18C0
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Nov 2021 21:14:30 +0800 (CST)
+Received: from localhost (unknown [192.168.167.70])
+ by regular1.263xmail.com (Postfix) with ESMTP id 8C9EF14A0;
+ Thu, 18 Nov 2021 21:14:27 +0800 (CST)
+X-MAIL-GRAY: 0
+X-MAIL-DELIVERY: 1
+X-ADDR-CHECKED4: 1
+X-SKE-CHECKED: 1
+X-ABS-CHECKED: 1
+X-ANTISPAM-LEVEL: 2
+Received: from [172.16.12.89] (unknown [58.22.7.114])
+ by smtp.263.net (postfix) whith ESMTP id
+ P31296T140158641805056S1637241264970100_; 
+ Thu, 18 Nov 2021 21:14:26 +0800 (CST)
+X-IP-DOMAINF: 1
+X-RL-SENDER: andy.yan@rock-chips.com
+X-SENDER: yxj@rock-chips.com
+X-LOGIN-NAME: andy.yan@rock-chips.com
+X-FST-TO: linux-arm-kernel@lists.infradead.org
+X-RCPT-COUNT: 13
+X-LOCAL-RCPT-COUNT: 2
+X-SENDER-IP: 58.22.7.114
+X-ATTACHMENT-NUM: 0
+X-UNIQUE-TAG: <733c4135ae7513b928b6ecc7489c4be9>
+X-System-Flag: 0
+Subject: Re: [PATCH v1 00/12] drm/rockchip: RK356x VOP2 support
+To: Daniel Stone <daniel@fooishbar.org>, Kever Yang <kever.yang@rock-chips.com>
+References: <20211117143347.314294-1-s.hauer@pengutronix.de>
+ <3bbf42f3-bd9c-ed66-e421-8d78fbeb22ad@rock-chips.com>
+ <4310886.V3yF0ifEZO@diego>
+ <CAPj87rPNSt7nZX93prAYD3Emf-34RdTZWp_1TOuAybBebObZhQ@mail.gmail.com>
+ <fba695b7-863a-c492-0209-41bc07c7baee@rock-chips.com>
+ <CAPj87rO86Mom-076Z5QX9hd=0bQi=AQcofkc1fSR4-VV2Zo6aQ@mail.gmail.com>
+From: Andy Yan <andy.yan@rock-chips.com>
+Message-ID: <e948ee33-d1ea-cd53-a792-2e044eed1529@rock-chips.com>
+Date: Thu, 18 Nov 2021 21:14:25 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <CAPj87rO86Mom-076Z5QX9hd=0bQi=AQcofkc1fSR4-VV2Zo6aQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,107 +74,137 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- matthew.auld@intel.com
+Cc: devicetree@vger.kernel.org,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Sandy Huang <hjc@rock-chips.com>,
+ dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
+ Michael Riesch <michael.riesch@wolfvision.net>,
+ Peter Geis <pgwipeout@gmail.com>, kernel@pengutronix.de,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Update the copy function i915_gem_obj_copy_ttm() to be asynchronous for
-future users and update the only current user to sync the objects
-as needed after this function.
+Hi Daniel:
 
-Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
----
- drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c | 40 ++++++++++++++------
- drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.c   |  2 +
- 2 files changed, 30 insertions(+), 12 deletions(-)
+On 11/18/21 8:07 PM, Daniel Stone wrote:
+> Hi Kever,
+>
+> On Thu, 18 Nov 2021 at 10:50, Kever Yang <kever.yang@rock-chips.com> wrote:
+>> On 2021/11/18 下午5:53, Daniel Stone wrote:
+>>> Exactly what Heiko said. If you would like to upstream the driver then
+>>> that would be fantastic to see, but I'm afraid you do not get to
+>>> prevent someone else from doing the work themselves.
+>> First of all, we never stop any one to doing there work on upstream if
+>> the source code is write totally by themselves.
+>>
+>> Second, there are also many modules are upstream by developers based on
+>> Rockchip source code, please note that
+>> all of them have basic respect to our work, they do communicate with us
+>> first.
+>>
+>> But this committer do not take any respect to our engineers and their
+>> hard working:
+>> - He didn't contact with us;
+>> - There isn't  any information about original author in the commit message;
+>>       As I have known, if I use source code from another developer, I
+>> need to at least add a "Signed-off-by" with original author;
+>> - This commit and mail does not even have a 'CC' to original author.
+>>
+>> I NAK because I  think this is not part of the  open source spirit, and
+>> this kind of  behavior should not be encouraged.
+> OK, I see where you're coming from, and I agree that the attribution
+> should have been handled more carefully.
+>
+> On the other hand, please consider this from the other perspective.
+> Sascha has been free to take the downstream Rockchip BSP code and
+> attempt to upstream it to the Linux kernel, which you are unhappy
+> about. But then the Rockchip driver was developed totally downstream,
+> with no attempt to ever communicate with the upstream Linux or DRM/KMS
+> developers. Rockchip advertises that it is shipped as a Linux kernel
+> with a KMS driver. But we were never informed, or CCed, or anything.
+>
+> If you would like the community to more actively work with you - then
+> please yourself work more actively with the community. The first
+> commit of the VOP2 driver was in July 2020, and that was of the full
+> driver so presumably it started quite some time before then. So that
+> is a minimum of 17 months that you have had to engage with upstream
+> ...
+>
+> Technically, the driver cannot be upstreamed as-is. It looks as if it
+> were a pre-atomic driver, that was half-converted to atomic, and then
+> has been half-converted to atomic helpers as well. Things like
+> reference counting and global state are not handled correctly at all.
+> You can see this if you try to run Weston on top of the VOP2 driver:
+> the framerate is decimated because the event handling massively
+> over-synchronises, and the event timestamps which arrive are
+> incorrect. This would be fixed by correctly using the event helpers
+> that we have had in the tree for years (which would also eliminate the
+> unnecessary framebuffer reference handling). It also does not work
+> with the GPU drivers in the tree because it lacks the one-liner to
+> correctly handle dma_resv synchronisation, which makes it both too
+> fast as it displays content which is not ready, and too slow because
+> it can't do it at full frame rate.
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
-index 38623fde170a..d377c86232f1 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
-@@ -822,33 +822,49 @@ int i915_gem_obj_copy_ttm(struct drm_i915_gem_object *dst,
- 		.interruptible = intr,
- 	};
- 	struct i915_refct_sgt *dst_rsgt;
--	struct dma_fence *copy_fence;
--	int ret;
-+	struct dma_fence *copy_fence, *dep_fence;
-+	struct i915_deps deps;
-+	int ret, shared_err;
- 
- 	assert_object_held(dst);
- 	assert_object_held(src);
-+	i915_deps_init(&deps, GFP_KERNEL | __GFP_NORETRY | __GFP_NOWARN);
- 
- 	/*
--	 * Sync for now. This will change with async moves.
-+	 * We plan to add a shared fence only for the source. If that
-+	 * fails, we await all source fences before commencing
-+	 * the copy instead of only the exclusive.
- 	 */
--	ret = ttm_bo_wait_ctx(dst_bo, &ctx);
-+	shared_err = dma_resv_reserve_shared(src_bo->base.resv, 1);
-+	ret = i915_deps_add_resv(&deps, dst_bo->base.resv, true, false, &ctx);
- 	if (!ret)
--		ret = ttm_bo_wait_ctx(src_bo, &ctx);
-+		ret = i915_deps_add_resv(&deps, src_bo->base.resv,
-+					 !!shared_err, false, &ctx);
- 	if (ret)
- 		return ret;
- 
-+	dep_fence = i915_deps_to_fence(&deps, &ctx);
-+	if (IS_ERR(dep_fence))
-+		return PTR_ERR(dep_fence);
-+
- 	dst_rsgt = i915_ttm_resource_get_st(dst, dst_bo->resource);
- 	copy_fence = __i915_ttm_move(src_bo, false, dst_bo->resource,
--				     dst_bo->ttm, dst_rsgt, allow_accel, NULL);
-+				     dst_bo->ttm, dst_rsgt, allow_accel,
-+				     dep_fence);
- 
- 	i915_refct_sgt_put(dst_rsgt);
--	if (IS_ERR(copy_fence))
--		return PTR_ERR(copy_fence);
-+	if (IS_ERR_OR_NULL(copy_fence))
-+		return PTR_ERR_OR_ZERO(copy_fence);
- 
--	if (copy_fence) {
--		dma_fence_wait(copy_fence, false);
--		dma_fence_put(copy_fence);
--	}
-+	dma_resv_add_excl_fence(dst_bo->base.resv, copy_fence);
-+
-+	/* If we failed to reserve a shared slot, add an exclusive fence */
-+	if (shared_err)
-+		dma_resv_add_excl_fence(src_bo->base.resv, copy_fence);
-+	else
-+		dma_resv_add_shared_fence(src_bo->base.resv, copy_fence);
-+
-+	dma_fence_put(copy_fence);
- 
- 	return 0;
- }
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.c
-index 60d10ab55d1e..9aad84059d56 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.c
-@@ -80,6 +80,7 @@ static int i915_ttm_backup(struct i915_gem_apply_to_region *apply,
- 
- 	err = i915_gem_obj_copy_ttm(backup, obj, pm_apply->allow_gpu, false);
- 	GEM_WARN_ON(err);
-+	ttm_bo_wait_ctx(backup_bo, &ctx);
- 
- 	obj->ttm.backup = backup;
- 	return 0;
-@@ -170,6 +171,7 @@ static int i915_ttm_restore(struct i915_gem_apply_to_region *apply,
- 		err = i915_gem_obj_copy_ttm(obj, backup, pm_apply->allow_gpu,
- 					    false);
- 		GEM_WARN_ON(err);
-+		ttm_bo_wait_ctx(backup_bo, &ctx);
- 
- 		obj->ttm.backup = NULL;
- 		err = 0;
--- 
-2.31.1
+
+We have different team run Android , X11, Weston on rk356x, especially 
+for android, we can run at 60 fps.
+
+Our vop2 driver is developed on Linux 4.19, am not sure which version of 
+kernel you put our drivers on.
+
+>
+> Similarly, on the RK3566 EVB, the DSI does not work unless HDMI is
+> also active, but when HDMI is active at the same time as DSI, it just
+
+I am very sure rk3566 evb DSI can work without HDMI.
+
+But take care that the vop on rk3566 has a special limitation: there are 
+three
+
+windows(Cluster1/Esmart1/Smart1) that have a mirror lock, that means they
+
+can't be programed framebuffer address independently , they can only
+
+share framebuffer address with Cluster0/Esmart0/Smart0. We use these feature
+
+on Android.
+
+I have comment these limitation in our driver.
+
+Compared to old vop, vop is strong but a bit complicated, we try very had to
+
+make it work on as much display framework as possible.
+
+We have upstream plane, but I am really in a rush this year. So sorry 
+for the late of upstream, but we glad to work with community.
+
+So Sascha, please feel free to go on with your work.
+
+> shows a blank screen. I believe the root cause of this is that the
+> VOP2 driver does not use any of the atomic state correctly, and
+> instead stores its own state in driver-global structures, using a lot
+> of unnecessary mutexes to try to synchronise this state. Not only does
+> this synchronisation not actually work, but it causes a severe
+> performance degradation due to mutex contention.
+>
+> I believe the best path forward to an upstream VOP2 driver is a patch
+> series consisting of:
+>    - start from a blank slate, using the atomic framework and helpers
+> as they were intended to be, with basic support for the VOP2 and one
+> or two connector types, doing linear XRGB only
+>    - any cleanups which would enable this to share more code with
+>    - add YUV support, including planar buffers
+>    - add AFBC support, with the AFBC enable/disable correctly
+> synchronised through atomic state (this is necessary since the AFBC
+> decoder is not directly on the planes per se but shared)
+>    - add more connector types
+>    - add writeback support
+>    - add other Rockchip-specific codepaths such as HDR10
+>
+> Cheers,
+> Daniel
+>
+>
+>
+
 
