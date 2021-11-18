@@ -1,29 +1,81 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D376455ADB
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Nov 2021 12:45:32 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E0C3A455ADC
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Nov 2021 12:46:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 93E066ECC7;
-	Thu, 18 Nov 2021 11:45:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 872966ECC6;
+	Thu, 18 Nov 2021 11:46:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 158D86ECCB
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Nov 2021 11:45:28 +0000 (UTC)
-Date: Thu, 18 Nov 2021 11:45:15 +0000
-From: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH 11/15] iio: buffer-dma: Boost performance using
- write-combine cache setting
-To: Jonathan Cameron <jic23@kernel.org>
-Message-Id: <FBNR2R.LJWHFK5HYPTY@crapouillou.net>
-In-Reply-To: <20211115141925.60164-12-paul@crapouillou.net>
-References: <20211115141925.60164-1-paul@crapouillou.net>
- <20211115141925.60164-12-paul@crapouillou.net>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B26A26ECC6
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Nov 2021 11:46:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1637235985;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=IPQvFkqp42yL5KGkN+R/vv46p9qBJQWpQ3XSKmUsvhI=;
+ b=b7BYz75j+QX6XAlHQCB7E+rhTHR45YjwJYJ/GuwANNrjtRojQxwdrQVMlIIlHM+ZHeJYuv
+ ayDzzUgtuh6C2wrOb1OlWNW5OImkQfHB3B4VfjSX0/YZ/bQy6I77SCWva8lV+3C01i0Cv5
+ P2sU1dZoTeJZe1kzBFpNSZyeulP0ImE=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-586-tkPHeXuSPjeiqLPDsqxl3w-1; Thu, 18 Nov 2021 06:46:22 -0500
+X-MC-Unique: tkPHeXuSPjeiqLPDsqxl3w-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ p4-20020aa7d304000000b003e7ef120a37so5013568edq.16
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Nov 2021 03:46:22 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=IPQvFkqp42yL5KGkN+R/vv46p9qBJQWpQ3XSKmUsvhI=;
+ b=piOHJpTrNWBxPtJ6ucRarsnj+UfJwebdiaKZHyf8L+jFS9IkTGwuKgnr9EMelbZtQV
+ KD9tRuLH7sAdid6v3XVescO9pV5XPO0tb3bs2JvWQAmuo7C/Cs/qd0vD+qFyXWbeDtol
+ cvc6L6YIcoY3LNca0uiD0yptGY8onU5m+yFrUcYyWS60Wg1rI3xP2/rMXoARfMU3oQc1
+ Jm+xa9BIKUu6qjdIRN6T1aA6Yj5uCBoJ4e3GRipIbvxtCpr9USEyvpI/qPlECQuQHj1R
+ xFOSsvBoP2qRIKn2+gV3W9wGRUqqVDEM2DTPlpMVLabqIughxX8TOwwVo+YnJ6tgEgEI
+ mJVA==
+X-Gm-Message-State: AOAM530fz8Iyqylx/VmKkVMGliIKoK6wwYvBDVO8zHd24K2RGGyWh+2Z
+ Ife0VP/+GapGqhp6BY8EZz48GcBNHh3mfShzvAJuL0bkTcETahhzgWV1e+qSb9j1T3/Xv0BXaGy
+ iqDNqtT3TXce5J+3soIiya3LzjNvP
+X-Received: by 2002:a05:6402:5206:: with SMTP id
+ s6mr10360652edd.113.1637235981006; 
+ Thu, 18 Nov 2021 03:46:21 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJz5eIOMZFrmWoirVwrgiCTeJUljdkA4uFq3YdnvZZT1mYAyITX8gj/wjqokk4GYijd9dyzvwg==
+X-Received: by 2002:a05:6402:5206:: with SMTP id
+ s6mr10360630edd.113.1637235980878; 
+ Thu, 18 Nov 2021 03:46:20 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c1e:bf00:1054:9d19:e0f0:8214?
+ (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl.
+ [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
+ by smtp.gmail.com with ESMTPSA id el20sm1173593ejc.40.2021.11.18.03.46.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 18 Nov 2021 03:46:20 -0800 (PST)
+Message-ID: <2ea64de3-4afd-feb8-ab2f-27dd386a3a41@redhat.com>
+Date: Thu, 18 Nov 2021 12:46:19 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH] drm/vboxvideo: fix a NULL vs IS_ERR() check
+To: Dan Carpenter <dan.carpenter@oracle.com>, Daniel Vetter <daniel@ffwll.ch>
+References: <20211118111233.GA1147@kili>
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20211118111233.GA1147@kili>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -36,207 +88,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Michael Hennerich <Michael.Hennerich@analog.com>, linux-iio@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Christian =?iso-8859-1?b?S/ZuaWc=?= <christian.koenig@amd.com>,
- linaro-mm-sig@lists.linaro.org, Alexandru Ardelean <ardeleanalex@gmail.com>,
- linux-media@vger.kernel.org
+Cc: David Airlie <airlied@linux.ie>, kernel-janitors@vger.kernel.org,
+ Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-Le lun., nov. 15 2021 at 14:19:21 +0000, Paul Cercueil=20
-<paul@crapouillou.net> a =E9crit :
-> We can be certain that the input buffers will only be accessed by
-> userspace for reading, and output buffers will mostly be accessed by
-> userspace for writing.
->=20
-> Therefore, it makes more sense to use only fully cached input buffers,
-> and to use the write-combine cache coherency setting for output=20
-> buffers.
->=20
-> This boosts performance, as the data written to the output buffers=20
-> does
-> not have to be sync'd for coherency. It will halve performance if the
-> userspace application tries to read from the output buffer, but this
-> should never happen.
->=20
-> Since we don't need to sync the cache when disabling CPU access either
-> for input buffers or output buffers, the .end_cpu_access() callback=20
-> can
-> be dropped completely.
->=20
-> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+On 11/18/21 12:12, Dan Carpenter wrote:
+> The devm_gen_pool_create() function never returns NULL, it returns
+> error pointers.
+> 
+> Fixes: 4cc9b565454b ("drm/vboxvideo: Use devm_gen_pool_create")
+> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+
+Thanks, patch looks good to me:
+
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+
+I will go and push this to drm-misc-next right away.
+
+Regards,
+
+Hans
+
 > ---
->  drivers/iio/buffer/industrialio-buffer-dma.c | 82=20
-> +++++++++++++-------
->  1 file changed, 54 insertions(+), 28 deletions(-)
->=20
-> diff --git a/drivers/iio/buffer/industrialio-buffer-dma.c=20
-> b/drivers/iio/buffer/industrialio-buffer-dma.c
-> index 92356ee02f30..fb39054d8c15 100644
-> --- a/drivers/iio/buffer/industrialio-buffer-dma.c
-> +++ b/drivers/iio/buffer/industrialio-buffer-dma.c
-> @@ -229,8 +229,33 @@ static int iio_buffer_dma_buf_mmap(struct=20
-> dma_buf *dbuf,
->  	if (vma->vm_ops->open)
->  		vma->vm_ops->open(vma);
->=20
-> -	return dma_mmap_pages(dev, vma, vma->vm_end - vma->vm_start,
-> -			      virt_to_page(block->vaddr));
-> +	if (block->queue->buffer.direction =3D=3D IIO_BUFFER_DIRECTION_IN) {
-> +		/*
-> +		 * With an input buffer, userspace will only read the data and
-> +		 * never write. We can mmap the buffer fully cached.
-> +		 */
-> +		return dma_mmap_pages(dev, vma, vma->vm_end - vma->vm_start,
-> +				      virt_to_page(block->vaddr));
-> +	} else {
-> +		/*
-> +		 * With an output buffer, userspace will only write the data
-> +		 * and should rarely (if never) read from it. It is better to
-> +		 * use write-combine in this case.
-> +		 */
-> +		return dma_mmap_wc(dev, vma, block->vaddr, block->phys_addr,
-> +				   vma->vm_end - vma->vm_start);
-> +	}
-> +}
-> +
-> +static void iio_dma_buffer_free_dmamem(struct iio_dma_buffer_block=20
-> *block)
-> +{
-> +	struct device *dev =3D block->queue->dev;
-> +	size_t size =3D PAGE_ALIGN(block->size);
-> +
-> +	if (block->queue->buffer.direction =3D=3D IIO_BUFFER_DIRECTION_IN)
-> +		dma_free_coherent(dev, size, block->vaddr, block->phys_addr);
-> +	else
-> +		dma_free_wc(dev, size, block->vaddr, block->phys_addr);
->  }
->=20
->  static void iio_buffer_dma_buf_release(struct dma_buf *dbuf)
-> @@ -243,9 +268,7 @@ static void iio_buffer_dma_buf_release(struct=20
-> dma_buf *dbuf)
->=20
->  	mutex_lock(&queue->lock);
->=20
-> -	dma_free_coherent(queue->dev, PAGE_ALIGN(block->size),
-> -			  block->vaddr, block->phys_addr);
-> -
-> +	iio_dma_buffer_free_dmamem(block);
->  	kfree(block);
->=20
->  	queue->num_blocks--;
-> @@ -268,19 +291,6 @@ static int=20
-> iio_buffer_dma_buf_begin_cpu_access(struct dma_buf *dbuf,
->  	return 0;
->  }
->=20
-> -static int iio_buffer_dma_buf_end_cpu_access(struct dma_buf *dbuf,
-> -					     enum dma_data_direction dma_dir)
-> -{
-> -	struct iio_dma_buffer_block *block =3D dbuf->priv;
-> -	struct device *dev =3D block->queue->dev;
-> -
-> -	/* We only need to sync the cache for output buffers */
-> -	if (block->queue->buffer.direction =3D=3D IIO_BUFFER_DIRECTION_OUT)
-> -		dma_sync_single_for_device(dev, block->phys_addr, block->size,=20
-> dma_dir);
-> -
-> -	return 0;
-> -}
-> -
->  static const struct dma_buf_ops iio_dma_buffer_dmabuf_ops =3D {
->  	.attach			=3D iio_buffer_dma_buf_attach,
->  	.map_dma_buf		=3D iio_buffer_dma_buf_map,
-> @@ -288,9 +298,28 @@ static const struct dma_buf_ops=20
-> iio_dma_buffer_dmabuf_ops =3D {
->  	.mmap			=3D iio_buffer_dma_buf_mmap,
->  	.release		=3D iio_buffer_dma_buf_release,
->  	.begin_cpu_access	=3D iio_buffer_dma_buf_begin_cpu_access,
-> -	.end_cpu_access		=3D iio_buffer_dma_buf_end_cpu_access,
->  };
->=20
-> +static int iio_dma_buffer_alloc_dmamem(struct iio_dma_buffer_block=20
-> *block)
-> +{
-> +	struct device *dev =3D block->queue->dev;
-> +	size_t size =3D PAGE_ALIGN(block->size);
-> +
-> +	if (block->queue->buffer.direction =3D=3D IIO_BUFFER_DIRECTION_IN) {
-> +		block->vaddr =3D dma_alloc_coherent(dev, size,
-> +						  &block->phys_addr,
-> +						  GFP_KERNEL);
-
-I'm so used to dma_alloc_noncoherent() that I didn't even notice that=20
-it was dma_alloc_coherent() here. The code I added meant to work with=20
-non-coherent memory - hence the dma_sync_* operations and the use of=20
-dma_mmap_pages().
-
-I'll fix that in V2.
-
-Cheers,
--Paul
-
-> +	} else {
-> +		block->vaddr =3D dma_alloc_wc(dev, size,
-> +					    &block->phys_addr,
-> +					    GFP_KERNEL);
-> +	}
-> +	if (!block->vaddr)
-> +		return -ENOMEM;
-> +
-> +	return 0;
-> +}
-> +
->  static struct iio_dma_buffer_block *iio_dma_buffer_alloc_block(
->  	struct iio_dma_buffer_queue *queue, size_t size, bool fileio)
->  {
-> @@ -303,12 +332,12 @@ static struct iio_dma_buffer_block=20
-> *iio_dma_buffer_alloc_block(
->  	if (!block)
->  		return ERR_PTR(-ENOMEM);
->=20
-> -	block->vaddr =3D dma_alloc_coherent(queue->dev, PAGE_ALIGN(size),
-> -		&block->phys_addr, GFP_KERNEL);
-> -	if (!block->vaddr) {
-> -		err =3D -ENOMEM;
-> +	block->size =3D size;
-> +	block->queue =3D queue;
-> +
-> +	err =3D iio_dma_buffer_alloc_dmamem(block);
-> +	if (err)
->  		goto err_free_block;
-> -	}
->=20
->  	einfo.ops =3D &iio_dma_buffer_dmabuf_ops;
->  	einfo.size =3D PAGE_ALIGN(size);
-> @@ -322,10 +351,8 @@ static struct iio_dma_buffer_block=20
-> *iio_dma_buffer_alloc_block(
->  	}
->=20
->  	block->dmabuf =3D dmabuf;
-> -	block->size =3D size;
->  	block->bytes_used =3D size;
->  	block->state =3D IIO_BLOCK_STATE_DONE;
-> -	block->queue =3D queue;
->  	block->fileio =3D fileio;
->  	INIT_LIST_HEAD(&block->head);
->=20
-> @@ -338,8 +365,7 @@ static struct iio_dma_buffer_block=20
-> *iio_dma_buffer_alloc_block(
->  	return block;
->=20
->  err_free_dma:
-> -	dma_free_coherent(queue->dev, PAGE_ALIGN(size),
-> -			  block->vaddr, block->phys_addr);
-> +	iio_dma_buffer_free_dmamem(block);
->  err_free_block:
->  	kfree(block);
->  	return ERR_PTR(err);
-> --
-> 2.33.0
->=20
-
+>  drivers/gpu/drm/vboxvideo/vbox_main.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/vboxvideo/vbox_main.c b/drivers/gpu/drm/vboxvideo/vbox_main.c
+> index f28779715ccd..c9e8b3a63c62 100644
+> --- a/drivers/gpu/drm/vboxvideo/vbox_main.c
+> +++ b/drivers/gpu/drm/vboxvideo/vbox_main.c
+> @@ -127,8 +127,8 @@ int vbox_hw_init(struct vbox_private *vbox)
+>  	/* Create guest-heap mem-pool use 2^4 = 16 byte chunks */
+>  	vbox->guest_pool = devm_gen_pool_create(vbox->ddev.dev, 4, -1,
+>  						"vboxvideo-accel");
+> -	if (!vbox->guest_pool)
+> -		return -ENOMEM;
+> +	if (IS_ERR(vbox->guest_pool))
+> +		return PTR_ERR(vbox->guest_pool);
+>  
+>  	ret = gen_pool_add_virt(vbox->guest_pool,
+>  				(unsigned long)vbox->guest_heap,
+> 
 
