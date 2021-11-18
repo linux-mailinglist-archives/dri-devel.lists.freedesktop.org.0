@@ -1,61 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A06C64557A2
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Nov 2021 10:02:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 41FBF4557B0
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Nov 2021 10:05:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB4026EB73;
-	Thu, 18 Nov 2021 09:02:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D29EB6EB89;
+	Thu, 18 Nov 2021 09:05:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
- [IPv6:2a00:1450:4864:20::12b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B47B6EB71;
- Thu, 18 Nov 2021 09:02:41 +0000 (UTC)
-Received: by mail-lf1-x12b.google.com with SMTP id t26so22483438lfk.9;
- Thu, 18 Nov 2021 01:02:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=/OTPrrxqC2xN4BNoipUjYB/ILd/XL3/E8XFBX+HF9N4=;
- b=JKbQjvr7j+lrFP7X6bzzrhiSvf8aCj+1G04YkthOM4RunZXFJqlM4DCjkY3bjqFdtw
- W23j8MFVBI4/ylqrBDbzcXYpRhHWgpWuE7zVgrBxoPGM86KVh/3qjNxncESg92c8ShWI
- PWtaDXJD61lGS1Us+H8aN6xKFoCUh3Xw4WLQcO8KXTjKP9mCEERNilKdZOgpPl3WfH59
- EBYXK3ZjkMH0SUEKHCtJP9WOCRywPlsSdTn3jQwmJs0NRH1YHg7etZsifJ5LVUkC7PDn
- rxpA3PvcG8G2SZ1/747UroC5wIGJUKCVV5eSY8Io5p5DSM9RH9CCG2xa3kNEpybT5+Wb
- tDIg==
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com
+ [IPv6:2a00:1450:4864:20::530])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A65636EB90
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Nov 2021 09:05:15 +0000 (UTC)
+Received: by mail-ed1-x530.google.com with SMTP id g14so23906900edz.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Nov 2021 01:05:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=lXnv3StCz6QOJgzKo0TU0WtB9sNFJ2NEu70wfyrmomU=;
+ b=HSCFnNZdlXyl+vXxXJE2gHtqTi/WFPXBQfVGJRTbDNCC8d3FL37LjuRLAH3PllB6C7
+ qAGaSKiJ6Dw6zvW8LfkEfmdVBSbxmIA39VqrLicnQ0PzgoUV8+BI+kw5BKGYaaRKm+PN
+ ty4/h2ion6eBIk7tnQ3/Up6okNbJYrOHT6L5E=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=/OTPrrxqC2xN4BNoipUjYB/ILd/XL3/E8XFBX+HF9N4=;
- b=nCipZNysJ0FGUuSV8eFdhgKTPAI3+6g/DKZS8Cr2mf1Y461V1fon8eYx1k6wThkj5B
- jvlNVbdH7o39M/spcGpWPPkmx71EphnIWwK4K6jmYXtsoit45o9B6P/o59E0FlzpMPIq
- 24j+d3vDSTX2ibjFGTHREU1PCOChF7Q7Q8UhHMB0rPWCKHm01HJqprRtFHxDy8AopHFd
- z3M62GkWV1rDbJPWMnMc5OBj3BKSy3aIoSmL9h2PFVkXdbkjc57Mslf/PPGalicAA3tY
- 2hQWJWZEaWE2tfvzQdRjNM23h056m/ik9VI7HitidTJ44SX0RQPkC4kI9q5fCsr9j0vV
- /2Cg==
-X-Gm-Message-State: AOAM533M5RTLuvGWIUQ748OiBmx2uL15VqrSlpI1AQMA/8wUiH9j6aAm
- 9hJQgDgKSzwZIValr/42tFY=
-X-Google-Smtp-Source: ABdhPJyNky8MtVzDkfalAvE0/HcHOkgDDLsMb/j+aOp+JbDEar3dzl6VlQkdzVNW/zdQvcKa/XUCvw==
-X-Received: by 2002:ac2:5932:: with SMTP id v18mr21755401lfi.611.1637226159688; 
- Thu, 18 Nov 2021 01:02:39 -0800 (PST)
-Received: from eldfell ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id l18sm237831lfc.97.2021.11.18.01.02.39
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=lXnv3StCz6QOJgzKo0TU0WtB9sNFJ2NEu70wfyrmomU=;
+ b=ycT3QxkOjTi7b0IDXzXm6rsVRyjWMmRY6/pEmNPD4FyxCwkERljKALfVeUsrt4cllm
+ FjN3mCn4zEH1lNPk1H4hPnI7JAjKcsl124tUppKM3zGAgna8pp3RVGqHmnNYwqbFzEVg
+ IZFpdmzn8cn+XL3VoD2MUYCCe7EwxMcw/ObynJ5HryHY5r0hF7l6csbf1wKLIGDwDNyX
+ KfQcvxpqNlqjRtdxkK6rVxzVlPU1KjSZsAB6TD+1CJO+cLdOcwTTj/IC/Qkf33vNBGwe
+ Ox8K9GfUEYpON9+JAb23ExGgX5l1/WhGngCOBFHGsk7VKhx+lPXkYGkFrV/1sBhHxoGH
+ bPuQ==
+X-Gm-Message-State: AOAM531UE78YX87UNEk9FwXhpWJzUuoT2jnnKItoH8UkjOOp07HY+ouO
+ 4U8RIpxfzN8h94joK6nO3Ro8fw==
+X-Google-Smtp-Source: ABdhPJylQ8JBdXxl0Xb2D3tJ7cosBlu1Mj8PTO+yC7edF/HmQtFMt97ubDhZlPf8+OCdHzz0n+uziA==
+X-Received: by 2002:a05:6402:2751:: with SMTP id
+ z17mr8692761edd.296.1637226314076; 
+ Thu, 18 Nov 2021 01:05:14 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id v10sm1229647edt.24.2021.11.18.01.05.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 18 Nov 2021 01:02:39 -0800 (PST)
-Date: Thu, 18 Nov 2021 11:02:33 +0200
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Bhanuprakash Modem <bhanuprakash.modem@intel.com>
-Subject: Re: [i-g-t 04/14] tests/kms_color: New subtests for Plane gamma
-Message-ID: <20211118110233.7fdcc066@eldfell>
-In-Reply-To: <20211115094759.520955-5-bhanuprakash.modem@intel.com>
-References: <20211115094759.520955-1-bhanuprakash.modem@intel.com>
- <20211115094759.520955-5-bhanuprakash.modem@intel.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+ Thu, 18 Nov 2021 01:05:13 -0800 (PST)
+Date: Thu, 18 Nov 2021 10:05:11 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Brian Norris <briannorris@chromium.org>
+Subject: Re: [PATCH v2 1/2] drm/input_helper: Add new input-handling helper
+Message-ID: <YZYXR4u6VBEi4qnM@phenom.ffwll.local>
+Mail-Followup-To: Brian Norris <briannorris@chromium.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ "Kristian H . Kristensen" <hoegsberg@google.com>,
+ linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Doug Anderson <dianders@chromium.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Rob Clark <robdclark@gmail.com>, linux-input@vger.kernel.org,
+ Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org
+References: <20211117224841.3442482-1-briannorris@chromium.org>
+ <20211117144807.v2.1.I09b516eff75ead160a6582dd557e7e7e900c9e8e@changeid>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/_Qke0eYh.h6d7MR=cf_zjNa";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211117144807.v2.1.I09b516eff75ead160a6582dd557e7e7e900c9e8e@changeid>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,289 +80,318 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: igt-dev@lists.freedesktop.org, Uma Shankar <uma.shankar@intel.com>,
- dri-devel@lists.freedesktop.org,
- Juha-Pekka Heikkila <juhapekka.heikkila@gmail.com>
+Cc: Rob Clark <robdclark@chromium.org>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ David Airlie <airlied@linux.ie>, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ linux-kernel@vger.kernel.org, Doug Anderson <dianders@chromium.org>,
+ linux-rockchip@lists.infradead.org,
+ "Kristian H . Kristensen" <hoegsberg@google.com>,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-input@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/_Qke0eYh.h6d7MR=cf_zjNa
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, 15 Nov 2021 15:17:49 +0530
-Bhanuprakash Modem <bhanuprakash.modem@intel.com> wrote:
-
-> To verify Plane gamma, draw 3 gradient rectangles in red, green and blue,
-> with a maxed out gamma LUT and verify we have the same CRC as drawing sol=
-id
-> color rectangles.
->=20
-> Cc: Harry Wentland <harry.wentland@amd.com>
-> Cc: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
-> Cc: Juha-Pekka Heikkila <juhapekka.heikkila@gmail.com>
-> Cc: Uma Shankar <uma.shankar@intel.com>
-> Signed-off-by: Bhanuprakash Modem <bhanuprakash.modem@intel.com>
+On Wed, Nov 17, 2021 at 02:48:40PM -0800, Brian Norris wrote:
+> A variety of applications have found it useful to listen to
+> user-initiated input events to make decisions within a DRM driver, given
+> that input events are often the first sign that we're going to start
+> doing latency-sensitive activities:
+> 
+>  * Panel self-refresh: software-directed self-refresh (e.g., with
+>    Rockchip eDP) is especially latency sensitive. In some cases, it can
+>    take 10s of milliseconds for a panel to exit self-refresh, which can
+>    be noticeable. Rockchip RK3399 Chrome OS systems have always shipped
+>    with an input_handler boost, that preemptively exits self-refresh
+>    whenever there is input activity.
+> 
+>  * GPU drivers: on GPU-accelerated desktop systems, we may need to
+>    render new frames immediately after user activity. Powering up the
+>    GPU can take enough time that it is worthwhile to start this process
+>    as soon as there is input activity. Many Chrome OS systems also ship
+>    with an input_handler boost that powers up the GPU.
+> 
+> This patch provides a small helper library that abstracts some of the
+> input-subsystem details around picking which devices to listen to, and
+> some other boilerplate. This will be used in the next patch to implement
+> the first bullet: preemptive exit for panel self-refresh.
+> 
+> Bits of this are adapted from code the Android and/or Chrome OS kernels
+> have been carrying for a while.
+> 
+> Signed-off-by: Brian Norris <briannorris@chromium.org>
 > ---
->  tests/kms_color.c | 179 +++++++++++++++++++++++++++++++++++++++++++++-
->  1 file changed, 178 insertions(+), 1 deletion(-)
->=20
-> diff --git a/tests/kms_color.c b/tests/kms_color.c
-> index 775f35964f..b45d66762f 100644
-> --- a/tests/kms_color.c
-> +++ b/tests/kms_color.c
-> @@ -24,7 +24,34 @@
-> =20
->  #include "kms_color_helper.h"
-> =20
-> -IGT_TEST_DESCRIPTION("Test Color Features at Pipe level");
-> +IGT_TEST_DESCRIPTION("Test Color Features at Pipe & Plane level");
+> 
+> Changes in v2:
+>  - Honor CONFIG_INPUT dependency, via new CONFIG_DRM_INPUT_HELPER
+>  - Remove void*; users should use container_of()
+>  - Document the callback context
+> 
+>  drivers/gpu/drm/Kconfig            |   6 ++
+>  drivers/gpu/drm/Makefile           |   2 +
+>  drivers/gpu/drm/drm_input_helper.c | 143 +++++++++++++++++++++++++++++
+>  include/drm/drm_input_helper.h     |  41 +++++++++
+
+Please add documentation for this and include it under
+Documentation/gpu/drm-kms-helpers.rst in a suitable place.
+
+Standards for core code should be overview DOC: with references to key
+functions/structs, and all driver visible structs, functions (static
+inline in header or exported) fully documented.
+
+>  4 files changed, 192 insertions(+)
+>  create mode 100644 drivers/gpu/drm/drm_input_helper.c
+>  create mode 100644 include/drm/drm_input_helper.h
+> 
+> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+> index fb144617055b..381476b10a9d 100644
+> --- a/drivers/gpu/drm/Kconfig
+> +++ b/drivers/gpu/drm/Kconfig
+> @@ -79,9 +79,15 @@ config DRM_DEBUG_SELFTEST
+>  
+>  	  If in doubt, say "N".
+>  
+> +config DRM_INPUT_HELPER
+> +	def_bool y
+> +	depends on DRM_KMS_HELPER
+> +	depends on INPUT
+
+Uh please no configs for each thing, it just makes everything more
+complex. Do we _really_ need this?
+
 > +
-> +#define MAX_SUPPORTED_PLANES 7
-> +#define SDR_PLANE_BASE 3
+>  config DRM_KMS_HELPER
+>  	tristate
+>  	depends on DRM
+> +	select DRM_INPUT_HELPER if INPUT
+>  	help
+>  	  CRTC helpers for KMS drivers.
+>  
+> diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+> index 1c41156deb5f..9a6494aa45e6 100644
+> --- a/drivers/gpu/drm/Makefile
+> +++ b/drivers/gpu/drm/Makefile
+> @@ -56,6 +56,8 @@ drm_kms_helper-y := drm_bridge_connector.o drm_crtc_helper.o drm_dp_helper.o \
+>  		drm_atomic_state_helper.o drm_damage_helper.o \
+>  		drm_format_helper.o drm_self_refresh_helper.o drm_rect.o
+>  
+> +drm_kms_helper-$(CONFIG_DRM_INPUT_HELPER) += drm_input_helper.o
 > +
-> +typedef bool (*test_t)(data_t*, igt_plane_t*);
+>  drm_kms_helper-$(CONFIG_DRM_PANEL_BRIDGE) += bridge/panel.o
+>  drm_kms_helper-$(CONFIG_DRM_FBDEV_EMULATION) += drm_fb_helper.o
+>  drm_kms_helper-$(CONFIG_DRM_KMS_CMA_HELPER) += drm_fb_cma_helper.o
+> diff --git a/drivers/gpu/drm/drm_input_helper.c b/drivers/gpu/drm/drm_input_helper.c
+> new file mode 100644
+> index 000000000000..470f90865c7c
+> --- /dev/null
+> +++ b/drivers/gpu/drm/drm_input_helper.c
+> @@ -0,0 +1,143 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright (C) 2021 Google, Inc.
+> + */
+> +#include <linux/input.h>
+> +#include <linux/slab.h>
 > +
-> +static bool is_hdr_plane(const igt_plane_t *plane)
+> +#include <drm/drm_device.h>
+> +#include <drm/drm_input_helper.h>
+> +
+> +/**
+> + * DOC: overview
+> + *
+> + * This helper library provides a thin wrapper around input handles, so that
+> + * DRM drivers can easily perform domain-specific actions in response to user
+> + * activity. e.g., if someone is moving a mouse, we're likely to want to
+> + * display something soon, and we should exit panel self-refresh.
+> + */
+> +
+> +static void drm_input_event(struct input_handle *handle, unsigned int type,
+> +			    unsigned int code, int value)
 > +{
-> +	return plane->index >=3D 0 && plane->index < SDR_PLANE_BASE;
-
-How can this be right for all KMS drivers?
-
-What is a HDR plane?
-
+> +	struct drm_input_handler *handler = handle->handler->private;
+> +
+> +	handler->callback(handler);
 > +}
 > +
-> +static bool is_valid_plane(igt_plane_t *plane)
+> +static int drm_input_connect(struct input_handler *handler,
+> +			     struct input_dev *dev,
+> +			     const struct input_device_id *id)
 > +{
-> +	int index =3D plane->index;
+> +	struct input_handle *handle;
+> +	int error;
 > +
-> +	if (plane->type !=3D DRM_PLANE_TYPE_PRIMARY)
-> +		return false;
+> +	handle = kzalloc(sizeof(struct input_handle), GFP_KERNEL);
+> +	if (!handle)
+> +		return -ENOMEM;
 > +
-> +	/*
-> +	 * Test 1 HDR plane, 1 SDR plane.
-> +	 *
-> +	 * 0,1,2 HDR planes
-> +	 * 3,4,5,6 SDR planes
-
-As above, where does this come from? Is this your hardware?
-
-> +	 *
-> +	 */
-> +	return index >=3D 0 && index < MAX_SUPPORTED_PLANES;
+> +	handle->dev = dev;
+> +	handle->handler = handler;
+> +	handle->name = "drm-input-helper";
+> +
+> +	error = input_register_handle(handle);
+> +	if (error)
+> +		goto err2;
+> +
+> +	error = input_open_device(handle);
+> +	if (error)
+> +		goto err1;
+> +
+> +	return 0;
+> +
+> +err1:
+> +	input_unregister_handle(handle);
+> +err2:
+> +	kfree(handle);
+> +	return error;
 > +}
-> =20
->  static void test_pipe_degamma(data_t *data,
->  			      igt_plane_t *primary)
-> @@ -638,6 +665,122 @@ static void test_pipe_limited_range_ctm(data_t *dat=
-a,
->  }
->  #endif
-> =20
-> +static bool plane_gamma_test(data_t *data, igt_plane_t *plane)
+> +
+> +static void drm_input_disconnect(struct input_handle *handle)
 > +{
-> +	igt_output_t *output;
-> +	igt_display_t *display =3D &data->display;
-> +	drmModeModeInfo *mode;
-> +	struct igt_fb fb;
-> +	drmModePropertyPtr gamma_mode =3D NULL;
-> +	uint32_t i;
-> +	bool ret =3D true;
-> +	igt_pipe_crc_t *pipe_crc =3D NULL;
-> +	color_t red_green_blue[] =3D {
-> +		{ 1.0, 0.0, 0.0 },
-> +		{ 0.0, 1.0, 0.0 },
-> +		{ 0.0, 0.0, 1.0 }
-> +	};
+> +	input_close_device(handle);
+> +	input_unregister_handle(handle);
+> +	kfree(handle);
+> +}
 > +
-> +	igt_info("Plane gamma test is running on pipe-%s plane-%s(%s)\n",
-> +			kmstest_pipe_name(plane->pipe->pipe),
-> +			kmstest_plane_type_name(plane->type),
-> +			is_hdr_plane(plane) ? "hdr":"sdr");
+> +static const struct input_device_id drm_input_ids[] = {
+> +	{
+> +		.flags = INPUT_DEVICE_ID_MATCH_EVBIT |
+> +			 INPUT_DEVICE_ID_MATCH_ABSBIT,
+> +		.evbit = { BIT_MASK(EV_ABS) },
+> +		.absbit = { [BIT_WORD(ABS_MT_POSITION_X)] =
+> +			    BIT_MASK(ABS_MT_POSITION_X) |
+> +			    BIT_MASK(ABS_MT_POSITION_Y) },
+> +	}, /* multi-touch touchscreen */
+> +	{
+> +		.flags = INPUT_DEVICE_ID_MATCH_EVBIT,
+> +		.evbit = { BIT_MASK(EV_ABS) },
+> +		.absbit = { [BIT_WORD(ABS_X)] = BIT_MASK(ABS_X) }
 > +
-> +	igt_require(igt_plane_has_prop(plane, IGT_PLANE_GAMMA_MODE));
-> +	igt_require(igt_plane_has_prop(plane, IGT_PLANE_GAMMA_LUT));
+> +	}, /* stylus or joystick device */
+> +	{
+> +		.flags = INPUT_DEVICE_ID_MATCH_EVBIT,
+> +		.evbit = { BIT_MASK(EV_KEY) },
+> +		.keybit = { [BIT_WORD(BTN_LEFT)] = BIT_MASK(BTN_LEFT) },
+> +	}, /* pointer (e.g. trackpad, mouse) */
+> +	{
+> +		.flags = INPUT_DEVICE_ID_MATCH_EVBIT,
+> +		.evbit = { BIT_MASK(EV_KEY) },
+> +		.keybit = { [BIT_WORD(KEY_ESC)] = BIT_MASK(KEY_ESC) },
+> +	}, /* keyboard */
+> +	{
+> +		.flags = INPUT_DEVICE_ID_MATCH_EVBIT |
+> +			 INPUT_DEVICE_ID_MATCH_KEYBIT,
+> +		.evbit = { BIT_MASK(EV_KEY) },
+> +		.keybit = {[BIT_WORD(BTN_JOYSTICK)] = BIT_MASK(BTN_JOYSTICK) },
+> +	}, /* joysticks not caught by ABS_X above */
+> +	{
+> +		.flags = INPUT_DEVICE_ID_MATCH_EVBIT |
+> +			 INPUT_DEVICE_ID_MATCH_KEYBIT,
+> +		.evbit = { BIT_MASK(EV_KEY) },
+> +		.keybit = { [BIT_WORD(BTN_GAMEPAD)] = BIT_MASK(BTN_GAMEPAD) },
+> +	}, /* gamepad */
+> +	{ },
+> +};
 > +
-> +	pipe_crc =3D igt_pipe_crc_new(data->drm_fd,
-> +				  plane->pipe->pipe,
-> +				  INTEL_PIPE_CRC_SOURCE_AUTO);
+> +int drm_input_handle_register(struct drm_device *dev,
+> +			      struct drm_input_handler *handler)
+> +{
+> +	int ret;
 > +
-> +	output =3D igt_get_single_output_for_pipe(display, plane->pipe->pipe);
-> +	igt_assert(output);
+> +	if (!handler->callback)
+> +		return -EINVAL;
 > +
-> +	igt_output_set_pipe(output, plane->pipe->pipe);
-> +	mode =3D igt_output_get_mode(output);
+> +	handler->handler.event = drm_input_event;
+> +	handler->handler.connect = drm_input_connect;
+> +	handler->handler.disconnect = drm_input_disconnect;
+> +	handler->handler.name = kasprintf(GFP_KERNEL, "drm-input-helper-%s",
+> +					  dev_name(dev->dev));
+> +	if (!handler->handler.name)
+> +		return -ENOMEM;
 > +
-> +	/* Create a framebuffer at the size of the output. */
-> +	igt_assert(igt_create_fb(data->drm_fd,
-> +			      mode->hdisplay,
-> +			      mode->vdisplay,
-> +			      DRM_FORMAT_XRGB8888,
-> +			      DRM_FORMAT_MOD_LINEAR,
-> +			      &fb));
-> +	igt_plane_set_fb(plane, &fb);
+> +	handler->handler.id_table = drm_input_ids;
+> +	handler->handler.private = handler;
 > +
-> +	/* Disable Pipe color props. */
-> +	disable_ctm(plane->pipe);
-> +	disable_degamma(plane->pipe);
-> +	disable_gamma(plane->pipe);
+> +	ret = input_register_handler(&handler->handler);
+> +	if (ret)
+> +		goto err;
 > +
-> +	disable_plane_ctm(plane);
-> +	disable_plane_degamma(plane);
-> +	igt_display_commit2(display, display->is_atomic ?
-> +					COMMIT_ATOMIC : COMMIT_LEGACY);
+> +	return 0;
 > +
-> +	gamma_mode =3D get_plane_gamma_degamma_mode(plane, IGT_PLANE_GAMMA_MODE=
-);
-> +
-> +	/* Iterate all supported gamma modes. */
-> +	for (i =3D 0; i < gamma_mode->count_enums; i++) {
-> +		igt_crc_t crc_gamma, crc_fullcolors;
-> +		segment_data_t *segment_info =3D NULL;
-> +		struct drm_color_lut_ext *lut =3D NULL;
-> +		uint32_t lut_size =3D 0;
-> +
-> +		/* Ignore 'no gamma' from enum list. */
-> +		if (!strcmp(gamma_mode->enums[i].name, "no gamma"))
-> +			continue;
-> +
-> +		igt_info("Trying to use gamma mode: \'%s\'\n", gamma_mode->enums[i].na=
-me);
-> +
-> +		/* Draw solid colors with no gamma transformation. */
-> +		disable_plane_gamma(plane);
-> +		paint_rectangles(data, mode, red_green_blue, &fb);
-> +		igt_plane_set_fb(plane, &fb);
-> +		igt_display_commit2(display, display->is_atomic ?
-> +					COMMIT_ATOMIC : COMMIT_LEGACY);
-> +		igt_wait_for_vblank(data->drm_fd,
-> +			display->pipes[plane->pipe->pipe].crtc_offset);
-> +		igt_pipe_crc_collect_crc(pipe_crc, &crc_fullcolors);
-> +
-> +		/* Draw gradient colors with gamma LUT to remap all
-> +		 * values to max red/green/blue.
-> +		 */
-> +		segment_info =3D get_segment_data(data, gamma_mode->enums[i].value,
-> +				gamma_mode->enums[i].name);
-> +		lut_size =3D sizeof(struct drm_color_lut_ext) * segment_info->entries_=
-count;
-> +		lut =3D create_max_lut(segment_info);
-
-Using max LUT seems like a weak test. I recall seeing problem reports
-related to alpha blending where trying to display an alpha gradient
-essentially resulted in what max LUT would produce.
-
-
-Thanks,
-pq
-
-> +		set_plane_gamma(plane, gamma_mode->enums[i].name, lut, lut_size);
-> +
-> +		paint_gradient_rectangles(data, mode, red_green_blue, &fb);
-> +		igt_plane_set_fb(plane, &fb);
-> +		igt_display_commit2(display, display->is_atomic ?
-> +					COMMIT_ATOMIC : COMMIT_LEGACY);
-> +		igt_wait_for_vblank(data->drm_fd,
-> +			display->pipes[plane->pipe->pipe].crtc_offset);
-> +		igt_pipe_crc_collect_crc(pipe_crc, &crc_gamma);
-> +
-> +		/* Verify that the CRC of the software computed output is
-> +		 * equal to the CRC of the gamma LUT transformation output.
-> +		 */
-> +		ret &=3D igt_check_crc_equal(&crc_gamma, &crc_fullcolors);
-> +
-> +		free(lut);
-> +		clear_segment_data(segment_info);
-> +	}
-> +
-> +	disable_plane_gamma(plane);
-> +	igt_plane_set_fb(plane, NULL);
-> +	igt_output_set_pipe(output, PIPE_NONE);
-> +	igt_display_commit2(display, display->is_atomic ?
-> +					COMMIT_ATOMIC : COMMIT_LEGACY);
-> +
-> +	igt_pipe_crc_free(pipe_crc);
-> +	drmModeFreeProperty(gamma_mode);
-> +
+> +err:
+> +	kfree(handler->handler.name);
 > +	return ret;
 > +}
+> +EXPORT_SYMBOL(drm_input_handle_register);
 > +
->  static void
->  prep_pipe(data_t *data, enum pipe p)
->  {
-> @@ -890,6 +1033,37 @@ run_invalid_tests_for_pipe(data_t *data, enum pipe =
-p)
->  		invalid_ctm_matrix_sizes(data, p);
->  }
-> =20
-> +static void run_plane_color_test(data_t *data, enum pipe pipe, test_t te=
-st)
+> +void drm_input_handle_unregister(struct drm_input_handler *handler)
 > +{
-> +	igt_plane_t *plane;
-> +	int count =3D 0;
-> +
-> +	for_each_plane_on_pipe(&data->display, pipe, plane) {
-> +		if (!is_valid_plane(plane))
-> +			continue;
-> +
-> +		igt_assert(test(data, plane));
-> +
-> +		count++;
-> +	}
-> +
-> +	igt_require_f(count, "No valid planes found.\n");
+> +	input_unregister_handler(&handler->handler);
+> +	kfree(handler->handler.name);
 > +}
+> +EXPORT_SYMBOL(drm_input_handle_unregister);
+> diff --git a/include/drm/drm_input_helper.h b/include/drm/drm_input_helper.h
+> new file mode 100644
+> index 000000000000..7904f397b934
+> --- /dev/null
+> +++ b/include/drm/drm_input_helper.h
+> @@ -0,0 +1,41 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * Copyright (C) 2021 Google, Inc.
+> + */
+> +#ifndef __DRM_INPUT_HELPER_H__
+> +#define __DRM_INPUT_HELPER_H__
 > +
-> +static void run_tests_for_plane(data_t *data, enum pipe pipe)
+> +#include <linux/input.h>
+> +
+> +struct drm_device;
+> +
+> +struct drm_input_handler {
+> +	/*
+> +	 * Callback to call for input activity. Will be called in an atomic
+> +	 * context.
+
+How atomic? Like hardirq, and nasty spinlocks held?
+
+> +	 */
+> +	void (*callback)(struct drm_input_handler *handler);
+> +
+> +	struct input_handler handler;
+> +};
+> +
+> +#if defined(CONFIG_DRM_INPUT_HELPER)
+> +
+> +int drm_input_handle_register(struct drm_device *dev,
+> +			      struct drm_input_handler *handler);
+> +void drm_input_handle_unregister(struct drm_input_handler *handler);
+> +
+> +#else /* !CONFIG_DRM_INPUT_HELPER */
+> +
+> +static inline int drm_input_handle_register(struct drm_device *dev,
+> +					    struct drm_input_handler *handler)
 > +{
-> +	igt_fixture {
-> +		igt_require_pipe(&data->display, pipe);
-> +		igt_require_pipe_crc(data->drm_fd);
-> +		igt_require(data->display.pipes[pipe].n_planes > 0);
-> +		igt_display_require_output_on_pipe(&data->display, pipe);
-> +	}
-> +
-> +	igt_describe("Compare maxed out plane gamma LUT and solid color linear =
-LUT");
-> +	igt_subtest_f("pipe-%s-plane-gamma", kmstest_pipe_name(pipe))
-> +		run_plane_color_test(data, pipe, plane_gamma_test);
+> +	return 0;
 > +}
+
+I guess the reason behind the helper is that you also want to use this in
+drivers or maybe drm/sched?
+
+Anyway I think it looks all reasonable. Definitely need an ack from input
+people that the event list you have is a good choice, I have no idea what
+that all does. Maybe also document that part a bit more.
+-Daniel
+
+
 > +
->  igt_main
->  {
->  	data_t data =3D {};
-> @@ -910,6 +1084,9 @@ igt_main
-> =20
->  		igt_subtest_group
->  			run_invalid_tests_for_pipe(&data, pipe);
+> +static inline void
+> +drm_input_handle_unregister(struct drm_input_handler *handler) {}
 > +
-> +		igt_subtest_group
-> +			run_tests_for_plane(&data, pipe);
->  	}
-> =20
->  	igt_fixture {
+> +#endif /* CONFIG_DRM_INPUT_HELPER */
+> +
+> +#endif /* __DRM_INPUT_HELPER_H__ */
+> -- 
+> 2.34.0.rc1.387.gb447b232ab-goog
+> 
 
-
---Sig_/_Qke0eYh.h6d7MR=cf_zjNa
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmGWFqoACgkQI1/ltBGq
-qqdT7hAAieL4HIkO/pSjrzX4715OJka9906A8VZRElGpnydpwLpc4jX1whNr0PiT
-qiYDVhWW9yY7RPzpsPQutraCTmRCzx/rXEaVktb1mrq/behfVt8/qlTOf74USStO
-TAVXWpsiXjZWvichJ5XAtE8lB3yi2phZqCq3kl06LgsbgD3hlfNfCpMvHEi0B54f
-kftOvPFGTvqlT1kX5a4xz+RBUTI5b70JPrnG7f5kPF2URD4kIAZ0NH75xpGUknts
-2g03GCQvFILxfZecPlqeoxGilSZ7oYXndws1dXPdgPuKW50aISDAjYgMmMItZoiR
-D1TCK6hZbvmy8mK3qkF331Xhg4Zjlhi5pl1OkKbaiABsvie3VPFSWOAp6trDFS0B
-VKmawZYotfaEwGzfzhhdhwDqZeue00kpu2G6SndaFXkFBSzuwaYWitv9soiGbool
-LScJ6yZ8nW+NfYMoFrDZ73BpOqZa1nXr+GgIWzye7ozORcuk+iIgyLTpiaoX5NPM
-bRazlmRCWkuSbciUupNMRh0M/LYEEV+B8qlScFWTy9RKaTAq41KjK+G+ZZ+4TJVy
-WYD6EGGJwli+nR4CKUODcfQeXbSQy1+nQIlIarGxmnKPRtx/OC9NGzMKP30U/ccx
-c2MVZ6q6ROEDfOFDBEXbo9zKe6me7B7t+EjDHxboUd6DYnrxWQ4=
-=5cGO
------END PGP SIGNATURE-----
-
---Sig_/_Qke0eYh.h6d7MR=cf_zjNa--
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
