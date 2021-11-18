@@ -1,55 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8EE34565B6
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Nov 2021 23:28:50 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E7D34565BB
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Nov 2021 23:31:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 57AAD6E419;
-	Thu, 18 Nov 2021 22:28:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 335876E7EA;
+	Thu, 18 Nov 2021 22:31:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x335.google.com (mail-ot1-x335.google.com
- [IPv6:2607:f8b0:4864:20::335])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3466B6E84E;
- Thu, 18 Nov 2021 22:28:47 +0000 (UTC)
-Received: by mail-ot1-x335.google.com with SMTP id
- h12-20020a056830034c00b0055c8458126fso13658998ote.0; 
- Thu, 18 Nov 2021 14:28:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=iTIRoBMB8dTH55Lw8avCBAoOzO2H2LeNFnFB35W++GY=;
- b=C5gpD143CDgtmN2qVZv2V1OwteZNHALmoAxcCNJZGv3NS1r78PBJtS/pK9WbcA5q9S
- Rjfqu04wyUqbuB6L7yx7PMuWCASDhigrbeu8kGy2Rh1RJklEmVODoc2p3HAXNrvS/GJn
- B/w0COX77qXhtcWSaLbG/eN1+F7Vc6y4su+BdmYKJLSB29IrfCdZSQwgo6e3WAcyAtmk
- AISWmuf3fG8kndvz9eVangzRWtrA9N/acw/wnPOhezSImDc/gQCnM5cEgXTmBthrz5io
- u4FtoUqbH0p/kLBvD/dCVun6VSnmZaNBwCEFt9nTHj6H+fFFb8hveFWzPWo7zswSe7TK
- 3Nrw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=iTIRoBMB8dTH55Lw8avCBAoOzO2H2LeNFnFB35W++GY=;
- b=vV0EeoujekkK5FYMlrpYijc6bOoZ3bh2POaG0s3Ak+VS/PvPYtJ7yMWCVFLTx532nD
- nsRNVLNkcGrD0c8I5ETklzZJM+k/XK46Jj2qr4nNm+YyKC6HbI3FhiElCOcLghw2E8iI
- xL+4ao0Dgki47jZ0NhPpwu8eM6fDeXtgdCcfZUG3Kt8DQePAYc5fLbhCpri4gAkuyYAP
- ScsPPmVThn4w9AOQvVKC/brYGy1VJxnEyEsILrE3xNtCpbcIW1/JdZ+3woq4B4eY1QRS
- UP7Msm0hwcm5PFn81kPd/F44QSNK3jhOT/WkBgQxItoQ+mbPwZwt6dR4eAf7w0uGur5Z
- IhGw==
-X-Gm-Message-State: AOAM532IpeFQCIBkxCmHknTOw6KXZ/amLBrvG8vZloBgxroHQS70SZNK
- yHro9aJ9xVvpLefM7D3sG2YO3aWhT6WWR56FuYA=
-X-Google-Smtp-Source: ABdhPJzyznhO8pdRdplpF77M8F5//6rspO6NfKtmr5De3xuos3zWUtNbCBNN29BnYBWyOf9dB8vdrMP6DZ5X3cS3pGI=
-X-Received: by 2002:a9d:67c1:: with SMTP id c1mr567099otn.299.1637274526546;
- Thu, 18 Nov 2021 14:28:46 -0800 (PST)
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F32126E5A2;
+ Thu, 18 Nov 2021 22:31:30 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10172"; a="295122450"
+X-IronPort-AV: E=Sophos;i="5.87,246,1631602800"; d="scan'208";a="295122450"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Nov 2021 14:31:30 -0800
+X-IronPort-AV: E=Sophos;i="5.87,246,1631602800"; d="scan'208";a="495598180"
+Received: from marthapr-mobl.amr.corp.intel.com (HELO intel.com)
+ ([10.255.35.105])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Nov 2021 14:31:26 -0800
+Date: Thu, 18 Nov 2021 17:31:24 -0500
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PULL] drm-intel-fixes
+Message-ID: <YZbUPIHpR1S3JZ2b@intel.com>
 MIME-Version: 1.0
-References: <1637233039-22503-1-git-send-email-jiapeng.chong@linux.alibaba.com>
-In-Reply-To: <1637233039-22503-1-git-send-email-jiapeng.chong@linux.alibaba.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 18 Nov 2021 17:28:35 -0500
-Message-ID: <CADnq5_MK+O-6rMSojCGquCD8HooVfKMwyLez+RKsT38c_X=SMA@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdgpu/pm: clean up some inconsistent indenting
-To: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,46 +42,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@linux.ie>, xinhui pan <Xinhui.Pan@amd.com>,
- LKML <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>, "Deucher,
- Alexander" <alexander.deucher@amd.com>,
- Christian Koenig <christian.koenig@amd.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
+ intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
+Hi Dave and Daniel,
 
-Alex
+Here goes drm-intel-fixes-2021-11-18:
 
-On Thu, Nov 18, 2021 at 5:57 AM Jiapeng Chong
-<jiapeng.chong@linux.alibaba.com> wrote:
->
-> Eliminate the follow smatch warning:
->
-> drivers/gpu/drm/amd/amdgpu/../pm/powerplay/amd_powerplay.c:1554
-> pp_asic_reset_mode_2() warn: inconsistent indenting.
->
-> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-> Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-> ---
->  drivers/gpu/drm/amd/pm/powerplay/amd_powerplay.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/amd/pm/powerplay/amd_powerplay.c b/drivers/gpu/drm/amd/pm/powerplay/amd_powerplay.c
-> index 8d796ed..20cb234 100644
-> --- a/drivers/gpu/drm/amd/pm/powerplay/amd_powerplay.c
-> +++ b/drivers/gpu/drm/amd/pm/powerplay/amd_powerplay.c
-> @@ -1551,7 +1551,7 @@ static int pp_set_ppfeature_status(void *handle, uint64_t ppfeature_masks)
->  static int pp_asic_reset_mode_2(void *handle)
->  {
->         struct pp_hwmgr *hwmgr = handle;
-> -               int ret = 0;
-> +       int ret = 0;
->
->         if (!hwmgr || !hwmgr->pm_en)
->                 return -EINVAL;
-> --
-> 1.8.3.1
->
+One quick fix for return error handling, one fix for ADL-P display
+and one revert targeting stable 5.4, for TGL's DSI display clocks
+
+Thanks,
+Rodrigo.
+
+The following changes since commit fa55b7dcdc43c1aa1ba12bca9d2dd4318c2a0dbf:
+
+  Linux 5.16-rc1 (2021-11-14 13:56:52 -0800)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-fixes-2021-11-18
+
+for you to fetch changes up to 8b2abf777d8ea8d8db15af553454e0e976804225:
+
+  drm/i915/guc: fix NULL vs IS_ERR() checking (2021-11-17 08:46:55 -0500)
+
+----------------------------------------------------------------
+One quick fix for return error handling, one fix for ADL-P display
+and one revert targeting stable 5.4, for TGL's DSI display clocks
+
+----------------------------------------------------------------
+Dan Carpenter (1):
+      drm/i915/guc: fix NULL vs IS_ERR() checking
+
+Vandita Kulkarni (2):
+      Revert "drm/i915/tgl/dsi: Gate the ddi clocks after pll mapping"
+      drm/i915/dsi/xelpd: Fix the bit mask for wakeup GB
+
+ drivers/gpu/drm/i915/display/icl_dsi.c            | 13 ++++---------
+ drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c |  4 ++--
+ drivers/gpu/drm/i915/i915_reg.h                   |  4 +++-
+ 3 files changed, 9 insertions(+), 12 deletions(-)
