@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B61D845592E
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Nov 2021 11:38:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A1E3455931
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Nov 2021 11:38:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 87C716E9C2;
-	Thu, 18 Nov 2021 10:38:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 87EAD6E9DF;
+	Thu, 18 Nov 2021 10:38:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
  [66.111.4.224])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 926216E96D
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Nov 2021 10:38:21 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id EB3CB580916;
- Thu, 18 Nov 2021 05:38:20 -0500 (EST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B365B6E9C2
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Nov 2021 10:38:23 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 19CE6580912;
+ Thu, 18 Nov 2021 05:38:23 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Thu, 18 Nov 2021 05:38:20 -0500
+ by compute5.internal (MEProxy); Thu, 18 Nov 2021 05:38:23 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=G1t7vylcsSNeR
- l5th91rZ5R4nGF6kCO3PrUHizPzPyE=; b=AoAcN3ZEXets+FLjET8SgEaKQAb9C
- 76Rs+W+7n3I9cOAD0xQGrHB8Enr8SV0KVt85W2hgp6+PDk2bSEOX+EiB8SOARCri
- U4p15rb6E/4cZXLPghK2zmhuYvJVrgwVR0dXWBiYvaW3Fg0I2R2fBFrDMb8DLBxV
- YkvkKQ5XFaeiMOrYg+3xuirzGMxfG1aJWScW4wf+0MOiYlzVNUdVcFyDcbvBpSEk
- BemRKcRk+SYYt9pu5W9lNOAnmUnvj0UdNzBl0X6bgP9kAFj6KZnGbiapvM6SuGxB
- ise6gDeyjmNC171n0rDmUTzZ1wG670IWHo5vrhYH5lNO/fooAzG7bzd+w==
+ :mime-version:content-transfer-encoding; s=fm1; bh=HPxmOUgOUXx2k
+ qjwLNR68MCCF0bp9X93Ia8VuZOB/UY=; b=WOuTywos2RylEtEBOyfpaSazLTBfa
+ iVCXPAlhYVIM51EY/u5W2h9IFNUxRAZFL3JVY2aBxyhCPNvKrYYA0ntRxIjJfC5x
+ 5jSQNQnwQJMjV+iX0vBAlXbRRDQsRhY7h/AHnmhvqoZJwH9WG2tMnYLh1TSTjUqO
+ Ll0Dcomqw61Kaei/8VRboTssVuUukgG+hCsgDZKk7YO8be0r/SXTqaOt4DX+4X1E
+ heuEkGUJ6JqokWNjoEzZ7aFsugk5ZVCkxJH3M7N8DSrGycPNB44aAClwRmGrLVIk
+ RteNfrFg0n0smYnh1lNTVSfO2Qj1kJ10S8meWRXNU8U5T8bp55idWUPpA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=G1t7vylcsSNeRl5th91rZ5R4nGF6kCO3PrUHizPzPyE=; b=nPQc/UA/
- eVKJCdNntMPafUq4vVvaFHHc09tmrVQm2Jqg4NsfcrRa5j8JfIy2HitE2hjoyAGZ
- x6DFl0C5s81FVdv3HGvTi6RONWNt61WOPAz0KyijXL2MD0YXg2T5+MzeD0UelQF6
- 9NVrDjUkomJMzT2hDdxWkgm+Yaw0MmHmLtp7CIG/TpZV2weFVYiWLFgGN4phfYEz
- y4q4OKVSpwAwqmeb30uAwneI8fdbzf10a8bn8VQa9coG2SiZe8J7GRGgaZi730Hu
- ekGrgL5CdxGtnauphjO2EeFr2dGAo/s0W6uSGVNgEvn8gFp8VDkmfAbJ4NwwBRzo
- 9hux/uaKnYKn8g==
-X-ME-Sender: <xms:HC2WYcdJtSD2YjzgB8HfNif2OeOXtZ9iSR21maSjK0gyOfFVZIdMrQ>
- <xme:HC2WYeNP46ovXlCoZUfaLWoOAav3EZfhajU4pGpQP3I2051XOOiaMTy7kOL_nqLnn
- hPkoFJFl-v_jlpPUhk>
-X-ME-Received: <xmr:HC2WYdhNM3MvNrKJvQ8dt0f7VWUj5LbfEph8cDB4nXit-0tHVGY2L7bgbWjsohSsHrSWgewVWR82YRDHgD6caw_EyCar04imtG4kb5spl-k>
+ fm1; bh=HPxmOUgOUXx2kqjwLNR68MCCF0bp9X93Ia8VuZOB/UY=; b=S1RseHRw
+ JoNBKVgakrCuoBz8ejP+stnVqre9tuPq880ZzszYXCvUTOD0sn/3RXTYc+1CtIH0
+ RwtYoADsYgfpeyg05Ks4FEp9pw3g3YDjouLpWeApWtJ4rcEymJxBybTeHz+iN9TK
+ whTAPh633Z2r23guByP3lhnT3H6TFPSq5cvbzsuea6szqTWubI0R/iuGEC+YvKXn
+ IaBOihzlgrDbI2mUHy4sjsUQ4RmEft60QzPdloa4c42NZFmPZmL2xM2UX6Vuqnp9
+ H9652J4M6am/jOwSYy4FpyvMNdYxVjGrZ7QFZdfpyXXIvL/aao815HziPoh/f6PH
+ cxyVIP84TjU5eg==
+X-ME-Sender: <xms:Hi2WYbUOrhQ6GY_DbLWG3cMWQJpQc-m-mT6fcrxVFPqWx2MN88cTvA>
+ <xme:Hi2WYTn9JPwdbBte8pe3-pkAMEdENJczS0aewtRdR8zUxW89cRftv1xiKGWiXn7No
+ otUxoOvidvxtqHRTA8>
+X-ME-Received: <xmr:Hi2WYXZfLW1n8oayfTVvmahmcA5ZkD1rAKu40_YH5MULiTcRLO6SGems-I4joATLzR30cJOmlKhoao-UVzBSUAqAGXCGoa7CVOBqIyp7UZI>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrfeeigdduiecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
@@ -50,20 +50,19 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrfeeigdduiecutefuodetggdote
  gvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveevheeh
  vdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
  igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:HC2WYR-hy3yXcf_bZFrHkEFPyG0D_YcEcV2IJB0_eMA-dFdveGGhlQ>
- <xmx:HC2WYYs4TbysFMakoi7qkGWZfwHuQKV4KBLBkMYAuOFJI2qwV8X4Cw>
- <xmx:HC2WYYGRuLjlqLlT-hAz_28V2PpKKv_F8NI_v0d17b1uHB41K2X4Wg>
- <xmx:HC2WYaJHFwbY-MiQSu01LwHmX2pCuAXJmPBxge_GyQvsL1Z4NJTmQw>
+X-ME-Proxy: <xmx:Hi2WYWUVwdkrf26ojCuaIdaZVFS5b49RsPnmsfOD12e5XnD0f8_G9A>
+ <xmx:Hi2WYVmezrtDbubR5Yz3amEq3Kykzhv5s8CRqOQJ3ht9sw8txjfmfg>
+ <xmx:Hi2WYTf-L0LnvxAh_y9cJWvnlu_k4eVQwYDKwhgfW-urWsY8i2ZbOg>
+ <xmx:Hy2WYWhZCnvNKBP7aBZc1Nd0exiu7XfAejVPCOv_I-ClJfw7FEOcxA>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 18 Nov 2021 05:38:19 -0500 (EST)
+ 18 Nov 2021 05:38:22 -0500 (EST)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>,
  Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>
-Subject: [PATCH v2 01/13] drm/connector: Add helper to check if a mode
- requires scrambling
-Date: Thu, 18 Nov 2021 11:38:02 +0100
-Message-Id: <20211118103814.524670-2-maxime@cerno.tech>
+Subject: [PATCH v2 02/13] drm/atomic: Add HDMI scrambler state helper
+Date: Thu, 18 Nov 2021 11:38:03 +0100
+Message-Id: <20211118103814.524670-3-maxime@cerno.tech>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211118103814.524670-1-maxime@cerno.tech>
 References: <20211118103814.524670-1-maxime@cerno.tech>
@@ -87,49 +86,148 @@ Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Most drivers supporting the HDMI scrambling seem to have the HDMI 1.4
-maximum frequency open-coded, and a function to test whether a display
-mode is above that threshold to control whether or not scrambling should
-be enabled.
+All the drivers that implement the HDMI scrambling setup (dw-hdmi, i915,
+tegra, vc4) duplicate the same logic to see if the TMDS ratio or the
+scrambling state needs to be modified depending on the current connector
+state and CRTC mode.
 
-Let's create a common define and helper for drivers to reuse.
+Since it's basically the same logic everywhere, let's put these two
+informations in the connector state, and filled by a atomic_check helper
+so that drivers can just use it.
 
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- include/drm/drm_modes.h | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+ drivers/gpu/drm/drm_atomic_state_helper.c | 58 +++++++++++++++++++++++
+ include/drm/drm_atomic_state_helper.h     |  3 ++
+ include/drm/drm_connector.h               | 25 ++++++++++
+ 3 files changed, 86 insertions(+)
 
-diff --git a/include/drm/drm_modes.h b/include/drm/drm_modes.h
-index 29ba4adf0c53..3bbf98ae59ae 100644
---- a/include/drm/drm_modes.h
-+++ b/include/drm/drm_modes.h
-@@ -424,6 +424,26 @@ static inline bool drm_mode_is_stereo(const struct drm_display_mode *mode)
- 	return mode->flags & DRM_MODE_FLAG_3D_MASK;
+diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/drm_atomic_state_helper.c
+index ddcf5c2c8e6a..08dfb2d1bf9b 100644
+--- a/drivers/gpu/drm/drm_atomic_state_helper.c
++++ b/drivers/gpu/drm/drm_atomic_state_helper.c
+@@ -454,6 +454,64 @@ void drm_atomic_helper_connector_tv_reset(struct drm_connector *connector)
  }
+ EXPORT_SYMBOL(drm_atomic_helper_connector_tv_reset);
  
 +/**
-+ * drm_mode_hdmi_requires_scrambling - Checks if a mode requires HDMI Scrambling
-+ * @mode: DRM display mode
-+ * @bpc: Pixels bit depth
++ * drm_atomic_helper_connector_hdmi_check - Checks the state of an HDMI connector
++ * @connector: DRM connector
++ * @state: DRM atomic state to check
 + *
-+ * Checks if a given display mode requires the scrambling to be enabled.
++ * Checks that an HDMI connector state is sane, and sets the various
++ * HDMI-specific flags in drm_connector_state related to HDMI support.
 + *
 + * Returns:
-+ * A boolean stating whether it's required or not.
++ * 0 on success, a negative error code otherwise.
 + */
-+static inline bool
-+drm_mode_hdmi_requires_scrambling(const struct drm_display_mode *mode,
-+				  unsigned char bpc)
++int drm_atomic_helper_connector_hdmi_check(struct drm_connector *connector,
++					   struct drm_atomic_state *state)
 +{
-+	unsigned long long clock = mode->crtc_clock * bpc;
-+	do_div(clock, 8);
++	struct drm_connector_state *conn_state = drm_atomic_get_new_connector_state(state,
++										    connector);
++	struct drm_display_info *info = &connector->display_info;
++	const struct drm_display_mode *mode;
++	struct drm_crtc_state *crtc_state;
++	struct drm_crtc *crtc;
++	bool required;
 +
-+	return mode->clock > 340000;
++	if (!conn_state)
++		return -EINVAL;
++
++	crtc = conn_state->crtc;
++	if (!crtc)
++		return -EINVAL;
++
++	crtc_state = drm_atomic_get_crtc_state(state, crtc);
++	if (IS_ERR(crtc_state))
++		return PTR_ERR(crtc_state);
++
++	mode = &crtc_state->mode;
++	crtc_state->connectors_changed = true;
++	conn_state->hdmi_needs_scrambling = false;
++	conn_state->hdmi_needs_high_tmds_ratio = false;
++
++	if (!info->is_hdmi)
++		return 0;
++
++	if (!info->hdmi.scdc.supported)
++		return 0;
++
++	required = drm_mode_hdmi_requires_scrambling(mode, conn_state->max_bpc);
++	if (required && !info->hdmi.scdc.scrambling.supported)
++		return -EINVAL;
++
++	if (info->hdmi.scdc.scrambling.low_rates || required)
++		conn_state->hdmi_needs_scrambling = true;
++
++	if (required)
++		conn_state->hdmi_needs_high_tmds_ratio = true;
++
++	return 0;
 +}
++EXPORT_SYMBOL(drm_atomic_helper_connector_hdmi_check);
 +
- struct drm_connector;
- struct drm_cmdline_mode;
+ /**
+  * __drm_atomic_helper_connector_duplicate_state - copy atomic connector state
+  * @connector: connector object
+diff --git a/include/drm/drm_atomic_state_helper.h b/include/drm/drm_atomic_state_helper.h
+index 3f8f1d627f7c..3d3d1ff355f4 100644
+--- a/include/drm/drm_atomic_state_helper.h
++++ b/include/drm/drm_atomic_state_helper.h
+@@ -26,6 +26,7 @@
  
+ #include <linux/types.h>
+ 
++struct drm_atomic_state;
+ struct drm_bridge;
+ struct drm_bridge_state;
+ struct drm_crtc;
+@@ -71,6 +72,8 @@ void __drm_atomic_helper_connector_reset(struct drm_connector *connector,
+ 					 struct drm_connector_state *conn_state);
+ void drm_atomic_helper_connector_reset(struct drm_connector *connector);
+ void drm_atomic_helper_connector_tv_reset(struct drm_connector *connector);
++int drm_atomic_helper_connector_hdmi_check(struct drm_connector *connector,
++					   struct drm_atomic_state *state);
+ void
+ __drm_atomic_helper_connector_duplicate_state(struct drm_connector *connector,
+ 					   struct drm_connector_state *state);
+diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+index b501d0badaea..02c6f9f0d4f7 100644
+--- a/include/drm/drm_connector.h
++++ b/include/drm/drm_connector.h
+@@ -830,6 +830,31 @@ struct drm_connector_state {
+ 	 * DRM blob property for HDR output metadata
+ 	 */
+ 	struct drm_property_blob *hdr_output_metadata;
++
++	/**
++	 * @hdmi_needs_scrambling:
++	 *
++	 * Only relevant for HDMI sink. Tracks whether the scrambling
++	 * should be turned on for the current sink and mode.
++	 *
++	 * Drivers needing this should use
++	 * drm_atomic_helper_connector_hdmi_check() and use the value
++	 * set here to enable or disable their scrambler.
++	 */
++	bool hdmi_needs_scrambling;
++
++	/**
++	 * @hdmi_needs_high_tmds_ratio:
++	 *
++	 * Only relevant for HDMI sink. Tracks whether the TMDS clock
++	 * ratio should be 1/10 of the pixel clock (false), or 1/40
++	 * (true).
++	 *
++	 * Drivers needing this should use
++	 * drm_atomic_helper_connector_hdmi_check() and use the value
++	 * set here to enable or disable their scrambler.
++	 */
++	bool hdmi_needs_high_tmds_ratio;
+ };
+ 
+ /**
 -- 
 2.33.1
 
