@@ -2,114 +2,112 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E9F04552CC
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Nov 2021 03:37:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 428BF4552EF
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Nov 2021 03:54:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E38896E18F;
-	Thu, 18 Nov 2021 02:37:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 43A736E151;
+	Thu, 18 Nov 2021 02:54:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from APC01-HK2-obe.outbound.protection.outlook.com
- (mail-eopbgr1300098.outbound.protection.outlook.com [40.107.130.98])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 88A9D6E18F
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Nov 2021 02:37:41 +0000 (UTC)
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2107.outbound.protection.outlook.com [40.107.93.107])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1EB426E151
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Nov 2021 02:54:11 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=n22kVP3dBoB/lbe8W0MKOHoPymPYJZG/kUarA4gN2d7lF3+Gz2BsOUZcsJUrDA3vU53jxxf91/pB5h3TKnGcYxfj5kzdgAVzJLDrE00gAvrajMEH62iWXNmKUMcMr7w7wuVBAbQfx2qJ40PuARCIWGkB7BqskN6GlWCF24qFjoItOjBQS0fMBFKg7AcKDxvFu7olXRNhDojkKjmvX64Bch3Ws7U+Crr2nFkZmgttKOsmUqIHsk/KZuqoDFmilk9HH17e7Q5htIDmr4hMhaC+OD7eWw5Ats/wET0lJLp+Wd8F5fwLYAIltcvrLmQDTk4c7DYoLBorUl6/HBRGXXh+tA==
+ b=b/oPdT+LDWc2CU01CxvptM+spPlS2Vhz/sK1nUa4lARM4tFBPJ3SQ40dAjaCX5Z91mmlSVHI3macxIaPFpXbA9ALIG9Q+7jjHys5PfC5x2FlulWjBngt3rtdyCkKgXqSMDxLMSu3kvTsFpsYNjn1gWrroa3XmpK9kyllpCpsZFsommMA/4Kjheo6xd/+QFcDnknZIvXD6GvOC4rK63Fml1jXJ3C577sGuYUw6O8G0Db3QeGa4F9exQ3GxH4u3xzELIfzskmnOkjAbcDGqfDZfUWFRuC+u+nLeW4gG4MKUjoEAH5RYX5bwoe8RI08fD4wcUX1Zx8jhGjt3Zv6uMkATg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=01L7f2XMsNdxTtD+8vGyTqZFb2tq5x2GZF0zGWD81+4=;
- b=Ygvr6zsQvcnhvw4F9Wv8cgWfVhqyZiiCgQhQsUQZplOXMrQHV+2EL77pi1z4j63nI0UFTQHJ3/LEN28j1lRoWgVFPIQa8CPxZ03Zvjs2/+dSm9kihVYW5ZC4JZLdk4SflOXwnk7HVqeolQ5Q8VkQUZ1kIZG1TI2muS683UaOwksFOClKTXe8Cs3XfUlra7hNC3QWcbZjJxHjVTXRhxYKQ0tlP/YAMV+JBPF8KVLCnmudsnKVEXR7G3/bp7DvfmTRqshlMqjfUFvU3csis+4KZ3fdKu2MDq+2P+7q3YBH2pVo7AuFRrgH+n6QRU0q5pd9MiTrn08Pgk/9jkMUTJuBBg==
+ bh=RVFC2WBFrREPIVCFgcfNERWNeGfLQaWQ02oxXyCPnAY=;
+ b=Psg42+pIVLwp4WSJgeqKEEkEQAkUNGIehG5+pH4xQkSL79DM/u+XrhFGT6+oMjtlqXLUGUQGwFwiZjopEfUh6W8MprTwQVTYA/2QiqeFy7Y3xzlX7lC1PVBddbKNAONpw8m1Lej6NWrWN8mNruNYuc65kvm7Bdheq66LiuCt3B1mBnUtmh7exLo4VcRHK4WX5oCktsIb4Ufl5ne/6+4OjnF7zwutGiVn5VRfFSSY/+QR7LZSvgZbExiRdUH9LOgkjPVQq1/NrNiL/4RmkuM8YQH6B69AvShAZ9t3EoWLt1qBZak68bTxw69yfjryxX0ccaKsfzc6N5Vcv8YX7l5vVA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
- dkim=pass header.d=vivo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo0.onmicrosoft.com; 
- s=selector2-vivo0-onmicrosoft-com;
+ smtp.mailfrom=analogixsemi.com; dmarc=pass action=none
+ header.from=analogixsemi.com; dkim=pass header.d=analogixsemi.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=Analogixsemi.onmicrosoft.com; s=selector2-Analogixsemi-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=01L7f2XMsNdxTtD+8vGyTqZFb2tq5x2GZF0zGWD81+4=;
- b=I7AXlRjtglckcRsa5/7xDtSbFyslaMcR15ScW8wbIQwOSSofXC6+urr7IZ+VgwTJiBXSmo4ArjNyY82AwVFurT4rRqt4EpSb8UKHsbbWgtSQweaph1XvB408/V6UmA8f12gBCq5FoCYSuapFxoQtzIAoaD2j1jUfwUqFpur+AYs=
+ bh=RVFC2WBFrREPIVCFgcfNERWNeGfLQaWQ02oxXyCPnAY=;
+ b=OOkkbTcfGR0fqeyP296iGLPPnDA0KdVsW2YYnmFRx/GRMJQN2CjYI+XXyW8LJM/Iz2x+tAaxvW4pZLJH9XvSbJlfShWCu3/ApNKOCI6rNV6BD4stbGMYqY1m849u8eRXNhTHtv6FTu5TC6+mb6vFVsSveFy6Tl13hyYshzP7lXY=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vivo.com;
-Received: from PSAPR06MB4021.apcprd06.prod.outlook.com (2603:1096:301:37::11)
- by PS2PR06MB2902.apcprd06.prod.outlook.com (2603:1096:300:46::19)
+ header.d=none;dmarc=none action=none header.from=analogixsemi.com;
+Received: from BY5PR04MB6739.namprd04.prod.outlook.com (2603:10b6:a03:229::8)
+ by SJ0PR04MB7630.namprd04.prod.outlook.com (2603:10b6:a03:32c::22)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4713.21; Thu, 18 Nov
- 2021 02:37:36 +0000
-Received: from PSAPR06MB4021.apcprd06.prod.outlook.com
- ([fe80::395a:f2d7:d67f:b385]) by PSAPR06MB4021.apcprd06.prod.outlook.com
- ([fe80::395a:f2d7:d67f:b385%4]) with mapi id 15.20.4713.022; Thu, 18 Nov 2021
- 02:37:36 +0000
-From: Bernard Zhao <bernard@vivo.com>
-To: Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
- Edmund Dea <edmund.j.dea@intel.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/kmb: fix potential memleak in error branch
-Date: Wed, 17 Nov 2021 18:37:23 -0800
-Message-Id: <20211118023723.85553-1-bernard@vivo.com>
-X-Mailer: git-send-email 2.33.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: HK2PR02CA0163.apcprd02.prod.outlook.com
- (2603:1096:201:1f::23) To PSAPR06MB4021.apcprd06.prod.outlook.com
- (2603:1096:301:37::11)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4690.26; Thu, 18 Nov
+ 2021 02:54:08 +0000
+Received: from BY5PR04MB6739.namprd04.prod.outlook.com
+ ([fe80::6807:22c:61f6:d595]) by BY5PR04MB6739.namprd04.prod.outlook.com
+ ([fe80::6807:22c:61f6:d595%3]) with mapi id 15.20.4713.021; Thu, 18 Nov 2021
+ 02:54:08 +0000
+Date: Thu, 18 Nov 2021 10:54:00 +0800
+From: Xin Ji <xji@analogixsemi.com>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Subject: Re: [bug report] drm/bridge: anx7625: Add anx7625 MIPI DSI/DPI to DP
+Message-ID: <20211118025400.GA3778782@anxtwsw-Precision-3640-Tower>
+References: <20211117134720.GA6968@kili>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211117134720.GA6968@kili>
+X-ClientProxiedBy: HK2PR02CA0193.apcprd02.prod.outlook.com
+ (2603:1096:201:21::29) To BY5PR04MB6739.namprd04.prod.outlook.com
+ (2603:10b6:a03:229::8)
 MIME-Version: 1.0
-Received: from ubuntu.localdomain (203.90.234.87) by
- HK2PR02CA0163.apcprd02.prod.outlook.com (2603:1096:201:1f::23) with Microsoft
+Received: from anxtwsw-Precision-3640-Tower (60.251.58.79) by
+ HK2PR02CA0193.apcprd02.prod.outlook.com (2603:1096:201:21::29) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4713.21 via Frontend Transport; Thu, 18 Nov 2021 02:37:34 +0000
+ 15.20.4713.19 via Frontend Transport; Thu, 18 Nov 2021 02:54:07 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: eb1e99fb-dd8e-4137-f5c5-08d9aa3c60f7
-X-MS-TrafficTypeDiagnostic: PS2PR06MB2902:
-X-Microsoft-Antispam-PRVS: <PS2PR06MB2902D24E1D0660469415BA7DDF9B9@PS2PR06MB2902.apcprd06.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:451;
+X-MS-Office365-Filtering-Correlation-Id: b3ca7b7d-1a8d-4468-6d52-08d9aa3eb0ed
+X-MS-TrafficTypeDiagnostic: SJ0PR04MB7630:
+X-Microsoft-Antispam-PRVS: <SJ0PR04MB76302828CEC1E6FEDAD5D4C9C79B9@SJ0PR04MB7630.namprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: FOd60m88VxF3xSZ9EKUr2i0XrlK7ouYQQMAiCYdk42CyfaaHfubLuqZxPeE5CDmKMe5IpghhZWhUm3GB5/bntykWNbGo60R8ogWklSv6v5ZOTNLfk0bqNWDnfHSMEpbSEN9S16/AvByHuEcGm7EAnQ8uPjAQNxDh9WliyXPQ/J+GBMYtMXG7LibPEvJyNWVO3YEMYIhrYCwTxXb5PtuKiZ28w/b8tRT43rQ2sY/wj0uQ5YAZPSVVwnEoZwsGOFEPZkRWdSZz/PIqwpZNioSyUD76xc4PYZYff6hRRgkOIlOdZhu2koKCKZPi12qF1ZFWgBz3GXcbYIjh37fjj8CZoPVc/RI9VM3smBoiuZ2vlGJnsuiFhwBtmJmdH+9XqXYJG+FQ2O/9S9dcYXAXJtnsz/PjTT2omVwC6qMkPoqhfrPlYlZwpLpKgJ2b1pU7Qvk8gd3cWdE6EonlTbVjIcrhkr9ACgmcRyhc8pPdk9d3fOR9MKPn5tIMMkBdenAVxbnEHdcBcMU8zshNA8dlIvLPv6AYKsdjE7qHUvCbrA2B2lPc2PNPLBx2MP4yT6Bp30CFqfk6qebQVCgcrhTRoKIJNz0hZ077YOvaa7FmjWzo/kP5xVd6Kuoh4eObl4C/s7soVHx5/D52Dx9yZVP3nSeYEzqBh1RwQeIZ40CgrHpNY3xZ1Ce5cKGaRlBJCrwPDDRep81L2dj9nu9LTdsxFSmbKQ==
+X-Microsoft-Antispam-Message-Info: etbG6PKFoq1/q8daSB9laJJxh5axGeS2NPhxMWBNi3w5Ul372FF26MmJoNqpnKvr/KPPn7tt7aYOUfXVJfv1e2Uqir7EavvAroK0aHSqMlLv2PsW4A1/U1aR5l6Zqdit3Uf5vSpfUTg+c2CcjRDr5u4bPUjY+ggZNcxfQW1FTbBafJ4Cd1MtyQDCbAPGm9La2iRhP38quwhUreo3PBu14CGN5B1F6NPw/Tzekhbk+mzVBbQLw+VVQU7vs0rXMypFRxUGKTcPYYsvZqEvqXb7fWR2gG6ziYgIQoji2/YgQkHroDm0PToAC9X6zv3T6K5ehlxkFEoC6/nGVSXJ9BBqhfKbRxVfu4ZtFehgFTMLOq5YnNRyu9eyKAsOLQnY1fwk4iIw5hyc0lVSCVLPRaZFd8GeXpuoxCSzSjlKJtv0HLrC82R+HP7uPN1BH5je9E6lXhsG7zWZnp/3fv5jAr1/NLzDFBdTu7ZADhmKU0pv3lkMsXzU1aNV9s9yxQTdpLl2yC6L57XltyxM5qWrwPI4ECT+YId4U/O4YGYP5RzeMwjwfb2rXhk0Zky1DiU4+Opb1augIh3voy8I+LwxjBNjTiOjTMS2wfDvIhBd4hI7TwbPVAZyYQTEpINFeyVnZlvd+AxYcfNJRPWQ1N+xh4xtNbtvFop+GPARFM55ii0grDdsHwfybEJPioU+j2Gl42Vq4y/vNMbsnWlDfd3PTsmmkQ==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PSAPR06MB4021.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(6666004)(316002)(186003)(8936002)(6512007)(6506007)(66946007)(66476007)(66556008)(86362001)(26005)(8676002)(508600001)(107886003)(38350700002)(38100700002)(956004)(5660300002)(2616005)(1076003)(4326008)(110136005)(6486002)(52116002)(36756003)(2906002)(83380400001);
+ IPV:NLI; SFV:NSPM; H:BY5PR04MB6739.namprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(366004)(107886003)(508600001)(33716001)(6496006)(52116002)(66946007)(66556008)(1076003)(8936002)(55016002)(66476007)(956004)(2906002)(8676002)(38350700002)(33656002)(38100700002)(9686003)(4326008)(5660300002)(186003)(6666004)(86362001)(6916009)(83380400001)(316002)(26005)(55236004);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?J7aq23QM/AiinhAfFLdwhsaPA6OMM7XiXXqsZxufq209aK+T7uGFhRtbdJIP?=
- =?us-ascii?Q?hwGwGdD7WAV0RswffhpoYOdiCy2+WwV8u9cyUxUNkA4RmjfLep99CN2hrZyz?=
- =?us-ascii?Q?bStq/QPbRmLd12qk61hYWGfqHdGYFS0g3/I0lG8EL+lNzSKbalCzqMDM3aRT?=
- =?us-ascii?Q?EZ0K27BTIiNFK3M6bgdAfvAbJqW3Cf1vQZ3GzBHacIXyXsXVCCO5KqJmzTMO?=
- =?us-ascii?Q?URFmsV9T710XkVnDHeUyTp03YyS04QyrNX7GonI4UG06vxhBQQjzNkC5tct2?=
- =?us-ascii?Q?kuUDneAGObvdVI7Y9F6rxPHLFEm1tehsr5+amZDfaUx0ge/c/bZo0ByNTcEx?=
- =?us-ascii?Q?+YLTNOoCqb73DSjxMxFFyhUT/MBAD4beac1mZFNqwy/nUyGpfM4zGXO2LRSM?=
- =?us-ascii?Q?I5BOTAUWjtV2utg1Ktl1kbJi29x+hGN4LENesADuTFnqa9lVUgES+bqir6e4?=
- =?us-ascii?Q?WH/7hFpEfo1Ks2bR8Z4ugs44fdGUbNDXlDn9cXB0b4w+nkqUSkN//qFyovQp?=
- =?us-ascii?Q?mNQpT9xDMClCsUgm9+Yw0Yevn9UnpA+uIIImQBFsSxzBDt0ApYm2uOxt/nHR?=
- =?us-ascii?Q?kC7j9Eo+s0nvJFD9mUOEp8drrzmQpR7aaD7MrQXkLycakpEJ06nZnt4tP0pe?=
- =?us-ascii?Q?5gpXRMaPzgyK8g7zD/5N3njlAKlhk+DsryuvFNnLmtdi9cwPu7I1Jtvk4sQL?=
- =?us-ascii?Q?kGG33/QGfYhkG5G8o/9uGjs/xLaejOw1FeFhJoHrSS3CoawrgXkfggvWrx/S?=
- =?us-ascii?Q?AVzCxvWIiw3+wEI70i0+LROBBOAikkgiODNQ1SACEL2rAkUKRpO2T2DwrLPt?=
- =?us-ascii?Q?NA38wrOzfZ2auD/ZdcvkBKhAf2t3wciGI4s9tJ6cNjDHB7mElIFEouEe2H43?=
- =?us-ascii?Q?c1bTrfqRiqFjMxg3a4Etiv4ZoMdX1H1P478odpFC/mCVjUO2yaO07h7gLVtx?=
- =?us-ascii?Q?tiygvcZ4UgZPZMnffronUqwn2A6ZFRyPbyfEjcXkkJuTI9ET/RAv4UUppHY1?=
- =?us-ascii?Q?TzE9pLh92v11VYeB+j9OO6sm0mkw9GCVezsYtApoJ3sFxgvqs5IaqlbarxMw?=
- =?us-ascii?Q?guhloQS2TI7aw2xHPBhTlIt7lzJmhR2pTwsCVxJzjRg+ErK4NQWb27yI5ySX?=
- =?us-ascii?Q?eq4jsVOfR95DLnKb06zOgPT7/hDj3RDVdj7twWo3ClyRwoewewOlK9AkKDe8?=
- =?us-ascii?Q?ALLibht4W7AU0kUfa9B5KfgQrsuJDbjYYBMt0WyX3qlftAwH5pkCMRW3n928?=
- =?us-ascii?Q?69fUirItMA4Oc6mhbAGFCosCdfOHEEgEVgR0GLoqdBapHntUp3ylUxP9MlGW?=
- =?us-ascii?Q?guIe6s1IDnkqC6VsMgluZYIFq6aScaUkZ1a1/4HBVe7kdbP/FDVeXISq1I+6?=
- =?us-ascii?Q?3pvEQmint/8x65+FVLZfzQTAApukIMHRNUrs21Sb1gWsivbBma2nCY73YN8l?=
- =?us-ascii?Q?9F7hgkxR4P1NTWtbyg7Yk2Zzd7Z2hJEAwArF8l2fhZ7rteW0FcpupIRUHeqs?=
- =?us-ascii?Q?KODcNkmyU9uQqwjKPwpIHk3EniEtUv8NWFaVX7eMXgFdJrX3H2BPxApIfTsr?=
- =?us-ascii?Q?JJn6mfLH+kev0Uwvb9ScmdY8qg9ZGUc730+6aFHt9JUJIu69ID3WRafq2vn9?=
- =?us-ascii?Q?tg83aYO5/D+CYHa0IRntlcA=3D?=
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: eb1e99fb-dd8e-4137-f5c5-08d9aa3c60f7
-X-MS-Exchange-CrossTenant-AuthSource: PSAPR06MB4021.apcprd06.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?oraskRQHBV3Ce95IWo47NL4+wrN9mhqnkdQkYQkJVRnMstZeCsbrOGvW9pjW?=
+ =?us-ascii?Q?61zAp2ZAMP0fQcD/y0DYpUgIZ4GP3gpxmPqKxKbIzUpbiVLlCDvLxS7jcHNk?=
+ =?us-ascii?Q?GlZ/2WcN6WI6qMNyyBpBMRCVr5vhAK9HwZNSAEbPEUUEOab3gfkgku8FH4nx?=
+ =?us-ascii?Q?VMMVdnooh1tHhe6ETFaE96715Enig5crykR784a8K/ASoG2I7p5Z1cnh5JM6?=
+ =?us-ascii?Q?G/FptvSqENBhZwjgU6n//R7/ePZlAjp66/PLoUrNzVRtvUQt/YOtOh0v8nAd?=
+ =?us-ascii?Q?8PQWRX6/7SMjwb040aov+koQkcYzDkqgwjuIVwSs/2zwZ5ERzJLxvWz+mJ9P?=
+ =?us-ascii?Q?d35GrPq6LTsx0BRitgmvuTWaHYW105ygm0II3P5O6J9LJfSXGyOPOJNOVClw?=
+ =?us-ascii?Q?U6F2TKuipbFRm9ZikLk4FLD30M3E+gnVsXhyxV0N53yBDHRE5H43sdyS2JIW?=
+ =?us-ascii?Q?tblyFl8ZuBKayPYgV2VzzKdPgLUC6Y3+87WeAF6of0J/J5gT1XY+IsIkC2Xq?=
+ =?us-ascii?Q?anEThFZ76D7Q9kxzZJprPRjVr4CAGGx8VdTZ+mVFG15egrV9IhFIW0bM5NVG?=
+ =?us-ascii?Q?2vL+ecJ0enBTlWGAuDut1n8WQj26uanW3LXd0EwqaytIVgQgsbqslaLneWDX?=
+ =?us-ascii?Q?cUKM3IFPuf+2tuDxBFrwr31KiqSGh9jTkyIrPIxk0T54Tv4/o58k8Ofv1CLe?=
+ =?us-ascii?Q?5WuJc+M5Myiqs69gVGl7qshV0+NaPI/Dtb/Iq15vERw1LLcn4Q9RqjhoHT9s?=
+ =?us-ascii?Q?hJ+l46XhX+Gi0Zl+YLog3oQO3yp6wyIJGZqH3x3I9nTu8ZcBtdJSVB7NjaMl?=
+ =?us-ascii?Q?sKFIR6RbL4a+H1mSbLNqkdiWEfueG+T/kSE8Ff+TGES1Y5UrmWE5W8xfg48D?=
+ =?us-ascii?Q?2vfLDOe/zgLF72PP0YZRV83sg4qDozycojgAC+iynNogQSBLbd0hhelQ5TPD?=
+ =?us-ascii?Q?4wg2c/nQnMTYtrClP/3nyEerD4Yvf+rreBrRjaQNJs8otUx0YcfybeIyD9k6?=
+ =?us-ascii?Q?eihvqA2MnhIVEc24sPsVBF3D3VjWHIBQV1B2arwtz5vNQFcFbEYwcq+CRUSb?=
+ =?us-ascii?Q?E+Bf1I8w0jRjQYVxYFzK5F8BZ4Xv+BlbDqQmWo36XZX53mZPaUkdYjiBXpX+?=
+ =?us-ascii?Q?3i/iD6VEoU+PM124r72MgefkpqqU8kB39kwYztqxtQjGkYylMUm5TASS8c+9?=
+ =?us-ascii?Q?LQu+TpTIRP04a86/unet2TZX5ymo8/xo6baDROXqoTswEl+q7R1ahUyG7yen?=
+ =?us-ascii?Q?21YhzPESsDBj5hT9Dm7SAiAYHnoipXR1QLys5QTstaswS4vIIl9ExinQ0pkV?=
+ =?us-ascii?Q?1RAkLCDEJANRWCvxONK79yLdNGlnHKEQ8L41vwbEYyTpcOcTD3L1pf9HJCN1?=
+ =?us-ascii?Q?AXzunrlphTGYIubZoy7EuvkrFlnOZCHftgAeVaSZAivejIDxyPvaekf6WSHr?=
+ =?us-ascii?Q?qVQ1H/5Vz61U23HPRS96OqdzMZlH4j+a2EywbqW7xeCi6xh0KgzWQeUYfKTW?=
+ =?us-ascii?Q?CsBfFchTSRb8fbrdFkVIbPGYjgTJQ04b1OKaB8cjKAw2bHxhICF6P0YAC1WM?=
+ =?us-ascii?Q?iTcOXFHYr7M8yix8caQ4BxJHzvKApXYKX9OAYTy17SFfKpVXrL/KwbqhvotV?=
+ =?us-ascii?Q?TlPseDPev3MKvYaTHxQHb1o=3D?=
+X-OriginatorOrg: analogixsemi.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b3ca7b7d-1a8d-4468-6d52-08d9aa3eb0ed
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR04MB6739.namprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Nov 2021 02:37:35.9960 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Nov 2021 02:54:08.5955 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
+X-MS-Exchange-CrossTenant-Id: b099b0b4-f26c-4cf5-9a0f-d5be9acab205
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: lbkOziH8LBEJ7zTOzzq3ud68Ji5o70E5Er9GWko725mITULHzyEWLzhATsU2ooI+KRdH54BW3W4Gz+oFFgZZOw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PS2PR06MB2902
+X-MS-Exchange-CrossTenant-UserPrincipalName: qKKwn0NcdPxhqBqt0RLmFEwsqrqj4NndfAScZfaWcPOHGBwORTQEcVOyQzqN3/KGktsf9KikPz+/nfv09jwuZA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR04MB7630
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -122,57 +120,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Bernard Zhao <bernard@vivo.com>
+Cc: bliang@analogixsemi.com, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch try to fix coccicheck warning:
-./drivers/gpu/drm/kmb/kmb_drv.c:519:2-8: ERROR: missing put_device; call of_find_device_by_node on line 506, but without a corresponding object release within this function.
-./drivers/gpu/drm/kmb/kmb_drv.c:522:2-8: ERROR: missing put_device; call of_find_device_by_node on line 506, but without a corresponding object release within this function.
-./drivers/gpu/drm/kmb/kmb_drv.c:529:2-8: ERROR: missing put_device; call of_find_device_by_node on line 506, but without a corresponding object release within this function.
-./drivers/gpu/drm/kmb/kmb_drv.c:579:1-7: ERROR: missing put_device; call of_find_device_by_node on line 506, but without a corresponding object release within this function.
+On Wed, Nov 17, 2021 at 04:47:20PM +0300, Dan Carpenter wrote:
+> Hello Xin Ji,
+> 
+> The patch 8bdfc5dae4e3: "drm/bridge: anx7625: Add anx7625 MIPI
+> DSI/DPI to DP" from Sep 18, 2020, leads to the following Smatch
+> static checker warning:
+> 
+> 	drivers/gpu/drm/bridge/analogix/anx7625.c:1050 anx7625_init_gpio()
+> 	warn: 'platform->pdata.gpio_p_on' could be an error pointer
+> 
+> 	drivers/gpu/drm/bridge/analogix/anx7625.c:1050 anx7625_init_gpio()
+> 	warn: 'platform->pdata.gpio_reset' could be an error pointer
 
-Signed-off-by: Bernard Zhao <bernard@vivo.com>
----
- drivers/gpu/drm/kmb/kmb_drv.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+Hi Dan Carpenter, thanks for the report, I'll upstream a patch to fix it.
 
-diff --git a/drivers/gpu/drm/kmb/kmb_drv.c b/drivers/gpu/drm/kmb/kmb_drv.c
-index 961ac6fb5fcf..4a7178288ecf 100644
---- a/drivers/gpu/drm/kmb/kmb_drv.c
-+++ b/drivers/gpu/drm/kmb/kmb_drv.c
-@@ -514,8 +514,10 @@ static int kmb_probe(struct platform_device *pdev)
- 	ret = kmb_dsi_host_bridge_init(get_device(&dsi_pdev->dev));
- 
- 	if (ret == -EPROBE_DEFER) {
-+		of_dev_put(dsi_pdev);
- 		return -EPROBE_DEFER;
- 	} else if (ret) {
-+		of_dev_put(dsi_pdev);
- 		DRM_ERROR("probe failed to initialize DSI host bridge\n");
- 		return ret;
- 	}
-@@ -523,8 +525,10 @@ static int kmb_probe(struct platform_device *pdev)
- 	/* Create DRM device */
- 	kmb = devm_drm_dev_alloc(dev, &kmb_driver,
- 				 struct kmb_drm_private, drm);
--	if (IS_ERR(kmb))
-+	if (IS_ERR(kmb)) {
-+		of_dev_put(dsi_pdev);
- 		return PTR_ERR(kmb);
-+	}
- 
- 	dev_set_drvdata(dev, &kmb->drm);
- 
-@@ -572,6 +576,8 @@ static int kmb_probe(struct platform_device *pdev)
- 	dev_set_drvdata(dev, NULL);
- 	kmb_dsi_host_unregister(kmb->kmb_dsi);
- 
-+	of_dev_put(dsi_pdev);
-+
- 	return ret;
- }
- 
--- 
-2.33.1
-
+Thanks,
+Xin
+> 
+> drivers/gpu/drm/bridge/analogix/anx7625.c
+>     1037 static void anx7625_init_gpio(struct anx7625_data *platform)
+>     1038 {
+>     1039         struct device *dev = &platform->client->dev;
+>     1040 
+>     1041         DRM_DEV_DEBUG_DRIVER(dev, "init gpio\n");
+>     1042 
+>     1043         /* Gpio for chip power enable */
+>     1044         platform->pdata.gpio_p_on =
+>     1045                 devm_gpiod_get_optional(dev, "enable", GPIOD_OUT_LOW);
+>     1046         /* Gpio for chip reset */
+>     1047         platform->pdata.gpio_reset =
+>     1048                 devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_LOW);
+>     1049 
+> --> 1050         if (platform->pdata.gpio_p_on && platform->pdata.gpio_reset) {
+>     1051                 platform->pdata.low_power_mode = 1;
+>     1052                 DRM_DEV_DEBUG_DRIVER(dev, "low power mode, pon %d, reset %d.\n",
+>     1053                                      desc_to_gpio(platform->pdata.gpio_p_on),
+>                                                            ^^^^^^^^^^^^^^^^^^^^^^^^^
+>     1054                                      desc_to_gpio(platform->pdata.gpio_reset));
+>                                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> This will crash here but only when there is an error and debugging is
+> enabled.
+> 
+>     1055         } else {
+>     1056                 platform->pdata.low_power_mode = 0;
+>     1057                 DRM_DEV_DEBUG_DRIVER(dev, "not low power mode.\n");
+>     1058         }
+>     1059 }
+> 
+> regards,
+> dan carpenter
