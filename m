@@ -2,39 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41327457915
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Nov 2021 23:49:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F60945790E
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Nov 2021 23:47:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 63DD96E219;
-	Fri, 19 Nov 2021 22:49:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A3F86E875;
+	Fri, 19 Nov 2021 22:47:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D0F96E219
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Nov 2021 22:49:23 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7D30A1C19;
- Fri, 19 Nov 2021 23:49:21 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1637362161;
- bh=yI2MGDEezdScvWFcZ3GAH2GaCDd4JUn1Ex56peHijdQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=X5y+WEFstWVSZmIKcxfz7m+i+V60He0fU7BVV4/uAXkhJBREJzfKb9EYX9YZ+7AoD
- r0eqLP2x2WvkRssNNyb10ITLF0Aeu4IDTMbZn7vTsEv6zCyzH65I9ZWNNVIDwx/mvq
- uttN/kl/2gQR6NQJtzIGyU/1AvWpK3Wo5HugIV+4=
-Date: Sat, 20 Nov 2021 00:48:58 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Maxime Ripard <maxime@cerno.tech>
-Subject: Re: [PATCH 2/2] dt-bindings: panel: Introduce a panel-lvds binding
-Message-ID: <YZgp2tN55XDfkJJ6@pendragon.ideasonboard.com>
-References: <20211116143503.385807-1-maxime@cerno.tech>
- <20211116143503.385807-2-maxime@cerno.tech>
+Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com
+ [IPv6:2607:f8b0:4864:20::52d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 62DE26E40F;
+ Fri, 19 Nov 2021 22:47:01 +0000 (UTC)
+Received: by mail-pg1-x52d.google.com with SMTP id 28so9789846pgq.8;
+ Fri, 19 Nov 2021 14:47:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Oc0ol4V+6f1FUJ4tw/CYx1vddRWZjt85+l1yOQxtvDQ=;
+ b=jSizSv4oOdRjv7BP02RkpKfuuEMos/m3sJYsGjimaXxyBBf8BUkOFlbFu6Ume4rVc6
+ qryWpQkDCaYedMEa9UzM9eytzwNvGXq0vcelhJFJlnsv8UbTTJlTXHgl78nReskDZPzH
+ c6qdE3AGRPoQ2XSQjo6icN92qJ50NmFvHq+7G6kI2wm7941CNv/YYb75JXLQ8P9v3N90
+ FCqvrvOgVroizP4SXMc8rXetdJFSX2oJj2+9LVYZ1d0mORoUvxlz6nKHyp4V8RrTwpdP
+ VJOaXyRv2TMFYiqh15V4teiK2MPO+TPJ8QRSC3t5z74RurpaYJ8bufUiK/jgtFE2bbt3
+ LbNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Oc0ol4V+6f1FUJ4tw/CYx1vddRWZjt85+l1yOQxtvDQ=;
+ b=UpXVuHnilHx7+heUEQyx09QirshG67qUeSOgSCT4gJXKlF37tZRKD8ogJCGHSh8UP+
+ clAVyj3wYRsb7zRPAqwNufmmbX9iDz1ptMeYErTagKR9VCQNTzEC/K08taREzKwRORYl
+ XtJfJETGDncguxTkPt9RbFc/yyYVUAxCfLeb9pFEZG/0ska3tF5mgDZ2uhmoZiLTgBI6
+ W7dNO0kk9qEXffMFa4xWSdlbN7schfPkAjiTVQzXkVAXbzPgWdrMuZJtTtkderDStdbK
+ 4xU7pfaBActfomfpfrKJEo4Fp8H9gr02UuofmWTOZLExNTdRqk2Lv2aaw7QitvLsP2X7
+ lqRA==
+X-Gm-Message-State: AOAM533+l6wA8jkDNOldV8Jy0SbRiwW86Nkm5DNkziepm0zumYXgA35O
+ pM6t9s+gnGcB3MxPTcF8D3b4hviI3pA=
+X-Google-Smtp-Source: ABdhPJwdZyLppiJ42MmyCru5whIXHzj7Wo0ZcF/f5JOkbefQ/XFrPGLKce6g4uJgG/fKJx88eX28Gw==
+X-Received: by 2002:a63:494f:: with SMTP id y15mr19778226pgk.257.1637362020412; 
+ Fri, 19 Nov 2021 14:47:00 -0800 (PST)
+Received: from localhost (c-73-25-156-94.hsd1.or.comcast.net. [73.25.156.94])
+ by smtp.gmail.com with ESMTPSA id
+ t67sm631440pfd.24.2021.11.19.14.46.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 19 Nov 2021 14:46:59 -0800 (PST)
+From: Rob Clark <robdclark@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH 1/2] drm/msm/gpu: Fix idle_work time
+Date: Fri, 19 Nov 2021 14:51:56 -0800
+Message-Id: <20211119225157.984706-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20211116143503.385807-2-maxime@cerno.tech>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,98 +66,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
- Frank Rowand <frowand.list@gmail.com>, Rob Herring <robh+dt@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org,
- Daniel Vetter <daniel.vetter@intel.com>, Sam Ravnborg <sam@ravnborg.org>
+Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, open list <linux-kernel@vger.kernel.org>,
+ Sean Paul <sean@poorly.run>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
+From: Rob Clark <robdclark@chromium.org>
 
-Thank you for the patch.
+This was supposed to be a relative timer, not absolute.
 
-On Tue, Nov 16, 2021 at 03:35:03PM +0100, Maxime Ripard wrote:
-> Following the previous patch, let's introduce a generic panel-lvds
-> binding that documents the panels that don't have any particular
-> constraint documented.
-> 
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> ---
->  .../bindings/display/panel/panel-lvds.yaml    | 56 +++++++++++++++++++
->  1 file changed, 56 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/panel/panel-lvds.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/display/panel/panel-lvds.yaml b/Documentation/devicetree/bindings/display/panel/panel-lvds.yaml
-> new file mode 100644
-> index 000000000000..f6ce8e29391e
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/panel/panel-lvds.yaml
-> @@ -0,0 +1,56 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/panel/panel-lvds.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Generic LVDS Display Panel Device Tree Bindings
-> +
-> +maintainers:
-> +  - Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> +  - Thierry Reding <thierry.reding@gmail.com>
-> +
-> +allOf:
-> +  - $ref: panel-common.yaml#
-> +  - $ref: lvds.yaml#
-> +
-> +select:
-> +  properties:
-> +    compatible:
-> +      contains:
-> +        const: panel-lvds
-> +
-> +  not:
-> +    properties:
-> +      compatible:
-> +        contains:
-> +          enum:
-> +              - advantech,idk-1110wr
-> +              - innolux,ee101ia-01d
-> +              - mitsubishi,aa104xd12
-> +              - mitsubishi,aa121td01
-> +              - sgd,gktw70sdae4se
+Signed-off-by: Rob Clark <robdclark@chromium.org>
+---
+ drivers/gpu/drm/msm/msm_gpu_devfreq.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-This will be annoying to maintain, I'm pretty sure authors will forget
-to update this file when adding bindings for other panels. Is there any
-way we could select this binding with a positive rule instead of a
-negative rule ?
-
-> +
-> +  required:
-> +    - compatible
-> +
-> +properties:
-> +  compatible:
-> +    items:
-> +      - enum:
-> +          - auo,b101ew05
-> +          - tbs,a711-panel
-> +
-> +      - const: panel-lvds
-> +
-> +unevaluatedProperties: false
-> +
-> +required:
-> +  - compatible
-> +  - data-mapping
-> +  - width-mm
-> +  - height-mm
-> +  - panel-timing
-> +  - port
-> +
-> +...
-
+diff --git a/drivers/gpu/drm/msm/msm_gpu_devfreq.c b/drivers/gpu/drm/msm/msm_gpu_devfreq.c
+index 43468919df61..7285041c737e 100644
+--- a/drivers/gpu/drm/msm/msm_gpu_devfreq.c
++++ b/drivers/gpu/drm/msm/msm_gpu_devfreq.c
+@@ -228,5 +228,5 @@ void msm_devfreq_idle(struct msm_gpu *gpu)
+ 	struct msm_gpu_devfreq *df = &gpu->devfreq;
+ 
+ 	msm_hrtimer_queue_work(&df->idle_work, ms_to_ktime(1),
+-			       HRTIMER_MODE_ABS);
++			       HRTIMER_MODE_REL);
+ }
 -- 
-Regards,
+2.33.1
 
-Laurent Pinchart
