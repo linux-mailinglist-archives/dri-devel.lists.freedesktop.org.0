@@ -1,43 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2C65457925
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Nov 2021 23:54:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 65E7545791B
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Nov 2021 23:50:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3AAFE6E40F;
-	Fri, 19 Nov 2021 22:54:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 810A86E448;
+	Fri, 19 Nov 2021 22:50:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 43A306E40F;
- Fri, 19 Nov 2021 22:54:32 +0000 (UTC)
-Received: from rorschach.local.home (cpe-66-24-58-225.stny.res.rr.com
- [66.24.58.225])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 1318F61AE2;
- Fri, 19 Nov 2021 22:54:29 +0000 (UTC)
-Date: Fri, 19 Nov 2021 17:54:28 -0500
-From: Steven Rostedt <rostedt@goodmis.org>
-To: jim.cromie@gmail.com
-Subject: Re: [PATCH v10 08/10] dyndbg: add print-to-tracefs, selftest with
- it - RFC
-Message-ID: <20211119175428.2ab95873@rorschach.local.home>
-In-Reply-To: <CAJfuBxyvDtALAHM53RdnWT4ke6Cjrc3OWTAqNKe_n-o_LhtpYg@mail.gmail.com>
-References: <20211111220206.121610-1-jim.cromie@gmail.com>
- <20211111220206.121610-9-jim.cromie@gmail.com>
- <20211112114953.GA1381@axis.com>
- <f3914fa9-8b22-d54e-3f77-d998e74094b9@akamai.com>
- <20211116104631.195cbd0b@eldfell>
- <f87b7076-47e6-89b1-aaf9-b67aa6713e01@akamai.com>
- <20211118172401.0b4d722e@eldfell>
- <41ea83b2-a707-cb6f-521e-070bb12502de@akamai.com>
- <CAJfuBxyvDtALAHM53RdnWT4ke6Cjrc3OWTAqNKe_n-o_LhtpYg@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
+ [IPv6:2a00:1450:4864:20::331])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF19D6E448;
+ Fri, 19 Nov 2021 22:50:46 +0000 (UTC)
+Received: by mail-wm1-x331.google.com with SMTP id
+ c71-20020a1c9a4a000000b0032cdcc8cbafso8596036wme.3; 
+ Fri, 19 Nov 2021 14:50:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ncGZ8xwc7OhnxGmL+ovKtcewVUckULPPfk9VsqmiXik=;
+ b=RGsI07w67PD/LL56RAdYR5Ool99iRceODaj/DSvhFWl0iKYxxLeL97QWWlRI6TwA1Q
+ FkdIGCtPc+2ilvmuJl0COjmYBuFXMK8i7X0AqmhiDsjJDfmPbpEufevy/G8XAcpqU/Iw
+ mujJRnyNU2l1zi17orQyeh31V4KXIaTZqPhdMTOdhwEcbfWHy9PcJcLNK+8qgoUwBLZR
+ b/bnC+5yQkW5khCjsdDX4Lc1vdGdBJ5SLFJwttBTRlw3dE3TyAov+iUFP+pYVUQq1Td8
+ CD8uoHtEwlc/OfgetQljTejBuJpHTcOTIihO5JlONhEYhf18uavNWFJUAy/ZMDqeh3/M
+ 9/Lg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ncGZ8xwc7OhnxGmL+ovKtcewVUckULPPfk9VsqmiXik=;
+ b=Erpb+kSaNLX9jRMT9Cnb29B7W0ma5LC448RoHYlytX36VOlDv+3qvh+xUA6J84KH5t
+ oWz5tahnGpl3oGkvdyBrjnrsCWOTFnD7FmlUeu4Moxbj4rwsuNMYTNjc924P7Sg9jsS5
+ f9Bbd+sUcygoHA2YfOwNfCZsy03znC9z3EEQKqay/eqrdQ8B9o0xKXIMXMTylnHpC01v
+ vb5/ukxKxIED169T5LLhpywn9MlzdBrJ0QrfcnFxsawc4I2xxwOGxITPXzDmeDXLWmbR
+ C/LQZJzRoYiUKcMIEzBCYYOG7N3howAwRFDVuvLyhytRuB/VkdVmq5WgSeXhca8cc21u
+ y0sw==
+X-Gm-Message-State: AOAM533G01pO/Uqxxk/nRTTwpmOliZ6YpnyKeYND/2TrUjrKBzfrSzkd
+ UPu71ckwmVo9p4myZ2jAzmzRjFtvKq0K45bCjqeEz+gnn20=
+X-Google-Smtp-Source: ABdhPJz+xkFmybNRxJUJ0e4J55Cz/pZZLhfAEwMy6aDAom4HChI8NvpLK8bGQoWZzLwzlJABw8r74vHB218/msW/JRg=
+X-Received: by 2002:a05:600c:4f87:: with SMTP id
+ n7mr4099763wmq.168.1637362244862; 
+ Fri, 19 Nov 2021 14:50:44 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20211119225157.984706-1-robdclark@gmail.com>
+In-Reply-To: <20211119225157.984706-1-robdclark@gmail.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Fri, 19 Nov 2021 14:55:49 -0800
+Message-ID: <CAF6AEGufo9pJRrT003gcMD3d1VP8SqCjN3uSFmgQKDPojfU4QQ@mail.gmail.com>
+Subject: Re: [PATCH 1/2] drm/msm/gpu: Fix idle_work time
+To: dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,80 +63,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_saipraka@quicinc.com, Jason Baron <jbaron@akamai.com>,
- Catalin Marinas <catalin.marinas@arm.com>,
- dri-devel <dri-devel@lists.freedesktop.org>, Will Deacon <will@kernel.org>,
- maz@kernel.org, Vincent Whitchurch <vincent.whitchurch@axis.com>,
- amd-gfx mailing list <amd-gfx@lists.freedesktop.org>,
- Ingo Molnar <mingo@redhat.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Arnd Bergmann <arnd@arndb.de>, linux-arm-msm@vger.kernel.org,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Sean Paul <seanpaul@chromium.org>, intel-gvt-dev@lists.freedesktop.org,
- Linux ARM <linux-arm-kernel@lists.infradead.org>, Sean Paul <sean@poorly.run>,
- Greg KH <gregkh@linuxfoundation.org>, LKML <linux-kernel@vger.kernel.org>,
- quic_psodagud@quicinc.com, mathieu.desnoyers@efficios.com
+Cc: Rob Clark <robdclark@chromium.org>,
+ freedreno <freedreno@lists.freedesktop.org>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 19 Nov 2021 15:46:31 -0700
-jim.cromie@gmail.com wrote:
+On Fri, Nov 19, 2021 at 2:46 PM Rob Clark <robdclark@gmail.com> wrote:
+>
+> From: Rob Clark <robdclark@chromium.org>
+>
+> This was supposed to be a relative timer, not absolute.
+>
 
+Fixes: 658f4c829688 ("drm/msm/devfreq: Add 1ms delay before clamping freq")
 
-> > So I could see us supporting subsystem specific trace buffer output
-> > via dynamic debug here. We could add new dev_debug() variants that
-> > allow say a trace buffer to be supplied. So in that way subsystems
-> > could 'opt-out' of having their data put into the global trace buffer.
-> > And perhaps some subsystems we would want to allow output to both
-> > buffers? The subsystem specific one and the global one?
-> >  
-> 
->  * trace_array_printk - Print a message to a specific instance
->  * @tr: The instance trace_array descriptor
->  * @ip: The instruction pointer that this is called from.
->  * @fmt: The format to print (printf format)
->  *
-> 
-> what happens when @tr == NULL ?
-
-It does nothing, but perhaps crash the kernel.
-
-> It could allow up-flow of events to the global instance
-
-Absolutely not!
-
-Then it's just a reimplementation of trace_printk(). Which I refuse to
-have.
-
-Nothing should just dump to the main instance. Once we allow that, then
-everyone will be dumping there and you will no longer be able to trace
-anything because it will be filled with noise.
-
-What is allowed is an event that acts like a trace_printk() but is an
-event, which you can turn off (have default off), and even pick which
-instance to go to.
-
-> 
-> > Thanks,
-> >
-> > -Jason
-> >
-> >  
-> 
-> So I wonder, is there any conceptual utility to this ?
-> 
-> echo 1 > instances/foo/filter_up  # enable event upflow (or query-time merging?)
-> 
-> Maybe enabling this causes other files (the ones missing from
-> instances/foo) to magically appear
-> so all those filtering capacities also appear.
-
-
-I've been busy doing other things so I haven't been keeping up with
-this thread (which I need to go back and read). Perhaps it was already
-stated, but I don't know why you want that.
-
-trace-cmd can read several instances (including the top level one) and
-interleave them nicely, if that is what you are looking for. So can
-KernelShark.
-
--- Steve
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> ---
+>  drivers/gpu/drm/msm/msm_gpu_devfreq.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/msm/msm_gpu_devfreq.c b/drivers/gpu/drm/msm/msm_gpu_devfreq.c
+> index 43468919df61..7285041c737e 100644
+> --- a/drivers/gpu/drm/msm/msm_gpu_devfreq.c
+> +++ b/drivers/gpu/drm/msm/msm_gpu_devfreq.c
+> @@ -228,5 +228,5 @@ void msm_devfreq_idle(struct msm_gpu *gpu)
+>         struct msm_gpu_devfreq *df = &gpu->devfreq;
+>
+>         msm_hrtimer_queue_work(&df->idle_work, ms_to_ktime(1),
+> -                              HRTIMER_MODE_ABS);
+> +                              HRTIMER_MODE_REL);
+>  }
+> --
+> 2.33.1
+>
