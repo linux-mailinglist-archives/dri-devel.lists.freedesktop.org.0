@@ -2,63 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B95F456CCF
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Nov 2021 10:54:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB3A1456CD6
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Nov 2021 10:56:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 174CC6ED8D;
-	Fri, 19 Nov 2021 09:54:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 08AAE6EE25;
+	Fri, 19 Nov 2021 09:56:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
- [IPv6:2a00:1450:4864:20::12e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0FD0D6ED7C
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Nov 2021 09:54:25 +0000 (UTC)
-Received: by mail-lf1-x12e.google.com with SMTP id c32so40935464lfv.4
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Nov 2021 01:54:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=cCmbb3DeLLP09ki4kuTJnLQtb2WYrPD5nXeA3cU7GHA=;
- b=CBkTq6ESHlhgDp68NHzmdZpbcEmNLLnQWp1+ZPSbbqH0lNdBvmM9mKgBhKUg2BwNZP
- lQ8Sle9W/OpUk/RPmfqTfYK0+1s4Ci3uZZvnV4AG7/snRoZS7NZZc/nNkFMXaIoPdP+5
- 29hoODFIbGpE77eRmKctbKZ5WhVgMTMJM9cB+SFEOxSDKqrQG45G1rehYYJNW8TgRRpA
- MVM3dWAd5/++pqjAs8qdq94k8RojhP2yE/gT4sdlFT67qYlcr8QBXlCEmTjYQE68q0gL
- AfA7aBmDqMt2/rsY9F2XhUDcmFxczzt1A5Cb8yevWLWXo4nYDsgUs0vXA54KlznNm7WS
- 8utg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=cCmbb3DeLLP09ki4kuTJnLQtb2WYrPD5nXeA3cU7GHA=;
- b=YN9GOHRc8lDIikpYMuF7Q5D/Qt5hxWtjdpnnKt/aCjoM/1MiCEwAWCZk8mcgMiypAB
- uOt9TCTbdnFe3tr0VQnyxXSf4v8mMZ7pb1hmmGgJpP4oXQPgvso272uZo5fcm33K21Ci
- Sjb4+or69/KtOab8DEaoF14XpmJWhB9y5O/tkX/W1lyN/F7L4PSeGkFTAVDVFV/yIkb7
- JQiWXrfD8vFa6UCUbgftXLccAYoqxpf759PDn90fhUXG9IPKJrsX4nxmCn66/6g8b5dS
- t6fBb41F0BdgophK5P2e0BvXxoRuUNJ2X07Dbq+k9xeilllTgm4c0TbF3s0SOCySqo2e
- wTZg==
-X-Gm-Message-State: AOAM533+zdNQHWoK3Nb4BanVDAwNntyi1mEEAQC1q0CyfrsvPQRo+NHh
- 0pBzBWdHbC0neXzd5bEg450=
-X-Google-Smtp-Source: ABdhPJyMAsdZM1wTFviXfnVXe1xpTGDJW5bHj20TI7D62Huwj4l4m4Q0rLsX2tTFp2ikjlKXTD9LCQ==
-X-Received: by 2002:a05:6512:1154:: with SMTP id
- m20mr30708122lfg.600.1637315663309; 
- Fri, 19 Nov 2021 01:54:23 -0800 (PST)
-Received: from eldfell ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id v24sm240363lji.120.2021.11.19.01.54.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Nov 2021 01:54:23 -0800 (PST)
-Date: Fri, 19 Nov 2021 11:54:19 +0200
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Rob Clark <robdclark@gmail.com>
-Subject: Re: [PATCH v2 1/2] drm/input_helper: Add new input-handling helper
-Message-ID: <20211119115419.505155b5@eldfell>
-In-Reply-To: <CAF6AEGuc9JbOsC4Lrvoqo8VzMHq+7ru7Y6_UwoZaGV2wHQ6E5g@mail.gmail.com>
-References: <20211117224841.3442482-1-briannorris@chromium.org>
- <20211117144807.v2.1.I09b516eff75ead160a6582dd557e7e7e900c9e8e@changeid>
- <20211118123928.545dec8a@eldfell>
- <CAF6AEGuc9JbOsC4Lrvoqo8VzMHq+7ru7Y6_UwoZaGV2wHQ6E5g@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 00CD66EE25;
+ Fri, 19 Nov 2021 09:56:18 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10172"; a="215104281"
+X-IronPort-AV: E=Sophos;i="5.87,247,1631602800"; d="scan'208";a="215104281"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Nov 2021 01:56:18 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.87,247,1631602800"; d="scan'208";a="605501829"
+Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
+ by orsmga004.jf.intel.com with ESMTP; 19 Nov 2021 01:56:18 -0800
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Fri, 19 Nov 2021 01:56:17 -0800
+Received: from bgsmsx604.gar.corp.intel.com (10.67.234.6) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Fri, 19 Nov 2021 01:56:16 -0800
+Received: from bgsmsx604.gar.corp.intel.com ([10.67.234.6]) by
+ BGSMSX604.gar.corp.intel.com ([10.67.234.6]) with mapi id 15.01.2242.012;
+ Fri, 19 Nov 2021 15:26:14 +0530
+From: "Gupta, Anshuman" <anshuman.gupta@intel.com>
+To: "Tangudu, Tilak" <tilak.tangudu@intel.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Subject: RE: [PATCH v3] drm/i915/rpm: Enable runtime pm autosuspend by default
+Thread-Topic: [PATCH v3] drm/i915/rpm: Enable runtime pm autosuspend by default
+Thread-Index: AQHX2wIJy/Eb1GVv70SB+yiWd30GPqwKmoaA
+Date: Fri, 19 Nov 2021 09:56:13 +0000
+Message-ID: <2411d9693d5845b8873f713cf3ae8c9d@intel.com>
+References: <20211116155238.3226516-1-tilak.tangudu@intel.com>
+In-Reply-To: <20211116155238.3226516-1-tilak.tangudu@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.6.200.16
+dlp-reaction: no-action
+x-originating-ip: [10.223.10.1]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/GCMqU3cCDFY4+95vMjiPI4b";
- protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,137 +66,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Brian Norris <briannorris@chromium.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Doug Anderson <dianders@chromium.org>,
- "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
- "Kristian H . Kristensen" <hoegsberg@google.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, linux-input@vger.kernel.org
+Cc: "Ewins, Jon" <jon.ewins@intel.com>, "Syrjala,
+ Ville" <ville.syrjala@intel.com>, "Nilawar, Badal" <badal.nilawar@intel.com>,
+ "Vivi, Rodrigo" <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/GCMqU3cCDFY4+95vMjiPI4b
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, 18 Nov 2021 15:30:38 -0800
-Rob Clark <robdclark@gmail.com> wrote:
 
-> On Thu, Nov 18, 2021 at 2:39 AM Pekka Paalanen <ppaalanen@gmail.com> wrot=
-e:
-> >
-> > On Wed, 17 Nov 2021 14:48:40 -0800
-> > Brian Norris <briannorris@chromium.org> wrote:
-> > =20
-> > > A variety of applications have found it useful to listen to
-> > > user-initiated input events to make decisions within a DRM driver, gi=
-ven
-> > > that input events are often the first sign that we're going to start
-> > > doing latency-sensitive activities:
-> > >
-> > >  * Panel self-refresh: software-directed self-refresh (e.g., with
-> > >    Rockchip eDP) is especially latency sensitive. In some cases, it c=
-an
-> > >    take 10s of milliseconds for a panel to exit self-refresh, which c=
-an
-> > >    be noticeable. Rockchip RK3399 Chrome OS systems have always shipp=
-ed
-> > >    with an input_handler boost, that preemptively exits self-refresh
-> > >    whenever there is input activity.
-> > >
-> > >  * GPU drivers: on GPU-accelerated desktop systems, we may need to
-> > >    render new frames immediately after user activity. Powering up the
-> > >    GPU can take enough time that it is worthwhile to start this proce=
-ss
-> > >    as soon as there is input activity. Many Chrome OS systems also sh=
-ip
-> > >    with an input_handler boost that powers up the GPU.
-> > >
-> > > This patch provides a small helper library that abstracts some of the
-> > > input-subsystem details around picking which devices to listen to, and
-> > > some other boilerplate. This will be used in the next patch to implem=
-ent
-> > > the first bullet: preemptive exit for panel self-refresh.
-> > >
-> > > Bits of this are adapted from code the Android and/or Chrome OS kerne=
-ls
-> > > have been carrying for a while.
-> > >
-> > > Signed-off-by: Brian Norris <briannorris@chromium.org>
-> > > --- =20
-> >
-> > Thanks Simon for the CC.
-> >
-> > Hi Brian,
-> >
-> > while this feature in general makes sense and sounds good, to start
-> > warming up display hardware early when something might start to happen,
-> > this particular proposal has many problems from UAPI perspective (as it
-> > has none). Comments below.
-> >
-> > Btw. if PSR is that slow to wake up from, how much do you actually gain
-> > from this input event watching? I would imagine the improvement to not
-> > be noticeable.
-> >
-> > I think some numbers about how much this feature helps would be really
-> > good, even if they are quite specific use cases. You also need to
-> > identify the userspace components, because I think different display
-> > servers are very different in their reaction speed.
-> >
-> > If KMS gets a pageflip or modeset in no time after an input event, then
-> > what's the gain. OTOH, if the display server is locking on to vblank,
-> > there might be a delay worth avoiding. But then, is it worth
-> > short-circuiting the wake-up in kernel vs. adding a new ioctl that
-> > userspace could hit to start the warming up process? =20
+> -----Original Message-----
+> From: Tangudu, Tilak <tilak.tangudu@intel.com>
+> Sent: Tuesday, November 16, 2021 9:23 PM
+> To: intel-gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org
+> Cc: Tangudu, Tilak <tilak.tangudu@intel.com>; Ewins, Jon
+> <jon.ewins@intel.com>; Vivi, Rodrigo <rodrigo.vivi@intel.com>; Nilawar, B=
+adal
+> <badal.nilawar@intel.com>; Gupta, Anshuman <anshuman.gupta@intel.com>;
+> Syrjala, Ville <ville.syrjala@intel.com>
+> Subject: [PATCH v3] drm/i915/rpm: Enable runtime pm autosuspend by defaul=
+t
 >=20
-> In my measurements, it takes userspace a frame or two to respond and
-> get to the point of starting to build cmdstream (before eventually
-> doing atomic/pageflip ioctl).. possibly longer if you don't also have
-> a similar boost mechanism to spool up cpufreq
+> v1: Enable runtime pm autosuspend by default for Gen12 and later versions=
+.
 >=20
-> But the important thing, IMO, is that atomic/pageflip ioctl is the
-> cumulation of a long sequence of events.. input-boost is letting
-> whatever it may be (PSR exit, GPU resume, etc) happen in parallel with
-> that long sequence.
-
-Right, exactly. That is why I was musing about a *new* ioctl that
-userspace could hit as soon as any input device fd (or network fd!)
-shows signs of life. Would that be enough, avoiding all the annoying
-questions about which input and DRM devices should participate here
-(and what about non-input devices that still want to trigger the
-warm-up, like network traffic, e.g. remote control?), or does it really
-need to be kernel internal to be fast enough?
-
-As Brian wrote about his quick hack to test that via debugfs, sounds
-like the userspace solution would be totally sufficient.
-
-
+> v2: Enable runtime pm autosuspend by default for all platforms(Syrjala Vi=
+lle)
+>=20
+> v3: Change commit message(Nikula Jani)
+> Let's enable runtime pm autosuspend by default everywhere.
+> So, we can allow D3hot and bigger power savings on idle scenarios.
+>=20
+> But at this time let's not touch the autosuspend_delay time, what caused =
+some
+> regression on our previous attempt.
+>=20
+> Also, the latest identified issue on GuC PM has been fixed by commit
+> 1a52faed3131 ("drm/i915/guc: Take GT PM ref when deregistering
+> context")
+>=20
+> Signed-off-by: Tilak Tangudu <tilak.tangudu@intel.com>
+> ---
+>  drivers/gpu/drm/i915/intel_runtime_pm.c | 3 +++
+>  1 file changed, 3 insertions(+)
+>=20
+> diff --git a/drivers/gpu/drm/i915/intel_runtime_pm.c
+> b/drivers/gpu/drm/i915/intel_runtime_pm.c
+> index 0d85f3c5c526..22dab36afcb6 100644
+> --- a/drivers/gpu/drm/i915/intel_runtime_pm.c
+> +++ b/drivers/gpu/drm/i915/intel_runtime_pm.c
+> @@ -590,6 +590,9 @@ void intel_runtime_pm_enable(struct intel_runtime_pm
+> *rpm)
+>  		pm_runtime_use_autosuspend(kdev);
+>  	}
+>=20
+> +	/* Enable by default */
+> +	pm_runtime_allow(kdev);
+> +
+BAT is failing due to soft lockup on SKL.
+How about to enable the runtime PM only for discrete platforms till we fixe=
+s all issues on Gen9 for hybrid gfx use cases.
+(when discrete card will used only for rendering)
 Thanks,
-pq
+Anshuman Gupta.
+>  	/*
+>  	 * The core calls the driver load handler with an RPM reference held.
+>  	 * We drop that here and will reacquire it during unloading in
+> --
+> 2.25.1
 
---Sig_/GCMqU3cCDFY4+95vMjiPI4b
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmGXdEsACgkQI1/ltBGq
-qqcdOBAAl9X47lu2lO66cWGjSsacbgjGDy+MldM0YFq5JF8ooCZXNGL176wqkChG
-yz9SMJGDApoJ04/NsIE73coxTYU3xKBYTbAeuFxM5IklcXEqKc/4VXDCcim7Lwlg
-VzUxOxb1XfNfZNyn4uMANyGpk0uO4dnIpd5u1uaWXhKajn9RTZKwQ2SBbbEt4Dcl
-hcDBpGXGU9evx5ZBvUHTNUPcfEsAYWyHKMDGhVZwH5YUYAgwG2P5IHFstX5PUori
-O/6SBot5hj7JfCOpV6wZcASeonCeescV2Nq4muPF6yHGI9mbgppaaYi2ezcx6Os+
-udxpoovlLoYU54foZaqjsJvy1nlLZLHi4pPIfHmAn8+hJ2IvU5yQoB+7QZe6FhQN
-tKhkoqUpUYCSUTMy1v/0mJJ0+zBBChNV3Y5uT/Q8c7TJPPORtAMjU8bP0xgL1SpA
-6CB2CPZy+QyCGeQJpR+lAlMGtgZPPzsx9zgS3SM/sItEl+yNDDvkoJMPfYlKjvqH
-ZI9KUtZ1BIfYzeU3F2B5vztJRIpG4sDS4nRa+WXHLTQi0eit4ZFqaRU+5oU1HQP8
-OmOu+bAlP45l8QiunzbwvCFmq/Kq5PY61ly+iN08+26EXLxeCmVLGi3UGkcIMulI
-WeqfT8f3422boYyBp9ftzCnEakQHcU2Sl4gZnXnonw+7SpNNSYY=
-=g0x0
------END PGP SIGNATURE-----
-
---Sig_/GCMqU3cCDFY4+95vMjiPI4b--
