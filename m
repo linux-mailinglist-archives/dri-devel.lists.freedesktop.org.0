@@ -1,62 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CC18457424
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Nov 2021 17:54:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA41E457501
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Nov 2021 18:06:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A0A106EC34;
-	Fri, 19 Nov 2021 16:54:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 159ED6E194;
+	Fri, 19 Nov 2021 17:06:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
- [199.106.114.39])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD8CB6EC3C;
- Fri, 19 Nov 2021 16:54:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1637340855; x=1668876855;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=6DEP3t+XDa5WlLRSEM3s6XOjAWqLN52Ye0b4lfzBcLs=;
- b=Y6/KnjawI4abBc8lx0+V4O73gHRcPJuS64sMnFiipuSn/vifAZlUY+R8
- NHL5atCW2B23/y0tkzGC4h+rrOHK3vADEkXhrr6dua0u/4TfeBrUK5kvD
- F3rudFuReTbDnjPeOip2eYsO6qMPdoI6rPLzcqBp76m89C2O6xZOI/7r4 E=;
-Received: from unknown (HELO ironmsg01-sd.qualcomm.com) ([10.53.140.141])
- by alexa-out-sd-02.qualcomm.com with ESMTP; 19 Nov 2021 08:54:15 -0800
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg01-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Nov 2021 08:54:14 -0800
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.922.19; Fri, 19 Nov 2021 08:54:14 -0800
-Received: from [10.110.5.170] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.922.19; Fri, 19 Nov
- 2021 08:54:13 -0800
-Message-ID: <7b54e2fb-1268-9d66-8b6a-4be247ff9bc1@quicinc.com>
-Date: Fri, 19 Nov 2021 08:54:12 -0800
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
+ [IPv6:2a00:1450:4864:20::434])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7AD6F6E3FE
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Nov 2021 17:06:30 +0000 (UTC)
+Received: by mail-wr1-x434.google.com with SMTP id t30so19216093wra.10
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Nov 2021 09:06:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=esmgZyHDqtLJj9N0n1GSAAg2uByxAjvDkFkxEe61YbU=;
+ b=PggeGSV5TYh0/2/EsUP3Wouj3orU5X7XeqFKs1kzBKJR90CTOqlWpFgxNTn/tANpOo
+ 4ukUuUdHKiDB5HJmP66MBYv4cFsxzreugPplWGlxnL4yph+EW8TZaXt0/C1K+xIg7spm
+ jG+++10n03pKZabsLIPJLon+jmh7unLKc1agg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=esmgZyHDqtLJj9N0n1GSAAg2uByxAjvDkFkxEe61YbU=;
+ b=JNBxGoPPkYn2VInVXZdC1izoFYPoqlMGT/EPRFSBCt9N3nKCW8d+HupqfMAuYKHXGl
+ 6Bg4DeaR6D93TQmGhGgB2WM6bNnUTq/0SVVt2FEHdVOr5J5WLefkmyzXfZWZCz7QcFsQ
+ 3aP4s9Z3sQqGBjHmP5VPizATCURnVj5H8IwLfZk6rOoGIAIPTCeh4mAbTqE2Kifi7kC6
+ 0Bll85yvOERrzT4voE8TJmtl3g1GkXx38frt6CxZDUUMgvbJUD4bhEyHeJXCEKM0wAFD
+ aqR27fgoj9husY8yKxaomNAHy3BOnke7kbj59Fwe4baPM82oLeFLVxvzIFBNk/mA2sJP
+ uvYA==
+X-Gm-Message-State: AOAM530eO8o8o0iWsYquSlQpVLut7udZYnqwCg2b0XdGm+A0ZkE9WJ1o
+ h6CxMiulhhB1ur5T+dsJFp8AhQ==
+X-Google-Smtp-Source: ABdhPJy0AIMKE/gOavMEquGhzAKySgdwpLKs2pTdm3Loafq9InVCcphVukA57szvoAJMuZZoYS9UCg==
+X-Received: by 2002:adf:e84d:: with SMTP id d13mr9301228wrn.72.1637341588995; 
+ Fri, 19 Nov 2021 09:06:28 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id k37sm263209wms.21.2021.11.19.09.06.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 19 Nov 2021 09:06:28 -0800 (PST)
+Date: Fri, 19 Nov 2021 18:06:26 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Subject: Re: Sparsely populated TTM bos
+Message-ID: <YZfZkh2ESCLDrifA@phenom.ffwll.local>
+References: <f73304f7-6ada-bcd2-97b3-c7898cbd166c@linux.intel.com>
+ <5f292380-c3a2-3ec3-91bb-5e66a9290aac@amd.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH v4] drm/msm/dp: do not initialize phy until plugin
- interrupt received
-Content-Language: en-US
-To: Stephen Boyd <swboyd@chromium.org>, <agross@kernel.org>,
- <airlied@linux.ie>, <bjorn.andersson@linaro.org>, <daniel@ffwll.ch>,
- <dmitry.baryshkov@linaro.org>, <robdclark@gmail.com>, <sean@poorly.run>,
- <vkoul@kernel.org>
-References: <1636493893-7600-1-git-send-email-quic_khsieh@quicinc.com>
- <CAE-0n505-VcS46WnVARsvuaizePP-3cYEw_rfipfq9Yj7AW=Ow@mail.gmail.com>
-From: Kuogee Hsieh <quic_khsieh@quicinc.com>
-In-Reply-To: <CAE-0n505-VcS46WnVARsvuaizePP-3cYEw_rfipfq9Yj7AW=Ow@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <5f292380-c3a2-3ec3-91bb-5e66a9290aac@amd.com>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,54 +68,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, quic_abhinavk@quicinc.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Kuogee Hsieh <khsieh@codeaurora.org>, aravindh@codeaurora.org,
- freedreno@lists.freedesktop.org
+Cc: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, Nov 19, 2021 at 05:35:53PM +0100, Christian König wrote:
+> Hi Thomas,
+> 
+> Am 19.11.21 um 15:28 schrieb Thomas Hellström:
+> > Hi, Christian,
+> > 
+> > We have an upcoming use-case in i915 where one solution would be
+> > sparsely populated TTM bos.
+> > 
+> > We had that at one point where ttm_tt pages were allocated on demand,
+> > but this time we'd rather be looking at multiple struct ttm_resources
+> > per bo and those resources could be from different managers.
+> > 
+> > There might theoretically be other ways we can handle this use-case but
+> > I wanted to check with you whether this is something AMD is already
+> > looking into and if not, your general opinion.
+> 
+> oh, yes I've looked into this as well a very long time ago.
+> 
+> At that point the basic blocker was that we couldn't have different cache
+> setting for the same VMA, but I think that's fixed by now.
 
-On 11/18/2021 5:20 PM, Stephen Boyd wrote:
-> Quoting Kuogee Hsieh (2021-11-09 13:38:13)
->> From: Kuogee Hsieh <khsieh@codeaurora.org>
->>
->> Current DP drivers have regulators, clocks, irq and phy are grouped
->> together within a function and executed not in a symmetric manner.
->> This increase difficulty of code maintenance and limited code scalability.
->> This patch divided the driver life cycle of operation into four states,
->> resume (including booting up), dongle plugin, dongle unplugged and suspend.
->> Regulators, core clocks and irq are grouped together and enabled at resume
->> (or booting up) so that the DP controller is armed and ready to receive HPD
->> plugin interrupts. HPD plugin interrupt is generated when a dongle plugs
->> into DUT (device under test). Once HPD plugin interrupt is received, DP
->> controller will initialize phy so that dpcd read/write will function and
->> following link training can be proceeded successfully. DP phy will be
->> disabled after main link is teared down at end of unplugged HPD interrupt
->> handle triggered by dongle unplugged out of DUT. Finally regulators, code
->> clocks and irq are disabled at corresponding suspension.
->>
->> Changes in V2:
->> -- removed unnecessary dp_ctrl NULL check
->> -- removed unnecessary phy init_count and power_count DRM_DEBUG_DP logs
->> -- remove flip parameter out of dp_ctrl_irq_enable()
->> -- add fixes tag
->>
->> Changes in V3:
->> -- call dp_display_host_phy_init() instead of dp_ctrl_phy_init() at
->>          dp_display_host_init() for eDP
->>
->> Changes in V4:
->> -- rewording commit text to match this commit changes
->>
->> Fixes: e91e3065a806 ("drm/msm/dp: Add DP compliance tests on Snapdragon Chipsets")
->>
->> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
->> ---
-> What commit is this patch based on?
+I think for cpu mmap we might just disallow them. Or we just migrate them
+back into so that cpu access is always done in the same (or at least a
+compatible) cache domain.
 
-It base on Bjorn's patch,
+We can't really talk yet about what this thing is for, but "entire ttm_bo
+cpu mmap must have same caching mode" shouldn't be a real limitation for
+what we want to do here.
 
-https://patchwork.freedesktop.org/series/92992/
+> Another thing is that you essentially need to move the LRU handling into the
+> resource like I already planned to do anyway.
 
-
+Yeah, hence why I suggested going ttm_bo : ttm_resource 1:N might be a
+good idea in general, and we could piggy-pack on top of this. If you're
+all on board then I guess we'll try to prototype something and maybe if
+you're bored we could resurrect some of the patches to move lru/dma_resv
+and whatever else from ttm_bo to ttm_resource? Just to see how much this
+would impact.
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
