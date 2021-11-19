@@ -1,115 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 891EA456AF6
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Nov 2021 08:33:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 956C5456CF3
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Nov 2021 11:03:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 93BA76E9F9;
-	Fri, 19 Nov 2021 07:33:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3DEA26EA06;
+	Fri, 19 Nov 2021 10:03:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from APC01-SG2-obe.outbound.protection.outlook.com
- (mail-sgaapc01on2095.outbound.protection.outlook.com [40.107.215.95])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E86A6E9FD
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Nov 2021 07:33:15 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=g2jcRIQICQHuQmvFSZRIDmsRfC/Ja3gdo5o9+Axlree0NmsZznQLASC6uody6df2Z+tWSWZAQAnaw45mP52VNPim76vIaqjGlesJs2xTTkd/zRdC0EoVVNHm0CsWjUcyZXqCVAWF1Kzx6aN885a3hy/l0jSTkODC7Ctq3TCgh6QA1G3A4y5n6JMX8kXc1jlZ1KG8xhPHjbK6Zu5XEshFEhkq3N2NuFIPMjRKi+5/vFES5D0QQ51yeOLQjSMAXa/arq546ff8U6GW8Z01BPVrT/P/MukLmuCgfQbX/J8VSybTylt4nEFtTM4uip4som3uh7z7BGtnTC/as7CKN9Q3bg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=H7WGpVYbJ2fu58L5txpZ47ZzRmzY1LIqlcm0FX3LOO0=;
- b=PkeHvhwi/Iz5OmkRNse+QEDmst39CNKTgtQqqTH3PsDwwyfRp4pRuj3cReXx7n3PjiL0R/kwAeIzrwSMbAlD2BQBKmaCWN8CyqNGAjlaAzKOBO4gIZ/KSGF0ZKSROZEMg4JOJu3BTdqHVDZqGKac5dgE0pWgOM/EWqOM0nEuNcgcZbi6EV8iyO18nIitkAOPmYf+vmJhIx7vfQWj3gST/MJpYp1yJCTl30R+FABvWBxhUyg4a0al1UrvYhF4bEtxdzABdiUqOzYTAlSU+5KneXIfQEvzhi7QXE+mtSQ7NBv8oDrVPwza5LrA8w8WHGBRUTeO86Hupyo+5JQsh1XeUA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
- dkim=pass header.d=vivo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo0.onmicrosoft.com; 
- s=selector2-vivo0-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=H7WGpVYbJ2fu58L5txpZ47ZzRmzY1LIqlcm0FX3LOO0=;
- b=LGPfMP0/N3AaJG96QH3QXv1UN49ukxBb4ifkHqb+tGjMZGPJoWiugrRAFRoDETM0ieQM/oQyCQUhfeBs/QBDQA2SiQPqoOjSQ+RnfiUApjxK0c0yJedjA2y/IQdi5p1loQ/rnAqKA3+5GUcMaOBjS6EWMAiBdWQLVqUaveiuNRI=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vivo.com;
-Received: from HK2PR06MB3492.apcprd06.prod.outlook.com (2603:1096:202:2f::10)
- by HK2PR0601MB2033.apcprd06.prod.outlook.com (2603:1096:202:8::16)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4713.19; Fri, 19 Nov
- 2021 07:33:11 +0000
-Received: from HK2PR06MB3492.apcprd06.prod.outlook.com
- ([fe80::814a:4668:a3bd:768]) by HK2PR06MB3492.apcprd06.prod.outlook.com
- ([fe80::814a:4668:a3bd:768%7]) with mapi id 15.20.4713.022; Fri, 19 Nov 2021
- 07:33:10 +0000
-From: Guo Zhengkui <guozhengkui@vivo.com>
-To: "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Sam Ravnborg <sam@ravnborg.org>, Guo Zhengkui <guozhengkui@vivo.com>,
- linux-fbdev@vger.kernel.org, linux-omap@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] video: omapfb: Use sysfs_emit() instead of snprintf()
-Date: Fri, 19 Nov 2021 15:31:26 +0800
-Message-Id: <20211119073139.18832-1-guozhengkui@vivo.com>
-X-Mailer: git-send-email 2.20.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SG2PR03CA0125.apcprd03.prod.outlook.com
- (2603:1096:4:91::29) To HK2PR06MB3492.apcprd06.prod.outlook.com
- (2603:1096:202:2f::10)
+Received: from mail-il1-f197.google.com (mail-il1-f197.google.com
+ [209.85.166.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD0946ECB2
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Nov 2021 09:18:23 +0000 (UTC)
+Received: by mail-il1-f197.google.com with SMTP id
+ j10-20020a056e02218a00b0029d86e70b98so125748ila.13
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Nov 2021 01:18:23 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+ bh=oZJ1ZvgM2MTH4JzpVQcxnkDfXFABgNeZ+HUKmgEFpX0=;
+ b=JEwTdFSSTye0xX7g2X9lfvl1RdpY8/L9Xs6qgUWWF97Y2EqlzfG7BSa/HewN4HqXqH
+ FvJ66gaHpC3ogAhoq3JFZ/y6EeoavZn2D3HrYHAbvOMHNt4vyQuI8AM9H44FHoAXB1aL
+ 8BBG8k+AldTPZL6ytKTAF6Pj0Me2wuxw/NwS4NF5XkYluYPE1q21gPCAuUeHPKBWfg5n
+ QnsLNt0A5BWoe5oLSsRNTAtjVFsxESnfGGNPVjIDn06RknpiR/LL/bWYd3lUXbf3qpq6
+ +UiOGkl3ljlDb6zbCR1usr7XFWV69BPtmQOiPpjHsEXyf+fROpNvE2r12shlzceLg9sC
+ myVg==
+X-Gm-Message-State: AOAM531lzZosic1oQp2p+tvswF7kKrhuT54U8/7AfySJJpRhAMfobyjF
+ Qbi7Z4DZDKmjphfEqOCcQaG27PyHqukUlRq/HSeIqodTSiv6
+X-Google-Smtp-Source: ABdhPJyMWG24aZxGW9kelXBa+W83Kj1OprEnNkNwd6lsB0bXfMQgYVeSGZIltrr5Hkj3WwPVgw49idJzrL8lnUZMEAULHmjSxJ46
 MIME-Version: 1.0
-Received: from guozhengkui.debian (203.90.234.87) by
- SG2PR03CA0125.apcprd03.prod.outlook.com (2603:1096:4:91::29) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4734.11 via Frontend Transport; Fri, 19 Nov 2021 07:33:09 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 166350bc-ffd5-4cf2-48cc-08d9ab2ed67f
-X-MS-TrafficTypeDiagnostic: HK2PR0601MB2033:
-X-Microsoft-Antispam-PRVS: <HK2PR0601MB203379AC009E8F5F86A2E4F5C79C9@HK2PR0601MB2033.apcprd06.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:82;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 1Hm8fqlNZ8K+lqlB6sBtXiC1zALwEcVa+ENrTuKOl13bkjWO9qu7yfgscj5cIuYiA5h2LO/G5fnUk87KkaKtKW/Qw5J8m0KLceBO/hT4uoGBoFU+hn/pRh7Kwiw5sPM+O/FD01dUK7976t+sFQ20WHQ6cXjv37D9KIpR85v1ICssIo6z4QcDA7mIYphMrgw717WYNgm7CW6gVKMEI9t661KCwrvYYT26fFS+riTT7KZcx44GUOHHkvLOY4c/R1gV4d1uWJfFUfgSJaRw5ifJPMTod/X3ke/SYFV/0NGtQ2yajNrH+5DKO2nZ9dLMfzyA9yZC9gng0WMAd4qV2KBYt36gBG0El6BlaUOkQbh4vi4vqTss+mWUnMY+dm/BNB1oUQongMWB7/qqOLcQXv9bnXFIIYwMEVH3xmq5ldduLYeKimGhNghgb6g8DUX6dhW2wZ/fXHHr3HW7n10bY8lPTlFjWMaSi8RHZvp4ZgLv0nYORg+owjXaz2ko0xhJNFmPy0DD94OU9k2f/KT1FqDIDxyacQ6LF74G5WK3xv/zfrh6JhdlzXhsZvnGcJO/ADZSuXjiED9/iE0rSqc/VuuA1DgLQR8dXoIE37IRR6ZYp+3Sn0iEIjXM5cEaZML8mBObMv6jc45rkWMrSoyQ0AJGGvPH1lH3Sxr8TWOgjWtzOjRurl6Ez7nKoGAqjnawM/DsIc+ABxJ3T9ib2XYZn7T1Fg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:HK2PR06MB3492.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(6486002)(38100700002)(26005)(52116002)(2906002)(956004)(4326008)(508600001)(186003)(316002)(110136005)(6666004)(8936002)(5660300002)(38350700002)(1076003)(86362001)(66556008)(6512007)(66476007)(6506007)(107886003)(36756003)(83380400001)(66946007)(2616005)(8676002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?a4hKdYsY4e5SovbhUwQRSjZogFjn+3HcsgKQjTNBr2mhRC9FFJmxRKYsicB3?=
- =?us-ascii?Q?n8USvZCxbA4PIG7Ngn3+LDoRsZUmOhufRWui4LwrWtPhaQm/o0lEfnytOG7/?=
- =?us-ascii?Q?pdSAu7tANfo3Gwf52d/6sMKSr7+KX1mJeEVfMkw18Su7u3bWg8k0iO5ovLG1?=
- =?us-ascii?Q?mISbtCqgdwzA2xY8E52KE8ptU5Gy2gE4ZQrlmdplLED+XeGuuAHJcrLE0t5/?=
- =?us-ascii?Q?c3lQqFMTPhYleVngbq+xOsziHFt5bOikctoQbBGt44xqsEzypMcv8oTie5wr?=
- =?us-ascii?Q?xC+qsaPTt5396ftlgyeGpgvui4OyQcVHk7PxJ5jgEzd3l8cpYZEbfgZ+yN81?=
- =?us-ascii?Q?9WbJFuO3XJcXH2VxH58YCXUGC2yXgJPQI9/wKB9c6VfdB5Om/7PnJRrwpEoi?=
- =?us-ascii?Q?Hg0kELmz4oonGJtjTDYIR9erAER7ewhazKE8Imjdlm4kWkvM8aVDz1hf2kGQ?=
- =?us-ascii?Q?ZayYAnvHYJaLK/zzGDi2f7PsD69ru90CH+vwX6TW7PNs771DPWGbMTAVTNfI?=
- =?us-ascii?Q?2IGWaGCt9jahVGr0DKmkJOakr03Xv8WiRR07XfzmdKIcScBxqhc9Dfb/UUOt?=
- =?us-ascii?Q?AQFPZ78pWXtwPJ32F5OGso44sCicHPUFZpR3Up+gzOCYVmb41eyJzZBKXHHI?=
- =?us-ascii?Q?3uIb6V+AgPd+fDffE37H8Jl4pbL3XWK3/Sb8Xru+ks/huimC3pJsu6/V1IvC?=
- =?us-ascii?Q?KjorAcHXpGbEEaNsl+xOLQWP5sR+BtbQFd+hGreDhp68ImaxKyRTIBcGicyy?=
- =?us-ascii?Q?A/V45zzf23FkIpzENMNGdkRcDFMM+Z+9Ecn0LBVx9GOxPT2gBQxWtQF0704P?=
- =?us-ascii?Q?fUpjHmK8Qpn6N/4nWEq4iMvD2+7dFsSt+Z64+cryQnST02zW23OT0DUP4YFx?=
- =?us-ascii?Q?CLh83WnkWEm1d7IwmVviTIIuNRJvuGd7HL5XYovdRI3+H0kQQG5HuWJ0UOQn?=
- =?us-ascii?Q?GmiBlD5UJSEe/r7ostNVM0rT4EyYvVuOoMUmNSoaeG/5p2IiTXrduU5DLwZ2?=
- =?us-ascii?Q?GhRigArZXBzt+rbTvBM0vv46YQDcyoOlb/qOv+NnIuW/G26aTjr9avHLgsss?=
- =?us-ascii?Q?EAhQ3pGvPMMalNAHs04obsQzcQwnyavMRrgqZU+IXEO//MFDBhqkD3iiml0R?=
- =?us-ascii?Q?xEL6eRPfmo7E7yQUIp6ADfUA4LubqtxgX/P1NQnkde5hUkw62a78DLKJQg/F?=
- =?us-ascii?Q?B4jUgm13a8dp5IT92YcJoLTjW8Q/xqhTIyx2+CVWK5nDQzuOwj5gfciIR30k?=
- =?us-ascii?Q?c39YmvL5r72+j8m5za1q342n9kjsp65JyrCGohnDSF+4/FFQX6i1uqsBPno+?=
- =?us-ascii?Q?8F4LDb3zXrTizq4GhxEKO64sxTRp/urR+qLdqn+p/cGKzh0hQCpJb8/0P6AV?=
- =?us-ascii?Q?0PwDegglxa3ymxH7bERjofOJT0pHbduFtLSP+wAR7/zU+xCKBZNnTlOpL5yU?=
- =?us-ascii?Q?q4GpptH4chp+aCSXkCQXAtfCvA6osYfpfrxzIrEXXHfzg8bo7hkhRSYa6GC5?=
- =?us-ascii?Q?ovdfwoxCZHtTXMfW3cPsupeRxPHLfWUehfxJ1ZNUm7AZ6GqVxf44NYGeUPRQ?=
- =?us-ascii?Q?zk3hScg3TedOPMNqm1LvSqUwytochuvhnR/STLaaVcXiJoqmcINFyG9uwHNI?=
- =?us-ascii?Q?tkw30BuCTzpK+RV5D3KJuWE=3D?=
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 166350bc-ffd5-4cf2-48cc-08d9ab2ed67f
-X-MS-Exchange-CrossTenant-AuthSource: HK2PR06MB3492.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Nov 2021 07:33:10.7855 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: kuAiyYw1Z0aQFCDYiERa4yYyAjG9ap3osROt0XDly6GuU4HH2RaULan8hJHP8V8jBoCNJioyGJqWh9eDEFSgIw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: HK2PR0601MB2033
+X-Received: by 2002:a92:c88e:: with SMTP id w14mr3620284ilo.24.1637313503024; 
+ Fri, 19 Nov 2021 01:18:23 -0800 (PST)
+Date: Fri, 19 Nov 2021 01:18:23 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000bbdd0405d120c155@google.com>
+Subject: [syzbot] KASAN: vmalloc-out-of-bounds Write in imageblit (2)
+From: syzbot <syzbot+14b0e8f3fd1612e35350@syzkaller.appspotmail.com>
+To: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
+X-Mailman-Approved-At: Fri, 19 Nov 2021 10:03:47 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -122,69 +54,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@vivo.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use sysfs_emit() instead of snprintf().
+Hello,
 
-Signed-off-by: Guo Zhengkui <guozhengkui@vivo.com>
+syzbot found the following issue on:
+
+HEAD commit:    fa55b7dcdc43 Linux 5.16-rc1
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=15fe2569b00000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=6d3b8fd1977c1e73
+dashboard link: https://syzkaller.appspot.com/bug?extid=14b0e8f3fd1612e35350
+compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
+userspace arch: i386
+
+Unfortunately, I don't have any reproducer for this issue yet.
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+14b0e8f3fd1612e35350@syzkaller.appspotmail.com
+
+524155 pages RAM
+0 pages HighMem/MovableOnly
+163742 pages reserved
+0 pages cma reserved
+==================================================================
+BUG: KASAN: vmalloc-out-of-bounds in fast_imageblit drivers/video/fbdev/core/sysimgblt.c:229 [inline]
+BUG: KASAN: vmalloc-out-of-bounds in sys_imageblit+0x12f4/0x1430 drivers/video/fbdev/core/sysimgblt.c:275
+Write of size 4 at addr ffffc90004631000 by task syz-executor.0/7913
+
+CPU: 0 PID: 7913 Comm: syz-executor.0 Not tainted 5.16.0-rc1-syzkaller #0
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.14.0-2 04/01/2014
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0xcd/0x134 lib/dump_stack.c:106
+ print_address_description.constprop.0.cold+0xf/0x320 mm/kasan/report.c:247
+ __kasan_report mm/kasan/report.c:433 [inline]
+ kasan_report.cold+0x83/0xdf mm/kasan/report.c:450
+ fast_imageblit drivers/video/fbdev/core/sysimgblt.c:229 [inline]
+ sys_imageblit+0x12f4/0x1430 drivers/video/fbdev/core/sysimgblt.c:275
+ drm_fb_helper_sys_imageblit drivers/gpu/drm/drm_fb_helper.c:794 [inline]
+ drm_fbdev_fb_imageblit+0x15c/0x350 drivers/gpu/drm/drm_fb_helper.c:2282
+ bit_putcs_unaligned drivers/video/fbdev/core/bitblit.c:124 [inline]
+ bit_putcs+0x6e1/0xd20 drivers/video/fbdev/core/bitblit.c:173
+ fbcon_putcs+0x353/0x440 drivers/video/fbdev/core/fbcon.c:1277
+ do_update_region+0x399/0x630 drivers/tty/vt/vt.c:676
+ redraw_screen+0x61f/0x740 drivers/tty/vt/vt.c:1035
+ fbcon_modechanged+0x58c/0x6c0 drivers/video/fbdev/core/fbcon.c:2182
+ fbcon_update_vcs+0x3a/0x50 drivers/video/fbdev/core/fbcon.c:2227
+ do_fb_ioctl+0x62e/0x690 drivers/video/fbdev/core/fbmem.c:1114
+ fb_compat_ioctl+0x17e/0x610 drivers/video/fbdev/core/fbmem.c:1313
+ __do_compat_sys_ioctl+0x1c7/0x290 fs/ioctl.c:972
+ do_syscall_32_irqs_on arch/x86/entry/common.c:112 [inline]
+ __do_fast_syscall_32+0x65/0xf0 arch/x86/entry/common.c:178
+ do_fast_syscall_32+0x2f/0x70 arch/x86/entry/common.c:203
+ entry_SYSENTER_compat_after_hwframe+0x4d/0x5c
+RIP: 0023:0xf6e67549
+Code: 03 74 c0 01 10 05 03 74 b8 01 10 06 03 74 b4 01 10 07 03 74 b0 01 10 08 03 74 d8 01 00 00 00 00 00 51 52 55 89 e5 0f 34 cd 80 <5d> 5a 59 c3 90 90 90 90 8d b4 26 00 00 00 00 8d b4 26 00 00 00 00
+RSP: 002b:00000000f44615fc EFLAGS: 00000296 ORIG_RAX: 0000000000000036
+RAX: ffffffffffffffda RBX: 0000000000000005 RCX: 0000000000004601
+RDX: 0000000020000000 RSI: 0000000000000000 RDI: 0000000000000000
+RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000000
+R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
+ </TASK>
+
+
+Memory state around the buggy address:
+ ffffc90004630f00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+ ffffc90004630f80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+>ffffc90004631000: f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8
+                   ^
+ ffffc90004631080: f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8
+ ffffc90004631100: f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8
+==================================================================
+----------------
+Code disassembly (best guess):
+   0:	03 74 c0 01          	add    0x1(%rax,%rax,8),%esi
+   4:	10 05 03 74 b8 01    	adc    %al,0x1b87403(%rip)        # 0x1b8740d
+   a:	10 06                	adc    %al,(%rsi)
+   c:	03 74 b4 01          	add    0x1(%rsp,%rsi,4),%esi
+  10:	10 07                	adc    %al,(%rdi)
+  12:	03 74 b0 01          	add    0x1(%rax,%rsi,4),%esi
+  16:	10 08                	adc    %cl,(%rax)
+  18:	03 74 d8 01          	add    0x1(%rax,%rbx,8),%esi
+  1c:	00 00                	add    %al,(%rax)
+  1e:	00 00                	add    %al,(%rax)
+  20:	00 51 52             	add    %dl,0x52(%rcx)
+  23:	55                   	push   %rbp
+  24:	89 e5                	mov    %esp,%ebp
+  26:	0f 34                	sysenter
+  28:	cd 80                	int    $0x80
+* 2a:	5d                   	pop    %rbp <-- trapping instruction
+  2b:	5a                   	pop    %rdx
+  2c:	59                   	pop    %rcx
+  2d:	c3                   	retq
+  2e:	90                   	nop
+  2f:	90                   	nop
+  30:	90                   	nop
+  31:	90                   	nop
+  32:	8d b4 26 00 00 00 00 	lea    0x0(%rsi,%riz,1),%esi
+  39:	8d b4 26 00 00 00 00 	lea    0x0(%rsi,%riz,1),%esi
+
+
 ---
- drivers/video/fbdev/omap/omapfb_main.c | 13 +++++++------
- 1 file changed, 7 insertions(+), 6 deletions(-)
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/drivers/video/fbdev/omap/omapfb_main.c b/drivers/video/fbdev/omap/omapfb_main.c
-index b495c09e6102..083388a4ceeb 100644
---- a/drivers/video/fbdev/omap/omapfb_main.c
-+++ b/drivers/video/fbdev/omap/omapfb_main.c
-@@ -16,6 +16,7 @@
- #include <linux/slab.h>
- #include <linux/uaccess.h>
- #include <linux/module.h>
-+#include <linux/sysfs.h>
- 
- #include <linux/omap-dma.h>
- 
-@@ -1303,7 +1304,7 @@ static ssize_t omapfb_show_panel_name(struct device *dev,
- {
- 	struct omapfb_device *fbdev = dev_get_drvdata(dev);
- 
--	return snprintf(buf, PAGE_SIZE, "%s\n", fbdev->panel->name);
-+	return sysfs_emit(buf, "%s\n", fbdev->panel->name);
- }
- 
- static ssize_t omapfb_show_bklight_level(struct device *dev,
-@@ -1314,8 +1315,8 @@ static ssize_t omapfb_show_bklight_level(struct device *dev,
- 	int r;
- 
- 	if (fbdev->panel->get_bklight_level) {
--		r = snprintf(buf, PAGE_SIZE, "%d\n",
--			     fbdev->panel->get_bklight_level(fbdev->panel));
-+		r = sysfs_emit(buf, "%d\n",
-+			       fbdev->panel->get_bklight_level(fbdev->panel));
- 	} else
- 		r = -ENODEV;
- 	return r;
-@@ -1348,8 +1349,8 @@ static ssize_t omapfb_show_bklight_max(struct device *dev,
- 	int r;
- 
- 	if (fbdev->panel->get_bklight_level) {
--		r = snprintf(buf, PAGE_SIZE, "%d\n",
--			     fbdev->panel->get_bklight_max(fbdev->panel));
-+		r = sysfs_emit(buf, "%d\n",
-+			       fbdev->panel->get_bklight_max(fbdev->panel));
- 	} else
- 		r = -ENODEV;
- 	return r;
-@@ -1379,7 +1380,7 @@ static ssize_t omapfb_show_ctrl_name(struct device *dev,
- {
- 	struct omapfb_device *fbdev = dev_get_drvdata(dev);
- 
--	return snprintf(buf, PAGE_SIZE, "%s\n", fbdev->ctrl->name);
-+	return sysfs_emit(buf, "%s\n", fbdev->ctrl->name);
- }
- 
- static struct device_attribute dev_attr_ctrl_name =
--- 
-2.20.1
-
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
