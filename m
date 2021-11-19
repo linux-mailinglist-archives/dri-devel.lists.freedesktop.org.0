@@ -1,64 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54B3C456CBC
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Nov 2021 10:49:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B95F456CCF
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Nov 2021 10:54:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB4046EA49;
-	Fri, 19 Nov 2021 09:49:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 174CC6ED8D;
+	Fri, 19 Nov 2021 09:54:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
- [IPv6:2a00:1450:4864:20::535])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA5366EA49
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Nov 2021 09:49:06 +0000 (UTC)
-Received: by mail-ed1-x535.google.com with SMTP id l25so23812086eda.11
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Nov 2021 01:49:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=M9v5/XdYpuZeIIcgl9q7bFmSNHM6pBUvrptoyvy0cMU=;
- b=dTXXkpZfl63wrfvj86ewtUj+CYLC3JFkrHWDDq6e2T5nLItmXq6QGMVlkNlsdDSLaq
- nNE1mXHnDU8x2rfni6zx6xtsKa+JHM0UQnJBQBPavVGuGesTfgKM8DqAVbwbuvM2qXjI
- SSTp6snHxfEl6Jz4Ecf/THBjD7X4dRVGgPf2o=
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
+ [IPv6:2a00:1450:4864:20::12e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0FD0D6ED7C
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Nov 2021 09:54:25 +0000 (UTC)
+Received: by mail-lf1-x12e.google.com with SMTP id c32so40935464lfv.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Nov 2021 01:54:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:in-reply-to:references
+ :mime-version; bh=cCmbb3DeLLP09ki4kuTJnLQtb2WYrPD5nXeA3cU7GHA=;
+ b=CBkTq6ESHlhgDp68NHzmdZpbcEmNLLnQWp1+ZPSbbqH0lNdBvmM9mKgBhKUg2BwNZP
+ lQ8Sle9W/OpUk/RPmfqTfYK0+1s4Ci3uZZvnV4AG7/snRoZS7NZZc/nNkFMXaIoPdP+5
+ 29hoODFIbGpE77eRmKctbKZ5WhVgMTMJM9cB+SFEOxSDKqrQG45G1rehYYJNW8TgRRpA
+ MVM3dWAd5/++pqjAs8qdq94k8RojhP2yE/gT4sdlFT67qYlcr8QBXlCEmTjYQE68q0gL
+ AfA7aBmDqMt2/rsY9F2XhUDcmFxczzt1A5Cb8yevWLWXo4nYDsgUs0vXA54KlznNm7WS
+ 8utg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=M9v5/XdYpuZeIIcgl9q7bFmSNHM6pBUvrptoyvy0cMU=;
- b=o8Von1V78qMcA/W0QJS4waGcI9e8jt1YPzWg9Y1/T9LTiPUqWqtkYMhbl6H6GUYWId
- 5N4fS3vExzYOimsvMs65jpZEUw9+cAo7ajCm3evLyhDEMBMHaFqcUH9fPRIqHtLQtk9g
- Pgn6/uAjgR+0RBwyS+T8jJkCUXBpPi3+0VkgBAiw2Nqc/Kt8pVjPthP/r3K14znSb+Hr
- aFBShG3qkh3qTOo0NXiXPIHyEO5Fi94NocxBDt1yEUvW8W5Wz6VdZIlKXrmQmYa4om/d
- dfxp17NFYCGLv025f2ApHgywM4w1q8WRdzC8n8HaH6C1auV8oJkS7HbJyoCC+/plJXHn
- tMBg==
-X-Gm-Message-State: AOAM530+n4Bmd0N04mvOjJObIxruhWNnDP/xdKYmczics028b+R9gQNb
- zt6b3P6oLVSsl3kqt5gFz4+nwQ==
-X-Google-Smtp-Source: ABdhPJwByHB0KgEJUuEAxyg29EN3Q28TK03EHzbMmKUrxMsquMRCWvPU26nFKGYlAH8xCv+u6FbUhw==
-X-Received: by 2002:a05:6402:5188:: with SMTP id
- q8mr22079666edd.181.1637315345352; 
- Fri, 19 Nov 2021 01:49:05 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id f22sm558533edf.93.2021.11.19.01.49.04
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version;
+ bh=cCmbb3DeLLP09ki4kuTJnLQtb2WYrPD5nXeA3cU7GHA=;
+ b=YN9GOHRc8lDIikpYMuF7Q5D/Qt5hxWtjdpnnKt/aCjoM/1MiCEwAWCZk8mcgMiypAB
+ uOt9TCTbdnFe3tr0VQnyxXSf4v8mMZ7pb1hmmGgJpP4oXQPgvso272uZo5fcm33K21Ci
+ Sjb4+or69/KtOab8DEaoF14XpmJWhB9y5O/tkX/W1lyN/F7L4PSeGkFTAVDVFV/yIkb7
+ JQiWXrfD8vFa6UCUbgftXLccAYoqxpf759PDn90fhUXG9IPKJrsX4nxmCn66/6g8b5dS
+ t6fBb41F0BdgophK5P2e0BvXxoRuUNJ2X07Dbq+k9xeilllTgm4c0TbF3s0SOCySqo2e
+ wTZg==
+X-Gm-Message-State: AOAM533+zdNQHWoK3Nb4BanVDAwNntyi1mEEAQC1q0CyfrsvPQRo+NHh
+ 0pBzBWdHbC0neXzd5bEg450=
+X-Google-Smtp-Source: ABdhPJyMAsdZM1wTFviXfnVXe1xpTGDJW5bHj20TI7D62Huwj4l4m4Q0rLsX2tTFp2ikjlKXTD9LCQ==
+X-Received: by 2002:a05:6512:1154:: with SMTP id
+ m20mr30708122lfg.600.1637315663309; 
+ Fri, 19 Nov 2021 01:54:23 -0800 (PST)
+Received: from eldfell ([194.136.85.206])
+ by smtp.gmail.com with ESMTPSA id v24sm240363lji.120.2021.11.19.01.54.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Nov 2021 01:49:04 -0800 (PST)
-Date: Fri, 19 Nov 2021 10:49:02 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Michel =?iso-8859-1?Q?D=E4nzer?= <michel.daenzer@mailbox.org>
-Subject: Re: [PATCH v2] drm/fb-helper: Call drm_fb_helper_hotplug_event()
- when releasing drm master
-Message-ID: <YZdzDh6oUpCEuXKz@phenom.ffwll.local>
-References: <20211108153453.51240-1-jfalempe@redhat.com>
- <YYlJsmrlDH5yW6nf@phenom.ffwll.local>
- <5b9e4690-fe8c-b043-9a52-60c7f8a55ad8@mailbox.org>
+ Fri, 19 Nov 2021 01:54:23 -0800 (PST)
+Date: Fri, 19 Nov 2021 11:54:19 +0200
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Rob Clark <robdclark@gmail.com>
+Subject: Re: [PATCH v2 1/2] drm/input_helper: Add new input-handling helper
+Message-ID: <20211119115419.505155b5@eldfell>
+In-Reply-To: <CAF6AEGuc9JbOsC4Lrvoqo8VzMHq+7ru7Y6_UwoZaGV2wHQ6E5g@mail.gmail.com>
+References: <20211117224841.3442482-1-briannorris@chromium.org>
+ <20211117144807.v2.1.I09b516eff75ead160a6582dd557e7e7e900c9e8e@changeid>
+ <20211118123928.545dec8a@eldfell>
+ <CAF6AEGuc9JbOsC4Lrvoqo8VzMHq+7ru7Y6_UwoZaGV2wHQ6E5g@mail.gmail.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <5b9e4690-fe8c-b043-9a52-60c7f8a55ad8@mailbox.org>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+Content-Type: multipart/signed; boundary="Sig_/GCMqU3cCDFY4+95vMjiPI4b";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,77 +71,137 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org
+Cc: Rob Clark <robdclark@chromium.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Brian Norris <briannorris@chromium.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Doug Anderson <dianders@chromium.org>,
+ "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+ "Kristian H . Kristensen" <hoegsberg@google.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, linux-input@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Nov 18, 2021 at 11:23:32AM +0100, Michel Dänzer wrote:
-> On 2021-11-08 17:00, Daniel Vetter wrote:
-> > On Mon, Nov 08, 2021 at 04:34:53PM +0100, Jocelyn Falempe wrote:
-> >> When using Xorg/Logind and an external monitor connected with an MST dock.
-> >> After disconnecting the external monitor, switching to VT may not work,
-> >> the (internal) monitor sill display Xorg, and you can't see what you are
-> >> typing in the VT.
-> >>
-> >> This is related to commit e2809c7db818 ("drm/fb_helper: move deferred fb
-> >> checking into restore mode (v2)")
-> >>
-> >> When switching to VT, with Xorg and logind, if there
-> >> are pending hotplug event (like MST unplugged), the hotplug path
-> >> may not be fulfilled, because logind may drop the master a bit later.
-> >> It leads to the console not showing up on the monitor.
-> >>
-> >> So when dropping the drm master, call the delayed hotplug function if
-> >> needed.
-> >>
-> >> v2: rewrote the patch by calling the hotplug function after dropping master
-> >>
-> >> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
-> > 
-> > Lastclose console restore is a very gross hack, and generally doesn't work
-> > well.
-> > 
-> > The way this is supposed to work is:
-> > - userspace drops drm master (because drm master always wins)
-> > - userspace switches the console back to text mode (which will restore the
-> >   console)
-> > 
-> > I guess we could also do this from dropmaster once more (like from
-> > lastclose), but that really feels like papering over userspace bugs. And
-> > given what a massive mess this entire area is already, I'm not eager to
-> > add more hacks here.
-> > 
-> > So ... can't we fix userspace?
-> 
-> Sounds like the good old UMS days, when VT switching relied on user space doing the right things in the right order.
-> 
-> With KMS, surely the kernel needs to be able to get to a known good
-> state from scratch when it's in control of the VT, no matter what state
-> user space left things in.
+--Sig_/GCMqU3cCDFY4+95vMjiPI4b
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Unfortunately not. When your in KD_GRAPHICS mode we explicitly tell fbcon
-to shut up and not restore itself, and it shouldn't ever do that.
+On Thu, 18 Nov 2021 15:30:38 -0800
+Rob Clark <robdclark@gmail.com> wrote:
 
-And afaik there's not really a holder concept for KD_TEXT/GRAPHICS, unlike
-the drm master which signifies ownership of kms resources.
+> On Thu, Nov 18, 2021 at 2:39 AM Pekka Paalanen <ppaalanen@gmail.com> wrot=
+e:
+> >
+> > On Wed, 17 Nov 2021 14:48:40 -0800
+> > Brian Norris <briannorris@chromium.org> wrote:
+> > =20
+> > > A variety of applications have found it useful to listen to
+> > > user-initiated input events to make decisions within a DRM driver, gi=
+ven
+> > > that input events are often the first sign that we're going to start
+> > > doing latency-sensitive activities:
+> > >
+> > >  * Panel self-refresh: software-directed self-refresh (e.g., with
+> > >    Rockchip eDP) is especially latency sensitive. In some cases, it c=
+an
+> > >    take 10s of milliseconds for a panel to exit self-refresh, which c=
+an
+> > >    be noticeable. Rockchip RK3399 Chrome OS systems have always shipp=
+ed
+> > >    with an input_handler boost, that preemptively exits self-refresh
+> > >    whenever there is input activity.
+> > >
+> > >  * GPU drivers: on GPU-accelerated desktop systems, we may need to
+> > >    render new frames immediately after user activity. Powering up the
+> > >    GPU can take enough time that it is worthwhile to start this proce=
+ss
+> > >    as soon as there is input activity. Many Chrome OS systems also sh=
+ip
+> > >    with an input_handler boost that powers up the GPU.
+> > >
+> > > This patch provides a small helper library that abstracts some of the
+> > > input-subsystem details around picking which devices to listen to, and
+> > > some other boilerplate. This will be used in the next patch to implem=
+ent
+> > > the first bullet: preemptive exit for panel self-refresh.
+> > >
+> > > Bits of this are adapted from code the Android and/or Chrome OS kerne=
+ls
+> > > have been carrying for a while.
+> > >
+> > > Signed-off-by: Brian Norris <briannorris@chromium.org>
+> > > --- =20
+> >
+> > Thanks Simon for the CC.
+> >
+> > Hi Brian,
+> >
+> > while this feature in general makes sense and sounds good, to start
+> > warming up display hardware early when something might start to happen,
+> > this particular proposal has many problems from UAPI perspective (as it
+> > has none). Comments below.
+> >
+> > Btw. if PSR is that slow to wake up from, how much do you actually gain
+> > from this input event watching? I would imagine the improvement to not
+> > be noticeable.
+> >
+> > I think some numbers about how much this feature helps would be really
+> > good, even if they are quite specific use cases. You also need to
+> > identify the userspace components, because I think different display
+> > servers are very different in their reaction speed.
+> >
+> > If KMS gets a pageflip or modeset in no time after an input event, then
+> > what's the gain. OTOH, if the display server is locking on to vblank,
+> > there might be a delay worth avoiding. But then, is it worth
+> > short-circuiting the wake-up in kernel vs. adding a new ioctl that
+> > userspace could hit to start the warming up process? =20
+>=20
+> In my measurements, it takes userspace a frame or two to respond and
+> get to the point of starting to build cmdstream (before eventually
+> doing atomic/pageflip ioctl).. possibly longer if you don't also have
+> a similar boost mechanism to spool up cpufreq
+>=20
+> But the important thing, IMO, is that atomic/pageflip ioctl is the
+> cumulation of a long sequence of events.. input-boost is letting
+> whatever it may be (PSR exit, GPU resume, etc) happen in parallel with
+> that long sequence.
 
-Which sucks ofc, but fixing this would mean we need to retrofit ownership
-into VT somehow, so that ownership is auto-dropped like drm_master on
-close()/exit(). Not sure that's possible without breaking uapi (e.g. with
-logind I think it's logind also doing the KD_TEXT/GRAPHICS dance, but
-didn't check).
+Right, exactly. That is why I was musing about a *new* ioctl that
+userspace could hit as soon as any input device fd (or network fd!)
+shows signs of life. Would that be enough, avoiding all the annoying
+questions about which input and DRM devices should participate here
+(and what about non-input devices that still want to trigger the
+warm-up, like network traffic, e.g. remote control?), or does it really
+need to be kernel internal to be fast enough?
 
-But if we'd have some kind of real ownership for KD_GRAPHICS then we could
-tie that to the implied/weak drm_master status of fbdev emulation and make
-this work correctly. But as-is the kernel simply doesn't have enough
-information to dtrt. Or at least I'm not seeing how exactly, without just
-trying to make guesses what userspace wants to do.
+As Brian wrote about his quick hack to test that via debugfs, sounds
+like the userspace solution would be totally sufficient.
 
-Either way I think we need to really clearly spell out how this is all
-supposed to work, and not just add random bandaids justified with "works
-for me". It is already a byzantine mess as-is.
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+
+Thanks,
+pq
+
+--Sig_/GCMqU3cCDFY4+95vMjiPI4b
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmGXdEsACgkQI1/ltBGq
+qqcdOBAAl9X47lu2lO66cWGjSsacbgjGDy+MldM0YFq5JF8ooCZXNGL176wqkChG
+yz9SMJGDApoJ04/NsIE73coxTYU3xKBYTbAeuFxM5IklcXEqKc/4VXDCcim7Lwlg
+VzUxOxb1XfNfZNyn4uMANyGpk0uO4dnIpd5u1uaWXhKajn9RTZKwQ2SBbbEt4Dcl
+hcDBpGXGU9evx5ZBvUHTNUPcfEsAYWyHKMDGhVZwH5YUYAgwG2P5IHFstX5PUori
+O/6SBot5hj7JfCOpV6wZcASeonCeescV2Nq4muPF6yHGI9mbgppaaYi2ezcx6Os+
+udxpoovlLoYU54foZaqjsJvy1nlLZLHi4pPIfHmAn8+hJ2IvU5yQoB+7QZe6FhQN
+tKhkoqUpUYCSUTMy1v/0mJJ0+zBBChNV3Y5uT/Q8c7TJPPORtAMjU8bP0xgL1SpA
+6CB2CPZy+QyCGeQJpR+lAlMGtgZPPzsx9zgS3SM/sItEl+yNDDvkoJMPfYlKjvqH
+ZI9KUtZ1BIfYzeU3F2B5vztJRIpG4sDS4nRa+WXHLTQi0eit4ZFqaRU+5oU1HQP8
+OmOu+bAlP45l8QiunzbwvCFmq/Kq5PY61ly+iN08+26EXLxeCmVLGi3UGkcIMulI
+WeqfT8f3422boYyBp9ftzCnEakQHcU2Sl4gZnXnonw+7SpNNSYY=
+=g0x0
+-----END PGP SIGNATURE-----
+
+--Sig_/GCMqU3cCDFY4+95vMjiPI4b--
