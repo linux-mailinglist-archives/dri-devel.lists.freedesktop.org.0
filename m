@@ -1,61 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA41E457501
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Nov 2021 18:06:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 89F12457514
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Nov 2021 18:12:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 159ED6E194;
-	Fri, 19 Nov 2021 17:06:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F21F56EB68;
+	Fri, 19 Nov 2021 17:12:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
- [IPv6:2a00:1450:4864:20::434])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7AD6F6E3FE
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Nov 2021 17:06:30 +0000 (UTC)
-Received: by mail-wr1-x434.google.com with SMTP id t30so19216093wra.10
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Nov 2021 09:06:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=esmgZyHDqtLJj9N0n1GSAAg2uByxAjvDkFkxEe61YbU=;
- b=PggeGSV5TYh0/2/EsUP3Wouj3orU5X7XeqFKs1kzBKJR90CTOqlWpFgxNTn/tANpOo
- 4ukUuUdHKiDB5HJmP66MBYv4cFsxzreugPplWGlxnL4yph+EW8TZaXt0/C1K+xIg7spm
- jG+++10n03pKZabsLIPJLon+jmh7unLKc1agg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=esmgZyHDqtLJj9N0n1GSAAg2uByxAjvDkFkxEe61YbU=;
- b=JNBxGoPPkYn2VInVXZdC1izoFYPoqlMGT/EPRFSBCt9N3nKCW8d+HupqfMAuYKHXGl
- 6Bg4DeaR6D93TQmGhGgB2WM6bNnUTq/0SVVt2FEHdVOr5J5WLefkmyzXfZWZCz7QcFsQ
- 3aP4s9Z3sQqGBjHmP5VPizATCURnVj5H8IwLfZk6rOoGIAIPTCeh4mAbTqE2Kifi7kC6
- 0Bll85yvOERrzT4voE8TJmtl3g1GkXx38frt6CxZDUUMgvbJUD4bhEyHeJXCEKM0wAFD
- aqR27fgoj9husY8yKxaomNAHy3BOnke7kbj59Fwe4baPM82oLeFLVxvzIFBNk/mA2sJP
- uvYA==
-X-Gm-Message-State: AOAM530eO8o8o0iWsYquSlQpVLut7udZYnqwCg2b0XdGm+A0ZkE9WJ1o
- h6CxMiulhhB1ur5T+dsJFp8AhQ==
-X-Google-Smtp-Source: ABdhPJy0AIMKE/gOavMEquGhzAKySgdwpLKs2pTdm3Loafq9InVCcphVukA57szvoAJMuZZoYS9UCg==
-X-Received: by 2002:adf:e84d:: with SMTP id d13mr9301228wrn.72.1637341588995; 
- Fri, 19 Nov 2021 09:06:28 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id k37sm263209wms.21.2021.11.19.09.06.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Nov 2021 09:06:28 -0800 (PST)
-Date: Fri, 19 Nov 2021 18:06:26 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Subject: Re: Sparsely populated TTM bos
-Message-ID: <YZfZkh2ESCLDrifA@phenom.ffwll.local>
-References: <f73304f7-6ada-bcd2-97b3-c7898cbd166c@linux.intel.com>
- <5f292380-c3a2-3ec3-91bb-5e66a9290aac@amd.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B17EE6EB68;
+ Fri, 19 Nov 2021 17:12:17 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10173"; a="258243866"
+X-IronPort-AV: E=Sophos;i="5.87,248,1631602800"; d="scan'208";a="258243866"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Nov 2021 09:11:56 -0800
+X-IronPort-AV: E=Sophos;i="5.87,248,1631602800"; d="scan'208";a="506551909"
+Received: from mdroper-desk1.fm.intel.com (HELO
+ mdroper-desk1.amr.corp.intel.com) ([10.1.27.134])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Nov 2021 09:11:56 -0800
+Date: Fri, 19 Nov 2021 09:11:55 -0800
+From: Matt Roper <matthew.d.roper@intel.com>
+To: "Souza, Jose" <jose.souza@intel.com>
+Subject: Re: [PATCH v3 5/5] drm/i915/dg2: extend Wa_1409120013 to DG2
+Message-ID: <20211119171155.GB2219399@mdroper-desk1.amr.corp.intel.com>
+References: <20211116174818.2128062-1-matthew.d.roper@intel.com>
+ <20211116174818.2128062-6-matthew.d.roper@intel.com>
+ <8be6ba7e22774dd2ca42518f0a9af3cf5dd19d1f.camel@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <5f292380-c3a2-3ec3-91bb-5e66a9290aac@amd.com>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+In-Reply-To: <8be6ba7e22774dd2ca42518f0a9af3cf5dd19d1f.camel@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,54 +47,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "Atwood, Matthew S" <matthew.s.atwood@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Nov 19, 2021 at 05:35:53PM +0100, Christian König wrote:
-> Hi Thomas,
-> 
-> Am 19.11.21 um 15:28 schrieb Thomas Hellström:
-> > Hi, Christian,
+On Fri, Nov 19, 2021 at 08:36:56AM -0800, Souza, Jose wrote:
+> On Tue, 2021-11-16 at 09:48 -0800, Matt Roper wrote:
+> > From: Matt Atwood <matthew.s.atwood@intel.com>
 > > 
-> > We have an upcoming use-case in i915 where one solution would be
-> > sparsely populated TTM bos.
+> > Extend existing workaround 1409120013 to DG2.
 > > 
-> > We had that at one point where ttm_tt pages were allocated on demand,
-> > but this time we'd rather be looking at multiple struct ttm_resources
-> > per bo and those resources could be from different managers.
+> > Cc: José Roberto de Souza <jose.souza@intel.com>
+> > Signed-off-by: Matt Atwood <matthew.s.atwood@intel.com>
+> > Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
+> > ---
+> >  drivers/gpu/drm/i915/intel_pm.c | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
 > > 
-> > There might theoretically be other ways we can handle this use-case but
-> > I wanted to check with you whether this is something AMD is already
-> > looking into and if not, your general opinion.
+> > diff --git a/drivers/gpu/drm/i915/intel_pm.c b/drivers/gpu/drm/i915/intel_pm.c
+> > index 89dc7f69baf3..e721c421cc58 100644
+> > --- a/drivers/gpu/drm/i915/intel_pm.c
+> > +++ b/drivers/gpu/drm/i915/intel_pm.c
+> > @@ -7444,9 +7444,9 @@ static void icl_init_clock_gating(struct drm_i915_private *dev_priv)
+> >  
+> >  static void gen12lp_init_clock_gating(struct drm_i915_private *dev_priv)
+> >  {
+> > -	/* Wa_1409120013:tgl,rkl,adl-s,dg1 */
+> > +	/* Wa_1409120013:tgl,rkl,adl-s,dg1,dg2 */
 > 
-> oh, yes I've looked into this as well a very long time ago.
+> I'm not finding this workaround in the DG2 WA spec page, maybe it was removed because it is not necessary anymore?
+
+Ville raised the same question; I believe this is just an issue with the
+query that generates the bspec page from the database; here's my earlier
+response:
+
+        >> This seems to be problem with the DG2 query since for some
+        >> reason they marked this workaround as
+        >> 'driver_change_required' rather than 'driver_permanent_wa' in
+        >> the database and that prevents it from showing up in some of
+        >> the queries properly.  The DG2-specific ID number to check is
+        >> 1409222275.
+
+Since it appears this is currently needed on every version 12 and
+version 13 display platform _except_ for ADL-P, I did send a question to
+the HW team to confirm that the lack of ADL-P isn't an oversight, but I
+haven't heard back yet.
+
+
+Matt
+
 > 
-> At that point the basic blocker was that we couldn't have different cache
-> setting for the same VMA, but I think that's fixed by now.
+> >  	if (IS_TIGERLAKE(dev_priv) || IS_ROCKETLAKE(dev_priv) ||
+> > -	    IS_ALDERLAKE_S(dev_priv) || IS_DG1(dev_priv))
+> > +	    IS_ALDERLAKE_S(dev_priv) || IS_DG1(dev_priv) || IS_DG2(dev_priv))
+> >  		intel_uncore_write(&dev_priv->uncore, ILK_DPFC_CHICKEN,
+> >  				   DPFC_CHICKEN_COMP_DUMMY_PIXEL);
+> >  
+> 
 
-I think for cpu mmap we might just disallow them. Or we just migrate them
-back into so that cpu access is always done in the same (or at least a
-compatible) cache domain.
-
-We can't really talk yet about what this thing is for, but "entire ttm_bo
-cpu mmap must have same caching mode" shouldn't be a real limitation for
-what we want to do here.
-
-> Another thing is that you essentially need to move the LRU handling into the
-> resource like I already planned to do anyway.
-
-Yeah, hence why I suggested going ttm_bo : ttm_resource 1:N might be a
-good idea in general, and we could piggy-pack on top of this. If you're
-all on board then I guess we'll try to prototype something and maybe if
-you're bored we could resurrect some of the patches to move lru/dma_resv
-and whatever else from ttm_bo to ttm_resource? Just to see how much this
-would impact.
--Daniel
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Matt Roper
+Graphics Software Engineer
+VTT-OSGC Platform Enablement
+Intel Corporation
+(916) 356-2795
