@@ -1,60 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28754456D3A
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Nov 2021 11:25:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BAD5456D4B
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Nov 2021 11:30:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 306FF6F39B;
-	Fri, 19 Nov 2021 10:25:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 999E46EA76;
+	Fri, 19 Nov 2021 10:30:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x236.google.com (mail-oi1-x236.google.com
- [IPv6:2607:f8b0:4864:20::236])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 174936F39B
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Nov 2021 10:25:28 +0000 (UTC)
-Received: by mail-oi1-x236.google.com with SMTP id bf8so20996310oib.6
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Nov 2021 02:25:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=endlessos.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=Q9uL0HApTLYtEbl6Qpw5yQc93JTPfHRoZZ5IwTYyy+c=;
- b=rx61n9CZkMYwsgre+o8nI5OToO6GH4kCXlzdXsUOpCtB68ILYl/gheufYSCrsWRPmH
- 42gZQjyFcOzCrFfy76cYaGdZQM52lS1BfZoeckIAVZUTmhCLq6eGiY7m9TJ1Q2zqh38V
- zuox07do6Nixm6lDzG3IjxroVtLtq589FP0uqw5Bjf6LyVVSBh6hZhBMUqtKO5WOBNRU
- iqzejYkH3qfSyBkf28FVEOphvi9B1j9secUBmN7R2561dr9uu8HvFHSXKNR/ufmzBy0S
- g7UwbYGIW9KAUY+KRTNqSvSqqguMpsr8vZ7Ujp/rjvRj/42MO1Ou4T8gmLnt1ejkm67S
- C+3A==
+Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com
+ [IPv6:2a00:1450:4864:20::52a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A0E376EA76
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Nov 2021 10:30:18 +0000 (UTC)
+Received: by mail-ed1-x52a.google.com with SMTP id r25so3837083edq.7
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Nov 2021 02:30:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to; bh=carminywHVkfCA+4NFBY21DE5JrCWEMoTBTfqat9eKo=;
+ b=JqTXLWoxo1pt0SAgax4z8lSGfacM06j1bbOo6BXYZWxREyW4PtseemiDrziHWIYDLW
+ n+8QuoaNkc7kMmxv9iXIr04af3CgxEX4JuYVT5UyEhA4Sia9127m2bRpxUeMU/XXWFgf
+ QsfGhDRetZT5zOt/8sjx1a6wPXY7DyI+MUQoY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Q9uL0HApTLYtEbl6Qpw5yQc93JTPfHRoZZ5IwTYyy+c=;
- b=OKG8urzHVJy0jDxRV6aS50B23drekGFdNNkj1W85JjUnZ0uRlO+ykg7khEFB7L2q5Q
- CanbNu/OIhp7BrZgaXpmVuzgfb5rXbZSn2U4TS500QtjZhBBuzYgVHMXpxTLyMNKip+o
- Hk/KDbzz7rVVGKpxofl+hDlht0e8EKiEWvfwGiGExGITG5soQpT47fmJRVJMGZiG3lCM
- X9IL5gjagFOxFl/u/I0/XVb1JJXu8FO/OlHY47MD+z40A8j5CA6DwxS38WmQ3hnlMPx5
- Wjyny2weFBKukc813M1LkxlzicT7am++qHOvy8C/Vosgsdu7yR9gB54Kow7014WD4IER
- PtaA==
-X-Gm-Message-State: AOAM531Bh+KD+RRu3h5oIzGPdcF9eqpB+YuNvXHpiEwsrVL4o++kV87l
- Oi2wtWJEDA6DCUyVJE/Q3erWfpMK8k04dUNo1Iq3IQ==
-X-Google-Smtp-Source: ABdhPJxpcY0rnfJYaYAw74/NvNuuq+7UKBNPy0yyFT9On80fwm84q44IX6QooZaru5ODqGhU7liDmvqqTezTcdhBrdo=
-X-Received: by 2002:a05:6808:d1:: with SMTP id
- t17mr3852868oic.161.1637317528107; 
- Fri, 19 Nov 2021 02:25:28 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :content-transfer-encoding:in-reply-to;
+ bh=carminywHVkfCA+4NFBY21DE5JrCWEMoTBTfqat9eKo=;
+ b=JE9JzETwpS9IXYX6FT3DXVoBqZ+k1+TBn7uO52uaxjff+XWSZL9zBziON39xX39uk1
+ QnvLvKF4Gme/mGctuqlglszmFggKbHcVe58sqMDNcj3Inzaxz8aoHdOep8TNu6Z2btRU
+ 4D3QNhtU/zNIa48rZkWK7c9WXNTyCkNQRl1IL8WWbH/fZvFdHkCTYjbuLSVB/Z+uvvL/
+ OvcJHy6QrHSUOpqtiZYb12UQTCc9rw24KR7NfKQIifdaBDO/ZUNswhNakJyNhxlL7/3s
+ aCcO9FAfEQ256eZ3X1DqJDKDtkB12Wm1r07/Z7PzI+prDetMoHXkIRJOfAmlH3ZThp+M
+ mJKg==
+X-Gm-Message-State: AOAM533/jBevBWhLps0RIO7yP4J2/EIbFRizrMjywrYYDuPgvP/im17k
+ yJbzBFStvEuMTPvK9YIr/nsFBg==
+X-Google-Smtp-Source: ABdhPJxW3RqitM6BIFpy4p8RffcLsHT+hwVTb5ABQGC5XemUNLnMWWDLgyhFpXWCLoZreYYGO99w0w==
+X-Received: by 2002:a17:907:2d20:: with SMTP id
+ gs32mr6309596ejc.270.1637317817093; 
+ Fri, 19 Nov 2021 02:30:17 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id f22sm617738edf.93.2021.11.19.02.30.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 19 Nov 2021 02:30:16 -0800 (PST)
+Date: Fri, 19 Nov 2021 11:30:14 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+Subject: Re: [PATCH] drm: check drm_format_info hsub and vsub to avoid divide
+ by zero
+Message-ID: <YZd8tpDN9lsq0ZbZ@phenom.ffwll.local>
+Mail-Followup-To: Ville =?iso-8859-1?Q?Syrj=E4l=E4?=
+ <ville.syrjala@linux.intel.com>, 
+ George Kennedy <george.kennedy@oracle.com>,
+ gregkh@linuxfoundation.org, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@linux.ie,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <1635429437-21718-1-git-send-email-george.kennedy@oracle.com>
+ <YXqt46TPL9tUZCL1@intel.com> <YZdxFvGkBPXrtoQ7@phenom.ffwll.local>
+ <YZd2VI820CUGrMjv@intel.com>
 MIME-Version: 1.0
-References: <20211117094527.146275-1-maxime@cerno.tech>
- <CAPpJ_eewp9Z_xdpmB+E_NFH1GGq8oyckVBmS1PD84CvCRUminQ@mail.gmail.com>
- <20211118104009.jkvkhxi5nh4e4zlp@gilmour>
-In-Reply-To: <20211118104009.jkvkhxi5nh4e4zlp@gilmour>
-From: Jian-Hong Pan <jhp@endlessos.org>
-Date: Fri, 19 Nov 2021 18:24:34 +0800
-Message-ID: <CAPpJ_ef5XeLKpHAzxsrokkdg8M8uqrLo9X9E5uGbFn1-Baroig@mail.gmail.com>
-Subject: Re: [PATCH v2 0/6] drm/vc4: kms: Misc fixes for HVS commits
-To: Maxime Ripard <maxime@cerno.tech>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <YZd2VI820CUGrMjv@intel.com>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,94 +77,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- David Airlie <airlied@linux.ie>, dri-devel <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>, Phil Elwell <phil@raspberrypi.com>
+Cc: airlied@linux.ie, gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+ George Kennedy <george.kennedy@oracle.com>, dri-devel@lists.freedesktop.org,
+ tzimmermann@suse.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Maxime Ripard <maxime@cerno.tech> =E6=96=BC 2021=E5=B9=B411=E6=9C=8818=E6=
-=97=A5 =E9=80=B1=E5=9B=9B =E4=B8=8B=E5=8D=886:40=E5=AF=AB=E9=81=93=EF=BC=9A
->
-> On Thu, Nov 18, 2021 at 02:42:58PM +0800, Jian-Hong Pan wrote:
-> > Maxime Ripard <maxime@cerno.tech> =E6=96=BC 2021=E5=B9=B411=E6=9C=8817=
-=E6=97=A5 =E9=80=B1=E4=B8=89 =E4=B8=8B=E5=8D=885:45=E5=AF=AB=E9=81=93=EF=BC=
-=9A
-> > > The conversion to DRM commit helpers (f3c420fe19f8, "drm/vc4: kms: Co=
-nvert to
-> > > atomic helpers") introduced a number of issues in corner cases, most =
-of them
-> > > showing themselves in the form of either a vblank timeout or use-afte=
-r-free
-> > > error.
-> > >
-> > > These patches should fix most of them, some of them still being debug=
-ged.
-> > >
-> > > Maxime
-> > >
-> > > Changes from v1:
-> > >   - Prevent a null pointer dereference
-> > >
-> > > Maxime Ripard (6):
-> > >   drm/vc4: kms: Wait for the commit before increasing our clock rate
-> > >   drm/vc4: kms: Fix return code check
-> > >   drm/vc4: kms: Add missing drm_crtc_commit_put
-> > >   drm/vc4: kms: Clear the HVS FIFO commit pointer once done
-> > >   drm/vc4: kms: Don't duplicate pending commit
-> > >   drm/vc4: kms: Fix previous HVS commit wait
-> > >
-> > >  drivers/gpu/drm/vc4/vc4_kms.c | 42 ++++++++++++++++-----------------=
---
-> > >  1 file changed, 19 insertions(+), 23 deletions(-)
-> >
-> > I tested the v2 patches based on latest mainline kernel with RPi 4B.
-> > System can boot up into desktop environment.
->
-> So the thing that was broken initially isn't anymore?
+On Fri, Nov 19, 2021 at 12:03:00PM +0200, Ville Syrjälä wrote:
+> On Fri, Nov 19, 2021 at 10:40:38AM +0100, Daniel Vetter wrote:
+> > On Thu, Oct 28, 2021 at 05:04:19PM +0300, Ville Syrjälä wrote:
+> > > On Thu, Oct 28, 2021 at 08:57:17AM -0500, George Kennedy wrote:
+> > > > Do a sanity check on struct drm_format_info hsub and vsub values to
+> > > > avoid divide by zero.
+> > > > 
+> > > > Syzkaller reported a divide error in framebuffer_check() when the
+> > > > DRM_FORMAT_Q410 or DRM_FORMAT_Q401 pixel_format is passed in via
+> > > > the DRM_IOCTL_MODE_ADDFB2 ioctl. The drm_format_info struct for
+> > > > the DRM_FORMAT_Q410 pixel_pattern has ".hsub = 0" and ".vsub = 0".
+> > > > fb_plane_width() uses hsub as a divisor and fb_plane_height() uses
+> > > > vsub as a divisor. These divisors need to be sanity checked for
+> > > > zero before use.
+> > > > 
+> > > > divide error: 0000 [#1] SMP KASAN NOPTI
+> > > > CPU: 0 PID: 14995 Comm: syz-executor709 Not tainted 5.15.0-rc6-syzk #1
+> > > > Hardware name: Red Hat KVM, BIOS 1.13.0-2
+> > > > RIP: 0010:framebuffer_check drivers/gpu/drm/drm_framebuffer.c:199 [inline]
+> > > > RIP: 0010:drm_internal_framebuffer_create+0x604/0xf90
+> > > > drivers/gpu/drm/drm_framebuffer.c:317
+> > > > 
+> > > > Call Trace:
+> > > >  drm_mode_addfb2+0xdc/0x320 drivers/gpu/drm/drm_framebuffer.c:355
+> > > >  drm_mode_addfb2_ioctl+0x2a/0x40 drivers/gpu/drm/drm_framebuffer.c:391
+> > > >  drm_ioctl_kernel+0x23a/0x2e0 drivers/gpu/drm/drm_ioctl.c:795
+> > > >  drm_ioctl+0x589/0xac0 drivers/gpu/drm/drm_ioctl.c:898
+> > > >  vfs_ioctl fs/ioctl.c:51 [inline]
+> > > >  __do_sys_ioctl fs/ioctl.c:874 [inline]
+> > > >  __se_sys_ioctl fs/ioctl.c:860 [inline]
+> > > >  __x64_sys_ioctl+0x19d/0x220 fs/ioctl.c:860
+> > > >  do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+> > > >  do_syscall_64+0x3a/0x80 arch/x86/entry/common.c:80
+> > > >  entry_SYSCALL_64_after_hwframe+0x44/0xae
+> > > > 
+> > > > Signed-off-by: George Kennedy <george.kennedy@oracle.com>
+> > > > ---
+> > > >  drivers/gpu/drm/drm_framebuffer.c | 10 ++++++++++
+> > > >  1 file changed, 10 insertions(+)
+> > > > 
+> > > > diff --git a/drivers/gpu/drm/drm_framebuffer.c b/drivers/gpu/drm/drm_framebuffer.c
+> > > > index 07f5abc..a146e4b 100644
+> > > > --- a/drivers/gpu/drm/drm_framebuffer.c
+> > > > +++ b/drivers/gpu/drm/drm_framebuffer.c
+> > > > @@ -195,6 +195,16 @@ static int framebuffer_check(struct drm_device *dev,
+> > > >  	/* now let the driver pick its own format info */
+> > > >  	info = drm_get_format_info(dev, r);
+> > > >  
+> > > > +	if (info->hsub == 0) {
+> > > > +		DRM_DEBUG_KMS("bad horizontal chroma subsampling factor %u\n", info->hsub);
+> > > > +		return -EINVAL;
+> > > > +	}
+> > > > +
+> > > > +	if (info->vsub == 0) {
+> > > > +		DRM_DEBUG_KMS("bad vertical chroma subsampling factor %u\n", info->vsub);
+> > > > +		return -EINVAL;
+> > > > +	}
+> > > 
+> > > Looks like duct tape to me. I think we need to either fix those formats
+> > > to have valid format info, or just revert the whole patch that added such
+> > > broken things.
+> > 
+> > Yeah maybe even a compile-time check of the format table(s) to validate
+> > them properly and scream ... Or at least a selftest.
+> 
+> I really wish C had (even very limited) compile time evaluation
+> so one could actually loop over arrays like at compile time to 
+> check each element. As it stands you either have to check each
+> array element by hand, or you do some cpp macro horrors to 
+> pretend you're iterating the array.
 
-No.  It does not appear anymore.
+Python preprocess or so seems to be the usual answer, and that then just
+generates the C table after it's all checked.
 
-> > Although it still hit the bug [1], which might be under debugging, I
-> > think these patches LGTM.
->
-> The vblank timeout stuff is a symptom of various different bugs. Can you
-> share your setup, your config.txt, and what you're doing to trigger it?
+Or a post-processor which fishes the table out from the .o (or just links
+against it).
 
-I get the RPi boot firmware files from raspberrypi's repository at tag
-1.20211029 [1]
-And, make system boots:
-RPi firmware -> U-Boot -> Linux kernel (aarch64) with corresponding DTB
-
-The config.txt only has:
-enable_uart=3D1
-arm_64bit=3D1
-kernel=3Duboot.bin
-
-This bug can be reproduced with es2gears command easily.  May need to
-wait it running a while.
-
-Mesa: 21.2.2
-libdrm: 2.4.107
-xserver/wayland: 1.20.11  Using wayland
-
-This bug happens with direct boot path as well:
-RPi firmware -> Linux kernel (aarch64) with corresponding DTB
-
-I tried with Endless OS and Ubuntu's RPi 4B images.
-An easy setup is using Ubuntu 21.10 RPi 4B image [2].  Then, replace
-the kernel & device tree blob and edit the config.txt.
-
-[1] https://github.com/raspberrypi/firmware/tree/1.20211029/boot
-[2] https://ubuntu.com/download/raspberry-pi
-
-Jian-Hong Pan
-
-> > [1] https://bugzilla.kernel.org/show_bug.cgi?id=3D214991
-> >
-> > Tested-by: Jian-Hong Pan <jhp@endlessos.org>
->
-> Thanks!
-> Maxime
+But yeah doing this in cpp isn't going to work, aside from it'd be really
+ugly.
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
