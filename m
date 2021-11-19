@@ -2,62 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA306457139
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Nov 2021 15:53:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F09D45716D
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Nov 2021 16:08:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 27E156EA01;
-	Fri, 19 Nov 2021 14:53:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 23E956EACD;
+	Fri, 19 Nov 2021 15:08:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com
- [IPv6:2607:f8b0:4864:20::635])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 85D4D6EA01
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Nov 2021 14:53:48 +0000 (UTC)
-Received: by mail-pl1-x635.google.com with SMTP id k4so8282141plx.8
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Nov 2021 06:53:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=j/oZXyY9k7/oPbpEjBRReXLAUJ5HyfByCIhWv+1np54=;
- b=PN1UcUsYDSUMiWMZJy749NipLpGPavbi0UtRSetimymsjzd6bHaTH3yZpzEflYYVfR
- 9D/x4nX2QsXNmcg62ZGHofB+b3bWcfFDjwR1I0K8OR7vnGfeUuU/qHO+ZM/77zHxr0MD
- 8uWMaAHN43We2QwzGkBYlW1QT2wcAgcs2cBCA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=j/oZXyY9k7/oPbpEjBRReXLAUJ5HyfByCIhWv+1np54=;
- b=pnLCP8BXN4/3b15iNMvvjKlQvpM1BIJBnPVxq1XvwvJSk1NZKX9psJwnNnca+9J9/p
- 20C4962dRwDyaUJMGJKJw2gh3+qndgZ6tkMr/0iYxLGoaUIJ/AjNstpN6zYXI/PBidk+
- odomQLNPbkKFbwKYbV5aSSFtwP5Q6gKzF9Tej4MOv/iDJd3m+GbarMdhHB7V2/3DJLOx
- JGGo4KwG5kYz/hrl+RAXkkplA80gUmR6NmMeqkHkUgcydEbKu6M+tdvH2/3zyrROggVB
- joIVAUJuDFzp8e9c6Twtd4VsI4HHKpiL6xeAU7Dzfy7bnAgQfm6tg9vjQPVgF5pxb61w
- P2aQ==
-X-Gm-Message-State: AOAM533H4n5buERi6XOxjFZf5Eup5qu6sXu714FDWNptuLjSV+LIX0ux
- IFiQK6miG1EtWMqiOgbiusRuTDwTHW3Sqg==
-X-Google-Smtp-Source: ABdhPJyGyqCKuY59De5cinq/qP6UBN9mriUC2PfnDuygeBMHWev+cPlFlKYo44eQYFhOZU5oZWlTWw==
-X-Received: by 2002:a17:902:d488:b0:141:f3a3:d2f4 with SMTP id
- c8-20020a170902d48800b00141f3a3d2f4mr77884968plg.86.1637333628125; 
- Fri, 19 Nov 2021 06:53:48 -0800 (PST)
-Received: from localhost.localdomain ([2405:201:c00a:a0a9:35da:1c92:84b8:d096])
- by smtp.gmail.com with ESMTPSA id q11sm3368033pfk.192.2021.11.19.06.53.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Nov 2021 06:53:47 -0800 (PST)
-From: Jagan Teki <jagan@amarulasolutions.com>
-To: Andrzej Hajda <a.hajda@samsung.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Robert Foss <robert.foss@linaro.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>
-Subject: [PATCH 2/2] drm/bridge: chipone-icn6211: Add mode_set API
-Date: Fri, 19 Nov 2021 20:23:25 +0530
-Message-Id: <20211119145325.1775046-2-jagan@amarulasolutions.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211119145325.1775046-1-jagan@amarulasolutions.com>
-References: <20211119145325.1775046-1-jagan@amarulasolutions.com>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DFDB16EACD
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Nov 2021 15:08:14 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: kholk11) with ESMTPSA id 24DC41F474CB
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
+ t=1637334493; bh=jSBE+FpE9LQGDFG5yykiQBxgj7BMWhGCKkFyH0YrgtU=;
+ h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+ b=kwRAMU0ygP+7zBt1YQJBaPGKRPg8Jivqkg41FGHtLhEXgKUNfKtKEeMdn3vbC3NjX
+ y/hvku5BSUFgamWXGhOOSHMJZakEz/NNMVkzRJWe/FXlIlQduJo67ke9AX+Sz+vGC8
+ B6hW20TM0JmvwL+N2QqcuVp8x81EYmcqKKnB4/asqP4qEeRvfK/8zgNNfh1o6d2n3D
+ fNCFRm9zmiR+lxfFe6j/NXrl0eGO+IqyYk/1KxL9A8PzAbOmCgQ3nB+/DgALGXTl0K
+ jyUix27DPvsIkI42gc3L16nlkY7zkHvO8TLwk/IWwvm29aWZK3u+JKb3d59BZvalsK
+ 9LiEBEUlXlm8Q==
+Subject: Re: [PATCH v2 2/3] drm/bridge: parade-ps8640: Move real poweroff
+ action to new function
+To: Robert Foss <robert.foss@linaro.org>
+References: <20211102093618.114928-1-angelogioacchino.delregno@collabora.com>
+ <20211102093618.114928-2-angelogioacchino.delregno@collabora.com>
+ <d2fe91c8-ab29-7706-80f4-fe6619f07327@collabora.com>
+ <286beb55-00db-ba76-0a51-900d59e2ab34@collabora.com>
+ <CAG3jFyvF7JAm8X42+f2u+ycqdsHLfNH2YebxYSjJJSBdAbc1aw@mail.gmail.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Message-ID: <7d6674a2-5f73-3c42-c832-0c85e0462093@collabora.com>
+Date: Fri, 19 Nov 2021 16:08:10 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAG3jFyvF7JAm8X42+f2u+ycqdsHLfNH2YebxYSjJJSBdAbc1aw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,76 +54,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-amarula@amarulasolutions.com, Jagan Teki <jagan@amarulasolutions.com>,
- dri-devel@lists.freedesktop.org
+Cc: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>, jonas@kwiboo.se,
+ airlied@linux.ie, dri-devel@lists.freedesktop.org, narmstrong@baylibre.com,
+ linux-kernel@vger.kernel.org, jernej.skrabec@gmail.com, a.hajda@samsung.com,
+ laurent.pinchart@ideasonboard.com, kernel@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Get the display mode settings via mode_set bridge
-function instead of explicitly de-reference.
+Il 19/11/21 14:19, Robert Foss ha scritto:
+> Hey Angelo,
+> 
+> On Wed, 10 Nov 2021 at 13:46, AngeloGioacchino Del Regno
+> <angelogioacchino.delregno@collabora.com> wrote:
+>>
+>> Il 10/11/21 13:44, Dafna Hirschfeld ha scritto:
+>>>
+>>>
+>>> On 02.11.21 11:36, AngeloGioacchino Del Regno wrote:
+>>>> In preparation for varying the poweron error handling in function
+>>>> ps8640_bridge_poweron(), move function ps8640_bridge_poweroff() up
+>>>> and also move the actual logic to power off the chip to a new
+>>>> __ps8640_bridge_poweroff() function.
+>>>>
+>>>> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+>>>> ---
+>>>>    drivers/gpu/drm/bridge/parade-ps8640.c | 37 ++++++++++++++------------
+>>>>    1 file changed, 20 insertions(+), 17 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/bridge/parade-ps8640.c
+>>>> b/drivers/gpu/drm/bridge/parade-ps8640.c
+>>>> index 8c5402947b3c..41f5d511d516 100644
+>>>> --- a/drivers/gpu/drm/bridge/parade-ps8640.c
+>>>> +++ b/drivers/gpu/drm/bridge/parade-ps8640.c
+>>>> @@ -293,6 +293,26 @@ static int ps8640_bridge_vdo_control(struct ps8640 *ps_bridge,
+>>>>        return 0;
+>>>>    }
+>>>> +static void __ps8640_bridge_poweroff(struct ps8640 *ps_bridge)
+>>>> +{
+>>>> +    gpiod_set_value(ps_bridge->gpio_reset, 1);
+>>>> +    gpiod_set_value(ps_bridge->gpio_powerdown, 1);
+>>>> +    if (regulator_bulk_disable(ARRAY_SIZE(ps_bridge->supplies),
+>>>> +                   ps_bridge->supplies)) {
+>>>> +        DRM_ERROR("cannot disable regulators\n");
+>>>> +    }
+>>>
+>>> That '{' is redundant
+>>>
+>>> Thanks,
+>>> Danfa
+>>>
+>>
+>> Hi Dafna,
+>> the braces were added as a way to increase human readability.
+> 
+> Not to bikeshed this, but the kernel style guide is clear about this.
+> No unneeded braces should be used where a single statement will do.
+> 
 
-Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
----
- drivers/gpu/drm/bridge/chipone-icn6211.c | 18 ++++++++++++------
- 1 file changed, 12 insertions(+), 6 deletions(-)
+Hey Robert!
 
-diff --git a/drivers/gpu/drm/bridge/chipone-icn6211.c b/drivers/gpu/drm/bridge/chipone-icn6211.c
-index 77b3e2c29461..e8f36dca56b3 100644
---- a/drivers/gpu/drm/bridge/chipone-icn6211.c
-+++ b/drivers/gpu/drm/bridge/chipone-icn6211.c
-@@ -31,6 +31,7 @@
- struct chipone {
- 	struct device *dev;
- 	struct drm_bridge bridge;
-+	struct drm_display_mode mode;
- 	struct drm_bridge *panel_bridge;
- 	struct gpio_desc *enable_gpio;
- 	struct regulator *vdd1;
-@@ -43,11 +44,6 @@ static inline struct chipone *bridge_to_chipone(struct drm_bridge *bridge)
- 	return container_of(bridge, struct chipone, bridge);
- }
- 
--static struct drm_display_mode *bridge_to_mode(struct drm_bridge *bridge)
--{
--	return &bridge->encoder->crtc->state->adjusted_mode;
--}
--
- static inline int chipone_dsi_write(struct chipone *icn,  const void *seq,
- 				    size_t len)
- {
-@@ -66,7 +62,7 @@ static void chipone_atomic_enable(struct drm_bridge *bridge,
- 				  struct drm_bridge_state *old_bridge_state)
- {
- 	struct chipone *icn = bridge_to_chipone(bridge);
--	struct drm_display_mode *mode = bridge_to_mode(bridge);
-+	struct drm_display_mode *mode = &icn->mode;
- 
- 	ICN6211_DSI(icn, 0x7a, 0xc1);
- 
-@@ -165,6 +161,15 @@ static void chipone_atomic_post_disable(struct drm_bridge *bridge,
- 	gpiod_set_value(icn->enable_gpio, 0);
- }
- 
-+static void chipone_mode_set(struct drm_bridge *bridge,
-+			     const struct drm_display_mode *mode,
-+			     const struct drm_display_mode *adjusted_mode)
-+{
-+	struct chipone *icn = bridge_to_chipone(bridge);
-+
-+	drm_mode_copy(&icn->mode, adjusted_mode);
-+}
-+
- static int chipone_attach(struct drm_bridge *bridge, enum drm_bridge_attach_flags flags)
- {
- 	struct chipone *icn = bridge_to_chipone(bridge);
-@@ -179,6 +184,7 @@ static const struct drm_bridge_funcs chipone_bridge_funcs = {
- 	.atomic_pre_enable	= chipone_atomic_pre_enable,
- 	.atomic_enable		= chipone_atomic_enable,
- 	.atomic_post_disable	= chipone_atomic_post_disable,
-+	.mode_set		= chipone_mode_set,
- 	.attach			= chipone_attach,
- };
- 
--- 
-2.25.1
+That's right, style rules come before personal preferences.
+I'll send a v3 without the braces as soon as possible!
 
+Cheers,
+- Angelo
