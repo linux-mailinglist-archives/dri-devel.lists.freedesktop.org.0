@@ -1,50 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F6D5456E30
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Nov 2021 12:29:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F454456EC8
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Nov 2021 13:25:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 72E7E6E4BA;
-	Fri, 19 Nov 2021 11:29:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8DBBB6EE70;
+	Fri, 19 Nov 2021 12:25:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7BDE16E4BA
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Nov 2021 11:29:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637321367;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=YNsvprf1D4tM6+4YGzakWjPMIUQacpxPSiAIWlnUZcE=;
- b=eyVfNWG0Kd88ut1Rl2qhwBW2L8YnCl9Qgh9kNPCELyCg89xO/lXqsNfuxxvARmLPjEDkmb
- apOPk7r3rGSlBTTwMWMAEwQfjH6vaKR6moWY0AvYT/X1NCHAA5OVLkC2ywpqoEPTcooJnq
- 2/JQcaV+sYTeicTGbmeFgqcFMosSlv8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-461-Ne7WM6Y4NKGckXIv6l9jIQ-1; Fri, 19 Nov 2021 06:29:21 -0500
-X-MC-Unique: Ne7WM6Y4NKGckXIv6l9jIQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 64C5C8799E0;
- Fri, 19 Nov 2021 11:29:20 +0000 (UTC)
-Received: from localhost.localdomain.com (unknown [10.39.192.233])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CDB15100EB3D;
- Fri, 19 Nov 2021 11:29:10 +0000 (UTC)
-From: Mohammed Gamal <mgamal@redhat.com>
-To: linux-hyperv@vger.kernel.org, dri-devel@lists.freedesktop.org,
- decui@microsoft.com, drawat.floss@gmail.com
-Subject: [PATCH] drm/hyperv: Fix device removal on Gen1 VMs
-Date: Fri, 19 Nov 2021 12:29:00 +0100
-Message-Id: <20211119112900.300537-1-mgamal@redhat.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 892D16EE73
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Nov 2021 12:25:31 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 5EE3661AD0
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Nov 2021 12:25:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1637324731;
+ bh=45hGoWxv2t6liWgGgVO+ppm6H8JX+Imp/9r7aczqf5Y=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=tndRmjKWDfMO/PW9Fn9VdUCOwdECLyPQ91iyklN6M276ZqLV7Ne60sd2yvm7lY1Lp
+ 15J0edy+g8iWkodL+RL0iWo8Em3FityGbCR1XzHAiTOOfBuDO57sKTCOKXH2K4SKOF
+ oyMLRQUt2gb5QPJ7yhENtwUmJxbcK7L5dKefL71+f+VM9Z4snXuGW56pIP5zRUQlPM
+ qD+6E6v+yCFLPxmVamcyN3JIy5tunKIvB6F7ZTcibG2BdBf4DuTU3C9cScNim8NX3c
+ SDfBlkGjiTNDLCkmhRpzrF8KBKihygfYhwg3Tv+L5bYuW2Q9a0yCljI7e1KVfCrt+Z
+ Nan3MDIpML9Fg==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id 5BFF661004; Fri, 19 Nov 2021 12:25:31 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 211807] [drm:drm_dp_mst_dpcd_read] *ERROR* mstb
+ 000000004e6288dd port 3: DPCD read on addr 0x60 for 1 bytes NAKed
+Date: Fri, 19 Nov 2021 12:25:30 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: low
+X-Bugzilla-Who: daandelombaert@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-211807-2300-JMTF70Cc1f@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-211807-2300@https.bugzilla.kernel.org/>
+References: <bug-211807-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,60 +66,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, Mohammed Gamal <mgamal@redhat.com>,
- linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The Hyper-V DRM driver tries to free MMIO region on removing
-the device regardless of VM type, while Gen1 VMs don't use MMIO
-and hence causing the kernel to crash on a NULL pointer dereference.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D211807
 
-Fix this by making deallocating MMIO only on Gen2 machines and implement
-removal for Gen1
+Daan (daandelombaert@gmail.com) changed:
 
-Fixes: 76c56a5affeb ("drm/hyperv: Add DRM driver for hyperv synthetic video device")
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |daandelombaert@gmail.com
 
-Signed-off-by: Mohammed Gamal <mgamal@redhat.com>
----
- drivers/gpu/drm/hyperv/hyperv_drm_drv.c | 19 ++++++++++++++++++-
- 1 file changed, 18 insertions(+), 1 deletion(-)
+--- Comment #14 from Daan (daandelombaert@gmail.com) ---
+I also had this in my logs yesterday, right before my system locked complet=
+ely
+(had to do a hard reset).
 
-diff --git a/drivers/gpu/drm/hyperv/hyperv_drm_drv.c b/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
-index cd818a629183..9f923beb7d8d 100644
---- a/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
-+++ b/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
-@@ -225,12 +225,29 @@ static int hyperv_vmbus_remove(struct hv_device *hdev)
- {
- 	struct drm_device *dev = hv_get_drvdata(hdev);
- 	struct hyperv_drm_device *hv = to_hv(dev);
-+	struct pci_dev *pdev;
- 
- 	drm_dev_unplug(dev);
- 	drm_atomic_helper_shutdown(dev);
- 	vmbus_close(hdev->channel);
- 	hv_set_drvdata(hdev, NULL);
--	vmbus_free_mmio(hv->mem->start, hv->fb_size);
-+
-+	/*
-+	 * Free allocated MMIO memory only on Gen2 VMs.
-+	 * On Gen1 VMs, release the PCI device
-+	 */
-+	if (efi_enabled(EFI_BOOT)) {
-+		vmbus_free_mmio(hv->mem->start, hv->fb_size);
-+	} else {
-+		pdev = pci_get_device(PCI_VENDOR_ID_MICROSOFT,
-+				PCI_DEVICE_ID_HYPERV_VIDEO, NULL);
-+		if (!pdev) {
-+			drm_err(dev, "Unable to find PCI Hyper-V video\n");
-+			return -ENODEV;
-+		}
-+		pci_release_region(pdev, 0);
-+		pci_dev_put(pdev);
-+	}
- 
- 	return 0;
- }
--- 
-2.33.1
+I also have a Lenovo Thinkpad Thunderbolt Dock, which connects my Thinkpad =
+T480
+with two external monitors (one Hdmi, one Displayport). I didn't have this
+lockup before, in the past both monitors were hdmi so maybe Displayport is =
+the
+culprit here?
 
+Exact message:  i915 0000:00:02.0: [drm] *ERROR* mstb 00000000afedfd20 port=
+ 3:
+DPCD read on addr 0x4b0 for 1 bytes NAKed
+
+Setup:=20
+Thinkpad T480, i7, UHD Graphics 620 + Nvidia Mx150
+Fedora (5.14.16-201.fc34.x86_64)
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
