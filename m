@@ -2,73 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD997456DEA
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Nov 2021 12:01:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6ADB4456DF8
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Nov 2021 12:08:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C8556EB37;
-	Fri, 19 Nov 2021 11:01:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8886F6E03C;
+	Fri, 19 Nov 2021 11:08:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
- [66.111.4.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E9ED46EB34
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Nov 2021 11:01:04 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.nyi.internal (Postfix) with ESMTP id 508085C0152;
- Fri, 19 Nov 2021 06:01:04 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Fri, 19 Nov 2021 06:01:04 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-type:content-transfer-encoding; s=fm1; bh=
- wMbZ7KJ8PdGz2rR2LNAQ/bdGFOMlOCIwBFKQo5W87oo=; b=SHgShHBfQqfPyfFY
- JMuudBwdBj4zAjNCch2ICy/5x/oNoTTfNKFOfOQbRxoX29gz8Rka1MltAI+Gzc55
- 5PnWndVro5d1ELWUunMukP4597pTz4g5bDUcBO3gtPY6E14sR/iF8iGyjd8mb2Fv
- sjqu8AjhvLii61F532Qbp+u5WmXvbMFGPGTrPQ9WJYYf2qcFiSvpkDJoUN8mPBI2
- 8/KpF74VaavXtmAN5BBXkKhZgX8Ba6xcl6mfoPHdpyMFDrW/JlWAVRCnS9UCKmHI
- WEBTFKNjZaMCDh+sLr1OcI553cbgSnewnhw7lEGxAtm71WfZp5+35dX3DOEduR9H
- iPJiIA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:from:in-reply-to:message-id:mime-version:references
- :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm1; bh=wMbZ7KJ8PdGz2rR2LNAQ/bdGFOMlOCIwBFKQo5W87
- oo=; b=dK1MlZtP894wuVX9B/JZkfQwr/ZZfo8MmuYuCYcGdAdvDAua415VX+OGO
- 8as6uO+yCnuB4TdOi1gSnueAczGYAfeU3n32KZ0KTtc6GLHXoy30B0VI5g3L5wgk
- Wd0vQTiXkA3zjJttZSrNIIjF1LKNZOa3AtMBY7jKo9OGcNxz6dpg8gZszCO/tBym
- todDhYZvciVJgLQaq+QTik+bzFCp993M4ip2KrvXCffTEKlpK2nPmo+o4xzOQfE4
- jfJbJr74IkaQL0edQxD/EWvgcZWDqWxD7c0vmNaipizJczytHK+C35Jj0/7ZF04U
- zJ4bdQErHDCmFIJStF7aULKPoVzlQ==
-X-ME-Sender: <xms:7oOXYdGhKKf1IsAEWGpPK7F3dnTDmlZfyarrfTaltFUzlme5N6XqPg>
- <xme:7oOXYSXIUGDO0NNdbwYX1IHlnwW4FMdQz_JmbV9ANxSKmpxoytqIOXuIrTcPxgXVN
- DMPW2SwA3iQ-brg6e4>
-X-ME-Received: <xmr:7oOXYfLNsiUr8fm5-zfDTMFEG4gno_0M7ey8LhgU2nfxO45Y3dxb5L_-yW6TBnZfO5dUnH83yeg_qJQj8fsYfl_dgNimczNxvkgX1wDF1UY>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrfeekgddvudcutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefhvffufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepjeeugfegkeffgfeuvedtvddufffhjeffjeejvddvudduteehhfefhfefgeei
- keeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
- grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:7oOXYTGIJK4BcqKyZSCGsP0crtLVMYXj3OzT_dD5g6Iun_Q7K4Glfg>
- <xmx:7oOXYTXHWT9QXhKFJ9dPc-Iz61f-RAF1iyNEcO47Ly_W1Jbf-Yq_rg>
- <xmx:7oOXYeML9r2cjHjVbuJnNJ5cCfeweUpq2cxQkIk0_WUcdVcAOT6JZg>
- <xmx:8IOXYaGlQJmrTVoiAmZEyrD-DcgbOr3MvgwyCF5_A0wd8ltFCaiRmQ>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 19 Nov 2021 06:01:02 -0500 (EST)
-From: Maxime Ripard <maxime@cerno.tech>
-To: Jeremy Kerr <jk@codeconstruct.com.au>, Joel Stanley <joel@jms.id.au>,
- Oskar Senft <osk@google.com>
-Subject: Re: (subset) [PATCH] drm/aspeed: Fix vga_pw sysfs output
-Date: Fri, 19 Nov 2021 12:00:57 +0100
-Message-Id: <163731964127.830809.15279573029825789668.b4-ty@cerno.tech>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20211117010145.297253-1-joel@jms.id.au>
-References: <20211117010145.297253-1-joel@jms.id.au>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E74FB6E03C
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Nov 2021 11:08:52 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 6302260F57;
+ Fri, 19 Nov 2021 11:08:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1637320132;
+ bh=MGQP/hrtX2By1G+IloWa4tkqTreG55JKH01OWy6ztxc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=jl02+0R1AL8nkIL4t2IOsnf3pKd35+snNFNW2PajI7tCbE2GtwAF8mOGDoy9o6IcF
+ eIxCm1uaMy9pBDDEgvhcVNZyvcxphmaoHoDXZubLU7TWmEuVq10ru6ZgAbvfb5qlAX
+ xZF937C0tKlKh6Ig9DI7PajMtcd1ianj0FfwjXCs=
+Date: Fri, 19 Nov 2021 12:08:49 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Javier Martinez Canillas <javierm@redhat.com>
+Subject: Re: [PATCH v5 3/6] drm: Move nomodeset kernel parameter to the DRM
+ subsystem
+Message-ID: <YZeFwcuP1cu9MOZu@kroah.com>
+References: <20211112133230.1595307-1-javierm@redhat.com>
+ <20211112133230.1595307-4-javierm@redhat.com>
+ <b63cbd1d-4669-422d-0908-0eec1981caa6@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b63cbd1d-4669-422d-0908-0eec1981caa6@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,24 +46,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-aspeed@lists.ozlabs.org, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, Andrew Jeffery <andrew@aj.id.au>,
- Maxime Ripard <maxime@cerno.tech>, Ali El-Haj-Mahmoud <aaelhaj@google.com>
+Cc: Pekka Paalanen <pekka.paalanen@collabora.com>,
+ Jani Nikula <jani.nikula@intel.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Michel =?iso-8859-1?Q?D=E4nzer?= <michel@daenzer.net>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Peter Robinson <pbrobinson@gmail.com>, Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 17 Nov 2021 09:01:45 +0800, Joel Stanley wrote:
-> Before the drm driver had support for this file there was a driver that
-> exposed the contents of the vga password register to userspace. It would
-> present the entire register instead of interpreting it.
+On Fri, Nov 19, 2021 at 11:20:13AM +0100, Javier Martinez Canillas wrote:
+> [ adding gregkh to Cc list for drivers/video/console ]
 > 
-> The drm implementation chose to mask of the lower bit, without explaining
-> why. This breaks the existing userspace, which is looking for 0xa8 in
-> the lower byte.
+> On 11/12/21 14:32, Javier Martinez Canillas wrote:
+> > The "nomodeset" kernel cmdline parameter is handled by the vgacon driver
+> > but the exported vgacon_text_force() symbol is only used by DRM drivers.
+> > 
+> > It makes much more sense for the parameter logic to be in the subsystem
+> > of the drivers that are making use of it.
+> > 
+> > Let's move the vgacon_text_force() function and related logic to the DRM
+> > subsystem. While doing that, rename it to drm_firmware_drivers_only() and
+> > make it return true if "nomodeset" was used and false otherwise. This is
+> > a better description of the condition that the drivers are testing for.
+> > 
+> > Suggested-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> > Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+> > Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+> > Acked-by: Jani Nikula <jani.nikula@intel.com>
+> > Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+> > ---
+> >
 > 
-> [...]
+> Greg, could I please get your ack for this patch ?
 
-Applied to drm/drm-misc (drm-misc-fixes).
-
-Thanks!
-Maxime
+Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
