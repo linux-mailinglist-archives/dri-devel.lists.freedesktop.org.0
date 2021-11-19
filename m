@@ -1,47 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 956C5456CF3
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Nov 2021 11:03:50 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id ACF0C456C7F
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Nov 2021 10:40:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3DEA26EA06;
-	Fri, 19 Nov 2021 10:03:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D2CEE6EB20;
+	Fri, 19 Nov 2021 09:40:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f197.google.com (mail-il1-f197.google.com
- [209.85.166.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD0946ECB2
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Nov 2021 09:18:23 +0000 (UTC)
-Received: by mail-il1-f197.google.com with SMTP id
- j10-20020a056e02218a00b0029d86e70b98so125748ila.13
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Nov 2021 01:18:23 -0800 (PST)
+Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com
+ [IPv6:2a00:1450:4864:20::531])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C46D6EB20
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Nov 2021 09:40:42 +0000 (UTC)
+Received: by mail-ed1-x531.google.com with SMTP id y13so40022219edd.13
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Nov 2021 01:40:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to; bh=Q5cyDkDS3Kne9xYeWv/7giIFgtkhNfSXgt2EtvaNOj0=;
+ b=Vs5ZD7TnkcW3xlX6mx9QeIZdhA0YCOo5biB8ZkKiPFMG/Z18b+PbsZuakr+j5XxgTe
+ Re3XGpMmH6FOHUGTS4amLiw72q5wYPjbna7PwdJImEjiqt0VWEK2EdyfSqSOFSWvNxci
+ Tn8D/GTY/YWKULHRwU8mIFavXFkOXrWp2ZgC4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
- bh=oZJ1ZvgM2MTH4JzpVQcxnkDfXFABgNeZ+HUKmgEFpX0=;
- b=JEwTdFSSTye0xX7g2X9lfvl1RdpY8/L9Xs6qgUWWF97Y2EqlzfG7BSa/HewN4HqXqH
- FvJ66gaHpC3ogAhoq3JFZ/y6EeoavZn2D3HrYHAbvOMHNt4vyQuI8AM9H44FHoAXB1aL
- 8BBG8k+AldTPZL6ytKTAF6Pj0Me2wuxw/NwS4NF5XkYluYPE1q21gPCAuUeHPKBWfg5n
- QnsLNt0A5BWoe5oLSsRNTAtjVFsxESnfGGNPVjIDn06RknpiR/LL/bWYd3lUXbf3qpq6
- +UiOGkl3ljlDb6zbCR1usr7XFWV69BPtmQOiPpjHsEXyf+fROpNvE2r12shlzceLg9sC
- myVg==
-X-Gm-Message-State: AOAM531lzZosic1oQp2p+tvswF7kKrhuT54U8/7AfySJJpRhAMfobyjF
- Qbi7Z4DZDKmjphfEqOCcQaG27PyHqukUlRq/HSeIqodTSiv6
-X-Google-Smtp-Source: ABdhPJyMWG24aZxGW9kelXBa+W83Kj1OprEnNkNwd6lsB0bXfMQgYVeSGZIltrr5Hkj3WwPVgw49idJzrL8lnUZMEAULHmjSxJ46
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :content-transfer-encoding:in-reply-to;
+ bh=Q5cyDkDS3Kne9xYeWv/7giIFgtkhNfSXgt2EtvaNOj0=;
+ b=KuAdJwzeQ4mkAwgiNSX6FaSg5GQpHAwFF6IHw/e/OYLOkK1Fd2Laop3yEHbpr/moQm
+ enquadZxw82uVedHgnxtp+3DESw2QgcmUSNpdltNWA0Vc5rRof4xrtxXgfrzm0EgtNlG
+ Y0tcojf8cgtJZFA3FiWL1WQvhtkzjbv3E/hRLUTKo/WHw9TxaDH6EEjzoqFIN7DnI3IM
+ fQSgJS1ccisHbODFOHzE66OElvBkxLLpxJxBs+/pfIhqitQnABBW7fwcBlIcm0Txy1kV
+ PtNIi5rRh2VZ/sDJozlS6NYd80G++3teUObMa63Z9shc48tvG2lbVydrONXLABbeeRgp
+ wmBA==
+X-Gm-Message-State: AOAM531TgYq5hslYCmaVsUjbsNs+C/+WDTcYtJ38ZL8I4FKnZ4EMQV0v
+ GrXrKovPBWeTyjXYu1KM+YTGjw==
+X-Google-Smtp-Source: ABdhPJxoHnTENBCc0YTXNLVzKYWPtAv+oVOS5SWdW7UDlcaXLFgs+p3vdjCR8b9kIkKgjjudcooDUw==
+X-Received: by 2002:a50:9ec9:: with SMTP id a67mr22376653edf.238.1637314840531; 
+ Fri, 19 Nov 2021 01:40:40 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id jg36sm997780ejc.44.2021.11.19.01.40.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 19 Nov 2021 01:40:40 -0800 (PST)
+Date: Fri, 19 Nov 2021 10:40:38 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+Subject: Re: [PATCH] drm: check drm_format_info hsub and vsub to avoid divide
+ by zero
+Message-ID: <YZdxFvGkBPXrtoQ7@phenom.ffwll.local>
+Mail-Followup-To: Ville =?iso-8859-1?Q?Syrj=E4l=E4?=
+ <ville.syrjala@linux.intel.com>, 
+ George Kennedy <george.kennedy@oracle.com>,
+ gregkh@linuxfoundation.org, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@linux.ie,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <1635429437-21718-1-git-send-email-george.kennedy@oracle.com>
+ <YXqt46TPL9tUZCL1@intel.com>
 MIME-Version: 1.0
-X-Received: by 2002:a92:c88e:: with SMTP id w14mr3620284ilo.24.1637313503024; 
- Fri, 19 Nov 2021 01:18:23 -0800 (PST)
-Date: Fri, 19 Nov 2021 01:18:23 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000bbdd0405d120c155@google.com>
-Subject: [syzbot] KASAN: vmalloc-out-of-bounds Write in imageblit (2)
-From: syzbot <syzbot+14b0e8f3fd1612e35350@syzkaller.appspotmail.com>
-To: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, 
- linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
-X-Mailman-Approved-At: Fri, 19 Nov 2021 10:03:47 +0000
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <YXqt46TPL9tUZCL1@intel.com>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,114 +75,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: airlied@linux.ie, gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+ George Kennedy <george.kennedy@oracle.com>, dri-devel@lists.freedesktop.org,
+ tzimmermann@suse.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
+On Thu, Oct 28, 2021 at 05:04:19PM +0300, Ville Syrjälä wrote:
+> On Thu, Oct 28, 2021 at 08:57:17AM -0500, George Kennedy wrote:
+> > Do a sanity check on struct drm_format_info hsub and vsub values to
+> > avoid divide by zero.
+> > 
+> > Syzkaller reported a divide error in framebuffer_check() when the
+> > DRM_FORMAT_Q410 or DRM_FORMAT_Q401 pixel_format is passed in via
+> > the DRM_IOCTL_MODE_ADDFB2 ioctl. The drm_format_info struct for
+> > the DRM_FORMAT_Q410 pixel_pattern has ".hsub = 0" and ".vsub = 0".
+> > fb_plane_width() uses hsub as a divisor and fb_plane_height() uses
+> > vsub as a divisor. These divisors need to be sanity checked for
+> > zero before use.
+> > 
+> > divide error: 0000 [#1] SMP KASAN NOPTI
+> > CPU: 0 PID: 14995 Comm: syz-executor709 Not tainted 5.15.0-rc6-syzk #1
+> > Hardware name: Red Hat KVM, BIOS 1.13.0-2
+> > RIP: 0010:framebuffer_check drivers/gpu/drm/drm_framebuffer.c:199 [inline]
+> > RIP: 0010:drm_internal_framebuffer_create+0x604/0xf90
+> > drivers/gpu/drm/drm_framebuffer.c:317
+> > 
+> > Call Trace:
+> >  drm_mode_addfb2+0xdc/0x320 drivers/gpu/drm/drm_framebuffer.c:355
+> >  drm_mode_addfb2_ioctl+0x2a/0x40 drivers/gpu/drm/drm_framebuffer.c:391
+> >  drm_ioctl_kernel+0x23a/0x2e0 drivers/gpu/drm/drm_ioctl.c:795
+> >  drm_ioctl+0x589/0xac0 drivers/gpu/drm/drm_ioctl.c:898
+> >  vfs_ioctl fs/ioctl.c:51 [inline]
+> >  __do_sys_ioctl fs/ioctl.c:874 [inline]
+> >  __se_sys_ioctl fs/ioctl.c:860 [inline]
+> >  __x64_sys_ioctl+0x19d/0x220 fs/ioctl.c:860
+> >  do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+> >  do_syscall_64+0x3a/0x80 arch/x86/entry/common.c:80
+> >  entry_SYSCALL_64_after_hwframe+0x44/0xae
+> > 
+> > Signed-off-by: George Kennedy <george.kennedy@oracle.com>
+> > ---
+> >  drivers/gpu/drm/drm_framebuffer.c | 10 ++++++++++
+> >  1 file changed, 10 insertions(+)
+> > 
+> > diff --git a/drivers/gpu/drm/drm_framebuffer.c b/drivers/gpu/drm/drm_framebuffer.c
+> > index 07f5abc..a146e4b 100644
+> > --- a/drivers/gpu/drm/drm_framebuffer.c
+> > +++ b/drivers/gpu/drm/drm_framebuffer.c
+> > @@ -195,6 +195,16 @@ static int framebuffer_check(struct drm_device *dev,
+> >  	/* now let the driver pick its own format info */
+> >  	info = drm_get_format_info(dev, r);
+> >  
+> > +	if (info->hsub == 0) {
+> > +		DRM_DEBUG_KMS("bad horizontal chroma subsampling factor %u\n", info->hsub);
+> > +		return -EINVAL;
+> > +	}
+> > +
+> > +	if (info->vsub == 0) {
+> > +		DRM_DEBUG_KMS("bad vertical chroma subsampling factor %u\n", info->vsub);
+> > +		return -EINVAL;
+> > +	}
+> 
+> Looks like duct tape to me. I think we need to either fix those formats
+> to have valid format info, or just revert the whole patch that added such
+> broken things.
 
-syzbot found the following issue on:
+Yeah maybe even a compile-time check of the format table(s) to validate
+them properly and scream ... Or at least a selftest.
+-Daniel
 
-HEAD commit:    fa55b7dcdc43 Linux 5.16-rc1
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=15fe2569b00000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=6d3b8fd1977c1e73
-dashboard link: https://syzkaller.appspot.com/bug?extid=14b0e8f3fd1612e35350
-compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
-userspace arch: i386
+> 
+> > +
+> >  	for (i = 0; i < info->num_planes; i++) {
+> >  		unsigned int width = fb_plane_width(r->width, info, i);
+> >  		unsigned int height = fb_plane_height(r->height, info, i);
+> > -- 
+> > 1.8.3.1
+> 
+> -- 
+> Ville Syrjälä
+> Intel
 
-Unfortunately, I don't have any reproducer for this issue yet.
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+14b0e8f3fd1612e35350@syzkaller.appspotmail.com
-
-524155 pages RAM
-0 pages HighMem/MovableOnly
-163742 pages reserved
-0 pages cma reserved
-==================================================================
-BUG: KASAN: vmalloc-out-of-bounds in fast_imageblit drivers/video/fbdev/core/sysimgblt.c:229 [inline]
-BUG: KASAN: vmalloc-out-of-bounds in sys_imageblit+0x12f4/0x1430 drivers/video/fbdev/core/sysimgblt.c:275
-Write of size 4 at addr ffffc90004631000 by task syz-executor.0/7913
-
-CPU: 0 PID: 7913 Comm: syz-executor.0 Not tainted 5.16.0-rc1-syzkaller #0
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.14.0-2 04/01/2014
-Call Trace:
- <TASK>
- __dump_stack lib/dump_stack.c:88 [inline]
- dump_stack_lvl+0xcd/0x134 lib/dump_stack.c:106
- print_address_description.constprop.0.cold+0xf/0x320 mm/kasan/report.c:247
- __kasan_report mm/kasan/report.c:433 [inline]
- kasan_report.cold+0x83/0xdf mm/kasan/report.c:450
- fast_imageblit drivers/video/fbdev/core/sysimgblt.c:229 [inline]
- sys_imageblit+0x12f4/0x1430 drivers/video/fbdev/core/sysimgblt.c:275
- drm_fb_helper_sys_imageblit drivers/gpu/drm/drm_fb_helper.c:794 [inline]
- drm_fbdev_fb_imageblit+0x15c/0x350 drivers/gpu/drm/drm_fb_helper.c:2282
- bit_putcs_unaligned drivers/video/fbdev/core/bitblit.c:124 [inline]
- bit_putcs+0x6e1/0xd20 drivers/video/fbdev/core/bitblit.c:173
- fbcon_putcs+0x353/0x440 drivers/video/fbdev/core/fbcon.c:1277
- do_update_region+0x399/0x630 drivers/tty/vt/vt.c:676
- redraw_screen+0x61f/0x740 drivers/tty/vt/vt.c:1035
- fbcon_modechanged+0x58c/0x6c0 drivers/video/fbdev/core/fbcon.c:2182
- fbcon_update_vcs+0x3a/0x50 drivers/video/fbdev/core/fbcon.c:2227
- do_fb_ioctl+0x62e/0x690 drivers/video/fbdev/core/fbmem.c:1114
- fb_compat_ioctl+0x17e/0x610 drivers/video/fbdev/core/fbmem.c:1313
- __do_compat_sys_ioctl+0x1c7/0x290 fs/ioctl.c:972
- do_syscall_32_irqs_on arch/x86/entry/common.c:112 [inline]
- __do_fast_syscall_32+0x65/0xf0 arch/x86/entry/common.c:178
- do_fast_syscall_32+0x2f/0x70 arch/x86/entry/common.c:203
- entry_SYSENTER_compat_after_hwframe+0x4d/0x5c
-RIP: 0023:0xf6e67549
-Code: 03 74 c0 01 10 05 03 74 b8 01 10 06 03 74 b4 01 10 07 03 74 b0 01 10 08 03 74 d8 01 00 00 00 00 00 51 52 55 89 e5 0f 34 cd 80 <5d> 5a 59 c3 90 90 90 90 8d b4 26 00 00 00 00 8d b4 26 00 00 00 00
-RSP: 002b:00000000f44615fc EFLAGS: 00000296 ORIG_RAX: 0000000000000036
-RAX: ffffffffffffffda RBX: 0000000000000005 RCX: 0000000000004601
-RDX: 0000000020000000 RSI: 0000000000000000 RDI: 0000000000000000
-RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000000
-R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
- </TASK>
-
-
-Memory state around the buggy address:
- ffffc90004630f00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
- ffffc90004630f80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
->ffffc90004631000: f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8
-                   ^
- ffffc90004631080: f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8
- ffffc90004631100: f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8
-==================================================================
-----------------
-Code disassembly (best guess):
-   0:	03 74 c0 01          	add    0x1(%rax,%rax,8),%esi
-   4:	10 05 03 74 b8 01    	adc    %al,0x1b87403(%rip)        # 0x1b8740d
-   a:	10 06                	adc    %al,(%rsi)
-   c:	03 74 b4 01          	add    0x1(%rsp,%rsi,4),%esi
-  10:	10 07                	adc    %al,(%rdi)
-  12:	03 74 b0 01          	add    0x1(%rax,%rsi,4),%esi
-  16:	10 08                	adc    %cl,(%rax)
-  18:	03 74 d8 01          	add    0x1(%rax,%rbx,8),%esi
-  1c:	00 00                	add    %al,(%rax)
-  1e:	00 00                	add    %al,(%rax)
-  20:	00 51 52             	add    %dl,0x52(%rcx)
-  23:	55                   	push   %rbp
-  24:	89 e5                	mov    %esp,%ebp
-  26:	0f 34                	sysenter
-  28:	cd 80                	int    $0x80
-* 2a:	5d                   	pop    %rbp <-- trapping instruction
-  2b:	5a                   	pop    %rdx
-  2c:	59                   	pop    %rcx
-  2d:	c3                   	retq
-  2e:	90                   	nop
-  2f:	90                   	nop
-  30:	90                   	nop
-  31:	90                   	nop
-  32:	8d b4 26 00 00 00 00 	lea    0x0(%rsi,%riz,1),%esi
-  39:	8d b4 26 00 00 00 00 	lea    0x0(%rsi,%riz,1),%esi
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
