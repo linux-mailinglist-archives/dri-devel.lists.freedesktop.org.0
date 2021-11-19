@@ -1,42 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 698A5456EF6
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Nov 2021 13:43:07 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 80D31456F43
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Nov 2021 14:03:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 88634891B7;
-	Fri, 19 Nov 2021 12:42:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8797D6F584;
+	Fri, 19 Nov 2021 13:03:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A1066F4D6
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Nov 2021 12:42:55 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10172"; a="320621069"
-X-IronPort-AV: E=Sophos;i="5.87,247,1631602800"; 
- d="gz'50?scan'50,208,50";a="320621069"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Nov 2021 04:42:54 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.87,247,1631602800"; 
- d="gz'50?scan'50,208,50";a="455427636"
-Received: from lkp-server02.sh.intel.com (HELO c20d8bc80006) ([10.239.97.151])
- by orsmga003.jf.intel.com with ESMTP; 19 Nov 2021 04:42:50 -0800
-Received: from kbuild by c20d8bc80006 with local (Exim 4.92)
- (envelope-from <lkp@intel.com>)
- id 1mo3E9-0004WG-BP; Fri, 19 Nov 2021 12:42:49 +0000
-Date: Fri, 19 Nov 2021 20:42:39 +0800
-From: kernel test robot <lkp@intel.com>
-To: Arnd Bergmann <arnd@kernel.org>, Vinod Koul <vkoul@kernel.org>
-Subject: Re: [PATCH 07/11] dmaengine: qcom-adm: stop abusing slave_id config
-Message-ID: <202111192057.l5YTQ66t-lkp@intel.com>
-References: <20211115085403.360194-8-arnd@kernel.org>
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
+ [IPv6:2a00:1450:4864:20::134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B62296F581;
+ Fri, 19 Nov 2021 13:03:14 +0000 (UTC)
+Received: by mail-lf1-x134.google.com with SMTP id n12so43263640lfe.1;
+ Fri, 19 Nov 2021 05:03:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=OtcyM0sRJM6yYa1ms2INN5qQb4D2ie8kzkdpIUuapnI=;
+ b=ki9dQqiPhOMl395QipNktiQgALMaGRTii9J1l8xeC0S+7tZDIawlorHH2wjEVn4XZh
+ MSslCTXh2auD1O1lZmRsJDZS5QacqK8Y9F8r4x5AWG8KN0mQitj6eacYUJjRSU68Em8Y
+ dHs8IyGhBS+SXt8PRrUHDhingo8sulAuc6a88S/LT1IghbcHaD6U74XXR8WW2MsWeJk4
+ oBE8ignTuI2AHv9sTsvO0QnNf525reTmi4V3xbycg52wJAvhZQD61pVhGRUGeEmZQIoj
+ At6uI3agbM0L/4zEJIIHH8mTWEsEGMr0HbksC65XnMlfk25v9ykxW3gmt0ydjZ0Ys7zS
+ q0tw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=OtcyM0sRJM6yYa1ms2INN5qQb4D2ie8kzkdpIUuapnI=;
+ b=gcBCQZnUFS2jLFBseYNb0LNsCfYRn9PKLOLy6AIwqWZA2RhYTaIgxScTqe1/6xuiU4
+ pQQ+SKBrRfjrre70LVEveyB7h5l89hFeypnthne/J0ZWLJIqNONc7qz0j9faf6JqxV1n
+ 31I3m+fx69p2Vh3aD8o8XKaTgySTtTV9JLqXDGYLoqLAQTTUexQWerHOeDUgAuK2oH1J
+ TEdih4ZRSxTMLCGmAABFbhnekdyO1/+lISz7zcrmkmBrzkZhvWi7JaUdd+hvrNIVMiEH
+ 07OZELLH980/+ksTZGblNpyrCvi2coGraF03mfVm7DQjE6I9c4SM931Dr0NYDzU/4CwU
+ l7lA==
+X-Gm-Message-State: AOAM532grYtWYUYVMP6rDzdN5GgCDfZAyRIcESoV98qfD3zFBj8n2SyJ
+ oTI7d7iRrjsz1XjDSuw/IhdNUIE+a8Y=
+X-Google-Smtp-Source: ABdhPJy02UJvN8/6pVlfVeGx6PChxNAwbf/YkVqGPHl5pRJW9HnBffrmJKuq2tb0cMHIYUtESZXU1g==
+X-Received: by 2002:a05:651c:112e:: with SMTP id
+ e14mr24690982ljo.466.1637326990571; 
+ Fri, 19 Nov 2021 05:03:10 -0800 (PST)
+Received: from inno-pc.lan (88-115-161-74.elisa-laajakaista.fi.
+ [88.115.161.74])
+ by smtp.gmail.com with ESMTPSA id e6sm356815lfn.172.2021.11.19.05.03.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 19 Nov 2021 05:03:09 -0800 (PST)
+From: Zhi Wang <zhi.wang.linux@gmail.com>
+X-Google-Original-From: Zhi Wang <zhi.a.wang@intel.com>
+To: intel-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 1/2] i915/gvt: Introduce the mmio_info_table.c to support VFIO
+ new mdev API
+Date: Fri, 19 Nov 2021 08:03:06 -0500
+Message-Id: <20211119130307.21098-1-zhi.a.wang@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="XsQoSWH+UP9D9v3l"
-Content-Disposition: inline
-In-Reply-To: <20211115085403.360194-8-arnd@kernel.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,668 +70,3714 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alsa-devel@alsa-project.org, kbuild-all@lists.01.org,
- dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
- Thierry Reding <thierry.reding@gmail.com>, linux-mtd@lists.infradead.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- linux-tegra@vger.kernel.org, linux-spi@vger.kernel.org,
- Robert Jarzmik <robert.jarzmik@free.fr>
+Cc: Zhi Wang <zhi.wang.linux@gmail.com>, Jason Gunthorpe <jgg@nvidia.com>,
+ Vivi Rodrigo <rodrigo.vivi@intel.com>, Christoph Hellwig <hch@lst.de>,
+ Zhi Wang <zhi.a.wang@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: Zhi Wang <zhi.wang.linux@gmail.com>
 
---XsQoSWH+UP9D9v3l
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+To support the new mdev interfaces and the re-factor patches from
+Christoph, which moves the GVT-g code into a dedicated module, the GVT-g
+initialization path has to be seperated into two phases:
 
-Hi Arnd,
+a) Early initialization.
 
-I love your patch! Perhaps something to improve:
+The early initialization of GVT requires to be done when loading i915.
+Mostly it's because the inital clean HW state needs to be saved before
+i915 touches the HW.
 
-[auto build test WARNING on vkoul-dmaengine/next]
-[also build test WARNING on tiwai-sound/for-next staging/staging-testing linus/master v5.16-rc1 next-20211118]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+b) Late initalization.
 
-url:    https://github.com/0day-ci/linux/commits/Arnd-Bergmann/dmaengine-kill-off-dma_slave_config-slave_id/20211115-165731
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git next
-config: xtensa-buildonly-randconfig-r005-20211115 (attached as .config)
-compiler: xtensa-linux-gcc (GCC) 11.2.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/0day-ci/linux/commit/f2e7f9ee67ce784864f75db39f20d1060c932279
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Arnd-Bergmann/dmaengine-kill-off-dma_slave_config-slave_id/20211115-165731
-        git checkout f2e7f9ee67ce784864f75db39f20d1060c932279
-        # save the attached .config to linux build tree
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross ARCH=xtensa 
+This phases of initalization will setup the rest components of GVT-g,
+which can be done later when the dedicated module is being loaded.
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+v2:
 
-All warnings (new ones prefixed by >>):
+- Implement a mmio table instead of generating it by marco in i915. (Jani)
 
->> drivers/dma/qcom/qcom_adm.c:712:18: warning: no previous prototype for 'adm_dma_xlate' [-Wmissing-prototypes]
-     712 | struct dma_chan *adm_dma_xlate(struct of_phandle_args *dma_spec,
-         |                  ^~~~~~~~~~~~~
-
-
-vim +/adm_dma_xlate +712 drivers/dma/qcom/qcom_adm.c
-
-   700	
-   701	/**
-   702	 * adm_dma_xlate
-   703	 * @dma_spec:	pointer to DMA specifier as found in the device tree
-   704	 * @ofdma:	pointer to DMA controller data
-   705	 *
-   706	 * This can use either 1-cell or 2-cell formats, the first cell
-   707	 * identifies the slave device, while the optional second cell
-   708	 * contains the crci value.
-   709	 *
-   710	 * Returns pointer to appropriate dma channel on success or NULL on error.
-   711	 */
- > 712	struct dma_chan *adm_dma_xlate(struct of_phandle_args *dma_spec,
-   713				       struct of_dma *ofdma)
-   714	{
-   715		struct dma_device *dev = ofdma->of_dma_data;
-   716		struct dma_chan *chan, *candidate = NULL;
-   717		struct adm_chan *achan;
-   718	
-   719		if (!dev || dma_spec->args_count > 2)
-   720			return NULL;
-   721	
-   722		list_for_each_entry(chan, &dev->channels, device_node)
-   723			if (chan->chan_id == dma_spec->args[0]) {
-   724				candidate = chan;
-   725				break;
-   726			}
-   727	
-   728		if (!candidate)
-   729			return NULL;
-   730	
-   731		achan = to_adm_chan(candidate);
-   732		if (dma_spec->args_count == 2)
-   733			achan->crci = dma_spec->args[1];
-   734		else
-   735			achan->crci = 0;
-   736	
-   737		return dma_get_slave_channel(candidate);
-   738	}
-   739	
-
+Cc: Christoph Hellwig <hch@lst.de>
+Cc: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Cc: Vivi Rodrigo <rodrigo.vivi@intel.com>
+Cc: Zhenyu Wang <zhenyuw@linux.intel.com>
+Cc: Zhi Wang <zhi.a.wang@intel.com>
+Tested-by: Terrence Xu <terrence.xu@intel.com>
+Signed-off-by: Zhi Wang <zhi.wang.linux@gmail.com>
 ---
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+ drivers/gpu/drm/i915/Makefile              |    2 +-
+ drivers/gpu/drm/i915/gvt/gvt.c             |   38 +-
+ drivers/gpu/drm/i915/gvt/gvt.h             |    1 +
+ drivers/gpu/drm/i915/gvt/handlers.c        | 1780 +++-----------------
+ drivers/gpu/drm/i915/gvt/mmio.h            |    5 +-
+ drivers/gpu/drm/i915/gvt/mmio_info_table.c | 1461 ++++++++++++++++
+ drivers/gpu/drm/i915/gvt/mmio_info_table.h |   35 +
+ drivers/gpu/drm/i915/gvt/reg.h             |    9 +-
+ drivers/gpu/drm/i915/intel_gvt.c           |   42 +-
+ 9 files changed, 1775 insertions(+), 1598 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/gvt/mmio_info_table.c
+ create mode 100644 drivers/gpu/drm/i915/gvt/mmio_info_table.h
 
---XsQoSWH+UP9D9v3l
-Content-Type: application/gzip
-Content-Disposition: attachment; filename=".config.gz"
-Content-Transfer-Encoding: base64
+diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
+index cdc244bbbfc1..55603aebe3e4 100644
+--- a/drivers/gpu/drm/i915/Makefile
++++ b/drivers/gpu/drm/i915/Makefile
+@@ -309,7 +309,7 @@ i915-$(CONFIG_DRM_I915_SELFTEST) += \
+ i915-y += i915_vgpu.o
+ 
+ ifeq ($(CONFIG_DRM_I915_GVT),y)
+-i915-y += intel_gvt.o
++i915-y += intel_gvt.o gvt/mmio_info_table.o
+ include $(src)/gvt/Makefile
+ endif
+ 
+diff --git a/drivers/gpu/drm/i915/gvt/gvt.c b/drivers/gpu/drm/i915/gvt/gvt.c
+index cbac409f6c8a..c7580db355c0 100644
+--- a/drivers/gpu/drm/i915/gvt/gvt.c
++++ b/drivers/gpu/drm/i915/gvt/gvt.c
+@@ -63,23 +63,6 @@ static const struct intel_gvt_ops intel_gvt_ops = {
+ 	.emulate_hotplug = intel_vgpu_emulate_hotplug,
+ };
+ 
+-static void init_device_info(struct intel_gvt *gvt)
+-{
+-	struct intel_gvt_device_info *info = &gvt->device_info;
+-	struct pci_dev *pdev = to_pci_dev(gvt->gt->i915->drm.dev);
+-
+-	info->max_support_vgpus = 8;
+-	info->cfg_space_size = PCI_CFG_SPACE_EXP_SIZE;
+-	info->mmio_size = 2 * 1024 * 1024;
+-	info->mmio_bar = 0;
+-	info->gtt_start_offset = 8 * 1024 * 1024;
+-	info->gtt_entry_size = 8;
+-	info->gtt_entry_size_shift = 3;
+-	info->gmadr_bytes_in_cmd = 8;
+-	info->max_surface_size = 36 * 1024 * 1024;
+-	info->msi_cap_offset = pdev->msi_cap;
+-}
+-
+ static void intel_gvt_test_and_emulate_vblank(struct intel_gvt *gvt)
+ {
+ 	struct intel_vgpu *vgpu;
+@@ -169,7 +152,6 @@ void intel_gvt_clean_device(struct drm_i915_private *i915)
+ 	intel_gvt_clean_workload_scheduler(gvt);
+ 	intel_gvt_clean_gtt(gvt);
+ 	intel_gvt_free_firmware(gvt);
+-	intel_gvt_clean_mmio_info(gvt);
+ 	idr_destroy(&gvt->vgpu_idr);
+ 
+ 	kfree(i915->gvt);
+@@ -188,16 +170,12 @@ void intel_gvt_clean_device(struct drm_i915_private *i915)
+  */
+ int intel_gvt_init_device(struct drm_i915_private *i915)
+ {
+-	struct intel_gvt *gvt;
++	struct intel_gvt *gvt = i915->gvt;
+ 	struct intel_vgpu *vgpu;
+ 	int ret;
+ 
+-	if (drm_WARN_ON(&i915->drm, i915->gvt))
+-		return -EEXIST;
+-
+-	gvt = kzalloc(sizeof(struct intel_gvt), GFP_KERNEL);
+-	if (!gvt)
+-		return -ENOMEM;
++	if (drm_WARN_ON(&i915->drm, !i915->gvt))
++		return -ENODEV;
+ 
+ 	gvt_dbg_core("init gvt device\n");
+ 
+@@ -205,12 +183,8 @@ int intel_gvt_init_device(struct drm_i915_private *i915)
+ 	spin_lock_init(&gvt->scheduler.mmio_context_lock);
+ 	mutex_init(&gvt->lock);
+ 	mutex_init(&gvt->sched_lock);
+-	gvt->gt = &i915->gt;
+-	i915->gvt = gvt;
+-
+-	init_device_info(gvt);
+ 
+-	ret = intel_gvt_setup_mmio_info(gvt);
++	ret = intel_gvt_setup_mmio_handlers(gvt);
+ 	if (ret)
+ 		goto out_clean_idr;
+ 
+@@ -218,7 +192,7 @@ int intel_gvt_init_device(struct drm_i915_private *i915)
+ 
+ 	ret = intel_gvt_load_firmware(gvt);
+ 	if (ret)
+-		goto out_clean_mmio_info;
++		goto out_clean_idr;
+ 
+ 	ret = intel_gvt_init_irq(gvt);
+ 	if (ret)
+@@ -277,8 +251,6 @@ int intel_gvt_init_device(struct drm_i915_private *i915)
+ 	intel_gvt_clean_gtt(gvt);
+ out_free_firmware:
+ 	intel_gvt_free_firmware(gvt);
+-out_clean_mmio_info:
+-	intel_gvt_clean_mmio_info(gvt);
+ out_clean_idr:
+ 	idr_destroy(&gvt->vgpu_idr);
+ 	kfree(gvt);
+diff --git a/drivers/gpu/drm/i915/gvt/gvt.h b/drivers/gpu/drm/i915/gvt/gvt.h
+index 0c0615602343..76b192563212 100644
+--- a/drivers/gpu/drm/i915/gvt/gvt.h
++++ b/drivers/gpu/drm/i915/gvt/gvt.h
+@@ -40,6 +40,7 @@
+ #include "debug.h"
+ #include "hypercall.h"
+ #include "mmio.h"
++#include "mmio_info_table.h"
+ #include "reg.h"
+ #include "interrupt.h"
+ #include "gtt.h"
+diff --git a/drivers/gpu/drm/i915/gvt/handlers.c b/drivers/gpu/drm/i915/gvt/handlers.c
+index cde0a477fb49..2c064da3db6d 100644
+--- a/drivers/gpu/drm/i915/gvt/handlers.c
++++ b/drivers/gpu/drm/i915/gvt/handlers.c
+@@ -41,37 +41,6 @@
+ #include "i915_pvinfo.h"
+ #include "display/intel_display_types.h"
+ 
+-/* XXX FIXME i915 has changed PP_XXX definition */
+-#define PCH_PP_STATUS  _MMIO(0xc7200)
+-#define PCH_PP_CONTROL _MMIO(0xc7204)
+-#define PCH_PP_ON_DELAYS _MMIO(0xc7208)
+-#define PCH_PP_OFF_DELAYS _MMIO(0xc720c)
+-#define PCH_PP_DIVISOR _MMIO(0xc7210)
+-
+-unsigned long intel_gvt_get_device_type(struct intel_gvt *gvt)
+-{
+-	struct drm_i915_private *i915 = gvt->gt->i915;
+-
+-	if (IS_BROADWELL(i915))
+-		return D_BDW;
+-	else if (IS_SKYLAKE(i915))
+-		return D_SKL;
+-	else if (IS_KABYLAKE(i915))
+-		return D_KBL;
+-	else if (IS_BROXTON(i915))
+-		return D_BXT;
+-	else if (IS_COFFEELAKE(i915) || IS_COMETLAKE(i915))
+-		return D_CFL;
+-
+-	return 0;
+-}
+-
+-bool intel_gvt_match_device(struct intel_gvt *gvt,
+-		unsigned long device)
+-{
+-	return intel_gvt_get_device_type(gvt) & device;
+-}
+-
+ static void read_vreg(struct intel_vgpu *vgpu, unsigned int offset,
+ 	void *p_data, unsigned int bytes)
+ {
+@@ -84,24 +53,11 @@ static void write_vreg(struct intel_vgpu *vgpu, unsigned int offset,
+ 	memcpy(&vgpu_vreg(vgpu, offset), p_data, bytes);
+ }
+ 
+-struct intel_gvt_mmio_info *intel_gvt_find_mmio_info(struct intel_gvt *gvt,
+-						  unsigned int offset)
+-{
+-	struct intel_gvt_mmio_info *e;
+-
+-	hash_for_each_possible(gvt->mmio.mmio_info_table, e, node, offset) {
+-		if (e->offset == offset)
+-			return e;
+-	}
+-	return NULL;
+-}
+-
+-static int new_mmio_info(struct intel_gvt *gvt,
+-		u32 offset, u16 flags, u32 size,
+-		u32 addr_mask, u32 ro_mask, u32 device,
++static int setup_mmio_handler(struct intel_gvt *gvt,
++		u32 offset, u32 size, u32 device,
+ 		gvt_mmio_func read, gvt_mmio_func write)
+ {
+-	struct intel_gvt_mmio_info *info, *p;
++	struct intel_gvt_mmio_info *p;
+ 	u32 start, end, i;
+ 
+ 	if (!intel_gvt_match_device(gvt, device))
+@@ -114,32 +70,14 @@ static int new_mmio_info(struct intel_gvt *gvt,
+ 	end = offset + size;
+ 
+ 	for (i = start; i < end; i += 4) {
+-		info = kzalloc(sizeof(*info), GFP_KERNEL);
+-		if (!info)
+-			return -ENOMEM;
+-
+-		info->offset = i;
+-		p = intel_gvt_find_mmio_info(gvt, info->offset);
+-		if (p) {
+-			WARN(1, "dup mmio definition offset %x\n",
+-				info->offset);
+-			kfree(info);
+-
+-			/* We return -EEXIST here to make GVT-g load fail.
+-			 * So duplicated MMIO can be found as soon as
+-			 * possible.
+-			 */
+-			return -EEXIST;
++		p = intel_gvt_find_mmio_info(gvt, i);
++		if (!p) {
++			WARN(1, "assign a handler to a non-tracked mmio %x\n",
++				i);
++			return -ENODEV;
+ 		}
+-
+-		info->ro_mask = ro_mask;
+-		info->device = device;
+-		info->read = read ? read : intel_vgpu_default_mmio_read;
+-		info->write = write ? write : intel_vgpu_default_mmio_write;
+-		gvt->mmio.mmio_attribute[info->offset / 4] = flags;
+-		INIT_HLIST_NODE(&info->node);
+-		hash_add(gvt->mmio.mmio_info_table, &info->node, info->offset);
+-		gvt->mmio.num_tracked_mmio++;
++		p->read = read ? read : intel_vgpu_default_mmio_read;
++		p->write = write ? write : intel_vgpu_default_mmio_write;
+ 	}
+ 	return 0;
+ }
+@@ -2131,1498 +2069,249 @@ static int csfe_chicken1_mmio_write(struct intel_vgpu *vgpu,
+ 	return 0;
+ }
+ 
+-#define MMIO_F(reg, s, f, am, rm, d, r, w) do { \
+-	ret = new_mmio_info(gvt, i915_mmio_reg_offset(reg), \
+-		f, s, am, rm, d, r, w); \
++#define MMIO_F(reg, s, d, r, w) do { \
++	ret = setup_mmio_handler(gvt, i915_mmio_reg_offset(reg), \
++		s, d, r, w); \
+ 	if (ret) \
+ 		return ret; \
+ } while (0)
+ 
+-#define MMIO_D(reg, d) \
+-	MMIO_F(reg, 4, 0, 0, 0, d, NULL, NULL)
+-
+-#define MMIO_DH(reg, d, r, w) \
+-	MMIO_F(reg, 4, 0, 0, 0, d, r, w)
+-
+-#define MMIO_DFH(reg, d, f, r, w) \
+-	MMIO_F(reg, 4, f, 0, 0, d, r, w)
++#define MMIO_H(reg, d, r, w) \
++	MMIO_F(reg, 4, d, r, w)
+ 
+-#define MMIO_GM(reg, d, r, w) \
+-	MMIO_F(reg, 4, F_GMADR, 0xFFFFF000, 0, d, r, w)
+-
+-#define MMIO_GM_RDR(reg, d, r, w) \
+-	MMIO_F(reg, 4, F_GMADR | F_CMD_ACCESS, 0xFFFFF000, 0, d, r, w)
+-
+-#define MMIO_RO(reg, d, f, rm, r, w) \
+-	MMIO_F(reg, 4, F_RO | f, 0, rm, d, r, w)
+-
+-#define MMIO_RING_F(prefix, s, f, am, rm, d, r, w) do { \
+-	MMIO_F(prefix(RENDER_RING_BASE), s, f, am, rm, d, r, w); \
+-	MMIO_F(prefix(BLT_RING_BASE), s, f, am, rm, d, r, w); \
+-	MMIO_F(prefix(GEN6_BSD_RING_BASE), s, f, am, rm, d, r, w); \
+-	MMIO_F(prefix(VEBOX_RING_BASE), s, f, am, rm, d, r, w); \
++#define MMIO_RING_F(prefix, s, d, r, w) do { \
++	MMIO_F(prefix(RENDER_RING_BASE), s, d, r, w); \
++	MMIO_F(prefix(BLT_RING_BASE), s, d, r, w); \
++	MMIO_F(prefix(GEN6_BSD_RING_BASE), s, d, r, w); \
++	MMIO_F(prefix(VEBOX_RING_BASE), s, d, r, w); \
+ 	if (HAS_ENGINE(gvt->gt, VCS1)) \
+-		MMIO_F(prefix(GEN8_BSD2_RING_BASE), s, f, am, rm, d, r, w); \
++		MMIO_F(prefix(GEN8_BSD2_RING_BASE), s, d, r, w); \
+ } while (0)
+ 
+-#define MMIO_RING_D(prefix, d) \
+-	MMIO_RING_F(prefix, 4, 0, 0, 0, d, NULL, NULL)
+-
+-#define MMIO_RING_DFH(prefix, d, f, r, w) \
+-	MMIO_RING_F(prefix, 4, f, 0, 0, d, r, w)
+-
+-#define MMIO_RING_GM(prefix, d, r, w) \
+-	MMIO_RING_F(prefix, 4, F_GMADR, 0xFFFF0000, 0, d, r, w)
+-
+-#define MMIO_RING_GM_RDR(prefix, d, r, w) \
+-	MMIO_RING_F(prefix, 4, F_GMADR | F_CMD_ACCESS, 0xFFFF0000, 0, d, r, w)
++#define MMIO_RING_H(prefix, d, r, w) \
++	MMIO_RING_F(prefix, 4, d, r, w)
+ 
+-#define MMIO_RING_RO(prefix, d, f, rm, r, w) \
+-	MMIO_RING_F(prefix, 4, F_RO | f, 0, rm, d, r, w)
+-
+-static int init_generic_mmio_info(struct intel_gvt *gvt)
++static int init_generic_mmio_handlers(struct intel_gvt *gvt)
+ {
+ 	struct drm_i915_private *dev_priv = gvt->gt->i915;
+ 	int ret;
+ 
+-	MMIO_RING_DFH(RING_IMR, D_ALL, 0, NULL,
+-		intel_vgpu_reg_imr_handler);
+-
+-	MMIO_DFH(SDEIMR, D_ALL, 0, NULL, intel_vgpu_reg_imr_handler);
+-	MMIO_DFH(SDEIER, D_ALL, 0, NULL, intel_vgpu_reg_ier_handler);
+-	MMIO_DFH(SDEIIR, D_ALL, 0, NULL, intel_vgpu_reg_iir_handler);
+-	MMIO_D(SDEISR, D_ALL);
+-
+-	MMIO_RING_DFH(RING_HWSTAM, D_ALL, 0, NULL, NULL);
+-
+-
+-	MMIO_DH(GEN8_GAMW_ECO_DEV_RW_IA, D_BDW_PLUS, NULL,
+-		gamw_echo_dev_rw_ia_write);
+-
+-	MMIO_GM_RDR(BSD_HWS_PGA_GEN7, D_ALL, NULL, NULL);
+-	MMIO_GM_RDR(BLT_HWS_PGA_GEN7, D_ALL, NULL, NULL);
+-	MMIO_GM_RDR(VEBOX_HWS_PGA_GEN7, D_ALL, NULL, NULL);
+-
+-#define RING_REG(base) _MMIO((base) + 0x28)
+-	MMIO_RING_DFH(RING_REG, D_ALL, F_CMD_ACCESS, NULL, NULL);
+-#undef RING_REG
+-
+-#define RING_REG(base) _MMIO((base) + 0x134)
+-	MMIO_RING_DFH(RING_REG, D_ALL, F_CMD_ACCESS, NULL, NULL);
+-#undef RING_REG
++	MMIO_RING_H(RING_IMR, D_ALL, NULL, intel_vgpu_reg_imr_handler);
++	MMIO_H(SDEIMR, D_ALL, NULL, intel_vgpu_reg_imr_handler);
++	MMIO_H(SDEIER, D_ALL, NULL, intel_vgpu_reg_ier_handler);
++	MMIO_H(SDEIIR, D_ALL, NULL, intel_vgpu_reg_iir_handler);
++	MMIO_H(GEN8_GAMW_ECO_DEV_RW_IA, D_BDW_PLUS, NULL, gamw_echo_dev_rw_ia_write);
+ 
+ #define RING_REG(base) _MMIO((base) + 0x6c)
+-	MMIO_RING_DFH(RING_REG, D_ALL, 0, mmio_read_from_hw, NULL);
++	MMIO_RING_H(RING_REG, D_ALL, mmio_read_from_hw, NULL);
+ #undef RING_REG
+-	MMIO_DH(GEN7_SC_INSTDONE, D_BDW_PLUS, mmio_read_from_hw, NULL);
+-
+-	MMIO_GM_RDR(_MMIO(0x2148), D_ALL, NULL, NULL);
+-	MMIO_GM_RDR(CCID(RENDER_RING_BASE), D_ALL, NULL, NULL);
+-	MMIO_GM_RDR(_MMIO(0x12198), D_ALL, NULL, NULL);
+-	MMIO_D(GEN7_CXT_SIZE, D_ALL);
+ 
+-	MMIO_RING_DFH(RING_TAIL, D_ALL, 0, NULL, NULL);
+-	MMIO_RING_DFH(RING_HEAD, D_ALL, 0, NULL, NULL);
+-	MMIO_RING_DFH(RING_CTL, D_ALL, 0, NULL, NULL);
+-	MMIO_RING_DFH(RING_ACTHD, D_ALL, 0, mmio_read_from_hw, NULL);
+-	MMIO_RING_GM(RING_START, D_ALL, NULL, NULL);
++	MMIO_H(GEN7_SC_INSTDONE, D_BDW_PLUS, mmio_read_from_hw, NULL);
++	MMIO_RING_H(RING_ACTHD, D_ALL, mmio_read_from_hw, NULL);
+ 
+ 	/* RING MODE */
+ #define RING_REG(base) _MMIO((base) + 0x29c)
+-	MMIO_RING_DFH(RING_REG, D_ALL,
+-		F_MODE_MASK | F_CMD_ACCESS | F_CMD_WRITE_PATCH, NULL,
+-		ring_mode_mmio_write);
++	MMIO_RING_H(RING_REG, D_ALL, NULL, ring_mode_mmio_write);
+ #undef RING_REG
+ 
+-	MMIO_RING_DFH(RING_MI_MODE, D_ALL, F_MODE_MASK | F_CMD_ACCESS,
+-		NULL, NULL);
+-	MMIO_RING_DFH(RING_INSTPM, D_ALL, F_MODE_MASK | F_CMD_ACCESS,
+-			NULL, NULL);
+-	MMIO_RING_DFH(RING_TIMESTAMP, D_ALL, F_CMD_ACCESS,
+-			mmio_read_from_hw, NULL);
+-	MMIO_RING_DFH(RING_TIMESTAMP_UDW, D_ALL, F_CMD_ACCESS,
+-			mmio_read_from_hw, NULL);
+-
+-	MMIO_DFH(GEN7_GT_MODE, D_ALL, F_MODE_MASK | F_CMD_ACCESS, NULL, NULL);
+-	MMIO_DFH(CACHE_MODE_0_GEN7, D_ALL, F_MODE_MASK | F_CMD_ACCESS,
+-		NULL, NULL);
+-	MMIO_DFH(CACHE_MODE_1, D_ALL, F_MODE_MASK | F_CMD_ACCESS, NULL, NULL);
+-	MMIO_DFH(CACHE_MODE_0, D_ALL, F_MODE_MASK | F_CMD_ACCESS, NULL, NULL);
+-	MMIO_DFH(_MMIO(0x2124), D_ALL, F_MODE_MASK | F_CMD_ACCESS, NULL, NULL);
+-
+-	MMIO_DFH(_MMIO(0x20dc), D_ALL, F_MODE_MASK | F_CMD_ACCESS, NULL, NULL);
+-	MMIO_DFH(_3D_CHICKEN3, D_ALL, F_MODE_MASK | F_CMD_ACCESS, NULL, NULL);
+-	MMIO_DFH(_MMIO(0x2088), D_ALL, F_MODE_MASK | F_CMD_ACCESS, NULL, NULL);
+-	MMIO_DFH(FF_SLICE_CS_CHICKEN2, D_ALL,
+-		 F_MODE_MASK | F_CMD_ACCESS, NULL, NULL);
+-	MMIO_DFH(_MMIO(0x2470), D_ALL, F_MODE_MASK | F_CMD_ACCESS, NULL, NULL);
+-	MMIO_DFH(GAM_ECOCHK, D_ALL, F_CMD_ACCESS, NULL, NULL);
+-	MMIO_DFH(GEN7_COMMON_SLICE_CHICKEN1, D_ALL, F_MODE_MASK | F_CMD_ACCESS,
+-		NULL, NULL);
+-	MMIO_DFH(COMMON_SLICE_CHICKEN2, D_ALL, F_MODE_MASK | F_CMD_ACCESS,
+-		 NULL, NULL);
+-	MMIO_DFH(_MMIO(0x9030), D_ALL, F_CMD_ACCESS, NULL, NULL);
+-	MMIO_DFH(_MMIO(0x20a0), D_ALL, F_CMD_ACCESS, NULL, NULL);
+-	MMIO_DFH(_MMIO(0x2420), D_ALL, F_CMD_ACCESS, NULL, NULL);
+-	MMIO_DFH(_MMIO(0x2430), D_ALL, F_CMD_ACCESS, NULL, NULL);
+-	MMIO_DFH(_MMIO(0x2434), D_ALL, F_CMD_ACCESS, NULL, NULL);
+-	MMIO_DFH(_MMIO(0x2438), D_ALL, F_CMD_ACCESS, NULL, NULL);
+-	MMIO_DFH(_MMIO(0x243c), D_ALL, F_CMD_ACCESS, NULL, NULL);
+-	MMIO_DFH(_MMIO(0x7018), D_ALL, F_MODE_MASK | F_CMD_ACCESS, NULL, NULL);
+-	MMIO_DFH(HALF_SLICE_CHICKEN3, D_ALL, F_MODE_MASK | F_CMD_ACCESS, NULL, NULL);
+-	MMIO_DFH(GEN7_HALF_SLICE_CHICKEN1, D_ALL, F_MODE_MASK | F_CMD_ACCESS, NULL, NULL);
+-
+-	/* display */
+-	MMIO_F(_MMIO(0x60220), 0x20, 0, 0, 0, D_ALL, NULL, NULL);
+-	MMIO_D(_MMIO(0x602a0), D_ALL);
+-
+-	MMIO_D(_MMIO(0x65050), D_ALL);
+-	MMIO_D(_MMIO(0x650b4), D_ALL);
+-
+-	MMIO_D(_MMIO(0xc4040), D_ALL);
+-	MMIO_D(DERRMR, D_ALL);
+-
+-	MMIO_D(PIPEDSL(PIPE_A), D_ALL);
+-	MMIO_D(PIPEDSL(PIPE_B), D_ALL);
+-	MMIO_D(PIPEDSL(PIPE_C), D_ALL);
+-	MMIO_D(PIPEDSL(_PIPE_EDP), D_ALL);
+-
+-	MMIO_DH(PIPECONF(PIPE_A), D_ALL, NULL, pipeconf_mmio_write);
+-	MMIO_DH(PIPECONF(PIPE_B), D_ALL, NULL, pipeconf_mmio_write);
+-	MMIO_DH(PIPECONF(PIPE_C), D_ALL, NULL, pipeconf_mmio_write);
+-	MMIO_DH(PIPECONF(_PIPE_EDP), D_ALL, NULL, pipeconf_mmio_write);
+-
+-	MMIO_D(PIPESTAT(PIPE_A), D_ALL);
+-	MMIO_D(PIPESTAT(PIPE_B), D_ALL);
+-	MMIO_D(PIPESTAT(PIPE_C), D_ALL);
+-	MMIO_D(PIPESTAT(_PIPE_EDP), D_ALL);
+-
+-	MMIO_D(PIPE_FLIPCOUNT_G4X(PIPE_A), D_ALL);
+-	MMIO_D(PIPE_FLIPCOUNT_G4X(PIPE_B), D_ALL);
+-	MMIO_D(PIPE_FLIPCOUNT_G4X(PIPE_C), D_ALL);
+-	MMIO_D(PIPE_FLIPCOUNT_G4X(_PIPE_EDP), D_ALL);
+-
+-	MMIO_D(PIPE_FRMCOUNT_G4X(PIPE_A), D_ALL);
+-	MMIO_D(PIPE_FRMCOUNT_G4X(PIPE_B), D_ALL);
+-	MMIO_D(PIPE_FRMCOUNT_G4X(PIPE_C), D_ALL);
+-	MMIO_D(PIPE_FRMCOUNT_G4X(_PIPE_EDP), D_ALL);
+-
+-	MMIO_D(CURCNTR(PIPE_A), D_ALL);
+-	MMIO_D(CURCNTR(PIPE_B), D_ALL);
+-	MMIO_D(CURCNTR(PIPE_C), D_ALL);
+-
+-	MMIO_D(CURPOS(PIPE_A), D_ALL);
+-	MMIO_D(CURPOS(PIPE_B), D_ALL);
+-	MMIO_D(CURPOS(PIPE_C), D_ALL);
+-
+-	MMIO_D(CURBASE(PIPE_A), D_ALL);
+-	MMIO_D(CURBASE(PIPE_B), D_ALL);
+-	MMIO_D(CURBASE(PIPE_C), D_ALL);
+-
+-	MMIO_D(CUR_FBC_CTL(PIPE_A), D_ALL);
+-	MMIO_D(CUR_FBC_CTL(PIPE_B), D_ALL);
+-	MMIO_D(CUR_FBC_CTL(PIPE_C), D_ALL);
+-
+-	MMIO_D(_MMIO(0x700ac), D_ALL);
+-	MMIO_D(_MMIO(0x710ac), D_ALL);
+-	MMIO_D(_MMIO(0x720ac), D_ALL);
+-
+-	MMIO_D(_MMIO(0x70090), D_ALL);
+-	MMIO_D(_MMIO(0x70094), D_ALL);
+-	MMIO_D(_MMIO(0x70098), D_ALL);
+-	MMIO_D(_MMIO(0x7009c), D_ALL);
+-
+-	MMIO_D(DSPCNTR(PIPE_A), D_ALL);
+-	MMIO_D(DSPADDR(PIPE_A), D_ALL);
+-	MMIO_D(DSPSTRIDE(PIPE_A), D_ALL);
+-	MMIO_D(DSPPOS(PIPE_A), D_ALL);
+-	MMIO_D(DSPSIZE(PIPE_A), D_ALL);
+-	MMIO_DH(DSPSURF(PIPE_A), D_ALL, NULL, pri_surf_mmio_write);
+-	MMIO_D(DSPOFFSET(PIPE_A), D_ALL);
+-	MMIO_D(DSPSURFLIVE(PIPE_A), D_ALL);
+-	MMIO_DH(REG_50080(PIPE_A, PLANE_PRIMARY), D_ALL, NULL,
+-		reg50080_mmio_write);
+-
+-	MMIO_D(DSPCNTR(PIPE_B), D_ALL);
+-	MMIO_D(DSPADDR(PIPE_B), D_ALL);
+-	MMIO_D(DSPSTRIDE(PIPE_B), D_ALL);
+-	MMIO_D(DSPPOS(PIPE_B), D_ALL);
+-	MMIO_D(DSPSIZE(PIPE_B), D_ALL);
+-	MMIO_DH(DSPSURF(PIPE_B), D_ALL, NULL, pri_surf_mmio_write);
+-	MMIO_D(DSPOFFSET(PIPE_B), D_ALL);
+-	MMIO_D(DSPSURFLIVE(PIPE_B), D_ALL);
+-	MMIO_DH(REG_50080(PIPE_B, PLANE_PRIMARY), D_ALL, NULL,
+-		reg50080_mmio_write);
+-
+-	MMIO_D(DSPCNTR(PIPE_C), D_ALL);
+-	MMIO_D(DSPADDR(PIPE_C), D_ALL);
+-	MMIO_D(DSPSTRIDE(PIPE_C), D_ALL);
+-	MMIO_D(DSPPOS(PIPE_C), D_ALL);
+-	MMIO_D(DSPSIZE(PIPE_C), D_ALL);
+-	MMIO_DH(DSPSURF(PIPE_C), D_ALL, NULL, pri_surf_mmio_write);
+-	MMIO_D(DSPOFFSET(PIPE_C), D_ALL);
+-	MMIO_D(DSPSURFLIVE(PIPE_C), D_ALL);
+-	MMIO_DH(REG_50080(PIPE_C, PLANE_PRIMARY), D_ALL, NULL,
+-		reg50080_mmio_write);
+-
+-	MMIO_D(SPRCTL(PIPE_A), D_ALL);
+-	MMIO_D(SPRLINOFF(PIPE_A), D_ALL);
+-	MMIO_D(SPRSTRIDE(PIPE_A), D_ALL);
+-	MMIO_D(SPRPOS(PIPE_A), D_ALL);
+-	MMIO_D(SPRSIZE(PIPE_A), D_ALL);
+-	MMIO_D(SPRKEYVAL(PIPE_A), D_ALL);
+-	MMIO_D(SPRKEYMSK(PIPE_A), D_ALL);
+-	MMIO_DH(SPRSURF(PIPE_A), D_ALL, NULL, spr_surf_mmio_write);
+-	MMIO_D(SPRKEYMAX(PIPE_A), D_ALL);
+-	MMIO_D(SPROFFSET(PIPE_A), D_ALL);
+-	MMIO_D(SPRSCALE(PIPE_A), D_ALL);
+-	MMIO_D(SPRSURFLIVE(PIPE_A), D_ALL);
+-	MMIO_DH(REG_50080(PIPE_A, PLANE_SPRITE0), D_ALL, NULL,
+-		reg50080_mmio_write);
+-
+-	MMIO_D(SPRCTL(PIPE_B), D_ALL);
+-	MMIO_D(SPRLINOFF(PIPE_B), D_ALL);
+-	MMIO_D(SPRSTRIDE(PIPE_B), D_ALL);
+-	MMIO_D(SPRPOS(PIPE_B), D_ALL);
+-	MMIO_D(SPRSIZE(PIPE_B), D_ALL);
+-	MMIO_D(SPRKEYVAL(PIPE_B), D_ALL);
+-	MMIO_D(SPRKEYMSK(PIPE_B), D_ALL);
+-	MMIO_DH(SPRSURF(PIPE_B), D_ALL, NULL, spr_surf_mmio_write);
+-	MMIO_D(SPRKEYMAX(PIPE_B), D_ALL);
+-	MMIO_D(SPROFFSET(PIPE_B), D_ALL);
+-	MMIO_D(SPRSCALE(PIPE_B), D_ALL);
+-	MMIO_D(SPRSURFLIVE(PIPE_B), D_ALL);
+-	MMIO_DH(REG_50080(PIPE_B, PLANE_SPRITE0), D_ALL, NULL,
+-		reg50080_mmio_write);
+-
+-	MMIO_D(SPRCTL(PIPE_C), D_ALL);
+-	MMIO_D(SPRLINOFF(PIPE_C), D_ALL);
+-	MMIO_D(SPRSTRIDE(PIPE_C), D_ALL);
+-	MMIO_D(SPRPOS(PIPE_C), D_ALL);
+-	MMIO_D(SPRSIZE(PIPE_C), D_ALL);
+-	MMIO_D(SPRKEYVAL(PIPE_C), D_ALL);
+-	MMIO_D(SPRKEYMSK(PIPE_C), D_ALL);
+-	MMIO_DH(SPRSURF(PIPE_C), D_ALL, NULL, spr_surf_mmio_write);
+-	MMIO_D(SPRKEYMAX(PIPE_C), D_ALL);
+-	MMIO_D(SPROFFSET(PIPE_C), D_ALL);
+-	MMIO_D(SPRSCALE(PIPE_C), D_ALL);
+-	MMIO_D(SPRSURFLIVE(PIPE_C), D_ALL);
+-	MMIO_DH(REG_50080(PIPE_C, PLANE_SPRITE0), D_ALL, NULL,
+-		reg50080_mmio_write);
+-
+-	MMIO_D(HTOTAL(TRANSCODER_A), D_ALL);
+-	MMIO_D(HBLANK(TRANSCODER_A), D_ALL);
+-	MMIO_D(HSYNC(TRANSCODER_A), D_ALL);
+-	MMIO_D(VTOTAL(TRANSCODER_A), D_ALL);
+-	MMIO_D(VBLANK(TRANSCODER_A), D_ALL);
+-	MMIO_D(VSYNC(TRANSCODER_A), D_ALL);
+-	MMIO_D(BCLRPAT(TRANSCODER_A), D_ALL);
+-	MMIO_D(VSYNCSHIFT(TRANSCODER_A), D_ALL);
+-	MMIO_D(PIPESRC(TRANSCODER_A), D_ALL);
+-
+-	MMIO_D(HTOTAL(TRANSCODER_B), D_ALL);
+-	MMIO_D(HBLANK(TRANSCODER_B), D_ALL);
+-	MMIO_D(HSYNC(TRANSCODER_B), D_ALL);
+-	MMIO_D(VTOTAL(TRANSCODER_B), D_ALL);
+-	MMIO_D(VBLANK(TRANSCODER_B), D_ALL);
+-	MMIO_D(VSYNC(TRANSCODER_B), D_ALL);
+-	MMIO_D(BCLRPAT(TRANSCODER_B), D_ALL);
+-	MMIO_D(VSYNCSHIFT(TRANSCODER_B), D_ALL);
+-	MMIO_D(PIPESRC(TRANSCODER_B), D_ALL);
+-
+-	MMIO_D(HTOTAL(TRANSCODER_C), D_ALL);
+-	MMIO_D(HBLANK(TRANSCODER_C), D_ALL);
+-	MMIO_D(HSYNC(TRANSCODER_C), D_ALL);
+-	MMIO_D(VTOTAL(TRANSCODER_C), D_ALL);
+-	MMIO_D(VBLANK(TRANSCODER_C), D_ALL);
+-	MMIO_D(VSYNC(TRANSCODER_C), D_ALL);
+-	MMIO_D(BCLRPAT(TRANSCODER_C), D_ALL);
+-	MMIO_D(VSYNCSHIFT(TRANSCODER_C), D_ALL);
+-	MMIO_D(PIPESRC(TRANSCODER_C), D_ALL);
+-
+-	MMIO_D(HTOTAL(TRANSCODER_EDP), D_ALL);
+-	MMIO_D(HBLANK(TRANSCODER_EDP), D_ALL);
+-	MMIO_D(HSYNC(TRANSCODER_EDP), D_ALL);
+-	MMIO_D(VTOTAL(TRANSCODER_EDP), D_ALL);
+-	MMIO_D(VBLANK(TRANSCODER_EDP), D_ALL);
+-	MMIO_D(VSYNC(TRANSCODER_EDP), D_ALL);
+-	MMIO_D(BCLRPAT(TRANSCODER_EDP), D_ALL);
+-	MMIO_D(VSYNCSHIFT(TRANSCODER_EDP), D_ALL);
+-
+-	MMIO_D(PIPE_DATA_M1(TRANSCODER_A), D_ALL);
+-	MMIO_D(PIPE_DATA_N1(TRANSCODER_A), D_ALL);
+-	MMIO_D(PIPE_DATA_M2(TRANSCODER_A), D_ALL);
+-	MMIO_D(PIPE_DATA_N2(TRANSCODER_A), D_ALL);
+-	MMIO_D(PIPE_LINK_M1(TRANSCODER_A), D_ALL);
+-	MMIO_D(PIPE_LINK_N1(TRANSCODER_A), D_ALL);
+-	MMIO_D(PIPE_LINK_M2(TRANSCODER_A), D_ALL);
+-	MMIO_D(PIPE_LINK_N2(TRANSCODER_A), D_ALL);
+-
+-	MMIO_D(PIPE_DATA_M1(TRANSCODER_B), D_ALL);
+-	MMIO_D(PIPE_DATA_N1(TRANSCODER_B), D_ALL);
+-	MMIO_D(PIPE_DATA_M2(TRANSCODER_B), D_ALL);
+-	MMIO_D(PIPE_DATA_N2(TRANSCODER_B), D_ALL);
+-	MMIO_D(PIPE_LINK_M1(TRANSCODER_B), D_ALL);
+-	MMIO_D(PIPE_LINK_N1(TRANSCODER_B), D_ALL);
+-	MMIO_D(PIPE_LINK_M2(TRANSCODER_B), D_ALL);
+-	MMIO_D(PIPE_LINK_N2(TRANSCODER_B), D_ALL);
+-
+-	MMIO_D(PIPE_DATA_M1(TRANSCODER_C), D_ALL);
+-	MMIO_D(PIPE_DATA_N1(TRANSCODER_C), D_ALL);
+-	MMIO_D(PIPE_DATA_M2(TRANSCODER_C), D_ALL);
+-	MMIO_D(PIPE_DATA_N2(TRANSCODER_C), D_ALL);
+-	MMIO_D(PIPE_LINK_M1(TRANSCODER_C), D_ALL);
+-	MMIO_D(PIPE_LINK_N1(TRANSCODER_C), D_ALL);
+-	MMIO_D(PIPE_LINK_M2(TRANSCODER_C), D_ALL);
+-	MMIO_D(PIPE_LINK_N2(TRANSCODER_C), D_ALL);
+-
+-	MMIO_D(PIPE_DATA_M1(TRANSCODER_EDP), D_ALL);
+-	MMIO_D(PIPE_DATA_N1(TRANSCODER_EDP), D_ALL);
+-	MMIO_D(PIPE_DATA_M2(TRANSCODER_EDP), D_ALL);
+-	MMIO_D(PIPE_DATA_N2(TRANSCODER_EDP), D_ALL);
+-	MMIO_D(PIPE_LINK_M1(TRANSCODER_EDP), D_ALL);
+-	MMIO_D(PIPE_LINK_N1(TRANSCODER_EDP), D_ALL);
+-	MMIO_D(PIPE_LINK_M2(TRANSCODER_EDP), D_ALL);
+-	MMIO_D(PIPE_LINK_N2(TRANSCODER_EDP), D_ALL);
+-
+-	MMIO_D(PF_CTL(PIPE_A), D_ALL);
+-	MMIO_D(PF_WIN_SZ(PIPE_A), D_ALL);
+-	MMIO_D(PF_WIN_POS(PIPE_A), D_ALL);
+-	MMIO_D(PF_VSCALE(PIPE_A), D_ALL);
+-	MMIO_D(PF_HSCALE(PIPE_A), D_ALL);
+-
+-	MMIO_D(PF_CTL(PIPE_B), D_ALL);
+-	MMIO_D(PF_WIN_SZ(PIPE_B), D_ALL);
+-	MMIO_D(PF_WIN_POS(PIPE_B), D_ALL);
+-	MMIO_D(PF_VSCALE(PIPE_B), D_ALL);
+-	MMIO_D(PF_HSCALE(PIPE_B), D_ALL);
+-
+-	MMIO_D(PF_CTL(PIPE_C), D_ALL);
+-	MMIO_D(PF_WIN_SZ(PIPE_C), D_ALL);
+-	MMIO_D(PF_WIN_POS(PIPE_C), D_ALL);
+-	MMIO_D(PF_VSCALE(PIPE_C), D_ALL);
+-	MMIO_D(PF_HSCALE(PIPE_C), D_ALL);
+-
+-	MMIO_D(WM0_PIPE_ILK(PIPE_A), D_ALL);
+-	MMIO_D(WM0_PIPE_ILK(PIPE_B), D_ALL);
+-	MMIO_D(WM0_PIPE_ILK(PIPE_C), D_ALL);
+-	MMIO_D(WM1_LP_ILK, D_ALL);
+-	MMIO_D(WM2_LP_ILK, D_ALL);
+-	MMIO_D(WM3_LP_ILK, D_ALL);
+-	MMIO_D(WM1S_LP_ILK, D_ALL);
+-	MMIO_D(WM2S_LP_IVB, D_ALL);
+-	MMIO_D(WM3S_LP_IVB, D_ALL);
+-
+-	MMIO_D(BLC_PWM_CPU_CTL2, D_ALL);
+-	MMIO_D(BLC_PWM_CPU_CTL, D_ALL);
+-	MMIO_D(BLC_PWM_PCH_CTL1, D_ALL);
+-	MMIO_D(BLC_PWM_PCH_CTL2, D_ALL);
+-
+-	MMIO_D(_MMIO(0x48268), D_ALL);
+-
+-	MMIO_F(PCH_GMBUS0, 4 * 4, 0, 0, 0, D_ALL, gmbus_mmio_read,
+-		gmbus_mmio_write);
+-	MMIO_F(PCH_GPIO_BASE, 6 * 4, F_UNALIGN, 0, 0, D_ALL, NULL, NULL);
+-	MMIO_F(_MMIO(0xe4f00), 0x28, 0, 0, 0, D_ALL, NULL, NULL);
+-
+-	MMIO_F(_MMIO(_PCH_DPB_AUX_CH_CTL), 6 * 4, 0, 0, 0, D_PRE_SKL, NULL,
+-		dp_aux_ch_ctl_mmio_write);
+-	MMIO_F(_MMIO(_PCH_DPC_AUX_CH_CTL), 6 * 4, 0, 0, 0, D_PRE_SKL, NULL,
+-		dp_aux_ch_ctl_mmio_write);
+-	MMIO_F(_MMIO(_PCH_DPD_AUX_CH_CTL), 6 * 4, 0, 0, 0, D_PRE_SKL, NULL,
+-		dp_aux_ch_ctl_mmio_write);
+-
+-	MMIO_DH(PCH_ADPA, D_PRE_SKL, NULL, pch_adpa_mmio_write);
+-
+-	MMIO_DH(_MMIO(_PCH_TRANSACONF), D_ALL, NULL, transconf_mmio_write);
+-	MMIO_DH(_MMIO(_PCH_TRANSBCONF), D_ALL, NULL, transconf_mmio_write);
+-
+-	MMIO_DH(FDI_RX_IIR(PIPE_A), D_ALL, NULL, fdi_rx_iir_mmio_write);
+-	MMIO_DH(FDI_RX_IIR(PIPE_B), D_ALL, NULL, fdi_rx_iir_mmio_write);
+-	MMIO_DH(FDI_RX_IIR(PIPE_C), D_ALL, NULL, fdi_rx_iir_mmio_write);
+-	MMIO_DH(FDI_RX_IMR(PIPE_A), D_ALL, NULL, update_fdi_rx_iir_status);
+-	MMIO_DH(FDI_RX_IMR(PIPE_B), D_ALL, NULL, update_fdi_rx_iir_status);
+-	MMIO_DH(FDI_RX_IMR(PIPE_C), D_ALL, NULL, update_fdi_rx_iir_status);
+-	MMIO_DH(FDI_RX_CTL(PIPE_A), D_ALL, NULL, update_fdi_rx_iir_status);
+-	MMIO_DH(FDI_RX_CTL(PIPE_B), D_ALL, NULL, update_fdi_rx_iir_status);
+-	MMIO_DH(FDI_RX_CTL(PIPE_C), D_ALL, NULL, update_fdi_rx_iir_status);
+-
+-	MMIO_D(_MMIO(_PCH_TRANS_HTOTAL_A), D_ALL);
+-	MMIO_D(_MMIO(_PCH_TRANS_HBLANK_A), D_ALL);
+-	MMIO_D(_MMIO(_PCH_TRANS_HSYNC_A), D_ALL);
+-	MMIO_D(_MMIO(_PCH_TRANS_VTOTAL_A), D_ALL);
+-	MMIO_D(_MMIO(_PCH_TRANS_VBLANK_A), D_ALL);
+-	MMIO_D(_MMIO(_PCH_TRANS_VSYNC_A), D_ALL);
+-	MMIO_D(_MMIO(_PCH_TRANS_VSYNCSHIFT_A), D_ALL);
+-
+-	MMIO_D(_MMIO(_PCH_TRANS_HTOTAL_B), D_ALL);
+-	MMIO_D(_MMIO(_PCH_TRANS_HBLANK_B), D_ALL);
+-	MMIO_D(_MMIO(_PCH_TRANS_HSYNC_B), D_ALL);
+-	MMIO_D(_MMIO(_PCH_TRANS_VTOTAL_B), D_ALL);
+-	MMIO_D(_MMIO(_PCH_TRANS_VBLANK_B), D_ALL);
+-	MMIO_D(_MMIO(_PCH_TRANS_VSYNC_B), D_ALL);
+-	MMIO_D(_MMIO(_PCH_TRANS_VSYNCSHIFT_B), D_ALL);
+-
+-	MMIO_D(_MMIO(_PCH_TRANSA_DATA_M1), D_ALL);
+-	MMIO_D(_MMIO(_PCH_TRANSA_DATA_N1), D_ALL);
+-	MMIO_D(_MMIO(_PCH_TRANSA_DATA_M2), D_ALL);
+-	MMIO_D(_MMIO(_PCH_TRANSA_DATA_N2), D_ALL);
+-	MMIO_D(_MMIO(_PCH_TRANSA_LINK_M1), D_ALL);
+-	MMIO_D(_MMIO(_PCH_TRANSA_LINK_N1), D_ALL);
+-	MMIO_D(_MMIO(_PCH_TRANSA_LINK_M2), D_ALL);
+-	MMIO_D(_MMIO(_PCH_TRANSA_LINK_N2), D_ALL);
+-
+-	MMIO_D(TRANS_DP_CTL(PIPE_A), D_ALL);
+-	MMIO_D(TRANS_DP_CTL(PIPE_B), D_ALL);
+-	MMIO_D(TRANS_DP_CTL(PIPE_C), D_ALL);
+-
+-	MMIO_D(TVIDEO_DIP_CTL(PIPE_A), D_ALL);
+-	MMIO_D(TVIDEO_DIP_DATA(PIPE_A), D_ALL);
+-	MMIO_D(TVIDEO_DIP_GCP(PIPE_A), D_ALL);
+-
+-	MMIO_D(TVIDEO_DIP_CTL(PIPE_B), D_ALL);
+-	MMIO_D(TVIDEO_DIP_DATA(PIPE_B), D_ALL);
+-	MMIO_D(TVIDEO_DIP_GCP(PIPE_B), D_ALL);
+-
+-	MMIO_D(TVIDEO_DIP_CTL(PIPE_C), D_ALL);
+-	MMIO_D(TVIDEO_DIP_DATA(PIPE_C), D_ALL);
+-	MMIO_D(TVIDEO_DIP_GCP(PIPE_C), D_ALL);
+-
+-	MMIO_D(_MMIO(_FDI_RXA_MISC), D_ALL);
+-	MMIO_D(_MMIO(_FDI_RXB_MISC), D_ALL);
+-	MMIO_D(_MMIO(_FDI_RXA_TUSIZE1), D_ALL);
+-	MMIO_D(_MMIO(_FDI_RXA_TUSIZE2), D_ALL);
+-	MMIO_D(_MMIO(_FDI_RXB_TUSIZE1), D_ALL);
+-	MMIO_D(_MMIO(_FDI_RXB_TUSIZE2), D_ALL);
+-
+-	MMIO_DH(PCH_PP_CONTROL, D_ALL, NULL, pch_pp_control_mmio_write);
+-	MMIO_D(PCH_PP_DIVISOR, D_ALL);
+-	MMIO_D(PCH_PP_STATUS,  D_ALL);
+-	MMIO_D(PCH_LVDS, D_ALL);
+-	MMIO_D(_MMIO(_PCH_DPLL_A), D_ALL);
+-	MMIO_D(_MMIO(_PCH_DPLL_B), D_ALL);
+-	MMIO_D(_MMIO(_PCH_FPA0), D_ALL);
+-	MMIO_D(_MMIO(_PCH_FPA1), D_ALL);
+-	MMIO_D(_MMIO(_PCH_FPB0), D_ALL);
+-	MMIO_D(_MMIO(_PCH_FPB1), D_ALL);
+-	MMIO_D(PCH_DREF_CONTROL, D_ALL);
+-	MMIO_D(PCH_RAWCLK_FREQ, D_ALL);
+-	MMIO_D(PCH_DPLL_SEL, D_ALL);
+-
+-	MMIO_D(_MMIO(0x61208), D_ALL);
+-	MMIO_D(_MMIO(0x6120c), D_ALL);
+-	MMIO_D(PCH_PP_ON_DELAYS, D_ALL);
+-	MMIO_D(PCH_PP_OFF_DELAYS, D_ALL);
+-
+-	MMIO_DH(_MMIO(0xe651c), D_ALL, dpy_reg_mmio_read, NULL);
+-	MMIO_DH(_MMIO(0xe661c), D_ALL, dpy_reg_mmio_read, NULL);
+-	MMIO_DH(_MMIO(0xe671c), D_ALL, dpy_reg_mmio_read, NULL);
+-	MMIO_DH(_MMIO(0xe681c), D_ALL, dpy_reg_mmio_read, NULL);
+-	MMIO_DH(_MMIO(0xe6c04), D_ALL, dpy_reg_mmio_read, NULL);
+-	MMIO_DH(_MMIO(0xe6e1c), D_ALL, dpy_reg_mmio_read, NULL);
+-
+-	MMIO_RO(PCH_PORT_HOTPLUG, D_ALL, 0,
+-		PORTA_HOTPLUG_STATUS_MASK
+-		| PORTB_HOTPLUG_STATUS_MASK
+-		| PORTC_HOTPLUG_STATUS_MASK
+-		| PORTD_HOTPLUG_STATUS_MASK,
+-		NULL, NULL);
+-
+-	MMIO_DH(LCPLL_CTL, D_ALL, NULL, lcpll_ctl_mmio_write);
+-	MMIO_D(FUSE_STRAP, D_ALL);
+-	MMIO_D(DIGITAL_PORT_HOTPLUG_CNTRL, D_ALL);
+-
+-	MMIO_D(DISP_ARB_CTL, D_ALL);
+-	MMIO_D(DISP_ARB_CTL2, D_ALL);
+-
+-	MMIO_D(ILK_DISPLAY_CHICKEN1, D_ALL);
+-	MMIO_D(ILK_DISPLAY_CHICKEN2, D_ALL);
+-	MMIO_D(ILK_DSPCLK_GATE_D, D_ALL);
+-
+-	MMIO_D(SOUTH_CHICKEN1, D_ALL);
+-	MMIO_DH(SOUTH_CHICKEN2, D_ALL, NULL, south_chicken2_mmio_write);
+-	MMIO_D(_MMIO(_TRANSA_CHICKEN1), D_ALL);
+-	MMIO_D(_MMIO(_TRANSB_CHICKEN1), D_ALL);
+-	MMIO_D(SOUTH_DSPCLK_GATE_D, D_ALL);
+-	MMIO_D(_MMIO(_TRANSA_CHICKEN2), D_ALL);
+-	MMIO_D(_MMIO(_TRANSB_CHICKEN2), D_ALL);
+-
+-	MMIO_D(ILK_DPFC_CB_BASE, D_ALL);
+-	MMIO_D(ILK_DPFC_CONTROL, D_ALL);
+-	MMIO_D(ILK_DPFC_RECOMP_CTL, D_ALL);
+-	MMIO_D(ILK_DPFC_STATUS, D_ALL);
+-	MMIO_D(ILK_DPFC_FENCE_YOFF, D_ALL);
+-	MMIO_D(ILK_DPFC_CHICKEN, D_ALL);
+-	MMIO_D(ILK_FBC_RT_BASE, D_ALL);
+-
+-	MMIO_D(IPS_CTL, D_ALL);
+-
+-	MMIO_D(PIPE_CSC_COEFF_RY_GY(PIPE_A), D_ALL);
+-	MMIO_D(PIPE_CSC_COEFF_BY(PIPE_A), D_ALL);
+-	MMIO_D(PIPE_CSC_COEFF_RU_GU(PIPE_A), D_ALL);
+-	MMIO_D(PIPE_CSC_COEFF_BU(PIPE_A), D_ALL);
+-	MMIO_D(PIPE_CSC_COEFF_RV_GV(PIPE_A), D_ALL);
+-	MMIO_D(PIPE_CSC_COEFF_BV(PIPE_A), D_ALL);
+-	MMIO_D(PIPE_CSC_MODE(PIPE_A), D_ALL);
+-	MMIO_D(PIPE_CSC_PREOFF_HI(PIPE_A), D_ALL);
+-	MMIO_D(PIPE_CSC_PREOFF_ME(PIPE_A), D_ALL);
+-	MMIO_D(PIPE_CSC_PREOFF_LO(PIPE_A), D_ALL);
+-	MMIO_D(PIPE_CSC_POSTOFF_HI(PIPE_A), D_ALL);
+-	MMIO_D(PIPE_CSC_POSTOFF_ME(PIPE_A), D_ALL);
+-	MMIO_D(PIPE_CSC_POSTOFF_LO(PIPE_A), D_ALL);
+-
+-	MMIO_D(PIPE_CSC_COEFF_RY_GY(PIPE_B), D_ALL);
+-	MMIO_D(PIPE_CSC_COEFF_BY(PIPE_B), D_ALL);
+-	MMIO_D(PIPE_CSC_COEFF_RU_GU(PIPE_B), D_ALL);
+-	MMIO_D(PIPE_CSC_COEFF_BU(PIPE_B), D_ALL);
+-	MMIO_D(PIPE_CSC_COEFF_RV_GV(PIPE_B), D_ALL);
+-	MMIO_D(PIPE_CSC_COEFF_BV(PIPE_B), D_ALL);
+-	MMIO_D(PIPE_CSC_MODE(PIPE_B), D_ALL);
+-	MMIO_D(PIPE_CSC_PREOFF_HI(PIPE_B), D_ALL);
+-	MMIO_D(PIPE_CSC_PREOFF_ME(PIPE_B), D_ALL);
+-	MMIO_D(PIPE_CSC_PREOFF_LO(PIPE_B), D_ALL);
+-	MMIO_D(PIPE_CSC_POSTOFF_HI(PIPE_B), D_ALL);
+-	MMIO_D(PIPE_CSC_POSTOFF_ME(PIPE_B), D_ALL);
+-	MMIO_D(PIPE_CSC_POSTOFF_LO(PIPE_B), D_ALL);
+-
+-	MMIO_D(PIPE_CSC_COEFF_RY_GY(PIPE_C), D_ALL);
+-	MMIO_D(PIPE_CSC_COEFF_BY(PIPE_C), D_ALL);
+-	MMIO_D(PIPE_CSC_COEFF_RU_GU(PIPE_C), D_ALL);
+-	MMIO_D(PIPE_CSC_COEFF_BU(PIPE_C), D_ALL);
+-	MMIO_D(PIPE_CSC_COEFF_RV_GV(PIPE_C), D_ALL);
+-	MMIO_D(PIPE_CSC_COEFF_BV(PIPE_C), D_ALL);
+-	MMIO_D(PIPE_CSC_MODE(PIPE_C), D_ALL);
+-	MMIO_D(PIPE_CSC_PREOFF_HI(PIPE_C), D_ALL);
+-	MMIO_D(PIPE_CSC_PREOFF_ME(PIPE_C), D_ALL);
+-	MMIO_D(PIPE_CSC_PREOFF_LO(PIPE_C), D_ALL);
+-	MMIO_D(PIPE_CSC_POSTOFF_HI(PIPE_C), D_ALL);
+-	MMIO_D(PIPE_CSC_POSTOFF_ME(PIPE_C), D_ALL);
+-	MMIO_D(PIPE_CSC_POSTOFF_LO(PIPE_C), D_ALL);
+-
+-	MMIO_D(PREC_PAL_INDEX(PIPE_A), D_ALL);
+-	MMIO_D(PREC_PAL_DATA(PIPE_A), D_ALL);
+-	MMIO_F(PREC_PAL_GC_MAX(PIPE_A, 0), 4 * 3, 0, 0, 0, D_ALL, NULL, NULL);
+-
+-	MMIO_D(PREC_PAL_INDEX(PIPE_B), D_ALL);
+-	MMIO_D(PREC_PAL_DATA(PIPE_B), D_ALL);
+-	MMIO_F(PREC_PAL_GC_MAX(PIPE_B, 0), 4 * 3, 0, 0, 0, D_ALL, NULL, NULL);
+-
+-	MMIO_D(PREC_PAL_INDEX(PIPE_C), D_ALL);
+-	MMIO_D(PREC_PAL_DATA(PIPE_C), D_ALL);
+-	MMIO_F(PREC_PAL_GC_MAX(PIPE_C, 0), 4 * 3, 0, 0, 0, D_ALL, NULL, NULL);
+-
+-	MMIO_D(_MMIO(0x60110), D_ALL);
+-	MMIO_D(_MMIO(0x61110), D_ALL);
+-	MMIO_F(_MMIO(0x70400), 0x40, 0, 0, 0, D_ALL, NULL, NULL);
+-	MMIO_F(_MMIO(0x71400), 0x40, 0, 0, 0, D_ALL, NULL, NULL);
+-	MMIO_F(_MMIO(0x72400), 0x40, 0, 0, 0, D_ALL, NULL, NULL);
+-	MMIO_F(_MMIO(0x70440), 0xc, 0, 0, 0, D_PRE_SKL, NULL, NULL);
+-	MMIO_F(_MMIO(0x71440), 0xc, 0, 0, 0, D_PRE_SKL, NULL, NULL);
+-	MMIO_F(_MMIO(0x72440), 0xc, 0, 0, 0, D_PRE_SKL, NULL, NULL);
+-	MMIO_F(_MMIO(0x7044c), 0xc, 0, 0, 0, D_PRE_SKL, NULL, NULL);
+-	MMIO_F(_MMIO(0x7144c), 0xc, 0, 0, 0, D_PRE_SKL, NULL, NULL);
+-	MMIO_F(_MMIO(0x7244c), 0xc, 0, 0, 0, D_PRE_SKL, NULL, NULL);
+-
+-	MMIO_D(WM_LINETIME(PIPE_A), D_ALL);
+-	MMIO_D(WM_LINETIME(PIPE_B), D_ALL);
+-	MMIO_D(WM_LINETIME(PIPE_C), D_ALL);
+-	MMIO_D(SPLL_CTL, D_ALL);
+-	MMIO_D(_MMIO(_WRPLL_CTL1), D_ALL);
+-	MMIO_D(_MMIO(_WRPLL_CTL2), D_ALL);
+-	MMIO_D(PORT_CLK_SEL(PORT_A), D_ALL);
+-	MMIO_D(PORT_CLK_SEL(PORT_B), D_ALL);
+-	MMIO_D(PORT_CLK_SEL(PORT_C), D_ALL);
+-	MMIO_D(PORT_CLK_SEL(PORT_D), D_ALL);
+-	MMIO_D(PORT_CLK_SEL(PORT_E), D_ALL);
+-	MMIO_D(TRANS_CLK_SEL(TRANSCODER_A), D_ALL);
+-	MMIO_D(TRANS_CLK_SEL(TRANSCODER_B), D_ALL);
+-	MMIO_D(TRANS_CLK_SEL(TRANSCODER_C), D_ALL);
+-
+-	MMIO_D(HSW_NDE_RSTWRN_OPT, D_ALL);
+-	MMIO_D(_MMIO(0x46508), D_ALL);
+-
+-	MMIO_D(_MMIO(0x49080), D_ALL);
+-	MMIO_D(_MMIO(0x49180), D_ALL);
+-	MMIO_D(_MMIO(0x49280), D_ALL);
+-
+-	MMIO_F(_MMIO(0x49090), 0x14, 0, 0, 0, D_ALL, NULL, NULL);
+-	MMIO_F(_MMIO(0x49190), 0x14, 0, 0, 0, D_ALL, NULL, NULL);
+-	MMIO_F(_MMIO(0x49290), 0x14, 0, 0, 0, D_ALL, NULL, NULL);
+-
+-	MMIO_D(GAMMA_MODE(PIPE_A), D_ALL);
+-	MMIO_D(GAMMA_MODE(PIPE_B), D_ALL);
+-	MMIO_D(GAMMA_MODE(PIPE_C), D_ALL);
+-
+-	MMIO_D(PIPE_MULT(PIPE_A), D_ALL);
+-	MMIO_D(PIPE_MULT(PIPE_B), D_ALL);
+-	MMIO_D(PIPE_MULT(PIPE_C), D_ALL);
+-
+-	MMIO_D(HSW_TVIDEO_DIP_CTL(TRANSCODER_A), D_ALL);
+-	MMIO_D(HSW_TVIDEO_DIP_CTL(TRANSCODER_B), D_ALL);
+-	MMIO_D(HSW_TVIDEO_DIP_CTL(TRANSCODER_C), D_ALL);
+-
+-	MMIO_DH(SFUSE_STRAP, D_ALL, NULL, NULL);
+-	MMIO_D(SBI_ADDR, D_ALL);
+-	MMIO_DH(SBI_DATA, D_ALL, sbi_data_mmio_read, NULL);
+-	MMIO_DH(SBI_CTL_STAT, D_ALL, NULL, sbi_ctl_mmio_write);
+-	MMIO_D(PIXCLK_GATE, D_ALL);
+-
+-	MMIO_F(_MMIO(_DPA_AUX_CH_CTL), 6 * 4, 0, 0, 0, D_ALL, NULL,
+-		dp_aux_ch_ctl_mmio_write);
+-
+-	MMIO_DH(DDI_BUF_CTL(PORT_A), D_ALL, NULL, ddi_buf_ctl_mmio_write);
+-	MMIO_DH(DDI_BUF_CTL(PORT_B), D_ALL, NULL, ddi_buf_ctl_mmio_write);
+-	MMIO_DH(DDI_BUF_CTL(PORT_C), D_ALL, NULL, ddi_buf_ctl_mmio_write);
+-	MMIO_DH(DDI_BUF_CTL(PORT_D), D_ALL, NULL, ddi_buf_ctl_mmio_write);
+-	MMIO_DH(DDI_BUF_CTL(PORT_E), D_ALL, NULL, ddi_buf_ctl_mmio_write);
+-
+-	MMIO_DH(DP_TP_CTL(PORT_A), D_ALL, NULL, dp_tp_ctl_mmio_write);
+-	MMIO_DH(DP_TP_CTL(PORT_B), D_ALL, NULL, dp_tp_ctl_mmio_write);
+-	MMIO_DH(DP_TP_CTL(PORT_C), D_ALL, NULL, dp_tp_ctl_mmio_write);
+-	MMIO_DH(DP_TP_CTL(PORT_D), D_ALL, NULL, dp_tp_ctl_mmio_write);
+-	MMIO_DH(DP_TP_CTL(PORT_E), D_ALL, NULL, dp_tp_ctl_mmio_write);
+-
+-	MMIO_DH(DP_TP_STATUS(PORT_A), D_ALL, NULL, dp_tp_status_mmio_write);
+-	MMIO_DH(DP_TP_STATUS(PORT_B), D_ALL, NULL, dp_tp_status_mmio_write);
+-	MMIO_DH(DP_TP_STATUS(PORT_C), D_ALL, NULL, dp_tp_status_mmio_write);
+-	MMIO_DH(DP_TP_STATUS(PORT_D), D_ALL, NULL, dp_tp_status_mmio_write);
+-	MMIO_DH(DP_TP_STATUS(PORT_E), D_ALL, NULL, NULL);
+-
+-	MMIO_F(_MMIO(_DDI_BUF_TRANS_A), 0x50, 0, 0, 0, D_ALL, NULL, NULL);
+-	MMIO_F(_MMIO(0x64e60), 0x50, 0, 0, 0, D_ALL, NULL, NULL);
+-	MMIO_F(_MMIO(0x64eC0), 0x50, 0, 0, 0, D_ALL, NULL, NULL);
+-	MMIO_F(_MMIO(0x64f20), 0x50, 0, 0, 0, D_ALL, NULL, NULL);
+-	MMIO_F(_MMIO(0x64f80), 0x50, 0, 0, 0, D_ALL, NULL, NULL);
+-
+-	MMIO_D(HSW_AUD_CFG(PIPE_A), D_ALL);
+-	MMIO_D(HSW_AUD_PIN_ELD_CP_VLD, D_ALL);
+-	MMIO_D(HSW_AUD_MISC_CTRL(PIPE_A), D_ALL);
+-
+-	MMIO_DH(_MMIO(_TRANS_DDI_FUNC_CTL_A), D_ALL, NULL, NULL);
+-	MMIO_DH(_MMIO(_TRANS_DDI_FUNC_CTL_B), D_ALL, NULL, NULL);
+-	MMIO_DH(_MMIO(_TRANS_DDI_FUNC_CTL_C), D_ALL, NULL, NULL);
+-	MMIO_DH(_MMIO(_TRANS_DDI_FUNC_CTL_EDP), D_ALL, NULL, NULL);
+-
+-	MMIO_D(_MMIO(_TRANSA_MSA_MISC), D_ALL);
+-	MMIO_D(_MMIO(_TRANSB_MSA_MISC), D_ALL);
+-	MMIO_D(_MMIO(_TRANSC_MSA_MISC), D_ALL);
+-	MMIO_D(_MMIO(_TRANS_EDP_MSA_MISC), D_ALL);
+-
+-	MMIO_DH(FORCEWAKE, D_ALL, NULL, NULL);
+-	MMIO_D(FORCEWAKE_ACK, D_ALL);
+-	MMIO_D(GEN6_GT_CORE_STATUS, D_ALL);
+-	MMIO_D(GEN6_GT_THREAD_STATUS_REG, D_ALL);
+-	MMIO_DFH(GTFIFODBG, D_ALL, F_CMD_ACCESS, NULL, NULL);
+-	MMIO_DFH(GTFIFOCTL, D_ALL, F_CMD_ACCESS, NULL, NULL);
+-	MMIO_DH(FORCEWAKE_MT, D_PRE_SKL, NULL, mul_force_wake_write);
+-	MMIO_DH(FORCEWAKE_ACK_HSW, D_BDW, NULL, NULL);
+-	MMIO_D(ECOBUS, D_ALL);
+-	MMIO_DH(GEN6_RC_CONTROL, D_ALL, NULL, NULL);
+-	MMIO_DH(GEN6_RC_STATE, D_ALL, NULL, NULL);
+-	MMIO_D(GEN6_RPNSWREQ, D_ALL);
+-	MMIO_D(GEN6_RC_VIDEO_FREQ, D_ALL);
+-	MMIO_D(GEN6_RP_DOWN_TIMEOUT, D_ALL);
+-	MMIO_D(GEN6_RP_INTERRUPT_LIMITS, D_ALL);
+-	MMIO_D(GEN6_RPSTAT1, D_ALL);
+-	MMIO_D(GEN6_RP_CONTROL, D_ALL);
+-	MMIO_D(GEN6_RP_UP_THRESHOLD, D_ALL);
+-	MMIO_D(GEN6_RP_DOWN_THRESHOLD, D_ALL);
+-	MMIO_D(GEN6_RP_CUR_UP_EI, D_ALL);
+-	MMIO_D(GEN6_RP_CUR_UP, D_ALL);
+-	MMIO_D(GEN6_RP_PREV_UP, D_ALL);
+-	MMIO_D(GEN6_RP_CUR_DOWN_EI, D_ALL);
+-	MMIO_D(GEN6_RP_CUR_DOWN, D_ALL);
+-	MMIO_D(GEN6_RP_PREV_DOWN, D_ALL);
+-	MMIO_D(GEN6_RP_UP_EI, D_ALL);
+-	MMIO_D(GEN6_RP_DOWN_EI, D_ALL);
+-	MMIO_D(GEN6_RP_IDLE_HYSTERSIS, D_ALL);
+-	MMIO_D(GEN6_RC1_WAKE_RATE_LIMIT, D_ALL);
+-	MMIO_D(GEN6_RC6_WAKE_RATE_LIMIT, D_ALL);
+-	MMIO_D(GEN6_RC6pp_WAKE_RATE_LIMIT, D_ALL);
+-	MMIO_D(GEN6_RC_EVALUATION_INTERVAL, D_ALL);
+-	MMIO_D(GEN6_RC_IDLE_HYSTERSIS, D_ALL);
+-	MMIO_D(GEN6_RC_SLEEP, D_ALL);
+-	MMIO_D(GEN6_RC1e_THRESHOLD, D_ALL);
+-	MMIO_D(GEN6_RC6_THRESHOLD, D_ALL);
+-	MMIO_D(GEN6_RC6p_THRESHOLD, D_ALL);
+-	MMIO_D(GEN6_RC6pp_THRESHOLD, D_ALL);
+-	MMIO_D(GEN6_PMINTRMSK, D_ALL);
+-	MMIO_DH(HSW_PWR_WELL_CTL1, D_BDW, NULL, power_well_ctl_mmio_write);
+-	MMIO_DH(HSW_PWR_WELL_CTL2, D_BDW, NULL, power_well_ctl_mmio_write);
+-	MMIO_DH(HSW_PWR_WELL_CTL3, D_BDW, NULL, power_well_ctl_mmio_write);
+-	MMIO_DH(HSW_PWR_WELL_CTL4, D_BDW, NULL, power_well_ctl_mmio_write);
+-	MMIO_DH(HSW_PWR_WELL_CTL5, D_BDW, NULL, power_well_ctl_mmio_write);
+-	MMIO_DH(HSW_PWR_WELL_CTL6, D_BDW, NULL, power_well_ctl_mmio_write);
+-
+-	MMIO_D(RSTDBYCTL, D_ALL);
+-
+-	MMIO_DH(GEN6_GDRST, D_ALL, NULL, gdrst_mmio_write);
+-	MMIO_F(FENCE_REG_GEN6_LO(0), 0x80, 0, 0, 0, D_ALL, fence_mmio_read, fence_mmio_write);
+-	MMIO_DH(CPU_VGACNTRL, D_ALL, NULL, vga_control_mmio_write);
+-
+-	MMIO_D(TILECTL, D_ALL);
+-
+-	MMIO_D(GEN6_UCGCTL1, D_ALL);
+-	MMIO_D(GEN6_UCGCTL2, D_ALL);
+-
+-	MMIO_F(_MMIO(0x4f000), 0x90, 0, 0, 0, D_ALL, NULL, NULL);
+-
+-	MMIO_D(GEN6_PCODE_DATA, D_ALL);
+-	MMIO_D(_MMIO(0x13812c), D_ALL);
+-	MMIO_DH(GEN7_ERR_INT, D_ALL, NULL, NULL);
+-	MMIO_D(HSW_EDRAM_CAP, D_ALL);
+-	MMIO_D(HSW_IDICR, D_ALL);
+-	MMIO_DH(GFX_FLSH_CNTL_GEN6, D_ALL, NULL, NULL);
+-
+-	MMIO_D(_MMIO(0x3c), D_ALL);
+-	MMIO_D(_MMIO(0x860), D_ALL);
+-	MMIO_D(ECOSKPD, D_ALL);
+-	MMIO_D(_MMIO(0x121d0), D_ALL);
+-	MMIO_D(GEN6_BLITTER_ECOSKPD, D_ALL);
+-	MMIO_D(_MMIO(0x41d0), D_ALL);
+-	MMIO_D(GAC_ECO_BITS, D_ALL);
+-	MMIO_D(_MMIO(0x6200), D_ALL);
+-	MMIO_D(_MMIO(0x6204), D_ALL);
+-	MMIO_D(_MMIO(0x6208), D_ALL);
+-	MMIO_D(_MMIO(0x7118), D_ALL);
+-	MMIO_D(_MMIO(0x7180), D_ALL);
+-	MMIO_D(_MMIO(0x7408), D_ALL);
+-	MMIO_D(_MMIO(0x7c00), D_ALL);
+-	MMIO_DH(GEN6_MBCTL, D_ALL, NULL, mbctl_write);
+-	MMIO_D(_MMIO(0x911c), D_ALL);
+-	MMIO_D(_MMIO(0x9120), D_ALL);
+-	MMIO_DFH(GEN7_UCGCTL4, D_ALL, F_CMD_ACCESS, NULL, NULL);
+-
+-	MMIO_D(GAB_CTL, D_ALL);
+-	MMIO_D(_MMIO(0x48800), D_ALL);
+-	MMIO_D(_MMIO(0xce044), D_ALL);
+-	MMIO_D(_MMIO(0xe6500), D_ALL);
+-	MMIO_D(_MMIO(0xe6504), D_ALL);
+-	MMIO_D(_MMIO(0xe6600), D_ALL);
+-	MMIO_D(_MMIO(0xe6604), D_ALL);
+-	MMIO_D(_MMIO(0xe6700), D_ALL);
+-	MMIO_D(_MMIO(0xe6704), D_ALL);
+-	MMIO_D(_MMIO(0xe6800), D_ALL);
+-	MMIO_D(_MMIO(0xe6804), D_ALL);
+-	MMIO_D(PCH_GMBUS4, D_ALL);
+-	MMIO_D(PCH_GMBUS5, D_ALL);
+-
+-	MMIO_D(_MMIO(0x902c), D_ALL);
+-	MMIO_D(_MMIO(0xec008), D_ALL);
+-	MMIO_D(_MMIO(0xec00c), D_ALL);
+-	MMIO_D(_MMIO(0xec008 + 0x18), D_ALL);
+-	MMIO_D(_MMIO(0xec00c + 0x18), D_ALL);
+-	MMIO_D(_MMIO(0xec008 + 0x18 * 2), D_ALL);
+-	MMIO_D(_MMIO(0xec00c + 0x18 * 2), D_ALL);
+-	MMIO_D(_MMIO(0xec008 + 0x18 * 3), D_ALL);
+-	MMIO_D(_MMIO(0xec00c + 0x18 * 3), D_ALL);
+-	MMIO_D(_MMIO(0xec408), D_ALL);
+-	MMIO_D(_MMIO(0xec40c), D_ALL);
+-	MMIO_D(_MMIO(0xec408 + 0x18), D_ALL);
+-	MMIO_D(_MMIO(0xec40c + 0x18), D_ALL);
+-	MMIO_D(_MMIO(0xec408 + 0x18 * 2), D_ALL);
+-	MMIO_D(_MMIO(0xec40c + 0x18 * 2), D_ALL);
+-	MMIO_D(_MMIO(0xec408 + 0x18 * 3), D_ALL);
+-	MMIO_D(_MMIO(0xec40c + 0x18 * 3), D_ALL);
+-	MMIO_D(_MMIO(0xfc810), D_ALL);
+-	MMIO_D(_MMIO(0xfc81c), D_ALL);
+-	MMIO_D(_MMIO(0xfc828), D_ALL);
+-	MMIO_D(_MMIO(0xfc834), D_ALL);
+-	MMIO_D(_MMIO(0xfcc00), D_ALL);
+-	MMIO_D(_MMIO(0xfcc0c), D_ALL);
+-	MMIO_D(_MMIO(0xfcc18), D_ALL);
+-	MMIO_D(_MMIO(0xfcc24), D_ALL);
+-	MMIO_D(_MMIO(0xfd000), D_ALL);
+-	MMIO_D(_MMIO(0xfd00c), D_ALL);
+-	MMIO_D(_MMIO(0xfd018), D_ALL);
+-	MMIO_D(_MMIO(0xfd024), D_ALL);
+-	MMIO_D(_MMIO(0xfd034), D_ALL);
+-
+-	MMIO_DH(FPGA_DBG, D_ALL, NULL, fpga_dbg_mmio_write);
+-	MMIO_D(_MMIO(0x2054), D_ALL);
+-	MMIO_D(_MMIO(0x12054), D_ALL);
+-	MMIO_D(_MMIO(0x22054), D_ALL);
+-	MMIO_D(_MMIO(0x1a054), D_ALL);
+-
+-	MMIO_D(_MMIO(0x44070), D_ALL);
+-	MMIO_DFH(_MMIO(0x215c), D_BDW_PLUS, F_CMD_ACCESS, NULL, NULL);
+-	MMIO_DFH(_MMIO(0x2178), D_ALL, F_CMD_ACCESS, NULL, NULL);
+-	MMIO_DFH(_MMIO(0x217c), D_ALL, F_CMD_ACCESS, NULL, NULL);
+-	MMIO_DFH(_MMIO(0x12178), D_ALL, F_CMD_ACCESS, NULL, NULL);
+-	MMIO_DFH(_MMIO(0x1217c), D_ALL, F_CMD_ACCESS, NULL, NULL);
+-
+-	MMIO_F(_MMIO(0x2290), 8, F_CMD_ACCESS, 0, 0, D_BDW_PLUS, NULL, NULL);
+-	MMIO_D(_MMIO(0x2b00), D_BDW_PLUS);
+-	MMIO_D(_MMIO(0x2360), D_BDW_PLUS);
+-	MMIO_F(_MMIO(0x5200), 32, F_CMD_ACCESS, 0, 0, D_ALL, NULL, NULL);
+-	MMIO_F(_MMIO(0x5240), 32, F_CMD_ACCESS, 0, 0, D_ALL, NULL, NULL);
+-	MMIO_F(_MMIO(0x5280), 16, F_CMD_ACCESS, 0, 0, D_ALL, NULL, NULL);
+-
+-	MMIO_DFH(_MMIO(0x1c17c), D_BDW_PLUS, F_CMD_ACCESS, NULL, NULL);
+-	MMIO_DFH(_MMIO(0x1c178), D_BDW_PLUS, F_CMD_ACCESS, NULL, NULL);
+-	MMIO_DFH(BCS_SWCTRL, D_ALL, F_CMD_ACCESS, NULL, NULL);
+-
+-	MMIO_F(HS_INVOCATION_COUNT, 8, F_CMD_ACCESS, 0, 0, D_ALL, NULL, NULL);
+-	MMIO_F(DS_INVOCATION_COUNT, 8, F_CMD_ACCESS, 0, 0, D_ALL, NULL, NULL);
+-	MMIO_F(IA_VERTICES_COUNT, 8, F_CMD_ACCESS, 0, 0, D_ALL, NULL, NULL);
+-	MMIO_F(IA_PRIMITIVES_COUNT, 8, F_CMD_ACCESS, 0, 0, D_ALL, NULL, NULL);
+-	MMIO_F(VS_INVOCATION_COUNT, 8, F_CMD_ACCESS, 0, 0, D_ALL, NULL, NULL);
+-	MMIO_F(GS_INVOCATION_COUNT, 8, F_CMD_ACCESS, 0, 0, D_ALL, NULL, NULL);
+-	MMIO_F(GS_PRIMITIVES_COUNT, 8, F_CMD_ACCESS, 0, 0, D_ALL, NULL, NULL);
+-	MMIO_F(CL_INVOCATION_COUNT, 8, F_CMD_ACCESS, 0, 0, D_ALL, NULL, NULL);
+-	MMIO_F(CL_PRIMITIVES_COUNT, 8, F_CMD_ACCESS, 0, 0, D_ALL, NULL, NULL);
+-	MMIO_F(PS_INVOCATION_COUNT, 8, F_CMD_ACCESS, 0, 0, D_ALL, NULL, NULL);
+-	MMIO_F(PS_DEPTH_COUNT, 8, F_CMD_ACCESS, 0, 0, D_ALL, NULL, NULL);
+-	MMIO_DH(_MMIO(0x4260), D_BDW_PLUS, NULL, gvt_reg_tlb_control_handler);
+-	MMIO_DH(_MMIO(0x4264), D_BDW_PLUS, NULL, gvt_reg_tlb_control_handler);
+-	MMIO_DH(_MMIO(0x4268), D_BDW_PLUS, NULL, gvt_reg_tlb_control_handler);
+-	MMIO_DH(_MMIO(0x426c), D_BDW_PLUS, NULL, gvt_reg_tlb_control_handler);
+-	MMIO_DH(_MMIO(0x4270), D_BDW_PLUS, NULL, gvt_reg_tlb_control_handler);
+-	MMIO_DFH(_MMIO(0x4094), D_BDW_PLUS, F_CMD_ACCESS, NULL, NULL);
+-
+-	MMIO_DFH(ARB_MODE, D_ALL, F_MODE_MASK | F_CMD_ACCESS, NULL, NULL);
+-	MMIO_RING_GM(RING_BBADDR, D_ALL, NULL, NULL);
+-	MMIO_DFH(_MMIO(0x2220), D_ALL, F_CMD_ACCESS, NULL, NULL);
+-	MMIO_DFH(_MMIO(0x12220), D_ALL, F_CMD_ACCESS, NULL, NULL);
+-	MMIO_DFH(_MMIO(0x22220), D_ALL, F_CMD_ACCESS, NULL, NULL);
+-	MMIO_RING_DFH(RING_SYNC_1, D_ALL, F_CMD_ACCESS, NULL, NULL);
+-	MMIO_RING_DFH(RING_SYNC_0, D_ALL, F_CMD_ACCESS, NULL, NULL);
+-	MMIO_DFH(_MMIO(0x22178), D_BDW_PLUS, F_CMD_ACCESS, NULL, NULL);
+-	MMIO_DFH(_MMIO(0x1a178), D_BDW_PLUS, F_CMD_ACCESS, NULL, NULL);
+-	MMIO_DFH(_MMIO(0x1a17c), D_BDW_PLUS, F_CMD_ACCESS, NULL, NULL);
+-	MMIO_DFH(_MMIO(0x2217c), D_BDW_PLUS, F_CMD_ACCESS, NULL, NULL);
+-
+-	MMIO_DH(EDP_PSR_IMR, D_BDW_PLUS, NULL, edp_psr_imr_iir_write);
+-	MMIO_DH(EDP_PSR_IIR, D_BDW_PLUS, NULL, edp_psr_imr_iir_write);
+-	MMIO_DH(GUC_STATUS, D_ALL, guc_status_read, NULL);
++	MMIO_RING_H(RING_TIMESTAMP, D_ALL, mmio_read_from_hw, NULL);
++	MMIO_RING_H(RING_TIMESTAMP_UDW, D_ALL, mmio_read_from_hw, NULL);
++	MMIO_H(PIPECONF(PIPE_A), D_ALL, NULL, pipeconf_mmio_write);
++	MMIO_H(PIPECONF(PIPE_B), D_ALL, NULL, pipeconf_mmio_write);
++	MMIO_H(PIPECONF(PIPE_C), D_ALL, NULL, pipeconf_mmio_write);
++	MMIO_H(PIPECONF(_PIPE_EDP), D_ALL, NULL, pipeconf_mmio_write);
++	MMIO_H(DSPSURF(PIPE_A), D_ALL, NULL, pri_surf_mmio_write);
++	MMIO_H(REG_50080(PIPE_A, PLANE_PRIMARY), D_ALL, NULL, reg50080_mmio_write);
++	MMIO_H(DSPSURF(PIPE_B), D_ALL, NULL, pri_surf_mmio_write);
++	MMIO_H(REG_50080(PIPE_B, PLANE_PRIMARY), D_ALL, NULL, reg50080_mmio_write);
++	MMIO_H(DSPSURF(PIPE_C), D_ALL, NULL, pri_surf_mmio_write);
++	MMIO_H(REG_50080(PIPE_C, PLANE_PRIMARY), D_ALL, NULL, reg50080_mmio_write);
++	MMIO_H(SPRSURF(PIPE_A), D_ALL, NULL, spr_surf_mmio_write);
++	MMIO_H(REG_50080(PIPE_A, PLANE_SPRITE0), D_ALL, NULL, reg50080_mmio_write);
++	MMIO_H(SPRSURF(PIPE_B), D_ALL, NULL, spr_surf_mmio_write);
++	MMIO_H(REG_50080(PIPE_B, PLANE_SPRITE0), D_ALL, NULL, reg50080_mmio_write);
++	MMIO_H(SPRSURF(PIPE_C), D_ALL, NULL, spr_surf_mmio_write);
++	MMIO_H(REG_50080(PIPE_C, PLANE_SPRITE0), D_ALL, NULL, reg50080_mmio_write);
++	MMIO_F(PCH_GMBUS0, 4 * 4, D_ALL, gmbus_mmio_read, gmbus_mmio_write);
++	MMIO_F(_MMIO(_PCH_DPB_AUX_CH_CTL), 6 * 4, D_PRE_SKL, NULL, dp_aux_ch_ctl_mmio_write);
++	MMIO_F(_MMIO(_PCH_DPC_AUX_CH_CTL), 6 * 4, D_PRE_SKL, NULL, dp_aux_ch_ctl_mmio_write);
++	MMIO_F(_MMIO(_PCH_DPD_AUX_CH_CTL), 6 * 4, D_PRE_SKL, NULL, dp_aux_ch_ctl_mmio_write);
++	MMIO_H(PCH_ADPA, D_PRE_SKL, NULL, pch_adpa_mmio_write);
++	MMIO_H(_MMIO(_PCH_TRANSACONF), D_ALL, NULL, transconf_mmio_write);
++	MMIO_H(_MMIO(_PCH_TRANSBCONF), D_ALL, NULL, transconf_mmio_write);
++	MMIO_H(FDI_RX_IIR(PIPE_A), D_ALL, NULL, fdi_rx_iir_mmio_write);
++	MMIO_H(FDI_RX_IIR(PIPE_B), D_ALL, NULL, fdi_rx_iir_mmio_write);
++	MMIO_H(FDI_RX_IIR(PIPE_C), D_ALL, NULL, fdi_rx_iir_mmio_write);
++	MMIO_H(FDI_RX_IMR(PIPE_A), D_ALL, NULL, update_fdi_rx_iir_status);
++	MMIO_H(FDI_RX_IMR(PIPE_B), D_ALL, NULL, update_fdi_rx_iir_status);
++	MMIO_H(FDI_RX_IMR(PIPE_C), D_ALL, NULL, update_fdi_rx_iir_status);
++	MMIO_H(FDI_RX_CTL(PIPE_A), D_ALL, NULL, update_fdi_rx_iir_status);
++	MMIO_H(FDI_RX_CTL(PIPE_B), D_ALL, NULL, update_fdi_rx_iir_status);
++	MMIO_H(FDI_RX_CTL(PIPE_C), D_ALL, NULL, update_fdi_rx_iir_status);
++	MMIO_H(PCH_PP_CONTROL, D_ALL, NULL, pch_pp_control_mmio_write);
++	MMIO_H(_MMIO(0xe651c), D_ALL, dpy_reg_mmio_read, NULL);
++	MMIO_H(_MMIO(0xe661c), D_ALL, dpy_reg_mmio_read, NULL);
++	MMIO_H(_MMIO(0xe671c), D_ALL, dpy_reg_mmio_read, NULL);
++	MMIO_H(_MMIO(0xe681c), D_ALL, dpy_reg_mmio_read, NULL);
++	MMIO_H(_MMIO(0xe6c04), D_ALL, dpy_reg_mmio_read, NULL);
++	MMIO_H(_MMIO(0xe6e1c), D_ALL, dpy_reg_mmio_read, NULL);
++	MMIO_H(LCPLL_CTL, D_ALL, NULL, lcpll_ctl_mmio_write);
++	MMIO_H(SOUTH_CHICKEN2, D_ALL, NULL, south_chicken2_mmio_write);
++	MMIO_H(SBI_DATA, D_ALL, sbi_data_mmio_read, NULL);
++	MMIO_H(SBI_CTL_STAT, D_ALL, NULL, sbi_ctl_mmio_write);
++	MMIO_F(_MMIO(_DPA_AUX_CH_CTL), 6 * 4, D_ALL, NULL, dp_aux_ch_ctl_mmio_write);
++	MMIO_H(DDI_BUF_CTL(PORT_A), D_ALL, NULL, ddi_buf_ctl_mmio_write);
++	MMIO_H(DDI_BUF_CTL(PORT_B), D_ALL, NULL, ddi_buf_ctl_mmio_write);
++	MMIO_H(DDI_BUF_CTL(PORT_C), D_ALL, NULL, ddi_buf_ctl_mmio_write);
++	MMIO_H(DDI_BUF_CTL(PORT_D), D_ALL, NULL, ddi_buf_ctl_mmio_write);
++	MMIO_H(DDI_BUF_CTL(PORT_E), D_ALL, NULL, ddi_buf_ctl_mmio_write);
++	MMIO_H(DP_TP_CTL(PORT_A), D_ALL, NULL, dp_tp_ctl_mmio_write);
++	MMIO_H(DP_TP_CTL(PORT_B), D_ALL, NULL, dp_tp_ctl_mmio_write);
++	MMIO_H(DP_TP_CTL(PORT_C), D_ALL, NULL, dp_tp_ctl_mmio_write);
++	MMIO_H(DP_TP_CTL(PORT_D), D_ALL, NULL, dp_tp_ctl_mmio_write);
++	MMIO_H(DP_TP_CTL(PORT_E), D_ALL, NULL, dp_tp_ctl_mmio_write);
++	MMIO_H(DP_TP_STATUS(PORT_A), D_ALL, NULL, dp_tp_status_mmio_write);
++	MMIO_H(DP_TP_STATUS(PORT_B), D_ALL, NULL, dp_tp_status_mmio_write);
++	MMIO_H(DP_TP_STATUS(PORT_C), D_ALL, NULL, dp_tp_status_mmio_write);
++	MMIO_H(DP_TP_STATUS(PORT_D), D_ALL, NULL, dp_tp_status_mmio_write);
++	MMIO_H(FORCEWAKE_MT, D_PRE_SKL, NULL, mul_force_wake_write);
++	MMIO_H(HSW_PWR_WELL_CTL1, D_BDW, NULL, power_well_ctl_mmio_write);
++	MMIO_H(HSW_PWR_WELL_CTL2, D_BDW, NULL, power_well_ctl_mmio_write);
++	MMIO_H(HSW_PWR_WELL_CTL3, D_BDW, NULL, power_well_ctl_mmio_write);
++	MMIO_H(HSW_PWR_WELL_CTL4, D_BDW, NULL, power_well_ctl_mmio_write);
++	MMIO_H(HSW_PWR_WELL_CTL5, D_BDW, NULL, power_well_ctl_mmio_write);
++	MMIO_H(HSW_PWR_WELL_CTL6, D_BDW, NULL, power_well_ctl_mmio_write);
++	MMIO_H(GEN6_GDRST, D_ALL, NULL, gdrst_mmio_write);
++	MMIO_F(FENCE_REG_GEN6_LO(0), 0x80, D_ALL, fence_mmio_read, fence_mmio_write);
++	MMIO_H(CPU_VGACNTRL, D_ALL, NULL, vga_control_mmio_write);
++	MMIO_H(GEN6_MBCTL, D_ALL, NULL, mbctl_write);
++	MMIO_H(FPGA_DBG, D_ALL, NULL, fpga_dbg_mmio_write);
++	MMIO_H(_MMIO(0x4260), D_BDW_PLUS, NULL, gvt_reg_tlb_control_handler);
++	MMIO_H(_MMIO(0x4264), D_BDW_PLUS, NULL, gvt_reg_tlb_control_handler);
++	MMIO_H(_MMIO(0x4268), D_BDW_PLUS, NULL, gvt_reg_tlb_control_handler);
++	MMIO_H(_MMIO(0x426c), D_BDW_PLUS, NULL, gvt_reg_tlb_control_handler);
++	MMIO_H(_MMIO(0x4270), D_BDW_PLUS, NULL, gvt_reg_tlb_control_handler);
++	MMIO_H(EDP_PSR_IMR, D_BDW_PLUS, NULL, edp_psr_imr_iir_write);
++	MMIO_H(EDP_PSR_IIR, D_BDW_PLUS, NULL, edp_psr_imr_iir_write);
++	MMIO_H(GUC_STATUS, D_ALL, guc_status_read, NULL);
+ 
+ 	return 0;
+ }
+ 
+-static int init_bdw_mmio_info(struct intel_gvt *gvt)
++static int init_bdw_mmio_handlers(struct intel_gvt *gvt)
+ {
+-	struct drm_i915_private *dev_priv = gvt->gt->i915;
+ 	int ret;
+ 
+-	MMIO_DH(GEN8_GT_IMR(0), D_BDW_PLUS, NULL, intel_vgpu_reg_imr_handler);
+-	MMIO_DH(GEN8_GT_IER(0), D_BDW_PLUS, NULL, intel_vgpu_reg_ier_handler);
+-	MMIO_DH(GEN8_GT_IIR(0), D_BDW_PLUS, NULL, intel_vgpu_reg_iir_handler);
+-	MMIO_D(GEN8_GT_ISR(0), D_BDW_PLUS);
+-
+-	MMIO_DH(GEN8_GT_IMR(1), D_BDW_PLUS, NULL, intel_vgpu_reg_imr_handler);
+-	MMIO_DH(GEN8_GT_IER(1), D_BDW_PLUS, NULL, intel_vgpu_reg_ier_handler);
+-	MMIO_DH(GEN8_GT_IIR(1), D_BDW_PLUS, NULL, intel_vgpu_reg_iir_handler);
+-	MMIO_D(GEN8_GT_ISR(1), D_BDW_PLUS);
+-
+-	MMIO_DH(GEN8_GT_IMR(2), D_BDW_PLUS, NULL, intel_vgpu_reg_imr_handler);
+-	MMIO_DH(GEN8_GT_IER(2), D_BDW_PLUS, NULL, intel_vgpu_reg_ier_handler);
+-	MMIO_DH(GEN8_GT_IIR(2), D_BDW_PLUS, NULL, intel_vgpu_reg_iir_handler);
+-	MMIO_D(GEN8_GT_ISR(2), D_BDW_PLUS);
+-
+-	MMIO_DH(GEN8_GT_IMR(3), D_BDW_PLUS, NULL, intel_vgpu_reg_imr_handler);
+-	MMIO_DH(GEN8_GT_IER(3), D_BDW_PLUS, NULL, intel_vgpu_reg_ier_handler);
+-	MMIO_DH(GEN8_GT_IIR(3), D_BDW_PLUS, NULL, intel_vgpu_reg_iir_handler);
+-	MMIO_D(GEN8_GT_ISR(3), D_BDW_PLUS);
+-
+-	MMIO_DH(GEN8_DE_PIPE_IMR(PIPE_A), D_BDW_PLUS, NULL,
+-		intel_vgpu_reg_imr_handler);
+-	MMIO_DH(GEN8_DE_PIPE_IER(PIPE_A), D_BDW_PLUS, NULL,
+-		intel_vgpu_reg_ier_handler);
+-	MMIO_DH(GEN8_DE_PIPE_IIR(PIPE_A), D_BDW_PLUS, NULL,
+-		intel_vgpu_reg_iir_handler);
+-	MMIO_D(GEN8_DE_PIPE_ISR(PIPE_A), D_BDW_PLUS);
+-
+-	MMIO_DH(GEN8_DE_PIPE_IMR(PIPE_B), D_BDW_PLUS, NULL,
+-		intel_vgpu_reg_imr_handler);
+-	MMIO_DH(GEN8_DE_PIPE_IER(PIPE_B), D_BDW_PLUS, NULL,
+-		intel_vgpu_reg_ier_handler);
+-	MMIO_DH(GEN8_DE_PIPE_IIR(PIPE_B), D_BDW_PLUS, NULL,
+-		intel_vgpu_reg_iir_handler);
+-	MMIO_D(GEN8_DE_PIPE_ISR(PIPE_B), D_BDW_PLUS);
+-
+-	MMIO_DH(GEN8_DE_PIPE_IMR(PIPE_C), D_BDW_PLUS, NULL,
+-		intel_vgpu_reg_imr_handler);
+-	MMIO_DH(GEN8_DE_PIPE_IER(PIPE_C), D_BDW_PLUS, NULL,
+-		intel_vgpu_reg_ier_handler);
+-	MMIO_DH(GEN8_DE_PIPE_IIR(PIPE_C), D_BDW_PLUS, NULL,
+-		intel_vgpu_reg_iir_handler);
+-	MMIO_D(GEN8_DE_PIPE_ISR(PIPE_C), D_BDW_PLUS);
+-
+-	MMIO_DH(GEN8_DE_PORT_IMR, D_BDW_PLUS, NULL, intel_vgpu_reg_imr_handler);
+-	MMIO_DH(GEN8_DE_PORT_IER, D_BDW_PLUS, NULL, intel_vgpu_reg_ier_handler);
+-	MMIO_DH(GEN8_DE_PORT_IIR, D_BDW_PLUS, NULL, intel_vgpu_reg_iir_handler);
+-	MMIO_D(GEN8_DE_PORT_ISR, D_BDW_PLUS);
+-
+-	MMIO_DH(GEN8_DE_MISC_IMR, D_BDW_PLUS, NULL, intel_vgpu_reg_imr_handler);
+-	MMIO_DH(GEN8_DE_MISC_IER, D_BDW_PLUS, NULL, intel_vgpu_reg_ier_handler);
+-	MMIO_DH(GEN8_DE_MISC_IIR, D_BDW_PLUS, NULL, intel_vgpu_reg_iir_handler);
+-	MMIO_D(GEN8_DE_MISC_ISR, D_BDW_PLUS);
+-
+-	MMIO_DH(GEN8_PCU_IMR, D_BDW_PLUS, NULL, intel_vgpu_reg_imr_handler);
+-	MMIO_DH(GEN8_PCU_IER, D_BDW_PLUS, NULL, intel_vgpu_reg_ier_handler);
+-	MMIO_DH(GEN8_PCU_IIR, D_BDW_PLUS, NULL, intel_vgpu_reg_iir_handler);
+-	MMIO_D(GEN8_PCU_ISR, D_BDW_PLUS);
+-
+-	MMIO_DH(GEN8_MASTER_IRQ, D_BDW_PLUS, NULL,
+-		intel_vgpu_reg_master_irq_handler);
+-
+-	MMIO_RING_DFH(RING_ACTHD_UDW, D_BDW_PLUS, 0,
+-		mmio_read_from_hw, NULL);
++	MMIO_H(GEN8_GT_IMR(0), D_BDW_PLUS, NULL, intel_vgpu_reg_imr_handler);
++	MMIO_H(GEN8_GT_IER(0), D_BDW_PLUS, NULL, intel_vgpu_reg_ier_handler);
++	MMIO_H(GEN8_GT_IIR(0), D_BDW_PLUS, NULL, intel_vgpu_reg_iir_handler);
++	MMIO_H(GEN8_GT_IMR(1), D_BDW_PLUS, NULL, intel_vgpu_reg_imr_handler);
++	MMIO_H(GEN8_GT_IER(1), D_BDW_PLUS, NULL, intel_vgpu_reg_ier_handler);
++	MMIO_H(GEN8_GT_IIR(1), D_BDW_PLUS, NULL, intel_vgpu_reg_iir_handler);
++	MMIO_H(GEN8_GT_IMR(2), D_BDW_PLUS, NULL, intel_vgpu_reg_imr_handler);
++	MMIO_H(GEN8_GT_IER(2), D_BDW_PLUS, NULL, intel_vgpu_reg_ier_handler);
++	MMIO_H(GEN8_GT_IIR(2), D_BDW_PLUS, NULL, intel_vgpu_reg_iir_handler);
++	MMIO_H(GEN8_GT_IMR(3), D_BDW_PLUS, NULL, intel_vgpu_reg_imr_handler);
++	MMIO_H(GEN8_GT_IER(3), D_BDW_PLUS, NULL, intel_vgpu_reg_ier_handler);
++	MMIO_H(GEN8_GT_IIR(3), D_BDW_PLUS, NULL, intel_vgpu_reg_iir_handler);
++	MMIO_H(GEN8_DE_PIPE_IMR(PIPE_A), D_BDW_PLUS, NULL, intel_vgpu_reg_imr_handler);
++	MMIO_H(GEN8_DE_PIPE_IER(PIPE_A), D_BDW_PLUS, NULL, intel_vgpu_reg_ier_handler);
++	MMIO_H(GEN8_DE_PIPE_IIR(PIPE_A), D_BDW_PLUS, NULL, intel_vgpu_reg_iir_handler);
++	MMIO_H(GEN8_DE_PIPE_IMR(PIPE_B), D_BDW_PLUS, NULL, intel_vgpu_reg_imr_handler);
++	MMIO_H(GEN8_DE_PIPE_IER(PIPE_B), D_BDW_PLUS, NULL, intel_vgpu_reg_ier_handler);
++	MMIO_H(GEN8_DE_PIPE_IIR(PIPE_B), D_BDW_PLUS, NULL, intel_vgpu_reg_iir_handler);
++	MMIO_H(GEN8_DE_PIPE_IMR(PIPE_C), D_BDW_PLUS, NULL, intel_vgpu_reg_imr_handler);
++	MMIO_H(GEN8_DE_PIPE_IER(PIPE_C), D_BDW_PLUS, NULL, intel_vgpu_reg_ier_handler);
++	MMIO_H(GEN8_DE_PIPE_IIR(PIPE_C), D_BDW_PLUS, NULL, intel_vgpu_reg_iir_handler);
++	MMIO_H(GEN8_DE_PORT_IMR, D_BDW_PLUS, NULL, intel_vgpu_reg_imr_handler);
++	MMIO_H(GEN8_DE_PORT_IER, D_BDW_PLUS, NULL, intel_vgpu_reg_ier_handler);
++	MMIO_H(GEN8_DE_PORT_IIR, D_BDW_PLUS, NULL, intel_vgpu_reg_iir_handler);
++	MMIO_H(GEN8_DE_MISC_IMR, D_BDW_PLUS, NULL, intel_vgpu_reg_imr_handler);
++	MMIO_H(GEN8_DE_MISC_IER, D_BDW_PLUS, NULL, intel_vgpu_reg_ier_handler);
++	MMIO_H(GEN8_DE_MISC_IIR, D_BDW_PLUS, NULL, intel_vgpu_reg_iir_handler);
++	MMIO_H(GEN8_PCU_IMR, D_BDW_PLUS, NULL, intel_vgpu_reg_imr_handler);
++	MMIO_H(GEN8_PCU_IER, D_BDW_PLUS, NULL, intel_vgpu_reg_ier_handler);
++	MMIO_H(GEN8_PCU_IIR, D_BDW_PLUS, NULL, intel_vgpu_reg_iir_handler);
++	MMIO_H(GEN8_MASTER_IRQ, D_BDW_PLUS, NULL, intel_vgpu_reg_master_irq_handler);
++	MMIO_RING_H(RING_ACTHD_UDW, D_BDW_PLUS, mmio_read_from_hw, NULL);
+ 
+ #define RING_REG(base) _MMIO((base) + 0xd0)
+-	MMIO_RING_F(RING_REG, 4, F_RO, 0,
+-		~_MASKED_BIT_ENABLE(RESET_CTL_REQUEST_RESET), D_BDW_PLUS, NULL,
+-		ring_reset_ctl_write);
++	MMIO_RING_F(RING_REG, 4, D_BDW_PLUS, NULL, ring_reset_ctl_write);
+ #undef RING_REG
+ 
+ #define RING_REG(base) _MMIO((base) + 0x230)
+-	MMIO_RING_DFH(RING_REG, D_BDW_PLUS, 0, NULL, elsp_mmio_write);
+-#undef RING_REG
+-
+-#define RING_REG(base) _MMIO((base) + 0x234)
+-	MMIO_RING_F(RING_REG, 8, F_RO, 0, ~0, D_BDW_PLUS,
+-		NULL, NULL);
+-#undef RING_REG
+-
+-#define RING_REG(base) _MMIO((base) + 0x244)
+-	MMIO_RING_DFH(RING_REG, D_BDW_PLUS, F_CMD_ACCESS, NULL, NULL);
++	MMIO_RING_H(RING_REG, D_BDW_PLUS, NULL, elsp_mmio_write);
+ #undef RING_REG
+ 
+-#define RING_REG(base) _MMIO((base) + 0x370)
+-	MMIO_RING_F(RING_REG, 48, F_RO, 0, ~0, D_BDW_PLUS, NULL, NULL);
+-#undef RING_REG
+-
+-#define RING_REG(base) _MMIO((base) + 0x3a0)
+-	MMIO_RING_DFH(RING_REG, D_BDW_PLUS, F_MODE_MASK, NULL, NULL);
+-#undef RING_REG
+-
+-	MMIO_D(PIPEMISC(PIPE_A), D_BDW_PLUS);
+-	MMIO_D(PIPEMISC(PIPE_B), D_BDW_PLUS);
+-	MMIO_D(PIPEMISC(PIPE_C), D_BDW_PLUS);
+-	MMIO_D(_MMIO(0x1c1d0), D_BDW_PLUS);
+-	MMIO_D(GEN6_MBCUNIT_SNPCR, D_BDW_PLUS);
+-	MMIO_D(GEN7_MISCCPCTL, D_BDW_PLUS);
+-	MMIO_D(_MMIO(0x1c054), D_BDW_PLUS);
+-
+-	MMIO_DH(GEN6_PCODE_MAILBOX, D_BDW_PLUS, NULL, mailbox_write);
+-
+-	MMIO_D(GEN8_PRIVATE_PAT_LO, D_BDW_PLUS & ~D_BXT);
+-	MMIO_D(GEN8_PRIVATE_PAT_HI, D_BDW_PLUS);
+-
+-	MMIO_D(GAMTARBMODE, D_BDW_PLUS);
+-
+-#define RING_REG(base) _MMIO((base) + 0x270)
+-	MMIO_RING_F(RING_REG, 32, F_CMD_ACCESS, 0, 0, D_BDW_PLUS, NULL, NULL);
+-#undef RING_REG
+-
+-	MMIO_RING_GM(RING_HWS_PGA, D_BDW_PLUS, NULL, hws_pga_write);
+-
+-	MMIO_DFH(HDC_CHICKEN0, D_BDW_PLUS, F_MODE_MASK | F_CMD_ACCESS, NULL, NULL);
+-
+-	MMIO_D(CHICKEN_PIPESL_1(PIPE_A), D_BDW_PLUS);
+-	MMIO_D(CHICKEN_PIPESL_1(PIPE_B), D_BDW_PLUS);
+-	MMIO_D(CHICKEN_PIPESL_1(PIPE_C), D_BDW_PLUS);
+-
+-	MMIO_D(WM_MISC, D_BDW);
+-	MMIO_D(_MMIO(_SRD_CTL_EDP), D_BDW);
+-
+-	MMIO_D(_MMIO(0x6671c), D_BDW_PLUS);
+-	MMIO_D(_MMIO(0x66c00), D_BDW_PLUS);
+-	MMIO_D(_MMIO(0x66c04), D_BDW_PLUS);
+-
+-	MMIO_D(HSW_GTT_CACHE_EN, D_BDW_PLUS);
+-
+-	MMIO_D(GEN8_EU_DISABLE0, D_BDW_PLUS);
+-	MMIO_D(GEN8_EU_DISABLE1, D_BDW_PLUS);
+-	MMIO_D(GEN8_EU_DISABLE2, D_BDW_PLUS);
+-
+-	MMIO_D(_MMIO(0xfdc), D_BDW_PLUS);
+-	MMIO_DFH(GEN8_ROW_CHICKEN, D_BDW_PLUS, F_MODE_MASK | F_CMD_ACCESS,
+-		NULL, NULL);
+-	MMIO_DFH(GEN7_ROW_CHICKEN2, D_BDW_PLUS, F_MODE_MASK | F_CMD_ACCESS,
+-		NULL, NULL);
+-	MMIO_DFH(GEN8_UCGCTL6, D_BDW_PLUS, F_CMD_ACCESS, NULL, NULL);
+-
+-	MMIO_DFH(_MMIO(0xb1f0), D_BDW, F_CMD_ACCESS, NULL, NULL);
+-	MMIO_DFH(_MMIO(0xb1c0), D_BDW, F_CMD_ACCESS, NULL, NULL);
+-	MMIO_DFH(GEN8_L3SQCREG4, D_BDW_PLUS, F_CMD_ACCESS, NULL, NULL);
+-	MMIO_DFH(_MMIO(0xb100), D_BDW, F_CMD_ACCESS, NULL, NULL);
+-	MMIO_DFH(_MMIO(0xb10c), D_BDW, F_CMD_ACCESS, NULL, NULL);
+-	MMIO_D(_MMIO(0xb110), D_BDW);
+-	MMIO_D(GEN9_SCRATCH_LNCF1, D_BDW_PLUS);
+-
+-	MMIO_F(_MMIO(0x24d0), 48, F_CMD_ACCESS | F_CMD_WRITE_PATCH, 0, 0,
+-		D_BDW_PLUS, NULL, force_nonpriv_write);
+-
+-	MMIO_D(_MMIO(0x44484), D_BDW_PLUS);
+-	MMIO_D(_MMIO(0x4448c), D_BDW_PLUS);
+-
+-	MMIO_DFH(_MMIO(0x83a4), D_BDW, F_CMD_ACCESS, NULL, NULL);
+-	MMIO_D(GEN8_L3_LRA_1_GPGPU, D_BDW_PLUS);
+-
+-	MMIO_DFH(_MMIO(0x8430), D_BDW, F_CMD_ACCESS, NULL, NULL);
++	MMIO_H(GEN6_PCODE_MAILBOX, D_BDW_PLUS, NULL, mailbox_write);
++	MMIO_RING_H(RING_HWS_PGA, D_BDW_PLUS, NULL, hws_pga_write);
++	MMIO_F(_MMIO(0x24d0), 48, D_BDW_PLUS, NULL, force_nonpriv_write);
+ 
+-	MMIO_D(_MMIO(0x110000), D_BDW_PLUS);
+-
+-	MMIO_D(_MMIO(0x48400), D_BDW_PLUS);
+-
+-	MMIO_D(_MMIO(0x6e570), D_BDW_PLUS);
+-	MMIO_D(_MMIO(0x65f10), D_BDW_PLUS);
+-
+-	MMIO_DFH(_MMIO(0xe194), D_BDW_PLUS, F_MODE_MASK | F_CMD_ACCESS, NULL, NULL);
+-	MMIO_DFH(_MMIO(0xe188), D_BDW_PLUS, F_MODE_MASK | F_CMD_ACCESS, NULL, NULL);
+-	MMIO_DFH(HALF_SLICE_CHICKEN2, D_BDW_PLUS, F_MODE_MASK | F_CMD_ACCESS, NULL, NULL);
+-	MMIO_DFH(_MMIO(0x2580), D_BDW_PLUS, F_MODE_MASK | F_CMD_ACCESS, NULL, NULL);
+-
+-	MMIO_DFH(_MMIO(0x2248), D_BDW, F_CMD_ACCESS, NULL, NULL);
+-
+-	MMIO_DFH(_MMIO(0xe220), D_BDW_PLUS, F_CMD_ACCESS, NULL, NULL);
+-	MMIO_DFH(_MMIO(0xe230), D_BDW_PLUS, F_CMD_ACCESS, NULL, NULL);
+-	MMIO_DFH(_MMIO(0xe240), D_BDW_PLUS, F_CMD_ACCESS, NULL, NULL);
+-	MMIO_DFH(_MMIO(0xe260), D_BDW_PLUS, F_CMD_ACCESS, NULL, NULL);
+-	MMIO_DFH(_MMIO(0xe270), D_BDW_PLUS, F_CMD_ACCESS, NULL, NULL);
+-	MMIO_DFH(_MMIO(0xe280), D_BDW_PLUS, F_CMD_ACCESS, NULL, NULL);
+-	MMIO_DFH(_MMIO(0xe2a0), D_BDW_PLUS, F_CMD_ACCESS, NULL, NULL);
+-	MMIO_DFH(_MMIO(0xe2b0), D_BDW_PLUS, F_CMD_ACCESS, NULL, NULL);
+-	MMIO_DFH(_MMIO(0xe2c0), D_BDW_PLUS, F_CMD_ACCESS, NULL, NULL);
+-	MMIO_DFH(_MMIO(0x21f0), D_BDW_PLUS, F_CMD_ACCESS, NULL, NULL);
+ 	return 0;
+ }
+ 
+-static int init_skl_mmio_info(struct intel_gvt *gvt)
++static int init_skl_mmio_handlers(struct intel_gvt *gvt)
+ {
+ 	struct drm_i915_private *dev_priv = gvt->gt->i915;
+ 	int ret;
+ 
+-	MMIO_DH(FORCEWAKE_RENDER_GEN9, D_SKL_PLUS, NULL, mul_force_wake_write);
+-	MMIO_DH(FORCEWAKE_ACK_RENDER_GEN9, D_SKL_PLUS, NULL, NULL);
+-	MMIO_DH(FORCEWAKE_GT_GEN9, D_SKL_PLUS, NULL, mul_force_wake_write);
+-	MMIO_DH(FORCEWAKE_ACK_GT_GEN9, D_SKL_PLUS, NULL, NULL);
+-	MMIO_DH(FORCEWAKE_MEDIA_GEN9, D_SKL_PLUS, NULL, mul_force_wake_write);
+-	MMIO_DH(FORCEWAKE_ACK_MEDIA_GEN9, D_SKL_PLUS, NULL, NULL);
+-
+-	MMIO_F(DP_AUX_CH_CTL(AUX_CH_B), 6 * 4, 0, 0, 0, D_SKL_PLUS, NULL,
+-						dp_aux_ch_ctl_mmio_write);
+-	MMIO_F(DP_AUX_CH_CTL(AUX_CH_C), 6 * 4, 0, 0, 0, D_SKL_PLUS, NULL,
+-						dp_aux_ch_ctl_mmio_write);
+-	MMIO_F(DP_AUX_CH_CTL(AUX_CH_D), 6 * 4, 0, 0, 0, D_SKL_PLUS, NULL,
+-						dp_aux_ch_ctl_mmio_write);
+-
+-	MMIO_D(HSW_PWR_WELL_CTL1, D_SKL_PLUS);
+-	MMIO_DH(HSW_PWR_WELL_CTL2, D_SKL_PLUS, NULL, skl_power_well_ctl_write);
+-
+-	MMIO_DH(DBUF_CTL_S(0), D_SKL_PLUS, NULL, gen9_dbuf_ctl_mmio_write);
+-
+-	MMIO_D(GEN9_PG_ENABLE, D_SKL_PLUS);
+-	MMIO_D(GEN9_MEDIA_PG_IDLE_HYSTERESIS, D_SKL_PLUS);
+-	MMIO_D(GEN9_RENDER_PG_IDLE_HYSTERESIS, D_SKL_PLUS);
+-	MMIO_DFH(GEN9_GAMT_ECO_REG_RW_IA, D_SKL_PLUS, F_CMD_ACCESS, NULL, NULL);
+-	MMIO_DFH(MMCD_MISC_CTRL, D_SKL_PLUS, F_CMD_ACCESS, NULL, NULL);
+-	MMIO_DH(CHICKEN_PAR1_1, D_SKL_PLUS, NULL, NULL);
+-	MMIO_D(DC_STATE_EN, D_SKL_PLUS);
+-	MMIO_D(DC_STATE_DEBUG, D_SKL_PLUS);
+-	MMIO_D(CDCLK_CTL, D_SKL_PLUS);
+-	MMIO_DH(LCPLL1_CTL, D_SKL_PLUS, NULL, skl_lcpll_write);
+-	MMIO_DH(LCPLL2_CTL, D_SKL_PLUS, NULL, skl_lcpll_write);
+-	MMIO_D(_MMIO(_DPLL1_CFGCR1), D_SKL_PLUS);
+-	MMIO_D(_MMIO(_DPLL2_CFGCR1), D_SKL_PLUS);
+-	MMIO_D(_MMIO(_DPLL3_CFGCR1), D_SKL_PLUS);
+-	MMIO_D(_MMIO(_DPLL1_CFGCR2), D_SKL_PLUS);
+-	MMIO_D(_MMIO(_DPLL2_CFGCR2), D_SKL_PLUS);
+-	MMIO_D(_MMIO(_DPLL3_CFGCR2), D_SKL_PLUS);
+-	MMIO_D(DPLL_CTRL1, D_SKL_PLUS);
+-	MMIO_D(DPLL_CTRL2, D_SKL_PLUS);
+-	MMIO_DH(DPLL_STATUS, D_SKL_PLUS, dpll_status_read, NULL);
+-
+-	MMIO_DH(SKL_PS_WIN_POS(PIPE_A, 0), D_SKL_PLUS, NULL, pf_write);
+-	MMIO_DH(SKL_PS_WIN_POS(PIPE_A, 1), D_SKL_PLUS, NULL, pf_write);
+-	MMIO_DH(SKL_PS_WIN_POS(PIPE_B, 0), D_SKL_PLUS, NULL, pf_write);
+-	MMIO_DH(SKL_PS_WIN_POS(PIPE_B, 1), D_SKL_PLUS, NULL, pf_write);
+-	MMIO_DH(SKL_PS_WIN_POS(PIPE_C, 0), D_SKL_PLUS, NULL, pf_write);
+-	MMIO_DH(SKL_PS_WIN_POS(PIPE_C, 1), D_SKL_PLUS, NULL, pf_write);
+-
+-	MMIO_DH(SKL_PS_WIN_SZ(PIPE_A, 0), D_SKL_PLUS, NULL, pf_write);
+-	MMIO_DH(SKL_PS_WIN_SZ(PIPE_A, 1), D_SKL_PLUS, NULL, pf_write);
+-	MMIO_DH(SKL_PS_WIN_SZ(PIPE_B, 0), D_SKL_PLUS, NULL, pf_write);
+-	MMIO_DH(SKL_PS_WIN_SZ(PIPE_B, 1), D_SKL_PLUS, NULL, pf_write);
+-	MMIO_DH(SKL_PS_WIN_SZ(PIPE_C, 0), D_SKL_PLUS, NULL, pf_write);
+-	MMIO_DH(SKL_PS_WIN_SZ(PIPE_C, 1), D_SKL_PLUS, NULL, pf_write);
+-
+-	MMIO_DH(SKL_PS_CTRL(PIPE_A, 0), D_SKL_PLUS, NULL, pf_write);
+-	MMIO_DH(SKL_PS_CTRL(PIPE_A, 1), D_SKL_PLUS, NULL, pf_write);
+-	MMIO_DH(SKL_PS_CTRL(PIPE_B, 0), D_SKL_PLUS, NULL, pf_write);
+-	MMIO_DH(SKL_PS_CTRL(PIPE_B, 1), D_SKL_PLUS, NULL, pf_write);
+-	MMIO_DH(SKL_PS_CTRL(PIPE_C, 0), D_SKL_PLUS, NULL, pf_write);
+-	MMIO_DH(SKL_PS_CTRL(PIPE_C, 1), D_SKL_PLUS, NULL, pf_write);
+-
+-	MMIO_DH(PLANE_BUF_CFG(PIPE_A, 0), D_SKL_PLUS, NULL, NULL);
+-	MMIO_DH(PLANE_BUF_CFG(PIPE_A, 1), D_SKL_PLUS, NULL, NULL);
+-	MMIO_DH(PLANE_BUF_CFG(PIPE_A, 2), D_SKL_PLUS, NULL, NULL);
+-	MMIO_DH(PLANE_BUF_CFG(PIPE_A, 3), D_SKL_PLUS, NULL, NULL);
+-
+-	MMIO_DH(PLANE_BUF_CFG(PIPE_B, 0), D_SKL_PLUS, NULL, NULL);
+-	MMIO_DH(PLANE_BUF_CFG(PIPE_B, 1), D_SKL_PLUS, NULL, NULL);
+-	MMIO_DH(PLANE_BUF_CFG(PIPE_B, 2), D_SKL_PLUS, NULL, NULL);
+-	MMIO_DH(PLANE_BUF_CFG(PIPE_B, 3), D_SKL_PLUS, NULL, NULL);
+-
+-	MMIO_DH(PLANE_BUF_CFG(PIPE_C, 0), D_SKL_PLUS, NULL, NULL);
+-	MMIO_DH(PLANE_BUF_CFG(PIPE_C, 1), D_SKL_PLUS, NULL, NULL);
+-	MMIO_DH(PLANE_BUF_CFG(PIPE_C, 2), D_SKL_PLUS, NULL, NULL);
+-	MMIO_DH(PLANE_BUF_CFG(PIPE_C, 3), D_SKL_PLUS, NULL, NULL);
+-
+-	MMIO_DH(CUR_BUF_CFG(PIPE_A), D_SKL_PLUS, NULL, NULL);
+-	MMIO_DH(CUR_BUF_CFG(PIPE_B), D_SKL_PLUS, NULL, NULL);
+-	MMIO_DH(CUR_BUF_CFG(PIPE_C), D_SKL_PLUS, NULL, NULL);
+-
+-	MMIO_F(PLANE_WM(PIPE_A, 0, 0), 4 * 8, 0, 0, 0, D_SKL_PLUS, NULL, NULL);
+-	MMIO_F(PLANE_WM(PIPE_A, 1, 0), 4 * 8, 0, 0, 0, D_SKL_PLUS, NULL, NULL);
+-	MMIO_F(PLANE_WM(PIPE_A, 2, 0), 4 * 8, 0, 0, 0, D_SKL_PLUS, NULL, NULL);
+-
+-	MMIO_F(PLANE_WM(PIPE_B, 0, 0), 4 * 8, 0, 0, 0, D_SKL_PLUS, NULL, NULL);
+-	MMIO_F(PLANE_WM(PIPE_B, 1, 0), 4 * 8, 0, 0, 0, D_SKL_PLUS, NULL, NULL);
+-	MMIO_F(PLANE_WM(PIPE_B, 2, 0), 4 * 8, 0, 0, 0, D_SKL_PLUS, NULL, NULL);
+-
+-	MMIO_F(PLANE_WM(PIPE_C, 0, 0), 4 * 8, 0, 0, 0, D_SKL_PLUS, NULL, NULL);
+-	MMIO_F(PLANE_WM(PIPE_C, 1, 0), 4 * 8, 0, 0, 0, D_SKL_PLUS, NULL, NULL);
+-	MMIO_F(PLANE_WM(PIPE_C, 2, 0), 4 * 8, 0, 0, 0, D_SKL_PLUS, NULL, NULL);
+-
+-	MMIO_F(CUR_WM(PIPE_A, 0), 4 * 8, 0, 0, 0, D_SKL_PLUS, NULL, NULL);
+-	MMIO_F(CUR_WM(PIPE_B, 0), 4 * 8, 0, 0, 0, D_SKL_PLUS, NULL, NULL);
+-	MMIO_F(CUR_WM(PIPE_C, 0), 4 * 8, 0, 0, 0, D_SKL_PLUS, NULL, NULL);
+-
+-	MMIO_DH(PLANE_WM_TRANS(PIPE_A, 0), D_SKL_PLUS, NULL, NULL);
+-	MMIO_DH(PLANE_WM_TRANS(PIPE_A, 1), D_SKL_PLUS, NULL, NULL);
+-	MMIO_DH(PLANE_WM_TRANS(PIPE_A, 2), D_SKL_PLUS, NULL, NULL);
+-
+-	MMIO_DH(PLANE_WM_TRANS(PIPE_B, 0), D_SKL_PLUS, NULL, NULL);
+-	MMIO_DH(PLANE_WM_TRANS(PIPE_B, 1), D_SKL_PLUS, NULL, NULL);
+-	MMIO_DH(PLANE_WM_TRANS(PIPE_B, 2), D_SKL_PLUS, NULL, NULL);
+-
+-	MMIO_DH(PLANE_WM_TRANS(PIPE_C, 0), D_SKL_PLUS, NULL, NULL);
+-	MMIO_DH(PLANE_WM_TRANS(PIPE_C, 1), D_SKL_PLUS, NULL, NULL);
+-	MMIO_DH(PLANE_WM_TRANS(PIPE_C, 2), D_SKL_PLUS, NULL, NULL);
+-
+-	MMIO_DH(CUR_WM_TRANS(PIPE_A), D_SKL_PLUS, NULL, NULL);
+-	MMIO_DH(CUR_WM_TRANS(PIPE_B), D_SKL_PLUS, NULL, NULL);
+-	MMIO_DH(CUR_WM_TRANS(PIPE_C), D_SKL_PLUS, NULL, NULL);
+-
+-	MMIO_DH(PLANE_NV12_BUF_CFG(PIPE_A, 0), D_SKL_PLUS, NULL, NULL);
+-	MMIO_DH(PLANE_NV12_BUF_CFG(PIPE_A, 1), D_SKL_PLUS, NULL, NULL);
+-	MMIO_DH(PLANE_NV12_BUF_CFG(PIPE_A, 2), D_SKL_PLUS, NULL, NULL);
+-	MMIO_DH(PLANE_NV12_BUF_CFG(PIPE_A, 3), D_SKL_PLUS, NULL, NULL);
+-
+-	MMIO_DH(PLANE_NV12_BUF_CFG(PIPE_B, 0), D_SKL_PLUS, NULL, NULL);
+-	MMIO_DH(PLANE_NV12_BUF_CFG(PIPE_B, 1), D_SKL_PLUS, NULL, NULL);
+-	MMIO_DH(PLANE_NV12_BUF_CFG(PIPE_B, 2), D_SKL_PLUS, NULL, NULL);
+-	MMIO_DH(PLANE_NV12_BUF_CFG(PIPE_B, 3), D_SKL_PLUS, NULL, NULL);
+-
+-	MMIO_DH(PLANE_NV12_BUF_CFG(PIPE_C, 0), D_SKL_PLUS, NULL, NULL);
+-	MMIO_DH(PLANE_NV12_BUF_CFG(PIPE_C, 1), D_SKL_PLUS, NULL, NULL);
+-	MMIO_DH(PLANE_NV12_BUF_CFG(PIPE_C, 2), D_SKL_PLUS, NULL, NULL);
+-	MMIO_DH(PLANE_NV12_BUF_CFG(PIPE_C, 3), D_SKL_PLUS, NULL, NULL);
+-
+-	MMIO_DH(_MMIO(_REG_701C0(PIPE_A, 1)), D_SKL_PLUS, NULL, NULL);
+-	MMIO_DH(_MMIO(_REG_701C0(PIPE_A, 2)), D_SKL_PLUS, NULL, NULL);
+-	MMIO_DH(_MMIO(_REG_701C0(PIPE_A, 3)), D_SKL_PLUS, NULL, NULL);
+-	MMIO_DH(_MMIO(_REG_701C0(PIPE_A, 4)), D_SKL_PLUS, NULL, NULL);
+-
+-	MMIO_DH(_MMIO(_REG_701C0(PIPE_B, 1)), D_SKL_PLUS, NULL, NULL);
+-	MMIO_DH(_MMIO(_REG_701C0(PIPE_B, 2)), D_SKL_PLUS, NULL, NULL);
+-	MMIO_DH(_MMIO(_REG_701C0(PIPE_B, 3)), D_SKL_PLUS, NULL, NULL);
+-	MMIO_DH(_MMIO(_REG_701C0(PIPE_B, 4)), D_SKL_PLUS, NULL, NULL);
+-
+-	MMIO_DH(_MMIO(_REG_701C0(PIPE_C, 1)), D_SKL_PLUS, NULL, NULL);
+-	MMIO_DH(_MMIO(_REG_701C0(PIPE_C, 2)), D_SKL_PLUS, NULL, NULL);
+-	MMIO_DH(_MMIO(_REG_701C0(PIPE_C, 3)), D_SKL_PLUS, NULL, NULL);
+-	MMIO_DH(_MMIO(_REG_701C0(PIPE_C, 4)), D_SKL_PLUS, NULL, NULL);
+-
+-	MMIO_DH(_MMIO(_REG_701C4(PIPE_A, 1)), D_SKL_PLUS, NULL, NULL);
+-	MMIO_DH(_MMIO(_REG_701C4(PIPE_A, 2)), D_SKL_PLUS, NULL, NULL);
+-	MMIO_DH(_MMIO(_REG_701C4(PIPE_A, 3)), D_SKL_PLUS, NULL, NULL);
+-	MMIO_DH(_MMIO(_REG_701C4(PIPE_A, 4)), D_SKL_PLUS, NULL, NULL);
+-
+-	MMIO_DH(_MMIO(_REG_701C4(PIPE_B, 1)), D_SKL_PLUS, NULL, NULL);
+-	MMIO_DH(_MMIO(_REG_701C4(PIPE_B, 2)), D_SKL_PLUS, NULL, NULL);
+-	MMIO_DH(_MMIO(_REG_701C4(PIPE_B, 3)), D_SKL_PLUS, NULL, NULL);
+-	MMIO_DH(_MMIO(_REG_701C4(PIPE_B, 4)), D_SKL_PLUS, NULL, NULL);
+-
+-	MMIO_DH(_MMIO(_REG_701C4(PIPE_C, 1)), D_SKL_PLUS, NULL, NULL);
+-	MMIO_DH(_MMIO(_REG_701C4(PIPE_C, 2)), D_SKL_PLUS, NULL, NULL);
+-	MMIO_DH(_MMIO(_REG_701C4(PIPE_C, 3)), D_SKL_PLUS, NULL, NULL);
+-	MMIO_DH(_MMIO(_REG_701C4(PIPE_C, 4)), D_SKL_PLUS, NULL, NULL);
+-
+-	MMIO_D(_MMIO(_PLANE_CTL_3_A), D_SKL_PLUS);
+-	MMIO_D(_MMIO(_PLANE_CTL_3_B), D_SKL_PLUS);
+-	MMIO_D(_MMIO(0x72380), D_SKL_PLUS);
+-	MMIO_D(_MMIO(0x7239c), D_SKL_PLUS);
+-	MMIO_D(_MMIO(_PLANE_SURF_3_A), D_SKL_PLUS);
+-	MMIO_D(_MMIO(_PLANE_SURF_3_B), D_SKL_PLUS);
+-
+-	MMIO_D(DMC_SSP_BASE, D_SKL_PLUS);
+-	MMIO_D(DMC_HTP_SKL, D_SKL_PLUS);
+-	MMIO_D(DMC_LAST_WRITE, D_SKL_PLUS);
+-
+-	MMIO_DFH(BDW_SCRATCH1, D_SKL_PLUS, F_CMD_ACCESS, NULL, NULL);
+-
+-	MMIO_D(SKL_DFSM, D_SKL_PLUS);
+-	MMIO_D(DISPIO_CR_TX_BMU_CR0, D_SKL_PLUS);
+-
+-	MMIO_F(GEN9_GFX_MOCS(0), 0x7f8, F_CMD_ACCESS, 0, 0, D_SKL_PLUS,
+-		NULL, NULL);
+-	MMIO_F(GEN7_L3CNTLREG2, 0x80, F_CMD_ACCESS, 0, 0, D_SKL_PLUS,
+-		NULL, NULL);
+-
+-	MMIO_D(RPM_CONFIG0, D_SKL_PLUS);
+-	MMIO_D(_MMIO(0xd08), D_SKL_PLUS);
+-	MMIO_D(RC6_LOCATION, D_SKL_PLUS);
+-	MMIO_DFH(GEN7_FF_SLICE_CS_CHICKEN1, D_SKL_PLUS,
+-		 F_MODE_MASK | F_CMD_ACCESS, NULL, NULL);
+-	MMIO_DFH(GEN9_CS_DEBUG_MODE1, D_SKL_PLUS, F_MODE_MASK | F_CMD_ACCESS,
+-		NULL, NULL);
+-
+-	/* TRTT */
+-	MMIO_DFH(TRVATTL3PTRDW(0), D_SKL_PLUS, F_CMD_ACCESS, NULL, NULL);
+-	MMIO_DFH(TRVATTL3PTRDW(1), D_SKL_PLUS, F_CMD_ACCESS, NULL, NULL);
+-	MMIO_DFH(TRVATTL3PTRDW(2), D_SKL_PLUS, F_CMD_ACCESS, NULL, NULL);
+-	MMIO_DFH(TRVATTL3PTRDW(3), D_SKL_PLUS, F_CMD_ACCESS, NULL, NULL);
+-	MMIO_DFH(TRVADR, D_SKL_PLUS, F_CMD_ACCESS, NULL, NULL);
+-	MMIO_DFH(TRTTE, D_SKL_PLUS, F_CMD_ACCESS | F_PM_SAVE,
+-		 NULL, gen9_trtte_write);
+-	MMIO_DFH(_MMIO(0x4dfc), D_SKL_PLUS, F_PM_SAVE,
+-		 NULL, gen9_trtt_chicken_write);
+-
+-	MMIO_D(_MMIO(0x46430), D_SKL_PLUS);
+-
+-	MMIO_D(_MMIO(0x46520), D_SKL_PLUS);
+-
+-	MMIO_D(_MMIO(0xc403c), D_SKL_PLUS);
+-	MMIO_DFH(GEN8_GARBCNTL, D_SKL_PLUS, F_CMD_ACCESS, NULL, NULL);
+-	MMIO_DH(DMA_CTRL, D_SKL_PLUS, NULL, dma_ctrl_write);
+-
+-	MMIO_D(_MMIO(0x65900), D_SKL_PLUS);
+-	MMIO_D(GEN6_STOLEN_RESERVED, D_SKL_PLUS);
+-	MMIO_D(_MMIO(0x4068), D_SKL_PLUS);
+-	MMIO_D(_MMIO(0x67054), D_SKL_PLUS);
+-	MMIO_D(_MMIO(0x6e560), D_SKL_PLUS);
+-	MMIO_D(_MMIO(0x6e554), D_SKL_PLUS);
+-	MMIO_D(_MMIO(0x2b20), D_SKL_PLUS);
+-	MMIO_D(_MMIO(0x65f00), D_SKL_PLUS);
+-	MMIO_D(_MMIO(0x65f08), D_SKL_PLUS);
+-	MMIO_D(_MMIO(0x320f0), D_SKL_PLUS);
+-
+-	MMIO_D(_MMIO(0x70034), D_SKL_PLUS);
+-	MMIO_D(_MMIO(0x71034), D_SKL_PLUS);
+-	MMIO_D(_MMIO(0x72034), D_SKL_PLUS);
+-
+-	MMIO_D(_MMIO(_PLANE_KEYVAL_1(PIPE_A)), D_SKL_PLUS);
+-	MMIO_D(_MMIO(_PLANE_KEYVAL_1(PIPE_B)), D_SKL_PLUS);
+-	MMIO_D(_MMIO(_PLANE_KEYVAL_1(PIPE_C)), D_SKL_PLUS);
+-	MMIO_D(_MMIO(_PLANE_KEYMAX_1(PIPE_A)), D_SKL_PLUS);
+-	MMIO_D(_MMIO(_PLANE_KEYMAX_1(PIPE_B)), D_SKL_PLUS);
+-	MMIO_D(_MMIO(_PLANE_KEYMAX_1(PIPE_C)), D_SKL_PLUS);
+-	MMIO_D(_MMIO(_PLANE_KEYMSK_1(PIPE_A)), D_SKL_PLUS);
+-	MMIO_D(_MMIO(_PLANE_KEYMSK_1(PIPE_B)), D_SKL_PLUS);
+-	MMIO_D(_MMIO(_PLANE_KEYMSK_1(PIPE_C)), D_SKL_PLUS);
+-
+-	MMIO_D(_MMIO(0x44500), D_SKL_PLUS);
++	MMIO_H(FORCEWAKE_RENDER_GEN9, D_SKL_PLUS, NULL, mul_force_wake_write);
++	MMIO_H(FORCEWAKE_GT_GEN9, D_SKL_PLUS, NULL, mul_force_wake_write);
++	MMIO_H(FORCEWAKE_MEDIA_GEN9, D_SKL_PLUS, NULL, mul_force_wake_write);
++	MMIO_F(DP_AUX_CH_CTL(AUX_CH_B), 6 * 4, D_SKL_PLUS, NULL, dp_aux_ch_ctl_mmio_write);
++	MMIO_F(DP_AUX_CH_CTL(AUX_CH_C), 6 * 4, D_SKL_PLUS, NULL, dp_aux_ch_ctl_mmio_write);
++	MMIO_F(DP_AUX_CH_CTL(AUX_CH_D), 6 * 4, D_SKL_PLUS, NULL, dp_aux_ch_ctl_mmio_write);
++	MMIO_H(HSW_PWR_WELL_CTL2, D_SKL_PLUS, NULL, skl_power_well_ctl_write);
++	MMIO_H(DBUF_CTL_S(0), D_SKL_PLUS, NULL, gen9_dbuf_ctl_mmio_write);
++	MMIO_H(LCPLL1_CTL, D_SKL_PLUS, NULL, skl_lcpll_write);
++	MMIO_H(LCPLL2_CTL, D_SKL_PLUS, NULL, skl_lcpll_write);
++	MMIO_H(DPLL_STATUS, D_SKL_PLUS, dpll_status_read, NULL);
++	MMIO_H(SKL_PS_WIN_POS(PIPE_A, 0), D_SKL_PLUS, NULL, pf_write);
++	MMIO_H(SKL_PS_WIN_POS(PIPE_A, 1), D_SKL_PLUS, NULL, pf_write);
++	MMIO_H(SKL_PS_WIN_POS(PIPE_B, 0), D_SKL_PLUS, NULL, pf_write);
++	MMIO_H(SKL_PS_WIN_POS(PIPE_B, 1), D_SKL_PLUS, NULL, pf_write);
++	MMIO_H(SKL_PS_WIN_POS(PIPE_C, 0), D_SKL_PLUS, NULL, pf_write);
++	MMIO_H(SKL_PS_WIN_POS(PIPE_C, 1), D_SKL_PLUS, NULL, pf_write);
++	MMIO_H(SKL_PS_WIN_SZ(PIPE_A, 0), D_SKL_PLUS, NULL, pf_write);
++	MMIO_H(SKL_PS_WIN_SZ(PIPE_A, 1), D_SKL_PLUS, NULL, pf_write);
++	MMIO_H(SKL_PS_WIN_SZ(PIPE_B, 0), D_SKL_PLUS, NULL, pf_write);
++	MMIO_H(SKL_PS_WIN_SZ(PIPE_B, 1), D_SKL_PLUS, NULL, pf_write);
++	MMIO_H(SKL_PS_WIN_SZ(PIPE_C, 0), D_SKL_PLUS, NULL, pf_write);
++	MMIO_H(SKL_PS_WIN_SZ(PIPE_C, 1), D_SKL_PLUS, NULL, pf_write);
++	MMIO_H(SKL_PS_CTRL(PIPE_A, 0), D_SKL_PLUS, NULL, pf_write);
++	MMIO_H(SKL_PS_CTRL(PIPE_A, 1), D_SKL_PLUS, NULL, pf_write);
++	MMIO_H(SKL_PS_CTRL(PIPE_B, 0), D_SKL_PLUS, NULL, pf_write);
++	MMIO_H(SKL_PS_CTRL(PIPE_B, 1), D_SKL_PLUS, NULL, pf_write);
++	MMIO_H(SKL_PS_CTRL(PIPE_C, 0), D_SKL_PLUS, NULL, pf_write);
++	MMIO_H(SKL_PS_CTRL(PIPE_C, 1), D_SKL_PLUS, NULL, pf_write);
++	MMIO_H(TRTTE, D_SKL_PLUS, NULL, gen9_trtte_write);
++	MMIO_H(_MMIO(0x4dfc), D_SKL_PLUS, NULL, gen9_trtt_chicken_write);
++	MMIO_H(DMA_CTRL, D_SKL_PLUS, NULL, dma_ctrl_write);
+ #define CSFE_CHICKEN1_REG(base) _MMIO((base) + 0xD4)
+-	MMIO_RING_DFH(CSFE_CHICKEN1_REG, D_SKL_PLUS, F_MODE_MASK | F_CMD_ACCESS,
+-		      NULL, csfe_chicken1_mmio_write);
++	MMIO_RING_H(CSFE_CHICKEN1_REG, D_SKL_PLUS, NULL, csfe_chicken1_mmio_write);
+ #undef CSFE_CHICKEN1_REG
+-	MMIO_DFH(GEN8_HDC_CHICKEN1, D_SKL_PLUS, F_MODE_MASK | F_CMD_ACCESS,
+-		 NULL, NULL);
+-	MMIO_DFH(GEN9_WM_CHICKEN3, D_SKL_PLUS, F_MODE_MASK | F_CMD_ACCESS,
+-		 NULL, NULL);
+-
+-	MMIO_DFH(GAMT_CHKN_BIT_REG, D_KBL | D_CFL, F_CMD_ACCESS, NULL, NULL);
+-	MMIO_D(GEN9_CTX_PREEMPT_REG, D_SKL_PLUS & ~D_BXT);
+ 
+ 	return 0;
+ }
+ 
+-static int init_bxt_mmio_info(struct intel_gvt *gvt)
++static int init_bxt_mmio_handlers(struct intel_gvt *gvt)
+ {
+-	struct drm_i915_private *dev_priv = gvt->gt->i915;
+ 	int ret;
+ 
+-	MMIO_F(_MMIO(0x80000), 0x3000, 0, 0, 0, D_BXT, NULL, NULL);
+-
+-	MMIO_D(GEN7_SAMPLER_INSTDONE, D_BXT);
+-	MMIO_D(GEN7_ROW_INSTDONE, D_BXT);
+-	MMIO_D(GEN8_FAULT_TLB_DATA0, D_BXT);
+-	MMIO_D(GEN8_FAULT_TLB_DATA1, D_BXT);
+-	MMIO_D(ERROR_GEN6, D_BXT);
+-	MMIO_D(DONE_REG, D_BXT);
+-	MMIO_D(EIR, D_BXT);
+-	MMIO_D(PGTBL_ER, D_BXT);
+-	MMIO_D(_MMIO(0x4194), D_BXT);
+-	MMIO_D(_MMIO(0x4294), D_BXT);
+-	MMIO_D(_MMIO(0x4494), D_BXT);
+-
+-	MMIO_RING_D(RING_PSMI_CTL, D_BXT);
+-	MMIO_RING_D(RING_DMA_FADD, D_BXT);
+-	MMIO_RING_D(RING_DMA_FADD_UDW, D_BXT);
+-	MMIO_RING_D(RING_IPEHR, D_BXT);
+-	MMIO_RING_D(RING_INSTPS, D_BXT);
+-	MMIO_RING_D(RING_BBADDR_UDW, D_BXT);
+-	MMIO_RING_D(RING_BBSTATE, D_BXT);
+-	MMIO_RING_D(RING_IPEIR, D_BXT);
+-
+-	MMIO_F(SOFT_SCRATCH(0), 16 * 4, 0, 0, 0, D_BXT, NULL, NULL);
+-
+-	MMIO_DH(BXT_P_CR_GT_DISP_PWRON, D_BXT, NULL, bxt_gt_disp_pwron_write);
+-	MMIO_D(BXT_RP_STATE_CAP, D_BXT);
+-	MMIO_DH(BXT_PHY_CTL_FAMILY(DPIO_PHY0), D_BXT,
+-		NULL, bxt_phy_ctl_family_write);
+-	MMIO_DH(BXT_PHY_CTL_FAMILY(DPIO_PHY1), D_BXT,
+-		NULL, bxt_phy_ctl_family_write);
+-	MMIO_D(BXT_PHY_CTL(PORT_A), D_BXT);
+-	MMIO_D(BXT_PHY_CTL(PORT_B), D_BXT);
+-	MMIO_D(BXT_PHY_CTL(PORT_C), D_BXT);
+-	MMIO_DH(BXT_PORT_PLL_ENABLE(PORT_A), D_BXT,
+-		NULL, bxt_port_pll_enable_write);
+-	MMIO_DH(BXT_PORT_PLL_ENABLE(PORT_B), D_BXT,
+-		NULL, bxt_port_pll_enable_write);
+-	MMIO_DH(BXT_PORT_PLL_ENABLE(PORT_C), D_BXT, NULL,
+-		bxt_port_pll_enable_write);
+-
+-	MMIO_D(BXT_PORT_CL1CM_DW0(DPIO_PHY0), D_BXT);
+-	MMIO_D(BXT_PORT_CL1CM_DW9(DPIO_PHY0), D_BXT);
+-	MMIO_D(BXT_PORT_CL1CM_DW10(DPIO_PHY0), D_BXT);
+-	MMIO_D(BXT_PORT_CL1CM_DW28(DPIO_PHY0), D_BXT);
+-	MMIO_D(BXT_PORT_CL1CM_DW30(DPIO_PHY0), D_BXT);
+-	MMIO_D(BXT_PORT_CL2CM_DW6(DPIO_PHY0), D_BXT);
+-	MMIO_D(BXT_PORT_REF_DW3(DPIO_PHY0), D_BXT);
+-	MMIO_D(BXT_PORT_REF_DW6(DPIO_PHY0), D_BXT);
+-	MMIO_D(BXT_PORT_REF_DW8(DPIO_PHY0), D_BXT);
+-
+-	MMIO_D(BXT_PORT_CL1CM_DW0(DPIO_PHY1), D_BXT);
+-	MMIO_D(BXT_PORT_CL1CM_DW9(DPIO_PHY1), D_BXT);
+-	MMIO_D(BXT_PORT_CL1CM_DW10(DPIO_PHY1), D_BXT);
+-	MMIO_D(BXT_PORT_CL1CM_DW28(DPIO_PHY1), D_BXT);
+-	MMIO_D(BXT_PORT_CL1CM_DW30(DPIO_PHY1), D_BXT);
+-	MMIO_D(BXT_PORT_CL2CM_DW6(DPIO_PHY1), D_BXT);
+-	MMIO_D(BXT_PORT_REF_DW3(DPIO_PHY1), D_BXT);
+-	MMIO_D(BXT_PORT_REF_DW6(DPIO_PHY1), D_BXT);
+-	MMIO_D(BXT_PORT_REF_DW8(DPIO_PHY1), D_BXT);
+-
+-	MMIO_D(BXT_PORT_PLL_EBB_0(DPIO_PHY0, DPIO_CH0), D_BXT);
+-	MMIO_D(BXT_PORT_PLL_EBB_4(DPIO_PHY0, DPIO_CH0), D_BXT);
+-	MMIO_D(BXT_PORT_PCS_DW10_LN01(DPIO_PHY0, DPIO_CH0), D_BXT);
+-	MMIO_D(BXT_PORT_PCS_DW10_GRP(DPIO_PHY0, DPIO_CH0), D_BXT);
+-	MMIO_D(BXT_PORT_PCS_DW12_LN01(DPIO_PHY0, DPIO_CH0), D_BXT);
+-	MMIO_D(BXT_PORT_PCS_DW12_LN23(DPIO_PHY0, DPIO_CH0), D_BXT);
+-	MMIO_DH(BXT_PORT_PCS_DW12_GRP(DPIO_PHY0, DPIO_CH0), D_BXT,
+-		NULL, bxt_pcs_dw12_grp_write);
+-	MMIO_D(BXT_PORT_TX_DW2_LN0(DPIO_PHY0, DPIO_CH0), D_BXT);
+-	MMIO_D(BXT_PORT_TX_DW2_GRP(DPIO_PHY0, DPIO_CH0), D_BXT);
+-	MMIO_DH(BXT_PORT_TX_DW3_LN0(DPIO_PHY0, DPIO_CH0), D_BXT,
+-		bxt_port_tx_dw3_read, NULL);
+-	MMIO_D(BXT_PORT_TX_DW3_GRP(DPIO_PHY0, DPIO_CH0), D_BXT);
+-	MMIO_D(BXT_PORT_TX_DW4_LN0(DPIO_PHY0, DPIO_CH0), D_BXT);
+-	MMIO_D(BXT_PORT_TX_DW4_GRP(DPIO_PHY0, DPIO_CH0), D_BXT);
+-	MMIO_D(BXT_PORT_TX_DW14_LN(DPIO_PHY0, DPIO_CH0, 0), D_BXT);
+-	MMIO_D(BXT_PORT_TX_DW14_LN(DPIO_PHY0, DPIO_CH0, 1), D_BXT);
+-	MMIO_D(BXT_PORT_TX_DW14_LN(DPIO_PHY0, DPIO_CH0, 2), D_BXT);
+-	MMIO_D(BXT_PORT_TX_DW14_LN(DPIO_PHY0, DPIO_CH0, 3), D_BXT);
+-	MMIO_D(BXT_PORT_PLL(DPIO_PHY0, DPIO_CH0, 0), D_BXT);
+-	MMIO_D(BXT_PORT_PLL(DPIO_PHY0, DPIO_CH0, 1), D_BXT);
+-	MMIO_D(BXT_PORT_PLL(DPIO_PHY0, DPIO_CH0, 2), D_BXT);
+-	MMIO_D(BXT_PORT_PLL(DPIO_PHY0, DPIO_CH0, 3), D_BXT);
+-	MMIO_D(BXT_PORT_PLL(DPIO_PHY0, DPIO_CH0, 6), D_BXT);
+-	MMIO_D(BXT_PORT_PLL(DPIO_PHY0, DPIO_CH0, 8), D_BXT);
+-	MMIO_D(BXT_PORT_PLL(DPIO_PHY0, DPIO_CH0, 9), D_BXT);
+-	MMIO_D(BXT_PORT_PLL(DPIO_PHY0, DPIO_CH0, 10), D_BXT);
+-
+-	MMIO_D(BXT_PORT_PLL_EBB_0(DPIO_PHY0, DPIO_CH1), D_BXT);
+-	MMIO_D(BXT_PORT_PLL_EBB_4(DPIO_PHY0, DPIO_CH1), D_BXT);
+-	MMIO_D(BXT_PORT_PCS_DW10_LN01(DPIO_PHY0, DPIO_CH1), D_BXT);
+-	MMIO_D(BXT_PORT_PCS_DW10_GRP(DPIO_PHY0, DPIO_CH1), D_BXT);
+-	MMIO_D(BXT_PORT_PCS_DW12_LN01(DPIO_PHY0, DPIO_CH1), D_BXT);
+-	MMIO_D(BXT_PORT_PCS_DW12_LN23(DPIO_PHY0, DPIO_CH1), D_BXT);
+-	MMIO_DH(BXT_PORT_PCS_DW12_GRP(DPIO_PHY0, DPIO_CH1), D_BXT,
+-		NULL, bxt_pcs_dw12_grp_write);
+-	MMIO_D(BXT_PORT_TX_DW2_LN0(DPIO_PHY0, DPIO_CH1), D_BXT);
+-	MMIO_D(BXT_PORT_TX_DW2_GRP(DPIO_PHY0, DPIO_CH1), D_BXT);
+-	MMIO_DH(BXT_PORT_TX_DW3_LN0(DPIO_PHY0, DPIO_CH1), D_BXT,
+-		bxt_port_tx_dw3_read, NULL);
+-	MMIO_D(BXT_PORT_TX_DW3_GRP(DPIO_PHY0, DPIO_CH1), D_BXT);
+-	MMIO_D(BXT_PORT_TX_DW4_LN0(DPIO_PHY0, DPIO_CH1), D_BXT);
+-	MMIO_D(BXT_PORT_TX_DW4_GRP(DPIO_PHY0, DPIO_CH1), D_BXT);
+-	MMIO_D(BXT_PORT_TX_DW14_LN(DPIO_PHY0, DPIO_CH1, 0), D_BXT);
+-	MMIO_D(BXT_PORT_TX_DW14_LN(DPIO_PHY0, DPIO_CH1, 1), D_BXT);
+-	MMIO_D(BXT_PORT_TX_DW14_LN(DPIO_PHY0, DPIO_CH1, 2), D_BXT);
+-	MMIO_D(BXT_PORT_TX_DW14_LN(DPIO_PHY0, DPIO_CH1, 3), D_BXT);
+-	MMIO_D(BXT_PORT_PLL(DPIO_PHY0, DPIO_CH1, 0), D_BXT);
+-	MMIO_D(BXT_PORT_PLL(DPIO_PHY0, DPIO_CH1, 1), D_BXT);
+-	MMIO_D(BXT_PORT_PLL(DPIO_PHY0, DPIO_CH1, 2), D_BXT);
+-	MMIO_D(BXT_PORT_PLL(DPIO_PHY0, DPIO_CH1, 3), D_BXT);
+-	MMIO_D(BXT_PORT_PLL(DPIO_PHY0, DPIO_CH1, 6), D_BXT);
+-	MMIO_D(BXT_PORT_PLL(DPIO_PHY0, DPIO_CH1, 8), D_BXT);
+-	MMIO_D(BXT_PORT_PLL(DPIO_PHY0, DPIO_CH1, 9), D_BXT);
+-	MMIO_D(BXT_PORT_PLL(DPIO_PHY0, DPIO_CH1, 10), D_BXT);
+-
+-	MMIO_D(BXT_PORT_PLL_EBB_0(DPIO_PHY1, DPIO_CH0), D_BXT);
+-	MMIO_D(BXT_PORT_PLL_EBB_4(DPIO_PHY1, DPIO_CH0), D_BXT);
+-	MMIO_D(BXT_PORT_PCS_DW10_LN01(DPIO_PHY1, DPIO_CH0), D_BXT);
+-	MMIO_D(BXT_PORT_PCS_DW10_GRP(DPIO_PHY1, DPIO_CH0), D_BXT);
+-	MMIO_D(BXT_PORT_PCS_DW12_LN01(DPIO_PHY1, DPIO_CH0), D_BXT);
+-	MMIO_D(BXT_PORT_PCS_DW12_LN23(DPIO_PHY1, DPIO_CH0), D_BXT);
+-	MMIO_DH(BXT_PORT_PCS_DW12_GRP(DPIO_PHY1, DPIO_CH0), D_BXT,
+-		NULL, bxt_pcs_dw12_grp_write);
+-	MMIO_D(BXT_PORT_TX_DW2_LN0(DPIO_PHY1, DPIO_CH0), D_BXT);
+-	MMIO_D(BXT_PORT_TX_DW2_GRP(DPIO_PHY1, DPIO_CH0), D_BXT);
+-	MMIO_DH(BXT_PORT_TX_DW3_LN0(DPIO_PHY1, DPIO_CH0), D_BXT,
+-		bxt_port_tx_dw3_read, NULL);
+-	MMIO_D(BXT_PORT_TX_DW3_GRP(DPIO_PHY1, DPIO_CH0), D_BXT);
+-	MMIO_D(BXT_PORT_TX_DW4_LN0(DPIO_PHY1, DPIO_CH0), D_BXT);
+-	MMIO_D(BXT_PORT_TX_DW4_GRP(DPIO_PHY1, DPIO_CH0), D_BXT);
+-	MMIO_D(BXT_PORT_TX_DW14_LN(DPIO_PHY1, DPIO_CH0, 0), D_BXT);
+-	MMIO_D(BXT_PORT_TX_DW14_LN(DPIO_PHY1, DPIO_CH0, 1), D_BXT);
+-	MMIO_D(BXT_PORT_TX_DW14_LN(DPIO_PHY1, DPIO_CH0, 2), D_BXT);
+-	MMIO_D(BXT_PORT_TX_DW14_LN(DPIO_PHY1, DPIO_CH0, 3), D_BXT);
+-	MMIO_D(BXT_PORT_PLL(DPIO_PHY1, DPIO_CH0, 0), D_BXT);
+-	MMIO_D(BXT_PORT_PLL(DPIO_PHY1, DPIO_CH0, 1), D_BXT);
+-	MMIO_D(BXT_PORT_PLL(DPIO_PHY1, DPIO_CH0, 2), D_BXT);
+-	MMIO_D(BXT_PORT_PLL(DPIO_PHY1, DPIO_CH0, 3), D_BXT);
+-	MMIO_D(BXT_PORT_PLL(DPIO_PHY1, DPIO_CH0, 6), D_BXT);
+-	MMIO_D(BXT_PORT_PLL(DPIO_PHY1, DPIO_CH0, 8), D_BXT);
+-	MMIO_D(BXT_PORT_PLL(DPIO_PHY1, DPIO_CH0, 9), D_BXT);
+-	MMIO_D(BXT_PORT_PLL(DPIO_PHY1, DPIO_CH0, 10), D_BXT);
+-
+-	MMIO_D(BXT_DE_PLL_CTL, D_BXT);
+-	MMIO_DH(BXT_DE_PLL_ENABLE, D_BXT, NULL, bxt_de_pll_enable_write);
+-	MMIO_D(BXT_DSI_PLL_CTL, D_BXT);
+-	MMIO_D(BXT_DSI_PLL_ENABLE, D_BXT);
+-
+-	MMIO_D(GEN9_CLKGATE_DIS_0, D_BXT);
+-	MMIO_D(GEN9_CLKGATE_DIS_4, D_BXT);
+-
+-	MMIO_D(HSW_TVIDEO_DIP_GCP(TRANSCODER_A), D_BXT);
+-	MMIO_D(HSW_TVIDEO_DIP_GCP(TRANSCODER_B), D_BXT);
+-	MMIO_D(HSW_TVIDEO_DIP_GCP(TRANSCODER_C), D_BXT);
+-
+-	MMIO_D(RC6_CTX_BASE, D_BXT);
+-
+-	MMIO_D(GEN8_PUSHBUS_CONTROL, D_BXT);
+-	MMIO_D(GEN8_PUSHBUS_ENABLE, D_BXT);
+-	MMIO_D(GEN8_PUSHBUS_SHIFT, D_BXT);
+-	MMIO_D(GEN6_GFXPAUSE, D_BXT);
+-	MMIO_DFH(GEN8_L3SQCREG1, D_BXT, F_CMD_ACCESS, NULL, NULL);
+-	MMIO_DFH(GEN8_L3CNTLREG, D_BXT, F_CMD_ACCESS, NULL, NULL);
+-	MMIO_DFH(_MMIO(0x20D8), D_BXT, F_CMD_ACCESS, NULL, NULL);
+-	MMIO_F(GEN8_RING_CS_GPR(RENDER_RING_BASE, 0), 0x40, F_CMD_ACCESS,
+-	       0, 0, D_BXT, NULL, NULL);
+-	MMIO_F(GEN8_RING_CS_GPR(GEN6_BSD_RING_BASE, 0), 0x40, F_CMD_ACCESS,
+-	       0, 0, D_BXT, NULL, NULL);
+-	MMIO_F(GEN8_RING_CS_GPR(BLT_RING_BASE, 0), 0x40, F_CMD_ACCESS,
+-	       0, 0, D_BXT, NULL, NULL);
+-	MMIO_F(GEN8_RING_CS_GPR(VEBOX_RING_BASE, 0), 0x40, F_CMD_ACCESS,
+-	       0, 0, D_BXT, NULL, NULL);
+-
+-	MMIO_DFH(GEN9_CTX_PREEMPT_REG, D_BXT, F_CMD_ACCESS, NULL, NULL);
+-
+-	MMIO_DH(GEN8_PRIVATE_PAT_LO, D_BXT, NULL, bxt_ppat_low_write);
++	MMIO_H(BXT_P_CR_GT_DISP_PWRON, D_BXT, NULL, bxt_gt_disp_pwron_write);
++	MMIO_H(BXT_PHY_CTL_FAMILY(DPIO_PHY0), D_BXT, NULL, bxt_phy_ctl_family_write);
++	MMIO_H(BXT_PHY_CTL_FAMILY(DPIO_PHY1), D_BXT, NULL, bxt_phy_ctl_family_write);
++	MMIO_H(BXT_PORT_PLL_ENABLE(PORT_A), D_BXT, NULL, bxt_port_pll_enable_write);
++	MMIO_H(BXT_PORT_PLL_ENABLE(PORT_B), D_BXT, NULL, bxt_port_pll_enable_write);
++	MMIO_H(BXT_PORT_PLL_ENABLE(PORT_C), D_BXT, NULL, bxt_port_pll_enable_write);
++	MMIO_H(BXT_PORT_PCS_DW12_GRP(DPIO_PHY0, DPIO_CH0), D_BXT, NULL, bxt_pcs_dw12_grp_write);
++	MMIO_H(BXT_PORT_TX_DW3_LN0(DPIO_PHY0, DPIO_CH0), D_BXT, bxt_port_tx_dw3_read, NULL);
++	MMIO_H(BXT_PORT_PCS_DW12_GRP(DPIO_PHY0, DPIO_CH1), D_BXT, NULL, bxt_pcs_dw12_grp_write);
++	MMIO_H(BXT_PORT_TX_DW3_LN0(DPIO_PHY0, DPIO_CH1), D_BXT, bxt_port_tx_dw3_read, NULL);
++	MMIO_H(BXT_PORT_PCS_DW12_GRP(DPIO_PHY1, DPIO_CH0), D_BXT, NULL, bxt_pcs_dw12_grp_write);
++	MMIO_H(BXT_PORT_TX_DW3_LN0(DPIO_PHY1, DPIO_CH0), D_BXT, bxt_port_tx_dw3_read, NULL);
++	MMIO_H(BXT_DE_PLL_ENABLE, D_BXT, NULL, bxt_de_pll_enable_write);
++	MMIO_H(GEN8_PRIVATE_PAT_LO, D_BXT, NULL, bxt_ppat_low_write);
+ 
+ 	return 0;
+ }
+@@ -3645,43 +2334,26 @@ static struct gvt_mmio_block *find_mmio_block(struct intel_gvt *gvt,
+ 	return NULL;
+ }
+ 
+-/**
+- * intel_gvt_clean_mmio_info - clean up MMIO information table for GVT device
+- * @gvt: GVT device
+- *
+- * This function is called at the driver unloading stage, to clean up the MMIO
+- * information table of GVT device
+- *
+- */
+-void intel_gvt_clean_mmio_info(struct intel_gvt *gvt)
++static int init_default_handlers(struct intel_gvt *gvt)
+ {
+-	struct hlist_node *tmp;
+ 	struct intel_gvt_mmio_info *e;
++	struct gvt_mmio_block *block;
+ 	int i;
+ 
+-	hash_for_each_safe(gvt->mmio.mmio_info_table, i, tmp, e, node)
+-		kfree(e);
++	hash_for_each(gvt->mmio.mmio_info_table, i, e, node) {
++		e->read = intel_vgpu_default_mmio_read;
++		e->write = intel_vgpu_default_mmio_write;
++	}
+ 
+-	vfree(gvt->mmio.mmio_attribute);
+-	gvt->mmio.mmio_attribute = NULL;
+-}
++	block = find_mmio_block(gvt, VGT_PVINFO_PAGE);
++	block->read = pvinfo_mmio_read;
++	block->write = pvinfo_mmio_write;
+ 
+-/* Special MMIO blocks. registers in MMIO block ranges should not be command
+- * accessible (should have no F_CMD_ACCESS flag).
+- * otherwise, need to update cmd_reg_handler in cmd_parser.c
+- */
+-static struct gvt_mmio_block mmio_blocks[] = {
+-	{D_SKL_PLUS, _MMIO(DMC_MMIO_START_RANGE), 0x3000, NULL, NULL},
+-	{D_ALL, _MMIO(MCHBAR_MIRROR_BASE_SNB), 0x40000, NULL, NULL},
+-	{D_ALL, _MMIO(VGT_PVINFO_PAGE), VGT_PVINFO_SIZE,
+-		pvinfo_mmio_read, pvinfo_mmio_write},
+-	{D_ALL, LGC_PALETTE(PIPE_A, 0), 1024, NULL, NULL},
+-	{D_ALL, LGC_PALETTE(PIPE_B, 0), 1024, NULL, NULL},
+-	{D_ALL, LGC_PALETTE(PIPE_C, 0), 1024, NULL, NULL},
+-};
++	return 0;
++}
+ 
+ /**
+- * intel_gvt_setup_mmio_info - setup MMIO information table for GVT device
++ * intel_gvt_setup_mmio_handlers - setup MMIO handlers for GVT device
+  * @gvt: GVT device
+  *
+  * This function is called at the initialization stage, to setup the MMIO
+@@ -3690,53 +2362,47 @@ static struct gvt_mmio_block mmio_blocks[] = {
+  * Returns:
+  * zero on success, negative if failed.
+  */
+-int intel_gvt_setup_mmio_info(struct intel_gvt *gvt)
++int intel_gvt_setup_mmio_handlers(struct intel_gvt *gvt)
+ {
+-	struct intel_gvt_device_info *info = &gvt->device_info;
+ 	struct drm_i915_private *i915 = gvt->gt->i915;
+-	int size = info->mmio_size / 4 * sizeof(*gvt->mmio.mmio_attribute);
+ 	int ret;
+ 
+-	gvt->mmio.mmio_attribute = vzalloc(size);
+-	if (!gvt->mmio.mmio_attribute)
+-		return -ENOMEM;
++	ret = init_default_handlers(gvt);
++	if (ret)
++		goto err;
+ 
+-	ret = init_generic_mmio_info(gvt);
++	ret = init_generic_mmio_handlers(gvt);
+ 	if (ret)
+ 		goto err;
+ 
+ 	if (IS_BROADWELL(i915)) {
+-		ret = init_bdw_mmio_info(gvt);
++		ret = init_bdw_mmio_handlers(gvt);
+ 		if (ret)
+ 			goto err;
+ 	} else if (IS_SKYLAKE(i915) ||
+ 		   IS_KABYLAKE(i915) ||
+ 		   IS_COFFEELAKE(i915) ||
+ 		   IS_COMETLAKE(i915)) {
+-		ret = init_bdw_mmio_info(gvt);
++		ret = init_bdw_mmio_handlers(gvt);
+ 		if (ret)
+ 			goto err;
+-		ret = init_skl_mmio_info(gvt);
++		ret = init_skl_mmio_handlers(gvt);
+ 		if (ret)
+ 			goto err;
+ 	} else if (IS_BROXTON(i915)) {
+-		ret = init_bdw_mmio_info(gvt);
++		ret = init_bdw_mmio_handlers(gvt);
+ 		if (ret)
+ 			goto err;
+-		ret = init_skl_mmio_info(gvt);
++		ret = init_skl_mmio_handlers(gvt);
+ 		if (ret)
+ 			goto err;
+-		ret = init_bxt_mmio_info(gvt);
++		ret = init_bxt_mmio_handlers(gvt);
+ 		if (ret)
+ 			goto err;
+ 	}
+ 
+-	gvt->mmio.mmio_block = mmio_blocks;
+-	gvt->mmio.num_mmio_block = ARRAY_SIZE(mmio_blocks);
+-
+ 	return 0;
+ err:
+-	intel_gvt_clean_mmio_info(gvt);
+ 	return ret;
+ }
+ 
+diff --git a/drivers/gpu/drm/i915/gvt/mmio.h b/drivers/gpu/drm/i915/gvt/mmio.h
+index 7c26af39fbfc..48670f551f55 100644
+--- a/drivers/gpu/drm/i915/gvt/mmio.h
++++ b/drivers/gpu/drm/i915/gvt/mmio.h
+@@ -71,11 +71,8 @@ struct intel_gvt_mmio_info {
+ 
+ const struct intel_engine_cs *
+ intel_gvt_render_mmio_to_engine(struct intel_gvt *gvt, unsigned int reg);
+-unsigned long intel_gvt_get_device_type(struct intel_gvt *gvt);
+-bool intel_gvt_match_device(struct intel_gvt *gvt, unsigned long device);
+ 
+-int intel_gvt_setup_mmio_info(struct intel_gvt *gvt);
+-void intel_gvt_clean_mmio_info(struct intel_gvt *gvt);
++int intel_gvt_setup_mmio_handlers(struct intel_gvt *gvt);
+ int intel_gvt_for_each_tracked_mmio(struct intel_gvt *gvt,
+ 	int (*handler)(struct intel_gvt *gvt, u32 offset, void *data),
+ 	void *data);
+diff --git a/drivers/gpu/drm/i915/gvt/mmio_info_table.c b/drivers/gpu/drm/i915/gvt/mmio_info_table.c
+new file mode 100644
+index 000000000000..723190c25313
+--- /dev/null
++++ b/drivers/gpu/drm/i915/gvt/mmio_info_table.c
+@@ -0,0 +1,1461 @@
++/*
++ * Copyright(c) 2021 Intel Corporation. All rights reserved.
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a
++ * copy of this software and associated documentation files (the "Software"),
++ * to deal in the Software without restriction, including without limitation
++ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
++ * and/or sell copies of the Software, and to permit persons to whom the
++ * Software is furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice (including the next
++ * paragraph) shall be included in all copies or substantial portions of the
++ * Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
++ * SOFTWARE.
++ *
++ */
++
++#include "i915_drv.h"
++#include "i915_pvinfo.h"
++#include "gvt.h"
++
++/**
++ * intel_gvt_get_device_type - return the device flag of a GVT device
++ * @gvt: GVT device
++ *
++ * This function will return the device flag of a GVT device.
++ *
++ */
++unsigned long intel_gvt_get_device_type(struct intel_gvt *gvt)
++{
++	struct drm_i915_private *i915 = gvt->gt->i915;
++
++	if (IS_BROADWELL(i915))
++		return D_BDW;
++	else if (IS_SKYLAKE(i915))
++		return D_SKL;
++	else if (IS_KABYLAKE(i915))
++		return D_KBL;
++	else if (IS_BROXTON(i915))
++		return D_BXT;
++	else if (IS_COFFEELAKE(i915) || IS_COMETLAKE(i915))
++		return D_CFL;
++
++	return 0;
++}
++
++/**
++ * intel_gvt_match_device - check if a device flag matches or not
++ * @gvt: a GVT device
++ * @device: the device flag
++ *
++ * Check if the given device flag matches with a GVT device.
++ *
++ */
++bool intel_gvt_match_device(struct intel_gvt *gvt,
++		unsigned long device)
++{
++	return intel_gvt_get_device_type(gvt) & device;
++}
++
++/**
++ * intel_gvt_find_mmio_info - find a mmio info entry
++ * @gvt: a GVT device
++ * @offset: a MMIO offset
++ *
++ * Finad a mmio info entry according to an offset.
++ *
++ * Returns:
++ * NULL if not found.
++ *
++ */
++struct intel_gvt_mmio_info *intel_gvt_find_mmio_info(struct intel_gvt *gvt,
++						  unsigned int offset)
++{
++	struct intel_gvt_mmio_info *e;
++
++	hash_for_each_possible(gvt->mmio.mmio_info_table, e, node, offset) {
++		if (e->offset == offset)
++			return e;
++	}
++	return NULL;
++}
++
++static int new_mmio_info(struct intel_gvt *gvt,
++		u32 offset, u16 flags, u32 size,
++		u32 addr_mask, u32 ro_mask, u32 device)
++{
++	struct intel_gvt_mmio_info *info, *p;
++	u32 start, end, i;
++
++	if (!intel_gvt_match_device(gvt, device))
++		return 0;
++
++	if (WARN_ON(!IS_ALIGNED(offset, 4)))
++		return -EINVAL;
++
++	start = offset;
++	end = offset + size;
++
++	for (i = start; i < end; i += 4) {
++		info = kzalloc(sizeof(*info), GFP_KERNEL);
++		if (!info)
++			return -ENOMEM;
++
++		info->offset = i;
++		p = intel_gvt_find_mmio_info(gvt, info->offset);
++		if (p) {
++			WARN(1, "dup mmio definition offset %x\n",
++				info->offset);
++			kfree(info);
++
++			/* We return -EEXIST here to make GVT-g load fail.
++			 * So duplicated MMIO can be found as soon as
++			 * possible.
++			 */
++			return -EEXIST;
++		}
++
++		info->ro_mask = ro_mask;
++		info->device = device;
++		gvt->mmio.mmio_attribute[info->offset / 4] = flags;
++		INIT_HLIST_NODE(&info->node);
++		hash_add(gvt->mmio.mmio_info_table, &info->node, info->offset);
++		gvt->mmio.num_tracked_mmio++;
++	}
++	return 0;
++}
++
++#define MMIO_F(reg, s, f, am, rm, d) do { \
++	ret = new_mmio_info(gvt, i915_mmio_reg_offset(reg), \
++		f, s, am, rm, d); \
++	if (ret) \
++		return ret; \
++} while (0)
++
++#define MMIO_D(reg, d) \
++	MMIO_F(reg, 4, 0, 0, 0, d)
++
++#define MMIO_DF(reg, d, f) \
++	MMIO_F(reg, 4, f, 0, 0, d)
++
++#define MMIO_GM_RDR(reg, d) \
++	MMIO_F(reg, 4, F_GMADR | F_CMD_ACCESS, 0xFFFFF000, 0, d)
++
++#define MMIO_RO(reg, d, f, rm) \
++	MMIO_F(reg, 4, F_RO | f, 0, rm, d)
++
++#define MMIO_RING_F(prefix, s, f, am, rm, d) do { \
++	MMIO_F(prefix(RENDER_RING_BASE), s, f, am, rm, d); \
++	MMIO_F(prefix(BLT_RING_BASE), s, f, am, rm, d); \
++	MMIO_F(prefix(GEN6_BSD_RING_BASE), s, f, am, rm, d); \
++	MMIO_F(prefix(VEBOX_RING_BASE), s, f, am, rm, d); \
++	if (HAS_ENGINE(gvt->gt, VCS1)) \
++		MMIO_F(prefix(GEN8_BSD2_RING_BASE), s, f, am, rm, d); \
++} while (0)
++
++#define MMIO_RING_D(prefix, d) \
++	MMIO_RING_F(prefix, 4, 0, 0, 0, d)
++
++#define MMIO_RING_DF(prefix, d, f) \
++	MMIO_RING_F(prefix, 4, f, 0, 0, d)
++
++#define MMIO_RING_GM(prefix, d) \
++	MMIO_RING_F(prefix, 4, F_GMADR, 0xFFFF0000, 0, d)
++
++#define MMIO_RING_GM_RDR(prefix, d) \
++	MMIO_RING_F(prefix, 4, F_GMADR | F_CMD_ACCESS, 0xFFFF0000, 0, d)
++
++#define MMIO_RING_RO(prefix, d, f, rm) \
++	MMIO_RING_F(prefix, 4, F_RO | f, 0, rm, d)
++
++static int init_generic_mmio_info(struct intel_gvt *gvt)
++{
++	struct drm_i915_private *dev_priv = gvt->gt->i915;
++	int ret;
++
++	MMIO_RING_D(RING_IMR, D_ALL);
++	MMIO_D(SDEIMR, D_ALL);
++	MMIO_D(SDEIER, D_ALL);
++	MMIO_D(SDEIIR, D_ALL);
++	MMIO_D(SDEISR, D_ALL);
++	MMIO_RING_D(RING_HWSTAM, D_ALL);
++	MMIO_D(GEN8_GAMW_ECO_DEV_RW_IA, D_BDW_PLUS);
++	MMIO_GM_RDR(BSD_HWS_PGA_GEN7, D_ALL);
++	MMIO_GM_RDR(BLT_HWS_PGA_GEN7, D_ALL);
++	MMIO_GM_RDR(VEBOX_HWS_PGA_GEN7, D_ALL);
++
++#define RING_REG(base) _MMIO((base) + 0x28)
++	MMIO_RING_DF(RING_REG, D_ALL, F_CMD_ACCESS);
++#undef RING_REG
++
++#define RING_REG(base) _MMIO((base) + 0x134)
++	MMIO_RING_DF(RING_REG, D_ALL, F_CMD_ACCESS);
++#undef RING_REG
++
++#define RING_REG(base) _MMIO((base) + 0x6c)
++	MMIO_RING_D(RING_REG, D_ALL);
++#undef RING_REG
++	MMIO_D(GEN7_SC_INSTDONE, D_BDW_PLUS);
++	MMIO_GM_RDR(_MMIO(0x2148), D_ALL);
++	MMIO_GM_RDR(CCID(RENDER_RING_BASE), D_ALL);
++	MMIO_GM_RDR(_MMIO(0x12198), D_ALL);
++	MMIO_D(GEN7_CXT_SIZE, D_ALL);
++	MMIO_RING_D(RING_TAIL, D_ALL);
++	MMIO_RING_D(RING_HEAD, D_ALL);
++	MMIO_RING_D(RING_CTL, D_ALL);
++	MMIO_RING_D(RING_ACTHD, D_ALL);
++	MMIO_RING_GM(RING_START, D_ALL);
++
++	/* RING MODE */
++#define RING_REG(base) _MMIO((base) + 0x29c)
++	MMIO_RING_DF(RING_REG, D_ALL,
++		F_MODE_MASK | F_CMD_ACCESS | F_CMD_WRITE_PATCH);
++#undef RING_REG
++
++	MMIO_RING_DF(RING_MI_MODE, D_ALL, F_MODE_MASK | F_CMD_ACCESS);
++	MMIO_RING_DF(RING_INSTPM, D_ALL, F_MODE_MASK | F_CMD_ACCESS);
++	MMIO_RING_DF(RING_TIMESTAMP, D_ALL, F_CMD_ACCESS);
++	MMIO_RING_DF(RING_TIMESTAMP_UDW, D_ALL, F_CMD_ACCESS);
++	MMIO_DF(GEN7_GT_MODE, D_ALL, F_MODE_MASK | F_CMD_ACCESS);
++	MMIO_DF(CACHE_MODE_0_GEN7, D_ALL, F_MODE_MASK | F_CMD_ACCESS);
++	MMIO_DF(CACHE_MODE_1, D_ALL, F_MODE_MASK | F_CMD_ACCESS);
++	MMIO_DF(CACHE_MODE_0, D_ALL, F_MODE_MASK | F_CMD_ACCESS);
++	MMIO_DF(_MMIO(0x2124), D_ALL, F_MODE_MASK | F_CMD_ACCESS);
++	MMIO_DF(_MMIO(0x20dc), D_ALL, F_MODE_MASK | F_CMD_ACCESS);
++	MMIO_DF(_3D_CHICKEN3, D_ALL, F_MODE_MASK | F_CMD_ACCESS);
++	MMIO_DF(_MMIO(0x2088), D_ALL, F_MODE_MASK | F_CMD_ACCESS);
++	MMIO_DF(FF_SLICE_CS_CHICKEN2, D_ALL, F_MODE_MASK | F_CMD_ACCESS);
++	MMIO_DF(_MMIO(0x2470), D_ALL, F_MODE_MASK | F_CMD_ACCESS);
++	MMIO_DF(GAM_ECOCHK, D_ALL, F_CMD_ACCESS);
++	MMIO_DF(GEN7_COMMON_SLICE_CHICKEN1, D_ALL, F_MODE_MASK | F_CMD_ACCESS);
++	MMIO_DF(COMMON_SLICE_CHICKEN2, D_ALL, F_MODE_MASK | F_CMD_ACCESS);
++	MMIO_DF(_MMIO(0x9030), D_ALL, F_CMD_ACCESS);
++	MMIO_DF(_MMIO(0x20a0), D_ALL, F_CMD_ACCESS);
++	MMIO_DF(_MMIO(0x2420), D_ALL, F_CMD_ACCESS);
++	MMIO_DF(_MMIO(0x2430), D_ALL, F_CMD_ACCESS);
++	MMIO_DF(_MMIO(0x2434), D_ALL, F_CMD_ACCESS);
++	MMIO_DF(_MMIO(0x2438), D_ALL, F_CMD_ACCESS);
++	MMIO_DF(_MMIO(0x243c), D_ALL, F_CMD_ACCESS);
++	MMIO_DF(_MMIO(0x7018), D_ALL, F_MODE_MASK | F_CMD_ACCESS);
++	MMIO_DF(HALF_SLICE_CHICKEN3, D_ALL, F_MODE_MASK | F_CMD_ACCESS);
++	MMIO_DF(GEN7_HALF_SLICE_CHICKEN1, D_ALL, F_MODE_MASK | F_CMD_ACCESS);
++	/* display */
++	MMIO_F(_MMIO(0x60220), 0x20, 0, 0, 0, D_ALL);
++	MMIO_D(_MMIO(0x602a0), D_ALL);
++	MMIO_D(_MMIO(0x65050), D_ALL);
++	MMIO_D(_MMIO(0x650b4), D_ALL);
++	MMIO_D(_MMIO(0xc4040), D_ALL);
++	MMIO_D(DERRMR, D_ALL);
++	MMIO_D(PIPEDSL(PIPE_A), D_ALL);
++	MMIO_D(PIPEDSL(PIPE_B), D_ALL);
++	MMIO_D(PIPEDSL(PIPE_C), D_ALL);
++	MMIO_D(PIPEDSL(_PIPE_EDP), D_ALL);
++	MMIO_D(PIPECONF(PIPE_A), D_ALL);
++	MMIO_D(PIPECONF(PIPE_B), D_ALL);
++	MMIO_D(PIPECONF(PIPE_C), D_ALL);
++	MMIO_D(PIPECONF(_PIPE_EDP), D_ALL);
++	MMIO_D(PIPESTAT(PIPE_A), D_ALL);
++	MMIO_D(PIPESTAT(PIPE_B), D_ALL);
++	MMIO_D(PIPESTAT(PIPE_C), D_ALL);
++	MMIO_D(PIPESTAT(_PIPE_EDP), D_ALL);
++	MMIO_D(PIPE_FLIPCOUNT_G4X(PIPE_A), D_ALL);
++	MMIO_D(PIPE_FLIPCOUNT_G4X(PIPE_B), D_ALL);
++	MMIO_D(PIPE_FLIPCOUNT_G4X(PIPE_C), D_ALL);
++	MMIO_D(PIPE_FLIPCOUNT_G4X(_PIPE_EDP), D_ALL);
++	MMIO_D(PIPE_FRMCOUNT_G4X(PIPE_A), D_ALL);
++	MMIO_D(PIPE_FRMCOUNT_G4X(PIPE_B), D_ALL);
++	MMIO_D(PIPE_FRMCOUNT_G4X(PIPE_C), D_ALL);
++	MMIO_D(PIPE_FRMCOUNT_G4X(_PIPE_EDP), D_ALL);
++	MMIO_D(CURCNTR(PIPE_A), D_ALL);
++	MMIO_D(CURCNTR(PIPE_B), D_ALL);
++	MMIO_D(CURCNTR(PIPE_C), D_ALL);
++	MMIO_D(CURPOS(PIPE_A), D_ALL);
++	MMIO_D(CURPOS(PIPE_B), D_ALL);
++	MMIO_D(CURPOS(PIPE_C), D_ALL);
++	MMIO_D(CURBASE(PIPE_A), D_ALL);
++	MMIO_D(CURBASE(PIPE_B), D_ALL);
++	MMIO_D(CURBASE(PIPE_C), D_ALL);
++	MMIO_D(CUR_FBC_CTL(PIPE_A), D_ALL);
++	MMIO_D(CUR_FBC_CTL(PIPE_B), D_ALL);
++	MMIO_D(CUR_FBC_CTL(PIPE_C), D_ALL);
++	MMIO_D(_MMIO(0x700ac), D_ALL);
++	MMIO_D(_MMIO(0x710ac), D_ALL);
++	MMIO_D(_MMIO(0x720ac), D_ALL);
++	MMIO_D(_MMIO(0x70090), D_ALL);
++	MMIO_D(_MMIO(0x70094), D_ALL);
++	MMIO_D(_MMIO(0x70098), D_ALL);
++	MMIO_D(_MMIO(0x7009c), D_ALL);
++	MMIO_D(DSPCNTR(PIPE_A), D_ALL);
++	MMIO_D(DSPADDR(PIPE_A), D_ALL);
++	MMIO_D(DSPSTRIDE(PIPE_A), D_ALL);
++	MMIO_D(DSPPOS(PIPE_A), D_ALL);
++	MMIO_D(DSPSIZE(PIPE_A), D_ALL);
++	MMIO_D(DSPSURF(PIPE_A), D_ALL);
++	MMIO_D(DSPOFFSET(PIPE_A), D_ALL);
++	MMIO_D(DSPSURFLIVE(PIPE_A), D_ALL);
++	MMIO_D(REG_50080(PIPE_A, PLANE_PRIMARY), D_ALL);
++	MMIO_D(DSPCNTR(PIPE_B), D_ALL);
++	MMIO_D(DSPADDR(PIPE_B), D_ALL);
++	MMIO_D(DSPSTRIDE(PIPE_B), D_ALL);
++	MMIO_D(DSPPOS(PIPE_B), D_ALL);
++	MMIO_D(DSPSIZE(PIPE_B), D_ALL);
++	MMIO_D(DSPSURF(PIPE_B), D_ALL);
++	MMIO_D(DSPOFFSET(PIPE_B), D_ALL);
++	MMIO_D(DSPSURFLIVE(PIPE_B), D_ALL);
++	MMIO_D(REG_50080(PIPE_B, PLANE_PRIMARY), D_ALL);
++	MMIO_D(DSPCNTR(PIPE_C), D_ALL);
++	MMIO_D(DSPADDR(PIPE_C), D_ALL);
++	MMIO_D(DSPSTRIDE(PIPE_C), D_ALL);
++	MMIO_D(DSPPOS(PIPE_C), D_ALL);
++	MMIO_D(DSPSIZE(PIPE_C), D_ALL);
++	MMIO_D(DSPSURF(PIPE_C), D_ALL);
++	MMIO_D(DSPOFFSET(PIPE_C), D_ALL);
++	MMIO_D(DSPSURFLIVE(PIPE_C), D_ALL);
++	MMIO_D(REG_50080(PIPE_C, PLANE_PRIMARY), D_ALL);
++	MMIO_D(SPRCTL(PIPE_A), D_ALL);
++	MMIO_D(SPRLINOFF(PIPE_A), D_ALL);
++	MMIO_D(SPRSTRIDE(PIPE_A), D_ALL);
++	MMIO_D(SPRPOS(PIPE_A), D_ALL);
++	MMIO_D(SPRSIZE(PIPE_A), D_ALL);
++	MMIO_D(SPRKEYVAL(PIPE_A), D_ALL);
++	MMIO_D(SPRKEYMSK(PIPE_A), D_ALL);
++	MMIO_D(SPRSURF(PIPE_A), D_ALL);
++	MMIO_D(SPRKEYMAX(PIPE_A), D_ALL);
++	MMIO_D(SPROFFSET(PIPE_A), D_ALL);
++	MMIO_D(SPRSCALE(PIPE_A), D_ALL);
++	MMIO_D(SPRSURFLIVE(PIPE_A), D_ALL);
++	MMIO_D(REG_50080(PIPE_A, PLANE_SPRITE0), D_ALL);
++	MMIO_D(SPRCTL(PIPE_B), D_ALL);
++	MMIO_D(SPRLINOFF(PIPE_B), D_ALL);
++	MMIO_D(SPRSTRIDE(PIPE_B), D_ALL);
++	MMIO_D(SPRPOS(PIPE_B), D_ALL);
++	MMIO_D(SPRSIZE(PIPE_B), D_ALL);
++	MMIO_D(SPRKEYVAL(PIPE_B), D_ALL);
++	MMIO_D(SPRKEYMSK(PIPE_B), D_ALL);
++	MMIO_D(SPRSURF(PIPE_B), D_ALL);
++	MMIO_D(SPRKEYMAX(PIPE_B), D_ALL);
++	MMIO_D(SPROFFSET(PIPE_B), D_ALL);
++	MMIO_D(SPRSCALE(PIPE_B), D_ALL);
++	MMIO_D(SPRSURFLIVE(PIPE_B), D_ALL);
++	MMIO_D(REG_50080(PIPE_B, PLANE_SPRITE0), D_ALL);
++	MMIO_D(SPRCTL(PIPE_C), D_ALL);
++	MMIO_D(SPRLINOFF(PIPE_C), D_ALL);
++	MMIO_D(SPRSTRIDE(PIPE_C), D_ALL);
++	MMIO_D(SPRPOS(PIPE_C), D_ALL);
++	MMIO_D(SPRSIZE(PIPE_C), D_ALL);
++	MMIO_D(SPRKEYVAL(PIPE_C), D_ALL);
++	MMIO_D(SPRKEYMSK(PIPE_C), D_ALL);
++	MMIO_D(SPRSURF(PIPE_C), D_ALL);
++	MMIO_D(SPRKEYMAX(PIPE_C), D_ALL);
++	MMIO_D(SPROFFSET(PIPE_C), D_ALL);
++	MMIO_D(SPRSCALE(PIPE_C), D_ALL);
++	MMIO_D(SPRSURFLIVE(PIPE_C), D_ALL);
++	MMIO_D(REG_50080(PIPE_C, PLANE_SPRITE0), D_ALL);
++	MMIO_D(HTOTAL(TRANSCODER_A), D_ALL);
++	MMIO_D(HBLANK(TRANSCODER_A), D_ALL);
++	MMIO_D(HSYNC(TRANSCODER_A), D_ALL);
++	MMIO_D(VTOTAL(TRANSCODER_A), D_ALL);
++	MMIO_D(VBLANK(TRANSCODER_A), D_ALL);
++	MMIO_D(VSYNC(TRANSCODER_A), D_ALL);
++	MMIO_D(BCLRPAT(TRANSCODER_A), D_ALL);
++	MMIO_D(VSYNCSHIFT(TRANSCODER_A), D_ALL);
++	MMIO_D(PIPESRC(TRANSCODER_A), D_ALL);
++	MMIO_D(HTOTAL(TRANSCODER_B), D_ALL);
++	MMIO_D(HBLANK(TRANSCODER_B), D_ALL);
++	MMIO_D(HSYNC(TRANSCODER_B), D_ALL);
++	MMIO_D(VTOTAL(TRANSCODER_B), D_ALL);
++	MMIO_D(VBLANK(TRANSCODER_B), D_ALL);
++	MMIO_D(VSYNC(TRANSCODER_B), D_ALL);
++	MMIO_D(BCLRPAT(TRANSCODER_B), D_ALL);
++	MMIO_D(VSYNCSHIFT(TRANSCODER_B), D_ALL);
++	MMIO_D(PIPESRC(TRANSCODER_B), D_ALL);
++	MMIO_D(HTOTAL(TRANSCODER_C), D_ALL);
++	MMIO_D(HBLANK(TRANSCODER_C), D_ALL);
++	MMIO_D(HSYNC(TRANSCODER_C), D_ALL);
++	MMIO_D(VTOTAL(TRANSCODER_C), D_ALL);
++	MMIO_D(VBLANK(TRANSCODER_C), D_ALL);
++	MMIO_D(VSYNC(TRANSCODER_C), D_ALL);
++	MMIO_D(BCLRPAT(TRANSCODER_C), D_ALL);
++	MMIO_D(VSYNCSHIFT(TRANSCODER_C), D_ALL);
++	MMIO_D(PIPESRC(TRANSCODER_C), D_ALL);
++	MMIO_D(HTOTAL(TRANSCODER_EDP), D_ALL);
++	MMIO_D(HBLANK(TRANSCODER_EDP), D_ALL);
++	MMIO_D(HSYNC(TRANSCODER_EDP), D_ALL);
++	MMIO_D(VTOTAL(TRANSCODER_EDP), D_ALL);
++	MMIO_D(VBLANK(TRANSCODER_EDP), D_ALL);
++	MMIO_D(VSYNC(TRANSCODER_EDP), D_ALL);
++	MMIO_D(BCLRPAT(TRANSCODER_EDP), D_ALL);
++	MMIO_D(VSYNCSHIFT(TRANSCODER_EDP), D_ALL);
++	MMIO_D(PIPE_DATA_M1(TRANSCODER_A), D_ALL);
++	MMIO_D(PIPE_DATA_N1(TRANSCODER_A), D_ALL);
++	MMIO_D(PIPE_DATA_M2(TRANSCODER_A), D_ALL);
++	MMIO_D(PIPE_DATA_N2(TRANSCODER_A), D_ALL);
++	MMIO_D(PIPE_LINK_M1(TRANSCODER_A), D_ALL);
++	MMIO_D(PIPE_LINK_N1(TRANSCODER_A), D_ALL);
++	MMIO_D(PIPE_LINK_M2(TRANSCODER_A), D_ALL);
++	MMIO_D(PIPE_LINK_N2(TRANSCODER_A), D_ALL);
++	MMIO_D(PIPE_DATA_M1(TRANSCODER_B), D_ALL);
++	MMIO_D(PIPE_DATA_N1(TRANSCODER_B), D_ALL);
++	MMIO_D(PIPE_DATA_M2(TRANSCODER_B), D_ALL);
++	MMIO_D(PIPE_DATA_N2(TRANSCODER_B), D_ALL);
++	MMIO_D(PIPE_LINK_M1(TRANSCODER_B), D_ALL);
++	MMIO_D(PIPE_LINK_N1(TRANSCODER_B), D_ALL);
++	MMIO_D(PIPE_LINK_M2(TRANSCODER_B), D_ALL);
++	MMIO_D(PIPE_LINK_N2(TRANSCODER_B), D_ALL);
++	MMIO_D(PIPE_DATA_M1(TRANSCODER_C), D_ALL);
++	MMIO_D(PIPE_DATA_N1(TRANSCODER_C), D_ALL);
++	MMIO_D(PIPE_DATA_M2(TRANSCODER_C), D_ALL);
++	MMIO_D(PIPE_DATA_N2(TRANSCODER_C), D_ALL);
++	MMIO_D(PIPE_LINK_M1(TRANSCODER_C), D_ALL);
++	MMIO_D(PIPE_LINK_N1(TRANSCODER_C), D_ALL);
++	MMIO_D(PIPE_LINK_M2(TRANSCODER_C), D_ALL);
++	MMIO_D(PIPE_LINK_N2(TRANSCODER_C), D_ALL);
++	MMIO_D(PIPE_DATA_M1(TRANSCODER_EDP), D_ALL);
++	MMIO_D(PIPE_DATA_N1(TRANSCODER_EDP), D_ALL);
++	MMIO_D(PIPE_DATA_M2(TRANSCODER_EDP), D_ALL);
++	MMIO_D(PIPE_DATA_N2(TRANSCODER_EDP), D_ALL);
++	MMIO_D(PIPE_LINK_M1(TRANSCODER_EDP), D_ALL);
++	MMIO_D(PIPE_LINK_N1(TRANSCODER_EDP), D_ALL);
++	MMIO_D(PIPE_LINK_M2(TRANSCODER_EDP), D_ALL);
++	MMIO_D(PIPE_LINK_N2(TRANSCODER_EDP), D_ALL);
++	MMIO_D(PF_CTL(PIPE_A), D_ALL);
++	MMIO_D(PF_WIN_SZ(PIPE_A), D_ALL);
++	MMIO_D(PF_WIN_POS(PIPE_A), D_ALL);
++	MMIO_D(PF_VSCALE(PIPE_A), D_ALL);
++	MMIO_D(PF_HSCALE(PIPE_A), D_ALL);
++	MMIO_D(PF_CTL(PIPE_B), D_ALL);
++	MMIO_D(PF_WIN_SZ(PIPE_B), D_ALL);
++	MMIO_D(PF_WIN_POS(PIPE_B), D_ALL);
++	MMIO_D(PF_VSCALE(PIPE_B), D_ALL);
++	MMIO_D(PF_HSCALE(PIPE_B), D_ALL);
++	MMIO_D(PF_CTL(PIPE_C), D_ALL);
++	MMIO_D(PF_WIN_SZ(PIPE_C), D_ALL);
++	MMIO_D(PF_WIN_POS(PIPE_C), D_ALL);
++	MMIO_D(PF_VSCALE(PIPE_C), D_ALL);
++	MMIO_D(PF_HSCALE(PIPE_C), D_ALL);
++	MMIO_D(WM0_PIPE_ILK(PIPE_A), D_ALL);
++	MMIO_D(WM0_PIPE_ILK(PIPE_B), D_ALL);
++	MMIO_D(WM0_PIPE_ILK(PIPE_C), D_ALL);
++	MMIO_D(WM1_LP_ILK, D_ALL);
++	MMIO_D(WM2_LP_ILK, D_ALL);
++	MMIO_D(WM3_LP_ILK, D_ALL);
++	MMIO_D(WM1S_LP_ILK, D_ALL);
++	MMIO_D(WM2S_LP_IVB, D_ALL);
++	MMIO_D(WM3S_LP_IVB, D_ALL);
++	MMIO_D(BLC_PWM_CPU_CTL2, D_ALL);
++	MMIO_D(BLC_PWM_CPU_CTL, D_ALL);
++	MMIO_D(BLC_PWM_PCH_CTL1, D_ALL);
++	MMIO_D(BLC_PWM_PCH_CTL2, D_ALL);
++	MMIO_D(_MMIO(0x48268), D_ALL);
++	MMIO_F(PCH_GMBUS0, 4 * 4, 0, 0, 0, D_ALL);
++	MMIO_F(PCH_GPIO_BASE, 6 * 4, F_UNALIGN, 0, 0, D_ALL);
++	MMIO_F(_MMIO(0xe4f00), 0x28, 0, 0, 0, D_ALL);
++	MMIO_F(_MMIO(_PCH_DPB_AUX_CH_CTL), 6 * 4, 0, 0, 0, D_PRE_SKL);
++	MMIO_F(_MMIO(_PCH_DPC_AUX_CH_CTL), 6 * 4, 0, 0, 0, D_PRE_SKL);
++	MMIO_F(_MMIO(_PCH_DPD_AUX_CH_CTL), 6 * 4, 0, 0, 0, D_PRE_SKL);
++	MMIO_D(PCH_ADPA, D_PRE_SKL);
++	MMIO_D(_MMIO(_PCH_TRANSACONF), D_ALL);
++	MMIO_D(_MMIO(_PCH_TRANSBCONF), D_ALL);
++	MMIO_D(FDI_RX_IIR(PIPE_A), D_ALL);
++	MMIO_D(FDI_RX_IIR(PIPE_B), D_ALL);
++	MMIO_D(FDI_RX_IIR(PIPE_C), D_ALL);
++	MMIO_D(FDI_RX_IMR(PIPE_A), D_ALL);
++	MMIO_D(FDI_RX_IMR(PIPE_B), D_ALL);
++	MMIO_D(FDI_RX_IMR(PIPE_C), D_ALL);
++	MMIO_D(FDI_RX_CTL(PIPE_A), D_ALL);
++	MMIO_D(FDI_RX_CTL(PIPE_B), D_ALL);
++	MMIO_D(FDI_RX_CTL(PIPE_C), D_ALL);
++	MMIO_D(_MMIO(_PCH_TRANS_HTOTAL_A), D_ALL);
++	MMIO_D(_MMIO(_PCH_TRANS_HBLANK_A), D_ALL);
++	MMIO_D(_MMIO(_PCH_TRANS_HSYNC_A), D_ALL);
++	MMIO_D(_MMIO(_PCH_TRANS_VTOTAL_A), D_ALL);
++	MMIO_D(_MMIO(_PCH_TRANS_VBLANK_A), D_ALL);
++	MMIO_D(_MMIO(_PCH_TRANS_VSYNC_A), D_ALL);
++	MMIO_D(_MMIO(_PCH_TRANS_VSYNCSHIFT_A), D_ALL);
++	MMIO_D(_MMIO(_PCH_TRANS_HTOTAL_B), D_ALL);
++	MMIO_D(_MMIO(_PCH_TRANS_HBLANK_B), D_ALL);
++	MMIO_D(_MMIO(_PCH_TRANS_HSYNC_B), D_ALL);
++	MMIO_D(_MMIO(_PCH_TRANS_VTOTAL_B), D_ALL);
++	MMIO_D(_MMIO(_PCH_TRANS_VBLANK_B), D_ALL);
++	MMIO_D(_MMIO(_PCH_TRANS_VSYNC_B), D_ALL);
++	MMIO_D(_MMIO(_PCH_TRANS_VSYNCSHIFT_B), D_ALL);
++	MMIO_D(_MMIO(_PCH_TRANSA_DATA_M1), D_ALL);
++	MMIO_D(_MMIO(_PCH_TRANSA_DATA_N1), D_ALL);
++	MMIO_D(_MMIO(_PCH_TRANSA_DATA_M2), D_ALL);
++	MMIO_D(_MMIO(_PCH_TRANSA_DATA_N2), D_ALL);
++	MMIO_D(_MMIO(_PCH_TRANSA_LINK_M1), D_ALL);
++	MMIO_D(_MMIO(_PCH_TRANSA_LINK_N1), D_ALL);
++	MMIO_D(_MMIO(_PCH_TRANSA_LINK_M2), D_ALL);
++	MMIO_D(_MMIO(_PCH_TRANSA_LINK_N2), D_ALL);
++	MMIO_D(TRANS_DP_CTL(PIPE_A), D_ALL);
++	MMIO_D(TRANS_DP_CTL(PIPE_B), D_ALL);
++	MMIO_D(TRANS_DP_CTL(PIPE_C), D_ALL);
++	MMIO_D(TVIDEO_DIP_CTL(PIPE_A), D_ALL);
++	MMIO_D(TVIDEO_DIP_DATA(PIPE_A), D_ALL);
++	MMIO_D(TVIDEO_DIP_GCP(PIPE_A), D_ALL);
++	MMIO_D(TVIDEO_DIP_CTL(PIPE_B), D_ALL);
++	MMIO_D(TVIDEO_DIP_DATA(PIPE_B), D_ALL);
++	MMIO_D(TVIDEO_DIP_GCP(PIPE_B), D_ALL);
++	MMIO_D(TVIDEO_DIP_CTL(PIPE_C), D_ALL);
++	MMIO_D(TVIDEO_DIP_DATA(PIPE_C), D_ALL);
++	MMIO_D(TVIDEO_DIP_GCP(PIPE_C), D_ALL);
++	MMIO_D(_MMIO(_FDI_RXA_MISC), D_ALL);
++	MMIO_D(_MMIO(_FDI_RXB_MISC), D_ALL);
++	MMIO_D(_MMIO(_FDI_RXA_TUSIZE1), D_ALL);
++	MMIO_D(_MMIO(_FDI_RXA_TUSIZE2), D_ALL);
++	MMIO_D(_MMIO(_FDI_RXB_TUSIZE1), D_ALL);
++	MMIO_D(_MMIO(_FDI_RXB_TUSIZE2), D_ALL);
++	MMIO_D(PCH_PP_CONTROL, D_ALL);
++	MMIO_D(PCH_PP_DIVISOR, D_ALL);
++	MMIO_D(PCH_PP_STATUS,  D_ALL);
++	MMIO_D(PCH_LVDS, D_ALL);
++	MMIO_D(_MMIO(_PCH_DPLL_A), D_ALL);
++	MMIO_D(_MMIO(_PCH_DPLL_B), D_ALL);
++	MMIO_D(_MMIO(_PCH_FPA0), D_ALL);
++	MMIO_D(_MMIO(_PCH_FPA1), D_ALL);
++	MMIO_D(_MMIO(_PCH_FPB0), D_ALL);
++	MMIO_D(_MMIO(_PCH_FPB1), D_ALL);
++	MMIO_D(PCH_DREF_CONTROL, D_ALL);
++	MMIO_D(PCH_RAWCLK_FREQ, D_ALL);
++	MMIO_D(PCH_DPLL_SEL, D_ALL);
++	MMIO_D(_MMIO(0x61208), D_ALL);
++	MMIO_D(_MMIO(0x6120c), D_ALL);
++	MMIO_D(PCH_PP_ON_DELAYS, D_ALL);
++	MMIO_D(PCH_PP_OFF_DELAYS, D_ALL);
++	MMIO_D(_MMIO(0xe651c), D_ALL);
++	MMIO_D(_MMIO(0xe661c), D_ALL);
++	MMIO_D(_MMIO(0xe671c), D_ALL);
++	MMIO_D(_MMIO(0xe681c), D_ALL);
++	MMIO_D(_MMIO(0xe6c04), D_ALL);
++	MMIO_D(_MMIO(0xe6e1c), D_ALL);
++	MMIO_RO(PCH_PORT_HOTPLUG, D_ALL, 0,
++		PORTA_HOTPLUG_STATUS_MASK
++		| PORTB_HOTPLUG_STATUS_MASK
++		| PORTC_HOTPLUG_STATUS_MASK
++		| PORTD_HOTPLUG_STATUS_MASK);
++	MMIO_D(LCPLL_CTL, D_ALL);
++	MMIO_D(FUSE_STRAP, D_ALL);
++	MMIO_D(DIGITAL_PORT_HOTPLUG_CNTRL, D_ALL);
++	MMIO_D(DISP_ARB_CTL, D_ALL);
++	MMIO_D(DISP_ARB_CTL2, D_ALL);
++	MMIO_D(ILK_DISPLAY_CHICKEN1, D_ALL);
++	MMIO_D(ILK_DISPLAY_CHICKEN2, D_ALL);
++	MMIO_D(ILK_DSPCLK_GATE_D, D_ALL);
++	MMIO_D(SOUTH_CHICKEN1, D_ALL);
++	MMIO_D(SOUTH_CHICKEN2, D_ALL);
++	MMIO_D(_MMIO(_TRANSA_CHICKEN1), D_ALL);
++	MMIO_D(_MMIO(_TRANSB_CHICKEN1), D_ALL);
++	MMIO_D(SOUTH_DSPCLK_GATE_D, D_ALL);
++	MMIO_D(_MMIO(_TRANSA_CHICKEN2), D_ALL);
++	MMIO_D(_MMIO(_TRANSB_CHICKEN2), D_ALL);
++	MMIO_D(ILK_DPFC_CB_BASE, D_ALL);
++	MMIO_D(ILK_DPFC_CONTROL, D_ALL);
++	MMIO_D(ILK_DPFC_RECOMP_CTL, D_ALL);
++	MMIO_D(ILK_DPFC_STATUS, D_ALL);
++	MMIO_D(ILK_DPFC_FENCE_YOFF, D_ALL);
++	MMIO_D(ILK_DPFC_CHICKEN, D_ALL);
++	MMIO_D(ILK_FBC_RT_BASE, D_ALL);
++	MMIO_D(IPS_CTL, D_ALL);
++	MMIO_D(PIPE_CSC_COEFF_RY_GY(PIPE_A), D_ALL);
++	MMIO_D(PIPE_CSC_COEFF_BY(PIPE_A), D_ALL);
++	MMIO_D(PIPE_CSC_COEFF_RU_GU(PIPE_A), D_ALL);
++	MMIO_D(PIPE_CSC_COEFF_BU(PIPE_A), D_ALL);
++	MMIO_D(PIPE_CSC_COEFF_RV_GV(PIPE_A), D_ALL);
++	MMIO_D(PIPE_CSC_COEFF_BV(PIPE_A), D_ALL);
++	MMIO_D(PIPE_CSC_MODE(PIPE_A), D_ALL);
++	MMIO_D(PIPE_CSC_PREOFF_HI(PIPE_A), D_ALL);
++	MMIO_D(PIPE_CSC_PREOFF_ME(PIPE_A), D_ALL);
++	MMIO_D(PIPE_CSC_PREOFF_LO(PIPE_A), D_ALL);
++	MMIO_D(PIPE_CSC_POSTOFF_HI(PIPE_A), D_ALL);
++	MMIO_D(PIPE_CSC_POSTOFF_ME(PIPE_A), D_ALL);
++	MMIO_D(PIPE_CSC_POSTOFF_LO(PIPE_A), D_ALL);
++	MMIO_D(PIPE_CSC_COEFF_RY_GY(PIPE_B), D_ALL);
++	MMIO_D(PIPE_CSC_COEFF_BY(PIPE_B), D_ALL);
++	MMIO_D(PIPE_CSC_COEFF_RU_GU(PIPE_B), D_ALL);
++	MMIO_D(PIPE_CSC_COEFF_BU(PIPE_B), D_ALL);
++	MMIO_D(PIPE_CSC_COEFF_RV_GV(PIPE_B), D_ALL);
++	MMIO_D(PIPE_CSC_COEFF_BV(PIPE_B), D_ALL);
++	MMIO_D(PIPE_CSC_MODE(PIPE_B), D_ALL);
++	MMIO_D(PIPE_CSC_PREOFF_HI(PIPE_B), D_ALL);
++	MMIO_D(PIPE_CSC_PREOFF_ME(PIPE_B), D_ALL);
++	MMIO_D(PIPE_CSC_PREOFF_LO(PIPE_B), D_ALL);
++	MMIO_D(PIPE_CSC_POSTOFF_HI(PIPE_B), D_ALL);
++	MMIO_D(PIPE_CSC_POSTOFF_ME(PIPE_B), D_ALL);
++	MMIO_D(PIPE_CSC_POSTOFF_LO(PIPE_B), D_ALL);
++	MMIO_D(PIPE_CSC_COEFF_RY_GY(PIPE_C), D_ALL);
++	MMIO_D(PIPE_CSC_COEFF_BY(PIPE_C), D_ALL);
++	MMIO_D(PIPE_CSC_COEFF_RU_GU(PIPE_C), D_ALL);
++	MMIO_D(PIPE_CSC_COEFF_BU(PIPE_C), D_ALL);
++	MMIO_D(PIPE_CSC_COEFF_RV_GV(PIPE_C), D_ALL);
++	MMIO_D(PIPE_CSC_COEFF_BV(PIPE_C), D_ALL);
++	MMIO_D(PIPE_CSC_MODE(PIPE_C), D_ALL);
++	MMIO_D(PIPE_CSC_PREOFF_HI(PIPE_C), D_ALL);
++	MMIO_D(PIPE_CSC_PREOFF_ME(PIPE_C), D_ALL);
++	MMIO_D(PIPE_CSC_PREOFF_LO(PIPE_C), D_ALL);
++	MMIO_D(PIPE_CSC_POSTOFF_HI(PIPE_C), D_ALL);
++	MMIO_D(PIPE_CSC_POSTOFF_ME(PIPE_C), D_ALL);
++	MMIO_D(PIPE_CSC_POSTOFF_LO(PIPE_C), D_ALL);
++	MMIO_D(PREC_PAL_INDEX(PIPE_A), D_ALL);
++	MMIO_D(PREC_PAL_DATA(PIPE_A), D_ALL);
++	MMIO_F(PREC_PAL_GC_MAX(PIPE_A, 0), 4 * 3, 0, 0, 0, D_ALL);
++	MMIO_D(PREC_PAL_INDEX(PIPE_B), D_ALL);
++	MMIO_D(PREC_PAL_DATA(PIPE_B), D_ALL);
++	MMIO_F(PREC_PAL_GC_MAX(PIPE_B, 0), 4 * 3, 0, 0, 0, D_ALL);
++	MMIO_D(PREC_PAL_INDEX(PIPE_C), D_ALL);
++	MMIO_D(PREC_PAL_DATA(PIPE_C), D_ALL);
++	MMIO_F(PREC_PAL_GC_MAX(PIPE_C, 0), 4 * 3, 0, 0, 0, D_ALL);
++	MMIO_D(_MMIO(0x60110), D_ALL);
++	MMIO_D(_MMIO(0x61110), D_ALL);
++	MMIO_F(_MMIO(0x70400), 0x40, 0, 0, 0, D_ALL);
++	MMIO_F(_MMIO(0x71400), 0x40, 0, 0, 0, D_ALL);
++	MMIO_F(_MMIO(0x72400), 0x40, 0, 0, 0, D_ALL);
++	MMIO_F(_MMIO(0x70440), 0xc, 0, 0, 0, D_PRE_SKL);
++	MMIO_F(_MMIO(0x71440), 0xc, 0, 0, 0, D_PRE_SKL);
++	MMIO_F(_MMIO(0x72440), 0xc, 0, 0, 0, D_PRE_SKL);
++	MMIO_F(_MMIO(0x7044c), 0xc, 0, 0, 0, D_PRE_SKL);
++	MMIO_F(_MMIO(0x7144c), 0xc, 0, 0, 0, D_PRE_SKL);
++	MMIO_F(_MMIO(0x7244c), 0xc, 0, 0, 0, D_PRE_SKL);
++	MMIO_D(WM_LINETIME(PIPE_A), D_ALL);
++	MMIO_D(WM_LINETIME(PIPE_B), D_ALL);
++	MMIO_D(WM_LINETIME(PIPE_C), D_ALL);
++	MMIO_D(SPLL_CTL, D_ALL);
++	MMIO_D(_MMIO(_WRPLL_CTL1), D_ALL);
++	MMIO_D(_MMIO(_WRPLL_CTL2), D_ALL);
++	MMIO_D(PORT_CLK_SEL(PORT_A), D_ALL);
++	MMIO_D(PORT_CLK_SEL(PORT_B), D_ALL);
++	MMIO_D(PORT_CLK_SEL(PORT_C), D_ALL);
++	MMIO_D(PORT_CLK_SEL(PORT_D), D_ALL);
++	MMIO_D(PORT_CLK_SEL(PORT_E), D_ALL);
++	MMIO_D(TRANS_CLK_SEL(TRANSCODER_A), D_ALL);
++	MMIO_D(TRANS_CLK_SEL(TRANSCODER_B), D_ALL);
++	MMIO_D(TRANS_CLK_SEL(TRANSCODER_C), D_ALL);
++	MMIO_D(HSW_NDE_RSTWRN_OPT, D_ALL);
++	MMIO_D(_MMIO(0x46508), D_ALL);
++	MMIO_D(_MMIO(0x49080), D_ALL);
++	MMIO_D(_MMIO(0x49180), D_ALL);
++	MMIO_D(_MMIO(0x49280), D_ALL);
++	MMIO_F(_MMIO(0x49090), 0x14, 0, 0, 0, D_ALL);
++	MMIO_F(_MMIO(0x49190), 0x14, 0, 0, 0, D_ALL);
++	MMIO_F(_MMIO(0x49290), 0x14, 0, 0, 0, D_ALL);
++	MMIO_D(GAMMA_MODE(PIPE_A), D_ALL);
++	MMIO_D(GAMMA_MODE(PIPE_B), D_ALL);
++	MMIO_D(GAMMA_MODE(PIPE_C), D_ALL);
++	MMIO_D(PIPE_MULT(PIPE_A), D_ALL);
++	MMIO_D(PIPE_MULT(PIPE_B), D_ALL);
++	MMIO_D(PIPE_MULT(PIPE_C), D_ALL);
++	MMIO_D(HSW_TVIDEO_DIP_CTL(TRANSCODER_A), D_ALL);
++	MMIO_D(HSW_TVIDEO_DIP_CTL(TRANSCODER_B), D_ALL);
++	MMIO_D(HSW_TVIDEO_DIP_CTL(TRANSCODER_C), D_ALL);
++	MMIO_D(SFUSE_STRAP, D_ALL);
++	MMIO_D(SBI_ADDR, D_ALL);
++	MMIO_D(SBI_DATA, D_ALL);
++	MMIO_D(SBI_CTL_STAT, D_ALL);
++	MMIO_D(PIXCLK_GATE, D_ALL);
++	MMIO_F(_MMIO(_DPA_AUX_CH_CTL), 6 * 4, 0, 0, 0, D_ALL);
++	MMIO_D(DDI_BUF_CTL(PORT_A), D_ALL);
++	MMIO_D(DDI_BUF_CTL(PORT_B), D_ALL);
++	MMIO_D(DDI_BUF_CTL(PORT_C), D_ALL);
++	MMIO_D(DDI_BUF_CTL(PORT_D), D_ALL);
++	MMIO_D(DDI_BUF_CTL(PORT_E), D_ALL);
++	MMIO_D(DP_TP_CTL(PORT_A), D_ALL);
++	MMIO_D(DP_TP_CTL(PORT_B), D_ALL);
++	MMIO_D(DP_TP_CTL(PORT_C), D_ALL);
++	MMIO_D(DP_TP_CTL(PORT_D), D_ALL);
++	MMIO_D(DP_TP_CTL(PORT_E), D_ALL);
++	MMIO_D(DP_TP_STATUS(PORT_A), D_ALL);
++	MMIO_D(DP_TP_STATUS(PORT_B), D_ALL);
++	MMIO_D(DP_TP_STATUS(PORT_C), D_ALL);
++	MMIO_D(DP_TP_STATUS(PORT_D), D_ALL);
++	MMIO_D(DP_TP_STATUS(PORT_E), D_ALL);
++	MMIO_F(_MMIO(_DDI_BUF_TRANS_A), 0x50, 0, 0, 0, D_ALL);
++	MMIO_F(_MMIO(0x64e60), 0x50, 0, 0, 0, D_ALL);
++	MMIO_F(_MMIO(0x64eC0), 0x50, 0, 0, 0, D_ALL);
++	MMIO_F(_MMIO(0x64f20), 0x50, 0, 0, 0, D_ALL);
++	MMIO_F(_MMIO(0x64f80), 0x50, 0, 0, 0, D_ALL);
++	MMIO_D(HSW_AUD_CFG(PIPE_A), D_ALL);
++	MMIO_D(HSW_AUD_PIN_ELD_CP_VLD, D_ALL);
++	MMIO_D(HSW_AUD_MISC_CTRL(PIPE_A), D_ALL);
++	MMIO_D(_MMIO(_TRANS_DDI_FUNC_CTL_A), D_ALL);
++	MMIO_D(_MMIO(_TRANS_DDI_FUNC_CTL_B), D_ALL);
++	MMIO_D(_MMIO(_TRANS_DDI_FUNC_CTL_C), D_ALL);
++	MMIO_D(_MMIO(_TRANS_DDI_FUNC_CTL_EDP), D_ALL);
++	MMIO_D(_MMIO(_TRANSA_MSA_MISC), D_ALL);
++	MMIO_D(_MMIO(_TRANSB_MSA_MISC), D_ALL);
++	MMIO_D(_MMIO(_TRANSC_MSA_MISC), D_ALL);
++	MMIO_D(_MMIO(_TRANS_EDP_MSA_MISC), D_ALL);
++	MMIO_D(FORCEWAKE, D_ALL);
++	MMIO_D(FORCEWAKE_ACK, D_ALL);
++	MMIO_D(GEN6_GT_CORE_STATUS, D_ALL);
++	MMIO_D(GEN6_GT_THREAD_STATUS_REG, D_ALL);
++	MMIO_DF(GTFIFODBG, D_ALL, F_CMD_ACCESS);
++	MMIO_DF(GTFIFOCTL, D_ALL, F_CMD_ACCESS);
++	MMIO_D(FORCEWAKE_MT, D_PRE_SKL);
++	MMIO_D(FORCEWAKE_ACK_HSW, D_BDW);
++	MMIO_D(ECOBUS, D_ALL);
++	MMIO_D(GEN6_RC_CONTROL, D_ALL);
++	MMIO_D(GEN6_RC_STATE, D_ALL);
++	MMIO_D(GEN6_RPNSWREQ, D_ALL);
++	MMIO_D(GEN6_RC_VIDEO_FREQ, D_ALL);
++	MMIO_D(GEN6_RP_DOWN_TIMEOUT, D_ALL);
++	MMIO_D(GEN6_RP_INTERRUPT_LIMITS, D_ALL);
++	MMIO_D(GEN6_RPSTAT1, D_ALL);
++	MMIO_D(GEN6_RP_CONTROL, D_ALL);
++	MMIO_D(GEN6_RP_UP_THRESHOLD, D_ALL);
++	MMIO_D(GEN6_RP_DOWN_THRESHOLD, D_ALL);
++	MMIO_D(GEN6_RP_CUR_UP_EI, D_ALL);
++	MMIO_D(GEN6_RP_CUR_UP, D_ALL);
++	MMIO_D(GEN6_RP_PREV_UP, D_ALL);
++	MMIO_D(GEN6_RP_CUR_DOWN_EI, D_ALL);
++	MMIO_D(GEN6_RP_CUR_DOWN, D_ALL);
++	MMIO_D(GEN6_RP_PREV_DOWN, D_ALL);
++	MMIO_D(GEN6_RP_UP_EI, D_ALL);
++	MMIO_D(GEN6_RP_DOWN_EI, D_ALL);
++	MMIO_D(GEN6_RP_IDLE_HYSTERSIS, D_ALL);
++	MMIO_D(GEN6_RC1_WAKE_RATE_LIMIT, D_ALL);
++	MMIO_D(GEN6_RC6_WAKE_RATE_LIMIT, D_ALL);
++	MMIO_D(GEN6_RC6pp_WAKE_RATE_LIMIT, D_ALL);
++	MMIO_D(GEN6_RC_EVALUATION_INTERVAL, D_ALL);
++	MMIO_D(GEN6_RC_IDLE_HYSTERSIS, D_ALL);
++	MMIO_D(GEN6_RC_SLEEP, D_ALL);
++	MMIO_D(GEN6_RC1e_THRESHOLD, D_ALL);
++	MMIO_D(GEN6_RC6_THRESHOLD, D_ALL);
++	MMIO_D(GEN6_RC6p_THRESHOLD, D_ALL);
++	MMIO_D(GEN6_RC6pp_THRESHOLD, D_ALL);
++	MMIO_D(GEN6_PMINTRMSK, D_ALL);
++	MMIO_D(HSW_PWR_WELL_CTL1, D_BDW);
++	MMIO_D(HSW_PWR_WELL_CTL2, D_BDW);
++	MMIO_D(HSW_PWR_WELL_CTL3, D_BDW);
++	MMIO_D(HSW_PWR_WELL_CTL4, D_BDW);
++	MMIO_D(HSW_PWR_WELL_CTL5, D_BDW);
++	MMIO_D(HSW_PWR_WELL_CTL6, D_BDW);
++	MMIO_D(RSTDBYCTL, D_ALL);
++	MMIO_D(GEN6_GDRST, D_ALL);
++	MMIO_F(FENCE_REG_GEN6_LO(0), 0x80, 0, 0, 0, D_ALL);
++	MMIO_D(CPU_VGACNTRL, D_ALL);
++	MMIO_D(TILECTL, D_ALL);
++	MMIO_D(GEN6_UCGCTL1, D_ALL);
++	MMIO_D(GEN6_UCGCTL2, D_ALL);
++	MMIO_F(_MMIO(0x4f000), 0x90, 0, 0, 0, D_ALL);
++	MMIO_D(GEN6_PCODE_DATA, D_ALL);
++	MMIO_D(_MMIO(0x13812c), D_ALL);
++	MMIO_D(GEN7_ERR_INT, D_ALL);
++	MMIO_D(HSW_EDRAM_CAP, D_ALL);
++	MMIO_D(HSW_IDICR, D_ALL);
++	MMIO_D(GFX_FLSH_CNTL_GEN6, D_ALL);
++	MMIO_D(_MMIO(0x3c), D_ALL);
++	MMIO_D(_MMIO(0x860), D_ALL);
++	MMIO_D(ECOSKPD, D_ALL);
++	MMIO_D(_MMIO(0x121d0), D_ALL);
++	MMIO_D(GEN6_BLITTER_ECOSKPD, D_ALL);
++	MMIO_D(_MMIO(0x41d0), D_ALL);
++	MMIO_D(GAC_ECO_BITS, D_ALL);
++	MMIO_D(_MMIO(0x6200), D_ALL);
++	MMIO_D(_MMIO(0x6204), D_ALL);
++	MMIO_D(_MMIO(0x6208), D_ALL);
++	MMIO_D(_MMIO(0x7118), D_ALL);
++	MMIO_D(_MMIO(0x7180), D_ALL);
++	MMIO_D(_MMIO(0x7408), D_ALL);
++	MMIO_D(_MMIO(0x7c00), D_ALL);
++	MMIO_D(GEN6_MBCTL, D_ALL);
++	MMIO_D(_MMIO(0x911c), D_ALL);
++	MMIO_D(_MMIO(0x9120), D_ALL);
++	MMIO_DF(GEN7_UCGCTL4, D_ALL, F_CMD_ACCESS);
++	MMIO_D(GAB_CTL, D_ALL);
++	MMIO_D(_MMIO(0x48800), D_ALL);
++	MMIO_D(_MMIO(0xce044), D_ALL);
++	MMIO_D(_MMIO(0xe6500), D_ALL);
++	MMIO_D(_MMIO(0xe6504), D_ALL);
++	MMIO_D(_MMIO(0xe6600), D_ALL);
++	MMIO_D(_MMIO(0xe6604), D_ALL);
++	MMIO_D(_MMIO(0xe6700), D_ALL);
++	MMIO_D(_MMIO(0xe6704), D_ALL);
++	MMIO_D(_MMIO(0xe6800), D_ALL);
++	MMIO_D(_MMIO(0xe6804), D_ALL);
++	MMIO_D(PCH_GMBUS4, D_ALL);
++	MMIO_D(PCH_GMBUS5, D_ALL);
++	MMIO_D(_MMIO(0x902c), D_ALL);
++	MMIO_D(_MMIO(0xec008), D_ALL);
++	MMIO_D(_MMIO(0xec00c), D_ALL);
++	MMIO_D(_MMIO(0xec008 + 0x18), D_ALL);
++	MMIO_D(_MMIO(0xec00c + 0x18), D_ALL);
++	MMIO_D(_MMIO(0xec008 + 0x18 * 2), D_ALL);
++	MMIO_D(_MMIO(0xec00c + 0x18 * 2), D_ALL);
++	MMIO_D(_MMIO(0xec008 + 0x18 * 3), D_ALL);
++	MMIO_D(_MMIO(0xec00c + 0x18 * 3), D_ALL);
++	MMIO_D(_MMIO(0xec408), D_ALL);
++	MMIO_D(_MMIO(0xec40c), D_ALL);
++	MMIO_D(_MMIO(0xec408 + 0x18), D_ALL);
++	MMIO_D(_MMIO(0xec40c + 0x18), D_ALL);
++	MMIO_D(_MMIO(0xec408 + 0x18 * 2), D_ALL);
++	MMIO_D(_MMIO(0xec40c + 0x18 * 2), D_ALL);
++	MMIO_D(_MMIO(0xec408 + 0x18 * 3), D_ALL);
++	MMIO_D(_MMIO(0xec40c + 0x18 * 3), D_ALL);
++	MMIO_D(_MMIO(0xfc810), D_ALL);
++	MMIO_D(_MMIO(0xfc81c), D_ALL);
++	MMIO_D(_MMIO(0xfc828), D_ALL);
++	MMIO_D(_MMIO(0xfc834), D_ALL);
++	MMIO_D(_MMIO(0xfcc00), D_ALL);
++	MMIO_D(_MMIO(0xfcc0c), D_ALL);
++	MMIO_D(_MMIO(0xfcc18), D_ALL);
++	MMIO_D(_MMIO(0xfcc24), D_ALL);
++	MMIO_D(_MMIO(0xfd000), D_ALL);
++	MMIO_D(_MMIO(0xfd00c), D_ALL);
++	MMIO_D(_MMIO(0xfd018), D_ALL);
++	MMIO_D(_MMIO(0xfd024), D_ALL);
++	MMIO_D(_MMIO(0xfd034), D_ALL);
++	MMIO_D(FPGA_DBG, D_ALL);
++	MMIO_D(_MMIO(0x2054), D_ALL);
++	MMIO_D(_MMIO(0x12054), D_ALL);
++	MMIO_D(_MMIO(0x22054), D_ALL);
++	MMIO_D(_MMIO(0x1a054), D_ALL);
++	MMIO_D(_MMIO(0x44070), D_ALL);
++	MMIO_DF(_MMIO(0x215c), D_BDW_PLUS, F_CMD_ACCESS);
++	MMIO_DF(_MMIO(0x2178), D_ALL, F_CMD_ACCESS);
++	MMIO_DF(_MMIO(0x217c), D_ALL, F_CMD_ACCESS);
++	MMIO_DF(_MMIO(0x12178), D_ALL, F_CMD_ACCESS);
++	MMIO_DF(_MMIO(0x1217c), D_ALL, F_CMD_ACCESS);
++	MMIO_F(_MMIO(0x2290), 8, F_CMD_ACCESS, 0, 0, D_BDW_PLUS);
++	MMIO_D(_MMIO(0x2b00), D_BDW_PLUS);
++	MMIO_D(_MMIO(0x2360), D_BDW_PLUS);
++	MMIO_F(_MMIO(0x5200), 32, F_CMD_ACCESS, 0, 0, D_ALL);
++	MMIO_F(_MMIO(0x5240), 32, F_CMD_ACCESS, 0, 0, D_ALL);
++	MMIO_F(_MMIO(0x5280), 16, F_CMD_ACCESS, 0, 0, D_ALL);
++	MMIO_DF(_MMIO(0x1c17c), D_BDW_PLUS, F_CMD_ACCESS);
++	MMIO_DF(_MMIO(0x1c178), D_BDW_PLUS, F_CMD_ACCESS);
++	MMIO_DF(BCS_SWCTRL, D_ALL, F_CMD_ACCESS);
++	MMIO_F(HS_INVOCATION_COUNT, 8, F_CMD_ACCESS, 0, 0, D_ALL);
++	MMIO_F(DS_INVOCATION_COUNT, 8, F_CMD_ACCESS, 0, 0, D_ALL);
++	MMIO_F(IA_VERTICES_COUNT, 8, F_CMD_ACCESS, 0, 0, D_ALL);
++	MMIO_F(IA_PRIMITIVES_COUNT, 8, F_CMD_ACCESS, 0, 0, D_ALL);
++	MMIO_F(VS_INVOCATION_COUNT, 8, F_CMD_ACCESS, 0, 0, D_ALL);
++	MMIO_F(GS_INVOCATION_COUNT, 8, F_CMD_ACCESS, 0, 0, D_ALL);
++	MMIO_F(GS_PRIMITIVES_COUNT, 8, F_CMD_ACCESS, 0, 0, D_ALL);
++	MMIO_F(CL_INVOCATION_COUNT, 8, F_CMD_ACCESS, 0, 0, D_ALL);
++	MMIO_F(CL_PRIMITIVES_COUNT, 8, F_CMD_ACCESS, 0, 0, D_ALL);
++	MMIO_F(PS_INVOCATION_COUNT, 8, F_CMD_ACCESS, 0, 0, D_ALL);
++	MMIO_F(PS_DEPTH_COUNT, 8, F_CMD_ACCESS, 0, 0, D_ALL);
++	MMIO_D(_MMIO(0x4260), D_BDW_PLUS);
++	MMIO_D(_MMIO(0x4264), D_BDW_PLUS);
++	MMIO_D(_MMIO(0x4268), D_BDW_PLUS);
++	MMIO_D(_MMIO(0x426c), D_BDW_PLUS);
++	MMIO_D(_MMIO(0x4270), D_BDW_PLUS);
++	MMIO_DF(_MMIO(0x4094), D_BDW_PLUS, F_CMD_ACCESS);
++	MMIO_DF(ARB_MODE, D_ALL, F_MODE_MASK | F_CMD_ACCESS);
++	MMIO_RING_GM(RING_BBADDR, D_ALL);
++	MMIO_DF(_MMIO(0x2220), D_ALL, F_CMD_ACCESS);
++	MMIO_DF(_MMIO(0x12220), D_ALL, F_CMD_ACCESS);
++	MMIO_DF(_MMIO(0x22220), D_ALL, F_CMD_ACCESS);
++	MMIO_RING_DF(RING_SYNC_1, D_ALL, F_CMD_ACCESS);
++	MMIO_RING_DF(RING_SYNC_0, D_ALL, F_CMD_ACCESS);
++	MMIO_DF(_MMIO(0x22178), D_BDW_PLUS, F_CMD_ACCESS);
++	MMIO_DF(_MMIO(0x1a178), D_BDW_PLUS, F_CMD_ACCESS);
++	MMIO_DF(_MMIO(0x1a17c), D_BDW_PLUS, F_CMD_ACCESS);
++	MMIO_DF(_MMIO(0x2217c), D_BDW_PLUS, F_CMD_ACCESS);
++	MMIO_D(EDP_PSR_IMR, D_BDW_PLUS);
++	MMIO_D(EDP_PSR_IIR, D_BDW_PLUS);
++	MMIO_D(GUC_STATUS, D_ALL);
++
++	return 0;
++}
++
++static int init_bdw_mmio_info(struct intel_gvt *gvt)
++{
++	struct drm_i915_private *dev_priv = gvt->gt->i915;
++	int ret;
++
++	MMIO_D(GEN8_GT_IMR(0), D_BDW_PLUS);
++	MMIO_D(GEN8_GT_IER(0), D_BDW_PLUS);
++	MMIO_D(GEN8_GT_IIR(0), D_BDW_PLUS);
++	MMIO_D(GEN8_GT_ISR(0), D_BDW_PLUS);
++	MMIO_D(GEN8_GT_IMR(1), D_BDW_PLUS);
++	MMIO_D(GEN8_GT_IER(1), D_BDW_PLUS);
++	MMIO_D(GEN8_GT_IIR(1), D_BDW_PLUS);
++	MMIO_D(GEN8_GT_ISR(1), D_BDW_PLUS);
++	MMIO_D(GEN8_GT_IMR(2), D_BDW_PLUS);
++	MMIO_D(GEN8_GT_IER(2), D_BDW_PLUS);
++	MMIO_D(GEN8_GT_IIR(2), D_BDW_PLUS);
++	MMIO_D(GEN8_GT_ISR(2), D_BDW_PLUS);
++	MMIO_D(GEN8_GT_IMR(3), D_BDW_PLUS);
++	MMIO_D(GEN8_GT_IER(3), D_BDW_PLUS);
++	MMIO_D(GEN8_GT_IIR(3), D_BDW_PLUS);
++	MMIO_D(GEN8_GT_ISR(3), D_BDW_PLUS);
++	MMIO_D(GEN8_DE_PIPE_IMR(PIPE_A), D_BDW_PLUS);
++	MMIO_D(GEN8_DE_PIPE_IER(PIPE_A), D_BDW_PLUS);
++	MMIO_D(GEN8_DE_PIPE_IIR(PIPE_A), D_BDW_PLUS);
++	MMIO_D(GEN8_DE_PIPE_ISR(PIPE_A), D_BDW_PLUS);
++	MMIO_D(GEN8_DE_PIPE_IMR(PIPE_B), D_BDW_PLUS);
++	MMIO_D(GEN8_DE_PIPE_IER(PIPE_B), D_BDW_PLUS);
++	MMIO_D(GEN8_DE_PIPE_IIR(PIPE_B), D_BDW_PLUS);
++	MMIO_D(GEN8_DE_PIPE_ISR(PIPE_B), D_BDW_PLUS);
++	MMIO_D(GEN8_DE_PIPE_IMR(PIPE_C), D_BDW_PLUS);
++	MMIO_D(GEN8_DE_PIPE_IER(PIPE_C), D_BDW_PLUS);
++	MMIO_D(GEN8_DE_PIPE_IIR(PIPE_C), D_BDW_PLUS);
++	MMIO_D(GEN8_DE_PIPE_ISR(PIPE_C), D_BDW_PLUS);
++	MMIO_D(GEN8_DE_PORT_IMR, D_BDW_PLUS);
++	MMIO_D(GEN8_DE_PORT_IER, D_BDW_PLUS);
++	MMIO_D(GEN8_DE_PORT_IIR, D_BDW_PLUS);
++	MMIO_D(GEN8_DE_PORT_ISR, D_BDW_PLUS);
++	MMIO_D(GEN8_DE_MISC_IMR, D_BDW_PLUS);
++	MMIO_D(GEN8_DE_MISC_IER, D_BDW_PLUS);
++	MMIO_D(GEN8_DE_MISC_IIR, D_BDW_PLUS);
++	MMIO_D(GEN8_DE_MISC_ISR, D_BDW_PLUS);
++	MMIO_D(GEN8_PCU_IMR, D_BDW_PLUS);
++	MMIO_D(GEN8_PCU_IER, D_BDW_PLUS);
++	MMIO_D(GEN8_PCU_IIR, D_BDW_PLUS);
++	MMIO_D(GEN8_PCU_ISR, D_BDW_PLUS);
++	MMIO_D(GEN8_MASTER_IRQ, D_BDW_PLUS);
++	MMIO_RING_D(RING_ACTHD_UDW, D_BDW_PLUS);
++
++#define RING_REG(base) _MMIO((base) + 0xd0)
++	MMIO_RING_F(RING_REG, 4, F_RO, 0,
++		~_MASKED_BIT_ENABLE(RESET_CTL_REQUEST_RESET), D_BDW_PLUS);
++#undef RING_REG
++
++#define RING_REG(base) _MMIO((base) + 0x230)
++	MMIO_RING_D(RING_REG, D_BDW_PLUS);
++#undef RING_REG
++
++#define RING_REG(base) _MMIO((base) + 0x234)
++	MMIO_RING_F(RING_REG, 8, F_RO, 0, ~0, D_BDW_PLUS);
++#undef RING_REG
++
++#define RING_REG(base) _MMIO((base) + 0x244)
++	MMIO_RING_DF(RING_REG, D_BDW_PLUS, F_CMD_ACCESS);
++#undef RING_REG
++
++#define RING_REG(base) _MMIO((base) + 0x370)
++	MMIO_RING_F(RING_REG, 48, F_RO, 0, ~0, D_BDW_PLUS);
++#undef RING_REG
++
++#define RING_REG(base) _MMIO((base) + 0x3a0)
++	MMIO_RING_DF(RING_REG, D_BDW_PLUS, F_MODE_MASK);
++#undef RING_REG
++
++	MMIO_D(PIPEMISC(PIPE_A), D_BDW_PLUS);
++	MMIO_D(PIPEMISC(PIPE_B), D_BDW_PLUS);
++	MMIO_D(PIPEMISC(PIPE_C), D_BDW_PLUS);
++	MMIO_D(_MMIO(0x1c1d0), D_BDW_PLUS);
++	MMIO_D(GEN6_MBCUNIT_SNPCR, D_BDW_PLUS);
++	MMIO_D(GEN7_MISCCPCTL, D_BDW_PLUS);
++	MMIO_D(_MMIO(0x1c054), D_BDW_PLUS);
++	MMIO_D(GEN6_PCODE_MAILBOX, D_BDW_PLUS);
++	MMIO_D(GEN8_PRIVATE_PAT_LO, D_BDW_PLUS & ~D_BXT);
++	MMIO_D(GEN8_PRIVATE_PAT_HI, D_BDW_PLUS);
++	MMIO_D(GAMTARBMODE, D_BDW_PLUS);
++
++#define RING_REG(base) _MMIO((base) + 0x270)
++	MMIO_RING_F(RING_REG, 32, F_CMD_ACCESS, 0, 0, D_BDW_PLUS);
++#undef RING_REG
++
++	MMIO_RING_GM(RING_HWS_PGA, D_BDW_PLUS);
++	MMIO_DF(HDC_CHICKEN0, D_BDW_PLUS, F_MODE_MASK | F_CMD_ACCESS);
++	MMIO_D(CHICKEN_PIPESL_1(PIPE_A), D_BDW_PLUS);
++	MMIO_D(CHICKEN_PIPESL_1(PIPE_B), D_BDW_PLUS);
++	MMIO_D(CHICKEN_PIPESL_1(PIPE_C), D_BDW_PLUS);
++	MMIO_D(WM_MISC, D_BDW);
++	MMIO_D(_MMIO(_SRD_CTL_EDP), D_BDW);
++	MMIO_D(_MMIO(0x6671c), D_BDW_PLUS);
++	MMIO_D(_MMIO(0x66c00), D_BDW_PLUS);
++	MMIO_D(_MMIO(0x66c04), D_BDW_PLUS);
++	MMIO_D(HSW_GTT_CACHE_EN, D_BDW_PLUS);
++	MMIO_D(GEN8_EU_DISABLE0, D_BDW_PLUS);
++	MMIO_D(GEN8_EU_DISABLE1, D_BDW_PLUS);
++	MMIO_D(GEN8_EU_DISABLE2, D_BDW_PLUS);
++	MMIO_D(_MMIO(0xfdc), D_BDW_PLUS);
++	MMIO_DF(GEN8_ROW_CHICKEN, D_BDW_PLUS, F_MODE_MASK | F_CMD_ACCESS);
++	MMIO_DF(GEN7_ROW_CHICKEN2, D_BDW_PLUS, F_MODE_MASK | F_CMD_ACCESS);
++	MMIO_DF(GEN8_UCGCTL6, D_BDW_PLUS, F_CMD_ACCESS);
++	MMIO_DF(_MMIO(0xb1f0), D_BDW, F_CMD_ACCESS);
++	MMIO_DF(_MMIO(0xb1c0), D_BDW, F_CMD_ACCESS);
++	MMIO_DF(GEN8_L3SQCREG4, D_BDW_PLUS, F_CMD_ACCESS);
++	MMIO_DF(_MMIO(0xb100), D_BDW, F_CMD_ACCESS);
++	MMIO_DF(_MMIO(0xb10c), D_BDW, F_CMD_ACCESS);
++	MMIO_D(_MMIO(0xb110), D_BDW);
++	MMIO_D(GEN9_SCRATCH_LNCF1, D_BDW_PLUS);
++	MMIO_F(_MMIO(0x24d0), 48, F_CMD_ACCESS | F_CMD_WRITE_PATCH, 0, 0,
++		D_BDW_PLUS);
++	MMIO_D(_MMIO(0x44484), D_BDW_PLUS);
++	MMIO_D(_MMIO(0x4448c), D_BDW_PLUS);
++	MMIO_DF(_MMIO(0x83a4), D_BDW, F_CMD_ACCESS);
++	MMIO_D(GEN8_L3_LRA_1_GPGPU, D_BDW_PLUS);
++	MMIO_DF(_MMIO(0x8430), D_BDW, F_CMD_ACCESS);
++	MMIO_D(_MMIO(0x110000), D_BDW_PLUS);
++	MMIO_D(_MMIO(0x48400), D_BDW_PLUS);
++	MMIO_D(_MMIO(0x6e570), D_BDW_PLUS);
++	MMIO_D(_MMIO(0x65f10), D_BDW_PLUS);
++	MMIO_DF(_MMIO(0xe194), D_BDW_PLUS, F_MODE_MASK | F_CMD_ACCESS);
++	MMIO_DF(_MMIO(0xe188), D_BDW_PLUS, F_MODE_MASK | F_CMD_ACCESS);
++	MMIO_DF(HALF_SLICE_CHICKEN2, D_BDW_PLUS, F_MODE_MASK | F_CMD_ACCESS);
++	MMIO_DF(_MMIO(0x2580), D_BDW_PLUS, F_MODE_MASK | F_CMD_ACCESS);
++	MMIO_DF(_MMIO(0x2248), D_BDW, F_CMD_ACCESS);
++	MMIO_DF(_MMIO(0xe220), D_BDW_PLUS, F_CMD_ACCESS);
++	MMIO_DF(_MMIO(0xe230), D_BDW_PLUS, F_CMD_ACCESS);
++	MMIO_DF(_MMIO(0xe240), D_BDW_PLUS, F_CMD_ACCESS);
++	MMIO_DF(_MMIO(0xe260), D_BDW_PLUS, F_CMD_ACCESS);
++	MMIO_DF(_MMIO(0xe270), D_BDW_PLUS, F_CMD_ACCESS);
++	MMIO_DF(_MMIO(0xe280), D_BDW_PLUS, F_CMD_ACCESS);
++	MMIO_DF(_MMIO(0xe2a0), D_BDW_PLUS, F_CMD_ACCESS);
++	MMIO_DF(_MMIO(0xe2b0), D_BDW_PLUS, F_CMD_ACCESS);
++	MMIO_DF(_MMIO(0xe2c0), D_BDW_PLUS, F_CMD_ACCESS);
++	MMIO_DF(_MMIO(0x21f0), D_BDW_PLUS, F_CMD_ACCESS);
++
++	return 0;
++}
++
++static int init_skl_mmio_info(struct intel_gvt *gvt)
++{
++	struct drm_i915_private *dev_priv = gvt->gt->i915;
++	int ret;
++
++	MMIO_D(FORCEWAKE_RENDER_GEN9, D_SKL_PLUS);
++	MMIO_D(FORCEWAKE_ACK_RENDER_GEN9, D_SKL_PLUS);
++	MMIO_D(FORCEWAKE_GT_GEN9, D_SKL_PLUS);
++	MMIO_D(FORCEWAKE_ACK_GT_GEN9, D_SKL_PLUS);
++	MMIO_D(FORCEWAKE_MEDIA_GEN9, D_SKL_PLUS);
++	MMIO_D(FORCEWAKE_ACK_MEDIA_GEN9, D_SKL_PLUS);
++	MMIO_F(DP_AUX_CH_CTL(AUX_CH_B), 6 * 4, 0, 0, 0, D_SKL_PLUS);
++	MMIO_F(DP_AUX_CH_CTL(AUX_CH_C), 6 * 4, 0, 0, 0, D_SKL_PLUS);
++	MMIO_F(DP_AUX_CH_CTL(AUX_CH_D), 6 * 4, 0, 0, 0, D_SKL_PLUS);
++	MMIO_D(HSW_PWR_WELL_CTL1, D_SKL_PLUS);
++	MMIO_D(HSW_PWR_WELL_CTL2, D_SKL_PLUS);
++	MMIO_D(DBUF_CTL_S(0), D_SKL_PLUS);
++	MMIO_D(GEN9_PG_ENABLE, D_SKL_PLUS);
++	MMIO_D(GEN9_MEDIA_PG_IDLE_HYSTERESIS, D_SKL_PLUS);
++	MMIO_D(GEN9_RENDER_PG_IDLE_HYSTERESIS, D_SKL_PLUS);
++	MMIO_DF(GEN9_GAMT_ECO_REG_RW_IA, D_SKL_PLUS, F_CMD_ACCESS);
++	MMIO_DF(MMCD_MISC_CTRL, D_SKL_PLUS, F_CMD_ACCESS);
++	MMIO_D(CHICKEN_PAR1_1, D_SKL_PLUS);
++	MMIO_D(DC_STATE_EN, D_SKL_PLUS);
++	MMIO_D(DC_STATE_DEBUG, D_SKL_PLUS);
++	MMIO_D(CDCLK_CTL, D_SKL_PLUS);
++	MMIO_D(LCPLL1_CTL, D_SKL_PLUS);
++	MMIO_D(LCPLL2_CTL, D_SKL_PLUS);
++	MMIO_D(_MMIO(_DPLL1_CFGCR1), D_SKL_PLUS);
++	MMIO_D(_MMIO(_DPLL2_CFGCR1), D_SKL_PLUS);
++	MMIO_D(_MMIO(_DPLL3_CFGCR1), D_SKL_PLUS);
++	MMIO_D(_MMIO(_DPLL1_CFGCR2), D_SKL_PLUS);
++	MMIO_D(_MMIO(_DPLL2_CFGCR2), D_SKL_PLUS);
++	MMIO_D(_MMIO(_DPLL3_CFGCR2), D_SKL_PLUS);
++	MMIO_D(DPLL_CTRL1, D_SKL_PLUS);
++	MMIO_D(DPLL_CTRL2, D_SKL_PLUS);
++	MMIO_D(DPLL_STATUS, D_SKL_PLUS);
++	MMIO_D(SKL_PS_WIN_POS(PIPE_A, 0), D_SKL_PLUS);
++	MMIO_D(SKL_PS_WIN_POS(PIPE_A, 1), D_SKL_PLUS);
++	MMIO_D(SKL_PS_WIN_POS(PIPE_B, 0), D_SKL_PLUS);
++	MMIO_D(SKL_PS_WIN_POS(PIPE_B, 1), D_SKL_PLUS);
++	MMIO_D(SKL_PS_WIN_POS(PIPE_C, 0), D_SKL_PLUS);
++	MMIO_D(SKL_PS_WIN_POS(PIPE_C, 1), D_SKL_PLUS);
++	MMIO_D(SKL_PS_WIN_SZ(PIPE_A, 0), D_SKL_PLUS);
++	MMIO_D(SKL_PS_WIN_SZ(PIPE_A, 1), D_SKL_PLUS);
++	MMIO_D(SKL_PS_WIN_SZ(PIPE_B, 0), D_SKL_PLUS);
++	MMIO_D(SKL_PS_WIN_SZ(PIPE_B, 1), D_SKL_PLUS);
++	MMIO_D(SKL_PS_WIN_SZ(PIPE_C, 0), D_SKL_PLUS);
++	MMIO_D(SKL_PS_WIN_SZ(PIPE_C, 1), D_SKL_PLUS);
++	MMIO_D(SKL_PS_CTRL(PIPE_A, 0), D_SKL_PLUS);
++	MMIO_D(SKL_PS_CTRL(PIPE_A, 1), D_SKL_PLUS);
++	MMIO_D(SKL_PS_CTRL(PIPE_B, 0), D_SKL_PLUS);
++	MMIO_D(SKL_PS_CTRL(PIPE_B, 1), D_SKL_PLUS);
++	MMIO_D(SKL_PS_CTRL(PIPE_C, 0), D_SKL_PLUS);
++	MMIO_D(SKL_PS_CTRL(PIPE_C, 1), D_SKL_PLUS);
++	MMIO_D(PLANE_BUF_CFG(PIPE_A, 0), D_SKL_PLUS);
++	MMIO_D(PLANE_BUF_CFG(PIPE_A, 1), D_SKL_PLUS);
++	MMIO_D(PLANE_BUF_CFG(PIPE_A, 2), D_SKL_PLUS);
++	MMIO_D(PLANE_BUF_CFG(PIPE_A, 3), D_SKL_PLUS);
++	MMIO_D(PLANE_BUF_CFG(PIPE_B, 0), D_SKL_PLUS);
++	MMIO_D(PLANE_BUF_CFG(PIPE_B, 1), D_SKL_PLUS);
++	MMIO_D(PLANE_BUF_CFG(PIPE_B, 2), D_SKL_PLUS);
++	MMIO_D(PLANE_BUF_CFG(PIPE_B, 3), D_SKL_PLUS);
++	MMIO_D(PLANE_BUF_CFG(PIPE_C, 0), D_SKL_PLUS);
++	MMIO_D(PLANE_BUF_CFG(PIPE_C, 1), D_SKL_PLUS);
++	MMIO_D(PLANE_BUF_CFG(PIPE_C, 2), D_SKL_PLUS);
++	MMIO_D(PLANE_BUF_CFG(PIPE_C, 3), D_SKL_PLUS);
++	MMIO_D(CUR_BUF_CFG(PIPE_A), D_SKL_PLUS);
++	MMIO_D(CUR_BUF_CFG(PIPE_B), D_SKL_PLUS);
++	MMIO_D(CUR_BUF_CFG(PIPE_C), D_SKL_PLUS);
++	MMIO_F(PLANE_WM(PIPE_A, 0, 0), 4 * 8, 0, 0, 0, D_SKL_PLUS);
++	MMIO_F(PLANE_WM(PIPE_A, 1, 0), 4 * 8, 0, 0, 0, D_SKL_PLUS);
++	MMIO_F(PLANE_WM(PIPE_A, 2, 0), 4 * 8, 0, 0, 0, D_SKL_PLUS);
++	MMIO_F(PLANE_WM(PIPE_B, 0, 0), 4 * 8, 0, 0, 0, D_SKL_PLUS);
++	MMIO_F(PLANE_WM(PIPE_B, 1, 0), 4 * 8, 0, 0, 0, D_SKL_PLUS);
++	MMIO_F(PLANE_WM(PIPE_B, 2, 0), 4 * 8, 0, 0, 0, D_SKL_PLUS);
++	MMIO_F(PLANE_WM(PIPE_C, 0, 0), 4 * 8, 0, 0, 0, D_SKL_PLUS);
++	MMIO_F(PLANE_WM(PIPE_C, 1, 0), 4 * 8, 0, 0, 0, D_SKL_PLUS);
++	MMIO_F(PLANE_WM(PIPE_C, 2, 0), 4 * 8, 0, 0, 0, D_SKL_PLUS);
++	MMIO_F(CUR_WM(PIPE_A, 0), 4 * 8, 0, 0, 0, D_SKL_PLUS);
++	MMIO_F(CUR_WM(PIPE_B, 0), 4 * 8, 0, 0, 0, D_SKL_PLUS);
++	MMIO_F(CUR_WM(PIPE_C, 0), 4 * 8, 0, 0, 0, D_SKL_PLUS);
++	MMIO_D(PLANE_WM_TRANS(PIPE_A, 0), D_SKL_PLUS);
++	MMIO_D(PLANE_WM_TRANS(PIPE_A, 1), D_SKL_PLUS);
++	MMIO_D(PLANE_WM_TRANS(PIPE_A, 2), D_SKL_PLUS);
++	MMIO_D(PLANE_WM_TRANS(PIPE_B, 0), D_SKL_PLUS);
++	MMIO_D(PLANE_WM_TRANS(PIPE_B, 1), D_SKL_PLUS);
++	MMIO_D(PLANE_WM_TRANS(PIPE_B, 2), D_SKL_PLUS);
++	MMIO_D(PLANE_WM_TRANS(PIPE_C, 0), D_SKL_PLUS);
++	MMIO_D(PLANE_WM_TRANS(PIPE_C, 1), D_SKL_PLUS);
++	MMIO_D(PLANE_WM_TRANS(PIPE_C, 2), D_SKL_PLUS);
++	MMIO_D(CUR_WM_TRANS(PIPE_A), D_SKL_PLUS);
++	MMIO_D(CUR_WM_TRANS(PIPE_B), D_SKL_PLUS);
++	MMIO_D(CUR_WM_TRANS(PIPE_C), D_SKL_PLUS);
++	MMIO_D(PLANE_NV12_BUF_CFG(PIPE_A, 0), D_SKL_PLUS);
++	MMIO_D(PLANE_NV12_BUF_CFG(PIPE_A, 1), D_SKL_PLUS);
++	MMIO_D(PLANE_NV12_BUF_CFG(PIPE_A, 2), D_SKL_PLUS);
++	MMIO_D(PLANE_NV12_BUF_CFG(PIPE_A, 3), D_SKL_PLUS);
++	MMIO_D(PLANE_NV12_BUF_CFG(PIPE_B, 0), D_SKL_PLUS);
++	MMIO_D(PLANE_NV12_BUF_CFG(PIPE_B, 1), D_SKL_PLUS);
++	MMIO_D(PLANE_NV12_BUF_CFG(PIPE_B, 2), D_SKL_PLUS);
++	MMIO_D(PLANE_NV12_BUF_CFG(PIPE_B, 3), D_SKL_PLUS);
++	MMIO_D(PLANE_NV12_BUF_CFG(PIPE_C, 0), D_SKL_PLUS);
++	MMIO_D(PLANE_NV12_BUF_CFG(PIPE_C, 1), D_SKL_PLUS);
++	MMIO_D(PLANE_NV12_BUF_CFG(PIPE_C, 2), D_SKL_PLUS);
++	MMIO_D(PLANE_NV12_BUF_CFG(PIPE_C, 3), D_SKL_PLUS);
++	MMIO_D(_MMIO(_REG_701C0(PIPE_A, 1)), D_SKL_PLUS);
++	MMIO_D(_MMIO(_REG_701C0(PIPE_A, 2)), D_SKL_PLUS);
++	MMIO_D(_MMIO(_REG_701C0(PIPE_A, 3)), D_SKL_PLUS);
++	MMIO_D(_MMIO(_REG_701C0(PIPE_A, 4)), D_SKL_PLUS);
++	MMIO_D(_MMIO(_REG_701C0(PIPE_B, 1)), D_SKL_PLUS);
++	MMIO_D(_MMIO(_REG_701C0(PIPE_B, 2)), D_SKL_PLUS);
++	MMIO_D(_MMIO(_REG_701C0(PIPE_B, 3)), D_SKL_PLUS);
++	MMIO_D(_MMIO(_REG_701C0(PIPE_B, 4)), D_SKL_PLUS);
++	MMIO_D(_MMIO(_REG_701C0(PIPE_C, 1)), D_SKL_PLUS);
++	MMIO_D(_MMIO(_REG_701C0(PIPE_C, 2)), D_SKL_PLUS);
++	MMIO_D(_MMIO(_REG_701C0(PIPE_C, 3)), D_SKL_PLUS);
++	MMIO_D(_MMIO(_REG_701C0(PIPE_C, 4)), D_SKL_PLUS);
++	MMIO_D(_MMIO(_REG_701C4(PIPE_A, 1)), D_SKL_PLUS);
++	MMIO_D(_MMIO(_REG_701C4(PIPE_A, 2)), D_SKL_PLUS);
++	MMIO_D(_MMIO(_REG_701C4(PIPE_A, 3)), D_SKL_PLUS);
++	MMIO_D(_MMIO(_REG_701C4(PIPE_A, 4)), D_SKL_PLUS);
++	MMIO_D(_MMIO(_REG_701C4(PIPE_B, 1)), D_SKL_PLUS);
++	MMIO_D(_MMIO(_REG_701C4(PIPE_B, 2)), D_SKL_PLUS);
++	MMIO_D(_MMIO(_REG_701C4(PIPE_B, 3)), D_SKL_PLUS);
++	MMIO_D(_MMIO(_REG_701C4(PIPE_B, 4)), D_SKL_PLUS);
++	MMIO_D(_MMIO(_REG_701C4(PIPE_C, 1)), D_SKL_PLUS);
++	MMIO_D(_MMIO(_REG_701C4(PIPE_C, 2)), D_SKL_PLUS);
++	MMIO_D(_MMIO(_REG_701C4(PIPE_C, 3)), D_SKL_PLUS);
++	MMIO_D(_MMIO(_REG_701C4(PIPE_C, 4)), D_SKL_PLUS);
++	MMIO_D(_MMIO(_PLANE_CTL_3_A), D_SKL_PLUS);
++	MMIO_D(_MMIO(_PLANE_CTL_3_B), D_SKL_PLUS);
++	MMIO_D(_MMIO(0x72380), D_SKL_PLUS);
++	MMIO_D(_MMIO(0x7239c), D_SKL_PLUS);
++	MMIO_D(_MMIO(_PLANE_SURF_3_A), D_SKL_PLUS);
++	MMIO_D(_MMIO(_PLANE_SURF_3_B), D_SKL_PLUS);
++	MMIO_D(DMC_SSP_BASE, D_SKL_PLUS);
++	MMIO_D(DMC_HTP_SKL, D_SKL_PLUS);
++	MMIO_D(DMC_LAST_WRITE, D_SKL_PLUS);
++	MMIO_DF(BDW_SCRATCH1, D_SKL_PLUS, F_CMD_ACCESS);
++	MMIO_D(SKL_DFSM, D_SKL_PLUS);
++	MMIO_D(DISPIO_CR_TX_BMU_CR0, D_SKL_PLUS);
++	MMIO_F(GEN9_GFX_MOCS(0), 0x7f8, F_CMD_ACCESS, 0, 0, D_SKL_PLUS);
++	MMIO_F(GEN7_L3CNTLREG2, 0x80, F_CMD_ACCESS, 0, 0, D_SKL_PLUS);
++	MMIO_D(RPM_CONFIG0, D_SKL_PLUS);
++	MMIO_D(_MMIO(0xd08), D_SKL_PLUS);
++	MMIO_D(RC6_LOCATION, D_SKL_PLUS);
++	MMIO_DF(GEN7_FF_SLICE_CS_CHICKEN1, D_SKL_PLUS, F_MODE_MASK | F_CMD_ACCESS);
++	MMIO_DF(GEN9_CS_DEBUG_MODE1, D_SKL_PLUS, F_MODE_MASK | F_CMD_ACCESS);
++	/* TRTT */
++	MMIO_DF(TRVATTL3PTRDW(0), D_SKL_PLUS, F_CMD_ACCESS);
++	MMIO_DF(TRVATTL3PTRDW(1), D_SKL_PLUS, F_CMD_ACCESS);
++	MMIO_DF(TRVATTL3PTRDW(2), D_SKL_PLUS, F_CMD_ACCESS);
++	MMIO_DF(TRVATTL3PTRDW(3), D_SKL_PLUS, F_CMD_ACCESS);
++	MMIO_DF(TRVADR, D_SKL_PLUS, F_CMD_ACCESS);
++	MMIO_DF(TRTTE, D_SKL_PLUS, F_CMD_ACCESS | F_PM_SAVE);
++	MMIO_DF(_MMIO(0x4dfc), D_SKL_PLUS, F_PM_SAVE);
++	MMIO_D(_MMIO(0x46430), D_SKL_PLUS);
++	MMIO_D(_MMIO(0x46520), D_SKL_PLUS);
++	MMIO_D(_MMIO(0xc403c), D_SKL_PLUS);
++	MMIO_DF(GEN8_GARBCNTL, D_SKL_PLUS, F_CMD_ACCESS);
++	MMIO_D(DMA_CTRL, D_SKL_PLUS);
++	MMIO_D(_MMIO(0x65900), D_SKL_PLUS);
++	MMIO_D(GEN6_STOLEN_RESERVED, D_SKL_PLUS);
++	MMIO_D(_MMIO(0x4068), D_SKL_PLUS);
++	MMIO_D(_MMIO(0x67054), D_SKL_PLUS);
++	MMIO_D(_MMIO(0x6e560), D_SKL_PLUS);
++	MMIO_D(_MMIO(0x6e554), D_SKL_PLUS);
++	MMIO_D(_MMIO(0x2b20), D_SKL_PLUS);
++	MMIO_D(_MMIO(0x65f00), D_SKL_PLUS);
++	MMIO_D(_MMIO(0x65f08), D_SKL_PLUS);
++	MMIO_D(_MMIO(0x320f0), D_SKL_PLUS);
++	MMIO_D(_MMIO(0x70034), D_SKL_PLUS);
++	MMIO_D(_MMIO(0x71034), D_SKL_PLUS);
++	MMIO_D(_MMIO(0x72034), D_SKL_PLUS);
++	MMIO_D(_MMIO(_PLANE_KEYVAL_1(PIPE_A)), D_SKL_PLUS);
++	MMIO_D(_MMIO(_PLANE_KEYVAL_1(PIPE_B)), D_SKL_PLUS);
++	MMIO_D(_MMIO(_PLANE_KEYVAL_1(PIPE_C)), D_SKL_PLUS);
++	MMIO_D(_MMIO(_PLANE_KEYMAX_1(PIPE_A)), D_SKL_PLUS);
++	MMIO_D(_MMIO(_PLANE_KEYMAX_1(PIPE_B)), D_SKL_PLUS);
++	MMIO_D(_MMIO(_PLANE_KEYMAX_1(PIPE_C)), D_SKL_PLUS);
++	MMIO_D(_MMIO(_PLANE_KEYMSK_1(PIPE_A)), D_SKL_PLUS);
++	MMIO_D(_MMIO(_PLANE_KEYMSK_1(PIPE_B)), D_SKL_PLUS);
++	MMIO_D(_MMIO(_PLANE_KEYMSK_1(PIPE_C)), D_SKL_PLUS);
++	MMIO_D(_MMIO(0x44500), D_SKL_PLUS);
++#define CSFE_CHICKEN1_REG(base) _MMIO((base) + 0xD4)
++	MMIO_RING_DF(CSFE_CHICKEN1_REG, D_SKL_PLUS, F_MODE_MASK | F_CMD_ACCESS);
++#undef CSFE_CHICKEN1_REG
++	MMIO_DF(GEN8_HDC_CHICKEN1, D_SKL_PLUS, F_MODE_MASK | F_CMD_ACCESS);
++	MMIO_DF(GEN9_WM_CHICKEN3, D_SKL_PLUS, F_MODE_MASK | F_CMD_ACCESS);
++	MMIO_DF(GAMT_CHKN_BIT_REG, D_KBL | D_CFL, F_CMD_ACCESS);
++	MMIO_D(GEN9_CTX_PREEMPT_REG, D_SKL_PLUS & ~D_BXT);
++
++	return 0;
++}
++
++static int init_bxt_mmio_info(struct intel_gvt *gvt)
++{
++	struct drm_i915_private *dev_priv = gvt->gt->i915;
++	int ret;
++
++	MMIO_F(_MMIO(0x80000), 0x3000, 0, 0, 0, D_BXT);
++	MMIO_D(GEN7_SAMPLER_INSTDONE, D_BXT);
++	MMIO_D(GEN7_ROW_INSTDONE, D_BXT);
++	MMIO_D(GEN8_FAULT_TLB_DATA0, D_BXT);
++	MMIO_D(GEN8_FAULT_TLB_DATA1, D_BXT);
++	MMIO_D(ERROR_GEN6, D_BXT);
++	MMIO_D(DONE_REG, D_BXT);
++	MMIO_D(EIR, D_BXT);
++	MMIO_D(PGTBL_ER, D_BXT);
++	MMIO_D(_MMIO(0x4194), D_BXT);
++	MMIO_D(_MMIO(0x4294), D_BXT);
++	MMIO_D(_MMIO(0x4494), D_BXT);
++	MMIO_RING_D(RING_PSMI_CTL, D_BXT);
++	MMIO_RING_D(RING_DMA_FADD, D_BXT);
++	MMIO_RING_D(RING_DMA_FADD_UDW, D_BXT);
++	MMIO_RING_D(RING_IPEHR, D_BXT);
++	MMIO_RING_D(RING_INSTPS, D_BXT);
++	MMIO_RING_D(RING_BBADDR_UDW, D_BXT);
++	MMIO_RING_D(RING_BBSTATE, D_BXT);
++	MMIO_RING_D(RING_IPEIR, D_BXT);
++	MMIO_F(SOFT_SCRATCH(0), 16 * 4, 0, 0, 0, D_BXT);
++	MMIO_D(BXT_P_CR_GT_DISP_PWRON, D_BXT);
++	MMIO_D(BXT_RP_STATE_CAP, D_BXT);
++	MMIO_D(BXT_PHY_CTL_FAMILY(DPIO_PHY0), D_BXT);
++	MMIO_D(BXT_PHY_CTL_FAMILY(DPIO_PHY1), D_BXT);
++	MMIO_D(BXT_PHY_CTL(PORT_A), D_BXT);
++	MMIO_D(BXT_PHY_CTL(PORT_B), D_BXT);
++	MMIO_D(BXT_PHY_CTL(PORT_C), D_BXT);
++	MMIO_D(BXT_PORT_PLL_ENABLE(PORT_A), D_BXT);
++	MMIO_D(BXT_PORT_PLL_ENABLE(PORT_B), D_BXT);
++	MMIO_D(BXT_PORT_PLL_ENABLE(PORT_C), D_BXT);
++	MMIO_D(BXT_PORT_CL1CM_DW0(DPIO_PHY0), D_BXT);
++	MMIO_D(BXT_PORT_CL1CM_DW9(DPIO_PHY0), D_BXT);
++	MMIO_D(BXT_PORT_CL1CM_DW10(DPIO_PHY0), D_BXT);
++	MMIO_D(BXT_PORT_CL1CM_DW28(DPIO_PHY0), D_BXT);
++	MMIO_D(BXT_PORT_CL1CM_DW30(DPIO_PHY0), D_BXT);
++	MMIO_D(BXT_PORT_CL2CM_DW6(DPIO_PHY0), D_BXT);
++	MMIO_D(BXT_PORT_REF_DW3(DPIO_PHY0), D_BXT);
++	MMIO_D(BXT_PORT_REF_DW6(DPIO_PHY0), D_BXT);
++	MMIO_D(BXT_PORT_REF_DW8(DPIO_PHY0), D_BXT);
++	MMIO_D(BXT_PORT_CL1CM_DW0(DPIO_PHY1), D_BXT);
++	MMIO_D(BXT_PORT_CL1CM_DW9(DPIO_PHY1), D_BXT);
++	MMIO_D(BXT_PORT_CL1CM_DW10(DPIO_PHY1), D_BXT);
++	MMIO_D(BXT_PORT_CL1CM_DW28(DPIO_PHY1), D_BXT);
++	MMIO_D(BXT_PORT_CL1CM_DW30(DPIO_PHY1), D_BXT);
++	MMIO_D(BXT_PORT_CL2CM_DW6(DPIO_PHY1), D_BXT);
++	MMIO_D(BXT_PORT_REF_DW3(DPIO_PHY1), D_BXT);
++	MMIO_D(BXT_PORT_REF_DW6(DPIO_PHY1), D_BXT);
++	MMIO_D(BXT_PORT_REF_DW8(DPIO_PHY1), D_BXT);
++	MMIO_D(BXT_PORT_PLL_EBB_0(DPIO_PHY0, DPIO_CH0), D_BXT);
++	MMIO_D(BXT_PORT_PLL_EBB_4(DPIO_PHY0, DPIO_CH0), D_BXT);
++	MMIO_D(BXT_PORT_PCS_DW10_LN01(DPIO_PHY0, DPIO_CH0), D_BXT);
++	MMIO_D(BXT_PORT_PCS_DW10_GRP(DPIO_PHY0, DPIO_CH0), D_BXT);
++	MMIO_D(BXT_PORT_PCS_DW12_LN01(DPIO_PHY0, DPIO_CH0), D_BXT);
++	MMIO_D(BXT_PORT_PCS_DW12_LN23(DPIO_PHY0, DPIO_CH0), D_BXT);
++	MMIO_D(BXT_PORT_PCS_DW12_GRP(DPIO_PHY0, DPIO_CH0), D_BXT);
++	MMIO_D(BXT_PORT_TX_DW2_LN0(DPIO_PHY0, DPIO_CH0), D_BXT);
++	MMIO_D(BXT_PORT_TX_DW2_GRP(DPIO_PHY0, DPIO_CH0), D_BXT);
++	MMIO_D(BXT_PORT_TX_DW3_LN0(DPIO_PHY0, DPIO_CH0), D_BXT);
++	MMIO_D(BXT_PORT_TX_DW3_GRP(DPIO_PHY0, DPIO_CH0), D_BXT);
++	MMIO_D(BXT_PORT_TX_DW4_LN0(DPIO_PHY0, DPIO_CH0), D_BXT);
++	MMIO_D(BXT_PORT_TX_DW4_GRP(DPIO_PHY0, DPIO_CH0), D_BXT);
++	MMIO_D(BXT_PORT_TX_DW14_LN(DPIO_PHY0, DPIO_CH0, 0), D_BXT);
++	MMIO_D(BXT_PORT_TX_DW14_LN(DPIO_PHY0, DPIO_CH0, 1), D_BXT);
++	MMIO_D(BXT_PORT_TX_DW14_LN(DPIO_PHY0, DPIO_CH0, 2), D_BXT);
++	MMIO_D(BXT_PORT_TX_DW14_LN(DPIO_PHY0, DPIO_CH0, 3), D_BXT);
++	MMIO_D(BXT_PORT_PLL(DPIO_PHY0, DPIO_CH0, 0), D_BXT);
++	MMIO_D(BXT_PORT_PLL(DPIO_PHY0, DPIO_CH0, 1), D_BXT);
++	MMIO_D(BXT_PORT_PLL(DPIO_PHY0, DPIO_CH0, 2), D_BXT);
++	MMIO_D(BXT_PORT_PLL(DPIO_PHY0, DPIO_CH0, 3), D_BXT);
++	MMIO_D(BXT_PORT_PLL(DPIO_PHY0, DPIO_CH0, 6), D_BXT);
++	MMIO_D(BXT_PORT_PLL(DPIO_PHY0, DPIO_CH0, 8), D_BXT);
++	MMIO_D(BXT_PORT_PLL(DPIO_PHY0, DPIO_CH0, 9), D_BXT);
++	MMIO_D(BXT_PORT_PLL(DPIO_PHY0, DPIO_CH0, 10), D_BXT);
++	MMIO_D(BXT_PORT_PLL_EBB_0(DPIO_PHY0, DPIO_CH1), D_BXT);
++	MMIO_D(BXT_PORT_PLL_EBB_4(DPIO_PHY0, DPIO_CH1), D_BXT);
++	MMIO_D(BXT_PORT_PCS_DW10_LN01(DPIO_PHY0, DPIO_CH1), D_BXT);
++	MMIO_D(BXT_PORT_PCS_DW10_GRP(DPIO_PHY0, DPIO_CH1), D_BXT);
++	MMIO_D(BXT_PORT_PCS_DW12_LN01(DPIO_PHY0, DPIO_CH1), D_BXT);
++	MMIO_D(BXT_PORT_PCS_DW12_LN23(DPIO_PHY0, DPIO_CH1), D_BXT);
++	MMIO_D(BXT_PORT_PCS_DW12_GRP(DPIO_PHY0, DPIO_CH1), D_BXT);
++	MMIO_D(BXT_PORT_TX_DW2_LN0(DPIO_PHY0, DPIO_CH1), D_BXT);
++	MMIO_D(BXT_PORT_TX_DW2_GRP(DPIO_PHY0, DPIO_CH1), D_BXT);
++	MMIO_D(BXT_PORT_TX_DW3_LN0(DPIO_PHY0, DPIO_CH1), D_BXT);
++	MMIO_D(BXT_PORT_TX_DW3_GRP(DPIO_PHY0, DPIO_CH1), D_BXT);
++	MMIO_D(BXT_PORT_TX_DW4_LN0(DPIO_PHY0, DPIO_CH1), D_BXT);
++	MMIO_D(BXT_PORT_TX_DW4_GRP(DPIO_PHY0, DPIO_CH1), D_BXT);
++	MMIO_D(BXT_PORT_TX_DW14_LN(DPIO_PHY0, DPIO_CH1, 0), D_BXT);
++	MMIO_D(BXT_PORT_TX_DW14_LN(DPIO_PHY0, DPIO_CH1, 1), D_BXT);
++	MMIO_D(BXT_PORT_TX_DW14_LN(DPIO_PHY0, DPIO_CH1, 2), D_BXT);
++	MMIO_D(BXT_PORT_TX_DW14_LN(DPIO_PHY0, DPIO_CH1, 3), D_BXT);
++	MMIO_D(BXT_PORT_PLL(DPIO_PHY0, DPIO_CH1, 0), D_BXT);
++	MMIO_D(BXT_PORT_PLL(DPIO_PHY0, DPIO_CH1, 1), D_BXT);
++	MMIO_D(BXT_PORT_PLL(DPIO_PHY0, DPIO_CH1, 2), D_BXT);
++	MMIO_D(BXT_PORT_PLL(DPIO_PHY0, DPIO_CH1, 3), D_BXT);
++	MMIO_D(BXT_PORT_PLL(DPIO_PHY0, DPIO_CH1, 6), D_BXT);
++	MMIO_D(BXT_PORT_PLL(DPIO_PHY0, DPIO_CH1, 8), D_BXT);
++	MMIO_D(BXT_PORT_PLL(DPIO_PHY0, DPIO_CH1, 9), D_BXT);
++	MMIO_D(BXT_PORT_PLL(DPIO_PHY0, DPIO_CH1, 10), D_BXT);
++	MMIO_D(BXT_PORT_PLL_EBB_0(DPIO_PHY1, DPIO_CH0), D_BXT);
++	MMIO_D(BXT_PORT_PLL_EBB_4(DPIO_PHY1, DPIO_CH0), D_BXT);
++	MMIO_D(BXT_PORT_PCS_DW10_LN01(DPIO_PHY1, DPIO_CH0), D_BXT);
++	MMIO_D(BXT_PORT_PCS_DW10_GRP(DPIO_PHY1, DPIO_CH0), D_BXT);
++	MMIO_D(BXT_PORT_PCS_DW12_LN01(DPIO_PHY1, DPIO_CH0), D_BXT);
++	MMIO_D(BXT_PORT_PCS_DW12_LN23(DPIO_PHY1, DPIO_CH0), D_BXT);
++	MMIO_D(BXT_PORT_PCS_DW12_GRP(DPIO_PHY1, DPIO_CH0), D_BXT);
++	MMIO_D(BXT_PORT_TX_DW2_LN0(DPIO_PHY1, DPIO_CH0), D_BXT);
++	MMIO_D(BXT_PORT_TX_DW2_GRP(DPIO_PHY1, DPIO_CH0), D_BXT);
++	MMIO_D(BXT_PORT_TX_DW3_LN0(DPIO_PHY1, DPIO_CH0), D_BXT);
++	MMIO_D(BXT_PORT_TX_DW3_GRP(DPIO_PHY1, DPIO_CH0), D_BXT);
++	MMIO_D(BXT_PORT_TX_DW4_LN0(DPIO_PHY1, DPIO_CH0), D_BXT);
++	MMIO_D(BXT_PORT_TX_DW4_GRP(DPIO_PHY1, DPIO_CH0), D_BXT);
++	MMIO_D(BXT_PORT_TX_DW14_LN(DPIO_PHY1, DPIO_CH0, 0), D_BXT);
++	MMIO_D(BXT_PORT_TX_DW14_LN(DPIO_PHY1, DPIO_CH0, 1), D_BXT);
++	MMIO_D(BXT_PORT_TX_DW14_LN(DPIO_PHY1, DPIO_CH0, 2), D_BXT);
++	MMIO_D(BXT_PORT_TX_DW14_LN(DPIO_PHY1, DPIO_CH0, 3), D_BXT);
++	MMIO_D(BXT_PORT_PLL(DPIO_PHY1, DPIO_CH0, 0), D_BXT);
++	MMIO_D(BXT_PORT_PLL(DPIO_PHY1, DPIO_CH0, 1), D_BXT);
++	MMIO_D(BXT_PORT_PLL(DPIO_PHY1, DPIO_CH0, 2), D_BXT);
++	MMIO_D(BXT_PORT_PLL(DPIO_PHY1, DPIO_CH0, 3), D_BXT);
++	MMIO_D(BXT_PORT_PLL(DPIO_PHY1, DPIO_CH0, 6), D_BXT);
++	MMIO_D(BXT_PORT_PLL(DPIO_PHY1, DPIO_CH0, 8), D_BXT);
++	MMIO_D(BXT_PORT_PLL(DPIO_PHY1, DPIO_CH0, 9), D_BXT);
++	MMIO_D(BXT_PORT_PLL(DPIO_PHY1, DPIO_CH0, 10), D_BXT);
++	MMIO_D(BXT_DE_PLL_CTL, D_BXT);
++	MMIO_D(BXT_DE_PLL_ENABLE, D_BXT);
++	MMIO_D(BXT_DSI_PLL_CTL, D_BXT);
++	MMIO_D(BXT_DSI_PLL_ENABLE, D_BXT);
++	MMIO_D(GEN9_CLKGATE_DIS_0, D_BXT);
++	MMIO_D(GEN9_CLKGATE_DIS_4, D_BXT);
++	MMIO_D(HSW_TVIDEO_DIP_GCP(TRANSCODER_A), D_BXT);
++	MMIO_D(HSW_TVIDEO_DIP_GCP(TRANSCODER_B), D_BXT);
++	MMIO_D(HSW_TVIDEO_DIP_GCP(TRANSCODER_C), D_BXT);
++	MMIO_D(RC6_CTX_BASE, D_BXT);
++	MMIO_D(GEN8_PUSHBUS_CONTROL, D_BXT);
++	MMIO_D(GEN8_PUSHBUS_ENABLE, D_BXT);
++	MMIO_D(GEN8_PUSHBUS_SHIFT, D_BXT);
++	MMIO_D(GEN6_GFXPAUSE, D_BXT);
++	MMIO_DF(GEN8_L3SQCREG1, D_BXT, F_CMD_ACCESS);
++	MMIO_DF(GEN8_L3CNTLREG, D_BXT, F_CMD_ACCESS);
++	MMIO_DF(_MMIO(0x20D8), D_BXT, F_CMD_ACCESS);
++	MMIO_F(GEN8_RING_CS_GPR(RENDER_RING_BASE, 0), 0x40, F_CMD_ACCESS,
++	       0, 0, D_BXT);
++	MMIO_F(GEN8_RING_CS_GPR(GEN6_BSD_RING_BASE, 0), 0x40, F_CMD_ACCESS,
++	       0, 0, D_BXT);
++	MMIO_F(GEN8_RING_CS_GPR(BLT_RING_BASE, 0), 0x40, F_CMD_ACCESS,
++	       0, 0, D_BXT);
++	MMIO_F(GEN8_RING_CS_GPR(VEBOX_RING_BASE, 0), 0x40, F_CMD_ACCESS,
++	       0, 0, D_BXT);
++	MMIO_DF(GEN9_CTX_PREEMPT_REG, D_BXT, F_CMD_ACCESS);
++	MMIO_D(GEN8_PRIVATE_PAT_LO, D_BXT);
++
++	return 0;
++}
++
++/* Special MMIO blocks. registers in MMIO block ranges should not be command
++ * accessible (should have no F_CMD_ACCESS flag).
++ * otherwise, need to update cmd_reg_handler in cmd_parser.c
++ */
++static struct gvt_mmio_block mmio_blocks[] = {
++	{D_SKL_PLUS, _MMIO(DMC_MMIO_START_RANGE), 0x3000, NULL, NULL},
++	{D_ALL, _MMIO(MCHBAR_MIRROR_BASE_SNB), 0x40000, NULL, NULL},
++	{D_ALL, _MMIO(VGT_PVINFO_PAGE), VGT_PVINFO_SIZE, NULL, NULL},
++	{D_ALL, LGC_PALETTE(PIPE_A, 0), 1024, NULL, NULL},
++	{D_ALL, LGC_PALETTE(PIPE_B, 0), 1024, NULL, NULL},
++	{D_ALL, LGC_PALETTE(PIPE_C, 0), 1024, NULL, NULL},
++};
++
++/**
++ * intel_gvt_clean_mmio_info - clean up MMIO information table for GVT device
++ * @gvt: GVT device
++ *
++ * This function is called at the driver unloading stage, to clean up the MMIO
++ * information table of GVT device
++ *
++ */
++void intel_gvt_clean_mmio_info(struct intel_gvt *gvt)
++{
++	struct hlist_node *tmp;
++	struct intel_gvt_mmio_info *e;
++	int i;
++
++	hash_for_each_safe(gvt->mmio.mmio_info_table, i, tmp, e, node)
++		kfree(e);
++
++	vfree(gvt->mmio.mmio_attribute);
++	gvt->mmio.mmio_attribute = NULL;
++}
++
++/**
++ * intel_gvt_setup_mmio_table - setup MMIO information table for GVT device
++ * @gvt: GVT device
++ *
++ * This function is called at the initialization stage, to setup the MMIO
++ * information table for GVT device
++ *
++ * Returns:
++ * zero on success, negative if failed.
++ */
++int intel_gvt_setup_mmio_info(struct intel_gvt *gvt)
++{
++	struct intel_gvt_device_info *info = &gvt->device_info;
++	struct drm_i915_private *i915 = gvt->gt->i915;
++	int size = info->mmio_size / 4 * sizeof(*gvt->mmio.mmio_attribute);
++	int ret;
++
++	gvt->mmio.mmio_attribute = vzalloc(size);
++	if (!gvt->mmio.mmio_attribute)
++		return -ENOMEM;
++
++	ret = init_generic_mmio_info(gvt);
++	if (ret)
++		goto err;
++
++	if (IS_BROADWELL(i915)) {
++		ret = init_bdw_mmio_info(gvt);
++		if (ret)
++			goto err;
++	} else if (IS_SKYLAKE(i915) ||
++		   IS_KABYLAKE(i915) ||
++		   IS_COFFEELAKE(i915) ||
++		   IS_COMETLAKE(i915)) {
++		ret = init_bdw_mmio_info(gvt);
++		if (ret)
++			goto err;
++		ret = init_skl_mmio_info(gvt);
++		if (ret)
++			goto err;
++	} else if (IS_BROXTON(i915)) {
++		ret = init_bdw_mmio_info(gvt);
++		if (ret)
++			goto err;
++		ret = init_skl_mmio_info(gvt);
++		if (ret)
++			goto err;
++		ret = init_bxt_mmio_info(gvt);
++		if (ret)
++			goto err;
++	}
++
++	gvt->mmio.mmio_block = mmio_blocks;
++	gvt->mmio.num_mmio_block = ARRAY_SIZE(mmio_blocks);
++
++	return 0;
++err:
++	intel_gvt_clean_mmio_info(gvt);
++	return ret;
++}
+diff --git a/drivers/gpu/drm/i915/gvt/mmio_info_table.h b/drivers/gpu/drm/i915/gvt/mmio_info_table.h
+new file mode 100644
+index 000000000000..1c78ab1906c4
+--- /dev/null
++++ b/drivers/gpu/drm/i915/gvt/mmio_info_table.h
+@@ -0,0 +1,35 @@
++/*
++ * Copyright(c) 2021 Intel Corporation. All rights reserved.
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a
++ * copy of this software and associated documentation files (the "Software"),
++ * to deal in the Software without restriction, including without limitation
++ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
++ * and/or sell copies of the Software, and to permit persons to whom the
++ * Software is furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice (including the next
++ * paragraph) shall be included in all copies or substantial portions of the
++ * Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
++ * SOFTWARE.
++ *
++ */
++
++#ifndef _GVT_MMIO_INFO_TABLE_H_
++#define _GVT_MMIO_INFO_TABLE_H_
++
++unsigned long intel_gvt_get_device_type(struct intel_gvt *gvt);
++bool intel_gvt_match_device(struct intel_gvt *gvt, unsigned long device);
++struct intel_gvt_mmio_info *intel_gvt_find_mmio_info(struct intel_gvt *gvt,
++						     unsigned int offset);
++int intel_gvt_setup_mmio_info(struct intel_gvt *gvt);
++void intel_gvt_clean_mmio_info(struct intel_gvt *gvt);
++
++#endif
+diff --git a/drivers/gpu/drm/i915/gvt/reg.h b/drivers/gpu/drm/i915/gvt/reg.h
+index 244cc7320b54..cfa060c22e6d 100644
+--- a/drivers/gpu/drm/i915/gvt/reg.h
++++ b/drivers/gpu/drm/i915/gvt/reg.h
+@@ -133,6 +133,13 @@
+ #define RING_GFX_MODE(base)	_MMIO((base) + 0x29c)
+ #define VF_GUARDBAND		_MMIO(0x83a4)
+ 
+-
+ #define BCS_TILE_REGISTER_VAL_OFFSET (0x43*4)
++
++/* XXX FIXME i915 has changed PP_XXX definition */
++#define PCH_PP_STATUS  _MMIO(0xc7200)
++#define PCH_PP_CONTROL _MMIO(0xc7204)
++#define PCH_PP_ON_DELAYS _MMIO(0xc7208)
++#define PCH_PP_OFF_DELAYS _MMIO(0xc720c)
++#define PCH_PP_DIVISOR _MMIO(0xc7210)
++
+ #endif
+diff --git a/drivers/gpu/drm/i915/intel_gvt.c b/drivers/gpu/drm/i915/intel_gvt.c
+index 4e70c1a9ef2e..008a59298a7c 100644
+--- a/drivers/gpu/drm/i915/intel_gvt.c
++++ b/drivers/gpu/drm/i915/intel_gvt.c
+@@ -86,6 +86,23 @@ void intel_gvt_sanitize_options(struct drm_i915_private *dev_priv)
+ 	dev_priv->params.enable_gvt = 0;
+ }
+ 
++static void init_device_info(struct intel_gvt *gvt)
++{
++	struct intel_gvt_device_info *info = &gvt->device_info;
++	struct pci_dev *pdev = to_pci_dev(gvt->gt->i915->drm.dev);
++
++	info->max_support_vgpus = 8;
++	info->cfg_space_size = PCI_CFG_SPACE_EXP_SIZE;
++	info->mmio_size = 2 * 1024 * 1024;
++	info->mmio_bar = 0;
++	info->gtt_start_offset = 8 * 1024 * 1024;
++	info->gtt_entry_size = 8;
++	info->gtt_entry_size_shift = 3;
++	info->gmadr_bytes_in_cmd = 8;
++	info->max_surface_size = 36 * 1024 * 1024;
++	info->msi_cap_offset = pdev->msi_cap;
++}
++
+ /**
+  * intel_gvt_init - initialize GVT components
+  * @dev_priv: drm i915 private data
+@@ -98,6 +115,7 @@ void intel_gvt_sanitize_options(struct drm_i915_private *dev_priv)
+  */
+ int intel_gvt_init(struct drm_i915_private *dev_priv)
+ {
++	struct intel_gvt *gvt = NULL;
+ 	int ret;
+ 
+ 	if (i915_inject_probe_failure(dev_priv))
+@@ -115,15 +133,32 @@ int intel_gvt_init(struct drm_i915_private *dev_priv)
+ 		return -EIO;
+ 	}
+ 
++	gvt = kzalloc(sizeof(struct intel_gvt), GFP_KERNEL);
++	if (!gvt)
++		return -ENOMEM;
++
++	gvt->gt = &dev_priv->gt;
++
++	init_device_info(gvt);
++
++	ret = intel_gvt_setup_mmio_info(gvt);
++	if (ret)
++		goto err_setup_mmio_info;
++
++	dev_priv->gvt = gvt;
++
+ 	ret = intel_gvt_init_device(dev_priv);
+ 	if (ret) {
+ 		drm_dbg(&dev_priv->drm, "Fail to init GVT device\n");
+-		goto bail;
++		goto err_init_device;
+ 	}
+ 
+ 	return 0;
+ 
+-bail:
++err_init_device:
++	intel_gvt_clean_mmio_info(gvt);
++err_setup_mmio_info:
++	kfree(gvt);
+ 	dev_priv->params.enable_gvt = 0;
+ 	return 0;
+ }
+@@ -147,6 +182,9 @@ void intel_gvt_driver_remove(struct drm_i915_private *dev_priv)
+ 		return;
+ 
+ 	intel_gvt_clean_device(dev_priv);
++	intel_gvt_clean_mmio_info(dev_priv->gvt);
++	kfree(dev_priv->gvt);
++	dev_priv->gvt = NULL;
+ }
+ 
+ /**
+-- 
+2.25.1
 
-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
-
---XsQoSWH+UP9D9v3l--
