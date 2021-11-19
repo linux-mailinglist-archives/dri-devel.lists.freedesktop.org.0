@@ -1,72 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41B32456C85
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Nov 2021 10:42:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 54B3C456CBC
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Nov 2021 10:49:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C338D6EC21;
-	Fri, 19 Nov 2021 09:42:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB4046EA49;
+	Fri, 19 Nov 2021 09:49:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com
- [IPv6:2a00:1450:4864:20::52d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 223D16EC22
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Nov 2021 09:42:07 +0000 (UTC)
-Received: by mail-ed1-x52d.google.com with SMTP id g14so40215471edb.8
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Nov 2021 01:42:07 -0800 (PST)
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
+ [IPv6:2a00:1450:4864:20::535])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA5366EA49
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Nov 2021 09:49:06 +0000 (UTC)
+Received: by mail-ed1-x535.google.com with SMTP id l25so23812086eda.11
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Nov 2021 01:49:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=KWWIeI9PGgVaTX610GDWgWc1GQOkVrwtBxY86SIt5pE=;
- b=gNQidrPtT3sidKpXZnPwkOdueOQukbmVqd9fw2Nyy1wIN1cAE4BpfzTqiqjfygh/Su
- auBBcsCz6OJ454ZjRKEo/RFIqKQ56ao1mG97dXqLeIZIq0ogHJ4KvA/JhOC+9WRFPisB
- QKJKsoRbDEWffqUgmlW5tx9xPPP8KkHMejm2Q=
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=M9v5/XdYpuZeIIcgl9q7bFmSNHM6pBUvrptoyvy0cMU=;
+ b=dTXXkpZfl63wrfvj86ewtUj+CYLC3JFkrHWDDq6e2T5nLItmXq6QGMVlkNlsdDSLaq
+ nNE1mXHnDU8x2rfni6zx6xtsKa+JHM0UQnJBQBPavVGuGesTfgKM8DqAVbwbuvM2qXjI
+ SSTp6snHxfEl6Jz4Ecf/THBjD7X4dRVGgPf2o=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=KWWIeI9PGgVaTX610GDWgWc1GQOkVrwtBxY86SIt5pE=;
- b=3sDr2UJnst9SZhAK305ZRBPVuamz/dzFi7km9JvKM07lEGJrulO1foLVvpaCHqmie2
- 6OEvDNrtlFALLL7QgPVLf1rp+wJIMW3NAT54ZuUZHQjYPFBrShmn/mW0i85jNUb6NZ45
- q6gk4idXfOYkGaLyiAXeCkBrERy8NO41sjBIePoBZAELYQ5cujGW9p+s7H8g2Lp5atF8
- zzudjbUzrDnyUt5Zj79D3d2QzU6Mpio3Y4rPYEdkw8a7O2EQXyC/HfM/o2o6Dcl6hmDY
- 7+hwz+pJrdF3MI/KuCUx5z2ldb7undfMtmY2/cAHVvetbHKCwNfuaPL2zjgkMN5vnbxs
- bcUQ==
-X-Gm-Message-State: AOAM530syYBwteVxprBN3QKXsSrFc3VpENbA5Cb6FpdT1VYENyi34ryU
- SIe6r73kCEmQKsmJVjvYpQ/K7w==
-X-Google-Smtp-Source: ABdhPJxKs/6TNxzIH34w7vaWQv3abX+yW0fkh7VyKi/GlE9vfqWyx90QiAok//A0Mt2pCmtj/83KKQ==
-X-Received: by 2002:a05:6402:41a:: with SMTP id
- q26mr23025128edv.387.1637314925641; 
- Fri, 19 Nov 2021 01:42:05 -0800 (PST)
+ bh=M9v5/XdYpuZeIIcgl9q7bFmSNHM6pBUvrptoyvy0cMU=;
+ b=o8Von1V78qMcA/W0QJS4waGcI9e8jt1YPzWg9Y1/T9LTiPUqWqtkYMhbl6H6GUYWId
+ 5N4fS3vExzYOimsvMs65jpZEUw9+cAo7ajCm3evLyhDEMBMHaFqcUH9fPRIqHtLQtk9g
+ Pgn6/uAjgR+0RBwyS+T8jJkCUXBpPi3+0VkgBAiw2Nqc/Kt8pVjPthP/r3K14znSb+Hr
+ aFBShG3qkh3qTOo0NXiXPIHyEO5Fi94NocxBDt1yEUvW8W5Wz6VdZIlKXrmQmYa4om/d
+ dfxp17NFYCGLv025f2ApHgywM4w1q8WRdzC8n8HaH6C1auV8oJkS7HbJyoCC+/plJXHn
+ tMBg==
+X-Gm-Message-State: AOAM530+n4Bmd0N04mvOjJObIxruhWNnDP/xdKYmczics028b+R9gQNb
+ zt6b3P6oLVSsl3kqt5gFz4+nwQ==
+X-Google-Smtp-Source: ABdhPJwByHB0KgEJUuEAxyg29EN3Q28TK03EHzbMmKUrxMsquMRCWvPU26nFKGYlAH8xCv+u6FbUhw==
+X-Received: by 2002:a05:6402:5188:: with SMTP id
+ q8mr22079666edd.181.1637315345352; 
+ Fri, 19 Nov 2021 01:49:05 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id m6sm1249310edc.36.2021.11.19.01.42.04
+ by smtp.gmail.com with ESMTPSA id f22sm558533edf.93.2021.11.19.01.49.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Nov 2021 01:42:05 -0800 (PST)
-Date: Fri, 19 Nov 2021 10:42:03 +0100
+ Fri, 19 Nov 2021 01:49:04 -0800 (PST)
+Date: Fri, 19 Nov 2021 10:49:02 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: George Kennedy <george.kennedy@oracle.com>
-Subject: Re: [PATCH] drm: check drm_format_info hsub and vsub to avoid divide
- by zero
-Message-ID: <YZdxawCdP7V2dKq1@phenom.ffwll.local>
-Mail-Followup-To: George Kennedy <george.kennedy@oracle.com>,
- Brian Starkey <brian.starkey@arm.com>,
- Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>,
- gregkh@linuxfoundation.org, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@linux.ie,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- ben.davis@arm.com, Liviu.Dudau@arm.com,
- Dan Carpenter <dan.carpenter@oracle.com>, nd@arm.com
-References: <1635429437-21718-1-git-send-email-george.kennedy@oracle.com>
- <YXqt46TPL9tUZCL1@intel.com>
- <26fdb955-10c8-a5d6-07b6-85a4374e7754@oracle.com>
- <20211029141400.vcswmabtk5i3cvv7@000377403353>
- <4cfb985e-72da-173c-4818-c9c4af7d83a6@oracle.com>
+To: Michel =?iso-8859-1?Q?D=E4nzer?= <michel.daenzer@mailbox.org>
+Subject: Re: [PATCH v2] drm/fb-helper: Call drm_fb_helper_hotplug_event()
+ when releasing drm master
+Message-ID: <YZdzDh6oUpCEuXKz@phenom.ffwll.local>
+References: <20211108153453.51240-1-jfalempe@redhat.com>
+ <YYlJsmrlDH5yW6nf@phenom.ffwll.local>
+ <5b9e4690-fe8c-b043-9a52-60c7f8a55ad8@mailbox.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <4cfb985e-72da-173c-4818-c9c4af7d83a6@oracle.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <5b9e4690-fe8c-b043-9a52-60c7f8a55ad8@mailbox.org>
 X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -80,38 +71,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nd@arm.com, ben.davis@arm.com, airlied@linux.ie, gregkh@linuxfoundation.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- tzimmermann@suse.de, Liviu.Dudau@arm.com,
- Dan Carpenter <dan.carpenter@oracle.com>
+Cc: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Nov 18, 2021 at 03:00:15PM -0500, George Kennedy wrote:
-> 
-> 
-> On 10/29/2021 10:14 AM, Brian Starkey wrote:
-> > Hi,
+On Thu, Nov 18, 2021 at 11:23:32AM +0100, Michel Dänzer wrote:
+> On 2021-11-08 17:00, Daniel Vetter wrote:
+> > On Mon, Nov 08, 2021 at 04:34:53PM +0100, Jocelyn Falempe wrote:
+> >> When using Xorg/Logind and an external monitor connected with an MST dock.
+> >> After disconnecting the external monitor, switching to VT may not work,
+> >> the (internal) monitor sill display Xorg, and you can't see what you are
+> >> typing in the VT.
+> >>
+> >> This is related to commit e2809c7db818 ("drm/fb_helper: move deferred fb
+> >> checking into restore mode (v2)")
+> >>
+> >> When switching to VT, with Xorg and logind, if there
+> >> are pending hotplug event (like MST unplugged), the hotplug path
+> >> may not be fulfilled, because logind may drop the master a bit later.
+> >> It leads to the console not showing up on the monitor.
+> >>
+> >> So when dropping the drm master, call the delayed hotplug function if
+> >> needed.
+> >>
+> >> v2: rewrote the patch by calling the hotplug function after dropping master
+> >>
+> >> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
 > > 
-> > On Fri, Oct 29, 2021 at 09:15:28AM -0400, George Kennedy wrote:
-> > > Asking if you have any input on how to deal with hsub and vsub = zero?
-> > That's just a straight mistake on those formats - they should
-> > be 1. My bad for not spotting it in review.
+> > Lastclose console restore is a very gross hack, and generally doesn't work
+> > well.
 > > 
-> > On the one hand, having formats in this table is a nice
-> > machine-readable way to describe them. On the other, as drm_fourcc is
-> > being used as the canonical repository for formats, including ones
-> > not used in DRM, we can end up with situations like this.
-> > (R10/R12 being another example of formats not used in DRM:
-> > 20211027233140.12268-1-laurent.pinchart@ideasonboard.com)
+> > The way this is supposed to work is:
+> > - userspace drops drm master (because drm master always wins)
+> > - userspace switches the console back to text mode (which will restore the
+> >   console)
+> > 
+> > I guess we could also do this from dropmaster once more (like from
+> > lastclose), but that really feels like papering over userspace bugs. And
+> > given what a massive mess this entire area is already, I'm not eager to
+> > add more hacks here.
+> > 
+> > So ... can't we fix userspace?
 > 
-> Wondering if there is an alternate fix to the one proposed?
+> Sounds like the good old UMS days, when VT switching relied on user space doing the right things in the right order.
+> 
+> With KMS, surely the kernel needs to be able to get to a known good
+> state from scratch when it's in control of the VT, no matter what state
+> user space left things in.
 
-I think if the cost of defining formats correctly for everyone is that drm
-carries a bunch of nice machine-readable entries in its tables that it
-never uses, then we should do that. The very few bytes saved aren't worth
-any headaches (because on any soc system you anyway have tons more formats
-than what your driver is using).
+Unfortunately not. When your in KD_GRAPHICS mode we explicitly tell fbcon
+to shut up and not restore itself, and it shouldn't ever do that.
+
+And afaik there's not really a holder concept for KD_TEXT/GRAPHICS, unlike
+the drm master which signifies ownership of kms resources.
+
+Which sucks ofc, but fixing this would mean we need to retrofit ownership
+into VT somehow, so that ownership is auto-dropped like drm_master on
+close()/exit(). Not sure that's possible without breaking uapi (e.g. with
+logind I think it's logind also doing the KD_TEXT/GRAPHICS dance, but
+didn't check).
+
+But if we'd have some kind of real ownership for KD_GRAPHICS then we could
+tie that to the implied/weak drm_master status of fbdev emulation and make
+this work correctly. But as-is the kernel simply doesn't have enough
+information to dtrt. Or at least I'm not seeing how exactly, without just
+trying to make guesses what userspace wants to do.
+
+Either way I think we need to really clearly spell out how this is all
+supposed to work, and not just add random bandaids justified with "works
+for me". It is already a byzantine mess as-is.
 -Daniel
 -- 
 Daniel Vetter
