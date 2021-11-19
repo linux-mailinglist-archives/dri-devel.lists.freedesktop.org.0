@@ -2,48 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9126C456DEB
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Nov 2021 12:01:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD997456DEA
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Nov 2021 12:01:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 11A1D6EB35;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C8556EB37;
 	Fri, 19 Nov 2021 11:01:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
  [66.111.4.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B24CE6EB34
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E9ED46EB34
  for <dri-devel@lists.freedesktop.org>; Fri, 19 Nov 2021 11:01:04 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 0407C5C00D4;
- Fri, 19 Nov 2021 06:01:01 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Fri, 19 Nov 2021 06:01:01 -0500
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.nyi.internal (Postfix) with ESMTP id 508085C0152;
+ Fri, 19 Nov 2021 06:01:04 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute5.internal (MEProxy); Fri, 19 Nov 2021 06:01:04 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-type:content-transfer-encoding; s=fm1; bh=
- aqV1j+PWhw1EcvbQXT1J3L/THztodbDSfacb7pAVugM=; b=ftbKAxf07PobC8tc
- 3xnTmS8A5B+lTLU5mM6sNe0Cl17dgo+Hfm8byyKLzo/D3VXtRpWUZlBtlN6+5qfB
- J4jOlfRjj2JD6mUbSeUyVfg+8hhkDxL7yeoJFZGc0g6Dhp7HGYbf9t6YrERVO/Ad
- TqRGbafDqh5BmIUuCvnHyVH5gB8UkBgdw43nl2BPk4GI3CW1cKMKCk0mgcfOBdjB
- JOtD5/AVeBa2oxOPNVt+/SsvQRG84nWJChTt7suSCZOzfrDfXrWoRCVYOFpHg4j8
- fw9dKu9zDIsGpYQBhro2Cr0Lm29hb+DFFxBYmm0Zx7uhB8Sche/0uNXeWe7YKlWn
- 8JYY+Q==
+ wMbZ7KJ8PdGz2rR2LNAQ/bdGFOMlOCIwBFKQo5W87oo=; b=SHgShHBfQqfPyfFY
+ JMuudBwdBj4zAjNCch2ICy/5x/oNoTTfNKFOfOQbRxoX29gz8Rka1MltAI+Gzc55
+ 5PnWndVro5d1ELWUunMukP4597pTz4g5bDUcBO3gtPY6E14sR/iF8iGyjd8mb2Fv
+ sjqu8AjhvLii61F532Qbp+u5WmXvbMFGPGTrPQ9WJYYf2qcFiSvpkDJoUN8mPBI2
+ 8/KpF74VaavXtmAN5BBXkKhZgX8Ba6xcl6mfoPHdpyMFDrW/JlWAVRCnS9UCKmHI
+ WEBTFKNjZaMCDh+sLr1OcI553cbgSnewnhw7lEGxAtm71WfZp5+35dX3DOEduR9H
+ iPJiIA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:content-type
  :date:from:in-reply-to:message-id:mime-version:references
  :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm1; bh=aqV1j+PWhw1EcvbQXT1J3L/THztodbDSfacb7pAVu
- gM=; b=H+4YAfIklh5jmWWnXafnjUsLSKbg8zIQ6nqM9avIZ5UkAj8TY3VrP5ytF
- xYsa1YbPh/ZRzZRt0V9Kz9cScuC+duehuhZJO6WLvLjgq4ywoah2FGJGFsILV4mF
- 7QEzjMao7pgC3svRBzSFxZlMKCtXwwzlrIQqJTR8HBNndKlJFK29bRfgJ++21AUY
- 5u00wP5Hk0wAK7PvD8FCfbNszvC8c0H37PLwUjSBXOIfUIQR616EK8xrPnW5mX1R
- 96jhNdiGIiq1Y8qCa930xlOzvkaib6c4uKNvDffud72i6EUQcz++E+fYpeanR1bx
- KgJzQOM/DjqiV8sA9Gyq3Tu5HrMtg==
-X-ME-Sender: <xms:7IOXYTk49j4kro134d7Of7BnHXnls_ilMt4e_L-OuRNdSPxr9Q_Nrw>
- <xme:7IOXYW1C249-KZMTjIelZ0JsWVVlmHFBuPXyXNfNcy-8ZQaUhKI-OBsI_1MSWQENN
- unxs3yhG3atuiMQVQc>
-X-ME-Received: <xmr:7IOXYZqO5ffRpQ5pE25xuLk1GXQXW2nJqykQpCU23Ev9mo4TwVI64sJEKq4UwSFZUhTCa1MsaR0aNf_6kN4PKsGEFcxHASdm1e6jd0_3OVc>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrfeekgddvvdcutefuodetggdotefrodftvf
+ :x-sasl-enc; s=fm1; bh=wMbZ7KJ8PdGz2rR2LNAQ/bdGFOMlOCIwBFKQo5W87
+ oo=; b=dK1MlZtP894wuVX9B/JZkfQwr/ZZfo8MmuYuCYcGdAdvDAua415VX+OGO
+ 8as6uO+yCnuB4TdOi1gSnueAczGYAfeU3n32KZ0KTtc6GLHXoy30B0VI5g3L5wgk
+ Wd0vQTiXkA3zjJttZSrNIIjF1LKNZOa3AtMBY7jKo9OGcNxz6dpg8gZszCO/tBym
+ todDhYZvciVJgLQaq+QTik+bzFCp993M4ip2KrvXCffTEKlpK2nPmo+o4xzOQfE4
+ jfJbJr74IkaQL0edQxD/EWvgcZWDqWxD7c0vmNaipizJczytHK+C35Jj0/7ZF04U
+ zJ4bdQErHDCmFIJStF7aULKPoVzlQ==
+X-ME-Sender: <xms:7oOXYdGhKKf1IsAEWGpPK7F3dnTDmlZfyarrfTaltFUzlme5N6XqPg>
+ <xme:7oOXYSXIUGDO0NNdbwYX1IHlnwW4FMdQz_JmbV9ANxSKmpxoytqIOXuIrTcPxgXVN
+ DMPW2SwA3iQ-brg6e4>
+X-ME-Received: <xmr:7oOXYfLNsiUr8fm5-zfDTMFEG4gno_0M7ey8LhgU2nfxO45Y3dxb5L_-yW6TBnZfO5dUnH83yeg_qJQj8fsYfl_dgNimczNxvkgX1wDF1UY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrfeekgddvudcutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpefhvffufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpeforgigihhm
@@ -51,21 +51,21 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrfeekgddvvdcutefuodetggdote
  htvghrnhepjeeugfegkeffgfeuvedtvddufffhjeffjeejvddvudduteehhfefhfefgeei
  keeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
  grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:7IOXYbl_txF_lipHZxwMYl3vuVcleg7hb0kA2rlX1MuoZCdXUhRlkQ>
- <xmx:7IOXYR1csdC__J0iMFBBRpXe10cLUSPi3Xte1rlcON4tGV5KIAcGdg>
- <xmx:7IOXYavi6MWKPRZlRoEz5smVrZ_vI6cxquVWMDCjK0ISsMleY8uk5g>
- <xmx:7IOXYelB_ig3WITGQ5wJDq0Mtj9d2bGg3r69G3qXL02K80cDdOPY2w>
+X-ME-Proxy: <xmx:7oOXYTGIJK4BcqKyZSCGsP0crtLVMYXj3OzT_dD5g6Iun_Q7K4Glfg>
+ <xmx:7oOXYTXHWT9QXhKFJ9dPc-Iz61f-RAF1iyNEcO47Ly_W1Jbf-Yq_rg>
+ <xmx:7oOXYeML9r2cjHjVbuJnNJ5cCfeweUpq2cxQkIk0_WUcdVcAOT6JZg>
+ <xmx:8IOXYaGlQJmrTVoiAmZEyrD-DcgbOr3MvgwyCF5_A0wd8ltFCaiRmQ>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 19 Nov 2021 06:00:59 -0500 (EST)
+ 19 Nov 2021 06:01:02 -0500 (EST)
 From: Maxime Ripard <maxime@cerno.tech>
-To: Dan Carpenter <dan.carpenter@oracle.com>,
-	Emma Anholt <emma@anholt.net>
-Subject: Re: (subset) [PATCH] drm/vc4: fix error code in vc4_create_object()
-Date: Fri, 19 Nov 2021 12:00:56 +0100
-Message-Id: <163731964127.830809.14126199659521737361.b4-ty@cerno.tech>
+To: Jeremy Kerr <jk@codeconstruct.com.au>, Joel Stanley <joel@jms.id.au>,
+ Oskar Senft <osk@google.com>
+Subject: Re: (subset) [PATCH] drm/aspeed: Fix vga_pw sysfs output
+Date: Fri, 19 Nov 2021 12:00:57 +0100
+Message-Id: <163731964127.830809.15279573029825789668.b4-ty@cerno.tech>
 X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20211118111416.GC1147@kili>
-References: <20211118111416.GC1147@kili>
+In-Reply-To: <20211117010145.297253-1-joel@jms.id.au>
+References: <20211117010145.297253-1-joel@jms.id.au>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -81,18 +81,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, kernel-janitors@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Maxime Ripard <maxime@cerno.tech>
+Cc: linux-aspeed@lists.ozlabs.org, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, Andrew Jeffery <andrew@aj.id.au>,
+ Maxime Ripard <maxime@cerno.tech>, Ali El-Haj-Mahmoud <aaelhaj@google.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 18 Nov 2021 14:14:16 +0300, Dan Carpenter wrote:
-> The ->gem_create_object() functions are supposed to return NULL if there
-> is an error.  None of the callers expect error pointers so returing one
-> will lead to an Oops.  See drm_gem_vram_create(), for example.
+On Wed, 17 Nov 2021 09:01:45 +0800, Joel Stanley wrote:
+> Before the drm driver had support for this file there was a driver that
+> exposed the contents of the vga password register to userspace. It would
+> present the entire register instead of interpreting it.
 > 
+> The drm implementation chose to mask of the lower bit, without explaining
+> why. This breaks the existing userspace, which is looking for 0xa8 in
+> the lower byte.
 > 
+> [...]
 
 Applied to drm/drm-misc (drm-misc-fixes).
 
