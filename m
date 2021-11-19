@@ -2,57 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21563457138
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Nov 2021 15:53:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA306457139
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Nov 2021 15:53:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7FD5E6E9FA;
-	Fri, 19 Nov 2021 14:53:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 27E156EA01;
+	Fri, 19 Nov 2021 14:53:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com
- [IPv6:2607:f8b0:4864:20::430])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 552676EA01
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Nov 2021 14:53:45 +0000 (UTC)
-Received: by mail-pf1-x430.google.com with SMTP id b68so9545858pfg.11
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Nov 2021 06:53:45 -0800 (PST)
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com
+ [IPv6:2607:f8b0:4864:20::635])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 85D4D6EA01
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Nov 2021 14:53:48 +0000 (UTC)
+Received: by mail-pl1-x635.google.com with SMTP id k4so8282141plx.8
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Nov 2021 06:53:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amarulasolutions.com; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=arsVDpo4dPzPIVSn/FusO2EnJGazLue6DTu5xtQ1Wc4=;
- b=lNkIkhaudWzoVTvDSAd7hYU1vYlVCXfJBOEpw8KSbYIHHpWWgIuLKLUe5OZ+usaeh1
- YLkjocXTH6IKtx2Zc729zsYoXlPgQJRF1ZdtJt1ibWtruAlEXsc7FUvhcxr+JE9GgG++
- q7WNkwkirAUZsPcP3d4ECdrWwvY/xw7ewdXWE=
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=j/oZXyY9k7/oPbpEjBRReXLAUJ5HyfByCIhWv+1np54=;
+ b=PN1UcUsYDSUMiWMZJy749NipLpGPavbi0UtRSetimymsjzd6bHaTH3yZpzEflYYVfR
+ 9D/x4nX2QsXNmcg62ZGHofB+b3bWcfFDjwR1I0K8OR7vnGfeUuU/qHO+ZM/77zHxr0MD
+ 8uWMaAHN43We2QwzGkBYlW1QT2wcAgcs2cBCA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=arsVDpo4dPzPIVSn/FusO2EnJGazLue6DTu5xtQ1Wc4=;
- b=SpGnigiw8gGpRp1qK5/ClmwolXt75USL9SHDuy5ZPjAGz84rc72d0TzkNzcLELGIWy
- UJw7HsHLsYdndFfyROrxjzxKShL4b/+9uZwsG6CgWg6cURe5wc35VX7yPbDSEiIWolkj
- PEuSMNhx5bLgkzu/lEBD6SaiX44Nk34qnEMNO54axbqs8FeZG6+JXVIk+JWNssxZMKvG
- jElxYRWfTfJbO3SGiOeM0r1kcElus7iRm/KSDL3mkWiYVsXc4KWD2+cfXFNIRxu2cDXD
- 8GFr6I42qXq9plbyKFIUDd95XvNfgRW+yJb92zMYbzXcfyme8ONB+AnR/y3uduBfAj2E
- kQUw==
-X-Gm-Message-State: AOAM532rkWjo6popayEkAX0qc6L5zefXr5I7PnrgzAAgU/V5DO3exy4s
- Bpbm5u4brwl8In0XFcecG6JO6w==
-X-Google-Smtp-Source: ABdhPJzwwtqVfze6WdgU2WemIHw5txyx31AsLH10HrwpykM4M4h1k0i5TNtgBHIxbBwe5O+7JyHrCw==
-X-Received: by 2002:a63:1b22:: with SMTP id b34mr2609225pgb.331.1637333624888; 
- Fri, 19 Nov 2021 06:53:44 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=j/oZXyY9k7/oPbpEjBRReXLAUJ5HyfByCIhWv+1np54=;
+ b=pnLCP8BXN4/3b15iNMvvjKlQvpM1BIJBnPVxq1XvwvJSk1NZKX9psJwnNnca+9J9/p
+ 20C4962dRwDyaUJMGJKJw2gh3+qndgZ6tkMr/0iYxLGoaUIJ/AjNstpN6zYXI/PBidk+
+ odomQLNPbkKFbwKYbV5aSSFtwP5Q6gKzF9Tej4MOv/iDJd3m+GbarMdhHB7V2/3DJLOx
+ JGGo4KwG5kYz/hrl+RAXkkplA80gUmR6NmMeqkHkUgcydEbKu6M+tdvH2/3zyrROggVB
+ joIVAUJuDFzp8e9c6Twtd4VsI4HHKpiL6xeAU7Dzfy7bnAgQfm6tg9vjQPVgF5pxb61w
+ P2aQ==
+X-Gm-Message-State: AOAM533H4n5buERi6XOxjFZf5Eup5qu6sXu714FDWNptuLjSV+LIX0ux
+ IFiQK6miG1EtWMqiOgbiusRuTDwTHW3Sqg==
+X-Google-Smtp-Source: ABdhPJyGyqCKuY59De5cinq/qP6UBN9mriUC2PfnDuygeBMHWev+cPlFlKYo44eQYFhOZU5oZWlTWw==
+X-Received: by 2002:a17:902:d488:b0:141:f3a3:d2f4 with SMTP id
+ c8-20020a170902d48800b00141f3a3d2f4mr77884968plg.86.1637333628125; 
+ Fri, 19 Nov 2021 06:53:48 -0800 (PST)
 Received: from localhost.localdomain ([2405:201:c00a:a0a9:35da:1c92:84b8:d096])
- by smtp.gmail.com with ESMTPSA id q11sm3368033pfk.192.2021.11.19.06.53.42
+ by smtp.gmail.com with ESMTPSA id q11sm3368033pfk.192.2021.11.19.06.53.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Nov 2021 06:53:44 -0800 (PST)
+ Fri, 19 Nov 2021 06:53:47 -0800 (PST)
 From: Jagan Teki <jagan@amarulasolutions.com>
 To: Andrzej Hajda <a.hajda@samsung.com>,
  Neil Armstrong <narmstrong@baylibre.com>,
  Robert Foss <robert.foss@linaro.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Sam Ravnborg <sam@ravnborg.org>
-Subject: [PATCH 1/2] drm/bridge: chipone-icn6211: Switch to atomic operations
-Date: Fri, 19 Nov 2021 20:23:24 +0530
-Message-Id: <20211119145325.1775046-1-jagan@amarulasolutions.com>
+Subject: [PATCH 2/2] drm/bridge: chipone-icn6211: Add mode_set API
+Date: Fri, 19 Nov 2021 20:23:25 +0530
+Message-Id: <20211119145325.1775046-2-jagan@amarulasolutions.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20211119145325.1775046-1-jagan@amarulasolutions.com>
+References: <20211119145325.1775046-1-jagan@amarulasolutions.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -72,80 +75,71 @@ Cc: linux-amarula@amarulasolutions.com, Jagan Teki <jagan@amarulasolutions.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Replace atomic version of the pre_enable/enable/post_disable
-operations to continue the transition to the atomic API.
-
-Also added default drm atomic operations for duplicate, destroy
-and reset state API's in order to have smooth transition on
-atomic API's.
-
-Tested on Allwinner R16/R40 DSI.
+Get the display mode settings via mode_set bridge
+function instead of explicitly de-reference.
 
 Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
 ---
- drivers/gpu/drm/bridge/chipone-icn6211.c | 21 ++++++++++++++-------
- 1 file changed, 14 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/bridge/chipone-icn6211.c | 18 ++++++++++++------
+ 1 file changed, 12 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/chipone-icn6211.c b/drivers/gpu/drm/bridge/chipone-icn6211.c
-index a6151db95586..77b3e2c29461 100644
+index 77b3e2c29461..e8f36dca56b3 100644
 --- a/drivers/gpu/drm/bridge/chipone-icn6211.c
 +++ b/drivers/gpu/drm/bridge/chipone-icn6211.c
-@@ -4,6 +4,7 @@
-  * Author: Jagan Teki <jagan@amarulasolutions.com>
-  */
- 
-+#include <drm/drm_atomic_helper.h>
- #include <drm/drm_of.h>
- #include <drm/drm_print.h>
- #include <drm/drm_mipi_dsi.h>
-@@ -61,7 +62,8 @@ static inline int chipone_dsi_write(struct chipone *icn,  const void *seq,
- 		chipone_dsi_write(icn, d, ARRAY_SIZE(d));	\
- 	}
- 
--static void chipone_enable(struct drm_bridge *bridge)
-+static void chipone_atomic_enable(struct drm_bridge *bridge,
-+				  struct drm_bridge_state *old_bridge_state)
- {
- 	struct chipone *icn = bridge_to_chipone(bridge);
- 	struct drm_display_mode *mode = bridge_to_mode(bridge);
-@@ -114,7 +116,8 @@ static void chipone_enable(struct drm_bridge *bridge)
- 	usleep_range(10000, 11000);
+@@ -31,6 +31,7 @@
+ struct chipone {
+ 	struct device *dev;
+ 	struct drm_bridge bridge;
++	struct drm_display_mode mode;
+ 	struct drm_bridge *panel_bridge;
+ 	struct gpio_desc *enable_gpio;
+ 	struct regulator *vdd1;
+@@ -43,11 +44,6 @@ static inline struct chipone *bridge_to_chipone(struct drm_bridge *bridge)
+ 	return container_of(bridge, struct chipone, bridge);
  }
  
--static void chipone_pre_enable(struct drm_bridge *bridge)
-+static void chipone_atomic_pre_enable(struct drm_bridge *bridge,
-+				      struct drm_bridge_state *old_bridge_state)
+-static struct drm_display_mode *bridge_to_mode(struct drm_bridge *bridge)
+-{
+-	return &bridge->encoder->crtc->state->adjusted_mode;
+-}
+-
+ static inline int chipone_dsi_write(struct chipone *icn,  const void *seq,
+ 				    size_t len)
+ {
+@@ -66,7 +62,7 @@ static void chipone_atomic_enable(struct drm_bridge *bridge,
+ 				  struct drm_bridge_state *old_bridge_state)
  {
  	struct chipone *icn = bridge_to_chipone(bridge);
- 	int ret;
-@@ -145,7 +148,8 @@ static void chipone_pre_enable(struct drm_bridge *bridge)
- 	usleep_range(10000, 11000);
+-	struct drm_display_mode *mode = bridge_to_mode(bridge);
++	struct drm_display_mode *mode = &icn->mode;
+ 
+ 	ICN6211_DSI(icn, 0x7a, 0xc1);
+ 
+@@ -165,6 +161,15 @@ static void chipone_atomic_post_disable(struct drm_bridge *bridge,
+ 	gpiod_set_value(icn->enable_gpio, 0);
  }
  
--static void chipone_post_disable(struct drm_bridge *bridge)
-+static void chipone_atomic_post_disable(struct drm_bridge *bridge,
-+					struct drm_bridge_state *old_bridge_state)
++static void chipone_mode_set(struct drm_bridge *bridge,
++			     const struct drm_display_mode *mode,
++			     const struct drm_display_mode *adjusted_mode)
++{
++	struct chipone *icn = bridge_to_chipone(bridge);
++
++	drm_mode_copy(&icn->mode, adjusted_mode);
++}
++
+ static int chipone_attach(struct drm_bridge *bridge, enum drm_bridge_attach_flags flags)
  {
  	struct chipone *icn = bridge_to_chipone(bridge);
- 
-@@ -169,10 +173,13 @@ static int chipone_attach(struct drm_bridge *bridge, enum drm_bridge_attach_flag
- }
- 
- static const struct drm_bridge_funcs chipone_bridge_funcs = {
--	.attach = chipone_attach,
--	.post_disable = chipone_post_disable,
--	.pre_enable = chipone_pre_enable,
--	.enable = chipone_enable,
-+	.atomic_duplicate_state	= drm_atomic_helper_bridge_duplicate_state,
-+	.atomic_destroy_state	= drm_atomic_helper_bridge_destroy_state,
-+	.atomic_reset		= drm_atomic_helper_bridge_reset,
-+	.atomic_pre_enable	= chipone_atomic_pre_enable,
-+	.atomic_enable		= chipone_atomic_enable,
-+	.atomic_post_disable	= chipone_atomic_post_disable,
-+	.attach			= chipone_attach,
+@@ -179,6 +184,7 @@ static const struct drm_bridge_funcs chipone_bridge_funcs = {
+ 	.atomic_pre_enable	= chipone_atomic_pre_enable,
+ 	.atomic_enable		= chipone_atomic_enable,
+ 	.atomic_post_disable	= chipone_atomic_post_disable,
++	.mode_set		= chipone_mode_set,
+ 	.attach			= chipone_attach,
  };
  
- static int chipone_parse_dt(struct chipone *icn)
 -- 
 2.25.1
 
