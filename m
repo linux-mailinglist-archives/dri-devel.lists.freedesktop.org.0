@@ -2,38 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6ADB4456DF8
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Nov 2021 12:08:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F6D5456E30
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Nov 2021 12:29:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8886F6E03C;
-	Fri, 19 Nov 2021 11:08:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 72E7E6E4BA;
+	Fri, 19 Nov 2021 11:29:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E74FB6E03C
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Nov 2021 11:08:52 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 6302260F57;
- Fri, 19 Nov 2021 11:08:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1637320132;
- bh=MGQP/hrtX2By1G+IloWa4tkqTreG55JKH01OWy6ztxc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=jl02+0R1AL8nkIL4t2IOsnf3pKd35+snNFNW2PajI7tCbE2GtwAF8mOGDoy9o6IcF
- eIxCm1uaMy9pBDDEgvhcVNZyvcxphmaoHoDXZubLU7TWmEuVq10ru6ZgAbvfb5qlAX
- xZF937C0tKlKh6Ig9DI7PajMtcd1ianj0FfwjXCs=
-Date: Fri, 19 Nov 2021 12:08:49 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Javier Martinez Canillas <javierm@redhat.com>
-Subject: Re: [PATCH v5 3/6] drm: Move nomodeset kernel parameter to the DRM
- subsystem
-Message-ID: <YZeFwcuP1cu9MOZu@kroah.com>
-References: <20211112133230.1595307-1-javierm@redhat.com>
- <20211112133230.1595307-4-javierm@redhat.com>
- <b63cbd1d-4669-422d-0908-0eec1981caa6@redhat.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7BDE16E4BA
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Nov 2021 11:29:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1637321367;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=YNsvprf1D4tM6+4YGzakWjPMIUQacpxPSiAIWlnUZcE=;
+ b=eyVfNWG0Kd88ut1Rl2qhwBW2L8YnCl9Qgh9kNPCELyCg89xO/lXqsNfuxxvARmLPjEDkmb
+ apOPk7r3rGSlBTTwMWMAEwQfjH6vaKR6moWY0AvYT/X1NCHAA5OVLkC2ywpqoEPTcooJnq
+ 2/JQcaV+sYTeicTGbmeFgqcFMosSlv8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-461-Ne7WM6Y4NKGckXIv6l9jIQ-1; Fri, 19 Nov 2021 06:29:21 -0500
+X-MC-Unique: Ne7WM6Y4NKGckXIv6l9jIQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 64C5C8799E0;
+ Fri, 19 Nov 2021 11:29:20 +0000 (UTC)
+Received: from localhost.localdomain.com (unknown [10.39.192.233])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CDB15100EB3D;
+ Fri, 19 Nov 2021 11:29:10 +0000 (UTC)
+From: Mohammed Gamal <mgamal@redhat.com>
+To: linux-hyperv@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ decui@microsoft.com, drawat.floss@gmail.com
+Subject: [PATCH] drm/hyperv: Fix device removal on Gen1 VMs
+Date: Fri, 19 Nov 2021 12:29:00 +0100
+Message-Id: <20211119112900.300537-1-mgamal@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b63cbd1d-4669-422d-0908-0eec1981caa6@redhat.com>
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,37 +57,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Pekka Paalanen <pekka.paalanen@collabora.com>,
- Jani Nikula <jani.nikula@intel.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Michel =?iso-8859-1?Q?D=E4nzer?= <michel@daenzer.net>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Peter Robinson <pbrobinson@gmail.com>, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: airlied@linux.ie, Mohammed Gamal <mgamal@redhat.com>,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Nov 19, 2021 at 11:20:13AM +0100, Javier Martinez Canillas wrote:
-> [ adding gregkh to Cc list for drivers/video/console ]
-> 
-> On 11/12/21 14:32, Javier Martinez Canillas wrote:
-> > The "nomodeset" kernel cmdline parameter is handled by the vgacon driver
-> > but the exported vgacon_text_force() symbol is only used by DRM drivers.
-> > 
-> > It makes much more sense for the parameter logic to be in the subsystem
-> > of the drivers that are making use of it.
-> > 
-> > Let's move the vgacon_text_force() function and related logic to the DRM
-> > subsystem. While doing that, rename it to drm_firmware_drivers_only() and
-> > make it return true if "nomodeset" was used and false otherwise. This is
-> > a better description of the condition that the drivers are testing for.
-> > 
-> > Suggested-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> > Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
-> > Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-> > Acked-by: Jani Nikula <jani.nikula@intel.com>
-> > Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-> > ---
-> >
-> 
-> Greg, could I please get your ack for this patch ?
+The Hyper-V DRM driver tries to free MMIO region on removing
+the device regardless of VM type, while Gen1 VMs don't use MMIO
+and hence causing the kernel to crash on a NULL pointer dereference.
 
-Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Fix this by making deallocating MMIO only on Gen2 machines and implement
+removal for Gen1
+
+Fixes: 76c56a5affeb ("drm/hyperv: Add DRM driver for hyperv synthetic video device")
+
+Signed-off-by: Mohammed Gamal <mgamal@redhat.com>
+---
+ drivers/gpu/drm/hyperv/hyperv_drm_drv.c | 19 ++++++++++++++++++-
+ 1 file changed, 18 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/hyperv/hyperv_drm_drv.c b/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
+index cd818a629183..9f923beb7d8d 100644
+--- a/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
++++ b/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
+@@ -225,12 +225,29 @@ static int hyperv_vmbus_remove(struct hv_device *hdev)
+ {
+ 	struct drm_device *dev = hv_get_drvdata(hdev);
+ 	struct hyperv_drm_device *hv = to_hv(dev);
++	struct pci_dev *pdev;
+ 
+ 	drm_dev_unplug(dev);
+ 	drm_atomic_helper_shutdown(dev);
+ 	vmbus_close(hdev->channel);
+ 	hv_set_drvdata(hdev, NULL);
+-	vmbus_free_mmio(hv->mem->start, hv->fb_size);
++
++	/*
++	 * Free allocated MMIO memory only on Gen2 VMs.
++	 * On Gen1 VMs, release the PCI device
++	 */
++	if (efi_enabled(EFI_BOOT)) {
++		vmbus_free_mmio(hv->mem->start, hv->fb_size);
++	} else {
++		pdev = pci_get_device(PCI_VENDOR_ID_MICROSOFT,
++				PCI_DEVICE_ID_HYPERV_VIDEO, NULL);
++		if (!pdev) {
++			drm_err(dev, "Unable to find PCI Hyper-V video\n");
++			return -ENODEV;
++		}
++		pci_release_region(pdev, 0);
++		pci_dev_put(pdev);
++	}
+ 
+ 	return 0;
+ }
+-- 
+2.33.1
+
