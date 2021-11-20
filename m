@@ -1,28 +1,28 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14A89457C66
-	for <lists+dri-devel@lfdr.de>; Sat, 20 Nov 2021 08:59:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5339E457C68
+	for <lists+dri-devel@lfdr.de>; Sat, 20 Nov 2021 08:59:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B10976F4FF;
-	Sat, 20 Nov 2021 07:59:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8EA786F502;
+	Sat, 20 Nov 2021 07:59:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from 189.cn (ptr.189.cn [183.61.185.103])
- by gabe.freedesktop.org (Postfix) with ESMTP id 6088A6F4FF
- for <dri-devel@lists.freedesktop.org>; Sat, 20 Nov 2021 07:59:32 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 671336F502
+ for <dri-devel@lists.freedesktop.org>; Sat, 20 Nov 2021 07:59:38 +0000 (UTC)
 HMM_SOURCE_IP: 10.64.8.43:38516.358279549
 HMM_ATTACHE_NUM: 0000
 HMM_SOURCE_TYPE: SMTP
 Received: from clientip-114.242.206.180 (unknown [10.64.8.43])
- by 189.cn (HERMES) with SMTP id 8086D1001F1;
- Sat, 20 Nov 2021 15:59:28 +0800 (CST)
+ by 189.cn (HERMES) with SMTP id A5ED51001F4;
+ Sat, 20 Nov 2021 15:59:35 +0800 (CST)
 Received: from  ([14.17.101.177])
  by gateway-151646-dep-b7fbf7d79-vjdjk with ESMTP id
- e7ae1f5f468b4f0e85c4a5c90e49ab27 for l.stach@pengutronix.de; 
- Sat, 20 Nov 2021 15:59:30 CST
-X-Transaction-ID: e7ae1f5f468b4f0e85c4a5c90e49ab27
+ 7f33e5aebf2c409491132af08a45f51f for l.stach@pengutronix.de; 
+ Sat, 20 Nov 2021 15:59:37 CST
+X-Transaction-ID: 7f33e5aebf2c409491132af08a45f51f
 X-Real-From: 15330273260@189.cn
 X-Receive-IP: 14.17.101.177
 X-MEDUSA-Status: 0
@@ -40,11 +40,12 @@ To: Lucas Stach <l.stach@pengutronix.de>,
  Jiaxun Yang <jiaxun.yang@flygoat.com>,
  Xiaochuan Mao <maoxiaochuan@loongson.cn>,
  zhaoxiao <zhaoxiao@uniontech.com>, suijingfeng <suijingfeng@loongson.cn>
-Subject: drm/etnaviv: add pci device driver support for gpu in LS7A1000 and
- LS2K1000
-Date: Sat, 20 Nov 2021 15:59:22 +0800
-Message-Id: <20211120075926.2671-1-15330273260@189.cn>
+Subject: [PATCH 1/4] dt-bindings: ls2k1000: add gpu device node
+Date: Sat, 20 Nov 2021 15:59:23 +0800
+Message-Id: <20211120075926.2671-2-15330273260@189.cn>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20211120075926.2671-1-15330273260@189.cn>
+References: <20211120075926.2671-1-15330273260@189.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -65,44 +66,41 @@ Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-  There is a Vivante GC1000 V5037 in LS2K1000 and LS7A1000,
-  the gpu is a PCI device and it have 2D and 3D in the same core.
-  Therefore, this patch try to provide PCI device driver wrapper
-  for it by mimic the platform counterpart.
+From: suijingfeng <suijingfeng@loongson.cn>
 
-  LS7A1000 is a bridge chip, this bridge chip typically use
-  with LS3A4000 (4 core 1.8gHz, Mips64r5) and LS3A5000 (4 core
-  loongarch 2.5Ghz). While LS2K1000 is a double core 1.0Ghz
-  Mips64r2 SoC.
+There is a vivante gpu (GC1000 V5037) in ls2k1000,
+but it is pci device not platform device.
 
-  loongson CPU's cache coherency is maintained by the hardware.
+ls2k1000 is dual-core mips64 cpu made by loongson.
 
-  Both LS7A1000 and LS2K1000 have a display controller integrated,
-  named lsdc. The drm driver of this display controller is not
-  upstream yet, but we have a demo version and it works.
-  By using KMS-RO framework, lsdc and gc1000 made a compatible pair.
+Signed-off-by: suijingfeng <suijingfeng@loongson.cn>
+Signed-off-by: Sui Jingfeng <15330273260@189.cn>
+---
+ arch/mips/boot/dts/loongson/loongson64-2k1000.dtsi | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-suijingfeng (4):
-  dt-bindings: ls2k1000: add gpu device node
-  drm/etnaviv: add pci device driver support
-  loongson3_defconfig: enable etnaviv drm driver on default
-  loongson2_defconfig: enable etnaviv drm driver on default
-
- .../boot/dts/loongson/loongson64-2k1000.dtsi  |  11 +
- arch/mips/configs/loongson2k_defconfig        |   1 +
- arch/mips/configs/loongson3_defconfig         |   1 +
- drivers/gpu/drm/etnaviv/Kconfig               |  12 ++
- drivers/gpu/drm/etnaviv/Makefile              |   2 +
- drivers/gpu/drm/etnaviv/etnaviv_drv.c         | 113 +++++++---
- drivers/gpu/drm/etnaviv/etnaviv_drv.h         |   8 +
- drivers/gpu/drm/etnaviv/etnaviv_gem.c         |  28 ++-
- drivers/gpu/drm/etnaviv/etnaviv_gpu.c         |  94 +++++---
- drivers/gpu/drm/etnaviv/etnaviv_gpu.h         |   6 +
- drivers/gpu/drm/etnaviv/etnaviv_pci_drv.c     | 203 ++++++++++++++++++
- include/uapi/drm/etnaviv_drm.h                |  11 +-
- 12 files changed, 422 insertions(+), 68 deletions(-)
- create mode 100644 drivers/gpu/drm/etnaviv/etnaviv_pci_drv.c
-
+diff --git a/arch/mips/boot/dts/loongson/loongson64-2k1000.dtsi b/arch/mips/boot/dts/loongson/loongson64-2k1000.dtsi
+index bfc3d3243ee7..f1feffac78a6 100644
+--- a/arch/mips/boot/dts/loongson/loongson64-2k1000.dtsi
++++ b/arch/mips/boot/dts/loongson/loongson64-2k1000.dtsi
+@@ -193,6 +193,17 @@
+ 				interrupt-parent = <&liointc0>;
+ 			};
+ 
++			gpu@5,0 {
++				compatible = "pci0014,7a05.0",
++						   "pci0014,7a05",
++						   "pciclass030200",
++						   "pciclass0302";
++
++				reg = <0x2800 0x0 0x0 0x0 0x0>;
++				interrupts = <29 IRQ_TYPE_LEVEL_LOW>;
++				interrupt-parent = <&liointc0>;
++			};
++
+ 			pci_bridge@9,0 {
+ 				compatible = "pci0014,7a19.0",
+ 						   "pci0014,7a19",
 -- 
 2.20.1
 
