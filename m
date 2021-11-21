@@ -1,27 +1,28 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EAD9458585
-	for <lists+dri-devel@lfdr.de>; Sun, 21 Nov 2021 18:43:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CBFD45858E
+	for <lists+dri-devel@lfdr.de>; Sun, 21 Nov 2021 18:46:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E20CA6E05D;
-	Sun, 21 Nov 2021 17:43:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 30EA66ECD7;
+	Sun, 21 Nov 2021 17:46:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6BC936E05D
- for <dri-devel@lists.freedesktop.org>; Sun, 21 Nov 2021 17:43:32 +0000 (UTC)
-Date: Sun, 21 Nov 2021 17:43:20 +0000
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 306026ECD7
+ for <dri-devel@lists.freedesktop.org>; Sun, 21 Nov 2021 17:46:34 +0000 (UTC)
+Date: Sun, 21 Nov 2021 17:46:21 +0000
 From: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH 11/15] iio: buffer-dma: Boost performance using
- write-combine cache setting
+Subject: Re: [PATCH 15/15] Documentation: iio: Document high-speed DMABUF
+ based API
 To: Jonathan Cameron <jic23@kernel.org>
-Message-Id: <8WNX2R.M4XE9MQC24W22@crapouillou.net>
-In-Reply-To: <20211121150037.2a606be0@jic23-huawei>
+Message-Id: <91OX2R.MG3TG0PKKKRK3@crapouillou.net>
+In-Reply-To: <20211121151026.0cc95f40@jic23-huawei>
 References: <20211115141925.60164-1-paul@crapouillou.net>
- <20211115141925.60164-12-paul@crapouillou.net>
- <20211121150037.2a606be0@jic23-huawei>
+ <20211115142243.60605-1-paul@crapouillou.net>
+ <20211115142243.60605-4-paul@crapouillou.net>
+ <20211121151026.0cc95f40@jic23-huawei>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1; format=flowed
 Content-Transfer-Encoding: quoted-printable
@@ -47,232 +48,204 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi Jonathan,
 
-Le dim., nov. 21 2021 at 15:00:37 +0000, Jonathan Cameron=20
+Le dim., nov. 21 2021 at 15:10:26 +0000, Jonathan Cameron=20
 <jic23@kernel.org> a =E9crit :
-> On Mon, 15 Nov 2021 14:19:21 +0000
+> On Mon, 15 Nov 2021 14:22:43 +0000
 > Paul Cercueil <paul@crapouillou.net> wrote:
 >=20
->>  We can be certain that the input buffers will only be accessed by
->>  userspace for reading, and output buffers will mostly be accessed by
->>  userspace for writing.
->=20
-> Mostly?  Perhaps a little more info on why that's not 'only'.
-
-Just like with a framebuffer, it really depends on what the application=20
-does. Most of the cases it will just read sequentially an input buffer,=20
-or write sequentially an output buffer. But then you get the exotic=20
-application that will try to do something like alpha blending, which=20
-means read+write. Hence "mostly".
-
->>=20
->>  Therefore, it makes more sense to use only fully cached input=20
->> buffers,
->>  and to use the write-combine cache coherency setting for output=20
->> buffers.
->>=20
->>  This boosts performance, as the data written to the output buffers=20
->> does
->>  not have to be sync'd for coherency. It will halve performance if=20
->> the
->>  userspace application tries to read from the output buffer, but this
->>  should never happen.
->>=20
->>  Since we don't need to sync the cache when disabling CPU access=20
->> either
->>  for input buffers or output buffers, the .end_cpu_access() callback=20
->> can
->>  be dropped completely.
->=20
-> We have an odd mix of coherent and non coherent DMA in here as you=20
-> noted,
-> but are you sure this is safe on all platforms?
-
-The mix isn't safe, but using only coherent or only non-coherent should=20
-be safe, yes.
-
->=20
+>>  Document the new DMABUF based API.
 >>=20
 >>  Signed-off-by: Paul Cercueil <paul@crapouillou.net>
 >=20
-> Any numbers to support this patch?  The mapping types are performance
-> optimisations so nice to know how much of a difference they make.
+> Hi Paul,
+>=20
+> A few trivial things inline but looks good to me if we do end up=20
+> using DMABUF
+> anyway.
+>=20
+> Jonathan
+>=20
+>>  ---
+>>   Documentation/driver-api/dma-buf.rst |  2 +
+>>   Documentation/iio/dmabuf_api.rst     | 94=20
+>> ++++++++++++++++++++++++++++
+>>   Documentation/iio/index.rst          |  2 +
+>>   3 files changed, 98 insertions(+)
+>>   create mode 100644 Documentation/iio/dmabuf_api.rst
+>>=20
+>>  diff --git a/Documentation/driver-api/dma-buf.rst=20
+>> b/Documentation/driver-api/dma-buf.rst
+>>  index 2cd7db82d9fe..d3c9b58d2706 100644
+>>  --- a/Documentation/driver-api/dma-buf.rst
+>>  +++ b/Documentation/driver-api/dma-buf.rst
+>>  @@ -1,3 +1,5 @@
+>>  +.. _dma-buf:
+>>  +
+>=20
+> Why this change?
 
-Output buffers are definitely faster in write-combine mode. On a=20
-ZedBoard with a AD9361 transceiver set to 66 MSPS, and buffer/size set=20
-to 8192, I would get about 185 MiB/s before, 197 MiB/s after.
+I have this line in the file:
+For more information about manipulating DMABUF objects, see:=20
+:ref:`dma-buf`.
 
-Input buffers... early results are mixed. On ARM32 it does look like it=20
-is slightly faster to read from *uncached* memory than reading from=20
-cached memory. The cache sync does take a long time.
+For the :ref: to work I need a label at the reference point, if I=20
+understood correctly.
 
-Other architectures might have a different result, for instance on MIPS=20
-invalidating the cache is a very fast operation, so using cached=20
-buffers would be a huge win in performance.
+>>   Buffer Sharing and Synchronization
+>>   =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>>=20
+>>  diff --git a/Documentation/iio/dmabuf_api.rst=20
+>> b/Documentation/iio/dmabuf_api.rst
+>>  new file mode 100644
+>>  index 000000000000..b4e120a4ef0c
+>>  --- /dev/null
+>>  +++ b/Documentation/iio/dmabuf_api.rst
+>>  @@ -0,0 +1,94 @@
+>>  +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>>  +High-speed DMABUF interface for IIO
+>>  +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>>  +
+>>  +1. Overview
+>>  +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>>  +
+>>  +The Industrial I/O subsystem supports access to buffers through a=20
+>> file-based
+>>  +interface, with read() and write() access calls through the IIO=20
+>> device's dev
+>>  +node.
+>>  +
+>>  +It additionally supports a DMABUF based interface, where the=20
+>> userspace
+>>  +application can allocate and append DMABUF objects to the buffer's=20
+>> queue.
+>=20
+> I would note somewhere that this interface is optional for a given=20
+> IIO driver.
+> I don't want people to start assuming their i2c ADC will support this=20
+> and
+> wondering why it doesn't work :)
 
-Setups where the DMA operations are coherent also wouldn't require any=20
-cache sync and this patch would give a huge win in performance.
+Their I2C ADC will support it, as long as the driver supports the=20
+dmaengine buffer interface. I can make that explicit, yes.
 
-I'll run some more tests next week to have some fresh numbers.
+>>  +
+>>  +The advantage of this DMABUF based interface vs. the fileio
+>>  +interface, is that it avoids an extra copy of the data between the
+>>  +kernel and userspace. This is particularly userful for high-speed
+>>  +devices which produce several megabytes or even gigabytes of data=20
+>> per
+>>  +second.
+>>  +
+>>  +The data in this DMABUF interface is managed at the granularity of
+>>  +DMABUF objects. Reducing the granularity from byte level to block=20
+>> level
+>>  +is done to reduce the userspace-kernelspace synchronization=20
+>> overhead
+>>  +since performing syscalls for each byte at a few Mbps is just not
+>>  +feasible.
+>>  +
+>>  +This of course leads to a slightly increased latency. For this=20
+>> reason an
+>>  +application can choose the size of the DMABUFs as well as how many=20
+>> it
+>>  +allocates. E.g. two DMABUFs would be a traditional double buffering
+>>  +scheme. But using a higher number might be necessary to avoid
+>>  +underflow/overflow situations in the presence of scheduling=20
+>> latencies.
+>>  +
+>>  +2. User API
+>>  +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>>  +
+>>  +``IIO_BUFFER_DMABUF_ALLOC_IOCTL(struct iio_dmabuf_alloc_req *)``
+>>  +----------------------------------------------------------------
+>>  +
+>>  +Each call will allocate a new DMABUF object. The return value (if=20
+>> not
+>>  +a negative errno value as error) will be the file descriptor of=20
+>> the new
+>>  +DMABUF.
+>>  +
+>>  +``IIO_BUFFER_DMABUF_ENQUEUE_IOCTL(struct iio_dmabuf *)``
+>>  +--------------------------------------------------------
+>>  +
+>>  +Place the DMABUF object into the queue pending for hardware=20
+>> process.
+>>  +
+>>  +These two IOCTLs have to be performed on the IIO buffer's file
+>>  +descriptor (either opened from the corresponding /dev/iio:deviceX,=20
+>> or
+>>  +obtained using the `IIO_BUFFER_GET_FD_IOCTL` ioctl).
+>>  +
+>>  +3. Usage
+>>  +=3D=3D=3D=3D=3D=3D=3D=3D
+>>  +
+>>  +To access the data stored in a block by userspace the block must be
+>>  +mapped to the process's memory. This is done by calling mmap() on=20
+>> the
+>>  +DMABUF's file descriptor.
+>>  +
+>>  +Before accessing the data through the map, you must use the
+>>  +DMA_BUF_IOCTL_SYNC(struct dma_buf_sync *) ioctl, with the
+>>  +DMA_BUF_SYNC_START flag, to make sure that the data is available.
+>>  +This call may block until the hardware is done with this block.=20
+>> Once
+>>  +you are done reading or writing the data, you must use this ioctl=20
+>> again
+>>  +with the DMA_BUF_SYNC_END flag, before enqueueing the DMABUF to the
+>>  +kernel's queue.
+>>  +
+>>  +If you need to know when the hardware is done with a DMABUF, you=20
+>> can
+>>  +poll its file descriptor for the EPOLLOUT event.
+>>  +
+>>  +Finally, to destroy a DMABUF object, simply call close() on its=20
+>> file
+>>  +descriptor.
+>>  +
+>>  +For more information about manipulating DMABUF objects, see:=20
+>> :ref:`dma-buf`.
+>>  +
+>>  +A typical workflow for the new interface is:
+>>  +
+>>  +    for block in blocks:
+>>  +      DMABUF_ALLOC block
+>>  +      mmap block
+>>  +
+>>  +    enable buffer
+>>  +
+>>  +    while !done
+>>  +      for block in blocks:
+>>  +        DMABUF_ENQUEUE block
+>>  +
+>>  +        DMABUF_SYNC_START block
+>>  +        process data
+>>  +        DMABUF_SYNC_END block
+>>  +
+>>  +    disable buffer
+>>  +
+>>  +    for block in blocks:
+>>  +      close block
+>>  diff --git a/Documentation/iio/index.rst=20
+>> b/Documentation/iio/index.rst
+>>  index 58b7a4ebac51..9ce799fbf262 100644
+>>  --- a/Documentation/iio/index.rst
+>>  +++ b/Documentation/iio/index.rst
+>>  @@ -10,3 +10,5 @@ Industrial I/O
+>>      iio_configfs
+>>=20
+>>      ep93xx_adc
+>>  +
+>>  +   dmabuf_api
+>=20
+> Given this is core stuff rather than driver specific, perhaps move it=20
+> up a few lines?
+
+Alright.
 
 Cheers,
 -Paul
-
->>  ---
->>   drivers/iio/buffer/industrialio-buffer-dma.c | 82=20
->> +++++++++++++-------
->>   1 file changed, 54 insertions(+), 28 deletions(-)
->>=20
->>  diff --git a/drivers/iio/buffer/industrialio-buffer-dma.c=20
->> b/drivers/iio/buffer/industrialio-buffer-dma.c
->>  index 92356ee02f30..fb39054d8c15 100644
->>  --- a/drivers/iio/buffer/industrialio-buffer-dma.c
->>  +++ b/drivers/iio/buffer/industrialio-buffer-dma.c
->>  @@ -229,8 +229,33 @@ static int iio_buffer_dma_buf_mmap(struct=20
->> dma_buf *dbuf,
->>   	if (vma->vm_ops->open)
->>   		vma->vm_ops->open(vma);
->>=20
->>  -	return dma_mmap_pages(dev, vma, vma->vm_end - vma->vm_start,
->>  -			      virt_to_page(block->vaddr));
->>  +	if (block->queue->buffer.direction =3D=3D IIO_BUFFER_DIRECTION_IN) {
->>  +		/*
->>  +		 * With an input buffer, userspace will only read the data and
->>  +		 * never write. We can mmap the buffer fully cached.
->>  +		 */
->>  +		return dma_mmap_pages(dev, vma, vma->vm_end - vma->vm_start,
->>  +				      virt_to_page(block->vaddr));
->>  +	} else {
->>  +		/*
->>  +		 * With an output buffer, userspace will only write the data
->>  +		 * and should rarely (if never) read from it. It is better to
->>  +		 * use write-combine in this case.
->>  +		 */
->>  +		return dma_mmap_wc(dev, vma, block->vaddr, block->phys_addr,
->>  +				   vma->vm_end - vma->vm_start);
->>  +	}
->>  +}
->>  +
->>  +static void iio_dma_buffer_free_dmamem(struct iio_dma_buffer_block=20
->> *block)
->>  +{
->>  +	struct device *dev =3D block->queue->dev;
->>  +	size_t size =3D PAGE_ALIGN(block->size);
->>  +
->>  +	if (block->queue->buffer.direction =3D=3D IIO_BUFFER_DIRECTION_IN)
->>  +		dma_free_coherent(dev, size, block->vaddr, block->phys_addr);
->>  +	else
->>  +		dma_free_wc(dev, size, block->vaddr, block->phys_addr);
->>   }
->>=20
->>   static void iio_buffer_dma_buf_release(struct dma_buf *dbuf)
->>  @@ -243,9 +268,7 @@ static void iio_buffer_dma_buf_release(struct=20
->> dma_buf *dbuf)
->>=20
->>   	mutex_lock(&queue->lock);
->>=20
->>  -	dma_free_coherent(queue->dev, PAGE_ALIGN(block->size),
->>  -			  block->vaddr, block->phys_addr);
->>  -
->>  +	iio_dma_buffer_free_dmamem(block);
->>   	kfree(block);
->>=20
->>   	queue->num_blocks--;
->>  @@ -268,19 +291,6 @@ static int=20
->> iio_buffer_dma_buf_begin_cpu_access(struct dma_buf *dbuf,
->>   	return 0;
->>   }
->>=20
->>  -static int iio_buffer_dma_buf_end_cpu_access(struct dma_buf *dbuf,
->>  -					     enum dma_data_direction dma_dir)
->>  -{
->>  -	struct iio_dma_buffer_block *block =3D dbuf->priv;
->>  -	struct device *dev =3D block->queue->dev;
->>  -
->>  -	/* We only need to sync the cache for output buffers */
->>  -	if (block->queue->buffer.direction =3D=3D IIO_BUFFER_DIRECTION_OUT)
->>  -		dma_sync_single_for_device(dev, block->phys_addr, block->size,=20
->> dma_dir);
->>  -
->>  -	return 0;
->>  -}
->>  -
->>   static const struct dma_buf_ops iio_dma_buffer_dmabuf_ops =3D {
->>   	.attach			=3D iio_buffer_dma_buf_attach,
->>   	.map_dma_buf		=3D iio_buffer_dma_buf_map,
->>  @@ -288,9 +298,28 @@ static const struct dma_buf_ops=20
->> iio_dma_buffer_dmabuf_ops =3D {
->>   	.mmap			=3D iio_buffer_dma_buf_mmap,
->>   	.release		=3D iio_buffer_dma_buf_release,
->>   	.begin_cpu_access	=3D iio_buffer_dma_buf_begin_cpu_access,
->>  -	.end_cpu_access		=3D iio_buffer_dma_buf_end_cpu_access,
->>   };
->>=20
->>  +static int iio_dma_buffer_alloc_dmamem(struct iio_dma_buffer_block=20
->> *block)
->>  +{
->>  +	struct device *dev =3D block->queue->dev;
->>  +	size_t size =3D PAGE_ALIGN(block->size);
->>  +
->>  +	if (block->queue->buffer.direction =3D=3D IIO_BUFFER_DIRECTION_IN) {
->>  +		block->vaddr =3D dma_alloc_coherent(dev, size,
->>  +						  &block->phys_addr,
->>  +						  GFP_KERNEL);
->>  +	} else {
->>  +		block->vaddr =3D dma_alloc_wc(dev, size,
->>  +					    &block->phys_addr,
->>  +					    GFP_KERNEL);
->>  +	}
->>  +	if (!block->vaddr)
->>  +		return -ENOMEM;
->>  +
->>  +	return 0;
->>  +}
->>  +
->>   static struct iio_dma_buffer_block *iio_dma_buffer_alloc_block(
->>   	struct iio_dma_buffer_queue *queue, size_t size, bool fileio)
->>   {
->>  @@ -303,12 +332,12 @@ static struct iio_dma_buffer_block=20
->> *iio_dma_buffer_alloc_block(
->>   	if (!block)
->>   		return ERR_PTR(-ENOMEM);
->>=20
->>  -	block->vaddr =3D dma_alloc_coherent(queue->dev, PAGE_ALIGN(size),
->>  -		&block->phys_addr, GFP_KERNEL);
->>  -	if (!block->vaddr) {
->>  -		err =3D -ENOMEM;
->>  +	block->size =3D size;
->>  +	block->queue =3D queue;
->>  +
->>  +	err =3D iio_dma_buffer_alloc_dmamem(block);
->>  +	if (err)
->>   		goto err_free_block;
->>  -	}
->>=20
->>   	einfo.ops =3D &iio_dma_buffer_dmabuf_ops;
->>   	einfo.size =3D PAGE_ALIGN(size);
->>  @@ -322,10 +351,8 @@ static struct iio_dma_buffer_block=20
->> *iio_dma_buffer_alloc_block(
->>   	}
->>=20
->>   	block->dmabuf =3D dmabuf;
->>  -	block->size =3D size;
->>   	block->bytes_used =3D size;
->>   	block->state =3D IIO_BLOCK_STATE_DONE;
->>  -	block->queue =3D queue;
->>   	block->fileio =3D fileio;
->>   	INIT_LIST_HEAD(&block->head);
->>=20
->>  @@ -338,8 +365,7 @@ static struct iio_dma_buffer_block=20
->> *iio_dma_buffer_alloc_block(
->>   	return block;
->>=20
->>   err_free_dma:
->>  -	dma_free_coherent(queue->dev, PAGE_ALIGN(size),
->>  -			  block->vaddr, block->phys_addr);
->>  +	iio_dma_buffer_free_dmamem(block);
->>   err_free_block:
->>   	kfree(block);
->>   	return ERR_PTR(err);
->=20
 
 
