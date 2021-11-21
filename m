@@ -2,48 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83E09458300
-	for <lists+dri-devel@lfdr.de>; Sun, 21 Nov 2021 12:00:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84997458302
+	for <lists+dri-devel@lfdr.de>; Sun, 21 Nov 2021 12:01:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5B446F888;
-	Sun, 21 Nov 2021 11:00:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E89C6F88B;
+	Sun, 21 Nov 2021 11:00:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B5E8C6F889
- for <dri-devel@lists.freedesktop.org>; Sun, 21 Nov 2021 11:00:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB2756F88A
+ for <dri-devel@lists.freedesktop.org>; Sun, 21 Nov 2021 11:00:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637492445;
+ s=mimecast20190719; t=1637492447;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=LsgBxUcRxWCwY+zbf8nElGg4ua0pfw40r1USCxEdbCY=;
- b=gMw6k0Yw90VEFT1pE3wPGCBhKJ/VFDN+RhJq74bjACU8QZ+UoAgcBx1SYa5dATGIjHenFC
- Nb+VZtOXUDJ7VYVmGwKFVN07vlgFdLtqFtbNODhdV++goLzEIOcx4lZcDkeW5LlRRdf+YZ
- YHQRmzQG2Y0smcUkJ4pJl7sDxw5lGFY=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=IgULnvMSwRIKUdXNLle022hNoLVz3F4BZzdfd7xtIQU=;
+ b=RcvZojAhd/wBysnoWccec2mN1xZqyiMoMCnh9i4DH91Y2bDBhYh8ssxrBfEzsMdq80G2c2
+ /tCbcKCCpLGytmqutKjM91jrajyL5JY2A2rHF2sOs2wwn7IApD0cUtHbpQbAsXBAJfJb8k
+ 029HB8Pr7jPmxEh1A5o5ExdQ9KWlQMU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-85-jVkEfZMjMQ694LjGQovE_w-1; Sun, 21 Nov 2021 06:00:40 -0500
-X-MC-Unique: jVkEfZMjMQ694LjGQovE_w-1
+ us-mta-287-6DdYqmsqPDecIAsD1UizGQ-1; Sun, 21 Nov 2021 06:00:41 -0500
+X-MC-Unique: 6DdYqmsqPDecIAsD1UizGQ-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B86A018125C0;
- Sun, 21 Nov 2021 11:00:38 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 891511006AA1;
+ Sun, 21 Nov 2021 11:00:40 +0000 (UTC)
 Received: from x1.localdomain (unknown [10.39.192.53])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 583FE4ABA3;
- Sun, 21 Nov 2021 11:00:33 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0C0F95BAE0;
+ Sun, 21 Nov 2021 11:00:38 +0000 (UTC)
 From: Hans de Goede <hdegoede@redhat.com>
 To: Jani Nikula <jani.nikula@linux.intel.com>, Lyude <lyude@redhat.com>,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
  Rodrigo Vivi <rodrigo.vivi@intel.com>
-Subject: [PATCH 1/2] drm/i915/backlight: Drop duplicate
- intel_panel_actually_set_backlight()
-Date: Sun, 21 Nov 2021 12:00:31 +0100
-Message-Id: <20211121110032.4720-1-hdegoede@redhat.com>
+Subject: [PATCH 2/2] drm/i915/backlight: Make ext_pwm_disable_backlight() call
+ intel_backlight_set_pwm_level()
+Date: Sun, 21 Nov 2021 12:00:32 +0100
+Message-Id: <20211121110032.4720-2-hdegoede@redhat.com>
+In-Reply-To: <20211121110032.4720-1-hdegoede@redhat.com>
+References: <20211121110032.4720-1-hdegoede@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
@@ -69,58 +72,40 @@ Cc: Hans de Goede <hdegoede@redhat.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-After the recent refactoring of the backlight code the contents of
-intel_panel_actually_set_backlight() is exactly the same (minus a
-small wording difference in the drm_dbg_kms() as the contents if the
-more widely used intel_backlight_set_pwm_level() function.
+At least the Bay Trail LPSS PWM controller used with DSI panels on many
+Bay Trail tablets seems to leave the PWM pin in whatever state it was
+(high or low) ATM that the PWM gets disabled. Combined with some panels
+not having a separate backlight-enable pin this leads to the backlight
+sometimes staying on while it should not (when the pin was high during
+PWM-disabling).
 
-Drop the duplicate intel_panel_actually_set_backlight() function.
+First calling intel_backlight_set_pwm_level() will ensure that the pin
+is always low (or high for inverted brightness panels) since the passed
+in duty-cycle is 0% (or 100%) when the PWM gets disabled fixing the
+backlight sometimes staying on.
+
+With the exception of ext_pwm_disable_backlight() all other
+foo_disable_backlight() functions call intel_backlight_set_pwm_level()
+already before disabling the backlight, so this change also aligns
+ext_pwm_disable_backlight() with all the other disable() functions.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/gpu/drm/i915/display/intel_backlight.c | 16 ++--------------
- 1 file changed, 2 insertions(+), 14 deletions(-)
+ drivers/gpu/drm/i915/display/intel_backlight.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/drivers/gpu/drm/i915/display/intel_backlight.c b/drivers/gpu/drm/i915/display/intel_backlight.c
-index 9523411cddd8..03cd730c926a 100644
+index 03cd730c926a..2758a2f6c093 100644
 --- a/drivers/gpu/drm/i915/display/intel_backlight.c
 +++ b/drivers/gpu/drm/i915/display/intel_backlight.c
-@@ -268,18 +268,6 @@ static void ext_pwm_set_backlight(const struct drm_connector_state *conn_state,
+@@ -421,6 +421,8 @@ static void ext_pwm_disable_backlight(const struct drm_connector_state *old_conn
+ 	struct intel_connector *connector = to_intel_connector(old_conn_state->connector);
+ 	struct intel_panel *panel = &connector->panel;
+ 
++	intel_backlight_set_pwm_level(old_conn_state, level);
++
+ 	panel->backlight.pwm_state.enabled = false;
  	pwm_apply_state(panel->backlight.pwm, &panel->backlight.pwm_state);
- }
- 
--static void
--intel_panel_actually_set_backlight(const struct drm_connector_state *conn_state, u32 level)
--{
--	struct intel_connector *connector = to_intel_connector(conn_state->connector);
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
--	struct intel_panel *panel = &connector->panel;
--
--	drm_dbg_kms(&i915->drm, "set backlight level = %d\n", level);
--
--	panel->backlight.funcs->set(conn_state, level);
--}
--
- /* set backlight brightness to level in range [0..max], assuming hw min is
-  * respected.
-  */
-@@ -314,7 +302,7 @@ void intel_backlight_set_acpi(const struct drm_connector_state *conn_state,
- 					 panel->backlight.device->props.max_brightness);
- 
- 	if (panel->backlight.enabled)
--		intel_panel_actually_set_backlight(conn_state, hw_level);
-+		intel_backlight_set_pwm_level(conn_state, hw_level);
- 
- 	mutex_unlock(&dev_priv->backlight_lock);
- }
-@@ -863,7 +851,7 @@ static void intel_panel_set_backlight(const struct drm_connector_state *conn_sta
- 	panel->backlight.level = hw_level;
- 
- 	if (panel->backlight.enabled)
--		intel_panel_actually_set_backlight(conn_state, hw_level);
-+		intel_backlight_set_pwm_level(conn_state, hw_level);
- 
- 	mutex_unlock(&dev_priv->backlight_lock);
  }
 -- 
 2.31.1
