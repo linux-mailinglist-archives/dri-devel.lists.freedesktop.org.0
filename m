@@ -1,59 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10984458576
-	for <lists+dri-devel@lfdr.de>; Sun, 21 Nov 2021 18:30:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D89ED45857C
+	for <lists+dri-devel@lfdr.de>; Sun, 21 Nov 2021 18:41:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C555F6ECBE;
-	Sun, 21 Nov 2021 17:30:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 47E076E03E;
+	Sun, 21 Nov 2021 17:41:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A5C646ECBC
- for <dri-devel@lists.freedesktop.org>; Sun, 21 Nov 2021 17:30:14 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 6039360F41
- for <dri-devel@lists.freedesktop.org>; Sun, 21 Nov 2021 17:30:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1637515814;
- bh=LkTWKJkuYp3K43IZbGc5zuZfqfv+t0r4EkL4pXqxytM=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=okC5hvUaUO+sx0/C7BQC66FQrIOMwzAEoJAt0t8b2Ycp1j6BdJ+aWkYu90X1caN55
- d3ViQQEQ3HujU8gB6UrC1z5PIzoNTTW8u0/d7LI5ISvUFjho+kHYYJuMbTEM1vr0u/
- dgtHtTNADkr4SBjmC7/SxEJ6ILo4I2hAFUOt7qAYGj9oxQnoJ2D0h6cbEh2R6VppOp
- +oOiE4MK65kFu6UBcA9bpcJ1btVZaVJ4LqcESZIjskd8pPOrvtqpy/VAwjs4mzrS7T
- a3NUQ1qQ8xs3cE0y7rjuVxWfAplhBj9uKNpHxHqv6DapaLgE5/C5LFYveAqQPuLW/S
- MDjc+njslMO2Q==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 5D18A60ED3; Sun, 21 Nov 2021 17:30:14 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 205089] amdgpu : drm:amdgpu_cs_ioctl : Failed to initialize
- parser -125
-Date: Sun, 21 Nov 2021 17:30:13 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: kernel-bugs@hristos.co
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: CODE_FIX
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-205089-2300-KUhQ1EXCYt@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-205089-2300@https.bugzilla.kernel.org/>
-References: <bug-205089-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from smtp.smtpout.orange.fr (smtp01.smtpout.orange.fr
+ [80.12.242.123])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E56636E045
+ for <dri-devel@lists.freedesktop.org>; Sun, 21 Nov 2021 17:41:35 +0000 (UTC)
+Received: from pop-os.home ([86.243.171.122]) by smtp.orange.fr with ESMTPA
+ id oqqJmhaLWdmYboqqKmGBih; Sun, 21 Nov 2021 18:41:33 +0100
+X-ME-Helo: pop-os.home
+X-ME-Auth: YWZlNiIxYWMyZDliZWIzOTcwYTEyYzlhMmU3ZiQ1M2U2MzfzZDfyZTMxZTBkMTYyNDBjNDJlZmQ3ZQ==
+X-ME-Date: Sun, 21 Nov 2021 18:41:33 +0100
+X-ME-IP: 86.243.171.122
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To: Felix.Kuehling@amd.com, alexander.deucher@amd.com,
+ christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@linux.ie,
+ daniel@ffwll.ch
+Subject: [PATCH 1/2] drm/amdkfd: Use bitmap_zalloc() when applicable
+Date: Sun, 21 Nov 2021 18:41:30 +0100
+Message-Id: <2343a4e6547a8436419308744ba8c433088922a5.1637516393.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,36 +41,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ kernel-janitors@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D205089
+'doorbell_bitmap' is a bitmap. So use 'bitmap_zalloc()' to simplify code,
+improve the semantic and avoid some open-coded arithmetic in allocator
+arguments.
 
-Hristos (kernel-bugs@hristos.co) changed:
+Also change the corresponding 'kfree()' into 'bitmap_free()' to keep
+consistency.
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |kernel-bugs@hristos.co
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+---
+ drivers/gpu/drm/amd/amdkfd/kfd_process.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
---- Comment #25 from Hristos (kernel-bugs@hristos.co) ---
-Kernel: 5.15.3
-Mesa: 21.2.5
-Xorg: 7.6
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_process.c b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
+index f29b3932e3dc..172ee8763523 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_process.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
+@@ -1011,7 +1011,7 @@ static void kfd_process_destroy_pdds(struct kfd_process *p)
+ 			free_pages((unsigned long)pdd->qpd.cwsr_kaddr,
+ 				get_order(KFD_CWSR_TBA_TMA_SIZE));
+ 
+-		kfree(pdd->qpd.doorbell_bitmap);
++		bitmap_free(pdd->qpd.doorbell_bitmap);
+ 		idr_destroy(&pdd->alloc_idr);
+ 
+ 		kfd_free_process_doorbells(pdd->dev, pdd->doorbell_index);
+@@ -1434,9 +1434,8 @@ static int init_doorbell_bitmap(struct qcm_process_device *qpd,
+ 	if (!KFD_IS_SOC15(dev->device_info->asic_family))
+ 		return 0;
+ 
+-	qpd->doorbell_bitmap =
+-		kzalloc(DIV_ROUND_UP(KFD_MAX_NUM_OF_QUEUES_PER_PROCESS,
+-				     BITS_PER_BYTE), GFP_KERNEL);
++	qpd->doorbell_bitmap = bitmap_zalloc(KFD_MAX_NUM_OF_QUEUES_PER_PROCESS
++					     GFP_KERNEL);
+ 	if (!qpd->doorbell_bitmap)
+ 		return -ENOMEM;
+ 
+-- 
+2.30.2
 
-I see this when running OpenMW and a lot of mods
-(https://modding-openmw.com/lists/total-overhaul/). OpenMW with no mods or a
-smaller mod list seems to run fine.
-
-When the program starts rendering the actual game scene (after loading data
-files and etc) it will hang, and then crash with "Failed to initialize pars=
-er
--125" messages in the console.=20
-
-It only happens with Mesa 21.2.X, though. When I downgraded to Mesa 21.1.7
-everything ran as expected.
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
