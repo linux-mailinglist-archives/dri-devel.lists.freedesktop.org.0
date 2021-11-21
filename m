@@ -1,31 +1,31 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2492458404
-	for <lists+dri-devel@lfdr.de>; Sun, 21 Nov 2021 15:16:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 85FBA458417
+	for <lists+dri-devel@lfdr.de>; Sun, 21 Nov 2021 15:26:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 076C16E484;
-	Sun, 21 Nov 2021 14:16:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5976C6E128;
+	Sun, 21 Nov 2021 14:26:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A174B6E484
- for <dri-devel@lists.freedesktop.org>; Sun, 21 Nov 2021 14:15:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8165A6E104
+ for <dri-devel@lists.freedesktop.org>; Sun, 21 Nov 2021 14:26:11 +0000 (UTC)
 Received: from jic23-huawei (cpc108967-cmbg20-2-0-cust86.5-4.cable.virginm.net
  [81.101.6.87])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 5CD86604DC;
- Sun, 21 Nov 2021 14:15:55 +0000 (UTC)
-Date: Sun, 21 Nov 2021 14:20:49 +0000
+ by mail.kernel.org (Postfix) with ESMTPSA id 3DD81604E9;
+ Sun, 21 Nov 2021 14:26:08 +0000 (UTC)
+Date: Sun, 21 Nov 2021 14:31:02 +0000
 From: Jonathan Cameron <jic23@kernel.org>
 To: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH 04/15] iio: buffer-dma: Enable buffer write support
-Message-ID: <20211121142049.2d000c04@jic23-huawei>
-In-Reply-To: <20211115141925.60164-5-paul@crapouillou.net>
+Subject: Re: [PATCH 07/15] iio: core: Add new DMABUF interface infrastructure
+Message-ID: <20211121143102.0ae208eb@jic23-huawei>
+In-Reply-To: <20211115141925.60164-8-paul@crapouillou.net>
 References: <20211115141925.60164-1-paul@crapouillou.net>
- <20211115141925.60164-5-paul@crapouillou.net>
+ <20211115141925.60164-8-paul@crapouillou.net>
 X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -50,223 +50,234 @@ Cc: Michael Hennerich <Michael.Hennerich@analog.com>, linux-iio@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 15 Nov 2021 14:19:14 +0000
+On Mon, 15 Nov 2021 14:19:17 +0000
 Paul Cercueil <paul@crapouillou.net> wrote:
 
-> Adding write support to the buffer-dma code is easy - the write()
-> function basically needs to do the exact same thing as the read()
-> function: dequeue a block, read or write the data, enqueue the block
-> when entirely processed.
+> Add the necessary infrastructure to the IIO core to support a new DMABUF
+> based interface.
 > 
-> Therefore, the iio_buffer_dma_read() and the new iio_buffer_dma_write()
-> now both call a function iio_buffer_dma_io(), which will perform this
-> task.
+> The advantage of this new DMABUF based interface vs. the read()
+> interface, is that it avoids an extra copy of the data between the
+> kernel and userspace. This is particularly userful for high-speed
+> devices which produce several megabytes or even gigabytes of data per
+> second.
 > 
-> The .space_available() callback can return the exact same value as the
-> .data_available() callback for input buffers, since in both cases we
-> count the exact same thing (the number of bytes in each available
-> block).
+> The data in this new DMABUF interface is managed at the granularity of
+> DMABUF objects. Reducing the granularity from byte level to block level
+> is done to reduce the userspace-kernelspace synchronization overhead
+> since performing syscalls for each byte at a few Mbps is just not
+> feasible.
 > 
-> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-Hi Paul,
+> This of course leads to a slightly increased latency. For this reason an
+> application can choose the size of the DMABUFs as well as how many it
+> allocates. E.g. two DMABUFs would be a traditional double buffering
+> scheme. But using a higher number might be necessary to avoid
+> underflow/overflow situations in the presence of scheduling latencies.
+> 
+> As part of the interface, 2 new IOCTLs have been added:
+> 
+> IIO_BUFFER_DMABUF_ALLOC_IOCTL(struct iio_dmabuf_alloc_req *):
+>  Each call will allocate a new DMABUF object. The return value (if not
+>  a negative errno value as error) will be the file descriptor of the new
+>  DMABUF.
+> 
+> IIO_BUFFER_DMABUF_ENQUEUE_IOCTL(struct iio_dmabuf *):
+>  Place the DMABUF object into the queue pending for hardware process.
+> 
+> These two IOCTLs have to be performed on the IIO buffer's file
+> descriptor (either opened from the corresponding /dev/iio:deviceX, or
+> obtained using the IIO_BUFFER_GET_FD_IOCTL() ioctl).
 
-There are a few changes in here, such as the bytes_used value being set that
-I'm not following the reasoning behind. More info on those?
-Also good to provide something about those in this patch description.
+Unrelated to this patch except tangentially.  Maybe we should enable
+new buffer features only on the IIO_BUFFER_GET_FD_IOCTL() route as
+we probably want to deprecate the old interfaces due to the it only
+supporting a single buffer / datastream per device.
 
-Thanks,
+Possibly something for another day...
+
+Nothing to add on actual code...
 
 Jonathan
 
-
-> ---
->  drivers/iio/buffer/industrialio-buffer-dma.c | 75 +++++++++++++++-----
->  include/linux/iio/buffer-dma.h               |  7 ++
->  2 files changed, 66 insertions(+), 16 deletions(-)
 > 
-> diff --git a/drivers/iio/buffer/industrialio-buffer-dma.c b/drivers/iio/buffer/industrialio-buffer-dma.c
-> index abac88f20104..eeeed6b2e0cf 100644
-> --- a/drivers/iio/buffer/industrialio-buffer-dma.c
-> +++ b/drivers/iio/buffer/industrialio-buffer-dma.c
-> @@ -179,7 +179,8 @@ static struct iio_dma_buffer_block *iio_dma_buffer_alloc_block(
->  	}
+> To access the data stored in a block by userspace the block must be
+> mapped to the process's memory. This is done by calling mmap() on the
+> DMABUF's file descriptor.
+> 
+> Before accessing the data through the map, you must use the
+> DMA_BUF_IOCTL_SYNC(struct dma_buf_sync *) ioctl, with the
+> DMA_BUF_SYNC_START flag, to make sure that the data is available.
+> This call may block until the hardware is done with this block. Once
+> you are done reading or writing the data, you must use this ioctl again
+> with the DMA_BUF_SYNC_END flag, before enqueueing the DMABUF to the
+> kernel's queue.
+> 
+> If you need to know when the hardware is done with a DMABUF, you can
+> poll its file descriptor for the EPOLLOUT event.
+> 
+> Finally, to destroy a DMABUF object, simply call close() on its file
+> descriptor.
+> 
+> A typical workflow for the new interface is:
+> 
+>   for block in blocks:
+>     DMABUF_ALLOC block
+>     mmap block
+> 
+>   enable buffer
+> 
+>   while !done
+>     for block in blocks:
+>       DMABUF_ENQUEUE block
+> 
+>       DMABUF_SYNC_START block
+>       process data
+>       DMABUF_SYNC_END block
+> 
+>   disable buffer
+> 
+>   for block in blocks:
+>     close block
+> 
+> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+> ---
+>  drivers/iio/industrialio-buffer.c | 44 +++++++++++++++++++++++++++++++
+>  include/linux/iio/buffer_impl.h   |  8 ++++++
+>  include/uapi/linux/iio/buffer.h   | 29 ++++++++++++++++++++
+>  3 files changed, 81 insertions(+)
+> 
+> diff --git a/drivers/iio/industrialio-buffer.c b/drivers/iio/industrialio-buffer.c
+> index e180728914c0..30910e6c2346 100644
+> --- a/drivers/iio/industrialio-buffer.c
+> +++ b/drivers/iio/industrialio-buffer.c
+> @@ -17,6 +17,7 @@
+>  #include <linux/fs.h>
+>  #include <linux/cdev.h>
+>  #include <linux/slab.h>
+> +#include <linux/mm.h>
+>  #include <linux/poll.h>
+>  #include <linux/sched/signal.h>
 >  
->  	block->size = size;
-> -	block->state = IIO_BLOCK_STATE_DEQUEUED;
-> +	block->bytes_used = size;
-> +	block->state = IIO_BLOCK_STATE_DONE;
-
-I don't know why these are here - some more info?
-
->  	block->queue = queue;
->  	INIT_LIST_HEAD(&block->head);
->  	kref_init(&block->kref);
-> @@ -195,6 +196,18 @@ static void _iio_dma_buffer_block_done(struct iio_dma_buffer_block *block)
->  		block->state = IIO_BLOCK_STATE_DONE;
->  }
->  
-> +static void iio_dma_buffer_queue_wake(struct iio_dma_buffer_queue *queue)
-> +{
-> +	__poll_t flags;
-> +
-> +	if (queue->buffer.direction == IIO_BUFFER_DIRECTION_IN)
-> +		flags = EPOLLIN | EPOLLRDNORM;
-> +	else
-> +		flags = EPOLLOUT | EPOLLWRNORM;
-> +
-> +	wake_up_interruptible_poll(&queue->buffer.pollq, flags);
-> +}
-> +
->  /**
->   * iio_dma_buffer_block_done() - Indicate that a block has been completed
->   * @block: The completed block
-> @@ -212,7 +225,7 @@ void iio_dma_buffer_block_done(struct iio_dma_buffer_block *block)
->  	spin_unlock_irqrestore(&queue->list_lock, flags);
->  
->  	iio_buffer_block_put_atomic(block);
-> -	wake_up_interruptible_poll(&queue->buffer.pollq, EPOLLIN | EPOLLRDNORM);
-> +	iio_dma_buffer_queue_wake(queue);
->  }
->  EXPORT_SYMBOL_GPL(iio_dma_buffer_block_done);
->  
-> @@ -241,7 +254,7 @@ void iio_dma_buffer_block_list_abort(struct iio_dma_buffer_queue *queue,
->  	}
->  	spin_unlock_irqrestore(&queue->list_lock, flags);
->  
-> -	wake_up_interruptible_poll(&queue->buffer.pollq, EPOLLIN | EPOLLRDNORM);
-> +	iio_dma_buffer_queue_wake(queue);
->  }
->  EXPORT_SYMBOL_GPL(iio_dma_buffer_block_list_abort);
->  
-> @@ -334,7 +347,8 @@ int iio_dma_buffer_request_update(struct iio_buffer *buffer)
->  			queue->fileio.blocks[i] = block;
->  		}
->  
-> -		block->state = IIO_BLOCK_STATE_QUEUED;
-> +		if (queue->buffer.direction == IIO_BUFFER_DIRECTION_IN)
-> +			block->state = IIO_BLOCK_STATE_QUEUED;
-
-Possibly worth a comment on the state being set here.  I figured it out, but might
-save some brain cells in future if it's stated in the code.
-
->  	}
->  
->  out_unlock:
-> @@ -467,20 +481,12 @@ static struct iio_dma_buffer_block *iio_dma_buffer_dequeue(
->  	return block;
->  }
->  
-> -/**
-> - * iio_dma_buffer_read() - DMA buffer read callback
-> - * @buffer: Buffer to read form
-> - * @n: Number of bytes to read
-> - * @user_buffer: Userspace buffer to copy the data to
-> - *
-> - * Should be used as the read callback for iio_buffer_access_ops
-> - * struct for DMA buffers.
-> - */
-> -int iio_dma_buffer_read(struct iio_buffer *buffer, size_t n,
-> -	char __user *user_buffer)
-> +static int iio_dma_buffer_io(struct iio_buffer *buffer,
-> +			     size_t n, char __user *user_buffer, bool is_write)
->  {
->  	struct iio_dma_buffer_queue *queue = iio_buffer_to_queue(buffer);
->  	struct iio_dma_buffer_block *block;
-> +	void *addr;
->  	int ret;
->  
->  	if (n < buffer->bytes_per_datum)
-> @@ -503,8 +509,13 @@ int iio_dma_buffer_read(struct iio_buffer *buffer, size_t n,
->  	n = rounddown(n, buffer->bytes_per_datum);
->  	if (n > block->bytes_used - queue->fileio.pos)
->  		n = block->bytes_used - queue->fileio.pos;
-> +	addr = block->vaddr + queue->fileio.pos;
->  
-> -	if (copy_to_user(user_buffer, block->vaddr + queue->fileio.pos, n)) {
-> +	if (is_write)
-> +		ret = !!copy_from_user(addr, user_buffer, n);
-> +	else
-> +		ret = !!copy_to_user(user_buffer, addr, n);
-
-What is the !! gaining us here?  We only care about == 0 vs != 0 so
-forcing it to be 0 or 1 isn't useful.
-
-> +	if (ret) {
->  		ret = -EFAULT;
->  		goto out_unlock;
->  	}
-> @@ -513,6 +524,7 @@ int iio_dma_buffer_read(struct iio_buffer *buffer, size_t n,
->  
->  	if (queue->fileio.pos == block->bytes_used) {
->  		queue->fileio.active_block = NULL;
-> +		block->bytes_used = block->size;
-
-This seems to be a functional change that isn't called out in the patch description.
-
->  		iio_dma_buffer_enqueue(queue, block);
->  	}
->  
-> @@ -523,8 +535,39 @@ int iio_dma_buffer_read(struct iio_buffer *buffer, size_t n,
->  
+> @@ -1585,12 +1586,55 @@ static long iio_device_buffer_getfd(struct iio_dev *indio_dev, unsigned long arg
 >  	return ret;
 >  }
+>  
+> +static int iio_buffer_enqueue_dmabuf(struct iio_buffer *buffer,
+> +				     struct iio_dmabuf __user *user_buf)
+> +{
+> +	struct iio_dmabuf dmabuf;
+> +
+> +	if (!buffer->access->enqueue_dmabuf)
+> +		return -EPERM;
+> +
+> +	if (copy_from_user(&dmabuf, user_buf, sizeof(dmabuf)))
+> +		return -EFAULT;
+> +
+> +	if (dmabuf.flags & ~IIO_BUFFER_DMABUF_SUPPORTED_FLAGS)
+> +		return -EINVAL;
+> +
+> +	return buffer->access->enqueue_dmabuf(buffer, &dmabuf);
+> +}
+> +
+> +static int iio_buffer_alloc_dmabuf(struct iio_buffer *buffer,
+> +				   struct iio_dmabuf_alloc_req __user *user_req)
+> +{
+> +	struct iio_dmabuf_alloc_req req;
+> +
+> +	if (!buffer->access->alloc_dmabuf)
+> +		return -EPERM;
+> +
+> +	if (copy_from_user(&req, user_req, sizeof(req)))
+> +		return -EFAULT;
+> +
+> +	if (req.resv)
+> +		return -EINVAL;
+> +
+> +	return buffer->access->alloc_dmabuf(buffer, &req);
+> +}
+> +
+>  static long iio_device_buffer_ioctl(struct iio_dev *indio_dev, struct file *filp,
+>  				    unsigned int cmd, unsigned long arg)
+>  {
+> +	struct iio_dev_buffer_pair *ib = filp->private_data;
+> +	struct iio_buffer *buffer = ib->buffer;
+> +	void __user *_arg = (void __user *)arg;
+> +
+>  	switch (cmd) {
+>  	case IIO_BUFFER_GET_FD_IOCTL:
+>  		return iio_device_buffer_getfd(indio_dev, arg);
+> +	case IIO_BUFFER_DMABUF_ALLOC_IOCTL:
+> +		return iio_buffer_alloc_dmabuf(buffer, _arg);
+> +	case IIO_BUFFER_DMABUF_ENQUEUE_IOCTL:
+> +		/* TODO: support non-blocking enqueue operation */
+> +		return iio_buffer_enqueue_dmabuf(buffer, _arg);
+>  	default:
+>  		return IIO_IOCTL_UNHANDLED;
+>  	}
+> diff --git a/include/linux/iio/buffer_impl.h b/include/linux/iio/buffer_impl.h
+> index e2ca8ea23e19..728541bc2c63 100644
+> --- a/include/linux/iio/buffer_impl.h
+> +++ b/include/linux/iio/buffer_impl.h
+> @@ -39,6 +39,9 @@ struct iio_buffer;
+>   *                      device stops sampling. Calles are balanced with @enable.
+>   * @release:		called when the last reference to the buffer is dropped,
+>   *			should free all resources allocated by the buffer.
+> + * @alloc_dmabuf:	called from userspace via ioctl to allocate one DMABUF.
+> + * @enqueue_dmabuf:	called from userspace via ioctl to queue this DMABUF
+> + *			object to this buffer. Requires a valid DMABUF fd.
+>   * @modes:		Supported operating modes by this buffer type
+>   * @flags:		A bitmask combination of INDIO_BUFFER_FLAG_*
+>   *
+> @@ -68,6 +71,11 @@ struct iio_buffer_access_funcs {
+>  
+>  	void (*release)(struct iio_buffer *buffer);
+>  
+> +	int (*alloc_dmabuf)(struct iio_buffer *buffer,
+> +			    struct iio_dmabuf_alloc_req *req);
+> +	int (*enqueue_dmabuf)(struct iio_buffer *buffer,
+> +			      struct iio_dmabuf *block);
+> +
+>  	unsigned int modes;
+>  	unsigned int flags;
+>  };
+> diff --git a/include/uapi/linux/iio/buffer.h b/include/uapi/linux/iio/buffer.h
+> index 13939032b3f6..e4621b926262 100644
+> --- a/include/uapi/linux/iio/buffer.h
+> +++ b/include/uapi/linux/iio/buffer.h
+> @@ -5,6 +5,35 @@
+>  #ifndef _UAPI_IIO_BUFFER_H_
+>  #define _UAPI_IIO_BUFFER_H_
+>  
+> +#include <linux/types.h>
+> +
+> +#define IIO_BUFFER_DMABUF_SUPPORTED_FLAGS	0x00000000
 > +
 > +/**
-> + * iio_dma_buffer_read() - DMA buffer read callback
-> + * @buffer: Buffer to read form
-> + * @n: Number of bytes to read
-> + * @user_buffer: Userspace buffer to copy the data to
-> + *
-> + * Should be used as the read callback for iio_buffer_access_ops
-> + * struct for DMA buffers.
+> + * struct iio_dmabuf_alloc_req - Descriptor for allocating IIO DMABUFs
+> + * @size:	the size of a single DMABUF
+> + * @resv:	reserved
 > + */
-> +int iio_dma_buffer_read(struct iio_buffer *buffer, size_t n,
-> +	char __user *user_buffer)
-> +{
-> +	return iio_dma_buffer_io(buffer, n, user_buffer, false);
-> +}
->  EXPORT_SYMBOL_GPL(iio_dma_buffer_read);
->  
+> +struct iio_dmabuf_alloc_req {
+> +	__u64 size;
+> +	__u64 resv;
+> +};
+> +
 > +/**
-> + * iio_dma_buffer_write() - DMA buffer write callback
-> + * @buffer: Buffer to read form
-> + * @n: Number of bytes to read
-> + * @user_buffer: Userspace buffer to copy the data from
-> + *
-> + * Should be used as the write callback for iio_buffer_access_ops
-> + * struct for DMA buffers.
+> + * struct iio_dmabuf - Descriptor for a single IIO DMABUF object
+> + * @fd:		file descriptor of the DMABUF object
+> + * @flags:	one or more IIO_BUFFER_DMABUF_* flags
+> + * @bytes_used:	number of bytes used in this DMABUF for the data transfer.
+> + *		If zero, the full buffer is used.
 > + */
-> +int iio_dma_buffer_write(struct iio_buffer *buffer, size_t n,
-> +			 const char __user *user_buffer)
-> +{
-> +	return iio_dma_buffer_io(buffer, n, (__force char *)user_buffer, true);
-> +}
-> +EXPORT_SYMBOL_GPL(iio_dma_buffer_write);
+> +struct iio_dmabuf {
+> +	__u32 fd;
+> +	__u32 flags;
+> +	__u64 bytes_used;
+> +};
 > +
->  /**
->   * iio_dma_buffer_data_available() - DMA buffer data_available callback
->   * @buf: Buffer to check for data availability
-> diff --git a/include/linux/iio/buffer-dma.h b/include/linux/iio/buffer-dma.h
-> index a65a005c4a19..09c07d5563c0 100644
-> --- a/include/linux/iio/buffer-dma.h
-> +++ b/include/linux/iio/buffer-dma.h
-> @@ -132,6 +132,8 @@ int iio_dma_buffer_disable(struct iio_buffer *buffer,
->  	struct iio_dev *indio_dev);
->  int iio_dma_buffer_read(struct iio_buffer *buffer, size_t n,
->  	char __user *user_buffer);
-> +int iio_dma_buffer_write(struct iio_buffer *buffer, size_t n,
-> +			 const char __user *user_buffer);
->  size_t iio_dma_buffer_data_available(struct iio_buffer *buffer);
->  int iio_dma_buffer_set_bytes_per_datum(struct iio_buffer *buffer, size_t bpd);
->  int iio_dma_buffer_set_length(struct iio_buffer *buffer, unsigned int length);
-> @@ -142,4 +144,9 @@ int iio_dma_buffer_init(struct iio_dma_buffer_queue *queue,
->  void iio_dma_buffer_exit(struct iio_dma_buffer_queue *queue);
->  void iio_dma_buffer_release(struct iio_dma_buffer_queue *queue);
+>  #define IIO_BUFFER_GET_FD_IOCTL			_IOWR('i', 0x91, int)
+> +#define IIO_BUFFER_DMABUF_ALLOC_IOCTL		_IOW('i', 0x92, struct iio_dmabuf_alloc_req)
+> +#define IIO_BUFFER_DMABUF_ENQUEUE_IOCTL		_IOW('i', 0x93, struct iio_dmabuf)
 >  
-> +static inline size_t iio_dma_buffer_space_available(struct iio_buffer *buffer)
-> +{
-> +	return iio_dma_buffer_data_available(buffer);
-> +}
-> +
->  #endif
+>  #endif /* _UAPI_IIO_BUFFER_H_ */
 
