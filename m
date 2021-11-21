@@ -1,61 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D69D4582DF
-	for <lists+dri-devel@lfdr.de>; Sun, 21 Nov 2021 11:13:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 83E09458300
+	for <lists+dri-devel@lfdr.de>; Sun, 21 Nov 2021 12:00:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA8156E933;
-	Sun, 21 Nov 2021 10:13:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D5B446F888;
+	Sun, 21 Nov 2021 11:00:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com
- [IPv6:2607:f8b0:4864:20::102f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B27BD6E933;
- Sun, 21 Nov 2021 10:13:23 +0000 (UTC)
-Received: by mail-pj1-x102f.google.com with SMTP id
- y14-20020a17090a2b4e00b001a5824f4918so14444119pjc.4; 
- Sun, 21 Nov 2021 02:13:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=jz7G1X3noj7SdKT0BssmGxJwd6YdQwKy8J5O5kFPx/A=;
- b=hPjd7zP2W3VwO1Z4CBoUY6mieF4iT+nIUjE7tgeP2gy8/frGuaHMkBG/+mKnA2bC+j
- +jfZ7DMeKU1bArdHF1OTamHF/fVBElYmgMq/vRR/ocLZxsQ+oK0/E5Wi1h42zpRZnwC6
- yUeWyfrvpxYJ2XmhK8gR2ud97z85681CWEJJ5J9Ij0sGpu7paI3tQ6pUN4xsUQ4sXp0u
- Xo5Z3uKQtYAf8hL5gxePQozs1DiazIfX1McQc/PO0FDiWe1pK8SH5faQe99UQa1xxroc
- Maqe3KXuXrvsxCk3vo8XPs0S5bMKVmZbmFOe5FNlFwqTPG/VHoL+e34oAvngej0zo3gz
- t/FQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=jz7G1X3noj7SdKT0BssmGxJwd6YdQwKy8J5O5kFPx/A=;
- b=f06zW1vqlV0592SC7UF3EODx/AK1HUQZBrJH5+p+6NI8HqjpbIerzH7FXX5M6D5IPa
- FqnrA5tba5v1h4gg+EYzhJB3SATOhea8Pxf784P0w8AgWIZBPZJwVlR4RuIqIV/80fQz
- j3m5YoxVd/vCi3JLb77KEQ4Mq6HYC8+6oLv6Mf0cghwyiptmGpXspNVdBdpjQbQ699OA
- Kns6TC8VVD6cblp8Jbzop1IUwhs0+7/fLpcPxxgW6Qn180dF3XBGMCzipzDCejA0sU33
- 5SAic9c1/lT4N9Mjml26y9sAfXaEx/atZ/7DvFuE/cL4lnsMjJKg+O49btdx2/MoNi4J
- z8nQ==
-X-Gm-Message-State: AOAM532+5g2hwt+zKO1rKnXVM7Z9d1TRpCSWpjtpcc8M6sLO2Y/BgzKf
- apIWnyF1aneZohIaRsOQmCY=
-X-Google-Smtp-Source: ABdhPJyQsqrMCoVLEZdQ+jQfLlJBDck3tb4ASoikt4GWJZqLMSci4BkU90KnfkyY3OtsEXKlj0LavQ==
-X-Received: by 2002:a17:902:ab47:b0:141:95b2:7eaf with SMTP id
- ij7-20020a170902ab4700b0014195b27eafmr95815169plb.40.1637489603356; 
- Sun, 21 Nov 2021 02:13:23 -0800 (PST)
-Received: from localhost.localdomain ([193.203.214.57])
- by smtp.gmail.com with ESMTPSA id nl16sm16226182pjb.13.2021.11.21.02.13.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 21 Nov 2021 02:13:22 -0800 (PST)
-From: cgel.zte@gmail.com
-X-Google-Original-From: yong.yiran@zte.com.cn
-To: jani.nikula@linux.intel.com
-Subject: [PATCH linux-next] drm/i915/request: Remove unused variables
-Date: Sun, 21 Nov 2021 10:13:09 +0000
-Message-Id: <20211121101309.23577-1-yong.yiran@zte.com.cn>
-X-Mailer: git-send-email 2.25.1
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B5E8C6F889
+ for <dri-devel@lists.freedesktop.org>; Sun, 21 Nov 2021 11:00:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1637492445;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=LsgBxUcRxWCwY+zbf8nElGg4ua0pfw40r1USCxEdbCY=;
+ b=gMw6k0Yw90VEFT1pE3wPGCBhKJ/VFDN+RhJq74bjACU8QZ+UoAgcBx1SYa5dATGIjHenFC
+ Nb+VZtOXUDJ7VYVmGwKFVN07vlgFdLtqFtbNODhdV++goLzEIOcx4lZcDkeW5LlRRdf+YZ
+ YHQRmzQG2Y0smcUkJ4pJl7sDxw5lGFY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-85-jVkEfZMjMQ694LjGQovE_w-1; Sun, 21 Nov 2021 06:00:40 -0500
+X-MC-Unique: jVkEfZMjMQ694LjGQovE_w-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B86A018125C0;
+ Sun, 21 Nov 2021 11:00:38 +0000 (UTC)
+Received: from x1.localdomain (unknown [10.39.192.53])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 583FE4ABA3;
+ Sun, 21 Nov 2021 11:00:33 +0000 (UTC)
+From: Hans de Goede <hdegoede@redhat.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>, Lyude <lyude@redhat.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
+Subject: [PATCH 1/2] drm/i915/backlight: Drop duplicate
+ intel_panel_actually_set_backlight()
+Date: Sun, 21 Nov 2021 12:00:31 +0100
+Message-Id: <20211121110032.4720-1-hdegoede@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,46 +64,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- yong yiran <yong.yiran@zte.com.cn>, rodrigo.vivi@intel.com,
- Zeal Robot <zealci@zte.com.cn>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: yong yiran <yong.yiran@zte.com.cn>
+After the recent refactoring of the backlight code the contents of
+intel_panel_actually_set_backlight() is exactly the same (minus a
+small wording difference in the drm_dbg_kms() as the contents if the
+more widely used intel_backlight_set_pwm_level() function.
 
-The clang_analyzer complains as follows:
-drivers/gpu/drm/i915/i915_request.c:2119:2 warning:
-Value stored to 'x' is never read
+Drop the duplicate intel_panel_actually_set_backlight() function.
 
-Reported-by: Zeal Robot <zealci@zte.com.cn>
-Signed-off-by: yong yiran <yong.yiran@zte.com.cn>
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/gpu/drm/i915/i915_request.c | 3 ---
- 1 file changed, 3 deletions(-)
+ drivers/gpu/drm/i915/display/intel_backlight.c | 16 ++--------------
+ 1 file changed, 2 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
-index 820a1f38b271..5e4420f461e9 100644
---- a/drivers/gpu/drm/i915/i915_request.c
-+++ b/drivers/gpu/drm/i915/i915_request.c
-@@ -2047,7 +2047,6 @@ void i915_request_show(struct drm_printer *m,
- {
- 	const char *name = rq->fence.ops->get_timeline_name((struct dma_fence *)&rq->fence);
- 	char buf[80] = "";
--	int x = 0;
+diff --git a/drivers/gpu/drm/i915/display/intel_backlight.c b/drivers/gpu/drm/i915/display/intel_backlight.c
+index 9523411cddd8..03cd730c926a 100644
+--- a/drivers/gpu/drm/i915/display/intel_backlight.c
++++ b/drivers/gpu/drm/i915/display/intel_backlight.c
+@@ -268,18 +268,6 @@ static void ext_pwm_set_backlight(const struct drm_connector_state *conn_state,
+ 	pwm_apply_state(panel->backlight.pwm, &panel->backlight.pwm_state);
+ }
  
- 	/*
- 	 * The prefix is used to show the queue status, for which we use
-@@ -2079,8 +2078,6 @@ void i915_request_show(struct drm_printer *m,
- 	 *      from the lists
- 	 */
- 
--	x = print_sched_attr(&rq->sched.attr, buf, x, sizeof(buf));
+-static void
+-intel_panel_actually_set_backlight(const struct drm_connector_state *conn_state, u32 level)
+-{
+-	struct intel_connector *connector = to_intel_connector(conn_state->connector);
+-	struct drm_i915_private *i915 = to_i915(connector->base.dev);
+-	struct intel_panel *panel = &connector->panel;
 -
- 	drm_printf(m, "%s%.*s%c %llx:%lld%s%s %s @ %dms: %s\n",
- 		   prefix, indent, "                ",
- 		   queue_status(rq),
+-	drm_dbg_kms(&i915->drm, "set backlight level = %d\n", level);
+-
+-	panel->backlight.funcs->set(conn_state, level);
+-}
+-
+ /* set backlight brightness to level in range [0..max], assuming hw min is
+  * respected.
+  */
+@@ -314,7 +302,7 @@ void intel_backlight_set_acpi(const struct drm_connector_state *conn_state,
+ 					 panel->backlight.device->props.max_brightness);
+ 
+ 	if (panel->backlight.enabled)
+-		intel_panel_actually_set_backlight(conn_state, hw_level);
++		intel_backlight_set_pwm_level(conn_state, hw_level);
+ 
+ 	mutex_unlock(&dev_priv->backlight_lock);
+ }
+@@ -863,7 +851,7 @@ static void intel_panel_set_backlight(const struct drm_connector_state *conn_sta
+ 	panel->backlight.level = hw_level;
+ 
+ 	if (panel->backlight.enabled)
+-		intel_panel_actually_set_backlight(conn_state, hw_level);
++		intel_backlight_set_pwm_level(conn_state, hw_level);
+ 
+ 	mutex_unlock(&dev_priv->backlight_lock);
+ }
 -- 
-2.25.1
+2.31.1
 
