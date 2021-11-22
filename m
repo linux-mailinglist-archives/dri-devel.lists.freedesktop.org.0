@@ -2,40 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A11D45981A
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Nov 2021 00:01:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74257459826
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Nov 2021 00:02:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC5EF89ECB;
-	Mon, 22 Nov 2021 23:01:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 06B9289EF7;
+	Mon, 22 Nov 2021 23:02:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2006089ECB
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Nov 2021 23:01:38 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 5DBA960FED;
- Mon, 22 Nov 2021 23:01:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1637622097;
- bh=5HPGeejKcq0/skHJyiqCEkuW5nT9h90VXdWH7CYPbFE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=nEdiJ23lulIvuZIRcBfsS+qhZQdy45DABTeQ/9eMEUl1h55xvksxls/uuZO4VBeI8
- VaCo7TKNLJwRLa3QYvdv6RNwEp2FVuh3jDzzlTQaQEP63m8H/MG3PA9JAEloDYolQp
- c9/rmjY39HvZyawWUPIV3NjC+iYFEvh7eF6njpejVduCoCGuYmDwm0WoROg8MZpuON
- SIl6D9XkBqQ40owCHtFzbFPFXQsgb6+Hp4V/BoNJJJnMHVdW/zgOyJBpirCAwPOfIz
- HcfB+kkGUqemGZoka/SinHrWStHXFAUQPzrIQFgTm1oadehKRNNCm1qA6BWKPpcaq0
- 1TgibwoU5fvdw==
-Date: Mon, 22 Nov 2021 23:01:28 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Arnd Bergmann <arnd@kernel.org>
-Subject: Re: [PATCH v2 00/11] dmaengine: kill off dma_slave_config->slave_id
-Message-ID: <YZwhSPkhAqZy3bqY@sirena.org.uk>
-References: <20211122222203.4103644-1-arnd@kernel.org>
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 94FA489ED6;
+ Mon, 22 Nov 2021 23:02:52 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10176"; a="215612615"
+X-IronPort-AV: E=Sophos;i="5.87,255,1631602800"; d="scan'208";a="215612615"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Nov 2021 15:02:51 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.87,255,1631602800"; d="scan'208";a="674237054"
+Received: from aalteres-desk.fm.intel.com ([10.80.57.53])
+ by orsmga005.jf.intel.com with ESMTP; 22 Nov 2021 15:02:51 -0800
+From: Alan Previn <alan.previn.teres.alexis@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [RFC 0/7] Add GuC Error Capture Support
+Date: Mon, 22 Nov 2021 15:03:55 -0800
+Message-Id: <20211122230402.2023576-1-alan.previn.teres.alexis@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="71Si6a9AhnlReqww"
-Content-Disposition: inline
-In-Reply-To: <20211122222203.4103644-1-arnd@kernel.org>
-X-Cookie: Lake Erie died for your sins.
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,59 +41,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alsa-devel@alsa-project.org, dri-devel@lists.freedesktop.org,
- Bjorn Andersson <bjorn.andersson@linaro.org>, linux-tegra@vger.kernel.org,
- Thierry Reding <thierry.reding@gmail.com>, linux-mtd@lists.infradead.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- linux-spi@vger.kernel.org, Robert Jarzmik <robert.jarzmik@free.fr>,
- Chunyan Zhang <zhang.lyra@gmail.com>, linux-staging@lists.linux.dev,
- Michal Simek <michal.simek@xilinx.com>, Jon Hunter <jonathanh@nvidia.com>,
- Andy Gross <agross@kernel.org>, bcm-kernel-feedback-list@broadcom.com,
- linux-serial@vger.kernel.org, Orson Zhai <orsonzhai@gmail.com>,
- Nicolas Saenz Julienne <nsaenz@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- Manivannan Sadhasivam <mani@kernel.org>, linux-arm-msm@vger.kernel.org,
- dmaengine@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
- Jaroslav Kysela <perex@perex.cz>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- linux-arm-kernel@lists.infradead.org, Scott Branden <sbranden@broadcom.com>,
- Hyun Kwon <hyun.kwon@xilinx.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-mmc@vger.kernel.org,
- Takashi Iwai <tiwai@suse.com>, linux-kernel@vger.kernel.org,
- Vinod Koul <vkoul@kernel.org>, Laxman Dewangan <ldewangan@nvidia.com>,
- Baolin Wang <baolin.wang7@gmail.com>
+Cc: Matthew Brost <matthew.brost@intel.com>,
+ John Harrison <john.c.harrison@intel.com>, dri-devel@lists.freedesktop.org,
+ Alan Previn <alan.previn.teres.alexis@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This series:
+  1. Supports the roll out of an upcoming GuC feature to
+     enable error-state-capture that allows the driver to
+     register lists of MMIO registers that GuC will report
+     during a GuC triggered engine-reset event.
+  2. Updates the ADS blob creation to register lists
+     of global and engine registers with GuC.
+  3. Defines tables of register lists that are global or
+     engine class or engine instance in scope.
+  4. Separates GuC log-buffer access locks for relay logging
+     vs the new region for the error state capture data.
+  5. Allocates an additional interim circular buffer store
+     to copy snapshots of new GuC reported error-state-capture
+     dumps in response to the G2H notification.
+  6. Connects the i915_gpu_coredump reporting function
+     to the GuC error capture module to print all GuC
+     error state capture dumps that is reported.
 
---71Si6a9AhnlReqww
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Alan Previn (6):
+  drm/i915/guc: Update GuC ADS size for error capture lists
+  drm/i915/guc: Populate XE_LP register lists for GuC error state
+    capture.
+  drm/i915/guc: Add GuC's error state capture output structures.
+  drm/i915/guc: Update GuC's log-buffer-state access for error capture.
+  drm/i915/guc: Copy new GuC error capture logs upon G2H notification.
+  drm/i915/guc: Print the GuC error capture output register list.
 
-On Mon, Nov 22, 2021 at 11:21:52PM +0100, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
->=20
-> I recently came across some new uses of the 'slave_id' field that
-> I had (almost) removed a few years ago. There are no legitimate
-> uses of this field in the kernel, only a few stale references and
-> two drivers that abuse the field as a side-channel between the
-> dmaengine driver and its client.
+John Harrison (1):
+  drm/i915/guc: Add basic support for error capture lists
 
-Acked-by: Mark Brown <broonie@kernel.org>
+ drivers/gpu/drm/i915/Makefile                 |   1 +
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c     |   4 +-
+ .../gpu/drm/i915/gt/uc/abi/guc_actions_abi.h  |   8 +
+ drivers/gpu/drm/i915/gt/uc/intel_guc.c        |  52 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc.h        |   9 +
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c    | 197 +++-
+ .../gpu/drm/i915/gt/uc/intel_guc_capture.c    | 999 ++++++++++++++++++
+ .../gpu/drm/i915/gt/uc/intel_guc_capture.h    | 107 ++
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c     |   3 +
+ drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h   |  40 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_log.c    | 141 ++-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_log.h    |  21 +-
+ .../gpu/drm/i915/gt/uc/intel_guc_submission.c |  22 +
+ drivers/gpu/drm/i915/i915_gpu_error.c         |  53 +-
+ drivers/gpu/drm/i915/i915_gpu_error.h         |   5 +
+ 15 files changed, 1581 insertions(+), 81 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/gt/uc/intel_guc_capture.c
+ create mode 100644 drivers/gpu/drm/i915/gt/uc/intel_guc_capture.h
 
---71Si6a9AhnlReqww
-Content-Type: application/pgp-signature; name="signature.asc"
+-- 
+2.25.1
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmGcIUcACgkQJNaLcl1U
-h9B/hgf6AiPwJAMMKcdb/6uCfAJACPZtqMFn2hE6HQgrw8mlTsR3sGqhQj3c3NWF
-vkLYtSZ20L2tPvS1uyAxjIRzIm91rqriu6pNurmupB6D+347UfSMpYhtbEKXvbBw
-1UF5ftPw1t5IGduAX6HKBfaN1Iab53577DJb/uJwR3Mb/WBh9aFpuyRwuZgjBOwE
-MvpTaAK2GHY4loDjJChSAK+zlCQMFbc4I2mZuahtf4wvBts/eZn7bAqAruzPMnTL
-e3crlktLeH7C0DMKJpmrxvTvS0CDsEUUOJ+tM7aNmtsdyYTAZEG35vzJgVly61jc
-7e5I5GHB1Jxsid3oM7WeznOhbimQEw==
-=AKUT
------END PGP SIGNATURE-----
-
---71Si6a9AhnlReqww--
