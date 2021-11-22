@@ -2,53 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD159458EF2
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Nov 2021 14:06:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B93D2458F29
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Nov 2021 14:10:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A96406E049;
-	Mon, 22 Nov 2021 13:06:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05C096E1D5;
+	Mon, 22 Nov 2021 13:10:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com
- [IPv6:2a00:1450:4864:20::532])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8FDE96E049
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Nov 2021 13:06:10 +0000 (UTC)
-Received: by mail-ed1-x532.google.com with SMTP id t5so76910783edd.0
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Nov 2021 05:06:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=U+eXAwnCmXED1ZG+mcGp01uKeH0lDqF3ueA82gmamHU=;
- b=o6cU7i5hhB6IcDEmhKwvIlVLcfJs4S5ISzdl24IXUzMX7ny7eMptSArI6WmzVsFaK/
- 4JH3g8RVoD55i5nSxUKwnqR5VbEZdUI1hG9azHbf1DwVUFSL1RKhYGIGEi6SC32D6aTB
- CkkQjsbbBiIg6q6CxPZA1osPG5Zn2QjGu5J9o=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=U+eXAwnCmXED1ZG+mcGp01uKeH0lDqF3ueA82gmamHU=;
- b=rgA4S1YISnQBYspF4MbmawMGWM7spPA0sWacEUNFO3tPKCgukfJIyhEv+Ww6Lv3Dq6
- PgDDEmvMCTbAHVb1JTIHq2RT0Maf2AvOnP646UuRy6Bs50ITNBPpmbvBRrKkmQTVZPaT
- 0ywtERRF3OQ7i/JB6TkyahKCJ4BFgIjnUat1QLw2+gh5piybLU9xQ8NzMsd0RI5t0BOJ
- 0aF/X2462G0uQAT8OR2vCvgGqUuDKs9FqT0QxfsKLoCl+e6mSb1p6NFnBUjjbWMTlV/o
- ulgDqw7yrN6XIo93GTi2+/1mWYE972d5ksxV1JZyCe5cqrWud9xFUEOBkBdwOSAm7MZT
- 1GZA==
-X-Gm-Message-State: AOAM530E1qvF0tzhn9yRbtqgfUPLL+Mfq+eZh2gLiRWFOeOLT/vR7Xjt
- 7ncjGewkJG2FMr5CCGZqazEz7kMMlH7liaKkjfG5FA==
-X-Google-Smtp-Source: ABdhPJxwQ8huXu/Wvbdw8NgjJIssNO17n1w1LiQRy0pQw4AwA3aV0rzvh8z/ewnlTttvr7KdSJV8NNlsuw/vVhJyygU=
-X-Received: by 2002:aa7:dc15:: with SMTP id b21mr66127296edu.237.1637586368833; 
- Mon, 22 Nov 2021 05:06:08 -0800 (PST)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E23CE6E1D5
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Nov 2021 13:10:06 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 1A4CA60462;
+ Mon, 22 Nov 2021 13:10:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1637586606;
+ bh=/POoZN/Af4rNxMOg+w1zMwFFidBFcRDHZtfALydKq4A=;
+ h=Subject:To:Cc:From:Date:From;
+ b=LuuRiU4XHxzpFj5LtQ7iDNTPVVp2KFNHpAdaMAzMVjIcT0aH/Fw/p5HQiLQa5oKh5
+ wnYhwYRkkL5cqwxV5Bm81Yp2WtH/aW8dLHKZtDHY/i4IFyROddGc8hvxJwudthfNGP
+ aLp/NA0USqB6Q7nCIcOjOJZgmq8wwT8xJZCI2qmI=
+Subject: Patch "drm/cma-helper: Release non-coherent memory with
+ dma_free_noncoherent()" has been added to the 5.15-stable tree
+To: airlied@linux.ie, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
+ gregkh@linuxfoundation.org, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, paul@crapouillou.net, tzimmermann@suse.de
+From: <gregkh@linuxfoundation.org>
+Date: Mon, 22 Nov 2021 14:10:04 +0100
+Message-ID: <163758660488113@kroah.com>
 MIME-Version: 1.0
-References: <20211122065223.88059-1-jagan@amarulasolutions.com>
- <20211122065223.88059-5-jagan@amarulasolutions.com>
- <20211122100759.qw6lvwb33ciemg2y@gilmour>
-In-Reply-To: <20211122100759.qw6lvwb33ciemg2y@gilmour>
-From: Jagan Teki <jagan@amarulasolutions.com>
-Date: Mon, 22 Nov 2021 18:35:58 +0530
-Message-ID: <CAMty3ZDDQR-OkjqEfb1ZYZG+oLN2ZOv-2GLxs3AdeDHqUD8fjQ@mail.gmail.com>
-Subject: Re: [PATCH v5 4/7] drm: sun4i: dsi: Add mode_set function
-To: Maxime Ripard <maxime@cerno.tech>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=ANSI_X3.4-1968
+Content-Transfer-Encoding: 8bit
+X-stable: commit
+X-Patchwork-Hint: ignore 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,23 +46,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <narmstrong@baylibre.com>,
- Robert Foss <robert.foss@linaro.org>, linux-sunxi@googlegroups.com,
- dri-devel@lists.freedesktop.org, Chen-Yu Tsai <wens@csie.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>, linux-amarula@amarulasolutions.com,
- linux-arm-kernel@lists.infradead.org
+Cc: stable-commits@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Nov 22, 2021 at 3:38 PM Maxime Ripard <maxime@cerno.tech> wrote:
->
-> On Mon, Nov 22, 2021 at 12:22:20PM +0530, Jagan Teki wrote:
-> > Get the display mode settings via mode_set bridge function
-> > instead of explicitly de-reference.
->
-> What's wrong with dereferencing the mode?
 
-Nothing wrong with dereferencing, however we have built-in API to that job.
+This is a note to let you know that I've just added the patch titled
 
-Jagan.
+    drm/cma-helper: Release non-coherent memory with dma_free_noncoherent()
+
+to the 5.15-stable tree which can be found at:
+    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
+
+The filename of the patch is:
+     drm-cma-helper-release-non-coherent-memory-with-dma_free_noncoherent.patch
+and it can be found in the queue-5.15 subdirectory.
+
+If you, or anyone else, feels it should not be added to the stable tree,
+please let <stable@vger.kernel.org> know about it.
+
+
+From 995f54ea962e03ec08b8bc6a4fe11a32b420edd3 Mon Sep 17 00:00:00 2001
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Date: Thu, 8 Jul 2021 19:51:46 +0200
+Subject: drm/cma-helper: Release non-coherent memory with dma_free_noncoherent()
+
+From: Thomas Zimmermann <tzimmermann@suse.de>
+
+commit 995f54ea962e03ec08b8bc6a4fe11a32b420edd3 upstream.
+
+The GEM CMA helpers allocate non-coherent (i.e., cached) backing storage
+with dma_alloc_noncoherent(), but release it with dma_free_wc(). Fix this
+with a call to dma_free_noncoherent(). Writecombining storage is still
+released with dma_free_wc().
+
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Fixes: cf8ccbc72d61 ("drm: Add support for GEM buffers backed by non-coherent memory")
+Acked-by: Paul Cercueil <paul@crapouillou.net>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org
+Cc: <stable@vger.kernel.org> # v5.14+
+Link: https://patchwork.freedesktop.org/patch/msgid/20210708175146.10618-1-tzimmermann@suse.de
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ drivers/gpu/drm/drm_gem_cma_helper.c |    9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
+
+--- a/drivers/gpu/drm/drm_gem_cma_helper.c
++++ b/drivers/gpu/drm/drm_gem_cma_helper.c
+@@ -210,8 +210,13 @@ void drm_gem_cma_free_object(struct drm_
+ 			dma_buf_vunmap(gem_obj->import_attach->dmabuf, &map);
+ 		drm_prime_gem_destroy(gem_obj, cma_obj->sgt);
+ 	} else if (cma_obj->vaddr) {
+-		dma_free_wc(gem_obj->dev->dev, cma_obj->base.size,
+-			    cma_obj->vaddr, cma_obj->paddr);
++		if (cma_obj->map_noncoherent)
++			dma_free_noncoherent(gem_obj->dev->dev, cma_obj->base.size,
++					     cma_obj->vaddr, cma_obj->paddr,
++					     DMA_TO_DEVICE);
++		else
++			dma_free_wc(gem_obj->dev->dev, cma_obj->base.size,
++				    cma_obj->vaddr, cma_obj->paddr);
+ 	}
+ 
+ 	drm_gem_object_release(gem_obj);
+
+
+Patches currently in stable-queue which might be from tzimmermann@suse.de are
+
+queue-5.15/drm-cma-helper-release-non-coherent-memory-with-dma_free_noncoherent.patch
