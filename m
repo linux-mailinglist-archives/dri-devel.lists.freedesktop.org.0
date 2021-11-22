@@ -1,58 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E7B94595C1
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Nov 2021 20:44:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C53EE4595C3
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Nov 2021 20:44:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5303589D30;
-	Mon, 22 Nov 2021 19:44:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 973D689D64;
+	Mon, 22 Nov 2021 19:44:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-xa2a.google.com (mail-vk1-xa2a.google.com
- [IPv6:2607:f8b0:4864:20::a2a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 54BCA89D30
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Nov 2021 19:44:35 +0000 (UTC)
-Received: by mail-vk1-xa2a.google.com with SMTP id s17so10970010vka.5
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Nov 2021 11:44:35 -0800 (PST)
+Received: from mail-ua1-x933.google.com (mail-ua1-x933.google.com
+ [IPv6:2607:f8b0:4864:20::933])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A1C1D89D58
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Nov 2021 19:44:37 +0000 (UTC)
+Received: by mail-ua1-x933.google.com with SMTP id ay21so38850020uab.12
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Nov 2021 11:44:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=+X2gifn9qFxltRlwIz1PyJXr7D7DhH6nYWpXoWuLDxQ=;
- b=ba9jNV8ms0j6+dkPyyMdlyW0RmMfuqGncBIMqfDx/wGx3gx3cgPHoLYACJoaRCDjki
- AUR0uk5xQgy5cKGWVpPh6zAYjhCo2jN9TaEEZrc92TpLgNHPaEw9sTrit4NbLZJ7A8fA
- mM/2tZGmjL3RA+EBeSHCFW/QW4CEzVMr4u4I0MdvWCMp13eWQmcDx7YvRs4hZIj0nvJ3
- E5nfMdN7cjQ0gO8FD+wZjKjRWNYBywcktWax3d/OnULeXbVk8/BaSRwptfd4gt+XIsw1
- 1dlgSpwoMTwNKEdsJJgCFa0Udv5SxEPI8HrT3CISbqO431jD3U7Zql0wbiVDOo8xq56G
- +OVg==
+ bh=w6oRMdQdTTLRMg12EM+5r4h4w3Qz4g9vnYiSKn8PWiM=;
+ b=b3VCpm8zc92emK6yRT5Ne0Y6bOHU0HJp32kXTjXu3/C1CuCpcLE9W7TZ6RuzN1Q0/V
+ WeJmt/ugB4iQIV9vMW/fJgvTMNqrNsp13d1BJsHJilE3mScAFQllzyEiLY0xNvJrWUzx
+ qVdx/jVu5dd2zVChVJ9gvWIl8nnFOdIHt3Ap+MJLxfReLCbYYrbZb7mywMI8NKWTElce
+ vcbbDGwIOq6lFPa/eoqsIvAg5SlYRIXXWnSiwRgQq+e0ANCETE9CGEGf94Jh6F5ID6pj
+ g1p2wkQ53R9LlSeZ/7ka83jdagjtYEwtPT/pT9QZOX/h3f4G+cb0ItzFwnnupjYVLesb
+ PyEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=+X2gifn9qFxltRlwIz1PyJXr7D7DhH6nYWpXoWuLDxQ=;
- b=AbZt8Gbke48NNdSz8aq4vYlN3DUNyOfLHuRDORKxU+TONvu+erJ3ABpioh2hz39pQh
- Wd9DRyCmFBJ/jXW5ty7pBnmE9bRPzvGXz2TzQxYlKJb+LCvcBonj/D0KeOfNFV4UfJo+
- YTpf4CzmnG+Iju/beoC1ly+AIX3BdEW2DiVCJRlXV1/iOFSGjtZH1iBQLC0cDKwxaiOE
- iM1+MDhAfRehaorubpLTH1bqwr89KS1Df7LukbUwfVmHS6CmkPodSMzQV1rXyTWX0EHG
- y0DT8YLhvU9jk5mmq8AXEfdIKBoBRzwvDIDn2k/FU8f8PqIEWAHJ3H5iRf5cyVYwSyHy
- cZlQ==
-X-Gm-Message-State: AOAM532zjync+vTCOWDCJRFSgHXzjwNh4mTme4U/jpHkpUvc114sHDmA
- V+51L/zJUJ+8Y5gMaWJlnd4=
-X-Google-Smtp-Source: ABdhPJz7o9itNIFn8TdVqxtNpikaisRtapMBgN+dfuY4VI2I4Z1dkIeHPJKb570T7YiXp1tdfITTLw==
-X-Received: by 2002:a05:6122:550:: with SMTP id
- y16mr166578025vko.0.1637610274324; 
- Mon, 22 Nov 2021 11:44:34 -0800 (PST)
+ bh=w6oRMdQdTTLRMg12EM+5r4h4w3Qz4g9vnYiSKn8PWiM=;
+ b=AdD4mp9M3b9e8KGNd0CRuCDIYrOEEvBF5NR/2ZoIh03etBmqIU5OvUegswopVIz7Kt
+ if4ZJYR0IkQAe22ivo61jg+xG5AlyjIWcuap/TMgm2KDrV23AO3xVtbWQCoI8lr43t25
+ 3pKEuMirYlT3YGCmRbUyEI9F97CfVejbSddxwwWsjYc8v4Pme7H4TxWYa3Lb9cG6GbQA
+ jnkAdRl37U3/Nj4helPHM4f3DUDIOM1wLAAXzpaj0d1scno5Ey/7wJnhegYo2csW8iFv
+ y9tdI4XyNyBoKVMaIPbOtSx/VLdkoTIZHvaTqkD74S61oxcL4iBy7XAOIvX3eTKaPFC2
+ wvxg==
+X-Gm-Message-State: AOAM532aXnOMIyroEEZk2zDYeTcbPU9l9hQheskAphSshAH/i/l2ASi7
+ 9k1IcKxqjFDbDk7P6F/dM/Y=
+X-Google-Smtp-Source: ABdhPJx/8i0EMm1TcWmHxFh1CGyixTxK/Rw+u5xClTy9cQZC93RlnXXREb9dYi2UAKCaQQz+6sGjGg==
+X-Received: by 2002:a67:bc16:: with SMTP id t22mr123652151vsn.10.1637610276838; 
+ Mon, 22 Nov 2021 11:44:36 -0800 (PST)
 Received: from localhost.localdomain ([2804:431:c7f4:3a5b:14e9:b724:f63b:b22b])
- by smtp.googlemail.com with ESMTPSA id i27sm5269373uab.8.2021.11.22.11.44.31
+ by smtp.googlemail.com with ESMTPSA id i27sm5269373uab.8.2021.11.22.11.44.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Nov 2021 11:44:34 -0800 (PST)
+ Mon, 22 Nov 2021 11:44:36 -0800 (PST)
 From: Igor Torrente <igormtorrente@gmail.com>
 To: rodrigosiqueiramelo@gmail.com, melissa.srw@gmail.com, ppaalanen@gmail.com,
  tzimmermann@suse.de
-Subject: [PATCH v3 7/9] drm: vkms: Refactor the plane composer to accept new
+Subject: [PATCH v3 8/9] drm: vkms: Adds XRGB_16161616 and ARGB_1616161616
  formats
-Date: Mon, 22 Nov 2021 16:43:58 -0300
-Message-Id: <20211122194400.30836-8-igormtorrente@gmail.com>
+Date: Mon, 22 Nov 2021 16:43:59 -0300
+Message-Id: <20211122194400.30836-9-igormtorrente@gmail.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211122194400.30836-1-igormtorrente@gmail.com>
 References: <20211122194400.30836-1-igormtorrente@gmail.com>
@@ -70,705 +69,185 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hamohammed.sa@gmail.com, kernel test robot <lkp@intel.com>,
- airlied@linux.ie, leandro.ribeiro@collabora.com,
+Cc: hamohammed.sa@gmail.com, airlied@linux.ie, leandro.ribeiro@collabora.com,
  dri-devel@lists.freedesktop.org, ~lkcamp/patches@lists.sr.ht,
  Igor Torrente <igormtorrente@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently the blend function only accepts XRGB_8888 and ARGB_8888
-as a color input.
+This will be useful to write tests that depends on these formats.
 
-This patch refactors all the functions related to the plane composition
-to overcome this limitation.
+ARGB and XRGB follows the a similar implementation of the former formats.
+Just adjusting for 16 bits per channel.
 
-A new internal format(`struct pixel`) is introduced to deal with all
-possible inputs. It consists of 16 bits fields that represent each of
-the channels.
-
-The pixels blend is done using this internal format. And new handlers
-are being added to convert a specific format to/from this internal format.
-
-So the blend operation depends on these handlers to convert to this common
-format. The blended result, if necessary, is converted to the writeback
-buffer format.
-
-This patch introduces three major differences to the blend function.
-1 - All the planes are blended at once.
-2 - The blend calculus is done as per line instead of per pixel.
-3 - It is responsible to calculates the CRC and writing the writeback
-    buffer(if necessary).
-
-These changes allow us to allocate way less memory in the intermediate
-buffer to compute these operations. Because now we don't need to
-have the entire intermediate image lines at once, just one line is
-enough.
-
-| Memory consumption (output dimensions) |
-|:--------------------------------------:|
-|       Current      |     This patch    |
-|:------------------:|:-----------------:|
-|   Width * Heigth   |     2 * Width     |
-
-Beyond memory, we also have a minor performance benefit from all
-these changes. Results running the IGT tests `*kms_cursor_crc*`:
-
-|                 Frametime                  |
-|:------------------------------------------:|
-|  Implementation |  Current  |  This commit |
-|:---------------:|:---------:|:------------:|
-| frametime range |  8~22 ms  |    5~18 ms   |
-|     Average     |  10.0 ms  |    7.3 ms    |
-
-Reported-by: kernel test robot <lkp@intel.com>
 Signed-off-by: Igor Torrente <igormtorrente@gmail.com>
 ---
-V2: Improves the performance drastically, by perfoming the operations
-    per-line and not per-pixel(Pekka Paalanen).
-    Minor improvements(Pekka Paalanen).
-
-V3: Changes the code to blend the planes all at once. This improves
-    performance, memory consumption, and removes much of the weirdness
-    of the V2(Pekka Paalanen and me).
-    Minor improvements(Pekka Paalanen and me).
+V3: Adapt the handlers to the new format introduced in patch 7 V3.
 ---
- drivers/gpu/drm/vkms/Makefile        |   1 +
- drivers/gpu/drm/vkms/vkms_composer.c | 350 ++++++++++++++-------------
- drivers/gpu/drm/vkms/vkms_formats.c  | 138 +++++++++++
- drivers/gpu/drm/vkms/vkms_formats.h  |  31 +++
- 4 files changed, 348 insertions(+), 172 deletions(-)
- create mode 100644 drivers/gpu/drm/vkms/vkms_formats.c
- create mode 100644 drivers/gpu/drm/vkms/vkms_formats.h
+ drivers/gpu/drm/vkms/vkms_formats.c   | 67 +++++++++++++++++++++++++++
+ drivers/gpu/drm/vkms/vkms_formats.h   | 12 +++++
+ drivers/gpu/drm/vkms/vkms_plane.c     |  5 +-
+ drivers/gpu/drm/vkms/vkms_writeback.c |  2 +
+ 4 files changed, 85 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/vkms/Makefile b/drivers/gpu/drm/vkms/Makefile
-index 72f779cbfedd..1b28a6a32948 100644
---- a/drivers/gpu/drm/vkms/Makefile
-+++ b/drivers/gpu/drm/vkms/Makefile
-@@ -3,6 +3,7 @@ vkms-y := \
- 	vkms_drv.o \
- 	vkms_plane.o \
- 	vkms_output.o \
-+	vkms_formats.o \
- 	vkms_crtc.o \
- 	vkms_composer.o \
- 	vkms_writeback.o
-diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
-index 95029d2ebcac..99049511c319 100644
---- a/drivers/gpu/drm/vkms/vkms_composer.c
-+++ b/drivers/gpu/drm/vkms/vkms_composer.c
-@@ -9,202 +9,225 @@
- #include <drm/drm_vblank.h>
- 
- #include "vkms_drv.h"
-+#include "vkms_formats.h"
- 
--static u32 get_pixel_from_buffer(int x, int y, const u8 *buffer,
--				 const struct vkms_frame_info *frame_info)
-+static u16 pre_mul_blend_channel(u16 src, u16 dst, u16 alpha)
- {
--	u32 pixel;
--	int src_offset = frame_info->offset + (y * frame_info->pitch)
--					    + (x * frame_info->cpp);
-+	u32 new_color;
- 
--	pixel = *(u32 *)&buffer[src_offset];
-+	new_color = (src * 0xffff + dst * (0xffff - alpha));
- 
--	return pixel;
-+	return DIV_ROUND_UP(new_color, 0xffff);
- }
- 
- /**
-- * compute_crc - Compute CRC value on output frame
-+ * pre_mul_alpha_blend - alpha blending equation
-+ * @src_frame_info: source framebuffer's metadata
-+ * @stage_buffer: The line with the pixels from src_plane
-+ * @output_buffer: A line buffer that receives all the blends output
-  *
-- * @vaddr: address to final framebuffer
-- * @frame_info: framebuffer's metadata
-+ * Using the information from the `frame_info`, this blends only the
-+ * necessary pixels from the `stage_buffer` to the `output_buffer`
-+ * using premultiplied blend formula.
-  *
-- * returns CRC value computed using crc32 on the visible portion of
-- * the final framebuffer at vaddr_out
-+ * The current DRM assumption is that pixel color values have been already
-+ * pre-multiplied with the alpha channel values. See more
-+ * drm_plane_create_blend_mode_property(). Also, this formula assumes a
-+ * completely opaque background.
-  */
--static uint32_t compute_crc(const u8 *vaddr,
--			    const struct vkms_frame_info *frame_info)
-+static void pre_mul_alpha_blend(struct vkms_frame_info *frame_info,
-+				struct line_buffer *stage_buffer,
-+				struct line_buffer *output_buffer)
- {
--	int x, y;
--	u32 crc = 0, pixel = 0;
--	int x_src = frame_info->src.x1 >> 16;
--	int y_src = frame_info->src.y1 >> 16;
--	int h_src = drm_rect_height(&frame_info->src) >> 16;
--	int w_src = drm_rect_width(&frame_info->src) >> 16;
--
--	for (y = y_src; y < y_src + h_src; ++y) {
--		for (x = x_src; x < x_src + w_src; ++x) {
--			pixel = get_pixel_from_buffer(x, y, vaddr, frame_info);
--			crc = crc32_le(crc, (void *)&pixel, sizeof(u32));
--		}
-+	int x, x_dst = frame_info->dst.x1;
-+	int x_limit = drm_rect_width(&frame_info->dst);
-+	struct line_buffer *out = output_buffer + x_dst;
-+	struct line_buffer *in = stage_buffer;
-+
-+	for (x = 0; x < x_limit; x++) {
-+		out[x].a = (u16)0xffff;
-+		out[x].r = pre_mul_blend_channel(in[x].r, out[x].r, in[x].a);
-+		out[x].g = pre_mul_blend_channel(in[x].g, out[x].g, in[x].a);
-+		out[x].b = pre_mul_blend_channel(in[x].b, out[x].b, in[x].a);
- 	}
--
--	return crc;
--}
--
--static u8 blend_channel(u8 src, u8 dst, u8 alpha)
--{
--	u32 pre_blend;
--	u8 new_color;
--
--	pre_blend = (src * 255 + dst * (255 - alpha));
--
--	/* Faster div by 255 */
--	new_color = ((pre_blend + ((pre_blend + 257) >> 8)) >> 8);
--
--	return new_color;
- }
- 
--/**
-- * alpha_blend - alpha blending equation
-- * @argb_src: src pixel on premultiplied alpha mode
-- * @argb_dst: dst pixel completely opaque
-- *
-- * blend pixels using premultiplied blend formula. The current DRM assumption
-- * is that pixel color values have been already pre-multiplied with the alpha
-- * channel values. See more drm_plane_create_blend_mode_property(). Also, this
-- * formula assumes a completely opaque background.
-- */
--static void alpha_blend(const u8 *argb_src, u8 *argb_dst)
-+static bool check_y_limit(struct vkms_frame_info *frame_info, int y)
- {
--	u8 alpha;
-+	if (y >= frame_info->dst.y1 && y < frame_info->dst.y2)
-+		return true;
- 
--	alpha = argb_src[3];
--	argb_dst[0] = blend_channel(argb_src[0], argb_dst[0], alpha);
--	argb_dst[1] = blend_channel(argb_src[1], argb_dst[1], alpha);
--	argb_dst[2] = blend_channel(argb_src[2], argb_dst[2], alpha);
--}
--
--/**
-- * x_blend - blending equation that ignores the pixel alpha
-- *
-- * overwrites RGB color value from src pixel to dst pixel.
-- */
--static void x_blend(const u8 *xrgb_src, u8 *xrgb_dst)
--{
--	memcpy(xrgb_dst, xrgb_src, sizeof(u8) * 3);
-+	return false;
- }
- 
- /**
-- * blend - blend value at vaddr_src with value at vaddr_dst
-- * @vaddr_dst: destination address
-- * @vaddr_src: source address
-- * @dst_frame_info: destination framebuffer's metadata
-- * @src_frame_info: source framebuffer's metadata
-- * @pixel_blend: blending equation based on plane format
-+ * @wb_frame_info: The writeback frame buffer metadata
-+ * @wb_fmt_func: The format tranformatio function to the wb buffer
-+ * @crtc_state: The crtc state
-+ * @plane_fmt_func: A format tranformation function to each plane
-+ * @crc32: The crc output of the final frame
-+ * @output_buffer: A buffer of a row that will receive the result of the blend(s)
-+ * @stage_buffer: The line with the pixels from src_compositor
-  *
-- * Blend the vaddr_src value with the vaddr_dst value using a pixel blend
-- * equation according to the supported plane formats DRM_FORMAT_(A/XRGB8888)
-- * and clearing alpha channel to an completely opaque background. This function
-- * uses buffer's metadata to locate the new composite values at vaddr_dst.
-+ * This function blends the pixels (Using the `pre_mul_alpha_blend`)
-+ * from all planes, calculates the crc32 of the output from the former step,
-+ * and, if necessary, convert and store the output to the writeback buffer.
-  *
-  * TODO: completely clear the primary plane (a = 0xff) before starting to blend
-  * pixel color values
-  */
--static void blend(void *vaddr_dst, void *vaddr_src,
--		  struct vkms_frame_info *dst_frame_info,
--		  struct vkms_frame_info *src_frame_info,
--		  void (*pixel_blend)(const u8 *, u8 *))
-+static void blend(struct vkms_frame_info *wb_frame_info,
-+		  format_transform_func wb_fmt_func,
-+		  struct vkms_crtc_state *crtc_state,
-+		  format_transform_func *plane_fmt_func,
-+		  u32 *crc32, struct line_buffer *stage_buffer,
-+		  struct line_buffer *output_buffer, s64 row_size)
- {
--	int i, j, j_dst, i_dst;
--	int offset_src, offset_dst;
--	u8 *pixel_dst, *pixel_src;
--
--	int x_src = src_frame_info->src.x1 >> 16;
--	int y_src = src_frame_info->src.y1 >> 16;
--
--	int x_dst = src_frame_info->dst.x1;
--	int y_dst = src_frame_info->dst.y1;
--	int h_dst = drm_rect_height(&src_frame_info->dst);
--	int w_dst = drm_rect_width(&src_frame_info->dst);
-+	struct vkms_plane_state **plane = crtc_state->active_planes;
-+	struct vkms_frame_info *primary_plane_info = plane[0]->frame_info;
-+	u32 n_active_planes = crtc_state->num_active_planes;
- 
-+	int y_src = primary_plane_info->dst.y1;
-+	int h_dst = drm_rect_height(&primary_plane_info->dst);
- 	int y_limit = y_src + h_dst;
--	int x_limit = x_src + w_dst;
--
--	for (i = y_src, i_dst = y_dst; i < y_limit; ++i) {
--		for (j = x_src, j_dst = x_dst; j < x_limit; ++j) {
--			offset_dst = dst_frame_info->offset
--				     + (i_dst * dst_frame_info->pitch)
--				     + (j_dst++ * dst_frame_info->cpp);
--			offset_src = src_frame_info->offset
--				     + (i * src_frame_info->pitch)
--				     + (j * src_frame_info->cpp);
--
--			pixel_src = (u8 *)(vaddr_src + offset_src);
--			pixel_dst = (u8 *)(vaddr_dst + offset_dst);
--			pixel_blend(pixel_src, pixel_dst);
--			/* clearing alpha channel (0xff)*/
--			pixel_dst[3] = 0xff;
-+	int y, i;
-+
-+	for (y = y_src; y < y_limit; y++) {
-+		plane_fmt_func[0](primary_plane_info, y, output_buffer);
-+
-+		/* If there are other planes besides primary, we consider the active
-+		 * planes should be in z-order and compose them associatively:
-+		 * ((primary <- overlay) <- cursor)
-+		 */
-+		for (i = 1; i < n_active_planes; i++) {
-+			if (!check_y_limit(plane[i]->frame_info, y))
-+				continue;
-+
-+			plane_fmt_func[i](plane[i]->frame_info, y, stage_buffer);
-+			pre_mul_alpha_blend(plane[i]->frame_info, stage_buffer,
-+					    output_buffer);
- 		}
--		i_dst++;
-+
-+		*crc32 = crc32_le(*crc32, (void *)output_buffer, row_size);
-+
-+		if (wb_frame_info)
-+			wb_fmt_func(wb_frame_info, y, output_buffer);
- 	}
- }
- 
--static void compose_plane(struct vkms_frame_info *primary_plane_info,
--			  struct vkms_frame_info *plane_frame_info,
--			  void *vaddr_out)
-+static format_transform_func *
-+get_format_transform_functions(struct vkms_crtc_state *crtc_state)
- {
--	struct drm_framebuffer *fb = plane_frame_info->fb;
--	void *vaddr;
--	void (*pixel_blend)(const u8 *p_src, u8 *p_dst);
--
--	if (WARN_ON(dma_buf_map_is_null(&primary_plane_info->map[0])))
--		return;
-+	struct vkms_plane_state **active_planes = crtc_state->active_planes;
-+	u32 n_active_planes = crtc_state->num_active_planes;
-+	u32 funcs_size = sizeof(format_transform_func);
-+	format_transform_func *funcs;
-+	u32 s_fmt;
-+	int i;
- 
--	vaddr = plane_frame_info->map[0].vaddr;
-+	funcs = kvmalloc(n_active_planes * funcs_size, GFP_KERNEL);
-+	if (!funcs)
-+		return NULL;
- 
--	if (fb->format->format == DRM_FORMAT_ARGB8888)
--		pixel_blend = &alpha_blend;
--	else
--		pixel_blend = &x_blend;
-+	for (i = 0; i < n_active_planes; i++) {
-+		s_fmt = active_planes[i]->frame_info->fb->format->format;
-+		funcs[i] = get_fmt_transform_function(s_fmt);
-+	}
- 
--	blend(vaddr_out, vaddr, primary_plane_info,
--	      plane_frame_info, pixel_blend);
-+	return funcs;
- }
- 
--static int compose_active_planes(void **vaddr_out,
--				 struct vkms_frame_info *primary_plane_info,
--				 struct vkms_crtc_state *crtc_state)
-+static bool check_planes_x_bounds(struct vkms_crtc_state *crtc_state,
-+				  struct vkms_frame_info *wb_frame_info)
- {
--	struct drm_framebuffer *fb = primary_plane_info->fb;
--	struct drm_gem_object *gem_obj = drm_gem_fb_get_obj(fb, 0);
--	const void *vaddr;
-+	struct vkms_plane_state **planes = crtc_state->active_planes;
-+	struct vkms_frame_info *primary_plane_info = planes[0]->frame_info;
-+	int line_width = drm_rect_width(&primary_plane_info->dst);
-+	u32 n_active_planes = crtc_state->num_active_planes;
- 	int i;
- 
--	if (!*vaddr_out) {
--		*vaddr_out = kvzalloc(gem_obj->size, GFP_KERNEL);
--		if (!*vaddr_out) {
--			DRM_ERROR("Cannot allocate memory for output frame.");
--			return -ENOMEM;
--		}
-+	for (i = 0; i < n_active_planes; i++) {
-+		int x_dst = planes[i]->frame_info->dst.x1;
-+		int x_src = planes[i]->frame_info->src.x1 >> 16;
-+		int x2_src = planes[i]->frame_info->src.x2 >> 16;
-+		int x_limit = drm_rect_width(&planes[i]->frame_info->dst);
-+
-+		if (x_dst + x_limit > line_width)
-+			return false;
-+		if (x_src + x_limit > x2_src)
-+			return false;
-+	}
-+
-+	return true;
-+}
-+
-+static int compose_active_planes(struct vkms_frame_info *wb_frame_info,
-+				 struct vkms_crtc_state *crtc_state,
-+				 u32 *crc32)
-+{
-+	int line_width, ret = 0, pixel_size = sizeof(struct line_buffer);
-+	format_transform_func *plane_funcs, wb_func = NULL;
-+	struct vkms_frame_info *primary_plane_info = NULL;
-+	struct line_buffer *output_buffer, *stage_buffer;
-+	struct vkms_plane_state *act_plane = NULL;
-+	u32 wb_format;
-+
-+	if (WARN_ON(pixel_size != 8))
-+		return -EINVAL;
-+
-+	if (crtc_state->num_active_planes >= 1) {
-+		act_plane = crtc_state->active_planes[0];
-+		if (act_plane->base.base.plane->type == DRM_PLANE_TYPE_PRIMARY)
-+			primary_plane_info = act_plane->frame_info;
- 	}
- 
-+	if (!primary_plane_info)
-+		return -EINVAL;
-+
- 	if (WARN_ON(dma_buf_map_is_null(&primary_plane_info->map[0])))
- 		return -EINVAL;
- 
--	vaddr = primary_plane_info->map[0].vaddr;
-+	if (WARN_ON(!check_planes_x_bounds(crtc_state, wb_frame_info)))
-+		return -EINVAL;
-+
-+	line_width = drm_rect_width(&primary_plane_info->dst);
- 
--	memcpy(*vaddr_out, vaddr, gem_obj->size);
-+	stage_buffer = kvmalloc(line_width * pixel_size, GFP_KERNEL);
-+	if (!stage_buffer) {
-+		DRM_ERROR("Cannot allocate memory for the output line buffer");
-+		return -ENOMEM;
-+	}
- 
--	/* If there are other planes besides primary, we consider the active
--	 * planes should be in z-order and compose them associatively:
--	 * ((primary <- overlay) <- cursor)
--	 */
--	for (i = 1; i < crtc_state->num_active_planes; i++)
--		compose_plane(primary_plane_info,
--			      crtc_state->active_planes[i]->frame_info,
--			      *vaddr_out);
-+	output_buffer = kvmalloc(line_width * pixel_size, GFP_KERNEL);
-+	if (!output_buffer) {
-+		DRM_ERROR("Cannot allocate memory for intermediate line buffer");
-+		ret = -ENOMEM;
-+		goto free_output_buffer;
-+	}
- 
--	return 0;
-+	plane_funcs = get_format_transform_functions(crtc_state);
-+	if (!plane_funcs) {
-+		ret = -ENOMEM;
-+		goto free_stage_buffer;
-+	}
-+
-+	if (wb_frame_info) {
-+		wb_format = wb_frame_info->fb->format->format;
-+		wb_func = get_wb_fmt_transform_function(wb_format);
-+		wb_frame_info->src = primary_plane_info->src;
-+		wb_frame_info->dst = primary_plane_info->dst;
-+	}
-+
-+	blend(wb_frame_info, wb_func, crtc_state, plane_funcs, crc32,
-+	      stage_buffer, output_buffer, (s64)line_width * pixel_size);
-+
-+	kvfree(plane_funcs);
-+free_output_buffer:
-+	kvfree(output_buffer);
-+free_stage_buffer:
-+	kvfree(stage_buffer);
-+
-+	return ret;
- }
- 
- /**
-@@ -222,13 +245,12 @@ void vkms_composer_worker(struct work_struct *work)
- 						struct vkms_crtc_state,
- 						composer_work);
- 	struct drm_crtc *crtc = crtc_state->base.crtc;
-+	struct vkms_writeback_job *active_wb = crtc_state->active_writeback;
-+	struct vkms_frame_info *wb_frame_info = &active_wb->frame_info;
- 	struct vkms_output *out = drm_crtc_to_vkms_output(crtc);
--	struct vkms_frame_info *primary_plane_info = NULL;
--	struct vkms_plane_state *act_plane = NULL;
- 	bool crc_pending, wb_pending;
--	void *vaddr_out = NULL;
--	u32 crc32 = 0;
- 	u64 frame_start, frame_end;
-+	u32 crc32 = 0;
- 	int ret;
- 
- 	spin_lock_irq(&out->composer_lock);
-@@ -248,35 +270,19 @@ void vkms_composer_worker(struct work_struct *work)
- 	if (!crc_pending)
- 		return;
- 
--	if (crtc_state->num_active_planes >= 1) {
--		act_plane = crtc_state->active_planes[0];
--		if (act_plane->base.base.plane->type == DRM_PLANE_TYPE_PRIMARY)
--			primary_plane_info = act_plane->frame_info;
--	}
--
--	if (!primary_plane_info)
--		return;
--
- 	if (wb_pending)
--		vaddr_out = crtc_state->active_writeback->data[0].vaddr;
-+		ret = compose_active_planes(wb_frame_info, crtc_state, &crc32);
-+	else
-+		ret = compose_active_planes(NULL, crtc_state, &crc32);
- 
--	ret = compose_active_planes(&vaddr_out, primary_plane_info,
--				    crtc_state);
--	if (ret) {
--		if (ret == -EINVAL && !wb_pending)
--			kvfree(vaddr_out);
-+	if (ret)
- 		return;
--	}
--
--	crc32 = compute_crc(vaddr_out, primary_plane_info);
- 
- 	if (wb_pending) {
- 		drm_writeback_signal_completion(&out->wb_connector, 0);
- 		spin_lock_irq(&out->composer_lock);
- 		crtc_state->wb_pending = false;
- 		spin_unlock_irq(&out->composer_lock);
--	} else {
--		kvfree(vaddr_out);
- 	}
- 
- 	/*
 diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/vkms_formats.c
-new file mode 100644
-index 000000000000..0d1838d1b835
---- /dev/null
+index 0d1838d1b835..661da39d1276 100644
+--- a/drivers/gpu/drm/vkms/vkms_formats.c
 +++ b/drivers/gpu/drm/vkms/vkms_formats.c
-@@ -0,0 +1,138 @@
-+/* SPDX-License-Identifier: GPL-2.0+ */
-+
-+#include <drm/drm_rect.h>
-+#include "vkms_formats.h"
-+
-+format_transform_func get_fmt_transform_function(u32 format)
+@@ -7,6 +7,10 @@ format_transform_func get_fmt_transform_function(u32 format)
+ {
+ 	if (format == DRM_FORMAT_ARGB8888)
+ 		return &ARGB8888_to_ARGB16161616;
++	else if (format == DRM_FORMAT_ARGB16161616)
++		return &get_ARGB16161616;
++	else if (format == DRM_FORMAT_XRGB16161616)
++		return &XRGB16161616_to_ARGB16161616;
+ 	else
+ 		return &XRGB8888_to_ARGB16161616;
+ }
+@@ -15,6 +19,10 @@ format_transform_func get_wb_fmt_transform_function(u32 format)
+ {
+ 	if (format == DRM_FORMAT_ARGB8888)
+ 		return &convert_to_ARGB8888;
++	else if (format == DRM_FORMAT_ARGB16161616)
++		return &convert_to_ARGB16161616;
++	else if (format == DRM_FORMAT_XRGB16161616)
++		return &convert_to_XRGB16161616;
+ 	else
+ 		return &convert_to_XRGB8888;
+ }
+@@ -89,6 +97,35 @@ void XRGB8888_to_ARGB16161616(struct vkms_frame_info *frame_info, int y,
+ 	}
+ }
+ 
++void get_ARGB16161616(struct vkms_frame_info *frame_info, int y,
++		      struct line_buffer *stage_buffer)
 +{
-+	if (format == DRM_FORMAT_ARGB8888)
-+		return &ARGB8888_to_ARGB16161616;
-+	else
-+		return &XRGB8888_to_ARGB16161616;
-+}
-+
-+format_transform_func get_wb_fmt_transform_function(u32 format)
-+{
-+	if (format == DRM_FORMAT_ARGB8888)
-+		return &convert_to_ARGB8888;
-+	else
-+		return &convert_to_XRGB8888;
-+}
-+
-+static int pixel_offset(struct vkms_frame_info *frame_info, int x, int y)
-+{
-+	return frame_info->offset + (y * frame_info->pitch)
-+				  + (x * frame_info->cpp);
-+}
-+
-+/*
-+ * packed_pixels_addr - Get the pointer to pixel of a given pair of coordinates
-+ *
-+ * @frame_info: Buffer metadata
-+ * @x: The x(width) coordinate of the 2D buffer
-+ * @y: The y(Heigth) coordinate of the 2D buffer
-+ *
-+ * Takes the information stored in the frame_info, a pair of coordinates, and
-+ * returns the address of the first color channel.
-+ * This function assumes the channels are packed together, i.e. a color channel
-+ * comes immediately after another in the memory. And therefore, this function
-+ * doesn't work for YUV with chroma subsampling (e.g. YUV420 and NV21).
-+ */
-+static void *packed_pixels_addr(struct vkms_frame_info *frame_info, int x, int y)
-+{
-+	int offset = pixel_offset(frame_info, x, y);
-+
-+	return (u8 *)frame_info->map[0].vaddr + offset;
-+}
-+
-+static void *get_packed_src_addr(struct vkms_frame_info *frame_info, int y)
-+{
-+	int x_src = frame_info->src.x1 >> 16;
-+	int y_src = y - frame_info->dst.y1 + (frame_info->src.y1 >> 16);
-+
-+	return packed_pixels_addr(frame_info, x_src, y_src);
-+}
-+
-+void ARGB8888_to_ARGB16161616(struct vkms_frame_info *frame_info, int y,
-+			      struct line_buffer *stage_buffer)
-+{
-+	u8 *src_pixels = get_packed_src_addr(frame_info, y);
++	u16 *src_pixels = get_packed_src_addr(frame_info, y);
 +	int x, x_limit = drm_rect_width(&frame_info->dst);
 +
 +	for (x = 0; x < x_limit; x++, src_pixels += 4) {
-+		/*
-+		 * Organizes the channels in their respective positions and converts
-+		 * the 8 bits channel to 16.
-+		 * The 257 is the "conversion ratio". This number is obtained by the
-+		 * (2^16 - 1) / (2^8 - 1) division. Which, in this case, tries to get
-+		 * the best color value in a pixel format with more possibilities.
-+		 * And a similar idea applies to others RGB color conversions.
-+		 */
-+		stage_buffer[x].a = (u16)src_pixels[3] * 257;
-+		stage_buffer[x].r = (u16)src_pixels[2] * 257;
-+		stage_buffer[x].g = (u16)src_pixels[1] * 257;
-+		stage_buffer[x].b = (u16)src_pixels[0] * 257;
++		stage_buffer[x].a = src_pixels[3];
++		stage_buffer[x].r = src_pixels[2];
++		stage_buffer[x].g = src_pixels[1];
++		stage_buffer[x].b = src_pixels[0];
 +	}
 +}
 +
-+void XRGB8888_to_ARGB16161616(struct vkms_frame_info *frame_info, int y,
-+			      struct line_buffer *stage_buffer)
++void XRGB16161616_to_ARGB16161616(struct vkms_frame_info *frame_info, int y,
++				  struct line_buffer *stage_buffer)
 +{
-+	u8 *src_pixels = get_packed_src_addr(frame_info, y);
++	u16 *src_pixels = get_packed_src_addr(frame_info, y);
 +	int x, x_limit = drm_rect_width(&frame_info->dst);
 +
 +	for (x = 0; x < x_limit; x++, src_pixels += 4) {
 +		stage_buffer[x].a = (u16)0xffff;
-+		stage_buffer[x].r = (u16)src_pixels[2] * 257;
-+		stage_buffer[x].g = (u16)src_pixels[1] * 257;
-+		stage_buffer[x].b = (u16)src_pixels[0] * 257;
++		stage_buffer[x].r = src_pixels[2];
++		stage_buffer[x].g = src_pixels[1];
++		stage_buffer[x].b = src_pixels[0];
 +	}
 +}
 +
-+/*
-+ * The following  functions take an line of ARGB16161616 pixels from the
-+ * src_buffer, convert them to a specific format, and store them in the
-+ * destination.
-+ *
-+ * They are used in the `compose_active_planes` to convert and store a line
-+ * from the src_buffer to the writeback buffer.
-+ */
-+void convert_to_ARGB8888(struct vkms_frame_info *frame_info,
-+			 int y, struct line_buffer *src_buffer)
++
+ /*
+  * The following  functions take an line of ARGB16161616 pixels from the
+  * src_buffer, convert them to a specific format, and store them in the
+@@ -136,3 +173,33 @@ void convert_to_XRGB8888(struct vkms_frame_info *frame_info,
+ 		dst_pixels[0] = DIV_ROUND_UP(src_buffer[x].b, 257);
+ 	}
+ }
++
++void convert_to_ARGB16161616(struct vkms_frame_info *frame_info, int y,
++			     struct line_buffer *src_buffer)
 +{
 +	int x, x_dst = frame_info->dst.x1;
-+	u8 *dst_pixels = packed_pixels_addr(frame_info, x_dst, y);
++	u16 *dst_pixels = packed_pixels_addr(frame_info, x_dst, y);
 +	int x_limit = drm_rect_width(&frame_info->dst);
 +
 +	for (x = 0; x < x_limit; x++, dst_pixels += 4) {
-+		/*
-+		 * This sequence below is important because the format's byte order is
-+		 * in little-endian. In the case of the ARGB8888 the memory is
-+		 * organized this way:
-+		 *
-+		 * | Addr     | = blue channel
-+		 * | Addr + 1 | = green channel
-+		 * | Addr + 2 | = Red channel
-+		 * | Addr + 3 | = Alpha channel
-+		 */
-+		dst_pixels[3] = DIV_ROUND_UP(src_buffer[x].a, 257);
-+		dst_pixels[2] = DIV_ROUND_UP(src_buffer[x].r, 257);
-+		dst_pixels[1] = DIV_ROUND_UP(src_buffer[x].g, 257);
-+		dst_pixels[0] = DIV_ROUND_UP(src_buffer[x].b, 257);
++		dst_pixels[3] = src_buffer[x].a;
++		dst_pixels[2] = src_buffer[x].r;
++		dst_pixels[1] = src_buffer[x].g;
++		dst_pixels[0] = src_buffer[x].b;
 +	}
 +}
 +
-+void convert_to_XRGB8888(struct vkms_frame_info *frame_info,
-+			 int y, struct line_buffer *src_buffer)
++void convert_to_XRGB16161616(struct vkms_frame_info *frame_info, int y,
++			     struct line_buffer *src_buffer)
 +{
 +	int x, x_dst = frame_info->dst.x1;
-+	u8 *dst_pixels = packed_pixels_addr(frame_info, x_dst, y);
++	u16 *dst_pixels = packed_pixels_addr(frame_info, x_dst, y);
 +	int x_limit = drm_rect_width(&frame_info->dst);
 +
 +	for (x = 0; x < x_limit; x++, dst_pixels += 4) {
-+		dst_pixels[3] = (u8)0xff;
-+		dst_pixels[2] = DIV_ROUND_UP(src_buffer[x].r, 257);
-+		dst_pixels[1] = DIV_ROUND_UP(src_buffer[x].g, 257);
-+		dst_pixels[0] = DIV_ROUND_UP(src_buffer[x].b, 257);
++		dst_pixels[3] = src_buffer[x].a;
++		dst_pixels[2] = src_buffer[x].r;
++		dst_pixels[1] = src_buffer[x].g;
++		dst_pixels[0] = src_buffer[x].b;
 +	}
 +}
 diff --git a/drivers/gpu/drm/vkms/vkms_formats.h b/drivers/gpu/drm/vkms/vkms_formats.h
-new file mode 100644
-index 000000000000..817e8b2124ae
---- /dev/null
+index 817e8b2124ae..22358f3a33ab 100644
+--- a/drivers/gpu/drm/vkms/vkms_formats.h
 +++ b/drivers/gpu/drm/vkms/vkms_formats.h
-@@ -0,0 +1,31 @@
-+/* SPDX-License-Identifier: GPL-2.0+ */
+@@ -15,12 +15,24 @@ void ARGB8888_to_ARGB16161616(struct vkms_frame_info *frame_info, int y,
+ void XRGB8888_to_ARGB16161616(struct vkms_frame_info *frame_info, int y,
+ 			      struct line_buffer *stage_buffer);
+ 
++void get_ARGB16161616(struct vkms_frame_info *frame_info, int y,
++		      struct line_buffer *stage_buffer);
 +
-+#ifndef _VKMS_FORMATS_H_
-+#define _VKMS_FORMATS_H_
++void XRGB16161616_to_ARGB16161616(struct vkms_frame_info *frame_info, int y,
++				  struct line_buffer *stage_buffer);
 +
-+#include "vkms_drv.h"
+ void convert_to_ARGB8888(struct vkms_frame_info *frame_info, int y,
+ 			 struct line_buffer *src_buffer);
+ 
+ void convert_to_XRGB8888(struct vkms_frame_info *frame_info, int y,
+ 			 struct line_buffer *src_buffer);
+ 
++void convert_to_ARGB16161616(struct vkms_frame_info *frame_info, int y,
++			     struct line_buffer *src_buffer);
 +
-+struct line_buffer {
-+	u16 a, r, g, b;
-+};
++void convert_to_XRGB16161616(struct vkms_frame_info *frame_info, int y,
++			     struct line_buffer *src_buffer);
 +
-+void ARGB8888_to_ARGB16161616(struct vkms_frame_info *frame_info, int y,
-+			      struct line_buffer *stage_buffer);
-+
-+void XRGB8888_to_ARGB16161616(struct vkms_frame_info *frame_info, int y,
-+			      struct line_buffer *stage_buffer);
-+
-+void convert_to_ARGB8888(struct vkms_frame_info *frame_info, int y,
-+			 struct line_buffer *src_buffer);
-+
-+void convert_to_XRGB8888(struct vkms_frame_info *frame_info, int y,
-+			 struct line_buffer *src_buffer);
-+
-+typedef void (*format_transform_func)(struct vkms_frame_info *frame_info, int y,
-+				      struct line_buffer *buffer);
-+
-+format_transform_func get_fmt_transform_function(u32 format);
-+
-+format_transform_func get_wb_fmt_transform_function(u32 format);
-+
-+#endif /* _VKMS_FORMATS_H_ */
+ typedef void (*format_transform_func)(struct vkms_frame_info *frame_info, int y,
+ 				      struct line_buffer *buffer);
+ 
+diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
+index 28752af0118c..1d70c9e8f109 100644
+--- a/drivers/gpu/drm/vkms/vkms_plane.c
++++ b/drivers/gpu/drm/vkms/vkms_plane.c
+@@ -13,11 +13,14 @@
+ 
+ static const u32 vkms_formats[] = {
+ 	DRM_FORMAT_XRGB8888,
++	DRM_FORMAT_XRGB16161616
+ };
+ 
+ static const u32 vkms_plane_formats[] = {
+ 	DRM_FORMAT_ARGB8888,
+-	DRM_FORMAT_XRGB8888
++	DRM_FORMAT_XRGB8888,
++	DRM_FORMAT_XRGB16161616,
++	DRM_FORMAT_ARGB16161616
+ };
+ 
+ static struct drm_plane_state *
+diff --git a/drivers/gpu/drm/vkms/vkms_writeback.c b/drivers/gpu/drm/vkms/vkms_writeback.c
+index ad4bb1fb37ca..393d3fc7966f 100644
+--- a/drivers/gpu/drm/vkms/vkms_writeback.c
++++ b/drivers/gpu/drm/vkms/vkms_writeback.c
+@@ -14,6 +14,8 @@
+ 
+ static const u32 vkms_wb_formats[] = {
+ 	DRM_FORMAT_XRGB8888,
++	DRM_FORMAT_XRGB16161616,
++	DRM_FORMAT_ARGB16161616
+ };
+ 
+ static const struct drm_connector_funcs vkms_wb_connector_funcs = {
 -- 
 2.30.2
 
