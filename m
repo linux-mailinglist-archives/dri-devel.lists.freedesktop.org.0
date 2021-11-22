@@ -2,32 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CEB34596E6
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Nov 2021 22:46:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C1D64596EA
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Nov 2021 22:46:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E3FAD89D66;
-	Mon, 22 Nov 2021 21:46:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9662B89DB7;
+	Mon, 22 Nov 2021 21:46:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6617289B70;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD2D089B70;
  Mon, 22 Nov 2021 21:46:18 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10176"; a="258731331"
-X-IronPort-AV: E=Sophos;i="5.87,255,1631602800"; d="scan'208";a="258731331"
+X-IronPort-AV: E=McAfee;i="6200,9189,10176"; a="258731336"
+X-IronPort-AV: E=Sophos;i="5.87,255,1631602800"; d="scan'208";a="258731336"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Nov 2021 13:46:15 -0800
-X-IronPort-AV: E=Sophos;i="5.87,255,1631602800"; d="scan'208";a="509136662"
+ 22 Nov 2021 13:46:17 -0800
+X-IronPort-AV: E=Sophos;i="5.87,255,1631602800"; d="scan'208";a="509136680"
 Received: from asparren-mobl2.ger.corp.intel.com (HELO
  thellstr-mobl1.intel.com) ([10.249.254.238])
  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Nov 2021 13:46:13 -0800
+ 22 Nov 2021 13:46:15 -0800
 From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH v7 3/6] drm/i915/ttm: Drop region reference counting
-Date: Mon, 22 Nov 2021 22:45:51 +0100
-Message-Id: <20211122214554.371864-4-thomas.hellstrom@linux.intel.com>
+Subject: [PATCH v7 4/6] drm/i915/ttm: Correctly handle waiting for gpu when
+ shrinking
+Date: Mon, 22 Nov 2021 22:45:52 +0100
+Message-Id: <20211122214554.371864-5-thomas.hellstrom@linux.intel.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211122214554.371864-1-thomas.hellstrom@linux.intel.com>
 References: <20211122214554.371864-1-thomas.hellstrom@linux.intel.com>
@@ -51,396 +52,80 @@ Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There is an interesting refcounting loop:
-struct intel_memory_region has a struct ttm_resource_manager,
-ttm_resource_manager->move may hold a reference to i915_request,
-i915_request may hold a reference to intel_context,
-intel_context may hold a reference to drm_i915_gem_object,
-drm_i915_gem_object may hold a reference to intel_memory_region.
+With async migration, the shrinker may end up wanting to release the
+pages of an object while the migration blit is still running, since
+the GT migration code doesn't set up VMAs and the shrinker is thus
+oblivious to the fact that the GPU is still using the pages.
 
-Break this loop by dropping region reference counting.
-
-In addition, Have regions with a manager moving fence make sure
-that all region objects are released before freeing the region.
-
-v6:
-- Fix a code comment.
+Add waiting for gpu in the shrinker_release_pages() op and an
+argument to that function indicating whether the shrinker expects it
+to not wait for gpu. In the latter case the shrinker_release_pages()
+op will return -EBUSY if the object is not idle.
 
 Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 Reviewed-by: Matthew Auld <matthew.auld@intel.com>
 ---
- drivers/gpu/drm/i915/gem/i915_gem_region.c    |  4 +--
- drivers/gpu/drm/i915/gem/i915_gem_shmem.c     |  3 +-
- drivers/gpu/drm/i915/gem/i915_gem_stolen.c    |  6 ++--
- drivers/gpu/drm/i915/gem/i915_gem_ttm.c       |  3 +-
- .../gpu/drm/i915/gem/selftests/huge_pages.c   |  2 +-
- drivers/gpu/drm/i915/gt/intel_region_lmem.c   | 10 ++++--
- drivers/gpu/drm/i915/intel_memory_region.c    | 26 ++++----------
- drivers/gpu/drm/i915/intel_memory_region.h    |  9 ++---
- drivers/gpu/drm/i915/intel_region_ttm.c       | 35 +++++++++++++++++--
- drivers/gpu/drm/i915/intel_region_ttm.h       |  2 +-
- .../drm/i915/selftests/intel_memory_region.c  |  8 ++---
- drivers/gpu/drm/i915/selftests/mock_region.c  |  7 ++--
- 12 files changed, 69 insertions(+), 46 deletions(-)
+ drivers/gpu/drm/i915/gem/i915_gem_object_types.h | 1 +
+ drivers/gpu/drm/i915/gem/i915_gem_shrinker.c     | 1 +
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.c          | 7 ++++++-
+ 3 files changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_region.c b/drivers/gpu/drm/i915/gem/i915_gem_region.c
-index a016ccec36f3..a4350227e9ae 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_region.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_region.c
-@@ -11,7 +11,7 @@
- void i915_gem_object_init_memory_region(struct drm_i915_gem_object *obj,
- 					struct intel_memory_region *mem)
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
+index 604ed5ad77f5..f9f7e44099fe 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
++++ b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
+@@ -59,6 +59,7 @@ struct drm_i915_gem_object_ops {
+ 	int (*truncate)(struct drm_i915_gem_object *obj);
+ 	void (*writeback)(struct drm_i915_gem_object *obj);
+ 	int (*shrinker_release_pages)(struct drm_i915_gem_object *obj,
++				      bool no_gpu_wait,
+ 				      bool should_writeback);
+ 
+ 	int (*pread)(struct drm_i915_gem_object *obj,
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c b/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
+index dde0a5c232f8..8b4b5f3a432a 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
+@@ -60,6 +60,7 @@ static int try_to_writeback(struct drm_i915_gem_object *obj, unsigned int flags)
  {
--	obj->mm.region = intel_memory_region_get(mem);
-+	obj->mm.region = mem;
+ 	if (obj->ops->shrinker_release_pages)
+ 		return obj->ops->shrinker_release_pages(obj,
++							!(flags & I915_SHRINK_ACTIVE),
+ 							flags & I915_SHRINK_WRITEBACK);
  
- 	mutex_lock(&mem->objects.lock);
- 	list_add(&obj->mm.region_link, &mem->objects.list);
-@@ -25,8 +25,6 @@ void i915_gem_object_release_memory_region(struct drm_i915_gem_object *obj)
- 	mutex_lock(&mem->objects.lock);
- 	list_del(&obj->mm.region_link);
- 	mutex_unlock(&mem->objects.lock);
--
--	intel_memory_region_put(mem);
- }
- 
- struct drm_i915_gem_object *
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
-index 4a88c89b7a14..cc9fe258fba7 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
-@@ -664,9 +664,10 @@ static int init_shmem(struct intel_memory_region *mem)
- 	return 0; /* Don't error, we can simply fallback to the kernel mnt */
- }
- 
--static void release_shmem(struct intel_memory_region *mem)
-+static int release_shmem(struct intel_memory_region *mem)
- {
- 	i915_gemfs_fini(mem->i915);
-+	return 0;
- }
- 
- static const struct intel_memory_region_ops shmem_region_ops = {
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
-index ddd37ccb1362..80680395bb3b 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
-@@ -720,9 +720,10 @@ static int init_stolen_smem(struct intel_memory_region *mem)
- 	return i915_gem_init_stolen(mem);
- }
- 
--static void release_stolen_smem(struct intel_memory_region *mem)
-+static int release_stolen_smem(struct intel_memory_region *mem)
- {
- 	i915_gem_cleanup_stolen(mem->i915);
-+	return 0;
- }
- 
- static const struct intel_memory_region_ops i915_region_stolen_smem_ops = {
-@@ -759,10 +760,11 @@ static int init_stolen_lmem(struct intel_memory_region *mem)
- 	return err;
- }
- 
--static void release_stolen_lmem(struct intel_memory_region *mem)
-+static int release_stolen_lmem(struct intel_memory_region *mem)
- {
- 	io_mapping_fini(&mem->iomap);
- 	i915_gem_cleanup_stolen(mem->i915);
-+	return 0;
- }
- 
- static const struct intel_memory_region_ops i915_region_stolen_lmem_ops = {
+ 	switch (obj->mm.madv) {
 diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-index e9e78ac8f592..6d3d2a558d0f 100644
+index 6d3d2a558d0f..4c3cae696cf0 100644
 --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
 +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-@@ -997,7 +997,7 @@ int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
- 	i915_gem_object_init(obj, &i915_gem_ttm_obj_ops, &lock_class, flags);
- 
- 	/* Don't put on a region list until we're either locked or fully initialized. */
--	obj->mm.region = intel_memory_region_get(mem);
-+	obj->mm.region = mem;
- 	INIT_LIST_HEAD(&obj->mm.region_link);
- 
- 	INIT_RADIX_TREE(&obj->ttm.get_io_page.radix, GFP_KERNEL | __GFP_NOWARN);
-@@ -1044,6 +1044,7 @@ int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
- 
- static const struct intel_memory_region_ops ttm_system_region_ops = {
- 	.init_object = __i915_gem_ttm_object_init,
-+	.release = intel_region_ttm_fini,
- };
- 
- struct intel_memory_region *
-diff --git a/drivers/gpu/drm/i915/gem/selftests/huge_pages.c b/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
-index 257588b68adc..c69c7d45aabc 100644
---- a/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
-+++ b/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
-@@ -568,7 +568,7 @@ static int igt_mock_memory_region_huge_pages(void *arg)
- out_put:
- 	i915_gem_object_put(obj);
- out_region:
--	intel_memory_region_put(mem);
-+	intel_memory_region_destroy(mem);
- 	return err;
+@@ -418,6 +418,7 @@ int i915_ttm_purge(struct drm_i915_gem_object *obj)
  }
  
-diff --git a/drivers/gpu/drm/i915/gt/intel_region_lmem.c b/drivers/gpu/drm/i915/gt/intel_region_lmem.c
-index aec838ecb2ef..9ea49e0a27c0 100644
---- a/drivers/gpu/drm/i915/gt/intel_region_lmem.c
-+++ b/drivers/gpu/drm/i915/gt/intel_region_lmem.c
-@@ -66,12 +66,16 @@ static void release_fake_lmem_bar(struct intel_memory_region *mem)
- 			   DMA_ATTR_FORCE_CONTIGUOUS);
- }
- 
--static void
-+static int
- region_lmem_release(struct intel_memory_region *mem)
+ static int i915_ttm_shrinker_release_pages(struct drm_i915_gem_object *obj,
++					   bool no_wait_gpu,
+ 					   bool should_writeback)
  {
--	intel_region_ttm_fini(mem);
-+	int ret;
-+
-+	ret = intel_region_ttm_fini(mem);
- 	io_mapping_fini(&mem->iomap);
- 	release_fake_lmem_bar(mem);
-+
-+	return ret;
- }
+ 	struct ttm_buffer_object *bo = i915_gem_to_ttm(obj);
+@@ -425,7 +426,7 @@ static int i915_ttm_shrinker_release_pages(struct drm_i915_gem_object *obj,
+ 		container_of(bo->ttm, typeof(*i915_tt), ttm);
+ 	struct ttm_operation_ctx ctx = {
+ 		.interruptible = true,
+-		.no_wait_gpu = false,
++		.no_wait_gpu = no_wait_gpu,
+ 	};
+ 	struct ttm_placement place = {};
+ 	int ret;
+@@ -438,6 +439,10 @@ static int i915_ttm_shrinker_release_pages(struct drm_i915_gem_object *obj,
+ 	if (!i915_tt->filp)
+ 		return 0;
  
- static int
-@@ -231,7 +235,7 @@ static struct intel_memory_region *setup_lmem(struct intel_gt *gt)
- 	return mem;
- 
- err_region_put:
--	intel_memory_region_put(mem);
-+	intel_memory_region_destroy(mem);
- 	return ERR_PTR(err);
- }
- 
-diff --git a/drivers/gpu/drm/i915/intel_memory_region.c b/drivers/gpu/drm/i915/intel_memory_region.c
-index e7f7e6627750..b43121609e25 100644
---- a/drivers/gpu/drm/i915/intel_memory_region.c
-+++ b/drivers/gpu/drm/i915/intel_memory_region.c
-@@ -126,7 +126,6 @@ intel_memory_region_create(struct drm_i915_private *i915,
- 			goto err_free;
- 	}
- 
--	kref_init(&mem->kref);
- 	return mem;
- 
- err_free:
-@@ -144,28 +143,17 @@ void intel_memory_region_set_name(struct intel_memory_region *mem,
- 	va_end(ap);
- }
- 
--static void __intel_memory_region_destroy(struct kref *kref)
-+void intel_memory_region_destroy(struct intel_memory_region *mem)
- {
--	struct intel_memory_region *mem =
--		container_of(kref, typeof(*mem), kref);
-+	int ret = 0;
- 
- 	if (mem->ops->release)
--		mem->ops->release(mem);
-+		ret = mem->ops->release(mem);
- 
-+	GEM_WARN_ON(!list_empty_careful(&mem->objects.list));
- 	mutex_destroy(&mem->objects.lock);
--	kfree(mem);
--}
--
--struct intel_memory_region *
--intel_memory_region_get(struct intel_memory_region *mem)
--{
--	kref_get(&mem->kref);
--	return mem;
--}
--
--void intel_memory_region_put(struct intel_memory_region *mem)
--{
--	kref_put(&mem->kref, __intel_memory_region_destroy);
-+	if (!ret)
-+		kfree(mem);
- }
- 
- /* Global memory region registration -- only slight layer inversions! */
-@@ -234,7 +222,7 @@ void intel_memory_regions_driver_release(struct drm_i915_private *i915)
- 			fetch_and_zero(&i915->mm.regions[i]);
- 
- 		if (region)
--			intel_memory_region_put(region);
-+			intel_memory_region_destroy(region);
- 	}
- }
- 
-diff --git a/drivers/gpu/drm/i915/intel_memory_region.h b/drivers/gpu/drm/i915/intel_memory_region.h
-index 3feae3353d33..5625c9c38993 100644
---- a/drivers/gpu/drm/i915/intel_memory_region.h
-+++ b/drivers/gpu/drm/i915/intel_memory_region.h
-@@ -6,7 +6,6 @@
- #ifndef __INTEL_MEMORY_REGION_H__
- #define __INTEL_MEMORY_REGION_H__
- 
--#include <linux/kref.h>
- #include <linux/ioport.h>
- #include <linux/mutex.h>
- #include <linux/io-mapping.h>
-@@ -51,7 +50,7 @@ struct intel_memory_region_ops {
- 	unsigned int flags;
- 
- 	int (*init)(struct intel_memory_region *mem);
--	void (*release)(struct intel_memory_region *mem);
-+	int (*release)(struct intel_memory_region *mem);
- 
- 	int (*init_object)(struct intel_memory_region *mem,
- 			   struct drm_i915_gem_object *obj,
-@@ -71,8 +70,6 @@ struct intel_memory_region {
- 	/* For fake LMEM */
- 	struct drm_mm_node fake_mappable;
- 
--	struct kref kref;
--
- 	resource_size_t io_start;
- 	resource_size_t min_page_size;
- 	resource_size_t total;
-@@ -110,9 +107,7 @@ intel_memory_region_create(struct drm_i915_private *i915,
- 			   u16 instance,
- 			   const struct intel_memory_region_ops *ops);
- 
--struct intel_memory_region *
--intel_memory_region_get(struct intel_memory_region *mem);
--void intel_memory_region_put(struct intel_memory_region *mem);
-+void intel_memory_region_destroy(struct intel_memory_region *mem);
- 
- int intel_memory_regions_hw_probe(struct drm_i915_private *i915);
- void intel_memory_regions_driver_release(struct drm_i915_private *i915);
-diff --git a/drivers/gpu/drm/i915/intel_region_ttm.c b/drivers/gpu/drm/i915/intel_region_ttm.c
-index 2e901a27e259..f2b888c16958 100644
---- a/drivers/gpu/drm/i915/intel_region_ttm.c
-+++ b/drivers/gpu/drm/i915/intel_region_ttm.c
-@@ -104,14 +104,45 @@ int intel_region_ttm_init(struct intel_memory_region *mem)
-  * memory region, and if it was registered with the TTM device,
-  * removes that registration.
-  */
--void intel_region_ttm_fini(struct intel_memory_region *mem)
-+int intel_region_ttm_fini(struct intel_memory_region *mem)
- {
--	int ret;
-+	struct ttm_resource_manager *man = mem->region_private;
-+	int ret = -EBUSY;
-+	int count;
-+
-+	/*
-+	 * Put the region's move fences. This releases requests that
-+	 * may hold on to contexts and vms that may hold on to buffer
-+	 * objects placed in this region.
-+	 */
-+	if (man)
-+		ttm_resource_manager_cleanup(man);
-+
-+	/* Flush objects from region. */
-+	for (count = 0; count < 10; ++count) {
-+		i915_gem_flush_free_objects(mem->i915);
-+
-+		mutex_lock(&mem->objects.lock);
-+		if (list_empty(&mem->objects.list))
-+			ret = 0;
-+		mutex_unlock(&mem->objects.lock);
-+		if (!ret)
-+			break;
-+
-+		msleep(20);
-+		flush_delayed_work(&mem->i915->bdev.wq);
-+	}
-+
-+	/* If we leaked objects, Don't free the region causing use after free */
-+	if (ret || !man)
++	ret = ttm_bo_wait_ctx(bo, &ctx);
++	if (ret)
 +		return ret;
- 
- 	ret = i915_ttm_buddy_man_fini(&mem->i915->bdev,
- 				      intel_region_to_ttm_type(mem));
- 	GEM_WARN_ON(ret);
- 	mem->region_private = NULL;
 +
-+	return ret;
- }
- 
- /**
-diff --git a/drivers/gpu/drm/i915/intel_region_ttm.h b/drivers/gpu/drm/i915/intel_region_ttm.h
-index 7bbe2b46b504..fdee5e7bd46c 100644
---- a/drivers/gpu/drm/i915/intel_region_ttm.h
-+++ b/drivers/gpu/drm/i915/intel_region_ttm.h
-@@ -20,7 +20,7 @@ void intel_region_ttm_device_fini(struct drm_i915_private *dev_priv);
- 
- int intel_region_ttm_init(struct intel_memory_region *mem);
- 
--void intel_region_ttm_fini(struct intel_memory_region *mem);
-+int intel_region_ttm_fini(struct intel_memory_region *mem);
- 
- struct i915_refct_sgt *
- intel_region_ttm_resource_to_rsgt(struct intel_memory_region *mem,
-diff --git a/drivers/gpu/drm/i915/selftests/intel_memory_region.c b/drivers/gpu/drm/i915/selftests/intel_memory_region.c
-index 418caae84759..0d5df0dc7212 100644
---- a/drivers/gpu/drm/i915/selftests/intel_memory_region.c
-+++ b/drivers/gpu/drm/i915/selftests/intel_memory_region.c
-@@ -225,7 +225,7 @@ static int igt_mock_reserve(void *arg)
- 
- out_close:
- 	close_objects(mem, &objects);
--	intel_memory_region_put(mem);
-+	intel_memory_region_destroy(mem);
- out_free_order:
- 	kfree(order);
- 	return err;
-@@ -439,7 +439,7 @@ static int igt_mock_splintered_region(void *arg)
- out_close:
- 	close_objects(mem, &objects);
- out_put:
--	intel_memory_region_put(mem);
-+	intel_memory_region_destroy(mem);
- 	return err;
- }
- 
-@@ -507,7 +507,7 @@ static int igt_mock_max_segment(void *arg)
- out_close:
- 	close_objects(mem, &objects);
- out_put:
--	intel_memory_region_put(mem);
-+	intel_memory_region_destroy(mem);
- 	return err;
- }
- 
-@@ -1196,7 +1196,7 @@ int intel_memory_region_mock_selftests(void)
- 
- 	err = i915_subtests(tests, mem);
- 
--	intel_memory_region_put(mem);
-+	intel_memory_region_destroy(mem);
- out_unref:
- 	mock_destroy_device(i915);
- 	return err;
-diff --git a/drivers/gpu/drm/i915/selftests/mock_region.c b/drivers/gpu/drm/i915/selftests/mock_region.c
-index 7ec5037eaa58..19bff8afcaaa 100644
---- a/drivers/gpu/drm/i915/selftests/mock_region.c
-+++ b/drivers/gpu/drm/i915/selftests/mock_region.c
-@@ -84,13 +84,16 @@ static int mock_object_init(struct intel_memory_region *mem,
- 	return 0;
- }
- 
--static void mock_region_fini(struct intel_memory_region *mem)
-+static int mock_region_fini(struct intel_memory_region *mem)
- {
- 	struct drm_i915_private *i915 = mem->i915;
- 	int instance = mem->instance;
-+	int ret;
- 
--	intel_region_ttm_fini(mem);
-+	ret = intel_region_ttm_fini(mem);
- 	ida_free(&i915->selftest.mock_region_instances, instance);
-+
-+	return ret;
- }
- 
- static const struct intel_memory_region_ops mock_region_ops = {
+ 	switch (obj->mm.madv) {
+ 	case I915_MADV_DONTNEED:
+ 		return i915_ttm_purge(obj);
 -- 
 2.31.1
 
