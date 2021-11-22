@@ -1,76 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2A5145909B
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Nov 2021 15:53:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A60A74590A2
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Nov 2021 15:55:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E84289E59;
-	Mon, 22 Nov 2021 14:53:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 47C0389F03;
+	Mon, 22 Nov 2021 14:55:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
- [66.111.4.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AEF6E89E50
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Nov 2021 14:53:50 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.nyi.internal (Postfix) with ESMTP id BFFDB5C0221;
- Mon, 22 Nov 2021 09:53:47 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Mon, 22 Nov 2021 09:53:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:content-transfer-encoding:in-reply-to; s=fm1; bh=m
- vUrGpuD+JbSX9Ep04tSMhLcVf+WU9pfKE8IAeg6MKQ=; b=luveJAbTxz6poeVdg
- Qs/OzwsCwT/7VahsK7wR9TuAL2cRsb6xRM1gIG1u7EJK+RmU2XWEs0oatLDsSARq
- pf+My71lFPHGfQq8XfjcPqQEy0gxvuooPbXSfhyQtZlBXB5T8iD25MLQHsIiWzvd
- vnGKCBsf2ewurKWxKGxUyRMJWX0c6JzvIeIhq+lAGNWAaeGEP1+x7oJm8hOM7zfu
- jQJNf0k895nfM3wBQAg6/H85hTHe5biHi4QlhjpF2zz0gORuBCSta6zfdLoW/BwR
- 5d5RCkZrwpYUp6S5wIcV62MLC9YEnCy40pjJPAYW6ydy6OYFBC2V+53Jl5jdW00K
- zy+HA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:from:in-reply-to:message-id:mime-version:references
- :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm1; bh=mvUrGpuD+JbSX9Ep04tSMhLcVf+WU9pfKE8IAeg6M
- KQ=; b=g1JOPgcV+XpOKoo7+WvZsgTZgHeeFj14CPcU05M0uupjT9V14INgcd01j
- 29AfAFAy3gQ9sVBAfEQgdXw/5uh+G802nVIs7kYcTlD446ByF8RELst4GAkjnDuL
- Y3Nf+vyX8PUm9thep2jezO1ZtYMISsCvLuQ+v4t5N5xnCOZJCFNgrkcos56mKXQY
- 2smsQCeNYenlrML0L8MGoikZlLUa1HtF9h0mYtuqTiSV2Q8tyumLGQ6lkHFcKqyC
- 5e3vcKUnup9WmF8QVMUYS/VCoJrvhqFxlWnmk31nTaDr1BSFHulAug4uJInNx1tL
- U4UioA+6c5DPKlsPy2Y43G2fHmZqg==
-X-ME-Sender: <xms:-66bYVmtZEETkmw9fW-dHEeY5UAMv4xmWq-r6jkOnnswg5RjAaP8Cw>
- <xme:-66bYQ3hnY99qDXazpt2q_zPJ3VP8tbykhb0GguGsCC1_Am8fXXcnS61Th5P2gHT7
- noENcN1HpMHj3k6piU>
-X-ME-Received: <xmr:-66bYbrYxrPf83jtCJaFOf0bgFOwZULCVJLRywSCs6mGDy1uBq5WleVoXiE-D9bo5EvQRF5-yxAurlHVjI9rz-E6Ns7qdIRjnZ8>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrgeeggdejudcutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggugfgjsehtqhertddttddvnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepgfegvdelgfeuveevueekvedtjefguddvveffhedukeejjeejgfejfedtvdei
- tdegnecuffhomhgrihhnpeguvghvihgtvghtrhgvvgdrohhrghenucevlhhushhtvghruf
- hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdr
- thgvtghh
-X-ME-Proxy: <xmx:-66bYVnPvI7i9YoWGnsfl5aVRWigpvfO7TtOnjjMe97iIrpVxIWHHw>
- <xmx:-66bYT0D_viI41YWh53foMMi-L1Pf_rxXUV-ngBiSqWlwIeCvsbzGw>
- <xmx:-66bYUvLMp6ZvXCVFZT19XAKYOApm0K64nraDoHpIZMNu4w3VIqTPw>
- <xmx:-66bYYnIJX--m9k2kpWNwTtszsh_sbZKj1QlqJe8TJ7eyqCRd0fFHg>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 22 Nov 2021 09:53:46 -0500 (EST)
-Date: Mon, 22 Nov 2021 15:53:44 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH 1/2] dt-bindings: display: Turn lvds.yaml into a generic
- schema
-Message-ID: <20211122145344.47lnihd7hfbo45ne@gilmour>
-References: <20211116143503.385807-1-maxime@cerno.tech>
- <YZgpSWVXjKr9secH@pendragon.ideasonboard.com>
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com
+ [IPv6:2a00:1450:4864:20::52c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A4A5A89EAE
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Nov 2021 14:55:18 +0000 (UTC)
+Received: by mail-ed1-x52c.google.com with SMTP id w1so78215733edc.6
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Nov 2021 06:55:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=jIWP0vP1Ib6zhr0Nn38ojF5RQlDyDinE5TtiQrZyg7Q=;
+ b=I9GkwKCywKl6X3tpdVNU4BlG748zEpTyKyGqaJw4BWL175gfRPkdes0xYtn09HPsEv
+ lht6VueZvS99JL+Qz/ARsB29cIPd3/idA/8gu2NwMBzDnrIN1zzImQIGfbNTYtnbVt1H
+ hQPKFE7bCe4YuYYWScwhmdG8vrBDotVXPs8OU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=jIWP0vP1Ib6zhr0Nn38ojF5RQlDyDinE5TtiQrZyg7Q=;
+ b=T5AokBHWMptJD7HzmGagno5UbVEtl8IPKt55Wmjtjh617SZlOcxfKehzJ9yY3DsZRv
+ iaEVvh761V/AJMWqnnLI8+MKP2oUUBDkVSMRiOf+yVjVH4P6J/TjZZ/GV6LpCQs9bzL5
+ 8tIKguDA8KTDgNehVyHK5sY4wVJWE9ciJM9CrKzXxvD9oxuc1FR85Y6fGKWFy17k1Ifx
+ yblFZQUJhUH9DzXruzPOIpNK2VMV19eXRl1YazfYrtYxUtlSTOC+9141jXNJ3iC9FuMu
+ UEF3sg1lKGIX/42dXZ2C3lDJ4hq5kZ6x8VIWg8Jm+FdIXgMotFGI5nJUS59sgOQbhaAk
+ /T3A==
+X-Gm-Message-State: AOAM531FPypRjEJrLXpNgHwlHm60EzydxCcthQbTFMiIOOrOEmmJf7rF
+ GN8+Vv5322s0eCQ//9jj+IW6Aw8Vjikt2tUjYFZkyw==
+X-Google-Smtp-Source: ABdhPJwvCJiw3EumsUDtzoIcwWiFExWNS66S1al7uMYno6L2OkRRZoK1vP9vOljM2w4pI8lYTzakTaOmdL6qzgpvCRI=
+X-Received: by 2002:a17:907:250f:: with SMTP id
+ y15mr41155944ejl.0.1637592915282; 
+ Mon, 22 Nov 2021 06:55:15 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <YZgpSWVXjKr9secH@pendragon.ideasonboard.com>
+References: <20211122070633.89219-1-jagan@amarulasolutions.com>
+ <CGME20211122070651eucas1p1d505c9d2041501898d4f3b1f277e2599@eucas1p1.samsung.com>
+ <20211122070633.89219-2-jagan@amarulasolutions.com>
+ <5e173bc6-a320-42ec-79de-0ea4c3c2b480@samsung.com>
+ <CAMty3ZArYY5ECD5AWZiNa8pYn16ziWi=S-39o3VuTXGA1eN1DQ@mail.gmail.com>
+ <CAMty3ZA_UsvmTprozT+MgfZ4Q4LthSk340rV_0YwcmTy1Vyk4w@mail.gmail.com>
+In-Reply-To: <CAMty3ZA_UsvmTprozT+MgfZ4Q4LthSk340rV_0YwcmTy1Vyk4w@mail.gmail.com>
+From: Jagan Teki <jagan@amarulasolutions.com>
+Date: Mon, 22 Nov 2021 20:25:04 +0530
+Message-ID: <CAMty3ZBp7_JFvsBcQTpRMBYS7oWcT0TagUW2uQRGMuaakzF+cQ@mail.gmail.com>
+Subject: Re: [PATCH 1/2] drm: exynos: dsi: Convert to bridge driver
+To: Marek Szyprowski <m.szyprowski@samsung.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,195 +65,117 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
- Frank Rowand <frowand.list@gmail.com>, Rob Herring <robh+dt@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org,
- Daniel Vetter <daniel.vetter@intel.com>, Sam Ravnborg <sam@ravnborg.org>
+Cc: Neil Armstrong <narmstrong@baylibre.com>,
+ linux-amarula@amarulasolutions.com, dri-devel@lists.freedesktop.org,
+ Robert Foss <robert.foss@linaro.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Marek,
 
-On Sat, Nov 20, 2021 at 12:46:33AM +0200, Laurent Pinchart wrote:
-> On Tue, Nov 16, 2021 at 03:35:02PM +0100, Maxime Ripard wrote:
-> > The lvds.yaml file so far was both defining the generic LVDS properties
-> > (such as data-mapping) that could be used for any LVDS sink, but also
-> > the panel-lvds binding.
-> >=20
-> > That last binding was to describe LVDS panels simple enough, and had a
-> > number of other bindings using it as a base to specialise it further.
-> >=20
-> > However, this situation makes it fairly hard to extend and reuse both
-> > the generic parts, and the panel-lvds itself.
-> >=20
-> > Let's remove the panel-lvds parts and leave only the generic LVDS
-> > properties.
-> >=20
-> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> > ---
-> >  .../display/panel/advantech,idk-1110wr.yaml   | 17 ++++++++++-
-> >  .../display/panel/innolux,ee101ia-01d.yaml    | 21 +++++++++++++-
-> >  .../bindings/display/panel/lvds.yaml          | 29 +------------------
-> >  .../display/panel/mitsubishi,aa104xd12.yaml   | 17 ++++++++++-
-> >  .../display/panel/mitsubishi,aa121td01.yaml   | 17 ++++++++++-
-> >  .../display/panel/sgd,gktw70sdae4se.yaml      | 17 ++++++++++-
-> >  6 files changed, 85 insertions(+), 33 deletions(-)
-> >=20
-> > diff --git a/Documentation/devicetree/bindings/display/panel/advantech,=
-idk-1110wr.yaml b/Documentation/devicetree/bindings/display/panel/advantech=
-,idk-1110wr.yaml
-> > index 93878c2cd370..f27cd2038636 100644
-> > --- a/Documentation/devicetree/bindings/display/panel/advantech,idk-111=
-0wr.yaml
-> > +++ b/Documentation/devicetree/bindings/display/panel/advantech,idk-111=
-0wr.yaml
-> > @@ -11,13 +11,23 @@ maintainers:
-> >    - Thierry Reding <thierry.reding@gmail.com>
-> > =20
-> >  allOf:
-> > +  - $ref: panel-common.yaml#
-> >    - $ref: lvds.yaml#
-> > =20
-> > +select:
-> > +  properties:
-> > +    compatible:
-> > +      contains:
-> > +        const: advantech,idk-1110wr
-> > +
-> > +  required:
-> > +    - compatible
->=20
-> I've never encountered this before, what does it do ?
+On Mon, Nov 22, 2021 at 7:59 PM Jagan Teki <jagan@amarulasolutions.com> wrote:
+>
+> Hi Marek,
+>
+> On Mon, Nov 22, 2021 at 7:51 PM Jagan Teki <jagan@amarulasolutions.com> wrote:
+> >
+> > Hi Marek,
+> >
+> > On Mon, Nov 22, 2021 at 7:45 PM Marek Szyprowski
+> > <m.szyprowski@samsung.com> wrote:
+> > >
+> > > On 22.11.2021 08:06, Jagan Teki wrote:
+> > > > Some display panels would come up with a non-DSI output, those
+> > > > can have an option to connect the DSI host by means of interface
+> > > > bridge converter.
+> > > >
+> > > > This DSI to non-DSI interface bridge converter would requires
+> > > > DSI Host to handle drm bridge functionalities in order to DSI
+> > > > Host to Interface bridge.
+> > > >
+> > > > This patch convert the existing to a drm bridge driver with a
+> > > > built-in encoder support for compatibility with existing
+> > > > component drivers.
+> > > >
+> > > > Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
+> > > > ---
+> > > > Note:
+> > > > Hi Marek Szyprowski,
+> > > >
+> > > > Please test this on Panel and Bridge hardware.
+> > >
+> > > I don't have good news, t crashes:
+> > >
+> > > [drm] Exynos DRM: using 13800000.decon device for DMA mapping operations
+> > > exynos-drm exynos-drm: bound 13800000.decon (ops decon_component_ops)
+> > > exynos-drm exynos-drm: bound 13880000.decon (ops decon_component_ops)
+> > > exynos-drm exynos-drm: bound 13930000.mic (ops exynos_mic_component_ops)
+> > > [drm:drm_bridge_attach] *ERROR* failed to attach bridge
+> > > /soc@0/dsi@13900000 to encoder TMDS-67: -22
+> > > exynos-drm exynos-drm: failed to bind 13900000.dsi (ops
+> > > exynos_dsi_component_ops): -22
+> > > Internal error: synchronous external abort: 96000210 [#1] PREEMPT SMP
+> > > Modules linked in:
+> > > CPU: 2 PID: 74 Comm: kworker/u16:1 Not tainted 5.16.0-rc1+ #4141
+> > > Hardware name: Samsung TM2E board (DT)
+> > > Workqueue: events_unbound deferred_probe_work_func
+> > > pstate: 80000005 (Nzcv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+> > > pc : decon_atomic_disable+0x58/0xd4
+> > > lr : decon_atomic_disable+0x28/0xd4
+> > > sp : ffff80001390b940
+> > > x29: ffff80001390b940 x28: ffff80001259a000 x27: ffff000027f39e80
+> > > input: stmfts as
+> > > /devices/platform/soc@0/14ed0000.hsi2c/i2c-3/3-0049/input/input0
+> > > x26: 00000000ffffffea x25: ffff000025a40280 x24: 0000000000000001
+> > > x23: ffff800011b55f98 x22: ffff0000315dc000 x21: ffff00002695d100
+> > > x20: ffff000027e7a080 x19: ffff0000315e6000 x18: 0000000000000000
+> > > x17: 645f736f6e797865 x16: 2073706f28206973 x15: 0000000000028ee0
+> > > x14: 0000000000000028 x13: 0000000000000001 x12: 0000000000000040
+> > > x11: ffff000023c18920 x10: ffff000023c18922 x9 : ffff8000126352f0
+> > > x8 : ffff000023c00270 x7 : 0000000000000000 x6 : ffff000023c00268
+> > > x5 : ffff000027e7a3a0 x4 : 0000000000000001 x3 : ffff000027e7a080
+> > > x2 : 0000000000000024 x1 : ffff800013bc8024 x0 : ffff0000246117c0
+> > > Call trace:
+> > >   decon_atomic_disable+0x58/0xd4
+> > >   decon_unbind+0x1c/0x3c
+> > >   component_unbind+0x38/0x60
+> > >   component_bind_all+0x16c/0x25c
+> > >   exynos_drm_bind+0x104/0x1bc
+> > >   try_to_bring_up_master+0x164/0x1d0
+> > >   __component_add+0xa8/0x174
+> > >   component_add+0x14/0x20
+> > >   hdmi_probe+0x438/0x710
+> > >   platform_probe+0x68/0xe0
+> > >   really_probe.part.0+0x9c/0x31c
+> > >   __driver_probe_device+0x98/0x144
+> > >   driver_probe_device+0xc8/0x160
+> > >   __device_attach_driver+0xb8/0x120
+> > >   bus_for_each_drv+0x78/0xd0
+> > >   __device_attach+0xd8/0x180
+> > >   device_initial_probe+0x14/0x20
+> > >   bus_probe_device+0x9c/0xa4
+> > >   deferred_probe_work_func+0x88/0xc4
+> > >   process_one_work+0x288/0x6f0
+> > >   worker_thread+0x74/0x470
+> > >   kthread+0x188/0x194
+> > >   ret_from_fork+0x10/0x20
+> > > Code: 11002042 f9481c61 531e7442 8b020021 (88dffc21)
+> > > ---[ end trace d73aff585b108954 ]---
+> > > Kernel panic - not syncing: synchronous external abort: Fatal exception
+> > > SMP: stopping secondary CPUs
+> > > Kernel Offset: disabled
+> > > CPU features: 0x2,300071c2,00000846
+> > > Memory Limit: none
+> > > ---[ end Kernel panic - not syncing: synchronous external abort: Fatal
+> > > exception ]---
+> >
+> > Is this with Bridge or normal DSI panel?
+>
+> Can you apply this patch and check?
+> https://github.com/openedev/linux/commit/412f226acd774356e8188c9e62b653672926ee0d
 
-select dictates if the schema is applied to a node or not.
+Any news on this? just asking in case if you missed it.
 
-It takes a schema, and if this schema is valid, the rest of the schema
-will be applied to the current node.
-
-It's mostly unused in the kernel because the dt-validate tool will add a
-select clause from the compatible list in most case that would expand in
-this case to:
-
-select:
-  properties:
-    contains:
-      enum:
-        - advantech,idk-1110wr
-	- panel-lvds
-
-  required:
-    - compatible
-
-ie, it tries to validate with this schema any node that has either the
-panel compatible or the generic compatible.
-
-That means we would have that schema applied to all the nodes that have
-panel-lvds, including the ones with a different compatible than the
-advantech one.
-
-With this clause, we make sure that we ignore the other panels, while
-ensuring that the compatible list for the advantech compatible is
-correct.
-
-> > +
-> >  properties:
-> >    compatible:
-> >      items:
-> >        - const: advantech,idk-1110wr
-> > -      - {} # panel-lvds, but not listed here to avoid false select
-> > +      - const: panel-lvds
-> > =20
-> >    data-mapping:
-> >      const: jeida-24
-> > @@ -35,6 +45,11 @@ additionalProperties: false
-> > =20
-> >  required:
-> >    - compatible
-> > +  - data-mapping
-> > +  - width-mm
-> > +  - height-mm
-> > +  - panel-timing
-> > +  - port
-> > =20
-> >  examples:
-> >    - |+
-> > diff --git a/Documentation/devicetree/bindings/display/panel/innolux,ee=
-101ia-01d.yaml b/Documentation/devicetree/bindings/display/panel/innolux,ee=
-101ia-01d.yaml
-> > index a69681e724cb..6e06eecac14e 100644
-> > --- a/Documentation/devicetree/bindings/display/panel/innolux,ee101ia-0=
-1d.yaml
-> > +++ b/Documentation/devicetree/bindings/display/panel/innolux,ee101ia-0=
-1d.yaml
-> > @@ -11,15 +11,26 @@ maintainers:
-> >    - Thierry Reding <thierry.reding@gmail.com>
-> > =20
-> >  allOf:
-> > +  - $ref: panel-common.yaml#
-> >    - $ref: lvds.yaml#
-> > =20
-> > +select:
-> > +  properties:
-> > +    compatible:
-> > +      contains:
-> > +        const: innolux,ee101ia-01d
-> > +
-> > +  required:
-> > +    - compatible
-> > +
-> >  properties:
-> >    compatible:
-> >      items:
-> >        - const: innolux,ee101ia-01d
-> > -      - {} # panel-lvds, but not listed here to avoid false select
-> > +      - const: panel-lvds
-> > =20
-> >    backlight: true
-> > +  data-mapping: true
-> >    enable-gpios: true
-> >    power-supply: true
-> >    width-mm: true
-> > @@ -27,5 +38,13 @@ properties:
-> >    panel-timing: true
-> >    port: true
-> > =20
-> > +required:
-> > +  - compatible
-> > +  - data-mapping
-> > +  - width-mm
-> > +  - height-mm
-> > +  - panel-timing
-> > +  - port
-> > +
-> >  additionalProperties: false
-> >  ...
-> > diff --git a/Documentation/devicetree/bindings/display/panel/lvds.yaml =
-b/Documentation/devicetree/bindings/display/panel/lvds.yaml
-> > index 49460c9dceea..5281a75c8bb5 100644
-> > --- a/Documentation/devicetree/bindings/display/panel/lvds.yaml
-> > +++ b/Documentation/devicetree/bindings/display/panel/lvds.yaml
-> > @@ -4,7 +4,7 @@
-> >  $id: http://devicetree.org/schemas/display/panel/lvds.yaml#
-> >  $schema: http://devicetree.org/meta-schemas/core.yaml#
-> > =20
-> > -title: LVDS Display Panel
-> > +title: LVDS Display Common Properties
->=20
-> Maybe
->=20
-> title: LVDS Display Panel Common Properties
->=20
-> or do you foresee this being useful for non-panel LBDS sinks too ? In
-> that case the title is fine, but the file could be moved in the parent
-> directory.
->=20
-> I'm also wondering what we should do with the data-mapping and
-> data-mirror properties. For an LVDS panel they're fine at the device
-> level, but for an LVDS sink, they may be better placed at the port or
-> endpoint level.
-
-That was my intent, but it might not be relevant indeed. Honestly at
-this point I just want to have the tbs,a711-panel compatible documented
-somewhere :)
-
-Maxime
+Jagan.
