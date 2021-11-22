@@ -1,57 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAE13459041
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Nov 2021 15:32:07 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0325645905E
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Nov 2021 15:40:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 62D0D89CDB;
-	Mon, 22 Nov 2021 14:32:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC18C897E8;
+	Mon, 22 Nov 2021 14:40:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com
- [IPv6:2a00:1450:4864:20::534])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D7CA489CDB
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Nov 2021 14:32:02 +0000 (UTC)
-Received: by mail-ed1-x534.google.com with SMTP id e3so77786944edu.4
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Nov 2021 06:32:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google;
+Received: from mail-vk1-xa2f.google.com (mail-vk1-xa2f.google.com
+ [IPv6:2607:f8b0:4864:20::a2f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA709897E8
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Nov 2021 14:40:14 +0000 (UTC)
+Received: by mail-vk1-xa2f.google.com with SMTP id f7so10375811vkf.10
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Nov 2021 06:40:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=gajZMBY4OmmSIwG5nk0u4uIpy5I6ZsgU5YpQ3lkosZI=;
- b=B+6NwM2Bszy8j0ug17BUZrCJ5pnQC2GbZUdIWWy1MPa+aHZFwKk4JhMDQ4vybuBT7M
- dJc3rcf6XSTyT4w7fAGOzA+yCU1K+5Sf2vKDDW9/ljyulsN5CajIEC8/bsIdUxJNDPeF
- Xl2cPSri1p0rhez2d07TMd7MA0UK/abSi4kfo=
+ :cc; bh=8cwmhwSz/MAlctO1VjVdp3tfi3oYjo6B5mMMEZIzWao=;
+ b=Bd6Kf8yK44DmvUBh79dYtYSa68dgXQac49n1Rnw7Vq4P0WcAB2YNFLqTDCB8pOqnzb
+ U+d8fNYU8/tuKGSSsyVCLpIrLiG8BOMIfI7CSxiSsu7d2zIdyM1ytEqdDbWqTT4TywIA
+ 6KISz27U4OQE0FgOcqbPI6bJv+WIDY2K6t3GnCloeDfgfdN0wgbBDL48B3/6IYK0p3sw
+ 308yCc7Nlane17sOtBUBzpljaybWYXCu8V+dxW10bssP1hocmZkGuKIFFNjkUNb4+j92
+ 1IbYbqWhqd5hYPzOV+1hP4PWBh9799gILE/8einnPhpIX6rXZsAjQ7nmkkwIIg5RypaJ
+ 2OMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=gajZMBY4OmmSIwG5nk0u4uIpy5I6ZsgU5YpQ3lkosZI=;
- b=CbnhYeCG1bP5rTgWLIDTLGLUpf6vilqA//d/TgVEjWwyAJ4O2PKW3PqnxpvC0XPRqJ
- aqYCgiteJbRBkA73dCXv2WomvCwvcJl2i7NtYvu71HA/EapDu21Qu5+co7IY2nevAkeL
- Eo3OAPeX081r061uXpzsL56aMqk2r7ATxmyqkGWNIsSuUP7UmTm0Y+UBzZ5AS6QI7BND
- n/dh2ax8pgjeSrn7HBDiFfzzCJSuPawMMpLga6ZYNfBoXTznXYK8g/kGZRo3vVRJepY0
- YPKhTEYqOXWh/AG8SS8Mm5aIFXK32EHZFsoGk5ajFb43Nf+lihLBzdISSqUSCdTmmKh5
- tl/w==
-X-Gm-Message-State: AOAM5301fdiTy0F0LUWDiKfgBF74iW62webTITKycNfhrOgRiTTLi67n
- ebdZGKj3sa34KLWyzPua7nCefbl8q4GQI+akXCkA0g==
-X-Google-Smtp-Source: ABdhPJxjVipWHM7v1FJkIEB3suhUlU/PuhSYS1Q+BzAUSUrMI7c+qim7xUaZfxA3QmRmZrKJgvy6fguh+p5u+AyflhE=
-X-Received: by 2002:aa7:dd53:: with SMTP id o19mr65465715edw.369.1637591518741; 
- Mon, 22 Nov 2021 06:31:58 -0800 (PST)
+ bh=8cwmhwSz/MAlctO1VjVdp3tfi3oYjo6B5mMMEZIzWao=;
+ b=O9qjoMl6GPo8fHEFG/SUVLLra6xYVvPBvOH4Zm24ODPAesKEHeT3XIl81JVuJsQGvB
+ YY6rmsDs7HjW4D6NTj/n8+zmHEmPqfUrC/K+81/18OyBaW/ZVo9PxqMVClqXLIqTyrg1
+ 88HUXKipHdilhqB7n4vWulZt25q4G6145oBKl58lkyq5HRE7K/BfPtRbEVAeeS09MYue
+ 46daf3WaZmlsLeo10Xw+AynD3lIAag8IQnXiP2XiSFIN1HnUM4Jg8zVRQ+N4ZeeQJaZ1
+ YyyU9lJD9CpF+wnpNGoNDyNueh4JJCWM7cNHBG8RK8CfDgziTgotHRoRPjdkEwhJlQtd
+ 5djQ==
+X-Gm-Message-State: AOAM533UyvNktp1kY9SsXiUzX1PFlzmyc1rE4S2xoSKsDel7YD/0w16F
+ sk6X/mDz6l9KQ6W8P7ctdDjwUN3GQUC1gxfHBnQ=
+X-Google-Smtp-Source: ABdhPJwdAyaj2m65JoPhPc7oEtWLD5krC19Se65pyj/T+qDGtc6OnuXeaKkiD5hRsHnIzxNqS2ABoniPDOPi21S87+E=
+X-Received: by 2002:a05:6122:78c:: with SMTP id
+ k12mr163412348vkr.22.1637592013770; 
+ Mon, 22 Nov 2021 06:40:13 -0800 (PST)
 MIME-Version: 1.0
-References: <20211122065223.88059-1-jagan@amarulasolutions.com>
- <20211122065223.88059-5-jagan@amarulasolutions.com>
- <20211122100759.qw6lvwb33ciemg2y@gilmour>
- <CAMty3ZDDQR-OkjqEfb1ZYZG+oLN2ZOv-2GLxs3AdeDHqUD8fjQ@mail.gmail.com>
- <20211122132847.ds4gtk2unq3fkagy@gilmour>
- <CAMty3ZAzwKtABZqJhVDmgOVpnZFg66z6Bc_pn3Fm9=658RPG1g@mail.gmail.com>
- <20211122140929.22cmvnxxapp752ic@gilmour>
-In-Reply-To: <20211122140929.22cmvnxxapp752ic@gilmour>
-From: Jagan Teki <jagan@amarulasolutions.com>
-Date: Mon, 22 Nov 2021 20:01:47 +0530
-Message-ID: <CAMty3ZBOYRJ5ScrYEKoA9e1hP9=yuKuASvXyorB_kLsp26Fe3A@mail.gmail.com>
-Subject: Re: [PATCH v5 4/7] drm: sun4i: dsi: Add mode_set function
-To: Maxime Ripard <maxime@cerno.tech>
+References: <20211122070633.89219-1-jagan@amarulasolutions.com>
+ <CGME20211122070651eucas1p1d505c9d2041501898d4f3b1f277e2599@eucas1p1.samsung.com>
+ <20211122070633.89219-2-jagan@amarulasolutions.com>
+ <5e173bc6-a320-42ec-79de-0ea4c3c2b480@samsung.com>
+ <CAMty3ZArYY5ECD5AWZiNa8pYn16ziWi=S-39o3VuTXGA1eN1DQ@mail.gmail.com>
+In-Reply-To: <CAMty3ZArYY5ECD5AWZiNa8pYn16ziWi=S-39o3VuTXGA1eN1DQ@mail.gmail.com>
+From: Fabio Estevam <festevam@gmail.com>
+Date: Mon, 22 Nov 2021 11:40:03 -0300
+Message-ID: <CAOMZO5BTO7H4r7+vaJd-4pQ9eQt_q0BjVxxjyyVtvAKsVEkmvw@mail.gmail.com>
+Subject: Re: [PATCH 1/2] drm: exynos: dsi: Convert to bridge driver
+To: Jagan Teki <jagan@amarulasolutions.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,37 +66,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <narmstrong@baylibre.com>,
- Robert Foss <robert.foss@linaro.org>, linux-sunxi@googlegroups.com,
- dri-devel@lists.freedesktop.org, Chen-Yu Tsai <wens@csie.org>,
+Cc: Neil Armstrong <narmstrong@baylibre.com>, Sam Ravnborg <sam@ravnborg.org>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>,
+ Robert Foss <robert.foss@linaro.org>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>, linux-amarula@amarulasolutions.com,
- linux-arm-kernel@lists.infradead.org
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ linux-amarula <linux-amarula@amarulasolutions.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Nov 22, 2021 at 7:39 PM Maxime Ripard <maxime@cerno.tech> wrote:
->
-> On Mon, Nov 22, 2021 at 07:21:57PM +0530, Jagan Teki wrote:
-> > > It's perfectly valid to dereference the pointer in atomic_enable, and
-> > > that patch would consume memory for no particular reason.
-> >
-> > Again, I'm not pointing any mistake in dereference and certainly not
-> > understand about what memory consumption issue here.
->
-> You add a struct drm_display_mode field to struct sun6i_dsi. It
-> increases the size of struct sun6i_dsi of sizeof(struct
-> drm_display_mode).
->
-> > I'm doing it here since I'm doing it via mode_set in other drivers. No
-> > problem for me either way.
->
-> But *why* are you doing so?
->
-> There might be a valid reason in other drivers, but there's none here
-> (that you mentioned at least).
+Hi Jagan,
 
-The reason is to use existing bridge function instead of dereference
-ie what I've mentioned. I don't have any other reasons.
+On Mon, Nov 22, 2021 at 11:21 AM Jagan Teki <jagan@amarulasolutions.com> wrote:
 
-Jagan.
+> Is this with Bridge or normal DSI panel?
+
+According to the log shared by Marek, the dts being used is:
+ arch/arm64/boot/dts/exynos/exynos5433-tm2e.dts
+which includes arch/arm64/boot/dts/exynos/exynos5433-tm2-common.dtsi.
+
+In this dtsi there is a "sil,sii8620" bridge.
