@@ -2,96 +2,113 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E95A7458814
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Nov 2021 03:40:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66796458837
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Nov 2021 04:15:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1936889B67;
-	Mon, 22 Nov 2021 02:40:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 788686E15F;
+	Mon, 22 Nov 2021 03:15:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2042.outbound.protection.outlook.com [40.107.220.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E1B3089BAC;
- Mon, 22 Nov 2021 02:40:49 +0000 (UTC)
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2082.outbound.protection.outlook.com [40.107.236.82])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 741AF6E15F
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Nov 2021 03:15:16 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LwNlKaszaTEPoNWBiTySpFuENKK1mtTs150lyrtAxb3GAj0qf5g7s9oDZtwiT8oS5my2Jy8ynn/bnHQMWoYU8gk8GGOcvV3/75li0N2vyciGyDb4m9IRKvbfvnni4IEBzZTgDbOYQk5aztJFWQtOszdHCbJLUHMj2Nmj9VLWoLcvg76FepuwdHqBaJbXYtsLbgQEU2rARSdRBfDsAOpIg2VkSqJXA5RLgJWpcWmmxi0IXJntPwRYPduUjHIAKOrU9vW+IERH1gmu3IIbsJ+yTw3luJmH78qSD8ZcjNyo3Qr3bv5YzOiR3K+eZlrfQa+5ld/hXRxwXZa2V7W736BKyg==
+ b=L4Rsw3bbHTvCFdesDTEZoqovIdtBs/l9uqQXC0eo0JLAetc4ZmbFjLzJiNN9ESbjiOjEOXNjvTSVlLnfljqx7CvmJiTSp+SQez3QRM6SStbZu8yNV0CffWrWdWgQJLYUWBnL196/VuVGnn+ofT25fZR3sDlSElSP2A68idSUx3OgoQi5sL3YkjgZn3/ZXrZWtwsmXvWYLClidq8JWyg894Kh9B+cs5Nu1FMai93xa1W4fJtFfeGf74ngl03iIPSvXPNgk1E2rPBncBwGfPoOdKGy/MetLMbQmucWcv/wDjvUAmRVJWH8Ym4vbdnmuJKL6kE/UCpwAYK0qveZRCENNw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gKNa+nF+2JDLJehCd98fAVoaWpAzArM2OAp7ay1k7ec=;
- b=Ra9s4x3r6Nv8ZQwfGL4jUQJ6vC3TNyavwsJxpvzhCkmwlV+nituNa49O+NuVIhfO4pngWnM2GkyLUmX4INIMqrJvIiMQGr8X29AL2gfTdjJ50ROieeiCPrLLHVx0m7bnXlw8on/i1YdZV4CFzFlwaXX/2fKkwu5rx/TADEMTFXfuZFFE/F7+0W5tH+KHULYkCxbbtWIuI2t4z2V1s2kyV4qN8sMRz9t3mhKC02UGQiro16/kUEJ7wVpgVJK7OxR8jhCPR11PTMtqJZY2XqHwi14tw4HPAFbeCI8bjISb7PX8L7sARA4zaYLd1gcbopcgmptcxdjd7NktlImp4B/MDQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.112.34) smtp.rcpttodomain=infradead.org smtp.mailfrom=nvidia.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=nvidia.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
+ bh=npJGYoMDNG+vBWY2QQWwspi60XxIlFn4PWvZgsBvBhE=;
+ b=WS9kf53qXYmDy3pCJryds15FovepHBBdyxewFovJFkso3g3uHNuT4HIRAq22k9LSAUYb9kS52wbNSYld0iQGEMEYJl0PPRSTHolX9Deuu/dE0o4E8EdP3qNXUoPhWCB4G1c8ee4NbaUvgHmtiLt7p2isToPLJffBHjnGn51K1jZp5GA0qF36pZkEBTyIBt+CKRF+SvbBB2Wz+kYdCwM/4Eaisj+EH318YRaMve94KDmFcApQlGUcgSd8g7Ws3RNPalx9aKfbJO7dHbGANsPstJG5YyCjP9y4cEIkPT1PD+jOybXWEBbt1h3G1M9vb7av0DupcQmWbZzoG0Rumlsjrg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gKNa+nF+2JDLJehCd98fAVoaWpAzArM2OAp7ay1k7ec=;
- b=RjRadBRBirn1k5nLbO0MsslmGChxDD3mkYHwkurbsO5mZB9dvE28mrnI+r28eZXgMgeEB0YFgFiXxiIE/GEmzlR1foV0kxQ5jN3U3j+4AJfOyP6doPhMk1YcpHHLlqxEnJ2tkYyE/HOVguDy5tefJM4RlNudMcShH/a0wkibOBMEcttqoBGQ+ZRR37vxFYHHJe2pwfeTK36mBdtsgJiwuCiB1SeEpynZniPwSVSLawum+Hc+nS+bjpjsd6CktLUmz56GYhw8r6mlnUQpD/fRTGOvxLFboOd3GOTFETJETcxhVmfMFUWGNB4scUeWAlO+jEwAU0La+pDjZxr2YHHPPg==
-Received: from MW4P220CA0019.NAMP220.PROD.OUTLOOK.COM (2603:10b6:303:115::24)
- by DM6PR12MB4482.namprd12.prod.outlook.com (2603:10b6:5:2a8::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4713.19; Mon, 22 Nov
- 2021 02:40:47 +0000
-Received: from CO1NAM11FT040.eop-nam11.prod.protection.outlook.com
- (2603:10b6:303:115:cafe::66) by MW4P220CA0019.outlook.office365.com
- (2603:10b6:303:115::24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4713.21 via Frontend
- Transport; Mon, 22 Nov 2021 02:40:47 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.112.34; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (216.228.112.34) by
- CO1NAM11FT040.mail.protection.outlook.com (10.13.174.140) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.4713.20 via Frontend Transport; Mon, 22 Nov 2021 02:40:46 +0000
-Received: from nvdebian.localnet (172.20.187.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.18; Mon, 22 Nov
- 2021 02:40:43 +0000
-From: Alistair Popple <apopple@nvidia.com>
-To: <akpm@linux-foundation.org>, <linux-mm@kvack.org>, <rcampbell@nvidia.com>, 
- <linux-ext4@vger.kernel.org>, <linux-xfs@vger.kernel.org>, Alex Sierra
- <alex.sierra@amd.com>, Felix Kuehling <felix.kuehling@amd.com>
-Subject: Re: [PATCH v1 1/9] mm: add zone device coherent type memory support
-Date: Mon, 22 Nov 2021 13:40:40 +1100
-Message-ID: <4157439.BacSOyMZPU@nvdebian>
-In-Reply-To: <637b19c0-5ec4-b96b-f6f6-c17313f03762@amd.com>
-References: <20211115193026.27568-1-alex.sierra@amd.com>
- <1997502.P62F5Z1OZk@nvdebian> <637b19c0-5ec4-b96b-f6f6-c17313f03762@amd.com>
+ bh=npJGYoMDNG+vBWY2QQWwspi60XxIlFn4PWvZgsBvBhE=;
+ b=jpk9PELEOmXEpoYUOAkyLMyAft9v3cWiNEFN9fRRoo818K5pi9rLkNGyky1vp1lNELg/hECelueWnBbDvPLJfAYJTtNKKcFcoub16eXF4u+NyxB13jAbja6FsxBUZ9XHnZUybNVreWPzL9ngbOpUABAYbeVOeHgVPIWHz8jLMnY=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BY5PR12MB4918.namprd12.prod.outlook.com (2603:10b6:a03:1df::22)
+ by BY5PR12MB4019.namprd12.prod.outlook.com (2603:10b6:a03:1a8::23)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4713.21; Mon, 22 Nov
+ 2021 03:15:11 +0000
+Received: from BY5PR12MB4918.namprd12.prod.outlook.com
+ ([fe80::d519:1ea0:33a6:8193]) by BY5PR12MB4918.namprd12.prod.outlook.com
+ ([fe80::d519:1ea0:33a6:8193%6]) with mapi id 15.20.4713.024; Mon, 22 Nov 2021
+ 03:15:11 +0000
+Date: Mon, 22 Nov 2021 11:14:44 +0800
+From: Huang Rui <ray.huang@amd.com>
+To: Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH] drm: ttm: correct ttm_range_manager kernel-doc notation
+Message-ID: <YZsLJOUUBMnBUCu7@hr-amd>
+References: <20211121155453.29736-1-rdunlap@infradead.org>
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20211121155453.29736-1-rdunlap@infradead.org>
+X-ClientProxiedBy: SG2PR04CA0181.apcprd04.prod.outlook.com
+ (2603:1096:4:14::19) To BY5PR12MB4918.namprd12.prod.outlook.com
+ (2603:10b6:a03:1df::22)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Originating-IP: [172.20.187.5]
-X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
- HQMAIL107.nvidia.com (172.20.187.13)
-X-EOPAttributedMessage: 0
+Received: from hr-amd (165.204.134.251) by
+ SG2PR04CA0181.apcprd04.prod.outlook.com (2603:1096:4:14::19) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4713.19 via Frontend Transport; Mon, 22 Nov 2021 03:15:09 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 833acfce-1089-43ca-2fec-08d9ad617ce9
-X-MS-TrafficTypeDiagnostic: DM6PR12MB4482:
-X-Microsoft-Antispam-PRVS: <DM6PR12MB44827AFD68F04F25D442D165DF9F9@DM6PR12MB4482.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Office365-Filtering-Correlation-Id: 1a126940-742a-4615-0923-08d9ad664b6b
+X-MS-TrafficTypeDiagnostic: BY5PR12MB4019:
+X-Microsoft-Antispam-PRVS: <BY5PR12MB401953D44662A02A0D51D74AEC9F9@BY5PR12MB4019.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: GBgblEUomPv5/TGilCRx28tHDLC+CM+KWaQUAjZLQNqEV/Ptwj45AK/FTOXgJL7ezAocCKldeIhD+JT7A2CvyYhzFtf/HC6bvDOqEaYYb00Ksvtge5iXQxpRcQbYew5SacNDIhHts23vXGHHAdguX/vYbkkkVMcGTQVfM78ieRGXMoQr62Ert02LVqTiVK4AdfU1m0UB0Y2/CIVhUyWFUJ7T3xg6G6Ncs1QNxGmJNrYFgo3uGr1Ob4fk8ew/x9AVXvjcoeaeetM9R6VjxAu/nRkqBddmGMG7LbfEjkDAFs7o4eLtmmrxdfh3ijKMQhmSJx6/1i6MOFYiP8m1SSXDzXffiVdUVO0qxpPsTVserGBAkjnjoHwK91f8NtaspCzFFxiRtbtLYvl4yR52evfWPXvI79XwnvbBTkcHUu1Qb5UzvjO0/NTNEX3BFf+USNA6OKAuxmcPn22t9OFeAaTz+NEFYSwhyPls5pKCkALL4sIVjkWH5JyeSyp/NDsZ7edv1/Iie5MvrhIlbVRJfEqXk3NEQR7SiTtLDTMFq8KdGRInF5OZXTyclF5kzXzbIxxBtg/SsJZXcWtsX3rHr/5k6xSEdchOMoyHYdgeUsBoBWBqQ7sT4lGGMuDtF0aT6yJCrWHOiau4i+Xm7mNT/892NwL5p2f4XGtemgynqMUYfDt0M5CmQqgi1VqUkpMkPlNQues1OWh4Ri2n59bO4Qhoaj0nov0S8m6ssZdaPXqhilRJBGEUnRBtF9aCiDNxYBZ4FAdL2JybZ6QhhXENLfD26slMuTTpxUUqOwWCfK1kr5w=
-X-Forefront-Antispam-Report: CIP:216.228.112.34; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:schybrid03.nvidia.com; CAT:NONE;
- SFS:(4636009)(36840700001)(46966006)(26005)(2906002)(9686003)(16526019)(83380400001)(8676002)(54906003)(186003)(86362001)(7636003)(82310400003)(8936002)(36860700001)(7416002)(70206006)(110136005)(508600001)(70586007)(4326008)(336012)(36906005)(426003)(33716001)(966005)(47076005)(5660300002)(356005)(9576002)(316002);
+X-Microsoft-Antispam-Message-Info: YafmOtNKPe4JaVtST3FdMh8FYm+loPBXwsfdgALalrQjbVKT2e6Yrc4LqYporQGOTd5OD7owixuXpiGka3Q6WACCYeUdAg9Aqptk/+l9U6RkfJmrEm7LRQoH0AD7i5S261Moet7o/dnRD9FDAv+bBhyHk75T3jKWHQogOaa4/TAICBY5AK/pgTwDDH+2Lzp/oLBME+ONOxQ/rYdG13xlE8PZcRDw2o8D7huEz5HqhovBD+ms4AgJgWIpg32+dm8VDlalhN6bj+ORZsumsl+HB8jIt8boirlvwx5NbKRszSKyavBIdFcWWX3/e12UXILx6ff6P3wxApVIuYmXid4zMJyNOfgbBSsC5USLlv1h1VrzEqaNJumSqvBSvPv1gntD1gcND2LCA4uG4E4mW79oUx8BsK7QQDUtg2yUpQ8sVKmL4ptXYiwOi42rrDS8/OKdHZtY78QIE2B7NmojWFG5/NAPK5Bcw8oxLMlAVxQnLSAQgYXS1+1baLr8wOqsRwBZREaGF/KnKfdAQdRTQmKq9eADwSWYikK/ZIcbqgkv9ZtuoprZBAD1l+7rrL4Dfob764UrGIpGXmnQWHO2xgswZQXvYNdBxMFmc7R4yuB80QN4QUqhnrlyUyK0oXGEP/ahTyKzLyFkidbyWpOIZ96qMBUjzbcYSJV6OdbOWW6TLEv359kv8uolPFIkHO7/wH/nPA51tcgId+SnxiMwmsM6+kQGVYGmgYB6IQaYPN3VTV8=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BY5PR12MB4918.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(86362001)(54906003)(6496006)(6666004)(38100700002)(83380400001)(66476007)(66946007)(4326008)(316002)(8936002)(8676002)(26005)(66574015)(508600001)(84970400001)(2906002)(956004)(33716001)(55016002)(66556008)(186003)(5660300002)(6916009)(9686003);
  DIR:OUT; SFP:1101; 
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Nov 2021 02:40:46.5987 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 833acfce-1089-43ca-2fec-08d9ad617ce9
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.112.34];
- Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT040.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4482
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?ITSBVRPWD+z1H1NqUHtKvm3YV30JsFlRyQcydJM4F2RXWk8dfPJ9hvk3l9?=
+ =?iso-8859-1?Q?4jp+2Yx18dqHepAJCmt0/pUfyYxLmvD6wFbYXHbzBwsjdbxJXmIO+3FZBS?=
+ =?iso-8859-1?Q?jKGKfRwul5H5QAq6vgb+OiK4AvK7OBbdytHfW0jiiKmxTF0jB0l+2wmfGE?=
+ =?iso-8859-1?Q?cDpkW173mqR2LJI/AVIt/H+IEzlBG0cJbgRAzO/TuF3q6V6Nxp0R+Alnc+?=
+ =?iso-8859-1?Q?ycURHKTJzZnJ8RuNeeiJswmaE+FCXxITJUWI5aKsgVsNAw71R9JUJZrEJR?=
+ =?iso-8859-1?Q?dUS9R3GYs+dHJA3WQuL7y0nhKPCU48akU/iGRqFHBGIrsjrKx+5pvUKkIS?=
+ =?iso-8859-1?Q?YQDntgd36gU4Ssos9j6PRfF69YaeYrsgsEDIYqtkXOqgBTuWPmchuMwjF1?=
+ =?iso-8859-1?Q?UertvXWChLTJW7s5SfCL+oWaxAFYHZe+oKqpfQpbegBVQ9Nd00oJcwNLHf?=
+ =?iso-8859-1?Q?oiOMAHIVLbi1cu+vIIY73Gn3GFzz6arvv1JaAYvc0WjyLxx2JG2fX86vvG?=
+ =?iso-8859-1?Q?TQvg6L78S9ply8pwcPf1q7lIpYscgybv5n+ervPPbYIySfOY5QoZl17w2i?=
+ =?iso-8859-1?Q?xdWUxd4q46QyggqR5ZXV2gQNcdSivgl2Oxis5sjZGbZQkYD9t5jgvAQ2co?=
+ =?iso-8859-1?Q?+lYagJjnHu34sQYV5vHk2mZZIZv+IWnDR7aOqThNwDswzl+cZAzlURthA5?=
+ =?iso-8859-1?Q?r3xEWA5yzGGbvDvU6ZCNjsZpRD0w8KZcr8theRoj9BrepyOxcj8Z7HTgVy?=
+ =?iso-8859-1?Q?ZaD3PBsWUUAhME2naRrINtSNjmWNghQcOIYQ0y2GNUqdTOeWYfiRCw/S3E?=
+ =?iso-8859-1?Q?M9ysULjXBlCmx38Sl8kiPDvRNVyG2y48Isfd95dp0FETiJIsiHOxYp7UDH?=
+ =?iso-8859-1?Q?HT2K0FmugWMV5RSxXdh1WlRYvqCMSdEWWqFnXI8PloLwQrYw5Uyyl6widV?=
+ =?iso-8859-1?Q?ZQbF6KPzB9VT7Z5BJhrHcV9K4x1D08Z2XinBxP8Yxo0RC00t1/IdFwXf6b?=
+ =?iso-8859-1?Q?O0GFv5B99X8sJFT18+ar20mbh1vNrOvkwe/N1tGypnA/Ev7F1ZmkJ8EPuP?=
+ =?iso-8859-1?Q?RNO6v1EBaH62JhJT6WlBNOh3CxDctK1f50Vith47RfefD9tnzqrtPr9KW4?=
+ =?iso-8859-1?Q?SItnWEyHHl8l6L7As7P3SfmUZ6aBvCdsdYD3DSoe0o6tyTScLNRL+kBnLk?=
+ =?iso-8859-1?Q?LvojBN7863MPAhPZkOqJoViyg1ujPDY+cQ7xskvglrRyqrN8zwOTpJ/HC2?=
+ =?iso-8859-1?Q?E7SW8nBwMLjLpFeeEOAFCF8faqbgI5JOnwSFODOyAXReFmWIiGovyurpys?=
+ =?iso-8859-1?Q?EoAqagpNb47BkcWDLGfuKWBBBRJ9y5KHZyWDY39nc9yK8ObSurXPVyL42G?=
+ =?iso-8859-1?Q?zSPzBXETm31xYFmYtgT4ftvximTDHx09qgP/6HGklDyJUwDtYqghevd8jd?=
+ =?iso-8859-1?Q?f8w0ng260QaLb74LB6vdxDERP0dkNcJjU+4FW6PvRgNf3tUJ8gD8TxS217?=
+ =?iso-8859-1?Q?wXg0nBp9HBFHBbJMCERV0AGKQCC69E+1R/tDRLHhQPHKSO/A/b5eC3HPqC?=
+ =?iso-8859-1?Q?9a6sI8Y+mPnsqzl2FY+1Xao8VoVn1rG6sATRGy4Vq/n3KPM1KuL+sLTDij?=
+ =?iso-8859-1?Q?fAie6qIlnmIh0slb9B95Y0kpRJvif+/QlqG1FcaQEpDuL9ZSabkuwM8E/4?=
+ =?iso-8859-1?Q?QxjNV/FEnHP5l1xtqtI=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1a126940-742a-4615-0923-08d9ad664b6b
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR12MB4918.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Nov 2021 03:15:11.4764 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: EqfxopqRTwi1mN43QQ78/uhhd7dEhFYzc88QRWbaUk68HdrsImttKyXqsaDNFrbxogWN/4tHL6EUTEj0Cu61hA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4019
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,122 +121,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- jglisse@redhat.com, willy@infradead.org, jgg@nvidia.com, hch@lst.de
+Cc: "Koenig, Christian" <Christian.Koenig@amd.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ kernel test robot <lkp@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> >> diff --git a/mm/migrate.c b/mm/migrate.c
-> >> index 1852d787e6ab..f74422a42192 100644
-> >> --- a/mm/migrate.c
-> >> +++ b/mm/migrate.c
-> >> @@ -362,7 +362,7 @@ static int expected_page_refs(struct address_space *mapping, struct page *page)
-> >>  	 * Device private pages have an extra refcount as they are
-> >>  	 * ZONE_DEVICE pages.
-> >>  	 */
-> >> -	expected_count += is_device_private_page(page);
-> >> +	expected_count += is_device_page(page);
-> >>  	if (mapping)
-> >>  		expected_count += thp_nr_pages(page) + page_has_private(page);
-> >>  
-> >> @@ -2503,7 +2503,7 @@ static bool migrate_vma_check_page(struct page *page)
-> >>  		 * FIXME proper solution is to rework migration_entry_wait() so
-> >>  		 * it does not need to take a reference on page.
-> >>  		 */
-> > Note that I have posted a patch to fix this - see
-> > https://lore.kernel.org/all/20211118020754.954425-1-apopple@nvidia.com/ This
-> > looks ok for now assuming coherent pages can never be pinned.
-> >
-> > However that raises a question - what happens when something calls
-> > get_user_pages() on a pfn pointing to a coherent device page? I can't see
-> > anything in this series that prevents pinning of coherent device pages, so we
-> > can't just assume they aren't pinned.
+On Sun, Nov 21, 2021 at 11:54:52PM +0800, Randy Dunlap wrote:
+> Fix kernel-doc warnings in ttm_range_manager.c:
 > 
-> I agree. I think we need to depend on your patch to go in first.
+> drivers/gpu/drm/ttm/ttm_range_manager.c:144: warning: expecting prototype for ttm_range_man_init(). Prototype was for ttm_range_man_init_nocheck() instead
+> drivers/gpu/drm/ttm/ttm_range_manager.c:178: warning: expecting prototype for ttm_range_man_fini(). Prototype was for ttm_range_man_fini_nocheck() instead
 > 
-> I'm also wondering if we need to do something to prevent get_user_pages
-> from pinning device pages. And by "pin", I think migrate_vma_check_page
-> is not talking about FOLL_PIN, but any get_user_pages call. As far as I
-> can tell, there should be nothing fundamentally wrong with pinning
-> device pages for a short time. But I think we'll want to avoid
-> FOLL_LONGTERM because that would affect our memory manager's ability to
-> evict device memory.
+> Also fix subsequent warnings from scripts/kernel-doc.
+> 
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Reported-by: kernel test robot <lkp@intel.com>
+> Cc: Christian König <christian.koenig@amd.com>
+> Cc: Huang Rui <ray.huang@amd.com>
+> Cc: dri-devel@lists.freedesktop.org
 
-Right, so long as my fix goes in I don't think there is anything wrong with
-pinning device public pages. Agree that we should avoid FOLL_LONGTERM pins for
-device memory though. I think the way to do that is update is_pinnable_page()
-so we treat device pages the same as other unpinnable pages ie. long-term pins
-will migrate the page.
+Reviewed-by: Huang Rui <ray.huang@amd.com>
 
-> >
-> > In the case of device-private pages this is enforced by the fact they never
-> > have present pte's, so any attempt to GUP them results in a fault. But if I'm
-> > understanding this series correctly that won't be the case for coherent device
-> > pages right?
+> ---
+>  drivers/gpu/drm/ttm/ttm_range_manager.c |   11 +++++++----
+>  1 file changed, 7 insertions(+), 4 deletions(-)
 > 
-> Right.
-> 
-> Regards,
->   Felix
-> 
-> 
-> >
-> >> -		return is_device_private_page(page);
-> >> +		return is_device_page(page);
-> >>  	}
-> >>  
-> >>  	/* For file back page */
-> >> @@ -2791,7 +2791,7 @@ EXPORT_SYMBOL(migrate_vma_setup);
-> >>   *     handle_pte_fault()
-> >>   *       do_anonymous_page()
-> >>   * to map in an anonymous zero page but the struct page will be a ZONE_DEVICE
-> >> - * private page.
-> >> + * private or coherent page.
-> >>   */
-> >>  static void migrate_vma_insert_page(struct migrate_vma *migrate,
-> >>  				    unsigned long addr,
-> >> @@ -2867,10 +2867,15 @@ static void migrate_vma_insert_page(struct migrate_vma *migrate,
-> >>  				swp_entry = make_readable_device_private_entry(
-> >>  							page_to_pfn(page));
-> >>  			entry = swp_entry_to_pte(swp_entry);
-> >> +		} else if (is_device_page(page)) {
-> > How about adding an explicit `is_device_coherent_page()` helper? It would make
-> > the test more explicit that this is expected to handle just coherent pages and
-> > I bet there will be future changes that need to differentiate between private
-> > and coherent pages anyway.
-> >
-> >> +			entry = pte_mkold(mk_pte(page,
-> >> +						 READ_ONCE(vma->vm_page_prot)));
-> >> +			if (vma->vm_flags & VM_WRITE)
-> >> +				entry = pte_mkwrite(pte_mkdirty(entry));
-> >>  		} else {
-> >>  			/*
-> >> -			 * For now we only support migrating to un-addressable
-> >> -			 * device memory.
-> >> +			 * We support migrating to private and coherent types
-> >> +			 * for device zone memory.
-> >>  			 */
-> >>  			pr_warn_once("Unsupported ZONE_DEVICE page type.\n");
-> >>  			goto abort;
-> >> @@ -2976,10 +2981,10 @@ void migrate_vma_pages(struct migrate_vma *migrate)
-> >>  		mapping = page_mapping(page);
-> >>  
-> >>  		if (is_zone_device_page(newpage)) {
-> >> -			if (is_device_private_page(newpage)) {
-> >> +			if (is_device_page(newpage)) {
-> >>  				/*
-> >> -				 * For now only support private anonymous when
-> >> -				 * migrating to un-addressable device memory.
-> >> +				 * For now only support private and coherent
-> >> +				 * anonymous when migrating to device memory.
-> >>  				 */
-> >>  				if (mapping) {
-> >>  					migrate->src[i] &= ~MIGRATE_PFN_MIGRATE;
-> >>
-> >
-> >
-> 
-
-
-
-
+> --- linux-next-20211118.orig/drivers/gpu/drm/ttm/ttm_range_manager.c
+> +++ linux-next-20211118/drivers/gpu/drm/ttm/ttm_range_manager.c
+> @@ -128,15 +128,17 @@ static const struct ttm_resource_manager
+>  };
+>  
+>  /**
+> - * ttm_range_man_init
+> + * ttm_range_man_init_nocheck - Initialise a generic range manager for the
+> + * selected memory type.
+>   *
+>   * @bdev: ttm device
+>   * @type: memory manager type
+>   * @use_tt: if the memory manager uses tt
+>   * @p_size: size of area to be managed in pages.
+>   *
+> - * Initialise a generic range manager for the selected memory type.
+>   * The range manager is installed for this device in the type slot.
+> + *
+> + * Return: %0 on success or a negative error code on failure
+>   */
+>  int ttm_range_man_init_nocheck(struct ttm_device *bdev,
+>  		       unsigned type, bool use_tt,
+> @@ -166,12 +168,13 @@ int ttm_range_man_init_nocheck(struct tt
+>  EXPORT_SYMBOL(ttm_range_man_init_nocheck);
+>  
+>  /**
+> - * ttm_range_man_fini
+> + * ttm_range_man_fini_nocheck - Remove the generic range manager from a slot
+> + * and tear it down.
+>   *
+>   * @bdev: ttm device
+>   * @type: memory manager type
+>   *
+> - * Remove the generic range manager from a slot and tear it down.
+> + * Return: %0 on success or a negative error code on failure
+>   */
+>  int ttm_range_man_fini_nocheck(struct ttm_device *bdev,
+>  		       unsigned type)
