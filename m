@@ -2,33 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BCE0459753
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Nov 2021 23:22:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5CDA459755
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Nov 2021 23:22:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DCE6F89DFC;
-	Mon, 22 Nov 2021 22:22:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A316E89E1B;
+	Mon, 22 Nov 2021 22:22:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A67689D9B
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Nov 2021 22:22:39 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 2D11461004;
- Mon, 22 Nov 2021 22:22:33 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 01E2289E1B
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Nov 2021 22:22:46 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A4ED860F51;
+ Mon, 22 Nov 2021 22:22:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1637619759;
- bh=sys9XJFA/dhliBmMopCopzBXwQ5L2mlun1TUrr3vGRA=;
+ s=k20201202; t=1637619765;
+ bh=DkH2C/0N1WYbkBTHTcXs+UoiXTHoHZhSHgkMmx0w2Xc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=WR3+Blu3IRW2Yhs5zCvf1L9Bs1DK6UlkyNrvuALltf/Cx2Ld4S+RIwoNQP1ZJa8Me
- 0k2gQIm+YMLlRt6gZ8S3u+mo/GUMQZG/LQIYg25XUw7m4G5+PnoriFpQxQaiHvkuzg
- /L+0271pMWb8Zv9xbu0UyZJjSWDGu5B/50b1v8edJiwT8VelW0JiKduUh3tFwMrJyc
- n0UsZBridxhTdPjzbsUJzBkQhqYc56e264H2Bsv/99bpTXzZpwFGbUEm8LiG14LSoL
- szfShKk7TCtNrm3icqZwHYOcAQmqiIOUKdmlM+ayHLtOrcSROgx3Zd2luYkcUzlRym
- p9c+BGRLp1lgw==
+ b=G2Oxdt95V8shdcCR4rf8/SnteVMCqPXu7ONpufFbqQSZlnD5v72OrbusBId0aTBCO
+ pP7ckP/ytX0pvpQkWJncqKZTFopWpfw907t6DuIdqszCUJmEH0P8XVWEEcD9/Gc22x
+ BsbBGBjcTwnJPUC00tjAyAiRRBB7Q+yLxDG1vNK4N+lQXd5vI+hHx06boyzMJ/jE1f
+ 5y/7vYtfL+uUibDbJ2SibZOim3YzH9m1BDyOZhEEUVCJq5dBjszMoc2+aYldAVpLgw
+ ihYtpESUekvfxtkIZRBiMxX1y99UhIOUT9S4tCllpAW1AaavTuWHc9Nz22S82Orn3v
+ 7aynnt3oUMzkw==
 From: Arnd Bergmann <arnd@kernel.org>
 To: Vinod Koul <vkoul@kernel.org>
-Subject: [PATCH v2 01/11] ASoC: tegra20-spdif: stop setting slave_id
-Date: Mon, 22 Nov 2021 23:21:53 +0100
-Message-Id: <20211122222203.4103644-2-arnd@kernel.org>
+Subject: [PATCH v2 02/11] ASoC: dai_dma: remove slave_id field
+Date: Mon, 22 Nov 2021 23:21:54 +0100
+Message-Id: <20211122222203.4103644-3-arnd@kernel.org>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20211122222203.4103644-1-arnd@kernel.org>
 References: <20211122222203.4103644-1-arnd@kernel.org>
@@ -70,34 +70,58 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Arnd Bergmann <arnd@arndb.de>
 
-The DMA resource is never set up anywhere, and passing this as slave_id
-has not been the proper procedure in a long time.
-
-As a preparation for removing all slave_id references from the ALSA code,
-remove this one.
-
-According to Dmitry Osipenko, this driver has never been used and
-the mechanism for configuring DMA would not work as it is implemented,
-so this part will get rewritten when the driver gets put into use
-again in the future.
+This field is no longer set from any driver now, so remove the
+last references as well.
 
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- sound/soc/tegra/tegra20_spdif.c | 1 -
- 1 file changed, 1 deletion(-)
+ include/sound/dmaengine_pcm.h | 2 --
+ sound/core/pcm_dmaengine.c    | 5 ++---
+ 2 files changed, 2 insertions(+), 5 deletions(-)
 
-diff --git a/sound/soc/tegra/tegra20_spdif.c b/sound/soc/tegra/tegra20_spdif.c
-index 9fdc82d58db3..1c3385da6f82 100644
---- a/sound/soc/tegra/tegra20_spdif.c
-+++ b/sound/soc/tegra/tegra20_spdif.c
-@@ -284,7 +284,6 @@ static int tegra20_spdif_platform_probe(struct platform_device *pdev)
- 	spdif->playback_dma_data.addr = mem->start + TEGRA20_SPDIF_DATA_OUT;
- 	spdif->playback_dma_data.addr_width = DMA_SLAVE_BUSWIDTH_4_BYTES;
- 	spdif->playback_dma_data.maxburst = 4;
--	spdif->playback_dma_data.slave_id = dmareq->start;
+diff --git a/include/sound/dmaengine_pcm.h b/include/sound/dmaengine_pcm.h
+index 9144bd547851..7403870c28bd 100644
+--- a/include/sound/dmaengine_pcm.h
++++ b/include/sound/dmaengine_pcm.h
+@@ -58,7 +58,6 @@ struct dma_chan *snd_dmaengine_pcm_get_chan(struct snd_pcm_substream *substream)
+  * @maxburst: Maximum number of words(note: words, as in units of the
+  * src_addr_width member, not bytes) that can be send to or received from the
+  * DAI in one burst.
+- * @slave_id: Slave requester id for the DMA channel.
+  * @filter_data: Custom DMA channel filter data, this will usually be used when
+  * requesting the DMA channel.
+  * @chan_name: Custom channel name to use when requesting DMA channel.
+@@ -72,7 +71,6 @@ struct snd_dmaengine_dai_dma_data {
+ 	dma_addr_t addr;
+ 	enum dma_slave_buswidth addr_width;
+ 	u32 maxburst;
+-	unsigned int slave_id;
+ 	void *filter_data;
+ 	const char *chan_name;
+ 	unsigned int fifo_size;
+diff --git a/sound/core/pcm_dmaengine.c b/sound/core/pcm_dmaengine.c
+index af08bb4bf578..6762fb2083e1 100644
+--- a/sound/core/pcm_dmaengine.c
++++ b/sound/core/pcm_dmaengine.c
+@@ -91,8 +91,8 @@ EXPORT_SYMBOL_GPL(snd_hwparams_to_dma_slave_config);
+  * @dma_data: DAI DMA data
+  * @slave_config: DMA slave configuration
+  *
+- * Initializes the {dst,src}_addr, {dst,src}_maxburst, {dst,src}_addr_width and
+- * slave_id fields of the DMA slave config from the same fields of the DAI DMA
++ * Initializes the {dst,src}_addr, {dst,src}_maxburst, {dst,src}_addr_width
++ * fields of the DMA slave config from the same fields of the DAI DMA
+  * data struct. The src and dst fields will be initialized depending on the
+  * direction of the substream. If the substream is a playback stream the dst
+  * fields will be initialized, if it is a capture stream the src fields will be
+@@ -124,7 +124,6 @@ void snd_dmaengine_pcm_set_config_from_dai_data(
+ 			slave_config->src_addr_width = dma_data->addr_width;
+ 	}
  
- 	pm_runtime_enable(&pdev->dev);
- 
+-	slave_config->slave_id = dma_data->slave_id;
+ 	slave_config->peripheral_config = dma_data->peripheral_config;
+ 	slave_config->peripheral_size = dma_data->peripheral_size;
+ }
 -- 
 2.29.2
 
