@@ -1,112 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26184459007
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Nov 2021 15:15:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EE4A459013
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Nov 2021 15:19:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E484D89944;
-	Mon, 22 Nov 2021 14:15:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9226C89D61;
+	Mon, 22 Nov 2021 14:19:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
- [210.118.77.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 669FE89944
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Nov 2021 14:15:51 +0000 (UTC)
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20211122141549euoutp01718b2f0e65f6e4872f093b44a7b0db3f~54_2_nUj22189221892euoutp01a
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Nov 2021 14:15:49 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20211122141549euoutp01718b2f0e65f6e4872f093b44a7b0db3f~54_2_nUj22189221892euoutp01a
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1637590549;
- bh=BeZnhPIFeWbxVhAa16KWixFoZ/vCymnsKANBTfcIfT8=;
- h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
- b=JkunEL6/uAleQLutRoc/GORyWse7MbVuNj5IBl7wjhv4P2by/+5wU/V7/017xXqDE
- GNir5NL6y1bABANi0hjmX7RCgEaDGOH7ytxUq93pZwKX4WvKUBW3rl9YK4kzdG+Yra
- CuBRYfMRrpdWc/PcQcK0Y3YBgUKCGl1rTWmugOGQ=
-Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20211122141549eucas1p1dabdcab8104b4c1fc14b6ef651fc606c~54_2gR-sp2871328713eucas1p1G;
- Mon, 22 Nov 2021 14:15:49 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges3new.samsung.com (EUCPMTA) with SMTP id 7C.1F.10260.516AB916; Mon, 22
- Nov 2021 14:15:49 +0000 (GMT)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20211122141548eucas1p2a2ea9662218a03b0496f48c54c5c4827~54_2FbyDy2616026160eucas1p2h;
- Mon, 22 Nov 2021 14:15:48 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
- eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20211122141548eusmtrp12f1303282f2d64aa26b2c6df2a44f0c6~54_2Eh_vG2128221282eusmtrp1F;
- Mon, 22 Nov 2021 14:15:48 +0000 (GMT)
-X-AuditID: cbfec7f5-bf3ff70000002814-c2-619ba615c708
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
- eusmgms1.samsung.com (EUCPMTA) with SMTP id 88.F0.09522.416AB916; Mon, 22
- Nov 2021 14:15:48 +0000 (GMT)
-Received: from [106.210.134.192] (unknown [106.210.134.192]) by
- eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20211122141548eusmtip2659847504bf359c8d6fdcaf81434ed86~54_1j0nqC1967719677eusmtip2d;
- Mon, 22 Nov 2021 14:15:48 +0000 (GMT)
-Message-ID: <5e173bc6-a320-42ec-79de-0ea4c3c2b480@samsung.com>
-Date: Mon, 22 Nov 2021 15:15:47 +0100
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com
+ [IPv6:2a00:1450:4864:20::52b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C9FDD89D63
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Nov 2021 14:19:39 +0000 (UTC)
+Received: by mail-ed1-x52b.google.com with SMTP id r25so40727027edq.7
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Nov 2021 06:19:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ExLVcm8t4PX+UHPWH3X57MO6JYmQBBOJFtv5rpLtGc8=;
+ b=SWxqxjDKt9JErPEH3RLcvo3/3wwyV7XXkJEMUtP3QOvEMIysUDgUDqp8GfxpSQz4ev
+ mK9gZS9AaqL1FaM046SNxc40MtmNDAmSsHKCHbFgT4eSVSEjw9A+apqcVEfa08/a/BFc
+ G75yAD2jJ+KI0h5WzEkP0rPHADh/eE0XzorOU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ExLVcm8t4PX+UHPWH3X57MO6JYmQBBOJFtv5rpLtGc8=;
+ b=SCvD1zgtuOW81BRKv0tqJhnxUuvJ4ff838MybsQM2DULWSctljLrgYLF/YieqfPcsM
+ zWeSlq9bMV1+7hCu7sp/2C/krmy2pO9XP7f8vggzhIHuo/PPbD1or1YyOc3S6ovYuMEE
+ J93/ihkSbeG7oGS3VtFg4XlZVSgdsY1N+Ll+9gx1vIjFbza0Widt3qLNqwiJ9noNjar9
+ EpG4ER7gPLhyKjxKx+8INf4KuDzVNRyFRueSXpLrPMJ/mWxkRNxeNzckIFmAicKtPMfT
+ 2Wh+8P0clUH2cEGCqI1YhjkKf5x6t9Jf63v93sXXB81vn1pjEV89RcQ3c3ZSZPrKZ3XQ
+ jhkQ==
+X-Gm-Message-State: AOAM533/aZuLheFSnrQbH2uDCWK/CRZMgfyUOGOp06F2Bsez0eYwHCVy
+ GD2k+FEWkDLs3pamnz2h5wxG+3BsecD87I2IBVj8q/HZdEXH/w==
+X-Google-Smtp-Source: ABdhPJwdam8PCtweCHLUYtK9+s+QizRsZftsENKdPxQEDKQz1RoMCzjGav75eg/266o0q1bmzZiQT7dBHXybLAD0934=
+X-Received: by 2002:a17:907:250f:: with SMTP id
+ y15mr40869188ejl.0.1637590777276; 
+ Mon, 22 Nov 2021 06:19:37 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0)
- Gecko/20100101 Thunderbird/91.3.1
-Subject: Re: [PATCH 1/2] drm: exynos: dsi: Convert to bridge driver
-Content-Language: en-US
-To: Jagan Teki <jagan@amarulasolutions.com>, Inki Dae
- <inki.dae@samsung.com>, Neil Armstrong <narmstrong@baylibre.com>, Robert
- Foss <robert.foss@linaro.org>, Laurent Pinchart
- <Laurent.pinchart@ideasonboard.com>, Sam Ravnborg <sam@ravnborg.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-In-Reply-To: <20211122070633.89219-2-jagan@amarulasolutions.com>
-Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrOKsWRmVeSWpSXmKPExsWy7djPc7qiy2YnGiz6zmJxf/FnFosrX9+z
- WUy6P4HF4sumCWwWnROXsFssn7CPzeJQX7TFp1kPmS1W/NzK6MDpsfbjfVaP9zda2T1md8xk
- 9Vi85yWTx51re9g87ncfZ/JYMu0qm0ffllWMARxRXDYpqTmZZalF+nYJXBm3Jq9kKrgSUdEx
- Mb2BcaNnFyMnh4SAicTskzdYuhi5OIQEVjBKfPjXxAjhfGGU2Lv8JyuE85lR4vfD9+wwLYe/
- 74JKLGeUeHlyPzuE85FR4u2lR0DDODh4Bewk/s2VBmlgEVCVWPjwBCOIzSsgKHFy5hMWEFtU
- IEnidOskZhBbWMBZ4si7ZWA1zALiEreezGcCmSkisIRJ4vjS+8wQCXeJp2+2gdlsAoYSXW+7
- 2EBsTgEHicVzHrJD1MhLNG+dzQzSLCHQzCnRdeQvE8TZLhKNj36zQtjCEq+Ob4F6R0bi9OQe
- FqgGRomH59ayQzg9jBKXm2YwQlRZS9w594sN5DVmAU2J9bv0IcKOElsmL2ICCUsI8EnceCsI
- cQSfxKRt05khwrwSHW1CENVqErOOr4Nbe/DCJeYJjEqzkMJlFpL/ZyF5ZxbC3gWMLKsYxVNL
- i3PTU4uN81LL9YoTc4tL89L1kvNzNzEC09bpf8e/7mBc8eqj3iFGJg7GQ4wSHMxKIrzXlsxO
- FOJNSaysSi3Kjy8qzUktPsQozcGiJM4r8qchUUggPbEkNTs1tSC1CCbLxMEp1cAkyxG7SHyf
- 1MeZRy92v2VhkVio+jn3+edtjufytil5q1eLRxbwLkvU2ruzWt52cpVk+JFqcYNNXxNPbnv9
- J0yRXULqSGoSd6W1/s2J3535RWe0la8P661bxKLgNnXtq1ADSZNf7YsfXF14OFz+x3KtoL0e
- 7NYp3Pf9nvOo8cUmzGJQFG9aoVN/9dScJysk3Da81pdfkM/MPevwW8UH/Uu3zuJkqGe5IN/1
- m8Nffksj1/7tVhvXPT3QcY9d+FeUnKLrd6ZlD+d5KIT49j/8kpy44lJM7u8jK049exVa9Ppp
- 4T5Nhr1Z1ucs8p5fX773yo36u5eXOpSxh1SrLi98EmBnvMiU0VPpO3v4lynlCquVWIozEg21
- mIuKEwGk0XNFygMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrJIsWRmVeSWpSXmKPExsVy+t/xe7oiy2YnGuyYo25xf/FnFosrX9+z
- WUy6P4HF4sumCWwWnROXsFssn7CPzeJQX7TFp1kPmS1W/NzK6MDpsfbjfVaP9zda2T1md8xk
- 9Vi85yWTx51re9g87ncfZ/JYMu0qm0ffllWMARxRejZF+aUlqQoZ+cUltkrRhhZGeoaWFnpG
- JpZ6hsbmsVZGpkr6djYpqTmZZalF+nYJehm3Jq9kKrgSUdExMb2BcaNnFyMnh4SAicTh77tY
- uxi5OIQEljJKPO1pZoVIyEicnNYAZQtL/LnWxQZR9J5RYsHTPUAJDg5eATuJf3OlQWpYBFQl
- Fj48wQhi8woISpyc+YQFxBYVSJLo/76LGcQWFnCWOPJuGVgNs4C4xK0n85lAZooILGGSeD5/
- ClTCXeLpm23MEMtOMkr8WL8UrJtNwFCi6y3IFZwcnAIOEovnPGSHaDCT6NraBdUsL9G8dTbz
- BEahWUgOmYVk4SwkLbOQtCxgZFnFKJJaWpybnltsqFecmFtcmpeul5yfu4kRGKfbjv3cvINx
- 3quPeocYmTgYDzFKcDArifBeWzI7UYg3JbGyKrUoP76oNCe1+BCjKTA0JjJLiSbnAxNFXkm8
- oZmBqaGJmaWBqaWZsZI4r2dBR6KQQHpiSWp2ampBahFMHxMHp1QDU9UCj1aBts6Ss1uPThSp
- UxLz+HTQxbTzDs/U5n63sznF8znFdl96lNZ9Tt7E70Dekj2N17aapvK1PPOpZ436YBLwLjqz
- 4YPUqX9tQXWcs7eXB4VaHC2+9e7Dt4WOxadVjgs9VsyUsWnfOXu/XlnaEckVLsFTX59ZKMEx
- 81Hx9bQJfcnX5qzPThN6cO3xUTZ2Uzl1z/OqAmKv8jiebUxeG8roGG+xNuq8uIlKW8M8HYUz
- ZwTiHZZMurB/ttqbJOnbpitj++2XN3wP0lXfddxkUivPvvYdohwn16Z4hWc5+T7rlWGY5tbR
- Myuw6vY6o12aGc12yq4HvU/unxV/+ZhMr5EB8znpqZLbuN1t1u9RYinOSDTUYi4qTgQAr9FS
- U1wDAAA=
-X-CMS-MailID: 20211122141548eucas1p2a2ea9662218a03b0496f48c54c5c4827
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20211122070651eucas1p1d505c9d2041501898d4f3b1f277e2599
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20211122070651eucas1p1d505c9d2041501898d4f3b1f277e2599
-References: <20211122070633.89219-1-jagan@amarulasolutions.com>
- <CGME20211122070651eucas1p1d505c9d2041501898d4f3b1f277e2599@eucas1p1.samsung.com>
- <20211122070633.89219-2-jagan@amarulasolutions.com>
+References: <20211122065223.88059-1-jagan@amarulasolutions.com>
+ <20211122065223.88059-4-jagan@amarulasolutions.com>
+ <20211122100712.dls4eqsu6o5gcc5k@gilmour>
+ <CAMty3ZDkUSfW_+PosjgY_GQB3wSvNRaCjwq_nOwWHo-RGQUVFw@mail.gmail.com>
+ <20211122140457.jm7cwpp2h3fkf2nd@gilmour>
+In-Reply-To: <20211122140457.jm7cwpp2h3fkf2nd@gilmour>
+From: Jagan Teki <jagan@amarulasolutions.com>
+Date: Mon, 22 Nov 2021 19:49:26 +0530
+Message-ID: <CAMty3ZByw=ZjN3z2UsKj5X5kvrpwCFNUohAnO=O1d29jLPR1Yw@mail.gmail.com>
+Subject: Re: [PATCH v5 3/7] drm: sun4i: dsi: Convert to bridge driver
+To: Maxime Ripard <maxime@cerno.tech>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -119,302 +64,314 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-amarula@amarulasolutions.com, dri-devel@lists.freedesktop.org
+Cc: Neil Armstrong <narmstrong@baylibre.com>,
+ Robert Foss <robert.foss@linaro.org>, linux-sunxi@googlegroups.com,
+ dri-devel@lists.freedesktop.org, Chen-Yu Tsai <wens@csie.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sam Ravnborg <sam@ravnborg.org>, linux-amarula@amarulasolutions.com,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 22.11.2021 08:06, Jagan Teki wrote:
-> Some display panels would come up with a non-DSI output, those
-> can have an option to connect the DSI host by means of interface
-> bridge converter.
+Hi Maxime,
+
+On Mon, Nov 22, 2021 at 7:35 PM Maxime Ripard <maxime@cerno.tech> wrote:
 >
-> This DSI to non-DSI interface bridge converter would requires
-> DSI Host to handle drm bridge functionalities in order to DSI
-> Host to Interface bridge.
+> On Mon, Nov 22, 2021 at 07:18:13PM +0530, Jagan Teki wrote:
+> > Hi Maxime,
+> >
+> > On Mon, Nov 22, 2021 at 3:37 PM Maxime Ripard <maxime@cerno.tech> wrote:
+> > >
+> > > On Mon, Nov 22, 2021 at 12:22:19PM +0530, Jagan Teki wrote:
+> > > > Some display panels would come up with a non-DSI output, those
+> > > > can have an option to connect the DSI host by means of interface
+> > > > bridge converter.
+> > > >
+> > > > This DSI to non-DSI interface bridge converter would requires
+> > > > DSI Host to handle drm bridge functionalities in order to DSI
+> > > > Host to Interface bridge.
+> > >
+> > > In order to do this you would need to use the DRM bridge API...
+> >
+> > Sorry, which bridge API do you mean?
 >
-> This patch convert the existing to a drm bridge driver with a
-> built-in encoder support for compatibility with existing
-> component drivers.
+> Any variant of of_drm_find_bridge, and drm_bridge_attach. Just like
+> we're doing in sun4i_rgb.c
+
+Yes, we have drm_bridge_attach in bind and bridge_function.attach
+calls in this patch and of_drm_find_bridge in sun6i_mipi_dsi_attach.
+Not sure which API's I've missed.
+
 >
-> Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
-> ---
-> Note:
-> Hi Marek Szyprowski,
+> > > > This patch convert the existing to a drm bridge driver with a
+> > > > built-in encoder support for compatibility with existing
+> > > > component drivers.
+> > >
+> > > ... but changing the encoder driver to a bridge is completely
+> > > unnecessary to do so. Why did you need to make that change?
+> >
+> > Idea of this series is to convert the driver to bridge and use the
+> > latest bridge function from the v1 series.
 >
-> Please test this on Panel and Bridge hardware.
+> Ok, but it's not at all what you mention in your commit log? You don't
+> need any of that in order to support a bridge downstream.
 
-I don't have good news, t crashes:
+I've mentioned "Converting to bridge driver" and thought it has
+meaning of converting encoder related function to bridge functions as
+well. Not think about specific description to describe on commit
+message. Will update this.
 
-[drm] Exynos DRM: using 13800000.decon device for DMA mapping operations
-exynos-drm exynos-drm: bound 13800000.decon (ops decon_component_ops)
-exynos-drm exynos-drm: bound 13880000.decon (ops decon_component_ops)
-exynos-drm exynos-drm: bound 13930000.mic (ops exynos_mic_component_ops)
-[drm:drm_bridge_attach] *ERROR* failed to attach bridge 
-/soc@0/dsi@13900000 to encoder TMDS-67: -22
-exynos-drm exynos-drm: failed to bind 13900000.dsi (ops 
-exynos_dsi_component_ops): -22
-Internal error: synchronous external abort: 96000210 [#1] PREEMPT SMP
-Modules linked in:
-CPU: 2 PID: 74 Comm: kworker/u16:1 Not tainted 5.16.0-rc1+ #4141
-Hardware name: Samsung TM2E board (DT)
-Workqueue: events_unbound deferred_probe_work_func
-pstate: 80000005 (Nzcv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-pc : decon_atomic_disable+0x58/0xd4
-lr : decon_atomic_disable+0x28/0xd4
-sp : ffff80001390b940
-x29: ffff80001390b940 x28: ffff80001259a000 x27: ffff000027f39e80
-input: stmfts as 
-/devices/platform/soc@0/14ed0000.hsi2c/i2c-3/3-0049/input/input0
-x26: 00000000ffffffea x25: ffff000025a40280 x24: 0000000000000001
-x23: ffff800011b55f98 x22: ffff0000315dc000 x21: ffff00002695d100
-x20: ffff000027e7a080 x19: ffff0000315e6000 x18: 0000000000000000
-x17: 645f736f6e797865 x16: 2073706f28206973 x15: 0000000000028ee0
-x14: 0000000000000028 x13: 0000000000000001 x12: 0000000000000040
-x11: ffff000023c18920 x10: ffff000023c18922 x9 : ffff8000126352f0
-x8 : ffff000023c00270 x7 : 0000000000000000 x6 : ffff000023c00268
-x5 : ffff000027e7a3a0 x4 : 0000000000000001 x3 : ffff000027e7a080
-x2 : 0000000000000024 x1 : ffff800013bc8024 x0 : ffff0000246117c0
-Call trace:
-  decon_atomic_disable+0x58/0xd4
-  decon_unbind+0x1c/0x3c
-  component_unbind+0x38/0x60
-  component_bind_all+0x16c/0x25c
-  exynos_drm_bind+0x104/0x1bc
-  try_to_bring_up_master+0x164/0x1d0
-  __component_add+0xa8/0x174
-  component_add+0x14/0x20
-  hdmi_probe+0x438/0x710
-  platform_probe+0x68/0xe0
-  really_probe.part.0+0x9c/0x31c
-  __driver_probe_device+0x98/0x144
-  driver_probe_device+0xc8/0x160
-  __device_attach_driver+0xb8/0x120
-  bus_for_each_drv+0x78/0xd0
-  __device_attach+0xd8/0x180
-  device_initial_probe+0x14/0x20
-  bus_probe_device+0x9c/0xa4
-  deferred_probe_work_func+0x88/0xc4
-  process_one_work+0x288/0x6f0
-  worker_thread+0x74/0x470
-  kthread+0x188/0x194
-  ret_from_fork+0x10/0x20
-Code: 11002042 f9481c61 531e7442 8b020021 (88dffc21)
----[ end trace d73aff585b108954 ]---
-Kernel panic - not syncing: synchronous external abort: Fatal exception
-SMP: stopping secondary CPUs
-Kernel Offset: disabled
-CPU features: 0x2,300071c2,00000846
-Memory Limit: none
----[ end Kernel panic - not syncing: synchronous external abort: Fatal 
-exception ]---
-
-I will try to debug it a bit more once I find some spare time. I've 
-applied only the first patch.
-
->   drivers/gpu/drm/exynos/exynos_drm_dsi.c | 73 +++++++++++++++++--------
->   1 file changed, 51 insertions(+), 22 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/exynos/exynos_drm_dsi.c b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
-> index 8d137857818c..174590f543c3 100644
-> --- a/drivers/gpu/drm/exynos/exynos_drm_dsi.c
-> +++ b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
-> @@ -257,6 +257,7 @@ struct exynos_dsi {
->   	struct drm_connector connector;
->   	struct drm_panel *panel;
->   	struct list_head bridge_chain;
-> +	struct drm_bridge bridge;
->   	struct drm_bridge *out_bridge;
->   	struct device *dev;
->   
-> @@ -287,9 +288,9 @@ struct exynos_dsi {
->   #define host_to_dsi(host) container_of(host, struct exynos_dsi, dsi_host)
->   #define connector_to_dsi(c) container_of(c, struct exynos_dsi, connector)
->   
-> -static inline struct exynos_dsi *encoder_to_dsi(struct drm_encoder *e)
-> +static inline struct exynos_dsi *bridge_to_dsi(struct drm_bridge *b)
->   {
-> -	return container_of(e, struct exynos_dsi, encoder);
-> +	return container_of(b, struct exynos_dsi, bridge);
->   }
->   
->   enum reg_idx {
-> @@ -1374,9 +1375,10 @@ static void exynos_dsi_unregister_te_irq(struct exynos_dsi *dsi)
->   	}
->   }
->   
-> -static void exynos_dsi_enable(struct drm_encoder *encoder)
-> +static void exynos_dsi_atomic_enable(struct drm_bridge *bridge,
-> +				     struct drm_bridge_state *old_bridge_state)
->   {
-> -	struct exynos_dsi *dsi = encoder_to_dsi(encoder);
-> +	struct exynos_dsi *dsi = bridge_to_dsi(bridge);
->   	struct drm_bridge *iter;
->   	int ret;
->   
-> @@ -1399,7 +1401,8 @@ static void exynos_dsi_enable(struct drm_encoder *encoder)
->   		list_for_each_entry_reverse(iter, &dsi->bridge_chain,
->   					    chain_node) {
->   			if (iter->funcs->pre_enable)
-> -				iter->funcs->pre_enable(iter);
-> +				iter->funcs->atomic_pre_enable(iter,
-> +							       old_bridge_state);
->   		}
->   	}
->   
-> @@ -1413,7 +1416,7 @@ static void exynos_dsi_enable(struct drm_encoder *encoder)
->   	} else {
->   		list_for_each_entry(iter, &dsi->bridge_chain, chain_node) {
->   			if (iter->funcs->enable)
-> -				iter->funcs->enable(iter);
-> +				iter->funcs->atomic_enable(iter, old_bridge_state);
->   		}
->   	}
->   
-> @@ -1429,9 +1432,10 @@ static void exynos_dsi_enable(struct drm_encoder *encoder)
->   	pm_runtime_put(dsi->dev);
->   }
->   
-> -static void exynos_dsi_disable(struct drm_encoder *encoder)
-> +static void exynos_dsi_atomic_disable(struct drm_bridge *bridge,
-> +				      struct drm_bridge_state *old_bridge_state)
->   {
-> -	struct exynos_dsi *dsi = encoder_to_dsi(encoder);
-> +	struct exynos_dsi *dsi = bridge_to_dsi(bridge);
->   	struct drm_bridge *iter;
->   
->   	if (!(dsi->state & DSIM_STATE_ENABLED))
-> @@ -1443,7 +1447,7 @@ static void exynos_dsi_disable(struct drm_encoder *encoder)
->   
->   	list_for_each_entry_reverse(iter, &dsi->bridge_chain, chain_node) {
->   		if (iter->funcs->disable)
-> -			iter->funcs->disable(iter);
-> +			iter->funcs->atomic_disable(iter, old_bridge_state);
->   	}
->   
->   	exynos_dsi_set_display_enable(dsi, false);
-> @@ -1451,7 +1455,7 @@ static void exynos_dsi_disable(struct drm_encoder *encoder)
->   
->   	list_for_each_entry(iter, &dsi->bridge_chain, chain_node) {
->   		if (iter->funcs->post_disable)
-> -			iter->funcs->post_disable(iter);
-> +			iter->funcs->atomic_post_disable(iter, old_bridge_state);
->   	}
->   
->   	dsi->state &= ~DSIM_STATE_ENABLED;
-> @@ -1494,9 +1498,9 @@ static const struct drm_connector_helper_funcs exynos_dsi_connector_helper_funcs
->   	.get_modes = exynos_dsi_get_modes,
->   };
->   
-> -static int exynos_dsi_create_connector(struct drm_encoder *encoder)
-> +static int exynos_dsi_create_connector(struct exynos_dsi *dsi)
->   {
-> -	struct exynos_dsi *dsi = encoder_to_dsi(encoder);
-> +	struct drm_encoder *encoder = &dsi->encoder;
->   	struct drm_connector *connector = &dsi->connector;
->   	struct drm_device *drm = encoder->dev;
->   	int ret;
-> @@ -1522,9 +1526,21 @@ static int exynos_dsi_create_connector(struct drm_encoder *encoder)
->   	return 0;
->   }
->   
-> -static const struct drm_encoder_helper_funcs exynos_dsi_encoder_helper_funcs = {
-> -	.enable = exynos_dsi_enable,
-> -	.disable = exynos_dsi_disable,
-> +static int exynos_dsi_attach(struct drm_bridge *bridge,
-> +			     enum drm_bridge_attach_flags flags)
-> +{
-> +	struct exynos_dsi *dsi = bridge_to_dsi(bridge);
-> +
-> +	return drm_bridge_attach(bridge->encoder, dsi->out_bridge, NULL, 0);
-> +}
-> +
-> +static const struct drm_bridge_funcs exynos_dsi_bridge_funcs = {
-> +	.atomic_duplicate_state	= drm_atomic_helper_bridge_duplicate_state,
-> +	.atomic_destroy_state	= drm_atomic_helper_bridge_destroy_state,
-> +	.atomic_reset		= drm_atomic_helper_bridge_reset,
-> +	.atomic_enable		= exynos_dsi_atomic_enable,
-> +	.atomic_disable		= exynos_dsi_atomic_disable,
-> +	.attach			= exynos_dsi_attach,
->   };
->   
->   MODULE_DEVICE_TABLE(of, exynos_dsi_of_match);
-> @@ -1543,7 +1559,7 @@ static int exynos_dsi_host_attach(struct mipi_dsi_host *host,
->   		dsi->out_bridge = out_bridge;
->   		list_splice_init(&encoder->bridge_chain, &dsi->bridge_chain);
->   	} else {
-> -		int ret = exynos_dsi_create_connector(encoder);
-> +		int ret = exynos_dsi_create_connector(dsi);
->   
->   		if (ret) {
->   			DRM_DEV_ERROR(dsi->dev,
-> @@ -1596,7 +1612,7 @@ static int exynos_dsi_host_detach(struct mipi_dsi_host *host,
->   
->   	if (dsi->panel) {
->   		mutex_lock(&drm->mode_config.mutex);
-> -		exynos_dsi_disable(&dsi->encoder);
-> +		exynos_dsi_atomic_disable(&dsi->bridge, NULL);
->   		dsi->panel = NULL;
->   		dsi->connector.status = connector_status_disconnected;
->   		mutex_unlock(&drm->mode_config.mutex);
-> @@ -1702,12 +1718,16 @@ static int exynos_dsi_bind(struct device *dev, struct device *master,
->   
->   	drm_simple_encoder_init(drm_dev, encoder, DRM_MODE_ENCODER_TMDS);
->   
-> -	drm_encoder_helper_add(encoder, &exynos_dsi_encoder_helper_funcs);
-> -
->   	ret = exynos_drm_set_possible_crtcs(encoder, EXYNOS_DISPLAY_TYPE_LCD);
->   	if (ret < 0)
->   		return ret;
->   
-> +	ret = drm_bridge_attach(&dsi->encoder, &dsi->bridge, NULL, 0);
-> +	if (ret) {
-> +		drm_encoder_cleanup(&dsi->encoder);
-> +		return ret;
-> +	}
-> +
->   	in_bridge_node = of_graph_get_remote_node(dev->of_node, DSI_PORT_IN, 0);
->   	if (in_bridge_node) {
->   		in_bridge = of_drm_find_bridge(in_bridge_node);
-> @@ -1723,10 +1743,9 @@ static void exynos_dsi_unbind(struct device *dev, struct device *master,
->   				void *data)
->   {
->   	struct exynos_dsi *dsi = dev_get_drvdata(dev);
-> -	struct drm_encoder *encoder = &dsi->encoder;
-> -
-> -	exynos_dsi_disable(encoder);
->   
-> +	exynos_dsi_atomic_disable(&dsi->bridge, NULL);
-> +	drm_encoder_cleanup(&dsi->encoder);
->   	mipi_dsi_host_unregister(&dsi->dsi_host);
->   }
->   
-> @@ -1819,6 +1838,12 @@ static int exynos_dsi_probe(struct platform_device *pdev)
->   
->   	pm_runtime_enable(dev);
->   
-> +	dsi->bridge.funcs = &exynos_dsi_bridge_funcs;
-> +	dsi->bridge.of_node = dev->of_node;
-> +	dsi->bridge.type = DRM_MODE_CONNECTOR_DSI;
-> +
-> +	drm_bridge_add(&dsi->bridge);
-> +
->   	ret = component_add(dev, &exynos_dsi_component_ops);
->   	if (ret)
->   		goto err_disable_runtime;
-> @@ -1833,6 +1858,10 @@ static int exynos_dsi_probe(struct platform_device *pdev)
->   
->   static int exynos_dsi_remove(struct platform_device *pdev)
->   {
-> +	struct exynos_dsi *dsi = platform_get_drvdata(pdev);
-> +
-> +	drm_bridge_remove(&dsi->bridge);
-> +
->   	pm_runtime_disable(&pdev->dev);
->   
->   	component_del(&pdev->dev, &exynos_dsi_component_ops);
+> > >
+> > > > Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
+> > > >
+> > > > ---
+> > > > Changes for v5:
+> > > > - add atomic APIs
+> > > > - find host and device variant DSI devices.
+> > > > Changes for v4, v3:
+> > > > - none
+> > > >
+> > > >  drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c | 112 ++++++++++++++++++++-----
+> > > >  drivers/gpu/drm/sun4i/sun6i_mipi_dsi.h |   7 ++
+> > > >  2 files changed, 96 insertions(+), 23 deletions(-)
+> > > >
+> > > > diff --git a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
+> > > > index 43d9c9e5198d..a6a272b55f77 100644
+> > > > --- a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
+> > > > +++ b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
+> > > > @@ -21,6 +21,7 @@
+> > > >
+> > > >  #include <drm/drm_atomic_helper.h>
+> > > >  #include <drm/drm_mipi_dsi.h>
+> > > > +#include <drm/drm_of.h>
+> > > >  #include <drm/drm_panel.h>
+> > > >  #include <drm/drm_print.h>
+> > > >  #include <drm/drm_probe_helper.h>
+> > > > @@ -713,10 +714,11 @@ static int sun6i_dsi_start(struct sun6i_dsi *dsi,
+> > > >       return 0;
+> > > >  }
+> > > >
+> > > > -static void sun6i_dsi_encoder_enable(struct drm_encoder *encoder)
+> > > > +static void sun6i_dsi_bridge_atomic_enable(struct drm_bridge *bridge,
+> > > > +                                        struct drm_bridge_state *old_bridge_state)
+> > > >  {
+> > > > -     struct drm_display_mode *mode = &encoder->crtc->state->adjusted_mode;
+> > > > -     struct sun6i_dsi *dsi = encoder_to_sun6i_dsi(encoder);
+> > > > +     struct sun6i_dsi *dsi = bridge_to_sun6i_dsi(bridge);
+> > > > +     struct drm_display_mode *mode = &bridge->encoder->crtc->state->adjusted_mode;
+> > > >       struct mipi_dsi_device *device = dsi->device;
+> > > >       union phy_configure_opts opts = { };
+> > > >       struct phy_configure_opts_mipi_dphy *cfg = &opts.mipi_dphy;
+> > > > @@ -772,6 +774,9 @@ static void sun6i_dsi_encoder_enable(struct drm_encoder *encoder)
+> > > >       if (dsi->panel)
+> > > >               drm_panel_prepare(dsi->panel);
+> > > >
+> > > > +     if (dsi->next_bridge)
+> > > > +             dsi->next_bridge->funcs->atomic_pre_enable(dsi->next_bridge, old_bridge_state);
+> > > > +
+> > >
+> > > Please use the proper helpers.
+> >
+> > If we use bridge_functions we need to take atomic functions as
+> > precedence as the next bridge functions might convert atomic calls.
+>
+> We've had this discussion over and over again, but this is something
+> that needs to be documented and / or in your commit log.
+>
+> You must not deviate from the standard (and expected) behavior without
+> any kind of justification.
 
-Best regards
--- 
-Marek Szyprowski, PhD
-Samsung R&D Institute Poland
+Not exactly sure about what you mean, sorry. All these atomic bridge
+functions are already documented if I'm not wrong and Laurent have
+patches to switch the normal functions to atomic. Not sure what else
+need to document here and need justification for it if the driver is
+converting to bridge.
 
+>
+> > >
+> > > >       /*
+> > > >        * FIXME: This should be moved after the switch to HS mode.
+> > > >        *
+> > > > @@ -787,6 +792,9 @@ static void sun6i_dsi_encoder_enable(struct drm_encoder *encoder)
+> > > >       if (dsi->panel)
+> > > >               drm_panel_enable(dsi->panel);
+> > > >
+> > > > +     if (dsi->next_bridge)
+> > > > +             dsi->next_bridge->funcs->atomic_enable(dsi->next_bridge, old_bridge_state);
+> > > > +
+> > >
+> > > Ditto
+> > >
+> > > >       sun6i_dsi_start(dsi, DSI_START_HSC);
+> > > >
+> > > >       udelay(1000);
+> > > > @@ -794,15 +802,19 @@ static void sun6i_dsi_encoder_enable(struct drm_encoder *encoder)
+> > > >       sun6i_dsi_start(dsi, DSI_START_HSD);
+> > > >  }
+> > > >
+> > > > -static void sun6i_dsi_encoder_disable(struct drm_encoder *encoder)
+> > > > +static void sun6i_dsi_bridge_atomic_disable(struct drm_bridge *bridge,
+> > > > +                                         struct drm_bridge_state *old_bridge_state)
+> > > >  {
+> > > > -     struct sun6i_dsi *dsi = encoder_to_sun6i_dsi(encoder);
+> > > > +     struct sun6i_dsi *dsi = bridge_to_sun6i_dsi(bridge);
+> > > >
+> > > >       DRM_DEBUG_DRIVER("Disabling DSI output\n");
+> > > >
+> > > >       if (dsi->panel) {
+> > > >               drm_panel_disable(dsi->panel);
+> > > >               drm_panel_unprepare(dsi->panel);
+> > > > +     } else if (dsi->next_bridge) {
+> > > > +             dsi->next_bridge->funcs->atomic_disable(dsi->next_bridge, old_bridge_state);
+> > > > +             dsi->next_bridge->funcs->atomic_post_disable(dsi->next_bridge, old_bridge_state);
+> > >
+> > > Ditto
+> > >
+> > > >       }
+> > > >
+> > > >       phy_power_off(dsi->dphy);
+> > > > @@ -842,9 +854,25 @@ static const struct drm_connector_funcs sun6i_dsi_connector_funcs = {
+> > > >       .atomic_destroy_state   = drm_atomic_helper_connector_destroy_state,
+> > > >  };
+> > > >
+> > > > -static const struct drm_encoder_helper_funcs sun6i_dsi_enc_helper_funcs = {
+> > > > -     .disable        = sun6i_dsi_encoder_disable,
+> > > > -     .enable         = sun6i_dsi_encoder_enable,
+> > > > +static int sun6i_dsi_bridge_attach(struct drm_bridge *bridge,
+> > > > +                                enum drm_bridge_attach_flags flags)
+> > > > +{
+> > > > +     struct sun6i_dsi *dsi = bridge_to_sun6i_dsi(bridge);
+> > > > +
+> > > > +     if (dsi->next_bridge)
+> > > > +             return drm_bridge_attach(bridge->encoder, dsi->next_bridge,
+> > > > +                                      NULL, 0);
+> > > > +
+> > > > +     return 0;
+> > > > +}
+> > > > +
+> > > > +static const struct drm_bridge_funcs sun6i_dsi_bridge_funcs = {
+> > > > +     .atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
+> > > > +     .atomic_destroy_state   = drm_atomic_helper_bridge_destroy_state,
+> > > > +     .atomic_reset           = drm_atomic_helper_bridge_reset,
+> > > > +     .atomic_enable          = sun6i_dsi_bridge_atomic_enable,
+> > > > +     .atomic_disable         = sun6i_dsi_bridge_atomic_disable,
+> > > > +     .attach                 = sun6i_dsi_bridge_attach,
+> > > >  };
+> > > >
+> > > >  static u32 sun6i_dsi_dcs_build_pkt_hdr(struct sun6i_dsi *dsi,
+> > > > @@ -966,8 +994,6 @@ static int sun6i_dsi_bind(struct device *dev, struct device *master,
+> > > >       struct sun6i_dsi *dsi = dev_get_drvdata(dev);
+> > > >       int ret;
+> > > >
+> > > > -     drm_encoder_helper_add(&dsi->encoder,
+> > > > -                            &sun6i_dsi_enc_helper_funcs);
+> > > >       ret = drm_simple_encoder_init(drm, &dsi->encoder,
+> > > >                                     DRM_MODE_ENCODER_DSI);
+> > > >       if (ret) {
+> > > > @@ -976,18 +1002,26 @@ static int sun6i_dsi_bind(struct device *dev, struct device *master,
+> > > >       }
+> > > >       dsi->encoder.possible_crtcs = BIT(0);
+> > > >
+> > > > -     drm_connector_helper_add(&dsi->connector,
+> > > > -                              &sun6i_dsi_connector_helper_funcs);
+> > > > -     ret = drm_connector_init(drm, &dsi->connector,
+> > > > -                              &sun6i_dsi_connector_funcs,
+> > > > -                              DRM_MODE_CONNECTOR_DSI);
+> > > > +     ret = drm_bridge_attach(&dsi->encoder, &dsi->bridge, NULL, 0);
+> > > >       if (ret) {
+> > > > -             dev_err(dsi->dev,
+> > > > -                     "Couldn't initialise the DSI connector\n");
+> > > > +             dev_err(dsi->dev, "Couldn't attach drm bridge\n");
+> > > >               goto err_cleanup_connector;
+> > > >       }
+> > > >
+> > > > -     drm_connector_attach_encoder(&dsi->connector, &dsi->encoder);
+> > > > +     if (dsi->panel) {
+> > > > +             drm_connector_helper_add(&dsi->connector,
+> > > > +                                      &sun6i_dsi_connector_helper_funcs);
+> > > > +             ret = drm_connector_init(drm, &dsi->connector,
+> > > > +                                      &sun6i_dsi_connector_funcs,
+> > > > +                                      DRM_MODE_CONNECTOR_DSI);
+> > > > +             if (ret) {
+> > > > +                     dev_err(dsi->dev,
+> > > > +                             "Couldn't initialise the DSI connector\n");
+> > > > +                     goto err_cleanup_connector;
+> > > > +             }
+> > > > +
+> > > > +             drm_connector_attach_encoder(&dsi->connector, &dsi->encoder);
+> > > > +     }
+> > > >
+> > > >       return 0;
+> > > >
+> > > > @@ -1013,16 +1047,46 @@ static int sun6i_dsi_attach(struct mipi_dsi_host *host,
+> > > >                           struct mipi_dsi_device *device)
+> > > >  {
+> > > >       struct sun6i_dsi *dsi = host_to_sun6i_dsi(host);
+> > > > -     struct drm_panel *panel = of_drm_find_panel(device->dev.of_node);
+> > > > +     struct device_node *remote = device->dev.of_node;
+> > > >       int ret;
+> > > >
+> > > > -     if (IS_ERR(panel))
+> > > > -             return PTR_ERR(panel);
+> > > > +     if (!of_device_is_available(remote)) {
+> > > > +             /**
+> > > > +              * I2C interfaced DSI bridges will register DSI host on the
+> > > > +              * bridge drivers instead of conventional device.
+> > > > +              *
+> > > > +              * Those are probed via host of_node instead of device of_node.
+> > > > +              */
+> > >
+> > > I have no idea what you mean here. Can you expand on what issue you've
+> > > tried to solve here?
+> >
+> > I2C interface DSI bridges will register DSI host on the bridge
+> > drivers.
+>
+> DSI bridges don't register a DSI host.
+
+Please check what I mean here,
+https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/drivers/gpu/drm/bridge/ti-sn65dsi83.c#n623
+
+I've tested it anyway, if you have any relevant one please check as well.
+
+>
+> > Those can be found using host->dev->of_node and cannot be find using
+> > device->dev.of_node
+> >
+> > >
+> > > > +             remote = of_graph_get_remote_node(host->dev->of_node, 0, 0);
+> > > > +             if (!remote)
+> > > > +                     return -ENODEV;
+> > > > +     }
+> > > > +
+> > > > +     dsi->panel = of_drm_find_panel(remote);
+> > > > +     if (IS_ERR(dsi->panel)) {
+> > > > +             dsi->panel = NULL;
+> > > > +
+> > > > +             dsi->next_bridge = of_drm_find_bridge(remote);
+> > > > +             if (IS_ERR(dsi->next_bridge)) {
+> > > > +                     dev_err(dsi->dev, "failed to find bridge\n");
+> > > > +                     return PTR_ERR(dsi->next_bridge);
+> > > > +             }
+> > > > +     } else {
+> > > > +             dsi->next_bridge = NULL;
+> > > > +     }
+> > > > +
+> > > > +     of_node_put(remote);
+> > >
+> > > Using devm_drm_of_get_bridge would greatly simplify the driver
+> >
+> > I'm aware of this and this would break the existing sunxi dsi binding,
+> > we are not using ports based pipeline in dsi node. Of-course you have
+> > pointed the same before, please check below
+> > https://patchwork.kernel.org/project/dri-devel/patch/20210322140152.101709-2-jagan@amarulasolutions.com/
+>
+> Then drm_of_find_panel_or_bridge needs to be adjusted to handle the DSI
+> bindings and look for a panel or bridge not only through the OF graph,
+> but also on the child nodes
+
+Okay. I need to check this.
+
+Thanks,
+Jagan.
