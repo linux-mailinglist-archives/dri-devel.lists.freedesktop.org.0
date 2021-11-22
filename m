@@ -2,133 +2,111 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FEB7459006
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Nov 2021 15:15:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26184459007
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Nov 2021 15:15:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 870BE89904;
-	Mon, 22 Nov 2021 14:15:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E484D89944;
+	Mon, 22 Nov 2021 14:15:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2057.outbound.protection.outlook.com [40.107.92.57])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 941B189904
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Nov 2021 14:15:35 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=RIF4QD+CtzwhF4jO8h1hFAaZ3vp21U/CYoBC6B4CPILY2MbGvrp7jiVpKQUSllYWeAdGspyoTHc33JwB2zQWYcfqZVJmhn3H1NYAZk7UzrLaRyGo1a2byd9e7ilEypwDcIzeL72yo1/nbKUlG9mNQ1gRJ3FUWjG+bBJQYVlySYJ/m/d0Uflaq0q3IZKXW8bSTJ18lawt4RLxlMb5CsTCg+Pdwp+iA3kRjTbaq7eIIG0hw9+0EfM9zInlfxQY5qGLLOZvzjzmmKtvkCk6vnoWhKtrkR2CFjy56zjt4eOme7GkQJZqfq7+GmFZLEylln+aSFXFmZNPpYXg5FKPa1dBLg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mZET2EVtdE8PTLGCkpanVE16gD8Ak5Y98Tx8BwEitBQ=;
- b=Qq2RZDV7N4Ktsz328kMLzt30zeH/4R6zwFw0S/5Ls/KwVj9xR3VVEMd0UhAHamhjVH/uz0tQ6ZAfnztOk+/l3PTWeJCsYD6yw2MFgBAHT0wIcmgQIRGvcwYowOVViCgNaMLF7KANVAU0YdgCDbqHivChkTkmqdImbVrGYwNnVM7FSVEDfITCCh9PnXIpQW+M/l6BfwSW3PPeSL+iGyTx4JyHcNdBs49vZUbw2F3mmjD/HigNcBptRU8ZtGkKNSnQKd46G3wjh5LzH2hyv8G3Xwjf65ah+UN9PiUTbtUkp/RXL//slCy16vROX0LY1bUnI1fuOKwRauTbz1GgMXL1ew==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mZET2EVtdE8PTLGCkpanVE16gD8Ak5Y98Tx8BwEitBQ=;
- b=Ykk0Qb4jozXrxXK7IoxPrUzj2o23s0DDKjTb3ac5QUh9R3FawEwsS8Q5INfgWRvug71ZjU+PsVtt+hixzhIz4eNtbnTo0JzweSPiOSSjeHcLNtBMI44mP6+byvTmlFGknMFL5Pmu9x2IvhxyRPsrXe4NOk45HgZqvICbIHxGrG8=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MWHPR1201MB0192.namprd12.prod.outlook.com
- (2603:10b6:301:5a::14) by MWHPR12MB1534.namprd12.prod.outlook.com
- (2603:10b6:301:10::11) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4713.22; Mon, 22 Nov
- 2021 14:15:33 +0000
-Received: from MWHPR1201MB0192.namprd12.prod.outlook.com
- ([fe80::2d02:26e7:a2d0:3769]) by MWHPR1201MB0192.namprd12.prod.outlook.com
- ([fe80::2d02:26e7:a2d0:3769%5]) with mapi id 15.20.4713.025; Mon, 22 Nov 2021
- 14:15:33 +0000
-Subject: Re: [PATCH v4] drm/ttm: Clarify that the TTM_PL_SYSTEM is under TTMs
- control
-To: Zack Rusin <zackr@vmware.com>
-References: <3687c5f0-edb9-3cdb-2bb7-e45549a1cfb8@amd.com>
- <20211110145034.487512-1-zackr@vmware.com>
- <61aa563096a20dca80b4cc48037998b932c2e4fc.camel@vmware.com>
- <48dbcca4-a47b-28c5-9163-5a1e8960639e@linux.intel.com>
- <a5a987cd-493f-a089-d3d6-5c4e2fb171e8@amd.com>
- <52b8c310-ebab-a68e-a2f2-62a56b5216e3@linux.intel.com>
- <112af1da-87ff-ee03-9461-e23173e84e86@amd.com>
- <DA2A5639-903D-40BF-AC28-EF091F26AC93@vmware.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <18eaf730-7f82-9fdf-db94-365de860e971@amd.com>
-Date: Mon, 22 Nov 2021 15:15:26 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
-In-Reply-To: <DA2A5639-903D-40BF-AC28-EF091F26AC93@vmware.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-ClientProxiedBy: AM5PR0602CA0011.eurprd06.prod.outlook.com
- (2603:10a6:203:a3::21) To MWHPR1201MB0192.namprd12.prod.outlook.com
- (2603:10b6:301:5a::14)
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
+ [210.118.77.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 669FE89944
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Nov 2021 14:15:51 +0000 (UTC)
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+ by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20211122141549euoutp01718b2f0e65f6e4872f093b44a7b0db3f~54_2_nUj22189221892euoutp01a
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Nov 2021 14:15:49 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
+ 20211122141549euoutp01718b2f0e65f6e4872f093b44a7b0db3f~54_2_nUj22189221892euoutp01a
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1637590549;
+ bh=BeZnhPIFeWbxVhAa16KWixFoZ/vCymnsKANBTfcIfT8=;
+ h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+ b=JkunEL6/uAleQLutRoc/GORyWse7MbVuNj5IBl7wjhv4P2by/+5wU/V7/017xXqDE
+ GNir5NL6y1bABANi0hjmX7RCgEaDGOH7ytxUq93pZwKX4WvKUBW3rl9YK4kzdG+Yra
+ CuBRYfMRrpdWc/PcQcK0Y3YBgUKCGl1rTWmugOGQ=
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+ 20211122141549eucas1p1dabdcab8104b4c1fc14b6ef651fc606c~54_2gR-sp2871328713eucas1p1G;
+ Mon, 22 Nov 2021 14:15:49 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+ eusmges3new.samsung.com (EUCPMTA) with SMTP id 7C.1F.10260.516AB916; Mon, 22
+ Nov 2021 14:15:49 +0000 (GMT)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20211122141548eucas1p2a2ea9662218a03b0496f48c54c5c4827~54_2FbyDy2616026160eucas1p2h;
+ Mon, 22 Nov 2021 14:15:48 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+ eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20211122141548eusmtrp12f1303282f2d64aa26b2c6df2a44f0c6~54_2Eh_vG2128221282eusmtrp1F;
+ Mon, 22 Nov 2021 14:15:48 +0000 (GMT)
+X-AuditID: cbfec7f5-bf3ff70000002814-c2-619ba615c708
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+ eusmgms1.samsung.com (EUCPMTA) with SMTP id 88.F0.09522.416AB916; Mon, 22
+ Nov 2021 14:15:48 +0000 (GMT)
+Received: from [106.210.134.192] (unknown [106.210.134.192]) by
+ eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20211122141548eusmtip2659847504bf359c8d6fdcaf81434ed86~54_1j0nqC1967719677eusmtip2d;
+ Mon, 22 Nov 2021 14:15:48 +0000 (GMT)
+Message-ID: <5e173bc6-a320-42ec-79de-0ea4c3c2b480@samsung.com>
+Date: Mon, 22 Nov 2021 15:15:47 +0100
 MIME-Version: 1.0
-Received: from [IPv6:2a02:908:1252:fb60:f689:62b7:dbd1:b281]
- (2a02:908:1252:fb60:f689:62b7:dbd1:b281) by
- AM5PR0602CA0011.eurprd06.prod.outlook.com (2603:10a6:203:a3::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4713.22 via Frontend
- Transport; Mon, 22 Nov 2021 14:15:31 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d6ad17a6-1c9c-4c5b-0c45-08d9adc28b72
-X-MS-TrafficTypeDiagnostic: MWHPR12MB1534:
-X-Microsoft-Antispam-PRVS: <MWHPR12MB1534E12EA65F3A789D7E7C9C839F9@MWHPR12MB1534.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: wTpyAqKEXMP7VQeMDgU19BCx81Se+Op41A0Os76YumiJu2PeEgAXidzqnuATxR66J0sN3Lujz3OjE2r5zoq9X18DhVuVrV/o/0t4Q2JaSRgW2Y/FjghJ2/8KXlTxFlWYfY84cvsV/0xzaAKiB58tnWxalAvLW8Bz4VqHTjGOV01+qJDpxLJoO7/VjDZi6bsl6lGiyPzVCIQijKpWnoQnXBJc/uO+plar6LoCPiUWYVpdTrCxK+rJUDlpu8rld+JvkP3g1gSn6Ec6QlgYIhVmMCt0brxpIL46hHhDh8e3ZllFnfcLP36gdHalv7AZX1lmVdjrtm80PTwpz32yO1tl+5nk+EptUX2nAivpIY0sELrfSWIdRZpzvG9/qZX98ptkkWjOQrzYKuPW6V2eq1mjHrl3hDarppdja4g9p7yfcHWXXIjOBbkG6GWc/cJccEi2gkJUy2pGmx+s2ikjZQs4E9ogAWKIhDN1gJR4Zra3J9B7Q9xWo2p7PV3SUrxa4sf8OMAT36SN2gYi9KuHM0kye+liaQStnIHPio2WJNWlT4u6kpTSHksWMvvA5qrvpM8jV2FTTeoXSdgriwK5CcFHSJeGNpsIFb8og9U6vFa7Dr6tH2RhV6xN+pMHVwKUD6bbWv/KsF0Ys3jxZ2nK/uISsz/CN8CnlxMFbuPgHidTndxnR0ppnwUF2tbJaO4OxQ3JDet25JJi1Ht5LmLYXbqhIWowRwGdv9pQuwGUsNRCPBvs5SPm+wZnEcTd2dSOHyckU4WXvtsEazRndPmyNYxcgvia/ORfr5znstFtZuD3giRbTHQuHYAiBGL3wsIHiF5c
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MWHPR1201MB0192.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(5660300002)(2616005)(31696002)(36756003)(86362001)(316002)(2906002)(8676002)(38100700002)(31686004)(4001150100001)(66476007)(53546011)(6486002)(54906003)(66574015)(8936002)(6916009)(66556008)(83380400001)(45080400002)(6666004)(508600001)(186003)(4326008)(66946007)(966005)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dVhxaUJYNDAyUDNubHJWdnJrNm1KZ0VTVmQzT3hRSVZRQjlRUlIyc0xJbDFL?=
- =?utf-8?B?MzVQQUlWeHE2ajZ0aEx6TWV2Q3dndXlES0d6cUxTWURaVGs2T2ZRVENvMGlG?=
- =?utf-8?B?Rmp5aThUeGlPYm91bllRZ2h3VURvcFk2dlhlOUI0Mng3OHIxL1VKTjUvUEI0?=
- =?utf-8?B?V1IzTkhPc0NOWk1MTWJUV1RBV0NKOExmOVlmM01uM0hBQWpCVUJVSVRZWFB4?=
- =?utf-8?B?bkVyRlRIekxMaGFkU3YxT1hqcURxSGpwRmpmVDkxWkhVdGZHdlRjUTFsUVVX?=
- =?utf-8?B?M0doS3N4bS9hbU5ibTI5L2JhQkx2akk2RlF6Slh6eWxnNkxyWnBFdEV3Q1dB?=
- =?utf-8?B?MjdDUk9pUG5WVEVCTGpoM1ZJM0M2RUpxR3hUSmRFOFVuaFZtSFk2WGVRM1ZH?=
- =?utf-8?B?UE9WUGFjSk1vSHJaemVnWmh2OVE3emlDN3d6N2ZySVdEbkExYnpvZlZsMy9E?=
- =?utf-8?B?ODhRRDBpSGhrVVl0cmxpTThFYXkyVFc1b0k3L0RFOG13MDc4YXhPM0NYa0pL?=
- =?utf-8?B?TDlvVHROY21EWS9GcTR5TnYwKzJRTEpVRWk0V1JUUmxKbU5ROHFhOWNiWUNH?=
- =?utf-8?B?VkZsTE5NOFdiU2JxVmxUeDY2N3JERVZnSDZHWldaaUVkSDRXbjM0UWNTclk4?=
- =?utf-8?B?dHg0TURreFlpY2RNZ243NGg5NE9BUjRwdzkxUHJ5OGFMQk1KR1VYazFnQURs?=
- =?utf-8?B?bWIwUWdYTUtERW1UTll4MVJaKzUvb2ZKcFNpNndkSUttczVkZ2kwZmkwVk44?=
- =?utf-8?B?THBUQ0dlRFpRbDYzWkN0K0lITGFKbUU3UEpVaEk2TFF5cmw1akNEOG9RUDc1?=
- =?utf-8?B?WDQ5VHVYZlFxU05palprdWNoNjRiT0x6TEV2UUJ3VHpWRWV0V0RsOWpQb1ZF?=
- =?utf-8?B?SUwvZnFPZXdaU3hjZ1V5WE9vVVFzWWp6OU56RGNqOVNmelJYSjgvbEwvMDYx?=
- =?utf-8?B?dzFBeXNwdFlHcmtaTGhqSS9zR0RneExGYVdtY3I0S1d4ZFQ2VzRTYmVIU1Ev?=
- =?utf-8?B?SWJkdGM1SGFUZUJ1dDhFTndTMTdIbVR5KzlHcUp5cjVVWkpFZEVzUExycFdn?=
- =?utf-8?B?dldZalU3eDF6MGxlcUhJTXBQRERWZ09YUHRrVE5CTHNjUGIvL0FqZUVPczhG?=
- =?utf-8?B?bndzZHZ2NGRiRFUrOVhkTTMwU3RBOXFKOXk3dXkzQ3NmNlZSVStEVG5pT0Zo?=
- =?utf-8?B?Nk41WTMwQ3FqeEN0OWNHUzdkM0NhYmlCMTRZcTVwNmZWeDJRYlJNdjFGdVBR?=
- =?utf-8?B?NjhiSDRjTjlodWxhSDVXejJ5RmFyTFZTdGRScnVUZVg5dzZpREtRYXJJMGo5?=
- =?utf-8?B?MEsrTzU4QjZ0aUowbnVmQmZONXBmOXpWYUhOZEtoZlFBT0s1ZFBRY1JLTkdi?=
- =?utf-8?B?cm41VmdHaDNaMjBheFdmc2dzanlCdW1xMzFjZHJNUXh6cCtiSkFqbFNqVnR1?=
- =?utf-8?B?aThLU1NOVzZFa09GYnEvMC9FNEl1VmFsRWNLRDlQdjVvS3FVKzQ0ZlBMR05V?=
- =?utf-8?B?amJVOGVScnNHRmZZV2xkdmlsOTJLVmNoMW5JUVJjWGZhNHU2ZS80bk94WlNk?=
- =?utf-8?B?ejl0MkZJRWNRZ0sxZjdydnB4QjBjVFZlcGorVlpwVDdoVnJFQUw4V3lKTnZW?=
- =?utf-8?B?Q0lBRnJuU3QvRld6dlVUdHRXdnVHTlMxUnhHZStYMVg1MmlMTzJzU3ZjaEZG?=
- =?utf-8?B?aEFKc1pwWmttS3NISkYrNjZ4dythR3l1RTZ6dXJ5N0RiVERFdDNZR1BXekla?=
- =?utf-8?B?K1NsK1VsWG1XVDB5V2FyMDY0anowNTR5WEhpbWdmNWVQeEtGcXhzdkxyelFG?=
- =?utf-8?B?TUxpWGdnQ1U1WFoxUk9jY2s4MmFLTHd5TzMvTi9pNVJjWDYzcFd6cWNrdTBU?=
- =?utf-8?B?Y2pRanRRMG96OTR6Z2RGZWxqQnQydXlmamU5bThMcWM0TkRRNVlUNkJjTkRB?=
- =?utf-8?B?NVlnTXhHdklTeWdyWlh6Ni9Uc3pRY2tJTmJDVGdLZVl4OFJIa0R1enJEeUV6?=
- =?utf-8?B?ODN3Vm5Td2Zwc2pjbDlOaFJKMkJPdXUvRkxGYlRSSUxrTFppaHlSUlJwUGYx?=
- =?utf-8?B?cmh3a05MZDdJR3RVVXJOL292cGk3UVhVZ2xRZUt1aEtZTlVhTGJydHRSSW9h?=
- =?utf-8?B?ek8xS3hrbHplMnpHSEdvSGN6OWwzZ2RYdER3aGVhS1V3Wlp1YUhmN2gyZDRG?=
- =?utf-8?Q?m7NyPdmgqOUQErTaWg1dlYE=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d6ad17a6-1c9c-4c5b-0c45-08d9adc28b72
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1201MB0192.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Nov 2021 14:15:32.6782 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: D3RHJnWpJw7lwx+De+35mmirW1NVQhO0VBiVNnea7eSE64P53jmZvqZ0LEyIqUjR
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR12MB1534
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0)
+ Gecko/20100101 Thunderbird/91.3.1
+Subject: Re: [PATCH 1/2] drm: exynos: dsi: Convert to bridge driver
+Content-Language: en-US
+To: Jagan Teki <jagan@amarulasolutions.com>, Inki Dae
+ <inki.dae@samsung.com>, Neil Armstrong <narmstrong@baylibre.com>, Robert
+ Foss <robert.foss@linaro.org>, Laurent Pinchart
+ <Laurent.pinchart@ideasonboard.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+In-Reply-To: <20211122070633.89219-2-jagan@amarulasolutions.com>
+Content-Transfer-Encoding: 8bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrOKsWRmVeSWpSXmKPExsWy7djPc7qiy2YnGiz6zmJxf/FnFosrX9+z
+ WUy6P4HF4sumCWwWnROXsFssn7CPzeJQX7TFp1kPmS1W/NzK6MDpsfbjfVaP9zda2T1md8xk
+ 9Vi85yWTx51re9g87ncfZ/JYMu0qm0ffllWMARxRXDYpqTmZZalF+nYJXBm3Jq9kKrgSUdEx
+ Mb2BcaNnFyMnh4SAicTskzdYuhi5OIQEVjBKfPjXxAjhfGGU2Lv8JyuE85lR4vfD9+wwLYe/
+ 74JKLGeUeHlyPzuE85FR4u2lR0DDODh4Bewk/s2VBmlgEVCVWPjwBCOIzSsgKHFy5hMWEFtU
+ IEnidOskZhBbWMBZ4si7ZWA1zALiEreezGcCmSkisIRJ4vjS+8wQCXeJp2+2gdlsAoYSXW+7
+ 2EBsTgEHicVzHrJD1MhLNG+dzQzSLCHQzCnRdeQvE8TZLhKNj36zQtjCEq+Ob4F6R0bi9OQe
+ FqgGRomH59ayQzg9jBKXm2YwQlRZS9w594sN5DVmAU2J9bv0IcKOElsmL2ICCUsI8EnceCsI
+ cQSfxKRt05khwrwSHW1CENVqErOOr4Nbe/DCJeYJjEqzkMJlFpL/ZyF5ZxbC3gWMLKsYxVNL
+ i3PTU4uN81LL9YoTc4tL89L1kvNzNzEC09bpf8e/7mBc8eqj3iFGJg7GQ4wSHMxKIrzXlsxO
+ FOJNSaysSi3Kjy8qzUktPsQozcGiJM4r8qchUUggPbEkNTs1tSC1CCbLxMEp1cAkyxG7SHyf
+ 1MeZRy92v2VhkVio+jn3+edtjufytil5q1eLRxbwLkvU2ruzWt52cpVk+JFqcYNNXxNPbnv9
+ J0yRXULqSGoSd6W1/s2J3535RWe0la8P661bxKLgNnXtq1ADSZNf7YsfXF14OFz+x3KtoL0e
+ 7NYp3Pf9nvOo8cUmzGJQFG9aoVN/9dScJysk3Da81pdfkM/MPevwW8UH/Uu3zuJkqGe5IN/1
+ m8Nffksj1/7tVhvXPT3QcY9d+FeUnKLrd6ZlD+d5KIT49j/8kpy44lJM7u8jK049exVa9Ppp
+ 4T5Nhr1Z1ucs8p5fX773yo36u5eXOpSxh1SrLi98EmBnvMiU0VPpO3v4lynlCquVWIozEg21
+ mIuKEwGk0XNFygMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrJIsWRmVeSWpSXmKPExsVy+t/xe7oiy2YnGuyYo25xf/FnFosrX9+z
+ WUy6P4HF4sumCWwWnROXsFssn7CPzeJQX7TFp1kPmS1W/NzK6MDpsfbjfVaP9zda2T1md8xk
+ 9Vi85yWTx51re9g87ncfZ/JYMu0qm0ffllWMARxRejZF+aUlqQoZ+cUltkrRhhZGeoaWFnpG
+ JpZ6hsbmsVZGpkr6djYpqTmZZalF+nYJehm3Jq9kKrgSUdExMb2BcaNnFyMnh4SAicTh77tY
+ uxi5OIQEljJKPO1pZoVIyEicnNYAZQtL/LnWxQZR9J5RYsHTPUAJDg5eATuJf3OlQWpYBFQl
+ Fj48wQhi8woISpyc+YQFxBYVSJLo/76LGcQWFnCWOPJuGVgNs4C4xK0n85lAZooILGGSeD5/
+ ClTCXeLpm23MEMtOMkr8WL8UrJtNwFCi6y3IFZwcnAIOEovnPGSHaDCT6NraBdUsL9G8dTbz
+ BEahWUgOmYVk4SwkLbOQtCxgZFnFKJJaWpybnltsqFecmFtcmpeul5yfu4kRGKfbjv3cvINx
+ 3quPeocYmTgYDzFKcDArifBeWzI7UYg3JbGyKrUoP76oNCe1+BCjKTA0JjJLiSbnAxNFXkm8
+ oZmBqaGJmaWBqaWZsZI4r2dBR6KQQHpiSWp2ampBahFMHxMHp1QDU9UCj1aBts6Ss1uPThSp
+ UxLz+HTQxbTzDs/U5n63sznF8znFdl96lNZ9Tt7E70Dekj2N17aapvK1PPOpZ436YBLwLjqz
+ 4YPUqX9tQXWcs7eXB4VaHC2+9e7Dt4WOxadVjgs9VsyUsWnfOXu/XlnaEckVLsFTX59ZKMEx
+ 81Hx9bQJfcnX5qzPThN6cO3xUTZ2Uzl1z/OqAmKv8jiebUxeG8roGG+xNuq8uIlKW8M8HYUz
+ ZwTiHZZMurB/ttqbJOnbpitj++2XN3wP0lXfddxkUivPvvYdohwn16Z4hWc5+T7rlWGY5tbR
+ Myuw6vY6o12aGc12yq4HvU/unxV/+ZhMr5EB8znpqZLbuN1t1u9RYinOSDTUYi4qTgQAr9FS
+ U1wDAAA=
+X-CMS-MailID: 20211122141548eucas1p2a2ea9662218a03b0496f48c54c5c4827
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20211122070651eucas1p1d505c9d2041501898d4f3b1f277e2599
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20211122070651eucas1p1d505c9d2041501898d4f3b1f277e2599
+References: <20211122070633.89219-1-jagan@amarulasolutions.com>
+ <CGME20211122070651eucas1p1d505c9d2041501898d4f3b1f277e2599@eucas1p1.samsung.com>
+ <20211122070633.89219-2-jagan@amarulasolutions.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -141,88 +119,302 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: linux-amarula@amarulasolutions.com, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 16.11.21 um 16:53 schrieb Zack Rusin:
->> On Nov 16, 2021, at 03:20, Christian König <christian.koenig@amd.com> wrote:
->>
->> Am 16.11.21 um 08:43 schrieb Thomas Hellström:
->>> On 11/16/21 08:19, Christian König wrote:
->>>> Am 13.11.21 um 12:26 schrieb Thomas Hellström:
->>>>> Hi, Zack,
->>>>>
->>>>> On 11/11/21 17:44, Zack Rusin wrote:
->>>>>> On Wed, 2021-11-10 at 09:50 -0500, Zack Rusin wrote:
->>>>>>> TTM takes full control over TTM_PL_SYSTEM placed buffers. This makes
->>>>>>> driver internal usage of TTM_PL_SYSTEM prone to errors because it
->>>>>>> requires the drivers to manually handle all interactions between TTM
->>>>>>> which can swap out those buffers whenever it thinks it's the right
->>>>>>> thing to do and driver.
->>>>>>>
->>>>>>> CPU buffers which need to be fenced and shared with accelerators
->>>>>>> should
->>>>>>> be placed in driver specific placements that can explicitly handle
->>>>>>> CPU/accelerator buffer fencing.
->>>>>>> Currently, apart, from things silently failing nothing is enforcing
->>>>>>> that requirement which means that it's easy for drivers and new
->>>>>>> developers to get this wrong. To avoid the confusion we can document
->>>>>>> this requirement and clarify the solution.
->>>>>>>
->>>>>>> This came up during a discussion on dri-devel:
->>>>>>> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.kernel.org%2Fdri-devel%2F232f45e9-8748-1243-09bf-56763e6668b3%40amd.com&amp;data=04%7C01%7Cchristian.koenig%40amd.com%7C57658f299a72436627e608d9a9194209%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637726748229186505%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=UbE43u8a0MPNgXtzcqkJJfSe0I%2BA5Yojz7yoh7e6Oyo%3D&amp;reserved=0
->>>>> I took a slightly deeper look into this. I think we need to formalize this a bit more to understand pros and cons and what the restrictions are really all about. Anybody looking at the prevous discussion will mostly see arguments similar to "this is stupid and difficult" and "it has always been this way" which are not really constructive.
->>>>>
->>>>> First disregarding all accounting stuff, I think this all boils down to TTM_PL_SYSTEM having three distinct states:
->>>>> 1) POPULATED
->>>>> 2) LIMBO (Or whatever we want to call it. No pages present)
->>>>> 3) SWAPPED.
->>>>>
->>>>> The ttm_bo_move_memcpy() helper understands these, and any standalone driver implementation of the move() callback _currently_ needs to understand these as well, unless using the ttm_bo_move_memcpy() helper.
->>>>>
->>>>> Now using a bounce domain to proxy SYSTEM means that the driver can forget about the SWAPPED state, it's automatically handled by the move setup code. However, another pitfall is LIMBO, in that if when you move from SYSTEM/LIMBO to your bounce domain, the BO will be populated. So any naive accelerated move() implementation creating a 1GB BO in fixed memory, like VRAM, will needlessly allocate and free 1GB of system memory in the process instead of just performing a clear operation. Looks like amdgpu suffers from this?
->>>>>
->>>>> I think what is really needed is either
->>>>>
->>>>> a) A TTM helper that helps move callback implementations resolve the issues populating system from LIMBO or SWAP, and then also formalize driver notification for swapping. At a minimum, I think the swap_notify() callback needs to be able to return a late error.
->>>>>
->>>>> b) Make LIMBO and SWAPPED distinct memory regions. (I think I'd vote for this without looking into it in detail).
->>>>>
->>>>> In both these cases, we should really make SYSTEM bindable by GPU, otherwise we'd just be trading one pitfall for another related without really resolving the root problem.
->>>>>
->>>>> As for fencing not being supported by SYSTEM, I'm not sure why we don't want this, because it would for example prohibit async ttm_move_memcpy(), and also, async unbinding of ttm_tt memory like MOB on vmgfx. (I think it's still sync).
->>>>>
->>>>> There might be an accounting issue related to this as well, but I guess Christian would need to chime in on this. If so, I think it needs to be well understood and documented (in TTM, not in AMD drivers).
->>>> I think the problem goes deeper than what has been mentioned here so far.
->>>>
->>>> Having fences attached to BOs in the system domain is probably ok, but the key point is that the BOs in the system domain are under TTMs control and should not be touched by the driver.
->>>>
->>>> What we have now is that TTMs internals like the allocation state of BOs in system memory (the populated, limbo, swapped you mentioned above) is leaking into the drivers and I think exactly that is the part which doesn't work reliable here. You can of course can get that working, but that requires knowledge of the internal state which in my eyes was always illegal.
->>>>
->>> Well, I tend to agree to some extent, but then, like said above even disregarding swap will cause trouble with the limbo state, because the driver's move callback would need knowledge of that to implement moves limbo -> vram efficiently.
->> Well my long term plan is to audit the code base once more and remove the limbo state from the SYSTEM domain.
->>
->> E.g. instead of a SYSTEM BO without pages you allocate a BO without a resource in general which is now possible since bo->resource is a pointer.
->>
->> This would still allow us to allocate "empty shell" BOs. But a validation of those BOs doesn't cause a move, but rather just allocates the resource for the first time.
->>
->> The problem so far was just that we access bo->resource way to often without checking it.
-> So all in all this would be a two step process 1) Eliminate the “limbo” state, 2) Split PL_SYSTEM into PL_SYSTEM, that drivers could use for really anything, and PL_SWAP which would be under complete TTM control, yes? If that’s the case that would certainly make my life a lot easier (because the drivers wouldn’t need to introduce/manage their own system placements) and I think it would make the code a lot easier to understand.
-
-We also have a couple of other use cases for this, yes.
-
-> That’s a bit of work though so the question what happens until this lands comes to mind. Is introduction of VMW_PL_SYSTEM and documenting that PL_SYSTEM is under complete TTM control (like this patch does) the way to go or do we want to start working on the above immediately? Because I’d love to be able to unload vmwgfx without kernel oopsing =)
-
-I think documenting and getting into a clean state should be 
-prerequisite for new development (even if the fix for the unload is 
-trivial).
-
-Regards,
-Christian.
-
+On 22.11.2021 08:06, Jagan Teki wrote:
+> Some display panels would come up with a non-DSI output, those
+> can have an option to connect the DSI host by means of interface
+> bridge converter.
 >
-> z
+> This DSI to non-DSI interface bridge converter would requires
+> DSI Host to handle drm bridge functionalities in order to DSI
+> Host to Interface bridge.
 >
+> This patch convert the existing to a drm bridge driver with a
+> built-in encoder support for compatibility with existing
+> component drivers.
+>
+> Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
+> ---
+> Note:
+> Hi Marek Szyprowski,
+>
+> Please test this on Panel and Bridge hardware.
+
+I don't have good news, t crashes:
+
+[drm] Exynos DRM: using 13800000.decon device for DMA mapping operations
+exynos-drm exynos-drm: bound 13800000.decon (ops decon_component_ops)
+exynos-drm exynos-drm: bound 13880000.decon (ops decon_component_ops)
+exynos-drm exynos-drm: bound 13930000.mic (ops exynos_mic_component_ops)
+[drm:drm_bridge_attach] *ERROR* failed to attach bridge 
+/soc@0/dsi@13900000 to encoder TMDS-67: -22
+exynos-drm exynos-drm: failed to bind 13900000.dsi (ops 
+exynos_dsi_component_ops): -22
+Internal error: synchronous external abort: 96000210 [#1] PREEMPT SMP
+Modules linked in:
+CPU: 2 PID: 74 Comm: kworker/u16:1 Not tainted 5.16.0-rc1+ #4141
+Hardware name: Samsung TM2E board (DT)
+Workqueue: events_unbound deferred_probe_work_func
+pstate: 80000005 (Nzcv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+pc : decon_atomic_disable+0x58/0xd4
+lr : decon_atomic_disable+0x28/0xd4
+sp : ffff80001390b940
+x29: ffff80001390b940 x28: ffff80001259a000 x27: ffff000027f39e80
+input: stmfts as 
+/devices/platform/soc@0/14ed0000.hsi2c/i2c-3/3-0049/input/input0
+x26: 00000000ffffffea x25: ffff000025a40280 x24: 0000000000000001
+x23: ffff800011b55f98 x22: ffff0000315dc000 x21: ffff00002695d100
+x20: ffff000027e7a080 x19: ffff0000315e6000 x18: 0000000000000000
+x17: 645f736f6e797865 x16: 2073706f28206973 x15: 0000000000028ee0
+x14: 0000000000000028 x13: 0000000000000001 x12: 0000000000000040
+x11: ffff000023c18920 x10: ffff000023c18922 x9 : ffff8000126352f0
+x8 : ffff000023c00270 x7 : 0000000000000000 x6 : ffff000023c00268
+x5 : ffff000027e7a3a0 x4 : 0000000000000001 x3 : ffff000027e7a080
+x2 : 0000000000000024 x1 : ffff800013bc8024 x0 : ffff0000246117c0
+Call trace:
+  decon_atomic_disable+0x58/0xd4
+  decon_unbind+0x1c/0x3c
+  component_unbind+0x38/0x60
+  component_bind_all+0x16c/0x25c
+  exynos_drm_bind+0x104/0x1bc
+  try_to_bring_up_master+0x164/0x1d0
+  __component_add+0xa8/0x174
+  component_add+0x14/0x20
+  hdmi_probe+0x438/0x710
+  platform_probe+0x68/0xe0
+  really_probe.part.0+0x9c/0x31c
+  __driver_probe_device+0x98/0x144
+  driver_probe_device+0xc8/0x160
+  __device_attach_driver+0xb8/0x120
+  bus_for_each_drv+0x78/0xd0
+  __device_attach+0xd8/0x180
+  device_initial_probe+0x14/0x20
+  bus_probe_device+0x9c/0xa4
+  deferred_probe_work_func+0x88/0xc4
+  process_one_work+0x288/0x6f0
+  worker_thread+0x74/0x470
+  kthread+0x188/0x194
+  ret_from_fork+0x10/0x20
+Code: 11002042 f9481c61 531e7442 8b020021 (88dffc21)
+---[ end trace d73aff585b108954 ]---
+Kernel panic - not syncing: synchronous external abort: Fatal exception
+SMP: stopping secondary CPUs
+Kernel Offset: disabled
+CPU features: 0x2,300071c2,00000846
+Memory Limit: none
+---[ end Kernel panic - not syncing: synchronous external abort: Fatal 
+exception ]---
+
+I will try to debug it a bit more once I find some spare time. I've 
+applied only the first patch.
+
+>   drivers/gpu/drm/exynos/exynos_drm_dsi.c | 73 +++++++++++++++++--------
+>   1 file changed, 51 insertions(+), 22 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/exynos/exynos_drm_dsi.c b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
+> index 8d137857818c..174590f543c3 100644
+> --- a/drivers/gpu/drm/exynos/exynos_drm_dsi.c
+> +++ b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
+> @@ -257,6 +257,7 @@ struct exynos_dsi {
+>   	struct drm_connector connector;
+>   	struct drm_panel *panel;
+>   	struct list_head bridge_chain;
+> +	struct drm_bridge bridge;
+>   	struct drm_bridge *out_bridge;
+>   	struct device *dev;
+>   
+> @@ -287,9 +288,9 @@ struct exynos_dsi {
+>   #define host_to_dsi(host) container_of(host, struct exynos_dsi, dsi_host)
+>   #define connector_to_dsi(c) container_of(c, struct exynos_dsi, connector)
+>   
+> -static inline struct exynos_dsi *encoder_to_dsi(struct drm_encoder *e)
+> +static inline struct exynos_dsi *bridge_to_dsi(struct drm_bridge *b)
+>   {
+> -	return container_of(e, struct exynos_dsi, encoder);
+> +	return container_of(b, struct exynos_dsi, bridge);
+>   }
+>   
+>   enum reg_idx {
+> @@ -1374,9 +1375,10 @@ static void exynos_dsi_unregister_te_irq(struct exynos_dsi *dsi)
+>   	}
+>   }
+>   
+> -static void exynos_dsi_enable(struct drm_encoder *encoder)
+> +static void exynos_dsi_atomic_enable(struct drm_bridge *bridge,
+> +				     struct drm_bridge_state *old_bridge_state)
+>   {
+> -	struct exynos_dsi *dsi = encoder_to_dsi(encoder);
+> +	struct exynos_dsi *dsi = bridge_to_dsi(bridge);
+>   	struct drm_bridge *iter;
+>   	int ret;
+>   
+> @@ -1399,7 +1401,8 @@ static void exynos_dsi_enable(struct drm_encoder *encoder)
+>   		list_for_each_entry_reverse(iter, &dsi->bridge_chain,
+>   					    chain_node) {
+>   			if (iter->funcs->pre_enable)
+> -				iter->funcs->pre_enable(iter);
+> +				iter->funcs->atomic_pre_enable(iter,
+> +							       old_bridge_state);
+>   		}
+>   	}
+>   
+> @@ -1413,7 +1416,7 @@ static void exynos_dsi_enable(struct drm_encoder *encoder)
+>   	} else {
+>   		list_for_each_entry(iter, &dsi->bridge_chain, chain_node) {
+>   			if (iter->funcs->enable)
+> -				iter->funcs->enable(iter);
+> +				iter->funcs->atomic_enable(iter, old_bridge_state);
+>   		}
+>   	}
+>   
+> @@ -1429,9 +1432,10 @@ static void exynos_dsi_enable(struct drm_encoder *encoder)
+>   	pm_runtime_put(dsi->dev);
+>   }
+>   
+> -static void exynos_dsi_disable(struct drm_encoder *encoder)
+> +static void exynos_dsi_atomic_disable(struct drm_bridge *bridge,
+> +				      struct drm_bridge_state *old_bridge_state)
+>   {
+> -	struct exynos_dsi *dsi = encoder_to_dsi(encoder);
+> +	struct exynos_dsi *dsi = bridge_to_dsi(bridge);
+>   	struct drm_bridge *iter;
+>   
+>   	if (!(dsi->state & DSIM_STATE_ENABLED))
+> @@ -1443,7 +1447,7 @@ static void exynos_dsi_disable(struct drm_encoder *encoder)
+>   
+>   	list_for_each_entry_reverse(iter, &dsi->bridge_chain, chain_node) {
+>   		if (iter->funcs->disable)
+> -			iter->funcs->disable(iter);
+> +			iter->funcs->atomic_disable(iter, old_bridge_state);
+>   	}
+>   
+>   	exynos_dsi_set_display_enable(dsi, false);
+> @@ -1451,7 +1455,7 @@ static void exynos_dsi_disable(struct drm_encoder *encoder)
+>   
+>   	list_for_each_entry(iter, &dsi->bridge_chain, chain_node) {
+>   		if (iter->funcs->post_disable)
+> -			iter->funcs->post_disable(iter);
+> +			iter->funcs->atomic_post_disable(iter, old_bridge_state);
+>   	}
+>   
+>   	dsi->state &= ~DSIM_STATE_ENABLED;
+> @@ -1494,9 +1498,9 @@ static const struct drm_connector_helper_funcs exynos_dsi_connector_helper_funcs
+>   	.get_modes = exynos_dsi_get_modes,
+>   };
+>   
+> -static int exynos_dsi_create_connector(struct drm_encoder *encoder)
+> +static int exynos_dsi_create_connector(struct exynos_dsi *dsi)
+>   {
+> -	struct exynos_dsi *dsi = encoder_to_dsi(encoder);
+> +	struct drm_encoder *encoder = &dsi->encoder;
+>   	struct drm_connector *connector = &dsi->connector;
+>   	struct drm_device *drm = encoder->dev;
+>   	int ret;
+> @@ -1522,9 +1526,21 @@ static int exynos_dsi_create_connector(struct drm_encoder *encoder)
+>   	return 0;
+>   }
+>   
+> -static const struct drm_encoder_helper_funcs exynos_dsi_encoder_helper_funcs = {
+> -	.enable = exynos_dsi_enable,
+> -	.disable = exynos_dsi_disable,
+> +static int exynos_dsi_attach(struct drm_bridge *bridge,
+> +			     enum drm_bridge_attach_flags flags)
+> +{
+> +	struct exynos_dsi *dsi = bridge_to_dsi(bridge);
+> +
+> +	return drm_bridge_attach(bridge->encoder, dsi->out_bridge, NULL, 0);
+> +}
+> +
+> +static const struct drm_bridge_funcs exynos_dsi_bridge_funcs = {
+> +	.atomic_duplicate_state	= drm_atomic_helper_bridge_duplicate_state,
+> +	.atomic_destroy_state	= drm_atomic_helper_bridge_destroy_state,
+> +	.atomic_reset		= drm_atomic_helper_bridge_reset,
+> +	.atomic_enable		= exynos_dsi_atomic_enable,
+> +	.atomic_disable		= exynos_dsi_atomic_disable,
+> +	.attach			= exynos_dsi_attach,
+>   };
+>   
+>   MODULE_DEVICE_TABLE(of, exynos_dsi_of_match);
+> @@ -1543,7 +1559,7 @@ static int exynos_dsi_host_attach(struct mipi_dsi_host *host,
+>   		dsi->out_bridge = out_bridge;
+>   		list_splice_init(&encoder->bridge_chain, &dsi->bridge_chain);
+>   	} else {
+> -		int ret = exynos_dsi_create_connector(encoder);
+> +		int ret = exynos_dsi_create_connector(dsi);
+>   
+>   		if (ret) {
+>   			DRM_DEV_ERROR(dsi->dev,
+> @@ -1596,7 +1612,7 @@ static int exynos_dsi_host_detach(struct mipi_dsi_host *host,
+>   
+>   	if (dsi->panel) {
+>   		mutex_lock(&drm->mode_config.mutex);
+> -		exynos_dsi_disable(&dsi->encoder);
+> +		exynos_dsi_atomic_disable(&dsi->bridge, NULL);
+>   		dsi->panel = NULL;
+>   		dsi->connector.status = connector_status_disconnected;
+>   		mutex_unlock(&drm->mode_config.mutex);
+> @@ -1702,12 +1718,16 @@ static int exynos_dsi_bind(struct device *dev, struct device *master,
+>   
+>   	drm_simple_encoder_init(drm_dev, encoder, DRM_MODE_ENCODER_TMDS);
+>   
+> -	drm_encoder_helper_add(encoder, &exynos_dsi_encoder_helper_funcs);
+> -
+>   	ret = exynos_drm_set_possible_crtcs(encoder, EXYNOS_DISPLAY_TYPE_LCD);
+>   	if (ret < 0)
+>   		return ret;
+>   
+> +	ret = drm_bridge_attach(&dsi->encoder, &dsi->bridge, NULL, 0);
+> +	if (ret) {
+> +		drm_encoder_cleanup(&dsi->encoder);
+> +		return ret;
+> +	}
+> +
+>   	in_bridge_node = of_graph_get_remote_node(dev->of_node, DSI_PORT_IN, 0);
+>   	if (in_bridge_node) {
+>   		in_bridge = of_drm_find_bridge(in_bridge_node);
+> @@ -1723,10 +1743,9 @@ static void exynos_dsi_unbind(struct device *dev, struct device *master,
+>   				void *data)
+>   {
+>   	struct exynos_dsi *dsi = dev_get_drvdata(dev);
+> -	struct drm_encoder *encoder = &dsi->encoder;
+> -
+> -	exynos_dsi_disable(encoder);
+>   
+> +	exynos_dsi_atomic_disable(&dsi->bridge, NULL);
+> +	drm_encoder_cleanup(&dsi->encoder);
+>   	mipi_dsi_host_unregister(&dsi->dsi_host);
+>   }
+>   
+> @@ -1819,6 +1838,12 @@ static int exynos_dsi_probe(struct platform_device *pdev)
+>   
+>   	pm_runtime_enable(dev);
+>   
+> +	dsi->bridge.funcs = &exynos_dsi_bridge_funcs;
+> +	dsi->bridge.of_node = dev->of_node;
+> +	dsi->bridge.type = DRM_MODE_CONNECTOR_DSI;
+> +
+> +	drm_bridge_add(&dsi->bridge);
+> +
+>   	ret = component_add(dev, &exynos_dsi_component_ops);
+>   	if (ret)
+>   		goto err_disable_runtime;
+> @@ -1833,6 +1858,10 @@ static int exynos_dsi_probe(struct platform_device *pdev)
+>   
+>   static int exynos_dsi_remove(struct platform_device *pdev)
+>   {
+> +	struct exynos_dsi *dsi = platform_get_drvdata(pdev);
+> +
+> +	drm_bridge_remove(&dsi->bridge);
+> +
+>   	pm_runtime_disable(&pdev->dev);
+>   
+>   	component_del(&pdev->dev, &exynos_dsi_component_ops);
+
+Best regards
+-- 
+Marek Szyprowski, PhD
+Samsung R&D Institute Poland
 
