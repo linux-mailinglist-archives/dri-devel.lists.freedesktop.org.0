@@ -1,39 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A759458B1E
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Nov 2021 10:09:35 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C7D9C458B2A
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Nov 2021 10:12:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 302FA89E52;
-	Mon, 22 Nov 2021 09:09:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 23BE889E5F;
+	Mon, 22 Nov 2021 09:12:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5113F89E33;
- Mon, 22 Nov 2021 09:09:30 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10175"; a="221633682"
-X-IronPort-AV: E=Sophos;i="5.87,254,1631602800"; d="scan'208";a="221633682"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Nov 2021 01:09:29 -0800
-X-IronPort-AV: E=Sophos;i="5.87,254,1631602800"; d="scan'208";a="456569866"
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 61AC889E33;
+ Mon, 22 Nov 2021 09:12:42 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10175"; a="234986919"
+X-IronPort-AV: E=Sophos;i="5.87,254,1631602800"; d="scan'208";a="234986919"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Nov 2021 01:12:41 -0800
+X-IronPort-AV: E=Sophos;i="5.87,254,1631602800"; d="scan'208";a="596219376"
 Received: from rmcdonax-mobl.ger.corp.intel.com (HELO localhost)
  ([10.252.19.217])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Nov 2021 01:09:24 -0800
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Nov 2021 01:12:39 -0800
 From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>, cgel.zte@gmail.com
-Subject: Re: [PATCH linux-next] drm/i915/request: Remove unused variables
-In-Reply-To: <80173779-5c91-a56e-6bac-ad4ff7c435f7@wanadoo.fr>
+To: Hans de Goede <hdegoede@redhat.com>, Lyude <lyude@redhat.com>, Joonas
+ Lahtinen <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi
+ <rodrigo.vivi@intel.com>
+Subject: Re: [PATCH 1/2] drm/i915/backlight: Drop duplicate
+ intel_panel_actually_set_backlight()
+In-Reply-To: <20211121110032.4720-1-hdegoede@redhat.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20211121101309.23577-1-yong.yiran@zte.com.cn>
- <80173779-5c91-a56e-6bac-ad4ff7c435f7@wanadoo.fr>
-Date: Mon, 22 Nov 2021 11:09:21 +0200
-Message-ID: <87o86co8u6.fsf@intel.com>
+References: <20211121110032.4720-1-hdegoede@redhat.com>
+Date: Mon, 22 Nov 2021 11:12:36 +0200
+Message-ID: <87lf1go8or.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,77 +47,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, airlied@linux.ie,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, yong yiran <yong.yiran@zte.com.cn>,
- rodrigo.vivi@intel.com, Zeal Robot <zealci@zte.com.cn>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, 21 Nov 2021, Christophe JAILLET <christophe.jaillet@wanadoo.fr> wro=
-te:
-> Le 21/11/2021 =C3=A0 11:13, cgel.zte@gmail.com a =C3=A9crit=C2=A0:
->> From: yong yiran <yong.yiran@zte.com.cn>
->>=20
->> The clang_analyzer complains as follows:
->> drivers/gpu/drm/i915/i915_request.c:2119:2 warning:
->> Value stored to 'x' is never read
->>=20
->> Reported-by: Zeal Robot <zealci@zte.com.cn>
->> Signed-off-by: yong yiran <yong.yiran@zte.com.cn>
-
-The sender's Signed-off-by is missing.
-
->> ---
->>   drivers/gpu/drm/i915/i915_request.c | 3 ---
->>   1 file changed, 3 deletions(-)
->>=20
->> diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/=
-i915_request.c
->> index 820a1f38b271..5e4420f461e9 100644
->> --- a/drivers/gpu/drm/i915/i915_request.c
->> +++ b/drivers/gpu/drm/i915/i915_request.c
->> @@ -2047,7 +2047,6 @@ void i915_request_show(struct drm_printer *m,
->>   {
->>   	const char *name =3D rq->fence.ops->get_timeline_name((struct dma_fen=
-ce *)&rq->fence);
->>   	char buf[80] =3D "";
->> -	int x =3D 0;
->>=20=20=20
->>   	/*
->>   	 * The prefix is used to show the queue status, for which we use
->> @@ -2079,8 +2078,6 @@ void i915_request_show(struct drm_printer *m,
->>   	 *      from the lists
->>   	 */
->>=20=20=20
->> -	x =3D print_sched_attr(&rq->sched.attr, buf, x, sizeof(buf));
->> -
+On Sun, 21 Nov 2021, Hans de Goede <hdegoede@redhat.com> wrote:
+> After the recent refactoring of the backlight code the contents of
+> intel_panel_actually_set_backlight() is exactly the same (minus a
+> small wording difference in the drm_dbg_kms() as the contents if the
+> more widely used intel_backlight_set_pwm_level() function.
 >
-> Seriously?
-
-Basically I've started considering all of these patches as static
-analyzer reports *only*. The "fixes" have often been completely wrong or
-have missed the real issue and merely silenced the warning.
-
-I really couldn't say anything about the "Zeal Robot" itself, but the
-patches are giving it a bad reputation.
-
-
-BR,
-Jani.
-
-
-
-
+> Drop the duplicate intel_panel_actually_set_backlight() function.
 >
-> CJ
->
->
->>   	drm_printf(m, "%s%.*s%c %llx:%lld%s%s %s @ %dms: %s\n",
->>   		   prefix, indent, "                ",
->>   		   queue_status(rq),
->>=20
->
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 
---=20
+Reviewed-by: Jani Nikula <jani.nikula@intel.com>
+
+> ---
+>  drivers/gpu/drm/i915/display/intel_backlight.c | 16 ++--------------
+>  1 file changed, 2 insertions(+), 14 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/display/intel_backlight.c b/drivers/gpu/drm/i915/display/intel_backlight.c
+> index 9523411cddd8..03cd730c926a 100644
+> --- a/drivers/gpu/drm/i915/display/intel_backlight.c
+> +++ b/drivers/gpu/drm/i915/display/intel_backlight.c
+> @@ -268,18 +268,6 @@ static void ext_pwm_set_backlight(const struct drm_connector_state *conn_state,
+>  	pwm_apply_state(panel->backlight.pwm, &panel->backlight.pwm_state);
+>  }
+>  
+> -static void
+> -intel_panel_actually_set_backlight(const struct drm_connector_state *conn_state, u32 level)
+> -{
+> -	struct intel_connector *connector = to_intel_connector(conn_state->connector);
+> -	struct drm_i915_private *i915 = to_i915(connector->base.dev);
+> -	struct intel_panel *panel = &connector->panel;
+> -
+> -	drm_dbg_kms(&i915->drm, "set backlight level = %d\n", level);
+> -
+> -	panel->backlight.funcs->set(conn_state, level);
+> -}
+> -
+>  /* set backlight brightness to level in range [0..max], assuming hw min is
+>   * respected.
+>   */
+> @@ -314,7 +302,7 @@ void intel_backlight_set_acpi(const struct drm_connector_state *conn_state,
+>  					 panel->backlight.device->props.max_brightness);
+>  
+>  	if (panel->backlight.enabled)
+> -		intel_panel_actually_set_backlight(conn_state, hw_level);
+> +		intel_backlight_set_pwm_level(conn_state, hw_level);
+>  
+>  	mutex_unlock(&dev_priv->backlight_lock);
+>  }
+> @@ -863,7 +851,7 @@ static void intel_panel_set_backlight(const struct drm_connector_state *conn_sta
+>  	panel->backlight.level = hw_level;
+>  
+>  	if (panel->backlight.enabled)
+> -		intel_panel_actually_set_backlight(conn_state, hw_level);
+> +		intel_backlight_set_pwm_level(conn_state, hw_level);
+>  
+>  	mutex_unlock(&dev_priv->backlight_lock);
+>  }
+
+-- 
 Jani Nikula, Intel Open Source Graphics Center
