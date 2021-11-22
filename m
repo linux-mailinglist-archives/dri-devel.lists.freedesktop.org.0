@@ -1,69 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89C44459438
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Nov 2021 18:47:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C05AA4594AC
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Nov 2021 19:26:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B982589916;
-	Mon, 22 Nov 2021 17:47:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4AD5F89C07;
+	Mon, 22 Nov 2021 18:25:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
- [IPv6:2a00:1450:4864:20::336])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D025489916
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Nov 2021 17:47:46 +0000 (UTC)
-Received: by mail-wm1-x336.google.com with SMTP id
- 77-20020a1c0450000000b0033123de3425so17560311wme.0
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Nov 2021 09:47:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=NAERJfyuh3hrk2pVn4WCNTl0iGx7EaTAYCDW21ycnzg=;
- b=igGA+iIrutkZXjmuS+YrrJhUZ3MsONtDK7LNrgANUAUR94lF9jEQCaQJeeNdw09I3L
- Qn6uzRRjyPlTQR8UYxENPLbuy9k6VitQ52COxei9KRoowQUMQrei2umldoBea+U6zDN3
- PXOnvi2MoPTH8X75sEzgi6GweR3sT3bDEEJdG99pRKIF5ESPJ7QweC27e+v2r+Y9BEnq
- rgd5P5C0lPbbc4db0wOm/LZJqq4xWDfLjYgC2/YV5ctZUJDkwjZnOCBUu5CnmA9IKKGj
- SNDmbqUbYokfJtZGtQ1LA/LjRRJz6i3H27DpnOUIk+lZ+9cD++aSdc0u81/r8oR2dxeJ
- RYag==
+Received: from mail-il1-x132.google.com (mail-il1-x132.google.com
+ [IPv6:2607:f8b0:4864:20::132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 54EDD89C07
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Nov 2021 18:25:56 +0000 (UTC)
+Received: by mail-il1-x132.google.com with SMTP id h23so19076136ila.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Nov 2021 10:25:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=V922HWuq8uLsxYG22PIxd+gFocBtJqGUO9t4zkKvHEU=;
+ b=d/GtbXqVSvLQS2G2429Kg5rVUGFSB42mFR5vGLs9c+X9co8Zob61EBvEn+WlkbjuL0
+ l/YV0T9huF3f3llpCQkvYIBcCexKlV7PUtdXHxBCZbq04/IRB5eXL1V08pz0dxJvqW8O
+ BDYakDFQFKAT3uZhAoCGPsnx24RISCzX6icY/VVvicS8sSlc3DjEcNku5hzzHwc7w92i
+ SsaW1y02+asop/wQokGHvxYwjwSURErfQn2pwPDw6HHLSxSCTsigRypa5abWwelYS011
+ qMP8mLXvJZrSqtJ5bDEpn5Ie8CZzvDmZKJjagALtkEOQTR10OgYMqvc1wkyvHsXcAYka
+ uhcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=NAERJfyuh3hrk2pVn4WCNTl0iGx7EaTAYCDW21ycnzg=;
- b=X52ZHdEgSPPdmnJBQJRbLiAd56DcQkWaisBNkIq0yU9THLQ7uZv5HOushzxfnXhOPt
- igz65bQ7PDXMC+RhpHbv8BKi/4jZ/JSMcemnAqaBd2/UdFTk/fkxqhb8WtiWoOdJCJ2Y
- 4plP99rxRvODZKa6BsbGGchOYvtPWl0lN1KYCYbORT46wBBvszHc4NkB0gnnAwxEbWRw
- ZC0LtIH0ETq1FSnc5Hb3CaVX+iIEM9J5egmepKWjGfglXVW/bOA6XlGaFSbDa11lj1qo
- ohdhhoJagPq8ncXq6fmXY4KeuznBItve2+3x4IJ5hmbiQSUQnud/lrzILRAgJdUZz4mx
- 8JaA==
-X-Gm-Message-State: AOAM532m4BiCqBY2PIpHuuEC+QAtzej7pTlOOBvLISI3Y8KqA9pe60Sp
- aggrpXH4fLDO7NlV4Cv+1w==
-X-Google-Smtp-Source: ABdhPJyLhxP0ZcR453J7Jypjzt74httJPSj0sP8H7ogHHLG/J+9Xhjl/qHlL28VWh+9k9PTqrcuKnA==
-X-Received: by 2002:a05:600c:501f:: with SMTP id
- n31mr32696731wmr.101.1637603265204; 
- Mon, 22 Nov 2021 09:47:45 -0800 (PST)
-Received: from ?IPv6:2a02:810b:f40:4200:a22c:1f83:255b:80f3?
- ([2a02:810b:f40:4200:a22c:1f83:255b:80f3])
- by smtp.gmail.com with ESMTPSA id u15sm11746081wmq.13.2021.11.22.09.47.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 22 Nov 2021 09:47:44 -0800 (PST)
-Subject: Re: [PATCH v1 00/12] drm/rockchip: RK356x VOP2 support
-To: Sascha Hauer <s.hauer@pengutronix.de>
-References: <20211117143347.314294-1-s.hauer@pengutronix.de>
- <73c57643-a0db-e7e7-174d-3cb6a978d98a@gmail.com>
- <20211122081008.GR6556@pengutronix.de>
-From: Alex Bee <knaerzche@gmail.com>
-Message-ID: <0f975419-f3a6-8c5d-f700-904957eea3e6@gmail.com>
-Date: Mon, 22 Nov 2021 18:47:43 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=V922HWuq8uLsxYG22PIxd+gFocBtJqGUO9t4zkKvHEU=;
+ b=jZA9yTUiciXzxPmAdNXAmC5E8CvyhcP5Me4XezekmJEZRBPx8t2AdJXSctOgG0Hjof
+ 7Cji4w+t46+KvTE+quLaAjhR4oUJxso5rU4DFLP2YvQrZWKG9qr5jZn2YYTcGkfOgjXG
+ DeKotZMKsv6xyfZviiS7iHXoe9pZCYuDjLWK2/hkNpsbuf7rPsC1PIZd2UB7fWsmzdfr
+ z3Rjg2ta0JfCyL7+C9e4jE8F7ghUDVXnj9fZ5NGWyQjGj0cKP4RYU1Y4S31yOrRt2YJj
+ 8iwcPTBFRvbgCACdO0Ulx6qxyzYWfLDF7CuxV2W4N2YTOCauxB5MdbQK+Lw5k7Jqe6Is
+ GnTw==
+X-Gm-Message-State: AOAM533Z3GHZg9VonWDoIOanAyU4/vVDJ5g7eU0HD/hXK1tMm4VPVYDW
+ tiwm1BkMKAnePlMadClOEjl3dtN0xmWA3VBVpJ0s6g==
+X-Google-Smtp-Source: ABdhPJwtRxEmpfX55RYrsWOEQIG12prkfLrYv5SFJCGGONMfN0b5CSPxI+Oz80us5P6a8v2FfEGKqBSE0i7JecH3Y+g=
+X-Received: by 2002:a05:6e02:1b01:: with SMTP id
+ i1mr14238957ilv.94.1637605555358; 
+ Mon, 22 Nov 2021 10:25:55 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20211122081008.GR6556@pengutronix.de>
-Content-Type: text/plain; charset=iso-8859-15
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+References: <20211104122426.9597-1-yunfei.dong@mediatek.com>
+ <725024c7-b605-2de6-0a9e-e3e044ae5b3f@collabora.com>
+In-Reply-To: <725024c7-b605-2de6-0a9e-e3e044ae5b3f@collabora.com>
+From: Steve Cho <stevecho@google.com>
+Date: Mon, 22 Nov 2021 10:25:19 -0800
+Message-ID: <CAN0yncHWWjRzJLGi90t0G8N=Qc7kKq4NKnHko8e7Jvg+PzCNLw@mail.gmail.com>
+Subject: Re: [PATCH v3] media: mtk-vcodec: Align width and height to 64 bytes
+To: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Content-Type: multipart/alternative; boundary="000000000000692ca905d164c1b1"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,128 +63,187 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
+Cc: Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+ Steve Cho <stevecho@chromium.org>, Yunfei Dong <yunfei.dong@mediatek.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Irui Wang <irui.wang@mediatek.com>, Tiffany Lin <tiffany.lin@mediatek.com>,
  Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Sandy Huang <hjc@rock-chips.com>, dri-devel@lists.freedesktop.org,
- linux-rockchip@lists.infradead.org,
- Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
- Peter Geis <pgwipeout@gmail.com>, linux-arm-kernel@lists.infradead.org
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ Fritz Koenig <frkoenig@chromium.org>, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, Tzung-Bi Shih <tzungbi@chromium.org>,
+ Tomasz Figa <tfiga@google.com>, Rob Herring <robh+dt@kernel.org>,
+ linux-mediatek@lists.infradead.org, Hsin-Yi Wang <hsinyi@chromium.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ linux-arm-kernel@lists.infradead.org,
+ Alexandre Courbot <acourbot@chromium.org>, srv_heupstream@mediatek.com,
+ linux-kernel@vger.kernel.org, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Nicolas Dufresne <nicolas.dufresne@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 22.11.21 um 09:10 schrieb Sascha Hauer:
-> Hi Alex,
->
-> On Mon, Nov 22, 2021 at 12:18:47AM +0100, Alex Bee wrote:
->> Hi Sascha,
->>
->> Am 17.11.21 um 15:33 schrieb Sascha Hauer:
->>> This series adds initial graphics support for the Rockchip RK356[68]
->>> SoCs.  Graphics support is based around the VOP2 controller which
->>> replaces the VOP controller found on earlier Rockchip SoCs. The driver
->>> has been tested with HDMI support included in this series and MIPI-DSI
->>> which is not included because it needs some more work. The driver is
->>> taken from the downstream Rockchip kernel and heavily polished, most non
->>> standard features have been removed for now. I tested the driver with
->>> the libdrm modetest utility and also with weston with both pixman and
->>> panfrost driver support. Michael Riesch reported the driver to work on
->>> the RK3566 as well, but device tree support for this SoC is not yet
->>> included in this series.
->>>
->>> The HDMI changes are based on patches from Benjamin Gaignard, but
->>> modified a bit as I found out that the HDMI port on the RK3568 only
->>> needs one additional clock, not two. Also I added regulator support
->>> which is needed to get the HDMI up on the rk3568-EVB board.
->>>
->>> All review and testing feedback welcome
->>
->> thanks for working on that - it's very (very,very) much appreciated.
->>
->> It took me some time to figure it out: It seems rk3568-iommu driver s
->> broken - I did only get "white noise" when using it alongside vop
->> (similar like it was reported here before). However: removing the
->> iommu-property from vop makes it working for me with HDMI output on
->> quartz64 as well. Could you check if you have the iommu driver in kernel
->> enabled if it works for you, if the property is present in DT? (I used
->> 5.16-rc1 + this series + [0]).
-> I have the iommu driver enabled and it works for me. I get this during
-> boot:
->
-> [0.263287] rockchip-vop2 fe040000.vop: Adding to iommu group 0
->
-> So I expect it is indeed used.
->
->> Also vop mmu seems to have the
->> power-domain missing in your series (same as downstream) - however
->> adding that doesn't help much currently.
-> Probably the power domain gets enabled anyway when the VOP is activated,
-> so adding it to the iommu won't help anything. Nevertheless it seems
-> correct to add the property, I'll do so in the next round.
->
->> As a sidenote: I verfied this with using Ezequiel's vpu addtion for
->> RK356x: It did only work when removing the iommu there as well (getting
->> tons of page faults otherwise) - so iommu driver really seems to broken,
->> at least for RK3566. (Or I'm a missing a option in kernel config, which
->> wasn't required for the older iommu version?)
-> I don't think so. I started from defconfig and disabled other
-> architectures and unneeded drivers, but I did not enable anything
-> specific to iommu.
+--000000000000692ca905d164c1b1
+Content-Type: text/plain; charset="UTF-8"
 
-I've found out now that I can make it work with iommu, by limiting the
-available memory to something below 4G (I have a 8G board). So there is
-something wrong in the driver or somewhere in memory mapping, iommu api
-(since it works when using CMA), ... however: it does clearly not relate
-to your patch.
+Thank you Dafna for providing the feedback.
 
->>  
->> But as reported before: For HDMI this does currently only work for pixel
->> clock rates, which are integer-divisable with hpll clock rate (which is
->> the hardcoded parent of vop0's dclk)
->> As discussed in Benjamin's initial submission of the addition of
->> RK3568's hdmi controller [1] same as with RK3288's and RK3399's hdmi phy
->> needs a reference clock (it's called vpll there) which needs to get
->> switched before the vop switches the mode (since phy rate switching is
->> done before) - it's HPLL in case of RK356x. For whatever reason it's
->> called "ref" for RK356x only downstream [2] - so you should add another
->> clock "vpll" (renaming it to "ref" for _ALL_ SoCs which have it would be
->> a _GREAT_ idea) which is <&pmucru PLL_HPLL>.
-> Yeah, a consumer clock should be named after the usage in the consumer,
-> not after the provider name. I also stumbled over this and naming it
-> "ref" makes much more sense. We'll likely have to keep supporting "vpll"
-> as well for compatibility to old device trees.
+Yes, I agree that ALIGN(x, 64) is clear enough.
+I forgot the history, but I think it was probably one of my comment before.
+For this case, it is also only used in one place, so not much benefit in
+that sense as well.
+(Unless it is planned to be used in many other places.)
+
+Yunfei, either way is fine with me.
+Wasn't this change was already merged in media stage though?
+
+Thanks,
+Steve
+
+On Sun, Nov 21, 2021 at 11:11 PM Dafna Hirschfeld <
+dafna.hirschfeld@collabora.com> wrote:
+
 >
->> What brings us to the "real" clock problem and the reason, why
->> non-integer divisable pixel clock rates are not possible ATM: This is a
->> long standing issue for RK3288 and RK3399 as well (and one of the main
->> reasons why 4k modes are not possible for those older SoCs currently):
->> Upstream all PLL rates are controlled with those PLL rate tables in the
->> clock driver and they have to be _exactly_ defined as they are used
->> (HDMI sinks are very picky).
->> You will not see any additional rates downstream for RK3568: they have a
->> mechanism there to automatically calculate the PLL settings if the rate
->> doesn't exist in these tables (IIRC this was submitted upstream also:
->> but it was rejected/ignored by maintainers).
-> Looks like we have to try harder to get it upstream. Do you have a
-> pointer to this patch?
-
-Sure:
-
-https://patchwork.kernel.org/project/linux-clk/patch/20191204082527.19957-1-zhangqing@rock-chips.com/
-
-I don't know if that is the was last submitted version.
-
-Best regards,
-
-Alex
-
->> As a quick hackarround (for
->> testing): You could use this table [3] we are using in LibreElec for
->> RK3399 to get 4k modes working and assign it to HPLL in RK3568's clock
->> driver (I tested it and it works great). It might be possible to just
->> add those rates (some also without frac dividers) to the common PLL
->> table for RK3568.
-> Thanks for noting. This could also explain why currently only 1080p is
-> working.
 >
-> Sascha
+> On 04.11.21 14:24, Yunfei Dong wrote:
+> > Width and height need to 64 bytes aligned when setting the format.
+> > Need to make sure all is 64 bytes align when use width and height to
+> > calculate buffer size.
+> >
+> > Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+> > Acked-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> > Tested-by: Steve Cho <stevecho@chromium.org>
+> > ---
+> >   drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.h        | 1 +
+> >   drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_if.c | 4 ++--
+> >   2 files changed, 3 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.h
+> b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.h
+> > index e30806c1faea..66cd6d2242c3 100644
+> > --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.h
+> > +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.h
+> > @@ -11,6 +11,7 @@
+> >   #include <media/videobuf2-core.h>
+> >   #include <media/v4l2-mem2mem.h>
+> >
+> > +#define VCODEC_DEC_ALIGNED_64 64
 >
+> This define is a bit useless, it doesn't improve readability,
+> if you do ALIGN(x, 64) it is already clear enough.
+>
+> Thank,
+> Dafna
+>
+> >   #define VCODEC_CAPABILITY_4K_DISABLED       0x10
+> >   #define VCODEC_DEC_4K_CODED_WIDTH   4096U
+> >   #define VCODEC_DEC_4K_CODED_HEIGHT  2304U
+> > diff --git a/drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_if.c
+> b/drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_if.c
+> > index d402fc4bda69..e1a3011772a9 100644
+> > --- a/drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_if.c
+> > +++ b/drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_if.c
+> > @@ -562,8 +562,8 @@ static void get_pic_info(struct vdec_h264_slice_inst
+> *inst,
+> >   {
+> >       struct mtk_vcodec_ctx *ctx = inst->ctx;
+> >
+> > -     ctx->picinfo.buf_w = (ctx->picinfo.pic_w + 15) & 0xFFFFFFF0;
+> > -     ctx->picinfo.buf_h = (ctx->picinfo.pic_h + 31) & 0xFFFFFFE0;
+> > +     ctx->picinfo.buf_w = ALIGN(ctx->picinfo.pic_w,
+> VCODEC_DEC_ALIGNED_64);
+> > +     ctx->picinfo.buf_h = ALIGN(ctx->picinfo.pic_h,
+> VCODEC_DEC_ALIGNED_64);
+> >       ctx->picinfo.fb_sz[0] = ctx->picinfo.buf_w * ctx->picinfo.buf_h;
+> >       ctx->picinfo.fb_sz[1] = ctx->picinfo.fb_sz[0] >> 1;
+> >       inst->vsi_ctx.dec.cap_num_planes =
+> >
+>
+
+--000000000000692ca905d164c1b1
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Thank you Dafna for providing the feedback.=C2=A0<div><br>=
+</div><div>Yes, I agree that ALIGN(x, 64) is clear enough.=C2=A0</div><div>=
+<div>I forgot the history, but I think it was probably one of my comment be=
+fore.=C2=A0<br></div><div>For this case, it is also only used in one place,=
+ so not much benefit in that sense as well.</div><div>(Unless it is planned=
+ to be used in many other places.)</div><div><br></div><div>Yunfei, either =
+way is fine with me.=C2=A0</div><div>Wasn&#39;t this change was already=C2=
+=A0merged in media stage though?</div><div><br></div><div><div><div dir=3D"=
+ltr" class=3D"gmail_signature" data-smartmail=3D"gmail_signature"><div dir=
+=3D"ltr">Thanks,<div>Steve</div></div></div></div></div></div></div><br><di=
+v class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Sun, Nov 2=
+1, 2021 at 11:11 PM Dafna Hirschfeld &lt;<a href=3D"mailto:dafna.hirschfeld=
+@collabora.com">dafna.hirschfeld@collabora.com</a>&gt; wrote:<br></div><blo=
+ckquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left=
+:1px solid rgb(204,204,204);padding-left:1ex"><br>
+<br>
+On 04.11.21 14:24, Yunfei Dong wrote:<br>
+&gt; Width and height need to 64 bytes aligned when setting the format.<br>
+&gt; Need to make sure all is 64 bytes align when use width and height to<b=
+r>
+&gt; calculate buffer size.<br>
+&gt; <br>
+&gt; Signed-off-by: Yunfei Dong &lt;<a href=3D"mailto:yunfei.dong@mediatek.=
+com" target=3D"_blank">yunfei.dong@mediatek.com</a>&gt;<br>
+&gt; Acked-by: Nicolas Dufresne &lt;<a href=3D"mailto:nicolas.dufresne@coll=
+abora.com" target=3D"_blank">nicolas.dufresne@collabora.com</a>&gt;<br>
+&gt; Tested-by: Steve Cho &lt;<a href=3D"mailto:stevecho@chromium.org" targ=
+et=3D"_blank">stevecho@chromium.org</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 =C2=A0drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.h=C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 | 1 +<br>
+&gt;=C2=A0 =C2=A0drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_if.c =
+| 4 ++--<br>
+&gt;=C2=A0 =C2=A02 files changed, 3 insertions(+), 2 deletions(-)<br>
+&gt; <br>
+&gt; diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.h b/driv=
+ers/media/platform/mtk-vcodec/mtk_vcodec_dec.h<br>
+&gt; index e30806c1faea..66cd6d2242c3 100644<br>
+&gt; --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.h<br>
+&gt; +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.h<br>
+&gt; @@ -11,6 +11,7 @@<br>
+&gt;=C2=A0 =C2=A0#include &lt;media/videobuf2-core.h&gt;<br>
+&gt;=C2=A0 =C2=A0#include &lt;media/v4l2-mem2mem.h&gt;<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt; +#define VCODEC_DEC_ALIGNED_64 64<br>
+<br>
+This define is a bit useless, it doesn&#39;t improve readability,<br>
+if you do ALIGN(x, 64) it is already clear enough.<br>
+<br>
+Thank,<br>
+Dafna<br>
+<br>
+&gt;=C2=A0 =C2=A0#define VCODEC_CAPABILITY_4K_DISABLED=C2=A0 =C2=A0 =C2=A0 =
+=C2=A00x10<br>
+&gt;=C2=A0 =C2=A0#define VCODEC_DEC_4K_CODED_WIDTH=C2=A0 =C2=A04096U<br>
+&gt;=C2=A0 =C2=A0#define VCODEC_DEC_4K_CODED_HEIGHT=C2=A0 2304U<br>
+&gt; diff --git a/drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_if.c=
+ b/drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_if.c<br>
+&gt; index d402fc4bda69..e1a3011772a9 100644<br>
+&gt; --- a/drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_if.c<br>
+&gt; +++ b/drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_if.c<br>
+&gt; @@ -562,8 +562,8 @@ static void get_pic_info(struct vdec_h264_slice_in=
+st *inst,<br>
+&gt;=C2=A0 =C2=A0{<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0struct mtk_vcodec_ctx *ctx =3D inst-&gt;ctx;=
+<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0ctx-&gt;picinfo.buf_w =3D (ctx-&gt;picinfo.pic_w =
++ 15) &amp; 0xFFFFFFF0;<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0ctx-&gt;picinfo.buf_h =3D (ctx-&gt;picinfo.pic_h =
++ 31) &amp; 0xFFFFFFE0;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0ctx-&gt;picinfo.buf_w =3D ALIGN(ctx-&gt;picinfo.p=
+ic_w, VCODEC_DEC_ALIGNED_64);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0ctx-&gt;picinfo.buf_h =3D ALIGN(ctx-&gt;picinfo.p=
+ic_h, VCODEC_DEC_ALIGNED_64);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0ctx-&gt;picinfo.fb_sz[0] =3D ctx-&gt;picinfo=
+.buf_w * ctx-&gt;picinfo.buf_h;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0ctx-&gt;picinfo.fb_sz[1] =3D ctx-&gt;picinfo=
+.fb_sz[0] &gt;&gt; 1;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0inst-&gt;vsi_ctx.dec.cap_num_planes =3D<br>
+&gt; <br>
+</blockquote></div>
+
+--000000000000692ca905d164c1b1--
