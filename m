@@ -1,70 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 411C0458C71
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Nov 2021 11:40:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E8E7F458CFE
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Nov 2021 12:08:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9193A6E135;
-	Mon, 22 Nov 2021 10:40:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 409776E0DF;
+	Mon, 22 Nov 2021 11:08:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
- [IPv6:2a00:1450:4864:20::131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A45C6E135
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Nov 2021 10:40:03 +0000 (UTC)
-Received: by mail-lf1-x131.google.com with SMTP id b1so78169869lfs.13
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Nov 2021 02:40:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=d2zC3GZX8uS+l6jcheKIGphOeFfmp6L0jvVLD+Y/Jgg=;
- b=e9xey83dyEX1R8jouZHFbXYCyGbfzrF7RGhHRazW+A4EbXdOczICrLDI5vFSjMqyaC
- YEDnaR9k/x0Jhz26HC8Qj7d0qdmFie/GKN8Os2iatdxGaaK8VvUxi70lBlwvnkszpZbg
- pKrkthP3GjNll4KT0rnCXDTOd0HdZZbi3uDEORe5TefBJWgTAuJrT1zV/Foi7Rm0eQzj
- iJzIl0dtXtkVb+gHZVbdU286KjzEAy2j+HiNRcllY8ZuiKsK9zdjPm1tWVJwTHovb6Wk
- OTV22QCJlQtbPtMe2xALyYK3nuVFN8Ytjme1HmzppML5wLgzi1D8unL3p5Q0yZKlZ79j
- 9BIg==
+Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com
+ [IPv6:2607:f8b0:4864:20::533])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B852F6E0DF
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Nov 2021 11:08:27 +0000 (UTC)
+Received: by mail-pg1-x533.google.com with SMTP id p17so15008548pgj.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Nov 2021 03:08:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=igel-co-jp.20210112.gappssmtp.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=8j9GfMJUTSuyNlX0JtYEUNzVRbO89IElhevludBeDeE=;
+ b=2BUgIZ4SylDSAEO3Yl2LRpi29Cil8ozANeYZz+NqBNkpJpIT70W3l0VMWSjAQnMUDm
+ W9Oo/hEfSpBTRCgmDCOiCcnRvEQ+akoIRTo4pMrYJBGwlunqQEHuH0taC7Q5eniJeYs9
+ xfuZQlqmfdagZPee5GJMfkeGAPMC8yjQL9nnCU0D4wBrI8+4nqPT1IL3NI36XDK7kaQn
+ tqYdNc0oTHU+ETytp4UQqD2jIkmfo0fRV4EJON7wQD/8aj84cI6zbhnf6fYb6mHBkMms
+ +hu7xnWLLQxuApX+jjRpY7Ny1FbQhix3CnEGdHHrZb1z6gbgSU8lsG/U1IVF0d1F/odN
+ Cyyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=d2zC3GZX8uS+l6jcheKIGphOeFfmp6L0jvVLD+Y/Jgg=;
- b=qyWOmaQ3GN5+VV01Fr3EHI58HteyRhnp1jtgq1zPFroYUXeqZIVNoyo256+ITta2Fs
- h6UoQ6bE0jFuZO36RWhwOJ8cWaWxLg/UyR8FIUe6I2kIHkmWSe2OtGjF1ifqAaMVDJeU
- HUAgcHrjkCmzhpzk1XAtunlW21OJZGVIKXBz9A+rbOHZLbtg0JXTHenf5LQLhpP/bpw5
- xwtUlnY2KgFcG87JvHrrfP0Z5KFYupUKYQH3U+XnjBLDJc9ZSa2+gq5/rF2PQb3YjrN+
- ELYEovKWRlHYy1YxqfzsPwa8uo79ZObcDQuXbKhkJz+FMvD2ZdJxkSg1ylHFscvvUjs6
- 67tQ==
-X-Gm-Message-State: AOAM531XIwgG8FrT6DBKeZPPSGQ+FKWm1zYo4v4mQ/eb6SFYapyS4bpu
- 1Q85/JSIx2NJKu2g5nxzyZc=
-X-Google-Smtp-Source: ABdhPJz8MCr6N9OooxMtZp0JXg0RH1rMd+WUjNeUklGObs/fDFhoLmD6Spn0Rgm+TP5aJLvUKKCc/g==
-X-Received: by 2002:a05:6512:2033:: with SMTP id
- s19mr56816313lfs.290.1637577601896; 
- Mon, 22 Nov 2021 02:40:01 -0800 (PST)
-Received: from [192.168.2.145] (94-29-48-99.dynamic.spd-mgts.ru. [94.29.48.99])
- by smtp.googlemail.com with ESMTPSA id bp36sm1061426lfb.0.2021.11.22.02.40.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 22 Nov 2021 02:40:01 -0800 (PST)
-Subject: Re: [PATCH] i2c: tegra: Add ACPI support
-To: Akhil R <akhilrajeev@nvidia.com>, ldewangan@nvidia.com,
- thierry.reding@gmail.com, jonathanh@nvidia.com, p.zabel@pengutronix.de,
- sumit.semwal@linaro.org, christian.koenig@amd.com,
- linux-i2c@vger.kernel.org, linux-tegra@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- andy.shevchenko@gmail.com
-References: <1637328734-20576-1-git-send-email-akhilrajeev@nvidia.com>
-From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <0c92231a-5bc5-be08-bf9d-0b77b85648be@gmail.com>
-Date: Mon, 22 Nov 2021 13:40:00 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ bh=8j9GfMJUTSuyNlX0JtYEUNzVRbO89IElhevludBeDeE=;
+ b=eS8xXcsrZRGkQFhFmXqkL3W6UkhRw4BdbQE6HmLhPYQKl4VZFoQhJzKnK/Hc2l5xpG
+ IV41/AShegwIJDwamIPnIPnDgJcLw1x9MVpv1wTUt0Upzg48YNeYgQmRnWo2OfPoTbn5
+ J4O2Bp3qdzci7ik318osBZ1OrF4xwE2dYa4351z6KOsteFyY6bqX4JyLfHd5WU/drFsh
+ UPo1hIZ36+Eb6lLblVDm0gBGbSgbt7s7TvTESwhdQUmd6ZBSGmI0Csjn3mzQAc/fjlS6
+ +UkvfRkGlyhTk8vQ+L4R5ZlDEWwlWt/ONJ0yFOykBFB9plywP6gaQFAlcs6dpDRnwagE
+ Ibuw==
+X-Gm-Message-State: AOAM531qGAA7wdQeWi9p0GsFHkMUxXnRCvKLvLpW0fO88FNiYnjoQJtp
+ IVNQspIm+/yqzpnKC5XdM9qW/A==
+X-Google-Smtp-Source: ABdhPJxuy6lp75A9lhhuf/bGm760C8DD2KjY595wMNcaig7hBpaExK18IXGA4veJWh6ofv4Q4OFXDA==
+X-Received: by 2002:a62:e908:0:b0:49f:c633:51ec with SMTP id
+ j8-20020a62e908000000b0049fc63351ecmr43319945pfh.1.1637579307242; 
+ Mon, 22 Nov 2021 03:08:27 -0800 (PST)
+Received: from tyrell.hq.igel.co.jp (napt.igel.co.jp. [219.106.231.132])
+ by smtp.gmail.com with ESMTPSA id h6sm9572816pfh.82.2021.11.22.03.08.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 22 Nov 2021 03:08:26 -0800 (PST)
+From: Shunsuke Mie <mie@igel.co.jp>
+To: Zhu Yanjun <zyjzyj2000@gmail.com>
+Subject: [RFC PATCH v4 0/2] RDMA/rxe: Add dma-buf support
+Date: Mon, 22 Nov 2021 20:08:15 +0900
+Message-Id: <20211122110817.33319-1-mie@igel.co.jp>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-In-Reply-To: <1637328734-20576-1-git-send-email-akhilrajeev@nvidia.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -78,60 +68,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: dhobsong@igel.co.jp, taki@igel.co.jp, Leon Romanovsky <leon@kernel.org>,
+ linux-rdma@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ etom@igel.co.jp, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, Jason Gunthorpe <jgg@ziepe.ca>,
+ Doug Ledford <dledford@redhat.com>, Shunsuke Mie <mie@igel.co.jp>,
+ Alex Deucher <alexander.deucher@amd.com>, Sean Hefty <sean.hefty@intel.com>,
+ Maor Gottlieb <maorg@nvidia.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Jianxin Xiong <jianxin.xiong@intel.com>, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-19.11.2021 16:32, Akhil R пишет:
-> -	i2c_dev->rst = devm_reset_control_get_exclusive(i2c_dev->dev, "i2c");
-> -	if (IS_ERR(i2c_dev->rst)) {
-> -		dev_err_probe(i2c_dev->dev, PTR_ERR(i2c_dev->rst),
-> -			      "failed to get reset control\n");
-> -		return PTR_ERR(i2c_dev->rst);
-> -	}
-> -
->  	tegra_i2c_parse_dt(i2c_dev);
->  
-> -	err = tegra_i2c_init_clocks(i2c_dev);
-> -	if (err)
-> -		return err;
-> +	if (!has_acpi_companion(&pdev->dev)) {
-> +		i2c_dev->rst = devm_reset_control_get_exclusive(i2c_dev->dev, "i2c");
-> +		if (IS_ERR(i2c_dev->rst)) {
-> +			dev_err_probe(i2c_dev->dev, PTR_ERR(i2c_dev->rst),
-> +				      "failed to get reset control\n");
-> +			return PTR_ERR(i2c_dev->rst);
-> +		}
-> +
-> +		err = tegra_i2c_init_clocks(i2c_dev);
-> +		if (err)
-> +			return err;
-> +	}
+This patch series add a dma-buf support for rxe driver.
 
-What about to factor out the reset initialization into a separate function and write it like this:
+A dma-buf based memory registering has beed introduced to use the memory
+region that lack of associated page structures (e.g. device memory and CMA
+managed memory) [1]. However, to use the dma-buf based memory, each rdma
+device drivers require add some implementation. The rxe driver has not
+support yet.
 
-static int tegra_i2c_init_reset(i2c_dev)
-{
-	if (has_acpi_companion(i2c_dev->dev)
-		return 0;
+[1] https://www.spinics.net/lists/linux-rdma/msg98592.html
 
-	i2c_dev->rst = devm_reset_control_get_exclusive(i2c_dev->dev, "i2c");
-	if (IS_ERR(i2c_dev->rst))
-		return dev_err_probe(i2c_dev->dev, PTR_ERR(i2c_dev->rst),
-			      	     "failed to get reset control\n");
+To enable to use the dma-buf memory in rxe rdma device, add some changes
+and implementation in this patch series.
 
-	return 0;
-}
+This series consists of two patches. The first patch changes the IB core
+to support for rdma drivers that has not dma device. The secound patch adds
+the dma-buf support to rxe driver.
 
-And then change tegra_i2c_init_clocks() to:
+Related user space RDMA library changes are provided as a separate patch.
 
-static int tegra_i2c_init_clocks(i2c_dev)
-{
-	int err;
+v4:
+* Fix warnings, unused variable and casting
+v3: https://www.spinics.net/lists/linux-rdma/msg106776.html
+* Rebase to the latest linux-rdma 'for-next' branch (5.15.0-rc6+)
+* Fix to use dma-buf-map helpers
+v2: https://www.spinics.net/lists/linux-rdma/msg105928.html
+* Rebase to the latest linux-rdma 'for-next' branch (5.15.0-rc1+)
+* Instead of using a dummy dma_device to attach dma-buf, just store
+  dma-buf to use software RDMA driver
+* Use dma-buf vmap() interface
+* Check to pass tests of rdma-core
+v1: https://www.spinics.net/lists/linux-rdma/msg105376.html
+* The initial patch set
+* Use ib_device as dma_device.
+* Use dma-buf dynamic attach interface
+* Add dma-buf support to rxe device
 
-	if (has_acpi_companion(i2c_dev->dev))
-		return 0;
+Shunsuke Mie (2):
+  RDMA/umem: Change for rdma devices has not dma device
+  RDMA/rxe: Add dma-buf support
 
-	...
-}
+ drivers/infiniband/core/umem_dmabuf.c |  20 ++++-
+ drivers/infiniband/sw/rxe/rxe_loc.h   |   2 +
+ drivers/infiniband/sw/rxe/rxe_mr.c    | 113 ++++++++++++++++++++++++++
+ drivers/infiniband/sw/rxe/rxe_verbs.c |  34 ++++++++
+ include/rdma/ib_umem.h                |   1 +
+ 5 files changed, 166 insertions(+), 4 deletions(-)
 
-This will make both reset/clocks initialization to look more consistent.
+-- 
+2.17.1
+
