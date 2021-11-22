@@ -1,61 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F230A45912E
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Nov 2021 16:18:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id ADF80459163
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Nov 2021 16:27:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ABC2C89B5F;
-	Mon, 22 Nov 2021 15:18:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 762C2897FD;
+	Mon, 22 Nov 2021 15:27:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com
- [IPv6:2a00:1450:4864:20::534])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B0E689B05
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Nov 2021 15:18:15 +0000 (UTC)
-Received: by mail-ed1-x534.google.com with SMTP id x15so78229213edv.1
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Nov 2021 07:18:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=b6qQeQwZADYWFmHsvKFEYvsgX+Aj2KzuO7XMpjH5Ok0=;
- b=pem0mM+r+a3bsrVABMJxJIcMwoXUaegtCJBh+E7EOu7NbW1ly0U9n4YIm2uafBgrMk
- rBgOXPBo+l3OqXVwycswEytYtNZrRgOXu7jL13WB0WescTdT+UKivUUOCSJnm03YKuBB
- Wd5DltpQo0TVlvXLTXW0Qn68XKiBY9bkL5E5Q=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=b6qQeQwZADYWFmHsvKFEYvsgX+Aj2KzuO7XMpjH5Ok0=;
- b=5WJfj6uoWv7FNKvT03msSVKQR/OEbZCScsgs3mbW5UnYuQRz2RzH/ctuVWotcLk37E
- Tt7EQx2ekzJsuFg7T3EFieSPvjgwoBhTwFypdRuHJoVo4E474N6e+n4ed4zHZuL+NXzx
- UC1VvjfWSewllOHWsKW2pWCufQwAFjyrJzpZu88YmnlsDBMbrNX4cw0CnDLhQyiCRRNh
- 5k8FwKYCa1eCwKxX7sNWrBK9R7MXE5e6NAH04qfAe9zbkRUfe8dSGC4YWcpXhsscr1hr
- pGAEcYzrsRGKlNxgOw7cql5Kl+NAOXZFiyo28soDW43u+mpuf8JdepJLoOdC9DSYTrAf
- EE7Q==
-X-Gm-Message-State: AOAM532occfIJc6BUDH86SYFeOsV9wAfxHno4nK/UWBtKV2kODO05aAc
- d3HNsyYh9SAluHh03lSS/MQRsFrAPQs/aXqZWubpWKLRbeE=
-X-Google-Smtp-Source: ABdhPJxgEvNdiTuprKcDPLlLBdYdoDjdx+7vpfs5aCAOmahXrglgIsgkfM9qO+NOmt3pnixb+WRXqZJlNjf16Jc4T0M=
-X-Received: by 2002:a17:907:7664:: with SMTP id
- kk4mr40382429ejc.319.1637594290898; 
- Mon, 22 Nov 2021 07:18:10 -0800 (PST)
+Received: from aposti.net (aposti.net [89.234.176.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD5C3897FD
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Nov 2021 15:27:26 +0000 (UTC)
+Date: Mon, 22 Nov 2021 15:27:14 +0000
+From: Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [PATCH 01/15] iio: buffer-dma: Get rid of incoming/outgoing queues
+To: Lars-Peter Clausen <lars@metafoo.de>
+Message-Id: <E9CZ2R.4VU3MCLBDDR72@crapouillou.net>
+In-Reply-To: <a5a9a07c-5e71-196f-da48-aa424c7001b0@metafoo.de>
+References: <20211115141925.60164-1-paul@crapouillou.net>
+ <20211115141925.60164-2-paul@crapouillou.net>
+ <e2689f0d-dc16-2519-57df-d98caadb07b0@metafoo.de>
+ <0COX2R.BSNX3NW8N48T@crapouillou.net>
+ <332d001d-8b5a-bba2-c490-ed2e5efd0b1d@metafoo.de>
+ <AMUX2R.XLGW1EZOMU9B2@crapouillou.net>
+ <d542865e-2a0b-089f-e63c-b24d16c58ec6@metafoo.de>
+ <UQBZ2R.HLXHH4QWJ0JS1@crapouillou.net>
+ <a5a9a07c-5e71-196f-da48-aa424c7001b0@metafoo.de>
 MIME-Version: 1.0
-References: <20211122065223.88059-1-jagan@amarulasolutions.com>
- <20211122065223.88059-5-jagan@amarulasolutions.com>
- <20211122100759.qw6lvwb33ciemg2y@gilmour>
- <CAMty3ZDDQR-OkjqEfb1ZYZG+oLN2ZOv-2GLxs3AdeDHqUD8fjQ@mail.gmail.com>
- <20211122132847.ds4gtk2unq3fkagy@gilmour>
- <CAMty3ZAzwKtABZqJhVDmgOVpnZFg66z6Bc_pn3Fm9=658RPG1g@mail.gmail.com>
- <20211122140929.22cmvnxxapp752ic@gilmour>
- <CAMty3ZBOYRJ5ScrYEKoA9e1hP9=yuKuASvXyorB_kLsp26Fe3A@mail.gmail.com>
- <20211122150610.mvltgil3yquli4qp@gilmour>
-In-Reply-To: <20211122150610.mvltgil3yquli4qp@gilmour>
-From: Jagan Teki <jagan@amarulasolutions.com>
-Date: Mon, 22 Nov 2021 20:47:59 +0530
-Message-ID: <CAMty3ZAm1+UyFXGpO0vuJyGbE-P58EErA+BgWYXWzu2b9vVr7A@mail.gmail.com>
-Subject: Re: [PATCH v5 4/7] drm: sun4i: dsi: Add mode_set function
-To: Maxime Ripard <maxime@cerno.tech>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,46 +42,121 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <narmstrong@baylibre.com>,
- Robert Foss <robert.foss@linaro.org>, linux-sunxi@googlegroups.com,
- dri-devel@lists.freedesktop.org, Chen-Yu Tsai <wens@csie.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>, linux-amarula@amarulasolutions.com,
- linux-arm-kernel@lists.infradead.org
+Cc: Michael Hennerich <Michael.Hennerich@analog.com>, linux-iio@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, Alexandru Ardelean <ardeleanalex@gmail.com>,
+ Christian =?iso-8859-1?b?S/ZuaWc=?= <christian.koenig@amd.com>,
+ Jonathan Cameron <jic23@kernel.org>, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Nov 22, 2021 at 8:36 PM Maxime Ripard <maxime@cerno.tech> wrote:
->
-> On Mon, Nov 22, 2021 at 08:01:47PM +0530, Jagan Teki wrote:
-> > On Mon, Nov 22, 2021 at 7:39 PM Maxime Ripard <maxime@cerno.tech> wrote:
-> > >
-> > > On Mon, Nov 22, 2021 at 07:21:57PM +0530, Jagan Teki wrote:
-> > > > > It's perfectly valid to dereference the pointer in atomic_enable, and
-> > > > > that patch would consume memory for no particular reason.
-> > > >
-> > > > Again, I'm not pointing any mistake in dereference and certainly not
-> > > > understand about what memory consumption issue here.
-> > >
-> > > You add a struct drm_display_mode field to struct sun6i_dsi. It
-> > > increases the size of struct sun6i_dsi of sizeof(struct
-> > > drm_display_mode).
-> > >
-> > > > I'm doing it here since I'm doing it via mode_set in other drivers. No
-> > > > problem for me either way.
-> > >
-> > > But *why* are you doing so?
-> > >
-> > > There might be a valid reason in other drivers, but there's none here
-> > > (that you mentioned at least).
-> >
-> > The reason is to use existing bridge function instead of dereference
-> > ie what I've mentioned. I don't have any other reasons.
->
-> This discussion is going in circles. Unless you have a reason other than
-> "because we can", NAK for the reasons already stated above.
 
-Agreed your point.
 
-Thanks,
-Jagan.
+Le lun., nov. 22 2021 at 16:17:59 +0100, Lars-Peter Clausen=20
+<lars@metafoo.de> a =E9crit :
+> On 11/22/21 4:16 PM, Paul Cercueil wrote:
+>> Hi Lars,
+>>=20
+>> Le lun., nov. 22 2021 at 16:08:51 +0100, Lars-Peter Clausen=20
+>> =7F<lars@metafoo.de> a =E9crit :
+>>> On 11/21/21 9:08 PM, Paul Cercueil wrote:
+>>>>=20
+>>>>=20
+>>>> Le dim., nov. 21 2021 at 19:49:03 +0100, Lars-Peter Clausen=20
+>>>> =7F=7F=7F=7F<lars@metafoo.de> a =E9crit :
+>>>>> On 11/21/21 6:52 PM, Paul Cercueil wrote:
+>>>>>> Hi Lars,
+>>>>>>=20
+>>>>>> Le dim., nov. 21 2021 at 17:23:35 +0100, Lars-Peter Clausen=20
+>>>>>> =7F=7F=7F=7F=7F=7F=7F=7F=7F<lars@metafoo.de> a =E9crit :
+>>>>>>> On 11/15/21 3:19 PM, Paul Cercueil wrote:
+>>>>>>>> The buffer-dma code was using two queues, incoming and=20
+>>>>>>>> outgoing, to
+>>>>>>>> manage the state of the blocks in use.
+>>>>>>>>=20
+>>>>>>>> While this totally works, it adds some complexity to the code,
+>>>>>>>> especially since the code only manages 2 blocks. It is much=20
+>>>>>>>> =7F=7F=7F=7F=7F=7F=7Feasier to
+>>>>>>>> just check each block's state manually, and keep a counter for=20
+>>>>>>>> =7F=7F=7F=7F=7F=7F=7Fthe =7F=7F=7F=7F=7Fnext
+>>>>>>>> block to dequeue.
+>>>>>>>>=20
+>>>>>>>> Since the new DMABUF based API wouldn't use these incoming and=20
+>>>>>>>> =7F=7F=7F=7F=7F=7F=7F=7F=7F=7F=7F=7Foutgoing
+>>>>>>>> queues anyway, getting rid of them now makes the upcoming=20
+>>>>>>>> changes
+>>>>>>>> simpler.
+>>>>>>>>=20
+>>>>>>>> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+>>>>>>> The outgoing queue is going to be replaced by fences, but I=20
+>>>>>>> think =7F=7F=7F=7F=7F=7F=7F=7F=7F=7Fwe =7F=7Fneed to keep the incom=
+ing queue.
+>>>>>>=20
+>>>>>> Blocks are always accessed in sequential order, so we now have a=20
+>>>>>> =7F=7F=7F=7F=7F=7F=7F=7F=7F"queue->next_dequeue" that cycles between=
+ the buffers=20
+>>>>>> =7F=7F=7F=7F=7Fallocated for =7F=7F=7F=7Ffileio.
+>>>>>>=20
+>>>>>>>> [...]
+>>>>>>>> @@ -442,28 +435,33 @@=20
+>>>>>>>> EXPORT_SYMBOL_GPL(iio_dma_buffer_disable);
+>>>>>>>>   static void iio_dma_buffer_enqueue(struct=20
+>>>>>>>> iio_dma_buffer_queue =7F=7F=7F=7F=7F=7F=7F=7F=7F=7F=7F=7F=7F=7F=7F=
+*queue,
+>>>>>>>>       struct iio_dma_buffer_block *block)
+>>>>>>>>   {
+>>>>>>>> -    if (block->state =3D=3D IIO_BLOCK_STATE_DEAD) {
+>>>>>>>> +    if (block->state =3D=3D IIO_BLOCK_STATE_DEAD)
+>>>>>>>>           iio_buffer_block_put(block);
+>>>>>>>> -    } else if (queue->active) {
+>>>>>>>> +    else if (queue->active)
+>>>>>>>>           iio_dma_buffer_submit_block(queue, block);
+>>>>>>>> -    } else {
+>>>>>>>> +    else
+>>>>>>>>           block->state =3D IIO_BLOCK_STATE_QUEUED;
+>>>>>>>> -        list_add_tail(&block->head, &queue->incoming);
+>>>>>>> If iio_dma_buffer_enqueue() is called with a dmabuf and the=20
+>>>>>>> =7F=7F=7F=7F=7F=7Fbuffer =7F=7F=7F=7Fis =7F=7Fnot active, it will b=
+e marked as queued,=20
+>>>>>>> but we =7F=7F=7F=7F=7F=7Fdon't actually =7F=7F=7F=7Fkeep a =7F=7Fre=
+ference to it=20
+>>>>>>> anywhere. It will =7F=7F=7F=7F=7F=7Fnever be submitted to =7F=7F=7F=
+=7Fthe DMA, and=20
+>>>>>>> =7F=7Fit will never be =7F=7F=7F=7F=7F=7Fsignaled as completed.
+>>>>>>=20
+>>>>>> We do keep a reference to the buffers, in the=20
+>>>>>> queue->fileio.blocks =7F=7F=7F=7F=7F=7F=7F=7F=7Farray. When the buff=
+er is enabled,=20
+>>>>>> all the blocks in that =7F=7F=7F=7F=7Farray =7F=7F=7Fthat =7Fare in =
+the "queued"=20
+>>>>>> state will be submitted to the =7F=7F=7F=7F=7FDMA.
+>>>>>>=20
+>>>>> But not when used in combination with the DMA buf changes later=20
+>>>>> in =7F=7F=7F=7F=7F=7Fthis series.
+>>>>>=20
+>>>>=20
+>>>> That's still the case after the DMABUF changes of the series. Or=20
+>>>> can =7F=7F=7F=7Fyou point me exactly what you think is broken?
+>>>>=20
+>>> When you allocate a DMABUF with the allocate IOCTL and then submit=20
+>>> it =7F=7Fwith the enqueue IOCTL before the buffer is enabled it will=20
+>>> end up =7F=7Fmarked as queued, but not actually be queued anywhere.
+>>>=20
+>>=20
+>> Ok, it works for me because I never enqueue blocks before enabling=20
+>> the =7Fbuffer. I can add a requirement that blocks must be enqueued=20
+>> only =7Fafter the buffer is enabled.
+>=20
+> I don't think that is a good idea. This way you are going to=20
+> potentially drop data at the begining of your stream when the DMA=20
+> isn't ready yet.
+>=20
+
+You wouldn't drop data, but it could cause an underrun, yes. Is it such=20
+a big deal, knowing that the buffer was just enabled? I don't think you=20
+can disable then enable the buffer without causing a discontinuity in=20
+the stream.
+
+-Paul
+
+
