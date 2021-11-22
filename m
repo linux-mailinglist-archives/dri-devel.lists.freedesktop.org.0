@@ -2,44 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12BCF458E9B
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Nov 2021 13:43:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 936B5458E9F
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Nov 2021 13:45:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DAA746E09F;
-	Mon, 22 Nov 2021 12:43:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 02CAE6E0EF;
+	Mon, 22 Nov 2021 12:45:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F1966E09F
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Nov 2021 12:43:50 +0000 (UTC)
-Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ore@pengutronix.de>)
- id 1mp8fD-0006T4-NM; Mon, 22 Nov 2021 13:43:15 +0100
-Received: from ore by dude.hi.pengutronix.de with local (Exim 4.94.2)
- (envelope-from <ore@pengutronix.de>)
- id 1mp8fC-00BjXr-0O; Mon, 22 Nov 2021 13:43:14 +0100
-From: Oleksij Rempel <o.rempel@pengutronix.de>
-To: Mark Rutland <mark.rutland@arm.com>, Rob Herring <robh+dt@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v1 4/4] ARM: dts: imx6dl: plym2m, prtvt7,
- victgo:  make use of new resistive-adc-touch driver
-Date: Mon, 22 Nov 2021 13:43:10 +0100
-Message-Id: <20211122124310.2796505-4-o.rempel@pengutronix.de>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20211122124310.2796505-1-o.rempel@pengutronix.de>
-References: <20211122124310.2796505-1-o.rempel@pengutronix.de>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 014996E0EF
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Nov 2021 12:45:43 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id D0C2F14C3;
+ Mon, 22 Nov 2021 13:45:41 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1637585142;
+ bh=Fb0Ic+6FgKbOwIEWyVXc2jNdQwfMfrI/wPnTiG04rOo=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=tkcd77yaUzlWvOKPmJxEi8Gss6gAGMeWPb+XnMRMWYTSw3Q8YYVckvLwxLebIeT1I
+ s9E+pczAwKB+bxzXYZx9r275Yq+w6uasGJ8FDWqr5Lxqfp7Sh1KB1qhBIEompR35ig
+ oz4hvu6q+HmMdRLk7y9JKdcUgQrotRgyeGWMrOw0=
+Date: Mon, 22 Nov 2021 14:45:19 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Maxime Ripard <maxime@cerno.tech>
+Subject: Re: [PATCH v5 3/7] drm: sun4i: dsi: Convert to bridge driver
+Message-ID: <YZuQ30O5/PcFEFMT@pendragon.ideasonboard.com>
+References: <20211122065223.88059-1-jagan@amarulasolutions.com>
+ <20211122065223.88059-4-jagan@amarulasolutions.com>
+ <20211122100712.dls4eqsu6o5gcc5k@gilmour>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::7
-X-SA-Exim-Mail-From: ore@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20211122100712.dls4eqsu6o5gcc5k@gilmour>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,252 +48,252 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Robin van der Gracht <robin@protonic.nl>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Oleksij Rempel <o.rempel@pengutronix.de>, NXP Linux Team <linux-imx@nxp.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- David Jander <david@protonic.nl>, linux-arm-kernel@lists.infradead.org
+Cc: Neil Armstrong <narmstrong@baylibre.com>,
+ Robert Foss <robert.foss@linaro.org>, linux-sunxi@googlegroups.com,
+ dri-devel@lists.freedesktop.org, Chen-Yu Tsai <wens@csie.org>,
+ Jagan Teki <jagan@amarulasolutions.com>, Sam Ravnborg <sam@ravnborg.org>,
+ linux-amarula@amarulasolutions.com, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The tsc2046 is an ADC used as touchscreen controller. To share as mach
-code as possible, we should use it as actual ADC + virtual tochscreen
-controller.
-With this patch we make use of the new kernel IIO and HID infrastructure.
+Hi Maxime,
 
-Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
----
- arch/arm/boot/dts/imx6dl-plym2m.dts | 55 ++++++++++++++++++++---------
- arch/arm/boot/dts/imx6dl-prtvt7.dts | 53 ++++++++++++++++++++-------
- arch/arm/boot/dts/imx6dl-victgo.dts | 55 +++++++++++++++++++++--------
- 3 files changed, 120 insertions(+), 43 deletions(-)
+On Mon, Nov 22, 2021 at 11:07:12AM +0100, Maxime Ripard wrote:
+> On Mon, Nov 22, 2021 at 12:22:19PM +0530, Jagan Teki wrote:
+> > Some display panels would come up with a non-DSI output, those
+> > can have an option to connect the DSI host by means of interface
+> > bridge converter.
+> > 
+> > This DSI to non-DSI interface bridge converter would requires
+> > DSI Host to handle drm bridge functionalities in order to DSI
+> > Host to Interface bridge.
+> 
+> In order to do this you would need to use the DRM bridge API...
+> 
+> > This patch convert the existing to a drm bridge driver with a
+> > built-in encoder support for compatibility with existing
+> > component drivers.
+> 
+> ... but changing the encoder driver to a bridge is completely
+> unnecessary to do so. Why did you need to make that change?
+> 
+> > Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
+> >
+> > ---
+> > Changes for v5:
+> > - add atomic APIs
+> > - find host and device variant DSI devices.
+> > Changes for v4, v3:
+> > - none
+> > 
+> >  drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c | 112 ++++++++++++++++++++-----
+> >  drivers/gpu/drm/sun4i/sun6i_mipi_dsi.h |   7 ++
+> >  2 files changed, 96 insertions(+), 23 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
+> > index 43d9c9e5198d..a6a272b55f77 100644
+> > --- a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
+> > +++ b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
+> > @@ -21,6 +21,7 @@
+> >  
+> >  #include <drm/drm_atomic_helper.h>
+> >  #include <drm/drm_mipi_dsi.h>
+> > +#include <drm/drm_of.h>
+> >  #include <drm/drm_panel.h>
+> >  #include <drm/drm_print.h>
+> >  #include <drm/drm_probe_helper.h>
+> > @@ -713,10 +714,11 @@ static int sun6i_dsi_start(struct sun6i_dsi *dsi,
+> >  	return 0;
+> >  }
+> >  
+> > -static void sun6i_dsi_encoder_enable(struct drm_encoder *encoder)
+> > +static void sun6i_dsi_bridge_atomic_enable(struct drm_bridge *bridge,
+> > +					   struct drm_bridge_state *old_bridge_state)
+> >  {
+> > -	struct drm_display_mode *mode = &encoder->crtc->state->adjusted_mode;
+> > -	struct sun6i_dsi *dsi = encoder_to_sun6i_dsi(encoder);
+> > +	struct sun6i_dsi *dsi = bridge_to_sun6i_dsi(bridge);
+> > +	struct drm_display_mode *mode = &bridge->encoder->crtc->state->adjusted_mode;
+> >  	struct mipi_dsi_device *device = dsi->device;
+> >  	union phy_configure_opts opts = { };
+> >  	struct phy_configure_opts_mipi_dphy *cfg = &opts.mipi_dphy;
+> > @@ -772,6 +774,9 @@ static void sun6i_dsi_encoder_enable(struct drm_encoder *encoder)
+> >  	if (dsi->panel)
+> >  		drm_panel_prepare(dsi->panel);
+> >  
+> > +	if (dsi->next_bridge)
+> > +		dsi->next_bridge->funcs->atomic_pre_enable(dsi->next_bridge, old_bridge_state);
+> > +
+> 
+> Please use the proper helpers.
 
-diff --git a/arch/arm/boot/dts/imx6dl-plym2m.dts b/arch/arm/boot/dts/imx6dl-plym2m.dts
-index 60fe5f14666e..e2afedae85cb 100644
---- a/arch/arm/boot/dts/imx6dl-plym2m.dts
-+++ b/arch/arm/boot/dts/imx6dl-plym2m.dts
-@@ -101,6 +101,17 @@ reg_12v0: regulator-12v0 {
- 		regulator-min-microvolt = <12000000>;
- 		regulator-max-microvolt = <12000000>;
- 	};
-+
-+	touchscreen {
-+		compatible = "resistive-adc-touch";
-+		io-channels = <&adc 1>, <&adc 3>, <&adc 4>, <&adc 5>;
-+		io-channel-names = "y", "z1", "z2", "x";
-+		touchscreen-min-pressure = <64687>;
-+		touchscreen-inverted-x;
-+		touchscreen-inverted-y;
-+		touchscreen-x-plate-ohms = <300>;
-+		touchscreen-y-plate-ohms = <800>;
-+	};
- };
- 
- &can1 {
-@@ -129,26 +140,38 @@ &ecspi2 {
- 	pinctrl-0 = <&pinctrl_ecspi2>;
- 	status = "okay";
- 
--	touchscreen@0 {
--		compatible = "ti,tsc2046";
-+	adc: adc@0 {
-+		compatible = "ti,tsc2046e-adc";
- 		reg = <0>;
- 		pinctrl-0 = <&pinctrl_tsc2046>;
- 		pinctrl-names ="default";
--		spi-max-frequency = <100000>;
--		interrupts-extended = <&gpio3 20 IRQ_TYPE_EDGE_FALLING>;
--		pendown-gpio = <&gpio3 20 GPIO_ACTIVE_LOW>;
-+		spi-max-frequency = <1000000>;
-+		interrupts-extended = <&gpio3 20 IRQ_TYPE_LEVEL_LOW>;
-+		#io-channel-cells = <1>;
- 
--		touchscreen-inverted-x;
--		touchscreen-inverted-y;
--		touchscreen-max-pressure = <4095>;
--
--		ti,vref-delay-usecs = /bits/ 16 <100>;
--		ti,x-plate-ohms = /bits/ 16 <800>;
--		ti,y-plate-ohms = /bits/ 16 <300>;
--		ti,debounce-max = /bits/ 16 <3>;
--		ti,debounce-tol = /bits/ 16 <70>;
--		ti,debounce-rep = /bits/ 16 <3>;
--		wakeup-source;
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		channel@1 {
-+			reg = <1>;
-+			settling-time-us = <700>;
-+			oversampling-ratio = <5>;
-+		};
-+		channel@3 {
-+			reg = <3>;
-+			settling-time-us = <700>;
-+			oversampling-ratio = <5>;
-+		};
-+		channel@4 {
-+			reg = <4>;
-+			settling-time-us = <700>;
-+			oversampling-ratio = <5>;
-+		};
-+		channel@5 {
-+			reg = <5>;
-+			settling-time-us = <700>;
-+			oversampling-ratio = <5>;
-+		};
- 	};
- };
- 
-diff --git a/arch/arm/boot/dts/imx6dl-prtvt7.dts b/arch/arm/boot/dts/imx6dl-prtvt7.dts
-index 02b53df03e6f..c361e0683973 100644
---- a/arch/arm/boot/dts/imx6dl-prtvt7.dts
-+++ b/arch/arm/boot/dts/imx6dl-prtvt7.dts
-@@ -235,6 +235,17 @@ simple-audio-card,codec {
- 			frame-master;
- 		};
- 	};
-+
-+	touchscreen {
-+		compatible = "resistive-adc-touch";
-+		io-channels = <&adc 1>, <&adc 3>, <&adc 4>, <&adc 5>;
-+		io-channel-names = "y", "z1", "z2", "x";
-+		touchscreen-min-pressure = <64687>;
-+		touchscreen-inverted-x;
-+		touchscreen-inverted-y;
-+		touchscreen-x-plate-ohms = <300>;
-+		touchscreen-y-plate-ohms = <800>;
-+	};
- };
- 
- &audmux {
-@@ -277,22 +288,38 @@ &ecspi2 {
- 	pinctrl-0 = <&pinctrl_ecspi2>;
- 	status = "okay";
- 
--	touchscreen@0 {
--		compatible = "ti,tsc2046";
-+	adc: adc@0 {
-+		compatible = "ti,tsc2046e-adc";
- 		reg = <0>;
- 		pinctrl-0 = <&pinctrl_tsc>;
- 		pinctrl-names ="default";
--		spi-max-frequency = <100000>;
--		interrupts-extended = <&gpio3 20 IRQ_TYPE_EDGE_FALLING>;
--		pendown-gpio = <&gpio3 20 GPIO_ACTIVE_LOW>;
--		touchscreen-max-pressure = <4095>;
--		ti,vref-delay-usecs = /bits/ 16 <100>;
--		ti,x-plate-ohms = /bits/ 16 <800>;
--		ti,y-plate-ohms = /bits/ 16 <300>;
--		ti,debounce-max = /bits/ 16 <3>;
--		ti,debounce-tol = /bits/ 16 <70>;
--		ti,debounce-rep = /bits/ 16 <3>;
--		wakeup-source;
-+		spi-max-frequency = <1000000>;
-+		interrupts-extended = <&gpio3 20 IRQ_TYPE_LEVEL_LOW>;
-+		#io-channel-cells = <1>;
-+
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		channel@1 {
-+			reg = <1>;
-+			settling-time-us = <700>;
-+			oversampling-ratio = <5>;
-+		};
-+		channel@3 {
-+			reg = <3>;
-+			settling-time-us = <700>;
-+			oversampling-ratio = <5>;
-+		};
-+		channel@4 {
-+			reg = <4>;
-+			settling-time-us = <700>;
-+			oversampling-ratio = <5>;
-+		};
-+		channel@5 {
-+			reg = <5>;
-+			settling-time-us = <700>;
-+			oversampling-ratio = <5>;
-+		};
- 	};
- };
- 
-diff --git a/arch/arm/boot/dts/imx6dl-victgo.dts b/arch/arm/boot/dts/imx6dl-victgo.dts
-index d37ba4ed847d..b5004b322d44 100644
---- a/arch/arm/boot/dts/imx6dl-victgo.dts
-+++ b/arch/arm/boot/dts/imx6dl-victgo.dts
-@@ -181,6 +181,17 @@ simple-audio-card,codec {
- 			frame-master;
- 		};
- 	};
-+
-+	touchscreen {
-+		compatible = "resistive-adc-touch";
-+		io-channels = <&adc 1>, <&adc 3>, <&adc 4>, <&adc 5>;
-+		io-channel-names = "y", "z1", "z2", "x";
-+		touchscreen-min-pressure = <64687>;
-+		touchscreen-inverted-x;
-+		touchscreen-inverted-y;
-+		touchscreen-x-plate-ohms = <300>;
-+		touchscreen-y-plate-ohms = <800>;
-+	};
- };
- 
- &audmux {
-@@ -244,22 +255,38 @@ &ecspi2 {
- 	pinctrl-0 = <&pinctrl_ecspi2>;
- 	status = "okay";
- 
--	touchscreen@0 {
--		compatible = "ti,tsc2046";
-+	adc: adc@0 {
-+		compatible = "ti,tsc2046e-adc";
- 		reg = <0>;
--		pinctrl-names = "default";
- 		pinctrl-0 = <&pinctrl_touchscreen>;
--		spi-max-frequency = <200000>;
--		interrupts-extended = <&gpio5 8 IRQ_TYPE_EDGE_FALLING>;
--		pendown-gpio = <&gpio5 8 GPIO_ACTIVE_LOW>;
--		touchscreen-size-x = <800>;
--		touchscreen-size-y = <480>;
--		touchscreen-inverted-y;
--		touchscreen-max-pressure = <4095>;
--		ti,vref-delay-usecs = /bits/ 16 <100>;
--		ti,x-plate-ohms = /bits/ 16 <800>;
--		ti,y-plate-ohms = /bits/ 16 <300>;
--		wakeup-source;
-+		pinctrl-names ="default";
-+		spi-max-frequency = <1000000>;
-+		interrupts-extended = <&gpio5 8 IRQ_TYPE_LEVEL_LOW>;
-+		#io-channel-cells = <1>;
-+
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		channel@1 {
-+			reg = <1>;
-+			settling-time-us = <700>;
-+			oversampling-ratio = <5>;
-+		};
-+		channel@3 {
-+			reg = <3>;
-+			settling-time-us = <700>;
-+			oversampling-ratio = <5>;
-+		};
-+		channel@4 {
-+			reg = <4>;
-+			settling-time-us = <700>;
-+			oversampling-ratio = <5>;
-+		};
-+		channel@5 {
-+			reg = <5>;
-+			settling-time-us = <700>;
-+			oversampling-ratio = <5>;
-+		};
- 	};
- };
- 
+I don't know about this series in particular, but overall we try to move
+encoders to bridge drivers in order to standardize on a single API. The
+drm_encoder can't be removed as it's exposed to userspace, so it then
+becomes a dumb encoder, without any operation implemented.
+
+> >  	/*
+> >  	 * FIXME: This should be moved after the switch to HS mode.
+> >  	 *
+> > @@ -787,6 +792,9 @@ static void sun6i_dsi_encoder_enable(struct drm_encoder *encoder)
+> >  	if (dsi->panel)
+> >  		drm_panel_enable(dsi->panel);
+> >  
+> > +	if (dsi->next_bridge)
+> > +		dsi->next_bridge->funcs->atomic_enable(dsi->next_bridge, old_bridge_state);
+> > +
+> 
+> Ditto
+> 
+> >  	sun6i_dsi_start(dsi, DSI_START_HSC);
+> >  
+> >  	udelay(1000);
+> > @@ -794,15 +802,19 @@ static void sun6i_dsi_encoder_enable(struct drm_encoder *encoder)
+> >  	sun6i_dsi_start(dsi, DSI_START_HSD);
+> >  }
+> >  
+> > -static void sun6i_dsi_encoder_disable(struct drm_encoder *encoder)
+> > +static void sun6i_dsi_bridge_atomic_disable(struct drm_bridge *bridge,
+> > +					    struct drm_bridge_state *old_bridge_state)
+> >  {
+> > -	struct sun6i_dsi *dsi = encoder_to_sun6i_dsi(encoder);
+> > +	struct sun6i_dsi *dsi = bridge_to_sun6i_dsi(bridge);
+> >  
+> >  	DRM_DEBUG_DRIVER("Disabling DSI output\n");
+> >  
+> >  	if (dsi->panel) {
+> >  		drm_panel_disable(dsi->panel);
+> >  		drm_panel_unprepare(dsi->panel);
+> > +	} else if (dsi->next_bridge) {
+> > +		dsi->next_bridge->funcs->atomic_disable(dsi->next_bridge, old_bridge_state);
+> > +		dsi->next_bridge->funcs->atomic_post_disable(dsi->next_bridge, old_bridge_state);
+> 
+> Ditto
+> 
+> >  	}
+> >  
+> >  	phy_power_off(dsi->dphy);
+> > @@ -842,9 +854,25 @@ static const struct drm_connector_funcs sun6i_dsi_connector_funcs = {
+> >  	.atomic_destroy_state	= drm_atomic_helper_connector_destroy_state,
+> >  };
+> >  
+> > -static const struct drm_encoder_helper_funcs sun6i_dsi_enc_helper_funcs = {
+> > -	.disable	= sun6i_dsi_encoder_disable,
+> > -	.enable		= sun6i_dsi_encoder_enable,
+> > +static int sun6i_dsi_bridge_attach(struct drm_bridge *bridge,
+> > +				   enum drm_bridge_attach_flags flags)
+> > +{
+> > +	struct sun6i_dsi *dsi = bridge_to_sun6i_dsi(bridge);
+> > +
+> > +	if (dsi->next_bridge)
+> > +		return drm_bridge_attach(bridge->encoder, dsi->next_bridge,
+> > +					 NULL, 0);
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static const struct drm_bridge_funcs sun6i_dsi_bridge_funcs = {
+> > +	.atomic_duplicate_state	= drm_atomic_helper_bridge_duplicate_state,
+> > +	.atomic_destroy_state	= drm_atomic_helper_bridge_destroy_state,
+> > +	.atomic_reset		= drm_atomic_helper_bridge_reset,
+> > +	.atomic_enable		= sun6i_dsi_bridge_atomic_enable,
+> > +	.atomic_disable		= sun6i_dsi_bridge_atomic_disable,
+> > +	.attach			= sun6i_dsi_bridge_attach,
+> >  };
+> >  
+> >  static u32 sun6i_dsi_dcs_build_pkt_hdr(struct sun6i_dsi *dsi,
+> > @@ -966,8 +994,6 @@ static int sun6i_dsi_bind(struct device *dev, struct device *master,
+> >  	struct sun6i_dsi *dsi = dev_get_drvdata(dev);
+> >  	int ret;
+> >  
+> > -	drm_encoder_helper_add(&dsi->encoder,
+> > -			       &sun6i_dsi_enc_helper_funcs);
+> >  	ret = drm_simple_encoder_init(drm, &dsi->encoder,
+> >  				      DRM_MODE_ENCODER_DSI);
+> >  	if (ret) {
+> > @@ -976,18 +1002,26 @@ static int sun6i_dsi_bind(struct device *dev, struct device *master,
+> >  	}
+> >  	dsi->encoder.possible_crtcs = BIT(0);
+> >  
+> > -	drm_connector_helper_add(&dsi->connector,
+> > -				 &sun6i_dsi_connector_helper_funcs);
+> > -	ret = drm_connector_init(drm, &dsi->connector,
+> > -				 &sun6i_dsi_connector_funcs,
+> > -				 DRM_MODE_CONNECTOR_DSI);
+> > +	ret = drm_bridge_attach(&dsi->encoder, &dsi->bridge, NULL, 0);
+> >  	if (ret) {
+> > -		dev_err(dsi->dev,
+> > -			"Couldn't initialise the DSI connector\n");
+> > +		dev_err(dsi->dev, "Couldn't attach drm bridge\n");
+> >  		goto err_cleanup_connector;
+> >  	}
+> >  
+> > -	drm_connector_attach_encoder(&dsi->connector, &dsi->encoder);
+> > +	if (dsi->panel) {
+> > +		drm_connector_helper_add(&dsi->connector,
+> > +					 &sun6i_dsi_connector_helper_funcs);
+> > +		ret = drm_connector_init(drm, &dsi->connector,
+> > +					 &sun6i_dsi_connector_funcs,
+> > +					 DRM_MODE_CONNECTOR_DSI);
+> > +		if (ret) {
+> > +			dev_err(dsi->dev,
+> > +				"Couldn't initialise the DSI connector\n");
+> > +			goto err_cleanup_connector;
+> > +		}
+> > +
+> > +		drm_connector_attach_encoder(&dsi->connector, &dsi->encoder);
+> > +	}
+> >  
+> >  	return 0;
+> >  
+> > @@ -1013,16 +1047,46 @@ static int sun6i_dsi_attach(struct mipi_dsi_host *host,
+> >  			    struct mipi_dsi_device *device)
+> >  {
+> >  	struct sun6i_dsi *dsi = host_to_sun6i_dsi(host);
+> > -	struct drm_panel *panel = of_drm_find_panel(device->dev.of_node);
+> > +	struct device_node *remote = device->dev.of_node;
+> >  	int ret;
+> >  
+> > -	if (IS_ERR(panel))
+> > -		return PTR_ERR(panel);
+> > +	if (!of_device_is_available(remote)) {
+> > +		/**
+> > +		 * I2C interfaced DSI bridges will register DSI host on the
+> > +		 * bridge drivers instead of conventional device.
+> > +		 *
+> > +		 * Those are probed via host of_node instead of device of_node.
+> > +		 */
+> 
+> I have no idea what you mean here. Can you expand on what issue you've
+> tried to solve here?
+> 
+> > +		remote = of_graph_get_remote_node(host->dev->of_node, 0, 0);
+> > +		if (!remote)
+> > +			return -ENODEV;
+> > +	}
+> > +
+> > +	dsi->panel = of_drm_find_panel(remote);
+> > +	if (IS_ERR(dsi->panel)) {
+> > +		dsi->panel = NULL;
+> > +
+> > +		dsi->next_bridge = of_drm_find_bridge(remote);
+> > +		if (IS_ERR(dsi->next_bridge)) {
+> > +			dev_err(dsi->dev, "failed to find bridge\n");
+> > +			return PTR_ERR(dsi->next_bridge);
+> > +		}
+> > +	} else {
+> > +		dsi->next_bridge = NULL;
+> > +	}
+> > +
+> > +	of_node_put(remote);
+> 
+> Using devm_drm_of_get_bridge would greatly simplify the driver
+> 
+> Maxime
+
+
+
 -- 
-2.30.2
+Regards,
 
+Laurent Pinchart
