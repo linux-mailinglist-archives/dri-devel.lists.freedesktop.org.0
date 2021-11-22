@@ -2,54 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F6F245985D
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Nov 2021 00:22:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE3AF45985E
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Nov 2021 00:22:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D25489CE2;
-	Mon, 22 Nov 2021 23:22:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6714789F01;
+	Mon, 22 Nov 2021 23:22:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com
- [IPv6:2607:f8b0:4864:20::52c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3832D89CE2
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Nov 2021 23:22:14 +0000 (UTC)
-Received: by mail-pg1-x52c.google.com with SMTP id r5so16572768pgi.6
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Nov 2021 15:22:14 -0800 (PST)
+Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com
+ [IPv6:2607:f8b0:4864:20::629])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3BC1489E0D
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Nov 2021 23:22:15 +0000 (UTC)
+Received: by mail-pl1-x629.google.com with SMTP id p18so15408590plf.13
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Nov 2021 15:22:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=9TXQDsNP6ggxVoKyK4vK1tmi66M133m5TxldB+z39ko=;
- b=V1IGfaO36l7b6mIJghxEVsKnRoa/2W1A0mNZYZOqBiXfaSMbzZpHoJEb/fC/SRLGW8
- aGPRYVtfwVp8wKE4afXByrMGFdIR/URTNmZElTeqW/uqfA1R2/S3+yWrtPMhpLYqTJy3
- 3xJWodJwBP1feMXrWMLQOKcmL3LtTJuBrrz14=
+ bh=cXUPdzwTaRWfRhMlLXTbFXxHT+3uijlVCr9e0/e5vIw=;
+ b=McZ16wgGgP7agc4NPbUKqztuThw1hq/p5+/QLkvfmWIE17ZM/mutBq5/CEv0B/ra+b
+ LUV0QVDakggGfnPaRao7pft8kVgVuwFsVUoWYMkSI4wR1+/4J7suxAO96zpnmFDJyrlD
+ eVV4q/lprKupxttJBZZg4BfTZhncF5G0Z+Ykg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=9TXQDsNP6ggxVoKyK4vK1tmi66M133m5TxldB+z39ko=;
- b=GzL1V5J5VVVRJgTXsjvjDF3qrL0Z7WTM1AlpiL6RTh3LPH/lJn0hOLjpVqc13E2Ob+
- F/T68MkvwKRuMbtUCyaupRXaqBK5/bFahVewSlejTOpCbog6Uh5VInptPcw1Dlb0tF40
- lvEdjEmAJ0mujcuC4xXcnLwgtYFeOJkWxzBZJPgpfUMhnx43vKsjIQ9OpqT/r9SOrE40
- 9K3r92E+7jGtmZ10b00dgs5XQSONdO1eCARsFrjcEL8U2lSUMEPHRe4+0lFc4Xacr7RH
- WYI26woTeG+zDLQCX/NxA+uwItpZf4OxhnbZO9TxMQJCMy/9iUAkn/4Z/FQiTnsdk+0a
- 1C8Q==
-X-Gm-Message-State: AOAM531uB9mR7hC6+0iRJc/4KBGBqIMNEdQB9afbizPPmsU+N5kkjuVP
- NMRA+4reUTQlK5LDEY8O7fCPqjE4xF/HJQ==
-X-Google-Smtp-Source: ABdhPJyxm4sy7cC7ClenAgAQrYz+rSxeoklwBLkO1GsLpSASOa9jw73KxjdohNFLxtOptcsUtgglJg==
-X-Received: by 2002:aa7:8883:0:b0:49f:f87a:95de with SMTP id
- z3-20020aa78883000000b0049ff87a95demr640725pfe.53.1637623333608; 
- Mon, 22 Nov 2021 15:22:13 -0800 (PST)
+ bh=cXUPdzwTaRWfRhMlLXTbFXxHT+3uijlVCr9e0/e5vIw=;
+ b=IezNqO5cC/kBgpHxxMogaNuayk1mU4bXip7XaSJpJ0CTiXR7weKe+bb2ZFAc9a/Cq/
+ 12B5M1L30Hy1c2LhJscQ+7ZDx1NuV/s3tHZx/BYnMpbVsxpK5Y97Gdb39AESRQTDu8uh
+ 0JTbYcKp/zb7hzc2L260k/UNTawDScEp9HRU4tXOlyUSMnEjSYJfERvyY6kOBavMnoRP
+ McZnBvAPOwSO8LC658h609Q9tyBo0Ay31tqcK1I6t3GegXZYf80qPIdkum+oFr+dh53j
+ teABgI0x7c/gpMWd3ZsTTjf0IGEklx053XhxvD7cSPVkaFYKMSGs0yrdk+jp++b7bpzv
+ ABKA==
+X-Gm-Message-State: AOAM532vsuJG+edERPGTkMcv6lDTh6/dnA1umptoZcGLZK/vFmeEEHcg
+ 5csllfXpAfop4M2bSzLrN313yFN5EQqyNg==
+X-Google-Smtp-Source: ABdhPJxlwp5oQidv3xdUxSXEr4KT/61tACAKyAs5i4kU/ouGEVeeBy7dgcBdHGhCjnfbpCbXcBXtQg==
+X-Received: by 2002:a17:90b:1bc4:: with SMTP id
+ oa4mr36728872pjb.179.1637623334436; 
+ Mon, 22 Nov 2021 15:22:14 -0800 (PST)
 Received: from gurchetansingh0.mtv.corp.google.com
  ([2620:15c:202:201:f3a1:7064:7e03:2f0a])
  by smtp.gmail.com with ESMTPSA id b15sm10539045pfl.118.2021.11.22.15.22.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Nov 2021 15:22:13 -0800 (PST)
+ Mon, 22 Nov 2021 15:22:14 -0800 (PST)
 From: Gurchetan Singh <gurchetansingh@chromium.org>
 X-Google-Original-From: Gurchetan Singh <gurchetansingh@google.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 1/2] drm/virtgpu api: define a dummy fence signaled event
-Date: Mon, 22 Nov 2021 15:22:09 -0800
-Message-Id: <20211122232210.602-2-gurchetansingh@google.com>
+Subject: [PATCH 2/2] drm/virtio: use drm_poll(..) instead of
+ virtio_gpu_poll(..)
+Date: Mon, 22 Nov 2021 15:22:10 -0800
+Message-Id: <20211122232210.602-3-gurchetansingh@google.com>
 X-Mailer: git-send-email 2.31.0
 In-Reply-To: <20211122232210.602-1-gurchetansingh@google.com>
 References: <20211122232210.602-1-gurchetansingh@google.com>
@@ -73,70 +74,76 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Gurchetan Singh <gurchetansingh@chromium.org>
 
-The current virtgpu implementation of poll(..) drops events
-when VIRTGPU_CONTEXT_PARAM_POLL_RINGS_MASK is enabled (otherwise
-it's like a normal DRM driver).
+With the use of dummy events, we can drop virtgpu specific
+behavior.
 
-This is because paravirtualized userspaces receives responses in a
-buffer of type BLOB_MEM_GUEST, not by read(..).
-
-To be in line with other DRM drivers and avoid specialized behavior,
-it is possible to define a dummy event for virtgpu.  Paravirtualized
-userspace will now have to call read(..) on the DRM fd to receive the
-dummy event.
-
-Fixes: b10790434cf2 ("drm/virtgpu api: create context init feature")
+Fixes: cd7f5ca33585 ("drm/virtio: implement context init: add virtio_gpu_fence_event")
 Reported-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 Signed-off-by: Gurchetan Singh <gurchetansingh@chromium.org>
 ---
- drivers/gpu/drm/virtio/virtgpu_drv.h   | 1 -
- drivers/gpu/drm/virtio/virtgpu_ioctl.c | 2 +-
- include/uapi/drm/virtgpu_drm.h         | 7 +++++++
- 3 files changed, 8 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/virtio/virtgpu_drv.c | 42 +---------------------------
+ 1 file changed, 1 insertion(+), 41 deletions(-)
 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
-index e0265fe74aa5..0a194aaad419 100644
---- a/drivers/gpu/drm/virtio/virtgpu_drv.h
-+++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
-@@ -138,7 +138,6 @@ struct virtio_gpu_fence_driver {
- 	spinlock_t       lock;
- };
+diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.c b/drivers/gpu/drm/virtio/virtgpu_drv.c
+index d86e1ad4a972..5072dbb0669a 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_drv.c
++++ b/drivers/gpu/drm/virtio/virtgpu_drv.c
+@@ -157,36 +157,6 @@ static void virtio_gpu_config_changed(struct virtio_device *vdev)
+ 	schedule_work(&vgdev->config_changed_work);
+ }
  
--#define VIRTGPU_EVENT_FENCE_SIGNALED_INTERNAL 0x10000000
- struct virtio_gpu_fence_event {
- 	struct drm_pending_event base;
- 	struct drm_event event;
-diff --git a/drivers/gpu/drm/virtio/virtgpu_ioctl.c b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
-index 5618a1d5879c..3607646d3229 100644
---- a/drivers/gpu/drm/virtio/virtgpu_ioctl.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
-@@ -54,7 +54,7 @@ static int virtio_gpu_fence_event_create(struct drm_device *dev,
- 	if (!e)
- 		return -ENOMEM;
+-static __poll_t virtio_gpu_poll(struct file *filp,
+-				struct poll_table_struct *wait)
+-{
+-	struct drm_file *drm_file = filp->private_data;
+-	struct virtio_gpu_fpriv *vfpriv = drm_file->driver_priv;
+-	struct drm_device *dev = drm_file->minor->dev;
+-	struct virtio_gpu_device *vgdev = dev->dev_private;
+-	struct drm_pending_event *e = NULL;
+-	__poll_t mask = 0;
+-
+-	if (!vgdev->has_virgl_3d || !vfpriv || !vfpriv->ring_idx_mask)
+-		return drm_poll(filp, wait);
+-
+-	poll_wait(filp, &drm_file->event_wait, wait);
+-
+-	if (!list_empty(&drm_file->event_list)) {
+-		spin_lock_irq(&dev->event_lock);
+-		e = list_first_entry(&drm_file->event_list,
+-				     struct drm_pending_event, link);
+-		drm_file->event_space += e->event->length;
+-		list_del(&e->link);
+-		spin_unlock_irq(&dev->event_lock);
+-
+-		kfree(e);
+-		mask |= EPOLLIN | EPOLLRDNORM;
+-	}
+-
+-	return mask;
+-}
+-
+ static struct virtio_device_id id_table[] = {
+ 	{ VIRTIO_ID_GPU, VIRTIO_DEV_ANY_ID },
+ 	{ 0 },
+@@ -226,17 +196,7 @@ MODULE_AUTHOR("Dave Airlie <airlied@redhat.com>");
+ MODULE_AUTHOR("Gerd Hoffmann <kraxel@redhat.com>");
+ MODULE_AUTHOR("Alon Levy");
  
--	e->event.type = VIRTGPU_EVENT_FENCE_SIGNALED_INTERNAL;
-+	e->event.type = VIRTGPU_EVENT_FENCE_SIGNALED;
- 	e->event.length = sizeof(e->event);
+-static const struct file_operations virtio_gpu_driver_fops = {
+-	.owner          = THIS_MODULE,
+-	.open           = drm_open,
+-	.release        = drm_release,
+-	.unlocked_ioctl = drm_ioctl,
+-	.compat_ioctl   = drm_compat_ioctl,
+-	.poll           = virtio_gpu_poll,
+-	.read           = drm_read,
+-	.llseek         = noop_llseek,
+-	.mmap           = drm_gem_mmap
+-};
++DEFINE_DRM_GEM_FOPS(virtio_gpu_driver_fops);
  
- 	ret = drm_event_reserve_init(dev, file, &e->base, &e->event);
-diff --git a/include/uapi/drm/virtgpu_drm.h b/include/uapi/drm/virtgpu_drm.h
-index a13e20cc66b4..0512fde5e697 100644
---- a/include/uapi/drm/virtgpu_drm.h
-+++ b/include/uapi/drm/virtgpu_drm.h
-@@ -196,6 +196,13 @@ struct drm_virtgpu_context_init {
- 	__u64 ctx_set_params;
- };
- 
-+/*
-+ * Event code that's given when VIRTGPU_CONTEXT_PARAM_POLL_RINGS_MASK is in
-+ * effect.  The event size is sizeof(drm_event), since there is no additional
-+ * payload.
-+ */
-+#define VIRTGPU_EVENT_FENCE_SIGNALED 0x90000000
-+
- #define DRM_IOCTL_VIRTGPU_MAP \
- 	DRM_IOWR(DRM_COMMAND_BASE + DRM_VIRTGPU_MAP, struct drm_virtgpu_map)
- 
+ static const struct drm_driver driver = {
+ 	.driver_features = DRIVER_MODESET | DRIVER_GEM | DRIVER_RENDER | DRIVER_ATOMIC,
 -- 
 2.34.0.rc2.393.gf8c9666880-goog
 
