@@ -2,54 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 779A5458F41
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Nov 2021 14:16:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A249458F61
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Nov 2021 14:28:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F1366E0CE;
-	Mon, 22 Nov 2021 13:16:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3AED06E092;
+	Mon, 22 Nov 2021 13:28:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com
- [IPv6:2a00:1450:4864:20::52c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC03C6E0AA
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Nov 2021 13:16:32 +0000 (UTC)
-Received: by mail-ed1-x52c.google.com with SMTP id x6so64970290edr.5
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Nov 2021 05:16:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=lCRsR0pKyMc+G/zyWnPG8WzLESNEovBPjmxXuyemZYc=;
- b=mluxfmACwAfcUnq/ak6qBUFSVw/fJLpNAgzsD5Ob6WnRproTCLf0EKqZvBiZcAYxjU
- oxfFbkP1Og863IJhSokOEKu/G+xfXxj6mIzIy6GpmEhWhgOlb2IuK8fI1SREIf2PWY2N
- oIB3ErI51ifksdjeRJWZm3iahdCbBc/UvwGqE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=lCRsR0pKyMc+G/zyWnPG8WzLESNEovBPjmxXuyemZYc=;
- b=Y8ASDDRDRjrLjAK5OPshUnG2s2u2jxGXRUvZKtBVebsh8v6JYPYyCs4oPO7TlNgJ5T
- B9RC919Lr4hy5aaqDSmbfbc8KDja82MVthAZAXt3EC2FmsTALuKcgiZf5pbTejqj4MRc
- RrYFqmcFnLeTJR5bxZRRZHZIkH5zbmUNjIdOPs938LonNm1iR09dD6zrPyfftwX+Qbql
- Ln5mdyKplvHm3rJWAQJBMEr6vyORXLHWrwI9PKsy9OiSTRdu8q8+owYecYcbgRpTmWcC
- XNSNeCSzK2tyJ7NEnWgsQqm2Nlq6DAQejHIzQHgV4C/MWHENmNTHChXKnQE9nXGP3Pad
- 3m/Q==
-X-Gm-Message-State: AOAM5336d2+O1sZsc9zhc32d9U4ZSWxOq6I9B+AtwiHCWGCnlZM5yMVL
- 5gJ59opxRDnf4XxJ+MHO2/jSS/nU28lhS6s3Go9JwA==
-X-Google-Smtp-Source: ABdhPJwdV1EFlV3POYWXlequ6FQSAPsvPzSCJ8vIJ4oo/qvUtmSjoWUBuGHaSkak4BXLKeKnCzpLFSqnfGCQqtOBY44=
-X-Received: by 2002:a17:906:b2c7:: with SMTP id
- cf7mr41735118ejb.303.1637586990035; 
- Mon, 22 Nov 2021 05:16:30 -0800 (PST)
-MIME-Version: 1.0
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
+ [66.111.4.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DCB546E092
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Nov 2021 13:28:52 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailout.nyi.internal (Postfix) with ESMTP id 311E85C022B;
+ Mon, 22 Nov 2021 08:28:50 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute1.internal (MEProxy); Mon, 22 Nov 2021 08:28:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:content-transfer-encoding:in-reply-to; s=fm1; bh=Y
+ uB79un/L6qYXxX1kBpVi7KsNohwQzXt3KGpPPF/vbw=; b=GjBSnC35xmpvq6OMX
+ OIxwgYyX0nvbjERbQHspA1pbcXrGnn4jLDRSWiEJC6o0Kr4rPGA2gcw0gRghUDy6
+ N7IooWxK7E5FeH9etRfAhEC9jZAdbt+nNkkPJyFVH3WORCQWeUNbHu3V+7JhFJi2
+ Swp6uYbzF9eu0wlMZxtm5IjcQ0gvSKZxr2uYxP21zBelznQsHBrT/Wywl8eumln7
+ uJ7w48gm/XVBjXLLgL688bgt1ncqJxsPnORZWVx5ATjEWPTNFrj2cle98J/Brt0c
+ KIu+6rlq8HvdrI08pFguaf84+qqE/fD4zUO76QEttFVFWGxWL7FNhjuVy6bvI0rw
+ +QAyA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:in-reply-to:message-id:mime-version:references
+ :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm1; bh=YuB79un/L6qYXxX1kBpVi7KsNohwQzXt3KGpPPF/v
+ bw=; b=WXm15Wb9eMhw1/n/HE1o0PPZqUEW0ngrBZN8lWpkynIpAqmnkmYxvCPjd
+ Qq/guF0c+19A50MQOfz5M3Kd7VRqveZVYl91+CdbNbvmZFKrUOSkUXVyxYu08CpL
+ Wgl3vYuvEA7ae92BhkeXqAvf2lwbNDAZPESOVNoaDwEJBGvC3O+dFY8Ed8R1P+H0
+ i5HDiKbTltR4xVj1uTqd+ZgrfPZrwAgJqt5HQwP61E1eV/F+nv4Pz6g1sUo59Np1
+ 0QCqdGiRW/by5YPCf+eoeAZheJJee1FxGau4t8UbfDIT0nV0dtkFpwAOkBA2oNaH
+ zXBJ2FwZrybZE4Dfii5T748OMyg+A==
+X-ME-Sender: <xms:EZubYfHSrB9ZWXpyQNMicMZlKESmTeLoHr9vyL4myPzZ32wxBbx07A>
+ <xme:EZubYcVyPH7TdY3v0vnehd1Hf4L8XcsvuQMJPLwPwtd2evcVBKDBnngitoXFmXmfK
+ pKvhan6fM-VRM8Kiy8>
+X-ME-Received: <xmr:EZubYRI01qltSEqOtIOTgC3owOfUyk57rW3Lw6exrdm8X2cM-G_Zb2bBuECq9uc2kgZpvx7hiM3ycScMM4XJF8EJr0Zj4_UaBL4>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrgeeggdehgecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggugfgjsehtqhertddttddvnecuhfhrohhmpeforgigihhm
+ vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+ htvghrnhepgfejtedtjefggfffvdetuedthedtheegheeuteekfeeghfdtteejkeeludeg
+ vddunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+ grgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:EZubYdHDd6S1BEnpOkS2BECNY3j7D605yWywqBPR_GjtceQ6uXn_fg>
+ <xmx:EZubYVXq259b0LsCqNp9of9ivf-WkSvjsh6neMehMrbpEp7CXkgQ4g>
+ <xmx:EZubYYPAbeIDPTWsJXXTB7mw3QnR-J6xr9P0GwSIQ5vMFzNR5Gf_jA>
+ <xmx:EpubYRpFolsOlkyn1iX32vy54dYc7rB_t_ea0KZwbIhRubRnzRd0bA>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 22 Nov 2021 08:28:49 -0500 (EST)
+Date: Mon, 22 Nov 2021 14:28:47 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Jagan Teki <jagan@amarulasolutions.com>
+Subject: Re: [PATCH v5 4/7] drm: sun4i: dsi: Add mode_set function
+Message-ID: <20211122132847.ds4gtk2unq3fkagy@gilmour>
 References: <20211122065223.88059-1-jagan@amarulasolutions.com>
- <20211122065223.88059-4-jagan@amarulasolutions.com>
- <35a25992-741b-b3f1-c3cd-695a19b9a413@baylibre.com>
-In-Reply-To: <35a25992-741b-b3f1-c3cd-695a19b9a413@baylibre.com>
-From: Jagan Teki <jagan@amarulasolutions.com>
-Date: Mon, 22 Nov 2021 18:46:19 +0530
-Message-ID: <CAMty3ZDATTKoJq7aLOe5i=RPo2UHzqnLs8j8sT-EBNdpC7=3DQ@mail.gmail.com>
-Subject: Re: [PATCH v5 3/7] drm: sun4i: dsi: Convert to bridge driver
-To: Neil Armstrong <narmstrong@baylibre.com>
-Content-Type: text/plain; charset="UTF-8"
+ <20211122065223.88059-5-jagan@amarulasolutions.com>
+ <20211122100759.qw6lvwb33ciemg2y@gilmour>
+ <CAMty3ZDDQR-OkjqEfb1ZYZG+oLN2ZOv-2GLxs3AdeDHqUD8fjQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <CAMty3ZDDQR-OkjqEfb1ZYZG+oLN2ZOv-2GLxs3AdeDHqUD8fjQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,99 +83,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-amarula@amarulasolutions.com, linux-sunxi@googlegroups.com,
+Cc: Neil Armstrong <narmstrong@baylibre.com>,
+ Robert Foss <robert.foss@linaro.org>, linux-sunxi@googlegroups.com,
  dri-devel@lists.freedesktop.org, Chen-Yu Tsai <wens@csie.org>,
- Robert Foss <robert.foss@linaro.org>, Sam Ravnborg <sam@ravnborg.org>,
- linux-arm-kernel@lists.infradead.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sam Ravnborg <sam@ravnborg.org>, linux-amarula@amarulasolutions.com,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Neil,
+On Mon, Nov 22, 2021 at 06:35:58PM +0530, Jagan Teki wrote:
+> On Mon, Nov 22, 2021 at 3:38 PM Maxime Ripard <maxime@cerno.tech> wrote:
+> >
+> > On Mon, Nov 22, 2021 at 12:22:20PM +0530, Jagan Teki wrote:
+> > > Get the display mode settings via mode_set bridge function
+> > > instead of explicitly de-reference.
+> >
+> > What's wrong with dereferencing the mode?
+>=20
+> Nothing wrong with dereferencing, however we have built-in API to that jo=
+b.
 
-On Mon, Nov 22, 2021 at 6:22 PM Neil Armstrong <narmstrong@baylibre.com> wrote:
->
-> On 22/11/2021 07:52, Jagan Teki wrote:
-> > Some display panels would come up with a non-DSI output, those
-> > can have an option to connect the DSI host by means of interface
-> > bridge converter.
-> >
-> > This DSI to non-DSI interface bridge converter would requires
-> > DSI Host to handle drm bridge functionalities in order to DSI
-> > Host to Interface bridge.
-> >
-> > This patch convert the existing to a drm bridge driver with a
-> > built-in encoder support for compatibility with existing
-> > component drivers.
-> >
-> > Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
-> > ---
-> > Changes for v5:
-> > - add atomic APIs
-> > - find host and device variant DSI devices.
-> > Changes for v4, v3:
-> > - none
-> >
-> >  drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c | 112 ++++++++++++++++++++-----
-> >  drivers/gpu/drm/sun4i/sun6i_mipi_dsi.h |   7 ++
-> >  2 files changed, 96 insertions(+), 23 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
-> > index 43d9c9e5198d..a6a272b55f77 100644
-> > --- a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
-> > +++ b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
-> > @@ -21,6 +21,7 @@
-> >
-> >  #include <drm/drm_atomic_helper.h>
-> >  #include <drm/drm_mipi_dsi.h>
-> > +#include <drm/drm_of.h>
-> >  #include <drm/drm_panel.h>
-> >  #include <drm/drm_print.h>
-> >  #include <drm/drm_probe_helper.h>
-> > @@ -713,10 +714,11 @@ static int sun6i_dsi_start(struct sun6i_dsi *dsi,
-> >       return 0;
-> >  }
-> >
-> > -static void sun6i_dsi_encoder_enable(struct drm_encoder *encoder)
-> > +static void sun6i_dsi_bridge_atomic_enable(struct drm_bridge *bridge,
-> > +                                        struct drm_bridge_state *old_bridge_state)
-> >  {
-> > -     struct drm_display_mode *mode = &encoder->crtc->state->adjusted_mode;
-> > -     struct sun6i_dsi *dsi = encoder_to_sun6i_dsi(encoder);
-> > +     struct sun6i_dsi *dsi = bridge_to_sun6i_dsi(bridge);
-> > +     struct drm_display_mode *mode = &bridge->encoder->crtc->state->adjusted_mode;
-> >       struct mipi_dsi_device *device = dsi->device;
-> >       union phy_configure_opts opts = { };
-> >       struct phy_configure_opts_mipi_dphy *cfg = &opts.mipi_dphy;
-> > @@ -772,6 +774,9 @@ static void sun6i_dsi_encoder_enable(struct drm_encoder *encoder)
-> >       if (dsi->panel)
-> >               drm_panel_prepare(dsi->panel);
-> >
-> > +     if (dsi->next_bridge)
-> > +             dsi->next_bridge->funcs->atomic_pre_enable(dsi->next_bridge, old_bridge_state);
-> > +
-> >       /*
-> >        * FIXME: This should be moved after the switch to HS mode.
-> >        *
-> > @@ -787,6 +792,9 @@ static void sun6i_dsi_encoder_enable(struct drm_encoder *encoder)
-> >       if (dsi->panel)
-> >               drm_panel_enable(dsi->panel);
-> >
-> > +     if (dsi->next_bridge)
-> > +             dsi->next_bridge->funcs->atomic_enable(dsi->next_bridge, old_bridge_state);
-> > +
->
->
-> No need to call the next bridge atomic pre_enable/enable/disable/post_disable since they will
-> be called automatically on the bridge chain.
+That's not an API though?
 
-Correct, but the existing bridge chain (stack) is not compatible with
-sun6i DSI start sequence. We cannot send any DCS once we start HS
-mode.
-https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c#n775
+It's perfectly valid to dereference the pointer in atomic_enable, and
+that patch would consume memory for no particular reason.
 
-This specific problem can be fixed only if we change the bridge chain
-from stack to queue. Please check this series
-https://patchwork.kernel.org/project/dri-devel/patch/20210214194102.126146-6-jagan@amarulasolutions.com/
-
-Jagan.
+Maxime
