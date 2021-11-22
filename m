@@ -1,56 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30D5E459036
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Nov 2021 15:30:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CAE13459041
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Nov 2021 15:32:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F43589D99;
-	Mon, 22 Nov 2021 14:30:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 62D0D89CDB;
+	Mon, 22 Nov 2021 14:32:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com
- [IPv6:2a00:1450:4864:20::536])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B789089D99
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Nov 2021 14:30:02 +0000 (UTC)
-Received: by mail-ed1-x536.google.com with SMTP id x15so77612941edv.1
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Nov 2021 06:30:02 -0800 (PST)
+Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com
+ [IPv6:2a00:1450:4864:20::534])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D7CA489CDB
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Nov 2021 14:32:02 +0000 (UTC)
+Received: by mail-ed1-x534.google.com with SMTP id e3so77786944edu.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Nov 2021 06:32:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amarulasolutions.com; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=fQ/ac8hv9apaBIQUP7/uqjujABGN3TOPcCMEjripc4w=;
- b=OA+wqzpL6TNvo6uRcZKiZ5OjeWHCERdsZINj0lCzTbB4YuCEf7C61FGl2pOHYS9maW
- KvJpqjJnRtfMZLkXzsFjYw9j+mQVfG7jZG+K/uIv18rnodJPK6lcwMp9wsZmirldJVkA
- /x7TOLsqg+3Hc0iRf2hKKH0dv19VfXTaeq0oM=
+ :cc; bh=gajZMBY4OmmSIwG5nk0u4uIpy5I6ZsgU5YpQ3lkosZI=;
+ b=B+6NwM2Bszy8j0ug17BUZrCJ5pnQC2GbZUdIWWy1MPa+aHZFwKk4JhMDQ4vybuBT7M
+ dJc3rcf6XSTyT4w7fAGOzA+yCU1K+5Sf2vKDDW9/ljyulsN5CajIEC8/bsIdUxJNDPeF
+ Xl2cPSri1p0rhez2d07TMd7MA0UK/abSi4kfo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=fQ/ac8hv9apaBIQUP7/uqjujABGN3TOPcCMEjripc4w=;
- b=iasSxjD0XvQX/BJK4lEZ2UrTi2M4b452eirRioqKEu2Z44HzK8OysoUpsjrLEqezvc
- jixz45F4sr5ZxnHTilM9znm1VrVYPvc/90xPbio2nus88uMU4ZMgswV7UGs6Tf5CNlTK
- BF2onJaqsJVZfLCvPYix7BDhR2pzwttQ2UDie1/k8G/NOVb4A/UMS8XW6Dg/f3XBX0Sp
- PVSHaXCqbRw/Ty//FYLv7XS8zBq+/sL0o7ZAEkNZUdCqGtFMIfkbpRKJBey7ecKYpGlo
- DO9I3Fls47B0h8g1pTq+9LWhdCxP15B7pVlGHvwBwu+UUDh64/RC9MC3aRO4fPLurioC
- jhzA==
-X-Gm-Message-State: AOAM532jyTDihCoh7RRM+XEHa6VYkeuQA8jjiwVtLLTQHlNPPPaTx9iK
- Sdf92sU94u3cRaGHfvr0fTYFB7HJ4dWROmwQ/ALQr5b03rcmUw==
-X-Google-Smtp-Source: ABdhPJw6c4a4/wXGU9HsdqcRcUV+ISxqrQuMw6Dsy1o5ckwMW//WnZen+6y40FhyZTISQjuKqGu/8wf8VxeeU7X9HDU=
-X-Received: by 2002:a05:6402:445:: with SMTP id
- p5mr67345802edw.110.1637591397387; 
- Mon, 22 Nov 2021 06:29:57 -0800 (PST)
+ bh=gajZMBY4OmmSIwG5nk0u4uIpy5I6ZsgU5YpQ3lkosZI=;
+ b=CbnhYeCG1bP5rTgWLIDTLGLUpf6vilqA//d/TgVEjWwyAJ4O2PKW3PqnxpvC0XPRqJ
+ aqYCgiteJbRBkA73dCXv2WomvCwvcJl2i7NtYvu71HA/EapDu21Qu5+co7IY2nevAkeL
+ Eo3OAPeX081r061uXpzsL56aMqk2r7ATxmyqkGWNIsSuUP7UmTm0Y+UBzZ5AS6QI7BND
+ n/dh2ax8pgjeSrn7HBDiFfzzCJSuPawMMpLga6ZYNfBoXTznXYK8g/kGZRo3vVRJepY0
+ YPKhTEYqOXWh/AG8SS8Mm5aIFXK32EHZFsoGk5ajFb43Nf+lihLBzdISSqUSCdTmmKh5
+ tl/w==
+X-Gm-Message-State: AOAM5301fdiTy0F0LUWDiKfgBF74iW62webTITKycNfhrOgRiTTLi67n
+ ebdZGKj3sa34KLWyzPua7nCefbl8q4GQI+akXCkA0g==
+X-Google-Smtp-Source: ABdhPJxjVipWHM7v1FJkIEB3suhUlU/PuhSYS1Q+BzAUSUrMI7c+qim7xUaZfxA3QmRmZrKJgvy6fguh+p5u+AyflhE=
+X-Received: by 2002:aa7:dd53:: with SMTP id o19mr65465715edw.369.1637591518741; 
+ Mon, 22 Nov 2021 06:31:58 -0800 (PST)
 MIME-Version: 1.0
-References: <20211122070633.89219-1-jagan@amarulasolutions.com>
- <CGME20211122070651eucas1p1d505c9d2041501898d4f3b1f277e2599@eucas1p1.samsung.com>
- <20211122070633.89219-2-jagan@amarulasolutions.com>
- <5e173bc6-a320-42ec-79de-0ea4c3c2b480@samsung.com>
- <CAMty3ZArYY5ECD5AWZiNa8pYn16ziWi=S-39o3VuTXGA1eN1DQ@mail.gmail.com>
-In-Reply-To: <CAMty3ZArYY5ECD5AWZiNa8pYn16ziWi=S-39o3VuTXGA1eN1DQ@mail.gmail.com>
+References: <20211122065223.88059-1-jagan@amarulasolutions.com>
+ <20211122065223.88059-5-jagan@amarulasolutions.com>
+ <20211122100759.qw6lvwb33ciemg2y@gilmour>
+ <CAMty3ZDDQR-OkjqEfb1ZYZG+oLN2ZOv-2GLxs3AdeDHqUD8fjQ@mail.gmail.com>
+ <20211122132847.ds4gtk2unq3fkagy@gilmour>
+ <CAMty3ZAzwKtABZqJhVDmgOVpnZFg66z6Bc_pn3Fm9=658RPG1g@mail.gmail.com>
+ <20211122140929.22cmvnxxapp752ic@gilmour>
+In-Reply-To: <20211122140929.22cmvnxxapp752ic@gilmour>
 From: Jagan Teki <jagan@amarulasolutions.com>
-Date: Mon, 22 Nov 2021 19:59:46 +0530
-Message-ID: <CAMty3ZA_UsvmTprozT+MgfZ4Q4LthSk340rV_0YwcmTy1Vyk4w@mail.gmail.com>
-Subject: Re: [PATCH 1/2] drm: exynos: dsi: Convert to bridge driver
-To: Marek Szyprowski <m.szyprowski@samsung.com>
+Date: Mon, 22 Nov 2021 20:01:47 +0530
+Message-ID: <CAMty3ZBOYRJ5ScrYEKoA9e1hP9=yuKuASvXyorB_kLsp26Fe3A@mail.gmail.com>
+Subject: Re: [PATCH v5 4/7] drm: sun4i: dsi: Add mode_set function
+To: Maxime Ripard <maxime@cerno.tech>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,110 +66,36 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Neil Armstrong <narmstrong@baylibre.com>,
- linux-amarula@amarulasolutions.com, dri-devel@lists.freedesktop.org,
- Robert Foss <robert.foss@linaro.org>,
+ Robert Foss <robert.foss@linaro.org>, linux-sunxi@googlegroups.com,
+ dri-devel@lists.freedesktop.org, Chen-Yu Tsai <wens@csie.org>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Sam Ravnborg <sam@ravnborg.org>
+ Sam Ravnborg <sam@ravnborg.org>, linux-amarula@amarulasolutions.com,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Marek,
+On Mon, Nov 22, 2021 at 7:39 PM Maxime Ripard <maxime@cerno.tech> wrote:
+>
+> On Mon, Nov 22, 2021 at 07:21:57PM +0530, Jagan Teki wrote:
+> > > It's perfectly valid to dereference the pointer in atomic_enable, and
+> > > that patch would consume memory for no particular reason.
+> >
+> > Again, I'm not pointing any mistake in dereference and certainly not
+> > understand about what memory consumption issue here.
+>
+> You add a struct drm_display_mode field to struct sun6i_dsi. It
+> increases the size of struct sun6i_dsi of sizeof(struct
+> drm_display_mode).
+>
+> > I'm doing it here since I'm doing it via mode_set in other drivers. No
+> > problem for me either way.
+>
+> But *why* are you doing so?
+>
+> There might be a valid reason in other drivers, but there's none here
+> (that you mentioned at least).
 
-On Mon, Nov 22, 2021 at 7:51 PM Jagan Teki <jagan@amarulasolutions.com> wrote:
->
-> Hi Marek,
->
-> On Mon, Nov 22, 2021 at 7:45 PM Marek Szyprowski
-> <m.szyprowski@samsung.com> wrote:
-> >
-> > On 22.11.2021 08:06, Jagan Teki wrote:
-> > > Some display panels would come up with a non-DSI output, those
-> > > can have an option to connect the DSI host by means of interface
-> > > bridge converter.
-> > >
-> > > This DSI to non-DSI interface bridge converter would requires
-> > > DSI Host to handle drm bridge functionalities in order to DSI
-> > > Host to Interface bridge.
-> > >
-> > > This patch convert the existing to a drm bridge driver with a
-> > > built-in encoder support for compatibility with existing
-> > > component drivers.
-> > >
-> > > Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
-> > > ---
-> > > Note:
-> > > Hi Marek Szyprowski,
-> > >
-> > > Please test this on Panel and Bridge hardware.
-> >
-> > I don't have good news, t crashes:
-> >
-> > [drm] Exynos DRM: using 13800000.decon device for DMA mapping operations
-> > exynos-drm exynos-drm: bound 13800000.decon (ops decon_component_ops)
-> > exynos-drm exynos-drm: bound 13880000.decon (ops decon_component_ops)
-> > exynos-drm exynos-drm: bound 13930000.mic (ops exynos_mic_component_ops)
-> > [drm:drm_bridge_attach] *ERROR* failed to attach bridge
-> > /soc@0/dsi@13900000 to encoder TMDS-67: -22
-> > exynos-drm exynos-drm: failed to bind 13900000.dsi (ops
-> > exynos_dsi_component_ops): -22
-> > Internal error: synchronous external abort: 96000210 [#1] PREEMPT SMP
-> > Modules linked in:
-> > CPU: 2 PID: 74 Comm: kworker/u16:1 Not tainted 5.16.0-rc1+ #4141
-> > Hardware name: Samsung TM2E board (DT)
-> > Workqueue: events_unbound deferred_probe_work_func
-> > pstate: 80000005 (Nzcv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-> > pc : decon_atomic_disable+0x58/0xd4
-> > lr : decon_atomic_disable+0x28/0xd4
-> > sp : ffff80001390b940
-> > x29: ffff80001390b940 x28: ffff80001259a000 x27: ffff000027f39e80
-> > input: stmfts as
-> > /devices/platform/soc@0/14ed0000.hsi2c/i2c-3/3-0049/input/input0
-> > x26: 00000000ffffffea x25: ffff000025a40280 x24: 0000000000000001
-> > x23: ffff800011b55f98 x22: ffff0000315dc000 x21: ffff00002695d100
-> > x20: ffff000027e7a080 x19: ffff0000315e6000 x18: 0000000000000000
-> > x17: 645f736f6e797865 x16: 2073706f28206973 x15: 0000000000028ee0
-> > x14: 0000000000000028 x13: 0000000000000001 x12: 0000000000000040
-> > x11: ffff000023c18920 x10: ffff000023c18922 x9 : ffff8000126352f0
-> > x8 : ffff000023c00270 x7 : 0000000000000000 x6 : ffff000023c00268
-> > x5 : ffff000027e7a3a0 x4 : 0000000000000001 x3 : ffff000027e7a080
-> > x2 : 0000000000000024 x1 : ffff800013bc8024 x0 : ffff0000246117c0
-> > Call trace:
-> >   decon_atomic_disable+0x58/0xd4
-> >   decon_unbind+0x1c/0x3c
-> >   component_unbind+0x38/0x60
-> >   component_bind_all+0x16c/0x25c
-> >   exynos_drm_bind+0x104/0x1bc
-> >   try_to_bring_up_master+0x164/0x1d0
-> >   __component_add+0xa8/0x174
-> >   component_add+0x14/0x20
-> >   hdmi_probe+0x438/0x710
-> >   platform_probe+0x68/0xe0
-> >   really_probe.part.0+0x9c/0x31c
-> >   __driver_probe_device+0x98/0x144
-> >   driver_probe_device+0xc8/0x160
-> >   __device_attach_driver+0xb8/0x120
-> >   bus_for_each_drv+0x78/0xd0
-> >   __device_attach+0xd8/0x180
-> >   device_initial_probe+0x14/0x20
-> >   bus_probe_device+0x9c/0xa4
-> >   deferred_probe_work_func+0x88/0xc4
-> >   process_one_work+0x288/0x6f0
-> >   worker_thread+0x74/0x470
-> >   kthread+0x188/0x194
-> >   ret_from_fork+0x10/0x20
-> > Code: 11002042 f9481c61 531e7442 8b020021 (88dffc21)
-> > ---[ end trace d73aff585b108954 ]---
-> > Kernel panic - not syncing: synchronous external abort: Fatal exception
-> > SMP: stopping secondary CPUs
-> > Kernel Offset: disabled
-> > CPU features: 0x2,300071c2,00000846
-> > Memory Limit: none
-> > ---[ end Kernel panic - not syncing: synchronous external abort: Fatal
-> > exception ]---
->
-> Is this with Bridge or normal DSI panel?
-
-Can you apply this patch and check?
-https://github.com/openedev/linux/commit/412f226acd774356e8188c9e62b653672926ee0d
+The reason is to use existing bridge function instead of dereference
+ie what I've mentioned. I don't have any other reasons.
 
 Jagan.
