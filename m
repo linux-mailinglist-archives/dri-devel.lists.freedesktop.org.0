@@ -2,77 +2,132 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0693B4590DC
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Nov 2021 16:04:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B463D4590E0
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Nov 2021 16:06:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C2B0B89F5B;
-	Mon, 22 Nov 2021 15:04:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 534A389FA0;
+	Mon, 22 Nov 2021 15:06:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
- [66.111.4.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 850C589F5B
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Nov 2021 15:04:53 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id DD3B95C0196;
- Mon, 22 Nov 2021 10:04:52 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Mon, 22 Nov 2021 10:04:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:content-transfer-encoding:in-reply-to; s=fm1; bh=Q
- MHIi6Jui8h8WySORrxmZ5bJlgdth3QsG6DIf8sauPA=; b=EmQiSz61u8fBGFnYf
- rgibWl/nD37wYJc/q0F3HtbfwE+Qdxxrnpq8DxrOTXRYxXjccCyUlQ7FTi7GDitc
- ViLNs283nsAWvj5qaDdaDxMTtyfrNjggFzVs5Yh7iB47Y3sxtGtJZdFN9GXiQVMY
- xUOEIyAdpEPtnN7ZdGHRxXbgU1Z2m+IwuPO4Wg258T6WnbBh5YSAIOae7En156i9
- k/fZshrgGZbQ4gwnaHxny48cuHCb8VfGs8sXMhXRWhu/GEIjDoMl0XmRiPneLKUQ
- LmkkVABg2XsBbn8kG3/ZZKZcJsOnVBvyJ4CcsfLaHxbvHUaVVFqAUzhXbn0tj5Mr
- BULVA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:from:in-reply-to:message-id:mime-version:references
- :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm1; bh=QMHIi6Jui8h8WySORrxmZ5bJlgdth3QsG6DIf8sau
- PA=; b=DoZogmu5Vxm0Ojlp3c2urks9B+idbIJ+ksok6dvXYEMM9JfQy2Kh68yxe
- G3F9eliTHK6oyddh4melUlDofuF2raytr1ElHmSGU4xPXEYQO3SkdPBJr76K5kGa
- wt/VoIWDgEfWBc9xJ+8WoNZeiy6z9E6OVGG8TOvCF/Vz1PeKGM71H37Xr+TtJv8u
- 3Y7mBU51unPJVYpQPtSzXH3OVgMNkobugadWb45E89B2kfA9MAH6mP13pA3nK/nT
- LW9h/wrcJCz4rYSpIvlGtFPVUiMbaSMevjoOEVJxukJZv9L32xaBYi4VQS4X2wcw
- f5NBpSVd3jWeNyUCzZBBbvllPPL+A==
-X-ME-Sender: <xms:k7GbYTmEh2ELJO-waVbWOSESQezY7pLTNacgWNfnEleELZAuXDfKuw>
- <xme:k7GbYW2eAOLIazsz4m5nvcwu84ELsziT_9bbJObWbRKHmcrtasfDyHonTrokCQFK6
- 2tcYY1OBUHJH5kLDNs>
-X-ME-Received: <xmr:k7GbYZq6dVIKvht7ytCgfPdvoyJE1FOwX1H01ABxzHCDNX4ImBESaeYegYtzPGYjTaHTKLNy_t7SHn3RumSMd0PAc8zTHf21vdI>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrgeeggdejgecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggugfgjsehtqhertddttddvnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepkeeileetveejffegueetjeeigffgfefgkeeuueetfffhheegveefhfekheev
- kedunecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpe
- dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:k7GbYbk7orjc9DhlPrasSYq0_-uifVZ0gmBNUaEQR4Ip0_F3ZBcjhw>
- <xmx:k7GbYR1oixc1vxiRWR9U02-ECl153fj0IbJwNek875IYRiySq24-0Q>
- <xmx:k7GbYav-h-ezuSPzKBjiGOm5HASRZXS7QR1LHatm8-Ubqu0l35LImA>
- <xmx:lLGbYaJ90GAr-w1bnqiVwKKrLQWrAVOBqq_UpeM9rD2GOyG7GxD35g>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 22 Nov 2021 10:04:51 -0500 (EST)
-Date: Mon, 22 Nov 2021 16:04:49 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Jagan Teki <jagan@amarulasolutions.com>
-Subject: Re: [PATCH v5 3/7] drm: sun4i: dsi: Convert to bridge driver
-Message-ID: <20211122150449.4nqblhdidb5742x3@gilmour>
-References: <20211122065223.88059-1-jagan@amarulasolutions.com>
- <20211122065223.88059-4-jagan@amarulasolutions.com>
- <20211122100712.dls4eqsu6o5gcc5k@gilmour>
- <CAMty3ZDkUSfW_+PosjgY_GQB3wSvNRaCjwq_nOwWHo-RGQUVFw@mail.gmail.com>
- <20211122140457.jm7cwpp2h3fkf2nd@gilmour>
- <CAMty3ZByw=ZjN3z2UsKj5X5kvrpwCFNUohAnO=O1d29jLPR1Yw@mail.gmail.com>
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on2050.outbound.protection.outlook.com [40.107.237.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 22CE489FA0
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Nov 2021 15:05:59 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=mNqZKwxDp0FwhLB1VlRISK7XFW0wScn0mxf/xwk1UALDbqE5cwm/MYtxfte5GG2ib/MOHQsZ6SEVtXfFga9I8fR6VT6XDqJ3OlYQV4bx53L6u43sN5hgFAJqqZkNZQkV8CqXovkbdczLdhqHwyEkHksi/qAR09n/1tTO3gIwdpffp+dhIjL/gF2P+sDO7pDGEiKvqfstSa2HK/Bc8naFfds1pgYk87zyH64PVO3OAvgNpeOmU9txNdnqXk69zk/i9S7Z5q3ym/h5oB56OkLIWMaqeUmFXNpdYPNRy93B9/vrD5gsrhD9Q7zBQ1pZNEOZypS5+pXInP+WhaQCjrfh0Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=hfIsMj29jQXssRRcPxbZZCV1UnuUKuLUzZe7uWLExTE=;
+ b=H0oUiDdp0pipwqF4mwWHSGc8X9+/VRpN+uSUEqa5TFRDtp+10qlX0X6N95TiysNgm16pjq+9STIHqk24jEQUOLAiyY7NQM6m8vtudUrsLTl6pmgnjniyglTRaaOg/kmr/O2TDUKs76HbNJpDG/P7nn4N4yW6QHkvluWpipuxtKekcD0v1aNN26js9tptMLskxUeRFn0IX1J0//3ZW1mdy7nPt4Osi3clw6AoLdsS/BKCGJmPRuBx8pFDoyXSzQpH3DqeShyz9eYUnUNCa8HQON2ttBgSCnXyZ/bMCntYTWFziaSsfN0Blir7TBCekFuG5q+5ovQ7HR5Ehv7PUYwvaw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vmware.com; dmarc=pass action=none header.from=vmware.com;
+ dkim=pass header.d=vmware.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vmware.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=hfIsMj29jQXssRRcPxbZZCV1UnuUKuLUzZe7uWLExTE=;
+ b=fAgFy020zS3qgfMc1UC/LUL+FY/jyxi9zadddSkGeuJTWGHxwUkCSu07rd54+JbJECB0of9xAF39wkFdCyoggB/HpB2GGgNL0TQUzLSH9lJzL52mwaNHtdAY4XL5dqYOThVfJIAZMGyHrmp2AFdlHUtbcy1KjTmtoia96uvJy+U=
+Received: from MN2PR05MB6624.namprd05.prod.outlook.com (2603:10b6:208:d8::18)
+ by BLAPR05MB7348.namprd05.prod.outlook.com (2603:10b6:208:295::7)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4734.7; Mon, 22 Nov
+ 2021 15:05:56 +0000
+Received: from MN2PR05MB6624.namprd05.prod.outlook.com
+ ([fe80::4975:27e1:d774:269c]) by MN2PR05MB6624.namprd05.prod.outlook.com
+ ([fe80::4975:27e1:d774:269c%3]) with mapi id 15.20.4734.018; Mon, 22 Nov 2021
+ 15:05:56 +0000
+From: Zack Rusin <zackr@vmware.com>
+To: "christian.koenig@amd.com" <christian.koenig@amd.com>
+Subject: Re: [PATCH v4] drm/ttm: Clarify that the TTM_PL_SYSTEM is under TTMs
+ control
+Thread-Topic: [PATCH v4] drm/ttm: Clarify that the TTM_PL_SYSTEM is under TTMs
+ control
+Thread-Index: AQHX1kJWZtuSj3tf+Eqi7iDCZwvZFKv+ijSAgALLwICABHIhAIAABqyAgAAKPICAAH63gIAJUpEAgAAOGYA=
+Date: Mon, 22 Nov 2021 15:05:56 +0000
+Message-ID: <70c68c4462846036cb5405e2ef39eb6df4f3b916.camel@vmware.com>
+References: <3687c5f0-edb9-3cdb-2bb7-e45549a1cfb8@amd.com>
+ <20211110145034.487512-1-zackr@vmware.com>
+ <61aa563096a20dca80b4cc48037998b932c2e4fc.camel@vmware.com>
+ <48dbcca4-a47b-28c5-9163-5a1e8960639e@linux.intel.com>
+ <a5a987cd-493f-a089-d3d6-5c4e2fb171e8@amd.com>
+ <52b8c310-ebab-a68e-a2f2-62a56b5216e3@linux.intel.com>
+ <112af1da-87ff-ee03-9461-e23173e84e86@amd.com>
+ <DA2A5639-903D-40BF-AC28-EF091F26AC93@vmware.com>
+ <18eaf730-7f82-9fdf-db94-365de860e971@amd.com>
+In-Reply-To: <18eaf730-7f82-9fdf-db94-365de860e971@amd.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.40.4-1 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vmware.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: b362a844-2a78-4b03-6ed5-08d9adc995e9
+x-ms-traffictypediagnostic: BLAPR05MB7348:
+x-microsoft-antispam-prvs: <BLAPR05MB734893AB71F2761EA89D005CCE9F9@BLAPR05MB7348.namprd05.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8273;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: sF2ZcLRI9bB0IUZ+eyLttB8UIrLr5R50wbw9Bdgg77my5V1SDtbNGq5FDApoP1Kw+S4hwIpaQKcVtQxHtpPCt8UkHCDoLv9dz6j5LpNlaX986Q8M7exadYCuzR5ew2yg+OyYOn6bDf804Pl8d4fhUSBaU9Z2D7ldxGKXvCmGylj0diyLJYfwkJpD/94lV4WCfXyUlKatD0dr6dGqtJDZR4XXAcoKKcGWJATXcWhVKaUCPeTsge6eSOHI2rM8p7wgvB8oXuHeGANumTn9rjWno7GgU1ONohir9j3ecZUHOZLNzb3wrlQEORbGPrPgOieF6D1u2oUNbS5SGCQQTg8RwbANjOBBP2oUBQt9i7qm7L+PzthJJErbqcNP5gimo0V/D9/1Kkk9AACQv6h9dl9FqXCQ0AN2jcb+VGHcB18CPwQxArOs2If+9V1XJD3y+0lC1Xx1BFCRPnru5a4hXrrbFSpSMp7oqj0UDLtPcb20cDKfbZ3Ndif0vLs9az3wJhzYFpgLBmxFu2RJNcxnRR2x/RVJKU08XMOVQJiM93DRUR1Ab/cu/Lu+w3cGLqiBPwCO/smeuuHTXnCET/Kp42BdkhzCRM79jUkZEL1yMXHxadktEuxif/vIx8Hrk/uLYTr5Xb8GFhadhasG04ONwdjIkiUu0hhIhTTNPJjjfEf9JVOX2p7j7+jvlIA8n1pgIpQ6C4fYBbGa6Kw01ILLkscwi32AHtlxMQuyogLDlNQnJwi+0FsMauv3WIx6jTCooR5BPvjDqQxDo5B2OUOIupoRXaWNOxULg0ym+dep2g3Et2/TSXogQ7D8uwa3S3o+X5m1PmIxWdnBwj7XT9W2qQY9yQ==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR05MB6624.namprd05.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(186003)(4001150100001)(122000001)(26005)(36756003)(54906003)(6486002)(508600001)(6506007)(4326008)(8936002)(6512007)(8676002)(2906002)(83380400001)(38100700002)(66574015)(5660300002)(38070700005)(2616005)(966005)(45080400002)(86362001)(66476007)(76116006)(66946007)(71200400001)(66556008)(53546011)(6916009)(316002)(66446008)(64756008);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?UmRHbDFMSnpvWHBxSEdYOGxaYURPckZMb1JvWERybzZLZm5GMVhmYTZiZ1kr?=
+ =?utf-8?B?aUlQOGNDdGozWVJ4a1g3MDhNelgyKy9aeFhJL29LWnpvejB6MXFBSlMrUzBM?=
+ =?utf-8?B?Z09aSnhZWU80eXB6WnNHQ2ZGeXFhWjROVng2SklJZnY2Z2J3TUhFekxMKzl4?=
+ =?utf-8?B?ZjBoWUVTK0orcWduOSs4a3d5MktUcGcyeGoxd2pSTHQ5aTVZTi9RejdXV3VT?=
+ =?utf-8?B?RzR4am1SdWN3b1RYTTBtYm93aFk0MklsN3BXaEIrdktPZE1QeUh6L05SZDJY?=
+ =?utf-8?B?NVhwUDJnaENhWTJYQ0hPQUJzYmJKMWxsWDVweGZzY2NSQUM0eVJZS3BTVmlP?=
+ =?utf-8?B?b25WR0ZaV1RMbVozdUN5aEFoUjhBdVZXQ2cvdG42TzF4Z1hycDkrZ3hldFho?=
+ =?utf-8?B?U2xjb3Ntc0ozSWxTZUpDY0lZNjlXU1ROSFR6NDVvUWhOY1JDNU4xVUlvMzE2?=
+ =?utf-8?B?RHQ4eGttRlVqRWk5WTQ1Uk1neTAvYzBoakkrMTZIRnJVTnNCdnY0L2w0dlFE?=
+ =?utf-8?B?VmZ5YzNFQ0psZWd2SkxiNmZ3SytmUlhkK2FYRWVyS29kU01CWnNUTm1GODdR?=
+ =?utf-8?B?My96NTMyY1dpa1lMcGY3ZWpzVGdvL0ZRMFUvUFFORzFUUFhOWVdZSUV3RW5p?=
+ =?utf-8?B?Vy93QkJBWEl4akgxTjVjMlNBK2w5QUFuaGFLbkowYWdRYjlSaUx1K3UwRHdB?=
+ =?utf-8?B?ckxsYXJIeWk1aUlOOVFEVyszRVJMRE10QmdtUTVzOStsZENHTGlablB1VDJJ?=
+ =?utf-8?B?V2F2K2s3ZnJSL25rU3pDRG1rMVRXbnEyTzlKQW43VXM5c1B3NlJqeklUYUpw?=
+ =?utf-8?B?R1oya0p0RWRPWmROVkpBcklnbjRBTWM3cVdLVzFHMTFHYmptei9HMUQyVFNN?=
+ =?utf-8?B?azBKd281S29VUE1jMm9nS2RnWTBQQUlwd05iZW1oRFhJNEs4NW5TNDJweHV4?=
+ =?utf-8?B?Wmt4Rk1SKzdXREc5WjlOendnZnFsZENYakovSXNQR3EwamErVENreG9HWitr?=
+ =?utf-8?B?YzdQS0wyRnhmK3daaTJpVnJDYk1rRm0zS25rYmtBWHo0UkUrR0lJcXIyanI5?=
+ =?utf-8?B?c0ZJK0puU1lFRnJKdG5XeWk1NTlDeE80dVZWZ2pRS0NaT3djQ3B1S0xFTFdy?=
+ =?utf-8?B?cFdLMElWUnFYMHdlZ0JjSTNKRi9HNHovTndreUpkNnE4YlU3MFNPZGpTanJ6?=
+ =?utf-8?B?K3dTcU85NmtMWFVDU0pHSXdNNS9kT0VWR3NESXJMSzVsWWN4NnlhM3pVMzEy?=
+ =?utf-8?B?RXZyQUdZSFRFc005VFFEQWJ5dHl1OU9jOWZjbGNVcnZnR3d1NkE2d2wwb2ti?=
+ =?utf-8?B?MlpYRUpoRndVdDdEdGpVNktrcTUreTRYQmFuT3NyNXl0aE5oaU90aGhERnBD?=
+ =?utf-8?B?K1UvbFlyV1YzN2RRVldCWmNZT0hMdmpQc3FBcDEvaE1BTURhdzMydXE3WWZL?=
+ =?utf-8?B?VnpscE4xajVCSUFXV1ZLZW1yY1YwSzdLS21qK3RRc0FrOHhXK0tWbHV5U3NJ?=
+ =?utf-8?B?QlN2b3RjOFVZYzJFb1R3QXpEeGdMTXdydkZZQXlhTWd2cVFMTjBHNldWblIx?=
+ =?utf-8?B?L3pKdDZLNlhscWRNLzJiVGJ0WEIrTHhHbFRSeWV3M3plb3lvVDhlU2pXK3dX?=
+ =?utf-8?B?T2ZVZ3U4Z0wxbFNLN2pwejNQdFNyaXd6UjVqd1hnVnJEQVR0T1NCSm5KT0Er?=
+ =?utf-8?B?VGY5alBQZGJibmhtb3I4U1ZXTExWUmJHS0o1ckppSHNEVVord21tNnZTa2Fm?=
+ =?utf-8?B?VFhLMU0wK1d0T2xyMU9jd2l1Nm45UjFYOU53Mkc0UktxaDhPYzNyNnpJYkly?=
+ =?utf-8?B?QlBVUzYvZDBYZ2w1YnRSVXZvcm9EeUZ5OHJKK2l6aGg2OThna015SDdweERO?=
+ =?utf-8?B?Z1lBVVRwc0tOZXNLTGpGSGNnSFRMdENCelpGNkdOWFRGN2djQnpjTUh6OUZS?=
+ =?utf-8?B?bml2QzlQSzRlWjlBdDNBY1dvWW5kenU5MDgyZ05qbTgxVzdZc05LQmtMRE91?=
+ =?utf-8?B?N0tvSUtYOWFBZDdHVUg5L1U1R3ZxMFA3Z1d6dS9yRGIweXoyc1BYd2NZMDdL?=
+ =?utf-8?B?T1ZrMXl4WGlBZFFaczNoeDlGNDg2dlNJNXBPRlhkcTVKdms1eTRrZWVjOTJl?=
+ =?utf-8?B?WkVZbnFMSkJqRkIzQTJBYitacUdxczRDRFJaZGZQUWI5T3RValgyOHRja3ZG?=
+ =?utf-8?Q?DPE0MIUUXypJ/JQNwAXzG7k=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <6F6A87140D68DF4DB5995699ED477637@namprd05.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <CAMty3ZByw=ZjN3z2UsKj5X5kvrpwCFNUohAnO=O1d29jLPR1Yw@mail.gmail.com>
+X-OriginatorOrg: vmware.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR05MB6624.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b362a844-2a78-4b03-6ed5-08d9adc995e9
+X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Nov 2021 15:05:56.3101 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b39138ca-3cee-4b4a-a4d6-cd83d9dd62f0
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: O99P8PSulqIVI7UEpvZpuPps6iG5s43wxHzQ6tAe95P72pO/0wcy0L6DZhT3Y9EV7WBKWLbxxkggNq8/e0tI0w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BLAPR05MB7348
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,327 +140,151 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <narmstrong@baylibre.com>,
- Robert Foss <robert.foss@linaro.org>, linux-sunxi@googlegroups.com,
- dri-devel@lists.freedesktop.org, Chen-Yu Tsai <wens@csie.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>, linux-amarula@amarulasolutions.com,
- linux-arm-kernel@lists.infradead.org
+Cc: "thomas.hellstrom@linux.intel.com" <thomas.hellstrom@linux.intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Nov 22, 2021 at 07:49:26PM +0530, Jagan Teki wrote:
-> On Mon, Nov 22, 2021 at 7:35 PM Maxime Ripard <maxime@cerno.tech> wrote:
-> > On Mon, Nov 22, 2021 at 07:18:13PM +0530, Jagan Teki wrote:
-> > > On Mon, Nov 22, 2021 at 3:37 PM Maxime Ripard <maxime@cerno.tech> wro=
-te:
-> > > >
-> > > > On Mon, Nov 22, 2021 at 12:22:19PM +0530, Jagan Teki wrote:
-> > > > > Some display panels would come up with a non-DSI output, those
-> > > > > can have an option to connect the DSI host by means of interface
-> > > > > bridge converter.
-> > > > >
-> > > > > This DSI to non-DSI interface bridge converter would requires
-> > > > > DSI Host to handle drm bridge functionalities in order to DSI
-> > > > > Host to Interface bridge.
-> > > >
-> > > > In order to do this you would need to use the DRM bridge API...
-> > >
-> > > Sorry, which bridge API do you mean?
-> >
-> > Any variant of of_drm_find_bridge, and drm_bridge_attach. Just like
-> > we're doing in sun4i_rgb.c
->=20
-> Yes, we have drm_bridge_attach in bind and bridge_function.attach
-> calls in this patch and of_drm_find_bridge in sun6i_mipi_dsi_attach.
-> Not sure which API's I've missed.
-
-None, that's my point, you don't need anything else in order to do what
-you wanted to achieve.
-
-> >
-> > > > > This patch convert the existing to a drm bridge driver with a
-> > > > > built-in encoder support for compatibility with existing
-> > > > > component drivers.
-> > > >
-> > > > ... but changing the encoder driver to a bridge is completely
-> > > > unnecessary to do so. Why did you need to make that change?
-> > >
-> > > Idea of this series is to convert the driver to bridge and use the
-> > > latest bridge function from the v1 series.
-> >
-> > Ok, but it's not at all what you mention in your commit log? You don't
-> > need any of that in order to support a bridge downstream.
->=20
-> I've mentioned "Converting to bridge driver" and thought it has
-> meaning of converting encoder related function to bridge functions as
-> well. Not think about specific description to describe on commit
-> message. Will update this.
-
-But you provided no reason to do so. The only one you did mention was
-that you wanted to support downstream bridges, but you don't need to
-convert the DSI driver to a bridge in order to do that.
-
-> > > > > Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
-> > > > >
-> > > > > ---
-> > > > > Changes for v5:
-> > > > > - add atomic APIs
-> > > > > - find host and device variant DSI devices.
-> > > > > Changes for v4, v3:
-> > > > > - none
-> > > > >
-> > > > >  drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c | 112 +++++++++++++++++++=
-+-----
-> > > > >  drivers/gpu/drm/sun4i/sun6i_mipi_dsi.h |   7 ++
-> > > > >  2 files changed, 96 insertions(+), 23 deletions(-)
-> > > > >
-> > > > > diff --git a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c b/drivers/gpu=
-/drm/sun4i/sun6i_mipi_dsi.c
-> > > > > index 43d9c9e5198d..a6a272b55f77 100644
-> > > > > --- a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
-> > > > > +++ b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
-> > > > > @@ -21,6 +21,7 @@
-> > > > >
-> > > > >  #include <drm/drm_atomic_helper.h>
-> > > > >  #include <drm/drm_mipi_dsi.h>
-> > > > > +#include <drm/drm_of.h>
-> > > > >  #include <drm/drm_panel.h>
-> > > > >  #include <drm/drm_print.h>
-> > > > >  #include <drm/drm_probe_helper.h>
-> > > > > @@ -713,10 +714,11 @@ static int sun6i_dsi_start(struct sun6i_dsi=
- *dsi,
-> > > > >       return 0;
-> > > > >  }
-> > > > >
-> > > > > -static void sun6i_dsi_encoder_enable(struct drm_encoder *encoder)
-> > > > > +static void sun6i_dsi_bridge_atomic_enable(struct drm_bridge *br=
-idge,
-> > > > > +                                        struct drm_bridge_state =
-*old_bridge_state)
-> > > > >  {
-> > > > > -     struct drm_display_mode *mode =3D &encoder->crtc->state->ad=
-justed_mode;
-> > > > > -     struct sun6i_dsi *dsi =3D encoder_to_sun6i_dsi(encoder);
-> > > > > +     struct sun6i_dsi *dsi =3D bridge_to_sun6i_dsi(bridge);
-> > > > > +     struct drm_display_mode *mode =3D &bridge->encoder->crtc->s=
-tate->adjusted_mode;
-> > > > >       struct mipi_dsi_device *device =3D dsi->device;
-> > > > >       union phy_configure_opts opts =3D { };
-> > > > >       struct phy_configure_opts_mipi_dphy *cfg =3D &opts.mipi_dph=
-y;
-> > > > > @@ -772,6 +774,9 @@ static void sun6i_dsi_encoder_enable(struct d=
-rm_encoder *encoder)
-> > > > >       if (dsi->panel)
-> > > > >               drm_panel_prepare(dsi->panel);
-> > > > >
-> > > > > +     if (dsi->next_bridge)
-> > > > > +             dsi->next_bridge->funcs->atomic_pre_enable(dsi->nex=
-t_bridge, old_bridge_state);
-> > > > > +
-> > > >
-> > > > Please use the proper helpers.
-> > >
-> > > If we use bridge_functions we need to take atomic functions as
-> > > precedence as the next bridge functions might convert atomic calls.
-> >
-> > We've had this discussion over and over again, but this is something
-> > that needs to be documented and / or in your commit log.
-> >
-> > You must not deviate from the standard (and expected) behavior without
-> > any kind of justification.
->=20
-> Not exactly sure about what you mean, sorry. All these atomic bridge
-> functions are already documented if I'm not wrong and Laurent have
-> patches to switch the normal functions to atomic. Not sure what else
-> need to document here and need justification for it if the driver is
-> converting to bridge.
-
-There's two separate bridge in that discussion: the DSI controller
-itself that you convert to a bridge, and the downstream DSI -> whatever
-bridge.
-
-The atomic functions in the "DSI controller bridge" are fine. But that
-comment was about calling the downstream bridge ops directly from the
-driver, which is something that no other driver is doing, deviates from
-the expectations, and you didn't provide any explanation for that.
-
-> >
-> > > >
-> > > > >       /*
-> > > > >        * FIXME: This should be moved after the switch to HS mode.
-> > > > >        *
-> > > > > @@ -787,6 +792,9 @@ static void sun6i_dsi_encoder_enable(struct d=
-rm_encoder *encoder)
-> > > > >       if (dsi->panel)
-> > > > >               drm_panel_enable(dsi->panel);
-> > > > >
-> > > > > +     if (dsi->next_bridge)
-> > > > > +             dsi->next_bridge->funcs->atomic_enable(dsi->next_br=
-idge, old_bridge_state);
-> > > > > +
-> > > >
-> > > > Ditto
-> > > >
-> > > > >       sun6i_dsi_start(dsi, DSI_START_HSC);
-> > > > >
-> > > > >       udelay(1000);
-> > > > > @@ -794,15 +802,19 @@ static void sun6i_dsi_encoder_enable(struct=
- drm_encoder *encoder)
-> > > > >       sun6i_dsi_start(dsi, DSI_START_HSD);
-> > > > >  }
-> > > > >
-> > > > > -static void sun6i_dsi_encoder_disable(struct drm_encoder *encode=
-r)
-> > > > > +static void sun6i_dsi_bridge_atomic_disable(struct drm_bridge *b=
-ridge,
-> > > > > +                                         struct drm_bridge_state=
- *old_bridge_state)
-> > > > >  {
-> > > > > -     struct sun6i_dsi *dsi =3D encoder_to_sun6i_dsi(encoder);
-> > > > > +     struct sun6i_dsi *dsi =3D bridge_to_sun6i_dsi(bridge);
-> > > > >
-> > > > >       DRM_DEBUG_DRIVER("Disabling DSI output\n");
-> > > > >
-> > > > >       if (dsi->panel) {
-> > > > >               drm_panel_disable(dsi->panel);
-> > > > >               drm_panel_unprepare(dsi->panel);
-> > > > > +     } else if (dsi->next_bridge) {
-> > > > > +             dsi->next_bridge->funcs->atomic_disable(dsi->next_b=
-ridge, old_bridge_state);
-> > > > > +             dsi->next_bridge->funcs->atomic_post_disable(dsi->n=
-ext_bridge, old_bridge_state);
-> > > >
-> > > > Ditto
-> > > >
-> > > > >       }
-> > > > >
-> > > > >       phy_power_off(dsi->dphy);
-> > > > > @@ -842,9 +854,25 @@ static const struct drm_connector_funcs sun6=
-i_dsi_connector_funcs =3D {
-> > > > >       .atomic_destroy_state   =3D drm_atomic_helper_connector_des=
-troy_state,
-> > > > >  };
-> > > > >
-> > > > > -static const struct drm_encoder_helper_funcs sun6i_dsi_enc_helpe=
-r_funcs =3D {
-> > > > > -     .disable        =3D sun6i_dsi_encoder_disable,
-> > > > > -     .enable         =3D sun6i_dsi_encoder_enable,
-> > > > > +static int sun6i_dsi_bridge_attach(struct drm_bridge *bridge,
-> > > > > +                                enum drm_bridge_attach_flags fla=
-gs)
-> > > > > +{
-> > > > > +     struct sun6i_dsi *dsi =3D bridge_to_sun6i_dsi(bridge);
-> > > > > +
-> > > > > +     if (dsi->next_bridge)
-> > > > > +             return drm_bridge_attach(bridge->encoder, dsi->next=
-_bridge,
-> > > > > +                                      NULL, 0);
-> > > > > +
-> > > > > +     return 0;
-> > > > > +}
-> > > > > +
-> > > > > +static const struct drm_bridge_funcs sun6i_dsi_bridge_funcs =3D {
-> > > > > +     .atomic_duplicate_state =3D drm_atomic_helper_bridge_duplic=
-ate_state,
-> > > > > +     .atomic_destroy_state   =3D drm_atomic_helper_bridge_destro=
-y_state,
-> > > > > +     .atomic_reset           =3D drm_atomic_helper_bridge_reset,
-> > > > > +     .atomic_enable          =3D sun6i_dsi_bridge_atomic_enable,
-> > > > > +     .atomic_disable         =3D sun6i_dsi_bridge_atomic_disable,
-> > > > > +     .attach                 =3D sun6i_dsi_bridge_attach,
-> > > > >  };
-> > > > >
-> > > > >  static u32 sun6i_dsi_dcs_build_pkt_hdr(struct sun6i_dsi *dsi,
-> > > > > @@ -966,8 +994,6 @@ static int sun6i_dsi_bind(struct device *dev,=
- struct device *master,
-> > > > >       struct sun6i_dsi *dsi =3D dev_get_drvdata(dev);
-> > > > >       int ret;
-> > > > >
-> > > > > -     drm_encoder_helper_add(&dsi->encoder,
-> > > > > -                            &sun6i_dsi_enc_helper_funcs);
-> > > > >       ret =3D drm_simple_encoder_init(drm, &dsi->encoder,
-> > > > >                                     DRM_MODE_ENCODER_DSI);
-> > > > >       if (ret) {
-> > > > > @@ -976,18 +1002,26 @@ static int sun6i_dsi_bind(struct device *d=
-ev, struct device *master,
-> > > > >       }
-> > > > >       dsi->encoder.possible_crtcs =3D BIT(0);
-> > > > >
-> > > > > -     drm_connector_helper_add(&dsi->connector,
-> > > > > -                              &sun6i_dsi_connector_helper_funcs);
-> > > > > -     ret =3D drm_connector_init(drm, &dsi->connector,
-> > > > > -                              &sun6i_dsi_connector_funcs,
-> > > > > -                              DRM_MODE_CONNECTOR_DSI);
-> > > > > +     ret =3D drm_bridge_attach(&dsi->encoder, &dsi->bridge, NULL=
-, 0);
-> > > > >       if (ret) {
-> > > > > -             dev_err(dsi->dev,
-> > > > > -                     "Couldn't initialise the DSI connector\n");
-> > > > > +             dev_err(dsi->dev, "Couldn't attach drm bridge\n");
-> > > > >               goto err_cleanup_connector;
-> > > > >       }
-> > > > >
-> > > > > -     drm_connector_attach_encoder(&dsi->connector, &dsi->encoder=
-);
-> > > > > +     if (dsi->panel) {
-> > > > > +             drm_connector_helper_add(&dsi->connector,
-> > > > > +                                      &sun6i_dsi_connector_helpe=
-r_funcs);
-> > > > > +             ret =3D drm_connector_init(drm, &dsi->connector,
-> > > > > +                                      &sun6i_dsi_connector_funcs,
-> > > > > +                                      DRM_MODE_CONNECTOR_DSI);
-> > > > > +             if (ret) {
-> > > > > +                     dev_err(dsi->dev,
-> > > > > +                             "Couldn't initialise the DSI connec=
-tor\n");
-> > > > > +                     goto err_cleanup_connector;
-> > > > > +             }
-> > > > > +
-> > > > > +             drm_connector_attach_encoder(&dsi->connector, &dsi-=
->encoder);
-> > > > > +     }
-> > > > >
-> > > > >       return 0;
-> > > > >
-> > > > > @@ -1013,16 +1047,46 @@ static int sun6i_dsi_attach(struct mipi_d=
-si_host *host,
-> > > > >                           struct mipi_dsi_device *device)
-> > > > >  {
-> > > > >       struct sun6i_dsi *dsi =3D host_to_sun6i_dsi(host);
-> > > > > -     struct drm_panel *panel =3D of_drm_find_panel(device->dev.o=
-f_node);
-> > > > > +     struct device_node *remote =3D device->dev.of_node;
-> > > > >       int ret;
-> > > > >
-> > > > > -     if (IS_ERR(panel))
-> > > > > -             return PTR_ERR(panel);
-> > > > > +     if (!of_device_is_available(remote)) {
-> > > > > +             /**
-> > > > > +              * I2C interfaced DSI bridges will register DSI hos=
-t on the
-> > > > > +              * bridge drivers instead of conventional device.
-> > > > > +              *
-> > > > > +              * Those are probed via host of_node instead of dev=
-ice of_node.
-> > > > > +              */
-> > > >
-> > > > I have no idea what you mean here. Can you expand on what issue you=
-'ve
-> > > > tried to solve here?
-> > >
-> > > I2C interface DSI bridges will register DSI host on the bridge
-> > > drivers.
-> >
-> > DSI bridges don't register a DSI host.
->=20
-> Please check what I mean here,
-> https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/=
-drivers/gpu/drm/bridge/ti-sn65dsi83.c#n623
->=20
-> I've tested it anyway, if you have any relevant one please check as well.
-
-That driver doesn't register a DSI Host though? It registers a DSI
-device
-
-Maxime
+T24gTW9uLCAyMDIxLTExLTIyIGF0IDE1OjE1ICswMTAwLCBDaHJpc3RpYW4gS8O2bmlnIHdyb3Rl
+Og0KPiBBbSAxNi4xMS4yMSB1bSAxNjo1MyBzY2hyaWViIFphY2sgUnVzaW46DQo+ID4gPiBPbiBO
+b3YgMTYsIDIwMjEsIGF0IDAzOjIwLCBDaHJpc3RpYW4gS8O2bmlnDQo+ID4gPiA8Y2hyaXN0aWFu
+LmtvZW5pZ0BhbWQuY29tPiB3cm90ZToNCj4gPiA+IA0KPiA+ID4gQW0gMTYuMTEuMjEgdW0gMDg6
+NDMgc2NocmllYiBUaG9tYXMgSGVsbHN0csO2bToNCj4gPiA+ID4gT24gMTEvMTYvMjEgMDg6MTks
+IENocmlzdGlhbiBLw7ZuaWcgd3JvdGU6DQo+ID4gPiA+ID4gQW0gMTMuMTEuMjEgdW0gMTI6MjYg
+c2NocmllYiBUaG9tYXMgSGVsbHN0csO2bToNCj4gPiA+ID4gPiA+IEhpLCBaYWNrLA0KPiA+ID4g
+PiA+ID4gDQo+ID4gPiA+ID4gPiBPbiAxMS8xMS8yMSAxNzo0NCwgWmFjayBSdXNpbiB3cm90ZToN
+Cj4gPiA+ID4gPiA+ID4gT24gV2VkLCAyMDIxLTExLTEwIGF0IDA5OjUwIC0wNTAwLCBaYWNrIFJ1
+c2luIHdyb3RlOg0KPiA+ID4gPiA+ID4gPiA+IFRUTSB0YWtlcyBmdWxsIGNvbnRyb2wgb3ZlciBU
+VE1fUExfU1lTVEVNIHBsYWNlZA0KPiA+ID4gPiA+ID4gPiA+IGJ1ZmZlcnMuIFRoaXMgbWFrZXMN
+Cj4gPiA+ID4gPiA+ID4gPiBkcml2ZXIgaW50ZXJuYWwgdXNhZ2Ugb2YgVFRNX1BMX1NZU1RFTSBw
+cm9uZSB0byBlcnJvcnMNCj4gPiA+ID4gPiA+ID4gPiBiZWNhdXNlIGl0DQo+ID4gPiA+ID4gPiA+
+ID4gcmVxdWlyZXMgdGhlIGRyaXZlcnMgdG8gbWFudWFsbHkgaGFuZGxlIGFsbA0KPiA+ID4gPiA+
+ID4gPiA+IGludGVyYWN0aW9ucyBiZXR3ZWVuIFRUTQ0KPiA+ID4gPiA+ID4gPiA+IHdoaWNoIGNh
+biBzd2FwIG91dCB0aG9zZSBidWZmZXJzIHdoZW5ldmVyIGl0IHRoaW5rcw0KPiA+ID4gPiA+ID4g
+PiA+IGl0J3MgdGhlIHJpZ2h0DQo+ID4gPiA+ID4gPiA+ID4gdGhpbmcgdG8gZG8gYW5kIGRyaXZl
+ci4NCj4gPiA+ID4gPiA+ID4gPiANCj4gPiA+ID4gPiA+ID4gPiBDUFUgYnVmZmVycyB3aGljaCBu
+ZWVkIHRvIGJlIGZlbmNlZCBhbmQgc2hhcmVkIHdpdGgNCj4gPiA+ID4gPiA+ID4gPiBhY2NlbGVy
+YXRvcnMNCj4gPiA+ID4gPiA+ID4gPiBzaG91bGQNCj4gPiA+ID4gPiA+ID4gPiBiZSBwbGFjZWQg
+aW4gZHJpdmVyIHNwZWNpZmljIHBsYWNlbWVudHMgdGhhdCBjYW4NCj4gPiA+ID4gPiA+ID4gPiBl
+eHBsaWNpdGx5IGhhbmRsZQ0KPiA+ID4gPiA+ID4gPiA+IENQVS9hY2NlbGVyYXRvciBidWZmZXIg
+ZmVuY2luZy4NCj4gPiA+ID4gPiA+ID4gPiBDdXJyZW50bHksIGFwYXJ0LCBmcm9tIHRoaW5ncyBz
+aWxlbnRseSBmYWlsaW5nIG5vdGhpbmcNCj4gPiA+ID4gPiA+ID4gPiBpcyBlbmZvcmNpbmcNCj4g
+PiA+ID4gPiA+ID4gPiB0aGF0IHJlcXVpcmVtZW50IHdoaWNoIG1lYW5zIHRoYXQgaXQncyBlYXN5
+IGZvciBkcml2ZXJzDQo+ID4gPiA+ID4gPiA+ID4gYW5kIG5ldw0KPiA+ID4gPiA+ID4gPiA+IGRl
+dmVsb3BlcnMgdG8gZ2V0IHRoaXMgd3JvbmcuIFRvIGF2b2lkIHRoZSBjb25mdXNpb24gd2UNCj4g
+PiA+ID4gPiA+ID4gPiBjYW4gZG9jdW1lbnQNCj4gPiA+ID4gPiA+ID4gPiB0aGlzIHJlcXVpcmVt
+ZW50IGFuZCBjbGFyaWZ5IHRoZSBzb2x1dGlvbi4NCj4gPiA+ID4gPiA+ID4gPiANCj4gPiA+ID4g
+PiA+ID4gPiBUaGlzIGNhbWUgdXAgZHVyaW5nIGEgZGlzY3Vzc2lvbiBvbiBkcmktZGV2ZWw6DQo+
+ID4gPiA+ID4gPiA+ID4gaHR0cHM6Ly9uYW0wNC5zYWZlbGlua3MucHJvdGVjdGlvbi5vdXRsb29r
+LmNvbS8/dXJsPWh0dHBzJTNBJTJGJTJGbG9yZS5rZXJuZWwub3JnJTJGZHJpLWRldmVsJTJGMjMy
+ZjQ1ZTktODc0OC0xMjQzLTA5YmYtNTY3NjNlNjY2OGIzJTQwYW1kLmNvbSZhbXA7ZGF0YT0wNCU3
+QzAxJTdDemFja3IlNDB2bXdhcmUuY29tJTdDMDg0Mzg5ZDhhY2MwNGZmZGJiYjgwOGQ5YWRjMjhj
+ZmUlN0NiMzkxMzhjYTNjZWU0YjRhYTRkNmNkODNkOWRkNjJmMCU3QzAlN0MwJTdDNjM3NzMxODcz
+Mzc5NDI5NzI1JTdDVW5rbm93biU3Q1RXRnBiR1pzYjNkOGV5SldJam9pTUM0d0xqQXdNREFpTENK
+UUlqb2lWMmx1TXpJaUxDSkJUaUk2SWsxaGFXd2lMQ0pYVkNJNk1uMCUzRCU3QzMwMDAmYW1wO3Nk
+YXRhPWFoSG03SFY5VlBBaGZCS3NrOXhPQmNuT2JzSlhIdlZBYkNkRWhKJTJCakpZVSUzRCZhbXA7
+cmVzZXJ2ZWQ9MA0KPiA+ID4gPiA+ID4gSSB0b29rIGEgc2xpZ2h0bHkgZGVlcGVyIGxvb2sgaW50
+byB0aGlzLiBJIHRoaW5rIHdlIG5lZWQgdG8NCj4gPiA+ID4gPiA+IGZvcm1hbGl6ZSB0aGlzIGEg
+Yml0IG1vcmUgdG8gdW5kZXJzdGFuZCBwcm9zIGFuZCBjb25zIGFuZA0KPiA+ID4gPiA+ID4gd2hh
+dCB0aGUgcmVzdHJpY3Rpb25zIGFyZSByZWFsbHkgYWxsIGFib3V0LiBBbnlib2R5IGxvb2tpbmcN
+Cj4gPiA+ID4gPiA+IGF0IHRoZSBwcmV2b3VzIGRpc2N1c3Npb24gd2lsbCBtb3N0bHkgc2VlIGFy
+Z3VtZW50cyBzaW1pbGFyDQo+ID4gPiA+ID4gPiB0byAidGhpcyBpcyBzdHVwaWQgYW5kIGRpZmZp
+Y3VsdCIgYW5kICJpdCBoYXMgYWx3YXlzIGJlZW4NCj4gPiA+ID4gPiA+IHRoaXMgd2F5IiB3aGlj
+aCBhcmUgbm90IHJlYWxseSBjb25zdHJ1Y3RpdmUuDQo+ID4gPiA+ID4gPiANCj4gPiA+ID4gPiA+
+IEZpcnN0IGRpc3JlZ2FyZGluZyBhbGwgYWNjb3VudGluZyBzdHVmZiwgSSB0aGluayB0aGlzIGFs
+bA0KPiA+ID4gPiA+ID4gYm9pbHMgZG93biB0byBUVE1fUExfU1lTVEVNIGhhdmluZyB0aHJlZSBk
+aXN0aW5jdCBzdGF0ZXM6DQo+ID4gPiA+ID4gPiAxKSBQT1BVTEFURUQNCj4gPiA+ID4gPiA+IDIp
+IExJTUJPIChPciB3aGF0ZXZlciB3ZSB3YW50IHRvIGNhbGwgaXQuIE5vIHBhZ2VzIHByZXNlbnQp
+DQo+ID4gPiA+ID4gPiAzKSBTV0FQUEVELg0KPiA+ID4gPiA+ID4gDQo+ID4gPiA+ID4gPiBUaGUg
+dHRtX2JvX21vdmVfbWVtY3B5KCkgaGVscGVyIHVuZGVyc3RhbmRzIHRoZXNlLCBhbmQgYW55DQo+
+ID4gPiA+ID4gPiBzdGFuZGFsb25lIGRyaXZlciBpbXBsZW1lbnRhdGlvbiBvZiB0aGUgbW92ZSgp
+IGNhbGxiYWNrDQo+ID4gPiA+ID4gPiBfY3VycmVudGx5XyBuZWVkcyB0byB1bmRlcnN0YW5kIHRo
+ZXNlIGFzIHdlbGwsIHVubGVzcyB1c2luZw0KPiA+ID4gPiA+ID4gdGhlIHR0bV9ib19tb3ZlX21l
+bWNweSgpIGhlbHBlci4NCj4gPiA+ID4gPiA+IA0KPiA+ID4gPiA+ID4gTm93IHVzaW5nIGEgYm91
+bmNlIGRvbWFpbiB0byBwcm94eSBTWVNURU0gbWVhbnMgdGhhdCB0aGUNCj4gPiA+ID4gPiA+IGRy
+aXZlciBjYW4gZm9yZ2V0IGFib3V0IHRoZSBTV0FQUEVEIHN0YXRlLCBpdCdzDQo+ID4gPiA+ID4g
+PiBhdXRvbWF0aWNhbGx5IGhhbmRsZWQgYnkgdGhlIG1vdmUgc2V0dXAgY29kZS4gSG93ZXZlciwN
+Cj4gPiA+ID4gPiA+IGFub3RoZXIgcGl0ZmFsbCBpcyBMSU1CTywgaW4gdGhhdCBpZiB3aGVuIHlv
+dSBtb3ZlIGZyb20NCj4gPiA+ID4gPiA+IFNZU1RFTS9MSU1CTyB0byB5b3VyIGJvdW5jZSBkb21h
+aW4sIHRoZSBCTyB3aWxsIGJlDQo+ID4gPiA+ID4gPiBwb3B1bGF0ZWQuIFNvIGFueSBuYWl2ZSBh
+Y2NlbGVyYXRlZCBtb3ZlKCkgaW1wbGVtZW50YXRpb24NCj4gPiA+ID4gPiA+IGNyZWF0aW5nIGEg
+MUdCIEJPIGluIGZpeGVkIG1lbW9yeSwgbGlrZSBWUkFNLCB3aWxsDQo+ID4gPiA+ID4gPiBuZWVk
+bGVzc2x5IGFsbG9jYXRlIGFuZCBmcmVlIDFHQiBvZiBzeXN0ZW0gbWVtb3J5IGluIHRoZQ0KPiA+
+ID4gPiA+ID4gcHJvY2VzcyBpbnN0ZWFkIG9mIGp1c3QgcGVyZm9ybWluZyBhIGNsZWFyIG9wZXJh
+dGlvbi4gTG9va3MNCj4gPiA+ID4gPiA+IGxpa2UgYW1kZ3B1IHN1ZmZlcnMgZnJvbSB0aGlzPw0K
+PiA+ID4gPiA+ID4gDQo+ID4gPiA+ID4gPiBJIHRoaW5rIHdoYXQgaXMgcmVhbGx5IG5lZWRlZCBp
+cyBlaXRoZXINCj4gPiA+ID4gPiA+IA0KPiA+ID4gPiA+ID4gYSkgQSBUVE0gaGVscGVyIHRoYXQg
+aGVscHMgbW92ZSBjYWxsYmFjayBpbXBsZW1lbnRhdGlvbnMNCj4gPiA+ID4gPiA+IHJlc29sdmUg
+dGhlIGlzc3VlcyBwb3B1bGF0aW5nIHN5c3RlbSBmcm9tIExJTUJPIG9yIFNXQVAsDQo+ID4gPiA+
+ID4gPiBhbmQgdGhlbiBhbHNvIGZvcm1hbGl6ZSBkcml2ZXIgbm90aWZpY2F0aW9uIGZvciBzd2Fw
+cGluZy4NCj4gPiA+ID4gPiA+IEF0IGEgbWluaW11bSwgSSB0aGluayB0aGUgc3dhcF9ub3RpZnko
+KSBjYWxsYmFjayBuZWVkcyB0bw0KPiA+ID4gPiA+ID4gYmUgYWJsZSB0byByZXR1cm4gYSBsYXRl
+IGVycm9yLg0KPiA+ID4gPiA+ID4gDQo+ID4gPiA+ID4gPiBiKSBNYWtlIExJTUJPIGFuZCBTV0FQ
+UEVEIGRpc3RpbmN0IG1lbW9yeSByZWdpb25zLiAoSSB0aGluaw0KPiA+ID4gPiA+ID4gSSdkIHZv
+dGUgZm9yIHRoaXMgd2l0aG91dCBsb29raW5nIGludG8gaXQgaW4gZGV0YWlsKS4NCj4gPiA+ID4g
+PiA+IA0KPiA+ID4gPiA+ID4gSW4gYm90aCB0aGVzZSBjYXNlcywgd2Ugc2hvdWxkIHJlYWxseSBt
+YWtlIFNZU1RFTSBiaW5kYWJsZQ0KPiA+ID4gPiA+ID4gYnkgR1BVLCBvdGhlcndpc2Ugd2UnZCBq
+dXN0IGJlIHRyYWRpbmcgb25lIHBpdGZhbGwgZm9yDQo+ID4gPiA+ID4gPiBhbm90aGVyIHJlbGF0
+ZWQgd2l0aG91dCByZWFsbHkgcmVzb2x2aW5nIHRoZSByb290IHByb2JsZW0uDQo+ID4gPiA+ID4g
+PiANCj4gPiA+ID4gPiA+IEFzIGZvciBmZW5jaW5nIG5vdCBiZWluZyBzdXBwb3J0ZWQgYnkgU1lT
+VEVNLCBJJ20gbm90IHN1cmUNCj4gPiA+ID4gPiA+IHdoeSB3ZSBkb24ndCB3YW50IHRoaXMsIGJl
+Y2F1c2UgaXQgd291bGQgZm9yIGV4YW1wbGUNCj4gPiA+ID4gPiA+IHByb2hpYml0IGFzeW5jIHR0
+bV9tb3ZlX21lbWNweSgpLCBhbmQgYWxzbywgYXN5bmMgdW5iaW5kaW5nDQo+ID4gPiA+ID4gPiBv
+ZiB0dG1fdHQgbWVtb3J5IGxpa2UgTU9CIG9uIHZtZ2Z4LiAoSSB0aGluayBpdCdzIHN0aWxsDQo+
+ID4gPiA+ID4gPiBzeW5jKS4NCj4gPiA+ID4gPiA+IA0KPiA+ID4gPiA+ID4gVGhlcmUgbWlnaHQg
+YmUgYW4gYWNjb3VudGluZyBpc3N1ZSByZWxhdGVkIHRvIHRoaXMgYXMgd2VsbCwNCj4gPiA+ID4g
+PiA+IGJ1dCBJIGd1ZXNzIENocmlzdGlhbiB3b3VsZCBuZWVkIHRvIGNoaW1lIGluIG9uIHRoaXMu
+IElmDQo+ID4gPiA+ID4gPiBzbywgSSB0aGluayBpdCBuZWVkcyB0byBiZSB3ZWxsIHVuZGVyc3Rv
+b2QgYW5kIGRvY3VtZW50ZWQNCj4gPiA+ID4gPiA+IChpbiBUVE0sIG5vdCBpbiBBTUQgZHJpdmVy
+cykuDQo+ID4gPiA+ID4gSSB0aGluayB0aGUgcHJvYmxlbSBnb2VzIGRlZXBlciB0aGFuIHdoYXQg
+aGFzIGJlZW4gbWVudGlvbmVkDQo+ID4gPiA+ID4gaGVyZSBzbyBmYXIuDQo+ID4gPiA+ID4gDQo+
+ID4gPiA+ID4gSGF2aW5nIGZlbmNlcyBhdHRhY2hlZCB0byBCT3MgaW4gdGhlIHN5c3RlbSBkb21h
+aW4gaXMNCj4gPiA+ID4gPiBwcm9iYWJseSBvaywgYnV0IHRoZSBrZXkgcG9pbnQgaXMgdGhhdCB0
+aGUgQk9zIGluIHRoZSBzeXN0ZW0NCj4gPiA+ID4gPiBkb21haW4gYXJlIHVuZGVyIFRUTXMgY29u
+dHJvbCBhbmQgc2hvdWxkIG5vdCBiZSB0b3VjaGVkIGJ5DQo+ID4gPiA+ID4gdGhlIGRyaXZlci4N
+Cj4gPiA+ID4gPiANCj4gPiA+ID4gPiBXaGF0IHdlIGhhdmUgbm93IGlzIHRoYXQgVFRNcyBpbnRl
+cm5hbHMgbGlrZSB0aGUgYWxsb2NhdGlvbg0KPiA+ID4gPiA+IHN0YXRlIG9mIEJPcyBpbiBzeXN0
+ZW0gbWVtb3J5ICh0aGUgcG9wdWxhdGVkLCBsaW1ibywgc3dhcHBlZA0KPiA+ID4gPiA+IHlvdSBt
+ZW50aW9uZWQgYWJvdmUpIGlzIGxlYWtpbmcgaW50byB0aGUgZHJpdmVycyBhbmQgSSB0aGluaw0K
+PiA+ID4gPiA+IGV4YWN0bHkgdGhhdCBpcyB0aGUgcGFydCB3aGljaCBkb2Vzbid0IHdvcmsgcmVs
+aWFibGUgaGVyZS4NCj4gPiA+ID4gPiBZb3UgY2FuIG9mIGNvdXJzZSBjYW4gZ2V0IHRoYXQgd29y
+a2luZywgYnV0IHRoYXQgcmVxdWlyZXMNCj4gPiA+ID4gPiBrbm93bGVkZ2Ugb2YgdGhlIGludGVy
+bmFsIHN0YXRlIHdoaWNoIGluIG15IGV5ZXMgd2FzIGFsd2F5cw0KPiA+ID4gPiA+IGlsbGVnYWwu
+DQo+ID4gPiA+ID4gDQo+ID4gPiA+IFdlbGwsIEkgdGVuZCB0byBhZ3JlZSB0byBzb21lIGV4dGVu
+dCwgYnV0IHRoZW4sIGxpa2Ugc2FpZCBhYm92ZQ0KPiA+ID4gPiBldmVuIGRpc3JlZ2FyZGluZyBz
+d2FwIHdpbGwgY2F1c2UgdHJvdWJsZSB3aXRoIHRoZSBsaW1ibyBzdGF0ZSwNCj4gPiA+ID4gYmVj
+YXVzZSB0aGUgZHJpdmVyJ3MgbW92ZSBjYWxsYmFjayB3b3VsZCBuZWVkIGtub3dsZWRnZSBvZiB0
+aGF0DQo+ID4gPiA+IHRvIGltcGxlbWVudCBtb3ZlcyBsaW1ibyAtPiB2cmFtIGVmZmljaWVudGx5
+Lg0KPiA+ID4gV2VsbCBteSBsb25nIHRlcm0gcGxhbiBpcyB0byBhdWRpdCB0aGUgY29kZSBiYXNl
+IG9uY2UgbW9yZSBhbmQNCj4gPiA+IHJlbW92ZSB0aGUgbGltYm8gc3RhdGUgZnJvbSB0aGUgU1lT
+VEVNIGRvbWFpbi4NCj4gPiA+IA0KPiA+ID4gRS5nLiBpbnN0ZWFkIG9mIGEgU1lTVEVNIEJPIHdp
+dGhvdXQgcGFnZXMgeW91IGFsbG9jYXRlIGEgQk8NCj4gPiA+IHdpdGhvdXQgYSByZXNvdXJjZSBp
+biBnZW5lcmFsIHdoaWNoIGlzIG5vdyBwb3NzaWJsZSBzaW5jZSBiby0NCj4gPiA+ID5yZXNvdXJj
+ZSBpcyBhIHBvaW50ZXIuDQo+ID4gPiANCj4gPiA+IFRoaXMgd291bGQgc3RpbGwgYWxsb3cgdXMg
+dG8gYWxsb2NhdGUgImVtcHR5IHNoZWxsIiBCT3MuIEJ1dCBhDQo+ID4gPiB2YWxpZGF0aW9uIG9m
+IHRob3NlIEJPcyBkb2Vzbid0IGNhdXNlIGEgbW92ZSwgYnV0IHJhdGhlciBqdXN0DQo+ID4gPiBh
+bGxvY2F0ZXMgdGhlIHJlc291cmNlIGZvciB0aGUgZmlyc3QgdGltZS4NCj4gPiA+IA0KPiA+ID4g
+VGhlIHByb2JsZW0gc28gZmFyIHdhcyBqdXN0IHRoYXQgd2UgYWNjZXNzIGJvLT5yZXNvdXJjZSB3
+YXkgdG8NCj4gPiA+IG9mdGVuIHdpdGhvdXQgY2hlY2tpbmcgaXQuDQo+ID4gU28gYWxsIGluIGFs
+bCB0aGlzIHdvdWxkIGJlIGEgdHdvIHN0ZXAgcHJvY2VzcyAxKSBFbGltaW5hdGUgdGhlDQo+ID4g
+4oCcbGltYm/igJ0gc3RhdGUsIDIpIFNwbGl0IFBMX1NZU1RFTSBpbnRvIFBMX1NZU1RFTSwgdGhh
+dCBkcml2ZXJzDQo+ID4gY291bGQgdXNlIGZvciByZWFsbHkgYW55dGhpbmcsIGFuZCBQTF9TV0FQ
+IHdoaWNoIHdvdWxkIGJlIHVuZGVyDQo+ID4gY29tcGxldGUgVFRNIGNvbnRyb2wsIHllcz8gSWYg
+dGhhdOKAmXMgdGhlIGNhc2UgdGhhdCB3b3VsZCBjZXJ0YWlubHkNCj4gPiBtYWtlIG15IGxpZmUg
+YSBsb3QgZWFzaWVyIChiZWNhdXNlIHRoZSBkcml2ZXJzIHdvdWxkbuKAmXQgbmVlZCB0bw0KPiA+
+IGludHJvZHVjZS9tYW5hZ2UgdGhlaXIgb3duIHN5c3RlbSBwbGFjZW1lbnRzKSBhbmQgSSB0aGlu
+ayBpdCB3b3VsZA0KPiA+IG1ha2UgdGhlIGNvZGUgYSBsb3QgZWFzaWVyIHRvIHVuZGVyc3RhbmQu
+DQo+IA0KPiBXZSBhbHNvIGhhdmUgYSBjb3VwbGUgb2Ygb3RoZXIgdXNlIGNhc2VzIGZvciB0aGlz
+LCB5ZXMuDQo+IA0KPiA+IFRoYXTigJlzIGEgYml0IG9mIHdvcmsgdGhvdWdoIHNvIHRoZSBxdWVz
+dGlvbiB3aGF0IGhhcHBlbnMgdW50aWwgdGhpcw0KPiA+IGxhbmRzIGNvbWVzIHRvIG1pbmQuIElz
+IGludHJvZHVjdGlvbiBvZiBWTVdfUExfU1lTVEVNIGFuZA0KPiA+IGRvY3VtZW50aW5nIHRoYXQg
+UExfU1lTVEVNIGlzIHVuZGVyIGNvbXBsZXRlIFRUTSBjb250cm9sIChsaWtlIHRoaXMNCj4gPiBw
+YXRjaCBkb2VzKSB0aGUgd2F5IHRvIGdvIG9yIGRvIHdlIHdhbnQgdG8gc3RhcnQgd29ya2luZyBv
+biB0aGUNCj4gPiBhYm92ZSBpbW1lZGlhdGVseT8gQmVjYXVzZSBJ4oCZZCBsb3ZlIHRvIGJlIGFi
+bGUgdG8gdW5sb2FkIHZtd2dmeA0KPiA+IHdpdGhvdXQga2VybmVsIG9vcHNpbmcgPSkNCj4gDQo+
+IEkgdGhpbmsgZG9jdW1lbnRpbmcgYW5kIGdldHRpbmcgaW50byBhIGNsZWFuIHN0YXRlIHNob3Vs
+ZCBiZSANCj4gcHJlcmVxdWlzaXRlIGZvciBuZXcgZGV2ZWxvcG1lbnQgKGV2ZW4gaWYgdGhlIGZp
+eCBmb3IgdGhlIHVubG9hZCBpcyANCj4gdHJpdmlhbCkuDQoNClRoYXQgc291bmRzIGdyZWF0IChi
+b3RoIHBvaW50cykuIENvdWxkIHlvdSBkb3VibGUgY2hlY2sgdGhlIHdvcmRpbmcgYW5kDQphY2sg
+aXQgKGlkZWFsbHkgYm90aCB0aGUgZG9jcyBhbmQgdGhlIFZNV19QTF9TWVNURU0gcGF0Y2gpIGlm
+IHlvdSB0aGluaw0KaXQncyByZWFkeSB0byBnbyBpbj8NCg0Keg0K
