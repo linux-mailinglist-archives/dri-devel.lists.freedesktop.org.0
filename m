@@ -2,59 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 080D94595C4
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Nov 2021 20:44:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2F2F45960E
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Nov 2021 21:24:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 66E9789D83;
-	Mon, 22 Nov 2021 19:44:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD18E89B61;
+	Mon, 22 Nov 2021 20:24:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-x92e.google.com (mail-ua1-x92e.google.com
- [IPv6:2607:f8b0:4864:20::92e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 42A6889D64
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Nov 2021 19:44:40 +0000 (UTC)
-Received: by mail-ua1-x92e.google.com with SMTP id az37so38864299uab.13
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Nov 2021 11:44:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=KrJK7VFm/uKvpjlyM0dM7TFPOBp3BJCfN+cH4kbu3+A=;
- b=I62NJYU+IEgoYkUEisjrNpVzHjo9Bn91V43Tww3jCtXVu3bR6n5wP6GwLaCUrde1Bs
- 73kw7E0jmNjIEgqWeC7RraPEv5EAFCmdjRVyM99RC+S2z0SgaN3AQ93BwKymV55Ilu7B
- rY7YM6/k6nLzWZiOP0ZnWILXvActV71ZiMEKPjRmMoL0scbmi6fv/kMsmcFYz+YL0NOI
- nBw8yMBBJlsQDKc24xXv6sH8n0hvLBVpcMTq+ln/XvfLBtUixjA/B4D+QCPgzQgglRvW
- R2SZ0/n1oxljBsMcjTP+L3NILt3IrxjBZzlayQyhtARVSvuLWRkorGjyuWHMWXjHt/gP
- 1YJA==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F73B89B61
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Nov 2021 20:24:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1637612672;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=iFgW3nVTYDAQjzGUSQDcom6A5IYvPBERmakQAfRL0aA=;
+ b=LXhVRK8N7urPzJJZHZyg6oc5fiaUyAe80ALWtilS7nULrmJlsGnGxHWx8YfHm/dZdG6/VX
+ YEvVrxcGcWbYvhZ8uGtwYdO18In7t0pEuoEkAPW6LOZ4yZcPMYH4h98zT7EKZihS0ycDD+
+ Atmbcz0vYf6thsUF3XpMTe39bIt7AN4=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-290-OdvpgM6oOk6jQlqFnzmItg-1; Mon, 22 Nov 2021 15:24:15 -0500
+X-MC-Unique: OdvpgM6oOk6jQlqFnzmItg-1
+Received: by mail-qk1-f198.google.com with SMTP id
+ o19-20020a05620a22d300b0046754380e8aso15726409qki.13
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Nov 2021 12:24:15 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=KrJK7VFm/uKvpjlyM0dM7TFPOBp3BJCfN+cH4kbu3+A=;
- b=eaby0DXbSibmv1HwXbiGkIFjwixAezhfU9lOB35SGakBE+JrLDK5sHYPlNKb/H5grC
- btPuSszXVlotuzD1KGw4R8gCAf3hmy6xzLS8texuvPmqmq5Nj6OBa3gVfQkbLxGw+0RE
- 90uxq5tAxKHvU3Aclwn5Irg8APzohDnF/s1sT6gdmmhHIFy9G3oee+bdWwTMGJD8gXXk
- Puoul7Ik8OYvC2csz9tvVe7bXaVDDLNFoT7e/DdrQxNNkxQ70zTljdJlM6MLstA0ZQlF
- EtB5x3NpKWTXd/trD6VliA+2wiPoQkt85xdA0PV7PK9smb2luB+OCR1AacG/78Sq/TLp
- RInQ==
-X-Gm-Message-State: AOAM5324HnD9KusR3XiDvlawUmUEzdfu6uGGVs+HPmJndb5HhEyaK7ZV
- OWV0QM2SPEdJNBNeofgZis4hVA3HabU=
-X-Google-Smtp-Source: ABdhPJxXLbHZ3jxVd7ndjy8EPyjq4MwAsCR6KnmwIiaVMHvxbBzt2q+FjggARM92eBtEgOQ0cx9deA==
-X-Received: by 2002:ab0:3ca0:: with SMTP id a32mr90316381uax.63.1637610279391; 
- Mon, 22 Nov 2021 11:44:39 -0800 (PST)
-Received: from localhost.localdomain ([2804:431:c7f4:3a5b:14e9:b724:f63b:b22b])
- by smtp.googlemail.com with ESMTPSA id i27sm5269373uab.8.2021.11.22.11.44.37
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:organization:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=iFgW3nVTYDAQjzGUSQDcom6A5IYvPBERmakQAfRL0aA=;
+ b=LQrvcpGu1DfQhkA1ZD/XPeneg+Knc7vUn7lOozOVfWVlc5YPHXRqgnjSPVo45tzbnS
+ 2btbc4lBMKWoIpnv3Gi3psb5Srg07NcQD+j1VqU3jN0zi8LewBLbQlVdY6cMEFpFfIlf
+ gCJ80vyZF0Q9ZXEu2d50Tywx4kpVlkSQSIJPd7PAg01Sy0hX3MEqTtBdxEfR6DEYJsO6
+ WdlL6Q8srGhus+/Y9hXY7pbgNycTOXWSPT08gsHdbJpWr+GarjBDw1MTnf9YroZIdSJ7
+ 5FcsGJzL9mIR7Q5+WOOpDXRiH5DeN+GRGda4lr2mHMMSTfW6yktv9KX/kLYmmrtlAZ/R
+ dVAw==
+X-Gm-Message-State: AOAM530Je01o/5z2uGYXZ023cBp80nkYJLcR7z9G8XiS98WuLpCZUwQ/
+ 4bWSFtPQy6yYFIISbXGSh2tvizugHRlvcz8ottyj97Bt4vwMmoOPONxjJLKATf49gbtXMJ1f55i
+ y63m3ZzsY9XWnOP20EnKbWqcWXsCN
+X-Received: by 2002:a05:620a:414a:: with SMTP id
+ k10mr51006893qko.502.1637612655503; 
+ Mon, 22 Nov 2021 12:24:15 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyObR1NeSvmI79L+srM3R5DOoF08MB34Ja7wMPWlLDgEc4ZFW5LhZPQLd/EWhtPW0um5iIhZg==
+X-Received: by 2002:a05:620a:414a:: with SMTP id
+ k10mr51006854qko.502.1637612655237; 
+ Mon, 22 Nov 2021 12:24:15 -0800 (PST)
+Received: from [192.168.8.138] (pool-96-230-249-157.bstnma.fios.verizon.net.
+ [96.230.249.157])
+ by smtp.gmail.com with ESMTPSA id x13sm5405873qkp.102.2021.11.22.12.24.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Nov 2021 11:44:39 -0800 (PST)
-From: Igor Torrente <igormtorrente@gmail.com>
-To: rodrigosiqueiramelo@gmail.com, melissa.srw@gmail.com, ppaalanen@gmail.com,
- tzimmermann@suse.de
-Subject: [PATCH v3 9/9] drm: vkms: Add support to the RGB565 format
-Date: Mon, 22 Nov 2021 16:44:00 -0300
-Message-Id: <20211122194400.30836-10-igormtorrente@gmail.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20211122194400.30836-1-igormtorrente@gmail.com>
-References: <20211122194400.30836-1-igormtorrente@gmail.com>
+ Mon, 22 Nov 2021 12:24:14 -0800 (PST)
+Message-ID: <37d79df166c90c0aead437bad44119d58ea44f82.camel@redhat.com>
+Subject: Re: [PATCH 2/2] drm/i915/backlight: Make
+ ext_pwm_disable_backlight() call intel_backlight_set_pwm_level()
+From: Lyude Paul <lyude@redhat.com>
+To: Hans de Goede <hdegoede@redhat.com>, Jani Nikula
+ <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>,  Rodrigo Vivi <rodrigo.vivi@intel.com>
+Date: Mon, 22 Nov 2021 15:24:13 -0500
+In-Reply-To: <20211121110032.4720-2-hdegoede@redhat.com>
+References: <20211121110032.4720-1-hdegoede@redhat.com>
+ <20211121110032.4720-2-hdegoede@redhat.com>
+Organization: Red Hat Inc.
+User-Agent: Evolution 3.42.1 (3.42.1-1.fc35)
 MIME-Version: 1.0
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,201 +90,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hamohammed.sa@gmail.com, airlied@linux.ie, leandro.ribeiro@collabora.com,
- dri-devel@lists.freedesktop.org, ~lkcamp/patches@lists.sr.ht,
- Igor Torrente <igormtorrente@gmail.com>
+Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Adds this common format to vkms.
+Reviewed-by: Lyude Paul <lyude@redhat.com>
 
-This commit also adds new helper macros to deal with fixed-point
-arithmetic.
+On Sun, 2021-11-21 at 12:00 +0100, Hans de Goede wrote:
+> At least the Bay Trail LPSS PWM controller used with DSI panels on many
+> Bay Trail tablets seems to leave the PWM pin in whatever state it was
+> (high or low) ATM that the PWM gets disabled. Combined with some panels
+> not having a separate backlight-enable pin this leads to the backlight
+> sometimes staying on while it should not (when the pin was high during
+> PWM-disabling).
+> 
+> First calling intel_backlight_set_pwm_level() will ensure that the pin
+> is always low (or high for inverted brightness panels) since the passed
+> in duty-cycle is 0% (or 100%) when the PWM gets disabled fixing the
+> backlight sometimes staying on.
+> 
+> With the exception of ext_pwm_disable_backlight() all other
+> foo_disable_backlight() functions call intel_backlight_set_pwm_level()
+> already before disabling the backlight, so this change also aligns
+> ext_pwm_disable_backlight() with all the other disable() functions.
+> 
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> ---
+>  drivers/gpu/drm/i915/display/intel_backlight.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/i915/display/intel_backlight.c
+> b/drivers/gpu/drm/i915/display/intel_backlight.c
+> index 03cd730c926a..2758a2f6c093 100644
+> --- a/drivers/gpu/drm/i915/display/intel_backlight.c
+> +++ b/drivers/gpu/drm/i915/display/intel_backlight.c
+> @@ -421,6 +421,8 @@ static void ext_pwm_disable_backlight(const struct
+> drm_connector_state *old_conn
+>         struct intel_connector *connector =
+> to_intel_connector(old_conn_state->connector);
+>         struct intel_panel *panel = &connector->panel;
+>  
+> +       intel_backlight_set_pwm_level(old_conn_state, level);
+> +
+>         panel->backlight.pwm_state.enabled = false;
+>         pwm_apply_state(panel->backlight.pwm, &panel->backlight.pwm_state);
+>  }
 
-It was done to improve the precision of the conversion to ARGB16161616
-since the "conversion ratio" is not an integer.
-
-Signed-off-by: Igor Torrente <igormtorrente@gmail.com>
----
-V3: Adapt the handlers to the new format introduced in patch 7 V3.
----
- drivers/gpu/drm/vkms/vkms_formats.c   | 74 +++++++++++++++++++++++++++
- drivers/gpu/drm/vkms/vkms_formats.h   |  6 +++
- drivers/gpu/drm/vkms/vkms_plane.c     |  6 ++-
- drivers/gpu/drm/vkms/vkms_writeback.c |  3 +-
- 4 files changed, 86 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/vkms_formats.c
-index 661da39d1276..dc612882dd8c 100644
---- a/drivers/gpu/drm/vkms/vkms_formats.c
-+++ b/drivers/gpu/drm/vkms/vkms_formats.c
-@@ -11,6 +11,8 @@ format_transform_func get_fmt_transform_function(u32 format)
- 		return &get_ARGB16161616;
- 	else if (format == DRM_FORMAT_XRGB16161616)
- 		return &XRGB16161616_to_ARGB16161616;
-+	else if (format == DRM_FORMAT_RGB565)
-+		return &RGB565_to_ARGB16161616;
- 	else
- 		return &XRGB8888_to_ARGB16161616;
- }
-@@ -23,6 +25,8 @@ format_transform_func get_wb_fmt_transform_function(u32 format)
- 		return &convert_to_ARGB16161616;
- 	else if (format == DRM_FORMAT_XRGB16161616)
- 		return &convert_to_XRGB16161616;
-+	else if (format == DRM_FORMAT_RGB565)
-+		return &convert_to_RGB565;
- 	else
- 		return &convert_to_XRGB8888;
- }
-@@ -33,6 +37,26 @@ static int pixel_offset(struct vkms_frame_info *frame_info, int x, int y)
- 				  + (x * frame_info->cpp);
- }
- 
-+/*
-+ * FP stands for _Fixed Point_ and **not** _Float Point_
-+ * LF stands for Long Float (i.e. double)
-+ * The following macros help doing fixed point arithmetic.
-+ */
-+/*
-+ * With FP scale 15 we have 17 and 15 bits of integer and fractional parts
-+ * respectively.
-+ *  | 0000 0000 0000 0000 0.000 0000 0000 0000 |
-+ * 31                                          0
-+ */
-+#define FP_SCALE 15
-+
-+#define LF_TO_FP(a) ((a) * (u64)(1 << FP_SCALE))
-+#define INT_TO_FP(a) ((a) << FP_SCALE)
-+#define FP_MUL(a, b) ((s32)(((s64)(a) * (b)) >> FP_SCALE))
-+#define FP_DIV(a, b) ((s32)(((s64)(a) << FP_SCALE) / (b)))
-+/* This macro converts a fixed point number to int, and round half up it */
-+#define FP_TO_INT_ROUND_UP(a) (((a) + (1 << (FP_SCALE - 1))) >> FP_SCALE)
-+
- /*
-  * packed_pixels_addr - Get the pointer to pixel of a given pair of coordinates
-  *
-@@ -125,6 +149,33 @@ void XRGB16161616_to_ARGB16161616(struct vkms_frame_info *frame_info, int y,
- 	}
- }
- 
-+void RGB565_to_ARGB16161616(struct vkms_frame_info *frame_info, int y,
-+			    struct line_buffer *stage_buffer)
-+{
-+	u16 *src_pixels = get_packed_src_addr(frame_info, y);
-+	int x, x_limit = drm_rect_width(&frame_info->dst);
-+
-+	for (x = 0; x < x_limit; x++, src_pixels++) {
-+		u16 rgb_565 = le16_to_cpu(*src_pixels);
-+		int fp_r = INT_TO_FP((rgb_565 >> 11) & 0x1f);
-+		int fp_g = INT_TO_FP((rgb_565 >> 5) & 0x3f);
-+		int fp_b = INT_TO_FP(rgb_565 & 0x1f);
-+
-+		/*
-+		 * The magic constants is the "conversion ratio" and is calculated
-+		 * dividing 65535(2^16 - 1) by 31(2^5 -1) and 63(2^6 - 1)
-+		 * respectively.
-+		 */
-+		int fp_rb_ratio = LF_TO_FP(2114.032258065);
-+		int fp_g_ratio = LF_TO_FP(1040.238095238);
-+
-+		stage_buffer[x].a = (u16)0xffff;
-+		stage_buffer[x].r = FP_TO_INT_ROUND_UP(FP_MUL(fp_r, fp_rb_ratio));
-+		stage_buffer[x].g = FP_TO_INT_ROUND_UP(FP_MUL(fp_g, fp_g_ratio));
-+		stage_buffer[x].b = FP_TO_INT_ROUND_UP(FP_MUL(fp_b, fp_rb_ratio));
-+	}
-+}
-+
- 
- /*
-  * The following  functions take an line of ARGB16161616 pixels from the
-@@ -203,3 +254,26 @@ void convert_to_XRGB16161616(struct vkms_frame_info *frame_info, int y,
- 		dst_pixels[0] = src_buffer[x].b;
- 	}
- }
-+
-+void convert_to_RGB565(struct vkms_frame_info *frame_info, int y,
-+		       struct line_buffer *src_buffer)
-+{
-+	int x, x_dst = frame_info->dst.x1;
-+	u16 *dst_pixels = packed_pixels_addr(frame_info, x_dst, y);
-+	int x_limit = drm_rect_width(&frame_info->dst);
-+
-+	for (x = 0; x < x_limit; x++, dst_pixels++) {
-+		int fp_r = INT_TO_FP(src_buffer[x].r);
-+		int fp_g = INT_TO_FP(src_buffer[x].g);
-+		int fp_b = INT_TO_FP(src_buffer[x].b);
-+
-+		int fp_rb_ratio = LF_TO_FP(2114.032258065);
-+		int fp_g_ratio = LF_TO_FP(1040.238095238);
-+
-+		u16 r = FP_TO_INT_ROUND_UP(FP_DIV(fp_r, fp_rb_ratio));
-+		u16 g = FP_TO_INT_ROUND_UP(FP_DIV(fp_g, fp_g_ratio));
-+		u16 b = FP_TO_INT_ROUND_UP(FP_DIV(fp_b, fp_rb_ratio));
-+
-+		*dst_pixels = cpu_to_le16(r << 11 | g << 5 | b);
-+	}
-+}
-diff --git a/drivers/gpu/drm/vkms/vkms_formats.h b/drivers/gpu/drm/vkms/vkms_formats.h
-index 22358f3a33ab..836d6e43ea90 100644
---- a/drivers/gpu/drm/vkms/vkms_formats.h
-+++ b/drivers/gpu/drm/vkms/vkms_formats.h
-@@ -21,6 +21,9 @@ void get_ARGB16161616(struct vkms_frame_info *frame_info, int y,
- void XRGB16161616_to_ARGB16161616(struct vkms_frame_info *frame_info, int y,
- 				  struct line_buffer *stage_buffer);
- 
-+void RGB565_to_ARGB16161616(struct vkms_frame_info *frame_info, int y,
-+			    struct line_buffer *stage_buffer);
-+
- void convert_to_ARGB8888(struct vkms_frame_info *frame_info, int y,
- 			 struct line_buffer *src_buffer);
- 
-@@ -33,6 +36,9 @@ void convert_to_ARGB16161616(struct vkms_frame_info *frame_info, int y,
- void convert_to_XRGB16161616(struct vkms_frame_info *frame_info, int y,
- 			     struct line_buffer *src_buffer);
- 
-+void convert_to_RGB565(struct vkms_frame_info *frame_info, int y,
-+		       struct line_buffer *src_buffer);
-+
- typedef void (*format_transform_func)(struct vkms_frame_info *frame_info, int y,
- 				      struct line_buffer *buffer);
- 
-diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
-index 1d70c9e8f109..4643eefcdf29 100644
---- a/drivers/gpu/drm/vkms/vkms_plane.c
-+++ b/drivers/gpu/drm/vkms/vkms_plane.c
-@@ -13,14 +13,16 @@
- 
- static const u32 vkms_formats[] = {
- 	DRM_FORMAT_XRGB8888,
--	DRM_FORMAT_XRGB16161616
-+	DRM_FORMAT_XRGB16161616,
-+	DRM_FORMAT_RGB565
- };
- 
- static const u32 vkms_plane_formats[] = {
- 	DRM_FORMAT_ARGB8888,
- 	DRM_FORMAT_XRGB8888,
- 	DRM_FORMAT_XRGB16161616,
--	DRM_FORMAT_ARGB16161616
-+	DRM_FORMAT_ARGB16161616,
-+	DRM_FORMAT_RGB565
- };
- 
- static struct drm_plane_state *
-diff --git a/drivers/gpu/drm/vkms/vkms_writeback.c b/drivers/gpu/drm/vkms/vkms_writeback.c
-index 393d3fc7966f..1aaa630090d3 100644
---- a/drivers/gpu/drm/vkms/vkms_writeback.c
-+++ b/drivers/gpu/drm/vkms/vkms_writeback.c
-@@ -15,7 +15,8 @@
- static const u32 vkms_wb_formats[] = {
- 	DRM_FORMAT_XRGB8888,
- 	DRM_FORMAT_XRGB16161616,
--	DRM_FORMAT_ARGB16161616
-+	DRM_FORMAT_ARGB16161616,
-+	DRM_FORMAT_RGB565
- };
- 
- static const struct drm_connector_funcs vkms_wb_connector_funcs = {
 -- 
-2.30.2
+Cheers,
+ Lyude Paul (she/her)
+ Software Engineer at Red Hat
 
