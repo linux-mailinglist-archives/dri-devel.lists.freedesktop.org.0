@@ -2,34 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC18545978D
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Nov 2021 23:23:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A78C459794
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Nov 2021 23:23:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 15A5889EAE;
-	Mon, 22 Nov 2021 22:23:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 606FF89244;
+	Mon, 22 Nov 2021 22:23:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C25DF89EAE
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Nov 2021 22:23:37 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8354861078;
- Mon, 22 Nov 2021 22:23:31 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4671A89244
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Nov 2021 22:23:44 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 064F96103C;
+ Mon, 22 Nov 2021 22:23:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1637619817;
- bh=efjqB8lclC/CTZtvxidalnRW6k3GNlgXbza8zFiCoZM=;
+ s=k20201202; t=1637619824;
+ bh=kK/0hn3Tn2Fi1LQ6SeIagL/0lsO2CrpknZyQZAqq6H8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=U8NP1Zc1gLJF725LnCrWHgavWOnwK2Ly1UnDTKcbTcdYbgu+miYfDh7Q5MZ9ByoyK
- GvjVX6mKNAxeCgehUkVbusSV4QnRfJUYbwPUXViEyL36MN8wB2u6OmqubcsatL9+Mq
- yeV+rIZkvLJeCdnf9o9aNwg+uxPfN+v8kmtNfC7MLTzE2itRKsloRWob2HCygsanXX
- VTKTLI7mi+52T1tblQaF6Ba0ZDdU3kkLWFXoKX2E3e7ejJJSpfWQ0xjrJeJKfQB24g
- xd90ghdcOKTXQirzhVKhiK98fux08E5EopBbXH5f2PC+N20hBxkQSuiFisX18MW7Gu
- qmf6Z6dWyCwbA==
+ b=D2/yNDzBENZCV3sSIl45F//FfTAukYJn/aB/UGh8I2KaOy7hp22Bp+4Hk7x39Hi7u
+ 6e+dm5/YqhRogLXgrZ4AGc43mg64vHlOq1gIn5GVeiq9ATMgMjPD8mxPFDFaQ3aa+j
+ MQv7bncgFO5dExmwoX3s7KxgzNmRdjAvJ8L8yiSvS5qic4CJs5WDTicWXy2EK3Rvgg
+ cAaYtYpjbFTPUW/LIgaSPH1XVukM1CNyFl/il1Z3hpw7wYnUGTRu2xxQu7y1304Q4O
+ DqXPeJwj0DSwecC7x7qSXRZYQTTmspHVwU6Jw3E235yowtMHJ5mtFd1BPBQlG3mqm6
+ Syi2DD+et8CSw==
 From: Arnd Bergmann <arnd@kernel.org>
 To: Vinod Koul <vkoul@kernel.org>
-Subject: [PATCH v2 10/11] dmaengine: tegra20-apb: stop checking
- config->slave_id
-Date: Mon, 22 Nov 2021 23:22:02 +0100
-Message-Id: <20211122222203.4103644-11-arnd@kernel.org>
+Subject: [PATCH v2 11/11] dmaengine: remove slave_id config field
+Date: Mon, 22 Nov 2021 23:22:03 +0100
+Message-Id: <20211122222203.4103644-12-arnd@kernel.org>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20211122222203.4103644-1-arnd@kernel.org>
 References: <20211122222203.4103644-1-arnd@kernel.org>
@@ -71,31 +70,45 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Arnd Bergmann <arnd@arndb.de>
 
-Nothing sets the slave_id field any more, so stop accessing
-it to allow the removal of this field.
+All references to the slave_id field have been removed, so remove the
+field as well to prevent new references from creeping in again.
 
+Originally this allowed slave DMA drivers to configure which device
+is accessed with the dmaengine_slave_config() call, but this was
+inconsistent, as the same information is also passed while requesting
+a channel, and never changes in practice.
+
+In modern kernels, the device is always selected when requesting
+the channel, so the .slave_id field is no longer useful.
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- drivers/dma/tegra20-apb-dma.c | 6 ------
- 1 file changed, 6 deletions(-)
+ include/linux/dmaengine.h | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/drivers/dma/tegra20-apb-dma.c b/drivers/dma/tegra20-apb-dma.c
-index b7260749e8ee..eaafcbe4ca94 100644
---- a/drivers/dma/tegra20-apb-dma.c
-+++ b/drivers/dma/tegra20-apb-dma.c
-@@ -343,12 +343,6 @@ static int tegra_dma_slave_config(struct dma_chan *dc,
- 	}
- 
- 	memcpy(&tdc->dma_sconfig, sconfig, sizeof(*sconfig));
--	if (tdc->slave_id == TEGRA_APBDMA_SLAVE_ID_INVALID &&
--	    sconfig->device_fc) {
--		if (sconfig->slave_id > TEGRA_APBDMA_CSR_REQ_SEL_MASK)
--			return -EINVAL;
--		tdc->slave_id = sconfig->slave_id;
--	}
- 	tdc->config_init = true;
- 
- 	return 0;
+diff --git a/include/linux/dmaengine.h b/include/linux/dmaengine.h
+index 9000f3ffce8b..0349b35235e6 100644
+--- a/include/linux/dmaengine.h
++++ b/include/linux/dmaengine.h
+@@ -418,9 +418,6 @@ enum dma_slave_buswidth {
+  * @device_fc: Flow Controller Settings. Only valid for slave channels. Fill
+  * with 'true' if peripheral should be flow controller. Direction will be
+  * selected at Runtime.
+- * @slave_id: Slave requester id. Only valid for slave channels. The dma
+- * slave peripheral will have unique id as dma requester which need to be
+- * pass as slave config.
+  * @peripheral_config: peripheral configuration for programming peripheral
+  * for dmaengine transfer
+  * @peripheral_size: peripheral configuration buffer size
+@@ -448,7 +445,6 @@ struct dma_slave_config {
+ 	u32 src_port_window_size;
+ 	u32 dst_port_window_size;
+ 	bool device_fc;
+-	unsigned int slave_id;
+ 	void *peripheral_config;
+ 	size_t peripheral_size;
+ };
 -- 
 2.29.2
 
