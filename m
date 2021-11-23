@@ -1,59 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE50D45A6C7
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Nov 2021 16:48:43 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6291345A6D5
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Nov 2021 16:50:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B25F6E053;
-	Tue, 23 Nov 2021 15:48:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4CBFB6E249;
+	Tue, 23 Nov 2021 15:50:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AFF646E053
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Nov 2021 15:48:38 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 8876660E95
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Nov 2021 15:48:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1637682518;
- bh=KxsInVBmad2jr4fBBnRCSix2M4CIoDZiMgMgrjhOdVg=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=Z3y7r2d9cPHXl0+AhxQhmd4bbJ68pIXj8ZuYjA81hIuTOLXtC9Dvi4wB21Sp+LlqN
- r1b8WRYbJcVqj+Lbx/d16C+faeEreKu/CB4NwgGB8mCz2cs2y+k3Af/7On3LUvXW1I
- Tmb8tZGE+EI9zVvKj1fD2FT3MUKK9P+s2n8jLjf7Q2QH53+ILOuyCM9ff/6yScPnCE
- IcTiQZZpjglYSjMorn2EIx0o4LZiHAi8GGAcNQVN8ZR2cefMfFo/BvW84uTTTi1gQT
- 1KM+8YnkjFvGOIjfLn+ZyMfc9ViFxRhcxty1caXTsbQuyouJTwBiJxcINeCS6/hr3v
- /L7mhUNbd3Wxg==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 8569D60F4D; Tue, 23 Nov 2021 15:48:38 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 211807] [drm:drm_dp_mst_dpcd_read] *ERROR* mstb
- 000000004e6288dd port 3: DPCD read on addr 0x60 for 1 bytes NAKed
-Date: Tue, 23 Nov 2021 15:48:38 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: low
-X-Bugzilla-Who: zwerg12@mail.de
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-211807-2300-c7XpOclIb4@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-211807-2300@https.bugzilla.kernel.org/>
-References: <bug-211807-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com
+ [IPv6:2607:f8b0:4864:20::536])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 24B356E249
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Nov 2021 15:50:48 +0000 (UTC)
+Received: by mail-pg1-x536.google.com with SMTP id 28so18650743pgq.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Nov 2021 07:50:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=p5/dnjXoJ8teDVOSqiNUzGVK+QNLdlAM4nDDCgZROWw=;
+ b=SZkGjoNNQtoublRXDZq9kgD0trOc0Q3U7nJiv1jg/3HrkIypSCJMhDm2r8+yI4mlNk
+ wFndxsoxTZh4EX9CjzlM8JK1ivzYhc7Sib4z0ff7ifSmOdO23HtUVAM2g1V+TL1QhNDq
+ p5q8jjV7FynYOzQdmJcOyaP1OyvIqyI2wNEf9+YGWW6VwpAHNjHnURtVWJuIzu6sr+qF
+ mUn7Aqm/BHrSARXaf6omS1Xina4ZDNToYiAsaS3znXEVPkbyhoRiKxOVT5NTA2/CmrCp
+ Z3TuNp85RgwLUhTTvyeaJBqKu2iMIweqZRtjp7IFx6uZW2CHflreaDUWP707y/lYeuY6
+ stjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=p5/dnjXoJ8teDVOSqiNUzGVK+QNLdlAM4nDDCgZROWw=;
+ b=xRnnnJgy8EaSFgb0+jcLL4NWHt3zohv2omTHc4iWhCuJocsFrEHMSAuwEwtSyjp6pT
+ kyS1mQ+2r5pCBmbbpVcp7yKgY3GYdQZgAuROsc2uTfUZdvyw5q7PEvTndDW4R3Z1vrkK
+ VsfSLqSJ9cClqgreDMUuYuV3XWYFYpbOaVrkJPojWrwUK6r2K2wv/i+B0YxRDCDTSmoy
+ tWhnv1kr7u+Nfpi4SSGi+/e0590TivkyE2h63UzWJGCKcueztxsBfWLYGC/TUd/iMSx7
+ RQ+AMPWB7buewSOTklnX7J572/UfDlOA40Uq0laqPUGwJDGtNuYD7ADNM68l30WAcxo8
+ /ZHw==
+X-Gm-Message-State: AOAM533fvNoa4AAzgONr/jotzQR2qV5gmUXhXh0VPbJ7GEcUJPoNfqrP
+ 94V5Bbn4XhD1GDGWVnCFQcOP2DzbQ1iSodm4lA9CJA==
+X-Google-Smtp-Source: ABdhPJx911N+Fj7qf+H5dcOu/OnmfyUkA1zkkaVVKqEAufjOTT1k6nEfn/NtxZ2mTj/uwQ0jK+uc0rkOnN6MIwSWgRU=
+X-Received: by 2002:aa7:9903:0:b0:49f:e368:4fc3 with SMTP id
+ z3-20020aa79903000000b0049fe3684fc3mr6070106pff.1.1637682647615; Tue, 23 Nov
+ 2021 07:50:47 -0800 (PST)
 MIME-Version: 1.0
+References: <20211123154050.40984-1-bjorn.andersson@linaro.org>
+In-Reply-To: <20211123154050.40984-1-bjorn.andersson@linaro.org>
+From: Robert Foss <robert.foss@linaro.org>
+Date: Tue, 23 Nov 2021 16:50:34 +0100
+Message-ID: <CAG3jFytT1Bvagn8hQnVvE48X-jR+pyNuQtjcgJAYmBC97=BL7g@mail.gmail.com>
+Subject: Re: [PATCH] drm/msm/dpu: Add more of the INTF interrupt regions
+To: Bjorn Andersson <bjorn.andersson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,47 +62,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: freedreno@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Abhinav Kumar <abhinavk@codeaurora.org>, dri-devel@lists.freedesktop.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D211807
+On Tue, 23 Nov 2021 at 16:39, Bjorn Andersson
+<bjorn.andersson@linaro.org> wrote:
+>
+> In addition to the other 7xxx INTF interrupt regions, SM8350 has
+> additional INTF regions at 0x0ae37000, 0x0ae38000 and 0x0ae39000, define
+> these. The 7xxx naming scheme of the bits are kept for consistency.
+>
+> Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+> ---
+>  .../gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c  | 18 ++++++++++++++++++
+>  .../gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.h  |  3 +++
+>  2 files changed, 21 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
+> index d2b6dca487e3..a77a5eaa78ad 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
+> @@ -30,6 +30,9 @@
+>  #define MDP_AD4_INTR_STATUS_OFF                0x420
+>  #define MDP_INTF_0_OFF_REV_7xxx             0x34000
+>  #define MDP_INTF_1_OFF_REV_7xxx             0x35000
+> +#define MDP_INTF_2_OFF_REV_7xxx             0x36000
+> +#define MDP_INTF_3_OFF_REV_7xxx             0x37000
+> +#define MDP_INTF_4_OFF_REV_7xxx             0x38000
+>  #define MDP_INTF_5_OFF_REV_7xxx             0x39000
+>
+>  /**
+> @@ -110,6 +113,21 @@ static const struct dpu_intr_reg dpu_intr_set[] = {
+>                 MDP_INTF_1_OFF_REV_7xxx+INTF_INTR_EN,
+>                 MDP_INTF_1_OFF_REV_7xxx+INTF_INTR_STATUS
+>         },
+> +       {
+> +               MDP_INTF_2_OFF_REV_7xxx+INTF_INTR_CLEAR,
+> +               MDP_INTF_2_OFF_REV_7xxx+INTF_INTR_EN,
+> +               MDP_INTF_2_OFF_REV_7xxx+INTF_INTR_STATUS
+> +       },
+> +       {
+> +               MDP_INTF_3_OFF_REV_7xxx+INTF_INTR_CLEAR,
+> +               MDP_INTF_3_OFF_REV_7xxx+INTF_INTR_EN,
+> +               MDP_INTF_3_OFF_REV_7xxx+INTF_INTR_STATUS
+> +       },
+> +       {
+> +               MDP_INTF_4_OFF_REV_7xxx+INTF_INTR_CLEAR,
+> +               MDP_INTF_4_OFF_REV_7xxx+INTF_INTR_EN,
+> +               MDP_INTF_4_OFF_REV_7xxx+INTF_INTR_STATUS
+> +       },
+>         {
+>                 MDP_INTF_5_OFF_REV_7xxx+INTF_INTR_CLEAR,
+>                 MDP_INTF_5_OFF_REV_7xxx+INTF_INTR_EN,
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.h
+> index d50e78c9f148..1ab75cccd145 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.h
+> @@ -26,6 +26,9 @@ enum dpu_hw_intr_reg {
+>         MDP_AD4_1_INTR,
+>         MDP_INTF0_7xxx_INTR,
+>         MDP_INTF1_7xxx_INTR,
+> +       MDP_INTF2_7xxx_INTR,
+> +       MDP_INTF3_7xxx_INTR,
+> +       MDP_INTF4_7xxx_INTR,
+>         MDP_INTF5_7xxx_INTR,
+>         MDP_INTR_MAX,
+>  };
 
---- Comment #16 from zwerg12@mail.de ---
-(In reply to Alex Deucher from comment #13)
-> (In reply to zwerg12 from comment #12)
-> > As mentioned before, I get the same error with a monitor connected with=
- DP
-> > to a Lenovo ThinkPad USB-C Dock Gen2. My Laptop has an Intel i7 10510U =
-no
-> > additional graphics card. I am using Debian testing with the provided
-> kernel.
-> >=20
-> >=20
-> > During this my notebook monitor is blinking.
-> > This setup worked for around four weeks when suddenly these errors
-> occurred.
->=20
->=20
-> Can you bisect?
-
-I have never done it yet. But as soon as I am at home I can try.
-
-(In reply to Michel D=C3=A4nzer from comment #15)
-> (In reply to Daan from comment #14)
-> > I also had this in my logs yesterday, right before my system locked
-> > completely (had to do a hard reset).
->=20
-> That's probably coincidence. I get these messages on a regular basis,
-> without any bad behaviour.
-
-Sometimes when I get this message there is no bad behavior but sometimes I =
-also
-have to do a hard reset. Without the docking station I never had to make a =
-hard
-reset.
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+Reviewed-by: Robert Foss <robert.foss@linaro.org>
