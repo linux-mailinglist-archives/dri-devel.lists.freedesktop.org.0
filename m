@@ -2,43 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8AE445A7CE
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Nov 2021 17:33:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55F6D45A94D
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Nov 2021 17:53:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B21A2895EE;
-	Tue, 23 Nov 2021 16:33:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3ECD989E98;
+	Tue, 23 Nov 2021 16:53:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 32682892DE
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Nov 2021 16:32:59 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10176"; a="221935234"
-X-IronPort-AV: E=Sophos;i="5.87,258,1631602800"; d="scan'208";a="221935234"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF0BA89E36;
+ Tue, 23 Nov 2021 16:53:16 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10177"; a="221939923"
+X-IronPort-AV: E=Sophos;i="5.87,258,1631602800"; d="scan'208";a="221939923"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Nov 2021 08:32:51 -0800
-X-IronPort-AV: E=Sophos;i="5.87,258,1631602800"; d="scan'208";a="553482016"
-Received: from smile.fi.intel.com ([10.237.72.184])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Nov 2021 08:32:49 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.95)
- (envelope-from <andy.shevchenko@gmail.com>) id 1mpYis-009pw3-7z;
- Tue, 23 Nov 2021 18:32:46 +0200
-Date: Tue, 23 Nov 2021 18:32:46 +0200
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v1 1/1] drm: Replace kernel.h with the necessary inclusions
-Message-ID: <YZ0Xrus5wZar3QN7@smile.fi.intel.com>
-References: <20211110102423.54282-1-andriy.shevchenko@linux.intel.com>
- <887a15cb-3a3b-4ba2-aa0f-a241e70a19fa@suse.de>
- <CAHp75VdY57xQBLN8vT3RdagQx=4kLx69qAyuzLwqTvNGC2xUbQ@mail.gmail.com>
- <d536e7d2-891e-e0a8-6abc-6694987a65f7@suse.de>
- <YZJGEi6Qqh1aGCxa@smile.fi.intel.com>
+ 23 Nov 2021 08:53:16 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.87,258,1631602800"; d="scan'208";a="571119172"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+ by fmsmga004.fm.intel.com with ESMTP; 23 Nov 2021 08:53:16 -0800
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Tue, 23 Nov 2021 08:53:15 -0800
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Tue, 23 Nov 2021 08:53:15 -0800
+Received: from fmsmsx610.amr.corp.intel.com ([10.18.126.90]) by
+ fmsmsx610.amr.corp.intel.com ([10.18.126.90]) with mapi id 15.01.2242.012;
+ Tue, 23 Nov 2021 08:53:15 -0800
+From: "Vivi, Rodrigo" <rodrigo.vivi@intel.com>
+To: "tvrtko.ursulin@linux.intel.com" <tvrtko.ursulin@linux.intel.com>,
+ "Belgaumkar, Vinay" <vinay.belgaumkar@intel.com>
+Subject: Re: [PATCH 3/3] drm/i915/gt: Improve "race-to-idle" at low frequencies
+Thread-Topic: [PATCH 3/3] drm/i915/gt: Improve "race-to-idle" at low
+ frequencies
+Thread-Index: AQHX4ErjAawfEDBvGU+7rscWy4C/pKwR2rwA
+Date: Tue, 23 Nov 2021 16:53:14 +0000
+Message-ID: <2eda9ab66fc4ed5c11e467a6e31d801043759ff0.camel@intel.com>
+References: <20211117224955.28999-1-vinay.belgaumkar@intel.com>
+ <20211117224955.28999-4-vinay.belgaumkar@intel.com>
+ <YZvk8HDtluq0i5e5@intel.com>
+ <54ceb734-7b9b-d655-b8b5-39c656f8022e@linux.intel.com>
+In-Reply-To: <54ceb734-7b9b-d655-b8b5-39c656f8022e@linux.intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.40.4 (3.40.4-2.fc34) 
+x-originating-ip: [10.1.200.100]
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <47596126015DC54BB82E623068FDE569@intel.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YZJGEi6Qqh1aGCxa@smile.fi.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,48 +68,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "chris@chris-wilson.co.uk" <chris@chris-wilson.co.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Nov 15, 2021 at 01:35:47PM +0200, Andy Shevchenko wrote:
-> On Wed, Nov 10, 2021 at 05:39:33PM +0100, Thomas Zimmermann wrote:
-> > Am 10.11.21 um 17:34 schrieb Andy Shevchenko:
-> > > On Wed, Nov 10, 2021 at 3:55 PM Thomas Zimmermann <tzimmermann@suse.de> wrote:
-> > > > Am 10.11.21 um 11:24 schrieb Andy Shevchenko:
-> 
-> ...
-> 
-> > > > > +#include <linux/container_of.h>
-> > > > 
-> > > > I built this patch on a recent drm-misc-next, but there's no
-> > > > linux/container_of.h
-> > > 
-> > > Thank you for trying. It's in the upstream, whenever drm-misc-next
-> > > switches to newer/newest upstream it will be there. I assume it will
-> > > happen after v5.16-rc1?
-> > 
-> > Yes, we'll certainly backmerge soon after rc1 has been released. If I forget
-> > to add the patch then, please send a reminder.
-> > 
-> > Once the necessary headers are available,
-> 
-> $ git log --oneline v5.16-rc1 -- include/linux/container_of.h
-> e1edc277e6f6 linux/container_of.h: switch to static_assert
-> d2a8ebbf8192 kernel.h: split out container_of() and typeof_member() macros
-> 
-> > the patch is
-> > Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-> 
-> Thanks!
-
-Maybe I misunderstood something, I thought that DRM people may apply this,
-is it incorrect assumption?
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+T24gVHVlLCAyMDIxLTExLTIzIGF0IDA5OjE3ICswMDAwLCBUdnJ0a28gVXJzdWxpbiB3cm90ZToN
+Cj4gDQo+IE9uIDIyLzExLzIwMjEgMTg6NDQsIFJvZHJpZ28gVml2aSB3cm90ZToNCj4gPiBPbiBX
+ZWQsIE5vdiAxNywgMjAyMSBhdCAwMjo0OTo1NVBNIC0wODAwLCBWaW5heSBCZWxnYXVta2FyIHdy
+b3RlOg0KPiA+ID4gRnJvbTogQ2hyaXMgV2lsc29uIDxjaHJpc0BjaHJpcy13aWxzb24uY28udWs+
+DQo+ID4gPiANCj4gPiA+IFdoaWxlIHRoZSBwb3dlciBjb25zdW1wdGlvbiBpcyBwcm9wb3J0aW9u
+YWwgdG8gdGhlIGZyZXF1ZW5jeSwNCj4gPiA+IHRoZXJlIGlzDQo+ID4gPiBhbHNvIGEgc3RhdGlj
+IGRyYXcgZm9yIGFjdGl2ZSBnYXRlcy4gVGhlIGxvbmdlciB3ZSBhcmUgYWJsZSB0bw0KPiA+ID4g
+cG93ZXJnYXRlDQo+ID4gPiAocmM2KSwgdGhlIGxvd2VyIHRoZSBzdGF0aWMgZHJhdy4gVGh1cyB0
+aGVyZSBpcyBhIHN3ZWV0c3BvdCBpbg0KPiA+ID4gdGhlDQo+ID4gPiBmcmVxdWVuY3kvcG93ZXIg
+Y3VydmUgd2hlcmUgd2UgcnVuIGF0IGhpZ2hlciBmcmVxdWVuY3kgaW4gb3JkZXINCj4gPiA+IHRv
+IHNsZWVwDQo+ID4gPiBsb25nZXIsIGFrYSByYWNlLXRvLWlkbGUuIFRoaXMgaXMgbW9yZSBldmlk
+ZW50IGF0IGxvd2VyDQo+ID4gPiBmcmVxdWVuY2llcywgc28NCj4gPiA+IGxldCdzIGxvb2sgdG8g
+YnVtcCB0aGUgZnJlcXVlbmN5IGlmIHdlIHRoaW5rIHdlIHdpbGwgYmVuZWZpdCBieQ0KPiA+ID4g
+c2xlZXBpbmcNCj4gPiA+IGxvbmdlciBhdCB0aGUgaGlnaGVyIGZyZXF1ZW5jeSBhbmQgc28gY29u
+c2VydmluZyBwb3dlci4NCj4gPiA+IA0KPiA+ID4gU2lnbmVkLW9mZi1ieTogQ2hyaXMgV2lsc29u
+IDxjaHJpc0BjaHJpcy13aWxzb24uY28udWs+DQo+ID4gPiBDYzogVmluYXkgQmVsZ2F1bWthciA8
+dmluYXkuYmVsZ2F1bWthckBpbnRlbC5jb20+DQo+ID4gPiBDYzogVHZydGtvIFVyc3VsaW4gPHR2
+cnRrby51cnN1bGluQGxpbnV4LmludGVsLmNvbT4NCj4gPiANCj4gPiBQbGVhc2UgbGV0J3Mgbm90
+IGluY3JlYXNlIHRoZSBjb21wbGV4aXR5IGhlcmUsIHVubGVzcyB3ZSBoYXZlIGENCj4gPiB2ZXJ5
+IGdvb2QNCj4gPiBhbmQgZG9jdW1lbnRlZCByZWFzb24uDQo+ID4gDQo+ID4gQmVmb3JlIHRyeWlu
+ZyB0byBpbXBsZW1lbnQgYW55dGhpbmcgc21hcnQgbGlrZSB0aGlzIGluIHRoZSBkcml2ZXINCj4g
+PiBJJ2QgbGlrZQ0KPiA+IHRvIHNlZSBkYXRhLCBwb3dlciBhbmQgcGVyZm9ybWFuY2UgcmVzdWx0
+cyBpbiBkaWZmZXJlbnQgcGxhdGZvcm1zDQo+ID4gYW5kIHdpdGgNCj4gPiBkaWZmZXJlbnQgd29y
+a2xvYWRzLg0KPiANCj4gV2hvIGhhcyBzdWNoIHRlc3Qgc3VpdGUgYW5kIHRlc3QgZmFybSB3aGlj
+aCBpc24ndCBmb2N1c2VkIHRvDQo+IHdvcmtsb2FkcyANCj4gZnJvbSBhIHNpbmdsZSBjdXN0b21l
+cj8gOygNCg0KT2theSwgbWF5YmUgd2UgZG9uJ3QgbmVlZCB0byBjb3ZlciB0aGUgd29ybGQgaGVy
+ZS4gQnV0IHdpdGhvdXQgc2VlbiBhbnkNCmRhdGEgYXQgYWxsIGl0IGlzIGhhcmQgdG8gbWFrZSB0
+aGlzIGNhbGwuDQoNCj4gDQo+IFJlZ2FyZHMsDQo+IA0KPiBUdnJ0a28NCg0K
