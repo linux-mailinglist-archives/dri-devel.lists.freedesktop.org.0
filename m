@@ -1,51 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 076D5459F4F
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Nov 2021 10:32:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id ECE76459F63
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Nov 2021 10:39:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 725696EBAC;
-	Tue, 23 Nov 2021 09:32:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE5166E08E;
+	Tue, 23 Nov 2021 09:39:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-4317.proton.ch (mail-4317.proton.ch [185.70.43.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B614C6EBAC;
- Tue, 23 Nov 2021 09:32:32 +0000 (UTC)
-Date: Tue, 23 Nov 2021 09:32:28 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail; t=1637659949;
- bh=WaYv4Vo1ied5Can2vStLBRqq5qJ8vzsHC41nroVCbKU=;
- h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
- b=mF2LsX4wZDisixKtW1bcOAJTHf0WjPG91SzlHISEtGuZGk1Cn8biO9ZokaN192Yz8
- BzOP9TotglL3KB6ghzW169xRSIpHRdWqu4RtCay7x6PYP5SI2K3qFivh/bRVx5qGHv
- /mBYvwXmxvkXueWSArOCQrcblEfT1hnRsuTk08NfJ8YqaXEE/RwMIqM5APRvvfsmHz
- Rctozj430tUUIcsMyBcIOgeY2daYHpj9S7GV1zVdYPa0/Tqx8ydyhdZZEXDk3+gdj3
- 5f+BQCmZAUVfr/EtsUINCrt9+kkMZWWFG2J9UIjBWseWwcTz4YRxMInK4sb7XDjQuF
- JQjv+Fr35uKEw==
-To: Pekka Paalanen <ppaalanen@gmail.com>
-From: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH v10 08/10] dyndbg: add print-to-tracefs,
- selftest with it - RFC
-Message-ID: <-PHBNsA2s0YNaFjE_76_aCTSMbqUpcaqbttDKFOZv0n9VRShPsgC8NDHq_S8KCpNbE32E9LRrw7CHb3pgFzgg99jFb0DX59vpcPVODkYe4Y=@emersion.fr>
-In-Reply-To: <20211123104522.7a336773@eldfell>
-References: <20211111220206.121610-1-jim.cromie@gmail.com>
- <f3914fa9-8b22-d54e-3f77-d998e74094b9@akamai.com>
- <20211116104631.195cbd0b@eldfell>
- <f87b7076-47e6-89b1-aaf9-b67aa6713e01@akamai.com>
- <20211118172401.0b4d722e@eldfell>
- <41ea83b2-a707-cb6f-521e-070bb12502de@akamai.com>
- <20211122110208.528e1d80@eldfell>
- <CAJfuBxyFzA++2JUxLY-6yLqmrETbmsWpTiyJH5w1qKiAkMriNw@mail.gmail.com>
- <20211123104522.7a336773@eldfell>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB3096E053;
+ Tue, 23 Nov 2021 09:39:27 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10176"; a="258856088"
+X-IronPort-AV: E=Sophos;i="5.87,257,1631602800"; d="scan'208";a="258856088"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Nov 2021 01:39:27 -0800
+X-IronPort-AV: E=Sophos;i="5.87,257,1631602800"; d="scan'208";a="552908826"
+Received: from clei4-mobl.ccr.corp.intel.com (HELO [10.209.177.32])
+ ([10.209.177.32])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Nov 2021 01:39:26 -0800
+Message-ID: <6e19db61-dee6-f012-9dd4-b8ef455509e7@linux.intel.com>
+Date: Tue, 23 Nov 2021 09:39:25 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
- DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
- autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
- mailout.protonmail.ch
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.1
+Subject: Re: [PATCH 1/3] drm/i915/gt: Spread virtual engines over idle engines
+Content-Language: en-US
+To: Vinay Belgaumkar <vinay.belgaumkar@intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+References: <20211117224955.28999-1-vinay.belgaumkar@intel.com>
+ <20211117224955.28999-2-vinay.belgaumkar@intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <20211117224955.28999-2-vinay.belgaumkar@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,122 +50,161 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Simon Ser <contact@emersion.fr>
-Cc: quic_saipraka@quicinc.com, Catalin Marinas <catalin.marinas@arm.com>,
- dri-devel <dri-devel@lists.freedesktop.org>, Will Deacon <will@kernel.org>,
- intel-gvt-dev@lists.freedesktop.org,
- Vincent Whitchurch <vincent.whitchurch@axis.com>,
- amd-gfx mailing list <amd-gfx@lists.freedesktop.org>,
- Ingo Molnar <mingo@redhat.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Arnd Bergmann <arnd@arndb.de>, linux-arm-msm@vger.kernel.org,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Steven Rostedt <rostedt@goodmis.org>, Jason Baron <jbaron@akamai.com>,
- Sean Paul <seanpaul@chromium.org>, Sean Paul <sean@poorly.run>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>, jim.cromie@gmail.com,
- Greg KH <gregkh@linuxfoundation.org>, LKML <linux-kernel@vger.kernel.org>,
- quic_psodagud@quicinc.com, maz@kernel.org, mathieu.desnoyers@efficios.com
+Cc: Chris Wilson <chris@chris-wilson.co.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-First off, let me reiterate that this feature would be invaluable as user-s=
-pace
-developers. It's often pretty difficult to figure out the cause of an EINVA=
-L,
-we have to ask users to follow complicated instructions [1] to grab DRM log=
-s.
-Then have to skim through several megabytes of logs to find the error.
 
-I have a hack [2] which just calls system("sudo dmesg") after a failed atom=
-ic
-commit, it's been pretty handy. But it's really just a hack, a proper solut=
-ion
-would be awesome.
+On 17/11/2021 22:49, Vinay Belgaumkar wrote:
+> From: Chris Wilson <chris@chris-wilson.co.uk>
+> 
+> Everytime we come to the end of a virtual engine's context, re-randomise
+> it's siblings[]. As we schedule the siblings' tasklets in the order they
+> are in the array, earlier entries are executed first (when idle) and so
+> will be preferred when scheduling the next virtual request. Currently,
+> we only update the array when switching onto a new idle engine, so we
+> prefer to stick on the last execute engine, keeping the work compact.
+> However, it can be beneficial to spread the work out across idle
+> engines, so choose another sibling as our preferred target at the end of
+> the context's execution.
 
-[1]: https://gitlab.freedesktop.org/wlroots/wlroots/-/wikis/DRM-Debugging
-[2]: https://gitlab.freedesktop.org/emersion/libliftoff/-/merge_requests/61
+This partially brings back, from a different angle, the more dynamic 
+scheduling behavior which has been lost since bugfix 90a987205c6c 
+("drm/i915/gt: Only swap to a random sibling once upon creation").
 
-> > > > Having a subsystem specific trace buffer would allow subsystem spec=
-ific
-> > > > trace log permissions depending on the sensitivity of the data. But
-> > > > doesn't drm output today go to the system log which is typically wo=
-rld
-> > > > readable today?
+One day we could experiment with using engine busyness as criteria 
+(instead of random). Back in the day busyness was kind of the best 
+strategy, although sampled at submit, not at the trailing edge like 
+here, but it still may be able to settle down to engine configuration 
+better in some scenarios. Only testing could say.
 
-dmesg isn't world-readable these days, it's been changed recently-ish (last
-year?) at least on my distribution (Arch). I need root to grab dmesg.
+Still, from memory random also wasn't that bad so this should be okay 
+for now.
 
-(Maybe we can we just let the DRM master process grab the logs?)
+Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 
-> > > Yes, and that is exactly the problem. The DRM debug output is so high
-> > > traffic it would make the system log both unusable due to cruft and
-> > > slow down the whole machine. The debug output is only useful when
-> > > something went wrong, and at that point it is too late to enable
-> > > debugging. That's why a flight recorder with an over-written circular
-> > > in-memory buffer is needed.
-> >
-> > Seans patch reuses enum drm_debug_category to split the tracing
-> > stream into 10 sub-streams
-> > - how much traffic from each ?
-> > - are some sub-streams more valuable for post-mortem ?
-> > - any value from further refinement of categories ?
-> > - drop irrelevant callsites individually to reduce clutter, extend
-> > buffer time/space ?
->
-> I think it's hard to predict which sub-streams you are going to need
-> before you have a bug to debug. Hence I would err on the side of
-> enabling too much. This also means that better or more refined
-> categorisation might not be that much of help - or if it is, then are
-> the excluded debug messages worth having in the kernel to begin with.
-> Well, we're probably not that interested in GPU debugs but just
-> everything related to the KMS side, which on the existing categories
-> is... everything except half of CORE and DRIVER, maybe? Not sure.
+Regards,
 
-We've been recommending drm.debug=3D0x19F so far (see wiki linked above).
-KMS + PRIME + ATOMIC + LEASE is definitely something we want in, and
-CORE + DRIVER contains other useful info. We definitely don't want VBL.
+Tvrtko
 
-> My feeling is that that could mean in the order of hundreds of log
-> events at framerate (e.g. 60 times per second) per each enabled output
-> individually. And per DRM device, of course. This is with the
-> uninteresting GPU debugs already excluded.
-
-Indeed, successful KMS atomic commits already generate a lot of noise. On m=
-y
-machine, setting drm.debug=3D0x19F and running the following command:
-
-    sudo dmesg -w | pv >/dev/null
-
-I get 400KiB/s when idling, and 850KiB/s when wiggling the cursor.
-
-> Still, I don't think the flight recorder buffer would need to be
-> massive. I suspect it would be enough to hold a few frames' worth which
-> is just a split second under active operation. When something happens,
-> the userspace stack is likely going to stop on its tracks immediately
-> to collect the debug information, which means the flooding should pause
-> and the relevant messages don't get overwritten before we get them. In
-> a multi-seat system where each device is controlled by a separate
-> display server instance, per-device logs would help with this. OTOH,
-> multi-seat is not a very common use case I suppose.
-
-There's also the case of multi-GPU where GPU B's logs could clutter GPU A's=
-,
-making it harder to understand the cause of an atomic commit failure on GPU=
- A.
-So per-device logs would be useful, but not a hard requirement for me, havi=
-ng
-*anything* at all would already be a big win.
-
-In my experiments linked above [2], system("sudo dmesg") after atomic commi=
-t
-failure worked pretty well, and the bottom of the log contained the cause o=
-f
-the failure. It was pretty useful to system("sudo dmesg -C") before perform=
-ing
-an atomic commit, to be able to only collect the extract of the log relevan=
-t to
-the atomic commit.
-
-Having some kind of "marker" mechanism could be pretty cool. "Mark" the log
-stream before performing an atomic commit (ideally that'd just return e.g. =
-an
-uint64 offset), then on failure request the logs collected after that mark.
+> Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
+> Cc: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+> Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+> ---
+>   .../drm/i915/gt/intel_execlists_submission.c  | 80 ++++++++++++-------
+>   1 file changed, 52 insertions(+), 28 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> index ca03880fa7e4..b95bbc8fb91a 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> @@ -539,6 +539,41 @@ static void execlists_schedule_in(struct i915_request *rq, int idx)
+>   	GEM_BUG_ON(intel_context_inflight(ce) != rq->engine);
+>   }
+>   
+> +static void virtual_xfer_context(struct virtual_engine *ve,
+> +				 struct intel_engine_cs *engine)
+> +{
+> +	unsigned int n;
+> +
+> +	if (likely(engine == ve->siblings[0]))
+> +		return;
+> +
+> +	if (!intel_engine_has_relative_mmio(engine))
+> +		lrc_update_offsets(&ve->context, engine);
+> +
+> +	/*
+> +	 * Move the bound engine to the top of the list for
+> +	 * future execution. We then kick this tasklet first
+> +	 * before checking others, so that we preferentially
+> +	 * reuse this set of bound registers.
+> +	 */
+> +	for (n = 1; n < ve->num_siblings; n++) {
+> +		if (ve->siblings[n] == engine) {
+> +			swap(ve->siblings[n], ve->siblings[0]);
+> +			break;
+> +		}
+> +	}
+> +}
+> +
+> +static int ve_random_sibling(struct virtual_engine *ve)
+> +{
+> +	return prandom_u32_max(ve->num_siblings);
+> +}
+> +
+> +static int ve_random_other_sibling(struct virtual_engine *ve)
+> +{
+> +	return 1 + prandom_u32_max(ve->num_siblings - 1);
+> +}
+> +
+>   static void
+>   resubmit_virtual_request(struct i915_request *rq, struct virtual_engine *ve)
+>   {
+> @@ -578,8 +613,23 @@ static void kick_siblings(struct i915_request *rq, struct intel_context *ce)
+>   	    rq->execution_mask != engine->mask)
+>   		resubmit_virtual_request(rq, ve);
+>   
+> -	if (READ_ONCE(ve->request))
+> +	/*
+> +	 * Reschedule with a new "preferred" sibling.
+> +	 *
+> +	 * The tasklets are executed in the order of ve->siblings[], so
+> +	 * siblings[0] receives preferrential treatment of greedily checking
+> +	 * for execution of the virtual engine. At this point, the virtual
+> +	 * engine is no longer in the current GPU cache due to idleness or
+> +	 * contention, so it can be executed on any without penalty. We
+> +	 * re-randomise at this point in order to spread light loads across
+> +	 * the system, heavy overlapping loads will continue to be greedily
+> +	 * executed by the first available engine.
+> +	 */
+> +	if (READ_ONCE(ve->request)) {
+> +		virtual_xfer_context(ve,
+> +				     ve->siblings[ve_random_other_sibling(ve)]);
+>   		tasklet_hi_schedule(&ve->base.sched_engine->tasklet);
+> +	}
+>   }
+>   
+>   static void __execlists_schedule_out(struct i915_request * const rq,
+> @@ -1030,32 +1080,6 @@ first_virtual_engine(struct intel_engine_cs *engine)
+>   	return NULL;
+>   }
+>   
+> -static void virtual_xfer_context(struct virtual_engine *ve,
+> -				 struct intel_engine_cs *engine)
+> -{
+> -	unsigned int n;
+> -
+> -	if (likely(engine == ve->siblings[0]))
+> -		return;
+> -
+> -	GEM_BUG_ON(READ_ONCE(ve->context.inflight));
+> -	if (!intel_engine_has_relative_mmio(engine))
+> -		lrc_update_offsets(&ve->context, engine);
+> -
+> -	/*
+> -	 * Move the bound engine to the top of the list for
+> -	 * future execution. We then kick this tasklet first
+> -	 * before checking others, so that we preferentially
+> -	 * reuse this set of bound registers.
+> -	 */
+> -	for (n = 1; n < ve->num_siblings; n++) {
+> -		if (ve->siblings[n] == engine) {
+> -			swap(ve->siblings[n], ve->siblings[0]);
+> -			break;
+> -		}
+> -	}
+> -}
+> -
+>   static void defer_request(struct i915_request *rq, struct list_head * const pl)
+>   {
+>   	LIST_HEAD(list);
+> @@ -3590,7 +3614,7 @@ static void virtual_engine_initial_hint(struct virtual_engine *ve)
+>   	 * NB This does not force us to execute on this engine, it will just
+>   	 * typically be the first we inspect for submission.
+>   	 */
+> -	swp = prandom_u32_max(ve->num_siblings);
+> +	swp = ve_random_sibling(ve);
+>   	if (swp)
+>   		swap(ve->siblings[swp], ve->siblings[0]);
+>   }
+> 
