@@ -2,58 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BA3645A55A
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Nov 2021 15:22:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABFF445A553
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Nov 2021 15:21:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 88F686E808;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 57D186E7FE;
 	Tue, 23 Nov 2021 14:21:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com
- [IPv6:2a00:1450:4864:20::332])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D1B96E59F
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Nov 2021 14:21:30 +0000 (UTC)
-Received: by mail-wm1-x332.google.com with SMTP id
- d72-20020a1c1d4b000000b00331140f3dc8so2734838wmd.1
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Nov 2021 06:21:30 -0800 (PST)
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
+ [IPv6:2a00:1450:4864:20::42b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C97906E573
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Nov 2021 14:21:32 +0000 (UTC)
+Received: by mail-wr1-x42b.google.com with SMTP id u1so39232053wru.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Nov 2021 06:21:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=6H/ngFKC9poxGUW/buF3Z6IUXcBgboVM+XR0Uqd9ot8=;
- b=M4/xhPjOBKzleBS57cpHfNRoq3nzkZDtU3rcnNA5M7yoqTW/GkLN3Go0GFKYwFwe8V
- pWfW1D9Qq2Uiy8eVugNtps+xEdeYlycLSKNtEPPtjWNxEUIIYLuQZW0+4YAYfONPLeZE
- UrTkTO9uGFHcyNU3a56i6EETimPyNUoHvmNKAy3dg9gWr6keZw/8gCTNo7QSwB9ddfZJ
- qQnEgmFZxZxOtin+uZxgd1Y8WIWINAxRobeiiFVibIpNN1WoZPPxp3rqS9WEzzveNPae
- ITBBAf+RRaR2xVVkR7S4jbF0fE8VnRJYaOLUnVGrXFjjSIbZNHg/HAXDxZte9CzyNG6r
- H/WA==
+ bh=dLcViOC9XeBrn0i9874Oh2sdjjvie7K1Wv9yyTZ+XyU=;
+ b=akxICZXzLT9qtfacHcLRkxnnH4e1GhkjSh2NfXBDrFUxWDM0CP1y0XpXg/zOJaAQqS
+ CkuBD1CEOo8tlhe2JFZ8flhAhx/8iEmveVxWH9XRkXbyQBfJaXJ4XwExglAnvBW+M9Hf
+ RUtoSugHiY20kI7TAookU8Wudy+fiUsIek1LKBiRBjvlRXt8Wsr2R0Gczi1efK7I2jni
+ fEPCuI+Gbme2NajqmrMc75CrMDBp9o/EXq1SnV6tq0h9HikqCjIIKg1ChE+71uWgOGxZ
+ aGOnwEt0w9P+DIXzmzPYZcCrd+6e7gxjwuUcfTLFUyoS9eflr6A04/T4A/QQGPDpFT67
+ UBLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=6H/ngFKC9poxGUW/buF3Z6IUXcBgboVM+XR0Uqd9ot8=;
- b=kHKvY7G2wENWe/TPdssVslyGqJraY+JcSb/ZhTsw7yjP0CM+Ooe7XVMPeCnc5B+sg6
- ePSOQwZ6SR2Sd7Om4Cd/4opHQI+WujKQTBRKQQzTUoaPnZocHp+9O2UmztfTVaHyYZTk
- qANwFRnKDCyc4XjdDzTsa+wvSLVsrJwaU/wpGjxoUP5IrW0T1zEdkDmQH+3kzKwBuCds
- b3LGqGcJDtwQKlMBs0P4lEkgNBnrcXQuQf7A0934uM7OKeT4xgFGnpRPRpnlOmVXTTj/
- oMcORKF91kKv2fxIiPLWl9how6ceUjOjafiqPoMr0eM0j1AE7C4upztV3aLdfMhZG4hI
- SOKw==
-X-Gm-Message-State: AOAM530dJpDmjfM4xrRXzblj0t7BJjuppzIEEa/6aCsVrjlFG4I/OyX+
- uT2KPKSM7v/Aj1US3pz378Q=
-X-Google-Smtp-Source: ABdhPJxXb7SYBCRj2Ub2g+4sXnWVWktbYjdK81QMPFY4KhRBrf8naWsp1xWADtOextjGaVzR61Wo8A==
-X-Received: by 2002:a1c:2685:: with SMTP id m127mr3661518wmm.42.1637677289034; 
- Tue, 23 Nov 2021 06:21:29 -0800 (PST)
+ bh=dLcViOC9XeBrn0i9874Oh2sdjjvie7K1Wv9yyTZ+XyU=;
+ b=nih2+Bf/+yVlZ330rui6Tc/BdzIKOJBZ/3wXTgAfmoErDkFEBRBP6eMO9V8z6gHrka
+ 02a36TwkysKuKGM9e1xKfIIZHY83CsDVw6TZuO7zixjuZEzDR0bQ5FhZxvhFBw/kh7Mv
+ PdniDiL4yIFsGMMKMARjYnMjBMJaivvDxt2RAIOGhHWxCeIlqpSip8Y/tfHQ4oW5I5tn
+ szuuJLwMCe38cDHLvd9QAvF6Bzkbg8jeZvz/FPsjGjJ5hsCUXJbBWakChsRlrP0aLYqv
+ Ip7hFFDJP/i/HIX8+EO3jcnqXfak475mAvngrK2KpKIc+XgGn//tnzRYRXzPSH4Tp9L1
+ Q3tg==
+X-Gm-Message-State: AOAM53346ao//5KUTxQYIm4Up5MlYzJ0Y9m9Ccj78sVknaJbocDn2G1A
+ Ac21AwmgOAyhmeGhZyNe9lc=
+X-Google-Smtp-Source: ABdhPJwL0j2p6QTFl0fJ4Pb+Hz/6hTqyAYg8+HAIBA7AcBESaZ9Hk4Pop+uh7AuarwcCBR/GqvX45g==
+X-Received: by 2002:adf:d1e2:: with SMTP id g2mr7509995wrd.179.1637677291125; 
+ Tue, 23 Nov 2021 06:21:31 -0800 (PST)
 Received: from abel.fritz.box (p57b0b77b.dip0.t-ipconnect.de. [87.176.183.123])
- by smtp.gmail.com with ESMTPSA id t8sm1645928wmq.32.2021.11.23.06.21.27
+ by smtp.gmail.com with ESMTPSA id t8sm1645928wmq.32.2021.11.23.06.21.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Nov 2021 06:21:28 -0800 (PST)
+ Tue, 23 Nov 2021 06:21:30 -0800 (PST)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
  <christian.koenig@amd.com>
 To: sumit.semwal@linaro.org,
 	daniel@ffwll.ch
-Subject: [PATCH 08/26] dma-buf: add dma_resv_get_singleton
-Date: Tue, 23 Nov 2021 15:20:53 +0100
-Message-Id: <20211123142111.3885-9-christian.koenig@amd.com>
+Subject: [PATCH 09/26] RDMA: use dma_resv_wait() instead of extracting the
+ fence
+Date: Tue, 23 Nov 2021 15:20:54 +0100
+Message-Id: <20211123142111.3885-10-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211123142111.3885-1-christian.koenig@amd.com>
 References: <20211123142111.3885-1-christian.koenig@amd.com>
@@ -77,96 +77,40 @@ Cc: linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a function to simplify getting a single fence for all the fences in
-the dma_resv object.
+Use dma_resv_wait() instead of extracting the exclusive fence and
+waiting on it manually.
 
 Signed-off-by: Christian König <christian.koenig@amd.com>
 ---
- drivers/dma-buf/dma-resv.c | 50 ++++++++++++++++++++++++++++++++++++++
- include/linux/dma-resv.h   |  2 ++
- 2 files changed, 52 insertions(+)
+ drivers/infiniband/core/umem_dmabuf.c | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
-index 0a69f4b7e6b5..f91ca023b550 100644
---- a/drivers/dma-buf/dma-resv.c
-+++ b/drivers/dma-buf/dma-resv.c
-@@ -34,6 +34,7 @@
-  */
- 
- #include <linux/dma-resv.h>
-+#include <linux/dma-fence-array.h>
- #include <linux/export.h>
- #include <linux/mm.h>
- #include <linux/sched/mm.h>
-@@ -721,6 +722,55 @@ int dma_resv_get_fences(struct dma_resv *obj, bool write,
+diff --git a/drivers/infiniband/core/umem_dmabuf.c b/drivers/infiniband/core/umem_dmabuf.c
+index f0760741f281..d32cd7538835 100644
+--- a/drivers/infiniband/core/umem_dmabuf.c
++++ b/drivers/infiniband/core/umem_dmabuf.c
+@@ -16,7 +16,6 @@ int ib_umem_dmabuf_map_pages(struct ib_umem_dmabuf *umem_dmabuf)
+ {
+ 	struct sg_table *sgt;
+ 	struct scatterlist *sg;
+-	struct dma_fence *fence;
+ 	unsigned long start, end, cur = 0;
+ 	unsigned int nmap = 0;
+ 	int i;
+@@ -68,11 +67,8 @@ int ib_umem_dmabuf_map_pages(struct ib_umem_dmabuf *umem_dmabuf)
+ 	 * may be not up-to-date. Wait for the exporter to finish
+ 	 * the migration.
+ 	 */
+-	fence = dma_resv_excl_fence(umem_dmabuf->attach->dmabuf->resv);
+-	if (fence)
+-		return dma_fence_wait(fence, false);
+-
+-	return 0;
++	return dma_resv_wait_timeout(umem_dmabuf->attach->dmabuf->resv, false,
++				     false, MAX_SCHEDULE_TIMEOUT);
  }
- EXPORT_SYMBOL_GPL(dma_resv_get_fences);
+ EXPORT_SYMBOL(ib_umem_dmabuf_map_pages);
  
-+/**
-+ * dma_resv_get_singleton - Get a single fence for all the fences
-+ * @obj: the reservation object
-+ * @write: true if we should return all fences
-+ * @fence: the resulting fence
-+ *
-+ * Get a single fence representing all the fences inside the resv object.
-+ * Returns either 0 for success or -ENOMEM.
-+ *
-+ * Warning: This can't be used like this when adding the fence back to the resv
-+ * object since that can lead to stack corruption when finalizing the
-+ * dma_fence_array.
-+ */
-+int dma_resv_get_singleton(struct dma_resv *obj, bool write,
-+			   struct dma_fence **fence)
-+{
-+	struct dma_fence_array *array;
-+	struct dma_fence **fences;
-+	unsigned count;
-+	int r;
-+
-+	r = dma_resv_get_fences(obj, write, &count, &fences);
-+        if (r)
-+		return r;
-+
-+	if (count == 0) {
-+		*fence = NULL;
-+		return 0;
-+	}
-+
-+	if (count == 1) {
-+		*fence = fences[0];
-+		kfree(fences);
-+		return 0;
-+	}
-+
-+	array = dma_fence_array_create(count, fences,
-+				       dma_fence_context_alloc(1),
-+				       1, false);
-+	if (!array) {
-+		kfree(fences);
-+		return -ENOMEM;
-+	}
-+
-+	*fence = &array->base;
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(dma_resv_get_singleton);
-+
- /**
-  * dma_resv_wait_timeout - Wait on reservation's objects
-  * shared and/or exclusive fences.
-diff --git a/include/linux/dma-resv.h b/include/linux/dma-resv.h
-index 09b676b87c35..082f77b7bc63 100644
---- a/include/linux/dma-resv.h
-+++ b/include/linux/dma-resv.h
-@@ -440,6 +440,8 @@ void dma_resv_prune(struct dma_resv *obj);
- void dma_resv_prune_unlocked(struct dma_resv *obj);
- int dma_resv_get_fences(struct dma_resv *obj, bool write,
- 			unsigned int *num_fences, struct dma_fence ***fences);
-+int dma_resv_get_singleton(struct dma_resv *obj, bool write,
-+			   struct dma_fence **fence);
- int dma_resv_copy_fences(struct dma_resv *dst, struct dma_resv *src);
- long dma_resv_wait_timeout(struct dma_resv *obj, bool wait_all, bool intr,
- 			   unsigned long timeout);
 -- 
 2.25.1
 
