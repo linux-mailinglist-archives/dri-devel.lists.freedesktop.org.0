@@ -1,39 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D833C459B60
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Nov 2021 06:09:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 309DF459C28
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Nov 2021 07:02:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6FC566E106;
-	Tue, 23 Nov 2021 05:09:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 160CD6E048;
+	Tue, 23 Nov 2021 06:02:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bombadil.infradead.org (bombadil.infradead.org
- [IPv6:2607:7c80:54:e::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A61F6E0EE;
- Tue, 23 Nov 2021 05:09:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- Content-Type:MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
- Content-ID:Content-Description:In-Reply-To:References;
- bh=XcTY0WjwUY8rhTXzrXCh5eTVe9RMeOMTY8mUb3Id2RY=; b=tayXV/n6xHxzHRwDtBtjjgLIq8
- XgrZCBGxU1Ef3RwKU6GCqxJ3YioRw0BDV2elC5+IhIkvwB/BSnVomB8OchFIDjBVLPQYdv29Y5DYH
- aMeLKWUU3PisYAEY4tuKkibdLEfrhjNOaZ/qby/UFVxztf77uP5AyVqgumjFsN4Ayh03xWWJLiy6/
- j6O9ufUm6HzsF5i7TuDIjNOWtbWrMZ092tggOtI9HKPrPyejHHhXQ8EublTdN6WjSHxNEpKLa6jRh
- REnVYul1d4WAn5pbLC7C6lqXf2exKuXY+eNFz3uYp4IthTQAyk5P5vrzL0py7YM3v/yZF57iNtgNn
- qx7M73lg==;
-Received: from [2601:1c0:6280:3f0::aa0b] (helo=bombadil.infradead.org)
- by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mpO3d-000orn-6h; Tue, 23 Nov 2021 05:09:29 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/i915/gem: placate scripts/kernel-doc
-Date: Mon, 22 Nov 2021 21:09:28 -0800
-Message-Id: <20211123050928.20434-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.31.1
+Received: from smtp.smtpout.orange.fr (smtp04.smtpout.orange.fr
+ [80.12.242.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 79CA86E0AC
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Nov 2021 06:02:38 +0000 (UTC)
+Received: from [192.168.1.18] ([86.243.171.122]) by smtp.orange.fr with ESMTPA
+ id pOswmPY11soWhpOswmyxXs; Tue, 23 Nov 2021 07:02:35 +0100
+X-ME-Helo: [192.168.1.18]
+X-ME-Auth: YWZlNiIxYWMyZDliZWIzOTcwYTEyYzlhMmU3ZiQ1M2U2MzfzZDfyZTMxZTBkMTYyNDBjNDJlZmQ3ZQ==
+X-ME-Date: Tue, 23 Nov 2021 07:02:35 +0100
+X-ME-IP: 86.243.171.122
+Subject: Re: [PATCH 2/2] drm/amdkfd: Slighly optimize 'init_doorbell_bitmap()'
+To: Felix Kuehling <felix.kuehling@amd.com>, alexander.deucher@amd.com,
+ christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@linux.ie,
+ daniel@ffwll.ch
+References: <2343a4e6547a8436419308744ba8c433088922a5.1637516393.git.christophe.jaillet@wanadoo.fr>
+ <3e54737649cf94daabaa5b51db9f4c21d43124fe.1637516393.git.christophe.jaillet@wanadoo.fr>
+ <283c0b53-ff4e-85f8-4738-2d477365f458@amd.com>
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Message-ID: <306b774e-6ee7-c976-a303-f566f7ba626c@wanadoo.fr>
+Date: Tue, 23 Nov 2021 07:02:28 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <283c0b53-ff4e-85f8-4738-2d477365f458@amd.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -47,63 +48,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Randy Dunlap <rdunlap@infradead.org>, kernel test robot <lkp@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, Matthew Auld <matthew.auld@intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: kernel-janitors@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Correct kernel-doc warnings in i915_drm_object.c:
+Le 22/11/2021 à 22:44, Felix Kuehling a écrit :
+> Am 2021-11-21 um 12:41 p.m. schrieb Christophe JAILLET:
+>> The 'doorbell_bitmap' bitmap has just been allocated. So we can use the
+>> non-atomic '__set_bit()' function to save a few cycles as no concurrent
+>> access can happen.
+>>
+>> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+> 
+> Thank you for the patches. I think the same sort of change (at least the
+> allocation/freeing part) could be applied to the queue_slot_bitmap in
+> kfd_process_queue_manager.c. Would you like to submit another revision
+> of this patch series that handles that as well?
 
-i915_gem_object.c:103: warning: expecting prototype for i915_gem_object_fini(). Prototype was for __i915_gem_object_fini() instead
-i915_gem_object.c:110: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
- * Mark up the object's coherency levels for a given cache_level
-i915_gem_object.c:110: warning: missing initial short description on line:
- * Mark up the object's coherency levels for a given cache_level
-i915_gem_object.c:457: warning: No description found for return value of 'i915_gem_object_read_from_page'
+I'll send a v2 which will fix the missing ',' spotted by the kernel test 
+robot and include kfd_process_queue_manager.c.
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Reported-by: kernel test robot <lkp@intel.com>
-Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Cc: Matthew Auld <matthew.auld@intel.com>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Cc: intel-gfx@lists.freedesktop.org
----
- drivers/gpu/drm/i915/gem/i915_gem_object.c |    7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+All my patches are compile tested (otherwise it is said bellow the ---). 
+Looks like I missed this one :(.
 
---- linux-next-20211118.orig/drivers/gpu/drm/i915/gem/i915_gem_object.c
-+++ linux-next-20211118/drivers/gpu/drm/i915/gem/i915_gem_object.c
-@@ -91,7 +91,7 @@ void i915_gem_object_init(struct drm_i91
- }
- 
- /**
-- * i915_gem_object_fini - Clean up a GEM object initialization
-+ * __i915_gem_object_fini - Clean up a GEM object initialization
-  * @obj: The gem object to cleanup
-  *
-  * This function cleans up gem object fields that are set up by
-@@ -107,7 +107,8 @@ void __i915_gem_object_fini(struct drm_i
- }
- 
- /**
-- * Mark up the object's coherency levels for a given cache_level
-+ * i915_gem_object_set_cache_coherency - Mark up the object's coherency levels
-+ * for a given cache_level
-  * @obj: #drm_i915_gem_object
-  * @cache_level: cache level
-  */
-@@ -450,7 +451,7 @@ i915_gem_object_read_from_page_iomap(str
-  * from can't cross a page boundary. The caller must ensure that @obj pages
-  * are pinned and that @obj is synced wrt. any related writes.
-  *
-- * Returns 0 on success or -ENODEV if the type of @obj's backing store is
-+ * Return: %0 on success or -ENODEV if the type of @obj's backing store is
-  * unsupported.
-  */
- int i915_gem_object_read_from_page(struct drm_i915_gem_object *obj, u64 offset, void *dst, int size)
+CJ
+
+> 
+> Either way, this series is
+> 
+> Reviewed-by: Felix Kuehling <Felix.Kuehling@amd.com>
+> 
+> 
+>> ---
+>> bitmap_set() could certainly also be use, but range checking would be
+>> tricky.
+>> ---
+>>   drivers/gpu/drm/amd/amdkfd/kfd_process.c | 6 +++---
+>>   1 file changed, 3 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_process.c b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
+>> index 172ee8763523..2e9d341062c4 100644
+>> --- a/drivers/gpu/drm/amd/amdkfd/kfd_process.c
+>> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
+>> @@ -1447,9 +1447,9 @@ static int init_doorbell_bitmap(struct qcm_process_device *qpd,
+>>   
+>>   	for (i = 0; i < KFD_MAX_NUM_OF_QUEUES_PER_PROCESS / 2; i++) {
+>>   		if (i >= range_start && i <= range_end) {
+>> -			set_bit(i, qpd->doorbell_bitmap);
+>> -			set_bit(i + KFD_QUEUE_DOORBELL_MIRROR_OFFSET,
+>> -				qpd->doorbell_bitmap);
+>> +			__set_bit(i, qpd->doorbell_bitmap);
+>> +			__set_bit(i + KFD_QUEUE_DOORBELL_MIRROR_OFFSET,
+>> +				  qpd->doorbell_bitmap);
+>>   		}
+>>   	}
+>>   
+> 
+
