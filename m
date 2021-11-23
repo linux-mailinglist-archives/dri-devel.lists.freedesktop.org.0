@@ -1,38 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64F0145AA62
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Nov 2021 18:46:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C497145AA59
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Nov 2021 18:46:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1170B6E1ED;
-	Tue, 23 Nov 2021 17:46:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C8A8B6E1E9;
+	Tue, 23 Nov 2021 17:46:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mo4-p03-ob.smtp.rzone.de (mo4-p03-ob.smtp.rzone.de
- [85.215.255.103])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BFC6B6E1F8
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Nov 2021 17:46:29 +0000 (UTC)
+ [81.169.146.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F4426E1E9
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Nov 2021 17:46:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1637689588;
  s=strato-dkim-0002; d=goldelico.com;
  h=References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Cc:Date:
  From:Subject:Sender;
- bh=Q3ovXE46CMHAv4DP0A184nGXTqyiNm+RsxkVkHssYI8=;
- b=Szl2jymmeCVaW4y21xCFxr5lK968U2zBBx96A+ORQCGYdiUf7FH5hY0PRKRx9NQ6ug
- 8OVpkUDBn4L85bMN3uVZXW47N1JILMjU/j6a+iByzJiZtUsyK1ZEpG8A/3Q74VIjfClT
- +wM11Q7cYogzmqpAdp8wXPOtxpqzw5KADiM70TydJjoMPobRrngcSaaABzyUmZOl6Zva
- P/poIKXcgV1wio1QhU/OB2mBRZa+iJto/15XJ2HhlgUI0910qf11ZaY1gpg3pKOcvzlw
- Ei2960RcQVy9rVNqb/swkJDiy9ADdGvr0b6C8onIs0AuXbKa2BYelUnaqaemC69bGQkj
- BOjA==
+ bh=H+L+KqoehfSz+zOV136NFk6TJCtvEp1ThSi7blBE8ic=;
+ b=cjr/bUq28zjWBxpy+lu2KpcVtTQuJxKyy2chJZdC/htyszRX+OMetKVHlRkVRO60VY
+ YWS/ascv5ZCY5QV+3LyVAnJJZcvgOEugCYVW/djL3D98JaDStroo22Su7c7cobxmQvJz
+ TVud48GhTZOXYEz9IbeHamhii93U8hM1w0KxlfeMHpkn0HwHWqOVfZ0ChwjzyN2R+rEl
+ mlLtmUe//I91JETpbSSHa/Mf7OipdbOyBth7AnBgybttw/y43GgL44yWEfTAjlwgUbHr
+ XVR0CjkBL7WZTI1KsBDC1nPQlS3EQdi2dMGUdZNAiqpeVN9kInkx/KyPcOAZhhqclT3J
+ pzpA==
 Authentication-Results: strato.com;
     dkim=none
 X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMhflhwDubTJ9o12DNOsPj0lByOdcKVX0"
 X-RZG-CLASS-ID: mo00
 Received: from iMac.fritz.box by smtp.strato.de (RZmta 47.34.6 DYNA|AUTH)
- with ESMTPSA id g09b5fxANHkR7fp
+ with ESMTPSA id g09b5fxANHkS7fq
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
  (Client did not present a certificate);
- Tue, 23 Nov 2021 18:46:27 +0100 (CET)
+ Tue, 23 Nov 2021 18:46:28 +0100 (CET)
 From: "H. Nikolaus Schaller" <hns@goldelico.com>
 To: Paul Cercueil <paul@crapouillou.net>, Rob Herring <robh+dt@kernel.org>,
  Mark Rutland <mark.rutland@arm.com>,
@@ -51,10 +51,9 @@ To: Paul Cercueil <paul@crapouillou.net>, Rob Herring <robh+dt@kernel.org>,
  Maxime Ripard <maxime@cerno.tech>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
  Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
  Paul Boddie <paul@boddie.org.uk>
-Subject: [PATCH v7 3/8] dt-bindings: display: Add ingenic,
- jz4780-dw-hdmi DT Schema
-Date: Tue, 23 Nov 2021 18:46:18 +0100
-Message-Id: <7f97457be3b4090ee6ffd2662ee6732772f03be2.1637689583.git.hns@goldelico.com>
+Subject: [PATCH v7 4/8] drm/ingenic: Add dw-hdmi driver for jz4780
+Date: Tue, 23 Nov 2021 18:46:19 +0100
+Message-Id: <80528e3e2ec5f564a289cb9250a5d3b739b0b9bd.1637689583.git.hns@goldelico.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <cover.1637689583.git.hns@goldelico.com>
 References: <cover.1637689583.git.hns@goldelico.com>
@@ -78,119 +77,186 @@ Cc: devicetree@vger.kernel.org, Jonas Karlman <jonas@kwiboo.se>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Sam Ravnborg <sam@ravnborg.org>
+From: Paul Boddie <paul@boddie.org.uk>
 
-Add DT bindings for the hdmi driver for the Ingenic JZ4780 SoC.
-Based on .txt binding from Zubair Lutfullah Kakakhel
+A specialisation of the generic Synopsys HDMI driver is employed for
+JZ4780 HDMI support. This requires a new driver, plus device tree and
+configuration modifications.
 
-We also add generic ddc-i2c-bus to synopsys,dw-hdmi.yaml
+Here we add Kconfig DRM_INGENIC_DW_HDMI, Makefile and driver code.
 
-Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+Signed-off-by: Paul Boddie <paul@boddie.org.uk>
+Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
 Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
-Cc: Rob Herring <robh@kernel.org>
-Cc: devicetree@vger.kernel.org
 ---
- .../display/bridge/ingenic,jz4780-hdmi.yaml   | 76 +++++++++++++++++++
- .../display/bridge/synopsys,dw-hdmi.yaml      |  3 +
- 2 files changed, 79 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/bridge/ingenic,jz4780-hdmi.yaml
+ drivers/gpu/drm/ingenic/Kconfig           |   9 ++
+ drivers/gpu/drm/ingenic/Makefile          |   1 +
+ drivers/gpu/drm/ingenic/ingenic-dw-hdmi.c | 129 ++++++++++++++++++++++
+ 3 files changed, 139 insertions(+)
+ create mode 100644 drivers/gpu/drm/ingenic/ingenic-dw-hdmi.c
 
-diff --git a/Documentation/devicetree/bindings/display/bridge/ingenic,jz4780-hdmi.yaml b/Documentation/devicetree/bindings/display/bridge/ingenic,jz4780-hdmi.yaml
+diff --git a/drivers/gpu/drm/ingenic/Kconfig b/drivers/gpu/drm/ingenic/Kconfig
+index 3b57f8be007c4..4efc709d77b0a 100644
+--- a/drivers/gpu/drm/ingenic/Kconfig
++++ b/drivers/gpu/drm/ingenic/Kconfig
+@@ -25,4 +25,13 @@ config DRM_INGENIC_IPU
+ 
+ 	  The Image Processing Unit (IPU) will appear as a second primary plane.
+ 
++config DRM_INGENIC_DW_HDMI
++	tristate "Ingenic specific support for Synopsys DW HDMI"
++	depends on MACH_JZ4780
++	select DRM_DW_HDMI
++	help
++	  Choose this option to enable Synopsys DesignWare HDMI based driver.
++	  If you want to enable HDMI on Ingenic JZ4780 based SoC, you should
++	  select this option..
++
+ endif
+diff --git a/drivers/gpu/drm/ingenic/Makefile b/drivers/gpu/drm/ingenic/Makefile
+index d313326bdddbb..f10cc1c5a5f22 100644
+--- a/drivers/gpu/drm/ingenic/Makefile
++++ b/drivers/gpu/drm/ingenic/Makefile
+@@ -1,3 +1,4 @@
+ obj-$(CONFIG_DRM_INGENIC) += ingenic-drm.o
+ ingenic-drm-y = ingenic-drm-drv.o
+ ingenic-drm-$(CONFIG_DRM_INGENIC_IPU) += ingenic-ipu.o
++obj-$(CONFIG_DRM_INGENIC_DW_HDMI) += ingenic-dw-hdmi.o
+diff --git a/drivers/gpu/drm/ingenic/ingenic-dw-hdmi.c b/drivers/gpu/drm/ingenic/ingenic-dw-hdmi.c
 new file mode 100644
-index 0000000000000..190ca4521b1d0
+index 0000000000000..c14890d6b9826
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/display/bridge/ingenic,jz4780-hdmi.yaml
-@@ -0,0 +1,76 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/bridge/ingenic,jz4780-hdmi.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
++++ b/drivers/gpu/drm/ingenic/ingenic-dw-hdmi.c
+@@ -0,0 +1,129 @@
++// SPDX-License-Identifier: GPL-2.0
++/* Copyright (C) 2011-2013 Freescale Semiconductor, Inc.
++ * Copyright (C) 2019, 2020 Paul Boddie <paul@boddie.org.uk>
++ *
++ * Derived from dw_hdmi-imx.c with i.MX portions removed.
++ * Probe and remove operations derived from rcar_dw_hdmi.c.
++ */
 +
-+title: Bindings for Ingenic JZ4780 HDMI Transmitter
++#include <linux/module.h>
++#include <linux/platform_device.h>
++#include <linux/regmap.h>
 +
-+maintainers:
-+  - H. Nikolaus Schaller <hns@goldelico.com>
++#include <drm/bridge/dw_hdmi.h>
++#include <drm/drm_of.h>
++#include <drm/drm_print.h>
 +
-+description: |
-+  The HDMI Transmitter in the Ingenic JZ4780 is a Synopsys DesignWare HDMI 1.4
-+  TX controller IP with accompanying PHY IP.
++static const struct dw_hdmi_mpll_config ingenic_mpll_cfg[] = {
++	{ 45250000,  { { 0x01e0, 0x0000 }, { 0x21e1, 0x0000 }, { 0x41e2, 0x0000 } } },
++	{ 92500000,  { { 0x0140, 0x0005 }, { 0x2141, 0x0005 }, { 0x4142, 0x0005 } } },
++	{ 148500000, { { 0x00a0, 0x000a }, { 0x20a1, 0x000a }, { 0x40a2, 0x000a } } },
++	{ 216000000, { { 0x00a0, 0x000a }, { 0x2001, 0x000f }, { 0x4002, 0x000f } } },
++	{ ~0UL,      { { 0x0000, 0x0000 }, { 0x0000, 0x0000 }, { 0x0000, 0x0000 } } }
++};
 +
-+allOf:
-+  - $ref: bridge/synopsys,dw-hdmi.yaml#
++static const struct dw_hdmi_curr_ctrl ingenic_cur_ctr[] = {
++	/*pixelclk     bpp8    bpp10   bpp12 */
++	{ 54000000,  { 0x091c, 0x091c, 0x06dc } },
++	{ 58400000,  { 0x091c, 0x06dc, 0x06dc } },
++	{ 72000000,  { 0x06dc, 0x06dc, 0x091c } },
++	{ 74250000,  { 0x06dc, 0x0b5c, 0x091c } },
++	{ 118800000, { 0x091c, 0x091c, 0x06dc } },
++	{ 216000000, { 0x06dc, 0x0b5c, 0x091c } },
++	{ ~0UL,      { 0x0000, 0x0000, 0x0000 } },
++};
 +
-+properties:
-+  compatible:
-+    const: ingenic,jz4780-dw-hdmi
++/*
++ * Resistance term 133Ohm Cfg
++ * PREEMP config 0.00
++ * TX/CK level 10
++ */
++static const struct dw_hdmi_phy_config ingenic_phy_config[] = {
++	/*pixelclk   symbol   term   vlev */
++	{ 216000000, 0x800d, 0x0005, 0x01ad},
++	{ ~0UL,      0x0000, 0x0000, 0x0000}
++};
 +
-+  reg-io-width:
-+    const: 4
++static enum drm_mode_status
++ingenic_dw_hdmi_mode_valid(struct dw_hdmi *hdmi, void *data,
++			   const struct drm_display_info *info,
++			   const struct drm_display_mode *mode)
++{
++	if (mode->clock < 13500)
++		return MODE_CLOCK_LOW;
++	/* FIXME: Hardware is capable of 270MHz, but setup data is missing. */
++	if (mode->clock > 216000)
++		return MODE_CLOCK_HIGH;
 +
-+  clocks:
-+    maxItems: 2
++	return MODE_OK;
++}
 +
-+  hdmi-5v-supply:
-+    description: Optional regulator to provide +5V at the connector
++static struct dw_hdmi_plat_data ingenic_dw_hdmi_plat_data = {
++	.mpll_cfg   = ingenic_mpll_cfg,
++	.cur_ctr    = ingenic_cur_ctr,
++	.phy_config = ingenic_phy_config,
++	.mode_valid = ingenic_dw_hdmi_mode_valid,
++	.output_port	= 1,
++};
 +
-+  ports:
-+    $ref: /schemas/graph.yaml#/properties/ports
++static const struct of_device_id ingenic_dw_hdmi_dt_ids[] = {
++	{ .compatible = "ingenic,jz4780-dw-hdmi" },
++	{ /* Sentinel */ },
++};
++MODULE_DEVICE_TABLE(of, ingenic_dw_hdmi_dt_ids);
 +
-+required:
-+    - compatible
-+    - clocks
-+    - clock-names
-+    - ports
-+    - reg-io-width
++static int ingenic_dw_hdmi_probe(struct platform_device *pdev)
++{
++	struct dw_hdmi *hdmi;
++	struct regulator *regulator;
++	int ret;
 +
-+unevaluatedPropertes: false
++	hdmi = dw_hdmi_probe(pdev, &ingenic_dw_hdmi_plat_data);
++	if (IS_ERR(hdmi))
++		return PTR_ERR(hdmi);
 +
-+examples:
-+  - |
-+    #include <dt-bindings/clock/jz4780-cgu.h>
++	platform_set_drvdata(pdev, hdmi);
 +
-+    hdmi: hdmi@10180000 {
-+        compatible = "ingenic,jz4780-dw-hdmi";
-+        reg = <0x10180000 0x8000>;
-+        reg-io-width = <4>;
-+        ddc-i2c-bus = <&i2c4>;
-+        interrupt-parent = <&intc>;
-+        interrupts = <3>;
-+        clocks = <&cgu JZ4780_CLK_AHB0>, <&cgu JZ4780_CLK_HDMI>;
-+        clock-names = "iahb", "isfr";
++	regulator = devm_regulator_get_optional(&pdev->dev, "hdmi-5v");
 +
-+        ports {
-+            #address-cells = <1>;
-+            #size-cells = <0>;
-+            hdmi_in: port@0 {
-+                reg = <0>;
-+                dw_hdmi_in: endpoint {
-+                    remote-endpoint = <&jz4780_lcd_out>;
-+                };
-+            };
-+            hdmi_out: port@1 {
-+                reg = <1>;
-+                dw_hdmi_out: endpoint {
-+                    remote-endpoint = <&hdmi_con>;
-+                };
-+            };
-+        };
-+    };
++	if (IS_ERR(regulator)) {
++		ret = PTR_ERR(regulator);
 +
-+...
-diff --git a/Documentation/devicetree/bindings/display/bridge/synopsys,dw-hdmi.yaml b/Documentation/devicetree/bindings/display/bridge/synopsys,dw-hdmi.yaml
-index 9be44a682e67a..9cbeabaee0968 100644
---- a/Documentation/devicetree/bindings/display/bridge/synopsys,dw-hdmi.yaml
-+++ b/Documentation/devicetree/bindings/display/bridge/synopsys,dw-hdmi.yaml
-@@ -50,6 +50,9 @@ properties:
-   interrupts:
-     maxItems: 1
- 
-+  ddc-i2c-bus:
-+    description: An I2C interface if the internal DDC I2C driver is not to be used
++		DRM_DEV_ERROR(&pdev->dev, "failed to get hpd regulator: %s (%d)\n",
++			      "hdmi-5v", ret);
++		return ret;
++	}
 +
- additionalProperties: true
- 
- ...
++	ret = regulator_enable(regulator);
++	if (ret) {
++		DRM_DEV_ERROR(&pdev->dev, "Failed to enable hpd regulator: %d\n",
++			      ret);
++		return ret;
++	}
++
++	return 0;
++}
++
++static int ingenic_dw_hdmi_remove(struct platform_device *pdev)
++{
++	struct dw_hdmi *hdmi = platform_get_drvdata(pdev);
++
++	dw_hdmi_remove(hdmi);
++
++	return 0;
++}
++
++static struct platform_driver ingenic_dw_hdmi_driver = {
++	.probe  = ingenic_dw_hdmi_probe,
++	.remove = ingenic_dw_hdmi_remove,
++	.driver = {
++		.name = "dw-hdmi-ingenic",
++		.of_match_table = ingenic_dw_hdmi_dt_ids,
++	},
++};
++
++module_platform_driver(ingenic_dw_hdmi_driver);
++
++MODULE_DESCRIPTION("JZ4780 Specific DW-HDMI Driver Extension");
++MODULE_LICENSE("GPL v2");
++MODULE_ALIAS("platform:dwhdmi-ingenic");
 -- 
 2.33.0
 
