@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9181C45AB0D
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Nov 2021 19:14:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F40C45AB28
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Nov 2021 19:14:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C732899DE;
-	Tue, 23 Nov 2021 18:14:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 79DA389BB0;
+	Tue, 23 Nov 2021 18:14:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mo4-p04-ob.smtp.rzone.de (mo4-p04-ob.smtp.rzone.de
- [85.215.255.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BECC1899F3
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Nov 2021 18:14:04 +0000 (UTC)
+ [85.215.255.123])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 96652899DC
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Nov 2021 18:14:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1637691243;
  s=strato-dkim-0002; d=goldelico.com;
  h=References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Cc:Date:
  From:Subject:Sender;
- bh=CDnhZE/bCmY+sU+9kBR2+/QdGVAtCkJSkm9JjrgStzg=;
- b=UiLH9D51DIXjMTEEcg9d6hOXbtxgal7Hg4udg4fuOrVHYNQPV2FaNznXHozgDlJ+NF
- oaqfxXjywcaKYYHkAVGnDdVigeUgB+Vvc/o5XesWJDqNNbOXErZerOEvGm0PsQiiB3Vg
- WJqMBtnWodnLAejHf04PhBax5SdEcqZvJxQ3ZLjf+wJ8Pa1s64zWXfFQ7h4An5n6ux3z
- dr+2aMFv+vk2K9YzyOprEXIbmdcCKX3oQD8lOk/AEqz+aD7D9nH33CjYUAt8WtlgoTkl
- BTLr+j026UV01KzzQPTYQSfStLKxKaJyFWtdM0u9fIMYNJacvU2HUgLR1x0qOylwlti2
- iJWA==
+ bh=8whLw7LSPDit5tAOu3puFsieyl0uvLe0+DPRaMss9ys=;
+ b=Z4e8blr6Wfy+82tqc9LX42tnHJM7OhOQHVUMxKvbKwEThsyvmcPBSIkuOy5YzTv07t
+ wgNGdXV3sTjSnPA4olI+anHBsy/JzPZpuBnwBDLuWdPRMl5KkoxjRTWQghjDW1R+IXo6
+ c3QK+diRBmooHV7ZIezf+uhRlbRzYwSO81OxSw+U4+C8pMPkwYe1DFKL2+wNj7IG3JQZ
+ z2MDNWg2G3xB9HniXw1TPCisQiBj6hnEyFoBfrnZbEI+DHD4G7uKxjTVQZjt+j3Pvn9X
+ p2uJtlqIlh0G5+hrmMrcJZsxX5OMvnljb63XFGbWyBT2Q56+qNL61PRI1X2se8CmA+WS
+ wdIw==
 Authentication-Results: strato.com;
     dkim=none
 X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMhflhwDubTJ9o12DNOsPj0lByOdcKVX0"
 X-RZG-CLASS-ID: mo00
 Received: from iMac.fritz.box by smtp.strato.de (RZmta 47.34.6 DYNA|AUTH)
- with ESMTPSA id g09b5fxANIE27mX
+ with ESMTPSA id g09b5fxANIE37mY
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
  (Client did not present a certificate);
- Tue, 23 Nov 2021 19:14:02 +0100 (CET)
+ Tue, 23 Nov 2021 19:14:03 +0100 (CET)
 From: "H. Nikolaus Schaller" <hns@goldelico.com>
 To: Paul Cercueil <paul@crapouillou.net>, Rob Herring <robh+dt@kernel.org>,
  Mark Rutland <mark.rutland@arm.com>,
@@ -51,10 +51,9 @@ To: Paul Cercueil <paul@crapouillou.net>, Rob Herring <robh+dt@kernel.org>,
  Maxime Ripard <maxime@cerno.tech>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
  Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
  Paul Boddie <paul@boddie.org.uk>
-Subject: [PATCH v8 1/8] drm/ingenic: prepare ingenic drm for later addition of
- JZ4780
-Date: Tue, 23 Nov 2021 19:13:54 +0100
-Message-Id: <de5ed6a7225e17b0d978a5211052346123b0532b.1637691240.git.hns@goldelico.com>
+Subject: [PATCH v8 2/8] drm/ingenic: Add support for JZ4780 and HDMI output
+Date: Tue, 23 Nov 2021 19:13:55 +0100
+Message-Id: <3c1aa7982faa0bebff0022c951635b18a4ac83e9.1637691240.git.hns@goldelico.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <cover.1637691240.git.hns@goldelico.com>
 References: <cover.1637691240.git.hns@goldelico.com>
@@ -78,59 +77,211 @@ Cc: devicetree@vger.kernel.org, Jonas Karlman <jonas@kwiboo.se>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This changes the way the regmap is allocated to prepare for the
-later addition of the JZ4780 which has more registers and bits
-than the others.
+From: Paul Boddie <paul@boddie.org.uk>
 
-Therefore we make the regmap as big as the reg property in
-the device tree tells.
+Add support for the LCD controller present on JZ4780 SoCs.
+This SoC uses 8-byte descriptors which extend the current
+4-byte descriptors used for other Ingenic SoCs.
 
-Suggested-by: Paul Cercueil <paul@crapouillou.net>
+Tested on MIPS Creator CI20 board.
+
+Signed-off-by: Paul Boddie <paul@boddie.org.uk>
+Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
 Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
 ---
- drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 53 +++++++++++++++++++++++
+ drivers/gpu/drm/ingenic/ingenic-drm.h     | 38 ++++++++++++++++
+ 2 files changed, 91 insertions(+)
 
 diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-index 462bc0f35f1bf..0bb590c3910d9 100644
+index 0bb590c3910d9..34089bc6e0fcd 100644
 --- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
 +++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-@@ -173,7 +173,6 @@ static const struct regmap_config ingenic_drm_regmap_config = {
- 	.val_bits = 32,
- 	.reg_stride = 4,
+@@ -6,6 +6,7 @@
  
--	.max_register = JZ_REG_LCD_SIZE1,
- 	.writeable_reg = ingenic_drm_writeable_reg,
- };
+ #include "ingenic-drm.h"
  
-@@ -1011,6 +1010,8 @@ static int ingenic_drm_bind(struct device *dev, bool has_components)
- 	struct ingenic_drm_bridge *ib;
- 	struct drm_device *drm;
- 	void __iomem *base;
-+	struct resource *res;
-+	struct regmap_config regmap_config;
- 	long parent_rate;
- 	unsigned int i, clone_mask = 0;
- 	int ret, irq;
-@@ -1056,14 +1057,16 @@ static int ingenic_drm_bind(struct device *dev, bool has_components)
- 	drm->mode_config.funcs = &ingenic_drm_mode_config_funcs;
- 	drm->mode_config.helper_private = &ingenic_drm_mode_config_helpers;
++#include <linux/bitfield.h>
+ #include <linux/component.h>
+ #include <linux/clk.h>
+ #include <linux/dma-mapping.h>
+@@ -49,6 +50,11 @@ struct ingenic_dma_hwdesc {
+ 	u32 addr;
+ 	u32 id;
+ 	u32 cmd;
++	/* extended hw descriptor for jz4780 */
++	u32 offsize;
++	u32 pagewidth;
++	u32 cpos;
++	u32 dessize;
+ } __aligned(16);
  
--	base = devm_platform_ioremap_resource(pdev, 0);
-+	base = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
- 	if (IS_ERR(base)) {
- 		dev_err(dev, "Failed to get memory resource\n");
- 		return PTR_ERR(base);
+ struct ingenic_dma_hwdescs {
+@@ -60,6 +66,7 @@ struct jz_soc_info {
+ 	bool needs_dev_clk;
+ 	bool has_osd;
+ 	bool map_noncoherent;
++	bool use_extended_hwdesc;
+ 	unsigned int max_width, max_height;
+ 	const u32 *formats_f0, *formats_f1;
+ 	unsigned int num_formats_f0, num_formats_f1;
+@@ -446,6 +453,9 @@ static int ingenic_drm_plane_atomic_check(struct drm_plane *plane,
+ 	if (!crtc)
+ 		return 0;
+ 
++	if (plane == &priv->f0)
++		return -EINVAL;
++
+ 	crtc_state = drm_atomic_get_existing_crtc_state(state,
+ 							crtc);
+ 	if (WARN_ON(!crtc_state))
+@@ -662,6 +672,33 @@ static void ingenic_drm_plane_atomic_update(struct drm_plane *plane,
+ 		hwdesc->cmd = JZ_LCD_CMD_EOF_IRQ | (width * height * cpp / 4);
+ 		hwdesc->next = dma_hwdesc_addr(priv, next_id);
+ 
++		if (priv->soc_info->use_extended_hwdesc) {
++			hwdesc->cmd |= JZ_LCD_CMD_FRM_ENABLE;
++
++			/* Extended 8-byte descriptor */
++			hwdesc->cpos = 0;
++			hwdesc->offsize = 0;
++			hwdesc->pagewidth = 0;
++
++			switch (newstate->fb->format->format) {
++			case DRM_FORMAT_XRGB1555:
++				hwdesc->cpos |= JZ_LCD_CPOS_RGB555;
++				fallthrough;
++			case DRM_FORMAT_RGB565:
++				hwdesc->cpos |= JZ_LCD_CPOS_BPP_15_16;
++				break;
++			case DRM_FORMAT_XRGB8888:
++				hwdesc->cpos |= JZ_LCD_CPOS_BPP_18_24;
++				break;
++			}
++			hwdesc->cpos |= (JZ_LCD_CPOS_COEFFICIENT_1 <<
++					 JZ_LCD_CPOS_COEFFICIENT_OFFSET);
++			hwdesc->dessize =
++				(0xff << JZ_LCD_DESSIZE_ALPHA_OFFSET) |
++				FIELD_PREP(JZ_LCD_DESSIZE_HEIGHT_MASK, height - 1) |
++				FIELD_PREP(JZ_LCD_DESSIZE_WIDTH_MASK, width - 1);
++		}
++
+ 		if (drm_atomic_crtc_needs_modeset(crtc_state)) {
+ 			fourcc = newstate->fb->format->format;
+ 
+@@ -693,6 +730,9 @@ static void ingenic_drm_encoder_atomic_mode_set(struct drm_encoder *encoder,
+ 		    | JZ_LCD_CFG_SPL_DISABLE | JZ_LCD_CFG_REV_DISABLE;
  	}
  
-+	regmap_config = ingenic_drm_regmap_config;
-+	regmap_config.max_register = res->end - res->start;
- 	priv->map = devm_regmap_init_mmio(dev, base,
--					  &ingenic_drm_regmap_config);
-+					  &regmap_config);
- 	if (IS_ERR(priv->map)) {
- 		dev_err(dev, "Failed to create regmap\n");
- 		return PTR_ERR(priv->map);
++	if (priv->soc_info->use_extended_hwdesc)
++		cfg |= JZ_LCD_CFG_DESCRIPTOR_8;
++
+ 	if (mode->flags & DRM_MODE_FLAG_NHSYNC)
+ 		cfg |= JZ_LCD_CFG_HSYNC_ACTIVE_LOW;
+ 	if (mode->flags & DRM_MODE_FLAG_NVSYNC)
+@@ -1468,10 +1508,23 @@ static const struct jz_soc_info jz4770_soc_info = {
+ 	.num_formats_f0 = ARRAY_SIZE(jz4770_formats_f0),
+ };
+ 
++static const struct jz_soc_info jz4780_soc_info = {
++	.needs_dev_clk = true,
++	.has_osd = true,
++	.use_extended_hwdesc = true,
++	.max_width = 4096,
++	.max_height = 2048,
++	.formats_f1 = jz4770_formats_f1,
++	.num_formats_f1 = ARRAY_SIZE(jz4770_formats_f1),
++	.formats_f0 = jz4770_formats_f0,
++	.num_formats_f0 = ARRAY_SIZE(jz4770_formats_f0),
++};
++
+ static const struct of_device_id ingenic_drm_of_match[] = {
+ 	{ .compatible = "ingenic,jz4740-lcd", .data = &jz4740_soc_info },
+ 	{ .compatible = "ingenic,jz4725b-lcd", .data = &jz4725b_soc_info },
+ 	{ .compatible = "ingenic,jz4770-lcd", .data = &jz4770_soc_info },
++	{ .compatible = "ingenic,jz4780-lcd", .data = &jz4780_soc_info },
+ 	{ /* sentinel */ },
+ };
+ MODULE_DEVICE_TABLE(of, ingenic_drm_of_match);
+diff --git a/drivers/gpu/drm/ingenic/ingenic-drm.h b/drivers/gpu/drm/ingenic/ingenic-drm.h
+index 22654ac1dde1c..cb1d09b625881 100644
+--- a/drivers/gpu/drm/ingenic/ingenic-drm.h
++++ b/drivers/gpu/drm/ingenic/ingenic-drm.h
+@@ -44,8 +44,11 @@
+ #define JZ_REG_LCD_XYP1				0x124
+ #define JZ_REG_LCD_SIZE0			0x128
+ #define JZ_REG_LCD_SIZE1			0x12c
++#define JZ_REG_LCD_PCFG				0x2c0
+ 
+ #define JZ_LCD_CFG_SLCD				BIT(31)
++#define JZ_LCD_CFG_DESCRIPTOR_8			BIT(28)
++#define JZ_LCD_CFG_RECOVER_FIFO_UNDERRUN	BIT(25)
+ #define JZ_LCD_CFG_PS_DISABLE			BIT(23)
+ #define JZ_LCD_CFG_CLS_DISABLE			BIT(22)
+ #define JZ_LCD_CFG_SPL_DISABLE			BIT(21)
+@@ -63,6 +66,7 @@
+ #define JZ_LCD_CFG_DE_ACTIVE_LOW		BIT(9)
+ #define JZ_LCD_CFG_VSYNC_ACTIVE_LOW		BIT(8)
+ #define JZ_LCD_CFG_18_BIT			BIT(7)
++#define JZ_LCD_CFG_24_BIT			BIT(6)
+ #define JZ_LCD_CFG_PDW				(BIT(5) | BIT(4))
+ 
+ #define JZ_LCD_CFG_MODE_GENERIC_16BIT		0
+@@ -132,6 +136,7 @@
+ #define JZ_LCD_CMD_SOF_IRQ			BIT(31)
+ #define JZ_LCD_CMD_EOF_IRQ			BIT(30)
+ #define JZ_LCD_CMD_ENABLE_PAL			BIT(28)
++#define JZ_LCD_CMD_FRM_ENABLE			BIT(26)
+ 
+ #define JZ_LCD_SYNC_MASK			0x3ff
+ 
+@@ -153,6 +158,7 @@
+ #define JZ_LCD_RGBC_EVEN_BGR			(0x5 << 0)
+ 
+ #define JZ_LCD_OSDC_OSDEN			BIT(0)
++#define JZ_LCD_OSDC_ALPHAEN			BIT(2)
+ #define JZ_LCD_OSDC_F0EN			BIT(3)
+ #define JZ_LCD_OSDC_F1EN			BIT(4)
+ 
+@@ -176,6 +182,38 @@
+ #define JZ_LCD_SIZE01_WIDTH_LSB			0
+ #define JZ_LCD_SIZE01_HEIGHT_LSB		16
+ 
++#define JZ_LCD_DESSIZE_ALPHA_OFFSET		24
++#define JZ_LCD_DESSIZE_HEIGHT_MASK		GENMASK(23, 12)
++#define JZ_LCD_DESSIZE_WIDTH_MASK		GENMASK(11, 0)
++
++#define JZ_LCD_CPOS_BPP_15_16			(4 << 27)
++#define JZ_LCD_CPOS_BPP_18_24			(5 << 27)
++#define JZ_LCD_CPOS_BPP_30			(7 << 27)
++#define JZ_LCD_CPOS_RGB555			BIT(30)
++#define JZ_LCD_CPOS_PREMULTIPLY_LCD		BIT(26)
++#define JZ_LCD_CPOS_COEFFICIENT_OFFSET		24
++#define JZ_LCD_CPOS_COEFFICIENT_0		0
++#define JZ_LCD_CPOS_COEFFICIENT_1		1
++#define JZ_LCD_CPOS_COEFFICIENT_ALPHA1		2
++#define JZ_LCD_CPOS_COEFFICIENT_1_ALPHA1	3
++
++#define JZ_LCD_RGBC_RGB_PADDING			BIT(15)
++#define JZ_LCD_RGBC_RGB_PADDING_FIRST		BIT(14)
++#define JZ_LCD_RGBC_422				BIT(8)
++#define JZ_LCD_RGBC_RGB_FORMAT_ENABLE		BIT(7)
++
++#define JZ_LCD_PCFG_PRI_MODE			BIT(31)
++#define JZ_LCD_PCFG_HP_BST_4			(0 << 28)
++#define JZ_LCD_PCFG_HP_BST_8			(1 << 28)
++#define JZ_LCD_PCFG_HP_BST_16			(2 << 28)
++#define JZ_LCD_PCFG_HP_BST_32			(3 << 28)
++#define JZ_LCD_PCFG_HP_BST_64			(4 << 28)
++#define JZ_LCD_PCFG_HP_BST_16_CONT		(5 << 28)
++#define JZ_LCD_PCFG_HP_BST_DISABLE		(7 << 28)
++#define JZ_LCD_PCFG_THRESHOLD2_OFFSET		18
++#define JZ_LCD_PCFG_THRESHOLD1_OFFSET		9
++#define JZ_LCD_PCFG_THRESHOLD0_OFFSET		0
++
+ struct device;
+ struct drm_plane;
+ struct drm_plane_state;
 -- 
 2.33.0
 
