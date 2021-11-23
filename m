@@ -1,127 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0BCE45A635
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Nov 2021 16:05:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4125245A664
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Nov 2021 16:19:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED7A96E0F6;
-	Tue, 23 Nov 2021 15:05:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 889E26E047;
+	Tue, 23 Nov 2021 15:19:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2060.outbound.protection.outlook.com [40.107.92.60])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3BB736E0F5;
- Tue, 23 Nov 2021 15:05:11 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KFva0cTqAIvpm4oXntduDl4kEhwaedrKSn7u5DYT/3mMJDmbwSyjagd3wCbv+RdLoQpcFZ8UzrFV6t1ORt0UQqld+OYZapraY6Q1CN/ujjYDz5WhK/4wwQfg6pRqu51kQJfMtPT7MI64Yhfr7sTIsADOnWZPtsdqdaOIGcLrHXWiDe2ivbfDoQQhWwKmbCDghrzNiUKPJhfsc0eSlssdbrwZBMHXXyoR1ujpF5gWfAkcXnNWwE3JJLsGqk3G/TEFVkX5WdgToywHUzTQq537anspgRzn28Usz1W4xLSYTEqzYZ4tBe8GKQImAs/P52MyU6wBz7t7lwzRZlrY2o5W0A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ODESbxx9rH9Wy4axBg7KBmYJwXTLpb8pFkCf24qwP54=;
- b=HgQDDfHvtqfvzt0eqIkljXd2VRutnEKaoQAD3+O30ytKGs+x7tIFTekO+dR7+zVeJqyOomuIEBu6nBtd+hM3va+fmiePoka2t3sfrOOJq98NRMFlN3Cz+lq5PjPt1ZaCkAoii8GB7uX+PRL7wWYkpnGHW/gbGhHVuTLcMYrd/eZUjVSLtkbRnySL5LGLBwacPquYKmenYoUwoRl6LeWn2vB3hybRkxBveUiIAAiHTPe+enL4F23Zp16SHHhRPSF688sDUra8kXkIOHpe7hl/p/0AM6M0CmGm64G1FNL4PGSlsrU7/NYoQroiSzvAe53fp9LtdvtVNzrTwJsYN21OTQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ODESbxx9rH9Wy4axBg7KBmYJwXTLpb8pFkCf24qwP54=;
- b=slTuYxs9mrBLTviaj3Y3JFsLsCNjsx3EQrcpZACHcn50D2gsfCm82EYKkYGpBh8XaT/tfJcdemCkmxUECWmk0hxnkqlTz3oXWeopw6/qem65bNGi3iF7VNIZ4Wu+VR1baxXePxZ4U5oVPNT0hByaNA8T8GnI7zVk8xPbe8Xcito=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from CO6PR12MB5427.namprd12.prod.outlook.com (2603:10b6:5:358::13)
- by CO6PR12MB5428.namprd12.prod.outlook.com (2603:10b6:5:35c::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4713.22; Tue, 23 Nov
- 2021 15:05:08 +0000
-Received: from CO6PR12MB5427.namprd12.prod.outlook.com
- ([fe80::e492:c86b:9906:1b46]) by CO6PR12MB5427.namprd12.prod.outlook.com
- ([fe80::e492:c86b:9906:1b46%5]) with mapi id 15.20.4713.025; Tue, 23 Nov 2021
- 15:05:08 +0000
-Message-ID: <2a2684e6-f5d6-c917-6f0c-8dc3704ddaf6@amd.com>
-Date: Tue, 23 Nov 2021 10:05:05 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.2
-Subject: Re: [RFC v2 01/22] drm: RFC for Plane Color Hardware Pipeline
-Content-Language: en-US
-To: Uma Shankar <uma.shankar@intel.com>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-References: <20210906213904.27918-1-uma.shankar@intel.com>
- <20210906213904.27918-2-uma.shankar@intel.com>
-From: Harry Wentland <harry.wentland@amd.com>
-In-Reply-To: <20210906213904.27918-2-uma.shankar@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: YQBPR0101CA0124.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c01:5::27) To CO6PR12MB5427.namprd12.prod.outlook.com
- (2603:10b6:5:358::13)
+Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com
+ [IPv6:2607:f8b0:4864:20::62b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D337C6E047
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Nov 2021 15:19:00 +0000 (UTC)
+Received: by mail-pl1-x62b.google.com with SMTP id u17so17338673plg.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Nov 2021 07:19:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=VFgEmk7S7Z/ZUnTUBIiTQ30LYmS30Vq9DSpz/kibFX4=;
+ b=lBLlVcZLYTSyfaYEASlZH+ImWPqI83p0cnkIVpPUgDkAbZRWO7xYQVRDIsj3XKuwkA
+ ji3M0zNjOIf/0BMnbrpamCSg1Bt4IOYozVRbmo1+pZKSlP58INk/yalNaJV5/4ASr1cl
+ p99ZHUkdDpj+Tz8vZvd6vRDsLFcBtNBiRTYlJH0b3MG1ghOyftUnlKzz0ZvjBMBjXLgu
+ ZzXHfa5P3TB3qbjfJxF3krdAdKj54Ae3noPE+IfLzcH++rxitkwZR3CE+e4urObEhbhZ
+ Pe6XqRqhdRSlxm80xe/HoUewCmoaMr2TEo2F2FzU+ngk6NPA3TlTNjDR8TZmnJKKTWJ6
+ Jx7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=VFgEmk7S7Z/ZUnTUBIiTQ30LYmS30Vq9DSpz/kibFX4=;
+ b=jEd7ZE7GSXcEhbxCwPUA8Lpc5NWwjvGuHKhkPAFaDxmiddqD5QPI/GSpJ2wT58oUD9
+ Qy6Scq5+tPcov/Tfa5LRpT7Vrav1MR65aPdc/hEEIpaXkl0AKMBF5t8ob1pXutBgXleF
+ H5FplN7U6ZvdnLpv1Fh28g5Lo8fQpWS2h+bBtB1dK1PlZVWz78EUxJXGs/ureA/wIiXu
+ BPbW5uN53GAi/kQypOmzff+KSWLsbjv7y9XAscYb3LgtuenH+oUH9gLw8Nq/78xLghXA
+ ipKM+QcFXDnpn544mE9FFcPXqaJXyvYGS2kV8zf7aJgnoaNnHbBGfNde7WcEPz+oTQ66
+ LtPA==
+X-Gm-Message-State: AOAM533YrIlTtGe5nolDTFejDj4JfC/RLqSewGtjE2NYdrPZcdmrt1Vm
+ UJMoryGrLMTxZqPGKEVqpsSjm+ZZkUPgmAtUF4CAZA==
+X-Google-Smtp-Source: ABdhPJyZ5W4CeYjb0k1S1Vi7nmrfTDxN0UqZdEFw66+WK3YBKH93iTF7zpYuHvZ47r8WmU9B60he9Yp+d0MAzhlUcOA=
+X-Received: by 2002:a17:90b:1bc4:: with SMTP id
+ oa4mr3891850pjb.179.1637680740213; 
+ Tue, 23 Nov 2021 07:19:00 -0800 (PST)
 MIME-Version: 1.0
-Received: from [192.168.50.4] (198.200.67.104) by
- YQBPR0101CA0124.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:c01:5::27) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4734.20 via Frontend
- Transport; Tue, 23 Nov 2021 15:05:07 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: f20dcc29-492f-4406-0cf2-08d9ae92a3b9
-X-MS-TrafficTypeDiagnostic: CO6PR12MB5428:
-X-Microsoft-Antispam-PRVS: <CO6PR12MB5428C71E44F0697D08B0C1F68C609@CO6PR12MB5428.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: RNwiaEvYiQkOQjma4QEzWhaORD8Jpv7r3COzD7XqMq3HKCN0U+kkichyAZfufBcf8xN5VG1dzpRuMMrFkKZqQ4fzi0eitdjrFGPNd/j7/17dIOLW2owKAd/w/Wu051B3NH9h6q1iOj2M/ofv8BWqQJAAxKkbs6ikpWvSD1JKxP4tW8DtMYyzJOhRhHJRKBKp5THHw4RAZstorfCfhNN+iirHMe13pzZkDdenVI2ZQd1L4OSlzJKfYFZvwjaRKySPNndET6gVZ3AMOGrsKSj0nJzdbr3ZaHX/5+JQ9KA0p2IdU2HTpWyEBw3t2WTA8M82MwZZuhvcb4rmpqfbr1+jMMYoYZSqEbGW7D/efVjLBZMPBBgGUkeWbCFAkG6nn2hzqSxWN+R5/fhFpjGEPBs++9dOW8OXLzhBGbTYQ6iAVaLCFBpvy8T3Pq8DI3wGpWKjoos6mtlvULclADILnz1MLbhnFz08ruWNLuNT5AJqPqcy8cyvmr1ZTO6uvolTTaEz0675lzcLTujQiCPN6UPiUA6rLx0y74doUgAZ5xwPyKIexxDOiTloCvgKqkavCTHVYRO5KrdFrJTLLGsjL3Tw0z7eqZZIJ2k03RIfSVM7khrF+w7UHW5P5C/mkmklwsmFdZqXEGi9uArKgxlgpSnghD9DyKuz9lUeWmmjM6sllw5gmCl6gjLHYXAGpWIFlSTP/r9colDHHThT+9QXMa/Z1MrrL9q8XerxLgl79yQs3yQkujGqKyhqsR+eEZoec2Nx
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CO6PR12MB5427.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(956004)(2616005)(66946007)(5660300002)(31686004)(4326008)(8936002)(16576012)(6486002)(86362001)(186003)(2906002)(26005)(44832011)(316002)(31696002)(38100700002)(36756003)(66574015)(53546011)(508600001)(83380400001)(66556008)(8676002)(66476007)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Qkd5UGhTM3BFTlg3YzZqc3pGd2RwVXN4R2k0RnlPTHdkRUFYWVJUYTJZVTMv?=
- =?utf-8?B?dWc4cFNrdnRlaWo4VHNHWFU5Z0RQRW42UjZmZjNKd2F6WjBhQ1c2ejZ1czNY?=
- =?utf-8?B?d05RSjZndFpIY0NqVFpQNWM4aVRFSkhKS016Rkx3WmkzcENHZ0FtZSt0bzZD?=
- =?utf-8?B?VG9HSS9TTTRuRjVaelBXZ2lVc1VmSHR4MmZXa3JpUmpyZldxZFRYbFkxaCtR?=
- =?utf-8?B?V09BUm1LZEwrVHhYdHlwa2lzMlJUSjIrQ2dXL29oYlh2Y1JYVHZHNndzZjJw?=
- =?utf-8?B?S2t3TkY0VmRGUmNwVlMrQ1dWdEJlK1hOWUtWc1J2RTdQVzV2NW5YZnJyQkRx?=
- =?utf-8?B?MjdmZmNycWVRdjRNeHpWTUFIbnZoVGp3aDZOZmlZRFY3QUhUUVZneld6WlFT?=
- =?utf-8?B?cUJYYWt6aGJTR2hac2lsNWx3QXZXU3dUQVdPTVVaQ2NUL0RWanFpMUdjNGVT?=
- =?utf-8?B?WTlKSEFRdE0zQ0NyRnp4TTVSUW9jM3puUzBIRFdUbm1tTmRyVk9KWDAzV0RJ?=
- =?utf-8?B?UUg1WGZHZXBrUUI0NEFKUEd3enNQdUF3cVkxZDdxYmJjNVBFZmZROW02aFZN?=
- =?utf-8?B?YmRwSi9WS0pGTU1FS3d1QTFjUUUvZWJZakQ0ZjFPU3F1eGVSUW5vQ2lFaklv?=
- =?utf-8?B?NjBzbWpVODdmcU4zelBvaEJoR1EzT3RMcnAzZThKRXNpZGdWalRCc3pjMWIw?=
- =?utf-8?B?NHk2VVB4WmI2bCtYR1lDbTRzSWRuMEUwMFBDeXg5WllWVTRjWHg0UHVvcnJB?=
- =?utf-8?B?L0x0YkZBNmdjMlpEQ290YkVXUlBTYTFxUjFQakFIU1VjZ1dSbXkzK3F6M3ll?=
- =?utf-8?B?MkxVcHQydHlRU0UvMVR1aFlNSXJiTkMrUkJRSzdZbUU2Ukgwa0ZyODM3aHli?=
- =?utf-8?B?UDhKL3U0N0gyRWhRM3cwZ09JcW9MNVBGSWNPc0IydngvTkpZSlZHeHdMaVNF?=
- =?utf-8?B?aHRDdFd1Z0NDY1JXWFo3ZlFUR2FiWXlhZ29oZUZHT2FhaXJUK1Vnb2RLMHlJ?=
- =?utf-8?B?Q0pNMjgyUE0yK01ZOHFzbGtJaHR4ZWY5WFVyQjlYSzZyT2UxM3JpeHF6d25L?=
- =?utf-8?B?NmpBKzNOaVcxMmV3M1U0d0E2NUpyTEhoQmRXQ1BxTTIxVGxacXFZWUVwOGNG?=
- =?utf-8?B?QWxOV20vc2RUSllnZUhwQVN2TlEyUDFwblFHYUtCN1VSdDlxTDhqMWJOdzZq?=
- =?utf-8?B?Vmk1S1Y5dXdGTzl3UXFKZzJqUWZ0Y011M3dhRkNYWG5PRllTQ2g4dXRpYUVG?=
- =?utf-8?B?VDdPYnQwSy9TOVpNb1c2YStyaDNia3o1c0tsOVZ3MHdXYTlFT2Qydlg4OG9l?=
- =?utf-8?B?cHA5cCtFUVBNS0FYeVJzRXYvc2R3ZklpSmJqaDQ3YlVtQVNIWTU3WmVzbHhB?=
- =?utf-8?B?NXIvdXEvcnBDczFFVjkxNG1RVVdnaHRGUWJsZ1JTVFpUd3JKV21VZFVra1JC?=
- =?utf-8?B?M2ZIcHp0c2lhUXJic0IremhCbEtDSXBhZ1hldlYwRTFycW5zbEE2aG9KdWdP?=
- =?utf-8?B?V2lQL3FyL2cray83VzNhcGs3RFlnS3ZHem1tWFVPT0hvTTd6YVdPOVFJdTBO?=
- =?utf-8?B?aFRGck1ad1RBc1JJbDVEbm84WlU3Z1pJWWR3WmhCQy9kTnVteTE2OEY3Zzd0?=
- =?utf-8?B?aW95TlVWMW1NNEZSMzhBdHFmRjl3RWZkQXhvdzdTclpsS3Jnd2N1QUFyYnZC?=
- =?utf-8?B?ZjZCbTUyTy9PRUtTWHppRGhET2pZV2hsaWVvbGdzSHA2RGZMUVFsREpFOFJE?=
- =?utf-8?B?aytHQnBmYTNaYU0vNCtQQXd5KzJTY2wzZWNLWXFDM3RrcUlGbVFsdUxUVVp0?=
- =?utf-8?B?aHN3dkgxM0gwcmNoRnBtQ21IYU4vWTc2N1p1c1d1d1VXK05wSUN5SzFXT2ZT?=
- =?utf-8?B?enJ0K0NlTWp0TzdlWTlzTkQ4NTlmdFVtYVJ1aEU2eGNlZnZzdVNPOTQwMGl2?=
- =?utf-8?B?WDNyTEUvaUkzS0l4bHhyWkMrN3hSZkhiRmRSSDM2NUdSd29zenZ5VTZpcExN?=
- =?utf-8?B?TmVnN2tYbG5xL0dFTjl4dlErVGU4OE0zUXYxd2JHbkEzZ3R4emdkUlFqUklL?=
- =?utf-8?B?SkRGdXlSQzczY3hWUlJKazN1Y3NlK1JFVVYxVXRHWG5pYUhNTGlQT1RwVVNr?=
- =?utf-8?B?NThuZWZrWjBIejYrSFVxYmdMZ3J4Rm8wUmFvcHVKeWgyaXY2ZGpDNUZmMkll?=
- =?utf-8?Q?LG2ce+Mb4s8mOTzmAECecfI=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f20dcc29-492f-4406-0cf2-08d9ae92a3b9
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5427.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Nov 2021 15:05:08.6729 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 6zcXvw2u3XPwvFhZl2asFoCnLtpS0YLiKg0ik1MZpg28L6yJOT5yfXIAAIvO561ETUzNOUbQYEiwiBsP4fUrSA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR12MB5428
+References: <20211116122831.278576-1-martyn.welch@collabora.com>
+In-Reply-To: <20211116122831.278576-1-martyn.welch@collabora.com>
+From: Robert Foss <robert.foss@linaro.org>
+Date: Tue, 23 Nov 2021 16:18:49 +0100
+Message-ID: <CAG3jFytjX1_X1dzJAm_yqTx49CVpnKttRgH-dpUHEJK6GqqTuw@mail.gmail.com>
+Subject: Re: [PATCH] drm/bridge: megachips: Ensure both bridges are probed
+ before registration
+To: Martyn Welch <martyn.welch@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -134,207 +63,274 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sebastian@sebastianwick.net, Shashank.Sharma@amd.com
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Martyn Welch <martyn.welch@collabora.co.uk>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Peter Senna Tschudin <peter.senna@gmail.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Andrzej Hajda <a.hajda@samsung.com>,
+ Jonas Karlman <jonas@kwiboo.se>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, kernel@collabora.com,
+ Martin Donnelly <martin.donnelly@ge.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hey Martyn,
 
-
-On 2021-09-06 17:38, Uma Shankar wrote:
-> This is a RFC proposal for plane color hardware blocks.
-> It exposes the property interface to userspace and calls
-> out the details or interfaces created and the intended
-> purpose.
-> 
-> Credits: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> Signed-off-by: Uma Shankar <uma.shankar@intel.com>
+On Tue, 16 Nov 2021 at 13:28, Martyn Welch <martyn.welch@collabora.com> wrote:
+>
+> In the configuration used by the b850v3, the STDP2690 is used to read EDID
+> data whilst it's the STDP4028 which can detect when monitors are connected.
+>
+> This can result in problems at boot with monitors connected when the
+> STDP4028 is probed first, a monitor is detected and an attempt is made to
+> read the EDID data before the STDP2690 has probed:
+>
+> [    3.795721] Unable to handle kernel NULL pointer dereference at virtual address 00000018
+> [    3.803845] pgd = (ptrval)
+> [    3.806581] [00000018] *pgd=00000000
+> [    3.810180] Internal error: Oops: 5 [#1] SMP ARM
+> [    3.814813] Modules linked in:
+> [    3.817879] CPU: 0 PID: 64 Comm: kworker/u4:1 Not tainted 5.15.0 #1
+> [    3.824161] Hardware name: Freescale i.MX6 Quad/DualLite (Device Tree)
+> [    3.830705] Workqueue: events_unbound deferred_probe_work_func
+> [    3.836565] PC is at stdp2690_get_edid+0x44/0x19c
+> [    3.841286] LR is at ge_b850v3_lvds_get_modes+0x2c/0x5c
+> [    3.846526] pc : [<805eae10>]    lr : [<805eb138>]    psr: 80000013
+> [    3.852802] sp : 81c359d0  ip : 7dbb550b  fp : 81c35a1c
+> [    3.858037] r10: 81c73840  r9 : 81c73894  r8 : 816d9800
+> [    3.863270] r7 : 00000000  r6 : 81c34000  r5 : 00000000  r4 : 810c35f0
+> [    3.869808] r3 : 80e3e294  r2 : 00000080  r1 : 00000cc0  r0 : 81401180
+> [    3.876349] Flags: Nzcv  IRQs on  FIQs on  Mode SVC_32  ISA ARM  Segment none
+> [    3.883499] Control: 10c5387d  Table: 1000404a  DAC: 00000051
+> [    3.889254] Register r0 information: slab kmem_cache start 81401180 pointer offset 0
+> [    3.897034] Register r1 information: non-paged memory
+> [    3.902097] Register r2 information: non-paged memory
+> [    3.907160] Register r3 information: non-slab/vmalloc memory
+> [    3.912832] Register r4 information: non-slab/vmalloc memory
+> [    3.918503] Register r5 information: NULL pointer
+> [    3.923217] Register r6 information: non-slab/vmalloc memory
+> [    3.928887] Register r7 information: NULL pointer
+> [    3.933601] Register r8 information: slab kmalloc-1k start 816d9800 pointer offset 0 size 1024
+> [    3.942244] Register r9 information: slab kmalloc-2k start 81c73800 pointer offset 148 size 2048
+> [    3.951058] Register r10 information: slab kmalloc-2k start 81c73800 pointer offset 64 size 2048
+> [    3.959873] Register r11 information: non-slab/vmalloc memory
+> [    3.965632] Register r12 information: non-paged memory
+> [    3.970781] Process kworker/u4:1 (pid: 64, stack limit = 0x(ptrval))
+> [    3.977148] Stack: (0x81c359d0 to 0x81c36000)
+> [    3.981517] 59c0:                                     80b2b668 80b2b5bc 000002e2 0000034e
+> [    3.989712] 59e0: 81c35a8c 816d98e8 81c35a14 7dbb550b 805bfcd0 810c35f0 81c73840 824addc0
+> [    3.997906] 5a00: 00001000 816d9800 81c73894 81c73840 81c35a34 81c35a20 805eb138 805eadd8
+> [    4.006099] 5a20: 810c35f0 00000045 81c35adc 81c35a38 80594188 805eb118 80d7c788 80dd1848
+> [    4.014292] 5a40: 00000000 81c35a50 80dca950 811194d3 80dca7c4 80dca944 80dca91c 816d9800
+> [    4.022485] 5a60: 81c34000 81c760a8 816d9800 80c58c98 810c35f0 816d98e8 00001000 00001000
+> [    4.030678] 5a80: 00000000 00000000 8017712c 81c60000 00000002 00000001 00000000 00000000
+> [    4.038870] 5aa0: 816d9900 816d9900 00000000 7dbb550b 805c700c 00000008 826282c8 826282c8
+> [    4.047062] 5ac0: 00001000 81e1ce40 00001000 00000002 81c35bf4 81c35ae0 805d9694 80593fc0
+> [    4.055255] 5ae0: 8017a970 80179ad8 00000179 00000000 81c35bcc 81c35b00 80177108 8017a950
+> [    4.063447] 5b00: 00000000 81c35b10 81c34000 00000000 81004fd8 81010a38 00000000 00000059
+> [    4.071639] 5b20: 816d98d4 81fbb718 00000013 826282c8 8017a940 81c35b40 81134448 00000400
+> [    4.079831] 5b40: 00000178 00000000 e063b9c1 00000000 c2000049 00000040 00000000 00000008
+> [    4.088024] 5b60: 82628300 82628380 00000000 00000000 81c34000 00000000 81fbb700 82628340
+> [    4.096216] 5b80: 826283c0 00001000 00000000 00000010 816d9800 826282c0 801766f8 00000000
+> [    4.104408] 5ba0: 00000000 81004fd8 00000049 00000000 00000000 00000001 80dcf940 80178de4
+> [    4.112601] 5bc0: 81c35c0c 7dbb550b 80178de4 81fbb700 00000010 00000010 810c35f4 81e1ce40
+> [    4.120793] 5be0: 81c40908 0000000c 81c35c64 81c35bf8 805a7f18 805d94a0 81c35c3c 816d9800
+> [    4.128985] 5c00: 00000010 81c34000 81c35c2c 81c35c18 8012fce0 805be90c 81c35c3c 81c35c28
+> [    4.137178] 5c20: 805be90c 80173210 81fbb600 81fbb6b4 81c35c5c 7dbb550b 81c35c64 81fbb700
+> [    4.145370] 5c40: 816d9800 00000010 810c35f4 81e1ce40 81c40908 0000000c 81c35c84 81c35c68
+> [    4.153565] 5c60: 805a8c78 805a7ed0 816d9800 81fbb700 00000010 00000000 81c35cac 81c35c88
+> [    4.161758] 5c80: 805a8dc4 805a8b68 816d9800 00000000 816d9800 00000000 8179f810 810c42d0
+> [    4.169950] 5ca0: 81c35ccc 81c35cb0 805e47b0 805a8d18 824aa240 81e1ea80 81c40908 81126b60
+> [    4.178144] 5cc0: 81c35d14 81c35cd0 8060db1c 805e46cc 81c35d14 81c35ce0 80dd90f8 810c4d58
+> [    4.186338] 5ce0: 80dd90dc 81fe9740 fffffffe 81fe9740 81e1ea80 00000000 810c4d6c 80c4b95c
+> [    4.194531] 5d00: 80dd9a3c 815c6810 81c35d34 81c35d18 8060dc9c 8060d8fc 8246b440 815c6800
+> [    4.202724] 5d20: 815c6810 eefd8e00 81c35d44 81c35d38 8060dd80 8060dbec 81c35d6c 81c35d48
+> [    4.210918] 5d40: 805e98a4 8060dd70 00000000 815c6810 810c45b0 81126e90 81126e90 80dd9a3c
+> [    4.219112] 5d60: 81c35d8c 81c35d70 80619574 805e9808 815c6810 00000000 810c45b0 81126e90
+> [    4.227305] 5d80: 81c35db4 81c35d90 806168dc 80619514 80625df0 80623c80 815c6810 810c45b0
+> [    4.235498] 5da0: 81c35e6c 815c6810 81c35dec 81c35db8 80616d04 80616800 81c35de4 81c35dc8
+> [    4.243691] 5dc0: 808382b0 80b2f444 8116e310 8116e314 81c35e6c 815c6810 00000003 80dd9a3c
+> [    4.251884] 5de0: 81c35e14 81c35df0 80616ec8 80616c60 00000001 810c45b0 81c35e6c 815c6810
+> [    4.260076] 5e00: 00000001 80dd9a3c 81c35e34 81c35e18 80617338 80616e90 00000000 81c35e6c
+> [    4.268269] 5e20: 80617284 81c34000 81c35e64 81c35e38 80614730 80617290 81c35e64 8171a06c
+> [    4.276461] 5e40: 81e220b8 7dbb550b 815c6810 81c34000 815c6854 81126e90 81c35e9c 81c35e68
+> [    4.284654] 5e60: 8061673c 806146a8 8060f5e0 815c6810 00000001 7dbb550b 00000000 810c5080
+> [    4.292847] 5e80: 810c5320 815c6810 81126e90 00000000 81c35eac 81c35ea0 80617554 80616650
+> [    4.301040] 5ea0: 81c35ecc 81c35eb0 80615694 80617544 810c5080 810c5080 810c5094 81126e90
+> [    4.309233] 5ec0: 81c35efc 81c35ed0 80615c6c 8061560c 80615bc0 810c50c0 817eeb00 81412800
+> [    4.317425] 5ee0: 814c3000 00000000 814c300d 81119a60 81c35f3c 81c35f00 80141488 80615bcc
+> [    4.325618] 5f00: 81c60000 81c34000 81c35f24 81c35f18 80143078 817eeb00 81412800 817eeb18
+> [    4.333811] 5f20: 81412818 81003d00 00000088 81412800 81c35f74 81c35f40 80141a48 80141298
+> [    4.342005] 5f40: 81c35f74 81c34000 801481ac 817efa40 817efc00 801417d8 817eeb00 00000000
+> [    4.350199] 5f60: 815a7e7c 81c34000 81c35fac 81c35f78 80149b1c 801417e4 817efc20 817efc20
+> [    4.358391] 5f80: ffffe000 817efa40 801499a8 00000000 00000000 00000000 00000000 00000000
+> [    4.366583] 5fa0: 00000000 81c35fb0 80100130 801499b4 00000000 00000000 00000000 00000000
+> [    4.374774] 5fc0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+> [    4.382966] 5fe0: 00000000 00000000 00000000 00000000 00000013 00000000 00000000 00000000
+> [    4.391155] Backtrace:
+> [    4.393613] [<805eadcc>] (stdp2690_get_edid) from [<805eb138>] (ge_b850v3_lvds_get_modes+0x2c/0x5c)
+> [    4.402691]  r10:81c73840 r9:81c73894 r8:816d9800 r7:00001000 r6:824addc0 r5:81c73840
+> [    4.410534]  r4:810c35f0
+> [    4.413073] [<805eb10c>] (ge_b850v3_lvds_get_modes) from [<80594188>] (drm_helper_probe_single_connector_modes+0x1d4/0x84c)
+> [    4.424240]  r5:00000045 r4:810c35f0
+> [    4.427822] [<80593fb4>] (drm_helper_probe_single_connector_modes) from [<805d9694>] (drm_client_modeset_probe+0x200/0x1384)
+> [    4.439074]  r10:00000002 r9:00001000 r8:81e1ce40 r7:00001000 r6:826282c8 r5:826282c8
+> [    4.446917]  r4:00000008
+> [    4.449455] [<805d9494>] (drm_client_modeset_probe) from [<805a7f18>] (__drm_fb_helper_initial_config_and_unlock+0x54/0x5b4)
+> [    4.460713]  r10:0000000c r9:81c40908 r8:81e1ce40 r7:810c35f4 r6:00000010 r5:00000010
+> [    4.468556]  r4:81fbb700
+> [    4.471095] [<805a7ec4>] (__drm_fb_helper_initial_config_and_unlock) from [<805a8c78>] (drm_fbdev_client_hotplug+0x11c/0x1b0)
+> [    4.482434]  r10:0000000c r9:81c40908 r8:81e1ce40 r7:810c35f4 r6:00000010 r5:816d9800
+> [    4.490276]  r4:81fbb700
+> [    4.492814] [<805a8b5c>] (drm_fbdev_client_hotplug) from [<805a8dc4>] (drm_fbdev_generic_setup+0xb8/0x1a4)
+> [    4.502494]  r7:00000000 r6:00000010 r5:81fbb700 r4:816d9800
+> [    4.508160] [<805a8d0c>] (drm_fbdev_generic_setup) from [<805e47b0>] (imx_drm_bind+0xf0/0x130)
+> [    4.516805]  r7:810c42d0 r6:8179f810 r5:00000000 r4:816d9800
+> [    4.522474] [<805e46c0>] (imx_drm_bind) from [<8060db1c>] (try_to_bring_up_master+0x22c/0x2f0)
+> [    4.531116]  r7:81126b60 r6:81c40908 r5:81e1ea80 r4:824aa240
+> [    4.536783] [<8060d8f0>] (try_to_bring_up_master) from [<8060dc9c>] (__component_add+0xbc/0x184)
+> [    4.545597]  r10:815c6810 r9:80dd9a3c r8:80c4b95c r7:810c4d6c r6:00000000 r5:81e1ea80
+> [    4.553440]  r4:81fe9740
+> [    4.555980] [<8060dbe0>] (__component_add) from [<8060dd80>] (component_add+0x1c/0x20)
+> [    4.563921]  r7:eefd8e00 r6:815c6810 r5:815c6800 r4:8246b440
+> [    4.569589] [<8060dd64>] (component_add) from [<805e98a4>] (dw_hdmi_imx_probe+0xa8/0xe8)
+> [    4.577702] [<805e97fc>] (dw_hdmi_imx_probe) from [<80619574>] (platform_probe+0x6c/0xc8)
+> [    4.585908]  r9:80dd9a3c r8:81126e90 r7:81126e90 r6:810c45b0 r5:815c6810 r4:00000000
+> [    4.593662] [<80619508>] (platform_probe) from [<806168dc>] (really_probe+0xe8/0x460)
+> [    4.601524]  r7:81126e90 r6:810c45b0 r5:00000000 r4:815c6810
+> [    4.607191] [<806167f4>] (really_probe) from [<80616d04>] (__driver_probe_device+0xb0/0x230)
+> [    4.615658]  r7:815c6810 r6:81c35e6c r5:810c45b0 r4:815c6810
+> [    4.621326] [<80616c54>] (__driver_probe_device) from [<80616ec8>] (driver_probe_device+0x44/0xe0)
+> [    4.630313]  r9:80dd9a3c r8:00000003 r7:815c6810 r6:81c35e6c r5:8116e314 r4:8116e310
+> [    4.638068] [<80616e84>] (driver_probe_device) from [<80617338>] (__device_attach_driver+0xb4/0x12c)
+> [    4.647227]  r9:80dd9a3c r8:00000001 r7:815c6810 r6:81c35e6c r5:810c45b0 r4:00000001
+> [    4.654981] [<80617284>] (__device_attach_driver) from [<80614730>] (bus_for_each_drv+0x94/0xd8)
+> [    4.663794]  r7:81c34000 r6:80617284 r5:81c35e6c r4:00000000
+> [    4.669461] [<8061469c>] (bus_for_each_drv) from [<8061673c>] (__device_attach+0xf8/0x190)
+> [    4.677753]  r7:81126e90 r6:815c6854 r5:81c34000 r4:815c6810
+> [    4.683419] [<80616644>] (__device_attach) from [<80617554>] (device_initial_probe+0x1c/0x20)
+> [    4.691971]  r8:00000000 r7:81126e90 r6:815c6810 r5:810c5320 r4:810c5080
+> [    4.698681] [<80617538>] (device_initial_probe) from [<80615694>] (bus_probe_device+0x94/0x9c)
+> [    4.707318] [<80615600>] (bus_probe_device) from [<80615c6c>] (deferred_probe_work_func+0xac/0xf0)
+> [    4.716305]  r7:81126e90 r6:810c5094 r5:810c5080 r4:810c5080
+> [    4.721973] [<80615bc0>] (deferred_probe_work_func) from [<80141488>] (process_one_work+0x1fc/0x54c)
+> [    4.731139]  r10:81119a60 r9:814c300d r8:00000000 r7:814c3000 r6:81412800 r5:817eeb00
+> [    4.738981]  r4:810c50c0 r3:80615bc0
+> [    4.742563] [<8014128c>] (process_one_work) from [<80141a48>] (worker_thread+0x270/0x570)
+> [    4.750765]  r10:81412800 r9:00000088 r8:81003d00 r7:81412818 r6:817eeb18 r5:81412800
+> [    4.758608]  r4:817eeb00
+> [    4.761147] [<801417d8>] (worker_thread) from [<80149b1c>] (kthread+0x174/0x190)
+> [    4.768574]  r10:81c34000 r9:815a7e7c r8:00000000 r7:817eeb00 r6:801417d8 r5:817efc00
+> [    4.776417]  r4:817efa40
+> [    4.778955] [<801499a8>] (kthread) from [<80100130>] (ret_from_fork+0x14/0x24)
+> [    4.786201] Exception stack(0x81c35fb0 to 0x81c35ff8)
+> [    4.791266] 5fa0:                                     00000000 00000000 00000000 00000000
+> [    4.799459] 5fc0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+> [    4.807651] 5fe0: 00000000 00000000 00000000 00000000 00000013 00000000
+> [    4.814279]  r10:00000000 r9:00000000 r8:00000000 r7:00000000 r6:00000000 r5:801499a8
+> [    4.822120]  r4:817efa40
+> [    4.824664] Code: e3a02080 e593001c e3a01d33 e3a05000 (e5979018)
+>
+> Split the registration from the STDP4028 probe routine and only perform
+> registration once both the STDP4028 and STDP2690 have probed.
+>
+> Signed-off-by: Martyn Welch <martyn.welch@collabora.com>
+> CC: Peter Senna Tschudin <peter.senna@gmail.com>
+> CC: Martin Donnelly <martin.donnelly@ge.com>
+> CC: Martyn Welch <martyn.welch@collabora.co.uk>
+> CC: Andrzej Hajda <a.hajda@samsung.com>
+> CC: Neil Armstrong <narmstrong@baylibre.com>
+> CC: Robert Foss <robert.foss@linaro.org>
+> CC: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> CC: Jonas Karlman <jonas@kwiboo.se>
+> CC: Jernej Skrabec <jernej.skrabec@gmail.com>
 > ---
->  Documentation/gpu/rfc/drm_color_pipeline.rst | 167 +++++++++++++++++++
->  1 file changed, 167 insertions(+)
->  create mode 100644 Documentation/gpu/rfc/drm_color_pipeline.rst
-> 
-> diff --git a/Documentation/gpu/rfc/drm_color_pipeline.rst b/Documentation/gpu/rfc/drm_color_pipeline.rst
-> new file mode 100644
-> index 000000000000..0d1ca858783b
-> --- /dev/null
-> +++ b/Documentation/gpu/rfc/drm_color_pipeline.rst
-> @@ -0,0 +1,167 @@
-> +==================================================
-> +Display Color Pipeline: Proposed DRM Properties
-> +==================================================
+>  .../bridge/megachips-stdpxxxx-ge-b850v3-fw.c  | 40 +++++++++++++------
+>  1 file changed, 28 insertions(+), 12 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c b/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c
+> index d2808c4a6fb1..72f134849822 100644
+> --- a/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c
+> +++ b/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c
+> @@ -306,19 +306,10 @@ static void ge_b850v3_lvds_remove(void)
+>         mutex_unlock(&ge_b850v3_lvds_dev_mutex);
+>  }
+>
+> -static int stdp4028_ge_b850v3_fw_probe(struct i2c_client *stdp4028_i2c,
+> -                                      const struct i2c_device_id *id)
+> +static int ge_b850v3_register(void)
+>  {
+> +       struct i2c_client *stdp4028_i2c = ge_b850v3_lvds_ptr->stdp4028_i2c;
+>         struct device *dev = &stdp4028_i2c->dev;
+> -       int ret;
+> -
+> -       ret = ge_b850v3_lvds_init(dev);
+> -
+> -       if (ret)
+> -               return ret;
+> -
+> -       ge_b850v3_lvds_ptr->stdp4028_i2c = stdp4028_i2c;
+> -       i2c_set_clientdata(stdp4028_i2c, ge_b850v3_lvds_ptr);
+>
+>         /* drm bridge initialization */
+>         ge_b850v3_lvds_ptr->bridge.funcs = &ge_b850v3_lvds_funcs;
+> @@ -343,6 +334,27 @@ static int stdp4028_ge_b850v3_fw_probe(struct i2c_client *stdp4028_i2c,
+>                         "ge-b850v3-lvds-dp", ge_b850v3_lvds_ptr);
+>  }
+>
+> +static int stdp4028_ge_b850v3_fw_probe(struct i2c_client *stdp4028_i2c,
+> +                                      const struct i2c_device_id *id)
+> +{
+> +       struct device *dev = &stdp4028_i2c->dev;
+> +       int ret;
 > +
-> +This is how a typical display color hardware pipeline looks like:
-> + +-------------------------------------------+
-> + |                RAM                        |
-> + |  +------+    +---------+    +---------+   |
-> + |  | FB 1 |    |  FB 2   |    | FB N    |   |
-> + |  +------+    +---------+    +---------+   |
-> + +-------------------------------------------+
-> +       |  Plane Color Hardware Block |
-> + +--------------------------------------------+
-> + | +---v-----+   +---v-------+   +---v------+ |
-> + | | Plane A |   | Plane B   |   | Plane N  | |
-> + | | DeGamma |   | Degamma   |   | Degamma  | |
-> + | +---+-----+   +---+-------+   +---+------+ |
-> + |     |             |               |        |
-> + | +---v-----+   +---v-------+   +---v------+ |
-> + | |Plane A  |   | Plane B   |   | Plane N  | |
-> + | |CSC/CTM  |   | CSC/CTM   |   | CSC/CTM  | |
-> + | +---+-----+   +----+------+   +----+-----+ |
-> + |     |              |               |       |
-> + | +---v-----+   +----v------+   +----v-----+ |
-> + | | Plane A |   | Plane B   |   | Plane N  | |
-> + | | Gamma   |   | Gamma     |   | Gamma    | |
-> + | +---+-----+   +----+------+   +----+-----+ |
-> + |     |              |               |       |
-> + +--------------------------------------------+
-> ++------v--------------v---------------v-------|
-> +||                                           ||
-> +||           Pipe Blender                    ||
-> ++--------------------+------------------------+
-> +|                    |                        |
-> +|        +-----------v----------+             |
-> +|        |  Pipe DeGamma        |             |
-> +|        |                      |             |
-> +|        +-----------+----------+             |
-> +|                    |            Pipe Color  |
-> +|        +-----------v----------+ Hardware    |
-> +|        |  Pipe CSC/CTM        |             |
-> +|        |                      |             |
-> +|        +-----------+----------+             |
-> +|                    |                        |
-> +|        +-----------v----------+             |
-> +|        |  Pipe Gamma          |             |
-> +|        |                      |             |
-> +|        +-----------+----------+             |
-> +|                    |                        |
-> ++---------------------------------------------+
-> +                     |
-> +                     v
-> +               Pipe Output
+> +       ret = ge_b850v3_lvds_init(dev);
 > +
+> +       if (ret)
+> +               return ret;
+> +
+> +       ge_b850v3_lvds_ptr->stdp4028_i2c = stdp4028_i2c;
+> +       i2c_set_clientdata(stdp4028_i2c, ge_b850v3_lvds_ptr);
+> +
+> +       /* Only register after both bridges are probed */
+> +       if (!(ge_b850v3_lvds_ptr->stdp2690_i2c && ge_b850v3_lvds_ptr->stdp4028_i2c))
 
-This diagram defines what happens before and after the blending
-space but did where does scaling fit into it? Scaling can look
-different when performed in linear or non-linear space so I think
-it is important to define where in the pipeline it sits.
+ge_b850v3_lvds_ptr->stdp4028_i2c was just assigned, is there any
+situation it wouldn't be assigned here?
 
-In my view scaling would happen between plane degamma and plane CSC.
+stdp2690_ge_b850v3_fw_probe() seems to contain an identical snippet,
+so I assume symmetry is why both stdp2690_i2c and stdp4028_i2c are
+checked in both locations. Unless you think otherwise, I would suggest
+removing the stdp4028_i2c check from stdp4028_ge_b850v3_fw_probe() and
+the stdp2690_i2c check from stdp2690_ge_b850v3_fw_probe().
 
-Harry
+> +               return 0;
 
-> +Proposal is to have below properties for a plane:
-> +
-> +* Plane Degamma or Pre-Curve:
-> +	* This will be used to linearize the input framebuffer data.
-> +	* It will apply the reverse of the color transfer function.
-> +	* It can be a degamma curve or OETF for HDR.
-> +	* This linear data can be further acted on by the following
-> +	* color hardware blocks in the display hardware pipeline
-> +
-> +UAPI Name: PLANE_DEGAMMA_MODE
-> +Description: Enum property with values as blob_id's which advertizes the
-> +	    possible degamma modes and lut ranges supported by the platform.
-> +	    This  allows userspace to query and get the plane degamma color
-> +	    caps and choose the appropriate degamma mode and create lut values
-> +	    accordingly.
-> +
-> +UAPI Name: PLANE_DEGAMMA_LUT
-> +Description: Blob property which allows a userspace to provide LUT values
-> +	     to apply degamma curve using the h/w plane degamma processing
-> +	     engine, thereby making the content as linear for further color
-> +	     processing. Userspace gets the size of LUT and precision etc
-> +	     from PLANE_DEGAMA_MODE_PROPERTY
-> +	
-> +* Plane CTM
-> +	* This is a Property to program the color transformation matrix.
-> +	* This can be used to perform a color space conversion like
-> +	* BT2020 to BT709 or BT601 etc.
-> +	* This block is generally kept after the degamma unit so that
-> +	* linear data can be fed to it for conversion.
-> +
-> +UAPI Name: PLANE_CTM
-> +Description: Blob property which allows a userspace to provide CTM coefficients
-> +	     to do color space conversion or any other enhancement by doing a
-> +	     matrix multiplication using the h/w CTM processing engine
-> +
-> +* Plane Gamma or Post-Curve
-> +	* This can be used to perform 2 operations:
-> +		* non-lineralize the framebuffer data. Can be used for
-> +		* non linear blending. It can be a gamma curve or EOTF
-> +		* for HDR.
-> +		* Perform Tone Mapping operation. This is an operation
-> +		* done when blending is done with HDR and SDR content.
-> +
-> +UAPI Name: PLANE_GAMMA_MODE
-> +Description: Enum property with values as blob_id's which advertizes the
-> +	    possible gamma modes and lut ranges supported by the platform.
-> +	    This  allows userspace to query and get the plane gamma color
-> +	    caps and choose the appropriate gamma mode and create lut values
-> +	    accordingly.
-> +
-> +UAPI Name: PLANE_GAMMA_LUT
-> +Description: Blob property which allows a userspace to provide LUT values
-> +	     to apply gamma curve or perform tone mapping using the h/w plane
-> +	     gamma processing engine, thereby making the content as linear
-> +	     for further color processing. Userspace gets the size of LUT and
-> +	     precision etc from PLANE_GAMA_MODE_PROPERTY
-> +	
-> +This is part of one plane engine. Data from multiple planes will be
-> +then fed to pipe where it will get blended. There is a similar set of
-> +properties available at crtc level which acts on this blended data.
-> +
-> +Below is a sample usecase:
-> +
-> +  ┌────────────┐      ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
-> +  │FB1         │      │Degamma Block│     │ CTM Matrix  │     │ Gamma Block │
-> +  │            ├─────►│Linearize-   ├────►│ BT709 to    ├────►│ SDR to HDR  │
-> +  │BT709 SDR   │      │BT709 inverse│     │ BT2020      │     │ Tone Mapping├────────┐
-> +  └────────────┘      └─────────────┘     └─────────────┘     └─────────────┘        │
-> +                                                                                     │
-> +  ┌────────────┐      ┌─────────────┐     ┌─────────────┐     ┌─────────────┐        │
-> +  │FB2         │      │Degamma Block│     │ CTM Matrix  │     │ Gamma Block │        │
-> +  │            ├─────►│Linearize-   ├────►│ BT601 to    ├────►│ SDR to HDR  ├─────┐  │
-> +  │BT601 SDR   │      │BT601 inverse│     │ BT2020      │     │ Tone Mapping│     │  │
-> +  └────────────┘      └─────────────┘     └─────────────┘     └─────────────┘     │  │
-> +                                                                                  │  │
-> +  ┌────────────┐      ┌─────────────┐     ┌─────────────┐     ┌─────────────┐     │  │
-> +  │FB3         │      │Degamma Block│     │ CTM Matrix  │     │ Gamma Block │     │  │
-> +  │            ├─────►│Linearize-   ├────►│ NOP (Data in├────►│ NOP (Data in├───┐ │  │
-> +  │BT2020 HDR  │      │HDR OETF     │     │ BT2020)     │     │ HDR)        │   │ │  │
-> +  └────────────┘      └─────────────┘     └─────────────┘     └─────────────┘   │ │  │
-> +                                                                                │ │  │
-> +                                                                                │ │  │
-> +                                                                                │ │  │
-> +┌───────────────────────────────────────────────────────────────────────────────┴─┴──┘
-> +│
-> +│ ┌─────────────┐      ┌─────────────┐      ┌───────────────┐
-> +│ │ CRTC Degamma│      │ CRTC CTM    │      │ CRTC Gamma    │
-> +└─┤ Use to make ├─────►│ Use for any ├─────►│ Use for Tone  ├─────► TO Port
-> +  │ data linear │      │ Color Space │      │ Mapping/apply │
-> +  │ after blend │      │ Conversion  │      │ transfer func │
-> +  └─────────────┘      └─────────────┘      └───────────────┘
-> +
-> +
-> +This patch series adds properties for plane color features. It adds
-> +properties for degamma used to linearize data and CSC used for gamut
-> +conversion. It also includes Gamma support used to again non-linearize
-> +data as per panel supported color space. These can be utilize by user
-> +space to convert planes from one format to another, one color space to
-> +another etc.
-> +
-> +Userspace can take smart blending decisions and utilize these hardware
-> +supported plane color features to get accurate color profile. The same
-> +can help in consistent color quality from source to panel taking
-> +advantage of advanced color features in hardware.
-> +
-> +These patches add the property interfaces and enable helper functions.
-> +This series adds Intel's XE_LPD hw specific plane gamma feature. We
-> +can build up and add other platform/hardware specific implementation
-> +on top of this series.
-> +
-> +Credits: Special mention and credits to Ville Syrjala for coming up
-> +with a design for this feature and inputs. This series is based on
-> +his original design and idea.
-> 
+My reading of this code is that stdp4028_ge_b850v3_fw_probe() and
+stdp2690_ge_b850v3_fw_probe() are racing, and the 2nd driver to probe
+will go ahead and call ge_b850v3_register(). Is there any reason why
+EPROBE_DEFER isn't used here?
 
+> +
+> +       return ge_b850v3_register();
+> +}
+> +
+>  static int stdp4028_ge_b850v3_fw_remove(struct i2c_client *stdp4028_i2c)
+>  {
+>         ge_b850v3_lvds_remove();
+> @@ -386,7 +398,11 @@ static int stdp2690_ge_b850v3_fw_probe(struct i2c_client *stdp2690_i2c,
+>         ge_b850v3_lvds_ptr->stdp2690_i2c = stdp2690_i2c;
+>         i2c_set_clientdata(stdp2690_i2c, ge_b850v3_lvds_ptr);
+>
+> -       return 0;
+> +       /* Only register after both bridges are probed */
+> +       if (!(ge_b850v3_lvds_ptr->stdp2690_i2c && ge_b850v3_lvds_ptr->stdp4028_i2c))
+> +               return 0;
+> +
+> +       return ge_b850v3_register();
+>  }
+>
+>  static int stdp2690_ge_b850v3_fw_remove(struct i2c_client *stdp2690_i2c)
+> --
+> 2.33.0
+>
