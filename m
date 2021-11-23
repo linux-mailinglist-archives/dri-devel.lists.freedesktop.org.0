@@ -1,56 +1,79 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 668DF45AB77
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Nov 2021 19:47:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6565245AC99
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Nov 2021 20:36:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0FBD06E095;
-	Tue, 23 Nov 2021 18:47:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 48EB56E0D9;
+	Tue, 23 Nov 2021 19:36:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com
- [IPv6:2a00:1450:4864:20::531])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 55FDF6E095
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Nov 2021 18:47:39 +0000 (UTC)
-Received: by mail-ed1-x531.google.com with SMTP id x15so95735253edv.1
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Nov 2021 10:47:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=LKJrDfQmwKaC53bj2iHawRUpVnad+wbaQMjhFO5RDyA=;
- b=BtRqghgRFhUtoNOS+OOnBF8RzAgbmUSpkNjprtb4qFgZVgl8RJKGI4sW5b7Svcsb3k
- 2IDgBK9w+bUYEkOcy2U4dO0mL865Er+SgF1I3ppCRoEFtvCk93SbYAfMXpJ1nxh0FIlM
- mKXCwU3D5yufMN1Y7gMYvt8RKB128jBlnsXu9qjzSC4/soJLngUtBe95Scl7vFjf0DrK
- A3nlIgRa7/+Jqmzp8tKbbiW4EN/MDwg+3sjQr0RgBt8aRQ/s8/92NskDPJpSz6NPdseW
- iR3QjDgMa4V7K2x/EIB05RrcwpXIPFjBiCZX72oigvKNo8Q/oVFOtWrnLEYS6qir+RQX
- Ty8Q==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 058906E12C
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Nov 2021 19:36:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1637696160;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=rZfv1IAB1L4OKPDv7Z7zl3z7pjV3ugHQdTctCyaDB7o=;
+ b=QwryxxP27AkmZ0u8hNazhVijs7Y63O7OG8tElYLU8XTZBFYMx5ELvNWL551TsgQWw2kuTP
+ ouGUG89dNVp5+6cjOxGACj3JjDODWHkh9fGvWJ1A9XAg6vV3r+TLlO3a1qeMbdNiwhQ1QL
+ E756sjRykyPSsCX2vtStEQ7yFNgOcrc=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-435-lTilRh1jNv6Cu3I60KOGUQ-1; Tue, 23 Nov 2021 14:35:58 -0500
+X-MC-Unique: lTilRh1jNv6Cu3I60KOGUQ-1
+Received: by mail-qv1-f72.google.com with SMTP id
+ kk1-20020a056214508100b003a9d1b987caso52725qvb.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Nov 2021 11:35:58 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=LKJrDfQmwKaC53bj2iHawRUpVnad+wbaQMjhFO5RDyA=;
- b=zbmpez0BCyLwbON+EhtcQGIEDI6ORUvYujlSmIW9XdVZGqs6Ui4sex7+u9ndBPYu+I
- YWrKyibmQcVMpNuWSF0RrC4NAgaV7J6AhcVFPVbUfODKBC3/EKdWYKfwiw7yNNoUc2mQ
- i93wqdt40g/iWKycYL7Qtykyh2FaLQpSEw6Fskx1GF2DMhrBw0UIslw+xOr6HPfrETg0
- 4WkfL72C55ddTyuCnMUipR22W6UddCK00ZmrgoPf3A84dDuDjT+d9xVK6DbGIuwVZkHL
- fTiImp7DvpZBY95qKnFsZvvZZnNPL/ZyvlBO2xs/Rpv+V0qZ2naKhCz/Au2vLTL0t1O0
- CKMg==
-X-Gm-Message-State: AOAM531I5yt14x4kpabLCXwnc4FGMr+4J6lrn+3vxIiL9ivEuRKppMna
- 4LzdStDxyRaWQvNBm4Uuegx+RixCgYBpjr8UdAY=
-X-Google-Smtp-Source: ABdhPJxDgvQbGh55arMTMvVVtGGMagNZkVz0+HZG7Jro3W6BzwdGTZ5kJmTH/FQ23iQpqvxdZHZroQyzUbbdqNziWiY=
-X-Received: by 2002:a17:907:6d05:: with SMTP id
- sa5mr10579024ejc.246.1637693257678; 
- Tue, 23 Nov 2021 10:47:37 -0800 (PST)
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:organization:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=rZfv1IAB1L4OKPDv7Z7zl3z7pjV3ugHQdTctCyaDB7o=;
+ b=bgayXLVmr1hyTKAB4xoL0G2jL7/VyK23jfSS4ObxYx0u6ILfNrF3kuGLqTPI8YLf+j
+ T5H/FrxDuNxEZ6kni2kdpd/ZHPHmWiNd0xvd3xhnNGe/NYNpn56cccMXhYOJrPY4GUzH
+ o3y+FP9u1UQy+BJp/PhjUVXKBtwVE015fw12cuyL4P10y+IwQWoQc8nsjVJHrE2calel
+ woHTHthV2QRJTy5wpHsdWsiSYEm8tFTTQsvyvqCcO9qWsHYjJ5WBE2bQxYT2LdbAnQs2
+ eNQTqTjktoUvYvKapIteJ8qkNZf+tBU0vgpv8fT6Ed2Uvq/ju8eBa6qle0o5bC+LRo+X
+ m0pA==
+X-Gm-Message-State: AOAM531xrWYE9MklDYtHQ6zbIuv+ofeM3K/6cgc9hAeBEjhAg2Wezql8
+ 2xnCi0QN4o6ufxTmTrgPeJ/nFdiq44YcBy/SXrImGEwX1Wii7YCm06EkARbwrPaTMef+fuuM2Yy
+ b6zcBoVpkj84SgrtM5KOPN8a+WdY7
+X-Received: by 2002:a05:622a:13c9:: with SMTP id
+ p9mr9530984qtk.47.1637696158311; 
+ Tue, 23 Nov 2021 11:35:58 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwd9aJm8SZb+wfUFsxDgSU42rVqDIpUUlYw//me57YbMeMFl74fEpjtGIzlLmPaOts6c7+/Mg==
+X-Received: by 2002:a05:622a:13c9:: with SMTP id
+ p9mr9530939qtk.47.1637696158082; 
+ Tue, 23 Nov 2021 11:35:58 -0800 (PST)
+Received: from [192.168.8.138] (pool-96-230-249-157.bstnma.fios.verizon.net.
+ [96.230.249.157])
+ by smtp.gmail.com with ESMTPSA id m15sm6726097qkp.76.2021.11.23.11.35.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 23 Nov 2021 11:35:57 -0800 (PST)
+Message-ID: <4dd933d333194ff8a676fcafdd5c9ef19f002c92.camel@redhat.com>
+Subject: Re: [PATCH] drm/nouveau/acr: fix a couple NULL vs IS_ERR() checks
+From: Lyude Paul <lyude@redhat.com>
+To: Dan Carpenter <dan.carpenter@oracle.com>, Ben Skeggs <bskeggs@redhat.com>
+Date: Tue, 23 Nov 2021 14:35:55 -0500
+In-Reply-To: <20211118111314.GB1147@kili>
+References: <20211118111314.GB1147@kili>
+Organization: Red Hat Inc.
+User-Agent: Evolution 3.42.1 (3.42.1-1.fc35)
 MIME-Version: 1.0
-References: <20211118111632.GE1147@kili>
-In-Reply-To: <20211118111632.GE1147@kili>
-From: Chia-I Wu <olvaffe@gmail.com>
-Date: Tue, 23 Nov 2021 10:47:26 -0800
-Message-ID: <CAPaKu7RKuHNfy4ANqfCCVGMhrTd7y-kMpJvz+UP7U2o=i4OJbg@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/virtio: Fix an NULL vs IS_ERR() bug in
- virtio_gpu_object_shmem_init()
-To: Dan Carpenter <dan.carpenter@oracle.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,23 +86,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, kernel-janitors@vger.kernel.org,
- ML dri-devel <dri-devel@lists.freedesktop.org>, "open list:VIRTIO CORE,
- NET AND BLOCK DRIVERS" <virtualization@lists.linux-foundation.org>,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: David Airlie <airlied@linux.ie>, nouveau@lists.freedesktop.org,
+ kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Nov 18, 2021 at 3:16 AM Dan Carpenter <dan.carpenter@oracle.com> wrote:
->
-> The drm_gem_shmem_get_sg_table() function never returns NULL.  It returns
-> error pointers on error.
->
-> Fixes: c66df701e783 ("drm/virtio: switch from ttm to gem shmem helpers")
+Reviewed-by: Lyude Paul <lyude@redhat.com>
+
+Will push this to drm-misc in a bit
+
+On Thu, 2021-11-18 at 14:13 +0300, Dan Carpenter wrote:
+> The nvkm_acr_lsfw_add() function never returns NULL.  It returns error
+> pointers on error.
+> 
+> Fixes: 22dcda45a3d1 ("drm/nouveau/acr: implement new subdev to replace
+> "secure boot"")
 > Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
 > ---
-> v2: I originally sent this patch on 19 Jun 2020 but it was somehow
->     not applied.  As I review it now, I see that the bug is actually
->     older than I originally thought and so I have updated the Fixes
->     tag.
-Reviewed-by: Chia-I Wu <olvaffe@gmail.com>
+>  drivers/gpu/drm/nouveau/nvkm/subdev/acr/gm200.c | 6 ++++--
+>  drivers/gpu/drm/nouveau/nvkm/subdev/acr/gp102.c | 6 ++++--
+>  2 files changed, 8 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/acr/gm200.c
+> b/drivers/gpu/drm/nouveau/nvkm/subdev/acr/gm200.c
+> index cdb1ead26d84..82b4c8e1457c 100644
+> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/acr/gm200.c
+> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/acr/gm200.c
+> @@ -207,11 +207,13 @@ int
+>  gm200_acr_wpr_parse(struct nvkm_acr *acr)
+>  {
+>         const struct wpr_header *hdr = (void *)acr->wpr_fw->data;
+> +       struct nvkm_acr_lsfw *lsfw;
+>  
+>         while (hdr->falcon_id != WPR_HEADER_V0_FALCON_ID_INVALID) {
+>                 wpr_header_dump(&acr->subdev, hdr);
+> -               if (!nvkm_acr_lsfw_add(NULL, acr, NULL, (hdr++)->falcon_id))
+> -                       return -ENOMEM;
+> +               lsfw = nvkm_acr_lsfw_add(NULL, acr, NULL, (hdr++)-
+> >falcon_id);
+> +               if (IS_ERR(lsfw))
+> +                       return PTR_ERR(lsfw);
+>         }
+>  
+>         return 0;
+> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/acr/gp102.c
+> b/drivers/gpu/drm/nouveau/nvkm/subdev/acr/gp102.c
+> index fb9132a39bb1..fd97a935a380 100644
+> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/acr/gp102.c
+> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/acr/gp102.c
+> @@ -161,11 +161,13 @@ int
+>  gp102_acr_wpr_parse(struct nvkm_acr *acr)
+>  {
+>         const struct wpr_header_v1 *hdr = (void *)acr->wpr_fw->data;
+> +       struct nvkm_acr_lsfw *lsfw;
+>  
+>         while (hdr->falcon_id != WPR_HEADER_V1_FALCON_ID_INVALID) {
+>                 wpr_header_v1_dump(&acr->subdev, hdr);
+> -               if (!nvkm_acr_lsfw_add(NULL, acr, NULL, (hdr++)->falcon_id))
+> -                       return -ENOMEM;
+> +               lsfw = nvkm_acr_lsfw_add(NULL, acr, NULL, (hdr++)-
+> >falcon_id);
+> +               if (IS_ERR(lsfw))
+> +                       return PTR_ERR(lsfw);
+>         }
+>  
+>         return 0;
+
+-- 
+Cheers,
+ Lyude Paul (she/her)
+ Software Engineer at Red Hat
+
