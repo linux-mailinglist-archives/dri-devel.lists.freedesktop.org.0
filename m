@@ -1,59 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAC9945A552
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Nov 2021 15:21:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FFE845A557
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Nov 2021 15:22:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CFE8F6E5CD;
-	Tue, 23 Nov 2021 14:21:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA2E96E831;
+	Tue, 23 Nov 2021 14:21:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com
- [IPv6:2a00:1450:4864:20::334])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD20C6E573
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Nov 2021 14:21:37 +0000 (UTC)
-Received: by mail-wm1-x334.google.com with SMTP id
- o19-20020a1c7513000000b0033a93202467so2733915wmc.2
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Nov 2021 06:21:37 -0800 (PST)
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
+ [IPv6:2a00:1450:4864:20::330])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8836B6E59F
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Nov 2021 14:21:39 +0000 (UTC)
+Received: by mail-wm1-x330.google.com with SMTP id i12so18894807wmq.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Nov 2021 06:21:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=IRN4qp5Iqo3k44JzsPUytvzY07JybWV7N7oXbJsRX+E=;
- b=eLwYR4ZKYqhkoKNUcBKIl/SAfy9xF87d9II49MKgVRWKZESAQ+iJI5bsmv/O0K5s1e
- Y2efcqQ5qKcudBl35z+gXv3uY1Y45G/tmeoZ4VhYgTm9X3+G7ohLsmgSFtqM4IguOr9b
- pKcIBxkYs34qGvCySVkuPFfnf3KNeoMX7k8L80PPcgdZU5A1gj+HZtmEds4lh+2+dHGK
- dYaeTBQinuxL21oFo6vRVJSshjdqgm8z0SzkvdARpXJ7+lAj3ZD3AdeIU9TJ6IEhHQNk
- MRVy30mak+KWX/i7iWZjSMvOIRk21rfcF+2HG85EtBDMKeoZnhgYqpOjmtPF9nBMu8l+
- CHsQ==
+ bh=MHiuy8hFM9J8q0FM4IEtsQAAAvGX3NWM32T+WyyUIsc=;
+ b=Aap9qb0CGJMazHPh76Zb+XR1OFS8Jd/j6yOThIDHqJ6I7ART5j3CY5Ipx2vkhBzcze
+ QlI7onwvUrpPJY9975hB53OwS3Vy9uPVDO8z2uqK00BFn3NtLS2WWDTH0nYEq17ZRaXd
+ NVbIAAtVVhRUkFwmDnCpIVN9MZW6l0/i0L2b14TR7QHs2hPT3sUW0i+Z4VjpSc6KF0KL
+ MCWEIlyf8P8lAHUGA0f9oj7TSfxyjtJq4VjJ5OYtQ/R4allQQPRZpEZZFaWkaRYcvN+3
+ jigULy1EE+5MzZLa4ZjE5k1kDEKydxv1lyxw1JiIokAki8vmDSBdOTuz0dyMU8YbVFzD
+ sBow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=IRN4qp5Iqo3k44JzsPUytvzY07JybWV7N7oXbJsRX+E=;
- b=8H7qAWreLQLQR5wR4352/ft0dsNL92y1osxGXh1mkEVCcF2WYQ8zZdD1gh9kWAhBjV
- 8nd2JaVCBJ7wOHFY6MaUgYqS0dq1dwvk8XYZth10T+WHuo9LwwEVgD4i67Plg7HalI+Q
- mC50oSlgI1zyxVpZxUVXNmQhgSIjhNt7fzXSZWqvwYfGaC2TkE/bzrT0yIUEp47assCA
- OPzA0KIEFEbyXJAOmtxwPL46nAXunocLnm7YkJdPG4/4UIa6b+4dG5sxB7OYKxPk/dmW
- S6v1HbPyBIvAk7qS9Ki0dKwv3JacfhkOkFqU3qfijZ3d68g7173JrbghnC/+jXlr7Eun
- cgnw==
-X-Gm-Message-State: AOAM533OQW2PJWijhlIqgU1zqww/il17ya+ndaFpAlTB+RLwTo83zps5
- 6FvmyPFG6Vjv/2shajgjH0/3jntEPPI=
-X-Google-Smtp-Source: ABdhPJwdudJRBQUyuM6N/s07Qo3lmLid8mFUOvJ3ndWpjmCPTwrY9JZYMgsS6jk9TZToXh3BkzwbPA==
-X-Received: by 2002:a1c:f418:: with SMTP id z24mr3642026wma.95.1637677296400; 
- Tue, 23 Nov 2021 06:21:36 -0800 (PST)
+ bh=MHiuy8hFM9J8q0FM4IEtsQAAAvGX3NWM32T+WyyUIsc=;
+ b=dVsKVNSe0Jz8rHgD+adt3Bfhej9kZ4jLBxhelHO4ju4aQr6SRD67Gswbh2SCWflsiF
+ U+COYUv8TuwdM59xN403wKjd3B89ANz15Rhhbhuz6BDS88TGtPf9p7Ksm515WzsaV3rh
+ au42+uy/kzVsQQigDcHTjKdzo6ZymakHZstJx9HcOcGKmSOUO9UVrKWDx6RAFJq0xUc5
+ +FG1OsXWGqi4C+6tKkmoUEQrVZQ4LeU7ALNmoFl4cJwqzjUqBLZEQPdVsZyxViahkRhN
+ /s5dINbbs6k0PIUzjaLY1Ed4RLNs6Au6sg+nZwqNMjBRSdRMwWHojJMl6tXTHT2fcNg3
+ 9cIw==
+X-Gm-Message-State: AOAM532iDQYX3FHA340SB6V8cE5lPxjfQVJVN4Rysm4zjW3Js2DDeK8U
+ IDJWrsQPVtULiIUAwrbT7UE=
+X-Google-Smtp-Source: ABdhPJyZg/cZ9stJjKdPoHG3fhLgr87QipAPe+4ZbOIDj9J1X5VBkse+LtX/RaUO8k5CsW0Rixncew==
+X-Received: by 2002:a1c:1c8:: with SMTP id 191mr3498372wmb.90.1637677298054;
+ Tue, 23 Nov 2021 06:21:38 -0800 (PST)
 Received: from abel.fritz.box (p57b0b77b.dip0.t-ipconnect.de. [87.176.183.123])
- by smtp.gmail.com with ESMTPSA id t8sm1645928wmq.32.2021.11.23.06.21.34
+ by smtp.gmail.com with ESMTPSA id t8sm1645928wmq.32.2021.11.23.06.21.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Nov 2021 06:21:36 -0800 (PST)
+ Tue, 23 Nov 2021 06:21:37 -0800 (PST)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
  <christian.koenig@amd.com>
 To: sumit.semwal@linaro.org,
 	daniel@ffwll.ch
-Subject: [PATCH 12/26] drm/vmwgfx: stop using dma_resv_excl_fence
-Date: Tue, 23 Nov 2021 15:20:57 +0100
-Message-Id: <20211123142111.3885-13-christian.koenig@amd.com>
+Subject: [PATCH 13/26] drm/radeon: stop using dma_resv_excl_fence
+Date: Tue, 23 Nov 2021 15:20:58 +0100
+Message-Id: <20211123142111.3885-14-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211123142111.3885-1-christian.koenig@amd.com>
 References: <20211123142111.3885-1-christian.koenig@amd.com>
@@ -81,26 +80,27 @@ Instead use the new dma_resv_get_singleton function.
 
 Signed-off-by: Christian König <christian.koenig@amd.com>
 ---
- drivers/gpu/drm/vmwgfx/vmwgfx_resource.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/radeon/radeon_display.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_resource.c b/drivers/gpu/drm/vmwgfx/vmwgfx_resource.c
-index 8d1e869cc196..23c3fc2cbf10 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_resource.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_resource.c
-@@ -1168,8 +1168,10 @@ int vmw_resources_clean(struct vmw_buffer_object *vbo, pgoff_t start,
- 		vmw_bo_fence_single(bo, NULL);
- 		if (bo->moving)
- 			dma_fence_put(bo->moving);
--		bo->moving = dma_fence_get
--			(dma_resv_excl_fence(bo->base.resv));
-+
-+		/* TODO: This is actually a memory management dependency */
-+		return dma_resv_get_singleton(bo->base.resv, false,
-+					      &bo->moving);
+diff --git a/drivers/gpu/drm/radeon/radeon_display.c b/drivers/gpu/drm/radeon/radeon_display.c
+index 573154268d43..a6f875118f01 100644
+--- a/drivers/gpu/drm/radeon/radeon_display.c
++++ b/drivers/gpu/drm/radeon/radeon_display.c
+@@ -533,7 +533,12 @@ static int radeon_crtc_page_flip_target(struct drm_crtc *crtc,
+ 		DRM_ERROR("failed to pin new rbo buffer before flip\n");
+ 		goto cleanup;
  	}
+-	work->fence = dma_fence_get(dma_resv_excl_fence(new_rbo->tbo.base.resv));
++	r = dma_resv_get_singleton(new_rbo->tbo.base.resv, false, &work->fence);
++	if (r) {
++		radeon_bo_unreserve(new_rbo);
++		DRM_ERROR("failed to get new rbo buffer fences\n");
++		goto cleanup;
++	}
+ 	radeon_bo_get_tiling_flags(new_rbo, &tiling_flags, NULL);
+ 	radeon_bo_unreserve(new_rbo);
  
- 	return 0;
 -- 
 2.25.1
 
