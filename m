@@ -1,60 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0578C45ACD1
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Nov 2021 20:48:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DB9E045ACDD
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Nov 2021 20:52:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1EAC6E17B;
-	Tue, 23 Nov 2021 19:48:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E2FA6E12C;
+	Tue, 23 Nov 2021 19:52:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D41126E12C;
- Tue, 23 Nov 2021 19:48:45 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10177"; a="321349404"
-X-IronPort-AV: E=Sophos;i="5.87,258,1631602800"; d="scan'208";a="321349404"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Nov 2021 11:48:45 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.87,258,1631602800"; d="scan'208";a="457191588"
-Received: from orsmsx604.amr.corp.intel.com ([10.22.229.17])
- by orsmga006.jf.intel.com with ESMTP; 23 Nov 2021 11:48:44 -0800
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX604.amr.corp.intel.com (10.22.229.17) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Tue, 23 Nov 2021 11:48:44 -0800
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Tue, 23 Nov 2021 11:48:44 -0800
-Received: from orsmsx610.amr.corp.intel.com ([10.22.229.23]) by
- ORSMSX610.amr.corp.intel.com ([10.22.229.23]) with mapi id 15.01.2242.012;
- Tue, 23 Nov 2021 11:48:44 -0800
-From: "Souza, Jose" <jose.souza@intel.com>
-To: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "Manna, Animesh" <animesh.manna@intel.com>, "intel-gfx@lists.freedesktop.org"
- <intel-gfx@lists.freedesktop.org>
-Subject: Re: [PATCH v3 3/5] drm/i915/panelreplay: Initializaton and compute
- config for panel replay
-Thread-Topic: [PATCH v3 3/5] drm/i915/panelreplay: Initializaton and compute
- config for panel replay
-Thread-Index: AQHXvdMeZ+4Cb5hyf0i+75ZITKmjGawSUOQA
-Date: Tue, 23 Nov 2021 19:48:43 +0000
-Message-ID: <64d2d5a6bc319269ad828c54e985e6baacbafb9b.camel@intel.com>
-References: <20211010121039.14725-1-animesh.manna@intel.com>
- <20211010121039.14725-4-animesh.manna@intel.com>
-In-Reply-To: <20211010121039.14725-4-animesh.manna@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.1.200.100]
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <A21114035470D144BD48EA017094AE74@intel.com>
-Content-Transfer-Encoding: base64
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1679D6E12C;
+ Tue, 23 Nov 2021 19:52:20 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10177"; a="258993709"
+X-IronPort-AV: E=Sophos;i="5.87,258,1631602800"; d="scan'208";a="258993709"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Nov 2021 11:52:19 -0800
+X-IronPort-AV: E=Sophos;i="5.87,258,1631602800"; d="scan'208";a="509546945"
+Received: from dray1-mobl.amr.corp.intel.com (HELO intel.com) ([10.255.38.234])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Nov 2021 11:52:18 -0800
+Date: Tue, 23 Nov 2021 14:52:16 -0500
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Subject: Re: [Intel-gfx] [PATCH 1/3] drm/i915/gt: Spread virtual engines over
+ idle engines
+Message-ID: <YZ1GcMR6C6YN9szK@intel.com>
+References: <20211117224955.28999-1-vinay.belgaumkar@intel.com>
+ <20211117224955.28999-2-vinay.belgaumkar@intel.com>
+ <6e19db61-dee6-f012-9dd4-b8ef455509e7@linux.intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6e19db61-dee6-f012-9dd4-b8ef455509e7@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,162 +46,177 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Nikula, Jani" <jani.nikula@intel.com>, "Navare,
- Manasi D" <manasi.d.navare@intel.com>, "Kahola, Mika" <mika.kahola@intel.com>,
- "Mun, Gwan-gyeong" <gwan-gyeong.mun@intel.com>
+Cc: Vinay Belgaumkar <vinay.belgaumkar@intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Chris Wilson <chris@chris-wilson.co.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gU3VuLCAyMDIxLTEwLTEwIGF0IDE3OjQwICswNTMwLCBBbmltZXNoIE1hbm5hIHdyb3RlOg0K
-PiBBcyBwYW5lbCByZXBsYXkgZmVhdHVyZSBzaW1pbGFyIHRvIFBTUiBmZWF0dXJlIG9mIEVEUCBw
-YW5lbCwgc28gY3VycmVudGx5DQo+IHV0aWxpemVkIGV4aXN0aW5nIHBzciBmcmFtZXdvcmsgZm9y
-IHBhbmVsIHJlcGxheS4NCj4gDQo+IHYxOiBSRkMgdmVyc2lvbi4NCj4gdjI6IG9wdGltaXplZCBj
-b2RlLCBwcl9lbmFibGVkIGFuZCBwcl9kcGNkIHZhcmlhYmxlIHJlbW92ZWQuIFtKb3NlXQ0KPiB2
-MzoNCj4gLSBjb2RlIGNvbW1lbnRzIGltcHJvdmVkLiBbSmFuaV0NCj4gLSBkcGNkX3JlYWRiIHVz
-ZWQgaW5zdGVhZCBvZiBkcGNkX3JlYWQuIFtKYW5pXQ0KPiAtIHBhbmVsLXJlcGFwbGF5IGluaXQv
-Y29tcHV0ZSBmdW5jdGlvbnMgbW92ZWQgaW5zaWRlIHJlc3BlY3RpdmUgcHNyDQo+IGZ1bmN0aW9u
-LiBbSmFuaV0NCj4gDQo+IFNpZ25lZC1vZmYtYnk6IEFuaW1lc2ggTWFubmEgPGFuaW1lc2gubWFu
-bmFAaW50ZWwuY29tPg0KPiAtLS0NCj4gIC4uLi9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2Rpc3Bs
-YXlfdHlwZXMuaCAgICB8ICAyICsNCj4gIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50
-ZWxfZHAuYyAgICAgICB8IDQzICsrKysrKysrKysrKystLS0tDQo+ICBkcml2ZXJzL2dwdS9kcm0v
-aTkxNS9kaXNwbGF5L2ludGVsX3Bzci5jICAgICAgfCA0OCArKysrKysrKysrKysrKysrKysrDQo+
-ICBkcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX3Bzci5oICAgICAgfCAgMyArKw0K
-PiAgNCBmaWxlcyBjaGFuZ2VkLCA4NyBpbnNlcnRpb25zKCspLCA5IGRlbGV0aW9ucygtKQ0KPiAN
-Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZGlzcGxh
-eV90eXBlcy5oIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kaXNwbGF5X3R5
-cGVzLmgNCj4gaW5kZXggMzllMTFlYWVjMWEzLi40OGY3ZDY3NmVkMmMgMTAwNjQ0DQo+IC0tLSBh
-L2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZGlzcGxheV90eXBlcy5oDQo+ICsr
-KyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZGlzcGxheV90eXBlcy5oDQo+
-IEBAIC0xMDcwLDYgKzEwNzAsNyBAQCBzdHJ1Y3QgaW50ZWxfY3J0Y19zdGF0ZSB7DQo+ICAJYm9v
-bCByZXFfcHNyMl9zZHBfcHJpb3Jfc2NhbmxpbmU7DQo+ICAJdTMyIGRjM2NvX2V4aXRsaW5lOw0K
-PiAgCXUxNiBzdV95X2dyYW51bGFyaXR5Ow0KPiArCWJvb2wgaGFzX3BhbmVsX3JlcGxheTsNCg0K
-V2UgY2FuIGRyb3AgdGhpcyBhbmQgcmV1c2UgY3VycmVudCBvbmVzIG9uZXMsIHNlZSBiZWxsb3cu
-DQoNCj4gIAlzdHJ1Y3QgZHJtX2RwX3ZzY19zZHAgcHNyX3ZzYzsNCj4gIA0KPiAgCS8qDQo+IEBA
-IC0xNTMxLDYgKzE1MzIsNyBAQCBzdHJ1Y3QgaW50ZWxfcHNyIHsNCj4gIAlib29sIGlycV9hdXhf
-ZXJyb3I7DQo+ICAJdTE2IHN1X3dfZ3JhbnVsYXJpdHk7DQo+ICAJdTE2IHN1X3lfZ3JhbnVsYXJp
-dHk7DQo+ICsJYm9vbCBzaW5rX3BhbmVsX3JlcGxheV9zdXBwb3J0Ow0KDQptb3ZlIHRoaXMgY2xv
-c2VyIHRvIGhhc19wc3IgYW5kIHNldCBib3RoIHdoZW4gaXQgaXMgcGFuZWwgcmVwbGF5Lg0Kb3Ro
-ZXJ3aXNlIHBzciBmdW5jdGlvbnMgd2lsbCBub3QgYmUgZXhlY3V0ZWQgZm9yIHBhbmVsIHJlcGxh
-eSwgc2VlIENBTl9QU1IoKS4NCg0KPiAgCXUzMiBkYzNjb19leGl0bGluZTsNCj4gIAl1MzIgZGMz
-Y29fZXhpdF9kZWxheTsNCj4gIAlzdHJ1Y3QgZGVsYXllZF93b3JrIGRjM2NvX3dvcms7DQo+IGRp
-ZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RwLmMgYi9kcml2
-ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RwLmMNCj4gaW5kZXggMTBmZGEyMGE1YmQ4
-Li5mNThhN2I3MmJlMTQgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3Bs
-YXkvaW50ZWxfZHAuYw0KPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVs
-X2RwLmMNCj4gQEAgLTE1ODcsMTIgKzE1ODcsMjIgQEAgc3RhdGljIHZvaWQgaW50ZWxfZHBfY29t
-cHV0ZV92c2NfY29sb3JpbWV0cnkoY29uc3Qgc3RydWN0IGludGVsX2NydGNfc3RhdGUgKmNydGMN
-Cj4gIAlzdHJ1Y3QgaW50ZWxfY3J0YyAqY3J0YyA9IHRvX2ludGVsX2NydGMoY3J0Y19zdGF0ZS0+
-dWFwaS5jcnRjKTsNCj4gIAlzdHJ1Y3QgZHJtX2k5MTVfcHJpdmF0ZSAqZGV2X3ByaXYgPSB0b19p
-OTE1KGNydGMtPmJhc2UuZGV2KTsNCj4gIA0KPiAtCS8qDQo+IC0JICogUHJlcGFyZSBWU0MgSGVh
-ZGVyIGZvciBTVSBhcyBwZXIgRFAgMS40IHNwZWMsIFRhYmxlIDItMTE4DQo+IC0JICogVlNDIFNE
-UCBzdXBwb3J0aW5nIDNEIHN0ZXJlbywgUFNSMiwgYW5kIFBpeGVsIEVuY29kaW5nLw0KPiAtCSAq
-IENvbG9yaW1ldHJ5IEZvcm1hdCBpbmRpY2F0aW9uLg0KPiAtCSAqLw0KPiAtCXZzYy0+cmV2aXNp
-b24gPSAweDU7DQo+ICsJaWYgKGNydGNfc3RhdGUtPmhhc19wYW5lbF9yZXBsYXkpIHsNCj4gKwkJ
-LyoNCj4gKwkJICogUHJlcGFyZSBWU0MgSGVhZGVyIGZvciBTVSBhcyBwZXIgRFAgMi4wIHNwZWMs
-IFRhYmxlIDItMjIzDQo+ICsJCSAqIFZTQyBTRFAgc3VwcG9ydGluZyAzRCBzdGVyZW8sIFBhbmVs
-IFJlcGxheSwgYW5kIFBpeGVsDQo+ICsJCSAqIEVuY29kaW5nL0NvbG9yaW1ldHJ5IEZvcm1hdCBp
-bmRpY2F0aW9uLg0KPiArCQkgKi8NCj4gKwkJdnNjLT5yZXZpc2lvbiA9IDB4NzsNCj4gKwl9IGVs
-c2Ugew0KPiArCQkvKg0KPiArCQkgKiBQcmVwYXJlIFZTQyBIZWFkZXIgZm9yIFNVIGFzIHBlciBE
-UCAxLjQgc3BlYywgVGFibGUgMi0xMTgNCj4gKwkJICogVlNDIFNEUCBzdXBwb3J0aW5nIDNEIHN0
-ZXJlbywgUFNSMiwgYW5kIFBpeGVsIEVuY29kaW5nLw0KPiArCQkgKiBDb2xvcmltZXRyeSBGb3Jt
-YXQgaW5kaWNhdGlvbi4NCj4gKwkJICovDQo+ICsJCXZzYy0+cmV2aXNpb24gPSAweDU7DQo+ICsJ
-fQ0KPiArDQo+ICAJdnNjLT5sZW5ndGggPSAweDEzOw0KPiAgDQo+ICAJLyogRFAgMS40YSBzcGVj
-LCBUYWJsZSAyLTEyMCAqLw0KPiBAQCAtMTcwMSw2ICsxNzExLDIxIEBAIHZvaWQgaW50ZWxfZHBf
-Y29tcHV0ZV9wc3JfdnNjX3NkcChzdHJ1Y3QgaW50ZWxfZHAgKmludGVsX2RwLA0KPiAgCQkJdnNj
-LT5yZXZpc2lvbiA9IDB4NDsNCj4gIAkJCXZzYy0+bGVuZ3RoID0gMHhlOw0KPiAgCQl9DQo+ICsJ
-fSBlbHNlIGlmIChpbnRlbF9kcC0+cHNyLmVuYWJsZWQgJiYgIWludGVsX2RwX2lzX2VkcChpbnRl
-bF9kcCkpIHsNCj4gKwkJaWYgKGludGVsX2RwLT5wc3IuY29sb3JpbWV0cnlfc3VwcG9ydCAmJg0K
-PiArCQkgICAgaW50ZWxfZHBfbmVlZHNfdnNjX3NkcChjcnRjX3N0YXRlLCBjb25uX3N0YXRlKSkg
-ew0KPiArCQkJLyogW1BhbmVsIFJlcGxheSB3aXRoIGNvbG9yaW1ldHJ5IGluZm9dICovDQo+ICsJ
-CQlpbnRlbF9kcF9jb21wdXRlX3ZzY19jb2xvcmltZXRyeShjcnRjX3N0YXRlLCBjb25uX3N0YXRl
-LA0KPiArCQkJCQkJCSB2c2MpOw0KPiArCQl9IGVsc2Ugew0KPiArCQkJLyoNCj4gKwkJCSAqIFtQ
-YW5lbCBSZXBsYXkgd2l0aG91dCBjb2xvcmltZXRyeSBpbmZvXQ0KPiArCQkJICogUHJlcGFyZSBW
-U0MgSGVhZGVyIGZvciBTVSBhcyBwZXIgRFAgMi4wIHNwZWMsIFRhYmxlIDItMjIzDQo+ICsJCQkg
-KiBWU0MgU0RQIHN1cHBvcnRpbmcgM0Qgc3RlcmVvICsgUGFuZWwgUmVwbGF5Lg0KPiArCQkJICov
-DQo+ICsJCQl2c2MtPnJldmlzaW9uID0gMHg2Ow0KPiArCQkJdnNjLT5sZW5ndGggPSAweDEwOw0K
-PiArCQl9DQo+ICAJfSBlbHNlIHsNCj4gIAkJLyoNCj4gIAkJICogW1BTUjFdDQo+IEBAIC0yNzQ5
-LDEwICsyNzc0LDEwIEBAIHN0YXRpYyBzc2l6ZV90IGludGVsX2RwX3ZzY19zZHBfcGFjayhjb25z
-dCBzdHJ1Y3QgZHJtX2RwX3ZzY19zZHAgKnZzYywNCj4gIAlzZHAtPnNkcF9oZWFkZXIuSEIzID0g
-dnNjLT5sZW5ndGg7IC8qIE51bWJlciBvZiBWYWxpZCBEYXRhIEJ5dGVzICovDQo+ICANCj4gIAkv
-Kg0KPiAtCSAqIE9ubHkgcmV2aXNpb24gMHg1IHN1cHBvcnRzIFBpeGVsIEVuY29kaW5nL0NvbG9y
-aW1ldHJ5IEZvcm1hdCBhcw0KPiAtCSAqIHBlciBEUCAxLjRhIHNwZWMuDQo+ICsJICogUmV2aXNp
-b24gMHg1IGFuZCAweDcgc3VwcG9ydHMgUGl4ZWwgRW5jb2RpbmcvQ29sb3JpbWV0cnkgRm9ybWF0
-IGFzDQo+ICsJICogcGVyIERQIDEuNGEgc3BlYyBhbmQgRFAgMi4wIHNwZWMgcmVzcGVjdGl2ZWx5
-Lg0KPiAgCSAqLw0KPiAtCWlmICh2c2MtPnJldmlzaW9uICE9IDB4NSkNCj4gKwlpZiAodnNjLT5y
-ZXZpc2lvbiAhPSAweDUgfHwgdnNjLT5yZXZpc2lvbiAhPSAweDcpDQo+ICAJCWdvdG8gb3V0Ow0K
-PiAgDQo+ICAJLyogVlNDIFNEUCBQYXlsb2FkIGZvciBEQjE2IHRocm91Z2ggREIxOCAqLw0KPiBk
-aWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9wc3IuYyBiL2Ry
-aXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfcHNyLmMNCj4gaW5kZXggN2EyMDVmZDUw
-MjNiLi45MWMyZWZlMmYzYWQgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rp
-c3BsYXkvaW50ZWxfcHNyLmMNCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9p
-bnRlbF9wc3IuYw0KPiBAQCAtOTMzLDYgKzkzMywyMSBAQCBzdGF0aWMgYm9vbCBpbnRlbF9wc3Iy
-X2NvbmZpZ192YWxpZChzdHJ1Y3QgaW50ZWxfZHAgKmludGVsX2RwLA0KPiAgCXJldHVybiB0cnVl
-Ow0KPiAgfQ0KPiAgDQo+ICt2b2lkIGludGVsX3BhbmVsX3JlcGxheV9jb21wdXRlX2NvbmZpZyhz
-dHJ1Y3QgaW50ZWxfZHAgKmludGVsX2RwLA0KPiArCQkJCSAgICAgICBzdHJ1Y3QgaW50ZWxfY3J0
-Y19zdGF0ZSAqY3J0Y19zdGF0ZSkNCj4gK3sNCj4gKwlzdHJ1Y3QgZHJtX2k5MTVfcHJpdmF0ZSAq
-aTkxNSA9IGRwX3RvX2k5MTUoaW50ZWxfZHApOw0KPiArDQo+ICsJaWYgKCFpbnRlbF9kcC0+cHNy
-LnNpbmtfcGFuZWxfcmVwbGF5X3N1cHBvcnQpDQo+ICsJCXJldHVybjsNCj4gKw0KPiArCWNydGNf
-c3RhdGUtPmhhc19wYW5lbF9yZXBsYXkgPSB0cnVlOw0KPiArCWNydGNfc3RhdGUtPmluZm9mcmFt
-ZXMuZW5hYmxlIHw9IGludGVsX2hkbWlfaW5mb2ZyYW1lX2VuYWJsZShEUF9TRFBfVlNDKTsNCj4g
-Kw0KPiArCWlmIChIQVNfUFNSMl9TRUxfRkVUQ0goaTkxNSkpDQo+ICsJCWludGVsX3BzcjJfc2Vs
-X2ZldGNoX2NvbmZpZ192YWxpZChpbnRlbF9kcCwgY3J0Y19zdGF0ZSk7DQo+ICt9DQo+ICsNCj4g
-IHZvaWQgaW50ZWxfcHNyX2NvbXB1dGVfY29uZmlnKHN0cnVjdCBpbnRlbF9kcCAqaW50ZWxfZHAs
-DQo+ICAJCQkgICAgICBzdHJ1Y3QgaW50ZWxfY3J0Y19zdGF0ZSAqY3J0Y19zdGF0ZSwNCj4gIAkJ
-CSAgICAgIHN0cnVjdCBkcm1fY29ubmVjdG9yX3N0YXRlICpjb25uX3N0YXRlKQ0KPiBAQCAtOTQy
-LDYgKzk1Nyw4IEBAIHZvaWQgaW50ZWxfcHNyX2NvbXB1dGVfY29uZmlnKHN0cnVjdCBpbnRlbF9k
-cCAqaW50ZWxfZHAsDQo+ICAJCSZjcnRjX3N0YXRlLT5ody5hZGp1c3RlZF9tb2RlOw0KPiAgCWlu
-dCBwc3Jfc2V0dXBfdGltZTsNCj4gIA0KPiArCWludGVsX3BhbmVsX3JlcGxheV9jb21wdXRlX2Nv
-bmZpZyhpbnRlbF9kcCwgY3J0Y19zdGF0ZSk7DQoNCmhhdmUgeW91IGNoZWNrZWQgaWYgdGhlIG90
-aGVyIFBTUiBhcmUgbmVlZGVkIGZvciBwYW5lbCByZXBsYXk/IHdoYXQgYWJvdXQgdGhlIHBzcjIg
-Y2hlY2tzPyB3aGVuIHVzaW5nIHBhbmVsIHJlcGxheSBzZWxlY3RpdmUgdXBkYXRlIHNvbWUgYWRk
-aXRpb25hbA0KdGVzdHMgd2lsbCBiZSBuZWVkZWQgcmVnYXJkaW5nIGdyYW51bGFyaXR5Li4uDQoN
-Cj4gKw0KPiAgCS8qDQo+ICAJICogQ3VycmVudCBQU1IgcGFuZWxzIGRvbnQgd29yayByZWxpYWJs
-eSB3aXRoIFZSUiBlbmFibGVkDQo+ICAJICogU28gaWYgVlJSIGlzIGVuYWJsZWQsIGRvIG5vdCBl
-bmFibGUgUFNSLg0KPiBAQCAtMjE3MCw2ICsyMTg3LDM1IEBAIHZvaWQgaW50ZWxfcHNyX2ZsdXNo
-KHN0cnVjdCBkcm1faTkxNV9wcml2YXRlICpkZXZfcHJpdiwNCj4gIAl9DQo+ICB9DQo+ICANCj4g
-Ky8qKg0KPiArICogaW50ZWxfcGFuZWxfcmVwbGF5X2luaXQgLSBDaGVjayBmb3Igc2luayBhbmQg
-c291cmNlIGNhcGFiaWxpdHkuDQo+ICsgKiBAaW50ZWxfZHA6IEludGVsIERQDQo+ICsgKg0KPiAr
-ICogVGhpcyBmdW5jdGlvbiBpcyBjYWxsZWQgYWZ0ZXIgdGhlIGluaXRpYWxpemluZyBjb25uZWN0
-b3IuDQo+ICsgKiAodGhlIGluaXRpYWxpemluZyBvZiBjb25uZWN0b3IgdHJlYXRzIHRoZSBoYW5k
-bGluZyBvZiBjb25uZWN0b3IgY2FwYWJpbGl0aWVzKQ0KPiArICogQW5kIGl0IGluaXRpYWxpemVz
-IGJhc2ljIHBhbmVsIHJlcGxheSBzdHVmZiBmb3IgZWFjaCBEUCBFbmNvZGVyLg0KPiArICovDQo+
-ICt2b2lkIGludGVsX3BhbmVsX3JlcGxheV9pbml0KHN0cnVjdCBpbnRlbF9kcCAqaW50ZWxfZHAp
-DQo+ICt7DQo+ICsJc3RydWN0IGRybV9pOTE1X3ByaXZhdGUgKmRldl9wcml2ID0gZHBfdG9faTkx
-NShpbnRlbF9kcCk7DQo+ICsJdTggcHJfZHBjZCA9IDA7DQo+ICsNCj4gKwlpZiAoIShIQVNfRFAy
-MChkZXZfcHJpdikgJiYgSEFTX1BBTkVMX1JFUExBWShkZXZfcHJpdikpKQ0KPiArCQlyZXR1cm47
-DQo+ICsNCj4gKwlkcm1fZHBfZHBjZF9yZWFkYigmaW50ZWxfZHAtPmF1eCwgRFBfUEFORUxfUkVQ
-TEFZX0NBUCwgJnByX2RwY2QpOw0KPiArDQo+ICsJaWYgKCEocHJfZHBjZCAmIFBBTkVMX1JFUExB
-WV9TVVBQT1JUKSkgew0KPiArCQlkcm1fZGJnX2ttcygmZGV2X3ByaXYtPmRybSwNCj4gKwkJCSAg
-ICAiUGFuZWwgcmVwbGF5IGlzIG5vdCBzdXBwb3J0ZWQgYnkgcGFuZWxcbiIpOw0KPiArCQlyZXR1
-cm47DQo+ICsJfQ0KPiArDQo+ICsJZHJtX2RiZ19rbXMoJmRldl9wcml2LT5kcm0sDQo+ICsJCSAg
-ICAiUGFuZWwgcmVwbGF5IGlzIHN1cHBvcnRlZCBieSBwYW5lbFxuIik7DQo+ICsJaW50ZWxfZHAt
-PnBzci5zaW5rX3BhbmVsX3JlcGxheV9zdXBwb3J0ID0gdHJ1ZTsNCj4gK30NCj4gKw0KPiAgLyoq
-DQo+ICAgKiBpbnRlbF9wc3JfaW5pdCAtIEluaXQgYmFzaWMgUFNSIHdvcmsgYW5kIG11dGV4Lg0K
-PiAgICogQGludGVsX2RwOiBJbnRlbCBEUA0KPiBAQCAtMjE4Myw2ICsyMjI5LDggQEAgdm9pZCBp
-bnRlbF9wc3JfaW5pdChzdHJ1Y3QgaW50ZWxfZHAgKmludGVsX2RwKQ0KPiAgCXN0cnVjdCBpbnRl
-bF9kaWdpdGFsX3BvcnQgKmRpZ19wb3J0ID0gZHBfdG9fZGlnX3BvcnQoaW50ZWxfZHApOw0KPiAg
-CXN0cnVjdCBkcm1faTkxNV9wcml2YXRlICpkZXZfcHJpdiA9IGRwX3RvX2k5MTUoaW50ZWxfZHAp
-Ow0KPiAgDQo+ICsJaW50ZWxfcGFuZWxfcmVwbGF5X2luaXQoaW50ZWxfZHApOw0KPiArDQo+ICAJ
-aWYgKCFIQVNfUFNSKGRldl9wcml2KSkNCj4gIAkJcmV0dXJuOw0KDQptdXRleCBpbml0aWFsaXph
-dGlvbiBpcyBub3QgZXhlY3V0ZWQsIHdvcmtlcnMgbm90IGluaXRpYWxpemVkLi4uDQpwbGVhc2Ug
-Z28gbW9yZSBjYXJlZnVsbHkgdHJvdWdoIGV2ZXJ5IFBTUiBmdW5jdGlvbiBhbmQgY2hlY2sgd2hh
-dCBhcmUgdGhlIHBhbmVsIHJlcGxheSBpbXBsaWNhdGlvbnMNCg0KPiAgDQo+IGRpZmYgLS1naXQg
-YS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX3Bzci5oIGIvZHJpdmVycy9ncHUv
-ZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9wc3IuaA0KPiBpbmRleCBmYWNmZmJhY2QzNTcuLmM5ZDFj
-MWYwYjQ3MCAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRl
-bF9wc3IuaA0KPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX3Bzci5o
-DQo+IEBAIC0zMiw2ICszMiw3IEBAIHZvaWQgaW50ZWxfcHNyX2ZsdXNoKHN0cnVjdCBkcm1faTkx
-NV9wcml2YXRlICpkZXZfcHJpdiwNCj4gIAkJICAgICB1bnNpZ25lZCBmcm9udGJ1ZmZlcl9iaXRz
-LA0KPiAgCQkgICAgIGVudW0gZmJfb3Bfb3JpZ2luIG9yaWdpbik7DQo+ICB2b2lkIGludGVsX3Bz
-cl9pbml0KHN0cnVjdCBpbnRlbF9kcCAqaW50ZWxfZHApOw0KPiArdm9pZCBpbnRlbF9wYW5lbF9y
-ZXBsYXlfaW5pdChzdHJ1Y3QgaW50ZWxfZHAgKmludGVsX2RwKTsNCj4gIHZvaWQgaW50ZWxfcHNy
-X2NvbXB1dGVfY29uZmlnKHN0cnVjdCBpbnRlbF9kcCAqaW50ZWxfZHAsDQo+ICAJCQkgICAgICBz
-dHJ1Y3QgaW50ZWxfY3J0Y19zdGF0ZSAqY3J0Y19zdGF0ZSwNCj4gIAkJCSAgICAgIHN0cnVjdCBk
-cm1fY29ubmVjdG9yX3N0YXRlICpjb25uX3N0YXRlKTsNCj4gQEAgLTUyLDUgKzUzLDcgQEAgdm9p
-ZCBpbnRlbF9wc3IyX2Rpc2FibGVfcGxhbmVfc2VsX2ZldGNoKHN0cnVjdCBpbnRlbF9wbGFuZSAq
-cGxhbmUsDQo+ICAJCQkJCWNvbnN0IHN0cnVjdCBpbnRlbF9jcnRjX3N0YXRlICpjcnRjX3N0YXRl
-KTsNCj4gIHZvaWQgaW50ZWxfcHNyX3BhdXNlKHN0cnVjdCBpbnRlbF9kcCAqaW50ZWxfZHApOw0K
-PiAgdm9pZCBpbnRlbF9wc3JfcmVzdW1lKHN0cnVjdCBpbnRlbF9kcCAqaW50ZWxfZHApOw0KPiAr
-dm9pZCBpbnRlbF9wYW5lbF9yZXBsYXlfY29tcHV0ZV9jb25maWcoc3RydWN0IGludGVsX2RwICpp
-bnRlbF9kcCwNCj4gKwkJCQkgICAgICAgc3RydWN0IGludGVsX2NydGNfc3RhdGUgKmNydGNfc3Rh
-dGUpOw0KPiAgDQo+ICAjZW5kaWYgLyogX19JTlRFTF9QU1JfSF9fICovDQoNCg==
+On Tue, Nov 23, 2021 at 09:39:25AM +0000, Tvrtko Ursulin wrote:
+> 
+> On 17/11/2021 22:49, Vinay Belgaumkar wrote:
+> > From: Chris Wilson <chris@chris-wilson.co.uk>
+> > 
+> > Everytime we come to the end of a virtual engine's context, re-randomise
+> > it's siblings[]. As we schedule the siblings' tasklets in the order they
+> > are in the array, earlier entries are executed first (when idle) and so
+> > will be preferred when scheduling the next virtual request. Currently,
+> > we only update the array when switching onto a new idle engine, so we
+> > prefer to stick on the last execute engine, keeping the work compact.
+> > However, it can be beneficial to spread the work out across idle
+> > engines, so choose another sibling as our preferred target at the end of
+> > the context's execution.
+> 
+> This partially brings back, from a different angle, the more dynamic
+> scheduling behavior which has been lost since bugfix 90a987205c6c
+> ("drm/i915/gt: Only swap to a random sibling once upon creation").
+
+Shouldn't we use the Fixes tag here since this is targeting to fix one
+of the performance regressions of this patch?
+
+> 
+> One day we could experiment with using engine busyness as criteria (instead
+> of random). Back in the day busyness was kind of the best strategy, although
+> sampled at submit, not at the trailing edge like here, but it still may be
+> able to settle down to engine configuration better in some scenarios. Only
+> testing could say.
+> 
+> Still, from memory random also wasn't that bad so this should be okay for
+> now.
+> 
+> Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+
+Since you reviewed and it looks to be a middle ground point in terms
+of when to balancing (always like in the initial implementation vs
+only once like the in 90a987205c6c).
+
+If this one is really fixing the regression by itself:
+Acked-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+on this patch here.
+
+But I still don't want to take the risk with touching the freq with
+race to idle, until not convinced that it is absolutely needed and
+that we are not breaking the world out there.
+
+> 
+> Regards,
+> 
+> Tvrtko
+> 
+> > Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
+> > Cc: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+> > Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+> > ---
+> >   .../drm/i915/gt/intel_execlists_submission.c  | 80 ++++++++++++-------
+> >   1 file changed, 52 insertions(+), 28 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> > index ca03880fa7e4..b95bbc8fb91a 100644
+> > --- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> > +++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> > @@ -539,6 +539,41 @@ static void execlists_schedule_in(struct i915_request *rq, int idx)
+> >   	GEM_BUG_ON(intel_context_inflight(ce) != rq->engine);
+> >   }
+> > +static void virtual_xfer_context(struct virtual_engine *ve,
+> > +				 struct intel_engine_cs *engine)
+> > +{
+> > +	unsigned int n;
+> > +
+> > +	if (likely(engine == ve->siblings[0]))
+> > +		return;
+> > +
+> > +	if (!intel_engine_has_relative_mmio(engine))
+> > +		lrc_update_offsets(&ve->context, engine);
+> > +
+> > +	/*
+> > +	 * Move the bound engine to the top of the list for
+> > +	 * future execution. We then kick this tasklet first
+> > +	 * before checking others, so that we preferentially
+> > +	 * reuse this set of bound registers.
+> > +	 */
+> > +	for (n = 1; n < ve->num_siblings; n++) {
+> > +		if (ve->siblings[n] == engine) {
+> > +			swap(ve->siblings[n], ve->siblings[0]);
+> > +			break;
+> > +		}
+> > +	}
+> > +}
+> > +
+> > +static int ve_random_sibling(struct virtual_engine *ve)
+> > +{
+> > +	return prandom_u32_max(ve->num_siblings);
+> > +}
+> > +
+> > +static int ve_random_other_sibling(struct virtual_engine *ve)
+> > +{
+> > +	return 1 + prandom_u32_max(ve->num_siblings - 1);
+> > +}
+> > +
+> >   static void
+> >   resubmit_virtual_request(struct i915_request *rq, struct virtual_engine *ve)
+> >   {
+> > @@ -578,8 +613,23 @@ static void kick_siblings(struct i915_request *rq, struct intel_context *ce)
+> >   	    rq->execution_mask != engine->mask)
+> >   		resubmit_virtual_request(rq, ve);
+> > -	if (READ_ONCE(ve->request))
+> > +	/*
+> > +	 * Reschedule with a new "preferred" sibling.
+> > +	 *
+> > +	 * The tasklets are executed in the order of ve->siblings[], so
+> > +	 * siblings[0] receives preferrential treatment of greedily checking
+> > +	 * for execution of the virtual engine. At this point, the virtual
+> > +	 * engine is no longer in the current GPU cache due to idleness or
+> > +	 * contention, so it can be executed on any without penalty. We
+> > +	 * re-randomise at this point in order to spread light loads across
+> > +	 * the system, heavy overlapping loads will continue to be greedily
+> > +	 * executed by the first available engine.
+> > +	 */
+> > +	if (READ_ONCE(ve->request)) {
+> > +		virtual_xfer_context(ve,
+> > +				     ve->siblings[ve_random_other_sibling(ve)]);
+> >   		tasklet_hi_schedule(&ve->base.sched_engine->tasklet);
+> > +	}
+> >   }
+> >   static void __execlists_schedule_out(struct i915_request * const rq,
+> > @@ -1030,32 +1080,6 @@ first_virtual_engine(struct intel_engine_cs *engine)
+> >   	return NULL;
+> >   }
+> > -static void virtual_xfer_context(struct virtual_engine *ve,
+> > -				 struct intel_engine_cs *engine)
+> > -{
+> > -	unsigned int n;
+> > -
+> > -	if (likely(engine == ve->siblings[0]))
+> > -		return;
+> > -
+> > -	GEM_BUG_ON(READ_ONCE(ve->context.inflight));
+> > -	if (!intel_engine_has_relative_mmio(engine))
+> > -		lrc_update_offsets(&ve->context, engine);
+> > -
+> > -	/*
+> > -	 * Move the bound engine to the top of the list for
+> > -	 * future execution. We then kick this tasklet first
+> > -	 * before checking others, so that we preferentially
+> > -	 * reuse this set of bound registers.
+> > -	 */
+> > -	for (n = 1; n < ve->num_siblings; n++) {
+> > -		if (ve->siblings[n] == engine) {
+> > -			swap(ve->siblings[n], ve->siblings[0]);
+> > -			break;
+> > -		}
+> > -	}
+> > -}
+> > -
+> >   static void defer_request(struct i915_request *rq, struct list_head * const pl)
+> >   {
+> >   	LIST_HEAD(list);
+> > @@ -3590,7 +3614,7 @@ static void virtual_engine_initial_hint(struct virtual_engine *ve)
+> >   	 * NB This does not force us to execute on this engine, it will just
+> >   	 * typically be the first we inspect for submission.
+> >   	 */
+> > -	swp = prandom_u32_max(ve->num_siblings);
+> > +	swp = ve_random_sibling(ve);
+> >   	if (swp)
+> >   		swap(ve->siblings[swp], ve->siblings[0]);
+> >   }
+> > 
