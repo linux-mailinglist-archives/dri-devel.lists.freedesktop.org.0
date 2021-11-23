@@ -2,59 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE3AF45985E
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Nov 2021 00:22:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D833C459B60
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Nov 2021 06:09:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6714789F01;
-	Mon, 22 Nov 2021 23:22:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6FC566E106;
+	Tue, 23 Nov 2021 05:09:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com
- [IPv6:2607:f8b0:4864:20::629])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3BC1489E0D
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Nov 2021 23:22:15 +0000 (UTC)
-Received: by mail-pl1-x629.google.com with SMTP id p18so15408590plf.13
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Nov 2021 15:22:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=cXUPdzwTaRWfRhMlLXTbFXxHT+3uijlVCr9e0/e5vIw=;
- b=McZ16wgGgP7agc4NPbUKqztuThw1hq/p5+/QLkvfmWIE17ZM/mutBq5/CEv0B/ra+b
- LUV0QVDakggGfnPaRao7pft8kVgVuwFsVUoWYMkSI4wR1+/4J7suxAO96zpnmFDJyrlD
- eVV4q/lprKupxttJBZZg4BfTZhncF5G0Z+Ykg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=cXUPdzwTaRWfRhMlLXTbFXxHT+3uijlVCr9e0/e5vIw=;
- b=IezNqO5cC/kBgpHxxMogaNuayk1mU4bXip7XaSJpJ0CTiXR7weKe+bb2ZFAc9a/Cq/
- 12B5M1L30Hy1c2LhJscQ+7ZDx1NuV/s3tHZx/BYnMpbVsxpK5Y97Gdb39AESRQTDu8uh
- 0JTbYcKp/zb7hzc2L260k/UNTawDScEp9HRU4tXOlyUSMnEjSYJfERvyY6kOBavMnoRP
- McZnBvAPOwSO8LC658h609Q9tyBo0Ay31tqcK1I6t3GegXZYf80qPIdkum+oFr+dh53j
- teABgI0x7c/gpMWd3ZsTTjf0IGEklx053XhxvD7cSPVkaFYKMSGs0yrdk+jp++b7bpzv
- ABKA==
-X-Gm-Message-State: AOAM532vsuJG+edERPGTkMcv6lDTh6/dnA1umptoZcGLZK/vFmeEEHcg
- 5csllfXpAfop4M2bSzLrN313yFN5EQqyNg==
-X-Google-Smtp-Source: ABdhPJxlwp5oQidv3xdUxSXEr4KT/61tACAKyAs5i4kU/ouGEVeeBy7dgcBdHGhCjnfbpCbXcBXtQg==
-X-Received: by 2002:a17:90b:1bc4:: with SMTP id
- oa4mr36728872pjb.179.1637623334436; 
- Mon, 22 Nov 2021 15:22:14 -0800 (PST)
-Received: from gurchetansingh0.mtv.corp.google.com
- ([2620:15c:202:201:f3a1:7064:7e03:2f0a])
- by smtp.gmail.com with ESMTPSA id b15sm10539045pfl.118.2021.11.22.15.22.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Nov 2021 15:22:14 -0800 (PST)
-From: Gurchetan Singh <gurchetansingh@chromium.org>
-X-Google-Original-From: Gurchetan Singh <gurchetansingh@google.com>
+Received: from bombadil.infradead.org (bombadil.infradead.org
+ [IPv6:2607:7c80:54:e::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A61F6E0EE;
+ Tue, 23 Nov 2021 05:09:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+ Content-Type:MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
+ Content-ID:Content-Description:In-Reply-To:References;
+ bh=XcTY0WjwUY8rhTXzrXCh5eTVe9RMeOMTY8mUb3Id2RY=; b=tayXV/n6xHxzHRwDtBtjjgLIq8
+ XgrZCBGxU1Ef3RwKU6GCqxJ3YioRw0BDV2elC5+IhIkvwB/BSnVomB8OchFIDjBVLPQYdv29Y5DYH
+ aMeLKWUU3PisYAEY4tuKkibdLEfrhjNOaZ/qby/UFVxztf77uP5AyVqgumjFsN4Ayh03xWWJLiy6/
+ j6O9ufUm6HzsF5i7TuDIjNOWtbWrMZ092tggOtI9HKPrPyejHHhXQ8EublTdN6WjSHxNEpKLa6jRh
+ REnVYul1d4WAn5pbLC7C6lqXf2exKuXY+eNFz3uYp4IthTQAyk5P5vrzL0py7YM3v/yZF57iNtgNn
+ qx7M73lg==;
+Received: from [2601:1c0:6280:3f0::aa0b] (helo=bombadil.infradead.org)
+ by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1mpO3d-000orn-6h; Tue, 23 Nov 2021 05:09:29 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/2] drm/virtio: use drm_poll(..) instead of
- virtio_gpu_poll(..)
-Date: Mon, 22 Nov 2021 15:22:10 -0800
-Message-Id: <20211122232210.602-3-gurchetansingh@google.com>
-X-Mailer: git-send-email 2.31.0
-In-Reply-To: <20211122232210.602-1-gurchetansingh@google.com>
-References: <20211122232210.602-1-gurchetansingh@google.com>
+Subject: [PATCH] drm/i915/gem: placate scripts/kernel-doc
+Date: Mon, 22 Nov 2021 21:09:28 -0800
+Message-Id: <20211123050928.20434-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,82 +47,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kraxel@redhat.com
+Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Randy Dunlap <rdunlap@infradead.org>, kernel test robot <lkp@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org, Matthew Auld <matthew.auld@intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Gurchetan Singh <gurchetansingh@chromium.org>
+Correct kernel-doc warnings in i915_drm_object.c:
 
-With the use of dummy events, we can drop virtgpu specific
-behavior.
+i915_gem_object.c:103: warning: expecting prototype for i915_gem_object_fini(). Prototype was for __i915_gem_object_fini() instead
+i915_gem_object.c:110: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+ * Mark up the object's coherency levels for a given cache_level
+i915_gem_object.c:110: warning: missing initial short description on line:
+ * Mark up the object's coherency levels for a given cache_level
+i915_gem_object.c:457: warning: No description found for return value of 'i915_gem_object_read_from_page'
 
-Fixes: cd7f5ca33585 ("drm/virtio: implement context init: add virtio_gpu_fence_event")
-Reported-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-Signed-off-by: Gurchetan Singh <gurchetansingh@chromium.org>
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Reported-by: kernel test robot <lkp@intel.com>
+Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Cc: Matthew Auld <matthew.auld@intel.com>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Cc: intel-gfx@lists.freedesktop.org
 ---
- drivers/gpu/drm/virtio/virtgpu_drv.c | 42 +---------------------------
- 1 file changed, 1 insertion(+), 41 deletions(-)
+ drivers/gpu/drm/i915/gem/i915_gem_object.c |    7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.c b/drivers/gpu/drm/virtio/virtgpu_drv.c
-index d86e1ad4a972..5072dbb0669a 100644
---- a/drivers/gpu/drm/virtio/virtgpu_drv.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_drv.c
-@@ -157,36 +157,6 @@ static void virtio_gpu_config_changed(struct virtio_device *vdev)
- 	schedule_work(&vgdev->config_changed_work);
+--- linux-next-20211118.orig/drivers/gpu/drm/i915/gem/i915_gem_object.c
++++ linux-next-20211118/drivers/gpu/drm/i915/gem/i915_gem_object.c
+@@ -91,7 +91,7 @@ void i915_gem_object_init(struct drm_i91
  }
  
--static __poll_t virtio_gpu_poll(struct file *filp,
--				struct poll_table_struct *wait)
--{
--	struct drm_file *drm_file = filp->private_data;
--	struct virtio_gpu_fpriv *vfpriv = drm_file->driver_priv;
--	struct drm_device *dev = drm_file->minor->dev;
--	struct virtio_gpu_device *vgdev = dev->dev_private;
--	struct drm_pending_event *e = NULL;
--	__poll_t mask = 0;
--
--	if (!vgdev->has_virgl_3d || !vfpriv || !vfpriv->ring_idx_mask)
--		return drm_poll(filp, wait);
--
--	poll_wait(filp, &drm_file->event_wait, wait);
--
--	if (!list_empty(&drm_file->event_list)) {
--		spin_lock_irq(&dev->event_lock);
--		e = list_first_entry(&drm_file->event_list,
--				     struct drm_pending_event, link);
--		drm_file->event_space += e->event->length;
--		list_del(&e->link);
--		spin_unlock_irq(&dev->event_lock);
--
--		kfree(e);
--		mask |= EPOLLIN | EPOLLRDNORM;
--	}
--
--	return mask;
--}
--
- static struct virtio_device_id id_table[] = {
- 	{ VIRTIO_ID_GPU, VIRTIO_DEV_ANY_ID },
- 	{ 0 },
-@@ -226,17 +196,7 @@ MODULE_AUTHOR("Dave Airlie <airlied@redhat.com>");
- MODULE_AUTHOR("Gerd Hoffmann <kraxel@redhat.com>");
- MODULE_AUTHOR("Alon Levy");
+ /**
+- * i915_gem_object_fini - Clean up a GEM object initialization
++ * __i915_gem_object_fini - Clean up a GEM object initialization
+  * @obj: The gem object to cleanup
+  *
+  * This function cleans up gem object fields that are set up by
+@@ -107,7 +107,8 @@ void __i915_gem_object_fini(struct drm_i
+ }
  
--static const struct file_operations virtio_gpu_driver_fops = {
--	.owner          = THIS_MODULE,
--	.open           = drm_open,
--	.release        = drm_release,
--	.unlocked_ioctl = drm_ioctl,
--	.compat_ioctl   = drm_compat_ioctl,
--	.poll           = virtio_gpu_poll,
--	.read           = drm_read,
--	.llseek         = noop_llseek,
--	.mmap           = drm_gem_mmap
--};
-+DEFINE_DRM_GEM_FOPS(virtio_gpu_driver_fops);
- 
- static const struct drm_driver driver = {
- 	.driver_features = DRIVER_MODESET | DRIVER_GEM | DRIVER_RENDER | DRIVER_ATOMIC,
--- 
-2.34.0.rc2.393.gf8c9666880-goog
-
+ /**
+- * Mark up the object's coherency levels for a given cache_level
++ * i915_gem_object_set_cache_coherency - Mark up the object's coherency levels
++ * for a given cache_level
+  * @obj: #drm_i915_gem_object
+  * @cache_level: cache level
+  */
+@@ -450,7 +451,7 @@ i915_gem_object_read_from_page_iomap(str
+  * from can't cross a page boundary. The caller must ensure that @obj pages
+  * are pinned and that @obj is synced wrt. any related writes.
+  *
+- * Returns 0 on success or -ENODEV if the type of @obj's backing store is
++ * Return: %0 on success or -ENODEV if the type of @obj's backing store is
+  * unsupported.
+  */
+ int i915_gem_object_read_from_page(struct drm_i915_gem_object *obj, u64 offset, void *dst, int size)
