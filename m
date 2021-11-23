@@ -1,45 +1,154 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27E1A45A9B8
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Nov 2021 18:11:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E870A45AAB3
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Nov 2021 19:00:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C3856E0CF;
-	Tue, 23 Nov 2021 17:11:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 01D256E323;
+	Tue, 23 Nov 2021 18:00:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE4096E0CF
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Nov 2021 17:11:07 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10177"; a="235302128"
-X-IronPort-AV: E=Sophos;i="5.87,258,1631602800"; d="scan'208";a="235302128"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Nov 2021 09:04:50 -0800
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C700C6E24E;
+ Tue, 23 Nov 2021 18:00:10 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10177"; a="215109803"
+X-IronPort-AV: E=Sophos;i="5.87,258,1631602800"; d="scan'208";a="215109803"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Nov 2021 09:35:33 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.87,258,1631602800"; d="scan'208";a="509482651"
-Received: from lkp-server02.sh.intel.com (HELO 9e1e9f9b3bcb) ([10.239.97.151])
- by orsmga008.jf.intel.com with ESMTP; 23 Nov 2021 09:04:46 -0800
-Received: from kbuild by 9e1e9f9b3bcb with local (Exim 4.92)
- (envelope-from <lkp@intel.com>)
- id 1mpZDp-00025w-Cf; Tue, 23 Nov 2021 17:04:45 +0000
-Date: Wed, 24 Nov 2021 01:04:07 +0800
-From: kernel test robot <lkp@intel.com>
-To: Akhil R <akhilrajeev@nvidia.com>, andy.shevchenko@gmail.com,
- christian.koenig@amd.com, digetx@gmail.com,
- dri-devel@lists.freedesktop.org, jonathanh@nvidia.com,
- ldewangan@nvidia.com, linaro-mm-sig@lists.linaro.org,
- linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org
-Subject: Re: [PATCH v2] i2c: tegra: Add ACPI support
-Message-ID: <202111240017.bYyZ7knz-lkp@intel.com>
-References: <1637651753-5067-1-git-send-email-akhilrajeev@nvidia.com>
+X-IronPort-AV: E=Sophos;i="5.87,258,1631602800"; d="scan'208";a="497357993"
+Received: from orsmsx605.amr.corp.intel.com ([10.22.229.18])
+ by orsmga007.jf.intel.com with ESMTP; 23 Nov 2021 09:35:33 -0800
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX605.amr.corp.intel.com (10.22.229.18) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Tue, 23 Nov 2021 09:35:32 -0800
+Received: from orsmsx606.amr.corp.intel.com (10.22.229.19) by
+ ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Tue, 23 Nov 2021 09:35:32 -0800
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx606.amr.corp.intel.com (10.22.229.19) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12 via Frontend Transport; Tue, 23 Nov 2021 09:35:32 -0800
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.175)
+ by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2242.12; Tue, 23 Nov 2021 09:35:32 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=dQ6BwW3pUwMc8MMWGV5AmEg+Sqn/aWfP9xe3IgEj4nvGR0R4kSQXhWFLt6LbbootumKfr5dfuamWAgUVku+nm+jsw9U+6aaKYloxSMEBh91zBaavAqFV72vQvKaL2lu1pl/uKQroQNtfmDCH3t8ZNbLFrSBQ6Ui71UqSBP00I/0N2CuMA6ISKdN8KSYmzT2DC/6jUhLbGii1nEQcdL+NkUSLtW9+wjmPp6URNXE9x7U26c3hwVo50js1FcmnJGjlMlu0jr9HRFKYZ1U2v5zMhvY+FoOJ7KECGPeaNSnIthjj3xisIpPvuu6bsMDxx71AvxnGn5rAnGYTbiYEqprphQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=FNThQBz21/9rf9lNOpDvUZy5VSB0woo//CtbYlMNO5I=;
+ b=ZX5BRHqplOwyUUHBZg5cBg9Mzu8FG/YEvJ+YXHyTgIRfFk+/Tt/UvFR0ZJRxrkSdx8dgVQoCwIr4wUX2b5MZsO4xdxExMAakIcI6phljqClATqaImGy7eyXfnNgz2f9701ydOKv6k4TQ4NFcwFFeZFxXM90Wj5S171SsH8bboD6J/CvrnDzhIScNPqo+g45vuE+7g1NmLQPrlbnRE9rsutUdnElQn4qkVQdhnhenIcUXc9CsYnRE3HMBb8y8BKZTaqsJYs76VPMNlv8GdyZskXh7P3Q2KZj70c9O4agoe9d4OCK0Cnu9BF7zbdFSDHhng/z50Z/hT5kkuQqc6sTKHQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
+ s=selector2-intel-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=FNThQBz21/9rf9lNOpDvUZy5VSB0woo//CtbYlMNO5I=;
+ b=ANQjQUsRW85esHIzB9S2N2sYdRuAa+4vZ7gG0VeVET8admeuEa3/akESP1ijsFazZTUMv/QftfqEJHg/RnRU/au/G2wIGt/WidM2RV/mLt9RNrfD4XJK8FWpfVUltCo5J1vRJcdTjj99yyzKQ75Sd1nLIHon8eRvuhsXOrHmKy4=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CO6PR11MB5634.namprd11.prod.outlook.com (2603:10b6:5:35d::20)
+ by CO6PR11MB5619.namprd11.prod.outlook.com (2603:10b6:5:358::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4713.22; Tue, 23 Nov
+ 2021 17:35:29 +0000
+Received: from CO6PR11MB5634.namprd11.prod.outlook.com
+ ([fe80::c996:6b95:8421:8c33]) by CO6PR11MB5634.namprd11.prod.outlook.com
+ ([fe80::c996:6b95:8421:8c33%4]) with mapi id 15.20.4713.026; Tue, 23 Nov 2021
+ 17:35:29 +0000
+Message-ID: <fc8f15b2-892e-0d1c-3e91-83ef7160e832@intel.com>
+Date: Tue, 23 Nov 2021 09:35:26 -0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Firefox/91.0 Thunderbird/91.3.2
+Subject: Re: [PATCH 2/3] drm/i915/gt: Compare average group occupancy for RPS
+ evaluation
+Content-Language: en-US
+To: <intel-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
+References: <20211117224955.28999-1-vinay.belgaumkar@intel.com>
+ <20211117224955.28999-3-vinay.belgaumkar@intel.com>
+From: "Belgaumkar, Vinay" <vinay.belgaumkar@intel.com>
+In-Reply-To: <20211117224955.28999-3-vinay.belgaumkar@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SJ0PR03CA0388.namprd03.prod.outlook.com
+ (2603:10b6:a03:3a1::33) To CO6PR11MB5634.namprd11.prod.outlook.com
+ (2603:10b6:5:35d::20)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1637651753-5067-1-git-send-email-akhilrajeev@nvidia.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Received: from [192.168.86.49] (98.255.111.182) by
+ SJ0PR03CA0388.namprd03.prod.outlook.com (2603:10b6:a03:3a1::33) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4713.21 via Frontend
+ Transport; Tue, 23 Nov 2021 17:35:28 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: aaf77bdc-8805-469c-a961-08d9aea7a45c
+X-MS-TrafficTypeDiagnostic: CO6PR11MB5619:
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-Microsoft-Antispam-PRVS: <CO6PR11MB5619ACAC1A542E4F66EA6B1A85609@CO6PR11MB5619.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: IYlUpuKHY+RNeLq4yXf+p2oV1Fg4Gj+JgyFqyB1EPFqOWOJLl/ZUHpBDWwUrVAQGiJTKzE80+nRD8x/HUB6aejlGGCZxRkQQEutoqeCh+NEUTiv6OsGxthknULftW0IuSX48I+71RizXev5X9ql6ns+XEtuHzIKQjG8O8hCRkhKX1u/JAW5aS7Te8Fkt4xJ035YqmKRLSP95KdmcN2vEuV5m1+7wTn+Q29S/p8GywJ/rpRVmUtZGoHshRjvHtNii4nCdyvRUNlGa9Kmp/YFX884fA9xZv2oMu++24Y4Q8Xtdp6CU67HQ/96QM/XGz7JZHtyxwly9kH2qBrHndXUruDA5ubzI+YDnMgee7o+obkKgWQono8znGOAdvU3b/COqFptlFpPpQQFLZemg2u7tFNbcmUTwPzdAjNShGGhx2zIfDf9QD4a5HxsuT4KLC6+ByJb5FIYyYiaxhTHbhNz0DP0F639UqArAqwH44HUPMtlH8uo5TdbsW2eG4v+BKSuM+M1VPRvQuMe0g8cNwJVJ/wXiTF2q7P9XDj78Az3OztdTzp47PbO5tV0hyuTVMwavV4c6PFlldnAO933z0ORTa0V48jxg+LbLlyLVo1kWpJ9vy4JRgy8FADZRpGRiL6kqahULCCt6V9EZ/OwGrPnuRfhS5YaGCcK0lrYlX3bFzhXqj7Lr5ymjKr70/DTqGdTlgtPrxS/LXs0IMFt4WlRGn8hwYqx+jBHCzoCYcMISwng=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CO6PR11MB5634.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(366004)(66476007)(2906002)(66556008)(31696002)(86362001)(8676002)(66946007)(53546011)(26005)(508600001)(83380400001)(186003)(8936002)(54906003)(5660300002)(2616005)(36756003)(16576012)(82960400001)(316002)(6486002)(956004)(38100700002)(4326008)(31686004)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cTlKSlJCbUNwMmxWdXk1aE13RTJzNERVMGZSZkFHamkyamJKbm9ReEM3WUFJ?=
+ =?utf-8?B?U0dRSzdJd2UrVEIrUjlEcGs0d0lRTHV2L3Zkb3l1RjhkV1lCMGZDMFVSWHVk?=
+ =?utf-8?B?MVhBTDFhTFg5UUk5K3NHVTVlU2V5ZWhQc0h2Zzg2RXdNMjN1NHhZQmJPdDBD?=
+ =?utf-8?B?Y2pzeVNVZ3A3YkVFeVE5YnRMRlpudEV1WEdaQjZab0VzUHBNZEVGbnlqMmVn?=
+ =?utf-8?B?dmhZZ1pBMFhLSlM2d2pPTUlMbEtKSHdBcDlIMFJSWXI2Zmx0VGtlSDdQVVk1?=
+ =?utf-8?B?SDYyMlhzRmxUcEQxRDdjMTF3dnJ6OWYwM3ZodTRhbWZCM3J2TDN5UFo2TXVa?=
+ =?utf-8?B?ckp5VXR0VmJ5cjNVaU1RMUp2bndXdVk5eVNYb05DVXJrZ1lmTkZiMlV3TW9R?=
+ =?utf-8?B?SmRlNzA5NXUvVTBGdXEzMklSTHJXRDhWMzkrRXJuenlXazdiSDc3MXZqSVBL?=
+ =?utf-8?B?bWNFY3BrcVZhK2VYRkdqclRlSWFTN0U0MXJ1dkpjTjEwMDFtTjl1M2QyRysr?=
+ =?utf-8?B?S3ZDUlI4NkZxVncrVU4yYlFIQ0FvdjhnM0c2UlVXVklrc0trd3QxRDRIcm14?=
+ =?utf-8?B?NXJmMzVpaGlna3RFMVRnekZkOGtpVWdLbU9BSHAvM3R3b1JpbmkvNWlIM2FO?=
+ =?utf-8?B?dkliNHpET2RkRUN2WFdRMVAwZjh4WDJvb080MXhmNGM1Rk5CYWRIWmo0T1N2?=
+ =?utf-8?B?cnlWUTNOc3ZjVnUza29hT2djNTIzNHBlcERTLzdQQzZuV1RNUklEMXVSZ3Vz?=
+ =?utf-8?B?bjlmYWsyNlBscm9MTUZ5RnBDQ0NlVVdLVUJZOXorQUJCaEFUaWVVNXh1ZWlC?=
+ =?utf-8?B?M24wb2s5VlZlMlhLbmVVKy9Iem1veGVZYW5ERVg5b3RtV1BocG5GVUxacm5v?=
+ =?utf-8?B?SkxDNDE3QUtvRllhbVlxR245UkNHN2tSUEtZdXEySmkrWldXVG5TSFlTRVdw?=
+ =?utf-8?B?SHRqeFBtY1N0NWJIZnRCelE0WE9vdHJvQzBHZFhGeFdNbUw2QThlMEF0Y2tY?=
+ =?utf-8?B?dUV5bGxHY01zejNRVHVaQ1hOM25zeXFQcTAzYXorOXFyY29hM2hZQUxRS0dH?=
+ =?utf-8?B?UVJRWGtlL25GckswWFNueE03WGdqalBma3c4VTQ3ZEZCNmtsZG1BVUxiNWNC?=
+ =?utf-8?B?bXFSdWVvM2RPOVdGMW1HV2tERVY4QUJkTUE2bFJkdi9LME5LSjh3TjA4TEVI?=
+ =?utf-8?B?aXAzS3NjazI2LzNRYmdjUjRDM0NzTWNXa3NTVWJlNUdVbi9Wc0VFODdLV1Bm?=
+ =?utf-8?B?Um1DR0Y1UjBaVGtvdCsrNnBhVkM4SFU5aWNPRGdpZFlCWUVzalJJY3l5WWlR?=
+ =?utf-8?B?K0RmcjVMMDdjalRoUDlTb29GOFJyUGViWW0vaHRCUFRqeko3azR2dHFIRTJT?=
+ =?utf-8?B?SkpnR2ZvNVVHUGtoRnlsMGM3WEF6L3lFNGdybkJZeFNvZTNhZ2dqejdtbWFw?=
+ =?utf-8?B?cjFqYmZzNzU3L1NIeFBybE5NcmRWTHROeCt5aUVITUdyaFhhMzZ4UTFvV0Zv?=
+ =?utf-8?B?dm1VUlBySzBrZ2ZQdVdFNkc2Q3ZlRkxkVzA3VnE0VjROQzhRTEF1Z3hBQTFu?=
+ =?utf-8?B?amhjNjB1M1VqeCtEeVlyVFU4cHlOT245L1VZeWxlUXVxMUhSanZkd2FweThn?=
+ =?utf-8?B?VVo3Njc0SWowQzVmSlFJSDlqZHBEK296cTFrTVV5VEQva0kwYXFoaVFGRUJR?=
+ =?utf-8?B?QzB4c0RrSGd6bmU2Sjh0OFpkU0FTZ2llZFFxLy9OOTEwaEwxd2JqQ2pxVGhp?=
+ =?utf-8?B?NDRIZyt5U1JrTzhWQXVnRnpVMW1BdFZIVDNKT25tUVRsdjZsVVYvdWxFS2ht?=
+ =?utf-8?B?Q1Znd0tyaUs1a0hjK1FOWUlsZ0xNZWJhdCtLSjNvZ2dIQllTTndBTjI2Qkht?=
+ =?utf-8?B?aHYyUUVpZVF4SkpFRTJDSS9NVjJ4MGkvVG1TNDFnTnBPZHJrZWRUdFRFTmYv?=
+ =?utf-8?B?Ylk3eW9GbUIzYTZxS3lISWNwTUs4SlJFSS9uSnNZSVJrbWZBd0NrMG0wZTV3?=
+ =?utf-8?B?RUUvcDh1VlBwdU5KV2piam03MGhKbnR0T2MySHFkR28yN3VxV2lKK0J0TW1z?=
+ =?utf-8?B?VGFsOHovUlpoblI0Z3d1NndOU2c0SHUzUE9ReUxzc05ra2Z4c09rakI4YnNx?=
+ =?utf-8?B?YlRuK0JoV0NtWmsyWmFSaTVrK0FFczV3cVczMUNWZFJDdytIYUhqL2l2eHNF?=
+ =?utf-8?B?WWlMWnNqTVVMcFRlcFRtVDhnQU9PWVRKREg2Rm81dndTNFFFdEdKUzEzQ1Nm?=
+ =?utf-8?B?YXZLbmVuR3JnRHRyR2tBTVR5L1h3PT0=?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: aaf77bdc-8805-469c-a961-08d9aea7a45c
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5634.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Nov 2021 17:35:29.4851 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 3cLd08AWb2R1gtum/1ERl8qMZiKIpQfLjoSeLHccB7ULT7LKgzWxSipGUSaJLKcOsBDWBG3BJ59fHreFtgJx28jVOQur1XkymHVddEy4qEc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR11MB5619
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,202 +161,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: llvm@lists.linux.dev, kbuild-all@lists.01.org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Chris Wilson <chris.p.wilson@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Akhil,
-
-Thank you for the patch! Yet something to improve:
-
-[auto build test ERROR on tegra/for-next]
-[also build test ERROR on v5.16-rc2 next-20211123]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/0day-ci/linux/commits/Akhil-R/i2c-tegra-Add-ACPI-support/20211123-151636
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git for-next
-config: riscv-buildonly-randconfig-r005-20211123 (https://download.01.org/0day-ci/archive/20211124/202111240017.bYyZ7knz-lkp@intel.com/config.gz)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 49e3838145dff1ec91c2e67a2cb562775c8d2a08)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://github.com/0day-ci/linux/commit/dec174be801f41a9e42f4381c59c2357c25e40fb
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Akhil-R/i2c-tegra-Add-ACPI-support/20211123-151636
-        git checkout dec174be801f41a9e42f4381c59c2357c25e40fb
-        # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 ARCH=riscv 
-
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
-
-All errors (new ones prefixed by >>):
-
-   In file included from drivers/i2c/busses/i2c-tegra.c:13:
-   In file included from include/linux/dmaengine.h:12:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:464:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:477:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:36:51: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-                                                     ^
-   In file included from drivers/i2c/busses/i2c-tegra.c:13:
-   In file included from include/linux/dmaengine.h:12:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:490:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:34:51: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-                                                     ^
-   In file included from drivers/i2c/busses/i2c-tegra.c:13:
-   In file included from include/linux/dmaengine.h:12:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:501:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:511:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:521:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:1024:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
-                                                     ~~~~~~~~~~ ^
->> drivers/i2c/busses/i2c-tegra.c:623:16: error: implicit declaration of function 'acpi_has_method' [-Werror,-Wimplicit-function-declaration]
-           if (handle && acpi_has_method(handle, "_RST"))
-                         ^
-   drivers/i2c/busses/i2c-tegra.c:623:16: note: did you mean 'acpi_has_watchdog'?
-   include/linux/acpi.h:1321:20: note: 'acpi_has_watchdog' declared here
-   static inline bool acpi_has_watchdog(void) { return false; }
-                      ^
-   7 warnings and 1 error generated.
 
 
-vim +/acpi_has_method +623 drivers/i2c/busses/i2c-tegra.c
+On 11/17/2021 2:49 PM, Vinay Belgaumkar wrote:
+> From: Chris Wilson <chris.p.wilson@intel.com>
+> 
+> Currently, we inspect each engine individually and measure the occupancy
+> of that engine over the last evaluation interval. If that exceeds our
+> busyness thresholds, we decide to increase the GPU frequency. However,
+> under a load balancer, we should consider the occupancy of entire engine
+> groups, as work may be spread out across the group. In doing so, we
+> prefer wide over fast, power consumption is approximately proportional to
+> the square of the frequency. However, since the load balancer is greedy,
+> the first idle engine gets all the work, and preferrentially reuses the
+> last active engine, under light loads all work is assigned to one
+> engine, and so that engine appears very busy. But if the work happened
+> to overlap slightly, the workload would spread across multiple engines,
+> reducing each individual engine's runtime, and so reducing the rps
+> contribution, keeping the frequency low. Instead, when considering the
+> contribution, consider the contribution over the entire engine group
+> (capacity).
+> 
+> Signed-off-by: Chris Wilson <chris.p.wilson@intel.com>
+> Cc: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+> Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
 
-   608	
-   609	static int tegra_i2c_init(struct tegra_i2c_dev *i2c_dev)
-   610	{
-   611		u32 val, clk_divisor, clk_multiplier, tsu_thd, tlow, thigh, non_hs_mode;
-   612		acpi_handle handle = ACPI_HANDLE(i2c_dev->dev);
-   613		int err;
-   614	
-   615		/*
-   616		 * The reset shouldn't ever fail in practice. The failure will be a
-   617		 * sign of a severe problem that needs to be resolved. Still we don't
-   618		 * want to fail the initialization completely because this may break
-   619		 * kernel boot up since voltage regulators use I2C. Hence, we will
-   620		 * emit a noisy warning on error, which won't stay unnoticed and
-   621		 * won't hose machine entirely.
-   622		 */
- > 623		if (handle && acpi_has_method(handle, "_RST"))
-   624			err = (acpi_evaluate_object(handle, "_RST", NULL, NULL));
-   625		else
-   626			err = reset_control_reset(i2c_dev->rst);
-   627	
-   628		WARN_ON_ONCE(err);
-   629	
-   630		if (i2c_dev->is_dvc)
-   631			tegra_dvc_init(i2c_dev);
-   632	
-   633		val = I2C_CNFG_NEW_MASTER_FSM | I2C_CNFG_PACKET_MODE_EN |
-   634		      FIELD_PREP(I2C_CNFG_DEBOUNCE_CNT, 2);
-   635	
-   636		if (i2c_dev->hw->has_multi_master_mode)
-   637			val |= I2C_CNFG_MULTI_MASTER_MODE;
-   638	
-   639		i2c_writel(i2c_dev, val, I2C_CNFG);
-   640		i2c_writel(i2c_dev, 0, I2C_INT_MASK);
-   641	
-   642		if (i2c_dev->is_vi)
-   643			tegra_i2c_vi_init(i2c_dev);
-   644	
-   645		switch (i2c_dev->bus_clk_rate) {
-   646		case I2C_MAX_STANDARD_MODE_FREQ + 1 ... I2C_MAX_FAST_MODE_PLUS_FREQ:
-   647		default:
-   648			tlow = i2c_dev->hw->tlow_fast_fastplus_mode;
-   649			thigh = i2c_dev->hw->thigh_fast_fastplus_mode;
-   650			tsu_thd = i2c_dev->hw->setup_hold_time_fast_fast_plus_mode;
-   651	
-   652			if (i2c_dev->bus_clk_rate > I2C_MAX_FAST_MODE_FREQ)
-   653				non_hs_mode = i2c_dev->hw->clk_divisor_fast_plus_mode;
-   654			else
-   655				non_hs_mode = i2c_dev->hw->clk_divisor_fast_mode;
-   656			break;
-   657	
-   658		case 0 ... I2C_MAX_STANDARD_MODE_FREQ:
-   659			tlow = i2c_dev->hw->tlow_std_mode;
-   660			thigh = i2c_dev->hw->thigh_std_mode;
-   661			tsu_thd = i2c_dev->hw->setup_hold_time_std_mode;
-   662			non_hs_mode = i2c_dev->hw->clk_divisor_std_mode;
-   663			break;
-   664		}
-   665	
-   666		/* make sure clock divisor programmed correctly */
-   667		clk_divisor = FIELD_PREP(I2C_CLK_DIVISOR_HSMODE,
-   668					 i2c_dev->hw->clk_divisor_hs_mode) |
-   669			      FIELD_PREP(I2C_CLK_DIVISOR_STD_FAST_MODE, non_hs_mode);
-   670		i2c_writel(i2c_dev, clk_divisor, I2C_CLK_DIVISOR);
-   671	
-   672		if (i2c_dev->hw->has_interface_timing_reg) {
-   673			val = FIELD_PREP(I2C_INTERFACE_TIMING_THIGH, thigh) |
-   674			      FIELD_PREP(I2C_INTERFACE_TIMING_TLOW, tlow);
-   675			i2c_writel(i2c_dev, val, I2C_INTERFACE_TIMING_0);
-   676		}
-   677	
-   678		/*
-   679		 * Configure setup and hold times only when tsu_thd is non-zero.
-   680		 * Otherwise, preserve the chip default values.
-   681		 */
-   682		if (i2c_dev->hw->has_interface_timing_reg && tsu_thd)
-   683			i2c_writel(i2c_dev, tsu_thd, I2C_INTERFACE_TIMING_1);
-   684	
-   685		clk_multiplier = (tlow + thigh + 2) * (non_hs_mode + 1);
-   686	
-   687		err = clk_set_rate(i2c_dev->div_clk,
-   688				   i2c_dev->bus_clk_rate * clk_multiplier);
-   689		if (err) {
-   690			dev_err(i2c_dev->dev, "failed to set div-clk rate: %d\n", err);
-   691			return err;
-   692		}
-   693	
-   694		if (!i2c_dev->is_dvc && !i2c_dev->is_vi) {
-   695			u32 sl_cfg = i2c_readl(i2c_dev, I2C_SL_CNFG);
-   696	
-   697			sl_cfg |= I2C_SL_CNFG_NACK | I2C_SL_CNFG_NEWSL;
-   698			i2c_writel(i2c_dev, sl_cfg, I2C_SL_CNFG);
-   699			i2c_writel(i2c_dev, 0xfc, I2C_SL_ADDR1);
-   700			i2c_writel(i2c_dev, 0x00, I2C_SL_ADDR2);
-   701		}
-   702	
-   703		err = tegra_i2c_flush_fifos(i2c_dev);
-   704		if (err)
-   705			return err;
-   706	
-   707		if (i2c_dev->multimaster_mode && i2c_dev->hw->has_slcg_override_reg)
-   708			i2c_writel(i2c_dev, I2C_MST_CORE_CLKEN_OVR, I2C_CLKEN_OVERRIDE);
-   709	
-   710		err = tegra_i2c_wait_for_config_load(i2c_dev);
-   711		if (err)
-   712			return err;
-   713	
-   714		return 0;
-   715	}
-   716	
+Reviewed-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+> ---
+>   drivers/gpu/drm/i915/gt/intel_rps.c | 48 ++++++++++++++++++++---------
+>   1 file changed, 34 insertions(+), 14 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/intel_rps.c b/drivers/gpu/drm/i915/gt/intel_rps.c
+> index 07ff7ba7b2b7..3675ac93ded0 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_rps.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_rps.c
+> @@ -7,6 +7,7 @@
+>   
+>   #include "i915_drv.h"
+>   #include "intel_breadcrumbs.h"
+> +#include "intel_engine_pm.h"
+>   #include "intel_gt.h"
+>   #include "intel_gt_clock_utils.h"
+>   #include "intel_gt_irq.h"
+> @@ -65,26 +66,45 @@ static void set(struct intel_uncore *uncore, i915_reg_t reg, u32 val)
+>   static void rps_timer(struct timer_list *t)
+>   {
+>   	struct intel_rps *rps = from_timer(rps, t, timer);
+> -	struct intel_engine_cs *engine;
+> -	ktime_t dt, last, timestamp;
+> -	enum intel_engine_id id;
+> +	struct intel_gt *gt = rps_to_gt(rps);
+> +	ktime_t dt, last, timestamp = 0;
+>   	s64 max_busy[3] = {};
+> +	int i, j;
+>   
+> -	timestamp = 0;
+> -	for_each_engine(engine, rps_to_gt(rps), id) {
+> -		s64 busy;
+> -		int i;
+> +	/* Compare average occupancy over each engine group */
+> +	for (i = 0; i < ARRAY_SIZE(gt->engine_class); i++) {
+> +		s64 busy = 0;
+> +		int count = 0;
+> +
+> +		for (j = 0; j < ARRAY_SIZE(gt->engine_class[i]); j++) {
+> +			struct intel_engine_cs *engine;
+>   
+> -		dt = intel_engine_get_busy_time(engine, &timestamp);
+> -		last = engine->stats.rps;
+> -		engine->stats.rps = dt;
+> +			engine = gt->engine_class[i][j];
+> +			if (!engine)
+> +				continue;
+>   
+> -		busy = ktime_to_ns(ktime_sub(dt, last));
+> -		for (i = 0; i < ARRAY_SIZE(max_busy); i++) {
+> -			if (busy > max_busy[i])
+> -				swap(busy, max_busy[i]);
+> +			dt = intel_engine_get_busy_time(engine, &timestamp);
+> +			last = engine->stats.rps;
+> +			engine->stats.rps = dt;
+> +
+> +			if (!intel_engine_pm_is_awake(engine))
+> +				continue;
+> +
+> +			busy += ktime_to_ns(ktime_sub(dt, last));
+> +			count++;
+> +		}
+> +
+> +		if (count > 1)
+> +			busy = div_u64(busy, count);
+> +		if (busy <= max_busy[ARRAY_SIZE(max_busy) - 1])
+> +			continue;
+> +
+> +		for (j = 0; j < ARRAY_SIZE(max_busy); j++) {
+> +			if (busy > max_busy[j])
+> +				swap(busy, max_busy[j]);
+>   		}
+>   	}
+> +
+>   	last = rps->pm_timestamp;
+>   	rps->pm_timestamp = timestamp;
+>   
+> 
