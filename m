@@ -1,56 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BA0345A13B
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Nov 2021 12:19:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 39CD945A158
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Nov 2021 12:24:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C1D96EDC6;
-	Tue, 23 Nov 2021 11:19:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA0F06E9D3;
+	Tue, 23 Nov 2021 11:24:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com
- [IPv6:2a00:1450:4864:20::22e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 112BB6EDCA
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Nov 2021 11:19:18 +0000 (UTC)
-Received: by mail-lj1-x22e.google.com with SMTP id l9so5150042ljq.5
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Nov 2021 03:19:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=w+ogjWxG1DbsOOSKAdBRBvdcSf1vlOMjAXY68aT/3+U=;
- b=g2Y3CYQC1NcCLavzUvr4ErWMQvZ4fzsgBv6CCbmTOoZcOun8WjSds54sZrtzeYEA0U
- N5KF7mJ3kl8nFIULnhlxeAUeFZAuCfq+uX5Urd7Y31Xp8cHxNzCxkkp6HS46EZb3D6jZ
- c7TwybE0YdC9woGghm+c/KCOlK35CIfDZrYTO7zFljpZaTHjklc27An1TOol1n/1idvS
- kCKfDejnDdUw+aN2JJNNmUQf32+SP4pOXJVkzxhNH+rbEkLFMLkjE8yfz5ElxThNneaF
- SJXtBIs1DuxaYn0676eJKdryXGQlku5s0UQEwOdM0oGilYhXoK+2140z6YDVV15iHy6a
- 9PQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=w+ogjWxG1DbsOOSKAdBRBvdcSf1vlOMjAXY68aT/3+U=;
- b=ARdJXfPScFwDpKqFxsh7PhZEcoWvZut/RXaLBIrg+w013cD5egcd6PMyWzInLU2949
- 3khiVwE1aw8l2r3x+ZKyGgZdBgJS9I3d/EYNj2ulJYynERhCLusK+ONs4+FqMjnAxptH
- /Ej7JewI8spVjUdfQ8T+jSCGF2hNU1hZEjVwE0PQYsyEiKy0vFtGeiFgx9+457iOchqh
- B04iQqUefuVdRYjjgoshyhe70L9//Cknc/1EKT3yydMMWQXvSr6ZGIrvOIQEGmRawdCg
- 87FhOdEIoPORXtY6tqswipXgTteIM81OSFzPnjhiVisMLMJ84FCBj8Xtkpg8BhwmGHr4
- NzLg==
-X-Gm-Message-State: AOAM531mudrFUQOml61iB5tn1wYd1h0Fx7YNalZtlJZUt9tQ2tMox45A
- U+JMZ1ivbmGIL6plehsbr93Dt+OAtXMSAX34GhzqdQ==
-X-Google-Smtp-Source: ABdhPJxH+dIDF8nBsp8fxznpkoFe9y9Zmc/xUzjvp4Mfv2L5TNuCMH6djlHGcQ7ManpwMDd1PzQBcWJG8pF2EVa/HSY=
-X-Received: by 2002:a05:651c:1507:: with SMTP id
- e7mr4381662ljf.300.1637666356182; 
- Tue, 23 Nov 2021 03:19:16 -0800 (PST)
+Received: from mail-4323.proton.ch (mail-4323.proton.ch [185.70.43.23])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B98646E9D3
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Nov 2021 11:24:14 +0000 (UTC)
+Date: Tue, 23 Nov 2021 11:24:04 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail; t=1637666652;
+ bh=EWmpO2cdedDq2vEp83KEqXRJ8FBgJXpZ+8PtXjmQL5U=;
+ h=Date:To:From:Cc:Reply-To:Subject:From;
+ b=yCeLgmWFeyAXWYv3EeeVwuQaRyzrcc9K6NH3xCITETC+dbOlPusljgV3k4Xx+XonM
+ mllJZ15h8dJK60T3+4PblQARVo5UpoMlHH74s5aWxFQmnbs8eZ5JOuGl9YmWZgEKZL
+ N8wO5LED6nJXeA+L9/BQscy1qbYGzBvNko8xmlM4d1E223O9/R8SP7gjMnbbzUX8Ro
+ giOFTmZhGcnD0Fh4WY/YSYc8qHb+nUqmAYU7b8CfJWGdZIYiRmYBeP3+GATmp+agHY
+ +GTqOtNhDX7q+r55jLa/Ga+xcOHdFc9oSJBDxxpvOu8gShMTb/S3iI249UdhhR7JjH
+ tYxrGz4T+ylyQ==
+To: dri-devel@lists.freedesktop.org
+From: Simon Ser <contact@emersion.fr>
+Subject: [PATCH v2] drm: document DRM_IOCTL_MODE_GETFB2
+Message-ID: <20211123112400.22245-1-contact@emersion.fr>
 MIME-Version: 1.0
-References: <20211122222203.4103644-1-arnd@kernel.org>
- <20211122222203.4103644-5-arnd@kernel.org>
-In-Reply-To: <20211122222203.4103644-5-arnd@kernel.org>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Tue, 23 Nov 2021 12:18:40 +0100
-Message-ID: <CAPDyKFrCOoFWuM_6Renu+M5SHotyuzXeyH99WZb69G1PFQ1z5A@mail.gmail.com>
-Subject: Re: [PATCH v2 04/11] mmc: bcm2835: stop setting chan_config->slave_id
-To: Arnd Bergmann <arnd@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+ DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
+ autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+ mailout.protonmail.ch
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,70 +47,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alsa-devel@alsa-project.org, dri-devel@lists.freedesktop.org,
- Bjorn Andersson <bjorn.andersson@linaro.org>, linux-tegra@vger.kernel.org,
- Laxman Dewangan <ldewangan@nvidia.com>, linux-mtd@lists.infradead.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- linux-spi@vger.kernel.org, Robert Jarzmik <robert.jarzmik@free.fr>,
- Chunyan Zhang <zhang.lyra@gmail.com>, linux-staging@lists.linux.dev,
- Michal Simek <michal.simek@xilinx.com>, Jon Hunter <jonathanh@nvidia.com>,
- Andy Gross <agross@kernel.org>, bcm-kernel-feedback-list@broadcom.com,
- linux-serial@vger.kernel.org, Orson Zhai <orsonzhai@gmail.com>,
- Nicolas Saenz Julienne <nsaenz@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- Manivannan Sadhasivam <mani@kernel.org>, linux-arm-msm@vger.kernel.org,
- dmaengine@vger.kernel.org, Mark Brown <broonie@kernel.org>,
- linux-rpi-kernel@lists.infradead.org, Jaroslav Kysela <perex@perex.cz>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- linux-arm-kernel@lists.infradead.org, Scott Branden <sbranden@broadcom.com>,
- Hyun Kwon <hyun.kwon@xilinx.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-mmc@vger.kernel.org,
- Takashi Iwai <tiwai@suse.com>, linux-kernel@vger.kernel.org,
- Vinod Koul <vkoul@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
- Baolin Wang <baolin.wang7@gmail.com>
+Reply-To: Simon Ser <contact@emersion.fr>
+Cc: Pekka Paalanen <pekka.paalanen@collabora.com>,
+ Daniel Stone <daniels@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 22 Nov 2021 at 23:23, Arnd Bergmann <arnd@kernel.org> wrote:
->
-> From: Arnd Bergmann <arnd@arndb.de>
->
-> The field is not interpreted by the DMA engine driver, as all the data
-> is passed from devicetree instead. Remove the assignment so the field
-> can eventually be deleted.
->
-> Reviewed-by: Nicolas Saenz Julienne <nsaenz@kernel.org>
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+There are a few details specific to the GETFB2 IOCTL.
 
-I think I acked the previous version, but nevermind:
+It's not immediately clear how user-space should check for the
+number of planes. Suggest using the handles field or the pitches
+field.
 
-Acked-by: Ulf Hansson <ulf.hansson@linaro.org>
+The modifier array is filled with zeroes, ie. DRM_FORMAT_MOD_LINEAR.
+So explicitly tell user-space to not look at it unless the flag is
+set.
 
-Kind regards
-Uffe
+Changes in v2 (Daniel):
+- Mention that handles should be used to compute the number of planes,
+  and only refer to pitches as a fallback.
+- Reword bit about undefined modifier.
 
-> ---
->  drivers/mmc/host/bcm2835.c | 2 --
->  1 file changed, 2 deletions(-)
->
-> diff --git a/drivers/mmc/host/bcm2835.c b/drivers/mmc/host/bcm2835.c
-> index 8c2361e66277..463b707d9e99 100644
-> --- a/drivers/mmc/host/bcm2835.c
-> +++ b/drivers/mmc/host/bcm2835.c
-> @@ -1293,14 +1293,12 @@ static int bcm2835_add_host(struct bcm2835_host *host)
->
->                 host->dma_cfg_tx.src_addr_width = DMA_SLAVE_BUSWIDTH_4_BYTES;
->                 host->dma_cfg_tx.dst_addr_width = DMA_SLAVE_BUSWIDTH_4_BYTES;
-> -               host->dma_cfg_tx.slave_id = 13;         /* DREQ channel */
->                 host->dma_cfg_tx.direction = DMA_MEM_TO_DEV;
->                 host->dma_cfg_tx.src_addr = 0;
->                 host->dma_cfg_tx.dst_addr = host->phys_addr + SDDATA;
->
->                 host->dma_cfg_rx.src_addr_width = DMA_SLAVE_BUSWIDTH_4_BYTES;
->                 host->dma_cfg_rx.dst_addr_width = DMA_SLAVE_BUSWIDTH_4_BYTES;
-> -               host->dma_cfg_rx.slave_id = 13;         /* DREQ channel */
->                 host->dma_cfg_rx.direction = DMA_DEV_TO_MEM;
->                 host->dma_cfg_rx.src_addr = host->phys_addr + SDDATA;
->                 host->dma_cfg_rx.dst_addr = 0;
-> --
-> 2.29.2
->
+Signed-off-by: Simon Ser <contact@emersion.fr>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+Acked-by: Daniel Stone <daniels@collabora.com>
+---
+ include/uapi/drm/drm.h | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
+
+diff --git a/include/uapi/drm/drm.h b/include/uapi/drm/drm.h
+index 3b810b53ba8b..642808520d92 100644
+--- a/include/uapi/drm/drm.h
++++ b/include/uapi/drm/drm.h
+@@ -1096,6 +1096,24 @@ extern "C" {
+ #define DRM_IOCTL_SYNCOBJ_TRANSFER=09DRM_IOWR(0xCC, struct drm_syncobj_tra=
+nsfer)
+ #define DRM_IOCTL_SYNCOBJ_TIMELINE_SIGNAL=09DRM_IOWR(0xCD, struct drm_sync=
+obj_timeline_array)
+=20
++/**
++ * DRM_IOCTL_MODE_GETFB2 - Get framebuffer metadata.
++ *
++ * This queries metadata about a framebuffer. User-space fills
++ * &drm_mode_fb_cmd2.fb_id as the input, and the kernels fills the rest of=
+ the
++ * struct as the output.
++ *
++ * If the client is DRM master or has &CAP_SYS_ADMIN, &drm_mode_fb_cmd2.ha=
+ndles
++ * will be filled with GEM buffer handles. Planes are valid until one has =
+a
++ * zero handle -- this can be used to compute the number of planes.
++ *
++ * Otherwise, &drm_mode_fb_cmd2.handles will be zeroed and planes are vali=
+d
++ * until one has a zero &drm_mode_fb_cmd2.pitches.
++ *
++ * If the framebuffer has a format modifier, &DRM_MODE_FB_MODIFIERS will b=
+e set
++ * in &drm_mode_fb_cmd2.flags and &drm_mode_fb_cmd2.modifier will contain =
+the
++ * modifier. Otherwise, user-space must ignore &drm_mode_fb_cmd2.modifier.
++ */
+ #define DRM_IOCTL_MODE_GETFB2=09=09DRM_IOWR(0xCE, struct drm_mode_fb_cmd2)
+=20
+ /*
+--=20
+2.34.0
+
+
