@@ -2,100 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F490459CA2
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Nov 2021 08:16:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B02F2459D2C
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Nov 2021 08:52:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D09306E110;
-	Tue, 23 Nov 2021 07:16:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C3F16E0C4;
+	Tue, 23 Nov 2021 07:52:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2044.outbound.protection.outlook.com [40.107.223.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 088496E110
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Nov 2021 07:16:09 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=V0GS3+hm3Hm5giGTbCsxoklRXBD+WavrLiKLe3JS/7bAx6HaccTN956NoT8PTsddRL22YeMBcclaAPwePaDYZtfHGRGA+jq+lk+lhDVx/ucbgtWUUQnxzpd/EDOIAPZ7TL+cmGy69/uTFdsdTX9JujvCGi1S8uCO1yl9u5DVGxJs3xWetqAPdzqGk9nBrAzDpjq2LipfQQiOfeZdqLINGs2Eche1WgzhryVLe04qcBNyK8zBFXGmjJt9kuDV5aBNy9GjOhBhplJHoh2st4Y0DwV75V+MOYzC3aDIt+W17+uI8rre7h+72wZ9KII9sKqlA+wDG/u1V7VVcw8LGhXHnQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=q7FxpBiZfxjKUeF4Iwjzk85TmvKO+Kvd3CqKWKZdGuA=;
- b=ntHViu02SEPn92+szjCEqYYmBaE4CIJPt8Ls4rFm9kROTriW0Js0r0sedX++AEdm/i/H9TRmiha43M+N5Nz5lH1d2J+IqnK0nZudn0lYVPGyISXf1n/aX1GPc7KeT36+/IjfQl9NgtyBN/ugxD+g5hkF3XQOqjmtLTKGaJc4u9ft01w3MucBfya/QLx9QyDMtwuyn1ex9k0sC4pyksapuL+svs6seycR2+b0WTVH2y1uWLRJgeiYAtGbyoC9qz8AZdeyjzjyT62pLmiFtp5mw38ET2ci8D1aqNl4BisXvHxDBT4n1ZQb3XDQpB8A15t8kTVp3TMskVNvD4hzugY9gg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.112.32) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=nvidia.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=nvidia.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=q7FxpBiZfxjKUeF4Iwjzk85TmvKO+Kvd3CqKWKZdGuA=;
- b=AYS3+pbDTx1K6rqIsbUf2/9NQsL0f2393lpkzo5tn6/i74YaN96ZOqOIGhh0Jl4Ct0Eh1PQixmfigy1IRJGT0AF1HH30KyZ/Cq1x3bmzAxN2WQCZRQnoXXu0C1E6+iJBNySmU0kFyP+rsqU/dZB91iWeY8EXQBc+kA4N9zZAQtoVtzFINS2naqPsCGdTmLJDrPEHd9LocBpIVjTRW5LZ01KYkBYlXYL3+8mB9L1Hx9dh3CETzS+T8dtjkO6dT2koJ/ij7CfPVXQa74xd+6KfxuBPyNyubRGSgPTZwdJSa8JZtaKCBb5qwaSlTPT0/VAX4/sYqnjR2LT2ciJzFU9BhQ==
-Received: from DS7PR03CA0338.namprd03.prod.outlook.com (2603:10b6:8:55::31) by
- BY5PR12MB3971.namprd12.prod.outlook.com (2603:10b6:a03:1a5::32) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4713.21; Tue, 23 Nov
- 2021 07:16:07 +0000
-Received: from DM6NAM11FT041.eop-nam11.prod.protection.outlook.com
- (2603:10b6:8:55:cafe::42) by DS7PR03CA0338.outlook.office365.com
- (2603:10b6:8:55::31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4713.19 via Frontend
- Transport; Tue, 23 Nov 2021 07:16:07 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.32)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.112.32 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.112.32; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (216.228.112.32) by
- DM6NAM11FT041.mail.protection.outlook.com (10.13.172.98) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.4713.20 via Frontend Transport; Tue, 23 Nov 2021 07:16:06 +0000
-Received: from HQMAIL111.nvidia.com (172.20.187.18) by HQMAIL109.nvidia.com
- (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1497.18; Mon, 22 Nov
- 2021 23:16:05 -0800
-Received: from kyarlagadda-linux.nvidia.com (172.20.187.6) by mail.nvidia.com
- (172.20.187.18) with Microsoft SMTP Server id 15.0.1497.18 via
- Frontend Transport; Tue, 23 Nov 2021 07:16:01 +0000
-From: Akhil R <akhilrajeev@nvidia.com>
-To: <andy.shevchenko@gmail.com>, <christian.koenig@amd.com>,
- <digetx@gmail.com>, <dri-devel@lists.freedesktop.org>,
- <jonathanh@nvidia.com>, <ldewangan@nvidia.com>,
- <linaro-mm-sig@lists.linaro.org>, <linux-i2c@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
- <linux-tegra@vger.kernel.org>, <p.zabel@pengutronix.de>,
- <sumit.semwal@linaro.org>, <thierry.reding@gmail.com>
-Subject: [PATCH v2] i2c: tegra: Add ACPI support
-Date: Tue, 23 Nov 2021 12:45:53 +0530
-Message-ID: <1637651753-5067-1-git-send-email-akhilrajeev@nvidia.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1637328734-20576-1-git-send-email-akhilrajeev@nvidia.com>
-References: <1637328734-20576-1-git-send-email-akhilrajeev@nvidia.com>
-X-NVConfidentiality: public
+Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com
+ [IPv6:2607:f8b0:4864:20::531])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 95E016E0C4
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Nov 2021 07:52:15 +0000 (UTC)
+Received: by mail-pg1-x531.google.com with SMTP id g28so17603568pgg.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Nov 2021 23:52:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=huaqin-corp-partner-google-com.20210112.gappssmtp.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=lVbU0c9IdrY522BCvsaXslnlPipdbEhVYBOGx1ugzH8=;
+ b=coKfosrUOBKdPeNA4ljSydTj+X1a8hy4cA9eOt3wvP3/kL7WytPoyKmNRYs8h5tF/7
+ 2lzGxZW1vbhuFvZviPTdRRZgJCXYpZwsZt19BlPjJF2sR+ukcXufaxeA5gMOEyM5Wufp
+ lRaEUD9ZJTcsM7lxoZGbs9qfWuw5DfiloGGEkW2HYwQqY+H79H/p7U3ZDlFXJtJb+fFL
+ pKkUKiGhxbnqQ/YEOpJnKGzaSm/qAH4c87r00lXG2b03+B62kY5hzDHJDr1Yxf1NigxC
+ OVqKNHTvLrt7kxjVHudmJur21JVGvMBrXEY15vOQJTHiMI08+0yROSPiFlwZaeOa/Hit
+ L4HQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=lVbU0c9IdrY522BCvsaXslnlPipdbEhVYBOGx1ugzH8=;
+ b=EQHaL+pTx3bW4fxLulyYpqUNKxJvA0O/3H3pYPJerAietPzUopK2fxpN6raM1Du8Sg
+ zEjZtovOc6ODkW1FyDGkJto1W04/BntlLKoNqgxsTZjjcnmXBSEz0nVXs1MIg//DXJ87
+ uvDNygWvpoYxfqeyGKIw5D/c8abIsBwKF3wrafu4PK4amX3mcxCXbtvzJUa8RmXS1FLD
+ rRkuK5BZx8xU1RAoLQtrB5mhOx09Ikbc4ANsqcmyJ/cSR1mEXZG43iLn3CClC7pXVYtZ
+ fySNE9fzFQbxZXf5eiNyCS+CV4dBewJN9Ci7UhmfhUO7iArv+Fc2eg7GeRQTxAXL4w5r
+ Ekzw==
+X-Gm-Message-State: AOAM5330jyrBL9aQaoU8YP4sQuhK4dpW4VS2iPOHu14D7YuQfj6D5T9q
+ lGLYbh6IGoaC6GPwDibnM1xRQA==
+X-Google-Smtp-Source: ABdhPJydv653Cl0dgjExAK5jG9fL4K7gSBhRuO5o8XkFQNGKZ4BmsK1CfyV4j2IfomSBRgd/9/1HgQ==
+X-Received: by 2002:a05:6a00:2405:b0:3e1:9f65:9703 with SMTP id
+ z5-20020a056a00240500b003e19f659703mr3189886pfh.6.1637653935004; 
+ Mon, 22 Nov 2021 23:52:15 -0800 (PST)
+Received: from yc.huaqin.com ([101.78.151.213])
+ by smtp.gmail.com with ESMTPSA id l6sm6832692pfc.30.2021.11.22.23.52.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 22 Nov 2021 23:52:14 -0800 (PST)
+From: yangcong <yangcong5@huaqin.corp-partner.google.com>
+To: thierry.reding@gmail.com, sam@ravnborg.org, airlied@linux.ie,
+ daniel@ffwll.ch, dianders@google.com
+Subject: [PATCH] drm/panel: Update BOE and INX initial code
+Date: Tue, 23 Nov 2021 15:52:05 +0800
+Message-Id: <20211123075205.2457975-1-yangcong5@huaqin.corp-partner.google.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 0a8749d9-026c-47e4-ceb0-08d9ae511dd4
-X-MS-TrafficTypeDiagnostic: BY5PR12MB3971:
-X-Microsoft-Antispam-PRVS: <BY5PR12MB3971A3D616E7266AB517DD50C0609@BY5PR12MB3971.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4502;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 2FEhVqa0tESEnoda24xz6KNpPEeFIv6EaDY5NZIosFx97qitKhno3cqLiLpXvE+tr2FgYmHqE0nMqSk3IZpRFGcITCrZAopjaL5qTGTVnhHyFAyafiA4ZyrhWjX1zWZMSJPx2Ky2DmhfEn1/MUx2mlnYok9O3U31RS0UbD/u96HaR3kPR597mf/aLklGxQC3/6YP7mENV3IJwux/s62qMVPBqseroL6cHv59RLJ/JBV5oaSH8heCuvHh7nYw7q4d49el1Spr+ztM1QneWffw8jy5UT0QcKTlhuOP2xpyKnjus3+VKevRWe/56NFN8MglwAGbx0jzHPaDTXQAWQOEYauFGkQzfNCi9hOA7C+UvYR07GwwkK13wG0T+562sdntyJbMNMCVRtLkCmvZxBRwzH+7lgWpsrT1JUXLqTLn0elfkZ0rbkXGM9+o5d8HYbj/DY/YWxxl5UccK3iPtWkLOPTeYNr8H4HZ5laCk1MF6zH54/73gpbdg3qOJ1NT01T1WO+XPe5AbePaYHisnpY3opa/zthX2JWv8AFL9BCrYshsaqLEOCNlCQK3mNFGuEWL/jZhPnwu/+aHIy5bmKhROGPm4clNCOq5+xYsCArJPKmqPeRBusufLc55JGnOvZRC56v8mbtXRyki70k1heFKiDRLU86I3GjeQGbT2kMybWVpEBgub2WBbb98Vu7l3bympR/snv5EINz/Yc+NJ2znQfL0OzCFzOSXDFsINAuqVrfEfiOO2/tKWjJmjqo33TAXrWpiUbbQNV95tUcZce+eiA==
-X-Forefront-Antispam-Report: CIP:216.228.112.32; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:schybrid01.nvidia.com; CAT:NONE;
- SFS:(4636009)(46966006)(36840700001)(107886003)(70206006)(2906002)(921005)(2616005)(36860700001)(110136005)(8936002)(26005)(7636003)(356005)(47076005)(6666004)(336012)(5660300002)(7696005)(70586007)(316002)(4326008)(7416002)(36756003)(83380400001)(86362001)(186003)(426003)(508600001)(8676002)(82310400004)(83996005)(2101003);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Nov 2021 07:16:06.4176 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0a8749d9-026c-47e4-ceb0-08d9ae511dd4
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.112.32];
- Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT041.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB3971
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,145 +68,238 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Akhil R <akhilrajeev@nvidia.com>
+Cc: devicetree@vger.kernel.org,
+ yangcong <yangcong5@huaqin.corp-partner.google.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for ACPI based device registration so that the driver
-can be also enabled through ACPI table.
+At present, we have enough panel to confirm the effect,
+update the initial code to achieve the best effect.
+such as gamma, Gtp timing. They are all minor modifications
+and doesn't affect the lighting of the panel.
 
-Signed-off-by: Akhil R <akhilrajeev@nvidia.com>
+a)Boe panel Optimized touch horizontal grain.
+b)Inx panel Optimized GOP timming and gamma.
+
+Signed-off-by: yangcong <yangcong5@huaqin.corp-partner.google.com>
 ---
- drivers/i2c/busses/i2c-tegra.c | 52 ++++++++++++++++++++++++++++++++----------
- 1 file changed, 40 insertions(+), 12 deletions(-)
+ .../gpu/drm/panel/panel-boe-tv101wum-nl6.c    | 108 ++++++++++++------
+ 1 file changed, 71 insertions(+), 37 deletions(-)
 
-diff --git a/drivers/i2c/busses/i2c-tegra.c b/drivers/i2c/busses/i2c-tegra.c
-index c883044..8e47889 100644
---- a/drivers/i2c/busses/i2c-tegra.c
-+++ b/drivers/i2c/busses/i2c-tegra.c
-@@ -6,6 +6,7 @@
-  * Author: Colin Cross <ccross@android.com>
-  */
- 
-+#include <linux/acpi.h>
- #include <linux/bitfield.h>
- #include <linux/clk.h>
- #include <linux/delay.h>
-@@ -608,6 +609,7 @@ static int tegra_i2c_wait_for_config_load(struct tegra_i2c_dev *i2c_dev)
- static int tegra_i2c_init(struct tegra_i2c_dev *i2c_dev)
- {
- 	u32 val, clk_divisor, clk_multiplier, tsu_thd, tlow, thigh, non_hs_mode;
-+	acpi_handle handle = ACPI_HANDLE(i2c_dev->dev);
- 	int err;
- 
- 	/*
-@@ -618,7 +620,11 @@ static int tegra_i2c_init(struct tegra_i2c_dev *i2c_dev)
- 	 * emit a noisy warning on error, which won't stay unnoticed and
- 	 * won't hose machine entirely.
- 	 */
--	err = reset_control_reset(i2c_dev->rst);
-+	if (handle && acpi_has_method(handle, "_RST"))
-+		err = (acpi_evaluate_object(handle, "_RST", NULL, NULL));
-+	else
-+		err = reset_control_reset(i2c_dev->rst);
-+
- 	WARN_ON_ONCE(err);
- 
- 	if (i2c_dev->is_dvc)
-@@ -1627,12 +1633,12 @@ static void tegra_i2c_parse_dt(struct tegra_i2c_dev *i2c_dev)
- 	bool multi_mode;
- 	int err;
- 
--	err = of_property_read_u32(np, "clock-frequency",
--				   &i2c_dev->bus_clk_rate);
-+	err = device_property_read_u32(i2c_dev->dev, "clock-frequency",
-+				       &i2c_dev->bus_clk_rate);
- 	if (err)
- 		i2c_dev->bus_clk_rate = I2C_MAX_STANDARD_MODE_FREQ;
- 
--	multi_mode = of_property_read_bool(np, "multi-master");
-+	multi_mode = device_property_read_bool(i2c_dev->dev, "multi-master");
- 	i2c_dev->multimaster_mode = multi_mode;
- 
- 	if (of_device_is_compatible(np, "nvidia,tegra20-i2c-dvc"))
-@@ -1642,10 +1648,25 @@ static void tegra_i2c_parse_dt(struct tegra_i2c_dev *i2c_dev)
- 		i2c_dev->is_vi = true;
- }
- 
-+static int tegra_i2c_init_reset(struct tegra_i2c_dev *i2c_dev)
-+{
-+	if (has_acpi_companion(i2c_dev->dev))
-+		return 0;
-+
-+	i2c_dev->rst = devm_reset_control_get_exclusive(i2c_dev->dev, "i2c");
-+	if (IS_ERR(i2c_dev->rst))
-+		return PTR_ERR(i2c_dev->rst);
-+
-+	return 0;
-+}
-+
- static int tegra_i2c_init_clocks(struct tegra_i2c_dev *i2c_dev)
- {
- 	int err;
- 
-+	if (has_acpi_companion(i2c_dev->dev))
-+		return 0;
-+
- 	i2c_dev->clocks[i2c_dev->nclocks++].id = "div-clk";
- 
- 	if (i2c_dev->hw == &tegra20_i2c_hw || i2c_dev->hw == &tegra30_i2c_hw)
-@@ -1720,7 +1741,7 @@ static int tegra_i2c_probe(struct platform_device *pdev)
- 	init_completion(&i2c_dev->msg_complete);
- 	init_completion(&i2c_dev->dma_complete);
- 
--	i2c_dev->hw = of_device_get_match_data(&pdev->dev);
-+	i2c_dev->hw = device_get_match_data(&pdev->dev);
- 	i2c_dev->cont_id = pdev->id;
- 	i2c_dev->dev = &pdev->dev;
- 
-@@ -1746,15 +1767,13 @@ static int tegra_i2c_probe(struct platform_device *pdev)
- 	if (err)
- 		return err;
- 
--	i2c_dev->rst = devm_reset_control_get_exclusive(i2c_dev->dev, "i2c");
--	if (IS_ERR(i2c_dev->rst)) {
--		dev_err_probe(i2c_dev->dev, PTR_ERR(i2c_dev->rst),
--			      "failed to get reset control\n");
--		return PTR_ERR(i2c_dev->rst);
--	}
+diff --git a/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c b/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
+index 529561b4fbbc..cc5990dd24a3 100644
+--- a/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
++++ b/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
+@@ -84,8 +84,8 @@ static const struct panel_init_cmd boe_tv110c9m_init_cmd[] = {
+ 	_INIT_DCS_CMD(0x0D, 0x63),
+ 	_INIT_DCS_CMD(0x0E, 0x91),
+ 	_INIT_DCS_CMD(0x0F, 0x73),
+-	_INIT_DCS_CMD(0x95, 0xEB),
+-	_INIT_DCS_CMD(0x96, 0xEB),
++	_INIT_DCS_CMD(0x95, 0xE6),
++	_INIT_DCS_CMD(0x96, 0xF0),
+ 	_INIT_DCS_CMD(0x30, 0x11),
+ 	_INIT_DCS_CMD(0x6D, 0x66),
+ 	_INIT_DCS_CMD(0x75, 0xA2),
+@@ -111,18 +111,16 @@ static const struct panel_init_cmd boe_tv110c9m_init_cmd[] = {
+ 	_INIT_DCS_CMD(0xB0, 0x00, 0x00, 0x00, 0x1B, 0x00, 0x45, 0x00, 0x65, 0x00, 0x81, 0x00, 0x99, 0x00, 0xAE, 0x00, 0xC1),
+ 	_INIT_DCS_CMD(0xB1, 0x00, 0xD2, 0x01, 0x0B, 0x01, 0x34, 0x01, 0x76, 0x01, 0xA3, 0x01, 0xEF, 0x02, 0x27, 0x02, 0x29),
+ 	_INIT_DCS_CMD(0xB2, 0x02, 0x5F, 0x02, 0x9E, 0x02, 0xC9, 0x03, 0x00, 0x03, 0x26, 0x03, 0x53, 0x03, 0x63, 0x03, 0x73),
+-	_INIT_DCS_CMD(0xB3, 0x03, 0x86, 0x03, 0x9A, 0x03, 0xAF, 0x03, 0xDF, 0x03, 0xF5, 0x03, 0xF7),
 -
- 	tegra_i2c_parse_dt(i2c_dev);
++	_INIT_DCS_CMD(0xB3, 0x03, 0x86, 0x03, 0x9A, 0x03, 0xA7, 0x03, 0xCF, 0x03, 0xDE, 0x03, 0xE0),
+ 	_INIT_DCS_CMD(0xB4, 0x00, 0x00, 0x00, 0x1B, 0x00, 0x45, 0x00, 0x65, 0x00, 0x81, 0x00, 0x99, 0x00, 0xAE, 0x00, 0xC1),
+ 	_INIT_DCS_CMD(0xB5, 0x00, 0xD2, 0x01, 0x0B, 0x01, 0x34, 0x01, 0x76, 0x01, 0xA3, 0x01, 0xEF, 0x02, 0x27, 0x02, 0x29),
+ 	_INIT_DCS_CMD(0xB6, 0x02, 0x5F, 0x02, 0x9E, 0x02, 0xC9, 0x03, 0x00, 0x03, 0x26, 0x03, 0x53, 0x03, 0x63, 0x03, 0x73),
+-	_INIT_DCS_CMD(0xB7, 0x03, 0x86, 0x03, 0x9A, 0x03, 0xAF, 0x03, 0xDF, 0x03, 0xF5, 0x03, 0xF7),
++	_INIT_DCS_CMD(0xB7, 0x03, 0x86, 0x03, 0x9A, 0x03, 0xA7, 0x03, 0xCF, 0x03, 0xDE, 0x03, 0xE0),
  
-+	err = tegra_i2c_init_reset(i2c_dev);
-+	if (err)
-+		return dev_err_probe(i2c_dev->dev, err,
-+				      "failed to get reset control\n");
-+
- 	err = tegra_i2c_init_clocks(i2c_dev);
- 	if (err)
- 		return err;
-@@ -1923,12 +1942,21 @@ static const struct dev_pm_ops tegra_i2c_pm = {
- 			   NULL)
- };
+ 	_INIT_DCS_CMD(0xB8, 0x00, 0x00, 0x00, 0x1B, 0x00, 0x45, 0x00, 0x65, 0x00, 0x81, 0x00, 0x99, 0x00, 0xAE, 0x00, 0xC1),
+ 	_INIT_DCS_CMD(0xB9, 0x00, 0xD2, 0x01, 0x0B, 0x01, 0x34, 0x01, 0x76, 0x01, 0xA3, 0x01, 0xEF, 0x02, 0x27, 0x02, 0x29),
+ 	_INIT_DCS_CMD(0xBA, 0x02, 0x5F, 0x02, 0x9E, 0x02, 0xC9, 0x03, 0x00, 0x03, 0x26, 0x03, 0x53, 0x03, 0x63, 0x03, 0x73),
+-	_INIT_DCS_CMD(0xBB, 0x03, 0x86, 0x03, 0x9A, 0x03, 0xAF, 0x03, 0xDF, 0x03, 0xF5, 0x03, 0xF7),
+-
++	_INIT_DCS_CMD(0xBB, 0x03, 0x86, 0x03, 0x9A, 0x03, 0xA7, 0x03, 0xCF, 0x03, 0xDE, 0x03, 0xE0),
+ 	_INIT_DCS_CMD(0xFF, 0x24),
+ 	_INIT_DCS_CMD(0xFB, 0x01),
  
-+static const struct acpi_device_id tegra_i2c_acpi_match[] = {
-+	{.id = "NVDA0101", .driver_data = (kernel_ulong_t)&tegra210_i2c_hw},
-+	{.id = "NVDA0201", .driver_data = (kernel_ulong_t)&tegra186_i2c_hw},
-+	{.id = "NVDA0301", .driver_data = (kernel_ulong_t)&tegra194_i2c_hw},
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(acpi, tegra_i2c_acpi_match);
-+
- static struct platform_driver tegra_i2c_driver = {
- 	.probe = tegra_i2c_probe,
- 	.remove = tegra_i2c_remove,
- 	.driver = {
- 		.name = "tegra-i2c",
- 		.of_match_table = tegra_i2c_of_match,
-+		.acpi_match_table = tegra_i2c_acpi_match,
- 		.pm = &tegra_i2c_pm,
- 	},
- };
+@@ -332,12 +330,38 @@ static const struct panel_init_cmd boe_tv110c9m_init_cmd[] = {
+ 	_INIT_DCS_CMD(0x34, 0x78),
+ 	_INIT_DCS_CMD(0x35, 0x16),
+ 	_INIT_DCS_CMD(0xC8, 0x04),
+-	_INIT_DCS_CMD(0xC9, 0x80),
++	_INIT_DCS_CMD(0xC9, 0x9E),
+ 	_INIT_DCS_CMD(0xCA, 0x4E),
+ 	_INIT_DCS_CMD(0xCB, 0x00),
+-	_INIT_DCS_CMD(0xA9, 0x4C),
+-	_INIT_DCS_CMD(0xAA, 0x47),
+-
++	_INIT_DCS_CMD(0xA9, 0x49),
++	_INIT_DCS_CMD(0xAA, 0x4B),
++	_INIT_DCS_CMD(0xAB, 0x48),
++	_INIT_DCS_CMD(0xAC, 0x43),
++	_INIT_DCS_CMD(0xAD, 0x40),
++	_INIT_DCS_CMD(0xAE, 0x50),
++	_INIT_DCS_CMD(0xAF, 0x44),
++	_INIT_DCS_CMD(0xB0, 0x54),
++	_INIT_DCS_CMD(0xB1, 0x4E),
++	_INIT_DCS_CMD(0xB2, 0x4D),
++	_INIT_DCS_CMD(0xB3, 0x4C),
++	_INIT_DCS_CMD(0xB4, 0x41),
++	_INIT_DCS_CMD(0xB5, 0x47),
++	_INIT_DCS_CMD(0xB6, 0x53),
++	_INIT_DCS_CMD(0xB7, 0x3E),
++	_INIT_DCS_CMD(0xB8, 0x51),
++	_INIT_DCS_CMD(0xB9, 0x3C),
++	_INIT_DCS_CMD(0xBA, 0x3B),
++	_INIT_DCS_CMD(0xBB, 0x46),
++	_INIT_DCS_CMD(0xBC, 0x45),
++	_INIT_DCS_CMD(0xBD, 0x55),
++	_INIT_DCS_CMD(0xBE, 0x3D),
++	_INIT_DCS_CMD(0xBF, 0x3F),
++	_INIT_DCS_CMD(0xC0, 0x52),
++	_INIT_DCS_CMD(0xC1, 0x4A),
++	_INIT_DCS_CMD(0xC2, 0x39),
++	_INIT_DCS_CMD(0xC3, 0x4F),
++	_INIT_DCS_CMD(0xC4, 0x3A),
++	_INIT_DCS_CMD(0xC5, 0x42),
+ 	_INIT_DCS_CMD(0xFF, 0x27),
+ 	_INIT_DCS_CMD(0xFB, 0x01),
+ 
+@@ -428,10 +452,10 @@ static const struct panel_init_cmd inx_init_cmd[] = {
+ 	_INIT_DCS_CMD(0x08, 0x4B),
+ 	_INIT_DCS_CMD(0x0E, 0x91),
+ 	_INIT_DCS_CMD(0x0F, 0x69),
+-	_INIT_DCS_CMD(0x95, 0xFF),
+-	_INIT_DCS_CMD(0x96, 0xFF),
+-	_INIT_DCS_CMD(0x9D, 0x0A),
+-	_INIT_DCS_CMD(0x9E, 0x0A),
++	_INIT_DCS_CMD(0x95, 0xF5),
++	_INIT_DCS_CMD(0x96, 0xF5),
++	_INIT_DCS_CMD(0x9D, 0x00),
++	_INIT_DCS_CMD(0x9E, 0x00),
+ 	_INIT_DCS_CMD(0x69, 0x98),
+ 	_INIT_DCS_CMD(0x75, 0xA2),
+ 	_INIT_DCS_CMD(0x77, 0xB3),
+@@ -493,17 +517,17 @@ static const struct panel_init_cmd inx_init_cmd[] = {
+ 	_INIT_DCS_CMD(0x2A, 0x03),
+ 	_INIT_DCS_CMD(0x2B, 0x03),
+ 
+-	_INIT_DCS_CMD(0x2F, 0x06),
++	_INIT_DCS_CMD(0x2F, 0x05),
+ 	_INIT_DCS_CMD(0x30, 0x32),
+ 	_INIT_DCS_CMD(0x31, 0x43),
+-	_INIT_DCS_CMD(0x33, 0x06),
++	_INIT_DCS_CMD(0x33, 0x05),
+ 	_INIT_DCS_CMD(0x34, 0x32),
+ 	_INIT_DCS_CMD(0x35, 0x43),
+ 	_INIT_DCS_CMD(0x37, 0x44),
+ 	_INIT_DCS_CMD(0x38, 0x40),
+ 	_INIT_DCS_CMD(0x39, 0x00),
+-	_INIT_DCS_CMD(0x3A, 0x01),
+-	_INIT_DCS_CMD(0x3B, 0x48),
++	_INIT_DCS_CMD(0x3A, 0x18),
++	_INIT_DCS_CMD(0x3B, 0x00),
+ 	_INIT_DCS_CMD(0x3D, 0x93),
+ 	_INIT_DCS_CMD(0xAB, 0x44),
+ 	_INIT_DCS_CMD(0xAC, 0x40),
+@@ -520,8 +544,8 @@ static const struct panel_init_cmd inx_init_cmd[] = {
+ 	_INIT_DCS_CMD(0x56, 0x08),
+ 	_INIT_DCS_CMD(0x58, 0x21),
+ 	_INIT_DCS_CMD(0x59, 0x40),
+-	_INIT_DCS_CMD(0x5A, 0x09),
+-	_INIT_DCS_CMD(0x5B, 0x48),
++	_INIT_DCS_CMD(0x5A, 0x00),
++	_INIT_DCS_CMD(0x5B, 0x2C),
+ 	_INIT_DCS_CMD(0x5E, 0x00, 0x10),
+ 	_INIT_DCS_CMD(0x5F, 0x00),
+ 
+@@ -557,34 +581,35 @@ static const struct panel_init_cmd inx_init_cmd[] = {
+ 	_INIT_DCS_CMD(0xEE, 0x7A),
+ 	_INIT_DCS_CMD(0xEF, 0x01),
+ 	_INIT_DCS_CMD(0xF0, 0x7A),
+-
++	_INIT_DCS_CMD(0xB6, 0x05, 0x00, 0x05, 0x00, 0x00, 0x00, 0x00, 0x00, 0x05, 0x05, 0x00, 0x00),
+ 	_INIT_DCS_CMD(0xFF, 0x25),
+ 	_INIT_DCS_CMD(0xFB, 0x01),
+ 
+ 	_INIT_DCS_CMD(0x05, 0x00),
+-
++	_INIT_DCS_CMD(0x13, 0x02),
++	_INIT_DCS_CMD(0x14, 0xDF),
+ 	_INIT_DCS_CMD(0xF1, 0x10),
+ 	_INIT_DCS_CMD(0x1E, 0x00),
+-	_INIT_DCS_CMD(0x1F, 0x09),
+-	_INIT_DCS_CMD(0x20, 0x46),
++	_INIT_DCS_CMD(0x1F, 0x00),
++	_INIT_DCS_CMD(0x20, 0x2C),
+ 	_INIT_DCS_CMD(0x25, 0x00),
+-	_INIT_DCS_CMD(0x26, 0x09),
+-	_INIT_DCS_CMD(0x27, 0x46),
++	_INIT_DCS_CMD(0x26, 0x00),
++	_INIT_DCS_CMD(0x27, 0x2C),
+ 	_INIT_DCS_CMD(0x3F, 0x80),
+ 	_INIT_DCS_CMD(0x40, 0x00),
+ 	_INIT_DCS_CMD(0x43, 0x00),
+ 
+-	_INIT_DCS_CMD(0x44, 0x09),
+-	_INIT_DCS_CMD(0x45, 0x46),
++	_INIT_DCS_CMD(0x44, 0x18),
++	_INIT_DCS_CMD(0x45, 0x00),
+ 
+-	_INIT_DCS_CMD(0x48, 0x09),
+-	_INIT_DCS_CMD(0x49, 0x46),
++	_INIT_DCS_CMD(0x48, 0x00),
++	_INIT_DCS_CMD(0x49, 0x2C),
+ 	_INIT_DCS_CMD(0x5B, 0x80),
+ 	_INIT_DCS_CMD(0x5C, 0x00),
+-	_INIT_DCS_CMD(0x5D, 0x01),
+-	_INIT_DCS_CMD(0x5E, 0x46),
+-	_INIT_DCS_CMD(0x61, 0x01),
+-	_INIT_DCS_CMD(0x62, 0x46),
++	_INIT_DCS_CMD(0x5D, 0x00),
++	_INIT_DCS_CMD(0x5E, 0x00),
++	_INIT_DCS_CMD(0x61, 0x00),
++	_INIT_DCS_CMD(0x62, 0x2C),
+ 	_INIT_DCS_CMD(0x68, 0x10),
+ 	_INIT_DCS_CMD(0xFF, 0x26),
+ 	_INIT_DCS_CMD(0xFB, 0x01),
+@@ -700,16 +725,22 @@ static const struct panel_init_cmd inx_init_cmd[] = {
+ 	_INIT_DCS_CMD(0xA3, 0x30),
+ 	_INIT_DCS_CMD(0xA4, 0xC0),
+ 	_INIT_DCS_CMD(0xE8, 0x00),
++	_INIT_DCS_CMD(0x97, 0x3C),
++	_INIT_DCS_CMD(0x98, 0x02),
++	_INIT_DCS_CMD(0x99, 0x95),
++	_INIT_DCS_CMD(0x9A, 0x06),
++	_INIT_DCS_CMD(0x9B, 0x00),
++	_INIT_DCS_CMD(0x9C, 0x0B),
++	_INIT_DCS_CMD(0x9D, 0x0A),
++	_INIT_DCS_CMD(0x9E, 0x90),
+ 	_INIT_DCS_CMD(0xFF, 0xF0),
+ 	_INIT_DCS_CMD(0xFB, 0x01),
+ 	_INIT_DCS_CMD(0x3A, 0x08),
+ 	_INIT_DCS_CMD(0xFF, 0xD0),
+ 	_INIT_DCS_CMD(0xFB, 0x01),
+ 	_INIT_DCS_CMD(0x00, 0x33),
+-	_INIT_DCS_CMD(0x02, 0x77),
+ 	_INIT_DCS_CMD(0x08, 0x01),
+ 	_INIT_DCS_CMD(0x09, 0xBF),
+-	_INIT_DCS_CMD(0x28, 0x30),
+ 	_INIT_DCS_CMD(0x2F, 0x33),
+ 	_INIT_DCS_CMD(0xFF, 0x23),
+ 	_INIT_DCS_CMD(0xFB, 0x01),
+@@ -718,6 +749,9 @@ static const struct panel_init_cmd inx_init_cmd[] = {
+ 	_INIT_DCS_CMD(0xFF, 0x20),
+ 	_INIT_DCS_CMD(0xFB, 0x01),
+ 	_INIT_DCS_CMD(0x30, 0x00),
++	_INIT_DCS_CMD(0xFF, 0x24),
++	_INIT_DCS_CMD(0x5C, 0x88),
++	_INIT_DCS_CMD(0x5D, 0x08),
+ 	_INIT_DCS_CMD(0xFF, 0x10),
+ 	_INIT_DCS_CMD(0xB9, 0x01),
+ 	_INIT_DCS_CMD(0xFF, 0x20),
 -- 
-2.7.4
+2.25.1
 
