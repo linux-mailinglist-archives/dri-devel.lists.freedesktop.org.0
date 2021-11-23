@@ -1,128 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5C8F45AF16
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Nov 2021 23:31:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F63245AFB5
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Nov 2021 00:02:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E10289ABA;
-	Tue, 23 Nov 2021 22:31:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 86FE66E071;
+	Tue, 23 Nov 2021 23:02:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2089.outbound.protection.outlook.com [40.107.237.89])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4CEA489ABA;
- Tue, 23 Nov 2021 22:31:02 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Z6xgqyvmZ8q7DslLuk6tlWe36ZOdQABvSATkMhFXKFcwsClQRS9c227S18mNJIy5gnypvwuBAutsRAUZBBKPjVKtkUtTWl0c1OxdM9zdSjoEObxRf8PLkVhads1V1n+2cRdCi4/sRhsaqvcRhi5e0Ez1NwYEPw7MWXspwB1H0n+PAAKeRT7HKXMjjIhrW8/mUriBVbGEphGDFBACQwDcXwogypvVAmIyW/+T4ND15GKQkTGjjKVzZ8qKHf/DopijjyzGzqGVWy8M2pUyGEZMbfCTO5xzbqmmECh+MidcZorsYaw25ivRlQUX9iRRua0+RgVjpu9exetwlrAMmFQ6UQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=k6Ew+kx3ZGTGb1uPeFg9nTAj00AcpxTGiCaSjMq0ao8=;
- b=VqHNiDcmQh+fNNIbPK27njsKb0DKHdmKGksYu6N7YoK5ZENgLdrt7fEUOICBOtGHEw0MkitzfPGXbCeLN4VsyWje0LlFJX8GHAc+zAkF8Jdg49omu1CHpXP34mzJTBHTC0YVS9jYtESGBy0mGrhhaea40y0CgORVjUZTeUqulwBVNF4OWVSrizz+Fhjpyln94wVqW5/Q4yoUSiqUwIjepAJYFNJridXMSVGvv0+7nR41ns79eAlAG20jTJRcQenrpQIcBUEufI0gIzo6pNmE60skNLrcz1Nq852nZXZvKbnQxuD/M1Maav+mVH1u6fesF5XrBfEkYuPj0Rl4H84cGQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=k6Ew+kx3ZGTGb1uPeFg9nTAj00AcpxTGiCaSjMq0ao8=;
- b=JLNHvfjxARX0p9Hxjbo4DzhWKRu8wC67yVdz9iZogQNp1ulWLgUPtSlQv9BhLzIZgDZ6cY4RMrOYIYwvCIRO3WsCUgiY+fjjWNPLl9iJStjF7Nn+xIrQWsfH4P9VPyWpjQq0P0lR5YGmhu3P+Xz430AiUb3Hhul1wYfRBU6IXmE=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB4342.namprd12.prod.outlook.com (2603:10b6:208:264::7)
- by MN2PR12MB4125.namprd12.prod.outlook.com (2603:10b6:208:1d9::9)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4713.21; Tue, 23 Nov
- 2021 22:31:00 +0000
-Received: from MN2PR12MB4342.namprd12.prod.outlook.com
- ([fe80::6972:7084:df02:6dc3]) by MN2PR12MB4342.namprd12.prod.outlook.com
- ([fe80::6972:7084:df02:6dc3%9]) with mapi id 15.20.4713.026; Tue, 23 Nov 2021
- 22:31:00 +0000
-Message-ID: <01edd5b1-aa75-4d95-287d-66561c4505e0@amd.com>
-Date: Wed, 24 Nov 2021 04:10:34 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v3 4/6] drm: implement a method to free unused pages
-Content-Language: en-US
-To: Matthew Auld <matthew.auld@intel.com>, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
-References: <20211116201807.147486-1-Arunpravin.PaneerSelvam@amd.com>
- <20211116201807.147486-4-Arunpravin.PaneerSelvam@amd.com>
- <70b5facd-06cd-2400-dd94-1090fe3da7d6@intel.com>
-From: Arunpravin <arunpravin.paneerselvam@amd.com>
-In-Reply-To: <70b5facd-06cd-2400-dd94-1090fe3da7d6@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BM1PR0101CA0018.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:b00:18::28) To MN2PR12MB4342.namprd12.prod.outlook.com
- (2603:10b6:208:264::7)
+Received: from mail-oi1-x22a.google.com (mail-oi1-x22a.google.com
+ [IPv6:2607:f8b0:4864:20::22a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 12A6C6E071
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Nov 2021 23:02:14 +0000 (UTC)
+Received: by mail-oi1-x22a.google.com with SMTP id r26so1287237oiw.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Nov 2021 15:02:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=U/YfcKuWu9IBkxXAjQ9Eru9NWliiwRlAFXbf84u64iw=;
+ b=Qxx/ct/QAteIczIt6u1z/ZW2GAaejZjWOiZpUGS0Yz14806PSoc0ypAeotDWKBdgB5
+ iSZU6eDDsfKo6Xv9k+NJ+UZeNUhCOzSVTPBeaT01bVwgfzXUnDacnVTBxrp8kqmlwJAX
+ JsfYlrhqmJJar4p39sslfer/C/XeAqD/vxcoZF7v83XdNPeSx4ugo97leYM0YHLUUQBs
+ FCG+RjnM2V0FydRVSUCNRCysVR1eboOi6owXfSQxeK9dpRIto2xOS+KKE3Lkax3DmjFm
+ mK2G7X+Jn0wqTuQ9H+2DRkzsHFfKbanuY+RfLuPUbZpoIq3jUGB5IwbJismA+voJbqX4
+ 3Izg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=U/YfcKuWu9IBkxXAjQ9Eru9NWliiwRlAFXbf84u64iw=;
+ b=Wl3r3xMjMLvED1yx1Pacl5G0glC4s/Wqi2IJ9R4I7yURiFdOTIPdirb9UxP6FdXNYq
+ KB2sgC8uG+P+9FmVTzcThRzTq/HReF275Krqok2xuycm30mM6tLVMaO6VBT20eLP4Y+a
+ X0zfeFZ+i1D/XkRN+8a4AngiXl+6tcfOhUqAYICRdGpbkcUGQtwuO1teN0J0EuB+Pn/J
+ SAeWReK1vRDJDBkv4ym+AtC9ymz0xzBqTf3Fw7sXoZKPbgYW4LH/g59Vq6uf0DeFKhuU
+ upTAaeGvQ2A6B6cJN0oQGSicKE8omHn8cLrD5vXk/hN4yPkZTFYIjlo7ncLjJa/lAaPp
+ F07A==
+X-Gm-Message-State: AOAM532gUA/s8OY0zcFmjPbv3Jj+BR4yOBAysvGbxUmHi1OuqNFbf1fU
+ S0xq0c0JZzlW5aKlX+5T+TX5FQ==
+X-Google-Smtp-Source: ABdhPJzWaRUeQLHSrascFf1GNb0zer8lw+90WeJZXU4FLvAUr8grUNKxROvP8CF72Rh4EzXkv9Bn4w==
+X-Received: by 2002:a05:6808:55:: with SMTP id
+ v21mr1056533oic.174.1637708533242; 
+ Tue, 23 Nov 2021 15:02:13 -0800 (PST)
+Received: from ripper (104-57-184-186.lightspeed.austtx.sbcglobal.net.
+ [104.57.184.186])
+ by smtp.gmail.com with ESMTPSA id v12sm2450822ote.9.2021.11.23.15.02.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 23 Nov 2021 15:02:12 -0800 (PST)
+Date: Tue, 23 Nov 2021 15:03:55 -0800
+From: Bjorn Andersson <bjorn.andersson@linaro.org>
+To: Akhil P Oommen <akhilpo@codeaurora.org>
+Subject: Re: [PATCH v2 4/6] drm/msm/a6xx: Capture gmu log in devcoredump
+Message-ID: <YZ1zW/9lsJNrVfqJ@ripper>
+References: <20211124024436.v2.1.I2ed37cd8ad45a5a94d9de53330f973a62bd1fb29@changeid>
+ <20211124024436.v2.4.Ibb71b3c64d6f98d586131a143c27fbdb233260a1@changeid>
 MIME-Version: 1.0
-Received: from [10.138.142.32] (165.204.156.251) by
- BM1PR0101CA0018.INDPRD01.PROD.OUTLOOK.COM (2603:1096:b00:18::28) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4713.19 via Frontend
- Transport; Tue, 23 Nov 2021 22:30:57 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 7f0a4e04-a0b1-4394-45a3-08d9aed0ecea
-X-MS-TrafficTypeDiagnostic: MN2PR12MB4125:
-X-Microsoft-Antispam-PRVS: <MN2PR12MB41255568F830963573F370A1E4609@MN2PR12MB4125.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 72HdfAKWO2UNBZJMjwQrcitIWnvLrpWhGWu0h4YxPBId38rZzAZt0qWQlFJWdtovItSa21MCYDnhpI6UyCasM+nLGJy3Cja90Rwbd4l4G3YrrBdCDg6M4jbdcEKd3fWZhnZCeCLCY/y0mP0aKd6PRCvvcZK+64aBBKZKTueGNC4b3WUBoKwP3uLJN8jKwm3ciT1Wq9oNkdORb4oB6ia/KMAZilkR7uH1KJugMGwqPClXLoF4YvgEWXCaNymtpI20sxFooYJWkXNmhIXbLpLfvX8DGFagbSaNOlKF+Gl3Q8NaTLONN7KYfifNGCPhELWY55wsMZCzhkuoFQXvHLH0FbwAuwX152g4dwuWzmkPYbOJR9KSygmoVwGwpEQInHGK1xzgdRIFJL2MWdhCO1LUkMe/m+yfzojPaOfJrBQSFy+TTLx6wte14ajm5uvdd0KXGeajKEqDoGFbCXmCczYFaAVXoKjSgIOH7jDeJeP5t85qP+zLI7mji+IG2GstbLEnuuH6L4OkvJT/IcKzsRYJTN02eUTm01nB2cshiE5g13NLgf6s2dM7voWxsAt5gyiA8GPVq5MtbO3phfXUc9rXzsXPF8rb4lUA3XKm0UpeklDCaz/YycNT57eWRicgCGKDCdG+yz431X6oZGg7B3YUclYn4sGBfva+QneMApdndGuKeHP7jEN0tCie/MpDMU+LGlZ68UbUxA5+hX8a5Ljtgh1Dkct6CIasXlzIJtMuvu4=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB4342.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(186003)(31696002)(8936002)(2616005)(86362001)(5660300002)(316002)(16576012)(36756003)(66476007)(66556008)(38100700002)(26005)(6666004)(956004)(8676002)(2906002)(53546011)(31686004)(83380400001)(66946007)(4326008)(6486002)(508600001)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?N1dlY3duSVV0djkvVHV1MzJGeXhoeEI2WEJFaGV1RWk2TnJhWlNtMHZxV0V6?=
- =?utf-8?B?TDl5MS9BMXdXeU1kZU9nTUtIcjZjR05qdUtzRzhTZTFwaS82NjdiVXI2QTcr?=
- =?utf-8?B?ek16RXVpQnNxQnMxR2xlS0g4dUxiZ0ZTUG5sYkliS2MxaWpWMFZHY3VwRWdR?=
- =?utf-8?B?K1E2V09zQ0ZSMnJLVnU5VW1UNjZic1gyL1lYZ3praERGWjRETTJFZzkwQTBB?=
- =?utf-8?B?aUtXSE9nejNKQUNpaHd2VGxlL0hwRmVBLzJNWmtvaWRGNEFPVGpjMFAzY3Iy?=
- =?utf-8?B?bmtGcG9WSkJuWUN4bXpoZEQ0QTRqbkJGVUU2SVVLcC95M0ZhR1lEazMrTGhm?=
- =?utf-8?B?dDg1aW0xSEFISllzd3huYVdtN01uZFhmMjkzOWU3bkhpZFozOGdZZDZvMFc5?=
- =?utf-8?B?U0U0bngzUVo0WmkwcFRPMkNQS1lIU0Rsei9QNW8xcWcrY1VXUWN2T2xrYm1n?=
- =?utf-8?B?a2RjTURWYnlUSkhyeDZrenAyYUhuVk1jTFhDemdPd3VtL01PT1ZPTldCV29C?=
- =?utf-8?B?ZDAyc0VLdisrVXFXTHVnVlh5eFJxQnRhdHhjelZtWmN0c1c4WjBsNDl4UFZH?=
- =?utf-8?B?RXBIempvZ3dlT0hWNno4Q2JmcTk1Z1NWOUZ2dDUxQUFjRzhSV2pxcElkaXhl?=
- =?utf-8?B?anpYTk11V2JyS0J3MDNES3NnM1MycTlmL2d4aEhxdEpoWXlveklOTTN2RnAz?=
- =?utf-8?B?eWY0SGtOY0hBYXowbFRuMkV2UkFyYUtJNFl4cDcrVGdqb005cmtrK0xOYU5z?=
- =?utf-8?B?d0FtSWU0OXNBb2ZpbTVvUzlQWkxmVVZlbVBRVUdXelJHd0JScFBtQ1pON3Bi?=
- =?utf-8?B?cll3MlJOanBDemlobzBXRGFxTjdlRDlhWUpybjh3cytBOG5GUFZWYy8rd2lm?=
- =?utf-8?B?MzBMMlg5dE92MVpQY3dBTU9HR1dKNHV3UVMvOXM3NUErSWJBc09oVVVKU1Iy?=
- =?utf-8?B?ZlVzZktLamllNTVWalZDelAyWWhDRTR1VlRqaDNkR1RaYS9Uc1BZRVlhdVNH?=
- =?utf-8?B?Ynd0QjFOOE16dG1xblQrV1V0RHNpTk1SK3hkc1VabFY1dHMvWEgzcnNGMlpQ?=
- =?utf-8?B?RUpBdnQyelp4eUFhUldLVXllKzJRWmtnYzZXcU1WUHg4WGk2YnhpYnc4dk0z?=
- =?utf-8?B?a1VJV0sxUG95NlZzdkFqSWdUWEhlVHFwNmNyQzV3cGtXbm1kbDVvTHNOY2tp?=
- =?utf-8?B?WDJnb0R3TitLNDRIUUNkTUwvWkhOVnJPYXM1UWlUN2RRYVpwWUUxSnp2YjVD?=
- =?utf-8?B?ZWZ1UFA2Q3R4NEU5YlpuTFJYRlBPSmVFK0Y0MnIySUp6S1BiNkd1UEFTb05E?=
- =?utf-8?B?NFlmamdnU2xUVmZTRkg0RjZlRUlHaUFpb0pjK21PNGdXVE1Ua3hZZW0vWlRS?=
- =?utf-8?B?bjFuYkQwMU5QaXYyMEFlcE13aVI4UVRud3JFcXVDRlpxdVRyQVdxZnp5RlJp?=
- =?utf-8?B?SC93RHh0QlJGYm9DaFpXVWFXMEdRUmliT3VaRDQ1dm12L1F3ekJBc2VWU2tj?=
- =?utf-8?B?NkU4MjJJbHFZajVodXluclNjQk5JRlArc1ZlNmdxVzIrQklFeXFHK0xtS3k3?=
- =?utf-8?B?Y0JCRWNsNU9kR3lyS0EvTEM4MjJDWWw5bGMzRGJkVUVhaThPRDB2cC9qOEh6?=
- =?utf-8?B?UHFzVlA1Skl4eFhBNFZYMThGTHdNeFkyS2pHT1lmbkt5MkNWVklvaHAvUnV0?=
- =?utf-8?B?SkdDZ2lGZEFyY1BhVU9qMnpDNjlmUTVKZS9OcUZWSXhOOGZhTDAvUGQzVE1C?=
- =?utf-8?B?WDh4MktqNDhsdEZBTEJvblJvRFo1aDZFc0tkemZtRFlNOW1wdDJvUmM5NXFo?=
- =?utf-8?B?QTJ1OGlldDZyQmpoV1dyVGxrVlh1SVNlbFZqQnh0RjZldEl6a3JTSGJ5b3dN?=
- =?utf-8?B?SjlpVS9GTTJyQkxmUVZIOVNTTzhDYnU4OWdzc3RRdm1kMXdDeEtRUGhpVFdQ?=
- =?utf-8?B?RUpqRTAxbklwcWtvdVRZYWRpOE5PaVRqYmFLeGpXSW45OHRYZFhWdEZuckRN?=
- =?utf-8?B?TitzZllhZjFQcFpPeTA4QXFJSmVBMy8vNXp1TDduQm4zVEZzN0g1MWxweis5?=
- =?utf-8?B?MUovdy9rZzVHYVZKM3JiQ2xyL3BLM0g4a0ZScldzUkRKZkVaY1hnMDk3VlVS?=
- =?utf-8?B?QVFqSFl0ckVDNVJleDRQd2dMcW1WZWg4QU1jUVF0d3JoNnJONEpGMEQ4RUZx?=
- =?utf-8?Q?/YakxURnzXfi7naJoy6jB/4=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7f0a4e04-a0b1-4394-45a3-08d9aed0ecea
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4342.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Nov 2021 22:31:00.3590 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: xE4fNCXfcK2tFfUyzfaVcvjuzD+CnZideKyAK1NHQLl//NkY6HmCd3etnHffKs12ZkDEnIxKUHvNlpuT047Vmg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4125
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211124024436.v2.4.Ibb71b3c64d6f98d586131a143c27fbdb233260a1@changeid>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -135,232 +70,157 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alexander.deucher@amd.com, tzimmermann@suse.de, christian.koenig@amd.com
+Cc: Sean Paul <sean@poorly.run>,
+ Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>, Linux Patches Robot
+ <linux-patches-robot@chromeos-missing-patches.google.com.iam.gserviceaccount.com>,
+ Jonathan Marek <jonathan@marek.ca>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, Sharat Masetty <smasetty@codeaurora.org>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
+ Jordan Crouse <jordan@cosmicpenguin.net>, Matthias Kaehlcke <mka@chromium.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ St?phane Marchesin <marcheu@chromium.org>, Lee Jones <lee.jones@linaro.org>,
+ Stephen Boyd <swboyd@chromium.org>,
+ freedreno <freedreno@lists.freedesktop.org>, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue 23 Nov 13:17 PST 2021, Akhil P Oommen wrote:
 
-
-On 18/11/21 12:32 am, Matthew Auld wrote:
-> On 16/11/2021 20:18, Arunpravin wrote:
->> On contiguous allocation, we round up the size
->> to the *next* power of 2, implement a function
->> to free the unused pages after the newly allocate block.
->>
->> v2(Matthew Auld):
->>    - replace function name 'drm_buddy_free_unused_pages' with
->>      drm_buddy_block_trim
->>    - replace input argument name 'actual_size' with 'new_size'
->>    - add more validation checks for input arguments
->>    - add overlaps check to avoid needless searching and splitting
->>    - merged the below patch to see the feature in action
->>      - add free unused pages support to i915 driver
->>    - lock drm_buddy_block_trim() function as it calls mark_free/mark_split
->>      are all globally visible
->>
->> Signed-off-by: Arunpravin <Arunpravin.PaneerSelvam@amd.com>
->> ---
->>   drivers/gpu/drm/drm_buddy.c                   | 108 ++++++++++++++++++
->>   drivers/gpu/drm/i915/i915_ttm_buddy_manager.c |  10 ++
->>   include/drm/drm_buddy.h                       |   4 +
->>   3 files changed, 122 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/drm_buddy.c b/drivers/gpu/drm/drm_buddy.c
->> index 0a9db2981188..943fe2ad27bf 100644
->> --- a/drivers/gpu/drm/drm_buddy.c
->> +++ b/drivers/gpu/drm/drm_buddy.c
->> @@ -284,6 +284,114 @@ static inline bool contains(u64 s1, u64 e1, u64 s2, u64 e2)
->>   	return s1 <= s2 && e1 >= e2;
->>   }
->>   
->> +/**
->> + * drm_buddy_block_trim - free unused pages
->> + *
->> + * @mm: DRM buddy manager
->> + * @new_size: original size requested
->> + * @blocks: output list head to add allocated blocks
->> + *
->> + * For contiguous allocation, we round up the size to the nearest
->> + * power of two value, drivers consume *actual* size, so remaining
->> + * portions are unused and it can be freed.
->> + *
->> + * Returns:
->> + * 0 on success, error code on failure.
->> + */
->> +int drm_buddy_block_trim(struct drm_buddy_mm *mm,
->> +			 u64 new_size,
->> +			 struct list_head *blocks)
->> +{
->> +	struct drm_buddy_block *block;
->> +	struct drm_buddy_block *buddy;
->> +	u64 new_start;
->> +	u64 new_end;
->> +	LIST_HEAD(dfs);
->> +	u64 count = 0;
->> +	int err;
->> +
->> +	if (!list_is_singular(blocks))
->> +		return -EINVAL;
->> +
->> +	block = list_first_entry(blocks,
->> +				 struct drm_buddy_block,
->> +				 link);
->> +
->> +	if (!drm_buddy_block_is_allocated(block))
->> +		return -EINVAL;
->> +
->> +	if (new_size > drm_buddy_block_size(mm, block))
->> +		return -EINVAL;
->> +
->> +	if (!new_size && !IS_ALIGNED(new_size, mm->chunk_size))
->> +		return -EINVAL;
->> +
->> +	if (new_size == drm_buddy_block_size(mm, block))
->> +		return 0;
->> +
->> +	list_del(&block->link);
->> +
->> +	new_start = drm_buddy_block_offset(block);
->> +	new_end = new_start + new_size - 1;
->> +
->> +	mark_free(mm, block);
->> +
->> +	list_add(&block->tmp_link, &dfs);
->> +
->> +	do {
->> +		u64 block_start;
->> +		u64 block_end;
->> +
->> +		block = list_first_entry_or_null(&dfs,
->> +						 struct drm_buddy_block,
->> +						 tmp_link);
->> +		if (!block)
->> +			break;
->> +
->> +		list_del(&block->tmp_link);
->> +
->> +		if (count == new_size)
->> +			return 0;
->> +
->> +		block_start = drm_buddy_block_offset(block);
->> +		block_end = block_start + drm_buddy_block_size(mm, block) - 1;
->> +
->> +		if (!overlaps(new_start, new_end, block_start, block_end))
->> +			continue;
->> +
->> +		if (contains(new_start, new_end, block_start, block_end)) {
->> +			BUG_ON(!drm_buddy_block_is_free(block));
->> +
->> +			/* Allocate only required blocks */
->> +			mark_allocated(block);
->> +			mm->avail -= drm_buddy_block_size(mm, block);
->> +			list_add_tail(&block->link, blocks);
->> +			count += drm_buddy_block_size(mm, block);
->> +			continue;
->> +		}
->> +
->> +		if (!drm_buddy_block_is_split(block)) {
+> Capture gmu log in coredump to enhance debugging.
 > 
-> Should always be true, right? But I guess depends if we want to re-use 
-> this for generic range allocation...
-yes, since we re-use this for generic range allocation I think we can
-keep this check
+> Signed-off-by: Akhil P Oommen <akhilpo@codeaurora.org>
+> ---
 > 
->> +			err = split_block(mm, block);
->> +			if (unlikely(err))
->> +				goto err_undo;
->> +		}
->> +
->> +		list_add(&block->right->tmp_link, &dfs);
->> +		list_add(&block->left->tmp_link, &dfs);
->> +	} while (1);
->> +
->> +	return -ENOSPC;
->> +
->> +err_undo:
->> +	buddy = get_buddy(block);
->> +	if (buddy &&
->> +	    (drm_buddy_block_is_free(block) &&
->> +	     drm_buddy_block_is_free(buddy)))
->> +		__drm_buddy_free(mm, block);
->> +	return err;
+> Changes in v2:
+> - Fix kernel test robot's warning about size_t's format specifier
 > 
-> Looking at the split_block failure path. The user allocated some block, 
-> and then tried to trim it, but this then marks it as free and removes it 
-> from their original list(potentially also freeing it), if we fail here. 
-> Would it be better to leave that decision to the user? If the trim() 
-> fails, worse case we get some internal fragmentation, and the user might 
-> be totally fine with that? I guess we could leave as-is, but for sure 
-> needs some big comment somewhere.
-
-Agreed
-
-would it make sense to add a bool type input argument, so that we can
-skip the split_block failure path in case of block_trim().
-
-__alloc_range(mm, &dfs, start, size, ... bool trim)
-
-err = split_block(mm, block);
-if (unlikely(err)) {
-	/* I think we can add big comment here for trim case */
-	if (trim)
-		return err;
-
-goto err_undo;
-}
-
+>  drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c | 41 +++++++++++++++++++++++++++++
+>  drivers/gpu/drm/msm/adreno/adreno_gpu.c     |  2 +-
+>  drivers/gpu/drm/msm/adreno/adreno_gpu.h     |  2 ++
+>  3 files changed, 44 insertions(+), 1 deletion(-)
 > 
->> +}
->> +EXPORT_SYMBOL(drm_buddy_block_trim);
->> +
->>   static struct drm_buddy_block *
->>   alloc_range(struct drm_buddy_mm *mm,
->>   	    u64 start, u64 end,
->> diff --git a/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c b/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
->> index b6ed5b37cf18..5e1f8c443058 100644
->> --- a/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
->> +++ b/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
->> @@ -97,6 +97,16 @@ static int i915_ttm_buddy_man_alloc(struct ttm_resource_manager *man,
->>   	if (unlikely(err))
->>   		goto err_free_blocks;
->>   
->> +	if (place->flags & TTM_PL_FLAG_CONTIGUOUS) {
->> +		mutex_lock(&bman->lock);
->> +		err = drm_buddy_block_trim(mm,
->> +				(u64)n_pages << PAGE_SHIFT,
->> +				&bman_res->blocks);
->> +		mutex_unlock(&bman->lock);
->> +		if (unlikely(err))
->> +			goto err_free_blocks;
-> 
-> Yeah, so maybe we could in theory treat this as best effort? But I guess 
-> unlikely to ever hit this anyway, so meh.
-so I understood that we remove the below 2 lines
-if (unlikely(err))
-	goto err_free_blocks;
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
+> index e8f65cd..e6f5571 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
+> @@ -42,6 +42,8 @@ struct a6xx_gpu_state {
+>  	struct a6xx_gpu_state_obj *cx_debugbus;
+>  	int nr_cx_debugbus;
+>  
+> +	struct msm_gpu_state_bo *gmu_log;
+> +
+>  	struct list_head objs;
+>  };
+>  
+> @@ -800,6 +802,30 @@ static void a6xx_get_gmu_registers(struct msm_gpu *gpu,
+>  		&a6xx_state->gmu_registers[2], false);
+>  }
+>  
+> +static void a6xx_get_gmu_log(struct msm_gpu *gpu,
+> +		struct a6xx_gpu_state *a6xx_state)
+> +{
+> +	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+> +	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
+> +	struct a6xx_gmu *gmu = &a6xx_gpu->gmu;
+> +	struct msm_gpu_state_bo *gmu_log;
+> +
+> +	gmu_log = state_kcalloc(a6xx_state,
+> +		1, sizeof(*a6xx_state->gmu_log));
 
-would it make sense to print a WARN msg
-WARN(err < 0, "Trim failed returning %d for ttm_resource(%llu)\n",
-     err, &bman_res->base);
+This line isn't even 80 chars long, so I see no reason to wrap it and if
+you ran checkpatch --strict on this patch it would complain about how
+you indent that second line as well.
+
+It would also look better with sizeof(*gmu_log), even though they should
+have the same size today...
+
+> +	if (!gmu_log)
+> +		return;
+> +
+> +	gmu_log->iova = gmu->log.iova;
+> +	gmu_log->size = gmu->log.size;
+> +	gmu_log->data = kvzalloc(gmu_log->size, GFP_KERNEL);
+> +	if (!gmu_log->data)
+> +		return;
+> +
+> +	memcpy(gmu_log->data, gmu->log.virt, gmu->log.size);
+> +
+> +	a6xx_state->gmu_log = gmu_log;
+> +}
+> +
+>  #define A6XX_GBIF_REGLIST_SIZE   1
+>  static void a6xx_get_registers(struct msm_gpu *gpu,
+>  		struct a6xx_gpu_state *a6xx_state,
+> @@ -937,6 +963,8 @@ struct msm_gpu_state *a6xx_gpu_state_get(struct msm_gpu *gpu)
+>  
+>  	a6xx_get_gmu_registers(gpu, a6xx_state);
+>  
+> +	a6xx_get_gmu_log(gpu, a6xx_state);
+> +
+>  	/* If GX isn't on the rest of the data isn't going to be accessible */
+>  	if (!a6xx_gmu_gx_is_on(&a6xx_gpu->gmu))
+>  		return &a6xx_state->base;
+> @@ -978,6 +1006,9 @@ static void a6xx_gpu_state_destroy(struct kref *kref)
+>  	struct a6xx_gpu_state *a6xx_state = container_of(state,
+>  			struct a6xx_gpu_state, base);
+>  
+> +	if (a6xx_state->gmu_log && a6xx_state->gmu_log->data)
+> +		kvfree(a6xx_state->gmu_log->data);
+> +
+>  	list_for_each_entry_safe(obj, tmp, &a6xx_state->objs, node)
+>  		kfree(obj);
+>  
+> @@ -1191,6 +1222,16 @@ void a6xx_show(struct msm_gpu *gpu, struct msm_gpu_state *state,
+>  
+>  	adreno_show(gpu, state, p);
+>  
+> +	drm_puts(p, "gmu-log:\n");
+> +	if (a6xx_state->gmu_log) {
+> +		struct msm_gpu_state_bo *gmu_log = a6xx_state->gmu_log;
+> +
+> +		drm_printf(p, "    iova: 0x%016llx\n", gmu_log->iova);
+> +		drm_printf(p, "    size: %zu\n", gmu_log->size);
+> +		adreno_show_object(p, &gmu_log->data, gmu_log->size,
+> +				&gmu_log->encoded);
+> +	}
+> +
+>  	drm_puts(p, "registers:\n");
+>  	for (i = 0; i < a6xx_state->nr_registers; i++) {
+>  		struct a6xx_gpu_state_obj *obj = &a6xx_state->registers[i];
+> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+> index 1539b8e..b43346e 100644
+> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+> @@ -638,7 +638,7 @@ static char *adreno_gpu_ascii85_encode(u32 *src, size_t len)
+>  }
+>  
+>  /* len is expected to be in bytes */
+> -static void adreno_show_object(struct drm_printer *p, void **ptr, int len,
+> +void adreno_show_object(struct drm_printer *p, void **ptr, int len,
+>  		bool *encoded)
+
+Please indent your broken lines by the ( on the line before.
+
+Regards,
+Bjorn
+
+>  {
+>  	if (!*ptr || !len)
+> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+> index 225c277..6762308 100644
+> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+> @@ -306,6 +306,8 @@ void adreno_gpu_state_destroy(struct msm_gpu_state *state);
+>  
+>  int adreno_gpu_state_get(struct msm_gpu *gpu, struct msm_gpu_state *state);
+>  int adreno_gpu_state_put(struct msm_gpu_state *state);
+> +void adreno_show_object(struct drm_printer *p, void **ptr, int len,
+> +		bool *encoded);
+>  
+>  /*
+>   * Common helper function to initialize the default address space for arm-smmu
+> -- 
+> QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
+> of Code Aurora Forum, hosted by The Linux Foundation.
 > 
->> +	}
->> +
->>   	*res = &bman_res->base;
->>   	return 0;
->>   
->> diff --git a/include/drm/drm_buddy.h b/include/drm/drm_buddy.h
->> index cbe5e648440a..36e8f548acf7 100644
->> --- a/include/drm/drm_buddy.h
->> +++ b/include/drm/drm_buddy.h
->> @@ -145,6 +145,10 @@ int drm_buddy_alloc(struct drm_buddy_mm *mm,
->>   		    struct list_head *blocks,
->>   		    unsigned long flags);
->>   
->> +int drm_buddy_block_trim(struct drm_buddy_mm *mm,
->> +			 u64 new_size,
->> +			 struct list_head *blocks);
->> +
->>   void drm_buddy_free(struct drm_buddy_mm *mm, struct drm_buddy_block *block);
->>   
->>   void drm_buddy_free_list(struct drm_buddy_mm *mm, struct list_head *objects);
->>
