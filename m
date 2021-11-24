@@ -1,42 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CC8B45C84A
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Nov 2021 16:08:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E28645C84C
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Nov 2021 16:09:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D97D96E979;
-	Wed, 24 Nov 2021 15:08:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF65B6E9DD;
+	Wed, 24 Nov 2021 15:09:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asav21.altibox.net (asav21.altibox.net [109.247.116.8])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2761F6E94A
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Nov 2021 15:08:25 +0000 (UTC)
-Received: from localhost.localdomain (211.81-166-168.customer.lyse.net
- [81.166.168.211])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: noralf.tronnes@ebnett.no)
- by asav21.altibox.net (Postfix) with ESMTPSA id 729158016E;
- Wed, 24 Nov 2021 16:08:22 +0100 (CET)
-From: =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>
-To: robh+dt@kernel.org,
-	david@lechnology.com
-Subject: [PATCH 6/6] drm: tiny: st7735r: Support DT initialization of
- controller
-Date: Wed, 24 Nov 2021 16:07:57 +0100
-Message-Id: <20211124150757.17929-7-noralf@tronnes.org>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20211124150757.17929-1-noralf@tronnes.org>
-References: <20211124150757.17929-1-noralf@tronnes.org>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EAD1A6E9D7;
+ Wed, 24 Nov 2021 15:09:11 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10178"; a="298698319"
+X-IronPort-AV: E=Sophos;i="5.87,260,1631602800"; d="scan'208";a="298698319"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Nov 2021 07:09:11 -0800
+X-IronPort-AV: E=Sophos;i="5.87,260,1631602800"; d="scan'208";a="509904302"
+Received: from kkarvas-mobl1.amr.corp.intel.com (HELO intel.com)
+ ([10.255.34.182])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Nov 2021 07:09:10 -0800
+Date: Wed, 24 Nov 2021 10:09:08 -0500
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Subject: Re: [Intel-gfx] [PATCH 1/3] drm/i915/gt: Spread virtual engines over
+ idle engines
+Message-ID: <YZ5VlB5NHKNg51S/@intel.com>
+References: <20211117224955.28999-1-vinay.belgaumkar@intel.com>
+ <20211117224955.28999-2-vinay.belgaumkar@intel.com>
+ <6e19db61-dee6-f012-9dd4-b8ef455509e7@linux.intel.com>
+ <YZ1GcMR6C6YN9szK@intel.com>
+ <b1cc5b51-d8cb-6500-021a-2505fa1e0350@linux.intel.com>
+ <YZ5EW6laGv3zlBj7@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=ZLv5Z0zb c=1 sm=1 tr=0
- a=OYZzhG0JTxDrWp/F2OJbnw==:117 a=OYZzhG0JTxDrWp/F2OJbnw==:17
- a=IkcTkHD0fZMA:10 a=M51BFTxLslgA:10 a=SJz97ENfAAAA:8
- a=Rv4-UE-PrmLv3P_qtPAA:9 a=QEXdDO2ut3YA:10 a=vFet0B0WnEQeilDPIY6i:22
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YZ5EW6laGv3zlBj7@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,163 +50,229 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
- dave.stevenson@raspberrypi.com, linux-staging@lists.linux.dev,
- dri-devel@lists.freedesktop.org,
- =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>, maxime@cerno.tech
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Chris Wilson <chris@chris-wilson.co.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for initializing the controller from device properties when
-the compatible is "sitronix,st7735r".
+On Wed, Nov 24, 2021 at 08:55:39AM -0500, Rodrigo Vivi wrote:
+> On Wed, Nov 24, 2021 at 08:56:52AM +0000, Tvrtko Ursulin wrote:
+> > 
+> > On 23/11/2021 19:52, Rodrigo Vivi wrote:
+> > > On Tue, Nov 23, 2021 at 09:39:25AM +0000, Tvrtko Ursulin wrote:
+> > > > 
+> > > > On 17/11/2021 22:49, Vinay Belgaumkar wrote:
+> > > > > From: Chris Wilson <chris@chris-wilson.co.uk>
+> > > > > 
+> > > > > Everytime we come to the end of a virtual engine's context, re-randomise
+> > > > > it's siblings[]. As we schedule the siblings' tasklets in the order they
+> > > > > are in the array, earlier entries are executed first (when idle) and so
+> > > > > will be preferred when scheduling the next virtual request. Currently,
+> > > > > we only update the array when switching onto a new idle engine, so we
+> > > > > prefer to stick on the last execute engine, keeping the work compact.
+> > > > > However, it can be beneficial to spread the work out across idle
+> > > > > engines, so choose another sibling as our preferred target at the end of
+> > > > > the context's execution.
+> > > > 
+> > > > This partially brings back, from a different angle, the more dynamic
+> > > > scheduling behavior which has been lost since bugfix 90a987205c6c
+> > > > ("drm/i915/gt: Only swap to a random sibling once upon creation").
+> > > 
+> > > Shouldn't we use the Fixes tag here since this is targeting to fix one
+> > > of the performance regressions of this patch?
+> > 
+> > Probably not but hard to say. Note that it wasn't a performance regression
+> > that was reported but power.
+> > 
+> > And to go back to what we said elsewhere in the thread, I am actually with
+> > you in thinking that in the ideal world we need PnP testing across a variety
+> > of workloads and platforms. And "in the ideal world" should really be in the
+> > normal world. It is not professional to be reactive to isolated bug reports
+> > from users, without being able to see the overall picture.
+> 
+> We surely need to address the bug report from users. I'm just asking to address
+> that with the smallest fix that we can backport and fit to the products milestones.
+> 
+> Instead, we are creating another optimization feature on a rush. Without a proper
+> validation.
+> 
+> I believe it is too risk to add an algorithm like that without a broader test.
+> I see a big risk of introducing corner cases that will results in more bug report
+> from other users in a near future.
+> 
+> So, let's all be professionals and provide a smaller fix for a regression on
+> the load balancing scenario and provide a better validation with more data
+> to justify this new feature.
 
-The rotation property does not apply in this case since a matching
-ADDRESS_MODE/madctl value is necessary.
+Okay, after more IRC discussions I see that patch 2 is also part of the solution
+and probably safe.
 
-Signed-off-by: Noralf Trønnes <noralf@tronnes.org>
----
- drivers/gpu/drm/tiny/st7735r.c | 87 +++++++++++++++++++++++++++++-----
- 1 file changed, 75 insertions(+), 12 deletions(-)
+Let me be clear that my biggest complain and the risk is with race-to-idle in
+patch 3 on trying to predict the rc6 behavior and increasing the freq to try to
+complete job faster and then get to rc6 faster... That one would need a lot
+more validation.
 
-diff --git a/drivers/gpu/drm/tiny/st7735r.c b/drivers/gpu/drm/tiny/st7735r.c
-index fc40dd10efa8..7f4d880b8702 100644
---- a/drivers/gpu/drm/tiny/st7735r.c
-+++ b/drivers/gpu/drm/tiny/st7735r.c
-@@ -58,6 +58,52 @@ struct st7735r_priv {
- static void st7735r_pipe_enable(struct drm_simple_display_pipe *pipe,
- 				struct drm_crtc_state *crtc_state,
- 				struct drm_plane_state *plane_state)
-+{
-+	struct mipi_dbi_dev *dbidev = drm_to_mipi_dbi_dev(pipe->crtc.dev);
-+	struct mipi_dbi *dbi = &dbidev->dbi;
-+	int ret, idx;
-+
-+	if (!drm_dev_enter(pipe->crtc.dev, &idx))
-+		return;
-+
-+	DRM_DEBUG_KMS("\n");
-+
-+	ret = mipi_dbi_poweron_conditional_reset(dbidev);
-+	if (ret < 0)
-+		goto out_exit;
-+	if (ret == 1)
-+		goto out_enable;
-+
-+	mipi_dbi_command(dbi, MIPI_DCS_EXIT_SLEEP_MODE);
-+	msleep(120);
-+
-+	mipi_dbi_command_from_property(dbi, ST7735R_FRMCTR1, "frmctr1", 3);
-+	mipi_dbi_command_from_property(dbi, ST7735R_INVCTR,  "invctr", 1);
-+	mipi_dbi_command_from_property(dbi, ST7735R_PWCTR1,  "pwctr1", 3);
-+	mipi_dbi_command_from_property(dbi, ST7735R_PWCTR2,  "pwctr2", 1);
-+	mipi_dbi_command_from_property(dbi, ST7735R_PWCTR3,  "pwctr3", 2);
-+	mipi_dbi_command_from_property(dbi, ST7735R_VMCTR1,  "vmctr1", 1);
-+	mipi_dbi_command_from_property(dbi, MIPI_DCS_SET_ADDRESS_MODE, "madctl", 1);
-+	mipi_dbi_command(dbi, MIPI_DCS_SET_PIXEL_FORMAT, MIPI_DCS_PIXEL_FMT_16BIT);
-+	mipi_dbi_command_from_property(dbi, ST7735R_GAMCTRP1, "gamctrp1", 16);
-+	mipi_dbi_command_from_property(dbi, ST7735R_GAMCTRN1, "gamctrn1", 16);
-+
-+	mipi_dbi_command(dbi, MIPI_DCS_SET_DISPLAY_ON);
-+out_enable:
-+	mipi_dbi_enable_flush(dbidev, crtc_state, plane_state);
-+out_exit:
-+	drm_dev_exit(idx);
-+}
-+
-+static const struct drm_simple_display_pipe_funcs st7735r_pipe_funcs = {
-+	.enable		= st7735r_pipe_enable,
-+	.disable	= mipi_dbi_pipe_disable,
-+	.update		= mipi_dbi_pipe_update,
-+};
-+
-+static void jd_t18003_t01_pipe_enable(struct drm_simple_display_pipe *pipe,
-+				      struct drm_crtc_state *crtc_state,
-+				      struct drm_plane_state *plane_state)
- {
- 	struct mipi_dbi_dev *dbidev = drm_to_mipi_dbi_dev(pipe->crtc.dev);
- 	struct st7735r_priv *priv = container_of(dbidev, struct st7735r_priv,
-@@ -132,8 +178,8 @@ static void st7735r_pipe_enable(struct drm_simple_display_pipe *pipe,
- 	drm_dev_exit(idx);
- }
- 
--static const struct drm_simple_display_pipe_funcs st7735r_pipe_funcs = {
--	.enable		= st7735r_pipe_enable,
-+static const struct drm_simple_display_pipe_funcs jd_t18003_t01_pipe_funcs = {
-+	.enable		= jd_t18003_t01_pipe_enable,
- 	.disable	= mipi_dbi_pipe_disable,
- 	.update		= mipi_dbi_pipe_update,
- };
-@@ -168,6 +214,7 @@ static const struct drm_driver st7735r_driver = {
- static const struct of_device_id st7735r_of_match[] = {
- 	{ .compatible = "jianda,jd-t18003-t01", .data = &jd_t18003_t01_cfg },
- 	{ .compatible = "okaya,rh128128t", .data = &rh128128t_cfg },
-+	{ .compatible = "sitronix,st7735r" },
- 	{ },
- };
- MODULE_DEVICE_TABLE(of, st7735r_of_match);
-@@ -180,6 +227,9 @@ MODULE_DEVICE_TABLE(spi, st7735r_id);
- 
- static int st7735r_probe(struct spi_device *spi)
- {
-+	const struct drm_simple_display_pipe_funcs *funcs;
-+	const struct drm_display_mode *mode;
-+	struct drm_display_mode dt_mode;
- 	struct device *dev = &spi->dev;
- 	const struct st7735r_cfg *cfg;
- 	struct mipi_dbi_dev *dbidev;
-@@ -191,8 +241,12 @@ static int st7735r_probe(struct spi_device *spi)
- 	int ret;
- 
- 	cfg = device_get_match_data(&spi->dev);
--	if (!cfg)
--		cfg = (void *)spi_get_device_id(spi)->driver_data;
-+	if (!cfg) {
-+		const struct spi_device_id *spi_id = spi_get_device_id(spi);
-+
-+		if (spi_id)
-+			cfg = (struct st7735r_cfg *)spi_id->driver_data;
-+	}
- 
- 	priv = devm_drm_dev_alloc(dev, &st7735r_driver,
- 				  struct st7735r_priv, dbidev.drm);
-@@ -217,20 +271,29 @@ static int st7735r_probe(struct spi_device *spi)
- 	if (IS_ERR(dbidev->backlight))
- 		return PTR_ERR(dbidev->backlight);
- 
--	device_property_read_u32(dev, "rotation", &rotation);
--
- 	ret = mipi_dbi_spi_init(spi, dbi, dc);
- 	if (ret)
- 		return ret;
- 
--	if (cfg->write_only)
--		dbi->read_commands = NULL;
-+	if (cfg) {
-+		device_property_read_u32(dev, "rotation", &rotation);
- 
--	dbidev->left_offset = cfg->left_offset;
--	dbidev->top_offset = cfg->top_offset;
-+		mode = &cfg->mode;
-+		funcs = &jd_t18003_t01_pipe_funcs;
-+		dbidev->left_offset = cfg->left_offset;
-+		dbidev->top_offset = cfg->top_offset;
-+	} else {
-+		ret = mipi_dbi_read_device_properties(dbidev, &dt_mode);
-+		if (ret)
-+			return ret;
- 
--	ret = mipi_dbi_dev_init(dbidev, &st7735r_pipe_funcs, &cfg->mode,
--				rotation);
-+		mode = &dt_mode;
-+		funcs = &st7735r_pipe_funcs;
-+	}
-+
-+	mipi_dbi_set_writeonly(dbi, cfg ? cfg->write_only : false);
-+
-+	ret = mipi_dbi_dev_init(dbidev, funcs, mode, rotation);
- 	if (ret)
- 		return ret;
- 
--- 
-2.33.0
-
+> 
+> Thanks,
+> Rodrigo.
+> 
+> > 
+> > > > One day we could experiment with using engine busyness as criteria (instead
+> > > > of random). Back in the day busyness was kind of the best strategy, although
+> > > > sampled at submit, not at the trailing edge like here, but it still may be
+> > > > able to settle down to engine configuration better in some scenarios. Only
+> > > > testing could say.
+> > > > 
+> > > > Still, from memory random also wasn't that bad so this should be okay for
+> > > > now.
+> > > > 
+> > > > Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> > > 
+> > > Since you reviewed and it looks to be a middle ground point in terms
+> > > of when to balancing (always like in the initial implementation vs
+> > > only once like the in 90a987205c6c).
+> > > 
+> > > If this one is really fixing the regression by itself:
+> > > Acked-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> > > on this patch here.
+> > > 
+> > > But I still don't want to take the risk with touching the freq with
+> > > race to idle, until not convinced that it is absolutely needed and
+> > > that we are not breaking the world out there.
+> > 
+> > Yes agreed in principle, we have users with different priorities.
+> > 
+> > However the RPS patches in the series, definitely the 1st one which looks at
+> > classes versus individual engines, sound plausible to me. Given the absence
+> > of automated PnP testing mentioned above, in the past it was usually Chris
+> > who was making the above and beyond effort to evaluate changes like these on
+> > as many platforms as he could, and with different workloads. Not sure who
+> > has the mandate and drive to fill that space but something will need to
+> > happen.
+> > 
+> > Regards,
+> > 
+> > Tvrtko
+> > 
+> > > > 
+> > > > Regards,
+> > > > 
+> > > > Tvrtko
+> > > > 
+> > > > > Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
+> > > > > Cc: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+> > > > > Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+> > > > > ---
+> > > > >    .../drm/i915/gt/intel_execlists_submission.c  | 80 ++++++++++++-------
+> > > > >    1 file changed, 52 insertions(+), 28 deletions(-)
+> > > > > 
+> > > > > diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> > > > > index ca03880fa7e4..b95bbc8fb91a 100644
+> > > > > --- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> > > > > +++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> > > > > @@ -539,6 +539,41 @@ static void execlists_schedule_in(struct i915_request *rq, int idx)
+> > > > >    	GEM_BUG_ON(intel_context_inflight(ce) != rq->engine);
+> > > > >    }
+> > > > > +static void virtual_xfer_context(struct virtual_engine *ve,
+> > > > > +				 struct intel_engine_cs *engine)
+> > > > > +{
+> > > > > +	unsigned int n;
+> > > > > +
+> > > > > +	if (likely(engine == ve->siblings[0]))
+> > > > > +		return;
+> > > > > +
+> > > > > +	if (!intel_engine_has_relative_mmio(engine))
+> > > > > +		lrc_update_offsets(&ve->context, engine);
+> > > > > +
+> > > > > +	/*
+> > > > > +	 * Move the bound engine to the top of the list for
+> > > > > +	 * future execution. We then kick this tasklet first
+> > > > > +	 * before checking others, so that we preferentially
+> > > > > +	 * reuse this set of bound registers.
+> > > > > +	 */
+> > > > > +	for (n = 1; n < ve->num_siblings; n++) {
+> > > > > +		if (ve->siblings[n] == engine) {
+> > > > > +			swap(ve->siblings[n], ve->siblings[0]);
+> > > > > +			break;
+> > > > > +		}
+> > > > > +	}
+> > > > > +}
+> > > > > +
+> > > > > +static int ve_random_sibling(struct virtual_engine *ve)
+> > > > > +{
+> > > > > +	return prandom_u32_max(ve->num_siblings);
+> > > > > +}
+> > > > > +
+> > > > > +static int ve_random_other_sibling(struct virtual_engine *ve)
+> > > > > +{
+> > > > > +	return 1 + prandom_u32_max(ve->num_siblings - 1);
+> > > > > +}
+> > > > > +
+> > > > >    static void
+> > > > >    resubmit_virtual_request(struct i915_request *rq, struct virtual_engine *ve)
+> > > > >    {
+> > > > > @@ -578,8 +613,23 @@ static void kick_siblings(struct i915_request *rq, struct intel_context *ce)
+> > > > >    	    rq->execution_mask != engine->mask)
+> > > > >    		resubmit_virtual_request(rq, ve);
+> > > > > -	if (READ_ONCE(ve->request))
+> > > > > +	/*
+> > > > > +	 * Reschedule with a new "preferred" sibling.
+> > > > > +	 *
+> > > > > +	 * The tasklets are executed in the order of ve->siblings[], so
+> > > > > +	 * siblings[0] receives preferrential treatment of greedily checking
+> > > > > +	 * for execution of the virtual engine. At this point, the virtual
+> > > > > +	 * engine is no longer in the current GPU cache due to idleness or
+> > > > > +	 * contention, so it can be executed on any without penalty. We
+> > > > > +	 * re-randomise at this point in order to spread light loads across
+> > > > > +	 * the system, heavy overlapping loads will continue to be greedily
+> > > > > +	 * executed by the first available engine.
+> > > > > +	 */
+> > > > > +	if (READ_ONCE(ve->request)) {
+> > > > > +		virtual_xfer_context(ve,
+> > > > > +				     ve->siblings[ve_random_other_sibling(ve)]);
+> > > > >    		tasklet_hi_schedule(&ve->base.sched_engine->tasklet);
+> > > > > +	}
+> > > > >    }
+> > > > >    static void __execlists_schedule_out(struct i915_request * const rq,
+> > > > > @@ -1030,32 +1080,6 @@ first_virtual_engine(struct intel_engine_cs *engine)
+> > > > >    	return NULL;
+> > > > >    }
+> > > > > -static void virtual_xfer_context(struct virtual_engine *ve,
+> > > > > -				 struct intel_engine_cs *engine)
+> > > > > -{
+> > > > > -	unsigned int n;
+> > > > > -
+> > > > > -	if (likely(engine == ve->siblings[0]))
+> > > > > -		return;
+> > > > > -
+> > > > > -	GEM_BUG_ON(READ_ONCE(ve->context.inflight));
+> > > > > -	if (!intel_engine_has_relative_mmio(engine))
+> > > > > -		lrc_update_offsets(&ve->context, engine);
+> > > > > -
+> > > > > -	/*
+> > > > > -	 * Move the bound engine to the top of the list for
+> > > > > -	 * future execution. We then kick this tasklet first
+> > > > > -	 * before checking others, so that we preferentially
+> > > > > -	 * reuse this set of bound registers.
+> > > > > -	 */
+> > > > > -	for (n = 1; n < ve->num_siblings; n++) {
+> > > > > -		if (ve->siblings[n] == engine) {
+> > > > > -			swap(ve->siblings[n], ve->siblings[0]);
+> > > > > -			break;
+> > > > > -		}
+> > > > > -	}
+> > > > > -}
+> > > > > -
+> > > > >    static void defer_request(struct i915_request *rq, struct list_head * const pl)
+> > > > >    {
+> > > > >    	LIST_HEAD(list);
+> > > > > @@ -3590,7 +3614,7 @@ static void virtual_engine_initial_hint(struct virtual_engine *ve)
+> > > > >    	 * NB This does not force us to execute on this engine, it will just
+> > > > >    	 * typically be the first we inspect for submission.
+> > > > >    	 */
+> > > > > -	swp = prandom_u32_max(ve->num_siblings);
+> > > > > +	swp = ve_random_sibling(ve);
+> > > > >    	if (swp)
+> > > > >    		swap(ve->siblings[swp], ve->siblings[0]);
+> > > > >    }
+> > > > > 
