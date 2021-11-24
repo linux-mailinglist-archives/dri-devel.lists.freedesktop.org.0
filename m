@@ -1,57 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96BD145BDEF
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Nov 2021 13:40:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 343F745BE62
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Nov 2021 13:44:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C2FE46E328;
-	Wed, 24 Nov 2021 12:39:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 102006E237;
+	Wed, 24 Nov 2021 12:44:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com
- [IPv6:2607:f8b0:4864:20::1032])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4357C6E0D5
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Nov 2021 12:39:56 +0000 (UTC)
-Received: by mail-pj1-x1032.google.com with SMTP id gt5so2453861pjb.1
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Nov 2021 04:39:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=lMFICmq1b+/JqHXnwVNpy/lNHjIXGz9n5dRmdIrsjj4=;
- b=BWH1E2DUIhqLlVJHGrhMUVKBs2n/zeDD5VZuPP0uGwx0Zq+LEMVtgXS7oF3eSxyv9+
- VHsRneraaYkRPuxjFq2y6gvkaWBpTsnQk5vY/1pkDTgccpvxdeduG6bIZ5qqqzUVN5A8
- /2pgwJt0+NjD9cveA4naQJ0xa32z2VngFdC8hfHSOSNVu4m8ugmTdge3Zq9pdpeqFz/+
- ckX8Qzmb40/v9+ueRLKN4zCIhhMJxz48O/UpVnCp5BWz1GWoKmgIXIfFyZBCKmgpzBZC
- JxGwt8B3ucwMwcGGkjlpBcWGsHqMQyc/W0lEKnDfAbGxlF97xXeS9coOTdO31vwfIzDY
- /4Wg==
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
+ [IPv6:2a00:1450:4864:20::330])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 76C7F6E0F1
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Nov 2021 12:44:34 +0000 (UTC)
+Received: by mail-wm1-x330.google.com with SMTP id 137so2231997wma.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Nov 2021 04:44:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=gt95bCWbQrZOXbyG8sZ0s+drlAi3C3oxlCKpwir1aWU=;
+ b=GrcPdZlouP1GwuYCIk/OZA0aTPYLl9cQT+L4ROzPRDK3BuEVvWeuM7K906VWr8LCPB
+ raSxe0rAkA/kCQL9yM13+tZDjtxZVFpW6Pdi1/9iE2ShnaVgpcYlEXf7FFiAV0GiqaRb
+ sboeMMmEHnFRBjXZ1N2xxSARitI8O+cEVFOb2htrLp3y6IyaDWDYCh2FGP97Xc8E+HVA
+ JN6neWs8hitTlNqCCKdil98s3iyMY9o+O7LO8mk/6orER21Cf2uMdEoF7wbDfb1x6K9f
+ cWSplymQxHfVIxYyKXDtLnMRDsgyumLBxHjeQCQR1tCdX2/Z/RPJc9HTxLZCMKLdd53j
+ +TOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=lMFICmq1b+/JqHXnwVNpy/lNHjIXGz9n5dRmdIrsjj4=;
- b=zl47QVPkbTONPykoXphFI+URSjsrHoZ1VWY6Pr8ITwrjkZWVjBlMbIJO6DmyNBS8BK
- v00WYbcy0ygbbGv2Zads6wQZGyxaMCLNR/kzUQl7mr7FMgrFzHOMwU5NDC9uoPAFzu6K
- 5lQ3PG6yDmcEPOhR6lunvffOjI2XEhr7KY/oOzzTtRPCYF6nb+q+pEH6nn6IUpFj9W/y
- EQQu0N6UQ6kgh4lqJ7A1+MGmVqhu44tzkJ9h4oZsVXxy1+LlEBTY4oq5xiCwHG+vEt0f
- YmiunytdTBOpVsnbFaon4uJgJ18BpQg3CrQwqZE6BdIpO/MGo32u56msj6GFjOsVQQtb
- a7IA==
-X-Gm-Message-State: AOAM5338dEwfJxCB/mWohgQL8Glp87SNHC39Wz6esskMrd0/SZt1lXJH
- 9eZ3pT+/qbtJ6zT0RnW5deFKEjdfk7HeiqTBVVM96jFI4z4=
-X-Google-Smtp-Source: ABdhPJyDLVIppheFrvbGjpHZVBjEkgj1stb+v8Y6ldPVozNLNACR1bfimZTh8WnjRo77xRtzdL9Z0DU7pTOxDlcd5Sk=
-X-Received: by 2002:a17:902:d505:b0:141:f5f7:848e with SMTP id
- b5-20020a170902d50500b00141f5f7848emr18120813plg.72.1637757595783; Wed, 24
- Nov 2021 04:39:55 -0800 (PST)
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=gt95bCWbQrZOXbyG8sZ0s+drlAi3C3oxlCKpwir1aWU=;
+ b=p8Qj7NUYenrsJgiSdq1b+YTNODzPhoCz7CzQXOmDA+cUOCdJjaMePDbxbjN96hplbx
+ JQLnMRK4ihPEMek1BUsGsVE/mC7saip1Hz4URHoa4U4Uel6A55U6vo8qGHxguvm4EsiS
+ ILXPmmHh4GPVy6E6lfB8CphaFS55Gq3eUqhMfS7NwpK3R+LmGpg0Wi+eaB9016sbKbnT
+ Lw3gqYuQf+jm5TogfQhOCor8WV2hWjxsUWqd9MAdWGX//uiBjk8M2H6p0xOCyT//VyN8
+ 0Z/KPIzeMn/2aRsQgKv7IBj1pAN0+I2HNDHt/wPFbSWhY927hp3piCnDZEGZ1//WgSYg
+ I8QA==
+X-Gm-Message-State: AOAM532+cMnG/Mq43BhZMJFEgek4u+FzMzfri+8lo1lexeNkOxj1YqrB
+ g6Cm+cSR88jVwADcAx+Ufv4=
+X-Google-Smtp-Source: ABdhPJzjX4IywVOA9OOqUIt1Q83qcyi5pimOch6/7W9SwYMr2YL6714o1KCgcWmVqCzfCjjZnGwHlg==
+X-Received: by 2002:a05:600c:4ed2:: with SMTP id
+ g18mr15095916wmq.122.1637757873012; 
+ Wed, 24 Nov 2021 04:44:33 -0800 (PST)
+Received: from abel.fritz.box (p57b0b77b.dip0.t-ipconnect.de. [87.176.183.123])
+ by smtp.gmail.com with ESMTPSA id 38sm15583145wrc.1.2021.11.24.04.44.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 24 Nov 2021 04:44:32 -0800 (PST)
+From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>
+To: daniel@ffwll.ch, thomas.hellstrom@linux.intel.com, ray.huang@amd.com,
+ dri-devel@lists.freedesktop.org
+Subject: drm/ttm: moving the LRU into the resource
+Date: Wed, 24 Nov 2021 13:44:18 +0100
+Message-Id: <20211124124430.20859-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20211118193002.407168-1-hsinyi@chromium.org>
- <20211119015453.GB3823948@anxtwsw-Precision-3640-Tower>
-In-Reply-To: <20211119015453.GB3823948@anxtwsw-Precision-3640-Tower>
-From: Robert Foss <robert.foss@linaro.org>
-Date: Wed, 24 Nov 2021 13:39:44 +0100
-Message-ID: <CAG3jFytd0PXYNB_2NUcyr2pD1xJ-YJkDSqiSivbiPStV0s_qtw@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/bridge: anx7625: Fix edid_read break case in
- sp_tx_edid_read()
-To: Xin Ji <xji@analogixsemi.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,61 +70,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Pi-Hsun Shih <pihsun@chromium.org>, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Neil Armstrong <narmstrong@baylibre.com>, linux-kernel@vger.kernel.org,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Andrzej Hajda <a.hajda@samsung.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Hsin-Yi Wang <hsinyi@chromium.org>, Sam Ravnborg <sam@ravnborg.org>,
- linux@roeck-us.net
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 19 Nov 2021 at 02:55, Xin Ji <xji@analogixsemi.com> wrote:
->
-> On Fri, Nov 19, 2021 at 03:30:02AM +0800, Hsin-Yi Wang wrote:
-> > edid_read() was assumed to return 0 on success. After
-> > 7f16d0f3b8e2("drm/bridge: anx7625: Propagate errors from sp_tx_rst_aux()"),
-> > the function will return > 0 for successful case, representing the i2c
-> > read bytes. Otherwise -EIO on failure cases. Update the g_edid_break
-> > break condition accordingly.
-> Hi Hsin-Yi, thanks for the patch!
-> Reviewed-by: Xin Ji <xji@analogixsemi.com>
-> >
-> > Fixes: 7f16d0f3b8e2("drm/bridge: anx7625: Propagate errors from sp_tx_rst_aux()")
-> > Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
-> > Reviewed-by: Robert Foss <robert.foss@linaro.org>
-> > ---
-> > v2: Fix type error.
-> > ---
-> >  drivers/gpu/drm/bridge/analogix/anx7625.c | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
-> > index 1a871f6b6822ee..3a18f1dabcfd51 100644
-> > --- a/drivers/gpu/drm/bridge/analogix/anx7625.c
-> > +++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
-> > @@ -795,7 +795,7 @@ static int sp_tx_edid_read(struct anx7625_data *ctx,
-> >       int count, blocks_num;
-> >       u8 pblock_buf[MAX_DPCD_BUFFER_SIZE];
-> >       u8 i, j;
-> > -     u8 g_edid_break = 0;
-> > +     int g_edid_break = 0;
-> >       int ret;
-> >       struct device *dev = &ctx->client->dev;
-> >
-> > @@ -826,7 +826,7 @@ static int sp_tx_edid_read(struct anx7625_data *ctx,
-> >                               g_edid_break = edid_read(ctx, offset,
-> >                                                        pblock_buf);
-> >
-> > -                             if (g_edid_break)
-> > +                             if (g_edid_break < 0)
-> >                                       break;
-> >
-> >                               memcpy(&pedid_blocks_buf[offset],
-> > --
+Hi guys,
 
-Fixed commit id syntax of commit message in order to make checkpatch
---strict happy.
+I've already send out this patch set a couple of times.
 
-Applied to drm-misc-next.
+This fixes the fundamental problem in TTM that during a move a buffer
+has resources allocated from two different domains at the same time.
+
+Additional to that it's a prerequisite to remove ghost objects and
+allow to allocate multiple resources per BO.
+
+I should have fixed all previous review comments as far as I can see,
+but probably better to take another look.
+
+Regards,
+Christian.
+
+
