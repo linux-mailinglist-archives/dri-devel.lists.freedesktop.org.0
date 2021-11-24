@@ -1,63 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9127945C8EA
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Nov 2021 16:40:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DCE245C8EE
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Nov 2021 16:41:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 807726E56D;
-	Wed, 24 Nov 2021 15:40:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C4416E487;
+	Wed, 24 Nov 2021 15:40:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
- [IPv6:2a00:1450:4864:20::12e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A0CA6E487
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Nov 2021 15:40:35 +0000 (UTC)
-Received: by mail-lf1-x12e.google.com with SMTP id b1so8232381lfs.13
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Nov 2021 07:40:35 -0800 (PST)
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
+ [IPv6:2a00:1450:4864:20::131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E66FA6E487
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Nov 2021 15:40:56 +0000 (UTC)
+Received: by mail-lf1-x131.google.com with SMTP id n12so8394314lfe.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Nov 2021 07:40:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=MRHSK8zabRFIynpw4+uy7/MG4Xk6F7PWDEFcamsYRYU=;
- b=TugcSYnHV39SipEpIZX0+YVXT2YzASAzsk9uWYPrM41qixYEvcCzmp12Z8+OLFznPr
- dkNfO3y312qdyv88H0pBptv570nvbk+cekRIfAz342IShomnUqYoAwfPG+G6FJRWYKcm
- NA26AiIcR3TOf8Jty7f3CM9fL7ar42Q9fFwww4ZnCOaoVcYFJMdue1AcWegLuNp+5GP8
- A08ZIsnq7EGPANchlly0T+hDY2ZBgAIflrZR0cb4/BxfBW63PXDIm0g0PZ9xMu/0120w
- 1jbwW8KFcWn1KcPq2kymAJo7cb9PxrwRFTZQoNyymOfebPw7U2qxg8dMjBnWGV+Hi5/9
- lYKQ==
+ bh=ct6e7raFIfJnrSO6761xJZnYXxwRFHc4ll3Hg+6j23I=;
+ b=e0yHJ/2cNOU3Q3MfWPzshVL3y7RJLzdbpY4Yj+RpFFz1fDpiXxQluXirFlbwhU3AoL
+ LVDrhitfuMA5B66OAp9IwH/ojRHJBOjennAQ8zrqdPgbMFJ52B8cC9ga1TQmmthvpOVZ
+ MFoJc6/TEvuPGnZq4aZLE2dsHo23kljpgjziZqw5nNvOzDh3DfnZBCZfXpcHtF4Dah8U
+ N8Pv3NRO9Of1qO9LfV5+1mS88mATRCza4D2IoJxCUg+0BPp3Fojfl3KBqyZ0UkKUUr2J
+ Mb9cuagPbjF966Q0rpqWMk+axlEo41sjHRYwXsoOm+fyLiknITXQWjrXyDi3mSVIm+ho
+ uhYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=MRHSK8zabRFIynpw4+uy7/MG4Xk6F7PWDEFcamsYRYU=;
- b=Lko0QrRPvWjot6xLTEoK/HZd+JvFM60QVYP9yaL9HZN1oLkywLEtwsERkJQR0CpyYv
- oIKiIMCISlrADCd+815Y2Y6392b12qzFkb14xP5irDMuBPHmzLpU8DKJMPHkVQi8RWUH
- IM0JDyt3QhtEo/qVeteG6c7/r2joyXfopzIHunG/guOCJeUUhkyNlygDctD7251MU8ET
- Q9495UDk8JTVkfx4H/UgNFB5Iewr/uXwIeyr+/2rOKSYBqj4EUunOnEbmpLkL2aIr4qn
- 10Z2JRzMTMPw1PUZJDNgmHianaUs3KojSq3NazJBWds8uiXb4kaVq7nWX2/UE1E6GP9X
- gqxA==
-X-Gm-Message-State: AOAM532uLWB/UWAEe+PjCQH8NM2BKmwzldHkmFoid5HSIuRJ1CBowfXy
- 26vyvRb8DOzjoQfprWx9ixAbdg==
-X-Google-Smtp-Source: ABdhPJxGGspGiIzucoi+Pl9RHLXjwi2ldVTBfma2Pqx2udv5TQOaceAH0vTSByWarlNgAddvvzt/Bw==
-X-Received: by 2002:a05:6512:33c9:: with SMTP id
- d9mr15286457lfg.615.1637768433301; 
- Wed, 24 Nov 2021 07:40:33 -0800 (PST)
+ bh=ct6e7raFIfJnrSO6761xJZnYXxwRFHc4ll3Hg+6j23I=;
+ b=nJWeWjBcyeheZpDcxt6NWsQ02rrwTbEbWHdnt7WNBsv5AlmjHkTJSHhEaG6eCsWoyZ
+ GRZT7QzPCZPJ47Xdvx4On+kH9CXbq9ZmrYO5+0YVfX5hWBXgk9PD3+89TJrU63umPaar
+ EwA5k9v8oPYXBFulEf5YcFXE4DepD+85UsYH8ZnktaxWuTtyQ7rtZQdqAeRJUfbZ5fE8
+ qZIqUHtGRPdL8UIveGVqqejhE0lTqQKju3uwnOtaXoE216zfCQYGObwX7spM/HlgdiwF
+ iW9TzWFT6srBrWs1l87WNI9V+Q8GIENWMBxFWAGTiFmWvg0ZduGnCd6Cno7VkyCThz3o
+ UHNg==
+X-Gm-Message-State: AOAM530RUPA8Jn636l+r0PXCFisNkeYbQPlAnur/zaYSX4RzMkND7FBd
+ TPNzwju5R9FC64u8FRdnrrtVZw==
+X-Google-Smtp-Source: ABdhPJx9LId8LP06Ry3fcdy7LIKYvSMhClBVAGTV/+cQ3EQDpxhxCuri2bUz4bXgF/Tfgmk8DMtt/Q==
+X-Received: by 2002:ac2:515a:: with SMTP id q26mr15625028lfd.658.1637768455296; 
+ Wed, 24 Nov 2021 07:40:55 -0800 (PST)
 Received: from [192.168.1.211] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id d10sm15999lfe.106.2021.11.24.07.40.32
+ by smtp.gmail.com with ESMTPSA id p3sm13990lfg.273.2021.11.24.07.40.54
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 24 Nov 2021 07:40:32 -0800 (PST)
-Subject: Re: [PATCH v3 05/13] drm/msm/disp/dpu1: Don't use DSC with mode_3d
+ Wed, 24 Nov 2021 07:40:54 -0800 (PST)
+Subject: Re: [PATCH v3 06/13] drm/msm/disp/dpu1: Add DSC support in hw_ctl
 To: Vinod Koul <vkoul@kernel.org>, Rob Clark <robdclark@gmail.com>
 References: <20211116062256.2417186-1-vkoul@kernel.org>
- <20211116062256.2417186-6-vkoul@kernel.org>
+ <20211116062256.2417186-7-vkoul@kernel.org>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Message-ID: <20269960-a753-72d4-5a1d-430af00cf562@linaro.org>
-Date: Wed, 24 Nov 2021 18:40:32 +0300
+Message-ID: <3e96567a-029d-69ca-4e28-47b3c06b1351@linaro.org>
+Date: Wed, 24 Nov 2021 18:40:54 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <20211116062256.2417186-6-vkoul@kernel.org>
+In-Reply-To: <20211116062256.2417186-7-vkoul@kernel.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
@@ -82,94 +81,67 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 16/11/2021 09:22, Vinod Koul wrote:
-> We cannot enable mode_3d when we are using the DSC. So pass
-> configuration to detect DSC is enabled and not enable mode_3d
-> when we are using DSC
-> 
-> We add a helper dpu_encoder_helper_get_dsc() to detect dsc
-> enabled and pass this to .setup_intf_cfg()
+> Later gens of hardware have DSC bits moved to hw_ctl, so configure these
+> bits so that DSC would work there as well
 > 
 > Signed-off-by: Vinod Koul <vkoul@kernel.org>
+
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
 > ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h     | 11 +++++++++++
->   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c |  2 ++
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c           |  3 ++-
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h           |  2 ++
->   4 files changed, 17 insertions(+), 1 deletion(-)
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c | 11 ++++++++++-
+>   1 file changed, 10 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-> index e7270eb6b84b..efb85d595598 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-> @@ -332,6 +332,17 @@ static inline enum dpu_3d_blend_mode dpu_encoder_helper_get_3d_blend_mode(
->   	return BLEND_3D_NONE;
->   }
->   
-> +static inline bool dpu_encoder_helper_get_dsc(struct dpu_encoder_phys *phys_enc)
-> +{
-> +	struct drm_encoder *drm_enc = phys_enc->parent;
-> +	struct msm_drm_private *priv = drm_enc->dev->dev_private;
-> +
-> +	if (priv->dsc)
-> +		return priv->dsc->dsc_mask;
-
-dsc_mask doesn't exist at this point, so the patch should be moved later 
-in the series.
-
-> +
-> +	return 0;
-> +}
-> +
->   /**
->    * dpu_encoder_helper_split_config - split display configuration helper function
->    *	This helper function may be used by physical encoders to configure
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-> index 34a6940d12c5..f3f00f4d0193 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-> @@ -70,6 +70,8 @@ static void _dpu_encoder_phys_cmd_update_intf_cfg(
->   	intf_cfg.intf_mode_sel = DPU_CTL_MODE_SEL_CMD;
->   	intf_cfg.stream_sel = cmd_enc->stream_sel;
->   	intf_cfg.mode_3d = dpu_encoder_helper_get_3d_blend_mode(phys_enc);
-> +	intf_cfg.dsc = dpu_encoder_helper_get_dsc(phys_enc);
-> +
->   	ctl->ops.setup_intf_cfg(ctl, &intf_cfg);
->   }
->   
 > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-> index 64740ddb983e..36831457a91b 100644
+> index 36831457a91b..66b0c44118d8 100644
 > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
 > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-> @@ -519,7 +519,8 @@ static void dpu_hw_ctl_intf_cfg(struct dpu_hw_ctl *ctx,
+> @@ -25,6 +25,8 @@
+>   #define   CTL_MERGE_3D_ACTIVE           0x0E4
+>   #define   CTL_INTF_ACTIVE               0x0F4
+>   #define   CTL_MERGE_3D_FLUSH            0x100
+> +#define   CTL_DSC_ACTIVE                0x0E8
+> +#define   CTL_DSC_FLUSH                0x104
+>   #define   CTL_INTF_FLUSH                0x110
+>   #define   CTL_INTF_MASTER               0x134
+>   #define   CTL_FETCH_PIPE_ACTIVE         0x0FC
+> @@ -34,6 +36,7 @@
 >   
->   	intf_cfg |= (cfg->intf & 0xF) << 4;
+>   #define DPU_REG_RESET_TIMEOUT_US        2000
+>   #define  MERGE_3D_IDX   23
+> +#define  DSC_IDX        22
+>   #define  INTF_IDX       31
+>   #define CTL_INVALID_BIT                 0xffff
 >   
-> -	if (cfg->mode_3d) {
-> +	/* In DSC we can't set merge, so check for dsc too */
-> +	if (cfg->mode_3d && !cfg->dsc) {
->   		intf_cfg |= BIT(19);
->   		intf_cfg |= (cfg->mode_3d - 0x1) << 20;
->   	}
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
-> index 806c171e5df2..9847c9c46d6f 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
-> @@ -40,6 +40,7 @@ struct dpu_hw_stage_cfg {
->    * @merge_3d:              3d merge block used
->    * @intf_mode_sel:         Interface mode, cmd / vid
->    * @stream_sel:            Stream selection for multi-stream interfaces
-> + * @dsc:                   DSC BIT masks
->    */
->   struct dpu_hw_intf_cfg {
->   	enum dpu_intf intf;
-> @@ -47,6 +48,7 @@ struct dpu_hw_intf_cfg {
->   	enum dpu_merge_3d merge_3d;
->   	enum dpu_ctl_mode_sel intf_mode_sel;
->   	int stream_sel;
-> +	unsigned int dsc;
->   };
+> @@ -120,7 +123,6 @@ static u32 dpu_hw_ctl_get_pending_flush(struct dpu_hw_ctl *ctx)
 >   
->   /**
+>   static inline void dpu_hw_ctl_trigger_flush_v1(struct dpu_hw_ctl *ctx)
+>   {
+> -
+>   	if (ctx->pending_flush_mask & BIT(MERGE_3D_IDX))
+>   		DPU_REG_WRITE(&ctx->hw, CTL_MERGE_3D_FLUSH,
+>   				ctx->pending_merge_3d_flush_mask);
+> @@ -498,6 +500,9 @@ static void dpu_hw_ctl_intf_cfg_v1(struct dpu_hw_ctl *ctx,
+>   	u32 intf_active = 0;
+>   	u32 mode_sel = 0;
+>   
+> +	if (cfg->dsc)
+> +		DPU_REG_WRITE(&ctx->hw, CTL_DSC_FLUSH, cfg->dsc);
+> +
+>   	if (cfg->intf_mode_sel == DPU_CTL_MODE_SEL_CMD)
+>   		mode_sel |= BIT(17);
+>   
+> @@ -509,6 +514,10 @@ static void dpu_hw_ctl_intf_cfg_v1(struct dpu_hw_ctl *ctx,
+>   	if (cfg->merge_3d)
+>   		DPU_REG_WRITE(c, CTL_MERGE_3D_ACTIVE,
+>   			      BIT(cfg->merge_3d - MERGE_3D_0));
+> +	if (cfg->dsc) {
+> +		DPU_REG_WRITE(&ctx->hw, CTL_FLUSH, cfg->dsc);
+> +		DPU_REG_WRITE(c, CTL_DSC_ACTIVE, cfg->dsc);
+> +	}
+>   }
+>   
+>   static void dpu_hw_ctl_intf_cfg(struct dpu_hw_ctl *ctx,
 > 
 
 
