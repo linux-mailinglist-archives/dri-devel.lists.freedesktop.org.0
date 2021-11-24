@@ -1,43 +1,110 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E28645C84C
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Nov 2021 16:09:17 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 00CC245C8BC
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Nov 2021 16:32:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF65B6E9DD;
-	Wed, 24 Nov 2021 15:09:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 69EFD6E9BF;
+	Wed, 24 Nov 2021 15:32:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EAD1A6E9D7;
- Wed, 24 Nov 2021 15:09:11 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10178"; a="298698319"
-X-IronPort-AV: E=Sophos;i="5.87,260,1631602800"; d="scan'208";a="298698319"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Nov 2021 07:09:11 -0800
-X-IronPort-AV: E=Sophos;i="5.87,260,1631602800"; d="scan'208";a="509904302"
-Received: from kkarvas-mobl1.amr.corp.intel.com (HELO intel.com)
- ([10.255.34.182])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Nov 2021 07:09:10 -0800
-Date: Wed, 24 Nov 2021 10:09:08 -0500
-From: Rodrigo Vivi <rodrigo.vivi@intel.com>
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Subject: Re: [Intel-gfx] [PATCH 1/3] drm/i915/gt: Spread virtual engines over
- idle engines
-Message-ID: <YZ5VlB5NHKNg51S/@intel.com>
-References: <20211117224955.28999-1-vinay.belgaumkar@intel.com>
- <20211117224955.28999-2-vinay.belgaumkar@intel.com>
- <6e19db61-dee6-f012-9dd4-b8ef455509e7@linux.intel.com>
- <YZ1GcMR6C6YN9szK@intel.com>
- <b1cc5b51-d8cb-6500-021a-2505fa1e0350@linux.intel.com>
- <YZ5EW6laGv3zlBj7@intel.com>
+X-Greylist: delayed 550 seconds by postgrey-1.36 at gabe;
+ Wed, 24 Nov 2021 15:32:18 UTC
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
+ [210.118.77.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DDC766EA14
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Nov 2021 15:32:18 +0000 (UTC)
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+ by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20211124152307euoutp02368216f1b8ec67e9f911cd6ca78dd322~6hMLmvdAU1202412024euoutp02H
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Nov 2021 15:23:07 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
+ 20211124152307euoutp02368216f1b8ec67e9f911cd6ca78dd322~6hMLmvdAU1202412024euoutp02H
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1637767387;
+ bh=2ynWpYwQ987eCbBiqQjZnbNjOsKl3jbANWvNadswtGo=;
+ h=Date:Subject:To:From:In-Reply-To:References:From;
+ b=mr1SAdAyR3hxxSQForY4AqlvBxnf95I0q13xeUQdkZeMF1OKENLnO35eTXE7uVnZ0
+ X2YWM47XOzyG3k5pK1O1voHDOfRcsYYazmPxHSJhyT7nC91xn/dGyKXFVWoKjUO2oY
+ d7xYnxL/IpDirKQpYMUZyTvaioH7okd9e/jknF9M=
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+ 20211124152306eucas1p180a26aa8b63b897fd27a63c67fc424ee~6hMLRUAdp3072530725eucas1p16;
+ Wed, 24 Nov 2021 15:23:06 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+ eusmges3new.samsung.com (EUCPMTA) with SMTP id 4A.E7.10260.AD85E916; Wed, 24
+ Nov 2021 15:23:06 +0000 (GMT)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+ 20211124152306eucas1p115447d63dd410079cbbfd303d7ef1229~6hMKmi_8Z0295502955eucas1p1V;
+ Wed, 24 Nov 2021 15:23:06 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+ eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+ 20211124152306eusmtrp2d4f19c5a1f3e99eec24f8a26c8eb1b3d~6hMKl4HPR0066700667eusmtrp2S;
+ Wed, 24 Nov 2021 15:23:06 +0000 (GMT)
+X-AuditID: cbfec7f5-bf3ff70000002814-11-619e58dab2b0
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+ eusmgms2.samsung.com (EUCPMTA) with SMTP id 60.8E.09404.9D85E916; Wed, 24
+ Nov 2021 15:23:05 +0000 (GMT)
+Received: from [106.210.134.141] (unknown [106.210.134.141]) by
+ eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20211124152305eusmtip13a24ac24911721fb1fa37ff7f694a2ff~6hMKHIqUB3211932119eusmtip1a;
+ Wed, 24 Nov 2021 15:23:05 +0000 (GMT)
+Message-ID: <b378e3ab-3d1f-7509-b218-71377ef012b3@samsung.com>
+Date: Wed, 24 Nov 2021 16:23:05 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YZ5EW6laGv3zlBj7@intel.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0)
+ Gecko/20100101 Thunderbird/91.3.2
+Subject: Re: [PATCH] MAINTAINERS: Update email of Andrzej Hajda
+Content-Language: en-US
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+ =?UTF-8?Q?=c5=81ukasz_Stelmach?= <l.stelmach@samsung.com>, Marek Szyprowski
+ <m.szyprowski@samsung.com>, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+From: Sylwester Nawrocki <s.nawrocki@samsung.com>
+In-Reply-To: <20211018211353.586986-1-andrzej.hajda@intel.com>
+Content-Transfer-Encoding: 8bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprMKsWRmVeSWpSXmKPExsWy7djPc7q3IuYlGkzs1ra4v/gzi8WVr+/Z
+ LG4eWsFocXnXHDaLng1bWS3WHrnL7sDmsXjPSyaP+93HmTz6tqxi9Pi8SS6AJYrLJiU1J7Ms
+ tUjfLoErY91274IvYhUr/6xhbmDcI9zFyMEhIWAiMWseTxcjF4eQwApGid3rprNBOF8YJb6d
+ 3s4C4XxmlPjaeJW1i5ETrONr60pWiMRyRoktK85AtXxklJh/tYsFpIpXwE7iwYH57CA2i4Cq
+ xPY3n5gh4oISJ2c+AasRFUiSmHBiNxPIHcIC9hL9n21BwswC4hK3nsxnApkpIvCVUWJl73yw
+ ejYBQ4neo32MIDYn0PwX03vZIRrkJZq3zmYGaZAQOMIh8esnxGIJAReJC88fMELYwhKvjm+B
+ istI/N8JsUFCoJlRomf3bXYIZwKjxP3jC6A6rCXunPvFBnIes4CmxPpd+hBhR4m/y6awQUKP
+ T+LGW0GII/gkJm2bzgwR5pXoaBOCqFaR+L1qOhOELSXR/eQ/C4TtITH71HrmCYyKs5CCZRaS
+ /2cheW0Wwg0LGFlWMYqnlhbnpqcWG+ellusVJ+YWl+al6yXn525iBKab0/+Of93BuOLVR71D
+ jEwcjIcYJTiYlUR4ry2ZnSjEm5JYWZValB9fVJqTWnyIUZqDRUmcV+RPQ6KQQHpiSWp2ampB
+ ahFMlomDU6qBqehd8NH7e5uNv0YKvj+7vba2fcaVoMW8Qmnm3CssGTkS765+/vAEW7tKrc2+
+ ezNrPExP3ZqrtmfdauOElnPuCxZULn92lfvWRfeze89eOR3qp6rtPjX+k833c7nBO2f15ZjK
+ iST5ePcrCt1NX7TIPCzOp4+V6ccalycvr0k0TDv/oO5lqvKKw7/OaxuuixY+qLP+SrrAbMci
+ rbjZxy2jG8OOlpuI58/mWfFv2sKWJb9ObVZhr1j3/136sSNWnv33lTxeGp+JSv2a+3xOS21F
+ rTWfUMmkaTIC1c6Bk0/3B4Xd0l077aV9ezXro1s7j13TN0r+slpWhyP48ykLu54DDgEXo75k
+ flvM3D1ThGWPkxJLcUaioRZzUXEiAMGt7yymAwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprOIsWRmVeSWpSXmKPExsVy+t/xu7o3I+YlGmydbWVxf/FnFosrX9+z
+ Wdw8tILR4vKuOWwWPRu2slqsPXKX3YHNY/Gel0we97uPM3n0bVnF6PF5k1wAS5SeTVF+aUmq
+ QkZ+cYmtUrShhZGeoaWFnpGJpZ6hsXmslZGpkr6dTUpqTmZZapG+XYJexrrt3gVfxCpW/lnD
+ 3MC4R7iLkZNDQsBE4mvrStYuRi4OIYGljBLLP29n62LkAEpIScxvUYKoEZb4c62LDaLmPaPE
+ 1ulnWEESvAJ2Eg8OzGcHsVkEVCW2v/nEDBEXlDg58wkLiC0qkCTx9EAn2ExhAXuJ/s+2IGFm
+ AXGJW0/mM4HMFBH4ziix8NN/JogFExkl3uxsYgSpYhMwlOg92gdmcwItezG9lx1kELOAusT6
+ eUIQg+QlmrfOZp7AKDgLyepZSHbMQuiYhaRjASPLKkaR1NLi3PTcYiO94sTc4tK8dL3k/NxN
+ jMAY2nbs55YdjCtffdQ7xMjEwXiIUYKDWUmE99qS2YlCvCmJlVWpRfnxRaU5qcWHGE2B3p/I
+ LCWanA+M4rySeEMzA1NDEzNLA1NLM2MlcV7Pgo5EIYH0xJLU7NTUgtQimD4mDk6pBqaWUyaR
+ pff39TfLv5vPuldFZaZot9rN5nvhUjMmx7GvTDEPmJE1t+GpVIGoC4+M1K7/64y2ux0W2V0w
+ g/3MGdMfTPxHOBmveU2zutYWecjFz3f2vbRrBT5Lp1w+K5V3XWNy+f2+vUv7eHlPR2nwb4jP
+ 9lv3cl3Ng4Disw3zDZgc15tnzWC3l1god0e2NMVp5td7u9Z3f3Y3Cv80Q2/z/aNhfLGq8s8P
+ fHl3+mBBZYuCw0M/4QKeng2dnDteitduZvuvkvSId9fxuuT6QuMJf97O41DcbX3MUSuES0/q
+ ocV6nZkhjRb8ghu/VSYUKbrdfqe55cXq0+Vvs5rKjn5157qUvyjr6ANGe22NjcJWvkosxRmJ
+ hlrMRcWJAOTfYh4qAwAA
+X-CMS-MailID: 20211124152306eucas1p115447d63dd410079cbbfd303d7ef1229
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20211018211442eucas1p1e5f7eb08c6b76c76dcfad2c2efc1da4e
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20211018211442eucas1p1e5f7eb08c6b76c76dcfad2c2efc1da4e
+References: <CGME20211018211442eucas1p1e5f7eb08c6b76c76dcfad2c2efc1da4e@eucas1p1.samsung.com>
+ <20211018211353.586986-1-andrzej.hajda@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,229 +117,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Chris Wilson <chris@chris-wilson.co.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Nov 24, 2021 at 08:55:39AM -0500, Rodrigo Vivi wrote:
-> On Wed, Nov 24, 2021 at 08:56:52AM +0000, Tvrtko Ursulin wrote:
-> > 
-> > On 23/11/2021 19:52, Rodrigo Vivi wrote:
-> > > On Tue, Nov 23, 2021 at 09:39:25AM +0000, Tvrtko Ursulin wrote:
-> > > > 
-> > > > On 17/11/2021 22:49, Vinay Belgaumkar wrote:
-> > > > > From: Chris Wilson <chris@chris-wilson.co.uk>
-> > > > > 
-> > > > > Everytime we come to the end of a virtual engine's context, re-randomise
-> > > > > it's siblings[]. As we schedule the siblings' tasklets in the order they
-> > > > > are in the array, earlier entries are executed first (when idle) and so
-> > > > > will be preferred when scheduling the next virtual request. Currently,
-> > > > > we only update the array when switching onto a new idle engine, so we
-> > > > > prefer to stick on the last execute engine, keeping the work compact.
-> > > > > However, it can be beneficial to spread the work out across idle
-> > > > > engines, so choose another sibling as our preferred target at the end of
-> > > > > the context's execution.
-> > > > 
-> > > > This partially brings back, from a different angle, the more dynamic
-> > > > scheduling behavior which has been lost since bugfix 90a987205c6c
-> > > > ("drm/i915/gt: Only swap to a random sibling once upon creation").
-> > > 
-> > > Shouldn't we use the Fixes tag here since this is targeting to fix one
-> > > of the performance regressions of this patch?
-> > 
-> > Probably not but hard to say. Note that it wasn't a performance regression
-> > that was reported but power.
-> > 
-> > And to go back to what we said elsewhere in the thread, I am actually with
-> > you in thinking that in the ideal world we need PnP testing across a variety
-> > of workloads and platforms. And "in the ideal world" should really be in the
-> > normal world. It is not professional to be reactive to isolated bug reports
-> > from users, without being able to see the overall picture.
+On 18.10.2021 23:13, Andrzej Hajda wrote:
+> Beside updating email, the patch updates maintainers
+> of Samsung drivers.
 > 
-> We surely need to address the bug report from users. I'm just asking to address
-> that with the smallest fix that we can backport and fit to the products milestones.
+> Signed-off-by: Andrzej Hajda <andrzej.hajda@intel.com>
+> ---
+>  .mailmap    |  1 +
+>  MAINTAINERS | 13 ++++++++-----
+>  2 files changed, 9 insertions(+), 5 deletions(-)
 > 
-> Instead, we are creating another optimization feature on a rush. Without a proper
-> validation.
-> 
-> I believe it is too risk to add an algorithm like that without a broader test.
-> I see a big risk of introducing corner cases that will results in more bug report
-> from other users in a near future.
-> 
-> So, let's all be professionals and provide a smaller fix for a regression on
-> the load balancing scenario and provide a better validation with more data
-> to justify this new feature.
+> diff --git a/.mailmap b/.mailmap
+> index 4f6e37da60589..4283a86f70d26 100644
+> --- a/.mailmap
+> +++ b/.mailmap
+> @@ -40,6 +40,7 @@ Andrew Vasquez <andrew.vasquez@qlogic.com>
+>  Andrey Konovalov <andreyknvl@gmail.com> <andreyknvl@google.com>
+>  Andrey Ryabinin <ryabinin.a.a@gmail.com> <a.ryabinin@samsung.com>
+>  Andrey Ryabinin <ryabinin.a.a@gmail.com> <aryabinin@virtuozzo.com>
+> +Andrzej Hajda <andrzej.hajda@intel.com> <a.hajda@samsung.com>
+>  Andy Adamson <andros@citi.umich.edu>
+>  Antoine Tenart <atenart@kernel.org> <antoine.tenart@bootlin.com>
+>  Antoine Tenart <atenart@kernel.org> <antoine.tenart@free-electrons.com>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 54cd05d3aab65..e3fadb4ebced3 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -2546,7 +2546,7 @@ N:	s3c64xx
+>  N:	s5pv210
+>  
+>  ARM/SAMSUNG S5P SERIES 2D GRAPHICS ACCELERATION (G2D) SUPPORT
+> -M:	Andrzej Hajda <a.hajda@samsung.com>
+> +M:	Łukasz Stelmach <l.stelmach@samsung.com>
+>  L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
+>  L:	linux-media@vger.kernel.org
+>  S:	Maintained
+> @@ -2570,7 +2570,8 @@ S:	Maintained
+>  F:	drivers/media/platform/s5p-jpeg/
+>  
+>  ARM/SAMSUNG S5P SERIES Multi Format Codec (MFC) SUPPORT
+> -M:	Andrzej Hajda <a.hajda@samsung.com>
+> +M:	Marek Szyprowski <m.szyprowski@samsung.com>
+> +M:	Andrzej Hajda <andrzej.hajda@intel.com>
+>  L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
+>  L:	linux-media@vger.kernel.org
+>  S:	Maintained
+> @@ -6254,7 +6255,7 @@ F:	Documentation/devicetree/bindings/display/atmel/
+>  F:	drivers/gpu/drm/atmel-hlcdc/
+>  
+>  DRM DRIVERS FOR BRIDGE CHIPS
+> -M:	Andrzej Hajda <a.hajda@samsung.com>
+> +M:	Andrzej Hajda <andrzej.hajda@intel.com>
+>  M:	Neil Armstrong <narmstrong@baylibre.com>
+>  M:	Robert Foss <robert.foss@linaro.org>
+>  R:	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> @@ -16748,13 +16749,15 @@ F:	Documentation/devicetree/bindings/net/nfc/samsung,s3fwrn5.yaml
+>  F:	drivers/nfc/s3fwrn5
 
-Okay, after more IRC discussions I see that patch 2 is also part of the solution
-and probably safe.
+>  SAMSUNG S5C73M3 CAMERA DRIVER
+> -M:	Andrzej Hajda <a.hajda@samsung.com>
+> +M:	Sylwester Nawrocki <s.nawrocki@samsung.com>
+> +M:	Andrzej Hajda <andrzej.hajda@intel.com>
+>  L:	linux-media@vger.kernel.org
+>  S:	Supported
+>  F:	drivers/media/i2c/s5c73m3/*
+>  SAMSUNG S5K5BAF CAMERA DRIVER
+> -M:	Andrzej Hajda <a.hajda@samsung.com>
+> +M:	Sylwester Nawrocki <s.nawrocki@samsung.com>
+> +M:	Andrzej Hajda <andrzej.hajda@intel.com>
+>  L:	linux-media@vger.kernel.org
+>  S:	Supported
+>  F:	drivers/media/i2c/s5k5baf.c
 
-Let me be clear that my biggest complain and the risk is with race-to-idle in
-patch 3 on trying to predict the rc6 behavior and increasing the freq to try to
-complete job faster and then get to rc6 faster... That one would need a lot
-more validation.
-
-> 
-> Thanks,
-> Rodrigo.
-> 
-> > 
-> > > > One day we could experiment with using engine busyness as criteria (instead
-> > > > of random). Back in the day busyness was kind of the best strategy, although
-> > > > sampled at submit, not at the trailing edge like here, but it still may be
-> > > > able to settle down to engine configuration better in some scenarios. Only
-> > > > testing could say.
-> > > > 
-> > > > Still, from memory random also wasn't that bad so this should be okay for
-> > > > now.
-> > > > 
-> > > > Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-> > > 
-> > > Since you reviewed and it looks to be a middle ground point in terms
-> > > of when to balancing (always like in the initial implementation vs
-> > > only once like the in 90a987205c6c).
-> > > 
-> > > If this one is really fixing the regression by itself:
-> > > Acked-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> > > on this patch here.
-> > > 
-> > > But I still don't want to take the risk with touching the freq with
-> > > race to idle, until not convinced that it is absolutely needed and
-> > > that we are not breaking the world out there.
-> > 
-> > Yes agreed in principle, we have users with different priorities.
-> > 
-> > However the RPS patches in the series, definitely the 1st one which looks at
-> > classes versus individual engines, sound plausible to me. Given the absence
-> > of automated PnP testing mentioned above, in the past it was usually Chris
-> > who was making the above and beyond effort to evaluate changes like these on
-> > as many platforms as he could, and with different workloads. Not sure who
-> > has the mandate and drive to fill that space but something will need to
-> > happen.
-> > 
-> > Regards,
-> > 
-> > Tvrtko
-> > 
-> > > > 
-> > > > Regards,
-> > > > 
-> > > > Tvrtko
-> > > > 
-> > > > > Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
-> > > > > Cc: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
-> > > > > Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-> > > > > ---
-> > > > >    .../drm/i915/gt/intel_execlists_submission.c  | 80 ++++++++++++-------
-> > > > >    1 file changed, 52 insertions(+), 28 deletions(-)
-> > > > > 
-> > > > > diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-> > > > > index ca03880fa7e4..b95bbc8fb91a 100644
-> > > > > --- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-> > > > > +++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-> > > > > @@ -539,6 +539,41 @@ static void execlists_schedule_in(struct i915_request *rq, int idx)
-> > > > >    	GEM_BUG_ON(intel_context_inflight(ce) != rq->engine);
-> > > > >    }
-> > > > > +static void virtual_xfer_context(struct virtual_engine *ve,
-> > > > > +				 struct intel_engine_cs *engine)
-> > > > > +{
-> > > > > +	unsigned int n;
-> > > > > +
-> > > > > +	if (likely(engine == ve->siblings[0]))
-> > > > > +		return;
-> > > > > +
-> > > > > +	if (!intel_engine_has_relative_mmio(engine))
-> > > > > +		lrc_update_offsets(&ve->context, engine);
-> > > > > +
-> > > > > +	/*
-> > > > > +	 * Move the bound engine to the top of the list for
-> > > > > +	 * future execution. We then kick this tasklet first
-> > > > > +	 * before checking others, so that we preferentially
-> > > > > +	 * reuse this set of bound registers.
-> > > > > +	 */
-> > > > > +	for (n = 1; n < ve->num_siblings; n++) {
-> > > > > +		if (ve->siblings[n] == engine) {
-> > > > > +			swap(ve->siblings[n], ve->siblings[0]);
-> > > > > +			break;
-> > > > > +		}
-> > > > > +	}
-> > > > > +}
-> > > > > +
-> > > > > +static int ve_random_sibling(struct virtual_engine *ve)
-> > > > > +{
-> > > > > +	return prandom_u32_max(ve->num_siblings);
-> > > > > +}
-> > > > > +
-> > > > > +static int ve_random_other_sibling(struct virtual_engine *ve)
-> > > > > +{
-> > > > > +	return 1 + prandom_u32_max(ve->num_siblings - 1);
-> > > > > +}
-> > > > > +
-> > > > >    static void
-> > > > >    resubmit_virtual_request(struct i915_request *rq, struct virtual_engine *ve)
-> > > > >    {
-> > > > > @@ -578,8 +613,23 @@ static void kick_siblings(struct i915_request *rq, struct intel_context *ce)
-> > > > >    	    rq->execution_mask != engine->mask)
-> > > > >    		resubmit_virtual_request(rq, ve);
-> > > > > -	if (READ_ONCE(ve->request))
-> > > > > +	/*
-> > > > > +	 * Reschedule with a new "preferred" sibling.
-> > > > > +	 *
-> > > > > +	 * The tasklets are executed in the order of ve->siblings[], so
-> > > > > +	 * siblings[0] receives preferrential treatment of greedily checking
-> > > > > +	 * for execution of the virtual engine. At this point, the virtual
-> > > > > +	 * engine is no longer in the current GPU cache due to idleness or
-> > > > > +	 * contention, so it can be executed on any without penalty. We
-> > > > > +	 * re-randomise at this point in order to spread light loads across
-> > > > > +	 * the system, heavy overlapping loads will continue to be greedily
-> > > > > +	 * executed by the first available engine.
-> > > > > +	 */
-> > > > > +	if (READ_ONCE(ve->request)) {
-> > > > > +		virtual_xfer_context(ve,
-> > > > > +				     ve->siblings[ve_random_other_sibling(ve)]);
-> > > > >    		tasklet_hi_schedule(&ve->base.sched_engine->tasklet);
-> > > > > +	}
-> > > > >    }
-> > > > >    static void __execlists_schedule_out(struct i915_request * const rq,
-> > > > > @@ -1030,32 +1080,6 @@ first_virtual_engine(struct intel_engine_cs *engine)
-> > > > >    	return NULL;
-> > > > >    }
-> > > > > -static void virtual_xfer_context(struct virtual_engine *ve,
-> > > > > -				 struct intel_engine_cs *engine)
-> > > > > -{
-> > > > > -	unsigned int n;
-> > > > > -
-> > > > > -	if (likely(engine == ve->siblings[0]))
-> > > > > -		return;
-> > > > > -
-> > > > > -	GEM_BUG_ON(READ_ONCE(ve->context.inflight));
-> > > > > -	if (!intel_engine_has_relative_mmio(engine))
-> > > > > -		lrc_update_offsets(&ve->context, engine);
-> > > > > -
-> > > > > -	/*
-> > > > > -	 * Move the bound engine to the top of the list for
-> > > > > -	 * future execution. We then kick this tasklet first
-> > > > > -	 * before checking others, so that we preferentially
-> > > > > -	 * reuse this set of bound registers.
-> > > > > -	 */
-> > > > > -	for (n = 1; n < ve->num_siblings; n++) {
-> > > > > -		if (ve->siblings[n] == engine) {
-> > > > > -			swap(ve->siblings[n], ve->siblings[0]);
-> > > > > -			break;
-> > > > > -		}
-> > > > > -	}
-> > > > > -}
-> > > > > -
-> > > > >    static void defer_request(struct i915_request *rq, struct list_head * const pl)
-> > > > >    {
-> > > > >    	LIST_HEAD(list);
-> > > > > @@ -3590,7 +3614,7 @@ static void virtual_engine_initial_hint(struct virtual_engine *ve)
-> > > > >    	 * NB This does not force us to execute on this engine, it will just
-> > > > >    	 * typically be the first we inspect for submission.
-> > > > >    	 */
-> > > > > -	swp = prandom_u32_max(ve->num_siblings);
-> > > > > +	swp = ve_random_sibling(ve);
-> > > > >    	if (swp)
-> > > > >    		swap(ve->siblings[swp], ve->siblings[0]);
-> > > > >    }
-> > > > > 
+Acked-by: Sylwester Nawrocki <s.nawrocki@samsung.com>
