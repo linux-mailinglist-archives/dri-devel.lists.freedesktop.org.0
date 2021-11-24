@@ -1,60 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C25E045B26E
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Nov 2021 04:06:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C9BC45B29B
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Nov 2021 04:23:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C06C6E18F;
-	Wed, 24 Nov 2021 03:06:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E4C588422;
+	Wed, 24 Nov 2021 03:22:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x733.google.com (mail-qk1-x733.google.com
- [IPv6:2607:f8b0:4864:20::733])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 32EBA898BE;
- Wed, 24 Nov 2021 03:06:21 +0000 (UTC)
-Received: by mail-qk1-x733.google.com with SMTP id b67so1336010qkg.6;
- Tue, 23 Nov 2021 19:06:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=QCenGapdn8pT6BA4FKRLRxExah4bAbpes3InHq8HGvg=;
- b=UawLjgDp7UuXebp108LzicGASAjyfMpWQdBSpYTCyay8pEQuUdaTl92noI/5GKMkPl
- uzjxtoE2Hxvmmhjce1XE9VK5adj0kjToackYRsvIPi1e0uGWKMHAVRKt4tfH4o7IqEi0
- TC9iq4szjHrO4XPZhsCamPu40+A7rP/2dC01+lSPyQqBRGR+TvqdUXcJSnIJxGgSTVNf
- pgQcspc3raIjtUJIXzq6fqlz70ImZFHiv28ZdjV5EN6qcb9L/01H7BMxz64TerS+cWiB
- Fnfl+KNyv54cf11oNRs7WXnFu6MrMHV1Z4DZuKaEZo8mMLYoyMFrzUaSgzwjTFPXzfdk
- HrQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=QCenGapdn8pT6BA4FKRLRxExah4bAbpes3InHq8HGvg=;
- b=XD4bxCRlDQZR1fkdaAbPg4sTy8to8tFjNSzxyVhrX4TjfpcVbYcx1T6nOwx+xINmx9
- pU8TOFqOVndG+naQyP11FYRNIoOQqGLyJQJbnXBKCyxJ5uSAZWMawQk5s8bzwZql8xJh
- ooUpoxqYon+LpS7Yt6SCU6ZgRkYDop500ngREDwAyloO3xM127ma+JTwFv/VryVqJEaM
- pRr5bi8Zy1cyXJqXo86+wOvp1mOpgTvXz3KBYkIvwOMyfeYbOfM866oR/0JFrZDd0DXM
- M2vMEMa4Lrh+yN/xxHt3dAQHp2VSWaXJH5GPFTumWfcNbQsXLM9r4jF6bptgWLwc7B8s
- d/OA==
-X-Gm-Message-State: AOAM532oZSxVyFeGygxuUax9/fq6nVv40bZsStXKMOCmwoodaJ+kau7D
- oH0EUMesLqrOPGuyf/JE5K8=
-X-Google-Smtp-Source: ABdhPJwZTAzMHM0RV0zs9uZ1TEV8MK2HEv7somuIawMXs6UxXRsg4W9y1/otfg50ZrxFMeP2k1Gyeg==
-X-Received: by 2002:a05:620a:223:: with SMTP id
- u3mr2434295qkm.158.1637723180323; 
- Tue, 23 Nov 2021 19:06:20 -0800 (PST)
-Received: from localhost.localdomain ([193.203.214.57])
- by smtp.gmail.com with ESMTPSA id d15sm7234780qtd.70.2021.11.23.19.06.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Nov 2021 19:06:20 -0800 (PST)
-From: cgel.zte@gmail.com
-X-Google-Original-From: yao.jing2@zte.com.cn
-To: jani.nikula@linux.intel.com
-Subject: [PATCH] drm/i915/dmabuf: remove duplicate include in i915_gem_dmabuf.c
-Date: Wed, 24 Nov 2021 03:06:07 +0000
-Message-Id: <20211124030607.34914-1-yao.jing2@zte.com.cn>
-X-Mailer: git-send-email 2.25.1
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 35FBD89247
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Nov 2021 03:22:57 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 040EE60FDC
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Nov 2021 03:22:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1637724177;
+ bh=liBBioraE6XRDAE1ac8YcTacD3MLC3G4j++WfusFvZ4=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=NjKr3v8gP2o6+wFG7Slx2a6NrKLymWkEkg0I+MEnuvoepOpv9VKdSmP8TuOLJP1AJ
+ OXXIE5WT2sGGQzvY4LAIojMSsD0sQNaTIbZF70uEwLdQr4Viq2bZdot+xHfPmqLfBs
+ S7m99+Hwt2G5qVVatoviHwlYaaojslw2VfGmSvjVw/hFPhvRWHsjWKfPRdIhSPRDQa
+ 6Dy/9z28ngELpQFMEBUN40pBnYp3VOrYqM5owICKDHyZspV+PN8cURD4l30xh1SJA3
+ fYb6Gvnq1He8fW7Xr1qwLcoLfoyvPwBdDVPl5tauDemux768DNf56fs21JWroZCy8s
+ oaT4UuQDCAQWQ==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id 00ED660F44; Wed, 24 Nov 2021 03:22:57 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 211277] sometimes crash at s2ram-wake (Ryzen 3500U): amdgpu,
+ drm, commit_tail, amdgpu_dm_atomic_commit_tail
+Date: Wed, 24 Nov 2021 03:22:56 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: jamesz@amd.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-211277-2300-5nWOhBZzYy@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-211277-2300@https.bugzilla.kernel.org/>
+References: <bug-211277-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,40 +66,21 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tvrtko.ursulin@linux.intel.com, jason@jlekstrand.net, yao.jing2@zte.com.cn,
- thomas.hellstrom@linux.intel.com, airlied@linux.ie, gregkh@linuxfoundation.org,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, chris@chris-wilson.co.uk,
- matthew.auld@intel.com, rodrigo.vivi@intel.com, Zeal Robot <zealci@zte.com.cn>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Yao Jing <yao.jing2@zte.com.cn>
+https://bugzilla.kernel.org/show_bug.cgi?id=3D211277
 
-'asm/smp.h' included in 'drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c' is
-duplicated. It is clearly included on the 12 line.
+--- Comment #77 from James Zhu (jamesz@amd.com) ---
+Created attachment 299697
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D299697&action=3Dedit
+backport patch for 5.10 stable.
 
-Reported-by: Zeal Robot <zealci@zte.com.cn>
-Signed-off-by: Yao Jing <yao.jing2@zte.com.cn>
----
- drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+Hi @kolAflash, before I send out them to public for review,. could you help
+take a test? Thanks so much! James
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
-index f291cf4c3886..5712b6b5f285 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
-@@ -17,9 +17,7 @@
- 
- MODULE_IMPORT_NS(DMA_BUF);
- 
--#if defined(CONFIG_X86)
--#include <asm/smp.h>
--#else
-+#if !defined(CONFIG_X86)
- #define wbinvd_on_all_cpus() \
- 	pr_warn(DRIVER_NAME ": Missing cache flush in %s\n", __func__)
- #endif
--- 
-2.25.1
+--=20
+You may reply to this email to add a comment.
 
+You are receiving this mail because:
+You are watching the assignee of the bug.=
