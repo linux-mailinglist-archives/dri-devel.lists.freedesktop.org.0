@@ -1,39 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93CCD45C0F4
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Nov 2021 14:10:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F23445C205
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Nov 2021 14:22:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7DF8D6E8CD;
-	Wed, 24 Nov 2021 13:10:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 567BC6E90D;
+	Wed, 24 Nov 2021 13:22:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D918F6E8CD
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Nov 2021 13:10:53 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3D6476140D;
- Wed, 24 Nov 2021 13:10:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1637759453;
- bh=quIe4/uXnU5hwY/ldEROEovl5U5E+Zhjpr5Bb6h1PF8=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=2JyoKDkAZCCTBuYg5Qfs0ZwJC3o164h0zXvX1Oyr87z6FQ6PqSVyqKut3tGP/9ToS
- FOcipPG96ktCTE3NkKac/vuQwz5QygsQyVpeZOxm8LACPWP6p7E/wpwNAbcZPFmqPk
- OUQr977+spQvUh3a1VZyDbG3+Cev0OzKD4S1xEFw=
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH 5.15 247/279] drm/prime: Fix use after free in mmap with
- drm_gem_ttm_mmap
-Date: Wed, 24 Nov 2021 12:58:54 +0100
-Message-Id: <20211124115727.260910762@linuxfoundation.org>
-X-Mailer: git-send-email 2.34.0
-In-Reply-To: <20211124115718.776172708@linuxfoundation.org>
-References: <20211124115718.776172708@linuxfoundation.org>
-User-Agent: quilt/0.66
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 96F846E90D
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Nov 2021 13:22:08 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 4C25961288
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Nov 2021 13:22:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1637760128;
+ bh=li0JPkoMkVEzYwuBN91+0W2zSpnyu1XrYq7A3Xc8UuI=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=NIKD51HY5DiNFOzbKkU0JcNj4joo29wr8BfJ04ygWgm4M0n2Y1NIAlAerxmPlEX+9
+ mS/u5mJIt+hsP6PhLhpUd/M9TBOIQ4m1ShlJEMnz97kOFBdFH8evcuKOtWEe4jV92g
+ b2hxtv6LfGI1bo+z7HTr8UPmZ+90uxR8nl+beuQ20LY5+ShO5hHcBGVJX2iGrdixgl
+ bfl7eePYa4G+nRMxfayORxItVm7BumELZLcOCIT79eMhD2pnrjxi7xYJlXmAC7CXG7
+ Qk9jSz1eS3CYR1RLqIWuzFFEQ/OtHdsPASB47mNQC5bOlCfiKjW4eZhS6+PBKlDZe3
+ pT37RFO2TFYsw==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id 476F060F37; Wed, 24 Nov 2021 13:22:08 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 211807] [drm:drm_dp_mst_dpcd_read] *ERROR* mstb
+ 000000004e6288dd port 3: DPCD read on addr 0x60 for 1 bytes NAKed
+Date: Wed, 24 Nov 2021 13:22:07 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: low
+X-Bugzilla-Who: mail@chatty.de
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-211807-2300-PDwjSGerSP@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-211807-2300@https.bugzilla.kernel.org/>
+References: <bug-211807-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,66 +66,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Anand K Mistry <amistry@google.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
- stable@vger.kernel.org, Gerd Hoffmann <kraxel@redhat.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Anand K Mistry <amistry@google.com>
+https://bugzilla.kernel.org/show_bug.cgi?id=3D211807
 
-commit 8244a3bc27b3efd057da154b8d7e414670d5044f upstream.
+Chatty (mail@chatty.de) changed:
 
-drm_gem_ttm_mmap() drops a reference to the gem object on success. If
-the gem object's refcount == 1 on entry to drm_gem_prime_mmap(), that
-drop will free the gem object, and the subsequent drm_gem_object_get()
-will be a UAF. Fix by grabbing a reference before calling the mmap
-helper.
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |mail@chatty.de
 
-This issue was forseen when the reference dropping was adding in
-commit 9786b65bc61ac ("drm/ttm: fix mmap refcounting"):
-  "For that to work properly the drm_gem_object_get() call in
-  drm_gem_ttm_mmap() must be moved so it happens before calling
-  obj->funcs->mmap(), otherwise the gem refcount would go down
-  to zero."
+--- Comment #17 from Chatty (mail@chatty.de) ---
+My setup: MS Surface Book 2 + AOC U2879G6 via Surface Dock via DisplayPort
+Tested kernels: 5.10.0 / 5.15.3 / 5.16.0-rc1
 
-Signed-off-by: Anand K Mistry <amistry@google.com>
-Fixes: 9786b65bc61a ("drm/ttm: fix mmap refcounting")
-Cc: Gerd Hoffmann <kraxel@redhat.com>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org
-Cc: <stable@vger.kernel.org> # v5.5+
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Link: https://patchwork.freedesktop.org/patch/msgid/20210930085932.1.I8043d61cc238e0168e2f4ca5f4783223434aa587@changeid
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- drivers/gpu/drm/drm_prime.c |    6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+When connecting I get random results of:
+* monitor remains black
+* monitor exhibits 1080p@60 as max resolution
+* monitor exhibits 1440p@60 as max resolution
+* monitor exhibits 2160p@30 as max resolution
+* monitor exhibits 2160p@30 as max resolution <=3D=3D desired
 
---- a/drivers/gpu/drm/drm_prime.c
-+++ b/drivers/gpu/drm/drm_prime.c
-@@ -719,11 +719,13 @@ int drm_gem_prime_mmap(struct drm_gem_ob
- 	if (obj->funcs && obj->funcs->mmap) {
- 		vma->vm_ops = obj->funcs->vm_ops;
- 
-+		drm_gem_object_get(obj);
- 		ret = obj->funcs->mmap(obj, vma);
--		if (ret)
-+		if (ret) {
-+			drm_gem_object_put(obj);
- 			return ret;
-+		}
- 		vma->vm_private_data = obj;
--		drm_gem_object_get(obj);
- 		return 0;
- 	}
- 
+On boot of 5.16.0-rc1 its initialized with:
+> i915 0000:00:02.0: [drm] Finished loading DMC firmware
+> i915/kbl_dmc_ver1_04.bin (v1.4)
+> [drm] Initialized i915 1.6.0 20201103 for 0000:00:02.0 on minor 0
 
+In the first case I see following dmesg output (black monitor):
+> i915 0000:00:02.0: [drm] *ERROR* mstb 0000000009cd3ca6 port 1: DPCD read =
+on
+> addr 0x4b0 for 1 bytes NAKed
 
+In the last case I see following dmesg output (despite monitor working):
+> i915 0000:00:02.0: [drm] *ERROR* mstb 00000000f4b4c9f1 port 1: DPCD read =
+on
+> addr 0x4b0 for 1 bytes NAKed
+> i915 0000:00:02.0: [drm] *ERROR* mstb 00000000f4b4c9f1 port 1: DPCD read =
+on
+> addr 0x4b0 for 1 bytes NAKed
+> i915 0000:00:02.0: [drm] *ERROR* mstb 00000000f4b4c9f1 port 1: DPCD read =
+on
+> addr 0x4b0 for 1 bytes NAKed
+> i915 0000:00:02.0: [drm] *ERROR* mstb 00000000f4b4c9f1 port 1: DPCD read =
+on
+> addr 0x4b0 for 1 bytes NAKed
+> i915 0000:00:02.0: [drm] *ERROR* mstb 00000000f4b4c9f1 port 1: DPCD read =
+on
+> addr 0x4b0 for 1 bytes NAKed
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
