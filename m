@@ -2,28 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66A2745B740
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Nov 2021 10:18:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F0D745B745
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Nov 2021 10:19:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2807C6E3D6;
-	Wed, 24 Nov 2021 09:18:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 12DF96E9D4;
+	Wed, 24 Nov 2021 09:19:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 46C4F6E9D4
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Nov 2021 09:18:06 +0000 (UTC)
-Date: Wed, 24 Nov 2021 09:17:50 +0000
-From: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH v8 3/8] dt-bindings: display: Add ingenic,jz4780-dw-hdmi
- DT Schema
-To: "H. Nikolaus Schaller" <hns@goldelico.com>
-Message-Id: <QHK23R.B5XN10D1VV2O1@crapouillou.net>
-In-Reply-To: <f97179a630e7d0fc739a118e2b321e1a6432876b.1637691240.git.hns@goldelico.com>
-References: <cover.1637691240.git.hns@goldelico.com>
- <f97179a630e7d0fc739a118e2b321e1a6432876b.1637691240.git.hns@goldelico.com>
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C59D6E9D4;
+ Wed, 24 Nov 2021 09:19:21 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10177"; a="222115973"
+X-IronPort-AV: E=Sophos;i="5.87,260,1631602800"; d="scan'208";a="222115973"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Nov 2021 01:19:07 -0800
+X-IronPort-AV: E=Sophos;i="5.87,260,1631602800"; d="scan'208";a="509804292"
+Received: from moconno1-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.252.21.40])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Nov 2021 01:19:02 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: cgel.zte@gmail.com
+Subject: Re: [PATCH] drm/i915/dmabuf: remove duplicate include in
+ i915_gem_dmabuf.c
+In-Reply-To: <20211124030607.34914-1-yao.jing2@zte.com.cn>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20211124030607.34914-1-yao.jing2@zte.com.cn>
+Date: Wed, 24 Nov 2021 11:18:59 +0200
+Message-ID: <87mtltnc70.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -36,164 +45,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, Paul Boddie <paul@boddie.org.uk>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>, Sam Ravnborg <sam@ravnborg.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, devicetree@vger.kernel.org,
- Kees Cook <keescook@chromium.org>, Jonas Karlman <jonas@kwiboo.se>,
- Mark Brown <broonie@kernel.org>, Maxime Ripard <maxime@cerno.tech>,
- letux-kernel@openphoenux.org, Ezequiel Garcia <ezequiel@collabora.com>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Liam Girdwood <lgirdwood@gmail.com>, Robert Foss <robert.foss@linaro.org>,
- linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- "Eric W. Biederman" <ebiederm@xmission.com>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: tvrtko.ursulin@linux.intel.com, jason@jlekstrand.net, yao.jing2@zte.com.cn,
+ thomas.hellstrom@linux.intel.com, airlied@linux.ie, gregkh@linuxfoundation.org,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, chris@chris-wilson.co.uk,
+ matthew.auld@intel.com, rodrigo.vivi@intel.com, Zeal Robot <zealci@zte.com.cn>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Nikolaus,
+On Wed, 24 Nov 2021, cgel.zte@gmail.com wrote:
+> From: Yao Jing <yao.jing2@zte.com.cn>
+>
+> 'asm/smp.h' included in 'drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c' is
+> duplicated. It is clearly included on the 12 line.
+>
+> Reported-by: Zeal Robot <zealci@zte.com.cn>
+> Signed-off-by: Yao Jing <yao.jing2@zte.com.cn>
 
-Le mar., nov. 23 2021 at 19:13:56 +0100, H. Nikolaus Schaller=20
-<hns@goldelico.com> a =E9crit :
-> From: Sam Ravnborg <sam@ravnborg.org>
->=20
-> Add DT bindings for the hdmi driver for the Ingenic JZ4780 SoC.
-> Based on .txt binding from Zubair Lutfullah Kakakhel
->=20
-> We also add generic ddc-i2c-bus to synopsys,dw-hdmi.yaml
->=20
-> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
-> Cc: Rob Herring <robh@kernel.org>
-> Cc: devicetree@vger.kernel.org
+The correct fix is [1].
+
+If you keep sending patches from cgel.zte@gmail.com, you need to add
+your Signed-off-by too.
+
+BR,
+Jani.
+
+
+[1] https://patchwork.freedesktop.org/patch/msgid/20211122135758.85444-1-tvrtko.ursulin@linux.intel.com
+
+
+
 > ---
->  .../display/bridge/ingenic,jz4780-hdmi.yaml   | 76=20
-> +++++++++++++++++++
->  .../display/bridge/synopsys,dw-hdmi.yaml      |  3 +
->  2 files changed, 79 insertions(+)
->  create mode 100644=20
-> Documentation/devicetree/bindings/display/bridge/ingenic,jz4780-hdmi.yaml
->=20
-> diff --git=20
-> a/Documentation/devicetree/bindings/display/bridge/ingenic,jz4780-hdmi.ya=
-ml=20
-> b/Documentation/devicetree/bindings/display/bridge/ingenic,jz4780-hdmi.ya=
-ml
-> new file mode 100644
-> index 0000000000000..190ca4521b1d0
-> --- /dev/null
-> +++=20
-> b/Documentation/devicetree/bindings/display/bridge/ingenic,jz4780-hdmi.ya=
-ml
-> @@ -0,0 +1,76 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/bridge/ingenic,jz4780-hdmi.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Bindings for Ingenic JZ4780 HDMI Transmitter
-> +
-> +maintainers:
-> +  - H. Nikolaus Schaller <hns@goldelico.com>
-> +
-> +description: |
-> +  The HDMI Transmitter in the Ingenic JZ4780 is a Synopsys=20
-> DesignWare HDMI 1.4
-> +  TX controller IP with accompanying PHY IP.
-> +
-> +allOf:
-> +  - $ref: bridge/synopsys,dw-hdmi.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    const: ingenic,jz4780-dw-hdmi
-> +
-> +  reg-io-width:
-> +    const: 4
-> +
-> +  clocks:
-> +    maxItems: 2
-> +
-> +  hdmi-5v-supply:
-> +    description: Optional regulator to provide +5V at the connector
-> +
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +
-> +required:
-> +    - compatible
-> +    - clocks
-> +    - clock-names
-> +    - ports
-> +    - reg-io-width
-> +
-> +unevaluatedPropertes: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/jz4780-cgu.h>
+>  drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
+> index f291cf4c3886..5712b6b5f285 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
+> @@ -17,9 +17,7 @@
+>  
+>  MODULE_IMPORT_NS(DMA_BUF);
+>  
+> -#if defined(CONFIG_X86)
+> -#include <asm/smp.h>
+> -#else
+> +#if !defined(CONFIG_X86)
+>  #define wbinvd_on_all_cpus() \
+>  	pr_warn(DRIVER_NAME ": Missing cache flush in %s\n", __func__)
+>  #endif
 
-This include was moved in 5.16-rc1 to=20
-<dt-bindings/clock/ingenic,jz4780-cgu.h>.
-
-Cheers,
--Paul
-
-> +
-> +    hdmi: hdmi@10180000 {
-> +        compatible =3D "ingenic,jz4780-dw-hdmi";
-> +        reg =3D <0x10180000 0x8000>;
-> +        reg-io-width =3D <4>;
-> +        ddc-i2c-bus =3D <&i2c4>;
-> +        interrupt-parent =3D <&intc>;
-> +        interrupts =3D <3>;
-> +        clocks =3D <&cgu JZ4780_CLK_AHB0>, <&cgu JZ4780_CLK_HDMI>;
-> +        clock-names =3D "iahb", "isfr";
-> +
-> +        ports {
-> +            #address-cells =3D <1>;
-> +            #size-cells =3D <0>;
-> +            hdmi_in: port@0 {
-> +                reg =3D <0>;
-> +                dw_hdmi_in: endpoint {
-> +                    remote-endpoint =3D <&jz4780_lcd_out>;
-> +                };
-> +            };
-> +            hdmi_out: port@1 {
-> +                reg =3D <1>;
-> +                dw_hdmi_out: endpoint {
-> +                    remote-endpoint =3D <&hdmi_con>;
-> +                };
-> +            };
-> +        };
-> +    };
-> +
-> +...
-> diff --git=20
-> a/Documentation/devicetree/bindings/display/bridge/synopsys,dw-hdmi.yaml=20
-> b/Documentation/devicetree/bindings/display/bridge/synopsys,dw-hdmi.yaml
-> index 9be44a682e67a..9cbeabaee0968 100644
-> ---=20
-> a/Documentation/devicetree/bindings/display/bridge/synopsys,dw-hdmi.yaml
-> +++=20
-> b/Documentation/devicetree/bindings/display/bridge/synopsys,dw-hdmi.yaml
-> @@ -50,6 +50,9 @@ properties:
->    interrupts:
->      maxItems: 1
->=20
-> +  ddc-i2c-bus:
-> +    description: An I2C interface if the internal DDC I2C driver is=20
-> not to be used
-> +
->  additionalProperties: true
->=20
->  ...
-> --
-> 2.33.0
->=20
-
-
+-- 
+Jani Nikula, Intel Open Source Graphics Center
