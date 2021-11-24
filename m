@@ -2,57 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E06645CF35
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Nov 2021 22:37:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2776F45CF39
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Nov 2021 22:37:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 895AF6EDDA;
-	Wed, 24 Nov 2021 21:37:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C31656EDDF;
+	Wed, 24 Nov 2021 21:37:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com
- [IPv6:2607:f8b0:4864:20::1029])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CABDD6EDD5;
- Wed, 24 Nov 2021 21:37:16 +0000 (UTC)
-Received: by mail-pj1-x1029.google.com with SMTP id
- cq22-20020a17090af99600b001a9550a17a5so6105583pjb.2; 
- Wed, 24 Nov 2021 13:37:16 -0800 (PST)
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com
+ [IPv6:2607:f8b0:4864:20::1036])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B36AD6EDDE;
+ Wed, 24 Nov 2021 21:37:20 +0000 (UTC)
+Received: by mail-pj1-x1036.google.com with SMTP id iq11so3551139pjb.3;
+ Wed, 24 Nov 2021 13:37:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=qT270TDVu3RNLCbEZIh136xM3BZd66vNcoUJgEjamV4=;
- b=Rnc90X9RwyHkbAznozL/QOsisKd66Ud1McZiJUMkhUarRCDAdk4cocqf2wn2tsaM49
- OYUyAnyg2y2UZi2dqC3ZBlLmIe0Wg+Xglq2CVnavdWUpDhLIj1+k7asGdlaEhBNtrGev
- 4LN3G5sN4dFHTxHGz/KzfXbQ82t9nm5d/aaw98yAyhG5wdzq5xGn4iMYovY7lFKxN/Lb
- 9I0A9A0apH+zpsuR8Jei02IOWkFm+Rh0nxBBQa6zFzMBHJJ8WfXEEzOw4AL9mCg0HCfH
- eBkjVSK3hRYfvOXXNEqSSyyfHFoCo5EKH+m139EN6Yagh9xcNLfp9/nI4k1lTlfDXJ7B
- OWqA==
+ bh=Xo64Z06VK9djsBpMwA/kmmq0aY4Br5jzhSEbD50Z0N4=;
+ b=kr9xAcTb6KjI4HMyh6lER9oWkUXGMB2DUApAFlvKjQibThaaFYCg3ZXglx46ws3LjW
+ ttpdP9QH/yY9ZMTud8QBAc3XqeYCCkE1OkHt/T1yfq92ei58QjClA0ncdererQSRmTbQ
+ gvO1Ez4NzKrbIWd9t6ea9SZeVSTHByNSnHROFs1r4I7Xw9pH41TQe2n6m8k7Uus2Vw0m
+ 9XOC/3GRHHRUm8zQ/eJpQZDeRi4ESbDH1gwglUbj8eDzpr9xZqMwA/pzPCoX9IknqycI
+ KNMTG0UHRcoiu8nay7teS7jJiGqowVZwA9XHPvZBQkfOvxZv6h5dlbVDVjiD7Sx1zaDR
+ IKrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=qT270TDVu3RNLCbEZIh136xM3BZd66vNcoUJgEjamV4=;
- b=zKY9O4YDY6pdb8wvyUfIJinAN4DniC9ZT0SAH7F0wVFJt6zFYtj7KWdUGnKZAVJbvU
- 00YRKi7QqaK17OkTdp96sbAxS1FfQSbhsPCzh+2O2MYvYImnNmGJMif6eLIIdA2GbHSU
- toLiO6QlCVJDI9cIszmPfAhTvfCVeLKCe/8QZxUcN4+t42If4vm33B89poKynxw+bjUB
- gps9utTPuzlMoY+cKOrYbr60X1hrSEGquH99aW98gVp2yifNwWzChqDF/5cX5eniAUuj
- KMUqZEZRoHKzTOFX7gdKFOM91I+fkfxHaPIZOqva18rOlztEm1lz6gHVuB6VNp65IM58
- s71Q==
-X-Gm-Message-State: AOAM530PQGSOlEGSM/FZDmKTNsq7mj7o6YJltTt5jRUUzdPxHVh6K8Ea
- bonvZDuPbLkgwBJlesPsyhCaSdcE1lg=
-X-Google-Smtp-Source: ABdhPJxLykj61ao4WG+u/+cIoCuT4gWrgMpP7iO04TKNVHbS/1IFNkycMGeaXHB8V8SYdXK3Coit4w==
-X-Received: by 2002:a17:90a:158f:: with SMTP id
- m15mr266293pja.200.1637789835783; 
- Wed, 24 Nov 2021 13:37:15 -0800 (PST)
+ bh=Xo64Z06VK9djsBpMwA/kmmq0aY4Br5jzhSEbD50Z0N4=;
+ b=zJgytI/Z0mf3TPDpGKbp/6AC3iLSetZ0tGwPPccyV5ZD3TKoepcVX8W0wIZ4esHBK+
+ 6NdXV/YKodwfgvTTMUB+xMf0mJ7xcYASRI5oYzRPWKAe5rmhJuqY3SabacnoPSdGZrbP
+ wAWIZvOL2f6kZ24TQfIenI6gGbrUOvHBUJkSMD+i0+nFIRTfpL1CXp5e8HxZlkPCm/L7
+ 25VItI+IO+BKHy8GLJkHaxgPVvB1Cwp2MMtgv3/1ZxBJX94xAHm+WeGxEppxGdOyX54G
+ 124OoD/QpoBxt0pNc1DqCMY2McA2P/hfVH0yka/i2yJY9c4UUEv/XVLNj0ks4Ux7aqGa
+ SCnw==
+X-Gm-Message-State: AOAM533dcIzc7ZPMWnIkoRF0XYb2A7uzbnbZcF1j8bjy3+Eyx7bHXXEY
+ LFUEy/5bf2arXv5JCg0Zu2ciSK8fseY=
+X-Google-Smtp-Source: ABdhPJzh44tw9P3I/mqiG6qgvxA4wLye4Bn4K8czdGIHeFf9evQGp4cLkzNfVGdQcaNx+ZjJ+2nrLg==
+X-Received: by 2002:a17:902:d505:b0:141:f5f7:848e with SMTP id
+ b5-20020a170902d50500b00141f5f7848emr23110997plg.72.1637789839653; 
+ Wed, 24 Nov 2021 13:37:19 -0800 (PST)
 Received: from localhost (c-73-25-156-94.hsd1.or.comcast.net. [73.25.156.94])
  by smtp.gmail.com with ESMTPSA id
- c18sm654630pfl.201.2021.11.24.13.37.13
+ q6sm711783pfk.144.2021.11.24.13.37.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Nov 2021 13:37:14 -0800 (PST)
+ Wed, 24 Nov 2021 13:37:18 -0800 (PST)
 From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/7] drm/msm/gpu: Name GMU bos
-Date: Wed, 24 Nov 2021 13:41:29 -0800
-Message-Id: <20211124214151.1427022-5-robdclark@gmail.com>
+Subject: [PATCH 3/7] drm/msm/gpu: Add some WARN_ON()s
+Date: Wed, 24 Nov 2021 13:41:30 -0800
+Message-Id: <20211124214151.1427022-6-robdclark@gmail.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211124214151.1427022-1-robdclark@gmail.com>
 References: <20211124214151.1427022-1-robdclark@gmail.com>
@@ -71,105 +70,41 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Rob Clark <robdclark@chromium.org>,
- open list <linux-kernel@vger.kernel.org>, Jonathan Marek <jonathan@marek.ca>,
- Eric Anholt <eric@anholt.net>, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, Akhil P Oommen <akhilpo@codeaurora.org>,
+ Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
+ Jonathan Marek <jonathan@marek.ca>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, Sharat Masetty <smasetty@codeaurora.org>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Akhil P Oommen <akhilpo@codeaurora.org>,
  Jordan Crouse <jordan@cosmicpenguin.net>, Sean Paul <sean@poorly.run>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno@lists.freedesktop.org, Dan Carpenter <dan.carpenter@oracle.com>
+ Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org,
+ open list <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Rob Clark <robdclark@chromium.org>
 
+We don't expect either of these conditions to ever be true, so let's get
+shouty if they are.
+
 Signed-off-by: Rob Clark <robdclark@chromium.org>
 ---
- drivers/gpu/drm/msm/adreno/a6xx_gmu.c | 22 +++++++++++++---------
- 1 file changed, 13 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/msm/adreno/adreno_gpu.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-index 71e52b2b2025..e1774ea342b1 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-@@ -1146,7 +1146,7 @@ static void a6xx_gmu_memory_free(struct a6xx_gmu *gmu)
- }
+diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+index a379f98aca54..6c42cc0ebe84 100644
+--- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+@@ -504,6 +504,9 @@ int adreno_gpu_state_get(struct msm_gpu *gpu, struct msm_gpu_state *state)
+ 	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+ 	int i, count = 0;
  
- static int a6xx_gmu_memory_alloc(struct a6xx_gmu *gmu, struct a6xx_gmu_bo *bo,
--		size_t size, u64 iova)
-+		size_t size, u64 iova, const char *name)
- {
- 	struct a6xx_gpu *a6xx_gpu = container_of(gmu, struct a6xx_gpu, gmu);
- 	struct drm_device *dev = a6xx_gpu->base.base.dev;
-@@ -1181,6 +1181,8 @@ static int a6xx_gmu_memory_alloc(struct a6xx_gmu *gmu, struct a6xx_gmu_bo *bo,
- 	bo->virt = msm_gem_get_vaddr(bo->obj);
- 	bo->size = size;
- 
-+	msm_gem_object_set_name(bo->obj, name);
++	WARN_ON(gpu->needs_hw_init);
++	WARN_ON(!mutex_is_locked(&gpu->dev->struct_mutex));
 +
- 	return 0;
- }
+ 	kref_init(&state->ref);
  
-@@ -1515,7 +1517,8 @@ int a6xx_gmu_init(struct a6xx_gpu *a6xx_gpu, struct device_node *node)
- 	 */
- 	gmu->dummy.size = SZ_4K;
- 	if (adreno_is_a660_family(adreno_gpu)) {
--		ret = a6xx_gmu_memory_alloc(gmu, &gmu->debug, SZ_4K * 7, 0x60400000);
-+		ret = a6xx_gmu_memory_alloc(gmu, &gmu->debug, SZ_4K * 7,
-+					    0x60400000, "debug");
- 		if (ret)
- 			goto err_memory;
- 
-@@ -1523,23 +1526,24 @@ int a6xx_gmu_init(struct a6xx_gpu *a6xx_gpu, struct device_node *node)
- 	}
- 
- 	/* Allocate memory for the GMU dummy page */
--	ret = a6xx_gmu_memory_alloc(gmu, &gmu->dummy, gmu->dummy.size, 0x60000000);
-+	ret = a6xx_gmu_memory_alloc(gmu, &gmu->dummy, gmu->dummy.size,
-+				    0x60000000, "dummy");
- 	if (ret)
- 		goto err_memory;
- 
- 	if (adreno_is_a650_family(adreno_gpu)) {
- 		ret = a6xx_gmu_memory_alloc(gmu, &gmu->icache,
--			SZ_16M - SZ_16K, 0x04000);
-+			SZ_16M - SZ_16K, 0x04000, "icache");
- 		if (ret)
- 			goto err_memory;
- 	} else if (adreno_is_a640_family(adreno_gpu)) {
- 		ret = a6xx_gmu_memory_alloc(gmu, &gmu->icache,
--			SZ_256K - SZ_16K, 0x04000);
-+			SZ_256K - SZ_16K, 0x04000, "icache");
- 		if (ret)
- 			goto err_memory;
- 
- 		ret = a6xx_gmu_memory_alloc(gmu, &gmu->dcache,
--			SZ_256K - SZ_16K, 0x44000);
-+			SZ_256K - SZ_16K, 0x44000, "dcache");
- 		if (ret)
- 			goto err_memory;
- 	} else {
-@@ -1547,18 +1551,18 @@ int a6xx_gmu_init(struct a6xx_gpu *a6xx_gpu, struct device_node *node)
- 		gmu->legacy = true;
- 
- 		/* Allocate memory for the GMU debug region */
--		ret = a6xx_gmu_memory_alloc(gmu, &gmu->debug, SZ_16K, 0);
-+		ret = a6xx_gmu_memory_alloc(gmu, &gmu->debug, SZ_16K, 0, "debug");
- 		if (ret)
- 			goto err_memory;
- 	}
- 
- 	/* Allocate memory for for the HFI queues */
--	ret = a6xx_gmu_memory_alloc(gmu, &gmu->hfi, SZ_16K, 0);
-+	ret = a6xx_gmu_memory_alloc(gmu, &gmu->hfi, SZ_16K, 0, "hfi");
- 	if (ret)
- 		goto err_memory;
- 
- 	/* Allocate memory for the GMU log region */
--	ret = a6xx_gmu_memory_alloc(gmu, &gmu->log, SZ_4K, 0);
-+	ret = a6xx_gmu_memory_alloc(gmu, &gmu->log, SZ_4K, 0, "log");
- 	if (ret)
- 		goto err_memory;
- 
+ 	ktime_get_real_ts64(&state->time);
 -- 
 2.33.1
 
