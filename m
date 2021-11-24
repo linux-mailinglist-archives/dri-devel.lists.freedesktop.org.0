@@ -2,57 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3828A45CF42
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Nov 2021 22:37:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C975F45CF44
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Nov 2021 22:37:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B4A0A6EDED;
-	Wed, 24 Nov 2021 21:37:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD05D6EDEF;
+	Wed, 24 Nov 2021 21:37:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com
- [IPv6:2607:f8b0:4864:20::102a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D5C426EDEC;
- Wed, 24 Nov 2021 21:37:37 +0000 (UTC)
-Received: by mail-pj1-x102a.google.com with SMTP id
- nh10-20020a17090b364a00b001a69adad5ebso3940015pjb.2; 
- Wed, 24 Nov 2021 13:37:37 -0800 (PST)
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com
+ [IPv6:2607:f8b0:4864:20::633])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 127B96EDEE;
+ Wed, 24 Nov 2021 21:37:41 +0000 (UTC)
+Received: by mail-pl1-x633.google.com with SMTP id v19so2935086plo.7;
+ Wed, 24 Nov 2021 13:37:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=yTbQCjulQBoWfNm8VTWUyI1TCP6QzxDwt8c6rBboG24=;
- b=DsPEv8IFzOcaBYcPcOuPtreqIjaPeD5EwaiB3duk9luTEQXdzyPAXIDMnaJi3GFhd1
- D7w6FO0/xirYyx23Z8xpBv8maclCfpEnIlwcOS5D3EpetpaJpUiagNGbRGF4DfPHjWKp
- nTa4yun0rieNXobyXeFVvZO0EseyH+8puKHJo4tFHCj3pOecldjNsDaiXf3Z7KkbFiIe
- 0LsJKKbz5QlPfLLjsa8DBT4r/HftW6oJT3IJnQ90J6eHgLy6t/4Y86XDczuhfM8oTrGW
- z/axZh0kFLf9nptE1cRE0iDFtqdduNaUwwqDaNbcpDmI3S13QK7MjuAhCp77TNv+i+aj
- JUNw==
+ bh=8cR2Y+uX8vVDrjMHw+aD7NNLHEizzFUKMzZGd0OO/tQ=;
+ b=DNHqaPjtfvEq9kQLU9i+7ddrNHG+eAa6dSoHcfbT0frOtu2yHKBWuSQAC5kVp2auot
+ o77TJdLzxjmR/8hGfhPiSe02pLBcxYmAVdVWmeD9kqT9JhLQmCk2HfAncbPoBcuCqTQi
+ DhJ6Rr4nwg44U2DD0d4IgAroAQyqluJ9wKzpLjSiw8EhBfOGD628ruN7gsDQFehXVosA
+ GPaicTyZOjXnXcXE+BKnOt5LDN9AyBLnmsWIVFWiJKIB/p2K3Zr2/XPoKyCKGw5pclMh
+ QgNqUs15cYmYnoDTB/WsQF6ukX0qFa8VPFzfmfN+KFkHz5n+I+/AntqNy/i0zgTLp0vT
+ db/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=yTbQCjulQBoWfNm8VTWUyI1TCP6QzxDwt8c6rBboG24=;
- b=fttZElWpFUfI2gJltxWGyh+5aTPBT8Wp5SSlHgqkbfxPLGXehwWgn8WeNhVWkeiovv
- q/TpdqdGIh+ybaQg3gYwUecjXNV6A2iUn00YDImI5ysWZSUVOfcSW5YOJZEDUNn5uer9
- mlHh/HnUaKPYW8Y1AbO+z3VdX+i7AHeNdNk1n5YmAolUzyY8u0JqqppV7hP4pwLZgNQ0
- JC/6fINyH7QLSGeMex6JeDgQNVSfNcl+MrMfEExONyqDn1FD9H+N4jzdWPlMkEi5fBtt
- 3UMWSr6Y0NTGO1AZrBiC4DHcMP0D7RWicGqjyDOByCwW6gJHm+4ttQL2hNAA813QCbsO
- WUwg==
-X-Gm-Message-State: AOAM531cD/3+x/8fgGlkAEa58o52jJZBSEJUy1GfZKKODyNmlp9ggtdW
- +migyp0NGc47K6Ljzenewx53UVXSN9E=
-X-Google-Smtp-Source: ABdhPJz9Mmil4+4+Ed7DAslPNuwEoe+cRh9O085x7A67qlbViJUVHCJ3XNrVOV78FUCiia3X+45mNQ==
-X-Received: by 2002:a17:903:248c:b0:142:9bf:8b0 with SMTP id
- p12-20020a170903248c00b0014209bf08b0mr23087864plw.70.1637789856787; 
- Wed, 24 Nov 2021 13:37:36 -0800 (PST)
+ bh=8cR2Y+uX8vVDrjMHw+aD7NNLHEizzFUKMzZGd0OO/tQ=;
+ b=z2w1bhU8XJcqYbpto6RmBRSF7WjKHw5HydN0JsTeltshoaEN1odZ33pKFHhgqn7XdP
+ T9Lc3WffeAc1R4A/v7eRtlkv3Tz+204ogsEtIv7D83vfJSztVjY6PHPqcLtHgQwzl+8X
+ vxjq+FrJ2YSAjYHqfeIxra1doemQeFc3SPCL/ZgB+8uhywhNo+6YytkBP4un48MVEAo5
+ Hoh7nOhudPHrY80p12KFX+Yyk+lYtZsuGEgTKcYvCLy8DJL1rkMKw16sm/lca4QUyIsY
+ XR/Pd9KMRmk9FgWLIM7n/Ot8/kQ/ipEIw78Bn7gTXBnYEgkQ7OWcDUDw6gk4D1c9+eWg
+ NDmQ==
+X-Gm-Message-State: AOAM532EuZP5u4Dgl8/4xZCYkz5CfK6oirxGGDkvwtFpSXPZRP9RkPC9
+ NAQAFqenrGonMr8IMekM4t/2ziH/R20=
+X-Google-Smtp-Source: ABdhPJy/qt89x2ESb7NNGbAOo5VrcJZp7SdllwWJTZOxJIW11cj43KGhzdzJYYs52ELKCKLAiVT6vg==
+X-Received: by 2002:a17:90b:4b89:: with SMTP id
+ lr9mr230252pjb.49.1637789860041; 
+ Wed, 24 Nov 2021 13:37:40 -0800 (PST)
 Received: from localhost (c-73-25-156-94.hsd1.or.comcast.net. [73.25.156.94])
  by smtp.gmail.com with ESMTPSA id
- h3sm691398pfi.207.2021.11.24.13.37.35
+ o7sm536970pjf.33.2021.11.24.13.37.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Nov 2021 13:37:35 -0800 (PST)
+ Wed, 24 Nov 2021 13:37:39 -0800 (PST)
 From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 6/7] drm/msm/gpu: Snapshot GMU debug buffer
-Date: Wed, 24 Nov 2021 13:41:34 -0800
-Message-Id: <20211124214151.1427022-10-robdclark@gmail.com>
+Subject: [PATCH 7/7] drm/msm/gpu: Add a comment in a6xx_gmu_init()
+Date: Wed, 24 Nov 2021 13:41:35 -0800
+Message-Id: <20211124214151.1427022-11-robdclark@gmail.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211124214151.1427022-1-robdclark@gmail.com>
 References: <20211124214151.1427022-1-robdclark@gmail.com>
@@ -70,65 +69,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Douglas Anderson <dianders@chromium.org>, Jonathan Marek <jonathan@marek.ca>,
- David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- Akhil P Oommen <akhilpo@codeaurora.org>,
+Cc: Rob Clark <robdclark@chromium.org>, Jonathan Marek <jonathan@marek.ca>,
+ Eric Anholt <eric@anholt.net>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, Akhil P Oommen <akhilpo@codeaurora.org>,
  Jordan Crouse <jordan@cosmicpenguin.net>, Sean Paul <sean@poorly.run>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Lee Jones <lee.jones@linaro.org>, freedreno@lists.freedesktop.org,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, freedreno@lists.freedesktop.org,
  open list <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Rob Clark <robdclark@chromium.org>
 
-It appears to be a GMU fw build option whether it does anything with
-debug and log buffers, but if they are all zeros it won't add anything
-to the devcore size.
+If you don't realize is_a650_family() also encompasses a660 family,
+you'd think that the debug buffer is double allocated.  Add a comment
+to make this more clear.
 
 Signed-off-by: Rob Clark <robdclark@chromium.org>
 ---
- drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
-index a84ba8982cb8..bdd0059a81ff 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
-@@ -44,6 +44,7 @@ struct a6xx_gpu_state {
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+index e1774ea342b1..3e325e2a2b1b 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+@@ -1531,6 +1531,7 @@ int a6xx_gmu_init(struct a6xx_gpu *a6xx_gpu, struct device_node *node)
+ 	if (ret)
+ 		goto err_memory;
  
- 	struct msm_gpu_state_bo *gmu_log;
- 	struct msm_gpu_state_bo *gmu_hfi;
-+	struct msm_gpu_state_bo *gmu_debug;
- 
- 	s32 hfi_queue_history[2][HFI_HISTORY_SZ];
- 
-@@ -983,6 +984,7 @@ struct msm_gpu_state *a6xx_gpu_state_get(struct msm_gpu *gpu)
- 
- 	a6xx_state->gmu_log = a6xx_snapshot_gmu_bo(a6xx_state, &a6xx_gpu->gmu.log);
- 	a6xx_state->gmu_hfi = a6xx_snapshot_gmu_bo(a6xx_state, &a6xx_gpu->gmu.hfi);
-+	a6xx_state->gmu_debug = a6xx_snapshot_gmu_bo(a6xx_state, &a6xx_gpu->gmu.debug);
- 
- 	a6xx_snapshot_gmu_hfi_history(gpu, a6xx_state);
- 
-@@ -1274,6 +1276,16 @@ void a6xx_show(struct msm_gpu *gpu, struct msm_gpu_state *state,
- 				&gmu_hfi->encoded);
- 	}
- 
-+	drm_puts(p, "gmu-debug:\n");
-+	if (a6xx_state->gmu_debug) {
-+		struct msm_gpu_state_bo *gmu_debug = a6xx_state->gmu_debug;
++	/* Note that a650 family also includes a660 family: */
+ 	if (adreno_is_a650_family(adreno_gpu)) {
+ 		ret = a6xx_gmu_memory_alloc(gmu, &gmu->icache,
+ 			SZ_16M - SZ_16K, 0x04000, "icache");
+@@ -1547,6 +1548,8 @@ int a6xx_gmu_init(struct a6xx_gpu *a6xx_gpu, struct device_node *node)
+ 		if (ret)
+ 			goto err_memory;
+ 	} else {
++		BUG_ON(adreno_is_a660_family(adreno_gpu));
 +
-+		drm_printf(p, "    iova: 0x%016llx\n", gmu_debug->iova);
-+		drm_printf(p, "    size: %zu\n", gmu_debug->size);
-+		adreno_show_object(p, &gmu_debug->data, gmu_debug->size,
-+				&gmu_debug->encoded);
-+	}
-+
- 	drm_puts(p, "registers:\n");
- 	for (i = 0; i < a6xx_state->nr_registers; i++) {
- 		struct a6xx_gpu_state_obj *obj = &a6xx_state->registers[i];
+ 		/* HFI v1, has sptprac */
+ 		gmu->legacy = true;
+ 
 -- 
 2.33.1
 
