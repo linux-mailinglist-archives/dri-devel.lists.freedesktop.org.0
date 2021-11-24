@@ -1,62 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C975F45CF44
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Nov 2021 22:37:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F3A445CFFA
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Nov 2021 23:19:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD05D6EDEF;
-	Wed, 24 Nov 2021 21:37:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B261B6E20C;
+	Wed, 24 Nov 2021 22:19:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com
- [IPv6:2607:f8b0:4864:20::633])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 127B96EDEE;
- Wed, 24 Nov 2021 21:37:41 +0000 (UTC)
-Received: by mail-pl1-x633.google.com with SMTP id v19so2935086plo.7;
- Wed, 24 Nov 2021 13:37:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=8cR2Y+uX8vVDrjMHw+aD7NNLHEizzFUKMzZGd0OO/tQ=;
- b=DNHqaPjtfvEq9kQLU9i+7ddrNHG+eAa6dSoHcfbT0frOtu2yHKBWuSQAC5kVp2auot
- o77TJdLzxjmR/8hGfhPiSe02pLBcxYmAVdVWmeD9kqT9JhLQmCk2HfAncbPoBcuCqTQi
- DhJ6Rr4nwg44U2DD0d4IgAroAQyqluJ9wKzpLjSiw8EhBfOGD628ruN7gsDQFehXVosA
- GPaicTyZOjXnXcXE+BKnOt5LDN9AyBLnmsWIVFWiJKIB/p2K3Zr2/XPoKyCKGw5pclMh
- QgNqUs15cYmYnoDTB/WsQF6ukX0qFa8VPFzfmfN+KFkHz5n+I+/AntqNy/i0zgTLp0vT
- db/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=8cR2Y+uX8vVDrjMHw+aD7NNLHEizzFUKMzZGd0OO/tQ=;
- b=z2w1bhU8XJcqYbpto6RmBRSF7WjKHw5HydN0JsTeltshoaEN1odZ33pKFHhgqn7XdP
- T9Lc3WffeAc1R4A/v7eRtlkv3Tz+204ogsEtIv7D83vfJSztVjY6PHPqcLtHgQwzl+8X
- vxjq+FrJ2YSAjYHqfeIxra1doemQeFc3SPCL/ZgB+8uhywhNo+6YytkBP4un48MVEAo5
- Hoh7nOhudPHrY80p12KFX+Yyk+lYtZsuGEgTKcYvCLy8DJL1rkMKw16sm/lca4QUyIsY
- XR/Pd9KMRmk9FgWLIM7n/Ot8/kQ/ipEIw78Bn7gTXBnYEgkQ7OWcDUDw6gk4D1c9+eWg
- NDmQ==
-X-Gm-Message-State: AOAM532EuZP5u4Dgl8/4xZCYkz5CfK6oirxGGDkvwtFpSXPZRP9RkPC9
- NAQAFqenrGonMr8IMekM4t/2ziH/R20=
-X-Google-Smtp-Source: ABdhPJy/qt89x2ESb7NNGbAOo5VrcJZp7SdllwWJTZOxJIW11cj43KGhzdzJYYs52ELKCKLAiVT6vg==
-X-Received: by 2002:a17:90b:4b89:: with SMTP id
- lr9mr230252pjb.49.1637789860041; 
- Wed, 24 Nov 2021 13:37:40 -0800 (PST)
-Received: from localhost (c-73-25-156-94.hsd1.or.comcast.net. [73.25.156.94])
- by smtp.gmail.com with ESMTPSA id
- o7sm536970pjf.33.2021.11.24.13.37.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Nov 2021 13:37:39 -0800 (PST)
-From: Rob Clark <robdclark@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 7/7] drm/msm/gpu: Add a comment in a6xx_gmu_init()
-Date: Wed, 24 Nov 2021 13:41:35 -0800
-Message-Id: <20211124214151.1427022-11-robdclark@gmail.com>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20211124214151.1427022-1-robdclark@gmail.com>
-References: <20211124214151.1427022-1-robdclark@gmail.com>
+X-Greylist: delayed 996 seconds by postgrey-1.36 at gabe;
+ Wed, 24 Nov 2021 22:19:47 UTC
+Received: from vern.gendns.com (vern.gendns.com [98.142.107.122])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB69D6E201
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Nov 2021 22:19:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=lechnology.com; s=default; h=Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+ :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+ Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+ List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=cPTkm5dKyGu8+kzGw6UdVofJoo3PgcRhgy9Z9JjJlyA=; b=PozlIypVuJfS0CUVCF/v5R3Z7t
+ c7/fquKX/OVyTv1Y5tbpZPUv8P3aZmhXg89nFDyM6VdqhxmOkt0qdCGylDm4IRmYwQn4xc9tx10tu
+ WdQklCM6BCQ3laysqHCC3f34MpujxhAk+4LVJaAQS8agB9ggw5VBWBit92qtw43tJDPUXb/2RjCiA
+ SQOk9YRPy0Ef9x8hoP9Ayym2RdwrYwgsSKxGb0we8b+C3vejlXn0iyt29K77gTaZwI+lqm8/wx+gD
+ kWyvdJWzFhmxxB5IebR3gIeGScYVbBEs450CCKc/2FTkxm0846RpxC6QsIh2GPO3zOuzlQ8Sn0LkP
+ 0jRKM2yw==;
+Received: from [2600:1700:4830:1658::fb2] (port=55892)
+ by vern.gendns.com with esmtpsa (TLS1.2) tls
+ TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.94.2)
+ (envelope-from <david@lechnology.com>)
+ id 1mq0M0-00070D-6r; Wed, 24 Nov 2021 17:03:09 -0500
+Subject: Re: [PATCH 0/6] drm/tiny/st7735r: Match up with staging/fbtft driver
+To: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>, robh+dt@kernel.org
+References: <20211124150757.17929-1-noralf@tronnes.org>
+From: David Lechner <david@lechnology.com>
+Message-ID: <eba23198-5c52-6520-079b-d2d41f71dc25@lechnology.com>
+Date: Wed, 24 Nov 2021 16:03:07 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
+In-Reply-To: <20211124150757.17929-1-noralf@tronnes.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
+X-AntiAbuse: This header was added to track abuse,
+ please include it with any abuse report
+X-AntiAbuse: Primary Hostname - vern.gendns.com
+X-AntiAbuse: Original Domain - lists.freedesktop.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - lechnology.com
+X-Get-Message-Sender-Via: vern.gendns.com: authenticated_id:
+ davidmain+lechnology.com/only user confirmed/virtual account not confirmed
+X-Authenticated-Sender: vern.gendns.com: davidmain@lechnology.com
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,48 +68,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Jonathan Marek <jonathan@marek.ca>,
- Eric Anholt <eric@anholt.net>, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, Akhil P Oommen <akhilpo@codeaurora.org>,
- Jordan Crouse <jordan@cosmicpenguin.net>, Sean Paul <sean@poorly.run>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, freedreno@lists.freedesktop.org,
- open list <linux-kernel@vger.kernel.org>
+Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ dave.stevenson@raspberrypi.com, linux-staging@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, maxime@cerno.tech
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Clark <robdclark@chromium.org>
+On 11/24/21 9:07 AM, Noralf Trønnes wrote:
+> Hi,
+> 
+> This patchset adds a missing piece for decommissioning the
+> staging/fbtft/fb_st7735r.c driver namely a way to configure the
+> controller from Device Tree.
+> 
+> All fbtft drivers have builtin support for one display panel and all
+> other panels using that controller are configured using the Device Tree
+> 'init' property. This property is supported by all fbtft drivers and
+> provides a generic way to set register values or issue commands
+> (depending on the type of controller).
+> 
+> It is common for these types of displays to have a datasheet listing the
+> necessary controller settings/commands or some example code doing the
+> same.
+> 
+> This is how the panel directly supported by the fb_st7735r staging
+> driver is described using Device Tree with that driver:
+> 
+>      width = <160>;
+>      height = <128>;
+> 
+>      init = <0x1000001
+>              0x2000096
+>              0x1000011
+>              0x20000ff
+>              0x10000B1 0x01 0x2C 0x2D
+>              0x10000B4 0x07
+>              0x10000C0 0xA2 0x02 0x84
+>              0x10000C1 0xC5
+>              0x10000C2 0x0A 0x00
+>              0x10000C5 0x0E
+>              0x100003a 0x55
+>              0x1000036 0x60
+>              0x10000E0 0x0F 0x1A 0x0F 0x18 0x2F 0x28 0x20 0x22
+>                        0x1F 0x1B 0x23 0x37 0x00 0x07 0x02 0x10
+>              0x10000E1 0x0F 0x1B 0x0F 0x17 0x33 0x2C 0x29 0x2E
+>                        0x30 0x30 0x39 0x3F 0x00 0x07 0x03 0x10
+>              0x1000029
+>              0x2000064>;
+> 
+> 
+> This is how the same panel is described using the st7735r drm driver and
+> this patchset:
+> 
+>      width = <160>;
+>      height = <128>;
+> 
+>      frmctr1 = [ 01 2C 2D ];
+>      invctr = [ 07 ];
+>      pwctr1 = [ A2 02 84 ];
+>      pwctr2 = [ C5 ];
+>      pwctr3 = [ 0A 00 ];
+>      vmctr1 = [ 0E ];
+>      madctl = [ 60 ];
+>      gamctrp1 = [ 0F 1A 0F 18 2F 28 20 22 1F 1B 23 37 00 07 02 10 ];
+>      gamctrn1 = [ 0F 1B 0F 17 33 2C 29 2E 30 30 39 3F 00 07 03 10 ];
 
-If you don't realize is_a650_family() also encompasses a660 family,
-you'd think that the debug buffer is double allocated.  Add a comment
-to make this more clear.
+Do these setting correspond to actual physical properties of the display?
 
-Signed-off-by: Rob Clark <robdclark@chromium.org>
----
- drivers/gpu/drm/msm/adreno/a6xx_gmu.c | 3 +++
- 1 file changed, 3 insertions(+)
+What is the advantage of this compared to just adding a new compatible
+string if a new display requires different settings? (Other than being
+able to use a new display without compiling a new kernel/module.)
 
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-index e1774ea342b1..3e325e2a2b1b 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-@@ -1531,6 +1531,7 @@ int a6xx_gmu_init(struct a6xx_gpu *a6xx_gpu, struct device_node *node)
- 	if (ret)
- 		goto err_memory;
- 
-+	/* Note that a650 family also includes a660 family: */
- 	if (adreno_is_a650_family(adreno_gpu)) {
- 		ret = a6xx_gmu_memory_alloc(gmu, &gmu->icache,
- 			SZ_16M - SZ_16K, 0x04000, "icache");
-@@ -1547,6 +1548,8 @@ int a6xx_gmu_init(struct a6xx_gpu *a6xx_gpu, struct device_node *node)
- 		if (ret)
- 			goto err_memory;
- 	} else {
-+		BUG_ON(adreno_is_a660_family(adreno_gpu));
-+
- 		/* HFI v1, has sptprac */
- 		gmu->legacy = true;
- 
--- 
-2.33.1
+It is nice for the driver implementation to be able to use the byte
+arrays from the binding directly, but it doesn't really make sense from
+a "device tree describes the hardware" point of view.
+
+For example, looking at the data sheet, frmctr1 looks like it is actually
+multiple properties, the 1-line period, front porch and back porch.
+
+> 
+> 
+> Back when the fbtft drivers were added to staging I asked on the DT
+> mailinglist if it was OK to use the 'init' property but it was turned
+> down. In this patchset I'm trying the same approach used by the
+> solomon,ssd1307fb.yaml binding in describing the attached panel. That
+> binding prefixes the properties with the vendor name, not sure why that
+> is and I think it looks strange so I try without it.
+
+Because [1] says so?
+
+"DO use a vendor prefix on device-specific property names. Consider if
+properties could be common among devices of the same class. Check other
+existing bindings for similar devices."
+
+Do all displays have "frmctr1" or only sitronix displays?
+
+
+[1]: https://www.kernel.org/doc/html/latest/devicetree/bindings/writing-bindings.html
+
+> 
+> Noralf.
+> 
+> 
+> Noralf Trønnes (6):
+>    dt-bindings: display: sitronix,st7735r: Fix backlight in example
+>    dt-bindings: display: sitronix,st7735r: Make reset-gpios optional
+>    dt-bindings: display: sitronix,st7735r: Remove spi-max-frequency limit
+>    dt-bindings: display: sitronix,st7735r: Add initialization properties
+>    drm/mipi-dbi: Add device property functions
+>    drm: tiny: st7735r: Support DT initialization of controller
+> 
+>   .../bindings/display/sitronix,st7735r.yaml    | 122 ++++++++++++++-
+>   drivers/gpu/drm/drm_mipi_dbi.c                | 139 ++++++++++++++++++
+>   drivers/gpu/drm/tiny/st7735r.c                |  87 +++++++++--
+>   include/drm/drm_mipi_dbi.h                    |   3 +
+>   4 files changed, 334 insertions(+), 17 deletions(-)
+> 
 
