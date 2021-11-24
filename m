@@ -2,64 +2,136 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D80C45CA22
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Nov 2021 17:32:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FEAC45CA3A
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Nov 2021 17:40:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C6CE86EA6F;
-	Wed, 24 Nov 2021 16:32:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C9D8D6E3B7;
+	Wed, 24 Nov 2021 16:40:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com
- [IPv6:2a00:1450:4864:20::22c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 85B3B6EA6F
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Nov 2021 16:32:52 +0000 (UTC)
-Received: by mail-lj1-x22c.google.com with SMTP id b16so6622416ljf.12
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Nov 2021 08:32:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=hWdL3+sC7Y3WgMzxQgq49FXg8O3lrY2U4JGqRbZI6tg=;
- b=gujWqpLYZ0ok4buE3cVMLWfC5uFpJyuXa42ARhUlnN4O23+qlO+EmYtRvyX/8c+8Cd
- T5a1dyyYrYP3SiqkVxU+nFVwtXCc1qsYP3l3IZjhohQlobFIZT7KVzpd/uD0tmpe0CvO
- aeCfiRXxliyhrHPinovV+UTXQVe/RaMFEMYjCu0hyn3k5BUgAGEZ29zDCOQVjlqJOFhL
- TZBbWI9gTerbMrFWXfehbYHCPQb+K2zUVIW0lpbY8uZKY04odxTxEAVckbrorzsLNVGk
- sCA4pYJSO2cZ60LDY064M6AwjoFewiMlf4tsmpailAug/kWALkfi3+l95LwEP1w10SMT
- n/NQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=hWdL3+sC7Y3WgMzxQgq49FXg8O3lrY2U4JGqRbZI6tg=;
- b=MN44k2nZNddOHz0vjpeMk3btsmul+w13LYGa8e6OTGUYWugq64Dv/7pisdcDuaS4yT
- alWeigAZtWIkj1vNN3VUExRW4WC/qHLBltiJ7OEu2qTU5+WLYzo7lwSAvpaoMc6+An6F
- /BRQiQRsEF3NA+ThdHYGYY1ArvLkv+Q/oi1lAFIpdKX6FcsrxQKCfvEgqPYbT3lz6DlA
- Ilz63KAro8dKCtBrMeYMS2pw69nr3KPFYRj/VGRpUuRRO2W8EymADbBzbD7j+NjCdId6
- BzRp8otx1hNJG8HDkTExhNwbbtklWg7HntVn+yblhIhpWy3QqbkJNnCz6OGUIdAftNzT
- oCRg==
-X-Gm-Message-State: AOAM532FE+SYkgfDUbhnBE681S5b9l4opp5D/P97BdL4pV7abOElc6bX
- +Rv2k+teZh+u9zS2H0z3CcI=
-X-Google-Smtp-Source: ABdhPJzQ2dc3wLXSWKQBFY+mHq5x3ddsPjsCSkkhRryLlNJ0eKxp2Ar8mZbKuizWCxiSq5j6WRb8tw==
-X-Received: by 2002:a2e:2a43:: with SMTP id q64mr17358890ljq.102.1637771570838; 
- Wed, 24 Nov 2021 08:32:50 -0800 (PST)
-Received: from [192.168.2.145] (94-29-48-99.dynamic.spd-mgts.ru. [94.29.48.99])
- by smtp.googlemail.com with ESMTPSA id m14sm31645ljg.2.2021.11.24.08.32.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 24 Nov 2021 08:32:50 -0800 (PST)
-Subject: Re: [PATCH v2 01/11] ASoC: tegra20-spdif: stop setting slave_id
-To: Arnd Bergmann <arnd@kernel.org>, Vinod Koul <vkoul@kernel.org>
-References: <20211122222203.4103644-1-arnd@kernel.org>
- <20211122222203.4103644-2-arnd@kernel.org>
-From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <1dbe0c9f-e209-49e1-f05c-765d9f9b91eb@gmail.com>
-Date: Wed, 24 Nov 2021 19:32:48 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
-MIME-Version: 1.0
-In-Reply-To: <20211122222203.4103644-2-arnd@kernel.org>
-Content-Type: text/plain; charset=utf-8
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on2069.outbound.protection.outlook.com [40.107.237.69])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 16E876E3B7
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Nov 2021 16:40:18 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=CRBt7JbNRElAvgBUI3gJR4wAunP07BBBONg3YIj3LA4121jarICem+BzhXqkGZCUj3AJetkhMQTsOh+7VXHhqsxW/SFjVm8Psi+OkPZtGGbGGwXJQOSOu3zfxRwsB8z7OSQtE9wytsmV4Xl06acHioUkXtArxGl9RY0j5WFXBvnbCknC2XOISJdlOw9b2VZZK/5YxKqq7vgVkB72N6f9Z3EMYnjZ/65XvP5j5ltvQ8U/cAt4Q8KXTlqg405J7R6htBLc6D0oCjWzy+AOd4p4ycn2yh4l8Cllbhb6wTpfYo9QudM9SO0e5ad3MG5hGM13glUmi/QZ4fEG5/qU8+Klwg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=AyGxbwXXTWc3YP6yRODLnwb0wMmYrYCK1tstbxVJ4u8=;
+ b=avRn8QRJbnZeaWjUWnqNiC9g8Z6FIjNsRZJbePU8FaG0rsr2IEd1AVmXOX9itZq4bOoyqO7RhD+O+aBm+RU2RxSj9C5brPlB5QwA/onbqFDyL42VxYJkrhyjEil+JgvA+M3LR64U+R7vyi7gZT2K18JfYhIQa63dXqfc7ywHk41gy5AOz8lnRChFTK9XQZrAC4ZR9gXls3edXolpcGcImVJlzD/CPD9d4PdrLt0VIeUzuh7VoFPTFcgV5kuKnVZ/cC0fE1aaUWysoqqIvYDyY2NK3ETXecXTkBiHwO4xxsmFNPDvsp6pySXyJIFT12FWykqoLEvPimmRwjD0tRdANw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=AyGxbwXXTWc3YP6yRODLnwb0wMmYrYCK1tstbxVJ4u8=;
+ b=iTTU7Vq1aSwgsZRDaprS9CgaoYmpILfNLMvPVv6YwPnzLUDgXCyuP+KKQR4NVCxQVSWCKl6zoKyuHbmwCHpasXN1bC44SivvPXisQU2D2aUwevfaeSfMGM6xTj+zT3A7kRQ82zAOI98dZFdEeOJpjvT49Te1cNNQTdLPcumVCd0vZBBuVPEhK2zZMlu8rIHi+5v7Bii5Hr7DwaVmneu5P5GdGPzTl6iGpM0ctYpQYjsY7bYCNorCF92fiBj+mA+2++9cp6N8dU/k21W4EZ0myHC4KE2SZrCnegqJ93BPX3RtQN7UiHSA0EJDCf/rnWviCiddB2jliRE1E4eYngLk8A==
+Received: from BN9PR12MB5273.namprd12.prod.outlook.com (2603:10b6:408:11e::22)
+ by BN9PR12MB5209.namprd12.prod.outlook.com (2603:10b6:408:11a::22)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4690.27; Wed, 24 Nov
+ 2021 16:40:16 +0000
+Received: from BN9PR12MB5273.namprd12.prod.outlook.com
+ ([fe80::d170:24c:2ca0:7e1e]) by BN9PR12MB5273.namprd12.prod.outlook.com
+ ([fe80::d170:24c:2ca0:7e1e%7]) with mapi id 15.20.4713.025; Wed, 24 Nov 2021
+ 16:40:16 +0000
+From: Akhil R <akhilrajeev@nvidia.com>
+To: Dmitry Osipenko <digetx@gmail.com>, "andy.shevchenko@gmail.com"
+ <andy.shevchenko@gmail.com>, "christian.koenig@amd.com"
+ <christian.koenig@amd.com>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>, Jonathan Hunter <jonathanh@nvidia.com>,
+ Laxman Dewangan <ldewangan@nvidia.com>, "linaro-mm-sig@lists.linaro.org"
+ <linaro-mm-sig@lists.linaro.org>, "linux-i2c@vger.kernel.org"
+ <linux-i2c@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, "linux-media@vger.kernel.org"
+ <linux-media@vger.kernel.org>, "linux-tegra@vger.kernel.org"
+ <linux-tegra@vger.kernel.org>, "p.zabel@pengutronix.de"
+ <p.zabel@pengutronix.de>, "sumit.semwal@linaro.org"
+ <sumit.semwal@linaro.org>, "thierry.reding@gmail.com"
+ <thierry.reding@gmail.com>
+Subject: RE: [PATCH v2] i2c: tegra: Add ACPI support
+Thread-Topic: [PATCH v2] i2c: tegra: Add ACPI support
+Thread-Index: AQHX4DoEbVec8BOkJU60fp9nQzQHYKwRKraAgADyRTCAALy1gIAABBVw
+Date: Wed, 24 Nov 2021 16:40:16 +0000
+Message-ID: <BN9PR12MB5273CA3AA78636EB0500897AC0619@BN9PR12MB5273.namprd12.prod.outlook.com>
+References: <1637328734-20576-1-git-send-email-akhilrajeev@nvidia.com>
+ <1637651753-5067-1-git-send-email-akhilrajeev@nvidia.com>
+ <eebf20ea-6a7f-1120-5ad8-b6dc1f9935e6@gmail.com>
+ <BN9PR12MB5273A7628D80076F4EF2CC69C0619@BN9PR12MB5273.namprd12.prod.outlook.com>
+ <b06a5072-f0f4-c9f9-f9a2-8d76b4432415@gmail.com>
+In-Reply-To: <b06a5072-f0f4-c9f9-f9a2-8d76b4432415@gmail.com>
+Accept-Language: en-IN, en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 4b866e59-ee45-4e54-1243-08d9af691831
+x-ms-traffictypediagnostic: BN9PR12MB5209:
+x-microsoft-antispam-prvs: <BN9PR12MB520913BA4EE0B34E29496F3CC0619@BN9PR12MB5209.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8882;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: dGXLABdRHQUoE8sylHJTAqAk0yx4Ip1LylP0ophNg3ErXRIi6RhKnYCVTJV04HLq+1SBBS57zaX1wYUALO7p3g/RgTEJ97jX2amA5nCYvgPn29vSYeGH+8uR7ZdOPve8SUfE5WKfF7q4BHmgdhzVPcECpyE2wmNtQMyXscf2AxeCYdzGYB8g81XA6P3k4vokLpxwpj5uCYTDBsU1XByDvWK+CzBRE6xMhiNjhuDZQKRkm5iuKf8FQQym1b7zv8JVf8aBoJNnzoo/CC9CqhaYUVAGYawB7a8X3Qi03Gx4Gfjfp7dh1+5vs79ErZksHj5HqtBUYhLV7wVMpD+Cf+FyAMp3Jf1N9IGhWwAUaih5vJS5kgD2l+CC6wj1Tdy56SkAlbnVa5lrA7a4Q83Xxo6gcTc6KBQvhJL8MpJvf2XHo/7Whj1k5W3rWwy+dtnYD3QG9STo614i8vJfS1W1LwI/4oj/s942k3G5dEQO9cORolja3RB8EyCWFNOGhhcftn4cw0X2OnrwpcX7Y/yPQ3/YnR4KF1k26FbAFFJsej9btUstuz/6gVRYbIey5jRIxWSfQsp5utg9ePtE+qpo8rHUeOhGauYUwo4DSMX6o8Tl+/cJ9LJsYx7brS/aDpmZbcedZ8Y5Otaj7Gt0mX/0ptIB7beKQ6NTE63U9FjoTWkXA2289fL7hqbDJErYGFmJBofxXGLtcya1dzx7KFTylzIOES2/55+ZPdRRV1aoVRWPuxo=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN9PR12MB5273.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(316002)(4326008)(2906002)(33656002)(508600001)(66476007)(38100700002)(122000001)(186003)(83380400001)(55016003)(6506007)(4744005)(5660300002)(7696005)(26005)(55236004)(7416002)(71200400001)(110136005)(8936002)(107886003)(52536014)(66446008)(66556008)(76116006)(66946007)(86362001)(64756008)(38070700005)(9686003)(921005)(8676002);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?T3NiMmZjT2NxY0pIQW5yWmY0TFVFTmI4UVRkZzBoVWlralYyWnJQNTlob2hN?=
+ =?utf-8?B?b295MGc5WVQ0L2F5YXQrRnlpbHVqR1loVUk5VFUvaGZXQmFvallCSUFENkVM?=
+ =?utf-8?B?QkhycmZsL2FwQlc3eVUyR1piRS81allKSGlXSm5VNUg0OG9XQXVpOGthallr?=
+ =?utf-8?B?VDVNb0ZsL0JvWU0rQ3ZyTmgzOFBuaVRDRzZKNGd4UVVlQnRhSXVwU0dwblVX?=
+ =?utf-8?B?Q0ZEckFxSHRZcjdabmJSMmszdFgxanpIYTNreFBlMnlVdmlNRDM4NjFtTyta?=
+ =?utf-8?B?RFNXQy9xa1dLeldOMCtnbmtXYlphZkFKU3dGQzRnbzVJM0ZvVXdsSVF5VmRu?=
+ =?utf-8?B?MHJsOWpxcVd3RTNYTWc3dkU1TzNBK1FBckVCSjRNajg3ekE0a3g1OExRa09T?=
+ =?utf-8?B?SnNqejJLMnQ3MzVoOGM5Y1VlOFlGWkFxV2lqL3lIYm80VmZuNXAxbjVtNWZn?=
+ =?utf-8?B?MXJGWjd2RGVQUFVVVGRkbHRJalR5Z04xRExBS0VYYmFvL2wyRnMreG9kalZh?=
+ =?utf-8?B?T1lzcFhjeGlMQTBYQU5xbG10Y3lVbGxtTCtIbUZvbmFWcEpBSDNRbDlMWGdP?=
+ =?utf-8?B?TXFMU1huSkQ5VDFFOENneXdZLzVWOTV1alR2bjdITFpXRElwR3djL0NmWlQ3?=
+ =?utf-8?B?ZWRuMlJwaXV6YTZwcXhNblhaVFk5d2FlZk40MnRLQmU0TTFPelZzbG5TNEV0?=
+ =?utf-8?B?VkZNQ2JRSkg5MjJCWmtvYVl2UlBiTDJYMktuUmN5M1hyd2RuZjJkRlU1QWlF?=
+ =?utf-8?B?K2RiZHBHeWZzNExGalE3V0pPbndGTmx4NFc5M1J1TVJNKzF5REdvYlpleFV6?=
+ =?utf-8?B?Vkx6ZjFJWjNJdHhvV2JkSjJMQzY1RWR1TmM3aFBaUTlTeHdRajZMVjNGMkw0?=
+ =?utf-8?B?S1hDY0FsVUx3L0F4S296dFdCTGdXR1hJeDlDdTgrMXM4S09HWmRKa2t6R2tT?=
+ =?utf-8?B?QjBGSGg0YWNzVmR5WjcrUGZnZGp0cEJPa1VmVnEvWVdDK091YXlvN2labzRV?=
+ =?utf-8?B?S3FWdTEzMm1sVU5XTUdISW1SRGNWUHo2NGZ0SmpTKzZHMGl6R2xCbFE0Nmh6?=
+ =?utf-8?B?cUNJU1RiSE4ybWRTbTROc3RqRXNxcUhTY0NxT3JyVDZZOWRBZVQ0QVQ5c0w2?=
+ =?utf-8?B?TWE1UVU0dEM1OW5CYW5Kck9YZTNFbW1MK2ZkcllTclJhdmxJbC9VUFFOU1pE?=
+ =?utf-8?B?ckZubi8wQmw3MmlGcjJHWXl1WkdXWFg4YXAycjRwV0JBR2FiUjBwR0ZMbFVQ?=
+ =?utf-8?B?VE1uMEZaZXd3OHN6RmdOWnRuSks3QzlBRHlVZVNLSlJqY3dsVVc5djJYT3hx?=
+ =?utf-8?B?Q21KeFFCTmhpNmRVYlBzMkFWSHhDWXZxUnJtcEMybktrNzIwYlBVeGR2d1Na?=
+ =?utf-8?B?RWFiM3ZnMHo0ME55SFhCRlhCbld3L2x4bThWS1RkTUtVLzJUeGVuajV3Y0R6?=
+ =?utf-8?B?ZnRBdTVNMGpWWVd1STdnaEYydnZQMERkMkQxWXorZk91aTlCSzkyam95aWJ5?=
+ =?utf-8?B?S2pKK2QwZE5HNUxlWlpPV2JwMHJYcll5Q3dIL0VFZk5XblhrRnVwemJpOXJQ?=
+ =?utf-8?B?dTVMalYxK0lISDF6K3dhQjc1L2dINWFMZEtNZXBvM1VJWGE2cWNhN2lOd1pC?=
+ =?utf-8?B?YlJ3MWRMVnV6VXRLY0ZPR1ZjNitGT3VxUXBlUFlVUEkxcG5jaDYvS3IyMlRl?=
+ =?utf-8?B?VnVsUU52QTE4ci9SeFlTQzlnVCt2USthSHo0RlhaNkd4dU8yZU83Q0RjNHA3?=
+ =?utf-8?B?ZzNXNkVMMDFtdnVIWkF4cmJrOWlIU2hFbVc0RDdlSnFuV2xvRlB4K1p4eGUw?=
+ =?utf-8?B?M2tma01ZNzFJUzMvZzUyZFdPakZ3R3FJV09MaUY0YW5CcTZicXR3VDJqZVND?=
+ =?utf-8?B?dm04Wmk0SG9ybTFEbk5tUmtSbkZEWTlKVlJIM3M1b1gxVkFDYjBuenBoOHNN?=
+ =?utf-8?B?SUhFSzQ2UmpUV3pSVWFkeHNpTitSeVYzdVd0OWF6M2U5VXNpUGtnQWdLdDA1?=
+ =?utf-8?B?T1ZqZCsvZXlJMHJaUWdxQkNmeXlqQm1SbTlzb3pKS3IydGlmQU9IWk5UWGpz?=
+ =?utf-8?B?NlVOOUI1NjdsMjhSbEFHZjI3TGtUdjlnQlZlUzNLWS9NK0U4b2x5T0pxRnZ0?=
+ =?utf-8?B?bGhEcERlZ0poU1RPaUkwRTFGeFBJL2EvbUpLcUQzY0ZmcHNpVTZuNmRSbWpH?=
+ =?utf-8?Q?A5Yrkuv4chIYoMgDiJErBcc=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5273.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4b866e59-ee45-4e54-1243-08d9af691831
+X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Nov 2021 16:40:16.0956 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: aBpCIA/m6JH/oLOAD63tvvYfEyFSUSWxIFL6GIxPgfCIRbIxHlA7joUMmkS0hncycGpUSv/tRY9Lw42/jqow7Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR12MB5209
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,105 +144,21 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alsa-devel@alsa-project.org, dri-devel@lists.freedesktop.org,
- Bjorn Andersson <bjorn.andersson@linaro.org>, linux-tegra@vger.kernel.org,
- Thierry Reding <thierry.reding@gmail.com>, linux-mtd@lists.infradead.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- linux-spi@vger.kernel.org, Robert Jarzmik <robert.jarzmik@free.fr>,
- Chunyan Zhang <zhang.lyra@gmail.com>, linux-staging@lists.linux.dev,
- Michal Simek <michal.simek@xilinx.com>, Jon Hunter <jonathanh@nvidia.com>,
- Andy Gross <agross@kernel.org>, bcm-kernel-feedback-list@broadcom.com,
- linux-serial@vger.kernel.org, Orson Zhai <orsonzhai@gmail.com>,
- Nicolas Saenz Julienne <nsaenz@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- Manivannan Sadhasivam <mani@kernel.org>, linux-arm-msm@vger.kernel.org,
- dmaengine@vger.kernel.org, Mark Brown <broonie@kernel.org>,
- linux-rpi-kernel@lists.infradead.org, Jaroslav Kysela <perex@perex.cz>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- linux-arm-kernel@lists.infradead.org, Scott Branden <sbranden@broadcom.com>,
- Hyun Kwon <hyun.kwon@xilinx.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-mmc@vger.kernel.org,
- Takashi Iwai <tiwai@suse.com>, linux-kernel@vger.kernel.org,
- Laxman Dewangan <ldewangan@nvidia.com>, Baolin Wang <baolin.wang7@gmail.com>
+Cc: Shardar Mohammed <smohammed@nvidia.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-23.11.2021 01:21, Arnd Bergmann пишет:
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> The DMA resource is never set up anywhere, and passing this as slave_id
-> has not been the proper procedure in a long time.
-> 
-> As a preparation for removing all slave_id references from the ALSA code,
-> remove this one.
-> 
-> According to Dmitry Osipenko, this driver has never been used and
-> the mechanism for configuring DMA would not work as it is implemented,
-> so this part will get rewritten when the driver gets put into use
-> again in the future.
-> 
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
->  sound/soc/tegra/tegra20_spdif.c | 1 -
->  1 file changed, 1 deletion(-)
-> 
-> diff --git a/sound/soc/tegra/tegra20_spdif.c b/sound/soc/tegra/tegra20_spdif.c
-> index 9fdc82d58db3..1c3385da6f82 100644
-> --- a/sound/soc/tegra/tegra20_spdif.c
-> +++ b/sound/soc/tegra/tegra20_spdif.c
-> @@ -284,7 +284,6 @@ static int tegra20_spdif_platform_probe(struct platform_device *pdev)
->  	spdif->playback_dma_data.addr = mem->start + TEGRA20_SPDIF_DATA_OUT;
->  	spdif->playback_dma_data.addr_width = DMA_SLAVE_BUSWIDTH_4_BYTES;
->  	spdif->playback_dma_data.maxburst = 4;
-> -	spdif->playback_dma_data.slave_id = dmareq->start;
->  
->  	pm_runtime_enable(&pdev->dev);
->  
-> 
-
-Thanks, Arnd!
-
-The commit message is correct, however you could remove even more code
-here. But there is no need to make a v3 just because this patch because
-I already prepared patchset that revives this S/PDIF driver and enables
-HDMI audio on Tegra20. I'll take care of cleaning up the whole code of
-this driver.
-
-diff --git a/sound/soc/tegra/tegra20_spdif.c
-b/sound/soc/tegra/tegra20_spdif.c
-index 7751575cd6d6..1c3385da6f82 100644
---- a/sound/soc/tegra/tegra20_spdif.c
-+++ b/sound/soc/tegra/tegra20_spdif.c
-@@ -251,7 +251,7 @@ static const struct regmap_config
-tegra20_spdif_regmap_config = {
- static int tegra20_spdif_platform_probe(struct platform_device *pdev)
- {
- 	struct tegra20_spdif *spdif;
--	struct resource *mem, *dmareq;
-+	struct resource *mem;
- 	void __iomem *regs;
- 	int ret;
-
-@@ -273,12 +273,6 @@ static int tegra20_spdif_platform_probe(struct
-platform_device *pdev)
- 	if (IS_ERR(regs))
- 		return PTR_ERR(regs);
-
--	dmareq = platform_get_resource(pdev, IORESOURCE_DMA, 0);
--	if (!dmareq) {
--		dev_err(&pdev->dev, "No DMA resource\n");
--		return -ENODEV;
--	}
--
- 	spdif->regmap = devm_regmap_init_mmio(&pdev->dev, regs,
- 					    &tegra20_spdif_regmap_config);
- 	if (IS_ERR(spdif->regmap)) {
-@@ -290,7 +284,6 @@ static int tegra20_spdif_platform_probe(struct
-platform_device *pdev)
- 	spdif->playback_dma_data.addr = mem->start + TEGRA20_SPDIF_DATA_OUT;
- 	spdif->playback_dma_data.addr_width = DMA_SLAVE_BUSWIDTH_4_BYTES;
- 	spdif->playback_dma_data.maxburst = 4;
--	spdif->playback_dma_data.slave_id = dmareq->start;
-
- 	pm_runtime_enable(&pdev->dev);
-
-
+PiAyNC4xMS4yMDIxIDEwOjE4LCBBa2hpbCBSINC/0LjRiNC10YI6DQo+ID4+ICppMmNfZGV2KQ0K
+PiA+Pj4gICAgICAgICAgICAgICBpMmNfZGV2LT5pc192aSA9IHRydWU7ICB9DQo+ID4+IEhvdyBh
+cmUgeW91IGdvaW5nIHRvIGRpZmZlcmVudGlhdGUgdGhlIFZJIEkyQyBmcm9tIGEgbm9uLVZJPyBU
+aGlzDQo+ID4+IGRvZXNuJ3QgbG9vayByaWdodC4NCj4gPiBUaGlzIHBhdGNoIGFkZHMgdGhlIEFD
+UEkgc3VwcG9ydCB0byBvbmx5IG5vbi1WSSBJMkMuIFRoZSBkZXZpY2VfaWRzIGluDQo+ID4gbWF0
+Y2ggdGFibGUgYXJlIGFkZGVkIGFjY29yZGluZ2x5LiBJIHN1cHBvc2UsIG9mX2RldmljZV9pc19j
+b21wYXRpYmxlDQo+ID4gYWx3YXlzIHJldHVybnMgZmFsc2UgYXMgdGhlcmUgaXMgbm8gZGV2aWNl
+IHRyZWUuDQo+ID4gQWdyZWUgd2l0aCB0aGUgb3RoZXIgY29tbWVudHMuDQo+IA0KPiBXaWxsIHRo
+ZSBWSSBJMkMgaGF2ZSBhIGRpZmZlcmVudCBBQ1BJIElEIG9yIGhvdyBpdCdzIGdvaW5nIHRvIHdv
+cms/DQpBcyB0aGVyZSBpcyBhIGRpZmZlcmVudCBjb21wYXRpYmxlIGZvciBWSSBJMkMgaW4gZGV2
+aWNlIHRyZWUsIEkgc3VwcG9zZSB0aGUgQUNQSQ0Kd291bGQgaGF2ZSBhIGRpZmZlcmVudCBJRCBh
+cyB3ZWxsLiBJIHRoaW5rIHRoZSBsb2dpYyB3b3VsZCBhbHNvIG5lZWQgYW4gdXBkYXRlIA0KaWYg
+dG8gaGF2ZSBWSSBJMkMgdXNpbmcgdGhlIEFDUEkuIEJ1dCB0aGF0IHdhc24ndCBhY3R1YWxseSBj
+b25zaWRlcmVkIGluIHRoaXMgcGF0Y2guDQoNCkJlc3QgUmVnYXJkcywNCkFraGlsDQoNCg==
