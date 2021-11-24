@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C26445B265
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Nov 2021 04:04:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C25E045B26E
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Nov 2021 04:06:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8356B6E147;
-	Wed, 24 Nov 2021 03:04:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C06C6E18F;
+	Wed, 24 Nov 2021 03:06:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x734.google.com (mail-qk1-x734.google.com
- [IPv6:2607:f8b0:4864:20::734])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C5C206E147;
- Wed, 24 Nov 2021 03:04:38 +0000 (UTC)
-Received: by mail-qk1-x734.google.com with SMTP id de30so1406047qkb.0;
- Tue, 23 Nov 2021 19:04:38 -0800 (PST)
+Received: from mail-qk1-x733.google.com (mail-qk1-x733.google.com
+ [IPv6:2607:f8b0:4864:20::733])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 32EBA898BE;
+ Wed, 24 Nov 2021 03:06:21 +0000 (UTC)
+Received: by mail-qk1-x733.google.com with SMTP id b67so1336010qkg.6;
+ Tue, 23 Nov 2021 19:06:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=g3UKjW7fmUe9JRzmjdiiBs6fkzP9ZvlZsvWeHL4ExR0=;
- b=BBddd5ZUGiBGsnJmx7bTL7Ov17NuqWLJ7XumhtNZtHWj90Eo9myNX757frsBUn49pi
- CG1hcOFC2xKZ9U1FSPDhqUajYJezCfSi7Zkbb7xEJStZYAD3J+QISUHdYkeP4G3z3Lh0
- imEtCAnQGzNbxrA1iy5netuKQ4/F47gwGLjI+uggEsMUR0IQ8EwSZQH9PGfPmdq0N/CU
- eYOihzo7MyaFhCtDCHw5dcBBBcUc3uI2A27iNFvyrBE34aV4v4HAIm1YBOPxcS/Pq6ge
- L1ncErC64CNx+oSGSuc/2RnvdWj06cCVMRvjvnq60LRWOKygWaxk4B/Fet4bLzdbtioI
- oqqA==
+ bh=QCenGapdn8pT6BA4FKRLRxExah4bAbpes3InHq8HGvg=;
+ b=UawLjgDp7UuXebp108LzicGASAjyfMpWQdBSpYTCyay8pEQuUdaTl92noI/5GKMkPl
+ uzjxtoE2Hxvmmhjce1XE9VK5adj0kjToackYRsvIPi1e0uGWKMHAVRKt4tfH4o7IqEi0
+ TC9iq4szjHrO4XPZhsCamPu40+A7rP/2dC01+lSPyQqBRGR+TvqdUXcJSnIJxGgSTVNf
+ pgQcspc3raIjtUJIXzq6fqlz70ImZFHiv28ZdjV5EN6qcb9L/01H7BMxz64TerS+cWiB
+ Fnfl+KNyv54cf11oNRs7WXnFu6MrMHV1Z4DZuKaEZo8mMLYoyMFrzUaSgzwjTFPXzfdk
+ HrQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=g3UKjW7fmUe9JRzmjdiiBs6fkzP9ZvlZsvWeHL4ExR0=;
- b=dh5QfnPnKE0M0MSoS1odeSCq7rLMo7nMh/TK5HfMzMSQppp5L0tJTg53ZG+yYT20lm
- jwS3ehYFf6+oqgAj3smXU6nFqwv1O03WW+OXj4kflZ24a5Jfb/vW8QZHhcsm1uIQY9GK
- caBhV3KESZ64qmo+UjejDis5FeLC8FfNcXc1zbT+kBK0jI9jby4CqhcdSVZkYqNBluJ5
- pF21Vuv5zrBnnoFxiXRVWrjOOYJ42JCWrialFbaj3BSKfaZBSCSGY1IfdTrOUF/Rm8Eh
- 8j/NLwZhUlzotN+N0B15801paLY3pmzkontnFtfDf/FcTtHUfrvDeR2dKkPv8mY/euSy
- MUTQ==
-X-Gm-Message-State: AOAM532iBw/L06sLPbLKQhAgYY9O7lAHJQ4k0tW37q7W3CoMgBAvmd7P
- 9IDItiNvZ3bXo5dRRQHgYMQ=
-X-Google-Smtp-Source: ABdhPJzMa9PpQpZk9WGjY47S9dF0nk8A++HjGijauQYx1EqOq/o2FrQ5Ema1QEDpfwkZ7iqimV/fcw==
-X-Received: by 2002:a05:620a:288b:: with SMTP id
- j11mr2315125qkp.257.1637723077907; 
- Tue, 23 Nov 2021 19:04:37 -0800 (PST)
+ bh=QCenGapdn8pT6BA4FKRLRxExah4bAbpes3InHq8HGvg=;
+ b=XD4bxCRlDQZR1fkdaAbPg4sTy8to8tFjNSzxyVhrX4TjfpcVbYcx1T6nOwx+xINmx9
+ pU8TOFqOVndG+naQyP11FYRNIoOQqGLyJQJbnXBKCyxJ5uSAZWMawQk5s8bzwZql8xJh
+ ooUpoxqYon+LpS7Yt6SCU6ZgRkYDop500ngREDwAyloO3xM127ma+JTwFv/VryVqJEaM
+ pRr5bi8Zy1cyXJqXo86+wOvp1mOpgTvXz3KBYkIvwOMyfeYbOfM866oR/0JFrZDd0DXM
+ M2vMEMa4Lrh+yN/xxHt3dAQHp2VSWaXJH5GPFTumWfcNbQsXLM9r4jF6bptgWLwc7B8s
+ d/OA==
+X-Gm-Message-State: AOAM532oZSxVyFeGygxuUax9/fq6nVv40bZsStXKMOCmwoodaJ+kau7D
+ oH0EUMesLqrOPGuyf/JE5K8=
+X-Google-Smtp-Source: ABdhPJwZTAzMHM0RV0zs9uZ1TEV8MK2HEv7somuIawMXs6UxXRsg4W9y1/otfg50ZrxFMeP2k1Gyeg==
+X-Received: by 2002:a05:620a:223:: with SMTP id
+ u3mr2434295qkm.158.1637723180323; 
+ Tue, 23 Nov 2021 19:06:20 -0800 (PST)
 Received: from localhost.localdomain ([193.203.214.57])
- by smtp.gmail.com with ESMTPSA id i23sm6973927qkl.101.2021.11.23.19.04.33
+ by smtp.gmail.com with ESMTPSA id d15sm7234780qtd.70.2021.11.23.19.06.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Nov 2021 19:04:37 -0800 (PST)
+ Tue, 23 Nov 2021 19:06:20 -0800 (PST)
 From: cgel.zte@gmail.com
-X-Google-Original-From: lv.ruyi@zte.com.cn
-To: sunpeng.li@amd.com
-Subject: [PATCH] drm/amd/display: fix application of sizeof to pointer
-Date: Wed, 24 Nov 2021 03:04:26 +0000
-Message-Id: <20211124030426.34830-1-lv.ruyi@zte.com.cn>
+X-Google-Original-From: yao.jing2@zte.com.cn
+To: jani.nikula@linux.intel.com
+Subject: [PATCH] drm/i915/dmabuf: remove duplicate include in i915_gem_dmabuf.c
+Date: Wed, 24 Nov 2021 03:06:07 +0000
+Message-Id: <20211124030607.34914-1-yao.jing2@zte.com.cn>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -67,39 +67,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, lv.ruyi@zte.com.cn, Xinhui.Pan@amd.com,
- Rodrigo.Siqueira@amd.com, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, Zeal Robot <zealci@zte.com.cn>,
- dri-devel@lists.freedesktop.org, wayne.lin@amd.com, alexander.deucher@amd.com,
- jun.lei@amd.com, christian.koenig@amd.com
+Cc: tvrtko.ursulin@linux.intel.com, jason@jlekstrand.net, yao.jing2@zte.com.cn,
+ thomas.hellstrom@linux.intel.com, airlied@linux.ie, gregkh@linuxfoundation.org,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, chris@chris-wilson.co.uk,
+ matthew.auld@intel.com, rodrigo.vivi@intel.com, Zeal Robot <zealci@zte.com.cn>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Lv Ruyi <lv.ruyi@zte.com.cn>
+From: Yao Jing <yao.jing2@zte.com.cn>
 
-Both of split and merge are pointers, not arrays.
+'asm/smp.h' included in 'drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c' is
+duplicated. It is clearly included on the 12 line.
 
 Reported-by: Zeal Robot <zealci@zte.com.cn>
-Signed-off-by: Lv Ruyi <lv.ruyi@zte.com.cn>
+Signed-off-by: Yao Jing <yao.jing2@zte.com.cn>
 ---
- drivers/gpu/drm/amd/display/dc/dml/dml_wrapper.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dml/dml_wrapper.c b/drivers/gpu/drm/amd/display/dc/dml/dml_wrapper.c
-index ece34b0b8a46..91810aaee5a3 100644
---- a/drivers/gpu/drm/amd/display/dc/dml/dml_wrapper.c
-+++ b/drivers/gpu/drm/amd/display/dc/dml/dml_wrapper.c
-@@ -1223,8 +1223,8 @@ static void dml_full_validate_bw_helper(struct dc *dc,
- 		*pipe_cnt = dml_populate_dml_pipes_from_context(dc, context, pipes, false);
- 		*vlevel = dml_get_voltage_level(&context->bw_ctx.dml, pipes, *pipe_cnt);
- 		if (*vlevel < context->bw_ctx.dml.soc.num_states) {
--			memset(split, 0, sizeof(split));
--			memset(merge, 0, sizeof(merge));
-+			memset(split, 0, MAX_PIPES * sizeof(*split));
-+			memset(merge, 0, MAX_PIPES * sizeof(*merge));
- 			*vlevel = dml_validate_apply_pipe_split_flags(dc, context, *vlevel, split, merge);
- 		}
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
+index f291cf4c3886..5712b6b5f285 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
+@@ -17,9 +17,7 @@
  
+ MODULE_IMPORT_NS(DMA_BUF);
+ 
+-#if defined(CONFIG_X86)
+-#include <asm/smp.h>
+-#else
++#if !defined(CONFIG_X86)
+ #define wbinvd_on_all_cpus() \
+ 	pr_warn(DRIVER_NAME ": Missing cache flush in %s\n", __func__)
+ #endif
 -- 
 2.25.1
 
