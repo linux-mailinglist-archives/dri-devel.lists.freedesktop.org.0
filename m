@@ -1,31 +1,31 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F07E45C83B
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Nov 2021 16:08:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6949845C841
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Nov 2021 16:08:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F3F26E93F;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E7716E93A;
 	Wed, 24 Nov 2021 15:08:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from asav21.altibox.net (asav21.altibox.net [109.247.116.8])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 480BA6E93A
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 494DC6E940
  for <dri-devel@lists.freedesktop.org>; Wed, 24 Nov 2021 15:08:23 +0000 (UTC)
 Received: from localhost.localdomain (211.81-166-168.customer.lyse.net
  [81.166.168.211])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
  (No client certificate requested)
  (Authenticated sender: noralf.tronnes@ebnett.no)
- by asav21.altibox.net (Postfix) with ESMTPSA id AB64E801D0;
- Wed, 24 Nov 2021 16:08:20 +0100 (CET)
+ by asav21.altibox.net (Postfix) with ESMTPSA id 0B6CF801D8;
+ Wed, 24 Nov 2021 16:08:21 +0100 (CET)
 From: =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>
 To: robh+dt@kernel.org,
 	david@lechnology.com
-Subject: [PATCH 1/6] dt-bindings: display: sitronix,
- st7735r: Fix backlight in example
-Date: Wed, 24 Nov 2021 16:07:52 +0100
-Message-Id: <20211124150757.17929-2-noralf@tronnes.org>
+Subject: [PATCH 2/6] dt-bindings: display: sitronix,
+ st7735r: Make reset-gpios optional
+Date: Wed, 24 Nov 2021 16:07:53 +0100
+Message-Id: <20211124150757.17929-3-noralf@tronnes.org>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211124150757.17929-1-noralf@tronnes.org>
 References: <20211124150757.17929-1-noralf@tronnes.org>
@@ -36,7 +36,7 @@ X-CMAE-Score: 0
 X-CMAE-Analysis: v=2.3 cv=ZLv5Z0zb c=1 sm=1 tr=0
  a=OYZzhG0JTxDrWp/F2OJbnw==:117 a=OYZzhG0JTxDrWp/F2OJbnw==:17
  a=IkcTkHD0fZMA:10 a=M51BFTxLslgA:10 a=SJz97ENfAAAA:8
- a=9M2p-XWGhT6DPqkpO5wA:9 a=QEXdDO2ut3YA:10 a=vFet0B0WnEQeilDPIY6i:22
+ a=ps_H7J5NogAP3zF6LHEA:9 a=QEXdDO2ut3YA:10 a=vFet0B0WnEQeilDPIY6i:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,27 +56,25 @@ Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The backlight property was lost during conversion to yaml in commit
-abdd9e3705c8 ("dt-bindings: display: sitronix,st7735r: Convert to DT schema").
-Put it back.
+There are other ways than using a gpio to reset the controller so make
+this property optional.
 
-Fixes: abdd9e3705c8 ("dt-bindings: display: sitronix,st7735r: Convert to DT schema")
 Signed-off-by: Noralf Trønnes <noralf@tronnes.org>
 ---
- Documentation/devicetree/bindings/display/sitronix,st7735r.yaml | 1 +
- 1 file changed, 1 insertion(+)
+ Documentation/devicetree/bindings/display/sitronix,st7735r.yaml | 1 -
+ 1 file changed, 1 deletion(-)
 
 diff --git a/Documentation/devicetree/bindings/display/sitronix,st7735r.yaml b/Documentation/devicetree/bindings/display/sitronix,st7735r.yaml
-index 0cebaaefda03..419c3b2ac5a6 100644
+index 419c3b2ac5a6..f81d0d0d51fe 100644
 --- a/Documentation/devicetree/bindings/display/sitronix,st7735r.yaml
 +++ b/Documentation/devicetree/bindings/display/sitronix,st7735r.yaml
-@@ -72,6 +72,7 @@ examples:
-                     dc-gpios = <&gpio 43 GPIO_ACTIVE_HIGH>;
-                     reset-gpios = <&gpio 80 GPIO_ACTIVE_HIGH>;
-                     rotation = <270>;
-+                    backlight = <&backlight>;
-             };
-     };
+@@ -48,7 +48,6 @@ required:
+   - compatible
+   - reg
+   - dc-gpios
+-  - reset-gpios
+ 
+ additionalProperties: false
  
 -- 
 2.33.0
