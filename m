@@ -2,55 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B40045C94E
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Nov 2021 16:57:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0425C45C953
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Nov 2021 16:58:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF7B76E4A6;
-	Wed, 24 Nov 2021 15:57:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 73C466E428;
+	Wed, 24 Nov 2021 15:58:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf30.google.com (mail-qv1-xf30.google.com
- [IPv6:2607:f8b0:4864:20::f30])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE7C56E4E3
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Nov 2021 15:57:16 +0000 (UTC)
-Received: by mail-qv1-xf30.google.com with SMTP id kl8so2089850qvb.3
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Nov 2021 07:57:16 -0800 (PST)
+Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com
+ [IPv6:2a00:1450:4864:20::236])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 52E2C6E417
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Nov 2021 15:58:35 +0000 (UTC)
+Received: by mail-lj1-x236.google.com with SMTP id b16so6395793ljf.12
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Nov 2021 07:58:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=CdYuE5QrzefFebInJI5P2GSiXpBChfo3witrC7Aylm0=;
- b=QkgHoKqmttx5bs5HGXCc/nhxHhXWnZm164rRR9UjzErZl7fFK+l2AOo3mnk3Vw2d0j
- BEIApYijTv8xAfl9c0orPE8u0lNVDf89U49Zj1hC2ITYGYDYpKM/47d2Z5KnU7ZiYuxv
- qpZFu16WmaTjEnrqzU8Lj/NZdvDyFijgS5jQUPziD/8gTTxs4gqmZcC1p4oe3szMCXxB
- aSrfYuVSOTmZGOQvFRgpuTfB7aQ6hPdzQHHT9ONypNKr6uFWO54dRKXOhOdmko+OR7WY
- OT7kh0kCxkHENvkIEK5MNXLgsZQR0OhhKvvijgMvgQ2DzBGGWgS7gXRGjjt0aOuoFcML
- 4iog==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=e6NuXPMluDvkxfvWYiZIcn5H+GL3tgluY+HmVCZ5Ru4=;
+ b=VaUv2vGOaITxJRfKf+oKJ+6ERe3bCWFxRwJztAbL3RmC+FQnPt4h4lPRbo5Sn/6Dnk
+ lAIa8ArZEtzoRZe26RNyS8jjp1QO+wUqKtC2Qz1qn4GGgHi/4JT4322xXZ7qG3EnAG6L
+ Wh7US3AlkJoymWyaAt3WldD4DHsnrjVPit0UY97GMXwaWnZRQydWCMhdSI5dzy7racS/
+ DCpNuXuHceTQiudoAck1J51gGR/WTVs47HdJsYhaTdBN3rAWwBx51ZjJRcNK00aM/m2x
+ D+pdjWz30bzeguJ7xJclxZGSxz+VHnfwYU5zmjWRi1wkzwTLZMM6uNNOWC9ZzjY4njpX
+ Tp6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=CdYuE5QrzefFebInJI5P2GSiXpBChfo3witrC7Aylm0=;
- b=KNlk1ENih9EtfwS+Q19JBCkXSkYY8V8YZ7wDES9m0uH981AwoXpaom+5RTiabOH5s7
- o4pTKNneE0SYcFL+Y4BOAjiIyDJED71jlbA+jDZBd0RF8LeSYzz3SDjXEN7I4XvRjirF
- MR/eJVUlwMtOhF6Osd8YqIvSQlhwi13ElFCkAlsZZ+Iir83iSnRaTSw71iDAT12199Cp
- T/heOth6szqATX0oBh8aGKRWbh8FXkRQqo8ne08IB3Yk7ApKDPpzTgGqJ7lC+f4fY09N
- IZB7i3dqC6MS3WfkF2iHS24mdVXiMzzKuoSR0g4VdFNS8ZZmgOC6vqwXie/jr+iNNy9B
- 2+1g==
-X-Gm-Message-State: AOAM530Brc67HPIUqw1hm8wC5Aa/HFNStJYiv9mrVSzsBTieI3QVrflx
- rH96Sr6MpAtxE7Xtszpfy6Ulfga6nNDDvJun4vaqwA==
-X-Google-Smtp-Source: ABdhPJzpHrcqPyGNonYh3XomO+R25xpkIROfGgGQcbfXK1J5XppVZWGg/B8uKyraD16CqXyUy4KFVQW3Yhk7evbo5HY=
-X-Received: by 2002:ad4:5bc4:: with SMTP id t4mr8674092qvt.3.1637769435711;
- Wed, 24 Nov 2021 07:57:15 -0800 (PST)
-MIME-Version: 1.0
-References: <20211116062256.2417186-1-vkoul@kernel.org>
- <20211116062256.2417186-6-vkoul@kernel.org>
- <20269960-a753-72d4-5a1d-430af00cf562@linaro.org>
-In-Reply-To: <20269960-a753-72d4-5a1d-430af00cf562@linaro.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Wed, 24 Nov 2021 18:57:04 +0300
-Message-ID: <CAA8EJppA+cxySCFtqyihMjE0MPgioNcK8BtBS+HqUD9E141HBQ@mail.gmail.com>
-Subject: Re: [PATCH v3 05/13] drm/msm/disp/dpu1: Don't use DSC with mode_3d
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=e6NuXPMluDvkxfvWYiZIcn5H+GL3tgluY+HmVCZ5Ru4=;
+ b=EMpdhmFB6uy2ekD3ZEZln4xO0AdQqkmNFfrvmA0X0EO7T7I9P6WgQKDd68NTZkW7MH
+ pMB1b7eI1NaVzvztskbm4lXUf1pkEh6HQRbYmF4WZ5DGVbCeOBA2n7405kdEO0RdajfT
+ f0jWtgqtzWb5o/WcXHvExF3l9fZmMma/Gy3jzuLq7lxHcnplrXmnUSnvKr04KSNDe/ig
+ e1WW8Zs7zw6Yhnfe1BZjEGaGuiC3fQwet1xLn/gVybJ9+Rn49cHX7h8f60wfrl+kG3Hb
+ QmOypTazXSS5pIOZpKzKDFD/3WamxhBItfXXb7iWl1HrK1hFNVEcKHZhI758aEGhDa3W
+ Sozw==
+X-Gm-Message-State: AOAM532eUS+ZGl9fmJKFEU2pnV5SeFb3IzdNaa5cc+nsNzGA4OUJMtZp
+ 76lSwyEn5qW/Ot2TZ2gv73J+2w==
+X-Google-Smtp-Source: ABdhPJwtlGsSH9QEGaL2TRvwE5Z3ioHSzm9eQkgi3zKWkaDwhJAIKbxXrz91M3cghU+agLTtuBd+Mg==
+X-Received: by 2002:a2e:86cc:: with SMTP id n12mr16561301ljj.275.1637769513526; 
+ Wed, 24 Nov 2021 07:58:33 -0800 (PST)
+Received: from [192.168.1.211] ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id r14sm17537lfp.305.2021.11.24.07.58.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 24 Nov 2021 07:58:33 -0800 (PST)
+Subject: Re: [PATCH v3 07/13] drm/msm/disp/dpu1: Add support for DSC in encoder
 To: Vinod Koul <vkoul@kernel.org>, Rob Clark <robdclark@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+References: <20211116062256.2417186-1-vkoul@kernel.org>
+ <20211116062256.2417186-8-vkoul@kernel.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Message-ID: <e5c1a93f-8e9b-9423-b005-0d5e791fcda4@linaro.org>
+Date: Wed, 24 Nov 2021 18:58:32 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
+MIME-Version: 1.0
+In-Reply-To: <20211116062256.2417186-8-vkoul@kernel.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,103 +80,217 @@ Cc: Jonathan Marek <jonathan@marek.ca>, Jeffrey Hugo <jeffrey.l.hugo@gmail.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 24 Nov 2021 at 18:40, Dmitry Baryshkov
-<dmitry.baryshkov@linaro.org> wrote:
->
-> On 16/11/2021 09:22, Vinod Koul wrote:
-> > We cannot enable mode_3d when we are using the DSC. So pass
-> > configuration to detect DSC is enabled and not enable mode_3d
-> > when we are using DSC
-> >
-> > We add a helper dpu_encoder_helper_get_dsc() to detect dsc
-> > enabled and pass this to .setup_intf_cfg()
-> >
-> > Signed-off-by: Vinod Koul <vkoul@kernel.org>
-> > ---
-> >   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h     | 11 +++++++++++
-> >   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c |  2 ++
-> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c           |  3 ++-
-> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h           |  2 ++
-> >   4 files changed, 17 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-> > index e7270eb6b84b..efb85d595598 100644
-> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-> > @@ -332,6 +332,17 @@ static inline enum dpu_3d_blend_mode dpu_encoder_helper_get_3d_blend_mode(
-> >       return BLEND_3D_NONE;
-> >   }
-> >
-> > +static inline bool dpu_encoder_helper_get_dsc(struct dpu_encoder_phys *phys_enc)
+On 16/11/2021 09:22, Vinod Koul wrote:
+> We need to configure the encoder for DSC configuration and calculate DSC
+> parameters for the given timing so this patch adds that support by
+> adding dpu_encoder_prep_dsc() which is invoked when DSC is enabled.
+> 
+> Signed-off-by: Vinod Koul <vkoul@kernel.org>
+> ---
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 140 +++++++++++++++++++-
+>   1 file changed, 139 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> index e7ee4cfb8461..f2ff8a504918 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> @@ -21,6 +21,7 @@
+>   #include "dpu_hw_intf.h"
+>   #include "dpu_hw_ctl.h"
+>   #include "dpu_hw_dspp.h"
+> +#include "dpu_hw_dsc.h"
+>   #include "dpu_formats.h"
+>   #include "dpu_encoder_phys.h"
+>   #include "dpu_crtc.h"
+> @@ -136,6 +137,7 @@ enum dpu_enc_rc_states {
+>    * @cur_slave:		As above but for the slave encoder.
+>    * @hw_pp:		Handle to the pingpong blocks used for the display. No.
+>    *			pingpong blocks can be different than num_phys_encs.
+> + * @hw_dsc:		Handle to the DSC blocks used for the display.
+>    * @intfs_swapped:	Whether or not the phys_enc interfaces have been swapped
+>    *			for partial update right-only cases, such as pingpong
+>    *			split where virtual pingpong does not generate IRQs
+> @@ -182,6 +184,7 @@ struct dpu_encoder_virt {
+>   	struct dpu_encoder_phys *cur_master;
+>   	struct dpu_encoder_phys *cur_slave;
+>   	struct dpu_hw_pingpong *hw_pp[MAX_CHANNELS_PER_ENC];
+> +	struct dpu_hw_dsc *hw_dsc[MAX_CHANNELS_PER_ENC];
+>   
+>   	bool intfs_swapped;
+>   
+> @@ -972,7 +975,8 @@ static void dpu_encoder_virt_mode_set(struct drm_encoder *drm_enc,
+>   	struct dpu_hw_blk *hw_ctl[MAX_CHANNELS_PER_ENC];
+>   	struct dpu_hw_blk *hw_lm[MAX_CHANNELS_PER_ENC];
+>   	struct dpu_hw_blk *hw_dspp[MAX_CHANNELS_PER_ENC] = { NULL };
+> -	int num_lm, num_ctl, num_pp;
+> +	struct dpu_hw_blk *hw_dsc[MAX_CHANNELS_PER_ENC];
+> +	int num_lm, num_ctl, num_pp, num_dsc;
+>   	int i, j;
+>   
+>   	if (!drm_enc) {
+> @@ -1030,6 +1034,14 @@ static void dpu_encoder_virt_mode_set(struct drm_encoder *drm_enc,
+>   		dpu_enc->hw_pp[i] = i < num_pp ? to_dpu_hw_pingpong(hw_pp[i])
+>   						: NULL;
+>   
+> +	if (priv->dsc) {
+> +		num_dsc = dpu_rm_get_assigned_resources(&dpu_kms->rm, global_state,
+> +							drm_enc->base.id, DPU_HW_BLK_DSC,
+> +							hw_dsc, ARRAY_SIZE(hw_dsc));
+> +		for (i = 0; i < MAX_CHANNELS_PER_ENC; i++)
+> +			dpu_enc->hw_dsc[i] = i < num_dsc ? to_dpu_hw_dsc(hw_dsc[i]) : NULL;
+> +	}
+> +
+>   	cstate = to_dpu_crtc_state(drm_crtc->state);
+>   
+>   	for (i = 0; i < num_lm; i++) {
+> @@ -1772,10 +1784,132 @@ static void dpu_encoder_vsync_event_work_handler(struct kthread_work *work)
+>   			nsecs_to_jiffies(ktime_to_ns(wakeup_time)));
+>   }
+>   
+> +static void
+> +dpu_encoder_dsc_pclk_param_calc(struct msm_display_dsc_config *dsc, u32 width)
+> +{
+> +	int slice_count, slice_per_intf;
+> +	int bytes_in_slice, total_bytes_per_intf;
+> +
+> +	if (!dsc || !dsc->drm->slice_width || !dsc->drm->slice_count) {
+> +		DPU_ERROR("Invalid DSC/slices\n");
+> +		return;
+> +	}
+> +
+> +	slice_count = dsc->drm->slice_count;
+> +	slice_per_intf = DIV_ROUND_UP(width, dsc->drm->slice_width);
+> +
+> +	/*
+> +	 * If slice_count is greater than slice_per_intf then default to 1.
+> +	 * This can happen during partial update.
+> +	 */
+> +	if (slice_count > slice_per_intf)
+> +		slice_count = 1;
+> +
+> +	bytes_in_slice = DIV_ROUND_UP(dsc->drm->slice_width *
+> +				      dsc->drm->bits_per_pixel, 8);
+> +	total_bytes_per_intf = bytes_in_slice * slice_per_intf;
+> +
+> +	dsc->eol_byte_num = total_bytes_per_intf % 3;
+> +	dsc->pclk_per_line =  DIV_ROUND_UP(total_bytes_per_intf, 3);
+> +	dsc->bytes_in_slice = bytes_in_slice;
+> +	dsc->bytes_per_pkt = bytes_in_slice * slice_count;
+> +	dsc->pkt_per_line = slice_per_intf / slice_count;
+> +}
+> +
+> +static void
+> +dpu_encoder_dsc_initial_line_calc(struct msm_display_dsc_config *dsc,
+> +				  u32 enc_ip_width)
+> +{
+> +	int ssm_delay, total_pixels, soft_slice_per_enc;
+> +
+> +	soft_slice_per_enc = enc_ip_width / dsc->drm->slice_width;
+> +
+> +	/*
+> +	 * minimum number of initial line pixels is a sum of:
+> +	 * 1. sub-stream multiplexer delay (83 groups for 8bpc,
+> +	 *    91 for 10 bpc) * 3
+> +	 * 2. for two soft slice cases, add extra sub-stream multiplexer * 3
+> +	 * 3. the initial xmit delay
+> +	 * 4. total pipeline delay through the "lock step" of encoder (47)
+> +	 * 5. 6 additional pixels as the output of the rate buffer is
+> +	 *    48 bits wide
+> +	 */
+> +	ssm_delay = ((dsc->drm->bits_per_component < 10) ? 84 : 92);
+> +	total_pixels = ssm_delay * 3 + dsc->drm->initial_xmit_delay + 47;
+> +	if (soft_slice_per_enc > 1)
+> +		total_pixels += (ssm_delay * 3);
+> +	dsc->initial_lines = DIV_ROUND_UP(total_pixels, dsc->drm->slice_width);
+> +}
+> +
+> +static void dpu_encoder_dsc_pipe_cfg(struct dpu_hw_dsc *hw_dsc,
+> +				     struct dpu_hw_pingpong *hw_pp,
+> +				     struct msm_display_dsc_config *dsc,
+> +				     u32 common_mode)
+> +{
+> +	if (hw_dsc->ops.dsc_config)
+> +		hw_dsc->ops.dsc_config(hw_dsc, dsc, common_mode);
+> +
+> +	if (hw_dsc->ops.dsc_config_thresh)
+> +		hw_dsc->ops.dsc_config_thresh(hw_dsc, dsc);
+> +
+> +	if (hw_pp->ops.setup_dsc)
+> +		hw_pp->ops.setup_dsc(hw_pp);
+> +
+> +	if (hw_pp->ops.enable_dsc)
+> +		hw_pp->ops.enable_dsc(hw_pp);
+> +}
+> +
+> +static void dpu_encoder_prep_dsc(struct dpu_encoder_virt *dpu_enc,
+> +				 struct msm_display_dsc_config *dsc)
+> +{
+> +	/* coding only for 2LM, 2enc, 1 dsc config */
+> +	struct dpu_encoder_phys *enc_master = dpu_enc->cur_master;
+> +	struct dpu_hw_dsc *hw_dsc[MAX_CHANNELS_PER_ENC];
+> +	struct dpu_hw_pingpong *hw_pp[MAX_CHANNELS_PER_ENC];
+> +	int this_frame_slices;
+> +	int intf_ip_w, enc_ip_w;
+> +	int dsc_common_mode;
+> +	int pic_width;
+> +	int i;
+> +
+> +	for (i = 0; i < MAX_CHANNELS_PER_ENC; i++) {
+> +		hw_pp[i] = dpu_enc->hw_pp[i];
+> +		hw_dsc[i] = dpu_enc->hw_dsc[i];
+> +
+> +		if (!hw_pp[i] || !hw_dsc[i]) {
+> +			DPU_ERROR_ENC(dpu_enc, "invalid params for DSC\n");
+> +			return;
+> +		}
+> +	}
+> +
+> +	dsc_common_mode = 0;
+> +	pic_width = dsc->drm->pic_width;
+> +
+> +	dsc_common_mode = DSC_MODE_MULTIPLEX | DSC_MODE_SPLIT_PANEL;
+> +	if (enc_master->intf_mode == INTF_MODE_VIDEO)
+> +		dsc_common_mode |= DSC_MODE_VIDEO;
+> +
+> +	this_frame_slices = pic_width / dsc->drm->slice_width;
+> +	intf_ip_w = this_frame_slices * dsc->drm->slice_width;
+> +
+> +	dpu_encoder_dsc_pclk_param_calc(dsc, intf_ip_w);
+> +
+> +	/*
+> +	 * dsc merge case: when using 2 encoders for the same stream,
+> +	 * no. of slices need to be same on both the encoders.
+> +	 */
+> +	enc_ip_w = intf_ip_w / 2;
+> +	dpu_encoder_dsc_initial_line_calc(dsc, enc_ip_w);
+> +
+> +	for (i = 0; i < MAX_CHANNELS_PER_ENC; i++)
+> +		dpu_encoder_dsc_pipe_cfg(hw_dsc[i], hw_pp[i], dsc, dsc_common_mode);
+> +}
+> +
+>   void dpu_encoder_prepare_for_kickoff(struct drm_encoder *drm_enc)
+>   {
+>   	struct dpu_encoder_virt *dpu_enc;
+>   	struct dpu_encoder_phys *phys;
+> +	struct msm_drm_private *priv;
+>   	bool needs_hw_reset = false;
+>   	unsigned int i;
+>   
+> @@ -1803,6 +1937,10 @@ void dpu_encoder_prepare_for_kickoff(struct drm_encoder *drm_enc)
+>   			dpu_encoder_helper_hw_reset(dpu_enc->phys_encs[i]);
+>   		}
+>   	}
+> +
+> +	priv = drm_enc->dev->dev_private;
+> +	if (priv->dsc)
+> +		dpu_encoder_prep_dsc(dpu_enc, priv->dsc);
 
-Here you are returning the mask, so it should not be bool.
+Only if the DSC is to be used for this encoder.
 
-> > +{
-> > +     struct drm_encoder *drm_enc = phys_enc->parent;
-> > +     struct msm_drm_private *priv = drm_enc->dev->dev_private;
-> > +
-> > +     if (priv->dsc)
-> > +             return priv->dsc->dsc_mask;
->
-> dsc_mask doesn't exist at this point, so the patch should be moved later
-> in the series.
-
-Please ignore this comment, dsc mask already exists.
-
->
-> > +
-> > +     return 0;
-> > +}
-> > +
-> >   /**
-> >    * dpu_encoder_helper_split_config - split display configuration helper function
-> >    *  This helper function may be used by physical encoders to configure
-> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-> > index 34a6940d12c5..f3f00f4d0193 100644
-> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-> > @@ -70,6 +70,8 @@ static void _dpu_encoder_phys_cmd_update_intf_cfg(
-> >       intf_cfg.intf_mode_sel = DPU_CTL_MODE_SEL_CMD;
-> >       intf_cfg.stream_sel = cmd_enc->stream_sel;
-> >       intf_cfg.mode_3d = dpu_encoder_helper_get_3d_blend_mode(phys_enc);
-> > +     intf_cfg.dsc = dpu_encoder_helper_get_dsc(phys_enc);
-> > +
-> >       ctl->ops.setup_intf_cfg(ctl, &intf_cfg);
-> >   }
-> >
-> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-> > index 64740ddb983e..36831457a91b 100644
-> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-> > @@ -519,7 +519,8 @@ static void dpu_hw_ctl_intf_cfg(struct dpu_hw_ctl *ctx,
-> >
-> >       intf_cfg |= (cfg->intf & 0xF) << 4;
-> >
-> > -     if (cfg->mode_3d) {
-> > +     /* In DSC we can't set merge, so check for dsc too */
-> > +     if (cfg->mode_3d && !cfg->dsc) {
-> >               intf_cfg |= BIT(19);
-> >               intf_cfg |= (cfg->mode_3d - 0x1) << 20;
-> >       }
-> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
-> > index 806c171e5df2..9847c9c46d6f 100644
-> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
-> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
-> > @@ -40,6 +40,7 @@ struct dpu_hw_stage_cfg {
-> >    * @merge_3d:              3d merge block used
-> >    * @intf_mode_sel:         Interface mode, cmd / vid
-> >    * @stream_sel:            Stream selection for multi-stream interfaces
-> > + * @dsc:                   DSC BIT masks
-> >    */
-> >   struct dpu_hw_intf_cfg {
-> >       enum dpu_intf intf;
-> > @@ -47,6 +48,7 @@ struct dpu_hw_intf_cfg {
-> >       enum dpu_merge_3d merge_3d;
-> >       enum dpu_ctl_mode_sel intf_mode_sel;
-> >       int stream_sel;
-> > +     unsigned int dsc;
-> >   };
-> >
+>   }
+>   
+>   void dpu_encoder_kickoff(struct drm_encoder *drm_enc)
+> 
 
 
 -- 
