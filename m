@@ -2,54 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C47BB45CA0D
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Nov 2021 17:30:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D80C45CA22
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Nov 2021 17:32:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 081676EA38;
-	Wed, 24 Nov 2021 16:30:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C6CE86EA6F;
+	Wed, 24 Nov 2021 16:32:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mo4-p03-ob.smtp.rzone.de (mo4-p03-ob.smtp.rzone.de
- [85.215.255.101])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D42CB6EA2F
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Nov 2021 16:30:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1637771406;
- s=strato-dkim-0002; d=goldelico.com;
- h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
- From:Subject:Sender;
- bh=x/yheI97VKaHNQMVbMflabvGwLK6kwR6cdJb58J0b+M=;
- b=X5qgWtSV2Jv39KDkxgjm++dWI+CIo/cr+nLfLTFbLP74KBTp5lE6t/INRuv8CvNwoL
- HUpmqcyOPyH/UfMRrphBjTwYQsdoK5Ak0haFOIMqh2LfQyUO1J92va/zuFUgEdMIOtRz
- ZpRr/rUuR98OZX/DV/eHdahBtzI8R/dlmpulgwIxTf2umATJrYIWpbMVBZ2sOw4dcKAC
- TwbduGyrpLQ01vofifqm6/7Igbopmp+GorjDiBEptOCEGi5204TIk3nijGKYfEkfZb+l
- cnya5LbSRhx91IEfwEHyBoirO+oKW1V7UzRKBGRgokeNXbjOg6xSx6+wgyJXF1LNEiID
- fy3A==
-Authentication-Results: strato.com;
-    dkim=none
-X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj7gpw91N5y2S3jsN+"
-X-RZG-CLASS-ID: mo00
-Received: from imac.fritz.box by smtp.strato.de (RZmta 47.34.10 DYNA|AUTH)
- with ESMTPSA id e05ed8xAOGU53om
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1
- with 256 ECDH bits, eq. 3072 bits RSA))
- (Client did not present a certificate);
- Wed, 24 Nov 2021 17:30:05 +0100 (CET)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.21\))
-Subject: Re: [PATCH v8 6/8] MIPS: DTS: CI20: Add DT nodes for HDMI setup
-From: "H. Nikolaus Schaller" <hns@goldelico.com>
-In-Reply-To: <CAMuHMdWO3yosf5eyTPpydVuT3pwvuw9Q=2BUxq+rxPjE3iSnrw@mail.gmail.com>
-Date: Wed, 24 Nov 2021 17:30:05 +0100
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <B622D2B5-D631-43F3-9D50-2B41681C78AB@goldelico.com>
-References: <cover.1637691240.git.hns@goldelico.com>
- <d62023e0872e9b393db736f4a0ecf04b3fc1c91b.1637691240.git.hns@goldelico.com>
- <O0K13R.TIL3JBQ5L8TO1@crapouillou.net>
- <04F0ED7C-3D18-4CCF-8F10-E0A36B0E4F4B@goldelico.com>
- <CAMuHMdWO3yosf5eyTPpydVuT3pwvuw9Q=2BUxq+rxPjE3iSnrw@mail.gmail.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-X-Mailer: Apple Mail (2.3445.104.21)
+Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com
+ [IPv6:2a00:1450:4864:20::22c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 85B3B6EA6F
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Nov 2021 16:32:52 +0000 (UTC)
+Received: by mail-lj1-x22c.google.com with SMTP id b16so6622416ljf.12
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Nov 2021 08:32:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=hWdL3+sC7Y3WgMzxQgq49FXg8O3lrY2U4JGqRbZI6tg=;
+ b=gujWqpLYZ0ok4buE3cVMLWfC5uFpJyuXa42ARhUlnN4O23+qlO+EmYtRvyX/8c+8Cd
+ T5a1dyyYrYP3SiqkVxU+nFVwtXCc1qsYP3l3IZjhohQlobFIZT7KVzpd/uD0tmpe0CvO
+ aeCfiRXxliyhrHPinovV+UTXQVe/RaMFEMYjCu0hyn3k5BUgAGEZ29zDCOQVjlqJOFhL
+ TZBbWI9gTerbMrFWXfehbYHCPQb+K2zUVIW0lpbY8uZKY04odxTxEAVckbrorzsLNVGk
+ sCA4pYJSO2cZ60LDY064M6AwjoFewiMlf4tsmpailAug/kWALkfi3+l95LwEP1w10SMT
+ n/NQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=hWdL3+sC7Y3WgMzxQgq49FXg8O3lrY2U4JGqRbZI6tg=;
+ b=MN44k2nZNddOHz0vjpeMk3btsmul+w13LYGa8e6OTGUYWugq64Dv/7pisdcDuaS4yT
+ alWeigAZtWIkj1vNN3VUExRW4WC/qHLBltiJ7OEu2qTU5+WLYzo7lwSAvpaoMc6+An6F
+ /BRQiQRsEF3NA+ThdHYGYY1ArvLkv+Q/oi1lAFIpdKX6FcsrxQKCfvEgqPYbT3lz6DlA
+ Ilz63KAro8dKCtBrMeYMS2pw69nr3KPFYRj/VGRpUuRRO2W8EymADbBzbD7j+NjCdId6
+ BzRp8otx1hNJG8HDkTExhNwbbtklWg7HntVn+yblhIhpWy3QqbkJNnCz6OGUIdAftNzT
+ oCRg==
+X-Gm-Message-State: AOAM532FE+SYkgfDUbhnBE681S5b9l4opp5D/P97BdL4pV7abOElc6bX
+ +Rv2k+teZh+u9zS2H0z3CcI=
+X-Google-Smtp-Source: ABdhPJzQ2dc3wLXSWKQBFY+mHq5x3ddsPjsCSkkhRryLlNJ0eKxp2Ar8mZbKuizWCxiSq5j6WRb8tw==
+X-Received: by 2002:a2e:2a43:: with SMTP id q64mr17358890ljq.102.1637771570838; 
+ Wed, 24 Nov 2021 08:32:50 -0800 (PST)
+Received: from [192.168.2.145] (94-29-48-99.dynamic.spd-mgts.ru. [94.29.48.99])
+ by smtp.googlemail.com with ESMTPSA id m14sm31645ljg.2.2021.11.24.08.32.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 24 Nov 2021 08:32:50 -0800 (PST)
+Subject: Re: [PATCH v2 01/11] ASoC: tegra20-spdif: stop setting slave_id
+To: Arnd Bergmann <arnd@kernel.org>, Vinod Koul <vkoul@kernel.org>
+References: <20211122222203.4103644-1-arnd@kernel.org>
+ <20211122222203.4103644-2-arnd@kernel.org>
+From: Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <1dbe0c9f-e209-49e1-f05c-765d9f9b91eb@gmail.com>
+Date: Wed, 24 Nov 2021 19:32:48 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
+MIME-Version: 1.0
+In-Reply-To: <20211122222203.4103644-2-arnd@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,78 +72,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, Paul Boddie <paul@boddie.org.uk>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
- Paul Cercueil <paul@crapouillou.net>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>, Sam Ravnborg <sam@ravnborg.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Kees Cook <keescook@chromium.org>,
- Jonas Karlman <jonas@kwiboo.se>, Mark Brown <broonie@kernel.org>,
- Maxime Ripard <maxime@cerno.tech>, letux-kernel@openphoenux.org,
- Ezequiel Garcia <ezequiel@collabora.com>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Liam Girdwood <lgirdwood@gmail.com>, Robert Foss <robert.foss@linaro.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>, "Eric W. Biederman" <ebiederm@xmission.com>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: alsa-devel@alsa-project.org, dri-devel@lists.freedesktop.org,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, linux-tegra@vger.kernel.org,
+ Thierry Reding <thierry.reding@gmail.com>, linux-mtd@lists.infradead.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ linux-spi@vger.kernel.org, Robert Jarzmik <robert.jarzmik@free.fr>,
+ Chunyan Zhang <zhang.lyra@gmail.com>, linux-staging@lists.linux.dev,
+ Michal Simek <michal.simek@xilinx.com>, Jon Hunter <jonathanh@nvidia.com>,
+ Andy Gross <agross@kernel.org>, bcm-kernel-feedback-list@broadcom.com,
+ linux-serial@vger.kernel.org, Orson Zhai <orsonzhai@gmail.com>,
+ Nicolas Saenz Julienne <nsaenz@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ Manivannan Sadhasivam <mani@kernel.org>, linux-arm-msm@vger.kernel.org,
+ dmaengine@vger.kernel.org, Mark Brown <broonie@kernel.org>,
+ linux-rpi-kernel@lists.infradead.org, Jaroslav Kysela <perex@perex.cz>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ linux-arm-kernel@lists.infradead.org, Scott Branden <sbranden@broadcom.com>,
+ Hyun Kwon <hyun.kwon@xilinx.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-mmc@vger.kernel.org,
+ Takashi Iwai <tiwai@suse.com>, linux-kernel@vger.kernel.org,
+ Laxman Dewangan <ldewangan@nvidia.com>, Baolin Wang <baolin.wang7@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Geert,
+23.11.2021 01:21, Arnd Bergmann пишет:
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> The DMA resource is never set up anywhere, and passing this as slave_id
+> has not been the proper procedure in a long time.
+> 
+> As a preparation for removing all slave_id references from the ALSA code,
+> remove this one.
+> 
+> According to Dmitry Osipenko, this driver has never been used and
+> the mechanism for configuring DMA would not work as it is implemented,
+> so this part will get rewritten when the driver gets put into use
+> again in the future.
+> 
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+>  sound/soc/tegra/tegra20_spdif.c | 1 -
+>  1 file changed, 1 deletion(-)
+> 
+> diff --git a/sound/soc/tegra/tegra20_spdif.c b/sound/soc/tegra/tegra20_spdif.c
+> index 9fdc82d58db3..1c3385da6f82 100644
+> --- a/sound/soc/tegra/tegra20_spdif.c
+> +++ b/sound/soc/tegra/tegra20_spdif.c
+> @@ -284,7 +284,6 @@ static int tegra20_spdif_platform_probe(struct platform_device *pdev)
+>  	spdif->playback_dma_data.addr = mem->start + TEGRA20_SPDIF_DATA_OUT;
+>  	spdif->playback_dma_data.addr_width = DMA_SLAVE_BUSWIDTH_4_BYTES;
+>  	spdif->playback_dma_data.maxburst = 4;
+> -	spdif->playback_dma_data.slave_id = dmareq->start;
+>  
+>  	pm_runtime_enable(&pdev->dev);
+>  
+> 
 
-> Am 24.11.2021 um 17:21 schrieb Geert Uytterhoeven =
-<geert@linux-m68k.org>:
->=20
-> Hi Nikolaus,
->=20
-> On Wed, Nov 24, 2021 at 5:19 PM H. Nikolaus Schaller =
-<hns@goldelico.com> wrote:
->>> Am 23.11.2021 um 21:10 schrieb Paul Cercueil <paul@crapouillou.net>:
->>> Le mar., nov. 23 2021 at 19:13:59 +0100, H. Nikolaus Schaller =
-<hns@goldelico.com> a =C3=A9crit :
->>>> +    assigned-clock-rates =3D <48000000>, <0>, <54000000>, <0>, =
-<27000000>;
->>>> };
->>>> &tcu {
->>>> @@ -509,6 +534,19 @@ pins_i2c4: i2c4 {
->>>>             bias-disable;
->>>>     };
->>>> +    pins_hdmi_ddc: hdmi_ddc {
->>>> +            function =3D "hdmi-ddc";
->>>> +            groups =3D "hdmi-ddc";
->>>> +            bias-disable;
->>>> +    };
->>>> +
->>>> +    /* switch to PF25 as gpio driving DDC_SDA low */
->>>> +    pins_hdmi_ddc_unwedge: hdmi_ddc {
->>>> +            function =3D "hdmi-ddc";
->>>> +            groups =3D "hdmi-ddc";
->>>> +            bias-disable;
->>>> +    };
->>>=20
->>> Your pins_hdmi_ddc and pins_hdmi_ddc_unwedge are the exact same? You =
-could just use the former and pass it to both pinctrl-0 and pinctrl-1.
->>=20
->> This was forgotten to remove. We do not make use of the unwedge =
-feature because I could not find out how to use pinctrl to switch this =
-to gpio25 and drive it low.
->=20
-> Using gpio-hog?
+Thanks, Arnd!
 
-well, AFAIR it activates the gpio permanently and is a propery of the =
-gpio controller and not of pinmux.
-The driver assumes it can use pinmux state switching to drive the =
-DDC_SDA line low on demand.
+The commit message is correct, however you could remove even more code
+here. But there is no need to make a v3 just because this patch because
+I already prepared patchset that revives this S/PDIF driver and enables
+HDMI audio on Tegra20. I'll take care of cleaning up the whole code of
+this driver.
 
-Since it is unlikely that we need it at all (and we have no test case =
-that it works) I think we simply can leave
-this driver feature unused unless we get a test case.
+diff --git a/sound/soc/tegra/tegra20_spdif.c
+b/sound/soc/tegra/tegra20_spdif.c
+index 7751575cd6d6..1c3385da6f82 100644
+--- a/sound/soc/tegra/tegra20_spdif.c
++++ b/sound/soc/tegra/tegra20_spdif.c
+@@ -251,7 +251,7 @@ static const struct regmap_config
+tegra20_spdif_regmap_config = {
+ static int tegra20_spdif_platform_probe(struct platform_device *pdev)
+ {
+ 	struct tegra20_spdif *spdif;
+-	struct resource *mem, *dmareq;
++	struct resource *mem;
+ 	void __iomem *regs;
+ 	int ret;
 
-BR and thanks,
-Nikolaus
+@@ -273,12 +273,6 @@ static int tegra20_spdif_platform_probe(struct
+platform_device *pdev)
+ 	if (IS_ERR(regs))
+ 		return PTR_ERR(regs);
+
+-	dmareq = platform_get_resource(pdev, IORESOURCE_DMA, 0);
+-	if (!dmareq) {
+-		dev_err(&pdev->dev, "No DMA resource\n");
+-		return -ENODEV;
+-	}
+-
+ 	spdif->regmap = devm_regmap_init_mmio(&pdev->dev, regs,
+ 					    &tegra20_spdif_regmap_config);
+ 	if (IS_ERR(spdif->regmap)) {
+@@ -290,7 +284,6 @@ static int tegra20_spdif_platform_probe(struct
+platform_device *pdev)
+ 	spdif->playback_dma_data.addr = mem->start + TEGRA20_SPDIF_DATA_OUT;
+ 	spdif->playback_dma_data.addr_width = DMA_SLAVE_BUSWIDTH_4_BYTES;
+ 	spdif->playback_dma_data.maxburst = 4;
+-	spdif->playback_dma_data.slave_id = dmareq->start;
+
+ 	pm_runtime_enable(&pdev->dev);
+
 
