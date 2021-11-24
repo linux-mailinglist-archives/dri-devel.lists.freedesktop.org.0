@@ -2,64 +2,145 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAC9445C794
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Nov 2021 15:37:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 221ED45C7F9
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Nov 2021 15:49:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DDAF26E921;
-	Wed, 24 Nov 2021 14:37:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CACFC6EA68;
+	Wed, 24 Nov 2021 14:49:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22a.google.com (mail-oi1-x22a.google.com
- [IPv6:2607:f8b0:4864:20::22a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9DB406E91B
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Nov 2021 14:37:10 +0000 (UTC)
-Received: by mail-oi1-x22a.google.com with SMTP id bk14so5735078oib.7
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Nov 2021 06:37:10 -0800 (PST)
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com
+ [205.220.177.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A499A6EA65;
+ Wed, 24 Nov 2021 14:49:35 +0000 (UTC)
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1AOECtYp026924; 
+ Wed, 24 Nov 2021 14:49:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : content-type : mime-version; s=corp-2021-07-09;
+ bh=UU5R75cfkumRwznlkHlD7a9KEa5mFPEzRwHL56aYwX8=;
+ b=wSXj5wF4y0yWQyIvI6e0cTBeyeOc/xeq4jkGgiYmy4cqgBiZLcM3BaU+iXSDwi5ubq8X
+ oPCki+eyD0J7qbj3jzHDJUot3nKLEKJ/escApIfRx5C4f4nxVn/+Fd8pO5cJgMzap2KX
+ W/DtkU3TJ3lrzsvRAvXr9dJa8PdwIfYUMejZp5nQq4nhrkbtg7qe0Zrd9RVYpYwEVnU5
+ +YyO1XXctzwGbIP068lKhz6NI9RpXiSXkKdh3b6QnPGNIeQncI/iEypWhW8kLmt/Gva4
+ NclDDxcXgHMpqwHMl+b1XDoV5UKG1zT5KHeX66rE0+49ZtJjLaoHGEdCedLmR+bwCrRE xg== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by mx0b-00069f02.pphosted.com with ESMTP id 3chk001jdw-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 24 Nov 2021 14:49:30 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 1AOElKiA137011;
+ Wed, 24 Nov 2021 14:49:29 GMT
+Received: from nam02-bn1-obe.outbound.protection.outlook.com
+ (mail-bn1nam07lp2046.outbound.protection.outlook.com [104.47.51.46])
+ by aserp3020.oracle.com with ESMTP id 3ceru74mua-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 24 Nov 2021 14:49:29 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=apF1KmI0bqUC+rDRrcCwYe99D2youv4a8t0fM9LPtqLjYbhO2BBr7Z9PDaA2sTdr4lVsII5X6FUsAOAkmy5s7XXsM+6X9S8TBwzT6tYf0+GFBLuU14N8siR24ggpAMxZQTYP70Fp2JMuAuk42TAfn88E9zg/Bcaz59AHwSXVh7eVIf2UzZaobBpRc8CcBKkRZfrbPPKNB690yQzlvpq3gD5dAi+ypDs0vaxwhQgXTB2iSpFxpRoswT7HSM8Esb+3ZsexgfaIdVBcDdO77rr05Jgg8Xs/YD7ci6Cq8DmYuj1TGXcBxmLj9WvWwdoq62iwfZW52eYD4cWKFxLfrHYePQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=UU5R75cfkumRwznlkHlD7a9KEa5mFPEzRwHL56aYwX8=;
+ b=cSAZAIF1VIK9hyZ08utd4jwYrI1PaUjTbed06x9SSH0VUsVh09snrzeB+Tlla3URvgCH2Eo9NmWy59X79h6gkaITkf96xJRanlPqyAyA7uU2HQYYKJp3sSnvSsFsHRS75m8MnJrvcW+VjORQF71wx7J/JE585pt4MszNMPCKTzBdL3mu9Gbc4UfOOqF8fXijqcrdBpaZOpq1nSUute9ppI1VRakni0EYD13vgRusVlNGDIg13GJeLWIyNnK9AGgHYwZtZETI0q8Gn/0cwsmhlJgtXH0TA7NWxXPOCuhfJp6ZjoRmsaZlK6lkDmZ2toHZAvhCcJ2LKoUP+k9/7gEuig==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20210112.gappssmtp.com; s=20210112;
- h=mime-version:in-reply-to:references:from:user-agent:date:message-id
- :subject:to:cc;
- bh=Q2uRSbObrkePrc/zqU3Ngfzhg//kzaNeGN8p2tOermY=;
- b=Wpox2BiFdw5LB7Mri2X9dtiqzggWUQ3ce3fZP7mGvLN2qWIr6R+qb7739+z+UBjH5Y
- OS+LZM7gbxWGZpx6sL0FuwcPnAJrceL277Xm0OZw0Cdzh48Qyo7n/KxiyjmgRBVcwI7w
- 55ScnUVXV+7X6tEuenAlNjJYETvgv46xXhEpjVV6n16XzUJoVnLXYppv28YM4oEpXL1e
- a1eVfJrzmnWgKSX5TalRIpd6kQ+Ranj4PKYa/ADCd+1iwtWgVf6uSrXsLNztVFZm0wxY
- 4nfgw4iSkpctL59G9mvP8cxWZax6OQjSv35bcfWMfBjWQ8jvUoa8CeY4kO2Ks9ZwL2nB
- weBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:in-reply-to:references:from
- :user-agent:date:message-id:subject:to:cc;
- bh=Q2uRSbObrkePrc/zqU3Ngfzhg//kzaNeGN8p2tOermY=;
- b=XKWezEOwLe/Fta6rAoi4Ky+piU6vOFMh0G8/7n+AdpEVZqxYEogz0OZaokADlHe3DU
- tRHTyj4CwQABe1jUr/gIewcepTcdyJ+w1JQogz9an6K1M9VuAJGfK4YZRVtzRawpkYWp
- QxTEQ0AAXaRrFDTUBM55Ec3tCmPa9mSgwDfywWh+lMmocUEyfPk+9HVEE3jU96tegreb
- twHGlv4w46/aHPZjZlBfpPBC9qkaEAg7NBvrZpC77kUIQ1OeWz8iSzH2mqKtS8zaeCkX
- /bQahlaQRv21DqOl2v+lvlP8aFRdMOCygo6F2x0PPC95GtLvYcVCUctAvlW2Qto2bsd3
- DIAg==
-X-Gm-Message-State: AOAM530VbMMo5yA/SLNZypirAWb20czdXCx8gHJ6fq50HCUO99rUhk1a
- oSnCqvYl+NrT5nmUpR0KwXBzqxyJDEjlPNCxmW8USw==
-X-Google-Smtp-Source: ABdhPJyoBHUu71mzUSytuaBHiGkmNvNWsL+cSNLvnOPaoc3aXwyog/l3opaP3KACCnJdmgbG+DjUrao2zYz9PhEs5To=
-X-Received: by 2002:aca:1708:: with SMTP id j8mr6452479oii.62.1637764629846;
- Wed, 24 Nov 2021 06:37:09 -0800 (PST)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 24 Nov 2021 14:37:08 +0000
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=UU5R75cfkumRwznlkHlD7a9KEa5mFPEzRwHL56aYwX8=;
+ b=mM99FfgR0k6jTeAqeFPwjrGFBLHVCT0pkfrNEpcaWjJF4ppXC/YM2HVJ0mWw1m5YjnogSqIwY90MGIBtYLaU6n2KwoBFAdaiLG5XfqfzPR1hjMT24dF6rRyZi2lX1d8acLynGPutRLg8gpthgbAx1FyX/UrP5jYqF6e56C2cMoE=
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by MWHPR10MB1821.namprd10.prod.outlook.com
+ (2603:10b6:300:107::19) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4713.22; Wed, 24 Nov
+ 2021 14:49:27 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::7194:c377:36cc:d9f0]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::7194:c377:36cc:d9f0%6]) with mapi id 15.20.4734.022; Wed, 24 Nov 2021
+ 14:49:27 +0000
+Date: Wed, 24 Nov 2021 17:49:13 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Zhenyu Wang <zhenyuw@linux.intel.com>, Zhi Wang <zhi.a.wang@intel.com>
+Subject: [PATCH] drm/i915/gvt: Prevent integer overflow in
+ intel_vgpu_emulate_cfg_write()
+Message-ID: <20211124144913.GA13656@kili>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-ClientProxiedBy: ZRAP278CA0008.CHEP278.PROD.OUTLOOK.COM
+ (2603:10a6:910:10::18) To MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28)
 MIME-Version: 1.0
-In-Reply-To: <fb09289440d16a0a441cd31a5542d4a6850fabe9.camel@mediatek.com>
-References: <20211110130623.20553-1-granquet@baylibre.com>
- <20211110130623.20553-7-granquet@baylibre.com>
- <fb09289440d16a0a441cd31a5542d4a6850fabe9.camel@mediatek.com>
-From: Guillaume Ranquet <granquet@baylibre.com>
-User-Agent: alot/0.10
-Date: Wed, 24 Nov 2021 14:37:08 +0000
-Message-ID: <CABnWg9s3rR1S5QqUyyUkKtsUqq3GSSLbMFvfoLQUs=4ZGzGqWw@mail.gmail.com>
-Subject: Re: [PATCH v6 6/7] phy: phy-mtk-dp: Add driver for DP phy
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Chunfeng Yun <chunfeng.yun@mediatek.com>, 
- Kishon Vijay Abraham I <kishon@ti.com>,
- Matthias Brugger <matthias.bgg@gmail.com>, 
- Philipp Zabel <p.zabel@pengutronix.de>, Vinod Koul <vkoul@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Received: from kili (102.222.70.114) by ZRAP278CA0008.CHEP278.PROD.OUTLOOK.COM
+ (2603:10a6:910:10::18) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4713.21 via Frontend
+ Transport; Wed, 24 Nov 2021 14:49:22 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 887ebaac-dc2d-48c4-f263-08d9af599cdf
+X-MS-TrafficTypeDiagnostic: MWHPR10MB1821:
+X-Microsoft-Antispam-PRVS: <MWHPR10MB18219F7645620450D8EF8F918E619@MWHPR10MB1821.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2657;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 1+oMY03Dbg84+1C8OChbuOvOJKpueMTiLgS9Kam/ow7rE7q8Wyy4U6KdaWPMK+zrSeid54qZVzL6RudbclkRg/EisXk9p2qDc1MT25WfS9daeLnU+9rEAyyzBVYgSqBmLzak+I7VjdnR7Ikjr8+95nYoVbmahOCbghcp70DJenINrSUNcWH/zakl4VWa/nMh8DmGzgi0N0Hb4nQVX1xBlUPaoQr3yLkyktWaSp1mPUOngL1HH3ls4clTWHugwWfUM7Q2QmGrdpFVdP2yn+ZAifaIbQVwTF7Y94Ytg3wBYJmdn1+703pEcbGDJDGWGFbcxkAdbZzT/L7yj8M7zguU3elxI4WzH4vYfR8EY0+ByBww84KoGqdam6Fx3gJ6WXiTik6b9l3ljsdk4NT0wO6gwSTLJk24tmZ0m01xCFGM2Y8FSOzjZrPFqBwmjheoScLKmLX/tWbpaF1VSGzGOQFUZvYtySjI1dWvLQuFxAKT0a18QJVIaVE3RIdDORpHJZ4LiSwoa664uWuP05ZrFjvbK5v7/v2mxbLOLwe3N1V4GtE7OuIsKsfFzQPeTXr8i51KRugyJLrC+F5rHKgjraYPMFiLoxq9irILZU5GKxnVDCIjgM8uZFx76qkbAGRmG+IWvm3i78VWUUXVQIkeDWIaK0nmT867QywxfCjHMJ71eiYGieqxXMUbRrtBQRLKWw6cyvgrBTwbbT4zlMyIFsOXyA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MWHPR1001MB2365.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(366004)(33716001)(26005)(52116002)(2906002)(6496006)(38100700002)(4744005)(33656002)(55016003)(4326008)(186003)(86362001)(66556008)(956004)(38350700002)(44832011)(5660300002)(8676002)(8936002)(9686003)(6666004)(83380400001)(316002)(110136005)(9576002)(54906003)(508600001)(7416002)(66946007)(1076003)(66476007);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?BjknjfANioorQ9oT7TNAeo/efpLmeQNkGsdCeIvg9XTJOqtgTCk/Yzchl6rM?=
+ =?us-ascii?Q?WKz4/glZcuJMioj6dO8q3tP5CyAz5PIu32XPjfxVxRCMrsEuCmqclxw0tiUr?=
+ =?us-ascii?Q?iCEA+zqU2NJNHdhBob1AGRa9FkpWI1KmFDvgF851oZc3t2shMJiYwsebAwJ/?=
+ =?us-ascii?Q?0Ea8hIpzJtAcJEkhwhnXiwXoY1kuhCVbbjS3jwbxrwyaQ6p+fDSPj3dbIKhx?=
+ =?us-ascii?Q?4f7XytP/ZHm9Sxj+OFQxh0WWCBjOuWMJJhTZzASBFQeOkPrg919t9HQK8Ycd?=
+ =?us-ascii?Q?eRH8R/tT2gxt1UAuVjcc334Uzx04Poymu0Talg/s88w8yU5S3wenMOlvIYr1?=
+ =?us-ascii?Q?Noq+UMfSs6l/zN6ctOV1bLi9C/xupAZqYfa9W87dPtyLTPgxY0Byird6vYM7?=
+ =?us-ascii?Q?Qs/yYVdZ2ZipLV2VvzWF3f4gdSgPvri7NGO4ZvDi9FBxa2kL1NAR1W52v0PE?=
+ =?us-ascii?Q?SQG8UTkqfGdnpZNQLzmbugKrlbno0kZsRZ123x3R3+LLFYuR14CtsFIbCjwf?=
+ =?us-ascii?Q?CHkocJv2ayYsvmO6M6/8BKrIEhFuBT08H7ZwXB/r+v6wtA2GzoH/tkzgAGKu?=
+ =?us-ascii?Q?hiX9Jf4c8Ky46ZuO99JMJqcBBFbSqKfqM7f8nvk8JRjKvQDVvoEFGKH/PPXL?=
+ =?us-ascii?Q?B0iuKSc5QWfig/XfciOXOKeO5JbJWbXL55Q+yeFmObhZ0Rg5Wl0h6Nr6GoSc?=
+ =?us-ascii?Q?N25op1J4I4O1qM0J3so68r5VFIasIacVYXXLP7Kbryygobbv5+paAgcZCnwi?=
+ =?us-ascii?Q?7wJLSNFPmdU9dRIfALFOC44nKHotokjtFxb1T22hZCg1kNX6qtr2Mx276DNW?=
+ =?us-ascii?Q?eh8vslD256grVQv9lehMhhlY2a+VBxTRU+2sxbovLe//wSaV9DEqhjYj0SIT?=
+ =?us-ascii?Q?pBOVUfJ9eiaGSqSNpjFrby/hyPtTxZlqSrP1x0calp4GijcrqWVwzFcfh9Qx?=
+ =?us-ascii?Q?s5+UGbg8oISjndlD1TMfpT5gjR/7wOFZka8Rrq2LuA+7DKGx3LK5wp8VAS4s?=
+ =?us-ascii?Q?bfPQRPbUMo3YkZ1kEBhcNa6rvo/ZSfIUeecQYxdabXx90S/jO4ELLtowF5Fb?=
+ =?us-ascii?Q?TbZ4+Bg34gwSapRSgo14vEL27GfzfqhNSr50CJWbYrlH7qvP/cdL51vKs4i3?=
+ =?us-ascii?Q?TDmNSrFovNYvTG4dDKm93W+2TNKlUYCFCIw/uuy48o40hNGPpLHF26JHgNHL?=
+ =?us-ascii?Q?nsw+o8vYiaWrtleElHX/xBG9L/FrGXujQCijVhctAogW945TZKaPmmdK/iyN?=
+ =?us-ascii?Q?7ZWM7LgcxxlNWUFhdEpYvFgKGuxa/J1sD9j2uQZQkxvktI1Lhep/s3TuoJ5m?=
+ =?us-ascii?Q?/LFTWicY1eN4R903zW16xe5szLLnFlZFAyXfD6tHsUptgcM6RyoH+CG/55oi?=
+ =?us-ascii?Q?fISLYi8u+kiY7QhLCnVP9rjO+m2gN0pBpiBLpkqZMUHXd2JTq1y3K2ikQnpV?=
+ =?us-ascii?Q?3NUlymYOO0urms0Bf22sunn8TzGYufF+EGmXq9SfZ/gc/dhrL0ffRY0G5TcO?=
+ =?us-ascii?Q?teoqYOScY7boozPb97d9wKQt6Q1xhN8l6vgKIcu64X8djp+pp64gQTu+0Yeu?=
+ =?us-ascii?Q?nAUn5npMFynDmVg+WStWMLCkFMgspvPcmNvGzfKRJ/pugOt59b+oa6HkMzhs?=
+ =?us-ascii?Q?l0Drlo1kDO8Y7Xwqsx/WJssbifc+wK+730Z7HwWtRhnTR/MFbdZK59vLoPUI?=
+ =?us-ascii?Q?ioFYHOh/r3CiD120wuged9DDnNU=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 887ebaac-dc2d-48c4-f263-08d9af599cdf
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Nov 2021 14:49:27.1266 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: I1V6x6KjeepyHV1dL4rZ5wtjKS0Kt4lW6pHzAn8aHybEq/1Ixdh/6/xM/5On/NL7cLOOn32gRgsltrtWSqlYTdm9yToyssrAiKw8V9/5ym4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR10MB1821
+X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10178
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ mlxscore=0 spamscore=0
+ mlxlogscore=999 malwarescore=0 phishscore=0 adultscore=0 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
+ definitions=main-2111240082
+X-Proofpoint-ORIG-GUID: r9kXK26y5Y8gSV9_qnDaWrLdgB2vYh52
+X-Proofpoint-GUID: r9kXK26y5Y8gSV9_qnDaWrLdgB2vYh52
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,354 +153,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Markus Schneider-Pargmann <msp@baylibre.com>,
- linux-mediatek@lists.infradead.org, linux-phy@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
+ kernel-janitors@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gvt-dev@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Chunfeng,
+The "offset" is a u32 that comes from the user.  The bug is that the
+"offset + bytes" operation can have an integer overflow problem which
+leads to an out of bounds access.
 
-Quoting Chunfeng Yun (2021-11-13 08:48:37)
-> On Wed, 2021-11-10 at 14:06 +0100, Guillaume Ranquet wrote:
-> > From: Markus Schneider-Pargmann <msp@baylibre.com>
-> >
-> > This is a new driver that supports the integrated DisplayPort phy for
-> > mediatek SoCs, especially the mt8195. The phy is integrated into the
-> > DisplayPort controller and will be created by the mtk-dp driver. This
-> > driver expects a struct regmap to be able to work on the same
-> > registers
-> > as the DisplayPort controller. It sets the device data to be the
-> > struct
-> > phy so that the DisplayPort controller can easily work with it.
-> >
-> > The driver does not have any devicetree bindings because the
-> > datasheet
-> > does not list the controller and the phy as distinct units.
-> >
-> > The interaction with the controller can be covered by the configure
-> > callback of the phy framework and its displayport parameters.
-> >
-> > Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
-> > Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
-> > ---
-> >  MAINTAINERS                       |   1 +
-> >  drivers/phy/mediatek/Kconfig      |   8 ++
-> >  drivers/phy/mediatek/Makefile     |   1 +
-> >  drivers/phy/mediatek/phy-mtk-dp.c | 219
-> > ++++++++++++++++++++++++++++++
-> >  4 files changed, 229 insertions(+)
-> >  create mode 100644 drivers/phy/mediatek/phy-mtk-dp.c
-> >
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index 170bbbeefc3f4..f9a71b6d2a4a9 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -6367,6 +6367,7 @@ L:      linux-mediatek@lists.infradead.org
-> > (moderated for non-subscribers)
-> >  S:   Supported
-> >  F:   Documentation/devicetree/bindings/display/mediatek/
-> >  F:   drivers/gpu/drm/mediatek/
-> > +F:   drivers/phy/mediatek/phy-mtk-dp.c
-> >  F:   drivers/phy/mediatek/phy-mtk-hdmi*
-> >  F:   drivers/phy/mediatek/phy-mtk-mipi*
-> >
-> > diff --git a/drivers/phy/mediatek/Kconfig
-> > b/drivers/phy/mediatek/Kconfig
-> > index 55f8e6c048ab3..f7ec860590492 100644
-> > --- a/drivers/phy/mediatek/Kconfig
-> > +++ b/drivers/phy/mediatek/Kconfig
-> > @@ -55,3 +55,11 @@ config PHY_MTK_MIPI_DSI
-> >       select GENERIC_PHY
-> >       help
-> >         Support MIPI DSI for Mediatek SoCs.
-> > +
-> > +config PHY_MTK_DP
-> > +     tristate "MediaTek DP-PHY Driver"
-> > +     depends on ARCH_MEDIATEK || COMPILE_TEST
-> > +     depends on OF
-> > +     select GENERIC_PHY
-> > +     help
-> > +       Support DisplayPort PHY for Mediatek SoCs.
-> > diff --git a/drivers/phy/mediatek/Makefile
-> > b/drivers/phy/mediatek/Makefile
-> > index ace660fbed3a1..4ba1e06504346 100644
-> > --- a/drivers/phy/mediatek/Makefile
-> > +++ b/drivers/phy/mediatek/Makefile
-> > @@ -3,6 +3,7 @@
-> >  # Makefile for the phy drivers.
-> >  #
-> >
-> > +obj-$(CONFIG_PHY_MTK_DP)             += phy-mtk-dp.o
-> >  obj-$(CONFIG_PHY_MTK_TPHY)           += phy-mtk-tphy.o
-> >  obj-$(CONFIG_PHY_MTK_UFS)            += phy-mtk-ufs.o
-> >  obj-$(CONFIG_PHY_MTK_XSPHY)          += phy-mtk-xsphy.o
-> > diff --git a/drivers/phy/mediatek/phy-mtk-dp.c
-> > b/drivers/phy/mediatek/phy-mtk-dp.c
-> > new file mode 100644
-> > index 0000000000000..4f8d26ec0346b
-> > --- /dev/null
-> > +++ b/drivers/phy/mediatek/phy-mtk-dp.c
-> > @@ -0,0 +1,219 @@
-> > +// SPDX-License-Identifier: GPL-2.0
-> > +/*
-> > + * Copyright (c) 2021 BayLibre
-> > + * Author: Markus Schneider-Pargmann <msp@baylibre.com>
-> > + */
-> > +
-> > +#include <linux/delay.h>
-> > +#include <linux/io.h>
-> > +#include <linux/of.h>
-> > +#include <linux/phy/phy.h>
-> > +#include <linux/platform_device.h>
-> > +#include <linux/regmap.h>
-> > +
-> > +#define PHY_OFFSET 0x1000
-> Why not provide register base address in DTS?
-> I find that phy's platform device is registered by dp driver but the
-> one automatically created when parse dts?
->
-This phy driver has no dt binding whatsoever, as it shares basically
-the same hardware as the DP driver,
-so everything has to be either hardcoded or passed through from the DP driver.
+Fixes: 4d60c5fd3f87 ("drm/i915/gvt: vGPU PCI configuration space virtualization")
+Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+---
+ drivers/gpu/drm/i915/gvt/cfg_space.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-> > +
-> > +#define MTK_DP_PHY_DIG_PLL_CTL_1             (PHY_OFFSET + 0x014)
-> > +# define TPLL_SSC_EN                         BIT(3)
-> > +
-> > +#define MTK_DP_PHY_DIG_BIT_RATE                      (PHY_OFFSET +
-> > 0x03C)
-> > +# define BIT_RATE_RBR                                0
-> > +# define BIT_RATE_HBR                                1
-> > +# define BIT_RATE_HBR2                               2
-> > +# define BIT_RATE_HBR3                               3
-> > +
-> > +#define MTK_DP_PHY_DIG_SW_RST                        (PHY_OFFSET +
-> > 0x038)
-> > +# define DP_GLB_SW_RST_PHYD                  BIT(0)
-> > +
-> > +#define MTK_DP_LANE0_DRIVING_PARAM_3         (PHY_OFFSET + 0x138)
-> > +#define MTK_DP_LANE1_DRIVING_PARAM_3         (PHY_OFFSET + 0x238)
-> > +#define MTK_DP_LANE2_DRIVING_PARAM_3         (PHY_OFFSET + 0x338)
-> > +#define MTK_DP_LANE3_DRIVING_PARAM_3         (PHY_OFFSET + 0x438)
-> > +# define XTP_LN_TX_LCTXC0_SW0_PRE0_DEFAULT   0x10
-> > +# define XTP_LN_TX_LCTXC0_SW0_PRE1_DEFAULT   (0x14 << 8)
-> > +# define XTP_LN_TX_LCTXC0_SW0_PRE2_DEFAULT   (0x18 << 16)
-> > +# define XTP_LN_TX_LCTXC0_SW0_PRE3_DEFAULT   (0x20 << 24)
-> > +# define DRIVING_PARAM_3_DEFAULT             (XTP_LN_TX_LCTXC0_SW0_P
-> > RE0_DEFAULT | \
-> > +                                              XTP_LN_TX_LCTXC0_SW0_P
-> > RE1_DEFAULT | \
-> > +                                              XTP_LN_TX_LCTXC0_SW0_P
-> > RE2_DEFAULT | \
-> > +                                              XTP_LN_TX_LCTXC0_SW0_P
-> > RE3_DEFAULT)
-> > +
-> > +#define MTK_DP_LANE0_DRIVING_PARAM_4         (PHY_OFFSET + 0x13C)
-> > +#define MTK_DP_LANE1_DRIVING_PARAM_4         (PHY_OFFSET + 0x23C)
-> > +#define MTK_DP_LANE2_DRIVING_PARAM_4         (PHY_OFFSET + 0x33C)
-> > +#define MTK_DP_LANE3_DRIVING_PARAM_4         (PHY_OFFSET + 0x43C)
-> > +# define XTP_LN_TX_LCTXC0_SW1_PRE0_DEFAULT   0x18
-> > +# define XTP_LN_TX_LCTXC0_SW1_PRE1_DEFAULT   (0x1e << 8)
-> > +# define XTP_LN_TX_LCTXC0_SW1_PRE2_DEFAULT   (0x24 << 16)
-> > +# define XTP_LN_TX_LCTXC0_SW2_PRE0_DEFAULT   (0x20 << 24)
-> > +# define DRIVING_PARAM_4_DEFAULT             (XTP_LN_TX_LCTXC0_SW1_P
-> > RE0_DEFAULT | \
-> > +                                              XTP_LN_TX_LCTXC0_SW1_P
-> > RE1_DEFAULT | \
-> > +                                              XTP_LN_TX_LCTXC0_SW1_P
-> > RE2_DEFAULT | \
-> > +                                              XTP_LN_TX_LCTXC0_SW2_P
-> > RE0_DEFAULT)
-> > +
-> > +#define MTK_DP_LANE0_DRIVING_PARAM_5         (PHY_OFFSET + 0x140)
-> > +#define MTK_DP_LANE1_DRIVING_PARAM_5         (PHY_OFFSET + 0x240)
-> > +#define MTK_DP_LANE2_DRIVING_PARAM_5         (PHY_OFFSET + 0x340)
-> > +#define MTK_DP_LANE3_DRIVING_PARAM_5         (PHY_OFFSET + 0x440)
-> > +# define XTP_LN_TX_LCTXC0_SW2_PRE1_DEFAULT   0x28
-> > +# define XTP_LN_TX_LCTXC0_SW3_PRE0_DEFAULT   (0x30 << 8)
-> > +# define DRIVING_PARAM_5_DEFAULT             (XTP_LN_TX_LCTXC0_SW2_P
-> > RE1_DEFAULT | \
-> > +                                              XTP_LN_TX_LCTXC0_SW3_P
-> > RE0_DEFAULT)
-> > +
-> > +#define MTK_DP_LANE0_DRIVING_PARAM_6         (PHY_OFFSET + 0x144)
-> > +#define MTK_DP_LANE1_DRIVING_PARAM_6         (PHY_OFFSET + 0x244)
-> > +#define MTK_DP_LANE2_DRIVING_PARAM_6         (PHY_OFFSET + 0x344)
-> > +#define MTK_DP_LANE3_DRIVING_PARAM_6         (PHY_OFFSET + 0x444)
-> > +# define XTP_LN_TX_LCTXCP1_SW0_PRE0_DEFAULT  0x00
-> > +# define XTP_LN_TX_LCTXCP1_SW0_PRE1_DEFAULT  (0x04 << 8)
-> > +# define XTP_LN_TX_LCTXCP1_SW0_PRE2_DEFAULT  (0x08 << 16)
-> > +# define XTP_LN_TX_LCTXCP1_SW0_PRE3_DEFAULT  (0x10 << 24)
-> > +# define DRIVING_PARAM_6_DEFAULT             (XTP_LN_TX_LCTXCP1_SW0_
-> > PRE0_DEFAULT | \
-> > +                                              XTP_LN_TX_LCTXCP1_SW0_
-> > PRE1_DEFAULT | \
-> > +                                              XTP_LN_TX_LCTXCP1_SW0_
-> > PRE2_DEFAULT | \
-> > +                                              XTP_LN_TX_LCTXCP1_SW0_
-> > PRE3_DEFAULT)
-> > +
-> > +#define MTK_DP_LANE0_DRIVING_PARAM_7         (PHY_OFFSET + 0x148)
-> > +#define MTK_DP_LANE1_DRIVING_PARAM_7         (PHY_OFFSET + 0x248)
-> > +#define MTK_DP_LANE2_DRIVING_PARAM_7         (PHY_OFFSET + 0x348)
-> > +#define MTK_DP_LANE3_DRIVING_PARAM_7         (PHY_OFFSET + 0x448)
-> > +# define XTP_LN_TX_LCTXCP1_SW1_PRE0_DEFAULT  0x00
-> > +# define XTP_LN_TX_LCTXCP1_SW1_PRE1_DEFAULT  (0x06 << 8)
-> > +# define XTP_LN_TX_LCTXCP1_SW1_PRE2_DEFAULT  (0x0c << 16)
-> > +# define XTP_LN_TX_LCTXCP1_SW2_PRE0_DEFAULT  (0x00 << 24)
-> > +# define DRIVING_PARAM_7_DEFAULT             (XTP_LN_TX_LCTXCP1_SW1_
-> > PRE0_DEFAULT | \
-> > +                                              XTP_LN_TX_LCTXCP1_SW1_
-> > PRE1_DEFAULT | \
-> > +                                              XTP_LN_TX_LCTXCP1_SW1_
-> > PRE2_DEFAULT | \
-> > +                                              XTP_LN_TX_LCTXCP1_SW2_
-> > PRE0_DEFAULT)
-> > +
-> > +#define MTK_DP_LANE0_DRIVING_PARAM_8         (PHY_OFFSET + 0x14C)
-> > +#define MTK_DP_LANE1_DRIVING_PARAM_8         (PHY_OFFSET + 0x24C)
-> > +#define MTK_DP_LANE2_DRIVING_PARAM_8         (PHY_OFFSET + 0x34C)
-> > +#define MTK_DP_LANE3_DRIVING_PARAM_8         (PHY_OFFSET + 0x44C)
-> > +# define XTP_LN_TX_LCTXCP1_SW2_PRE1_DEFAULT  0x08
-> > +# define XTP_LN_TX_LCTXCP1_SW3_PRE0_DEFAULT  (0x00 << 8)
-> > +# define DRIVING_PARAM_8_DEFAULT             (XTP_LN_TX_LCTXCP1_SW2_
-> > PRE1_DEFAULT | \
-> > +                                              XTP_LN_TX_LCTXCP1_SW3_
-> > PRE0_DEFAULT)
-> > +
-> > +struct mtk_dp_phy {
-> > +     struct regmap *regs;
-> > +};
-> > +
-> > +static int mtk_dp_phy_init(struct phy *phy)
-> > +{
-> > +     struct mtk_dp_phy *dp_phy = phy_get_drvdata(phy);
-> > +     u32 driving_params[] = {
-> > +             DRIVING_PARAM_3_DEFAULT,
-> > +             DRIVING_PARAM_4_DEFAULT,
-> > +             DRIVING_PARAM_5_DEFAULT,
-> > +             DRIVING_PARAM_6_DEFAULT,
-> > +             DRIVING_PARAM_7_DEFAULT,
-> > +             DRIVING_PARAM_8_DEFAULT
-> > +     };
-> > +
-> > +     regmap_bulk_write(dp_phy->regs, MTK_DP_LANE0_DRIVING_PARAM_3,
-> > +                       driving_params, ARRAY_SIZE(driving_params));
-> > +     regmap_bulk_write(dp_phy->regs, MTK_DP_LANE1_DRIVING_PARAM_3,
-> > +                       driving_params, ARRAY_SIZE(driving_params));
-> > +     regmap_bulk_write(dp_phy->regs, MTK_DP_LANE2_DRIVING_PARAM_3,
-> > +                       driving_params, ARRAY_SIZE(driving_params));
-> > +     regmap_bulk_write(dp_phy->regs, MTK_DP_LANE3_DRIVING_PARAM_3,
-> > +                       driving_params, ARRAY_SIZE(driving_params));
-> > +
-> > +     return 0;
-> > +}
-> > +
-> > +static int mtk_dp_phy_configure(struct phy *phy, union
-> > phy_configure_opts *opts)
-> > +{
-> > +     struct mtk_dp_phy *dp_phy = phy_get_drvdata(phy);
-> > +     u32 val;
-> > +
-> > +     if (opts->dp.set_rate) {
-> > +             switch (opts->dp.link_rate) {
-> > +             default:
-> > +                     dev_err(&phy->dev,
-> > +                             "Implementation error, unknown linkrate
-> > %x\n",
-> > +                             opts->dp.link_rate);
-> > +                     return -EINVAL;
-> > +             case 1620:
-> > +                     val = BIT_RATE_RBR;
-> > +                     break;
-> > +             case 2700:
-> > +                     val = BIT_RATE_HBR;
-> > +                     break;
-> > +             case 5400:
-> > +                     val = BIT_RATE_HBR2;
-> > +                     break;
-> > +             case 8100:
-> > +                     val = BIT_RATE_HBR3;
-> > +                     break;
-> > +             }
-> > +             regmap_write(dp_phy->regs, MTK_DP_PHY_DIG_BIT_RATE,
-> > val);
-> > +     }
-> > +
-> > +     regmap_update_bits(dp_phy->regs, MTK_DP_PHY_DIG_PLL_CTL_1,
-> > +                        TPLL_SSC_EN, opts->dp.ssc ? TPLL_SSC_EN :
-> > 0);
-> > +
-> > +     return 0;
-> > +}
-> > +
-> > +static int mtk_dp_phy_reset(struct phy *phy)
-> > +{
-> > +     struct mtk_dp_phy *dp_phy = phy_get_drvdata(phy);
-> > +
-> > +     regmap_update_bits(dp_phy->regs, MTK_DP_PHY_DIG_SW_RST,
-> > +                        DP_GLB_SW_RST_PHYD, 0);
-> > +     usleep_range(50, 200);
-> > +     regmap_update_bits(dp_phy->regs, MTK_DP_PHY_DIG_SW_RST,
-> > +                        DP_GLB_SW_RST_PHYD, 1);
-> > +
-> > +     return 0;
-> > +}
-> > +
-> > +static const struct phy_ops mtk_dp_phy_dev_ops = {
-> > +     .init = mtk_dp_phy_init,
-> > +     .configure = mtk_dp_phy_configure,
-> > +     .reset = mtk_dp_phy_reset,
-> > +     .owner = THIS_MODULE,
-> > +};
-> > +
-> > +static int mtk_dp_phy_probe(struct platform_device *pdev)
-> > +{
-> > +     struct device *dev = &pdev->dev;
-> > +     struct mtk_dp_phy *dp_phy;
-> > +     struct phy *phy;
-> > +
-> > +     dp_phy = devm_kzalloc(dev, sizeof(*dp_phy), GFP_KERNEL);
-> > +     if (!dp_phy)
-> > +             return -ENOMEM;
-> > +
-> > +     dp_phy->regs = *(struct regmap **)dev->platform_data;
-> > +     if (!dp_phy->regs) {
-> > +             dev_err(dev, "No data passed, requires struct
-> > regmap**\n");
-> > +             return -EINVAL;
-> > +     }
-> Why not get it from dts?
->
-No dt bindings, this is passed from the dp driver (which triggers the
-probe of the phy btw).
+diff --git a/drivers/gpu/drm/i915/gvt/cfg_space.c b/drivers/gpu/drm/i915/gvt/cfg_space.c
+index b490e3db2e38..8a54dd3de91c 100644
+--- a/drivers/gpu/drm/i915/gvt/cfg_space.c
++++ b/drivers/gpu/drm/i915/gvt/cfg_space.c
+@@ -316,6 +316,10 @@ int intel_vgpu_emulate_cfg_write(struct intel_vgpu *vgpu, unsigned int offset,
+ 	if (drm_WARN_ON(&i915->drm, bytes > 4))
+ 		return -EINVAL;
+ 
++	if (drm_WARN_ON(&i915->drm,
++			offset > vgpu->gvt->device_info.cfg_space_size))
++		return -EINVAL;
++
+ 	if (drm_WARN_ON(&i915->drm,
+ 			offset + bytes > vgpu->gvt->device_info.cfg_space_size))
+ 		return -EINVAL;
+-- 
+2.20.1
 
-> > +
-> > +     phy = devm_phy_create(dev, NULL, &mtk_dp_phy_dev_ops);
-> > +     if (IS_ERR(phy)) {
-> > +             dev_err(dev, "Failed to create DP PHY: %ld\n",
-> > PTR_ERR(phy));
-> > +             return PTR_ERR(phy);
-> > +     }
-> > +     phy_set_drvdata(phy, dp_phy);
-> > +
-> > +     // Set device data to the phy so that mtk-dp can get it easily
-> use /* */
-> > +     dev_set_drvdata(dev, phy);
-> > +
-> > +     return 0;
-> > +}
-> > +
-> > +struct platform_driver mtk_dp_phy_driver = {
-> > +     .probe = mtk_dp_phy_probe,
-> > +     .driver = {
-> > +             .name = "mediatek-dp-phy",
-> > +     },
-> > +};
-> > +module_platform_driver(mtk_dp_phy_driver);
-> > +
-> > +MODULE_AUTHOR("Markus Schneider-Pargmann <msp@baylibre.com>");
-> > +MODULE_DESCRIPTION("MediaTek DP PHY Driver");
-> > +MODULE_LICENSE("GPL v2");
