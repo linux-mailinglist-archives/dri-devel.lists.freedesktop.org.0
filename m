@@ -2,62 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CA6345CF05
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Nov 2021 22:29:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31A2A45CF22
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Nov 2021 22:37:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3023D6ECFD;
-	Wed, 24 Nov 2021 21:29:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 869EB6EDBD;
+	Wed, 24 Nov 2021 21:37:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mo4-p04-ob.smtp.rzone.de (mo4-p04-ob.smtp.rzone.de
- [85.215.255.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A4866ECE8
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Nov 2021 21:29:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1637789361;
- s=strato-dkim-0002; d=goldelico.com;
- h=References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Cc:Date:
- From:Subject:Sender;
- bh=15Nkk1H/19ZCPCTvtDzkEK7DIJe2pfI1c9+1syWWzcY=;
- b=qx+OsfjGXm9wq0EEFYO7n3+DTsM2kaSa1lhlvONQmCL0REFCCF6KWClVl1IISy0rcp
- EJM9P00izC7yjTjuG1Jrtj94pNCeojPV7Oi9P0nOWbOnu4yx9Lt5xQKW1GO+Bwax9Jmx
- WYOCaC8GL2SR2vUH2jvdgZScXBxzN6wanrB3YqlNK3Vs4gYipurZODi5ehsPCpmnlERb
- f4dfEwqW1dugw4DiuH/NRmek5Lk0URdwMn5DM8L/EXPrwnovzwMErv9bSwbtyz6w+GoU
- 7uLtmX/Kk8YUskjynM3Q9egA/HQN4IA0lzBytEhep0D2DyNcAR04bp6l3IyeDvOwFZnj
- /U5g==
-Authentication-Results: strato.com;
-    dkim=none
-X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMhflhwDubTJ9o1KHeBQyh+ITDDRsZQ=="
-X-RZG-CLASS-ID: mo00
-Received: from iMac.fritz.box by smtp.strato.de (RZmta 47.34.10 DYNA|AUTH)
- with ESMTPSA id e05ed8xAOLTL5Ay
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
- (Client did not present a certificate);
- Wed, 24 Nov 2021 22:29:21 +0100 (CET)
-From: "H. Nikolaus Schaller" <hns@goldelico.com>
-To: Paul Cercueil <paul@crapouillou.net>, Rob Herring <robh+dt@kernel.org>,
- Mark Rutland <mark.rutland@arm.com>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- "H. Nikolaus Schaller" <hns@goldelico.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Kees Cook <keescook@chromium.org>,
- "Eric W. Biederman" <ebiederm@xmission.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Neil Armstrong <narmstrong@baylibre.com>,
- Robert Foss <robert.foss@linaro.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Ezequiel Garcia <ezequiel@collabora.com>,
- Harry Wentland <harry.wentland@amd.com>, Sam Ravnborg <sam@ravnborg.org>,
- Maxime Ripard <maxime@cerno.tech>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Paul Boddie <paul@boddie.org.uk>
-Subject: [PATCH v9 8/8] [RFC] MIPS: DTS: Ingenic: adjust register size to
- available registers
-Date: Wed, 24 Nov 2021 22:29:14 +0100
-Message-Id: <3bad52da49844bbfbede41c5f7d984ba9502a358.1637789354.git.hns@goldelico.com>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <cover.1637789354.git.hns@goldelico.com>
-References: <cover.1637789354.git.hns@goldelico.com>
+Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com
+ [IPv6:2607:f8b0:4864:20::62e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F0FD36EDBC;
+ Wed, 24 Nov 2021 21:37:01 +0000 (UTC)
+Received: by mail-pl1-x62e.google.com with SMTP id y8so2951995plg.1;
+ Wed, 24 Nov 2021 13:37:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=qRF5/BPRjl5xERSBa/eHuny9wgPdbY3r/MnMZJGIw7o=;
+ b=EHmaQZkVMD66f2U2Qqy4MaqvTVwTmwgelAFIUevB40nJrwEn6hyUUMWbOoshgJ9crs
+ 4yjyIVj+/rLtviQ58+SWifmvhwBMebRtapn14tCucvjTpHwgqGNLAP73zarMfzSM0sli
+ /iZt6Eml2ZvGZkk6TcFlj5e8OwUM9NP1OkKv93+bZqUcWW3vaVo8Wwfc7huhX+ZsEqz/
+ 8QHoypZxATegM6zjUTYY37UdByet2Nj+JuwwdFTbkYF5WAczl79gB7Z+SEXfVY8Udt32
+ tAW6RCC6jLjtD2HKWJNgRUYsELTvwewOMYlmN/UhJpB96fsQC4rKq7b7zGzczak676FI
+ ElDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=qRF5/BPRjl5xERSBa/eHuny9wgPdbY3r/MnMZJGIw7o=;
+ b=aHhUu30OQcpWMT2pBTxOA299RxSl6aFlDTeb1HkdQ2AWpBuunf9oOSEiV+jl1S9lja
+ T+Lr/QY3uXM2XZjujcYExB3ndeYN9i5OrYOLelAHy0g7G4n7fUiX1/o5lXA6Q+Ts6J9E
+ v118qWR8hulkxNyFsWK2YHhYcVlINf0H+w7ewIF2HH16kShFsLXRV6RrTd2GCxSttH7p
+ u7tng5UjPVg4k5RZenEIrgJgut2jD+qTnIpMfXjEVMcxNuKHLkVljtrNeRHjbLDQAXRF
+ 57rT6CHyppEoYunJi0BnY10aAcXXst9l047Z+cJ8NtYmIGjQrEQEuy1IuVX4uwnYza2V
+ msfA==
+X-Gm-Message-State: AOAM530iPR5uJr/aneVYFswAnZSO9FAIvAGrq4MdLxmitGzmnElDNfLk
+ jRCmlqAE2eoqv6CpwJUIzA44ufbCd2E=
+X-Google-Smtp-Source: ABdhPJzNY9alqqLMH5XF+boo4aSfrFYcpd0d0oay1oiaKp8gXNWA3mqfUqnALD0Yyl0mbzY64/q2Hg==
+X-Received: by 2002:a17:902:ec8f:b0:142:11aa:3974 with SMTP id
+ x15-20020a170902ec8f00b0014211aa3974mr23244200plg.30.1637789820845; 
+ Wed, 24 Nov 2021 13:37:00 -0800 (PST)
+Received: from localhost (c-73-25-156-94.hsd1.or.comcast.net. [73.25.156.94])
+ by smtp.gmail.com with ESMTPSA id
+ b18sm527998pjo.31.2021.11.24.13.36.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 24 Nov 2021 13:36:59 -0800 (PST)
+From: Rob Clark <robdclark@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH 0/7] drm/msm: Improve GMU debugging
+Date: Wed, 24 Nov 2021 13:41:25 -0800
+Message-Id: <20211124214151.1427022-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -72,66 +67,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Jonas Karlman <jonas@kwiboo.se>,
- linux-mips@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, letux-kernel@openphoenux.org
+Cc: Rob Clark <robdclark@chromium.org>,
+ Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
+ Douglas Anderson <dianders@chromium.org>,
+ open list <linux-kernel@vger.kernel.org>, Jonathan Marek <jonathan@marek.ca>,
+ Yangtao Li <tiny.windzz@gmail.com>, linux-arm-msm@vger.kernel.org,
+ Sharat Masetty <smasetty@codeaurora.org>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Akhil P Oommen <akhilpo@codeaurora.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, Eric Anholt <eric@anholt.net>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Lee Jones <lee.jones@linaro.org>, Jordan Crouse <jordan@cosmicpenguin.net>,
+ freedreno@lists.freedesktop.org,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Dan Carpenter <dan.carpenter@oracle.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-After getting the regmap size from the device tree we should
-reduce the ranges to the really available registers. This
-allows to read only existing registers from the debug fs
-and makes the regmap check out-of-bounds access.
+From: Rob Clark <robdclark@chromium.org>
 
-For the jz4780 we have done this already.
+This adds additional snapshotting for interesting GMU buffers to the
+devcore dumps, adds a couple WARN_ON()s, etc.  (Plus a bonus comment)
 
-Suggested-for: Paul Cercueil <paul@crapouillou.net>
-Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
----
- arch/mips/boot/dts/ingenic/jz4725b.dtsi | 2 +-
- arch/mips/boot/dts/ingenic/jz4740.dtsi  | 2 +-
- arch/mips/boot/dts/ingenic/jz4770.dtsi  | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+Akhil P Oommen (1):
+  drm/msm/a6xx: Capture gmu log in devcoredump
 
-diff --git a/arch/mips/boot/dts/ingenic/jz4725b.dtsi b/arch/mips/boot/dts/ingenic/jz4725b.dtsi
-index 0c6a5a4266f43..e9e48022f6316 100644
---- a/arch/mips/boot/dts/ingenic/jz4725b.dtsi
-+++ b/arch/mips/boot/dts/ingenic/jz4725b.dtsi
-@@ -321,7 +321,7 @@ udc: usb@13040000 {
- 
- 	lcd: lcd-controller@13050000 {
- 		compatible = "ingenic,jz4725b-lcd";
--		reg = <0x13050000 0x1000>;
-+		reg = <0x13050000 0x130>; /* tbc */
- 
- 		interrupt-parent = <&intc>;
- 		interrupts = <31>;
-diff --git a/arch/mips/boot/dts/ingenic/jz4740.dtsi b/arch/mips/boot/dts/ingenic/jz4740.dtsi
-index 772542e1f266a..7f76cba03a089 100644
---- a/arch/mips/boot/dts/ingenic/jz4740.dtsi
-+++ b/arch/mips/boot/dts/ingenic/jz4740.dtsi
-@@ -323,7 +323,7 @@ udc: usb@13040000 {
- 
- 	lcd: lcd-controller@13050000 {
- 		compatible = "ingenic,jz4740-lcd";
--		reg = <0x13050000 0x1000>;
-+		reg = <0x13050000 0x60>; /* LCDCMD1+4 */
- 
- 		interrupt-parent = <&intc>;
- 		interrupts = <30>;
-diff --git a/arch/mips/boot/dts/ingenic/jz4770.dtsi b/arch/mips/boot/dts/ingenic/jz4770.dtsi
-index dfe74328ae5dc..bda0a3a86ed5f 100644
---- a/arch/mips/boot/dts/ingenic/jz4770.dtsi
-+++ b/arch/mips/boot/dts/ingenic/jz4770.dtsi
-@@ -399,7 +399,7 @@ gpu: gpu@13040000 {
- 
- 	lcd: lcd-controller@13050000 {
- 		compatible = "ingenic,jz4770-lcd";
--		reg = <0x13050000 0x300>;
-+		reg = <0x13050000 0x130>; /* tbc */
- 
- 		interrupt-parent = <&intc>;
- 		interrupts = <31>;
+Rob Clark (6):
+  drm/msm/gpu: Name GMU bos
+  drm/msm/gpu: Add some WARN_ON()s
+  drm/msm/gpu: Make a6xx_get_gmu_log() more generic
+  drm/msm/gpu: Also snapshot GMU HFI buffer
+  drm/msm/gpu: Snapshot GMU debug buffer
+  drm/msm/gpu: Add a comment in a6xx_gmu_init()
+
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.c       | 25 ++++--
+ drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c | 95 +++++++++++++++++++++
+ drivers/gpu/drm/msm/adreno/a6xx_hfi.c       | 10 +++
+ drivers/gpu/drm/msm/adreno/a6xx_hfi.h       | 11 +++
+ drivers/gpu/drm/msm/adreno/adreno_gpu.c     |  5 +-
+ drivers/gpu/drm/msm/adreno/adreno_gpu.h     |  2 +
+ 6 files changed, 138 insertions(+), 10 deletions(-)
+
 -- 
-2.33.0
+2.33.1
 
