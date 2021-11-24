@@ -1,41 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AFB545B084
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Nov 2021 00:53:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 96E4045B093
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Nov 2021 01:10:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 09C3F6E096;
-	Tue, 23 Nov 2021 23:53:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9842C6E10E;
+	Wed, 24 Nov 2021 00:10:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 41FF16E096
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Nov 2021 23:53:49 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10177"; a="235111508"
-X-IronPort-AV: E=Sophos;i="5.87,258,1631602800"; d="scan'208";a="235111508"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Nov 2021 15:53:48 -0800
-X-IronPort-AV: E=Sophos;i="5.87,258,1631602800"; d="scan'208";a="509610560"
-Received: from pshinde-mobl.amr.corp.intel.com ([10.213.85.70])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Nov 2021 15:53:41 -0800
-Message-ID: <c5d1ee1f3b59bf18591a164c185650c77ec8aba7.camel@linux.intel.com>
-Subject: Re: [PATCH v2 12/63] thermal: intel: int340x_thermal: Use
- struct_group() for memcpy() region
-From: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-To: "Rafael J. Wysocki" <rafael@kernel.org>, Kees Cook
- <keescook@chromium.org>,  Zhang Rui <rui.zhang@intel.com>
-Date: Tue, 23 Nov 2021 15:53:38 -0800
-In-Reply-To: <CAJZ5v0iS3qMgdab1S-NzGfeLLXV=S6p5Qx8AaqJ50rsUngS=LA@mail.gmail.com>
-References: <20210818060533.3569517-1-keescook@chromium.org>
- <20210818060533.3569517-13-keescook@chromium.org>
- <CAJZ5v0iS3qMgdab1S-NzGfeLLXV=S6p5Qx8AaqJ50rsUngS=LA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.0-1 
+Received: from gandalf.ozlabs.org (gandalf.ozlabs.org
+ [IPv6:2404:9400:2:0:216:3eff:fee2:21ea])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2FD6E6E0E9;
+ Wed, 24 Nov 2021 00:10:04 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4HzLx30whkz4xcK;
+ Wed, 24 Nov 2021 11:09:58 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=201702; t=1637712600;
+ bh=X4bEEqqhqXPwwuJUvJkcN72qA1+JmSUCFA8Yvn1FfIk=;
+ h=Date:From:To:Cc:Subject:From;
+ b=jeF79H9Sl0KsBUD/7E5fG2dU335wZnD/dFu/SQ2hj7ZTm+PiGRPrsIERjqTbOMVe1
+ RqVbBJb09oYBhS9YHhsBRg1izzuuClJFzXkfZdL17t5jmKdn/YwLceLHIk9JkKx6hQ
+ kdVp6KychvZnF8ala37qJ8fJgE351AFseksF1HziyO0TvfpNtJXEhiMy81Tom1taFu
+ dOOAKEmX0+FLl4PjGJgUhWh4+5wx1N7FsvVXnsqZBfL8tGXKZ+LSAX4zvtPLA09a8Z
+ ijW8/onAQidGXGBfESJf0HicB46RZDFet6XYdykW3NzFL2TU2oVbZS/6siLaTWrs/V
+ Kb3r8PHRgu50Q==
+Date: Wed, 24 Nov 2021 11:09:57 +1100
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Daniel Vetter
+ <daniel.vetter@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Intel Graphics
+ <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>
+Subject: linux-next: manual merge of the drm-intel-gt tree with the
+ drm-intel tree
+Message-ID: <20211124110957.18dea3f2@canb.auug.org.au>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; boundary="Sig_/wUXCq9DPBuql/7JaF56gUnb";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,155 +53,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Lezcano <daniel.lezcano@linaro.org>, linux-staging@lists.linux.dev,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- Linux PM <linux-pm@vger.kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Amit Kucheria <amitk@kernel.org>,
- "open list:NETWORKING DRIVERS \(WIRELESS\)" <linux-wireless@vger.kernel.org>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- linux-block@vger.kernel.org, clang-built-linux@googlegroups.com,
- linux-hardening@vger.kernel.org, netdev <netdev@vger.kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>, linux-kbuild@vger.kernel.org
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ =?UTF-8?B?Sm9zw6k=?= Roberto de Souza <jose.souza@intel.com>,
+ Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Juha-Pekka =?UTF-8?B?SGVpa2tpbMOk?= <juha-pekka.heikkila@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 2021-11-23 at 14:19 +0100, Rafael J. Wysocki wrote:
-> On Wed, Aug 18, 2021 at 8:08 AM Kees Cook <keescook@chromium.org>
-> wrote:
-> > 
-> > In preparation for FORTIFY_SOURCE performing compile-time and run-
-> > time
-> > field bounds checking for memcpy(), avoid intentionally writing
-> > across
-> > neighboring fields.
-> > 
-> > Use struct_group() in struct art around members weight, and ac[0-
-> > 9]_max,
-> > so they can be referenced together. This will allow memcpy() and
-> > sizeof()
-> > to more easily reason about sizes, improve readability, and avoid
-> > future
-> > warnings about writing beyond the end of weight.
-> > 
-> > "pahole" shows no size nor member offset changes to struct art.
-> > "objdump -d" shows no meaningful object code changes (i.e. only
-> > source
-> > line number induced differences).
-> > 
-> > Cc: Zhang Rui <rui.zhang@intel.com>
-> > Cc: Daniel Lezcano <daniel.lezcano@linaro.org>
-> > Cc: Amit Kucheria <amitk@kernel.org>
-> > Cc: linux-pm@vger.kernel.org
-> > Signed-off-by: Kees Cook <keescook@chromium.org>
-> 
-> Rui, Srinivas, any comments here?
-Looks good.
-Reviewed-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+--Sig_/wUXCq9DPBuql/7JaF56gUnb
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Thanks,
-Srinivas
+Hi all,
 
-> 
-> > ---
-> >  .../intel/int340x_thermal/acpi_thermal_rel.c  |  5 +-
-> >  .../intel/int340x_thermal/acpi_thermal_rel.h  | 48 ++++++++++-------
-> > --
-> >  2 files changed, 29 insertions(+), 24 deletions(-)
-> > 
-> > diff --git a/drivers/thermal/intel/int340x_thermal/acpi_thermal_rel.c
-> > b/drivers/thermal/intel/int340x_thermal/acpi_thermal_rel.c
-> > index a478cff8162a..e90690a234c4 100644
-> > --- a/drivers/thermal/intel/int340x_thermal/acpi_thermal_rel.c
-> > +++ b/drivers/thermal/intel/int340x_thermal/acpi_thermal_rel.c
-> > @@ -250,8 +250,9 @@ static int fill_art(char __user *ubuf)
-> >                 get_single_name(arts[i].source,
-> > art_user[i].source_device);
-> >                 get_single_name(arts[i].target,
-> > art_user[i].target_device);
-> >                 /* copy the rest int data in addition to source and
-> > target */
-> > -               memcpy(&art_user[i].weight, &arts[i].weight,
-> > -                       sizeof(u64) * (ACPI_NR_ART_ELEMENTS - 2));
-> > +               BUILD_BUG_ON(sizeof(art_user[i].data) !=
-> > +                            sizeof(u64) * (ACPI_NR_ART_ELEMENTS -
-> > 2));
-> > +               memcpy(&art_user[i].data, &arts[i].data,
-> > sizeof(art_user[i].data));
-> >         }
-> > 
-> >         if (copy_to_user(ubuf, art_user, art_len))
-> > diff --git a/drivers/thermal/intel/int340x_thermal/acpi_thermal_rel.h
-> > b/drivers/thermal/intel/int340x_thermal/acpi_thermal_rel.h
-> > index 58822575fd54..78d942477035 100644
-> > --- a/drivers/thermal/intel/int340x_thermal/acpi_thermal_rel.h
-> > +++ b/drivers/thermal/intel/int340x_thermal/acpi_thermal_rel.h
-> > @@ -17,17 +17,19 @@
-> >  struct art {
-> >         acpi_handle source;
-> >         acpi_handle target;
-> > -       u64 weight;
-> > -       u64 ac0_max;
-> > -       u64 ac1_max;
-> > -       u64 ac2_max;
-> > -       u64 ac3_max;
-> > -       u64 ac4_max;
-> > -       u64 ac5_max;
-> > -       u64 ac6_max;
-> > -       u64 ac7_max;
-> > -       u64 ac8_max;
-> > -       u64 ac9_max;
-> > +       struct_group(data,
-> > +               u64 weight;
-> > +               u64 ac0_max;
-> > +               u64 ac1_max;
-> > +               u64 ac2_max;
-> > +               u64 ac3_max;
-> > +               u64 ac4_max;
-> > +               u64 ac5_max;
-> > +               u64 ac6_max;
-> > +               u64 ac7_max;
-> > +               u64 ac8_max;
-> > +               u64 ac9_max;
-> > +       );
-> >  } __packed;
-> > 
-> >  struct trt {
-> > @@ -47,17 +49,19 @@ union art_object {
-> >         struct {
-> >                 char source_device[8]; /* ACPI single name */
-> >                 char target_device[8]; /* ACPI single name */
-> > -               u64 weight;
-> > -               u64 ac0_max_level;
-> > -               u64 ac1_max_level;
-> > -               u64 ac2_max_level;
-> > -               u64 ac3_max_level;
-> > -               u64 ac4_max_level;
-> > -               u64 ac5_max_level;
-> > -               u64 ac6_max_level;
-> > -               u64 ac7_max_level;
-> > -               u64 ac8_max_level;
-> > -               u64 ac9_max_level;
-> > +               struct_group(data,
-> > +                       u64 weight;
-> > +                       u64 ac0_max_level;
-> > +                       u64 ac1_max_level;
-> > +                       u64 ac2_max_level;
-> > +                       u64 ac3_max_level;
-> > +                       u64 ac4_max_level;
-> > +                       u64 ac5_max_level;
-> > +                       u64 ac6_max_level;
-> > +                       u64 ac7_max_level;
-> > +                       u64 ac8_max_level;
-> > +                       u64 ac9_max_level;
-> > +               );
-> >         };
-> >         u64 __data[ACPI_NR_ART_ELEMENTS];
-> >  };
-> > --
-> > 2.30.2
-> > 
+Today's linux-next merge of the drm-intel-gt tree got a conflict in:
 
+  drivers/gpu/drm/i915/i915_pci.c
 
+between commit:
+
+  3c542cfa8266 ("drm/i915/dg2: Tile 4 plane format support")
+
+from the drm-intel tree and commit:
+
+  a5b7ef27da60 ("drm/i915: Add struct to hold IP version")
+
+from the drm-intel-gt tree.
+
+I fixed it up (see below) and can carry the fix as necessary. This
+is now fixed as far as linux-next is concerned, but any non trivial
+conflicts should be mentioned to your upstream maintainer when your tree
+is submitted for merging.  You may also want to consider cooperating
+with the maintainer of the conflicting tree to minimise any particularly
+complex conflicts.
+
+--=20
+Cheers,
+Stephen Rothwell
+
+diff --cc drivers/gpu/drm/i915/i915_pci.c
+index 69b8029da6b6,5e6795853dc3..000000000000
+--- a/drivers/gpu/drm/i915/i915_pci.c
++++ b/drivers/gpu/drm/i915/i915_pci.c
+@@@ -1042,9 -1030,8 +1042,9 @@@ static const struct intel_device_info d
+  	XE_HPM_FEATURES,
+  	XE_LPD_FEATURES,
+  	DGFX_FEATURES,
+- 	.graphics_rel =3D 55,
+- 	.media_rel =3D 55,
++ 	.graphics.rel =3D 55,
++ 	.media.rel =3D 55,
+ +	.has_4tile =3D 1,
+  	PLATFORM(INTEL_DG2),
+  	.platform_engine_mask =3D
+  		BIT(RCS0) | BIT(BCS0) |
+
+--Sig_/wUXCq9DPBuql/7JaF56gUnb
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmGdgtUACgkQAVBC80lX
+0GxU0Qf+PUWUrX4jQtgN0mLg/SXLooNQP3GQ2tzj8QUvnQQDNWPvuMMFy77hfimC
+z5a9/9cdIrADDTyjs2sbqSCCRmPpQ5L68Thm/ayivtwzNZlq9sAk7wa7Q2ZJwTM1
+Qfs5nxlWqHFUjS75oJM5scR5BihwB/AnC8zramdSdwJlG9shEHrbH7AqWYjachRl
+YWOkttrQo0uK/RC3L2ipSDdkrM/19/HGa6yYa2zt6hXCX5aOhGd0ZpBfbDwMlrnz
+N6mxrxCBESqBr5t2I/0Hlt8XYok/zNaYWlOg6PX9UuDtKTL8iH1zJtHVzfgN9zze
+0zjN1FpZl044j/bCg4CBWOar2M0uOw==
+=64P/
+-----END PGP SIGNATURE-----
+
+--Sig_/wUXCq9DPBuql/7JaF56gUnb--
