@@ -2,53 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 888E245B264
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Nov 2021 04:02:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C26445B265
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Nov 2021 04:04:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A4A686E187;
-	Wed, 24 Nov 2021 03:02:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8356B6E147;
+	Wed, 24 Nov 2021 03:04:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de
- [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 880806E187
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Nov 2021 03:02:13 +0000 (UTC)
-Received: from [IPv6:::1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 0DC9482D5B;
- Wed, 24 Nov 2021 04:02:11 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1637722931;
- bh=ZVx+k19mgo2HrQzhby/AdSFqm/K17BaFufUhdx0C/dA=;
- h=Subject:From:To:Cc:References:Date:In-Reply-To:From;
- b=MG37aQbU/FEGQCz9uyRn7Xq31cuVNQa1YoUcfsaqOcqo//rDX5Ek21ArlYOCmioNQ
- 05lqSEatXF5oh9lUhtOi0FeWF5KRosqktfwiC+I0x8lGD2T//xQbPyNV8yMgOXnYup
- 6oZmDfnuHm30vkGlBsHnXbPBkZz+MQmbB6LUrIEKs/VEZiIsTghgDgvIEQYdd1kGHW
- +UIa9r89fBiojbTbtCyXIJuMwadKEcRPJFXt8L795EV+HL8CJ+sbxhY8YXZDFwB/DW
- mm9NIFDgppKHCZ4259zFZe+zN7tNdl6O1Gg4h3dOVc8jc80by4e3Jgjv3ZLexqFK20
- hiJf/PneJ98iA==
-Subject: Re: [PATCH v5 2/2] drm/bridge: lvds-codec: Add support for pixel data
- sampling edge select
-From: Marek Vasut <marex@denx.de>
-To: Sam Ravnborg <sam@ravnborg.org>
-References: <20211017001204.299940-1-marex@denx.de>
- <20211017001204.299940-2-marex@denx.de> <YWxUB9y3qFzkfRR0@ravnborg.org>
- <075913ae-e5a0-3a9e-c928-55cae99ab0e5@denx.de>
- <YWxgKWXBpT6PyQO8@ravnborg.org>
- <3105193d-1809-699c-3281-1a3ecd274a03@denx.de>
-Message-ID: <1c2694a8-3764-c99a-0a74-be34b9fa604f@denx.de>
-Date: Wed, 24 Nov 2021 04:02:10 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+Received: from mail-qk1-x734.google.com (mail-qk1-x734.google.com
+ [IPv6:2607:f8b0:4864:20::734])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C5C206E147;
+ Wed, 24 Nov 2021 03:04:38 +0000 (UTC)
+Received: by mail-qk1-x734.google.com with SMTP id de30so1406047qkb.0;
+ Tue, 23 Nov 2021 19:04:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=g3UKjW7fmUe9JRzmjdiiBs6fkzP9ZvlZsvWeHL4ExR0=;
+ b=BBddd5ZUGiBGsnJmx7bTL7Ov17NuqWLJ7XumhtNZtHWj90Eo9myNX757frsBUn49pi
+ CG1hcOFC2xKZ9U1FSPDhqUajYJezCfSi7Zkbb7xEJStZYAD3J+QISUHdYkeP4G3z3Lh0
+ imEtCAnQGzNbxrA1iy5netuKQ4/F47gwGLjI+uggEsMUR0IQ8EwSZQH9PGfPmdq0N/CU
+ eYOihzo7MyaFhCtDCHw5dcBBBcUc3uI2A27iNFvyrBE34aV4v4HAIm1YBOPxcS/Pq6ge
+ L1ncErC64CNx+oSGSuc/2RnvdWj06cCVMRvjvnq60LRWOKygWaxk4B/Fet4bLzdbtioI
+ oqqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=g3UKjW7fmUe9JRzmjdiiBs6fkzP9ZvlZsvWeHL4ExR0=;
+ b=dh5QfnPnKE0M0MSoS1odeSCq7rLMo7nMh/TK5HfMzMSQppp5L0tJTg53ZG+yYT20lm
+ jwS3ehYFf6+oqgAj3smXU6nFqwv1O03WW+OXj4kflZ24a5Jfb/vW8QZHhcsm1uIQY9GK
+ caBhV3KESZ64qmo+UjejDis5FeLC8FfNcXc1zbT+kBK0jI9jby4CqhcdSVZkYqNBluJ5
+ pF21Vuv5zrBnnoFxiXRVWrjOOYJ42JCWrialFbaj3BSKfaZBSCSGY1IfdTrOUF/Rm8Eh
+ 8j/NLwZhUlzotN+N0B15801paLY3pmzkontnFtfDf/FcTtHUfrvDeR2dKkPv8mY/euSy
+ MUTQ==
+X-Gm-Message-State: AOAM532iBw/L06sLPbLKQhAgYY9O7lAHJQ4k0tW37q7W3CoMgBAvmd7P
+ 9IDItiNvZ3bXo5dRRQHgYMQ=
+X-Google-Smtp-Source: ABdhPJzMa9PpQpZk9WGjY47S9dF0nk8A++HjGijauQYx1EqOq/o2FrQ5Ema1QEDpfwkZ7iqimV/fcw==
+X-Received: by 2002:a05:620a:288b:: with SMTP id
+ j11mr2315125qkp.257.1637723077907; 
+ Tue, 23 Nov 2021 19:04:37 -0800 (PST)
+Received: from localhost.localdomain ([193.203.214.57])
+ by smtp.gmail.com with ESMTPSA id i23sm6973927qkl.101.2021.11.23.19.04.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 23 Nov 2021 19:04:37 -0800 (PST)
+From: cgel.zte@gmail.com
+X-Google-Original-From: lv.ruyi@zte.com.cn
+To: sunpeng.li@amd.com
+Subject: [PATCH] drm/amd/display: fix application of sizeof to pointer
+Date: Wed, 24 Nov 2021 03:04:26 +0000
+Message-Id: <20211124030426.34830-1-lv.ruyi@zte.com.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <3105193d-1809-699c-3281-1a3ecd274a03@denx.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: clamav-milter 0.103.2 at phobos.denx.de
-X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,63 +67,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- dri-devel@lists.freedesktop.org
+Cc: airlied@linux.ie, lv.ruyi@zte.com.cn, Xinhui.Pan@amd.com,
+ Rodrigo.Siqueira@amd.com, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, Zeal Robot <zealci@zte.com.cn>,
+ dri-devel@lists.freedesktop.org, wayne.lin@amd.com, alexander.deucher@amd.com,
+ jun.lei@amd.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/24/21 1:04 AM, Marek Vasut wrote:
-> On 10/17/21 7:40 PM, Sam Ravnborg wrote:
->> Hi Marek,
-> 
-> Hi,
-> 
->> On Sun, Oct 17, 2021 at 07:29:51PM +0200, Marek Vasut wrote:
->>> On 10/17/21 6:49 PM, Sam Ravnborg wrote:
->>>
->>> [...]
->>>
->>>>> +    /*
->>>>> +     * Encoder might sample data on different clock edge than the 
->>>>> display,
->>>>> +     * for example OnSemi FIN3385 has a dedicated strapping pin to 
->>>>> select
->>>>> +     * the sampling edge.
->>>>> +     */
->>>>> +    if (lvds_codec->connector_type == DRM_MODE_CONNECTOR_LVDS &&
->>>>> +        !of_property_read_u32(dev->of_node, "pclk-sample", &val)) {
->>>>> +        lvds_codec->timings.input_bus_flags = val ?
->>>>> +            DRM_BUS_FLAG_PIXDATA_SAMPLE_POSEDGE :
->>>>> +            DRM_BUS_FLAG_PIXDATA_SAMPLE_NEGEDGE;
->>>>> +    }
->>>>> +
->>>>>        /*
->>>>>         * The panel_bridge bridge is attached to the panel's of_node,
->>>>>         * but we need a bridge attached to our of_node for our user
->>>>>         * to look up.
->>>>>         */
->>>>>        lvds_codec->bridge.of_node = dev->of_node;
->>>>> +    lvds_codec->bridge.timings = &lvds_codec->timings;
->>>> I do not understand how this will work. The only field that is set 
->>>> is timings.input_bus_flags
->>>> but any user will see bridge.timings is set and will think this is all
->>>> timing info.
->>>>
->>>> Maybe I just misses something obvious?
->>>
->>> Is there anything else in those timings that should be set ? See
->>> include/drm/drm_bridge.h around line 640
->>>
->>> setup_time_ps/hold_time_ps/dual_link isn't supported by this driver, 
->>> so it
->>> is 0 or false anyway, i.e. no change.
->>
->> Just me being confused with display_timings. Patch looks good.
->> Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
->>
->> Ping me in a few days to apply it if there is no more feedback.
-> 
-> Ping I guess ... Laurent ?
+From: Lv Ruyi <lv.ruyi@zte.com.cn>
 
-Ping one more time ?
+Both of split and merge are pointers, not arrays.
+
+Reported-by: Zeal Robot <zealci@zte.com.cn>
+Signed-off-by: Lv Ruyi <lv.ruyi@zte.com.cn>
+---
+ drivers/gpu/drm/amd/display/dc/dml/dml_wrapper.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/display/dc/dml/dml_wrapper.c b/drivers/gpu/drm/amd/display/dc/dml/dml_wrapper.c
+index ece34b0b8a46..91810aaee5a3 100644
+--- a/drivers/gpu/drm/amd/display/dc/dml/dml_wrapper.c
++++ b/drivers/gpu/drm/amd/display/dc/dml/dml_wrapper.c
+@@ -1223,8 +1223,8 @@ static void dml_full_validate_bw_helper(struct dc *dc,
+ 		*pipe_cnt = dml_populate_dml_pipes_from_context(dc, context, pipes, false);
+ 		*vlevel = dml_get_voltage_level(&context->bw_ctx.dml, pipes, *pipe_cnt);
+ 		if (*vlevel < context->bw_ctx.dml.soc.num_states) {
+-			memset(split, 0, sizeof(split));
+-			memset(merge, 0, sizeof(merge));
++			memset(split, 0, MAX_PIPES * sizeof(*split));
++			memset(merge, 0, MAX_PIPES * sizeof(*merge));
+ 			*vlevel = dml_validate_apply_pipe_split_flags(dc, context, *vlevel, split, merge);
+ 		}
+ 
+-- 
+2.25.1
+
