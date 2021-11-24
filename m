@@ -2,29 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38B3145CC42
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Nov 2021 19:40:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5ABE445CC48
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Nov 2021 19:40:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A3D216E17C;
-	Wed, 24 Nov 2021 18:40:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EDFD36E198;
+	Wed, 24 Nov 2021 18:40:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B79B66E17C
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Nov 2021 18:40:05 +0000 (UTC)
-Date: Wed, 24 Nov 2021 18:39:49 +0000
-From: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH v8 4/8] drm/ingenic: Add dw-hdmi driver for jz4780
-To: "H. Nikolaus Schaller" <hns@goldelico.com>
-Message-Id: <DIA33R.QE29K7RKLI2C1@crapouillou.net>
-In-Reply-To: <016973B0-B7F0-4E63-BF4F-2643611A6351@goldelico.com>
-References: <cover.1637691240.git.hns@goldelico.com>
- <64c6ab288d4d7159f633c860f1b23b3395491ae1.1637691240.git.hns@goldelico.com>
- <GTJ13R.RSQAWZX83DUZ2@crapouillou.net>
- <016973B0-B7F0-4E63-BF4F-2643611A6351@goldelico.com>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 846746E198
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Nov 2021 18:40:20 +0000 (UTC)
+Received: from [IPv6:2a00:23c6:c31a:b300:548d:479:c0d7:c37f] (unknown
+ [IPv6:2a00:23c6:c31a:b300:548d:479:c0d7:c37f])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested) (Authenticated sender: martyn)
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 849781F459D1;
+ Wed, 24 Nov 2021 18:40:18 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
+ t=1637779218; bh=s9Bo02MagkLWD+SK/mGD3K+lMeUHLEsMwz7xcDqn6oU=;
+ h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+ b=oKiE6OxW7Yzr8PdkomM30jNphGajtaNCL6xPF5aKoqUMvabt7zOGsCauOfkkUl8TV
+ YuHWRJ9qvXklPlpfmUk45FG5dpm12PK20eufnx0d8lzrCPY/rXDUhhnAmEu36fdxqL
+ SziSV1N/rj6gWQBRwCzkET6MiEQ57t0/bD+/d1HYs8lWVQ/PIf5bQrev5EZvbJ2i7/
+ q0eC/QXl1+jT4+kACHuytryH3V0lK4huysJEG8LVX2Hs9ga4oN++KlS8NpKIN5gxJr
+ hoUiQ06KajNLT0d4mr6rDUyzFpeI1aSQbIchDQi+5TGZ9WVuRLUWtkqD2Erv/fGnmb
+ 4H2QlY5sxLHcA==
+Message-ID: <67e1ba141c570dbbe48945257954f25c8ff2c2ca.camel@collabora.com>
+Subject: Re: [PATCH] drm/bridge: megachips: Ensure both bridges are probed
+ before registration
+From: Martyn Welch <martyn.welch@collabora.com>
+To: Robert Foss <robert.foss@linaro.org>
+Date: Wed, 24 Nov 2021 18:40:16 +0000
+In-Reply-To: <CAG3jFytjX1_X1dzJAm_yqTx49CVpnKttRgH-dpUHEJK6GqqTuw@mail.gmail.com>
+References: <20211116122831.278576-1-martyn.welch@collabora.com>
+ <CAG3jFytjX1_X1dzJAm_yqTx49CVpnKttRgH-dpUHEJK6GqqTuw@mail.gmail.com>
+Organization: Collabora Ltd.
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.0-2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -37,291 +53,425 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, Paul Boddie <paul@boddie.org.uk>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>, Sam Ravnborg <sam@ravnborg.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, devicetree@vger.kernel.org,
- Kees Cook <keescook@chromium.org>, Jonas Karlman <jonas@kwiboo.se>,
- Mark Brown <broonie@kernel.org>, Maxime Ripard <maxime@cerno.tech>,
- letux-kernel@openphoenux.org, Ezequiel Garcia <ezequiel@collabora.com>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Liam Girdwood <lgirdwood@gmail.com>, Robert Foss <robert.foss@linaro.org>,
- linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- "Eric W. Biederman" <ebiederm@xmission.com>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Peter Senna Tschudin <peter.senna@gmail.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Andrzej Hajda <a.hajda@samsung.com>,
+ Jonas Karlman <jonas@kwiboo.se>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, kernel@collabora.com,
+ Martin Donnelly <martin.donnelly@ge.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Nikolaus,
+On Tue, 2021-11-23 at 16:18 +0100, Robert Foss wrote:
+> Hey Martyn,
+> 
+> On Tue, 16 Nov 2021 at 13:28, Martyn Welch <martyn.welch@collabora.com>
+> wrote:
+> > 
+> > In the configuration used by the b850v3, the STDP2690 is used to read
+> > EDID
+> > data whilst it's the STDP4028 which can detect when monitors are
+> > connected.
+> > 
+> > This can result in problems at boot with monitors connected when the
+> > STDP4028 is probed first, a monitor is detected and an attempt is
+> > made to
+> > read the EDID data before the STDP2690 has probed:
+> > 
+> > [    3.795721] Unable to handle kernel NULL pointer dereference at
+> > virtual address 00000018
+> > [    3.803845] pgd = (ptrval)
+> > [    3.806581] [00000018] *pgd=00000000
+> > [    3.810180] Internal error: Oops: 5 [#1] SMP ARM
+> > [    3.814813] Modules linked in:
+> > [    3.817879] CPU: 0 PID: 64 Comm: kworker/u4:1 Not tainted 5.15.0
+> > #1
+> > [    3.824161] Hardware name: Freescale i.MX6 Quad/DualLite (Device
+> > Tree)
+> > [    3.830705] Workqueue: events_unbound deferred_probe_work_func
+> > [    3.836565] PC is at stdp2690_get_edid+0x44/0x19c
+> > [    3.841286] LR is at ge_b850v3_lvds_get_modes+0x2c/0x5c
+> > [    3.846526] pc : [<805eae10>]    lr : [<805eb138>]    psr:
+> > 80000013
+> > [    3.852802] sp : 81c359d0  ip : 7dbb550b  fp : 81c35a1c
+> > [    3.858037] r10: 81c73840  r9 : 81c73894  r8 : 816d9800
+> > [    3.863270] r7 : 00000000  r6 : 81c34000  r5 : 00000000  r4 :
+> > 810c35f0
+> > [    3.869808] r3 : 80e3e294  r2 : 00000080  r1 : 00000cc0  r0 :
+> > 81401180
+> > [    3.876349] Flags: Nzcv  IRQs on  FIQs on  Mode SVC_32  ISA ARM 
+> > Segment none
+> > [    3.883499] Control: 10c5387d  Table: 1000404a  DAC: 00000051
+> > [    3.889254] Register r0 information: slab kmem_cache start
+> > 81401180 pointer offset 0
+> > [    3.897034] Register r1 information: non-paged memory
+> > [    3.902097] Register r2 information: non-paged memory
+> > [    3.907160] Register r3 information: non-slab/vmalloc memory
+> > [    3.912832] Register r4 information: non-slab/vmalloc memory
+> > [    3.918503] Register r5 information: NULL pointer
+> > [    3.923217] Register r6 information: non-slab/vmalloc memory
+> > [    3.928887] Register r7 information: NULL pointer
+> > [    3.933601] Register r8 information: slab kmalloc-1k start
+> > 816d9800 pointer offset 0 size 1024
+> > [    3.942244] Register r9 information: slab kmalloc-2k start
+> > 81c73800 pointer offset 148 size 2048
+> > [    3.951058] Register r10 information: slab kmalloc-2k start
+> > 81c73800 pointer offset 64 size 2048
+> > [    3.959873] Register r11 information: non-slab/vmalloc memory
+> > [    3.965632] Register r12 information: non-paged memory
+> > [    3.970781] Process kworker/u4:1 (pid: 64, stack limit =
+> > 0x(ptrval))
+> > [    3.977148] Stack: (0x81c359d0 to 0x81c36000)
+> > [    3.981517] 59c0:                                     80b2b668
+> > 80b2b5bc 000002e2 0000034e
+> > [    3.989712] 59e0: 81c35a8c 816d98e8 81c35a14 7dbb550b 805bfcd0
+> > 810c35f0 81c73840 824addc0
+> > [    3.997906] 5a00: 00001000 816d9800 81c73894 81c73840 81c35a34
+> > 81c35a20 805eb138 805eadd8
+> > [    4.006099] 5a20: 810c35f0 00000045 81c35adc 81c35a38 80594188
+> > 805eb118 80d7c788 80dd1848
+> > [    4.014292] 5a40: 00000000 81c35a50 80dca950 811194d3 80dca7c4
+> > 80dca944 80dca91c 816d9800
+> > [    4.022485] 5a60: 81c34000 81c760a8 816d9800 80c58c98 810c35f0
+> > 816d98e8 00001000 00001000
+> > [    4.030678] 5a80: 00000000 00000000 8017712c 81c60000 00000002
+> > 00000001 00000000 00000000
+> > [    4.038870] 5aa0: 816d9900 816d9900 00000000 7dbb550b 805c700c
+> > 00000008 826282c8 826282c8
+> > [    4.047062] 5ac0: 00001000 81e1ce40 00001000 00000002 81c35bf4
+> > 81c35ae0 805d9694 80593fc0
+> > [    4.055255] 5ae0: 8017a970 80179ad8 00000179 00000000 81c35bcc
+> > 81c35b00 80177108 8017a950
+> > [    4.063447] 5b00: 00000000 81c35b10 81c34000 00000000 81004fd8
+> > 81010a38 00000000 00000059
+> > [    4.071639] 5b20: 816d98d4 81fbb718 00000013 826282c8 8017a940
+> > 81c35b40 81134448 00000400
+> > [    4.079831] 5b40: 00000178 00000000 e063b9c1 00000000 c2000049
+> > 00000040 00000000 00000008
+> > [    4.088024] 5b60: 82628300 82628380 00000000 00000000 81c34000
+> > 00000000 81fbb700 82628340
+> > [    4.096216] 5b80: 826283c0 00001000 00000000 00000010 816d9800
+> > 826282c0 801766f8 00000000
+> > [    4.104408] 5ba0: 00000000 81004fd8 00000049 00000000 00000000
+> > 00000001 80dcf940 80178de4
+> > [    4.112601] 5bc0: 81c35c0c 7dbb550b 80178de4 81fbb700 00000010
+> > 00000010 810c35f4 81e1ce40
+> > [    4.120793] 5be0: 81c40908 0000000c 81c35c64 81c35bf8 805a7f18
+> > 805d94a0 81c35c3c 816d9800
+> > [    4.128985] 5c00: 00000010 81c34000 81c35c2c 81c35c18 8012fce0
+> > 805be90c 81c35c3c 81c35c28
+> > [    4.137178] 5c20: 805be90c 80173210 81fbb600 81fbb6b4 81c35c5c
+> > 7dbb550b 81c35c64 81fbb700
+> > [    4.145370] 5c40: 816d9800 00000010 810c35f4 81e1ce40 81c40908
+> > 0000000c 81c35c84 81c35c68
+> > [    4.153565] 5c60: 805a8c78 805a7ed0 816d9800 81fbb700 00000010
+> > 00000000 81c35cac 81c35c88
+> > [    4.161758] 5c80: 805a8dc4 805a8b68 816d9800 00000000 816d9800
+> > 00000000 8179f810 810c42d0
+> > [    4.169950] 5ca0: 81c35ccc 81c35cb0 805e47b0 805a8d18 824aa240
+> > 81e1ea80 81c40908 81126b60
+> > [    4.178144] 5cc0: 81c35d14 81c35cd0 8060db1c 805e46cc 81c35d14
+> > 81c35ce0 80dd90f8 810c4d58
+> > [    4.186338] 5ce0: 80dd90dc 81fe9740 fffffffe 81fe9740 81e1ea80
+> > 00000000 810c4d6c 80c4b95c
+> > [    4.194531] 5d00: 80dd9a3c 815c6810 81c35d34 81c35d18 8060dc9c
+> > 8060d8fc 8246b440 815c6800
+> > [    4.202724] 5d20: 815c6810 eefd8e00 81c35d44 81c35d38 8060dd80
+> > 8060dbec 81c35d6c 81c35d48
+> > [    4.210918] 5d40: 805e98a4 8060dd70 00000000 815c6810 810c45b0
+> > 81126e90 81126e90 80dd9a3c
+> > [    4.219112] 5d60: 81c35d8c 81c35d70 80619574 805e9808 815c6810
+> > 00000000 810c45b0 81126e90
+> > [    4.227305] 5d80: 81c35db4 81c35d90 806168dc 80619514 80625df0
+> > 80623c80 815c6810 810c45b0
+> > [    4.235498] 5da0: 81c35e6c 815c6810 81c35dec 81c35db8 80616d04
+> > 80616800 81c35de4 81c35dc8
+> > [    4.243691] 5dc0: 808382b0 80b2f444 8116e310 8116e314 81c35e6c
+> > 815c6810 00000003 80dd9a3c
+> > [    4.251884] 5de0: 81c35e14 81c35df0 80616ec8 80616c60 00000001
+> > 810c45b0 81c35e6c 815c6810
+> > [    4.260076] 5e00: 00000001 80dd9a3c 81c35e34 81c35e18 80617338
+> > 80616e90 00000000 81c35e6c
+> > [    4.268269] 5e20: 80617284 81c34000 81c35e64 81c35e38 80614730
+> > 80617290 81c35e64 8171a06c
+> > [    4.276461] 5e40: 81e220b8 7dbb550b 815c6810 81c34000 815c6854
+> > 81126e90 81c35e9c 81c35e68
+> > [    4.284654] 5e60: 8061673c 806146a8 8060f5e0 815c6810 00000001
+> > 7dbb550b 00000000 810c5080
+> > [    4.292847] 5e80: 810c5320 815c6810 81126e90 00000000 81c35eac
+> > 81c35ea0 80617554 80616650
+> > [    4.301040] 5ea0: 81c35ecc 81c35eb0 80615694 80617544 810c5080
+> > 810c5080 810c5094 81126e90
+> > [    4.309233] 5ec0: 81c35efc 81c35ed0 80615c6c 8061560c 80615bc0
+> > 810c50c0 817eeb00 81412800
+> > [    4.317425] 5ee0: 814c3000 00000000 814c300d 81119a60 81c35f3c
+> > 81c35f00 80141488 80615bcc
+> > [    4.325618] 5f00: 81c60000 81c34000 81c35f24 81c35f18 80143078
+> > 817eeb00 81412800 817eeb18
+> > [    4.333811] 5f20: 81412818 81003d00 00000088 81412800 81c35f74
+> > 81c35f40 80141a48 80141298
+> > [    4.342005] 5f40: 81c35f74 81c34000 801481ac 817efa40 817efc00
+> > 801417d8 817eeb00 00000000
+> > [    4.350199] 5f60: 815a7e7c 81c34000 81c35fac 81c35f78 80149b1c
+> > 801417e4 817efc20 817efc20
+> > [    4.358391] 5f80: ffffe000 817efa40 801499a8 00000000 00000000
+> > 00000000 00000000 00000000
+> > [    4.366583] 5fa0: 00000000 81c35fb0 80100130 801499b4 00000000
+> > 00000000 00000000 00000000
+> > [    4.374774] 5fc0: 00000000 00000000 00000000 00000000 00000000
+> > 00000000 00000000 00000000
+> > [    4.382966] 5fe0: 00000000 00000000 00000000 00000000 00000013
+> > 00000000 00000000 00000000
+> > [    4.391155] Backtrace:
+> > [    4.393613] [<805eadcc>] (stdp2690_get_edid) from [<805eb138>]
+> > (ge_b850v3_lvds_get_modes+0x2c/0x5c)
+> > [    4.402691]  r10:81c73840 r9:81c73894 r8:816d9800 r7:00001000
+> > r6:824addc0 r5:81c73840
+> > [    4.410534]  r4:810c35f0
+> > [    4.413073] [<805eb10c>] (ge_b850v3_lvds_get_modes) from
+> > [<80594188>] (drm_helper_probe_single_connector_modes+0x1d4/0x84c)
+> > [    4.424240]  r5:00000045 r4:810c35f0
+> > [    4.427822] [<80593fb4>] (drm_helper_probe_single_connector_modes)
+> > from [<805d9694>] (drm_client_modeset_probe+0x200/0x1384)
+> > [    4.439074]  r10:00000002 r9:00001000 r8:81e1ce40 r7:00001000
+> > r6:826282c8 r5:826282c8
+> > [    4.446917]  r4:00000008
+> > [    4.449455] [<805d9494>] (drm_client_modeset_probe) from
+> > [<805a7f18>] (__drm_fb_helper_initial_config_and_unlock+0x54/0x5b4)
+> > [    4.460713]  r10:0000000c r9:81c40908 r8:81e1ce40 r7:810c35f4
+> > r6:00000010 r5:00000010
+> > [    4.468556]  r4:81fbb700
+> > [    4.471095] [<805a7ec4>]
+> > (__drm_fb_helper_initial_config_and_unlock) from [<805a8c78>]
+> > (drm_fbdev_client_hotplug+0x11c/0x1b0)
+> > [    4.482434]  r10:0000000c r9:81c40908 r8:81e1ce40 r7:810c35f4
+> > r6:00000010 r5:816d9800
+> > [    4.490276]  r4:81fbb700
+> > [    4.492814] [<805a8b5c>] (drm_fbdev_client_hotplug) from
+> > [<805a8dc4>] (drm_fbdev_generic_setup+0xb8/0x1a4)
+> > [    4.502494]  r7:00000000 r6:00000010 r5:81fbb700 r4:816d9800
+> > [    4.508160] [<805a8d0c>] (drm_fbdev_generic_setup) from
+> > [<805e47b0>] (imx_drm_bind+0xf0/0x130)
+> > [    4.516805]  r7:810c42d0 r6:8179f810 r5:00000000 r4:816d9800
+> > [    4.522474] [<805e46c0>] (imx_drm_bind) from [<8060db1c>]
+> > (try_to_bring_up_master+0x22c/0x2f0)
+> > [    4.531116]  r7:81126b60 r6:81c40908 r5:81e1ea80 r4:824aa240
+> > [    4.536783] [<8060d8f0>] (try_to_bring_up_master) from
+> > [<8060dc9c>] (__component_add+0xbc/0x184)
+> > [    4.545597]  r10:815c6810 r9:80dd9a3c r8:80c4b95c r7:810c4d6c
+> > r6:00000000 r5:81e1ea80
+> > [    4.553440]  r4:81fe9740
+> > [    4.555980] [<8060dbe0>] (__component_add) from [<8060dd80>]
+> > (component_add+0x1c/0x20)
+> > [    4.563921]  r7:eefd8e00 r6:815c6810 r5:815c6800 r4:8246b440
+> > [    4.569589] [<8060dd64>] (component_add) from [<805e98a4>]
+> > (dw_hdmi_imx_probe+0xa8/0xe8)
+> > [    4.577702] [<805e97fc>] (dw_hdmi_imx_probe) from [<80619574>]
+> > (platform_probe+0x6c/0xc8)
+> > [    4.585908]  r9:80dd9a3c r8:81126e90 r7:81126e90 r6:810c45b0
+> > r5:815c6810 r4:00000000
+> > [    4.593662] [<80619508>] (platform_probe) from [<806168dc>]
+> > (really_probe+0xe8/0x460)
+> > [    4.601524]  r7:81126e90 r6:810c45b0 r5:00000000 r4:815c6810
+> > [    4.607191] [<806167f4>] (really_probe) from [<80616d04>]
+> > (__driver_probe_device+0xb0/0x230)
+> > [    4.615658]  r7:815c6810 r6:81c35e6c r5:810c45b0 r4:815c6810
+> > [    4.621326] [<80616c54>] (__driver_probe_device) from [<80616ec8>]
+> > (driver_probe_device+0x44/0xe0)
+> > [    4.630313]  r9:80dd9a3c r8:00000003 r7:815c6810 r6:81c35e6c
+> > r5:8116e314 r4:8116e310
+> > [    4.638068] [<80616e84>] (driver_probe_device) from [<80617338>]
+> > (__device_attach_driver+0xb4/0x12c)
+> > [    4.647227]  r9:80dd9a3c r8:00000001 r7:815c6810 r6:81c35e6c
+> > r5:810c45b0 r4:00000001
+> > [    4.654981] [<80617284>] (__device_attach_driver) from
+> > [<80614730>] (bus_for_each_drv+0x94/0xd8)
+> > [    4.663794]  r7:81c34000 r6:80617284 r5:81c35e6c r4:00000000
+> > [    4.669461] [<8061469c>] (bus_for_each_drv) from [<8061673c>]
+> > (__device_attach+0xf8/0x190)
+> > [    4.677753]  r7:81126e90 r6:815c6854 r5:81c34000 r4:815c6810
+> > [    4.683419] [<80616644>] (__device_attach) from [<80617554>]
+> > (device_initial_probe+0x1c/0x20)
+> > [    4.691971]  r8:00000000 r7:81126e90 r6:815c6810 r5:810c5320
+> > r4:810c5080
+> > [    4.698681] [<80617538>] (device_initial_probe) from [<80615694>]
+> > (bus_probe_device+0x94/0x9c)
+> > [    4.707318] [<80615600>] (bus_probe_device) from [<80615c6c>]
+> > (deferred_probe_work_func+0xac/0xf0)
+> > [    4.716305]  r7:81126e90 r6:810c5094 r5:810c5080 r4:810c5080
+> > [    4.721973] [<80615bc0>] (deferred_probe_work_func) from
+> > [<80141488>] (process_one_work+0x1fc/0x54c)
+> > [    4.731139]  r10:81119a60 r9:814c300d r8:00000000 r7:814c3000
+> > r6:81412800 r5:817eeb00
+> > [    4.738981]  r4:810c50c0 r3:80615bc0
+> > [    4.742563] [<8014128c>] (process_one_work) from [<80141a48>]
+> > (worker_thread+0x270/0x570)
+> > [    4.750765]  r10:81412800 r9:00000088 r8:81003d00 r7:81412818
+> > r6:817eeb18 r5:81412800
+> > [    4.758608]  r4:817eeb00
+> > [    4.761147] [<801417d8>] (worker_thread) from [<80149b1c>]
+> > (kthread+0x174/0x190)
+> > [    4.768574]  r10:81c34000 r9:815a7e7c r8:00000000 r7:817eeb00
+> > r6:801417d8 r5:817efc00
+> > [    4.776417]  r4:817efa40
+> > [    4.778955] [<801499a8>] (kthread) from [<80100130>]
+> > (ret_from_fork+0x14/0x24)
+> > [    4.786201] Exception stack(0x81c35fb0 to 0x81c35ff8)
+> > [    4.791266] 5fa0:                                     00000000
+> > 00000000 00000000 00000000
+> > [    4.799459] 5fc0: 00000000 00000000 00000000 00000000 00000000
+> > 00000000 00000000 00000000
+> > [    4.807651] 5fe0: 00000000 00000000 00000000 00000000 00000013
+> > 00000000
+> > [    4.814279]  r10:00000000 r9:00000000 r8:00000000 r7:00000000
+> > r6:00000000 r5:801499a8
+> > [    4.822120]  r4:817efa40
+> > [    4.824664] Code: e3a02080 e593001c e3a01d33 e3a05000 (e5979018)
+> > 
+> > Split the registration from the STDP4028 probe routine and only
+> > perform
+> > registration once both the STDP4028 and STDP2690 have probed.
+> > 
+> > Signed-off-by: Martyn Welch <martyn.welch@collabora.com>
+> > CC: Peter Senna Tschudin <peter.senna@gmail.com>
+> > CC: Martin Donnelly <martin.donnelly@ge.com>
+> > CC: Martyn Welch <martyn.welch@collabora.co.uk>
+> > CC: Andrzej Hajda <a.hajda@samsung.com>
+> > CC: Neil Armstrong <narmstrong@baylibre.com>
+> > CC: Robert Foss <robert.foss@linaro.org>
+> > CC: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> > CC: Jonas Karlman <jonas@kwiboo.se>
+> > CC: Jernej Skrabec <jernej.skrabec@gmail.com>
+> > ---
+> >  .../bridge/megachips-stdpxxxx-ge-b850v3-fw.c  | 40 +++++++++++++----
+> > --
+> >  1 file changed, 28 insertions(+), 12 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c
+> > b/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c
+> > index d2808c4a6fb1..72f134849822 100644
+> > --- a/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c
+> > +++ b/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c
+> > @@ -306,19 +306,10 @@ static void ge_b850v3_lvds_remove(void)
+> >         mutex_unlock(&ge_b850v3_lvds_dev_mutex);
+> >  }
+> > 
+> > -static int stdp4028_ge_b850v3_fw_probe(struct i2c_client
+> > *stdp4028_i2c,
+> > -                                      const struct i2c_device_id
+> > *id)
+> > +static int ge_b850v3_register(void)
+> >  {
+> > +       struct i2c_client *stdp4028_i2c = ge_b850v3_lvds_ptr-
+> > >stdp4028_i2c;
+> >         struct device *dev = &stdp4028_i2c->dev;
+> > -       int ret;
+> > -
+> > -       ret = ge_b850v3_lvds_init(dev);
+> > -
+> > -       if (ret)
+> > -               return ret;
+> > -
+> > -       ge_b850v3_lvds_ptr->stdp4028_i2c = stdp4028_i2c;
+> > -       i2c_set_clientdata(stdp4028_i2c, ge_b850v3_lvds_ptr);
+> > 
+> >         /* drm bridge initialization */
+> >         ge_b850v3_lvds_ptr->bridge.funcs = &ge_b850v3_lvds_funcs;
+> > @@ -343,6 +334,27 @@ static int stdp4028_ge_b850v3_fw_probe(struct
+> > i2c_client *stdp4028_i2c,
+> >                         "ge-b850v3-lvds-dp", ge_b850v3_lvds_ptr);
+> >  }
+> > 
+> > +static int stdp4028_ge_b850v3_fw_probe(struct i2c_client
+> > *stdp4028_i2c,
+> > +                                      const struct i2c_device_id
+> > *id)
+> > +{
+> > +       struct device *dev = &stdp4028_i2c->dev;
+> > +       int ret;
+> > +
+> > +       ret = ge_b850v3_lvds_init(dev);
+> > +
+> > +       if (ret)
+> > +               return ret;
+> > +
+> > +       ge_b850v3_lvds_ptr->stdp4028_i2c = stdp4028_i2c;
+> > +       i2c_set_clientdata(stdp4028_i2c, ge_b850v3_lvds_ptr);
+> > +
+> > +       /* Only register after both bridges are probed */
+> > +       if (!(ge_b850v3_lvds_ptr->stdp2690_i2c && ge_b850v3_lvds_ptr-
+> > >stdp4028_i2c))
+> 
+> ge_b850v3_lvds_ptr->stdp4028_i2c was just assigned, is there any
+> situation it wouldn't be assigned here?
+> 
+> stdp2690_ge_b850v3_fw_probe() seems to contain an identical snippet,
+> so I assume symmetry is why both stdp2690_i2c and stdp4028_i2c are
+> checked in both locations. Unless you think otherwise, I would suggest
+> removing the stdp4028_i2c check from stdp4028_ge_b850v3_fw_probe() and
+> the stdp2690_i2c check from stdp2690_ge_b850v3_fw_probe().
+> 
 
-Le mer., nov. 24 2021 at 17:13:30 +0100, H. Nikolaus Schaller=20
-<hns@goldelico.com> a =E9crit :
->=20
->=20
->>  Am 23.11.2021 um 21:05 schrieb Paul Cercueil <paul@crapouillou.net>:
->>=20
->>  Hi Nikolaus,
->>=20
->>  I keep seeing a few things, sorry.
->=20
-> no problem.
->=20
->>=20
->>=20
->>  Le mar., nov. 23 2021 at 19:13:57 +0100, H. Nikolaus Schaller=20
->> <hns@goldelico.com> a =E9crit :
->>>  From: Paul Boddie <paul@boddie.org.uk>
->>>  A specialisation of the generic Synopsys HDMI driver is employed=20
->>> for
->>>  JZ4780 HDMI support. This requires a new driver, plus device tree=20
->>> and
->>>  configuration modifications.
->>>  Here we add Kconfig DRM_INGENIC_DW_HDMI, Makefile and driver code.
->>>  Signed-off-by: Paul Boddie <paul@boddie.org.uk>
->>>  Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
->>>  Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
->>>  ---
->>>  drivers/gpu/drm/ingenic/Kconfig           |   9 ++
->>>  drivers/gpu/drm/ingenic/Makefile          |   1 +
->>>  drivers/gpu/drm/ingenic/ingenic-dw-hdmi.c | 129=20
->>> ++++++++++++++++++++++
->>>  3 files changed, 139 insertions(+)
->>>  create mode 100644 drivers/gpu/drm/ingenic/ingenic-dw-hdmi.c
->>>  diff --git a/drivers/gpu/drm/ingenic/Kconfig=20
->>> b/drivers/gpu/drm/ingenic/Kconfig
->>>  index 3b57f8be007c4..4efc709d77b0a 100644
->>>  --- a/drivers/gpu/drm/ingenic/Kconfig
->>>  +++ b/drivers/gpu/drm/ingenic/Kconfig
->>>  @@ -25,4 +25,13 @@ config DRM_INGENIC_IPU
->>>  	  The Image Processing Unit (IPU) will appear as a second primary=20
->>> plane.
->>>  +config DRM_INGENIC_DW_HDMI
->>>  +	tristate "Ingenic specific support for Synopsys DW HDMI"
->>>  +	depends on MACH_JZ4780
->>>  +	select DRM_DW_HDMI
->>>  +	help
->>>  +	  Choose this option to enable Synopsys DesignWare HDMI based=20
->>> driver.
->>>  +	  If you want to enable HDMI on Ingenic JZ4780 based SoC, you=20
->>> should
->>>  +	  select this option..
->>>  +
->>>  endif
->>>  diff --git a/drivers/gpu/drm/ingenic/Makefile=20
->>> b/drivers/gpu/drm/ingenic/Makefile
->>>  index d313326bdddbb..f10cc1c5a5f22 100644
->>>  --- a/drivers/gpu/drm/ingenic/Makefile
->>>  +++ b/drivers/gpu/drm/ingenic/Makefile
->>>  @@ -1,3 +1,4 @@
->>>  obj-$(CONFIG_DRM_INGENIC) +=3D ingenic-drm.o
->>>  ingenic-drm-y =3D ingenic-drm-drv.o
->>>  ingenic-drm-$(CONFIG_DRM_INGENIC_IPU) +=3D ingenic-ipu.o
->>>  +obj-$(CONFIG_DRM_INGENIC_DW_HDMI) +=3D ingenic-dw-hdmi.o
->>>  diff --git a/drivers/gpu/drm/ingenic/ingenic-dw-hdmi.c=20
->>> b/drivers/gpu/drm/ingenic/ingenic-dw-hdmi.c
->>>  new file mode 100644
->>>  index 0000000000000..c14890d6b9826
->>>  --- /dev/null
->>>  +++ b/drivers/gpu/drm/ingenic/ingenic-dw-hdmi.c
->>>  @@ -0,0 +1,129 @@
->>>  +// SPDX-License-Identifier: GPL-2.0
->>>  +/* Copyright (C) 2011-2013 Freescale Semiconductor, Inc.
->>>  + * Copyright (C) 2019, 2020 Paul Boddie <paul@boddie.org.uk>
->>>  + *
->>>  + * Derived from dw_hdmi-imx.c with i.MX portions removed.
->>>  + * Probe and remove operations derived from rcar_dw_hdmi.c.
->>>  + */
->>>  +
->>>  +#include <linux/module.h>
->>>  +#include <linux/platform_device.h>
->>>  +#include <linux/regmap.h>
->>>  +
->>>  +#include <drm/bridge/dw_hdmi.h>
->>>  +#include <drm/drm_of.h>
->>>  +#include <drm/drm_print.h>
->>>  +
->>>  +static const struct dw_hdmi_mpll_config ingenic_mpll_cfg[] =3D {
->>>  +	{ 45250000,  { { 0x01e0, 0x0000 }, { 0x21e1, 0x0000 }, { 0x41e2,=20
->>> 0x0000 } } },
->>>  +	{ 92500000,  { { 0x0140, 0x0005 }, { 0x2141, 0x0005 }, { 0x4142,=20
->>> 0x0005 } } },
->>>  +	{ 148500000, { { 0x00a0, 0x000a }, { 0x20a1, 0x000a }, { 0x40a2,=20
->>> 0x000a } } },
->>>  +	{ 216000000, { { 0x00a0, 0x000a }, { 0x2001, 0x000f }, { 0x4002,=20
->>> 0x000f } } },
->>>  +	{ ~0UL,      { { 0x0000, 0x0000 }, { 0x0000, 0x0000 }, { 0x0000,=20
->>> 0x0000 } } }
->>>  +};
->>>  +
->>>  +static const struct dw_hdmi_curr_ctrl ingenic_cur_ctr[] =3D {
->>>  +	/*pixelclk     bpp8    bpp10   bpp12 */
->>>  +	{ 54000000,  { 0x091c, 0x091c, 0x06dc } },
->>>  +	{ 58400000,  { 0x091c, 0x06dc, 0x06dc } },
->>>  +	{ 72000000,  { 0x06dc, 0x06dc, 0x091c } },
->>>  +	{ 74250000,  { 0x06dc, 0x0b5c, 0x091c } },
->>>  +	{ 118800000, { 0x091c, 0x091c, 0x06dc } },
->>>  +	{ 216000000, { 0x06dc, 0x0b5c, 0x091c } },
->>>  +	{ ~0UL,      { 0x0000, 0x0000, 0x0000 } },
->>>  +};
->>>  +
->>>  +/*
->>>  + * Resistance term 133Ohm Cfg
->>>  + * PREEMP config 0.00
->>>  + * TX/CK level 10
->>>  + */
->>>  +static const struct dw_hdmi_phy_config ingenic_phy_config[] =3D {
->>>  +	/*pixelclk   symbol   term   vlev */
->>>  +	{ 216000000, 0x800d, 0x0005, 0x01ad},
->>>  +	{ ~0UL,      0x0000, 0x0000, 0x0000}
->>>  +};
->>>  +
->>>  +static enum drm_mode_status
->>>  +ingenic_dw_hdmi_mode_valid(struct dw_hdmi *hdmi, void *data,
->>>  +			   const struct drm_display_info *info,
->>>  +			   const struct drm_display_mode *mode)
->>>  +{
->>>  +	if (mode->clock < 13500)
->>>  +		return MODE_CLOCK_LOW;
->>>  +	/* FIXME: Hardware is capable of 270MHz, but setup data is=20
->>> missing. */
->>>  +	if (mode->clock > 216000)
->>>  +		return MODE_CLOCK_HIGH;
->>>  +
->>>  +	return MODE_OK;
->>>  +}
->>>  +
->>>  +static struct dw_hdmi_plat_data ingenic_dw_hdmi_plat_data =3D {
->>>  +	.mpll_cfg   =3D ingenic_mpll_cfg,
->>>  +	.cur_ctr    =3D ingenic_cur_ctr,
->>>  +	.phy_config =3D ingenic_phy_config,
->>>  +	.mode_valid =3D ingenic_dw_hdmi_mode_valid,
->>>  +	.output_port	=3D 1,
->>>  +};
->>>  +
->>>  +static const struct of_device_id ingenic_dw_hdmi_dt_ids[] =3D {
->>>  +	{ .compatible =3D "ingenic,jz4780-dw-hdmi" },
->>>  +	{ /* Sentinel */ },
->>>  +};
->>>  +MODULE_DEVICE_TABLE(of, ingenic_dw_hdmi_dt_ids);
->>>  +
->>>  +static int ingenic_dw_hdmi_probe(struct platform_device *pdev)
->>>  +{
->>>  +	struct dw_hdmi *hdmi;
->>>  +	struct regulator *regulator;
->>>  +	int ret;
->>>  +
->>>  +	hdmi =3D dw_hdmi_probe(pdev, &ingenic_dw_hdmi_plat_data);
->>>  +	if (IS_ERR(hdmi))
->>>  +		return PTR_ERR(hdmi);
->>>  +
->>>  +	platform_set_drvdata(pdev, hdmi);
->>>  +
->>>  +	regulator =3D devm_regulator_get_optional(&pdev->dev, "hdmi-5v");
->>>  +
->>=20
->>  Nit - you can remove this blank line.
->=20
-> ok.
->=20
->>=20
->>>  +	if (IS_ERR(regulator)) {
->>>  +		ret =3D PTR_ERR(regulator);
->>>  +
->>>  +		DRM_DEV_ERROR(&pdev->dev, "failed to get hpd regulator: %s=20
->>> (%d)\n",
->>>  +			      "hdmi-5v", ret);
->>>  +		return ret;
->>>  +	}
->>>  +
->>>  +	ret =3D regulator_enable(regulator);
->>=20
->>  You used devm_regulator_get_optional(), so you are not guaranteed=20
->> to obtain anything; your "regulator" variable might be a NULL=20
->> pointer, so you can't just call regulator_enable() without checking=20
->> it first.
->=20
-> right. I forgot about that.
->=20
->>=20
->>>  +	if (ret) {
->>>  +		DRM_DEV_ERROR(&pdev->dev, "Failed to enable hpd regulator:=20
->>> %d\n",
->>>  +			      ret);
->>>  +		return ret;
->>>  +	}
->>>  +
->>>  +	return 0;
->>>  +}
->>>  +
->>>  +static int ingenic_dw_hdmi_remove(struct platform_device *pdev)
->>>  +{
->>>  +	struct dw_hdmi *hdmi =3D platform_get_drvdata(pdev);
->>>  +
->>>  +	dw_hdmi_remove(hdmi);
->>=20
->>  You probably should disable the regulator (if not NULL) here.
->=20
-> Indeed. Would it be ok to make struct regulator *regulator static
-> or do we need dynamically allocated memory?
+Yeah - I can drop that as you have said.
 
-static non-const is almost always a bad idea, so avoid it.
+> > +               return 0;
+> 
+> My reading of this code is that stdp4028_ge_b850v3_fw_probe() and
+> stdp2690_ge_b850v3_fw_probe() are racing, and the 2nd driver to probe
+> will go ahead and call ge_b850v3_register(). Is there any reason why
+> EPROBE_DEFER isn't used here?
+> 
 
-You can either:
+The issue is that the way these are (pre)configured and wired up in the
+device, monitor detection is performed by one chip and the other chip
+is wired for access to the edid.
 
-- create a "ingenic_dw_hdmi" struct that will contain a pointer to=20
-dw_hdmi and a pointer to the regulator. Instanciate it in the probe=20
-with devm_kzalloc() and set the pointers, then set it as the driver=20
-data (platform_set_drvdata). In the remove function you can then obtain=20
-the pointer to your ingenic_dw_hdmi struct with platform_get_drvdata(),=20
-and you can remove the dw_hdmi and unregister the regulator.
+If the probe for the chip handling presence detection (4028) is
+registered before the EDID access is properly setup, it tries to
+perform an EDID access, resulting in the panic.
 
-- register cleanup functions, using devm_add_action_or_reset(dev, f,=20
-priv). When it's time to cleanup, the kernel core will call f(priv)=20
-automatically. So you can add a small wrapper around dw_hdmi_remove()=20
-and another one around regulator_disable(), and those will be called=20
-automatically if your probe function fails, or when the driver is=20
-removed. Then you can completely remove the ".remove" callback. There=20
-are a few examples of these in the ingenic-drm-drv.c if you want to=20
-take a look.
+As mentioned in the original commit[1] for this driver, the two bridges
+here have custom firmware, as a result neither the STDP4028
+nor the STDP2690 behave as the stock bridges would. The drive isn't
+able to control the video processing pipeline as a result, with the
+driver mainly needed to perform hot plug detection and read the EDID.
 
-Cheers,
--Paul
+As the bridges basically function as one custom bridge in this
+instance, the approach I've taken is to ensure that both parts are
+initialised before registering as this avoided the need to defer.
 
->>=20
->>>  +
->>>  +	return 0;
->>>  +}
->>>  +
->>>  +static struct platform_driver ingenic_dw_hdmi_driver =3D {
->>>  +	.probe  =3D ingenic_dw_hdmi_probe,
->>>  +	.remove =3D ingenic_dw_hdmi_remove,
->>>  +	.driver =3D {
->>>  +		.name =3D "dw-hdmi-ingenic",
->>>  +		.of_match_table =3D ingenic_dw_hdmi_dt_ids,
->>>  +	},
->>>  +};
->>>  +
->>=20
->>  Nit - remove this blank line too.
->=20
-> ok.
->=20
->>=20
->>  Cheers,
->>  -Paul
->>=20
->>>  +module_platform_driver(ingenic_dw_hdmi_driver);
->>>  +
->>>  +MODULE_DESCRIPTION("JZ4780 Specific DW-HDMI Driver Extension");
->>>  +MODULE_LICENSE("GPL v2");
->>>  +MODULE_ALIAS("platform:dwhdmi-ingenic");
->>>  --
->>>  2.33.0
->>=20
->>=20
->=20
+Martyn
 
+
+[1]
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c?id=fcfa0ddc18ed2100fbe80d15a543846b629774c0
+
+> > +
+> > +       return ge_b850v3_register();
+> > +}
+> > +
+> >  static int stdp4028_ge_b850v3_fw_remove(struct i2c_client
+> > *stdp4028_i2c)
+> >  {
+> >         ge_b850v3_lvds_remove();
+> > @@ -386,7 +398,11 @@ static int stdp2690_ge_b850v3_fw_probe(struct
+> > i2c_client *stdp2690_i2c,
+> >         ge_b850v3_lvds_ptr->stdp2690_i2c = stdp2690_i2c;
+> >         i2c_set_clientdata(stdp2690_i2c, ge_b850v3_lvds_ptr);
+> > 
+> > -       return 0;
+> > +       /* Only register after both bridges are probed */
+> > +       if (!(ge_b850v3_lvds_ptr->stdp2690_i2c && ge_b850v3_lvds_ptr-
+> > >stdp4028_i2c))
+> > +               return 0;
+> > +
+> > +       return ge_b850v3_register();
+> >  }
+> > 
+> >  static int stdp2690_ge_b850v3_fw_remove(struct i2c_client
+> > *stdp2690_i2c)
+> > --
+> > 2.33.0
+> > 
 
