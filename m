@@ -1,60 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B7CA45C9D9
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Nov 2021 17:22:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 08CDB45C9EA
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Nov 2021 17:24:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C70E26E9A8;
-	Wed, 24 Nov 2021 16:22:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E622D6E4FE;
+	Wed, 24 Nov 2021 16:24:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com
- [209.85.222.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1CB146E980
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Nov 2021 16:22:07 +0000 (UTC)
-Received: by mail-qk1-f171.google.com with SMTP id 193so3386522qkh.10
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Nov 2021 08:22:07 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=lQ05ml1LhHBnkHYimEBs2VQYL5tQ4v6fk2Yd4f3PjAE=;
- b=3t6YXt7cUZ6omiD0P3AQK48BFNJapBrjluv3b5w8YXCKQp79hsEcfZ2PbviutMkAsq
- ONipIRz7OXPAzCdxtvVUtliXZFWXRoldqRNYZoQ4Lnq/xmpWooiLzwgHpFnrgB1TWZgZ
- 3x9BFxVukwRu+pTxBN8+XMbhp445s/glt5XIbxek91YXeHnwAMmCufpEuFaYZpTzG/zV
- c9rNjE6WRQBpQwo74ABzY+PxvkJLBantf0sDs9QKPrQ40Tl2CKgfAx4ptcusk6FcG49W
- B7jd3RhWGIf8YZ8Z5bIGXVkdU5gaYr6s1AVx4gPNjo+0E0PF7iixrNvN+2iGUV9U+GBq
- G/kw==
-X-Gm-Message-State: AOAM531sf7yWAKt1Q13XiBAp4ZJWum/MXPdg6USe9G8a+UuX1k9yXxwY
- Z94LTvI0zyfXHbBl5/aUyVHm1HZWVA/V3yYv
-X-Google-Smtp-Source: ABdhPJwxeLv5Rsoy+m5wedEu5O8IqWsxHiEESk9MWcBrBiMgEPfyDs+SNLNwejWvTSrn6hD5Nyyo7A==
-X-Received: by 2002:a37:cd1:: with SMTP id 200mr7733224qkm.106.1637770926109; 
- Wed, 24 Nov 2021 08:22:06 -0800 (PST)
-Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com.
- [209.85.219.46])
- by smtp.gmail.com with ESMTPSA id g5sm94404qko.12.2021.11.24.08.22.05
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 24 Nov 2021 08:22:05 -0800 (PST)
-Received: by mail-qv1-f46.google.com with SMTP id s9so2118714qvk.12
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Nov 2021 08:22:05 -0800 (PST)
-X-Received: by 2002:a67:af0a:: with SMTP id v10mr24702645vsl.35.1637770914816; 
- Wed, 24 Nov 2021 08:21:54 -0800 (PST)
-MIME-Version: 1.0
-References: <cover.1637691240.git.hns@goldelico.com>
- <d62023e0872e9b393db736f4a0ecf04b3fc1c91b.1637691240.git.hns@goldelico.com>
- <O0K13R.TIL3JBQ5L8TO1@crapouillou.net>
- <04F0ED7C-3D18-4CCF-8F10-E0A36B0E4F4B@goldelico.com>
-In-Reply-To: <04F0ED7C-3D18-4CCF-8F10-E0A36B0E4F4B@goldelico.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 24 Nov 2021 17:21:43 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWO3yosf5eyTPpydVuT3pwvuw9Q=2BUxq+rxPjE3iSnrw@mail.gmail.com>
-Message-ID: <CAMuHMdWO3yosf5eyTPpydVuT3pwvuw9Q=2BUxq+rxPjE3iSnrw@mail.gmail.com>
-Subject: Re: [PATCH v8 6/8] MIPS: DTS: CI20: Add DT nodes for HDMI setup
-To: "H. Nikolaus Schaller" <hns@goldelico.com>
-Content-Type: text/plain; charset="UTF-8"
+Received: from mo4-p03-ob.smtp.rzone.de (mo4-p03-ob.smtp.rzone.de
+ [81.169.146.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 800DF6E4FE
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Nov 2021 16:24:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1637771012;
+ s=strato-dkim-0002; d=goldelico.com;
+ h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
+ From:Subject:Sender;
+ bh=WkeyxDnipm2IfCekZmCiKiqZRWn6Vu+Xvk0lvgOQOOQ=;
+ b=hy6ONITjwRwVgJTLrrZp34JxqWMaA09oCd9b7IkvSXvUktenVsJ3wKZBIMnqPSrBmg
+ HcXbOQRrcMegCsdY1PznzlE/hW9KH5FySessqqDSytYraMlMOVFK16NH4+qzjI7CzL7O
+ ohraAk5wSvwNbmZRO1IPYCgOE0ecZbjOusqtcM2CJa35pdnNQZhc6bB5F0f8OGh792j7
+ 9qzJqsHv/rtwvg3WLjSkDRDa2Gw9jvh5oeakSsG70woZaurWej1AjP2FYLeglE5c75Gp
+ FyPRzRVOpTcJW60Bx2LXWgXJr4ykpidVMO1nX2OnEWiXNzz2BZulUYyJE6NC6V7eCA/G
+ Sj4w==
+Authentication-Results: strato.com;
+    dkim=none
+X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj7gpw91N5y2S3jsN+"
+X-RZG-CLASS-ID: mo00
+Received: from imac.fritz.box by smtp.strato.de (RZmta 47.34.10 DYNA|AUTH)
+ with ESMTPSA id e05ed8xAOGNV3mf
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1
+ with 256 ECDH bits, eq. 3072 bits RSA))
+ (Client did not present a certificate);
+ Wed, 24 Nov 2021 17:23:31 +0100 (CET)
+Content-Type: text/plain;
+	charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.21\))
+Subject: Re: [PATCH v8 3/8] dt-bindings: display: Add ingenic,jz4780-dw-hdmi
+ DT Schema
+From: "H. Nikolaus Schaller" <hns@goldelico.com>
+In-Reply-To: <1637722761.010276.888168.nullmailer@robh.at.kernel.org>
+Date: Wed, 24 Nov 2021 17:23:30 +0100
 Content-Transfer-Encoding: quoted-printable
+Message-Id: <08D49974-2C22-404C-913C-11EB1C53A96A@goldelico.com>
+References: <cover.1637691240.git.hns@goldelico.com>
+ <f97179a630e7d0fc739a118e2b321e1a6432876b.1637691240.git.hns@goldelico.com>
+ <1637722761.010276.888168.nullmailer@robh.at.kernel.org>
+To: Rob Herring <robh@kernel.org>
+X-Mailer: Apple Mail (2.3445.104.21)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,71 +64,121 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: Mark Rutland <mark.rutland@arm.com>, Paul Boddie <paul@boddie.org.uk>,
  Geert Uytterhoeven <geert+renesas@glider.be>,
  Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  Paul Cercueil <paul@crapouillou.net>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Miquel Raynal <miquel.raynal@bootlin.com>, Sam Ravnborg <sam@ravnborg.org>,
  Jernej Skrabec <jernej.skrabec@gmail.com>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Kees Cook <keescook@chromium.org>,
- Jonas Karlman <jonas@kwiboo.se>, Mark Brown <broonie@kernel.org>,
- Maxime Ripard <maxime@cerno.tech>, letux-kernel@openphoenux.org,
- Ezequiel Garcia <ezequiel@collabora.com>,
+ linux-mips <linux-mips@vger.kernel.org>, devicetree@vger.kernel.org,
+ Kees Cook <keescook@chromium.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Rob Herring <robh+dt@kernel.org>, Maxime Ripard <maxime@cerno.tech>,
+ letux-kernel@openphoenux.org, Ezequiel Garcia <ezequiel@collabora.com>,
  Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
  Liam Girdwood <lgirdwood@gmail.com>, Robert Foss <robert.foss@linaro.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>, "Eric W. Biederman" <ebiederm@xmission.com>,
+ Mark Brown <broonie@kernel.org>, "Eric W. Biederman" <ebiederm@xmission.com>,
  Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Nikolaus,
 
-On Wed, Nov 24, 2021 at 5:19 PM H. Nikolaus Schaller <hns@goldelico.com> wr=
-ote:
-> > Am 23.11.2021 um 21:10 schrieb Paul Cercueil <paul@crapouillou.net>:
-> > Le mar., nov. 23 2021 at 19:13:59 +0100, H. Nikolaus Schaller <hns@gold=
-elico.com> a =C3=A9crit :
-> >> +    assigned-clock-rates =3D <48000000>, <0>, <54000000>, <0>, <27000=
-000>;
-> >> };
-> >> &tcu {
-> >> @@ -509,6 +534,19 @@ pins_i2c4: i2c4 {
-> >>              bias-disable;
-> >>      };
-> >> +    pins_hdmi_ddc: hdmi_ddc {
-> >> +            function =3D "hdmi-ddc";
-> >> +            groups =3D "hdmi-ddc";
-> >> +            bias-disable;
-> >> +    };
-> >> +
-> >> +    /* switch to PF25 as gpio driving DDC_SDA low */
-> >> +    pins_hdmi_ddc_unwedge: hdmi_ddc {
-> >> +            function =3D "hdmi-ddc";
-> >> +            groups =3D "hdmi-ddc";
-> >> +            bias-disable;
-> >> +    };
-> >
-> > Your pins_hdmi_ddc and pins_hdmi_ddc_unwedge are the exact same? You co=
-uld just use the former and pass it to both pinctrl-0 and pinctrl-1.
->
-> This was forgotten to remove. We do not make use of the unwedge feature b=
-ecause I could not find out how to use pinctrl to switch this to gpio25 and=
- drive it low.
 
-Using gpio-hog?
+> Am 24.11.2021 um 03:59 schrieb Rob Herring <robh@kernel.org>:
+>=20
+> On Tue, 23 Nov 2021 19:13:56 +0100, H. Nikolaus Schaller wrote:
+>> From: Sam Ravnborg <sam@ravnborg.org>
+>>=20
+>> Add DT bindings for the hdmi driver for the Ingenic JZ4780 SoC.
+>> Based on .txt binding from Zubair Lutfullah Kakakhel
+>>=20
+>> We also add generic ddc-i2c-bus to synopsys,dw-hdmi.yaml
+>>=20
+>> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+>> Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
+>> Cc: Rob Herring <robh@kernel.org>
+>> Cc: devicetree@vger.kernel.org
+>> ---
+>> .../display/bridge/ingenic,jz4780-hdmi.yaml   | 76 =
++++++++++++++++++++
+>> .../display/bridge/synopsys,dw-hdmi.yaml      |  3 +
+>> 2 files changed, 79 insertions(+)
+>> create mode 100644 =
+Documentation/devicetree/bindings/display/bridge/ingenic,jz4780-hdmi.yaml
+>>=20
+>=20
+> My bot found errors running 'make DT_CHECKER_FLAGS=3D-m =
+dt_binding_check'
+> on your patch (DT_CHECKER_FLAGS is new in v5.13):
+>=20
+> yamllint warnings/errors:
+> =
+./Documentation/devicetree/bindings/display/bridge/ingenic,jz4780-hdmi.yam=
+l:36:5: [warning] wrong indentation: expected 2 but found 4 =
+(indentation)
 
-Gr{oetje,eeting}s,
+ok, fixed.
 
-                        Geert
+>=20
+> dtschema/dtc warnings/errors:
+> =
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/displ=
+ay/bridge/ingenic,jz4780-hdmi.yaml: 'unevaluatedPropertes' is not one of =
+['$id', '$schema', 'title', 'description', 'examples',
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+ah, that is a typo (missing i in ...ties).
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+> 'required', 'allOf', 'anyOf', 'oneOf', 'definitions', '$defs', =
+'additionalProperties', 'dependencies', 'dependentRequired', =
+'dependentSchemas', 'patternProperties', 'properties', 'if', 'then', =
+'else', 'unevaluatedProperties', 'deprecated', 'maintainers', 'select']
+> 	from schema $id: http://devicetree.org/meta-schemas/base.yaml#
+> =
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/displ=
+ay/bridge/ingenic,jz4780-hdmi.yaml: 'oneOf' conditional failed, one must =
+be fixed:
+> 	'unevaluatedProperties' is a required property
+> 	'additionalProperties' is a required property
+> 	hint: A schema with a "$ref" to another schema either can define =
+all properties used and use "additionalProperties" or can use =
+"unevaluatedProperties"
+> 	from schema $id: http://devicetree.org/meta-schemas/base.yaml#
+> Unknown file referenced: [Errno 2] No such file or directory: =
+'/usr/local/lib/python3.8/dist-packages/dtschema/schemas/bridge/bridge/syn=
+opsys,dw-hdmi.yaml'
+> xargs: dt-doc-validate: exited with status 255; aborting
+> =
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/displ=
+ay/bridge/ingenic,jz4780-hdmi.yaml: ignoring, error in schema:=20
+> warning: no schema found in file: =
+./Documentation/devicetree/bindings/display/bridge/ingenic,jz4780-hdmi.yam=
+l
+> =
+Documentation/devicetree/bindings/display/bridge/ingenic,jz4780-hdmi.examp=
+le.dts:19:18: fatal error: dt-bindings/clock/jz4780-cgu.h: No such file =
+or directory
+>   19 |         #include <dt-bindings/clock/jz4780-cgu.h>
+>      |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> compilation terminated.
+> make[1]: *** [scripts/Makefile.lib:373: =
+Documentation/devicetree/bindings/display/bridge/ingenic,jz4780-hdmi.examp=
+le.dt.yaml] Error 1
+> make[1]: *** Waiting for unfinished jobs....
+> make: *** [Makefile:1413: dt_binding_check] Error 2
+>=20
+> doc reference errors (make refcheckdocs):
+>=20
+> See https://patchwork.ozlabs.org/patch/1558736
+>=20
+> This check can fail if there are any dependencies. The base for a =
+patch
+> series is generally the most recent rc1.
+>=20
+> If you already ran 'make dt_binding_check' and didn't see the above
+> error(s), then make sure 'yamllint' is installed and dt-schema is up =
+to
+> date:
+>=20
+> pip3 install dtschema --upgrade
+>=20
+> Please check and re-submit.
+>=20
+
