@@ -2,58 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F23445C205
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Nov 2021 14:22:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00AF245C346
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Nov 2021 14:33:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 567BC6E90D;
-	Wed, 24 Nov 2021 13:22:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 97F426E935;
+	Wed, 24 Nov 2021 13:33:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 96F846E90D
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Nov 2021 13:22:08 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 4C25961288
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Nov 2021 13:22:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1637760128;
- bh=li0JPkoMkVEzYwuBN91+0W2zSpnyu1XrYq7A3Xc8UuI=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=NIKD51HY5DiNFOzbKkU0JcNj4joo29wr8BfJ04ygWgm4M0n2Y1NIAlAerxmPlEX+9
- mS/u5mJIt+hsP6PhLhpUd/M9TBOIQ4m1ShlJEMnz97kOFBdFH8evcuKOtWEe4jV92g
- b2hxtv6LfGI1bo+z7HTr8UPmZ+90uxR8nl+beuQ20LY5+ShO5hHcBGVJX2iGrdixgl
- bfl7eePYa4G+nRMxfayORxItVm7BumELZLcOCIT79eMhD2pnrjxi7xYJlXmAC7CXG7
- Qk9jSz1eS3CYR1RLqIWuzFFEQ/OtHdsPASB47mNQC5bOlCfiKjW4eZhS6+PBKlDZe3
- pT37RFO2TFYsw==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 476F060F37; Wed, 24 Nov 2021 13:22:08 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 211807] [drm:drm_dp_mst_dpcd_read] *ERROR* mstb
- 000000004e6288dd port 3: DPCD read on addr 0x60 for 1 bytes NAKed
-Date: Wed, 24 Nov 2021 13:22:07 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: low
-X-Bugzilla-Who: mail@chatty.de
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-211807-2300-PDwjSGerSP@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-211807-2300@https.bugzilla.kernel.org/>
-References: <bug-211807-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com
+ [209.85.210.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E8CE26E935
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Nov 2021 13:33:49 +0000 (UTC)
+Received: by mail-ot1-f46.google.com with SMTP id
+ 47-20020a9d0332000000b005798ac20d72so4232871otv.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Nov 2021 05:33:49 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=091FqIUggUob/ZEgOD1UGmSVx8eqHMlVt+VyvTQhn6A=;
+ b=O31vNprS3Gz06BJk3VF69HCIE/jSj0Xt2Xo048gepj56MMLfwyutaMYZL+B3RYmWPo
+ 7jT0KaRHr+ejnOPouk3muSAqV/XaM+tzzmtRUGvhz+z2GKjEFORyHdrYrZ6mrK1O5+ys
+ av6nqgPkA9YZKradllIVzml/3PWZ5d9oVbUMdO0f4gHHCJKoTOs/x3IUQc7HnE1NMKpt
+ qQ3+685ht+RlmV7PW93ozJdGQ3iqE4dWcRNgF+lD22ly/MQC0Y+rF1HKAPKWcgXT4yQq
+ CrXzvU9o49+VitpC9mnA+7dlRQmsKWnUrYzC3YqXbr2MbjjNWHW2zGZ89UvgTXVbMDem
+ ZtcQ==
+X-Gm-Message-State: AOAM533nNP3XYXnQ/w1vJVDCT8bk08209e4RGIYSf8BLx7S2NBisNuCC
+ RzljUaLhHObMTgPA0WtAQHOW5mdA7/bn3pCEE3c=
+X-Google-Smtp-Source: ABdhPJzQoNI/Fsb1RYaYMIo8ITBU8mCa/gSsaWPVLoUcuICuMNXnffh1kRK/Zt6rxw8a35LfxbFQ+4vJZ0v59kljSMQ=
+X-Received: by 2002:a05:6830:348f:: with SMTP id
+ c15mr13170421otu.254.1637760829265; 
+ Wed, 24 Nov 2021 05:33:49 -0800 (PST)
 MIME-Version: 1.0
+References: <20210818060533.3569517-1-keescook@chromium.org>
+ <20210818060533.3569517-13-keescook@chromium.org>
+ <CAJZ5v0iS3qMgdab1S-NzGfeLLXV=S6p5Qx8AaqJ50rsUngS=LA@mail.gmail.com>
+ <c5d1ee1f3b59bf18591a164c185650c77ec8aba7.camel@linux.intel.com>
+In-Reply-To: <c5d1ee1f3b59bf18591a164c185650c77ec8aba7.camel@linux.intel.com>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Wed, 24 Nov 2021 14:33:38 +0100
+Message-ID: <CAJZ5v0i61F9SpwfER8o5J_Kf=J9dJUv-qd+bG9hcL42X2eMRtw@mail.gmail.com>
+Subject: Re: [PATCH v2 12/63] thermal: intel: int340x_thermal: Use
+ struct_group() for memcpy() region
+To: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+ Kees Cook <keescook@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,57 +59,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Daniel Lezcano <daniel.lezcano@linaro.org>, linux-staging@lists.linux.dev,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Linux PM <linux-pm@vger.kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Amit Kucheria <amitk@kernel.org>,
+ "open list:NETWORKING DRIVERS \(WIRELESS\)" <linux-wireless@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>, linux-block@vger.kernel.org,
+ clang-built-linux@googlegroups.com, linux-hardening@vger.kernel.org,
+ netdev <netdev@vger.kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ Zhang Rui <rui.zhang@intel.com>, Andrew Morton <akpm@linux-foundation.org>,
+ linux-kbuild@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D211807
+On Wed, Nov 24, 2021 at 12:53 AM Srinivas Pandruvada
+<srinivas.pandruvada@linux.intel.com> wrote:
+>
+> On Tue, 2021-11-23 at 14:19 +0100, Rafael J. Wysocki wrote:
+> > On Wed, Aug 18, 2021 at 8:08 AM Kees Cook <keescook@chromium.org>
+> > wrote:
+> > >
+> > > In preparation for FORTIFY_SOURCE performing compile-time and run-
+> > > time
+> > > field bounds checking for memcpy(), avoid intentionally writing
+> > > across
+> > > neighboring fields.
+> > >
+> > > Use struct_group() in struct art around members weight, and ac[0-
+> > > 9]_max,
+> > > so they can be referenced together. This will allow memcpy() and
+> > > sizeof()
+> > > to more easily reason about sizes, improve readability, and avoid
+> > > future
+> > > warnings about writing beyond the end of weight.
+> > >
+> > > "pahole" shows no size nor member offset changes to struct art.
+> > > "objdump -d" shows no meaningful object code changes (i.e. only
+> > > source
+> > > line number induced differences).
+> > >
+> > > Cc: Zhang Rui <rui.zhang@intel.com>
+> > > Cc: Daniel Lezcano <daniel.lezcano@linaro.org>
+> > > Cc: Amit Kucheria <amitk@kernel.org>
+> > > Cc: linux-pm@vger.kernel.org
+> > > Signed-off-by: Kees Cook <keescook@chromium.org>
+> >
+> > Rui, Srinivas, any comments here?
+> Looks good.
+> Reviewed-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
 
-Chatty (mail@chatty.de) changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |mail@chatty.de
-
---- Comment #17 from Chatty (mail@chatty.de) ---
-My setup: MS Surface Book 2 + AOC U2879G6 via Surface Dock via DisplayPort
-Tested kernels: 5.10.0 / 5.15.3 / 5.16.0-rc1
-
-When connecting I get random results of:
-* monitor remains black
-* monitor exhibits 1080p@60 as max resolution
-* monitor exhibits 1440p@60 as max resolution
-* monitor exhibits 2160p@30 as max resolution
-* monitor exhibits 2160p@30 as max resolution <=3D=3D desired
-
-On boot of 5.16.0-rc1 its initialized with:
-> i915 0000:00:02.0: [drm] Finished loading DMC firmware
-> i915/kbl_dmc_ver1_04.bin (v1.4)
-> [drm] Initialized i915 1.6.0 20201103 for 0000:00:02.0 on minor 0
-
-In the first case I see following dmesg output (black monitor):
-> i915 0000:00:02.0: [drm] *ERROR* mstb 0000000009cd3ca6 port 1: DPCD read =
-on
-> addr 0x4b0 for 1 bytes NAKed
-
-In the last case I see following dmesg output (despite monitor working):
-> i915 0000:00:02.0: [drm] *ERROR* mstb 00000000f4b4c9f1 port 1: DPCD read =
-on
-> addr 0x4b0 for 1 bytes NAKed
-> i915 0000:00:02.0: [drm] *ERROR* mstb 00000000f4b4c9f1 port 1: DPCD read =
-on
-> addr 0x4b0 for 1 bytes NAKed
-> i915 0000:00:02.0: [drm] *ERROR* mstb 00000000f4b4c9f1 port 1: DPCD read =
-on
-> addr 0x4b0 for 1 bytes NAKed
-> i915 0000:00:02.0: [drm] *ERROR* mstb 00000000f4b4c9f1 port 1: DPCD read =
-on
-> addr 0x4b0 for 1 bytes NAKed
-> i915 0000:00:02.0: [drm] *ERROR* mstb 00000000f4b4c9f1 port 1: DPCD read =
-on
-> addr 0x4b0 for 1 bytes NAKed
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+Applied as 5.17 material, thank you!
