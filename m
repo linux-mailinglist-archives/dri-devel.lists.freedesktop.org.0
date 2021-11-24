@@ -2,125 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A16745B669
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Nov 2021 09:22:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4627B45B68F
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Nov 2021 09:31:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 538E46EC33;
-	Wed, 24 Nov 2021 08:22:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E7B86EAB3;
+	Wed, 24 Nov 2021 08:31:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2078.outbound.protection.outlook.com [40.107.236.78])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF6F66EC33
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Nov 2021 08:22:50 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kldRSfPY1gFr66gsVhBO0lGB1KQhhLx3QHBPGhSN+F+WzT2cu37zvJ8Ui02BnCsPBC51yMyhWfXcg1JSzs3gemyopVAW9TCcPvwaaqF2wSwLnd6hitVkZiBzuIP0apYdlNlM0Qd4x39hiyFu3A/6cksQoBGi2dfzxjWjRcT+suv6EOmhzavWLYQlkYddPCmdiUPdMyeRQUh+GOK7HM2jNizBsIZO+0q37smkXF3XtTM2FnugnlX6i6JDsuvF4aS5EkCymDxRrpVujXsG2RsPgT1MYbaZ/2eiAZYCztr87hlLgHQ4siikdA01RtaZ2bFDVrtENcspv02ucFiDU6BxCA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=eHWTILNAn2bxadkvUs+QbeRh5W2EYWXKeq3Vr38b88U=;
- b=XUUjjF/1BXhyucmCRGxXUDPF6YKL8bGbcjYOko37E1F8Nj8+s3nSOb2hqh9jXVot+d7ghJEYlUvMMq5kx9poMqS62iU3sRTQ4amw7JG4KwTfvhxQeqNctOfyBugDsz/gT1EBJdjmgknlm69/PDIAPl6lYbututNPjD0XMAQVRd0s+R0EkOdADbNDAIT0/69f7FHHt7kK7HFLYfzHikqmkjCgp4Lz3GdYj10NPM9qj4MpK8QvEmiIoOkYMtJ0CJ1qqjtgXrumBvUG2wvNypat1PjiqPXE5OUNFdaMYFlQlE5ayS9ji71z28Jp6DyakltiSZP+1YYrNbzhHrzrZP2o1g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eHWTILNAn2bxadkvUs+QbeRh5W2EYWXKeq3Vr38b88U=;
- b=hBzINs6r913T2Z4t12tRy/wE7GlNIXmF/a6LJC6CXsgCN//Rw5hWBYgEiXJJixChJXDLUOAPPr7h4viBgDWMoBRJkQ18sYVzb90MrZEN1wiDV+gKKd4kaWzJZUJERjjDqeTHrLDFUCTRMSEkba0OsjZiDEywGBWLbPA8bgAx9q8=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MWHPR1201MB0192.namprd12.prod.outlook.com
- (2603:10b6:301:5a::14) by MWHPR12MB1614.namprd12.prod.outlook.com
- (2603:10b6:301:f::15) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4713.22; Wed, 24 Nov
- 2021 08:22:48 +0000
-Received: from MWHPR1201MB0192.namprd12.prod.outlook.com
- ([fe80::2d02:26e7:a2d0:3769]) by MWHPR1201MB0192.namprd12.prod.outlook.com
- ([fe80::2d02:26e7:a2d0:3769%5]) with mapi id 15.20.4713.026; Wed, 24 Nov 2021
- 08:22:48 +0000
-Subject: Re: [PATCH v4] drm/ttm: Clarify that the TTM_PL_SYSTEM is under TTMs
- control
-To: Zack Rusin <zackr@vmware.com>, dri-devel@lists.freedesktop.org
-References: <3687c5f0-edb9-3cdb-2bb7-e45549a1cfb8@amd.com>
- <20211110145034.487512-1-zackr@vmware.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <afea62fa-c5e4-8821-b387-11b1983b0c58@amd.com>
-Date: Wed, 24 Nov 2021 09:22:42 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
-In-Reply-To: <20211110145034.487512-1-zackr@vmware.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-ClientProxiedBy: AS9PR07CA0024.eurprd07.prod.outlook.com
- (2603:10a6:20b:46c::33) To MWHPR1201MB0192.namprd12.prod.outlook.com
- (2603:10b6:301:5a::14)
+Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com
+ [IPv6:2a00:1450:4864:20::22d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DBCC66EB13
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Nov 2021 08:31:23 +0000 (UTC)
+Received: by mail-lj1-x22d.google.com with SMTP id 13so3731605ljj.11
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Nov 2021 00:31:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:in-reply-to:references
+ :mime-version; bh=9QzHPaMf6KRbXd4c4t+AUDzNgI46GuaQ0qVzcfg+5ak=;
+ b=cfNoIAgdjr2vuzJy8dzIduVLUI9dJ/3A+l5rtJuEmnugIh8sVvIx5c5SsHz+7FzwmK
+ j0yF6XmIUI3gZ1BwCOOSQ/F7q2N+jFhC5btuUX7S58GnRIaayKM3O0q0CFh+4fkG/y9r
+ cdIZdvmeHbaiMfXCOH/QrGNmbdkVllBcGAFfDdKxkjqg6G3DOQXrhtWCs4knuCQqpD2D
+ jTYjYA374KGb45KmFf1B/TrAuj2ouyyaYK/dZK6S1yoeFcYz8fEVHKLm/bHrssUrgaV0
+ 6SB9CH80vw4vYoU6FBfWbsiYfVNbwt52McsxE3SxTb/kff2sjYUpxE4aD4asi2kKW+u2
+ B4tw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version;
+ bh=9QzHPaMf6KRbXd4c4t+AUDzNgI46GuaQ0qVzcfg+5ak=;
+ b=vjyKZR/iWiEfs38Sv/C9bwKqJI7tgYemofl6CSRFdo2XVZuFr4n1CS/vQOtaWBXKkF
+ u52jKpDnQydfuYY4IFXPITT0DXeQfEWIX4/0FTZBOrdz7SRxeEvqaSf+KAYcT77fqoRr
+ YAd67K6ABopjfIpbL5wlu5trcpZ4J/o4DjxRF6mmJIB5vra5n8kPp+2W61FQLni9QWeI
+ hSWK/5k6Q/PsXbO6AkUsn2uz+KGweVpgN4iaL39TOpHUTjn8aDbnuwT4AmEXmnAn3CNn
+ JeYz2vvc7QcxukhOsj27x5Ijpl8LnIQdGuF13bIgZ3/StmryfxgmkKxsFEm2TA2drFTa
+ p5ig==
+X-Gm-Message-State: AOAM5328KAZj9Mf3AWiAYPYbH4u0oo2psbOz39zniNfxsaaJxhgCzkTG
+ 2fJst2F2lf38eoVQLV0FpO4=
+X-Google-Smtp-Source: ABdhPJzsbO9NE/psN99YQpJyAjFRLxK170wOebG+qscF4lV2V/VYDhaYpcE4koPHwUuAX0tl8DwncQ==
+X-Received: by 2002:a2e:b01a:: with SMTP id y26mr12707319ljk.317.1637742682147; 
+ Wed, 24 Nov 2021 00:31:22 -0800 (PST)
+Received: from eldfell ([194.136.85.206])
+ by smtp.gmail.com with ESMTPSA id bq39sm1542589lfb.262.2021.11.24.00.31.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 24 Nov 2021 00:31:21 -0800 (PST)
+Date: Wed, 24 Nov 2021 10:31:11 +0200
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: "Christian =?UTF-8?B?S8O2bmln?=" <ckoenig.leichtzumerken@gmail.com>
+Subject: Re: completely rework the dma_resv semantic
+Message-ID: <20211124103111.17b08d79@eldfell>
+In-Reply-To: <20211123142111.3885-1-christian.koenig@amd.com>
+References: <20211123142111.3885-1-christian.koenig@amd.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Received: from [192.168.178.21] (87.176.183.123) by
- AS9PR07CA0024.eurprd07.prod.outlook.com (2603:10a6:20b:46c::33) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4734.19 via Frontend
- Transport; Wed, 24 Nov 2021 08:22:46 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: f3c773d3-10c5-4919-62a7-08d9af23995f
-X-MS-TrafficTypeDiagnostic: MWHPR12MB1614:
-X-Microsoft-Antispam-PRVS: <MWHPR12MB16146F102CD85AA41FC618D683619@MWHPR12MB1614.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: GdpuX40IJB+QhKVO+kyeV5UKCKRBzaWwr5H2/2ypjePn4osjRrJ6n0d6i4hRvpt7FYSJT8pZk97H0BB1zshLR6HiQraqqTprayD+A4RTfD+EAE/Hz+9mxgaKeaUXXk6kybwBDVMxBB5VJK+uoS2hfTGq6cZo6dtXJ1ViOTX43ChCsSNgaaEXoZeas5ZBp6xZmDpEefVUCyxGAd2d1kWUbI4CSJfndRdXysdHWdik7DJQX9uGLlSxoVOxIumnGgho1yp9CMvhrr6s9JvFDcpWu7ys8YUVbMD7qABCWSTSUcJ91UHLS2X5DI9iDjwAnRVYRQVtBkhhqUr80o8WZ2H98YfbXc4/0mTx6RmZ2svYM7t3EMjcS3LMl8unoTljy6D6CLJl77ipFI+KdNGa+M9kaTNdUklUmu55QuAqWINNPPQJNUa6n+NaKFd0Asw3sHGv1LxjVCBPDpmroC/HkKKG1VODnqqgpCh0O3Ogzucc8//BwJJKBf8bmHIV93HWklcapcVRSqdKC8k20ySUUiqewD01Ih1+D/rP3hBnKPbZ6uEcoLO4Ma1y+pTAz1Ww9ECgJCu+4fSk8d00TQ/5WNTRSD/sEI3Vgw3Zg3ugNNENOAgDulvSj8OCgn5ExLJGldHKarJm4sp4Rrrv8VNYAf/FvShlEEmKYyrzpCAScg5U74WAkc+td448EPz2qgOfb3Z1somEAprisXs4xVFV0RHQkIN+8YbTigJIwVg9ff817NVMzQZE5DZf2LSuNzQXaK8VnNNkyLZxGtCjgWPaIqjK6AfWpYLKZO39WvXxA3HtRg/W9/I+T90RL7y4YqWMDWsEuJoB2UdAObTxGwCECx2MEQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MWHPR1201MB0192.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(45080400002)(6486002)(2616005)(66574015)(8936002)(5660300002)(86362001)(186003)(16576012)(8676002)(4326008)(31696002)(956004)(26005)(6666004)(66946007)(316002)(36756003)(966005)(38100700002)(2906002)(66556008)(83380400001)(66476007)(31686004)(508600001)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Tk9nRXhPaGQwcjNqM1Z3ZUFiMXhlTXFMa1RKVFBTRTA0MlJreUxqdEgxY0l0?=
- =?utf-8?B?aDk3U0x6Rlh1c0JtSWtIaXlTN2NVb2N1Ylg2SkUvMXRDSllpeFNBQ3JsYnNr?=
- =?utf-8?B?VHBhM3ZhS0Y0di9xRWFpVFZjTFVwb21iN1NyNzlDN3hHdEhFMmhMOGxHNTBT?=
- =?utf-8?B?RXJNdXZTUzV5TCtBdXczUzg2UFVZMlNyY3N4YU9HL2FjeXN3UWlmZkRnbUJC?=
- =?utf-8?B?enRiUHVqZkpIMmdoRDYweUd6VWE0QzQ2UEtBei85RGxlL0tKRVBLOGJtQi8y?=
- =?utf-8?B?bGZvVENGZm1QUUdRMUkxVEp1MW12b0RnbUVXRTVJNnI4TTlwZlFTbzcwS2E0?=
- =?utf-8?B?OHV0T3kwczFTSGdETmZqQ0M2dXpkRTUwVHltVGtmSGkzVUJmaHVQWHhmRWFY?=
- =?utf-8?B?VFF6ekIvS25jWHU2S1BDZnJMY3FFeEZZRnZYTm5XSE55NVhkMVJMUlJDWHc2?=
- =?utf-8?B?aVZvTlUvN0piZDBRb0VPbEFIbTJQVGhnY0k5cVFLRFVVK24wUlNWeWhtbVUy?=
- =?utf-8?B?VGcrOEdsbFcxZlhXUThYNlpRTXZJRGgvU0duUTFXTlZIRjZKMENFWklmY1RL?=
- =?utf-8?B?VFIzVFN6eStxSXhmRW5TTVJYL2pHREs4SEk0NjhQbWVYNXpVY2VWYnMvY1Ra?=
- =?utf-8?B?aWZGWXU0VnI0TUdSUTBMNkU2RThuWFc0ZXdFclU5VHdVTFZEN215UFhSeVcw?=
- =?utf-8?B?K1lMN3FXdWRGS2hXY2ZDZzUxYStTZytUZi94aFJtZFZGQ29tbFJuMldSdlk0?=
- =?utf-8?B?N2Jab1ZoVnJGY2NRQzJoREFveEFZTFdTN3dhNldsb0grSHBYVU1nbTJDUEQ2?=
- =?utf-8?B?YTA1YTY5WE9OTDM5TnRTRkFnQVlpcG16V0ZuL0Z5QlBPeGFFc2k5d2JzMGVX?=
- =?utf-8?B?aHZiVG1LeGtEVjM0WThzT2JaYWh4NmE0OTNtUlhPRVh0N1RCV3V2M2c5VlB0?=
- =?utf-8?B?MGNEb2JXbEFEMkRnbUI1eXRuazBac3RBT1FHc1lLOHVTdUN2bkg0VG9PRzNC?=
- =?utf-8?B?VWZxNGNLR3UzTjJuSXN2eDdmQWJ2SHlHZkdwSFF6bzVVcndEQlN6Mjc5a095?=
- =?utf-8?B?andlMWhHUGMrei9EVVJCalgzaFdab09HZklwVk91cEZPUnNTOFl1dVRKbk8r?=
- =?utf-8?B?VHovenVjTFpzclVtQkRjWWpKeVFLTUwyOEV2YURMd1NyM3lCUjM2SjRzTXZo?=
- =?utf-8?B?SWNudVI0ZkFxWjhrN3FjZEJXcmZUZVVMQ2ZSWFJZR1ZvUklRcmRKc2FLTVlD?=
- =?utf-8?B?NS9qOHVsNmo0YnNSaWxXajV4V1NUYVlveDgzMkErT0cyN2pxa2dRbk9IQWFa?=
- =?utf-8?B?S3B6eWFUamJVSWVMLzFSYUwwOC9vRVdLZzY4N3U4TDRCZUZCenVWZ2NtRUNS?=
- =?utf-8?B?RU12OS8rMXg2U1hETytHVHFHYWl6dzJUODJUa3VFUTJCcFBJVnNQeEd6dWZs?=
- =?utf-8?B?MkRTajl2NWFCVmJ5RGhGdTdGOENtYjVNTjROSEFVV0xVWGlPWW5jd3ZjcHBv?=
- =?utf-8?B?dVQweUtBNThMb25jMFlDWURkNWRmbUxSWmhLVXY5VGpXd0dmYnRYam9rR2pj?=
- =?utf-8?B?enVNd0syekkwN25nMU5lN01rMmJKUmIyTDRoVjVaa05HRkRISEhUYWxyditH?=
- =?utf-8?B?U1Y3STFBYjBSOHI0R0lUKzY0b0pMSHJOejg4NzlSQnlBbW5jTWorMVVhTVNL?=
- =?utf-8?B?Q0k3b0s0NW5Qa29WRW50czZ0RG9iSS9JR21KRUtPR3VYcmcwTm1GVGpQK2dP?=
- =?utf-8?B?SU9PL1N1S1ZyUXh1MWtuWENjaExTcFZ6bExaSUFzelJpYWF0ajdieWxxRDN4?=
- =?utf-8?B?eFBJRzY0UWxkOGFyNW1WWmE1QUpVMmJUQnZ0OVg1L1BKRXAwd1ExN0VKblhp?=
- =?utf-8?B?Mm9pNEVqZXNDT0sxREw4NmhQdWEwcXNlSHVhR1JYdUswajlTczgvZndZZmwz?=
- =?utf-8?B?c1pRdWtHcVdhbHEvai9IZ3VpYkdYQTJoWWhPVEJiL2RjbGs3dVN6aVhXUk5S?=
- =?utf-8?B?bGdlYXM2cklDOVdvUDhKNk1aN3dnbUxDWitSZEgraGNrdWp5Z0psdytGNzhS?=
- =?utf-8?B?WkJCVVJ4cFpwdjZ3QVVRRFpxRmptNHgzdXA5OUFJNjAyR3ZTclpMZXF0SEJD?=
- =?utf-8?Q?hs0k=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f3c773d3-10c5-4919-62a7-08d9af23995f
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1201MB0192.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Nov 2021 08:22:48.5735 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: t3JFDtgQnIET012RgskIUORHjIdHfoDiW7cp10y0KJekkZL0HD7IgBrWK0yCBere
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR12MB1614
+Content-Type: multipart/signed; boundary="Sig_/DfNwimGh+=2lwPx.jwlLdcA";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -133,58 +67,127 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
+Cc: linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 10.11.21 um 15:50 schrieb Zack Rusin:
-> TTM takes full control over TTM_PL_SYSTEM placed buffers. This makes
-> driver internal usage of TTM_PL_SYSTEM prone to errors because it
-> requires the drivers to manually handle all interactions between TTM
-> which can swap out those buffers whenever it thinks it's the right
-> thing to do and driver.
->
-> CPU buffers which need to be fenced and shared with accelerators should
-> be placed in driver specific placements that can explicitly handle
-> CPU/accelerator buffer fencing.
-> Currently, apart, from things silently failing nothing is enforcing
-> that requirement which means that it's easy for drivers and new
-> developers to get this wrong. To avoid the confusion we can document
-> this requirement and clarify the solution.
->
-> This came up during a discussion on dri-devel:
-> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.kernel.org%2Fdri-devel%2F232f45e9-8748-1243-09bf-56763e6668b3%40amd.com&amp;data=04%7C01%7Cchristian.koenig%40amd.com%7Cbcf8d8977e68448fa20808d9a4597927%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637721526467013347%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=3pldUWJ8u7AEDxtG0vQBINIL7%2FQE4HiE%2FQ7x8fi0MK8%3D&amp;reserved=0
->
-> Signed-off-by: Zack Rusin <zackr@vmware.com>
-> Cc: Christian König <christian.koenig@amd.com>
-> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+--Sig_/DfNwimGh+=2lwPx.jwlLdcA
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Christian König <christian.koenig@amd.com>
+On Tue, 23 Nov 2021 15:20:45 +0100
+"Christian K=C3=B6nig" <ckoenig.leichtzumerken@gmail.com> wrote:
 
-> ---
->   include/drm/ttm/ttm_placement.h | 11 +++++++++++
->   1 file changed, 11 insertions(+)
->
-> diff --git a/include/drm/ttm/ttm_placement.h b/include/drm/ttm/ttm_placement.h
-> index 76d1b9119a2b..8074d0f6cae5 100644
-> --- a/include/drm/ttm/ttm_placement.h
-> +++ b/include/drm/ttm/ttm_placement.h
-> @@ -35,6 +35,17 @@
->   
->   /*
->    * Memory regions for data placement.
-> + *
-> + * Buffers placed in TTM_PL_SYSTEM are considered under TTMs control and can
-> + * be swapped out whenever TTMs thinks it is a good idea.
-> + * In cases where drivers would like to use TTM_PL_SYSTEM as a valid
-> + * placement they need to be able to handle the issues that arise due to the
-> + * above manually.
-> + *
-> + * For BO's which reside in system memory but for which the accelerator
-> + * requires direct access (i.e. their usage needs to be synchronized
-> + * between the CPU and accelerator via fences) a new, driver private
-> + * placement that can handle such scenarios is a good idea.
->    */
->   
->   #define TTM_PL_SYSTEM           0
+> Hi guys,
+>=20
+> as discussed before this set of patches completely rework the dma_resv se=
+mantic
+> and spreads the new handling over all the existing drivers and users.
+>=20
+> First of all this drops the DAG approach because it requires that every s=
+ingle
+> driver implements those relatively complicated rules correctly and any
+> violation of that immediately leads to either corruption of freed memory =
+or
+> even more severe security problems.
+>=20
+> Instead we just keep all fences around all the time until they are signal=
+ed.
+> Only fences with the same context are assumed to be signaled in the corre=
+ct
+> order since this is exercised elsewhere as well. Replacing fences is now =
+only
+> supported for hardware mechanism like VM page table updates where the har=
+dware
+> can guarantee that the resource can't be accessed any more.
+>=20
+> Then the concept of a single exclusive fence and multiple shared fences is
+> dropped as well.
+>=20
+> Instead the dma_resv object is now just a container for dma_fence objects=
+ where
+> each fence has associated usage flags. Those use flags describe how the
+> operation represented by the dma_fence object is using the resource prote=
+cted
+> by the dma_resv object. This allows us to add multiple fences for each us=
+age
+> type.
+>=20
+> Additionally to the existing WRITE/READ usages this patch set also adds t=
+he new
+> KERNEL and OTHER usages. The KERNEL usages is used in cases where the ker=
+nel
+> needs to do some operation with the resource protected by the dma_resv ob=
+ject,
+> like copies or clears. Those are mandatory to wait for when dynamic memory
+> management is used.
+>=20
+> The OTHER usage is for cases where we don't want that the operation repre=
+sented
+> by the dma_fence object participate in any implicit sync but needs to be
+> respected by the kernel memory management. Examples for those are VM page=
+ table
+> updates and preemption fences.
 
+Hi,
+
+reading just the cover letter I wonder if KERNEL and OTHER could have
+better names based on what you describe how they are used. WRITE and
+READ immediately give an idea of semantics, KERNEL and OTHER not so
+much.
+
+Some suggestions coming to my mind:
+
+KERNEL -> PREPARE or INITIALIZE or SANITIZE
+OTHER -> BOOKKEEP
+
+
+Thanks,
+pq
+
+> While doing this the new implementation cleans up existing workarounds al=
+l over
+> the place, but especially amdgpu and TTM. Surprisingly I also found two u=
+se
+> cases for the KERNEL/OTHER usage in i915 and Nouveau, those might need mo=
+re
+> thoughts.
+>=20
+> In general the existing functionality should been preserved, the only dow=
+nside
+> is that we now always need to reserve a slot before adding a fence. The n=
+ewly
+> added call to the reservation function can probably use some more cleanup.
+>=20
+> TODOs: Testing, testing, testing, doublechecking the newly added
+> kerneldoc for any typos.
+>=20
+> Please review and/or comment,
+> Christian.
+>=20
+>=20
+
+
+--Sig_/DfNwimGh+=2lwPx.jwlLdcA
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmGd+E8ACgkQI1/ltBGq
+qqd7pw/8CgOq2ENKfC/ISZ8VHDti6Qp+DlYeGrcP6oXRHnjLi9hTbKCh9AsYb6QB
+kj4PdiR0eE50ArXYYoQcd30jbHkNAitnZH4sv9i4r7b+bxlXivaEL3aha43FFh7b
+UrI68GIqc1JhY+w4cNaml9yBx3rlsjihc51xU2t4rcDTaflKPAJ4HU0MriIJOfeh
+fW/OKP7D5dvnL5m6G3H9YIb5tTIRMjbYhYSASijXdAsHjhvMYnjzBQoMwDrk5x39
+3ry1tw1domo4tMsTTrPrbKk4IrsqHqnIeefdRYdMQxqaVwmj8SBVc74KEHtawxIn
+o+w52KBsB1S+17PDA2s19q7cjqAd7aF9mehza2PrTZ2EI7WOrrlACQAqKOx3JUkU
+s/tlhds9woDzJrc6DEoart8Zqc7vHSPPZZQT9BN3gq3mQneIP3XzydOFrmgSUGsX
+EeN89o3VU0ykvyV+1jCtsLyF295G65GtdahjUlF00iiOTBW7g5pSD3AcAFqk5MgC
+gbZDQTcXC1nxtZzg5O5I4EDP7VwklVYjZaAfs3lxEFOwU02k2n+fCYeFuoVBh3vR
+NcrgN60mqTzkBHlMRZ4WirssrBood9F6Ond5ZQ9xnxoq/fu9YS3cR8SJNUwKG4n3
+c+XO0i7elp/TpW/b5+J4tobIq3z7SqGVp/aYlsH8JGwhSXULsXI=
+=oYTH
+-----END PGP SIGNATURE-----
+
+--Sig_/DfNwimGh+=2lwPx.jwlLdcA--
