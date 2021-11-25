@@ -2,52 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C2FC45D4D8
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Nov 2021 07:34:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 741CA45D582
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Nov 2021 08:32:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4EE6F6E97F;
-	Thu, 25 Nov 2021 06:34:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 58FFC6E7EA;
+	Thu, 25 Nov 2021 07:32:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com
- [IPv6:2a00:1450:4864:20::536])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D52E76E97F
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Nov 2021 06:34:07 +0000 (UTC)
-Received: by mail-ed1-x536.google.com with SMTP id o20so20800788eds.10
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Nov 2021 22:34:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=DixG+Wl1Rb/KISam2HYcJ5xuD624xAZ6kpmcZJfHNzs=;
- b=aH1h1pl3DNGqeGFQwGYdGjqfTVNfKjj3LO7m8f/U52icWDr60m/V7U81CLHYO/z/ZY
- dEp1z9m/8rr+iP2KLbwFYIfGQAPBmHxcvKgReCxpcHN+R/nXcar6Ya2ig3W3PT/J9B+s
- 9o41P0z494YX7ArSrWV2WQU7+h8PApgk0tBgI=
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
+ [IPv6:2a00:1450:4864:20::134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A6FF66E5C0
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Nov 2021 07:32:24 +0000 (UTC)
+Received: by mail-lf1-x134.google.com with SMTP id u3so14001399lfl.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Nov 2021 23:32:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=tY0dI4JKSMqLqN8bCT5xhyliQM9cl3Za+ENI5kRKGSo=;
+ b=MStlbuYF8XwOtaZm2IZDizPpaqNzw/O0bk5WXfDpOkji9Fo+7tKIwAdHX1Q1q2Ddn6
+ 4wKOsAgl/kwiIf6TDdRbFcKFBoIko4gHB3sEpXZ2h92dsV+AehEE78QfLPfoS6325J4K
+ 4jEuVVTdsl0tZBaPYqCYSH+/mBWzSLxkhq+23G/7my8i6fiU6Bd7jvvkVtjIewIznFz0
+ mluf8oJk+qvs0tnccQ15XopVMiFaCIaD5sqpwAHFci8jxVfmJXboeQKJzKYUZ9mjiS4s
+ CyKtnFdE784toKoJ2yas/U8sqRsgQdvq8uc6YlKb5oST5hgnqwSUPiw7BuP4UUogoFNU
+ lSjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=DixG+Wl1Rb/KISam2HYcJ5xuD624xAZ6kpmcZJfHNzs=;
- b=l1n4Ed2iuL/BLT6/fw8RBHLyNBl/NndBVCPN6r2VXsmElNNC7jxC+p53u3Hp39i/9i
- ORp6e3hh95mc9D8IV5rMQbhOWJXaP6k0u6gcZT+MiN75D7/3nKuvLRUVkj2DHgJyl9ju
- CI8rCioimPlac8s+cY5vBTJROWSYY38rhMnfuTwNWQDUUOgNuKc26I0hdlJzetuenb6L
- l4jh67L63n340gL+YdvlVl2mUm7DvjpdVvKhUixGuqp+rxwOtSJs/EhuaydcLMZcgxj6
- DN5E/Me665X0fvAWRsOxH8PneA2dXj0ig+SzlsXfjWsCNDZnDPlHmwY/ciCPdJ5r4lTA
- BvQQ==
-X-Gm-Message-State: AOAM53224uqy6H7c/W2RWDuCuRwZmwy9M9HYhAE9xQX84CVut5G0DWJv
- 4Gd8fsxA71ScoktnUuwGPOVepIa9NdPEV/Ts/eSIBQ==
-X-Google-Smtp-Source: ABdhPJwlCUq/Q7OpJLKMAwHs9hoBtJ4ZiNFp0rs8y4w2a5GNzn1IaePvMPzpr0r3mBmNcNzY0sQUoHyrRhAEulXDvxk=
-X-Received: by 2002:a17:907:7f2a:: with SMTP id
- qf42mr29187934ejc.388.1637822045683; 
- Wed, 24 Nov 2021 22:34:05 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=tY0dI4JKSMqLqN8bCT5xhyliQM9cl3Za+ENI5kRKGSo=;
+ b=3Cxojl95ySErJTGOmbEidB69qJd5awRXXmbFyn2A7umfJzm/gjcisdDzbI35bGFVYe
+ OOdIGbCKUfGlHHNXILUXbMGuNBOE/E/SMCwV8qBqUyMua0MCzKqNgicZ3UcNV4R8Hz7j
+ vFu6UNchxsOELJlTZBycItJ15fKkh3cr4uS3HYiD/PPZ6yzqk2q/bCJky5ox8UtD3kjK
+ ZftXtnNwXp0n3vM4N7l+nI4rgPc5GJId2cdOmfabnN1KhIaCTxRReoavf7anWz83z7sn
+ yQBrMCdGmgDbT6PczbaYliPGLOM4dBgYG3Irtwt65VcosIIJp1NFGIcFTthQpCU4fJEH
+ 0fcg==
+X-Gm-Message-State: AOAM533lDAqaBb3H28Gq4GkN+yUj137+CAFwUOGXd48VJBipl4QDsagq
+ mPerJ5amg8B85ZG5GJANMhRYrw==
+X-Google-Smtp-Source: ABdhPJwXQ9uRH7aqsvlifGN5TFtW5mUpNOGPU6NkYy5ht0oPrCfiw1c4pfU6DkFusieGl3fIGNkrHw==
+X-Received: by 2002:a05:6512:1316:: with SMTP id
+ x22mr1314120lfu.639.1637825541825; 
+ Wed, 24 Nov 2021 23:32:21 -0800 (PST)
+Received: from [192.168.1.211] ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id m14sm179162ljg.2.2021.11.24.23.32.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 24 Nov 2021 23:32:21 -0800 (PST)
+Subject: Re: [PATCH v4 4/4] drm/msm/dp: dp_link_parse_sink_count() return
+ immediately if aux read failed
+To: Stephen Boyd <swboyd@chromium.org>, Kuogee Hsieh <khsieh@codeaurora.org>, 
+ robdclark@gmail.com, sean@poorly.run
+References: <1619048258-8717-1-git-send-email-khsieh@codeaurora.org>
+ <1619048258-8717-5-git-send-email-khsieh@codeaurora.org>
+ <CAE-0n519sFBeLsNF8=Ci1y_xfY4dRuPRNHnJ++ZXHgj6Z6LhQA@mail.gmail.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Message-ID: <ff384e41-cc86-8028-fc81-b0b41140dcd2@linaro.org>
+Date: Thu, 25 Nov 2021 10:32:20 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-From: Jagan Teki <jagan@amarulasolutions.com>
-Date: Thu, 25 Nov 2021 12:03:54 +0530
-Message-ID: <CAMty3ZBAQDVaOCZspgEmiuELncEbKCiRhTfojGcZV+-+7V31mg@mail.gmail.com>
-Subject: Exynos DSI bridge conversion
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>, Dae <inki.dae@samsung.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Marek Vasut <marex@denx.de>, Michael Tretter <m.tretter@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <CAE-0n519sFBeLsNF8=Ci1y_xfY4dRuPRNHnJ++ZXHgj6Z6LhQA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,59 +76,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-amarula <linux-amarula@amarulasolutions.com>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: airlied@linux.ie, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ abhinavk@codeaurora.org, aravindh@codeaurora.org,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Andrej and all,
+On 04/05/2021 07:35, Stephen Boyd wrote:
+> Quoting Kuogee Hsieh (2021-04-21 16:37:38)
+>> Add checking aux read/write status at both dp_link_parse_sink_count()
+>> and dp_link_parse_sink_status_filed() to avoid long timeout delay if
+> 
+> s/filed/field/
+> 
+>> dp aux read/write failed at timeout due to cable unplugged.
+>>
+>> Changes in V4:
+>> -- split this patch as stand alone patch
+>>
+>> Signed-off-by: Kuogee Hsieh <khsieh@codeaurora.org>
+> 
+> Can this patch come before the one previously? And then some fixes tag
+> be added? Otherwise looks good to me.
+> 
+> Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+> Tested-by: Stephen Boyd <swboyd@chromium.org>
 
-I'm trying to convert existing exynos dsi driver to bridge and make
-them accessible for i.MX8MM platform.
+Is this something that we still need to pursue/merge?
 
-I've a few questions on the existing exynos dsi driver and which is
-indeed incompatible to proceed to make the bridge conversion.
+There were changes requested for this and for the previous patch, but no 
+new versions were posted.
 
-1. Hotplug event
 
-Commit from 295e7954c0d3fdbe0550d13e3cf4dd4604d42c68 which is waiting
-for drm to hotplug the downstream devices like panel or bridge to
-probe.
-
-Any idea how it works? what if we move drm_bridge_attach in bind
-callback so-that binding will start once all the devices get attached.
-
-2. Host register in bind
-
-Usual host registration is done in the probe, but the driver registers
-host in bind once the in_bridge is attached. any idea why? What if we
-find the DSI as an output port in MIC and start attaching from there?
-
-3. CRTC handling in DSI
-
-Commit from c038f53842cf840889473d219ace7f9121694e8d is trying to send
-the DSI flags information to CRTC with a function call. any specific
-reason for this? Any proper way of doing this move out from DSI?
-
-4. Mutex calls while assigning device attributes.
-
-Assignment of lanes, format, mode_flags are done in mutex context, I
-think we can even do it in normal context isn't it? or any specific
-reason for doing this?
-
-5. Clock rates.
-
-pll_clk_rate, burst_clk_rate, burst_clk_rate are these clock rates
-retrieved from DT. which is not a proper way to support multi
-platform. I think pll-clock and burst-clock are computed based on
-panel pixel or bridge clocks. any specific computation for these to
-handle dynamically on code?
-
-All this information is essential for me to move this further as I
-don't have direct hardware and I'm trying to take some help from Marek
-Szyprowski.
-
-Please take some time, and help me.
-
-Thanks,
-Jagan.
+-- 
+With best wishes
+Dmitry
