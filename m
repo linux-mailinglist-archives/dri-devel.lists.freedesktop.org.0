@@ -2,95 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B2CF45DECE
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Nov 2021 17:54:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9483A45E08C
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Nov 2021 19:30:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3CBAE6EC32;
-	Thu, 25 Nov 2021 16:54:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C0956E0C9;
+	Thu, 25 Nov 2021 18:30:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2086.outbound.protection.outlook.com [40.107.223.86])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B7596EC35
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Nov 2021 16:54:01 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=f0xrvJbtTPc7vxgzg442sSmjYt+gLIiLmRwEZx55Hw8ZT+A2ZwxZCD9H0kxYQgDi1qHMEG7kls55h+oiWSLMsYqOtkCvz6oZsdEu9nPJAjT/V92k5+F0YN8cooANLgpOaDhq1CEMqoLAOyKW08F7kjJomygSb0NNiAJxJPGReFn3xxbHUneOBXHGg5W+fT+BmeyxyWzat9eimUCtKr7P8YRANiumfRmzd0zuGoHfORlOhQE06XGX/df/jLvt5Qo7q6Q45RkfHY/ly2dhFMRKHbpFamJJaikZuggjCzRWgYqwBTkCwjveaAkucGSObxULWahqIIyfzcdeUU+dkLIUgg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=G8xjsc6bwUpXvmbqm3GpIOkiJF2wmizzGK6pcxyhIRk=;
- b=VdHztvhGF538ZNHVRBsEl6ycgq57UzTM3PH5GqTn+WKX4y6UjHYZtxVVfJKoJmE7lf77Mbob/5B4A2YJ67xmvsKdYjKjHID0bxKGxzjWHjX6PNTYE+BKYvYdMkxyKDtn6/2HOD7Sd0nbPwCxWkMnlG9QkmWuyHLU0HKIslE6wXvnIO3zNSw2bpd/d0Efu1AI22s7Ofsfc5z8BnaN7mGzXgzS10xhCo9vuWJ2IgRSPoJnyrDsDmw5bukxFOENswq63uDnvEng8z0miLwWS8sGH85AKhrRjDWDN5YwjPfqSz/BjxvbWcGbohhQ6/QcxM4hXoGnPf2OWPj/5qd1sUorBQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.112.34) smtp.rcpttodomain=amd.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=nvidia.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=G8xjsc6bwUpXvmbqm3GpIOkiJF2wmizzGK6pcxyhIRk=;
- b=SHdFg43/LmHUogEO06H+k/IkVQUsT/8U5QyVSLI9P0Rz6IY3FdQyF8J3V5SkGy+Dkjvg6egrMGYFvyfJrjRPAofO7yBkZ49UBzMk6EUxQxuQ5Lj0tIXHu34NAmOWCyU1VhS1GKitxoSdASiZacWa/UfnQA5UEQNzRqtMnohiPibHVWOu/3BGpPUWFVGsWnUV2gpEjXL8UqTPwFB37F+cKhEBAeO1RcikSWU9a+WArXzTO+zff7WMKWI2BtO58FozyuGhS6C84z5bfnVc+ZqXFLHGYK5fqV/PB7bOOr8GqWtPexJVXJiUgcRTn3ltUVbxYKbToFKUBG6qTdc4mpUX/A==
-Received: from DS7PR03CA0070.namprd03.prod.outlook.com (2603:10b6:5:3bb::15)
- by DM6PR12MB4500.namprd12.prod.outlook.com (2603:10b6:5:28f::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4734.20; Thu, 25 Nov
- 2021 16:53:59 +0000
-Received: from DM6NAM11FT056.eop-nam11.prod.protection.outlook.com
- (2603:10b6:5:3bb:cafe::ba) by DS7PR03CA0070.outlook.office365.com
- (2603:10b6:5:3bb::15) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4713.21 via Frontend
- Transport; Thu, 25 Nov 2021 16:53:59 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.112.34; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (216.228.112.34) by
- DM6NAM11FT056.mail.protection.outlook.com (10.13.173.99) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.4734.22 via Frontend Transport; Thu, 25 Nov 2021 16:53:59 +0000
-Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.18; Thu, 25 Nov
- 2021 16:53:58 +0000
-Received: from HQMAIL107.nvidia.com (172.20.187.13) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1497.18; Thu, 25 Nov
- 2021 16:53:58 +0000
-Received: from kyarlagadda-linux.nvidia.com (172.20.187.5) by mail.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server id 15.0.1497.18 via
- Frontend Transport; Thu, 25 Nov 2021 16:53:54 +0000
-From: Akhil R <akhilrajeev@nvidia.com>
-To: <akhilrajeev@nvidia.com>
-Subject: [PATCH v4] i2c: tegra: Add the ACPI support
-Date: Thu, 25 Nov 2021 22:23:44 +0530
-Message-ID: <1637859224-5179-1-git-send-email-akhilrajeev@nvidia.com>
-X-Mailer: git-send-email 2.7.4
-X-NVConfidentiality: public
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de
+ [IPv6:2a01:488:42:1000:50ed:8234::])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ACA0B6E892
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Nov 2021 12:00:15 +0000 (UTC)
+Received: from ip4d173d4a.dynamic.kabel-deutschland.de ([77.23.61.74]
+ helo=[192.168.66.200]); authenticated
+ by wp530.webpack.hosteurope.de running ExIM with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ id 1mqDQC-0004Av-6v; Thu, 25 Nov 2021 13:00:12 +0100
+Message-ID: <d9acb4ba-691b-3496-f77b-175c441f887d@leemhuis.info>
+Date: Thu, 25 Nov 2021 13:00:11 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 8e0fd72c-66ed-40cf-831d-08d9b0342d37
-X-MS-TrafficTypeDiagnostic: DM6PR12MB4500:
-X-Microsoft-Antispam-PRVS: <DM6PR12MB45001EEA65341B25E202C943C0629@DM6PR12MB4500.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:5797;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: bD5XVvHvKu+8ttCLcaQvOUqY0fHMRpCQZ/RQBnqi4k+KYIClLWzI91U6bcojo6HaZ1ByNWxXtFrnyT7RoZW4eUdlpsdV6ZMDU63MZTk2Fqwj8KMe8Jb0rDMOpSuZxmCmZ5Y2eNrzgFdbrQt7rwQfOT9/fwVun1ImLNnjwu+jT9Q8diMgkDRIcYREuSge5jAdPwwJLiDaFGG+VeCjs8QBWnjgw4WW/ogQgANFuzj0J0Ht/s/uoNXKd2Nqr4BadB4sVD5IaTtn8651dSOEuXCclc6Il5wNVrcHrYLUo9CEJmKHjsw2XrdC23S47s4QGjw65eIvxAPErvWoDtevWIkUqDPsoAgc1JhDAhCkFBG5sv7bBXqKs85lOcxDiUKGRlEiPo+Z7d+nIC0/VY3bNVDwz/z2hEEQO5qJyIu8x/ykr9I+u7196pNA6jUwHGSEXn672wpUuq9RztN5ZxxT8Q5ZxI5u3DezLhM5Xj7DGMyJNxIrvtoEceXUCDHDEaX4dP3hJ+jW6ww8lmrTq+QH6xgxzgLlLQYdV9MtR4J2ACZU8+5hWqY8NtqgN+mFY4F9AuN3RqS6DrajQAQhQl3bD4HlngY9AZuA929B4lelpkv5tm7LgCLbePd28SJT959mmFynFtxBdZbbcC0zYeXqIwjDGBmg5D3B1+XjsdyYAbUC8HnW2qsz47dv5PgLoOftxyZ6FgbP+euIDBKZGIAasOAuqWnnhB7bwg6wTucPkyLGoB3rj2kiQUqajHaM+L0OjkGRqBVhAYciisdKMNIVcENeWAzl7qP7is9zFOS4eri8aWR/E8cUb9TjkAKfq/aXIyxtoSTDl15s2714j83fokzWWA==
-X-Forefront-Antispam-Report: CIP:216.228.112.34; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:schybrid03.nvidia.com; CAT:NONE;
- SFS:(4636009)(46966006)(36840700001)(6666004)(356005)(70586007)(7049001)(37006003)(966005)(8936002)(83380400001)(6200100001)(4326008)(7696005)(8676002)(5660300002)(70206006)(54906003)(7416002)(316002)(336012)(426003)(508600001)(86362001)(36860700001)(2616005)(26005)(2906002)(6862004)(7636003)(82310400004)(36756003)(186003)(47076005);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Nov 2021 16:53:59.1967 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8e0fd72c-66ed-40cf-831d-08d9b0342d37
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.112.34];
- Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT056.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: 5.15 regression: CONFIG_SYSFB_SIMPLEFB breaks console scrolling
+Content-Language: en-BW
+From: Thorsten Leemhuis <regressions@leemhuis.info>
+To: Harald Dunkel <harri@afaics.de>,
+ Javier Martinez Canillas <javierm@redhat.com>
+References: <e50d5ad5-19fd-07ae-41e4-5a2d26a98bcf@afaics.de>
+ <4bf94684-6410-db9f-5bec-ea0540a2ea76@leemhuis.info>
+In-Reply-To: <4bf94684-6410-db9f-5bec-ea0540a2ea76@leemhuis.info>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de; regressions@leemhuis.info; 1637841616;
+ 27339291; 
+X-HE-SMSGID: 1mqDQC-0004Av-6v
+X-Mailman-Approved-At: Thu, 25 Nov 2021 18:30:01 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,158 +49,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- jonathanh@nvidia.com, linaro-mm-sig@lists.linaro.org,
- andy.shevchenko@gmail.com, ldewangan@nvidia.com, thierry.reding@gmail.com,
- linux-i2c@vger.kernel.org, linux-tegra@vger.kernel.org, digetx@gmail.com,
- christian.koenig@amd.com, linux-media@vger.kernel.org
+Cc: Thomas Zimmermann <tzimmermann@suse.de>,
+ Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel@lists.freedesktop.org,
+ "regressions@lists.linux.dev" <regressions@lists.linux.dev>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for the ACPI based device registration so that the driver
-can be also enabled through ACPI table.
+On 21.11.21 12:47, Thorsten Leemhuis wrote:
+> Hi, this is your Linux kernel regression tracker speaking.
 
-This does not include the ACPI support for Tegra VI and DVC I2C.
+/me again
 
-Signed-off-by: Akhil R <akhilrajeev@nvidia.com>
----
- drivers/i2c/busses/i2c-tegra.c | 52 ++++++++++++++++++++++++++++++++----------
- 1 file changed, 40 insertions(+), 12 deletions(-)
+> On 16.11.21 05:52, Harald Dunkel wrote:
+>>
+>> if I enable CONFIG_SYSFB_SIMPLEFB in 5.15.2 and use grub's default
+>> configuration
+>> (Debian sid amd64), then a few lines at the bottom of /dev/tty1 including
+>> login prompt are off-screen. Scrolling is broken. I can login, though.
+>>
+>> Enabling GRUB_TERMINAL=console in grub doesn't make a difference. Using
+>> the same kernel except for CONFIG_SYSFB_SIMPLEFB the problem is gone.
+>>
+>> Graphics card is a GeForce GTX 1650. I tried with both CONFIG_DRM_NOUVEAU
+>> and proprietary graphics drivers disabled.
+>>
+>> Attached you can find the config file. Please mail if I can help to track
+>> this problem down.
+> 
+> Thx for the report. I'm not totally sure if this is a regression, as
+> that's a new config option. But it might be one considered a successor
+> to an older one, hence it might count as regression. Adding two
+> developers and a mailing list to the CC, hopefully someone can clarify.
 
-v4 changes:
-  * changed has_acpi_companion to ACPI_HANDLE for consistency across 
-    all functions
-v3 - https://lkml.org/lkml/2021/11/25/173
-v2 - https://lkml.org/lkml/2021/11/23/82
-v1 - https://lkml.org/lkml/2021/11/19/393
+Javier, I'd be interested in your option on this.
 
-diff --git a/drivers/i2c/busses/i2c-tegra.c b/drivers/i2c/busses/i2c-tegra.c
-index c883044..6986eb9 100644
---- a/drivers/i2c/busses/i2c-tegra.c
-+++ b/drivers/i2c/busses/i2c-tegra.c
-@@ -6,6 +6,7 @@
-  * Author: Colin Cross <ccross@android.com>
-  */
- 
-+#include <linux/acpi.h>
- #include <linux/bitfield.h>
- #include <linux/clk.h>
- #include <linux/delay.h>
-@@ -608,6 +609,7 @@ static int tegra_i2c_wait_for_config_load(struct tegra_i2c_dev *i2c_dev)
- static int tegra_i2c_init(struct tegra_i2c_dev *i2c_dev)
- {
- 	u32 val, clk_divisor, clk_multiplier, tsu_thd, tlow, thigh, non_hs_mode;
-+	acpi_handle handle = ACPI_HANDLE(i2c_dev->dev);
- 	int err;
- 
- 	/*
-@@ -618,7 +620,11 @@ static int tegra_i2c_init(struct tegra_i2c_dev *i2c_dev)
- 	 * emit a noisy warning on error, which won't stay unnoticed and
- 	 * won't hose machine entirely.
- 	 */
--	err = reset_control_reset(i2c_dev->rst);
-+	if (handle)
-+		err = acpi_evaluate_object(handle, "_RST", NULL, NULL);
-+	else
-+		err = reset_control_reset(i2c_dev->rst);
-+
- 	WARN_ON_ONCE(err);
- 
- 	if (i2c_dev->is_dvc)
-@@ -1627,12 +1633,12 @@ static void tegra_i2c_parse_dt(struct tegra_i2c_dev *i2c_dev)
- 	bool multi_mode;
- 	int err;
- 
--	err = of_property_read_u32(np, "clock-frequency",
--				   &i2c_dev->bus_clk_rate);
-+	err = device_property_read_u32(i2c_dev->dev, "clock-frequency",
-+				       &i2c_dev->bus_clk_rate);
- 	if (err)
- 		i2c_dev->bus_clk_rate = I2C_MAX_STANDARD_MODE_FREQ;
- 
--	multi_mode = of_property_read_bool(np, "multi-master");
-+	multi_mode = device_property_read_bool(i2c_dev->dev, "multi-master");
- 	i2c_dev->multimaster_mode = multi_mode;
- 
- 	if (of_device_is_compatible(np, "nvidia,tegra20-i2c-dvc"))
-@@ -1642,10 +1648,26 @@ static void tegra_i2c_parse_dt(struct tegra_i2c_dev *i2c_dev)
- 		i2c_dev->is_vi = true;
- }
- 
-+static int tegra_i2c_init_reset(struct tegra_i2c_dev *i2c_dev)
-+{
-+	if (ACPI_HANDLE(i2c_dev->dev))
-+		return 0;
-+
-+	i2c_dev->rst = devm_reset_control_get_exclusive(i2c_dev->dev, "i2c");
-+	if (IS_ERR(i2c_dev->rst))
-+		return dev_err_probe(i2c_dev->dev, PTR_ERR(i2c_dev->rst),
-+				      "failed to get reset control\n");
-+
-+	return 0;
-+}
-+
- static int tegra_i2c_init_clocks(struct tegra_i2c_dev *i2c_dev)
- {
- 	int err;
- 
-+	if (ACPI_HANDLE(i2c_dev->dev))
-+		return 0;
-+
- 	i2c_dev->clocks[i2c_dev->nclocks++].id = "div-clk";
- 
- 	if (i2c_dev->hw == &tegra20_i2c_hw || i2c_dev->hw == &tegra30_i2c_hw)
-@@ -1720,7 +1742,7 @@ static int tegra_i2c_probe(struct platform_device *pdev)
- 	init_completion(&i2c_dev->msg_complete);
- 	init_completion(&i2c_dev->dma_complete);
- 
--	i2c_dev->hw = of_device_get_match_data(&pdev->dev);
-+	i2c_dev->hw = device_get_match_data(&pdev->dev);
- 	i2c_dev->cont_id = pdev->id;
- 	i2c_dev->dev = &pdev->dev;
- 
-@@ -1746,15 +1768,12 @@ static int tegra_i2c_probe(struct platform_device *pdev)
- 	if (err)
- 		return err;
- 
--	i2c_dev->rst = devm_reset_control_get_exclusive(i2c_dev->dev, "i2c");
--	if (IS_ERR(i2c_dev->rst)) {
--		dev_err_probe(i2c_dev->dev, PTR_ERR(i2c_dev->rst),
--			      "failed to get reset control\n");
--		return PTR_ERR(i2c_dev->rst);
--	}
--
- 	tegra_i2c_parse_dt(i2c_dev);
- 
-+	err = tegra_i2c_init_reset(i2c_dev);
-+	if (err)
-+		return err;
-+
- 	err = tegra_i2c_init_clocks(i2c_dev);
- 	if (err)
- 		return err;
-@@ -1923,12 +1942,21 @@ static const struct dev_pm_ops tegra_i2c_pm = {
- 			   NULL)
- };
- 
-+static const struct acpi_device_id tegra_i2c_acpi_match[] = {
-+	{.id = "NVDA0101", .driver_data = (kernel_ulong_t)&tegra210_i2c_hw},
-+	{.id = "NVDA0201", .driver_data = (kernel_ulong_t)&tegra186_i2c_hw},
-+	{.id = "NVDA0301", .driver_data = (kernel_ulong_t)&tegra194_i2c_hw},
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(acpi, tegra_i2c_acpi_match);
-+
- static struct platform_driver tegra_i2c_driver = {
- 	.probe = tegra_i2c_probe,
- 	.remove = tegra_i2c_remove,
- 	.driver = {
- 		.name = "tegra-i2c",
- 		.of_match_table = tegra_i2c_of_match,
-+		.acpi_match_table = tegra_i2c_acpi_match,
- 		.pm = &tegra_i2c_pm,
- 	},
- };
--- 
-2.7.4
+Harald, did you have CONFIG_X86_SYSFB enabled in earlier kernel versions
+(and did console scrolling work then)? The answer would help me to
+decide if this a regression, as those ideally should be fixed as quickly
+as possible.
+
+Ciao, Thorsten
+
+> TWIMC: To be sure this issue doesn't fall through the cracks unnoticed,
+> I'm adding it to regzbot, my Linux kernel regression tracking bot:
+> 
+> #regzbot ^introduced 8633ef82f101c040427b57d4df7b706261420b94
+> #regzbot title CONFIG_SYSFB_SIMPLEFB breaks console scrolling
+> #regzbot ignore-activity
+> 
+> Ciao, Thorsten, your Linux kernel regression tracker.
+> 
+> P.S.: If you want to know more about regzbot, check out its
+> web-interface, the getting start guide, and/or the references documentation:
+> 
+> https://linux-regtracking.leemhuis.info/regzbot/
+> https://gitlab.com/knurd42/regzbot/-/blob/main/docs/getting_started.md
+> https://gitlab.com/knurd42/regzbot/-/blob/main/docs/reference.md
+> 
+> The last two documents will explain how you can interact with regzbot
+> yourself if your want to.
+> 
+> Hint for the reporter: when reporting a regression it's in your interest
+> to tell #regzbot about it in the report, as that will ensure the
+> regression gets on the radar of regzbot and the regression tracker.
+> That's in your interest, as they will make sure the report won't fall
+> through the cracks unnoticed.
+> 
+> Hint for developers: you normally don't need to care about regzbot, just
+> fix the issue as you normally would. Just remember to include a 'Link:'
+> tag to the report in the commit message, as explained in
+> Documentation/process/submitting-patches.rst
+> That aspect was recently was made more explicit in commit 1f57bd42b77c:
+> https://git.kernel.org/linus/1f57bd42b77c
+
+#regzbot title drm: CONFIG_SYSFB_SIMPLEFB breaks console scrolling
+
 
