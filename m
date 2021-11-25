@@ -1,36 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D56F545D986
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Nov 2021 12:47:50 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 68D4145D994
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Nov 2021 12:53:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 198246EB22;
-	Thu, 25 Nov 2021 11:47:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AFF606E973;
+	Thu, 25 Nov 2021 11:53:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 7FD5A6EB14;
- Thu, 25 Nov 2021 11:47:44 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 928001042;
- Thu, 25 Nov 2021 03:47:43 -0800 (PST)
-Received: from [10.57.56.56] (unknown [10.57.56.56])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 811E43F66F;
- Thu, 25 Nov 2021 03:47:42 -0800 (PST)
-Message-ID: <a4d089ad-995c-7a6b-4446-46b03d373070@arm.com>
-Date: Thu, 25 Nov 2021 11:47:37 +0000
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
+ [IPv6:2a00:1450:4864:20::12a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C5406E97A
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Nov 2021 11:53:46 +0000 (UTC)
+Received: by mail-lf1-x12a.google.com with SMTP id y26so15619661lfa.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Nov 2021 03:53:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=6lxqjduOQsYJ4wgkh2NWvC8MrkYVQVCzgFR0CAGA8Ww=;
+ b=sUGZIk9K0mM1wk5DOXHNsUlYXDpofTH1LP1GKIheRdkDgaVf83g6av3Ac84p0o4ujT
+ rRrvUUt44GLZX3qs8T1eeLJuI0R1J70X5XJxf3PdEDmEtvRBhjmUkz1Ke5/Uv+hd5mBD
+ waYXhJ2+R+JIHyamskFUcUU/nHujaEtAzHo2fc3uIufdiI4vjvKlkvfxal7dTlzDdza2
+ E8jL16sJksSHNw+hE2nDNIFwZmScZgX5f+QOkrkI5Ib2k0BnXospPoLiJYazM0pnPpKw
+ ossadcE0kNb9JmWjoze4+bOH9MnOAR1wFiAmAWvNQ7j05u5/Y6u/HZly9PVz97NVgQa6
+ gLEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=6lxqjduOQsYJ4wgkh2NWvC8MrkYVQVCzgFR0CAGA8Ww=;
+ b=j/KDSIvOkXCuEBz02TFo9aZw4ZOT2b3e9z6RVv31h/TGETY2NOGflRW02QE0lc6p6c
+ v2uqJ1FknJSUP4cSVl0r6KGSr0R4BFlb1rdlwX5gOqEJNpFDHtOhBZ8DBYz59bBX/G+U
+ ecGQWDL/QqZjmmgaNQvaL3aV3J6y2NwNSW/2QOS91fIqiKfFD0AHUCo82D7iTmiGFH89
+ 4xWotSMB3l32+FCAYaFfTEazk/KUgzSlrOMpEbFYO/Z6FgA9vmUHBfNBXp7UYL7uEgw7
+ qnT4KaVavgxOOxuUO+aYT/t7xlmPXCcpbzWAskKx0MJeZ61OVvxXNwHX+pCsdMSTcx4X
+ 4inQ==
+X-Gm-Message-State: AOAM532rINaU4GmP8c8EtVCjMzhKTorJMdVLWciZKDPCuAYRW9dazX+v
+ C62MUjwraYn0a3C79+5fskUxug==
+X-Google-Smtp-Source: ABdhPJzymMghDkNOoD4FkGfhSdZUue3ZBbWuy26eOuzMCx56yiodyEaYBxQMs6t3+CqcVM8TjEaC0Q==
+X-Received: by 2002:a05:6512:3a8d:: with SMTP id
+ q13mr21969447lfu.73.1637841224624; 
+ Thu, 25 Nov 2021 03:53:44 -0800 (PST)
+Received: from [192.168.1.211] ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id u23sm219901lji.56.2021.11.25.03.53.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 25 Nov 2021 03:53:44 -0800 (PST)
+Subject: Re: [PATCH 3/3] dt-bindings: display: msm: Add binding for msm8998 dpu
+To: Rob Herring <robh@kernel.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+References: <20210901181138.1052653-1-angelogioacchino.delregno@somainline.org>
+ <20210901181138.1052653-3-angelogioacchino.delregno@somainline.org>
+ <YTexaJuQSNazh9sn@robh.at.kernel.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Message-ID: <d9ad36f5-1913-2cb3-d4be-125ed2d29041@linaro.org>
+Date: Thu, 25 Nov 2021 14:53:43 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101
- Thunderbird/91.3.2
-Subject: Re: [PATCH] drm/i915: Use per device iommu check
+In-Reply-To: <YTexaJuQSNazh9sn@robh.at.kernel.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-GB
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Intel-gfx@lists.freedesktop.org
-References: <20211125104202.417171-1-tvrtko.ursulin@linux.intel.com>
-From: Robin Murphy <robin.murphy@arm.com>
-In-Reply-To: <20211125104202.417171-1-tvrtko.ursulin@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -44,316 +75,265 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Lu Baolu <baolu.lu@linux.intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>, dri-devel@lists.freedesktop.org,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
+ airlied@linux.ie, linux-arm-msm@vger.kernel.org, konrad.dybcio@somainline.org,
+ linux-kernel@vger.kernel.org, abhinavk@codeaurora.org,
+ paul.bouchara@somainline.org, martin.botka@somainline.org,
+ dri-devel@lists.freedesktop.org, marijn.suijten@somainline.org,
+ phone-devel@vger.kernel.org, sean@poorly.run,
+ ~postmarketos/upstreaming@lists.sr.ht
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-11-25 10:42, Tvrtko Ursulin wrote:
-> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+On 07/09/2021 21:37, Rob Herring wrote:
+> On Wed, Sep 01, 2021 at 08:11:38PM +0200, AngeloGioacchino Del Regno wrote:
+>> Add yaml binding for msm8998 dpu1 support.
+>>
+>> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+>> ---
+>>   .../bindings/display/msm/dpu-msm8998.yaml     | 220 ++++++++++++++++++
+>>   1 file changed, 220 insertions(+)
+>>   create mode 100644 Documentation/devicetree/bindings/display/msm/dpu-msm8998.yaml
+>>
+>> diff --git a/Documentation/devicetree/bindings/display/msm/dpu-msm8998.yaml b/Documentation/devicetree/bindings/display/msm/dpu-msm8998.yaml
+>> new file mode 100644
+>> index 000000000000..db435342ecbf
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/display/msm/dpu-msm8998.yaml
+>> @@ -0,0 +1,220 @@
+>> +# SPDX-License-Identifier: GPL-2.0-only or BSD-2-Clause
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/display/msm/dpu-msm8998.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title: Qualcomm Display DPU dt properties for MSM8998 target
+>> +
+>> +maintainers:
+>> +  - AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+>> +
+>> +description: |
+>> +  Device tree bindings for MSM Mobile Display Subsystem(MDSS) that encapsulates
+>> +  sub-blocks like DPU display controller, DSI and DP interfaces etc. Device tree
+>> +  bindings of MDSS and DPU are mentioned for MSM8998 target.
+>> +
+>> +properties:
+>> +  compatible:
+>> +    items:
+>> +      - const: qcom,msm8998-mdss
+>> +
+>> +  reg:
+>> +    maxItems: 1
+>> +
+>> +  reg-names:
+>> +    const: mdss
+>> +
+>> +  power-domains:
+>> +    maxItems: 1
+>> +
+>> +  clocks:
+>> +    items:
+>> +      - description: Display AHB clock
+>> +      - description: Display AXI clock
+>> +      - description: Display core clock
+>> +
+>> +  clock-names:
+>> +    items:
+>> +      - const: iface
+>> +      - const: bus
+>> +      - const: core
+>> +
+>> +  interrupts:
+>> +    maxItems: 1
+>> +
+>> +  interrupt-controller: true
+>> +
+>> +  "#address-cells": true
+>> +
+>> +  "#size-cells": true
+>> +
+>> +  "#interrupt-cells":
+>> +    const: 1
+>> +
+>> +  iommus:
+>> +    items:
+>> +      - description: Phandle to apps_smmu node with SID mask for Hard-Fail port0
+>> +
+>> +  ranges: true
+>> +
+>> +patternProperties:
+>> +  "^display-controller@[0-9a-f]+$":
+>> +    type: object
+>> +    description: Node containing the properties of DPU.
+>> +
+>> +    properties:
+>> +      compatible:
+>> +        items:
+>> +          - const: qcom,msm8998-dpu
+>> +
+>> +      reg:
+>> +        items:
+>> +          - description: Address offset and size for mdp register set
+>> +          - description: Address offset and size for regdma register set
+>> +          - description: Address offset and size for vbif register set
+>> +          - description: Address offset and size for non-realtime vbif register set
+>> +
+>> +      reg-names:
+>> +        items:
+>> +          - const: mdp
+>> +          - const: regdma
+>> +          - const: vbif
+>> +          - const: vbif_nrt
+>> +
+>> +      clocks:
+>> +        items:
+>> +          - description: Display ahb clock
+>> +          - description: Display axi clock
+>> +          - description: Display mem-noc clock
+>> +          - description: Display core clock
+>> +          - description: Display vsync clock
+>> +
+>> +      clock-names:
+>> +        items:
+>> +          - const: iface
+>> +          - const: bus
+>> +          - const: mnoc
+>> +          - const: core
+>> +          - const: vsync
+>> +
+>> +      interrupts:
+>> +        maxItems: 1
+>> +
+>> +      power-domains:
+>> +        maxItems: 1
+>> +
+>> +      operating-points-v2: true
+>> +      ports:
+>> +        $ref: /schemas/graph.yaml#/properties/ports
+>> +        description: |
+>> +          Contains the list of output ports from DPU device. These ports
+>> +          connect to interfaces that are external to the DPU hardware,
+>> +          such as DSI, DP etc. Each output port contains an endpoint that
+>> +          describes how it is connected to an external interface.
+>> +
+>> +        properties:
+>> +          port@0:
+>> +            $ref: /schemas/graph.yaml#/properties/port
+>> +            description: DPU_INTF1 (DSI1)
+>> +
+>> +          port@1:
+>> +            $ref: /schemas/graph.yaml#/properties/port
+>> +            description: DPU_INTF2 (DSI2)
+>> +
+>> +        required:
+>> +          - port@0
+>> +          - port@1
+>> +
+>> +    required:
+>> +      - compatible
+>> +      - reg
+>> +      - reg-names
+>> +      - clocks
+>> +      - interrupts
+>> +      - power-domains
+>> +      - operating-points-v2
+>> +      - ports
+>> +
+>> +required:
+>> +  - compatible
+>> +  - reg
+>> +  - reg-names
+>> +  - power-domains
+>> +  - clocks
+>> +  - interrupts
+>> +  - interrupt-controller
+>> +  - iommus
+>> +  - ranges
+>> +
+>> +additionalProperties: false
+>> +
+>> +examples:
+>> +  - |
+>> +    #include <dt-bindings/clock/qcom,mmcc-msm8998.h>
+>> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+>> +    #include <dt-bindings/power/qcom-rpmpd.h>
+>> +
+>> +    display-subsystem@c900000 {
+>> +        compatible = "qcom,msm8998-mdss";
+>> +        reg = <0x0c900000 0x1000>;
+>> +        reg-names = "mdss";
+>> +
+>> +        clocks = <&mmcc MDSS_AHB_CLK>,
+>> +                 <&mmcc MDSS_AXI_CLK>,
+>> +                 <&mmcc MDSS_MDP_CLK>;
+>> +        clock-names = "iface", "bus", "core";
+>> +
+>> +        #address-cells = <1>;
+>> +        #interrupt-cells = <1>;
+>> +        #size-cells = <1>;
+>> +
+>> +        interrupts = <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
+>> +        interrupt-controller;
+>> +        iommus = <&mmss_smmu 0>;
+>> +
+>> +        power-domains = <&mmcc MDSS_GDSC>;
+>> +        ranges;
+>> +        status = "disabled";
 > 
-> With both integrated and discrete Intel GPUs in a system, the current
-> global check of intel_iommu_gfx_mapped, as done from intel_vtd_active()
-> may not be completely accurate.
-> 
-> In this patch we add i915 parameter to intel_vtd_active() in order to
-> prepare it for multiple GPUs and we also change the check away from Intel
-> specific intel_iommu_gfx_mapped (global exported by the Intel IOMMU
-> driver) to probing the presence of IOMMU domain on a specific device
-> using iommu_get_domain_for_dev().
+> Drop. Why disable an example?
 
-FWIW the way you have it now is functionally equivalent to using 
-device_iommu_mapped(), which I think might be slightly clearer for the 
-current intent, but I don't have a significantly strong preference 
-(after all, this *was* the de-facto way of checking before 
-device_iommu_mapped() was introduced, and there are still other examples 
-of it around). So from the IOMMU perspective,
+AngeloGioacchino, could you please update and repost this patch series? 
+I'd like to get it merged.
 
-Acked-by: Robin Murphy <robin.murphy@arm.com>
+> 
+>> +
+>> +        display-controller@c901000 {
+>> +            compatible = "qcom,msm8998-dpu";
+>> +            reg = <0x0c901000 0x8f000>,
+>> +                  <0x0c9a8e00 0xf0>,
+>> +                  <0x0c9b0000 0x2008>,
+>> +                  <0x0c9b8000 0x1040>;
+>> +            reg-names = "mdp", "regdma", "vbif", "vbif_nrt";
+>> +
+>> +            clocks = <&mmcc MDSS_AHB_CLK>,
+>> +                     <&mmcc MDSS_AXI_CLK>,
+>> +                     <&mmcc MNOC_AHB_CLK>,
+>> +                     <&mmcc MDSS_MDP_CLK>,
+>> +                     <&mmcc MDSS_VSYNC_CLK>;
+>> +            clock-names = "iface", "bus", "mnoc", "core", "vsync";
+>> +
+>> +            interrupt-parent = <&mdss>;
+>> +            interrupts = <0 IRQ_TYPE_LEVEL_HIGH>;
+>> +            operating-points-v2 = <&mdp_opp_table>;
+>> +            power-domains = <&rpmpd MSM8998_VDDMX>;
+>> +
+>> +            ports {
+>> +                #address-cells = <1>;
+>> +                #size-cells = <0>;
+>> +
+>> +                port@0 {
+>> +                    reg = <0>;
+>> +                    dpu_intf1_out: endpoint {
+>> +                        remote-endpoint = <&dsi0_in>;
+>> +                    };
+>> +                };
+>> +
+>> +                port@1 {
+>> +                    reg = <1>;
+>> +                    dpu_intf2_out: endpoint {
+>> +                        remote-endpoint = <&dsi1_in>;
+>> +                    };
+>> +                };
+>> +            };
+>> +        };
+>> +    };
+>> +...
+>> -- 
+>> 2.32.0
+>>
+>>
 
-Perhaps the AGP driver could also be tweaked and intel_iommu_gfx_mapped 
-cleaned away entirely, but I'll leave that for Baolu to think about :)
 
-Cheers,
-Robin.
-
-> It was suggested to additionally check for __IOMMU_DOMAIN_PAGING bit
-> present in the returned iommu domain, however I opted not to do that at
-> this point.
-> 
-> Checking for this flag would detect whether IOMMU is in address
-> translation mode, with the assumption that is the only relevant question.
-> Downside to that is that in identity mapping (pass-through) mode IOMMU
-> hardware is still active, sitting on the communication path, just not
-> doing address translation.
-> 
-> My rationale was, that for the many intel_vtd_active() checks in our code
-> base, while some clearly are about performance impact of address
-> translation, some may be about working around functional issues when the
-> IOMMU hardware is simply being active. There also may be some performance
-> impact in pass-through mode, but I have not specifically attempted to
-> measure it.
-> 
-> Therefore the safest option feels to be to keep intel_vtd_active()
-> answering the question of "is the IOMMU hardware active" for this device.
-> If in the future we want to expand the set of questions to "is IOMMU
-> active and doing address translation" we can easily do that by adding a
-> new helper to be called from appropriate sites.
-> 
-> v2:
->    * Check for dmar translation specifically, not just iommu domain. (Baolu)
-> 
-> v3:
->   * Go back to plain "any domain" check for now, rewrite commit message.
-> 
-> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-> Cc: Lu Baolu <baolu.lu@linux.intel.com>
-> Cc: Lucas De Marchi <lucas.demarchi@intel.com>
-> Cc: Robin Murphy <robin.murphy@arm.com>
-> ---
->   drivers/gpu/drm/i915/display/intel_bw.c      |  2 +-
->   drivers/gpu/drm/i915/display/intel_display.c |  2 +-
->   drivers/gpu/drm/i915/display/intel_fbc.c     |  2 +-
->   drivers/gpu/drm/i915/gem/i915_gem_stolen.c   |  2 +-
->   drivers/gpu/drm/i915/gem/i915_gemfs.c        |  2 +-
->   drivers/gpu/drm/i915/gt/intel_ggtt.c         |  4 ++--
->   drivers/gpu/drm/i915/i915_debugfs.c          |  1 +
->   drivers/gpu/drm/i915/i915_driver.c           |  7 +++++++
->   drivers/gpu/drm/i915/i915_drv.h              | 13 +++++++------
->   drivers/gpu/drm/i915/i915_gpu_error.c        |  5 +----
->   drivers/gpu/drm/i915/intel_device_info.c     | 14 +-------------
->   drivers/gpu/drm/i915/intel_pm.c              |  2 +-
->   12 files changed, 25 insertions(+), 31 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/display/intel_bw.c b/drivers/gpu/drm/i915/display/intel_bw.c
-> index abec394f6869..2da4aacc956b 100644
-> --- a/drivers/gpu/drm/i915/display/intel_bw.c
-> +++ b/drivers/gpu/drm/i915/display/intel_bw.c
-> @@ -634,7 +634,7 @@ static unsigned int intel_bw_data_rate(struct drm_i915_private *dev_priv,
->   	for_each_pipe(dev_priv, pipe)
->   		data_rate += bw_state->data_rate[pipe];
->   
-> -	if (DISPLAY_VER(dev_priv) >= 13 && intel_vtd_active())
-> +	if (DISPLAY_VER(dev_priv) >= 13 && intel_vtd_active(dev_priv))
->   		data_rate = data_rate * 105 / 100;
->   
->   	return data_rate;
-> diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
-> index b2d51cd79d6c..1ef77ba7f645 100644
-> --- a/drivers/gpu/drm/i915/display/intel_display.c
-> +++ b/drivers/gpu/drm/i915/display/intel_display.c
-> @@ -1293,7 +1293,7 @@ static bool needs_async_flip_vtd_wa(const struct intel_crtc_state *crtc_state)
->   {
->   	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->dev);
->   
-> -	return crtc_state->uapi.async_flip && intel_vtd_active() &&
-> +	return crtc_state->uapi.async_flip && intel_vtd_active(i915) &&
->   		(DISPLAY_VER(i915) == 9 || IS_BROADWELL(i915) || IS_HASWELL(i915));
->   }
->   
-> diff --git a/drivers/gpu/drm/i915/display/intel_fbc.c b/drivers/gpu/drm/i915/display/intel_fbc.c
-> index d0c34bc3af6c..614e8697c068 100644
-> --- a/drivers/gpu/drm/i915/display/intel_fbc.c
-> +++ b/drivers/gpu/drm/i915/display/intel_fbc.c
-> @@ -1677,7 +1677,7 @@ static int intel_sanitize_fbc_option(struct drm_i915_private *i915)
->   static bool need_fbc_vtd_wa(struct drm_i915_private *i915)
->   {
->   	/* WaFbcTurnOffFbcWhenHyperVisorIsUsed:skl,bxt */
-> -	if (intel_vtd_active() &&
-> +	if (intel_vtd_active(i915) &&
->   	    (IS_SKYLAKE(i915) || IS_BROXTON(i915))) {
->   		drm_info(&i915->drm,
->   			 "Disabling framebuffer compression (FBC) to prevent screen flicker with VT-d enabled\n");
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
-> index ddd37ccb1362..cf100c0ea3b7 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
-> @@ -399,7 +399,7 @@ static int i915_gem_init_stolen(struct intel_memory_region *mem)
->   		return 0;
->   	}
->   
-> -	if (intel_vtd_active() && GRAPHICS_VER(i915) < 8) {
-> +	if (intel_vtd_active(i915) && GRAPHICS_VER(i915) < 8) {
->   		drm_notice(&i915->drm,
->   			   "%s, disabling use of stolen memory\n",
->   			   "DMAR active");
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gemfs.c b/drivers/gpu/drm/i915/gem/i915_gemfs.c
-> index dbdbdc344d87..11cd66d183e6 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gemfs.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gemfs.c
-> @@ -31,7 +31,7 @@ int i915_gemfs_init(struct drm_i915_private *i915)
->   	 */
->   
->   	opts = NULL;
-> -	if (intel_vtd_active()) {
-> +	if (intel_vtd_active(i915)) {
->   		if (IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE)) {
->   			static char huge_opt[] = "huge=within_size"; /* r/w */
->   
-> diff --git a/drivers/gpu/drm/i915/gt/intel_ggtt.c b/drivers/gpu/drm/i915/gt/intel_ggtt.c
-> index 555111c3bee5..110d3944f9a2 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_ggtt.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_ggtt.c
-> @@ -106,7 +106,7 @@ static bool needs_idle_maps(struct drm_i915_private *i915)
->   	 * Query intel_iommu to see if we need the workaround. Presumably that
->   	 * was loaded first.
->   	 */
-> -	if (!intel_vtd_active())
-> +	if (!intel_vtd_active(i915))
->   		return false;
->   
->   	if (GRAPHICS_VER(i915) == 5 && IS_MOBILE(i915))
-> @@ -1233,7 +1233,7 @@ int i915_ggtt_probe_hw(struct drm_i915_private *i915)
->   	if (ret)
->   		return ret;
->   
-> -	if (intel_vtd_active())
-> +	if (intel_vtd_active(i915))
->   		drm_info(&i915->drm, "VT-d active for gfx access\n");
->   
->   	return 0;
-> diff --git a/drivers/gpu/drm/i915/i915_debugfs.c b/drivers/gpu/drm/i915/i915_debugfs.c
-> index fe638b5da7c0..390d541f64ea 100644
-> --- a/drivers/gpu/drm/i915/i915_debugfs.c
-> +++ b/drivers/gpu/drm/i915/i915_debugfs.c
-> @@ -65,6 +65,7 @@ static int i915_capabilities(struct seq_file *m, void *data)
->   
->   	intel_device_info_print_static(INTEL_INFO(i915), &p);
->   	intel_device_info_print_runtime(RUNTIME_INFO(i915), &p);
-> +	i915_print_iommu_status(i915, &p);
->   	intel_gt_info_print(&i915->gt.info, &p);
->   	intel_driver_caps_print(&i915->caps, &p);
->   
-> diff --git a/drivers/gpu/drm/i915/i915_driver.c b/drivers/gpu/drm/i915/i915_driver.c
-> index a13666627dad..bbc99fc5888f 100644
-> --- a/drivers/gpu/drm/i915/i915_driver.c
-> +++ b/drivers/gpu/drm/i915/i915_driver.c
-> @@ -741,6 +741,12 @@ static void i915_driver_unregister(struct drm_i915_private *dev_priv)
->   	i915_gem_driver_unregister(dev_priv);
->   }
->   
-> +void
-> +i915_print_iommu_status(struct drm_i915_private *i915, struct drm_printer *p)
-> +{
-> +	drm_printf(p, "iommu: %s\n", enableddisabled(intel_vtd_active(i915)));
-> +}
-> +
->   static void i915_welcome_messages(struct drm_i915_private *dev_priv)
->   {
->   	if (drm_debug_enabled(DRM_UT_DRIVER)) {
-> @@ -756,6 +762,7 @@ static void i915_welcome_messages(struct drm_i915_private *dev_priv)
->   
->   		intel_device_info_print_static(INTEL_INFO(dev_priv), &p);
->   		intel_device_info_print_runtime(RUNTIME_INFO(dev_priv), &p);
-> +		i915_print_iommu_status(dev_priv, &p);
->   		intel_gt_info_print(&dev_priv->gt.info, &p);
->   	}
->   
-> diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
-> index 1bfadd9127fc..da3b32ae65e0 100644
-> --- a/drivers/gpu/drm/i915/i915_drv.h
-> +++ b/drivers/gpu/drm/i915/i915_drv.h
-> @@ -1760,26 +1760,27 @@ static inline bool run_as_guest(void)
->   #define HAS_D12_PLANE_MINIMIZATION(dev_priv) (IS_ROCKETLAKE(dev_priv) || \
->   					      IS_ALDERLAKE_S(dev_priv))
->   
-> -static inline bool intel_vtd_active(void)
-> +static inline bool intel_vtd_active(struct drm_i915_private *i915)
->   {
-> -#ifdef CONFIG_INTEL_IOMMU
-> -	if (intel_iommu_gfx_mapped)
-> +	if (iommu_get_domain_for_dev(i915->drm.dev))
->   		return true;
-> -#endif
->   
->   	/* Running as a guest, we assume the host is enforcing VT'd */
->   	return run_as_guest();
->   }
->   
-> +void
-> +i915_print_iommu_status(struct drm_i915_private *i915, struct drm_printer *p);
-> +
->   static inline bool intel_scanout_needs_vtd_wa(struct drm_i915_private *dev_priv)
->   {
-> -	return GRAPHICS_VER(dev_priv) >= 6 && intel_vtd_active();
-> +	return GRAPHICS_VER(dev_priv) >= 6 && intel_vtd_active(dev_priv);
->   }
->   
->   static inline bool
->   intel_ggtt_update_needs_vtd_wa(struct drm_i915_private *i915)
->   {
-> -	return IS_BROXTON(i915) && intel_vtd_active();
-> +	return IS_BROXTON(i915) && intel_vtd_active(i915);
->   }
->   
->   static inline bool
-> diff --git a/drivers/gpu/drm/i915/i915_gpu_error.c b/drivers/gpu/drm/i915/i915_gpu_error.c
-> index 2a2d7643b551..3f39d6641894 100644
-> --- a/drivers/gpu/drm/i915/i915_gpu_error.c
-> +++ b/drivers/gpu/drm/i915/i915_gpu_error.c
-> @@ -1750,10 +1750,7 @@ static void capture_gen(struct i915_gpu_coredump *error)
->   	error->wakelock = atomic_read(&i915->runtime_pm.wakeref_count);
->   	error->suspended = i915->runtime_pm.suspended;
->   
-> -	error->iommu = -1;
-> -#ifdef CONFIG_INTEL_IOMMU
-> -	error->iommu = intel_iommu_gfx_mapped;
-> -#endif
-> +	error->iommu = intel_vtd_active(i915);
->   	error->reset_count = i915_reset_count(&i915->gpu_error);
->   	error->suspend_count = i915->suspend_count;
->   
-> diff --git a/drivers/gpu/drm/i915/intel_device_info.c b/drivers/gpu/drm/i915/intel_device_info.c
-> index 6e6b317bc33c..e6605b5181a5 100644
-> --- a/drivers/gpu/drm/i915/intel_device_info.c
-> +++ b/drivers/gpu/drm/i915/intel_device_info.c
-> @@ -83,17 +83,6 @@ const char *intel_platform_name(enum intel_platform platform)
->   	return platform_names[platform];
->   }
->   
-> -static const char *iommu_name(void)
-> -{
-> -	const char *msg = "n/a";
-> -
-> -#ifdef CONFIG_INTEL_IOMMU
-> -	msg = enableddisabled(intel_iommu_gfx_mapped);
-> -#endif
-> -
-> -	return msg;
-> -}
-> -
->   void intel_device_info_print_static(const struct intel_device_info *info,
->   				    struct drm_printer *p)
->   {
-> @@ -114,7 +103,6 @@ void intel_device_info_print_static(const struct intel_device_info *info,
->   		drm_printf(p, "display version: %u\n", info->display.ver);
->   
->   	drm_printf(p, "gt: %d\n", info->gt);
-> -	drm_printf(p, "iommu: %s\n", iommu_name());
->   	drm_printf(p, "memory-regions: %x\n", info->memory_regions);
->   	drm_printf(p, "page-sizes: %x\n", info->page_sizes);
->   	drm_printf(p, "platform: %s\n", intel_platform_name(info->platform));
-> @@ -374,7 +362,7 @@ void intel_device_info_runtime_init(struct drm_i915_private *dev_priv)
->   			info->display.has_dsc = 0;
->   	}
->   
-> -	if (GRAPHICS_VER(dev_priv) == 6 && intel_vtd_active()) {
-> +	if (GRAPHICS_VER(dev_priv) == 6 && intel_vtd_active(dev_priv)) {
->   		drm_info(&dev_priv->drm,
->   			 "Disabling ppGTT for VT-d support\n");
->   		info->ppgtt_type = INTEL_PPGTT_NONE;
-> diff --git a/drivers/gpu/drm/i915/intel_pm.c b/drivers/gpu/drm/i915/intel_pm.c
-> index 01fa3fac1b57..cff0f32bedc9 100644
-> --- a/drivers/gpu/drm/i915/intel_pm.c
-> +++ b/drivers/gpu/drm/i915/intel_pm.c
-> @@ -98,7 +98,7 @@ static void gen9_init_clock_gating(struct drm_i915_private *dev_priv)
->   		 * "Plane N strech max must be programmed to 11b (x1)
->   		 *  when Async flips are enabled on that plane."
->   		 */
-> -		if (!IS_GEMINILAKE(dev_priv) && intel_vtd_active())
-> +		if (!IS_GEMINILAKE(dev_priv) && intel_vtd_active(dev_priv))
->   			intel_uncore_rmw(&dev_priv->uncore, CHICKEN_PIPESL_1(pipe),
->   					 SKL_PLANE1_STRETCH_MAX_MASK, SKL_PLANE1_STRETCH_MAX_X1);
->   	}
-> 
+-- 
+With best wishes
+Dmitry
