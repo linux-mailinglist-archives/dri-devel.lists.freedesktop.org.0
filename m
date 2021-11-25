@@ -2,69 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DC4645DE33
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Nov 2021 17:01:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B17D445DCF5
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Nov 2021 16:10:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE4316E40D;
-	Thu, 25 Nov 2021 16:01:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 426466E4BB;
+	Thu, 25 Nov 2021 15:10:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 4124 seconds by postgrey-1.36 at gabe;
- Thu, 25 Nov 2021 16:01:39 UTC
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
- [185.132.182.106])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 184EA6E41D
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Nov 2021 16:01:38 +0000 (UTC)
-Received: from pps.filterd (m0046668.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 1AP9Eljn002619;
- Thu, 25 Nov 2021 15:52:40 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=selector1;
- bh=Ao37UzQm0lh5oIBM+v3zSsBFE77GsNS8cR3GTxHKQ+4=;
- b=V1aBcs+8MppjS7zmCAZVRa62A0L6t5ns/socJxhRcAN3BJd3be+fE4jCGFduVt6FMDSl
- kBrzx8gTlWEpSeqHlUwBeRhyuWOu550XuR15IC7/iitTJ6V4CGn4IGBjZiG8THXTCldZ
- X70FEAQEYx5EgDpCAJSnrLz6uAqq2SCcsACK8bsXyHJpzji9EMBEIx4NgL5LgDfBh0dQ
- 9KQW1aeAGcUvKL/V0HhtrK3Thg2i6gRS4LcHPo204OxHNN3cpDM1b2jt/T8wqz9VePfY
- eHsQiKjCpUIwoOXvnRopebOnhXlZ729xD4xL8Q+SX7ckALi79qa/eXrOtYHpJ4xPGhR/ Ig== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
- by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3cj3cykw8d-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 25 Nov 2021 15:52:40 +0100
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id A54BF10002A;
- Thu, 25 Nov 2021 15:52:37 +0100 (CET)
-Received: from Webmail-eu.st.com (sfhdag2node2.st.com [10.75.127.5])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 75988238D87;
- Thu, 25 Nov 2021 15:52:37 +0100 (CET)
-Received: from lmecxl0912.lme.st.com (10.75.127.50) by SFHDAG2NODE2.st.com
- (10.75.127.5) with Microsoft SMTP Server (TLS) id 15.0.1497.26; Thu, 25 Nov
- 2021 15:52:36 +0100
-Subject: Re: [PATCH v4 2/3] ARM: dts: stm32: fix dtbs_check warning on ili9341
- dts binding
-To: <dillon.minfei@gmail.com>, <laurent.pinchart@ideasonboard.com>,
- <thierry.reding@gmail.com>, <sam@ravnborg.org>, <airlied@linux.ie>,
- <daniel@ffwll.ch>, <robh+dt@kernel.org>, <linus.walleij@linaro.org>,
- <mcoquelin.stm32@gmail.com>, <noralf@tronnes.org>
-References: <1627098243-2742-1-git-send-email-dillon.minfei@gmail.com>
- <1627098243-2742-3-git-send-email-dillon.minfei@gmail.com>
-From: Alexandre TORGUE <alexandre.torgue@foss.st.com>
-Message-ID: <9a17b095-48ca-1507-82f9-131b00562c25@foss.st.com>
-Date: Thu, 25 Nov 2021 15:52:36 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 107E26E4B3;
+ Thu, 25 Nov 2021 15:10:00 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: kholk11) with ESMTPSA id 069CB1F45900
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
+ t=1637852996; bh=Rv1jRLcowZm99hT/zu7+THzcYVzW6fHVM8XmlXMUXeY=;
+ h=From:To:Cc:Subject:Date:From;
+ b=LQpcwBkI3xvrvAEDTnF5OywjJ/5S04v2FtMZ/nP1dB+EyqJMMwZEQzU698tKJ8gIG
+ 9RijVStBQR3JTbfa6GpyWK9qV/eP90PvJ5VTdpzQgG2i8UyPaMnKn+czqYa+J/rWWO
+ f4y0EAGaNwYk/Xvgd+EnH96LDpx3OYdtzWixWYneDMhvAxP61GLJt+dcxAs3URpTob
+ fWxkLy0IOYAQxSMC/TA+b8LmnYjwbK0rFHUjejd6o7afLKzUtX2p4U9llYYNbAloKp
+ 9UZ3kfRbfhIPupkNIlmejdp7hdnEQxi+2W4CXRyER2WcEiMSjyWQJYS3vgUmf+k7zW
+ KzblCYInOGydQ==
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+To: robdclark@gmail.com
+Subject: [PATCH] drm/msm: Initialize MDSS irq domain at probe time
+Date: Thu, 25 Nov 2021 16:09:47 +0100
+Message-Id: <20211125150947.354076-1-angelogioacchino.delregno@collabora.com>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-In-Reply-To: <1627098243-2742-3-git-send-email-dillon.minfei@gmail.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.75.127.50]
-X-ClientProxiedBy: SFHDAG1NODE2.st.com (10.75.127.2) To SFHDAG2NODE2.st.com
- (10.75.127.5)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
- definitions=2021-11-25_06,2021-11-25_01,2020-04-07_01
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,51 +44,154 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, kbuild-all@lists.01.org,
+Cc: freedreno@lists.freedesktop.org, airlied@linux.ie,
+ linux-arm-msm@vger.kernel.org, konrad.dybcio@somainline.org,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org
+ jami.kettunen@somainline.org, maxime@cerno.tech, marijn.suijten@somainline.org,
+ kernel@collabora.com, sean@poorly.run,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dillon
+Since commit 8f59ee9a570c ("drm/msm/dsi: Adjust probe order"), the
+DSI host gets initialized earlier, but this caused unability to probe
+the entire stack of components because they all depend on interrupts
+coming from the main `mdss` node (mdp5, or dpu1).
 
-On 7/24/21 5:44 AM, dillon.minfei@gmail.com wrote:
-> From: Dillon Min <dillon.minfei@gmail.com>
-> 
-> Since the compatible string defined from ilitek,ili9341.yaml is
-> "st,sf-tc240t-9370-t", "ilitek,ili9341"
-> 
-> so, append "ilitek,ili9341" to avoid the below dtbs_check warning.
-> 
-> arch/arm/boot/dts/stm32f429-disco.dt.yaml: display@1: compatible:
-> ['st,sf-tc240t-9370-t'] is too short
-> 
-> Fixes: a726e2f000ec ("ARM: dts: stm32: enable ltdc binding with ili9341, gyro l3gd20 on stm32429-disco board")
-> Signed-off-by: Dillon Min <dillon.minfei@gmail.com>
-> Reported-by: kernel test robot <lkp@intel.com>
-> ---
-> v4: no change.
-> 
->   arch/arm/boot/dts/stm32f429-disco.dts | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/arch/arm/boot/dts/stm32f429-disco.dts b/arch/arm/boot/dts/stm32f429-disco.dts
-> index 075ac57d0bf4..6435e099c632 100644
-> --- a/arch/arm/boot/dts/stm32f429-disco.dts
-> +++ b/arch/arm/boot/dts/stm32f429-disco.dts
-> @@ -192,7 +192,7 @@
->   
->   	display: display@1{
->   		/* Connect panel-ilitek-9341 to ltdc */
-> -		compatible = "st,sf-tc240t-9370-t";
-> +		compatible = "st,sf-tc240t-9370-t", "ilitek,ili9341";
->   		reg = <1>;
->   		spi-3wire;
->   		spi-max-frequency = <10000000>;
-> 
+To fix this issue, also anticipate probing mdp5 or dpu1 by initializing
+them at msm_pdev_probe() time: this will make sure that we add the
+required interrupt controller mapping before dsi and/or other components
+try to initialize, finally satisfying the dependency.
 
-Patch applied on stm32-next. I updated commit title to indicate targeted 
-board.
+While at it, also change the allocation of msm_drm_private to use the
+devm variant of kzalloc().
 
-regards
-Alex
+Fixes: 8f59ee9a570c ("drm/msm/dsi: Adjust probe order")
+Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+---
+ drivers/gpu/drm/msm/msm_drv.c | 81 ++++++++++++++++-------------------
+ 1 file changed, 38 insertions(+), 43 deletions(-)
+
+diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+index 7936e8d498dd..790acf4993c0 100644
+--- a/drivers/gpu/drm/msm/msm_drv.c
++++ b/drivers/gpu/drm/msm/msm_drv.c
+@@ -512,45 +512,12 @@ static int msm_init_vram(struct drm_device *dev)
+ static int msm_drm_init(struct device *dev, const struct drm_driver *drv)
+ {
+ 	struct platform_device *pdev = to_platform_device(dev);
+-	struct drm_device *ddev;
+-	struct msm_drm_private *priv;
+-	struct msm_kms *kms;
+-	struct msm_mdss *mdss;
++	struct drm_device *ddev = platform_get_drvdata(pdev);
++	struct msm_drm_private *priv = ddev->dev_private;
++	struct msm_kms *kms = priv->kms;
++	struct msm_mdss *mdss = priv->mdss;
+ 	int ret, i;
+ 
+-	ddev = drm_dev_alloc(drv, dev);
+-	if (IS_ERR(ddev)) {
+-		DRM_DEV_ERROR(dev, "failed to allocate drm_device\n");
+-		return PTR_ERR(ddev);
+-	}
+-
+-	platform_set_drvdata(pdev, ddev);
+-
+-	priv = kzalloc(sizeof(*priv), GFP_KERNEL);
+-	if (!priv) {
+-		ret = -ENOMEM;
+-		goto err_put_drm_dev;
+-	}
+-
+-	ddev->dev_private = priv;
+-	priv->dev = ddev;
+-
+-	switch (get_mdp_ver(pdev)) {
+-	case KMS_MDP5:
+-		ret = mdp5_mdss_init(ddev);
+-		break;
+-	case KMS_DPU:
+-		ret = dpu_mdss_init(ddev);
+-		break;
+-	default:
+-		ret = 0;
+-		break;
+-	}
+-	if (ret)
+-		goto err_free_priv;
+-
+-	mdss = priv->mdss;
+-
+ 	priv->wq = alloc_ordered_workqueue("msm", 0);
+ 	priv->hangcheck_period = DRM_MSM_HANGCHECK_DEFAULT_PERIOD;
+ 
+@@ -685,11 +652,6 @@ static int msm_drm_init(struct device *dev, const struct drm_driver *drv)
+ err_destroy_mdss:
+ 	if (mdss && mdss->funcs)
+ 		mdss->funcs->destroy(ddev);
+-err_free_priv:
+-	kfree(priv);
+-err_put_drm_dev:
+-	drm_dev_put(ddev);
+-	platform_set_drvdata(pdev, NULL);
+ 	return ret;
+ }
+ 
+@@ -1382,12 +1344,42 @@ static const struct component_master_ops msm_drm_ops = {
+ static int msm_pdev_probe(struct platform_device *pdev)
+ {
+ 	struct component_match *match = NULL;
++	struct msm_drm_private *priv;
++	struct drm_device *ddev;
+ 	int ret;
+ 
++	priv = devm_kzalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
++	if (!priv)
++		return -ENOMEM;
++
++	ddev = drm_dev_alloc(&msm_driver, &pdev->dev);
++	if (IS_ERR(ddev)) {
++		DRM_DEV_ERROR(&pdev->dev, "failed to allocate drm_device\n");
++		return PTR_ERR(ddev);
++	}
++
++	platform_set_drvdata(pdev, ddev);
++	ddev->dev_private = priv;
++	priv->dev = ddev;
++
++	switch (get_mdp_ver(pdev)) {
++	case KMS_MDP5:
++		ret = mdp5_mdss_init(ddev);
++		break;
++	case KMS_DPU:
++		ret = dpu_mdss_init(ddev);
++		break;
++	default:
++		ret = 0;
++		break;
++	}
++	if (ret)
++		goto err_put_drm_dev;
++
+ 	if (get_mdp_ver(pdev)) {
+ 		ret = add_display_components(pdev, &match);
+ 		if (ret)
+-			return ret;
++			goto fail;
+ 	}
+ 
+ 	ret = add_gpu_components(&pdev->dev, &match);
+@@ -1409,6 +1401,9 @@ static int msm_pdev_probe(struct platform_device *pdev)
+ 
+ fail:
+ 	of_platform_depopulate(&pdev->dev);
++err_put_drm_dev:
++	drm_dev_put(ddev);
++	platform_set_drvdata(pdev, NULL);
+ 	return ret;
+ }
+ 
+-- 
+2.33.1
+
