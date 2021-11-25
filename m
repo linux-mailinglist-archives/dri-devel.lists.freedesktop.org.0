@@ -1,59 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA0E745E0CB
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Nov 2021 19:58:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 818DB45E0FE
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Nov 2021 20:29:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 33CD86E043;
-	Thu, 25 Nov 2021 18:58:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 61D776E0A6;
+	Thu, 25 Nov 2021 19:29:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E297E6E043
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Nov 2021 18:58:10 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id B85D86113B
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Nov 2021 18:58:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1637866690;
- bh=xjT3ayDlVkNN2roaifqpbZ+Ny0h//KoHjV+TMYbmZxw=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=Zn3EyZ673SzcE68yhQ/5KKKNK0op+xKXaa+IB8QKrf8Ci/cDkCCL3ufC3M6/RGNEj
- aLECvdw83Zlr63IgMRLcjiuQShSj2Dpcz1R2UXYp0oy2CBr1X2TsBY3T3j2SnilXk2
- 3ud2MfDYoXLAvG4PPlBmNNL8TCiQWHfrp3MnvaOCqaWaOMjGfzcc6yoBSN9aDheOIH
- 5xiai54biJhJ3Z/G9/+WAuunaN4XGYPY5q2uh4GcYU5aribqkpC0AKCQLDA+QGq1T9
- KafwhtMyLr6y3rV2q27YZ0hcmutWJFmqtUBj8PN3CycmY9JFH4+swoACaoVWjxdoIU
- vvRyfNRlQge1A==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id B4F0E60EE8; Thu, 25 Nov 2021 18:58:10 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 211277] sometimes crash at s2ram-wake (Ryzen 3500U): amdgpu,
- drm, commit_tail, amdgpu_dm_atomic_commit_tail
-Date: Thu, 25 Nov 2021 18:58:10 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: kolAflash@kolahilft.de
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-211277-2300-OrrECYjsf4@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-211277-2300@https.bugzilla.kernel.org/>
-References: <bug-211277-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com
+ [IPv6:2a00:1450:4864:20::532])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E0BE6E0A6
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Nov 2021 19:29:34 +0000 (UTC)
+Received: by mail-ed1-x532.google.com with SMTP id v1so29601612edx.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Nov 2021 11:29:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=+QdSnn9hnDbXHilVPEzYaOF00rC6aTmARJsrJsKk/HA=;
+ b=eZYdfa3q9HtFJRaW20SwlL7XA8WQ7r8jlBGVqh9TyKPBpv/nzIIQJ1cuusxBBozWUp
+ SmRZuuOksbeR9Ls1NpzezJ370EtRbOBpS3Ct/g+9c5X3nrrFfrbYZPjn+2cdCDkvrKWu
+ Syfgv5XE2Z851DPSLlO0SXfAZ7RcV3EeuawAvCDT+hY6nkmfboeK5w4IHrl9/cDJ73va
+ uXtUsQZIq0M4138F61KBzWewxcAsGrbhmCYYPkhWuDoMzmrEE7fympSIBETcwojM7rWH
+ dl4WCZb0PFuuETHN9RlD3tdpk0F6EE75DHgzpve6zHolLrfHTPaGkzEMAA+ND0mMkrrQ
+ BIhg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=+QdSnn9hnDbXHilVPEzYaOF00rC6aTmARJsrJsKk/HA=;
+ b=TUc6Tn/NB2uHZedclQj5UiM2rZGVLFmLqoTatOJopy6g4/PZ8VeSgC8IN9vVpsJ7Y6
+ OPfpmA6qSZPnig37J8SzZxfroSUOGwfFJBeDdyljsCDrpn3pyFdPTHsVi0rTOxqFkOo+
+ ajrQwsjTXvcKBCxcUhFuZ5tNY+4iiX8ViFP+5rnUFnym4vyWih7/wBNnHtQ738wK/6La
+ xOGRooQ98h0mlL3i2PYR+BQQDb62VNrbMx86GiosEVweSR2publKMaGd0VmhyzAdxk2H
+ aleOh3cxCgeN0WoS0TYv3QQhUbTU6QYWG8szW0vUcjkIoBr63IdxSvNyTRR9pbQzeX+q
+ cdMw==
+X-Gm-Message-State: AOAM533W3dTz2Nm3P1yoRFE3efzjBvNAPsmwy7dVJn6Zu7RAE6x6RqGV
+ x2LxurM4S6SPZ7F3j6DL4qbNY2iWVnc+fmrBklQ=
+X-Google-Smtp-Source: ABdhPJxia6v+ggx0h/6ClA1/sHMg1Q/7ZU1xWeQZA6EVhTerXcEGn294ZgigAx875QVPOK7l2krbLRnAJ036HXO5fPk=
+X-Received: by 2002:a17:906:489b:: with SMTP id
+ v27mr33672901ejq.567.1637868572711; 
+ Thu, 25 Nov 2021 11:29:32 -0800 (PST)
 MIME-Version: 1.0
+References: <1637859224-5179-1-git-send-email-akhilrajeev@nvidia.com>
+In-Reply-To: <1637859224-5179-1-git-send-email-akhilrajeev@nvidia.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Thu, 25 Nov 2021 21:28:56 +0200
+Message-ID: <CAHp75VfPPpTNCaM+GhcqZS53ts-20GBzm+4OWLAjND=z79pgxg@mail.gmail.com>
+Subject: Re: [PATCH v4] i2c: tegra: Add the ACPI support
+To: Akhil R <akhilrajeev@nvidia.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,58 +62,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Jon Hunter <jonathanh@nvidia.com>,
+ linaro-mm-sig@lists.linaro.org, Laxman Dewangan <ldewangan@nvidia.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ linux-i2c <linux-i2c@vger.kernel.org>,
+ linux-tegra <linux-tegra@vger.kernel.org>, Dmitry Osipenko <digetx@gmail.com>,
+ Christian Koenig <christian.koenig@amd.com>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D211277
+On Thu, Nov 25, 2021 at 6:54 PM Akhil R <akhilrajeev@nvidia.com> wrote:
+>
+> Add support for the ACPI based device registration so that the driver
+> can be also enabled through ACPI table.
+>
+> This does not include the ACPI support for Tegra VI and DVC I2C.
 
---- Comment #79 from kolAflash (kolAflash@kolahilft.de) ---
-@James
+Thanks for an update, my comments below.
 
-Got this when compiling with Linux-5.10.81:
+...
 
-drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_device.c: In function
-=E2=80=98kgd2kfd_device_init=E2=80=99:
-drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_device.c:754:6: error: implicit
-declaration of function =E2=80=98kgd2kfd_resume_iommu=E2=80=99; did you mean
-=E2=80=98kgd2kfd_resume_mm=E2=80=99? [-Werror=3Dimplicit-function-declarati=
-on]
-  754 |  if (kgd2kfd_resume_iommu(kfd))
-      |      ^~~~~~~~~~~~~~~~~~~~
-      |      kgd2kfd_resume_mm
+> -       err = reset_control_reset(i2c_dev->rst);
+> +       if (handle)
 
+> +               err = acpi_evaluate_object(handle, "_RST", NULL, NULL);
 
-Patching 5.10.81 was without problems:
+Does it compile for CONFIG_ACPI=n case?
 
-$ patch -p1 -i
-../../backport_patch/0001-drm-amdkfd-separate-kfd_iommu_resume-from-kfd_res=
-ume.patch
-patching file drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h
-patching file drivers/gpu/drm/amd/amdkfd/kfd_device.c
+> +       else
+> +               err = reset_control_reset(i2c_dev->rst);
 
-$ patch -p1 -i
-../../backport_patch/0002-drm-amdgpu-add-amdgpu_amdkfd_resume_iommu.patch
-patching file drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c
-patching file drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h
+If not, you will need something like this instead:
 
-$ patch -p1 -i
-../../backport_patch/0003-drm-amdgpu-move-iommu_resume-before-ip-init-resum=
-e.patch
-patching file drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+#ifdef CONFIG_ACPI
+               err = acpi_evaluate_object(ACPI_HANDLE(...), "_RST", NULL, NULL);
+#else
+               err = reset_control_reset(i2c_dev->rst);
+#endif
 
-$ patch -p1 -i
-../../backport_patch/0004-drm-amdgpu-init-iommu-after-amdkfd-device-init.pa=
-tch
-patching file drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+...
 
-$ patch -p1 -i
-../../backport_patch/0005-drm-amdkfd-fix-boot-failure-when-iommu-is-disable=
-d-i.patch
-patching file drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-patching file drivers/gpu/drm/amd/amdkfd/kfd_device.c
+> +       err = device_property_read_u32(i2c_dev->dev, "clock-frequency",
+> +                                      &i2c_dev->bus_clk_rate);
+>         if (err)
+>                 i2c_dev->bus_clk_rate = I2C_MAX_STANDARD_MODE_FREQ;
 
---=20
-You may reply to this email to add a comment.
+Actually you need to switch to use i2c_timings data structure and
+corresponding methods.
+This change will be incorporated there. I.o.w. do it as a prerequisite
+to this patch.
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+...
+
+> +       if (ACPI_HANDLE(i2c_dev->dev))
+> +               return 0;
+
+With above mentioned ifdeffery this may be converted back to
+has_acpi_companion() which is slightly better in this case.
+
+> +       if (ACPI_HANDLE(i2c_dev->dev))
+> +               return 0;
+
+Ditto.
+
+P.S> Sorry if I missed something in the previous reviews.
+
+-- 
+With Best Regards,
+Andy Shevchenko
