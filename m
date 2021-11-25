@@ -1,46 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C16545D772
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Nov 2021 10:41:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5984845D781
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Nov 2021 10:44:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C3A26EB5D;
-	Thu, 25 Nov 2021 09:41:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 49A3B6E884;
+	Thu, 25 Nov 2021 09:44:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F5576EB5D;
- Thu, 25 Nov 2021 09:41:46 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10178"; a="232978446"
-X-IronPort-AV: E=Sophos;i="5.87,262,1631602800"; d="scan'208";a="232978446"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Nov 2021 01:41:45 -0800
-X-IronPort-AV: E=Sophos;i="5.87,262,1631602800"; d="scan'208";a="475590916"
-Received: from dshe-mobl1.ger.corp.intel.com (HELO localhost) ([10.252.10.64])
- by orsmga002-auth.jf.intel.com with
- ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2021 01:41:35 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Luis Chamberlain <mcgrof@kernel.org>, akpm@linux-foundation.org,
- keescook@chromium.org, yzaikin@google.com, nixiaoming@huawei.com,
- ebiederm@xmission.com, clemens@ladisch.de, arnd@arndb.de,
- gregkh@linuxfoundation.org, joonas.lahtinen@linux.intel.com,
- rodrigo.vivi@intel.com, tvrtko.ursulin@linux.intel.com, airlied@linux.ie,
- daniel@ffwll.chairlied, benh@kernel.crashing.org, mark@fasheh.com,
- jlbec@evilplan.org, joseph.qi@linux.alibaba.com, jack@suse.cz,
- amir73il@gmail.com, phil@philpotter.co.uk, viro@zeniv.linux.org.uk,
- julia.lawall@inria.fr
-Subject: Re: [PATCH v2 2/8] i915: simplify subdirectory registration with
- register_sysctl()
-In-Reply-To: <20211123202422.819032-3-mcgrof@kernel.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20211123202422.819032-1-mcgrof@kernel.org>
- <20211123202422.819032-3-mcgrof@kernel.org>
-Date: Thu, 25 Nov 2021 11:41:30 +0200
-Message-ID: <87fsrklghh.fsf@intel.com>
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
+ [IPv6:2a00:1450:4864:20::42d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A44976E802;
+ Thu, 25 Nov 2021 09:44:29 +0000 (UTC)
+Received: by mail-wr1-x42d.google.com with SMTP id u18so10271353wrg.5;
+ Thu, 25 Nov 2021 01:44:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-transfer-encoding:content-language;
+ bh=M4eNhtRyfszXgoCevZXctJE/hLAngb4kNGrAZca/vtQ=;
+ b=hr7P+jqEo1S6urwHZfCCiWe591gBIwIqfjkJ9WWAo4LsbX2JWYICNZteJ2bwEpNfFk
+ KGMkOnX6lZpF7lMAQWo17B7/5k1AGx48qJpn/jgqPCF4eClsFCaoU0dJDBB1GX12LdFp
+ fkaPzCdUOyqJCQAop8HdN7pXrpRb1ZkqULRBplAsjnmdi6yPj6GShfbGGv26bSOZ5mj3
+ 4+ZUXqmYIJgUr8McgNrrtafhElJmiaHGgHeHor7r4lHHeOa5wq1Y8xMrRg4c3rJ2de+V
+ AFlcXQ7KdIsOFfB8z3+hj7QxR3NuK7/epZZw15YOM24P/CBqinvAWd7mKF/WbeWzavpg
+ ek5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=M4eNhtRyfszXgoCevZXctJE/hLAngb4kNGrAZca/vtQ=;
+ b=LuV9L5A1HiwhJ67iORD8pRECoCb4EeVqY7wG2DYkNPQZDCEDLTAORhoFZiNr7B13SE
+ TT6bUudB32hlPNBFOsNBfMBQxK4H3Ww9kFwfkXx6uwqfGtQIt6yD7tPR8mLLlbcNHg5n
+ rXJUPWa9bTdRS9InQ4bZWNzln/uzBeP8QKMiEuHoiwHEkobLfWgIfyPBPrSiSO7B1Tq2
+ OeH/Wd3sbeWMXnKC0jl8W2HkAbeooWVsHA5ZUq+ck38DJjvfecVi365VsasIx6MUhJut
+ ksW25DpwqNzSo8CfQimB8ZaR2Ix4hpdkL0iiZImV+4S4fRkQMjmRzMZ2AnuoXjT5s5AP
+ twgQ==
+X-Gm-Message-State: AOAM5300CR7S0jsMHFbBM+sfNYoKG62eUYcjtz6uGRI1RjKejgFyHWUf
+ E8kyWToT3h+qe9m43BTytQag/6Tt2b8=
+X-Google-Smtp-Source: ABdhPJwgehb/hMyMIn8NfuWZloUVEaV7WrJtRSt6A7q1DOrmUwW6oVfThdS27Z+K6FCs7SoPVSqGFQ==
+X-Received: by 2002:a5d:6dc3:: with SMTP id d3mr4929492wrz.159.1637833468170; 
+ Thu, 25 Nov 2021 01:44:28 -0800 (PST)
+Received: from [192.168.178.21] (p57b0b77b.dip0.t-ipconnect.de.
+ [87.176.183.123])
+ by smtp.gmail.com with ESMTPSA id az15sm2355074wmb.0.2021.11.25.01.44.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 25 Nov 2021 01:44:27 -0800 (PST)
+Subject: Re: [PATCH 1/6] dma-buf: move dma_resv_prune_unlocked into dma_resv.c
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+ etnaviv@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+References: <20211028132630.2330-1-christian.koenig@amd.com>
+ <7729c40e-fe4e-853e-06d4-5e39dff17d32@linux.intel.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <0d2f11ef-012e-f51a-80f3-3e8109fac060@gmail.com>
+Date: Thu, 25 Nov 2021 10:44:26 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: text/plain
+In-Reply-To: <7729c40e-fe4e-853e-06d4-5e39dff17d32@linux.intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,159 +75,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Luis Chamberlain <mcgrof@kernel.org>,
- linux-fsdevel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- ocfs2-devel@oss.oracle.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 23 Nov 2021, Luis Chamberlain <mcgrof@kernel.org> wrote:
-> There is no need to user boiler plate code to specify a set of base
-> directories we're going to stuff sysctls under. Simplify this by using
-> register_sysctl() and specifying the directory path directly.
+Am 25.11.21 um 10:31 schrieb Maarten Lankhorst:
+> [SNIP]
+>> diff --git a/include/linux/dma-resv.h b/include/linux/dma-resv.h
+>> index eebf04325b34..e0558429a5ee 100644
+>> --- a/include/linux/dma-resv.h
+>> +++ b/include/linux/dma-resv.h
+>> @@ -458,6 +458,7 @@ void dma_resv_fini(struct dma_resv *obj);
+>>   int dma_resv_reserve_shared(struct dma_resv *obj, unsigned int num_fences);
+>>   void dma_resv_add_shared_fence(struct dma_resv *obj, struct dma_fence *fence);
+>>   void dma_resv_add_excl_fence(struct dma_resv *obj, struct dma_fence *fence);
+>> +void dma_resv_prune_unlocked(struct dma_resv *obj);
+>>   int dma_resv_get_fences(struct dma_resv *obj, struct dma_fence **pfence_excl,
+>>   			unsigned *pshared_count, struct dma_fence ***pshared);
+>>   int dma_resv_copy_fences(struct dma_resv *dst, struct dma_resv *src);
+> I don't mind adding a dma_resv_prune for locked case, but I don't think unlocked would have benefits.
+>
+> Furthermore, I'm trying to remove the unlocked versions from i915. Could this be a prereq patch instead?
+>
+> https://patchwork.freedesktop.org/patch/460722/?series=96115&rev=1
 
-\o/
+Yeah, that works for me as well.
 
-Acked-by: Jani Nikula <jani.nikula@intel.com>
+I was on the edge of dropping that from TTM as well since this is really 
+just abusing the interface to save a few bytes of memory.
+
+Feel free to add an Acked-by: Christian König <christian.koenig@amd.com> 
+to the i915 patch if it helps to get that committed.
+
+Regards,
+Christian.
 
 >
-> // pycocci sysctl-subdir-register-sysctl-simplify.cocci PATH
+> ~Maarten
 >
-> @c1@
-> expression E1;
-> identifier subdir, sysctls;
-> @@
+> ~Maarten
 >
-> static struct ctl_table subdir[] = {
-> 	{
-> 		.procname = E1,
-> 		.maxlen = 0,
-> 		.mode = 0555,
-> 		.child = sysctls,
-> 	},
-> 	{ }
-> };
->
-> @c2@
-> identifier c1.subdir;
->
-> expression E2;
-> identifier base;
-> @@
->
-> static struct ctl_table base[] = {
-> 	{
-> 		.procname = E2,
-> 		.maxlen = 0,
-> 		.mode = 0555,
-> 		.child = subdir,
-> 	},
-> 	{ }
-> };
->
-> @c3@
-> identifier c2.base;
-> identifier header;
-> @@
->
-> header = register_sysctl_table(base);
->
-> @r1 depends on c1 && c2 && c3@
-> expression c1.E1;
-> identifier c1.subdir, c1.sysctls;
-> @@
->
-> -static struct ctl_table subdir[] = {
-> -	{
-> -		.procname = E1,
-> -		.maxlen = 0,
-> -		.mode = 0555,
-> -		.child = sysctls,
-> -	},
-> -	{ }
-> -};
->
-> @r2 depends on c1 && c2 && c3@
-> identifier c1.subdir;
->
-> expression c2.E2;
-> identifier c2.base;
-> @@
-> -static struct ctl_table base[] = {
-> -	{
-> -		.procname = E2,
-> -		.maxlen = 0,
-> -		.mode = 0555,
-> -		.child = subdir,
-> -	},
-> -	{ }
-> -};
->
-> @initialize:python@
-> @@
->
-> def make_my_fresh_expression(s1, s2):
->   return '"' + s1.strip('"') + "/" + s2.strip('"') + '"'
->
-> @r3 depends on c1 && c2 && c3@
-> expression c1.E1;
-> identifier c1.sysctls;
-> expression c2.E2;
-> identifier c2.base;
-> identifier c3.header;
-> fresh identifier E3 = script:python(E2, E1) { make_my_fresh_expression(E2, E1) };
-> @@
->
-> header =
-> -register_sysctl_table(base);
-> +register_sysctl(E3, sysctls);
->
-> Generated-by: Coccinelle SmPL
-> Signed-off-by: Luis Chamberlain <mcgrof@kernel.org>
-> ---
->  drivers/gpu/drm/i915/i915_perf.c | 22 +---------------------
->  1 file changed, 1 insertion(+), 21 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/i915_perf.c b/drivers/gpu/drm/i915/i915_perf.c
-> index 2f01b8c0284c..5979e3258647 100644
-> --- a/drivers/gpu/drm/i915/i915_perf.c
-> +++ b/drivers/gpu/drm/i915/i915_perf.c
-> @@ -4273,26 +4273,6 @@ static struct ctl_table oa_table[] = {
->  	{}
->  };
->  
-> -static struct ctl_table i915_root[] = {
-> -	{
-> -	 .procname = "i915",
-> -	 .maxlen = 0,
-> -	 .mode = 0555,
-> -	 .child = oa_table,
-> -	 },
-> -	{}
-> -};
-> -
-> -static struct ctl_table dev_root[] = {
-> -	{
-> -	 .procname = "dev",
-> -	 .maxlen = 0,
-> -	 .mode = 0555,
-> -	 .child = i915_root,
-> -	 },
-> -	{}
-> -};
-> -
->  static void oa_init_supported_formats(struct i915_perf *perf)
->  {
->  	struct drm_i915_private *i915 = perf->i915;
-> @@ -4488,7 +4468,7 @@ static int destroy_config(int id, void *p, void *data)
->  
->  int i915_perf_sysctl_register(void)
->  {
-> -	sysctl_header = register_sysctl_table(dev_root);
-> +	sysctl_header = register_sysctl("dev/i915", oa_table);
->  	return 0;
->  }
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
