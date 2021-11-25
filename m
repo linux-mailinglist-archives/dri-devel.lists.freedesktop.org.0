@@ -2,127 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAD6345E29B
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Nov 2021 22:37:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C860A45E307
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Nov 2021 23:39:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A0BF6E85C;
-	Thu, 25 Nov 2021 21:37:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A58476E03F;
+	Thu, 25 Nov 2021 22:39:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2041.outbound.protection.outlook.com [40.107.93.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D0FE6E820;
- Thu, 25 Nov 2021 21:37:12 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ocSsFrPxzU37e7+gje9i4/tcEykoW188O2F+Uhk53NAMayUClFDYv7MKQwNGr2puBnJr40JalWqDNs6eFa9WloONDoNACFhbOPW3+Av6mCLIiDo9DaZ2hrfXed+ZmnOHQ9nZTKWHdmN+v8RDuBHciyvTpwLwUwNYHgyBWVXsOxDH96K4vD5VfhzMwYutI/9C61ZJEe4Oc0HHI+SuMhEmO/jHDNdWtukpPnJF2bAY7RmYDpwK6BWCo6FOXvChxp+peQiekLXXP/UG2XJB5jhZ6XX9o/+Fvi4JKsXhymG6ekt/UrKKW+0OfJc8En5ZiemLKFBTnv1yDXMmH4uZ6Fy7UA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wb+CAMCK7x04yN2s3N9Go+Ugx3iEY4/u/AIZBD3X3XQ=;
- b=YuKokgTIuvAE9dnti/178T6JFkQq1v+1N3YdDG6OeeI+d3qFv/1TVbeaGETXXF3AWe51JFJ5wlROmHaP4LxAE0r4TRaPS9xIM/m3SfzjyYqiUNzARHoXh0DuK2HAd0XcrtY+w24+3B4rk0+cdd2ctbbb2dyvrR6CsY3KKQZrNez3z/ck3sh488qBZaGuivM8uhcqV7k6EtNz9QGYSxH91Q0yg21QsFCwsv4nYEq2bIv3jZHqyLN26R+wY2LIfeotNVGilYBfYAgAWvhAvqYZHGCTnZUHGCLD0wVf2aGt6f4NRIzIsG8qp6AvIR7cs3l9Iht9o7+bU84SOBUm4Fj8+g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wb+CAMCK7x04yN2s3N9Go+Ugx3iEY4/u/AIZBD3X3XQ=;
- b=gsKllM1AAg6/Y9v8QUUouhr/nax+NV1tP4HU6ScmuSUm7tmNe/PSJMGwePktEyQtc4okfMfn6DLxtTq03C3VKSCoqTLNAjmwI5XQVNl7Iipm4YxzJFxU2eXmp4D7D+gEBNpHt3zj5hPR59QpRzL3oNK5AHuRznltqcq68fwUxL4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN9PR12MB5115.namprd12.prod.outlook.com (2603:10b6:408:118::14)
- by BN9PR12MB5338.namprd12.prod.outlook.com (2603:10b6:408:103::23)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4713.24; Thu, 25 Nov
- 2021 21:37:10 +0000
-Received: from BN9PR12MB5115.namprd12.prod.outlook.com
- ([fe80::9dfe:ccc6:102c:5300]) by BN9PR12MB5115.namprd12.prod.outlook.com
- ([fe80::9dfe:ccc6:102c:5300%8]) with mapi id 15.20.4713.025; Thu, 25 Nov 2021
- 21:37:10 +0000
-Subject: Re: [PATCH v2 2/2] drm/amdkfd: Slighly optimize
- 'init_doorbell_bitmap()'
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- airlied@linux.ie, daniel@ffwll.ch
-References: <cebaed4e892db804eece363e07a3ddd04af0f7be.1637700315.git.christophe.jaillet@wanadoo.fr>
- <72ac7967f07e0794a8a06793407cf03f6a34e9fa.1637700315.git.christophe.jaillet@wanadoo.fr>
-From: Felix Kuehling <felix.kuehling@amd.com>
-Message-ID: <549df417-2aee-55f4-78f4-d6dec478ffa7@amd.com>
-Date: Thu, 25 Nov 2021 16:37:08 -0500
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
+ [IPv6:2a00:1450:4864:20::12c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B982B6E0C6
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Nov 2021 22:39:47 +0000 (UTC)
+Received: by mail-lf1-x12c.google.com with SMTP id y26so19439979lfa.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Nov 2021 14:39:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=mJT9UmrAop50weZOiXkTq034qrYD2Z7sYhOghCoxa7U=;
+ b=ER5U62wVTM7pabOVfUgOEfM++HmPnLsIUtJJtK1duTTFNB1CUBpvMyCcuhpZMsBbEy
+ HDXuAH+TvPJQEhC+vUgaGzUkw58buUjEI2O9CCt0xxtv7vOrHYW9/YANe+yqS1ddX/TM
+ Q8P1kvdiJ39A2mU8DxDuMAR2kMMzCJqnmW7fz/HA/VhHW+MrGAy6DqNvtlbrfmgwB/zP
+ g1ZAlfbDH83u1msdS7JMtmReqJpnPPnxyBVraO1oRJmf3HMZZ7UNzNFVuqARNxon5BCc
+ yW7rfhJZTxAMcx9j3NXeT/FyPs9UpLvbzRG0LkK4fVIWdI8Yi8flY+TSl/4vPWx7NUm3
+ VcIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=mJT9UmrAop50weZOiXkTq034qrYD2Z7sYhOghCoxa7U=;
+ b=PtHxiDypwQgAn0y4Q3uz97stpNXFZzPXSf6hdCPGjhbneg8zT+NkKleJ4A/KLZAbVV
+ PVB70FNopbiiQXEaNEqf66svVdUpbzlh7+DsUUfRP5RClIPX0uDOp5yPdkWVfbnXILqO
+ Gtu/EOGVIEffxLvDNk+BddkOi7V6O5wV++Z6kbeor/8OKQhemtuYGMh+p64ed/y0a3HC
+ U9q6oMQ5Di7n12xQTqLF+LiM9nogbBfAYjgpfbLJxm3kDcuRTha908ggoj7pZdwh86DZ
+ weOS0UbK7ytwP3qtEkuRKy8H6y0VKL1rQEupu3ad/A0gN9udXScKkmgWUXKOj869e7YJ
+ Qyqg==
+X-Gm-Message-State: AOAM531VqVP+ujHl+03hPwrypi9pT5iSwQarvb0IoZtaXqrLRdOdqSh0
+ bTZ40cjQRF4jd698GClzJPv4cg==
+X-Google-Smtp-Source: ABdhPJzYAsPi7L22JigPExXwwF0ksBTYtm1JieAuKmK3VDJBdWCxiRTSKgcCc7Gpkn2HnnVb4OLLqw==
+X-Received: by 2002:a05:6512:3053:: with SMTP id
+ b19mr26807543lfb.276.1637879985892; 
+ Thu, 25 Nov 2021 14:39:45 -0800 (PST)
+Received: from [192.168.1.211] ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id x5sm332534ljm.101.2021.11.25.14.39.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 25 Nov 2021 14:39:45 -0800 (PST)
+Subject: Re: [PATCH] drm/msm: Initialize MDSS irq domain at probe time
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ robdclark@gmail.com
+References: <20211125150947.354076-1-angelogioacchino.delregno@collabora.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Message-ID: <4e0147b9-6168-6eac-87f3-4d90c8404e3a@linaro.org>
+Date: Fri, 26 Nov 2021 01:39:44 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
-In-Reply-To: <72ac7967f07e0794a8a06793407cf03f6a34e9fa.1637700315.git.christophe.jaillet@wanadoo.fr>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-ClientProxiedBy: YT3PR01CA0002.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:86::10) To BN9PR12MB5115.namprd12.prod.outlook.com
- (2603:10b6:408:118::14)
 MIME-Version: 1.0
-Received: from [192.168.2.100] (142.127.191.123) by
- YT3PR01CA0002.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:86::10) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4734.22 via Frontend Transport; Thu, 25 Nov 2021 21:37:09 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: b84fb395-534c-4776-8b70-08d9b05bbc5f
-X-MS-TrafficTypeDiagnostic: BN9PR12MB5338:
-X-Microsoft-Antispam-PRVS: <BN9PR12MB533842604ABD2610EEF4742492629@BN9PR12MB5338.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ljS+CkhQsFWoUsLQ/bRpvLAulVntwi54gxSMuHfzCfg8hb8td8r5lFnnvp6hzJAoctaVVbrexr3Xttg9y89mTXxbNRJ6eDs3uFQDj70HIEr/jAJgod728gaSxH733x2/DWsowga31IQPWcLxEOZwgOd+lUDAqrIFOwORGDno2oYZbhJkyQIYIZGbX6WMLRXhv2eUaoxhRHjaD+L8eGt1EjGu3JgLlsOb8LecBbRemySCC+NtBnq2sr3o7Gl9g4FesERTfjui/xl+yUzZIsfT7XppjCFs5VP0h+5yc1wTL4nkQwTjmKWDfBiGRTQZ81/O3+GDpMe5nIcKEElb86ruRyCy4bZIpd5Xkx3bSqhsG8XwoSfPDimEgLJjhDBuXWCc4AE/12Tktk1S0vAWCJ77fsyuqRiD5AmXw0It9FqHb65Fp/5qqSusj8l+ATCnmQVqhC8AmU8ObjmTmZKGUvEI8Rv8UL/mTzecJLNpKYizYQU5XdfoQhhO4e2Fr55A1mMXK7Ygq3MQu8VJLHVU3Tu6ukyU+7X5fOvm/HiI89G6TaHMxr3SHeOJnymTBbVDYh7KDMJqF96o83r3/knERxDgYoYxxW63lA8zuSY3O8EKCRoiM7XRcrDPPCEqiMVXdPaVgNIsOga6ymQ4XuYs9W0RJ7jWvDV59QOd1t4mO6ov7sXRBkkOGirn8lyyIC34IbcCSmiGGxoQShD+aQ7U1kt0aHXJbChWflc2ov8X58GjRWYLCcKuiNfBkaKik8AbiCSm
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN9PR12MB5115.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(66946007)(66476007)(66556008)(16576012)(2616005)(86362001)(186003)(4326008)(83380400001)(8936002)(6486002)(31696002)(26005)(508600001)(4001150100001)(31686004)(2906002)(8676002)(316002)(36756003)(44832011)(956004)(38100700002)(5660300002)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?T1ZsRDEyVFNtZW1YUDBhNlhibjZnT3lHTTZ0Rm55WURrSjhOUUpzRGVOdXJk?=
- =?utf-8?B?MVZRL1FtMmRYOEdlNTdOQUhBWksyM2tNUjMwczZNQTV0RExRM1JPVzRpQUQx?=
- =?utf-8?B?OCswSFVhaDNLY09rb0w5QldzNzVMM01rU2RsV0ZhZVZodzlPc3FMeGFWRUF2?=
- =?utf-8?B?ZXR2dUp1YkwwWDBGcXludDQzL2lUdEM0T0t3UTZuNU0yaC9XZXR4OEg2RTAz?=
- =?utf-8?B?MUEwMG1Bd3lORHQxazRscEEzbWtPc24rTHo2Nk9ENzVMRTBCTDc4OVNHSGgy?=
- =?utf-8?B?THRiMjYyUzJNeTJLWktFU1lmZE5GUkJxbjNEQnhOem54K0ZKRlg5OVRyTHlZ?=
- =?utf-8?B?Ymw1R2hNTlJBTFI5VE5ERVZ4RzlZb3BNWGI3d1JTU0QyZURVenZ3U1JwOUM2?=
- =?utf-8?B?dGpQNEdFSERKOFE5OTdobkRZWUpZakRpRXhvbFVzZExqaVlieHlhS1Rzc2FK?=
- =?utf-8?B?aHhwbkIvN0o0TjNBR092Y1IyMVJpVE9OS0xJVCtwS1ZIK0szb3NBeUxKa1A3?=
- =?utf-8?B?WTBNOHhsTk5UTXBBVklDMDhhZlk3VGJmUUx2WmhXNmllN1EyeHF1MjF4OWJT?=
- =?utf-8?B?ZVJsTkdnaG5IdlIxdTRRWVdSUnlzY0VqUzhIR1lCSWJJU1FNbEE0Z1ZIV3F2?=
- =?utf-8?B?UjRvS0NIS0lJbHc1clZVTlorTm5PanYzNEZoOC9tRVQxUUpSSThqeG1SWGFz?=
- =?utf-8?B?S042emxQOG1KRjJCNXBVVGJTaEk5bEsxTFZoK0ZrbkE5YnJ0MUVKQStHZkVR?=
- =?utf-8?B?a0l1bDJjVDc3eHpITlJEc3BmMGE5NWNuOUo5YmcxVVlZSnNLVXNab3JnZXJm?=
- =?utf-8?B?d3I3U0Z1aUkzQkUvRVZkMlJhdHk4aWtYOW1UNEhUdU84VTVSaGpISXVqc3hU?=
- =?utf-8?B?bS84RjVDdXVkTXphcjdYZDZMUXNhT1dhNWNkZnhydk1lQnEwRnc1bEpkNWRU?=
- =?utf-8?B?SFM5cTA5NmZ2d2tUN0NIVzNoeng2YVlWQnVyZFFMLzEvMi9xWnBxYkQ3NENj?=
- =?utf-8?B?OXN3Mm1vLzdqK0w5RE0ySTFYWDNyR2JFd2hNUVBBYXdKZ1RMcFJYS044dE1j?=
- =?utf-8?B?T0FSSnZzRHdYL29DT09OR21jb3VuLzFNVnNvRkZVYVlHRmk1WGovUHZUZ2pZ?=
- =?utf-8?B?YWZmVHpKKzlEekFuOHdBZGlJVTBrd25MeFZXMkI4MmZlOUllNnRuTm8zVzRK?=
- =?utf-8?B?U1g2NXJlOVA3QUttK3E3SHBtSWNCbXFJRUFORjdFUy9KYXROK0pCSEpYR0hM?=
- =?utf-8?B?UzJ5V2NSVnBObG5XTk55Njk2VEZYRzRKWS9TS3hJblpBNWh2enJiOFRvWFhB?=
- =?utf-8?B?RUFHamFnbFpiMXNPNndGQmlabVdlcTk3K1c4cDlpRlV2dTZDbWJKbjdMdkF2?=
- =?utf-8?B?Y3VYajRWZHZ0NmU1S3pOWXVMdng1cHB0SkFDUnZ3M0w3WStQMm9MUE56Q0dk?=
- =?utf-8?B?RFBTc3hXRTAvL0c4T3hxaEJMeHQvTkRPbElFcnFjbEZjZVFVeUhVZmJlWmp5?=
- =?utf-8?B?QjRsTU9saGdDN1VDSHc0ejU2a3g2Qlh6WW5lR0drWXBtYjdRb25YTUVlNzh3?=
- =?utf-8?B?dWZlc2lMZUpjL1diMDUzck10RGs2eHJ5TFlDa2ViTnNuWVozUFNmWnBsbG9m?=
- =?utf-8?B?b3IvR1N1S0xPWlZSd0dvU1NlSGs2MkhmRUlwNGVxelJWdXVOamJOcUlxeE9r?=
- =?utf-8?B?YitmcVdMWVhyOXh5dGV3MTFSNjFhc2pxMVE1Qlhndm9kQncrbTh3ME1nMGFT?=
- =?utf-8?B?eStXVHNaS3J0R3VNd3kvdGhFbm14QkY3L1ZUYWFycld2cHUwWk80NGlGeGtN?=
- =?utf-8?B?UWJ5RXNOZkhLdEo1OStlTW1NdFdsTVZvbGRzWkNkRit3TGowQTRYdEdIck1N?=
- =?utf-8?B?Zkx0MisyZHJ6K1g5TTJFbkpPZHpuRUV1R083UERVNXE1MGFLaGUwUFcrYnBK?=
- =?utf-8?B?R2dTSDZhbDB4U3dHdDZ6OWRqTjJWc2FZY3NNb2NLZGdaUFRKNFB1VVNXSE9F?=
- =?utf-8?B?emJERDFxSnVvTXlwNElkWjFhSDRSUHZqU2J0aGdaN1RpQjZLUExBTnlDMlo3?=
- =?utf-8?B?Tm5sNEdvKzBoby9leGdWUzA1VExmZENpbjVJcGdyMHBTT004Z2NhTkVTTENs?=
- =?utf-8?B?V2U4c2cybkhOVmQ0V1k2S0IrSTlIeWRwQ0dVamNkeHgxM0ZyZ3FyMHdJdEts?=
- =?utf-8?Q?Qa/GyBHJj7ES19u6Bx2EJYA=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b84fb395-534c-4776-8b70-08d9b05bbc5f
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5115.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Nov 2021 21:37:10.4385 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /8oN8PF1usGnuggEfzbjnA080809AMyLMvbbQUtE0ZcCNnv02OTkeS1n32rYn6vEbSvPn9PP9Os3fKgXODSM/g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR12MB5338
+In-Reply-To: <20211125150947.354076-1-angelogioacchino.delregno@collabora.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -135,48 +73,241 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: freedreno@lists.freedesktop.org, airlied@linux.ie,
+ linux-arm-msm@vger.kernel.org, konrad.dybcio@somainline.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ jami.kettunen@somainline.org, maxime@cerno.tech, marijn.suijten@somainline.org,
+ kernel@collabora.com, sean@poorly.run
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 2021-11-23 um 3:46 p.m. schrieb Christophe JAILLET:
-> The 'doorbell_bitmap' bitmap has just been allocated. So we can use the
-> non-atomic '__set_bit()' function to save a few cycles as no concurrent
-> access can happen.
->
-> Reviewed-by: Felix Kuehling <Felix.Kuehling@amd.com>
-> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+On 25/11/2021 18:09, AngeloGioacchino Del Regno wrote:
+> Since commit 8f59ee9a570c ("drm/msm/dsi: Adjust probe order"), the
+> DSI host gets initialized earlier, but this caused unability to probe
+> the entire stack of components because they all depend on interrupts
+> coming from the main `mdss` node (mdp5, or dpu1).
+> 
+> To fix this issue, also anticipate probing mdp5 or dpu1 by initializing
+> them at msm_pdev_probe() time: this will make sure that we add the
+> required interrupt controller mapping before dsi and/or other components
+> try to initialize, finally satisfying the dependency.
+> 
+> While at it, also change the allocation of msm_drm_private to use the
+> devm variant of kzalloc().
+> 
+> Fixes: 8f59ee9a570c ("drm/msm/dsi: Adjust probe order")
+> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
-Thank you! I applied the series to amd-staging-drm-next.
+If device is not fully bound (e.g. DSI host could not bind the panel), 
+this patch causes the following oops on reboot:
 
-Regards,
-  Felix
+[   75.011942] Unable to handle kernel NULL pointer dereference at 
+virtual address 0000000000000030
+[   75.020974] Mem abort info:
+[   75.023859]   ESR = 0x96000006
+[   75.027013]   EC = 0x25: DABT (current EL), IL = 32 bits
+[   75.032480]   SET = 0, FnV = 0
+[   75.035627]   EA = 0, S1PTW = 0
+[   75.038861]   FSC = 0x06: level 2 translation fault
+[   75.043876] Data abort info:
+[   75.046847]   ISV = 0, ISS = 0x00000006
+[   75.050796]   CM = 0, WnR = 0
+[   75.053857] user pgtable: 4k pages, 48-bit VAs, pgdp=00000001102b3000
+[   75.060478] [0000000000000030] pgd=080000011035d003, 
+p4d=080000011035d003, pud=080000011035f003, pmd=0000000000000000
+[   75.071380] Internal error: Oops: 96000006 [#1] SMP
+[   75.076388] Modules linked in:
+[   75.079530] CPU: 0 PID: 1442 Comm: reboot Not tainted 
+5.16.0-rc1-00046-g2207fd610cf4-dirty #185
+[   75.088460] Hardware name: Qualcomm Technologies, Inc. Robotics RB5 (DT)
+[   75.095345] pstate: 60400005 (nZCv daif +PAN -UAO -TCO -DIT -SSBS 
+BTYPE=--)
+[   75.102496] pc : drm_atomic_state_alloc+0x14/0x74
+[   75.107335] lr : drm_atomic_helper_disable_all+0x20/0x210
+[   75.112885] sp : ffff80001480bb70
+[   75.116298] x29: ffff80001480bb70 x28: ffff0c8753505400 x27: 
+0000000000000000
+[   75.123626] x26: ffff0c874097d890 x25: ffffaa357b610e00 x24: 
+0000000000000000
+[   75.130954] x23: ffffaa357bdaa030 x22: ffffaa357bdfd2d8 x21: 
+ffff80001480bbf8
+[   75.138282] x20: ffff0c87469bd800 x19: ffff0c87469bd800 x18: 
+ffffffffffffffff
+[   75.145608] x17: 000000000000000e x16: 0000000000000001 x15: 
+ffff80009480ba3d
+[   75.152934] x14: 0000000000000004 x13: 0000000000000000 x12: 
+ffff0c87452c1288
+[   75.160261] x11: 0000000000000003 x10: ffff0c87452c1240 x9 : 
+0000000000000001
+[   75.167588] x8 : ffff80001480bc38 x7 : 0000000000000000 x6 : 
+ffff0c874f63d300
+[   75.174914] x5 : 0000000000000000 x4 : ffffaa357b582d30 x3 : 
+0000000000000000
+[   75.182240] x2 : ffff80001480bc20 x1 : 0000000000000000 x0 : 
+ffff0c87469bd800
+[   75.189568] Call trace:
+[   75.192092]  drm_atomic_state_alloc+0x14/0x74
+[   75.196571]  drm_atomic_helper_disable_all+0x20/0x210
+[   75.201765]  drm_atomic_helper_shutdown+0x80/0x130
+[   75.206683]  msm_pdev_shutdown+0x2c/0x40
+[   75.210717]  platform_shutdown+0x28/0x40
+[   75.214751]  device_shutdown+0x15c/0x450
+[   75.218785]  __do_sys_reboot+0x218/0x2a0
+[   75.222819]  __arm64_sys_reboot+0x28/0x34
+[   75.226937]  invoke_syscall+0x48/0x114
+[   75.230794]  el0_svc_common.constprop.0+0xd4/0xfc
+[   75.235626]  do_el0_svc+0x28/0x90
+[   75.239030]  el0_svc+0x28/0x80
+[   75.242174]  el0t_64_sync_handler+0xa4/0x130
+[   75.246567]  el0t_64_sync+0x1a0/0x1a4
+[   75.250338] Code: a9be7bfd 910003fd a90153f3 f9418c01 (f9401821)
+[   75.256599] ---[ end trace d90b41486de58d22 ]---
+
+
+The following patch fixes it:
+
+diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+index 41c6a9f9dd34..5a92417d21d0 100644
+--- a/drivers/gpu/drm/msm/msm_drv.c
++++ b/drivers/gpu/drm/msm/msm_drv.c
+@@ -1435,7 +1435,7 @@ static void msm_pdev_shutdown(struct
+         struct drm_device *drm = platform_get_drvdata(pdev);
+         struct msm_drm_private *priv = drm ? drm->dev_private : NULL;
+
+-       if (!priv || !priv->kms)
++       if (!priv || !priv->kms || !drm->mode_config.funcs)
+                 return;
+
+         drm_atomic_helper_shutdown(drm);
 
 
 > ---
-> bitmap_set() could certainly also be use, but range checking would be
-> tricky.
->
-> v1 --> v2: No change
-> ---
->  drivers/gpu/drm/amd/amdkfd/kfd_process.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_process.c b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
-> index 67bb1654becc..9158f9754a24 100644
-> --- a/drivers/gpu/drm/amd/amdkfd/kfd_process.c
-> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
-> @@ -1446,9 +1446,9 @@ static int init_doorbell_bitmap(struct qcm_process_device *qpd,
->  
->  	for (i = 0; i < KFD_MAX_NUM_OF_QUEUES_PER_PROCESS / 2; i++) {
->  		if (i >= range_start && i <= range_end) {
-> -			set_bit(i, qpd->doorbell_bitmap);
-> -			set_bit(i + KFD_QUEUE_DOORBELL_MIRROR_OFFSET,
-> -				qpd->doorbell_bitmap);
-> +			__set_bit(i, qpd->doorbell_bitmap);
-> +			__set_bit(i + KFD_QUEUE_DOORBELL_MIRROR_OFFSET,
-> +				  qpd->doorbell_bitmap);
->  		}
->  	}
->  
+>   drivers/gpu/drm/msm/msm_drv.c | 81 ++++++++++++++++-------------------
+>   1 file changed, 38 insertions(+), 43 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+> index 7936e8d498dd..790acf4993c0 100644
+> --- a/drivers/gpu/drm/msm/msm_drv.c
+> +++ b/drivers/gpu/drm/msm/msm_drv.c
+> @@ -512,45 +512,12 @@ static int msm_init_vram(struct drm_device *dev)
+>   static int msm_drm_init(struct device *dev, const struct drm_driver *drv)
+>   {
+>   	struct platform_device *pdev = to_platform_device(dev);
+> -	struct drm_device *ddev;
+> -	struct msm_drm_private *priv;
+> -	struct msm_kms *kms;
+> -	struct msm_mdss *mdss;
+> +	struct drm_device *ddev = platform_get_drvdata(pdev);
+> +	struct msm_drm_private *priv = ddev->dev_private;
+> +	struct msm_kms *kms = priv->kms;
+> +	struct msm_mdss *mdss = priv->mdss;
+>   	int ret, i;
+>   
+> -	ddev = drm_dev_alloc(drv, dev);
+> -	if (IS_ERR(ddev)) {
+> -		DRM_DEV_ERROR(dev, "failed to allocate drm_device\n");
+> -		return PTR_ERR(ddev);
+> -	}
+> -
+> -	platform_set_drvdata(pdev, ddev);
+> -
+> -	priv = kzalloc(sizeof(*priv), GFP_KERNEL);
+> -	if (!priv) {
+> -		ret = -ENOMEM;
+> -		goto err_put_drm_dev;
+> -	}
+> -
+> -	ddev->dev_private = priv;
+> -	priv->dev = ddev;
+> -
+> -	switch (get_mdp_ver(pdev)) {
+> -	case KMS_MDP5:
+> -		ret = mdp5_mdss_init(ddev);
+> -		break;
+> -	case KMS_DPU:
+> -		ret = dpu_mdss_init(ddev);
+> -		break;
+> -	default:
+> -		ret = 0;
+> -		break;
+> -	}
+> -	if (ret)
+> -		goto err_free_priv;
+> -
+> -	mdss = priv->mdss;
+> -
+>   	priv->wq = alloc_ordered_workqueue("msm", 0);
+>   	priv->hangcheck_period = DRM_MSM_HANGCHECK_DEFAULT_PERIOD;
+>   
+> @@ -685,11 +652,6 @@ static int msm_drm_init(struct device *dev, const struct drm_driver *drv)
+>   err_destroy_mdss:
+>   	if (mdss && mdss->funcs)
+>   		mdss->funcs->destroy(ddev);
+> -err_free_priv:
+> -	kfree(priv);
+> -err_put_drm_dev:
+> -	drm_dev_put(ddev);
+> -	platform_set_drvdata(pdev, NULL);
+>   	return ret;
+>   }
+>   
+> @@ -1382,12 +1344,42 @@ static const struct component_master_ops msm_drm_ops = {
+>   static int msm_pdev_probe(struct platform_device *pdev)
+>   {
+>   	struct component_match *match = NULL;
+> +	struct msm_drm_private *priv;
+> +	struct drm_device *ddev;
+>   	int ret;
+>   
+> +	priv = devm_kzalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
+> +	if (!priv)
+> +		return -ENOMEM;
+> +
+> +	ddev = drm_dev_alloc(&msm_driver, &pdev->dev);
+> +	if (IS_ERR(ddev)) {
+> +		DRM_DEV_ERROR(&pdev->dev, "failed to allocate drm_device\n");
+> +		return PTR_ERR(ddev);
+> +	}
+> +
+> +	platform_set_drvdata(pdev, ddev);
+> +	ddev->dev_private = priv;
+> +	priv->dev = ddev;
+> +
+> +	switch (get_mdp_ver(pdev)) {
+> +	case KMS_MDP5:
+> +		ret = mdp5_mdss_init(ddev);
+> +		break;
+> +	case KMS_DPU:
+> +		ret = dpu_mdss_init(ddev);
+> +		break;
+> +	default:
+> +		ret = 0;
+> +		break;
+> +	}
+> +	if (ret)
+> +		goto err_put_drm_dev;
+> +
+>   	if (get_mdp_ver(pdev)) {
+>   		ret = add_display_components(pdev, &match);
+>   		if (ret)
+> -			return ret;
+> +			goto fail;
+>   	}
+>   
+>   	ret = add_gpu_components(&pdev->dev, &match);
+> @@ -1409,6 +1401,9 @@ static int msm_pdev_probe(struct platform_device *pdev)
+>   
+>   fail:
+>   	of_platform_depopulate(&pdev->dev);
+> +err_put_drm_dev:
+> +	drm_dev_put(ddev);
+> +	platform_set_drvdata(pdev, NULL);
+>   	return ret;
+>   }
+>   
+> 
+
+
+-- 
+With best wishes
+Dmitry
