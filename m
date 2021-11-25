@@ -2,62 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F29D45D5D6
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Nov 2021 08:58:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF37B45D607
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Nov 2021 09:16:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 298556E046;
-	Thu, 25 Nov 2021 07:58:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 858EA6EAD9;
+	Thu, 25 Nov 2021 08:16:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com
- [209.85.214.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 690486E32F
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Nov 2021 07:58:36 +0000 (UTC)
-Received: by mail-pl1-f169.google.com with SMTP id u11so3933914plf.3
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Nov 2021 23:58:36 -0800 (PST)
+Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com
+ [IPv6:2607:f8b0:4864:20::530])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 509536EAD7
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Nov 2021 08:16:38 +0000 (UTC)
+Received: by mail-pg1-x530.google.com with SMTP id 71so4558165pgb.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Nov 2021 00:16:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=lfriBRcXpshyF1kq92nAu2kh1POupA3b+vD7MqpK/Bk=;
+ b=M7CDb2za+voTT19XexwjvCjECDIDANFnViMmvcQvXI2lwzNojH/a1gHUacduX5+9LF
+ GovyuL4OsKFxv26LWRO/OB1Bz18zBE5vfFVFzCXwtpBcAb07TxtbvV1LL64K1aKrLkgi
+ NCtFsEnWlPqxajd6KIby45BD5sdulZPQjmXG6REQlq9nLxWEG1EmQtYCSxr8YKpfldCf
+ sXSo+FWyFKM4X7WrbUdK40N3bB9aGyvTzZykclhW9bzCuEo1hvsGFRPs8y6dP3DzH6S9
+ ezqKj+SREBDBHeeoBJuJwjUijEfH2ZV4Pz7pU5OKperI/ap7OmvCgJk7Rnx2ESTlmNSz
+ KRDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=hmFa3mefTALjMC6F9V0zj4TVnAlnKNwgvaukN6YZ+bY=;
- b=m22sr18r9HOrnp7RVDytEJ3qq6I1x0HmmSTEH2bpf74EWHoLH9T7/bIhNhyiLIO5ny
- XDvxMnfaj7IMarPSHUGFqWuxI+RnQsZJfB3i7egT/SQzJm3FeEXa6cMqnZy6HTEV9gvX
- jWs9INGojwMuDGf4h/ydMzBEbm8vNLGIHFn49Av277p01qDUUrjxkkrsK6JW8ddDKzET
- x4edWodWJ0xpZ3r2xJL5XKrAkIgL7I/zmIpgZ4xnVUzQM3Q7d6BJnqPxjTTRYpGhFxMY
- SuJcbLCZT9dUCjE3Y2qaqb+Wly9VJSDVJzimmBe6eL+HzNcN7oFiehcR0t8X6VY4p8CC
- sJDQ==
-X-Gm-Message-State: AOAM532kILvH9ubrjMnCQj4iR+Kw0HDsVdvoLCrDDff+wZf6zxyYWCfx
- /Pbw6uj8rGv+uSR5KtKqk29keIXNdkGlPQ==
-X-Google-Smtp-Source: ABdhPJy+Jp5LjUNjEO225cbKyzbkTYx4/BmtxTohXfC7YcxKBg9IECnxwp9gPeyW7jm0IJBnwJcoFg==
-X-Received: by 2002:a17:90a:4d0c:: with SMTP id
- c12mr4834113pjg.151.1637827115685; 
- Wed, 24 Nov 2021 23:58:35 -0800 (PST)
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com.
- [209.85.215.174])
- by smtp.gmail.com with ESMTPSA id m24sm1538624pgk.39.2021.11.24.23.58.35
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 24 Nov 2021 23:58:35 -0800 (PST)
-Received: by mail-pg1-f174.google.com with SMTP id r5so4500329pgi.6
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Nov 2021 23:58:35 -0800 (PST)
-X-Received: by 2002:a1f:9f04:: with SMTP id i4mr7245004vke.33.1637827104304;
- Wed, 24 Nov 2021 23:58:24 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=lfriBRcXpshyF1kq92nAu2kh1POupA3b+vD7MqpK/Bk=;
+ b=STw6b+2e9IPbnb3Z6ZLKDtP0yu6PKIArFgA3bSCZPitfdMe7cgTUUSzTw3Phs+r0ji
+ PCTidg6e2uh14LOxoonnh1tGZ9ikCZ/se4gEGfDrp17Ab+j6BeJJ01Zx7GPW8xuBAb9Y
+ vFLcUU2NpbG3y0sC0eXztGlEwotBKCY+EzVsCAjCz1Y+mJsxFDtXeE2+y4OjM01XIk9K
+ wyDs2FsG4/vhh8pTqfHOUG9BSytckdt+BQo4u/SzT+V20ORzJqdrGpqtdyK6c8CTqVrz
+ k1VmchPTD07IEC1LHKFyNrdrXqxcv/SH/TQceXEglxMpEPzqxZNP2M/h3qFx1DAzPD5Z
+ LUVg==
+X-Gm-Message-State: AOAM531MTOFgY9YiTNYNaO6+j9EO+qd6aAho7K1of3ACCR8h0miwHBvv
+ 8+dcgne/MmCua0T2gNJNrresMQ==
+X-Google-Smtp-Source: ABdhPJyyASzkTVmZnTpKVd0QOD0Uo0JG8HVXPrFLTOWG5xoT0mHr7GP8AuxnMVLFiEIUBIaBuAe9Qw==
+X-Received: by 2002:aa7:8b14:0:b0:4a3:a714:30ed with SMTP id
+ f20-20020aa78b14000000b004a3a71430edmr12324262pfd.2.1637828197688; 
+ Thu, 25 Nov 2021 00:16:37 -0800 (PST)
+Received: from google.com ([2401:fa00:1:10:cd6a:1959:1c65:cc19])
+ by smtp.gmail.com with ESMTPSA id c18sm2385652pfl.201.2021.11.25.00.16.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 25 Nov 2021 00:16:37 -0800 (PST)
+Date: Thu, 25 Nov 2021 16:16:33 +0800
+From: Tzung-Bi Shih <tzungbi@google.com>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Subject: Re: [PATCH] drm/bridge: anx7625: fix an error code in
+ anx7625_register_audio()
+Message-ID: <YZ9GYUrBvmCQaZtg@google.com>
+References: <20211124145219.GD13656@kili>
 MIME-Version: 1.0
-References: <cover.1637691240.git.hns@goldelico.com>
- <d62023e0872e9b393db736f4a0ecf04b3fc1c91b.1637691240.git.hns@goldelico.com>
- <O0K13R.TIL3JBQ5L8TO1@crapouillou.net>
- <04F0ED7C-3D18-4CCF-8F10-E0A36B0E4F4B@goldelico.com>
- <CAMuHMdWO3yosf5eyTPpydVuT3pwvuw9Q=2BUxq+rxPjE3iSnrw@mail.gmail.com>
- <B622D2B5-D631-43F3-9D50-2B41681C78AB@goldelico.com>
-In-Reply-To: <B622D2B5-D631-43F3-9D50-2B41681C78AB@goldelico.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 25 Nov 2021 08:58:13 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdV5sjVg6BEm3zgvvsJDHJwKP1A8rh-sama8suCG5SYQyA@mail.gmail.com>
-Message-ID: <CAMuHMdV5sjVg6BEm3zgvvsJDHJwKP1A8rh-sama8suCG5SYQyA@mail.gmail.com>
-Subject: Re: [PATCH v8 6/8] MIPS: DTS: CI20: Add DT nodes for HDMI setup
-To: "H. Nikolaus Schaller" <hns@goldelico.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211124145219.GD13656@kili>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,88 +69,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, Paul Boddie <paul@boddie.org.uk>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
- Paul Cercueil <paul@crapouillou.net>,
+Cc: Pi-Hsun Shih <pihsun@chromium.org>, Jonas Karlman <jonas@kwiboo.se>,
+ David Airlie <airlied@linux.ie>, Robert Foss <robert.foss@linaro.org>,
+ dri-devel@lists.freedesktop.org, Neil Armstrong <narmstrong@baylibre.com>,
+ kernel-janitors@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Andrzej Hajda <a.hajda@samsung.com>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>, Sam Ravnborg <sam@ravnborg.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Kees Cook <keescook@chromium.org>,
- Jonas Karlman <jonas@kwiboo.se>, Mark Brown <broonie@kernel.org>,
- Maxime Ripard <maxime@cerno.tech>, letux-kernel@openphoenux.org,
- Ezequiel Garcia <ezequiel@collabora.com>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Liam Girdwood <lgirdwood@gmail.com>, Robert Foss <robert.foss@linaro.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>, "Eric W. Biederman" <ebiederm@xmission.com>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>
+ Hsin-Yi Wang <hsinyi@chromium.org>, Sam Ravnborg <sam@ravnborg.org>,
+ Xin Ji <xji@analogixsemi.com>, Maxime Ripard <maxime@cerno.tech>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Nikolaus,
+On Wed, Nov 24, 2021 at 05:52:19PM +0300, Dan Carpenter wrote:
+> This code accidentally returns IS_ERR(), which is 1, instead of
+> propagating the negative error code.  The caller doesn't check for
+> errors so it doesn't affect run time at all.
+> 
+> Fixes: 566fef1226c1 ("drm/bridge: anx7625: add HDMI audio function")
+> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-On Wed, Nov 24, 2021 at 5:31 PM H. Nikolaus Schaller <hns@goldelico.com> wr=
-ote:
-> > Am 24.11.2021 um 17:21 schrieb Geert Uytterhoeven <geert@linux-m68k.org=
->:
-> > On Wed, Nov 24, 2021 at 5:19 PM H. Nikolaus Schaller <hns@goldelico.com=
-> wrote:
-> >>> Am 23.11.2021 um 21:10 schrieb Paul Cercueil <paul@crapouillou.net>:
-> >>> Le mar., nov. 23 2021 at 19:13:59 +0100, H. Nikolaus Schaller <hns@go=
-ldelico.com> a =C3=A9crit :
-> >>>> +    assigned-clock-rates =3D <48000000>, <0>, <54000000>, <0>, <270=
-00000>;
-> >>>> };
-> >>>> &tcu {
-> >>>> @@ -509,6 +534,19 @@ pins_i2c4: i2c4 {
-> >>>>             bias-disable;
-> >>>>     };
-> >>>> +    pins_hdmi_ddc: hdmi_ddc {
-> >>>> +            function =3D "hdmi-ddc";
-> >>>> +            groups =3D "hdmi-ddc";
-> >>>> +            bias-disable;
-> >>>> +    };
-> >>>> +
-> >>>> +    /* switch to PF25 as gpio driving DDC_SDA low */
-> >>>> +    pins_hdmi_ddc_unwedge: hdmi_ddc {
-> >>>> +            function =3D "hdmi-ddc";
-> >>>> +            groups =3D "hdmi-ddc";
-> >>>> +            bias-disable;
-> >>>> +    };
-> >>>
-> >>> Your pins_hdmi_ddc and pins_hdmi_ddc_unwedge are the exact same? You =
-could just use the former and pass it to both pinctrl-0 and pinctrl-1.
-> >>
-> >> This was forgotten to remove. We do not make use of the unwedge featur=
-e because I could not find out how to use pinctrl to switch this to gpio25 =
-and drive it low.
-> >
-> > Using gpio-hog?
->
-> well, AFAIR it activates the gpio permanently and is a propery of the gpi=
-o controller and not of pinmux.
-
-Yes, hogs are permanently (ignoring DT overlay tricks).
-
-> The driver assumes it can use pinmux state switching to drive the DDC_SDA=
- line low on demand.
-
-Add an optional wedge-gpios property for switching?
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+Reviewed-by: Tzung-Bi Shih <tzungbi@google.com>
