@@ -2,52 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B097545DF73
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Nov 2021 18:15:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1EC345DF93
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Nov 2021 18:22:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1DF106E1A4;
-	Thu, 25 Nov 2021 17:15:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F3BD6E41D;
+	Thu, 25 Nov 2021 17:22:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x12f.google.com (mail-il1-x12f.google.com
- [IPv6:2607:f8b0:4864:20::12f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EAB056E591
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Nov 2021 17:15:51 +0000 (UTC)
-Received: by mail-il1-x12f.google.com with SMTP id m5so6432672ilh.11
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Nov 2021 09:15:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=/uYJR7BpBUZnQlATvrNBpAhoCNJC2VJDDuo/0Wdks2I=;
- b=U1wy3xNctEYKtUSbQx4rQXWxWtAp3C6P5JqLjhqLydfu/j7qzEy22qOVSYZ8CT4Q0E
- KVf41IlVtfIa4dkrSkmRdOr7Mqn9KxanQNNnwy3jx2/d4CNhit0+YKJ3rmErXoNkDT9h
- EPVq9/nY4i12LhSgQ+wt8DA6NbflF6T7isKlU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=/uYJR7BpBUZnQlATvrNBpAhoCNJC2VJDDuo/0Wdks2I=;
- b=zjyMdOw0oiSI/9aSYatS/CA+DcorhLrWc/fhxjA6gd+gD+RfWplHo3k+78qVc/jI1A
- fi6qhgsy7ZurYGnHFo5ljSVnB8oRvLcpWZnIUSdGKcQjr9KYllW3kMU/mPcXH18KJrI1
- +Syifa3DOWgsRZxplQ3qkjvcwaJYPkZgLUyRTCk8ZyQVeHHNWAx5fhq7I8VoQej1cvIq
- +1lis3oe6HvJUhcZjr25+F7wUBnAn/n+6lt1PkJR+X0WqSBLnePibLTIdilSTicdXlqY
- bBTj0Sw75ZGp82z1R3ThbxBSPypEbS7hW/ba20Eze2JX+0R6xh0QMmPG+MW84e1OMyps
- w/WA==
-X-Gm-Message-State: AOAM5333kzbDN4nyxAMR+jm+w0TG75ybGeF485pI2z/D8iG3FTxrNimH
- inoX3nu8sGNCLR/nc//nDZ7/4gIdOJ+Nph0bj0vd1w==
-X-Google-Smtp-Source: ABdhPJwllgvWyk4LNbY/PtxJGQlD+gEgV7b5sp6fqyvfUdRDRSzNrnZLFjdBH7EIEcEybhBkeEKxek8U1YU0hnor4HU=
-X-Received: by 2002:a92:c54d:: with SMTP id a13mr23882839ilj.143.1637860551141; 
- Thu, 25 Nov 2021 09:15:51 -0800 (PST)
+Received: from smtp.domeneshop.no (smtp.domeneshop.no
+ [IPv6:2a01:5b40:0:3005::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A7AF6E41D
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Nov 2021 17:22:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+ ; s=ds202012;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=u8aXYOsL/gv9/ysyGSMs9eRZRUpowRI2RZmsAFCisIM=; b=VxxtE7uY/kk8ES7pmV5EynZ0OZ
+ ZncaP0rsa7gmcUNcSO/DSx707Bo1JOIJRPgpvxpoqR5cK8CtlLMxQE4ZQOUonA/WV/URGilwK7OM6
+ 41bwu0AhkqkeLDfKIXDbH/AFSwJ2R8UuH1qEiWi1Ndc/QKHqc1aJq+Ja4NgecQSKKF5Z6NSmFN+4Q
+ ZeeKwuwFqf9cSw5i+9rWHXfY49I1QBeziE7fCSm6iuPXBgHFrcg1c6EuWKIewAASLVv+bbiHyJwUm
+ 5zAl/e6JB3Iyx8B83fZ2WfZ6hC5i7hV1YIQd/XB90ijgur/Jw5Kt6a1OM47d0Q8Sqfvn3NOfijbEn
+ pT4uA5sA==;
+Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:49492
+ helo=[192.168.10.61])
+ by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <noralf@tronnes.org>)
+ id 1mqIRb-00018B-7K; Thu, 25 Nov 2021 18:21:59 +0100
+Message-ID: <7fb7cb73-40b1-9408-5c19-fe420bd0ee5f@tronnes.org>
+Date: Thu, 25 Nov 2021 18:21:55 +0100
 MIME-Version: 1.0
-References: <20210428193654.1498482-1-robdclark@gmail.com>
- <20210428193654.1498482-2-robdclark@gmail.com>
- <e6f04ed5-100d-6ef9-c272-1a1370e45579@linaro.org>
-In-Reply-To: <e6f04ed5-100d-6ef9-c272-1a1370e45579@linaro.org>
-From: Rob Clark <robdclark@chromium.org>
-Date: Thu, 25 Nov 2021 09:20:57 -0800
-Message-ID: <CAJs_Fx6cJSkU=+C7Fh14=xojn0n-ad9_qNFXuimFFm_X3WfUOg@mail.gmail.com>
-Subject: Re: [PATCH 1/2] drm/msm: Handle ringbuffer overflow
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.1
+Subject: Re: [PATCH 0/6] drm/tiny/st7735r: Match up with staging/fbtft driver
+To: David Lechner <david@lechnology.com>, robh+dt@kernel.org
+References: <20211124150757.17929-1-noralf@tronnes.org>
+ <eba23198-5c52-6520-079b-d2d41f71dc25@lechnology.com>
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+In-Reply-To: <eba23198-5c52-6520-079b-d2d41f71dc25@lechnology.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,258 +56,165 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:DRM DRIVER FOR MSM ADRENO GPU"
- <freedreno@lists.freedesktop.org>,
- Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
- Douglas Anderson <dianders@chromium.org>,
- open list <linux-kernel@vger.kernel.org>, Eric Anholt <emma@anholt.net>,
- Jonathan Marek <jonathan@marek.ca>, David Airlie <airlied@linux.ie>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- Sharat Masetty <smasetty@codeaurora.org>,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- Akhil P Oommen <akhilpo@codeaurora.org>, dri-devel@lists.freedesktop.org,
- Jordan Crouse <jordan@cosmicpenguin.net>,
- "Kristian H. Kristensen" <hoegsberg@google.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>,
- Dave Airlie <airlied@redhat.com>
+Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ dave.stevenson@raspberrypi.com, linux-staging@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, maxime@cerno.tech
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Nov 24, 2021 at 11:36 PM Dmitry Baryshkov
-<dmitry.baryshkov@linaro.org> wrote:
->
-> On 28/04/2021 22:36, Rob Clark wrote:
-> > From: Rob Clark <robdclark@chromium.org>
-> >
-> > Currently if userspace manages to fill up the ring faster than the GPU
-> > can consume we (a) spin for up to 1sec, and then (b) overwrite the
-> > ringbuffer contents from previous submits that the GPU is still busy
-> > executing.  Which predictably goes rather badly.
-> >
-> > Instead, just skip flushing (updating WPTR) and reset ring->next back to
-> > where it was before we tried writing the submit into the ringbuffer, and
-> > return an error to userspace (which can then try again).
-> >
-> > Signed-off-by: Rob Clark <robdclark@chromium.org>
->
-> Rob, you've posted this patch, but never merged it. Should it be merged
-> at some point?
 
-I think it is a bit less needed now, since drm/sched will limit the #
-of in-flight submits (when I sent that patch, it was before conversion
-to use drm/sched)
 
-With a bit more locking re-work we could do something more clever like
-just blocking until there is space in the ringbuffer.. but aren't
-there quite yet.
+Den 24.11.2021 23.03, skrev David Lechner:
+> On 11/24/21 9:07 AM, Noralf Trønnes wrote:
+>> Hi,
+>>
+>> This patchset adds a missing piece for decommissioning the
+>> staging/fbtft/fb_st7735r.c driver namely a way to configure the
+>> controller from Device Tree.
+>>
+>> All fbtft drivers have builtin support for one display panel and all
+>> other panels using that controller are configured using the Device Tree
+>> 'init' property. This property is supported by all fbtft drivers and
+>> provides a generic way to set register values or issue commands
+>> (depending on the type of controller).
+>>
+>> It is common for these types of displays to have a datasheet listing the
+>> necessary controller settings/commands or some example code doing the
+>> same.
+>>
+>> This is how the panel directly supported by the fb_st7735r staging
+>> driver is described using Device Tree with that driver:
+>>
+>>      width = <160>;
+>>      height = <128>;
+>>
+>>      init = <0x1000001
+>>              0x2000096
+>>              0x1000011
+>>              0x20000ff
+>>              0x10000B1 0x01 0x2C 0x2D
+>>              0x10000B4 0x07
+>>              0x10000C0 0xA2 0x02 0x84
+>>              0x10000C1 0xC5
+>>              0x10000C2 0x0A 0x00
+>>              0x10000C5 0x0E
+>>              0x100003a 0x55
+>>              0x1000036 0x60
+>>              0x10000E0 0x0F 0x1A 0x0F 0x18 0x2F 0x28 0x20 0x22
+>>                        0x1F 0x1B 0x23 0x37 0x00 0x07 0x02 0x10
+>>              0x10000E1 0x0F 0x1B 0x0F 0x17 0x33 0x2C 0x29 0x2E
+>>                        0x30 0x30 0x39 0x3F 0x00 0x07 0x03 0x10
+>>              0x1000029
+>>              0x2000064>;
+>>
+>>
+>> This is how the same panel is described using the st7735r drm driver and
+>> this patchset:
+>>
+>>      width = <160>;
+>>      height = <128>;
+>>
+>>      frmctr1 = [ 01 2C 2D ];
+>>      invctr = [ 07 ];
+>>      pwctr1 = [ A2 02 84 ];
+>>      pwctr2 = [ C5 ];
+>>      pwctr3 = [ 0A 00 ];
+>>      vmctr1 = [ 0E ];
+>>      madctl = [ 60 ];
+>>      gamctrp1 = [ 0F 1A 0F 18 2F 28 20 22 1F 1B 23 37 00 07 02 10 ];
+>>      gamctrn1 = [ 0F 1B 0F 17 33 2C 29 2E 30 30 39 3F 00 07 03 10 ];
+> 
+> Do these setting correspond to actual physical properties of the display?
+> 
 
-BR,
--R
+Apart from width, height, porches, freq and gamma, no not directly, they
+configure voltage levels, op-amps (charge pumps?), dividers and such.
 
->
-> > ---
-> >   drivers/gpu/drm/msm/adreno/a5xx_gpu.c   |  3 +++
-> >   drivers/gpu/drm/msm/adreno/a6xx_gpu.c   |  3 +++
-> >   drivers/gpu/drm/msm/adreno/adreno_gpu.c | 24 +++++++++++++++++-
-> >   drivers/gpu/drm/msm/msm_gem_submit.c    |  7 +++++-
-> >   drivers/gpu/drm/msm/msm_gpu.c           | 33 +++++++++++++++++++++++--
-> >   drivers/gpu/drm/msm/msm_gpu.h           |  2 +-
-> >   drivers/gpu/drm/msm/msm_ringbuffer.h    |  5 ++++
-> >   7 files changed, 72 insertions(+), 5 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
-> > index ce13d49e615b..0c8faad3b328 100644
-> > --- a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
-> > +++ b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
-> > @@ -36,6 +36,9 @@ void a5xx_flush(struct msm_gpu *gpu, struct msm_ringbuffer *ring,
-> >               OUT_RING(ring, upper_32_bits(shadowptr(a5xx_gpu, ring)));
-> >       }
-> >
-> > +     if (unlikely(ring->overflow))
-> > +             return;
-> > +
-> >       spin_lock_irqsave(&ring->preempt_lock, flags);
-> >
-> >       /* Copy the shadow to the actual register */
-> > diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> > index d553f62f4eeb..4a4728a774c0 100644
-> > --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> > +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> > @@ -68,6 +68,9 @@ static void a6xx_flush(struct msm_gpu *gpu, struct msm_ringbuffer *ring)
-> >               OUT_RING(ring, upper_32_bits(shadowptr(a6xx_gpu, ring)));
-> >       }
-> >
-> > +     if (unlikely(ring->overflow))
-> > +             return;
-> > +
-> >       spin_lock_irqsave(&ring->preempt_lock, flags);
-> >
-> >       /* Copy the shadow to the actual register */
-> > diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-> > index 0f184c3dd9d9..a658777e07b1 100644
-> > --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-> > +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-> > @@ -467,6 +467,9 @@ void adreno_flush(struct msm_gpu *gpu, struct msm_ringbuffer *ring, u32 reg)
-> >   {
-> >       uint32_t wptr;
-> >
-> > +     if (unlikely(ring->overflow))
-> > +             return;
-> > +
-> >       /* Copy the shadow to the actual register */
-> >       ring->cur = ring->next;
-> >
-> > @@ -788,12 +791,31 @@ static uint32_t ring_freewords(struct msm_ringbuffer *ring)
-> >       return (rptr + (size - 1) - wptr) % size;
-> >   }
-> >
-> > +static bool space_avail(struct msm_ringbuffer *ring, uint32_t ndwords)
-> > +{
-> > +     if (ring_freewords(ring) >= ndwords)
-> > +             return true;
-> > +
-> > +     /* We don't have a good way to know in general when the RPTR has
-> > +      * advanced.. newer things that use CP_WHERE_AM_I to update the
-> > +      * shadow rptr could possibly insert a packet to generate an irq.
-> > +      * But that doesn't cover older GPUs.  But if the ringbuffer is
-> > +      * full, it could take a while before it is empty again, so just
-> > +      * insert a blind sleep to avoid a busy loop.
-> > +      */
-> > +     msleep(1);
-> > +
-> > +     return false;
-> > +}
-> > +
-> >   void adreno_wait_ring(struct msm_ringbuffer *ring, uint32_t ndwords)
-> >   {
-> > -     if (spin_until(ring_freewords(ring) >= ndwords))
-> > +     if (spin_until(space_avail(ring, ndwords))) {
-> >               DRM_DEV_ERROR(ring->gpu->dev->dev,
-> >                       "timeout waiting for space in ringbuffer %d\n",
-> >                       ring->id);
-> > +             ring->overflow = true;
-> > +     }
-> >   }
-> >
-> >   /* Get legacy powerlevels from qcom,gpu-pwrlevels and populate the opp table */
-> > diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
-> > index 5480852bdeda..4bc669460fda 100644
-> > --- a/drivers/gpu/drm/msm/msm_gem_submit.c
-> > +++ b/drivers/gpu/drm/msm/msm_gem_submit.c
-> > @@ -683,6 +683,9 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
-> >       submitid = atomic_inc_return(&ident) - 1;
-> >
-> >       ring = gpu->rb[queue->prio];
-> > +
-> > +     GEM_WARN_ON(ring->overflow);
-> > +
-> >       trace_msm_gpu_submit(pid_nr(pid), ring->id, submitid,
-> >               args->nr_bos, args->nr_cmds);
-> >
-> > @@ -829,7 +832,9 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
-> >               }
-> >       }
-> >
-> > -     msm_gpu_submit(gpu, submit);
-> > +     ret = msm_gpu_submit(gpu, submit);
-> > +     if (ret)
-> > +             goto out;
-> >
-> >       args->fence = submit->fence->seqno;
-> >
-> > diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
-> > index ab7c167b0623..7655ad9108c8 100644
-> > --- a/drivers/gpu/drm/msm/msm_gpu.c
-> > +++ b/drivers/gpu/drm/msm/msm_gpu.c
-> > @@ -787,7 +787,7 @@ void msm_gpu_retire(struct msm_gpu *gpu)
-> >   }
-> >
-> >   /* add bo's to gpu's ring, and kick gpu: */
-> > -void msm_gpu_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
-> > +int msm_gpu_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
-> >   {
-> >       struct drm_device *dev = gpu->dev;
-> >       struct msm_drm_private *priv = dev->dev_private;
-> > @@ -834,9 +834,38 @@ void msm_gpu_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
-> >       spin_unlock(&ring->submit_lock);
-> >
-> >       gpu->funcs->submit(gpu, submit);
-> > -     priv->lastctx = submit->queue->ctx;
-> >
-> >       hangcheck_timer_reset(gpu);
-> > +
-> > +     if (unlikely(ring->overflow)) {
-> > +             /*
-> > +              * Reset the ptr back to before the submit, so the GPU
-> > +              * doesn't see a partial submit:
-> > +              */
-> > +             ring->next = ring->cur;
-> > +
-> > +             /*
-> > +              * Clear the overflow flag, hopefully the next submit on
-> > +              * the ring actually fits
-> > +              */
-> > +             ring->overflow = false;
-> > +
-> > +             /*
-> > +              * One might be tempted to remove the submit from the
-> > +              * submits list, and drop it's reference (and drop the
-> > +              * active reference for all the bos).  But we can't
-> > +              * really signal the fence attached to obj->resv without
-> > +              * disturbing other fences on the timeline.  So instead
-> > +              * just leave it and let it retire normally when a
-> > +              * later submit completes.
-> > +              */
-> > +
-> > +             return -ENOSPC;
-> > +     }
-> > +
-> > +     priv->lastctx = submit->queue->ctx;
-> > +
-> > +     return 0;
-> >   }
-> >
-> >   /*
-> > diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gpu.h
-> > index d7cd02cd2109..2dd2ef1f8328 100644
-> > --- a/drivers/gpu/drm/msm/msm_gpu.h
-> > +++ b/drivers/gpu/drm/msm/msm_gpu.h
-> > @@ -302,7 +302,7 @@ int msm_gpu_perfcntr_sample(struct msm_gpu *gpu, uint32_t *activetime,
-> >               uint32_t *totaltime, uint32_t ncntrs, uint32_t *cntrs);
-> >
-> >   void msm_gpu_retire(struct msm_gpu *gpu);
-> > -void msm_gpu_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit);
-> > +int msm_gpu_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit);
-> >
-> >   int msm_gpu_init(struct drm_device *drm, struct platform_device *pdev,
-> >               struct msm_gpu *gpu, const struct msm_gpu_funcs *funcs,
-> > diff --git a/drivers/gpu/drm/msm/msm_ringbuffer.h b/drivers/gpu/drm/msm/msm_ringbuffer.h
-> > index fe55d4a1aa16..d8ad9818c389 100644
-> > --- a/drivers/gpu/drm/msm/msm_ringbuffer.h
-> > +++ b/drivers/gpu/drm/msm/msm_ringbuffer.h
-> > @@ -40,6 +40,8 @@ struct msm_ringbuffer {
-> >       struct drm_gem_object *bo;
-> >       uint32_t *start, *end, *cur, *next;
-> >
-> > +     bool overflow;
-> > +
-> >       /*
-> >        * List of in-flight submits on this ring.  Protected by submit_lock.
-> >        */
-> > @@ -69,6 +71,9 @@ void msm_ringbuffer_destroy(struct msm_ringbuffer *ring);
-> >   static inline void
-> >   OUT_RING(struct msm_ringbuffer *ring, uint32_t data)
-> >   {
-> > +     if (ring->overflow)
-> > +             return;
-> > +
-> >       /*
-> >        * ring->next points to the current command being written - it won't be
-> >        * committed as ring->cur until the flush
-> >
->
->
-> --
-> With best wishes
-> Dmitry
+> What is the advantage of this compared to just adding a new compatible
+> string if a new display requires different settings? (Other than being
+> able to use a new display without compiling a new kernel/module.)
+> 
+
+There is no other reason, the purpose is simplicity for the end user,
+which is one of the reasons for fbtft's success.
+
+> It is nice for the driver implementation to be able to use the byte
+> arrays from the binding directly, but it doesn't really make sense from
+> a "device tree describes the hardware" point of view.
+> 
+> For example, looking at the data sheet, frmctr1 looks like it is actually
+> multiple properties, the 1-line period, front porch and back porch.
+> 
+
+Yes, one command can have several 8-bit parameters and often configures
+multiple things even within one parameter.
+
+>>
+>>
+>> Back when the fbtft drivers were added to staging I asked on the DT
+>> mailinglist if it was OK to use the 'init' property but it was turned
+>> down. In this patchset I'm trying the same approach used by the
+>> solomon,ssd1307fb.yaml binding in describing the attached panel. That
+>> binding prefixes the properties with the vendor name, not sure why that
+>> is and I think it looks strange so I try without it.
+> 
+> Because [1] says so?
+> 
+> "DO use a vendor prefix on device-specific property names. Consider if
+> properties could be common among devices of the same class. Check other
+> existing bindings for similar devices."
+> 
+
+That's a good reason :)
+
+> Do all displays have "frmctr1" or only sitronix displays?
+> 
+
+ILI9341 also has that command but with only 2 parameters.
+ST7789V calls it FRCTRL2 but has only one parameter.
+The FPA and BPA fields from "frmctr1" looks like they're set using other
+commands on ILI9341 and ST7789v.
+
+I looked at several datasheets some years back to see if I could see
+some kind of pattern, but I couldn't back then at least. Someone with
+initimate hw knowledge of these controllers could probably describe a
+controller using more generic properties.
+This would defeat the purpose of this exercise which is to make it easy
+to use any panel. Generic properties would require a set of formulas in
+order to go from the init sequence provided by the display manufcaturer
+to the generic properties.
+
+The whole point of this patchset is to see if something like the ssd1307
+binding can still be done in mainline making it easy for users.
+
+If this doesn't work out, we can start removing drivers from
+staging/fbtft since some of them haven't been removed even if the native
+panel is supported in drm because they can support any panel through the
+init property.
+
+Noralf.
+
+> 
+> [1]:
+> https://www.kernel.org/doc/html/latest/devicetree/bindings/writing-bindings.html
+> 
+> 
+>>
+>> Noralf.
+>>
+>>
+>> Noralf Trønnes (6):
+>>    dt-bindings: display: sitronix,st7735r: Fix backlight in example
+>>    dt-bindings: display: sitronix,st7735r: Make reset-gpios optional
+>>    dt-bindings: display: sitronix,st7735r: Remove spi-max-frequency limit
+>>    dt-bindings: display: sitronix,st7735r: Add initialization properties
+>>    drm/mipi-dbi: Add device property functions
+>>    drm: tiny: st7735r: Support DT initialization of controller
+>>
+>>   .../bindings/display/sitronix,st7735r.yaml    | 122 ++++++++++++++-
+>>   drivers/gpu/drm/drm_mipi_dbi.c                | 139 ++++++++++++++++++
+>>   drivers/gpu/drm/tiny/st7735r.c                |  87 +++++++++--
+>>   include/drm/drm_mipi_dbi.h                    |   3 +
+>>   4 files changed, 334 insertions(+), 17 deletions(-)
+>>
+> 
