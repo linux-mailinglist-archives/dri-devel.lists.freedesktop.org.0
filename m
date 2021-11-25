@@ -2,52 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DF4F45D404
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Nov 2021 06:03:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C2FC45D4D8
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Nov 2021 07:34:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C68AF6E0C8;
-	Thu, 25 Nov 2021 05:03:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4EE6F6E97F;
+	Thu, 25 Nov 2021 06:34:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com
- [IPv6:2a00:1450:4864:20::531])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A0F96E0C8
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Nov 2021 05:03:20 +0000 (UTC)
-Received: by mail-ed1-x531.google.com with SMTP id e3so20184682edu.4
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Nov 2021 21:03:20 -0800 (PST)
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com
+ [IPv6:2a00:1450:4864:20::536])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D52E76E97F
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Nov 2021 06:34:07 +0000 (UTC)
+Received: by mail-ed1-x536.google.com with SMTP id o20so20800788eds.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Nov 2021 22:34:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amarulasolutions.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ln2UAiZHSVyc5OYXLHIAkU5QHzDETS+mKR2UXZSBbeo=;
- b=c4Fb++MCVhmMgY6zqDDNHF7R0IiAifjq8CiTHc4HD0mbRFLkWJInRR22JLG/zHFMrQ
- OoKOyAuPHZOK0NSxZQd3TRhJSFHEYegaftjsBRUnzsmXuAeqGsrf3iknIEC/UJR7TJ+R
- aoVqo9tGQ/n2szl8udTpEG49La79zbsXbdxeI=
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=DixG+Wl1Rb/KISam2HYcJ5xuD624xAZ6kpmcZJfHNzs=;
+ b=aH1h1pl3DNGqeGFQwGYdGjqfTVNfKjj3LO7m8f/U52icWDr60m/V7U81CLHYO/z/ZY
+ dEp1z9m/8rr+iP2KLbwFYIfGQAPBmHxcvKgReCxpcHN+R/nXcar6Ya2ig3W3PT/J9B+s
+ 9o41P0z494YX7ArSrWV2WQU7+h8PApgk0tBgI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ln2UAiZHSVyc5OYXLHIAkU5QHzDETS+mKR2UXZSBbeo=;
- b=dOIODxtGVHzVE1V5JbPp4gXdrMb6euCwu+9A51l507jneITZd3nfygRh+9ekVkFOHD
- uKufd2vSv4vqjkzjL9af/8e8VSaa5f2GGgJL9yODLhVa3xUt7lYFDUQ2v6BZxefSjY5M
- xxkXS2EAMk8eSERkts2DaA/nMtrVld8PrvTkBU1xVrHUWkX66QGx8PYc3MD5K9V6Y67H
- WELpSknI7EUby/SVV+j/spSGmrBV0wD4REotTRJ4q+98jxaIAOv3M50bqpmQIGact0Q0
- 2eWvJSkVh5eX7DVA9G5lDJtVZchY9JFs2SF5wYiHPw728Ds9Xcx44mTUizCVZcwjhg7u
- sf8w==
-X-Gm-Message-State: AOAM533se86dD1oP8ygEZH0ZS3eJ20PoDf4COcJpDr+Q1lAK+f2wetjL
- B+j/I0aO6OvduS8geL+uKwhbh8q410DJ6l2lIEx8Ew==
-X-Google-Smtp-Source: ABdhPJzCY+lNVauG0lb3gQ3Tlm/4OVnsElNji6S+5wZZ7b9i1TOyhg38LKEo+D/hBm3DMhpXKVPQeIDIn/zB182VPII=
-X-Received: by 2002:a05:6402:5110:: with SMTP id
- m16mr34989210edd.15.1637816598877; 
- Wed, 24 Nov 2021 21:03:18 -0800 (PST)
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=DixG+Wl1Rb/KISam2HYcJ5xuD624xAZ6kpmcZJfHNzs=;
+ b=l1n4Ed2iuL/BLT6/fw8RBHLyNBl/NndBVCPN6r2VXsmElNNC7jxC+p53u3Hp39i/9i
+ ORp6e3hh95mc9D8IV5rMQbhOWJXaP6k0u6gcZT+MiN75D7/3nKuvLRUVkj2DHgJyl9ju
+ CI8rCioimPlac8s+cY5vBTJROWSYY38rhMnfuTwNWQDUUOgNuKc26I0hdlJzetuenb6L
+ l4jh67L63n340gL+YdvlVl2mUm7DvjpdVvKhUixGuqp+rxwOtSJs/EhuaydcLMZcgxj6
+ DN5E/Me665X0fvAWRsOxH8PneA2dXj0ig+SzlsXfjWsCNDZnDPlHmwY/ciCPdJ5r4lTA
+ BvQQ==
+X-Gm-Message-State: AOAM53224uqy6H7c/W2RWDuCuRwZmwy9M9HYhAE9xQX84CVut5G0DWJv
+ 4Gd8fsxA71ScoktnUuwGPOVepIa9NdPEV/Ts/eSIBQ==
+X-Google-Smtp-Source: ABdhPJwlCUq/Q7OpJLKMAwHs9hoBtJ4ZiNFp0rs8y4w2a5GNzn1IaePvMPzpr0r3mBmNcNzY0sQUoHyrRhAEulXDvxk=
+X-Received: by 2002:a17:907:7f2a:: with SMTP id
+ qf42mr29187934ejc.388.1637822045683; 
+ Wed, 24 Nov 2021 22:34:05 -0800 (PST)
 MIME-Version: 1.0
-References: <20211124172553.519309-1-jagan@amarulasolutions.com>
- <YZ67Pm2vbSyWMIam@pendragon.ideasonboard.com>
-In-Reply-To: <YZ67Pm2vbSyWMIam@pendragon.ideasonboard.com>
 From: Jagan Teki <jagan@amarulasolutions.com>
-Date: Thu, 25 Nov 2021 10:33:07 +0530
-Message-ID: <CAMty3ZBGtk2RKCHk10fjnC8hST4SmT7yWyLnOz6WPqn+X=bXRg@mail.gmail.com>
-Subject: Re: [PATCH 1/2] dt-bindings: display: bridge: Add TI DLPC3433 bindings
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Date: Thu, 25 Nov 2021 12:03:54 +0530
+Message-ID: <CAMty3ZBAQDVaOCZspgEmiuELncEbKCiRhTfojGcZV+-+7V31mg@mail.gmail.com>
+Subject: Exynos DSI bridge conversion
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, Dae <inki.dae@samsung.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Marek Vasut <marex@denx.de>, Michael Tretter <m.tretter@pengutronix.de>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -61,150 +60,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Christopher Vollo <chris@renewoutreach.org>,
- Neil Armstrong <narmstrong@baylibre.com>, linux-amarula@amarulasolutions.com,
- dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
- Robert Foss <robert.foss@linaro.org>, Andrzej Hajda <andrzej.hajda@intel.com>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: linux-amarula <linux-amarula@amarulasolutions.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Laurent,
+Hi Andrej and all,
 
-On Thu, Nov 25, 2021 at 3:53 AM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hi Jagan,
->
-> Thank you for the patch.
->
-> On Wed, Nov 24, 2021 at 10:55:52PM +0530, Jagan Teki wrote:
-> > TI DLPC3433 is a MIPI DSI based display controller bridge
-> > for processing high resolution DMD based projectors.
-> >
-> > It has a flexible configuration of MIPI DSI signal input
-> > produces RGB565, RGB666, RGB888 output format with maximum
-> > of 720p resolution in 60 and 120 Hz refresh rates.
-> >
-> > Add dt-bingings for it.
-> >
-> > Signed-off-by: Christopher Vollo <chris@renewoutreach.org>
-> > Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
-> > ---
-> >  .../bindings/display/bridge/ti,dlpc3433.yaml  | 112 ++++++++++++++++++
-> >  MAINTAINERS                                   |   6 +
-> >  2 files changed, 118 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/display/bridge/ti,dlpc3433.yaml
-> >
-> > diff --git a/Documentation/devicetree/bindings/display/bridge/ti,dlpc3433.yaml b/Documentation/devicetree/bindings/display/bridge/ti,dlpc3433.yaml
-> > new file mode 100644
-> > index 000000000000..3ade3a575c3e
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/display/bridge/ti,dlpc3433.yaml
-> > @@ -0,0 +1,112 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/display/bridge/ti,dlpc3433.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: TI DLPC3433 Display Controller
-> > +
-> > +maintainers:
-> > +  - Jagan Teki <jagan@amarulasolutions.com>
-> > +  - Christopher Vollo <chris@renewoutreach.org>
-> > +
-> > +description: |
-> > +  The DLPC3433 or DLPC3438 controllers provide a convenient,
-> > +  multi-functional interface between system electronics and
-> > +  the DMD, enabling small form factor, low power, and high
-> > +  resolution HD displays.
->
-> You may want to mention in the title and/or description that this is a
-> DSI to DMD bridge. Actually, the device also supports a DPI input, which
-> should be modelled in the DT bindings.
+I'm trying to convert existing exynos dsi driver to bridge and make
+them accessible for i.MX8MM platform.
 
-How can we model DPI since it is a DSI bridge bindings? Does it mean
-we can add another node example to have DPI instead of DSI?
+I've a few questions on the existing exynos dsi driver and which is
+indeed incompatible to proceed to make the bridge conversion.
 
->
-> > +
-> > +properties:
-> > +  compatible:
-> > +    enum:
-> > +      - ti,dlpc3433
->
-> Or just
->
->   compatible:
->     const: ti,dlpc3433
->
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +    description: virtual channel number of a DSI peripheral
->
-> I don't think this is right, the reg is the I2C address. You can drop
-> the description.
->
-> > +
-> > +  enable-gpios:
-> > +    description: PROJ_EN pin, chip powers up PROJ_EN is high.
->
-> It's called PROJ_ON, not PROJ_EN, in the datasheet.
->
-> > +
-> > +  vcc_intf-supply:
-> > +    description: A 1.8V/3.3V supply that power the Host I/O.
-> > +
-> > +  vcc_flsh-supply:
-> > +    description: A 1.8V/3.3V supply that power the Flash I/O.
-> > +
-> > +  ports:
-> > +    $ref: /schemas/graph.yaml#/properties/ports
-> > +
-> > +    properties:
-> > +      port@0:
-> > +        $ref: /schemas/graph.yaml#/$defs/port-base
-> > +        unevaluatedProperties: false
-> > +        description: Video port for MIPI DSI input.
-> > +
-> > +        properties:
-> > +          endpoint:
-> > +            $ref: /schemas/media/video-interfaces.yaml#
-> > +            unevaluatedProperties: false
-> > +
-> > +            properties:
-> > +              data-lanes:
-> > +                description: array of physical DSI data lane indexes.
-> > +                minItems: 1
-> > +                items:
-> > +                  - const: 1
-> > +                  - const: 2
-> > +                  - const: 3
-> > +                  - const: 4
-> > +
-> > +      port@1:
-> > +        $ref: /schemas/graph.yaml#/properties/port
-> > +        description: Video port for DPI output (DMD Projector).
->
-> The output isn't DPI, but DMD.
->
-> > +
-> > +    required:
-> > +      - port@0
-> > +      - port@1
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - enable-gpios
->
-> Can the chip be used with the PROJ_ON input hardwired to a high logic
-> state, or does it need to be controlled ?
+1. Hotplug event
 
-PROJ_ON require an explicit enablement via driver in order to have
-device out-of-reset.
+Commit from 295e7954c0d3fdbe0550d13e3cf4dd4604d42c68 which is waiting
+for drm to hotplug the downstream devices like panel or bridge to
+probe.
+
+Any idea how it works? what if we move drm_bridge_attach in bind
+callback so-that binding will start once all the devices get attached.
+
+2. Host register in bind
+
+Usual host registration is done in the probe, but the driver registers
+host in bind once the in_bridge is attached. any idea why? What if we
+find the DSI as an output port in MIC and start attaching from there?
+
+3. CRTC handling in DSI
+
+Commit from c038f53842cf840889473d219ace7f9121694e8d is trying to send
+the DSI flags information to CRTC with a function call. any specific
+reason for this? Any proper way of doing this move out from DSI?
+
+4. Mutex calls while assigning device attributes.
+
+Assignment of lanes, format, mode_flags are done in mutex context, I
+think we can even do it in normal context isn't it? or any specific
+reason for doing this?
+
+5. Clock rates.
+
+pll_clk_rate, burst_clk_rate, burst_clk_rate are these clock rates
+retrieved from DT. which is not a proper way to support multi
+platform. I think pll-clock and burst-clock are computed based on
+panel pixel or bridge clocks. any specific computation for these to
+handle dynamically on code?
+
+All this information is essential for me to move this further as I
+don't have direct hardware and I'm trying to take some help from Marek
+Szyprowski.
+
+Please take some time, and help me.
 
 Thanks,
 Jagan.
