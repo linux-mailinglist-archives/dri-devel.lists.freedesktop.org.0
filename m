@@ -1,40 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73F6545D5D4
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Nov 2021 08:57:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F29D45D5D6
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Nov 2021 08:58:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 72F386EA13;
-	Thu, 25 Nov 2021 07:57:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 298556E046;
+	Thu, 25 Nov 2021 07:58:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D96C36EA13
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Nov 2021 07:57:32 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10178"; a="321701065"
-X-IronPort-AV: E=Sophos;i="5.87,262,1631602800"; d="scan'208";a="321701065"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Nov 2021 23:57:32 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.87,262,1631602800"; d="scan'208";a="741636594"
-Received: from lkp-server02.sh.intel.com (HELO 9e1e9f9b3bcb) ([10.239.97.151])
- by fmsmga006.fm.intel.com with ESMTP; 24 Nov 2021 23:57:28 -0800
-Received: from kbuild by 9e1e9f9b3bcb with local (Exim 4.92)
- (envelope-from <lkp@intel.com>)
- id 1mq9dG-000607-RJ; Thu, 25 Nov 2021 07:57:26 +0000
-Date: Thu, 25 Nov 2021 15:57:09 +0800
-From: kernel test robot <lkp@intel.com>
-To: Arnd Bergmann <arnd@kernel.org>, Vinod Koul <vkoul@kernel.org>
-Subject: Re: [PATCH 07/11] dmaengine: qcom-adm: stop abusing slave_id config
-Message-ID: <202111251538.x6sJNCka-lkp@intel.com>
-References: <20211115085403.360194-8-arnd@kernel.org>
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com
+ [209.85.214.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 690486E32F
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Nov 2021 07:58:36 +0000 (UTC)
+Received: by mail-pl1-f169.google.com with SMTP id u11so3933914plf.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Nov 2021 23:58:36 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=hmFa3mefTALjMC6F9V0zj4TVnAlnKNwgvaukN6YZ+bY=;
+ b=m22sr18r9HOrnp7RVDytEJ3qq6I1x0HmmSTEH2bpf74EWHoLH9T7/bIhNhyiLIO5ny
+ XDvxMnfaj7IMarPSHUGFqWuxI+RnQsZJfB3i7egT/SQzJm3FeEXa6cMqnZy6HTEV9gvX
+ jWs9INGojwMuDGf4h/ydMzBEbm8vNLGIHFn49Av277p01qDUUrjxkkrsK6JW8ddDKzET
+ x4edWodWJ0xpZ3r2xJL5XKrAkIgL7I/zmIpgZ4xnVUzQM3Q7d6BJnqPxjTTRYpGhFxMY
+ SuJcbLCZT9dUCjE3Y2qaqb+Wly9VJSDVJzimmBe6eL+HzNcN7oFiehcR0t8X6VY4p8CC
+ sJDQ==
+X-Gm-Message-State: AOAM532kILvH9ubrjMnCQj4iR+Kw0HDsVdvoLCrDDff+wZf6zxyYWCfx
+ /Pbw6uj8rGv+uSR5KtKqk29keIXNdkGlPQ==
+X-Google-Smtp-Source: ABdhPJy+Jp5LjUNjEO225cbKyzbkTYx4/BmtxTohXfC7YcxKBg9IECnxwp9gPeyW7jm0IJBnwJcoFg==
+X-Received: by 2002:a17:90a:4d0c:: with SMTP id
+ c12mr4834113pjg.151.1637827115685; 
+ Wed, 24 Nov 2021 23:58:35 -0800 (PST)
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com.
+ [209.85.215.174])
+ by smtp.gmail.com with ESMTPSA id m24sm1538624pgk.39.2021.11.24.23.58.35
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 24 Nov 2021 23:58:35 -0800 (PST)
+Received: by mail-pg1-f174.google.com with SMTP id r5so4500329pgi.6
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Nov 2021 23:58:35 -0800 (PST)
+X-Received: by 2002:a1f:9f04:: with SMTP id i4mr7245004vke.33.1637827104304;
+ Wed, 24 Nov 2021 23:58:24 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211115085403.360194-8-arnd@kernel.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <cover.1637691240.git.hns@goldelico.com>
+ <d62023e0872e9b393db736f4a0ecf04b3fc1c91b.1637691240.git.hns@goldelico.com>
+ <O0K13R.TIL3JBQ5L8TO1@crapouillou.net>
+ <04F0ED7C-3D18-4CCF-8F10-E0A36B0E4F4B@goldelico.com>
+ <CAMuHMdWO3yosf5eyTPpydVuT3pwvuw9Q=2BUxq+rxPjE3iSnrw@mail.gmail.com>
+ <B622D2B5-D631-43F3-9D50-2B41681C78AB@goldelico.com>
+In-Reply-To: <B622D2B5-D631-43F3-9D50-2B41681C78AB@goldelico.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 25 Nov 2021 08:58:13 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdV5sjVg6BEm3zgvvsJDHJwKP1A8rh-sama8suCG5SYQyA@mail.gmail.com>
+Message-ID: <CAMuHMdV5sjVg6BEm3zgvvsJDHJwKP1A8rh-sama8suCG5SYQyA@mail.gmail.com>
+Subject: Re: [PATCH v8 6/8] MIPS: DTS: CI20: Add DT nodes for HDMI setup
+To: "H. Nikolaus Schaller" <hns@goldelico.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,99 +70,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alsa-devel@alsa-project.org, kbuild-all@lists.01.org, llvm@lists.linux.dev,
- dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
- Thierry Reding <thierry.reding@gmail.com>, linux-mtd@lists.infradead.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- linux-tegra@vger.kernel.org, linux-spi@vger.kernel.org,
- Robert Jarzmik <robert.jarzmik@free.fr>
+Cc: Mark Rutland <mark.rutland@arm.com>, Paul Boddie <paul@boddie.org.uk>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
+ Paul Cercueil <paul@crapouillou.net>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Miquel Raynal <miquel.raynal@bootlin.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Kees Cook <keescook@chromium.org>,
+ Jonas Karlman <jonas@kwiboo.se>, Mark Brown <broonie@kernel.org>,
+ Maxime Ripard <maxime@cerno.tech>, letux-kernel@openphoenux.org,
+ Ezequiel Garcia <ezequiel@collabora.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Liam Girdwood <lgirdwood@gmail.com>, Robert Foss <robert.foss@linaro.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, "Eric W. Biederman" <ebiederm@xmission.com>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Arnd,
+Hi Nikolaus,
 
-I love your patch! Perhaps something to improve:
+On Wed, Nov 24, 2021 at 5:31 PM H. Nikolaus Schaller <hns@goldelico.com> wr=
+ote:
+> > Am 24.11.2021 um 17:21 schrieb Geert Uytterhoeven <geert@linux-m68k.org=
+>:
+> > On Wed, Nov 24, 2021 at 5:19 PM H. Nikolaus Schaller <hns@goldelico.com=
+> wrote:
+> >>> Am 23.11.2021 um 21:10 schrieb Paul Cercueil <paul@crapouillou.net>:
+> >>> Le mar., nov. 23 2021 at 19:13:59 +0100, H. Nikolaus Schaller <hns@go=
+ldelico.com> a =C3=A9crit :
+> >>>> +    assigned-clock-rates =3D <48000000>, <0>, <54000000>, <0>, <270=
+00000>;
+> >>>> };
+> >>>> &tcu {
+> >>>> @@ -509,6 +534,19 @@ pins_i2c4: i2c4 {
+> >>>>             bias-disable;
+> >>>>     };
+> >>>> +    pins_hdmi_ddc: hdmi_ddc {
+> >>>> +            function =3D "hdmi-ddc";
+> >>>> +            groups =3D "hdmi-ddc";
+> >>>> +            bias-disable;
+> >>>> +    };
+> >>>> +
+> >>>> +    /* switch to PF25 as gpio driving DDC_SDA low */
+> >>>> +    pins_hdmi_ddc_unwedge: hdmi_ddc {
+> >>>> +            function =3D "hdmi-ddc";
+> >>>> +            groups =3D "hdmi-ddc";
+> >>>> +            bias-disable;
+> >>>> +    };
+> >>>
+> >>> Your pins_hdmi_ddc and pins_hdmi_ddc_unwedge are the exact same? You =
+could just use the former and pass it to both pinctrl-0 and pinctrl-1.
+> >>
+> >> This was forgotten to remove. We do not make use of the unwedge featur=
+e because I could not find out how to use pinctrl to switch this to gpio25 =
+and drive it low.
+> >
+> > Using gpio-hog?
+>
+> well, AFAIR it activates the gpio permanently and is a propery of the gpi=
+o controller and not of pinmux.
 
-[auto build test WARNING on vkoul-dmaengine/next]
-[also build test WARNING on tiwai-sound/for-next staging/staging-testing linus/master v5.16-rc2 next-20211125]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+Yes, hogs are permanently (ignoring DT overlay tricks).
 
-url:    https://github.com/0day-ci/linux/commits/Arnd-Bergmann/dmaengine-kill-off-dma_slave_config-slave_id/20211115-165731
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git next
-config: riscv-randconfig-r016-20211115 (https://download.01.org/0day-ci/archive/20211125/202111251538.x6sJNCka-lkp@intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project fbe72e41b99dc7994daac300d208a955be3e4a0a)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://github.com/0day-ci/linux/commit/f2e7f9ee67ce784864f75db39f20d1060c932279
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Arnd-Bergmann/dmaengine-kill-off-dma_slave_config-slave_id/20211115-165731
-        git checkout f2e7f9ee67ce784864f75db39f20d1060c932279
-        # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 ARCH=riscv 
+> The driver assumes it can use pinmux state switching to drive the DDC_SDA=
+ line low on demand.
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+Add an optional wedge-gpios property for switching?
 
-All warnings (new ones prefixed by >>):
+Gr{oetje,eeting}s,
 
->> drivers/dma/qcom/qcom_adm.c:712:18: warning: no previous prototype for function 'adm_dma_xlate' [-Wmissing-prototypes]
-   struct dma_chan *adm_dma_xlate(struct of_phandle_args *dma_spec,
-                    ^
-   drivers/dma/qcom/qcom_adm.c:712:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   struct dma_chan *adm_dma_xlate(struct of_phandle_args *dma_spec,
-   ^
-   static 
-   1 warning generated.
+                        Geert
 
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
-vim +/adm_dma_xlate +712 drivers/dma/qcom/qcom_adm.c
-
-   700	
-   701	/**
-   702	 * adm_dma_xlate
-   703	 * @dma_spec:	pointer to DMA specifier as found in the device tree
-   704	 * @ofdma:	pointer to DMA controller data
-   705	 *
-   706	 * This can use either 1-cell or 2-cell formats, the first cell
-   707	 * identifies the slave device, while the optional second cell
-   708	 * contains the crci value.
-   709	 *
-   710	 * Returns pointer to appropriate dma channel on success or NULL on error.
-   711	 */
- > 712	struct dma_chan *adm_dma_xlate(struct of_phandle_args *dma_spec,
-   713				       struct of_dma *ofdma)
-   714	{
-   715		struct dma_device *dev = ofdma->of_dma_data;
-   716		struct dma_chan *chan, *candidate = NULL;
-   717		struct adm_chan *achan;
-   718	
-   719		if (!dev || dma_spec->args_count > 2)
-   720			return NULL;
-   721	
-   722		list_for_each_entry(chan, &dev->channels, device_node)
-   723			if (chan->chan_id == dma_spec->args[0]) {
-   724				candidate = chan;
-   725				break;
-   726			}
-   727	
-   728		if (!candidate)
-   729			return NULL;
-   730	
-   731		achan = to_adm_chan(candidate);
-   732		if (dma_spec->args_count == 2)
-   733			achan->crci = dma_spec->args[1];
-   734		else
-   735			achan->crci = 0;
-   736	
-   737		return dma_get_slave_channel(candidate);
-   738	}
-   739	
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
