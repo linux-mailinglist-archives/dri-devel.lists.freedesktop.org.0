@@ -2,65 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 944B345DC21
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Nov 2021 15:15:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA13245DC49
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Nov 2021 15:25:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B65596E4E3;
-	Thu, 25 Nov 2021 14:15:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB08D6F407;
+	Thu, 25 Nov 2021 14:25:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com
- [64.147.123.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 341F56E4E3
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Nov 2021 14:15:25 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.west.internal (Postfix) with ESMTP id B0E1F3201A17;
- Thu, 25 Nov 2021 09:15:21 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute3.internal (MEProxy); Thu, 25 Nov 2021 09:15:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=1bqkC8/u8upZp5cpgt6rGNqrfgj
- od8S+Z8qXsVjJBGQ=; b=W+ErM4l65qzbNC1EHEKSytGo7ze0yBfFB7Kro0MRIA2
- 4cJEVceI4ZA4M4Sc2kuDAdHseY0Wfmig5csG4ZMftstoun6zV4VgwU9TJHY3rcok
- AiPNSqVkejpGpjvP3hpt9ZU4f/JB5fcfBwmPUZ5wkP94FcMWyxrIVY+Sv6cJRLQ8
- RJKjea/Sg1N+lQhvaOEI1vEwAbPyHA+9zJ1mdWkSpqlAZV/mc9KM6gjqPpDx0bE4
- I/O/sdqFxj5cTXJGFLbuwaPXE1L3yQNW8vJ2i4/k0XfBBRxJz3Uj8mlMOS9DVVSB
- BrV836g7+th9wtyNAYOzbPkROPe8iAGQ3LPSJV4JOuQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=1bqkC8
- /u8upZp5cpgt6rGNqrfgjod8S+Z8qXsVjJBGQ=; b=DM7cp/WEfBhSVhH55cYNnw
- TixX0tDF50qhL7qQxHn6OXggxseLkQsU0QoTHWiIdsjXPkzPMeGclwOwUb7Kv89W
- eHKsaDgThQImYqp+1M5sNCscixso9h3OFnwqcj4VBH7NpGvhsBiMhgW1wekPWA+V
- yPm0WZNVmFVlG/4nl8X4wDadyQYBX2tCSmmQexgOd+trGbbc9y18/8VxYY5Ajg0w
- jN/yMpfplhoX8k0qHKlTzEKWvKUnV+l1T687IrxFhBvn55AeTEw0ScVh6p/BN6xc
- mMGxtiWdXVtYK7LschXP4RCI8p8NKkaokjBwK6OghQJ6ncx/XzbENKHxpGVbG/+w
- ==
-X-ME-Sender: <xms:d5qfYbv4grS7ENxXc8LSRgL5ENglcoN_Y54uqCnvp57Ziug0Pc2s5g>
- <xme:d5qfYccFlkXJ6ldLTAhIQ9khiareG-i-OQfZgQ3Jnpiu2E6UTfvSpUO2yTA8EMe1c
- _FDTPuDpQ4YdMAWsS8>
-X-ME-Received: <xmr:d5qfYeyX5UaWJxRr0yRSNsuLxy-OyYz96vurbmzSrgDAD8hII8L3J_zTV0yYlsLba0kSA-urCZzSOItOn4FnPqstrUZoSiBnMGk>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrhedtgdeivdcutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
- gvrhhnpeevveefffduveeitdegtefhhfetueffteefffdvheevvdehteethedvleffgfej
- vdenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
- enucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:d5qfYaMjs3AqfYx4lvuE7XbqcHmj3a0pGwJUQoOoP2OrB7i4cEv36Q>
- <xmx:d5qfYb9i0l5Ij4jKsa1fs3e2QLrQmTLtMfwi_pvmDNXtMoo8fevFsA>
- <xmx:d5qfYaVBRo-uVSuevzP1GjJXMc5d2MorPXlJZmHyQgdYyTOyetNqFQ>
- <xmx:eZqfYXRTGlrosFOUSTSp2yueXypAx2faGgiVpwzDq2QvZoFBLnyQCw>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 25 Nov 2021 09:15:18 -0500 (EST)
-Date: Thu, 25 Nov 2021 15:15:16 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Jagan Teki <jagan@amarulasolutions.com>
-Subject: Re: [PATCH v5 3/7] drm: sun4i: dsi: Convert to bridge driver
-Message-ID: <20211125141516.oymscgs3xcjqmgce@gilmour>
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com
+ [IPv6:2a00:1450:4864:20::52f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8093B6F407
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Nov 2021 14:25:54 +0000 (UTC)
+Received: by mail-ed1-x52f.google.com with SMTP id t5so26662844edd.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Nov 2021 06:25:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=jY5w+KRUHMlWPK+riigupIhlkzMSu2CglKe5YFuAxaU=;
+ b=VcZWLZtPXqSWcNeXXy1kM7j+v5Bh11mWxIser54qAhJthqM4wF0W5Qmx/O4tVjhipt
+ 8wCwu5LpoCz4sNs66JNebtTacut4rxbXCulNHOJ/LLw89+3pKhCHrs1kaxHMZ97FjAjA
+ LIqsOMWzE8Q/nmkB270ZGiZ0DldYBWQhkYh6k=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=jY5w+KRUHMlWPK+riigupIhlkzMSu2CglKe5YFuAxaU=;
+ b=rVur7vXToVsb57z6GhpNv4FIurYv0pJ2NDf6kQiO/Fc+3cOTN0SZTrOqNt3IU44er3
+ Wk99YK5d2BlygFXV/DFqCCeYHQtYaFSfFbw/Y01LXZj/wV/EOhJJqT6quYddGT1BjScK
+ 3D9W4N0QyXUX3NSVWO0VO4tRfWgOFqEmUkFoUu1PwUamhV4UZSUP/JEIzSSp17/3SIxO
+ JATLHaxOtJ1GBlOioO8i94MIlr+xRGM9/HsvgqbZDf8qTt0lMbTCVvR6sEZCmOSAo7ov
+ 07iT7wxMugoukG6Fo/N7YOCunLy0atPFGj3aJ97qVRLvTb3FVS1qfzk6D25T/QZCG8vt
+ q7IQ==
+X-Gm-Message-State: AOAM531qmTJQtR2CNIT/xbHTra9SYz/1QiQnJto6lCEdxCMX0tujWKv1
+ oBEWHr6z1P2RKPYBwzelCB43poCl7uW8s9ABn7giVw==
+X-Google-Smtp-Source: ABdhPJzqBcQBAC15M/mWOKirR6uhM3tn3+jgOBlP5aj+jKtHT04FWKT5/D81UO1guhSKLiQ3xigK1u96yEu2k6OIZAU=
+X-Received: by 2002:a05:6402:445:: with SMTP id
+ p5mr39875774edw.110.1637850352992; 
+ Thu, 25 Nov 2021 06:25:52 -0800 (PST)
+MIME-Version: 1.0
 References: <20211122065223.88059-1-jagan@amarulasolutions.com>
  <20211122065223.88059-4-jagan@amarulasolutions.com>
  <20211122100712.dls4eqsu6o5gcc5k@gilmour>
@@ -68,11 +47,14 @@ References: <20211122065223.88059-1-jagan@amarulasolutions.com>
  <20211122140457.jm7cwpp2h3fkf2nd@gilmour>
  <CAMty3ZByw=ZjN3z2UsKj5X5kvrpwCFNUohAnO=O1d29jLPR1Yw@mail.gmail.com>
  <CAMty3ZBizr0uw6VrKBQ9AEYe48_QJKb0QC=pGEcA3OGK_CfQkw@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="6smyeew6pbusr3fy"
-Content-Disposition: inline
-In-Reply-To: <CAMty3ZBizr0uw6VrKBQ9AEYe48_QJKb0QC=pGEcA3OGK_CfQkw@mail.gmail.com>
+ <20211125141516.oymscgs3xcjqmgce@gilmour>
+In-Reply-To: <20211125141516.oymscgs3xcjqmgce@gilmour>
+From: Jagan Teki <jagan@amarulasolutions.com>
+Date: Thu, 25 Nov 2021 19:55:41 +0530
+Message-ID: <CAMty3ZC0KOUxr2rComOCfC70wGS_aSXzjFGS4f=pEB6MQHRGFw@mail.gmail.com>
+Subject: Re: [PATCH v5 3/7] drm: sun4i: dsi: Convert to bridge driver
+To: Maxime Ripard <maxime@cerno.tech>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,83 +76,111 @@ Cc: Neil Armstrong <narmstrong@baylibre.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
---6smyeew6pbusr3fy
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, Nov 24, 2021 at 12:02:47AM +0530, Jagan Teki wrote:
-> > > > > > +     dsi->panel =3D of_drm_find_panel(remote);
-> > > > > > +     if (IS_ERR(dsi->panel)) {
-> > > > > > +             dsi->panel =3D NULL;
-> > > > > > +
-> > > > > > +             dsi->next_bridge =3D of_drm_find_bridge(remote);
-> > > > > > +             if (IS_ERR(dsi->next_bridge)) {
-> > > > > > +                     dev_err(dsi->dev, "failed to find bridge\=
-n");
-> > > > > > +                     return PTR_ERR(dsi->next_bridge);
-> > > > > > +             }
-> > > > > > +     } else {
-> > > > > > +             dsi->next_bridge =3D NULL;
-> > > > > > +     }
-> > > > > > +
-> > > > > > +     of_node_put(remote);
+On Thu, Nov 25, 2021 at 7:45 PM Maxime Ripard <maxime@cerno.tech> wrote:
+>
+> On Wed, Nov 24, 2021 at 12:02:47AM +0530, Jagan Teki wrote:
+> > > > > > > +     dsi->panel = of_drm_find_panel(remote);
+> > > > > > > +     if (IS_ERR(dsi->panel)) {
+> > > > > > > +             dsi->panel = NULL;
+> > > > > > > +
+> > > > > > > +             dsi->next_bridge = of_drm_find_bridge(remote);
+> > > > > > > +             if (IS_ERR(dsi->next_bridge)) {
+> > > > > > > +                     dev_err(dsi->dev, "failed to find bridge\n");
+> > > > > > > +                     return PTR_ERR(dsi->next_bridge);
+> > > > > > > +             }
+> > > > > > > +     } else {
+> > > > > > > +             dsi->next_bridge = NULL;
+> > > > > > > +     }
+> > > > > > > +
+> > > > > > > +     of_node_put(remote);
+> > > > > >
+> > > > > > Using devm_drm_of_get_bridge would greatly simplify the driver
 > > > > >
-> > > > > Using devm_drm_of_get_bridge would greatly simplify the driver
+> > > > > I'm aware of this and this would break the existing sunxi dsi binding,
+> > > > > we are not using ports based pipeline in dsi node. Of-course you have
+> > > > > pointed the same before, please check below
+> > > > > https://patchwork.kernel.org/project/dri-devel/patch/20210322140152.101709-2-jagan@amarulasolutions.com/
 > > > >
-> > > > I'm aware of this and this would break the existing sunxi dsi bindi=
-ng,
-> > > > we are not using ports based pipeline in dsi node. Of-course you ha=
-ve
-> > > > pointed the same before, please check below
-> > > > https://patchwork.kernel.org/project/dri-devel/patch/20210322140152=
-=2E101709-2-jagan@amarulasolutions.com/
+> > > > Then drm_of_find_panel_or_bridge needs to be adjusted to handle the DSI
+> > > > bindings and look for a panel or bridge not only through the OF graph,
+> > > > but also on the child nodes
 > > >
-> > > Then drm_of_find_panel_or_bridge needs to be adjusted to handle the D=
-SI
-> > > bindings and look for a panel or bridge not only through the OF graph,
-> > > but also on the child nodes
+> > > Okay. I need to check this.
 > >
-> > Okay. I need to check this.
->=20
-> devm_drm_of_get_bridge is not working with legacy binding like the one
-> used in sun6i dsi
+> > devm_drm_of_get_bridge is not working with legacy binding like the one
+> > used in sun6i dsi
+>
+> There's nothing legacy about it.
 
-There's nothing legacy about it.
+What I'm mean legacy here with current binding used in sun6i-dsi like this.
 
-> https://patchwork.kernel.org/project/dri-devel/patch/20211122065223.88059=
--6-jagan@amarulasolutions.com/
->=20
-> dsi->next_bridge =3D devm_drm_of_get_bridge(dsi->dev, dsi->dev->of_node, =
-0, 0);
-> if (IS_ERR(dsi->next_bridge))
->            return PTR_ERR(dsi->next_bridge);
->=20
-> It is only working if we have ports on the pipeline, something like this
-> https://patchwork.kernel.org/project/dri-devel/patch/20210214194102.12614=
-6-8-jagan@amarulasolutions.com/
->=20
-> Please have a look and let me know if I miss anything?
+&dsi {
+          vcc-dsi-supply = <&reg_dcdc1>; /* VCC-DSI */
+          status = "okay";
 
-Yes, you're missing the answer you quoted earlier:
+         panel@0 {
+                   compatible = "bananapi,s070wv20-ct16-icn6211";
+                   reg = <0>;
+                   reset-gpios = <&r_pio 0 5 GPIO_ACTIVE_HIGH>; /*
+LCD-RST: PL5 */
+                  enable-gpios = <&pio 1 7 GPIO_ACTIVE_HIGH>; /*
+LCD-PWR-EN: PB7 */
+                  backlight = <&backlight>;
+        };
+};
 
-> > > Then drm_of_find_panel_or_bridge needs to be adjusted to handle the D=
-SI
-> > > bindings and look for a panel or bridge not only through the OF graph,
-> > > but also on the child nodes
+devm_drm_of_get_bridge cannot find the device with above binding and
+able to find the device with below binding.
 
-Maxime
+&dsi {
+       vcc-dsi-supply = <&reg_dcdc1>; /* VCC-DSI */
+       status = "okay";
 
---6smyeew6pbusr3fy
-Content-Type: application/pgp-signature; name="signature.asc"
+      ports {
+            #address-cells = <1>;
+            #size-cells = <0>;
 
------BEGIN PGP SIGNATURE-----
+           dsi_out: port@0 {
+                   reg = <0>;
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYZ+adAAKCRDj7w1vZxhR
-xexJAQCJm5Ec5ViUoV/nSK/egM4QxFA+5f25aDtP8QywVffgZwD/Vdan4K7IFhYc
-SwA3NE7AuNs+SkYQ/JI/OVRHL8kaIQY=
-=lNtS
------END PGP SIGNATURE-----
+                  dsi_out_bridge: endpoint {
+                            remote-endpoint = <&bridge_out_dsi>;
+                  };
+           };
+      };
 
---6smyeew6pbusr3fy--
+      panel@0 {
+             compatible = "bananapi,s070wv20-ct16-icn6211";
+             reg = <0>;
+             reset-gpios = <&r_pio 0 5 GPIO_ACTIVE_HIGH>; /* LCD-RST: PL5 */
+             enable-gpios = <&pio 1 7 GPIO_ACTIVE_HIGH>; /* LCD-PWR-EN: PB7 */
+             backlight = <&backlight>;
+
+              port {
+                        bridge_out_dsi: endpoint {
+                                remote-endpoint = <&dsi_out_bridge>;
+                        };
+                };
+       };
+};
+
+>
+> > https://patchwork.kernel.org/project/dri-devel/patch/20211122065223.88059-6-jagan@amarulasolutions.com/
+> >
+> > dsi->next_bridge = devm_drm_of_get_bridge(dsi->dev, dsi->dev->of_node, 0, 0);
+> > if (IS_ERR(dsi->next_bridge))
+> >            return PTR_ERR(dsi->next_bridge);
+> >
+> > It is only working if we have ports on the pipeline, something like this
+> > https://patchwork.kernel.org/project/dri-devel/patch/20210214194102.126146-8-jagan@amarulasolutions.com/
+> >
+> > Please have a look and let me know if I miss anything?
+>
+> Yes, you're missing the answer you quoted earlier:
+
+Yes, I'm trying to resolve the comment one after another. Will get back.
+
+Thanks,
+Jagan.
