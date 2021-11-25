@@ -2,59 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61E4645DE40
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Nov 2021 17:04:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47C7145DE5C
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Nov 2021 17:10:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B870A6E584;
-	Thu, 25 Nov 2021 16:04:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 77B6C6E9E3;
+	Thu, 25 Nov 2021 16:10:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com
- [IPv6:2a00:1450:4864:20::433])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 38D576E554
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Nov 2021 16:04:05 +0000 (UTC)
-Received: by mail-wr1-x433.google.com with SMTP id u18so12668450wrg.5
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Nov 2021 08:04:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=kHdSMAOwLSMX+m+Y3BVujwHChGV1VSEejUWtst4SuaY=;
- b=AKCw6wouE5Z3sIR16JxmC3KMUy4mTCOLvi5FajeJyXFvcStcoSCYkJCVWjhg5LIRWy
- 7i9uqmo6tkd6Gg7NMJ0133gyemWpm8PGYKqQmUBCjOG+VGHLBvcqtlmb2p8iWNaWcnce
- G+glawUUTAXhYQpsJ5ygl55Yg7jH8LIfxLIOw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=kHdSMAOwLSMX+m+Y3BVujwHChGV1VSEejUWtst4SuaY=;
- b=yHlSZgfQmw4p3DCYCT4pfjXx2Wb91lUKsmiikT1QYzvvzfEjXwpOuSWd6ny4syZkYC
- iMwgNDsCI/dNiatisgeiX5/TSbk34FTfPOANFTpSxoLBEsvHKzfbdqvaGxkRTvGXq2Ge
- 98gjmpnIFD4LASWnKye90kjyISl12tay2lDi7qlj1wmdzRm9RcKfEwpPBUzsb5YHKbDH
- UXGEJpRtIOTbQMcuJCDmRwabS4XPi327QDG5jdjm0p9JkQEl+qFp+pcrJqZ5i8tlzXxt
- ncVV/QRnSjmNSHK+F2HDHuYeRT6TjGC/oFNQ+qH+1m2iptoclHJhzX2mXgo7r4yRvYxY
- gBYQ==
-X-Gm-Message-State: AOAM530eRKH9X67RAEhLlNf807KAAb1ZE03f4YIKLWkjNJ4kOwb0Yx5O
- lAa0T+BQdp7Z6ix7ZW6qcIjiyQ==
-X-Google-Smtp-Source: ABdhPJy4AgwwjRQfGqxNS+ef+eW9r6rG/MiHKLmp0lZkSO4suOBoZPpIGSFj0BEdfqIdWwabvq5I5A==
-X-Received: by 2002:a5d:6da9:: with SMTP id u9mr7656846wrs.237.1637856243644; 
- Thu, 25 Nov 2021 08:04:03 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id g4sm3158104wro.12.2021.11.25.08.04.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Nov 2021 08:04:03 -0800 (PST)
-Date: Thu, 25 Nov 2021 17:04:01 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
-Subject: Re: completely rework the dma_resv semantic
-Message-ID: <YZ+z8VPjCGAWfpCT@phenom.ffwll.local>
-References: <20211123142111.3885-1-christian.koenig@amd.com>
+Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com
+ [64.147.123.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED3D06E9E3
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Nov 2021 16:10:33 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.west.internal (Postfix) with ESMTP id BB5E43200754;
+ Thu, 25 Nov 2021 11:10:29 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute3.internal (MEProxy); Thu, 25 Nov 2021 11:10:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=qrCtJxJR5WIwa2WuW7TF/dNfFjv
+ sa8tvz0KLp1fKY80=; b=J51OyH9eLgMKsBgNveiOGYOu9M85Idv5JQTPsdPipMv
+ VHjqGe4x3rAn+nRkyH4UlRNEY1VOs8u1mmQEPAMzHCErtnNMxaOlAaWa9q6WyCZB
+ upVD8My1qrc9nuLjBnhSG6Bh4qf62GhUVM63+pZoGb+ChPcC6tPM9lPqn0YxvAGZ
+ 4CtgDjmcNiiuXD0G1uS/FehAiKWXKFEZqlMc8MnvI5nFje/ikXFxAc7BdQViSTmM
+ I2Mjej9XgrAZ+OubDnCcZ6YTegjTI6k1B+vQiVvou64+Fz4SSYxzOV+2xpke4oSw
+ NEJ57oEZTTwSz2shmemroqwZSJI24wxJnwUHh0OV7yA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=qrCtJx
+ JR5WIwa2WuW7TF/dNfFjvsa8tvz0KLp1fKY80=; b=LWWDYKd+2ONdKdAojdv1lq
+ 7f/aV9R1Y8+AjHICPfDIZ7SkLJQBHA9SQZX9VAh53fZDYvE72WQviatU+IHuUm7M
+ j0fwuqsDUARiuRpwSexhPQvQ2dPRntHC47nPa1PPHiR1X6mOO4A2Up5ufROtDDB1
+ F2/qQuJKYvvN0ddjYv6A6kmVrLVLPv1mJOLO9USNe8HTU15J0Rk/kqENFTVNM6K9
+ 7qPQEWxvaiF8MEBX7Xl/YNkEBVPgq9Od0LIMWEyuevISu99M0FApfzCez+8n7/L+
+ 9EMqXSTbxYj9f9zR4whKFarEr0Sl/B0fp8/3/RF/y09gz73fqNZTQQgIqI3YAL5w
+ ==
+X-ME-Sender: <xms:dLWfYYDRDUZdfwJKjBuEWcRAHW68MbDgjz8rBnnPNXoO4-elwpPcXw>
+ <xme:dLWfYahPEahJhcLtvrgKadDbEuHF-lijBQ9Z51BsyR8iMjsfpjqIxIxKoTdWBLb5X
+ KOBfPY0j-o0GupInN8>
+X-ME-Received: <xmr:dLWfYbkyMDOpPN_fyAd30QcGV-7gQ1B3gxL-Gf89EgHHMVT8zowXuQvwxogicFGSEHPD7nYxyhgThdrSTt9S866EytAeNukcn_o>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrhedtgdekhecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+ gvrhhnpeevveefffduveeitdegtefhhfetueffteefffdvheevvdehteethedvleffgfej
+ vdenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
+ enucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:dLWfYew6h45CSdT_mkzQk22IToyH3mulcSGjpAtr1e1kbphZNEG24A>
+ <xmx:dLWfYdTiV2R7zNFbwBPsjQsPCZeTMKrD82_6Nm-2IqkgpngGAqGlWw>
+ <xmx:dLWfYZaojCOzlX6v0oCjhrUQRxblTerO0JyofAImN5lb9spWq7GMlw>
+ <xmx:dLWfYYE7JfM1Rqt3beCE15kgdd6e_GUT4qabUV0SwZztTyIBmKgbGA>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 25 Nov 2021 11:10:27 -0500 (EST)
+Date: Thu, 25 Nov 2021 17:10:26 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Jagan Teki <jagan@amarulasolutions.com>
+Subject: Re: [PATCH v5 3/7] drm: sun4i: dsi: Convert to bridge driver
+Message-ID: <20211125161026.ndfygaa6c4nnst4i@gilmour>
+References: <20211122065223.88059-1-jagan@amarulasolutions.com>
+ <20211122065223.88059-4-jagan@amarulasolutions.com>
+ <20211122100712.dls4eqsu6o5gcc5k@gilmour>
+ <CAMty3ZDkUSfW_+PosjgY_GQB3wSvNRaCjwq_nOwWHo-RGQUVFw@mail.gmail.com>
+ <20211122140457.jm7cwpp2h3fkf2nd@gilmour>
+ <CAMty3ZByw=ZjN3z2UsKj5X5kvrpwCFNUohAnO=O1d29jLPR1Yw@mail.gmail.com>
+ <CAMty3ZBizr0uw6VrKBQ9AEYe48_QJKb0QC=pGEcA3OGK_CfQkw@mail.gmail.com>
+ <20211125141516.oymscgs3xcjqmgce@gilmour>
+ <CAMty3ZC0KOUxr2rComOCfC70wGS_aSXzjFGS4f=pEB6MQHRGFw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="dvfrxmcscyl5dcr2"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20211123142111.3885-1-christian.koenig@amd.com>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+In-Reply-To: <CAMty3ZC0KOUxr2rComOCfC70wGS_aSXzjFGS4f=pEB6MQHRGFw@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,81 +87,159 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org
+Cc: Neil Armstrong <narmstrong@baylibre.com>,
+ Robert Foss <robert.foss@linaro.org>, linux-sunxi@googlegroups.com,
+ dri-devel@lists.freedesktop.org, Chen-Yu Tsai <wens@csie.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sam Ravnborg <sam@ravnborg.org>, linux-amarula@amarulasolutions.com,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 23, 2021 at 03:20:45PM +0100, Christian König wrote:
-> Hi guys,
-> 
-> as discussed before this set of patches completely rework the dma_resv semantic
-> and spreads the new handling over all the existing drivers and users.
-> 
-> First of all this drops the DAG approach because it requires that every single
-> driver implements those relatively complicated rules correctly and any
-> violation of that immediately leads to either corruption of freed memory or
-> even more severe security problems.
-> 
-> Instead we just keep all fences around all the time until they are signaled.
-> Only fences with the same context are assumed to be signaled in the correct
-> order since this is exercised elsewhere as well. Replacing fences is now only
-> supported for hardware mechanism like VM page table updates where the hardware
-> can guarantee that the resource can't be accessed any more.
-> 
-> Then the concept of a single exclusive fence and multiple shared fences is
-> dropped as well.
-> 
-> Instead the dma_resv object is now just a container for dma_fence objects where
-> each fence has associated usage flags. Those use flags describe how the
-> operation represented by the dma_fence object is using the resource protected
-> by the dma_resv object. This allows us to add multiple fences for each usage
-> type.
-> 
-> Additionally to the existing WRITE/READ usages this patch set also adds the new
-> KERNEL and OTHER usages. The KERNEL usages is used in cases where the kernel
-> needs to do some operation with the resource protected by the dma_resv object,
-> like copies or clears. Those are mandatory to wait for when dynamic memory
-> management is used.
-> 
-> The OTHER usage is for cases where we don't want that the operation represented
-> by the dma_fence object participate in any implicit sync but needs to be
-> respected by the kernel memory management. Examples for those are VM page table
-> updates and preemption fences.
-> 
-> While doing this the new implementation cleans up existing workarounds all over
-> the place, but especially amdgpu and TTM. Surprisingly I also found two use
-> cases for the KERNEL/OTHER usage in i915 and Nouveau, those might need more
-> thoughts.
-> 
-> In general the existing functionality should been preserved, the only downside
-> is that we now always need to reserve a slot before adding a fence. The newly
-> added call to the reservation function can probably use some more cleanup.
-> 
-> TODOs: Testing, testing, testing, doublechecking the newly added
-> kerneldoc for any typos.
-> 
-> Please review and/or comment,
 
-I like.
+--dvfrxmcscyl5dcr2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Unfortunately also massively burried, but I really like. I think the past
-few months (years?) of discussions and bikeshed have been worth it, this
-looks tidy and clear in semantics and in how drivers use it all.
+On Thu, Nov 25, 2021 at 07:55:41PM +0530, Jagan Teki wrote:
+> Hi,
+>=20
+> On Thu, Nov 25, 2021 at 7:45 PM Maxime Ripard <maxime@cerno.tech> wrote:
+> >
+> > On Wed, Nov 24, 2021 at 12:02:47AM +0530, Jagan Teki wrote:
+> > > > > > > > +     dsi->panel =3D of_drm_find_panel(remote);
+> > > > > > > > +     if (IS_ERR(dsi->panel)) {
+> > > > > > > > +             dsi->panel =3D NULL;
+> > > > > > > > +
+> > > > > > > > +             dsi->next_bridge =3D of_drm_find_bridge(remot=
+e);
+> > > > > > > > +             if (IS_ERR(dsi->next_bridge)) {
+> > > > > > > > +                     dev_err(dsi->dev, "failed to find bri=
+dge\n");
+> > > > > > > > +                     return PTR_ERR(dsi->next_bridge);
+> > > > > > > > +             }
+> > > > > > > > +     } else {
+> > > > > > > > +             dsi->next_bridge =3D NULL;
+> > > > > > > > +     }
+> > > > > > > > +
+> > > > > > > > +     of_node_put(remote);
+> > > > > > >
+> > > > > > > Using devm_drm_of_get_bridge would greatly simplify the driver
+> > > > > >
+> > > > > > I'm aware of this and this would break the existing sunxi dsi b=
+inding,
+> > > > > > we are not using ports based pipeline in dsi node. Of-course yo=
+u have
+> > > > > > pointed the same before, please check below
+> > > > > > https://patchwork.kernel.org/project/dri-devel/patch/2021032214=
+0152.101709-2-jagan@amarulasolutions.com/
+> > > > >
+> > > > > Then drm_of_find_panel_or_bridge needs to be adjusted to handle t=
+he DSI
+> > > > > bindings and look for a panel or bridge not only through the OF g=
+raph,
+> > > > > but also on the child nodes
+> > > >
+> > > > Okay. I need to check this.
+> > >
+> > > devm_drm_of_get_bridge is not working with legacy binding like the one
+> > > used in sun6i dsi
+> >
+> > There's nothing legacy about it.
+>=20
+> What I'm mean legacy here with current binding used in sun6i-dsi like thi=
+s.
+>=20
+> &dsi {
+>           vcc-dsi-supply =3D <&reg_dcdc1>; /* VCC-DSI */
+>           status =3D "okay";
+>=20
+>          panel@0 {
+>                    compatible =3D "bananapi,s070wv20-ct16-icn6211";
+>                    reg =3D <0>;
+>                    reset-gpios =3D <&r_pio 0 5 GPIO_ACTIVE_HIGH>; /*
+> LCD-RST: PL5 */
+>                   enable-gpios =3D <&pio 1 7 GPIO_ACTIVE_HIGH>; /*
+> LCD-PWR-EN: PB7 */
+>                   backlight =3D <&backlight>;
+>         };
+> };
 
-Ofc this will take some time to review/test in detail and land, but I
-think next steps would be to resurrect Jason's explicit dma-buf fence
-import/export series (should also clean up nicely I think), and then roll
-out the new fence semantics to a few vk/compute stacks? I think especially
-for vk what we want is that normal CS only ever uses OTHER, and any
-implicit sync that needs to happen for winsys buffers is done through the
-import/export ioctls. GL might need something slightly different, but
-normally there's not many shared buffers, so doing a pile of ioctl calls
-for implicit synced buffers seems fine. But perhaps GL does want a new CS
-ioctl flag.
+Yes, I know, it's the generic DSI binding. It's still not legacy.
 
-Cheers, Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+> devm_drm_of_get_bridge cannot find the device with above binding and
+> able to find the device with below binding.
+>=20
+> &dsi {
+>        vcc-dsi-supply =3D <&reg_dcdc1>; /* VCC-DSI */
+>        status =3D "okay";
+>=20
+>       ports {
+>             #address-cells =3D <1>;
+>             #size-cells =3D <0>;
+>=20
+>            dsi_out: port@0 {
+>                    reg =3D <0>;
+>=20
+>                   dsi_out_bridge: endpoint {
+>                             remote-endpoint =3D <&bridge_out_dsi>;
+>                   };
+>            };
+>       };
+>=20
+>       panel@0 {
+>              compatible =3D "bananapi,s070wv20-ct16-icn6211";
+>              reg =3D <0>;
+>              reset-gpios =3D <&r_pio 0 5 GPIO_ACTIVE_HIGH>; /* LCD-RST: P=
+L5 */
+>              enable-gpios =3D <&pio 1 7 GPIO_ACTIVE_HIGH>; /* LCD-PWR-EN:=
+ PB7 */
+>              backlight =3D <&backlight>;
+>=20
+>               port {
+>                         bridge_out_dsi: endpoint {
+>                                 remote-endpoint =3D <&dsi_out_bridge>;
+>                         };
+>                 };
+>        };
+> };
+
+Yes, I know, and that's because ...
+
+> >
+> > > https://patchwork.kernel.org/project/dri-devel/patch/20211122065223.8=
+8059-6-jagan@amarulasolutions.com/
+> > >
+> > > dsi->next_bridge =3D devm_drm_of_get_bridge(dsi->dev, dsi->dev->of_no=
+de, 0, 0);
+> > > if (IS_ERR(dsi->next_bridge))
+> > >            return PTR_ERR(dsi->next_bridge);
+> > >
+> > > It is only working if we have ports on the pipeline, something like t=
+his
+> > > https://patchwork.kernel.org/project/dri-devel/patch/20210214194102.1=
+26146-8-jagan@amarulasolutions.com/
+> > >
+> > > Please have a look and let me know if I miss anything?
+> >
+> > Yes, you're missing the answer you quoted earlier:
+>=20
+> Yes, I'm trying to resolve the comment one after another. Will get back.
+
+=2E.. You've ignored that comment.
+
+Maxime
+
+--dvfrxmcscyl5dcr2
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYZ+1cgAKCRDj7w1vZxhR
+xcFFAQCrE+CHBQrflqNEmkhboP5G0jZBn2vmKJZFooK+hSSCHAEA1r/wJl7eBOM5
+81/gYSFBHPof4jSCzbMsJYgiIy1b3gE=
+=DTBT
+-----END PGP SIGNATURE-----
+
+--dvfrxmcscyl5dcr2--
