@@ -1,57 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE9EE45D7F3
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Nov 2021 11:08:32 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 70CC845D817
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Nov 2021 11:18:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 33F676E34B;
-	Thu, 25 Nov 2021 10:08:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D94586E437;
+	Thu, 25 Nov 2021 10:18:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com
- [IPv6:2607:f8b0:4864:20::1030])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DDE6D6E34B
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Nov 2021 10:08:27 +0000 (UTC)
-Received: by mail-pj1-x1030.google.com with SMTP id
- o6-20020a17090a0a0600b001a64b9a11aeso5344652pjo.3
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Nov 2021 02:08:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Dpnu1/6yOkuuCH/ZN6WkNINuR/8m8h6zVVSJwYoqYq0=;
- b=GDGjyl56MydM000AjpIcyCHg6ib0vb3fgxBUv2+ozwRpG3KpT6kZZ51krmIFnhkseI
- x9mMd23ZLT27XqgC76hqEkmseCkvxxQDOd0SMo2yhmCQpzEAmqDnUVAOp4C5nN8dcrdi
- oaAVZM/JycIvHAoUkf94SYuE+r6QDlfizgDRgCIYc5xQ+XEj1cfReEK1P6iak3G1q9kr
- XjkK0cP6YMDaJbe50jK4ZotR8uNdE9/Ufzy2TZ+dgR/j5MJa6cdAeuOZweMPFwdoK5d0
- fXPUK3jCDbE8ck6d8GbbRTmrkx1li1pr6c71Z0o/LWHZ91CSzQjNhCmQKHWV7INtGBeB
- U2RQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Dpnu1/6yOkuuCH/ZN6WkNINuR/8m8h6zVVSJwYoqYq0=;
- b=jro2zXL1IwFm1dhTiHQXrfUOw3j4hzjUsug3Y4DaMWhUAo1F412wAPcE84P5zHo/F/
- 7o6EtlFWW5my/5Zvr+QQjFwRtrQcAHaJhBlnkZan0QNgyKnmAUZBZYgD8jxshiMQoZgz
- xSiMXjj/vZcf5KqXjpeLcASnXP0/chN5UlMjn1/7Znzw8hHP2vENL/av8166p5zceVks
- DDWEjnayGuBdM9S95I3SmKag/DlrwiwDC+sYd0dlzfPLd4cBnBKnioRWsVgew2raQipX
- dMGWP5MYiKgN5CNJXlEKKMNu8IXK3NSrhpeqs+JYlBNLL5NPiraalbUgGEwQqvH5n62v
- KF6Q==
-X-Gm-Message-State: AOAM532Byg3nSGGKsqWDu7fNfPj5EiRIO5mOVAGCkNKhBL/erGYo1Grp
- CJyhgjVqA1tv+Twf080F0U+LcXGD/77CKcTBv27MJA==
-X-Google-Smtp-Source: ABdhPJz+NTXqZHw+mAr5aK8WO0aa5tYnZafpMCG8SxZ8nd297hrIXq/zBL7KVwlJS/KtNmoEyjg0bBr49xYaV3M9w18=
-X-Received: by 2002:a17:903:2004:b0:142:6344:2c08 with SMTP id
- s4-20020a170903200400b0014263442c08mr27504855pla.51.1637834907420; Thu, 25
- Nov 2021 02:08:27 -0800 (PST)
+Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com
+ [64.147.123.27])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A60286E40B;
+ Thu, 25 Nov 2021 10:18:27 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailnew.west.internal (Postfix) with ESMTP id A52962B01525;
+ Thu, 25 Nov 2021 05:18:23 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute3.internal (MEProxy); Thu, 25 Nov 2021 05:18:24 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:mime-version:content-type; s=
+ fm1; bh=Zu0IJTgPFLVVVVNSyljNTJUvEm64C0DoxYXK3icoM9c=; b=Xhj9IRmz
+ qxH4LrUzKCkguQHvmINap5OsJ0ydRtkU/Z35LNt8hApnEE9hW2o54DYjVApyyGSu
+ ubsJVH6EQ+vN3yjE2F7/1Fr49Ksq/I7lQfKD91eF4r+zIvF5TzgTD7GJz5z/QLR9
+ nphR8lJL7FicYclw3N1TvNVAHDHh5W4VnohBN+MWLNm+yKDz0D18/7DxlLOyP5JG
+ hJCUzQUucruJzDxsGZV1kY53D1uDlNICVXBe4SOQHLZG+nT5iIOWZrXawtWQOjSu
+ o6FNrGpMA7gNTjpu5AMkzLOwlvSpAXSt6F5ZiOQQUA2wAiM9RCsE85mgo+MjxLDw
+ hAxqMlRkLGrTBg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:message-id
+ :mime-version:subject:to:x-me-proxy:x-me-proxy:x-me-sender
+ :x-me-sender:x-sasl-enc; s=fm1; bh=Zu0IJTgPFLVVVVNSyljNTJUvEm64C
+ 0DoxYXK3icoM9c=; b=oMEksy10cWCFvBbc2KUBuHNOpZiOvFNy4x9sCXVI64YZo
+ UunOH9lDgo6/Qpc021fsbPGE2fxRoRnx7AdzrtLn9C1ZnXUiLPE+GeqpNhgH1Ie6
+ O6hCoRxE+vvwVBCg5yG+1KjW/lGDpx+DPsWz2yqs+96bgqIQmBvlD4SnSbXvJbGG
+ 3BIoDZuFbvK7QkCJsihOyt7xtgaP8tF/BNgL5CcsdDucs8NgBsed3XrEp0/0T58X
+ 3v5RgE1Bjmu3L5+1TI++0bgT8EK4+ljdfkkRehnpaWsXDfdFFMJKXGHnAUWOfwzu
+ 7URyDbl1IS+oD7GGrlel8CQqfSgYJLukRaoXjDgIg==
+X-ME-Sender: <xms:7mKfYdp1CYvm0ChUQcXC6d3Quynej2l5ytHzbiFgtgigb0g4tMmq7A>
+ <xme:7mKfYfol16tuvTuDY6N_Vx8sq--NFPs8JxKuJT3mdqc4i5cFK35GTM4tgFB4umQCi
+ P4T46eTS7lEz1Bgdf8>
+X-ME-Received: <xmr:7mKfYaMfkjyu-aqYI_1-YXFZO66bbY-Qt2vVLiJ3qTL6cUv13Wci9rOGVX0Z8WOXGCc1cMxf1N72a0sXoInjMBmR65h-Jbk2fnc>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrhedtgddufecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkgggtugesghdtreertddtvdenucfhrhhomhepofgrgihimhgvucft
+ ihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtthgvrh
+ hnpeeguedvtdehgeeghefhieegteffueefleevgefgkeevgeeiveduleejueegvdeigfen
+ ucffohhmrghinhepfhhrvggvuggvshhkthhophdrohhrghenucevlhhushhtvghrufhiii
+ gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgv
+ tghh
+X-ME-Proxy: <xmx:7mKfYY5Wy9sz2m3N6KHDzKq5PvLYuymaLwL9hkEIM4eeJamu38Nz8Q>
+ <xmx:7mKfYc4yg3CHdsSo9G085iOIYyM2l2JokhyHwv5_rCYNFOWKDWBb1A>
+ <xmx:7mKfYQhSUMJ-3Cqcc5WjdMNYV3SgUmBJDlHucAmnCW5pCpHZKUaa1w>
+ <xmx:72KfYZwUdG1nb94ztrfuTlZmOehJeEP9E7UPjUR-DtHdGRhah4pPiJYWlFs>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 25 Nov 2021 05:18:21 -0500 (EST)
+Date: Thu, 25 Nov 2021 11:18:19 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PULL] drm-misc-fixes
+Message-ID: <20211125101819.ynu7zgbs7yfwedri@houat>
 MIME-Version: 1.0
-References: <20211124145219.GD13656@kili> <YZ9GYUrBvmCQaZtg@google.com>
-In-Reply-To: <YZ9GYUrBvmCQaZtg@google.com>
-From: Robert Foss <robert.foss@linaro.org>
-Date: Thu, 25 Nov 2021 11:08:16 +0100
-Message-ID: <CAG3jFytY6KB+u+nji5tse81AJkiE1gP+6d7XvooheQwjqvw6Rg@mail.gmail.com>
-Subject: Re: [PATCH] drm/bridge: anx7625: fix an error code in
- anx7625_register_audio()
-To: Tzung-Bi Shih <tzungbi@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="ngzrvu7y6m2aqdfv"
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,27 +77,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Pi-Hsun Shih <pihsun@chromium.org>, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Neil Armstrong <narmstrong@baylibre.com>, kernel-janitors@vger.kernel.org,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Andrzej Hajda <a.hajda@samsung.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Hsin-Yi Wang <hsinyi@chromium.org>, Sam Ravnborg <sam@ravnborg.org>,
- Xin Ji <xji@analogixsemi.com>, Dan Carpenter <dan.carpenter@oracle.com>,
- Maxime Ripard <maxime@cerno.tech>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
+ intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 25 Nov 2021 at 09:16, Tzung-Bi Shih <tzungbi@google.com> wrote:
->
-> On Wed, Nov 24, 2021 at 05:52:19PM +0300, Dan Carpenter wrote:
-> > This code accidentally returns IS_ERR(), which is 1, instead of
-> > propagating the negative error code.  The caller doesn't check for
-> > errors so it doesn't affect run time at all.
-> >
-> > Fixes: 566fef1226c1 ("drm/bridge: anx7625: add HDMI audio function")
-> > Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
->
-> Reviewed-by: Tzung-Bi Shih <tzungbi@google.com>
 
-Applied to drm-misc-next.
+--ngzrvu7y6m2aqdfv
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+Hi Daniel, Dave,
+
+Here's this week drm-misc-fixes PR
+
+Maxime
+
+drm-misc-fixes-2021-11-25:
+One removal fix for hyperv, one fix in aspeed for the vga_pw sysfs file
+content, one error-checking fix for vc4 and two fixes for nouveau, one
+to support a new device and another one to properly check for errors.
+The following changes since commit fb561bf9abde49f7e00fdbf9ed2ccf2d86cac8ee:
+
+  fbdev: Prevent probing generic drivers if a FB is already registered (2021-11-17 10:15:05 +0100)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-fixes-2021-11-25
+
+for you to fetch changes up to e048834c209a02e3776bcc47d43c6d863e3a67ca:
+
+  drm/hyperv: Fix device removal on Gen1 VMs (2021-11-23 10:56:12 -0800)
+
+----------------------------------------------------------------
+One removal fix for hyperv, one fix in aspeed for the vga_pw sysfs file
+content, one error-checking fix for vc4 and two fixes for nouveau, one
+to support a new device and another one to properly check for errors.
+
+----------------------------------------------------------------
+Ben Skeggs (1):
+      drm/nouveau: recognise GA106
+
+Dan Carpenter (2):
+      drm/nouveau/acr: fix a couple NULL vs IS_ERR() checks
+      drm/vc4: fix error code in vc4_create_object()
+
+Joel Stanley (1):
+      drm/aspeed: Fix vga_pw sysfs output
+
+Mohammed Gamal (1):
+      drm/hyperv: Fix device removal on Gen1 VMs
+
+ drivers/gpu/drm/aspeed/aspeed_gfx_drv.c           |  2 +-
+ drivers/gpu/drm/hyperv/hyperv_drm_drv.c           | 19 ++++++++++++++++++-
+ drivers/gpu/drm/nouveau/nvkm/engine/device/base.c | 22 ++++++++++++++++++++++
+ drivers/gpu/drm/nouveau/nvkm/subdev/acr/gm200.c   |  6 ++++--
+ drivers/gpu/drm/nouveau/nvkm/subdev/acr/gp102.c   |  6 ++++--
+ drivers/gpu/drm/vc4/vc4_bo.c                      |  2 +-
+ 6 files changed, 50 insertions(+), 7 deletions(-)
+
+--ngzrvu7y6m2aqdfv
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYZ9i6wAKCRDj7w1vZxhR
+xfrXAP0Xd3o/zkq1Vb8BnhYfdRMYemPSp+VkfUhGjLiolStSygEAqkt06Zjz5/Uo
+PRMFaHs5sPISyRBdFw/uSyVqXl5L7gg=
+=3RhE
+-----END PGP SIGNATURE-----
+
+--ngzrvu7y6m2aqdfv--
