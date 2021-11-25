@@ -1,31 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0A1745DFBB
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Nov 2021 18:30:17 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D338245E022
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Nov 2021 19:01:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA9176E030;
-	Thu, 25 Nov 2021 17:30:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 37EA66E457;
+	Thu, 25 Nov 2021 18:01:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 34C006E030
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Nov 2021 17:30:11 +0000 (UTC)
-Date: Thu, 25 Nov 2021 17:29:58 +0000
-From: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH 11/15] iio: buffer-dma: Boost performance using
- write-combine cache setting
-To: Jonathan Cameron <jic23@kernel.org>
-Message-Id: <YX153R.0PENWW3ING7F1@crapouillou.net>
-In-Reply-To: <8WNX2R.M4XE9MQC24W22@crapouillou.net>
-References: <20211115141925.60164-1-paul@crapouillou.net>
- <20211115141925.60164-12-paul@crapouillou.net>
- <20211121150037.2a606be0@jic23-huawei>
- <8WNX2R.M4XE9MQC24W22@crapouillou.net>
+Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com
+ [IPv6:2a00:1450:4864:20::22a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 97FEE6E420
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Nov 2021 18:01:18 +0000 (UTC)
+Received: by mail-lj1-x22a.google.com with SMTP id p8so503757ljo.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Nov 2021 10:01:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ynwG4NbHg4X5JMdO8pH96G9Wv988uerBIA+nf4r1wKk=;
+ b=Lf9RQccj7htjEysn7T/OVOaVJzbpsW5S+bTEFkAP0QG/9NWtATiBqZrMDO/IiR015F
+ 9i0miGLPORiRxK99o9gKSdN0im3lgDvA9hQ3kGBEblbqVFCWpi9w+jDdO22YRbpCMosf
+ OTixRIJi6ToshrNj1rvzy1hSXJpxD9wSIadcjsInu2GTW8U4zDwRFQNtAFGcRMCD9jx4
+ ZffKjpWyHfPcNmtX2WzNT+f8DRpuSzwyoeLc0yq0ioZCrllK5V9+1MK7HG8CJ0mzxShU
+ O2F/4pHshsN46wIgpjuJT3Wya0Wzc+OzaorXI6FnlQhZIsR081WQwhppgmC5AcZ9vMMD
+ 89ew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ynwG4NbHg4X5JMdO8pH96G9Wv988uerBIA+nf4r1wKk=;
+ b=nmstZ7QQhXRdaYqyPZRL6XehlrQ0yP8UkRDDKgsnx7CMFGwPAdbERNlN6wYDjbQ7sr
+ UUJYLLMajGqQiPdmvf8/qxcvXhPQZfmEVsdlT57TOhUQPXNf/WsTdJFTQ1fGc61HdjR+
+ Hft2jaaFFujSDC8CMt5l7t2IuGdIMzq9q85niZXfaz3FnVZbLe/Wn/ga4muN35eVaJIJ
+ rUqWO7Tl35Dv6Re23jsrEmEivdVqv6p6J8aJU4hDSke/u2utSvSJAXTZn1Uv8Fc1GtJ6
+ m23iKvoVHUxY1M5gjDa41oyLzd9nNZmXk4aN8bfoe1v4v4fORvvRZ4ivHhCsYX9G/EhS
+ Rl/g==
+X-Gm-Message-State: AOAM533olf9ObQecrUR7+cv646jVSzRrXpARRlanSctL4aFfowFwaYtL
+ g2M78um/99PQUScYMsupuXgw5g==
+X-Google-Smtp-Source: ABdhPJw33JWXItJy2u8lGIRYrValQuMuKOHbanYZyU2Kqt/vDbH8kCiuWvbT+NbEk54d3pP73ShV0Q==
+X-Received: by 2002:a2e:9b4f:: with SMTP id o15mr17933127ljj.105.1637863276829; 
+ Thu, 25 Nov 2021 10:01:16 -0800 (PST)
+Received: from eriador.lan ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id l20sm318194lfj.36.2021.11.25.10.01.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 25 Nov 2021 10:01:16 -0800 (PST)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <abhinavk@codeaurora.org>
+Subject: [PATCH] drm/msm/dsi: fix initialization in the bonded DSI case
+Date: Thu, 25 Nov 2021 21:01:14 +0300
+Message-Id: <20211125180114.561278-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -38,169 +67,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Michael Hennerich <Michael.Hennerich@analog.com>, linux-iio@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Christian =?iso-8859-1?b?S/ZuaWc=?= <christian.koenig@amd.com>,
- linaro-mm-sig@lists.linaro.org, Alexandru Ardelean <ardeleanalex@gmail.com>,
- linux-media@vger.kernel.org
+Cc: Stephen Boyd <sboyd@kernel.org>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jonathan,
+Commit 739b4e7756d3 ("drm/msm/dsi: Fix an error code in
+msm_dsi_modeset_init()") changed msm_dsi_modeset_init() to return an
+error code in case msm_dsi_manager_validate_current_config() returns
+false. However this is not an error case, but a slave DSI of the bonded
+DSI link. In this case msm_dsi_modeset_init() should return 0, but just
+skip connector and bridge initialization.
 
-Le dim., nov. 21 2021 at 17:43:20 +0000, Paul Cercueil=20
-<paul@crapouillou.net> a =E9crit :
-> Hi Jonathan,
->=20
-> Le dim., nov. 21 2021 at 15:00:37 +0000, Jonathan Cameron=20
-> <jic23@kernel.org> a =E9crit :
->> On Mon, 15 Nov 2021 14:19:21 +0000
->> Paul Cercueil <paul@crapouillou.net> wrote:
->>=20
->>>  We can be certain that the input buffers will only be accessed by
->>>  userspace for reading, and output buffers will mostly be accessed=20
->>> by
->>>  userspace for writing.
->>=20
->> Mostly?  Perhaps a little more info on why that's not 'only'.
->=20
-> Just like with a framebuffer, it really depends on what the=20
-> application does. Most of the cases it will just read sequentially an=20
-> input buffer, or write sequentially an output buffer. But then you=20
-> get the exotic application that will try to do something like alpha=20
-> blending, which means read+write. Hence "mostly".
->=20
->>>=20
->>>  Therefore, it makes more sense to use only fully cached input=20
->>> =7F=7Fbuffers,
->>>  and to use the write-combine cache coherency setting for output=20
->>> =7F=7Fbuffers.
->>>=20
->>>  This boosts performance, as the data written to the output buffers=20
->>> =7F=7Fdoes
->>>  not have to be sync'd for coherency. It will halve performance if=20
->>> =7F=7Fthe
->>>  userspace application tries to read from the output buffer, but=20
->>> this
->>>  should never happen.
->>>=20
->>>  Since we don't need to sync the cache when disabling CPU access=20
->>> =7F=7Feither
->>>  for input buffers or output buffers, the .end_cpu_access()=20
->>> callback =7F=7Fcan
->>>  be dropped completely.
->>=20
->> We have an odd mix of coherent and non coherent DMA in here as you=20
->> =7Fnoted,
->> but are you sure this is safe on all platforms?
->=20
-> The mix isn't safe, but using only coherent or only non-coherent=20
-> should be safe, yes.
->=20
->>=20
->>>=20
->>>  Signed-off-by: Paul Cercueil <paul@crapouillou.net>
->>=20
->> Any numbers to support this patch?  The mapping types are performance
->> optimisations so nice to know how much of a difference they make.
->=20
-> Output buffers are definitely faster in write-combine mode. On a=20
-> ZedBoard with a AD9361 transceiver set to 66 MSPS, and buffer/size=20
-> set to 8192, I would get about 185 MiB/s before, 197 MiB/s after.
->=20
-> Input buffers... early results are mixed. On ARM32 it does look like=20
-> it is slightly faster to read from *uncached* memory than reading=20
-> from cached memory. The cache sync does take a long time.
->=20
-> Other architectures might have a different result, for instance on=20
-> MIPS invalidating the cache is a very fast operation, so using cached=20
-> buffers would be a huge win in performance.
->=20
-> Setups where the DMA operations are coherent also wouldn't require=20
-> any cache sync and this patch would give a huge win in performance.
->=20
-> I'll run some more tests next week to have some fresh numbers.
+To reduce possible confusion, drop the
+msm_dsi_manager_validate_current_config() function, and specif 'bonded
+&& !master' condition directly in the msm_dsi_modeset_init().
 
-I think I mixed things up before, because I get different results now.
+Fixes: 739b4e7756d3 ("drm/msm/dsi: Fix an error code in msm_dsi_modeset_init()")
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+ drivers/gpu/drm/msm/dsi/dsi.c         | 10 +++++++---
+ drivers/gpu/drm/msm/dsi/dsi.h         |  1 -
+ drivers/gpu/drm/msm/dsi/dsi_manager.c | 17 -----------------
+ 3 files changed, 7 insertions(+), 21 deletions(-)
 
-Here are some fresh benchmarks, triple-checked, using libiio's=20
-iio_readdev and iio_writedev tools, with 64K samples buffers at 61.44=20
-MSPS (max. theorical throughput: 234 MiB/s):
-  iio_readdev -b 65536 cf-ad9361-lpc voltage0 voltage1 | pv > /dev/null
-  pv /dev/zero | iio_writedev -b 65536 cf-ad9361-dds-core-lpc voltage0=20
-voltage1
-
-Coherent mapping:
-- fileio:
-    read:	125 MiB/s
-    write:	141 MiB/s
-- dmabuf:
-    read:	171 MiB/s
-    write:	210 MiB/s
-
-Coherent reads + Write-combine writes:
-- fileio:
-    read:	125 MiB/s
-    write:	141 MiB/s
-- dmabuf:
-    read:	171 MiB/s
-    write:	210 MiB/s
-
-Non-coherent mapping:
-- fileio:
-    read:	119 MiB/s
-    write:	124 MiB/s
-- dmabuf:
-    read:	159 MiB/s
-    write:	124 MiB/s
-
-Non-coherent reads + write-combine writes:
-- fileio:
-    read:	119 MiB/s
-    write:	140 MiB/s
-- dmabuf:
-    read:	159 MiB/s
-    write:	210 MiB/s
-
-Non-coherent mapping with no cache sync:
-- fileio:
-    read:	156 MiB/s
-    write:	123 MiB/s
-- dmabuf:
-    read:	234 MiB/s (capped by sample rate)
-    write:	182 MiB/s
-
-Non-coherent reads with no cache sync + write-combine writes:
-- fileio:
-    read:	156 MiB/s
-    write:	140 MiB/s
-- dmabuf:
-    read:	234 MiB/s (capped by sample rate)
-    write:	210 MiB/s
-
-
-A few things we can deduce from this:
-
-* Write-combine is not available on Zynq/ARM? If it was working, it=20
-should give a better performance than the coherent mapping, but it=20
-doesn't seem to do anything at all. At least it doesn't harm=20
-performance.
-
-* Non-coherent + cache invalidation is definitely a good deal slower=20
-than using coherent mapping, at least on ARM32. However, when the cache=20
-sync is disabled (e.g. if the DMA operations are coherent) the reads=20
-are much faster.
-
-* The new dma-buf based API is a great deal faster than the fileio API.
-
-So in the future we could use coherent reads + write-combine writes,=20
-unless we know the DMA operations are coherent, and in this case use=20
-non-coherent reads + write-combine writes.
-
-Regarding this patch, unfortunately I cannot prove that write-combine=20
-is faster, so I'll just drop this patch for now.
-
-Cheers,
--Paul
-
+diff --git a/drivers/gpu/drm/msm/dsi/dsi.c b/drivers/gpu/drm/msm/dsi/dsi.c
+index 75ae3008b68f..fc280cc43494 100644
+--- a/drivers/gpu/drm/msm/dsi/dsi.c
++++ b/drivers/gpu/drm/msm/dsi/dsi.c
+@@ -215,9 +215,13 @@ int msm_dsi_modeset_init(struct msm_dsi *msm_dsi, struct drm_device *dev,
+ 		goto fail;
+ 	}
+ 
+-	if (!msm_dsi_manager_validate_current_config(msm_dsi->id)) {
+-		ret = -EINVAL;
+-		goto fail;
++	if (msm_dsi_is_bonded_dsi(msm_dsi) &&
++	    !msm_dsi_is_master_dsi(msm_dsi)) {
++		/*
++		 * Do not return an eror here,
++		 * Just skip creating encoder/connector for the slave-DSI.
++		 */
++		return 0;
+ 	}
+ 
+ 	msm_dsi->encoder = encoder;
+diff --git a/drivers/gpu/drm/msm/dsi/dsi.h b/drivers/gpu/drm/msm/dsi/dsi.h
+index 66443dc98500..ef8212990254 100644
+--- a/drivers/gpu/drm/msm/dsi/dsi.h
++++ b/drivers/gpu/drm/msm/dsi/dsi.h
+@@ -82,7 +82,6 @@ int msm_dsi_manager_cmd_xfer(int id, const struct mipi_dsi_msg *msg);
+ bool msm_dsi_manager_cmd_xfer_trigger(int id, u32 dma_base, u32 len);
+ int msm_dsi_manager_register(struct msm_dsi *msm_dsi);
+ void msm_dsi_manager_unregister(struct msm_dsi *msm_dsi);
+-bool msm_dsi_manager_validate_current_config(u8 id);
+ void msm_dsi_manager_tpg_enable(void);
+ 
+ /* msm dsi */
+diff --git a/drivers/gpu/drm/msm/dsi/dsi_manager.c b/drivers/gpu/drm/msm/dsi/dsi_manager.c
+index a152dbf63038..a73cfeb93e90 100644
+--- a/drivers/gpu/drm/msm/dsi/dsi_manager.c
++++ b/drivers/gpu/drm/msm/dsi/dsi_manager.c
+@@ -645,23 +645,6 @@ struct drm_connector *msm_dsi_manager_connector_init(u8 id)
+ 	return ERR_PTR(ret);
+ }
+ 
+-bool msm_dsi_manager_validate_current_config(u8 id)
+-{
+-	bool is_bonded_dsi = IS_BONDED_DSI();
+-
+-	/*
+-	 * For bonded DSI, we only have one drm panel. For this
+-	 * use case, we register only one bridge/connector.
+-	 * Skip bridge/connector initialisation if it is
+-	 * slave-DSI for bonded DSI configuration.
+-	 */
+-	if (is_bonded_dsi && !IS_MASTER_DSI_LINK(id)) {
+-		DBG("Skip bridge registration for slave DSI->id: %d\n", id);
+-		return false;
+-	}
+-	return true;
+-}
+-
+ /* initialize bridge */
+ struct drm_bridge *msm_dsi_manager_bridge_init(u8 id)
+ {
+-- 
+2.33.0
 
