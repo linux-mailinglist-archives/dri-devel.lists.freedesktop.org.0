@@ -2,63 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E35D45D72C
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Nov 2021 10:29:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B02B45D733
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Nov 2021 10:31:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 902A16E525;
-	Thu, 25 Nov 2021 09:29:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 748BB6EB0C;
+	Thu, 25 Nov 2021 09:31:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C94136E525
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Nov 2021 09:29:08 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1637832562; h=Content-Transfer-Encoding: Content-Type:
- In-Reply-To: From: References: Cc: To: Subject: MIME-Version: Date:
- Message-ID: Sender; bh=+hE7rsA6S3I3kl8+qNiMxVgjO73xM/HHZQA+ALiBHbk=;
- b=KUc/7QMR1UBpK5NCefFXPiWLqs+6spM0ICQ8+1I1kpZ4IuWIR17o4EVzHgUCYXWfHPmEm3HB
- JgEfFrwkDh/w+IWMFoZU9TJe8mhLO+gJxVv1TpccpCo71cRYvr59bEUtCOtgJgD+a9V75HAY
- rHLnBTMrg/9SfZXpefT0/XfQW7s=
-X-Mailgun-Sending-Ip: 69.72.43.7
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n02.prod.us-west-2.postgun.com with SMTP id
- 619f575abebfa3d4d5ee0b20 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 25 Nov 2021 09:28:58
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 1DE64C4360D; Thu, 25 Nov 2021 09:28:58 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-7.0 required=2.0 tests=ALL_TRUSTED,BAYES_00,
- NICE_REPLY_A,SPF_FAIL,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
- version=3.4.0
-Received: from [192.168.1.5] (unknown [61.1.233.113])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: akhilpo)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id BBDCBC4360C;
- Thu, 25 Nov 2021 09:28:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.codeaurora.org BBDCBC4360C
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=fail smtp.mailfrom=codeaurora.org
-Message-ID: <a0d95300-cba7-9e2d-5820-f61569dd85ba@codeaurora.org>
-Date: Thu, 25 Nov 2021 14:58:53 +0530
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A5B56EB0A;
+ Thu, 25 Nov 2021 09:31:40 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10178"; a="234212205"
+X-IronPort-AV: E=Sophos;i="5.87,262,1631602800"; d="scan'208";a="234212205"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Nov 2021 01:31:39 -0800
+X-IronPort-AV: E=Sophos;i="5.87,262,1631602800"; d="scan'208";a="498007659"
+Received: from refaase-mobl1.ger.corp.intel.com (HELO [10.249.32.85])
+ ([10.249.32.85])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Nov 2021 01:31:38 -0800
+Message-ID: <7729c40e-fe4e-853e-06d4-5e39dff17d32@linux.intel.com>
+Date: Thu, 25 Nov 2021 10:31:35 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.2
-Subject: Re: [bug report] drm/msm/a6xx: Fix llcc configuration for a660 gpu
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Firefox/91.0 Thunderbird/91.3.0
+Subject: Re: [PATCH 1/6] dma-buf: move dma_resv_prune_unlocked into dma_resv.c
 Content-Language: en-US
-To: Dan Carpenter <dan.carpenter@oracle.com>
-References: <20211125083644.GA6382@kili>
-From: Akhil P Oommen <akhilpo@codeaurora.org>
-In-Reply-To: <20211125083644.GA6382@kili>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+ etnaviv@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+References: <20211028132630.2330-1-christian.koenig@amd.com>
+From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+In-Reply-To: <20211028132630.2330-1-christian.koenig@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,101 +49,175 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nathan Chancellor <natechancellor@gmail.com>,
- dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/25/2021 2:06 PM, Dan Carpenter wrote:
-> [ Nathan, it turns out that Smatch has been broken with regards to
->    uninitialized variables for a while so I'm going through my backlog
->    of warnings.  No idea if you already reported this one.
-> 
->    - dan]
-> 
-> Hello Akhil P Oommen,
-> 
-> The patch a6f24383f6c0: "drm/msm/a6xx: Fix llcc configuration for
-> a660 gpu" from Jul 30, 2021, leads to the following Smatch static
-> checker warning:
-> 
-> 	drivers/gpu/drm/msm/adreno/a6xx_gpu.c:1480 a6xx_llc_activate()
-> 	error: uninitialized symbol 'gpu_scid'.
-> 
-> drivers/gpu/drm/msm/adreno/a6xx_gpu.c
->      1423 static void a6xx_llc_activate(struct a6xx_gpu *a6xx_gpu)
->      1424 {
->      1425         struct adreno_gpu *adreno_gpu = &a6xx_gpu->base;
->      1426         struct msm_gpu *gpu = &adreno_gpu->base;
->      1427         u32 gpu_scid, cntl1_regval = 0;
->                   ^^^^^^^^^^^^
-> 
->      1428
->      1429         if (IS_ERR(a6xx_gpu->llc_mmio))
->      1430                 return;
->      1431
->      1432         if (!llcc_slice_activate(a6xx_gpu->llc_slice)) {
->      1433                 gpu_scid = llcc_get_slice_id(a6xx_gpu->llc_slice);
->                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> 
->      1434
->      1435                 gpu_scid &= 0x1f;
->      1436                 cntl1_regval = (gpu_scid << 0) | (gpu_scid << 5) | (gpu_scid << 10) |
->      1437                                (gpu_scid << 15) | (gpu_scid << 20);
->      1438         }
->      1439
->      1440         /*
->      1441          * For targets with a MMU500, activate the slice but don't program the
->      1442          * register.  The XBL will take care of that.
->      1443          */
->      1444         if (!llcc_slice_activate(a6xx_gpu->htw_llc_slice)) {
->      1445                 if (!a6xx_gpu->have_mmu500) {
->      1446                         u32 gpuhtw_scid = llcc_get_slice_id(a6xx_gpu->htw_llc_slice);
->      1447
->      1448                         gpuhtw_scid &= 0x1f;
->      1449                         cntl1_regval |= FIELD_PREP(GENMASK(29, 25), gpuhtw_scid);
->      1450                 }
->      1451         }
->      1452
->      1453         if (!cntl1_regval)
->      1454                 return;
->      1455
->      1456         /*
->      1457          * Program the slice IDs for the various GPU blocks and GPU MMU
->      1458          * pagetables
->      1459          */
->      1460         if (!a6xx_gpu->have_mmu500) {
->      1461                 a6xx_llc_write(a6xx_gpu,
->      1462                         REG_A6XX_CX_MISC_SYSTEM_CACHE_CNTL_1, cntl1_regval);
->      1463
->      1464                 /*
->      1465                  * Program cacheability overrides to not allocate cache
->      1466                  * lines on a write miss
->      1467                  */
->      1468                 a6xx_llc_rmw(a6xx_gpu,
->      1469                         REG_A6XX_CX_MISC_SYSTEM_CACHE_CNTL_0, 0xF, 0x03);
->      1470                 return;
->      1471         }
->      1472
->      1473         gpu_rmw(gpu, REG_A6XX_GBIF_SCACHE_CNTL1, GENMASK(24, 0), cntl1_regval);
->      1474
->      1475         /* On A660, the SCID programming for UCHE traffic is done in
->      1476          * A6XX_GBIF_SCACHE_CNTL0[14:10]
->      1477          */
->      1478         if (adreno_is_a660_family(adreno_gpu))
->      1479                 gpu_rmw(gpu, REG_A6XX_GBIF_SCACHE_CNTL0, (0x1f << 10) |
-> --> 1480                         (1 << 8), (gpu_scid << 10) | (1 << 8));
->                                              ^^^^^^^^^^^^^^
-> Uninitialized if llcc_slice_activate() failed.
-> 
->      1481 }
-> 
-> regards,
-> dan carpenter
-> 
+On 28-10-2021 15:26, Christian König wrote:
+> The i915 driver implements a prune function which is called when it is very
+> likely that the fences inside the dma_resv object can be removed because they
+> are all signaled.
+>
+> Move that function into the dma-resv.c code since the behavior of pruning
+> fences is something internal to the object.
+>
+> Signed-off-by: Christian König <christian.koenig@amd.com>
+> ---
+>  drivers/dma-buf/dma-resv.c                   | 18 ++++++++++++++++++
+>  drivers/gpu/drm/i915/Makefile                |  1 -
+>  drivers/gpu/drm/i915/dma_resv_utils.c        | 17 -----------------
+>  drivers/gpu/drm/i915/dma_resv_utils.h        | 13 -------------
+>  drivers/gpu/drm/i915/gem/i915_gem_shrinker.c |  3 +--
+>  drivers/gpu/drm/i915/gem/i915_gem_wait.c     |  3 +--
+>  include/linux/dma-resv.h                     |  1 +
+>  7 files changed, 21 insertions(+), 35 deletions(-)
+>  delete mode 100644 drivers/gpu/drm/i915/dma_resv_utils.c
+>  delete mode 100644 drivers/gpu/drm/i915/dma_resv_utils.h
+>
+> diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
+> index ff3c0558b3b8..64d4f95778c4 100644
+> --- a/drivers/dma-buf/dma-resv.c
+> +++ b/drivers/dma-buf/dma-resv.c
+> @@ -324,6 +324,24 @@ void dma_resv_add_excl_fence(struct dma_resv *obj, struct dma_fence *fence)
+>  }
+>  EXPORT_SYMBOL(dma_resv_add_excl_fence);
+>  
+> +/**
+> + * dma_resv_prune_unlocked - try to remove signaled fences
+> + * @obj: The dma_resv object to prune
+> + *
+> + * Try to lock the object, test if it is signaled and if yes then remove all the
+> + * signaled fences.
+> + */
+> +void dma_resv_prune_unlocked(struct dma_resv *obj)
+> +{
+> +	if (!dma_resv_trylock(obj))
+> +		return;
+> +
+> +	if (dma_resv_test_signaled(obj, true))
+> +		dma_resv_add_excl_fence(obj, NULL);
+> +	dma_resv_unlock(obj);
+> +}
+> +EXPORT_SYMBOL(dma_resv_prune_unlocked);
+> +
+>  /**
+>   * dma_resv_iter_restart_unlocked - restart the unlocked iterator
+>   * @cursor: The dma_resv_iter object to restart
+> diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
+> index 660bb03de6fc..5c1af130cb6d 100644
+> --- a/drivers/gpu/drm/i915/Makefile
+> +++ b/drivers/gpu/drm/i915/Makefile
+> @@ -60,7 +60,6 @@ i915-y += i915_drv.o \
+>  
+>  # core library code
+>  i915-y += \
+> -	dma_resv_utils.o \
+>  	i915_memcpy.o \
+>  	i915_mm.o \
+>  	i915_sw_fence.o \
+> diff --git a/drivers/gpu/drm/i915/dma_resv_utils.c b/drivers/gpu/drm/i915/dma_resv_utils.c
+> deleted file mode 100644
+> index 7df91b7e4ca8..000000000000
+> --- a/drivers/gpu/drm/i915/dma_resv_utils.c
+> +++ /dev/null
+> @@ -1,17 +0,0 @@
+> -// SPDX-License-Identifier: MIT
+> -/*
+> - * Copyright © 2020 Intel Corporation
+> - */
+> -
+> -#include <linux/dma-resv.h>
+> -
+> -#include "dma_resv_utils.h"
+> -
+> -void dma_resv_prune(struct dma_resv *resv)
+> -{
+> -	if (dma_resv_trylock(resv)) {
+> -		if (dma_resv_test_signaled(resv, true))
+> -			dma_resv_add_excl_fence(resv, NULL);
+> -		dma_resv_unlock(resv);
+> -	}
+> -}
+> diff --git a/drivers/gpu/drm/i915/dma_resv_utils.h b/drivers/gpu/drm/i915/dma_resv_utils.h
+> deleted file mode 100644
+> index b9d8fb5f8367..000000000000
+> --- a/drivers/gpu/drm/i915/dma_resv_utils.h
+> +++ /dev/null
+> @@ -1,13 +0,0 @@
+> -/* SPDX-License-Identifier: MIT */
+> -/*
+> - * Copyright © 2020 Intel Corporation
+> - */
+> -
+> -#ifndef DMA_RESV_UTILS_H
+> -#define DMA_RESV_UTILS_H
+> -
+> -struct dma_resv;
+> -
+> -void dma_resv_prune(struct dma_resv *resv);
+> -
+> -#endif /* DMA_RESV_UTILS_H */
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c b/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
+> index 5ab136ffdeb2..48029bbda682 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
+> @@ -15,7 +15,6 @@
+>  
+>  #include "gt/intel_gt_requests.h"
+>  
+> -#include "dma_resv_utils.h"
+>  #include "i915_trace.h"
+>  
+>  static bool swap_available(void)
+> @@ -229,7 +228,7 @@ i915_gem_shrink(struct i915_gem_ww_ctx *ww,
+>  					i915_gem_object_unlock(obj);
+>  			}
+>  
+> -			dma_resv_prune(obj->base.resv);
+> +			dma_resv_prune_unlocked(obj->base.resv);
+>  
+>  			scanned += obj->base.size >> PAGE_SHIFT;
+>  skip:
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_wait.c b/drivers/gpu/drm/i915/gem/i915_gem_wait.c
+> index 569658c7859c..1915d203a72d 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_wait.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_wait.c
+> @@ -10,7 +10,6 @@
+>  
+>  #include "gt/intel_engine.h"
+>  
+> -#include "dma_resv_utils.h"
+>  #include "i915_gem_ioctls.h"
+>  #include "i915_gem_object.h"
+>  
+> @@ -53,7 +52,7 @@ i915_gem_object_wait_reservation(struct dma_resv *resv,
+>  	 * signaled.
+>  	 */
+>  	if (timeout > 0)
+> -		dma_resv_prune(resv);
+> +		dma_resv_prune_unlocked(resv);
+>  
+>  	return timeout;
+>  }
+> diff --git a/include/linux/dma-resv.h b/include/linux/dma-resv.h
+> index eebf04325b34..e0558429a5ee 100644
+> --- a/include/linux/dma-resv.h
+> +++ b/include/linux/dma-resv.h
+> @@ -458,6 +458,7 @@ void dma_resv_fini(struct dma_resv *obj);
+>  int dma_resv_reserve_shared(struct dma_resv *obj, unsigned int num_fences);
+>  void dma_resv_add_shared_fence(struct dma_resv *obj, struct dma_fence *fence);
+>  void dma_resv_add_excl_fence(struct dma_resv *obj, struct dma_fence *fence);
+> +void dma_resv_prune_unlocked(struct dma_resv *obj);
+>  int dma_resv_get_fences(struct dma_resv *obj, struct dma_fence **pfence_excl,
+>  			unsigned *pshared_count, struct dma_fence ***pshared);
+>  int dma_resv_copy_fences(struct dma_resv *dst, struct dma_resv *src);
 
-Dan,
+I don't mind adding a dma_resv_prune for locked case, but I don't think unlocked would have benefits.
 
-This is fixed here: https://patchwork.freedesktop.org/patch/464046/
+Furthermore, I'm trying to remove the unlocked versions from i915. Could this be a prereq patch instead?
 
--Akhil.
+https://patchwork.freedesktop.org/patch/460722/?series=96115&rev=1
+
+~Maarten
+
+~Maarten
+
