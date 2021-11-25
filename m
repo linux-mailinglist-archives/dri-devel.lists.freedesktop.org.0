@@ -1,33 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1797C45D858
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Nov 2021 11:42:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 25D0445D874
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Nov 2021 11:53:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D544F6E81B;
-	Thu, 25 Nov 2021 10:42:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 805066E4A7;
+	Thu, 25 Nov 2021 10:53:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 096556E81B;
- Thu, 25 Nov 2021 10:42:13 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10178"; a="215518252"
-X-IronPort-AV: E=Sophos;i="5.87,263,1631602800"; d="scan'208";a="215518252"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Nov 2021 02:42:12 -0800
-X-IronPort-AV: E=Sophos;i="5.87,263,1631602800"; d="scan'208";a="498029052"
-Received: from dlathrox-mobl1.amr.corp.intel.com (HELO tursulin-mobl2.home)
- ([10.212.122.191])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Nov 2021 02:42:10 -0800
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-To: Intel-gfx@lists.freedesktop.org
-Subject: [PATCH] drm/i915: Use per device iommu check
-Date: Thu, 25 Nov 2021 10:42:02 +0000
-Message-Id: <20211125104202.417171-1-tvrtko.ursulin@linux.intel.com>
-X-Mailer: git-send-email 2.32.0
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC85D6E4A7
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Nov 2021 10:53:19 +0000 (UTC)
+Received: from pan.home (unknown
+ [IPv6:2a00:23c6:c31a:b300:ef41:670e:e121:c469])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: martyn)
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id A2CC91F4605A;
+ Thu, 25 Nov 2021 10:53:16 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
+ t=1637837597; bh=R4bY54A7gUjFfteHpshFn4SFUT2KkgFIaSyJhExzkPQ=;
+ h=From:To:Cc:Subject:Date:From;
+ b=j1usVRvQQ/2rKHBHxIEriklFTwcqPVtpxEvEgjLfnBxXMV/hiyQXqQSUSnb3UXpMU
+ TwnsacGYg5JdzGJZI68J2IcnQPKnsw5YHtB3xzYup/uMxzXokpS525suhr7XvYB62v
+ Lbj2YPQTQU7elxlbN7YTs6sC0ikqNRFwnKM5UFrBFBrzURhScjTLLyFACeWDilocaS
+ ODNHO9G5NNqDs0c+D8ubkmvXOMqJf8URQjHvubPOMguKoiYWJobE/wwOtIpjgfN4nM
+ vB1zK990GUttIOhjqABUe0hCsn8fTrEmsCCWfDyZ/uMLYQ+VraVa3y4RCMW+gRQ+Rx
+ 2A841DFwK/sCw==
+From: Martyn Welch <martyn.welch@collabora.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v2] drm/bridge: megachips: Ensure both bridges are probed
+ before registration
+Date: Thu, 25 Nov 2021 10:53:02 +0000
+Message-Id: <43552c3404e8fdf92d8bc5658fac24e9f03c2c57.1637836606.git.martyn.welch@collabora.com>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -42,302 +49,255 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Robin Murphy <robin.murphy@arm.com>, Lu Baolu <baolu.lu@linux.intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>, dri-devel@lists.freedesktop.org,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Martyn Welch <martyn.welch@collabora.co.uk>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Martyn Welch <martyn.welch@collabora.com>,
+ Peter Senna Tschudin <peter.senna@gmail.com>, linux-kernel@vger.kernel.org,
+ Robert Foss <robert.foss@linaro.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, kernel@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+In the configuration used by the b850v3, the STDP2690 is used to read EDID
+data whilst it's the STDP4028 which can detect when monitors are connected.
 
-With both integrated and discrete Intel GPUs in a system, the current
-global check of intel_iommu_gfx_mapped, as done from intel_vtd_active()
-may not be completely accurate.
+This can result in problems at boot with monitors connected when the
+STDP4028 is probed first, a monitor is detected and an attempt is made to
+read the EDID data before the STDP2690 has probed:
 
-In this patch we add i915 parameter to intel_vtd_active() in order to
-prepare it for multiple GPUs and we also change the check away from Intel
-specific intel_iommu_gfx_mapped (global exported by the Intel IOMMU
-driver) to probing the presence of IOMMU domain on a specific device
-using iommu_get_domain_for_dev().
+[    3.795721] Unable to handle kernel NULL pointer dereference at virtual address 00000018
+[    3.803845] pgd = (ptrval)
+[    3.806581] [00000018] *pgd=00000000
+[    3.810180] Internal error: Oops: 5 [#1] SMP ARM
+[    3.814813] Modules linked in:
+[    3.817879] CPU: 0 PID: 64 Comm: kworker/u4:1 Not tainted 5.15.0 #1
+[    3.824161] Hardware name: Freescale i.MX6 Quad/DualLite (Device Tree)
+[    3.830705] Workqueue: events_unbound deferred_probe_work_func
+[    3.836565] PC is at stdp2690_get_edid+0x44/0x19c
+[    3.841286] LR is at ge_b850v3_lvds_get_modes+0x2c/0x5c
+[    3.846526] pc : [<805eae10>]    lr : [<805eb138>]    psr: 80000013
+[    3.852802] sp : 81c359d0  ip : 7dbb550b  fp : 81c35a1c
+[    3.858037] r10: 81c73840  r9 : 81c73894  r8 : 816d9800
+[    3.863270] r7 : 00000000  r6 : 81c34000  r5 : 00000000  r4 : 810c35f0
+[    3.869808] r3 : 80e3e294  r2 : 00000080  r1 : 00000cc0  r0 : 81401180
+[    3.876349] Flags: Nzcv  IRQs on  FIQs on  Mode SVC_32  ISA ARM  Segment none
+[    3.883499] Control: 10c5387d  Table: 1000404a  DAC: 00000051
+[    3.889254] Register r0 information: slab kmem_cache start 81401180 pointer offset 0
+[    3.897034] Register r1 information: non-paged memory
+[    3.902097] Register r2 information: non-paged memory
+[    3.907160] Register r3 information: non-slab/vmalloc memory
+[    3.912832] Register r4 information: non-slab/vmalloc memory
+[    3.918503] Register r5 information: NULL pointer
+[    3.923217] Register r6 information: non-slab/vmalloc memory
+[    3.928887] Register r7 information: NULL pointer
+[    3.933601] Register r8 information: slab kmalloc-1k start 816d9800 pointer offset 0 size 1024
+[    3.942244] Register r9 information: slab kmalloc-2k start 81c73800 pointer offset 148 size 2048
+[    3.951058] Register r10 information: slab kmalloc-2k start 81c73800 pointer offset 64 size 2048
+[    3.959873] Register r11 information: non-slab/vmalloc memory
+[    3.965632] Register r12 information: non-paged memory
+[    3.970781] Process kworker/u4:1 (pid: 64, stack limit = 0x(ptrval))
+[    3.977148] Stack: (0x81c359d0 to 0x81c36000)
+[    3.981517] 59c0:                                     80b2b668 80b2b5bc 000002e2 0000034e
+[    3.989712] 59e0: 81c35a8c 816d98e8 81c35a14 7dbb550b 805bfcd0 810c35f0 81c73840 824addc0
+[    3.997906] 5a00: 00001000 816d9800 81c73894 81c73840 81c35a34 81c35a20 805eb138 805eadd8
+[    4.006099] 5a20: 810c35f0 00000045 81c35adc 81c35a38 80594188 805eb118 80d7c788 80dd1848
+[    4.014292] 5a40: 00000000 81c35a50 80dca950 811194d3 80dca7c4 80dca944 80dca91c 816d9800
+[    4.022485] 5a60: 81c34000 81c760a8 816d9800 80c58c98 810c35f0 816d98e8 00001000 00001000
+[    4.030678] 5a80: 00000000 00000000 8017712c 81c60000 00000002 00000001 00000000 00000000
+[    4.038870] 5aa0: 816d9900 816d9900 00000000 7dbb550b 805c700c 00000008 826282c8 826282c8
+[    4.047062] 5ac0: 00001000 81e1ce40 00001000 00000002 81c35bf4 81c35ae0 805d9694 80593fc0
+[    4.055255] 5ae0: 8017a970 80179ad8 00000179 00000000 81c35bcc 81c35b00 80177108 8017a950
+[    4.063447] 5b00: 00000000 81c35b10 81c34000 00000000 81004fd8 81010a38 00000000 00000059
+[    4.071639] 5b20: 816d98d4 81fbb718 00000013 826282c8 8017a940 81c35b40 81134448 00000400
+[    4.079831] 5b40: 00000178 00000000 e063b9c1 00000000 c2000049 00000040 00000000 00000008
+[    4.088024] 5b60: 82628300 82628380 00000000 00000000 81c34000 00000000 81fbb700 82628340
+[    4.096216] 5b80: 826283c0 00001000 00000000 00000010 816d9800 826282c0 801766f8 00000000
+[    4.104408] 5ba0: 00000000 81004fd8 00000049 00000000 00000000 00000001 80dcf940 80178de4
+[    4.112601] 5bc0: 81c35c0c 7dbb550b 80178de4 81fbb700 00000010 00000010 810c35f4 81e1ce40
+[    4.120793] 5be0: 81c40908 0000000c 81c35c64 81c35bf8 805a7f18 805d94a0 81c35c3c 816d9800
+[    4.128985] 5c00: 00000010 81c34000 81c35c2c 81c35c18 8012fce0 805be90c 81c35c3c 81c35c28
+[    4.137178] 5c20: 805be90c 80173210 81fbb600 81fbb6b4 81c35c5c 7dbb550b 81c35c64 81fbb700
+[    4.145370] 5c40: 816d9800 00000010 810c35f4 81e1ce40 81c40908 0000000c 81c35c84 81c35c68
+[    4.153565] 5c60: 805a8c78 805a7ed0 816d9800 81fbb700 00000010 00000000 81c35cac 81c35c88
+[    4.161758] 5c80: 805a8dc4 805a8b68 816d9800 00000000 816d9800 00000000 8179f810 810c42d0
+[    4.169950] 5ca0: 81c35ccc 81c35cb0 805e47b0 805a8d18 824aa240 81e1ea80 81c40908 81126b60
+[    4.178144] 5cc0: 81c35d14 81c35cd0 8060db1c 805e46cc 81c35d14 81c35ce0 80dd90f8 810c4d58
+[    4.186338] 5ce0: 80dd90dc 81fe9740 fffffffe 81fe9740 81e1ea80 00000000 810c4d6c 80c4b95c
+[    4.194531] 5d00: 80dd9a3c 815c6810 81c35d34 81c35d18 8060dc9c 8060d8fc 8246b440 815c6800
+[    4.202724] 5d20: 815c6810 eefd8e00 81c35d44 81c35d38 8060dd80 8060dbec 81c35d6c 81c35d48
+[    4.210918] 5d40: 805e98a4 8060dd70 00000000 815c6810 810c45b0 81126e90 81126e90 80dd9a3c
+[    4.219112] 5d60: 81c35d8c 81c35d70 80619574 805e9808 815c6810 00000000 810c45b0 81126e90
+[    4.227305] 5d80: 81c35db4 81c35d90 806168dc 80619514 80625df0 80623c80 815c6810 810c45b0
+[    4.235498] 5da0: 81c35e6c 815c6810 81c35dec 81c35db8 80616d04 80616800 81c35de4 81c35dc8
+[    4.243691] 5dc0: 808382b0 80b2f444 8116e310 8116e314 81c35e6c 815c6810 00000003 80dd9a3c
+[    4.251884] 5de0: 81c35e14 81c35df0 80616ec8 80616c60 00000001 810c45b0 81c35e6c 815c6810
+[    4.260076] 5e00: 00000001 80dd9a3c 81c35e34 81c35e18 80617338 80616e90 00000000 81c35e6c
+[    4.268269] 5e20: 80617284 81c34000 81c35e64 81c35e38 80614730 80617290 81c35e64 8171a06c
+[    4.276461] 5e40: 81e220b8 7dbb550b 815c6810 81c34000 815c6854 81126e90 81c35e9c 81c35e68
+[    4.284654] 5e60: 8061673c 806146a8 8060f5e0 815c6810 00000001 7dbb550b 00000000 810c5080
+[    4.292847] 5e80: 810c5320 815c6810 81126e90 00000000 81c35eac 81c35ea0 80617554 80616650
+[    4.301040] 5ea0: 81c35ecc 81c35eb0 80615694 80617544 810c5080 810c5080 810c5094 81126e90
+[    4.309233] 5ec0: 81c35efc 81c35ed0 80615c6c 8061560c 80615bc0 810c50c0 817eeb00 81412800
+[    4.317425] 5ee0: 814c3000 00000000 814c300d 81119a60 81c35f3c 81c35f00 80141488 80615bcc
+[    4.325618] 5f00: 81c60000 81c34000 81c35f24 81c35f18 80143078 817eeb00 81412800 817eeb18
+[    4.333811] 5f20: 81412818 81003d00 00000088 81412800 81c35f74 81c35f40 80141a48 80141298
+[    4.342005] 5f40: 81c35f74 81c34000 801481ac 817efa40 817efc00 801417d8 817eeb00 00000000
+[    4.350199] 5f60: 815a7e7c 81c34000 81c35fac 81c35f78 80149b1c 801417e4 817efc20 817efc20
+[    4.358391] 5f80: ffffe000 817efa40 801499a8 00000000 00000000 00000000 00000000 00000000
+[    4.366583] 5fa0: 00000000 81c35fb0 80100130 801499b4 00000000 00000000 00000000 00000000
+[    4.374774] 5fc0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+[    4.382966] 5fe0: 00000000 00000000 00000000 00000000 00000013 00000000 00000000 00000000
+[    4.391155] Backtrace:
+[    4.393613] [<805eadcc>] (stdp2690_get_edid) from [<805eb138>] (ge_b850v3_lvds_get_modes+0x2c/0x5c)
+[    4.402691]  r10:81c73840 r9:81c73894 r8:816d9800 r7:00001000 r6:824addc0 r5:81c73840
+[    4.410534]  r4:810c35f0
+[    4.413073] [<805eb10c>] (ge_b850v3_lvds_get_modes) from [<80594188>] (drm_helper_probe_single_connector_modes+0x1d4/0x84c)
+[    4.424240]  r5:00000045 r4:810c35f0
+[    4.427822] [<80593fb4>] (drm_helper_probe_single_connector_modes) from [<805d9694>] (drm_client_modeset_probe+0x200/0x1384)
+[    4.439074]  r10:00000002 r9:00001000 r8:81e1ce40 r7:00001000 r6:826282c8 r5:826282c8
+[    4.446917]  r4:00000008
+[    4.449455] [<805d9494>] (drm_client_modeset_probe) from [<805a7f18>] (__drm_fb_helper_initial_config_and_unlock+0x54/0x5b4)
+[    4.460713]  r10:0000000c r9:81c40908 r8:81e1ce40 r7:810c35f4 r6:00000010 r5:00000010
+[    4.468556]  r4:81fbb700
+[    4.471095] [<805a7ec4>] (__drm_fb_helper_initial_config_and_unlock) from [<805a8c78>] (drm_fbdev_client_hotplug+0x11c/0x1b0)
+[    4.482434]  r10:0000000c r9:81c40908 r8:81e1ce40 r7:810c35f4 r6:00000010 r5:816d9800
+[    4.490276]  r4:81fbb700
+[    4.492814] [<805a8b5c>] (drm_fbdev_client_hotplug) from [<805a8dc4>] (drm_fbdev_generic_setup+0xb8/0x1a4)
+[    4.502494]  r7:00000000 r6:00000010 r5:81fbb700 r4:816d9800
+[    4.508160] [<805a8d0c>] (drm_fbdev_generic_setup) from [<805e47b0>] (imx_drm_bind+0xf0/0x130)
+[    4.516805]  r7:810c42d0 r6:8179f810 r5:00000000 r4:816d9800
+[    4.522474] [<805e46c0>] (imx_drm_bind) from [<8060db1c>] (try_to_bring_up_master+0x22c/0x2f0)
+[    4.531116]  r7:81126b60 r6:81c40908 r5:81e1ea80 r4:824aa240
+[    4.536783] [<8060d8f0>] (try_to_bring_up_master) from [<8060dc9c>] (__component_add+0xbc/0x184)
+[    4.545597]  r10:815c6810 r9:80dd9a3c r8:80c4b95c r7:810c4d6c r6:00000000 r5:81e1ea80
+[    4.553440]  r4:81fe9740
+[    4.555980] [<8060dbe0>] (__component_add) from [<8060dd80>] (component_add+0x1c/0x20)
+[    4.563921]  r7:eefd8e00 r6:815c6810 r5:815c6800 r4:8246b440
+[    4.569589] [<8060dd64>] (component_add) from [<805e98a4>] (dw_hdmi_imx_probe+0xa8/0xe8)
+[    4.577702] [<805e97fc>] (dw_hdmi_imx_probe) from [<80619574>] (platform_probe+0x6c/0xc8)
+[    4.585908]  r9:80dd9a3c r8:81126e90 r7:81126e90 r6:810c45b0 r5:815c6810 r4:00000000
+[    4.593662] [<80619508>] (platform_probe) from [<806168dc>] (really_probe+0xe8/0x460)
+[    4.601524]  r7:81126e90 r6:810c45b0 r5:00000000 r4:815c6810
+[    4.607191] [<806167f4>] (really_probe) from [<80616d04>] (__driver_probe_device+0xb0/0x230)
+[    4.615658]  r7:815c6810 r6:81c35e6c r5:810c45b0 r4:815c6810
+[    4.621326] [<80616c54>] (__driver_probe_device) from [<80616ec8>] (driver_probe_device+0x44/0xe0)
+[    4.630313]  r9:80dd9a3c r8:00000003 r7:815c6810 r6:81c35e6c r5:8116e314 r4:8116e310
+[    4.638068] [<80616e84>] (driver_probe_device) from [<80617338>] (__device_attach_driver+0xb4/0x12c)
+[    4.647227]  r9:80dd9a3c r8:00000001 r7:815c6810 r6:81c35e6c r5:810c45b0 r4:00000001
+[    4.654981] [<80617284>] (__device_attach_driver) from [<80614730>] (bus_for_each_drv+0x94/0xd8)
+[    4.663794]  r7:81c34000 r6:80617284 r5:81c35e6c r4:00000000
+[    4.669461] [<8061469c>] (bus_for_each_drv) from [<8061673c>] (__device_attach+0xf8/0x190)
+[    4.677753]  r7:81126e90 r6:815c6854 r5:81c34000 r4:815c6810
+[    4.683419] [<80616644>] (__device_attach) from [<80617554>] (device_initial_probe+0x1c/0x20)
+[    4.691971]  r8:00000000 r7:81126e90 r6:815c6810 r5:810c5320 r4:810c5080
+[    4.698681] [<80617538>] (device_initial_probe) from [<80615694>] (bus_probe_device+0x94/0x9c)
+[    4.707318] [<80615600>] (bus_probe_device) from [<80615c6c>] (deferred_probe_work_func+0xac/0xf0)
+[    4.716305]  r7:81126e90 r6:810c5094 r5:810c5080 r4:810c5080
+[    4.721973] [<80615bc0>] (deferred_probe_work_func) from [<80141488>] (process_one_work+0x1fc/0x54c)
+[    4.731139]  r10:81119a60 r9:814c300d r8:00000000 r7:814c3000 r6:81412800 r5:817eeb00
+[    4.738981]  r4:810c50c0 r3:80615bc0
+[    4.742563] [<8014128c>] (process_one_work) from [<80141a48>] (worker_thread+0x270/0x570)
+[    4.750765]  r10:81412800 r9:00000088 r8:81003d00 r7:81412818 r6:817eeb18 r5:81412800
+[    4.758608]  r4:817eeb00
+[    4.761147] [<801417d8>] (worker_thread) from [<80149b1c>] (kthread+0x174/0x190)
+[    4.768574]  r10:81c34000 r9:815a7e7c r8:00000000 r7:817eeb00 r6:801417d8 r5:817efc00
+[    4.776417]  r4:817efa40
+[    4.778955] [<801499a8>] (kthread) from [<80100130>] (ret_from_fork+0x14/0x24)
+[    4.786201] Exception stack(0x81c35fb0 to 0x81c35ff8)
+[    4.791266] 5fa0:                                     00000000 00000000 00000000 00000000
+[    4.799459] 5fc0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+[    4.807651] 5fe0: 00000000 00000000 00000000 00000000 00000013 00000000
+[    4.814279]  r10:00000000 r9:00000000 r8:00000000 r7:00000000 r6:00000000 r5:801499a8
+[    4.822120]  r4:817efa40
+[    4.824664] Code: e3a02080 e593001c e3a01d33 e3a05000 (e5979018)
 
-It was suggested to additionally check for __IOMMU_DOMAIN_PAGING bit
-present in the returned iommu domain, however I opted not to do that at
-this point.
+Split the registration from the STDP4028 probe routine and only perform
+registration once both the STDP4028 and STDP2690 have probed.
 
-Checking for this flag would detect whether IOMMU is in address
-translation mode, with the assumption that is the only relevant question.
-Downside to that is that in identity mapping (pass-through) mode IOMMU
-hardware is still active, sitting on the communication path, just not
-doing address translation.
-
-My rationale was, that for the many intel_vtd_active() checks in our code
-base, while some clearly are about performance impact of address
-translation, some may be about working around functional issues when the
-IOMMU hardware is simply being active. There also may be some performance
-impact in pass-through mode, but I have not specifically attempted to
-measure it.
-
-Therefore the safest option feels to be to keep intel_vtd_active()
-answering the question of "is the IOMMU hardware active" for this device.
-If in the future we want to expand the set of questions to "is IOMMU
-active and doing address translation" we can easily do that by adding a
-new helper to be called from appropriate sites.
-
-v2:
-  * Check for dmar translation specifically, not just iommu domain. (Baolu)
-
-v3:
- * Go back to plain "any domain" check for now, rewrite commit message.
-
-Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-Cc: Lu Baolu <baolu.lu@linux.intel.com>
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>
-Cc: Robin Murphy <robin.murphy@arm.com>
+Signed-off-by: Martyn Welch <martyn.welch@collabora.com>
+CC: Peter Senna Tschudin <peter.senna@gmail.com>
+CC: Martyn Welch <martyn.welch@collabora.co.uk>
+CC: Neil Armstrong <narmstrong@baylibre.com>
+CC: Robert Foss <robert.foss@linaro.org>
+CC: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+CC: Jonas Karlman <jonas@kwiboo.se>
+CC: Jernej Skrabec <jernej.skrabec@gmail.com>
 ---
- drivers/gpu/drm/i915/display/intel_bw.c      |  2 +-
- drivers/gpu/drm/i915/display/intel_display.c |  2 +-
- drivers/gpu/drm/i915/display/intel_fbc.c     |  2 +-
- drivers/gpu/drm/i915/gem/i915_gem_stolen.c   |  2 +-
- drivers/gpu/drm/i915/gem/i915_gemfs.c        |  2 +-
- drivers/gpu/drm/i915/gt/intel_ggtt.c         |  4 ++--
- drivers/gpu/drm/i915/i915_debugfs.c          |  1 +
- drivers/gpu/drm/i915/i915_driver.c           |  7 +++++++
- drivers/gpu/drm/i915/i915_drv.h              | 13 +++++++------
- drivers/gpu/drm/i915/i915_gpu_error.c        |  5 +----
- drivers/gpu/drm/i915/intel_device_info.c     | 14 +-------------
- drivers/gpu/drm/i915/intel_pm.c              |  2 +-
- 12 files changed, 25 insertions(+), 31 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_bw.c b/drivers/gpu/drm/i915/display/intel_bw.c
-index abec394f6869..2da4aacc956b 100644
---- a/drivers/gpu/drm/i915/display/intel_bw.c
-+++ b/drivers/gpu/drm/i915/display/intel_bw.c
-@@ -634,7 +634,7 @@ static unsigned int intel_bw_data_rate(struct drm_i915_private *dev_priv,
- 	for_each_pipe(dev_priv, pipe)
- 		data_rate += bw_state->data_rate[pipe];
- 
--	if (DISPLAY_VER(dev_priv) >= 13 && intel_vtd_active())
-+	if (DISPLAY_VER(dev_priv) >= 13 && intel_vtd_active(dev_priv))
- 		data_rate = data_rate * 105 / 100;
- 
- 	return data_rate;
-diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
-index b2d51cd79d6c..1ef77ba7f645 100644
---- a/drivers/gpu/drm/i915/display/intel_display.c
-+++ b/drivers/gpu/drm/i915/display/intel_display.c
-@@ -1293,7 +1293,7 @@ static bool needs_async_flip_vtd_wa(const struct intel_crtc_state *crtc_state)
- {
- 	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->dev);
- 
--	return crtc_state->uapi.async_flip && intel_vtd_active() &&
-+	return crtc_state->uapi.async_flip && intel_vtd_active(i915) &&
- 		(DISPLAY_VER(i915) == 9 || IS_BROADWELL(i915) || IS_HASWELL(i915));
+Changes since v1:
+- Removed redundant checks for stdp4028_i2c and stdp2690_i2c.
+
+ .../bridge/megachips-stdpxxxx-ge-b850v3-fw.c  | 40 +++++++++++++------
+ 1 file changed, 28 insertions(+), 12 deletions(-)
+
+diff --git a/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c b/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c
+index d2808c4a6fb1..cce98bf2a4e7 100644
+--- a/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c
++++ b/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c
+@@ -306,19 +306,10 @@ static void ge_b850v3_lvds_remove(void)
+ 	mutex_unlock(&ge_b850v3_lvds_dev_mutex);
  }
  
-diff --git a/drivers/gpu/drm/i915/display/intel_fbc.c b/drivers/gpu/drm/i915/display/intel_fbc.c
-index d0c34bc3af6c..614e8697c068 100644
---- a/drivers/gpu/drm/i915/display/intel_fbc.c
-+++ b/drivers/gpu/drm/i915/display/intel_fbc.c
-@@ -1677,7 +1677,7 @@ static int intel_sanitize_fbc_option(struct drm_i915_private *i915)
- static bool need_fbc_vtd_wa(struct drm_i915_private *i915)
+-static int stdp4028_ge_b850v3_fw_probe(struct i2c_client *stdp4028_i2c,
+-				       const struct i2c_device_id *id)
++static int ge_b850v3_register(void)
  {
- 	/* WaFbcTurnOffFbcWhenHyperVisorIsUsed:skl,bxt */
--	if (intel_vtd_active() &&
-+	if (intel_vtd_active(i915) &&
- 	    (IS_SKYLAKE(i915) || IS_BROXTON(i915))) {
- 		drm_info(&i915->drm,
- 			 "Disabling framebuffer compression (FBC) to prevent screen flicker with VT-d enabled\n");
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
-index ddd37ccb1362..cf100c0ea3b7 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
-@@ -399,7 +399,7 @@ static int i915_gem_init_stolen(struct intel_memory_region *mem)
- 		return 0;
- 	}
++	struct i2c_client *stdp4028_i2c = ge_b850v3_lvds_ptr->stdp4028_i2c;
+ 	struct device *dev = &stdp4028_i2c->dev;
+-	int ret;
+-
+-	ret = ge_b850v3_lvds_init(dev);
+-
+-	if (ret)
+-		return ret;
+-
+-	ge_b850v3_lvds_ptr->stdp4028_i2c = stdp4028_i2c;
+-	i2c_set_clientdata(stdp4028_i2c, ge_b850v3_lvds_ptr);
  
--	if (intel_vtd_active() && GRAPHICS_VER(i915) < 8) {
-+	if (intel_vtd_active(i915) && GRAPHICS_VER(i915) < 8) {
- 		drm_notice(&i915->drm,
- 			   "%s, disabling use of stolen memory\n",
- 			   "DMAR active");
-diff --git a/drivers/gpu/drm/i915/gem/i915_gemfs.c b/drivers/gpu/drm/i915/gem/i915_gemfs.c
-index dbdbdc344d87..11cd66d183e6 100644
---- a/drivers/gpu/drm/i915/gem/i915_gemfs.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gemfs.c
-@@ -31,7 +31,7 @@ int i915_gemfs_init(struct drm_i915_private *i915)
- 	 */
- 
- 	opts = NULL;
--	if (intel_vtd_active()) {
-+	if (intel_vtd_active(i915)) {
- 		if (IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE)) {
- 			static char huge_opt[] = "huge=within_size"; /* r/w */
- 
-diff --git a/drivers/gpu/drm/i915/gt/intel_ggtt.c b/drivers/gpu/drm/i915/gt/intel_ggtt.c
-index 555111c3bee5..110d3944f9a2 100644
---- a/drivers/gpu/drm/i915/gt/intel_ggtt.c
-+++ b/drivers/gpu/drm/i915/gt/intel_ggtt.c
-@@ -106,7 +106,7 @@ static bool needs_idle_maps(struct drm_i915_private *i915)
- 	 * Query intel_iommu to see if we need the workaround. Presumably that
- 	 * was loaded first.
- 	 */
--	if (!intel_vtd_active())
-+	if (!intel_vtd_active(i915))
- 		return false;
- 
- 	if (GRAPHICS_VER(i915) == 5 && IS_MOBILE(i915))
-@@ -1233,7 +1233,7 @@ int i915_ggtt_probe_hw(struct drm_i915_private *i915)
- 	if (ret)
- 		return ret;
- 
--	if (intel_vtd_active())
-+	if (intel_vtd_active(i915))
- 		drm_info(&i915->drm, "VT-d active for gfx access\n");
- 
- 	return 0;
-diff --git a/drivers/gpu/drm/i915/i915_debugfs.c b/drivers/gpu/drm/i915/i915_debugfs.c
-index fe638b5da7c0..390d541f64ea 100644
---- a/drivers/gpu/drm/i915/i915_debugfs.c
-+++ b/drivers/gpu/drm/i915/i915_debugfs.c
-@@ -65,6 +65,7 @@ static int i915_capabilities(struct seq_file *m, void *data)
- 
- 	intel_device_info_print_static(INTEL_INFO(i915), &p);
- 	intel_device_info_print_runtime(RUNTIME_INFO(i915), &p);
-+	i915_print_iommu_status(i915, &p);
- 	intel_gt_info_print(&i915->gt.info, &p);
- 	intel_driver_caps_print(&i915->caps, &p);
- 
-diff --git a/drivers/gpu/drm/i915/i915_driver.c b/drivers/gpu/drm/i915/i915_driver.c
-index a13666627dad..bbc99fc5888f 100644
---- a/drivers/gpu/drm/i915/i915_driver.c
-+++ b/drivers/gpu/drm/i915/i915_driver.c
-@@ -741,6 +741,12 @@ static void i915_driver_unregister(struct drm_i915_private *dev_priv)
- 	i915_gem_driver_unregister(dev_priv);
+ 	/* drm bridge initialization */
+ 	ge_b850v3_lvds_ptr->bridge.funcs = &ge_b850v3_lvds_funcs;
+@@ -343,6 +334,27 @@ static int stdp4028_ge_b850v3_fw_probe(struct i2c_client *stdp4028_i2c,
+ 			"ge-b850v3-lvds-dp", ge_b850v3_lvds_ptr);
  }
  
-+void
-+i915_print_iommu_status(struct drm_i915_private *i915, struct drm_printer *p)
++static int stdp4028_ge_b850v3_fw_probe(struct i2c_client *stdp4028_i2c,
++				       const struct i2c_device_id *id)
 +{
-+	drm_printf(p, "iommu: %s\n", enableddisabled(intel_vtd_active(i915)));
++	struct device *dev = &stdp4028_i2c->dev;
++	int ret;
++
++	ret = ge_b850v3_lvds_init(dev);
++
++	if (ret)
++		return ret;
++
++	ge_b850v3_lvds_ptr->stdp4028_i2c = stdp4028_i2c;
++	i2c_set_clientdata(stdp4028_i2c, ge_b850v3_lvds_ptr);
++
++	/* Only register after both bridges are probed */
++	if (!ge_b850v3_lvds_ptr->stdp2690_i2c)
++		return 0;
++
++	return ge_b850v3_register();
 +}
 +
- static void i915_welcome_messages(struct drm_i915_private *dev_priv)
+ static int stdp4028_ge_b850v3_fw_remove(struct i2c_client *stdp4028_i2c)
  {
- 	if (drm_debug_enabled(DRM_UT_DRIVER)) {
-@@ -756,6 +762,7 @@ static void i915_welcome_messages(struct drm_i915_private *dev_priv)
+ 	ge_b850v3_lvds_remove();
+@@ -386,7 +398,11 @@ static int stdp2690_ge_b850v3_fw_probe(struct i2c_client *stdp2690_i2c,
+ 	ge_b850v3_lvds_ptr->stdp2690_i2c = stdp2690_i2c;
+ 	i2c_set_clientdata(stdp2690_i2c, ge_b850v3_lvds_ptr);
  
- 		intel_device_info_print_static(INTEL_INFO(dev_priv), &p);
- 		intel_device_info_print_runtime(RUNTIME_INFO(dev_priv), &p);
-+		i915_print_iommu_status(dev_priv, &p);
- 		intel_gt_info_print(&dev_priv->gt.info, &p);
- 	}
- 
-diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
-index 1bfadd9127fc..da3b32ae65e0 100644
---- a/drivers/gpu/drm/i915/i915_drv.h
-+++ b/drivers/gpu/drm/i915/i915_drv.h
-@@ -1760,26 +1760,27 @@ static inline bool run_as_guest(void)
- #define HAS_D12_PLANE_MINIMIZATION(dev_priv) (IS_ROCKETLAKE(dev_priv) || \
- 					      IS_ALDERLAKE_S(dev_priv))
- 
--static inline bool intel_vtd_active(void)
-+static inline bool intel_vtd_active(struct drm_i915_private *i915)
- {
--#ifdef CONFIG_INTEL_IOMMU
--	if (intel_iommu_gfx_mapped)
-+	if (iommu_get_domain_for_dev(i915->drm.dev))
- 		return true;
--#endif
- 
- 	/* Running as a guest, we assume the host is enforcing VT'd */
- 	return run_as_guest();
- }
- 
-+void
-+i915_print_iommu_status(struct drm_i915_private *i915, struct drm_printer *p);
+-	return 0;
++	/* Only register after both bridges are probed */
++	if (!ge_b850v3_lvds_ptr->stdp4028_i2c)
++		return 0;
 +
- static inline bool intel_scanout_needs_vtd_wa(struct drm_i915_private *dev_priv)
- {
--	return GRAPHICS_VER(dev_priv) >= 6 && intel_vtd_active();
-+	return GRAPHICS_VER(dev_priv) >= 6 && intel_vtd_active(dev_priv);
++	return ge_b850v3_register();
  }
  
- static inline bool
- intel_ggtt_update_needs_vtd_wa(struct drm_i915_private *i915)
- {
--	return IS_BROXTON(i915) && intel_vtd_active();
-+	return IS_BROXTON(i915) && intel_vtd_active(i915);
- }
- 
- static inline bool
-diff --git a/drivers/gpu/drm/i915/i915_gpu_error.c b/drivers/gpu/drm/i915/i915_gpu_error.c
-index 2a2d7643b551..3f39d6641894 100644
---- a/drivers/gpu/drm/i915/i915_gpu_error.c
-+++ b/drivers/gpu/drm/i915/i915_gpu_error.c
-@@ -1750,10 +1750,7 @@ static void capture_gen(struct i915_gpu_coredump *error)
- 	error->wakelock = atomic_read(&i915->runtime_pm.wakeref_count);
- 	error->suspended = i915->runtime_pm.suspended;
- 
--	error->iommu = -1;
--#ifdef CONFIG_INTEL_IOMMU
--	error->iommu = intel_iommu_gfx_mapped;
--#endif
-+	error->iommu = intel_vtd_active(i915);
- 	error->reset_count = i915_reset_count(&i915->gpu_error);
- 	error->suspend_count = i915->suspend_count;
- 
-diff --git a/drivers/gpu/drm/i915/intel_device_info.c b/drivers/gpu/drm/i915/intel_device_info.c
-index 6e6b317bc33c..e6605b5181a5 100644
---- a/drivers/gpu/drm/i915/intel_device_info.c
-+++ b/drivers/gpu/drm/i915/intel_device_info.c
-@@ -83,17 +83,6 @@ const char *intel_platform_name(enum intel_platform platform)
- 	return platform_names[platform];
- }
- 
--static const char *iommu_name(void)
--{
--	const char *msg = "n/a";
--
--#ifdef CONFIG_INTEL_IOMMU
--	msg = enableddisabled(intel_iommu_gfx_mapped);
--#endif
--
--	return msg;
--}
--
- void intel_device_info_print_static(const struct intel_device_info *info,
- 				    struct drm_printer *p)
- {
-@@ -114,7 +103,6 @@ void intel_device_info_print_static(const struct intel_device_info *info,
- 		drm_printf(p, "display version: %u\n", info->display.ver);
- 
- 	drm_printf(p, "gt: %d\n", info->gt);
--	drm_printf(p, "iommu: %s\n", iommu_name());
- 	drm_printf(p, "memory-regions: %x\n", info->memory_regions);
- 	drm_printf(p, "page-sizes: %x\n", info->page_sizes);
- 	drm_printf(p, "platform: %s\n", intel_platform_name(info->platform));
-@@ -374,7 +362,7 @@ void intel_device_info_runtime_init(struct drm_i915_private *dev_priv)
- 			info->display.has_dsc = 0;
- 	}
- 
--	if (GRAPHICS_VER(dev_priv) == 6 && intel_vtd_active()) {
-+	if (GRAPHICS_VER(dev_priv) == 6 && intel_vtd_active(dev_priv)) {
- 		drm_info(&dev_priv->drm,
- 			 "Disabling ppGTT for VT-d support\n");
- 		info->ppgtt_type = INTEL_PPGTT_NONE;
-diff --git a/drivers/gpu/drm/i915/intel_pm.c b/drivers/gpu/drm/i915/intel_pm.c
-index 01fa3fac1b57..cff0f32bedc9 100644
---- a/drivers/gpu/drm/i915/intel_pm.c
-+++ b/drivers/gpu/drm/i915/intel_pm.c
-@@ -98,7 +98,7 @@ static void gen9_init_clock_gating(struct drm_i915_private *dev_priv)
- 		 * "Plane N strech max must be programmed to 11b (x1)
- 		 *  when Async flips are enabled on that plane."
- 		 */
--		if (!IS_GEMINILAKE(dev_priv) && intel_vtd_active())
-+		if (!IS_GEMINILAKE(dev_priv) && intel_vtd_active(dev_priv))
- 			intel_uncore_rmw(&dev_priv->uncore, CHICKEN_PIPESL_1(pipe),
- 					 SKL_PLANE1_STRETCH_MAX_MASK, SKL_PLANE1_STRETCH_MAX_X1);
- 	}
+ static int stdp2690_ge_b850v3_fw_remove(struct i2c_client *stdp2690_i2c)
 -- 
-2.32.0
+2.33.0
 
