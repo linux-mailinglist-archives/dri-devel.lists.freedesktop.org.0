@@ -2,100 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53B3C45DDAC
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Nov 2021 16:40:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BFF845DDE1
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Nov 2021 16:47:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 33FDA6E9E5;
-	Thu, 25 Nov 2021 15:39:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B997F6EAB7;
+	Thu, 25 Nov 2021 15:47:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam08on2049.outbound.protection.outlook.com [40.107.102.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 56DDB6EA46;
- Thu, 25 Nov 2021 15:39:47 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gmKWtdgXafL8ElFrvAiQlYCzNA0rdajP7vq5NgnvzPBemEFvsp3d67Djr1Zv77hfJ+3b1SSfuGqY1gULrnjqor52Csbj9lO2XPbgD3KJ8L4omDhL5wN/dGWmYYgakx1GsBgjAGquVAddnsWyde0YHqnigLW55PyrOO8g1jz2KZ1caK9yb7tZmlfSuoLTkot3zmDw2n5mMaX6ADBiOHpXFHxw5c/u5cC5x4Uh59YU1ZS2MiGU3bp5o8AegqT6ul4P6GfHzPPhgb1n70rlZ3GcNjR5XAY2q/pgxf/gDbSVoNXFOw+xw0sXD/Lt4/yvQB59H9F4bbd09B1vI9Bl7sWKCA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=teXe7xsG9s3DyEDrBq7uUgxzUFjwEwKXcwGZV8sHmJs=;
- b=TUKzoysPBE1iFhHd638cvhzXpnm0AhRUA6xm3n8aETS/bzvzDJ/vdOsQroIlk5wZ4A5EbIGbvAlrP3fFQhFReUCW7xzgn60HlAzvkAM3NdU/wsfFS1oDDh8ljhq7HlT3Wtoeq0KnwRPw/sYmUdO43xL6y2na9l8FihHwaoioc7j2mKBCtAHlZ37GENcfjsqx8yFM5Xi3B8r8K1yE3ocgdeRzWLxT0dFnbhRTW0O5P0QwREGG25dpuQhtYLLw7ZfsprtLeMng8zwyaelbyxSZZotA6Tn1xX4DPuDAAXMRdvo/4RN2LuajsOXlz+wToQWbL93BOawQ/lyIStoi8PkZwg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=emersion.fr smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=teXe7xsG9s3DyEDrBq7uUgxzUFjwEwKXcwGZV8sHmJs=;
- b=gWV/+Iu7FryLVYdv/mMtpfyrzzwPpzCiHFIvBCI1sONQA41sYVp+mf8HdfZUhNFUeH/I/jYTBqqtUCqWhuV2C9o5hCUUtgTplizTrNabjm1IuoNL1tKgdou2Dhryq5K5mAKuAZEGjG/eVkFJoUtQnLq8j0kI/xe1toy0hPn53nI=
-Received: from BN9P221CA0006.NAMP221.PROD.OUTLOOK.COM (2603:10b6:408:10a::33)
- by BN8PR12MB3521.namprd12.prod.outlook.com (2603:10b6:408:9f::26)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4734.20; Thu, 25 Nov
- 2021 15:39:41 +0000
-Received: from BN8NAM11FT048.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:10a:cafe::63) by BN9P221CA0006.outlook.office365.com
- (2603:10b6:408:10a::33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4734.23 via Frontend
- Transport; Thu, 25 Nov 2021 15:39:41 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BN8NAM11FT048.mail.protection.outlook.com (10.13.177.117) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4734.22 via Frontend Transport; Thu, 25 Nov 2021 15:39:41 +0000
-Received: from atma2.hitronhub.home (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Thu, 25 Nov
- 2021 09:39:39 -0600
-From: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
-To: Simon Ser <contact@emersion.fr>, =?UTF-8?q?Michel=20D=C3=A4nzer?=
- <michel@daenzer.net>, Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>,
- =?UTF-8?q?Marek=20Ol=C5=A1=C3=A1k?= <marek.olsak@amd.com>, Roman Gilg
- <subdiff@gmail.com>, Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
- "Harry Wentland" <Harry.Wentland@amd.com>, Mark Yacoub
- <markyacoub@chromium.org>, Sean Paul <seanpaul@chromium.org>, Pekka Paalanen
- <ppaalanen@gmail.com>
-Subject: [PATCH 6/6] Documentation/gpu: Add DC glossary
-Date: Thu, 25 Nov 2021 10:38:30 -0500
-Message-ID: <20211125153830.1352994-7-Rodrigo.Siqueira@amd.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211125153830.1352994-1-Rodrigo.Siqueira@amd.com>
-References: <20211125153830.1352994-1-Rodrigo.Siqueira@amd.com>
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
+ [IPv6:2a00:1450:4864:20::42c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 87ED86EAB4
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Nov 2021 15:47:27 +0000 (UTC)
+Received: by mail-wr1-x42c.google.com with SMTP id i5so12588549wrb.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Nov 2021 07:47:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=GrYTK8K69bBPxxO0M+FvuVC8uOT906Mq4gG8ozU4uk4=;
+ b=d3wDvLB9aibDUksaMaJq0BzCsxenfX7o/qh4G09m6w3hGehD+WLtkdEKOfV/7xmM4p
+ o1alxzNE3KLzxu4Ad0ohpwHVVU1k6iqQd5mAQ6qjNGXOdwNMEZBir978i8nB25cdn6JY
+ n2oFt7seHvCaEi8DaO6BIa6O8e0mZYu8KAOKU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=GrYTK8K69bBPxxO0M+FvuVC8uOT906Mq4gG8ozU4uk4=;
+ b=x+V8ozq+DN228lfDntcDDrGb7/68yrSQ357Bz1hucYJAgvaL4cNqxRuUWodM72+gjm
+ Tp+R+fbL4XoN7t0G0kOVGlQXWO1gzrTqYobrOk2RmSHn2ANoZaI3CUVS3yH6RruvKlB2
+ GKMImH70jd1QCTHud9UeQ2aN2GF1k7JkCd+svuFJbrGwy7Qq6pGpHknYNS8NgSO6z32Y
+ 0RHMbTFBZm8P0LGa7mFVMGNd0PzftQ48gjafZ03WpSSQTBOvWhT4JMf1GToClvGWtEfc
+ QJbaWOJtpGWznMXk8UCU2idGPp+syILwVAY4DsGMcB3+J/nMZK1jfrxWe9oW+alxEpgg
+ ALTA==
+X-Gm-Message-State: AOAM533WL12C1am9SWtChimNXrWxvK7EQtXvab64IeKMo2jCUWgTjNfV
+ r0/X+YFr702HiKzQP/8VI9NJeQ==
+X-Google-Smtp-Source: ABdhPJyJKxgo85AFU7bZqlQKZR/U22Xtoer9r53DLE3Pttwt+lXpKP86T5A0OTOsLHUXdHbcZKm8Dw==
+X-Received: by 2002:a5d:50c7:: with SMTP id f7mr7272141wrt.327.1637855246069; 
+ Thu, 25 Nov 2021 07:47:26 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id f18sm3113464wre.7.2021.11.25.07.47.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 25 Nov 2021 07:47:25 -0800 (PST)
+Date: Thu, 25 Nov 2021 16:47:23 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
+Subject: Re: [PATCH 19/26] drm: support more than one write fence in
+ drm_gem_plane_helper_prepare_fb
+Message-ID: <YZ+wCxjFSI4EAIvx@phenom.ffwll.local>
+References: <20211123142111.3885-1-christian.koenig@amd.com>
+ <20211123142111.3885-20-christian.koenig@amd.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: f530cb89-cee4-497b-e68b-08d9b029cc4a
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3521:
-X-Microsoft-Antispam-PRVS: <BN8PR12MB35210B8DA2D850299272721198629@BN8PR12MB3521.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:901;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: aKPF3ux+fGiB/WTcVmxIUyxtoGk/isXFc+zdFN2Kz+b+RCWWLKOjuu7Rlz0rD1DV924cm4WOYa45foxK32CieLpdmZTtZCcDa8GQv11Y3/4X+aj0z3yhfEDJ9ULqUkR3qm0NAqK0huwWZXYnjK5O6TA++pHYniSFa4dry933WQw5pfopgi3r8rujeQqyXwOll79hknRWjXOJLura3gU9zpcCukIUT5Q/EitadWoz+XlUTM2EN6Vh/EE8Ar/iZpjvdXxGJfBnUO7TuS8PFelr/CB7kl+rO+ZP9els8tMywrw4WMIEutrOQCHFnKbYu7aSC0y5TgXiVurXCbcj4ePmmLJ+JLT2iFaxE2wwsZSuhDY+x40eTdrFlThpBmYU6BEC40wH2PlsvPIarP0KYhxEiXP7kapjVyuLsOzwsJPQ4RNO3eZM55R5PiMnIlna62FEAXQauxgR99jtp2V1UleY+LfhJUDGY3Ot9rqZvJUPKuHriSywDulBVxskY8+FBNjJG6yAfUBTf1EVIynKI+N1u9uk2VKVevurd5Vii2kqU7SF4hhrlSZd57HxtGa3+VUf1WmbWhHwC/7kkrKt0ID8Pj+c47wV9Pe2XdtrPPZt4EZms6BHajRh/q3oSsd+Ckps/N6zfEndr8D37a1L3rJ0XYGOB2mUEiu2v9658XHjXNPOuhB2rKd/Y91N6WHCs31dAoGQ5kBhGHrCB7rivYFkEoDKbHOb/ahn8b9bDztSqI+6D3Znzp2kBD4pzCBLLSOa
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(4636009)(36840700001)(46966006)(110136005)(316002)(54906003)(82310400004)(921005)(81166007)(4326008)(2616005)(36860700001)(426003)(7416002)(2906002)(26005)(16526019)(186003)(336012)(47076005)(8936002)(70206006)(36756003)(356005)(83380400001)(86362001)(70586007)(8676002)(6666004)(5660300002)(508600001)(1076003)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Nov 2021 15:39:41.6795 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: f530cb89-cee4-497b-e68b-08d9b029cc4a
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT048.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR12MB3521
+In-Reply-To: <20211123142111.3885-20-christian.koenig@amd.com>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,298 +69,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-doc@vger.kernel.org, qingqing.zhuo@amd.com, roman.li@amd.com,
- amd-gfx@lists.freedesktop.org, aurabindo.pillai@amd.com, nicholas.choi@amd.com,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- bhawanpreet.lakha@amd.com,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In the DC driver, we have multiple acronyms that are not obvious most of
-the time. This commit introduces a DC glossary in order to make it
-easier to navigate through our driver.
+On Tue, Nov 23, 2021 at 03:21:04PM +0100, Christian König wrote:
+> Use dma_resv_get_singleton() here to eventually get more than one write
+> fence as single fence.
 
-Signed-off-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
----
- Documentation/gpu/amdgpu-dc/amdgpu-dc.rst   |   2 +-
- Documentation/gpu/amdgpu-dc/dc-glossary.rst | 257 ++++++++++++++++++++
- 2 files changed, 258 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/gpu/amdgpu-dc/dc-glossary.rst
+Yeah this is nice, atomic commit helpers not supporting multiple write
+fences was really my main worry in this entire endeavour. Otherwise looks
+all rather reasonable.
 
-diff --git a/Documentation/gpu/amdgpu-dc/amdgpu-dc.rst b/Documentation/gpu/amdgpu-dc/amdgpu-dc.rst
-index 2e45e83d9a2a..15405c43786a 100644
---- a/Documentation/gpu/amdgpu-dc/amdgpu-dc.rst
-+++ b/Documentation/gpu/amdgpu-dc/amdgpu-dc.rst
-@@ -26,4 +26,4 @@ table of content:
-    amdgpu-dcn-overview.rst
-    amdgpu-dm.rst
-    amdgpu-dc-debug.rst
--
-+   dc-glossary.rst
-diff --git a/Documentation/gpu/amdgpu-dc/dc-glossary.rst b/Documentation/gpu/amdgpu-dc/dc-glossary.rst
-new file mode 100644
-index 000000000000..48698fc1799f
---- /dev/null
-+++ b/Documentation/gpu/amdgpu-dc/dc-glossary.rst
-@@ -0,0 +1,257 @@
-+===========
-+DC Glossary
-+===========
-+
-+.. glossary::
-+
-+    ABM
-+      Adaptive Backlight Modulation
-+
-+    APU
-+      Accelerated Processing Unit
-+
-+    ASIC
-+      Application-Specific Integrated Circuit
-+
-+    ASSR
-+      Alternate Scrambler Seed Reset
-+
-+    AZ
-+      Azalia (HD audio DMA engine)
-+
-+    BPC
-+      Bits Per Colour/Component
-+
-+    BPP
-+      Bits Per Pixel
-+
-+    Clocks
-+      * PCLK: Pixel Clock
-+      * SYMCLK: Symbol Clock
-+      * SOCCLK: GPU Engine Clock
-+      * DISPCLK: Display Clock
-+      * DPPCLK: DPP Clock
-+      * DCFCLK: Display Controller Fabric Clock
-+      * REFCLK: Real Time Reference Clock
-+      * PPLL: Pixel PLL
-+      * FCLK: Fabric Clock
-+      * MCLK: Memory Clock
-+      * CPLIB: Content Protection Library
-+
-+    CRC
-+      Cyclic Redundancy Check
-+
-+    CRTC
-+      Cathode Ray Tube Controller - commonly called "Controller" - Generates
-+      raw stream of pixels, clocked at pixel clock
-+
-+    CVT
-+      Coordinated Video Timings
-+
-+    DAL
-+      Display Abstraction layer
-+
-+    DC (Software)
-+      Display Core
-+
-+    DC (Hardware)
-+      Display Controller
-+
-+    DCC
-+      Delta Colour Compression
-+
-+    DCE
-+      Display Controller Engine
-+
-+    DCHUB
-+      Display Controller Hub
-+
-+    ARB
-+      Arbiter
-+
-+    VTG
-+      Vertical Timing Generator
-+
-+    DCN
-+      Display Core Next
-+
-+    DCCG
-+      Display Clock Generator block
-+
-+    DDC
-+      Display Data Channel
-+
-+    DFS
-+      Digital Frequency Synthesizer
-+
-+    DIO
-+      Display IO
-+
-+    DPP
-+      Display Pipes and Planes
-+
-+    DSC
-+      Display Stream Compression (Reduce the amount of bits to represent pixel
-+      count while at the same pixel clock)
-+
-+    dGPU
-+      discrete GPU
-+
-+    DMIF
-+      Display Memory Interface
-+
-+    DML
-+      Display Mode Library
-+
-+    DMCU
-+      Display Micro Controller Unit
-+
-+    DMCUB
-+      Display Micro-Controller Unit, version B
-+
-+    DPCD
-+      DisplayPort Configuration Data
-+
-+    DPM(S)
-+      Display Power Management (Signaling)
-+
-+    DRR
-+      Dynamic Refresh Rate
-+
-+    DWB
-+      Display writeback
-+
-+    ECP
-+      Enhanced Content Protection
-+
-+    FB
-+      Frame Buffer
-+
-+    FBC
-+      Frame Buffer Compression
-+
-+    FEC
-+      Forward Error Correction
-+
-+    FRL
-+      Fixed Rate Link
-+
-+    GCO
-+      Graphical Controller Object
-+
-+    GMC
-+      Graphic Memory Controller
-+
-+    GSL
-+      Global Swap Lock
-+
-+    iGPU
-+      integrated GPU
-+
-+    IH
-+      Interrupt Handler
-+
-+    ISR
-+      Interrupt Service Request
-+
-+    ISV
-+      Independent Software Vendor
-+
-+    KMD
-+      Kernel Mode Driver
-+
-+    LB
-+      Line Buffer
-+
-+    LFC
-+      Low Framerate Compensation
-+
-+    LTTPR
-+      Link Training Tunable Phy Repeater
-+
-+    LUT
-+      Lookup Table
-+
-+    MALL
-+      Memory Access at Last Level
-+
-+    MC
-+      Memory Controller
-+
-+    MPC
-+      Multiple pipes and plane combine
-+
-+    MPO
-+      Multi Plane Overlay
-+
-+    MST
-+      Multi Stream Transport
-+
-+    NBP State
-+      Northbridge Power State
-+
-+    NBIO
-+      North Bridge Input/Output
-+
-+    ODM
-+      Output Data Mapping
-+
-+    OPM
-+      Output Protection Manager
-+
-+    OPP
-+      Output Plane Processor
-+
-+    OPTC
-+      Output Pipe Timing Combiner
-+
-+    OTG
-+      Output Timing Generator
-+
-+    PCON
-+      Power Controller
-+
-+    PGFSM
-+      Power Gate Finite State Machine
-+
-+    PPLib
-+      PowerPlay Library
-+
-+    PSR
-+      Panel Self Refresh
-+
-+    SCL
-+      Scaler
-+
-+    SDP
-+      Scalable Data Port
-+
-+    SMU
-+      System Management Unit
-+
-+    SLS
-+      Single Large Surface
-+
-+    SST
-+      Single Stream Transport
-+
-+    TMDS
-+      Transition-Minimized Differential Signaling
-+
-+    TMZ
-+      Trusted Memory Zone
-+
-+    TTU
-+      Time to Underflow
-+
-+    VRR
-+      Variable Refresh Rate
-+
-+    UVD
-+      Unified Video Decoder
-+
-+    VCE
-+      Video Compression Engine
-+
-+    VCN
-+      Video Codec Next
+I'll try to find some review bandwidth, but would be really if you can
+volunteer others too (especially making sure ttm drivers set the KERNEL
+fences correctly in all cases).
+-Daniel
+
+
+> 
+> Signed-off-by: Christian König <christian.koenig@amd.com>
+> ---
+>  drivers/gpu/drm/drm_gem_atomic_helper.c | 18 +++++++-----------
+>  1 file changed, 7 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_gem_atomic_helper.c b/drivers/gpu/drm/drm_gem_atomic_helper.c
+> index c3189afe10cb..9338ddb7edff 100644
+> --- a/drivers/gpu/drm/drm_gem_atomic_helper.c
+> +++ b/drivers/gpu/drm/drm_gem_atomic_helper.c
+> @@ -143,25 +143,21 @@
+>   */
+>  int drm_gem_plane_helper_prepare_fb(struct drm_plane *plane, struct drm_plane_state *state)
+>  {
+> -	struct dma_resv_iter cursor;
+>  	struct drm_gem_object *obj;
+>  	struct dma_fence *fence;
+> +	int ret;
+>  
+>  	if (!state->fb)
+>  		return 0;
+>  
+>  	obj = drm_gem_fb_get_obj(state->fb, 0);
+> -	dma_resv_iter_begin(&cursor, obj->resv, false);
+> -	dma_resv_for_each_fence_unlocked(&cursor, fence) {
+> -		/* TODO: Currently there should be only one write fence, so this
+> -		 * here works fine. But drm_atomic_set_fence_for_plane() should
+> -		 * be changed to be able to handle more fences in general for
+> -		 * multiple BOs per fb anyway. */
+> -		dma_fence_get(fence);
+> -		break;
+> -	}
+> -	dma_resv_iter_end(&cursor);
+> +	ret = dma_resv_get_singleton(obj->resv, false, &fence);
+> +	if (ret)
+> +		return ret;
+>  
+> +	/* TODO: drm_atomic_set_fence_for_plane() should be changed to be able
+> +	 * to handle more fences in general for multiple BOs per fb.
+> +	 */
+>  	drm_atomic_set_fence_for_plane(state, fence);
+>  	return 0;
+>  }
+> -- 
+> 2.25.1
+> 
+
 -- 
-2.25.1
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
