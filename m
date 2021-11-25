@@ -1,66 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2CAD45D71E
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Nov 2021 10:23:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E35D45D72C
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Nov 2021 10:29:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E7CD6E824;
-	Thu, 25 Nov 2021 09:23:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 902A16E525;
+	Thu, 25 Nov 2021 09:29:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x72f.google.com (mail-qk1-x72f.google.com
- [IPv6:2607:f8b0:4864:20::72f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 81F5D6E82F
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Nov 2021 09:23:10 +0000 (UTC)
-Received: by mail-qk1-x72f.google.com with SMTP id d2so10739921qki.12
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Nov 2021 01:23:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=philpotter-co-uk.20210112.gappssmtp.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=6cQ2VBT6GEq5IzxtMFOrkAmdfUkzXXUJICym+jfQClw=;
- b=4mJ9AwSHB31PIpdJFgjtZiPI3O5U6l1D0qy0KW0UNf5MH6ozT0e6B86+3bb+ubsNsn
- bM94zULnP3/Sn5TW2sU/aVPK6VkQM9qy7472OA32+vcwka6MF4HPtv3JEMMLnnF7wmI8
- ICnVsm3JYbKZ1EmnKJc5Z6apqZ2RUZkPkq+9OUBvr5SxgxoGUUCPzzNRjS9cNIPRmf9W
- FkRzAaXZcf5J4VFjOvxT6jDJIPAkJGMRS0lNjaglMXitLBGhfTqTjyAGLSVTx96zOYvc
- geD85MYGed6A2vdWo2NGX8n2KXD9U2AGeoO0+MzV1KSKw8zpkUNflxlTE2C1KHr75DOI
- PH4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=6cQ2VBT6GEq5IzxtMFOrkAmdfUkzXXUJICym+jfQClw=;
- b=tfJfEnffH36ggmJBf/Y/rVmYwQomrOgcXxEPOF1ahXEAcSY0QWGR768ZSE6UTXjm1r
- dGnyBgPh0nTKvvZBd7tDlkewO+iIBrSqHyn62/bYux0g7tBRGOHhvx52KhP+5n9YBWWM
- gQa3+7f0ZiMdFIdzwNcJEOULVEkW7z+o8D1l2PCwTia3JPfd41PxpQnE50vp1DxIi/gC
- CnUyeilCKOSdvqgtEN8RIdXy6mua/0nm8ukODQ2Ps7JaiN31IsVME+jh0Z0keurw+LJg
- tQzoWx6M/M/rQztuezTmx8CzUdZ72yndfgA1RpdxLj3/xplF6VW99oXw01MupAb7h3sK
- GraA==
-X-Gm-Message-State: AOAM530vh8FmDHVdr9KH5tb8nMlL6x0g3GGDZwp/k7ZSexUlRc1Epjw0
- 1rkm0+YxfWj0L80BKYKVLYM6mg==
-X-Google-Smtp-Source: ABdhPJwrHAepVsZs+KL0K+Dovd/v3IZvIaLP3c/YHUpcEAnEaPTq5AjU/2Qs0P+96c5OryJ5OBqRAA==
-X-Received: by 2002:a05:620a:f8b:: with SMTP id
- b11mr13482119qkn.81.1637832189250; 
- Thu, 25 Nov 2021 01:23:09 -0800 (PST)
-Received: from equinox
- (2.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.a.1.e.e.d.f.d.0.b.8.0.1.0.0.2.ip6.arpa.
- [2001:8b0:dfde:e1a0::2])
- by smtp.gmail.com with ESMTPSA id 16sm1314112qty.2.2021.11.25.01.23.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Nov 2021 01:23:08 -0800 (PST)
-Date: Thu, 25 Nov 2021 09:23:03 +0000
-From: Phillip Potter <phil@philpotter.co.uk>
-To: Luis Chamberlain <mcgrof@kernel.org>, axboe@kernel.dk
-Subject: Re: [PATCH v2 7/8] cdrom: simplify subdirectory registration with
- register_sysctl()
-Message-ID: <YZ9V9yxGapfPF4+g@equinox>
-References: <20211123202422.819032-1-mcgrof@kernel.org>
- <20211123202422.819032-8-mcgrof@kernel.org>
+Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C94136E525
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Nov 2021 09:29:08 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1637832562; h=Content-Transfer-Encoding: Content-Type:
+ In-Reply-To: From: References: Cc: To: Subject: MIME-Version: Date:
+ Message-ID: Sender; bh=+hE7rsA6S3I3kl8+qNiMxVgjO73xM/HHZQA+ALiBHbk=;
+ b=KUc/7QMR1UBpK5NCefFXPiWLqs+6spM0ICQ8+1I1kpZ4IuWIR17o4EVzHgUCYXWfHPmEm3HB
+ JgEfFrwkDh/w+IWMFoZU9TJe8mhLO+gJxVv1TpccpCo71cRYvr59bEUtCOtgJgD+a9V75HAY
+ rHLnBTMrg/9SfZXpefT0/XfQW7s=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n02.prod.us-west-2.postgun.com with SMTP id
+ 619f575abebfa3d4d5ee0b20 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 25 Nov 2021 09:28:58
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 1DE64C4360D; Thu, 25 Nov 2021 09:28:58 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-7.0 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+ NICE_REPLY_A,SPF_FAIL,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+ version=3.4.0
+Received: from [192.168.1.5] (unknown [61.1.233.113])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: akhilpo)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id BBDCBC4360C;
+ Thu, 25 Nov 2021 09:28:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.codeaurora.org BBDCBC4360C
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=fail smtp.mailfrom=codeaurora.org
+Message-ID: <a0d95300-cba7-9e2d-5820-f61569dd85ba@codeaurora.org>
+Date: Thu, 25 Nov 2021 14:58:53 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211123202422.819032-8-mcgrof@kernel.org>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.2
+Subject: Re: [bug report] drm/msm/a6xx: Fix llcc configuration for a660 gpu
+Content-Language: en-US
+To: Dan Carpenter <dan.carpenter@oracle.com>
+References: <20211125083644.GA6382@kili>
+From: Akhil P Oommen <akhilpo@codeaurora.org>
+In-Reply-To: <20211125083644.GA6382@kili>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,175 +71,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jack@suse.cz, airlied@linux.ie, amir73il@gmail.com, clemens@ladisch.de,
- dri-devel@lists.freedesktop.org, phil@philpotter.co.uk,
- joseph.qi@linux.alibaba.com, mark@fasheh.com, yzaikin@google.com,
- keescook@chromium.org, arnd@arndb.de, intel-gfx@lists.freedesktop.org,
- linux-block@vger.kernel.org, viro@zeniv.linux.org.uk, rodrigo.vivi@intel.com,
- nixiaoming@huawei.com, tvrtko.ursulin@linux.intel.com,
- gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
- julia.lawall@inria.fr, ebiederm@xmission.com, linux-fsdevel@vger.kernel.org,
- akpm@linux-foundation.org, linuxppc-dev@lists.ozlabs.org,
- ocfs2-devel@oss.oracle.com, jlbec@evilplan.org
+Cc: Nathan Chancellor <natechancellor@gmail.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 23, 2021 at 12:24:21PM -0800, Luis Chamberlain wrote:
-> There is no need to user boiler plate code to specify a set of base
-> directories we're going to stuff sysctls under. Simplify this by using
-> register_sysctl() and specifying the directory path directly.
+On 11/25/2021 2:06 PM, Dan Carpenter wrote:
+> [ Nathan, it turns out that Smatch has been broken with regards to
+>    uninitialized variables for a while so I'm going through my backlog
+>    of warnings.  No idea if you already reported this one.
 > 
-> // pycocci sysctl-subdir-register-sysctl-simplify.cocci PATH
+>    - dan]
 > 
-> @c1@
-> expression E1;
-> identifier subdir, sysctls;
-> @@
+> Hello Akhil P Oommen,
 > 
-> static struct ctl_table subdir[] = {
-> 	{
-> 		.procname = E1,
-> 		.maxlen = 0,
-> 		.mode = 0555,
-> 		.child = sysctls,
-> 	},
-> 	{ }
-> };
+> The patch a6f24383f6c0: "drm/msm/a6xx: Fix llcc configuration for
+> a660 gpu" from Jul 30, 2021, leads to the following Smatch static
+> checker warning:
 > 
-> @c2@
-> identifier c1.subdir;
+> 	drivers/gpu/drm/msm/adreno/a6xx_gpu.c:1480 a6xx_llc_activate()
+> 	error: uninitialized symbol 'gpu_scid'.
 > 
-> expression E2;
-> identifier base;
-> @@
+> drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+>      1423 static void a6xx_llc_activate(struct a6xx_gpu *a6xx_gpu)
+>      1424 {
+>      1425         struct adreno_gpu *adreno_gpu = &a6xx_gpu->base;
+>      1426         struct msm_gpu *gpu = &adreno_gpu->base;
+>      1427         u32 gpu_scid, cntl1_regval = 0;
+>                   ^^^^^^^^^^^^
 > 
-> static struct ctl_table base[] = {
-> 	{
-> 		.procname = E2,
-> 		.maxlen = 0,
-> 		.mode = 0555,
-> 		.child = subdir,
-> 	},
-> 	{ }
-> };
+>      1428
+>      1429         if (IS_ERR(a6xx_gpu->llc_mmio))
+>      1430                 return;
+>      1431
+>      1432         if (!llcc_slice_activate(a6xx_gpu->llc_slice)) {
+>      1433                 gpu_scid = llcc_get_slice_id(a6xx_gpu->llc_slice);
+>                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 > 
-> @c3@
-> identifier c2.base;
-> identifier header;
-> @@
+>      1434
+>      1435                 gpu_scid &= 0x1f;
+>      1436                 cntl1_regval = (gpu_scid << 0) | (gpu_scid << 5) | (gpu_scid << 10) |
+>      1437                                (gpu_scid << 15) | (gpu_scid << 20);
+>      1438         }
+>      1439
+>      1440         /*
+>      1441          * For targets with a MMU500, activate the slice but don't program the
+>      1442          * register.  The XBL will take care of that.
+>      1443          */
+>      1444         if (!llcc_slice_activate(a6xx_gpu->htw_llc_slice)) {
+>      1445                 if (!a6xx_gpu->have_mmu500) {
+>      1446                         u32 gpuhtw_scid = llcc_get_slice_id(a6xx_gpu->htw_llc_slice);
+>      1447
+>      1448                         gpuhtw_scid &= 0x1f;
+>      1449                         cntl1_regval |= FIELD_PREP(GENMASK(29, 25), gpuhtw_scid);
+>      1450                 }
+>      1451         }
+>      1452
+>      1453         if (!cntl1_regval)
+>      1454                 return;
+>      1455
+>      1456         /*
+>      1457          * Program the slice IDs for the various GPU blocks and GPU MMU
+>      1458          * pagetables
+>      1459          */
+>      1460         if (!a6xx_gpu->have_mmu500) {
+>      1461                 a6xx_llc_write(a6xx_gpu,
+>      1462                         REG_A6XX_CX_MISC_SYSTEM_CACHE_CNTL_1, cntl1_regval);
+>      1463
+>      1464                 /*
+>      1465                  * Program cacheability overrides to not allocate cache
+>      1466                  * lines on a write miss
+>      1467                  */
+>      1468                 a6xx_llc_rmw(a6xx_gpu,
+>      1469                         REG_A6XX_CX_MISC_SYSTEM_CACHE_CNTL_0, 0xF, 0x03);
+>      1470                 return;
+>      1471         }
+>      1472
+>      1473         gpu_rmw(gpu, REG_A6XX_GBIF_SCACHE_CNTL1, GENMASK(24, 0), cntl1_regval);
+>      1474
+>      1475         /* On A660, the SCID programming for UCHE traffic is done in
+>      1476          * A6XX_GBIF_SCACHE_CNTL0[14:10]
+>      1477          */
+>      1478         if (adreno_is_a660_family(adreno_gpu))
+>      1479                 gpu_rmw(gpu, REG_A6XX_GBIF_SCACHE_CNTL0, (0x1f << 10) |
+> --> 1480                         (1 << 8), (gpu_scid << 10) | (1 << 8));
+>                                              ^^^^^^^^^^^^^^
+> Uninitialized if llcc_slice_activate() failed.
 > 
-> header = register_sysctl_table(base);
+>      1481 }
 > 
-> @r1 depends on c1 && c2 && c3@
-> expression c1.E1;
-> identifier c1.subdir, c1.sysctls;
-> @@
-> 
-> -static struct ctl_table subdir[] = {
-> -	{
-> -		.procname = E1,
-> -		.maxlen = 0,
-> -		.mode = 0555,
-> -		.child = sysctls,
-> -	},
-> -	{ }
-> -};
-> 
-> @r2 depends on c1 && c2 && c3@
-> identifier c1.subdir;
-> 
-> expression c2.E2;
-> identifier c2.base;
-> @@
-> -static struct ctl_table base[] = {
-> -	{
-> -		.procname = E2,
-> -		.maxlen = 0,
-> -		.mode = 0555,
-> -		.child = subdir,
-> -	},
-> -	{ }
-> -};
-> 
-> @initialize:python@
-> @@
-> 
-> def make_my_fresh_expression(s1, s2):
->   return '"' + s1.strip('"') + "/" + s2.strip('"') + '"'
-> 
-> @r3 depends on c1 && c2 && c3@
-> expression c1.E1;
-> identifier c1.sysctls;
-> expression c2.E2;
-> identifier c2.base;
-> identifier c3.header;
-> fresh identifier E3 = script:python(E2, E1) { make_my_fresh_expression(E2, E1) };
-> @@
-> 
-> header =
-> -register_sysctl_table(base);
-> +register_sysctl(E3, sysctls);
-> 
-> Generated-by: Coccinelle SmPL
-> Signed-off-by: Luis Chamberlain <mcgrof@kernel.org>
-> ---
->  drivers/cdrom/cdrom.c | 23 +----------------------
->  1 file changed, 1 insertion(+), 22 deletions(-)
-> 
-> diff --git a/drivers/cdrom/cdrom.c b/drivers/cdrom/cdrom.c
-> index 9877e413fce3..1b57d4666e43 100644
-> --- a/drivers/cdrom/cdrom.c
-> +++ b/drivers/cdrom/cdrom.c
-> @@ -3691,27 +3691,6 @@ static struct ctl_table cdrom_table[] = {
->  	},
->  	{ }
->  };
-> -
-> -static struct ctl_table cdrom_cdrom_table[] = {
-> -	{
-> -		.procname	= "cdrom",
-> -		.maxlen		= 0,
-> -		.mode		= 0555,
-> -		.child		= cdrom_table,
-> -	},
-> -	{ }
-> -};
-> -
-> -/* Make sure that /proc/sys/dev is there */
-> -static struct ctl_table cdrom_root_table[] = {
-> -	{
-> -		.procname	= "dev",
-> -		.maxlen		= 0,
-> -		.mode		= 0555,
-> -		.child		= cdrom_cdrom_table,
-> -	},
-> -	{ }
-> -};
->  static struct ctl_table_header *cdrom_sysctl_header;
->  
->  static void cdrom_sysctl_register(void)
-> @@ -3721,7 +3700,7 @@ static void cdrom_sysctl_register(void)
->  	if (!atomic_add_unless(&initialized, 1, 1))
->  		return;
->  
-> -	cdrom_sysctl_header = register_sysctl_table(cdrom_root_table);
-> +	cdrom_sysctl_header = register_sysctl("dev/cdrom", cdrom_table);
->  
->  	/* set the defaults */
->  	cdrom_sysctl_settings.autoclose = autoclose;
-> -- 
-> 2.33.0
+> regards,
+> dan carpenter
 > 
 
-Dear Luis,
+Dan,
 
-Thank you for the patch. Tested and working, looks good to me. As this
-has already been pulled into Andrew Morton's tree, I have added in Jens
-and the linux-block list so there is awareness that the patch will go
-via -mm then linux-next tree.
+This is fixed here: https://patchwork.freedesktop.org/patch/464046/
 
-For what it's worth (although guess it won't be in the commit now):
-Reviewed-by: Phillip Potter <phil@philpotter.co.uk>
-
-Regards,
-Phil
+-Akhil.
