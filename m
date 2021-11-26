@@ -1,61 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27A9E45F1B5
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Nov 2021 17:20:42 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F32245F1A9
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Nov 2021 17:20:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4BD356F972;
-	Fri, 26 Nov 2021 16:20:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B7F516F91D;
+	Fri, 26 Nov 2021 16:20:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
- [IPv6:2a00:1450:4864:20::12a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E2B336F900
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Nov 2021 16:19:57 +0000 (UTC)
-Received: by mail-lf1-x12a.google.com with SMTP id n12so25550686lfe.1
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Nov 2021 08:19:57 -0800 (PST)
+Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com
+ [IPv6:2a00:1450:4864:20::22f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E36676F91B
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Nov 2021 16:19:58 +0000 (UTC)
+Received: by mail-lj1-x22f.google.com with SMTP id z8so19725788ljz.9
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Nov 2021 08:19:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=0mQGburGzaVO6t6m0C9ToG0s590roHzjwKj9a/U1hq8=;
- b=fuV2rpY5vWtXLgfFL3kQDRM+ioE76IqkOsczEVCgP55ZUOsM6JRi1k1DUic6KroJPS
- 0tKyZlRv6Eyfnu2i63/8F5l3GQ3gMNc9CdD0hLqviK+wvyStY1jg5iC7kGuzI3eIMcEf
- PB+2xvrZY342AogXJzAfszoXobBHB6Q3p0iYRgcdy2pL+5r5mbobIWDkdh/z9DTNnsQb
- x59msvnA+cjRsiH/FH7HPP0qQ5JLIZK47Am2iLsa5Qd3Lq9qRfBeS03r7y+yojAESQhP
- ShNJV3gqMzXfS0qwS2eGeNOLcm9Wh0FHqRbij68DTKDMYHAQ1d0SLguifx4pu026d7wv
- /dEw==
+ bh=pyWXKSD/ngAWTwm6HA1HadGHkUDHHAfqetu21/vFVIM=;
+ b=bdbspkD2uxc8qeriYgYo3urTgP3sVL8LPoyinGG3VjF3C7Lw0RK+XZckeGj0vFEJHn
+ XQ4zadccolf5Ix433mkdFsT6vgImRa6Txk210jDxGGs2WztWVW5Y9CpKN8ks1hCa1VoP
+ MxyOOSkQGswD28YdxKvlc2JDyMc1jj0NVGVovHOfgYq6LoJTdWVQXajaanCtGL1TdQ1i
+ +WwdN6tfAhUArRz59d16jrN3THi5VHiu1P1uHM7Egb1SzwU0RYaOxhLHHfG3Uw+UoD3O
+ LtVtusEJIBWcyT1kojXzI8gP4RLEwwLnfE9bWG5pUgcIpqyp/yhYbnhxT7suOiB95i7B
+ AOgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=0mQGburGzaVO6t6m0C9ToG0s590roHzjwKj9a/U1hq8=;
- b=X2kNkKFwDKD/yg8S800Yg2chpK/4QjmkW9sfADkN0SJnca9zVEHHYDwEgmzaSnGC4i
- nQw5ZUqwHFqvMnGh2vsy3aRw66erPihU6cGvO1jNSrN4Vgx2l0YBN5puZiScEtrd1axY
- GCyWxrVHwIWW2H9Jb+Vv0osvBy/cT9E3AAVsnWJEk8aTCjBsPwOSZsGjqaoh53lwBP5s
- IxOUjwwMDmpDBfqo0S4dZPvF5rB3F+OEo7371G788Lyy2KHPf7dSoVyp5oKQbToe8q+k
- au42o0rMEuBm36iAOm5E03lghxMwWWl8M48Jqhe/HT1RRckw4CnkZOozIt1RlPBhWdtE
- wSSw==
-X-Gm-Message-State: AOAM533NTL8AcrD7b9m0OkYjA1pFdeMof6+JjXjM9JOAcWabtNOye8eb
- B0UsMB4DSERrJDLX6zbOBxk=
-X-Google-Smtp-Source: ABdhPJylJzqB2ZvlpxpzfeqjArW2IsHMhFnA0BIsWJR6W+91PfSCYZb5GLBH1w9hRPLmfiiTF5DZOg==
-X-Received: by 2002:a05:6512:23a7:: with SMTP id
- c39mr31318838lfv.655.1637943596282; 
- Fri, 26 Nov 2021 08:19:56 -0800 (PST)
+ bh=pyWXKSD/ngAWTwm6HA1HadGHkUDHHAfqetu21/vFVIM=;
+ b=Y41w83EsWVAPPeOmnvrOskxLIUu7t1u16z4Hmg2effxWkD1VE45E1H+04Y1d3APFiu
+ rmAi76dF3rzJJD7vzgC+9HnFVevDo+lTSX6snP7yv5UwwK50yapBWwZvrzk+aS5hpgeC
+ omHMheJ8vx+Y8/R8Pu+mmH+2eOiDLxdLka+pVLy7kl9p/PZqDTiWCmoxNG3TVOJbkHFl
+ 6WvaIRmNsie0mfKed7mMHY4Yr/8xrCfOwK0Prf7w9GZXgyZ8LXeCYbtkwMY03nqr8/Tp
+ gt6wqVbzJfVyjpwUIYxnRaSG08VUZqekqqTHzmHbnnLffHfircg8RdV+mBdxaShNNihp
+ 6POQ==
+X-Gm-Message-State: AOAM530MR0QI0m0uUn0i10wEygZ4d3P0Go2dc0XN0rpdyL3PJPxoQ8h1
+ bvaOChBWQdOaApVNQ86pNUk=
+X-Google-Smtp-Source: ABdhPJxpm9nqKWKezaZcIWKSbgNt+5aswTDFHwGvFf90WbQr4/XEZVYSn1hrv8SDqgkyr4alLXIBbw==
+X-Received: by 2002:a2e:9217:: with SMTP id k23mr31531018ljg.267.1637943597317; 
+ Fri, 26 Nov 2021 08:19:57 -0800 (PST)
 Received: from localhost.localdomain (94-29-48-99.dynamic.spd-mgts.ru.
  [94.29.48.99])
- by smtp.gmail.com with ESMTPSA id t7sm613381lfl.260.2021.11.26.08.19.55
+ by smtp.gmail.com with ESMTPSA id t7sm613381lfl.260.2021.11.26.08.19.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 26 Nov 2021 08:19:55 -0800 (PST)
+ Fri, 26 Nov 2021 08:19:56 -0800 (PST)
 From: Dmitry Osipenko <digetx@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
  Jonathan Hunter <jonathanh@nvidia.com>, Mark Brown <broonie@kernel.org>,
  Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>,
  Liam Girdwood <lgirdwood@gmail.com>, Agneli <poczt@protonmail.ch>,
  Rob Herring <robh+dt@kernel.org>
-Subject: [PATCH v2 16/20] ARM: tegra_defconfig: Enable S/PDIF driver
-Date: Fri, 26 Nov 2021 19:18:03 +0300
-Message-Id: <20211126161807.15776-17-digetx@gmail.com>
+Subject: [PATCH v2 17/20] ARM: tegra: Add S/PDIF node to Tegra20 device-tree
+Date: Fri, 26 Nov 2021 19:18:04 +0300
+Message-Id: <20211126161807.15776-18-digetx@gmail.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211126161807.15776-1-digetx@gmail.com>
 References: <20211126161807.15776-1-digetx@gmail.com>
@@ -79,26 +78,50 @@ Cc: devicetree@vger.kernel.org, alsa-devel@alsa-project.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Enable Tegra20 S/PDIF driver. It's a part of HDMI audio subsystem on
-Tegra.
+Add S/PDIF node to Tegra20 device-tree. It's needed for enabling HDMI
+audio support.
 
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- arch/arm/configs/tegra_defconfig | 1 +
- 1 file changed, 1 insertion(+)
+ arch/arm/boot/dts/tegra20.dtsi | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-diff --git a/arch/arm/configs/tegra_defconfig b/arch/arm/configs/tegra_defconfig
-index 817b39190d54..1b8f8fdbedc5 100644
---- a/arch/arm/configs/tegra_defconfig
-+++ b/arch/arm/configs/tegra_defconfig
-@@ -235,6 +235,7 @@ CONFIG_SND_HDA_CODEC_HDMI=y
- CONFIG_SND_SOC=y
- CONFIG_SND_SOC_TEGRA=y
- CONFIG_SND_SOC_TEGRA20_I2S=y
-+CONFIG_SND_SOC_TEGRA20_SPDIF=y
- CONFIG_SND_SOC_TEGRA30_I2S=y
- CONFIG_SND_SOC_TEGRA_RT5640=y
- CONFIG_SND_SOC_TEGRA_WM8753=y
+diff --git a/arch/arm/boot/dts/tegra20.dtsi b/arch/arm/boot/dts/tegra20.dtsi
+index 63c2c2f8c0ce..799da7dc929b 100644
+--- a/arch/arm/boot/dts/tegra20.dtsi
++++ b/arch/arm/boot/dts/tegra20.dtsi
+@@ -197,6 +197,7 @@ hdmi@54280000 {
+ 			reset-names = "hdmi";
+ 			power-domains = <&pd_core>;
+ 			operating-points-v2 = <&hdmi_dvfs_opp_table>;
++			#sound-dai-cells = <0>;
+ 			status = "disabled";
+ 		};
+ 
+@@ -396,6 +397,23 @@ tegra_ac97: ac97@70002000 {
+ 		status = "disabled";
+ 	};
+ 
++	tegra_spdif: spdif@70002400 {
++		compatible = "nvidia,tegra20-spdif";
++		reg = <0x70002400 0x200>;
++		interrupts = <GIC_SPI 45 IRQ_TYPE_LEVEL_HIGH>;
++		clocks = <&tegra_car TEGRA20_CLK_SPDIF_OUT>,
++			 <&tegra_car TEGRA20_CLK_SPDIF_IN>;
++		clock-names = "spdif_out", "spdif_in";
++		resets = <&tegra_car 10>;
++		dmas = <&apbdma 3>, <&apbdma 3>;
++		dma-names = "rx", "tx";
++		#sound-dai-cells = <0>;
++		status = "disabled";
++
++		assigned-clocks = <&tegra_car TEGRA20_CLK_SPDIF_OUT>;
++		assigned-clock-parents = <&tegra_car TEGRA20_CLK_PLL_A_OUT0>;
++	};
++
+ 	tegra_i2s1: i2s@70002800 {
+ 		compatible = "nvidia,tegra20-i2s";
+ 		reg = <0x70002800 0x200>;
 -- 
 2.33.1
 
