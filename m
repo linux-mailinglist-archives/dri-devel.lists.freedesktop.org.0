@@ -2,113 +2,115 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8300445E813
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Nov 2021 07:48:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B853145E817
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Nov 2021 07:52:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 01B4B6E5C8;
-	Fri, 26 Nov 2021 06:48:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AEE6E6E80B;
+	Fri, 26 Nov 2021 06:52:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from NAM04-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam08on2050.outbound.protection.outlook.com [40.107.101.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ADB146E5BF
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Nov 2021 06:48:35 +0000 (UTC)
+ (mail-mw2nam08on2062.outbound.protection.outlook.com [40.107.101.62])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A5FBD6E80B
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Nov 2021 06:52:27 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JVf775xkQCx63+qeSyqQg0WVjU71XPGiGlRT+kCayIbiEdvb+mwHqN1HqscocxEkhFz6DVW00xcObZ3B5WnromC9wMTCIDXPvXXWsCTf2ix4chOpFjFzxyidWMLF1fcfHEIYoA+X9hidhwOJhfSOphFc5RtxwNfaEaf0VHCcmXCLaaCAeyEund7glQIZxmqkWgXmOr06jVJnHlzMgv8U97HkRMl/it1+yGV1G+Of4C7wJPEuclaykPtRUe3w1vXvwXfZ9URWn4n/8Qpmb2/C2PM6thnUPtVd+OI/UQvlZniDg/DtpiU9XG/rjd8go9A/MwY1+59LTjlLTeHbxbB7PQ==
+ b=Nrgetxc4zn1Q2wJ/2HZNobpbYCQnTLp1xsBbdktdlK84pJgsv/Derwcw22/ysuCeOy2Ldi9KpuniHM7QDsu4M2zLnvIW423zk5ugM5Y4LCs9sXy8ZTmeg5r6xMQiCfsFZ11cw48HPtAU5qNjv8LVJbKCecs0uC6x7iwwoz3Nrd/mR5d+L87Gjln2fNmp9Y3YYZAbAGWnoWwg2/TEpB5mrPKf2e6k8IC5XhCY31+R/EYAZkViozX+IdtKXkKbICYJLP3QksIRuy3V4b+KEI3pwbllA1XJXs9TB/qact9VmP1EeUxLnaGYaG/5GnEbEMMJWPgQF0ZfdCNgAoUZdcmciQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=M7OkhV1WOZDp0PnNXSxqCNIIc/zj8n8KqoDU9oweqho=;
- b=HnFUF1PPSPIMe/2b8HajkPRqY2m2DowP6wO/G+AN6k5yeLjXfnnn5SDaqaHcp4OX237IhO8X1JVGsaAwPVYhiwuxqpPhUsYPssO4rfWxFrseRRpzGlZkZjpUEnr9voZ0Gdtgb9haIqi9Yla5aPM31lJAvhp1PXNOuZRd6h9UhktWdYTqeBkHYUhzKgT5Kw+7sQOxRTe66xn1glCwm/mag4dI9LBvBiyERCKvr27ubDwrf+J7jj+eRGAXnFsRY1wldNrf2ShCAb1VMLJthe3Avsf67tnUF70SnkrU0/xFJ+I25OiTIxZQr+BgfWHxkKfZbKnUUe6JIGmQD72gc3Jliw==
+ bh=UYDJ32MKSbSNw+pVGcAU6JiI28XWIKiyLBWr+f876zI=;
+ b=fGaxeKF21ttNCXS57BfufymFbsA4lywG7J2VaUZ5fEYqI/qHsobtWscDXYpGYwetyedCauAt+v5eTiMbQPfRiKbvEREcKjrDBH1GrhUeGF/zRxkxhhyUmYtSyNGgsMV3wfE3ZEZ1AKFkhx/fzrM6/tJxvKkm4X1VH2QQvKOnvsNkOsJcVUXuGNYhewV/b3yjra5j9DoD75tPrfGT09DaJA6ccxyPnF5EjlMA90mQ6VQiL8AIqvxyzfgWFBshuYo6sDvBfhNCVYnbYMz9w8vIKY/sYfmdDka0IwDoJk/mRBhUnel3qeEbmc+38XS7DoyDL/MoSHAby3deLFaNO6ZGzw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=M7OkhV1WOZDp0PnNXSxqCNIIc/zj8n8KqoDU9oweqho=;
- b=DwzQu4tyz4jGKAqoJOl3d98CsKAM6lKV8mocoa+YSTxsWMKF1yuVchtOrerZhzlqYmSG3EAWCm1UsA4yKlabV0f19qzjUBerdIxiEXsPeK4fxlDEVlRv7jAbuz8k8+NQTUix9l3e4qSMTStv1FdTQEay6UOnB3mZTHwuVKRLsEo=
+ bh=UYDJ32MKSbSNw+pVGcAU6JiI28XWIKiyLBWr+f876zI=;
+ b=IPxD4kCYKOHyTVTSd37ehyWP/jST1+E3cdVvPvBaW6z1Pgyt/VfcP0rcGGKHhXaT69z+pBJ0zYzGrmYwP2VqUr13gFKVF3PgiLODPFz6P0KdZJP/KkPlA5XvEZGVq7FJ8oCSjxsRoI0PSoIHp4vWl04gfUaI9gSEasDar/LAmbI=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from BY5PR12MB4918.namprd12.prod.outlook.com (2603:10b6:a03:1df::22)
  by BY5PR12MB3924.namprd12.prod.outlook.com (2603:10b6:a03:1af::17)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4734.19; Fri, 26 Nov
- 2021 06:48:32 +0000
+ 2021 06:52:25 +0000
 Received: from BY5PR12MB4918.namprd12.prod.outlook.com
  ([fe80::d519:1ea0:33a6:8193]) by BY5PR12MB4918.namprd12.prod.outlook.com
  ([fe80::d519:1ea0:33a6:8193%6]) with mapi id 15.20.4713.027; Fri, 26 Nov 2021
- 06:48:31 +0000
-Date: Fri, 26 Nov 2021 14:48:03 +0800
+ 06:52:25 +0000
+Date: Fri, 26 Nov 2021 14:52:06 +0800
 From: Huang Rui <ray.huang@amd.com>
 To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
-Subject: Re: [PATCH 01/12] drm/ttm: add ttm_resource_fini
-Message-ID: <YaCDI8Ck5V7JBFkM@amd.com>
+Subject: Re: [PATCH 02/12] drm/ttm: add back a reference to the bdev to the
+ res manager
+Message-ID: <YaCEFo6rzjn3I/B4@amd.com>
 References: <20211124124430.20859-1-christian.koenig@amd.com>
- <20211124124430.20859-2-christian.koenig@amd.com>
+ <20211124124430.20859-3-christian.koenig@amd.com>
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20211124124430.20859-2-christian.koenig@amd.com>
-X-ClientProxiedBy: HK2P15301CA0014.APCP153.PROD.OUTLOOK.COM
- (2603:1096:202:1::24) To BY5PR12MB4918.namprd12.prod.outlook.com
+In-Reply-To: <20211124124430.20859-3-christian.koenig@amd.com>
+X-ClientProxiedBy: HK2PR0401CA0007.apcprd04.prod.outlook.com
+ (2603:1096:202:2::17) To BY5PR12MB4918.namprd12.prod.outlook.com
  (2603:10b6:a03:1df::22)
 MIME-Version: 1.0
 Received: from amd.com (165.204.134.251) by
- HK2P15301CA0014.APCP153.PROD.OUTLOOK.COM (2603:1096:202:1::24) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4755.9 via Frontend Transport; Fri, 26 Nov 2021 06:48:29 +0000
+ HK2PR0401CA0007.apcprd04.prod.outlook.com (2603:1096:202:2::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4734.22 via Frontend
+ Transport; Fri, 26 Nov 2021 06:52:23 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 299ab8e7-a67e-432d-0e21-08d9b0a8c28d
+X-MS-Office365-Filtering-Correlation-Id: ff3eb8aa-e00e-4863-94d7-08d9b0a94e19
 X-MS-TrafficTypeDiagnostic: BY5PR12MB3924:
-X-Microsoft-Antispam-PRVS: <BY5PR12MB3924ED58F52AF4F1ACBAB75CEC639@BY5PR12MB3924.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4941;
+X-Microsoft-Antispam-PRVS: <BY5PR12MB392414A0B14D9B9935912CA7EC639@BY5PR12MB3924.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3383;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: FKIOY5WIcrnbZjsG38UzwR3zNd/rB5+cM4EoeXBbJ/2yoToatA4bw0takghfp/N+cHAZULom9ywyOYWzQMY2BMY+TDfKKjZq9cs5LjiaBg4peFwsRUt2rTJ/beLqB0Tf/3ULs+ZdT7lJ5E7Os23e5aLFtueVs6AEmgLq6fm4CMR3XpnsZAo2k+nimAvjMFC9huutgXEgN/OneH8KP+YwXWbkOSx9oyVQxlEhcQotpCN+fTPUqSqTIhyKJYzz3VtqRU7lA3QYy0qvRUzJ+2OfquleT4mdljIMw8T5SkcK6Ge103wTWl2nQt03kH7xhONyqvKiNg3yXb1ibngeoeKGbRK/a2lcExA3IL0Gs4DypwM6PN7B0FCfvXZFxn5NMAh1UQ1DtfnmxvFiAHtV5Tf2j/Ezx3Ic28YOEZNBdRWCp7qzmkmwphH0CKmkkD0ejaDPj8ggPMJmMPGk9ZgGOYnIPxiMy8b0k7AJ7qs2ZeZv3wrgOqyvEeCaNEzeHlTuMu+yltOGLoHopFilyfFBPoDb63REVRKUNLnA0JRI0q6mKm0yMcmL/jxzcGMnOY9Hy6JjhMdHP4qLGRHSzGC5pQRoM8lK+mlW6msyhplJvfwqncvy3PW+YktgDj3Or6eF7dxmb2t1MO4jPilZlzVNBQQndw==
+X-Microsoft-Antispam-Message-Info: 6p3JxMC9V9xH/zF2jm+MXiuZS6c3riBXueaj6Kyh6rS13orRuXNcMStkHWtSOWkiwamFJGDhxWE+yIkAvEijdeXdgku7Md4P3hYc6fWh1VWHXtS2KMOlihQhdHlY2EPVCW2rb57NpMNNBa5zLTinWtBYF6k2Kx3cB0GRj615uW8FSzBe5MQwll+CFaJih+sxW9p4eUOQc+tLLtb5ZjG4xWqCNyPW4icCJDh+FTBD+SRSm3QT3IvuBkJ4yVVMCGRo6JSoeVWo5zu6/dH+/iwg9qtI5SeyRQA39qh07AQ8ddbNFfhknST2+JjuAJSm6kOQp5qRywtZqkMxE7g7bymPww6rbXOb6AgItny60OyXKOKIjZLbZS/8tOOaOty6CneUScJa4IDKbi3cqjoVtGTHgp9dZfUH8rXek/NWkeLSbuG8o86q/lXjPfPRtXRUTmE6ksUhBSVwA4dgYElKeexhm9/qMcY6HKa+UijI8aBNWT22J/F4Bz00yp8aokXt9laKJSqnJ2MAW//JbmIND8lJ78Qy6w7SvOYlzdi/hddjesXFsLZstUuNLNP+BIxVJDI6PAw8sYf2A3EoPnq4m/eumabxC9vc/APcPMUVtITfNE/ubjGzOsIA7Mo0G1991BZR0w+gdoiJjP5LI8wf4firtA==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BY5PR12MB4918.namprd12.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(4636009)(366004)(55016003)(66556008)(66476007)(86362001)(6666004)(26005)(36756003)(2906002)(38100700002)(8676002)(6916009)(83380400001)(66574015)(2616005)(316002)(956004)(186003)(4326008)(8936002)(66946007)(54906003)(8886007)(7696005)(508600001)(5660300002);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?fWg0fs39RL2bBn3DuKSmCU+ScTk3cPXYVohMGDRlSn+e6CayyOJOzM9Rbr?=
- =?iso-8859-1?Q?Ii7y1czR+XD9zWP6Bayn6qVJ/giB+p/ppi3mI6vqXllhafmTml8vsQLEuP?=
- =?iso-8859-1?Q?obzhq7kw1yZtM7qHUjT/rOtZAeT+t8/GEIFMlea/gzlkpR9jPspoZaL64m?=
- =?iso-8859-1?Q?Vtio6H2bXsBIUr0CjxvQD+ZzESqVH6aRD0r990f+/zWimSvDVl06xIuNZT?=
- =?iso-8859-1?Q?uOUPK8EtZbzy7gvMSkJnPrlXs80nbVxa+HInQxAFHM1EtMKb+boEtxZnMV?=
- =?iso-8859-1?Q?s0UgWzHkT/itnYOW9STfPTT4nnCZkmNA/393JaE8d9xL+LopE2oUPVUtRG?=
- =?iso-8859-1?Q?w/diRD4TV2CGFNZ7VaNgBbQDPYpNu8ESmUOSGQef3068Nh6xp90FtRN/xp?=
- =?iso-8859-1?Q?TnSfcnWrwRHFugIpqBD8O2Iq+COmnQCU1Z9PykV/P+L1cM5r2b+0sgySfs?=
- =?iso-8859-1?Q?sBDR5S1nynlCS3R1WEdIXPFjVQqlN7xwcdHGNHI5VDWVgm//Dh6no1l+ux?=
- =?iso-8859-1?Q?cOSvWcOuW26NS4HHFRfKmfyYzoyaxp4MPc1qtmlUt++7sN9uJq6brJ/wk8?=
- =?iso-8859-1?Q?9zK6lPhNMqEAb8k8CKSkfFQ/ZIPWGW3c8klUbhOGAJdno5Q/Ibk5VakFc2?=
- =?iso-8859-1?Q?DrdAVhZNbOB/gnaFgOMo3Ui3G/L9UHywGvMID0kXOehWagx25TZGLb0s2L?=
- =?iso-8859-1?Q?ax+ytJY03EnXXtjdTb6oactNGdE0BNEzrKieUrZYOBr3Xkas1SXPhVlVIQ?=
- =?iso-8859-1?Q?rdMVxJhCTvIrHEdGb1E9LibajjqjRn/Wb6Ad5A8wH81s7+rrhchpguTDZy?=
- =?iso-8859-1?Q?r9ysjWY/nn4UoI8DagVw72rFwKNeRLdQq1QV/9RcE37xK3lNuidQABfRvE?=
- =?iso-8859-1?Q?bDrw+ZHr2VtgKPlX/tDyV7jfcO+ZtFakb2YacqNmGhZ5HvItl609u3A9/S?=
- =?iso-8859-1?Q?gnSHMWQZRu/g1qgQ+cybxqHd9RXUr1qtfm3ApXYwQERJq/qXRBKqBT6jAb?=
- =?iso-8859-1?Q?t4OMJ9HEo+YjUIB7xYNmwxjTyj0mEbhFbK3klXCVcxk0JIsiU9TJKm0kD0?=
- =?iso-8859-1?Q?xSsHoQk0bE69FQiC4NvXSXjTXsKuQ0pmSGcgOmCIaPXWlOQmw3FK1mxtc1?=
- =?iso-8859-1?Q?IuSDcTjQJP0yr3PbKaeeKSTwI2imd9cPaGv+6C6T0namFOfI/tyNa7OUjM?=
- =?iso-8859-1?Q?89A4Uw2upsxvR/OceF1EC+C+OVyUQ5jpd4JqB0s3z+EhLkZ9mEHQcRYIMd?=
- =?iso-8859-1?Q?+MSt6Tq1Wi++m5f4O0xdd6La1BLCQDGas1D4b2HZIhgCVymr7O2VtVySZ6?=
- =?iso-8859-1?Q?iekjEKYWCnkpIheuw72rGW5cFcgTei/brvjPhkDvXuzWzBi2zBhSEN4lqN?=
- =?iso-8859-1?Q?PByT8IrhdlRbQqwVzGDadfdDj/jJXis4BRI6LnLI4c7HUPw25HLDsq5YfB?=
- =?iso-8859-1?Q?gV4450lal3Hp17T4110KC0a3yyeA++CCRaBOcKHn203ZyoHOBeoGqoQb67?=
- =?iso-8859-1?Q?6mpthtiIE5EPVZToF1tSKsfkc1mKNIlrFeCruE4rbVph7WH4cc4P6x2CiC?=
- =?iso-8859-1?Q?q3ouQJebqmIwH+t+mz0FFByfixxy4gqlkrCLeNX1Hsl6tAov8uVASg9Gfv?=
- =?iso-8859-1?Q?H40c6Xkiuu+T46pKI42FnFxgVzowzEbYbPrKBYjpkLkPn9tfGcmWWdGeN3?=
- =?iso-8859-1?Q?90w1q4mkow5ardNqYGs=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?szJ5ltPI3CHIfl+c86oqxRpDVRAZtL30Oy/kuC8uwvhUrT1lc0haoZ1hls?=
+ =?iso-8859-1?Q?uUDlue8vLjywU7iA6LsMzbuEtkmOxXHKAfJbpsYz9ogujZo94yw79o0oEv?=
+ =?iso-8859-1?Q?seHRd56ltIzx0+Uld1cdnlWjI67MRT4sHcmpf2PjioODoJDj1a8jSt1oUl?=
+ =?iso-8859-1?Q?iDnQafX4Z8z/T3PStCxZQvIOjCnJTMACM9XBL18vXpwloOxrW8zxJ1SLho?=
+ =?iso-8859-1?Q?5oPLddF+kbOU5s4KavmQpZTtpc97olm8GIqze73AeKrRe22e++n61FcCwH?=
+ =?iso-8859-1?Q?tYdEv688AgK9v9puwvIppgOskpzb7w6eH+6sRxB1Ow6zBaozqVzFehjYUx?=
+ =?iso-8859-1?Q?1fgOi0g4XaHmjsb4szP1UmnWANTf6jNQX2Bp5Puc/1oHODi1Hq0rPgTL76?=
+ =?iso-8859-1?Q?euy2U0PqYnPje5kVvVwMNi8CaIP7YVP7EcrnMHYgkRLp38ZkDtYvhYtTzm?=
+ =?iso-8859-1?Q?OyO91iCxLXEIjwXwBc6pkq05LWkcnLEmStfqjgfZ8RTjOmR0MV91QXMno4?=
+ =?iso-8859-1?Q?cYa/3B1eq4ZMSju/jlVx7K8lK0wcVu/CLou4HH+b4FteQKvBgE4WjrQQQe?=
+ =?iso-8859-1?Q?+PytBUdA2/XkXMEKOGNq4QAgWUmynX6bmjWieEPFb6fUdFl1Z0Ke+vGgc2?=
+ =?iso-8859-1?Q?Oz7+OwcD9YHNpAB7g1GwmJSwgjwbT/rKBg/0zMxCKLFPcBr6oJRSPPuW9l?=
+ =?iso-8859-1?Q?ivqXD5Yk6Q9C4uipaFiAO2skggSs1AaDB7KHTdalPhr9eK2GxJ7MfNz0Jf?=
+ =?iso-8859-1?Q?si7n4qugs1qViSYclTfNbGqdvcrDYW+crfIo2X/t+dHEbGj/Fa2HWwmffB?=
+ =?iso-8859-1?Q?lRSk1b7fpB7FbAcdV+5/Nb3jS3+961XoG6sekh+knRF/qbTWW301iACW0H?=
+ =?iso-8859-1?Q?kzXaZqN5J7dZxyjQ4Hvqus0Qy1jOCraQnibi8IN4W8kNVIE3IjAr6g+PYD?=
+ =?iso-8859-1?Q?IjEN7+sbnZN1ti7cXQHILBFunEkgntTpnDXwXxY9dXuuDcNM8ZEElYSlBs?=
+ =?iso-8859-1?Q?KrcBgZPCtixESp7hw/vlkAFGvWEvrDwHVN3FTNxq+6vL3tqxitoooAcddI?=
+ =?iso-8859-1?Q?MWQSCrCA5Z4oqkx9ps9CZq/NCfHTx1ZNcuGvaC89Akj/p3nIcvXU5C0mvh?=
+ =?iso-8859-1?Q?z9KjN43l4hFOHUqHWVz8hKtlVwkaCYdGT8oCRnPlQdRAEbX1inLX3AMXxb?=
+ =?iso-8859-1?Q?KKjlXXqQHyYDGdDxDckQh4kK5Mztor2mc2ovSssNS3MOuct8ZDeqYNp2a7?=
+ =?iso-8859-1?Q?TuvSuuFiafxsezdrnWMIX11mCr+xPSn4wHI09JtbkzdxvPLV7ha/kikPpT?=
+ =?iso-8859-1?Q?xJ/ECb23tbdG3Q54SJMo4tQMUbR7BqofOJH4ZDBAuZm62NFrMLtLHVfWI7?=
+ =?iso-8859-1?Q?rzoF2BM4lUaYmwRqAFxJDaUJr6NJPrZdho5gU9sYfblIsew/aa3ijAK/dH?=
+ =?iso-8859-1?Q?XPCOeYMqv/Ij4YZ/Vdm7skib3QRyZGLFMdL1UcjO+3dASiYEg+i7Afok/K?=
+ =?iso-8859-1?Q?KWM+k9ae5FgfbNYq3xDM1DlX+Ba1MF8+X5HNWtj5Lxf5TeY6tpuI439x9z?=
+ =?iso-8859-1?Q?HAxYc1ebu6tyiy0TAWxFGDo++B7yuflhjdEB/o1wcCBX59zDaN/ROSUsqe?=
+ =?iso-8859-1?Q?s0lM1c5/cCsZaMLYxvcwPkl0+k8pnG2/rISMofl2f05gS3GUB7xLkRhana?=
+ =?iso-8859-1?Q?HNeyAIW643tMUcY204M=3D?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 299ab8e7-a67e-432d-0e21-08d9b0a8c28d
+X-MS-Exchange-CrossTenant-Network-Message-Id: ff3eb8aa-e00e-4863-94d7-08d9b0a94e19
 X-MS-Exchange-CrossTenant-AuthSource: BY5PR12MB4918.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Nov 2021 06:48:31.7213 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Nov 2021 06:52:25.8156 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: OUMgR72bIViWyBry/BQS+p44Jzow/C0A1qhJnD9/mBTrEODqV9saOUDsLRlZEtyTpImjtKaqCezLiNmshZ4QGQ==
+X-MS-Exchange-CrossTenant-UserPrincipalName: 5GiOA0ZXmKsA+JwtGqRan1BzwOgMRRb2DMRm7TSIY7VrcIuw/RzjRBXG57gy3jsBQAI2x1uhx8Jjs9lUbHo7vg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB3924
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -127,269 +129,233 @@ Cc: "thomas.hellstrom@linux.intel.com" <thomas.hellstrom@linux.intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Nov 24, 2021 at 08:44:19PM +0800, Christian König wrote:
-> Make sure we call the common cleanup function in all
-> implementations of the resource manager.
+On Wed, Nov 24, 2021 at 08:44:20PM +0800, Christian König wrote:
+> It is simply a lot cleaner to have this around instead of adding
+> the device throughout the call chain.
 > 
 > Signed-off-by: Christian König <christian.koenig@amd.com>
+
+Reviewed-by: Huang Rui <ray.huang@amd.com>
+
 > ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c     | 2 ++
->  drivers/gpu/drm/amd/amdgpu/amdgpu_preempt_mgr.c | 1 +
->  drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c    | 2 ++
->  drivers/gpu/drm/i915/i915_ttm_buddy_manager.c   | 1 +
->  drivers/gpu/drm/nouveau/nouveau_mem.c           | 3 ++-
->  drivers/gpu/drm/nouveau/nouveau_mem.h           | 3 ++-
->  drivers/gpu/drm/nouveau/nouveau_ttm.c           | 9 +++++----
->  drivers/gpu/drm/ttm/ttm_range_manager.c         | 2 ++
->  drivers/gpu/drm/ttm/ttm_resource.c              | 6 ++++++
->  drivers/gpu/drm/ttm/ttm_sys_manager.c           | 1 +
->  drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c   | 2 ++
->  drivers/gpu/drm/vmwgfx/vmwgfx_thp.c             | 3 ++-
->  include/drm/ttm/ttm_resource.h                  | 3 +++
->  13 files changed, 31 insertions(+), 7 deletions(-)
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c     |  3 ++-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_preempt_mgr.c |  2 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c    |  3 ++-
+>  drivers/gpu/drm/i915/i915_ttm_buddy_manager.c   |  2 +-
+>  drivers/gpu/drm/nouveau/nouveau_ttm.c           |  4 ++--
+>  drivers/gpu/drm/ttm/ttm_range_manager.c         |  2 +-
+>  drivers/gpu/drm/ttm/ttm_resource.c              |  3 +++
+>  drivers/gpu/drm/ttm/ttm_sys_manager.c           |  2 +-
+>  drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c   |  2 +-
+>  drivers/gpu/drm/vmwgfx/vmwgfx_thp.c             |  2 +-
+>  include/drm/ttm/ttm_resource.h                  | 16 +++++++++-------
+>  11 files changed, 24 insertions(+), 17 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
-> index 675a72ef305d..ea5470c8c921 100644
+> index ea5470c8c921..9e7685a4878c 100644
 > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
 > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
-> @@ -169,6 +169,7 @@ static int amdgpu_gtt_mgr_new(struct ttm_resource_manager *man,
->  	return 0;
+> @@ -293,7 +293,8 @@ int amdgpu_gtt_mgr_init(struct amdgpu_device *adev, uint64_t gtt_size)
+>  	man->use_tt = true;
+>  	man->func = &amdgpu_gtt_mgr_func;
 >  
->  err_free:
-> +	ttm_resource_fini(man, &node->base.base);
->  	kfree(node);
+> -	ttm_resource_manager_init(man, gtt_size >> PAGE_SHIFT);
+> +	ttm_resource_manager_init(man, &adev->mman.bdev,
+> +				  gtt_size >> PAGE_SHIFT);
 >  
->  err_out:
-> @@ -200,6 +201,7 @@ static void amdgpu_gtt_mgr_del(struct ttm_resource_manager *man,
->  	if (!(res->placement & TTM_PL_FLAG_TEMPORARY))
->  		atomic64_sub(res->num_pages, &mgr->used);
->  
-> +	ttm_resource_fini(man, res);
->  	kfree(node);
->  }
->  
+>  	start = AMDGPU_GTT_MAX_TRANSFER_SIZE * AMDGPU_GTT_NUM_TRANSFER_WINDOWS;
+>  	size = (adev->gmc.gart_size >> PAGE_SHIFT) - start;
 > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_preempt_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_preempt_mgr.c
-> index d02c8637f909..ffddec08e931 100644
+> index ffddec08e931..6f7189d32f0a 100644
 > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_preempt_mgr.c
 > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_preempt_mgr.c
-> @@ -95,6 +95,7 @@ static void amdgpu_preempt_mgr_del(struct ttm_resource_manager *man,
->  	struct amdgpu_preempt_mgr *mgr = to_preempt_mgr(man);
+> @@ -153,7 +153,7 @@ int amdgpu_preempt_mgr_init(struct amdgpu_device *adev)
+>  	man->use_tt = true;
+>  	man->func = &amdgpu_preempt_mgr_func;
 >  
->  	atomic64_sub(res->num_pages, &mgr->used);
-> +	ttm_resource_fini(man, res);
->  	kfree(res);
->  }
+> -	ttm_resource_manager_init(man, (1 << 30));
+> +	ttm_resource_manager_init(man, &adev->mman.bdev, (1 << 30));
+>  
+>  	atomic64_set(&mgr->used, 0);
 >  
 > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
-> index 7b2b0980ec41..55d68408951d 100644
+> index 55d68408951d..ddd0b6d74070 100644
 > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
 > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
-> @@ -476,6 +476,7 @@ static int amdgpu_vram_mgr_new(struct ttm_resource_manager *man,
->  	while (i--)
->  		drm_mm_remove_node(&node->mm_nodes[i]);
->  	spin_unlock(&mgr->lock);
-> +	ttm_resource_fini(man, &node->base);
->  	kvfree(node);
+> @@ -699,7 +699,8 @@ int amdgpu_vram_mgr_init(struct amdgpu_device *adev)
+>  	struct amdgpu_vram_mgr *mgr = &adev->mman.vram_mgr;
+>  	struct ttm_resource_manager *man = &mgr->manager;
 >  
->  error_sub:
-> @@ -515,6 +516,7 @@ static void amdgpu_vram_mgr_del(struct ttm_resource_manager *man,
->  	atomic64_sub(usage, &mgr->usage);
->  	atomic64_sub(vis_usage, &mgr->vis_usage);
+> -	ttm_resource_manager_init(man, adev->gmc.real_vram_size >> PAGE_SHIFT);
+> +	ttm_resource_manager_init(man, &adev->mman.bdev,
+> +				  adev->gmc.real_vram_size >> PAGE_SHIFT);
 >  
-> +	ttm_resource_fini(man, res);
->  	kvfree(node);
->  }
+>  	man->func = &amdgpu_vram_mgr_func;
 >  
 > diff --git a/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c b/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
-> index d59fbb019032..ca3ca1f7f850 100644
+> index ca3ca1f7f850..ef535e04a88a 100644
 > --- a/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
 > +++ b/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
-> @@ -123,6 +123,7 @@ static void i915_ttm_buddy_man_free(struct ttm_resource_manager *man,
->  	i915_buddy_free_list(&bman->mm, &bman_res->blocks);
->  	mutex_unlock(&bman->lock);
+> @@ -203,7 +203,7 @@ int i915_ttm_buddy_man_init(struct ttm_device *bdev,
+>  	man = &bman->manager;
+>  	man->use_tt = use_tt;
+>  	man->func = &i915_ttm_buddy_manager_func;
+> -	ttm_resource_manager_init(man, bman->mm.size >> PAGE_SHIFT);
+> +	ttm_resource_manager_init(man, bdev, bman->mm.size >> PAGE_SHIFT);
 >  
-> +	ttm_resource_fini(man, res);
->  	kfree(bman_res);
->  }
->  
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_mem.c b/drivers/gpu/drm/nouveau/nouveau_mem.c
-> index 2ca3207c13fc..2e517cdc24c9 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_mem.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_mem.c
-> @@ -162,11 +162,12 @@ nouveau_mem_vram(struct ttm_resource *reg, bool contig, u8 page)
->  }
->  
->  void
-> -nouveau_mem_del(struct ttm_resource *reg)
-> +nouveau_mem_del(struct ttm_resource_manager *man, struct ttm_resource *reg)
->  {
->  	struct nouveau_mem *mem = nouveau_mem(reg);
->  
->  	nouveau_mem_fini(mem);
-> +	ttm_resource_fini(man, reg);
->  	kfree(mem);
->  }
->  
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_mem.h b/drivers/gpu/drm/nouveau/nouveau_mem.h
-> index 2c01166a90f2..325551eba5cd 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_mem.h
-> +++ b/drivers/gpu/drm/nouveau/nouveau_mem.h
-> @@ -23,7 +23,8 @@ nouveau_mem(struct ttm_resource *reg)
->  
->  int nouveau_mem_new(struct nouveau_cli *, u8 kind, u8 comp,
->  		    struct ttm_resource **);
-> -void nouveau_mem_del(struct ttm_resource *);
-> +void nouveau_mem_del(struct ttm_resource_manager *man,
-> +		     struct ttm_resource *);
->  int nouveau_mem_vram(struct ttm_resource *, bool contig, u8 page);
->  int nouveau_mem_host(struct ttm_resource *, struct ttm_tt *);
->  void nouveau_mem_fini(struct nouveau_mem *);
+>  	ttm_resource_manager_set_used(man, true);
+>  	ttm_set_driver_manager(bdev, type, man);
 > diff --git a/drivers/gpu/drm/nouveau/nouveau_ttm.c b/drivers/gpu/drm/nouveau/nouveau_ttm.c
-> index 2ca9d9a9e5d5..91ef33f8f22c 100644
+> index 91ef33f8f22c..85f1f5a0fe5d 100644
 > --- a/drivers/gpu/drm/nouveau/nouveau_ttm.c
 > +++ b/drivers/gpu/drm/nouveau/nouveau_ttm.c
-> @@ -36,9 +36,10 @@
->  #include <core/tegra.h>
+> @@ -164,7 +164,7 @@ nouveau_ttm_init_vram(struct nouveau_drm *drm)
 >  
->  static void
-> -nouveau_manager_del(struct ttm_resource_manager *man, struct ttm_resource *reg)
-> +nouveau_manager_del(struct ttm_resource_manager *man,
-> +		    struct ttm_resource *reg)
->  {
-> -	nouveau_mem_del(reg);
-> +	nouveau_mem_del(man, reg);
->  }
+>  		man->func = &nouveau_vram_manager;
 >  
->  static int
-> @@ -62,7 +63,7 @@ nouveau_vram_manager_new(struct ttm_resource_manager *man,
+> -		ttm_resource_manager_init(man,
+> +		ttm_resource_manager_init(man, &drm->ttm.bdev,
+>  					  drm->gem.vram_available >> PAGE_SHIFT);
+>  		ttm_set_driver_manager(&drm->ttm.bdev, TTM_PL_VRAM, man);
+>  		ttm_resource_manager_set_used(man, true);
+> @@ -211,7 +211,7 @@ nouveau_ttm_init_gtt(struct nouveau_drm *drm)
 >  
->  	ret = nouveau_mem_vram(*res, nvbo->contig, nvbo->page);
->  	if (ret) {
-> -		nouveau_mem_del(*res);
-> +		nouveau_mem_del(man, *res);
->  		return ret;
->  	}
->  
-> @@ -118,7 +119,7 @@ nv04_gart_manager_new(struct ttm_resource_manager *man,
->  	ret = nvif_vmm_get(&mem->cli->vmm.vmm, PTES, false, 12, 0,
->  			   (long)(*res)->num_pages << PAGE_SHIFT, &mem->vma[0]);
->  	if (ret) {
-> -		nouveau_mem_del(*res);
-> +		nouveau_mem_del(man, *res);
->  		return ret;
->  	}
->  
+>  	man->func = func;
+>  	man->use_tt = true;
+> -	ttm_resource_manager_init(man, size_pages);
+> +	ttm_resource_manager_init(man, &drm->ttm.bdev, size_pages);
+>  	ttm_set_driver_manager(&drm->ttm.bdev, TTM_PL_TT, man);
+>  	ttm_resource_manager_set_used(man, true);
+>  	return 0;
 > diff --git a/drivers/gpu/drm/ttm/ttm_range_manager.c b/drivers/gpu/drm/ttm/ttm_range_manager.c
-> index 67d68a4a8640..25fcf0d63c2d 100644
+> index 25fcf0d63c2d..062dabe6a10e 100644
 > --- a/drivers/gpu/drm/ttm/ttm_range_manager.c
 > +++ b/drivers/gpu/drm/ttm/ttm_range_manager.c
-> @@ -89,6 +89,7 @@ static int ttm_range_man_alloc(struct ttm_resource_manager *man,
->  	spin_unlock(&rman->lock);
+> @@ -156,7 +156,7 @@ int ttm_range_man_init_nocheck(struct ttm_device *bdev,
 >  
->  	if (unlikely(ret)) {
-> +		ttm_resource_fini(man, *res);
->  		kfree(node);
->  		return ret;
->  	}
-> @@ -108,6 +109,7 @@ static void ttm_range_man_free(struct ttm_resource_manager *man,
->  	drm_mm_remove_node(&node->mm_nodes[0]);
->  	spin_unlock(&rman->lock);
+>  	man->func = &ttm_range_manager_func;
 >  
-> +	ttm_resource_fini(man, res);
->  	kfree(node);
->  }
+> -	ttm_resource_manager_init(man, p_size);
+> +	ttm_resource_manager_init(man, bdev, p_size);
 >  
+>  	drm_mm_init(&rman->mm, 0, p_size);
+>  	spin_lock_init(&rman->lock);
 > diff --git a/drivers/gpu/drm/ttm/ttm_resource.c b/drivers/gpu/drm/ttm/ttm_resource.c
-> index 035d71332d18..89bcfe22a0ca 100644
+> index 89bcfe22a0ca..41e7bf195168 100644
 > --- a/drivers/gpu/drm/ttm/ttm_resource.c
 > +++ b/drivers/gpu/drm/ttm/ttm_resource.c
-> @@ -44,6 +44,12 @@ void ttm_resource_init(struct ttm_buffer_object *bo,
->  }
->  EXPORT_SYMBOL(ttm_resource_init);
+> @@ -126,16 +126,19 @@ EXPORT_SYMBOL(ttm_resource_compat);
+>   * ttm_resource_manager_init
+>   *
+>   * @man: memory manager object to init
+> + * @bdev: ttm device this manager belongs to
+>   * @p_size: size managed area in pages.
+>   *
+>   * Initialise core parts of a manager object.
+>   */
+>  void ttm_resource_manager_init(struct ttm_resource_manager *man,
+> +			       struct ttm_device *bdev,
+>  			       unsigned long p_size)
+>  {
+>  	unsigned i;
 >  
-> +void ttm_resource_fini(struct ttm_resource_manager *man,
-> +		       struct ttm_resource *res)
-> +{
-
-Maybe we should clean up the res data here. E.X. memset(res, 0, sizeof(*res).
-The previous data should invalid while we call fini.
-
-Thanks,
-Ray
-
-> +}
-> +EXPORT_SYMBOL(ttm_resource_fini);
-> +
->  int ttm_resource_alloc(struct ttm_buffer_object *bo,
->  		       const struct ttm_place *place,
->  		       struct ttm_resource **res_ptr)
+>  	spin_lock_init(&man->move_lock);
+> +	man->bdev = bdev;
+>  	man->size = p_size;
+>  
+>  	for (i = 0; i < TTM_MAX_BO_PRIORITY; ++i)
 > diff --git a/drivers/gpu/drm/ttm/ttm_sys_manager.c b/drivers/gpu/drm/ttm/ttm_sys_manager.c
-> index 63aca52f75e1..135394dcca95 100644
+> index 135394dcca95..2ced169513cb 100644
 > --- a/drivers/gpu/drm/ttm/ttm_sys_manager.c
 > +++ b/drivers/gpu/drm/ttm/ttm_sys_manager.c
-> @@ -23,6 +23,7 @@ static int ttm_sys_man_alloc(struct ttm_resource_manager *man,
->  static void ttm_sys_man_free(struct ttm_resource_manager *man,
->  			     struct ttm_resource *res)
->  {
-> +	ttm_resource_fini(man, res);
->  	kfree(res);
->  }
+> @@ -43,7 +43,7 @@ void ttm_sys_man_init(struct ttm_device *bdev)
+>  	man->use_tt = true;
+>  	man->func = &ttm_sys_manager_func;
 >  
+> -	ttm_resource_manager_init(man, 0);
+> +	ttm_resource_manager_init(man, bdev, 0);
+>  	ttm_set_driver_manager(bdev, TTM_PL_SYSTEM, man);
+>  	ttm_resource_manager_set_used(man, true);
+>  }
 > diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c b/drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c
-> index b2c4af331c9d..bfd686bb8d19 100644
+> index bfd686bb8d19..4fe4eeb95bf3 100644
 > --- a/drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c
 > +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c
-> @@ -116,6 +116,7 @@ static int vmw_gmrid_man_get_node(struct ttm_resource_manager *man,
->  	gman->used_gmr_pages -= (*res)->num_pages;
->  	spin_unlock(&gman->lock);
->  	ida_free(&gman->gmr_ida, id);
-> +	ttm_resource_fini(man, *res);
->  	kfree(*res);
->  	return -ENOSPC;
->  }
-> @@ -129,6 +130,7 @@ static void vmw_gmrid_man_put_node(struct ttm_resource_manager *man,
->  	spin_lock(&gman->lock);
->  	gman->used_gmr_pages -= res->num_pages;
->  	spin_unlock(&gman->lock);
-> +	ttm_resource_fini(man, res);
->  	kfree(res);
->  }
->  
+> @@ -150,7 +150,7 @@ int vmw_gmrid_man_init(struct vmw_private *dev_priv, int type)
+>  	man->func = &vmw_gmrid_manager_func;
+>  	/* TODO: This is most likely not correct */
+>  	man->use_tt = true;
+> -	ttm_resource_manager_init(man, 0);
+> +	ttm_resource_manager_init(man, &dev_priv->bdev, 0);
+>  	spin_lock_init(&gman->lock);
+>  	gman->used_gmr_pages = 0;
+>  	ida_init(&gman->gmr_ida);
 > diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_thp.c b/drivers/gpu/drm/vmwgfx/vmwgfx_thp.c
-> index 2a3d3468e4e0..4fcbd94ccc11 100644
+> index 4fcbd94ccc11..b8cd89cd624c 100644
 > --- a/drivers/gpu/drm/vmwgfx/vmwgfx_thp.c
 > +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_thp.c
-> @@ -104,6 +104,7 @@ static int vmw_thp_get_node(struct ttm_resource_manager *man,
->  	spin_unlock(&rman->lock);
+> @@ -135,7 +135,7 @@ int vmw_thp_init(struct vmw_private *dev_priv)
+>  	if (!rman)
+>  		return -ENOMEM;
 >  
->  	if (unlikely(ret)) {
-> +		ttm_resource_fini(man, &node->base);
->  		kfree(node);
->  	} else {
->  		node->base.start = node->mm_nodes[0].start;
-> @@ -122,7 +123,7 @@ static void vmw_thp_put_node(struct ttm_resource_manager *man,
->  	spin_lock(&rman->lock);
->  	drm_mm_remove_node(&node->mm_nodes[0]);
->  	spin_unlock(&rman->lock);
-> -
-> +	ttm_resource_fini(man, res);
->  	kfree(node);
->  }
+> -	ttm_resource_manager_init(&rman->manager,
+> +	ttm_resource_manager_init(&rman->manager, &dev_priv->bdev,
+>  				  dev_priv->vram_size >> PAGE_SHIFT);
 >  
+>  	rman->manager.func = &vmw_thp_func;
 > diff --git a/include/drm/ttm/ttm_resource.h b/include/drm/ttm/ttm_resource.h
-> index 5952051091cd..df1f06b7b504 100644
+> index df1f06b7b504..6bf37383002b 100644
 > --- a/include/drm/ttm/ttm_resource.h
 > +++ b/include/drm/ttm/ttm_resource.h
-> @@ -261,6 +261,9 @@ ttm_resource_manager_cleanup(struct ttm_resource_manager *man)
->  void ttm_resource_init(struct ttm_buffer_object *bo,
->                         const struct ttm_place *place,
->                         struct ttm_resource *res);
-> +void ttm_resource_fini(struct ttm_resource_manager *man,
-> +		       struct ttm_resource *res);
+> @@ -105,11 +105,11 @@ struct ttm_resource_manager_func {
+>   * @use_type: The memory type is enabled.
+>   * @use_tt: If a TT object should be used for the backing store.
+>   * @size: Size of the managed region.
+> + * @bdev: ttm device this manager belongs to
+>   * @func: structure pointer implementing the range manager. See above
+>   * @move_lock: lock for move fence
+> - * static information. bdev::driver::io_mem_free is never used.
+> - * @lru: The lru list for this memory type.
+>   * @move: The fence of the last pipelined move operation.
+> + * @lru: The lru list for this memory type.
+>   *
+>   * This structure is used to identify and manage memory types for a device.
+>   */
+> @@ -119,20 +119,21 @@ struct ttm_resource_manager {
+>  	 */
+>  	bool use_type;
+>  	bool use_tt;
+> +	struct ttm_device *bdev;
+>  	uint64_t size;
+>  	const struct ttm_resource_manager_func *func;
+>  	spinlock_t move_lock;
+>  
+>  	/*
+> -	 * Protected by the global->lru_lock.
+> +	 * Protected by @move_lock.
+>  	 */
+> -
+> -	struct list_head lru[TTM_MAX_BO_PRIORITY];
+> +	struct dma_fence *move;
+>  
+>  	/*
+> -	 * Protected by @move_lock.
+> +	 * Protected by the global->lru_lock.
+>  	 */
+> -	struct dma_fence *move;
 > +
->  int ttm_resource_alloc(struct ttm_buffer_object *bo,
->  		       const struct ttm_place *place,
->  		       struct ttm_resource **res);
+> +	struct list_head lru[TTM_MAX_BO_PRIORITY];
+>  };
+>  
+>  /**
+> @@ -272,6 +273,7 @@ bool ttm_resource_compat(struct ttm_resource *res,
+>  			 struct ttm_placement *placement);
+>  
+>  void ttm_resource_manager_init(struct ttm_resource_manager *man,
+> +			       struct ttm_device *bdev,
+>  			       unsigned long p_size);
+>  
+>  int ttm_resource_manager_evict_all(struct ttm_device *bdev,
 > -- 
 > 2.25.1
 > 
