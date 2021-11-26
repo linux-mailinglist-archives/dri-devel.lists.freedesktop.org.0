@@ -2,35 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3201F45E4C0
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Nov 2021 03:34:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 579AC45E4C2
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Nov 2021 03:34:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA0436E503;
-	Fri, 26 Nov 2021 02:34:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CBD726E506;
+	Fri, 26 Nov 2021 02:34:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BCA1C6E4FF;
- Fri, 26 Nov 2021 02:34:13 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 855F5611BD;
- Fri, 26 Nov 2021 02:34:12 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A501A6E504;
+ Fri, 26 Nov 2021 02:34:17 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D481C61139;
+ Fri, 26 Nov 2021 02:34:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1637894053;
- bh=GS9jBDXv4hv8mV0fPr8imW97TpER2Lo9bSrdDSoF28o=;
+ s=k20201202; t=1637894057;
+ bh=/U9FxitpadGD+gXB9HlW7Ev7z2e8KTHdVeMPb3pDD9I=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=sT+MCl5CMAZsp4Qv31131j0SlEOLcjScJjPfFJWMxUTNIr8pVrkkVWqUir10agBc0
- Yev1uuQV4t0BG4uq7RJ/lYDGMTK8HrdmP77i6jEquUMwdo9ZEWmn77owCyhyn/kNTI
- 8c6f/fTCQcg0WF75NVFDYcPGtjX6JvnGl9mCvxD4JBaBZHDYd20heNY8raf2xojgQk
- T8bn30x9acCQ8gTJmdLeyDaldxnlCEB5kIAGsJk5qrvs4QoSMYvoM5zx+boI8OjxHM
- d3Hq/qKQB2MUxIVBLZQPdmSIVrpxII8Rsj0tIJRtVLYZTooRQBs13+c4AYIuCHJKRB
- NB75IiD7418tQ==
+ b=mc1jq8f8SLjUCxpdTe2SthvM0fRV27actBnqMwPqxBXjdfyqU3RDUhz5soxlir1ET
+ BH0UEA6PN3eMpyV4Ci73zBsBv2FqeDZe6PIWB7O+xAls3mVbKUfbpdr8lOOwlZKqfp
+ TRty5SyuySkz6gZ0H0SCPZh1jIaazEP1tNZKyio2h323LQWpGw840B8NLQeP4PTWkt
+ SO3C3THKkdAJcgGg0MQad/Zr5RdILVhlAQ356ulVfma7M1T3QHCJcnyXdNQ1LHLiWS
+ iR5vrvZt8al84Dq7Bh2Uh4H1dw40/7icDwnNV3zGF6gttSHCCvYSFpcOSmChDGmmk4
+ mG7GopDfdZOAg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 18/28] drm/amd/amdkfd: Fix kernel panic when
- reset failed and been triggered again
-Date: Thu, 25 Nov 2021 21:33:33 -0500
-Message-Id: <20211126023343.442045-18-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 19/28] drm/amd/amdgpu: fix potential memleak
+Date: Thu, 25 Nov 2021 21:33:34 -0500
+Message-Id: <20211126023343.442045-19-sashal@kernel.org>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211126023343.442045-1-sashal@kernel.org>
 References: <20211126023343.442045-1-sashal@kernel.org>
@@ -50,46 +49,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, airlied@linux.ie,
- Felix Kuehling <Felix.Kuehling@amd.com>, Xinhui.Pan@amd.com,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>, christian.koenig@amd.com,
- shaoyunl <shaoyun.liu@amd.com>
+Cc: Sasha Levin <sashal@kernel.org>, jonathan.kim@amd.com, kevin1.wang@amd.com,
+ airlied@linux.ie, Bernard Zhao <bernard@vivo.com>,
+ Felix Kuehling <Felix.Kuehling@amd.com>, Xinhui.Pan@amd.com, tao.zhou1@amd.com,
+ amd-gfx@lists.freedesktop.org, shaoyun.liu@amd.com,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ candice.li@amd.com, john.clements@amd.com, christian.koenig@amd.com,
+ Hawking.Zhang@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: shaoyunl <shaoyun.liu@amd.com>
+From: Bernard Zhao <bernard@vivo.com>
 
-[ Upstream commit 2cf49e00d40d5132e3d067b5aa6d84791929ab15 ]
+[ Upstream commit 27dfaedc0d321b4ea4e10c53e4679d6911ab17aa ]
 
-In SRIOV configuration, the reset may failed to bring asic back to normal but stop cpsch
-already been called, the start_cpsch will not be called since there is no resume in this
-case.  When reset been triggered again, driver should avoid to do uninitialization again.
+In function amdgpu_get_xgmi_hive, when kobject_init_and_add failed
+There is a potential memleak if not call kobject_put.
 
-Signed-off-by: shaoyunl <shaoyun.liu@amd.com>
 Reviewed-by: Felix Kuehling <Felix.Kuehling@amd.com>
+Signed-off-by: Bernard Zhao <bernard@vivo.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
-index 352a32dc609b2..2645ebc63a14d 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
-@@ -1207,6 +1207,11 @@ static int stop_cpsch(struct device_queue_manager *dqm)
- 	bool hanging;
- 
- 	dqm_lock(dqm);
-+	if (!dqm->sched_running) {
-+		dqm_unlock(dqm);
-+		return 0;
-+	}
-+
- 	if (!dqm->is_hws_hang)
- 		unmap_queues_cpsch(dqm, KFD_UNMAP_QUEUES_FILTER_ALL_QUEUES, 0);
- 	hanging = dqm->is_hws_hang || dqm->is_resetting;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c
+index 0526dec1d736e..042c85fc528bb 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c
+@@ -358,6 +358,7 @@ struct amdgpu_hive_info *amdgpu_get_xgmi_hive(struct amdgpu_device *adev)
+ 			"%s", "xgmi_hive_info");
+ 	if (ret) {
+ 		dev_err(adev->dev, "XGMI: failed initializing kobject for xgmi hive\n");
++		kobject_put(&hive->kobj);
+ 		kfree(hive);
+ 		hive = NULL;
+ 		goto pro_end;
 -- 
 2.33.0
 
