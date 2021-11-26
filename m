@@ -1,35 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DD2145EB20
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Nov 2021 11:15:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2885C45EB1E
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Nov 2021 11:15:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 33E716EAD3;
-	Fri, 26 Nov 2021 10:15:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA9666EAC4;
+	Fri, 26 Nov 2021 10:15:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 53E1C6EACD
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B2BD96EAD7
  for <dri-devel@lists.freedesktop.org>; Fri, 26 Nov 2021 10:15:24 +0000 (UTC)
 Received: from Monstersaurus.local
  (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id A1D3FE2C;
- Fri, 26 Nov 2021 11:15:22 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 082271253;
+ Fri, 26 Nov 2021 11:15:23 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1637921722;
- bh=OfttgS/xTaJk42xnYb6koDiIyJnqo0L8BOT6eZE1OgQ=;
+ s=mail; t=1637921723;
+ bh=/NxkguvbJpSme2X46XXvrov0xFXe3nBtHvsHHSVlCss=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=VZyFt9FCi9zKXqrILKVXyodaEYAj8d20xeYEKHgPaiK2Xz73/JPCtqNH2tdGA5JYk
- VelPUCSheUNNAWvP8TlYD1EfZ2aNZQZxutM23hRwrIgstuSIRtHSeuupde6pe/71Gc
- kBXCrSmgdA54f9ZfSZEteMdzAPBti9D5HtwO9d/4=
+ b=pzzdZM+hekooz75iasjEsORioKOkxcFKn+cnUM0/LeFsdcLL+1vEv7atZ0R+MF5p7
+ qf+lNFkA+1ZhnlpSAuUFmLYzA1jUsRtu2AN/xeK7QsBTgJ8peNLsGft4RkBsBDAzLo
+ 6/Zb9BqVBOKdwRDrAASuIXalJxDy+Jp8dCoFqcIo=
 From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  linux-renesas-soc@vger.kernel.org
-Subject: [PATCH 1/4] drm: rcar-du: Fix Makefile indentation for DSI
-Date: Fri, 26 Nov 2021 10:15:15 +0000
-Message-Id: <20211126101518.938783-2-kieran.bingham+renesas@ideasonboard.com>
+Subject: [PATCH 2/4] drm: rcar-du: Select DRM_MIPI_DSI with DRM_RCAR_MIPI_DSI
+Date: Fri, 26 Nov 2021 10:15:16 +0000
+Message-Id: <20211126101518.938783-3-kieran.bingham+renesas@ideasonboard.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211126101518.938783-1-kieran.bingham+renesas@ideasonboard.com>
 References: <20211126101518.938783-1-kieran.bingham+renesas@ideasonboard.com>
@@ -47,31 +47,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Kieran Bingham <kieran.bingham@ideasonboard.com>
+The RCAR_MIPI_DSI uses the DRM_MIPI_DSI interface.
 
-Signed-off-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
+Ensure that it is selected when the option is enabled.
+
+Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 ---
- drivers/gpu/drm/rcar-du/Makefile | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/rcar-du/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/rcar-du/Makefile b/drivers/gpu/drm/rcar-du/Makefile
-index adc1b49d02cf..286bc81b3e7c 100644
---- a/drivers/gpu/drm/rcar-du/Makefile
-+++ b/drivers/gpu/drm/rcar-du/Makefile
-@@ -19,7 +19,7 @@ obj-$(CONFIG_DRM_RCAR_CMM)		+= rcar_cmm.o
- obj-$(CONFIG_DRM_RCAR_DU)		+= rcar-du-drm.o
- obj-$(CONFIG_DRM_RCAR_DW_HDMI)		+= rcar_dw_hdmi.o
- obj-$(CONFIG_DRM_RCAR_LVDS)		+= rcar_lvds.o
--obj-$(CONFIG_DRM_RCAR_MIPI_DSI)	+= rcar_mipi_dsi.o
-+obj-$(CONFIG_DRM_RCAR_MIPI_DSI)		+= rcar_mipi_dsi.o
+diff --git a/drivers/gpu/drm/rcar-du/Kconfig b/drivers/gpu/drm/rcar-du/Kconfig
+index 8cb94fe90639..8145c6d4cbc8 100644
+--- a/drivers/gpu/drm/rcar-du/Kconfig
++++ b/drivers/gpu/drm/rcar-du/Kconfig
+@@ -41,6 +41,7 @@ config DRM_RCAR_LVDS
+ config DRM_RCAR_MIPI_DSI
+ 	tristate "R-Car DU MIPI DSI Encoder Support"
+ 	depends on DRM && DRM_BRIDGE && OF
++	select DRM_MIPI_DSI
+ 	help
+ 	  Enable support for the R-Car Display Unit embedded MIPI DSI encoders.
  
- # 'remote-endpoint' is fixed up at run-time
- DTC_FLAGS_rcar_du_of_lvds_r8a7790 += -Wno-graph_endpoint
 -- 
 2.30.2
 
