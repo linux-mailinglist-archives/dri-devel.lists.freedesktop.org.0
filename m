@@ -1,118 +1,120 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53D3545F285
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Nov 2021 17:55:07 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6475845F28A
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Nov 2021 17:55:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B33C6FA98;
-	Fri, 26 Nov 2021 16:55:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 09B876FA9C;
+	Fri, 26 Nov 2021 16:55:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from NAM04-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam08on2049.outbound.protection.outlook.com [40.107.101.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4D37D6FA97
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Nov 2021 16:55:00 +0000 (UTC)
+ (mail-mw2nam08on2040.outbound.protection.outlook.com [40.107.101.40])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E628D6FA99;
+ Fri, 26 Nov 2021 16:55:01 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nk0NBjYXJe7o7wgI4cL0c0J9mhb+nkODgZ7uSxAZuE5n8a5PjAN0qlVNQSmMQSgYVU2Ws3dAGIWPtFz/xgrO5MSxlKSsWSRBtz5dzrUlveqwht/xsv6jaVBWJPSq8b2vTbqk7tmFbw7fchJIhhjRy0f8r9t6T49Esqd0r7AEcDL0gabjtnY3B5y/RmiF8KR5xs8JNb+whjaT+sfg3uUw0Jq217C3fYdVtMDBKFB3joHbzElcQiS1Brtfbv3G0vCnY/QjbWo3EyXQsvy5zNpIxOVhZ23kwLcs30N7dd2VQ++/wp8gISqZ+aGbDJoBeWbTB9aOMmTS0hCGj4p4O5n+og==
+ b=UE0v+0nlK3wysib55ZxW3RbC55JgA9WcEfpLGYdnoYfAPS+NThKpfgNZPP8PXv55OGrWBxJHpWbvMc73SUQqFdXlW+7K1knHe9MdqXFf4YIOZ3nOWO1XqLMd1UFixXbrr2oSuUDgsm4BR8FKV6YTYyre2Hd+xuqcF/+/5qcGq2vejoXRRCyWrbiaeDSds3m9ZEj5riG5ZhUYe7QiU1gsbUXHSGQbUkGhEr5zEN3g99+et3F6EBxzPaN8FcStrBYjat8GOWkStpNchuq4A1ahA23XiVeGVVujKiDh3Zj7mwQOnJhWlqF+DJ6iuRJyKjhVKDRvlYD8h+lXxlOlYhD1JQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LuSpiFTxGZe9Pm9Fnaxwd5mKa0DaIysH3pCWS/i7nwY=;
- b=bJHJg4VnAe82tsHKxH1YpXFBhw4OmH0d2n0GJytGS2mOjkMSIenDLkyZyh34fhzdomxJRjQ2iAd9Tm4D3CluVC1Bx9GrHZdEdyOfECwc2BFSJx37REtDKBry4tILT3USv/sbXnr1vOaxRL5XUxfdR01fVaZwS5SYbI1gvGA89pgVqAtqFGeW8pR3bHOb8KY2s24gNzWPJ35UQqiS/ZhQtA6v9cuQFZ0W6ZHdaeB9ALbeQvYWucUKmfm/Dp58duc27gQNdh5A5a3ckkFW6JtynvM9Kh1YJ7f37VeLMp5jwinJ88p/EFWybtIGhvfmB8JEncVVYEKNuiwNtx5NhATVmg==
+ bh=D2Jr8DV89Io8K8/io+1CoIWJu5JYJdHqtsT92ES4W/A=;
+ b=CGHD80xkOPWj+1J58uMZW0zQ5sQKAtaeW2PzEYrHKAtctu/vE8BG2cD/aKRpV1mxlawwPhyWXq+E9y/CS/lAissaSbhI0WSjhTcxUO1hr6SKq+qzMy3x0Jefej5rAszo/j+UblCxxGpXZBFz9+yeapPXyyZkMZASzHUydJqzIT1w3gYTCEO4WEblsdAlXVfdQpVSnOJA4easejitEbfi+1E/kM2RY2U/pPn0A97TmsWQ/SRyuontcQU9hYEBsY/v2m1J+iYUz3rZVQbbmSK/NQxY8K42CIS3+2pADuvZJx7qN+OVeQ8zd2ij+mAhiIAQ0cueR3/8Z+BMhY24RdDWyA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LuSpiFTxGZe9Pm9Fnaxwd5mKa0DaIysH3pCWS/i7nwY=;
- b=ECTN3f0cAlhbKnJRKFtx39HkczJJRZYSKGCsrBxsmJUaS9rkjrg0EwPRUxw8TfRqJMciw++UzVmxZ/37u6wqFu1ccz7S5xJD8gZOFo28h5wW3ryY6OG7HGmAPGVfiOiiSNgxP3XXCZQQ56EU3YtGqrYSpvM14mvFJwvxVyJ33O8=
-Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
- header.d=none; lists.freedesktop.org;
- dmarc=none action=none header.from=amd.com;
+ bh=D2Jr8DV89Io8K8/io+1CoIWJu5JYJdHqtsT92ES4W/A=;
+ b=Ek8O8E35tOF00+J4KyvWy+b5PrTjZ6olijYognsAoErXNwt/oSabBzHuGk7aK2YsXYM6HALPalkkHumh2RU4CCFUr1/YIel++ewG6cZ3QHNDQBKXs/DdZUArN5crBO/ghiqPu6G5lR/fD/c1YIjQdl+qxE30p4DUjwM9O3/zOe0=
+Authentication-Results: intel.com; dkim=none (message not signed)
+ header.d=none;intel.com; dmarc=none action=none header.from=amd.com;
 Received: from CO6PR12MB5427.namprd12.prod.outlook.com (2603:10b6:5:358::13)
  by MW5PR12MB5569.namprd12.prod.outlook.com (2603:10b6:303:196::9) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4523.14; Fri, 26 Nov
- 2021 16:54:58 +0000
+ 2021 16:55:00 +0000
 Received: from CO6PR12MB5427.namprd12.prod.outlook.com
  ([fe80::e492:c86b:9906:1b46]) by CO6PR12MB5427.namprd12.prod.outlook.com
  ([fe80::e492:c86b:9906:1b46%7]) with mapi id 15.20.4734.023; Fri, 26 Nov 2021
- 16:54:58 +0000
-Message-ID: <26abc3eb-c50e-8f89-ccc9-ad96f1177987@amd.com>
-Date: Fri, 26 Nov 2021 11:54:55 -0500
+ 16:55:00 +0000
+Message-ID: <51250bb9-8e3b-a008-e457-429759c94271@amd.com>
+Date: Fri, 26 Nov 2021 11:54:57 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.3.2
-Subject: Re: [i-g-t 00/14] Add IGT support for plane color management
+Subject: Re: [i-g-t 03/14] kms_color_helper: Add helper functions for plane
+ color mgmt
 Content-Language: en-US
-To: dri-devel@lists.freedesktop.org
+To: Bhanuprakash Modem <bhanuprakash.modem@intel.com>,
+ igt-dev@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 References: <20211115094759.520955-1-bhanuprakash.modem@intel.com>
- <20211118115002.14003184@eldfell>
+ <20211115094759.520955-4-bhanuprakash.modem@intel.com>
 From: Harry Wentland <harry.wentland@amd.com>
-In-Reply-To: <20211118115002.14003184@eldfell>
+In-Reply-To: <20211115094759.520955-4-bhanuprakash.modem@intel.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: YQBPR0101CA0133.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c01:e::6) To CO6PR12MB5427.namprd12.prod.outlook.com
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: YQBPR0101CA0159.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c01:e::32) To CO6PR12MB5427.namprd12.prod.outlook.com
  (2603:10b6:5:358::13)
 MIME-Version: 1.0
 Received: from [192.168.50.4] (198.200.67.104) by
- YQBPR0101CA0133.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:c01:e::6) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4734.23 via Frontend Transport; Fri, 26 Nov 2021 16:54:57 +0000
+ YQBPR0101CA0159.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:c01:e::32) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4734.19 via Frontend
+ Transport; Fri, 26 Nov 2021 16:54:59 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 5aef68cc-a497-408c-55b0-08d9b0fd7a86
+X-MS-Office365-Filtering-Correlation-Id: 28cdb816-ebf0-4559-607c-08d9b0fd7c19
 X-MS-TrafficTypeDiagnostic: MW5PR12MB5569:
-X-Microsoft-Antispam-PRVS: <MW5PR12MB5569FD8A694CE6619E4F8FD38C639@MW5PR12MB5569.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-Microsoft-Antispam-PRVS: <MW5PR12MB5569C84E734741B474B602CC8C639@MW5PR12MB5569.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1824;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ExYh0IkQMjhEV4nm25OVyzDSsDmp1UBTcN67Sjcl3WDUIvjXbR9k6JUnFAwX0eYn597/3YFm3L1Cq++YcP8HPk8or02q6db91h4jpRYGzsLqrFZkUNaEh3p5w4oDw7DpoCmWUHRud3vKzpK0eo6DBPXxPQjguxj2An5KDV1/BwXkXBT2s72PmgXTIYTBF2WYMx0Ymt/LX43ZSWyCP9I6EGFg7jM5d1cg1mmdnPwHOFZiFfX2KUIGQ1H8J3+XdILjUU3FLSDw+JxSu7jGHE7Btz+3q7nZ1KCpbEbUxtllpKzoUKS7b0GxpIf0XJTosz1qHJKuaRMRETSltd+YTuS8IsMfkGsKXTethcCfeJU23mnebrFjXMaFAgiGqr3KMW7nuWvISq0wSUlmcAvbD6mn4kPFN3ztFo8TDoOprp4h/7mNLTltQAgsHFaBl6hf7/wjm7JjgWLp/Oo8Hex4ioP3WDY0Gt3T32t9fyYdRjncbYPUFs0KiBqJ0euNEUfyUer9memoyqlZeByif8AXwL9Z6GI95j2+WttO8kA0yivN3bySYTX7+G78V6R9Mn9TYnlflp9r5xCoNCsQTLJlrj6bqUP+ze71sfPzXFzRNZQZAwaJJ457g6MYpswETR3icgMm/Y9LSaav7YOhGQPopPSGuhhYogF1wO7/5c01B8EkqR0oz5ILE7nvfaRGsqYStbJprD74xqkn+/YazPd4mZg89MEmuV1EGGrIB5glGn0zn5jGhckW2rWKYfKLlrWBYu1r
+X-Microsoft-Antispam-Message-Info: HLmk9r3DXQa9XI+KiXHpomDydnjrzhzR6NTDNnQbbbl9KPUu89RyUT6rHRWGDsld7D4y84/5JW2uMGC1Zwqbqo3/2VTxmU3+9rmiiQ4eX0QrlefS2DYmtF/xI1V01XljvDTkN3z+Ug8xxSfROyuJVA5MQohTMLuX7lukvDsx92ZfyBGTQeIJhabG1VmpB1ImpEkfL8JAj0xJXhZIH33S2axINMHW/n8GeZqUtN7Nd54sM1VMFoJqF+x/XMlRv8Bqe1ndfbE+b+CUp2JSmWWze7XXNQNsYIVajVaRlWov1ChTrA7zj0ED0OGr28UnX9IOFzyLsDXh6/CFO124aTRZ5jjsA5Lz+NEr/d07IUg1jXs0nh8BaqxBets6GAM1NdUtorf9PntiuR7NxiTW0b+FNEAmeiOyUn+xHtKSDhbx0D7iFRMyj8l0hC1GEnh8GC4WHkyN7mkGryRRh7AMgza9C3pyMVHW0QQpJZtXDXZiBU7pu9DtoztojOKXyMrghCgSG+AzGdoD+c3pCN3lgy4ZskzvB3ekUh44LPPXCx/Xt2RLSqR1HvhfXTZVjR9W8nd03Wa3teXJLYYO4mW8qHBXG1dWSpUU0YZrTZvrMKw9qxO/gkIMry7gpIEpF6WIHXf2mM9ds0SYhIleBNdGcALJNaOzkvhMaGcdZmMqbVEqchNezs3JibGAkKOhymi7ZcF+bktg5LFduG56IcrmYQ+uTnjhnU/iwb4Ve0umy+hpWWk=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:CO6PR12MB5427.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(86362001)(53546011)(26005)(31696002)(186003)(31686004)(38100700002)(66946007)(66476007)(66556008)(16576012)(966005)(508600001)(2906002)(36756003)(316002)(44832011)(8676002)(956004)(8936002)(6916009)(6486002)(4001150100001)(2616005)(83380400001)(5660300002)(43740500002)(45980500001);
+ SFS:(4636009)(366004)(86362001)(53546011)(54906003)(26005)(31696002)(186003)(31686004)(38100700002)(66946007)(66476007)(66556008)(16576012)(508600001)(2906002)(36756003)(316002)(44832011)(8676002)(956004)(8936002)(6486002)(4001150100001)(2616005)(4326008)(5660300002)(43740500002)(45980500001);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Z0p1NDVVYmwxT243WTRHL04yaDdxTWZuQ0N5ZnpidXJRYm9Ec1g1ZUdqc25X?=
- =?utf-8?B?WFZJR2JaUWV6cElGTytHazdsVnlvL3RkUVdaeGhUSFVDNHFoRXh1OUpLZXkz?=
- =?utf-8?B?Z2haMUVYVU5TSHBtby95a1dSbDFKUzd0QXBjaFVwcTVFTHEwVUlFL3BKamtu?=
- =?utf-8?B?bWszcHdqOTZsM3hRZFQ1a0dLV3hqb0lVUzdUblYraU1EYUJ0UHZma3NuYXZ5?=
- =?utf-8?B?Q1VKK3UrYldIMHdQcm1YemtNcmJoOHlwME9IN3FhMzRsZUJ3OXloSURER1BL?=
- =?utf-8?B?YnBNZys5dDZPbXY5TEs1V0J4dDcxc1pGTXJOa0RabVRxQjZBSWkyS3BwRGVo?=
- =?utf-8?B?eWhIMVZ4UjVEN0tQaFlhUmluN1gxb3BPV20wdHBCUTB5aHlwVHN5Q1h0b2px?=
- =?utf-8?B?SmR4L1BNYk9LVzcvamlGNVJRd2VaYkZSYUFwbVVlMDdMVk5iV2pySVcxR3BC?=
- =?utf-8?B?SkhwWTNnQnRLd1pNNDlDVjBpRFZ4bXpLbmx0RHFJY0k1R0lrdWcybnJoTE5r?=
- =?utf-8?B?bFovRnUzbDdjTlBNUDgvUmJDRHhwNlBoMWpwSTR1WDd5UVNmak1SV05EYlhE?=
- =?utf-8?B?aGp3OFlYR0l0MzZkZFF2TmdBeTNmcmVFblJvVEhjbitqMzhtMU1PUnpBOSta?=
- =?utf-8?B?VmY4RUtENmdYS2NGYWptRmJQSnlHRUY3YkFKdHZnTTVhdlVFUmdNNGZzQUs1?=
- =?utf-8?B?Y1hWbkZmYm9iQkp2cWEyeGdCeXNFRjYrU2k3UEtsZGlhNHJHVy9YT1Z3U3d1?=
- =?utf-8?B?RXF3bzJNLzN0UStxZDlFaFVILzNrVHp3QUd3T21rQzh4UzdyTm1GTHF3VHNZ?=
- =?utf-8?B?a3ByNC9DellZeWNJdmswRjRrODNTS09NeGtpT1JzY1lKRTU2UGRPVmpGWk9y?=
- =?utf-8?B?RUhSUEI1U1hHSFR2R3ZRenNyWGR6Tkd5d25UUXJSeE9yOGdEN2ZteU1aOWpU?=
- =?utf-8?B?V014TmM5cjZvd2l1YzhvTUowQ1RDRHB2SWJvbWZ4NWU1bHMrZ2tNVitKYktu?=
- =?utf-8?B?QjFoTkxhaVBCL29WRXpVaFBhN3hFTFBFaVRrTEU5V1RGVzlaU0VoR0VuUlcv?=
- =?utf-8?B?dGZNd3VDdGRzeEJBcnkyUzMvWHAwYTY1anlTVHlHM2pxc2pRRG1hbTg2L3Z4?=
- =?utf-8?B?WE50bFRBM3dqSkNIYmpjV2tQUFhLaUZuWFErc09XdVpFWnk2L0FGOVJnbmZI?=
- =?utf-8?B?T0hsTnphWSs4TUg3L3dlSW51KzVRUm9KdllNN2Q2WkJZS0JyK0VpamJuZ3lW?=
- =?utf-8?B?NWUxNmFVOWsvdThNTnh5YU1UdjdhNWIwV2FhRURUNVlJUWYzSzYvd0E0b2o2?=
- =?utf-8?B?dnZpTDM2cnV6aWowczR4Sm1tdmxiMmE5RDV1TFUrQy9xWHNvQjVzT1NhUmll?=
- =?utf-8?B?OWx4Y1JFcXdZMnEydTVvYlFNREdFdHEzVkg0K2c2VGNQOVdOYlNiS3lwd0xs?=
- =?utf-8?B?bWhQT2dEM2dnTW5oOGFXbThVOUFpcFhKa3BBcHN4WDdGSmpoWjVjemt2VUwy?=
- =?utf-8?B?ZG1IZ1dQTmdnUmJENERQUWZocXlhWVpoTHp3LzE5VUZBWWpPYnZPNndDaUN6?=
- =?utf-8?B?QXF4SndmSWU3T3Fpd2xuK01QV2tSRjlXOXg5d3RJZkVkT1hPUXdxQkxVdnZS?=
- =?utf-8?B?UUhucC9BYzJEdnY3UFhiNXQ5VjNpN2c5WlNhTkpQcTd0QnhXR2IwZ0loNEF1?=
- =?utf-8?B?MDU4eHBHak84WDJjdjA5dlU4RVBuSElpNzJMWForS09Zdm13UHdJeHZWcTJk?=
- =?utf-8?Q?k40EVaNZCncgFU9K9VdZL61ekTxMcWcJfK1Qdiw?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WUdQRWFWWHlnWEs4N1V2eGRYaHQvbS8zbFpKZ3YwYlp3a2dyMXR2TXhDTVdh?=
+ =?utf-8?B?U052dm02TUFoekRGTmd4Rk5UQVdqa1lodHM2SjloSGFjRUVoZUZxVjBQWXdQ?=
+ =?utf-8?B?Vy9Idkg3OE1kNjU3VG52NUovNUtZUTV4Q0RoTUxPMElFaXBYK2FxZzFGNVdv?=
+ =?utf-8?B?amtLdDJRNjdKWTNocExlWEwrVHF1bXFETGxlVTBIeE4vQ3RXdk03bnFNb0tE?=
+ =?utf-8?B?RERwd3FpOWE1VXdMVHdia3Y0emtHbnBoUStkdUhnNnVhY3BiSUdmU0R4akZQ?=
+ =?utf-8?B?cWNwanRyUmdTR2VKV29zd1kyVm51WDRhcXdGVy9yTnVwLzFWS3dNM2hveCt1?=
+ =?utf-8?B?c09zYW1KTUVwSlJFNWNKbnM2VnVZUXVBYzg1UmZsc1paR2JKTURMTW9SVTRR?=
+ =?utf-8?B?UU8xcXREV01md3EwdVBmTFRldzRVQlRXeUF5M3RiUWI2S2hjc25VV1BVblUy?=
+ =?utf-8?B?cFNXNzR4Vm02akVaanVnMXBxMGdlVng0VC8ydGh6RXlSUFZIbDZpWldXTFFY?=
+ =?utf-8?B?KzJwVlBkcmU1RlpqN2NzUWYxQkVtSHBrRFQ3TXNFUVFtbVBNOTNTeWJ0T2xa?=
+ =?utf-8?B?a1p2WkpvSUlCcVpkS2tyaGFHVzV3MFZFZnhqWFBTV2hNM2tacEkxZHk5RTVH?=
+ =?utf-8?B?VERpTHNFU3g3cEZTU21uT21zR1UwMlBBdDV1bzJKSWE0ODhjaHZJc0FHYUlm?=
+ =?utf-8?B?VHZwRGxnZHIwVFB6SWltVjFaallETnNRa1lYaUR2b0l6ZS9PVExZNVVCUk9x?=
+ =?utf-8?B?TjVSNkx6S01aRlB0cWFoV0pZUWxIK3ZidGpTQmUyZk1hZWErT2c5Vmh1bE9o?=
+ =?utf-8?B?Z2Z2YTlqUW0wa3l1WXAzT2p1WmdNUXBBOHFqT1lHNEdXMU1WRGx4dms3VTlV?=
+ =?utf-8?B?WVl1VGc4eUplOVBiWThCUHY4WmxLQ3JvRjV2Vmk5Zlhhd1hRNjhlRkgvb1J6?=
+ =?utf-8?B?Qzgxb0JPaDZjVEZScTh4OFpMVmEvYmViTjJiNllDWHE2MXJ5bHdSTmxCdE5u?=
+ =?utf-8?B?ckNqZHJrdjd4cU5BVzNIMWRpV3V0eHRIdDY4ckhZS01lMzQvRTBMRERQNEFV?=
+ =?utf-8?B?TUJNbGI1TFY2VGhGODF3Yy9IQ0xpR3FiN01hUEozR1BaSGxodVpzY3lzT0ls?=
+ =?utf-8?B?Q2hWRkkyVGJVbGRyM3krYjd2dEh6YjRGd0daZmI3UVZqS3dleWhweXpsQ1Js?=
+ =?utf-8?B?U2hNY1dUUGswTDN0bWFTRjk3ZERRSDlEZlNJeWlTZ0dmMFB0MnpMUS9hOTFJ?=
+ =?utf-8?B?NnpBT1ZCTlVWNE9VU2tLa0NJYkdnQjZISDVHVndUbjRDYWU5dWZhUjBtYzBP?=
+ =?utf-8?B?TU42M1ViUUVsU1N4ZmROb0NienZ6OWQrdW8xM1J0WDkrR00xY0xQRWprdDZi?=
+ =?utf-8?B?ejZEWVRYdzFkNWx0ZnhDY3UwSC9WOUkzcUljRDhvWDJST3RDYjVnZ0FCcjdh?=
+ =?utf-8?B?cWpMOFpGQUE2Y1VmaHFEOFZSYlNhNU94alMxcEgvTDBnODFBOEJ1MmZBbmJu?=
+ =?utf-8?B?S0tLcXV0aEhJSmVhaHg4dGd3dWZ4WGI4aWNOMGV1ZHRzd2xqR0RzVEJ4aEVp?=
+ =?utf-8?B?WG5iSXExMnNNRkpuQmFHQTh0MkFpQXIybnJaWE1iM2ExY2xJSTdIWi9DaWll?=
+ =?utf-8?B?YUVQcWNWNnFmNFhUazFaU3J1bGF4a1Q2aThuN1hMTXRBditRcTNjZStlcTJa?=
+ =?utf-8?B?d3VvS0wrYWxhRVJDR29iVWd2M3NmaEI1SWtxNDMyV2dVdUZxV09EbFZwVmUv?=
+ =?utf-8?Q?7slapGeu7bc0OmjBFPzrfv9PGMY2cjA7NFc0Bjn?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5aef68cc-a497-408c-55b0-08d9b0fd7a86
+X-MS-Exchange-CrossTenant-Network-Message-Id: 28cdb816-ebf0-4559-607c-08d9b0fd7c19
 X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5427.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Nov 2021 16:54:58.1013 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Nov 2021 16:55:00.6909 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: AVBfeekD/ElQ/8GHGTrpy6rEuoEojQE9awIsyKtxEwowP7L7KMQbk+GKML12b9YWO38CRGAZVv2QqXrrRMDoVA==
+X-MS-Exchange-CrossTenant-UserPrincipalName: t6kpfYsh3y+5sYPARg5SF5B0r6Tjxa7OVR0n+rMzp/7+Rqy24MGKqKHPDCTD1RvtAAB4SZrEKgXLNdtYluTMrg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW5PR12MB5569
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -126,97 +128,280 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Uma Shankar <uma.shankar@intel.com>,
+ Juha-Pekka Heikkila <juhapekka.heikkila@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 2021-11-18 04:50, Pekka Paalanen wrote:
-> On Mon, 15 Nov 2021 15:17:45 +0530
-> Bhanuprakash Modem <bhanuprakash.modem@intel.com> wrote:
+On 2021-11-15 04:47, Bhanuprakash Modem wrote:
+> Add helper functions to support Plane color management properties.
 > 
->> From the Plane Color Management feature design, userspace can
->> take the smart blending decisions based on hardware supported
->> plane color features to obtain an accurate color profile.
->>
->> These IGT patches extend the existing pipe color management
->> tests to the plane level.
->>
->> Kernel implementation:
->> https://patchwork.freedesktop.org/series/90825/
+> Cc: Harry Wentland <harry.wentland@amd.com>
+> Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> Cc: Juha-Pekka Heikkila <juhapekka.heikkila@gmail.com>
+> Cc: Uma Shankar <uma.shankar@intel.com>
+> Signed-off-by: Bhanuprakash Modem <bhanuprakash.modem@intel.com>
+> ---
+>  tests/kms_color_helper.c | 173 +++++++++++++++++++++++++++++++++++++++
+>  tests/kms_color_helper.h |  29 +++++++
+>  2 files changed, 202 insertions(+)
 > 
+> diff --git a/tests/kms_color_helper.c b/tests/kms_color_helper.c
+> index d71e7bb2e6..c65b7a0f50 100644
+> --- a/tests/kms_color_helper.c
+> +++ b/tests/kms_color_helper.c
+> @@ -241,6 +241,150 @@ void disable_prop(igt_pipe_t *pipe, enum igt_atomic_crtc_properties prop)
+>  		igt_pipe_obj_replace_prop_blob(pipe, prop, NULL, 0);
+>  }
+>  
+> +drmModePropertyPtr get_plane_gamma_degamma_mode(igt_plane_t *plane,
+> +				enum igt_atomic_plane_properties prop)
+> +{
+> +	igt_display_t *display = plane->pipe->display;
+> +	uint32_t prop_id = plane->props[prop];
+> +	drmModePropertyPtr drmProp;
+> +
+> +	igt_assert(prop_id);
+> +
+> +	drmProp = drmModeGetProperty(display->drm_fd, prop_id);
+> +
+> +	igt_assert(drmProp);
+> +	igt_assert(drmProp->count_enums);
+> +
+> +	return drmProp;
+> +}
+> +
+> +struct drm_color_lut_ext *create_linear_lut(segment_data_t *info)
+> +{
+> +	uint32_t val, segment, entry, index = 0;
+> +	uint32_t max_val = 0xffffffff;
+> +	struct drm_color_lut_ext *lut = malloc(sizeof(struct drm_color_lut_ext) * info->entries_count);
+> +	igt_assert(lut);
+> +
+> +	for (segment = 0; segment < info->segment_count; segment++) {
+> +		uint32_t entry_count = info->segment_data[segment].count;
+> +		uint32_t start = info->segment_data[segment].start;
+> +		uint32_t end = info->segment_data[segment].end;
+> +
+> +		for (entry = 1; entry <= entry_count; entry++) {
+> +			val = (index == 0) ? /* First entry is Zero. */
+> +				0 : start + entry * ((end - start) * 1.0 / entry_count);
+> +
+> +			lut[index].red = lut[index].green = lut[index].blue = MIN(val, max_val);
+> +
+> +			index++;
+> +		}
+> +	}
+> +
+> +	return lut;
+> +}
+> +
+> +struct drm_color_lut_ext *create_max_lut(segment_data_t *info)
+> +{
+> +	int i;
+> +	struct drm_color_lut_ext *lut;
+> +	uint32_t max_val = 0xffffffff;
+> +
+> +	lut = malloc(sizeof(struct drm_color_lut_ext) * info->entries_count);
+> +	igt_assert(lut);
+> +
+> +	lut[0].red = lut[0].green = lut[0].blue = 0; /* First entry is Zero. */
+> +
+> +	for (i = 1; i < info->entries_count; i++)
+> +		lut[i].red = lut[i].green = lut[i].blue = max_val;
+> +
+> +	return lut;
+> +}
+> +
+> +void clear_segment_data(segment_data_t *info)
+> +{
+> +	if (!info)
+> +		return;
+> +
+> +	free(info->segment_data);
+> +	free(info);
+> +}
+> +
+> +segment_data_t *get_segment_data(data_t *data,
+> +				uint64_t blob_id, char *mode)
+> +{
+> +	drmModePropertyBlobPtr blob;
+> +	struct drm_color_lut_range *lut_range = NULL;
+> +	segment_data_t *info = NULL;
+> +	uint32_t i;
+> +
+> +	blob = drmModeGetPropertyBlob(data->drm_fd, blob_id);
+> +	igt_assert(blob);
+> +	igt_assert(blob->length);
+> +
+> +	info = malloc(sizeof(segment_data_t));
+> +	igt_assert(info);
+> +
+> +	lut_range = (struct drm_color_lut_range *) blob->data;
+> +	info->segment_count = blob->length / sizeof(lut_range[0]);
+> +	igt_assert(info->segment_count);
+> +
+> +	info->segment_data = malloc(sizeof(struct drm_color_lut_range) * info->segment_count);
+> +	igt_assert(info->segment_data);
+> +
+> +	for (i = 0; i < info->segment_count; i++) {
+> +		info->entries_count += lut_range[i].count;
+> +		info->segment_data[i] = lut_range[i];
+> +	}
+> +
+> +	drmModeFreePropertyBlob(blob);
+> +
+> +	return info;
+> +}
+> +
+> +void set_plane_gamma(igt_plane_t *plane,
+> +		char *mode,
+> +		struct drm_color_lut_ext *lut,
+> +		uint32_t size)
+> +{
+> +	igt_plane_set_prop_enum(plane, IGT_PLANE_GAMMA_MODE, mode);
+> +	igt_plane_replace_prop_blob(plane, IGT_PLANE_GAMMA_LUT, lut, size);
+> +}
+> +
+> +void set_plane_degamma(igt_plane_t *plane,
+> +		char *mode,
+> +		struct drm_color_lut_ext *lut,
+> +		uint32_t size)
+> +{
+> +	igt_plane_set_prop_enum(plane, IGT_PLANE_DEGAMMA_MODE, mode);
+> +	igt_plane_replace_prop_blob(plane, IGT_PLANE_DEGAMMA_LUT, lut, size);
+> +}
+> +
+> +void set_plane_ctm(igt_plane_t *plane, const double *coefficients)
+> +{
+> +	struct drm_color_ctm ctm;
+> +	int i;
+> +
+> +	for (i = 0; i < ARRAY_SIZE(ctm.matrix); i++) {
+> +		if (coefficients[i] < 0) {
+> +			ctm.matrix[i] =
+> +				(int64_t) (-coefficients[i] *
+> +				((int64_t) 1L << 32));
+> +			ctm.matrix[i] |= 1ULL << 63;
+> +		} else
+> +			ctm.matrix[i] =
+> +				(int64_t) (coefficients[i] *
+> +				((int64_t) 1L << 32));
+> +	}
+> +
+> +	igt_plane_replace_prop_blob(plane, IGT_PLANE_CTM, &ctm, sizeof(ctm));
+> +}
+> +
+> +void disable_plane_prop(igt_plane_t *plane, enum igt_atomic_plane_properties prop)
+> +{
+> +	if (igt_plane_has_prop(plane, prop))
+> +		igt_plane_replace_prop_blob(plane, prop, NULL, 0);
+> +}
+> +
+>  drmModePropertyBlobPtr
+>  get_blob(data_t *data, igt_pipe_t *pipe, enum igt_atomic_crtc_properties prop)
+>  {
+> @@ -274,6 +418,19 @@ pipe_set_property_blob_id(igt_pipe_t *pipe,
+>  	return ret;
+>  }
+>  
+> +static int
+> +plane_set_property_blob(igt_display_t *display,
+> +			igt_plane_t *plane,
+> +			enum igt_atomic_plane_properties prop,
+> +			void *ptr, size_t length)
+> +{
+> +	igt_plane_replace_prop_blob(plane, prop, ptr, length);
+> +
+> +	return igt_display_try_commit2(display,
+> +				       display->is_atomic ?
+> +				       COMMIT_ATOMIC : COMMIT_LEGACY);
+> +}
+> +
+>  int
+>  pipe_set_property_blob(igt_pipe_t *pipe,
+>  		       enum igt_atomic_crtc_properties prop,
+> @@ -319,6 +476,22 @@ invalid_lut_sizes(data_t *data, enum pipe p,
+>  	free(lut);
+>  }
+>  
+> +void
+> +invalid_plane_lut_sizes(igt_display_t *display,
+> +			igt_plane_t *plane,
+> +			enum igt_atomic_plane_properties prop,
+> +			size_t lut_size)
+> +{
+> +	void *lut = malloc(lut_size * 2);
+> +	igt_assert(lut);
+> +
+> +	igt_assert_eq(plane_set_property_blob(display, plane, prop, lut, 1), -EINVAL);
+> +	igt_assert_eq(plane_set_property_blob(display, plane, prop, lut, lut_size + 1), -EINVAL);
+> +	igt_assert_eq(plane_set_property_blob(display, plane, prop, lut, lut_size - 1), -EINVAL);
+> +
+> +	free(lut);
+> +}
 
-Are these tested and passing on any current or future Intel HW?
-
-> Hi,
-> 
-> it's really good to get these, but I am worried that the tests here may
-> be too easy to pass when trying to ensure the KMS features work
-> correctly and in the way real userspace is going to be using them.
-> 
-
-In particular per-plane color management is mainly beneficial when
-using HW composition, i.e. plane blending. I don't see tests for
-plane blending.
-
-Another thing that would be good to test is to make sure the order of
-operations is as documented in the KMS API, i.e. degamma -> CTM -> gamma.
-In order to test this it might be good to create a test case that sets
-these operations up in a way that only yields the expected outcome
-if they are implemented in this order.
-
-Last, and likely not easy to test, is the precision or accuracy of the
-PWL though I am unsure whether we can even test this at all with CRC.
-It looks like we might be able to test this with the Chamelium to some
-degree.
-
-> I also found some things that looked hardware-specific in this code
-> that to my understanding is supposed to be generic, and some concerns
-> about UAPI as well.
-> 
-
-I left some comments on intellisms in these patches.
-
-Do you have any specifics about your concerns about UAPI?
+This might make more sense as part of patch 7, though I don't have a
+strong preference.
 
 Harry
 
-> 
-> Thanks,
-> pq
-> 
->> Bhanuprakash Modem (11):
->>   HAX: Get uapi headers to compile the IGT
->>   lib/igt_kms: Add plane color mgmt properties
->>   kms_color_helper: Add helper functions for plane color mgmt
->>   tests/kms_color: New subtests for Plane gamma
->>   tests/kms_color: New subtests for Plane degamma
->>   tests/kms_color: New subtests for Plane CTM
->>   tests/kms_color: New negative tests for plane level color mgmt
->>   tests/kms_color_chamelium: New subtests for Plane gamma
->>   tests/kms_color_chamelium: New subtests for Plane degamma
->>   tests/kms_color_chamelium: New subtests for Plane CTM
->>   tests/kms_color_chamelium: Extended IGT tests to support logarithmic
->>     gamma mode
->>
->> Mukunda Pramodh Kumar (3):
->>   lib/igt_kms: Add pipe color mgmt properties
->>   kms_color_helper: Add helper functions to support logarithmic gamma
->>     mode
->>   tests/kms_color: Extended IGT tests to support logarithmic gamma mode
->>
->>  include/drm-uapi/drm.h      |  10 +
->>  include/drm-uapi/drm_mode.h |  28 ++
->>  lib/igt_kms.c               |   6 +
->>  lib/igt_kms.h               |   6 +
->>  tests/kms_color.c           | 674 +++++++++++++++++++++++++++++++++++-
->>  tests/kms_color_chamelium.c | 588 ++++++++++++++++++++++++++++++-
->>  tests/kms_color_helper.c    | 300 ++++++++++++++++
->>  tests/kms_color_helper.h    |  45 +++
->>  8 files changed, 1648 insertions(+), 9 deletions(-)
->>
->> --
->> 2.32.0
->>
+> +
+>  void
+>  invalid_gamma_lut_sizes(data_t *data, enum pipe p)
+>  {
+> diff --git a/tests/kms_color_helper.h b/tests/kms_color_helper.h
+> index bb6f0054f3..5a35dcaac1 100644
+> --- a/tests/kms_color_helper.h
+> +++ b/tests/kms_color_helper.h
+> @@ -64,6 +64,14 @@ typedef struct {
+>  	color_t coeffs[];
+>  } gamma_lut_t;
+>  
+> +typedef struct {
+> +	uint32_t segment_count;
+> +	struct drm_color_lut_range *segment_data;
+> +	uint32_t entries_count;
+> +} segment_data_t;
+> +
+> +#define MIN(a, b) ((a) < (b) ? (a) : (b))
+> +
+>  void paint_gradient_rectangles(data_t *data,
+>  			       drmModeModeInfo *mode,
+>  			       color_t *colors,
+> @@ -90,10 +98,31 @@ void set_gamma(data_t *data,
+>  void set_ctm(igt_pipe_t *pipe, const double *coefficients);
+>  void disable_prop(igt_pipe_t *pipe, enum igt_atomic_crtc_properties prop);
+>  
+> +drmModePropertyPtr get_plane_gamma_degamma_mode(igt_plane_t *plane,
+> +	enum igt_atomic_plane_properties prop);
+> +void clear_segment_data(segment_data_t *info);
+> +struct drm_color_lut_ext *create_linear_lut(segment_data_t *info);
+> +struct drm_color_lut_ext *create_max_lut(segment_data_t *info);
+> +segment_data_t *get_segment_data(data_t *data, uint64_t blob_id, char *mode);
+> +void set_plane_gamma(igt_plane_t *plane,
+> +	char *mode, struct drm_color_lut_ext *lut, uint32_t size);
+> +void set_plane_degamma(igt_plane_t *plane,
+> +	char *mode, struct drm_color_lut_ext *lut, uint32_t size);
+> +void set_plane_ctm(igt_plane_t *plane, const double *coefficients);
+> +void disable_plane_prop(igt_plane_t *plane, enum igt_atomic_plane_properties prop);
+> +void invalid_plane_lut_sizes(igt_display_t *display,
+> +			   igt_plane_t *plane,
+> +			   enum igt_atomic_plane_properties prop,
+> +			   size_t lut_size);
+> +
+>  #define disable_degamma(pipe) disable_prop(pipe, IGT_CRTC_DEGAMMA_LUT)
+>  #define disable_gamma(pipe) disable_prop(pipe, IGT_CRTC_GAMMA_LUT)
+>  #define disable_ctm(pipe) disable_prop(pipe, IGT_CRTC_CTM)
+>  
+> +#define disable_plane_degamma(plane) disable_plane_prop(plane, IGT_PLANE_DEGAMMA_LUT)
+> +#define disable_plane_gamma(plane) disable_plane_prop(plane, IGT_PLANE_GAMMA_LUT)
+> +#define disable_plane_ctm(plane) disable_plane_prop(plane, IGT_PLANE_CTM)
+> +
+>  drmModePropertyBlobPtr get_blob(data_t *data, igt_pipe_t *pipe,
+>  				enum igt_atomic_crtc_properties prop);
+>  bool crc_equal(igt_crc_t *a, igt_crc_t *b);
 > 
 
