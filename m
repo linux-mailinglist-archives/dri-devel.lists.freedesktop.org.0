@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 571B045E489
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Nov 2021 03:32:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B677345E495
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Nov 2021 03:32:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE2566E49B;
-	Fri, 26 Nov 2021 02:32:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E72A6E4C1;
+	Fri, 26 Nov 2021 02:32:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F0A956E49B
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Nov 2021 02:32:06 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 93EC361183;
- Fri, 26 Nov 2021 02:32:05 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 712726E4A5;
+ Fri, 26 Nov 2021 02:32:50 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A7D51611CB;
+ Fri, 26 Nov 2021 02:32:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1637893926;
- bh=KWxXtW72Tj7fGimpSt36yqmxv90yxBqm44E4kmS6tPg=;
+ s=k20201202; t=1637893970;
+ bh=jK80ZHaxoeA8DYw/BapI3GJl6uWcr+lliEp3Ys1Uwmo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=NX6l95a5iwdNnEHgFbFu6Xvl/p+YdoU7xxX2JI8yIr2nccRiYTricHIqKNpwXO9Zo
- 3awovS32Sn6vv2FNSOMjyezKursN4IBkAag9BcRuyrl5Jp75v+5ojFrMwyrPqFxxHT
- muq6pP2FBm0bvMIhPAU+UgP6rqhIBWe+oJtafO19lEyYIwotZpzF5shrrMY7iKYIpM
- +6peBgHF4SaWByiR69UZ/Us6yxvGqan/wfjvvuum11uPhCmnAZqPl4V4jUAF5vVCD7
- g8YGZbIrYbdRfY5vfdfRLZBvuGLXjThlDh4gL+KJq7yAkcElNpziMFsgTFYMQHVwrl
- DlXLUCJ4O0rYg==
+ b=AyI0I4gXmCtTljydgdR6irJ+LgeXzsTSoSQRSTzw/CFHBWKMCGxJF5uM+0mBrtWvC
+ CdPCb8ebi1dbhPeKyi/LMSOCh/PBvW0UdUGk2F6Z7fpaFKOf/o/L78oghwEGFMbVLX
+ LG2aUERT0fX8GivdNCjNH+wHDTPRfY8yy69dHlRLkLkdyXB40MuacvS7VXhiHoSWnz
+ gGBZAHkUDZk2j9JM2GyedYI4ZO+uhGx/6MDN/sfp3coZ/TV+jlCOxoupc/xQsccXih
+ at/yuMo9iaIqBi6h2M3tnxAW2FwA4wnNwqewclCRi1YlM4k6Yr3qw0JLqMlhJdTJcC
+ n1Gv0WGgG2Y4Q==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 05/39] drm/sun4i: fix unmet dependency on
- RESET_CONTROLLER for PHY_SUN6I_MIPI_DPHY
-Date: Thu, 25 Nov 2021 21:31:22 -0500
-Message-Id: <20211126023156.441292-5-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 24/39] drm/amd/pm: Remove artificial freq level
+ on Navi1x
+Date: Thu, 25 Nov 2021 21:31:41 -0500
+Message-Id: <20211126023156.441292-24-sashal@kernel.org>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211126023156.441292-1-sashal@kernel.org>
 References: <20211126023156.441292-1-sashal@kernel.org>
@@ -50,58 +50,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, airlied@linux.ie,
- dri-devel@lists.freedesktop.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
- wens@csie.org, Maxime Ripard <maxime@cerno.tech>,
- Julian Braha <julianbraha@gmail.com>, linux-sunxi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org
+Cc: Sasha Levin <sashal@kernel.org>, Xinhui.Pan@amd.com, airlied@linux.ie,
+ Lijo Lazar <lijo.lazar@amd.com>, amd-gfx@lists.freedesktop.org,
+ luben.tuikov@amd.com, dri-devel@lists.freedesktop.org, darren.powell@amd.com,
+ Alex Deucher <alexander.deucher@amd.com>, Evan Quan <evan.quan@amd.com>,
+ lee.jones@linaro.org, christian.koenig@amd.com, david.nieto@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Julian Braha <julianbraha@gmail.com>
+From: Lijo Lazar <lijo.lazar@amd.com>
 
-[ Upstream commit bb162bb2b4394108c8f055d1b115735331205e28 ]
+[ Upstream commit be83a5676767c99c2417083c29d42aa1e109a69d ]
 
-When PHY_SUN6I_MIPI_DPHY is selected, and RESET_CONTROLLER
-is not selected, Kbuild gives the following warning:
+Print Navi1x fine grained clocks in a consistent manner with other SOCs.
+Don't show aritificial DPM level when the current clock equals min or max.
 
-WARNING: unmet direct dependencies detected for PHY_SUN6I_MIPI_DPHY
-  Depends on [n]: (ARCH_SUNXI [=n] || COMPILE_TEST [=y]) && HAS_IOMEM [=y] && COMMON_CLK [=y] && RESET_CONTROLLER [=n]
-  Selected by [y]:
-  - DRM_SUN6I_DSI [=y] && HAS_IOMEM [=y] && DRM_SUN4I [=y]
-
-This is because DRM_SUN6I_DSI selects PHY_SUN6I_MIPI_DPHY
-without selecting or depending on RESET_CONTROLLER, despite
-PHY_SUN6I_MIPI_DPHY depending on RESET_CONTROLLER.
-
-These unmet dependency bugs were detected by Kismet,
-a static analysis tool for Kconfig. Please advise if this
-is not the appropriate solution.
-
-v2:
-Fixed indentation to match the rest of the file.
-
-Signed-off-by: Julian Braha <julianbraha@gmail.com>
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-Link: https://patchwork.freedesktop.org/patch/msgid/20211109032351.43322-1-julianbraha@gmail.com
+Signed-off-by: Lijo Lazar <lijo.lazar@amd.com>
+Reviewed-by: Evan Quan <evan.quan@amd.com>
+Acked-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/sun4i/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/amd/pm/swsmu/smu11/navi10_ppt.c | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/sun4i/Kconfig b/drivers/gpu/drm/sun4i/Kconfig
-index 5755f0432e774..8c796de53222c 100644
---- a/drivers/gpu/drm/sun4i/Kconfig
-+++ b/drivers/gpu/drm/sun4i/Kconfig
-@@ -46,6 +46,7 @@ config DRM_SUN6I_DSI
- 	default MACH_SUN8I
- 	select CRC_CCITT
- 	select DRM_MIPI_DSI
-+	select RESET_CONTROLLER
- 	select PHY_SUN6I_MIPI_DPHY
- 	help
- 	  Choose this option if you want have an Allwinner SoC with
+diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu11/navi10_ppt.c b/drivers/gpu/drm/amd/pm/swsmu/smu11/navi10_ppt.c
+index b1ad451af06bd..dfba0bc732073 100644
+--- a/drivers/gpu/drm/amd/pm/swsmu/smu11/navi10_ppt.c
++++ b/drivers/gpu/drm/amd/pm/swsmu/smu11/navi10_ppt.c
+@@ -1265,7 +1265,7 @@ static int navi10_print_clk_levels(struct smu_context *smu,
+ 			enum smu_clk_type clk_type, char *buf)
+ {
+ 	uint16_t *curve_settings;
+-	int i, size = 0, ret = 0;
++	int i, levels, size = 0, ret = 0;
+ 	uint32_t cur_value = 0, value = 0, count = 0;
+ 	uint32_t freq_values[3] = {0};
+ 	uint32_t mark_index = 0;
+@@ -1319,14 +1319,17 @@ static int navi10_print_clk_levels(struct smu_context *smu,
+ 			freq_values[1] = cur_value;
+ 			mark_index = cur_value == freq_values[0] ? 0 :
+ 				     cur_value == freq_values[2] ? 2 : 1;
+-			if (mark_index != 1)
+-				freq_values[1] = (freq_values[0] + freq_values[2]) / 2;
+ 
+-			for (i = 0; i < 3; i++) {
++			levels = 3;
++			if (mark_index != 1) {
++				levels = 2;
++				freq_values[1] = freq_values[2];
++			}
++
++			for (i = 0; i < levels; i++) {
+ 				size += sysfs_emit_at(buf, size, "%d: %uMhz %s\n", i, freq_values[i],
+ 						i == mark_index ? "*" : "");
+ 			}
+-
+ 		}
+ 		break;
+ 	case SMU_PCIE:
 -- 
 2.33.0
 
