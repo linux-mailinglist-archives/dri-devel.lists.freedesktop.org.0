@@ -1,63 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DD0D45E3B0
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Nov 2021 01:32:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0931845E3BC
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Nov 2021 01:37:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B6506E200;
-	Fri, 26 Nov 2021 00:32:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F29C16E20E;
+	Fri, 26 Nov 2021 00:37:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com
- [IPv6:2a00:1450:4864:20::22f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D9576E19A
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Nov 2021 00:32:30 +0000 (UTC)
-Received: by mail-lj1-x22f.google.com with SMTP id 207so15363340ljf.10
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Nov 2021 16:32:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=9zxxPurAOayOI5k8xCP1c5Dwmp5PuzCyvgFFBlIyeu8=;
- b=B75/NmrMNxEa1jk+XqTYqmWFQwGwSRzSYogVYVlas6FZgcwF4ZmcgmMS581RJFUKdf
- PuNfI3MVlc5HeL+JiNRVuwHAxhHS/JVisWGKMNKKesZn5EWv9U73cdZRtmOZU4MFTvQo
- CG4EmkLn5Rl4n2Ce+xFBibNAYmNywCGTUfJEHcvNfVtqg0JN3mCiP5gxXOqDwxmkfyFf
- nrg4GCfesAiwVcEvuvqpD/jOskmaa0D/j177ZIiEXrEj5GwyXdyMKxKdU6GI/BUzcsu4
- YWapH7nmcs4uhfLzG1Q+sbz2zD3Gffach5QwV0sziXBU7JueFZHx79Tr9rtc/eYBfU3j
- olGQ==
+Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com
+ [IPv6:2a00:1450:4864:20::22e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 086E36E20E
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Nov 2021 00:37:39 +0000 (UTC)
+Received: by mail-lj1-x22e.google.com with SMTP id t11so15429338ljh.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Nov 2021 16:37:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=nMCkcNkVJHrUMMEDkKpjCXIAHsxHK0m1G/QamSr9K6g=;
+ b=UOqnunqsnMn5D9EP50S6+aOvQtPLUoltWmiTz6HxAhNzfbeySPSOPGeOl6o9gABXgU
+ R4ubclYHdlRX/BhMdfS1jWkG+fx/GwEjHYhLmMyhYRbVU5p2soAScnBgla+f61DspLaW
+ QvobT/wWL/czGrNtFt6a5rHvXebhv8swzGkNZJ6DFxe41OVxtfJs5md2N7rp0rN2Zdx8
+ wMILAGpUX4RVGbQ+122bfZuPENrC4mmZq/HHdW7BujRF/sVVeOFFYgRyChokKnOP9JlX
+ mBxaFOVisanu7dN4p6ozGotLMcmu+jTYYrUalnhR9hvpXuj3j0qijHE1mQwao6xSQv/B
+ xJ5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=9zxxPurAOayOI5k8xCP1c5Dwmp5PuzCyvgFFBlIyeu8=;
- b=0WYSXC9yGvePzwyElUAnauMZBa9NYgNSSx4OZQHgynJCAqnRmItcpXEjJJlTRr8rQ1
- BOOf7jQAv0Nj9kgXH99XLCuuFLyVy+spsqtvC+GMLDGMA0yFMdPfC/7a2iEojjjMeghm
- ksAr6qXgv1foMl5/e6jt0qeiBnOyEBzBIGcFIseuhoE3pXPQC2yT3EGPvxPDRfo1Q8mB
- S1vkwD4P5txOMn3/pDkpZxo388ADugL2Zmfsnvdj8DVfEMcTocsC/dluFFPQUJhGw4xQ
- kSjsD0qOEiAmGcaLDmEh68zE9jSjjRuRETGOW+vnvax0ijVkEz+4f1TGl7kRcUDNRV0r
- F0/g==
-X-Gm-Message-State: AOAM533pNl7pjzvwyzGh1nkM/SDNUzGvNYOVklrFW4oLPUmWyzk7jNsX
- VEd+IPx/+lZtpgKeQwdcRLSiZXNL0ZJNYQ==
-X-Google-Smtp-Source: ABdhPJwtgkGmQFw8MHypVgwxcPXSz6OPwevU2ZFCZ5PdXKjzvDST7ym6kYJ7dKWaImbzOFWxheVuBg==
-X-Received: by 2002:a2e:984f:: with SMTP id e15mr27903691ljj.427.1637886748722; 
- Thu, 25 Nov 2021 16:32:28 -0800 (PST)
-Received: from eriador.lan ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id k13sm417812lfo.300.2021.11.25.16.32.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Nov 2021 16:32:28 -0800 (PST)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Andrzej Hajda <a.hajda@samsung.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Robert Foss <robert.foss@linaro.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@siol.net>
-Subject: [PATCH 2/2] drm/ bridge: tc358762: drop connector field
-Date: Fri, 26 Nov 2021 03:32:27 +0300
-Message-Id: <20211126003227.1031347-2-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20211126003227.1031347-1-dmitry.baryshkov@linaro.org>
-References: <20211126003227.1031347-1-dmitry.baryshkov@linaro.org>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=nMCkcNkVJHrUMMEDkKpjCXIAHsxHK0m1G/QamSr9K6g=;
+ b=epkJnPpIf/r8MkmQTYjqE85Q1n+1P7neLpUybDullKPclS2BRPlOcwtXuHH/etPoJb
+ qpAEaNLSVNZ6IzslZfeVMGt4wjSjX9/nI9p+UB9/OthC4Hl6dw0Nl3r2bcACRsi6MMvy
+ fZYGOWZcfkE0/VYvpP0SZ9adEAyTh0KW4pqn7Z4L+l9waDMVlrUtRpX0s9relrA/nSsu
+ 1yAbanV2I4sQSXwe8lsXnsgsaSniIqZXaJq5Ao2G1TJAc9RWatbecxjsLLJUvcnTXmQ1
+ TJSMQ0YhKO10Ko+fAInoHfyocagI0LVCZkOQffu1Z/Q/Kxc7qAE+7MyFu2lkdOa11amj
+ VwvQ==
+X-Gm-Message-State: AOAM531CwKh45VCEEEu/Jcr44G+pblqUluTa34DZ23bOniViK8lQTWcz
+ ugiVurm/saebyHoScIM3sx8=
+X-Google-Smtp-Source: ABdhPJyRX2L7hSbd3SNG4rggc/Cqlf6BaeolJPYAw1mQLBCAr4IT8k78ET/p4iE+e6YKJMpdWksvAg==
+X-Received: by 2002:a2e:a4ba:: with SMTP id g26mr28851298ljm.152.1637887057377; 
+ Thu, 25 Nov 2021 16:37:37 -0800 (PST)
+Received: from [192.168.2.145] (94-29-48-99.dynamic.spd-mgts.ru. [94.29.48.99])
+ by smtp.googlemail.com with ESMTPSA id e5sm377433lfs.51.2021.11.25.16.37.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 25 Nov 2021 16:37:36 -0800 (PST)
+Subject: Re: [PATCH v4] i2c: tegra: Add the ACPI support
+To: Andy Shevchenko <andy.shevchenko@gmail.com>,
+ Akhil R <akhilrajeev@nvidia.com>
+References: <1637859224-5179-1-git-send-email-akhilrajeev@nvidia.com>
+ <CAHp75VfPPpTNCaM+GhcqZS53ts-20GBzm+4OWLAjND=z79pgxg@mail.gmail.com>
+From: Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <aa63a45d-43a0-9aaf-cad3-2f4f66d707e7@gmail.com>
+Date: Fri, 26 Nov 2021 03:37:35 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
+In-Reply-To: <CAHp75VfPPpTNCaM+GhcqZS53ts-20GBzm+4OWLAjND=z79pgxg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,30 +73,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Jon Hunter <jonathanh@nvidia.com>,
+ linaro-mm-sig@lists.linaro.org, Laxman Dewangan <ldewangan@nvidia.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ linux-i2c <linux-i2c@vger.kernel.org>,
+ linux-tegra <linux-tegra@vger.kernel.org>,
+ Christian Koenig <christian.koenig@amd.com>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The tc358762.connector field is unused. Remove it to save space.
+25.11.2021 22:28, Andy Shevchenko пишет:
+>> -       err = reset_control_reset(i2c_dev->rst);
+>> +       if (handle)
+>> +               err = acpi_evaluate_object(handle, "_RST", NULL, NULL);
+> Does it compile for CONFIG_ACPI=n case?
+> 
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/bridge/tc358762.c | 1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/bridge/tc358762.c b/drivers/gpu/drm/bridge/tc358762.c
-index ebdf771a1e49..930e19dfb329 100644
---- a/drivers/gpu/drm/bridge/tc358762.c
-+++ b/drivers/gpu/drm/bridge/tc358762.c
-@@ -61,7 +61,6 @@
- struct tc358762 {
- 	struct device *dev;
- 	struct drm_bridge bridge;
--	struct drm_connector connector;
- 	struct regulator *regulator;
- 	struct drm_bridge *panel_bridge;
- 	bool enabled;
--- 
-2.33.0
-
+It compiles and works fine with CONFIG_ACPI=n.
