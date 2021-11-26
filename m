@@ -2,41 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D42445EA59
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Nov 2021 10:26:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AB3A45EA67
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Nov 2021 10:30:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0812F6EA66;
-	Fri, 26 Nov 2021 09:26:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BBAFF6E964;
+	Fri, 26 Nov 2021 09:30:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE82B6EA48;
- Fri, 26 Nov 2021 09:26:20 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: kholk11) with ESMTPSA id 5C18E1F46742
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
- t=1637918779; bh=RZZMdLZe+frl5NeinRGjT60ZCs3bDCTm8bd2vGIWYxU=;
- h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=CMSPNnmkh8LJZdT2NGjAofryIcTSQ9/lo/FTRbyld5ugGLnF6+IOhNXdNEEL2aIoM
- n2cQTnwp6DsiX7xLZgqi9TYa72PSqU502GYiJUQWJz2yZWY8g1QrVpIIhVzuwQq2vI
- 6eWCGzgGf00rZlyVZ1z3xJ7BTPGfUi9Xns3Td0A9i/01y4QXgIkXc+0AZ6eRawjArj
- rXGFCmzKd6T01mCYFwXiy2KSDGeIiizDWjRMzqgvUHm3i9sAaD7uBfB4wBcdRek2tv
- Fp/+Ti49MMnGx7R8MpUplhvp78kM59133FijmDYbfGPPrJpSiKSsMt31WPh8YsFCk1
- bh6e5KeOTe9UA==
-Subject: Re: [PATCH] drm/msm: Initialize MDSS irq domain at probe time
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, robdclark@gmail.com
-References: <20211125150947.354076-1-angelogioacchino.delregno@collabora.com>
- <32cdade5-1487-9182-e939-4d93f8a27ad6@linaro.org>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Message-ID: <2b37dfd3-c3be-2640-56d0-25c9971c4f50@collabora.com>
-Date: Fri, 26 Nov 2021 10:26:15 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A7A516E96A
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Nov 2021 09:30:28 +0000 (UTC)
+X-UUID: 264614e7fd8247dc9e698f2c1a2bfebe-20211126
+X-UUID: 264614e7fd8247dc9e698f2c1a2bfebe-20211126
+Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
+ mailgw02.mediatek.com (envelope-from <flora.fu@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 2176569; Fri, 26 Nov 2021 17:30:22 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Fri, 26 Nov 2021 17:30:20 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Fri, 26 Nov 2021 17:30:20 +0800
+Message-ID: <ebc219fff8a1956d9880b555154d92b6eaef9eea.camel@mediatek.com>
+Subject: Re: [RFC 06/13] soc: mediatek: apu: Add apu core driver
+From: Flora.Fu <flora.fu@mediatek.com>
+To: Randy Dunlap <rdunlap@infradead.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>, Mark Brown <broonie@kernel.org>, Sumit Semwal
+ <sumit.semwal@linaro.org>
+Date: Fri, 26 Nov 2021 17:30:20 +0800
+In-Reply-To: <35b6b7af-87f1-4390-faf8-9f44c192aedd@infradead.org>
+References: <20211023111409.30463-1-flora.fu@mediatek.com>
+ <20211023111409.30463-7-flora.fu@mediatek.com>
+ <35b6b7af-87f1-4390-faf8-9f44c192aedd@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-In-Reply-To: <32cdade5-1487-9182-e939-4d93f8a27ad6@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,46 +52,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, airlied@linux.ie,
- linux-arm-msm@vger.kernel.org, konrad.dybcio@somainline.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- jami.kettunen@somainline.org, maxime@cerno.tech, marijn.suijten@somainline.org,
- kernel@collabora.com, sean@poorly.run
+Cc: Pi-Cheng Chen <pi-cheng.chen@mediatek.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ linux-mediatek@lists.infradead.org, Yong Wu <yong.wu@mediatek.com>,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 26/11/21 01:06, Dmitry Baryshkov ha scritto:
-> On 25/11/2021 18:09, AngeloGioacchino Del Regno wrote:
->> Since commit 8f59ee9a570c ("drm/msm/dsi: Adjust probe order"), the
->> DSI host gets initialized earlier, but this caused unability to probe
->> the entire stack of components because they all depend on interrupts
->> coming from the main `mdss` node (mdp5, or dpu1).
->>
->> To fix this issue, also anticipate probing mdp5 or dpu1 by initializing
->> them at msm_pdev_probe() time: this will make sure that we add the
->> required interrupt controller mapping before dsi and/or other components
->> try to initialize, finally satisfying the dependency.
->>
->> While at it, also change the allocation of msm_drm_private to use the
->> devm variant of kzalloc().
->>
->> Fixes: 8f59ee9a570c ("drm/msm/dsi: Adjust probe order")
->> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+On Sat, 2021-10-23 at 08:49 -0700, Randy Dunlap wrote:
+> Hi,
 > 
-> Another issue (or a pack of issues):
-> Now the msm_drm_init() is unbalanced with msm_drm_uninit(). Bits of code (putting 
-> the drm dev, removing the IRQ domain, etc) have to be called now from the 
-> msm_pdev_remove() function rather than from the unbind path.
+> On 10/23/21 4:14 AM, Flora Fu wrote:
+> > diff --git a/drivers/soc/mediatek/Kconfig
+> > b/drivers/soc/mediatek/Kconfig
+> > index d9bac2710494..074b0cf24c44 100644
+> > --- a/drivers/soc/mediatek/Kconfig
+> > +++ b/drivers/soc/mediatek/Kconfig
+> > @@ -24,6 +24,24 @@ config MTK_APU_PM
+> >   	  APU power domain shall be enabled before accessing the
+> >   	  internal sub modules.
+> >   
+> > +config MTK_APU
+> > +	tristate "MediaTek APUSYS Support"
+> > +	select REGMAP
+> > +	select MTK_APU_PM
+> > +	select MTK_SCP
+> > +	help
+> > +	  Say yes here to add support for the APU tinysys. The tinsys
+> > is
 > 
-> The following changes fix the observed issues here, however additional care should 
-> be taken.
+> 	                                                       tinysys
+> runs on
+> 
+> > +	  running on a micro processor in APU.
+> 
+> 	  a microprocessor in the APU.
+> 
+> > +	  Its firmware is load and boot from Kernel side. Kernel and
+> > tinysys use
+> 
+> 	               is loaded and booted
+> 
+> > +	  IPI to tx/rx messages.
+> 
+> 	      to send/receive messages.
+Ack. 
+
+> > +
+> > +config MTK_APU_DEBUG
+> > +	tristate "MediaTek APUSYS debug functions"
+> > +	depends on MTK_APU
+> > +	help
+> > +	  Say yes here to enalbe debug on APUSYS.
+> 
+> 	                  enable
+
+Ack.
+The tpyo will be fix in the next submission. 
+Thanks for your review.
+
+> 
+> > +	  Disable it if you don't need them.
+> 
 > 
 
-
-Hello Dmitry,
-
-thanks for the thorough review (and solutions!).
-Are you going to push your changes on top, or should I send a V2?
-
-Cheers,
-- Angelo
