@@ -1,60 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9344745F1B4
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Nov 2021 17:20:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C3FD45F1B6
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Nov 2021 17:20:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D9F6D6F96C;
+	by gabe.freedesktop.org (Postfix) with ESMTP id ABA606F968;
 	Fri, 26 Nov 2021 16:20:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com
- [IPv6:2a00:1450:4864:20::236])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 19ED96F900
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Nov 2021 16:20:01 +0000 (UTC)
-Received: by mail-lj1-x236.google.com with SMTP id 207so19670691ljf.10
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Nov 2021 08:20:01 -0800 (PST)
+Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com
+ [IPv6:2a00:1450:4864:20::229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED1A96F91D
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Nov 2021 16:20:02 +0000 (UTC)
+Received: by mail-lj1-x229.google.com with SMTP id j18so6527444ljc.12
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Nov 2021 08:20:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=FxP5tB2iw5BzQOiwdyEyNre1QfPs8oOiaNDQeHGYp/A=;
- b=kzlqHTAdAhqx9uMFzd+CS4o7MQx3tt2NukcjKGssEu7kZMdW6fHarWUCrdqGzEAwPl
- fpuAPJ+zod57zNo+qtkm16mdGqs0Lh7iJJmFsIz6PMJ8AdXsA79F7/qVESlXK84AuKM1
- jATo9QykkskeMCYiqB+uKO0bxgT5WZL1Ni6iXRzMNQG1pph0oy763E1aOMuKM2wmLvQ5
- 8ktA43IdTnoWWp/YlUGc4H9Jx+6+if72dzmi747LiVxyMPDfwsw+Wwj37c/TWmviZiFy
- 1r77P+bQkb8YTtwu0AV9LbDAZQpvvyPyHhjYNAgOY211JJBMx6WUp/3/uGtrlDrdpbf5
- 8t8w==
+ bh=hEN8lxqzB5PkjPszcdUxNpJc6epYJF7n5YUfahDhZts=;
+ b=oTcerw3jboBSgaI5lBASiQ0+yvoxajfozbWkKUsSmofKDE934IXHDdxNhB8W9inQH8
+ Deth1OvQaNwgcuyT1EYOl7z37XeRTOtofk3rfAARsYrFqOpJrZaMP2yWgRj3wWz8rhOS
+ c9Dce6wjkImXLFLe+QdB7nP22gzehsMpGLBEEMDo0XSy8AW6kq9BhVWDy3FC77Jlsbrv
+ NXnqGvMr1srJooL0mlDZs8j2QAzGmCQDiJde7E6dgpDRF550dE9c1UQxnnqLqUJtU5t6
+ jyg7JecYzESPBU3YZ5QeRjpyQX3JKtntQB7xj3ORrmWmqbKeewF4FQ6LCWyGzgfuLizK
+ K0vA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=FxP5tB2iw5BzQOiwdyEyNre1QfPs8oOiaNDQeHGYp/A=;
- b=qvEMPF0idw/Y4tbs+zJFbXY4ftfHiGiFNp8o8Yh3wuQa5NHCByyVvby5EvYDajD0b9
- vKvQEL5OnaNZJekzpjS1LldWmiAT/l6pkyEJ1FGBqAjqqRUQH6PyMCleKLRoYwgk11Ci
- m0HKMAWdCZISbQtJkxbqxsPdzFiTQAKXT364QVjEpcDp/Ceyn13uFeqCQYqfwjRuEca+
- 6F52BMXry9lqGZxlitFzMMTF2wAMgiewL1EsEz1hq2BlkE5F9MLXz4SbbHzBUi3F5LVU
- ujqV6wFjrLxe+eDUOr/Yl2UnNYst/5S1xkIEBXOGpSPC7uk+Ro5WYb2GvF1zHBoE3kJH
- CR7w==
-X-Gm-Message-State: AOAM532uYejhJcDaQpGFScZ4hZzB6MhNEqfAeneM08GL1ovsKIfBwf2c
- VJSTQDJFL5EVSWUvYIs0vu0=
-X-Google-Smtp-Source: ABdhPJzxsTtZB9drLrB4WxixNDRQ7Fx6NNECUmkUX+4V5l25QUsz4gPwn3zgWqi6R9W+ucTu1kGc3w==
-X-Received: by 2002:a2e:8991:: with SMTP id c17mr30947654lji.361.1637943599494; 
- Fri, 26 Nov 2021 08:19:59 -0800 (PST)
+ bh=hEN8lxqzB5PkjPszcdUxNpJc6epYJF7n5YUfahDhZts=;
+ b=jyW5jVPDodvJ60fbBHZB4FTlBRyMXFyyDObqbeegGUVjDLLuEYaijyH2hPBeW85rI8
+ 9AIZIL81nVw4iHt2ORTPQeEmSGQ/+IuxzTVrjJB15xDAIpO7JBVxJv9TWqVuCccoRNTk
+ ygvda5E1tsas+z+RV7hZgJWIu9e/CwCPrH2qKZY5m9kibdD2HZcngDQikWdlBjF6V3Ng
+ +RdSJaZ9xAFkkdoUBxKi2d8RpC7kujA8iXUmuK+x/KVmxhlSBALTVGnEiclyWWa2wV+q
+ lv120deWYetD4eH+DZlmeK88IAtXRsWQ/zcSXxppWDZcxxY0Z+yhQGoflWmX8NVVxUGR
+ DBfg==
+X-Gm-Message-State: AOAM530vgzenbiTk+/+dW5BGd42exqLrJOPBdEtyZEAD2Ij5jCXmpgbp
+ fv6ZwmqMIEiQvor84R3jMDY=
+X-Google-Smtp-Source: ABdhPJzz5wBDSCE4Eo1QRQj2umu9yNSwj9Kxjmg73qAOgEls3WYa2Hilna7xfBmiFLf2MVj1rIyQ9w==
+X-Received: by 2002:a2e:a792:: with SMTP id c18mr32236469ljf.443.1637943601285; 
+ Fri, 26 Nov 2021 08:20:01 -0800 (PST)
 Received: from localhost.localdomain (94-29-48-99.dynamic.spd-mgts.ru.
  [94.29.48.99])
- by smtp.gmail.com with ESMTPSA id t7sm613381lfl.260.2021.11.26.08.19.58
+ by smtp.gmail.com with ESMTPSA id t7sm613381lfl.260.2021.11.26.08.19.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 26 Nov 2021 08:19:58 -0800 (PST)
+ Fri, 26 Nov 2021 08:20:00 -0800 (PST)
 From: Dmitry Osipenko <digetx@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
  Jonathan Hunter <jonathanh@nvidia.com>, Mark Brown <broonie@kernel.org>,
  Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>,
  Liam Girdwood <lgirdwood@gmail.com>, Agneli <poczt@protonmail.ch>,
  Rob Herring <robh+dt@kernel.org>
-Subject: [PATCH v2 19/20] ARM: tegra: acer-a500: Enable S/PDIF and HDMI audio
-Date: Fri, 26 Nov 2021 19:18:06 +0300
-Message-Id: <20211126161807.15776-20-digetx@gmail.com>
+Subject: [PATCH v2 20/20] ARM: tegra: paz00: Enable S/PDIF and HDMI audio
+Date: Fri, 26 Nov 2021 19:18:07 +0300
+Message-Id: <20211126161807.15776-21-digetx@gmail.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211126161807.15776-1-digetx@gmail.com>
 References: <20211126161807.15776-1-digetx@gmail.com>
@@ -78,36 +78,37 @@ Cc: devicetree@vger.kernel.org, alsa-devel@alsa-project.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Enable S/PDIF controller to enable HDMI audio support on Acer A500.
+Enable S/PDIF controller to enable HDMI audio support on Toshiba AC100.
 Use nvidia,fixed-parent-rate property that prevents audio rate conflict
 between S/PDIF and I2S.
 
+Tested-by: Agneli <poczt@protonmail.ch>
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- arch/arm/boot/dts/tegra20-acer-a500-picasso.dts | 8 ++++++++
+ arch/arm/boot/dts/tegra20-paz00.dts | 8 ++++++++
  1 file changed, 8 insertions(+)
 
-diff --git a/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts b/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts
-index db388ddd062f..f47b946627c3 100644
---- a/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts
-+++ b/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts
-@@ -376,8 +376,16 @@ pta {
+diff --git a/arch/arm/boot/dts/tegra20-paz00.dts b/arch/arm/boot/dts/tegra20-paz00.dts
+index 5b2260f61f05..921a811632a1 100644
+--- a/arch/arm/boot/dts/tegra20-paz00.dts
++++ b/arch/arm/boot/dts/tegra20-paz00.dts
+@@ -264,8 +264,16 @@ conf_ld17_0 {
  		};
  	};
  
-+	tegra_spdif: spdif@70002400 {
++	spdif@70002400 {
 +		status = "okay";
 +
 +		nvidia,fixed-parent-rate;
 +	};
 +
- 	tegra_i2s1: i2s@70002800 {
+ 	i2s@70002800 {
  		status = "okay";
 +
 +		nvidia,fixed-parent-rate;
  	};
  
- 	uartb: serial@70006040 {
+ 	serial@70006000 {
 -- 
 2.33.1
 
