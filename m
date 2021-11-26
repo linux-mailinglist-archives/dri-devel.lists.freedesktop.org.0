@@ -2,67 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF1F645EB9B
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Nov 2021 11:30:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FA0445EBB7
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Nov 2021 11:35:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 59AA56EC1A;
-	Fri, 26 Nov 2021 10:30:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 364236E93D;
+	Fri, 26 Nov 2021 10:35:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
- [IPv6:2a00:1450:4864:20::335])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EAEAE6EC1A
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Nov 2021 10:30:22 +0000 (UTC)
-Received: by mail-wm1-x335.google.com with SMTP id y196so7685399wmc.3
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Nov 2021 02:30:22 -0800 (PST)
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
+ [IPv6:2a00:1450:4864:20::32e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E53C6E933;
+ Fri, 26 Nov 2021 10:35:07 +0000 (UTC)
+Received: by mail-wm1-x32e.google.com with SMTP id 137so7721388wma.1;
+ Fri, 26 Nov 2021 02:35:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=zTg0WacJr7kzwrsnQJsQDndFsSlk7FEd+90GUlUHgJI=;
- b=o6BgQc+l+C4RBDUwYZTioNATMY6ijtPxOhlL2eg6/yNMCiU6RhD6u2R4bMkx7dGIOJ
- M7Hi7pSKfDOppaNmI3xCaoQg+wN/d7k2Uaqz5rEFxykNt5tkzLvgR/iQszQaRxW+VUYn
- mkb5LJXmscDRFd10ZtW2Xmlygpt86CLq6Xac4qLHwhtiNw646RXheHzNmZGgxBC0tWBi
- wh1Plz8ot0Y4Oaf6YNkCZpz0jLHDvWcLiHpp5IHlOuNazGT6Urr3W8BNKSjAHq7O5l/E
- kPCD9h/UDZrYjsw9lk1EJGGVI681GwGDQbq0voKEzIG4EXVr2+JANPkGFXjYxnaP3F9c
- kLOg==
+ bh=yWMPT9gdUeJoBqjhtlnpMwe+xCg6/aY12TZNureZlQE=;
+ b=L48KoTYS5dIsStjP372ocwxx4k9uRC254TXTt1fOJQ5//81huyKei+Nj8mR151LGf+
+ R47EetCPNsMiITtcbHWZOvdKSF+S/G52/WuBpgGsCQjhFwJ9M1Sdwj3WGXDdy9VTaVtE
+ PTzKc8ODKvUoDRAY85zp5hglbHlyEREbCufIL2F2d8t/8cY2m2VbaFKMP/BRZtY+8YsM
+ Pco0tFDLXebwJ+TFow3kbHNTCIcmwfPzKExDc9EwuL0BJieyoKt968AfJcVypZ0M2K9J
+ ruUoqVEe5DwFeNtgPlQQcla35vQWaIEckkwA4GQr0KlP+UjAD+dDq42qnskioajlCUBq
+ Vonw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-transfer-encoding
  :content-language;
- bh=zTg0WacJr7kzwrsnQJsQDndFsSlk7FEd+90GUlUHgJI=;
- b=w0Qwc2LWjSKVzFL7nT1X3NzodUnPhf2YgD145pE3Nz0hxEQNcnTgX2yTWlpskSwaeb
- eiBMR+zn37ZgdnnYsyBfdTzD+kED70q7iPz7JL8cOv2dFD8/KnAnT6E8eBP8xAhFjLNb
- bvf6hyP9WR/1BsJ52E70O8oZymW/LeTdy1+eEO5Y8aZOYwjgrmWstx8fBmQhnrPaD0YU
- G0fmBfn0yy7i+Qqp2ObJfc43SbdRgd1xj+SRj3yNCjN7ziE+GJZnfht2B6Evecd039+x
- sRftZdgMtcZatx7gbo4jeFFQ5u87Roi9BivjrxR2BjKRRUm/Fd5qw1sBXBJsb23eOEtZ
- yS8w==
-X-Gm-Message-State: AOAM532Veobe3FzPiUgy2cM1KL8y1hmcXZ6VJaM/AM4MgDAGOYAOMzwv
- xYQKCjHlklXvG6jVOUiQsSM=
-X-Google-Smtp-Source: ABdhPJzFenGp5brgkbj5MZQnP7FS6lJhdyGMVEwRhXdQZTcZJLb6MPZQPA33OW7GQm6nsgS0NHfbiA==
-X-Received: by 2002:a05:600c:364f:: with SMTP id
- y15mr13749998wmq.7.1637922621452; 
- Fri, 26 Nov 2021 02:30:21 -0800 (PST)
+ bh=yWMPT9gdUeJoBqjhtlnpMwe+xCg6/aY12TZNureZlQE=;
+ b=x54OuADmC5Dol3266ZCwPzlmJaE/gLZVDMgI/HMEfzAH30ilMuM7pI/UZYZwF+VAup
+ pjY3jGBIdz4S35vRXcUlaG0OadOVWWowY7ZXlV5S94ocAteaI8njvKsrIKtd/PZ0luuh
+ O6Jnddy/IxEDcgnbParmR9X4qB9RapCENW7DKzKUicK286Z2VyiVYBSwV5T3tErzXUbK
+ VDgpnx1g/qylXFrfwOKY+al0RQBTPH5Trvc0N57dz58kb+ATfy0mUfBhz+G5XlOyrRNS
+ 1pSoDqO5cR1moZ3v+xjrrQOp4ulk7anOcsD/RDT521opTGZJkDM2+66QEy8kFkf+oMQc
+ JN5Q==
+X-Gm-Message-State: AOAM5316uSvvhofyYR6p7dNURy68UqMwWlvrv47GgnA0+jYcVRqDBD9H
+ VAwLD6MQlh16UMc09bXsUu0=
+X-Google-Smtp-Source: ABdhPJwc/9KgeEHWhy3ewx0imoHrOYefqaEGmG78xusEOMnYDmxuHMddMUdx/gAnsSyZ3YzPxFxo+w==
+X-Received: by 2002:a05:600c:1d06:: with SMTP id
+ l6mr14084629wms.97.1637922905985; 
+ Fri, 26 Nov 2021 02:35:05 -0800 (PST)
 Received: from ?IPv6:2a02:908:1252:fb60:108:c3ea:37df:ad4c?
  ([2a02:908:1252:fb60:108:c3ea:37df:ad4c])
- by smtp.gmail.com with ESMTPSA id o10sm6549508wri.15.2021.11.26.02.30.20
+ by smtp.gmail.com with ESMTPSA id e7sm6986597wrg.31.2021.11.26.02.35.04
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 26 Nov 2021 02:30:20 -0800 (PST)
-Subject: Re: [PATCH 19/26] drm: support more than one write fence in
- drm_gem_plane_helper_prepare_fb
-To: Daniel Vetter <daniel@ffwll.ch>
-References: <20211123142111.3885-1-christian.koenig@amd.com>
- <20211123142111.3885-20-christian.koenig@amd.com>
- <YZ+wCxjFSI4EAIvx@phenom.ffwll.local>
+ Fri, 26 Nov 2021 02:35:05 -0800 (PST)
+Subject: Re: [PATCH 1/6] Documentation/gpu: Reorganize DC documentation
+To: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Simon Ser <contact@emersion.fr>, =?UTF-8?Q?Michel_D=c3=a4nzer?=
+ <michel@daenzer.net>, Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>,
+ =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <marek.olsak@amd.com>,
+ Roman Gilg <subdiff@gmail.com>,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
+ Harry Wentland <Harry.Wentland@amd.com>,
+ Mark Yacoub <markyacoub@chromium.org>, Sean Paul <seanpaul@chromium.org>,
+ Pekka Paalanen <ppaalanen@gmail.com>
+References: <20211125153830.1352994-1-Rodrigo.Siqueira@amd.com>
+ <20211125153830.1352994-2-Rodrigo.Siqueira@amd.com>
 From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <0a3f93f1-278e-c393-3e79-745a52694f3d@gmail.com>
-Date: Fri, 26 Nov 2021 11:30:19 +0100
+Message-ID: <aa16c8ca-1126-0f6f-c201-362a2abc2341@gmail.com>
+Date: Fri, 26 Nov 2021 11:35:03 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <YZ+wCxjFSI4EAIvx@phenom.ffwll.local>
+In-Reply-To: <20211125153830.1352994-2-Rodrigo.Siqueira@amd.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -76,78 +82,226 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org
+Cc: linux-doc@vger.kernel.org, qingqing.zhuo@amd.com, roman.li@amd.com,
+ amd-gfx@lists.freedesktop.org, aurabindo.pillai@amd.com, nicholas.choi@amd.com,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ bhawanpreet.lakha@amd.com,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 25.11.21 um 16:47 schrieb Daniel Vetter:
-> On Tue, Nov 23, 2021 at 03:21:04PM +0100, Christian König wrote:
->> Use dma_resv_get_singleton() here to eventually get more than one write
->> fence as single fence.
-> Yeah this is nice, atomic commit helpers not supporting multiple write
-> fences was really my main worry in this entire endeavour. Otherwise looks
-> all rather reasonable.
->
-> I'll try to find some review bandwidth, but would be really if you can
-> volunteer others too (especially making sure ttm drivers set the KERNEL
-> fences correctly in all cases).
+Just a general comment. Could you name the new subdirectory "amdgpu" 
+instead?
 
-Maybe I should split that up into switching over to adding the enum and 
-then switching to kernel/bookkeep(previously other) for some use cases.
+DC is just a component of the amdgpu driver and I think it would sooner 
+or later make sense to group together the amdgpu documentation in one 
+folder.
 
-It would be good if I could get an rb on the trivial driver cleanups 
-first. I can send those out individually if that helps.
-
-Thanks,
+Regards,
 Christian.
 
-> -Daniel
+Am 25.11.21 um 16:38 schrieb Rodrigo Siqueira:
+> Display core documentation is not well organized, and it is hard to find
+> information due to the lack of sections. This commit reorganizes the
+> documentation layout, and it is preparation work for future changes.
 >
+> Signed-off-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+> ---
+>   Documentation/gpu/amdgpu-dc.rst               | 74 -------------------
+>   .../gpu/amdgpu-dc/amdgpu-dc-debug.rst         |  4 +
+>   Documentation/gpu/amdgpu-dc/amdgpu-dc.rst     | 29 ++++++++
+>   Documentation/gpu/amdgpu-dc/amdgpu-dm.rst     | 42 +++++++++++
+>   Documentation/gpu/drivers.rst                 |  2 +-
+>   5 files changed, 76 insertions(+), 75 deletions(-)
+>   delete mode 100644 Documentation/gpu/amdgpu-dc.rst
+>   create mode 100644 Documentation/gpu/amdgpu-dc/amdgpu-dc-debug.rst
+>   create mode 100644 Documentation/gpu/amdgpu-dc/amdgpu-dc.rst
+>   create mode 100644 Documentation/gpu/amdgpu-dc/amdgpu-dm.rst
 >
->> Signed-off-by: Christian König <christian.koenig@amd.com>
->> ---
->>   drivers/gpu/drm/drm_gem_atomic_helper.c | 18 +++++++-----------
->>   1 file changed, 7 insertions(+), 11 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/drm_gem_atomic_helper.c b/drivers/gpu/drm/drm_gem_atomic_helper.c
->> index c3189afe10cb..9338ddb7edff 100644
->> --- a/drivers/gpu/drm/drm_gem_atomic_helper.c
->> +++ b/drivers/gpu/drm/drm_gem_atomic_helper.c
->> @@ -143,25 +143,21 @@
->>    */
->>   int drm_gem_plane_helper_prepare_fb(struct drm_plane *plane, struct drm_plane_state *state)
->>   {
->> -	struct dma_resv_iter cursor;
->>   	struct drm_gem_object *obj;
->>   	struct dma_fence *fence;
->> +	int ret;
->>   
->>   	if (!state->fb)
->>   		return 0;
->>   
->>   	obj = drm_gem_fb_get_obj(state->fb, 0);
->> -	dma_resv_iter_begin(&cursor, obj->resv, false);
->> -	dma_resv_for_each_fence_unlocked(&cursor, fence) {
->> -		/* TODO: Currently there should be only one write fence, so this
->> -		 * here works fine. But drm_atomic_set_fence_for_plane() should
->> -		 * be changed to be able to handle more fences in general for
->> -		 * multiple BOs per fb anyway. */
->> -		dma_fence_get(fence);
->> -		break;
->> -	}
->> -	dma_resv_iter_end(&cursor);
->> +	ret = dma_resv_get_singleton(obj->resv, false, &fence);
->> +	if (ret)
->> +		return ret;
->>   
->> +	/* TODO: drm_atomic_set_fence_for_plane() should be changed to be able
->> +	 * to handle more fences in general for multiple BOs per fb.
->> +	 */
->>   	drm_atomic_set_fence_for_plane(state, fence);
->>   	return 0;
->>   }
->> -- 
->> 2.25.1
->>
+> diff --git a/Documentation/gpu/amdgpu-dc.rst b/Documentation/gpu/amdgpu-dc.rst
+> deleted file mode 100644
+> index f7ff7e1309de..000000000000
+> --- a/Documentation/gpu/amdgpu-dc.rst
+> +++ /dev/null
+> @@ -1,74 +0,0 @@
+> -===================================
+> -drm/amd/display - Display Core (DC)
+> -===================================
+> -
+> -*placeholder - general description of supported platforms, what dc is, etc.*
+> -
+> -Because it is partially shared with other operating systems, the Display Core
+> -Driver is divided in two pieces.
+> -
+> -1. **Display Core (DC)** contains the OS-agnostic components. Things like
+> -   hardware programming and resource management are handled here.
+> -2. **Display Manager (DM)** contains the OS-dependent components. Hooks to the
+> -   amdgpu base driver and DRM are implemented here.
+> -
+> -It doesn't help that the entire package is frequently referred to as DC. But
+> -with the context in mind, it should be clear.
+> -
+> -When CONFIG_DRM_AMD_DC is enabled, DC will be initialized by default for
+> -supported ASICs. To force disable, set `amdgpu.dc=0` on kernel command line.
+> -Likewise, to force enable on unsupported ASICs, set `amdgpu.dc=1`.
+> -
+> -To determine if DC is loaded, search dmesg for the following entry:
+> -
+> -``Display Core initialized with <version number here>``
+> -
+> -AMDgpu Display Manager
+> -======================
+> -
+> -.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> -   :doc: overview
+> -
+> -.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+> -   :internal:
+> -
+> -Lifecycle
+> ----------
+> -
+> -.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> -   :doc: DM Lifecycle
+> -
+> -.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> -   :functions: dm_hw_init dm_hw_fini
+> -
+> -Interrupts
+> -----------
+> -
+> -.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c
+> -   :doc: overview
+> -
+> -.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c
+> -   :internal:
+> -
+> -.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> -   :functions: register_hpd_handlers dm_crtc_high_irq dm_pflip_high_irq
+> -
+> -Atomic Implementation
+> ----------------------
+> -
+> -.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> -   :doc: atomic
+> -
+> -.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> -   :functions: amdgpu_dm_atomic_check amdgpu_dm_atomic_commit_tail
+> -
+> -Display Core
+> -============
+> -
+> -**WIP**
+> -
+> -FreeSync Video
+> ---------------
+> -
+> -.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> -   :doc: FreeSync Video
+> diff --git a/Documentation/gpu/amdgpu-dc/amdgpu-dc-debug.rst b/Documentation/gpu/amdgpu-dc/amdgpu-dc-debug.rst
+> new file mode 100644
+> index 000000000000..bbb8c3fc8eee
+> --- /dev/null
+> +++ b/Documentation/gpu/amdgpu-dc/amdgpu-dc-debug.rst
+> @@ -0,0 +1,4 @@
+> +Display Core Debug tools
+> +========================
+> +
+> +TODO
+> diff --git a/Documentation/gpu/amdgpu-dc/amdgpu-dc.rst b/Documentation/gpu/amdgpu-dc/amdgpu-dc.rst
+> new file mode 100644
+> index 000000000000..3685b3b1ad64
+> --- /dev/null
+> +++ b/Documentation/gpu/amdgpu-dc/amdgpu-dc.rst
+> @@ -0,0 +1,29 @@
+> +===================================
+> +drm/amd/display - Display Core (DC)
+> +===================================
+> +
+> +*placeholder - general description of supported platforms, what dc is, etc.*
+> +
+> +Because it is partially shared with other operating systems, the Display Core
+> +Driver is divided in two pieces.
+> +
+> +1. **Display Core (DC)** contains the OS-agnostic components. Things like
+> +   hardware programming and resource management are handled here.
+> +2. **Display Manager (DM)** contains the OS-dependent components. Hooks to the
+> +   amdgpu base driver and DRM are implemented here.
+> +
+> +It doesn't help that the entire package is frequently referred to as DC. But
+> +with the context in mind, it should be clear.
+> +
+> +When CONFIG_DRM_AMD_DC is enabled, DC will be initialized by default for
+> +supported ASICs. To force disable, set `amdgpu.dc=0` on kernel command line.
+> +Likewise, to force enable on unsupported ASICs, set `amdgpu.dc=1`.
+> +
+> +To determine if DC is loaded, search dmesg for the following entry:
+> +
+> +.. toctree::
+> +
+> +   amdgpu-dm.rst
+> +   amdgpu-dc-debug.rst
+> +
+> +``Display Core initialized with <version number here>``
+> diff --git a/Documentation/gpu/amdgpu-dc/amdgpu-dm.rst b/Documentation/gpu/amdgpu-dc/amdgpu-dm.rst
+> new file mode 100644
+> index 000000000000..7ce31f89d9a0
+> --- /dev/null
+> +++ b/Documentation/gpu/amdgpu-dc/amdgpu-dm.rst
+> @@ -0,0 +1,42 @@
+> +======================
+> +AMDgpu Display Manager
+> +======================
+> +
+> +.. contents:: Table of Contents
+> +    :depth: 3
+> +
+> +.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> +   :doc: overview
+> +
+> +.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+> +   :internal:
+> +
+> +Lifecycle
+> +=========
+> +
+> +.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> +   :doc: DM Lifecycle
+> +
+> +.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> +   :functions: dm_hw_init dm_hw_fini
+> +
+> +Interrupts
+> +==========
+> +
+> +.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c
+> +   :doc: overview
+> +
+> +.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c
+> +   :internal:
+> +
+> +.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> +   :functions: register_hpd_handlers dm_crtc_high_irq dm_pflip_high_irq
+> +
+> +Atomic Implementation
+> +=====================
+> +
+> +.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> +   :doc: atomic
+> +
+> +.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> +   :functions: amdgpu_dm_atomic_check amdgpu_dm_atomic_commit_tail
+> diff --git a/Documentation/gpu/drivers.rst b/Documentation/gpu/drivers.rst
+> index b4a0ed3ca961..dffe52d837cd 100644
+> --- a/Documentation/gpu/drivers.rst
+> +++ b/Documentation/gpu/drivers.rst
+> @@ -5,7 +5,7 @@ GPU Driver Documentation
+>   .. toctree::
+>   
+>      amdgpu
+> -   amdgpu-dc
+> +   amdgpu-dc/amdgpu-dc
+>      i915
+>      mcde
+>      meson
 
