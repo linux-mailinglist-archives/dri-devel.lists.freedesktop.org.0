@@ -1,60 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E32AC45F1A5
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Nov 2021 17:20:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id ACA8245F1AC
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Nov 2021 17:20:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D0526F900;
-	Fri, 26 Nov 2021 16:20:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 43FE06F964;
+	Fri, 26 Nov 2021 16:20:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com
- [IPv6:2a00:1450:4864:20::22e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3769F6F910
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Nov 2021 16:19:49 +0000 (UTC)
-Received: by mail-lj1-x22e.google.com with SMTP id z8so19724833ljz.9
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Nov 2021 08:19:49 -0800 (PST)
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
+ [IPv6:2a00:1450:4864:20::12d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 341966F90F
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Nov 2021 16:19:50 +0000 (UTC)
+Received: by mail-lf1-x12d.google.com with SMTP id bu18so25629339lfb.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Nov 2021 08:19:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=d38MEEq+r0QwqDvnuwxQbfydxKTbgpiZ5kKyEJPIo+w=;
- b=BPiYz2WeGMWsPtKS1APNfVB/7nuy9JzoTlEySilxtxLhjzkr81In3mdT04JjniVVM9
- 3wb4vg4bMVZrc9ZLO+3EzVO9oDyvqMAxX663+WLoplWxgMdgeHGPqcD2tjeImTmSZbNK
- H6xOdWkq5PvGG3wEi13PuvRkOYJ1gAYKw7W+bJLtrx8nfoXcEfBxk0eVvN10Z2srZ4KB
- GvZXGCt6oWUTHqfdcvgpjkel7EM+qr0OgOCFBp9uu/4Mpqf2pDQ/Wt9TVo5vsxhZ6Ryu
- sFJ3t3O3SsJuZPOoTK8l9iIcDKUUj5jTSOS/sU+8/fX6ppC+3U+wvJDP2Aw9Y5YZjB0O
- uEPg==
+ bh=Qt8PrFF5rWy8Gj1ABxOEOakxJdpJR0LJrG627NKAlx8=;
+ b=La5mOtY3/M8w++da9HHf3ilhXsZ1KGsAAtaZV6vw0DQtGrZlfepS5+oQzw89vUZXdZ
+ lFXq50dzCiYjF/19pzaZNoMDOyzLK1aGieF+/wulJTKPNonb6qX7ISF4ZLLmpW3V2Kvk
+ x6nFm9PE8F2T5bE1xAy/B0YX2lMzGE4af7HknxwurhPLjqtN32zHNgsiah4xM8Gk4gf+
+ yJBaKEOAjG0fPpY6gIvunJyG01Vh1uYp7WMRpC3kEUgmd5tltyYNO3enXRcLoOaQVa+s
+ l8VtGxr8jrx6cMJYCZWm7PRQODYvS6y8lWmt61Syz5Nzaqhpp93Nd0c4PYI+izwaMKpX
+ H/sQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=d38MEEq+r0QwqDvnuwxQbfydxKTbgpiZ5kKyEJPIo+w=;
- b=p+mQV8CGo+4TzxXURIvUdg2EIlLJA+QJ3mio4nyqfIK9ojxD5EB7qEBSsAMAYXQOPJ
- OCH5efhJXbtfJD+/Z9C7L/9Roodoi/Hme1THRX1+cbX4ub3i+M87Y+plSg/5WMD7BiJZ
- 1zKutgEzOF57FWGfGT1lQCMAiPdBamYjpSR/kq67pBEUfWxY165y+iy+1fXPsZkGUfE1
- 2uX7X3w7fNe0zjZpWTu3ghn+aqd/rBnD3mZwkdLYJbw5OGQQSeD946JGuV5hMwhcHfwx
- Xz3Q3jruXVftqTXiCo/RSdme7SZPLuNs1rUn3AxbmBAQt0zJl5oe4cpkcb+KGoC6vWGc
- wMEg==
-X-Gm-Message-State: AOAM531ea10Hri6NNDFASujhgQHwgoR0Sm35yQiX66XLlrmw+yrq5Ses
- fy2GqKd+8Oaoyn7cMTd6gRnmfz2TfQg=
-X-Google-Smtp-Source: ABdhPJwiDLKsyEpyZvghDGkDwPjRYeINMptb0ZgLeUnAm7qiWhxhH0ZBchRFF4q5jWPmusqDhLfroA==
-X-Received: by 2002:a2e:3012:: with SMTP id w18mr31124844ljw.217.1637943587520; 
- Fri, 26 Nov 2021 08:19:47 -0800 (PST)
+ bh=Qt8PrFF5rWy8Gj1ABxOEOakxJdpJR0LJrG627NKAlx8=;
+ b=oDBwy9+mwtYYqHW26M21XJqePlAM19QEwhoFyOzDvrJQv9qYLsOtN+GaTVIT28rcS7
+ HEnr7ioFgoixA9CtfyhFDFWyc+LIZZ1CGx4TKwSmX5Zuh+DG7cI415qZ9KxKTqSLhF7p
+ tvpbvWaBDBmvjsxmQYur/u1adThmW9AUGJGd3mVxgDs/1VntefI6YNdxAVPxB+NHlBlQ
+ /cax7/CfW77pTsyl1DI6mGZB1k8JehAbbNWBxqn2QQ6Gj9royMHJtTB0DWx1ga7vhjh6
+ YQ05nFUd/bMRsuN2OW/jT5kct/pBqhvip8QbB1BW6hv7EK4GNoWz02Z+WIn6tioLJ+GB
+ aMQw==
+X-Gm-Message-State: AOAM5304qbm0HDfa38X8s3im2LIPFdTGHBq1lOllhdHmbyLN2uRU+1Xq
+ CigIsbIx4Fqk7Y6eD5PheshxCtZtnLc=
+X-Google-Smtp-Source: ABdhPJxvQfHFCUgjvQyYJWDy3x5QSXmLFgMMVvGsAr0GSOiFc5UtsOFPEdBBiLzH2+GMGjuVrVz/sg==
+X-Received: by 2002:a19:7019:: with SMTP id h25mr31884909lfc.464.1637943588560; 
+ Fri, 26 Nov 2021 08:19:48 -0800 (PST)
 Received: from localhost.localdomain (94-29-48-99.dynamic.spd-mgts.ru.
  [94.29.48.99])
- by smtp.gmail.com with ESMTPSA id t7sm613381lfl.260.2021.11.26.08.19.45
+ by smtp.gmail.com with ESMTPSA id t7sm613381lfl.260.2021.11.26.08.19.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 26 Nov 2021 08:19:46 -0800 (PST)
+ Fri, 26 Nov 2021 08:19:48 -0800 (PST)
 From: Dmitry Osipenko <digetx@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
  Jonathan Hunter <jonathanh@nvidia.com>, Mark Brown <broonie@kernel.org>,
  Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>,
  Liam Girdwood <lgirdwood@gmail.com>, Agneli <poczt@protonmail.ch>,
  Rob Herring <robh+dt@kernel.org>
-Subject: [PATCH v2 08/20] ASoC: tegra20: spdif: Improve driver's code
-Date: Fri, 26 Nov 2021 19:17:55 +0300
-Message-Id: <20211126161807.15776-9-digetx@gmail.com>
+Subject: [PATCH v2 09/20] ASoC: tegra20: spdif: Use more resource-managed
+ helpers
+Date: Fri, 26 Nov 2021 19:17:56 +0300
+Message-Id: <20211126161807.15776-10-digetx@gmail.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211126161807.15776-1-digetx@gmail.com>
 References: <20211126161807.15776-1-digetx@gmail.com>
@@ -78,179 +79,105 @@ Cc: devicetree@vger.kernel.org, alsa-devel@alsa-project.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-- Clean up whitespaces, defines and variables.
-
-- Remove obsolete code.
-
-- Adhere to upstream coding style.
-
-- Don't override returned error code.
-
-- Replace pr_err with dev_err.
-
-No functional changes are made by this patch. This is a minor code's
-refactoring that will ease further maintenance of the driver.
+Use resource-managed helpers to make code cleaner. Driver's remove callback
+isn't needed anymore since driver is completely resource-managed now.
 
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- sound/soc/tegra/tegra20_spdif.c | 49 ++++++++++++---------------------
- 1 file changed, 18 insertions(+), 31 deletions(-)
+ sound/soc/tegra/tegra20_spdif.c | 33 +++++++++------------------------
+ sound/soc/tegra/tegra_pcm.c     |  6 ++++++
+ sound/soc/tegra/tegra_pcm.h     |  1 +
+ 3 files changed, 16 insertions(+), 24 deletions(-)
 
 diff --git a/sound/soc/tegra/tegra20_spdif.c b/sound/soc/tegra/tegra20_spdif.c
-index 6650875d2555..9383683aa4e9 100644
+index 9383683aa4e9..6ca48bc322ae 100644
 --- a/sound/soc/tegra/tegra20_spdif.c
 +++ b/sound/soc/tegra/tegra20_spdif.c
-@@ -23,8 +23,6 @@
+@@ -289,38 +289,24 @@ static int tegra20_spdif_platform_probe(struct platform_device *pdev)
+ 	spdif->playback_dma_data.addr_width = DMA_SLAVE_BUSWIDTH_4_BYTES;
+ 	spdif->playback_dma_data.maxburst = 4;
  
- #include "tegra20_spdif.h"
+-	pm_runtime_enable(&pdev->dev);
++	ret = devm_pm_runtime_enable(&pdev->dev);
++	if (ret)
++		return ret;
  
--#define DRV_NAME "tegra20-spdif"
--
- static __maybe_unused int tegra20_spdif_runtime_suspend(struct device *dev)
- {
- 	struct tegra20_spdif *spdif = dev_get_drvdata(dev);
-@@ -49,11 +47,10 @@ static __maybe_unused int tegra20_spdif_runtime_resume(struct device *dev)
- }
- 
- static int tegra20_spdif_hw_params(struct snd_pcm_substream *substream,
--				struct snd_pcm_hw_params *params,
--				struct snd_soc_dai *dai)
-+				   struct snd_pcm_hw_params *params,
-+				   struct snd_soc_dai *dai)
- {
--	struct device *dev = dai->dev;
--	struct tegra20_spdif *spdif = snd_soc_dai_get_drvdata(dai);
-+	struct tegra20_spdif *spdif = dev_get_drvdata(dai->dev);
- 	unsigned int mask = 0, val = 0;
- 	int ret, spdifclock;
- 
-@@ -106,7 +103,7 @@ static int tegra20_spdif_hw_params(struct snd_pcm_substream *substream,
- 
- 	ret = clk_set_rate(spdif->clk_spdif_out, spdifclock);
- 	if (ret) {
--		dev_err(dev, "Can't set SPDIF clock rate: %d\n", ret);
-+		dev_err(dai->dev, "Can't set SPDIF clock rate: %d\n", ret);
- 		return ret;
- 	}
- 
-@@ -127,9 +124,9 @@ static void tegra20_spdif_stop_playback(struct tegra20_spdif *spdif)
- }
- 
- static int tegra20_spdif_trigger(struct snd_pcm_substream *substream, int cmd,
--				struct snd_soc_dai *dai)
-+				 struct snd_soc_dai *dai)
- {
--	struct tegra20_spdif *spdif = snd_soc_dai_get_drvdata(dai);
-+	struct tegra20_spdif *spdif = dev_get_drvdata(dai->dev);
- 
- 	switch (cmd) {
- 	case SNDRV_PCM_TRIGGER_START:
-@@ -151,7 +148,7 @@ static int tegra20_spdif_trigger(struct snd_pcm_substream *substream, int cmd,
- 
- static int tegra20_spdif_probe(struct snd_soc_dai *dai)
- {
--	struct tegra20_spdif *spdif = snd_soc_dai_get_drvdata(dai);
-+	struct tegra20_spdif *spdif = dev_get_drvdata(dai->dev);
- 
- 	dai->capture_dma_data = NULL;
- 	dai->playback_dma_data = &spdif->playback_dma_data;
-@@ -160,26 +157,26 @@ static int tegra20_spdif_probe(struct snd_soc_dai *dai)
- }
- 
- static const struct snd_soc_dai_ops tegra20_spdif_dai_ops = {
--	.hw_params	= tegra20_spdif_hw_params,
--	.trigger	= tegra20_spdif_trigger,
-+	.hw_params = tegra20_spdif_hw_params,
-+	.trigger = tegra20_spdif_trigger,
- };
- 
- static struct snd_soc_dai_driver tegra20_spdif_dai = {
--	.name = DRV_NAME,
-+	.name = "tegra20-spdif",
- 	.probe = tegra20_spdif_probe,
- 	.playback = {
- 		.stream_name = "Playback",
- 		.channels_min = 2,
- 		.channels_max = 2,
- 		.rates = SNDRV_PCM_RATE_32000 | SNDRV_PCM_RATE_44100 |
--				SNDRV_PCM_RATE_48000,
-+			 SNDRV_PCM_RATE_48000,
- 		.formats = SNDRV_PCM_FMTBIT_S16_LE,
- 	},
- 	.ops = &tegra20_spdif_dai_ops,
- };
- 
- static const struct snd_soc_component_driver tegra20_spdif_component = {
--	.name		= DRV_NAME,
-+	.name = "tegra20-spdif",
- };
- 
- static bool tegra20_spdif_wr_rd_reg(struct device *dev, unsigned int reg)
-@@ -260,7 +257,7 @@ static const struct regmap_config tegra20_spdif_regmap_config = {
- static int tegra20_spdif_platform_probe(struct platform_device *pdev)
- {
- 	struct tegra20_spdif *spdif;
--	struct resource *mem, *dmareq;
-+	struct resource *mem;
- 	void __iomem *regs;
- 	int ret;
- 
-@@ -273,27 +270,19 @@ static int tegra20_spdif_platform_probe(struct platform_device *pdev)
- 
- 	spdif->clk_spdif_out = devm_clk_get(&pdev->dev, "spdif_out");
- 	if (IS_ERR(spdif->clk_spdif_out)) {
--		pr_err("Can't retrieve spdif clock\n");
--		ret = PTR_ERR(spdif->clk_spdif_out);
--		return ret;
-+		dev_err(&pdev->dev, "Could not retrieve spdif clock\n");
-+		return PTR_ERR(spdif->clk_spdif_out);
- 	}
- 
- 	regs = devm_platform_get_and_ioremap_resource(pdev, 0, &mem);
- 	if (IS_ERR(regs))
- 		return PTR_ERR(regs);
- 
--	dmareq = platform_get_resource(pdev, IORESOURCE_DMA, 0);
--	if (!dmareq) {
--		dev_err(&pdev->dev, "No DMA resource\n");
--		return -ENODEV;
--	}
--
- 	spdif->regmap = devm_regmap_init_mmio(&pdev->dev, regs,
--					    &tegra20_spdif_regmap_config);
-+					      &tegra20_spdif_regmap_config);
- 	if (IS_ERR(spdif->regmap)) {
- 		dev_err(&pdev->dev, "regmap init failed\n");
--		ret = PTR_ERR(spdif->regmap);
--		return ret;
-+		return PTR_ERR(spdif->regmap);
- 	}
- 
- 	spdif->playback_dma_data.addr = mem->start + TEGRA20_SPDIF_DATA_OUT;
-@@ -306,7 +295,6 @@ static int tegra20_spdif_platform_probe(struct platform_device *pdev)
- 					 &tegra20_spdif_dai, 1);
+-	ret = snd_soc_register_component(&pdev->dev, &tegra20_spdif_component,
+-					 &tegra20_spdif_dai, 1);
++	ret = devm_snd_soc_register_component(&pdev->dev,
++					      &tegra20_spdif_component,
++					      &tegra20_spdif_dai, 1);
  	if (ret) {
  		dev_err(&pdev->dev, "Could not register DAI: %d\n", ret);
--		ret = -ENOMEM;
- 		goto err_pm_disable;
+-		goto err_pm_disable;
++		return ret;
  	}
  
-@@ -349,14 +337,13 @@ MODULE_DEVICE_TABLE(of, tegra20_spdif_of_match);
+-	ret = tegra_pcm_platform_register(&pdev->dev);
++	ret = devm_tegra_pcm_platform_register(&pdev->dev);
+ 	if (ret) {
+ 		dev_err(&pdev->dev, "Could not register PCM: %d\n", ret);
+-		goto err_unregister_component;
++		return ret;
+ 	}
  
- static struct platform_driver tegra20_spdif_driver = {
- 	.driver = {
--		.name = DRV_NAME,
-+		.name = "tegra20-spdif",
- 		.pm = &tegra20_spdif_pm_ops,
+-	return 0;
+-
+-err_unregister_component:
+-	snd_soc_unregister_component(&pdev->dev);
+-err_pm_disable:
+-	pm_runtime_disable(&pdev->dev);
+-
+-	return ret;
+-}
+-
+-static int tegra20_spdif_platform_remove(struct platform_device *pdev)
+-{
+-	tegra_pcm_platform_unregister(&pdev->dev);
+-	snd_soc_unregister_component(&pdev->dev);
+-
+-	pm_runtime_disable(&pdev->dev);
+-
+ 	return 0;
+ }
+ 
+@@ -342,7 +328,6 @@ static struct platform_driver tegra20_spdif_driver = {
  		.of_match_table = tegra20_spdif_of_match,
  	},
  	.probe = tegra20_spdif_platform_probe,
- 	.remove = tegra20_spdif_platform_remove,
+-	.remove = tegra20_spdif_platform_remove,
  };
--
  module_platform_driver(tegra20_spdif_driver);
  
- MODULE_AUTHOR("Stephen Warren <swarren@nvidia.com>");
+diff --git a/sound/soc/tegra/tegra_pcm.c b/sound/soc/tegra/tegra_pcm.c
+index ef1e74d95236..468c8e77de21 100644
+--- a/sound/soc/tegra/tegra_pcm.c
++++ b/sound/soc/tegra/tegra_pcm.c
+@@ -48,6 +48,12 @@ int tegra_pcm_platform_register(struct device *dev)
+ }
+ EXPORT_SYMBOL_GPL(tegra_pcm_platform_register);
+ 
++int devm_tegra_pcm_platform_register(struct device *dev)
++{
++	return devm_snd_dmaengine_pcm_register(dev, &tegra_dmaengine_pcm_config, 0);
++}
++EXPORT_SYMBOL_GPL(devm_tegra_pcm_platform_register);
++
+ int tegra_pcm_platform_register_with_chan_names(struct device *dev,
+ 				struct snd_dmaengine_pcm_config *config,
+ 				char *txdmachan, char *rxdmachan)
+diff --git a/sound/soc/tegra/tegra_pcm.h b/sound/soc/tegra/tegra_pcm.h
+index d602126c65b7..2a36eea1740d 100644
+--- a/sound/soc/tegra/tegra_pcm.h
++++ b/sound/soc/tegra/tegra_pcm.h
+@@ -32,6 +32,7 @@ int tegra_pcm_hw_params(struct snd_soc_component *component,
+ snd_pcm_uframes_t tegra_pcm_pointer(struct snd_soc_component *component,
+ 				    struct snd_pcm_substream *substream);
+ int tegra_pcm_platform_register(struct device *dev);
++int devm_tegra_pcm_platform_register(struct device *dev);
+ int tegra_pcm_platform_register_with_chan_names(struct device *dev,
+ 				struct snd_dmaengine_pcm_config *config,
+ 				char *txdmachan, char *rxdmachan);
 -- 
 2.33.1
 
