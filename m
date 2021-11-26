@@ -1,73 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AE1C45F0F6
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Nov 2021 16:44:00 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC75945F0FF
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Nov 2021 16:45:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2AB426F8DB;
-	Fri, 26 Nov 2021 15:43:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 390946F8EA;
+	Fri, 26 Nov 2021 15:45:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com
  [64.147.123.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC2526F8DB
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Nov 2021 15:43:57 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.west.internal (Postfix) with ESMTP id EB2543201D0C;
- Fri, 26 Nov 2021 10:43:53 -0500 (EST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D3AF6F8EF
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Nov 2021 15:45:37 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.west.internal (Postfix) with ESMTP id B8CF932007F9;
+ Fri, 26 Nov 2021 10:45:35 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute1.internal (MEProxy); Fri, 26 Nov 2021 10:43:55 -0500
+ by compute5.internal (MEProxy); Fri, 26 Nov 2021 10:45:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=ZS/2KR6T9tafL68lEqzElJT0LEb
- WPwUjCYuVOHLCYTk=; b=ap/i8s/AV5HBCV8Oe97V2R2U0SbgL/awK4M+vWmcjoD
- Zh51xEzzmr61Bt74tm5tH6a4McEJ48oa4hkNoqp/+vbUhVhDIz9p8VSyWhjYALog
- GOLkeErg7Zyh9YKWdXOp1k24hcI0QUfwq7C0eGzX+/v6v0ZaNbqOw2xbLLuOxyYO
- rJ5gddgtdWuAF/+2H2B1QZJTrGVZBLHAMRFB72LMBFqMrRINk0vSZNob2VUAj6ou
- 1w2JZPFkjOpnbwBNNG+myBg0sGC2otklnwoOgu3FDPTv1jPJ9pjCuXISukX0UZiR
- XZ7BNWEBbHP3FMpBNM1jn3iaXmIghUfhLV2z6Fr7T1w==
+ :content-type:in-reply-to; s=fm1; bh=YgPSROLFrTPC6zxSgCbUCQMTm52
+ Ky/2Tvi5tY7xsCXo=; b=gnybvxRXBSzfnWU3F5AOko9PAKl2lLSdi31mAOm4AlH
+ kCEnWbEa8SUf9cWH391+KXCcEKXhmIU7F4nrr3HnRJF7c2gcCToVXNj9Dubc2Ikg
+ py2EyauTJmP4WvB5S5ajVe1aGE3BHtpI9pUxB5S4NJX0QROpodNcw9rc3JWwz+jw
+ cSWIzauhjAct4N1DwAUYhHcbyM1/X9kZ7ab1jaU2xAhsew0CE5lxrpKj6ZW/iqSd
+ CoyxvKqdr5bz+UxisyAARgCXkQSqQmUmlnEvSc6XrUxsOuFMtQ54GJMOyZaE0yhw
+ QkT47+H38L0xOxY80blnHL0Gf1MBP10LX8zm4+SIXKg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=ZS/2KR
- 6T9tafL68lEqzElJT0LEbWPwUjCYuVOHLCYTk=; b=DJmr4Y92IRiACjzbWQ0xV8
- DbAL0Isd35rZeEE40mhdjdiXMD4jTQv3IX3q+cnAiM9Clw+ugkuR8SP4b12gWw2c
- vZ1DxWdj+ZOGViYog3okUDwTRXVoIE9RKAheoXBp2De3UOXqei3RZqegzRWSEhXT
- s21rGT9xsZ1YYmW98A9czLxW/dEVPtWWihzpkUACQMA1n+zxTWs788QTSkDdfKxK
- ch/3Z7rQvc013DgCOX0l+pm0yASf8UG7tpnTphNobJfRwPxduoicBX9PV7Nl5U6K
- QDnHPpLdWwL9lqRsR1fUqlQJc2RcllJqgueSXSCdzdzmNx7Y4JTlSkx2vOaNzgzw
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=YgPSRO
+ LFrTPC6zxSgCbUCQMTm52Ky/2Tvi5tY7xsCXo=; b=ffm+3Cg1iNcDpOB2IA20Np
+ ByhxuplSPbPthXfecnB9TNRFXNxLUEqwdmRyZjrZDKTfyJADc7V6RUUBFaJeG5lg
+ ClymYEJMLpHDaT6BNH0EShSgTRV0rTGVcEfnCFLvcG4TrLNQG77oXZsAkMQ9x4WD
+ lIgrdI+Sj+2QUYA0kQ5rMCyOUc6q5KAA2E5+vkPWqCwaTQQBPSF7qhjNl5cjbwjp
+ w0hompUlsrMa0eWzykq9mQqIUqz2BNRsUDBPi0EFjRkp7jf+gM0/CR1dieT3zQbY
+ Yg8qChyO+7TWKl8atuPN5jYoZ75HucFfubwF6tb+/z7U9X5SVUwtyDcobSOZ6HPw
  ==
-X-ME-Sender: <xms:uAChYcK4dNwXESxbvvAgRw1Mzf1C2hfj-zaUdc7XrsQguZkwdLoE4g>
- <xme:uAChYcISf5JkWj2iJLOsU2UHTHSWHVfJEV9G26uGxRQELgqz3HKrPjHyEeaWYbnSD
- DdhAb4a-8tIqnv_VlY>
-X-ME-Received: <xmr:uAChYcugLQm1ep3z3lLiz1AartM7e4-o4l1ctr_OIZog2gr9eiwc3XTV12bWY5X-OOliPZW0KNPhqVqH7QVrZvd1rR-oEeJ1mo4>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrhedvgdejlecutefuodetggdotefrodftvf
+X-ME-Sender: <xms:HgGhYQqNIwd_mjgMVsNWhRbdA2ws99BrfsBm0nacqlCw4Bcf6UrR8A>
+ <xme:HgGhYWolCPQPQo1GCOXFqThugy45YOKEpNOz0hfUIUADhU6BXJMiKc7izp2h7c-SJ
+ rrPLpvCj3wva6zMaLQ>
+X-ME-Received: <xmr:HgGhYVOCLZoEsjxp6UKdIxr2ReCzZEZg3tzJ-96p_vMpXBiW-hnZuAV88ItLEaDGRmwdORNld434auoRs0hccbyzAUOmAxshW0s>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrhedvgdejkecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
+ fjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepofgrgihimhgv
  ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
- gvrhhnpeevveefffduveeitdegtefhhfetueffteefffdvheevvdehteethedvleffgfej
- vdenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
- enucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:uAChYZZE63DG0fxeh6diy4CKvpsztiuHisX9N-7Ci-2RcIWaHDnGGA>
- <xmx:uAChYTa8Vv4Rc8PDMT1wbspXF5-M2BkV3m2iKnWY0IP8iUCGRfbRJA>
- <xmx:uAChYVBDtQ5oDifPfgt86uuhlqy6wIhTVEXOPUydDwwjP5TePpUBrQ>
- <xmx:uQChYRNSguMSBX-OmcMGKJx8dIzklwvk22nvv_bAK9fiuh0_SA84gA>
+ gvrhhnpeeutdfgjeeuudehvefgvedvtedtudelfffgffekledtffekgedukeejueevieeg
+ udenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
+ igihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:HgGhYX573uuCSEF4csDqYvLnk2ZSkrb7A7TLmLjGk-V34qTRh5-EnQ>
+ <xmx:HgGhYf6MGan6SBP8owQShAMeBXSKEmqhuHdyZeTZ_DuL-PEDBz45Ig>
+ <xmx:HgGhYXjYm7MGQ7eNCYcDT96OLPetrZG9f1-Q-Nxe9-eakY2JukL8EQ>
+ <xmx:HwGhYZul3eVm5P1BXFapWH2BbVVs2GyJjkZjbMOn2naaX1tEZvXRWw>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 26 Nov 2021 10:43:51 -0500 (EST)
-Date: Fri, 26 Nov 2021 16:43:49 +0100
+ 26 Nov 2021 10:45:34 -0500 (EST)
+Date: Fri, 26 Nov 2021 16:45:32 +0100
 From: Maxime Ripard <maxime@cerno.tech>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH v2 00/13] drm: Add generic helpers for HDMI scrambling
-Message-ID: <20211126154349.aksr4kjhvj3xueir@houat>
-References: <20211118103814.524670-1-maxime@cerno.tech>
- <YZfKSmWs3n8zRUd0@phenom.ffwll.local>
+To: Jian-Hong Pan <jhp@endlessos.org>
+Subject: Re: [PATCH v2 0/6] drm/vc4: kms: Misc fixes for HVS commits
+Message-ID: <20211126154532.nqlqkoxa77apioxu@houat>
+References: <20211117094527.146275-1-maxime@cerno.tech>
+ <CAPpJ_eewp9Z_xdpmB+E_NFH1GGq8oyckVBmS1PD84CvCRUminQ@mail.gmail.com>
+ <20211118104009.jkvkhxi5nh4e4zlp@gilmour>
+ <CAPpJ_ef5XeLKpHAzxsrokkdg8M8uqrLo9X9E5uGbFn1-Baroig@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="p7qqz73vkr445fu5"
+ protocol="application/pgp-signature"; boundary="fgrhy2rcxzqako74"
 Content-Disposition: inline
-In-Reply-To: <YZfKSmWs3n8zRUd0@phenom.ffwll.local>
+In-Reply-To: <CAPpJ_ef5XeLKpHAzxsrokkdg8M8uqrLo9X9E5uGbFn1-Baroig@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,63 +84,106 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
  Dave Stevenson <dave.stevenson@raspberrypi.com>,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ David Airlie <airlied@linux.ie>, dri-devel <dri-devel@lists.freedesktop.org>,
  Thomas Zimmermann <tzimmermann@suse.de>,
  Daniel Vetter <daniel.vetter@intel.com>, Phil Elwell <phil@raspberrypi.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---p7qqz73vkr445fu5
-Content-Type: text/plain; charset=us-ascii
+--fgrhy2rcxzqako74
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi Daniel,
-
-On Fri, Nov 19, 2021 at 05:01:14PM +0100, Daniel Vetter wrote:
-> On Thu, Nov 18, 2021 at 11:38:01AM +0100, Maxime Ripard wrote:
-> > This is a follow-up of the work to support the interactions between the=
- hotplug
-> > and the scrambling support for vc4:
-> >=20
-> > https://lore.kernel.org/dri-devel/20210507150515.257424-11-maxime@cerno=
-=2Etech/
-> > https://lore.kernel.org/dri-devel/20211025152903.1088803-10-maxime@cern=
-o.tech/
-> >=20
-> > Ville feedback was that the same discussion happened some time ago for =
-i915,
-> > and resulted in a function to do an full disable/enable cycle on reconn=
-ection
-> > to avoid breaking the HDMI 2.0 spec.
-> >=20
-> > This series improves the current scrambling support by adding generic h=
-elpers
-> > for usual scrambling-related operations, and builds upon them to provid=
-e a
-> > generic alternative to intel_hdmi_reset_link.
+On Fri, Nov 19, 2021 at 06:24:34PM +0800, Jian-Hong Pan wrote:
+> Maxime Ripard <maxime@cerno.tech> =E6=96=BC 2021=E5=B9=B411=E6=9C=8818=E6=
+=97=A5 =E9=80=B1=E5=9B=9B =E4=B8=8B=E5=8D=886:40=E5=AF=AB=E9=81=93=EF=BC=9A
+> >
+> > On Thu, Nov 18, 2021 at 02:42:58PM +0800, Jian-Hong Pan wrote:
+> > > Maxime Ripard <maxime@cerno.tech> =E6=96=BC 2021=E5=B9=B411=E6=9C=881=
+7=E6=97=A5 =E9=80=B1=E4=B8=89 =E4=B8=8B=E5=8D=885:45=E5=AF=AB=E9=81=93=EF=
+=BC=9A
+> > > > The conversion to DRM commit helpers (f3c420fe19f8, "drm/vc4: kms: =
+Convert to
+> > > > atomic helpers") introduced a number of issues in corner cases, mos=
+t of them
+> > > > showing themselves in the form of either a vblank timeout or use-af=
+ter-free
+> > > > error.
+> > > >
+> > > > These patches should fix most of them, some of them still being deb=
+ugged.
+> > > >
+> > > > Maxime
+> > > >
+> > > > Changes from v1:
+> > > >   - Prevent a null pointer dereference
+> > > >
+> > > > Maxime Ripard (6):
+> > > >   drm/vc4: kms: Wait for the commit before increasing our clock rate
+> > > >   drm/vc4: kms: Fix return code check
+> > > >   drm/vc4: kms: Add missing drm_crtc_commit_put
+> > > >   drm/vc4: kms: Clear the HVS FIFO commit pointer once done
+> > > >   drm/vc4: kms: Don't duplicate pending commit
+> > > >   drm/vc4: kms: Fix previous HVS commit wait
+> > > >
+> > > >  drivers/gpu/drm/vc4/vc4_kms.c | 42 ++++++++++++++++---------------=
+----
+> > > >  1 file changed, 19 insertions(+), 23 deletions(-)
+> > >
+> > > I tested the v2 patches based on latest mainline kernel with RPi 4B.
+> > > System can boot up into desktop environment.
+> >
+> > So the thing that was broken initially isn't anymore?
 >=20
-> Out of curiosity, can we rebuild intel_hdmi_reset_link on top of these?
-> Always better to have two drivers to actually show the helpers help, than
-> just one.
+> No.  It does not appear anymore.
+>=20
+> > > Although it still hit the bug [1], which might be under debugging, I
+> > > think these patches LGTM.
+> >
+> > The vblank timeout stuff is a symptom of various different bugs. Can you
+> > share your setup, your config.txt, and what you're doing to trigger it?
+>=20
+> I get the RPi boot firmware files from raspberrypi's repository at tag
+> 1.20211029 [1]
+> And, make system boots:
+> RPi firmware -> U-Boot -> Linux kernel (aarch64) with corresponding DTB
+>=20
+> The config.txt only has:
+> enable_uart=3D1
+> arm_64bit=3D1
+> kernel=3Duboot.bin
+>=20
+> This bug can be reproduced with es2gears command easily.  May need to
+> wait it running a while.
+>=20
+> Mesa: 21.2.2
+> libdrm: 2.4.107
+> xserver/wayland: 1.20.11  Using wayland
+>=20
+> This bug happens with direct boot path as well:
+> RPi firmware -> Linux kernel (aarch64) with corresponding DTB
+>=20
+> I tried with Endless OS and Ubuntu's RPi 4B images.
+> An easy setup is using Ubuntu 21.10 RPi 4B image [2].  Then, replace
+> the kernel & device tree blob and edit the config.txt.
 
-Unfortunately, I don't have any Intel system I can test it on, and it
-looks like the changes wouldn't be trivial.
+Does it still appear if you raise the core clock in the config.txt file
+using: core_freq_min=3D600 ?
 
-Maybe we can use dw-hdmi instead?
-
+Thanks!
 Maxime
 
---p7qqz73vkr445fu5
+--fgrhy2rcxzqako74
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYaEAtQAKCRDj7w1vZxhR
-xQlQAQDagG2Mg12w28iTWdHXGy3xXWvontjW9PCq75c9fc2VDAEAnYz47H1L39q5
-JUOCIULuZKdS1PyFkuLxhydeu3Z1Yw8=
-=XjbG
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYaEBHAAKCRDj7w1vZxhR
+xTrpAP464zbFupAtWFQGuF5L9yD03i2S9FtDNElSi19F30bxgQEAnWgQY0jJUS7G
+tsnCJDalrGSgEIcANrUbRAw9xhlMaQ4=
+=GkiN
 -----END PGP SIGNATURE-----
 
---p7qqz73vkr445fu5--
+--fgrhy2rcxzqako74--
