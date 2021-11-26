@@ -1,40 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9281545EB21
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Nov 2021 11:15:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 979C045EB3E
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Nov 2021 11:22:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 344FB6EAD7;
-	Fri, 26 Nov 2021 10:15:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 381E36EB07;
+	Fri, 26 Nov 2021 10:22:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 53C566EAD7
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Nov 2021 10:15:25 +0000 (UTC)
-Received: from Monstersaurus.local
- (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id B82CC148B;
- Fri, 26 Nov 2021 11:15:23 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1637921723;
- bh=qI1H7VYrHIFCPRdhdtphotkQv5wrmJn/4zKU6uqux7g=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=acG8Dl7SOTF8ovCfnjpR6GAduMiAiuVuyn60hNQI92KGsFvQ+nwBHpydm8ndVOSnO
- mSKqwNNZbxY3cCoJ7kKDDuki/Q6lqPS77F1y12/FwMsHCTepT2VxDXIQ5fF1QxxSR0
- JMcO1z0O+KczeKN39DcPZUKNyzboHfaL0eWKQRQY=
-From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- linux-renesas-soc@vger.kernel.org
-Subject: [PATCH 4/4] drm: rcar-du: mipi-dsi: Support bridge probe ordering
-Date: Fri, 26 Nov 2021 10:15:18 +0000
-Message-Id: <20211126101518.938783-5-kieran.bingham+renesas@ideasonboard.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20211126101518.938783-1-kieran.bingham+renesas@ideasonboard.com>
-References: <20211126101518.938783-1-kieran.bingham+renesas@ideasonboard.com>
+Received: from relay04.th.seeweb.it (relay04.th.seeweb.it [5.144.164.165])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A1F86EB07
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Nov 2021 10:22:25 +0000 (UTC)
+Received: from IcarusMOD.eternityproject.eu (unknown [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 287EF201B4;
+ Fri, 26 Nov 2021 11:22:22 +0100 (CET)
+Subject: Re: [PATCH v6 5/7] drm/mediatek: dpi: Add dpintf support
+To: Guillaume Ranquet <granquet@baylibre.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>
+References: <20211110130623.20553-1-granquet@baylibre.com>
+ <20211110130623.20553-6-granquet@baylibre.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+Message-ID: <5205e450-9a10-ff50-2eb9-1fd93e928f28@somainline.org>
+Date: Fri, 26 Nov 2021 11:22:21 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20211110130623.20553-6-granquet@baylibre.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,117 +47,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ Markus Schneider-Pargmann <msp@baylibre.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The bridge probe ordering for DSI devices has been clarified and further
-documented in
+Il 10/11/21 14:06, Guillaume Ranquet ha scritto:
+> From: Markus Schneider-Pargmann <msp@baylibre.com>
+> 
+> dpintf is the displayport interface hardware unit. This unit is similar
+> to dpi and can reuse most of the code.
+> 
+> This patch adds support for mt8195-dpintf to this dpi driver. Main
+> differences are:
+>   - Some features/functional components are not available for dpintf
+>     which are now excluded from code execution once is_dpintf is set
+>   - dpintf can and needs to choose between different clockdividers based
+>     on the clockspeed. This is done by choosing a different clock parent.
+>   - There are two additional clocks that need to be managed. These are
+>     only set for dpintf and will be set to NULL if not supplied. The
+>     clk_* calls handle these as normal clocks then.
+>   - Some register contents differ slightly between the two components. To
+>     work around this I added register bits/masks with a DPINTF_ prefix
+>     and use them where different.
+> 
+> Based on a separate driver for dpintf created by
+> Jason-JH.Lin <jason-jh.lin@mediatek.com>.
+> 
+> Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
+> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
 
-To support connecting with the SN65DSI86 device after commit c3b75d4734cb
-("drm/bridge: sn65dsi86: Register and attach our DSI device at probe"),
-update to the new probe ordering to remove a perpetual -EPROBE_DEFER
-loop between the two devices.
+Hello Guillaume, Markus
 
-Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
----
- drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c | 48 +++++++++++++------------
- 1 file changed, 26 insertions(+), 22 deletions(-)
+Strictly speaking about functionality, the entire series is totally fine,
+however, I cannot give you a R-b on patches 6 and 7, since this code should
+*really* make use of phy_get(), like suggested by Vinod.
 
-diff --git a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
-index 833f4480bdf3..f783bacee8da 100644
---- a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
-@@ -639,6 +639,8 @@ static int rcar_mipi_dsi_host_attach(struct mipi_dsi_host *host,
- 					struct mipi_dsi_device *device)
- {
- 	struct rcar_mipi_dsi *dsi = host_to_rcar_mipi_dsi(host);
-+	struct drm_panel *panel;
-+	int ret;
- 
- 	if (device->lanes > dsi->num_data_lanes)
- 		return -EINVAL;
-@@ -646,12 +648,36 @@ static int rcar_mipi_dsi_host_attach(struct mipi_dsi_host *host,
- 	dsi->lanes = device->lanes;
- 	dsi->format = device->format;
- 
-+	ret = drm_of_find_panel_or_bridge(dsi->dev->of_node, 1, 0, &panel,
-+					  &dsi->next_bridge);
-+	if (ret) {
-+		dev_err_probe(dsi->dev, ret, "could not find next bridge\n");
-+		return ret;
-+	}
-+
-+	if (!dsi->next_bridge) {
-+		dsi->next_bridge = devm_drm_panel_bridge_add(dsi->dev, panel);
-+		if (IS_ERR(dsi->next_bridge)) {
-+			dev_err(dsi->dev, "failed to create panel bridge\n");
-+			return PTR_ERR(dsi->next_bridge);
-+		}
-+	}
-+
-+	/* Initialize the DRM bridge. */
-+	dsi->bridge.funcs = &rcar_mipi_dsi_bridge_ops;
-+	dsi->bridge.of_node = dsi->dev->of_node;
-+	drm_bridge_add(&dsi->bridge);
-+
- 	return 0;
- }
- 
- static int rcar_mipi_dsi_host_detach(struct mipi_dsi_host *host,
- 					struct mipi_dsi_device *device)
- {
-+	struct rcar_mipi_dsi *dsi = host_to_rcar_mipi_dsi(host);
-+
-+	drm_bridge_remove(&dsi->bridge);
-+
- 	return 0;
- }
- 
-@@ -766,21 +792,6 @@ static int rcar_mipi_dsi_probe(struct platform_device *pdev)
- 		return PTR_ERR(dsi->rstc);
- 	}
- 
--	ret = drm_of_find_panel_or_bridge(dsi->dev->of_node, 1, 0, &panel,
--					  &dsi->next_bridge);
--	if (ret) {
--		dev_err_probe(dsi->dev, ret, "could not find next bridge\n");
--		return ret;
--	}
--
--	if (!dsi->next_bridge) {
--		dsi->next_bridge = devm_drm_panel_bridge_add(dsi->dev, panel);
--		if (IS_ERR(dsi->next_bridge)) {
--			dev_err(dsi->dev, "failed to create panel bridge\n");
--			return PTR_ERR(dsi->next_bridge);
--		}
--	}
--
- 	/* Initialize the DSI host. */
- 	dsi->host.dev = dsi->dev;
- 	dsi->host.ops = &rcar_mipi_dsi_host_ops;
-@@ -788,11 +799,6 @@ static int rcar_mipi_dsi_probe(struct platform_device *pdev)
- 	if (ret < 0)
- 		return ret;
- 
--	/* Initialize the DRM bridge. */
--	dsi->bridge.funcs = &rcar_mipi_dsi_bridge_ops;
--	dsi->bridge.of_node = dsi->dev->of_node;
--	drm_bridge_add(&dsi->bridge);
--
- 	return 0;
- }
- 
-@@ -800,8 +806,6 @@ static int rcar_mipi_dsi_remove(struct platform_device *pdev)
- {
- 	struct rcar_mipi_dsi *dsi = platform_get_drvdata(pdev);
- 
--	drm_bridge_remove(&dsi->bridge);
--
- 	mipi_dsi_host_unregister(&dsi->host);
- 
- 	return 0;
--- 
-2.30.2
+In any case, for this patch:
 
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
