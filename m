@@ -1,43 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56AF345EF88
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Nov 2021 15:03:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D92F45EFB5
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Nov 2021 15:14:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 579A46E937;
-	Fri, 26 Nov 2021 14:03:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 457376E98A;
+	Fri, 26 Nov 2021 14:14:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB9886E8AE
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Nov 2021 14:03:10 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10179"; a="235908222"
-X-IronPort-AV: E=Sophos;i="5.87,266,1631602800"; d="scan'208";a="235908222"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Nov 2021 06:03:10 -0800
-X-IronPort-AV: E=Sophos;i="5.87,266,1631602800"; d="scan'208";a="498409922"
-Received: from oletychx-mobl.ger.corp.intel.com (HELO [10.252.50.138])
- ([10.252.50.138])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Nov 2021 06:03:06 -0800
-Message-ID: <cc2c3e2c-6993-b742-53d6-c6078a3ced09@linux.intel.com>
-Date: Fri, 26 Nov 2021 15:03:04 +0100
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 87CCA6E98A;
+ Fri, 26 Nov 2021 14:14:50 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10179"; a="234401577"
+X-IronPort-AV: E=Sophos;i="5.87,266,1631602800"; d="scan'208";a="234401577"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Nov 2021 06:14:35 -0800
+X-IronPort-AV: E=Sophos;i="5.87,266,1631602800"; d="scan'208";a="592519301"
+Received: from slee54-mobl2.amr.corp.intel.com (HELO tursulin-mobl2.home)
+ ([10.209.166.109])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Nov 2021 06:14:33 -0800
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+To: Intel-gfx@lists.freedesktop.org
+Subject: [PATCH v4] drm/i915: Use per device iommu check
+Date: Fri, 26 Nov 2021 14:14:24 +0000
+Message-Id: <20211126141424.493753-1-tvrtko.ursulin@linux.intel.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.3.2
-Subject: Re: [PATCH v7 2/6] drm/sprd: add Unisoc's drm kms master
-Content-Language: en-US
-To: Kevin Tang <kevin3.tang@gmail.com>, mripard@kernel.org, sean@poorly.run,
- airlied@linux.ie, daniel@ffwll.ch, robh+dt@kernel.org, mark.rutland@arm.com,
- pony1.wu@gmail.com
-References: <20211025093418.20545-1-kevin3.tang@gmail.com>
- <20211025093418.20545-3-kevin3.tang@gmail.com>
-From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-In-Reply-To: <20211025093418.20545-3-kevin3.tang@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,325 +42,291 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: orsonzhai@gmail.com, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- zhang.lyra@gmail.com
+Cc: Robin Murphy <robin.murphy@arm.com>, Lu Baolu <baolu.lu@linux.intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>, dri-devel@lists.freedesktop.org,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 25-10-2021 11:34, Kevin Tang wrote:
-> Adds drm support for the Unisoc's display subsystem.
->
-> This is drm kms driver, this driver provides support for the
-> application framework in Android, Yocto and more.
->
-> Application framework can access Unisoc's display internal
-> peripherals through libdrm or libkms, it's test ok by modetest
-> (DRM/KMS test tool) and Android HWComposer.
->
-> Cc: Orson Zhai <orsonzhai@gmail.com>
-> Cc: Chunyan Zhang <zhang.lyra@gmail.com>
-> Signed-off-by: Kevin Tang <kevin.tang@unisoc.com>
->
-> v4:
->   - Move the devm_drm_dev_alloc to master_ops->bind function.
->   - The managed drmm_mode_config_init() it is no longer necessary for drivers to explicitly call drm_mode_config_cleanup, so delete it.
->
-> v5:
->   - Remove subdir-ccflgas-y for Makefile.
->   - Keep the selects sorted by alphabet for Kconfig.
-> ---
->  drivers/gpu/drm/Kconfig         |   2 +
->  drivers/gpu/drm/Makefile        |   1 +
->  drivers/gpu/drm/sprd/Kconfig    |  11 ++
->  drivers/gpu/drm/sprd/Makefile   |   3 +
->  drivers/gpu/drm/sprd/sprd_drm.c | 203 ++++++++++++++++++++++++++++++++
->  drivers/gpu/drm/sprd/sprd_drm.h |  16 +++
->  6 files changed, 236 insertions(+)
->  create mode 100644 drivers/gpu/drm/sprd/Kconfig
->  create mode 100644 drivers/gpu/drm/sprd/Makefile
->  create mode 100644 drivers/gpu/drm/sprd/sprd_drm.c
->  create mode 100644 drivers/gpu/drm/sprd/sprd_drm.h
->
-> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-> index 2a926d0de..8220be1b5 100644
-> --- a/drivers/gpu/drm/Kconfig
-> +++ b/drivers/gpu/drm/Kconfig
-> @@ -380,6 +380,8 @@ source "drivers/gpu/drm/xlnx/Kconfig"
->  
->  source "drivers/gpu/drm/gud/Kconfig"
->  
-> +source "drivers/gpu/drm/sprd/Kconfig"
-> +
->  config DRM_HYPERV
->  	tristate "DRM Support for Hyper-V synthetic video device"
->  	depends on DRM && PCI && MMU && HYPERV
-> diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-> index 0dff40bb8..ec2756806 100644
-> --- a/drivers/gpu/drm/Makefile
-> +++ b/drivers/gpu/drm/Makefile
-> @@ -127,3 +127,4 @@ obj-$(CONFIG_DRM_TIDSS) += tidss/
->  obj-y			+= xlnx/
->  obj-y			+= gud/
->  obj-$(CONFIG_DRM_HYPERV) += hyperv/
-> +obj-$(CONFIG_DRM_SPRD) += sprd/
-> diff --git a/drivers/gpu/drm/sprd/Kconfig b/drivers/gpu/drm/sprd/Kconfig
-> new file mode 100644
-> index 000000000..726c3e76d
-> --- /dev/null
-> +++ b/drivers/gpu/drm/sprd/Kconfig
-> @@ -0,0 +1,11 @@
-> +config DRM_SPRD
-> +	tristate "DRM Support for Unisoc SoCs Platform"
-> +	depends on ARCH_SPRD || COMPILE_TEST
-> +	depends on DRM && OF
-> +	select DRM_GEM_CMA_HELPER
-> +	select DRM_KMS_CMA_HELPER
-> +	select DRM_KMS_HELPER
-> +	help
-> +	  Choose this option if you have a Unisoc chipset.
-> +	  If M is selected the module will be called sprd_drm.
-> +
-> diff --git a/drivers/gpu/drm/sprd/Makefile b/drivers/gpu/drm/sprd/Makefile
-> new file mode 100644
-> index 000000000..9850f00b8
-> --- /dev/null
-> +++ b/drivers/gpu/drm/sprd/Makefile
-> @@ -0,0 +1,3 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +
-> +obj-y := sprd_drm.o
-> diff --git a/drivers/gpu/drm/sprd/sprd_drm.c b/drivers/gpu/drm/sprd/sprd_drm.c
-> new file mode 100644
-> index 000000000..bb87f28f2
-> --- /dev/null
-> +++ b/drivers/gpu/drm/sprd/sprd_drm.c
-> @@ -0,0 +1,203 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Copyright (C) 2020 Unisoc Inc.
-> + */
-> +
-> +#include <linux/component.h>
-> +#include <linux/dma-mapping.h>
-> +#include <linux/module.h>
-> +#include <linux/mutex.h>
-> +#include <linux/of_graph.h>
-> +#include <linux/of_platform.h>
-> +
-> +#include <drm/drm_atomic_helper.h>
-> +#include <drm/drm_crtc_helper.h>
-> +#include <drm/drm_drv.h>
-> +#include <drm/drm_gem_cma_helper.h>
-> +#include <drm/drm_gem_framebuffer_helper.h>
-> +#include <drm/drm_of.h>
-> +#include <drm/drm_probe_helper.h>
-> +#include <drm/drm_vblank.h>
-> +
-> +#include "sprd_drm.h"
-> +
-> +#define DRIVER_NAME	"sprd"
-> +#define DRIVER_DESC	"Spreadtrum SoCs' DRM Driver"
-> +#define DRIVER_DATE	"20200201"
-> +#define DRIVER_MAJOR	1
-> +#define DRIVER_MINOR	0
-> +
-> +static const struct drm_mode_config_helper_funcs sprd_drm_mode_config_helper = {
-> +	.atomic_commit_tail = drm_atomic_helper_commit_tail_rpm,
-> +};
-> +
-> +static const struct drm_mode_config_funcs sprd_drm_mode_config_funcs = {
-> +	.fb_create = drm_gem_fb_create,
-> +	.atomic_check = drm_atomic_helper_check,
-> +	.atomic_commit = drm_atomic_helper_commit,
-> +};
-> +
-> +static void sprd_drm_mode_config_init(struct drm_device *drm)
-> +{
-> +	drm->mode_config.min_width = 0;
-> +	drm->mode_config.min_height = 0;
-> +	drm->mode_config.max_width = 8192;
-> +	drm->mode_config.max_height = 8192;
-> +	drm->mode_config.allow_fb_modifiers = true;
-> +
-> +	drm->mode_config.funcs = &sprd_drm_mode_config_funcs;
-> +	drm->mode_config.helper_private = &sprd_drm_mode_config_helper;
-> +}
-> +
-> +DEFINE_DRM_GEM_CMA_FOPS(sprd_drm_fops);
-> +
-> +static struct drm_driver sprd_drm_drv = {
-> +	.driver_features	= DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
-> +	.fops			= &sprd_drm_fops,
-> +
-> +	/* GEM Operations */
-> +	DRM_GEM_CMA_DRIVER_OPS,
-> +
-> +	.name			= DRIVER_NAME,
-> +	.desc			= DRIVER_DESC,
-> +	.date			= DRIVER_DATE,
-> +	.major			= DRIVER_MAJOR,
-> +	.minor			= DRIVER_MINOR,
-> +};
-> +
-> +static int sprd_drm_bind(struct device *dev)
-> +{
-> +	struct platform_device *pdev = to_platform_device(dev);
-> +	struct drm_device *drm;
-> +	struct sprd_drm *sprd;
-> +	int ret;
-> +
-> +	sprd = devm_drm_dev_alloc(dev, &sprd_drm_drv, struct sprd_drm, drm);
-> +	if (IS_ERR(sprd))
-> +		return PTR_ERR(sprd);
-> +
-> +	drm = &sprd->drm;
-> +	platform_set_drvdata(pdev, drm);
-> +
-> +	ret = drmm_mode_config_init(drm);
-> +	if (ret)
-> +		return ret;
-> +
-> +	sprd_drm_mode_config_init(drm);
-> +
-> +	/* bind and init sub drivers */
-> +	ret = component_bind_all(drm->dev, drm);
-> +	if (ret) {
-> +		drm_err(drm, "failed to bind all component.\n");
-> +		return ret;
-> +	}
-> +
-> +	/* vblank init */
-> +	ret = drm_vblank_init(drm, drm->mode_config.num_crtc);
-> +	if (ret) {
-> +		drm_err(drm, "failed to initialize vblank.\n");
-> +		goto err_unbind_all;
-> +	}
-> +
-> +	/* reset all the states of crtc/plane/encoder/connector */
-> +	drm_mode_config_reset(drm);
-> +
-> +	/* init kms poll for handling hpd */
-> +	drm_kms_helper_poll_init(drm);
-> +
-> +	ret = drm_dev_register(drm, 0);
-> +	if (ret < 0)
-> +		goto err_kms_helper_poll_fini;
-> +
-> +	return 0;
-> +
-> +err_kms_helper_poll_fini:
-> +	drm_kms_helper_poll_fini(drm);
-> +err_unbind_all:
-> +	component_unbind_all(drm->dev, drm);
-> +	return ret;
-> +}
-> +
-> +static void sprd_drm_unbind(struct device *dev)
-> +{
-> +	struct drm_device *drm = dev_get_drvdata(dev);
-> +
-> +	drm_dev_unregister(drm);
-> +
-> +	drm_kms_helper_poll_fini(drm);
-> +
-> +	component_unbind_all(drm->dev, drm);
-> +}
-> +
-> +static const struct component_master_ops drm_component_ops = {
-> +	.bind = sprd_drm_bind,
-> +	.unbind = sprd_drm_unbind,
-> +};
-> +
-> +static int compare_of(struct device *dev, void *data)
-> +{
-> +	return dev->of_node == data;
-> +}
-> +
-> +static int sprd_drm_probe(struct platform_device *pdev)
-> +{
-> +	return drm_of_component_probe(&pdev->dev, compare_of, &drm_component_ops);
-> +}
-> +
-> +static int sprd_drm_remove(struct platform_device *pdev)
-> +{
-> +	component_master_del(&pdev->dev, &drm_component_ops);
-> +	return 0;
-> +}
-> +
-> +static void sprd_drm_shutdown(struct platform_device *pdev)
-> +{
-> +	struct drm_device *drm = platform_get_drvdata(pdev);
-> +
-> +	if (!drm) {
-> +		drm_warn(drm, "drm device is not available, no shutdown\n");
-> +		return;
-> +	}
-> +
-> +	drm_atomic_helper_shutdown(drm);
-> +}
-> +
-> +static const struct of_device_id drm_match_table[] = {
-> +	{ .compatible = "sprd,display-subsystem", },
-> +	{ /* sentinel */ },
-> +};
-> +MODULE_DEVICE_TABLE(of, drm_match_table);
-> +
-> +static struct platform_driver sprd_drm_driver = {
-> +	.probe = sprd_drm_probe,
-> +	.remove = sprd_drm_remove,
-> +	.shutdown = sprd_drm_shutdown,
-> +	.driver = {
-> +		.name = "sprd-drm-drv",
-> +		.of_match_table = drm_match_table,
-> +	},
-> +};
-> +
-> +static struct platform_driver *sprd_drm_drivers[]  = {
-> +	&sprd_drm_driver,
-> +};
-> +
-> +static int __init sprd_drm_init(void)
-> +{
-> +	return platform_register_drivers(sprd_drm_drivers,
-> +					ARRAY_SIZE(sprd_drm_drivers));
-> +}
-> +
-> +static void __exit sprd_drm_exit(void)
-> +{
-> +	platform_unregister_drivers(sprd_drm_drivers,
-> +				    ARRAY_SIZE(sprd_drm_drivers));
-> +}
-> +
-> +module_init(sprd_drm_init);
-> +module_exit(sprd_drm_exit);
-> +
-> +MODULE_AUTHOR("Leon He <leon.he@unisoc.com>");
-> +MODULE_AUTHOR("Kevin Tang <kevin.tang@unisoc.com>");
-> +MODULE_DESCRIPTION("Unisoc DRM KMS Master Driver");
-> +MODULE_LICENSE("GPL v2");
-> diff --git a/drivers/gpu/drm/sprd/sprd_drm.h b/drivers/gpu/drm/sprd/sprd_drm.h
-> new file mode 100644
-> index 000000000..9781fd591
-> --- /dev/null
-> +++ b/drivers/gpu/drm/sprd/sprd_drm.h
-> @@ -0,0 +1,16 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * Copyright (C) 2020 Unisoc Inc.
-> + */
-> +
-> +#ifndef _SPRD_DRM_H_
-> +#define _SPRD_DRM_H_
-> +
-> +#include <drm/drm_atomic.h>
-> +#include <drm/drm_print.h>
-> +
-> +struct sprd_drm {
-> +	struct drm_device drm;
-> +};
+From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 
-I've seen this in the patch adding sprd_plane too, are you planning to extend both structs?
+With both integrated and discrete Intel GPUs in a system, the current
+global check of intel_iommu_gfx_mapped, as done from intel_vtd_active()
+may not be completely accurate.
 
-~Maarten
+In this patch we add i915 parameter to intel_vtd_active() in order to
+prepare it for multiple GPUs and we also change the check away from Intel
+specific intel_iommu_gfx_mapped (global exported by the Intel IOMMU
+driver) to probing the presence of IOMMU on a specific device using
+device_iommu_mapped().
+
+This will return true both for IOMMU pass-through and address translation
+modes which matches the current behaviour. If in the future we wanted to
+distinguish between these two modes we could either use
+iommu_get_domain_for_dev() and check for __IOMMU_DOMAIN_PAGING bit
+indicating address translation, or ask for a new API to be exported from
+the IOMMU core code.
+
+v2:
+  * Check for dmar translation specifically, not just iommu domain. (Baolu)
+
+v3:
+ * Go back to plain "any domain" check for now, rewrite commit message.
+
+v4:
+ * Use device_iommu_mapped. (Robin, Baolu)
+
+Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: Lu Baolu <baolu.lu@linux.intel.com>
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>
+Cc: Robin Murphy <robin.murphy@arm.com>
+Acked-by: Robin Murphy <robin.murphy@arm.com>
+Reviewed-by: Lu Baolu <baolu.lu@linux.intel.com>
+---
+ drivers/gpu/drm/i915/display/intel_bw.c      |  2 +-
+ drivers/gpu/drm/i915/display/intel_display.c |  2 +-
+ drivers/gpu/drm/i915/display/intel_fbc.c     |  2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_stolen.c   |  2 +-
+ drivers/gpu/drm/i915/gem/i915_gemfs.c        |  2 +-
+ drivers/gpu/drm/i915/gt/intel_ggtt.c         |  4 ++--
+ drivers/gpu/drm/i915/i915_debugfs.c          |  1 +
+ drivers/gpu/drm/i915/i915_driver.c           |  7 +++++++
+ drivers/gpu/drm/i915/i915_drv.h              | 13 +++++++------
+ drivers/gpu/drm/i915/i915_gpu_error.c        |  5 +----
+ drivers/gpu/drm/i915/intel_device_info.c     | 14 +-------------
+ drivers/gpu/drm/i915/intel_pm.c              |  2 +-
+ 12 files changed, 25 insertions(+), 31 deletions(-)
+
+diff --git a/drivers/gpu/drm/i915/display/intel_bw.c b/drivers/gpu/drm/i915/display/intel_bw.c
+index abec394f6869..2da4aacc956b 100644
+--- a/drivers/gpu/drm/i915/display/intel_bw.c
++++ b/drivers/gpu/drm/i915/display/intel_bw.c
+@@ -634,7 +634,7 @@ static unsigned int intel_bw_data_rate(struct drm_i915_private *dev_priv,
+ 	for_each_pipe(dev_priv, pipe)
+ 		data_rate += bw_state->data_rate[pipe];
+ 
+-	if (DISPLAY_VER(dev_priv) >= 13 && intel_vtd_active())
++	if (DISPLAY_VER(dev_priv) >= 13 && intel_vtd_active(dev_priv))
+ 		data_rate = data_rate * 105 / 100;
+ 
+ 	return data_rate;
+diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
+index b2d51cd79d6c..1ef77ba7f645 100644
+--- a/drivers/gpu/drm/i915/display/intel_display.c
++++ b/drivers/gpu/drm/i915/display/intel_display.c
+@@ -1293,7 +1293,7 @@ static bool needs_async_flip_vtd_wa(const struct intel_crtc_state *crtc_state)
+ {
+ 	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->dev);
+ 
+-	return crtc_state->uapi.async_flip && intel_vtd_active() &&
++	return crtc_state->uapi.async_flip && intel_vtd_active(i915) &&
+ 		(DISPLAY_VER(i915) == 9 || IS_BROADWELL(i915) || IS_HASWELL(i915));
+ }
+ 
+diff --git a/drivers/gpu/drm/i915/display/intel_fbc.c b/drivers/gpu/drm/i915/display/intel_fbc.c
+index d0c34bc3af6c..614e8697c068 100644
+--- a/drivers/gpu/drm/i915/display/intel_fbc.c
++++ b/drivers/gpu/drm/i915/display/intel_fbc.c
+@@ -1677,7 +1677,7 @@ static int intel_sanitize_fbc_option(struct drm_i915_private *i915)
+ static bool need_fbc_vtd_wa(struct drm_i915_private *i915)
+ {
+ 	/* WaFbcTurnOffFbcWhenHyperVisorIsUsed:skl,bxt */
+-	if (intel_vtd_active() &&
++	if (intel_vtd_active(i915) &&
+ 	    (IS_SKYLAKE(i915) || IS_BROXTON(i915))) {
+ 		drm_info(&i915->drm,
+ 			 "Disabling framebuffer compression (FBC) to prevent screen flicker with VT-d enabled\n");
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
+index 80680395bb3b..bce03d74a0b4 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
+@@ -399,7 +399,7 @@ static int i915_gem_init_stolen(struct intel_memory_region *mem)
+ 		return 0;
+ 	}
+ 
+-	if (intel_vtd_active() && GRAPHICS_VER(i915) < 8) {
++	if (intel_vtd_active(i915) && GRAPHICS_VER(i915) < 8) {
+ 		drm_notice(&i915->drm,
+ 			   "%s, disabling use of stolen memory\n",
+ 			   "DMAR active");
+diff --git a/drivers/gpu/drm/i915/gem/i915_gemfs.c b/drivers/gpu/drm/i915/gem/i915_gemfs.c
+index dbdbdc344d87..11cd66d183e6 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gemfs.c
++++ b/drivers/gpu/drm/i915/gem/i915_gemfs.c
+@@ -31,7 +31,7 @@ int i915_gemfs_init(struct drm_i915_private *i915)
+ 	 */
+ 
+ 	opts = NULL;
+-	if (intel_vtd_active()) {
++	if (intel_vtd_active(i915)) {
+ 		if (IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE)) {
+ 			static char huge_opt[] = "huge=within_size"; /* r/w */
+ 
+diff --git a/drivers/gpu/drm/i915/gt/intel_ggtt.c b/drivers/gpu/drm/i915/gt/intel_ggtt.c
+index 555111c3bee5..110d3944f9a2 100644
+--- a/drivers/gpu/drm/i915/gt/intel_ggtt.c
++++ b/drivers/gpu/drm/i915/gt/intel_ggtt.c
+@@ -106,7 +106,7 @@ static bool needs_idle_maps(struct drm_i915_private *i915)
+ 	 * Query intel_iommu to see if we need the workaround. Presumably that
+ 	 * was loaded first.
+ 	 */
+-	if (!intel_vtd_active())
++	if (!intel_vtd_active(i915))
+ 		return false;
+ 
+ 	if (GRAPHICS_VER(i915) == 5 && IS_MOBILE(i915))
+@@ -1233,7 +1233,7 @@ int i915_ggtt_probe_hw(struct drm_i915_private *i915)
+ 	if (ret)
+ 		return ret;
+ 
+-	if (intel_vtd_active())
++	if (intel_vtd_active(i915))
+ 		drm_info(&i915->drm, "VT-d active for gfx access\n");
+ 
+ 	return 0;
+diff --git a/drivers/gpu/drm/i915/i915_debugfs.c b/drivers/gpu/drm/i915/i915_debugfs.c
+index fe638b5da7c0..390d541f64ea 100644
+--- a/drivers/gpu/drm/i915/i915_debugfs.c
++++ b/drivers/gpu/drm/i915/i915_debugfs.c
+@@ -65,6 +65,7 @@ static int i915_capabilities(struct seq_file *m, void *data)
+ 
+ 	intel_device_info_print_static(INTEL_INFO(i915), &p);
+ 	intel_device_info_print_runtime(RUNTIME_INFO(i915), &p);
++	i915_print_iommu_status(i915, &p);
+ 	intel_gt_info_print(&i915->gt.info, &p);
+ 	intel_driver_caps_print(&i915->caps, &p);
+ 
+diff --git a/drivers/gpu/drm/i915/i915_driver.c b/drivers/gpu/drm/i915/i915_driver.c
+index a13666627dad..bbc99fc5888f 100644
+--- a/drivers/gpu/drm/i915/i915_driver.c
++++ b/drivers/gpu/drm/i915/i915_driver.c
+@@ -741,6 +741,12 @@ static void i915_driver_unregister(struct drm_i915_private *dev_priv)
+ 	i915_gem_driver_unregister(dev_priv);
+ }
+ 
++void
++i915_print_iommu_status(struct drm_i915_private *i915, struct drm_printer *p)
++{
++	drm_printf(p, "iommu: %s\n", enableddisabled(intel_vtd_active(i915)));
++}
++
+ static void i915_welcome_messages(struct drm_i915_private *dev_priv)
+ {
+ 	if (drm_debug_enabled(DRM_UT_DRIVER)) {
+@@ -756,6 +762,7 @@ static void i915_welcome_messages(struct drm_i915_private *dev_priv)
+ 
+ 		intel_device_info_print_static(INTEL_INFO(dev_priv), &p);
+ 		intel_device_info_print_runtime(RUNTIME_INFO(dev_priv), &p);
++		i915_print_iommu_status(dev_priv, &p);
+ 		intel_gt_info_print(&dev_priv->gt.info, &p);
+ 	}
+ 
+diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
+index 1bfadd9127fc..d99e020773ac 100644
+--- a/drivers/gpu/drm/i915/i915_drv.h
++++ b/drivers/gpu/drm/i915/i915_drv.h
+@@ -1760,26 +1760,27 @@ static inline bool run_as_guest(void)
+ #define HAS_D12_PLANE_MINIMIZATION(dev_priv) (IS_ROCKETLAKE(dev_priv) || \
+ 					      IS_ALDERLAKE_S(dev_priv))
+ 
+-static inline bool intel_vtd_active(void)
++static inline bool intel_vtd_active(struct drm_i915_private *i915)
+ {
+-#ifdef CONFIG_INTEL_IOMMU
+-	if (intel_iommu_gfx_mapped)
++	if (device_iommu_mapped(i915->drm.dev))
+ 		return true;
+-#endif
+ 
+ 	/* Running as a guest, we assume the host is enforcing VT'd */
+ 	return run_as_guest();
+ }
+ 
++void
++i915_print_iommu_status(struct drm_i915_private *i915, struct drm_printer *p);
++
+ static inline bool intel_scanout_needs_vtd_wa(struct drm_i915_private *dev_priv)
+ {
+-	return GRAPHICS_VER(dev_priv) >= 6 && intel_vtd_active();
++	return GRAPHICS_VER(dev_priv) >= 6 && intel_vtd_active(dev_priv);
+ }
+ 
+ static inline bool
+ intel_ggtt_update_needs_vtd_wa(struct drm_i915_private *i915)
+ {
+-	return IS_BROXTON(i915) && intel_vtd_active();
++	return IS_BROXTON(i915) && intel_vtd_active(i915);
+ }
+ 
+ static inline bool
+diff --git a/drivers/gpu/drm/i915/i915_gpu_error.c b/drivers/gpu/drm/i915/i915_gpu_error.c
+index b1e4ce0f798f..a485aa4ca669 100644
+--- a/drivers/gpu/drm/i915/i915_gpu_error.c
++++ b/drivers/gpu/drm/i915/i915_gpu_error.c
+@@ -1754,10 +1754,7 @@ static void capture_gen(struct i915_gpu_coredump *error)
+ 	error->wakelock = atomic_read(&i915->runtime_pm.wakeref_count);
+ 	error->suspended = i915->runtime_pm.suspended;
+ 
+-	error->iommu = -1;
+-#ifdef CONFIG_INTEL_IOMMU
+-	error->iommu = intel_iommu_gfx_mapped;
+-#endif
++	error->iommu = intel_vtd_active(i915);
+ 	error->reset_count = i915_reset_count(&i915->gpu_error);
+ 	error->suspend_count = i915->suspend_count;
+ 
+diff --git a/drivers/gpu/drm/i915/intel_device_info.c b/drivers/gpu/drm/i915/intel_device_info.c
+index 6e6b317bc33c..e6605b5181a5 100644
+--- a/drivers/gpu/drm/i915/intel_device_info.c
++++ b/drivers/gpu/drm/i915/intel_device_info.c
+@@ -83,17 +83,6 @@ const char *intel_platform_name(enum intel_platform platform)
+ 	return platform_names[platform];
+ }
+ 
+-static const char *iommu_name(void)
+-{
+-	const char *msg = "n/a";
+-
+-#ifdef CONFIG_INTEL_IOMMU
+-	msg = enableddisabled(intel_iommu_gfx_mapped);
+-#endif
+-
+-	return msg;
+-}
+-
+ void intel_device_info_print_static(const struct intel_device_info *info,
+ 				    struct drm_printer *p)
+ {
+@@ -114,7 +103,6 @@ void intel_device_info_print_static(const struct intel_device_info *info,
+ 		drm_printf(p, "display version: %u\n", info->display.ver);
+ 
+ 	drm_printf(p, "gt: %d\n", info->gt);
+-	drm_printf(p, "iommu: %s\n", iommu_name());
+ 	drm_printf(p, "memory-regions: %x\n", info->memory_regions);
+ 	drm_printf(p, "page-sizes: %x\n", info->page_sizes);
+ 	drm_printf(p, "platform: %s\n", intel_platform_name(info->platform));
+@@ -374,7 +362,7 @@ void intel_device_info_runtime_init(struct drm_i915_private *dev_priv)
+ 			info->display.has_dsc = 0;
+ 	}
+ 
+-	if (GRAPHICS_VER(dev_priv) == 6 && intel_vtd_active()) {
++	if (GRAPHICS_VER(dev_priv) == 6 && intel_vtd_active(dev_priv)) {
+ 		drm_info(&dev_priv->drm,
+ 			 "Disabling ppGTT for VT-d support\n");
+ 		info->ppgtt_type = INTEL_PPGTT_NONE;
+diff --git a/drivers/gpu/drm/i915/intel_pm.c b/drivers/gpu/drm/i915/intel_pm.c
+index 01fa3fac1b57..cff0f32bedc9 100644
+--- a/drivers/gpu/drm/i915/intel_pm.c
++++ b/drivers/gpu/drm/i915/intel_pm.c
+@@ -98,7 +98,7 @@ static void gen9_init_clock_gating(struct drm_i915_private *dev_priv)
+ 		 * "Plane N strech max must be programmed to 11b (x1)
+ 		 *  when Async flips are enabled on that plane."
+ 		 */
+-		if (!IS_GEMINILAKE(dev_priv) && intel_vtd_active())
++		if (!IS_GEMINILAKE(dev_priv) && intel_vtd_active(dev_priv))
+ 			intel_uncore_rmw(&dev_priv->uncore, CHICKEN_PIPESL_1(pipe),
+ 					 SKL_PLANE1_STRETCH_MAX_MASK, SKL_PLANE1_STRETCH_MAX_X1);
+ 	}
+-- 
+2.32.0
 
