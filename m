@@ -1,73 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25B4045E7D9
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Nov 2021 07:31:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C9D045E806
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Nov 2021 07:44:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7DFCD6E58A;
-	Fri, 26 Nov 2021 06:31:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 78F406E841;
+	Fri, 26 Nov 2021 06:44:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
- [66.111.4.224])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B842B6E532
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Nov 2021 06:31:07 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailnew.nyi.internal (Postfix) with ESMTP id 4911758030B;
- Fri, 26 Nov 2021 01:31:04 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Fri, 26 Nov 2021 01:31:04 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=TQT7bhXqwH8akKiIgle7DOfwOzq
- sXFgyjCJ+JSwVBvM=; b=UArY7GF/grHcjnLfBnXEUU1gwzqTyNaaOluwb+sg0Eo
- pm+/1TsfpLJAebvBYApjuv3QnnnlEa3HKiaUw0P9fxcA8XHtXWdnrWB6sAwvLghr
- LOvI9XUzjoetQ7FveDlUQAeKg8j8FYqbdK43JJXM+GiYg58cOSAI21yr+b4cxxoM
- OszMI1XHTjBFRX7/Gu1lFy/6jg5XBUrEim4Fz5YGMOoe554GfMxmBrs72PDEP0xg
- Twv/mANVLQoUrK8AtS7bFKIgj4+WdMrCyOSAqYbHBgb68AiUBTRs5wlU4U5MOAja
- IawCmEDPlpOyGCwnyvoSkIwlNuxwVJTHw3clze+/mZA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=TQT7bh
- XqwH8akKiIgle7DOfwOzqsXFgyjCJ+JSwVBvM=; b=ad7MUCGgy6GBCEqiy5C7uF
- ENvuoMF/KjO9QrM9e+6Lfkql40q5ow+9hhnHEjNDZ0/v0R7eBG+dbTVPRg45BseY
- l6gY4gC/yALZBstQklXQfqD4FBY+g2bFVHBCDHfB/MaI8gEciv4JrkQ6yhxBrKz1
- CGbqK6u2RIS7vXeNUVfmhjyT7Tn+vfL90md6jHPu9Ueu8HrkWljf1niHkQCDocoW
- CaUyH3Psf9Q7ARs3nafg+tDn4VnCCTVOknEiaYbfxiG7Fdv6imBrkTFyijuFmkaH
- 1BDnujDlMfsYcznk3Zmu2vrST6xQ8S63AWa4KUxxZ5tTsz/Pu9c7qQdxIaygrzXw
- ==
-X-ME-Sender: <xms:J3-gYbgcJ7yuOd9PxPF7z6PUzVcR_5VDdV8atw8k7Ay6OiR9EabrhQ>
- <xme:J3-gYYCmCpJxWZh5GwcOX9abxzx6nWFs5JXay71t0m3W-qzumEF6ZXT_67GjD3Ksw
- JVBrl8GJsYpPw>
-X-ME-Received: <xmr:J3-gYbE8gDUQBc2O0-GjvN0MDTqjRvWxBoOuptqQU9aRGWTCcZD6Ednqpvz5dH-YyVj0S47HffvL0d2035sbccQtgMwchpU5>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrhedugdeliecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecunecujfgurhepfffhvffukfhfgggtuggjsehttdertd
- dttddvnecuhfhrohhmpefirhgvghcumffjuceoghhrvghgsehkrhhorghhrdgtohhmqeen
- ucggtffrrghtthgvrhhnpeeuleeltdehkeeltefhleduuddvhfffuedvffduveegheekge
- eiffevheegfeetgfenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgv
- rhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepghhrvghgsehkrhhorghhrd
- gtohhm
-X-ME-Proxy: <xmx:J3-gYYRJMLRkMk3wyBE0Iv5OCuMK6kiSI-TXUIV8c2nhFI-hcKra9w>
- <xmx:J3-gYYypj5QB_CACUx3mkprwpqxZmTsm6Qj8en4BV4UyKs8jn2_aEQ>
- <xmx:J3-gYe6UdYl0Eb_CsMSzKsj3799OfW3C_EshpDEE60S5X8eTugPQWw>
- <xmx:KH-gYZT9W9xTQhOIPR-7TKNmuMW6_Ud9CatWFziCagno6socGADzTQ>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 26 Nov 2021 01:31:02 -0500 (EST)
-Date: Fri, 26 Nov 2021 07:31:00 +0100
-From: Greg KH <greg@kroah.com>
-To: guangming.cao@mediatek.com
-Subject: Re: [PATCH v3] dma-buf: system_heap: Use 'for_each_sgtable_sg' in
- pages free flow
-Message-ID: <YaB/JHP/pMbgRJ1O@kroah.com>
-References: <eb6cc56d-cbe0-73d5-d4f5-0aa2b76272a4@arm.com>
- <20211126031605.81436-1-guangming.cao@mediatek.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD5306E841
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Nov 2021 06:44:22 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10179"; a="259521530"
+X-IronPort-AV: E=Sophos;i="5.87,265,1631602800"; d="scan'208";a="259521530"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Nov 2021 22:44:22 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.87,265,1631602800"; d="scan'208";a="475820944"
+Received: from lkp-server02.sh.intel.com (HELO 9e1e9f9b3bcb) ([10.239.97.151])
+ by orsmga002.jf.intel.com with ESMTP; 25 Nov 2021 22:44:18 -0800
+Received: from kbuild by 9e1e9f9b3bcb with local (Exim 4.92)
+ (envelope-from <lkp@intel.com>)
+ id 1mqUy1-0007iJ-CR; Fri, 26 Nov 2021 06:44:17 +0000
+Date: Fri, 26 Nov 2021 14:44:11 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sascha Hauer <s.hauer@pengutronix.de>, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 12/12] drm: rockchip: Add VOP2 driver
+Message-ID: <202111261442.VG18rKq6-lkp@intel.com>
+References: <20211117143347.314294-13-s.hauer@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211126031605.81436-1-guangming.cao@mediatek.com>
+In-Reply-To: <20211117143347.314294-13-s.hauer@pengutronix.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,58 +47,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: wsd_upstream@mediatek.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, christian.koenig@amd.com,
- linaro-mm-sig@lists.linaro.org, lmark@codeaurora.org,
- benjamin.gaignard@linaro.org, matthias.bgg@gmail.com,
- linux-mediatek@lists.infradead.org, stable@vger.kernel.org, labbott@redhat.com,
- robin.murphy@arm.com, linux-arm-kernel@lists.infradead.org,
- linux-media@vger.kernel.org
+Cc: devicetree@vger.kernel.org,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Peter Geis <pgwipeout@gmail.com>, Sandy Huang <hjc@rock-chips.com>,
+ linux-rockchip@lists.infradead.org,
+ Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
+ kbuild-all@lists.01.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Nov 26, 2021 at 11:16:05AM +0800, guangming.cao@mediatek.com wrote:
-> From: Guangming <Guangming.Cao@mediatek.com>
-> 
-> For previous version, it uses 'sg_table.nent's to traverse sg_table in pages
-> free flow.
-> However, 'sg_table.nents' is reassigned in 'dma_map_sg', it means the number of
-> created entries in the DMA adderess space.
-> So, use 'sg_table.nents' in pages free flow will case some pages can't be freed.
-> 
-> Here we should use sg_table.orig_nents to free pages memory, but use the
-> sgtable helper 'for each_sgtable_sg'(, instead of the previous rather common
-> helper 'for_each_sg' which maybe cause memory leak) is much better.
-> 
-> Fixes: d963ab0f15fb0 ("dma-buf: system_heap: Allocate higher order pages if available")
-> 
-> Signed-off-by: Guangming <Guangming.Cao@mediatek.com>
-> ---
->  drivers/dma-buf/heaps/system_heap.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/system_heap.c
-> index 23a7e74ef966..8660508f3684 100644
-> --- a/drivers/dma-buf/heaps/system_heap.c
-> +++ b/drivers/dma-buf/heaps/system_heap.c
-> @@ -289,7 +289,7 @@ static void system_heap_dma_buf_release(struct dma_buf *dmabuf)
->  	int i;
->  
->  	table = &buffer->sg_table;
-> -	for_each_sg(table->sgl, sg, table->nents, i) {
-> +	for_each_sgtable_sg(table, sg, i) {
->  		struct page *page = sg_page(sg);
->  
->  		__free_pages(page, compound_order(page));
-> -- 
-> 2.17.1
-> 
+Hi Sascha,
 
-<formletter>
+I love your patch! Perhaps something to improve:
 
-This is not the correct way to submit patches for inclusion in the
-stable kernel tree.  Please read:
-    https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
-for how to do this properly.
+[auto build test WARNING on rockchip/for-next]
+[also build test WARNING on drm/drm-next v5.16-rc2 next-20211125]
+[cannot apply to arm64/for-next/core]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-</formletter>
+url:    https://github.com/0day-ci/linux/commits/Sascha-Hauer/drm-rockchip-RK356x-VOP2-support/20211117-223601
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mmind/linux-rockchip.git for-next
+config: mips-allmodconfig (https://download.01.org/0day-ci/archive/20211126/202111261442.VG18rKq6-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 11.2.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/0day-ci/linux/commit/f8c11ce8b4d254bb4824a87adbf9ed187a3c1178
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Sascha-Hauer/drm-rockchip-RK356x-VOP2-support/20211117-223601
+        git checkout f8c11ce8b4d254bb4824a87adbf9ed187a3c1178
+        # save the config file to linux build tree
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross ARCH=mips 
+
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
+
+All warnings (new ones prefixed by >>):
+
+   drivers/gpu/drm/rockchip/rockchip_drm_vop2.c: In function 'vop2_setup_dly_for_window':
+>> drivers/gpu/drm/rockchip/rockchip_drm_vop2.c:2943:27: warning: variable 'plane' set but not used [-Wunused-but-set-variable]
+    2943 |         struct drm_plane *plane;
+         |                           ^~~~~
+
+
+vim +/plane +2943 drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+
+  2937	
+  2938	static void vop2_setup_dly_for_window(struct vop2_video_port *vp, const struct vop2_zpos *vop2_zpos,
+  2939					      int nr_layers)
+  2940	{
+  2941		struct vop2 *vop2 = vp->vop2;
+  2942		const struct vop2_zpos *zpos;
+> 2943		struct drm_plane *plane;
+  2944		struct vop2_win *win;
+  2945		uint32_t dly;
+  2946		int i = 0;
+  2947	
+  2948		for (i = 0; i < nr_layers; i++) {
+  2949			zpos = &vop2_zpos[i];
+  2950			win = zpos->win;
+  2951			plane = &win->base;
+  2952			dly = win->data->dly[VOP2_DLY_MODE_DEFAULT];
+  2953	
+  2954			if (vop2_cluster_window(win))
+  2955				dly |= dly << 8;
+  2956	
+  2957			vop2_write(vop2, &vop2->data->ctrl->win_dly[win->data->phys_id], dly);
+  2958		}
+  2959	
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
