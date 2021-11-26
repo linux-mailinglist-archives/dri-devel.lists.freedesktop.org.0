@@ -2,127 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67C3545EB07
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Nov 2021 11:05:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8638745EB0A
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Nov 2021 11:07:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6199F6EAAB;
-	Fri, 26 Nov 2021 10:05:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E25F6EAC3;
+	Fri, 26 Nov 2021 10:07:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2062.outbound.protection.outlook.com [40.107.237.62])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E49226EAAB
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Nov 2021 10:05:44 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=er8DCSH3FPkQVvGDR+rsJO4bbPDxQoxkyY/+zE98U9AshRl1sk//u7Uc1vAVE7i3Hx+feBoOTRu0Ogqh/P94LTG4CnySAzBmjCOiuT//Mtla69HgsKCkFYqdDNiWsNpgzLfchkrKyOaYJhn8hzanvg9SxSDVLKxkR7qrxETXmevfidYlASbm4nXcNXvH2B5/dmQEu6fVU4OCOtNkEGTuRGbpPdAqfIprssVPve1+/OrMYVFo6eQb0TLLm0WjOWDsEzf/CwmQucOlAAPsS+19hX66AUScq0aTFd7uD0SIH2QOFibirK3w09V3BgcJSz0FlUueEl1EU7+fNmb5xpYpBQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=sFV4iiFp31IusWtDmbqLmFOpQ033Gc2gJy4qfBMbZec=;
- b=nf5nDXtpUybU70Or+Xn32EokRuf8bQlO3HTVE/4uEo+m49991AhMUOiOvIOKNySF7xtH4htCe5f7nJceWAbq8/LZ9dHWmoLqL6cQd8WOHEFJ598qweha0AMSp+OvDQMOL9/bSkdgkURtzd3E+J+Ur23oiXd2NkMwjmiax/KSddktgMXVJHDvLwFvrEu5DMfcfDaTwXS7pNU7puQ0ezqlcWNXlHArDiBhJpRn4jKC5wrWC9Fsu7xSE2hFNaiwRr+LWazUsi0+Y+nIdQR/juhyTQkAGAcUybEE6PrkEBnn3PuZHKLWZJ52ZRApeCRPeFXFh+vWzcAhybPTNPdJaow32A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sFV4iiFp31IusWtDmbqLmFOpQ033Gc2gJy4qfBMbZec=;
- b=ZnkePyQqG90S+S4Qg1HKRrDoHL7uRTf3mloQA7da8MP52xdrB4ASajttbkldfhEk81wqKm+a13WblqhgbClP2g3/r+LFPZ8lbCRKixNGKpfmFUt7zVBL58IpUDy/W2990vILzFNItMeu6XTBBznwfZSQMiE+e2yw1I0zBNCq6g0=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MWHPR1201MB0192.namprd12.prod.outlook.com
- (2603:10b6:301:5a::14) by MWHPR12MB1487.namprd12.prod.outlook.com
- (2603:10b6:301:3::9) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4713.22; Fri, 26 Nov
- 2021 10:05:42 +0000
-Received: from MWHPR1201MB0192.namprd12.prod.outlook.com
- ([fe80::2d02:26e7:a2d0:3769]) by MWHPR1201MB0192.namprd12.prod.outlook.com
- ([fe80::2d02:26e7:a2d0:3769%5]) with mapi id 15.20.4713.027; Fri, 26 Nov 2021
- 10:05:41 +0000
-Subject: Re: [PATCH v4] dma-buf: system_heap: Use 'for_each_sgtable_sg' in
- pages free flow
-To: guangming.cao@mediatek.com, greg@kroah.com
-References: <YaB/JHP/pMbgRJ1O@kroah.com>
- <20211126074904.88388-1-guangming.cao@mediatek.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <260c250e-e867-a797-d899-f0b285315c56@amd.com>
-Date: Fri, 26 Nov 2021 11:05:31 +0100
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F36186EABF
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Nov 2021 10:07:26 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: kholk11) with ESMTPSA id EB5831F467B2
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
+ t=1637921245; bh=GfodxMab6zz4b2pHy0pAF0NoTH6v36gLi+3v9vfn8Hc=;
+ h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+ b=Xzp/J7pae1wwLUvvkf7P223pFq9kJEJFyYJ6icj/Y0msp5qlUuxNK5SWtIlCOxfhP
+ bpveKTQjaYMsWAAl7qOiJ95ovW3Mf9T9sR5D6JZO7D/9b5Bzfkw2EhWEDbUxsWphfo
+ hYx7TOsIaaYp6KDBsSivpOuDgBjsrb//XJz7i++MKaYizUeCgb6K1a/jjbE54MM0Ti
+ M+rFySAKPKhbCOR71OV3TbIZn0IDs+U1UPcgWEynuZ4DE6qC7MgiwRahcuDz4qHkDr
+ 3IHhn2s27PZxtjuHSGegnwbWmgaU+0Qnsls4JxTVYoPKI26HsZitjidx8PeU/EBX2a
+ tGS1KTvoNW+lg==
+Subject: Re: [RFC 08/13] soc: mediatek: apu: Add apusys rv driver
+To: "Flora.Fu" <flora.fu@mediatek.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>
+References: <20211023111409.30463-1-flora.fu@mediatek.com>
+ <20211023111409.30463-9-flora.fu@mediatek.com>
+ <5a67997f-737a-5bd1-9ba3-25b5330b7dc6@collabora.com>
+ <0248142e6e0b55fe12f179e74b77375b386082ee.camel@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Message-ID: <2c8f7f6c-66bb-f931-c026-6ca2e000433a@collabora.com>
+Date: Fri, 26 Nov 2021 11:07:22 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
-In-Reply-To: <20211126074904.88388-1-guangming.cao@mediatek.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-ClientProxiedBy: AM6PR01CA0066.eurprd01.prod.exchangelabs.com
- (2603:10a6:20b:e0::43) To MWHPR1201MB0192.namprd12.prod.outlook.com
- (2603:10b6:301:5a::14)
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Received: from [IPv6:2a02:908:1252:fb60:9698:4ba1:7e0f:eebe]
- (2a02:908:1252:fb60:9698:4ba1:7e0f:eebe) by
- AM6PR01CA0066.eurprd01.prod.exchangelabs.com (2603:10a6:20b:e0::43) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4734.20 via Frontend
- Transport; Fri, 26 Nov 2021 10:05:36 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 2dae7444-ad3f-4794-b66f-08d9b0c44da2
-X-MS-TrafficTypeDiagnostic: MWHPR12MB1487:
-X-Microsoft-Antispam-PRVS: <MWHPR12MB148751E349B40D188E8C3A7783639@MWHPR12MB1487.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1186;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: EFPMR28fpZK301D/vIdxNdR4IVYzZzWXOQF0a8y2OiDnhnkBmWo6uPmLGNnPFJEBKowT1Eoa9tpLZV0oo5WHWRUEN/aEjNEnslcCzx4NkBzfuaeQknC9MGkneEBzxyEEP2GyGKeZvHatl02dNEONd1lNIO6O1eNLC0lWea2L0eTp+EC1+g1xoQLQYdk3ENLkOffnliVRpiwkVEF9rKFmGi1oPF5s0gyY1XTxcrH1n7tpN3YQo1l1zbmxIe9bRJh9cE5IM1X9x974UuSOVKqzYls8XMjYdnMH04icj0TLx9V0X8T95p0MyCaWnEJoavJ1LOOO79gXqqleLHzst4G1JH3mu30SpefhiQTh06Lz0SvswqtKU37Xq9RqRWRp68jIZ26WVv/TvbMwlKN1VQfsq3Lf3O8ezV0msmiFnNRbTmqXk0HA5h2+fhTazjrS9Lu8mBKuOZ4mAbEpy526uQPQYrkov5Baa7SVecag/7HGpsdMbLUxa29Z6YjMVD/TDedKfDi3DJtfMSrjMEQqOpR7KFpyGNWtHVfYIun8JeLwMzEAIG6gPzAYS3hFqobSDupqdGunTLvUA/UkueY5sF5KLivqnYWUz3+AM7zUku7Q/5ccZ7cND0ig+AOCcTfdl92mW3TR/UNbEP1MwHYXNje9BaEx5rnByqyuxhuFmsGblmTud9ZeGDybCLZIDIRUeuI5G/3GChjMXuYG6gvNTm87JQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MWHPR1201MB0192.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(5660300002)(66574015)(66476007)(66556008)(31686004)(8936002)(36756003)(66946007)(4326008)(2906002)(2616005)(31696002)(86362001)(83380400001)(6486002)(7416002)(316002)(186003)(508600001)(6666004)(8676002)(38100700002)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZkRTMkdwSXJHNUlmL2F3emh1OVJ3Qjcrb3hsMmxhWXdMRzBsL3A2eFdIajlM?=
- =?utf-8?B?OVMxcjZhZFZOd3lOQmYwZU82RUhMYzhUdm5YUk40R2w4N25SeThEaTJuUmQy?=
- =?utf-8?B?VW9wR0ZZSHBiMDEvcmpVWVg3UXgzbjRvSlM3ZzJsTVkybk9XbjEyWnF0N0Ju?=
- =?utf-8?B?Q1NiLzdkSllJYmE5a0ZkRkgyRWsvc2RTaitGYmJBTFJ6WCtrdVJmSkVoM2s5?=
- =?utf-8?B?T3kxeS9wbnI5ZlVDVG8wVEpXWnlGa2w3cnZiQUJIZGlCM1NSU3c2T0Vzck1G?=
- =?utf-8?B?anBMUm9tTlR5ZGg1RklMRDZLNERCOUFvOVdhUm9FNHIwRjdmdFBlL2hhd2tS?=
- =?utf-8?B?cU9LcUlveGNKbTgyNUpBMWFDaHU5ZFhmL2ZtR3FMaDI3NmlpVVZWbUtCdUxP?=
- =?utf-8?B?dlVjNEFsd2lKdStPL2JpbjlRcEdEaGJZcFA2Z1RRVldrTkNCZktsNGhXN0F6?=
- =?utf-8?B?SDJXbndqWldGTCtIRzk2dTJpN1pMZUNyRkJvRmFDNjRVN2ZnbUVpbm10MkNi?=
- =?utf-8?B?cjlaQ1R3NFdTMUpnV1RMRW1MSkhKQ3NhUkpid0hFM0Z4ZVpPdCtHdjRkaGdL?=
- =?utf-8?B?UnJqWCsxZGhPM3BuMTdRSExZc1F0em15d1Z2azdMUkY3RnVEcU1RVGZPY3dm?=
- =?utf-8?B?cURxYk5MTTZvQ3Q0UU8yTm5SWEpvVE1IdytYUU9zV3JuY0ppRFd5MnNTNnBX?=
- =?utf-8?B?d2F6ZWRPejNQcldFMjh4emNrS2hjZnpwS0YvbkpNeVA3MGY1SStYbGhCekNJ?=
- =?utf-8?B?U1orUjlXeEFSZ3ZtbHkxRHZNcHFLM0hMeGZmK0F2dlZ1citwMDl6U0dPeDBi?=
- =?utf-8?B?ZUY3eUFLMXdqMmpSVUZxWmZHT21CMFo5UXZ3ZWZLcDhYakpjbEpWa2YxL2lx?=
- =?utf-8?B?T25IWFdINjNpWnZZb1F4N3o4WjBBWGVodVFjWEdsdXM1NGJLN3N6Y3IxK0J4?=
- =?utf-8?B?ckxVUmZLdnoveXNTZ3c3WWxOVUZ4d3F0Sm5tU3M0aVJuSWVYZGl4TVJpQ1dX?=
- =?utf-8?B?bTNaaWVXRUFGSTU3ZDAwMTRRWFEwZnU0ek9VdE00S0JmejVXMW5JeXF4cVZp?=
- =?utf-8?B?c3U1OGRieXpCZk43UDhtOEE1K2JQYjhZbWdhQ0hUOGFFKzEwazJPbkVtLzFH?=
- =?utf-8?B?b05ycjlWN0ZPNCs0MWRxSzRVTXVNV0hLdFBCbkxvcFplbTFnWkpCY0cxSG9W?=
- =?utf-8?B?SHN0MmxBM3VNVnNTbTNlOFhsNTIxTFZpQWlDRk1lTDduR3c0QWZWcE80aU9t?=
- =?utf-8?B?aUdhU1FHdDBUemhuNFp3YkYwOFE0TXM2cldHTGVKZmJjRE5sTTJhWXNuSUpQ?=
- =?utf-8?B?Ukt1MXN6d0Jjck8xemRxTXR4b1J1ZlpxTlZmZTdOVUhMaEk3b29NTDNhOXE2?=
- =?utf-8?B?Wk1Db25lQVNBV0pESTI0NkFRWitiWG5qTmM1K0ZaZi82S0ZaVER1R2hrcTlR?=
- =?utf-8?B?UHZJN2k4YWhhWjRleGE5S2xDZnlIckI5NlYzakVsUFk5RDM5RHJub0NDY2NP?=
- =?utf-8?B?emkzUExVMThHUnJLRko1M094UDhXQ3FRQUROTW8yUVdRSlVPRnUxUXNKbzJq?=
- =?utf-8?B?Q2l0ODNlSjFraFB3RUt3N05pMEJ5bHhwTmRYNmZZMHFrT1JPaFd6Z0pQUTln?=
- =?utf-8?B?bkc5NGF1UTY3cjczQjh0TFdNT05idXJkQUM4YWF2ZnpmVXRQSmdDS2txMWxD?=
- =?utf-8?B?MmlYc2VhRURKVXpYbFFqQ3FFbDR5c01rb3lhYkduY0FlOWxvYTBxN3Q3M05F?=
- =?utf-8?B?eGJmVlcvQ3IrR2IrbDhlVlZ3WE9yQ2VNV05Rbm9zc0ZrY2FPYmp2dUxNZTIw?=
- =?utf-8?B?MmgxL1FFemZWSElEcklFd0hPYWEra1FPdjMzRGZheVhBYktOc3QzZzRzKzdr?=
- =?utf-8?B?QlhPYTFRbGRLVE84WjJwT3ZWcnd5eFY2NnVnREFXNkJUR2ZiZ0FwR1VtVFJZ?=
- =?utf-8?B?eWNMaWdScHJ6S2xlNDYvaTVMMko5eHM3TGRrWURFRURmYmpqbTlTVUM3MlNC?=
- =?utf-8?B?MCsyQkZMb3d4cjFnVzlvelR1UjNoQzhwVmZoMDgyQnNpaGdVcll4U0gwNnVW?=
- =?utf-8?B?NWUxTXFtUTNRRnAvWGdaZGtLNTBGdHJ6QzBPWWRSRWJoKzc4S0FobktGSUZG?=
- =?utf-8?B?VHZCNkNrVGFqcmRIc2xDWVc0OURHbHdVN2thdmhMa1V0VTZLK0w3ckJYcXdQ?=
- =?utf-8?Q?e/2zoPdPB2elJOSL6dTArC4=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2dae7444-ad3f-4794-b66f-08d9b0c44da2
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1201MB0192.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Nov 2021 10:05:41.7681 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Ocvy1BRVmc40ju7yAV1YYMrUaEG0hQTFZM1E7hxBcvG6g4JH84GA9BOZ79TLRIXX
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR12MB1487
+In-Reply-To: <0248142e6e0b55fe12f179e74b77375b386082ee.camel@mediatek.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -135,63 +53,860 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: wsd_upstream@mediatek.com, kuan-ying.lee@mediatek.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, lmark@codeaurora.org,
- benjamin.gaignard@linaro.org, matthias.bgg@gmail.com,
- linux-mediatek@lists.infradead.org, stable@vger.kernel.org, labbott@redhat.com,
- robin.murphy@arm.com, linux-arm-kernel@lists.infradead.org,
- linux-media@vger.kernel.org
+Cc: Pi-Cheng Chen <pi-cheng.chen@mediatek.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ linux-mediatek@lists.infradead.org, Yong Wu <yong.wu@mediatek.com>,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 26.11.21 um 08:49 schrieb guangming.cao@mediatek.com:
-> From: Guangming <Guangming.Cao@mediatek.com>
->
-> For previous version, it uses 'sg_table.nent's to traverse sg_table in pages
-> free flow.
-> However, 'sg_table.nents' is reassigned in 'dma_map_sg', it means the number of
-> created entries in the DMA adderess space.
-> So, use 'sg_table.nents' in pages free flow will case some pages can't be freed.
->
-> Here we should use sg_table.orig_nents to free pages memory, but use the
-> sgtable helper 'for each_sgtable_sg'(, instead of the previous rather common
-> helper 'for_each_sg' which maybe cause memory leak) is much better.
->
-> Fixes: d963ab0f15fb0 ("dma-buf: system_heap: Allocate higher order pages if available")
-> Signed-off-by: Guangming <Guangming.Cao@mediatek.com>
-> Reviewed-by: Robin Murphy <robin.murphy@arm.com>
+Il 26/11/21 10:25, Flora.Fu ha scritto:
+> On Tue, 2021-10-26 at 17:21 +0200, AngeloGioacchino Del Regno wrote:
+>> Il 23/10/21 13:14, Flora Fu ha scritto:
+>>> Add driver for control APU tinysys
+>>>
+>>> APU integrated subsystem having MD32RV33 (MD32) that runs tinysys
+>>> The tinsys is running on a micro processor in APU.
+>>> Its firmware is load and boot from Kernel side. Kernel and tinysys
+>>> use
+>>> IPI to tx/rx messages.
+>>>
+>>> Signed-off-by: Flora Fu <flora.fu@mediatek.com>
+>>> ---
+>>>    drivers/soc/mediatek/apusys/Makefile        |   6 +
+>>>    drivers/soc/mediatek/apusys/apu-config.h    | 100 +++
+>>>    drivers/soc/mediatek/apusys/apu-core.c      |   2 +
+>>>    drivers/soc/mediatek/apusys/apu-core.h      |   2 +
+>>>    drivers/soc/mediatek/apusys/apu-ipi.c       | 486 ++++++++++++
+>>
+>> I'm not sure of that, but your apu-ipi.c may be more suited to be in
+>> drivers/remoteproc instead.
+>>
+>>>    drivers/soc/mediatek/apusys/apu-mbox.c      |  83 ++
+>>
+>> apu-mbox.c should go to drivers/mailbox/ and you should register it
+>> with
+>> the mailbox API as a mailbox controller instead of what you're
+>> currently
+>> doing...
+>>
+>>   From what I see, you have functions in there that can be indeed
+>> mapped
+>> to struct mbox_chan_ops .send_data and .peek_data... also your
+>> function
+>> apu_mbox_wait_inbox seems to be waiting on an interrupt, and such irq
+>> is
+>> apparently your "mbox0_irq" (as you named it in the dt).
+>> In that case, you can also manage that in your drivers/mailbox/
+>> driver.
+>> +
+>>>    drivers/soc/mediatek/apusys/apu-mbox.h      |  27 +
+>>>    drivers/soc/mediatek/apusys/apu-rproc.c     | 806
+>>> ++++++++++++++++++++
+>>
+>> The apu-rproc.c driver seems to be a good candidate to be moved away
+>> from
+>>
+>> drivers/soc/mediatek/apusys/ - as this is indeed a remoteproc driver.
+>>
+>> Having it as drivers/remoteproc/mtk_apu.c seems to be a good option.
+>>
+> 
+> For mbox/ipi/apu-rproc, we will check the kernel framework and make
+> more fix on it.
+> 
+>>
+>>>    drivers/soc/mediatek/apusys/apu-sw-logger.c | 429 +++++++++++
+>>
+>> This one definitely belongs here in drivers/soc/mediatek, and it's a
+>> consumer
+>> of the mailbox driver.
+>>
+>>>    drivers/soc/mediatek/apusys/apu.h           | 256 +++++++
+>>>    drivers/soc/mediatek/apusys/mt81xx-plat.c   | 320 ++++++++
+>>
+>> If we end up keeping to be in need to have a separate mt81xx-plat.c
+>> file,
+>> then I believe this should have another name, so that it becomes one
+>> that
+>> aggregates all of the very-platform-specific functions in one,
+>> instead of
+>> having one file for each platform.
+>>
+>> Though, it may also be possible that this file will disappear
+>> entirely:
+>> since most of the things here will be moved around, it may become
+>> mostly
+>> empty... but it's probably too soon to judge.
+> 
+> The mt81xx-platform.c is prepared for the similiar apu desing platforms
+> but some of them will have differnt operations in the functions. I will
+> just keep it and we can reivew it again in the feature versions.
+> 
+>>
+>>>    11 files changed, 2517 insertions(+)
+>>>    create mode 100644 drivers/soc/mediatek/apusys/apu-config.h
+>>>    create mode 100644 drivers/soc/mediatek/apusys/apu-ipi.c
+>>>    create mode 100644 drivers/soc/mediatek/apusys/apu-mbox.c
+>>>    create mode 100644 drivers/soc/mediatek/apusys/apu-mbox.h
+>>>    create mode 100644 drivers/soc/mediatek/apusys/apu-rproc.c
+>>>    create mode 100644 drivers/soc/mediatek/apusys/apu-sw-logger.c
+>>>    create mode 100644 drivers/soc/mediatek/apusys/apu.h
+>>>    create mode 100644 drivers/soc/mediatek/apusys/mt81xx-plat.c
+>>>
+>>
+>> snip...
+>>
+>>> diff --git a/drivers/soc/mediatek/apusys/apu-ipi.c
+>>> b/drivers/soc/mediatek/apusys/apu-ipi.c
+>>> new file mode 100644
+>>> index 000000000000..547e034b3620
+>>> --- /dev/null
+>>> +++ b/drivers/soc/mediatek/apusys/apu-ipi.c
+>>
+>> snip...
+>>
+>>> +int apu_ipi_init(struct platform_device *pdev, struct mtk_apu
+>>> *apu)
+>>> +{
+>>> +	struct device *dev = apu->dev;
+>>> +	int i, ret;
+>>> +
+>>> +	tx_serial_no = 0;
+>>> +	rx_serial_no = 0;
+>>> +
+>>> +	mutex_init(&apu->send_lock);
+>>> +	spin_lock_init(&apu->usage_cnt_lock);
+>>> +	for (i = 0; i < APU_IPI_MAX; i++) {
+>>> +		mutex_init(&apu->ipi_desc[i].lock);
+>>> +		lockdep_set_class_and_name(&apu->ipi_desc[i].lock,
+>>> +					   &ipi_lock_key[i],
+>>> +					   apu->platdata-
+>>>> ipi_attrs[i].name);
+>>> +	}
+>>> +
+>>> +	init_waitqueue_head(&apu->run.wq);
+>>> +	init_waitqueue_head(&apu->ack_wq);
+>>> +
+>>> +	/* APU initialization IPI register */
+>>> +	ret = apu_ipi_register(apu, APU_IPI_INIT, apu_init_ipi_handler,
+>>> apu);
+>>> +	if (ret) {
+>>> +		dev_err(dev, "failed to register ipi for init,
+>>> ret=%d\n",
+>>> +			ret);
+>>> +		return ret;
+>>> +	}
+>>> +
+>>> +	/* add rpmsg subdev */
+>>> +	apu_add_rpmsg_subdev(apu);
+>>> +
+>>> +	/* register mailbox IRQ */
+>>> +	apu->mbox0_irq_number = platform_get_irq_byname(pdev,
+>>> "mbox0_irq");
+>>> +	dev_info(&pdev->dev, "%s: mbox0_irq = %d\n", __func__,
+>>> +		 apu->mbox0_irq_number);
+>>> +
+>>> +	ret = devm_request_threaded_irq(&pdev->dev, apu-
+>>>> mbox0_irq_number,
+>>> +					NULL, apu_ipi_handler,
+>>> IRQF_ONESHOT,
+>>> +					"apu_ipi", apu);
+>>
+>> This is the mailbox interrupt... but it's handled in this driver
+>> instead of
+>> being handler in the mailbox driver... it's a bit confusing.
+>>
+>> Is this interrupt supposed to fire as a mailbox doorbell or..?
+>> In that case, you should request it in the mailbox driver and
+>> register an
+>> interrupt controller (still, in the mailbox driver) so that you can
+>> export
+>> a sw interrupt to this one.
+>>
+>> Or, maybe you can use notifiers to catch the mailbox message in this
+>> driver?
+> 
+> Ack.
+> 
+>>> +	if (ret < 0)
+>>> +		goto remove_rpmsg_subdev;
+>>> +
+>>> +	apu_mbox_hw_init(apu);
+>>> +
+>>> +	return 0;
+>>> +
+>>> +remove_rpmsg_subdev:
+>>> +	apu_remove_rpmsg_subdev(apu);
+>>> +	apu_ipi_unregister(apu, APU_IPI_INIT);
+>>> +
+>>> +	return ret;
+>>> +}
+>>
+>> snip...
+>>
+>>> diff --git a/drivers/soc/mediatek/apusys/apu-rproc.c
+>>> b/drivers/soc/mediatek/apusys/apu-rproc.c
+>>> new file mode 100644
+>>> index 000000000000..e2fe63dd6cc1
+>>> --- /dev/null
+>>> +++ b/drivers/soc/mediatek/apusys/apu-rproc.c
+>>> @@ -0,0 +1,806 @@
+>>> +// SPDX-License-Identifier: GPL-2.0
+>>> +/*
+>>> + * Copyright (c) 2021 MediaTek Inc.
+>>> + */
+>>> +
+>>> +#include <linux/delay.h>
+>>> +#include <linux/device.h>
+>>> +#include <linux/dma-mapping.h>
+>>> +#include <linux/interrupt.h>
+>>> +#include <linux/iommu.h>
+>>> +#include <linux/irq.h>
+>>> +#include <linux/module.h>
+>>> +#include <linux/remoteproc.h>
+>>> +#include <linux/time64.h>
+>>> +#include <linux/of_platform.h>
+>>> +#include <linux/pm_domain.h>
+>>> +#include <linux/pm_runtime.h>
+>>> +#include <linux/sched/clock.h>
+>>> +#include <linux/time64.h>
+>>> +#include <linux/workqueue.h>
+>>> +
+>>> +#include "apu.h"
+>>> +#include "apu-config.h"
+>>> +#include "apu-core.h"
+>>> +
+>>> +/* cmd */
+>>> +enum {
+>>> +	DPIDLE_CMD_LOCK_IPI = 0x5a00,
+>>> +	DPIDLE_CMD_UNLOCK_IPI = 0x5a01,
+>>> +	DPIDLE_CMD_PDN_UNLOCK = 0x5a02,
+>>> +};
+>>> +
+>>> +/* ack */
+>>> +enum {
+>>> +	DPIDLE_ACK_OK = 0,
+>>> +	DPIDLE_ACK_LOCK_BUSY,
+>>> +	DPIDLE_ACK_POWER_DOWN_FAIL,
+>>> +};
+>>> +
+>>> +static struct work_struct *apu_pwr_work;
+>>> +static struct workqueue_struct *apu_pwr_wq;
+>>> +static struct dentry *dbg_root;
+>>> +
+>>> +static void *apu_da_to_va(struct rproc *rproc, u64 da, size_t len,
+>>> +			  bool *is_iomem)
+>>> +{
+>>> +	void *ptr = NULL;
+>>> +	struct mtk_apu *apu = (struct mtk_apu *)rproc->priv;
+>>> +
+>>> +	if (da >= DRAM_OFFSET && da < DRAM_OFFSET + CODE_BUF_SIZE) {
+>>> +		ptr = apu->code_buf + (da - DRAM_OFFSET);
+>>> +	} else {
+>>> +		dev_err(apu->dev, "%s: invalid da: da = 0x%llx, len =
+>>> %zu\n",
+>>> +			__func__, da, len);
+>>> +	}
+>>> +	return ptr;
+>>> +}
+>>> +
+>>> +static int apu_run(struct rproc *rproc)
+>>> +{
+>>> +	struct mtk_apu *apu = (struct mtk_apu *)rproc->priv;
+>>> +	struct mtk_apu_hw_ops *hw_ops = &apu->platdata->ops;
+>>> +	struct device *dev = apu->dev;
+>>> +	struct apu_run *run = &apu->run;
+>>> +	struct timespec64 begin, end, delta;
+>>> +	int ret;
+>>> +
+>>> +	pm_runtime_get_sync(apu->dev);
+>>> +	hw_ops->start(apu);
+>>
+>> Don't forget to always check return values.....
+> 
+> Ack.
+>>
+>>> +
+>>> +	/* check if boot success */
+>>> +	ktime_get_ts64(&begin);
+>>> +	ret = wait_event_interruptible_timeout(run->wq,
+>>> +					       run->signaled,
+>>> +					       msecs_to_jiffies(10000))
+>>> ;
+>>
+>> #define APU_INIT_TIMEOUT_MS	10000
+>>
+>> ...but then, does it really need 10 *seconds* for that?! That's a lot
+>> of time...
+>>
+>>> +	ktime_get_ts64(&end);
+>>> +	if (ret == 0) {
+>>> +		dev_info(dev, "APU initialization timeout!!\n");
+>>> +		ret = -ETIME;
+>>> +		goto stop;
+>>> +	}
+>>> +	if (ret == -ERESTARTSYS) {
+>>> +		dev_info(dev, "wait APU interrupted by a signal!!\n");
+>>> +		goto stop;
+>>> +	}
+>>> +
+>>> +	apu->boot_done = true;
+>>> +	delta = timespec64_sub(end, begin);
+>>> +	dev_info(dev, "APU uP boot success. boot time: %llu s, %llu
+>>> ns\n",
+>>> +		 (u64)delta.tv_sec, (u64)delta.tv_nsec);
+>>> +
+>>> +	return 0;
+>>> +
+>>> +stop:
+>>> +	hw_ops->stop(apu);
+>>> +
+>>> +	return ret;
+>>> +}
+>>> +
+>>
+>>
+>> snip...
+>>
+>>
+>>> +
+>>> +static int apu_config_setup(struct mtk_apu *apu)
+>>> +{
+>>> +	struct device *dev = apu->dev;
+>>> +	unsigned long flags;
+>>> +	int ret;
+>>> +
+>>> +	apu->conf_buf = dma_alloc_coherent(apu->dev, CONFIG_SIZE,
+>>> +					   &apu->conf_da, GFP_KERNEL);
+>>> +
+>>> +	if (!apu->conf_buf || apu->conf_da == 0) {
+>>> +		dev_info(dev, "%s: dma_alloc_coherent fail\n",
+>>> __func__);
+>>> +		return -ENOMEM;
+>>> +	}
+>>> +	memset(apu->conf_buf, 0, CONFIG_SIZE);
+>>> +
+>>> +	apu_config_user_ptr_init(apu);
+>>> +	spin_lock_irqsave(&apu->reg_lock, flags);
+>>> +	iowrite32((u32)apu->conf_da, apu->apu_mbox + HOST_CONFIG_ADDR);
+>>> +	spin_unlock_irqrestore(&apu->reg_lock, flags);
+>>> +
+>>> +	apu->conf_buf->time_offset = sched_clock();
+>>> +	ret = apu_ipi_config_init(apu);
+>>> +	if (ret) {
+>>> +		dev_info(dev, "apu ipi config init failed\n");
+>>> +		goto out;
+>>> +	}
+>>> +
+>>> +	ret = sw_logger_config_init(apu);
+>>
+>>   From what I understand, the sw logger is not critical for
+>> functionality... so
+>> it should probably be a "pluggable" instead.
+>> Also, since that sw logger seems to be "simply" reading from a
+>> mailbox, it
+>> should be pretty straightforward to make it so, in which case, you
+>> wouldn't
+>> be initializing it here, but as a platform driver instead (if
+>> debugging enabled?)
+> 
+> It is for debug usage and I think it can be a pluggable module. But it
+> still needs configurations in the boot stage to make micorprocessor
+> enable the logger. I will update this part.
+> 
+>>
+>>> +	if (ret) {
+>>> +		dev_err(dev, "sw logger config init failed\n");
+>>> +		goto err_sw_logger;
+>>> +	}
+>>> +
+>>> +	return 0;
+>>> +
+>>> +err_sw_logger:
+>>> +	apu_ipi_config_remove(apu);
+>>> +out:
+>>> +	return ret;
+>>> +}
+>>> +
+>>
+>> snip...
+>>
+>>> diff --git a/drivers/soc/mediatek/apusys/apu.h
+>>> b/drivers/soc/mediatek/apusys/apu.h
+>>> new file mode 100644
+>>> index 000000000000..5bbc46416a19
+>>> --- /dev/null
+>>> +++ b/drivers/soc/mediatek/apusys/apu.h
+>>> @@ -0,0 +1,256 @@
+>>> +/* SPDX-License-Identifier: GPL-2.0 */
+>>> +/*
+>>> + * Copyright (c) 2021 MediaTek Inc.
+>>> + */
+>>> +
+>>> +#ifndef APU_H
+>>> +#define APU_H
+>>> +#include <linux/platform_device.h>
+>>> +#include <linux/spinlock.h>
+>>> +#include <linux/rpmsg/mtk_rpmsg.h>
+>>> +
+>>> +#include "apu-config.h"
+>>> +
+>>> +/* setup the SMC command ops */
+>>> +#define MTK_SIP_APU_START_MCU	0x00
+>>> +#define MTK_SIP_APU_STOP_MCU	0x01
+>>> +
+>>> +/* md32_sysctrl register definition */
+>>> +#define MD32_SYS_CTRL	0x0
+>>> +#define MD32_MON_PC		0x838
+>>> +#define MD32_MON_LR		0x83c
+>>> +#define MD32_MON_SP		0x840
+>>> +#define MD32_STATUS		0x844
+>>> +
+>>> +/*wdt register */
+>>> +#define WDT_INT		0x0
+>>> +#define WDT_CTRL0	0x4
+>>> +#define WDT_EN		BIT(31)
+>>> +
+>>> +/* apu_mbox spare regiter */
+>>
+>> /* apu_mbox spare register: mbox 0..6, spare 0..3 */
+>> #define REG_MBOX_SPARE(mbox, reg) 	((0x40 + (0x100 * mbox)) + (reg
+>> * 0x4))
+>> #define REG_MBOX0_SPARE(n)		REG_MBOX_SPARE(0, n)
+>> #define REG_MBOX6_SPARE(n)		REG_MBOX_SPARE(6, n)
+>>
+>> #define HOST_CONFIG_ADDR		REG_MBOX_SPARE(0, 2)
+>>
+>> Would that be better? Granted, mbox1-5 are also accessible and
+>> perhaps used
+>> in the future.
+> 
+> Ack.
+> 
+>>> +#define MBOX0_SPARE0 0x40
+>>> +#define MBOX0_SPARE1 0x44
+>>> +#define MBOX0_SPARE2 0x48
+>>> +#define MBOX0_SPARE3 0x4C
+>>> +#define MBOX6_SPARE0 0x640
+>>> +#define MBOX6_SPARE1 0x644
+>>> +#define MBOX6_SPARE2 0x648
+>>> +#define MBOX6_SPARE3 0x64C
+>>> +
+>>> +#define HOST_CONFIG_ADDR MBOX0_SPARE2
+>>> +
+>>> +#define LOG_W_PTR (MBOX0_SPARE0)
+>>> +#define LOG_R_PTR (MBOX0_SPARE1)
+>>> +#define LOG_OV_FLG (MBOX0_SPARE3)
+>>> +
+>>> +/* rv setup  */
+>>> +#define F_PRELOAD_FIRMWARE	BIT(0)
+>>> +#define F_AUTO_BOOT		BIT(1)
+>>> +
+>>
+>> Use SZ_* macros where possible
+> 
+> Ack.
+>>
+>>> +#define TCM_SIZE (128UL * 1024UL)
+>>> +#define CODE_BUF_SIZE (1024UL * 1024UL)
+>>> +#define DRAM_DUMP_SIZE (CODE_BUF_SIZE - TCM_SIZE)
+>>> +#define REG_SIZE (4UL * 151UL)
+>>> +#define TBUF_SIZE (4UL * 32UL)
+>>> +#define CACHE_DUMP_SIZE (37UL * 1024UL)
+>>> +#define DRAM_OFFSET (0x00000UL)
+>>> +#define DRAM_DUMP_OFFSET (TCM_SIZE)
+>>> +#define TCM_OFFSET (0x1d700000UL)
+>>> +#define CODE_BUF_DA (DRAM_OFFSET)
+>>> +
+>>> +/* ipi */
+>>> +#define APU_FW_VER_LEN	       32
+>>> +#define APU_SHARE_BUFFER_SIZE  256
+>>> +
+>>> +#define IPI_LOCKED			1
+>>> +#define IPI_UNLOCKED		0
+>>> +
+>>> +#define IPI_HOST_INITIATE	0
+>>> +#define IPI_APU_INITIATE	1
+>>> +#define IPI_WITH_ACK		1
+>>> +#define IPI_WITHOUT_ACK		0
+>>> +
+>>> +enum {
+>>> +	APU_IPI_INIT = 0,
+>>> +	APU_IPI_NS_SERVICE,
+>>> +	APU_IPI_DEEP_IDLE,
+>>> +	APU_IPI_CTRL_RPMSG,
+>>> +	APU_IPI_MIDDLEWARE,
+>>> +	APU_IPI_REVISER_RPMSG,
+>>> +	APU_IPI_PWR_TX,
+>>> +	APU_IPI_PWR_RX,
+>>> +	APU_IPI_MDLA_TX,
+>>> +	APU_IPI_MDLA_RX,
+>>> +	APU_IPI_TIMESYNC,
+>>> +	APU_IPI_EDMA_TX,
+>>> +	APU_IPI_MNOC_TX,
+>>> +	APU_IPI_MAX,
+>>> +};
+>>> +
+>>> +struct mtk_apu;
+>>> +
+>>> +struct mtk_apu_hw_ops {
+>>> +	int (*init)(struct mtk_apu *apu);
+>>> +	int (*exit)(struct mtk_apu *apu);
+>>> +	int (*start)(struct mtk_apu *apu);
+>>> +	int (*stop)(struct mtk_apu *apu);
+>>> +	int (*resume)(struct mtk_apu *apu);
+>>> +	int (*apu_memmap_init)(struct mtk_apu *apu);
+>>> +	void (*apu_memmap_remove)(struct mtk_apu *apu);
+>>> +	void (*cg_gating)(struct mtk_apu *apu);
+>>> +	void (*cg_ungating)(struct mtk_apu *apu);
+>>> +	void (*rv_cachedump)(struct mtk_apu *apu);
+>>> +
+>>> +	/* power related ops */
+>>> +	int (*power_init)(struct mtk_apu *apu);
+>>> +	int (*power_on)(struct mtk_apu *apu);
+>>> +	int (*power_off)(struct mtk_apu *apu);
+>>> +};
+>>> +
+>>> +struct apu_ipi {
+>>> +	char *name;
+>>> +	unsigned int direction:1;
+>>> +	unsigned int ack:1;
+>>> +};
+>>> +
+>>> +struct mtk_apu_platdata {
+>>> +	u32 flags;
+>>> +	struct mtk_apu_hw_ops ops;
+>>> +	const struct apu_ipi *ipi_attrs;
+>>> +};
+>>> +
+>>> +struct dpidle_msg {
+>>> +	u32 cmd;
+>>> +	u32 ack;
+>>> +};
+>>> +
+>>> +struct apu_run {
+>>> +	s8 fw_ver[APU_FW_VER_LEN];
+>>> +	u32 signaled;
+>>> +	wait_queue_head_t wq;
+>>> +};
+>>> +
+>>> +struct apu_ipi_desc {
+>>> +	struct mutex lock; /*ipi hanlder mutex */
+>>
+>> typo
+>>
+> Ack.
+>>> +	ipi_handler_t handler;
+>>> +	void *priv;
+>>> +	/*
+>>> +	 * positive: host-initiated ipi outstanding count
+>>> +	 * negative: apu-initiated ipi outstanding count
+>>> +	 */
+>>> +	int usage_cnt;
+>>> +};
+>>> +
+>>> +struct mtk_share_obj {
+>>> +	u8 share_buf[APU_SHARE_BUFFER_SIZE];
+>>> +};
+>>> +
+>>> +struct sw_logger_seq_data {
+>>> +	u32 w_ptr;
+>>> +	u32 r_ptr;
+>>> +	u32 overflow_flg;
+>>> +	int i;
+>>> +	int is_finished;
+>>> +	char *data;
+>>> +	bool startl_first;
+>>> +};
+>>> +
+>>> +struct mtk_apu {
+>>> +	struct rproc *rproc;
+>>> +	struct device *dev;
+>>> +	void __iomem *apu_mbox;
+>>> +	void __iomem *md32_sysctrl;
+>>> +	void __iomem *apu_wdt;
+>>> +	int mbox0_irq_number;
+>>> +	int wdt_irq_number;
+>>> +	spinlock_t reg_lock; /* register r/w lock */
+>>> +
+>>> +	/* Buffer to place execution area */
+>>> +	void *code_buf;
+>>> +	dma_addr_t code_da;
+>>> +
+>>> +	/* Buffer to place config area */
+>>> +	struct config_v1 *conf_buf;
+>>> +	dma_addr_t conf_da;
+>>> +
+>>> +	/* to synchronize boot status of remote processor */
+>>> +	struct apu_run run;
+>>> +
+>>> +	/* to prevent multiple ipi_send run concurrently */
+>>> +	struct mutex send_lock;
+>>> +	spinlock_t usage_cnt_lock; /* ipi occipued lock */
+>>> +	struct apu_ipi_desc ipi_desc[APU_IPI_MAX];
+>>> +	bool ipi_id_ack[APU_IPI_MAX]; /* per-ipi ack */
+>>> +	bool ipi_inbound_locked;
+>>> +	wait_queue_head_t ack_wq; /* for waiting for ipi ack */
+>>> +
+>>> +	/* ipi */
+>>> +	struct rproc_subdev *rpmsg_subdev;
+>>> +	dma_addr_t recv_buf_da;
+>>> +	struct mtk_share_obj *recv_buf;
+>>> +	dma_addr_t send_buf_da;
+>>> +	struct mtk_share_obj *send_buf;
+>>> +
+>>> +	/* time sync */
+>>> +	struct work_struct timesync_work;
+>>> +	struct workqueue_struct *timesync_wq;
+>>> +	u64 timesync_stamp;
+>>> +
+>>> +	/*deep idle */
+>>> +	struct dpidle_msg recv_msg;
+>>> +	struct work_struct deepidle_work;
+>>> +	struct workqueue_struct *apu_deepidle_workq;
+>>> +	struct work_struct pwron_dbg_wk;
+>>> +
+>>> +	struct mtk_apu_platdata	*platdata;
+>>> +
+>>> +	/* link power deive */
+>>> +	struct device *power_dev;
+>>> +	bool boot_done;
+>>> +	struct work_struct pwr_work;
+>>> +
+>>> +	/* logger and debug */
+>>> +	struct dentry *dbg_root;
+>>> +	dma_addr_t handle;
+>>> +	char *sw_log_buf;
+>>> +	spinlock_t sw_logger_spinlock; /* logger status update lock */
+>>> +	struct sw_logger_seq_data pseqdata_lock;
+>>> +	struct sw_logger_seq_data *pseqdata;
+>>> +};
+>>> +
+>>> +struct apu_coredump {
+>>> +	char tcmdump[TCM_SIZE];
+>>> +	char ramdump[DRAM_DUMP_SIZE];
+>>> +	char regdump[REG_SIZE];
+>>> +	char tbufdump[TBUF_SIZE];
+>>> +	u32 cachedump[CACHE_DUMP_SIZE / sizeof(u32)];
+>>> +} __packed;
+>>> +
+>>> +int apu_ipi_config_init(struct mtk_apu *apu);
+>>> +void apu_ipi_config_remove(struct mtk_apu *apu);
+>>> +void apu_ipi_remove(struct mtk_apu *apu);
+>>> +int apu_ipi_init(struct platform_device *pdev, struct mtk_apu
+>>> *apu);
+>>> +int apu_ipi_register(struct mtk_apu *apu, u32 id,
+>>> +		     ipi_handler_t handler, void *priv);
+>>> +void apu_ipi_unregister(struct mtk_apu *apu, u32 id);
+>>> +int apu_ipi_send(struct mtk_apu *apu, u32 id, void *data, u32 len,
+>>> +		 u32 wait_ms);
+>>> +int apu_ipi_lock(struct mtk_apu *apu);
+>>> +void apu_ipi_unlock(struct mtk_apu *apu);
+>>> +
+>>> +void apu_deepidle_power_on_aputop(struct mtk_apu *apu);
+>>> +
+>>> +#if IS_ENABLED(CONFIG_DEBUG_FS)
+>>> +int sw_logger_config_init(struct mtk_apu *apu);
+>>> +void sw_logger_config_remove(struct mtk_apu *apu);
+>>> +int apu_sw_logger_init(struct mtk_apu *apu);
+>>> +void apu_sw_logger_remove(struct mtk_apu *apu);
+>>> +#else
+>>> +static inline int sw_logger_config_init(struct mtk_apu *apu) {
+>>> return 0; }
+>>> +static inline void sw_logger_config_remove(struct mtk_apu *apu) {
+>>> }
+>>> +static inline int apu_sw_logger_init(struct mtk_apu *apu) { return
+>>> 0; }
+>>> +static inline void apu_sw_logger_remove(struct mtk_apu *apu) { }
+>>> +#endif
+>>> +
+>>> +extern const struct mtk_apu_platdata mt8192_platdata;
+>>> +#endif /* APU_H */
+>>> diff --git a/drivers/soc/mediatek/apusys/mt81xx-plat.c
+>>> b/drivers/soc/mediatek/apusys/mt81xx-plat.c
+>>> new file mode 100644
+>>> index 000000000000..54f75c8d07c3
+>>> --- /dev/null
+>>> +++ b/drivers/soc/mediatek/apusys/mt81xx-plat.c
+>>> @@ -0,0 +1,320 @@
+>>> +// SPDX-License-Identifier: GPL-2.0
+>>> +/*
+>>> + * Copyright (c) 2021 MediaTek Inc.
+>>> + */
+>>> +
+>>> +#include <linux/arm-smccc.h>
+>>> +#include <linux/delay.h>
+>>> +#include <linux/device.h>
+>>> +#include <linux/io.h>
+>>> +#include <linux/iopoll.h>
+>>> +#include <linux/of_platform.h>
+>>> +#include <linux/pm_runtime.h>
+>>> +#include <linux/sched/clock.h>
+>>> +#include <linux/soc/mediatek/mtk_sip_svc.h>
+>>> +
+>>> +#include "apu.h"
+>>> +
+>>> +static const struct apu_ipi mt81xx_ipi_attrs[APU_IPI_MAX] = {
+>>
 
-Reviewed-by: Christian König <christian.koenig@amd.com>
 
-> Cc: <stable@vger.kernel.org> # 5.11.*
-> ---
-> v4: Correct commit message
->      1. Cc stable@vger.kernel.org in commit message and add required kernel version.
->      2. Add reviewed-by since patch V2 and V4 are same and V2 is reviewed by Robin.
->      3. There is no new code change in V4.
-> V3: Cc stable@vger.kernel.org
->      1. This patch needs to be merged stable branch, add stable@vger.kernel.org
->         in mail list.
->      2. Correct some spelling mistake.
->      3. There is No new code change in V3.
-> V2: use 'for_each_sgtable_sg' to 'replece for_each_sg' as suggested by Robin.
->
-> ---
->   drivers/dma-buf/heaps/system_heap.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/system_heap.c
-> index 23a7e74ef966..8660508f3684 100644
-> --- a/drivers/dma-buf/heaps/system_heap.c
-> +++ b/drivers/dma-buf/heaps/system_heap.c
-> @@ -289,7 +289,7 @@ static void system_heap_dma_buf_release(struct dma_buf *dmabuf)
->   	int i;
->   
->   	table = &buffer->sg_table;
-> -	for_each_sg(table->sgl, sg, table->nents, i) {
-> +	for_each_sgtable_sg(table, sg, i) {
->   		struct page *page = sg_page(sg);
->   
->   		__free_pages(page, compound_order(page));
 
+Hello Flora,
+
+>> In here, this is used only to pass it to the remoteproc "ipi" driver:
+>> it would make
+>> sense if this was in the ipi driver, associated to a compatible like
+                            ^^^^^ Sorry, I was meaning the -> rproc driver <-
+
+>> mediatek,mt8192-ipi.
+>>
+> Hi, Algelo,
+> I am not quite sure about the comments. Could you explain more details?
+> 
+> The list is used in kernel as ipi channe attributes by
+> platforms(different platfrom will has differnt settings) to create ipi
+> channesl by mtk-rpmsg. The ipi-attrs is add into platform data.
+> 
+> const struct mtk_apu_platdata mt8192_platdata = {
+> 	.flags		= F_AUTO_BOOT,
+> 	.ipi_attrs = mt81xx_ipi_attrs,
+> 	.ops		= {
+> 		.init	= NULL,
+> snip.
+> 		.power_init = mt81xx_apu_power_init,
+> 		.power_on = mt81xx_apu_power_on,
+> 		.power_off = mt81xx_apu_power_off,
+> 	},
+> };
+> 
+
+Reiterating: this file is very short and also it looks like the code
+in here will be common (or commonizable) between multiple SoCs,
+so please move everything that is in here to apu-rproc.c.
+
+Regards,
+- Angelo
+
+>>> +		   [APU_IPI_INIT] = {
+>>> +			   .name = "init",
+>>> +			   .direction = IPI_APU_INITIATE,
+>>> +			   .ack = IPI_WITHOUT_ACK,
+>>> +		   },
+>>> +		   [APU_IPI_NS_SERVICE] = {
+>>> +			   .name = "name-service",
+>>> +			   .direction = IPI_APU_INITIATE,
+>>> +			   .ack = IPI_WITHOUT_ACK,
+>>> +		   },
+>>> +		   [APU_IPI_DEEP_IDLE] = {
+>>> +			   .name = "deep_idle",
+>>> +			   .direction = IPI_APU_INITIATE,
+>>> +			   .ack = IPI_WITH_ACK,
+>>> +		   },
+>>> +		   [APU_IPI_CTRL_RPMSG] = {
+>>> +			   .name = "apu-ctrl-rpmsg",
+>>> +			   .direction = IPI_APU_INITIATE,
+>>> +			   .ack = IPI_WITH_ACK,
+>>> +		   },
+>>> +		   [APU_IPI_MIDDLEWARE] = {
+>>> +			   .name = "apu-mdw-rpmsg",
+>>> +			   .direction = IPI_HOST_INITIATE,
+>>> +			   .ack = IPI_WITH_ACK,
+>>> +		   },
+>>> +		   [APU_IPI_REVISER_RPMSG] = {
+>>> +			   .name = "apu-reviser-rpmsg",
+>>> +			   .direction = IPI_HOST_INITIATE,
+>>> +			   .ack = IPI_WITH_ACK,
+>>> +		   },
+>>> +		   [APU_IPI_PWR_TX] = {
+>>> +			   .name = "apupwr-tx-rpmsg",
+>>> +			   .direction = IPI_HOST_INITIATE,
+>>> +			   .ack = IPI_WITH_ACK,
+>>> +		   },
+>>> +		   [APU_IPI_PWR_RX] = {
+>>> +			   .name = "apupwr-rx-rpmsg",
+>>> +			   .direction = IPI_APU_INITIATE,
+>>> +			   .ack = IPI_WITH_ACK,
+>>> +		   },
+>>> +		   [APU_IPI_MDLA_TX] = {
+>>> +			   .name = "mdla-tx-rpmsg",
+>>> +			   .direction = IPI_HOST_INITIATE,
+>>> +			   .ack = IPI_WITH_ACK,
+>>> +		   },
+>>> +		   [APU_IPI_MDLA_RX] = {
+>>> +			   .name = "mdla-rx-rpmsg",
+>>> +			   .direction = IPI_APU_INITIATE,
+>>> +			   .ack = IPI_WITH_ACK,
+>>> +		   },
+>>> +		   [APU_IPI_TIMESYNC] = {
+>>> +			   .name = "apu-timesync",
+>>> +			   .direction = IPI_APU_INITIATE,
+>>> +			   .ack = IPI_WITH_ACK,
+>>> +		   },
+>>> +		   [APU_IPI_EDMA_TX] = {
+>>> +			   .name = "apu-edma-rpmsg",
+>>> +			   .direction = IPI_HOST_INITIATE,
+>>> +			   .ack = IPI_WITHOUT_ACK,
+>>> +		   },
+>>> +		   [APU_IPI_MNOC_TX] = {
+>>> +			   .name = "apu-mnoc-rpmsg",
+>>> +			   .direction = IPI_HOST_INITIATE,
+>>> +			   .ack = IPI_WITHOUT_ACK,
+>>> +		   },
+>>> +};
+>>> +
+>>> +static void apu_reset_mcu(struct mtk_apu *apu)
+>>> +{
+>>> +	u32 reg;
+>>> +
+>>> +	/* assert mcu reset */
+>>> +	reg = ioread32(apu->md32_sysctrl);
+>>> +	iowrite32(reg & ~0x1, apu->md32_sysctrl);
+>>> +	mdelay(10);
+>>> +	iowrite32(reg | 0x1, apu->md32_sysctrl);
+>>> +}
+>>> +
+>>> +static int apu_start_mcu(struct mtk_apu *apu)
+>>> +{
+>>> +	struct arm_smccc_res ares;
+>>> +
+>>> +	/* initialize IOMMU and ACP config (iommu_tr_en=1, acp_en=0) */
+>>> +	iowrite32(0xEA9, apu->md32_sysctrl);
+>>> +
+>>> +	arm_smccc_smc(MTK_SIP_APUSYS_CONTROL, MTK_SIP_APU_START_MCU,
+>>> +		      0, 0, 0, 0, 0, 0, &ares);
+>>> +	if (ares.a0)
+>>> +		dev_err(apu->dev, "start mcu fail: %lu\n", ares.a0);
+>>> +
+>>> +	return 0;
+>>> +}
+>>> +
+>>> +static int apu_stop_mcu(struct mtk_apu *apu)
+>>> +{
+>>> +	struct arm_smccc_res ares;
+>>> +
+>>> +	arm_smccc_smc(MTK_SIP_APUSYS_CONTROL, MTK_SIP_APU_STOP_MCU,
+>>> +		      0, 0, 0, 0, 0, 0, &ares);
+>>> +	if (ares.a0)
+>>> +		dev_err(apu->dev, "stop mcufail: %lu\n", ares.a0);
+>>> +
+>>> +	return 0;
+>>> +}
+>>
+>> Is it expected for other SoCs to have different (or more) secure
+>> world calls?
+>> If it is, then it may be worth it to move this to a different driver
+>> in
+>> drivers/firmware, so that you will be able to map different/more
+>> values to
+>> different compatibles.
+>>
+>> Otherwise, keep it here.
+> 
+> This is for apu usage and only for apu. I will keep it here. The SMC
+> receivers are also found in ATF upstream.
+> https://review.trustedfirmware.org/c/TF-A/trusted-firmware-a/+/9709/11.
+> 
+> Thanks for your comments.
+> 
+>> - Angelo
