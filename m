@@ -2,42 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED32845E958
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Nov 2021 09:26:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E162E45E988
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Nov 2021 09:41:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 63EE66E5C5;
-	Fri, 26 Nov 2021 08:26:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4AB1A6E996;
+	Fri, 26 Nov 2021 08:40:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 427386E526;
- Fri, 26 Nov 2021 08:26:46 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10179"; a="259533524"
-X-IronPort-AV: E=Sophos;i="5.87,265,1631602800"; d="scan'208";a="259533524"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Nov 2021 00:26:45 -0800
-X-IronPort-AV: E=Sophos;i="5.87,265,1631602800"; d="scan'208";a="598401180"
-Received: from blu2-mobl3.ccr.corp.intel.com (HELO [10.254.210.4])
- ([10.254.210.4])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Nov 2021 00:26:43 -0800
-Message-ID: <aedb0861-f6d6-0568-f7cb-2afc0f9ceb01@linux.intel.com>
-Date: Fri, 26 Nov 2021 16:26:41 +0800
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A4AA66E995
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Nov 2021 08:40:57 +0000 (UTC)
+X-UUID: d6a87f523d124b3b8d2f31605a12626f-20211126
+X-UUID: d6a87f523d124b3b8d2f31605a12626f-20211126
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
+ (envelope-from <flora.fu@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 1520143726; Fri, 26 Nov 2021 16:40:54 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
+ Fri, 26 Nov 2021 16:40:53 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Fri, 26 Nov 2021 16:40:52 +0800
+Message-ID: <170c941847408867b7c51d1df309742fb2e4610b.camel@mediatek.com>
+Subject: Re: [RFC 04/13] iommu/mediatek: Add APU iommu support
+From: Flora.Fu <flora.fu@mediatek.com>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>
+Date: Fri, 26 Nov 2021 16:40:53 +0800
+In-Reply-To: <792b4ca0-e23b-11ba-98fd-ef4c62a382f8@collabora.com>
+References: <20211023111409.30463-1-flora.fu@mediatek.com>
+ <20211023111409.30463-5-flora.fu@mediatek.com>
+ <792b4ca0-e23b-11ba-98fd-ef4c62a382f8@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.2
-Content-Language: en-US
-To: Robin Murphy <robin.murphy@arm.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Intel-gfx@lists.freedesktop.org
-References: <20211125104202.417171-1-tvrtko.ursulin@linux.intel.com>
- <a4d089ad-995c-7a6b-4446-46b03d373070@arm.com>
-From: Lu Baolu <baolu.lu@linux.intel.com>
-Subject: Re: [PATCH] drm/i915: Use per device iommu check
-In-Reply-To: <a4d089ad-995c-7a6b-4446-46b03d373070@arm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,50 +53,201 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>, dri-devel@lists.freedesktop.org,
- baolu.lu@linux.intel.com
+Cc: Pi-Cheng Chen <pi-cheng.chen@mediatek.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ linux-mediatek@lists.infradead.org, Yong Wu <yong.wu@mediatek.com>,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021/11/25 19:47, Robin Murphy wrote:
-> On 2021-11-25 10:42, Tvrtko Ursulin wrote:
->> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->>
->> With both integrated and discrete Intel GPUs in a system, the current
->> global check of intel_iommu_gfx_mapped, as done from intel_vtd_active()
->> may not be completely accurate.
->>
->> In this patch we add i915 parameter to intel_vtd_active() in order to
->> prepare it for multiple GPUs and we also change the check away from Intel
->> specific intel_iommu_gfx_mapped (global exported by the Intel IOMMU
->> driver) to probing the presence of IOMMU domain on a specific device
->> using iommu_get_domain_for_dev().
+On Tue, 2021-10-26 at 17:17 +0200, AngeloGioacchino Del Regno wrote:
+> Il 23/10/21 13:14, Flora Fu ha scritto:
+> > APU IOMMU is a new iommu HW. it use a new pagetable.
+> > Add support for mt8192 apu iommu.
+> > 
+> > Signed-off-by: Yong Wu <yong.wu@mediatek.com>
+> > Signed-off-by: Flora Fu <flora.fu@mediatek.com>
+> > ---
+> >   drivers/iommu/mtk_iommu.c                     | 57
+> > +++++++++++++++++++
+> >   include/dt-bindings/memory/mt8192-larb-port.h |  4 ++
+> >   2 files changed, 61 insertions(+)
+> > 
+> > diff --git a/drivers/iommu/mtk_iommu.c b/drivers/iommu/mtk_iommu.c
+> > index 90be8ebbc98a..a5f8f19e053a 100644
+> > --- a/drivers/iommu/mtk_iommu.c
+> > +++ b/drivers/iommu/mtk_iommu.c
+> > @@ -133,6 +133,7 @@
+> >   /* 2 bits: iommu type */
+> >   #define MTK_IOMMU_TYPE_MM		(0x0 << 13)
+> >   #define MTK_IOMMU_TYPE_INFRA		(0x1 << 13)
+> > +#define MTK_IOMMU_TYPE_APU		(0x2 << 13)
+> >   #define MTK_IOMMU_TYPE_MASK		(0x3 << 13)
+> >   #define IFA_IOMMU_PCIe_SUPPORT		BIT(15)
+> >   
+> > @@ -185,6 +186,7 @@ static int mtk_iommu_hw_init(const struct
+> > mtk_iommu_data *data, unsigned int ban
+> >   #define MTK_IOMMU_4GB_MODE_REMAP_BASE	 0x140000000UL
+> >   
+> >   static LIST_HEAD(m4ulist);	/* List all the M4U HWs */
+> > +static LIST_HEAD(apulist);	/* List the apu iommu HWs */
+> >   
+> >   #define for_each_m4u(data, head)  list_for_each_entry(data, head,
+> > list)
+> >   
+> > @@ -209,6 +211,13 @@ static const struct mtk_iommu_iova_region
+> > mt8192_multi_dom[] = {
+> >   	#endif
+> >   };
+> >   
+> > +static const struct mtk_iommu_iova_region mt8192_multi_dom_apu[] =
+> > {
+> > +	{ .iova_base = 0x0,		.size = SZ_4G}, /* APU DATA */
+> > +	{ .iova_base = 0x4000000ULL,	.size = 0x4000000},  /* APU
+> > VLM */
+> > +	{ .iova_base = 0x10000000ULL,	.size = 0x10000000}, /* APU
+> > VPU */
+> > +	{ .iova_base = 0x70000000ULL,	.size = 0x12600000}, /* APU
+> > REG */
+> > +};
+> > +
+> >   /* If 2 M4U share a domain(use the same hwlist), Put the
+> > corresponding info in first data.*/
+> >   static struct mtk_iommu_data *mtk_iommu_get_frst_data(struct
+> > list_head *hwlist)
+> >   {
+> > @@ -923,6 +932,37 @@ static int mtk_iommu_mm_dts_parse(struct
+> > device *dev,
+> >   	return 0;
+> >   }
+> >   
+> > +static int mtk_iommu_apu_prepare(struct device *dev)
+> > +{
+> > +	struct device_node *apupower_node;
+> > +	struct platform_device *apudev;
+> > +	struct device_link *link;
+> > +
+> > +	apupower_node = of_find_compatible_node(NULL, NULL,
+> > "mediatek,apusys-power");
 > 
-> FWIW the way you have it now is functionally equivalent to using 
-> device_iommu_mapped(), which I think might be slightly clearer for the 
-> current intent, but I don't have a significantly strong preference 
-> (after all, this *was* the de-facto way of checking before 
-> device_iommu_mapped() was introduced, and there are still other examples 
-> of it around). So from the IOMMU perspective,
+> Is it expected to have PM ops in the apusys-power driver? Currently,
+> I can't see
+> any, but maybe it's because of how complex is this entire
+> implementation.
 > 
-> Acked-by: Robin Murphy <robin.murphy@arm.com>
+> In any case, the name suggests that this controls power for the
+> entire APU... so
+> it would be more appropriate if apusys-power would expose a power
+> domain (since it
+> also has some sort of OPP, from what I can see), in which case you
+> wouldn't be
+> retrieving it here like you're doing right now... but simply as a
+> power domain,
+> simplifying the entire handling of that in here.
 > 
-> Perhaps the AGP driver could also be tweaked and intel_iommu_gfx_mapped 
-> cleaned away entirely, but I'll leave that for Baolu to think about :)
+> 
+Hi, Angelo, Thanks for your comments.
 
-I fully agreed with Robin.
+In the design, we do use the power domain to enable the power for iommu
+and reset drivers. 
+In the APU hardware, it requires sharing all pages if it has more than
+one iommu in APU hardware. In current iommu driver, it can only wakeup
+one iommu device so we add the apusys-power as a wrapper to make all
+iommu resume/suspend at the same time. That's why you can also see
+another devices drivers, apusys_rv also links to apusys-power to comply
+with the flow. 
+Thanks for your comments. We will check your comments and try to
+optimze the wrapper device link.
 
-I prefer device_iommu_mapped() more than iommu_get_domain_for_dev().
+> > +	if (!apupower_node) {
+> > +		dev_warn(dev, "Can't find apu power node!\n");
+> > +		return -EINVAL;
+> > +	}
+> > +
+> > +	if (!of_device_is_available(apupower_node)) {
+> > +		of_node_put(apupower_node);
+> > +		return -EPERM;
+> > +	}
+> > +
+> > +	apudev = of_find_device_by_node(apupower_node);
+> > +	if (!apudev) {
+> > +		of_node_put(apupower_node);
+> > +		return -EPROBE_DEFER;
+> > +	}
+> > +
+> > +	link = device_link_add(&apudev->dev, dev, DL_FLAG_PM_RUNTIME);
+> > +	if (!link)
+> > +		dev_err(dev, "Unable link %s.\n", apudev->name);
+> > +
+> > +	of_node_put(apupower_node);
+> > +	return 0;
+> > +}
+> > +
+> >   static int mtk_iommu_probe(struct platform_device *pdev)
+> >   {
+> >   	struct mtk_iommu_data   *data;
+> > @@ -1021,6 +1061,10 @@ static int mtk_iommu_probe(struct
+> > platform_device *pdev)
+> >   		}
+> >   
+> >   		data->pericfg = infracfg;
+> > +	} else if (MTK_IOMMU_IS_TYPE(data->plat_data,
+> > MTK_IOMMU_TYPE_APU)) {
+> > +		ret = mtk_iommu_apu_prepare(dev);
+> > +		if (ret)
+> > +			goto out_runtime_disable;
+> >   	}
+> >   
+> >   	platform_set_drvdata(pdev, data);
+> > @@ -1268,6 +1312,18 @@ static const struct mtk_iommu_plat_data
+> > mt8192_data = {
+> >   			   {0, 14, 16}, {0, 13, 18, 17}},
+> >   };
+> >   
+> > +static const struct mtk_iommu_plat_data mt8192_data_apu = {
+> > +	.m4u_plat       = M4U_MT8192,
+> > +	.flags          = WR_THROT_EN | DCM_DISABLE |
+> > MTK_IOMMU_TYPE_APU |
+> > +			  SHARE_PGTABLE,
+> > +	.inv_sel_reg    = REG_MMU_INV_SEL_GEN2,
+> > +	.hw_list        = &apulist,
+> > +	.bank_nr	= 1,
+> > +	.bank_enable    = {true},
+> > +	.iova_region    = mt8192_multi_dom_apu,
+> > +	.iova_region_nr = ARRAY_SIZE(mt8192_multi_dom_apu),
+> > +};
+> > +
+> >   static const struct mtk_iommu_plat_data mt8195_data_infra = {
+> >   	.m4u_plat	  = M4U_MT8195,
+> >   	.flags            = WR_THROT_EN | DCM_DISABLE |
+> > @@ -1323,6 +1379,7 @@ static const struct of_device_id
+> > mtk_iommu_of_ids[] = {
+> >   	{ .compatible = "mediatek,mt8173-m4u", .data = &mt8173_data},
+> >   	{ .compatible = "mediatek,mt8183-m4u", .data = &mt8183_data},
+> >   	{ .compatible = "mediatek,mt8192-m4u", .data = &mt8192_data},
+> > +	{ .compatible = "mediatek,mt8192-iommu-apu",   .data =
+> > &mt8192_data_apu},
+> >   	{ .compatible = "mediatek,mt8195-iommu-infra", .data =
+> > &mt8195_data_infra},
+> >   	{ .compatible = "mediatek,mt8195-iommu-vdo",   .data =
+> > &mt8195_data_vdo},
+> >   	{ .compatible = "mediatek,mt8195-iommu-vpp",   .data =
+> > &mt8195_data_vpp},
+> > diff --git a/include/dt-bindings/memory/mt8192-larb-port.h
+> > b/include/dt-bindings/memory/mt8192-larb-port.h
+> > index 23035a52c675..908d6831bf99 100644
+> > --- a/include/dt-bindings/memory/mt8192-larb-port.h
+> > +++ b/include/dt-bindings/memory/mt8192-larb-port.h
+> > @@ -240,4 +240,8 @@
+> >   #define M4U_PORT_L20_IPE_RSC_RDMA0		MTK_M4U_ID(20,
+> > 4)
+> >   #define M4U_PORT_L20_IPE_RSC_WDMA		MTK_M4U_ID(20, 5)
+> >   
+> > +#define IOMMU_PORT_APU_DATA			MTK_M4U_ID(0,
+> > 0)
+> > +#define IOMMU_PORT_APU_VLM			MTK_M4U_ID(0, 1)
+> > +#define IOMMU_PORT_APU_VPU			MTK_M4U_ID(0, 2)
+> > +
+> >   #endif
+> > 
 
-"iommu_get_domain_for_dev(dev) == NULL" simply means that the device
-does not have any domain attached. Although at present, it is equivalent
-to device DMAing without IOMMU translation. But I'm sure it will change
-in the future.
-
-With device_iommu_mapped() replaced,
-
-Reviewed-by: Lu Baolu <baolu.lu@linux.intel.com>
-
-Best regards,
-baolu
