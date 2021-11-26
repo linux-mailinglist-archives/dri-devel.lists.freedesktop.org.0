@@ -1,65 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C3FD45F1B6
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Nov 2021 17:20:43 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4487445F214
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Nov 2021 17:37:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ABA606F968;
-	Fri, 26 Nov 2021 16:20:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A98A66F632;
+	Fri, 26 Nov 2021 16:37:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com
- [IPv6:2a00:1450:4864:20::229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED1A96F91D
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Nov 2021 16:20:02 +0000 (UTC)
-Received: by mail-lj1-x229.google.com with SMTP id j18so6527444ljc.12
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Nov 2021 08:20:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=hEN8lxqzB5PkjPszcdUxNpJc6epYJF7n5YUfahDhZts=;
- b=oTcerw3jboBSgaI5lBASiQ0+yvoxajfozbWkKUsSmofKDE934IXHDdxNhB8W9inQH8
- Deth1OvQaNwgcuyT1EYOl7z37XeRTOtofk3rfAARsYrFqOpJrZaMP2yWgRj3wWz8rhOS
- c9Dce6wjkImXLFLe+QdB7nP22gzehsMpGLBEEMDo0XSy8AW6kq9BhVWDy3FC77Jlsbrv
- NXnqGvMr1srJooL0mlDZs8j2QAzGmCQDiJde7E6dgpDRF550dE9c1UQxnnqLqUJtU5t6
- jyg7JecYzESPBU3YZ5QeRjpyQX3JKtntQB7xj3ORrmWmqbKeewF4FQ6LCWyGzgfuLizK
- K0vA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=hEN8lxqzB5PkjPszcdUxNpJc6epYJF7n5YUfahDhZts=;
- b=jyW5jVPDodvJ60fbBHZB4FTlBRyMXFyyDObqbeegGUVjDLLuEYaijyH2hPBeW85rI8
- 9AIZIL81nVw4iHt2ORTPQeEmSGQ/+IuxzTVrjJB15xDAIpO7JBVxJv9TWqVuCccoRNTk
- ygvda5E1tsas+z+RV7hZgJWIu9e/CwCPrH2qKZY5m9kibdD2HZcngDQikWdlBjF6V3Ng
- +RdSJaZ9xAFkkdoUBxKi2d8RpC7kujA8iXUmuK+x/KVmxhlSBALTVGnEiclyWWa2wV+q
- lv120deWYetD4eH+DZlmeK88IAtXRsWQ/zcSXxppWDZcxxY0Z+yhQGoflWmX8NVVxUGR
- DBfg==
-X-Gm-Message-State: AOAM530vgzenbiTk+/+dW5BGd42exqLrJOPBdEtyZEAD2Ij5jCXmpgbp
- fv6ZwmqMIEiQvor84R3jMDY=
-X-Google-Smtp-Source: ABdhPJzz5wBDSCE4Eo1QRQj2umu9yNSwj9Kxjmg73qAOgEls3WYa2Hilna7xfBmiFLf2MVj1rIyQ9w==
-X-Received: by 2002:a2e:a792:: with SMTP id c18mr32236469ljf.443.1637943601285; 
- Fri, 26 Nov 2021 08:20:01 -0800 (PST)
-Received: from localhost.localdomain (94-29-48-99.dynamic.spd-mgts.ru.
- [94.29.48.99])
- by smtp.gmail.com with ESMTPSA id t7sm613381lfl.260.2021.11.26.08.19.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 26 Nov 2021 08:20:00 -0800 (PST)
-From: Dmitry Osipenko <digetx@gmail.com>
-To: Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Mark Brown <broonie@kernel.org>,
- Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>,
- Liam Girdwood <lgirdwood@gmail.com>, Agneli <poczt@protonmail.ch>,
- Rob Herring <robh+dt@kernel.org>
-Subject: [PATCH v2 20/20] ARM: tegra: paz00: Enable S/PDIF and HDMI audio
-Date: Fri, 26 Nov 2021 19:18:07 +0300
-Message-Id: <20211126161807.15776-21-digetx@gmail.com>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20211126161807.15776-1-digetx@gmail.com>
-References: <20211126161807.15776-1-digetx@gmail.com>
+Received: from mail.kernel.org (unknown [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B5616F632
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Nov 2021 16:37:12 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 2991E6023D
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Nov 2021 16:37:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1637944632;
+ bh=FOG9U262QpePOWI4dcinGRoMqBB8dWgu+gfD58tlrXM=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=BpA3MiOmSliILB4pOlro/6LaTUbOYmAszEdWvjcHwuzdbYzV68a/2glNqdoRjpC6q
+ 4ZdsDZxLDHz51xHfvcnmlCQ11P4iYiLDeIRP0njhalA8EFX9rwUY8oNX3+MYehpkH0
+ ArbDmvwkjq2RPqJrF0XZuDZgGfBPP+0l04F0Too8nJSHofzqDw3FepvV7ExsXdyjkB
+ kj8SZzF66ugTQQNs+rMZRTtvl66d9b31sVFe6EYwhDCR5bmVUdcFKDFf86DK4sCUxp
+ k+m5jxW+pyJEnC5LM6bkycojib1xHJtcmobEXlMQQXiGZMvVZ0Pv2VlaTW11m0E9yo
+ lf12BgZ//O0eA==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id 266FE60F46; Fri, 26 Nov 2021 16:37:12 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 211277] sometimes crash at s2ram-wake (Ryzen 3500U): amdgpu,
+ drm, commit_tail, amdgpu_dm_atomic_commit_tail
+Date: Fri, 26 Nov 2021 16:37:11 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: jamesz@amd.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-211277-2300-lUWmmuLYMs@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-211277-2300@https.bugzilla.kernel.org/>
+References: <bug-211277-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,43 +66,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, alsa-devel@alsa-project.org,
- Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Enable S/PDIF controller to enable HDMI audio support on Toshiba AC100.
-Use nvidia,fixed-parent-rate property that prevents audio rate conflict
-between S/PDIF and I2S.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D211277
 
-Tested-by: Agneli <poczt@protonmail.ch>
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- arch/arm/boot/dts/tegra20-paz00.dts | 8 ++++++++
- 1 file changed, 8 insertions(+)
+--- Comment #82 from James Zhu (jamesz@amd.com) ---
+Hi @kolAflash,
 
-diff --git a/arch/arm/boot/dts/tegra20-paz00.dts b/arch/arm/boot/dts/tegra20-paz00.dts
-index 5b2260f61f05..921a811632a1 100644
---- a/arch/arm/boot/dts/tegra20-paz00.dts
-+++ b/arch/arm/boot/dts/tegra20-paz00.dts
-@@ -264,8 +264,16 @@ conf_ld17_0 {
- 		};
- 	};
- 
-+	spdif@70002400 {
-+		status = "okay";
-+
-+		nvidia,fixed-parent-rate;
-+	};
-+
- 	i2s@70002800 {
- 		status = "okay";
-+
-+		nvidia,fixed-parent-rate;
- 	};
- 
- 	serial@70006000 {
--- 
-2.33.1
+ I don't have issue with your .config. on ubuntu 20.04
 
+From source code, it should be fine.
+
+$ grep -rn  "kgd2kfd_resume_iommu"  drivers/gpu/drm/amd/amdgpu/amdgpu_amdkf=
+d.h
+309:int kgd2kfd_resume_iommu(struct kfd_dev *kfd);
+
+$ grep -rn  "amdgpu_amdkfd.h\|kgd2kfd_resume_iommu"=20
+drivers/gpu/drm/amd/amdkfd/kfd_device.c
+31:#include "amdgpu_amdkfd.h"
+604:    kfd->pci_atomic_requested =3D amdgpu_amdkfd_have_atomics_support(kg=
+d);
+>>>>792:        if (kgd2kfd_resume_iommu(kfd))
+940:int kgd2kfd_resume_iommu(struct kfd_dev *kfd)
+
+
+Looks we are using different 5.10, should we use 5.10 stable for adding this
+backport patches?.=20
+>>>>754 |  if (kgd2kfd_resume_iommu(kfd))
+      |      ^~~~~~~~~~~~~~~~~~~~
+      |      kgd2kfd_resume_mm
+Best Regards!
+James
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
