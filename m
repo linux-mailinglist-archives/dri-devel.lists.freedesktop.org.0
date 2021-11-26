@@ -1,38 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 741C945E499
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Nov 2021 03:33:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 852BC45E49E
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Nov 2021 03:33:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D0B36E4F1;
-	Fri, 26 Nov 2021 02:32:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6494488161;
+	Fri, 26 Nov 2021 02:33:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D39556E4CF;
- Fri, 26 Nov 2021 02:32:55 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id F21AD611CE;
- Fri, 26 Nov 2021 02:32:53 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 685BA88161
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Nov 2021 02:33:51 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E889C61212;
+ Fri, 26 Nov 2021 02:33:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1637893975;
- bh=cCkMMf905Hpb8flwkJwQ9Jezp64VLSVJQydBbhtNflQ=;
+ s=k20201202; t=1637894031;
+ bh=KWxXtW72Tj7fGimpSt36yqmxv90yxBqm44E4kmS6tPg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=dGZEjTlt4/dv2ENk2RSBtyfrQOJF8CrBkzaQd1OWe0idmFXsSwA8ImEIv9LQQqFJ7
- fpro69K1c2pTkfspY5RWdFwxhFy8elbgeDd8+YQLiQ5o7uHm2584coDFrVbpnnN9fK
- KzuyQel1XaNJugrPqkcyDOlHLO/pWKc/NfNjZrkyd2F2rMILWxUXhFwhep2K1VUiDl
- kuQlgSFQ+vrYl5yYJ7iBcYFnF55o13P/aS6z9IbkabRkeNp4TSoq324RiFQN+1Bjfs
- bfM8uF728fCBbhZrpx0JJQYsja7FlxTgd1bzDST9swrtR0n++N0liKX+aiHTPhqDAi
- OloivjsFetPOg==
+ b=TvWZ1/5GXv1XQb2M7BYcdxSgGjNiX34N+lUUyLAT8Cu9PsjDc6CVbBkl7PGLNjR4w
+ xEn/2Nox+glHpHGhpz75feN/JWb9UcqyXAOrfAckxhGqblIN+OF5eVNVZnZRskJPs9
+ Srf2AuhZtVhM9V/CEOsg95J0CNzL67jR5SV1dIyUjpo+ENs0sEaLLUBFwnS+9f8yfm
+ 2NossODChhXOz73sZe1QzszoOOMe0OXT3gAK/IZw0btOkn0p6m2Ig7jbc7wJtvZq7e
+ UvNOTEZL62/ejGHFfyik69CQSdREfRtY0nT0P+LgNuhcp+zJ72a7CG5DeiWLK0fLAI
+ OVongqvRatWAQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 26/39] drm/amd/amdgpu: fix potential memleak
-Date: Thu, 25 Nov 2021 21:31:43 -0500
-Message-Id: <20211126023156.441292-26-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 04/28] drm/sun4i: fix unmet dependency on
+ RESET_CONTROLLER for PHY_SUN6I_MIPI_DPHY
+Date: Thu, 25 Nov 2021 21:33:19 -0500
+Message-Id: <20211126023343.442045-4-sashal@kernel.org>
 X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20211126023156.441292-1-sashal@kernel.org>
-References: <20211126023156.441292-1-sashal@kernel.org>
+In-Reply-To: <20211126023343.442045-1-sashal@kernel.org>
+References: <20211126023343.442045-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -49,43 +50,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, jonathan.kim@amd.com, kevin1.wang@amd.com,
- airlied@linux.ie, Bernard Zhao <bernard@vivo.com>,
- Felix Kuehling <Felix.Kuehling@amd.com>, Xinhui.Pan@amd.com, tao.zhou1@amd.com,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>, tiantao6@hisilicon.com,
- shaoyun.liu@amd.com, john.clements@amd.com, christian.koenig@amd.com,
- Hawking.Zhang@amd.com
+Cc: Sasha Levin <sashal@kernel.org>, airlied@linux.ie,
+ dri-devel@lists.freedesktop.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ wens@csie.org, Maxime Ripard <maxime@cerno.tech>,
+ Julian Braha <julianbraha@gmail.com>, linux-sunxi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Bernard Zhao <bernard@vivo.com>
+From: Julian Braha <julianbraha@gmail.com>
 
-[ Upstream commit 27dfaedc0d321b4ea4e10c53e4679d6911ab17aa ]
+[ Upstream commit bb162bb2b4394108c8f055d1b115735331205e28 ]
 
-In function amdgpu_get_xgmi_hive, when kobject_init_and_add failed
-There is a potential memleak if not call kobject_put.
+When PHY_SUN6I_MIPI_DPHY is selected, and RESET_CONTROLLER
+is not selected, Kbuild gives the following warning:
 
-Reviewed-by: Felix Kuehling <Felix.Kuehling@amd.com>
-Signed-off-by: Bernard Zhao <bernard@vivo.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+WARNING: unmet direct dependencies detected for PHY_SUN6I_MIPI_DPHY
+  Depends on [n]: (ARCH_SUNXI [=n] || COMPILE_TEST [=y]) && HAS_IOMEM [=y] && COMMON_CLK [=y] && RESET_CONTROLLER [=n]
+  Selected by [y]:
+  - DRM_SUN6I_DSI [=y] && HAS_IOMEM [=y] && DRM_SUN4I [=y]
+
+This is because DRM_SUN6I_DSI selects PHY_SUN6I_MIPI_DPHY
+without selecting or depending on RESET_CONTROLLER, despite
+PHY_SUN6I_MIPI_DPHY depending on RESET_CONTROLLER.
+
+These unmet dependency bugs were detected by Kismet,
+a static analysis tool for Kconfig. Please advise if this
+is not the appropriate solution.
+
+v2:
+Fixed indentation to match the rest of the file.
+
+Signed-off-by: Julian Braha <julianbraha@gmail.com>
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+Link: https://patchwork.freedesktop.org/patch/msgid/20211109032351.43322-1-julianbraha@gmail.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c | 1 +
+ drivers/gpu/drm/sun4i/Kconfig | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c
-index 978ac927ac11d..a799e0b1ff736 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c
-@@ -386,6 +386,7 @@ struct amdgpu_hive_info *amdgpu_get_xgmi_hive(struct amdgpu_device *adev)
- 			"%s", "xgmi_hive_info");
- 	if (ret) {
- 		dev_err(adev->dev, "XGMI: failed initializing kobject for xgmi hive\n");
-+		kobject_put(&hive->kobj);
- 		kfree(hive);
- 		hive = NULL;
- 		goto pro_end;
+diff --git a/drivers/gpu/drm/sun4i/Kconfig b/drivers/gpu/drm/sun4i/Kconfig
+index 5755f0432e774..8c796de53222c 100644
+--- a/drivers/gpu/drm/sun4i/Kconfig
++++ b/drivers/gpu/drm/sun4i/Kconfig
+@@ -46,6 +46,7 @@ config DRM_SUN6I_DSI
+ 	default MACH_SUN8I
+ 	select CRC_CCITT
+ 	select DRM_MIPI_DSI
++	select RESET_CONTROLLER
+ 	select PHY_SUN6I_MIPI_DPHY
+ 	help
+ 	  Choose this option if you want have an Allwinner SoC with
 -- 
 2.33.0
 
