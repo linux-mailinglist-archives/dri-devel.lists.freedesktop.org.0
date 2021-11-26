@@ -1,42 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9638445E673
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Nov 2021 04:15:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C271845E6B5
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Nov 2021 05:04:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 44C626E550;
-	Fri, 26 Nov 2021 03:15:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C0D646E517;
+	Fri, 26 Nov 2021 04:04:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D02036E550
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Nov 2021 03:15:46 +0000 (UTC)
-X-UUID: 2ef8e41a65c6410096f01756b76319a9-20211126
-X-UUID: 2ef8e41a65c6410096f01756b76319a9-20211126
-Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
- mailgw01.mediatek.com (envelope-from <guangming.cao@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1675055840; Fri, 26 Nov 2021 11:15:41 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.2.792.15; Fri, 26 Nov 2021 11:15:40 +0800
-Received: from mszswglt01.gcn.mediatek.inc (10.16.20.20) by
- mtkcas11.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.0.1497.2 via Frontend Transport; Fri, 26 Nov 2021 11:15:40 +0800
-From: <guangming.cao@mediatek.com>
-To: <robin.murphy@arm.com>
-Subject: [PATCH v3] dma-buf: system_heap: Use 'for_each_sgtable_sg' in pages
- free flow
-Date: Fri, 26 Nov 2021 11:16:05 +0800
-Message-ID: <20211126031605.81436-1-guangming.cao@mediatek.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <eb6cc56d-cbe0-73d5-d4f5-0aa2b76272a4@arm.com>
-References: <eb6cc56d-cbe0-73d5-d4f5-0aa2b76272a4@arm.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A1EB96E517
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Nov 2021 04:04:06 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 6FBD661151
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Nov 2021 04:04:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1637899446;
+ bh=wujNyZq6PkRPHMrAJjn1lFuZHDG+K/tU6AqYIQtWnhQ=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=ArESGN4AIr1eISgXZwPVIOab11uZe/qB1saHcT/bMUrDxKMr64FoYa9ZTmPkM0fL9
+ 6QDQYyQ3w+dOsOFAmR8odxEEjBjfSQxw8lDz8J6cyxIsX/NPtwmBkj5wTUepqP4ptF
+ 2O3EwTGeBPAYQm7GG8gc7Dhpmglz+5jfnp/5xcGWrL2cchyMSSSwi6M8YBS9NII3Tb
+ Pmoj8F63QGD3ouJ5+O+f6Cksj7EP7xQemgp9+GvMRTp1JgNoj7sHeD+wIjmvCiuKiA
+ IlfxTF45lTpdWR25zUXVvPKsANuUZAk5DFIE5sLt/uPdlvOtihS6+8SXM4MpcSxyUw
+ fhiU651dpuInA==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id 6691760EE5; Fri, 26 Nov 2021 04:04:06 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 211277] sometimes crash at s2ram-wake (Ryzen 3500U): amdgpu,
+ drm, commit_tail, amdgpu_dm_atomic_commit_tail
+Date: Fri, 26 Nov 2021 04:04:04 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: kolAflash@kolahilft.de
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-211277-2300-k1N8RRtZjL@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-211277-2300@https.bugzilla.kernel.org/>
+References: <bug-211277-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,47 +66,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Guangming <Guangming.Cao@mediatek.com>, wsd_upstream@mediatek.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- christian.koenig@amd.com, linaro-mm-sig@lists.linaro.org, lmark@codeaurora.org,
- benjamin.gaignard@linaro.org, matthias.bgg@gmail.com,
- linux-mediatek@lists.infradead.org, stable@vger.kernel.org, labbott@redhat.com,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Guangming <Guangming.Cao@mediatek.com>
+https://bugzilla.kernel.org/show_bug.cgi?id=3D211277
 
-For previous version, it uses 'sg_table.nent's to traverse sg_table in pages
-free flow.
-However, 'sg_table.nents' is reassigned in 'dma_map_sg', it means the number of
-created entries in the DMA adderess space.
-So, use 'sg_table.nents' in pages free flow will case some pages can't be freed.
+--- Comment #81 from kolAflash (kolAflash@kolahilft.de) ---
+Created attachment 299721
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D299721&action=3Dedit
+Linux kernel make .config
 
-Here we should use sg_table.orig_nents to free pages memory, but use the
-sgtable helper 'for each_sgtable_sg'(, instead of the previous rather common
-helper 'for_each_sg' which maybe cause memory leak) is much better.
+@James
 
-Fixes: d963ab0f15fb0 ("dma-buf: system_heap: Allocate higher order pages if available")
+Compiling v5.10.80 (f884bb85b8d877d4e0c670403754813a7901705b) with the prov=
+ided
+patch results in the same error.
 
-Signed-off-by: Guangming <Guangming.Cao@mediatek.com>
----
- drivers/dma-buf/heaps/system_heap.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I attached my Linux kernel make .config.
 
-diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/system_heap.c
-index 23a7e74ef966..8660508f3684 100644
---- a/drivers/dma-buf/heaps/system_heap.c
-+++ b/drivers/dma-buf/heaps/system_heap.c
-@@ -289,7 +289,7 @@ static void system_heap_dma_buf_release(struct dma_buf *dmabuf)
- 	int i;
- 
- 	table = &buffer->sg_table;
--	for_each_sg(table->sgl, sg, table->nents, i) {
-+	for_each_sgtable_sg(table, sg, i) {
- 		struct page *page = sg_page(sg);
- 
- 		__free_pages(page, compound_order(page));
--- 
-2.17.1
+Compilation platform is Debian-11.1.0.
 
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
