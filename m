@@ -2,63 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1778B45ECDF
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Nov 2021 12:46:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39FC345ED22
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Nov 2021 12:56:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 67BCF6E7FA;
-	Fri, 26 Nov 2021 11:46:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9EFB26E0F8;
+	Fri, 26 Nov 2021 11:56:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com
- [IPv6:2a00:1450:4864:20::229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 523196E7FA;
- Fri, 26 Nov 2021 11:46:35 +0000 (UTC)
-Received: by mail-lj1-x229.google.com with SMTP id z8so18202440ljz.9;
- Fri, 26 Nov 2021 03:46:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=771D8j+j6GY3D7m6lQgfgOiT77k90+QQB3iXGzCnqwI=;
- b=nke0byi9pUeD77reHH3E/amQB5LyH3GLk9EvVeONpHfna7hb1eaGJEArAijVw7xG3J
- WsND9bCW2fMG1Dz+of9Bymb6too31n4Dh0PdB4J+V+fC9YgWoAz4hcKZ9zKS6kv/oraP
- 2zbSATXHp1NRXXbngu2d0hbkHm35T3SZxDCerDNLA9imU+S08VIecwTe3kG7W31Kemgw
- ZVdgTRHtsiZE7YMrliUrOBD9LSNEL8Uf0LE5z+DZGZv2MF5ZwqyarS2FheDRwpIROkRZ
- UEDuZJIEhdbgzNaY6l3OzyZFOF2J78nVAtcgK8h06gU/Jxogwlz/zov5NuqgYjMKnoFv
- frag==
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
+ [IPv6:2a00:1450:4864:20::331])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C5D606E0F8
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Nov 2021 11:56:52 +0000 (UTC)
+Received: by mail-wm1-x331.google.com with SMTP id y196so7894481wmc.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Nov 2021 03:56:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=raspberrypi.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=zpmD/szeurZGIwM/QvP/48iu2ppcqqQWf+7vaCbDPxk=;
+ b=RGENqsPbZrrHZa220+wFAFjFgPxuIOB4I6sAS9Bvy29aYWkakbBKD/MlRQuTdANYXG
+ yAAa4D3882kGUIMKbrjFXIq79/5Z/RhwHTMa2Mw+f7TquOwvf0gAlv5GAGAqkFoHU2iM
+ q+OV3CTL590VJcU2NgXzyRve/GLYi6P2GS7x061WAfkrm1I2aLB7ZtiXMPWtPkc5Z8qS
+ siaKU3hnsDosq9vblzOnxPFVeKkP0heISPKPU0S91t7Ebt3BLiQIXgNy6Nt9nZH1wVpf
+ mi3uE3kJbKsvo7qhIOeDI+bu4iU5XNJK0TOrwo9zXOQGHCXWm3FrbhCpejKKNORueaUm
+ TaSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=771D8j+j6GY3D7m6lQgfgOiT77k90+QQB3iXGzCnqwI=;
- b=NFqJJGQEW0t3ZAQVm1KFaBwNXzWucv73x5IFkgVwHOHxZoNObvHzhIltLE7qjnuAXf
- 8RwbhhC9II79JQcc6xXZ7WEXRt+4PjiteNGSLqkfnkruuD/9F/FMkHVzw0hfpq6vucvW
- n4q12scDFhMW/S6syrBMrTUeEPayJenq4iqqygyPuxwYNJu4TLq3LPgVGH2JglXNRN54
- 2LyXIFZzgVLY2w9eufTIs6TQWy8L2NzUuFOwxDFBwQa53xEEZOcq+gGeX/a1jsLa5k2v
- J5CyG0VnZ6evaZoKRNtewPBSdC6f6dxPgZxN2RRItW5BQR9vGiaT3SbylJrrx2caH+/d
- JZiQ==
-X-Gm-Message-State: AOAM531PFDTylYOusPKYjlHcHRm0KdrnxmL1kmchM7byPBnFh1e/hTUB
- vEPwy7Z/wuYI08CwLainpIoHFp4fijg=
-X-Google-Smtp-Source: ABdhPJwbNELuNUo3IsF3TGtBzAP74FlXOLqdPSY3hc+lMa/6E7Mmg3z3Qynf84ETfd5Yf32TEIscGA==
-X-Received: by 2002:a2e:99cf:: with SMTP id l15mr31804064ljj.111.1637927193243; 
- Fri, 26 Nov 2021 03:46:33 -0800 (PST)
-Received: from inno-pc.lan (88-115-161-74.elisa-laajakaista.fi.
- [88.115.161.74])
- by smtp.gmail.com with ESMTPSA id c15sm556536lfb.40.2021.11.26.03.46.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 26 Nov 2021 03:46:32 -0800 (PST)
-From: Zhi Wang <zhi.wang.linux@gmail.com>
-X-Google-Original-From: Zhi Wang <zhi.a.wang@intel.com>
-To: intel-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 2/2] i915/gvt: save the MMIO snapshot in the early init of
- GVT-g
-Date: Fri, 26 Nov 2021 06:46:23 -0500
-Message-Id: <20211126114623.88739-2-zhi.a.wang@intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211126114623.88739-1-zhi.a.wang@intel.com>
-References: <20211126114623.88739-1-zhi.a.wang@intel.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=zpmD/szeurZGIwM/QvP/48iu2ppcqqQWf+7vaCbDPxk=;
+ b=7vVkvTUasG1m4I0Fl33Jo+dysIX7vNtgojhX1s6Tbzz36GwgGnVAA/E0S/RPDKrWQ3
+ CPquXJbuZxhatW8kf5h+kulktUPm/wdyBjAUK8844+dovq+yFF43pZXW9TrpxxtknirA
+ JbXAMP9fPq1CNUyvN/fUfB1/aBujY/fVS0HsU6STSUKpHZ0wncbKMUd3RrXI/8olzPSR
+ Dmwmt8Xi84bUj/UGAI7kpkSc7iWxws5eRzUWC1oH/+iTEkTeYaQFbjEKB6ONYioAaxxj
+ Pu8f+OoIj/thvL8DH2DmbOL1nIyjEvuZgXmxfsv00Sofl7jbdOl/Ge85ZtgCEH3E1ZWS
+ cgUQ==
+X-Gm-Message-State: AOAM531ZevUiN/BZBt/IO8Jm6szIpVX03XnRhtAiu5z+Jd7hiQxtOTyo
+ mIyxUVuiYNzRB8SYdDP1knXLd5Q6iaXKr6XuHFvcUw==
+X-Google-Smtp-Source: ABdhPJyRzV3x6rMLqEPj0ibZLUh05JPkxyliqaMr7MXxrf+zd77znnvM3P1P9UmYcKnBeToGMwGbtbT5iLSQ8Z1DK1Q=
+X-Received: by 2002:a05:600c:358a:: with SMTP id
+ p10mr14475605wmq.180.1637927810950; 
+ Fri, 26 Nov 2021 03:56:50 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20211126003227.1031347-1-dmitry.baryshkov@linaro.org>
+In-Reply-To: <20211126003227.1031347-1-dmitry.baryshkov@linaro.org>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Fri, 26 Nov 2021 11:56:36 +0000
+Message-ID: <CAPY8ntBrhYAmsraDqJGuTrSL6VjGXBAMVoN7xweV7E4qZv+v3Q@mail.gmail.com>
+Subject: Re: [PATCH 1/2] drm/ bridge: tc358762: move bridge init to enable
+ callback
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,293 +64,135 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Zhi Wang <zhi.wang.linux@gmail.com>, Jason Gunthorpe <jgg@nvidia.com>,
- Vivi Rodrigo <rodrigo.vivi@intel.com>, Christoph Hellwig <hch@lst.de>,
- Zhi Wang <zhi.a.wang@intel.com>
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
+ David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Neil Armstrong <narmstrong@baylibre.com>, Robert Foss <robert.foss@linaro.org>,
+ Andrzej Hajda <a.hajda@samsung.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Zhi Wang <zhi.wang.linux@gmail.com>
+Hi Dmitry
 
-To support the early init of GVT-g, which will be put in i915, after the
-GVT-g is moved into a dedicated module, we need to save the MMIO snapshot
-in the early init of GVT-g, when the HW hasn't been touched.
+On Fri, 26 Nov 2021 at 00:32, Dmitry Baryshkov
+<dmitry.baryshkov@linaro.org> wrote:
+>
+> During the pre_enable time the previous bridge (e.g. DSI host) might be
+> not initialized yet. Move the regulator enablement and bridge init to
+> te enable callback (and consequently regulator disblement to disable).
 
-v3:
+Except that in the enable callback the DSI host has video enabled too,
+so the data lanes may be in HS mode too, and the bridge may not be
+prepared to accept that during power on / initialisation. That means
+you've got a race condition over how quickly the composition hardware
+starts producing pixel data vs when this enable callback is called. I
+suspect that is why we had [1] for the rare case when the race
+condition failed.
+There's also seems to be no guarantee that a host can do LP commands
+between HS video packets (eg sunxi [2])
 
-- Fix errors when CONFIG_DRM_I915_WERROR is turned on. (Jani)
+This is the same issue that was being hacked around in [3], and is one
+of the questions I'd raised back in July [4].
+The DSI support is broken when it comes to accommodating
+initialisation sequences, but in trying to ensure all possible
+sequences can be accomodated, all currently proposed solutions have
+been shot down.
+Some platforms have worked around it by powering up the DSI host in
+mode_set (dw-mipi-dsi), others have broken the bridge chain apart so
+their pre_enable gets called first (exynos and currently vc4) except
+that approach is broken for the atomic API.
 
-Cc: Christoph Hellwig <hch@lst.de>
-Cc: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Cc: Vivi Rodrigo <rodrigo.vivi@intel.com>
-Cc: Zhenyu Wang <zhenyuw@linux.intel.com>
-Cc: Zhi Wang <zhi.a.wang@intel.com>
-Tested-by: Terrence Xu <terrence.xu@intel.com>
-Signed-off-by: Zhi Wang <zhi.wang.linux@gmail.com>
----
- drivers/gpu/drm/i915/gvt/firmware.c        | 40 +-----------
- drivers/gpu/drm/i915/gvt/handlers.c        | 39 ------------
- drivers/gpu/drm/i915/gvt/mmio_info_table.c | 72 +++++++++++++++++++++-
- drivers/gpu/drm/i915/gvt/mmio_info_table.h |  3 +
- 4 files changed, 77 insertions(+), 77 deletions(-)
+There is a need for some form of resolution, even if it is only
+documenting the correct hack to implement in the DSI host driver.
+Hacking bridge or panel drivers to try and workaround it seems wrong.
 
-diff --git a/drivers/gpu/drm/i915/gvt/firmware.c b/drivers/gpu/drm/i915/gvt/firmware.c
-index 1a8274a3f4b1..28719c2f253f 100644
---- a/drivers/gpu/drm/i915/gvt/firmware.c
-+++ b/drivers/gpu/drm/i915/gvt/firmware.c
-@@ -66,12 +66,6 @@ static struct bin_attribute firmware_attr = {
- 	.mmap = NULL,
- };
- 
--static int mmio_snapshot_handler(struct intel_gvt *gvt, u32 offset, void *data)
--{
--	*(u32 *)(data + offset) = intel_uncore_read_notrace(gvt->gt->uncore,
--							    _MMIO(offset));
--	return 0;
--}
- 
- static int expose_firmware_sysfs(struct intel_gvt *gvt)
- {
-@@ -81,7 +75,7 @@ static int expose_firmware_sysfs(struct intel_gvt *gvt)
- 	void *firmware;
- 	void *p;
- 	unsigned long size, crc32_start;
--	int i, ret;
-+	int ret;
- 
- 	size = sizeof(*h) + info->mmio_size + info->cfg_space_size;
- 	firmware = vzalloc(size);
-@@ -99,17 +93,11 @@ static int expose_firmware_sysfs(struct intel_gvt *gvt)
- 
- 	p = firmware + h->cfg_space_offset;
- 
--	for (i = 0; i < h->cfg_space_size; i += 4)
--		pci_read_config_dword(pdev, i, p + i);
--
--	memcpy(gvt->firmware.cfg_space, p, info->cfg_space_size);
-+	memcpy(p, gvt->firmware.cfg_space, info->cfg_space_size);
- 
- 	p = firmware + h->mmio_offset;
- 
--	/* Take a snapshot of hw mmio registers. */
--	intel_gvt_for_each_tracked_mmio(gvt, mmio_snapshot_handler, p);
--
--	memcpy(gvt->firmware.mmio, p, info->mmio_size);
-+	memcpy(p, gvt->firmware.mmio, info->mmio_size);
- 
- 	crc32_start = offsetof(struct gvt_firmware_header, crc32) + 4;
- 	h->crc32 = crc32_le(0, firmware + crc32_start, size - crc32_start);
-@@ -142,9 +130,6 @@ void intel_gvt_free_firmware(struct intel_gvt *gvt)
- {
- 	if (!gvt->firmware.firmware_loaded)
- 		clean_firmware_sysfs(gvt);
--
--	kfree(gvt->firmware.cfg_space);
--	vfree(gvt->firmware.mmio);
- }
- 
- static int verify_firmware(struct intel_gvt *gvt,
-@@ -204,36 +189,17 @@ static int verify_firmware(struct intel_gvt *gvt,
-  */
- int intel_gvt_load_firmware(struct intel_gvt *gvt)
- {
--	struct intel_gvt_device_info *info = &gvt->device_info;
- 	struct pci_dev *pdev = to_pci_dev(gvt->gt->i915->drm.dev);
- 	struct intel_gvt_firmware *firmware = &gvt->firmware;
- 	struct gvt_firmware_header *h;
- 	const struct firmware *fw;
- 	char *path;
--	void *mem;
- 	int ret;
- 
- 	path = kmalloc(PATH_MAX, GFP_KERNEL);
- 	if (!path)
- 		return -ENOMEM;
- 
--	mem = kmalloc(info->cfg_space_size, GFP_KERNEL);
--	if (!mem) {
--		kfree(path);
--		return -ENOMEM;
--	}
--
--	firmware->cfg_space = mem;
--
--	mem = vmalloc(info->mmio_size);
--	if (!mem) {
--		kfree(path);
--		kfree(firmware->cfg_space);
--		return -ENOMEM;
--	}
--
--	firmware->mmio = mem;
--
- 	sprintf(path, "%s/vid_0x%04x_did_0x%04x_rid_0x%02x.golden_hw_state",
- 		 GVT_FIRMWARE_PATH, pdev->vendor, pdev->device,
- 		 pdev->revision);
-diff --git a/drivers/gpu/drm/i915/gvt/handlers.c b/drivers/gpu/drm/i915/gvt/handlers.c
-index 2c064da3db6d..ba7b330a2c71 100644
---- a/drivers/gpu/drm/i915/gvt/handlers.c
-+++ b/drivers/gpu/drm/i915/gvt/handlers.c
-@@ -2406,45 +2406,6 @@ int intel_gvt_setup_mmio_handlers(struct intel_gvt *gvt)
- 	return ret;
- }
- 
--/**
-- * intel_gvt_for_each_tracked_mmio - iterate each tracked mmio
-- * @gvt: a GVT device
-- * @handler: the handler
-- * @data: private data given to handler
-- *
-- * Returns:
-- * Zero on success, negative error code if failed.
-- */
--int intel_gvt_for_each_tracked_mmio(struct intel_gvt *gvt,
--	int (*handler)(struct intel_gvt *gvt, u32 offset, void *data),
--	void *data)
--{
--	struct gvt_mmio_block *block = gvt->mmio.mmio_block;
--	struct intel_gvt_mmio_info *e;
--	int i, j, ret;
--
--	hash_for_each(gvt->mmio.mmio_info_table, i, e, node) {
--		ret = handler(gvt, e->offset, data);
--		if (ret)
--			return ret;
--	}
--
--	for (i = 0; i < gvt->mmio.num_mmio_block; i++, block++) {
--		/* pvinfo data doesn't come from hw mmio */
--		if (i915_mmio_reg_offset(block->offset) == VGT_PVINFO_PAGE)
--			continue;
--
--		for (j = 0; j < block->size; j += 4) {
--			ret = handler(gvt,
--				      i915_mmio_reg_offset(block->offset) + j,
--				      data);
--			if (ret)
--				return ret;
--		}
--	}
--	return 0;
--}
--
- /**
-  * intel_vgpu_default_mmio_read - default MMIO read handler
-  * @vgpu: a vGPU
-diff --git a/drivers/gpu/drm/i915/gvt/mmio_info_table.c b/drivers/gpu/drm/i915/gvt/mmio_info_table.c
-index 723190c25313..76535e3cc9ba 100644
---- a/drivers/gpu/drm/i915/gvt/mmio_info_table.c
-+++ b/drivers/gpu/drm/i915/gvt/mmio_info_table.c
-@@ -1398,6 +1398,54 @@ void intel_gvt_clean_mmio_info(struct intel_gvt *gvt)
- 
- 	vfree(gvt->mmio.mmio_attribute);
- 	gvt->mmio.mmio_attribute = NULL;
-+	kfree(gvt->firmware.cfg_space);
-+	vfree(gvt->firmware.mmio);
-+}
-+
-+static int mmio_snapshot_handler(struct intel_gvt *gvt, u32 offset, void *data)
-+{
-+	*(u32 *)(data + offset) = intel_uncore_read_notrace(gvt->gt->uncore,
-+							    _MMIO(offset));
-+	return 0;
-+}
-+
-+/**
-+ * intel_gvt_for_each_tracked_mmio - iterate each tracked mmio
-+ * @gvt: a GVT device
-+ * @handler: the handler
-+ * @data: private data given to handler
-+ *
-+ * Returns:
-+ * Zero on success, negative error code if failed.
-+ */
-+int intel_gvt_for_each_tracked_mmio(struct intel_gvt *gvt,
-+	int (*handler)(struct intel_gvt *gvt, u32 offset, void *data),
-+	void *data)
-+{
-+	struct gvt_mmio_block *block = gvt->mmio.mmio_block;
-+	struct intel_gvt_mmio_info *e;
-+	int i, j, ret;
-+
-+	hash_for_each(gvt->mmio.mmio_info_table, i, e, node) {
-+		ret = handler(gvt, e->offset, data);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	for (i = 0; i < gvt->mmio.num_mmio_block; i++, block++) {
-+		/* pvinfo data doesn't come from hw mmio */
-+		if (i915_mmio_reg_offset(block->offset) == VGT_PVINFO_PAGE)
-+			continue;
-+
-+		for (j = 0; j < block->size; j += 4) {
-+			ret = handler(gvt,
-+				      i915_mmio_reg_offset(block->offset) + j,
-+				      data);
-+			if (ret)
-+				return ret;
-+		}
-+	}
-+	return 0;
- }
- 
- /**
-@@ -1414,8 +1462,10 @@ int intel_gvt_setup_mmio_info(struct intel_gvt *gvt)
- {
- 	struct intel_gvt_device_info *info = &gvt->device_info;
- 	struct drm_i915_private *i915 = gvt->gt->i915;
-+	struct pci_dev *pdev = to_pci_dev(i915->drm.dev);
- 	int size = info->mmio_size / 4 * sizeof(*gvt->mmio.mmio_attribute);
--	int ret;
-+	void *mem;
-+	int i, ret;
- 
- 	gvt->mmio.mmio_attribute = vzalloc(size);
- 	if (!gvt->mmio.mmio_attribute)
-@@ -1454,6 +1504,26 @@ int intel_gvt_setup_mmio_info(struct intel_gvt *gvt)
- 	gvt->mmio.mmio_block = mmio_blocks;
- 	gvt->mmio.num_mmio_block = ARRAY_SIZE(mmio_blocks);
- 
-+	mem = kzalloc(info->cfg_space_size, GFP_KERNEL);
-+	if (!mem)
-+		goto err;
-+
-+	gvt->firmware.cfg_space = mem;
-+
-+	for (i = 0; i < info->cfg_space_size; i += 4)
-+		pci_read_config_dword(pdev, i, mem + i);
-+
-+	mem = vzalloc(info->mmio_size);
-+	if (!mem) {
-+		kfree(gvt->firmware.cfg_space);
-+		goto err;
-+	}
-+
-+	gvt->firmware.mmio = mem;
-+
-+	/* Take a snapshot of hw mmio registers. */
-+	intel_gvt_for_each_tracked_mmio(gvt, mmio_snapshot_handler, mem);
-+
- 	return 0;
- err:
- 	intel_gvt_clean_mmio_info(gvt);
-diff --git a/drivers/gpu/drm/i915/gvt/mmio_info_table.h b/drivers/gpu/drm/i915/gvt/mmio_info_table.h
-index 0303fd447330..7572b255d5d0 100644
---- a/drivers/gpu/drm/i915/gvt/mmio_info_table.h
-+++ b/drivers/gpu/drm/i915/gvt/mmio_info_table.h
-@@ -29,6 +29,9 @@
- 
- unsigned long intel_gvt_get_device_type(struct intel_gvt *gvt);
- bool intel_gvt_match_device(struct intel_gvt *gvt, unsigned long device);
-+int intel_gvt_for_each_tracked_mmio(struct intel_gvt *gvt,
-+	int (*handler)(struct intel_gvt *gvt, u32 offset, void *data),
-+	void *data);
- struct intel_gvt_mmio_info *intel_gvt_find_mmio_info(struct intel_gvt *gvt,
- 						     unsigned int offset);
- int intel_gvt_setup_mmio_info(struct intel_gvt *gvt);
--- 
-2.25.1
+  Dave
 
+[1] https://lists.freedesktop.org/archives/dri-devel/2021-September/322119.html
+[2] https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c#n776
+[3] https://lists.freedesktop.org/archives/dri-devel/2021-November/332003.html
+[4] https://lists.freedesktop.org/archives/dri-devel/2021-July/313576.html
+
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>  drivers/gpu/drm/bridge/tc358762.c | 20 ++++++++++----------
+>  1 file changed, 10 insertions(+), 10 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/bridge/tc358762.c b/drivers/gpu/drm/bridge/tc358762.c
+> index 7104828024fd..ebdf771a1e49 100644
+> --- a/drivers/gpu/drm/bridge/tc358762.c
+> +++ b/drivers/gpu/drm/bridge/tc358762.c
+> @@ -64,7 +64,7 @@ struct tc358762 {
+>         struct drm_connector connector;
+>         struct regulator *regulator;
+>         struct drm_bridge *panel_bridge;
+> -       bool pre_enabled;
+> +       bool enabled;
+>         int error;
+>  };
+>
+> @@ -125,26 +125,26 @@ static int tc358762_init(struct tc358762 *ctx)
+>         return tc358762_clear_error(ctx);
+>  }
+>
+> -static void tc358762_post_disable(struct drm_bridge *bridge)
+> +static void tc358762_disable(struct drm_bridge *bridge)
+>  {
+>         struct tc358762 *ctx = bridge_to_tc358762(bridge);
+>         int ret;
+>
+>         /*
+> -        * The post_disable hook might be called multiple times.
+> +        * The disable hook might be called multiple times.
+>          * We want to avoid regulator imbalance below.
+>          */
+> -       if (!ctx->pre_enabled)
+> +       if (!ctx->enabled)
+>                 return;
+>
+> -       ctx->pre_enabled = false;
+> +       ctx->enabled = false;
+>
+>         ret = regulator_disable(ctx->regulator);
+>         if (ret < 0)
+>                 dev_err(ctx->dev, "error disabling regulators (%d)\n", ret);
+>  }
+>
+> -static void tc358762_pre_enable(struct drm_bridge *bridge)
+> +static void tc358762_enable(struct drm_bridge *bridge)
+>  {
+>         struct tc358762 *ctx = bridge_to_tc358762(bridge);
+>         int ret;
+> @@ -157,7 +157,7 @@ static void tc358762_pre_enable(struct drm_bridge *bridge)
+>         if (ret < 0)
+>                 dev_err(ctx->dev, "error initializing bridge (%d)\n", ret);
+>
+> -       ctx->pre_enabled = true;
+> +       ctx->enabled = true;
+>  }
+>
+>  static int tc358762_attach(struct drm_bridge *bridge,
+> @@ -170,8 +170,8 @@ static int tc358762_attach(struct drm_bridge *bridge,
+>  }
+>
+>  static const struct drm_bridge_funcs tc358762_bridge_funcs = {
+> -       .post_disable = tc358762_post_disable,
+> -       .pre_enable = tc358762_pre_enable,
+> +       .disable = tc358762_disable,
+> +       .enable = tc358762_enable,
+>         .attach = tc358762_attach,
+>  };
+>
+> @@ -218,7 +218,7 @@ static int tc358762_probe(struct mipi_dsi_device *dsi)
+>         mipi_dsi_set_drvdata(dsi, ctx);
+>
+>         ctx->dev = dev;
+> -       ctx->pre_enabled = false;
+> +       ctx->enabled = false;
+>
+>         /* TODO: Find out how to get dual-lane mode working */
+>         dsi->lanes = 1;
+> --
+> 2.33.0
+>
