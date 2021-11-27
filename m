@@ -1,53 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65D514600B6
-	for <lists+dri-devel@lfdr.de>; Sat, 27 Nov 2021 18:51:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 05595460115
+	for <lists+dri-devel@lfdr.de>; Sat, 27 Nov 2021 20:19:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9FDB86E0CC;
-	Sat, 27 Nov 2021 17:51:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E73876E083;
+	Sat, 27 Nov 2021 19:19:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com
- [IPv6:2607:f8b0:4864:20::102f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CEE116E0CC
- for <dri-devel@lists.freedesktop.org>; Sat, 27 Nov 2021 17:51:32 +0000 (UTC)
-Received: by mail-pj1-x102f.google.com with SMTP id
- y14-20020a17090a2b4e00b001a5824f4918so12010259pjc.4
- for <dri-devel@lists.freedesktop.org>; Sat, 27 Nov 2021 09:51:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:from:date:message-id:subject:to;
- bh=kgldQlbq3QggWdFdGjJrXmsq1ijjrIOnJyDBMjGuSuI=;
- b=Un2TsasqS5BPC5cduFwI3EH8L4wROJf44Qhz71GClIvr/scN376Sj2sIXBUYXIlEKs
- ZwmQLnoeJ/LfkoaXBHv2wizfmo/Y2BAX5CgSULpypw+UTA3IshMiF4k+aZi0CpIQCOTg
- 10FbFrzZA1GPMVsLeGmQfWyyafptAtQPCghlVVCgMu7mX0MR3ZEkl47CjIaTi3Q9ym1Q
- KXzey4hjDiXg2JtNgQWhGAheK7CJS6drV8w2cmZi3hx4Rze46ITDG7+JOpIVaT+8KXky
- xEn50RK9IqDf0BsJDzHLW5Dhih2poQOFRHo4Hm++pAtu1s3Gh4MWCIsIAAiwNNvsH0Y9
- Lh4w==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9BE866E083
+ for <dri-devel@lists.freedesktop.org>; Sat, 27 Nov 2021 19:19:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1638040759;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=FmEONlRLRS7Q3m1/IGZ8/wAcZ9/vJrKLoCBv/npZi2U=;
+ b=ZF7h75HaXnc2iEipLvmEQxZeJN0pogRvEP+1OSXJZBi4d6aqL1brtaGUEc0798Xc19/ptC
+ Py59B1Jaxw3dPav6YLMFK1+kpppYxf7zC6SWQsxLhhx0/VASkTPTlzrevZ6hwgg/syn1wv
+ uuDLcUdICFGzfvCL9Ar5Uy9Z7CmZoXg=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-517-KpTkgJhLN2q43ZizD7jAqQ-1; Sat, 27 Nov 2021 14:19:17 -0500
+X-MC-Unique: KpTkgJhLN2q43ZizD7jAqQ-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ a85-20020a1c7f58000000b0033ddc0eacc8so7203033wmd.9
+ for <dri-devel@lists.freedesktop.org>; Sat, 27 Nov 2021 11:19:17 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=kgldQlbq3QggWdFdGjJrXmsq1ijjrIOnJyDBMjGuSuI=;
- b=G3U4uk6DGJKamVs4JqjEbVj5d7LUqcDj8X+edq7VbjsOkhPR0eGepFy5AXrXQFcDBf
- f1dSC9KMbthq2iID7QHk7ROKn9Xm/VTGW5lo4PR/HQWy9+EKG8tqNT63Qwiuuugp0EMW
- e7H+V103ZWp8NjeQ/2SwlAW86dOjEfRHWDnOvL8dVOqogLDzt3rCS4picm8yooqV2S7R
- 6KsulEyyJujgn7Ip42gxUDSAdqTgF2VTM9cUJmn7XshDEjCRSnEFnAa4EQxxuljXzwKO
- vVad2Ul4l43/e19iONWQEFoWR9EKT8sR+Rm9h9kyzFxrO0VkJcvFngOnGp0U7t9C822l
- FMTA==
-X-Gm-Message-State: AOAM5327TL+GxNpC3gWD/3iYJ6GqpUV3Ilk3ag/NSOxjUr4YaiY+3NZU
- dyzG4aYjyy8ZHsz1eLfLUBJ6kmkde102xH4eR3ZFBhbEoqA=
-X-Google-Smtp-Source: ABdhPJw/zGTPg49PRtq3n03ZcwoPdqzqlWZ1xk7Vk0KIXBVirJ2iugqJ93SPdPE860M1tHKAwzznVRXab6Xy8lXQzws=
-X-Received: by 2002:a17:902:d395:b0:141:a913:1920 with SMTP id
- e21-20020a170902d39500b00141a9131920mr46485396pld.81.1638035492113; Sat, 27
- Nov 2021 09:51:32 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=FmEONlRLRS7Q3m1/IGZ8/wAcZ9/vJrKLoCBv/npZi2U=;
+ b=4cly5qjX9CmVUxH9J6N+/JOLOlHXxuiWkrtCyOQKehPlrElBF3hw5pw8YpplG9Bf6D
+ OE3aVBpe6gnuQTo8TgxJ9dWA3tWIGB2s2CKI1u667cUfdj3zidiJZiZKertzY7jIiDqE
+ 2NG2ImlSRJstpfdBcNM7Bt9HElljVpfsbuU3FhEBDUa1hekeka4B16aZocqwGtpYP1r5
+ i7psoR4cEDanjTL+DkfZ6IWbsONH2huHa62EKWd3PxBbcUsbp8URb92sHQRegRGpe0lI
+ xHhHKAH3sK9c6iPzTdNnyBoYMJNkhB7ZJiwzoWylI2/T4DeXAJxHyXJDl9dDifuXHVsK
+ 8Mtg==
+X-Gm-Message-State: AOAM533vKhBfsw75k5wuUOdMXw9OEbydNuFd9LIJorX3XkEjdt6iI4Wr
+ ptvO6IVoApxVL0ZOjG9vKpoUyD/Tq8/PYGwsHB5Rjlkcloob2RlwDrRBvlC8f6cmZObloQ7OBsq
+ 4FlFgnfZClXZtPoTAcKeWnmWnxj6o
+X-Received: by 2002:adf:eac8:: with SMTP id o8mr22999000wrn.337.1638040756560; 
+ Sat, 27 Nov 2021 11:19:16 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxabUOTDhc5FjxR7ONoe8Du3sRBNo52FTEfP5Zf+UIg18HyEeIugSjNA5q9jOQ28IpzglwJhQ==
+X-Received: by 2002:adf:eac8:: with SMTP id o8mr22998975wrn.337.1638040756301; 
+ Sat, 27 Nov 2021 11:19:16 -0800 (PST)
+Received: from minerva.home ([92.176.231.205])
+ by smtp.gmail.com with ESMTPSA id i17sm11391314wmq.48.2021.11.27.11.19.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 27 Nov 2021 11:19:15 -0800 (PST)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH] drm: Fix build error caused by missing drm_nomodeset.o
+Date: Sat, 27 Nov 2021 20:19:10 +0100
+Message-Id: <20211127191910.709356-1-javierm@redhat.com>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-From: Chris Rankin <rankincj@gmail.com>
-Date: Sat, 27 Nov 2021 17:51:19 +0000
-Message-ID: <CAK2bqV+AvhJnPXofTL3xm2GmC22hfSaN6TKu5Y0dtnmnXgiciA@mail.gmail.com>
-Subject: AMDGPU - What is correct combination of kernel CONFIG options?
-To: Maling list - DRI developers <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="UTF-8"
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,50 +78,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Pekka Paalanen <pekka.paalanen@collabora.com>,
+ kernel test robot <lkp@intel.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@linux.ie>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+The patch for commit ("6a2d2ddf2c34 drm: Move nomodeset kernel parameter
+to the DRM subsystem") was generated with config 'diff.noprefix true'.
 
-I am trying to compile a Linux 5.15 kernel with the amdgpu driver for
-a Radeon RX 6600. For reference, Fedora's 5.15.4-201.fc35.x86_64
-kernel appears to work for me and be stable, and so I am confident
-that my hardware is OK, even if my motherboard is quite old (PCIE 2.0,
-I believe). However, I am struggling to configure a stable amdgpu
-driver for a 5.15.x kernel of my own, and suspect that I have missed
-at least one significant CONFIG setting.
+But later was applied using 'cat nomodeset.mbox | dim apply-branch' on a
+machine with 'diff.noprefix false'. And command 'git am --scissors -3' as
+used by the dim tool doesn't handle that case well, since the 3-way merge
+wrongly resolves the path for new file drivers/gpu/drm/drm_nomodeset.c as
+gpu/drm/drm_nomodeset.c instead.
 
-My amdgpu module has all the same module dependencies as the Fedora
-kernel, and my kernel boots as far as the GNOME login screen, but then
-the GNOME desktop fails to appear and my dmesg log fills with messages
-about failing to start the parser.
+It led to the following build error as reported by the kernel test robot:
 
-My .config file currently includes:
+  make[4]: *** No rule to make target 'drivers/gpu/drm/drm_nomodeset.o', needed by 'drivers/gpu/drm/built-in.a'.
 
-CONFIG_DRM_AMDGPU=m
-CONFIG_DRM_AMDGPU_CIK=y
-CONFIG_DRM_AMDGPU_USERPTR=y
+Fixes: ("6a2d2ddf2c34 drm: Move nomodeset kernel parameter to the DRM subsystem")
+Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+---
 
-CONFIG_DRM_AMD_DC=y
-CONFIG_DRM_AMD_DC_DCN=y
-CONFIG_DRM_AMD_DC_HDCP=y
-CONFIG_DRM_AMD_SECURE_DISPLAY=y
-CONFIG_HSA_AMD=y
-CONFIG_HSA_AMD_SVM=y
+ {gpu => drivers/gpu}/drm/drm_nomodeset.c | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ rename {gpu => drivers/gpu}/drm/drm_nomodeset.c (100%)
 
-CONFIG_DRM_AMD_ACP=y
+diff --git a/gpu/drm/drm_nomodeset.c b/drivers/gpu/drm/drm_nomodeset.c
+similarity index 100%
+rename from gpu/drm/drm_nomodeset.c
+rename to drivers/gpu/drm/drm_nomodeset.c
+-- 
+2.33.1
 
-and I have also added:
-
-CONFIG_AMD_IOMMU=y
-CONFIG_AMD_IOMMU_V2=m
-
-Are there any other (say) CONFIG_AMD_xxx options I need which I have
-missed please? My motherboard has an Intel CPU and so I have not
-included AMD config options by default.
-
-Thanks,
-Chris
-
-P.S. AFAIK I shouldn't need AMDGPU_CIK for my RX 6600, but have kept
-it so that I can still swap back to an older card if necessary.
