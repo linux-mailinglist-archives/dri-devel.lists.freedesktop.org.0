@@ -1,39 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D34145FC5C
-	for <lists+dri-devel@lfdr.de>; Sat, 27 Nov 2021 04:24:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 219E745FC5D
+	for <lists+dri-devel@lfdr.de>; Sat, 27 Nov 2021 04:24:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 14A086EC3D;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B8296EC40;
 	Sat, 27 Nov 2021 03:24:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7678B6EC3D
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA1EE6EC3E
  for <dri-devel@lists.freedesktop.org>; Sat, 27 Nov 2021 03:24:24 +0000 (UTC)
 Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz [89.176.112.137])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
  (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 6C6B4801E7;
+ by phobos.denx.de (Postfix) with ESMTPSA id E955D802C6;
  Sat, 27 Nov 2021 04:24:22 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1637983462;
- bh=s4NqW9+X4SpEDC8RJG/w2DxxUB2Td7adfCY+AX0KePs=;
+ s=phobos-20191101; t=1637983463;
+ bh=bwv9UIx58bIydHuclpuPYBxH8HZBIcbJFKnlw2rWkD4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=JEsvNoA1Q3MkxiR6cPD7wpYeNxIjSITrBE0K9Uyt0GxDOFOVtRt8JFvCJ1oN/uDuf
- Dw1d5dvUSsrbqvnspCE8xKnFzBbuaeEbul+9c88LsN0wnMFd02oLXmaMLtBBcMjeEM
- Q7NCeSRuqn90GdWJmXD+g9UJTTdjUejd+bvyIBh7/mUWDDA470ieAII7U/k4NHqvqc
- HCxv33Hz+gCrevg2Bi+KEoFmq8X15Q/gFiszm6TJlbn0XbDccDUE1DYU6g8bdospEf
- SihTcM0IcB3NQdSEkPSJWp76mgakhkPXVvkkGo3fGsvuG/3qTe0wRPfQcJOvQIO6Jz
- lqzXM26oalrpA==
+ b=eyLZ94tgmX7WrKC5AM9zJVZKagAbE7C+ARSZ+6Wu7CTFQSKP7+lsm4SEGeHNV3gBs
+ AjivHlhKHimF2d1T5Xqi1GJEJXtaSye8pJsXMFsYpEGeC462GXOatDKqhaswKe2AHK
+ WuQDieFG/ttJ37JMbQEcZEpVcTh8ru50NQPyfrAz4R7+shocrLM8Xjyl0JQL9fl50W
+ Z9jn0QsrStuzzEzW/rddjPT7miZ5e0CfeoKKNatGTHM5GyUzYVkGX5D9fXaDY8OnMI
+ /cxU9Fmff6rRmmmFy7CeKSoTxWlG6mDWpTnOMwQ0Ns4kS3wkkDm+4D5/iVPLgKYrBA
+ DjThmooMOVMxQ==
 From: Marek Vasut <marex@denx.de>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/4] drm/bridge: tc358767: Move hardware init to enable
- callback
-Date: Sat, 27 Nov 2021 04:24:03 +0100
-Message-Id: <20211127032405.283435-2-marex@denx.de>
+Subject: [PATCH 3/4] drm/bridge: tc358767: Move bridge endpoint parsing into
+ dedicated function
+Date: Sat, 27 Nov 2021 04:24:04 +0100
+Message-Id: <20211127032405.283435-3-marex@denx.de>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211127032405.283435-1-marex@denx.de>
 References: <20211127032405.283435-1-marex@denx.de>
@@ -61,14 +61,12 @@ Cc: Marek Vasut <marex@denx.de>, Jernej Skrabec <jernej.skrabec@siol.net>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The TC358767/TC358867/TC9595 are all capable of operating either from
-attached Xtal or from DSI clock lane clock. In case the later is used,
-all I2C accesses will fail until the DSI clock lane is running and
-supplying clock to the chip.
-
-Move all hardware initialization to enable callback to guarantee the
-DSI clock lane is running before accessing the hardware. In case Xtal
-is attached to the chip, this change has no effect.
+The TC358767/TC358867/TC9595 are all capable of operating in multiple
+modes, DPI-to-(e)DP, DSI-to-(e)DP, DSI-to-DPI. Only the first mode is
+currently supported. In order to support the rest of the modes without
+making the tc_probe() overly long, split the bridge endpoint parsing
+into dedicated function, where the necessary logic to detect the bridge
+mode based on which endpoints are connected, can be implemented.
 
 Signed-off-by: Marek Vasut <marex@denx.de>
 Cc: Andrzej Hajda <a.hajda@samsung.com>
@@ -78,150 +76,61 @@ Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Cc: Neil Armstrong <narmstrong@baylibre.com>
 Cc: Sam Ravnborg <sam@ravnborg.org>
 ---
- drivers/gpu/drm/bridge/tc358767.c | 111 +++++++++++++++++-------------
- 1 file changed, 63 insertions(+), 48 deletions(-)
+ drivers/gpu/drm/bridge/tc358767.c | 30 +++++++++++++++++++++---------
+ 1 file changed, 21 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
-index 23a6f90b694b..f7fbf6f673e9 100644
+index f7fbf6f673e9..0e16ae2461fd 100644
 --- a/drivers/gpu/drm/bridge/tc358767.c
 +++ b/drivers/gpu/drm/bridge/tc358767.c
-@@ -1234,11 +1234,74 @@ static int tc_stream_disable(struct tc_data *tc)
- 	return 0;
+@@ -1612,19 +1612,12 @@ static irqreturn_t tc_irq_handler(int irq, void *arg)
+ 	return IRQ_HANDLED;
  }
  
-+static int tc_hardware_init(struct tc_data *tc)
-+{
-+	int ret;
-+
-+	ret = regmap_read(tc->regmap, TC_IDREG, &tc->rev);
-+	if (ret) {
-+		dev_err(tc->dev, "can not read device ID: %d\n", ret);
-+		return ret;
-+	}
-+
-+	if ((tc->rev != 0x6601) && (tc->rev != 0x6603)) {
-+		dev_err(tc->dev, "invalid device ID: 0x%08x\n", tc->rev);
-+		return -EINVAL;
-+	}
-+
-+	tc->assr = (tc->rev == 0x6601); /* Enable ASSR for eDP panels */
-+
-+	if (!tc->reset_gpio) {
-+		/*
-+		 * If the reset pin isn't present, do a software reset. It isn't
-+		 * as thorough as the hardware reset, as we can't reset the I2C
-+		 * communication block for obvious reasons, but it's getting the
-+		 * chip into a defined state.
-+		 */
-+		regmap_update_bits(tc->regmap, SYSRSTENB,
-+				ENBLCD0 | ENBBM | ENBDSIRX | ENBREG | ENBHDCP,
-+				0);
-+		regmap_update_bits(tc->regmap, SYSRSTENB,
-+				ENBLCD0 | ENBBM | ENBDSIRX | ENBREG | ENBHDCP,
-+				ENBLCD0 | ENBBM | ENBDSIRX | ENBREG | ENBHDCP);
-+		usleep_range(5000, 10000);
-+	}
-+
-+	if (tc->hpd_pin >= 0) {
-+		u32 lcnt_reg = tc->hpd_pin == 0 ? INT_GP0_LCNT : INT_GP1_LCNT;
-+		u32 h_lc = INT_GPIO_H(tc->hpd_pin) | INT_GPIO_LC(tc->hpd_pin);
-+
-+		/* Set LCNT to 2ms */
-+		regmap_write(tc->regmap, lcnt_reg,
-+			     clk_get_rate(tc->refclk) * 2 / 1000);
-+		/* We need the "alternate" mode for HPD */
-+		regmap_write(tc->regmap, GPIOM, BIT(tc->hpd_pin));
-+
-+		if (tc->have_irq) {
-+			/* enable H & LC */
-+			regmap_update_bits(tc->regmap, INTCTL_G, h_lc, h_lc);
-+		}
-+	}
-+
-+	if (tc->have_irq) {
-+		/* enable SysErr */
-+		regmap_write(tc->regmap, INTCTL_G, INT_SYSERR);
-+	}
-+
-+	return 0;
-+}
-+
- static void tc_bridge_enable(struct drm_bridge *bridge)
+-static int tc_probe(struct i2c_client *client, const struct i2c_device_id *id)
++static int tc_probe_bridge_mode(struct tc_data *tc)
  {
- 	struct tc_data *tc = bridge_to_tc(bridge);
+-	struct device *dev = &client->dev;
++	struct device *dev = tc->dev;
+ 	struct drm_panel *panel;
+-	struct tc_data *tc;
  	int ret;
  
-+	ret = tc_hardware_init(tc);
-+	if (ret < 0) {
-+		dev_err(tc->dev, "failed to initialize bridge: %d\n", ret);
-+		return;
-+	}
+-	tc = devm_kzalloc(dev, sizeof(*tc), GFP_KERNEL);
+-	if (!tc)
+-		return -ENOMEM;
+-
+-	tc->dev = dev;
+-
+ 	/* port@2 is the output port */
+ 	ret = drm_of_find_panel_or_bridge(dev->of_node, 2, 0, &panel, NULL);
+ 	if (ret && ret != -ENODEV)
+@@ -1643,6 +1636,25 @@ static int tc_probe(struct i2c_client *client, const struct i2c_device_id *id)
+ 		tc->bridge.type = DRM_MODE_CONNECTOR_DisplayPort;
+ 	}
+ 
++	return ret;
++}
 +
- 	ret = tc_get_display_props(tc);
- 	if (ret < 0) {
- 		dev_err(tc->dev, "failed to read display props: %d\n", ret);
-@@ -1626,9 +1689,6 @@ static int tc_probe(struct i2c_client *client, const struct i2c_device_id *id)
- 	}
- 
- 	if (client->irq > 0) {
--		/* enable SysErr */
--		regmap_write(tc->regmap, INTCTL_G, INT_SYSERR);
--
- 		ret = devm_request_threaded_irq(dev, client->irq,
- 						NULL, tc_irq_handler,
- 						IRQF_ONESHOT,
-@@ -1641,51 +1701,6 @@ static int tc_probe(struct i2c_client *client, const struct i2c_device_id *id)
- 		tc->have_irq = true;
- 	}
- 
--	ret = regmap_read(tc->regmap, TC_IDREG, &tc->rev);
--	if (ret) {
--		dev_err(tc->dev, "can not read device ID: %d\n", ret);
--		return ret;
--	}
--
--	if ((tc->rev != 0x6601) && (tc->rev != 0x6603)) {
--		dev_err(tc->dev, "invalid device ID: 0x%08x\n", tc->rev);
--		return -EINVAL;
--	}
--
--	tc->assr = (tc->rev == 0x6601); /* Enable ASSR for eDP panels */
--
--	if (!tc->reset_gpio) {
--		/*
--		 * If the reset pin isn't present, do a software reset. It isn't
--		 * as thorough as the hardware reset, as we can't reset the I2C
--		 * communication block for obvious reasons, but it's getting the
--		 * chip into a defined state.
--		 */
--		regmap_update_bits(tc->regmap, SYSRSTENB,
--				ENBLCD0 | ENBBM | ENBDSIRX | ENBREG | ENBHDCP,
--				0);
--		regmap_update_bits(tc->regmap, SYSRSTENB,
--				ENBLCD0 | ENBBM | ENBDSIRX | ENBREG | ENBHDCP,
--				ENBLCD0 | ENBBM | ENBDSIRX | ENBREG | ENBHDCP);
--		usleep_range(5000, 10000);
--	}
--
--	if (tc->hpd_pin >= 0) {
--		u32 lcnt_reg = tc->hpd_pin == 0 ? INT_GP0_LCNT : INT_GP1_LCNT;
--		u32 h_lc = INT_GPIO_H(tc->hpd_pin) | INT_GPIO_LC(tc->hpd_pin);
--
--		/* Set LCNT to 2ms */
--		regmap_write(tc->regmap, lcnt_reg,
--			     clk_get_rate(tc->refclk) * 2 / 1000);
--		/* We need the "alternate" mode for HPD */
--		regmap_write(tc->regmap, GPIOM, BIT(tc->hpd_pin));
--
--		if (tc->have_irq) {
--			/* enable H & LC */
--			regmap_update_bits(tc->regmap, INTCTL_G, h_lc, h_lc);
--		}
--	}
--
- 	ret = tc_aux_link_setup(tc);
- 	if (ret)
- 		return ret;
++static int tc_probe(struct i2c_client *client, const struct i2c_device_id *id)
++{
++	struct device *dev = &client->dev;
++	struct tc_data *tc;
++	int ret;
++
++	tc = devm_kzalloc(dev, sizeof(*tc), GFP_KERNEL);
++	if (!tc)
++		return -ENOMEM;
++
++	tc->dev = dev;
++
++	ret = tc_probe_bridge_mode(tc);
++	if (ret)
++		return ret;
++
+ 	/* Shut down GPIO is optional */
+ 	tc->sd_gpio = devm_gpiod_get_optional(dev, "shutdown", GPIOD_OUT_HIGH);
+ 	if (IS_ERR(tc->sd_gpio))
 -- 
 2.33.0
 
