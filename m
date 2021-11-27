@@ -1,39 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FBF445FC51
-	for <lists+dri-devel@lfdr.de>; Sat, 27 Nov 2021 04:19:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 56BE345FC52
+	for <lists+dri-devel@lfdr.de>; Sat, 27 Nov 2021 04:19:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 91C956EE01;
-	Sat, 27 Nov 2021 03:19:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2120D6EE03;
+	Sat, 27 Nov 2021 03:19:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC6416EE03
- for <dri-devel@lists.freedesktop.org>; Sat, 27 Nov 2021 03:19:32 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 45DE96EDFE
+ for <dri-devel@lists.freedesktop.org>; Sat, 27 Nov 2021 03:19:33 +0000 (UTC)
 Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz [89.176.112.137])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
  (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 3F6BA80FCC;
+ by phobos.denx.de (Postfix) with ESMTPSA id 9E53D80FCE;
  Sat, 27 Nov 2021 04:19:31 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
  s=phobos-20191101; t=1637983171;
- bh=QmRq/Q8OoErOecghg2rU09Wug4kA3wt60hBDJep3zTs=;
+ bh=f082JpocRapTkdLZuZwZOwcLoYrXQuABrSwdqqRkc1o=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=zrREr/JUNJqW6EhZ46S1xduFjY25by1klug+Or394pZ6tLLQAWZXCzrE3LTpijgcX
- duZ8tvmkLD4yOuPmXoz5S7N4PFzNzKGZgR/5XftGPdUMqD1LfO8paP4Z7KwbK+uiMp
- 49Utog2sCcuW6U0khYuJlKT8GgaXitgCTZKrJzyxqX/01np1EqAfrkez9ZiT3ZsTy5
- X4vTkVQJgurTUgClUS0tBT6dUiVKX1XeWON9aEpw2X/bUPWShtR1c9PsAFjxRZRox7
- BQCslHrieV9qFVSY55/VPnrpeUnqAtuwlzVz7ZVp7vECswGMXW/ZdVHkz+Q9ndAiOC
- lOg4OvrELiDuw==
+ b=CSQ4soV9K2oE3p81LuclwVh0dXz90VZQ6q8PeCGed7Ue4TgkRaJMR2NwGiLU/GY7q
+ WZNAlrQfM3niXqF3inor5/YIqMZGM1HQCNqGzb9NoRkwG92ijT5vZEmvvDv6rWyldE
+ 88MXsXGKz/uR4/BOra1Wlv4g6ZF0kc0uOsf1qYGX8rd32R1sxOFoww5/V2bYtOz88w
+ GwLI1sfYskQX8PgwIsgTQhX2CXwDKxJwYxa+QJnjkwEnKIDsA3hhGIGmLyyEdi0VYY
+ 9EII5gyGKeN9Olut8oMwDwGn2F8iuQDUwFMMha8I7SsFfimu+/ZKmqoHNO06UGiYVR
+ f0JHMbZOkDFgA==
 From: Marek Vasut <marex@denx.de>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/3] dt-bindings: display: simple: Add Team Source Display
- TST043015CMHX panel
-Date: Sat, 27 Nov 2021 04:19:08 +0100
-Message-Id: <20211127031909.283383-2-marex@denx.de>
+Subject: [PATCH 3/3] drm/panel: simple: Add Team Source Display TST043015CMHX
+ panel
+Date: Sat, 27 Nov 2021 04:19:09 +0100
+Message-Id: <20211127031909.283383-3-marex@denx.de>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211127031909.283383-1-marex@denx.de>
 References: <20211127031909.283383-1-marex@denx.de>
@@ -53,36 +53,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, devicetree@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, Sam Ravnborg <sam@ravnborg.org>
+Cc: Marek Vasut <marex@denx.de>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add Team Source Display TST043015CMHX 4.3" 480x272 DPI panel
-compatible string.
+Add Team Source Display TST043015CMHX 4.3" 480x272 DPI panel support.
 
 Signed-off-by: Marek Vasut <marex@denx.de>
-Cc: Rob Herring <robh+dt@kernel.org>
 Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: devicetree@vger.kernel.org
 To: dri-devel@lists.freedesktop.org
 ---
- .../devicetree/bindings/display/panel/panel-simple.yaml         | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/gpu/drm/panel/panel-simple.c | 30 ++++++++++++++++++++++++++++
+ 1 file changed, 30 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-index f3c9395d23b6..62f5f050c1bc 100644
---- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-@@ -290,6 +290,8 @@ properties:
-       - starry,kr070pe2t
-         # Starry 12.2" (1920x1200 pixels) TFT LCD panel
-       - starry,kr122ea0sra
-+        # Team Source Display Technology TST043015CMHX 4.3" WQVGA TFT LCD panel
-+      - team-source-display,tst043015cmhx
-         # Tianma Micro-electronics TM070JDHG30 7.0" WXGA TFT LCD panel
-       - tianma,tm070jdhg30
-         # Tianma Micro-electronics TM070JVHG33 7.0" WXGA TFT LCD panel
+diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+index dde033066f3d..9e46db5e359c 100644
+--- a/drivers/gpu/drm/panel/panel-simple.c
++++ b/drivers/gpu/drm/panel/panel-simple.c
+@@ -3252,6 +3252,33 @@ static const struct panel_desc starry_kr070pe2t = {
+ 	.connector_type = DRM_MODE_CONNECTOR_DPI,
+ };
+ 
++static const struct display_timing tsd_tst043015cmhx_timing = {
++	.pixelclock = { 5000000, 9000000, 12000000 },
++	.hactive = { 480, 480, 480 },
++	.hfront_porch = { 4, 5, 65 },
++	.hback_porch = { 36, 40, 255 },
++	.hsync_len = { 1, 1, 1 },
++	.vactive = { 272, 272, 272 },
++	.vfront_porch = { 2, 8, 97 },
++	.vback_porch = { 3, 8, 31 },
++	.vsync_len = { 1, 1, 1 },
++
++	.flags = DISPLAY_FLAGS_HSYNC_LOW | DISPLAY_FLAGS_VSYNC_LOW |
++		 DISPLAY_FLAGS_DE_HIGH | DISPLAY_FLAGS_PIXDATA_POSEDGE,
++};
++
++static const struct panel_desc tsd_tst043015cmhx = {
++	.timings = &tsd_tst043015cmhx_timing,
++	.num_timings = 1,
++	.bpc = 8,
++	.size = {
++		.width = 105,
++		.height = 67,
++	},
++	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
++	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_SAMPLE_NEGEDGE,
++};
++
+ static const struct drm_display_mode tfc_s9700rtwv43tr_01b_mode = {
+ 	.clock = 30000,
+ 	.hdisplay = 800,
+@@ -3928,6 +3955,9 @@ static const struct of_device_id platform_of_match[] = {
+ 	}, {
+ 		.compatible = "starry,kr070pe2t",
+ 		.data = &starry_kr070pe2t,
++	}, {
++		.compatible = "team-source-display,tst043015cmhx",
++		.data = &tsd_tst043015cmhx,
+ 	}, {
+ 		.compatible = "tfc,s9700rtwv43tr-01b",
+ 		.data = &tfc_s9700rtwv43tr_01b,
 -- 
 2.33.0
 
