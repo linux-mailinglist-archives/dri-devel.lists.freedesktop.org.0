@@ -2,63 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0506B45FF10
-	for <lists+dri-devel@lfdr.de>; Sat, 27 Nov 2021 15:12:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAE7645FF8A
+	for <lists+dri-devel@lfdr.de>; Sat, 27 Nov 2021 16:08:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3EFA86EB51;
-	Sat, 27 Nov 2021 14:12:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C4DBD6F62E;
+	Sat, 27 Nov 2021 15:08:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 856EE6EB51
- for <dri-devel@lists.freedesktop.org>; Sat, 27 Nov 2021 14:12:50 +0000 (UTC)
-Received: from mail.kernel.org (unknown [198.145.29.99])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 0C2F960EBE
- for <dri-devel@lists.freedesktop.org>; Sat, 27 Nov 2021 14:12:50 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 39D4D60C41
- for <dri-devel@lists.freedesktop.org>; Sat, 27 Nov 2021 14:12:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1638022369;
- bh=bPfKpsYZ6PUIKSgW7dMVwJDrvAhewhHYeQUxjCN/7Og=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=ehhnV5rOO1cxofnl9Osyoh1kAxcwZDsGkyIDToiClSEcuGFzMTHRqBxsWaP1E9KJb
- VONgaTZEM397vV6tdKy28AoDHvf3K+Y9hl/ie5VHtbcRUHR3AdRFSp1j1CVCRF1gFw
- qEFmkXVzW6lVaDhNvnsxAdahUchP2j8emkVisAeqlv6f0A1E6MzhbO1KhZL5yDJHRZ
- XwuDRfZRthycaxSfjYbvElHM7ZOdaCv4Scar5hKMRQy+zmYLauScP0VvE7pEHt8Q25
- zTqny7Q6wwZDW/CxFiaxdOZhWijR8UJFKqWUlPPAQkpTqGQblsqTmdNKJdoFk7D88G
- HxHgl3CAJSIVw==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 36896610C9; Sat, 27 Nov 2021 14:12:49 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 205089] amdgpu : drm:amdgpu_cs_ioctl : Failed to initialize
- parser -125
-Date: Sat, 27 Nov 2021 14:12:48 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: david@qore.org
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: CODE_FIX
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-205089-2300-898IsJBF3y@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-205089-2300@https.bugzilla.kernel.org/>
-References: <bug-205089-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D20C6F62E
+ for <dri-devel@lists.freedesktop.org>; Sat, 27 Nov 2021 15:07:59 +0000 (UTC)
+Received: from [20.79.204.165] (helo=phil.localnet)
+ by gloria.sntech.de with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.92) (envelope-from <heiko@sntech.de>)
+ id 1mqzIx-000681-5M; Sat, 27 Nov 2021 16:07:55 +0100
+From: Heiko Stuebner <heiko@sntech.de>
+To: dri-devel@lists.freedesktop.org, Sascha Hauer <s.hauer@pengutronix.de>
+Subject: Re: [PATCH 01/12] dt-bindings: display: rockchip: Add compatible for
+ rk3568 HDMI
+Date: Sat, 27 Nov 2021 16:07:37 +0100
+Message-ID: <2147171.aSpvfvgOub@phil>
+In-Reply-To: <20211117143347.314294-2-s.hauer@pengutronix.de>
+References: <20211117143347.314294-1-s.hauer@pengutronix.de>
+ <20211117143347.314294-2-s.hauer@pengutronix.de>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,33 +40,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: devicetree@vger.kernel.org,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Peter Geis <pgwipeout@gmail.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Sandy Huang <hjc@rock-chips.com>, linux-rockchip@lists.infradead.org,
+ Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D205089
+Hi,
 
-David Nichols (david@qore.org) changed:
+Am Mittwoch, 17. November 2021, 15:33:36 CET schrieb Sascha Hauer:
+> From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> 
+> Define a new compatible for rk3568 HDMI.
+> This version of HDMI hardware block needs two new clocks hclk_vio and hclk
+> to provide phy reference clocks.
+>
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> Link: https://lore.kernel.org/r/20210707120323.401785-2-benjamin.gaignard@collabora.com
+> Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
+> ---
+>  .../bindings/display/rockchip/rockchip,dw-hdmi.yaml         | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
+> index da3b889ad8fcd..53fa42479d5b7 100644
+> --- a/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
+> +++ b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
+> @@ -23,6 +23,7 @@ properties:
+>        - rockchip,rk3288-dw-hdmi
+>        - rockchip,rk3328-dw-hdmi
+>        - rockchip,rk3399-dw-hdmi
+> +      - rockchip,rk3568-dw-hdmi
+>  
+>    reg-io-width:
+>      const: 4
+> @@ -49,8 +50,11 @@ properties:
+>            - vpll
+>        - enum:
+>            - grf
+> +          - hclk_vio
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |david@qore.org
-
---- Comment #29 from David Nichols (david@qore.org) ---
-Also seeing it on Ubuntu 21.10 on aarch64:
-
-Kernel: 5.15.0
-Mesa: mesa_22.0~git2111150600
-
-Hardware:=20
-GPU: AMD RX 580 (8GB)
-CPU: 16 Core Arm Cortex A72
-SoC: NXP LX2160A (SolidRun HoneyComb system)
+I don't believe this clock should be here:
+(1) the rk3568 dts node later in the series doesn't use it at all
+(2) generally vio-clocks are part of the interconnect where the ip block
+    connects to, so right now we just enable it as critical on all socs and
+    if someone actually models the interconnect (where also the qos
+    [quality of service configs] nodes would play into), it would need to
+    be included there.
 
 
-Running 2 games: flightgear and endless-sky
+Heiko
 
---=20
-You may reply to this email to add a comment.
+> +          - vpll
+> +      - enum:
+> +          - hclk
+>            - vpll
+> -      - const: vpll
+>  
+>    ddc-i2c-bus:
+>      $ref: /schemas/types.yaml#/definitions/phandle
+> 
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+
+
+
