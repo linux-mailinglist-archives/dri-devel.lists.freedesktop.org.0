@@ -2,86 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9721046013A
-	for <lists+dri-devel@lfdr.de>; Sat, 27 Nov 2021 20:40:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F9D64604B6
+	for <lists+dri-devel@lfdr.de>; Sun, 28 Nov 2021 06:48:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B754F6E192;
-	Sat, 27 Nov 2021 19:40:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A87266E8EE;
+	Sun, 28 Nov 2021 05:48:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE35F6E192
- for <dri-devel@lists.freedesktop.org>; Sat, 27 Nov 2021 19:40:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1638042026;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=t8RNZ9mAJByky9V93E1UlbnnyGphpUak9sPhZ/HMjss=;
- b=Z/QxKa27a/kTcb/k4/tM91xoSdZNuPZuxCp0mjBoAfJ9M95qiGZhPinR//x9p2Z4dmPrQH
- 7X9Rk3O2AfNLUu6/xlfWRg1sJB3q4UmLAV3rzvMW1RN8m4wRDSRrKO/r/Iag4pBqfHY6Os
- WzzmztiObr1JxoUtMzeLztxdTituyWE=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-487-SRp2kwqWPymLNfQUmd-1Hw-1; Sat, 27 Nov 2021 14:40:25 -0500
-X-MC-Unique: SRp2kwqWPymLNfQUmd-1Hw-1
-Received: by mail-wr1-f71.google.com with SMTP id
- q7-20020adff507000000b0017d160d35a8so2086592wro.4
- for <dri-devel@lists.freedesktop.org>; Sat, 27 Nov 2021 11:40:25 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=t8RNZ9mAJByky9V93E1UlbnnyGphpUak9sPhZ/HMjss=;
- b=UvNJ2V3zh4bPFcPcVXOLGAglu8TCJDawHdol9yTsiKok8iw3sq2G92YkH6S219SqO9
- D6n614UlKZSPWI/jKlxCmeL36DSLazltIlY0E3WB/ufNM3MkvDeKV8oamgWVNMssW7Ks
- 2U3WKDbhc4mXqJp2kiGix4lirUd1qvTN1rEa1x05fpKhbGV2RfoKgFkWB+CbvfJ50qIe
- sVzm6K18CZwQfUAogRiem6DZSuUc/qc7Kzn2u1+bKQQz87iv5xbFxI6BxJnC9B/Z4OGy
- LMX+7t7WSOqZZ3HzPoQ1pgpPQJTmdHjGvzTt55iAkFmmgRNsg0hmqeH46CVKFLn8mc2Y
- znfw==
-X-Gm-Message-State: AOAM530PDlNFmmX5Qte/DlLOAmPOfnktDApsGJMl8RZ12sulU3JVbrD9
- 8IhzQA7JZNlV+sDJfd8Xn2yX6IpY7ZdrjW67/+6n2v1miQ5RQ7nA2LTom0kTap33tXYlBl0FTPy
- o0avkJ7hzxxzP6opgTH3NY6RTGmI+
-X-Received: by 2002:a05:6000:1862:: with SMTP id
- d2mr23642517wri.251.1638042024319; 
- Sat, 27 Nov 2021 11:40:24 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyBQ+Tio+oHqcKl0gpxrZuLMQiJF7IdVOaJBN+FhlZqCJLCfE8bPqtMGj4HUuVoO7l1kXNH/g==
-X-Received: by 2002:a05:6000:1862:: with SMTP id
- d2mr23642502wri.251.1638042024133; 
- Sat, 27 Nov 2021 11:40:24 -0800 (PST)
-Received: from [192.168.1.102] ([92.176.231.205])
- by smtp.gmail.com with ESMTPSA id t8sm9470235wrv.30.2021.11.27.11.40.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 27 Nov 2021 11:40:23 -0800 (PST)
-Message-ID: <e3aeb07f-34e6-6ae5-61b1-bb357b0a7aef@redhat.com>
-Date: Sat, 27 Nov 2021 20:40:22 +0100
+Received: from rere.qmqm.pl (rere.qmqm.pl [91.227.64.183])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EDAB66E10C
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 Nov 2021 05:48:13 +0000 (UTC)
+Received: from remote.user (localhost [127.0.0.1])
+ by rere.qmqm.pl (Postfix) with ESMTPSA id 4J1y561xCxzGX;
+ Sun, 28 Nov 2021 06:40:58 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rere.qmqm.pl; s=1;
+ t=1638078060; bh=euRkxERs/Vo+Ncwnc6oh+QQPM82cBPQuQuUB2BgzLnk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=LY3ChcHhLpC97uysDR/7nppfcxComB2E48G/CSr/GJWMZpY0nUf2Ozt/QdF3bO27D
+ KVVscNOrPrvjDeFDDvD8xGhXTpYyqBgTMYDKLE9wEICL5bDVx6hBtk8ejpU6BrId79
+ vbWsoB/iTmCLm+bLT0tuvFrL4/nVF7nyYWv4tALAyWWX2iU7ISeiyJa/5FSEeoDtm6
+ egb154gg0fV3kqNymh1/NYzbwJKJ0ezYVFUVXr4cbByKt/7l8pm0u2iIP/DReChzc2
+ cj5XNAxcI2vANrMDBXNTTKYQJcaUTS+V2hD4R7+BDKXqWKOMu+D+3chFvhgLVLi9p7
+ Ujd618hPUSMCQ==
+X-Virus-Status: Clean
+X-Virus-Scanned: clamav-milter 0.103.3 at mail
+Date: Sun, 28 Nov 2021 06:40:56 +0100
+From: =?iso-8859-2?Q?Micha=B3_Miros=B3aw?= <mirq-linux@rere.qmqm.pl>
+To: Dmitry Osipenko <digetx@gmail.com>
+Subject: Re: [PATCH v15 00/39] NVIDIA Tegra power management patches for 5.17
+Message-ID: <YaMWaKqQ+c8G08mJ@qmqm.qmqm.pl>
+References: <20211114193435.7705-1-digetx@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH] drm: Fix build error caused by missing drm_nomodeset.o
-To: linux-kernel@vger.kernel.org, kernel test robot <lkp@intel.com>,
- David Airlie <airlied@linux.ie>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jani Nikula <jani.nikula@intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Pekka Paalanen <pekka.paalanen@collabora.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
-References: <20211127191910.709356-1-javierm@redhat.com>
- <YaKGeKU7HJOgEu9r@phenom.ffwll.local>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <YaKGeKU7HJOgEu9r@phenom.ffwll.local>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-2
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20211114193435.7705-1-digetx@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,53 +49,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Nishanth Menon <nm@ti.com>, linux-pwm@vger.kernel.org,
+ Ulf Hansson <ulf.hansson@linaro.org>, linux-clk@vger.kernel.org,
+ linux-pm@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>,
+ Viresh Kumar <vireshk@kernel.org>,
+ Peter De Schrijver <pdeschrijver@nvidia.com>, linux-mmc@vger.kernel.org,
+ Adrian Hunter <adrian.hunter@intel.com>, dri-devel@lists.freedesktop.org,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Thierry Reding <thierry.reding@gmail.com>, David Heidelberg <david@ixit.cz>,
+ Uwe =?iso-8859-2?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+ linux-tegra@vger.kernel.org, Mikko Perttunen <mperttunen@nvidia.com>,
+ Lee Jones <lee.jones@linaro.org>, Michael Turquette <mturquette@baylibre.com>,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/27/21 20:26, Daniel Vetter wrote:
-> On Sat, Nov 27, 2021 at 08:19:10PM +0100, Javier Martinez Canillas wrote:
->> The patch for commit ("6a2d2ddf2c34 drm: Move nomodeset kernel parameter
->> to the DRM subsystem") was generated with config 'diff.noprefix true'.
->>
->> But later was applied using 'cat nomodeset.mbox | dim apply-branch' on a
->> machine with 'diff.noprefix false'. And command 'git am --scissors -3' as
+On Sun, Nov 14, 2021 at 10:33:56PM +0300, Dmitry Osipenko wrote:
+> This series adds runtime PM support to Tegra drivers and enables core
+> voltage scaling for Tegra20/30 SoCs, resolving overheating troubles.
 > 
-> Huh that's a dangerous setting, I guess a dim patch to check for this and
-> very loudly complain would be good? Care to type that up?  It's no big
-> deal because strange git settings for dim is pretty much a game of
-> whack-a-mole, but we should tackle them when they pop up.
->
+> All patches in this series are interdependent and should go via Tegra tree
+> for simplicity.
+[...]
 
-Sure.
+I would suggest pushing all the fixes to the front of the series (those are
+at least patches 1, 3, 17, 27-31 and 39).
 
->> used by the dim tool doesn't handle that case well, since the 3-way merge
->> wrongly resolves the path for new file drivers/gpu/drm/drm_nomodeset.c as
->> gpu/drm/drm_nomodeset.c instead.
->>
->> It led to the following build error as reported by the kernel test robot:
->>
->>   make[4]: *** No rule to make target 'drivers/gpu/drm/drm_nomodeset.o', needed by 'drivers/gpu/drm/built-in.a'.
->>
->> Fixes: ("6a2d2ddf2c34 drm: Move nomodeset kernel parameter to the DRM subsystem")
->> Reported-by: kernel test robot <lkp@intel.com>
->> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
-> 
-> Build testing before pushing should be done, not the other way round :-)
-> 
-
-Yes, sorry about that. I wrongly assumed that the tools would do the correct
-thing but I will make sure to build test before pushing in the future.
-
-> Also this is pretty much why we want gitlab CI and real branches.
->
-> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
->> ---
-
-Thanks!
-
-Best regards,
--- 
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
-
+Best Regards
+Micha³ Miros³aw
