@@ -1,64 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8B2846093E
-	for <lists+dri-devel@lfdr.de>; Sun, 28 Nov 2021 20:16:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8F8A4609A0
+	for <lists+dri-devel@lfdr.de>; Sun, 28 Nov 2021 21:20:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F1B56E0AC;
-	Sun, 28 Nov 2021 19:16:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1FCB76E12A;
+	Sun, 28 Nov 2021 20:20:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DAA836E0AC
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Nov 2021 19:16:01 +0000 (UTC)
-Received: from mail.kernel.org (unknown [198.145.29.99])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 0CA82610E8
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Nov 2021 19:16:01 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 6716B60720
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Nov 2021 19:16:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1638126960;
- bh=k3ppCWtqcOOUxKh1AIFPHhIndtYNInN8Bx6v4dX5/z4=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=MzXGf4DrtE2RTPbM/CNLRFVJkTFt5RM7BT4/utE+k3rvKfWw4G3xZXMk79SUl2OLj
- 6JMrSuqUP/x8x8elGuPmBt/Wrfcdv5MTrTKjR8uEdYXTtozBThQD700npn/z8d/dQn
- HAqnww2iAA4F+AFgR4oxlyL4bR5idoyWYwKA+IBxLUHk/3/o7nNyFesyBNTLfVj/zF
- ojOOF4pIXpTIs3z8fmXIHKKKxnde39dla5DzeKk70QnsFTSwUIsIvT6tderPrGmpO8
- ACCl0LuOfADPBCfVcsFn5MZk3rgU/pO4S2P8ps83/gzfPupFZiP+HNF8+UyI/Q1LRJ
- Vz6+OEcbC2PCQ==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 5150B610E5; Sun, 28 Nov 2021 19:16:00 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 214921] amdgpu hangs HP Laptop on shutdown
-Date: Sun, 28 Nov 2021 19:16:00 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: pmw.gover@yahoo.co.uk
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: PATCH_ALREADY_AVAILABLE
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-214921-2300-5KhRMaUWmV@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-214921-2300@https.bugzilla.kernel.org/>
-References: <bug-214921-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com
+ [IPv6:2a00:1450:4864:20::231])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F278E6E12A;
+ Sun, 28 Nov 2021 20:20:01 +0000 (UTC)
+Received: by mail-lj1-x231.google.com with SMTP id p8so16970344ljo.5;
+ Sun, 28 Nov 2021 12:20:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=k4DCyz8+/Fxa9vXLn5RMQDYsGviUlWwuLm5KSdNmdZY=;
+ b=gEBN9h0rjiWtK6jttU/X32i65gXZsB9Rsw6WnTNHd6QQEECoU3oVb9Fzy+QKNq+M5b
+ ij4GEouoWUkj9ibEDrFkACwGhqmGsX0pfmp4KKb8WXYuqS1KIuLYMEf8JVWKUBlAOvEc
+ 3DmhH8haP01CUUi+cI6ZdVIxdEa31t1e0pY0YnhQAkiJD1eMD7ILnkHEUEDhe/kuXj3p
+ FI3Sbf58ynZrNaPEuz1nEJUrpQNPL3rmCqJSFl1rW6iHjgaNB8zacW6xN9QXbZD75twJ
+ 97G+ZAd9srSAWMgu4CgNHzGkzTOI/TisJ43wLaLrhYSq/drTtrcz0nipMGXek8KtPIeH
+ QGww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=k4DCyz8+/Fxa9vXLn5RMQDYsGviUlWwuLm5KSdNmdZY=;
+ b=0xYNbXxiRSnBQGmVn3eQ1Bu1QOyQncOI1wP6Ot/LYdTTgcCxxcp3GJqYabgbFa/5o0
+ bbGPD4oVmKWQok2MsB3Fk3MAZdECNHUyScKFBajoCNr6bG+d3kh/L0kWCyo0fx3r+hZ3
+ yat36dyZDw+rU+UhDVBLYHcnNZJJOtspAbHBMcuG1kE44+pNWPn3N5qVsGbrvpT/OhqA
+ /zd0oe03dgGm/lE/WPC//5CoYNqkndbY1lHouFK2pe4GCIHUWw7tadEcKxmT2bAW+sGh
+ yMs/9zVRP6iDgdkcR8P2wa/GnLfzIN/TujTiUSyXmsEb6EGwk6Xmy6NzGaZzpq5qcFkT
+ P2hA==
+X-Gm-Message-State: AOAM531eh9reSGWQfO2kZ7eVEkGwuVE3YljPU0k5ieLcmx+Q+U9b2MYf
+ FM5sO9lEvEl707pX+qU2XSA=
+X-Google-Smtp-Source: ABdhPJxvPPnZuZKkpyL/VlLduwLNeb1FS0N0nAcE5rtjGsySNwTDTVMqW7CA+Av+gYdeEUBcSgrhfA==
+X-Received: by 2002:a2e:a305:: with SMTP id l5mr45044119lje.73.1638130800165; 
+ Sun, 28 Nov 2021 12:20:00 -0800 (PST)
+Received: from localhost.localdomain (h-155-4-221-129.NA.cust.bahnhof.se.
+ [155.4.221.129])
+ by smtp.gmail.com with ESMTPSA id c25sm1136949lja.38.2021.11.28.12.19.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 28 Nov 2021 12:19:59 -0800 (PST)
+From: Rikard Falkeborn <rikard.falkeborn@gmail.com>
+To: Lucas Stach <l.stach@pengutronix.de>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH] drm/etnaviv: constify static struct cooling_ops
+Date: Sun, 28 Nov 2021 21:19:16 +0100
+Message-Id: <20211128201916.10230-1-rikard.falkeborn@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,16 +67,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: linux-kernel@vger.kernel.org, Rikard Falkeborn <rikard.falkeborn@gmail.com>,
+ etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Russell King <linux+etnaviv@armlinux.org.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D214921
+The only usage of cooling_ops is to pass its address to
+thermal_of_cooling_device_register(), which takes a pointer to const
+struct thermal_cooling_device_ops as input. Make it const to allow the
+compiler to put it in read-only memory.
 
---- Comment #7 from Paul Gover (pmw.gover@yahoo.co.uk) ---
-Kernel 5.15.5 (which IIUC contains the patch or equivalent) works for me.
+Signed-off-by: Rikard Falkeborn <rikard.falkeborn@gmail.com>
+---
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
---=20
-You may reply to this email to add a comment.
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+index 06bde46df451..37018bc55810 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+@@ -1658,7 +1658,7 @@ etnaviv_gpu_cooling_set_cur_state(struct thermal_cooling_device *cdev,
+ 	return 0;
+ }
+ 
+-static struct thermal_cooling_device_ops cooling_ops = {
++static const struct thermal_cooling_device_ops cooling_ops = {
+ 	.get_max_state = etnaviv_gpu_cooling_get_max_state,
+ 	.get_cur_state = etnaviv_gpu_cooling_get_cur_state,
+ 	.set_cur_state = etnaviv_gpu_cooling_set_cur_state,
+-- 
+2.34.1
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
