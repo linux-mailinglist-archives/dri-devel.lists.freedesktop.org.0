@@ -1,42 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F9D64604B6
-	for <lists+dri-devel@lfdr.de>; Sun, 28 Nov 2021 06:48:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 614BF4604B5
+	for <lists+dri-devel@lfdr.de>; Sun, 28 Nov 2021 06:47:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A87266E8EE;
-	Sun, 28 Nov 2021 05:48:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 16EC56E9EC;
+	Sun, 28 Nov 2021 05:47:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
+X-Greylist: delayed 391 seconds by postgrey-1.36 at gabe;
+ Sun, 28 Nov 2021 05:47:34 UTC
 Received: from rere.qmqm.pl (rere.qmqm.pl [91.227.64.183])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EDAB66E10C
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Nov 2021 05:48:13 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF4936E9EC
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 Nov 2021 05:47:34 +0000 (UTC)
 Received: from remote.user (localhost [127.0.0.1])
- by rere.qmqm.pl (Postfix) with ESMTPSA id 4J1y561xCxzGX;
- Sun, 28 Nov 2021 06:40:58 +0100 (CET)
+ by rere.qmqm.pl (Postfix) with ESMTPSA id 4J1yDh5CCGzWG;
+ Sun, 28 Nov 2021 06:47:32 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rere.qmqm.pl; s=1;
- t=1638078060; bh=euRkxERs/Vo+Ncwnc6oh+QQPM82cBPQuQuUB2BgzLnk=;
+ t=1638078453; bh=+Cj+BB/A2FsyTFVTgsdgLhKnhMnYskAogn3uwYKOvvs=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=LY3ChcHhLpC97uysDR/7nppfcxComB2E48G/CSr/GJWMZpY0nUf2Ozt/QdF3bO27D
- KVVscNOrPrvjDeFDDvD8xGhXTpYyqBgTMYDKLE9wEICL5bDVx6hBtk8ejpU6BrId79
- vbWsoB/iTmCLm+bLT0tuvFrL4/nVF7nyYWv4tALAyWWX2iU7ISeiyJa/5FSEeoDtm6
- egb154gg0fV3kqNymh1/NYzbwJKJ0ezYVFUVXr4cbByKt/7l8pm0u2iIP/DReChzc2
- cj5XNAxcI2vANrMDBXNTTKYQJcaUTS+V2hD4R7+BDKXqWKOMu+D+3chFvhgLVLi9p7
- Ujd618hPUSMCQ==
+ b=mDvzO3ZNwgpRiDuAFQm9+pmxug6iiRogj8KsZ2DHrmVfKL9MWSJm9HIQ2sF53TWpd
+ L0Cxo/iC7TwwP9CzggOdtnsG8yh61uH/yiyeGKtUaLSuvka7WWpkL+2fp2a7+f17zz
+ LHjYvTh7JA7FV6iyq6nBwmZrvFWcELXXfV45m1RCWxlWHolAHnoJwfNUJM70pyRscX
+ ENAaoeowyKRpJRtQFR1i2aNe9zfcheSfjlOzpYaHMu1obJu43gZXlYrjkkdRz+K8NR
+ sXFW2VroLhE37GnXrisZfCB+nIxUD7dB5BTDMrVasYp8kMZWagiL+RGR5M01Pdi/50
+ yPZ70dtIdnSCg==
 X-Virus-Status: Clean
 X-Virus-Scanned: clamav-milter 0.103.3 at mail
-Date: Sun, 28 Nov 2021 06:40:56 +0100
+Date: Sun, 28 Nov 2021 06:47:31 +0100
 From: =?iso-8859-2?Q?Micha=B3_Miros=B3aw?= <mirq-linux@rere.qmqm.pl>
 To: Dmitry Osipenko <digetx@gmail.com>
-Subject: Re: [PATCH v15 00/39] NVIDIA Tegra power management patches for 5.17
-Message-ID: <YaMWaKqQ+c8G08mJ@qmqm.qmqm.pl>
+Subject: Re: [PATCH v15 12/39] drm/tegra: gr2d: Support generic power domain
+ and runtime PM
+Message-ID: <YaMX89bRBlqh0MvB@qmqm.qmqm.pl>
 References: <20211114193435.7705-1-digetx@gmail.com>
+ <20211114193435.7705-13-digetx@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-2
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20211114193435.7705-1-digetx@gmail.com>
+In-Reply-To: <20211114193435.7705-13-digetx@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,16 +68,29 @@ Cc: Nishanth Menon <nm@ti.com>, linux-pwm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Nov 14, 2021 at 10:33:56PM +0300, Dmitry Osipenko wrote:
-> This series adds runtime PM support to Tegra drivers and enables core
-> voltage scaling for Tegra20/30 SoCs, resolving overheating troubles.
-> 
-> All patches in this series are interdependent and should go via Tegra tree
-> for simplicity.
+On Sun, Nov 14, 2021 at 10:34:08PM +0300, Dmitry Osipenko wrote:
+> Add runtime power management and support generic power domains.
 [...]
+> @@ -104,10 +127,17 @@ static int gr2d_open_channel(struct tegra_drm_client *client,
+>  			     struct tegra_drm_context *context)
+>  {
+>  	struct gr2d *gr2d = to_gr2d(client);
+> +	int err;
+> +
+> +	err = pm_runtime_resume_and_get(client->base.dev);
+> +	if (err)
+> +		return err;
+>  
+>  	context->channel = host1x_channel_get(gr2d->channel);
+> -	if (!context->channel)
+> +	if (!context->channel) {
+> +		pm_runtime_put(context->client->base.dev);
 
-I would suggest pushing all the fixes to the front of the series (those are
-at least patches 1, 3, 17, 27-31 and 39).
+Could host1x_channel_get/put() handle pm_runtime* calls ? I would expect
+this to be common code for the users.
+
+BTW, pm_runtime_resume_and_get() uses different dev than
+pm_runtime_put() in the error path - is this intended?
 
 Best Regards
 Micha³ Miros³aw
