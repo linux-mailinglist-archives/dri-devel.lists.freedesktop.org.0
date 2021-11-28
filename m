@@ -1,59 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8F8A4609A0
-	for <lists+dri-devel@lfdr.de>; Sun, 28 Nov 2021 21:20:07 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D499460A68
+	for <lists+dri-devel@lfdr.de>; Sun, 28 Nov 2021 22:51:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FCB76E12A;
-	Sun, 28 Nov 2021 20:20:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E91B6EB70;
+	Sun, 28 Nov 2021 21:50:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com
- [IPv6:2a00:1450:4864:20::231])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F278E6E12A;
- Sun, 28 Nov 2021 20:20:01 +0000 (UTC)
-Received: by mail-lj1-x231.google.com with SMTP id p8so16970344ljo.5;
- Sun, 28 Nov 2021 12:20:01 -0800 (PST)
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
+ [IPv6:2a00:1450:4864:20::12c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 913516EB70
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 Nov 2021 21:50:56 +0000 (UTC)
+Received: by mail-lf1-x12c.google.com with SMTP id b40so39405240lfv.10
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 Nov 2021 13:50:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=k4DCyz8+/Fxa9vXLn5RMQDYsGviUlWwuLm5KSdNmdZY=;
- b=gEBN9h0rjiWtK6jttU/X32i65gXZsB9Rsw6WnTNHd6QQEECoU3oVb9Fzy+QKNq+M5b
- ij4GEouoWUkj9ibEDrFkACwGhqmGsX0pfmp4KKb8WXYuqS1KIuLYMEf8JVWKUBlAOvEc
- 3DmhH8haP01CUUi+cI6ZdVIxdEa31t1e0pY0YnhQAkiJD1eMD7ILnkHEUEDhe/kuXj3p
- FI3Sbf58ynZrNaPEuz1nEJUrpQNPL3rmCqJSFl1rW6iHjgaNB8zacW6xN9QXbZD75twJ
- 97G+ZAd9srSAWMgu4CgNHzGkzTOI/TisJ43wLaLrhYSq/drTtrcz0nipMGXek8KtPIeH
- QGww==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=N7b1G8te/KH8djaz6IoJjV+icWZ0WR5IWmhcwgDYM7g=;
+ b=cJKuiSKXD/Xz29LntYrD2aoIGTLEp6NSbTYTps4hyyyHBMJ07t16EAS4ljWkWHkFJl
+ 4pBL5oswWDaVW6Deh/kuPa6iFqv5yL/+nSOXmVzKpauwf261kWL7v3Yzsm8t9pnGhkPH
+ II30iutdYC15AzIYfT9bmx+g9g44j4coxb2C0FMMEo667F4UUjApKfEpim8ikD+MBjbk
+ V59xX8poIcqsCeuAwRz/0gti6J7hAfx0+FvH69DQZ4Fvkrgm87ULmgA9/gWF1Yh/CFUH
+ /klnhH7tvuAZNaELd0A9nxNibcPjnzNU9TnLUDeBZpECqf2b55e0bV9/1SSIkzXyTfmA
+ NVRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=k4DCyz8+/Fxa9vXLn5RMQDYsGviUlWwuLm5KSdNmdZY=;
- b=0xYNbXxiRSnBQGmVn3eQ1Bu1QOyQncOI1wP6Ot/LYdTTgcCxxcp3GJqYabgbFa/5o0
- bbGPD4oVmKWQok2MsB3Fk3MAZdECNHUyScKFBajoCNr6bG+d3kh/L0kWCyo0fx3r+hZ3
- yat36dyZDw+rU+UhDVBLYHcnNZJJOtspAbHBMcuG1kE44+pNWPn3N5qVsGbrvpT/OhqA
- /zd0oe03dgGm/lE/WPC//5CoYNqkndbY1lHouFK2pe4GCIHUWw7tadEcKxmT2bAW+sGh
- yMs/9zVRP6iDgdkcR8P2wa/GnLfzIN/TujTiUSyXmsEb6EGwk6Xmy6NzGaZzpq5qcFkT
- P2hA==
-X-Gm-Message-State: AOAM531eh9reSGWQfO2kZ7eVEkGwuVE3YljPU0k5ieLcmx+Q+U9b2MYf
- FM5sO9lEvEl707pX+qU2XSA=
-X-Google-Smtp-Source: ABdhPJxvPPnZuZKkpyL/VlLduwLNeb1FS0N0nAcE5rtjGsySNwTDTVMqW7CA+Av+gYdeEUBcSgrhfA==
-X-Received: by 2002:a2e:a305:: with SMTP id l5mr45044119lje.73.1638130800165; 
- Sun, 28 Nov 2021 12:20:00 -0800 (PST)
-Received: from localhost.localdomain (h-155-4-221-129.NA.cust.bahnhof.se.
- [155.4.221.129])
- by smtp.gmail.com with ESMTPSA id c25sm1136949lja.38.2021.11.28.12.19.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 28 Nov 2021 12:19:59 -0800 (PST)
-From: Rikard Falkeborn <rikard.falkeborn@gmail.com>
-To: Lucas Stach <l.stach@pengutronix.de>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH] drm/etnaviv: constify static struct cooling_ops
-Date: Sun, 28 Nov 2021 21:19:16 +0100
-Message-Id: <20211128201916.10230-1-rikard.falkeborn@gmail.com>
-X-Mailer: git-send-email 2.34.1
+ bh=N7b1G8te/KH8djaz6IoJjV+icWZ0WR5IWmhcwgDYM7g=;
+ b=BZ810NfiWMw6OLPX774vep2wp0KcPpCk8G5ASSog4YpmRxTgOcz0KE1VSPG1utcXmS
+ EqpAB91GwSgnqtp5vE8qDO4VfKumIiUulQYh36/s17MKJHvAATzHcbnOO5tJrPr/tOHV
+ G3SKluWfoWrPlYPJx0IYOcMUwcVQLIPAQvk3hZbuKHFWkthrGcIVIbI06jEvUWJWN3hw
+ cL+zQzaj77Fv3dOGGBvSiUlMoeS4VF8Buxs7U37j2zRNhQf9BRorS8yJFod0Zs2eV/R5
+ 2ZWuEv9zuE0UkZtXGR12ArsZePS/y0HUTStM4IlVyiqplYyViPwa+sBnqPXAUuyV8NXv
+ quxg==
+X-Gm-Message-State: AOAM532iBQIR1G1nmxsGFuJfeO9m6J5BPgPcsdhPZ0gnN9k6++w2zT7Z
+ IuggX8xv/cxlArFnyaCNhFo=
+X-Google-Smtp-Source: ABdhPJxOEUHJJ9auAnJ/mU9Ts+B2Pn56ZsRiKYrw+w6nVmHBeiJe5hd9/65DDFm05AeOhvbxIB4qgg==
+X-Received: by 2002:a05:6512:3f05:: with SMTP id
+ y5mr4862526lfa.139.1638136254960; 
+ Sun, 28 Nov 2021 13:50:54 -0800 (PST)
+Received: from [192.168.2.145] (94-29-46-111.dynamic.spd-mgts.ru.
+ [94.29.46.111])
+ by smtp.googlemail.com with ESMTPSA id s4sm1177053ljp.73.2021.11.28.13.50.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 28 Nov 2021 13:50:54 -0800 (PST)
+Subject: Re: [PATCH v15 12/39] drm/tegra: gr2d: Support generic power domain
+ and runtime PM
+To: =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>
+References: <20211114193435.7705-1-digetx@gmail.com>
+ <20211114193435.7705-13-digetx@gmail.com> <YaMX89bRBlqh0MvB@qmqm.qmqm.pl>
+From: Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <0adb89a9-4642-2104-1ba5-ebb86c7ac4fc@gmail.com>
+Date: Mon, 29 Nov 2021 00:50:46 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
+In-Reply-To: <YaMX89bRBlqh0MvB@qmqm.qmqm.pl>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,35 +75,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, Rikard Falkeborn <rikard.falkeborn@gmail.com>,
- etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Russell King <linux+etnaviv@armlinux.org.uk>
+Cc: Nishanth Menon <nm@ti.com>, linux-pwm@vger.kernel.org,
+ Ulf Hansson <ulf.hansson@linaro.org>, linux-clk@vger.kernel.org,
+ linux-pm@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>,
+ Viresh Kumar <vireshk@kernel.org>,
+ Peter De Schrijver <pdeschrijver@nvidia.com>, linux-mmc@vger.kernel.org,
+ Adrian Hunter <adrian.hunter@intel.com>, dri-devel@lists.freedesktop.org,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Thierry Reding <thierry.reding@gmail.com>, David Heidelberg <david@ixit.cz>,
+ =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+ linux-tegra@vger.kernel.org, Mikko Perttunen <mperttunen@nvidia.com>,
+ Lee Jones <lee.jones@linaro.org>, Michael Turquette <mturquette@baylibre.com>,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The only usage of cooling_ops is to pass its address to
-thermal_of_cooling_device_register(), which takes a pointer to const
-struct thermal_cooling_device_ops as input. Make it const to allow the
-compiler to put it in read-only memory.
+28.11.2021 08:47, Michał Mirosław пишет:
+> On Sun, Nov 14, 2021 at 10:34:08PM +0300, Dmitry Osipenko wrote:
+>> Add runtime power management and support generic power domains.
+> [...]
+>> @@ -104,10 +127,17 @@ static int gr2d_open_channel(struct tegra_drm_client *client,
+>>  			     struct tegra_drm_context *context)
+>>  {
+>>  	struct gr2d *gr2d = to_gr2d(client);
+>> +	int err;
+>> +
+>> +	err = pm_runtime_resume_and_get(client->base.dev);
+>> +	if (err)
+>> +		return err;
+>>  
+>>  	context->channel = host1x_channel_get(gr2d->channel);
+>> -	if (!context->channel)
+>> +	if (!context->channel) {
+>> +		pm_runtime_put(context->client->base.dev);
+> 
+> Could host1x_channel_get/put() handle pm_runtime* calls ? I would expect
+> this to be common code for the users.
 
-Signed-off-by: Rikard Falkeborn <rikard.falkeborn@gmail.com>
----
- drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+We already have host1x code that manages runtime PM of the client
+drivers, but it does that only for the code path of the new UAPI.
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-index 06bde46df451..37018bc55810 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-@@ -1658,7 +1658,7 @@ etnaviv_gpu_cooling_set_cur_state(struct thermal_cooling_device *cdev,
- 	return 0;
- }
- 
--static struct thermal_cooling_device_ops cooling_ops = {
-+static const struct thermal_cooling_device_ops cooling_ops = {
- 	.get_max_state = etnaviv_gpu_cooling_get_max_state,
- 	.get_cur_state = etnaviv_gpu_cooling_get_cur_state,
- 	.set_cur_state = etnaviv_gpu_cooling_set_cur_state,
--- 
-2.34.1
+In case of the older UAPI, seems we can move the RPM get/put into
+tegra/drm.c. I'll consider that change for v16, thank you.
 
+> BTW, pm_runtime_resume_and_get() uses different dev than
+> pm_runtime_put() in the error path - is this intended?
+
+These functions use the same dev. The context->client is redundant
+there, good catch.
