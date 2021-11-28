@@ -2,29 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B683D460750
-	for <lists+dri-devel@lfdr.de>; Sun, 28 Nov 2021 16:57:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D85B9460759
+	for <lists+dri-devel@lfdr.de>; Sun, 28 Nov 2021 17:02:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C4EB572F3D;
-	Sun, 28 Nov 2021 15:57:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BAB0D72F93;
+	Sun, 28 Nov 2021 16:02:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5ADE172F3D
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Nov 2021 15:57:40 +0000 (UTC)
-X-UUID: a06df0059a734746a1cc6e4dd9453dbf-20211128
-X-UUID: a06df0059a734746a1cc6e4dd9453dbf-20211128
-Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by
- mailgw02.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 283879108; Sun, 28 Nov 2021 23:57:35 +0800
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D89672F93
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 Nov 2021 16:02:40 +0000 (UTC)
+X-UUID: 81bda1ccb0b4480cb9210040dba67a6d-20211129
+X-UUID: 81bda1ccb0b4480cb9210040dba67a6d-20211129
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
+ mailgw01.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1868573853; Mon, 29 Nov 2021 00:02:34 +0800
 Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
- Sun, 28 Nov 2021 23:57:34 +0800
+ mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Mon, 29 Nov 2021 00:02:33 +0800
 Received: from mtksdccf07 (172.21.84.99) by mtkcas10.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Sun, 28 Nov 2021 23:57:33 +0800
+ Transport; Mon, 29 Nov 2021 00:02:33 +0800
 Message-ID: <ae29424d8121f8951cfb5fece114b6fcba90d351.camel@mediatek.com>
 From: Jason-JH Lin <jason-jh.lin@mediatek.com>
 To: Tzung-Bi Shih <tzungbi@google.com>
@@ -37,12 +36,12 @@ Content-Type: text/plain; charset="UTF-8"
 MIME-Version: 1.0
 Subject: Re: FW: [PATCH 3/3] drm/mediatek: add devlink to cmdq dev
 Resent-From: Jason-JH Lin <jason-jh.lin@mediatek.com>
-Resent-Cc: DRI Development <dri-devel@lists.freedesktop.org>, "moderated
- list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>, "Linux
- ARM" <linux-arm-kernel@lists.infradead.org>, linux-kernel
- <linux-kernel@vger.kernel.org>, Hsin-Yi Wang <hsinyi@chromium.org>, "Fei
- Shao" <fshao@chromium.org>
-Date: Sun, 28 Nov 2021 23:57:33 +0800
+Resent-Cc: DRI Development <dri-devel@lists.freedesktop.org>, ";	moderated
+ list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>, "; Linux
+ ARM" <linux-arm-kernel@lists.infradead.org>, "; linux-kernel"
+ <linux-kernel@vger.kernel.org>, "; Hsin-Yi Wang" <hsinyi@chromium.org>, ";
+ Fei Shao" <fshao@chromium.org>
+Date: Mon, 29 Nov 2021 00:02:33 +0800
 X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 Content-Transfer-Encoding: quoted-printable
 X-MTK: N
@@ -68,8 +67,8 @@ Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, ";
  <Nancy.Lin@mediatek.com>, "; Matthias Brugger" <matthias.bgg@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-Resent-Message-Id: <20211128155741.C4EB572F3D@gabe.freedesktop.org>
-Resent-Date: Sun, 28 Nov 2021 15:57:41 +0000 (UTC)
+Resent-Message-Id: <20211128160242.BAB0D72F93@gabe.freedesktop.org>
+Resent-Date: Sun, 28 Nov 2021 16:02:42 +0000 (UTC)
 
 Hi Tzung-Bi,
 
