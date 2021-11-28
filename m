@@ -2,45 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 614BF4604B5
-	for <lists+dri-devel@lfdr.de>; Sun, 28 Nov 2021 06:47:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D97F4605C5
+	for <lists+dri-devel@lfdr.de>; Sun, 28 Nov 2021 12:10:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 16EC56E9EC;
-	Sun, 28 Nov 2021 05:47:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8974D6FFA3;
+	Sun, 28 Nov 2021 11:09:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 391 seconds by postgrey-1.36 at gabe;
- Sun, 28 Nov 2021 05:47:34 UTC
-Received: from rere.qmqm.pl (rere.qmqm.pl [91.227.64.183])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF4936E9EC
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Nov 2021 05:47:34 +0000 (UTC)
-Received: from remote.user (localhost [127.0.0.1])
- by rere.qmqm.pl (Postfix) with ESMTPSA id 4J1yDh5CCGzWG;
- Sun, 28 Nov 2021 06:47:32 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rere.qmqm.pl; s=1;
- t=1638078453; bh=+Cj+BB/A2FsyTFVTgsdgLhKnhMnYskAogn3uwYKOvvs=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=mDvzO3ZNwgpRiDuAFQm9+pmxug6iiRogj8KsZ2DHrmVfKL9MWSJm9HIQ2sF53TWpd
- L0Cxo/iC7TwwP9CzggOdtnsG8yh61uH/yiyeGKtUaLSuvka7WWpkL+2fp2a7+f17zz
- LHjYvTh7JA7FV6iyq6nBwmZrvFWcELXXfV45m1RCWxlWHolAHnoJwfNUJM70pyRscX
- ENAaoeowyKRpJRtQFR1i2aNe9zfcheSfjlOzpYaHMu1obJu43gZXlYrjkkdRz+K8NR
- sXFW2VroLhE37GnXrisZfCB+nIxUD7dB5BTDMrVasYp8kMZWagiL+RGR5M01Pdi/50
- yPZ70dtIdnSCg==
-X-Virus-Status: Clean
-X-Virus-Scanned: clamav-milter 0.103.3 at mail
-Date: Sun, 28 Nov 2021 06:47:31 +0100
-From: =?iso-8859-2?Q?Micha=B3_Miros=B3aw?= <mirq-linux@rere.qmqm.pl>
-To: Dmitry Osipenko <digetx@gmail.com>
-Subject: Re: [PATCH v15 12/39] drm/tegra: gr2d: Support generic power domain
- and runtime PM
-Message-ID: <YaMX89bRBlqh0MvB@qmqm.qmqm.pl>
-References: <20211114193435.7705-1-digetx@gmail.com>
- <20211114193435.7705-13-digetx@gmail.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB5BD6FFA1;
+ Sun, 28 Nov 2021 11:09:51 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10181"; a="296622215"
+X-IronPort-AV: E=Sophos;i="5.87,271,1631602800"; d="scan'208";a="296622215"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Nov 2021 03:09:51 -0800
+X-IronPort-AV: E=Sophos;i="5.87,271,1631602800"; d="scan'208";a="511283320"
+Received: from snishad-mobl1.gar.corp.intel.com (HELO intel.com)
+ ([10.252.48.241])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Nov 2021 03:09:46 -0800
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Intel GFX <intel-gfx@lists.freedesktop.org>,
+ DRI Devel <dri-devel@lists.freedesktop.org>
+Subject: [PATCH v4 0/2] More preparation for multi gt patches
+Date: Sun, 28 Nov 2021 13:09:24 +0200
+Message-Id: <20211128110926.2569-1-andi.shyti@linux.intel.com>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-2
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20211114193435.7705-13-digetx@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,44 +44,134 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nishanth Menon <nm@ti.com>, linux-pwm@vger.kernel.org,
- Ulf Hansson <ulf.hansson@linaro.org>, linux-clk@vger.kernel.org,
- linux-pm@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>,
- Viresh Kumar <vireshk@kernel.org>,
- Peter De Schrijver <pdeschrijver@nvidia.com>, linux-mmc@vger.kernel.org,
- Adrian Hunter <adrian.hunter@intel.com>, dri-devel@lists.freedesktop.org,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Thierry Reding <thierry.reding@gmail.com>, David Heidelberg <david@ixit.cz>,
- Uwe =?iso-8859-2?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
- linux-tegra@vger.kernel.org, Mikko Perttunen <mperttunen@nvidia.com>,
- Lee Jones <lee.jones@linaro.org>, Michael Turquette <mturquette@baylibre.com>,
- linux-kernel@vger.kernel.org
+Cc: =?UTF-8?q?Michal=C5=82Winiarski?= <michal.winiarski@intel.com>,
+ Andi Shyti <andi@etezian.org>, Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ Andi Shyti <andi.shyti@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Nov 14, 2021 at 10:34:08PM +0300, Dmitry Osipenko wrote:
-> Add runtime power management and support generic power domains.
-[...]
-> @@ -104,10 +127,17 @@ static int gr2d_open_channel(struct tegra_drm_client *client,
->  			     struct tegra_drm_context *context)
->  {
->  	struct gr2d *gr2d = to_gr2d(client);
-> +	int err;
-> +
-> +	err = pm_runtime_resume_and_get(client->base.dev);
-> +	if (err)
-> +		return err;
->  
->  	context->channel = host1x_channel_get(gr2d->channel);
-> -	if (!context->channel)
-> +	if (!context->channel) {
-> +		pm_runtime_put(context->client->base.dev);
+Hi,
 
-Could host1x_channel_get/put() handle pm_runtime* calls ? I would expect
-this to be common code for the users.
+the first of the two patches concludes the first stage of
+refactoring which makes the use of intel_gt on the different
+subsystem. It's taken from Matt's series and it has alread been
+reviewed. The patch has just been replaced before any multitile
+patches and I think it can be already pushed.
 
-BTW, pm_runtime_resume_and_get() uses different dev than
-pm_runtime_put() in the error path - is this intended?
+The second patch is on more step to prepare for the coming multi
+tile. It's very invasive but it's an effort that can be paid once
+and for all in order to have a cleaner way to refer to GTs.
 
-Best Regards
-Micha≥†Miros≥aw
+Andi
+
+Changelog:
+==========
+Patchwork: https://patchwork.freedesktop.org/series/97020/
+
+v3 -> v4:
+ - the intel_gt_init_early() has been split as it was causing
+   some headaches for the order of the early initialization. The
+   split has been done keeping in mind the coming next patch in
+   the series that wil make this a static function.
+
+v2 -> v3:
+ - sed -i ... took too much freedom and changed more than it was
+   supposed to.
+ - fix a compile error which did not appear in my local build
+
+v1 -> v2:
+ - patch 2: do not use anymore the reference i915->gt but use
+   to_root_gt(), coming from Matt Roper's patch.
+ - fix some comments from Chris.
+
+Andi Shyti (1):
+  drm/i915: Use to_root_gt() to refer to the root tile
+
+Micha≈Ç Winiarski (1):
+  drm/i915: Store backpointer to GT in uncore
+
+ .../gpu/drm/i915/display/intel_atomic_plane.c |  4 +-
+ drivers/gpu/drm/i915/display/intel_display.c  | 23 +++++---
+ drivers/gpu/drm/i915/display/intel_dpt.c      |  2 +-
+ drivers/gpu/drm/i915/display/intel_overlay.c  |  2 +-
+ .../drm/i915/display/skl_universal_plane.c    |  2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_context.c   | 22 ++++----
+ drivers/gpu/drm/i915/gem/i915_gem_create.c    |  2 +-
+ .../gpu/drm/i915/gem/i915_gem_execbuffer.c    |  4 +-
+ drivers/gpu/drm/i915/gem/i915_gem_mman.c      |  2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_phys.c      |  6 +-
+ drivers/gpu/drm/i915/gem/i915_gem_pm.c        |  6 +-
+ drivers/gpu/drm/i915/gem/i915_gem_shrinker.c  |  2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_throttle.c  |  3 +-
+ drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c  | 29 +++++++---
+ drivers/gpu/drm/i915/gem/i915_gem_userptr.c   |  2 +-
+ .../gpu/drm/i915/gem/selftests/huge_pages.c   |  4 +-
+ .../i915/gem/selftests/i915_gem_client_blt.c  |  2 +-
+ .../drm/i915/gem/selftests/i915_gem_context.c | 10 ++--
+ .../drm/i915/gem/selftests/i915_gem_migrate.c |  2 +-
+ .../drm/i915/gem/selftests/i915_gem_mman.c    | 28 +++++-----
+ drivers/gpu/drm/i915/gt/intel_engine_user.c   |  2 +-
+ drivers/gpu/drm/i915/gt/intel_ggtt.c          |  2 +-
+ drivers/gpu/drm/i915/gt/intel_gt.c            | 11 ++--
+ drivers/gpu/drm/i915/gt/intel_gt.h            |  1 +
+ drivers/gpu/drm/i915/gt/intel_rps.c           | 12 ++--
+ drivers/gpu/drm/i915/gt/intel_workarounds.c   |  3 +-
+ drivers/gpu/drm/i915/gt/mock_engine.c         | 10 ++--
+ drivers/gpu/drm/i915/gt/selftest_context.c    |  2 +-
+ drivers/gpu/drm/i915/gt/selftest_engine.c     |  2 +-
+ drivers/gpu/drm/i915/gt/selftest_engine_cs.c  |  4 +-
+ .../drm/i915/gt/selftest_engine_heartbeat.c   |  4 +-
+ drivers/gpu/drm/i915/gt/selftest_execlists.c  |  6 +-
+ drivers/gpu/drm/i915/gt/selftest_gt_pm.c      |  8 +--
+ drivers/gpu/drm/i915/gt/selftest_hangcheck.c  |  2 +-
+ drivers/gpu/drm/i915/gt/selftest_lrc.c        |  2 +-
+ drivers/gpu/drm/i915/gt/selftest_migrate.c    |  4 +-
+ drivers/gpu/drm/i915/gt/selftest_mocs.c       |  2 +-
+ drivers/gpu/drm/i915/gt/selftest_reset.c      |  2 +-
+ .../drm/i915/gt/selftest_ring_submission.c    |  4 +-
+ drivers/gpu/drm/i915/gt/selftest_slpc.c       |  6 +-
+ drivers/gpu/drm/i915/gt/selftest_timeline.c   |  6 +-
+ .../gpu/drm/i915/gt/selftest_workarounds.c    |  4 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c   |  2 +-
+ drivers/gpu/drm/i915/gt/uc/selftest_guc.c     |  2 +-
+ .../drm/i915/gt/uc/selftest_guc_multi_lrc.c   |  2 +-
+ drivers/gpu/drm/i915/gvt/gvt.c                |  2 +-
+ drivers/gpu/drm/i915/gvt/scheduler.c          |  2 +-
+ drivers/gpu/drm/i915/i915_debugfs.c           | 38 ++++++-------
+ drivers/gpu/drm/i915/i915_debugfs_params.c    |  4 +-
+ drivers/gpu/drm/i915/i915_driver.c            | 31 +++++-----
+ drivers/gpu/drm/i915/i915_drv.h               |  9 ++-
+ drivers/gpu/drm/i915/i915_gem.c               | 16 +++---
+ drivers/gpu/drm/i915/i915_getparam.c          | 10 ++--
+ drivers/gpu/drm/i915/i915_gpu_error.c         |  4 +-
+ drivers/gpu/drm/i915/i915_irq.c               | 56 +++++++++----------
+ drivers/gpu/drm/i915/i915_perf.c              |  2 +-
+ drivers/gpu/drm/i915/i915_pmu.c               | 14 ++---
+ drivers/gpu/drm/i915/i915_query.c             |  2 +-
+ drivers/gpu/drm/i915/i915_sysfs.c             | 22 ++++----
+ drivers/gpu/drm/i915/intel_gvt.c              |  2 +-
+ drivers/gpu/drm/i915/intel_uncore.c           |  9 +--
+ drivers/gpu/drm/i915/intel_uncore.h           |  3 +-
+ drivers/gpu/drm/i915/intel_wopcm.c            |  2 +-
+ drivers/gpu/drm/i915/pxp/intel_pxp_tee.c      |  6 +-
+ drivers/gpu/drm/i915/selftests/i915_active.c  |  2 +-
+ drivers/gpu/drm/i915/selftests/i915_gem.c     |  2 +-
+ .../gpu/drm/i915/selftests/i915_gem_evict.c   |  6 +-
+ drivers/gpu/drm/i915/selftests/i915_gem_gtt.c |  4 +-
+ drivers/gpu/drm/i915/selftests/i915_perf.c    |  2 +-
+ drivers/gpu/drm/i915/selftests/i915_request.c | 10 ++--
+ .../gpu/drm/i915/selftests/i915_selftest.c    |  4 +-
+ .../gpu/drm/i915/selftests/igt_flush_test.c   |  2 +-
+ .../gpu/drm/i915/selftests/igt_live_test.c    |  4 +-
+ .../drm/i915/selftests/intel_memory_region.c  |  4 +-
+ drivers/gpu/drm/i915/selftests/intel_uncore.c |  2 +-
+ .../gpu/drm/i915/selftests/mock_gem_device.c  | 32 +++++------
+ drivers/gpu/drm/i915/selftests/mock_gtt.c     |  6 +-
+ drivers/gpu/drm/i915/selftests/mock_uncore.c  |  2 +-
+ 78 files changed, 309 insertions(+), 269 deletions(-)
+
+-- 
+2.34.1
+
