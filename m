@@ -2,49 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D85B9460759
-	for <lists+dri-devel@lfdr.de>; Sun, 28 Nov 2021 17:02:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F22444607AF
+	for <lists+dri-devel@lfdr.de>; Sun, 28 Nov 2021 17:46:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BAB0D72F93;
-	Sun, 28 Nov 2021 16:02:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 688346E3F9;
+	Sun, 28 Nov 2021 16:46:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D89672F93
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Nov 2021 16:02:40 +0000 (UTC)
-X-UUID: 81bda1ccb0b4480cb9210040dba67a6d-20211129
-X-UUID: 81bda1ccb0b4480cb9210040dba67a6d-20211129
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
- mailgw01.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1868573853; Mon, 29 Nov 2021 00:02:34 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Mon, 29 Nov 2021 00:02:33 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkcas10.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Mon, 29 Nov 2021 00:02:33 +0800
-Message-ID: <ae29424d8121f8951cfb5fece114b6fcba90d351.camel@mediatek.com>
-From: Jason-JH Lin <jason-jh.lin@mediatek.com>
-To: Tzung-Bi Shih <tzungbi@google.com>
-In-Reply-To: <PU1PR03MB306252A252139515F7EA9ABCB8659@PU1PR03MB3062.apcprd03.prod.outlook.com>
-References: <20211117064158.27451-1-jason-jh.lin@mediatek.com>
- <20211117064158.27451-4-jason-jh.lin@mediatek.com>
- <YZXqz6XDChwscDC0@google.com>
- <PU1PR03MB306252A252139515F7EA9ABCB8659@PU1PR03MB3062.apcprd03.prod.outlook.com>
-Content-Type: text/plain; charset="UTF-8"
+Received: from smtp.smtpout.orange.fr (smtp07.smtpout.orange.fr
+ [80.12.242.129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE2146E3F9
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 Nov 2021 16:46:00 +0000 (UTC)
+Received: from pop-os.home ([86.243.171.122]) by smtp.orange.fr with ESMTPA
+ id rNJMmflft2lVYrNJNmrScH; Sun, 28 Nov 2021 17:45:58 +0100
+X-ME-Helo: pop-os.home
+X-ME-Auth: YWZlNiIxYWMyZDliZWIzOTcwYTEyYzlhMmU3ZiQ1M2U2MzfzZDfyZTMxZTBkMTYyNDBjNDJlZmQ3ZQ==
+X-ME-Date: Sun, 28 Nov 2021 17:45:58 +0100
+X-ME-IP: 86.243.171.122
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To: Felix.Kuehling@amd.com, alexander.deucher@amd.com,
+ christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@linux.ie,
+ daniel@ffwll.ch
+Subject: [PATCH 1/2] drm/amdkfd: Use bitmap_zalloc() when applicable
+Date: Sun, 28 Nov 2021 17:45:55 +0100
+Message-Id: <f12820f6c5fca9b10ac8f82b3689c50ccb6966aa.1638117878.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Subject: Re: FW: [PATCH 3/3] drm/mediatek: add devlink to cmdq dev
-Resent-From: Jason-JH Lin <jason-jh.lin@mediatek.com>
-Resent-Cc: DRI Development <dri-devel@lists.freedesktop.org>, ";	moderated
- list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>, "; Linux
- ARM" <linux-arm-kernel@lists.infradead.org>, "; linux-kernel"
- <linux-kernel@vger.kernel.org>, "; Hsin-Yi Wang" <hsinyi@chromium.org>, ";
- Fei Shao" <fshao@chromium.org>
-Date: Mon, 29 Nov 2021 00:02:33 +0800
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
-Content-Transfer-Encoding: quoted-printable
-X-MTK: N
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,99 +41,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, ";
- David Airlie" <airlied@linux.ie>, "; Singo Chang
- =?UTF-8?Q?=28=E5=BC=B5=E8=88=88=E5=9C=8B=29?=" <Singo.Chang@mediatek.com>, "; 
- Jassi Brar" <jassisinghbrar@gmail.com>, "; dri-devel@lists.freedesktop.org;
- linux-mediatek@lists.infradead.org;	  linux-arm-kernel@lists.infradead.org;
- linux-kernel@vger.kernel.org;	  hsinyi@chromium.org; fshao@chromium.org;
- Nancy Lin =?UTF-8?Q?=28=E6=9E=97=E6=AC=A3=E8=9E=A2=29?="
- <Nancy.Lin@mediatek.com>, "; Matthias Brugger" <matthias.bgg@gmail.com>
+Cc: Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ kernel-janitors@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-Resent-Message-Id: <20211128160242.BAB0D72F93@gabe.freedesktop.org>
-Resent-Date: Sun, 28 Nov 2021 16:02:42 +0000 (UTC)
 
-Hi Tzung-Bi,
+'kfd->gtt_sa_bitmap' is a bitmap. So use 'bitmap_zalloc()' to simplify
+code, improve the semantic and avoid some open-coded arithmetic in
+allocator arguments.
 
-Thanks for the reviews.
+Also change the corresponding 'kfree()' into 'bitmap_free()' to keep
+consistency.
+---
+ drivers/gpu/drm/amd/amdkfd/kfd_device.c | 12 +++---------
+ 1 file changed, 3 insertions(+), 9 deletions(-)
 
-> From: Linux-mediatek <linux-mediatek-bounces@lists.infradead.org> On
-> Behalf Of Tzung-Bi Shih
-> Sent: Thursday, November 18, 2021 1:55 PM
-> To: Jason-JH Lin (=E6=9E=97=E7=9D=BF=E7=A5=A5) <Jason-JH.Lin@mediatek.com=
->
-> Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>; Philipp Zabel <
-> p.zabel@pengutronix.de>; Matthias Brugger <matthias.bgg@gmail.com>;
-> Jassi Brar <jassisinghbrar@gmail.com>; David Airlie <airlied@linux.ie
-> >; Daniel Vetter <daniel@ffwll.ch>; dri-devel@lists.freedesktop.org;=20
-> linux-mediatek@lists.infradead.org;=20
-> linux-arm-kernel@lists.infradead.org; linux-kernel@vger.kernel.org;=20
-> hsinyi@chromium.org; fshao@chromium.org; Nancy Lin (=E6=9E=97=E6=AC=A3=E8=
-=9E=A2) <
-> Nancy.Lin@mediatek.com>; Singo Chang (=E5=BC=B5=E8=88=88=E5=9C=8B) <Singo=
-.Chang@mediatek.com>
-> Subject: Re: [PATCH 3/3] drm/mediatek: add devlink to cmdq dev
->=20
-> On Wed, Nov 17, 2021 at 02:41:58PM +0800, jason-jh.lin wrote:
-> > @@ -158,6 +159,7 @@ static void mtk_drm_crtc_destroy(struct
-> > drm_crtc *crtc)
-> >  	mtk_drm_cmdq_pkt_destroy(&mtk_crtc->cmdq_handle);
-> > =20
-> >  	if (mtk_crtc->cmdq_client.chan) {
-> > +		device_link_remove(mtk_crtc->drm_dev, mtk_crtc-
-> > >cmdq_client.chan->mbox->dev);
-> >  		mbox_free_channel(mtk_crtc->cmdq_client.chan);
-> >  		mtk_crtc->cmdq_client.chan =3D NULL;
-> >  	}
->=20
-> [...]
-> > @@ -956,6 +959,16 @@ int mtk_drm_crtc_create(struct drm_device
-> > *drm_dev,
-> >  	}
-> > =20
-> >  	if (mtk_crtc->cmdq_client.chan) {
-> > +		struct device_link *link;
-> > +
-> > +		/* add devlink to cmdq dev to make sure suspend/resume
-> > order is correct */
-> > +		link =3D device_link_add(dev, mtk_crtc->cmdq_client.chan-
-> > >mbox->dev,
-> > +				       DL_FLAG_PM_RUNTIME |
-> > DL_FLAG_STATELESS);
-> > +		if (!link) {
-> > +			dev_err(dev, "Unable to link dev=3D%s\n",
-> > +				dev_name(mtk_crtc->cmdq_client.chan-
-> > >mbox->dev));
-> > +		}
-> > +
->=20
-> If device_link_add() failed, doesn't mtk_drm_crtc_create() need to
-> return an error and exit?
-
-OK, I'll add the return error at the next verion.
->=20
-> OTOH, if device_link_add() failed, won't it bring any side effects to
-> call device_link_remove()?
->=20
-
-Because device_link_remove() will find the device_link of supplier and
-consumer, then delete the device_link between them.
-If device_link_add() failed, supplier and consumer won't create the
-device_link.
-So calling device_link_remove() won't do anything without deive_link
-and won't bring any side effects.
-
-Regards,
-Jason-JH.Lin
-> _______________________________________________
-> Linux-mediatek mailing list
-> Linux-mediatek@lists.infradead.org
->=20
-https://urldefense.com/v3/__http://lists.infradead.org/mailman/listinfo/lin=
-ux-mediatek__;!!CTRNKA9wMg0ARbw!125dmOZ7xCLkwbIrzZf1VqVLQBbdT4RFHoMjR38U1Ge=
-CxaTM6xvvB-mSr7sTc6BuY5IH$
-> =20
---=20
-Jason-JH Lin <jason-jh.lin@mediatek.com>
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_device.c b/drivers/gpu/drm/amd/amdkfd/kfd_device.c
+index e1294fba0c26..c5a0ce44a295 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_device.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_device.c
+@@ -1252,8 +1252,6 @@ int kgd2kfd_schedule_evict_and_restore_process(struct mm_struct *mm,
+ static int kfd_gtt_sa_init(struct kfd_dev *kfd, unsigned int buf_size,
+ 				unsigned int chunk_size)
+ {
+-	unsigned int num_of_longs;
+-
+ 	if (WARN_ON(buf_size < chunk_size))
+ 		return -EINVAL;
+ 	if (WARN_ON(buf_size == 0))
+@@ -1264,11 +1262,8 @@ static int kfd_gtt_sa_init(struct kfd_dev *kfd, unsigned int buf_size,
+ 	kfd->gtt_sa_chunk_size = chunk_size;
+ 	kfd->gtt_sa_num_of_chunks = buf_size / chunk_size;
+ 
+-	num_of_longs = (kfd->gtt_sa_num_of_chunks + BITS_PER_LONG - 1) /
+-		BITS_PER_LONG;
+-
+-	kfd->gtt_sa_bitmap = kcalloc(num_of_longs, sizeof(long), GFP_KERNEL);
+-
++	kfd->gtt_sa_bitmap = bitmap_zalloc(kfd->gtt_sa_num_of_chunks,
++					   GFP_KERNEL);
+ 	if (!kfd->gtt_sa_bitmap)
+ 		return -ENOMEM;
+ 
+@@ -1278,13 +1273,12 @@ static int kfd_gtt_sa_init(struct kfd_dev *kfd, unsigned int buf_size,
+ 	mutex_init(&kfd->gtt_sa_lock);
+ 
+ 	return 0;
+-
+ }
+ 
+ static void kfd_gtt_sa_fini(struct kfd_dev *kfd)
+ {
+ 	mutex_destroy(&kfd->gtt_sa_lock);
+-	kfree(kfd->gtt_sa_bitmap);
++	bitmap_free(kfd->gtt_sa_bitmap);
+ }
+ 
+ static inline uint64_t kfd_gtt_sa_calc_gpu_addr(uint64_t start_addr,
+-- 
+2.30.2
 
