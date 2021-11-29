@@ -2,49 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FDFE46285B
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Nov 2021 00:34:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41096462853
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Nov 2021 00:34:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DEDEB6E17C;
-	Mon, 29 Nov 2021 23:34:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E14C6E0BC;
+	Mon, 29 Nov 2021 23:34:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6ACC36E156
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Nov 2021 23:34:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1638228860;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=kFLga5bQnuiihxlpiwobP9Wo6MjV1HkZbGfsYLPMWjw=;
- b=E9WEVs4GjF86cuW87UT5VytONJwc2F6kFQgxzAQh/yCdBuMt0/w2G44VjKPq+LeCEMVK6Y
- aalVZ8znGLqfq+alTiTB8+Fi1XROkRicR8twznf8MkNyva0ZB6to13vGCQ5oWQPrmUJNs+
- M5yEHoVOcdr/7jZD16zMX5quQobI0YU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-143-FV4rzwZHPVqCstYzM2SS_w-1; Mon, 29 Nov 2021 18:34:16 -0500
-X-MC-Unique: FV4rzwZHPVqCstYzM2SS_w-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B5DAC2F21;
- Mon, 29 Nov 2021 23:34:13 +0000 (UTC)
-Received: from emerald.redhat.com (unknown [10.22.32.33])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 64CC65D9D5;
- Mon, 29 Nov 2021 23:34:04 +0000 (UTC)
-From: Lyude Paul <lyude@redhat.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v2] drm/i915/dp: Perform 30ms delay after source OUI write
-Date: Mon, 29 Nov 2021 18:33:51 -0500
-Message-Id: <20211129233354.101347-1-lyude@redhat.com>
+Received: from gandalf.ozlabs.org (gandalf.ozlabs.org
+ [IPv6:2404:9400:2:0:216:3eff:fee2:21ea])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 11FBC6E0BC;
+ Mon, 29 Nov 2021 23:34:03 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4J31rj0pbcz4xPv;
+ Tue, 30 Nov 2021 10:33:56 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=201702; t=1638228839;
+ bh=inXtXHv6yn3YtBnuAAzAq6r5aKIXNSazQdd6UUlmByM=;
+ h=Date:From:To:Cc:Subject:From;
+ b=EDPAUye/rs3pl+bys5hBqUCI8EXVGofnoVzZwrn+G+I3BBAhfiXMdXuMB5/HMp+rA
+ tlH6bgsUH5kj8IqhbRDL7uHwdqCQKBUgWM996G4tu6bv1alHUIs7zLLGDdmBj3Fn/H
+ Fjq9hkziUGIZokeFtSRmHdG1lqEWounM9Rd4V1E2aGIpt4r9NMk8SXo3kLF9Q+y+Tt
+ epcz2GoKtyw+uAt1yeeVflox666gYHKLoMYiezoKgvevzo0QkoloeopsY7GOKNaVMd
+ Mis7E9aVyEa7neh6ZrBSeHF0EZcED94sdRBtotjDDUexhChq4N1FKEQ0wSqAM6Tfjh
+ RhRsc1gp9rQoQ==
+Date: Tue, 30 Nov 2021 10:33:53 +1100
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Dave Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics <intel-gfx@lists.freedesktop.org>, DRI
+ <dri-devel@lists.freedesktop.org>
+Subject: linux-next: manual merge of the drm tree with the drm-misc-fixes tree
+Message-ID: <20211130103353.0ab1a44f@canb.auug.org.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Content-Type: multipart/signed; boundary="Sig_/SRktUQT/MnVNywL02YSYaaF";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,145 +51,236 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- David Airlie <airlied@linux.ie>, Anshuman Gupta <anshuman.gupta@intel.com>,
- open list <linux-kernel@vger.kernel.org>,
- Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>,
- Manasi Navare <manasi.d.navare@intel.com>, Uma Shankar <uma.shankar@intel.com>,
- stable@vger.kernel.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- =?UTF-8?q?Jos=C3=A9=20Roberto=20de=20Souza?= <jose.souza@intel.com>,
- Dave Airlie <airlied@redhat.com>, Ankit Nautiyal <ankit.k.nautiyal@intel.com>
+Cc: Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Maxime Ripard <maxime@cerno.tech>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-While working on supporting the Intel HDR backlight interface, I noticed
-that there's a couple of laptops that will very rarely manage to boot up
-without detecting Intel HDR backlight support - even though it's supported
-on the system. One example of such a laptop is the Lenovo P17 1st
-generation.
+--Sig_/SRktUQT/MnVNywL02YSYaaF
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Following some investigation Ville Syrjälä did through the docs they have
-available to them, they discovered that there's actually supposed to be a
-30ms wait after writing the source OUI before we begin setting up the rest
-of the backlight interface.
+Hi all,
 
-This seems to be correct, as adding this 30ms delay seems to have
-completely fixed the probing issues I was previously seeing. So - let's
-start performing a 30ms wait after writing the OUI, which we do in a manner
-similar to how we keep track of PPS delays (e.g. record the timestamp of
-the OUI write, and then wait for however many ms are left since that
-timestamp right before we interact with the backlight) in order to avoid
-waiting any longer then we need to. As well, this also avoids us performing
-this delay on systems where we don't end up using the HDR backlight
-interface.
+Today's linux-next merge of the drm tree got a conflict in:
 
-V2:
-* Move panel delays into intel_pps
+  drivers/gpu/drm/vc4/vc4_kms.c
 
-Signed-off-by: Lyude Paul <lyude@redhat.com>
-Fixes: 4a8d79901d5b ("drm/i915/dp: Enable Intel's HDR backlight interface (only SDR for now)")
-Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-Cc: <stable@vger.kernel.org> # v5.12+
----
- drivers/gpu/drm/i915/display/intel_display_types.h    |  4 ++++
- drivers/gpu/drm/i915/display/intel_dp.c               | 11 +++++++++++
- drivers/gpu/drm/i915/display/intel_dp.h               |  2 ++
- drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c |  5 +++++
- 4 files changed, 22 insertions(+)
+between commits:
 
-diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
-index ea1e8a6e10b0..ad64f9caa7ff 100644
---- a/drivers/gpu/drm/i915/display/intel_display_types.h
-+++ b/drivers/gpu/drm/i915/display/intel_display_types.h
-@@ -1485,6 +1485,7 @@ struct intel_pps {
- 	bool want_panel_vdd;
- 	unsigned long last_power_on;
- 	unsigned long last_backlight_off;
-+	unsigned long last_oui_write;
- 	ktime_t panel_power_off_time;
- 	intel_wakeref_t vdd_wakeref;
- 
-@@ -1653,6 +1654,9 @@ struct intel_dp {
- 	struct intel_dp_pcon_frl frl;
- 
- 	struct intel_psr psr;
-+
-+	/* When we last wrote the OUI for eDP */
-+	unsigned long last_oui_write;
- };
- 
- enum lspcon_vendor {
-diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-index 0a424bf69396..45318891ba07 100644
---- a/drivers/gpu/drm/i915/display/intel_dp.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp.c
-@@ -29,6 +29,7 @@
- #include <linux/i2c.h>
- #include <linux/notifier.h>
- #include <linux/slab.h>
-+#include <linux/timekeeping.h>
- #include <linux/types.h>
- 
- #include <asm/byteorder.h>
-@@ -2010,6 +2011,16 @@ intel_edp_init_source_oui(struct intel_dp *intel_dp, bool careful)
- 
- 	if (drm_dp_dpcd_write(&intel_dp->aux, DP_SOURCE_OUI, oui, sizeof(oui)) < 0)
- 		drm_err(&i915->drm, "Failed to write source OUI\n");
-+
-+	intel_dp->pps.last_oui_write = jiffies;
-+}
-+
-+void intel_dp_wait_source_oui(struct intel_dp *intel_dp)
-+{
-+	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
-+
-+	drm_dbg_kms(&i915->drm, "Performing OUI wait\n");
-+	wait_remaining_ms_from_jiffies(intel_dp->last_oui_write, 30);
- }
- 
- /* If the device supports it, try to set the power state appropriately */
-diff --git a/drivers/gpu/drm/i915/display/intel_dp.h b/drivers/gpu/drm/i915/display/intel_dp.h
-index ce229026dc91..b64145a3869a 100644
---- a/drivers/gpu/drm/i915/display/intel_dp.h
-+++ b/drivers/gpu/drm/i915/display/intel_dp.h
-@@ -119,4 +119,6 @@ void intel_dp_pcon_dsc_configure(struct intel_dp *intel_dp,
- 				 const struct intel_crtc_state *crtc_state);
- void intel_dp_phy_test(struct intel_encoder *encoder);
- 
-+void intel_dp_wait_source_oui(struct intel_dp *intel_dp);
-+
- #endif /* __INTEL_DP_H__ */
-diff --git a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
-index 8b9c925c4c16..62c112daacf2 100644
---- a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
-@@ -36,6 +36,7 @@
- 
- #include "intel_backlight.h"
- #include "intel_display_types.h"
-+#include "intel_dp.h"
- #include "intel_dp_aux_backlight.h"
- 
- /* TODO:
-@@ -106,6 +107,8 @@ intel_dp_aux_supports_hdr_backlight(struct intel_connector *connector)
- 	int ret;
- 	u8 tcon_cap[4];
- 
-+	intel_dp_wait_source_oui(intel_dp);
-+
- 	ret = drm_dp_dpcd_read(aux, INTEL_EDP_HDR_TCON_CAP0, tcon_cap, sizeof(tcon_cap));
- 	if (ret != sizeof(tcon_cap))
- 		return false;
-@@ -204,6 +207,8 @@ intel_dp_aux_hdr_enable_backlight(const struct intel_crtc_state *crtc_state,
- 	int ret;
- 	u8 old_ctrl, ctrl;
- 
-+	intel_dp_wait_source_oui(intel_dp);
-+
- 	ret = drm_dp_dpcd_readb(&intel_dp->aux, INTEL_EDP_HDR_GETSET_CTRL_PARAMS, &old_ctrl);
- 	if (ret != 1) {
- 		drm_err(&i915->drm, "Failed to read current backlight control mode: %d\n", ret);
--- 
-2.33.1
+  f927767978d2 ("drm/vc4: kms: Fix return code check")
+  d354699e2292 ("drm/vc4: kms: Don't duplicate pending commit")
 
+from the drm-misc-fixes tree and commit:
+
+  16e101051f32 ("drm/vc4: Increase the core clock based on HVS load")
+
+from the drm tree.
+
+I fixed it up (see below) and can carry the fix as necessary. This
+is now fixed as far as linux-next is concerned, but any non trivial
+conflicts should be mentioned to your upstream maintainer when your tree
+is submitted for merging.  You may also want to consider cooperating
+with the maintainer of the conflicting tree to minimise any particularly
+complex conflicts.
+
+--=20
+Cheers,
+Stephen Rothwell
+
+diff --cc drivers/gpu/drm/vc4/vc4_kms.c
+index b61792d2aa65,79d4d9dd1394..000000000000
+--- a/drivers/gpu/drm/vc4/vc4_kms.c
++++ b/drivers/gpu/drm/vc4/vc4_kms.c
+@@@ -337,12 -340,21 +340,21 @@@ static void vc4_atomic_commit_tail(stru
+  	struct drm_device *dev =3D state->dev;
+  	struct vc4_dev *vc4 =3D to_vc4_dev(dev);
+  	struct vc4_hvs *hvs =3D vc4->hvs;
+ -	struct drm_crtc_state *old_crtc_state;
+  	struct drm_crtc_state *new_crtc_state;
++ 	struct vc4_hvs_state *new_hvs_state;
+  	struct drm_crtc *crtc;
+  	struct vc4_hvs_state *old_hvs_state;
+ +	unsigned int channel;
+  	int i;
+ =20
++ 	old_hvs_state =3D vc4_hvs_get_old_global_state(state);
+ -	if (WARN_ON(!old_hvs_state))
+++	if (WARN_ON(IS_ERR(old_hvs_state)))
++ 		return;
++=20
++ 	new_hvs_state =3D vc4_hvs_get_new_global_state(state);
+ -	if (WARN_ON(!new_hvs_state))
+++	if (WARN_ON(IS_ERR(new_hvs_state)))
++ 		return;
++=20
+  	for_each_new_crtc_in_state(state, crtc, new_crtc_state, i) {
+  		struct vc4_crtc_state *vc4_crtc_state;
+ =20
+@@@ -353,32 -365,31 +365,36 @@@
+  		vc4_hvs_mask_underrun(dev, vc4_crtc_state->assigned_channel);
+  	}
+ =20
+- 	old_hvs_state =3D vc4_hvs_get_old_global_state(state);
+- 	if (IS_ERR(old_hvs_state))
+- 		return;
++ 	if (vc4->hvs->hvs5) {
++ 		unsigned long core_rate =3D max_t(unsigned long,
++ 						500000000,
++ 						new_hvs_state->core_clock_rate);
++=20
++ 		clk_set_min_rate(hvs->core_clk, core_rate);
++ 	}
+ =20
+ -	for_each_old_crtc_in_state(state, crtc, old_crtc_state, i) {
+ -		struct vc4_crtc_state *vc4_crtc_state =3D
+ -			to_vc4_crtc_state(old_crtc_state);
+ -		unsigned int channel =3D vc4_crtc_state->assigned_channel;
+ +	for (channel =3D 0; channel < HVS_NUM_CHANNELS; channel++) {
+ +		struct drm_crtc_commit *commit;
+  		int ret;
+ =20
+ -		if (channel =3D=3D VC4_HVS_CHANNEL_DISABLED)
+ +		if (!old_hvs_state->fifo_state[channel].in_use)
+  			continue;
+ =20
+ -		if (!old_hvs_state->fifo_state[channel].in_use)
+ +		commit =3D old_hvs_state->fifo_state[channel].pending_commit;
+ +		if (!commit)
+  			continue;
+ =20
+ -		ret =3D drm_crtc_commit_wait(old_hvs_state->fifo_state[channel].pending=
+_commit);
+ +		ret =3D drm_crtc_commit_wait(commit);
+  		if (ret)
+  			drm_err(dev, "Timed out waiting for commit\n");
+ +
+ +		drm_crtc_commit_put(commit);
+ +		old_hvs_state->fifo_state[channel].pending_commit =3D NULL;
+  	}
+ =20
+ +	if (vc4->hvs->hvs5)
+ +		clk_set_min_rate(hvs->core_clk, 500000000);
+ +
+  	drm_atomic_helper_commit_modeset_disables(dev, state);
+ =20
+  	vc4_ctm_commit(vc4, state);
+@@@ -667,11 -673,19 +678,13 @@@ vc4_hvs_channels_duplicate_state(struc
+ =20
+  	__drm_atomic_helper_private_obj_duplicate_state(obj, &state->base);
+ =20
+-=20
+  	for (i =3D 0; i < HVS_NUM_CHANNELS; i++) {
+  		state->fifo_state[i].in_use =3D old_state->fifo_state[i].in_use;
++ 		state->fifo_state[i].fifo_load =3D old_state->fifo_state[i].fifo_load;
+ -
+ -		if (!old_state->fifo_state[i].pending_commit)
+ -			continue;
+ -
+ -		state->fifo_state[i].pending_commit =3D
+ -			drm_crtc_commit_get(old_state->fifo_state[i].pending_commit);
+  	}
+ =20
++ 	state->core_clock_rate =3D old_state->core_clock_rate;
++=20
+  	return &state->base;
+  }
+ =20
+@@@ -826,6 -840,76 +839,76 @@@ static int vc4_pv_muxing_atomic_check(s
+  	return 0;
+  }
+ =20
++ static int
++ vc4_core_clock_atomic_check(struct drm_atomic_state *state)
++ {
++ 	struct vc4_dev *vc4 =3D to_vc4_dev(state->dev);
++ 	struct drm_private_state *priv_state;
++ 	struct vc4_hvs_state *hvs_new_state;
++ 	struct vc4_load_tracker_state *load_state;
++ 	struct drm_crtc_state *old_crtc_state, *new_crtc_state;
++ 	struct drm_crtc *crtc;
++ 	unsigned int num_outputs;
++ 	unsigned long pixel_rate;
++ 	unsigned long cob_rate;
++ 	unsigned int i;
++=20
++ 	priv_state =3D drm_atomic_get_private_obj_state(state,
++ 						      &vc4->load_tracker);
++ 	if (IS_ERR(priv_state))
++ 		return PTR_ERR(priv_state);
++=20
++ 	load_state =3D to_vc4_load_tracker_state(priv_state);
++=20
++ 	hvs_new_state =3D vc4_hvs_get_global_state(state);
+ -	if (!hvs_new_state)
+ -		return -EINVAL;
+++	if (IS_ERR(hvs_new_state))
+++		return PTR_ERR(hvs_new_state);
++=20
++ 	for_each_oldnew_crtc_in_state(state, crtc,
++ 				      old_crtc_state,
++ 				      new_crtc_state,
++ 				      i) {
++ 		if (old_crtc_state->active) {
++ 			struct vc4_crtc_state *old_vc4_state =3D
++ 				to_vc4_crtc_state(old_crtc_state);
++ 			unsigned int channel =3D old_vc4_state->assigned_channel;
++=20
++ 			hvs_new_state->fifo_state[channel].fifo_load =3D 0;
++ 		}
++=20
++ 		if (new_crtc_state->active) {
++ 			struct vc4_crtc_state *new_vc4_state =3D
++ 				to_vc4_crtc_state(new_crtc_state);
++ 			unsigned int channel =3D new_vc4_state->assigned_channel;
++=20
++ 			hvs_new_state->fifo_state[channel].fifo_load =3D
++ 				new_vc4_state->hvs_load;
++ 		}
++ 	}
++=20
++ 	cob_rate =3D 0;
++ 	num_outputs =3D 0;
++ 	for (i =3D 0; i < HVS_NUM_CHANNELS; i++) {
++ 		if (!hvs_new_state->fifo_state[i].in_use)
++ 			continue;
++=20
++ 		num_outputs++;
++ 		cob_rate +=3D hvs_new_state->fifo_state[i].fifo_load;
++ 	}
++=20
++ 	pixel_rate =3D load_state->hvs_load;
++ 	if (num_outputs > 1) {
++ 		pixel_rate =3D (pixel_rate * 40) / 100;
++ 	} else {
++ 		pixel_rate =3D (pixel_rate * 60) / 100;
++ 	}
++=20
++ 	hvs_new_state->core_clock_rate =3D max(cob_rate, pixel_rate);
++=20
++ 	return 0;
++ }
++=20
++=20
+  static int
+  vc4_atomic_check(struct drm_device *dev, struct drm_atomic_state *state)
+  {
+
+--Sig_/SRktUQT/MnVNywL02YSYaaF
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmGlY2EACgkQAVBC80lX
+0GxgDwf/Y2zmsDBVbJBKWov738mnjKysnZB7GVIAHJ0dLd3HQrFynMZoRGT6E8y3
++BKOFt/cAj4nPy7rYPzYmCzQEF9mtuzlCoVZmF9mWKCTKq2CPuVZYlkzkRNAFpR7
+s2LCcUw44Po1IL8o10pXCGrFeFfPH0yFQc5XX0i3OS1sPunsPJg+fAAzPdN++gzQ
+79+IYfcykH36wSiprGzhJXHqqBT4drIurU9odup7mmEsySvtFUKqGeiB7jRtHuFl
+51wFPPMMXG2N4PWX6kQvMWZAdBpMtdKOeTkkZQXm96kjcdEktGuTqZAirfo4pnoO
+BlJC3jD2TwVcRgzM2uFA2KTCLS6pZw==
+=gLo3
+-----END PGP SIGNATURE-----
+
+--Sig_/SRktUQT/MnVNywL02YSYaaF--
