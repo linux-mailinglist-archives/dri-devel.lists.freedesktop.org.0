@@ -2,56 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD97C462679
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Nov 2021 23:49:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FDFE46285B
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Nov 2021 00:34:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3EDFD6E05A;
-	Mon, 29 Nov 2021 22:49:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DEDEB6E17C;
+	Mon, 29 Nov 2021 23:34:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com
- [209.85.210.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 320516E05A
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Nov 2021 22:49:54 +0000 (UTC)
-Received: by mail-ot1-f44.google.com with SMTP id
- 98-20020a9d086b000000b0057a403bbd4eso3023132oty.13
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Nov 2021 14:49:54 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=lgpJDEy/DEmK8UFLaeIWSUbO9Yqo5LKn3BjNolq3NLA=;
- b=dxW9CcXAKjSAAB+06ubszjZFXkDCwqxGDkDPvL24UU0FG8JTFO32oI08hJwizLUeHC
- m04QNbSeHKk3ejZb6Bw4NP0AyJqe8QUxEFKqllQskOTaU4KzXHOxuqGkv3fdqGt/3Fcc
- 63iwedVLKVUXXOBVn0JADnccxQa3naNkUnQfm+1BAJ4XYglwJKmFuOO8X8Bsk58hgUJ5
- SkfKDdeNHIGpVx8erOa/4yrTCDpnV2aNa4XupD3JQ6hmYIxw0igEzm7/SOoyYgL5t90i
- OhlS5ajuJdUre2lCIlMC1cl4rXE3nM+BIHxbB5kx5pd5EsXTURs3Wx+wu+hUIa8STSQr
- m2vw==
-X-Gm-Message-State: AOAM533itzXkp4VXV7pFeH2mWWY0PLhfX6JqAsnJsJ4j0J82GGGHOS5k
- YTU730mgqEYt6r+OilfjtQ==
-X-Google-Smtp-Source: ABdhPJwA6KqX3QbtFMquS84BeoB10ocNLEcrE8q5FJnCKsRjemYVJZbBxHo5WBw+uf9OlxKBceqPAA==
-X-Received: by 2002:a05:6830:2712:: with SMTP id
- j18mr46832046otu.302.1638226193372; 
- Mon, 29 Nov 2021 14:49:53 -0800 (PST)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net.
- [66.90.148.213])
- by smtp.gmail.com with ESMTPSA id e14sm2505203oow.3.2021.11.29.14.49.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 29 Nov 2021 14:49:52 -0800 (PST)
-Received: (nullmailer pid 755875 invoked by uid 1000);
- Mon, 29 Nov 2021 22:49:51 -0000
-Date: Mon, 29 Nov 2021 16:49:51 -0600
-From: Rob Herring <robh@kernel.org>
-To: Maxime Ripard <maxime@cerno.tech>
-Subject: Re: [PATCH 1/5] dt-bindings: display: vc4: Add optional phandle to
- firmware
-Message-ID: <YaVZDxac/OGyJVC9@robh.at.kernel.org>
-References: <20211117145040.334827-1-maxime@cerno.tech>
- <20211117145040.334827-2-maxime@cerno.tech>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6ACC36E156
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Nov 2021 23:34:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1638228860;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=kFLga5bQnuiihxlpiwobP9Wo6MjV1HkZbGfsYLPMWjw=;
+ b=E9WEVs4GjF86cuW87UT5VytONJwc2F6kFQgxzAQh/yCdBuMt0/w2G44VjKPq+LeCEMVK6Y
+ aalVZ8znGLqfq+alTiTB8+Fi1XROkRicR8twznf8MkNyva0ZB6to13vGCQ5oWQPrmUJNs+
+ M5yEHoVOcdr/7jZD16zMX5quQobI0YU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-143-FV4rzwZHPVqCstYzM2SS_w-1; Mon, 29 Nov 2021 18:34:16 -0500
+X-MC-Unique: FV4rzwZHPVqCstYzM2SS_w-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B5DAC2F21;
+ Mon, 29 Nov 2021 23:34:13 +0000 (UTC)
+Received: from emerald.redhat.com (unknown [10.22.32.33])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 64CC65D9D5;
+ Mon, 29 Nov 2021 23:34:04 +0000 (UTC)
+From: Lyude Paul <lyude@redhat.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH v2] drm/i915/dp: Perform 30ms delay after source OUI write
+Date: Mon, 29 Nov 2021 18:33:51 -0500
+Message-Id: <20211129233354.101347-1-lyude@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211117145040.334827-2-maxime@cerno.tech>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,51 +57,145 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Nicolas Saenz Julienne <nsaenz@kernel.org>,
- Tim Gover <tim.gover@raspberrypi.com>, Scott Branden <sbranden@broadcom.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- David Airlie <airlied@linux.ie>, Ray Jui <rjui@broadcom.com>,
- dri-devel@lists.freedesktop.org, Florian Fainelli <f.fainelli@gmail.com>,
- bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>, Frank Rowand <frowand.list@gmail.com>,
- Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org,
- Dom Cobley <dom@raspberrypi.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ David Airlie <airlied@linux.ie>, Anshuman Gupta <anshuman.gupta@intel.com>,
+ open list <linux-kernel@vger.kernel.org>,
+ Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>,
+ Manasi Navare <manasi.d.navare@intel.com>, Uma Shankar <uma.shankar@intel.com>,
+ stable@vger.kernel.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ =?UTF-8?q?Jos=C3=A9=20Roberto=20de=20Souza?= <jose.souza@intel.com>,
+ Dave Airlie <airlied@redhat.com>, Ankit Nautiyal <ankit.k.nautiyal@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Nov 17, 2021 at 03:50:36PM +0100, Maxime Ripard wrote:
-> The firmware can free all the resources it was using to run the display
-> engine that won't be needed once the kernel has taken over.
-> 
-> Thus, we need a phandle to the firmware DT node to be able to send that
-> message when relevant.
+While working on supporting the Intel HDR backlight interface, I noticed
+that there's a couple of laptops that will very rarely manage to boot up
+without detecting Intel HDR backlight support - even though it's supported
+on the system. One example of such a laptop is the Lenovo P17 1st
+generation.
 
-Why? Just use of_find_compatible_node(). 
+Following some investigation Ville Syrjälä did through the docs they have
+available to them, they discovered that there's actually supposed to be a
+30ms wait after writing the source OUI before we begin setting up the rest
+of the backlight interface.
 
-> 
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> ---
->  .../devicetree/bindings/display/brcm,bcm2835-vc4.yaml        | 5 +++++
->  1 file changed, 5 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/brcm,bcm2835-vc4.yaml b/Documentation/devicetree/bindings/display/brcm,bcm2835-vc4.yaml
-> index 49a5e041aa49..18de6912b833 100644
-> --- a/Documentation/devicetree/bindings/display/brcm,bcm2835-vc4.yaml
-> +++ b/Documentation/devicetree/bindings/display/brcm,bcm2835-vc4.yaml
-> @@ -21,6 +21,11 @@ properties:
->        - brcm,bcm2835-vc4
->        - brcm,cygnus-vc4
->  
-> +  raspberrypi,firmware:
-> +    $ref: "/schemas/types.yaml#/definitions/phandle"
-> +    description: >
-> +      Phandle to the firmware node
-> +
->  required:
->    - compatible
->  
-> -- 
-> 2.33.1
-> 
-> 
+This seems to be correct, as adding this 30ms delay seems to have
+completely fixed the probing issues I was previously seeing. So - let's
+start performing a 30ms wait after writing the OUI, which we do in a manner
+similar to how we keep track of PPS delays (e.g. record the timestamp of
+the OUI write, and then wait for however many ms are left since that
+timestamp right before we interact with the backlight) in order to avoid
+waiting any longer then we need to. As well, this also avoids us performing
+this delay on systems where we don't end up using the HDR backlight
+interface.
+
+V2:
+* Move panel delays into intel_pps
+
+Signed-off-by: Lyude Paul <lyude@redhat.com>
+Fixes: 4a8d79901d5b ("drm/i915/dp: Enable Intel's HDR backlight interface (only SDR for now)")
+Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Cc: <stable@vger.kernel.org> # v5.12+
+---
+ drivers/gpu/drm/i915/display/intel_display_types.h    |  4 ++++
+ drivers/gpu/drm/i915/display/intel_dp.c               | 11 +++++++++++
+ drivers/gpu/drm/i915/display/intel_dp.h               |  2 ++
+ drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c |  5 +++++
+ 4 files changed, 22 insertions(+)
+
+diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
+index ea1e8a6e10b0..ad64f9caa7ff 100644
+--- a/drivers/gpu/drm/i915/display/intel_display_types.h
++++ b/drivers/gpu/drm/i915/display/intel_display_types.h
+@@ -1485,6 +1485,7 @@ struct intel_pps {
+ 	bool want_panel_vdd;
+ 	unsigned long last_power_on;
+ 	unsigned long last_backlight_off;
++	unsigned long last_oui_write;
+ 	ktime_t panel_power_off_time;
+ 	intel_wakeref_t vdd_wakeref;
+ 
+@@ -1653,6 +1654,9 @@ struct intel_dp {
+ 	struct intel_dp_pcon_frl frl;
+ 
+ 	struct intel_psr psr;
++
++	/* When we last wrote the OUI for eDP */
++	unsigned long last_oui_write;
+ };
+ 
+ enum lspcon_vendor {
+diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
+index 0a424bf69396..45318891ba07 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp.c
++++ b/drivers/gpu/drm/i915/display/intel_dp.c
+@@ -29,6 +29,7 @@
+ #include <linux/i2c.h>
+ #include <linux/notifier.h>
+ #include <linux/slab.h>
++#include <linux/timekeeping.h>
+ #include <linux/types.h>
+ 
+ #include <asm/byteorder.h>
+@@ -2010,6 +2011,16 @@ intel_edp_init_source_oui(struct intel_dp *intel_dp, bool careful)
+ 
+ 	if (drm_dp_dpcd_write(&intel_dp->aux, DP_SOURCE_OUI, oui, sizeof(oui)) < 0)
+ 		drm_err(&i915->drm, "Failed to write source OUI\n");
++
++	intel_dp->pps.last_oui_write = jiffies;
++}
++
++void intel_dp_wait_source_oui(struct intel_dp *intel_dp)
++{
++	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
++
++	drm_dbg_kms(&i915->drm, "Performing OUI wait\n");
++	wait_remaining_ms_from_jiffies(intel_dp->last_oui_write, 30);
+ }
+ 
+ /* If the device supports it, try to set the power state appropriately */
+diff --git a/drivers/gpu/drm/i915/display/intel_dp.h b/drivers/gpu/drm/i915/display/intel_dp.h
+index ce229026dc91..b64145a3869a 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp.h
++++ b/drivers/gpu/drm/i915/display/intel_dp.h
+@@ -119,4 +119,6 @@ void intel_dp_pcon_dsc_configure(struct intel_dp *intel_dp,
+ 				 const struct intel_crtc_state *crtc_state);
+ void intel_dp_phy_test(struct intel_encoder *encoder);
+ 
++void intel_dp_wait_source_oui(struct intel_dp *intel_dp);
++
+ #endif /* __INTEL_DP_H__ */
+diff --git a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
+index 8b9c925c4c16..62c112daacf2 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
++++ b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
+@@ -36,6 +36,7 @@
+ 
+ #include "intel_backlight.h"
+ #include "intel_display_types.h"
++#include "intel_dp.h"
+ #include "intel_dp_aux_backlight.h"
+ 
+ /* TODO:
+@@ -106,6 +107,8 @@ intel_dp_aux_supports_hdr_backlight(struct intel_connector *connector)
+ 	int ret;
+ 	u8 tcon_cap[4];
+ 
++	intel_dp_wait_source_oui(intel_dp);
++
+ 	ret = drm_dp_dpcd_read(aux, INTEL_EDP_HDR_TCON_CAP0, tcon_cap, sizeof(tcon_cap));
+ 	if (ret != sizeof(tcon_cap))
+ 		return false;
+@@ -204,6 +207,8 @@ intel_dp_aux_hdr_enable_backlight(const struct intel_crtc_state *crtc_state,
+ 	int ret;
+ 	u8 old_ctrl, ctrl;
+ 
++	intel_dp_wait_source_oui(intel_dp);
++
+ 	ret = drm_dp_dpcd_readb(&intel_dp->aux, INTEL_EDP_HDR_GETSET_CTRL_PARAMS, &old_ctrl);
+ 	if (ret != 1) {
+ 		drm_err(&i915->drm, "Failed to read current backlight control mode: %d\n", ret);
+-- 
+2.33.1
+
