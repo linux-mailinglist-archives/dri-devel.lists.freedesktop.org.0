@@ -1,23 +1,24 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FA1F461732
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Nov 2021 14:58:00 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id ABD62461738
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Nov 2021 14:58:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 468476EDC6;
-	Mon, 29 Nov 2021 13:57:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D8A46EE0B;
+	Mon, 29 Nov 2021 13:57:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mblankhorst.nl (mblankhorst.nl
  [IPv6:2a02:2308:0:7ec:e79c:4e97:b6c4:f0ae])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E31B6ECBC;
- Mon, 29 Nov 2021 13:57:17 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 37FD16ECBC;
+ Mon, 29 Nov 2021 13:57:19 +0000 (UTC)
 From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v2 01/16] drm/i915: Remove unused bits of i915_vma/active api
-Date: Mon, 29 Nov 2021 14:47:20 +0100
-Message-Id: <20211129134735.628712-2-maarten.lankhorst@linux.intel.com>
+Subject: [PATCH v2 02/16] drm/i915: Change shrink ordering to use locking
+ around unbinding.
+Date: Mon, 29 Nov 2021 14:47:21 +0100
+Message-Id: <20211129134735.628712-3-maarten.lankhorst@linux.intel.com>
 X-Mailer: git-send-email 2.34.0
 In-Reply-To: <20211129134735.628712-1-maarten.lankhorst@linux.intel.com>
 References: <20211129134735.628712-1-maarten.lankhorst@linux.intel.com>
@@ -40,166 +41,77 @@ Cc: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When reworking the code to move the eviction fence to the object,
-the best code is removed code.
+Call drop_pages with the gem object lock held, instead of the other
+way around. This will allow us to drop the vma bindings with the
+gem object lock held.
 
-Remove some functions that are unused, and change the function definition
-if it's only used in 1 place.
+We plan to require the object lock for unpinning in the future,
+and this is an easy target.
 
 Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 Reviewed-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
-[mlankhorst: Remove new use of i915_active_has_exclusive]
 ---
- drivers/gpu/drm/i915/i915_active.c | 28 +++-------------------------
- drivers/gpu/drm/i915/i915_active.h | 17 +----------------
- drivers/gpu/drm/i915/i915_vma.c    | 24 ++++++++++--------------
- drivers/gpu/drm/i915/i915_vma.h    |  2 --
- 4 files changed, 14 insertions(+), 57 deletions(-)
+ drivers/gpu/drm/i915/gem/i915_gem_shrinker.c | 38 ++++++++++----------
+ 1 file changed, 18 insertions(+), 20 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/i915_active.c b/drivers/gpu/drm/i915/i915_active.c
-index 3103c1e1fd14..ee2b3a375362 100644
---- a/drivers/gpu/drm/i915/i915_active.c
-+++ b/drivers/gpu/drm/i915/i915_active.c
-@@ -426,8 +426,9 @@ replace_barrier(struct i915_active *ref, struct i915_active_fence *active)
- 	return true;
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c b/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
+index 157a9765f483..eebff4735781 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
+@@ -36,8 +36,8 @@ static bool can_release_pages(struct drm_i915_gem_object *obj)
+ 	return swap_available() || obj->mm.madv == I915_MADV_DONTNEED;
  }
  
--int i915_active_ref(struct i915_active *ref, u64 idx, struct dma_fence *fence)
-+int i915_active_add_request(struct i915_active *ref, struct i915_request *rq)
+-static bool unsafe_drop_pages(struct drm_i915_gem_object *obj,
+-			      unsigned long shrink, bool trylock_vm)
++static int drop_pages(struct drm_i915_gem_object *obj,
++		       unsigned long shrink, bool trylock_vm)
  {
-+	struct dma_fence *fence = &rq->fence;
- 	struct i915_active_fence *active;
- 	int err;
+ 	unsigned long flags;
  
-@@ -436,7 +437,7 @@ int i915_active_ref(struct i915_active *ref, u64 idx, struct dma_fence *fence)
- 	if (err)
- 		return err;
+@@ -214,26 +214,24 @@ i915_gem_shrink(struct i915_gem_ww_ctx *ww,
  
--	active = active_instance(ref, idx);
-+	active = active_instance(ref, i915_request_timeline(rq)->fence_context);
- 	if (!active) {
- 		err = -ENOMEM;
- 		goto out;
-@@ -477,29 +478,6 @@ __i915_active_set_fence(struct i915_active *ref,
- 	return prev;
- }
+ 			spin_unlock_irqrestore(&i915->mm.obj_lock, flags);
  
--static struct i915_active_fence *
--__active_fence(struct i915_active *ref, u64 idx)
--{
--	struct active_node *it;
+-			err = 0;
+-			if (unsafe_drop_pages(obj, shrink, trylock_vm)) {
+-				/* May arrive from get_pages on another bo */
+-				if (!ww) {
+-					if (!i915_gem_object_trylock(obj))
+-						goto skip;
+-				} else {
+-					err = i915_gem_object_lock(obj, ww);
+-					if (err)
+-						goto skip;
+-				}
 -
--	it = __active_lookup(ref, idx);
--	if (unlikely(!it)) { /* Contention with parallel tree builders! */
--		spin_lock_irq(&ref->tree_lock);
--		it = __active_lookup(ref, idx);
--		spin_unlock_irq(&ref->tree_lock);
--	}
--	GEM_BUG_ON(!it); /* slot must be preallocated */
--
--	return &it->base;
--}
--
--struct dma_fence *
--__i915_active_ref(struct i915_active *ref, u64 idx, struct dma_fence *fence)
--{
--	/* Only valid while active, see i915_active_acquire_for_context() */
--	return __i915_active_set_fence(ref, __active_fence(ref, idx), fence);
--}
--
- struct dma_fence *
- i915_active_set_exclusive(struct i915_active *ref, struct dma_fence *f)
- {
-diff --git a/drivers/gpu/drm/i915/i915_active.h b/drivers/gpu/drm/i915/i915_active.h
-index 5fcdb0e2bc9e..7eb44132183a 100644
---- a/drivers/gpu/drm/i915/i915_active.h
-+++ b/drivers/gpu/drm/i915/i915_active.h
-@@ -164,26 +164,11 @@ void __i915_active_init(struct i915_active *ref,
- 	__i915_active_init(ref, active, retire, flags, &__mkey, &__wkey);	\
- } while (0)
+-				if (!__i915_gem_object_put_pages(obj)) {
+-					if (!try_to_writeback(obj, shrink))
+-						count += obj->base.size >> PAGE_SHIFT;
+-				}
+-				if (!ww)
+-					i915_gem_object_unlock(obj);
++			/* May arrive from get_pages on another bo */
++			if (!ww) {
++				if (!i915_gem_object_trylock(obj))
++					goto skip;
++			} else {
++				err = i915_gem_object_lock(obj, ww);
++				if (err)
++					goto skip;
+ 			}
  
--struct dma_fence *
--__i915_active_ref(struct i915_active *ref, u64 idx, struct dma_fence *fence);
--int i915_active_ref(struct i915_active *ref, u64 idx, struct dma_fence *fence);
--
--static inline int
--i915_active_add_request(struct i915_active *ref, struct i915_request *rq)
--{
--	return i915_active_ref(ref,
--			       i915_request_timeline(rq)->fence_context,
--			       &rq->fence);
--}
-+int i915_active_add_request(struct i915_active *ref, struct i915_request *rq);
- 
- struct dma_fence *
- i915_active_set_exclusive(struct i915_active *ref, struct dma_fence *f);
- 
--static inline bool i915_active_has_exclusive(struct i915_active *ref)
--{
--	return rcu_access_pointer(ref->excl.fence);
--}
--
- int __i915_active_wait(struct i915_active *ref, int state);
- static inline int i915_active_wait(struct i915_active *ref)
- {
-diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
-index 927f0d4f8e11..921d5b946c32 100644
---- a/drivers/gpu/drm/i915/i915_vma.c
-+++ b/drivers/gpu/drm/i915/i915_vma.c
-@@ -356,22 +356,18 @@ int i915_vma_wait_for_bind(struct i915_vma *vma)
- #if IS_ENABLED(CONFIG_DRM_I915_DEBUG_GEM)
- static int i915_vma_verify_bind_complete(struct i915_vma *vma)
- {
--	int err = 0;
--
--	if (i915_active_has_exclusive(&vma->active)) {
--		struct dma_fence *fence =
--			i915_active_fence_get(&vma->active.excl);
-+	struct dma_fence *fence = i915_active_fence_get(&vma->active.excl);
-+	int err;
- 
--		if (!fence)
--			return 0;
-+	if (!fence)
-+		return 0;
- 
--		if (dma_fence_is_signaled(fence))
--			err = fence->error;
--		else
--			err = -EBUSY;
-+	if (dma_fence_is_signaled(fence))
-+		err = fence->error;
-+	else
-+		err = -EBUSY;
- 
--		dma_fence_put(fence);
--	}
-+	dma_fence_put(fence);
- 
- 	return err;
- }
-@@ -1249,7 +1245,7 @@ __i915_request_await_bind(struct i915_request *rq, struct i915_vma *vma)
- 	return __i915_request_await_exclusive(rq, &vma->active);
- }
- 
--int __i915_vma_move_to_active(struct i915_vma *vma, struct i915_request *rq)
-+static int __i915_vma_move_to_active(struct i915_vma *vma, struct i915_request *rq)
- {
- 	int err;
- 
-diff --git a/drivers/gpu/drm/i915/i915_vma.h b/drivers/gpu/drm/i915/i915_vma.h
-index 4033aa08d5e4..9a931ecb09e5 100644
---- a/drivers/gpu/drm/i915/i915_vma.h
-+++ b/drivers/gpu/drm/i915/i915_vma.h
-@@ -55,8 +55,6 @@ static inline bool i915_vma_is_active(const struct i915_vma *vma)
- /* do not reserve memory to prevent deadlocks */
- #define __EXEC_OBJECT_NO_RESERVE BIT(31)
- 
--int __must_check __i915_vma_move_to_active(struct i915_vma *vma,
--					   struct i915_request *rq);
- int __must_check _i915_vma_move_to_active(struct i915_vma *vma,
- 					  struct i915_request *rq,
- 					  struct dma_fence *fence,
++			if (drop_pages(obj, shrink, trylock_vm) &&
++			    !__i915_gem_object_put_pages(obj) &&
++			    !try_to_writeback(obj, shrink))
++				count += obj->base.size >> PAGE_SHIFT;
++
++			if (!ww)
++				i915_gem_object_unlock(obj);
++
+ 			scanned += obj->base.size >> PAGE_SHIFT;
+ skip:
+ 			i915_gem_object_put(obj);
 -- 
 2.34.0
 
